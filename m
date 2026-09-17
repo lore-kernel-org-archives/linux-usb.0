@@ -1,171 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76E95492E28
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 08:51:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD8E4442FAD;
+	Thu, 17 Sep 2026 09:01:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789635089; cv=none; b=s4P1OExv3NpK02HujLLzDrEkK+V+0xoeZur/QYKifjNunbV6469TPmF1DzN0YVE22gxWZ5Sk1mtwZDS2Zga1tI3FE31d6FTKWH1Gjf8fexcUw+FoZ2r2iZROckcI6fN4QgnMi5MgD+nqqWkUNiBk7bssekVAZkOl8XTk5OA/Cgg=
+	t=1789635668; cv=none; b=uL6uvtevCeuSEHx5xRxyHXdkHEgWLgbegHgc4a6jqp8SnlPMZsM+bwhRHH6kIe0kTUnzciXNQtP/yM0lHHdn3iADbIYb4HMREkA4ov/qw61wfovvuVkfZNgqpn0ejxrXoGotY9HghcJlS6VqWlhuDqnCDUVO0Di6z2w3pzEFK7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789635089; c=relaxed/simple;
-	bh=0jFRhxu3tbuUDEhgAlzNvzlfssgfKaNlRXPe2fr0D/I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NGaxPODTnyYSPkehleJy+T5430TJjkn9CBE6THl7LTW0HvIOOfSZ0wVoZsTqmtmXSVJW4Mp5NUKtcu0K/m2uRJ+gvPGbSIpdbfxpyQCsuC16s2Zx6YAVajNJ9DCffPCnxNCpIC1RJw1u44CdPpo+Ugh1ST2thSTzQAylgr3Nj5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fXtM9BxG; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789635668; c=relaxed/simple;
+	bh=UzG5I5JZfuswv1igyFVwrCu63bFTmfmuzS+4wGcU1DY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OPPFMAzFuqJ+lXd5xphcxMTgrrepDG4thwh8eR5LHov7ctfZLkmWaugH37Fkl4yaPZsjMZh2N6jgQ2BHMQrRTaoiPb7GSKkSWDfxinDjhaIJaXJJoPc42BV1TuWlHbf1ZNnzvrjp3NW3pZ2ybXGv+c6/g+WXlPWOMe+sE1vJmbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ChuM2QjG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fXtM9BxG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789635087; x=1821171087;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=0jFRhxu3tbuUDEhgAlzNvzlfssgfKaNlRXPe2fr0D/I=;
-  b=fXtM9BxGa/5uf+OmUM2JcvNmyB8Zyhne8HYoftifWaMhWm8FlXebx3U8
-   Vf0R6Ljl26bePAKc4sbME+PWOJI4kPtCg73GKdM2ug78R0MN+UCrGnUUV
-   uIZxgl6fSizn7uBPTJIElaDozQ8fLgjqHkfx7MycUxJYzwiMFLOMXdOGk
-   xFtd3mLLXX+Dm+IVc64oIBjyUFfz82KRXrGDixu9xHTbijKavA04HvFHv
-   RJk395Zk1ntl/PxOKmPtEpB1jV6wIlFseyMNEvAVFUrqjpZgqsNi7MNgh
-   Xpf9IXDpYQmLESES8wJp7cVD3ycqLWSx+R9GNlihWhcxCcezU2v1HMb2Z
-   w==;
-X-CSE-ConnectionGUID: pWX1BqwYR6mkbBmHMGKmSg==
-X-CSE-MsgGUID: seOFvUWmQOCFIotSscdYSA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="101380761"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="101380761"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2026 01:51:10 -0700
-X-CSE-ConnectionGUID: VC2FIFVmT2SoW58ZR/Emmw==
-X-CSE-MsgGUID: wTnfGLFpQHWGNRtmxN5wGQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="267432240"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa009.fm.intel.com with ESMTP; 17 Sep 2026 01:51:08 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 190B69D; Thu, 17 Sep 2026 10:51:07 +0200 (CEST)
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: linux-usb@vger.kernel.org
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Rene Sapiens <rene.sapiens@linux.intel.com>,
-	Anurag <anurag@intel.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH 1/5] thunderbolt: Make software margining error counter configurable
-Date: Thu, 17 Sep 2026 10:51:03 +0200
-Message-ID: <20260917085107.1022445-2-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260917085107.1022445-1-mika.westerberg@linux.intel.com>
-References: <20260917085107.1022445-1-mika.westerberg@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ChuM2QjG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 54DE21F000FF;
+	Thu, 17 Sep 2026 09:00:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789635656;
+	bh=ol5sJv8Hdw8HlU2JP5qiBfKt4etnRP9G6Nu/I0ez9QI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ChuM2QjGDVc1iSouzIxSl6HT9Ciz25v0CHFGSP3Rk85zEDyYl1afAWtM4EPGNUCuo
+	 dLhVRGMhg08KQocAZL+ddbkaRtZj45AFSTJeo4W1ZbX5RmrtpGSlnAHVT3lIjxHwVn
+	 HuC72Z01HEf4+i6jHcmIUnYNG4hXom0dM2r8qDT2J/0myU6zeJJeXYKu+CGNAP3jpd
+	 usQxHjyUQ2WHquus8n2hXSdLHF6uQ7vWamKqwuiei7pp4aAyN1WD2Y0n+aNn1HW/4T
+	 MVNTl+ZXPd12FG+z0SqV1jRpMZujm2Gw0Y/WBnCVutwhI2vJ4H8VbE21j0R91MpvLN
+	 bx3NGjkWQMxIw==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1x77zC-00000006PxB-03uT;
+	Thu, 17 Sep 2026 11:00:54 +0200
+Date: Thu, 17 Sep 2026 11:00:54 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, oliver@neukum.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: sierra: Fix urb leak in sierra_submit_delayed_urbs()
+Message-ID: <aqusRqksylvOi1UK@hovoldconsulting.com>
+References: <20260916165352.2085480-1-vulab@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260916165352.2085480-1-vulab@iscas.ac.cn>
 
-From: Anurag <anurag@intel.com>
+On Wed, Sep 16, 2026 at 04:53:52PM +0000, Wentao Liang wrote:
+> sierra_submit_delayed_urbs() takes a reference to each delayed urb
+> with usb_get_from_anchor() before submitting it. The submit failure
+> path releases the reference with usb_free_urb(), but on the success
+> path the reference is never dropped: the urb is only anchored in the
+> active list and the USB core unanchors it on completion, leaving the
+> reference returned by usb_get_from_anchor() dangling so the urb
+> object is never freed.
+> 
+> Drop the reference with usb_put_urb() after a successful submission,
+> matching the reference handling in sierra_write() and the sierra_close()
+> drain loop. Skip the rest of the loop body with continue on the error
+> path, which already frees the urb.
+> 
+> Fixes: e6929a9020ac ("USB: support for autosuspend in sierra while online")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 
-The debugfs software margining run path currently initializes the
-request with USB4_MARGIN_SW_ERROR_COUNTER_CLEAR, which implicitly
-clears/enables counters every time software margining is started.
+This looks correct, but as Greg already asked you elsewhere, did you
+forget to add an Assisted-by tag here as well? How was this issue found
+and fixed?
 
-On some host-router/firmware implementations that enforce PHY
-interface for USB4 (PIPE) margining control, CLEAR and START are
-distinct operations.
-- CLEAR resets error counters without starting margining
-- START begins margin testing and error counting
+Also, you need to start replying to feedback. According to the list
+archives you have haven't replied to any of the four mails commenting on
+your patches that I've sent you so far.
 
-Make the error counter operation configurable through debugfs
-error_counter control instead of hardcoding CLEAR. Additionally,
-only execute the software margining sampling loop when the
-selected operation is START; for CLEAR or STOP operations, execute
-the counter operation and return immediately.
-
-Example to CLEAR error counter:
-cd /sys/kernel/debug/thunderbolt/<ROUTER_ID>/<PORT>/margining
-echo clear > error_counter
-
-Example to START error counter:
-cd /sys/kernel/debug/thunderbolt/<ROUTER_ID>/<PORT>/margining
-echo start > error_counter
-
-After configuring error counter run software margining for changes
-to take effect:
-echo 1 > run
-
-This aligns the debugfs behavior with the USB4 v2/PIPE expectation
-and lets users explicitly choose between CLEAR/START/STOP.
-
-Co-developed-by: Rene Sapiens <rene.sapiens@linux.intel.com>
-Signed-off-by: Rene Sapiens <rene.sapiens@linux.intel.com>
-Signed-off-by: Anurag <anurag@intel.com>
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/debugfs.c | 20 ++++++++++++--------
- 1 file changed, 12 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/thunderbolt/debugfs.c b/drivers/thunderbolt/debugfs.c
-index 6e9080e7bcec..730916f62d39 100644
---- a/drivers/thunderbolt/debugfs.c
-+++ b/drivers/thunderbolt/debugfs.c
-@@ -1156,18 +1156,23 @@ static int margining_run_sw(struct tb_margining *margining,
- 	u32 nsamples = margining->dwell_time / DWELL_SAMPLE_INTERVAL;
- 	int ret, i;
- 
-+	if (params->error_counter != USB4_MARGIN_SW_ERROR_COUNTER_START)
-+		goto out_stop_or_clear;
-+
- 	ret = usb4_port_sw_margin(margining->port, margining->target, margining->index,
- 				  params, margining->results);
- 	if (ret)
--		goto out_stop;
-+		return ret;
- 
- 	for (i = 0; i <= nsamples; i++) {
- 		u32 errors = 0;
- 
- 		ret = usb4_port_sw_margin_errors(margining->port, margining->target,
- 						 margining->index, &margining->results[1]);
--		if (ret)
-+		if (ret) {
-+			tb_port_warn(margining->port, "failed to read margining error counters\n");
- 			break;
-+		}
- 
- 		if (margining->lanes == USB4_MARGINING_LANE_RX0)
- 			errors = FIELD_GET(USB4_MARGIN_SW_ERR_COUNTER_LANE_0_MASK,
-@@ -1188,14 +1193,13 @@ static int margining_run_sw(struct tb_margining *margining,
- 		fsleep(DWELL_SAMPLE_INTERVAL * USEC_PER_MSEC);
- 	}
- 
--out_stop:
-+out_stop_or_clear:
- 	/*
--	 * Stop the counters but don't clear them to allow the
-+	 * Stop the counters or clear them as per the
- 	 * different error counter configurations.
- 	 */
--	margining_modify_error_counter(margining, margining->lanes,
--				       USB4_MARGIN_SW_ERROR_COUNTER_STOP);
--	return ret;
-+	return margining_modify_error_counter(margining, margining->lanes,
-+					      params->error_counter);
- }
- 
- static int validate_margining(struct tb_margining *margining)
-@@ -1272,7 +1276,7 @@ static int margining_run_write(void *data, u64 val)
- 
- 	if (margining->software) {
- 		struct usb4_port_margining_params params = {
--			.error_counter = USB4_MARGIN_SW_ERROR_COUNTER_CLEAR,
-+			.error_counter = margining->error_counter,
- 			.lanes = margining->lanes,
- 			.time = margining->time,
- 			.voltage_time_offset = margining->voltage_time_offset,
--- 
-2.50.1
-
+Johan
