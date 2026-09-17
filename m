@@ -1,62 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0920524E4C6;
-	Thu, 17 Sep 2026 04:13:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A19302146
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 04:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789618437; cv=none; b=eUHd9kXmgzHVI32k0ZQ/xAhK6aLLRJF1a6z5S1qMD3TxdmvD+bWup74tkRiyJN5a1P/FCcHlDpin6wvrDfJKD+VXOlvBV4kdZ0NkkiYDFgkX8Aimf8xOm+MRrDHZcS/0cej5W0NgYt67jy4SfEH0kZJP0c7v1th3d4mHgqJR7Xg=
+	t=1789619933; cv=none; b=J2VbmU/Dj4sOvoItSXmgCKskV0/Jki35n/ZFMyB++6BecqzuzRP8E0yRK0C1Q98DlbpIMphybIsAetZheMe6Rm/uJlUYSf7zFBv0sdNecbSf2CXY7BpwOkSTsdj9WeGdq+t3cnhRB9B4dY0jyZ5F+913gMbhQ9CtUCNRfOQvN7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789618437; c=relaxed/simple;
-	bh=Bdl76ZWrWZL1veswYShU0im+JoWvvsZJt7p0osg10FE=;
+	s=arc-20240116; t=1789619933; c=relaxed/simple;
+	bh=X1Maw6YHizyaphGc8hhi5NqlmVrz09GMX62AC3dhNKE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OtClchuKgNO9Z5ql3jMZelKom8ZwZrDtLQT5Wxm3mf7tQI/GnxXkh0DTFahhhOM71sC3hMLZc3dem5Cj7zKz74wOyKNR/gPu8sqwpQymYKjzu2uilJBedjzWFTOeKeP/YyOyyzzTp4O2gQ3Glm+HO5uYYOSzL78CLX79hV1BssM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nUfvjPp5; arc=none smtp.client-ip=192.198.163.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=kNeLPLGMrvAkepVHkvLcZJAt9bqofpyU0BpbHKjy/DzUVIhBB8rzp/3UKjbX3D/pmqnxHoNdTQsLBKKMN3B2rZCkPxaq47mYLEjJiy2A6c6SD5zHnn5CMQi0AqGmDhAYUlMgWnjeaV4PNKRfkIWU+j5IgVx9eSMnfgDgVPaCe+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BpnQ4dkj; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nUfvjPp5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BpnQ4dkj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789618435; x=1821154435;
+  t=1789619930; x=1821155930;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=Bdl76ZWrWZL1veswYShU0im+JoWvvsZJt7p0osg10FE=;
-  b=nUfvjPp5qFJeSsRsHIprJOeXeqyiuB3O8lxm15ff8yevhUDYps/uMTDF
-   7uIXQi0llxstlp1dW4mtm5l+JRUdix9LVslOXkINk+FKC7f8ZUPqbftB5
-   qfp1+Cw+Fm/3z+4Np6NqT4Dpoepzulo1J2DGrXbm2Zc7MyCS8IrhLXi5X
-   i41Jf8Mi6avXPCrybigLFUn0hjdXo2+8kEBp7RjRV87JPyt1Wq/1Q4uCD
-   54wxd8X9jBqCRm6C8MXv0V5u9/XQAnmlLlfrNupzO4Ivf4i6Z1ftAyes9
-   48SfhjjsaEJ0TvRl1gai+P1NYSEETeo63ISxqXQrxLq5ZWW5f+YCcQdHI
-   g==;
-X-CSE-ConnectionGUID: YkojIHw1SnS1j3ijAla9Bw==
-X-CSE-MsgGUID: 20cZYpFhRbi5PNJluo41OQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="77565444"
+  bh=X1Maw6YHizyaphGc8hhi5NqlmVrz09GMX62AC3dhNKE=;
+  b=BpnQ4dkjgzbvfnY1NLSMviATASj95ZLR2vdxId08AMINUYd/2zXBGC8c
+   OAv2sm8K3lDMxCXrq/ZQj06lATw+Ea865X/Nmu52/MrsBpa0cLIkA8oVp
+   xALj2DsWo7VgsxbOoLHZuUs+9Ki7moPWvmEKx+b5cFv3NSdo3zSCQqztf
+   kkA2SJnnbh1nFhHW9pcRasIhOQE2flcOLqSkGP//Lr2x4Jkw6DrjhkyI9
+   Qzxhnbw6xtQC6QYcs7UVKL0pNLho2wSgNPx4NOWMOn4dKCNK5EoMSTxe3
+   WGPoN6SLaNaVJc1hdqWi7rqylAUqeU9xFFY2vnWiaTWp96bzQdawDPrF8
+   A==;
+X-CSE-ConnectionGUID: hPVRSIiGRFyB89U1edMk7g==
+X-CSE-MsgGUID: cKlQu6X4QPm848rfUIblSQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="88938147"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="77565444"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 21:13:54 -0700
-X-CSE-ConnectionGUID: moFQ/QlpTCKD0laV0CNgvw==
-X-CSE-MsgGUID: BwKUgnpAQ4GvTcI123lUFg==
+   d="scan'208";a="88938147"
+Received: from fmviesa013.fm.intel.com ([10.60.135.153])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Sep 2026 21:38:50 -0700
+X-CSE-ConnectionGUID: faR24b6NTH2vNMu+uFhbPg==
+X-CSE-MsgGUID: 3W/G9eYoQ0OuWDjWqMk6nw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="1957576"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 16 Sep 2026 21:13:51 -0700
+  by fmviesa013.fm.intel.com with ESMTP; 16 Sep 2026 21:38:48 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id AABAF99; Thu, 17 Sep 2026 06:13:50 +0200 (CEST)
-Date: Thu, 17 Sep 2026 06:13:50 +0200
+	id 653C499; Thu, 17 Sep 2026 06:38:47 +0200 (CEST)
+Date: Thu, 17 Sep 2026 06:38:47 +0200
 From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Konrad Dybcio <konradybcio@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, usb4-upstream@oss.qualcomm.com,
-	Raghavendra Thoorpu <rthoorpu@qti.qualcomm.com>
-Subject: Re: [PATCH] thunderbolt: Make PCIe NHI support opt-in
-Message-ID: <20260917041350.GT106095@black.igk.intel.com>
-References: <20260915-topic-tbt_pcie_optional-v1-1-47c4a3d129bd@oss.qualcomm.com>
- <20260916075924.GO106095@black.igk.intel.com>
- <f0882d3b-fb75-4c57-b76c-10ac61a5780d@oss.qualcomm.com>
+To: Ben <benstaples10@gmail.com>
+Cc: linux-usb@vger.kernel.org, andreas.noever@gmail.com, westeri@kernel.org,
+	YehezkelShB@gmail.com
+Subject: Re: xhci_hcd 0000:0c:00.0 dies with "Abort failed to stop command
+ ring: -110" exactly 24s post-init, tunneled USB4 xHCI behind Goshen Ridge
+ (ASUS ThunderboltEX 4) + CalDigit TS4
+Message-ID: <20260917043847.GV106095@black.igk.intel.com>
+References: <CANcA1gDByZBwvkHBi4Bin-eCzBpN31OHaNStbpi4vhTF-WOAPg@mail.gmail.com>
+ <20260915041958.GE106095@black.igk.intel.com>
+ <CANcA1gC3cEuuK1OJkeq44ZZ_7uZZN=ZDkOJH0L-ERUNQcgZ12g@mail.gmail.com>
+ <20260915043845.GG106095@black.igk.intel.com>
+ <CANcA1gDh9AKFOdzK+kfLieJByxN1kjFQpSiexKPjHyOY8YMVQA@mail.gmail.com>
+ <20260915050515.GI106095@black.igk.intel.com>
+ <CANcA1gDbddDkZAQr_O6njK4PvaDk6nnj+fPsrzigH132u0f0Ng@mail.gmail.com>
+ <20260916075135.GN106095@black.igk.intel.com>
+ <CANcA1gCjSCdXz_3+XA5ZOndm2pAL4ZUs93q_69dzZeq_cmq8Og@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -65,85 +71,68 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f0882d3b-fb75-4c57-b76c-10ac61a5780d@oss.qualcomm.com>
+In-Reply-To: <CANcA1gCjSCdXz_3+XA5ZOndm2pAL4ZUs93q_69dzZeq_cmq8Og@mail.gmail.com>
 
 Hi,
 
-On Wed, Sep 16, 2026 at 06:10:59PM +0200, Konrad Dybcio wrote:
-> On 9/16/26 9:59 AM, Mika Westerberg wrote:
-> > Hi,
-> > 
-> > On Tue, Sep 15, 2026 at 07:04:10PM +0200, Konrad Dybcio wrote:
-> >> From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> >>
-> >> With more implementations coming in, one may desire not to enable
-> >> support for the PCIe-attached NHIs. Allow it to be built as a module
-> >> atop the framework.
-> > 
-> > Is it so that Qualcomm platform does not support PCIe tunneling at all
-> > then?
+On Wed, Sep 16, 2026 at 10:18:59PM -0400, Ben wrote:
+> Mika,
 > 
+> The TCM bit is set.
+> I have tried two cables. The cablematters premium 40gbps thunderbolt 4
+> cable as well as the apple thunderbolt 5 pro cable. Both the 1m
+> version. I believe they should be passive.
 > 
-> No, this is about letting one opt out of building in support for
-> PCIe-attached NHIs - tunneling stays intact and our hw
-> indeed supports it.
-> 
-> The PCI NHI driver (which this patch makes optional) binds host
-> interfaces. TBT PCIe bridges (e.g. PCI 8086:15d3) on connected devices
-> with PCIe ports are handled by the pcieport driver.
+> > 0x00a2 0x00003701 0b00000000 00000000 00110111 00000001 ..7. PORT_CS_18
+> >   [00:07]        0x1 Cable USB4 Version
 
-Yes okay "typically" they go hand-in-hand and that's why I wanted to check.
-So you have a PCIe root complex that then exposes the tunneling root ports
-as well, got it.
+This tells that the cable does not support USB4 (should be 0x10)
 
-> [...]
-> 
-> >> +config USB4_PCIE
-> >> +	depends on PCI
-> >> +	tristate "Support for PCIe-attached USB4 and Thunderbolt controllers"
-> > 
-> > I think USB4_PCI and so on.
-> > 
-> >> +	help
-> >> +	  Say Y here to add support for the USB4 and Thunderbolt host
-> >> +	  routers attached over the PCIe bus, commonly found on x86 PCs.
-> >> +
-> >> +	  To compile this driver a module, choose M here. The module will be
-> >> +	  called thunderbolt_pcie.
-> > 
-> > thunderbolt_pci
-> 
-> ack
-> 
-> [...]
-> 
-> >> --- a/drivers/thunderbolt/nhi.c
-> >> +++ b/drivers/thunderbolt/nhi.c
-> >> @@ -548,6 +548,7 @@ irqreturn_t ring_msix(int irq, void *data)
-> >>  
-> >>  	return IRQ_HANDLED;
-> >>  }
-> >> +EXPORT_SYMBOL_GPL(ring_msix);
-> > 
-> > We need to think what is going to be exported and how. For example here
-> > ring_msix is pretty common name so if nothing else it needs to be properly
-> > namespaced and that should be the first patch in the series.
-> 
-> Right, maybe EXPORT_SYMBOL_FOR_MODULES would be more fitting..
+> >   [08:08]        0x1 Bonding Enabled (BE)
+> >   [09:09]        0x1 TBT3-Compatible Mode (TCM)
 
-That or namespace like tb_ring_msix (this one requires probably rename
-patch first but may end up looking more consistent wrt naming).
+and because of that the link goes into TB3 mode.
 
-> > Secondly I think it would be good to have this whole thing as part of a
-> > patch series that adds the Qualcomm controller support so we have an
-> > explanation there why we are doing all this.
+Which is really interesting if you say that these are actual TB4+ cables.
+Especially the Apple one should definitely be supporting USB4.
+
+> >   [10:10]        0x1 CLx Protocol Support (CPS)
+> >   [11:11]        0x0 RS-FEC Enabled (Gen 2) (RE2)
+> >   [12:12]        0x1 RS-FEC Enabled (Gen 3) (RE3)
+> >   [13:13]        0x1 Router Detected (RD)
+> >   [16:16]        0x0 Wake on Connect Status
+> >   [17:17]        0x0 Wake on Disconnect Status
+> >   [18:18]        0x0 Wake on USB4 Wake Status
+> >   [19:19]        0x0 Wake on Inter-Domain Status
+> >   [20:20]        0x0 Cable Gen 3 Support (CG3)
+> >   [21:21]        0x0 Cable Gen 4 Support (CG4)
+> >   [22:22]        0x0 Cable Asymmetric Support (CSA)
+> >   [23:23]        0x0 Cable CLx Support (CSC)
+> >   [24:24]        0x0 AsymmetricTransitionInProgress (TIP)
 > 
-> This change isn't really necessary and my reasoning here was to
-> let the user decide if support for this specific kind of controllers
-> should be built, just like CONFIG_I2C is separate from the dozens of
-> implementations.
+> 
+> On the options, noted. I will keep them as standard as possible.
+> 
+>  And yes, this is a PCIe add-in card. I poked around my BIOS a bit and
+> was not able to get it to be recognized on boot. All boot provided to
+> you were performed with these options set:
+> 
+> > USB4 (ASM4242 Controller) Support Disabled (mutually exclusive with Thunderbolt Setting)
+> > Thunderbolt/USB4 (Intel JHL8540 controller) Support: Enabled
+> > Thunderbolt/USB4 (Intel JHL8540 controller) Security Level: No Security
+> > Thunderbolt/USB4 (Intel JHL8540 controller) MMIO Resource: Full Size
+> > Thunderbolt/USB4 (Intel JHL8540 controller) Wake Up Command: GO2SX
 
-Yes but there is really no other option at the moment so it does not make
-sense to provide yet another selection to the user IMHO. Once we have the
-thunderbolt_platform (and thunderbolt_apple) then thunderbolt_pci makes
-more sense.
+Okay this tells that it actually has support. However, the BIOS itself
+might not support the PCIe resource allocation (well that's pretty much
+proven already since you booted with the device connected). For your cases
+it should be enough though because the BIOS seems to allocate the minimum
+and if you are not planning to expand the chain afterwards with more
+devices the one on the dock should be working okay (even the xHCI when the
+link is TB3). When the link is USB4 you get the same devices through the
+USB3 tunnel and PCIe is not even needed because it just contains PCIe
+switch that has nothing behind it.
+
+> I also have IOMMU enabled.
+
+Yes that's expected and should be enabled.
