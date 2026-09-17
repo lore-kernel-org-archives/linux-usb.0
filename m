@@ -1,98 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835CC4DDB4F
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 15:17:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B61D550DB8;
+	Thu, 17 Sep 2026 15:17:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789658265; cv=none; b=X/9HZvG1CetzNYYeQAHNagf2bHRu2FDbEfQefqDeH4IaIVDGoh/ZR6mtZgA3+tX2iENPrIf0+pZNA4tsVHV9XKRTWidUG3jHZqCuK2T42/jqCAg3c6zIOiWhZK0vSBs9B734t+T3KR0Egle5NPvDesrsy3Fz2MEeFyM46jwa6/k=
+	t=1789658272; cv=none; b=XbGrl/6WG3j/DIMOqxXVvXSNRGfwuHUDniGTmVl86gW34aa6AXW0+rEdawC8BYcy5DHhaHkqZEyGyDo2igh0rsXzluZ/W3fs7uwOXJQPwZz29ZPJk8xdQ+x+TQW0hBhz2Brp5yH+rqEnvqgWNqHnE3kDw+015tS/pTiAPE8r6O8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789658265; c=relaxed/simple;
-	bh=yokcjFoYaQjb2AXJXwiS2CgA9icNw4hd0m3OmDjYLh0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HIcnHnhyXcRmkyFwWdFQJo1Mb6/UTaWhZbyl6rXkzxPSDk4lE3e5lgSPgtUiqzQVveazKT0GgEae9G/m/xGMVnOtfpZrPjDSOkoyn9j/iEZPt2/+JBp8ohN9mgPbD5qkSt/kT7NBSvdI8jgv/0e5byJzySAnqjsbrTHFgjBkZ/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=baYHiQhL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789658272; c=relaxed/simple;
+	bh=WCjWZ4ko8FeIN8sqh99s+ccnuIOlIyUFY3KoAf3vhJI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DyMDjRw5+aDh8hZnKDT7OXnM2SuokGLjcAG4tGIXSmHRrnXZ6NblZK1icyUJ/+uLLHEOKEBQHTajbdK1rgLDWBxvk3ocNFsv4mFDuNTtfkpiWVLE5Uc9moTbwR/xVWe3Kt8ZUhZEEGMisF5CiomDmLy83pv8SOpzi8ryyYF4kb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wjSpXKYJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="baYHiQhL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D71A1F008A5
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 15:17:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789658230;
-	bh=yokcjFoYaQjb2AXJXwiS2CgA9icNw4hd0m3OmDjYLh0=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=baYHiQhLKHIXv5JcbsYM8h8jWAIdy60s6NhCh0ZGU54W95BOiAuC94Ol2AcpHo47g
-	 xOJkjhXStRdOshTWhG385se+mN0mwxSalEgzP9JG2PQIOLJ/oHEIVw0zHQeJ6cCyxv
-	 qfvHypAZ4Aa+PBTDs1xGLwk8gxllOPs9TBclUTaLcaptPXVE/nH6o6dNw9fmKr/Ga+
-	 euX0r0XKcn50B8jtWh1/A5rkcHzzpSCbjKD97mWUlLgkoyhoofyCpgqfsFLMmV7xqx
-	 ARc5Jnmu7agtqFNmn3zlh9R+1V4XybdteMzm34GCd9fCbp5oeKdHFvfY4O6Spsy5NH
-	 56pQ+Rtftr60g==
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a60591ae52so1792388a12.0
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 08:17:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxWkNy5qRneKGy8+emUcNaLD1zXnG0vsRW8XJYl7Ib+M7UN01GD4YdgM3PUHGrEhiOij99sItqCOcU=@vger.kernel.org
-X-Gm-Message-State: AFuF++n2xuDamUmLTtys0zDXlSPxIDMvrZVbgmEGBgYEqI5uqNPe0l7l
-	j1YZjoz4nonbzPYox0aRaiYW/q2idNuSLVt1qmGuqe4gXvpD4G5hJ6NagQmSq+2r2jnBQp5bcZd
-	ifR7PbyGKgxJziShTbEi/Iat/U/+UnQ==
-X-Received: by 2002:a05:6402:460c:b0:6a6:8dd:c76b with SMTP id
- 4fb4d7f45d1cf-6aa22247992mr11552271a12.1.1789658228391; Thu, 17 Sep 2026
- 08:17:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wjSpXKYJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B99A1F008AB;
+	Thu, 17 Sep 2026 15:17:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789658241;
+	bh=06xNhlMbIFLF21+BuJrYXqeFqRP7MJS9PBsX0UaCkhQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=wjSpXKYJHPFycTzd1iXnjgHzdvBxBhlFzL2mfY2SS5StsMkvkflCULZj9hBz9mnoS
+	 YK9wAs0H+AZPtBikMp4GcXgoLGh1OBadn3Yf4BJKhfmexFcZMZ81KEfF6COFdLEwcV
+	 EBLxm+bEMe11XktZ9D2lkLo8HDjGeISOIrlT7adU=
+Date: Thu, 17 Sep 2026 16:15:26 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: zjamg <ndaugoing@gmail.com>
+Cc: Michal Nazarewicz <mina86@mina86.com>,
+	Robert Baldyga <r.baldyga@samsung.com>, Felipe Balbi <balbi@ti.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/1] usb: gadget: f_fs: Fix NULL pointer dereference in
+ FUNCTIONFS_ENDPOINT_DESC
+Message-ID: <2026091710-trapper-sudden-0d05@gregkh>
+References: <20260917135337.65444-1-ndaugoing@gmail.com>
+ <20260917135337.65444-2-ndaugoing@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260917144134.459819-1-matyasdaniel006@gmail.com>
-In-Reply-To: <20260917144134.459819-1-matyasdaniel006@gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 17 Sep 2026 10:16:56 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqLyPK2rJVAyzCtGtrBSTwOKRZ_EAmE1Xd++9DFaxrrmDw@mail.gmail.com>
-X-Gm-Features: AcwNN1WrkKsI-hJClnXnbb72poP7rLqVHTc23ccK3T-HSnvYyjsVzuH4L2tWH2Y
-Message-ID: <CAL_JsqLyPK2rJVAyzCtGtrBSTwOKRZ_EAmE1Xd++9DFaxrrmDw@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Expand flow lists to block lists
-To: Daniel Matyas <matyasdaniel006@gmail.com>
-Cc: Shenghao Ding <shenghao-ding@ti.com>, Kevin Lu <kevin-lu@ti.com>, Baojun Xu <baojun.xu@ti.com>, 
-	Sen Wang <sen@ti.com>, Peter Huewe <peterhuewe@gmx.de>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Chunfeng Yun <chunfeng.yun@mediatek.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Wim Van Sebroeck <wim@linux-watchdog.org>, Dharma Balasubiramani <dharma.b@microchip.com>, 
-	Jeff LaBundy <jeff@labundy.com>, Simon Glass <sjg@chromium.org>, Linus Walleij <linusw@kernel.org>, 
-	Alexandre Torgue <alexandre.torgue@foss.st.com>, Giuseppe Cavallaro <peppe.cavallaro@st.com>, 
-	Jose Abreu <joabreu@synopsys.com>, Atish Patra <atishp@rivosinc.com>, 
-	Shawn Guo <shawn.guo@linaro.org>, Dmitry Osipenko <digetx@gmail.com>, 
-	Ibrahim Tilki <Ibrahim.Tilki@analog.com>, Okan Sahin <Okan.Sahin@analog.com>, 
-	devicetree@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	Ricard Wanderlof <ricardw@axis.com>, patches@opensource.cirrus.com, 
-	Lukas Wunner <lukas@wunner.de>, Eugen Hristev <ehristev@kernel.org>, mfd@lists.linux.dev, 
-	linux-samsung-soc@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-mtd@lists.infradead.org, linux-amlogic@lists.infradead.org, 
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-phy@lists.infradead.org, 
-	linux-tegra@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-integrity@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org, linux-watchdog@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917135337.65444-2-ndaugoing@gmail.com>
 
-On Thu, Sep 17, 2026 at 9:41=E2=80=AFAM Daniel Matyas <matyasdaniel006@gmai=
-l.com> wrote:
->
-> Running dt_bindings_check returned:
-> [error] string value is redundantly quoted with any quotes (quoted-string=
-s)
->
+On Thu, Sep 17, 2026 at 09:53:37PM +0800, zjamg wrote:
+> When user space sets up FunctionFS with only full-speed descriptors
+> (e.g., flags = FUNCTIONFS_HAS_FS_DESC) and the gadget operates at a
+> higher speed (such as USB_SPEED_HIGH or USB_SPEED_SUPER),
+> config_ep_by_speed() detects that the function lacks descriptors for
+> the current speed, logs a warning, and falls back to full-speed
+> descriptors. The endpoint is then successfully enabled via
+> usb_ep_enable(), and epfile->ep becomes valid.
+> 
+> However, when user space subsequently issues the FUNCTIONFS_ENDPOINT_DESC
+> ioctl to query the endpoint descriptor, ffs_epfile_ioctl() selects the
+> descriptor index solely based on gadget->speed:
+> 
+> 	switch (epfile->ffs->gadget->speed) {
+> 	case USB_SPEED_SUPER:
+> 	case USB_SPEED_SUPER_PLUS:
+> 		desc_idx = 2;
+> 		break;
+> 	case USB_SPEED_HIGH:
+> 		desc_idx = 1;
+> 		break;
+> 	default:
+> 		desc_idx = 0;
+> 	}
+> 	desc = epfile->ep->descs[desc_idx];
+> 	memcpy(&desc1, desc, desc->bLength);
+> 
+> Because user space only supplied full-speed descriptors,
+> epfile->ep->descs[1] is NULL. Dereferencing desc->bLength triggers an
+> immediate kernel NULL pointer dereference panic.
+> 
+> Fix this by falling back through lower speed descriptors if the current
+> speed descriptor was not supplied, matching the fallback logic in
+> config_ep_by_speed() and historical f_fs behavior. If still missing,
+> fall back to epfile->ep->ep->desc (the active descriptor), and return
+> -EINVAL safely if no valid descriptor is found. In addition, mark desc
+> as const to match struct usb_ep::desc and avoid discarding qualifiers.
+> 
+> Fixes: c559a3534109 ("usb: gadget: f_fs: add ioctl returning ep descriptor")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: zjamg <ndaugoing@gmail.com>
+> ---
+>  drivers/usb/gadget/function/f_fs.c | 15 +++++++++++++--
+>  1 file changed, 13 insertions(+), 2 deletions(-)
+> 
 
-That false positive is fixed in newer versions of yamllint since at
-least a year and a half ago. There's also some other quoting checks
-I'd like to turn on, but that bumps the minimum version since unknown
-checks are an error in yamllint.
+Hi,
 
-> The files used quotation marks in flow lists because the strings had
-> commas and these commas were interpreted as separators. Convert flow
-> style lists to block style lists, so that there is no problems with the
-> commas.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-If we wanted to fix like this, we should probably just require block
-style everywhere, but I don't think we should do that.
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Rob
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
