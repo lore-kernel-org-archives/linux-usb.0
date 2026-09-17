@@ -1,81 +1,81 @@
-Received: from mail-ed2-f30.google.com (mail-ed2-f30.google.com [74.125.228.94])
+Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C434DEC1D
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 19:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A6C4E4C21
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 19:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.99
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789672862; cv=pass; b=s3MIoF8tcsPfXyOiGIjYIoBk1lgcPSZKWvQRk+NguGIuy28wDpqonTq3JrES6tu2s+ZfBNbFjjtKV25olwE+clqW7N3dMR9Gir0rLnycy4jHCh8oKvsbjleospeNBCunc/PwFKU5jsc5gkuG1F8Np1oEF8RwNjntWmC2x1SeVEI=
+	t=1789673943; cv=pass; b=LZI0X3Q2xPbY4zPKrlnGIiNuJJFC5Lz2qD8jvm8YpE2hs7wwbKNzYLfSdOLGVsIVNEq51iZ3ZS2YLai/RO+mIx06dhoNjfEritQze0uuyZLsduUMHhMIn7YBWdVx1xpQIP3lWNy+49TR6olGGJPitk/33qyQzL88ar1z1CBloKc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789672862; c=relaxed/simple;
-	bh=b9QDa9jgDjFjOwt4VJXvXKJT/NU+qXv7vzZtc7dxTcM=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=jIJTr5arpj1FcU2TyCnred8PAs6sYUY+ipNCp0IohTyUjRNPNyyohd80kMJSFdd++mjCkGpRJtoWLJ9XXr6cJmLj0htH3l957zdoKx4N4UeD+bz5mAaDjg9cLE4fKw/J5h74nmB/IkAwRoLsi1hJOIJ6q/GmohF+/nJZiP19gFo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pD7jIUHs; arc=pass smtp.client-ip=74.125.228.94
+	s=arc-20240116; t=1789673943; c=relaxed/simple;
+	bh=+JojRhYj4z2/5FlQFeoDBjlhoDkwm7cc/v/3Femf6qc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=rJOdo8PGLdDgmm13hn4Kwz1yAMMWNbLlBy1IvFfSr/P1LvOL3+9ReGjxmnnUq/X2FSQT7OnFHU0dIWSqf+U79gNeKC9OLyYwHW1v+5SIqRHQEA4UZAYWovG+tJWzOpTb3fkL+jHwM6MYF44N6tpRTQtbW8pcttBT9B22WGPcDy0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EmSOc+kR; arc=pass smtp.client-ip=74.125.228.99
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pD7jIUHs"
-Received: by mail-ed2-f30.google.com with SMTP id 4fb4d7f45d1cf-6aa06e51bc3so2164741a12.2
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 12:21:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789672859; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EmSOc+kR"
+Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6a60591bb18so884222a12.1
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 12:39:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789673939; cv=none;
         d=google.com; s=arc-20260327;
-        b=RPGJ0+mYKzC6tRvCv+wwZJQYQ7ecJn8xicmmLbrQZ858DdHsyB8L2KlGdJR22f27zj
-         ZD27KZ5l1h1px1Uv8V+T2BAQlQVdzhl8QhbbvBj4sf942ZoEAIxw/LsrCEq46NgHIPDb
-         2/+F5ZSb2B9kM94iQhYoL5QFNA6R1OQa4G9xhKOtf7/5KhZvns/YnuaqyVF/kZjXa94n
-         rvEDvSFKvXDIdhntDfDkFW91IY4cmyoR2+mVMUO2ETNySX1EwpfzH2OxkxFj21ddu4MM
-         EpPQQdF5MhcXVgKUA7fgf/FI9TpcsgSe0zbvh9uMhkZxuToJCd60ahCplkzZQJyQPn8Q
-         FHig==
+        b=kp7IJoe4TCC8CWXBzGFvNYyLYTO0c5P8+5sYNoTuYymuWcYetHUKbNpo6eDSCVao6R
+         p2gWfGuYl4+c76X9l+WZxLsuqLudziuaYUsrYMpgw0WdwwsjA5VXybzLNPnek/FcpyIv
+         3SRModioH9T35o7npvhLJIfCKtEvJCwy17rDOqIDTr9/s/Ssn8VinT3b5wgh8C8YKzvs
+         +ZsgY8/qvh7Ut1Y9nRLslHPynULelmDrklwDRBrlF3tQHEGGdk7QkOdeBggd19Et+uiS
+         D/3tvQYgh0m927Tx8iZKzU8OBaakuRimLYUZzWGWvB84HQsOXzivIiULkhM47PpajDWE
+         k8CQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=J/A6MwTJDB3NeP/eALr2ie67LMze+zYTRsIK1+3o4Qg=;
-        fh=57+0psfdHUW7ANM9hAqxGClHtg+SpcDRPa2Dgi0gOt4=;
-        b=QmegjDHZYBYcdop+qsJgi652OmRkRYwqNnAUtPrlf2wsyeauUNjOg+5cFZpgbrFLD2
-         m8rDoUMZGiAkyO8g8GIsuxwgMasL7qSVCqJ+vlmynfR6f+9P/E+fM2lE3qjhcPxIgeBV
-         Nss+7CPz+xQ5tBILTgd0Tyl3kFJL+XnfdGSxv2zKpYUqmNUAFdmi4IL8xPH4WSWjT6OJ
-         kMuyihwZhF82d5TI9Ph+AmWDamMJavpUxSOWFw380hIm8c0FugA5XMpJ4wuvEW5eebCs
-         fus6IAYUi6BBUw8F100zssaJgmnqm2Xo19A5pyimP5k/MW42MoIg+9qU5wew+0cFcaT/
-         d4HA==;
+        bh=uvw66+vhRNvfqBiFRqBkRHWchTeyF82H8c57GCkb5nk=;
+        fh=zTV3Dkt3TbnQp0/WaqwbiTROpirY79gg/f2ggruLVwY=;
+        b=loIjwjYTzlguaSQz4ptqDISd7TD+VxMMFFEg7OCgxNWBBIOx1p2uOdAolNBEBiu1Cd
+         7q4vQrceUuRoWfCbwM8F25HgzVruTOn3+1ofq4QZj4mvZzKAXWfTaaBYm3NUIgrulXLp
+         GaL6GFXDG0p5nD75lCB1q/9QwoNFo+5AgQIXSN3xuu1STzQC1MEOSse7FRcyQBCA/Ouu
+         Wubj9RbOZytx55CeHPo5AhbMmjBHGQ9oa6qEoRrW3Jb97U0N9+AJ9aX5KLwYmpeSMN39
+         +SZl24HHrL38z3O4pVH1UCKM6M4iil7hod9VebgpMbyXkzSVSshSKr2lK6FAEwH7lp9S
+         goQw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789672859; x=1790277659; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789673939; x=1790278739; darn=vger.kernel.org;
         h=content-type:cc:to:subject:message-id:date:from:mime-version:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=J/A6MwTJDB3NeP/eALr2ie67LMze+zYTRsIK1+3o4Qg=;
-        b=pD7jIUHsle3TBiQoOzuUuhbnc+dlnQP5N2AZvLOedAR4lMChd273hY8o7AUmPzhsol
-         uV5bXZS6hAiKHkyg3X+pOTxqUlH5dXzSibYAvDdvIO0xBeG5QNViygc00le4zhHLkM+l
-         KCyVOYuca+XdgxtPgRQqVvHynGK0AJxoLVx4Ki2JCnP5eIR9JBSxMbBbJZVSAmbem7RW
-         R3Su80xiNWQrDpPBbXoGtm08CAk5kcIrWiSRhSTXhl0Bw9xKVETuV6cVKskBRyr7+FPK
-         GNuR9Lax0UecR2pXSkqOPwSf/gDtmQ/227u2U5Ep5FJxMjxHyg9YoVgSadcyUlntB7rx
-         wFTA==
+        bh=uvw66+vhRNvfqBiFRqBkRHWchTeyF82H8c57GCkb5nk=;
+        b=EmSOc+kRXc8qqZT8+0dd2nGlKeC1VIHFK6KXrpCLXmjRKVioiWwHTB4VQLI68OdB20
+         gnaFlMBpVgf/XHyGV8o9YqswhmGnUnJEYFcBvXf6eunw+FZ+iDSCiFgVJr/+iaYMPHWM
+         ESrE5juA6oNwr+OJ0j1yqCvyWVUI7vgIU975MZE+vAlSlFrGe86YCOCcuM48C51eh5Lx
+         PKPCLhUfPo1KQgdE3CYE9aX8YVtloh1jq32++B6HYtrnqp/JQzlR5MT8x8NadKBOO5an
+         gL1GhwJIuXoHH5GLRL2O+mpZs/yx1oWmp06cGN/fWJV7C5BIRBymobceL8b3znLUfwqM
+         tW8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789672859; x=1790277659;
+        d=1e100.net; s=20260707; t=1789673939; x=1790278739;
         h=content-type:cc:to:subject:message-id:date:from:mime-version
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=J/A6MwTJDB3NeP/eALr2ie67LMze+zYTRsIK1+3o4Qg=;
-        b=rapObf07ZckbP1dZQqcw0mDY4V5iQurNTU3kXXPwXyDk1hGJqu5Br698p6QSGZjfon
-         8oCTupMl2EvGiVDhBYM+U6btWIf9ZH4/QigH0uEqt1B+h/tdX1OIka1aLdILcOC5Fxph
-         vm/cbdMaItu6WgOyBDoUDW8f0uEtLfr3OQmrHttKIgj4KEww1D/GSCmLdOgfYdnONWNT
-         qmXRdg1oVoTbv36Aj3WcmBzDQGOfV8KhZhCqx74U+TybE3jAFJ51UGq3o6svJMeOhH6N
-         iZ9dTontps4QTCULsZidy42BDZsa8/p8Cpt2I5gEqWJ/n3egkcqCYY1vLyS8VZyouUpF
-         Iqdw==
-X-Gm-Message-State: AFuF++kvhYYfQiJ71NikeTAdQDV1ElssIWHZzt7oYJzNYRIK+NWKCu0j
-	lluS8SrEVIUfEJmZ5ixqtV5O3I5N+Zf5bnCiTOerk/fWKcp0E5182GC1crP0DcpxBtN1rrAuoa6
-	VwQz4oI1tX5HlavLZyNbDhVhrgu6Hpg==
-X-Gm-Gg: AYBFou04WDFDY/M+PNAu5u4+hCsqJ7W3knwULeELBgIjx9TsOjQArC+j+VrDWugPEVU
-	s5/h4lzGPMIJTf4d284V6Q/B2mgJ4UtIEkT2YadqdK9jVE2FdF2awD0rnu89/C2ntlOF9OBOSf8
-	f6WsgCHR2gJA0B36+Q6cj0MP5Kw4Unt04ghRe8y6WxVcL6icalBUgbfzjxrLtH12MRLVMWz54UN
-	rtHYEG31zf5ziiG3gUYlpebKRFKn0doXJWY8tkFg39Qz1Jg34cFcDL68Kg4rxU197DvLXIhIJuH
-	EFDkHci+2NG1kZxPuYY5vQ2gZDpyb7SReg9FIpPBv2NSCjk1RydEJQ5KN4MsoRLDY09ZzdEGxL1
-	VaG8wqv3+rOl0L+U6urLUq/IN66NQrXSjbA4AIfGOA8HqWtvPkxFZMn8deGY74szkW6up
-X-Received: by 2002:a05:6402:234e:b0:6a9:bc61:7f80 with SMTP id
- 4fb4d7f45d1cf-6aa22418ee6mr5676940a12.27.1789672858973; Thu, 17 Sep 2026
- 12:20:58 -0700 (PDT)
+        bh=uvw66+vhRNvfqBiFRqBkRHWchTeyF82H8c57GCkb5nk=;
+        b=MSn6kglBhBHAmXRRHETY+u9UNVVX792RHlYZqswfwsYi7o1a7LYI1+JL8JMbIzyeZL
+         iPH+2kc3Bcx9PMMXgF31xF5rBo2/jIK2VJmBkH00ZeIZzlkA4LaNaiaVRYbo5oX20/Ic
+         qXsY0u10aezZyLE8hPkWN9+kj00wXigUjAjt2Sqexp7UsfUtl3yp7Zf6jRwwh33DUhop
+         l+O7lj+c+ao12Mkb3qlVL/jdUy6ajfknDN1DRMNjIrtmJ+svg2wOJEGUpeAUy4TLuVcT
+         OB34rBZ7pDE7WA7hycWXMRqr9rOPr+ZjPv5U1Fa8vUa0WSb/QD2VH2i2cD/VphNVFb+e
+         ewhw==
+X-Gm-Message-State: AFuF++mwkN2DgL0knc4BtsPMNly7j78QnHKegypv2gqo/acSLP6Zelq9
+	blpHtb4cRINgOmpqd9cOPWThGbmOtrzxYc/xkWfh3D43nMuhzsGGpGBBSbXFBKwKR0/CNOAopxj
+	0n7HKgEl9YOzAzlxRW4pK7IHkZHQf7A==
+X-Gm-Gg: AYBFou2xWvdrf0SYl0YACI4Js0nBFkcaRcTcBO6CrQQ3FnyuK+n3qVGdD3oZ0kAJxs4
+	n0jKBH9+85SVyl+PBYVl3BFQIIXqRkUvCYd8X4zTFp+K1e/TpTIXm/CWnFl9rTuD9SST7oWk68o
+	GqbD3+ZGfR4qlO+7nfCCAF1FB5QBPQiCdNmhP1AREgQo2rtXg3sVtEMW9jeVIDGxd9rijSet07s
+	WVGtmDsoYWrjgKPLH53raAr/Xn21q9OxXdUtZy4+bf/AXZ0XbPYwUK80SiE8jJviAZvuuiMc7a3
+	rujNoibmG75hYNhRxVMtPDL5hDH9qKDOvDYjVwr0NI8TM8PgTvT0MaT4dKt1XhxxAjyervrHmKi
+	PeDk9Qtjg9KPSNtJbKZ9KjFfU45eMglX31znfeOsi5RJquH7iqYYKZ+z/IjP48eHO
+X-Received: by 2002:a17:907:e895:b0:c29:d0a8:79d3 with SMTP id
+ a640c23a62f3a-c2a16555ca6mr12782666b.14.1789673938518; Thu, 17 Sep 2026
+ 12:38:58 -0700 (PDT)
 Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 17 Sep 2026 19:20:58 +0000
+ Thu, 17 Sep 2026 14:38:56 -0500
 Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 17 Sep 2026 19:20:58 +0000
+ Thu, 17 Sep 2026 14:38:56 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -83,48 +83,80 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: Myeonghun Pak <mhun512@gmail.com>
-Date: Thu, 17 Sep 2026 19:20:58 +0000
-X-Gm-Features: AcwNN1WxTWOhjEb7bBl6eypOV0BHfRXqW5W6uIymGwW7YeDpfpFb9TiYbq7J4Ek
-Message-ID: <CAGEsz8F2eKsmV_tymO+9UD5xkS_tWhZo-b9Xom1_SiKuc-BCqg@mail.gmail.com>
-Subject: [PATCH] usb: gadget: tegra-xudc: Disable port reset work on removal
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-usb@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Ijae Kim <ae878000@gmail.com>, stable@vger.kernel.org
+Date: Thu, 17 Sep 2026 14:38:56 -0500
+X-Gm-Features: AcwNN1VE7wb6WhBCZTA5cbiH9rHwbsomzIyYk4514CYjmv-1kzjg1ciyy8BsNrk
+Message-ID: <CAGEsz8GQR2vJ8ddedaLg=Yq_RoeTxgoXTQ4-QS8mJpDXNn36qA@mail.gmail.com>
+Subject: [PATCH] usb: gadget: pch_udc: Disable VBUS work before removing the gadget
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Ijae Kim <ae878000@gmail.com>, stable@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 
-The port status interrupt can schedule port_reset_war_work to handle the
-Tegra210 port reset workaround. The remove path does not cancel this
-work, so it can run after the PHYs and controller resources have been
-released and access freed memory.
+The GPIO IRQ can queue irq_work_fall and irq_work_rise, and the PCI IRQ
+can also queue irq_work_fall. Neither work is drained during removal, so
+its callback can access the gadget driver or controller state after
+teardown has started, or the device structure after it has been freed.
 
-Disable and drain port_reset_war_work before tearing down the controller.
-Use disable_delayed_work_sync() so that the interrupt handler cannot
-queue the work again while the managed IRQ is still registered.
+Disable and drain both works before unregistering the gadget. Disabling
+also prevents the IRQ handlers from requeuing them while their IRQs are
+still registered. Initialize both works unconditionally before requesting
+the GPIO IRQ so removal can disable them even without a GPIO IRQ.
 
 This issue was identified during our ongoing static-analysis research
 while reviewing kernel code.
 
-Fixes: 49db427232fe ("usb: gadget: Add UDC driver for tegra XUSB
-device mode controller")
+Fixes: dd63180b758d ("usb: gadget: pch_udc: Detecting VBUS through GPIO")
+Fixes: 637b78eb31e0 ("usb: gadget: pch_udc: Detecting VBUS through
+GPIO with interrupt")
 Cc: stable@vger.kernel.org # 6.10+
 Assisted-by: LLM
 Co-developed-by: Ijae Kim <ae878000@gmail.com>
 Signed-off-by: Ijae Kim <ae878000@gmail.com>
 Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 ---
- drivers/usb/gadget/udc/tegra-xudc.c |    1 +
- 1 file changed, 1 insertion(+)
+ drivers/usb/gadget/udc/pch_udc.c |    8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
---- a/drivers/usb/gadget/udc/tegra-xudc.c
-+++ b/drivers/usb/gadget/udc/tegra-xudc.c
-@@ -3926,6 +3926,7 @@
+diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
+index 99b3ce28210f..20018c09f6f3 100644
+--- a/drivers/usb/gadget/udc/pch_udc.c
++++ b/drivers/usb/gadget/udc/pch_udc.c
+@@ -1372,6 +1372,8 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
 
- 	pm_runtime_get_sync(xudc->dev);
+ 	dev->vbus_gpio.port = NULL;
+ 	dev->vbus_gpio.intr = 0;
++	INIT_WORK(&dev->vbus_gpio.irq_work_fall, pch_vbus_gpio_work_fall);
++	INIT_WORK(&dev->vbus_gpio.irq_work_rise, pch_vbus_gpio_work_rise);
 
-+	disable_delayed_work_sync(&xudc->port_reset_war_work);
- 	cancel_delayed_work_sync(&xudc->plc_reset_work);
- 	cancel_work_sync(&xudc->usb_role_sw_work);
+ 	/* Retrieve the GPIO line from the USB gadget device */
+ 	gpiod = devm_gpiod_get_optional(d, NULL, GPIOD_IN);
+@@ -1380,7 +1382,6 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
+ 	gpiod_set_consumer_name(gpiod, "pch_vbus");
+
+ 	dev->vbus_gpio.port = gpiod;
+-	INIT_WORK(&dev->vbus_gpio.irq_work_fall, pch_vbus_gpio_work_fall);
+
+ 	irq_num = gpiod_to_irq(gpiod);
+ 	if (irq_num > 0) {
+@@ -1389,8 +1390,6 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
+ 			"vbus_detect", dev);
+ 		if (!err) {
+ 			dev->vbus_gpio.intr = irq_num;
+-			INIT_WORK(&dev->vbus_gpio.irq_work_rise,
+-				pch_vbus_gpio_work_rise);
+ 		} else {
+ 			pr_err("%s: can't request irq %d, err: %d\n",
+ 				__func__, irq_num, err);
+@@ -2982,6 +2981,9 @@ static void pch_udc_remove(struct pci_dev *pdev)
+ {
+ 	struct pch_udc_dev	*dev = pci_get_drvdata(pdev);
+
++	disable_work_sync(&dev->vbus_gpio.irq_work_fall);
++	disable_work_sync(&dev->vbus_gpio.irq_work_rise);
++
+ 	usb_del_gadget_udc(&dev->gadget);
+
+ 	/* gadget driver must not be registered */
 
 base-commit: df2908090cda368b01ff43709f51890076c56157
 -- 
