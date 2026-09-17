@@ -1,163 +1,137 @@
-Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A6C4E4C21
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 19:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.99
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789673943; cv=pass; b=LZI0X3Q2xPbY4zPKrlnGIiNuJJFC5Lz2qD8jvm8YpE2hs7wwbKNzYLfSdOLGVsIVNEq51iZ3ZS2YLai/RO+mIx06dhoNjfEritQze0uuyZLsduUMHhMIn7YBWdVx1xpQIP3lWNy+49TR6olGGJPitk/33qyQzL88ar1z1CBloKc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789673943; c=relaxed/simple;
-	bh=+JojRhYj4z2/5FlQFeoDBjlhoDkwm7cc/v/3Femf6qc=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=rJOdo8PGLdDgmm13hn4Kwz1yAMMWNbLlBy1IvFfSr/P1LvOL3+9ReGjxmnnUq/X2FSQT7OnFHU0dIWSqf+U79gNeKC9OLyYwHW1v+5SIqRHQEA4UZAYWovG+tJWzOpTb3fkL+jHwM6MYF44N6tpRTQtbW8pcttBT9B22WGPcDy0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EmSOc+kR; arc=pass smtp.client-ip=74.125.228.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFBA4A207F
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 20:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789676721; cv=none; b=r/wXZkAglYvCunU0hO199L6gjWARJZaG2a7FdBzE/Nmhg8t/XMPwIqb+2YcvsXDoxKlRLoxIV25ZQE5KXIfxFIe6pd98DbCqMOgUUD5/ZZZgkLWmAkPkW93vPSujot9ClaamjxV4XqNipLZv3UbtSHtS6kOT/FeQsLbFPtHLiyI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789676721; c=relaxed/simple;
+	bh=BaMnS/R3gnsHcrkyByF4UswjzqBqPciDiY8lAC9zNhs=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ns7OFwOxdUvsubyx/Xmom8JXHG17AVlDSG8D6toumhXRK2JGUSWJWdYWbWbgwyWcRmvcQlyozRStgaZ+XefXEr860J1mssFgAg78bOP9ae7jzID8al1vHmudOHgJVr12slCvlmmxa4gSQPy6piJ3IUPZiGjydjmAaL2VO7ltXgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FMkx4hNe; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EmSOc+kR"
-Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6a60591bb18so884222a12.1
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 12:39:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789673939; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kp7IJoe4TCC8CWXBzGFvNYyLYTO0c5P8+5sYNoTuYymuWcYetHUKbNpo6eDSCVao6R
-         p2gWfGuYl4+c76X9l+WZxLsuqLudziuaYUsrYMpgw0WdwwsjA5VXybzLNPnek/FcpyIv
-         3SRModioH9T35o7npvhLJIfCKtEvJCwy17rDOqIDTr9/s/Ssn8VinT3b5wgh8C8YKzvs
-         +ZsgY8/qvh7Ut1Y9nRLslHPynULelmDrklwDRBrlF3tQHEGGdk7QkOdeBggd19Et+uiS
-         D/3tvQYgh0m927Tx8iZKzU8OBaakuRimLYUZzWGWvB84HQsOXzivIiULkhM47PpajDWE
-         k8CQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=uvw66+vhRNvfqBiFRqBkRHWchTeyF82H8c57GCkb5nk=;
-        fh=zTV3Dkt3TbnQp0/WaqwbiTROpirY79gg/f2ggruLVwY=;
-        b=loIjwjYTzlguaSQz4ptqDISd7TD+VxMMFFEg7OCgxNWBBIOx1p2uOdAolNBEBiu1Cd
-         7q4vQrceUuRoWfCbwM8F25HgzVruTOn3+1ofq4QZj4mvZzKAXWfTaaBYm3NUIgrulXLp
-         GaL6GFXDG0p5nD75lCB1q/9QwoNFo+5AgQIXSN3xuu1STzQC1MEOSse7FRcyQBCA/Ouu
-         Wubj9RbOZytx55CeHPo5AhbMmjBHGQ9oa6qEoRrW3Jb97U0N9+AJ9aX5KLwYmpeSMN39
-         +SZl24HHrL38z3O4pVH1UCKM6M4iil7hod9VebgpMbyXkzSVSshSKr2lK6FAEwH7lp9S
-         goQw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789673939; x=1790278739; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uvw66+vhRNvfqBiFRqBkRHWchTeyF82H8c57GCkb5nk=;
-        b=EmSOc+kRXc8qqZT8+0dd2nGlKeC1VIHFK6KXrpCLXmjRKVioiWwHTB4VQLI68OdB20
-         gnaFlMBpVgf/XHyGV8o9YqswhmGnUnJEYFcBvXf6eunw+FZ+iDSCiFgVJr/+iaYMPHWM
-         ESrE5juA6oNwr+OJ0j1yqCvyWVUI7vgIU975MZE+vAlSlFrGe86YCOCcuM48C51eh5Lx
-         PKPCLhUfPo1KQgdE3CYE9aX8YVtloh1jq32++B6HYtrnqp/JQzlR5MT8x8NadKBOO5an
-         gL1GhwJIuXoHH5GLRL2O+mpZs/yx1oWmp06cGN/fWJV7C5BIRBymobceL8b3znLUfwqM
-         tW8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789673939; x=1790278739;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=uvw66+vhRNvfqBiFRqBkRHWchTeyF82H8c57GCkb5nk=;
-        b=MSn6kglBhBHAmXRRHETY+u9UNVVX792RHlYZqswfwsYi7o1a7LYI1+JL8JMbIzyeZL
-         iPH+2kc3Bcx9PMMXgF31xF5rBo2/jIK2VJmBkH00ZeIZzlkA4LaNaiaVRYbo5oX20/Ic
-         qXsY0u10aezZyLE8hPkWN9+kj00wXigUjAjt2Sqexp7UsfUtl3yp7Zf6jRwwh33DUhop
-         l+O7lj+c+ao12Mkb3qlVL/jdUy6ajfknDN1DRMNjIrtmJ+svg2wOJEGUpeAUy4TLuVcT
-         OB34rBZ7pDE7WA7hycWXMRqr9rOPr+ZjPv5U1Fa8vUa0WSb/QD2VH2i2cD/VphNVFb+e
-         ewhw==
-X-Gm-Message-State: AFuF++mwkN2DgL0knc4BtsPMNly7j78QnHKegypv2gqo/acSLP6Zelq9
-	blpHtb4cRINgOmpqd9cOPWThGbmOtrzxYc/xkWfh3D43nMuhzsGGpGBBSbXFBKwKR0/CNOAopxj
-	0n7HKgEl9YOzAzlxRW4pK7IHkZHQf7A==
-X-Gm-Gg: AYBFou2xWvdrf0SYl0YACI4Js0nBFkcaRcTcBO6CrQQ3FnyuK+n3qVGdD3oZ0kAJxs4
-	n0jKBH9+85SVyl+PBYVl3BFQIIXqRkUvCYd8X4zTFp+K1e/TpTIXm/CWnFl9rTuD9SST7oWk68o
-	GqbD3+ZGfR4qlO+7nfCCAF1FB5QBPQiCdNmhP1AREgQo2rtXg3sVtEMW9jeVIDGxd9rijSet07s
-	WVGtmDsoYWrjgKPLH53raAr/Xn21q9OxXdUtZy4+bf/AXZ0XbPYwUK80SiE8jJviAZvuuiMc7a3
-	rujNoibmG75hYNhRxVMtPDL5hDH9qKDOvDYjVwr0NI8TM8PgTvT0MaT4dKt1XhxxAjyervrHmKi
-	PeDk9Qtjg9KPSNtJbKZ9KjFfU45eMglX31znfeOsi5RJquH7iqYYKZ+z/IjP48eHO
-X-Received: by 2002:a17:907:e895:b0:c29:d0a8:79d3 with SMTP id
- a640c23a62f3a-c2a16555ca6mr12782666b.14.1789673938518; Thu, 17 Sep 2026
- 12:38:58 -0700 (PDT)
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 17 Sep 2026 14:38:56 -0500
-Received: from 77377267392 named unknown by gmailapi.google.com with HTTPREST;
- Thu, 17 Sep 2026 14:38:56 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FMkx4hNe"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9F614C2BCB3
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 20:25:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1789676720;
+	bh=BaMnS/R3gnsHcrkyByF4UswjzqBqPciDiY8lAC9zNhs=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=FMkx4hNeWT6aQ/sa/i2KarCrtN1jdfzCui0s6eikTlzeMDgi4u8FhFz4ICeMk3jmM
+	 4RMkE9/4559nsWT6FZOgozKxpi1PScEa0ohn9GG9FLYRqjb6aaJMocvbX8NCK+AbXO
+	 dcoV2VG3zTvdUv+0ps/7bhoxPtJtrciUX4wxydL54eE/77rWmqqygD7c3OAgLfJ/D/
+	 +pXPwR8D8HTEd618Y5+U99GGDzE0GzD07pvXylKn1HtB01F73ZTo88SDHybeFSS1sO
+	 8wVTa1FFdLzSGbEAaZlT3jg9sabtGnhXW0nON8WxG8EzFkDlv/Zwot/BICnsaEcXQh
+	 VU0+Li4RmbLWw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 44290C4160E; Thu, 17 Sep 2026 20:25:20 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 221998] HID: playstation: GameSir G7 Pro 8K (054C:09CC) reports
+ incorrect battery level (fixed at 5%)
+Date: Thu, 17 Sep 2026 20:25:19 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: krishgulati7@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-221998-208809-W7n7gaEbhB@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-221998-208809@https.bugzilla.kernel.org/>
+References: <bug-221998-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Myeonghun Pak <mhun512@gmail.com>
-Date: Thu, 17 Sep 2026 14:38:56 -0500
-X-Gm-Features: AcwNN1VE7wb6WhBCZTA5cbiH9rHwbsomzIyYk4514CYjmv-1kzjg1ciyy8BsNrk
-Message-ID: <CAGEsz8GQR2vJ8ddedaLg=Yq_RoeTxgoXTQ4-QS8mJpDXNn36qA@mail.gmail.com>
-Subject: [PATCH] usb: gadget: pch_udc: Disable VBUS work before removing the gadget
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Ijae Kim <ae878000@gmail.com>, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-The GPIO IRQ can queue irq_work_fall and irq_work_rise, and the PCI IRQ
-can also queue irq_work_fall. Neither work is drained during removal, so
-its callback can access the gadget driver or controller state after
-teardown has started, or the device structure after it has been freed.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D221998
 
-Disable and drain both works before unregistering the gadget. Disabling
-also prevents the IRQ handlers from requeuing them while their IRQs are
-still registered. Initialize both works unconditionally before requesting
-the GPIO IRQ so removal can disable them even without a GPIO IRQ.
+Krish Gulati (krishgulati7@gmail.com) changed:
 
-This issue was identified during our ongoing static-analysis research
-while reviewing kernel code.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |krishgulati7@gmail.com
 
-Fixes: dd63180b758d ("usb: gadget: pch_udc: Detecting VBUS through GPIO")
-Fixes: 637b78eb31e0 ("usb: gadget: pch_udc: Detecting VBUS through
-GPIO with interrupt")
-Cc: stable@vger.kernel.org # 6.10+
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/usb/gadget/udc/pch_udc.c |    8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+--- Comment #1 from Krish Gulati (krishgulati7@gmail.com) ---
+Thanks for the detailed report. To narrow this down we need to see the raw =
+HID
+input report bytes from the controller, since the fixed capacity of 5% stro=
+ngly
+suggests hid-playstation is reading status[0] as 0x00 for this device; eith=
+er
+the report layout differs from a real DS4, or GameSir's DS4-emulation firmw=
+are
+doesn't populate that field at all.
 
-diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
-index 99b3ce28210f..20018c09f6f3 100644
---- a/drivers/usb/gadget/udc/pch_udc.c
-+++ b/drivers/usb/gadget/udc/pch_udc.c
-@@ -1372,6 +1372,8 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
+Could you provide the following?
 
- 	dev->vbus_gpio.port = NULL;
- 	dev->vbus_gpio.intr = 0;
-+	INIT_WORK(&dev->vbus_gpio.irq_work_fall, pch_vbus_gpio_work_fall);
-+	INIT_WORK(&dev->vbus_gpio.irq_work_rise, pch_vbus_gpio_work_rise);
+1. First find the correct hidraw device for this controller (don't assume t=
+he
+number, it can change between boots):
 
- 	/* Retrieve the GPIO line from the USB gadget device */
- 	gpiod = devm_gpiod_get_optional(d, NULL, GPIOD_IN);
-@@ -1380,7 +1382,6 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
- 	gpiod_set_consumer_name(gpiod, "pch_vbus");
+   grep -l 054C:09CC /sys/class/hidraw/*/device/uevent
 
- 	dev->vbus_gpio.port = gpiod;
--	INIT_WORK(&dev->vbus_gpio.irq_work_fall, pch_vbus_gpio_work_fall);
+This prints the sysfs path for the matching hidraw device(s); the last path
+component (e.g. hidraw4) is the device name to use below. If the controller
+creates multiple hidraw interfaces, capture from all of them.
 
- 	irq_num = gpiod_to_irq(gpiod);
- 	if (irq_num > 0) {
-@@ -1389,8 +1390,6 @@ static int pch_vbus_gpio_init(struct pch_udc_dev *dev)
- 			"vbus_detect", dev);
- 		if (!err) {
- 			dev->vbus_gpio.intr = irq_num;
--			INIT_WORK(&dev->vbus_gpio.irq_work_rise,
--				pch_vbus_gpio_work_rise);
- 		} else {
- 			pr_err("%s: can't request irq %d, err: %d\n",
- 				__func__, irq_num, err);
-@@ -2982,6 +2981,9 @@ static void pch_udc_remove(struct pci_dev *pdev)
- {
- 	struct pch_udc_dev	*dev = pci_get_drvdata(pdev);
+2. The decoded HID report descriptor, ideally with an input report capture =
+in
+the same run....this tells us where the device itself claims the battery/st=
+atus
+fields live:
 
-+	disable_work_sync(&dev->vbus_gpio.irq_work_fall);
-+	disable_work_sync(&dev->vbus_gpio.irq_work_rise);
-+
- 	usb_del_gadget_udc(&dev->gadget);
+   sudo hid-recorder /dev/<hidrawX>
 
- 	/* gadget driver must not be registered */
+Let it run for a few seconds while moving a stick/pressing a button so we g=
+et
+non-idle reports, then Ctrl+C to stop. This prints the decoded descriptor
+first, then the captured reports.
 
-base-commit: df2908090cda368b01ff43709f51890076c56157
--- 
-2.47.1
+3. If hid-recorder isn't installed, get the decoded descriptor and a raw re=
+port
+dump separately:
+
+   cat /sys/class/hidraw/<hidrawX>/device/report_descriptor | hid-decode
+
+   sudo xxd /dev/<hidrawX> | head -50
+
+Please capture at a few different real battery levels (e.g. near-empty, ~50=
+%,
+full), and both with and without USB charging active, since the parsing log=
+ic
+branches on cable state.
+
+This will tell us whether the battery/status byte is at a different offset =
+than
+expected on real Sony hardware, or whether the field is genuinely always ze=
+ro
+on this controller. Once we can see the byte layout we can put together a f=
+ix.
+I don't have this hardware myself, so I'd need your help testing any patch/=
+BPF
+program against the real device.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
