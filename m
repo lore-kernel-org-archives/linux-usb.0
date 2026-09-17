@@ -1,32 +1,32 @@
 Received: from cstnet.cn (smtp25.cstnet.cn [159.226.251.25])
 	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9E44E5335;
-	Thu, 17 Sep 2026 16:09:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E749E4B7A4D;
+	Thu, 17 Sep 2026 16:12:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789661390; cv=none; b=Gx20iKynJ95I+zoTwZrJVOTQ6JI3ovvrhaBkx54fJgQIz3ep3Ohse7r3g/zqgeJF1tGsS9P6XiX1TfGnMcSLPUf6kzmoYjhU2cTzsO9EnpCVolQyXW2cY6SnDb+e6o43rZ3l/UMV1JRDoXZGHq/rEc7HFFIz+ICJz+bJpKD+qzM=
+	t=1789661545; cv=none; b=X2R1UYcXk/OCo+DFjzpgbSOWiUau95ECmVAWS4isQnkZxIyoJkJIrCVXaRdtp5AOVFKN/xemT6HrKuJdQ5TBGOSqNHsCRgcB3V9cYwpuxeYmrjpoWv0YPysoMAmS433L9pSaJlkhZQhX2mwrqL9jYRxd2/4/I62RkuwpGeprLUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789661390; c=relaxed/simple;
-	bh=kOhxTu0JtznoHG97ZCyaU49bLhLPqMOmAJHA+Lh+Ntg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Nib7GAqC1NHmrr5SUFOvHLSj+iQ0lO2wqM61nznpIjb4eB/okmN35+OMD7CuwzGqPm/hv9pAYVA9OpnyzRfoZfTRt1ojEHjwBpnrETW6g339AW2vIJjyXAj/BuTmHFwG1HG8ejSWeqbkNLwyagmeHauuLpg62tcQV0AtVpPr1HE=
+	s=arc-20240116; t=1789661545; c=relaxed/simple;
+	bh=flo9osKtc/OpzjojZWTfF9H4r3vbpa+SFX7R4uSEisw=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KgykSAuW4aA8Vsn1mUHpb4HnrCbaM0chnot1HKigvIUclu4x431jtjj4fI8JH8Z4sXRjcnGjWVHbALPt63ZPPSJ/hNLGui31tmrezagMNusDMJ+8Sr7BzK09/2yb/2HKSyrdT3sDq3oAyfY+NnXoPx7PCSKGCv3Duk2t3BN8xS0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
 Received: from dfae2b116770.home.arpa (unknown [36.110.52.2])
-	by APP-05 (Coremail) with SMTP id zQCowABHdkDHEKxqTi+ECA--.153S2;
-	Fri, 18 Sep 2026 00:09:43 +0800 (CST)
+	by APP-05 (Coremail) with SMTP id zQCowABHdkBhEaxqZTmECA--.193S2;
+	Fri, 18 Sep 2026 00:12:17 +0800 (CST)
 From: Wentao Liang <vulab@iscas.ac.cn>
 To: gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org,
+Cc: johan@kernel.org,
+	linux-kernel@vger.kernel.org,
 	linux-usb@vger.kernel.org,
-	pawell@cadence.com,
-	peter.chen@nxp.com,
+	oneukum@suse.com,
 	Wentao Liang <vulab@iscas.ac.cn>,
 	stable@vger.kernel.org
-Subject: [PATCH] usb: cdns3: cdnsp-pci: Fix PCI function reference leak in cdnsp_pci_probe()
-Date: Thu, 17 Sep 2026 16:09:43 +0000
-Message-Id: <20260917160943.2161796-1-vulab@iscas.ac.cn>
+Subject: [PATCH] usb: cdc-acm: Fix urb reference leak in acm_resume()
+Date: Thu, 17 Sep 2026 16:12:17 +0000
+Message-Id: <20260917161217.2161883-1-vulab@iscas.ac.cn>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -35,10 +35,10 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowABHdkDHEKxqTi+ECA--.153S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7Wr1rXr1fGr45uFyDCryfWFg_yoWfKFg_uw
-	4ru3ZaqFy7uF9rKw1xGryavrWIk3ZIvF1kWa12qryfCFZIkr1kXry3Zr95G3W7uw48GF1D
-	Kw1vgw45WrsrZjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+X-CM-TRANSID:zQCowABHdkBhEaxqZTmECA--.193S2
+X-Coremail-Antispam: 1UD129KBjvdXoWrtF4DJw4xtFW7ZF1fAF17Awb_yoWfCFX_WF
+	yUWrn7JrWj9FyqkF4kJwnxZr97K3WkZws7X3Z8t34S9FW2qF10vr4F9ayDGw1DGF47JF9r
+	Kr4Utw1Fvr1kWjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
 	9fnUUIcSsGvfJTRUUUbskFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AK
 	wVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20x
 	vE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2
@@ -52,35 +52,34 @@ X-Coremail-Antispam: 1UD129KBjvdXoW7Wr1rXr1fGr45uFyDCryfWFg_yoWfKFg_uw
 	v20xvEc7CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E
 	87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73Uj
 	IFyTuYvjfUY9a9DUUUU
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwcNA2qr9tg91QAAsJ
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCRINA2qr9LZFPwAAss
 
-cdnsp_get_second_fun() returns a device obtained with pci_get_device(),
-which takes a reference to it. The error paths release it through the
-put_pci label, but the successful return does not, so the reference is
-leaked for every successfully probed device.
+acm_resume() takes the delayed write urbs from the acm->delayed anchor
+with usb_get_from_anchor(), which hands the reference held by the
+anchor over to the caller. That reference is never released, so an urb
+that was queued while the device was suspended is never freed.
 
-Release it on the success path too.
+Drop the reference after the urb has been resubmitted.
 
-Fixes: 3d82904559f4 ("usb: cdnsp: cdns3 Add main part of Cadence USBSSP DRD Driver")
+Fixes: 140cb81ac8c6 ("USB: cdc-acm: fix broken runtime suspend")
 Cc: stable@vger.kernel.org
 Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
 ---
- drivers/usb/cdns3/cdnsp-pci.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/usb/class/cdc-acm.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/usb/cdns3/cdnsp-pci.c b/drivers/usb/cdns3/cdnsp-pci.c
-index 566d94e49102..061a2c43e986 100644
---- a/drivers/usb/cdns3/cdnsp-pci.c
-+++ b/drivers/usb/cdns3/cdnsp-pci.c
-@@ -162,6 +162,8 @@ static int cdnsp_pci_probe(struct pci_dev *pdev,
- 	if (pci_dev_run_wake(pdev))
- 		pm_runtime_put_noidle(&pdev->dev);
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 54059e4fc6ed..399c42b58cfc 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -1703,6 +1703,7 @@ static int acm_resume(struct usb_interface *intf)
+ 				break;
  
-+	pci_dev_put(func);
-+
- 	return 0;
+ 			acm_start_wb(acm, urb->context);
++			usb_free_urb(urb);
+ 		}
  
- free_cdnsp:
+ 		/*
 -- 
 2.34.1
 
