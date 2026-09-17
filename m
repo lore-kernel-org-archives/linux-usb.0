@@ -1,99 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19FF23644CB;
-	Thu, 17 Sep 2026 02:59:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B273931AF2D
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 03:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789613993; cv=none; b=oVppAygRQkfbh7sv9AImMYlGDYOeCCOcul7KpigzNOiSApCQYKWEQB246Xyiy95to/+2KEsbXbVTcO8JuXS9pwtZOkzKJHzVjJopb/8CQXJJutBfUgqPWIOkiAiUTdTYCxBXGaEd/9Tohy/2t8s75ZqjMbci4LtDW7eOu+v0IBs=
+	t=1789615213; cv=none; b=gxUbrvrj3mQ1ANJyXoMflYGnt3S9alV/37dJUOzRzAYI2UsSSiVkd9MOrfWtsooviJxZ45I55PqcE50ssBbbsWLmB5cmC1AtjewY5bQnPfgx27l3Hehmz+4M9zQJyX0i0f92vvdBU1CcN7GU57mxRLXGliRPsfLYoIDz0ozdtSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789613993; c=relaxed/simple;
-	bh=fTOEXFZ7EJ+AGIfuqI3Ur198sXO09pHRz++K+qksWDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=McHUAzkeAimaQPYgkWCyAuOAkIDJSgCb2oTMmrOnBcD7ei4gRu9YclbI0Cp9ex08B/ANffuny9cIcpGa5wDxUpOb0GhgvnvtSV7kUKelinY6/WgCe4nyRizvE81cOw1763PFp+h/SBfJdHLljGGtexFVfh15dPNi/gdGkG2mU9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mXSonEq3; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789615213; c=relaxed/simple;
+	bh=+Zoa3hTlhW97Z1Fdg8ZXaa7K5K4U5NJd2vwJcnpqcyo=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=teLQHK3vDCdDbJ0U0ydJJYEuYWiH2vKTZhIQ6M+13NIE4qJmmdH6UMeJir9PYFVLGBqMxsNeUJA2KTY7kBu7sAJikk/4+sLvxggKlm+oAArohZpFBFSfRsNdlY6r8DJFMHEgN2d2Z23seuT4IsC5JeHYBFGKwaB4+qtAUjnM2hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Q0oZMwBr; arc=none smtp.client-ip=209.85.216.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jthies.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mXSonEq3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6E7741F000FF;
-	Thu, 17 Sep 2026 02:59:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789613989;
-	bh=jPoOuYGWx7K1GomsVw6CFTdH68LEamv+uBoPeqNG5/I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mXSonEq3aVapyCr+gGzljf7u/nC+qfmEK0hGhZyn9HNu8o5WiWQzHvYb1Xy8ogJFN
-	 X7KJcSsgjsNliViqPKyrGciWep5qPFn8rTWwzs21sbpIHkTF7eAcQGIVCrVC9VyjTJ
-	 Jf8ajb/Vg6Q/cGh/LdotaW6UeJ3jjq+RpXC09uMJoQsldLkJYW2fWjqeKw0X0fuNGX
-	 mbcuKs8/NlPVLnoYY7ElNiUbT7xsniimRjFduooFtN5ITYW75R4ZPX8lWN1QhytatL
-	 mTk+09OnJ+p1MgeDC3f7lWOqs22QlvWN2AaktgnO5eMmczVcPjAT/qS9ASJEFi+57i
-	 jGZWJcpwMUlew==
-Date: Wed, 16 Sep 2026 19:59:48 -0700
-From: Peter Chen <peter.chen@kernel.org>
-To: Joshua Crofts <joshua.crofts1@gmail.com>
-Cc: Pawel Laszczak <pawell@cadence.com>, Roger Quadros <rogerq@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@intel.com>,
-	Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, stable@vger.kernel.org
-Subject: Re: [PATCH 6/6] usb: cdns3: add missing
- pm_runtime_dont_use_autosuspend() call
-Message-ID: <aqtXpPBsR-KQBOIP@hu-petche-lv.qualcomm.com>
-References: <20260915090223.1346-1-joshua.crofts1@gmail.com>
- <20260915090223.1346-7-joshua.crofts1@gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Q0oZMwBr"
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-39e3c10ac70so599512a91.2
+        for <linux-usb@vger.kernel.org>; Wed, 16 Sep 2026 20:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1789615211; x=1790220011; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eG+4OkgZdOu4T7Ozr6+fDvucorju2O2n5bdII7mZ0hM=;
+        b=Q0oZMwBrt6+mTdXK7NJ0Q+MAna0X1PAdoTmUWnfDw1C/T2rRx5FjqEXbKWqM84IURb
+         pv7UiDO1PywwKgewU2ZCVN9ZSUTiA3NDEruH9P3rxciYXHu4p5zQrHB2J5/iZAK7I3q9
+         n05n5vgO3kL4YpouqOqAwg7fU/iqX2vmaWH5ZzgSgO0QqCJcxASoQfOCIepF1oyqlrCA
+         G9ytI0Wxc+GEQMakOBDsq23YTPXGca6IWtZpGuwQQXnYARVvTw6AtYuFcbLhJ+YKrzS4
+         bcpKoGxO/h/69p90hlXYw+0w8eBbAN5fAfA/WJ031lES9rzHfocYfO+6dnjPuu5lttlW
+         KFMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789615211; x=1790220011;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eG+4OkgZdOu4T7Ozr6+fDvucorju2O2n5bdII7mZ0hM=;
+        b=qCOmvO8f+jb+EmykTU0EWremLB9Zva7slhyTIHiYxIGA4dbqSJKZaaNZ48T7Q0hzum
+         g3R0mFwJDyYwuiiZ3O2OaNwEZ2DnUf7CJGNmjGraoxkvnzQGxo2i7GNeJ9hsG1FP9GnL
+         C+n+iFOt87FKVnFfnDCSQZGX8YspA8AlPcR9+Cvbq5OJTz97T/B630ijzLYdjZJp3Rth
+         TBXcyQ1vYlZABAdbDiabGH/sJqfscWitMpNkAVC1oV4SI+4edmhli4jMiwxjUx9iUNfR
+         hvkoYauqPazfGb2qL7I0ntrNvG1Zpc90s5q4IptFd2+pf11vfN+46pKYvCyEZ1NRiD8K
+         WLGA==
+X-Forwarded-Encrypted: i=1; AKwUvBxEGOXAMTLz3VO8l/WJjwznLKvns5dTOdCfcWGFPlfarLXygmxiF+NuGQP5wt/M69X3QFdMBuFySyQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++ldppX/Q/3ilnuDZZ+xLWQt8nHSzILDwQi8g/bANzlU6k/gmQvd
+	SkoAgNocV2pOt9d8FFilqB0WwPleEzxqYnV/2khw5tQ+inXX3JZxszKEuw6n+ASwPUFCcc20TCG
+	xB03+GA==
+X-Received: from dly18-n2.prod.google.com ([2002:a05:701b:2052:20b0:144:c095:7c1b])
+ (user=jthies job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:582b:b0:39e:f1:b2de
+ with SMTP id 98e67ed59e1d1-39e1e4c54fcmr12016131a91.20.1789615210639; Wed, 16
+ Sep 2026 20:20:10 -0700 (PDT)
+Date: Thu, 17 Sep 2026 03:20:08 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260915090223.1346-7-joshua.crofts1@gmail.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
+Message-ID: <20260917032008.1701888-1-jthies@google.com>
+Subject: [PATCH v2] usb: typec: ucsi: displayport: Current CAM OOB index fixup
+From: Jameson Thies <jthies@google.com>
+To: heikki.krogerus@linux.intel.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: bleung@chromium.org, gregkh@linuxfoundation.org, akuchynski@chromium.org, 
+	Jameson Thies <jthies@google.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 26-09-15 09:02:23, Joshua Crofts wrote:
-> cdns3_plat_remove() calls pm_runtime_disable() on device teardown, but
-> doesn't call pm_runtime_dont_use_autosuspend(), causing resource leaks.
+Update ucsi_displayport_enter() to return invalid error when the PPM
+reports an current alternate mode greater than or equal to
+UCSI_MAX_ALTMODES. While here, remove 0xff current cam assignment on
+failed GET_CURRENT_CAM response.
 
-Not a resource leak.
+Fixes: 04cec690b1fd ("usb: typec: ucsi: displayport: Fix OOB altmode array index")
+Cc: stable@vger.kernel.org
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Reviewed-by: Benson Leung <bleung@chromium.org>
+Signed-off-by: Jameson Thies <jthies@google.com>
+---
+Changes in v2
+- added fixes tag and CC stable
 
-> 
-> Add the missing pm_runtime_dont_use_autosuspend() call.
-> 
-> Found using Coccinelle.
-> 
-> Fixes: f738957277ba ("usb: cdns3: Split core.c into cdns3-plat and core.c file")
-> Cc: <stable@vger.kernel.org>
+Original patch didn't incorporate reviewer feedback. This is a fixup
+to be amended to:
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=04cec690b1fd9d1c4c314b91a10d8c68a3acfe18
 
-Not a big issue, it is not necessary to backport.
+ drivers/usb/typec/ucsi/displayport.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-Peter
+diff --git a/drivers/usb/typec/ucsi/displayport.c b/drivers/usb/typec/ucsi/displayport.c
+index 8d2032d0762c..572da7bbd29c 100644
+--- a/drivers/usb/typec/ucsi/displayport.c
++++ b/drivers/usb/typec/ucsi/displayport.c
+@@ -71,11 +71,14 @@ static int ucsi_displayport_enter(struct typec_altmode *alt, u32 *vdo)
+ 	if (ret < 0) {
+ 		if (ucsi->version > 0x0100)
+ 			goto err_unlock;
+-		cur = 0xff;
+ 	}
+ 
+-	if (cur < UCSI_MAX_ALTMODES) {
+-		ret = dp->con->port_altmode[cur] == alt ? 0 : -EBUSY;
++	if (cur != 0xff) {
++		if (cur < UCSI_MAX_ALTMODES)
++			ret = dp->con->port_altmode[cur] == alt ? 0 : -EBUSY;
++		else
++			ret = -EINVAL;
++
+ 		goto err_unlock;
+ 	}
+ 
 
-> Signed-off-by: Joshua Crofts <joshua.crofts1@gmail.com>
-> ---
->  drivers/usb/cdns3/cdns3-plat.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/cdns3/cdns3-plat.c b/drivers/usb/cdns3/cdns3-plat.c
-> index e3f32c3e9535..b85d5d1c48fd 100644
-> --- a/drivers/usb/cdns3/cdns3-plat.c
-> +++ b/drivers/usb/cdns3/cdns3-plat.c
-> @@ -219,6 +219,7 @@ static void cdns3_plat_remove(struct platform_device *pdev)
->  	if (!(cdns->pdata && (cdns->pdata->quirks & CDNS3_DEFAULT_PM_RUNTIME_ALLOW)))
->  		pm_runtime_allow(dev);
->  
-> +	pm_runtime_dont_use_autosuspend(dev);
->  	pm_runtime_disable(dev);
->  	pm_runtime_put_noidle(dev);
->  	cdns_remove(cdns);
-> -- 
-> 2.47.3
-> 
-
+base-commit: 600334ef2f29b975485ce062a81fcfa00bd3ef45
 -- 
+2.55.0.1082.g2b9226bbc0-goog
 
-Thanks,
-Peter Chen
