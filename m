@@ -1,83 +1,100 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13931288C81;
-	Thu, 17 Sep 2026 22:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7934B449B26
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 22:31:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789684255; cv=none; b=a378T4GZJxz/quIZARPq89zoilcW1CVomrXYH5bghu3SbAfYgf24F4FjpGuUZzSUL7g3xusfwF4oXYE8Bq7EtZkslEc8Khah+prLXLnrUz+7WiWTxOnQkerMXo7C+LXqG9pmam4dyDsRDpD0DX5mTb3uuD3GJcDS+1ugsaSkJeU=
+	t=1789684294; cv=none; b=qKzT+8JDoKdy+YP7B9P2fHb43YVcOBZNzyo76SkEJuqqy7G1mfPKGNBnZHrQVd9UV2hJmQvIu0H2PCI9aisO2z9KLzcwuyi6prd1pbseVLGAriiZFhC8lDCsumC7cWtEedghgAN3wlkyVo5wA9W8hZJrVkh/8rSDNLEsBUJPw00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789684255; c=relaxed/simple;
-	bh=yMVntEvByiQnwXoY/WDeu9YYuOKVHTMYd+Zy59/3QDI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ujQs6iHQxCyvwGHLqJ80gVYVb1XmkV1H0QX5YtfRfm9xLMkIqHjbkgBcIIprcH7zU+4RCJ6ZgmVYXErBQEithLgS3n3ZeqKgyc4qqAI2qaDS8EYpuFKs89rTAmdv5Qb/TckCMk0vywBKvPAlaYSRAxb0xyz3DF+T6ZLiej3zkf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLPLzJkL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789684294; c=relaxed/simple;
+	bh=4krgD/TlwPFHs+5bXtllWBzZ1ujoLH6zodErYJ6+60U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hb5MWLRKqs5CqZJq79dlQq0H0dLAJZA7/oGr9NzWaQRbmjqFEWmm/6F9V/KeM798AzCdXjU3DJBcMmuMHxj0ZaV2OZvLE/Lr45o/fcxumJIsMhzXOY6F5wrCV3akOctoTSWxUyinsdjFT/l/khN095c1/uH12jnc+x6qA90tNtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FGJMKFVU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLPLzJkL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5FC811F000FF;
-	Thu, 17 Sep 2026 22:30:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FGJMKFVU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A0701F0089A
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 22:31:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789684253;
-	bh=4/qx3gACLobp/kVaCWxWU6urjoLYTDk1lm6knmcF17E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OLPLzJkL2pS51ZSdjvIK3zdS7esWlyTgsGn50j02Y2ZED9OxLGUZj7V58u32BmEVK
-	 mX85kSqvR/CetXKufKiQsPtO5BR1RnM3JufEsmwuZFSQ2JISfXRFnHaqZhMILoYcBT
-	 Bvd5PDr8DhkgvFvdihoRBfnNnxj3vscpeS3yKXdIXLuxYh1VEMXTEJM5MD30ZrehVZ
-	 zNULAC0juzOT3fAL3u3cbRGdHpCTaOdwUye3he5MwrRa1ZyY14KJZtNhvcXcwHjjq/
-	 ek+uXsramaiYLMPIhp70TYdNX/cb5Vfj9+a5zJU2Se9X5x4PhfMRaRd/IKAA6FCgyQ
-	 rtAnBRZI1P99w==
-Date: Thu, 17 Sep 2026 17:30:51 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Sven Peter <sven@kernel.org>
-Cc: Janne Grunau <j@jannau.net>, Philipp Zabel <p.zabel@pengutronix.de>,
-	Neal Gompa <neal@gompa.dev>, Konrad Dybcio <konradybcio@kernel.org>,
-	devicetree@vger.kernel.org, Joshua Peisach <jpeisach@ubuntu.com>,
-	asahi@lists.linux.dev, Conor Dooley <conor+dt@kernel.org>,
-	Mika Westerberg <westeri@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Subject: Re: [PATCH v2 05/22] dt-bindings: thunderbolt: Add Apple
- USB4/Thunderbolt NHI
-Message-ID: <178968425120.4102150.11013505530489451162.robh@kernel.org>
-References: <20260906-b4-apple-soc-tbt-v2-0-1f80085f93fb@kernel.org>
- <20260906-b4-apple-soc-tbt-v2-5-1f80085f93fb@kernel.org>
+	s=k20260515; t=1789684292;
+	bh=sgzFISdebgyulnEYwPr3r7Dfr+yDo59RA9yogZZthtA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=FGJMKFVUkB9f4ceLcBhdlZWUbGYsNG7voSf7Xkw/ZKagmB9IotpZXjviNtCmLv4ry
+	 WnjvZcTSIywFqGSEwuLV7fIzM67MNdptwXRQ7QUiUzxmWPEPXcMCCDRVtwIcamEu6G
+	 K51ksKGYNXil7lvHuguELVihmri5DXTymzfGLZuYuBeVRTS2GXuuygsI77EevDsBoo
+	 Gf/MrkHIWQkwlphH8S0Zu0+iVWJGD3oi8P3QSuXtkq7O6GnftIudf3hObiULlb7DJA
+	 LsBPQyP21iXw5NdmpUvsvFLzt7dROMkb4agGDpnHT0IKn6QM07eT8dVNaeRHjyRmKp
+	 riuEA5ebNgh3A==
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b5e4f17452so90835e87.3
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 15:31:31 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBye8m8rsXqD8u/h2L9StAlbo5P01+BeOvAZrgeQeI9RfgaVivYSvviCGA+ZvG8mZpTHz0THCP/kaSY=@vger.kernel.org
+X-Gm-Message-State: AFuF++nQcXGiVzYIyuMWrHwvrSBQcn/QVQy+6VazMbpOQeB52t5XxtVL
+	OGPnc8c0B+ubKH71Q0l1nMUaHUpW6Nypsli9MH9ZGTx5ot9b+JmQhTk7sENBg/o2IZcjwpA9qTr
+	MYV2nD9VltIiMgo7lomdyDWVCAywK3GI=
+X-Received: by 2002:a05:6512:33c6:b0:5b6:183c:5c9d with SMTP id
+ 2adb3069b0e04-5b8c1958e1fmr84452e87.59.1789684290738; Thu, 17 Sep 2026
+ 15:31:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260906-b4-apple-soc-tbt-v2-5-1f80085f93fb@kernel.org>
+References: <20260917155657.2200191-1-arnd@kernel.org>
+In-Reply-To: <20260917155657.2200191-1-arnd@kernel.org>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 18 Sep 2026 00:31:18 +0200
+X-Gmail-Original-Message-ID: <CAD++jL=D+xCtWx_MX1jbBvByqypabFkFW_xp=2XpUfBb7wyGnQ@mail.gmail.com>
+X-Gm-Features: AcwNN1Vq4xrB9hQc50m54nmaYX1xnKUe4T5kma-lOihlY4UA7NShBSz8Spmt7nk
+Message-ID: <CAD++jL=D+xCtWx_MX1jbBvByqypabFkFW_xp=2XpUfBb7wyGnQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: pxa25x: prevent ixp4xx + pxa25x combination
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Daniel Mack <daniel@zonque.org>, 
+	Haojian Zhuang <haojian.zhuang@gmail.com>, Robert Jarzmik <robert.jarzmik@free.fr>, 
+	Arnd Bergmann <arnd@arndb.de>, Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, Sep 17, 2026 at 5:57=E2=80=AFPM Arnd Bergmann <arnd@kernel.org> wro=
+te:
 
-On Sun, 06 Sep 2026 20:36:28 +0200, Sven Peter wrote:
-> The Native Host Interface (NHI) provides the TX and RX rings used by the
-> software connection manager on Apple Silicon SoCs.
-> 
-> The NHI is part of the ACIO host router and is exposed to the main SoC
-> bus while the ACIO co-processor is running.
-> 
-> T6000 and T6020 use one DART stream for the TX and RX control rings and
-> one shared by all other rings, which are used for XDomain connections.
-> This likely improves the isolation of those host-to-host connections.
-> 
-> The M3 generation uses a slightly insane set of 24 IOMMU entries. These
-> are probably one DART stream for each TX and RX ring.
-> 
-> Signed-off-by: Sven Peter <sven@kernel.org>
-> Reviewed-by: Joshua Peisach <jpeisach@ubuntu.com>
-> ---
->  .../bindings/thunderbolt/apple,t8103-usb4-nhi.yaml | 151 +++++++++++++++++++++
->  MAINTAINERS                                        |   2 +
->  2 files changed, 153 insertions(+)
-> 
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> The USB gadget driver is one of the holdouts of Arm single-platform
+> support that conflicts with a multiplatform kernel. Trying to
+> build this for both Intel PXA and IXP fails with:
+>
+> drivers/usb/gadget/udc/pxa25x_udc.c:144:9: error: 'UDCCS_IO_ROF' redefine=
+d [-Werror]
+>   144 | #define UDCCS_IO_ROF    (1 << 2)        /* Receive overflow */
+>       |         ^~~~~~~~~~~~
+> drivers/usb/gadget/udc/pxa25x_udc.c:141:9: note: this is the location of =
+the previous definition
+>   141 | #define UDCCS_IO_ROF    (1 << 3)        /* Receive overflow */
+>       |         ^~~~~~~~~~~~
+> drivers/usb/gadget/udc/pxa25x_udc.c:232:2: error: #error "Can't configure=
+ both IXP and PXA"
+>   232 | #error "Can't configure both IXP and PXA"
+>
+> Until recently this was not a problem, as ixp4xx was only big-endian
+> and pxa is only little-endian, so these could never be in the same
+> kernel image.
+>
+> As this has changed recently, an allmodconfig kernel for ARMv5 runs
+> into the above failure. I don't think this is an important scenario
+> in practice, especially as pxa25x support is already rather broken,
+> so prevent this configuration using a Kconfig dependency, and
+> rework the driver to allow a combined ixp4xx/pxa3xx kernel that
+> only uses this driver on ixp.
+>
+> Cc: Linus Walleij <linusw@kernel.org>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+That's a reasonable fix. It's not like we would want an actual multi_*
+kernel on these devices anyway.
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
+Yours,
+Linus Walleij
