@@ -1,178 +1,344 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 886EC4E06F2
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 21:19:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07AE372EE4;
+	Thu, 17 Sep 2026 21:23:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789680001; cv=none; b=pNYYnTAB/s4f0BLwWu3ejjQPsoPQU6ND0xJqnb5OzA0LRw2p+t9C1EqlM+aKe32lFLLPMDV/SpdKbZsc2XtHryAbONXNDxmLIESfvDhV6Me1CTCY7oDny4e048YiNjbbd2nLerwdU0bydcAbMOjRj8LDrRrR8ck60RBOzM0485U=
+	t=1789680216; cv=none; b=g2bgpnAi/Vv5ixUWGSG0TYXrtqSobRkAou/zvGOIOf77JoZPMxRxAySaehDpgk/7M+OCOq7xFFpXobOZBgrOyj+j6S/nL/P+IHI6rx022qm2r7mTTzuan0Dxmhc5hEES8awYujd0+hzxA1iKvn1N7lqt7AOSJqZ3C5wTATAAd8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789680001; c=relaxed/simple;
-	bh=LZSYtjDL6rm8OvTl3dPnZdBgXJ4Krf0C8RDMVYvhpEA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LFEHcskYAuF4rBlyMTG8rx2QMLYlyZQUeJT95F22bQ67P8ti1FLxpXYzyiamx02sbj4obrcJgX7djo6nbnLk/LeHG6PxtVYzpEikoc60B3IaVdj2sccafG6k3Uk696877lLpW+IH08TFOLtY7xXRyyEdyvPp0cM0V8AXqRJ94ao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems; spf=pass smtp.mailfrom=starlabs.systems; dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b=VYxTMxcp; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=starlabs.systems
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starlabs.systems
+	s=arc-20240116; t=1789680216; c=relaxed/simple;
+	bh=A7lL4KAfhIJBbzpbVryrOoEGdPkviEAu9tdoSX0n4Ds=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=N40tQlDZP0IAp0gSzyUzDVp4y7zAOsnximH2X5/zqZunIP/f4p48s+2mp9LtyMP5xxoe5IOZOmRmsFVw6bjyda3UParxu5zf9KQ0MGPmGgWrFGy0saesl/w26ge+OU+eieRdAZoTEa76Y4tQXwqEvoEaAxacJqfxGhvXcJQzIJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=VUF866Xg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=starlabs-systems.20251104.gappssmtp.com header.i=@starlabs-systems.20251104.gappssmtp.com header.b="VYxTMxcp"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f633cd78so12334f8f.1
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 14:19:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="VUF866Xg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5062D1F000FF;
+	Thu, 17 Sep 2026 21:23:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=starlabs-systems.20251104.gappssmtp.com; s=20251104; t=1789679996; x=1790284796; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WP+SvTWO/ZPwSJKpdGUFyW4Q/3Pnzr6Y0d7TgXRZl/o=;
-        b=VYxTMxcp7tA5lGA4BEqF26q+tfaT3B6fbUay846gOumc6aJL3f3brTI9W3v4wK+Z5P
-         SktgngZIwTrRcoYepxIwqLd52f7nqW+vWU2CMaV0BwiackXY+aalE+1k847zWBWA/wQe
-         CiMKNT0C/cJ4r7Sx4FGa3tIzX6YWlRPRUulfibfSsxrV2B15Gsc6VCNdzg0Rb0pGVoyy
-         ZyF/lnDp1IETrYQW0mKyVswEFOVswD9b3kXDb0cVDcClBQ32e0uGYFD6UNxRCnOa+dpj
-         tbqF7SXnT3SdeREuKX4Q8EKwCr6NcxghWmCRKgs9AyahdTaTp4p9+d50HHPWFBmV+BEr
-         JaTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789679996; x=1790284796;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WP+SvTWO/ZPwSJKpdGUFyW4Q/3Pnzr6Y0d7TgXRZl/o=;
-        b=R+AKW3Cio5uaxLfn2nTzPlE2JQS5QojS4Pvaj7PEUtnMWd1+VjTolTlLF4SgTyg8x6
-         6ZSqVXhcJ2ypbQz8WKb+zYykgZxGG6FWYioljHsrABYF+drpccdRG8VypNU8CQAsh3TM
-         7tAKK23fKOtCIsbSuUea/i2ElmoONS9uAePhjJN0S38Er1g0z59SMhlqJMcA7n+8ZHHw
-         EjeFJeh20ycShR7F2wfESga19p3SSAveuuGibiWwqpfkU+hY2xH0TzrBXjX8U8ZYFsU8
-         LCOoUC9QJrYbxC8D+yo1g5uXbpVgNAG3B8GEnjAcMfLPGrEtucNOHycI9fr1Zjy38ljk
-         w80w==
-X-Forwarded-Encrypted: i=1; AKwUvBzUUSqilu7Nf8eIgwePv1YCf6zCDOF+6lx9zUfLRt1k5xqaB4KdRvom5r5SAsPq7Om/0AeI2PecwRU=@vger.kernel.org
-X-Gm-Message-State: AFuF++k5a52oYROYYKWxvxI2a6cityhSIn/OvWQ3ENaYBzqQrBVIgf0T
-	ThR4rqMMc8dPCHBJTc33sWla5Egd/F+uuJlJX3Lj/lDcrOD8RAmqSp72zInf30jnIg==
-X-Gm-Gg: AYBFou0k2it/dQrrblJk5o10zSibf/8eRv72J4ZCTbO/IqfY+y7myMjLmekjvY4I0kW
-	mDnrw+7dYkhFdd637hc6a/jpNIgkwPLUgu56XaFsraPvyk7ibg05Wq5xN/dbqbjxm6Jkx9cmfDI
-	LPMwwOQXfNtNl4PR8U5KKqo09w3IQNmWvN32U6EPvNzqED/fD3FsNLr89gKBGpnRK4iSkPrKloD
-	NsKGlMYPyyKhnd32x0ZaC30/j/FiGgd13WllV03FiOVtANOXCpWesydlvuxsormnk6FqNxfxkp3
-	3Ne/XpdXTyNwhJrUbFRV2E+71SXy/NuB4bOHYXjqaVhRk32ofbrBUohRk3eTmZbFVpbVktukceb
-	MeJ0RNj4IKFgqFUDSC8vTgqIszGeQDSoVL/vSNyON30q4UqSgKaTio9oRzMnGQOugFJKd215KyW
-	IreDMMxcL9wee6AHlTg0v8NwpB1ep4EqGgPhtIorTCBhthMWObyzVKZwAZhnWFE9Pg+0ktBobbV
-	8BMvVnCzikHB87OqqLY280ybQ==
-X-Received: by 2002:a05:6000:220f:b0:487:34c:81e with SMTP id ffacd0b85a97d-4871e226b3bmr226024f8f.20.1789679996270;
-        Thu, 17 Sep 2026 14:19:56 -0700 (PDT)
-Received: from fighter ([217.155.46.38])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf1f6cfsm19086828f8f.13.2026.09.17.14.19.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 14:19:55 -0700 (PDT)
-From: Sean Rhodes <sean@starlabs.systems>
-To: linux-bluetooth@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sean Rhodes <sean@starlabs.systems>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	"Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
-	Xu Yang <xu.yang_2@nxp.com>,
-	Kees Cook <kees@kernel.org>,
-	linux-usb@vger.kernel.org,
-	Marcel Holtmann <marcel@holtmann.org>,
-	Luiz Augusto von Dentz <luiz.dentz@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Paul Menzel <pmenzel@molgen.mpg.de>
-Subject: [PATCH v2 2/2] Bluetooth: btusb: restore powered-off Intel adapters
-Date: Thu, 17 Sep 2026 22:19:52 +0100
-Message-ID: <479fdb2638f34ccb02f35a40a34fcdc7cc41ccdf.1789679981.git.sean@starlabs.systems>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1789679980.git.sean@starlabs.systems>
-References: <cover.1789679980.git.sean@starlabs.systems>
+	d=linux-foundation.org; s=korg; t=1789680214;
+	bh=NUNrBmtamoGTZdnjr2/yL2y2w6DcpJMvTMICnOHXcqc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=VUF866Xg25rkEYuIAeRh8+Jby3Nsgi0QqQgf+tcoe0C7lFWZo2kW07wobdbQTXONa
+	 IrDTi0vtFdOje+nXofZ7qVIuq8UFrLKFeRBPgY0JvevdHLKjcg92+cAb0Z4/yQgheh
+	 XekOEPMPEkzPT/6xM5Mwlpf+y3YNL1+GloA5Mf1w=
+Date: Thu, 17 Sep 2026 14:23:29 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka
+ <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato
+ <pfalcato@suse.de>, David Hildenbrand <david@kernel.org>, Mike Rapoport
+ <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
+ <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Dennis Dalessandro
+ <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>,
+ Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>,
+ Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela
+ <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov
+ <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko
+ <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, Kumar Kartikeya
+ Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, Baolin Wang
+ <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, Ryan
+ Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song
+ <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, Usama Arif
+ <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert
+ <dgilbert@interlog.com>, "James E.J. Bottomley"
+ <James.Bottomley@HansenPartnership.com>, "Martin K. Petersen"
+ <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter
+ <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel
+ <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu
+ <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov
+ <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner
+ <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov
+ <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim
+ <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, Rik van Riel
+ <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli
+ <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Will Deacon <will@kernel.org>, "Aneesh Kumar K.V"
+ <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann
+ <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, Oscar Salvador
+ <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan
+ Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, Oliver Upton
+ <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul
+ Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou
+ <aou@eecs.berkeley.edu>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Janosch Frank <frankja@linux.ibm.com>, Claudio Imbrenda
+ <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>,
+ Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens
+ <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller"
+ <davem@davemloft.net>, Andreas Larsson <andreas@gaisler.com>, Alexander
+ Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Joshua Hahn
+ <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park
+ <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, Ying Huang
+ <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, Chris
+ Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, Kemeng Shi
+ <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He
+ <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, Johannes
+ Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
+ <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>,
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, Chengming
+ Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, Miklos
+ Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+ selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org,
+ linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
+ linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>, Emil Tsalapatis
+ <emil@etsalapatis.com>
+Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit,
+ eliminate VM_SPECIAL
+Message-Id: <20260917142329.369cd6539261d590600ce7ec@linux-foundation.org>
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-ACPI-managed internal USB ports can lose power while the Bluetooth
-adapter is closed. The USB core then reset-resumes the device and, because
-btusb has no reset-resume callback, rebinds its interfaces.
+On Thu, 17 Sep 2026 17:22:09 +0100 "Lorenzo Stoakes (ARM)" <ljs@kernel.org> wrote:
 
-For a closed, fixed Intel combined adapter on an ACPI-power-manageable
-port, preserve the binding and run the Intel setup again when the adapter
-is next opened. Keep the existing rebind behavior while HCI is running and
-keep runtime autosuspend blocked for other reset-resume-quirked adapters.
+> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
+> properties:
+> 
+> * Is this kernel-owned, whether MMIO, kernel-allocated pages, or ordinary
+>   pages a driver maps itself?
+> * Can it be expanded or merged?
+> * Is this a 'weird' case like mlock where migration might race and we
+>   'have' to set invalid flags to notify?
+> * Is it another 'weird' case where we just want to stop GUP from touching
+>   it?
+> 
+> ...
+> 
+> This series brings some order to things by both limiting what drivers can
+> do with VMA flags and switching to using predicates that describe
+> behaviour, not arbitrary flags.
 
-Tested on a Star Labs Lite Mk IV with Intel 8087:0aaa. Three Bluetooth
-off/on cycles reached ACPI D3cold, restored the same hci0 without a USB
-disconnect, and discovery found nearby devices after resume.
+Thanks, I've updated mm.git's mm-unstable branch to this version.
 
-Signed-off-by: Sean Rhodes <sean@starlabs.systems>
----
- drivers/bluetooth/btusb_main.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+> v3:
+> * Fixed up bug in patch 1 as reported by Mike - have to delay setting
+>   map->vma_flags until after action prepare, though map->vm_file needs to
+>   be set before for correct reference count management.
+> * Updated 4/40 to add a symmetric vm_end check as well as vm_start in case
+>   of a dangerously insane driver, as per Sashiko.
+> * Updated 8/40 to check if a driver did something REALLY stupid like having
+>   a NULL discontig_kernel_page_ops ptr, as per Sashiko.
+> * Updated 15/40 to trivially synchronise userland test comments.
+> * Updated 17/40 to correctly duplicate code to the userland VMA tests as
+>   per Sashiko.
 
-diff --git a/drivers/bluetooth/btusb_main.c b/drivers/bluetooth/btusb_main.c
-index be47ac894b6c..4b6ac67f182f 100644
---- a/drivers/bluetooth/btusb_main.c
-+++ b/drivers/bluetooth/btusb_main.c
-@@ -2190,6 +2190,16 @@ static void btusb_prepare_reset(struct hci_dev *hdev)
- 	usb_kill_anchored_urbs(&data->tx_anchor);
+Here's how v3 altered mm.git:
+
+
+ mm/internal.h                   |    4 ++-
+ mm/memory.c                     |    2 -
+ mm/vma.c                        |   34 +++++++++++++++++-------------
+ mm/vma.h                        |    3 +-
+ tools/testing/vma/include/dup.h |   24 ++++++++++++++++-----
+ 5 files changed, 45 insertions(+), 22 deletions(-)
+
+--- a/mm/internal.h~b
++++ a/mm/internal.h
+@@ -244,6 +244,7 @@ static inline void vma_close(struct vm_a
+ static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
+ {
+ 	const unsigned long prev_start = vma->vm_start;
++	const unsigned long prev_end = vma->vm_end;
+ 	const vma_flags_t prev_flags = vma->flags;
+ 	int err;
+ 
+@@ -263,9 +264,10 @@ static inline int mmap_file(struct file
+ 	if (unlikely(err))
+ 		return err;
+ 
+-	err = mmap_hook_validate(prev_start, &prev_flags, vma);
++	err = mmap_hook_validate(prev_start, prev_end, &prev_flags, vma);
+ 	if (unlikely(err)) {
+ 		vma->vm_start = prev_start;
++		vma->vm_end = prev_end;
+ 		vma_close(vma);
+ 	}
+ 
+--- a/mm/memory.c~b
++++ a/mm/memory.c
+@@ -2653,7 +2653,7 @@ int map_discontig_kernel_pages_prepare(s
+ 		action->map_kernel_discontig.ops;
+ 
+ 	/* At minimum need to be able to get pages. */
+-	if (WARN_ON_ONCE(!ops->get))
++	if (WARN_ON_ONCE(!ops || !ops->get))
+ 		return -EINVAL;
+ 
+ 	__map_kernel_pages_prepare(desc);
+--- a/mm/vma.c~b
++++ a/mm/vma.c
+@@ -2797,15 +2797,15 @@ static int mmap_validate_vma_flags(const
  }
  
-+static bool btusb_intel_acpi_power_manageable(struct btusb_data *data)
-+{
-+	return IS_ENABLED(CONFIG_ACPI) &&
-+	       data->match_id->driver_info & BTUSB_INTEL_COMBINED &&
-+	       data->udev->dev.removable == DEVICE_FIXED &&
-+	       data->udev->parent && data->udev->portnum &&
-+	       usb_acpi_power_manageable(data->udev->parent,
-+					 data->udev->portnum - 1);
-+}
-+
- static int btusb_close(struct hci_dev *hdev)
+ /* Check to ensure a driver hasn't done something crazy. */
+-static int mmap_validate(unsigned long prev_start,
+-			 unsigned long curr_start,
++static int mmap_validate(unsigned long prev_start, unsigned long prev_end,
++			 unsigned long curr_start, unsigned long curr_end,
+ 			 const vma_flags_t *prev_flags,
+ 			 const vma_flags_t *curr_flags)
  {
- 	struct btusb_data *data = hci_get_drvdata(hdev);
-@@ -4595,6 +4605,9 @@ static int btusb_probe(struct usb_interface *intf,
- 		hdev->send = btusb_send_frame_intel;
- 		hdev->reset = btusb_intel_reset;
+ 	bool was_maywrite, is_maywrite;
  
-+		if (btusb_intel_acpi_power_manageable(data))
-+			hci_set_quirk(hdev, HCI_QUIRK_NON_PERSISTENT_SETUP);
-+
- 		if (id->driver_info & BTUSB_INTEL_NO_WBS_SUPPORT)
- 			btintel_set_flag(hdev, INTEL_ROM_LEGACY_NO_WBS_SUPPORT);
+-	/* Drivers cannot alter the address of the VMA. */
+-	if (WARN_ON_ONCE(prev_start != curr_start))
++	/* Drivers cannot alter the range of the VMA. */
++	if (WARN_ON_ONCE(prev_start != curr_start || prev_end != curr_end))
+ 		return -EINVAL;
  
-@@ -4912,6 +4925,12 @@ static int btusb_suspend(struct usb_interface *intf, pm_message_t message)
+ 	was_maywrite = vma_flags_test(prev_flags, VMA_MAYWRITE_BIT);
+@@ -2843,7 +2843,8 @@ int mmap_prepare_validate(const struct v
+ 	    WARN_ON_ONCE(desc->action.type != MMAP_NOTHING))
+ 		return -EINVAL;
  
- 	BT_DBG("intf %p", intf);
+-	return mmap_validate(prev_desc->start, desc->start,
++	return mmap_validate(prev_desc->start, prev_desc->end,
++			     desc->start, desc->end,
+ 			     &prev_desc->vma_flags, &desc->vma_flags);
+ }
  
-+	/* reset_resume is only safe for the Intel ACPI path below. */
-+	if (PMSG_IS_AUTO(message) &&
-+	    (data->udev->quirks & USB_QUIRK_RESET_RESUME) &&
-+	    !btusb_intel_acpi_power_manageable(data))
-+		return -EBUSY;
+@@ -2851,19 +2852,22 @@ int mmap_prepare_validate(const struct v
+  * mmap_hook_validate() - Ensure the driver hasn't violated invariants in
+  * its f_op->mmap hook.
+  * @prev_start: The start of the mapping prior to the mmap hook.
++ * @prev_end: The end of the mapping prior to the mmap hook.
+  * @prev_flags: The VMA flags set for the VMA prior to the mmap hook.
+  * @vma: The VMA after the hook has been applied.
+  *
+  * Returns: 0 on success, otherwise an error.
+  */
+-int mmap_hook_validate(unsigned long prev_start,
++int mmap_hook_validate(unsigned long prev_start, unsigned long prev_end,
+ 		       const vma_flags_t *prev_flags,
+ 		       const struct vm_area_struct *vma)
+ {
+ 	const unsigned long start = vma->vm_start;
++	const unsigned long end = vma->vm_end;
+ 	const vma_flags_t *flags = &vma->flags;
+ 
+-	return mmap_validate(prev_start, start, prev_flags, flags);
++	return mmap_validate(prev_start, prev_end, start, end, prev_flags,
++			     flags);
+ }
+ 
+ static int call_action_prepare(struct mmap_state *map,
+@@ -2900,15 +2904,9 @@ static int call_mmap_prepare(struct mmap
+ 	if (err)
+ 		return err;
+ 
+-	/* Update fields permitted to be changed. */
+-	map->pgoff = desc->pgoff;
++	/* Update first so file refcount tracked correctly. */
+ 	if (desc->vm_file != map->vm_file)
+ 		map->vm_file = desc->vm_file;
+-	map->vma_flags = desc->vma_flags;
+-	map->page_prot = desc->page_prot;
+-	/* User-defined fields. */
+-	map->vm_ops = desc->vm_ops;
+-	map->vm_private_data = desc->private_data;
+ 
+ 	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
+ 	if (!desc->vm_ops)
+@@ -2923,6 +2921,14 @@ static int call_mmap_prepare(struct mmap
+ 	if (err)
+ 		return err;
+ 
++	/* Update fields permitted to be changed. */
++	map->pgoff = desc->pgoff;
++	map->vma_flags = desc->vma_flags;
++	map->page_prot = desc->page_prot;
++	/* User-defined fields. */
++	map->vm_ops = desc->vm_ops;
++	map->vm_private_data = desc->private_data;
 +
  	/*
- 	 * It is reported that remote wakeup events could sometimes cause some
- 	 * adapters completely unresponsive. Resetting the xHCI root hub doesn't
-@@ -5076,6 +5095,19 @@ static int btusb_resume(struct usb_interface *intf)
- 	return err;
+ 	 * MAP_PRIVATE-/dev/zero mappings are an ancient way of getting
+ 	 * anonymous mappings. Rather than allowing these mappings to be odd
+--- a/mm/vma.h~b
++++ a/mm/vma.h
+@@ -786,7 +786,7 @@ void vm_area_free(struct vm_area_struct
+ int mmap_prepare_validate(const struct vm_area_desc *prev_desc,
+ 			  const struct vm_area_desc *desc);
+ 
+-int mmap_hook_validate(unsigned long prev_start,
++int mmap_hook_validate(unsigned long prev_start, unsigned long prev_end,
+ 		       const vma_flags_t *prev_flags,
+ 		       const struct vm_area_struct *vma);
+ 
+@@ -851,6 +851,7 @@ static inline int mmap_prepare_validate(
  }
  
-+static int btusb_reset_resume(struct usb_interface *intf)
+ static inline int mmap_hook_validate(unsigned long prev_start,
++				     unsigned long prev_end,
+ 				     const vma_flags_t *prev_flags,
+ 				     const struct vm_area_struct *vma)
+ {
+--- a/tools/testing/vma/include/dup.h~b
++++ a/tools/testing/vma/include/dup.h
+@@ -1667,22 +1667,36 @@ static inline bool vma_is_kernel_owned(c
+ 	return vma_flags_is_kernel_owned(&vma->flags);
+ }
+ 
++static inline bool vma_flags_is_fixed_mapping(const vma_flags_t *flags)
 +{
-+	struct btusb_data *data = usb_get_intfdata(intf);
-+
-+	if (!btusb_intel_acpi_power_manageable(data) ||
-+	    test_bit(HCI_RUNNING, &data->hdev->flags)) {
-+		intf->needs_binding = 1;
-+		return 0;
-+	}
-+
-+	return btusb_resume(intf);
++	/*
++	 * VMA_PFNMAP_BIT should imply VMA_DONTEXPAND_BIT, but some callers set
++	 * only the former.
++	 */
++	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_DONTEXPAND_BIT);
 +}
 +
- #ifdef CONFIG_DEV_COREDUMP
- static void btusb_coredump(struct device *dev)
++static inline bool vma_is_fixed_mapping(const struct vm_area_struct *vma)
++{
++	return vma_flags_is_fixed_mapping(&vma->flags);
++}
++
+ static inline bool vma_flags_can_merge(const vma_flags_t *flags)
  {
-@@ -5093,6 +5125,7 @@ static struct usb_driver btusb_driver = {
- 	.disconnect	= btusb_disconnect,
- 	.suspend	= pm_ptr(btusb_suspend),
- 	.resume		= pm_ptr(btusb_resume),
-+	.reset_resume	= pm_ptr(btusb_reset_resume),
- 	.id_table	= btusb_table,
- 	.supports_autosuspend = 1,
- 	.disable_hub_initiated_lpm = 1,
+ 	/*
+-	 * VMA merging assumes that the properties of a VMA completely describe
+-	 * the properties of that VMA.
++	 * VMA merging assumes that a VMA's flags and fields completely describe
++	 * its state.
+ 	 *
+ 	 * However, kernel-owned mappings may have established state upon mapping
+ 	 * not embodied in any attribute of the VMA.
+ 	 *
+-	 * Additionally, PFN maps encode the source PFN of the range in
+-	 * vma->vm_pgoff, which may otherwise cause spurious merges.
++	 * Additionally, private (CoW) PFN maps encode the source PFN of the
++	 * range in vma->vm_pgoff, which may otherwise cause spurious merges.
+ 	 */
+ 	if (vma_flags_is_kernel_owned(flags))
+ 		return false;
+ 	/* VMA explicitly marked as being unmergeable. */
+-	if (vma_flags_test(flags, VMA_DONTEXPAND_BIT))
++	if (vma_flags_is_fixed_mapping(flags))
+ 		return false;
+ 
+ 	return true;
+_
+
