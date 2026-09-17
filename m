@@ -1,97 +1,113 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F161332B13F;
-	Thu, 17 Sep 2026 08:00:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFA41380FD8;
+	Thu, 17 Sep 2026 08:09:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789632041; cv=none; b=cR+hbVV5Q7V1MD241P9bkwcXWkc5Eme9Eno8SWlGRnX2oTeZUvd6rw+jscmfMew9KP3iql+Be48wV9GMLNvSC/zG9K2Lx+i1Atye82JOZEyysl14d2hAyTjonp+hkPaiOkVpsF4Yonm94eDkVqwelAIU3F5GaPsy91RjYqLdFzc=
+	t=1789632549; cv=none; b=INC1JJNbxpK4C5T8m6DTD6bqYgwoO+AFprHuKrvg6DVEN4VOpqjssXMApBt7p1/j/5+lu+p68HdSFhHwQRTvPRQrd9KaFmFtK5vPPGAB1UJfWvZ1UTk4sf15d3GGhxGEms25Yv+4rGuEajz/JJtqBYqLEircpLELtl+75gdYLLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789632041; c=relaxed/simple;
-	bh=hqr0qEEdqIoe2AJI1B4LOV2ycNVlGo3yYJ71z0899z4=;
-	h=Date:From:To:Cc:Subject:Content-Type:MIME-Version:Message-ID; b=NhuAnxwvvv9ZiYCOrQ39F+36uMM/uCrsh4Wdrnr7r3EaG7gyenWUV27qKLlLerZzFyjxgH5qWnjhOUvoEwSUQ/BGlxXE0OV6BKaNVCxhHPMhBt4BIXN1R2wuu21HWJYCSvWYCyptfDGZjaROv5YzMavtktuG1bpjvNqq5qWaiiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Hh5xRLfq; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1789632549; c=relaxed/simple;
+	bh=gwWkMGJjjSbsocRZTBOxGibjPdweYuDPyAE7Jq1gZGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bhm1d6l2DAdNGgItlrqxIumAXufQ9iM3OHTjIiN+ubitmu9pXUn0vVQodBu8ajTXHpHYUuW3x9VAtF63VfRKwqCEtf1cmSHTw+FOiXQOOfL2kgHIpapQoUtxFY/hEOx1sEbQYSivpI8QL46KzCyBXxsLKp+oeZFZFcu0FC6LNKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sCAcVDGK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Hh5xRLfq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Date:From:To:Subject:Content-Type:MIME-Version:
-	Message-ID; bh=hqr0qEEdqIoe2AJI1B4LOV2ycNVlGo3yYJ71z0899z4=; b=H
-	h5xRLfq+lo+2hJJIXnJIU6Kz3YHGLx9NW3svT4JKvw9R4NMZ4VRqfehHeZGWja1N
-	ivJKqO9q8GzUHC7XzqKX5cXjXGOLUTL3NultZySUKBYMWN44AXV7YezZw7Bxu1zN
-	rXNXXld9+4SyDqSLQMm7VGHNtKQqxm6/iIlWuUsqZo=
-Received: from localhost (unknown [::1])
-	by gzsmtp6 (Coremail) with SMTP id TSWEB_0014CB51000021B66AAB9E01;
-	Thu, 17 Sep 2026 16:00:01 +0800 (CST)
-Received: from firefly0158$163.com ( [120.227.56.131] ) by
- ajax-webmail-wmsvr-40-135 (Coremail) ; Mon, 14 Sep 2026 17:31:30 +0800
- (CST)
-Date: Thu, 17 Sep 2026 16:00:00 +0800 (CST)
-From: CJ <firefly0158@163.com>
-To: gregkh@linuxfoundation.org, stern@rowland.harvard.edu, kees@kernel.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [BUG] usb: dummy_hcd: general protection fault in set_link_state on
- unbind
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2023.4-cmXT build
- 20260511(2e539873) Copyright (c) 2002-2026 www.mailtech.cn 163com
-X-NTES-SC: AL_Qu2TC/+ct0oi5ieRZ+kdmEsTju82UcS4ufQl245Xc98Figbk+QAgeFpPNFDG1NiRKyuJkh+TdQFs6cJxc45/tPLxOpq2AVH9/wlRiZpYCg==
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sCAcVDGK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A43D21F000FF;
+	Thu, 17 Sep 2026 08:09:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789632544;
+	bh=ktt0LKwu42At/FK2VP2oPtkN1yqBjuI7vtR1o1qh3y8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=sCAcVDGKo+bBGxol8ulI0U6qTix6SNSVI5PnVvU7NrVxb36rLXLOTO3MBmNt0r1sQ
+	 iKQE+mZqWYR8A3t1ZySuUn0glbDBHxI1xxHSeGrKou5C1h7Rt8p319Z71SZiHRod5G
+	 Y6DjMjUcgkLUD1Bf5BforQ4xj1OL+khG0r5ubqDI=
+Date: Thu, 17 Sep 2026 09:07:08 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: CJ <firefly0158@163.com>
+Cc: stern@rowland.harvard.edu, kees@kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [BUG] usb: dummy_hcd: general protection fault in set_link_state
+ on unbind
+Message-ID: <2026091724-upcountry-dental-3e1e@gregkh>
+References: <34667d49.9099.1a09f41e473.Coremail.firefly0158@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-ID: <34667d49.9099.1a09f41e473.Coremail.firefly0158@163.com>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:QSgvCgBHtcwFnqtq5PMfAA--.59364W
-X-CM-SenderInfo: piluvw1o1qikqy6rljoofrz/xtbC3RJwImqnvvL0wQAA3p
-X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <34667d49.9099.1a09f41e473.Coremail.firefly0158@163.com>
 
+On Thu, Sep 17, 2026 at 04:00:00PM +0800, CJ wrote:
+> 
+> Hi,
+> 
+> 
+> I am reporting a general protection fault in the dummy_hcd link-state handling,
+> triggered by a syzkaller USB reproducer.  The issue is reproducible with HEAD
+> commit cee9395acd8043be0644b25c34bfa86623f2b935 (v7.3-rc1, Linux 7.3.0-rc1).
+> 
+> 
+> The reproducer connects a synthetic HID USB device through dummy_hcd and then
+> unbinds the dummy_hcd.0 platform device by writing its name to the driver's
+> unbind attribute.  The failure happens during the teardown that follows.
+> 
+> 
+> The console shows a general protection fault for the non-canonical address
+> 0xdffffc0000000000 with a KASAN null-ptr-deref in the range [0x0-0x7], and RIP
+> in set_link_state.  The path reaches it through the gadget disconnect and
+> unbind sequence (usb_gadget_disconnect_locked -> gadget_unbind_driver ->
+> device_remove) while the dummy UDC is being removed.
+> 
+> 
+> One possible cause is that the link-state helper runs on a UDC whose private
+> data has already been released by the unbind, so it dereferences a NULL
+> pointer.  This looks like an ordering/lifetime problem between the platform
+> driver's remove path and the gadget disconnect path.  I note that d5e5cd3654d2
+> fixed a related giveback lifetime issue in this file but does not cover
+> set_link_state.  I am reporting the fault and the path as observed.
+> 
+> 
+> This appears to be a recurrence of the syzbot issue whose external id is
+> 83e39b821587064bd7a3.  It remains reproducible on v7.3-rc1.
+> 
+> 
+> Reproducer:
+> 
+> 
+> syz reproducer:
+> syz_usb_connect$hid(0x3, 0x36, &(0x7f0000000140)=ANY=[@ANYBLOB="1201000000000010d804dd00000000000001090224000100000000090400000103000000092105000001220500090581030002"], 0x0)
+> mkdirat(0xffffffffffffff9c, &(0x7f0000000000)='./mysys\x00', 0x1ff)
+> mount(0x0, &(0x7f0000000080)='./mysys\x00', &(0x7f00000000c0)='sysfs\x00', 0x0, 0x0)
+> r0 = openat(0xffffffffffffff9c, &(0x7f0000000100)='./mysys/bus/platform/drivers/dummy_hcd/unbind\x00', 0x1, 0x0)
+> write(r0, &(0x7f0000000200)='dummy_hcd.0\x00', 0xb)
+> 
+> 
+> console output: https://pastebin.com/raw/1CNVfMHw
+> kernel config: https://pastebin.com/raw/19YvTSEp
+> 
+> 
+> Kernel:
+> 
+> 
+> HEAD commit: cee9395acd8043be0644b25c34bfa86623f2b935
+> git tree: upstream (linux.git), tested through the v7.3-rc1 annotated tag object
+>            e5e04726cdd043e309677071ab1b65a4b18f422b
+> kernel version: 7.3.0-rc1 #1 PREEMPT(full)
+> tested tag: v7.3-rc1 (Linux 7.3-rc1, 2026-08-30)
+> 
+> 
+> Let me know if you need more details or testing.
 
-CkhpLAoKCkkgYW0gcmVwb3J0aW5nIGEgZ2VuZXJhbCBwcm90ZWN0aW9uIGZhdWx0IGluIHRoZSBk
-dW1teV9oY2QgbGluay1zdGF0ZSBoYW5kbGluZywKdHJpZ2dlcmVkIGJ5IGEgc3l6a2FsbGVyIFVT
-QiByZXByb2R1Y2VyLiAgVGhlIGlzc3VlIGlzIHJlcHJvZHVjaWJsZSB3aXRoIEhFQUQKY29tbWl0
-IGNlZTkzOTVhY2Q4MDQzYmUwNjQ0YjI1YzM0YmZhODY2MjNmMmI5MzUgKHY3LjMtcmMxLCBMaW51
-eCA3LjMuMC1yYzEpLgoKClRoZSByZXByb2R1Y2VyIGNvbm5lY3RzIGEgc3ludGhldGljIEhJRCBV
-U0IgZGV2aWNlIHRocm91Z2ggZHVtbXlfaGNkIGFuZCB0aGVuCnVuYmluZHMgdGhlIGR1bW15X2hj
-ZC4wIHBsYXRmb3JtIGRldmljZSBieSB3cml0aW5nIGl0cyBuYW1lIHRvIHRoZSBkcml2ZXIncwp1
-bmJpbmQgYXR0cmlidXRlLiAgVGhlIGZhaWx1cmUgaGFwcGVucyBkdXJpbmcgdGhlIHRlYXJkb3du
-IHRoYXQgZm9sbG93cy4KCgpUaGUgY29uc29sZSBzaG93cyBhIGdlbmVyYWwgcHJvdGVjdGlvbiBm
-YXVsdCBmb3IgdGhlIG5vbi1jYW5vbmljYWwgYWRkcmVzcwoweGRmZmZmYzAwMDAwMDAwMDAgd2l0
-aCBhIEtBU0FOIG51bGwtcHRyLWRlcmVmIGluIHRoZSByYW5nZSBbMHgwLTB4N10sIGFuZCBSSVAK
-aW4gc2V0X2xpbmtfc3RhdGUuICBUaGUgcGF0aCByZWFjaGVzIGl0IHRocm91Z2ggdGhlIGdhZGdl
-dCBkaXNjb25uZWN0IGFuZAp1bmJpbmQgc2VxdWVuY2UgKHVzYl9nYWRnZXRfZGlzY29ubmVjdF9s
-b2NrZWQgLT4gZ2FkZ2V0X3VuYmluZF9kcml2ZXIgLT4KZGV2aWNlX3JlbW92ZSkgd2hpbGUgdGhl
-IGR1bW15IFVEQyBpcyBiZWluZyByZW1vdmVkLgoKCk9uZSBwb3NzaWJsZSBjYXVzZSBpcyB0aGF0
-IHRoZSBsaW5rLXN0YXRlIGhlbHBlciBydW5zIG9uIGEgVURDIHdob3NlIHByaXZhdGUKZGF0YSBo
-YXMgYWxyZWFkeSBiZWVuIHJlbGVhc2VkIGJ5IHRoZSB1bmJpbmQsIHNvIGl0IGRlcmVmZXJlbmNl
-cyBhIE5VTEwKcG9pbnRlci4gIFRoaXMgbG9va3MgbGlrZSBhbiBvcmRlcmluZy9saWZldGltZSBw
-cm9ibGVtIGJldHdlZW4gdGhlIHBsYXRmb3JtCmRyaXZlcidzIHJlbW92ZSBwYXRoIGFuZCB0aGUg
-Z2FkZ2V0IGRpc2Nvbm5lY3QgcGF0aC4gIEkgbm90ZSB0aGF0IGQ1ZTVjZDM2NTRkMgpmaXhlZCBh
-IHJlbGF0ZWQgZ2l2ZWJhY2sgbGlmZXRpbWUgaXNzdWUgaW4gdGhpcyBmaWxlIGJ1dCBkb2VzIG5v
-dCBjb3ZlcgpzZXRfbGlua19zdGF0ZS4gIEkgYW0gcmVwb3J0aW5nIHRoZSBmYXVsdCBhbmQgdGhl
-IHBhdGggYXMgb2JzZXJ2ZWQuCgoKVGhpcyBhcHBlYXJzIHRvIGJlIGEgcmVjdXJyZW5jZSBvZiB0
-aGUgc3l6Ym90IGlzc3VlIHdob3NlIGV4dGVybmFsIGlkIGlzCjgzZTM5YjgyMTU4NzA2NGJkN2Ez
-LiAgSXQgcmVtYWlucyByZXByb2R1Y2libGUgb24gdjcuMy1yYzEuCgoKUmVwcm9kdWNlcjoKCgpz
-eXogcmVwcm9kdWNlcjoKc3l6X3VzYl9jb25uZWN0JGhpZCgweDMsIDB4MzYsICYoMHg3ZjAwMDAw
-MDAxNDApPUFOWT1bQEFOWUJMT0I9IjEyMDEwMDAwMDAwMDAwMTBkODA0ZGQwMDAwMDAwMDAwMDAw
-MTA5MDIyNDAwMDEwMDAwMDAwMDA5MDQwMDAwMDEwMzAwMDAwMDA5MjEwNTAwMDAwMTIyMDUwMDA5
-MDU4MTAzMDAwMiJdLCAweDApCm1rZGlyYXQoMHhmZmZmZmZmZmZmZmZmZjljLCAmKDB4N2YwMDAw
-MDAwMDAwKT0nLi9teXN5c1x4MDAnLCAweDFmZikKbW91bnQoMHgwLCAmKDB4N2YwMDAwMDAwMDgw
-KT0nLi9teXN5c1x4MDAnLCAmKDB4N2YwMDAwMDAwMGMwKT0nc3lzZnNceDAwJywgMHgwLCAweDAp
-CnIwID0gb3BlbmF0KDB4ZmZmZmZmZmZmZmZmZmY5YywgJigweDdmMDAwMDAwMDEwMCk9Jy4vbXlz
-eXMvYnVzL3BsYXRmb3JtL2RyaXZlcnMvZHVtbXlfaGNkL3VuYmluZFx4MDAnLCAweDEsIDB4MCkK
-d3JpdGUocjAsICYoMHg3ZjAwMDAwMDAyMDApPSdkdW1teV9oY2QuMFx4MDAnLCAweGIpCgoKY29u
-c29sZSBvdXRwdXQ6IGh0dHBzOi8vcGFzdGViaW4uY29tL3Jhdy8xQ05WZk1IdwprZXJuZWwgY29u
-ZmlnOiBodHRwczovL3Bhc3RlYmluLmNvbS9yYXcvMTlZdlRTRXAKCgpLZXJuZWw6CgoKSEVBRCBj
-b21taXQ6IGNlZTkzOTVhY2Q4MDQzYmUwNjQ0YjI1YzM0YmZhODY2MjNmMmI5MzUKZ2l0IHRyZWU6
-IHVwc3RyZWFtIChsaW51eC5naXQpLCB0ZXN0ZWQgdGhyb3VnaCB0aGUgdjcuMy1yYzEgYW5ub3Rh
-dGVkIHRhZyBvYmplY3QKwqAgwqAgwqAgwqAgwqAgwqBlNWUwNDcyNmNkZDA0M2UzMDk2NzcwNzFh
-YjFiNjVhNGIxOGY0MjJiCmtlcm5lbCB2ZXJzaW9uOiA3LjMuMC1yYzEgIzEgUFJFRU1QVChmdWxs
-KQp0ZXN0ZWQgdGFnOiB2Ny4zLXJjMSAoTGludXggNy4zLXJjMSwgMjAyNi0wOC0zMCkKCgpMZXQg
-bWUga25vdyBpZiB5b3UgbmVlZCBtb3JlIGRldGFpbHMgb3IgdGVzdGluZy4KCgpCZXN0IHJlZ2Fy
-ZHMsCkNoYW5namlhbg==
+As you have a reproducer, why not make up a patch to fix it as you have
+a way to test this?  That's the best way to get things resolved given
+our HUGE pending patch queue to work through.
+
+thanks,
+
+greg k-h
