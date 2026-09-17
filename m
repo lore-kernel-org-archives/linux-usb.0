@@ -1,203 +1,277 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775F44F96D7
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 17:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789664836; cv=none; b=EbqweJSTzXJhV6uM/R4Q98C+tNWhjCYkUvDr40SkQ6V086KpfWfT3ae7I1+5VrXWYqcbWeMtMIqJ6Bst/aTz7QAerS7xf8IGgJYafN2cG2q40uEHKZBA45IMEhT8alApaaG2CC43oxq/hd6O2kyDTQT5UpzY9Ghe67PyRw0ZioM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789664836; c=relaxed/simple;
-	bh=KGHGLsMsJX36TQXiVXKufj4XBG89qFl7ziEqUw3fXFk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=aRyA0dIObSqNWpOCYpwAEr67zhspCq0vSO8cR/6nvHPj6lPnpm48gTUlDizL9QwKq05UiUnAP8PRplTyjTtU45QfMbKHjfcSKbSOW5u0Hhpa1IUDy2EVdx4a+h6h0qSdCLM3ZCuzPCxlc9gwQz6nR2TWRJGq6aK3hUtKFvSi+Dw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pXmrlDr4; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=SjJSrVH9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F844F93AB
+	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 17:20:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.204
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789665651; cv=pass; b=LE4dRb7F4m4sFC/qSUbJa5dU0esK1PA1BSpC3TLQqtmrpVYVObQWMq7acROpENIPYVGNXVFSHd1KsGoeKfTpF4ijJfgfWMv/M90I//Hn/NYMh+BHsELjEdTxAvftMaNKUm0H0CBXDSwzUpgBJ3OY2vHSUNRtg7hkBtzRoUxkvB0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789665651; c=relaxed/simple;
+	bh=eoYJ5xDGqNtDO7sqA3Su1dLhzmqkzi77Q527I8JFJOw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eKxo34X8rzED47lB31GCyXMGHtfv3Fe/nt0/r8Ym7NFsI9aD4dRkBrLjkurg/NyMIhCqJIssmxZbknDuKiud34HQOSQz6nzazz2YfqKf3aaTlJ3i/RQITtEc4tO3xaD5psF9D+p5k0UvVhV6jUK4ETfuSrxpYurPE5fbjAFodxA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aZGv0WbB; arc=pass smtp.client-ip=74.125.231.204
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pXmrlDr4";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="SjJSrVH9"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68HH5SDV1600982
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 17:07:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=1mtDDoOH9Y6ZZdQqCFdDMG
-	QgG0C+VN6aIHNOTsPFKaI=; b=pXmrlDr45SkcnKzF1pQeHoigZsE6cF3EEnQ/HJ
-	c7LMnIk/zvAmMdPrErEESGZliqCxHA2Pke0kEQ9yGjwbFmcmIOsIH0VShQqQZ48o
-	OxyUe7xlVEfA+8zsoO+bs8I8zgBXLLv3Sg9VK1FgRV6B0svS01wSyHb4Z22PGBQG
-	XhKdKkQLD0GOgYLMPBIgMHX3v1Uwpz52j6cEf63Jimk3CNxjp/jMx+xdbFsD0XXJ
-	ZgGzeeWMUXCheABdwveRFyYmhofS/iL86orMrHR5l0BnuTifgcMg3BzITRfS5YSG
-	oIqIQSoKo/Gk3BEO5Q9rF4mAtddqZEsOeBgGV3ghyqIUO5+g==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gr8uw3cm6-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 17:07:14 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-936e393061dso171314385a.2
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 10:07:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aZGv0WbB"
+Received: by mail-oi2-f12.google.com with SMTP id 46e09a7af769-801d2f7a00eso64379a34.0
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 10:20:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789665649; cv=none;
+        d=google.com; s=arc-20260327;
+        b=sYMa29PWxr/fDd93NIiZbudnwVDb1gPvWFKewiaqBfqlXu+6OlBMZymkODRTNtpe1R
+         Tfudp521lp4Qj9QD2FzJLpZdeMVu4Vw7jOvJ5RRMP3T23P4uMc4fqXD5FLLGd/AbqMZB
+         q4Khg3+PUIY65y03r/ea7pJBvJRvqRiH+NLsd2qBwyEWFQcrCoKY8Ynop7vtrjWhiIcG
+         z0dOSoRXMWyM4bxxNBXx2/NrytlUhkrMtduqQJCwmWrVxbrsA7DaQnkJDc86Fq4Vb9hU
+         UmWffdUUDzWoBpCfSsg9a6+Ct1yQUIQrwhRBX/nrLFYlwkFp52YOUGv/rkGUONRXahCU
+         KpEg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=eoYJ5xDGqNtDO7sqA3Su1dLhzmqkzi77Q527I8JFJOw=;
+        fh=SLi/JkmdYegntYHRZnvcczh5ddaKt/g09NjznA8g4vw=;
+        b=oouBo2fYuWYbzFL/RBgtOF/psgphgzbuXBhedZBA87rkWe5p5G3zXuLlop2mh5famF
+         CQp2KupF2DFcA4jexRJyoZKNQb69bx/gTL78KCWl5eyssemQjl3fbRrEcW0f9msVUbMA
+         YSTgxG07bb7agSXhbATgGMWSVsdI620RPl/Ke4sT42v2yz+za9QUaEzyfjGJufZfJ51J
+         bPQ8cW65n0d8vnyK/eIONzepnHg5+gMHapKlFTIHp/t1WwrK0EGlFanpxKWrgYPaUk3c
+         3QkPZI1U4UyrjFGAkZ/pCGR/Sz56WAIW1q0OuM3O29mekCJRfjvh1aC9WIDF/I60OO5B
+         hRjA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789664834; x=1790269634; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=1mtDDoOH9Y6ZZdQqCFdDMGQgG0C+VN6aIHNOTsPFKaI=;
-        b=SjJSrVH9a8uyDTWWNvYWa5/OrGRnxmzyTB8aEnME8v9dXCk8M9DKp9h6UQ4m0RWC5D
-         yCVDgX4mSvxY7CvPUsMaf6xqghLoGmscJCyK+/edA4z8DIKBsS+TsfxJyL1NGbW32xMi
-         3aREKqeD9SAacyVQFwCJnu7hdx/wwT9gG2lETWhsuvrlxvC3jFRp11OVEoXYBx+GwP92
-         M6iFBYZDsRpGhny7VvUKI0MqoTFjOYTg2Nu8Gq/aHac0fDiQfFHGKNmFbw8IZHPYJGcZ
-         ZZY60/vN98CcSCo15adoUKz6FYrjwV1vA3whFqpqXIGHtiAAyynHGn6pbX5q7WmdrCox
-         v50A==
+        d=gmail.com; s=20251104; t=1789665649; x=1790270449; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=eoYJ5xDGqNtDO7sqA3Su1dLhzmqkzi77Q527I8JFJOw=;
+        b=aZGv0WbB19sNL07qw148majRsvlpOMAp0PZ8NemJT97gYwh4DjbT71mqMjF5UsoNi6
+         tHbkLRnDqFe3mWRkv/zJ7Xlnllfo3SHMOhrPXEBvZeFvjXMN5SR4Mka/Mi/JSpO5E09c
+         A9oZsO8wlbXTYPl9HjZltzt8xQ+HlBsOqOefL6pWKLwAzBXWEsyiUOKr+5kk3EmVYPXo
+         P/H5BmKUNPJn4BpQSineeC78UezotGkMi8gcNbQfKO0lfz83QM3s0lf87OADIN2PB8O6
+         ZyS2mE163qKyktJG882x7wj62Czcoc0blwAeiCtN0/gNm2RidimGyZQu4VsIE7eJcdq1
+         XhgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789664834; x=1790269634;
-        h=cc:to:message-id:content-transfer-encoding:content-type
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=1mtDDoOH9Y6ZZdQqCFdDMGQgG0C+VN6aIHNOTsPFKaI=;
-        b=gByWEpO7ZvCyIZwjWxAljGX1wxqZwvESY3CTmWEIftj2xJaR5jUQU2KeCw6zazEPXy
-         8fXzOIqY7QsoPi2K1GAB4HY/cduqu18WBt67tlTcF64R2xDeFEce1jyIysVYWhdu2GPY
-         aH83dbi3sHvi3IYhDoBLL6oqH3CJ6gHW+JV09wiYMzX5I0lCsAn7pQKgVh1Lon4IN8dV
-         uP7AO8FyZroNToMb+drdkD5mpqHEMEWP5ZSPvz5LZmUg92lofOYEHTHH4qIuhb6M/4gA
-         /nHvX0Zt9TmysjpDwKRKR42gKMYYk70JcYqxdevB+66waV/ArycG1d5bXISjFp1D7jbL
-         Rc6A==
-X-Forwarded-Encrypted: i=1; AKwUvByxK+LXhSeFdJL5o6Xk+9cjtvQ6qND0vyulTTdRmthSCDP04WnWWxEWwcb6A05PY8tFkt6In12+FWc=@vger.kernel.org
-X-Gm-Message-State: AFuF++m5GmkUDVnUq6CfQMDoc9sxLgbNlQtrh0iFAKyMNgZzm0ycxYDf
-	KZzGgamtwkKkyoR+Roezo83SdCbU3fvDi/x2jLzpRsxj/ZdIHeh0+mYlKm7075N+QII7vPZI5gw
-	28aIZgbS0cXohW66Bln65Mnxp7NbqE2//AS7yJQkbWBS6zpM4+i2p27fzd8pMkypQ3QClsVA=
-X-Gm-Gg: AYBFou0ZILCrn7mZeX2CpdE3HAshQ6okHIzwGpA79HfhTMai5wf+gCbo5E7Sq3BHnDj
-	+0AfHOQxDf8rhx2Z+nuUHJN7HsEISkhVQvmWgLX6AsVIkysDNkmiiNOsB2QkImbwYUzXgj2mKFE
-	wnsm12IilqDzsrGnare9DnpSLEV84oFYYbhYxVMnOUOtjHESHrQal+phfqZkroVbo0Tz7LOCoHw
-	0hcgsl1eee5QgGdo9zu6ZZ2go0AqC7KiyT1cwIfu4HBv/EU3RftwMlT2WUAEQiIYGwreCRWnY4O
-	eOy5rJ9SFXhfUVNUutYYJV83L9a9PvJHp2IGLAmmNMEjUvZltb8X2x6leg1l5b00/8e95P1CQl2
-	HTInJXOtCObS2eaaSAX3AfLC82Y0=
-X-Received: by 2002:a05:620a:2701:b0:93a:3c8a:2025 with SMTP id af79cd13be357-93bda609762mr27859485a.34.1789664833517;
-        Thu, 17 Sep 2026 10:07:13 -0700 (PDT)
-X-Received: by 2002:a05:620a:2701:b0:93a:3c8a:2025 with SMTP id af79cd13be357-93bda609762mr27851885a.34.1789664832968;
-        Thu, 17 Sep 2026 10:07:12 -0700 (PDT)
-Received: from brgl-qcom.local ([90.161.207.100])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd232d5bsm88504615e9.12.2026.09.17.10.07.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 10:07:12 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Thu, 17 Sep 2026 19:07:00 +0200
-Subject: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Document the Nord
- DWC3 controller
+        d=1e100.net; s=20260707; t=1789665649; x=1790270449;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=eoYJ5xDGqNtDO7sqA3Su1dLhzmqkzi77Q527I8JFJOw=;
+        b=WbezgzWlcaGkIv/KxESBtEVg6BAeiKoW+ll+Xw6Sefbj13mUVzgvC1+530ScxmzUH9
+         AhrCLBjunzl/GkOYOfejOAxhKTqM2ML/XqHeQdVrvlnKksZ6K4XQWH+hztrRxvzPVir3
+         U/XK3u1uImar5LWhd9KhpYWM2QRGLg/lpbs6M8oZVCQlcBa0XHbznNCV6Y+sVpQkHCVV
+         ePkieJ9iemvgOSMZ/zZssl+J5GNkZ+JcX1fnS4I88LdOs9R/IDC5lHX1/1oJdZfyWYkZ
+         6FFcXoCE1Tw1PAh8ZJoaeL0322BRdNlW8RNHXT51SrzG/CpAUR4ivd/vN8Ik9E0bP3EA
+         Viiw==
+X-Forwarded-Encrypted: i=1; AKwUvBxe+pVx+D71lg8uri54fSA/o/LjRahzy8orxcOXtpkkX97i2N6q1eonsABRbTMV87QAO7njmqY5ItA=@vger.kernel.org
+X-Gm-Message-State: AFuF++m/yRQ+R1AOfV5XqgLYVKy5UygKEMyaqvwBAQzfrKtR9yJVKCpz
+	pHhobb7Rp+bZ4tDLDEc7Hl7K4Ep4rgxF7jOiqiXEaMEvpupXPEYe6rCrPwM7JHZu3Ggo+GhEc4M
+	FobtUwJtEMfIVaEIj+uSIvnvZtxWa010=
+X-Gm-Gg: AYBFou0UMgXYAWD97qa3q+HJzyAULIsI0TIXYxl1uXyQatUC3sFyJK94ws9mMxNN1TN
+	vHmZCHiA8qgfhMnKfwpKWdlQMCWByuhPBFgQwH3NJuOhoAa5OJm1tw/jZ2/RRTCOfyM/vr06adm
+	isx98KblpZWzhW6fsJVCZyQCHvDp6h+g0DAroLEi0r1qqt6hgIZIUG2B1O9gC1LM3qNnfrocZLZ
+	9PEhAbQ0TGMyZJYxbyN4tFa0nHSNkqEAUZ1NkyVUF+dxPwlGX9OZTTZ+L4VOO3WnA28LRjFcvdh
+	5Eb++dfaUgcgtQBgnnEhyd+wTaQrZiRjhGsNAXV8tVwH1lsMB3x5YmdYPaxMJndyrB4=
+X-Received: by 2002:a05:6808:6801:b0:4c6:9ff2:60fa with SMTP id
+ 5614622812f47-4ca4dc2e425mr8353795b6e.4.1789665648935; Thu, 17 Sep 2026
+ 10:20:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260917-nord-usb-dwc3-dt-v2-1-8f88aa30c434@oss.qualcomm.com>
-X-B4-Tracking: v=1; b=H4sIADMerGoC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHQUlJIzE
- vPSU3UzU4B8JSMDIzMDS0Nz3bz8ohTd0uIk3ZTyZGPdlBLdRHNLc0PTNGMT88REJaC2gqLUtMw
- KsJHRsbW1ADdIA0diAAAA
-X-Change-ID: 20260917-nord-usb-dwc3-dt-a79715f347aa
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Wesley Cheng <quic_wcheng@quicinc.com>,
-        Shawn Guo <shengchao.guo@oss.qualcomm.com>, brgl@kernel.org
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2010;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=KGHGLsMsJX36TQXiVXKufj4XBG89qFl7ziEqUw3fXFk=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBqrB43gyMjNy/fhKy22+xk4mS9dmiLMF8lds1sn
- U5Dg4iuXBSJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCaqweNwAKCRAFnS7L/zaE
- w2kSD/0WmjeK11lDWVP/isRQFbdEaQ0ZfZFEqrrj/Q2NVIyBnpVXr1+83r09KvxqIfcC3iAVoyd
- KOeYI3iWOl6iNKDnjkfF1MHentUdAAkhbWpduQAg2X1TgYyzCdeugBGK6oeoSuwPV7ohqh9m4d8
- Id6yOhYYvfcUTqELD/UtLL41dgJ3RscufoLQ36b44erjGKYukIPZMgD+afaP3tWEJmygDo/mjZO
- mhLA9adfSxEZCdHUxIGRDyICv/7LxoZN+kYgbn3StWhyv6QSkJ2J8QPwvQCzWkcIlHW0rnmUGlf
- RAm5zq8CBVwYxjGabVjy5QU33lqoziCSvuLtmdpRQ3aBPMhejoItJzMSOkhiviJbz0Imf7S/UjM
- M2t6HfR/x71G0DJrvBj3+kbtaj6KprE8bwAIxm3jau2o8U2gZCplloIX3Mwl4KdJKQTUYf+WoIt
- CpFIP/9AyoXYXd81tqFf9DKiIb5yQehqH+/YD7JT3fDAzxY6v7z/u1fXNIZosB19UCAvyqGzccn
- N0CB931hOpzkT5ZzBlhae+QThqjeZElw/phbnYitR/I9bTTaP4ipUtNjX4l7uYbyMX48DLMH0s3
- 5iwDVw9h9IdiaIjzM0iu3v4iRds3KBUHE0CN06DyNaeNqNLVOm5F55Hlo5fUbLKs8VF9yzbfypm
- A/gWnbLHGNXsSPA==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Proofpoint-ORIG-GUID: ZdBNbN3oARpHGN6XxNVFKuZmm-JNwQXH
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE3MDI0MyBTYWx0ZWRfX6wuxIp/0fjKS
- WV6ALWWHumhjzBQKH/eZFKO1Na1vkU55UNeeUxhqvD77DVEJynBpSJZ0QDLZW/JVGIphVDgocGG
- sj8y74tUpxPyI6xtqirPhemjoYF5Oh43+nyUUbvMOOvO/MF//usF9b7dBEYyVa4Joy0FczblXBC
- CXb+fD0wXy02xTlMpbxm6SUnoS9oCrjg+MLk1rBRLtaKl9gQKVqb02I3k5trm1K9HQR08mv8JhY
- DhtyqORWoa8aR5jb718H7D8dt2uAzylw4itFQJJ5DthgxhXOtEwvpV/AmTrhmkLFtUNaasW1f6b
- TftiafMeSCLmQnxiykFXWQp4kC+rIe6ltOAgeEWKBnymVGeuwhPg2O+sNycrA9ub+0CsREdOtFd
- 5azAusZEd+Fk+Ka2+OlC/4QPvU2MVRH+zDMsjZPzz+XDdeJh64QMeD4Xm1usEr485xGqK4zK2MP
- 3VouR/UdxvhMavLmPow==
-X-Proofpoint-GUID: ZdBNbN3oARpHGN6XxNVFKuZmm-JNwQXH
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE3MDI0MyBTYWx0ZWRfXyE13y4HkIdlb
- OwOxDDguKVTuMLUJPpwF+9scGx8swgRHXP+nbR+cQgYH2jdlh1cRlCZYJSaEQqdm78hp05blcsc
- P9utuygoKmjreDd/K0pWT6oCBRyF/EY=
-X-Authority-Analysis: v=2.4 cv=dMUzC+Zb c=1 sm=1 tr=0 ts=6aac1e42 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=BQ2oiuy6hHN+kKmom1QVvA==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=_K4BdmWTd12dlxu9SSYA:9 a=QEXdDO2ut3YA:10
- a=PEH46H7Ffwr30OY-TuGO:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-17_04,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 bulkscore=0 impostorscore=0 suspectscore=0
- spamscore=0 phishscore=0 adultscore=0 clxscore=1015 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609170243
+References: <CAFKhL9eUM91rtywaz_7Mz+4mJH2b2csmOmc3+86ii3a0Ka3Q6g@mail.gmail.com>
+ <c335085d-a824-4632-ad3a-c06715258c81@suse.com> <CAFKhL9f6aLZgerw_7bohbQWvzMxSfd-m-LFcuNP1_p1vWkN4=Q@mail.gmail.com>
+ <1320caa3-85b5-47dc-aa2d-56d3b003c6ef@neukum.org> <CAFKhL9eTD7DxtxMSMuUVP9cDG7Nq4jvrkTCjYfwr9puZfuC4Gg@mail.gmail.com>
+ <20260915233818.5881ad97.michal.pecio@gmail.com> <CAFKhL9fL++S1xh+aUCuYbk6EkLQnfUn95y7TBoWaGnPAVP1gYA@mail.gmail.com>
+ <20260916204713.22c4f575.michal.pecio@gmail.com> <6041fdad-78b9-4310-a86b-f9931563de19@suse.com>
+ <CAFKhL9dmR1KDaBQGta=X5xDCGirzJ8t7u0rH4HUgBoFqN152DA@mail.gmail.com> <20260917185650.7fdea3cb.michal.pecio@gmail.com>
+In-Reply-To: <20260917185650.7fdea3cb.michal.pecio@gmail.com>
+From: djraszit <djraszit@gmail.com>
+Date: Thu, 17 Sep 2026 19:20:37 +0200
+X-Gm-Features: AcwNN1UJX3PvQvFK2HgF1bYsrTMlifgQJ-OJQYhbALmZUi0XC1JTauHMlQGyfhE
+Message-ID: <CAFKhL9dYWLYhkj_687Out_hS3fxORgpCpggag2NwoVYbapyvYg@mail.gmail.com>
+Subject: Re: [BUG] uas: JMS578 returns reproducibly incorrect data after host reboot
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Oliver Neukum <oneukum@suse.com>, Oliver Neukum <oliver@neukum.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a compatible for the DWC3 USB controller found on the Qualcomm Nord
-SoC.
+Hi Michal, Oliver,
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Link: https://lore.kernel.org/r/20260901103300.60803-1-shengchao.guo@oss.qualcomm.com
-Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
----
-Changes in v2:
-- Fix the interrupt constraints for Nord: we also require hs_phy_irq
-- Link to v1: https://lore.kernel.org/all/20260901103300.60803-1-shengchao.guo@oss.qualcomm.com/
----
- Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml | 3 +++
- 1 file changed, 3 insertions(+)
+I have just completed another experiment which seems to make the VBUS
+behaviour considerably more suspicious.
 
-diff --git a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-index 9f91c8711e022907d7367a762d3d556e90b50fd4..c1b5f87149f7ca0873bb0d715c30ab999ad21d2f 100644
---- a/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-+++ b/Documentation/devicetree/bindings/usb/qcom,snps-dwc3.yaml
-@@ -44,6 +44,7 @@ properties:
-           - qcom,msm8994-dwc3
-           - qcom,msm8996-dwc3
-           - qcom,msm8998-dwc3
-+          - qcom,nord-dwc3
-           - qcom,qcm2290-dwc3
-           - qcom,qcs404-dwc3
-           - qcom,qcs615-dwc3
-@@ -361,6 +362,7 @@ allOf:
-             enum:
-               - qcom,eliza-dwc3
-               - qcom,milos-dwc3
-+              - qcom,nord-dwc3
-               - qcom,qcm2290-dwc3
-               - qcom,qcs615-dwc3
-               - qcom,sar2130p-dwc3
-@@ -570,6 +572,7 @@ allOf:
-               - qcom,ipq8064-dwc3
-               - qcom,kaanapali-dwc3
-               - qcom,maili-dwc3
-+              - qcom,nord-dwc3
-               - qcom,qcs615-dwc3
-               - qcom,qcs8300-dwc3
-               - qcom,qdu1000-dwc3
+I inserted a Genesys Logic USB 3.x hub (05e3:0626) between the
+Raspberry Pi 4 and the original JMS578 enclosure (0080:a001).
 
----
-base-commit: 0d9d0dbf2fddcff5859d623e90ca73c4054276e1
-change-id: 20260917-nord-usb-dwc3-dt-a79715f347aa
+The topology is:
 
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+RPi4 / VL805
+-> Genesys Logic 05e3:0626
+-> JMS578 0080:a001
 
+The JMS578 still operates using UAS at SuperSpeed (5000M), so the hub
+does not cause a fallback to USB 2.0 or usb-storage/BOT.
+
+This particular Genesys hub can operate either bus-powered or from an
+external 5 V supply. I have previously checked its power wiring: the
+external 5 V input is connected directly to the downstream USB VBUS
+rails, while VBUS from the host is connected through a diode.
+
+Therefore, with the external supply connected, downstream VBUS remains
+supplied independently of the Pi.
+
+This gave me a useful A/B test while keeping the same hub, port,
+cable, JMS578 and USB3/UAS topology.
+
+First I used the Genesys hub without its external supply, i.e. bus-powered.
+
+With:
+
+USB_MSD_PWR_OFF_TIME=3D1000
+
+and starting from a known GOOD state, the first reboot immediately
+reproduced the BAD-data state:
+
+Alternate GPT is invalid, using primary GPT.
+
+The direct test read also returned the known BAD hash.
+
+I then recovered the JMS578 to a known GOOD state and connected the
+external supply to the same Genesys hub. No USB cables or ports were
+changed.
+
+With USB_MSD_PWR_OFF_TIME=3D1000 and the Genesys hub externally powered,
+I performed five consecutive reboots.
+
+All five were GOOD.
+
+I then changed the bootloader setting to:
+
+USB_MSD_PWR_OFF_TIME=3D0
+
+while leaving the same Genesys hub externally powered.
+
+I performed several more consecutive reboots. These were also all
+GOOD. I could reproduce neither the BAD-data state nor the "Cannot
+enable" enumeration failure which occurred previously when VBUS to the
+JMS578 was supplied by the Pi.
+
+So the current comparison is:
+
+USB_MSD_PWR_OFF_TIME=3D1000, bus-powered Genesys:
+-> BAD-data after reboot
+-> invalid alternate GPT
+-> BAD direct-read hash
+
+USB_MSD_PWR_OFF_TIME=3D1000, externally powered Genesys:
+-> 5 consecutive reboots GOOD
+
+USB_MSD_PWR_OFF_TIME=3D0, VBUS supplied by the Pi:
+-> previously reproducible "Cannot enable" after consecutive reboots
+
+USB_MSD_PWR_OFF_TIME=3D0, externally powered Genesys:
+-> several consecutive reboots GOOD
+
+The important control is that simply inserting the Genesys hub does
+not prevent the failure. The same hub in bus-powered mode reproduced
+the BAD-data state immediately. The failures disappeared when I
+supplied the same hub externally, keeping downstream VBUS continuously
+powered during Pi reboots.
+
+This seems particularly interesting together with the VBUS waveform I
+reported previously:
+
+VBUS off for several seconds
+-> VBUS on for about 130 ms
+-> VBUS off again for about 1 second
+-> VBUS on
+
+I still don't think this proves that the ~130 ms interval itself is
+the cause, because an externally powered hub may also affect reset or
+link behaviour. However, continuously supplying downstream VBUS has so
+far prevented both observed failure modes.
+
+One additional clarification about my GOOD/BAD test: I am no longer
+using LUKS, device-mapper or ext4 to determine the state.
+
+I read a stable 512-byte sector directly from the USB block device,
+specifically the last sector of the MP3_FILMY partition, using:
+
+MP3_FILMY_SECTORS=3D$(sudo blockdev --getsz /dev/disk/by-label/MP3_FILMY)
+sudo dd if=3D/dev/disk/by-label/MP3_FILMY count=3D1 bs=3D512
+skip=3D$((MP3_FILMY_SECTORS-1)) status=3Dnone iflag=3Ddirect | sha256sum
+
+The known GOOD hash is:
+
+4755035f51940c4bbe13c596ba55e4eb278c13d9a24cfca7a9530e1f788f71eb
+
+and the reproducible BAD-data hash is:
+
+4fc3036031ecaa505dc82e38ca996d9615d12780fded2ebad35fb58e44f7efde
+
+So LUKS, device-mapper and ext4 are no longer involved in determining
+whether the returned data are GOOD or BAD.
+
+Regards,
+djraszit
+
+czw., 17 wrz 2026 o 18:56 Michal Pecio <michal.pecio@gmail.com> napisa=C5=
+=82(a):
+>
+> On Thu, 17 Sep 2026 18:02:02 +0200, djraszit wrote:
+> > shutdown Pi with the enclosure connected
+> > -> disconnect USB after shutdown
+> > -> boot the Pi without the enclosure
+> > -> wait for Linux to boot completely
+> > -> reconnect USB
+> >
+> > I repeated this three times. All three tests were GOOD
+>
+> > USB_MSD_PWR_OFF_TIME=3D0
+> >
+> > I do not currently reproduce the state where the enclosure enumerates
+> > successfully but returns incorrect data. Instead, after consecutive
+> > reboots I reproducibly get the "Cannot enable" failure described
+> > above.
+> >
+> > After changing it back to:
+> >
+> > USB_MSD_PWR_OFF_TIME=3D1000
+> >
+> > I repeated the test twice, starting from a known GOOD state each time.
+> > A reboot reproducibly resulted in the enclosure enumerating normally,
+> > but:
+> >
+> > Alternate GPT is invalid, using primary GPT.
+> >
+> > and the previously tested block returned the BAD hash.
+>
+> So it's a boot issue. I think it would make sense to determine whether
+> the problem is caused by bootloader actions or the kernel.
+>
+> Is it possible to configure the bootloader to wait a few seconds before
+> booting the kernel and connect or disconnect the device during this
+> time, or to never boot the kernel at all so that the device can be
+> disconnected and tested on another machine?
+>
+> If it's the bootloader, and things seem to be going in this direction,
+> then you will need to sort this out with the vendor, obviously.
+>
+> > Regarding the Raspberry Pi 5 test: yes, the enclosure was connected to
+> > USB 3.0/SuperSpeed. The Pi 5 uses the RP1 southbridge rather than the
+> > VL805 used by the Pi 4. On my Pi 5 Linux exposes two xHCI controllers,
+> > xhci-hcd.0 and xhci-hcd.1, each with a SuperSpeed bus at 5000M.
+>
+> Thanks, that's all I wanted to know. It's some other xHCI controller.
+>
+> (I looked it up, it seems RP1 uses Synopsys IP).
+>
+> Regards,
+> Michal
