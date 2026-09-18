@@ -1,60 +1,59 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F1653D8900;
-	Fri, 18 Sep 2026 07:53:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A15346A0C;
+	Fri, 18 Sep 2026 07:59:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789718002; cv=none; b=QWgzL62OkkFTQq/JomNmATlMMep3At4jXGkQMRazwlw2jtOZRAN17bEvV+yKRVMdXtPKiE7LUmE8D7vqDmpnPp7bgGEANH2vsBF5eVSGuJ/E4Vp5wfonPIwmTCactaUhsM7BqzKb3z38MQt8T9D3061WgDhtnRT/3OqDdZFHsiI=
+	t=1789718344; cv=none; b=R4EnqThrXJfGfGwj9zxmrX6OJxNEi59QelTGVnXgBK5T6QUhF1q5kRbym19Nw+aGcxnE4vzsdxY8QINnh0qEFVbe9ZUzLgBgnlKD/HWwxg4HR52P4mOctMOhbYUoUZDHs1diaEdQdOGtywFmFPs9voFNwF6MbrV0uAy378tf5xA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789718002; c=relaxed/simple;
-	bh=1kalJkD2AC88fzQVG0vNoQck71hbfcCsC1uiYAkmkE0=;
+	s=arc-20240116; t=1789718344; c=relaxed/simple;
+	bh=8haK6WgiFEOnoHWyvEcWLkTNSRdMPzhjH/+6AqmcWbU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iBorHifmZigkxvc03xnejzpjo52ZtqSUxRdEm0jFNfnHbeT7Uuot5zndWZnq21EosulKfSKkPXW/AoGHayfs8BRH7hruEIGj7rzwWCK3RsoefmT/N6fh04+WLnqXPzCNJoqd9pBLIeqGYgBec7zn3N1CKJj2pHgpbirsIwu8Hdk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LV6beOBw; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=edSuWdru7ByhghM4qKeG7l1PE5Rv0t0wnE3YKYEg99tidMh/HvorFgPKwFKkIEEeI4jlL+JtHWntOI0+6klHKXRaa3tFeCYFUB8CF93gbUBWhWoVR/xLvfHCXy2jbSAn3qwqlrIxKHBGlV8VSSQpEHImb+hy13FXBcBY+P3DibY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W4XUXDva; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LV6beOBw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W4XUXDva"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789718001; x=1821254001;
+  t=1789718343; x=1821254343;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=1kalJkD2AC88fzQVG0vNoQck71hbfcCsC1uiYAkmkE0=;
-  b=LV6beOBwiiaV9JZWHkuOJsGX2P8EI3B5Bl2pwrefuOzovYtkNaCK9NGN
-   4xPidkOIFhG4dnEC6C5WQC/5g2Zg8BE94uVrTZQX8d2dhLdhXWYgqEKi0
-   tWcC3cN1kunUvoW7Cl0l9kGDNXp61PKh2EejQVEbFvUTtG+6cCQMpe12X
-   L2AMlJ2LoFP/htfLbxWgjil+ZHW6Rt6vqWW1JdBIzlWG93g8L0dK1asCZ
-   Ya1piXd57HSuyKB8vQmLIzOa4Pl0WwhnWzo7GVcpLaIDZHCpD2ETMGNKA
-   C0k8BlcYaFIPHEAZfq/j/6ZCbdFAroPxf/iBVmcmgHXovoW7vDWkU02f5
-   w==;
-X-CSE-ConnectionGUID: KxCFZBw9R96C7ZNJMNj4DA==
-X-CSE-MsgGUID: m8p1l/bYR7efD5uVdBvVew==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100803041"
+  bh=8haK6WgiFEOnoHWyvEcWLkTNSRdMPzhjH/+6AqmcWbU=;
+  b=W4XUXDvajH0dni1CE02OWN/1cr6evvnzwOozF+Od/bxKeZFK3tZUrxG/
+   OFN8q/l1zN8CmXdqFZaXbgi1/JvW8x6ogqjiNaPH16mvTUN/kPoyx1ZTV
+   W7Nc010LGeaxpVI7L0VSB6sH2WPYaVEzf+AgrNGF/HGx204zDdfp8FRZX
+   9ebuhXKmRtcvvb62KQkYCt8UVMmHyAtZVVM9CXrBrlGaRn9tRWoox/5Tq
+   yrqYy0FNLf79tbbTkjw4a/+c2l06zG68eXLOfX+Z0S216ROODlr+8tRIP
+   yscZdVsgZArcUvLHHim0ViEShh1DUCeaQuPfGjd3nZhZzLRtW8ra6GRBS
+   Q==;
+X-CSE-ConnectionGUID: KX9KgWkDRB2BmVzryhVzXQ==
+X-CSE-MsgGUID: lir2qSKtQU+/U8hhGuWOqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100804277"
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100803041"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 00:53:20 -0700
-X-CSE-ConnectionGUID: RiNtwVriQZaCxAyHeSuvCg==
-X-CSE-MsgGUID: oJy3azIKS/6kIjzAeA2nzQ==
+   d="scan'208";a="100804277"
+Received: from fmviesa011.fm.intel.com ([10.60.135.151])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 00:59:02 -0700
+X-CSE-ConnectionGUID: yJ0pgwkOS12m/cnXwuPAiQ==
+X-CSE-MsgGUID: oTWrYukfR6WJZBV+cRgm0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="299371428"
+   d="scan'208";a="2501762"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Sep 2026 00:53:18 -0700
+  by fmviesa011.fm.intel.com with ESMTP; 18 Sep 2026 00:59:01 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 2178F99; Fri, 18 Sep 2026 09:53:17 +0200 (CEST)
-Date: Fri, 18 Sep 2026 09:53:17 +0200
+	id 9ABAD99; Fri, 18 Sep 2026 09:58:55 +0200 (CEST)
+Date: Fri, 18 Sep 2026 09:58:55 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 To: Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: badhri@google.com, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH] usb: typec: tcpm: advance vdm_discovery_state on
- Discover Identity Not_Supported
-Message-ID: <aqzt7dDNdHd22rY3@black.igk.intel.com>
-References: <20260914093828.1910201-1-xu.yang_2@oss.nxp.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev, jun.li@nxp.com
+Subject: Re: [PATCH] usb: typec: pd: mark usb_power_delivery sysfs devices as
+ PM not required
+Message-ID: <aqzvP4vQcSr8Wb-B@black.igk.intel.com>
+References: <20260914093923.1910484-1-xu.yang_2@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,60 +62,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260914093828.1910201-1-xu.yang_2@oss.nxp.com>
+In-Reply-To: <20260914093923.1910484-1-xu.yang_2@oss.nxp.com>
 
-On Mon, Sep 14, 2026 at 05:38:28PM +0800, Xu Yang wrote:
+On Mon, Sep 14, 2026 at 05:39:23PM +0800, Xu Yang wrote:
 > From: Xu Yang <xu.yang_2@nxp.com>
 > 
-> Commit fa4d0a7cd036 ("usb: typec: tcpm: fix Discover Identity retry loop
-> on Control Message reject") advances vdm_discovery_state to
-> VDM_DISCOVERY_COMPLETE when a CMDT_RSP_NAK is received, but it does not
-> advance the state when a non-modal port returns PD_CTRL_NOT_SUPP.
+> The usb_power_delivery device tree (pd, capabilities, and pdo objects
+> created by usb_power_delivery_register()/_capabilities(), and add_pdo())
+> is a pure sysfs representation with no PM callbacks of its own.
 > 
-> This can re-arm another vdm_discovery_work if the port is going to
-> respond with PD_CTRL_NOT_SUPP to the partner.
+> TCPM's state machine runs in its own kthread and is not synchronized with
+> the system PM core's suspend/resume sequencing. A Type-C wakeup interrupt
+> can resume the system and let TCPM register a partner's source/sink
+> capabilities (and their PDOs) before the parent device's device_complete()
+> has cleared its power.is_prepared flag. When this happens, device_pm_add()
+> observes the parent's stale is_prepared state and prints a spurious:
 > 
->   tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
->     tcpm_queue_message();
->       mod_tcpm_delayed_work();
->         tcpm_state_machine_work()
->           tcpm_send_queued_message()  -> send PD_MSG_CTRL_NOT_SUPP
->           run_state_machine()
->             case SRC_READY:
->             case SNK_READY:
->               mod_vdm_discovery_delayed_work(port, 0);
+>   source-capabilities: PM: parent pd1 should not be sleeping
 > 
-> If both the port and its partner do not support modal operation, they
-> will send DISCOVER_IDENTITY to each other infinitely.
+> This is harmless but confusing. Mark all three device (pd, cap and pdo)
+> types with device_set_pm_not_required() so PM core will skip dpm_list
+> tracking for them entirely.
 > 
-> Advance vdm_discovery_state to VDM_DISCOVERY_COMPLETE in this path as
-> well, mirroring the existing handling for the SVDM CMDT_RSP_NAK case.
-> 
-> Fixes: fa4d0a7cd036 ("usb: typec: tcpm: fix Discover Identity retry loop on Control Message reject")
-
-I can't find that commit from anywhere?
-
-Thanks,
-
 > Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 > ---
->  drivers/usb/typec/tcpm/tcpm.c | 3 +++
+>  drivers/usb/typec/pd.c | 3 +++
 >  1 file changed, 3 insertions(+)
 > 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 2d6b14aa2085..cc9ea5d5e78a 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -3891,6 +3891,9 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
->  		case SRC_READY:
->  		case SNK_READY:
->  			if (port->vdm_state > VDM_STATE_READY) {
-> +				if (port->ams == DISCOVER_IDENTITY)
-> +					tcpm_update_vdm_discovery_state(port,
-> +									VDM_DISCOVERY_COMPLETE);
->  				port->vdm_state = VDM_STATE_DONE;
->  				if (tcpm_vdm_ams(port))
->  					tcpm_ams_finish(port);
+> diff --git a/drivers/usb/typec/pd.c b/drivers/usb/typec/pd.c
+> index 766c76d63328..a200d1f50977 100644
+> --- a/drivers/usb/typec/pd.c
+> +++ b/drivers/usb/typec/pd.c
+> @@ -517,6 +517,7 @@ static int add_pdo(struct usb_power_delivery_capabilities *cap, u32 pdo, int pos
+>  	p->dev.parent = &cap->dev;
+>  	p->dev.type = type;
+>  	dev_set_name(&p->dev, "%u:%s", position + 1, name);
+> +	device_set_pm_not_required(&p->dev);
+>  
+>  	ret = device_register(&p->dev);
+>  	if (ret) {
+> @@ -579,6 +580,7 @@ usb_power_delivery_register_capabilities(struct usb_power_delivery *pd,
+>  	cap->dev.parent = &pd->dev;
+>  	cap->dev.type = &pd_capabilities_type;
+>  	dev_set_name(&cap->dev, "%s", cap_name[cap->role]);
+> +	device_set_pm_not_required(&cap->dev);
+>  
+>  	ret = device_register(&cap->dev);
+>  	if (ret) {
+> @@ -715,6 +717,7 @@ usb_power_delivery_register(struct device *parent, struct usb_power_delivery_des
+>  	pd->dev.type = &pd_type;
+>  	pd->dev.class = &pd_class;
+>  	dev_set_name(&pd->dev, "pd%d", pd->id);
+> +	device_set_pm_not_required(&pd->dev);
+>  
+>  	ret = device_register(&pd->dev);
+>  	if (ret) {
 > -- 
 > 2.34.1
 
