@@ -1,128 +1,202 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1942C4E36EB
-	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 11:43:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 555FC2C21E6;
+	Fri, 18 Sep 2026 13:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789731801; cv=none; b=HVmYk+uiJglAt9sG6FRjFXFQCBbt92lCfE/hC8Z4Y9/Tb/e/Gv06KK77A5yAfkfdcxKK3bdZWqRkqqOn3BwFEHsKVQRJvldt9wopuVCB4asd0nXbrOwM4vnkn3meQrZi4o+JViVG4IwjSbE8oe48Nz7X4z5pY8otGRPzAOT3AOU=
+	t=1789736408; cv=none; b=mvdPHnd8KoB3e5pnfO6zfZdvOzs0wwv75UPgCc/RrnOQm5efjYApbmdRWG1QP1Zjyzx/RYl56Ti2XpjL6oY3sa/fq746AO3mgE6iuabAtV84b1PreUF38ErvAMcApq648t3sbPUBL2OFR3b0nAJ5+bGI5n4rwbviE/TS3GVIfE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789731801; c=relaxed/simple;
-	bh=y/6rkcYR6tmvs24rDeEbZaj7hbvTLRhxny3OHHiTUYs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IcO+BK0StN5mmvIS+IHVgY0+PDdFq/fWEM5EkrVgYk8D+ClWgl8J6hDUzem0pVLDuhucX0kKTj6fol+G/5/aQaBZ2Ks3VnKyE2PV456VLPNqHru/dn4pegvJkvJZIA1wsfomlgoTTFuU1hLWLsOCP94Ei0ubLoz1wmdNUxxCY0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DE5fEGBL; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789736408; c=relaxed/simple;
+	bh=hQcn9QTkAa38QeTco57o4RsKpuMxifbIGX8lgHZPoUE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bRkiznJ6fgvfsebaAI+rL+Ya8WDAcrgw/ivrcmL+Ua/+zv0/njamyE9bqGssFNknCeqpjr/8TPEMI3IRt44lTsUS68IFAYYgu9RRO1vBmtC30Np9HUGo4q3dfEebRvkC6OerUsii9i9hldJzTDmJwp+jcy0jSSdth5ymSolP2MU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=doaKhNAy; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DE5fEGBL"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d90ba1d807so7127595ad.3
-        for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 04:43:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789731798; x=1790336598; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8kyloGp73jNN9aWd5AokYOutez5h9JeIEBv6OC0m1qs=;
-        b=DE5fEGBLC4/12wDJ044Q5vujnK3c68n+OoaHdPJ8T13Wd0wrSlKIGfVH3rOZeAmGT+
-         mRcPm1ENYm8vdySPB9zW20hNFsnUvGFbmaa3BPfh+GSOhViki2iau9XSTUb0J6S/76uk
-         7/Sc65Qp3d2pkJBohIoFsSF0OuQqZOYwC6QN4CjEfAQcdk8XEzeMS3y06Q8PrdOhs6aI
-         qizWQcBbSS1c1fYFDB8EoxEVIHUpvizPl8z2ClpMKA4FDb7fJgWXH5W8zWNVtlX9DTIi
-         gh/FIvWsaLxTpS0rvt2hhIsNVW95RlpCix59cPFHdbGL2vYc8WxjXnF+1jX5IhweXaC1
-         XiRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789731798; x=1790336598;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=8kyloGp73jNN9aWd5AokYOutez5h9JeIEBv6OC0m1qs=;
-        b=Y3JaNPCY2qfZ56ICREJpI12u+Pdj3Do4jQ5cKTWBi3jCpeVyu7GwJl8oZnm15EjKsR
-         e9hklmA8zIqoZrtBnMB6uTNwTgariHxDVhxhoTdqvExURgkKWP65SHd3WxX0a8TESe9I
-         vWOYtvSe2Y9SYRdJOpZw813vPCQJDFuhURoIiHv5gM8EgDPxqrYKoKl4J9yCnDnFb64j
-         DjG0l3gXl+wsq/LAJHWhTYQZXVGgyCq36Tx1DDVvDWrjxedkXklZj894HjcMY86MWs3N
-         GfS4LFAfAy7bEqbuIWkSXZc/8HVSRdtH+iBueqxCz4SgfLmsOXHAiZnrIE5FsqsTJv7D
-         8Hlg==
-X-Forwarded-Encrypted: i=1; AKwUvBwP+7MCOV+hLU8gN+VLbbiOqdHyX0HZ96bOgXdr3BQbU+bIjwwlz0XkiudO5ekQs+9IEdOoR/H7HhQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++nR7CvaJVYjKKOvpuhhWvwmRm0P7iYo5hqXcpMTblZQo0H55gO0
-	fygd6y1nDrtvHBUllkWp8/qe6zDmidKWsN0BAlRKUVb7c2HGZu04gwXe
-X-Gm-Gg: AYBFou0jRNyMbYyF3sfTNBvOjj4E4P7dV1WkSk/+Vzk3aEiZMZbPq8SLuq714pHyFYy
-	l+q86NUoId45+AFHmQMwSeP8wO2zVoHkKC8wHIOWLWL9lL4jE+uVYVeugBX3N2rg4dUA5uDHjBa
-	7UC/oLZMqTOEl+mXwHm6f8pGItRng81krpDxfFubEfpihINcc6/P6VQl8IIKjlDvkenS3qhTh5O
-	nl2SwO6xn5A7DHtkvdvwD5z6KYFH7/LU66jWbRe1nAQ+DJTK7siECiN8Vq2Z4Vkg1tzxNtDLR+g
-	Uf8zmotCecNa5VrY2b3xuQkeG3NohJG9tWJsGs+iRt6j4DXmDrKWNBm00Ik3fmG/T0g+slR7U+s
-	KQxJN4DdaK017X08mtUqNhgXCawbS6mbGVIfex/5ZabN37RJWHh56RRZgq39wB2Xal16L4jVsdp
-	VmwcpctojMxwShJLdfPZXugCisUL+lSuElbFD8PuMVeag12A0odopYtHTYSdyrI0v6OzmBxhw63
-	+1oS48hqiYb7pW6s0sSjQ==
-X-Received: by 2002:a17:902:ce07:b0:2da:f1b1:56c4 with SMTP id d9443c01a7336-2ddb1ab3254mr53010075ad.3.1789731798119;
-        Fri, 18 Sep 2026 04:43:18 -0700 (PDT)
-Received: from 73ebd4c7787b ([183.194.144.114])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33c286d98e7sm4603983eec.9.2026.09.18.04.43.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 04:43:17 -0700 (PDT)
-From: Yuchao Zhang <ndaugoing@gmail.com>
-To: Oliver Neukum <oneukum@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Dave Carey <carvsdriver@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Yuchao Zhang <ndaugoing@gmail.com>
-Subject: [PATCH 1/1] USB: cdc-acm: skip URB restart in port_shutdown if disconnected
-Date: Fri, 18 Sep 2026 19:43:09 +0800
-Message-ID: <20260918114309.3659635-2-ndaugoing@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260918114309.3659635-1-ndaugoing@gmail.com>
-References: <20260918114309.3659635-1-ndaugoing@gmail.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="doaKhNAy"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=tFEJAKtD9mmde2H4PbcVbjy8oluS9JrKkxB0Up7WPqU=; b=doaKhNAybvn/PmhBX86Gi+7t3T
+	QH5iPoxVyvmEHWG83eTRJM9o4ZunjctnxQa8j36AFkUmkVOgAR7y9lYyUO+8Ew7Y9LDYUjDX1Rse3
+	NACgdCdDzZb/bAGim+VyCazzwjiCtehdfLhm8bSqggh0UROL0tVLejVQjBijz+QaYJl2uetfHRc5g
+	RXK/frKyTYKFcWRh+9vzWcXg+EdL8OovvX1t0ug37AWhIuF8+67JSnP9Mdp17zAIGwNediac6ShCF
+	k2QDzSzmnlid5Z24SbXD5fKP6vGN6tHG99LV+v1Eeb6mJUW+fXAFJKwV34SNAoZUlnqryynx9XyFq
+	4XtIZ3eA==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x7YAO-006k2B-2q;
+	Fri, 18 Sep 2026 12:58:13 +0000
+Date: Fri, 18 Sep 2026 05:57:51 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Mike Rapoport <rppt@kernel.org>
+Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Message-ID: <aq01JFp8hRReyY-O@gmail.com>
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+ <20260914-b4-mmap-prepare-vma-flag-sanify-v2-1-7d9781ed5361@kernel.org>
+ <aquz9Z9JrK_H_E0g@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aquz9Z9JrK_H_E0g@kernel.org>
+X-Debian-User: leitao
 
-acm_port_shutdown() is called from the tty-port machinery whenever the
-last user closes the port.  acm_disconnect() sets acm->disconnected and
-calls tty_port_tty_vhangup(), which eventually triggers port_shutdown().
-At that point acm_disconnect() has already called acm_poison_urbs() and
-is about to free the control and read URBs.
+On Thu, Sep 17, 2026 at 12:33:41PM +0300, Mike Rapoport wrote:
+> On Mon, Sep 14, 2026 at 03:57:21PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > The map->file_doesnt_need_get flag is confusing and the existing
+> > implementation has holes.
+> > 
+> > Drivers are permitted to change the owning file of a mapping. If they do
+> > so, they are required to take a reference on that file.
+> > 
+> > The mmap() operation which ultimately invokes __mmap_region() is guaranteed
+> > to drop the refcount for the original file the mapping was made under, but
+> > this is not true for the replaced file.
+> > 
+> > This has been addressed so far by tracking map->file_doesnt_need_get, which
+> > is rather poorly named and unfortunately fails to correctly track whether
+> > or not an additional put were needed in a number of cases.
+> > 
+> > Make life easier by removing this flag, and instead drop the reference for
+> > both mmap_prepare and the deprecated mmap callback in a new function
+> > put_map().
+> > 
+> > Track whether this needs to be done by aligning mmap_state with
+> > vm_area_desc and store the original file in the map->file field, keeping
+> > the updated file in map->vm_file.
+> > 
+> > In order to have the same behaviour for both types of hooks, only drop the
+> > reference __mmap_new_file_vma() itself took in its error path, deferring
+> > the replaced file's reference to put_map().
+> > 
+> > To make this work correctly, map->vm_file has to be updated before any
+> > error handling, so update __mmap_new_file_vma() and call_mmap_prepare() to
+> > set this field first.
+> > 
+> > Also when mmap_prepare() changes the file and is then merged, the reference
+> > count also must be decremented, so update the logic to call put_map() in
+> > this case too.
+> > 
+> > Also update __compat_vma_mmap() to manually perform this step for stacked
+> > file systems using the compatibility layer, and update
+> > compat_set_vma_from_desc() to replace vma_set_file() with a correct
+> > refcount/file update.
+> > 
+> > No in-tree driver is impacted by the incorrect implementation of this
+> > currently (no driver that does this is mergeable for one), so this does not
+> > need to be a fix.
+> 
+> But the patch iteslf needs to be fixed :)
+> 
+> It seems to be the change that broke the CI.
+> 
+> The rest is from LLM, take it with a grain of salt :)
+> 
+> mm-ci mm-unstable red build - bisect analysis
+> ==============================================
+> 
+> Bad commit: 2a937a04babf1 "mm/vma: fix mmap_prepare file handling, remove
+> file_doesnt_need_get" - first patch of Lorenzo Stoakes' 40-patch series
+> "mm: make VMA flag semantics explicit, eliminate VM_SPECIAL" (v2).
+> https://lore.kernel.org/all/20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org
+> 
+> Symptom: tools/testing/selftests/mm/pfnmap.c triggers
+> "BUG: Bad page map in process pfnmap" during __zap_vma_range()/vm_normal_page(),
+> seen on process exit/munmap. CI's run-mm-selftests.sh greps guest dmesg for
+> BUG|WARNING and fails the job regardless of the test's own exit code.
 
-However, acm_port_shutdown() unconditionally calls acm_unpoison_urbs()
-and, when the ALWAYS_POLL_CTRL quirk is set, immediately re-submits the
-ctrlurb and all read URBs.  If the concurrent acm_disconnect() then
-frees those URBs and their DMA buffers while they are in-flight, the
-result is a use-after-free in acm_ctrl_irq() or acm_read_bulk_callback()
-accessing the freed DMA memory.
+I am seeing something similar here and stress-ng can reproduce it:
 
-Fix by checking acm->disconnected after draining the delayed anchor and
-returning early: if we are in a disconnect path the URBs must remain
-poisoned and must not be resubmitted.
+      WARNING: mm/memory.c:3225 at do_remap_pfn_range+0x9b4/0x9f0, CPU#25: stress-ng-dev/354858
+      Call trace:
+       do_remap_pfn_range+0x9b4/0x9f0 (P)
+       remap_pfn_range_complete+0xac/0xd0
+       mmap_action_complete+0xcc/0x3d8
+       mmap_region+0xb54/0x1978
+       do_mmap+0x588/0xb18
+       vm_mmap_pgoff+0x1e4/0x320
+       ksys_mmap_pgoff+0x2d8/0x510
+       __arm64_sys_mmap+0x100/0x128
 
-The early return is placed after the delayed-anchor drain loop because
-that loop only cancels write-side accounting (wb->use = false and
-autopm counter) and does not touch the hardware path.
-
-Fixes: f58752ebcb35 ("USB: cdc-acm: Add quirks for Yoga Book 9 14IAH10 INGENIC touchscreen")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuchao Zhang <ndaugoing@gmail.com>
----
- drivers/usb/class/cdc-acm.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
-index 7bc5329fa3ed..a7ef89a8da84 100644
---- a/drivers/usb/class/cdc-acm.c
-+++ b/drivers/usb/class/cdc-acm.c
-@@ -788,6 +788,9 @@ static void acm_port_shutdown(struct tty_port *port)
- 		usb_autopm_put_interface_async(acm->control);
- 	}
- 
-+	if (acm->disconnected)
-+		return;
-+
- 	acm_unpoison_urbs(acm);
- 
- 	if (acm->quirks & ALWAYS_POLL_CTRL) {
--- 
-2.53.0
-
+      BUG: Bad page map in process stress-ng-dev  pte:0160000000000fcf
+      addr:0000ffe8d9080000 vm_flags:00000071 anon_vma:0000000000000000 mapping:ffff0000a0c4ea98 index:0 (file) ffe8d9080 (anon)
+      file:mem fault:0x0 mmap:0x0 mmap_prepare: mmap_mem_prepare read_folio:0x0
+      Call trace:
+       print_bad_page_map+0x63c/0x740
+       vm_normal_page+0x228/0x240
+       __zap_vma_range+0xbe0/0x34a0
+       unmap_vmas+0x240/0x318
+       unmap_region+0x12c/0x238
+       vms_complete_munmap_vmas+0x318/0x958
+       do_vmi_align_munmap+0x254/0x2f8
+       do_vmi_munmap+0xc4/0xf8
+       __vm_munmap+0x174/0x288
+       __arm64_sys_munmap+0x70/0x90
