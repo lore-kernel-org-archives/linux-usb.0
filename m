@@ -1,212 +1,135 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from mout.kundenserver.de (mout.kundenserver.de [212.227.126.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE1A2ED16D;
-	Fri, 18 Sep 2026 14:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF94340260;
+	Fri, 18 Sep 2026 14:44:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.126.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789741824; cv=none; b=Q6/GFD5YBVHoqHR+rgtyeJ6Q/KfqjF5SzXDqRtF5WEjsnC5RFzXOVB9Fckl5N2XeI8/zyQKmnIpPY2G/SaXEqJgL4EFtZN+PyqSeFon3PwYCgpDB9A8JXP1jRcZFjj/UPk8f6YtBS3sfBDvgfDpjThvVPToZyBgeg69+EhI+fQo=
+	t=1789742662; cv=none; b=t+OvqkwysRhWhd+LKlskq9kW1qUXl+BsqzaYHaythxpdGOLOBlgWS7tWIhAG2CMIii+DlQ1sQ2ofR2awhNyEI1CpLYpw3kRb/qsbyIbG1oZHZ5JXVG4ah7KF5zpKQ1Kj9TIMHJQ8PM4G9LLHUzBzOgbU/uvOPcf3tymsU4b5rWM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789741824; c=relaxed/simple;
-	bh=5OmomeRB+LD60RpaKuchulaB8gm1HL/uXNHI8PnXFlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nh7QxUIPSD3n3M5khRT+IaAJvQfkjtgQqgGvEPzZSRTOIWBAOxxl/I4S2x8KtGG3pAn3Feczc6jdUnmQeRjyxnTiHmldnrMK15wK1E32mL8qVDl85cU6VIPpoCBOVsu9r7GQBkuU1Vw40YdHh3xBoduKLVSFs0oHBGC0FjWyoy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=clSyf51X; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1789742662; c=relaxed/simple;
+	bh=UEKJ21gw1Dw3LJ9CKd1SZJBDvs/uzGNvB87MAehHrC8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IAqiWOHHc3+nXZpYwXZAWdrf6Bj+rD3OUsKptUO8DiApl8OG7/R+G9o0XKOUO13VeKYFfXA72i2HWMbVwDyDjRfoFhqaAHBa03Ne2Rh6myQ2qdn6QPXkfdyqRj9nR07hMOEg2RjiSmDiVJHu2n02uhUu27ltcVFzne5zrKLKs7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz; spf=pass smtp.mailfrom=oldschoolsolutions.biz; dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b=Em9zythH; arc=none smtp.client-ip=212.227.126.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oldschoolsolutions.biz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oldschoolsolutions.biz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="clSyf51X"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=z8DxBDctfQle4qPyCLsPEBU1oRIWLoRdyUpwbsFqYLE=; b=clSyf51XrV8aRcbTvneX3p6wBa
-	n2dJgPOcz894gpJOnZdCOcF3UEXESwNBxWownSVKd57lnJYBBwn8UK22mY+Uu9cTVCm4bYkkLdbb9
-	zwnoTjkKMM6lYQMFHN/pynLhjEOj2/5EEiCk+CstXFpuvTmB28MRP3Fdyl1b9KhwvkjSzoEaggt5r
-	4zu+cgayQfsFLqmqeLGe7kyw0337RIawLytCxdWbLSsC8OhbmfdiwFeLxFGinxIHnQj3tRZJIvubH
-	Z5p2yU1Pjs4x4ZBAOVPASiIaB3Jla/kGk5xR5Btk7PaRjSjDUhmPE8iOfBuqPX68vAPFbXjRIpG5J
-	q2qapdRg==;
-Received: from authenticated-user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1x7Za9-006nCZ-3B;
-	Fri, 18 Sep 2026 14:28:54 +0000
-Date: Fri, 18 Sep 2026 07:28:33 -0700
-From: Breno Leitao <leitao@debian.org>
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Mike Rapoport <rppt@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v2 01/40] mm/vma: fix mmap_prepare file handling, remove
- file_doesnt_need_get
-Message-ID: <aq1KeFmXBIEd2YhQ@gmail.com>
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
- <20260914-b4-mmap-prepare-vma-flag-sanify-v2-1-7d9781ed5361@kernel.org>
- <aquz9Z9JrK_H_E0g@kernel.org>
- <aq01JFp8hRReyY-O@gmail.com>
- <aq06hcheI4OGi_3A@gremlin>
+	dkim=pass (2048-bit key) header.d=oldschoolsolutions.biz header.i=jens.glathe@oldschoolsolutions.biz header.b="Em9zythH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oldschoolsolutions.biz; s=s1-ionos; t=1789742658; x=1790347458;
+	i=jens.glathe@oldschoolsolutions.biz;
+	bh=UEKJ21gw1Dw3LJ9CKd1SZJBDvs/uzGNvB87MAehHrC8=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=Em9zythHedAab0tT6vtSYz2OGXzNRgqm6cWBNXmMubmAQT0LsW2bs/DGlQtPkdst
+	 CWmTbipm7HyuwMCKR+baeeLl0WoLqO0tHxSd4mZKnyybw6w+ShOcf+YKQ2Vz/Djae
+	 tTnxPZLkjhTkRKIpii0gSZbl299u3EzRbst9VYg4bWWIwUqKByIpKUvLT6+TvSvwW
+	 mmNci2Mm+F3Ya5uAkT/iDuFmMTY9Hqq1sP1qT3VGfVZpjp4xIBYrraKM01uBfMSir
+	 jKspOWasduIdtf9HXkaLwngdcFSrbjEjscS12873Uq47EwKBuFkG2Rkegse7Y9+/v
+	 phwWtCbTDJpAWOg6BA==
+X-UI-Sender-Class: 55c96926-9e95-11ee-ae09-1f7a4046a0f6
+Received: from client.hidden.invalid by mrelayeu.kundenserver.de (mreue011
+ [212.227.15.167]) with ESMTPSA (Nemesis) id 1N5FtF-1wftvp3c1d-00rPlS; Fri, 18
+ Sep 2026 16:38:40 +0200
+Message-ID: <35f0856d-2f39-4a03-b056-fa22b1e56589@oldschoolsolutions.biz>
+Date: Fri, 18 Sep 2026 16:38:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aq06hcheI4OGi_3A@gremlin>
-X-Debian-User: leitao
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] usb: typec: mux: ps883x: disable USB4 on
+ incomplete USB4 platforms
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Abel Vesa <abelvesa@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Sebastian Reichel <sre@kernel.org>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, stable@vger.kernel.org,
+ "Dr. David Alan Gilbert" <dave@treblig.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <20260914-ps883x-disable-usb4-v2-0-523c32b4e4d7@oldschoolsolutions.biz>
+ <20260914-ps883x-disable-usb4-v2-3-523c32b4e4d7@oldschoolsolutions.biz>
+ <aq0ENUZzJYKZ6V9f@black.igk.intel.com>
+Content-Language: en-US
+From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+In-Reply-To: <aq0ENUZzJYKZ6V9f@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:5LPT74JtNpAEV3vGrXpAlrLVKmERpDn4nZVgAi8ZLO859LD5EhK
+ jDLfgoJCk6zMl9jvgyitALWPMM2foRSx97R8XPPgt3+0C0EfIu37V+69Mm0oIiEyeDNwaPT
+ CXUGVLP/JklpOAz7B38q6TeZMfz3NMV8jFko9ijo/eky/cm77w9zYYiT9LfO3fBH7vBKwtB
+ CKTOm8Tdk0MZzc/kSg+YA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Z3j4yR01WYU=;U0eBHeCaZGMehBIEEkx8rHq2Yak
+ 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
 
-On Fri, Sep 18, 2026 at 02:20:34PM +0100, Lorenzo Stoakes (ARM) wrote:
-> On Fri, Sep 18, 2026 at 05:57:51AM -0700, Breno Leitao wrote:
-> > On Thu, Sep 17, 2026 at 12:33:41PM +0300, Mike Rapoport wrote:
-> > > On Mon, Sep 14, 2026 at 03:57:21PM +0100, Lorenzo Stoakes (ARM) wrote:
-> > > > The map->file_doesnt_need_get flag is confusing and the existing
-> > > > implementation has holes.
-> > > >
-> > > > Drivers are permitted to change the owning file of a mapping. If they do
-> > > > so, they are required to take a reference on that file.
-> > > >
-> > > > The mmap() operation which ultimately invokes __mmap_region() is guaranteed
-> > > > to drop the refcount for the original file the mapping was made under, but
-> > > > this is not true for the replaced file.
-> > > >
-> > > > This has been addressed so far by tracking map->file_doesnt_need_get, which
-> > > > is rather poorly named and unfortunately fails to correctly track whether
-> > > > or not an additional put were needed in a number of cases.
-> > > >
-> > > > Make life easier by removing this flag, and instead drop the reference for
-> > > > both mmap_prepare and the deprecated mmap callback in a new function
-> > > > put_map().
-> > > >
-> > > > Track whether this needs to be done by aligning mmap_state with
-> > > > vm_area_desc and store the original file in the map->file field, keeping
-> > > > the updated file in map->vm_file.
-> > > >
-> > > > In order to have the same behaviour for both types of hooks, only drop the
-> > > > reference __mmap_new_file_vma() itself took in its error path, deferring
-> > > > the replaced file's reference to put_map().
-> > > >
-> > > > To make this work correctly, map->vm_file has to be updated before any
-> > > > error handling, so update __mmap_new_file_vma() and call_mmap_prepare() to
-> > > > set this field first.
-> > > >
-> > > > Also when mmap_prepare() changes the file and is then merged, the reference
-> > > > count also must be decremented, so update the logic to call put_map() in
-> > > > this case too.
-> > > >
-> > > > Also update __compat_vma_mmap() to manually perform this step for stacked
-> > > > file systems using the compatibility layer, and update
-> > > > compat_set_vma_from_desc() to replace vma_set_file() with a correct
-> > > > refcount/file update.
-> > > >
-> > > > No in-tree driver is impacted by the incorrect implementation of this
-> > > > currently (no driver that does this is mergeable for one), so this does not
-> > > > need to be a fix.
-> > >
-> > > But the patch iteslf needs to be fixed :)
-> > >
-> > > It seems to be the change that broke the CI.
-> > >
-> > > The rest is from LLM, take it with a grain of salt :)
-> > >
-> > > mm-ci mm-unstable red build - bisect analysis
-> > > ==============================================
-> > >
-> > > Bad commit: 2a937a04babf1 "mm/vma: fix mmap_prepare file handling, remove
-> > > file_doesnt_need_get" - first patch of Lorenzo Stoakes' 40-patch series
-> > > "mm: make VMA flag semantics explicit, eliminate VM_SPECIAL" (v2).
-> > > https://lore.kernel.org/all/20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org
-> > >
-> > > Symptom: tools/testing/selftests/mm/pfnmap.c triggers
-> > > "BUG: Bad page map in process pfnmap" during __zap_vma_range()/vm_normal_page(),
-> > > seen on process exit/munmap. CI's run-mm-selftests.sh greps guest dmesg for
-> > > BUG|WARNING and fails the job regardless of the test's own exit code.
-> >
-> > I am seeing something similar here and stress-ng can reproduce it:
-> >
-> >       WARNING: mm/memory.c:3225 at do_remap_pfn_range+0x9b4/0x9f0, CPU#25: stress-ng-dev/354858
-> >       Call trace:
-> >        do_remap_pfn_range+0x9b4/0x9f0 (P)
-> >        remap_pfn_range_complete+0xac/0xd0
-> >        mmap_action_complete+0xcc/0x3d8
-> >        mmap_region+0xb54/0x1978
-> >        do_mmap+0x588/0xb18
-> >        vm_mmap_pgoff+0x1e4/0x320
-> >        ksys_mmap_pgoff+0x2d8/0x510
-> >        __arm64_sys_mmap+0x100/0x128
-> >
-> >       BUG: Bad page map in process stress-ng-dev  pte:0160000000000fcf
-> >       addr:0000ffe8d9080000 vm_flags:00000071 anon_vma:0000000000000000 mapping:ffff0000a0c4ea98 index:0 (file) ffe8d9080 (anon)
-> >       file:mem fault:0x0 mmap:0x0 mmap_prepare: mmap_mem_prepare read_folio:0x0
-> >       Call trace:
-> >        print_bad_page_map+0x63c/0x740
-> >        vm_normal_page+0x228/0x240
-> >        __zap_vma_range+0xbe0/0x34a0
-> >        unmap_vmas+0x240/0x318
-> >        unmap_region+0x12c/0x238
-> >        vms_complete_munmap_vmas+0x318/0x958
-> >        do_vmi_align_munmap+0x254/0x2f8
-> >        do_vmi_munmap+0xc4/0xf8
-> >        __vm_munmap+0x174/0x288
-> >        __arm64_sys_munmap+0x70/0x90
-> 
-> Yup I already fixed it and respun the series :)
-> 
-> https://lore.kernel.org/all/20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org/
+HI Heikki,
 
-Very nice, thanks. I will give it a try!
+On 9/18/26 11:28, Heikki Krogerus wrote:
+> On Mon, Sep 14, 2026 at 08:05:03AM +0200, Jens Glathe via B4 Relay wrote=
+:
+>> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+>>
+[...]
+>> stays inside the kernel and can be removed later without creating ABI.
+>>
+>> Link: https://patch.msgid.link/20260312101431.2375709-1-krishna.kurapat=
+i@oss.qualcomm.com
+> What's the purpose of that link?
+>
+> I think you want to make a reference to the commit 0c8ee850572b ("usb:
+> typec: ucsi: Add UCSI_USB4_IMPLIES_USB quirk for X1E80100"), right?
+>
+> Is this meant to fix that commit? If so, then please use a proper
+> "Fixes: 0c8ee850572b ("usb: typec: ucsi: Add UCSI_USB4_IMPLIES_USB
+> quirk for X1E80100")" tag.
+
+Hmm its not a fixes tag. It is a residual of the thinking process that=20
+prompted me to go looking what goes wrong. So its semi-related. Since=20
+you acked v3 with the link in (thanks!), do you want a v4 without the link=
+?
+
+with best regards
+
+Jens
+
+
