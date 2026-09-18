@@ -1,142 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F8A64FC8FD;
-	Fri, 18 Sep 2026 13:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0076E346771
+	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 14:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789739741; cv=none; b=cBs5rCifM1AUElCm16j++NWcdigJX4l4xZCEgDNASkAi7tLrzcMs99k/p406a23yEne6qwMrfnrWZodHvE0BE83sL4eZdAYmP3bUM/k3FoslogOtpvPuheP235TN3PrYIFF6UvjL169JhtF1VMDtlP3YPiALPL67RSYexnbnHKY=
+	t=1789741053; cv=none; b=KhhT6eYVs8l5no6WVMW15BQsrZPHsnHHzAcOVH1s35zukv7Kieowib2anvvp4q2n1awv2rnR6De9s4qQY+UZUsoEdYL8UVxMKlyYNd5NoAMgT57ima47hv5VTfpC6M3hVZqo0qfYQLuPQ64zLzm2XS8YhQjwXdw25JbEPuXLAaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789739741; c=relaxed/simple;
-	bh=UAuJCU0pw2Nu5bSntLgF8/EoGJnXnmDCWKL6Xwu+ayo=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=XCsSJkAEkAJlEp7w85gFLN8zgTGFF+LX6QRDKEDHEmPcEAEDrHCC2M9p8/SU5ChdZFIGENWilILNZZYo8JugswrnlOrxY/FmncCMCi6e5ZeplLXsKypr1HZxxMiRTt2wCEnqR7+9Lw9cAb3jXmMLw4fr894kh+8xry1tJz7ivXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cp7GHdgQ; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789741053; c=relaxed/simple;
+	bh=0SUOoIAUaLT7F1Gk4YYUyXePP6L3UTYZWjgmxML1hhk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tc1JxyQbRtRier2N4R1xWH+6msM1O4RQcNx9jon8TfrkZxuT2QkW5VkQRxnU/kuaIYsFT/JzGJEPrS47fcjs31/+SL0/cGLQmma/FKuSSQxOHuTf3Gr1p27wxrkU7M2Q3FqnVb8mR0K+ufQyZ5YLO4D2A6z2mUhJjhR9/jgN2ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=tbnp0DPF; arc=none smtp.client-ip=74.125.230.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cp7GHdgQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BC5E1F000FF;
-	Fri, 18 Sep 2026 13:55:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789739735;
-	bh=4D9ml57Ny1BqAHty5ellcRNOyN2FZuu+rb87VZTIWPs=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=Cp7GHdgQHC3PjELiyZ/mh0eSXpOBXjfIkO/yU+3A6mUlh2xAP13wI79Zh+eBFb6L7
-	 KDiZpBQlzP/d8J7XHGEUKDbb2kU+A7iXq26QTDdsi8+5ErdxbBAjghlB22FEFdrSrZ
-	 AQRZaRA5lOc1yPVT/9n3Tjsrpyf1rsLPGggUXWnxAq20ckKFvP4NVF4XTgXPRpBfzL
-	 Kqd0yRxh1rcrW3myzAjRJGweiBQjmPERXU6QM50eZ/GFwd7GyB9oz0w86UGDJie0uj
-	 nqxmNXMHaFjjVF9/qmIJeVFBjOVM2iTjS75ZE0K1JkaTNE83/udzxHPt8mRmhCeS1j
-	 0MZKmN/6h4Kyw==
-Message-ID: <628a4ac0-135d-434a-b5c7-27453e96fdec@kernel.org>
-Date: Fri, 18 Sep 2026 15:55:25 +0200
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="tbnp0DPF"
+Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-52fb769ca02so9172141cf.0
+        for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 07:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1789741051; x=1790345851; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=uadj5t2QE0GhPwN/LGtDC4GsH7sMKtOhGKh1V/7jDls=;
+        b=tbnp0DPFZzCzJI92LO+DZBa4LFBADqSgbjMCOiVY0f04DmdXMo7xhxkmxpftADnhCX
+         vEmsFrGVJC5hraBVWBUbx+1ApcBwRU2hbl2Wp7frwdHb3Qsa8rmbKo8WtS4qynZMxFnO
+         X3eZceM3ShMYND/1X5fbiTV9ARGkdeEz+BaLOKxYg+qRtUxjy8AHHyDRUMeWiFv5eiwZ
+         6cqp7hZL1h/ASPxGHzYH3jl4HBlrgFi1BmLeqvg/AXAgSO5gJPs6O+RfUuMOdXKhBsso
+         D3kC6Phnj1Ob5lyLRkVkfaFhgBaqWv/Yy0JGoLndPS0E2qi0mz5d+vGtuXl1EEJugffC
+         M2bg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789741051; x=1790345851;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uadj5t2QE0GhPwN/LGtDC4GsH7sMKtOhGKh1V/7jDls=;
+        b=hCE9VBQFUflju4laypcdGPmegoeeDXNSAGY9ltq9XMMEIqH9kN7PQEf+LNbKDfLUVp
+         11dvGrXn6DI9I4YCHNAP8MSDm/DlKVTwstErBu09qypMfzXZgFtWUOxue42N0Trh5EyV
+         cehy9ajufmC4HxJUqGgvXUGQIaOfIIa9iyQxxn7PuO/GMvdqD4Pk+wFZKdvL/2GlOGXQ
+         HynnA92mc8U4TIlo25NxFeQCV3Gt4AoqdQAAvX2WRVQYRVEAHOT3lTp0UkRQOJJLEXgn
+         FVs7Kjy9PrrRGVmP1j3XsCE94jmyD4QDal0LUXee/ITYUbWFNyo7VZVIFW8H2smqdaYp
+         SOEg==
+X-Forwarded-Encrypted: i=1; AKwUvBxj224ETTuKcQybXxSLhoMd81sAEUpiyNe19FNcW0ERob/kQV7Adwulpoug+XWAoQyO8jXhxjsGXlM=@vger.kernel.org
+X-Gm-Message-State: AFuF++m9oXDIrlvCx6T4R9j2Mci3MaA5j3VfqHV+7ZIPU4vXhLE3qthe
+	P9R1EADniRVnOse2l+UHxCBd4c558Awu0Pg1ep27AuZCJNVwJ0ZKJaqyAbkD4zGB7Q==
+X-Gm-Gg: AYBFou0hTBq6L/o509S3XE56jQpf1CW+WBGBo3aXiRb+OGxizDJxlrMGrLWkAP6Dqn7
+	dxDXcDPNX0nSHs6bdKnHbScYkrJG2rb46PbajaG1E90FhRUKqNgaADHIRvx5iU1jTLk+BIxoegQ
+	CoDIGWopZUa6h6UWbxewv6XKroOP/xW9/atZWd+DU43cY/B8uusJAIX6PHq8fIDLWvB/1IkWxez
+	n107UNG9RAW/3HQsTxhqVXQDNVm/cbVGv2q10DcmilfxKAqh9UQtoMYbQr4gHBJ4kRSpkZsjDpp
+	jmF1RuXcPoP3Hvf9J3QiAJIvpgRKFiS2Ce85w0V1YrXfVE2P8ZhnBZaRaRS+ItMLgd451GsOsQa
+	4Gm0k9r+9rSIKLGsYUiEJ0TCuXtUhqyjMvPlO8LO2U1BSpQDTyNf2Mg70gm9fDoFRQsbD+nRgF+
+	2HsOK9pZLayy8GDp2TxuLplo3GPYPPdhe6iDDSvBx83IUMsIaFv9oGvWd2oyxjgzp2xMafYz1u
+X-Received: by 2002:a05:622a:4c16:b0:52d:28f8:578c with SMTP id d75a77b69052e-5329e393052mr40542951cf.31.1789741050517;
+        Fri, 18 Sep 2026 07:17:30 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532ac48dfc9sm1986711cf.8.2026.09.18.07.17.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 07:17:28 -0700 (PDT)
+Date: Fri, 18 Sep 2026 10:17:25 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Minseo Kim <neck3922@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
+Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
+ in ep_aio_cancel()
+Message-ID: <fd663410-6aff-42f1-a6e7-652f073fdafe@rowland.harvard.edu>
+References: <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
+ <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
+ <0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu>
+ <CAFmvuTXeg2LykJa060WUYAhhQpdwGV74VFkMb6Wu5zjyqWzxmw@mail.gmail.com>
+ <f42b44ef-b083-4976-bf06-f2a21098474b@rowland.harvard.edu>
+ <CAFmvuTUZ+iP313qz5J5vaT7QGz2y-tHQ6XMrq2tnvStZqXDECg@mail.gmail.com>
+ <7a87e293-633c-4100-aa8d-91560ba5e5c5@rowland.harvard.edu>
+ <CAFmvuTU9xfCWFaoXzE6J0uC6y6eCZ43CRg+JWkLV3dgLNYu5Cw@mail.gmail.com>
+ <9c07ce98-a5bf-4bcc-9304-e7f5e1747842@rowland.harvard.edu>
+ <CAFmvuTW5kqF8zNp7wSxB3abhD9ZvfJ0gu9Si8kRTiwcuXOeVuw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/3] dt-bindings: usb: Introduce samsung,snps-dwc3
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Selvarasu Ganesan <selvarasu.g@samsung.com>
-Cc: peter.griffin@linaro.org, alim.akhtar@samsung.com,
- gregkh@linuxfoundation.org, robh@kernel.org, conor+dt@kernel.org,
- Thinh.Nguyen@synopsys.com, mani@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, jh0801.jung@samsung.com, h10.kim@samsung.com,
- dh10.jung@samsung.com, akash.m5@samsung.com, hongpooh.kim@samsung.com,
- eomji.oh@samsung.com, shijie.cai@samsung.com, muhammed.ali@samsung.com,
- thiagu.r@samsung.com
-References: <20260916122229.2604003-1-selvarasu.g@samsung.com>
- <CGME20260916122354epcas5p401fd6470d6cef75951af732b03aa5970@epcas5p4.samsung.com>
- <20260916122229.2604003-3-selvarasu.g@samsung.com>
- <20260918-burgundy-marmoset-of-focus-c9b9a7@quoll>
- <fef2b2f5-3838-4eec-8118-d41f9ca0ed2f@samsung.com>
- <7fbcf497-a166-45d6-844d-faaece6f581c@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGPBBMBCgA5AhsDBgsJCAcDAgYVCAIJCgsE
- FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJp2mE8AAoJEBuTQ307QWKbeaIP
- /ihHTkTW4KsN/DQ945JJbyu5tI0J80Wue7QyyLPglyKfhgb5cLLNPpOC8cCIJsc7+W3i2P38
- s2c1cOH6CYGE7E9ur3Vfme8NW2S2I/Z8VC7bZnzyS23wT17LrsdS/qCpx4o8U+pt/xdXDKph
- EGRYrIEmMpUWvyYzyYKGIe25FtaayIIKpq8eZYyFcp2f/sG5IkOW5uZzHPMPdcm87jU7fyuQ
- rAU2vx9r+ulUfQ/q9Z2roC/ode3l7t2pN7BCBCsUDp6JCrUyZrtT1e7EbA0ZRP3aOBNk2P2E
- DQOgJGjGdO5Yx2Y9LFtltu6JbsBJHi1syGRX3AtQYOMc4Y1WGoeZJmMlvKj2ZqqXNkcWi2DS
- IQEWB0uW6CqFsBBIMGDa+6OzdaVO/uAVXWDWml02Men3CILdI1MbVjoh8ECqYUY7OQ+JJvNN
- vnliuq5WM3Ghd3jg/LZZrxXjdIginRHFQCjIJYLKpLZWm1/iDFedcfzqRNYmTtqscdCNHW41
- oT3Z7BmO9xwdjuwBS6nmS6JJwkbf5Ot2QR4pB/DRU7ZwjT1qHe+9r9gF32wXVQatHNGK/VVu
- sfwOnkdxCWkp/qb2gdQRmZh+SedStWshigH6sNfuHBloF/q+hjMRc8b2m326OZdrbSHwY1Sz
- vti8Hn7n8NjdHO9LKB7BIdjkA9DA5WsqOuVCzsFNBFVDXDQBEADNkrQYSREUL4D3Gws46JEo
- Z9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLueMNsWLJBv
- BaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6eiOMheesVS
- 5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wAGldWsRxb
- f3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA6z6lBZn0
- WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9YegxWKvX
- XHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt91pFzBSO
- IpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gUBLHFTg2h
- YnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/JoFzZ4B0
- p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu4vXVFBYI
- GmpyNPYzRm0QPwARAQABwsF2BBgBCgAgAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtBYpsFAmna
- YUkACgkQG5NDfTtBYptX+BAApg32CkxwNucNEi8WfWA8oKkW0y8YDuY6ORMo9FWNGiT/OTy0
- vyJrLocrpn86zwfjVp+eCrssPYh8eqJfnWqmYv6ACQtHPYzPZQ3mSo8H97Z01oUxITzCxpXm
- ZkLgPIqtDPcC2E3dPM/fVxcyowM8XsaMA9wcsaUYrta8toOq2b9tKcjleKMfMrm0gQ9u7wUc
- QbLkwj6TCLOwucb07GXzLTNF9PZmaDUpKAZjMjmrW+le+SFvQbhamx0rxLWPR0NWntXpbCn+
- +ACch03p/JyTBVktxFsFyCt7pTPE1kEaeuXBTe/a2D9iQvRxRW19LvuO2e59/u1wYUiH/orz
- wbIC2S4dBsPAPihL3ztOU1yE86GPyQtSE0kU+/7snnLt4QGi6PChf3t5gnNjAzjUUovO8rgI
- c+5yN5heq5loYHgK6OQ9OlHzsPHO9e9MOQcKlFycs1pyijFGzDwdNUm/SchK8iWT2QApTx4A
- K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
- n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
- qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <7fbcf497-a166-45d6-844d-faaece6f581c@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFmvuTW5kqF8zNp7wSxB3abhD9ZvfJ0gu9Si8kRTiwcuXOeVuw@mail.gmail.com>
 
-On 18/09/2026 15:46, Krzysztof Kozlowski wrote:
-> On 18/09/2026 15:36, Selvarasu Ganesan wrote:
+On Fri, Sep 18, 2026 at 10:30:00PM +0900, Minseo Kim wrote:
+> Hi Alan,
 > 
->>
->> As seen in samsung,exynos-dwc3.yaml, our existing bindings already 
->> support multiple SoCs with diverse clock requirements within a single 
->> file. Similarly, we plan to use a single flattened Samsung binding to 
->> manage these diverse clock requirements. for different SoCs.
->>
->> Regarding the migration for current and future SoCs, would you prefer,
+> > I wonder which part of the code was holding udc_usage above 0?
 > 
-> I do not understand how any of this is relevant to my review comment.
+> It was the udc_usage increment in ep_aio() during request submission.
+> The increment occurs before dev->lock is released to call
+> kiocb_set_cancel_fn() and usb_ep_queue(), and the corresponding decrement
+> occurs after usb_ep_queue() returns:
 > 
->>
->> Option A: A single flattened binding file using a common fallback 
->> compatible string (instead of samsung,snps-dwc3) to minimize 
->> of_match_table entries, and if/then constraints to handle diverse clock 
->> requirements.
->> Option B: Separate binding files for each individual SoCs.
->>
->> Could you please let us know your preferred approach? Once confirmed, we 
->> will address your other review comments based on the selected approach.
+>     ++epdata->dev->udc_usage;
+>     spin_unlock_irq(&epdata->dev->lock);
 > 
-> You do not have other bindings. You have one device. If you have more,
-> then post more. We are not making reviews based on imaginary future things.
+>     kiocb_set_cancel_fn(iocb, ep_aio_cancel);
+>     value = usb_ep_queue(ep, req, GFP_KERNEL);
+> 
+>     spin_lock_irq(&epdata->dev->lock);
+>     --epdata->dev->udc_usage;
+> 
+> In the matched control, a request with a length of 64 bytes took the
+> direct giveback path, where dummy_queue() calls
+> usb_gadget_giveback_request() before returning to usb_ep_queue().
+> usb_gadget_giveback_request() synchronously invokes the request's
+> completion callback, which was ep_aio_complete() in this test. Because I
+> held ep_aio_complete() at the diagnostic gate immediately after
+> iocb->ki_complete() returned, the nested giveback call could not return.
+> Consequently, neither dummy_queue() nor usb_ep_queue() had returned, and
+> ep_aio() had not reached the decrement. gadgetfs_unbind() therefore saw
+> udc_usage at 1 and waited.
 
-OK, I guess you referred to my further comments about if:then: block
-here. When you have more devices, you can add them to the same binding,
-with proper constraints for each variant.
+Of course.  Now I get it.
 
-https://elixir.bootlin.com/linux/v7.3-rc3/source/Documentation/devicetree/bindings/clock/samsung,exynos990-clock.yaml#L93
+> In the normal transfer test, by contrast, usb_ep_queue() returned and
+> ep_aio() decremented udc_usage before the later completion callback ran.
+> I confirmed this ordering in three runs without enabling a callback
+> gate.
+> 
+> I verified the sequence for direct giveback with markers after the
+> increment, after usb_ep_queue() returned but before the decrement, after
+> the decrement, and immediately before and after the unbind wait. In each
+> of three runs, markers with the same dev pointer showed ep_aio()
+> incrementing udc_usage to 1 and gadgetfs_unbind() entering the udc_usage
+> wait with the count still at 1. After I released the diagnostic gate,
+> usb_ep_queue() returned, ep_aio() decremented the count to 0, and
+> gadgetfs_unbind() left the wait.
+> 
+> > I will submit the patches, with your Signed-off-by:
+> > added to this one also, if that's okay with you.
+> 
+> Yes, that is okay with me. Please add it as:
+> 
+> Minseo Kim <neck3922@gmail.com>
 
-If the difference is only in clocks, one binding file is usually good to
-hold many variants. If there are more differences, things are getting
-too messy and more files are useful (see commit
-c80dc8121d3af8f33413bb0f9ed9e81e2c576e1a for example).
+I will, and I will CC: you on the submissions.
 
-Best regards,
-Krzysztof
+Alan Stern
