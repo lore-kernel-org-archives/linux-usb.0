@@ -1,189 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 456AC3AAF4A;
-	Fri, 18 Sep 2026 09:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD2243499F;
+	Fri, 18 Sep 2026 09:58:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789725424; cv=none; b=TG/URBgYlvBH+kEAmpvsdbUiY+aC6j4uOTYyT12IcNoAfOR/FEU8jzIndZadtp3V3Ye8/IHUY2AvcXR1BcM/Ud0sDnMQGpbRIvkZGXUFAjl0SVW/PzFKG51OpdaZvdJ3tLzqrylRJKTWIwo8QVIID07CNRCaiKKMDPNNHivHhkM=
+	t=1789725534; cv=none; b=inVJjgDTUZvM9D6GuXly7XQsZYjRhRmCNYKau5l5DSllVJqlLB+1yKkdonzykt8fa9J5kmc9V/Z5PgM5lJKZRq2O6YQMBUwI0zYXu9E2q7GrxPMuiSHEp6UFTVyhdWK591hqL4aACRtY+bxD0kU6ojuK5K0bnaC5V8jPoDmdA74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789725424; c=relaxed/simple;
-	bh=hZ1x00CmvH/v3SfkzJvQTSbvvIy+fDJWOOfZXXMnCSc=;
+	s=arc-20240116; t=1789725534; c=relaxed/simple;
+	bh=JsQggZigR/TcXmnx8/T+7z6r+BTFJnRQcEysKzuQRdc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nu/LaLnH9tkPNDr11OhHhKX0gRYLQuOqyqUeo/gowNNGyDv6rB9NZOFDCE6ZhlaJ/M4e92BgowPeHFPlIxZeGR0vmlx1SVLh6rIwkvTtSoMJxb/R1YNYM2buM3WOxs8j34xJ9l5tKzn/RCtxy/bmpmspP2Oqq1tWODrEDEDdrkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nM/Joy5T; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=JXB4D53XFU3V85o+QldPHc0b3Gq1kvVeOMv53pl3n6SS2CuNoTXFzk/ki5n3N6jV8nxffRuq7AT+hpFAgKGoLbw83N7zY1YJh5mmyaNLGdn0QRzQVwfMGs091nrE5ntZ4l3YkjMKbdKJcOKWsVp6bsM3DY4CHvymnc5jp2zAjtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lzQGaa2w; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nM/Joy5T"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789725420; x=1821261420;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=hZ1x00CmvH/v3SfkzJvQTSbvvIy+fDJWOOfZXXMnCSc=;
-  b=nM/Joy5Tx9d7T7IguFOUYEnEUsGtEz2HFbuuA5Fmd7xHiT2N2Scl0BMz
-   nYUwTPIQZR7OoSxnvqQvh2eIZOvINoxdebHQg7oDphsOMKZpXpUrfu/Fd
-   hpCvrT2GWqBOWfAZ0U5Owo5jeYOIo+seIfLPtDqcnfdrZBzooOrbxrQzO
-   Ldwpaftnt6nI1QJHgyBSpjN77ix0FdURhw5hkKsDblSJA6dAavy2raYqa
-   7VFrjKH+qP2sZpowjRjnCdrETalpEmTE6b2T1zI+WUY07CG5pduUkHqUa
-   muUv3uYJw5rlCkG2VIVSCSigCEjf+ww+mEHvkOTsRvDhNUPp1BSKUymi/
-   Q==;
-X-CSE-ConnectionGUID: 77026hMORE2kGrzHrfs4FA==
-X-CSE-MsgGUID: dLlbpJE+RAa+Obnl1UvnkA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100882634"
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="100882634"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 02:56:54 -0700
-X-CSE-ConnectionGUID: TCzrHF1/RhWzhNMUEHoKGw==
-X-CSE-MsgGUID: 37tYMD3SSuClkfINO9FYoA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
-   d="scan'208";a="299431634"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 18 Sep 2026 02:56:51 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id F08B999; Fri, 18 Sep 2026 11:56:50 +0200 (CEST)
-Date: Fri, 18 Sep 2026 11:56:50 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: jens.glathe@oldschoolsolutions.biz
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	stable@vger.kernel.org, "Dr. David Alan Gilbert" <dave@treblig.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Subject: Re: [PATCH v3 3/3] usb: typec: mux: ps883x: disable USB4 on
- incomplete USB4 platforms
-Message-ID: <aq0K4ryxva5sdbjr@black.igk.intel.com>
-References: <20260916-ps883x-disable-usb4-v3-0-8f19386456d0@oldschoolsolutions.biz>
- <20260916-ps883x-disable-usb4-v3-3-8f19386456d0@oldschoolsolutions.biz>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lzQGaa2w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB91C1F000FF;
+	Fri, 18 Sep 2026 09:58:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1789725532;
+	bh=Ln1d4qHa7vdCKllJbzJ0Cgy2Evr00KW99XLnmyu9AZQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=lzQGaa2wc7pzdKv4ZpCrAfV29vqmfnYgdzyKRSmxaEI3AfqMIfSFutWS+AZPvkSF2
+	 GdevVH2V8K7hWaHcSqJB0R8WJs5Xz5mW5ttf0/Id00JR1Y+uo2I6kHaw8Y2J7I2y1i
+	 iapc6g9TCJqF+xSdzEicL/Hw13gqjY7TtT7pd5JqiM4rOIW7P0qrlFGm5eiLghqT4b
+	 Ov3UNovPiZ9GJgafv3w0tWTH+TU0jwaLigTapVYn4gGe4Yv23+pqZQFo6ci5xQgJvQ
+	 MUTb1pXh7zwXzsXY9YgTTr/+tqPq8nZBjFh5YelJfm4W9gKq8N5yRl1AF1ZdM5rzgP
+	 rG2Hz2OWtvtxA==
+Date: Fri, 18 Sep 2026 11:58:48 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Selvarasu Ganesan <selvarasu.g@samsung.com>
+Cc: peter.griffin@linaro.org, alim.akhtar@samsung.com, 
+	gregkh@linuxfoundation.org, robh@kernel.org, conor+dt@kernel.org, Thinh.Nguyen@synopsys.com, 
+	mani@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-samsung-soc@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, jh0801.jung@samsung.com, h10.kim@samsung.com, 
+	dh10.jung@samsung.com, akash.m5@samsung.com, hongpooh.kim@samsung.com, 
+	eomji.oh@samsung.com, shijie.cai@samsung.com, muhammed.ali@samsung.com, 
+	thiagu.r@samsung.com
+Subject: Re: [PATCH v2 1/3] MAINTAINERS: add Samsung USB DT binding to
+ ARM/SAMSUNG entry
+Message-ID: <20260918-eminent-wooden-shark-97b8be@quoll>
+References: <20260916122229.2604003-1-selvarasu.g@samsung.com>
+ <CGME20260916122351epcas5p37666f1232d3b2bcc1d02a96ab0df4142@epcas5p3.samsung.com>
+ <20260916122229.2604003-2-selvarasu.g@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260916-ps883x-disable-usb4-v3-3-8f19386456d0@oldschoolsolutions.biz>
+In-Reply-To: <20260916122229.2604003-2-selvarasu.g@samsung.com>
 
-On Wed, Sep 16, 2026 at 09:36:34PM +0200, Jens Glathe via B4 Relay wrote:
-> From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+On Wed, Sep 16, 2026 at 05:52:27PM +0530, Selvarasu Ganesan wrote:
+> Add the Samsung USB devicetree binding file path under the existing
+> ARM/Samsung SoC maintainership.
 > 
-> On Qualcomm X1E80100 / X1P42100 platforms using the Parade PS883x
-> retimer, hotplugging USB4-capable docks such as the Lenovo 40B0 can
-> result in working USB but no DisplayPort output.
-> 
-> When the dock negotiates USB4, the retimer receives TYPEC_MODE_USB4
-> and forwards it via typec_mux_set(). The qmp-combo PHY then selects
-> USB3-only because no classic DP altmode SVID is present in the state,
-> leaving the DP transmitter and AUX channel disabled.
-> 
-> Reject USB4 with -EOPNOTSUPP on platforms whose USB4 / DP-tunneling
-> stack is not ready yet. The Type-C stack then falls back to USB3 + DP
-> Alt Mode. DP altmode configuration continues to use the existing
-> ps883x_set() path.
-> 
-> Use a machine-compatible table rather than a DT property so the quirk
-> stays inside the kernel and can be removed later without creating ABI.
-> 
-> Link: https://patch.msgid.link/20260312101431.2375709-1-krishna.kurapati@oss.qualcomm.com
-> Assisted-by: Grok(xAI):4.6
-> Tested-by: Dr. David Alan Gilbert <dave@treblig.org>
-> Signed-off-by: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
-
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
+> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
 > ---
->  drivers/usb/typec/mux/ps883x.c | 37 +++++++++++++++++++++++++++++++++++++
->  1 file changed, 37 insertions(+)
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/usb/typec/mux/ps883x.c b/drivers/usb/typec/mux/ps883x.c
-> index 15aee1d613b1a..2ec57cfe748a9 100644
-> --- a/drivers/usb/typec/mux/ps883x.c
-> +++ b/drivers/usb/typec/mux/ps883x.c
-> @@ -13,6 +13,7 @@
->  #include <linux/kernel.h>
->  #include <linux/module.h>
->  #include <linux/mutex.h>
-> +#include <linux/of.h>
->  #include <linux/regmap.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/usb/pd.h>
-> @@ -42,6 +43,22 @@
->  #define CONN_STATUS_2_TBT_UNIDIR_LSRX_ACT_LT	BIT(4)
->  #define CONN_STATUS_2_USB4_CONNECTED		BIT(7)
->  
-> +/*
-> + * Platforms where the USB4 / DP-tunneling stack is not ready yet. Rejecting
-> + * USB4 here lets the Type-C stack fall back to USB3 + DP Alt Mode instead of
-> + * negotiating USB4 and then failing to drive DisplayPort.
-> + *
-> + * This is a temporary, kernel-contained quirk (not DT ABI). Drop the entries
-> + * once the corresponding USB4 support is complete.
-> + */
-> +static const char * const ps883x_disable_usb4_compats[] = {
-> +	"qcom,x1e80100",
-> +	"qcom,x1p42100",
-> +	"qcom,hamoa",
-> +	"qcom,purwa",
-> +	NULL,
-> +};
-> +
->  struct ps883x_retimer {
->  	struct i2c_client *client;
->  	struct gpio_desc *reset_gpio;
-> @@ -63,8 +80,21 @@ struct ps883x_retimer {
->  
->  	enum typec_orientation orientation;
->  	bool in_reset;
-> +	bool disable_usb4;
->  };
->  
-> +static bool ps883x_should_disable_usb4(void)
-> +{
-> +	const char * const *compat;
-> +
-> +	for (compat = ps883x_disable_usb4_compats; *compat; compat++) {
-> +		if (of_machine_is_compatible(*compat))
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
->  static int ps883x_enable_vregs(struct ps883x_retimer *retimer)
->  {
->  	struct device *dev = &retimer->client->dev;
-> @@ -260,6 +290,9 @@ static int ps883x_set(struct ps883x_retimer *retimer, struct typec_retimer_state
->  			cfg0 |= CONN_STATUS_0_USB_3_1_CONNECTED;
->  			break;
->  		case TYPEC_MODE_USB4:
-> +			if (retimer->disable_usb4)
-> +				return -EOPNOTSUPP;
-> +
->  			eudo_data = state->data;
->  
->  			cfg2 |= CONN_STATUS_2_USB4_CONNECTED;
-> @@ -389,6 +422,10 @@ static int ps883x_retimer_probe(struct i2c_client *client)
->  
->  	retimer->client = client;
->  
-> +	retimer->disable_usb4 = ps883x_should_disable_usb4();
-> +	if (retimer->disable_usb4)
-> +		dev_info(dev, "USB4 disabled until platform USB4 support is complete\n");
-> +
->  	mutex_init(&retimer->lock);
->  
->  	retimer->regmap = devm_regmap_init_i2c(client, &ps883x_retimer_regmap);
-> 
-> -- 
-> 2.53.0
-> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index a53620839407..87a1ab24a375 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3576,6 +3576,7 @@ F:	Documentation/devicetree/bindings/arm/samsung/
+>  F:	Documentation/devicetree/bindings/hwinfo/samsung,*
+>  F:	Documentation/devicetree/bindings/power/pd-samsung.yaml
+>  F:	Documentation/devicetree/bindings/soc/samsung/
+> +F:	Documentation/devicetree/bindings/usb/samsung,*
 
--- 
-heikki
+I think this is not really needed. First of all, files will be covered
+by N: pattern further in the entry. Second, patches for these should go
+via USB, but listing here the directory could create impression that
+Samsung SoC is responsible.
+
+This one entry is harmless, but if adding this, then next time we got 15
+more updates for each of Documentation/devicetree/bindings/*/samsung*
+files. Is it worth?
+
+Interested people can add themselves to the bindings maintainers entry,
+that's always welcomed.
+
+Best regards,
+Krzysztof
+
