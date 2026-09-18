@@ -1,164 +1,110 @@
-Received: from mail-oo2-f11.google.com (mail-oo2-f11.google.com [74.125.231.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D858F51A742
-	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 16:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4D004FDA76;
+	Fri, 18 Sep 2026 17:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789750656; cv=none; b=Mzuc93KfpKpXcYKu3E/3YgcVHIZu2fCKygPi2CX3p9HN1NA/75aSByo+tYGkCVPwoIh08epnE32WcfjedrUHEgtF+qdGuvHS2N2wxaAx2fIfolULnFkmMUKjCrowjB3VM/i6XhEIb1H8lbotjol0F1sKIwl5dHEm6jJDPToMTu0=
+	t=1789752457; cv=none; b=estObZhX8jdZRvdCv1UCc1FBzKaL0lDdqR6axPaVdAEPAMTT4HF1cHUUeAIhxcbKzWP/gxESQ2VCxT2HjX3kb+U6yQcPpWlZuBhGe1+u65FuMwXY4eTn4xbnEsFyRAHkx51mAVGQXc2bDPw8uIXHOLO1EukL7nG5jVz0ACucVWs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789750656; c=relaxed/simple;
-	bh=P8vIKyBb0blYs8sE6VGyf1YV1PxooPvGc7gMx+bdbr4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=hgg9b9GzQat8ZqaCf3EKQbZ7/6wPYzM4p1usJpKSy2Rq/HWOBUSXi9akFdtGKr/DavRquuakTDF2KY1Le+8VQ2RpDylt1ik16n1gJQ7LV40k9klo+o3zEPF2exb492Yf2pgFveKoqIAnjBtGDZG84ma4v3jihNCaG3mWSWk2hb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo2-f11.google.com with SMTP id 006d021491bc7-6aaf6076546so478811eaf.1
-        for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 09:57:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789750651; x=1790355451;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sr0wBaNKXWCurFs3juz+OLUfyJau7b0GUHJIh9y66js=;
-        b=Q9FevdOApeR46reTrm4F7PnK4+RZFcNpGK/vVt5FY75ENLcAYRqlpNRHG/KGrLtKyO
-         fLgb1oILQuopp3vSfVzv5owuvKI7Jbe/quU/zUcH7LcDd6/OXZZ6ibAedRzx7WELjSQS
-         /oXv0+I1tipNkSZdTDgk37WnDe89wIHjlav25DckArTbGFIrKq3wVl+eI+RnZfvK2+7/
-         /OkOkI4/xwSiPTaNLHZB8uf9Bsv5chfKvUPNXEPnUQHRt9WUMzA8ZEvPN2nwm1EAMz0V
-         lhFQf5mtsRC1R/ebxGI2bdDbns4TiZ7sKiSjALFzILR0VdEnAhItKcgFnT6jlhNzdlkh
-         h0zg==
-X-Forwarded-Encrypted: i=1; AKwUvBwMOuTtB2EqVW/dSTRczRWFjGdqXPs3Yn+MNEIvUOIa56b9azJsNSMx8W9np++o/pfps5lxXauao5c=@vger.kernel.org
-X-Gm-Message-State: AFuF++kZXZt1tpyUPIUdW/QyEAl5XOrAzFEy2wKtZzwmQ8Viz3qz5OY3
-	tejGSWfewt/EFZ09OfMvLR/NbjIAGyMdbM2SZTc+wSfi+5WiDw4GcflwBdJSK8oB4hZhD4Rbwzj
-	uzDYQY5TpriwFeF2n5d0ZbUED1YRRLTU2cajwhG+LuEZgNz64FaDNuRraWOg=
+	s=arc-20240116; t=1789752457; c=relaxed/simple;
+	bh=ZgMfgnNMTTAB7ij0Uen4FKMNSu6zr7dq79w3r1uj5DQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dairw/HrSB18BaBrDOK7TMnioRbro0jmu1tETDsbfxLvMorLfhlCHuHrqEN1XKwef/3iyCD/JMIXNcwO2yRh0rRdK9ivgU+ws2sAHjdlowRVu+G0acJtoqVNd1GPouIDzk8IyNZpoJQZLAzYfzvLrm7oaSAbt4FUURst5lJnW50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nZmMHzoC; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nZmMHzoC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3AB21F00898;
+	Fri, 18 Sep 2026 17:27:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1789752454;
+	bh=5sOwLbsuSvuF6ePII3dRbbexDhRaUiT2qlW2RUmkzBk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nZmMHzoCublLE0IEK9aHlvlhqE2xLByUWguh+3EqUuN7nBMN6wefu5bJW7NsVI8oo
+	 8cuRfa+t9Y3H9nyGcurlDLAY4ePQ6iB4sPUHg9xbYuB6d5/K8xq5on5u9J9FaPJn9Q
+	 febXPuvZSHNtnT99lN8PelpDzpS5m6r2HuKfDEeA=
+Date: Fri, 18 Sep 2026 18:25:38 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026091850-geriatric-overfull-3370@gregkh>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:c8e:b0:6b1:a812:9871 with SMTP id
- 006d021491bc7-6ca9a5471b7mr2960164eaf.18.1789750650881; Fri, 18 Sep 2026
- 09:57:30 -0700 (PDT)
-Date: Fri, 18 Sep 2026 09:57:30 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6aad6d7a.0c43d342.320d00.0000.GAE@google.com>
-Subject: [syzbot] [media?] [usb?] WARNING in ttusb_start_feed/usb_submit_urb
-From: syzbot <syzbot+3caf6a60e5f9be12de08@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
 
-Hello,
+On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+> > The ability to add and remove devices from a driver through the sysfs
+> > "bind" and "unbind" files was created all those decades ago as a way
+> > that kernel developers can iterate faster, and provide a debugging way
+> > for users to attempt to add a new device to a driver without having to
+> > rebuild their kernel.
+> >
+> > This api over the years has been abused and recently come under a major
+> > fuzzing "attack" through tools like syzbot which decided that it would
+> > attempt to just randomly bind any driver to any type of device, causing
+> > loads of unneeded errors and pointless kernel patches to be generated by
+> > unsuspecting new developers.
+> >
+> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> > will be set on the driver if the bind/unbind sysfs files are ever
+> > written to.  This lets kernel developers "know" that a user is
+> > attempting to do something that is not normal, and as such, if the
+> > kernel breaks they get to keep the shiny pieces laying around on the
+> > floor.
+> >
+> > The flag is 'Y' which was unused, and can remembered as the user is
+> > "yeeting" the device being operated on here (thrown with force without
+> > regard for the thing being thrown).
+> >
+> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> > as many times crashes/oops/warnings/failures happen within the callback,
+> > and the taint flag needs to be there to show what was being attempted.
+> > If it were to be set after the callback happens, the oops report would
+> > not properly reflect what foolishness was being attempted.
+> >
+> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+> > the tool from hitting bind/unbind, should be run with panic_on_taint
+> > enabled so that they fall over and don't continue on, thinking that they
+> > actually found a real issue.
+> >
+> > Userspace operations that rely on the bind/unbind files
+> 
+> I agree that this should be avoided.
+> 
+> But I also think the biggest offender really is driver_override. Specifically,
+> on a hot-pluggable bus a driver must be complient with the device driver
+> lifecycle rules and hence shouldn't break on bind/unbind. I think it would be
+> nice to not taint the kernel for such busses, and only taint on driver_override,
+> as I think we'd still want the bug reports for such cases.
+> 
+> But I think this is fine to leave for a follow-up.
 
-syzbot found the following issue on:
+Yeah, let's see how this goes, thanks for the review!
 
-HEAD commit:    50d05c7c76c9 Merge tag 'landlock-7.3-rc3' of git://git.ker..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11c1e7f9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=5e4e3a0e188a497e
-dashboard link: https://syzkaller.appspot.com/bug?extid=3caf6a60e5f9be12de08
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c1e7f9580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17c1e7f9580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/daf497619736/disk-50d05c7c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/748fbd82f647/vmlinux-50d05c7c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/e61c59099d07/bzImage-50d05c7c.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+3caf6a60e5f9be12de08@syzkaller.appspotmail.com
-
-usb 1-1: BOGUS urb xfer, pipe 0 != type 1
-------------[ cut here ]------------
-usb 1-1: BOGUS urb flags, 202 --> 200
-WARNING: drivers/usb/core/urb.c:533 at usb_submit_urb+0xc9d/0x18b0 drivers/usb/core/urb.c:532, CPU#1: syz.0.17/5856
-Modules linked in:
-CPU: 1 UID: 0 PID: 5856 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-RIP: 0010:usb_submit_urb+0xd28/0x18b0 drivers/usb/core/urb.c:532
-Code: e8 7d 79 c9 fa 4c 89 f7 4d 8b 6d 00 41 0f b6 04 2c 84 c0 48 8b 54 24 18 0f 85 97 07 00 00 8b 0a 48 8b 34 24 4c 89 ea 45 89 f8 <67> 48 0f b9 3a 4c 8b 6c 24 08 4c 89 ef 48 c7 c6 80 2b b0 8f e8 9f
-RSP: 0018:ffffc90003447918 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff888075636400 RCX: 0000000000000202
-RDX: ffff88802b2ed020 RSI: ffffffff8cc51f20 RDI: ffffffff9087dfb0
-RBP: dffffc0000000000 R08: 0000000000000200 R09: 0000000000000004
-R10: 0000000000000003 R11: 0000000000000000 R12: 1ffff1100eac6c8b
-R13: ffff88802b2ed020 R14: ffff888031879100 R15: 0000000000000200
-FS:  0000000000000000(0000) GS:ffff888124dd2000(0063) knlGS:00000000571d4480
-CS:  0010 DS: 002b ES: 002b CR0: 0000000080050033
-CR2: 0000557bc126bb18 CR3: 000000007579a000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- ttusb_start_iso_xfer drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:829 [inline]
- ttusb_start_feed+0xe19/0x1770 drivers/media/usb/ttusb-budget/dvb-ttusb-budget.c:899
- dmx_ts_feed_start_filtering+0x129/0x220 drivers/media/dvb-core/dvb_demux.c:747
- dvb_dmxdev_start_feed drivers/media/dvb-core/dmxdev.c:658 [inline]
- dvb_dmxdev_filter_start+0x434/0x10d0 drivers/media/dvb-core/dmxdev.c:769
- dvb_demux_do_ioctl+0x48b/0x540 drivers/media/dvb-core/dmxdev.c:1099
- dvb_usercopy+0x199/0x2e0 drivers/media/dvb-core/dvbdev.c:996
- dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1208
- __do_compat_sys_ioctl fs/ioctl.c:695 [inline]
- __se_compat_sys_ioctl fs/ioctl.c:638 [inline]
- __ia32_compat_sys_ioctl+0x5ea/0x950 fs/ioctl.c:638
- do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
- __do_fast_syscall_32+0x27a/0x6a0 arch/x86/entry/syscall_32.c:291
- do_fast_syscall_32+0x33/0x70 arch/x86/entry/syscall_32.c:316
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf707f0ec
-Code: 90 85 d2 74 0a 89 ce 81 e6 ff 0f 00 00 89 32 85 c0 74 05 c1 e9 0c 89 08 31 c0 5e 5d c3 90 0f 1f 00 51 52 55 89 e5 0f 34 cd 80 <5d> 5a 59 c3 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 58 b8
-RSP: 002b:00000000fffcedac EFLAGS: 00000206 ORIG_RAX: 0000000000000036
-RAX: ffffffffffffffda RBX: 0000000000000006 RCX: 0000000040146f2c
-RDX: 0000000080000300 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000206 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	e8 7d 79 c9 fa       	call   0xfac97982
-   5:	4c 89 f7             	mov    %r14,%rdi
-   8:	4d 8b 6d 00          	mov    0x0(%r13),%r13
-   c:	41 0f b6 04 2c       	movzbl (%r12,%rbp,1),%eax
-  11:	84 c0                	test   %al,%al
-  13:	48 8b 54 24 18       	mov    0x18(%rsp),%rdx
-  18:	0f 85 97 07 00 00    	jne    0x7b5
-  1e:	8b 0a                	mov    (%rdx),%ecx
-  20:	48 8b 34 24          	mov    (%rsp),%rsi
-  24:	4c 89 ea             	mov    %r13,%rdx
-  27:	45 89 f8             	mov    %r15d,%r8d
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	4c 8b 6c 24 08       	mov    0x8(%rsp),%r13
-  34:	4c 89 ef             	mov    %r13,%rdi
-  37:	48 c7 c6 80 2b b0 8f 	mov    $0xffffffff8fb02b80,%rsi
-  3e:	e8                   	.byte 0xe8
-  3f:	9f                   	lahf
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+greg k-h
