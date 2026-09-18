@@ -1,146 +1,168 @@
-Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013007.outbound.protection.outlook.com [52.101.83.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0076E346771
-	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 14:17:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.235
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789741053; cv=none; b=KhhT6eYVs8l5no6WVMW15BQsrZPHsnHHzAcOVH1s35zukv7Kieowib2anvvp4q2n1awv2rnR6De9s4qQY+UZUsoEdYL8UVxMKlyYNd5NoAMgT57ima47hv5VTfpC6M3hVZqo0qfYQLuPQ64zLzm2XS8YhQjwXdw25JbEPuXLAaM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789741053; c=relaxed/simple;
-	bh=0SUOoIAUaLT7F1Gk4YYUyXePP6L3UTYZWjgmxML1hhk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tc1JxyQbRtRier2N4R1xWH+6msM1O4RQcNx9jon8TfrkZxuT2QkW5VkQRxnU/kuaIYsFT/JzGJEPrS47fcjs31/+SL0/cGLQmma/FKuSSQxOHuTf3Gr1p27wxrkU7M2Q3FqnVb8mR0K+ufQyZ5YLO4D2A6z2mUhJjhR9/jgN2ow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=tbnp0DPF; arc=none smtp.client-ip=74.125.230.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3BA74F5DE5;
+	Fri, 18 Sep 2026 14:18:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789741097; cv=fail; b=GzhuCTe/argXMlGm0Db/IYREnPIIj+VkwpJFD917jouBiu4qdebEOSTlyYF3tZzQWlJfjAa/yLfyaZcWdvv8HUO/pfwcH+KNQlHMBfG6kvyq6xnLe9sv4pbH343Tbyerbr5tiXl3MwcgChsLeUdxwuYfuTyWtSiLpiKUdh5ttOY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789741097; c=relaxed/simple;
+	bh=cMcBeyjBYJ3FZfnNgjsea0FuSJ4nan0sBqxtUprHB+A=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=KkXMDKhxTVJGMvR4H+4Vdp+9ialVoEzwAul7rHT/KnNKPZGFFsmGGqpTlPepm9tkuu7THFvbfcsKEbs2g15KjvZ0hV36LDVmxmtDbWi/ZOcU3JTYBwZ94QwPUqxJumUNXSydj2nQpOzJqNpgNSahULJmlb6DWowrnMyUq5qMCR4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=FLTtR1wv; arc=fail smtp.client-ip=52.101.83.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="tbnp0DPF"
-Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-52fb769ca02so9172141cf.0
-        for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 07:17:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1789741051; x=1790345851; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uadj5t2QE0GhPwN/LGtDC4GsH7sMKtOhGKh1V/7jDls=;
-        b=tbnp0DPFZzCzJI92LO+DZBa4LFBADqSgbjMCOiVY0f04DmdXMo7xhxkmxpftADnhCX
-         vEmsFrGVJC5hraBVWBUbx+1ApcBwRU2hbl2Wp7frwdHb3Qsa8rmbKo8WtS4qynZMxFnO
-         X3eZceM3ShMYND/1X5fbiTV9ARGkdeEz+BaLOKxYg+qRtUxjy8AHHyDRUMeWiFv5eiwZ
-         6cqp7hZL1h/ASPxGHzYH3jl4HBlrgFi1BmLeqvg/AXAgSO5gJPs6O+RfUuMOdXKhBsso
-         D3kC6Phnj1Ob5lyLRkVkfaFhgBaqWv/Yy0JGoLndPS0E2qi0mz5d+vGtuXl1EEJugffC
-         M2bg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789741051; x=1790345851;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uadj5t2QE0GhPwN/LGtDC4GsH7sMKtOhGKh1V/7jDls=;
-        b=hCE9VBQFUflju4laypcdGPmegoeeDXNSAGY9ltq9XMMEIqH9kN7PQEf+LNbKDfLUVp
-         11dvGrXn6DI9I4YCHNAP8MSDm/DlKVTwstErBu09qypMfzXZgFtWUOxue42N0Trh5EyV
-         cehy9ajufmC4HxJUqGgvXUGQIaOfIIa9iyQxxn7PuO/GMvdqD4Pk+wFZKdvL/2GlOGXQ
-         HynnA92mc8U4TIlo25NxFeQCV3Gt4AoqdQAAvX2WRVQYRVEAHOT3lTp0UkRQOJJLEXgn
-         FVs7Kjy9PrrRGVmP1j3XsCE94jmyD4QDal0LUXee/ITYUbWFNyo7VZVIFW8H2smqdaYp
-         SOEg==
-X-Forwarded-Encrypted: i=1; AKwUvBxj224ETTuKcQybXxSLhoMd81sAEUpiyNe19FNcW0ERob/kQV7Adwulpoug+XWAoQyO8jXhxjsGXlM=@vger.kernel.org
-X-Gm-Message-State: AFuF++m9oXDIrlvCx6T4R9j2Mci3MaA5j3VfqHV+7ZIPU4vXhLE3qthe
-	P9R1EADniRVnOse2l+UHxCBd4c558Awu0Pg1ep27AuZCJNVwJ0ZKJaqyAbkD4zGB7Q==
-X-Gm-Gg: AYBFou0hTBq6L/o509S3XE56jQpf1CW+WBGBo3aXiRb+OGxizDJxlrMGrLWkAP6Dqn7
-	dxDXcDPNX0nSHs6bdKnHbScYkrJG2rb46PbajaG1E90FhRUKqNgaADHIRvx5iU1jTLk+BIxoegQ
-	CoDIGWopZUa6h6UWbxewv6XKroOP/xW9/atZWd+DU43cY/B8uusJAIX6PHq8fIDLWvB/1IkWxez
-	n107UNG9RAW/3HQsTxhqVXQDNVm/cbVGv2q10DcmilfxKAqh9UQtoMYbQr4gHBJ4kRSpkZsjDpp
-	jmF1RuXcPoP3Hvf9J3QiAJIvpgRKFiS2Ce85w0V1YrXfVE2P8ZhnBZaRaRS+ItMLgd451GsOsQa
-	4Gm0k9r+9rSIKLGsYUiEJ0TCuXtUhqyjMvPlO8LO2U1BSpQDTyNf2Mg70gm9fDoFRQsbD+nRgF+
-	2HsOK9pZLayy8GDp2TxuLplo3GPYPPdhe6iDDSvBx83IUMsIaFv9oGvWd2oyxjgzp2xMafYz1u
-X-Received: by 2002:a05:622a:4c16:b0:52d:28f8:578c with SMTP id d75a77b69052e-5329e393052mr40542951cf.31.1789741050517;
-        Fri, 18 Sep 2026 07:17:30 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532ac48dfc9sm1986711cf.8.2026.09.18.07.17.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 07:17:28 -0700 (PDT)
-Date: Fri, 18 Sep 2026 10:17:25 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Minseo Kim <neck3922@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrey Konovalov <andreyknvl@gmail.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, syzkaller@googlegroups.com
-Subject: Re: [BUG] usb: gadgetfs: KASAN null-ptr-deref and intermittent UAF
- in ep_aio_cancel()
-Message-ID: <fd663410-6aff-42f1-a6e7-652f073fdafe@rowland.harvard.edu>
-References: <1a93bb26-9ded-4b71-b409-62896a2681a6@rowland.harvard.edu>
- <CAFmvuTUogd8MyQM02VpM7iHaopzrOoex+X-McQE28X1fgb_AeQ@mail.gmail.com>
- <0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu>
- <CAFmvuTXeg2LykJa060WUYAhhQpdwGV74VFkMb6Wu5zjyqWzxmw@mail.gmail.com>
- <f42b44ef-b083-4976-bf06-f2a21098474b@rowland.harvard.edu>
- <CAFmvuTUZ+iP313qz5J5vaT7QGz2y-tHQ6XMrq2tnvStZqXDECg@mail.gmail.com>
- <7a87e293-633c-4100-aa8d-91560ba5e5c5@rowland.harvard.edu>
- <CAFmvuTU9xfCWFaoXzE6J0uC6y6eCZ43CRg+JWkLV3dgLNYu5Cw@mail.gmail.com>
- <9c07ce98-a5bf-4bcc-9304-e7f5e1747842@rowland.harvard.edu>
- <CAFmvuTW5kqF8zNp7wSxB3abhD9ZvfJ0gu9Si8kRTiwcuXOeVuw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="FLTtR1wv"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kKStKncggWJaouaP3kuhCizYGlUjK3Y03VZzFciTStuSm0QhoPROn+DhKCM3FOe/6IV362J3lGu5Et9UThJzFb5M0Ot2oKvHlDJWxTn2QRCBLWBokHjfLbro2PA96GCfDYlv92WNibwyHjBXiPmQMfkcsjatBIeg4Y3E+3b0EcG72cOLCnwWr0cZTZbxIOiMz/yvr3v+jLtOPOcVLSqmMLT61RU0U6/XYokYFkCpLX5+/5DFRkRghQ4K+LEdj94dEVdl4QSMJbugGKoZQZle2tQwiFUHYJgGUY/AuDKda8gOOryyV1+BiMZSp+3+47dLGEzOrXV00du9BYTZXb63xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rv/GbYYBab5QW3paaj31oUjK8kiHd0/dB/BXbXV2TJA=;
+ b=qzNuVDq0VbQFpZzDfqDsoK0vjJLEY+7g2Rwlsrw2giVUFTan9wJ9PuCKPmQk6MUQPamkxoEZcg/UQKkttHEmCNibzBhGVTqeNw3Ax+3295O7JOe4/iDyTugybbHLJzgvl/39xReLqzPi5UQiYusol2TMKnB70oV2sZB1Yb0w6IO6LbciSWdWWBVfEFSUOx+qjfj6YVdZODaXBM2B/jcGY2OG5s/WEORwBrXxFunpzzuDfNFD5D6D81gZQzlMRsdYMqps2c8LtEIlQ+zcR/XcP68+6UYVJ984G+2oEK0FZb6wTh91BsPnHN/c7Xeqgia3vJCEcHR46DOXKAf7tf5e/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rv/GbYYBab5QW3paaj31oUjK8kiHd0/dB/BXbXV2TJA=;
+ b=FLTtR1wvwJxFuN10soxfNBhNo+CrB5RPo/gnwyKQhnYyksz7DwMubsfW8vCgk7pxzD2zKHvSFpKvj4JjTb6GWxghlO2h8HiUbrLbH5OAaDqaBj5ZkZO+tY5N37VTY/PPb2RQShjshUDpPguzBOBKyCI4qnWeQKM+348QZ156+wgcKiiLsK04wR1WymMDCJxCJXX44NF3IyOjMeVVC2QrDqaRfTT8mR7P6zopGfGSWIEIjYlbdquQszXln6AbwV8yPFEz61QHHqGc3QcekXZBXUz4fI7KixBgqxeLA76R9PkSawaZVOriWB8P3YGxZD/XEd+oScedd0ezBCxYP7W9hg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
+ by MMZPR04MB960486.eurprd04.prod.outlook.com (2603:10a6:190:54::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Fri, 18 Sep
+ 2026 14:18:13 +0000
+Received: from AM8PR04MB7874.eurprd04.prod.outlook.com
+ ([fe80::ac38:1699:6f18:c5d9]) by AM8PR04MB7874.eurprd04.prod.outlook.com
+ ([fe80::ac38:1699:6f18:c5d9%6]) with mapi id 15.21.0428.011; Fri, 18 Sep 2026
+ 14:18:13 +0000
+From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	Peng Fan <peng.fan@nxp.com>,
+	linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [PATCH] HID: use assign_bit() where applicable
+Date: Fri, 18 Sep 2026 22:15:43 +0800
+Message-ID: <20260918141544.3022797-1-peng.fan@oss.nxp.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MA5PR01CA0291.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:a01:21b::18) To AM8PR04MB7874.eurprd04.prod.outlook.com
+ (2603:10a6:20b:24d::9)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFmvuTW5kqF8zNp7wSxB3abhD9ZvfJ0gu9Si8kRTiwcuXOeVuw@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM8PR04MB7874:EE_|MMZPR04MB960486:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b6e2598-0ccb-47bc-55e8-08df158fac8d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|366016|376014|19092799006|1800799024|10067099003|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	gvpn0Ji/ESnMqW47I/1F89hygMXqeyJ4DK0GzBdSzmis3Ka5gbMaeDR8w3PH4berp80CUszwgoMiFZAPrhzX7+qUpLzqJr8rLWqQORnS5jUN9/IpBuaPfn/OvK1s48cp2eCSNChvssC4lRkRMXX5h5+C7l9uQPHpkjQoWQxM30Ukgjl3zrkr9asWgz9WrG3eHd0s2yTaz8o3nsDzlD3XIV3AddBvcd2Zyv9YpJb84gBmfA5UaIi30Aag2cGNPgOuaWrJhQ85TtQ0p1yuAs2ThyoPQgoOTnWDqbkVDDRi/1D0OKPadaH8Brr9q076WzwYaSA4r/p20wxkwyNjv67lH73wctDksdXuvF1nXc+3N3JQFV6DFaLXQlQ7O1DhJ/hDVBgCmoGDyFP2+i9UM/QeiHtzoTP3HM2x+Yw/CsVBoodQhctni1JA7feLWb0lQTplV/ZrwZyQzdWiEJ8X6GSny1Wl3E1riSvrcFOJMuCcMMM8mn06F1QQOaQMQDYrVLdVR54lTe0olQDUzYC1gYaWwX08XJHXetPLkvmTPWBExon8Re8qtL8t5rWjgNLGishJztH6GfIucNRJOWQhGj0asDwknaH6uQVvsBzlrd1aNeg09IdBFENmFoNtoq2gfNEnc37Z677+tEIPP2pRpFHpaKaMbwl/L4KgsCG+ZHX71Sg=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(19092799006)(1800799024)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?7WfusxkDB9s4ZFTBOiOl69DVd5y6CGifVhmFaNO3X6NswcRUx4yZkLQicB75?=
+ =?us-ascii?Q?LWxLCTBZeg+iK7EGAKp/ATaLbX5wtY82PEW5WFeIPf9nIlwpYlNjZv3FnVJH?=
+ =?us-ascii?Q?f9yTaE599dm7Rs9I1KeJMnICHjkt8Glu1ial0pQBV4QcMfjFTbOkez1QEriv?=
+ =?us-ascii?Q?J/xXlC/+c/SfyGSmxWwEh52By/OdsU5j4KB89yIEITmcyv/DkHNoLUPAs6y+?=
+ =?us-ascii?Q?SHkoRy7rCWW5ELO8Po0v+Tw8kAnxCLUO0EbT4HkDSkhstyE3NFLOIlO15bsc?=
+ =?us-ascii?Q?/nkcOHClnfztFyZzLe6Pjn6pyjQFglmKkiOJjlKg0EfSg7Gv0vCYWm496NzS?=
+ =?us-ascii?Q?nDLGTNQanf6Iq34hPljLAlk9sVI9LfpexOzGs5wSGqKEMB98b6kXGs4nw92s?=
+ =?us-ascii?Q?EYu6KhSMeCA/S1vs8N0mS52Eff7UgBh5fMBvUFtJdn/p3/dub2cqL7ij29Kz?=
+ =?us-ascii?Q?kfhZjmakNqp51f2osbr/SO4RJb+iZtmt7xjx0j7PS0KWc2etG8GIEg24DGel?=
+ =?us-ascii?Q?elT+gzUYdSBLFg13iufBhm8+NIf+aH3hcRO3iVBQxZCq2AEFuNZNjcegkPxG?=
+ =?us-ascii?Q?WCZDyUdMNYlXGTyFX3NoU2nZC1JWfnNwSZElf79yLGKlzQ1DYQIETStR6mSs?=
+ =?us-ascii?Q?aCRB1pMd4+1cnX6iAoOd8vl58dXbgAROGMq+OnofNwc2kDArVh+b5T7qp+6D?=
+ =?us-ascii?Q?Ih4NZEmO15vAP/PyAjJsjkFfJFsxTCxPuhazvnNCtVHBuKC4B9cuz8OrbCpX?=
+ =?us-ascii?Q?JQwl6m/ZVhD/C3Frwc2dlykrbLdFGW0oUIdK7Uq4jpm3lGza8ck1YwRC8wlb?=
+ =?us-ascii?Q?eZ9XVONvOK+F0I0pmtWpUtluIhgxi8nm+3Mkyr2Cp1ULX3oLt40uc5AbNq0a?=
+ =?us-ascii?Q?B4YZSbdHEiox2+9AcI93uyIXVJG0eDQpHwHE5TpzB/m/IABJErfBveT6D916?=
+ =?us-ascii?Q?ZNyTEcRy7my3c2syOi39qxpYU+qykl2dupv6WIxrPbN/DrZDj73KKQ3XFK3R?=
+ =?us-ascii?Q?/GN+MCyaklRZHSa86C+LYJVi9lGeicIASkfEP+srR5FPNFsByDqJWvRI/iFm?=
+ =?us-ascii?Q?g4gsjvvxa/IiahqSdZErwRwnWoLsSBYaGDy3uhMRppE0IlJFgldNYwcYBOKb?=
+ =?us-ascii?Q?iMUcYXeVJay/nQv7IVX5nyRWwJnLqtKpAYg44yPbACyblQ8zmmOwzjOpgVjq?=
+ =?us-ascii?Q?DiIEboftSAAGsW5RPc+DdMFiHRLGOPO6aD0/rxJzHiPTsM56kvYUWI33xHQY?=
+ =?us-ascii?Q?7S/mQS5dZr+n95+2JBIV4gwbjzKf8uo73TEBr+Kbmm64CrEsThoMahwtRzPI?=
+ =?us-ascii?Q?uOrYiyMWPlYUkZaFllHVtwiNgS1IfGJpBU07Dk0IsMC4sTLavgAZoUU5slD7?=
+ =?us-ascii?Q?SAGDgaIS92gRl2DwxhuxV9LT/wUsdBdHyxVkg2eJWTubMfScLapm4mI7/0PI?=
+ =?us-ascii?Q?oqu1rGVGqut0F7ppY2cA9OM7bS36f8lK+cXW6aocwApVQHKSoBs5uTkk9LPZ?=
+ =?us-ascii?Q?1OlgPrMZf2Ft84cB5Zm4n1wJx235ewwU+Ofxcvji34J0ULZT5oS45+fRhCdl?=
+ =?us-ascii?Q?MH+Gs2I2o0VCn+9PQQogwQdLd6oWUuOVFD1CdWtnMEs9/sLdPSuB4Gg465Um?=
+ =?us-ascii?Q?9so/4lxF7zq/Eaur4fUuow35MweutNbAA1kxmBnlrIjkcEyRmbNPZstgk63j?=
+ =?us-ascii?Q?20pa+BKGd2bt72nVaRy5CF9SR2WbSant6uZ7sd0zowXy5EqdwEETMLJ8SfJX?=
+ =?us-ascii?Q?CZKgyfezDnfdYyu/7Hoo3eHcTGG/mErOMHuXt1TSEEobL17VTJCF?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b6e2598-0ccb-47bc-55e8-08df158fac8d
+X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7874.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 14:18:13.0336
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IP4HXhHqWcf9tkZvnwO9XysHebkOqTMSGlQgkbzrMvo1xbS0SYUsVpEsNUbDx/5Rrzwr78+rydg/R5LPyV1QJjaLwWVCDMN4jNhIjZLojjLn4C4KoNrkAJQjelRqbEJU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MMZPR04MB960486
 
-On Fri, Sep 18, 2026 at 10:30:00PM +0900, Minseo Kim wrote:
-> Hi Alan,
-> 
-> > I wonder which part of the code was holding udc_usage above 0?
-> 
-> It was the udc_usage increment in ep_aio() during request submission.
-> The increment occurs before dev->lock is released to call
-> kiocb_set_cancel_fn() and usb_ep_queue(), and the corresponding decrement
-> occurs after usb_ep_queue() returns:
-> 
->     ++epdata->dev->udc_usage;
->     spin_unlock_irq(&epdata->dev->lock);
-> 
->     kiocb_set_cancel_fn(iocb, ep_aio_cancel);
->     value = usb_ep_queue(ep, req, GFP_KERNEL);
-> 
->     spin_lock_irq(&epdata->dev->lock);
->     --epdata->dev->udc_usage;
-> 
-> In the matched control, a request with a length of 64 bytes took the
-> direct giveback path, where dummy_queue() calls
-> usb_gadget_giveback_request() before returning to usb_ep_queue().
-> usb_gadget_giveback_request() synchronously invokes the request's
-> completion callback, which was ep_aio_complete() in this test. Because I
-> held ep_aio_complete() at the diagnostic gate immediately after
-> iocb->ki_complete() returned, the nested giveback call could not return.
-> Consequently, neither dummy_queue() nor usb_ep_queue() had returned, and
-> ep_aio() had not reached the decrement. gadgetfs_unbind() therefore saw
-> udc_usage at 1 and waited.
+From: Peng Fan <peng.fan@nxp.com>
 
-Of course.  Now I get it.
+Convert open-coded if/else with set_bit/clear_bit and their
+non-atomic __set_bit/__clear_bit variants to the assign_bit/__assign_bit
+API.
 
-> In the normal transfer test, by contrast, usb_ep_queue() returned and
-> ep_aio() decremented udc_usage before the later completion callback ran.
-> I confirmed this ordering in three runs without enabling a callback
-> gate.
-> 
-> I verified the sequence for direct giveback with markers after the
-> increment, after usb_ep_queue() returned but before the decrement, after
-> the decrement, and immediately before and after the unbind wait. In each
-> of three runs, markers with the same dev pointer showed ep_aio()
-> incrementing udc_usage to 1 and gadgetfs_unbind() entering the udc_usage
-> wait with the count still at 1. After I released the diagnostic gate,
-> usb_ep_queue() returned, ep_aio() decremented the count to 0, and
-> gadgetfs_unbind() left the wait.
-> 
-> > I will submit the patches, with your Signed-off-by:
-> > added to this one also, if that's okay with you.
-> 
-> Yes, that is okay with me. Please add it as:
-> 
-> Minseo Kim <neck3922@gmail.com>
+Signed-off-by: Peng Fan <peng.fan@nxp.com>
+---
+ drivers/hid/hid-apple.c       | 5 +----
+ drivers/hid/usbhid/hid-core.c | 6 ++----
+ 2 files changed, 3 insertions(+), 8 deletions(-)
 
-I will, and I will CC: you on the submissions.
+diff --git a/drivers/hid/hid-apple.c b/drivers/hid/hid-apple.c
+index f6134c5820ff..dc5915e69243 100644
+--- a/drivers/hid/hid-apple.c
++++ b/drivers/hid/hid-apple.c
+@@ -578,10 +578,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
+ 			trans = apple_find_translation(powerbook_numlock_keys, code);
+ 
+ 			if (trans) {
+-				if (value)
+-					set_bit(code, asc->pressed_numlock);
+-				else
+-					clear_bit(code, asc->pressed_numlock);
++				assign_bit(code, asc->pressed_numlock, value);
+ 
+ 				code = trans->to;
+ 			}
+diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
+index 96b0181cf819..6eb48ef8d496 100644
+--- a/drivers/hid/usbhid/hid-core.c
++++ b/drivers/hid/usbhid/hid-core.c
+@@ -292,10 +292,8 @@ static void hid_irq_in(struct urb *urb)
+ 			 * because most keyboards don't wake up when
+ 			 * a key is released
+ 			 */
+-			if (hid_check_keys_pressed(hid))
+-				set_bit(HID_KEYS_PRESSED, &usbhid->iofl);
+-			else
+-				clear_bit(HID_KEYS_PRESSED, &usbhid->iofl);
++			assign_bit(HID_KEYS_PRESSED, &usbhid->iofl,
++				   hid_check_keys_pressed(hid));
+ 		}
+ 		break;
+ 	case -EPIPE:		/* stall */
+-- 
+2.51.0
 
-Alan Stern
