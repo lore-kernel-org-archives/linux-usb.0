@@ -1,165 +1,133 @@
-Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 203DE239068;
-	Fri, 18 Sep 2026 00:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.228.1.57
+Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8577C3587A2
+	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 00:54:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789691337; cv=none; b=OFGOLAUZ1CdKWRjb381+QPvvEUU9BjugXpfIAPWmVjoUb9evy8PQEVm3cpTbzbxx6Pem1i9WQ6scvwgfyAoGwImdoHXI4LmwX021xSjnlEXh0a3tW/P79dbTkuSFM+pmRA6sKGfeDMFdOaM4bFnxeqwIp0dzSBvEZRlmd3iIduk=
+	t=1789692888; cv=none; b=cj4sVAYUN/b+QDVQNV7EHGPlc+dLIyEDZS20x5PoCZ/HLkHC+wYaoV1eodWefiz9pSSInsPuGJyfhEDNBsJcLnAmez2DIGFSur93BIOcK2t7eyltc0JQsByoklB4+s4Ii8pn8VJRdYKQ9OerE8+cuEJs3il5cfCGtltIx9Ds690=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789691337; c=relaxed/simple;
-	bh=HDkuNFY7TXKZNIx+1grKeivnyY8OQt4wbVDA1oAHYS0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=M1t9ejtH/62m1XrL2aA4pqVO7uBr0+7wQKQsITqIlIuVAS1CJAV+GmMMbjXAShSjStcdtZ2RwOvO2YCJyxaii4Ydt57zfY78PyhOirJKiS6rgL9kl3HkSUcyMmJtaXtLImLg8Os49MLqD0kjZU6FQ/NAz3/zfPkNtob/oQnNdHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org; spf=pass smtp.mailfrom=kernel.crashing.org; arc=none smtp.client-ip=63.228.1.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.crashing.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.crashing.org
-Received: from [IPv6:::1] (localhost [127.0.0.1])
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 68I0IPF23974234;
-	Thu, 17 Sep 2026 19:18:33 -0500
-Message-ID: <d607e8d94d17ac7b7832725b0672560fb1346ada.camel@kernel.crashing.org>
-Subject: Re: [PATCH] usb: gadget: aspeed-vhub: cancel wake work on device
- removal
-From: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-To: Fan Wu <fanwu01@zju.edu.cn>, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org
-Cc: joel@jms.id.au, andrew@codeconstruct.com.au, linux-aspeed@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, Song Li
- <songl@zju.edu.cn>
-Date: Fri, 18 Sep 2026 10:18:24 +1000
-In-Reply-To: <20260908041740.613713-1-fanwu01@zju.edu.cn>
-References: <20260908041740.613713-1-fanwu01@zju.edu.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.62.0-0ubuntu1~ppa1~24.04 
+	s=arc-20240116; t=1789692888; c=relaxed/simple;
+	bh=bHsl1RoAZ+2PQm2x9KmmGpx92l8JkWFWcET72A1oqAk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lAx/3r+XKK8oSrqtsH5dVm59S2CTH/RygYpKX2BQh2Jvo8Ibi0M3ZYN2iIgELUk1+TmgOrTIX6aDub8f7neDH0OGMWczpDstAxWagKUwTN7Ed8iXLg3YyjsHMZ5sCXuvaZMvdOu4ZzyjmZAMOiDYVaEYcFGfVncDwOcLwdkOXz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V44ttv4d; arc=none smtp.client-ip=74.125.228.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V44ttv4d"
+Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc1cea4c7a0so61416a12.1
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 17:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789692886; x=1790297686; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GSXKLzJLu9wuKLJMxpq//1SCFGckwLL0KtALmCoAmP8=;
+        b=V44ttv4dzDdNfhYqOIi0wP20mDKM7xULbIjV7+vyj2rrA+qsXuWdeZaL3mrgrEZ/ga
+         FwLp15vNV7eZupclhjYKMoALxt5TsT7/+FhOnzXCtvoLmjhEEsmmba9+VmpBzBCkhpNW
+         IiTKLuaBC90DVe8xP4m5JHqezTzQ42ob6xpe9WdH3is+e2cWAYoZGalZCa+jvna4I6x/
+         flSCIvqqr1QapjVMgpiL/uWZMNf+/vbIVvEXLLBFKhPHc3aG6rltahR0n5mHWU80A9jd
+         lFucpPPqnBIOxJmgu26d8lT/N5kHzSUFq7k4ge+Tqsx3q2NjClzFE7QDcGkXushGQe+q
+         Mj5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789692886; x=1790297686;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GSXKLzJLu9wuKLJMxpq//1SCFGckwLL0KtALmCoAmP8=;
+        b=KtTlf5FVJCOZWTeQnmqq9kq8HbEZfWcjXat5SL9J5ErJUVs3DGyUkOe/wdthX0c6e8
+         spDnhlr7hC5Jbma9vhjviEye0p86xPwpw5gI+YJyqp1J5L5z1i4lvV5W9iJcVuUEaDys
+         t89F2OAMXcJD9FHpi/JQlD1B2iVofgRczUKeTUW/EokoT8lH0Gxd9YQx6bi7mS4hbCyR
+         sgVAR40gmniv4tyICTBs6BbEvGbEKELTI0C2VHro2mBg53FfXK43O539edBVLo/EMjpJ
+         ticVRjGmKNvPzcnUx99aYhsByMGpDr2p+Q6mPDQ1uCujr/Wsuj/wE0/eJ/aAyVAiNi0P
+         ivcg==
+X-Forwarded-Encrypted: i=1; AKwUvBzfWI0vn0g3VYG6k0wMcEvP5nSSyZqzJGwhLPTe6r5uPu8YmSV6iAlczHIAWKWs7OleF8mCh582PYo=@vger.kernel.org
+X-Gm-Message-State: AFuF++kOkihzce874kRr3qw3RM+GHSsL6/3MwbYbL80veewBS0qoXYmM
+	HfKhZmPvEhHlGSIre1q2b8uKq0ZQZ94FBUxKxZ1BrmgeVDTdPpAPQbv5
+X-Gm-Gg: AYBFou0BqwsoYYDcHilE6lQaNMl02SIkWHi19Yy0Ga0FQyAxDQNHz3F19JsoC5T93sO
+	iw4DCo2zsPWvsuBNR7Z6akjS/jVVIcw5er7bE2RedYrDuLugfKX2R8xsnSmsOUpUEn8+Ii7l4EN
+	3CGG3Se9fdrUxSdq+gh9V5gSlZo8tT3+sF4VDStTmNEBUozPzvnLmixrHLPruikDqLVUkZmafj9
+	hcxjkYgqoN1z1WnW3cZ3B6vBdIO1hHvfqf7QPboS8SvXglFbzqEmKgk1UII6QZaBwGcbVKQRs5L
+	ZWQDvcPbCj9AoiwfEwcY+ZYVayw2liXRY0AfDMFFh8lYXtEp5Wl6oiXJUB6IYOaGQZaHA7HZUWG
+	7UXImbu4uTk+cC8S16SEFH2xwE+4iKAc8pmAV+3G38Am6H7/XdbgCJdTOO7/ZSiAYi+RCm+eRSf
+	2r/z6L1VRIyY3uMZCUIGfv/AX5pPPp2NEV1GUH3PFG3m8/XMMXKGuGIsuhRLj5/IvUcRslq3RHx
+	XQC86sn1gmRpgaLjFpDzvhqmnh3zNwkgsY=
+X-Received: by 2002:a05:6a20:4307:b0:3d1:39e9:b267 with SMTP id adf61e73a8af0-3dd8c3fadabmr1664295637.3.1789692885701;
+        Thu, 17 Sep 2026 17:54:45 -0700 (PDT)
+Received: from localhost.localdomain ([2409:8a1e:2e81:7320:84a7:aa72:4f01:6c70])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bfb19f8cesm25238885eec.2.2026.09.17.17.54.43
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 17 Sep 2026 17:54:45 -0700 (PDT)
+From: zjamg <ndaugoing@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Michal Nazarewicz <mina86@mina86.com>,
+	Robert Baldyga <r.baldyga@samsung.com>,
+	Felipe Balbi <balbi@ti.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yuchao Zhang <ndaugoing@gmail.com>
+Subject: [RESEND PATCH 0/1] usb: gadget: f_fs: fix NULL pointer dereference in FUNCTIONFS_ENDPOINT_DESC
+Date: Fri, 18 Sep 2026 08:54:37 +0800
+Message-ID: <20260918005438.81263-1-ndaugoing@gmail.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2026-09-08 at 04:17 +0000, Fan Wu wrote:
-> wake_work is armed from the gadget .wakeup callback to resume suspended
-> downstream ports, and it is never cancelled in ast_vhub_remove(), so a
-> work item queued before or during removal can run after devm has freed
-> vhub and its ports, a use-after-free.
->=20
-> Cancelling the work alone is not sufficient: usb_gadget_wakeup() takes
-> no lock and the unbind path never clears wakeup_en, so a remote-wakeup
-> request in flight on another CPU can re-arm the work after the cancel
-> and before vhub is freed.
->=20
-> ast_vhub_del_dev() already clears d->registered under vhub->lock before
-> unregistering the gadget. Refuse the wakeup in ast_vhub_udc_wakeup()
-> once d->registered is clear: the check and the schedule_work() are then
-> atomic against the unbind, so a wakeup that passed before the flag was
-> cleared is drained by the cancel_work_sync() after the del_dev loop,
-> and one that arrives later returns without arming. Also move INIT_WORK()
-> to the top of ast_vhub_probe(), since the probe error path reuses
-> ast_vhub_remove() and would otherwise cancel a never-initialized work
-> item.
->=20
-> This issue was found by an in-house static analysis tool.
+From: Yuchao Zhang <ndaugoing@gmail.com>
 
-Reviewed-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Hi,
 
-> Fixes: 7ecca2a4080c ("usb/gadget: Add driver for Aspeed SoC virtual hub")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Codex:gpt-5.6
-> Co-developed-by: Song Li <songl@zju.edu.cn>
-> Signed-off-by: Song Li <songl@zju.edu.cn>
-> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
-> ---
-> =C2=A0drivers/usb/gadget/udc/aspeed-vhub/core.c | 4 ++++
-> =C2=A0drivers/usb/gadget/udc/aspeed-vhub/dev.c=C2=A0 | 2 +-
-> =C2=A0drivers/usb/gadget/udc/aspeed-vhub/hub.c=C2=A0 | 5 +++--
-> =C2=A0drivers/usb/gadget/udc/aspeed-vhub/vhub.h | 1 +
-> =C2=A04 files changed, 9 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/core.c b/drivers/usb/gadg=
-et/udc/aspeed-vhub/core.c
-> index 4a8b9ff83..069673f0d 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/core.c
-> @@ -267,6 +267,9 @@ static void ast_vhub_remove(struct platform_device *p=
-dev)
-> =C2=A0	for (i =3D 0; i < vhub->max_ports; i++)
-> =C2=A0		ast_vhub_del_dev(&vhub->ports[i].dev);
-> =C2=A0
-> +	/* Final drain; the worker takes vhub->lock, so stay outside of it */
-> +	cancel_work_sync(&vhub->wake_work);
-> +
-> =C2=A0	spin_lock_irqsave(&vhub->lock, flags);
-> =C2=A0
-> =C2=A0	/* Mask & ack all interrupts=C2=A0 */
-> @@ -328,6 +331,7 @@ static int ast_vhub_probe(struct platform_device *pde=
-v)
-> =C2=A0		return -ENOMEM;
-> =C2=A0
-> =C2=A0	spin_lock_init(&vhub->lock);
-> +	INIT_WORK(&vhub->wake_work, ast_vhub_wake_work);
-> =C2=A0	vhub->pdev =3D pdev;
-> =C2=A0	vhub->port_irq_mask =3D GENMASK(VHUB_IRQ_DEV1_BIT + vhub->max_port=
-s - 1,
-> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VHUB_IRQ_DEV1_BIT);
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/dev.c b/drivers/usb/gadge=
-t/udc/aspeed-vhub/dev.c
-> index 8b9449d16..4b389de0d 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/dev.c
-> @@ -280,7 +280,7 @@ static int ast_vhub_udc_wakeup(struct usb_gadget* gad=
-get)
-> =C2=A0	int rc =3D -EINVAL;
-> =C2=A0
-> =C2=A0	spin_lock_irqsave(&d->vhub->lock, flags);
-> -	if (!d->wakeup_en)
-> +	if (!d->wakeup_en || !d->registered)
-> =C2=A0		goto err;
-> =C2=A0
-> =C2=A0	DDBG(d, "Device initiated wakeup\n");
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/hub.c b/drivers/usb/gadge=
-t/udc/aspeed-vhub/hub.c
-> index 02fe1a08d..d0345f310 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/hub.c
-> @@ -558,7 +558,7 @@ void ast_vhub_device_connect(struct ast_vhub *vhub,
-> =C2=A0		ast_vhub_send_host_wakeup(vhub);
-> =C2=A0}
-> =C2=A0
-> -static void ast_vhub_wake_work(struct work_struct *work)
-> +void ast_vhub_wake_work(struct work_struct *work)
-> =C2=A0{
-> =C2=A0	struct ast_vhub *vhub =3D container_of(work,
-> =C2=A0					=C2=A0=C2=A0=C2=A0=C2=A0 struct ast_vhub,
-> @@ -588,6 +588,8 @@ static void ast_vhub_wake_work(struct work_struct *wo=
-rk)
-> =C2=A0
-> =C2=A0void ast_vhub_hub_wake_all(struct ast_vhub *vhub)
-> =C2=A0{
-> +	lockdep_assert_held(&vhub->lock);
-> +
-> =C2=A0	/*
-> =C2=A0	 * A device is trying to wake the world, because this
-> =C2=A0	 * can recurse into the device, we break the call chain
-> @@ -1076,7 +1078,6 @@ static int ast_vhub_init_desc(struct ast_vhub *vhub=
-)
-> =C2=A0int ast_vhub_init_hub(struct ast_vhub *vhub)
-> =C2=A0{
-> =C2=A0	vhub->speed =3D USB_SPEED_UNKNOWN;
-> -	INIT_WORK(&vhub->wake_work, ast_vhub_wake_work);
-> =C2=A0
-> =C2=A0	return ast_vhub_init_desc(vhub);
-> =C2=A0}
-> diff --git a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h b/drivers/usb/gadg=
-et/udc/aspeed-vhub/vhub.h
-> index aca2050e2..96f1c3709 100644
-> --- a/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> +++ b/drivers/usb/gadget/udc/aspeed-vhub/vhub.h
-> @@ -547,6 +547,7 @@ void ast_vhub_hub_suspend(struct ast_vhub *vhub);
-> =C2=A0void ast_vhub_hub_resume(struct ast_vhub *vhub);
-> =C2=A0void ast_vhub_hub_reset(struct ast_vhub *vhub);
-> =C2=A0void ast_vhub_hub_wake_all(struct ast_vhub *vhub);
-> +void ast_vhub_wake_work(struct work_struct *work);
-> =C2=A0
-> =C2=A0/* dev.c */
-> =C2=A0int ast_vhub_init_dev(struct ast_vhub *vhub, unsigned int idx);
+This patch addresses a kernel NULL pointer dereference panic in
+FunctionFS when calling the FUNCTIONFS_ENDPOINT_DESC ioctl.
+
+In FunctionFS, user space can legitimately supply only a subset of
+speed descriptors (e.g., only full-speed descriptors via
+FUNCTIONFS_HAS_FS_DESC). When the USB gadget is subsequently connected
+to a high-speed or super-speed host:
+1. composite.c:config_ep_by_speed() detects that the function lacks
+   descriptors for the current speed and gracefully falls back to
+   full-speed descriptors (f->fs_descriptors).
+2. The endpoint is enabled via usb_ep_enable(), and epfile->ep becomes
+   valid.
+3. However, when user space calls ioctl(fd, FUNCTIONFS_ENDPOINT_DESC),
+   ffs_epfile_ioctl() selects the descriptor index solely based on
+   epfile->ffs->gadget->speed (desc_idx = 1 for HIGH, 2 for
+   SUPER/SUPER_PLUS).
+4. Because user space only supplied full-speed descriptors,
+   epfile->ep->descs[desc_idx] is NULL.
+5. The subsequent memcpy(&desc1, desc, desc->bLength) immediately
+   dereferences the NULL pointer, causing an instant kernel crash:
+
+[    2.154836] Call trace:
+[    2.154836]  ffs_epfile_ioctl+0xe14/0x2c40 [usb_f_fs] (P)
+[    2.155003]  __arm64_sys_ioctl+0x128/0x1a4
+[    2.155298]  invoke_syscall.constprop.0+0x64/0x260
+[    2.155374]  el0_svc_common.constprop.0+0xa0/0x240
+[    2.155441]  do_el0_svc+0x3c/0x60
+[    2.155494]  el0_svc+0x38/0x98
+[    2.155547]  el0t_64_sync_handler+0xa0/0xe4
+[    2.155606]  el0t_64_sync+0x198/0x19c
+[    2.156463] Kernel panic - not syncing: Oops: Fatal exception
+
+The fix restores the speed fallback loop mirroring config_ep_by_speed()
+and historical f_fs behavior, defensively checks epfile->ep->ep->desc
+as a fallback, and returns -EINVAL safely if no valid descriptor is
+found.
+
+Testing with QEMU ARM64 using dummy_hcd confirms that after applying
+this patch, the ioctl succeeds and returns the fallback descriptor
+cleanly without any crash.
+
+zjamg (1):
+  usb: gadget: f_fs: Fix NULL pointer dereference in
+    FUNCTIONFS_ENDPOINT_DESC
+
+ drivers/usb/gadget/function/f_fs.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+-- 
+2.53.0
