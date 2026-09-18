@@ -1,55 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C568E4D9F67;
-	Fri, 18 Sep 2026 10:59:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96A204E3246
+	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 11:40:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789729142; cv=none; b=EVjKdhPdpQY19M0O6hVkvweZpbmB667qxZFaAh77F0y9U37QmZiBGitPNpSGrelRMNydHdmsnxZUOd1/inqKrJg6KCmJh/gCO52BF4Fp2jntMnMv7wVcBouMGSSC3hPgWhy+qicL23x8HSue+3vPb+eO7SmFVk/gKfv+AcmOsxo=
+	t=1789731612; cv=none; b=aDvL9MnJJsS1foAStIF4xQBEApIfJbcsGMt9NP9uzQeNOdHSSWvA/w+J/U5JwAG9m5MfyMPYmEXyOHbcGwod52TrSKjZxXfyKYv2Rsj4aD5XY9w2C/Gvia0Jkb1ra87C9EbsNIUeiXK5BUjT88wwqPOYXV9Iy7mOmzkTSArZ6V0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789729142; c=relaxed/simple;
-	bh=SjXUbPsiVwlp7m6xMbqXwevtaXlpT+PW3YMCgiZRLNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=to+uP8gjJjH/cwXG6Ic8qRXef4vjnnieJ8NGeKLn4/EEO4U2DmeTVxgXI39FtxZ4BOlaE+nrGVOEabjHTRVCV7udmkG6oaK0WuMChQYiQLOqaHUkG3wpAE+uPaFDlAR3tSzuTDNMLNhDvdDE39B1DLT604XXWqE2DAt2UF+IvXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C5XS60Pd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789731612; c=relaxed/simple;
+	bh=NFq/ORDv0EsGWsVuD2BnI4fsR3j3kcvEbwoQhpYcIRA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=EomAl8AAFUhYjAXu7p1wnD8oGhAlLncKYFbCLzR/B6INMaRNZg1dA3IVCLxvBcSaoWYB1InVCMLrQl9BGlQt04bC3VaN/YCM2YaKVXRo0fKOJVCdEul6JUp2FbBgZ+itactq8da03dJUfr8lckPojKshDv04hk42cAmYJeeAw9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fnK1pZL7; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C5XS60Pd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0F111F000FF;
-	Fri, 18 Sep 2026 10:58:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789729140;
-	bh=WBoCCq9qMgQXPbVes0bE28WdSdE94XkOuxnNbIbO05Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=C5XS60Pd4e1xyCJxDWXOXHydo5VwTCEALCDQqL5rObG8lW/N8oOAcm6dStRFST7Gk
-	 lQWAQi9LmXtbv6y5aAo1E++jT8fSXa0G/045n+AiyVQGTKi5FT3XmJPD6gC8yklJMv
-	 sVb0acM66oN8sehPTHnpqlKua9JID3XF5Zi1dhPc=
-Date: Fri, 18 Sep 2026 11:56:58 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [GIT PULL] USB serial fixes for 7.3-rc4
-Message-ID: <2026091848-squeezing-outlook-0093@gregkh>
-References: <aqzjMWHGKkiL02Ob@hovoldconsulting.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fnK1pZL7"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b91369d18so5412045e9.0
+        for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 04:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789731607; x=1790336407; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UiDFw1S2S74vveLQbv9MRD/hk0Vu5zo9M6Dha/2hXjM=;
+        b=fnK1pZL7b6D7nx2nD/ani5UZ5cwQ1RmD9Bn3N0DdHsLJVbIPn+NTvjQEeU573b++WG
+         igWvh3WQQkFQ4Sxft2JkQr7XZtEGjg3slwU9ZxZP0kdp+KW2jhUiV9jTMU7pCGaeYgIO
+         Lth49sDgSH27Q1oBnwesmCAdmIuMfnGJDQydSxizyMlIiL3LRTJxQkB6sHMCI60NAucd
+         E3G41NM43+A2FOYCrrxfOQxw9cJuHL+QyocZiyt1ZmvXfXTRcWV1U64490X0wvtu+0Bt
+         30GixoJJHL8G3r4Whert4yKBV71n3aab3ZgokpViACXPlcKqsqZegPxEsfSiDDLhjJK9
+         WR9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789731607; x=1790336407;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=UiDFw1S2S74vveLQbv9MRD/hk0Vu5zo9M6Dha/2hXjM=;
+        b=UsEn8tVfS98YPBdbjL3aWW61/BMAE39y1CtquqziJKJObH4WFNCW5AWwcXIcoT78qP
+         zbvnz7MHBCdnotL+oLxyipmk49UGqDdBIFvnVvMJfvWS299UMEfoUW8eSSXzRVBMT3d4
+         WsfmsQiW4qcaj4VDPakp5CgW6KPhnXDMhRhoaAqGb42E92i+iveTvBPd9ODhb/+uQ3Hz
+         AdpvRpL2pw2sea3oQvySj/9VKNXBnxg6Im2ATSfg6DmyR/Q+G0dyxOclqKroY2zq+eIW
+         yzn2o++V7Kc5ep115zihd4aj8S/UFGHZ7qto0PTGCOveeGNBvkoR7SyIZJSUpiacd+yG
+         E/Tg==
+X-Gm-Message-State: AFuF++lJ8/XQokhCPDT/AY/9Nc38dDPzLWOWGfR9vFU73DkJW0owAwlJ
+	jGwJCzzGmY3iROhjfOiojxt8Cy7YLzVRyhJqXx2Gg7Clo/w+z/OySN0W
+X-Gm-Gg: AYBFou2BM8skKdYxnwNtmzFsyPaFyBs+fPZlBptCx+dBzZi+qzmWJ9h4SqQyVsu+k82
+	XKTfk0qPHNvgFGMG8SPrmyFv7KTv185NQ3X9iyPEMoRCFZEbAN4F8LRfO+1p9kOeN5ZNWg6hbNm
+	EpFbcoBa7wwul51vgap7SQkeyfoBt6tf7vPaQobcmYs1/sc6Cu++MYhUBrUaziI1O9KdaFJQ3oD
+	yyucjF9hw0fdm/iOqorz/Mr8jaokWzaWlcckkaQ6PO415AsQg3j0+J1/XnmvHqODYuyO0uFCQNY
+	Q5hkL39izQsJRMBIo8ezVIicClZDooo/Plz+VpB10moRAPBdY5d+z7VwPCjrlALmKnEb3xsXl0y
+	ZzxyQpE4P0TQYxpTdS0pTQgEMGPWs9Egbqd2mGwMrTqq3vagGL8HrnvCgEgG3UDGU6UD5++Brd4
+	IAXDsTqF7xHSDoEzm06uQ2sGwPYGt5r1XWv9Kvprem5iJXthIpF0SE0smt/xWqQaQITcWB5o1j4
+	3crdYS8bpG6Mu5vIZGBMj+H34k=
+X-Received: by 2002:a05:600c:674f:b0:49c:dc14:d681 with SMTP id 5b1f17b1804b1-49fc56dbcb5mr27111915e9.3.1789731606450;
+        Fri, 18 Sep 2026 04:40:06 -0700 (PDT)
+Received: from cachyos ([41.143.99.116])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4871feb5636sm3734893f8f.5.2026.09.18.04.40.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 04:40:05 -0700 (PDT)
+From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
+To: linux-sound@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org,
+	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
+Subject: [RFC PATCH v5 0/8] ALSA: usb: add RME Babyface Pro driver (proprietary mode)
+Date: Fri, 18 Sep 2026 12:39:36 +0100
+Message-ID: <20260918113944.76871-1-i.bahloul01@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aqzjMWHGKkiL02Ob@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 18, 2026 at 09:07:29AM +0200, Johan Hovold wrote:
-> The following changes since commit ae0e61d95677efa778379853e495d748e6efbf95:
-> 
->   USB: serial: fix ioctl hangup race (2026-09-08 11:00:48 +0200)
-> 
-> are available in the Git repository at:
-> 
->   https://git.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial.git tags/usb-serial-7.3-rc4
+Hi Takashi,
 
-Pulled and pushed out, thanks
+This is v5, re-split per your v4 review: still too coarse, start with
+a minimalistic core (probe/disconnect/PCM only), add mixers
+piece-by-piece, suspend/resume near the end, and add proper "big
+picture" documentation for human reviewers.
 
+Beyond the restructuring, this revision also folds in three
+hardware-verified fixes found by a contributor (David Fredman,
+credited per-patch via Co-developed-by/Signed-off-by) since v4 went
+out:
 
-greg k-h
+ - The sample rate is now set through the family register the
+   firmware actually keys off, rather than the previous approach,
+   which could leave the device on the wrong rate after certain
+   family transitions. A running stream also now locks the rate: a
+   second client asking for a conflicting rate is refused at
+   hw_params rather than silently retuning a live stream out from
+   under it (patches 1, 2, 4).
+
+ - The front-panel OUT selector's base-mode decode (Ch 1/2 vs Phones
+   vs Opt) was wrong on selector values 0/1/2, corrected against the
+   physical LEDs on both a non-FS unit and the Pro FS (patch 6).
+
+ - Turning the front-panel wheel with OUT selected produced audible
+   zipper noise: the firmware moves the analog output level itself on
+   each click with its own ~12 ms smoothing, and the driver was also
+   writing the analog (8-bit) master on every poll from a flat
+   1 dB/click count, fighting the firmware's own move each time. The
+   driver now writes only the digital (16-bit) master during the
+   gesture, follows the firmware's actual level- and speed-dependent
+   step size, and reconciles the real master once the wheel is at
+   rest, the way TotalMix does (patch 6).
+
+Every patch was built in-tree on its own against next-20260911 and is
+checkpatch --strict clean of errors; five WARNING-level notices remain
+across the series when checkpatch is run against the patch files
+themselves (the same two `ang` "misspellings" in the EQ patch noted in
+v4, plus one new `retuned` "misspelling" from the rate fix above -
+all three are correctly spelled, BIT() is separately declined as a
+CHECK in the EQ patch because it returns unsigned long, wrong for that
+file's signed Q27 fixed-point math - and two routine "does MAINTAINERS
+need updating?" reminders on the patches that add files, answered
+once in patch 1's
+MAINTAINERS entry for the whole series).
+
+How this v5 is split, and why:
+
+ 1. Core: probe, disconnect, PCM stream only. No mixer, no front
+    panel, no DSP EQ, no suspend/resume. This alone is a working
+    (if silent, no routing yet) capture/playback driver.
+
+ 2. Output masters + the crosspoint routing matrix, together: a
+    driver with masters but no routing would still be silent, since
+    the factory-default routing this patch also adds is what actually
+    connects a source to an output. This is the first patch that
+    produces controllable, audible output.
+
+ 3. Mic preamp: phantom power, pad, instrument ref level, the four
+    gains, plus phase/stereo-split/trim (input-strip controls layered
+    on the crosspoint registers the previous patch introduced).
+
+ 4. Routing flags and varispeed pitch, together: loopback, AN 1>2,
+    sample clock source, AN1/2 link, MS processor, DIM, width, FX
+    send, and pitch. These started life as one function registering
+    all of them in a single pass; splitting pitch out on its own would
+    have meant an artificial function split with no real benefit.
+
+ 5. S3 suspend/resume.
+
+ 6. The front-panel poll and controls (buttons, wheel, IN/OUT/SELECT,
+    MIX, DIM) plus the host-side emulation of TotalMix's own role for
+    the wheel/button behaviour.
+
+ 7. The hardware 3-band + low-cut DSP EQ.
+
+ 8. A new documentation patch (Documentation/sound/cards/
+    babyface-pro.rst): why the proprietary mode needs a standalone
+    driver, the vendor protocol's write-only/no-readback shape, the
+    asynchronous stream model, why mixer state has to be cached and
+    replayed, and why the driver emulates TotalMix for the front
+    panel. This is meant to give a reviewer the big picture before
+    reading patches 1-7, not to restate what their own commit messages
+    and code comments already cover.
+
+Two places needed real judgement calls rather than a mechanical split
+along control names, both explained above and in the affected patches'
+own commit messages: masters+crosspoint (patch 2) and flags+pitch
+(patch 4) are each one patch instead of further split, because the
+underlying code was never separable along those lines without
+inventing an artificial seam - the same reasoning v4's own cover
+letter gave for not re-splitting the core+mixer patch further at the
+time.
+
+Known limitations, unchanged from v4:
+
+ - USB autosuspend is not supported, explicitly disabled at probe.
+   S3 suspend/resume works and is tested.
+
+ - A few protocol details remain open (documented, not blocking): the
+   preamp readback index semantics, a width strip-ownership edge case,
+   whether DIM's scope is reassignable with TotalMix's Main Out
+   setting, and the exact high-frequency warping of the EQ
+   coefficients against the vendor curve.
+
+ - The latency profile (frames_per_urb, nurbs) is a module parameter,
+   not runtime-reconfigurable.
+
+Validation: the same full-duplex rate x period sweep, start/stop
+stress, mixer-restore-across-unbind/rebind and mid-stream-disconnect
+regression suite as v4, run against the final tree - 40 of 40. Each of
+the 8 patches was additionally checked out on its own and built
+in-tree, to confirm the split itself introduces no broken intermediate
+state. The three fixes above were separately hardware-verified: all
+nine rate/family combinations plus varispeed and the rate-lock
+refusal (patches 1/2/4); LED-correlated captures of the OUT selector
+across both a non-FS unit and the Pro FS (patch 6); and zipper-noise-
+free wheel turns against a looped-back level measurement (patch 6) -
+each detailed in the affected patch's own commit message.
+
+Disclosure: as with previous versions, the reverse-engineering and
+substantial portions of the kernel implementation were written with
+heavy assistance from AI coding assistants. All of it was verified by
+hand on real hardware; the human authors remain responsible for the
+result via Signed-off-by.
+
+Thanks for reading,
+Ismaïl
+
+Ismaïl Bahloul (8):
+  ALSA: usb: add RME Babyface Pro driver core (probe, PCM stream)
+  ALSA: usb: babyfacepro: add output masters and crosspoint routing
+  ALSA: usb: babyfacepro: add mic preamp, phantom/pad and input trim
+  ALSA: usb: babyfacepro: add routing flags and varispeed pitch
+  ALSA: usb: babyfacepro: add S3 suspend/resume
+  ALSA: usb: babyfacepro: add the front-panel poll and controls
+  ALSA: usb: babyfacepro: add the hardware DSP EQ
+  Documentation: sound: add the Babyface Pro proprietary-mode design doc
+
+ Documentation/sound/cards/babyface-pro.rst |  163 +
+ Documentation/sound/cards/index.rst        |    1 +
+ MAINTAINERS                                |    6 +
+ sound/usb/Kconfig                          |   20 +
+ sound/usb/Makefile                         |    2 +-
+ sound/usb/babyfacepro/Makefile             |    4 +
+ sound/usb/babyfacepro/babyfacepro-ctl.c    | 3775 ++++++++++++++++++++
+ sound/usb/babyfacepro/babyfacepro.c        | 1700 +++++++++
+ sound/usb/babyfacepro/babyfacepro.h        |  522 +++
+ 9 files changed, 6192 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/sound/cards/babyface-pro.rst
+ create mode 100644 sound/usb/babyfacepro/Makefile
+ create mode 100644 sound/usb/babyfacepro/babyfacepro-ctl.c
+ create mode 100644 sound/usb/babyfacepro/babyfacepro.c
+ create mode 100644 sound/usb/babyfacepro/babyfacepro.h
+
+--
+2.55.0
+
