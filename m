@@ -1,322 +1,212 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011044.outbound.protection.outlook.com [52.101.65.44])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84AFB4FD295;
-	Fri, 18 Sep 2026 14:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789741301; cv=fail; b=mZG0/zrOjsX23iQXXpfrBjyLp+HigofOkO9KBUU0vaqsvlC/coFvJ4pD5wGms1RxYvzdrJcFni6831GUfEvup7nPoWZofjMqLZ3iu6Cvi99fz3nERQriMJ+LcGYtZq0uBbGoXHbOnaVaoh00cOFFOACImLru1MgXcguSP5m2Kr4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789741301; c=relaxed/simple;
-	bh=EROl+aIjRqX+nkStNlqD9pbOweYR1V3yAhrEjOttdAQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=icQBM2Rmh763bZj1KA/K/Nzt0LFmP9joFb1LTFZz4nBqmdp/v5DNMiD/BFdJ3blCCUVxj0BveAmM2y+rspjQXP/40xgp8blONwK3sOPV03fOVVLCpMFL1+i3doECx2eC7CiAEAO8NErpwWuM73lNfjvwpztTiFItMxQj2MfF3lo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=UHkuwW7V; arc=fail smtp.client-ip=52.101.65.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE1A2ED16D;
+	Fri, 18 Sep 2026 14:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789741824; cv=none; b=Q6/GFD5YBVHoqHR+rgtyeJ6Q/KfqjF5SzXDqRtF5WEjsnC5RFzXOVB9Fckl5N2XeI8/zyQKmnIpPY2G/SaXEqJgL4EFtZN+PyqSeFon3PwYCgpDB9A8JXP1jRcZFjj/UPk8f6YtBS3sfBDvgfDpjThvVPToZyBgeg69+EhI+fQo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789741824; c=relaxed/simple;
+	bh=5OmomeRB+LD60RpaKuchulaB8gm1HL/uXNHI8PnXFlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nh7QxUIPSD3n3M5khRT+IaAJvQfkjtgQqgGvEPzZSRTOIWBAOxxl/I4S2x8KtGG3pAn3Feczc6jdUnmQeRjyxnTiHmldnrMK15wK1E32mL8qVDl85cU6VIPpoCBOVsu9r7GQBkuU1Vw40YdHh3xBoduKLVSFs0oHBGC0FjWyoy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=clSyf51X; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="UHkuwW7V"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IWrsM1Dct+hlOgnFqooM1uhmHWIVDm/h+5QIf3Q0CspkYRwR21ZvCs9gP6huBRuI/HMq5bKA15I19VNxl/PnFgzirLtIClnf3Atszo67//j8+04gIlug7SuI4F9FM6BOSsY18ukTHgbcZwcxrTUrE+H/e3KAuXUi2xLCqIuS/0ZFAyeuiicmZjy3ZaJjevY7dbe3rbETwUu1WVRU5iSaEysjvK7RzF5WSaib7LWNqmxNPXFLBWxHXbfEev8saEI7okzejJZnBu7DX8tASd0jjQzO30rgrim4W81erR0YhorYfPdpdSkiDKn59VST7cghDa86srroGWoiMxf8vrWnWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PvpRAgjpPu8BvnLU6MpxRN7ZJdfDqg5AYLix3SjE9mk=;
- b=WGIUVdoGkCKqe/gigmPfpcIPG1zljkgvEfgi5PGbSUvmRdduu17G1ddJBaiCs+Yy9RmaYGuFgg1w9SXMbXJnJWY3QPq5rv9+XyXBMaS4OkYLOtqAuwqTIhekmCBhdK692sXvEfT1CT8yhQtALMeogBV009Wt6W6kkmHROXB4l/VDEkzx7lEkp2lkIEUvmUZRfsvgZYO+C6446+V5JVy8hkTdvnO1WX2VkjG+yyg+Ob1IMWoMTH/nBOT7TcCec1lHs65pxGd2fNv0O1DWZBSuBBrb6BAjeJbHYDaE1J7SAksulqUM+y+EEdimzCcQU1Ccfui4f2GsjZSU1pRBN6t+fA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PvpRAgjpPu8BvnLU6MpxRN7ZJdfDqg5AYLix3SjE9mk=;
- b=UHkuwW7Vfndjd3j8Q8fS066rSCjUmS9vpCD9KRcujiLbHyqztfJQf8W/gA/NU9Tln1T73e+IBzmU+t9mvp3qZzFYIGIklEBxmaEsPhyMuVI8nqsuERF71bvrCekdNZWUdRiMwv79DB4TfilhOu19bPRwzk9ZTK05ZUmzuJWj5CB+9/X490gBwhvqNr+c7a47SPO46pZHFHBib31jk1uV891ahxssApyrXYw6naqMFgN6R8FHqusRlfFeBO3KmPFsdZZ1ZlLf6nevblpvA5c8VfQqhruDwfZZJ8M5vQulNA8pnvWDLf+vzxZGcqcXhdCSl4LfxkZhvpuqvylTC7mvgw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM8PR04MB7874.eurprd04.prod.outlook.com (2603:10a6:20b:24d::9)
- by DU4PR04MB11846.eurprd04.prod.outlook.com (2603:10a6:10:627::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Fri, 18 Sep
- 2026 14:21:34 +0000
-Received: from AM8PR04MB7874.eurprd04.prod.outlook.com
- ([fe80::ac38:1699:6f18:c5d9]) by AM8PR04MB7874.eurprd04.prod.outlook.com
- ([fe80::ac38:1699:6f18:c5d9%6]) with mapi id 15.21.0428.011; Fri, 18 Sep 2026
- 14:21:34 +0000
-From: "Peng Fan (OSS)" <peng.fan@oss.nxp.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Bin Liu <b-liu@ti.com>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>,
-	Griffin Kroah-Hartman <griffin@kroah.com>,
-	Kuen-Han Tsai <khtsai@google.com>,
-	Martin Rys <martin@archlinux.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Peng Fan <peng.fan@nxp.com>,
-	Nikhil Solanke <nikhilsolanke5@gmail.com>,
-	Kees Cook <kees@kernel.org>,
-	Thorsten Blum <blum@kernel.org>,
-	Takashi Iwai <tiwai@suse.de>,
-	Victor Krawiec <victor.krawiec@arturia.com>,
-	Jeffin Philip <jeffinphilip14@gmail.com>,
-	Fan Wu <fanwu01@zju.edu.cn>
-Cc: linux-kernel@vger.kernel.org,
-	Lovekesh Solanki <lovekeshsolanki00@gmail.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev
-Subject: [PATCH] usb: use assign_bit() where applicable
-Date: Fri, 18 Sep 2026 22:18:50 +0800
-Message-ID: <20260918141905.3023171-1-peng.fan@oss.nxp.com>
-X-Mailer: git-send-email 2.51.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR06CA0003.apcprd06.prod.outlook.com
- (2603:1096:4:186::14) To AM8PR04MB7874.eurprd04.prod.outlook.com
- (2603:10a6:20b:24d::9)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="clSyf51X"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=z8DxBDctfQle4qPyCLsPEBU1oRIWLoRdyUpwbsFqYLE=; b=clSyf51XrV8aRcbTvneX3p6wBa
+	n2dJgPOcz894gpJOnZdCOcF3UEXESwNBxWownSVKd57lnJYBBwn8UK22mY+Uu9cTVCm4bYkkLdbb9
+	zwnoTjkKMM6lYQMFHN/pynLhjEOj2/5EEiCk+CstXFpuvTmB28MRP3Fdyl1b9KhwvkjSzoEaggt5r
+	4zu+cgayQfsFLqmqeLGe7kyw0337RIawLytCxdWbLSsC8OhbmfdiwFeLxFGinxIHnQj3tRZJIvubH
+	Z5p2yU1Pjs4x4ZBAOVPASiIaB3Jla/kGk5xR5Btk7PaRjSjDUhmPE8iOfBuqPX68vAPFbXjRIpG5J
+	q2qapdRg==;
+Received: from authenticated-user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1x7Za9-006nCZ-3B;
+	Fri, 18 Sep 2026 14:28:54 +0000
+Date: Fri, 18 Sep 2026 07:28:33 -0700
+From: Breno Leitao <leitao@debian.org>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Mike Rapoport <rppt@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v2 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Message-ID: <aq1KeFmXBIEd2YhQ@gmail.com>
+References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
+ <20260914-b4-mmap-prepare-vma-flag-sanify-v2-1-7d9781ed5361@kernel.org>
+ <aquz9Z9JrK_H_E0g@kernel.org>
+ <aq01JFp8hRReyY-O@gmail.com>
+ <aq06hcheI4OGi_3A@gremlin>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM8PR04MB7874:EE_|DU4PR04MB11846:EE_
-X-MS-Office365-Filtering-Correlation-Id: 793c1d1c-b092-4925-d2b3-08df159024c2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|23010399003|376014|19092799006|56012099006|921020|10067099003|18002099003|6133799003|11063799006;
-X-Microsoft-Antispam-Message-Info:
-	NA0glPZIJ3kGcY4b/DsFVNRwUgb03YcjAiih4G91ubpWaXFHJp0752lX5J8CywzgEJ727j6tXiiPm2TtN0rosFxX8dTOMPAm3FJjH/9pwedemLh32gWMfjd7gf0iK5+ufIruYupyjxh8a8BDAxo91K8BmXD604qE2S4VnCwZ4KkNsfu6CFnbQC0QlM4LuX5+5eISEut7jOulHiJtddJcd0ehgCQ9lOpCJv5mOWXMD6ZOK5Zdov44LK2XgwdoqI+IDSbKLgU5wkoePaqZVEhAqLm/uNyoLLARi8kd8nf8909SaNanVCh/Gddf/RO3ZDQ9/KFS5sV2xEP6VNr3wWD6HQwuRKKUbjw4yaX+QrnFhtb6bbA8vVDx6EtC2yAbDqp2V2ug/skG2ub7TQGSQWzM5QAK48cz96i6pQlkKz077dHSf40TMx5sr2MP8UK9uUWxFmrUS+nddEyeqJSweijl3/6U7Vl8ZsSsU84oDyoYcFvhMMJLvowH2sj2HiH6TTO0gbfVj0mTnSNj7bKJ3uqJafG6iv3HwGCGMR/Ak7hrhtiy1u8Zyx2XjVQAZOedV6DRXcWXae5doAu08utC71TAETICbWzeZWf32xFLGut/oIlkXyucPMesQXzX9jVzLtENnIf7kHU19V09IB3FBArdbREA5Jz8HklzR2LgjFeLkyceOQpibOzrS4MqTApJ1pPabU+berZ9nSipJ+kmztSGBQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM8PR04MB7874.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(23010399003)(376014)(19092799006)(56012099006)(921020)(10067099003)(18002099003)(6133799003)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hYxN8rg+vOwf/qSnnwyoDUaBiOL2ZgVDK4cJA0cPiR+x6uDfLkENrRzly3Sy?=
- =?us-ascii?Q?0iwEfhBzr/g+ym+xs/yW/tKEkBCKxZ6vNCZ+HI1QlLX2gPJUnlGsagkuOlv1?=
- =?us-ascii?Q?f5KxawDcKtaKNlvhb6tYZxfyYeoNGW1pttYVofPpWgwd/KaUT18qNPnIPn3J?=
- =?us-ascii?Q?x51+82s1+izsRBR4VF4Fymz1MjVy4W/rstclliFj6HulXwJeGWaPtZcoIe7w?=
- =?us-ascii?Q?PbhfJfxvfrpixq5cu2ggiU26X7oUEAndJgExEFIGG3psDWvGmhU2ym2ugPRd?=
- =?us-ascii?Q?SkQ1MZByvRDsYyptwE0xQ+UI1o0SzJyMbZTBo6iuKuMtO8I7MPwyqZ4GO9kP?=
- =?us-ascii?Q?LYF4J9kZh329LzgBBOCzije4zNhmx0ZGHTpVmffhnRvle3jgJN+fNrAHU96y?=
- =?us-ascii?Q?HQQXFr8gOyC8zGxPS2zXR6t+FHq9lWhQHUJH03SW+6DdoDs0Ry0gOT7E5EOg?=
- =?us-ascii?Q?zl54+xu9O1ShjG/N9txg7+hcIEBFqbd2Shv/Z1L0CuoTc7JHbZXpy4lyIFzG?=
- =?us-ascii?Q?2By1sVRNAetkpEboq5hF8Bwm10T4tC439+wI3D9eRSPHHvyFNSIk4UGM8Jqm?=
- =?us-ascii?Q?sDIqqdT/fbRiQyRm3/oQvxE4pV/sah5yaC4VVwck8/lCMdQKyTw1a1CX9YDk?=
- =?us-ascii?Q?3oN8csvgNLeJNuPcygkOmMNwU7Hk1fjxcK4iv/QgmsJ0Fw+lvB6/TqwtHqT+?=
- =?us-ascii?Q?DEpP1Oull7kH1EfeX75f2k3vA93hv0XVUyIcVM/c0f1YEMU4vB6j+hKkxpdw?=
- =?us-ascii?Q?dEp4XRYlITj4NQn7fx/KPYg3Kpx53FY+y2GsumnSXIh6BH4QkdlaVkAeelOp?=
- =?us-ascii?Q?8k91kgrwCNlB+ph9TvYCYw29eUMKrNU1Z+K9lo7D2YCee6WHrIF1TTB/Rmbs?=
- =?us-ascii?Q?ggWBeZmoY5V9pRWAvK2LVE+S/9Dj7VTg4HqyxI/Ec8mcvnfs2PtYPfTO/3Ji?=
- =?us-ascii?Q?/dJG0/vKzJoorHr79A5/XrOo6VDLucle313DJl329ey/slhk9qMz8ChfxPEK?=
- =?us-ascii?Q?CL+GqYZaULDX5E5LwkvYH4gEPDgMEfvdxivSdmmjxGacKsYPHS2pHTetjAeQ?=
- =?us-ascii?Q?t66upO5Te1hTmAnfC59vl9jWVAOOAEYiZUAkzhV9azEHQbHAtsBmvhf13Uky?=
- =?us-ascii?Q?3oBsxKsHXGmXiv+oaUYIbPt2/4mrT23DFchAN1kmjW3eA8M4ry0aMTxdVllX?=
- =?us-ascii?Q?MkMj9qxLrCI2+zqaAn8B4EVY7lbyaW2bVrTOetB56UvHRezDb9My0ZXUnCIW?=
- =?us-ascii?Q?Jx0MoCaal81Mksofq3u75PBl0T27OTSFeihRP4HkodcuPhHKOuKbyUHKboCe?=
- =?us-ascii?Q?WaLe2o1esAeYUGqCv2D3sJsMCXwnqAzAivlMf5PI4j4L83QhwAveXupek5TN?=
- =?us-ascii?Q?0A8tWcRD/aKOWgJCGzJTh3nOBGq6krMZDW5c+Lsh3Z9fdyW/LkzM29cUjyYh?=
- =?us-ascii?Q?BQf/qvq+DO2d35hqrV8yFXwR0JduO3l8+6Ur8+msDkBrBwdK6QRT0gjQyQ/u?=
- =?us-ascii?Q?cNE7uG1pUFRZX3ef68XpneZV/swFxiiZA6XCA10AghazzMN7XL07jAnNp7nA?=
- =?us-ascii?Q?dQhPwDhrzajAvz5uOI40ofDcNbIN4r0ct/ooVYC2VluZmEE9GgIwrcxDYgdJ?=
- =?us-ascii?Q?VVlORAZ/i7W5tlYwjaWtiO2N76kieIzhQlA/zfPBFJiF32z8aBVmgI/5rUQG?=
- =?us-ascii?Q?i629ve85djDEiV7APZWVJB6muFw2RF9Bq86qnY0vTULIxNWyNap90qXVK3gz?=
- =?us-ascii?Q?+2wz2RXN3sh2mbSdT1E7R6HTGumYdI6N1vYZcTTjAZ/no7+j6HsI?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 793c1d1c-b092-4925-d2b3-08df159024c2
-X-MS-Exchange-CrossTenant-AuthSource: AM8PR04MB7874.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 14:21:34.7137
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VznhkuaqeWLv9EvKIA7jXOdiMyVyfd3mMW8lxt1z5c9L/gCloawLfdG9qXyCRk4cIJtOb4ibfF+VD8ZcwGnVHh8/FPYvdl58gQcCygZB40neEORhdC1aI8/LDeAtMo46
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11846
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aq06hcheI4OGi_3A@gremlin>
+X-Debian-User: leitao
 
-From: Peng Fan <peng.fan@nxp.com>
+On Fri, Sep 18, 2026 at 02:20:34PM +0100, Lorenzo Stoakes (ARM) wrote:
+> On Fri, Sep 18, 2026 at 05:57:51AM -0700, Breno Leitao wrote:
+> > On Thu, Sep 17, 2026 at 12:33:41PM +0300, Mike Rapoport wrote:
+> > > On Mon, Sep 14, 2026 at 03:57:21PM +0100, Lorenzo Stoakes (ARM) wrote:
+> > > > The map->file_doesnt_need_get flag is confusing and the existing
+> > > > implementation has holes.
+> > > >
+> > > > Drivers are permitted to change the owning file of a mapping. If they do
+> > > > so, they are required to take a reference on that file.
+> > > >
+> > > > The mmap() operation which ultimately invokes __mmap_region() is guaranteed
+> > > > to drop the refcount for the original file the mapping was made under, but
+> > > > this is not true for the replaced file.
+> > > >
+> > > > This has been addressed so far by tracking map->file_doesnt_need_get, which
+> > > > is rather poorly named and unfortunately fails to correctly track whether
+> > > > or not an additional put were needed in a number of cases.
+> > > >
+> > > > Make life easier by removing this flag, and instead drop the reference for
+> > > > both mmap_prepare and the deprecated mmap callback in a new function
+> > > > put_map().
+> > > >
+> > > > Track whether this needs to be done by aligning mmap_state with
+> > > > vm_area_desc and store the original file in the map->file field, keeping
+> > > > the updated file in map->vm_file.
+> > > >
+> > > > In order to have the same behaviour for both types of hooks, only drop the
+> > > > reference __mmap_new_file_vma() itself took in its error path, deferring
+> > > > the replaced file's reference to put_map().
+> > > >
+> > > > To make this work correctly, map->vm_file has to be updated before any
+> > > > error handling, so update __mmap_new_file_vma() and call_mmap_prepare() to
+> > > > set this field first.
+> > > >
+> > > > Also when mmap_prepare() changes the file and is then merged, the reference
+> > > > count also must be decremented, so update the logic to call put_map() in
+> > > > this case too.
+> > > >
+> > > > Also update __compat_vma_mmap() to manually perform this step for stacked
+> > > > file systems using the compatibility layer, and update
+> > > > compat_set_vma_from_desc() to replace vma_set_file() with a correct
+> > > > refcount/file update.
+> > > >
+> > > > No in-tree driver is impacted by the incorrect implementation of this
+> > > > currently (no driver that does this is mergeable for one), so this does not
+> > > > need to be a fix.
+> > >
+> > > But the patch iteslf needs to be fixed :)
+> > >
+> > > It seems to be the change that broke the CI.
+> > >
+> > > The rest is from LLM, take it with a grain of salt :)
+> > >
+> > > mm-ci mm-unstable red build - bisect analysis
+> > > ==============================================
+> > >
+> > > Bad commit: 2a937a04babf1 "mm/vma: fix mmap_prepare file handling, remove
+> > > file_doesnt_need_get" - first patch of Lorenzo Stoakes' 40-patch series
+> > > "mm: make VMA flag semantics explicit, eliminate VM_SPECIAL" (v2).
+> > > https://lore.kernel.org/all/20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org
+> > >
+> > > Symptom: tools/testing/selftests/mm/pfnmap.c triggers
+> > > "BUG: Bad page map in process pfnmap" during __zap_vma_range()/vm_normal_page(),
+> > > seen on process exit/munmap. CI's run-mm-selftests.sh greps guest dmesg for
+> > > BUG|WARNING and fails the job regardless of the test's own exit code.
+> >
+> > I am seeing something similar here and stress-ng can reproduce it:
+> >
+> >       WARNING: mm/memory.c:3225 at do_remap_pfn_range+0x9b4/0x9f0, CPU#25: stress-ng-dev/354858
+> >       Call trace:
+> >        do_remap_pfn_range+0x9b4/0x9f0 (P)
+> >        remap_pfn_range_complete+0xac/0xd0
+> >        mmap_action_complete+0xcc/0x3d8
+> >        mmap_region+0xb54/0x1978
+> >        do_mmap+0x588/0xb18
+> >        vm_mmap_pgoff+0x1e4/0x320
+> >        ksys_mmap_pgoff+0x2d8/0x510
+> >        __arm64_sys_mmap+0x100/0x128
+> >
+> >       BUG: Bad page map in process stress-ng-dev  pte:0160000000000fcf
+> >       addr:0000ffe8d9080000 vm_flags:00000071 anon_vma:0000000000000000 mapping:ffff0000a0c4ea98 index:0 (file) ffe8d9080 (anon)
+> >       file:mem fault:0x0 mmap:0x0 mmap_prepare: mmap_mem_prepare read_folio:0x0
+> >       Call trace:
+> >        print_bad_page_map+0x63c/0x740
+> >        vm_normal_page+0x228/0x240
+> >        __zap_vma_range+0xbe0/0x34a0
+> >        unmap_vmas+0x240/0x318
+> >        unmap_region+0x12c/0x238
+> >        vms_complete_munmap_vmas+0x318/0x958
+> >        do_vmi_align_munmap+0x254/0x2f8
+> >        do_vmi_munmap+0xc4/0xf8
+> >        __vm_munmap+0x174/0x288
+> >        __arm64_sys_munmap+0x70/0x90
+> 
+> Yup I already fixed it and respun the series :)
+> 
+> https://lore.kernel.org/all/20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org/
 
-Convert open-coded if/else with set_bit/clear_bit and their
-non-atomic __set_bit/__clear_bit variants to the assign_bit/__assign_bit
-API.
-
-Done with Coccinelle semantic patch:
-    // set_bit -> clear_bit => assign_bit
-
-    @@
-    expression cond, bit, addr;
-    @@
-
-    -if (cond)
-    -        set_bit(bit, addr);
-    -else
-    -        clear_bit(bit, addr);
-    +assign_bit(bit, addr, cond);
-
-    // clear_bit -> set_bit => assign_bit
-
-    @@
-    expression cond, bit, addr;
-    @@
-
-    -if (cond)
-    -        clear_bit(bit, addr);
-    -else
-    -        set_bit(bit, addr);
-    +assign_bit(bit, addr, !cond);
-
-    // __set_bit -> __clear_bit => __assign_bit
-
-    @@
-    expression cond, bit, addr;
-    @@
-
-    -if (cond)
-    -        __set_bit(bit, addr);
-    -else
-    -        __clear_bit(bit, addr);
-    +__assign_bit(bit, addr, cond);
-
-    // __clear_bit -> __set_bit => __assign_bit
-
-    @@
-    expression cond, bit, addr;
-    @@
-
-    -if (cond)
-    -        __clear_bit(bit, addr);
-    -else
-    -        __set_bit(bit, addr);
-    +__assign_bit(bit, addr, !cond);
-
-Signed-off-by: Peng Fan <peng.fan@nxp.com>
----
- drivers/usb/core/hub.c               | 5 +----
- drivers/usb/core/sysfs.c             | 5 +----
- drivers/usb/gadget/function/f_midi.c | 5 +----
- drivers/usb/host/ehci-sysfs.c        | 5 +----
- drivers/usb/host/ohci-hub.c          | 7 ++-----
- drivers/usb/host/uhci-hcd.c          | 6 ++----
- drivers/usb/musb/sunxi.c             | 5 +----
- 7 files changed, 9 insertions(+), 29 deletions(-)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 199d3f535a89..25a1cba39063 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -902,10 +902,7 @@ int usb_hub_set_port_power(struct usb_device *hdev, struct usb_hub *hub,
- 	if (ret)
- 		return ret;
- 
--	if (set)
--		set_bit(port1, hub->power_bits);
--	else
--		clear_bit(port1, hub->power_bits);
-+	assign_bit(port1, hub->power_bits, set);
- 	return 0;
- }
- 
-diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
-index d22dc78457d7..25e8af8c1bd7 100644
---- a/drivers/usb/core/sysfs.c
-+++ b/drivers/usb/core/sysfs.c
-@@ -1032,10 +1032,7 @@ static ssize_t interface_authorized_default_store(struct device *dev,
- 	if (kstrtobool(buf, &val) != 0)
- 		return -EINVAL;
- 
--	if (val)
--		set_bit(HCD_FLAG_INTF_AUTHORIZED, &hcd->flags);
--	else
--		clear_bit(HCD_FLAG_INTF_AUTHORIZED, &hcd->flags);
-+	assign_bit(HCD_FLAG_INTF_AUTHORIZED, &hcd->flags, val);
- 
- 	return rc;
- }
-diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
-index 63fb6ee70a3d..eaec5a517faf 100644
---- a/drivers/usb/gadget/function/f_midi.c
-+++ b/drivers/usb/gadget/function/f_midi.c
-@@ -769,10 +769,7 @@ static void f_midi_out_trigger(struct snd_rawmidi_substream *substream, int up)
- 
- 	VDBG(midi, "%s()\n", __func__);
- 
--	if (up)
--		set_bit(substream->number, &midi->out_triggered);
--	else
--		clear_bit(substream->number, &midi->out_triggered);
-+	assign_bit(substream->number, &midi->out_triggered, up);
- }
- 
- static const struct snd_rawmidi_ops gmidi_in_ops = {
-diff --git a/drivers/usb/host/ehci-sysfs.c b/drivers/usb/host/ehci-sysfs.c
-index 5e6b545c30e6..83bbcf759435 100644
---- a/drivers/usb/host/ehci-sysfs.c
-+++ b/drivers/usb/host/ehci-sysfs.c
-@@ -48,10 +48,7 @@ static ssize_t companion_store(struct device *dev,
- 	if (portnum <= 0 || portnum > HCS_N_PORTS(ehci->hcs_params))
- 		return -ENOENT;
- 	portnum--;
--	if (new_owner)
--		set_bit(portnum, &ehci->companion_ports);
--	else
--		clear_bit(portnum, &ehci->companion_ports);
-+	assign_bit(portnum, &ehci->companion_ports, new_owner);
- 	set_owner(ehci, portnum, new_owner);
- 	return count;
- }
-diff --git a/drivers/usb/host/ohci-hub.c b/drivers/usb/host/ohci-hub.c
-index 84d10a932942..1ebf6aa4b2a3 100644
---- a/drivers/usb/host/ohci-hub.c
-+++ b/drivers/usb/host/ohci-hub.c
-@@ -518,11 +518,8 @@ int ohci_hub_status_data(struct usb_hcd *hcd, char *buf)
- 		}
- 	}
- 
--	if (ohci_root_hub_state_changes(ohci, changed,
--			any_connected, rhsc_status))
--		set_bit(HCD_FLAG_POLL_RH, &hcd->flags);
--	else
--		clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
-+	assign_bit(HCD_FLAG_POLL_RH, &hcd->flags,
-+		   ohci_root_hub_state_changes(ohci, changed, any_connected, rhsc_status));
- 
- 
- done:
-diff --git a/drivers/usb/host/uhci-hcd.c b/drivers/usb/host/uhci-hcd.c
-index 433d64a5fab5..efc1e01005fd 100644
---- a/drivers/usb/host/uhci-hcd.c
-+++ b/drivers/usb/host/uhci-hcd.c
-@@ -376,10 +376,8 @@ __acquires(uhci->lock)
- 	 * doesn't work, then we won't get an interrupt when a wakeup event
- 	 * occurs.  Thus the suspended root hub needs to be polled.
- 	 */
--	if (wakeup_enable && (!int_enable || !egsm_enable))
--		set_bit(HCD_FLAG_POLL_RH, &uhci_to_hcd(uhci)->flags);
--	else
--		clear_bit(HCD_FLAG_POLL_RH, &uhci_to_hcd(uhci)->flags);
-+	assign_bit(HCD_FLAG_POLL_RH, &uhci_to_hcd(uhci)->flags,
-+		   wakeup_enable && (!int_enable || !egsm_enable));
- 
- 	uhci_scan_schedule(uhci);
- 	uhci_fsbr_off(uhci);
-diff --git a/drivers/usb/musb/sunxi.c b/drivers/usb/musb/sunxi.c
-index a6bd3e968cc7..347f547696b3 100644
---- a/drivers/usb/musb/sunxi.c
-+++ b/drivers/usb/musb/sunxi.c
-@@ -208,10 +208,7 @@ static int sunxi_musb_host_notifier(struct notifier_block *nb,
- {
- 	struct sunxi_glue *glue = container_of(nb, struct sunxi_glue, host_nb);
- 
--	if (event)
--		set_bit(SUNXI_MUSB_FL_HOSTMODE, &glue->flags);
--	else
--		clear_bit(SUNXI_MUSB_FL_HOSTMODE, &glue->flags);
-+	assign_bit(SUNXI_MUSB_FL_HOSTMODE, &glue->flags, event);
- 
- 	set_bit(SUNXI_MUSB_FL_HOSTMODE_PEND, &glue->flags);
- 	schedule_work(&glue->work);
--- 
-2.51.0
-
+Very nice, thanks. I will give it a try!
