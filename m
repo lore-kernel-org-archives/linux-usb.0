@@ -1,167 +1,218 @@
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+Received: from mail-oi2-f3.google.com (mail-oi2-f3.google.com [74.125.231.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 813D63624B8
-	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 00:54:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3175357CED
+	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 01:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789692891; cv=none; b=TJzcjE22L3vRWnvqW/CKNSOApbWzZ6y6CNzFuFeveAyyX+Z7xso2km3wDPy3QxXVJThaP/mile+2fxlpgQJC5v/mZquYWwHdTjcv7QUO3OPjZ4T5InEUCKzYEMDiI/UPqDhTzjaI6KpPpSlN6fiK6OYPJr4s5WsrSF+MbZUSgMo=
+	t=1789693302; cv=none; b=fyzh7NS3Bm0tkLvSfRI7I/U58xK1CdedQtpbC/BKBml5JORv83/ihdlXSMrEdQMopNR2cJ1NsFKEbmBzyJLlIEgUhnYrcogutGgnnB0rox2+p0xG0Rk2llgVfJRLISQEFm0sGZ6SUesdJWeP4/kmke6y909NBrMaYC9dqiqT2hM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789692891; c=relaxed/simple;
-	bh=qCrvnwnw2ZmTpdL+R/0NITnHZPsB2ITSD1FJ8dZiKL0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AHpHKiT/GHF9utLUPHxUXyZ4XzCoomGwPGyMcPkO53m66Ezibj0wmosJvvBDAyzhOBdDPLOd6LSsw1e2jWhWNoHrSlxhf9VKxq/33eGwDaVm6QzNxLnXfR+ksnJ66lFtfBqrcWPxh6jd1sxsbcvvzWWR7KacFnAL5uul+9arCBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UZENtkiI; arc=none smtp.client-ip=74.125.228.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UZENtkiI"
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8631d0023daso145892b3a.2
-        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 17:54:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789692888; x=1790297688; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vorPSln8DTStAoGWTmO2QfiwSgMRhe3eQ+sYKlZMfk4=;
-        b=UZENtkiISEgDw+Y/0Yg2iBk8HMlhWmF6+JjFAjbySgUqb+faetKAghjCCjMPnvgZP2
-         m2oiLmuAvaPUQpPMxuI21Sgh9rfrLhXxsrDlD9w3Rs9vE5JbeTl/swGA/2ooAveq3dXW
-         0wbv85HOSKmLFq/vns3flsTYc9kr9OYrNwEUKuEppTJ4XgAKpEUyqcW8D/QiMtGrnK+g
-         yilLi3dwWtjtySgM895QAauezGs2z4KDQI4IKagke/HtPcdldpIuL3dsh+LnrMRW5FZM
-         fi4zapgUQzhrO7F/7hBN2Hqk90eY6WBDFfJZD8yBBiWGoeHpI9wZ8rm9JBjuCPWU+KuW
-         y/TQ==
+	s=arc-20240116; t=1789693302; c=relaxed/simple;
+	bh=63t47ASy4Pqaw2rxcNVymf+q8JkG0Jgq8Egv5JlxqXs=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=O621y2ZcophneuDDKoj8EVRZay7j1zJBdjSUkEzC3DQgghd57vjqNJgUNPrCTE+aKdENHSzzMHTT83i6ZzWe1ABhrN4OPMmLxBM/ubG6G5jfY7EjrRBRHYjSUDi0biYzWp4BEmbzIWKTzDBaHwSOwkd+nLelUfU5V6gbFFVjxB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=74.125.231.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi2-f3.google.com with SMTP id 5614622812f47-4b38a6e8c79so83638b6e.1
+        for <linux-usb@vger.kernel.org>; Thu, 17 Sep 2026 18:01:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789692888; x=1790297688;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vorPSln8DTStAoGWTmO2QfiwSgMRhe3eQ+sYKlZMfk4=;
-        b=yWFdG4yQmN/jMZJju3h2y7hhz+sYq8XLoK/JGqa3ozVj7Z+QeuhtsuZKwmfrOuZHVx
-         c5YdC4M18dnsZlkcbacxEOX81vXG+HC0qVG/TPqO04joIZslx746DZ0wT8Kv2ry32gQt
-         bY1H3DLbzgKKHfuA/j2ORBZmSRv5rAFIpbyLiPwPJG9ZfOhCVn/r5a2YnaoF8ddECgli
-         5CbTEVbmlM17CWYRXaadaB3HpAibiffGAuJsCDNZnDIZKSU3btuwjwqTFjA15rcUJESm
-         PQW6Bk1r4Zhk3fOukbwBFZMcBngami5C5nXqB+cteUH+2QXfpsrlwDwIu1xKfUoPBIsc
-         9zpw==
-X-Forwarded-Encrypted: i=1; AKwUvBwJafErSgcHh3Z3FXdqcsvIuP/I4Ioi+bBDcv2Wsjpx5JswlVJsDwn4bHfLbCmFpqF0UXIrJVacSqA=@vger.kernel.org
-X-Gm-Message-State: AFuF++nA8PaFsnnGXxe3PIZ37Vs09duky5epbTogG7DMveznEibYx6LI
-	1NaWaQXitMNqRLFYemOgqQ5Lh0lkZ/fhxKm3tdV/PXjomMT8dLD8QTIN
-X-Gm-Gg: AYBFou2Wf/i4W5ZnuGWpzC2E8mREP3JvbAxQW339v9IgXvbHdm3pf6PNPbGKA4chRKL
-	pfYZ+m6MpJ/d6ETPLCtnZm3wjty41Ax6v8+aq/6IvJh8oAOwDP+oE0y7qlj4V9ALtE9JuPM7bZx
-	cOtIV/c2NbF1Ukfx/IwzD3Kl82/XyRWYxODc9IvUortWLJFZazV2UEEwDaHA7enfIEsnm9inrDB
-	cL+DnFhzTnAy+6fdIHnGOBSk5JOd64nFFTDY++7XRk/BCV2tfF/nBvAdBgyF6Aen3EhoEA64L0t
-	PBfyPUMDTpRn+mrzTFF7tuC2zOvRdkfZAU2jsPJFYJZf1InkKejWWItxCfCuKeysR+0BGMYI+S5
-	WBFCESzgnUmiFbVcjv8XjKWgXNgTFD0qq/QZGVfjmojg4PggI4fHOr7RTG+ckxD/gmXygl1GxqT
-	GNk6xzuNU1gfYqwzqGuVZ9i8qNPJ8eEYbMSOmeGbtd6H1FOgaFy/2pYfT1lcQRf4hW+0Q74mk7S
-	2YQi14u1GwrG9M168MZRLkRBMRQY6VDHA==
-X-Received: by 2002:a05:6a20:c989:b0:3d1:c99f:efbf with SMTP id adf61e73a8af0-3dd8c43822fmr1616231637.14.1789692888530;
-        Thu, 17 Sep 2026 17:54:48 -0700 (PDT)
-Received: from localhost.localdomain ([2409:8a1e:2e81:7320:84a7:aa72:4f01:6c70])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bfb19f8cesm25238885eec.2.2026.09.17.17.54.46
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 17 Sep 2026 17:54:48 -0700 (PDT)
-From: zjamg <ndaugoing@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Michal Nazarewicz <mina86@mina86.com>,
-	Robert Baldyga <r.baldyga@samsung.com>,
-	Felipe Balbi <balbi@ti.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yuchao Zhang <ndaugoing@gmail.com>,
-	stable@vger.kernel.org
-Subject: [RESEND PATCH 1/1] usb: gadget: f_fs: Fix NULL pointer dereference in FUNCTIONFS_ENDPOINT_DESC
-Date: Fri, 18 Sep 2026 08:54:38 +0800
-Message-ID: <20260918005438.81263-2-ndaugoing@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260918005438.81263-1-ndaugoing@gmail.com>
-References: <20260918005438.81263-1-ndaugoing@gmail.com>
+        d=1e100.net; s=20260707; t=1789693300; x=1790298100;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hnmcEZw6N9pgwLjSmO5GPULj7Drde3nmSPgE8fUPnbQ=;
+        b=1JJ2J72rsYjHnAJE0UasWd2oMwXsd3+Z/3Zm/tp+OrvldYqoUBLRPGmmZ8ByjHNMDt
+         qosonNha6W5WFfFBEpsWrZAcE4dLmBG41SqLiTeMKasdLki6g/EikkZ0e8r9yB6yZX2b
+         tMHgrUbqzPC+qM2SdDt9nytJcBD0NZwggcvwKzzIwoGu6NpKUTP+r+16VaUDcGX0K+6V
+         IWUxvluR1+UwsqW1tFvbEYzGsm2I1zxTAQ85/u1AICwFo9zu6Qa08TJnrg5Sxz/O9e0N
+         rIiizab361DP9hIDVDT5yZA9kVm3aU1oR41JGQJdjdfDeKCQ9qPf0YW/a9JsR3Tdl8SX
+         X+MA==
+X-Forwarded-Encrypted: i=1; AKwUvBw3GoAS5cRPjY3QV5MUTkSz9FUm0OyoNWov6zRmPoCOmJ9p2WJIm1mtaCxvXmYPt0sg85w7LRy2YOA=@vger.kernel.org
+X-Gm-Message-State: AFuF++l9HwihiInXeGctid81Op/uUCGD0SyXcNekb9DgYqa7dhJE2+om
+	x8yzfnSsYbW7/g/QQEhKLPnapX4+8mbe5AvK2aXU2fpSv/yp8XdAncMsxwyz4h5yNZ7SlPQFaPF
+	hlxsDPywavG22Qt6wmq0Fpmu5riZ6sdprVs3NnUHnbuXcR0rXEFdxEuYNhKQ=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:5392:b0:4c3:b6cb:da26 with SMTP id
+ 5614622812f47-4ccf840c6dcmr1110640b6e.37.1789693299770; Thu, 17 Sep 2026
+ 18:01:39 -0700 (PDT)
+Date: Thu, 17 Sep 2026 18:01:39 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6aac8d73.87c06881.1db2b3.001e.GAE@google.com>
+Subject: [syzbot] [mmc?] [usb?] KASAN: slab-use-after-free Read in rtsx_usb_ms_handle_req
+From: syzbot <syzbot+3ee5da0319ca17ef1f4e@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, maximlevitsky@gmail.com, oakad@yahoo.com, 
+	syzkaller-bugs@googlegroups.com, ulf.hansson@linaro.org, ulfh@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Yuchao Zhang <ndaugoing@gmail.com>
+Hello,
 
-When user space sets up FunctionFS with only full-speed descriptors
-(e.g., flags = FUNCTIONFS_HAS_FS_DESC) and the gadget operates at a
-higher speed (such as USB_SPEED_HIGH or USB_SPEED_SUPER),
-config_ep_by_speed() detects that the function lacks descriptors for
-the current speed, logs a warning, and falls back to full-speed
-descriptors. The endpoint is then successfully enabled via
-usb_ep_enable(), and epfile->ep becomes valid.
+syzbot found the following issue on:
 
-However, when user space subsequently issues the FUNCTIONFS_ENDPOINT_DESC
-ioctl to query the endpoint descriptor, ffs_epfile_ioctl() selects the
-descriptor index solely based on gadget->speed:
+HEAD commit:    d58dffe9ee2c USB: core: amend usb_get_from_anchor() kernel..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=101538c9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c451f9f64434b622
+dashboard link: https://syzkaller.appspot.com/bug?extid=3ee5da0319ca17ef1f4e
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10a39bf9580000
 
-	switch (epfile->ffs->gadget->speed) {
-	case USB_SPEED_SUPER:
-	case USB_SPEED_SUPER_PLUS:
-		desc_idx = 2;
-		break;
-	case USB_SPEED_HIGH:
-		desc_idx = 1;
-		break;
-	default:
-		desc_idx = 0;
-	}
-	desc = epfile->ep->descs[desc_idx];
-	memcpy(&desc1, desc, desc->bLength);
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/424c61cbb872/disk-d58dffe9.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4124586dc97c/vmlinux-d58dffe9.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a07e8e384dc4/bzImage-d58dffe9.xz
 
-Because user space only supplied full-speed descriptors,
-epfile->ep->descs[1] is NULL. Dereferencing desc->bLength triggers an
-immediate kernel NULL pointer dereference panic.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+3ee5da0319ca17ef1f4e@syzkaller.appspotmail.com
 
-Fix this by falling back through lower speed descriptors if the current
-speed descriptor was not supplied, matching the fallback logic in
-config_ep_by_speed() and historical f_fs behavior. If still missing,
-fall back to epfile->ep->ep->desc (the active descriptor), and return
--EINVAL safely if no valid descriptor is found. In addition, mark desc
-as const to match struct usb_ep::desc and avoid discarding qualifiers.
+==================================================================
+BUG: KASAN: slab-use-after-free in rtsx_usb_ms_issue_cmd drivers/memstick/host/rtsx_usb_ms.c:486 [inline]
+BUG: KASAN: slab-use-after-free in rtsx_usb_ms_handle_req+0x17ff/0x1a00 drivers/memstick/host/rtsx_usb_ms.c:531
+Read of size 1 at addr ffff888120c35071 by task kworker/1:0/24
 
-Fixes: c559a3534109 ("usb: gadget: f_fs: add ioctl returning ep descriptor")
-Cc: stable@vger.kernel.org
-Signed-off-by: Yuchao Zhang <ndaugoing@gmail.com>
+CPU: 1 UID: 0 PID: 24 Comm: kworker/1:0 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Workqueue: events rtsx_usb_ms_handle_req
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ rtsx_usb_ms_issue_cmd drivers/memstick/host/rtsx_usb_ms.c:486 [inline]
+ rtsx_usb_ms_handle_req+0x17ff/0x1a00 drivers/memstick/host/rtsx_usb_ms.c:531
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 12:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x8f/0xa0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x2d8/0x680 mm/slub.c:5563
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ memstick_alloc_card drivers/memstick/core/memstick.c:383 [inline]
+ memstick_check+0x2c1/0x10d0 drivers/memstick/core/memstick.c:452
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Freed by task 12:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x43/0x70 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free mm/slub.c:6499 [inline]
+ kfree+0x20c/0x650 mm/slub.c:6792
+ memstick_alloc_card drivers/memstick/core/memstick.c:420 [inline]
+ memstick_check+0x72b/0x10d0 drivers/memstick/core/memstick.c:452
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ffff888120c35000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 113 bytes inside of
+ freed 2048-byte region [ffff888120c35000, ffff888120c35800)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x120c30
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x200000000000040(head|node=0|zone=2)
+page_type: f5(slab)
+raw: 0200000000000040 ffff888100042000 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 0200000000000040 ffff888100042000 dead000000000100 dead000000000122
+head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 2865, tgid 2865 (udevd), ts 24097723903
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0xf4b/0x3440 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x2d7/0x2f70 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab mm/slub.c:3462 [inline]
+ new_slab+0xa9/0x6e0 mm/slub.c:3513
+ refill_objects+0xe3/0x410 mm/slub.c:7410
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ __do_kmalloc_node mm/slub.c:5413 [inline]
+ __kmalloc_node_track_caller_noprof+0x634/0x820 mm/slub.c:5545
+ kmalloc_reserve+0xe8/0x350 net/core/skbuff.c:637
+ __alloc_skb+0x185/0x710 net/core/skbuff.c:715
+ alloc_skb include/linux/skbuff.h:1384 [inline]
+ netlink_alloc_large_skb+0x69/0x150 net/netlink/af_netlink.c:1185
+ netlink_sendmsg+0x680/0xda0 net/netlink/af_netlink.c:1875
+ sock_sendmsg_nosec net/socket.c:800 [inline]
+ __sock_sendmsg net/socket.c:815 [inline]
+ ____sys_sendmsg+0xa4d/0xbe0 net/socket.c:2713
+ ___sys_sendmsg+0x190/0x1e0 net/socket.c:2767
+ __sys_sendmsg+0x160/0x210 net/socket.c:2799
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x119/0x710 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+page_owner free stack trace missing
+
+Memory state around the buggy address:
+ ffff888120c34f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888120c34f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888120c35000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                             ^
+ ffff888120c35080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888120c35100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
 ---
- drivers/usb/gadget/function/f_fs.c | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index 43962e05eacf..c64a268e98a4 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1877,8 +1877,9 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 		break;
- 	case FUNCTIONFS_ENDPOINT_DESC:
- 	{
-+		const struct usb_endpoint_descriptor *desc;
-+		struct usb_endpoint_descriptor desc1;
- 		int desc_idx;
--		struct usb_endpoint_descriptor desc1, *desc;
- 
- 		switch (epfile->ffs->gadget->speed) {
- 		case USB_SPEED_SUPER:
-@@ -1892,7 +1893,17 @@ static long ffs_epfile_ioctl(struct file *file, unsigned code,
- 			desc_idx = 0;
- 		}
- 
--		desc = epfile->ep->descs[desc_idx];
-+		do {
-+			desc = epfile->ep->descs[desc_idx];
-+		} while (!desc && --desc_idx >= 0);
-+
-+		if (!desc)
-+			desc = epfile->ep->ep->desc;
-+		if (!desc) {
-+			ret = -EINVAL;
-+			break;
-+		}
-+
- 		memcpy(&desc1, desc, desc->bLength);
- 
- 		spin_unlock_irq(&epfile->ffs->eps_lock);
--- 
-2.53.0
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
