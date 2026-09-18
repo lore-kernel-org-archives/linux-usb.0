@@ -1,229 +1,327 @@
-Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2118.outbound.protection.partner.outlook.cn [139.219.146.118])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3840349F10A;
-	Fri, 18 Sep 2026 07:11:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.118
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789715498; cv=fail; b=Nlqr0Fy+ARQegLeGS7WrcsVWvZkyg36FXmSvyM+KpLtJFSLpDeNpm6wPSDcLYBydUnYV4js6pY+KtWPjWOeA5UoH3mCfvi9EheKDBtXJSqxSzYFn5aG8I1TZ1xytbQeB0ZZE/gI92nk5sTLiV8/hmsaekF5XFtDIjVj4D0hHqqg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789715498; c=relaxed/simple;
-	bh=hkzY779mNi8IMds6Vb0m16KhLddDq1oYO8Y5UrOHLTU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=k8KQY/YuCwD1flHkwGlTgyvPXVIRF35v9Ff3rWdktY6d7yadw5NVrlM1jTPFDQ3U9wHCQjQSyFbu6GSNA1gG/VNg8p6PY/sZ0MHMwVJ/mmlSKYNXW3kPMi8mQoMqvWZ/pVqVnL4OTZzqHS6QHwJBeWmUehdpiF2ry8jjnc3wxEg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Op99gKRJwzy1rwpMWYFHUdkmOAo2cjnpqaNDJrbWoaoY7TaR58p3hKOtioLUZT6RA19hncTW8ZeYydKp/yVGJVilExv/DrIPhEg+vRHcbanSIAcP+qZ5RXPejdMoqAsquYHyUxaiIcQMJbt6mOjU96XZPSov03fZsOIAJ+gsyKuthmD6tBGAgR2C6HzClWoh3HHqwsXujG2hCDDFFRyRRGnK8yM8Ntg6v2GvxCNYChd61OYxu8E5way77WECu+ThV+OlNOE1ARoLBrcIp2K4O2bak2Z3S/Ou6t/2YZ3sZ65oBAyNK05yXZ/jN36BNhTCAvrGM9UtwRD3JvQ8dqDSHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EYfNPUH6LlaU/r/YsD0q7r1UX4alNJTaeVFK8dkJdVg=;
- b=YrOLywjCN4i1jjDKDWj4Fskj6xPQ0a1vOSsmt3IY0wZi/RLOWjAk7jIFvAMxqCvAJQxxOodKYwadXUKdmtJiZ/nctOw/ZrmCSorS8aJeCv/gX1h635t7VMx/l5E9J6SW71+NtO6AhJr6UqgUXpPrJE4cT0rJuY9c7Txe3ubHItMGibMp/uvLjMvoq9HC/Dhu7ttWk1B/vFPqI5XX8m/MVKx52F5acBBbUb38iAHevNIlKrginVERyyjBwuz5INROcfOa0ovbyviMZOMlOnInUlWPWWED6MSUZWwwEyRniTVOfwowQ01On1IqyrTvYPpeiecZWfirnwAcX1vrICXV1w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=starfivetech.com; dmarc=pass action=none
- header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=starfivetech.com;
-Received: from SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::15) by SHXPR01MB0893.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:1c::23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.14; Fri, 18 Sep
- 2026 07:11:15 +0000
-Received: from SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn
- ([fe80::9b99:12dc:a115:b90f]) by
- SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn ([fe80::9b99:12dc:a115:b90f%4])
- with mapi id 15.21.0339.017; Fri, 18 Sep 2026 07:11:15 +0000
-From: Minda Chen <minda.chen@starfivetech.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor@kernel.org>,
-	linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Minda Chen <minda.chen@starfivetech.com>
-Subject: [PATCH v1 3/3] usb: dwc3-generic: Add Starfive JHB100 USB 2.0 device controller and adapter
-Date: Fri, 18 Sep 2026 15:11:03 +0800
-Message-Id: <20260918071103.24482-4-minda.chen@starfivetech.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20260918071103.24482-1-minda.chen@starfivetech.com>
-References: <20260918071103.24482-1-minda.chen@starfivetech.com>
-Content-Type: text/plain
-X-ClientProxiedBy: BJXPR01CA0049.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c211:12::16) To SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn
- (2406:e500:c311:25::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9FB2CCC5
+	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 07:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789717395; cv=none; b=upidX5Ax01xj9If0pbQbLb9AW8jIeitXtqA8ALMOSm61f4TFsJxikcY0sz7D4hLxClEwBzF3/v7H4E0hUMuX4wLOWmjTbX/AvstqOZhkH5ZX7AS41s52YbsZf0PSBnztKYYvww6Ia4w9aK8cTuHkZOGLtD5ipd+b7RsyjBvcIZw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789717395; c=relaxed/simple;
+	bh=W+K2bNcreWCpuPjTCvsX8Jt7OpOgb1skysa1g+YVC2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vg5SgYx4QUlI6LwIuiS90TZSHHLX8jPPRudmh5ACsrmgSKrWk1bCuMwjES6pkRxFpLbMIFrhPA8R2BwDvAfpT1E9P67i1OjlI/z61Rvfk4JeiI2UEZeuvBS5kB0OvTPx9PoI82iCog2gd5kDfkUFQoSAET/FoLwOI7r1stnkVdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bQf5lH4z; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bQf5lH4z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789717385; x=1821253385;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=W+K2bNcreWCpuPjTCvsX8Jt7OpOgb1skysa1g+YVC2I=;
+  b=bQf5lH4zduqsZMmbZqMmmoIPZ5pz1stnYAv6yCSMdMnDEaX2rMxwHAe1
+   rAttR3YNyoZ1BKv3m+13Nw5K78DfrjQIMtM57apB91GMPBM+q9aYMgZ97
+   utAV5tIdsVsEFS93MbOj6I6Q/tReLsBIDyCKy27qEkaTVcC4cVDKEYEXl
+   gB+rhs1q3Rjw36BRkaD4SgmqzG4LCZFYaTuMD5R4Ml1tEdpxQTDxkHtHH
+   LzvMDo4Ptrh6vu93WYN89FHcsHlRBtOdALN4rzT5bf0dLti6yWxr/iTZk
+   5lL0I1oaNx+XJJZGYWYtTgbbuQILFeKq0HyKHOwEqj3COkemlId8J1xJ8
+   A==;
+X-CSE-ConnectionGUID: oyS2dvlkRnGVuIJ5V4F+3g==
+X-CSE-MsgGUID: WiDhcLrNQNaOopyUMe3TIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11905"; a="100802077"
+X-IronPort-AV: E=Sophos;i="6.27,103,1787036400"; 
+   d="scan'208";a="100802077"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2026 00:43:00 -0700
+X-CSE-ConnectionGUID: oEhMxc9STN2eAilRtSqgIg==
+X-CSE-MsgGUID: pFM8MvZqQ1i9FHa/pHmkEQ==
+X-ExtLoop1: 1
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa003.fm.intel.com with ESMTP; 18 Sep 2026 00:42:59 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id BAE5599; Fri, 18 Sep 2026 09:42:53 +0200 (CEST)
+Date: Fri, 18 Sep 2026 09:42:53 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Manuel Knitza <manuel.knitza@googlemail.com>
+Cc: linux-usb@vger.kernel.org, Guilhem HENRY <guilhemhenry@gmail.com>,
+	Dell.Client.Kernel@dell.com
+Subject: Re: [BUG] ucsi: duplicate =?utf-8?Q?partne?= =?utf-8?Q?r_altmode_?=
+ =?utf-8?B?4oCU?= the invalid VDO wins, DP Alt Mode never works
+Message-ID: <aqzrfTq1zDnWnQz4@black.igk.intel.com>
+References: <CAMRbua4xZfsQ0FXsrfq=SCbyZa1n=Aw5UrD3bEaU41d+J3KmXw@mail.gmail.com>
+ <aqPU13Z_duC7d4E2@black.igk.intel.com>
+ <CAMRbua4oitgPgCXtWKTJa0_5AHbtzLV-47k=nCSP0Rq-Mhpx-w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SHXPR01MB0863:EE_|SHXPR01MB0893:EE_
-X-MS-Office365-Filtering-Correlation-Id: a53be818-d0b8-426d-19a0-08df15540755
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|52116014|366016|1800799024|6133799003|10067099003|3023799007|22082099003|18002099003|56012099006|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	lKwjUWvwT4+HXBeL9k+BpAnbTWQ0Vz6adRHbhDy4Fpnshk/xRQbW30yiT9U790fmJMk0jZ3xBBxf0j0xptvfZlN+uugtb6gPQ77iPb3yHRBKuTFNflJ/I9m+XIPR6VL4roayT0YO5dLMD2LuYGhMCacBcPyhuztwZZyIVtEuIzRgcO3qEgvYGCuo+wmnttrwEWHlnB+2vnr9Edm7WAj0FjkByb0cw3GmPqkNql9F0A6eXCI8snAwjR1Zz6QlYeBhAlckr8oVe0kdLWraky58W7gX7y1KHptpVeYpoItcdxn1Yl5Ie/iaKoWFSweu8QSuBnvIaDtQ5XDtOxd4nLnoflNNms+NKzxHbtnoMS/VHS17p4UjijHjHOAdgfmPBBLMUtdQ8PQIrj2qBW5kSPQuD0RH4JOMdXKAVMYNp4SouViAlSjITliUFQLPUEl2jkXcbRvFKYvvfeetAj20pimocx76jdP9nLlPIKi15uLFn63dl7oJKNppWhjrNEYGkRnG+yDf7KpnrQDhQiivaU/IspH20ErpvSCLuhcNNIQEQr7COqUQMWxZ7SSr2q62Q2+e
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(52116014)(366016)(1800799024)(6133799003)(10067099003)(3023799007)(22082099003)(18002099003)(56012099006)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Qd2gzlZLrMk9l19Q9UP5WOWaT2pS1HwWPJkAkc65ig7YFi3OHa9WgQy/cj27?=
- =?us-ascii?Q?0rgF56uY5gosXNu6sk09FhYuuqj7HZATWFy3KBdgpeqeFTT3Y5SMmdAarMC2?=
- =?us-ascii?Q?iiizscd4kXsDdMzyeOEeQJQIQDihMq/z5BRq5xHCtk5A86TEKwSciCHScMKP?=
- =?us-ascii?Q?JxQWyLcMmJSFk/Ye+du+2PEIVOU7zC2oE3BHTJ00iUvrTujI7jg0MArIfx3l?=
- =?us-ascii?Q?tNTy2xM007BLu86gGhh1SpFK2bvreEEQUm6Pa9EkgbScwX2W249sMIiZ1nFA?=
- =?us-ascii?Q?fLCx+UjiIxpFZTp4Jn7gC8jL4mDcaqR0OMzIA6s0Ier8HDj1CbPFr4pfwagC?=
- =?us-ascii?Q?CX9rl83Vv3lUXiG5DFkldyu44TBxkjgDo+yOuJBsk5Yj9rMCkK6MfgDTjC2+?=
- =?us-ascii?Q?1ul4pMffNiTloY+ySciRHljU204ge62eM7KMyeo0cumNduRl3TAu5znb3qlK?=
- =?us-ascii?Q?7yW8m9zUMSPX8Aj1XZ6ScnAKiP61pleDqkzw6dOkJ6bfuUj3lZSy+zxawfjv?=
- =?us-ascii?Q?hRIaFpSpOXwhGerYd6E9Mtb7N+8kr3zl01tH0ouvJkZvM9FxWCfSL3eg5n/f?=
- =?us-ascii?Q?fIcqf08D9SJ9n+mOOzX7qpnqKkeBSwzIdfFpdfB1A/g6phhHy1eRKTV2uTR1?=
- =?us-ascii?Q?qCxjZag1pT2093qRPRZzDZ1ADiOqRQeBFnDSeUpF4AJkJBdfNOxtPRfSjeeW?=
- =?us-ascii?Q?PuidbifF5TF1Y+95rI31zP/oGCylIw62EuggOTdIF9c5uarxywASU/BvXDAr?=
- =?us-ascii?Q?jCPkz9yvywpZH0bYyW9wVUoPiPffhEOi42Kd8RM9+Weob7+iN9G5h3KJKgso?=
- =?us-ascii?Q?EGGLQytha+rtzDnTFwk1CYI+PrqiV7ZA02GJx6hDyl5F47cruWP6+T3thK4R?=
- =?us-ascii?Q?91Zo2qJSt7MJv3jSF5hUL1C6wLcatanlh5I3oPSZPJGdOhi+0mxP9u2uFUqr?=
- =?us-ascii?Q?2spCEjGz2yPl+a/Wz1NSRg4O8Xdjshkr6yeBWziyRctIFJcYppdblN9XVqYv?=
- =?us-ascii?Q?67UCBoWlUNgPigzMnncCu2RmQaYkQJvXqL45m3l/0QZBu4md6WKDSpiizsYy?=
- =?us-ascii?Q?t0UHfrjUms5wJ/W9unLX+qvzu7iQNdE8t3Y/T8mcYErmXY5CVqvQrvSTbrc4?=
- =?us-ascii?Q?Oiw/JEdbdTpaMG7O5FfTUNM7b/It6DoNpPrTyxy2ZLvxRkCiPmb2YT3gT25V?=
- =?us-ascii?Q?fcS+L2TXKEA3Sc5Wa8xUcniQ+pXQCh+PYt4qU7AZAfCyfchfNmhj8piPFX9U?=
- =?us-ascii?Q?Poak8feSYPokJcDsIAOl4S961BzkkIMP8/jD7u2Z/KS2MGGtXZ1BkAITXm9i?=
- =?us-ascii?Q?I57VZJJwT1BriuujQuPpiOMyv7/5HOtEreJMR7cw5g1P8qeuZom9uharIYZh?=
- =?us-ascii?Q?czz1SKAn9FwLb5tSKqM1zbEYdf4sLz1+2ax0DzVgnkeesJI4s5Hzv65zOLOs?=
- =?us-ascii?Q?fmDzwMaDml0fdcOAoz27+xz862coBbA+mfjELybYh1vpCeRaBe5WGr2LmpB9?=
- =?us-ascii?Q?oZeEb02tbUxa/2W40RMxr4cnVSi4ccVb4lwck39V3NDq47C2MRscrQQ5Lzpo?=
- =?us-ascii?Q?Ou4rzH38tuG8SSGhsnjhYnz/HJQsOI8J6toCq/A0Woggrjbz1i3J/8Erh5Qe?=
- =?us-ascii?Q?F+2uu8+hmHYCRDCan8U77/vYx19t84e8j3SRYevBAs8X3zDS5ReFNUlzjy+w?=
- =?us-ascii?Q?7UqK7EOzF94Mr2fiPw5WXWUJLedAjiX4ge0LYcTayRmIhoYrqgP6Ra05uKuq?=
- =?us-ascii?Q?97xayVuwgTGQdM0n4fIh8RioBplA4KM=3D?=
-X-OriginatorOrg: starfivetech.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a53be818-d0b8-426d-19a0-08df15540755
-X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 07:11:15.5370
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HVPWQUIqefeiRfBSiKrR0odOooq1BDPXF+ybvQnkwJ8+H1g2tDgEVe8bQJYfM6IEy9oZ3tflmYAL/W+iwS+DtB/ugNZuTmR1lE8gsMn96lI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0893
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMRbua4oitgPgCXtWKTJa0_5AHbtzLV-47k=nCSP0Rq-Mhpx-w@mail.gmail.com>
 
-Add PHY or PHY adapter iomem field in struct dwc3_gerneric for
-dwc3 generic platform to add PHY/PHY adapter setting.
+On Sat, Sep 12, 2026 at 02:43:14PM +0200, Manuel Knitza wrote:
+> Thanks Heikki, and thanks for looping in Dell.
+> 
+> Tested on both kernels. Short version: the DMI match is right, the quirk
+> does exactly what it is meant to do, nothing regresses -
+> 
+> Tested-by: Manuel Knitza <manuel.knitza@googlemail.com>
+> 
+> - but it does not fix the loss of function, and I think that part is
+> what needs to reach Dell.
 
-Also Add Starfive JHB100 USB 2.0 device controller generic init
-function to remap PHY adapter io memory region and add adapter
-pre-run/stop function.
+Thanks. Let's hope the guys from Dell take a look at this.
 
-JHB100 BMC soc contains Synopsys dwc3 multi-port host controller.
-And export its xhci controller to host server through PCIe. xhci
-contains 8 ports and each connect with one dwc3 device controller
-through an PHY adapter. Server host USB subsystem includes
-one multi-port dwc3 USB host, multiple dwc3 device controllers
-and their adapters.
+Br,
 
-While USB adapter 2.0 enable bit is set, the connect status bit of
-xhci port stat register will be asserted. If the usb enumeration is
-not ready for USB gadget, The xhci will fail with enumerate usb device.
-So The JHB100 USB device controller adapter require to set/clear
-USB 2.0 port enable while usb gadget start/stop usb device enumeration.
-This can be treated as a hardware quirk.
+> DMI match
+> ---------
+> 
+> Confirmed here:
+> 
+>     DMI_SYS_VENDOR   = "Dell Inc."
+>     DMI_PRODUCT_NAME = "XPS 16 DA16260"
+> 
+> Both DMI_MATCH substrings hit, so the quirk applies.
+> 
+> Build note
+> ----------
+> 
+> The patch does not build on 7.1.x: there ucsi_sync_control_common() and
+> the .sync_control callback still take 5 arguments; msg_out/msg_out_size
+> arrived in 7.2. Against 7.2.x it compiles clean, no warnings. Mentioning
+> it only so nobody wastes time trying it on an older stable kernel.
+> 
+> Test result, unmodified patch on 7.2.3-arch1-3
+> ----------------------------------------------
+> 
+> Before, with the stock module:
+> 
+>     Alt modes registered: 1
+>     port1-partner.0  svid=8087  vdo=0x8087a043  active=no
+>     ucsi_acpi USBC000:00: con2: Firmware bug: duplicate partner
+> altmode SVID 0x8087 ...
+>     ucsi_acpi USBC000:00: con2: VDO mismatch: 0x8087a043 vs 0x00000001
+> 
+> After loading the patched module:
+> 
+>     ucsi_acpi USBC000:00: Firmware bug: broken altmode details
+> reporting, disabling
+>     Alt modes registered: 0
+>     duplicate-altmode messages: 0
+>     all three connectors register normally
+> 
+> The already running DisplayPort link was not disturbed by the module
+> swap at any point: 5120x2160@60, port_clock 810000, lane_count 4, bpp 24
+> throughout. I also ran the same change backported to the 5-argument
+> signature on 7.1.8, with the same result.
+> 
+> One practical note for anyone repeating this: swap the module with
+> "rmmod ucsi_acpi", not "modprobe -r" - the latter also drops the then
+> unused typec_ucsi, and the new module fails with "Unknown symbol
+> ucsi_create".
+> 
+> What it does not fix
+> --------------------
+> 
+> With the unmodified patch loaded on 7.2.3 I unplugged and re-plugged the
+> monitor. The USB side comes back completely - hub, HID, cdc_acm all
+> re-enumerate - and DP-1 stays "disconnected". Zero UCSI messages this
+> time. Same outcome with the backport on 7.1.8. So not querying the alt
+> mode details does not change the functional result.
+> 
+> That matches an accidental experiment from a few days earlier: setting
+> ThunderboltPorts=Disabled in the BIOS stops the firmware offering the
+> Thunderbolt SVID, after which the kernel registers no partner alt modes
+> at all - and DisplayPort still works perfectly when the cable is attached
+> at boot, and still fails on hotplug.
+> 
+> Which means I should correct my own original report: I claimed the
+> retained malformed VDO caused the failure. It does not. While a 4-lane
+> HBR3 link was running I read
+> 
+>     port2-partner.0  vdo=0xff01a843 (the malformed one)  active=yes
+>     displayport/     configuration=[USB]  pin_assignment=A  hpd=0
+> 
+> On this platform the typec alt mode bookkeeping never described reality
+> in the first place. Your patch removes data that was actively
+> misleading, which is worth doing on its own - but the bug underneath is
+> elsewhere.
+> 
+> The remaining bug, for Dell
+> ---------------------------
+> 
+> DP Alt Mode is never entered again once the machine is running:
+> 
+>     cold boot with cable attached   always works
+>     hotplug                         never works
+>     resume from s2idle              never works
+>     hibernate (S4)                  always works   <- full POST
+> 
+> It is not limited to suspend. Merely blanking the screen is enough. The
+> lock screen issues a DPMS off on all outputs, the monitor deep-sleeps,
+> drops the link, and it never returns:
+> 
+>     xe [drm] *ERROR* [CONNECTOR:521:DP-1] Invalid DPCD with no link rates
+>     xe [drm] *ERROR* [CONNECTOR:521:DP-1] Invalid DPCD max lane count (0)
+> 
+> with the machine awake throughout - no PM: suspend entry in the log,
+> uptime continuous. The USB-C connection never drops; only the DP link
+> inside it dies.
+> 
+> Nothing on the OS side brings it back. Tried and failed, all of them:
+> 
+>   - power-cycling the monitor
+>   - modprobe -r ucsi_acpi && modprobe ucsi_acpi, in both orders relative
+>     to re-plugging the cable
+>   - echo 1 > /sys/kernel/debug/dri/0/DP-1/i915_dp_force_link_retrain
+>   - echo detect / echo on > /sys/class/drm/card0-DP-1/status
+>     ("on" yields only VESA fallback modes, no EDID - AUX does not answer)
+>   - echo device > /sys/class/typec/port1/data_role  -> EACCES
+>   - echo source > /sys/class/typec/port1/power_role -> EIO, plus
+>     "ucsi_acpi: unknown error 0"
+> 
+> A reboot is the only way back, which is hard to live with on a docked
+> laptop. My workaround is a small service that re-enables DPMS on external
+> outputs whenever anything turns them off, so the link is never dropped in
+> the first place.
+> 
+> Hardware: Dell XPS 16 DA16260, BIOS 1.10.1. Identical behaviour with a
+> plain USB-C-to-DP adapter and with a direct USB-C cable to the monitor,
+> so it is not the adapter.
+> 
+> Happy to test patches or firmware and to collect any traces that help -
+> the machine reproduces all of this on demand.
+> 
+> Am Fr., 11. Sept. 2026 um 12:15 Uhr schrieb Heikki Krogerus
+> <heikki.krogerus@linux.intel.com>:
+> >
+> > +Dell and Guilhem
+> >
+> > On Wed, Sep 09, 2026 at 03:25:11PM +0200, Manuel Knitza wrote:
+> > > Hi,
+> > >
+> > > on a Dell XPS 16 DA16260 (Panther Lake, BIOS 1.10.1) the UCSI firmware
+> > > reports the
+> > > DisplayPort alternate mode twice with conflicting VDOs. The kernel
+> > > keeps the first entry
+> > > and discards the second — but here the first is the malformed one, and
+> > > the result is that
+> > > DisplayPort Alt Mode never works on any port when a plain USB-C→DP
+> > > adapter is hotplugged.
+> > >
+> > > >     ucsi_acpi USBC000:00: con2: Firmware bug: duplicate partner altmode SVID 0xff01 at
+> > > >         offset 1, ignoring but please contact the BIOS vendor to fix this issue.
+> > > >     ucsi_acpi USBC000:00: con2: VDO mismatch: 0xff01a843 vs 0x40101407
+> > >
+> > >
+> > > Identical output on con3. Reproduced on 7.1.8 and 7.2.3.
+> > >
+> > > The firmware is clearly at fault and the message says so. My point is
+> > > a different one: of
+> > > the two VDOs the firmware offers, one is usable and the kernel
+> > > systematically picks the
+> > > other, turning a firmware quirk into a total loss of function.
+> > >
+> > > > Retained  0xff01a843 — top 16 bits are 0xff01, i.e. the SVID itself, apparently packed
+> > > >                        into the VDO field by the firmware. Parsed as a DP VDO this
+> > > >                        advertises only pin assignments D and F (2 lanes).
+> > > > Discarded 0x40101407 — well-formed DP Alt Mode VDO: DFP_D + UFP_D, DPv1.3 signalling,
+> > > >                        UFP_D pin assignments C and E (4 lanes).
+> > >
+> > >
+> > > The adapter itself is not the source of the duplicate. Its USB
+> > > Billboard descriptor
+> > > declares exactly one alternate mode:
+> > >
+> > > >     Billboard capability: supported alt modes = 1, preferred = 0
+> > > >       [0] SVID = 0xff01
+> > > >     Billboard AltMode capability: dwAltModeVdo = 0x40101007
+> > >
+> > >
+> > > So the device offers a single, valid DP VDO; the duplication and the
+> > > corrupted variant are
+> > > produced on the UCSI/PPM side.
+> > >
+> > > Consequences with the malformed VDO retained:
+> > >
+> > >   - /sys/class/typec/portX-partner/portX-partner.0/displayport/pin_assignment
+> > > shows "D F",
+> > >     never C or E, so even a working link could not carry 4 lanes.
+> > >   - hpd stays 0; the sink is never seen.
+> > >   - Writing to .../displayport/pin_assignment fails with
+> > >       typec_displayport portX-partner.0: firmware doesn't support
+> > > alternate mode overriding
+> > >     so userspace cannot correct it either.
+> > >
+> > > Interestingly the hardware path is fine: if the same adapter is
+> > > already connected at boot,
+> > > the display comes up at full 5120x2160@60, port_clock 810000 (HBR3),
+> > > lane_count 4, bpp 24.
+> > > Only the hotplug path, which goes through UCSI, fails. That reinforces
+> > > that the platform
+> > > can do 4-lane DP and only the altmode bookkeeping is wrong.
+> > >
+> > > Would it be reasonable for ucsi_altmode_is_duplicate() /
+> > > ucsi_register_altmode() to prefer
+> > > a VDO that parses as valid for the given SVID over one that does not,
+> > > instead of keeping
+> > > whichever arrived first? For DP Alt Mode a cheap sanity check exists —
+> > > a VDO whose upper
+> > > bits repeat the SVID, or which advertises no pin assignment usable by
+> > > the port, is not a
+> > > plausible descriptor. Keeping the current warning would still tell the
+> > > user their firmware
+> > > is broken, while not letting it break the port.
+> > >
+> > > I am happy to test patches; the machine reproduces this on every hotplug.
+> > >
+> > > Relevant symbols in the module: ucsi_altmode_is_duplicate,
+> > > ucsi_register_altmode,
+> > > ucsi_register_altmodes, ucsi_check_altmodes, ucsi_dump_duplicate_altmode.
+> > >
+> > > Full message text for reference:
+> > >     "con%d: Firmware bug: duplicate %s altmode SVID 0x%04x at offset
+> > > %d, ignoring but
+> > >      please contact the BIOS vendor to fix this issue."
+> > >     "con%d: VDO mismatch: 0x%08x vs 0x%08x"
+> > >
+> > > --
+> > >
+> > > A second, probably unrelated observation on the same machine,
+> > > mentioned only in case it
+> > > rings a bell: ucsi_acpi frequently fails at boot with
+> > >
+> > >     ucsi_acpi USBC000:00: con1: failed to register alt modes
+> > >     ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
+> > >
+> > > after which /sys/class/typec/ is empty for the rest of the session.
+> > > Reloading the module
+> > > ("modprobe -r ucsi_acpi && modprobe ucsi_acpi") brings all three ports
+> > > up. UCSI_GET_PDOS
+> > > also fails persistently with -5 and occasionally -95. Same firmware,
+> > > same platform. I can
+> > > send that as a separate report with full logs if it is of interest.
+> >
+> > Thanks for the report. There are now a lot of issues with the altmodes
+> > on these Dell XPS laptops. These problems have been reported also on
+> > earlier Dell XPS 13 and on some other Dell systems too.
+> >
+> > Hopefully Dell fixes their EC/PPM firmware at some point, but for now,
+> > I'm removing the alternate mode details UCSI feature flag from all
+> > Dell XPS systems. That means the alternate modes are not going to be
+> > registered at all on these laptops.
+> >
+> > thanks,
+> >
+> > --
+> > heikki
 
-Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
----
- drivers/usb/dwc3/dwc3-generic-plat.c | 47 +++++++++++++++++++++++++++-
- 1 file changed, 46 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
-index ca69ac0eb07c..e3394205a519 100644
---- a/drivers/usb/dwc3/dwc3-generic-plat.c
-+++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-@@ -22,12 +22,15 @@
- #define EIC7700_HSP_AXI_LP_XM_CSYSREQ	BIT(0)
- #define EIC7700_HSP_AXI_LP_XS_CSYSREQ	BIT(16)
- 
-+#define JHB100_ADAPTER_PORT_EN		BIT(20)
-+
- struct dwc3_generic {
- 	struct device		*dev;
- 	struct dwc3		dwc;
- 	struct clk_bulk_data	*clks;
- 	int			num_clocks;
- 	struct reset_control	*resets;
-+	void __iomem		*phy_regs; /* PHY or PHY adapter regs */
- };
- 
- struct dwc3_generic_config {
-@@ -42,6 +45,43 @@ static void dwc3_generic_reset_control_assert(void *data)
- 	reset_control_assert(data);
- }
- 
-+static void dwc3_jhb100_pre_run_stop(struct dwc3 *dwc3, bool start)
-+{
-+	struct dwc3_generic *data = to_dwc3_generic(dwc3);
-+	u32	val;
-+
-+	if (start) {
-+		val = readl(data->phy_regs);
-+		val |= JHB100_ADAPTER_PORT_EN;
-+		writel(val, data->phy_regs);
-+	} else {
-+		val = readl(data->phy_regs);
-+		val &= ~JHB100_ADAPTER_PORT_EN;
-+		writel(val, data->phy_regs);
-+	}
-+}
-+
-+struct dwc3_glue_ops jhb100_glue_ops = {
-+	.pre_run_stop = dwc3_jhb100_pre_run_stop,
-+};
-+
-+static int dwc3_jhb100_init(struct dwc3_generic *dwc3g)
-+{
-+	struct platform_device *pdev = to_platform_device(dwc3g->dev);
-+
-+	dwc3g->phy_regs = devm_platform_ioremap_resource_byname(pdev, "adapter");
-+	if (IS_ERR(dwc3g->phy_regs)) {
-+		dwc3g->phy_regs = NULL;
-+		/* Generic bmc USB with PHY*/
-+		return 0;
-+	}
-+
-+	/* usb device controller with adapter */
-+	dwc3g->dwc.glue_ops = &jhb100_glue_ops;
-+
-+	return 0;
-+}
-+
- static int dwc3_eic7700_init(struct dwc3_generic *dwc3g)
- {
- 	struct device *dev = dwc3g->dev;
-@@ -231,12 +271,17 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
- 	.properties = DWC3_DEFAULT_PROPERTIES,
- };
- 
-+static const struct dwc3_generic_config jhb100_dwc3 =  {
-+	.init = dwc3_jhb100_init,
-+	.properties = DWC3_DEFAULT_PROPERTIES,
-+};
-+
- static const struct of_device_id dwc3_generic_of_match[] = {
- 	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
- 	{ .compatible = "spacemit,k3-dwc3", },
- 	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
- 	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
--	{ .compatible = "starfive,jhb100-dwc3", },
-+	{ .compatible = "starfive,jhb100-dwc3", &jhb100_dwc3},
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, dwc3_generic_of_match);
 -- 
-2.17.1
-
+heikki
