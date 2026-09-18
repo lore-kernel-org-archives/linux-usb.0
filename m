@@ -1,163 +1,176 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1AEF3A59A3;
-	Fri, 18 Sep 2026 18:33:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C52B2931F8
+	for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 19:40:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789756418; cv=none; b=NdaD5wK2pRttdp6w1IPMfvlnZluG7pP6qCzz+mqycE5bycZvOF1hqPL98FTC6x/L5rVEAwM7vMJckLzl37x7wkkb9uNnR5OwMQS3D1Bjr4ugRi8AIcZr6seh9pI73ufuSzXCO+jP86xVvwqF5CeF9pbVtb+GgDhHN9Cg2dZ2m3E=
+	t=1789760405; cv=none; b=R0Tjjmq/R5rQpQnLamLumwJSzvrN9PDIDZGAx3+hdjq7Dj836oMI1Njd8ZCloGQ2Tj2dlgCLCOXnRa9Cnrmr29lOgNXjVfc3bL0oomA/Rz5W9jL95ewjDXJTE7zHXrvm/OJF+dlqIACJ504rl59IPyA+Y6N+IdekSqCw9E0R2r0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789756418; c=relaxed/simple;
-	bh=L7PsXAdEga2lJmEvEtq8DEze2VMF/heAs09jTZSnvCA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hMSW2cTH7yYyIoDk8nxLvfGdjQ3X4VQbQrqJCOYOj/dOhwOdUUW+//gGQlQk5JNAQUxrN5ayW1uA2zEo0JwfD0QArJIOYlB6B1fQwaZPfk/+zqPTycyuhfvYePnIYIO2/ZT/FkhkffJ57bkNVlk0IutNsFoH5kcfEF21vqdqqlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=pass smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=yPjoNs89; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1789760405; c=relaxed/simple;
+	bh=aluPD1H8ZhbUZyaIGRmSfAZiwosda9+zGSjWlUx2qVY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wjvj72x2cM+oTge5WEEaEcWG2Eg8mSbkcqyTdhntcA1tAUiq+C3Y8KJe/TsZnnv9KNkZ3FWXbG+i8m2iSivBSzKYdmQOdWaIn3whISPFeVZNoDz+dYcY2f+0inpMbHMOX4fWv/ALdVWIlk9zj3K7HmqLsgmBitoXA59LTUqVVgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OwKcvcFp; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="yPjoNs89"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=DLnOD92O0mvyMHKGbRAZQQhIOnSZOnx1HdrRVCsT2r4=; b=yPjoNs89exrslITOnBnceWqFaw
-	CB3i5/fvlqVlCsRVPfz3JfPdhXJnHbmUPNXkWBqYEN1W4DL1GD52hsZEPDP3+qc+e513Uta6rzm3N
-	2rvNKOuhvdcLxKao17Gln4coU8+oCmUlBA/T9sF6UzyWgyg9pYaaOLm2xJcW65qNKmbueJGLDbDUJ
-	N3YDzAQz6LzRXRE2f+PnTNS6RccGuJ9tccgIHV7LqcFjcgpzWh9XDryjIrc+4x+IdMIB/kHJJPiTW
-	PRXQHadEGe1ay+lu0gthZUljm4BibBD4klLSAWqBLskON4Chb9I9vJl1uC0GtkNSujIBklvXmkKcm
-	8VuN8Dfw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1x7dOo-0000000FK57-36zQ;
-	Fri, 18 Sep 2026 18:33:26 +0000
-Message-ID: <c854ef1b-04c9-44ae-adc6-f8c34731bfff@infradead.org>
-Date: Fri, 18 Sep 2026 11:33:25 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OwKcvcFp"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so7317345e9.3
+        for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 12:40:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789760400; x=1790365200; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=piGCPJ2qCNdqMxLVvRBEnvJKlYbS6Cmm7RmQcfiGn0Q=;
+        b=OwKcvcFpT0Yv7vrRt1TYs35iaTIJoMj0VbKI9lCBazHe7SiTmH1PW61TkkFbrhDsva
+         SuNPDqsA49DduiGCpr5hz+eCPeLgj80g/bjG72tWZnr/ZYNoDMwD6W6/Cyc3P9ImYO4e
+         csOln1/t9B+ukd+YNyduXs/lPdvQVNjKK+/BTKBDcE+47j364IVTfeFj8w8HzICcHIed
+         nacAf7E3eHOSu46d5u6TAnKyXW78Ir1HWWujfOSA+jX3ibFgjFIuF1AC/H/BvNfXQ0Bf
+         U18teNhkwr24gJ2ytuOxvDXoN52IGL88hietGUMQo6/d8vG4Ys1lxUhB13shArgHeLdz
+         Rfww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789760400; x=1790365200;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=piGCPJ2qCNdqMxLVvRBEnvJKlYbS6Cmm7RmQcfiGn0Q=;
+        b=ix12cUJWfeU8WQhX5dycwZocMr/cgJEBG9uKEv5Tb7gQFHYBHKfI4QgduFtkKtPAF4
+         exviKhAXL0I2PyWpw/MiHRpNkeclvERy9O/264M27no2ffNE9Z9kXpmcWRb81yJ8XASw
+         BS/JJe3d6Z3xZxLstt74tGJiYMqqND67pOFABUu2r9hIa6TABt1n9VYNGwm1rwoaCpGO
+         IoKUzPPq7L7vGfpPbAS0Nhz+kdUxQoBpvXuuJokVSzRWEXwafooGeB+AlDQQhjNUdEIN
+         gEUUJbWc3tNeSWyFBjuQhmpp0L16GcJKb2Fkm+0WbnInQISauQC7jdXvlrngOQFXSd40
+         Mtew==
+X-Forwarded-Encrypted: i=1; AKwUvBy/vwzSkIQx0757vffLHDpHpP43JOVu0+/2nGk1eGPgstsTXpWys1E2niEbwYti4wWhIMcxkiOU7L0=@vger.kernel.org
+X-Gm-Message-State: AFuF++lwF+Uf+UOcQBdLLIFdkBIs4nfjHI6iNejYr3Bi6zxwpcyaM4t3
+	1v8addKayNZyO0sZo1wxubCX7T+h0hKox9Y6eJK8N3oo8Q6bKG5eJp1s
+X-Gm-Gg: AYBFou3VkX41CcXXVB6T4VM3J+bbDq998fwMiTSjsKEyxtu8IMfHDuK6ATvGsukxS4P
+	e1r/lUftPxs1/vvFDVeqRTtmvIGUihXkPBCGc3ZX16nEZGy4NJNWiR6OfMHwCes0UAGbyAkjaZV
+	lvjf4pz9sxIETRCIuLNnw2fYfXyiiRAUM8UF1QvqdqDeSDjlcRIUz1W7A2HBghPABzBl2vJQMWG
+	coJPyf1vemC1kG4YYgtAyBDJL1X/ijWYGjh7wo2rqTWpfwiWvbYHrqYJp0VszTA3Cno+dvF1ZON
+	ErIdIe2j0SZv8wtXVuG06WYCBXhKEq+7QCYlYIyJ7uFsWfpNsUDpw41epuGyy4xfAj1dp392YNt
+	zuRUgGbEDXj0u/pAHNLX2+NQ32h6RFvBY3IPpfAm9yvaiLwxbHDO8WtuxRJ6hPL6MNAutslRMr6
+	xEyjv1vWdcBd8jOWjk/bvVgsPSseaVfIfIxE8byVeEWuUuEV67KLxK8dVcck9q+pyzSmOzvzSRb
+	exZZUZ7FPrXh9Yq+ijKuaxpZ8E1RSjWkkSRYb65V/sEu28ahVql5fo51zApH+Pd/dEzjFYtErSf
+	jCrWucAt
+X-Received: by 2002:a05:600c:34c7:b0:49c:ff8d:b548 with SMTP id 5b1f17b1804b1-49fc5726cfcmr113665925e9.11.1789760400301;
+        Fri, 18 Sep 2026 12:40:00 -0700 (PDT)
+Received: from fedora ([41.198.134.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd2f7ef3sm10386765e9.0.2026.09.18.12.39.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Sep 2026 12:39:59 -0700 (PDT)
+From: jackyphuti <jackympoka22@gmail.com>
+To: bjorn@mork.no,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com
+Cc: netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jackyphuti <jackympoka22@gmail.com>,
+	Copilot <223556219+Copilot@users.noreply.github.com>
+Subject: [PATCH] net: usb: qmi_wwan: add common Huawei modem IDs
+Date: Fri, 18 Sep 2026 21:36:45 +0200
+Message-ID: <20260918193645.59374-1-jackympoka22@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v5 8/8] Documentation: sound: add the Babyface Pro
- proprietary-mode design doc
-To: =?UTF-8?Q?Isma=C3=AFl_Bahloul?= <i.bahloul01@gmail.com>,
- linux-sound@vger.kernel.org
-Cc: linux-usb@vger.kernel.org, alsa-devel@alsa-project.org, perex@perex.cz,
- tiwai@suse.com, linux-kernel@vger.kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-References: <20260918113944.76871-1-i.bahloul01@gmail.com>
- <20260918113944.76871-9-i.bahloul01@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260918113944.76871-9-i.bahloul01@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi,
-Just one nit below...
+Add common Huawei product IDs to qmi_wwan fixed-interface mappings
+for broader generic Huawei modem coverage.
 
-On 9/18/26 4:39 AM, Ismaïl Bahloul wrote:
-> A big-picture companion to the patch series, for human reviewers:
-> why the proprietary mode needs a standalone driver instead of a
-> snd-usb-audio quirk, the vendor protocol's write-only/no-readback
-> shape and what that forces onto the driver, the asynchronous stream
-> model, why the mixer state has to be cached and replayed, and why
-> the driver has to emulate TotalMix's own role for the front panel.
-> 
-> Requested by Takashi Iwai's v4 review: documentation for reviewers,
-> not restating what the code comments already say inline.
-> 
-> Signed-off-by: Ismaïl Bahloul <i.bahloul01@gmail.com>
-> ---
->  Documentation/sound/cards/babyface-pro.rst | 163 +++++++++++++++++++++
->  Documentation/sound/cards/index.rst        |   1 +
->  2 files changed, 164 insertions(+)
->  create mode 100644 Documentation/sound/cards/babyface-pro.rst
-> 
-> diff --git a/Documentation/sound/cards/babyface-pro.rst b/Documentation/sound/cards/babyface-pro.rst
-> new file mode 100644
-> index 000000000..d67f8c6fe
-> --- /dev/null
-> +++ b/Documentation/sound/cards/babyface-pro.rst
-> @@ -0,0 +1,163 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=================================================
-> +RME Babyface Pro / Pro FS (snd-usb-babyface-pro)
-> +=================================================
-> +
-> +This document describes the design of the ``snd-usb-babyface-pro``
-> +driver for reviewers who need the big picture before reading the
-> +patches - what problem the driver solves, why it is a standalone
-> +driver instead of a snd-usb-audio quirk, and the four design
-> +decisions (stream model, protocol shape, mixer-state persistence,
-> +front-panel emulation) that shape most of the code.  The patch series
-> +itself is split by feature (core+PCM, then masters+crosspoint,
-> +preamp, routing flags, suspend/resume, front panel, DSP EQ, in that
-> +order) so each patch can be read and built on its own; this document
-> +does not repeat what each patch's own commit message already covers.
-> +
-> +Two USB personalities, one device
-> +==================================
-> +
-> +The RME Babyface Pro and Babyface Pro FS present two different USB
-> +configurations depending on a physical/firmware switch: a
-> +class-compliant one, already handled by ``snd-usb-audio``, and a
-> +proprietary one (USB ID ``2a39:3fc0``) that this driver covers.  The
-> +two hardware models share the same USB ID, ``bcdDevice`` and
-> +``iProduct`` string shape; nothing in the descriptors tells them
-> +apart, and the driver runs unmodified on both.
-> +
-> +In proprietary mode, interface 5 carries the PCM stream on two
-> +INTERRUPT endpoints (``0x01`` OUT, ``0x82`` IN) instead of the
-> +isochronous endpoints the USB Audio Class specifies.  Isochronous
-> +transfers are rejected there with ``-EINVAL``.  ``snd-usb-audio`` has
-> +no interrupt-PCM transport, so this mode cannot be a quirk on top of
-> +it; the driver is standalone, modelled on ``snd-usb-caiaq`` (another
-> +interrupt-streaming RME/NI-style device).
-> +
-> +Why interrupt endpoints and not isochronous is a hardware/firmware
-> +choice on RME's side, not something this driver can change - the
-> +class-compliant mode already exists on the same device for users who
-> +want a fully standard, quirk-free path with a subset of the
-> +functionality (no mixer, no front panel).  This driver is for users
-> +who want the full mixer, routing matrix, and hardware DSP EQ that
-> +only the proprietary mode exposes.
-> +
-> +The vendor protocol: writes only, no readback
-> +==============================================
-> +
-> +Every mixer and clock function is one of a handful of USB vendor
-> +control requests (``bmRequestType 0x40``, i.e. host-to-device,
-> +vendor, device-recipient), each identified by its request number and
-> +a 16-bit value/index pair - there is no larger command structure.
-> +The commonly used ones are:
-> +
-> +======  ========================================
-> +0x10    settings word / stream start trigger
-> +0x12    16-bit crosspoint and output-master writes
-> +0x16    cold-init register clear
-> +0x17    front-panel + preamp state (read and write)
-> +0x1a    8-bit gain / output-master companion writes
-> +0x1b    clock DDS quads (base rate and varispeed)
-> +======  ========================================
-> +
-> +The full register map, decoded from Windows USB captures and
-> +cross-checked against hardware, lives in the driver's own development
-> +repository (not shipped in-tree) - the constants and the comments
-> +next to each vendor write in the source are the authoritative
-> +in-tree reference.
-> +
-> +The one property that shapes the rest of the driver: **almost nothing
-> +here is readable back**.  The 0x17 request returns the front-panel
+Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+Signed-off-by: jackyphuti <jackympoka22@gmail.com>
+---
+ drivers/net/usb/qmi_wwan.c | 38 +++++++++++++++++++++++++-------------
+ 1 file changed, 25 insertions(+), 13 deletions(-)
 
-   here can be read back**.
-
-> +and preamp state, but the crosspoint matrix, the output masters, the
-> +routing flags and the clock all have to be tracked host-side - the
-> +device will accept a write blindly and never confirm what it actually
-> +holds.  Two consequences follow directly from this:
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index fdfdcf24ddcf..2809b6985f7a 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -216,10 +216,10 @@ static int qmimux_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 		if (netif_rx(skbn) != NET_RX_SUCCESS) {
+ 			net->stats.rx_errors++;
+ 			return 0;
+-		} else {
+-			dev_sw_netstats_rx_add(net, pkt_len);
+ 		}
+ 
++		dev_sw_netstats_rx_add(net, pkt_len);
++
+ skip:
+ 		offset += len + qmimux_hdr_sz;
+ 	}
+@@ -946,6 +946,13 @@ static const struct driver_info	qmi_wwan_info_quirk_dtr = {
+ };
+ 
+ #define HUAWEI_VENDOR_ID	0x12D1
++#define HUAWEI_PRODUCT_E1750	0x1406
++#define HUAWEI_PRODUCT_E173	0x140c
++#define HUAWEI_PRODUCT_K4505	0x1464
++#define HUAWEI_PRODUCT_K3765	0x1465
++#define HUAWEI_PRODUCT_K4605	0x14c6
++#define HUAWEI_PRODUCT_E1820	0x14ac
++#define HUAWEI_PRODUCT_E173S6	0x1c07
+ 
+ /* map QMI/wwan function by a fixed interface number */
+ #define QMI_FIXED_INTF(vend, prod, num) \
+@@ -1024,23 +1031,23 @@ static const struct usb_device_id products[] = {
+ 	},
+ 	{	/* Novatel USB551L and MC551 */
+ 		USB_DEVICE_AND_INTERFACE_INFO(0x1410, 0xb001,
+-		                              USB_CLASS_COMM,
+-		                              USB_CDC_SUBCLASS_ETHERNET,
+-		                              USB_CDC_PROTO_NONE),
++					      USB_CLASS_COMM,
++					      USB_CDC_SUBCLASS_ETHERNET,
++					      USB_CDC_PROTO_NONE),
+ 		.driver_info        = (unsigned long)&qmi_wwan_info,
+ 	},
+ 	{	/* Novatel E362 */
+ 		USB_DEVICE_AND_INTERFACE_INFO(0x1410, 0x9010,
+-		                              USB_CLASS_COMM,
+-		                              USB_CDC_SUBCLASS_ETHERNET,
+-		                              USB_CDC_PROTO_NONE),
++					      USB_CLASS_COMM,
++					      USB_CDC_SUBCLASS_ETHERNET,
++					      USB_CDC_PROTO_NONE),
+ 		.driver_info        = (unsigned long)&qmi_wwan_info,
+ 	},
+ 	{	/* Novatel Expedite E371 */
+ 		USB_DEVICE_AND_INTERFACE_INFO(0x1410, 0x9011,
+-		                              USB_CLASS_COMM,
+-		                              USB_CDC_SUBCLASS_ETHERNET,
+-		                              USB_CDC_PROTO_NONE),
++					      USB_CLASS_COMM,
++					      USB_CDC_SUBCLASS_ETHERNET,
++					      USB_CDC_PROTO_NONE),
+ 		.driver_info        = (unsigned long)&qmi_wwan_info,
+ 	},
+ 	{	/* Dell Wireless 5800 (Novatel E362) */
+@@ -1228,8 +1235,13 @@ static const struct usb_device_id products[] = {
+ 	{QMI_QUIRK_SET_DTR(0x05c6, 0x9625, 4)},	/* YUGA CLM920-NC5 */
+ 	{QMI_FIXED_INTF(0x0846, 0x68a2, 8)},
+ 	{QMI_FIXED_INTF(0x0846, 0x68d3, 8)},	/* Netgear Aircard 779S */
+-	{QMI_FIXED_INTF(0x12d1, 0x140c, 1)},	/* Huawei E173 */
+-	{QMI_FIXED_INTF(0x12d1, 0x14ac, 1)},	/* Huawei E1820 */
++	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_E1750, 1)},	/* Huawei E1750 */
++	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_E173, 1)},	/* Huawei E173 */
++	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_K4505, 1)},	/* Huawei K4505 */
++	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_K3765, 1)},	/* Huawei K3765 */
++	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_K4605, 1)},	/* Huawei K4605 */
++	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_E1820, 1)},	/* Huawei E1820 */
++	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_E173S6, 1)},	/* Huawei E173s-6 */
+ 	{QMI_FIXED_INTF(0x1435, 0x0918, 3)},	/* Wistron NeWeb D16Q1 */
+ 	{QMI_FIXED_INTF(0x1435, 0x0918, 4)},	/* Wistron NeWeb D16Q1 */
+ 	{QMI_FIXED_INTF(0x1435, 0x0918, 5)},	/* Wistron NeWeb D16Q1 */
 -- 
-~Randy
+2.55.0
 
