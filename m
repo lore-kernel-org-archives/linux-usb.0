@@ -1,57 +1,112 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818C213D51E;
-	Sat, 19 Sep 2026 22:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAF123ABBE;
+	Sat, 19 Sep 2026 22:31:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789856126; cv=none; b=t4YPw5p+p5koJi7m7mb729Z0IPg1ocdt7dIOZUp1CoZcxdF/CiSMsEeMAnYD/Ax8iVRqq+pW4b7E1hBml6AUWCEakdUdxHj+BGhjKir/veH97VNHrKJMLnbbN0ngCYLsk1fXfzzgiu197OLlQn9KeTozqgmtG4YSlzNsoTn4A1c=
+	t=1789857080; cv=none; b=oPNemdnXhEM8VPrq+633MAfE55h1/KGUFjgLHhbE+dCtZbvH8203MVK2Lsv24dMBcLwGp//qvYiSu6r+ruEAFd7KT51xbgK+WK2OW8wvWM1x33i/To1ZWMKCVZ+/hzkkOuNM2jonbyK1LkFcyT10QsTsXfJZpPJFCyPLFlYbvwY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789856126; c=relaxed/simple;
-	bh=7jfzohd5RGbmX21bPI5+tnftHn0UzDHWmHZJ63exygA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FvY+xcpuESUmS0/YRI9mvNJbwwx4tab9pQ9bjigxyppjlipK1igTSvOtOwZNJycm7sKkbbolPPfP7TRpG0Jt7ifIh1hevx1EmGiLuuIFujVf2gxmWqbe0xW6odB1Kq1Wm4Ma4SGstdfFufc3Ryy0AZfYBElBp/nBRTk0gZG2mww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=of3sBBWd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789857080; c=relaxed/simple;
+	bh=hupbXQ4hWbgHlcnOxDyjKxM9aL059LNHQycVoHMthxE=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=GD+eSeJiNBU97QI+P9hBkPXBh/UPApnqIfXdbQyHqyhjh05YDggFy3pXTft9jJ2issInxXoMQDSYYBzNa7MAX3Y8km2LfUKGeavBkWr34UFmGfkNPuBz/f2ks3Lq3PMGqZGa75opMOLuDK8vZbd26wfMIlCbHOaZ0FUU07sTQF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BWIcNBdW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="of3sBBWd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0CBD1F000FF;
-	Sat, 19 Sep 2026 22:15:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BWIcNBdW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D86391F000FF;
+	Sat, 19 Sep 2026 22:31:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789856125;
-	bh=7jfzohd5RGbmX21bPI5+tnftHn0UzDHWmHZJ63exygA=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=of3sBBWdKDIL0RAgzfoNcM0HH4TBTmFYv4DFcGu4mUCexYdo4d1QXo3CedqwrXTel
-	 SxRZN7tKRSRSvhw7Oq2kl106T3TCNwh2Iy+ShyGXcvuc/jMnrZrcY1gNqE6au9KnjD
-	 wfOGMaK2reMDRHWLAeLuY91ovEDiRu5Gz43nvii3o5l1T+ftVHvd5PE2Pw9s9XcI8H
-	 IkolsoqoXFwa02FYPohKlpPoFxIFVECFzEOEwcYDptvxrkOPo1ZNz9XY0Et3ecCTs9
-	 y6u4hs6MH4m1z/K4obNKrlBkKOY/eNmcBvkaeYY1hseDoCP8oZnIPykADT5mQRMYr9
-	 EQT8j9DeaI2bg==
-Date: Sat, 19 Sep 2026 15:15:24 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: mail@birger-koblitz.de
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- pabeni@redhat.com, linux@armlinux.org.uk, andrew@lunn.ch,
- hkallweit1@gmail.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, neuromoments@gmail.com
-Subject: Re: [PATCH net-next v12 06/15] ax88179_178a: Add HW support for
- AX179A-based chips
-Message-ID: <20260919151524.6a65c24b@kernel.org>
-In-Reply-To: <178968029668.22033.6092490845837885048@kernel.org>
-References: <20260916-ax88179a-v12-6-60c04c9924a2@birger-koblitz.de>
-	<178968029668.22033.6092490845837885048@kernel.org>
+	s=k20260515; t=1789857077;
+	bh=4ROEOjTAhr1PNsdMKch/E7xRZKAbqxNH1MQ2yCdQakA=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=BWIcNBdWyMK2xYnbAfbk+ALETRVOI1WgrSTUexTZbWIRoPbbWTUQZNpl35H7lJTKm
+	 9Q2uMN3OYaHZl4jqKuS+dG0GgOoaoO/9JgaLS37QxntYfJFwOvNFRuWJQ3RbDjVRV1
+	 30v39pLlUkJ0F6roEn1HMSsSRyezPKX8NbEiGVCzw7m5Ed/vp4F4aMSBjyqgP28WnK
+	 uhepPJVxQi0jMrzA08jRiMPNfN8EU+dVxRTGbXCZhFiaB5uJDpwZz97D+iTTYKQ2kU
+	 Ijj08+vOy6tVzw2i+2fW2rUERxBnUYPhxqSPFMDVQi+omHJekALKYnlh3rHeiRuEIx
+	 /J8eQkb4kFMpg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93FA8392447A;
+	Sat, 19 Sep 2026 22:30:11 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v12 00/15] ax88179_178a: Add support for
+ AX88179A-based chips
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178985701013.1481324.4514554358004911097.git-patchwork-notify@kernel.org>
+Date: Sat, 19 Sep 2026 22:30:10 +0000
+References: <20260916-ax88179a-v12-0-60c04c9924a2@birger-koblitz.de>
+In-Reply-To: <20260916-ax88179a-v12-0-60c04c9924a2@birger-koblitz.de>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, linux@armlinux.org.uk, andrew@lunn.ch,
+ hkallweit1@gmail.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, neuromoments@gmail.com, nb@tipi-net.de
 
-On Thu, 17 Sep 2026 21:24:56 +0000 netdev-bot+sashiko@kernel.org wrote:
-> Critical: 0 =C2=B7 High: 4 =C2=B7 Medium: 19 =C2=B7 Low: 4
+Hello:
 
-Per subsystem documentation we ask that submitters review=20
-the AI feedback and confirm / refute it. If you think that
-none of it is correct one email is enough. But I really doubt=20
-that AI was wrong 13 times (counting just High and Critical issues).
+This series was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
+
+On Wed, 16 Sep 2026 05:23:59 +0200 you wrote:
+> This adds support for the current generation of ASIX network adapter chips,
+> which are based on the AX88179A. This includes the AX88179A/B (1GBit-PHY),
+> AX88772D/E (100MBit) and AX88279 (2.5GBit).
+> 
+> The AX179A-based chips all provide both a CDC-NCM compatible USB interface,
+> and a proprietary vendor interface with more features. By default, the
+> proprietary vendor interface is not active and Linux will load the CDC-NCM
+> driver to support the devices. If the ax88179_178a module is configured by
+> the OS to have precedence over CDC-NCM, then this driver will switch the
+> device to use the vendor interface, and the device will be controlled by
+> the ax88179_178a driver when the device is probed again after an automatic
+> reset of the device bringing up the vendor interface.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net-next,v12,01/15] phylink: Add phylink_mac_interrupt
+    (no matching commit)
+  - [net-next,v12,02/15] phylib: Add support for PHYs with broken forced mode
+    (no matching commit)
+  - [net-next,v12,03/15] ax88179_178a: Fix endianness of pause watermark register
+    https://git.kernel.org/netdev/net-next/c/a4e22e9253e7
+  - [net-next,v12,04/15] ax88179_178a: Split driver into library and device specific code
+    (no matching commit)
+  - [net-next,v12,05/15] ax88179_178a: Add netdev2data() convenience function
+    (no matching commit)
+  - [net-next,v12,06/15] ax88179_178a: Add HW support for AX179A-based chips
+    (no matching commit)
+  - [net-next,v12,07/15] ax88179_178a: Add EEE configuration support for AX88179A MACs
+    (no matching commit)
+  - [net-next,v12,08/15] ax88179_178a: Add EEE configuration support for AX88179A PHYs
+    (no matching commit)
+  - [net-next,v12,09/15] ax88179_178a: Add VLAN offload support for AX88179A
+    (no matching commit)
+  - [net-next,v12,10/15] ax88179_178a: Add AX179A/AX279 multicast configuration
+    (no matching commit)
+  - [net-next,v12,11/15] ax88179_178a: Add Suspend/resume support for AX88179A/772D/279
+    (no matching commit)
+  - [net-next,v12,12/15] ax88179_178a: Add ethtool get_drvinfo
+    (no matching commit)
+  - [net-next,v12,13/15] ax88179_178a: Update driver name and information
+    (no matching commit)
+  - [net-next,v12,14/15] ax88179_178a: Add support for AX88179A/772D/279 EEPROM access
+    (no matching commit)
+  - [net-next,v12,15/15] ax88796b: Add support for AX88772D, AX88179A and AX88279
+    (no matching commit)
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
