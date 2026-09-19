@@ -1,35 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FAF123ABBE;
-	Sat, 19 Sep 2026 22:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04D793A4F3B
+	for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 22:35:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789857080; cv=none; b=oPNemdnXhEM8VPrq+633MAfE55h1/KGUFjgLHhbE+dCtZbvH8203MVK2Lsv24dMBcLwGp//qvYiSu6r+ruEAFd7KT51xbgK+WK2OW8wvWM1x33i/To1ZWMKCVZ+/hzkkOuNM2jonbyK1LkFcyT10QsTsXfJZpPJFCyPLFlYbvwY=
+	t=1789857321; cv=none; b=iQbNHDKtuIYP/5ihFh0LiU+nsYuY8UJCnJLTbHq4J20u2BLSv7c0pXp4rkjAqpY5zatLGu9tqlIA1NLmBi6kXI4ciObpzuLPgbdRR5Dxfn+v59guea4ntQ2TYDKwVnkzRg78L+ctu5gBa7eT5sFrFyA7yV2rJY+jzGrbuPS4CuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789857080; c=relaxed/simple;
-	bh=hupbXQ4hWbgHlcnOxDyjKxM9aL059LNHQycVoHMthxE=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=GD+eSeJiNBU97QI+P9hBkPXBh/UPApnqIfXdbQyHqyhjh05YDggFy3pXTft9jJ2issInxXoMQDSYYBzNa7MAX3Y8km2LfUKGeavBkWr34UFmGfkNPuBz/f2ks3Lq3PMGqZGa75opMOLuDK8vZbd26wfMIlCbHOaZ0FUU07sTQF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BWIcNBdW; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789857321; c=relaxed/simple;
+	bh=8uJdeYmWQJkZy+W3syV+U+iiTNe6FVKJYYlvHmtu2XU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lhE3nizKzfn3z1cfV5oHG6i1v86oCBBzGW5DAjjSCdPYowbzCKUyefZ/2J/uTLs4JmdaanlTNZMs3vwoN2pbKlTIcYgLOBaZcfF7P8wnJVzGivLQvmjgKlj7zyiloJ+hPoDcOm/E0NkMFsTqK1CZQ6UKBOHWgw0QhtIN3CdeO28=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ltfA7A49; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BWIcNBdW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D86391F000FF;
-	Sat, 19 Sep 2026 22:31:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789857077;
-	bh=4ROEOjTAhr1PNsdMKch/E7xRZKAbqxNH1MQ2yCdQakA=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=BWIcNBdWyMK2xYnbAfbk+ALETRVOI1WgrSTUexTZbWIRoPbbWTUQZNpl35H7lJTKm
-	 9Q2uMN3OYaHZl4jqKuS+dG0GgOoaoO/9JgaLS37QxntYfJFwOvNFRuWJQ3RbDjVRV1
-	 30v39pLlUkJ0F6roEn1HMSsSRyezPKX8NbEiGVCzw7m5Ed/vp4F4aMSBjyqgP28WnK
-	 uhepPJVxQi0jMrzA08jRiMPNfN8EU+dVxRTGbXCZhFiaB5uJDpwZz97D+iTTYKQ2kU
-	 Ijj08+vOy6tVzw2i+2fW2rUERxBnUYPhxqSPFMDVQi+omHJekALKYnlh3rHeiRuEIx
-	 /J8eQkb4kFMpg==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 93FA8392447A;
-	Sat, 19 Sep 2026 22:30:11 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ltfA7A49"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d91a931f66so11952015ad.0
+        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 15:35:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789857319; x=1790462119; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CBsZVQ7pQ+mQdybWEes03pmUYFCJXqocJTzbrDNI7+k=;
+        b=ltfA7A49zxW/G6KME02CpDktyDm4NjoFemmpeFHzAF92RILMtBKQFuuWOrMIG/LTFr
+         VS+DuKLBC7gb6rsHIbkmPApmtxa98kjFqm82gyLcQ8zQi71E1XKHB5m4pX3kSbXKXYD9
+         ds1CtvJxZYvoxz65RAMxLyuUSG656jVJcfRKR8i288kFwLZ+goXKPxjD5N3xGIwFPcig
+         X0vHbh4DOGJkvF+dne+Pw5I4mDQIaZUIw4uj9Hc4iuExSpti0E7J7biTPvLOHaSM5bSY
+         C2dqMAxh1QI25FL4iK6eOzWpYmOmyN4NyTxUxZt1cwC9am2vzr+npbwqlHolAj+NpE3I
+         BBHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789857319; x=1790462119;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CBsZVQ7pQ+mQdybWEes03pmUYFCJXqocJTzbrDNI7+k=;
+        b=vA6QPVXkG5J8BrkmihoOybmfxnnZuqQsf0Hk/aIKJNSk10Y8kK5ReYoxFpM5bXPkQH
+         R11gDYd3t69mCbx2EdvsxBDgieHEjX+UDyWQSCXQLy01BA4zzuctDJ7/AfxQn0dNKEfX
+         nshu1u3Lk+BJNjB59u59d4/aZYkjfAwRBNed3aajm25TR4TxGU3ADbSUPJ4nJhBt4vmz
+         cVf0HRWwZiCpbv+OZnVmbZM64zyDdd4YGNhudIB00nn67lGkiplMNwPqAgyo3N8n+mtl
+         2gUbaAChfIct73fFAGuIZKFM9LMxBQ/3ppgNLg0dSavq3eLJyKVj+6HkNReE3l2eDreX
+         Xbmg==
+X-Gm-Message-State: AFuF++mPmod+PXLKGtHbMS3n+F5bY0T3r72COK4SGBQxq97PrHe+p/Fa
+	7QhWT3Zri7zqTKMuCFjDcnJ+wPM6kgWALFrr5k5BzsXPJ1MKjGz7DI/1
+X-Gm-Gg: AYBFou2KPEvqqAYPcDa6t/dfU5D6pH+Jz1tixTb3dzQIfX2XlRTAN2mPtjjHjnjCs1v
+	tNScz7izlc3RM97HW8l0oS4dVQZF65B/nFOKmefSbwUEKNHHN20KIKLC/qBVuEk4NaK43NyE9Vw
+	VZdM1M7IElyOyJ6vLRp96THfHS4abECC7OWOEHszxFPwi7sYANoW2PM/SvMdf7yQJP3LYX5iaEG
+	flrKKLSjI6x2One09jybkUveJNiUkGciEceLGjDpyz0EfUAAhLjqHr9d96MBSrEDEGSxPJ/OY5X
+	OZV9bNZSO4BvVJtTsBnYOD5hiPM1TDhin+KTtv2uxexN3dnfFiBNTB+ys5Zf42gfkMwCzGcnxbY
+	MZDlBu6//izf73ElF62do8GFL9OlwGVE9xndl+4EHNQ0M9FQJqie/yX67A//eUGZ95RRHnHgKPW
+	eU6JUFxOHSLspmDu6fQvub39LechB7Xe7taNbn1FtvY+c6JtJRmk+je50ai+WikGcjd0XTmKmqS
+	Sjw6NRze6tdlW9Hgsn5Ek5jHYzxamKaZfF+tFv/zJPfP4Oh0aIWZHIQwUGKcZ/38wcyq/la9TD2
+	7e2nLVWsuA==
+X-Received: by 2002:a17:903:298e:b0:2dd:c100:4b7d with SMTP id d9443c01a7336-2ddc1005fa7mr49396385ad.52.1789857319312;
+        Sat, 19 Sep 2026 15:35:19 -0700 (PDT)
+Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17c4d58sm13007015ad.58.2026.09.19.15.35.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 15:35:18 -0700 (PDT)
+From: Hui Peng <benquike@gmail.com>
+To: gregkh@linuxfoundation.org,
+	stern@rowland.harvard.edu,
+	michal.pecio@gmail.com
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: core: fix descriptor parsing OOB, port/bos locking, and devio/ledtrig races
+Date: Sat, 19 Sep 2026 22:35:18 +0000
+Message-ID: <20260919223518.3890208-1-benquike@gmail.com>
+X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -37,76 +74,215 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v12 00/15] ax88179_178a: Add support for
- AX88179A-based chips
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <178985701013.1481324.4514554358004911097.git-patchwork-notify@kernel.org>
-Date: Sat, 19 Sep 2026 22:30:10 +0000
-References: <20260916-ax88179a-v12-0-60c04c9924a2@birger-koblitz.de>
-In-Reply-To: <20260916-ax88179a-v12-0-60c04c9924a2@birger-koblitz.de>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, linux@armlinux.org.uk, andrew@lunn.ch,
- hkallweit1@gmail.com, linux-usb@vger.kernel.org, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, neuromoments@gmail.com, nb@tipi-net.de
 
-Hello:
+Fix multiple memory safety and locking bugs in drivers/usb/core/:
 
-This series was applied to netdev/net-next.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
+1. In usb_parse_ssp_isoc_endpoint_companion() and
+   usb_parse_ss_endpoint_companion() (config.c), check remaining
+   descriptor size before dereferencing desc->bDescriptorType or
+   subtracting desc->bLength.
+2. In bos_descriptors_read() (sysfs.c) and usb3_lpm_permit_store()
+   (port.c), hold usb_lock_device() and verify udev->bos /
+   port_dev->child pointers.
+3. In usbport_trig_deactivate() (ledtrig-usbport.c), unregister the USB
+   notifier before freeing port list entries.
+4. In devio.c, message.c, and devices.c, validate transfer lengths and
+   string descriptor buffers.
 
-On Wed, 16 Sep 2026 05:23:59 +0200 you wrote:
-> This adds support for the current generation of ASIX network adapter chips,
-> which are based on the AX88179A. This includes the AX88179A/B (1GBit-PHY),
-> AX88772D/E (100MBit) and AX88279 (2.5GBit).
-> 
-> The AX179A-based chips all provide both a CDC-NCM compatible USB interface,
-> and a proprietary vendor interface with more features. By default, the
-> proprietary vendor interface is not active and Linux will load the CDC-NCM
-> driver to support the devices. If the ax88179_178a module is configured by
-> the OS to have precedence over CDC-NCM, then this driver will switch the
-> device to use the vendor interface, and the device will be controlled by
-> the ax88179_178a driver when the device is probed again after an automatic
-> reset of the device bringing up the vendor interface.
-> 
-> [...]
-
-Here is the summary with links:
-  - [net-next,v12,01/15] phylink: Add phylink_mac_interrupt
-    (no matching commit)
-  - [net-next,v12,02/15] phylib: Add support for PHYs with broken forced mode
-    (no matching commit)
-  - [net-next,v12,03/15] ax88179_178a: Fix endianness of pause watermark register
-    https://git.kernel.org/netdev/net-next/c/a4e22e9253e7
-  - [net-next,v12,04/15] ax88179_178a: Split driver into library and device specific code
-    (no matching commit)
-  - [net-next,v12,05/15] ax88179_178a: Add netdev2data() convenience function
-    (no matching commit)
-  - [net-next,v12,06/15] ax88179_178a: Add HW support for AX179A-based chips
-    (no matching commit)
-  - [net-next,v12,07/15] ax88179_178a: Add EEE configuration support for AX88179A MACs
-    (no matching commit)
-  - [net-next,v12,08/15] ax88179_178a: Add EEE configuration support for AX88179A PHYs
-    (no matching commit)
-  - [net-next,v12,09/15] ax88179_178a: Add VLAN offload support for AX88179A
-    (no matching commit)
-  - [net-next,v12,10/15] ax88179_178a: Add AX179A/AX279 multicast configuration
-    (no matching commit)
-  - [net-next,v12,11/15] ax88179_178a: Add Suspend/resume support for AX88179A/772D/279
-    (no matching commit)
-  - [net-next,v12,12/15] ax88179_178a: Add ethtool get_drvinfo
-    (no matching commit)
-  - [net-next,v12,13/15] ax88179_178a: Update driver name and information
-    (no matching commit)
-  - [net-next,v12,14/15] ax88179_178a: Add support for AX88179A/772D/279 EEPROM access
-    (no matching commit)
-  - [net-next,v12,15/15] ax88796b: Add support for AX88772D, AX88179A and AX88279
-    (no matching commit)
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
-
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Assisted-by: LLM
+Signed-off-by: Hui Peng <benquike@gmail.com>
+---
+diff --git a/drivers/usb/core/config.c b/drivers/usb/core/config.c
+index 0e79b7f8a73d..6762e97371c6 100644
+--- a/drivers/usb/core/config.c
++++ b/drivers/usb/core/config.c
+@@ -106,7 +106,9 @@ static void usb_parse_ss_endpoint_companion(struct device *ddev, int cfgno,
+ 	 */
+ 	desc = (struct usb_ss_ep_comp_descriptor *) buffer;
+ 
+-	if (size < USB_DT_SS_EP_COMP_SIZE) {
++	if (size < USB_DT_SS_EP_COMP_SIZE ||
++	    desc->bLength < USB_DT_SS_EP_COMP_SIZE ||
++	    desc->bLength > size) {
+ 		dev_notice(ddev,
+ 			   "invalid SuperSpeed endpoint companion descriptor "
+ 			   "of length %d, skipping\n", size);
+diff --git a/drivers/usb/core/devices.c b/drivers/usb/core/devices.c
+index 6f0354aba38b..771996a8c995 100644
+--- a/drivers/usb/core/devices.c
++++ b/drivers/usb/core/devices.c
+@@ -500,8 +500,8 @@ static ssize_t usb_device_dump(char __user **buffer, size_t *nbytes,
+ 				      file_offset, childdev, bus,
+ 				      level + 1, chix - 1, ++cnt);
+ 		usb_unlock_device(childdev);
+-		if (ret == -EFAULT)
+-			return total_written;
++		if (ret < 0)
++			return total_written ? total_written : ret;
+ 		total_written += ret;
+ 	}
+ 	return total_written;
+diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+index 101cb9425480..ecd96e249260 100644
+--- a/drivers/usb/core/devio.c
++++ b/drivers/usb/core/devio.c
+@@ -602,7 +602,7 @@ __acquires(ps->lock)
+ 			as->bulk_addr = 0;
+ 		}
+ 	}
+-	ps->disabled_bulk_eps |= (1 << bulk_addr);
++	ps->disabled_bulk_eps |= (1U << bulk_addr);
+ 
+ 	/* Now carefully unlink all the marked pending URBs */
+  rescan:
+@@ -1600,6 +1600,8 @@ find_memory_area(struct usb_dev_state *ps, const struct usbdevfs_urb *uurb)
+ 
+ 	spin_lock_irqsave(&ps->lock, flags);
+ 	list_for_each_entry(iter, &ps->memory_list, memlist) {
++		if (!iter->vma_use_count)
++			continue;
+ 		if (uurb_start >= iter->vm_start &&
+ 				uurb_start < iter->vm_start + iter->size) {
+ 			if (uurb->buffer_length > iter->vm_start + iter->size -
+@@ -1937,10 +1939,9 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
+ 	if (!is_in)
+ 		snoop_urb_data(as->urb, as->urb->transfer_buffer_length);
+ 
+-	async_newpending(as);
+-
+ 	if (usb_endpoint_xfer_bulk(&ep->desc)) {
+ 		spin_lock_irq(&ps->lock);
++		list_add_tail(&as->asynclist, &ps->async_pending);
+ 
+ 		/* Not exactly the endpoint address; the direction bit is
+ 		 * shifted to the 0x10 position so that the value will be
+@@ -1956,17 +1957,18 @@ static int proc_do_submiturb(struct usb_dev_state *ps, struct usbdevfs_urb *uurb
+ 		if (uurb->flags & USBDEVFS_URB_BULK_CONTINUATION)
+ 			as->bulk_status = AS_CONTINUATION;
+ 		else
+-			ps->disabled_bulk_eps &= ~(1 << as->bulk_addr);
++			ps->disabled_bulk_eps &= ~(1U << as->bulk_addr);
+ 
+ 		/* Don't accept continuation URBs if the endpoint is
+ 		 * disabled because of an earlier error.
+ 		 */
+-		if (ps->disabled_bulk_eps & (1 << as->bulk_addr))
++		if (ps->disabled_bulk_eps & (1U << as->bulk_addr))
+ 			ret = -EREMOTEIO;
+ 		else
+ 			ret = usb_submit_urb(as->urb, GFP_ATOMIC);
+ 		spin_unlock_irq(&ps->lock);
+ 	} else {
++		async_newpending(as);
+ 		ret = usb_submit_urb(as->urb, GFP_KERNEL);
+ 	}
+ 
+diff --git a/drivers/usb/core/ledtrig-usbport.c b/drivers/usb/core/ledtrig-usbport.c
+index 8881644777a7..c472b2cf1e50 100644
+--- a/drivers/usb/core/ledtrig-usbport.c
++++ b/drivers/usb/core/ledtrig-usbport.c
+@@ -88,7 +88,7 @@ static ssize_t usbport_trig_port_show(struct device *dev,
+ 						      struct usbport_trig_port,
+ 						      attr);
+ 
+-	return sysfs_emit(buf, "%d\n", port->observed) + 1;
++	return sysfs_emit(buf, "%d\n", port->observed);
+ }
+ 
+ static ssize_t usbport_trig_port_store(struct device *dev,
+@@ -334,14 +334,14 @@ static void usbport_trig_deactivate(struct led_classdev *led_cdev)
+ 	struct usbport_trig_data *usbport_data = led_get_trigger_data(led_cdev);
+ 	struct usbport_trig_port *port, *tmp;
+ 
++	usb_unregister_notify(&usbport_data->nb);
++
+ 	list_for_each_entry_safe(port, tmp, &usbport_data->ports, list) {
+ 		usbport_trig_remove_port(usbport_data, port);
+ 	}
+ 
+ 	sysfs_remove_group(&led_cdev->dev->kobj, &ports_group);
+ 
+-	usb_unregister_notify(&usbport_data->nb);
+-
+ 	kfree(usbport_data);
+ }
+ 
+diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+index 75e2bfd744a9..c16827d16b78 100644
+--- a/drivers/usb/core/message.c
++++ b/drivers/usb/core/message.c
+@@ -1358,6 +1358,11 @@ void usb_disable_endpoint(struct usb_device *dev, unsigned int epaddr,
+ 			dev->ep_in[epnum] = NULL;
+ 	}
+ 	if (ep) {
++		if (reset_hardware && epnum != 0 &&
++		    usb_endpoint_xfer_control(&ep->desc)) {
++			dev->ep_out[epnum] = NULL;
++			dev->ep_in[epnum] = NULL;
++		}
+ 		ep->enabled = 0;
+ 		usb_hcd_flush_endpoint(dev, ep);
+ 		if (reset_hardware)
+diff --git a/drivers/usb/core/port.c b/drivers/usb/core/port.c
+index b4452b665f59..32ab63627c82 100644
+--- a/drivers/usb/core/port.c
++++ b/drivers/usb/core/port.c
+@@ -279,9 +279,10 @@ static ssize_t usb3_lpm_permit_store(struct device *dev,
+ 			       const char *buf, size_t count)
+ {
+ 	struct usb_port *port_dev = to_usb_port(dev);
+-	struct usb_device *udev = port_dev->child;
++	struct usb_device *udev;
+ 	struct usb_hcd *hcd;
+ 
++	device_lock(dev);
+ 	if (!strncmp(buf, "u1_u2", 5)) {
+ 		port_dev->usb3_lpm_u1_permit = 1;
+ 		port_dev->usb3_lpm_u2_permit = 1;
+@@ -297,22 +298,30 @@ static ssize_t usb3_lpm_permit_store(struct device *dev,
+ 	} else if (!strncmp(buf, "0", 1)) {
+ 		port_dev->usb3_lpm_u1_permit = 0;
+ 		port_dev->usb3_lpm_u2_permit = 0;
+-	} else
++	} else {
++		device_unlock(dev);
+ 		return -EINVAL;
++	}
++
++	udev = usb_get_dev(port_dev->child);
++	device_unlock(dev);
+ 
+ 	/* If device is connected to the port, disable or enable lpm
+ 	 * to make new u1 u2 setting take effect immediately.
+ 	 */
+ 	if (udev) {
+ 		hcd = bus_to_hcd(udev->bus);
+-		if (!hcd)
++		if (!hcd) {
++			usb_put_dev(udev);
+ 			return -EINVAL;
++		}
+ 		usb_lock_device(udev);
+ 		mutex_lock(hcd->bandwidth_mutex);
+ 		if (!usb_disable_lpm(udev))
+ 			usb_enable_lpm(udev);
+ 		mutex_unlock(hcd->bandwidth_mutex);
+ 		usb_unlock_device(udev);
++		usb_put_dev(udev);
+ 	}
+ 
+ 	return count;
+diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
+index d22dc78457d7..da6dc2713ffd 100644
+--- a/drivers/usb/core/sysfs.c
++++ b/drivers/usb/core/sysfs.c
+@@ -908,7 +908,7 @@ bos_descriptors_read(struct file *filp, struct kobject *kobj,
+ 	if (rc < 0)
+ 		return -EINTR;
+ 	bos = udev->bos;
+-	if (bos) {
++	if (bos && bos->desc) {
+ 		desc = bos->desc;
+ 		desclen = le16_to_cpu(desc->wTotalLength);
+ 		if (off < desclen) {
