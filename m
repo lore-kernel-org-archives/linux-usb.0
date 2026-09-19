@@ -1,73 +1,58 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mxout3.routing.net (mxout3.routing.net [134.0.28.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8B03793C1
-	for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 11:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797BF33E360;
+	Sat, 19 Sep 2026 11:47:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=134.0.28.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789817303; cv=none; b=oPsMW+Q+1CJzSup4WjkPv54tp1iW9mQ+l44IhwP+wGwAfmLoj4alR6jvsPH+ffqSwS7/swHNLXRyUQAFVYhwqPQAXN9Rh58AOLLTs5bQWcfpjITvk3tVbC8vbEoeOWsKzXYIxdXxlQxQIt7XNFRrKzF0wiK8IFXuTkRHMhdlqW8=
+	t=1789818480; cv=none; b=o1OWM+dnHikiZyFakN4z8IZdtDREXRE5CcdgXdxyXKgKcy7ANkloS5g+wXDgooaTjI40FffQvIkouUos+sXg1CY87i5BoZbKulpHH2TTvHHMtDdhfQuXlMGP2/1KdUur4GccxNCa0spFL8El//eJ2bX74XHCCkRs5Cjc3avuq28=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789817303; c=relaxed/simple;
-	bh=du5MWoLbM+0gyFrUg834DzGYz2aJ0D3QobopYOku/Jg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LcuMM8qANxIkNpKot2dTogHxajBPwuXXty/essTqHr22GoIGFdEAdNaC2cYNoMy8IGtGlB31gK5S/QLNXKyxb/jyyEBDQ1oN/P7clzbf6cBLtAfOOoU4BeFCbEVMreGbu94kzbSHwnm43zB/ADYJ0pWT6cKtcGfcGRMalRCYuBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qhbU/atS; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789818480; c=relaxed/simple;
+	bh=jeLNFpvlK9hkCaWDMFHhysZdee1DdwAbYN73gmDTox4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TTbopLGBugy3rQ2cMN6qg7n5nFjwrDtHDz2OJ0aUGp6dYEUxoB/r+UR3egLnfv4qHXb1C5GtFf+Hu1clu3zDvtOsOzU6lPu5cxSxq6Ky1FzearDnlEDKZ+qj9C2xldeHsoW9vaIeqmo6fHx28QXHjt+Ay7xuNLpyrX5/MgQ5ilg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fw-web.de; spf=pass smtp.mailfrom=fw-web.de; dkim=pass (1024-bit key) header.d=mailerdienst.de header.i=@mailerdienst.de header.b=MWvMKCPl; arc=none smtp.client-ip=134.0.28.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fw-web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fw-web.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qhbU/atS"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747f066d8so5897665ad.1
-        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 04:28:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789817301; x=1790422101; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WAvD/ItpcOk6pZmSWxxDXKSBAv47PCdbRhyAuFvQ+sg=;
-        b=qhbU/atSA3+H9oaqjg/zt0P719K5w5RrQVYroP/SxpnNJ5LohW4DTr0aRqL8REOxyg
-         pE6L5eVdeK7Bly8zTUQInXWrLYGTPejeM1q1zUzFFMWC4iEN82KaCCtiP7pBrH7A1G8l
-         9d4pl+5dC22g8A4EvV2ysmlI6WQOomfpKtbIuOWtipzhDq6Ik0U/+ixpEcmfD4Adcyxd
-         FWh0x3gGE3XYxKfTUxyVNn4YZM3oihdzaWhUQhG9pNPcWMFyLA/hzKy2nTrIACcINRey
-         dKmw6gpJfHfIJfNtI7pDl3mqtznHxiUifOX1u2byMIEQ9RjnLSlv8o/MLKmwhA4+Giu8
-         ZFSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789817301; x=1790422101;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WAvD/ItpcOk6pZmSWxxDXKSBAv47PCdbRhyAuFvQ+sg=;
-        b=tNXK14EDOH+nwYgh+CXT79ntDr6blO4Qj5iYAU8TZPegUNpEMdDBVUlYFXQ1P3e/qp
-         O5V9AzdgC/uXhaD5gZSyG19W0J+NKEHYklaC/1J3oSNrfQ61q/hTFSF7pwfRfVGgZUCb
-         hqx9NuBzQ2QSb+ue1C3ltKKYzCZUmv8gRryXZyeR/OMzg8zRksNgsUJae06qR3RBx0i2
-         ooaEYbMuyDu2iPdus6pRREg52KP1lN4btuqU7CM/2D6rYIzJA9oxtYJo9HZWCRmg1XrZ
-         ga0ZdFpkMQlhJh1t66dhJI3ckJCD4O7auaIgIi3y4jI6d4qH7DJ48BmG9wYKxddRYOkH
-         NwNA==
-X-Gm-Message-State: AFuF++kjjuSlQST9iXXQNYH1juh4nNv8BLJuYyWTA/Gy8PB5BuZ/O+7M
-	1svr5Dm6S22ltJ/cpM4NJg6run3ll3ruJX0L01H6bTB/AC/QI2ya13RBevWOd1b/
-X-Gm-Gg: AYBFou1QoJuxZwt3wksimVmrzoTDsvrQyrLE3q/1Sf2BEbWGOKpl+3bn27lly7E4idt
-	KHvD3vl75eUuwHnYwZ41q0C+j4xC2wLR7+NSCtDPeCIFD9TPDe8LJItZWxMRzoXj0pl4FJSUk6w
-	m3f+NQ1Jk/v827VdtBBSI28Tz80N9lQLHyFyeqDOkfRXQjbR3Be6o/1CMlvhroN/dPFVu0O0++Q
-	3BvtZlfiTXHyN7pYImRUvuOyYDrmcUfDxIPeWrDG0Dpk8iIQRR2Aw1wuoiW/INUvyCpzD30VxYC
-	zW+Dzk0uB3lisiEtlYtRndg2Mca7nlzHB9nPwGL0Pxs/TdNyOf9UOUL5MSdczDDtzk+9oANBHEu
-	1KqII1L/46zBtQISveMN4t+dRjeL2goj3NQCv/UuGaVkBMVlRVOPHB1j6KTe/rW2O9SfLtLHPxv
-	2t7A+xXbU3VgBQRRVROEUvP6MUBhGCHeL7YJqxUN7eLH6P9Ij7yLz2wDJPUvluRrpVII8V4p/PJ
-	cUdS+P2YnMeftzViatpjNHPNMr7dGEOCRpm30k8dhtgPPVwfGkaTQqyBPiVHMctPYagI9jAmAP/
-	HPkxzfqCBg==
-X-Received: by 2002:a17:903:1786:b0:2dd:c053:b9c6 with SMTP id d9443c01a7336-2ddc053ba3amr29382185ad.23.1789817301267;
-        Sat, 19 Sep 2026 04:28:21 -0700 (PDT)
-Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df37b8c8basm3023915ad.61.2026.09.19.04.28.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 04:28:20 -0700 (PDT)
-From: Hui Peng <benquike@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: gadget: f_tcm: detach the gadget in usbg_drop_tpg() to fix a use-after-free
-Date: Sat, 19 Sep 2026 11:28:20 +0000
-Message-ID: <20260919112820.3885842-1-benquike@gmail.com>
-In-Reply-To: <20260919090726.3256229-1-benquike@gmail.com>
-References: <20260919090726.3256229-1-benquike@gmail.com>
+	dkim=pass (1024-bit key) header.d=mailerdienst.de header.i=@mailerdienst.de header.b="MWvMKCPl"
+Received: from mxbulk.masterlogin.de (unknown [192.168.10.85])
+	by mxout3.routing.net (Postfix) with ESMTP id 8176F606C4;
+	Sat, 19 Sep 2026 11:47:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailerdienst.de;
+	s=routing; t=1789818473;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=0OCTyA7s/r9aQUp6Mw8/8jVPFE4DEknKW9HCUStOOjc=;
+	b=MWvMKCPlr11NeW/bYzee3d+HGfxrg/HP6EmFopACA3PF4gDHDkD10G/jeQJFRg1s4LGI2z
+	4o0qKn9pelV0/EkFtBTrEZCE5u6EmCpfowXY8+TmVpefjyPRrMdiZsRy4cSIRgevBAAZ0X
+	cENQgALFqYaNFpp+vDBEBHgO7yn938E=
+Received: from frank-G5-5590 (fttx-pool-194.15.85.231.bambit.de [194.15.85.231])
+	by mxbulk.masterlogin.de (Postfix) with ESMTPSA id 360F41200CB;
+	Sat, 19 Sep 2026 11:47:53 +0000 (UTC)
+From: Frank Wunderlich <linux@fw-web.de>
+To: Stephen Boyd <sboyd@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Chunfeng Yun <chunfeng.yun@mediatek.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Frank Wunderlich" <frank.wunderlich@linux.dev>,
+	Frank Wunderlich <frank-w@public-files.de>,
+	Daniel Golle <daniel@makrotopia.org>,
+	Mihai Ordean <research@mihaiordean.com>,
+	Chen-Yu Tsai <wenst@chromium.org>,
+	linux-clk@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-usb@vger.kernel.org
+Subject: [RFC PATCH 0/2] Fix mt7988 usb with shared phy
+Date: Sat, 19 Sep 2026 13:47:39 +0200
+Message-ID: <20260919114744.46777-1-linux@fw-web.de>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -76,147 +61,19 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A target portal group can be removed with rmdir() on its configfs
-directory while it is still enabled and still attached to a USB gadget
-function. usbg_drop_tpg() frees the struct usbg_tpg but never calls
-usbg_detach(), and it leaves opts->can_attach set, so the function
-instance keeps a dangling tpg pointer and a subsequent bind to a UDC
-happily attaches to freed memory.
+From: Frank Wunderlich <frank-w@public-files.de>
 
-Enumerating the gadget then dereferences the freed tpg from the UAS/BOT
-completion path, in softirq context:
+One usb-port (ssusb0) on the mt7988 shares its phy with pcie and here 
+sometimes it happens that a trace is printed while bootup.
 
- ==================================================================
- BUG: KASAN: slab-use-after-free in usbg_submit_command.isra.0+0xbe7/0xd50
- Read of size 8 at addr ffff888107493478 by task swapper/3/0
+Mihai Ordean (2):
+  clk: mediatek: mt7988: keep combo-lane U3 PHY ref clock enabled
+  usb: xhci-mtk: power down u3 ports skipped by u3p-dis-msk
 
- CPU: 3 UID: 0 PID: 0 Comm: swapper/3 Tainted: G    B D    7.3.0-rc3-g5dd1818b15d9 #1 PREEMPT(lazy)
- Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)
- Call Trace:
-  <IRQ>
-  dump_stack_lvl+0x70/0xa0
-  print_report+0x153/0x4c6
-  kasan_report+0xf1/0x120
-  usbg_submit_command.isra.0+0xbe7/0xd50
-  uasp_cmd_complete+0x83/0xf0
-  dummy_timer+0x1337/0x2d60
-  __hrtimer_run_queues+0x2a3/0x640
-  hrtimer_run_softirq+0x1b1/0x3d0
-  handle_softirqs+0x188/0x4e0
-  __irq_exit_rcu+0x62/0x150
-  sysvec_apic_timer_interrupt+0x6b/0x80
-  </IRQ>
+ drivers/clk/mediatek/clk-mt7988-infracfg.c | 12 +++++++++++-
+ drivers/usb/host/xhci-mtk.c                | 13 +++++++++++++
+ 2 files changed, 24 insertions(+), 1 deletion(-)
 
- Allocated by task 1:
-  __kmalloc_cache_noprof+0x16a/0x380
-  usbg_make_tpg+0x243/0x580
-  target_fabric_make_tpg+0xb1/0x7f0
-  configfs_mkdir+0x4e9/0xe10
-  vfs_mkdir+0x2ed/0x790
-  __x64_sys_mkdir+0x6f/0xa0
-
- Freed by task 1:
-  kfree+0x159/0x420
-  config_item_cleanup+0x148/0x1e0
-  config_item_put+0x90/0xb0
-  configfs_rmdir+0x816/0xa50
- ==================================================================
-
-Detach the gadget in usbg_drop_tpg() if the tpg is still connected, and
-clear opts->can_attach for every function instance bound to this tpg so
-that a later usbg_attach() cannot pick up the freed object.
-
-The forward declarations of usbg_attach() and usbg_detach() are moved
-above usbg_drop_tpg() since it now calls usbg_detach().
-
-Fixes: dc8c46a5ae77 ("usb: gadget: f_tcm: convert to new function interface with backward compatibility")
-Assisted-by: LLM
-Signed-off-by: Hui Peng <benquike@gmail.com>
----
-v2: Add the Fixes: tag that v1 said it could not determine.
-
-dc8c46a5ae77 introduced opts->can_attach, the !opts->can_attach gate in
-tcm_bind(), usbg_attach()/usbg_detach(), the tpg_instances[] table and
-fu->tpg, and the version of usbg_drop_tpg() that tears all of that down
-without ever detaching - i.e. every line this patch touches. Note
-git blame points at 08a1cb0f65fd ("usb: gadget: tcm: factor out
-f_tcm") for the top of usbg_drop_tpg(), but that commit is a pure file
-split out of legacy/tcm_usb_gadget.c, so it is not the tag.
-
-There is a defensible alternative: 4bb8548df632 ("usb: gadget: f_tcm:
-add configfs support") added the callbacks that set can_attach for a
-pure-configfs gadget, which is what my reproducer uses. I went with
-dc8c46a5ae77 because the legacy gadget already set can_attach
-unconditionally, so the hole was reachable without 4bb8548df632 - and
-in any case both landed in v4.5-rc1, five patches apart in the same
-series, so the backport target is identical. Happy to switch if you
-prefer the other.
-
-For completeness, the underlying "free the tpg without detaching"
-shape is as old as c52661d60f63 ("usb-gadget: Initial merge of target
-module for UASP + BOT", v3.5-rc1), but f_tcm.c does not exist before
-v4.5-rc1 and opts->can_attach - which this patch has to clear - did
-not either, so dc8c46a5ae77 is the oldest commit this patch is
-actually applicable to.
-
-Two things worth a reviewer's attention: tpg->gadget_connect is read
-here without the target-core configfs locking that usbg_enable_tpg()
-writes it under, and the opts->can_attach = false lands inside the
-if (i < TPG_INSTANCES) arm added by e877b729c649 ("usb: gadget: f_tcm:
-out of bound access in usbg_drop_tpg"). If you would rather refuse the
-rmdir than auto-detach, note that fabric_drop_tpg returns void, so it
-cannot be failed from here.
-
-Reproduced on Linux 7.3.0-rc3 (5dd1818b15d9) with KASAN under QEMU using
-dummy_hcd: create a tcm function and a target tpgt_1, write 1 to its
-"enable" attribute, link the function into a gadget config, rmdir tpgt_1
-without disabling it first, then bind the gadget to dummy_udc.0. With
-this patch applied the same sequence produces no KASAN splat.
-
- drivers/usb/gadget/function/f_tcm.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
-
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -1756,6 +1756,9 @@ unlock_inst:
- 
- static int tcm_usbg_drop_nexus(struct usbg_tpg *);
- 
-+static int usbg_attach(struct usbg_tpg *);
-+static void usbg_detach(struct usbg_tpg *);
-+
- static void usbg_drop_tpg(struct se_portal_group *se_tpg)
- {
- 	struct usbg_tpg *tpg = container_of(se_tpg,
-@@ -1763,6 +1766,11 @@ static void usbg_drop_tpg(struct se_port
- 	unsigned i;
- 	struct f_tcm_opts *opts;
- 
-+	if (tpg->gadget_connect) {
-+		usbg_detach(tpg);
-+		tpg->gadget_connect = false;
-+	}
-+
- 	tcm_usbg_drop_nexus(tpg);
- 	core_tpg_deregister(se_tpg);
- 	destroy_workqueue(tpg->workqueue);
-@@ -1776,6 +1784,7 @@ static void usbg_drop_tpg(struct se_port
- 		opts = container_of(tpg_instances[i].func_inst,
- 			struct f_tcm_opts, func_inst);
- 		mutex_lock(&opts->dep_lock);
-+		opts->can_attach = false;
- 		if (opts->has_dep)
- 			module_put(opts->dependent);
- 		else
-@@ -1832,9 +1841,6 @@ static struct configfs_attribute *usbg_w
- 	NULL,
- };
- 
--static int usbg_attach(struct usbg_tpg *);
--static void usbg_detach(struct usbg_tpg *);
--
- static int usbg_enable_tpg(struct se_portal_group *se_tpg, bool enable)
- {
- 	struct usbg_tpg  *tpg = container_of(se_tpg, struct usbg_tpg, se_tpg);
 -- 
-2.43.0
+2.53.0
+
