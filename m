@@ -1,71 +1,73 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7413F23A6
-	for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 09:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CCF23ABBE
+	for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 10:04:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789808849; cv=none; b=jS0x26D5tEHq+WOMNxkFxNNJfB/hI2DaaS+U4tzVTZ4pdOhnvd0DDriE9FVkmBl1xgVu7e9zivuBx4dQKeLX13qnf0poAqRQ+kVWJ0gU9+j/EZk4a/GUM9SGt3J1ts8ZQs9ma2lifDH/jwHjVeEYAVS5m/VD5NUn+A/paouPJp0=
+	t=1789812270; cv=none; b=YBerC9qzuVUTVhHE7WqFw+2SuXPCeFZRjsoRuNrZmMR+UBBrpZ0SYr78OAMfkPK8+r05DxIIKsb3woujAeopKcWmuHfWmG3UUtq1r+B4ibf4pl6rid2U4DjtWa27lPE73A04jlffQ004hC1/8xUGWtqyajUemfAf7dOeHFfxcwU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789808849; c=relaxed/simple;
-	bh=3tnpDguUjpU0OTwXuTCZcXZdYiKLozNucM0QkHPIBHg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XsLXGLG3RAOtKFV+oCT2Avm7FrVFSR1o7dyJC1MfIOMeLtmoAronDuxZV/Ufj7nrQKsHzhP1u+8fIq/pO31SmuZZh2mxenp6u468ZOXekBmlzcz4QSO07tE5QkvoBSJ1/dnZuj6ERwHqcSUyG+11q76wZA1cpRlStjJlil6Dea8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gvxW26NU; arc=none smtp.client-ip=74.125.227.141
+	s=arc-20240116; t=1789812270; c=relaxed/simple;
+	bh=0EHaYA31AKMkwGKZxxnGPfk5inRyKwHFRdZ52h6KFJc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sVZEdjEzhoe+AERI+8BAL+0dDpTSoUSRvqm6MuFXC0vqx7d04NBl3giE47TyNZaQPKZYjrp+A2IL/cv9C5jXVWj0CPwFcBvZiO3Psba4pGLEI+fWGRSbhnC7cJDdAtdko2qkzFA4vcM1I8Ed/a8tMcFIgGVgPs6nw7R+pakSmlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ht7+6nHx; arc=none smtp.client-ip=74.125.227.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gvxW26NU"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d91c22d27dso9393645ad.1
-        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 02:07:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ht7+6nHx"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccd5cf03so1602878a91.1
+        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 03:04:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789808847; x=1790413647; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1789812256; x=1790417056; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=M3rt7gCqaVMDmbKda3ivqNvr3crvall/7ClNC3F8Z0w=;
-        b=gvxW26NUekpASVuxXLao/g1vphLJ3XnTrgzum33SOiYMni8Nu4qSNhuI/6yod2k5TE
-         VMjTmeHIAvK93U9xogXugRvT88Ya2KB91FMvs+i4GM1NcgMB/0zSmwLd72CsIAuDMWRv
-         mkrQTWnk2j4TuisPi6jM0HsQ4ikyV2fuVS8leC3Vr6eZB8iIBRa5V43A3uPTci3rks/k
-         jpqa+BpAWsbegubdM/KkYYY6kOQ33jfdqrtLkCd2MLG8CejRG93MTPEOsOUlljSIS4gg
-         m6bsPF3LTDD7BjLLN1OVAZIxpBo/rrbNaSSoytgfUdrKA8MBw0/yKkscpO0fTOiJF7kx
-         d3Tg==
+        bh=oQH2rf6Bzcf6E6BADc6NPp0Qmbe39wDm40LygUzO/Os=;
+        b=ht7+6nHxEVp78xrB0wgCKi3OhuSe+YeGfdWr6KpaGg9J9n7ZdXQGT7kW1JtAeu4UqH
+         0Tuei5JETBDdlMaBF/rEwA0k3mpMSgtkoQKZJC7yCyrDqRDSiJnY5lszQvNiwq0uLIIy
+         YWXcCSUMecRVs2tgf1bOS40bjm0yV7fB8bRz9oJgiTzOJKUnnPnaP7Apcn7d7CRWri0X
+         ZWNg4Od3AQpx5USfwWK4p3CEf/RZEmHQtVD+S3UwVFTRD/XB6L3bkYBpKKdwCLZoe6JG
+         inWFAYwUB1tzmYkbS0EeVu9IkPqI1PZJn8NqsMTU29rD5HJOJ65ZoP8UiKtGIev4TYLp
+         Cs0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789808847; x=1790413647;
+        d=1e100.net; s=20260707; t=1789812256; x=1790417056;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=M3rt7gCqaVMDmbKda3ivqNvr3crvall/7ClNC3F8Z0w=;
-        b=L0xGINd4I7CDEbpUbIQJm8sBWHPxNl/+YLR8a85163/A4wT/MN69ncFIaNC5DrZoBe
-         P+57K5b8jvo/Fpz/rK0vkrs408flcBJURwx1TR6na8r4nQMoq/mOwWWAKTz19+3S6wyd
-         OF3Lj1ccLBrfj/lhuxs1Y5pKzj46kTML8or9sVaYypbyfwZlL3FSdxkahR0LF7L1RLVA
-         MFzUI2xBxO0RKIbwlNIu5c7FJXOyqlucFQJncOhEVJgt9EFkfqfQbyO6QR243JASHMsU
-         NbMFMjk4YrWt+wKxGNmo3sg8XodWX4ozkFbzgKR59961fvRSJLbZF03va4VybFVkF12/
-         QEtQ==
-X-Gm-Message-State: AFuF++lplp15h2mSbahfep1cTg9BKSkPH7myrak9AXDDP6KgsU/Zf98g
-	2koOjhf0hEImoFZ2HJZG52pK6+SwmOluwG20KWec/wTpmnPKZDvgwDG+cjvg3VsU
-X-Gm-Gg: AYBFou3MrDJzqKwkkreAn9uX3t9KNhb3H9NcaG/OFlxRLp64wkLAWgzyScQYVFg9JcW
-	ATb66czgiMnZ36crdkEHnGyol0aWx5xeODXoUvK0kT/eUUf4zDSCyzE0mwFTVJIRZrf0BjeGdPV
-	itK9OhWLXCAK5o1ersjkeqtCnSfqjRRpneReC8KnVWPi/nWaqOavOBiFMGPQPa5LdWYyxz0wnDQ
-	yThu2wHD+hnX/c/iGTk/a2c84fPATRG46iBnEag6S31HuIoTHMhAbI2CbUV+X0bIOX7kF5Gg6kI
-	Z7Y+TPF7LRNND88Er/t2VLouKgIkdvbH6s3i/zyFge3jR7s3p7yj3Qbaf80dNuLCiViyJ7RFTi6
-	w6EBYHjxzwD30mDbzdldDIGVa5HPa0voNZ++tahLBPyK07lzk5mFORND9uW5WjWuu/QNQapD5Lq
-	aicUh0hrSjRlhGD76aNvn+joriupVMVv5pZfq452cc5Wzjt44iBYSByKnknGx8nPaSidADtOFIi
-	bUbGpXj5lOXH5tRJ2K04fGnmMmusRNCLrezORoMYnvHCME84llR46MR1DHaujvDkxf3oS04vtmU
-	27pp7ReUpQ==
-X-Received: by 2002:a17:903:b07:b0:2dd:c100:4b82 with SMTP id d9443c01a7336-2ddc1005f4dmr29944515ad.57.1789808847381;
-        Sat, 19 Sep 2026 02:07:27 -0700 (PDT)
-Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc179dc83sm7626355ad.33.2026.09.19.02.07.27
+        bh=oQH2rf6Bzcf6E6BADc6NPp0Qmbe39wDm40LygUzO/Os=;
+        b=zNBF3V+AFQ5YbYj7TKQfTwK25MEpzx/EGmSAnRFd8cq2px9xHq98AidPMJJ0l27vKe
+         g1Kjr4r37oDqo7lv68OQ1QIoBdDsKIjO2Gfok3NclhbBSn484+K2Nlv9AuYF+uJfTjlP
+         siH1+ODd8QOyZKiUOm9huwJIgQ06va05M8AwaTomnGxKCbDQGeSkqzSe0nlREF39Tb8C
+         kKBO2JhyBtBA7jq9yM4JTaoS4Wr8ppmlUtJZPv34N/q8VZSaMg9PXdTRlOVxQtBUNQBY
+         Wa8uFOBormDMgRgBNYVbVz1Hnk+wzOJFhszi1LokyPZPSH3EXDbYfavIaJB1fAiNkjds
+         C2Kw==
+X-Forwarded-Encrypted: i=1; AKwUvBx02EQsJ+uZiqCk2rX1MFDXWfKMbAtVp1UBRnpnok2ZYl0LaErrejmWjvHyi49mXpwthnKWkFrJTcs=@vger.kernel.org
+X-Gm-Message-State: AFuF++lfaNzqDOGY0ePMCNSvqdtRVMgzYNh45ElHML46KssUdm3tKPNT
+	qmjMwZ9QY8yah3cY48wNq/6PIZQKehgNHJQw71a/H2P/eHGkk3p3jjxK
+X-Gm-Gg: AYBFou2axYwMeOu4RrlkNGIDzTHMRPO1N8l5IttdPuC9hzeA/3UGf37f+cAp0x4Jptx
+	6gt+50txUfXFEssRO++SKmLI8Q+xj8dwN2lRoZxEZOmZlBtLrzWdiADi3zCkNwJpbgp4quDGMx9
+	sGTB2vVlNoD5fKAuFr/yKMTFyn30uGhR+Sno5ihDC5+ahrCqnNHEZvGDDR13G545cLFaGF04Fje
+	RJO0lFW3s90YRZwoc4LebxGuSdCWY2dekqAAYUwZ/hpor8vA2lFUgiSRBKB1DBMYJlXwKzPRz9v
+	WF1VXFI5Lc3seNZ/dS6FL0OPa6mBipkEzjnFH7jSS2Re0NeLky3w9FhiqBm8L/G0A+NtE38luvA
+	co56hX2QhKWbTINa4detU12bbzXE2QIhwT2/6EofarQD0wqdpGRS1iTFDG0Ik6b6wRh+P2avpGS
+	GQXnoBb5bMfgIXG9p1CsV9mQFEfHFvYSFZjZ7kph9ixwAVRIjps84bQ+X04RBXSQEQGCojcUS+W
+	LBRAQbXEGkSIvqECOF7H/nIqFI=
+X-Received: by 2002:a17:90b:574f:b0:39e:6a81:f34f with SMTP id 98e67ed59e1d1-39e6a81fd3cmr4027760a91.41.1789812255651;
+        Sat, 19 Sep 2026 03:04:15 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:814e:e9d3:767e:9a2a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6c3145dasm3843697a91.4.2026.09.19.03.04.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 02:07:27 -0700 (PDT)
-From: Hui Peng <benquike@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Hui Peng <benquike@gmail.com>
-Subject: [PATCH] usb: gadget: f_tcm: detach the gadget in usbg_drop_tpg() to fix a use-after-free
-Date: Sat, 19 Sep 2026 09:07:26 +0000
-Message-ID: <20260919090726.3256229-1-benquike@gmail.com>
-X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
+        Sat, 19 Sep 2026 03:04:14 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: Ulf Hansson <ulfh@kernel.org>,
+	Maxim Levitsky <maximlevitsky@gmail.com>,
+	Alex Dubov <oakad@yahoo.com>
+Cc: linux-mmc@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] memstick: core: reclaim the request before freeing a timed-out card
+Date: Sat, 19 Sep 2026 17:04:08 +0700
+Message-ID: <20260919100408.113979-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -74,115 +76,140 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-A target portal group can be removed with rmdir() on its configfs
-directory while it is still enabled and still attached to a USB gadget
-function. usbg_drop_tpg() frees the struct usbg_tpg but never calls
-usbg_detach(), and it leaves opts->can_attach set, so the function
-instance keeps a dangling tpg pointer and a subsequent bind to a UDC
-happily attaches to freed memory.
+memstick_alloc_card() hands card->current_mrq to the host and waits 500 ms
+for it. If the host is still busy, the wait times out, the card is freed,
+but the host keeps its pointer to the freed request.
 
-Enumerating the gadget then dereferences the freed tpg from the UAS/BOT
-completion path, in softirq context:
+rtsx_usb_ms hits this easily: its handle_req work can block in USB
+transfers for seconds. When it returns, it reads and writes the freed
+request, including the retry path in memstick_next_req():
 
- ==================================================================
- BUG: KASAN: slab-use-after-free in usbg_submit_command.isra.0+0xbe7/0xd50
- Read of size 8 at addr ffff888107493478 by task swapper/3/0
+  BUG: KASAN: slab-use-after-free in rtsx_usb_ms_handle_req+0x17ff/0x1a00
+  Read of size 1 by task kworker/1:3
+  Workqueue: events rtsx_usb_ms_handle_req
+  Allocated by task 1656:
+   memstick_alloc_card
+   memstick_check
+  Freed by task 1656:
+   memstick_alloc_card
+   memstick_check
 
- CPU: 3 UID: 0 PID: 0 Comm: swapper/3 Tainted: G    B D    7.3.0-rc3-g5dd1818b15d9 #1 PREEMPT(lazy)
- Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)
- Call Trace:
-  <IRQ>
-  dump_stack_lvl+0x70/0xa0
-  print_report+0x153/0x4c6
-  kasan_report+0xf1/0x120
-  usbg_submit_command.isra.0+0xbe7/0xd50
-  uasp_cmd_complete+0x83/0xf0
-  dummy_timer+0x1337/0x2d60
-  __hrtimer_run_queues+0x2a3/0x640
-  hrtimer_run_softirq+0x1b1/0x3d0
-  handle_softirqs+0x188/0x4e0
-  __irq_exit_rcu+0x62/0x150
-  sysvec_apic_timer_interrupt+0x6b/0x80
-  </IRQ>
+Add an optional host->cancel() hook that stops the host from using the
+current request, and call it from a common wait helper on timeout, before
+the request's owner can go away. rtsx_usb_ms implements it by draining its
+work item. The helper also covers memstick_set_rw_addr() and both waits in
+memstick_alloc_card().
 
- Allocated by task 1:
-  __kmalloc_cache_noprof+0x16a/0x380
-  usbg_make_tpg+0x243/0x580
-  target_fabric_make_tpg+0xb1/0x7f0
-  configfs_mkdir+0x4e9/0xe10
-  vfs_mkdir+0x2ed/0x790
-  __x64_sys_mkdir+0x6f/0xa0
-
- Freed by task 1:
-  kfree+0x159/0x420
-  config_item_cleanup+0x148/0x1e0
-  config_item_put+0x90/0xb0
-  configfs_rmdir+0x816/0xa50
- ==================================================================
-
-Detach the gadget in usbg_drop_tpg() if the tpg is still connected, and
-clear opts->can_attach for every function instance bound to this tpg so
-that a later usbg_attach() cannot pick up the freed object.
-
-The forward declarations of usbg_attach() and usbg_detach() are moved
-above usbg_drop_tpg() since it now calls usbg_detach().
-
-Assisted-by: LLM
-Signed-off-by: Hui Peng <benquike@gmail.com>
+Reported-by: syzbot+3ee5da0319ca17ef1f4e@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=3ee5da0319ca17ef1f4e
+Fixes: 99451dceeb5f ("memstick: Add realtek USB memstick host driver")
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
 ---
-No Fixes: tag: I could not identify a single commit that introduced
-the problem with confidence, so I have left it out rather than guess.
+Testing: no hardware. A raw-gadget emulation of an RTS5129 (0bda:0129) on
+dummy_hcd delays every bulk-IN reply by 550 ms (above the core's 500 ms wait,
+below the driver's 600 ms USB timeout). On a KASAN kernel the unpatched tree
+reproduces the report (same offset and alloc/free stacks); the patched tree
+takes the timeout+cancel path (~0.6 s) with no KASAN.
 
-Reproduced on Linux 7.3.0-rc3 (5dd1818b15d9) with KASAN under QEMU using
-dummy_hcd: create a tcm function and a target tpgt_1, write 1 to its
-"enable" attribute, link the function into a gadget config, rmdir tpgt_1
-without disabling it first, then bind the gadget to dummy_udc.0. With
-this patch applied the same sequence produces no KASAN splat.
+I first considered a second unbounded wait_for_completion() instead of a hook,
+but rtsx_usb_ms_request() skips scheduling once host->eject is set and
+memstick_remove_host() flushes the workqueue, so that can deadlock.
 
- drivers/usb/gadget/function/f_tcm.c | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+Known limit: cancel waits for the worker's remaining retries (a few seconds
+with a device that never answers) while memstick_check() holds host->lock.
+Other hosts leave ->cancel NULL, so their behaviour is unchanged.
 
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -1756,6 +1756,9 @@ unlock_inst:
+ drivers/memstick/core/memstick.c    | 22 ++++++++++++++++------
+ drivers/memstick/host/rtsx_usb_ms.c |  8 ++++++++
+ include/linux/memstick.h            |  2 ++
+ 3 files changed, 26 insertions(+), 6 deletions(-)
+
+diff --git a/drivers/memstick/core/memstick.c b/drivers/memstick/core/memstick.c
+index e03989c4e99e..ea09a63286bb 100644
+--- a/drivers/memstick/core/memstick.c
++++ b/drivers/memstick/core/memstick.c
+@@ -359,6 +359,20 @@ static int h_memstick_set_rw_addr(struct memstick_dev *card,
+ 	}
+ }
  
- static int tcm_usbg_drop_nexus(struct usbg_tpg *);
- 
-+static int usbg_attach(struct usbg_tpg *);
-+static void usbg_detach(struct usbg_tpg *);
++/* On timeout the host may still hold current_mrq; make it let go first. */
++static void memstick_wait_req(struct memstick_dev *card)
++{
++	struct memstick_host *host = card->host;
 +
- static void usbg_drop_tpg(struct se_portal_group *se_tpg)
- {
- 	struct usbg_tpg *tpg = container_of(se_tpg,
-@@ -1763,6 +1766,11 @@ static void usbg_drop_tpg(struct se_port
- 	unsigned i;
- 	struct f_tcm_opts *opts;
- 
-+	if (tpg->gadget_connect) {
-+		usbg_detach(tpg);
-+		tpg->gadget_connect = false;
-+	}
++	if (wait_for_completion_timeout(&card->mrq_complete,
++					msecs_to_jiffies(500)))
++		return;
 +
- 	tcm_usbg_drop_nexus(tpg);
- 	core_tpg_deregister(se_tpg);
- 	destroy_workqueue(tpg->workqueue);
-@@ -1776,6 +1784,7 @@ static void usbg_drop_tpg(struct se_port
- 		opts = container_of(tpg_instances[i].func_inst,
- 			struct f_tcm_opts, func_inst);
- 		mutex_lock(&opts->dep_lock);
-+		opts->can_attach = false;
- 		if (opts->has_dep)
- 			module_put(opts->dependent);
- 		else
-@@ -1832,9 +1841,6 @@ static struct configfs_attribute *usbg_w
- 	NULL,
- };
- 
--static int usbg_attach(struct usbg_tpg *);
--static void usbg_detach(struct usbg_tpg *);
--
- static int usbg_enable_tpg(struct se_portal_group *se_tpg, bool enable)
++	if (host->cancel)
++		host->cancel(host);
++	card->current_mrq.error = -ETIMEDOUT;
++}
++
+ /**
+  * memstick_set_rw_addr - issue SET_RW_REG_ADDR request and wait for it to
+  *                        complete
+@@ -370,9 +384,7 @@ int memstick_set_rw_addr(struct memstick_dev *card)
  {
- 	struct usbg_tpg  *tpg = container_of(se_tpg, struct usbg_tpg, se_tpg);
+ 	card->next_request = h_memstick_set_rw_addr;
+ 	memstick_new_req(card->host);
+-	if (!wait_for_completion_timeout(&card->mrq_complete,
+-			msecs_to_jiffies(500)))
+-		card->current_mrq.error = -ETIMEDOUT;
++	memstick_wait_req(card);
+ 
+ 	return card->current_mrq.error;
+ }
+@@ -405,9 +417,7 @@ static struct memstick_dev *memstick_alloc_card(struct memstick_host *host)
+ 
+ 		card->next_request = h_memstick_read_dev_id;
+ 		memstick_new_req(host);
+-		if (!wait_for_completion_timeout(&card->mrq_complete,
+-				msecs_to_jiffies(500)))
+-			card->current_mrq.error = -ETIMEDOUT;
++		memstick_wait_req(card);
+ 
+ 		if (card->current_mrq.error)
+ 			goto err_out;
+diff --git a/drivers/memstick/host/rtsx_usb_ms.c b/drivers/memstick/host/rtsx_usb_ms.c
+index beadc389f15f..403144a39a53 100644
+--- a/drivers/memstick/host/rtsx_usb_ms.c
++++ b/drivers/memstick/host/rtsx_usb_ms.c
+@@ -551,6 +551,13 @@ static void rtsx_usb_ms_request(struct memstick_host *msh)
+ 		schedule_work(&host->handle_req);
+ }
+ 
++static void rtsx_usb_ms_cancel(struct memstick_host *msh)
++{
++	struct rtsx_usb_ms *host = memstick_priv(msh);
++
++	cancel_work_sync(&host->handle_req);
++}
++
+ static int rtsx_usb_ms_set_param(struct memstick_host *msh,
+ 		enum memstick_param param, int value)
+ {
+@@ -787,6 +794,7 @@ static int rtsx_usb_ms_drv_probe(struct platform_device *pdev)
+ 	INIT_DELAYED_WORK(&host->poll_card, rtsx_usb_ms_poll_card);
+ 
+ 	msh->request = rtsx_usb_ms_request;
++	msh->cancel = rtsx_usb_ms_cancel;
+ 	msh->set_param = rtsx_usb_ms_set_param;
+ 	msh->caps = MEMSTICK_CAP_PAR4;
+ 
+diff --git a/include/linux/memstick.h b/include/linux/memstick.h
+index 107bdcbedf79..e86f7f6e3e4b 100644
+--- a/include/linux/memstick.h
++++ b/include/linux/memstick.h
+@@ -285,6 +285,8 @@ struct memstick_host {
+ 
+ 	/* Notify the host that some requests are pending. */
+ 	void                (*request)(struct memstick_host *host);
++	/* Stop using the current request; may sleep until the host is idle. */
++	void                (*cancel)(struct memstick_host *host);
+ 	/* Set host IO parameters (power, clock, etc).     */
+ 	int                 (*set_param)(struct memstick_host *host,
+ 					 enum memstick_param param,
 -- 
 2.43.0
+
