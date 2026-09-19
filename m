@@ -1,156 +1,217 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA28E3CF05D
-	for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 01:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A3628B4FD
+	for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 04:56:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789782821; cv=none; b=Sa8s+DAVwrjpB6B951V+4kVdylCdXLNOd0txVOXsqSPoyCFGag4Yl6wG7ni66NO+zL1djLoodM0mJ20QrCDahweCu2oeft0hOHb9diAvRkLWnwSfSrjWqfX9wDIT/1Gg21snpfSoJbzw+RdPeKviCgCmaVChn4oNn9hr0aeGmec=
+	t=1789793813; cv=none; b=Oqske7jHls0Kk6Yo5t0fD0a+g8XrZ8fbr4o8Gm+5lfTaoPxN/2PN/jss3FSkzc5o4OVyfwSsIRncI80ta1ZZ1FqUtD3ys5ZTsN4IBkkL2JQsLESgXImXYo0Jb8AGgGwTvpPv0yTxAgfT61PKtUQkJbc/9yFBKmm8VpAT5Er8Oow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789782821; c=relaxed/simple;
-	bh=1MUo6msyKenS0dWvYuknGgwmuW377WbdJ69neD15ZCM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KKaNl13kwG6EBEaGW9W3BbgHWcNJSvKugrVkZuY+HzqWaurvU1+KqGfRlMK2OOK2gPIyKSdEq6kENtoutA2oQWncqYNqpUHJKtuWmYiXtQN4cM/Jl0qsCa2N682zt2BzqMv6M8McAD7pN1omRLrVKRcb2OSysGKmyLPVB32gEZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la; spf=pass smtp.mailfrom=lex.la; dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b=SXp1oKcv; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lex.la
+	s=arc-20240116; t=1789793813; c=relaxed/simple;
+	bh=IptSlcgDNMgPX65l8P/ng9Wz/P1dZIyMV6wSxZ6f5JE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tNdrZErFBr9M5BOdUCNteh1ZvvMCYN8BrrncEgQPcK3iPXjrXKtF2rIUXg/ttYJ5QD7RaoOOtF/TYBdnBBXGo+lL00o81raQ4NKEBCaJ/30cCIu1H6re3owWb59gqGODcBw/SH0pNuehdf2uR1L+LVA4HI651OyvXm/NTsPlHs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I3ADj2un; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b="SXp1oKcv"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485b1d2874fso455793f8f.0
-        for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 18:53:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I3ADj2un"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-39dec5de01eso224941a91.1
+        for <linux-usb@vger.kernel.org>; Fri, 18 Sep 2026 21:56:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lex.la; s=google; t=1789782818; x=1790387618; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JdLvCX4aiOKaXzIHUg6bWtBloXG3W7s/ZOZQz8VEaW0=;
-        b=SXp1oKcv/GvA0OrvUO9LZDaPpdlB0MrQKdPy15GTVNgzCZIdqQA+aKRkCEIEmKT+ja
-         Wt2q1aCQfBGu4R/WXhvj1JpB4iIVFrAOcgsAVrx6sW3FdQzsUH5+5S0qWZYQt3fIMEyF
-         CAOejkljq94lMc2FeCh6OnAEtrtZbqo3FbmS3U5rCre3YhUYMjY4G59/G2LLtokdVecP
-         uLIuFD0VU68R/vkx3XPsAAzAH24R5KUWsulfd5PZgAozkPqGQiCEXuNiIJwHNvPYBTza
-         QPQLFSs4V85Q3n8EZRwp0U49oc0b+opkXBwA7YpsgX1BDzyG61ZCaBMDfcjDwLf/B2jC
-         DkBQ==
+        d=gmail.com; s=20251104; t=1789793811; x=1790398611; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=3FaYMWoLtfMpPGm9qJCsSSHWDytmWP7yJQl5baQhbXs=;
+        b=I3ADj2unORZbLGtqeHzRc8fACUbxg9y3V1ae81qf24w7Z9NaGUMXgeooropJuNsrcj
+         L71x/+JZ3jydzSmkaHDGc5hOt7GgiFYeSoHoZxfJEojK009cQM748Zgs2CX7WHb740u2
+         J7lbhC05aZlw5takiHTJ+kI2LrLLe0FfqYN9okD35vXJnDO60ILyixOTNdm1q5wa6X2V
+         kuYGIHd2lEbZhA5SpfuUWMAtYd/8ePSfQcvqbDEdaritc1+WwclUzNLlZUrc3QTk8nAc
+         pOBHMzZscK8sNjsdLYPeBhE2UqVMCRX8GmtmishR6xH+FmfDBybJRb9YysVj73pWHq1A
+         A2LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789782818; x=1790387618;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JdLvCX4aiOKaXzIHUg6bWtBloXG3W7s/ZOZQz8VEaW0=;
-        b=FHi3v/jnIyyMS3HgOGQG3vzkaZZtNwrGD291Yin1IlBFyXyes41sOH305WImc6vfbq
-         DZbBBtfSwzokoZv8dnKLUKY8aEfgD/xrb0A7yFBM7kOZSq9Spa4xiwFX0kcONbK+P2fc
-         NnNk1rccLhQ4TG7/PPzkhpwNTzXpnzz0wehWrkFL/t+JIqWT+3zs2+fP+Oy90HZws2nt
-         YQ0CQLFML1tS1H/bkqc+OrqKmIXACqsMGcTsH17sv5lyw0Y8XvCGDijmzO5UwW14L4GV
-         cC6MsW1e5DR2/RL7XTonuEHVz/hPil3WjBuxHe7rlGPiWwikVHFvWOxynNPNsGifovLq
-         19fQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw35XGLX5CwabswUs+bhiPoUxJzChPD1r/0llPM/BvYXChhkt23d6k90OFX/DMqvcemUwuAtsRU4Dk=@vger.kernel.org
-X-Gm-Message-State: AFuF++k8xvg0uarBF7317pDHkdugQgWkjG++2K+uRrMCaOa0NEqPDsPZ
-	H2YHDDNByRqxyvqLAtMQo+DQJqR0NBmXOG/G4ElGJPBjrb+YFh/iuIVM+qdFf6OTcpE=
-X-Gm-Gg: AYBFou2ts0OzJM2sWMaVwGaL029cPfWUMxU/ixJSat8BjjxFRNKExz/QlTsA2zwyimp
-	5rOMBVw1lDd6m1QmZwCYpoYC7J98TXG09jdumHfFgDmyMVHetBaYj4aaBJjRAsMB5UzaXwQ+sPT
-	J/aoHcSpzVZy8KclmkyuJT4VbET1pZX7WovmnC5uFXU3pohN2/o8Y5GLWaVuzWbbkkW0EP3Rf0k
-	TEpkrVhvahhZt+82gXM/IV4UhvDCNmBOyAQzmIxypgQ4UTzvNHJ6UWn1UBZM1NkUbFPUB9XUkKL
-	D+m7Xc+oxC59mHydOfrY0ZfqfBW5qRftpdVg7iaQ6jtHq8cc4qTjq4BN1S2yYo7b7Vt3KvSFNXa
-	1cY4duah+wc4AztsdIdDz3W+oVNM6bz5C9dhg6kM1OMmUMuR2t817c42gJvaB2M5JhAikdfzBKC
-	D19E4p1aIono02Gdyecgn2kWzT3beAzYXyd2SbUet+1zgHdhfhC3Q=
-X-Received: by 2002:a05:600c:468a:b0:49e:7c8c:bc77 with SMTP id 5b1f17b1804b1-49fc4fae7acmr65654585e9.7.1789782818316;
-        Fri, 18 Sep 2026 18:53:38 -0700 (PDT)
-Received: from remote-01 ([84.17.55.229])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd10d174sm34946045e9.11.2026.09.18.18.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 18:53:37 -0700 (PDT)
-From: Aleksei Sviridkin <f@lex.la>
-To: netdev@vger.kernel.org
-Cc: andrew@lunn.ch,
-	andrew+netdev@lunn.ch,
-	hkallweit1@gmail.com,
-	linux@armlinux.org.uk,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	olteanv@gmail.com,
-	Thangaraj.S@microchip.com,
-	UNGLinuxDriver@microchip.com,
-	steve.glendinning@shawell.net,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aleksei Sviridkin <f@lex.la>
-Subject: [PATCH net v9 4/4] net: phy: restore the interrupt when the generic bind cycle fails
-Date: Sat, 19 Sep 2026 04:53:26 +0300
-Message-ID: <20260919015326.499479-5-f@lex.la>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260919015326.499479-1-f@lex.la>
-References: <20260919015326.499479-1-f@lex.la>
+        d=1e100.net; s=20260707; t=1789793811; x=1790398611;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3FaYMWoLtfMpPGm9qJCsSSHWDytmWP7yJQl5baQhbXs=;
+        b=EFxHrNTxkLIv7JWPjuDuYf2h/FlrA2LnSMf8fsk1PmPoCUBWwzSz1p0zRXOPdscWPW
+         uTbSo8Ddj01Cl9tKr8VYr4o2TK86rdXfsqRyU+rqzgMoNwpK/IaGbu4033RBTeobXd/r
+         Z3rWYmJZuj543JI5NWx/TqZ8eUNtC/Te16GpisbMOQPzQLLZzcWBfarQ+uF7rUBDWpaz
+         wn1Epqw4p1jw/gjksFOBcM6P+LZibb8vW24gEQefQHorWioEFLI3PXFpdFPTL8Uxg423
+         HIUTUvjr3FP5pdqv+6JewZSY+Sd5qhM29dW9pG4of6lp8qXUrqVxAnwqXo+MN5P/vPWf
+         A1aw==
+X-Forwarded-Encrypted: i=1; AKwUvBwd5hPCyOZm6/zzOrzLslc1N4+WI9g5/1WrFwd6r3nYGWxwILLWarPQvREi8yd4QgXbhZS/lOR6CzA=@vger.kernel.org
+X-Gm-Message-State: AFuF++l3D7rSB/hgUVkM3QokVfVhCP7tWMMhv+UeBzmq2VrHmR5oICWs
+	ndv45zWQxdXEO89T4ymMvLa38iky24rZCZxJMwU/QNxm/eumPZYZZF2m
+X-Gm-Gg: AYBFou2fqTofgacxImdrDGTpepfzXVBouQZpTxo2C5cM03veBbCyGhLtaUCYe1mTFk4
+	TikYz16TJ7uSOsFihigSOtSfITJsGNJawyBXmTuo99MkwumgootIc4O+b5n30s7gh054RvPkBkD
+	6Ifbao2AUgmekhWUTDoIvBhDezD4EWk3oUtev//dmGFOLuD5wdXxGvhqkpoj/5F6hsrcERz170s
+	fSGF8HFS15kbvZvDflc3DJPo194RG1xclP34MIJBEG+wpLEG9hfE/AOvmhKOh0y1BFfaCL8jJhJ
+	QQKrzdiy+0ImFcDVMdgUEN8qiOK12gjWcsdlt7V39P5+RfAqvBBcB/HsTW1kK7cQRtX+DpGA9Nd
+	rREVoHDUrOkyHBjx13Gjv+iFyKIFcfJRyFT2TSbN05htp/pW4bxgbVS8pt0sgkogxfZ+c6nsvq2
+	v/+S8Ci7fxgxE78uwp77+s3D4vwxmDyTEGNDx4pt3M+3j4xzMSaeKP+QV/bLIEDl8iySgFjCR3j
+	bZuw5kf2/MQwZZmN+mu
+X-Received: by 2002:a17:90b:2ccb:b0:39e:2f57:67c8 with SMTP id 98e67ed59e1d1-39e599d6c1dmr8601655a91.4.1789793811182;
+        Fri, 18 Sep 2026 21:56:51 -0700 (PDT)
+Received: from [192.168.1.7] ([134.236.76.17])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-39e6ca871edsm2481133a91.5.2026.09.18.21.56.47
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Sep 2026 21:56:50 -0700 (PDT)
+Message-ID: <aef1ba1a-aa9b-4ba8-9456-6a99d350dde2@gmail.com>
+Date: Sat, 19 Sep 2026 11:56:44 +0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] net: usb: qmi_wwan: add common Huawei modem IDs
+To: jackyphuti <jackympoka22@gmail.com>, bjorn@mork.no,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Copilot <223556219+Copilot@users.noreply.github.com>
+References: <20260918193645.59374-1-jackympoka22@gmail.com>
+Content-Language: en-US
+From: Lars Melin <larsm17@gmail.com>
+In-Reply-To: <20260918193645.59374-1-jackympoka22@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-phy_attach_direct() binds the generic driver by hand, and the probe it
-calls is phy_probe(), which replaces phydev->irq with PHY_POLL before
-either of the points it can fail at. That failure unwinds on a label of
-its own, which does not go through phy_detach(), so the substitution
-outlives a bind cycle that never completed and a later attach finds a
-PHY that can only be polled. Found while placing the restore of the
-previous patch, as the other exit of the same bind cycle.
+On 2026-09-19 02:36, jackyphuti wrote:
+> Add common Huawei product IDs to qmi_wwan fixed-interface mappings
+> for broader generic Huawei modem coverage.
+> 
+> Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>
+> Signed-off-by: jackyphuti <jackympoka22@gmail.com>
+> ---
+>   drivers/net/usb/qmi_wwan.c | 38 +++++++++++++++++++++++++-------------
+>   1 file changed, 25 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+> index fdfdcf24ddcf..2809b6985f7a 100644
+> --- a/drivers/net/usb/qmi_wwan.c
+> +++ b/drivers/net/usb/qmi_wwan.c
+> @@ -216,10 +216,10 @@ static int qmimux_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+>   		if (netif_rx(skbn) != NET_RX_SUCCESS) {
+>   			net->stats.rx_errors++;
+>   			return 0;
+> -		} else {
+> -			dev_sw_netstats_rx_add(net, pkt_len);
+>   		}
+>   
+> +		dev_sw_netstats_rx_add(net, pkt_len);
+> +
+>   skip:
+>   		offset += len + qmimux_hdr_sz;
+>   	}
+> @@ -946,6 +946,13 @@ static const struct driver_info	qmi_wwan_info_quirk_dtr = {
+>   };
+>   
+>   #define HUAWEI_VENDOR_ID	0x12D1
+> +#define HUAWEI_PRODUCT_E1750	0x1406
+> +#define HUAWEI_PRODUCT_E173	0x140c
+> +#define HUAWEI_PRODUCT_K4505	0x1464
+> +#define HUAWEI_PRODUCT_K3765	0x1465
+> +#define HUAWEI_PRODUCT_K4605	0x14c6
+> +#define HUAWEI_PRODUCT_E1820	0x14ac
+> +#define HUAWEI_PRODUCT_E173S6	0x1c07
+>   
+>   /* map QMI/wwan function by a fixed interface number */
+>   #define QMI_FIXED_INTF(vend, prod, num) \
+> @@ -1024,23 +1031,23 @@ static const struct usb_device_id products[] = {
+>   	},
+>   	{	/* Novatel USB551L and MC551 */
+>   		USB_DEVICE_AND_INTERFACE_INFO(0x1410, 0xb001,
+> -		                              USB_CLASS_COMM,
+> -		                              USB_CDC_SUBCLASS_ETHERNET,
+> -		                              USB_CDC_PROTO_NONE),
+> +					      USB_CLASS_COMM,
+> +					      USB_CDC_SUBCLASS_ETHERNET,
+> +					      USB_CDC_PROTO_NONE),
+>   		.driver_info        = (unsigned long)&qmi_wwan_info,
+>   	},
+>   	{	/* Novatel E362 */
+>   		USB_DEVICE_AND_INTERFACE_INFO(0x1410, 0x9010,
+> -		                              USB_CLASS_COMM,
+> -		                              USB_CDC_SUBCLASS_ETHERNET,
+> -		                              USB_CDC_PROTO_NONE),
+> +					      USB_CLASS_COMM,
+> +					      USB_CDC_SUBCLASS_ETHERNET,
+> +					      USB_CDC_PROTO_NONE),
+>   		.driver_info        = (unsigned long)&qmi_wwan_info,
+>   	},
+>   	{	/* Novatel Expedite E371 */
+>   		USB_DEVICE_AND_INTERFACE_INFO(0x1410, 0x9011,
+> -		                              USB_CLASS_COMM,
+> -		                              USB_CDC_SUBCLASS_ETHERNET,
+> -		                              USB_CDC_PROTO_NONE),
+> +					      USB_CLASS_COMM,
+> +					      USB_CDC_SUBCLASS_ETHERNET,
+> +					      USB_CDC_PROTO_NONE),
+>   		.driver_info        = (unsigned long)&qmi_wwan_info,
+>   	},
+>   	{	/* Dell Wireless 5800 (Novatel E362) */
+> @@ -1228,8 +1235,13 @@ static const struct usb_device_id products[] = {
+>   	{QMI_QUIRK_SET_DTR(0x05c6, 0x9625, 4)},	/* YUGA CLM920-NC5 */
+>   	{QMI_FIXED_INTF(0x0846, 0x68a2, 8)},
+>   	{QMI_FIXED_INTF(0x0846, 0x68d3, 8)},	/* Netgear Aircard 779S */
+> -	{QMI_FIXED_INTF(0x12d1, 0x140c, 1)},	/* Huawei E173 */
+> -	{QMI_FIXED_INTF(0x12d1, 0x14ac, 1)},	/* Huawei E1820 */
+> +	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_E1750, 1)},	/* Huawei E1750 */
+> +	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_E173, 1)},	/* Huawei E173 */
+> +	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_K4505, 1)},	/* Huawei K4505 */
+> +	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_K3765, 1)},	/* Huawei K3765 */
+> +	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_K4605, 1)},	/* Huawei K4605 */
+> +	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_E1820, 1)},	/* Huawei E1820 */
+> +	{QMI_FIXED_INTF(HUAWEI_VENDOR_ID, HUAWEI_PRODUCT_E173S6, 1)},	/* Huawei E173s-6 */
+>   	{QMI_FIXED_INTF(0x1435, 0x0918, 3)},	/* Wistron NeWeb D16Q1 */
+>   	{QMI_FIXED_INTF(0x1435, 0x0918, 4)},	/* Wistron NeWeb D16Q1 */
+>   	{QMI_FIXED_INTF(0x1435, 0x0918, 5)},	/* Wistron NeWeb D16Q1 */
 
-Take the number back on that label as well, before it clears d->driver.
-That store is what reopens the device to the driver core: until it runs,
-a driver registering on another CPU is turned away with -EBUSY and
-phy_probe() cannot be the second writer of this field.
 
-Fixes: 6d9f66ac7fec ("net: phy: Fix PHY module checks and NULL deref in phy_attach_direct()")
-Assisted-by: LLM
-Signed-off-by: Aleksei Sviridkin <f@lex.la>
----
+Hi,
 
-Notes:
-    Both points the hand-bind can fail at are reachable. phy_probe() reaches
-    genphy_read_abilities() through genphy_driver's .get_features, and that
-    returns the error from phy_read(phydev, MII_BMSR); device_bind_driver()
-    returns whatever driver_sysfs_add() got from sysfs_create_link().
-    
-    A failed genphy bind leaves the device with no driver bound at all, so the
-    next driver to arrive binds directly and never goes through phy_detach().
-    That is why patch 3 cannot cover this path, and why the Fixes: tag here is
-    6d9f66ac7fec rather than the one patch 3 carries. That commit did not
-    introduce the lost number - the substitution is far older - it created this
-    second exit from the bind cycle, splitting the failure off the label that
-    calls phy_detach(). Before it, patch 3 alone would have covered this, so
-    that is where the backport range for this one starts.
-    
-    Exercised on the board described in patch 3, with a debug-only module
-    parameter that fails the hand-bound generic probe once for one MDIO
-    address. The connect then ends in -EIO rather than the -EINVAL of the
-    validation path, so the unwind takes the label this patch touches.
-    phydev->irq afterwards reads -1 with patch 3 alone and 15 with this one.
-    
-    One difference between the injector and a real failure, since it does not
-    affect what was measured but should not be implied away: a genuine error
-    inside phy_probe() leaves through its out: label, which re-asserts the PHY
-    reset before returning, while the injector returns earlier than that.
-    Neither path touches phydev->irq.
+The whitelist in qmi_wwan is based on numerical vid and pid,
+redefining them with vendor name and product strings fills
+no function. The driver is not a cross reference list for
+numerical to name lookup.
 
- drivers/net/phy/phy_device.c | 2 ++
- 1 file changed, 2 insertions(+)
+Which of the products you are adding support for have you
+tested and confirmed working under the qmi_wwan driver?
 
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index 8e6b399f95d6..69d8911ea7f6 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -1896,6 +1896,8 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
- 
- error_module_put:
- 	module_put(d->driver->owner);
-+	/* Before the NULL below, which lets another probe reach this field. */
-+	phydev->irq = bus->irq[phydev->mdio.addr];
- 	phydev->is_genphy_driven = 0;
- 	d->driver = NULL;
- error_put_device:
--- 
-2.53.0
+For which of the products do you have a verbose lsusb listing
+so that you can confirm interface attributes before adding
+them to qmi_wwan?
+Please include these lsusb listings in the patch!
 
+Here are my comments by product:
+
+12d1:1406,1 only 2 endpoints, not qmi.
+It is a serial AT cmd port according to the Huawei Windows driver.
+
+12d1:140c,1 already supported, no need to redefine
+
+12d1:1464,1 is qmi, interface already blacklisted in the option driver 
+so can be added to qmi_wwan
+
+12d1:1465,1 interface has ecm attributes, is probably qmi but this must
+be confirmed and the interface must be blacklisted in the cdc_ether 
+driver BEFORE being added to qmi_wwan!
+
+12d1:14ac,1 already supported, no need to redefine
+
+12d1:14c6,1 already supported in qmi_wwan by its interface attributes
+
+12d1:1c07,1 jungo_ecm according to Huawei proprietary driver, may
+well be qmi but that has to be tested on a physical device.
+
+
+thanks
+Lars
