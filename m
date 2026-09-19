@@ -1,120 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D8A231B828;
-	Sat, 19 Sep 2026 10:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6301344DAE
+	for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 11:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789813849; cv=none; b=NwiC/wVLTHxe9HXwdACRR8x7QjBONIqK6LSbp9T5Y9J4YpQz97y9B0AGzSl8nFtT1TVdd2raejXan6dD84QY3z8gF1x5V5njDI125B4hqsFiw8ZL/5uXFvpaCxeJ0uR0fyiqeART5xLhhvLc67abacHivPZoNTEd8eFqc/uPNE0=
+	t=1789815653; cv=none; b=AXU2o7ZdByyrDUQjHnCu8CHdN0W79Rv6y5JFwmVn/qsyxdKDSOnG69RR+Knjtuvr7XyoTq+6+EHbhN2E2cKl+CgyQnwtVLN9AlOuwLfhk4HlvymB0SDYNbJIegziXY0Ts/r5Fa1daSAJtUdFlR6XHssOe1PFa5QNFgsUAP6KniA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789813849; c=relaxed/simple;
-	bh=zvxAdTkA2ZWrwNIE2DeKnxDR5Yb6BuHPL60yDwDxNyM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V6s080e2+WKLh7XMnJajMs1rDyhw87l/J3BuOoTtseQHi90kLMx5RA5SctFLjiAojuMYnc34/k+16Co/2eiaV3zZi+OojcFwh0Q63erhpKVZpaGfyIrUDyUtzEi1Dv/WWD1ykvwsXbnXxf28H8bJM5muQx9jA02QTOr/6kwdAM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VKsMTWaN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789815653; c=relaxed/simple;
+	bh=GaNsUI6mLKnZnKPZDTu4pKadGE4T2gyK26dsZnV3ZqE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Hx7x1aAH1N2EylCsOWNcerS9BTS17BKtCOHNCSJhcVzFHKgU/q/SY0zerLFaE1uXVJokv4LsAUU11a1bkhkN9nUS0VyfvOYMQ7YB+OqYqlDKmMvZ+KyV6hPFaiaioOQ6mWf725l9aa6ozvKRp/erOx6kot56li92v8kmTcbxJcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Oar8Zv3n; arc=none smtp.client-ip=74.125.227.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VKsMTWaN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63BBA1F000FF;
-	Sat, 19 Sep 2026 10:30:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789813848;
-	bh=9+JrqZLESg83r/L9t2zw2SfCemYznfhEdAeJlo+kcjk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=VKsMTWaNDouUFQBXPJJ/zwQz2/eQW04dtYhCYWsBdocdoSPjBUjL3SvfBap8x+zOU
-	 5qJR53f59BAeel32x3bDrkqD5uAYsn7f1JwtZo57SaBFLtAJQGc22jrJ6tUpfuBydo
-	 ZLe0/tBhwoo8DUzK8hEFTrwGtKV5txmMAhyOxNUw=
-Date: Sat, 19 Sep 2026 11:28:51 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hui Peng <benquike@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: gadget: f_hid: fix use-after-free of
- hidg->func.config after unbind
-Message-ID: <2026091930-corporate-destiny-7b45@gregkh>
-References: <20260919090724.3256109-1-benquike@gmail.com>
- <20260919090724.3256109-2-benquike@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Oar8Zv3n"
+Received: by mail-pj2-f42.google.com with SMTP id 98e67ed59e1d1-396ccda24afso1211859a91.3
+        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 04:00:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789815651; x=1790420451; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=mksE0wAvqIYvQmkvPZ3MVjaliUGSBIc9rXg00mvzn3o=;
+        b=Oar8Zv3nf79P6rmHbd/Ge6B21eyTeEy1EYUlLAfVDdzlrX4PWVU8wzj10Rf0oVGN2m
+         MHKest1NloP9zsU1g1UpN4atfC+SjlUh5qQsmuktckYCtguyMogHBEGCFLQyPFQ5p/3H
+         Il8hWjKz0uRUjmUabcN6XzubTCJhDGJRPjapwD1EZ3+QMN+kkWP6ikljKs5ouWEIZEd5
+         qOxY0jOWkp0luRNnPWRe70SFTL5RlJGZD2UhlYC8I3k2RpMOomPqRTdZv29w5AJHppjY
+         JRPA+XjTwk1zO5uobHpqvSQk2aVxoP692hAtqSdauNS1KmLbEsVChfqrMalkh/uqV6MP
+         FZ0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789815651; x=1790420451;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mksE0wAvqIYvQmkvPZ3MVjaliUGSBIc9rXg00mvzn3o=;
+        b=D5WzMB8QO+ZdzgNYX6jodEugTw42BdH4chcxzIkaH8Y2YIGbsHRJJ1o7c/WH0qQLx4
+         MQ+P/qsHuJwvLs50dwQQVZuxSltM4vtp3awOYNt94CrG4IL4Ok+HTZbPX+qNb5TwZesG
+         nDuO5eH6UinEt5+VuoGF4ckiO2fWg4zupNce3oUgCT/wxZK4CHlQ+RMKeN6nXAhYnuDc
+         xyO5Z+elg9c49y8JrVIcMVU1uGesfuCgiRtCuaNF+YGv09jzUMRMmPwAi94ZSptOWCWV
+         Pat8Vm42QtehVcHv8y7wvMq5bMwHTukiR2AHCXhm0FLY7vziPgee0kJtuQJs08wyHiwq
+         VUWQ==
+X-Gm-Message-State: AFuF++lqACf8Xp3zTPmEKHdKLhpdE8OJy9KzJFB/i8xZtshUf03r1VuL
+	wHcjbh7ldYVg8cSF5mRYx7+2pjRZecum6JqBA+uawv7GjG8OJVMgsTI8iduwrdp0
+X-Gm-Gg: AYBFou3XkTo+UyG9ch1gQvFn5+W7406VTDpk3Hpa5jKO+NhqZFwjdqLdoAzEkhKG/nt
+	qlDZKQoK1SEus7TCn/KtGE33i+v/rE9eq4Fzv6mtblRri84nNudffb33vKMm2DJIAhrhD2mJaj2
+	bUNLn4SavmqlbRxmoNOhXN0yXZHvs1gG7KkS4fGZtU2tu1VFgTyx5yK76+bxF+fApj5h/jPbidS
+	G9cEXHp8uco71Ib7icK1gobDVib+WfDIOa3e9PL22IrS9VlQEvNbSQLYzF9qYHyYjxSyRDo1iJX
+	M2cmwNhIcVvtfP8PMK4n3rUIGUAil7F5M0LZiMln6tpd/A+QKu4uLfHyTFP3GueBgr6Qbb8g9n/
+	aLW1kzYljMrDgyzilPoF4EqCSHcxpbPaA5MxhudKvBSXWbaMfk9oeEF0bInmID/Nx+kt+5kMans
+	x7B+mC3hmWu9xRmPKvW8EV50jzEu+5RgS4+CHlkHsY0Ly/FtlFpuUTqwK2+LyK6siSZzxwPJILk
+	7vxhRqIzRnp32BJE0TDz42v8cDEy68zaexfIKKTlHZrOOQ+HLnM7bTZH/Zrk4WtnFh2huRKTdQw
+	qWrOpBxmsw==
+X-Received: by 2002:a17:90b:4a03:b0:36d:9e0b:3801 with SMTP id 98e67ed59e1d1-39e54d38c48mr14713773a91.8.1789815650997;
+        Sat, 19 Sep 2026 04:00:50 -0700 (PDT)
+Received: from phui-2.c.googlers.com.com (78.123.83.34.bc.googleusercontent.com. [34.83.123.78])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6cb427casm4105972a91.17.2026.09.19.04.00.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 04:00:50 -0700 (PDT)
+From: Hui Peng <benquike@gmail.com>
+To: gregkh@linuxfoundation.org,
+	Chris.Wulff@biamp.com,
+	david.sands@biamp.com
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 1/2] usb: gadget: f_hid: don't call copy_from_user() under get_report_spinlock
+Date: Sat, 19 Sep 2026 11:00:49 +0000
+Message-ID: <20260919110050.3764064-1-benquike@gmail.com>
+In-Reply-To: <2026091905-humbling-swooned-c371@gregkh>
+References: <2026091905-humbling-swooned-c371@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260919090724.3256109-2-benquike@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 19, 2026 at 09:07:24AM +0000, Hui Peng wrote:
-> The /dev/hidgN character device stays open across function unbind: a
-> process can open it, then remove the configfs gadget (echo "" > UDC,
-> unlink the function from the config, rmdir the config directory), and
-> keep using the still open file descriptor.
-> 
-> hidg_unbind() does not clear hidg->func.config, so the file operations
-> continue to dereference the struct usb_configuration that configfs has
-> already freed. f_hidg_get_report() does so unconditionally on entry:
-> 
-> 	struct usb_composite_dev *cdev = hidg->func.config->cdev;
-> 
-> which gives a use-after-free read on the first ioctl() after the config
-> directory is removed:
-> 
->  ==================================================================
->  BUG: KASAN: slab-use-after-free in f_hidg_get_report.isra.0+0x401/0x4a0
->  Read of size 8 at addr ffff8881073d7950 by task init/172
-> 
->  CPU: 2 UID: 0 PID: 172 Comm: init Not tainted 7.3.0-rc3-g5dd1818b15d9 #1 PREEMPT(lazy)
->  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996)
->  Call Trace:
->   <TASK>
->   dump_stack_lvl+0x70/0xa0
->   print_report+0x153/0x4c6
->   kasan_report+0xf1/0x120
->   f_hidg_get_report.isra.0+0x401/0x4a0
->   f_hidg_ioctl+0xe1/0x110
->   __x64_sys_ioctl+0x184/0x1d0
->   do_syscall_64+0xda/0x4b0
->   entry_SYSCALL_64_after_hwframe+0x77/0x7f
->   </TASK>
-> 
->  Allocated by task 1:
->   __kmalloc_cache_noprof+0x16a/0x380
->   config_desc_make+0x1e6/0x590
->   configfs_mkdir+0x4e9/0xe10
->   vfs_mkdir+0x2ed/0x790
->   __x64_sys_mkdir+0x6f/0xa0
-> 
->  Freed by task 1:
->   kfree+0x159/0x420
->   config_item_cleanup+0x148/0x1e0
->   config_item_put+0x90/0xb0
->   configfs_rmdir+0x816/0xa50
->   vfs_rmdir+0x2e6/0x810
->   __x64_sys_rmdir+0x4b/0x70
-> 
->  The buggy address belongs to the object at 0xffff8881073d7800
->   which belongs to the cache kmalloc-1k of size 1024
->  ==================================================================
-> 
-> A second splat follows from the ERROR() call in the same function.
-> 
-> Clear hidg->func.config in hidg_unbind() and check it in the paths that
-> are reachable from an open file descriptor - f_hidg_read(),
-> f_hidg_write() and f_hidg_get_report() - returning -ENODEV once the
-> function is gone. f_hidg_req_complete() only uses the pointer to emit an
-> error message, so guard that dereference as well.
-> 
-> While at it, drop the report_list entries in hidg_unbind(). They are
-> allocated by f_hidg_get_report() and were only ever freed when the
-> whole f_hidg was released, so reports queued before an unbind leaked.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Hui Peng <benquike@gmail.com>
-> ---
-> No Fixes: tag: I could not identify a single commit that introduced
-> the problem with confidence, so I have left it out rather than guess.
+f_hidg_get_report() already copies the incoming struct usb_hidg_report
+from userspace into the freshly allocated 'entry' before acquiring
+hidg->get_report_spinlock.
 
-Please have your llm figure that out, worst case it's when it showed up,
-right?
+When a report with the same report_id is already present in
+hidg->report_list, the update path copies from userspace a second time,
+this time directly into ptr->report_data while the spinlock is held with
+interrupts disabled:
 
-thanks,
+	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
+	ptr = f_hidg_search_for_report(hidg, report_id);
+	if (ptr) {
+		if (copy_from_user(&ptr->report_data, buffer,
+				sizeof(struct usb_hidg_report))) {
 
-greg k-h
+copy_from_user() may fault and sleep, so this is a sleeping function
+called from atomic context, reported by CONFIG_DEBUG_ATOMIC_SLEEP as
+"BUG: sleeping function called from invalid context". Userspace can
+reach it at will by issuing GADGET_HID_WRITE_GET_REPORT twice with the
+same report_id on /dev/hidgN.
+
+The second copy is also redundant: the same user buffer has already been
+copied into entry->report_data a few lines above, and report_id was
+derived from that copy. Assign from the already copied data instead,
+which removes the fault from the critical section and makes the update
+atomic with respect to the list lookup.
+
+Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
+Assisted-by: LLM
+Signed-off-by: Hui Peng <benquike@gmail.com>
+---
+v2: Add the Fixes: tag Greg asked for.
+
+    f_hidg_get_report(), the spinlock and the copy_from_user() call under
+    it were all added together by a139c98f760e ("USB: gadget: f_hid: Add
+    GET_REPORT via userspace IOCTL"), first released in v6.12, so that is
+    where this starts. git blame on the removed lines agrees.
+
+Found by inspection while investigating the use-after-free fixed in
+patch 2/2, and build tested only; I do not have HID gadget hardware,
+but the path is reachable from /dev/hidgN with dummy_hcd.
+
+ drivers/usb/gadget/function/f_hid.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -668,13 +668,7 @@ static int f_hidg_get_report(struct file
+ 
+ 	if (ptr) {
+ 		/* Report already exists in list - update it */
+-		if (copy_from_user(&ptr->report_data, buffer,
+-				sizeof(struct usb_hidg_report))) {
+-			spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+-			ERROR(cdev, "copy_from_user error\n");
+-			kfree(entry);
+-			return -EINVAL;
+-		}
++		ptr->report_data = entry->report_data;
+ 		kfree(entry);
+ 	} else {
+ 		/* Report does not exist in list - add it */
+-- 
+2.43.0
