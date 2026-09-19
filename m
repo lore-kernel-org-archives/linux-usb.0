@@ -1,60 +1,84 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9355D17B50F;
-	Sat, 19 Sep 2026 22:45:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06BAF23ABBE;
+	Sat, 19 Sep 2026 22:51:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789857939; cv=none; b=grc8cBINWy7hASNiRKBnUj9h60dG8x5k9tOETIOiTlhEzX9vf24bRiI9t4k50mzZOuGix/9iSQSmHFzGnY/O9MaxuTVWhPC9udx1STRwo8jm3FZx/1NTdwYD9vSAzcMBDJJM8uSEpqDzuoxMNLYg/NUx8gc4i5cowsSNzJBib2s=
+	t=1789858286; cv=none; b=dffYtwjKHQ5GQbdEBTVL3vzzRj2myYe4czGH6/8fCuxuBao2OAjTDzLvNgmlPKQZ07JJ/80oOrIArN1/Rv3hV4jlSuGSmwXTBs+tDpnpSoi8EQ3DrAwQ3Ejo9AgEylqGtlPQguWJ29MRusKBZdfYhqu2EfVWd8pN3SXur+LhS5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789857939; c=relaxed/simple;
-	bh=yFCQ8WzNYJBFC7+uDyTD06P6CArclROZkBWqqF/W3k4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u7fJnI6GDgIzU++LZi1mWATXp7l3fMXz6DcRSWaVJunoaCldHFdtT+Efy4tjZAsWmgzx/KQvbYK+Uy71Jo7l/9ihAE/dwqqSLXwilaBx8iGDhXu7vwG/d5fEUkcwtEU88eZC6BUQxNjd4Ji53a2UGajrvtTDlvKG4Jc8jeT8H0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kSP7LdAp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1789858286; c=relaxed/simple;
+	bh=kBRXeyi1c960O0fjGn+dRjGZxaOtzC69lWF1dPLPo0U=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=nuIS5GmgOoKayXltGh2lK0tq/gXrRR3jD6ChbF9ZUCdf0pB3qytJc74XbuQSF/9o+TTtGcYsDWGtyOuyfpFRCFYi6Wbeb3HWi7QJ9nf6U7OX+lMFIC9OhnA76NapFsMkeRQhoTW2P0PFQT3+jo+xey7kxOoID98ntuu5Cbn4Brc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hatEdKN4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kSP7LdAp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8BB91F000FF;
-	Sat, 19 Sep 2026 22:45:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hatEdKN4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E7941F000FF;
+	Sat, 19 Sep 2026 22:51:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1789857938;
-	bh=yFCQ8WzNYJBFC7+uDyTD06P6CArclROZkBWqqF/W3k4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=kSP7LdApt0TyYFUyR1kIJzmrZj0A7VN3ZWT85w/fYR3OaIqBzRPT8f3DisBH3OuM0
-	 5/hSiFKOEiXEo8YmnIyzqlIF4Nzu4ke7H1rMdzMK2mL+m2bwMnmYn35Ga9s1/uZBZq
-	 +/Ct4vgwsywKkPseZKVz6rzhIYz4PSidYDDJYxbf0ITpdF4CXITDSUOTFJWplLIG14
-	 jArStFhJuOsNQEUDgLPHmi5Tr//R2oTSj/YHjDVk2NL/me++PS8Ak9eFi6opuMc3fF
-	 PQ5T12e0I+MfmE41dW+/psj8Dmq2lRbBL57wgLXj4jDyllPYL2ArSqFbr/ENsIwlQD
-	 nznDXEHypRLpQ==
-Date: Sat, 19 Sep 2026 15:45:37 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: Aamir Ahmed <elb12345@hotmail.co.uk>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Peter Korsgaard <peter@korsgaard.com>, Ziyi
- Guo <n7l8m4@u.northwestern.edu>, Ethan Nelson-Moore
- <enelsonmoore@gmail.com>, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v2] net: usb: catc: bound the RX packet length in
- catc_rx_done()
-Message-ID: <20260919154537.15c6296f@kernel.org>
-In-Reply-To: <ab569155-f779-427e-8c8f-1dc5315fb0ff@redhat.com>
-References: <AS8P251MB00015FD7716F38C345619B56C8BB2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
-	<ab569155-f779-427e-8c8f-1dc5315fb0ff@redhat.com>
+	s=k20260515; t=1789858284;
+	bh=A18i1OW/ltxUwpqhu4EQwXsBuim28AyuTsWVQH/1Ejc=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=hatEdKN4mjmRS/xEAhKGTTOTXH38pFPlndVuwXK8Uw/M5rVj0KwThYVH5uiOgkCjr
+	 NFPTe+Wo9OvbrZ72oWV4GWv1nA5/uOJ6si0/hkPSIgJEsXcjE1cueHCC7PhMrFwxZL
+	 yRVNTWb99RsyNnNqj9p0D7wyZcR1Jbrkg15piNwKDLuY6boissZEadMZ6UEu+92SR5
+	 rj9Hs+/DMECRmNNl3k3uhbMs3DLosLeVh/3HdhSMHdeaDNiCUnFwZggAIS4t0cRUbU
+	 J1wzqCTA6NLcF/sY2sI/yu/WP289fScDd9gn0UjU6YGuvJXBiUvPS8gF+sBdX1EI6y
+	 i/YAIoHOLYPvA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 56853392447D;
+	Sat, 19 Sep 2026 22:50:18 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] net: usb: catc: bound the RX packet length in
+ catc_rx_done()
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <178985821686.1485891.10612665362689761603.git-patchwork-notify@kernel.org>
+Date: Sat, 19 Sep 2026 22:50:16 +0000
+References: 
+ <AS8P251MB00015FD7716F38C345619B56C8BB2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+In-Reply-To: 
+ <AS8P251MB00015FD7716F38C345619B56C8BB2@AS8P251MB0001.EURP251.PROD.OUTLOOK.COM>
+To: Aamir Ahmed <elb12345@hotmail.co.uk>
+Cc: andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, peter@korsgaard.com,
+ n7l8m4@u.northwestern.edu, enelsonmoore@gmail.com, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org
 
-On Thu, 17 Sep 2026 15:00:23 +0200 Paolo Abeni wrote:
-> I'm sorry, but no minor fixes for legacy drivers.
+Hello:
 
-I could be wrong, but I _think_ usb is "special" because
-it's much easier to plug in a fake USB device into a phone
-or laptop than a PCI one, and do malicious things?
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-I'd be happy to hear otherwise
+On Tue, 15 Sep 2026 00:06:58 +0100 you wrote:
+> catc_rx_done() walks a multi-packet URB, reading a two-byte length from
+> each packet header. Its bound, pkt_len > urb->actual_length, ignores the
+> header offset and compares against the whole transfer rather than the
+> bytes left from pkt_start, so a crafted packet header makes
+> skb_copy_to_linear_data() read past the buffer.
+> 
+> A length below ETH_HLEN is also accepted, including zero, and
+> eth_type_trans() then reads a MAC header from the uninitialised tailroom
+> of a shorter skb. The is_f5u011 branch takes its length straight from
+> the transfer, so a zero-length URB reaches the same path.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net,v2] net: usb: catc: bound the RX packet length in catc_rx_done()
+    https://git.kernel.org/netdev/net/c/9d565b6b72fe
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
