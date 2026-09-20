@@ -1,130 +1,132 @@
-Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBDA3AA1A9
-	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 02:34:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899B13BBFDE;
+	Sun, 20 Sep 2026 02:53:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789871661; cv=none; b=hXOCJxnXH9kUI7AmsJ+v5RDiQT4p196YSfVOb1/ESuYDnlVewlOiyFZ8w0F0aIFjHS3aZs5JdYNsU0PTGskHeK1k8aaRfOZq4FllyP+H+GBWLSCD2y23XWgBAUepS/n2D4+/+ZdHHbbT/qc1uzgJwTeFp/Tve2r0RAB9G86XQ70=
+	t=1789872842; cv=none; b=HE0mCBiSUOq8tTdpvCN9EXST3m3cAz3HM6h8urQbjp8s+NYN+BeCE/qHk2Tmiz6Cn5T90cVoq6bxDFvlABFXGKmHHmuSiTreo1Sg8Xa+fTB+sAJPHgZ0ltXnoBAiDJiCFbxEyEhwXh7fh3eS9mt5KLV5AOAD9xQNDaljPxcvaf8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789871661; c=relaxed/simple;
-	bh=Fzgv+nvZ+4+OGBtA0LANbeAB7bkAOU+2uKJwOc/JXL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VyxlLOAM7rqjNgUgDDwM7d85FbDNcPQreEyfAdK+bDQAYy32q4ypAP5CCSmRvDvfOxdP9GmNrT0qFpx6jDYWfwsRfub7dysh8BJxpLHFgA2NXsn8tsZ6HcvB/2gQaKEoqneDBMZHtEAke7X9QyS4gzFWZ4ar/CBw7x+E7si44m4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=uEoy4IBz; arc=none smtp.client-ip=74.125.230.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1789872842; c=relaxed/simple;
+	bh=QK772IuNDSIhYHEC7Nqrdy7/GXOjWjMTQAFjhiiZO50=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bUD5wtJ6Z/dK1Po3qJL9JcP2+nxzVO4Jj4mSQYXFvwcCSftzb5o97cc71ewfRxFdbOVgMyZR4QkKLE72usPMFBImnyyBurnopoxHO/7i/8Sltx5Z/zLFlVZG3zqYCbk+yrgtSFkIoO+E4rD588zUTmamoYKL6u3ds/FWTEQEei4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AcM5cX1G; arc=none smtp.client-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="uEoy4IBz"
-Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-912408b2b2dso18927236d6.2
-        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 19:34:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1789871658; x=1790476458; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=LkCkftG+yeHdNoHYIJ4SF/P+dVcP8n47VYh5wG/1Abs=;
-        b=uEoy4IBzhuOOcFJKEJB5oY7lk/BEarXflY7iQpbDOG8T4nnrFchMkrmyfA7cV0Wkl3
-         UcoCZLUZs6oSmHWQ7Dw9rK5NmrjPe/4VzjUSHTcz6umGw+e6+q/4jj5tKg/x6pXMYfvO
-         FceKW/m7R67O6avLBzS761jrAvp+ZwkgFkyAtl0d7uUdjroKoTMz8s6vqLOQddMUZ5fa
-         7HirufBVRee+mkBaS8rGTQPJsaZ+0qi+subfYziDZGaT7XepXnL9VtLl1O3ECNriwEV+
-         5tTonx3E7+A5a6koR4++isCwgrGVWMLN4L/TnN1Epfmk2gO5hYKlXV2kq5PX6OXj0ZJn
-         aTAA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789871658; x=1790476458;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LkCkftG+yeHdNoHYIJ4SF/P+dVcP8n47VYh5wG/1Abs=;
-        b=V22sNFRRZsbG5X1P2Jl+1OqrMz6j4JEc7tX0qWldNFfESKqI3oxxDFFEz+mOg+aN8f
-         Y5ngs9dxY5uReabhHN8RjGy6Q24mcU91DAiUk4Byw9yHqfag/hLH0K8u0XpLQn1aobtB
-         kIBHQ+w58V+FSxOjw0xdGI97HbsHxdHeBsZTm/xPtyHyN+cxE2YntgyC6mQL1yggRKOp
-         Sw/J+MTmD2eis58PrqjevciyFBMJFaZFloLhDycyMlJWgyfNfbDhyA8iD92hTWxpsiH2
-         1PIXyZE7oLpeeVHv48nmR9aa3pVgw1nEFSbbsO8/2Nw0vNFNIrhufTSgWV2iF2vlBquA
-         OffA==
-X-Forwarded-Encrypted: i=1; AKwUvByQy8jb4eLRNuSoAx/lJarsiX369CVMUghAWt2HjeZzhQKknUim2Nn8RUE0WvRd6ShC3yU+MkOwIo8=@vger.kernel.org
-X-Gm-Message-State: AFuF++k5ffUM2/tDQ0M4/F2IcgVvNEeS4v2ZW2KyEAbG0vslPxxTW2FJ
-	Bi+UmglkwdT07YFEQpYYTzU86n5g8sDLsLlMgCnsJ1604gBnsdbx1Dz/bMir+tFYMw==
-X-Gm-Gg: AYBFou0Xy3RaE83bDgC/813WHFkegNlaWWXsXxdtuC+E7teFnxLzWVhq/p0HV73rnJW
-	WwLUaM9OqcuWA+MltBsUekPzi7paSbSVM299X3d/la8djFNsZ5cGaYb1TCpGO2ezl9qmO3po76r
-	mq/rk6qV7h6sIoTYvIzl5HmzEK6CxIofLcFiIKPbEkC+7uL7dpUj245kGfcDqJ9GBgB3ymElcTA
-	wAB27RELuVrqFu7OFOigVHQsaTTbszUiuZgHsHbshhk/p40B2mamfRvyxtIwW3l21MpdGgRM6yc
-	wDozVtS7AQAyKxXevVCO/7evQ6JOlooH4DrnTjNGceElowkGykyPw/n1Avbw8PvL4W8rK4b4F/6
-	hgDqa0Vfbovey0GT6CB8P481ExcaY+czdMmoAwnEbMPq8xL9OywO8Djkpjgsc3MfTQFqeXtsLva
-	2306KhXlB3utc/H6vfSYC3TGN94mkTROJUTAVyG6tVIMaunSG13kwf+wAQRngYtnALAO2AzaCg
-X-Received: by 2002:a05:620a:43a7:b0:939:6de6:9516 with SMTP id af79cd13be357-93bf571799cmr418996885a.45.1789871658556;
-        Sat, 19 Sep 2026 19:34:18 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93bedaef96csm316488585a.29.2026.09.19.19.34.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 19:34:18 -0700 (PDT)
-Date: Sat, 19 Sep 2026 22:34:15 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Jiayi Li <lijiayi@kylinos.cn>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH] usb: uas: quiesce SCSI before stopping endpoints on
- driver unbind
-Message-ID: <98374a38-eb18-44c7-8da4-d5e34944e72f@rowland.harvard.edu>
-References: <20260920012358.3362053-1-lijiayi@kylinos.cn>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AcM5cX1G"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=4s
+	GBVsc5BIiE3XRWisrdYb25o2CkpkldUArEINlZz4s=; b=AcM5cX1G2hJCYm+MbE
+	iBWoImdxB+Imdpz0jX2agchgGoVROeP9OiSKaC+kWXP4iUae1A0kfAOuK6Gt64oz
+	OfMiigxDCkBN82uV2UEnMsNizxDHzyBE1gRCtFOWc/L/I6KmjdrfBeQh6gyTE64U
+	2HDmDktV+blj9Fplk/qhcka5U=
+Received: from debian.lenovo.com (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD33aGZSq9qsaQrBg--.118S3;
+	Sun, 20 Sep 2026 10:53:21 +0800 (CST)
+From: Kean Ren <rh_king@163.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Griffin Kroah-Hartman <griffin@kroah.com>,
+	Kuen-Han Tsai <khtsai@google.com>,
+	Kees Cook <kees@kernel.org>,
+	Nikhil Solanke <nikhilsolanke5@gmail.com>,
+	Thorsten Blum <blum@kernel.org>,
+	Kean Ren <rh_king@163.com>
+Subject: [PATCH 1/2] usb: core: hub: recognise two-lane SuperSpeed sublinks as Gen 1x2
+Date: Sun, 20 Sep 2026 10:52:42 +0800
+Message-ID: <20260920025308.2358862-2-rh_king@163.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260920025308.2358862-1-rh_king@163.com>
+References: <20260920025308.2358862-1-rh_king@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260920012358.3362053-1-lijiayi@kylinos.cn>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD33aGZSq9qsaQrBg--.118S3
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw47XryxuFW5Kw1kCrW7urg_yoW8Kw4Dp3
+	W5ZF93WFykGrW7Xr1fAayDJF4Y9F4SyFy09FyIq34kA34UJas8CFyUAry7KryxZFW3XFW0
+	qFy7KFZ8GF9rX37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pii0ePUUUUU=
+X-CM-SenderInfo: 5ukbyxlqj6il2tof0z/xtbC4AFB72qvSqFyqAAA37
 
-On Sun, Sep 20, 2026 at 09:23:58AM +0800, Jiayi Li wrote:
-> What this patch does:
-> 
->   - set soft_unbind so endpoints remain available during driver-only
->     unbind;
->   - cancel pending scanning before removing the SCSI host;
->   - for driver-only unbind, remove the SCSI host before setting resetting,
->     killing the anchored URBs and freeing streams;
->   - for physical disconnect, retain the existing kill-first order because
->     the endpoints are no longer usable.
-> 
-> This follows the broad ordering used by usb-storage, which sets
-> soft_unbind and removes its SCSI host before releasing transport
-> resources.
+get_port_ssp_rate() rejects every matching sublink speed attribute whose
+link protocol (LP) is not SuperSpeedPlus by jumping to the "unknown"
+exit before it looks at the number of active lanes.
 
-> Open questions for RFC discussion:
-> 
-> The change above fixes the reproduced failure, but it is not clear whether
-> this is the best way to handle driver-only unbind in uas.
-> 
->   1. Is enabling soft_unbind and moving scsi_remove_host() ahead of URB
->      teardown acceptable for driver-only unbind?
+USB 3.2 Gen 1x2 runs two SuperSpeed (Gen 1) lanes, so the matching
+sublink entry advertises LP = SuperSpeed while two lanes are in use.
+The current code therefore returns USB_SSP_GEN_UNKNOWN for such a link
+and the USB core falls back to USB_SPEED_SUPER, reporting 5000 Mbps.
 
-Not speaking for the uas maintainers, I should think it is both 
-acceptable and necessary for any USB mass-storage driver.
+Handle the two-lane cases before rejecting non-SuperSpeedPlus entries:
 
->   2. Is there a more appropriate way to quiesce SCSI commands and UAS
->      streams before endpoint teardown?
+  >= 10 Gbps per lane and 2 lanes -> USB_SSP_GEN_2x2
+  >=  5 Gbps per lane and 2 lanes -> USB_SSP_GEN_1x2
 
-Not that I know of.  If you don't tell it to remove the host, the SCSI 
-subsystem will simply continue to try sending commands to the driver.
+so that a genuine Gen 1x2 link is reported as 10000 Mbps instead of
+5000 Mbps.
 
->   3. If this ordering is acceptable, does the driver-only unbind path need
->      a bounded fallback when scsi_remove_host() encounters a nonresponsive
->      device or ongoing SCSI error handling?
+Signed-off-by: Kean Ren <rh_king@163.com>
+---
+ drivers/usb/core/hub.c | 30 ++++++++++++++++++++----------
+ 1 file changed, 20 insertions(+), 10 deletions(-)
 
-In general, a class driver like uas shouldn't care whether an unbind is 
-what you call "driver-only".  It should take the same steps whether it 
-can communicate with the device or not.  (Note that the patch's test for 
-USB_STATE_NOTATTACHED isn't fully reliable -- there is a window after a 
-device is unplugged before the state gets updated.)
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index 3345b3298daf..50f14dd6a41f 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -2866,10 +2866,6 @@ static enum usb_ssp_rate get_port_ssp_rate(struct usb_device *hdev,
+ 			    type == USB_SSP_SUBLINK_SPEED_ST_ASYM_TX)
+ 				goto out;
+ 
+-			if (FIELD_GET(USB_SSP_SUBLINK_SPEED_LP, attr) !=
+-			    USB_SSP_SUBLINK_SPEED_LP_SSP)
+-				goto out;
+-
+ 			lse = FIELD_GET(USB_SSP_SUBLINK_SPEED_LSE, attr);
+ 			mantissa = FIELD_GET(USB_SSP_SUBLINK_SPEED_LSM, attr);
+ 
+@@ -2877,14 +2873,28 @@ static enum usb_ssp_rate get_port_ssp_rate(struct usb_device *hdev,
+ 			for (; lse < USB_SSP_SUBLINK_SPEED_LSE_GBPS; lse++)
+ 				mantissa /= 1000;
+ 
+-			if (mantissa >= 10 && lanes == 1)
+-				return USB_SSP_GEN_2x1;
++			/*
++			 * Two active lanes mean USB 3.2 dual-lane operation.
++			 * A Gen 1x2 link uses SuperSpeed (Gen 1) signalling on
++			 * both lanes, so its sublink entry advertises the
++			 * SuperSpeed link protocol rather than SuperSpeedPlus.
++			 * Handle the two-lane cases before rejecting entries
++			 * that do not advertise SuperSpeedPlus.
++			 */
++			if (lanes == 2) {
++				if (mantissa >= 10)
++					return USB_SSP_GEN_2x2;
++				if (mantissa >= 5)
++					return USB_SSP_GEN_1x2;
++				goto out;
++			}
+ 
+-			if (mantissa >= 10 && lanes == 2)
+-				return USB_SSP_GEN_2x2;
++			if (FIELD_GET(USB_SSP_SUBLINK_SPEED_LP, attr) !=
++			    USB_SSP_SUBLINK_SPEED_LP_SSP)
++				goto out;
+ 
+-			if (mantissa >= 5 && lanes == 2)
+-				return USB_SSP_GEN_1x2;
++			if (mantissa >= 10)
++				return USB_SSP_GEN_2x1;
+ 
+ 			goto out;
+ 		}
 
-But to answer your question: No.  Rely on the SCSI subsystem to handle 
-its own host removal properly.  If, in your opinion, it's not doing a 
-good job then you can submit patches to the SCSI maintainers to improve 
-the situation.
-
-Alan Stern
