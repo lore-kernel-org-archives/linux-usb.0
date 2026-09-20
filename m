@@ -1,112 +1,119 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E29F4756BB
-	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 21:31:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA823E315C
+	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 21:35:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789939876; cv=none; b=jen62zIML0zlsFH4DG1g7BJc/Lgo3SeeUQ6GR6H3Rb92y+W76wdTOGCcsibGXFEbZyyJU79Gw0WcZ19X9VnkbWANSEuyG7lPTj7mtnoQPE99qqqWGaBiU9gcRde9Dx2xwr5nYr6JIj2V1fcY4OfSqtx8PLGUk5xnmT1t+JRzNPs=
+	t=1789940146; cv=none; b=Y+aZlyFzooJPz7AUb922m4i7ZW3ra1XAgWD/yGJ/iLVLEaYB0nxI0plrFVMBFXb9hr9WaDvWvp77HHPKymeoTDpEo04QMfTUwSlrT6WDm4rWJx73QMf08SRsfht5wWDYcVNZksghRVCjPzRFY06okV1ONlVWkOSqysutXER8JSI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789939876; c=relaxed/simple;
-	bh=k5llA7pmOSBPbMKZGSq3pCo9LcSxO2kYJ33h106sOfM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ic6p3ufkqfFXA09C+tifWyl2mWywEXoyipI1MAK0vILt0Rh9hN+UjhOIdFPwIzSNkiSf7W3TJYVSb6+V+Zj3L9482OlPIMmP6+KYGa3F40c5bVzU0x/qJOYqYXFvvXag5pbAywUIBd02j/BViCOWk9knoFAG/bdtJcnv+B96ZUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FdBdrafv; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1789940146; c=relaxed/simple;
+	bh=NmYkQwpyv9xYmpT90KtYQuxrRy83CVU3AlbHJGagHFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=A/AnIxBIXUfvEGkAtorx/mkAajP5DFI0c2E69/P7fiv/aP2F450fUDO7DjGefCx0WWSG7m/pP+VJ77HCgeYHvJscghlJ0cVvcjNZYuFTKy94OHktGAsbI1TpeUYeBUMXbO5ahjDif0OKcIvMJH3VD67Cshx3Q4pv/Vuh1tQINRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=apir4WUG; arc=none smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FdBdrafv"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb767d286so23187661cf.2
-        for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 14:31:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="apir4WUG"
+Received: by mail-qk2-f13.google.com with SMTP id af79cd13be357-93a222edc62so263910785a.0
+        for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 14:35:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789939867; x=1790544667; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=k5llA7pmOSBPbMKZGSq3pCo9LcSxO2kYJ33h106sOfM=;
-        b=FdBdrafv+bDVQr7goSmvCgU+Zzd9S3beNabGhFwz4zD8eAjVnAwUnFvXbnXApA4kr7
-         o9eSm35poFkxOEXLWCDBLsq4Gc3+ZHppWgYJLvI9XvD22qp3OpRLP5xxn1CupNX8ETD4
-         +X1Ix5MSKg5Dj2RU8XsHiH/jBQiqdAb2N1YLEnE8aBBps5SrwYppgIOYhW9XUXe422Vd
-         pixaySUcK2wu+asD80loUbRZAR8yXkHFlTaox3EAYSWCP3x8hC7IDnHQGAlRiyy/MBf7
-         Nud6H5Jcmj8wd/VJat3j9fyffSfmbyuiGlaQk6X0qLGm5xz3s8IdH+90ZoozzJC+eE+z
-         gAUQ==
+        d=rowland.harvard.edu; s=google; t=1789940142; x=1790544942; darn=vger.kernel.org;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=OFQ/Zh1XZQzUecfFe+TiXr+vLwCYLXiZxff3Rdqx/7w=;
+        b=apir4WUGzYhuNG/IDxGaRH0ziqm7dkUDGQDGpe843YE/ksPj0JoMqR1E8YGqIHuz5q
+         0qTOonRnztCrMUjM9qiIlv7gQYJI1SdCSq51DZqKvgc6ytvjsHcFGf+0SiKUU/6iVHPn
+         rfTFe2CHTzQcAkIQiqcVOdjfQ42J2auOTZsilfiBzeEaFZ/Jj5lLguTeQ2JRS5UP9yIi
+         /mAkQjCC1K0enjDcaAW6bauZ5oPAI7ZtgDqIq96g4eWIqBvHGemCGfpVGZddTsw/n4Rb
+         AjlZzy8ZYW2940ZwxJJuphGjyWu4srho9SfPaLDbujF982KhSkDiyjyaZ6miDk+aMrwd
+         +MSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789939867; x=1790544667;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1789940142; x=1790544942;
+        h=content-disposition:content-type:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=k5llA7pmOSBPbMKZGSq3pCo9LcSxO2kYJ33h106sOfM=;
-        b=NQmc+OA4nihc265MwCrqC+QA8D9cUUVN6i5N3ZdFn+KSmkqiGXspTpsy93F+UfbXe2
-         dtwvT20fsa4BIrsMVHEEmpgz3CoXTBLZuc/cIuvjzJ+TBfKxibQd1bdnH2KEXzqo2pCd
-         gTqUS6o7saLz0FvYlrHY7xAv2GuITwGnettYcMuOnSHMX8Zs/f06xkZnKLjWwoA4F2ZK
-         2BHPl8tWJZYQYuP8luehcpf+dIt1NMTl2Jeu0zMNxJ66UnYi6LiFhqSK/C35HwMAcRXU
-         90PtyrxcSHJ6MZ5Udo3PuFy9laDivae+eoNmfx9BhMwZslx1jNSMsYcZjf7WVKi3Vgah
-         HdFA==
-X-Forwarded-Encrypted: i=1; AKwUvBzwZA6phHbYJpO5hW2ozH2hFm5xw6esxX+C6ixh1BHDA6Qm+eDbND9ZLBIhxi8h7EAigoREaZLGSqU=@vger.kernel.org
-X-Gm-Message-State: AFuF++nl2Nh7LOEqwyHZj3+LDZvhOXOc45Hj1jt9vmawK36ziAAzP7Fa
-	HzilYh6ulZ5ByHtWC915t4Dq859ANz2JjFmEflMCFJ97PsdM3uSGVJPI
-X-Gm-Gg: AYBFou33FrI8wsAD3S+ZpXfF1vBtU7QOs5OdGgW+O1vBWH2cQEjk9KUnyRVKYAsp8Wf
-	kKbYqfkUb+s4caGCTz1A0k222VePj6T8yK/ehSWzx7NreT+4LPqbdB8tIDaBmo3cnlm4FkTiU/Z
-	9A9f1hBITbRhONIGdCXIDT9hASS+WEbXK4FM7tyZ7Ck0Yqjvc/tVVW0go9Ow8hQBDYhowDcR4WN
-	NN0sCWbA7s3QtZJYXA394Y418bS7fyVrGMXEgt47CtV5V5ZpDv2SwW/a/KcMgeaYA/SlaPM95Ar
-	dgAODUgwYdrFrfPywJ6TFIsSY4mVotKJuQIhPazTRg1JK47s3f3MDxxSfrQN4TLfCMg0WndGA4+
-	3gaHG42cmV6ylqYlps2l8jjdb4+NL6/SsrKDWoKt1IhCkOXSUGR6rq43vA9OynHoGs5Av6h9F4D
-	MA1XPlcDQuSsS7DQ9RwQoB5KGd1MQ6RFNPMgisf+CYX5kFb5ZUvSxhlsTfIMQfkXPlzn0OFZhpG
-	sWYqbg9canJAuCY5gy6W49PxvYx7qugz33WBrINpnzIlzhJ
-X-Received: by 2002:a05:622a:110f:b0:52f:ae70:5e1e with SMTP id d75a77b69052e-532b71da678mr75696031cf.22.1789939866681;
-        Sun, 20 Sep 2026 14:31:06 -0700 (PDT)
-Received: from mango-teamkim.. ([129.170.196.227])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532ae7737f3sm48503221cf.28.2026.09.20.14.31.05
+        bh=OFQ/Zh1XZQzUecfFe+TiXr+vLwCYLXiZxff3Rdqx/7w=;
+        b=AqbQsXHg/NILiTiZVjQzBooZSzJVTqNteRmBOVNrWyW7ThxRQmMORdtxs1iumPQR2+
+         9OpuWn06wgaE1vil+oavnauKIe6weMo2VdLN4e90Yfw2fZLQC7KISMe+x64EPOJ88R7q
+         UPvftbFo/LCV9SSw6ZkcJPgntqnOSIFtkbi793ZD6E/J8iAJB6kACrk4dj4G9eRvW063
+         OH9ri74w65/IYV1lggUVa/AH/1bFdKdm/G8ai2bjQe4detLoxBrPG8h6IRAra1lpu934
+         1bGTgyqjCXrUleFHYaODAhH7hGdNvEB+eKuVD5e0TVlBJW8jIkfrw7MjnIa55E8GF7Ev
+         4H8g==
+X-Forwarded-Encrypted: i=1; AKwUvBzU8hOPnKXgNACalvnpxgd3l+B9D3wzviMfjYs3tyW5wjpJdkYKUBgk5XgkORjr1mtH6nIrHLuaIAs=@vger.kernel.org
+X-Gm-Message-State: AFuF++kfkaIV+y0kGbu4kuGb+gngE26/htFx1C9RXBmR8ijri+CKDD4F
+	/KBhhUX9npgZYrUdt8jLgxP71pVpzxSSDx3swxT6kvHxeeNeu4Ui4cVFhVTpsf28OZwjR5t58d4
+	7EbVUeg==
+X-Gm-Gg: AYBFou0Ifni8/309JBPFRs68fqyzR2nqbmVYjP+jYbvFNEs6j8zD5ulceIc6DOzVkIw
+	f+i1BmiXOGLF9ZenPkk/XV6oTeHc12MWaMm60RBwBho/k0qmrXfReQppxUvciRPQvftuBBrt5C3
+	r5n3bOEexpETCuxbR5uo/YvRz/2fJmdEMIRZha/cZDi1xmEB1X83Q3tQNX+tMo1Fiyrlm1vRzP3
+	Q7pbGPVaxS+lHCR/TKm6xgUePErVdBPI4/oGmeN8gICdsunvVZZCX6+AxxJ6xIGEIwc0v8cdUbR
+	yFnFn/Uvy/kYBKlFI1JcsIzYgWFLfVUdLvkf/IQNz4ENfGjlOA29Wjf6e74M1GaCkdcK9et2yQB
+	1DRgBTNEmoUkQRO0jBtTa1Lb3EjoisTycfnXbBXU8IO2xp+kQNgZKdQHHnuUk1k7da900l82uEa
+	2uapDO/sYgsSbDKnvxAPg2B/7nNsPRoMZyWI0nejEVG5wzb9AkbYW9ZrD9e4L+oNI8P4uhA8i5
+X-Received: by 2002:a05:620a:414a:b0:93a:1048:7d2e with SMTP id af79cd13be357-93bf5719c6bmr757829185a.44.1789940141795;
+        Sun, 20 Sep 2026 14:35:41 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93beda72290sm485272585a.8.2026.09.20.14.35.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 14:31:06 -0700 (PDT)
-From: Seungjin Bae <eeodqql09@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Guenter Roeck <linux@roeck-us.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Li Jun <jun.li@nxp.com>,
-	Seungjin Bae <eeodqql09@gmail.com>,
-	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: usb: typec: tcpm: type-mismatched PDO handling in tcpm_pd_build_request()
-Date: Sun, 20 Sep 2026 17:29:35 -0400
-Message-ID: <20260920212934.392398-2-eeodqql09@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        Sun, 20 Sep 2026 14:35:40 -0700 (PDT)
+Date: Sun, 20 Sep 2026 17:35:38 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Minseo Kim <neck3922@gmail.com>,
+	USB mailing list <linux-usb@vger.kernel.org>
+Subject: [PATCH] USB: gadget: core: Improve documentation for usb_ep_disable()
+Message-ID: <d9f56a9c-2c94-4002-b674-53ba7e5ad5b2@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi,
+The kerneldoc for usb_ep_disable() in drivers/usb/gadget/udc/core.c
+starts with a confusing (and probably meaningless) sentence, and it
+fails to mention that the routine can return before all the completion
+handlers for previously completed requests on the endpoint have
+finished.  Also, the summary line doesn't say what the routine
+actually does, and the text doesn't use proper capitalization.
 
-I found that tcpm_pd_select_pdo() can match a source and sink PDO of
-different types. Before sending a fix, I would like to ask whether
-this type-mixed match is intended, and if not, whether you would
-prefer a same-type check in tcpm_pd_select_pdo() or explicit type
-handling in tcpm_pd_build_request().
+Update the documentation to ameliorate these flaws.  No code changes.
 
-The tcpm_pd_select_pdo() function matches a source PDO against a sink
-PDO using their voltage ranges only, without checking that the two
-PDOs are of the same type. A source PDO and a sink PDO of different
-types (e.g. a Battery source PDO and a Fixed sink PDO) can therefore
-be matched as long as their voltage ranges overlap.
+Reported-by: Minseo Kim <neck3922@gmail.com>
+Link: https://lore.kernel.org/linux-usb/fb56064c-6481-44b3-88e5-8e5ff7b85703@rowland.harvard.edu/
+Link: https://lore.kernel.org/linux-usb/0b6b13ff-789e-4ba4-9765-1052a154ef27@rowland.harvard.edu/
+Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
 
-tcpm_pd_build_request() then combines the matched pair with
-min_power()/min_current(), which apply the same accessor to both
-operands. pdo_max_current() and pdo_max_power() decode the same bits
-(9:0) of the PDO but scale them differently (x10 mA vs x250 mW), so
-when the matched types differ, the sink operand is decoded with the
-wrong accessor. This misreads the sink's capability and weakens the
-min() bound intended to cap the request to the sink's limit.
+---
 
-This type-mixed match became possible after commit 53fe0de9a35d
-("usb: typec: tcpm: pdo matching optimization") relaxed the match to
-voltage range only; the min_power()/min_current() macros still assume
-a matched pair shares the same type.
+ drivers/usb/gadget/udc/core.c |    9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-I have not observed this on real hardware; I found it by static
-analysis.
-
-Thanks,
-Seungjin Bae
+Index: usb-devel/drivers/usb/gadget/udc/core.c
+===================================================================
+--- usb-devel.orig/drivers/usb/gadget/udc/core.c
++++ usb-devel/drivers/usb/gadget/udc/core.c
+@@ -142,13 +142,14 @@ out:
+ EXPORT_SYMBOL_GPL(usb_ep_enable);
+ 
+ /**
+- * usb_ep_disable - endpoint is no longer usable
++ * usb_ep_disable - unconfigure an endpoint, making it no longer usable
+  * @ep:the endpoint being unconfigured.  may not be the endpoint named "ep0".
+  *
+- * no other task may be using this endpoint when this is called.
+- * any pending and uncompleted requests will complete with status
++ * Any pending and uncompleted requests will complete with status
+  * indicating disconnect (-ESHUTDOWN) before this call returns.
+- * gadget drivers must call usb_ep_enable() again before queueing
++ * (However, this call will not wait for requests whose completion
++ * handlers have already started running but not yet returned.)
++ * Gadget drivers must call usb_ep_enable() again before queuing
+  * requests to the endpoint.
+  *
+  * This routine may be called in an atomic (interrupt) context.
