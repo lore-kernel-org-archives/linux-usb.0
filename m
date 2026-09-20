@@ -1,218 +1,130 @@
-Received: from mail-yx2-f42.google.com (mail-yx2-f42.google.com [74.125.224.170])
+Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC7D3803F2
-	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 02:27:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789871258; cv=pass; b=kaq9UwEzaZ/5X3MsknI9uf0AUHKtgen2ZuB+c6jcXc+28a5iqe9BThuLT9g1+nTRuk0yk2JGhr2R/6391KhD+XWZRCAUPzxGGh0GfBT3VstqOyyClV0AC1gPj2By6IPFDVlkdimmfoHxhy27CocOjEU9gzHuBj5+Kz6WIBqz5FA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789871258; c=relaxed/simple;
-	bh=JmsxqgERBIPiXTcKFmSyaxBfMOkZp3IFKvwnMLLzO10=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=RH+PttNDcBBgjpSQUwopFFT+ZntCeiWlpFQ7qz/6PvqYKfdOiwVTzIE67CqBPk6ha42zScbC8l6coC/nCNGM8SP9xZDuO6lMAIhkt+b6vAbR/gSAbECDZYoYGZwg6yluXwLCE8uJsMN4ij4l6NYeBJ1ylZXOsjt8XJBC+sy9838=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EBYQb3vV; arc=pass smtp.client-ip=74.125.224.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBDA3AA1A9
+	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 02:34:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1789871661; cv=none; b=hXOCJxnXH9kUI7AmsJ+v5RDiQT4p196YSfVOb1/ESuYDnlVewlOiyFZ8w0F0aIFjHS3aZs5JdYNsU0PTGskHeK1k8aaRfOZq4FllyP+H+GBWLSCD2y23XWgBAUepS/n2D4+/+ZdHHbbT/qc1uzgJwTeFp/Tve2r0RAB9G86XQ70=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1789871661; c=relaxed/simple;
+	bh=Fzgv+nvZ+4+OGBtA0LANbeAB7bkAOU+2uKJwOc/JXL0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VyxlLOAM7rqjNgUgDDwM7d85FbDNcPQreEyfAdK+bDQAYy32q4ypAP5CCSmRvDvfOxdP9GmNrT0qFpx6jDYWfwsRfub7dysh8BJxpLHFgA2NXsn8tsZ6HcvB/2gQaKEoqneDBMZHtEAke7X9QyS4gzFWZ4ar/CBw7x+E7si44m4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=uEoy4IBz; arc=none smtp.client-ip=74.125.230.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EBYQb3vV"
-Received: by mail-yx2-f42.google.com with SMTP id 00721157ae682-8961cca9193so23510827b3.3
-        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 19:27:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789871255; cv=none;
-        d=google.com; s=arc-20260327;
-        b=rscx0o1q+T5PIlyxJFbLLwdvjOQmW+7HlZZ4ljVPJnKOV+j4hYW3ieodYtX600jWEQ
-         cwtqZFOYWxGRM3nPgnkUpQWP9gq/BNAaQhorw18x/lNn/lC9DHBJb/9jFd30Hize6zD5
-         p2F3dwXbqRhspGcznaij0TlfQyOIk2Ddh+CPSDb1ZOBKBWSS+oA9eNr7p0fMmIc3hYbl
-         flveuyS31Wdj2cZRANUQAToR5oRzKr9gBBK4xjMtsU7IrowVnnjfZKX5cLhVT8tQl3UY
-         zzNWZnb/VPoquk+3hYIrK9rEMrGvbCnG+iSJ95DDqNvMa9ki6kcP1soqnCguxRBnDVZr
-         CtkA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=0Gt6NyAh55EAxMHMq6eoFxjUVSj+2cyHI/JsZGgQ8Lc=;
-        fh=1WS9/1j1s0+EjLgl96l0aSF2fs+BvgGqKobOkvvxSSg=;
-        b=PnZD6zB00yg3zzYDs6yK9xUeFvV3TvX2CsMjsBnbqReJCyUjjhmU61j7MWTY7cgRwG
-         AlKprcQ3NiZhCF4M1PMX0OZRDmbG3LF+5v0wIdZy9yQKbVBn5JytF8UpmIX3rn2yPob0
-         sNKlfAElxTea0xo0FRqJgqFeG4z03SYdFQBXwerrZnlMfnDmFB8oC4HWwznSmoym9Bl6
-         wS/btV2EpzQKJjjEvUCEbqjopIyWWNALnI3DSbkpNttVliETG8y5x8HN9vxEoMnV9hFy
-         QXJ/ecpJbiddpOGl2smGFuNCVQiV0cak4qiCKlzO7d72dBcteRTO9L4cpQbzkD9rp9ex
-         Rf6A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="uEoy4IBz"
+Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-912408b2b2dso18927236d6.2
+        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 19:34:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789871255; x=1790476055; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0Gt6NyAh55EAxMHMq6eoFxjUVSj+2cyHI/JsZGgQ8Lc=;
-        b=EBYQb3vVIzmuQeOD/l9NkipjsgDg2Gkq8baXkzjHHnACjcKZo1D6wsq6hOItWmtNqR
-         G3eGXGKEi1Wc2HXAZ1kODu8PW8I54anJpvSMHOuRktPSaXPH0WuwOF70Jby1We970f8B
-         WbdBy7r69vA8VVrqFa350CEBUSc/fkLWMBt7viKqg2pLU7kM8Z0Izh2u5yS3R++dUAaG
-         Qzv6hNV55qI3McF3DB9gLJDNttJsnOYG/NgEfEMMus15756DgVyPHGw2aL4CKmaNovr9
-         /vRRfiYDKp1CXkaDdE9eDcKLXqQV+VFyxB3Uw/YQ2TLlJB6k5c2KDkX7et0CgrduMfIE
-         Hgig==
+        d=rowland.harvard.edu; s=google; t=1789871658; x=1790476458; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LkCkftG+yeHdNoHYIJ4SF/P+dVcP8n47VYh5wG/1Abs=;
+        b=uEoy4IBzhuOOcFJKEJB5oY7lk/BEarXflY7iQpbDOG8T4nnrFchMkrmyfA7cV0Wkl3
+         UcoCZLUZs6oSmHWQ7Dw9rK5NmrjPe/4VzjUSHTcz6umGw+e6+q/4jj5tKg/x6pXMYfvO
+         FceKW/m7R67O6avLBzS761jrAvp+ZwkgFkyAtl0d7uUdjroKoTMz8s6vqLOQddMUZ5fa
+         7HirufBVRee+mkBaS8rGTQPJsaZ+0qi+subfYziDZGaT7XepXnL9VtLl1O3ECNriwEV+
+         5tTonx3E7+A5a6koR4++isCwgrGVWMLN4L/TnN1Epfmk2gO5hYKlXV2kq5PX6OXj0ZJn
+         aTAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789871255; x=1790476055;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=0Gt6NyAh55EAxMHMq6eoFxjUVSj+2cyHI/JsZGgQ8Lc=;
-        b=GvbtqnunJnumCHPahLu+YaosR4UqpJ+GIZYi/y/BI9/G9pyvLViEOICYNMOjztWOOP
-         RYesR1O5eWbc24wNZru6pXmB2fIaCviAuP+1ZM6L98lCy46vfTGW/jT+okmG2X6hoR1f
-         Hn7DA82iTEorA8kNSyCU6DLCT++Xl5vMsrrvfcJJ2pdRSd0dmTv4BYdYYWT7FAxoq5wS
-         Vv7YkWCOkAvhJZP6jdNaZcwj3swmxRnGiOhG94wid73yjOOImCIRevJ31eJ1epML7n/C
-         zXjI83GPSSWXoRjNecupcgMnuK3PmuSQIrkROxeP/b8s1hcK12lSCp7paNiqD7gcTIO+
-         oDkw==
-X-Gm-Message-State: AFuF++n1xgwxvKn+RxSgBjidL3sMr6XP95X93Q0yneLH28IBjRjRSO+u
-	6P+EujVLA05+iHeyXqnQMvi5d95hP1aQtbKd8kcFN57fEKimEl94ymSgf/mE8jdfi3JFNn1sXUD
-	+egJoYAfcmYnKstcGv1hdQkq3DbFyTXkQ5Q==
-X-Gm-Gg: AYBFou1+IVJoineMiskNtndp2yyX/ULFe06EeZlzzc7m6bbYrJoMrCTd2vMr6dyHMzs
-	GphDw3W6W/8WhQO79+rGpdRe9CdqHtesYNs7xO4enF20H4X6H55A8VTdcEUNkLe+2RP5D2fa+tD
-	9vWl8YtFjZpgnwKwgwLRIFcpCnh0HYuIK6MJnWne/R7365JjI13IFJuXCduJrmuamO78eb0nBWE
-	eaE1SQUMtvtp4whLlxaPmL028E/vbfGGDBJaYJDWCaGmV2huFrDc3fFFtIET7DiGSn4J+CeXish
-	XIzaU/Ow6b9liZrhjjfEig08zy5B67/fyVEkfPASdaBMnr0E7SCDKuWS6tmO7hZa6xHaf28qSPr
-	4vTb22Xs=
-X-Received: by 2002:a05:690e:4399:b0:66f:7d56:cf77 with SMTP id
- 956f58d0204a3-6717fcdc0d9mr1244517d50.26.1789871255418; Sat, 19 Sep 2026
- 19:27:35 -0700 (PDT)
-Received: from 313336824172 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 19 Sep 2026 22:27:35 -0400
-Received: from 313336824172 named unknown by gmailapi.google.com with
- HTTPREST; Sat, 19 Sep 2026 22:27:35 -0400
+        d=1e100.net; s=20260707; t=1789871658; x=1790476458;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LkCkftG+yeHdNoHYIJ4SF/P+dVcP8n47VYh5wG/1Abs=;
+        b=V22sNFRRZsbG5X1P2Jl+1OqrMz6j4JEc7tX0qWldNFfESKqI3oxxDFFEz+mOg+aN8f
+         Y5ngs9dxY5uReabhHN8RjGy6Q24mcU91DAiUk4Byw9yHqfag/hLH0K8u0XpLQn1aobtB
+         kIBHQ+w58V+FSxOjw0xdGI97HbsHxdHeBsZTm/xPtyHyN+cxE2YntgyC6mQL1yggRKOp
+         Sw/J+MTmD2eis58PrqjevciyFBMJFaZFloLhDycyMlJWgyfNfbDhyA8iD92hTWxpsiH2
+         1PIXyZE7oLpeeVHv48nmR9aa3pVgw1nEFSbbsO8/2Nw0vNFNIrhufTSgWV2iF2vlBquA
+         OffA==
+X-Forwarded-Encrypted: i=1; AKwUvByQy8jb4eLRNuSoAx/lJarsiX369CVMUghAWt2HjeZzhQKknUim2Nn8RUE0WvRd6ShC3yU+MkOwIo8=@vger.kernel.org
+X-Gm-Message-State: AFuF++k5ffUM2/tDQ0M4/F2IcgVvNEeS4v2ZW2KyEAbG0vslPxxTW2FJ
+	Bi+UmglkwdT07YFEQpYYTzU86n5g8sDLsLlMgCnsJ1604gBnsdbx1Dz/bMir+tFYMw==
+X-Gm-Gg: AYBFou0Xy3RaE83bDgC/813WHFkegNlaWWXsXxdtuC+E7teFnxLzWVhq/p0HV73rnJW
+	WwLUaM9OqcuWA+MltBsUekPzi7paSbSVM299X3d/la8djFNsZ5cGaYb1TCpGO2ezl9qmO3po76r
+	mq/rk6qV7h6sIoTYvIzl5HmzEK6CxIofLcFiIKPbEkC+7uL7dpUj245kGfcDqJ9GBgB3ymElcTA
+	wAB27RELuVrqFu7OFOigVHQsaTTbszUiuZgHsHbshhk/p40B2mamfRvyxtIwW3l21MpdGgRM6yc
+	wDozVtS7AQAyKxXevVCO/7evQ6JOlooH4DrnTjNGceElowkGykyPw/n1Avbw8PvL4W8rK4b4F/6
+	hgDqa0Vfbovey0GT6CB8P481ExcaY+czdMmoAwnEbMPq8xL9OywO8Djkpjgsc3MfTQFqeXtsLva
+	2306KhXlB3utc/H6vfSYC3TGN94mkTROJUTAVyG6tVIMaunSG13kwf+wAQRngYtnALAO2AzaCg
+X-Received: by 2002:a05:620a:43a7:b0:939:6de6:9516 with SMTP id af79cd13be357-93bf571799cmr418996885a.45.1789871658556;
+        Sat, 19 Sep 2026 19:34:18 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93bedaef96csm316488585a.29.2026.09.19.19.34.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 19:34:18 -0700 (PDT)
+Date: Sat, 19 Sep 2026 22:34:15 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Jiayi Li <lijiayi@kylinos.cn>
+Cc: Oliver Neukum <oneukum@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH] usb: uas: quiesce SCSI before stopping endpoints on
+ driver unbind
+Message-ID: <98374a38-eb18-44c7-8da4-d5e34944e72f@rowland.harvard.edu>
+References: <20260920012358.3362053-1-lijiayi@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Bill Supples <william.supples@gmail.com>
-Date: Sat, 19 Sep 2026 22:27:35 -0400
-X-Gm-Features: AcwNN1WcNLmO6x7Mr3KU9rUdp-8wSNoGANUF_p4iTf9dDP4F2hQ5p6PVuv13YOg
-Message-ID: <CALstvAszkahhGkj0TxOmwBLsVvrjc_OnEoM+QY=-6YzMHAxrkg@mail.gmail.com>
-Subject: USB: HP SK-2025 (03f0:0d4a) fails to re-enumerate after S3; port
- power-cycle does not recover
-To: linux-usb@vger.kernel.org
-Cc: mathias.nyman@linux.intel.com, stern@rowland.harvard.edu, 
-	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260920012358.3362053-1-lijiayi@kylinos.cn>
 
-Hello USB folks,
+On Sun, Sep 20, 2026 at 09:23:58AM +0800, Jiayi Li wrote:
+> What this patch does:
+> 
+>   - set soft_unbind so endpoints remain available during driver-only
+>     unbind;
+>   - cancel pending scanning before removing the SCSI host;
+>   - for driver-only unbind, remove the SCSI host before setting resetting,
+>     killing the anchored URBs and freeing streams;
+>   - for physical disconnect, retain the existing kill-first order because
+>     the endpoints are no longer usable.
+> 
+> This follows the broad ordering used by usb-storage, which sets
+> soft_unbind and removes its SCSI host before releasing transport
+> resources.
 
-HP SK-2025 keyboard (03f0:0d4a, USB 1.1 low-speed HID) does not come
-back after ACPI S3 on an MSI PRO B650-P WIFI. The kernel disconnects
-it, attempts a port power-cycle, then logs "unable to enumerate USB
-device". A physical unplug (long VBUS drop) always recovers it.
+> Open questions for RFC discussion:
+> 
+> The change above fixes the reproduced failure, but it is not clear whether
+> this is the best way to handle driver-only unbind in uas.
+> 
+>   1. Is enabling soft_unbind and moving scsi_remove_host() ahead of URB
+>      teardown acceptable for driver-only unbind?
 
-This is not a single bad port. The same failure happens on three xHCI
-controllers on the same board. A Dell MS116 mouse (also USB 1.1 LS)
-on the chipset controller survives the same resume.
+Not speaking for the uas maintainers, I should think it is both 
+acceptable and necessary for any USB mass-storage driver.
 
-I am not reporting the chipset "xHC error in resume, USBSTS 0x401,
-Reinit" as the bug. That is the Promontory controller at 10:00.0
-(1022:43f7) reinitializing after a failed save/restore (see also
-bugzilla 216470). The mouse on that controller comes back. The two
-Raphael CPU xHCIs (1022:15b6 / 1022:15b7) never log 0x401 and still
-lose this keyboard.
+>   2. Is there a more appropriate way to quiesce SCSI commands and UAS
+>      streams before endpoint teardown?
 
-Hardware
-========
-Board:  MSI PRO B650-P WIFI (MS-7D78), BIOS 1.I0 (2025-03-12)
-CPU:    AMD Ryzen 7 7700X (Raphael)
-Kernel: 7.2.4-ogc3.1.fc44.x86_64 (Bazzite 44 / Fedora 44 based)
-Device: 03f0:0d4a HP SK-2025, bcdUSB 1.10, bcdDevice 2.07,
-        bmAttributes 0xa0 (bus-powered, remote-wakeup), MaxPower 100mA,
-        speed 1.5 Mbps, persist=1
+Not that I know of.  If you don't tell it to remove the host, the SCSI 
+subsystem will simply continue to try sending commands to the driver.
 
-USB controllers:
-  0000:10:00.0  1022:43f7  AMD 600-series / Promontory USB 3.2
-  0000:12:00.3  1022:15b6  Raphael USB 3.1 xHCI
-  0000:12:00.4  1022:15b7  Raphael USB 3.1 xHCI
-  0000:13:00.0  1022:15b8  Raphael USB 2.0 xHCI (no user ports)
+>   3. If this ordering is acceptable, does the driver-only unbind path need
+>      a bounded fallback when scsi_remove_host() encounters a nonresponsive
+>      device or ongoing SCSI error handling?
 
-Reproduced on
-=============
-1. Chipset Promontory, direct port usb 1-3
-2. Raphael 12:00.4, usb 5-2 (and usb 5-1)
-3. Raphael 12:00.3, usb 3-2  (current; rear USB 3.2 Gen2 Type-A)
+In general, a class driver like uas shouldn't care whether an unbind is 
+what you call "driver-only".  It should take the same steps whether it 
+can communicate with the device or not.  (Note that the patch's test for 
+USB_STATE_NOTATTACHED isn't fully reliable -- there is a window after a 
+device is unplugged before the state gets updated.)
 
-Also failed after a cold reboot with the cable left connected (device
-still wedged until unplug). So this is not only a suspend persist
-path; the MCU needs VBUS actually removed.
+But to answer your question: No.  Rely on the SCSI subsystem to handle 
+its own host removal properly.  If, in your opinion, it's not doing a 
+good job then you can submit patches to the SCSI maintainers to improve 
+the situation.
 
-S3 on Raphael 12:00.3 (usb 3-2), 2026-09-19
-===========================================
-PM: suspend entry (deep)
-ACPI: PM: Waking up from system sleep state S3
-xhci_hcd 0000:10:00.0: xHC error in resume, USBSTS 0x401, Reinit
-usb 3-2: USB disconnect, device number 13
-usb usb3-port2: attempt power cycle
-usb usb3-port2: unable to enumerate USB device
-
-(The 0x401 line is the *other* controller. usb3 is 12:00.3 and did
-not log a host error.)
-
-A userspace resume hook then wrote 1, slept 3s, wrote 0 to
-  /sys/bus/usb/devices/3-0:1.0/usb3-port2/disable
-That did not recover the device. After re-enable the kernel retried
-as the wrong speed:
-
-usb 3-2: new full-speed USB device number 18 using xhci_hcd
-usb usb3-port2: attempt power cycle
-usb usb3-port2: unable to enumerate USB device
-
-~90s later a physical unplug/replug enumerated it correctly as
-low-speed 03f0:0d4a.
-
-S3 on Raphael 12:00.4 (usb 5-2), no userspace hook
-=================================================
-PM: suspend entry (deep)
-ACPI: PM: Waking up from system sleep state S3
-usb 5-2: USB disconnect, device number 2
-usb usb5-port2: attempt power cycle
-usb usb5-port2: unable to enumerate USB device
-
-After the subsequent reboot, with the cable still connected:
-  usb usb5-port2: attempt power cycle
-  usb usb5-port2: unable to enumerate USB device
-Unplug/replug recovered it.
-
-S3 on Promontory 10:00.0 (usb 1-3)
-=================================
-xhci_hcd 0000:10:00.0: xHC error in resume, USBSTS 0x401, Reinit
-usb 1-3: USB disconnect
-usb 1-3: new full-speed USB device number 13 using xhci_hcd
-usb 1-3: device descriptor read/64, error -71
-usb usb1-port3: attempt power cycle
-usb 1-3: device not accepting address 15, error -71
-usb usb1-port3: unable to enumerate USB device
-
-~12s later physical replug:
-usb 1-3: new low-speed USB device number 17 using xhci_hcd
-usb 1-3: New USB device found, idVendor=03f0, idProduct=0d4a
-
-Note the kernel tries full-speed against a USB 1.1 LS device after
-the failed resume, then gives up.
-
-Why I do not think USB_QUIRK_RESET_RESUME is enough
-===================================================
-quirks.c already has USB_QUIRK_RESET_RESUME for other HP/Pixart HIDs
-(03f0:2b4a, several 093a:* mice) but not 03f0:0d4a.
-RESET_RESUME / DISCONNECT_SUSPEND help devices that stay logically
-attached. This keyboard remains dead after a reboot with VBUS left
-applied, and a 3s sysfs port/disable on the Raphael USB2 companion
-port also failed. That points at PP/VBUS not actually dropping on
-these AMD USB2 ports during hub_port power-cycle / port disable.
-
-Questions
-=========
-1. Does xHCI USB2 port power-cycle on AMD Promontory (1022:43f7) and
-   Raphael (1022:15b6/15b7) actually deassert VBUS?
-2. If yes: can the off-time be lengthened for this VID:PID (or for LS
-   devices that fail the first power-cycle)?
-3. If no: that is a host bug; a device quirk cannot fix it.
-
-I did not PCI-reset or unbind the xHCI function (too easy to leave a
-controller unbound on a desktop).
-
-Happy to gather more (full dmesg, lsusb -v, usbmon, dynamic debug)
-if useful.
-
-Thanks,
-Brian
+Alan Stern
