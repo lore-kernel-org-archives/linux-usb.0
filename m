@@ -1,70 +1,74 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7BA45C6E9
-	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 21:39:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 603F6364029
+	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 21:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789940398; cv=none; b=mowDSP61LIxJv0D9VPWPQ3+poDIpIIhzU2gExlgbDeuOYD8NibWLOP5F77Gi7rfOrGCroJFBdvJfll328pWgTNZMxfPLLJ/gOVUeRNsS/eU+gmBCC9ccfx5OAAN6WShMPE7Ny6jQB3wSKm96O6v0PlVpf91NU4C8riTfzabR3bE=
+	t=1789940518; cv=none; b=MEt7x9jJ5hIs3jdakJNolDKQcAoGWSjYk/GtSLfXCcUU9X8dXeHqfpn5sZE834xKRyc0GFWsX+QECtm+uxNdcVoE1aDzANKo2cvE5a4GfQnVqGQKlVnfxF/URhctJlgShQ8iZDeY8p/0o9OddGZxUua/EDWxcL4LF3qlkLK8TiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789940398; c=relaxed/simple;
-	bh=c74YBOZOkTUrjen6LA7t130fGfENork+jYRJ8jBxHE4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=BBMGexrK7NQAA/Pa9uFqEUBuL/l6Jl6dV5Rf56wh2PFAL5ESi+nXzxLGINmfAMcFu5C3KW3eHCQXtEvybJiH7KHciO7B6/fISKgtJFgLtHC30ph8eUTDfQN/FZAZa5HUZ8NxLnFGn7GDDhxAGmeRj73O6zAJzkW2a5s9TaagK10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=RTPzCbVy; arc=none smtp.client-ip=209.85.160.179
+	s=arc-20240116; t=1789940518; c=relaxed/simple;
+	bh=l17UvQuByLroM1p/TmzKhJVFbcPt1DNgaKRPU27Fpk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=skNzPalz1kwZ0hkEKUrgBhIp3m6BbVZzmlX35qM5LrS7drtNhndzSCKtkqLpQb4Jxv0L7vVbJ+0XsPHkECSwBiyYpQZYL8/qwOsKMQqDWtqn6ZMCqAH/SJn+2/yB2HPIQPtgUQBOYPJRZZ081vkUBML7HeL1xx92za3GXm7qgFQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=N4Mcog0Q; arc=none smtp.client-ip=74.125.230.205
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="RTPzCbVy"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-52f9fc510e1so28128371cf.0
-        for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 14:39:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="N4Mcog0Q"
+Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-52fb76906adso36459431cf.0
+        for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 14:41:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1789940390; x=1790545190; darn=vger.kernel.org;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=LcYHRgsoDb+s1L9J+goIeR+hfuePWxAsgJqRHGHu/Bc=;
-        b=RTPzCbVyBshwab8UUYXpLhb4aCBJxFcJ9IgoZ3MeKodMdFXIA0t/pBRykaFG5ZPUEa
-         Xk4W7wKbmI58piFQTQVMXdDfymYBw4W3gUtX+FyOMjTychb2gsaygyZ2WEOCZsdRYhVO
-         s9qKJzAbHUxh8Mpo9jbsmfcsSPhbS4p8BCWP4sg7qHqmtIs4uVsqq3ALHD56p5PrZTim
-         J2BFnL0PxIaTbkaT2Psud30VFqGwxBabyMpRlTG/i2yTNK8GLpNb6p2d+okiyN99wqQ/
-         Tk0ZE/1UEvMcQH/RC6bnoJXe4inxbS/oZ/dT0NPX62C262ZhKoYWkDIsLEVlyOzrWWWx
-         WDHw==
+        d=rowland.harvard.edu; s=google; t=1789940516; x=1790545316; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=TtM4OfzYh4zf76Wl8rAMYpmJaZdR0+PvCy/Hv7ec/W0=;
+        b=N4Mcog0QvrRqhM10vp8rgmQS/DtwL5OMMe18F9eaj850qTeUt1ug4+e4CMDH2toXsu
+         m9JEYsZn/QwyFYUd9unV88h5LSH7t9WIoWAVnAIoIjkUUCFLDMcDSEQFrSjoKTAYLPjF
+         765zN/9c+MFTKIglUiDm2xpCXCde5zxk6grfEJH9sKaaocV1DvD8p2AnY8KrLII1O0jg
+         9CSe7Isa+78DWx0P3OXvco9Yp2l8wrpSot2J5gSXWmui9nIWMsG5sl0HINJtsCsGg9es
+         DgL/wKM5fufLB5zNzsl9MSLKULBd4syWU05EWFoB5/+Ak/eckXVdsdkYj4wHro8cVlJ9
+         vQOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789940390; x=1790545190;
-        h=content-disposition:content-type:mime-version:message-id:subject:cc
-         :to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LcYHRgsoDb+s1L9J+goIeR+hfuePWxAsgJqRHGHu/Bc=;
-        b=rxkLVW1SLnRFYPNEFQYR5DrsR1hQZpmZeKhogS1gP4C7MPDFVzU3z0KrScArtc+Oaq
-         FnwfGn08W2UkzAGmfXdmsKAn4A93UpBAfhTU4AzzGSxbd7d0/mqpfs+OJBLvXZSZ/vLj
-         1FFS1Eetg+qJnTdml1rY/OzY+qB/G63Bde7x/hBTl53Q2TjugoKmQw5FEKdg9noshMqn
-         QAv+a3FVO/P+CmHuy9A+CKGnCJXyjF/ZavsOWsiQ9guUwq3Kd6jzfV6iHh+zG5cHw5Ft
-         pnKOMArgmycvLUSg0GHibJp4/DuWd6eZ3ijELU7kDLXq6ZV/RJXWKV4esTPPRbjkSj+Y
-         uU7g==
-X-Forwarded-Encrypted: i=1; AKwUvByV1AIM9PR4MPjaI52Ei8rUMEkxjGJ8muw4MzrfQNWhXSJ4P3oBqOo++UT8Ij3G0Xn3kHFxlNn8pfI=@vger.kernel.org
-X-Gm-Message-State: AFuF++mne+qqEs1ddVMiiuK3XBV0VEkjJ88J/Bfkw28naCRZ8qIaXUxC
-	NTbGf2HaVJwraX7nLkXP0rMc3TSNaXy/TuxvNs3nb2AUNlHDilZtNHyyEt/cAN+Vjg==
-X-Gm-Gg: AYBFou3gz2Pzr8gnW9JK0KIKROxpinkyMDG88wb5Q5V36OQtkhhRo5g56xDhxNrfOHV
-	dCFFPQQcjWZD18z3EQR9PsUwZwWr1qVsdkzeBD1D5yZJpITy3X4zaR9GwGsiVbECpMQOO7NQD9i
-	OSDl2WiY/PIxtrbAqZvcbbcqV4IZeHxpRVTwRjjKHTwdebr757XlE5M4Tw9UpOh1fakxby9lR8J
-	eX11vFJBazclcNa7dekGeR25cqeHlsc24Wm+Vu6eFETksxGocKsXnOSGdM4jZ+eypOobUTuOkNq
-	/E6GhVhorxNVvtCsm6ugqS1SLuIssGBp2VDkNTEahg8/mcqS2VmZzMOvfxKv0u9XrBFbpG+KNC4
-	qbj4H9/pO/t2h0fEX/d5NkcWm4AWhSyzcdgqbGM7khosOwLnhXQg+s5rc41NFAvFW+ovQp2yaT7
-	BlUJNqsDJvA866pgZXOrkQxF6V05hYaXQKSpG0y9/NuxBbKRPefYvP2frxXE+tEHgl7vID5YA=
-X-Received: by 2002:a05:622a:1e0d:b0:531:2394:9663 with SMTP id d75a77b69052e-532b71da94cmr69533421cf.7.1789940389599;
-        Sun, 20 Sep 2026 14:39:49 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789940516; x=1790545316;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=TtM4OfzYh4zf76Wl8rAMYpmJaZdR0+PvCy/Hv7ec/W0=;
+        b=WiwDpV41ShezZAXmEAlpI4Za2J7ZFsjAOoLKhBtiAutqHEWejl2pJ66qVFjDkO0jGS
+         uSThWeIm6oBB4bpZW5r7BlD3KMFXc7oE31/7K3i+fkTPWkc243MpFOjPF/E5ScZvXdY6
+         UUqXzddQ2Q6lVfAu3TZ2htXhdu/8+xp0ebTeVLBGkuUKc8reHSdSUlW9YryFqssXrcwG
+         UiIt4Xn03dJQJEK1cjBQzjKev7bVaJpYrzeei2bs83H/3FupYqVxQBXPC9q0NOtiOpfc
+         mRYL35V/5KB+FCmY/obNtUnFp/cfk5ItlPESns4eXSyLCFEinbImePPzXC4kGkf3/6lv
+         mjeQ==
+X-Forwarded-Encrypted: i=1; AKwUvBytuzH80ueF1xtk6kY+WSu7R5JsKBlPB3e1RjvrCyfUFzcKgiITeQUbXYl+PCwDvN7FCqoVAwrVufQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++kD95J7nsOmrbwj9xpV+kyz/eXWPQd9Jc9S5epgQEGcaj06X7Wd
+	D/dE6x6k/7ogHHM6X+XiVxsUrrIYGYoLWTOkZk4BjXGSck/yKbt2KrK3iyHfdD6NtQ==
+X-Gm-Gg: AYBFou0hDTaf/H2hOFxX3mTN+4qXSACVZ+O2lZBiQQ4HXrc2kOS0/h6TgSI1d/aX7yf
+	cCStZK6pbTV3MImLyWK8EphZmb24OIgkk/DXFAWGkjwHXGw8mi3dzeXy2DgMZyFIw2OyVscRE67
+	woi8hfjCDK+8q4BKo9uTbuH4/5CldzLyJlYZVTtMmfzioJcAnyHKzREHsdauEkT85nFz7z1r26D
+	9B2DeY/2j7BdUWH5olV2IcLBCS+iHmqG1UXvL2/MJN63CzkHJCJq8yEMPG6pwEcKDrlLtkmuRVU
+	dbo9zCVTPNWqxNPC+arAPfh548dNSwpybGBMlG/eZ6lJN72W7+lsu+Zz2YMmVTZtHXjfjg5ZTwL
+	5D5W2HCADzOLOKpNOGBKmtBF+1uIMeR2tdMwYTl0b/wGhY6wZoV0UG+9A+oaS8dyMUHkaKuV43K
+	bl2tEimb5TYtHA1BAICRP4pZLHDnFgSbiuK7RrYempH5iWgysBws3gVPGqOmjcr4XaLjxhUt2Ab
+	xPLZG4q78M=
+X-Received: by 2002:a05:622a:610:b0:532:a5a2:e3f4 with SMTP id d75a77b69052e-532b72e66fcmr77358741cf.41.1789940516156;
+        Sun, 20 Sep 2026 14:41:56 -0700 (PDT)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532ae511210sm49182291cf.2.2026.09.20.14.39.48
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532ae76d5a7sm48329221cf.27.2026.09.20.14.41.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 14:39:48 -0700 (PDT)
-Date: Sun, 20 Sep 2026 17:39:46 -0400
+        Sun, 20 Sep 2026 14:41:55 -0700 (PDT)
+Date: Sun, 20 Sep 2026 17:41:53 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
 To: Greg KH <gregkh@linuxfoundation.org>
 Cc: Minseo Kim <neck3922@gmail.com>,
 	USB mailing list <linux-usb@vger.kernel.org>
-Subject: [PATCH 1/3] USB: gadgetfs: Fix races and locking in asynchronous I/O
-Message-ID: <c06cb937-6872-401a-8c94-1944f2838007@rowland.harvard.edu>
+Subject: [PATCH 2/3] USB: gadgetfs: Fix test for copying data in asynchronous
+ I/O
+Message-ID: <a9a88aa0-a624-4b42-a9f7-661d50a4894b@rowland.harvard.edu>
+References: <c06cb937-6872-401a-8c94-1944f2838007@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -73,42 +77,19 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <c06cb937-6872-401a-8c94-1944f2838007@rowland.harvard.edu>
 
-It has been known for a long time that the asynchronous I/O handling
-in the gadgetfs driver is subject to multiple races and locking
-issues.  Even the very first version of AIO support -- see:
+The gadgetfs driver contains a test for whether any data from a
+completed asynchronous I/O transfer needs to be copied back to
+userspace.  This test is not being done correctly in all cases.  It's
+a subtle issue involving whether an iov_iter requires a separate iovec
+for storing its destination buffer information; sometimes this
+information can be stored directly in the iov_iter itself.  Thus, lack
+of a separate iovec does not mean that there is no data to copy.
 
-https://git.kernel.org/pub/scm/linux/kernel/git/tglx/history.git/commit/drivers/usb/gadget/inode.c?id=75787d943ab3770270c6c3f6e154ab8e59f693ef
-
--- had weird locking in ep_aio_cancel(), a tacit acknowledgment that
-it wasn't being done correctly.  (I vaguely recall some discussion
-about this on the linux-usb-devel mailing list, eventually concluding
-that the problem was too hard to solve then.  See for example these
-threads:
-
-	https://marc.info/?l=linux-usb-devel&m=118530826204776&w=2
-	https://marc.info/?l=linux-usb-devel&m=119129049420190&w=2
-
-Note: usbfs2 was an attempt to update the usbfs API.  It never went
-anywhere.)
-
-Regardless, it's well past time to fix all these issues.  Minseo Kim
-has done very thorough testing, and all the races he was able to find
-are fixed by this patch.  So are the lockdep violations.
-
-The key is keeping explicit track of the various stages of
-asynchronous URB submission/completion as well as of AIO cancellation,
-because bad interactions between those two are responsible for the
-races.  Doing this required adding a new spinlock to serialize access
-to the new state variables, as well as making local copies of values
-belonging to a private data structure that could be deallocated at
-unexpected times.
-
-Fixing the lockdep problems required moving the usb_unlink_urb()
-operation to a separate worker thread (see the comment added to
-ep_aio_cancel()).  Aside from that, the overall structure of the code
-was not changed very much, although there is quite a lot of churn in
-several of the AIO-handling subroutines.
+Rather than messing around with the internal details of struct
+iov_iter, fix the test by simply adding a new field to keep track of
+whether an AIO operation is a read or a write.
 
 Reported-by: Minseo Kim <neck3922@gmail.com>
 Closes: https://lore.kernel.org/CAFmvuTWc880R=mw7=kixfx3Yb8u9thLHPA7D=rm6a8p9dYBBDA@mail.gmail.com/
@@ -117,298 +98,35 @@ Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
 
 ---
 
-This is such an intrusive change, I hesitate to recommend it for the
--stable kernels.  Otherwise it would qualify.
-
-The marc.info mailing list references in the description are necessary
-because the linux-usb-devel mailing list was discontinued before
-lore.kernel.org began operation.
-
- drivers/usb/gadget/legacy/inode.c |  184 +++++++++++++++++++++++++++++++-------
- 1 file changed, 151 insertions(+), 33 deletions(-)
+ drivers/usb/gadget/legacy/inode.c |    4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 Index: usb-devel/drivers/usb/gadget/legacy/inode.c
 ===================================================================
 --- usb-devel.orig/drivers/usb/gadget/legacy/inode.c
 +++ usb-devel/drivers/usb/gadget/legacy/inode.c
-@@ -236,6 +236,8 @@ static void put_ep (struct ep_data *data
- static const char *CHIP;
- static DEFINE_MUTEX(sb_mutex);		/* Serialize superblock operations */
- 
-+static DEFINE_SPINLOCK(aio_lock);	/* Protect aio cancellation info */
-+
- /*----------------------------------------------------------------------*/
- 
- /* NOTE:  don't use dev_printk calls before binding to the gadget
-@@ -433,40 +435,104 @@ static long ep_ioctl(struct file *fd, un
- 
- /* ASYNCHRONOUS ENDPOINT I/O OPERATIONS (bulk/intr/iso) */
- 
-+enum aio_req_state {
-+	AIO_SUBMITTING,
-+	AIO_RUNNING,
-+	AIO_COMPLETED,
-+	AIO_GIVEN_BACK,
-+};
-+
-+enum aio_cancel_state {
-+	AIO_NOT_CANCELLED,
-+	AIO_UNLINKING,
-+	AIO_UNLINK_DONE,
-+};
-+
- struct kiocb_priv {
- 	struct usb_request	*req;
- 	struct ep_data		*epdata;
-+	struct usb_ep		*ep;
- 	struct kiocb		*iocb;
- 	struct mm_struct	*mm;
--	struct work_struct	work;
-+	struct work_struct	copy_work;
-+	struct work_struct	unlink_work;
- 	void			*buf;
- 	struct iov_iter		to;
- 	const void		*to_free;
+@@ -462,6 +462,7 @@ struct kiocb_priv {
  	unsigned		actual;
-+	enum aio_req_state	req_state;
-+	enum aio_cancel_state	cancel_state;
+ 	enum aio_req_state	req_state;
+ 	enum aio_cancel_state	cancel_state;
++	bool			is_read;
  };
  
--static int ep_aio_cancel(struct kiocb *iocb)
-+static void ep_unlink_worker(struct work_struct *work)
- {
--	struct kiocb_priv	*priv = iocb->private;
-+	struct kiocb_priv	*priv;
-+	struct usb_request	*req;
- 	struct ep_data		*epdata;
--	int			value;
-+	struct usb_ep		*ep;
-+	enum aio_req_state	req_state;
- 
--	local_irq_disable();
-+	priv = container_of(work, struct kiocb_priv, unlink_work);
-+	req = priv->req;
- 	epdata = priv->epdata;
--	// spin_lock(&epdata->dev->lock);
--	if (likely(epdata && epdata->ep && priv->req))
--		value = usb_ep_dequeue (epdata->ep, priv->req);
--	else
--		value = -EINVAL;
--	// spin_unlock(&epdata->dev->lock);
--	local_irq_enable();
-+	ep = priv->ep;
- 
--	return value;
-+	usb_ep_dequeue(ep, req);
-+
-+	spin_lock_irq(&aio_lock);
-+	req_state = priv->req_state;
-+	priv->cancel_state = AIO_UNLINK_DONE;
-+	spin_unlock_irq(&aio_lock);
-+
-+	/*
-+	 * req and epdata are freed after unlinking and completion are both done.
-+	 * priv is freed after unlinking and giveback are both done.
-+	 */
-+	if (req_state >= AIO_COMPLETED) {
-+		/* priv may have been freed already, depending on req_state */
-+		usb_ep_free_request(ep, req);
-+		put_ep(epdata);
-+		if (req_state == AIO_GIVEN_BACK)
-+			kfree(priv);
-+	}
-+}
-+
-+static int ep_aio_cancel(struct kiocb *iocb)
-+{
-+	struct kiocb_priv	*priv;
-+	unsigned long		flags;
-+
-+	spin_lock_irqsave(&aio_lock, flags);
-+	priv = iocb->private;
-+	if (!priv || priv->cancel_state != AIO_NOT_CANCELLED) {
-+		spin_unlock_irqrestore(&aio_lock, flags);
-+		return -EINVAL;		/* Already completed or cancelled */
-+	}
-+	if (priv->req_state == AIO_SUBMITTING) {
-+		priv->cancel_state = AIO_UNLINK_DONE;
-+		spin_unlock_irqrestore(&aio_lock, flags);
-+		return 0;	/* ep_aio() will call us again if needed */
-+	}
-+
-+	priv->cancel_state = AIO_UNLINKING;
-+	spin_unlock_irqrestore(&aio_lock, flags);
-+
-+	/*
-+	 * We are called with the aio core holding iocb's context lock.
-+	 * usb_ep_dequeue() is allowed to run synchronously, calling the
-+	 * completion handler ep_aio_complete() before it returns.
-+	 * But ep_aio_complete() may call iocb->io_complete(), which
-+	 * tries to acquire the context lock, leading to deadlock.
-+	 * For this reason, do the dequeue operation in a work routine.
-+	 */
-+	INIT_WORK(&priv->unlink_work, ep_unlink_worker);
-+	schedule_work(&priv->unlink_work);
-+	return 0;
- }
- 
- static void ep_user_copy_worker(struct work_struct *work)
- {
--	struct kiocb_priv *priv = container_of(work, struct kiocb_priv, work);
-+	struct kiocb_priv *priv = container_of(work, struct kiocb_priv, copy_work);
- 	struct mm_struct *mm = priv->mm;
- 	struct kiocb *iocb = priv->iocb;
- 	size_t ret;
-@@ -488,19 +554,25 @@ static void ep_user_copy_worker(struct w
- 
- 	kfree(priv->buf);
- 	kfree(priv->to_free);
--	kfree(priv);
-+
-+	spin_lock_irq(&aio_lock);
-+	priv->req_state = AIO_GIVEN_BACK;
-+	if (priv->cancel_state != AIO_UNLINKING)
-+		kfree(priv);
-+	spin_unlock_irq(&aio_lock);
- }
- 
- static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
- {
- 	struct kiocb		*iocb = req->context;
- 	struct kiocb_priv	*priv = iocb->private;
--	struct ep_data		*epdata = priv->epdata;
-+	enum aio_req_state	new_req_state;
-+	enum aio_cancel_state	cancel_state;
- 
--	/* lock against disconnect (and ideally, cancel) */
--	spin_lock(&epdata->dev->lock);
--	priv->req = NULL;
--	priv->epdata = NULL;
-+	/* Prevent future cancellation */
-+	spin_lock(&aio_lock);
-+	iocb->private = NULL;
-+	spin_unlock(&aio_lock);
- 
- 	/* if this was a write or a read returning no data then we
+ static void ep_unlink_worker(struct work_struct *work)
+@@ -578,7 +579,7 @@ static void ep_aio_complete(struct usb_e
  	 * don't need to copy anything to userspace, so we can
-@@ -510,25 +582,35 @@ static void ep_aio_complete(struct usb_e
+ 	 * complete the aio request immediately.
+ 	 */
+-	if (priv->to_free == NULL || unlikely(req->actual == 0)) {
++	if (!priv->is_read || unlikely(req->actual == 0)) {
  		mmdrop(priv->mm);
  		kfree(req->buf);
  		kfree(priv->to_free);
--		kfree(priv);
--		iocb->private = NULL;
- 		iocb->ki_complete(iocb,
- 				req->actual ? req->actual : (long)req->status);
-+		new_req_state = AIO_GIVEN_BACK;
- 	} else {
- 		/* ep_copy_to_user() won't report both; we hide some faults */
- 		if (unlikely(0 != req->status))
--			DBG(epdata->dev, "%s fault %d len %d\n",
-+			DBG(priv->epdata->dev, "%s fault %d len %d\n",
- 				ep->name, req->status, req->actual);
- 
- 		priv->buf = req->buf;
- 		priv->actual = req->actual;
--		INIT_WORK(&priv->work, ep_user_copy_worker);
--		schedule_work(&priv->work);
-+		new_req_state = AIO_COMPLETED;
- 	}
- 
--	usb_ep_free_request(ep, req);
--	spin_unlock(&epdata->dev->lock);
--	put_ep(epdata);
-+	spin_lock(&aio_lock);
-+	priv->req_state = new_req_state;
-+	cancel_state = priv->cancel_state;
-+	spin_unlock(&aio_lock);
-+
-+	if (new_req_state == AIO_COMPLETED) {
-+		INIT_WORK(&priv->copy_work, ep_user_copy_worker);
-+		schedule_work(&priv->copy_work);
-+	}
-+	if (cancel_state != AIO_UNLINKING) {
-+		usb_ep_free_request(ep, req);
-+		put_ep(priv->epdata);
-+		if (new_req_state == AIO_GIVEN_BACK)
-+			kfree(priv);
-+	}
- }
- 
- static ssize_t ep_aio(struct kiocb *iocb,
-@@ -539,11 +621,12 @@ static ssize_t ep_aio(struct kiocb *iocb
- {
- 	struct usb_request *req;
- 	ssize_t value;
-+	struct usb_ep *ep;
-+	bool need_unlink = false;
- 
- 	iocb->private = priv;
- 	priv->iocb = iocb;
- 
--	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
- 	get_ep(epdata);
- 	priv->epdata = epdata;
- 	priv->actual = 0;
-@@ -555,10 +638,12 @@ static ssize_t ep_aio(struct kiocb *iocb
- 	 */
- 	spin_lock_irq(&epdata->dev->lock);
- 	value = -ENODEV;
--	if (unlikely(epdata->ep == NULL))
-+	ep = epdata->ep;
-+	if (unlikely(ep == NULL))
- 		goto fail;
-+	priv->ep = ep;
- 
--	req = usb_ep_alloc_request(epdata->ep, GFP_ATOMIC);
-+	req = usb_ep_alloc_request(ep, GFP_ATOMIC);
- 	value = -ENOMEM;
- 	if (unlikely(!req))
- 		goto fail;
-@@ -568,12 +653,45 @@ static ssize_t ep_aio(struct kiocb *iocb
- 	req->length = len;
- 	req->complete = ep_aio_complete;
- 	req->context = iocb;
--	value = usb_ep_queue(epdata->ep, req, GFP_ATOMIC);
-+
-+	priv->req_state = AIO_SUBMITTING;
-+	priv->cancel_state = AIO_NOT_CANCELLED;
-+
-+	/* Not allowed to manipulate the aio context while holding dev->lock */
-+	++epdata->dev->udc_usage;
-+	spin_unlock_irq(&epdata->dev->lock);
-+
-+	kiocb_set_cancel_fn(iocb, ep_aio_cancel);
-+	value = usb_ep_queue(ep, req, GFP_KERNEL);
-+
-+	spin_lock_irq(&epdata->dev->lock);
-+	--epdata->dev->udc_usage;
-+
- 	if (unlikely(0 != value)) {
--		usb_ep_free_request(epdata->ep, req);
-+		spin_lock(&aio_lock);
-+		iocb->private = NULL;
-+		spin_unlock(&aio_lock);
-+
-+		usb_ep_free_request(ep, req);
- 		goto fail;
- 	}
- 	spin_unlock_irq(&epdata->dev->lock);
-+
-+	spin_lock_irq(&aio_lock);
-+	if (iocb->private != NULL) {
-+		priv->req_state = AIO_RUNNING;
-+
-+		/* Cancelled before or just after submission? */
-+		if (priv->cancel_state == AIO_UNLINK_DONE) {
-+			priv->cancel_state = AIO_NOT_CANCELLED;
-+			need_unlink = true;
-+		}
-+	}			/* Otherwise already completed */
-+	spin_unlock_irq(&aio_lock);
-+
-+	if (need_unlink)	/* Redo cancel that was too early */
-+		ep_aio_cancel(iocb);
-+
- 	return -EIOCBQUEUED;
- 
- fail:
+@@ -745,6 +746,7 @@ ep_read_iter(struct kiocb *iocb, struct
+ 		value = -ENOMEM;
+ 		if (!priv)
+ 			goto fail;
++		priv->is_read = true;
+ 		priv->to_free = dup_iter(&priv->to, to, GFP_KERNEL);
+ 		if (!iter_is_ubuf(&priv->to) && !priv->to_free) {
+ 			kfree(priv);
