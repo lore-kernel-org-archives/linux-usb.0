@@ -1,259 +1,163 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A3417B50F;
-	Sun, 20 Sep 2026 01:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F113E3AE18A
+	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 02:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789867487; cv=none; b=VlEFI3+54wPeEj4Ceg7SFHDcEOE/RMQARR50zjN20j0QQPFNep6lKn2S5BdaK48xYChydB338xkBtLJzlfMVkGa5/+KdFcSOIg2Mtbd20k9X94Pxt6JilFDksi0Gfc3B0k9O2Wd0Y3KHwwmINi11tN9+DL/uIvP4MfyhXTkM6OM=
+	t=1789870901; cv=none; b=K0JxR1q+tvN3kWRD/iOEdew7j778aPYndvTAUIGMYRtg/HyTok3dGwdyfmt/l+4f6GGmNe0WttG99i6IS9rdolK8uFWGBQs8iZ5lDpPd7EFGKDakf4LvvdJghZL+0gaxPhL5EIc/O1UrlvexSA/hoqiGxXaD886SPxmFatZrrEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789867487; c=relaxed/simple;
-	bh=wVa29BDPgTaFLYu+82Pfq27S9e/BxvnQ1dFAU97nMCk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KcUVSddokJV3mICixep16QIUfpCALJMukMse/+A0TAp/3FvqNNhbs7fqc2mmjmbB7uwALwmKYmA3E290KyWOmibAM09tTDf+MBRrfEqa2hoNKrhytuIyWhI5OmWIuC8swll8rEnTmPQNyStVfWQ2fAeReC+sl0Fi4ZBBpCTAMA4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 04bf767cb49211f19a56ed5b684f684d-20260920
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:3b028417-4ef9-471f-b76d-d874774c7354,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:ee5bbe308ca2b855adfb34d9bf7f7fc1,BulkI
-	D:nil,BulkQuantity:0,SF:102|865|898,TC:nil,Content:0|15|50|99,EDM:-3,IP:ni
-	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 04bf767cb49211f19a56ed5b684f684d-20260920
-X-User: lijiayi@kylinos.cn
-Received: from thinksys.tail1c7620.ts.net [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lijiayi@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1051692619; Sun, 20 Sep 2026 09:24:26 +0800
-From: Jiayi Li <lijiayi@kylinos.cn>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	linux-usb@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	Jiayi Li <lijiayi@kylinos.cn>
-Subject: [RFC PATCH] usb: uas: quiesce SCSI before stopping endpoints on driver unbind
-Date: Sun, 20 Sep 2026 09:23:58 +0800
-Message-Id: <20260920012358.3362053-1-lijiayi@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1789870901; c=relaxed/simple;
+	bh=Y6gudoLSon5TUtZq7oTL7Gg8dFG/qv7CP0yQ73JLIJ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jl/AXdZ9s04fuHVJDcVJYDeGHTytwCS8NIsbJn93g8B7CQWOTUunsLD8E0EDZFBEuvDmLb4yxXp+7Tc4oVSPN+kHMtdPKzNo02/tlMNgSiT1yDZEFrsPe6ax7xtbn6s4RkoYkcW2+8n2uod6bnL/uJdZeGR+uVuVR+vWMHikiyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=LgY0LOBN; arc=none smtp.client-ip=74.125.230.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="LgY0LOBN"
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-90cdfcbe20aso24291776d6.2
+        for <linux-usb@vger.kernel.org>; Sat, 19 Sep 2026 19:21:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1789870899; x=1790475699; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=w1nJwCGi6TfD1t9TRXiakMGCldahc2dZpWyo2fi9hUQ=;
+        b=LgY0LOBNpyRDb/ZhnVtTOP5hVgnx2iPozDcJ3DcUgiWzzw+Zc8x0zfCb1kF1VgNVAq
+         kP0szZE/GQMDzEXP1g32Is4hAommXxWWO1UMCX1KyePA6v/KELATuraHzX/JHWTkDoRg
+         ZLRRX+X1c3I+woSb0qKS6QIS3CAHDDWz77aa0v7m5Z3eOAkfm421+4Y6GCsu3hVz9hc1
+         XJpT4eDxfMKMai2MroEx18Tm1ET5ytPj9lBIUZukjh5DLJsE0vpGcvJNd3LosvrzyD9P
+         xNVPTu7hfO+ZlcqjLaeNHPASdHtgoKZ5Qub9TFb3MmD+K6o3WwNfOTXtgLB4bk/tDx3S
+         qEsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789870899; x=1790475699;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=w1nJwCGi6TfD1t9TRXiakMGCldahc2dZpWyo2fi9hUQ=;
+        b=L60spKdSKzTgfsNMS7LxzctRr9ffdMaoK9MhXa+8S5G4Pj4cT3xfqJKdFwlf3fBKRX
+         CvQaWWvO8lES5MldhQttujqBg7Lsmhr0n+mPm/TLYtspy3UrC7Nhj4Yz7PLdg8GWJC+V
+         oTNv/knpam2glVyZKVWW0Pz3IxgSmd2qD7qlj3xRA6rf/ewnI0HdJW9UWGdYTc1h1qo2
+         /Eqy9fihEuOedJT8cBYCZrrReH64UO6B28EL5+UtJuwMIoOw7zIcB+i6PYnETAhn1r9G
+         vuwgQGx8SjtIHdSbGO1IDxiKvnmK9PGP/1XIQ8RHC555SWzF0kGZjg7l0qFpZ2vIbbta
+         isFQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx/sGED8WALGn2/RDwXL+Hu1w9qbkbyHtY0X8czxQm3qaaOu6D/FBtOqThrm3cbvR2QWelydmNYOFg=@vger.kernel.org
+X-Gm-Message-State: AFuF++mFcTpUwBUWR/YDKZmKihnHeWlAF8kZJyabcQPKqbCftD9uVGzv
+	cdXMWaUQO0h9ShUu3gkGdoTtfVa8/V9biFneoQoAn1aLRhqEekAqFiVsloOW20UcRw==
+X-Gm-Gg: AYBFou2ioo1SXZzA1TQy7zHLEaNyr0iPg9YRrLEgeM030XsDBtWNc57OZ93paePtwLE
+	tsy0E6ZCfZcDwXHZWFiHCWUw9p5nDt3CV29vvjIaCZe3QyeczEvS7eGlWSdQTtv+QrnjV0WjqvG
+	06mf5dWyMoID3rL5Ip7++bzeO81NVK3Pcv25EOhd+iRaTwJegyKRZJHLS0q5s65EA2HpTjwIp9/
+	SLoQNcwPeCT8dLhmVtVwIAA6lY+iZAEgiOXm1YtGfxdbfBF6xCB++hps3WkSwiDNYFWDOMPF6tE
+	qQFTsY1pxY43soaJ8VWuVGjKHHI7NCso8D6qQW5yyCuHAUxZoMDL8xXxQA/UNAbvJILrv/CowRS
+	4FJ5RK4cypXJOcoD4svJQ1DywvgZPUGSzAO3E8TxgPO+X4wK387pBvmXpLKtyEzjSkdm2vNQx1k
+	U32Iwb98gbqC0hIfRZtpGA8aaK+giDbu5P+R0ijQCdDB5wtjBMqDd+nb1rXPYZSp1Kl96/ieo=
+X-Received: by 2002:a05:6214:320d:b0:910:391e:9e01 with SMTP id 6a1803df08f44-9129c77dabamr47347776d6.13.1789870898846;
+        Sat, 19 Sep 2026 19:21:38 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260968bf8sm33626386d6.2.2026.09.19.19.21.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 19:21:37 -0700 (PDT)
+Date: Sat, 19 Sep 2026 22:21:33 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Hui Peng <benquike@gmail.com>
+Cc: gregkh@linuxfoundation.org, michal.pecio@gmail.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: core: fix descriptor parsing OOB, port/bos locking,
+ and devio/ledtrig races
+Message-ID: <0bc9c10f-6b6e-429c-a625-d34b12aaf2ef@rowland.harvard.edu>
+References: <20260919223518.3890208-1-benquike@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260919223518.3890208-1-benquike@gmail.com>
 
-A driver-only unbind of uas while reads are in flight can leave the
-storage device unusable after the driver is rebound.
+On Sat, Sep 19, 2026 at 10:35:18PM +0000, Hui Peng wrote:
+> Fix multiple memory safety and locking bugs in drivers/usb/core/:
+> 
+> 1. In usb_parse_ssp_isoc_endpoint_companion() and
+>    usb_parse_ss_endpoint_companion() (config.c), check remaining
+>    descriptor size before dereferencing desc->bDescriptorType or
+>    subtracting desc->bLength.
 
-Test environment:
+I have lost count of the number of LLM-generated patches we have 
+received trying to "fix" this "problem".  Try asking your LLM whether 
+this change is really needed.  (Hint: It isn't.)
 
-  - Device: VIA Labs USB storage bridge, VID:PID 2109:0715, product SO1,
-    with a ZX1 512 GB SSD
-  - Link: SuperSpeed 5 Gbit/s, UAS interface 2-4:1.0
-  - System: Ubuntu 24.04.3 LTS
-  - Kernel: 7.0.0-31-generic
+> 2. In bos_descriptors_read() (sysfs.c) and usb3_lpm_permit_store()
+>    (port.c), hold usb_lock_device() and verify udev->bos /
+>    port_dev->child pointers.
+> 3. In usbport_trig_deactivate() (ledtrig-usbport.c), unregister the USB
+>    notifier before freeing port list entries.
+> 4. In devio.c, message.c, and devices.c, validate transfer lengths and
+>    string descriptor buffers.
 
-Reproduction steps:
+Patches are supposed to address only one issue.  Not four or more.
 
-  1. Unmount every mounted partition on the test disk.  In this setup
-     only /dev/sda1 was mounted:
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Assisted-by: LLM
+> Signed-off-by: Hui Peng <benquike@gmail.com>
+> ---
 
-       udisksctl unmount -b /dev/sda1
+> diff --git a/drivers/usb/core/devio.c b/drivers/usb/core/devio.c
+> index 101cb9425480..ecd96e249260 100644
+> --- a/drivers/usb/core/devio.c
+> +++ b/drivers/usb/core/devio.c
+> @@ -602,7 +602,7 @@ __acquires(ps->lock)
+>  			as->bulk_addr = 0;
+>  		}
+>  	}
+> -	ps->disabled_bulk_eps |= (1 << bulk_addr);
+> +	ps->disabled_bulk_eps |= (1U << bulk_addr);
 
-  2. Start 32 concurrent O_DIRECT readers at different offsets:
+This does not look like an instance of "validate transfer lengths and 
+string descriptor buffers".  In fact, it doesn't look like this change 
+does anything at all.
 
-       disk=/dev/sda
-       pids=
-       for i in $(seq 0 31); do
-               while dd if="$disk" of=/dev/null bs=1M \
-                       skip=$((i * 4096)) count=4096 iflag=direct \
-                       status=none 2>/dev/null; do :; done &
-               pids="$pids $!"
-       done
+Much the same can be said for the other changes to this file.
 
-  3. Wait until at least eight reads are in flight:
+> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
+> index 75e2bfd744a9..c16827d16b78 100644
+> --- a/drivers/usb/core/message.c
+> +++ b/drivers/usb/core/message.c
+> @@ -1358,6 +1358,11 @@ void usb_disable_endpoint(struct usb_device *dev, unsigned int epaddr,
+>  			dev->ep_in[epnum] = NULL;
+>  	}
+>  	if (ep) {
+> +		if (reset_hardware && epnum != 0 &&
+> +		    usb_endpoint_xfer_control(&ep->desc)) {
+> +			dev->ep_out[epnum] = NULL;
+> +			dev->ep_in[epnum] = NULL;
+> +		}
 
-       while :; do
-               read -r reads writes < /sys/class/block/sda/inflight
-               [ "$reads" -ge 8 ] && break
-               sleep 0.005
-       done
+The kerneldoc for this routine should be updated also.  And this change 
+should be mentioned in the patch description.
 
-  4. Unbind uas, wait two seconds, and bind it again:
+> diff --git a/drivers/usb/core/sysfs.c b/drivers/usb/core/sysfs.c
+> index d22dc78457d7..da6dc2713ffd 100644
+> --- a/drivers/usb/core/sysfs.c
+> +++ b/drivers/usb/core/sysfs.c
+> @@ -908,7 +908,7 @@ bos_descriptors_read(struct file *filp, struct kobject *kobj,
+>  	if (rc < 0)
+>  		return -EINTR;
+>  	bos = udev->bos;
+> -	if (bos) {
+> +	if (bos && bos->desc) {
 
-       intf=2-4:1.0
-       echo "$intf" > /sys/bus/usb/drivers/uas/unbind
-       sleep 2
-       echo "$intf" > /sys/bus/usb/drivers/uas/bind
-       kill $pids 2>/dev/null || true
+If bos is non-NULL, how can bos->desc ever be NULL?
 
-  5. Check dmesg and lsblk for UAS/SCSI errors and disk recovery.
-The two-second delay deliberately separates teardown from reprobe.  It
-did not prevent the failure.  Additional recovery checks on the same
-bridge showed that waiting alone does not clear the failed state:
+You really need to check what the LLM suggests before posting it.  They 
+tend to be wrong a lot of the time.
 
-  - the failed device remained unusable after more than 12 minutes;
-  - UAS unbind/reset followed by a 5-second wait did not recover it;
-  - unbinding xHCI, waiting 10 seconds and binding it again did not
-    recover it;
-  - USB device reset and authorized 0 -> 1 did not recover it.
+Alan Stern
 
-The device recovered only after it was physically unplugged and reconnected.
-
-Observed failure:
-
-  - 30 READ commands were in flight when unbind started;
-  - the old commands completed with DID_NO_CONNECT during teardown;
-  - after the two-second delay, the new UAS instance created a SCSI
-    host, but the first INQUIRY Data IN completed with -EOVERFLOW;
-  - error handling initially reported a successful USB device reset, but
-    the following READ(10) still timed out;
-  - xHCI reported completion events for unknown stream rings, a later
-    device reset failed with -ENODEV, and SCSI offlined the device;
-  - the USB device then disconnected and re-enumerated, but the new UAS
-    instance again timed out on INQUIRY and TEST UNIT READY and was
-    offlined.
-
-Representative log from the steps above:
-
-  [ 5138.886447] sd 0:0:0:0: [sda] tag#0 uas_zap_pending 0 uas-tag 1 inflight: CMD
-  [ 5138.886674] sd 0:0:0:0: [sda] tag#0 FAILED Result: hostbyte=DID_NO_CONNECT driverbyte=DRIVER_OK cmd_age=0s
-  [ 5138.886682] I/O error, dev sda, sector 75497472 op 0x0:(READ) flags 0x4800 phys_seg 128 prio class 2
-  [ 5139.077259] sd 0:0:0:0: [sda] Synchronize Cache(10) failed: Result: hostbyte=DID_ERROR driverbyte=DRIVER_OK
-  [ 5141.100631] scsi host0: uas
-  [ 5141.103134] scsi 0:0:0:0: tag#12 data cmplt err -75 uas-tag 1 inflight: CMD
-  [ 5141.103160] scsi 0:0:0:0: tag#12 CDB: Inquiry 12 00 00 00 24 00
-  [ 5161.649075] scsi 0:0:0:0: tag#12 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD
-  [ 5161.653963] xhci_hcd 0000:00:12.0: Transfer event 26 for unknown stream ring slot 4 ep 14
-  [ 5162.682379] scsi host0: uas_eh_device_reset_handler success
-  [ 5192.884624] sd 0:0:0:0: [sda] tag#16 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD IN
-  [ 5192.884659] sd 0:0:0:0: [sda] tag#16 CDB: Read(10) 28 00 00 00 00 00 00 00 01 00
-  [ 5193.023329] scsi host0: uas_eh_device_reset_handler success
-  [ 5223.084816] xhci_hcd 0000:00:12.0: Transfer event 26 for unknown stream ring slot 4 ep 10
-  [ 5227.160590] usb usb2-port4: Cannot enable. Maybe the USB cable is bad?
-  [ 5227.160712] scsi host0: uas_eh_device_reset_handler FAILED err -19
-  [ 5227.160732] sd 0:0:0:0: Device offlined - not ready after error recovery
-  [ 5227.627367] usb 2-4: USB disconnect, device number 5
-  [ 5232.135739] usb 2-4: new SuperSpeed USB device number 6 using xhci_hcd
-  [ 5232.157674] scsi host0: uas
-  [ 5252.783442] scsi 0:0:0:0: tag#16 CDB: Inquiry 12 00 00 00 24 00
-  [ 5252.783644] xhci_hcd 0000:00:12.0: Transfer event 26 for unknown stream ring slot 4 ep 10
-  [ 5253.815690] scsi 0:0:0:0: tag#16 CDB: Test Unit Ready 00 00 00 00 00 00
-  [ 5254.841412] scsi 0:0:0:0: Device offlined - not ready after error recovery
-Why it fails:
-
-  - usbcore disables an interface's endpoints before ->disconnect unless
-    the driver sets soft_unbind;
-  - the command URB may already have delivered a SCSI command when the
-    data and status URBs are killed;
-  - uas_disconnect() removes the SCSI host only after killing its anchored
-    URBs, so SCSI teardown cannot first quiesce those accepted commands;
-  - the new UAS instance can then encounter residual transport state.
-
-The failure survived xHCI unbind/rebind and a USB device reset.  Since only
-physically unplugging and reconnecting the device recovered it, the residual
-state is most likely retained by the storage bridge rather than the host
-controller, and is not cleared by a USB reset.
-
-What this patch does:
-
-  - set soft_unbind so endpoints remain available during driver-only
-    unbind;
-  - cancel pending scanning before removing the SCSI host;
-  - for driver-only unbind, remove the SCSI host before setting resetting,
-    killing the anchored URBs and freeing streams;
-  - for physical disconnect, retain the existing kill-first order because
-    the endpoints are no longer usable.
-
-This follows the broad ordering used by usb-storage, which sets
-soft_unbind and removes its SCSI host before releasing transport
-resources.
-
-Test results:
-
-  - Unmodified driver: the steps above, including the
-    two-second delay, reproduced on the first iteration.
-  - Patched driver: 10 of 10 zero-delay iterations reattached the disk and
-    completed the post-bind O_DIRECT read.
-  - Each patched iteration had 30 reads in flight at unbind.
-  - Patched unbind took 82 to 109 ms.
-  - No UAS completion error or command timeout occurred after rebind.
-
-Signed-off-by: Jiayi Li <lijiayi@kylinos.cn>
----
-Open questions for RFC discussion:
-
-The change above fixes the reproduced failure, but it is not clear whether
-this is the best way to handle driver-only unbind in uas.
-
-  1. Is enabling soft_unbind and moving scsi_remove_host() ahead of URB
-     teardown acceptable for driver-only unbind?
-  2. Is there a more appropriate way to quiesce SCSI commands and UAS
-     streams before endpoint teardown?
-  3. If this ordering is acceptable, does the driver-only unbind path need
-     a bounded fallback when scsi_remove_host() encounters a nonresponsive
-     device or ongoing SCSI error handling?
-
-Base: linux-next next-20260915
-base-commit: e6e35979777d646fe3c7c94dca7dd32fb25d45f4
-
----
- drivers/usb/storage/uas.c | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 8655edbd66b16..b64048083cb02 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -1215,7 +1215,14 @@ static void uas_disconnect(struct usb_interface *intf)
- {
- 	struct Scsi_Host *shost = usb_get_intfdata(intf);
- 	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
-+	struct usb_device *udev = interface_to_usbdev(intf);
- 	unsigned long flags;
-+	bool driver_unbind = udev->state != USB_STATE_NOTATTACHED;
-+
-+	if (driver_unbind) {
-+		cancel_work_sync(&devinfo->scan_work);
-+		scsi_remove_host(shost);
-+	}
- 
- 	spin_lock_irqsave(&devinfo->lock, flags);
- 	devinfo->resetting = 1;
-@@ -1227,13 +1234,10 @@ static void uas_disconnect(struct usb_interface *intf)
- 	usb_kill_anchored_urbs(&devinfo->data_urbs);
- 	uas_zap_pending(devinfo, DID_NO_CONNECT);
- 
--	/*
--	 * Prevent SCSI scanning (if it hasn't started yet)
--	 * or wait for the SCSI-scanning routine to stop.
--	 */
--	cancel_work_sync(&devinfo->scan_work);
--
--	scsi_remove_host(shost);
-+	if (!driver_unbind) {
-+		cancel_work_sync(&devinfo->scan_work);
-+		scsi_remove_host(shost);
-+	}
- 	uas_free_streams(devinfo);
- 	scsi_host_put(shost);
- }
-@@ -1267,6 +1271,7 @@ static struct usb_driver uas_driver = {
- 	.suspend = uas_suspend,
- 	.resume = uas_resume,
- 	.reset_resume = uas_reset_resume,
-+	.soft_unbind = 1,
- 	.shutdown = uas_shutdown,
- 	.id_table = uas_usb_ids,
- };
+PS: Don't think that just because I didn't mention some parts of the 
+patch, that means they look right.  In fact, your default assumption 
+regarding LLM-generated or LLM-suggested patches should be that they are 
+wrong.
