@@ -1,38 +1,73 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E88833E40E4;
-	Sun, 20 Sep 2026 07:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-pj2-f15.google.com (mail-pj2-f15.google.com [74.125.227.143])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 719FA1C8604
+	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 09:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.143
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789890308; cv=none; b=qxc6QdE0GjeYcIz6Oxykpuhu3chqWr++eFK5o2zfieP66mJSrMvVA1bumZkeDqmh59mWvZddATJ+hV1GqV2OHv9OJWix5CMREA72TbF9Rc26LN2De2Gyd1mpt1xkO3T941M36ON/P8OK45rKOs/OyoBXQ3JQOl/0fOeTVe0wChQ=
+	t=1789895250; cv=none; b=uvDzWJXHvxwsL79XCDzt9mx1JIOt6BLQ3qw9WDRAo4ODECbUCuMXTxYnfTnDERBUhiuJP8VYPAJd/noFI2Xq+6hyTXkZHTQT9iJzKbbFPxsYzBSJeRIPnexnjV1iIODj2VJzkHSpVBmF6GNTyeBlOu7eLSN59dVvW9p1tTHTU7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789890308; c=relaxed/simple;
-	bh=10fE2iWtbvNRkibWkIM5wVpvO5z6pmhPHedJTmBlDIk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=K9d4VgpF3AJLHZxmE6kQim8wGkl2079y/Zg7ysMR5nV4GFzwexMBT0xnMQkU9zvaVLiG/CAwRTFl3w7MhD7czYdHC5t05w3M6HETZxBdZq1Lb/dNw6cFCWxCrraXWPtXYqMBTR/fQdse0YV9RSSNWowqSVzHr1v751yGxYYyYuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.180.135.190])
-	by gateway (Coremail) with SMTP id _____8BxbdL_jq9q6t4NAA--.41250S3;
-	Sun, 20 Sep 2026 15:45:03 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.180.135.190])
-	by front1 (Coremail) with SMTP id qMiowJCxPs_9jq9qUOwiAA--.8682S2;
-	Sun, 20 Sep 2026 15:45:02 +0800 (CST)
-From: Ming Wang <wangming01@loongson.cn>
-To: netdev@vger.kernel.org
+	s=arc-20240116; t=1789895250; c=relaxed/simple;
+	bh=kweyCHjSRKSsBODDFc3szHop9BuWVtjvhas8CVH1EN4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YB6oBHCT4k12kQTTbhunPGpLgR7DWg3XNcu83VHAzHN9g3+Ac6FjkLcNyPWCIWN9fr5ALXFQ7uQKyf7lJhKrY3h9N4dfjlKewJZfF2sCWm+5az+RJJU3NcxBClUY+ibyRBTlBnbu3cH5W+hqx0LxKTuEGRhtqIr0kS9l5jlr6G8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=naboEf9H; arc=none smtp.client-ip=74.125.227.143
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="naboEf9H"
+Received: by mail-pj2-f15.google.com with SMTP id d9443c01a7336-2d747f01363so17331755ad.2
+        for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 02:07:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789895249; x=1790500049; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BXCcn+GJ+ZcNcE/i0kBtIoCDO7yf3ooucIgFoFAv2Pc=;
+        b=naboEf9HWE9Jl/fuVEMcsmi4Kx1QDY1gA5g/uFYPLEezDGeTm7CL9h7D6Zk6L7RFUW
+         xLsk+bEBO4uwR99PN5L+tz1/woh1YUuzymH3dsg5z9Te6yD92WeAeP7P3balv0mAH6tb
+         zfl1ZbHCUIjp//An8ElHUlN3yxR1ml107Mbk0j0sTrc2Ce6A+JNaUjyHW++2QzHyMQ1b
+         Pj8CAfDoLqeoeIfFWltNmaOIbwH6eeDafNGKWhRFyaK4JtXNrmWuvkE0zzZLbrfXeHh0
+         jUI1rmo3JDA5un65Ssuz5DPAfnGKR2qBLXWlfPosZqhmwikpQs1MUt3QsMP9S0blATGD
+         cy1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789895249; x=1790500049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=BXCcn+GJ+ZcNcE/i0kBtIoCDO7yf3ooucIgFoFAv2Pc=;
+        b=Atyd/g5vYjqiIpgqYgq7cDhRysFkvlmyWHocmz3P5xQy5HqrSWnk9pLI0wPsJxYSVf
+         rqcgb6x5+m82qClb+8yrFta0p4IfuKptKnx6EH/6KV9wicgWXQ3SODt3siJUJYVeOJ42
+         WRaCtR65LNTGZ2P87wrGz0kgUqFeIqGTcJPDxR94eL7wp0Z/gvFLFhuloKPLIWFrIQlN
+         ll9FRyr8e7fKubx6N0INqRHm8SErwCWGNqK2mdd2JfJVYIdsvCbPSG3HHCf9B4wbklNH
+         JdZlbxhnzYjTx0gs2kAQsu+bBJmTRM6x0MCcY5IxRdtPtAHCXAvJIZcgniflag5nqysM
+         2YcA==
+X-Gm-Message-State: AFuF++n4Thi01kiY6nPbimfn/Vj5WSXr7T+rUdx7cPsKc7jEt0OhMGt9
+	J2u7YADzm8HEd8Sz5fNxg/on9kUMxM9fDciV7gPFycFXhf2wpDnGJDjH
+X-Gm-Gg: AYBFou3/fCn3JDaEN5HyEgyqYBIViyfPS0F0pcp/YYvMcfZ8BOMW7ovaB1qnRRcewBk
+	CCJr/iM1buxqoyAN1GeIFSWiVNJgFDvmYkA00+rz/81A9x6aKswlhDUSvIdqHiKlFDPyaigQvTG
+	cxsADRVWAzjWRrBDELurPdSVmWssngGrgvGWZt7KHV2WQw9IHgS7GXXICuylfnmUSgVY6Gx1Vsv
+	ncQpUoIm/8o2oVjavRpeVpQIokzbCMOYskATacuBq0ADoL3Chv7M2a2fWGi1GW0OPdNygWP1h+J
+	imW6hI+aWWMZVpJTeJD49s9xkRQnE0+AE+A5/ov/JhAJnPoBEVn3QBC55Xgva8QEceScv/v+kxI
+	nX/RSmuHEGwmsdbCrqK+hqcKTeABrjPmaqGEVa5jjXM/oweehn1Kdt+PUn4Rsc4Wq18DrFkjj9E
+	Vz9cVhF+aYSCk4cOQfPsCUd9Xv9emOIek7aXPeNvFI5lQRH8SdsunZUlVqMsxUEHPaKQy7TghvM
+	UWEeHK4wYjBCz9iUYDlyUo=
+X-Received: by 2002:a17:903:3c43:b0:2d1:134:b86e with SMTP id d9443c01a7336-2ddb1acac1dmr134634645ad.2.1789895248670;
+        Sun, 20 Sep 2026 02:07:28 -0700 (PDT)
+Received: from LAPTOP-450UDG4J ([223.185.130.136])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2ddc17d712dsm18320445ad.64.2026.09.20.02.07.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 20 Sep 2026 02:07:28 -0700 (PDT)
+From: Yogesh Gaur <yogeshgaur.83@gmail.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
-	stable@vger.kernel.org,
-	Ming Wang <wangming01@loongson.cn>,
-	Oliver Neukum <oliver@neukum.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] net: usb: cdc_mbim: add MeiG Smart SRM821 to ZLP whitelist
-Date: Sun, 20 Sep 2026 15:44:59 +0800
-Message-ID: <20260920074500.826121-1-wangming01@loongson.cn>
-X-Mailer: git-send-email 2.43.7
+	linux-kernel@vger.kernel.org,
+	Yogesh Gaur <yogeshgaur.83@gmail.com>,
+	syzbot+e7aa19176573a6992617@syzkaller.appspotmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: typec: ucsi: acpi: don't dereference a missing ACPI companion
+Date: Sun, 20 Sep 2026 14:37:10 +0530
+Message-ID: <20260920090711.300-1-yogeshgaur.83@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.5
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -40,64 +75,73 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:qMiowJCxPs_9jq9qUOwiAA--.8682S2
-X-CM-SenderInfo: 5zdqwzxlqjiio6or00hjvr0hdfq/1tbiAQEQEmqvPvQFYgABsr
-X-Coremail-Antispam: 1Uk129KBj93XoW7WF17ZFyrtw1kKw45XF17XFc_yoW8WFW3pF
-	4rCFyYv39xJFW5Kw1rAw48WFyrZwn3Cay5KFWI93WY93Z0ya4aqFyxGFy5K34kGF45AF12
-	yF93t34xWa1DAwcCm3ZEXasCq-sJn29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUUPSb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x0267AK
-	xVW8Jr0_Cr1UM2kKe7AKxVWUAVWUtwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52
-	x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80
-	ewAv7VC0I7IYx2IY67AKxVWUAVWUtwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4
-	AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMxAIw28IcxkI7VAK
-	I48JMxC20s026xCaFVCjc4AY6r1j6r4UMxCIbckI1I0E14v26r126r1DMI8I3I0E5I8CrV
-	AFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCI
-	c40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1I6r4UMIIF0xvE2Ix0cI8IcVCY1x0267
-	AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_
-	Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8N_-P
-	UUUUU==
 
-The MeiG Smart SRM821 5G module (0x2dee:0x4d53) crashes and drops off
-the USB bus when it receives a Zero Length Packet (ZLP) after sending
-or receiving an NTB of exactly 16384 bytes (tx_max).
+ucsi_acpi_probe() reads adev->dep_unmet before it has established that
+the platform device has an ACPI companion at all:
 
-According to the MBIM specification, devices do not require a ZLP
-if the NTB size is exactly dwNtbOutMaxSize. However, the cdc_mbim
-driver defaults to sending ZLPs for devices not explicitly whitelisted
-to accommodate non-conformant hardware. This default behavior breaks
-the strictly conformant MeiG SRM821 module.
+	struct acpi_device *adev = ACPI_COMPANION(&pdev->dev);
+	...
+	if (adev->dep_unmet)
+		return -EPROBE_DEFER;
 
-Add this device to the ZLP conformance whitelist (cdc_mbim_info) so
-the driver will pad the NTB to avoid sending ZLPs, preventing the
-device firmware from crashing.
+ACPI_COMPANION() returns NULL for a platform device that was not
+enumerated from an ACPI node. The driver only advertises an
+acpi_match_table, so the bus-match path cannot reach the probe with a
+NULL companion -- but the probe is also reachable from sysfs, and that
+path does not consult a match table. Writing a device name to
+/sys/bus/platform/drivers/ucsi_acpi/bind goes straight to
+device_driver_attach() -> really_probe(), so any platform device in the
+system can be handed to ucsi_acpi_probe(), including the many that have
+no ACPI companion:
 
+  Oops: general protection fault, probably for non-canonical address
+        0xdffffc00000000fc: 0000 [#1] SMP KASAN PTI
+  KASAN: null-ptr-deref in range [0x00000000000007e0-0x00000000000007e7]
+  RIP: 0010:ucsi_acpi_probe+0x6c/0x4b0 drivers/usb/typec/ucsi/ucsi_acpi.c:199
+  Call Trace:
+   platform_probe+0xf9/0x190 drivers/base/platform.c:1507
+   really_probe+0x254/0xae0 drivers/base/dd.c:706
+   __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+   device_driver_attach+0xe0/0x1d0 drivers/base/dd.c:1203
+   bind_store+0x1d3/0x220 drivers/base/bus.c:267
+   kernfs_fop_write_iter+0x3a5/0x540 fs/kernfs/file.c:345
+   vfs_write+0x61e/0xbb0 fs/read_write.c:687
+
+The faulting address is the dep_unmet member read off a NULL
+struct acpi_device.
+
+Bail out with -ENODEV when there is no companion. Every other use of
+the device in this probe goes through ACPI_HANDLE(), which tolerates a
+missing companion and would just have failed later with a less useful
+error, so rejecting the bind up front is both the smallest fix and the
+honest answer: this driver cannot drive a non-ACPI device.
+
+This is the only unchecked ACPI_COMPANION() in drivers/usb/typec/.
+
+Fixes: 1f3546ff3f0a ("usb: typec: ucsi: acpi: Check the _DEP dependencies")
+Reported-by: syzbot+e7aa19176573a6992617@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=e7aa19176573a6992617
 Cc: stable@vger.kernel.org
-Signed-off-by: Ming Wang <wangming01@loongson.cn>
+Assisted-by: LLM
+Signed-off-by: Yogesh Gaur <yogeshgaur.83@gmail.com>
 ---
-v2: moved MeiG entry below Ericsson for better grouping; added Cc stable
- drivers/net/usb/cdc_mbim.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/usb/typec/ucsi/ucsi_acpi.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/net/usb/cdc_mbim.c b/drivers/net/usb/cdc_mbim.c
-index 877fb0ed7d3d..a7010a0664c7 100644
---- a/drivers/net/usb/cdc_mbim.c
-+++ b/drivers/net/usb/cdc_mbim.c
-@@ -635,6 +635,11 @@ static const struct usb_device_id mbim_devs[] = {
- 	  .driver_info = (unsigned long)&cdc_mbim_info,
- 	},
+diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c b/drivers/usb/typec/ucsi/ucsi_acpi.c
+index 18286d3e9cc5..9fe4ba43afea 100644
+--- a/drivers/usb/typec/ucsi/ucsi_acpi.c
++++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+@@ -196,6 +196,9 @@ static int ucsi_acpi_probe(struct platform_device *pdev)
+ 	acpi_status status;
+ 	int ret;
  
-+	/* MeiG Smart SRM821 ZLP conformance */
-+	{ USB_DEVICE_AND_INTERFACE_INFO(0x2dee, 0x4d53, USB_CLASS_COMM, USB_CDC_SUBCLASS_MBIM, USB_CDC_PROTO_NONE),
-+	  .driver_info = (unsigned long)&cdc_mbim_info,
-+	},
++	if (!adev)
++		return -ENODEV;
 +
- 	/* Some Huawei devices, ME906s-158 (12d1:15c1) and E3372
- 	 * (12d1:157d), are known to fail unless the NDP is placed
- 	 * after the IP packets.  Applying the quirk to all Huawei
+ 	if (adev->dep_unmet)
+ 		return -EPROBE_DEFER;
+ 
 -- 
-2.43.7
+2.55.0.windows.5
 
