@@ -1,147 +1,307 @@
-Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966AA3E8C78
-	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 14:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CE43AA1A9
+	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 15:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789916325; cv=none; b=h8JLD+jHNkDNcB+FSnZPzl+l56wQnfVXlNZR68AXYsaokgt4SiHRXWpC8S6hHX07r64YkU81DqvJk3YY7QE/uyD7uF/iOnOnA7TwMsZUVF5M2RA9bWPEAX7jJswAh7a62UPYpFfj+WsbWm6W9Mc653Aiq+2HB12gTO97e2RKsYU=
+	t=1789916499; cv=none; b=fm6ZNT/Xi6IT2Aq0gsX16uBPtSIz3hX3sfiXxAYNmhQwUUrN8pxw0yAiTwS6MB6mOFXg1bBdyKCzkDaA8R8yfNGrzmLSHI6YTEhTxDDZfTLX7ECSZvBDzOEebrSax+ONWC2l+bxlkurA8YzoAm+rlzWJC2bsmkDlPXb5Ho4w04Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789916325; c=relaxed/simple;
-	bh=sMXdGX9RxfabOA/eVS7zI3jGxKSS+cU6GRE4LoWaHOw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OmaNjRFnLk+EEg4WX7f8BHO36BD+Ed1PkTnzbAwjlWPlOMzQkqWRE0GCA7v9RWScB1YcFgy2+1KJdpvAWVkX5glzny056Kz1QB0eAcq7M8kDwQziEZoU5FqbQlz8pWKSWUsLyvYko4Ri38abHC/s3pWMetkLFMo2lQjOx59suBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=Jh5vihi3; arc=none smtp.client-ip=74.125.230.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1789916499; c=relaxed/simple;
+	bh=T1aSMkDvUg9F4iAHgfR3ruSI6UlGC1w9a/0Vrd6WDtY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CgSAu4ncDKChjp1C6sUSE8HlzUjSAnnq0cN3lQNKY0FuIVE/4jsdqLfPOl9+ico8P1AFR8CM2ftDkBfHxXuB/qaCWc7DHaThjgBbui5L2ZEeOyAWrJdBLj9pqfOPHay00ocU1Z6Rmm69+4SRIV73ps9n4wypfP6R9JLAnSOmPzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=bEPQODQd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=LpHeaZJN; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="Jh5vihi3"
-Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-9104649a5dcso20620556d6.3
-        for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 07:58:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="bEPQODQd";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="LpHeaZJN"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68KBnwiC2569480
+	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 15:01:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=cFBw/9MveNooP76MRdC5+S
+	4XLI9vlDs3jbwQiSM5tkM=; b=bEPQODQdVajwiKS7seZzZCY40NdK/hsGB8CCKY
+	tfxlNyICqlYzvW+IeKuuNl2mqUw3jYhqMKW2Y9pZaE2SL6DYJT4KXDPpkDjLXdSp
+	fH9j4kaj0/VBkpeQMa3CPinKZludEQs463RZuqlLCtLhBp2VXssCTk31aOamy08p
+	g1Qdy7WcUkuVQ87mRpeJwrXCA1lpVf9IKgHBiInqtdgaBdeUODG+A1MJafHybP+q
+	lAfvq/c8pzf3BelrfId9PquV4ApQCXfsbhrtODTE5fH+3+m4n4jwZTVV0Pv/Jv+R
+	KOHbORGCx9al2dTYZOcqkL4Md9XW+4CMRjI/5662ZtldxXwA==
+Received: from mail-vs1-f71.google.com (mail-vs1-f71.google.com [209.85.217.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gsjfuk703-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 15:01:36 +0000 (GMT)
+Received: by mail-vs1-f71.google.com with SMTP id ada2fe7eead31-7915a83539fso2090739137.1
+        for <linux-usb@vger.kernel.org>; Sun, 20 Sep 2026 08:01:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1789916319; x=1790521119; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hUpgTeZnt88Do5baS9Dydj6Vz4scTE2/FKUaIQsLI88=;
-        b=Jh5vihi3I+4Gj9QkqIWeKG8BzLlLEqplmwnCuUtWGMoJkRuFMReXXg7WRpbjbktSj8
-         /qCZ5DUA+MLBVkkJmaMkOZIBIkD1gzxjhqsZo9MmT3R7hRVPxYdw8L2daSJ7KXJ/L0J7
-         igKi9I7GlAhH8Qb01xiSLIhefXpRtvdGFBvGszer/FGs0Jji/Rfxzgosmc3wnL9XfPG8
-         Yke7LWiJU0J6B8Bjm266pAhCQmY9nJJ9Y48OFlC1KmBKyoZQuBXh3LqJJ76rS18EROx4
-         RRLJrd0RgdJ0BYIm4ysp1Ut+SSjfKr9gTZUj6gyBqvyMyEthsYGBUIxvB5e0SP9dNMpS
-         Va9Q==
+        d=oss.qualcomm.com; s=google; t=1789916495; x=1790521295; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=cFBw/9MveNooP76MRdC5+S4XLI9vlDs3jbwQiSM5tkM=;
+        b=LpHeaZJNMbb+uKhfcEmkOryVw67QodqzUZtnplwNkKWwjVzR0evVNEt6PMn8sxXlqM
+         cztvLXHIXkiwNkkp9bphbebB/9XKibwynm7r5j+xn37BdW9DPxUC6QHyXraRRrWM2ah2
+         uTltSkvL77fv8Jbvc2n2gs2EEKhtMfql/MedQZbfaFTqAOhmnPgRZOuggrdGk2ykJAmD
+         jp+6f/T4OBJUcRmBgLLgAaVYdLEdQ0W/CFwyhqS1ICHW4emIy+YS+mKKhx9/O5b6DdrA
+         /+pGDLaWVBnAuIAWalrQvR3263FvOnxMumcglfxj3A+XT5sgJXsIRHs0dwrzAKjduIMj
+         EKOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789916319; x=1790521119;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hUpgTeZnt88Do5baS9Dydj6Vz4scTE2/FKUaIQsLI88=;
-        b=Q5TZjT9SvIZklNulwPHWWC1cxH1Hc3MoPcywIfSDcOypgnjk+9S8eQ61tK7LLHb08g
-         XV966BuEUdL/Fs/KBcPOLY1bykszu977G6iDq1IVtbYawHWBXZvgSPXQOMgFOzxPXIFV
-         VLhEEQno1O8B8r9tH8sAsV1okGPiSvsX96NZPDeTFKt93mk7Jpe3tPqZ+Wvnd/vS8chK
-         bvCRDrmlRP6VOwILpIXLo1VXYD2s+mzfo3qS6zTFz/K6MILVgzuyB7vz3no2vhpAtSR/
-         HgNLuJI2Jew3Ks0bkEiaEVZPC5nH2QQKq6Zjrwylc4hizfpCvpCsB+gaTAQR25FYzt/m
-         Vxzg==
-X-Gm-Message-State: AFuF++lU2L3BeY7Ucf3203LX0L5Bzty+Dqz2Qvh3l/geNJnsVdSZWr8b
-	A5Um5kCHaP0V2ehQjPdpmofHRwbo/O9hMQKKelY+xzrjtgtzxMgD6r3UkOU4QYipvvFLyknwgCx
-	vPkemmw==
-X-Gm-Gg: AYBFou169J+RFM6NGLe/7U8o6VJj7+dlNUaJSyk2iPsc9mI4ERU/+EKFkon8SunAWjV
-	4eMtmU0kr6IiZArL1gEhRp5/apfUBKjrHH/gvz/INR/LXbm+O+GITZEHawAKCIQvbRWO08EUEgt
-	QBd1Za4LpVL0Y6BlgQbyqpHawYQClmhO2Oyh8gxg+QOWLG2uMuFcwUeWRkZN1Osa5RrqkOGA8pq
-	DW3jnSgiiFt+VuAXSjKD3AZHNf1HZkG6LY28sk51DareSVPEMi+R/Iv/5WC28b4zuhqSqKCqe8y
-	wHmh5rEIcywj+VnyOGamy8LvCOCIHEboMBGC95jGgGBmUUo22TNR6+YQJ1WiOoKma5BdkMRPIs+
-	I4KuhztAQK+4xi3hMOdPIAmPhc/5SjOFg7txFz69rNZ7PvTTHNiVDaTMyrgrWuB097/Q+bpGA1+
-	xPPlnEEexN0vxRz1mC0iucs5Bp/VShtTcb3JNjeWhGr3k5GKwU9LvGLkk+Hni/ARCFPtlrqyQ=
-X-Received: by 2002:a05:6214:27ea:b0:910:44be:42b8 with SMTP id 6a1803df08f44-9129c75e191mr65450306d6.6.1789916319131;
-        Sun, 20 Sep 2026 07:58:39 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::7544])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91260a61570sm46255746d6.23.2026.09.20.07.58.38
+        d=1e100.net; s=20260707; t=1789916495; x=1790521295;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=cFBw/9MveNooP76MRdC5+S4XLI9vlDs3jbwQiSM5tkM=;
+        b=zKpmZWDJ1f9yvXnynb19veTcAmo4qnzLhsvmcOIPsdCeW7LlZ3s2ad+01eb7bd/r+T
+         Jq2iXOmG49JLT4Bf4R+N4EB84wf7y+qWJyNl+x2c/wJ2FfdcO/T4NGejs41mlzrQL7/E
+         yhhm8DFXwGDUUQtvjWaHfIH7GDJfKyIZuJO7GpNM8sh41RFjb0HUNIcpQMS8bJBzO+TR
+         6nDG/elCkXW0T4ANpwqA6SZBrgUy+mpuQTq57Fq+XYwKTD6esV/VAkE56LXC6tvZCg1j
+         3Ww8cbr+mR3QR9U5pIMVm5sE/2zt6yxI1YNXyoVobmXy2SrS9t9R6AtLxKsPG0ncuZ1K
+         Da/g==
+X-Forwarded-Encrypted: i=1; AKwUvBxvQM1GYOp2u3JBk51ynxQ+YK2tnAJrv25YfAPMArWrUPk173viWWOmuzxRrJ2EacRClXgXHz8JCWQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++l3mgyQ+E3rngP1pF27RKTW2hmWXVYsGBBXyrSVtU5zcrYY7HJc
+	WLP+WpZGsYtKwPCIY3+GR1d5g8YtKPDkbaBC5CrMCLrwZqv7XY23YI4G3w4sAPj5n2kGrcL8vYi
+	7/CkvdcUiLGe8hjpZy0jhF32I6uLYfcoCdI9wkt+P7P0ExAr2Vy2MgbM10NqpLws=
+X-Gm-Gg: AYBFou3uOKGAa3RxoaV3fSM1LJcFZkPZWZK67le2BJ3FF9c/49qr78J18EzxU7HD0Nb
+	/3ElY3mfOgL7MDpWraFzpPuO/GQFvCg5M9kNIJewFcSxMx5IjYZpaPJBb/z9eOkgRvlEZMG7JCe
+	5SyZcGOj3SKvKmp1hLEXY9ekcr7D9/Z8E0IMK7v1bqWMBQ+lvlUOiNxWXtrUFle7R/PicmcAtjj
+	i7aLbSqIMtEyJ41WioMFPgr/nb+/cRXpyOIGEfbZ/tzBuTkS9jT3/yb/nbTOjUcSJM/vr1v6IEk
+	6qsxtx4BKg++wyBx8om8QvlUsla042doZuNsBMNg3e5mkgyylyGpk85gr66CG1lDHYK1qpUUnMz
+	6HGi9HP92gxPY5bhBSTFzB/QBeIJm9jS7bWfY+l5kci4SyFvyQH9qcPRqw9d3yhuEmd+6tPYUhi
+	XyWFgGfKpYNtkV
+X-Received: by 2002:a05:6102:41aa:b0:7a7:19aa:8a83 with SMTP id ada2fe7eead31-7a719aa90ccmr1489151137.30.1789916493833;
+        Sun, 20 Sep 2026 08:01:33 -0700 (PDT)
+X-Received: by 2002:a05:6102:41aa:b0:7a7:19aa:8a83 with SMTP id ada2fe7eead31-7a719aa90ccmr1488929137.30.1789916492529;
+        Sun, 20 Sep 2026 08:01:32 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a6163d7119sm4090061fa.30.2026.09.20.08.01.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 20 Sep 2026 07:58:38 -0700 (PDT)
-Date: Sun, 20 Sep 2026 10:58:35 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Fabien Sanglard <sanglardf@google.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org
-Subject: Re: Missing uevents after successful USBDEVFS_RESET
-Message-ID: <b7c2f7d1-40fd-4d83-8ced-5fc27e3be051@rowland.harvard.edu>
-References: <CAA92w6k-LA4tVXyX1mFNOR3e+_mC43F_BXqhXeWqQyFx2D4_Mg@mail.gmail.com>
- <a0934cb4-82f2-42bf-abd8-95a0016fb0e4@rowland.harvard.edu>
- <CAA92w6my-P4Srfb_AmOm_NjXM6CqaA0Q_Dc_9kgUtM_wCGkHNg@mail.gmail.com>
+        Sun, 20 Sep 2026 08:01:30 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v5 0/8] drm: handle IRQ_HPD events correctly
+Date: Sun, 20 Sep 2026 18:01:25 +0300
+Message-Id: <20260920-hpd-irq-events-v5-0-ff1de0090c72@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAA92w6my-P4Srfb_AmOm_NjXM6CqaA0Q_Dc_9kgUtM_wCGkHNg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEX1r2oC/3XOwW7CMAwG4FdBORPkOGkKO+09EIcmddYgaCEpE
+ Qj13ZcwTUMrXCz90u/PvrNIwVNkH4s7C5R89EOfQ7VcMNs1/Rdx3+bMEFCDEop3p5b7cOaUqB8
+ jpxqNhVo3lRMsL50COX99gNvdT44Xsyc7FqU0Oh/HIdweF5MovV9c/8eT4MBFY4QT1hk0+DnEu
+ DpfmoMdjsdVHqzcSPikIMwUzIoCdI6wpg1t3ijyWREzRRZFtWicgtbZd7+oP0XDeqaorEgwGo2
+ UlVrXL5Rpmr4BRq0de5cBAAA=
+X-Change-ID: 20260414-hpd-irq-events-e72bc076a5f1
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Adrien Grassein <adrien.grassein@gmail.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Pengyu Luo <mitltlatltl@gmail.com>, Nikita Travkin <nikita@trvn.ru>,
+        Yongxing Mou <yongxing.mou@oss.qualcomm.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Francesco Dolcini <francesco@dolcini.it>,
+        Abel Vesa <abelvesa@kernel.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5586;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=T1aSMkDvUg9F4iAHgfR3ruSI6UlGC1w9a/0Vrd6WDtY=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBqr/VHrDBA6z2QkqCb4MlukXsy8f/Bwm2WbvbLS
+ PGY3/CGZ3+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaq/1RwAKCRCLPIo+Aiko
+ 1bS6CACQo4YyOra9XHAUD9XHzteIJFP/nsaDjZ+koYADIdi0trNeItVnSKMahos3SM31s4f1c/q
+ ceNCJ52X48MeITEomzforKgCxg0XK1ezaqRv6uG1aVV77k/9sF4E5Natyst5gWP5cOJTIFC/1Jp
+ nHPhYixemqLOxMTjpoE5GtQe7ywIdmSpK/Xs/DV6vJHJEzuZ7mpIxx8qEsaAcsMgOJBF/5TWfC/
+ kknru+qOu3skUf6igt4HV4diKuE7eR/iwW68hXcGO8SUV6XHphEWDwPdF+VX9tBvfOu+/pMxn1j
+ TWEE2AtnruYKINyRc1QKY8wT/gDFZgCK8OkhhuEcReyWAO5m
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIwMDIxOSBTYWx0ZWRfX9WpNN5tOGFLd
+ ltbZEuupILf30FuDPpLX8t2GGtvs0sCVkEMzmUjp7W86lXDrX6tT23fFlE/74pjRVU/NqHvj9qe
+ ZlNXN+AXgl5a0geGTtDtK7G1VfdkSGI=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIwMDIxOSBTYWx0ZWRfX1U6gBmAx6lYU
+ FfipUNAl7NT+OD9uoqi3zrFccOlFGMwCNK/Ozmc7BS6B400t4j4cEWuYEEGidWQkRSgwmMbqi6b
+ USl+ByVqeVkbqkxOo9e2H+BsTYytF7X4H2hxSxaXtDweqdLaoUBRfbbcaNkTFiTGgxHwBKQxgU1
+ xXU0239VHI5fBjwP6s/3GMZcHOnrCWVN2Rpv+CvPj/7Bhzpw1LLlAI0bqZSwumQjKGfJKYlhjzv
+ 68QP5cLy7DrVTleaUcI04DA5hY/Uf6glh1as5ZQo12VDxgHtZmGs/Ly76YfX5Xqdo3hheZKhlzO
+ rUHtHtRr3NIqsl17SQgfHrfUGUWU7c5foHT0s1LvzAZxagUeMmGKzpc++2iG7xcNIMhg4L3z501
+ yidtd42E/uwgEQZPw+OxGrxxkm5r0YzOv4DvrHOb+xMZJxyUY8pFWBqKzB1W7gRZPpaJi0i7/yv
+ Rm4AeB9cb79q08TunBQ==
+X-Proofpoint-ORIG-GUID: iG5dwqTdggyA0o_tbF8wDv1G3T6IJEW1
+X-Proofpoint-GUID: iG5dwqTdggyA0o_tbF8wDv1G3T6IJEW1
+X-Authority-Analysis: v=2.4 cv=QKv91QLL c=1 sm=1 tr=0 ts=6aaff550 cx=c_pps
+ a=P2rfLEam3zuxRRdjJWA2cw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8
+ a=ag1SF4gXAAAA:8 a=KKAkSRfTAAAA:8 a=P1BnusSwAAAA:8 a=P-IC7800AAAA:8
+ a=GFqr32JmAAAA:8 a=IpJZQVW2AAAA:8 a=mK_AVkanAAAA:8 a=tVI0ZWmoAAAA:8
+ a=e5mUnYsNAAAA:8 a=JfrnYn6hAAAA:8 a=eKQTCwoLd85be8zhlTQA:9 a=QEXdDO2ut3YA:10
+ a=ODZdjJIeia2B_SHc_B0f:22 a=FO4_E8m0qiDe52t0p3_H:22 a=Yupwre4RP9_Eg_Bd0iYG:22
+ a=cvBusfyB2V15izCimMoJ:22 a=D0XLA9XvdZm18NrgonBM:22 a=d3PnA9EDa4IxuAV0gXij:22
+ a=f02Ha7HRcztGgdyUxOxW:22 a=IawgGOuG5U0WyFbmm1f5:22 a=3gWm3jAn84ENXaBijsEo:22
+ a=-BPWgnxRz2uhmvdm1NTO:22 a=Vxmtnl_E_bksehYqCbjh:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-20_04,2026-09-16_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 priorityscore=1501
+ impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609200219
 
-On Sat, Sep 19, 2026 at 11:00:22PM -0700, Fabien Sanglard wrote:
-> Hi Alan,
-> 
-> > You would have to think carefully about the conditions under which
-> > it should be sent.
-> 
-> We only want to emit KOBJ_CHANGE on an interface when:
-> 1. A driver was bound before reset and forcibly unbound.
-> 2. The reset succeeded in-place.
-> 3. No driver matched on re-probe, which happens for `usbfs`.
-> 
-> It looks like these three conditions are all met in `usb_rebind_intf()`.
-> 
-> I tested it with an Android device/ `adb_reset`/`udevadm monitor
-> --kernel --subsystem-match=usb`. When the in-place reset succeeds, I
-> now see `UNBIND` followed by `CHANGE`.
+Both DisplayPort and HDMI standards define a way for the Sink / display
+to notify the Source / host about some kinds of events. In case of HDMI
+it's as simple as singnalling changes to the EDID. In case of
+DisplayPort it's more complicated and requires actual checking of the
+DPCD registers.
 
-All right.
+Currently USB-C drivers don't have a way to deliver the IRQ_HPD
+notifications, leading to missing MST notifications. Provide necessary
+plumbing to let IRQ_HPD events be passed to the DisplayPort drivers.
 
-> WDYT?
+Note: the Yoga C630 UCSI driver and Acer Aspire1 EC driver are not yet
+enabled to send the IRQ_HPD events. Both of them would need some more
+reverse engineering to find out how the event is being reported by the
+EC.
 
-The patch was corrupted by your email client.  Please fix this.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Changes in v5:
+- Renamed drm_connector_status_extra to drm_connector_dp_event (Maxime)
+- Link to v4: https://patch.msgid.link/20260608-hpd-irq-events-v4-0-30b62b335487@oss.qualcomm.com
 
-> ---
-> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> index 7f33fe5ba03b..ec4762d260df 100644
-> --- a/drivers/usb/core/driver.c
-> +++ b/drivers/usb/core/driver.c
-> @@ -1182,8 +1182,23 @@ static void usb_rebind_intf(struct usb_interface *intf)
->   if (!intf->dev.power.is_prepared) {
->   intf->needs_binding = 0;
->   rc = device_attach(&intf->dev);
-> - if (rc < 0 && rc != -EPROBE_DEFER)
-> + if (rc < 0 && rc != -EPROBE_DEFER) {
->   dev_warn(&intf->dev, "rebind failed: %d\n", rc);
-> + } else if (rc == 0) {
-> + /*
-> + * Emit KOBJ_CHANGE to notify user space that the
-> + * interface without driver is ready to be re-claimed.
-> + * 1. A driver was bound and forcibly unbound (this
-> + *    function usb_rebind_intf() is called in this
-> + *    case only).
-> + * 2. The reset succeeded in-place (this function is
-> + *    called from
-> + *    usb_unbind_and_rebind_marked_interfaces()).
-> + * 3. No kernel driver matched on re-probe
-> + *    (device_attach() returned 0).
-> + */
+Changes in v4:
+- Renamed drm_connector_oob_hotplug_event() to
+  drm_connector_dp_oob_status() (Maxime)
+- Reworked commit messages, explaining what it is about (Bjorn)
+- Rearranged commits, making them a bit more logical.
+- Link to v3: https://patch.msgid.link/20260421-hpd-irq-events-v3-0-44d2bf40dfc2@oss.qualcomm.com
 
-Much too verbose.  (Are people learning how to write patches by 
-imitating what LLMs do?)  Something like that would be appropriate for 
-the patch description, but not for a code comment.  It should be more 
-like this:
+Changes in v3:
+- Fixed build error if aux bridges are disabled (Intel GFX CI)
+- Link to v2: https://patch.msgid.link/20260420-hpd-irq-events-v2-0-402ffe27e9e9@oss.qualcomm.com
 
-	/*
-	 * Emit KOBJ_CHANGED uevent to notify userspace that the
-	 * interface could not be rebound.
-	 */
+Changes in v2:
+- Change irq_hpd arg to be an enum, possibly desribing other uses (Toni)
+- Account for that, chaning the API accordingly (with_irq -> extra,
+  etc.)
+- Wire up AUX bridge notifications
+- Link to v1: https://patch.msgid.link/20260416-hpd-irq-events-v1-0-1ab1f1cfb2b2@oss.qualcomm.com
 
-> + kobject_uevent(&intf->dev.kobj, KOBJ_CHANGE);
-> + }
->   }
->  }
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Robert Foss <rfoss@kernel.org>
+To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+To: Jonas Karlman <jonas@kwiboo.se>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+To: Francesco Dolcini <francesco@dolcini.it>
+To: Kevin Hilman <khilman@baylibre.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+To: Abhinav Kumar <abhinav.kumar@linux.dev>
+To: Jessica Zhang <jesszhan0024@gmail.com>
+To: Sean Paul <sean@poorly.run>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+To: Abel Vesa <abelvesa@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
 
-Otherwise this seems okay.
+---
+Dmitry Baryshkov (8):
+      drm/connector: report out-of-band IRQ_HPD events
+      drm/connector: pass down IRQ_HPD to the drivers
+      drm/bridge: aux-hpd: let drivers pass IRQ_HPD events
+      drm/bridge: pass extra events to the HPD callback
+      drm/bridge: pass down IRQ_HPD to the drivers
+      drm/msm: dp: handle the IRQ_HPD events reported by USB-C
+      soc: qcom: pmic-glink-altmode: pass down HPD_IRQ events
+      usb: typec: ucsi: huawei-gaokun: pass down HPD_IRQ events
 
-Alan Stern
+ drivers/gpu/drm/bridge/aux-hpd-bridge.c        | 11 +++++----
+ drivers/gpu/drm/bridge/chrontel-ch7033.c       |  3 ++-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c       |  3 ++-
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c     |  3 ++-
+ drivers/gpu/drm/bridge/ti-tfp410.c             |  3 ++-
+ drivers/gpu/drm/display/drm_bridge_connector.c | 22 ++++++++++--------
+ drivers/gpu/drm/drm_bridge.c                   | 20 ++++++++++-------
+ drivers/gpu/drm/drm_connector.c                | 22 ++++++++++--------
+ drivers/gpu/drm/i915/display/intel_dp.c        |  3 ++-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c     |  3 ++-
+ drivers/gpu/drm/msm/dp/dp_display.c            | 10 +++++----
+ drivers/gpu/drm/msm/dp/dp_drm.h                |  3 ++-
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c            |  3 ++-
+ drivers/soc/qcom/pmic_glink_altmode.c          |  6 ++++-
+ drivers/usb/typec/altmodes/displayport.c       | 23 ++++++++++++-------
+ drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c    | 11 +++++----
+ include/drm/bridge/aux-bridge.h                | 13 +++++++++--
+ include/drm/drm_bridge.h                       | 31 +++++++++++++++++++++-----
+ include/drm/drm_connector.h                    | 24 +++++++++++++++++---
+ 19 files changed, 152 insertions(+), 65 deletions(-)
+---
+base-commit: 3f2425f5b5bbbdd991ca9cdfd5502e68d8895998
+change-id: 20260414-hpd-irq-events-e72bc076a5f1
+
+Best regards,
+--  
+With best wishes
+Dmitry
+
