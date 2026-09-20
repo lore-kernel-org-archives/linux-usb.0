@@ -1,45 +1,47 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B793C3C0E;
-	Sun, 20 Sep 2026 02:53:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A05A41A0B15;
+	Sun, 20 Sep 2026 03:48:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789872853; cv=none; b=qoHDWhCq7dFB26OtQb+nvBn+NK2/t3K8Quf3ARye7Nu94MlAZAgJP9NtABSX7YqP464VC/SMhUPzeDK85DQfO8Eh3uNSXq2xiO/RRReOzLMkdd1qHu62zg30ov99ofLxOUKZ64an1i7xjkT3iu6+oBAmw+uCXe+BP2BVnDXUo/4=
+	t=1789876103; cv=none; b=ahlEWJ+XunxDoh7BgyxwqsjpbrSEFiVNX71nZD/loJ14maR1u8RFbjLFTk+2bTI+uGT5Lxe/PN3pDVrW5VNizOXDwqF/V9hNuf2G6mPtfnizOZv+2BS5fksMX3NCE7G3DjzUX7C4LNzpP58ht4w9prA4jbyHguyn03RLOSraOCU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789872853; c=relaxed/simple;
-	bh=Ygd8mqBtO686mcux/rW6QmDvGLHBgqfYP/o58srjY0s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rm3YVtzTZxMTUqpn1z6JtGdfjuQ+aAtekKvUN8USF84a5lgDtVTOCiT16nWWXTh7TldDRcwwd8KrJnN4QXjc02OxgozizZy62kp1XLGlm3q8CtUC+u9egz2wfA4XHeQU7CXkjiZNDoOIey+AWwa2GRoZTWpfC+KDRDH7uw0+3f8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=aa130zpR; arc=none smtp.client-ip=220.197.31.4
+	s=arc-20240116; t=1789876103; c=relaxed/simple;
+	bh=d2h7FXY+Z0Ko0oEFu2YEzuKqYCDUZDocdHjJCap76RI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aWoBzuJEwpQr8du9quu3n9SkaGDHloqu0FGl3G9wFOmz2iXBLJbDljtdNTk2IaVxZLiQwFgczn3E7mnp87YCk+UyivWmhBf3TOs9XoqdYGDCde2IlBJkEpISUvg7XcvvZgW+WjgUsRy8XlvP8dAc8kkqtl/dtKwcU1l2eSpQESY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ji/eJWH8; arc=none smtp.client-ip=220.197.31.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="aa130zpR"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ji/eJWH8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=18
-	oqH9f+oHiRWywSgSOAkQ2UH8VirGYmfiB7j2Qvd3I=; b=aa130zpR1DGx81nBcQ
-	LRVELi2u5BQfiNekEjUD3lHRNVnFz4SCafqhgF31vOm+gdsiq2RARud22sIFSD6k
-	ncdyG0yRuckFiPRkJGvsHy7t5bsNQWVlOqP6CRD62czdB+lovjPRMIAeUqK5/DyJ
-	Yp01VJdMHrixj33QguPJVVadU=
-Received: from debian.lenovo.com (unknown [])
-	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wD33aGZSq9qsaQrBg--.118S2;
-	Sun, 20 Sep 2026 10:53:17 +0800 (CST)
-From: Kean Ren <rh_king@163.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mathias Nyman <mathias.nyman@intel.com>
-Cc: linux-usb@vger.kernel.org,
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=zC
+	ZCn/HTbvG7ECS8MrnseKP2fmhceo6WnzmtSb28Ils=; b=ji/eJWH8jJUx2y1NRV
+	4O0lrwzr6L2hX5zSkT1raEF6w2QDxuoWsW5rF6LJktJdWaontCENLTMHXjZmqAnF
+	xrO8PjzsijH9oXNuYysbIIQxBaNk8pQSjqNrh6hKG9dswpFriMT7xC2nq5Xjld98
+	9mv4KdxfTV6kyWSbxMZTHWWOg=
+Received: from localhost.localdomain (unknown [])
+	by gzsmtp1 (Coremail) with SMTP id PCgvCgDHlxhjV69qJnc7AQ--.62997S2;
+	Sun, 20 Sep 2026 11:47:48 +0800 (CST)
+From: Pengpeng Hou <hppiscas@163.com>
+To: andrew+netdev@lunn.ch
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Griffin Kroah-Hartman <griffin@kroah.com>,
-	Kuen-Han Tsai <khtsai@google.com>,
-	Kees Cook <kees@kernel.org>,
-	Nikhil Solanke <nikhilsolanke5@gmail.com>,
-	Thorsten Blum <blum@kernel.org>,
-	Kean Ren <rh_king@163.com>
-Subject: [PATCH 0/2] usb: fix ASM3242 reporting SuperSpeed for a Gen 2x2 link
-Date: Sun, 20 Sep 2026 10:52:41 +0800
-Message-ID: <20260920025308.2358862-1-rh_king@163.com>
-X-Mailer: git-send-email 2.47.3
+	enelsonmoore@gmail.com,
+	peter@korsgaard.com,
+	horms@kernel.org,
+	andrew@lunn.ch,
+	hppiscas@163.com
+Subject: [PATCH net v2] net: usb: sr9700: include receive overhead in the length check
+Date: Sun, 20 Sep 2026 11:47:45 +0800
+Message-ID: <20260920034745.18468-1-hppiscas@163.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,41 +49,55 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD33aGZSq9qsaQrBg--.118S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uFW7GFyDWw17AFyxCr4DJwb_yoW8Xr4rpa
-	y3JFZxGrs5KrWSqw1fua1UXa1rZF4fJFW7Ga42q348CFW5J34kJFyj9393uF9FvFWIyFy0
-	qa48J3y8Ga4kArJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pRGsUtUUUUU=
-X-CM-SenderInfo: 5ukbyxlqj6il2tof0z/xtbC3x1A7mqvSp1pMAAA3n
+X-CM-TRANSID:PCgvCgDHlxhjV69qJnc7AQ--.62997S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7tryktrW8GFyDWr4UJrWrKrg_yoW8AFWrpF
+	ZxWFW7Zr4kJ3W7Jwn0kw4fWayrCas3Jr9xuF9Yq3s5uasIvw1xKa40gF1j9F1DArWrGFW0
+	yrZ8trs7Zan5AwUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U59NsUUUUU=
+X-CM-SenderInfo: 5kssx2xfdvqiywtou0bp/xtbCxQR1PmqvV2SULgAA3G
 
-The ASMedia ASM3242 (1b21:3242) reports the SuperSpeed speed ID together
-with two active lanes for a link that is actually running at USB 3.2
-Gen 2x2 after a cold boot.  Linux therefore classifies the device as
-USB 3.0 SuperSpeed and reports 5000M/x2, although the measured
-throughput is 1.49-1.60 GB/s (11.9-12.8 Gbps), which is above the
-physical ceiling of a 10 Gbps link (~1.25 GB/s).
+The receive fixup subtracts the Ethernet CRC from the reported packet
+length, but compares that payload length against the whole remaining
+receive buffer. The following copy starts after the three-byte header,
+and the cursor advance consumes both that header and the four-byte CRC.
 
-  Patch 1 is a generic correctness fix: get_port_ssp_rate() currently
-  cannot recognise USB 3.2 Gen 1x2 at all, because it rejects any
-  matching sublink entry whose link protocol is not SuperSpeedPlus
-  before it looks at the number of active lanes.
+Require the payload to fit after SR_RX_OVERHEAD before copying it or
+advancing to the next packet. The loop already ensures that the
+remaining buffer is larger than the overhead, so the subtraction is
+safe.
 
-  Patch 2 adds a controller quirk so that this hardware reports the
-  Gen 2x2 speed ID.  The raw extended port status, the measured
-  throughput and the list of resets that do and do not restore the
-  correct report are all in the patch description.
+The issue was found by our static-analysis tool.
 
-The wrong report is 100% reproducible after every reboot and is only
-cleared by an S3 suspend/resume.  Raw data (lsusb -v, lspci -vv, sysfs
-and BOS dumps, kernel log) is available on request.
+Fixes: c9b37458e956 ("USB2NET : SR9700 : One chip USB 1.1 USB2NET SR9700Device Driver Support")
+Reviewed-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Tested-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Assisted-by: gpt 5
+Signed-off-by: Pengpeng Hou <hppiscas@163.com>
+---
+Changes since v1:
+https://lore.kernel.org/all/20260705083724.24494-1-pengpeng@iscas.ac.cn/
+Clarify the subject as Andrew and Ethan requested. This is a revision of
+the previously withdrawn queue entry, not a new bug report.
 
-Kean Ren (2):
-  usb: core: hub: recognise two-lane SuperSpeed sublinks as Gen 1x2
-  xhci: fix ASM3242 port speed report for Gen 2x2 links after cold boot
+ drivers/net/usb/sr9700.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
- drivers/usb/core/hub.c      | 30 ++++++++++++++++++++----------
- drivers/usb/host/xhci-hub.c | 17 +++++++++++++++--
- drivers/usb/host/xhci-pci.c |  4 ++++
- drivers/usb/host/xhci.h     |  1 +
- 4 files changed, 40 insertions(+), 12 deletions(-)
+diff --git a/drivers/net/usb/sr9700.c b/drivers/net/usb/sr9700.c
+index 937e6fef3ac6..50981a28376a 100644
+--- a/drivers/net/usb/sr9700.c
++++ b/drivers/net/usb/sr9700.c
+@@ -355,7 +355,8 @@ static int sr9700_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+ 		/* ignore the CRC length */
+ 		len = (skb->data[1] | (skb->data[2] << 8)) - 4;
+ 
+-		if (len > ETH_FRAME_LEN || len > skb->len || len < 0)
++		if (len > ETH_FRAME_LEN || len < 0 ||
++		    len > skb->len - SR_RX_OVERHEAD)
+ 			return 0;
+ 
+ 		/* the last packet of current skb */
+
+base-commit: 518e5b794c06c0f0eb40df3e202274a66202c137
+-- 
+2.50.1 (Apple Git-155)
 
