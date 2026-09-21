@@ -1,142 +1,106 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF43495500
-	for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 09:34:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8403AEF4E;
+	Mon, 21 Sep 2026 09:44:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789983271; cv=none; b=LVdTmBPmC6VSvz53LYCIcYMWhRoliX76dkVTC5Te46ankYZAVf1E/BvquMnYmVNuV5uoUY5azfa6UTnoBmeFQQYHRpFAp8pIVngriKZ3MoVdh0ckY7rEjg0prqMrBJh0aA3ZKDRuMP/gLG+Gp7jC29wnob9YKqveEt5lPIWt/b4=
+	t=1789983866; cv=none; b=QlpvJWC6IjIHGUylDXY/l/Uiqphg0J6Sy0G3fqoyV0tus33ecmGTCRHcCAyVqByjG/dMfCQoREFcEX0aQ5Uf6GQ+d1SmCAY2giq1o0/BO9zzitfdnY/uucFMSLWGBd+BqR3WL0ze8gTvnr5WHk5QW2M+J3B3/qXMkfk/scUYyws=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789983271; c=relaxed/simple;
-	bh=VDiVxS02UvU/DeJ8GhMZFJd8KjufYlSoVNBbS5euGuM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SBXsS3ytUz4i2OpMtSX90b+rSz5XxuLi8vKIBkurXa5Jmkkzjkkn6yg70iE/sGMvxEP0+AgkNG1P2Ifxr4VK/iBaExsS6swxSkTSUBmSWsvXv6od8qvo8gCb0mp3hkKHxqtY6bMHFoxw89XwbmlAtp0jy75TKpn/K2mLbUA84PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cErvDhFi; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cErvDhFi"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so14946505e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 02:34:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789983268; x=1790588068; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KHp+jegDUOX55mRyFE6554e6Msr1rJ/McOVQlrwyHvk=;
-        b=cErvDhFigGfdKbiuM902L2yLXhtvophUV6V86cIt370TA85fqwObN4OtTMphrvkkF2
-         i2yTyY75Rra4AEggTDKDi28tB56S73ymEY/wb508Bqmff1a8l+Ygjo+HMgCXifnUA1FD
-         Gt/Nl+4X3e2BZClF8ruWEPQHL/egOFssbKfJtfP4t+treMaSGSL96IuTQiHSeF+350zU
-         YNvB+Vf8juSd3W3mJdg9NDgJ8WHIzqnNbJZ4+jvVv45V93RsaSeVs4JjMuwBtyicRAi0
-         gOl7SwJjlWVLGtLRZTVWC6IXGogbpWs1IfGLub/RtdY1PalnivH3JYZ2NTEZbg2HDWaS
-         X+/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789983268; x=1790588068;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KHp+jegDUOX55mRyFE6554e6Msr1rJ/McOVQlrwyHvk=;
-        b=D1RMBkn6XGwBE4lowSGaJHMMtONoxUbRr5lUPiI3TAV0oj3V9bepZKtdaPjfEQpX4l
-         x0wKNlTsQHKQr7ead6QK3xjjm6lP8ZysdkfeM4ILgjuKl/yptCgYlCB85V+HPc5wH97W
-         9wsm+/JS09kg9nprNjH0ftcCzviUnEPgwrv4lfnoRbm4V6oblxy7kZ8SwkeLfRM121Dj
-         HB714dXSAoECE9o/2WvHts+TFNjHMNtOT92j24mz07w5DY4gFb7qAp+4XHzzi/Jszu8w
-         CO7HH/WYiLi1bkCNfP5Vd3YUEMzN8XU4X0pxfMJ3tnJOGfpNCppavHGUKgaUfD+brW6a
-         7ovQ==
-X-Forwarded-Encrypted: i=1; AKwUvBymcGpaBBTvKz+iG1hNdtdQiJNLNvm4lmZ7ATm7u7kSF2oS9yWQRQpeC0wBb0gUADH8igTknWtFgOI=@vger.kernel.org
-X-Gm-Message-State: AFuF++lLOHBfTvYeeXuOoJhwN3KyY+UMiklFy6FMUdkPyBN4MZd6QQpU
-	d5b+Cv70twVxY8GnK2+/Cb6eAPraxrk5eRbotrQL033wx6nQ3w/g+7OF
-X-Gm-Gg: AYBFou3tbNKGNJOv8zslPxq48w9MHpH63U4d6kiOAfBs1piByNyRRUWN/A/RSKgn6Vx
-	GY+NVNUrLhE3d2RSIcMMI91y1lT9yFcZkpwRvKpntLnT05XhB+sMiJHn5UoJ5TVRhvrwzdIpCq6
-	4hgv5//lk2BvioJyn4bxz/LyhgOceXAkgu8fahAPzjHX3Un9vguxQ3trhGiDVLQbXGCaPE6tacj
-	08J00nxe3osJkfkd1zQKHKGpWEZYZ0u+IlSOzu9JTgdeNOcM/N7yatDQ2p1c/wzHCHbBQotpOn7
-	23l/SXmnqyypz4CuvwEpm+CWzxh6WEsCDNTfeyi1KRwXgkMrAHhTgRs2vcj1kLD0CRZb5q1tuuj
-	Bi6plXAA+zwCEyRpoFFljRF3avk5bHc2C/zjd/YOU9eMiNyFApd/VpvSZTc+Ag5CY5j0I1FUJOE
-	TGg+LcFZ5w6L+CW+JQLvaoZlSvAYWNofTRAhFgq2ssRNPI08KA22y6pZHYSsZniAvsvdVAK14+4
-	4+0+5S9azdwOBm4lTNydCgo6LiPooS2udyrY9/QRSMDypo=
-X-Received: by 2002:a05:600c:c16a:b0:49f:ce78:356e with SMTP id 5b1f17b1804b1-49fce7836b0mr85310405e9.31.1789983267863;
-        Mon, 21 Sep 2026 02:34:27 -0700 (PDT)
-Received: from gil-endeavour.hs.rfd0.com (bl10-2-111.dsl.telepac.pt. [85.243.2.111])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcce144b1sm351916195e9.0.2026.09.21.02.34.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 02:34:27 -0700 (PDT)
-From: Gilberto Conde <gilbertorconde@gmail.com>
-To: =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
-Cc: netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Jakub Kicinski <kuba@kernel.org>,
-	davem@davemloft.net,
-	Eric Dumazet <edumazet@google.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>
-Subject: [PATCH net-next] net: usb: qmi_wwan: add Quectel EG120K-EA
-Date: Mon, 21 Sep 2026 10:34:26 +0100
-Message-ID: <20260921093426.2870266-1-gilbertorconde@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	s=arc-20240116; t=1789983866; c=relaxed/simple;
+	bh=Ny2qS2fMxi0fAcYUfnNf3pmIxiRJbqNgL/Fh4LCY4Ik=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Cc3xDUbzCXJrH4Z4EUAQaK7pglHxE/7iYanB5DiVVtJqVaDi6d9FEdob5JIEvuxQrnYvTaApNTU+51EgTHaKeHdbNMUYumSX6flXM1kzynVpg0DSVHU8rrnDrI9uPEy1C+M4nDssCCIam6Crwyxj4itvPBQrdlM4xhXrqNk1SAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 03157cdab5a111f19a56ed5b684f684d-20260921
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:1c0d18b0-7032-41a2-a203-6262f7da3134,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:28c43a1190f95a13f376e43396c62bc9,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|865|898,TC:nil,Content:-10|0|15|50
+	|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
+	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 03157cdab5a111f19a56ed5b684f684d-20260921
+X-User: lijiayi@kylinos.cn
+Received: from [172.25.120.57] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 1376205578; Mon, 21 Sep 2026 17:44:17 +0800
+Message-ID: <60d7692e-4d8e-4b94-b45d-a530bc2cff72@kylinos.cn>
+Date: Mon, 21 Sep 2026 17:44:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH] usb: uas: quiesce SCSI before stopping endpoints on
+ driver unbind
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Oliver Neukum <oneukum@suse.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+ linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ linux-kernel@vger.kernel.org
+References: <20260920012358.3362053-1-lijiayi@kylinos.cn>
+ <20260921092615.7402711d.michal.pecio@gmail.com>
+From: Jiayi Li <lijiayi@kylinos.cn>
+In-Reply-To: <20260921092615.7402711d.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Add support for the Quectel EG120K-EA LTE Cat.12 module (USB ID
-2c7c:030b). Its QMI interface (interface 4) uses class/subclass/protocol
-ff/ff/ff like the other recent Quectel modules, so match it the same way.
+Hi Michal,
 
-The product ID is shared with the EM060K, which the option driver
-already knows and uses to claim the serial interfaces. Without a
-qmi_wwan entry the data interface is left unbound.
 
-Tested on a GL.iNet GL-X2000, where the module is soldered down and
-enumerates at SuperSpeed: cdc-wdm0 and wwan0 appear and ModemManager
-brings up a data session.
+> This is actually an anomaly, transfer events should always point
+> to valid rings. Device sendig bogus Stream ID would be code 34:
+> Invalid Stream ID Error.
+>
+> Is this an ASMedia host controller? PCI ID doesn't looke like one...
 
-T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=5000 MxCh= 0
-D:  Ver= 3.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
-P:  Vendor=2c7c ProdID=030b Rev= 5.04
-S:  Manufacturer=Quectel
-S:  Product=EG120K-EA
-S:  SerialNumber=45546267
-C:* #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
-I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
-E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=40 Driver=option
-E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
-E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
-E:  Ad=86(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
-E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
-E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
-I:* If#=12 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=70 Driver=(none)
-E:  Ad=89(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
 
-Signed-off-by: Gilberto Conde <gilbertorconde@gmail.com>
----
- drivers/net/usb/qmi_wwan.c | 1 +
- 1 file changed, 1 insertion(+)
+The original controller was not ASMedia.  It was a Zhaoxin xHCI
+controller, PCI ID 1d17:9204.
 
-diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
-index 13a5e72059..f8b771dcc9 100644
---- a/drivers/net/usb/qmi_wwan.c
-+++ b/drivers/net/usb/qmi_wwan.c
-@@ -1086,6 +1086,7 @@ static const struct usb_device_id products[] = {
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0125)},	/* Quectel EC25, EC20 R2.0  Mini PCIe */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x013d)},	/* Quectel RG660QB */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0306)},	/* Quectel EP06/EG06/EM06 */
-+	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x030b)},	/* Quectel EM060K/EG120K-EA */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0512)},	/* Quectel EG12/EM12 */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0620)},	/* Quectel EM160R-GL */
- 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0800)},	/* Quectel RM500Q-GL */
--- 
-2.55.0
+
+I have now reproduced the same post-rebind failure with the same USB
+storage bridge (USB ID 2109:0715) and workload on an Intel xHCI
+controller (PCI ID 8086:a2af).  This additional run used
+6.14.0-27-generic.
+
+
+The relevant post-bind log is:
+
+
+   scsi host7: uas
+   scsi 7:0:0:0: tag#4 data cmplt err -75 uas-tag 1 inflight: CMD
+   scsi 7:0:0:0: tag#4 CDB: Inquiry 12 00 00 00 24 00
+   scsi 7:0:0:0: tag#4 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD
+   usb 2-2: reset SuperSpeed USB device number 2 using xhci_hcd
+   scsi host7: uas_eh_device_reset_handler success
+   ...
+   scsi 7:0:0:0: tag#7 CDB: Test Unit Ready 00 00 00 00 00 00
+   scsi host7: uas_eh_device_reset_handler success
+   sd 7:0:0:0: Device offlined - not ready after error recovery
+
+
+There was no "Transfer event 26 for unknown stream ring" message in the
+Intel run.  Therefore, I agree that event 26 is anomalous, but it is not
+required for the storage failure and appears to be a secondary symptom
+specific to the original run.  The first post-bind failure is the
+Data-In completion error on INQUIRY, and the same error occurs on both
+controllers.
+
+
+Thanks,
+Jiayi
+
 
