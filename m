@@ -1,42 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32FF34ADD93;
-	Mon, 21 Sep 2026 15:03:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086B747607A;
+	Mon, 21 Sep 2026 15:07:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790003042; cv=none; b=Z/R0dEfcw2mxdjls2yOxgvfP6/kULxSoXLR66Cd2VupUdTYKb+yfVKscyRk6sSRWdsK3jdu43Nyfv67TPNBkg7+4n7JAhjQXjvRB2oYSkqJI6SodkxNNg1sxPjfSywRP/QLCikBmdzo53y9UcScVSXSveVUtvDWW89PpuTwmwKw=
+	t=1790003242; cv=none; b=aXjl0u4V8pjiPc393ivwLxB8hqE2Gt/BWgfI15uJB3OlnYwBh/kp32DSTX+a5qgskPcfWMlF1COJAqytHExjtWwszht04EYavV72Ric0PNAkXr0n6XQQduPkOvWLxarlqG0elgg8i01Kq4tJQXso3uq1ZH6rhwN0TGpT83C4XT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790003042; c=relaxed/simple;
+	s=arc-20240116; t=1790003242; c=relaxed/simple;
 	bh=feog7uodYBs+q4YbR1VpaCL2OMRtRJhnYK2voJL0USE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=POfU3FVRDtnr0DfTxRPXP7uBg1rd0DuD+h9hg7sHWiDUs2L522ofaYbY036CEHlg9XkGQ7RP9uFlGAtH4uZINPAfAP54h3NKnnYVJDT6maZiz9zyFpzcCrWGfeNR1dBb5lZHOL01Nqq5DLZoFR7PP3KJrScgsHQfGZ5GSqfUUGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HKPtgqXM; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=X2RTxb8YRPo9OmdrNfAPXmHsYhj2ctVQObl5ruMc6oFJWZ8E9WYubsyrVGuQhRXgDaWaYbWLgSizIKap4L9543IKg8Wuu8WjsAJVNUuMXj+xgM1KV9JFyj9d9wvyNsXazroCKA06S95JWbXZExgqMzuiLh7j7yVg4w4l2GqKEvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C/PKQEwy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HKPtgqXM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3F431F000FF;
-	Mon, 21 Sep 2026 15:03:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C/PKQEwy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A58001F000FF;
+	Mon, 21 Sep 2026 15:07:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790003036;
+	s=k20260515; t=1790003240;
 	bh=C9OuFK8krYG5CFJQY5mJoDN0CmcjBiY8Df4psmo7f7k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HKPtgqXM8YdJsCLmf/4XWk866/vpIokpgYm5FBBZMXJiBdXigdiDCTg9BG39/L/vp
-	 gNFovqk3NNKb2LSzzO6almiWMgLvY+0DPM5nY96vjw2kuVmK1C4aPqNmNqAc7JaeR3
-	 BmSyW8ls6DDWGEdAi5GhWQ0h/pmTeVKMy5fWpxX/Oqxb1+UpK678Eqwjj0pATZpyl6
-	 gJjrRboSyK6QdP4VLnOaeCuhNRpa0/zQ3M96RAeg56rvyP/U1shNwLfsYp4ZPd0w1i
-	 b2a3P6iJBnYD/ggePc0FuzwuO/1/wYbvhM6k5qDRMoi7GbqjsxpDFN4C98xyjJAyoz
-	 Nlnvjed8Q1QqA==
-Date: Mon, 21 Sep 2026 17:03:53 +0200
+	b=C/PKQEwySgSwNGafp4Sed39F3rpKkgJQ9XIP0UYxKqxZvrMvYXyt6ySX5tsVuZxtC
+	 RSIe4qkmkI/8xo5pUSmj+b00/rzYZG/O/+NjmfTYri9F6GQCday5ZSCBk/dZ++SmHi
+	 yDJ5oVf3VsfjfgWRSliRTvrU2goNx1jIs2e+vTPfdHvqAW2uZzlbqr8YyDKiCwp5+K
+	 aODTlXJN+FNQIfmh7Wkcm690cvq4z+0SYEXJJD7z36I2Nre/4NAUYriP8EoES8qcu7
+	 2DmPWmMMg++gdD1uKvCsAj/LuqEtyNTKRF4EDKjEGvWx7mkbwWtXkUsooLBtCMTbQw
+	 6VM9txvXC8xOA==
+Date: Mon, 21 Sep 2026 17:07:17 +0200
 From: krzk@kernel.org
 To: Guangshuo Li <lgs201920130244@gmail.com>
-Cc: Bin Liu <b-liu@ti.com>, linux-usb@vger.kernel.org, 
-	Yonglong Wu <yonglong.wu@mediatek.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	linux-kernel@vger.kernel.org, Min Guo <min.guo@mediatek.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, stable@vger.kernel.org, 
-	Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Yonglong Wu <yonglong.wu@mediatek.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Min Guo <min.guo@mediatek.com>, stable@vger.kernel.org, 
+	Bin Liu <b-liu@ti.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Subject: Re: [PATCH] usb: musb: mediatek: fix child device leak
-Message-ID: <arFHWJb9igZQPkeZ@quoll>
+Message-ID: <arFIIXUAYO8OXa_5@quoll>
 References: <20260921085119.308981-1-lgs201920130244@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
