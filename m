@@ -1,160 +1,142 @@
-Received: from mta1.migadu.com (out-243.mta1.migadu.com [95.215.58.243])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE1348F012
-	for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 11:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C047485941
+	for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 11:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789989381; cv=none; b=KziHGiL0WGrt5HZdJFFiEvTo04o5glYD902a8MeRvlWXbmpAObFuWNaSFBBGjM+En2BSGa/bekUAuzFbBA3hKATrwDACcNhCQSdOJcJNOLcFaJsBrxIxGPFSnXU9gNAPBk54VnW2x87OtsfQPd/2bJVlzBj7M+rrz2gjXfP7bPQ=
+	t=1789989566; cv=none; b=BNrXiofW0s9H6naWN5mno+dVHj5DxaiDly5L9XI4S5dcyQ2dYd7Y3rjvqBsVdVWpwpN6V36o7D/xf/oHf3diLBK6xvz9/aCcUugpa8mEjgl75WFWnp9/HVjNLoGIVG+4uciwrRh1Gdl3DKTCPX85vwGLvRt+0gJj8hq4QpPpbXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789989381; c=relaxed/simple;
-	bh=gatQIgMu3v/IsMUVrYP5QjjizymHE9HTRW55gqqQDXU=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=rRGi5IjpTADAJYPA8rPfOWWA+h2rRuoCceztBYjua3KUjWV2nyGxeDWrCKjoLq95wshNCAYHcAqvDnWQIm0FCi6kzLMB224eRdsSzDbv37yXC0QOV9mTsPTbArCb/tfpka1yCCYOKO3LcA5QvO5HNufj9cdw4+Geasj9QHmYhf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ah2ILXlJ; arc=none smtp.client-ip=95.215.58.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1789989566; c=relaxed/simple;
+	bh=wF6YMwsDN/bA80suYDczDRXETF+9kFaD30fMz9MLx0I=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CwzZDXKEBQjUuzmjOBoDzKCUYVCG+kHWlhWEjFJIKPafG8QOYt85oPmAL1p2CtjjmZ/Z969cFwKHQEUzAuwUUarxXwEem+48jKXDM6xEfyr9Ae1kWJB/vuj922NAgVJV4pcXj3xmYKFG6M9PTBwx67pT1E7GRV+3Le68QHzxOdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JE8hUM70; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ah2ILXlJ"
-X-Envelope-To: linux-usb@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=gatQIgMu3v/IsMUVrYP5QjjizymHE9HTRW55gqqQDXU=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1789989377; v=1; x=1790594177;
- b=Ah2ILXlJUiKmMBQ1B/wLli2UkwdnNt4Qa+mxodmPSWcyTrLObSoJRJF1Dy4SpeONenSkSuyd
- 2oEAlmsNg4E9NeLNx0OoxjKhbzo5mUU+ObrfGPgu1UpcWiGkB2PgBkFyNIIm15DrankoS2e6zu/
- wyWp5ShFZ9eamQ8BRyRJH2rs=
-X-Envelope-To: linux-usb@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 89478576c1541826;
-	Mon, 21 Sep 2026 11:16:16 +0000
-X-Mizu-Trace-ID: 89478576c1541826
-X-Migadu-Flow: FLOW_OUT
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JE8hUM70"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1789989564; x=1821525564;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=wF6YMwsDN/bA80suYDczDRXETF+9kFaD30fMz9MLx0I=;
+  b=JE8hUM70gynpC9jRoonLdw2YYodyH10ZegJ7LXBJsRC1/Lo0XCpR0tJV
+   X+6e8UNV0G1MZvOz8dLFOfAOr3Uzm/QSOnm6+VyWT5s5YnB3g5/SH2Ovx
+   1e2hBIqejnm8Uyh4ECihbza1q8yPHCPj/z26Bmjfyarr+dhah1ny7Gcg6
+   vbcuJYHONTIcNSxfoaOm/6VNaQHvotS5VBNcVooYJA84g69Z4LZ+/Eazd
+   qmQhNzZ+cwHph1XOcmtBVFQlSQfvfSeHNIr1s9vGe7cCIan8MVTo6WhFN
+   Qi3IwKgLIPhImfAOcUN9ywtvduhLs7vS/uVGZQJV3ylHO42pxHCr2jh+w
+   A==;
+X-CSE-ConnectionGUID: X1VsENinQLGt3kFfNUcOjg==
+X-CSE-MsgGUID: ndG/2soyQmSTER/LDV8Qtw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11911"; a="116022112"
+X-IronPort-AV: E=Sophos;i="6.27,114,1787036400"; 
+   d="scan'208";a="116022112"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 04:19:24 -0700
+X-CSE-ConnectionGUID: gIfvFEqxRXyy4Of8z+5ldA==
+X-CSE-MsgGUID: qi7BfFnDTcm3wu/lpbtOIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,114,1787036400"; 
+   d="scan'208";a="280649193"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa005.fm.intel.com with ESMTP; 21 Sep 2026 04:19:22 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id BF17299; Mon, 21 Sep 2026 13:19:21 +0200 (CEST)
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [PATCH] thunderbolt: stream: Make read return framing error to the userspace
+Date: Mon, 21 Sep 2026 13:19:21 +0200
+Message-ID: <20260921111921.3289289-1-mika.westerberg@linux.intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 21 Sep 2026 11:16:16 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-From: "Frank Wunderlich" <frank.wunderlich@linux.dev>
-Message-ID: <6b691a27f27eee1a058426cc7fd5a3fbdbfd45a6@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH 1/2] clk: mediatek: mt7988: keep combo-lane U3 PHY ref
- clock enabled
-To: "AngeloGioacchino Del Regno" <angelogioacchino.delregno@collabora.com>,
- "Frank Wunderlich" <linux@fw-web.de>, "Stephen Boyd" <sboyd@kernel.org>,
- "Brian Masney" <bmasney+clk@redhat.com>, "Jerome Brunet"
- <jbrunet+clk@baylibre.com>, "Matthias Brugger" <matthias.bgg@gmail.com>,
- "Mathias Nyman" <mathias.nyman@intel.com>, "Chunfeng Yun"
- <chunfeng.yun@mediatek.com>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>
-Cc: "Frank Wunderlich" <frank-w@public-files.de>, "Daniel Golle"
- <daniel@makrotopia.org>, "Mihai Ordean" <research@mihaiordean.com>,
- "Chen-Yu Tsai" <wenst@chromium.org>, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-usb@vger.kernel.org
-In-Reply-To: <a71b6552-ea57-4575-89e1-14d414d53569@collabora.com>
-References: <20260919114744.46777-1-linux@fw-web.de>
- <20260919114744.46777-2-linux@fw-web.de>
- <a71b6552-ea57-4575-89e1-14d414d53569@collabora.com>
+Content-Transfer-Encoding: 8bit
 
-Am 21. September 2026 um 11:59 schrieb "AngeloGioacchino Del Regno" <ange=
-logioacchino.delregno@collabora.com>:
+If any of the frames are corrupted during the receive we currently log a
+warning and pass them to the userspace without it knowing they were
+corrupted. Make the driver behave better and return an error (-EIO) to
+the userspace in that case.
 
-Hi angelo
+For the CLOSE packet, payload does not matter so we handle it the usual
+way.
 
-> On 9/19/26 13:47, Frank Wunderlich wrote:
->=20
->=20>=20
->=20> From: Mihai Ordean <research@mihaiordean.com>
-> >  CLK_INFRA_USB_PIPE is the reference clock of xphyu3port0, the U3/PCI=
-e
-> >  combo serdes. On MT7988 that lane is shared between ssusb0's SuperSp=
-eed
-> >  side and pcie2, but only the consumer that claims the PHY holds the =
-gate.
-> >  On the BPI-R4 Pro, ssusb0 is configured USB2-only (u3p-dis-msk=3D1) =
-and
-> >  pcie2 claims the lane for the CN13/CN15 M.2 slot, so pcie2 is the so=
-le
-> >  holder. u3p-dis-msk does not remove ssusb0's SuperSpeed root hub: th=
-at is
-> >  decided by xhci_has_one_roothub(), which keys off usb3_rhub.num_port=
-s
-> >  from the xHCI capability registers, so bus 2 is registered and live
-> >  regardless. When the M.2 slot is empty, pcie2 fails link training (-=
-110)
-> >  and its error path calls phy_power_off()/phy_exit(), which gates thi=
-s
-> >  clock - and sspxtp_sel with it, as nothing else consumes it. The sti=
-ll
-> >  registered SuperSpeed root hub is then left polling a serdes whose P=
-HY
-> >  reference clock has just stopped,
-> >=20
->=20I'm not sure why said clock cannot be assigned to the USB controller =
-as well
-> as the PCIe PHY to keep the refcount high, avoiding to gate it?
+Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+---
+ drivers/thunderbolt/stream.c | 36 ++++++++++++++++++++++++------------
+ 1 file changed, 24 insertions(+), 12 deletions(-)
 
-the clock is assigned to the phy which is assigned to both consumers
+diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
+index a49b0b62518d..bdcca78f3449 100644
+--- a/drivers/thunderbolt/stream.c
++++ b/drivers/thunderbolt/stream.c
+@@ -375,6 +375,7 @@ tbstream_dev_rx_callback(struct tb_ring *ring, struct ring_frame *frame,
+ {
+ 	struct tbstream_frame *sf = container_of(frame, typeof(*sf), frame);
+ 	struct tbstream_dev *sdev = sf->sdev;
++	__poll_t mask;
+ 
+ 	if (canceled)
+ 		return;
+@@ -382,19 +383,17 @@ tbstream_dev_rx_callback(struct tb_ring *ring, struct ring_frame *frame,
+ 	sf->completed = true;
+ 	sdev->rx_ring.prod++;
+ 
+-	if (sf->frame.flags & RING_DESC_CRC_ERROR) {
+-		pr_warn("RX CRC error\n");
+-	} else if (sf->frame.flags & RING_DESC_BUFFER_OVERRUN) {
+-		pr_warn("RX buffer overrun\n");
+-	} else {
+-		__poll_t mask = EPOLLIN | EPOLLRDNORM;
+-
+-		if (sf->frame.eof == TBSTREAM_CLOSE) {
+-			WRITE_ONCE(sdev->close_received, true);
+-			mask |= EPOLLHUP;
+-		}
+-		wake_up_interruptible_poll(&sdev->wait, mask);
++	mask = EPOLLIN | EPOLLRDNORM;
++	/*
++	 * The CLOSE packet does not have a payload so the flags do not
++	 * matter. The read_iter() deals with the flags.
++	 */
++	if (sf->frame.eof == TBSTREAM_CLOSE) {
++		WRITE_ONCE(sdev->close_received, true);
++		mask |= EPOLLHUP;
+ 	}
++
++	wake_up_interruptible_poll(&sdev->wait, mask);
+ }
+ 
+ static struct tbstream_frame *
+@@ -875,6 +874,19 @@ tbstream_dev_fops_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+ 				WRITE_ONCE(sdev->closed, true);
+ 			}
+ 			break;
++		} else if (sf->frame.flags &
++			   (RING_DESC_CRC_ERROR | RING_DESC_BUFFER_OVERRUN)) {
++			/*
++			 * If something was already read return that now
++			 * and next read will report the error.
++			 */
++			if (!nbytes) {
++				pr_warn("corrupted frame received, flags %#x\n",
++					sf->frame.flags);
++				tbstream_dev_consume_rx(sdev);
++				ret = -EIO;
++			}
++			break;
+ 		}
+ 
+ 		sf_size = tb_ring_frame_size(&sf->frame);
+-- 
+2.50.1
 
-mt7988a.dtsi:
-
-		xsphy: xs-phy@11e10000 {
-			compatible =3D "mediatek,mt7988-xsphy",
-				     "mediatek,xsphy";
-			...
-
-			xphyu3port0: usb-phy@3400 {
-				reg =3D <0x3400 0x500>;
-				clocks =3D <&infracfg CLK_INFRA_USB_PIPE>;
-
-		ssusb0: usb@11190000 {
-			compatible =3D "mediatek,mt7988-xhci", "mediatek,mtk-xhci";
-			...
-			phys =3D <&xphyu2port0 PHY_TYPE_USB2>,
-			       <&xphyu3port0 PHY_TYPE_USB3>;
-		};
-
-		pcie2: pcie@11280000 {
-			compatible =3D "mediatek,mt7986-pcie",
-				     "mediatek,mt8192-pcie";
-			...
-
-			phys =3D <&xphyu3port0 PHY_TYPE_PCIE>;
-			phy-names =3D "pcie-phy";
-			...
-		};
-
-but this seems not enough...do you mean we need to define the clock again=
- for both
-consumers (e.g. via assigned-clock-parents property)?
-
-regards Frank
-
-> Cheers,
-> Angelo
->=20
->=20>=20
->=20> and asserts the shared SSUSB interrupt
-> >  outside the xHCI event ring; xhci_irq() reads USBSTS with EINT clear=
- and
-> >  returns IRQ_NONE, so the core disables the line ("nobody cared") and=
- the
-> >  next USB teardown blocks forever in xhci_disable_slot().
-> >  Boot logs show the storm threshold being crossed 86-107 ms after the
-> >  pcie2 probe failure, while the earlier combo-mux switch to PCIe mode
-> >  (~550 ms before) causes no trouble, pointing at the clock gating rat=
-her
-> >  than the mux as the trigger.
-> >  Mark the gate CLK_IS_CRITICAL so the combo lane keeps its reference =
-clock.
-> >  Only port 0's gate is affected; ssusb1 uses CLK_INFRA_USB_PIPE_CK_P1=
-.
-> >  Signed-off-by: Mihai Ordean <research@mihaiordean.com>
-> >  Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
-
-
-regards Frank
