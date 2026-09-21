@@ -1,106 +1,68 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.6])
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F279C30568B
-	for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 14:05:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.6
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE65A4A3861;
+	Mon, 21 Sep 2026 14:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789999553; cv=none; b=itTQjaCRjo8n49ihEz1d4Fi4z7kOi2uWqaIqndlx9StWHIYaUWw4WWAduQamYmTnWcK5XIEdrQsWeGsNe6C7a/ioHjiXsmtKfZE8tkqBxCeqeiA/j7A9R77KrGDuWF2VaTpIEGZdzCi00rMiYSAZJhXUyvARxgdroNgIH1WuQQI=
+	t=1789999736; cv=none; b=l0podO2/i7xnCj+iomNa+evufYyLnIf4aHUo00z6fHXcBq+/C7fgjfjuzoT0lBU4YNoaNV4DH9MYzIFGIpA8sfDUKKkXjpKNrtqt9EZr3FGRYZbraMC3798uPGJdABv0TSd0YksbjLbDOBTQXfwNWzDSRtiYqmN8FMpG2gPxfi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789999553; c=relaxed/simple;
-	bh=2NAoqaXBGf2L8mCmCH+BQLXGHY3MB3lAmP3o03VtLUc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dx6oqk1akK2SwCyAk/nDL/JcEkfzIluSSuUpYzd6/fZ7lZej62lqqfN8OLautvhrtOrD0juqQDKTaGUQKX6DvPHvlTxOq5rh5nv58I4aEAQpi2B8+oahxGmiHbaYu7FAKLo9S0hJF+2spM9/PNfXfFLH0dCqqnBzixyow2N5Co0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pn8j1Bay; arc=none smtp.client-ip=192.198.163.6
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1789999736; c=relaxed/simple;
+	bh=Gn+BmxhD/JNcuU4fD1WWhF+MIRk2TooarfAtYG79tHg=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WmUPDgEEhPIigMNQnokbjuzEvdycJlPr0oID1glayS41lIkZU/unTBcXjcAftWZqCpJx3CamCqcweKy8WeumHU1/axKdHA8acvW4mZXjHmysQACcH92Hd6tR9N4aWQyIkKgJIx6z4WMKQiRssLEcpgsr5n+cTS4SlmnFZtisIhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b=DukIcoa6; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pn8j1Bay"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789999553; x=1821535553;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=2NAoqaXBGf2L8mCmCH+BQLXGHY3MB3lAmP3o03VtLUc=;
-  b=Pn8j1BayOZDU1xrhMwYXM+0fcSj0/OEkupD/C5NjgQCSaNxjfyhJf6VU
-   joUyji27Nm5o7P+U2BtIJCq3aEmJ7HSciFEQGsTtHYMUENXYfDbWMQcns
-   hKujIpH8M9gKMRR2ru0g7d0SBlQc/R+eElyUcB5vC3CNz83CTGVIBYVQ1
-   27FDoVpe4SbZRcJdWXKR0N/WW809rhFxFekuzi4GdzKQovGelNh/UaM42
-   gloZ6Xk2WyEMg/dWFKYAC/7XbdRUsWElxRevvjOXEGtQTL76u7bTSlnLQ
-   IZqc+UZwfjSqDIxUpP9B3cwSYg8kYadS+ngCwsMzxWocMHvF3Jk8hg6GC
-   Q==;
-X-CSE-ConnectionGUID: OuVZT+WrRPyucGegtLynHw==
-X-CSE-MsgGUID: gwXv14pTRzej0xrdRclm/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="1021349"
-X-IronPort-AV: E=Sophos;i="6.27,114,1787036400"; 
-   d="scan'208";a="1021349"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa116.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 07:05:52 -0700
-X-CSE-ConnectionGUID: TytxqtW+SHSLlupjvYAOxg==
-X-CSE-MsgGUID: GHMlS1VkQsaP2shhBdyhlA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,114,1787036400"; 
-   d="scan'208";a="300605126"
-Received: from mkosciow-mobl1.ger.corp.intel.com (HELO [10.245.244.175]) ([10.245.244.175])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2026 07:05:50 -0700
-Message-ID: <9d4cefb6-7061-48cb-8021-3f557b133bc0@linux.intel.com>
-Date: Mon, 21 Sep 2026 17:05:41 +0300
+	dkim=pass (1024-bit key) header.d=goodmis.org header.i=@goodmis.org header.b="DukIcoa6"
+Received: from omf03.hostedemail.com (lb01a-stub [10.200.18.249])
+	by unirelay03.hostedemail.com (Postfix) with ESMTP id B11CCA01AC;
+	Mon, 21 Sep 2026 14:08:45 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf03.hostedemail.com (Postfix) with ESMTPA id 911BC60012;
+	Mon, 21 Sep 2026 14:08:42 +0000 (UTC)
+Date: Mon, 21 Sep 2026 10:08:40 -0400
+From: Steven Rostedt <rostedt@goodmis.org>
+To: Mark Rutland <mark.rutland@arm.com>
+Cc: Vladimir Murzin <vladimir.murzin@arm.com>, paulmck@kernel.org, Chunfeng
+ Yun <chunfeng.yun@mediatek.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [BUG/PATCH] drivers/usb/mtu3: Work around mtu3_log_ep
+ double-indirection issue
+Message-ID: <20260921100840.06ed9a5c@fedora>
+In-Reply-To: <arE4jcn4dCD9gos_@J2N7QTR9R3.cambridge.arm.com>
+References: <a3ee0655-d818-48e0-84d1-475e6c16c991@paulmck-laptop>
+	<d7bb2cf4-11c3-468c-8749-99cc408299c7@arm.com>
+	<b6c621eb-6d20-4e00-ac05-af122b630ca5@paulmck-laptop>
+	<aae79c1c-8738-4b97-b1b9-d82d19d82d49@arm.com>
+	<20260909093524.249c2a1a@gandalf.local.home>
+	<arE4jcn4dCD9gos_@J2N7QTR9R3.cambridge.arm.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: return an error if the host is not halted
-To: Henry Tseng <henrytseng@qnap.com>, Mathias Nyman <mathias.nyman@intel.com>
-Cc: linux-usb@vger.kernel.org, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Michal Pecio <michal.pecio@gmail.com>
-References: <20260902101510.30246-1-henrytseng@qnap.com>
- <20260918101755.18141-1-henrytseng@qnap.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260918101755.18141-1-henrytseng@qnap.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
+X-Rspamd-Server: rspamout05
+X-Rspamd-Queue-Id: 911BC60012
+X-Stat-Signature: 114cow448kn3jskn8mcbahpqgk5q1zjp
+X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
+X-Session-ID: U2FsdGVkX1+6iX7aw+AEdsz8I3D5gPEpnh6FMY2CMew=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=goodmis.org; h=date:from:to:cc:subject:message-id:in-reply-to:references:mime-version:content-type:content-transfer-encoding; s=dkim1; bh=Gn+BmxhD/JNcuU4fD1WWhF+MIRk2TooarfAtYG79tHg=; b=DukIcoa6v7phdTMf6m5UVnW7+KyYEKz1hd5/etXi3bA7DJLpluAbt6f1C5jOCeFSIjn5wvc0+NRD4n83WHv98TUeHkYEybnxFaA4Ldzz60o+hYaxcFBBgLqKHiUHgALA59/muXLwTKcI6zbqsSj0UIXoP+EMlwbWH1rq4ZM/QEo=
+X-HE-Tag: 1789999722-481411
+X-HE-Meta: U2FsdGVkX19/UFDGGX0R7hJOl0eqhLN4z3Xyqo57qVxjhBGGJ8+irxELNoUvgRrhav0zZUuXGG6f0hqs0Ec7fzx6Gi8T20QLjXTE4R15eMV4KCrkB+iohyXm7j5VxMQkMDRRnfGvGp/Kvy34UHyyCB2LzmPCfltK5x+BV2rAu6eCUaH4u1iepzldFqm3aFvdwkeIUJli7LjN05X9JigVskE8QEKtl0Y7dHRvbldbJVrKNQKCacDAnGNXFgqX+BidWR5uBi1tjIBduCi9B9spQk+I7UD/BEKN8kZMeL65eYXlxOnc7xBSrQTKR59gsDt2GLpKhbYLevRkIbFTiih/WexqbJnkE0iN+/Sk99u2kq1M1hN2FFn7vLLnv6zadATPKFfFReoWhxgIMSCH+sjOsg==
 
-On 9/18/26 13:17, Henry Tseng wrote:
-> On Wed,  2 Sep 2026 18:15:10 +0800, Henry Tseng <henrytseng@qnap.com> wrote:
->> xhci_reset() returns 0 when the host is not halted, without ever writing
->> CMD_RESET. Every other path that fails to reset the host returns an
->> error, so callers that check the return value are told the reset
->> succeeded on the one path where it did not happen.
->>
->> Return -EBUSY when the reset is aborted because the host is not halted.
->>
->> Signed-off-by: Henry Tseng <henrytseng@qnap.com>
->> ---
->>   drivers/usb/host/xhci.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
->> index a9e47e178c28..2af6a7b91e55 100644
->> --- a/drivers/usb/host/xhci.c
->> +++ b/drivers/usb/host/xhci.c
->> @@ -195,7 +195,7 @@ int xhci_reset(struct xhci_hcd *xhci, u64 timeout_us)
->>   
->>   	if ((state & STS_HALT) == 0) {
->>   		xhci_warn(xhci, "Host controller not halted, aborting reset.\n");
->> -		return 0;
->> +		return -EBUSY;
->>   	}
->>   
->>   	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "// Reset the HC");
->> -- 
->> 2.43.0
->>
->>
-> Hi Mathias,
-> 
-> A gentle ping on this one. Please let me know if the approach needs any
-> changes.
+On Mon, 21 Sep 2026 15:00:45 +0100
+Mark Rutland <mark.rutland@arm.com> wrote:
 
-Patch added to queue, thanks
+> Steve, I assume you were expecting someone to send the above as a full
+> patch.
 
-Mathias
+Yes.
 
+-- Steve
