@@ -1,163 +1,142 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12FA8492E26
-	for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 09:34:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF43495500
+	for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 09:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789983243; cv=none; b=BT3hYE/JzrmfG1egklOaiwpyw3LsMZ+wRl+VJfsqWZoPcMF8aHV+Qtr4bc9r+wGUseEaoc7wRPVbZxWAIu0+EBbXqH+xw7zJuCCELb5e/mCZHrrU4JL9z3eK7tqj2kn/hnBMGvr7Q8qsQ7+izAgD1dAy/SbyfCQ2GJ4SFE++xME=
+	t=1789983271; cv=none; b=LVdTmBPmC6VSvz53LYCIcYMWhRoliX76dkVTC5Te46ankYZAVf1E/BvquMnYmVNuV5uoUY5azfa6UTnoBmeFQQYHRpFAp8pIVngriKZ3MoVdh0ckY7rEjg0prqMrBJh0aA3ZKDRuMP/gLG+Gp7jC29wnob9YKqveEt5lPIWt/b4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789983243; c=relaxed/simple;
-	bh=0J1b4Nzf5ZJ1sGsLzkFbqHO/xtQTjulT6PuhEg+Eyuo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KnofNEu8y6kwyWPm+YnW3wBrjjfJXqCgJH6/gcFG8MD1UtHwodfdTCcbVTpTugOJxdLos2iFvbwKaiU29s6A0XaXFlartgGGiHz7W7rvVeSO/fpurgqqVAvwzA10VpGz9L+nuTL6JXhF492hAHkQpss7Key8agquFR/LdQ4E4Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SbZyFTb2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hOogYvaG; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1789983271; c=relaxed/simple;
+	bh=VDiVxS02UvU/DeJ8GhMZFJd8KjufYlSoVNBbS5euGuM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SBXsS3ytUz4i2OpMtSX90b+rSz5XxuLi8vKIBkurXa5Jmkkzjkkn6yg70iE/sGMvxEP0+AgkNG1P2Ifxr4VK/iBaExsS6swxSkTSUBmSWsvXv6od8qvo8gCb0mp3hkKHxqtY6bMHFoxw89XwbmlAtp0jy75TKpn/K2mLbUA84PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cErvDhFi; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SbZyFTb2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hOogYvaG"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68L7A2qj467388
-	for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 09:34:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	PtvOL14YM3nT3vmMLJC7ZnwiIKwt3L317gMzSlbLMW8=; b=SbZyFTb2kS7NKCNU
-	kLYx/JCkdxkuvWkf9rlXjWW5yO/aLeYME/9hWFOw0THtXuGDhl78tCjzQmOLkWMw
-	dL6TTbrVNmyCXtUX13Fl1zNJezQbt3ewoVlrPhC9puwPYK8gvgyQxj7gyzAdkt6u
-	ft8nBORkps2gNc5s+s349dBvzM3UCHQ4j3bfPSWfg/jiuhT72UpGgifyUroIsPJ5
-	KnHecinBNLa00ov2Q5MZ6BG5ZOVLcj7j3yGPcnFBsuFtpt1ZVIvflONIEU3CkqYE
-	St5COCheswdDIToETIeCMB3l8MqLOD0KP9sie+mkvS4ohMb09VTeb6j6/oeZ3Y9r
-	YjRIQA==
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gtq8b9y42-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 09:34:00 +0000 (GMT)
-Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3823dcc1647so3960984a91.3
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 02:34:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cErvDhFi"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so14946505e9.3
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 02:34:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1789983240; x=1790588040; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PtvOL14YM3nT3vmMLJC7ZnwiIKwt3L317gMzSlbLMW8=;
-        b=hOogYvaGz7qQFivY1N0qZD5a069y66sAZij3SYSFPcPJcXJaIvn+hCUSmniWOnw17K
-         yEu+lObeqfbz+yEkZmLsgTMxDlnG9d34qVklhh0aQwmdDGL1yC0aS/CDpj/XV0/SKxJo
-         tRbc8rriPvQz8swT5S31a7hrQTfMm9gNaVIHoVse7LFRPd2tqZlyq4HxHrm+HLejLJxA
-         ykZ+XeCycWMNC5tihh0miiKVhbz7o9wQtCt+zFzu0FooZ6Q2lM3de8u6PwZRL9F5e31u
-         mDZ+pmyM69/neEI+bFS5xzqcCEsWAMXC9qUcg1AW/Hw8vU63cEVlA706l9djAPfZj+af
-         3aAA==
+        d=gmail.com; s=20251104; t=1789983268; x=1790588068; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KHp+jegDUOX55mRyFE6554e6Msr1rJ/McOVQlrwyHvk=;
+        b=cErvDhFigGfdKbiuM902L2yLXhtvophUV6V86cIt370TA85fqwObN4OtTMphrvkkF2
+         i2yTyY75Rra4AEggTDKDi28tB56S73ymEY/wb508Bqmff1a8l+Ygjo+HMgCXifnUA1FD
+         Gt/Nl+4X3e2BZClF8ruWEPQHL/egOFssbKfJtfP4t+treMaSGSL96IuTQiHSeF+350zU
+         YNvB+Vf8juSd3W3mJdg9NDgJ8WHIzqnNbJZ4+jvVv45V93RsaSeVs4JjMuwBtyicRAi0
+         gOl7SwJjlWVLGtLRZTVWC6IXGogbpWs1IfGLub/RtdY1PalnivH3JYZ2NTEZbg2HDWaS
+         X+/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789983240; x=1790588040;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1789983268; x=1790588068;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PtvOL14YM3nT3vmMLJC7ZnwiIKwt3L317gMzSlbLMW8=;
-        b=HP3Fw2uOWfRgsmFRdYEjJYnYA1cr1lnku1GR7uySVAr4yJO7oqHUeQpEFw5miFIhW8
-         G48s8vk/TJndAQo4yERqR3VFZkLTMjDbdWrF3xTxRrzyzC1iYsqPZla+dYmVi2yeJ4W9
-         E1mO6rynzGL4M9pHkapmVSedPPuD2puZanU5mVscGVB2bF/S6v67AiSn4D5RJPSL9Snu
-         ZxLsBF74aOadUYgjqibGYKY0bbvLVVq6HQLKk5db9eZSnltvNNSzW0c6fR5Dure5w5Y1
-         3OnF+etMn8o+fq6QZ8Rkh9IhI/9Bemamu23mJzUASP9bnZpV49lIlLSH7uMB4fYfAeXe
-         NVTg==
-X-Forwarded-Encrypted: i=1; AKwUvBz9U+Cjj4XEKEH96oWeRkLcH36DjMQZ4YN4X1nEW1XhYHOqRP/C1I5nZirI8g3+xqNRwCu17mPEuR8=@vger.kernel.org
-X-Gm-Message-State: AFuF++mlgi6+OtLOkEghT/+U++JKrtKvFMM8vTs3z+0EhbPlOb0fijIL
-	cwsizjEPZZmjpu+dCcZgUQvIRFdXT1HggRmDKqAR0Q+ZqpScvLCz8h38TjUdtpfySAdWxDyMNFr
-	LH4BwYY1EWLPvsAjjguhcdCzSE2d0ICqus6kxm04FjrVGekdY9JPZd4nO0naG6qc=
-X-Gm-Gg: AYBFou32OjAYPrGjjjm2JfyuBhSVOmhI8MKiRhmjvEdz8jwoT9EO9EEXX4ywFHDRewC
-	nJDDEhlkUP9DDtKxQW4crjWL7f4LvttGvUuUL3yZVPdISP3G5wJ+TJQSUungBv0Cdbc+SdSDXol
-	CXXi7AziOoZ+CrX+1MW+rhR5n7ZGncXiINMvhZ8TIhKqfbu8XHEWKdTC9XzYZFR4usDpjRWJtWD
-	78YDLjecboFGCt8UrKWJghWZ2POb12e+/IQAsDUhyRn8zwN7Ukmqr+FQBAUvjYuLl1EPSK2V3qT
-	O1uKJCYv19Xck3rL66vxOpSwcKGCKNkGB3vtau7cgA0zn3QFaM3v1Vza6A/WaRybOtFpF0V/C22
-	TXRTasHWZJ+hptEQMfNHXdt5KU2ki4Q==
-X-Received: by 2002:a17:90b:57e8:b0:39e:4c7f:8b19 with SMTP id 98e67ed59e1d1-39e54d458b7mr16314380a91.30.1789983240044;
-        Mon, 21 Sep 2026 02:34:00 -0700 (PDT)
-X-Received: by 2002:a17:90b:57e8:b0:39e:4c7f:8b19 with SMTP id 98e67ed59e1d1-39e54d458b7mr16314346a91.30.1789983239541;
-        Mon, 21 Sep 2026 02:33:59 -0700 (PDT)
-Received: from [10.217.219.145] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144e16a7f71sm8005661c88.8.2026.09.21.02.33.57
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 02:33:59 -0700 (PDT)
-Message-ID: <81666138-d6b4-460d-90fa-3b372e9da99c@oss.qualcomm.com>
-Date: Mon, 21 Sep 2026 15:03:55 +0530
+        bh=KHp+jegDUOX55mRyFE6554e6Msr1rJ/McOVQlrwyHvk=;
+        b=D1RMBkn6XGwBE4lowSGaJHMMtONoxUbRr5lUPiI3TAV0oj3V9bepZKtdaPjfEQpX4l
+         x0wKNlTsQHKQr7ead6QK3xjjm6lP8ZysdkfeM4ILgjuKl/yptCgYlCB85V+HPc5wH97W
+         9wsm+/JS09kg9nprNjH0ftcCzviUnEPgwrv4lfnoRbm4V6oblxy7kZ8SwkeLfRM121Dj
+         HB714dXSAoECE9o/2WvHts+TFNjHMNtOT92j24mz07w5DY4gFb7qAp+4XHzzi/Jszu8w
+         CO7HH/WYiLi1bkCNfP5Vd3YUEMzN8XU4X0pxfMJ3tnJOGfpNCppavHGUKgaUfD+brW6a
+         7ovQ==
+X-Forwarded-Encrypted: i=1; AKwUvBymcGpaBBTvKz+iG1hNdtdQiJNLNvm4lmZ7ATm7u7kSF2oS9yWQRQpeC0wBb0gUADH8igTknWtFgOI=@vger.kernel.org
+X-Gm-Message-State: AFuF++lLOHBfTvYeeXuOoJhwN3KyY+UMiklFy6FMUdkPyBN4MZd6QQpU
+	d5b+Cv70twVxY8GnK2+/Cb6eAPraxrk5eRbotrQL033wx6nQ3w/g+7OF
+X-Gm-Gg: AYBFou3tbNKGNJOv8zslPxq48w9MHpH63U4d6kiOAfBs1piByNyRRUWN/A/RSKgn6Vx
+	GY+NVNUrLhE3d2RSIcMMI91y1lT9yFcZkpwRvKpntLnT05XhB+sMiJHn5UoJ5TVRhvrwzdIpCq6
+	4hgv5//lk2BvioJyn4bxz/LyhgOceXAkgu8fahAPzjHX3Un9vguxQ3trhGiDVLQbXGCaPE6tacj
+	08J00nxe3osJkfkd1zQKHKGpWEZYZ0u+IlSOzu9JTgdeNOcM/N7yatDQ2p1c/wzHCHbBQotpOn7
+	23l/SXmnqyypz4CuvwEpm+CWzxh6WEsCDNTfeyi1KRwXgkMrAHhTgRs2vcj1kLD0CRZb5q1tuuj
+	Bi6plXAA+zwCEyRpoFFljRF3avk5bHc2C/zjd/YOU9eMiNyFApd/VpvSZTc+Ag5CY5j0I1FUJOE
+	TGg+LcFZ5w6L+CW+JQLvaoZlSvAYWNofTRAhFgq2ssRNPI08KA22y6pZHYSsZniAvsvdVAK14+4
+	4+0+5S9azdwOBm4lTNydCgo6LiPooS2udyrY9/QRSMDypo=
+X-Received: by 2002:a05:600c:c16a:b0:49f:ce78:356e with SMTP id 5b1f17b1804b1-49fce7836b0mr85310405e9.31.1789983267863;
+        Mon, 21 Sep 2026 02:34:27 -0700 (PDT)
+Received: from gil-endeavour.hs.rfd0.com (bl10-2-111.dsl.telepac.pt. [85.243.2.111])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcce144b1sm351916195e9.0.2026.09.21.02.34.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 02:34:27 -0700 (PDT)
+From: Gilberto Conde <gilbertorconde@gmail.com>
+To: =?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>
+Cc: netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	davem@davemloft.net,
+	Eric Dumazet <edumazet@google.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>
+Subject: [PATCH net-next] net: usb: qmi_wwan: add Quectel EG120K-EA
+Date: Mon, 21 Sep 2026 10:34:26 +0100
+Message-ID: <20260921093426.2870266-1-gilbertorconde@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: typec: ucsi: Get the connector fwnode based on reg
- value
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260916042808.2879079-1-prashanth.k@oss.qualcomm.com>
- <aq0B1fbrqk5_ppsv@black.igk.intel.com>
-Content-Language: en-US
-From: Prashanth K <prashanth.k@oss.qualcomm.com>
-In-Reply-To: <aq0B1fbrqk5_ppsv@black.igk.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIxMDEzNiBTYWx0ZWRfX155iG4U0yB5A
- tspPOJuzYJItW6W9WELGk1726Yj3B7iYBsDk+JsC5sFKvGWi0JDK0aP1C9kSK9NcU/k90xcxS6O
- 4IJ1ABiF9+ZwNoqmOhdcP1UIyVOqktSkMwj1ZpIQ15gp8Ljr2bg5OvXiiR4+JQ4rQH/Ru2ZzZGV
- 9XltR1+E/l8tZ+7qTw5r+GprDQFtBllbrFoWoqp/c+SXMITMdzdLna7KBlfDooPscyIRZjIRwMc
- 0W2n2OXfN9leuFrhYrnsi9VETvMAK6icSpTJFTMncavjtHAleyxs5Fupd3tQLSzkM/lgHcd3777
- VTQ/vNP9ChzH+EndONtoYcIw8f0/gUxNm18Kqnly6Ew7JvcrNvYnFMKtLBHrwFPbtWY9dB4zZR2
- 5+6xPjpuSV4GScl0SXWBGHll4OjA+nqynZlkYHB6srVWmsWfYmP538zhGqasiOogX8il6Qo8d0F
- BO8SaR6zi/1rjzpyXtw==
-X-Proofpoint-GUID: y9Lge0ZTIin5EyrR9FBzL0qiORjGBRAQ
-X-Authority-Analysis: v=2.4 cv=T/8Z3PKQ c=1 sm=1 tr=0 ts=6ab0fa09 cx=c_pps
- a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=KtO3Uq3HwnMQzyJ4:21 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=x3d6ePvnTooygXxn4toA:9 a=QEXdDO2ut3YA:10 a=mQ_c8vxmzFEMiUWkPHU9:22
-X-Proofpoint-ORIG-GUID: y9Lge0ZTIin5EyrR9FBzL0qiORjGBRAQ
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIxMDEzNiBTYWx0ZWRfX+NyG6bbXJmYl
- 0KEidKg715a+rAWeYbyHx7SgKNMoDmNORoU3Y6oXdPeHAA5LyqmiXIWgTGhYHewCdxIR5ra6b2X
- 12k3hSbNlfy5EW64Puhr8upSpHGAOwo=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-21_03,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 phishscore=0 spamscore=0 adultscore=0
- clxscore=1015 malwarescore=0 lowpriorityscore=0 suspectscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609210136
+Content-Transfer-Encoding: 8bit
 
+Add support for the Quectel EG120K-EA LTE Cat.12 module (USB ID
+2c7c:030b). Its QMI interface (interface 4) uses class/subclass/protocol
+ff/ff/ff like the other recent Quectel modules, so match it the same way.
 
+The product ID is shared with the EM060K, which the option driver
+already knows and uses to claim the serial interfaces. Without a
+qmi_wwan entry the data interface is left unbound.
 
-On 9/18/2026 2:48 PM, Heikki Krogerus wrote:
-> On Wed, Sep 16, 2026 at 09:58:08AM +0530, Prashanth K wrote:
->> ucsi_find_fwnode() currently maps UCSI connectors to Device tree
->> connector nodes based on the order in which connector child nodes
->> are described in DT.
->>
->> This can fail because the ordering of child nodes isn't guaranteed
->> in Device-tree. For example, DTB may contain connector@1 before
->> connector@0, causing connector numbers to be associated with the wrong
->> fwnode. As a result, role switch and Type-C notifications can be
->> delivered to the wrong remote endpoints.
->>
->> Fix this by using the "reg" property of each connector to match
->> its corresponding fwnode. While at it, if the reg property isn't
->> present, then fall back to the old method.
->>
->> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
-> 
-> That commit does not yet include any kind of support for DT.
-> 
+Tested on a GL.iNet GL-X2000, where the module is soldered down and
+enumerates at SuperSpeed: cdc-wdm0 and wwan0 appear and ModemManager
+brings up a data session.
 
-I understand DT wasn't added at the point where this commit was
-authored. But this is the base commit where the bug was introduced,
-that's why I added it in fixes tag. Do you have any other suggestion ?
+T:  Bus=02 Lev=01 Prnt=01 Port=00 Cnt=01 Dev#=  2 Spd=5000 MxCh= 0
+D:  Ver= 3.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS= 9 #Cfgs=  1
+P:  Vendor=2c7c ProdID=030b Rev= 5.04
+S:  Manufacturer=Quectel
+S:  Product=EG120K-EA
+S:  SerialNumber=45546267
+C:* #Ifs= 6 Cfg#= 1 Atr=a0 MxPwr=896mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+E:  Ad=01(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=81(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=00 Prot=40 Driver=option
+E:  Ad=83(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=02(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=85(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=84(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=87(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=86(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=04(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#= 4 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=ff Driver=qmi_wwan
+E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+E:  Ad=8e(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+E:  Ad=0f(O) Atr=02(Bulk) MxPS=1024 Ivl=0ms
+I:* If#=12 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=70 Driver=(none)
+E:  Ad=89(I) Atr=02(Bulk) MxPS=1024 Ivl=0ms
 
-The patch simply distinguishes connectors with and without <reg>
-property and uses different logics, hence it should work for all targets.
+Signed-off-by: Gilberto Conde <gilbertorconde@gmail.com>
+---
+ drivers/net/usb/qmi_wwan.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Regards,
-Prashanth K
+diff --git a/drivers/net/usb/qmi_wwan.c b/drivers/net/usb/qmi_wwan.c
+index 13a5e72059..f8b771dcc9 100644
+--- a/drivers/net/usb/qmi_wwan.c
++++ b/drivers/net/usb/qmi_wwan.c
+@@ -1086,6 +1086,7 @@ static const struct usb_device_id products[] = {
+ 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0125)},	/* Quectel EC25, EC20 R2.0  Mini PCIe */
+ 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x013d)},	/* Quectel RG660QB */
+ 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0306)},	/* Quectel EP06/EG06/EM06 */
++	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x030b)},	/* Quectel EM060K/EG120K-EA */
+ 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0512)},	/* Quectel EG12/EM12 */
+ 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0620)},	/* Quectel EM160R-GL */
+ 	{QMI_MATCH_FF_FF_FF(0x2c7c, 0x0800)},	/* Quectel RM500Q-GL */
+-- 
+2.55.0
+
