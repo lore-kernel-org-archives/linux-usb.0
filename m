@@ -1,40 +1,40 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8403AEF4E;
-	Mon, 21 Sep 2026 09:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F66344162A;
+	Mon, 21 Sep 2026 09:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789983866; cv=none; b=QlpvJWC6IjIHGUylDXY/l/Uiqphg0J6Sy0G3fqoyV0tus33ecmGTCRHcCAyVqByjG/dMfCQoREFcEX0aQ5Uf6GQ+d1SmCAY2giq1o0/BO9zzitfdnY/uucFMSLWGBd+BqR3WL0ze8gTvnr5WHk5QW2M+J3B3/qXMkfk/scUYyws=
+	t=1789984774; cv=none; b=EvHtUpFW35iJkHQ1NoPkM63+sjkmJXeIms8uDiMvzOVTRfnNVx7sKVgRWG1f2a7MtOU7w3Y6s0acYRXl2OFsEbK7fNevdGd4tR0V8yphd9gFRTqXhUo+IJHtY/zTnGyCP6bjVV4DHFHYfSRm9h5uPAr1wKQ0ZHsLfr6YTD39hjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789983866; c=relaxed/simple;
-	bh=Ny2qS2fMxi0fAcYUfnNf3pmIxiRJbqNgL/Fh4LCY4Ik=;
+	s=arc-20240116; t=1789984774; c=relaxed/simple;
+	bh=POq6O9lpYCG2fYcf29wFnU+bCnEivOJWg10hyj1xKyc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Cc3xDUbzCXJrH4Z4EUAQaK7pglHxE/7iYanB5DiVVtJqVaDi6d9FEdob5JIEvuxQrnYvTaApNTU+51EgTHaKeHdbNMUYumSX6flXM1kzynVpg0DSVHU8rrnDrI9uPEy1C+M4nDssCCIam6Crwyxj4itvPBQrdlM4xhXrqNk1SAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 03157cdab5a111f19a56ed5b684f684d-20260921
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:1c0d18b0-7032-41a2-a203-6262f7da3134,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:28c43a1190f95a13f376e43396c62bc9,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|865|898,TC:nil,Content:-10|0|15|50
-	|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
-	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 03157cdab5a111f19a56ed5b684f684d-20260921
-X-User: lijiayi@kylinos.cn
-Received: from [172.25.120.57] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lijiayi@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1376205578; Mon, 21 Sep 2026 17:44:17 +0800
-Message-ID: <60d7692e-4d8e-4b94-b45d-a530bc2cff72@kylinos.cn>
-Date: Mon, 21 Sep 2026 17:44:14 +0800
+	 In-Reply-To:Content-Type; b=ASYYSnSj8RkJtTw+7ntr2vUAwISE7swHhiupPtmwBEnSkMs9eizPyMv0MwtW/57CQ0cOuolSrv5S9/Yqk+uTNvVdDoFpHlukmfQ2l3IdulqgWib1H8z9Zw2KnFPPVTnU5H3BYllABeF0U0VyzGqpOIfqHDGqfkI4KDpq9QRsuOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=aK7N5wbt; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="aK7N5wbt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1789984764;
+	bh=POq6O9lpYCG2fYcf29wFnU+bCnEivOJWg10hyj1xKyc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aK7N5wbtB/yy0rCrOMurDcqvUilNxcDo1dNZ48Tm/X4gPKV6L/WYEtzMLQN9HnA0E
+	 xTRaP7MNsmhzC2zXnVq2oKQz796B7IpAcT1ZpkCtmIMt/m7YHxMXXsRVfUnUsm5YhR
+	 DBxbz5b9yjSQSOzMNZjmPwU4LG6cjt1mpE3Mv8fFv20lln6kJfezROaovIt4DzbAtF
+	 iM8FZIoClJ1Bf9zUJCYm61RqncZ9fAkQo8RSINIghYi8MZ/CTWWzevle86qTkMrt/i
+	 SQz5/qJn8Ahc1slat4uZR9Z4LGAFU5hgGGpnAqQ5v4kev2YvZGFl1TGHBBsJYF/59l
+	 D+ScIPTZKO37A==
+Received: from [100.64.1.21] (unknown [100.64.1.21])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F1A5F17E047B;
+	Mon, 21 Sep 2026 11:59:23 +0200 (CEST)
+Message-ID: <a71b6552-ea57-4575-89e1-14d414d53569@collabora.com>
+Date: Mon, 21 Sep 2026 11:59:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -42,65 +42,94 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH] usb: uas: quiesce SCSI before stopping endpoints on
- driver unbind
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Oliver Neukum <oneukum@suse.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- linux-kernel@vger.kernel.org
-References: <20260920012358.3362053-1-lijiayi@kylinos.cn>
- <20260921092615.7402711d.michal.pecio@gmail.com>
-From: Jiayi Li <lijiayi@kylinos.cn>
-In-Reply-To: <20260921092615.7402711d.michal.pecio@gmail.com>
+Subject: Re: [PATCH 1/2] clk: mediatek: mt7988: keep combo-lane U3 PHY ref
+ clock enabled
+To: Frank Wunderlich <linux@fw-web.de>, Stephen Boyd <sboyd@kernel.org>,
+ Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Chunfeng Yun <chunfeng.yun@mediatek.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Frank Wunderlich <frank.wunderlich@linux.dev>,
+ Frank Wunderlich <frank-w@public-files.de>,
+ Daniel Golle <daniel@makrotopia.org>, Mihai Ordean
+ <research@mihaiordean.com>, Chen-Yu Tsai <wenst@chromium.org>,
+ linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ linux-usb@vger.kernel.org
+References: <20260919114744.46777-1-linux@fw-web.de>
+ <20260919114744.46777-2-linux@fw-web.de>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20260919114744.46777-2-linux@fw-web.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Michal,
+On 9/19/26 13:47, Frank Wunderlich wrote:
+> From: Mihai Ordean <research@mihaiordean.com>
+> 
+> CLK_INFRA_USB_PIPE is the reference clock of xphyu3port0, the U3/PCIe
+> combo serdes. On MT7988 that lane is shared between ssusb0's SuperSpeed
+> side and pcie2, but only the consumer that claims the PHY holds the gate.
+> 
+> On the BPI-R4 Pro, ssusb0 is configured USB2-only (u3p-dis-msk=1) and
+> pcie2 claims the lane for the CN13/CN15 M.2 slot, so pcie2 is the sole
+> holder. u3p-dis-msk does not remove ssusb0's SuperSpeed root hub: that is
+> decided by xhci_has_one_roothub(), which keys off usb3_rhub.num_ports
+> from the xHCI capability registers, so bus 2 is registered and live
+> regardless. When the M.2 slot is empty, pcie2 fails link training (-110)
+> and its error path calls phy_power_off()/phy_exit(), which gates this
+> clock - and sspxtp_sel with it, as nothing else consumes it. The still
+> registered SuperSpeed root hub is then left polling a serdes whose PHY
+> reference clock has just stopped,
 
+I'm not sure why said clock cannot be assigned to the USB controller as well
+as the PCIe PHY to keep the refcount high, avoiding to gate it?
 
-> This is actually an anomaly, transfer events should always point
-> to valid rings. Device sendig bogus Stream ID would be code 34:
-> Invalid Stream ID Error.
->
-> Is this an ASMedia host controller? PCI ID doesn't looke like one...
+Cheers,
+Angelo
 
-
-The original controller was not ASMedia.  It was a Zhaoxin xHCI
-controller, PCI ID 1d17:9204.
-
-
-I have now reproduced the same post-rebind failure with the same USB
-storage bridge (USB ID 2109:0715) and workload on an Intel xHCI
-controller (PCI ID 8086:a2af).  This additional run used
-6.14.0-27-generic.
-
-
-The relevant post-bind log is:
-
-
-   scsi host7: uas
-   scsi 7:0:0:0: tag#4 data cmplt err -75 uas-tag 1 inflight: CMD
-   scsi 7:0:0:0: tag#4 CDB: Inquiry 12 00 00 00 24 00
-   scsi 7:0:0:0: tag#4 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD
-   usb 2-2: reset SuperSpeed USB device number 2 using xhci_hcd
-   scsi host7: uas_eh_device_reset_handler success
-   ...
-   scsi 7:0:0:0: tag#7 CDB: Test Unit Ready 00 00 00 00 00 00
-   scsi host7: uas_eh_device_reset_handler success
-   sd 7:0:0:0: Device offlined - not ready after error recovery
-
-
-There was no "Transfer event 26 for unknown stream ring" message in the
-Intel run.  Therefore, I agree that event 26 is anomalous, but it is not
-required for the storage failure and appears to be a secondary symptom
-specific to the original run.  The first post-bind failure is the
-Data-In completion error on INQUIRY, and the same error occurs on both
-controllers.
-
-
-Thanks,
-Jiayi
-
+> and asserts the shared SSUSB interrupt
+> outside the xHCI event ring; xhci_irq() reads USBSTS with EINT clear and
+> returns IRQ_NONE, so the core disables the line ("nobody cared") and the
+> next USB teardown blocks forever in xhci_disable_slot().
+> 
+> Boot logs show the storm threshold being crossed 86-107 ms after the
+> pcie2 probe failure, while the earlier combo-mux switch to PCIe mode
+> (~550 ms before) causes no trouble, pointing at the clock gating rather
+> than the mux as the trigger.
+> 
+> Mark the gate CLK_IS_CRITICAL so the combo lane keeps its reference clock.
+> Only port 0's gate is affected; ssusb1 uses CLK_INFRA_USB_PIPE_CK_P1.
+> 
+> Signed-off-by: Mihai Ordean <research@mihaiordean.com>
+> Signed-off-by: Frank Wunderlich <frank-w@public-files.de>
+> ---
+>   drivers/clk/mediatek/clk-mt7988-infracfg.c | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/clk/mediatek/clk-mt7988-infracfg.c b/drivers/clk/mediatek/clk-mt7988-infracfg.c
+> index 13ffa9d88e24..a8cbcb64d90f 100644
+> --- a/drivers/clk/mediatek/clk-mt7988-infracfg.c
+> +++ b/drivers/clk/mediatek/clk-mt7988-infracfg.c
+> @@ -225,7 +225,17 @@ static const struct mtk_gate infra_clks[] = {
+>   			  CLK_IS_CRITICAL),
+>   	GATE_INFRA3_FLAGS(CLK_INFRA_USB_FRMCNT_CK_P1, "infra_usb_frmcnt_ck_p1", "usb_frmcnt_p1_sel",
+>   			  9, CLK_IS_CRITICAL),
+> -	GATE_INFRA3(CLK_INFRA_USB_PIPE, "infra_usb_pipe", "sspxtp_sel", 10),
+> +	/*
+> +	 * Reference clock of the U3/PCIe combo serdes (xphyu3port0). The lane
+> +	 * is shared between ssusb0 and pcie2, but only the PHY consumer that
+> +	 * claims it holds this gate. On boards where pcie2 owns the lane, a
+> +	 * failed pcie2 probe (e.g. empty M.2 slot) calls phy_exit() and gates
+> +	 * this clock while ssusb0 still has a live SuperSpeed root hub on the
+> +	 * same PHY, which wedges the shared SSUSB interrupt. CCF cannot model
+> +	 * the cross-IP sharing, so keep the gate on.
+> +	 */
+> +	GATE_INFRA3_FLAGS(CLK_INFRA_USB_PIPE, "infra_usb_pipe", "sspxtp_sel", 10,
+> +			  CLK_IS_CRITICAL),
+>   	GATE_INFRA3(CLK_INFRA_USB_PIPE_CK_P1, "infra_usb_pipe_ck_p1", "usb_phy_sel", 11),
+>   	GATE_INFRA3(CLK_INFRA_USB_UTMI, "infra_usb_utmi", "top_xtal", 12),
+>   	GATE_INFRA3(CLK_INFRA_USB_UTMI_CK_P1, "infra_usb_utmi_ck_p1", "top_xtal", 13),
 
