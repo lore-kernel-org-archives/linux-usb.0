@@ -1,41 +1,36 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E61348D860;
-	Mon, 21 Sep 2026 12:22:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 306E1486B9B;
+	Mon, 21 Sep 2026 12:29:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1789993381; cv=none; b=dBgPLTGk+eNV9NzoScyKxJMJrFm27KjRDl1fgFOUHALRFVGWj7NROMOiAG5Dcc2CdzfDvDHQidqbykqrT1XqZ198TkITcYgyA3yWxXL4qqxiduJNnN1dFcxjIeREeY3VBamrGpIlytGEmdfd6+9GkufGxnPJxiGjbokDuCd2Eos=
+	t=1789993800; cv=none; b=OjYUEYOfXU6xaa99cvpOEiAMQDrpA3DiD1ISs77aYB/R624tYJ3k+vTqYHiGnr4j0YTZCWht6OFK6JmzXAdlOXwSOh5r21mlG9wfAH68bRPBOS/DeIRvRNRylgOwoe9YpXwLrtzmTPKNYd6KPzlHb9FH5vjKyDWVYBLP3x40hRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1789993381; c=relaxed/simple;
-	bh=sHyTpWHes5t75Pc2Fmo8SNWMvQx1Uqr3FJpfTa5lMM8=;
+	s=arc-20240116; t=1789993800; c=relaxed/simple;
+	bh=LYNkO2KzVjp1hja6gH92CNFl1iR82eZtAzzmg9UQd6Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YiWhSzb9aYcRiJQYCoLTzUOLLESKBLvVOuBoy9HcmV50NMO7Np3ljpMMsCsdY0Yr/eivTR/A45A4FB7CKxaQpqqrN48/6iZd4THmfojw2csXHfkVMeq/rqJcnCo68ymF2dn3P7u708nH5QB6D3Xybqzc1tAwN8RqSGty7m9S9i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nHgIduiK; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=D00R/usZG6TCG5gYNiKWG4QhZ0lkdm6Xlx+oZc+V52uvGxMou2R4mGCy4nFhxWXvV2mRmK5JVj4LhikTos5ahXiqFo3kAaEDWv35ab54LtXZKLknZClIMP1pKPfw7BAod+rUH0MNR5Tyen1Ayw+p/cxDhr4Fk18sN/79KYm1UfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=j1xuU3op; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nHgIduiK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F5CA1F000FF;
-	Mon, 21 Sep 2026 12:22:59 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="j1xuU3op"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D6381F000FF;
+	Mon, 21 Sep 2026 12:29:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1789993379;
-	bh=lTzvc3ARjN3lgv2zB53AMrhfzCTL7oIJ4fUjptI3xGM=;
+	s=korg; t=1789993798;
+	bh=uU37JOf3gLcTGP4X3TXjV69UtwcgK/WIFge0EooLFeY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=nHgIduiKc67QnbquwIqFxD1s7R80IYxaTWQMVhLeNACpqzTyrBiCKSeq/Et3hmo6H
-	 Z5YE/hTyKTryFjezNvMjueSraoriFXKB750dTojdph5ayOKvS4mkq+EbkVXn4QnvDd
-	 4jXalW+sqq9fu8v4OEx8MZ0rcLvLdDTY84lbAkHY=
-Date: Mon, 21 Sep 2026 14:22:52 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Huang Wei <huangwei@kylinos.cn>
-Cc: Yogesh Gaur <yogeshgaur.83@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+e7aa19176573a6992617@syzkaller.appspotmail.com
-Subject: Re: [PATCH] usb: typec: ucsi: acpi: don't dereference a missing ACPI
- companion
-Message-ID: <2026092130-thong-secrecy-1dd4@gregkh>
-References: <20260920090711.300-1-yogeshgaur.83@gmail.com>
- <20260921030346.1996820-1-huangwei@kylinos.cn>
+	b=j1xuU3op/RwEje958a3yNbXo5gGboq7+qCNCT2dysFz/dBhWgs/LZNYhiwK3JC2bl
+	 SZUtTmHJgpkKNaRpPC8yuT6swENWAnyHwIaxWpve4KSiL3y0VfMXjafuxrhHaObaft
+	 q23s0KcchMviUQjFmdzQQZoWvpCdFoZmdVTWV37c=
+Date: Mon, 21 Sep 2026 14:29:45 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: CJ <firefly0158@163.com>
+Cc: balbi@kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [BUG] usb: gadget: KASAN slab-out-of-bounds in gether_get_ifname
+Message-ID: <2026092126-obligate-purge-ab18@gregkh>
+References: <670670d.84d1.1a0c3282df0.Coremail.firefly0158@163.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -44,23 +39,24 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260921030346.1996820-1-huangwei@kylinos.cn>
+In-Reply-To: <670670d.84d1.1a0c3282df0.Coremail.firefly0158@163.com>
 
-On Mon, Sep 21, 2026 at 11:03:46AM +0800, Huang Wei wrote:
-> Hi Yogesh,
+On Mon, Sep 21, 2026 at 04:49:45PM +0800, CJ wrote:
 > 
-> I checked this over. The fix is correct - the sysfs bind path can
-> indeed hand a non-ACPI platform device to ucsi_acpi_probe(), and
-> adev->dep_unmet is the first dereference.
+> Hi,
+> 
+> 
+> I am reporting an issue triggered by a syzkaller reproducer on Linux
+> 7.3.0-rc2. The issue is reproducible with HEAD commit
+> df2908090cda368b01ff43709f51890076c56157.
+> 
+> 
+> The reproducer mounts configfs, creates a USB gadget with a phonet function
+> (config/usb_gadget/g1/functions/phonet.usb0), and then reads the ifname
+> attribute of that function without ever binding the gadget to a UDC.
 
-And that's the problem, don't do that.  Seriously, if userspace does it,
-it deserves the pieces the kernel ends up in.  This isn't a kernel
-issue, it's a userspace "do not do this" issue.
-
-There is now a taint flag that gets set if userspace tries to do this,
-showing us all what is really going on, so we can ignore reports like
-this.  Also syzbot now should not be attempting foolish things like
-this.
+Great, can you please send a patch to resolve this now that you have a
+reproducer?
 
 thanks,
 
