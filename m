@@ -1,176 +1,148 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022084.outbound.protection.outlook.com [52.101.96.84])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013037.outbound.protection.outlook.com [40.93.201.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9359C49363D;
-	Tue, 22 Sep 2026 17:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B987D47A88E;
+	Tue, 22 Sep 2026 18:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790099102; cv=fail; b=bUpD/ulVOyVUt7Plw3V7/erGFBQ9rKGKlO8kUz/j9JWR47uaMXgqKY6xyJhk8araJKr0FQovdcCiJy2ogkdNMuu2BZtoFIq4qZNPZpAyxNDiLCx9KrNDjp8LCIMbwGerozHBDTFUn15lqiuvSwd+vWsdW8fA43F4+W7bfbxlJ8s=
+	t=1790101312; cv=fail; b=PUojkYDWBTz2sfAVHHLi8ZmL6yPmTvzrPTcxt+/4imkCm0VTxaUW5X3C21AdwSdP4s5WXuYB+V7wHmUWpQqqBc5cmcwKuxLvDvkVb0wmW7azd3JuQpLxhu7DP98CoGYZF0kjC5etaRwIvRO+V6uT83yrJoyLOcodojYyYuibvZ4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790099102; c=relaxed/simple;
-	bh=WkvfNvcrjsTryvqy5EkQRlxW0wMMDclZQDbFdKRlIgk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=q14Gp40Jw4ZGKlYBoulwDZFGn9XasSa6+MEuxXIt4ired4YNLtbgTWJNcms98ad6HST+N2MCqD/Im60LWAEXfsgzSLb1AO4Pi9IEqaQvj1eNXG3chhbeOxOlalJ2k7I51VjGOmqsOmDZmzAWPrMU6od5Fcfwixr5KCpL67qdKWU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.96.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+	s=arc-20240116; t=1790101312; c=relaxed/simple;
+	bh=+6qqw3R7SlZEWLS1yUg8UybVIafpBq0gkP4vSNr9lOc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Umfbr5sxjlHN+Kx/er0Zvfv9GOwuRiZWEvCLOixNeciUK50GUx8rjk+dhXHqaUt/gG2gdQ0o63Hxf94qYRrItRy+TrLiIfwx5bY3PQDqdAboxuYI12/jAwWBJn78q8wVWOMsJrmZ4BpxE7fOkEzxjZabL/Y2Ga1M7y3Qlvd9OEQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=tCKBgGf/; arc=fail smtp.client-ip=40.93.201.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="tCKBgGf/"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uYZEh80yfKjNs9yBQFwPmX13rvMUBTKdzt9mf74W3sD71BwAeb6ChlevJfTDKFYZhUQ7GSDR1ZyEYAuYGKVdu4+3R3opK1KfEsQGMsdqP379rurPPVUkRFYiZ31W+u4a+WPTKV3mDyVl1HRzg+D1KtP9D9nJ6I7UTDzDmwCubvOa1eSESx+kJVi7iMkS62f6UD6RVUVysSChrR+l1VTVnAQI/JFtnpMqylY/DW7pWxWop+AwOiKdGernT4CfeOIkr6BKqhSsV5QyLDNuqdciQ6HggaKj/XRLJA2FvGIk02XdV2QWW5Fs7WpeVXevxUBARZoWEKO8LX2MKxvUMY4IXQ==
+ b=T1ECQKvFFgmh3vhbc1677Kn238loASFaz17MW9GCSN1ttXcTwVQUO44Jl019OkVFxFvaBwo7/WKMw/YSyDnPQioMdVad27vzAHblg4WHBJuhV2O5NCrwz38DGCrYDSQgq5Jutt7sv5EH3HJ612rqeTn0WphLjwKA6lrAMl1KPWzDDBvarvDkY9B7a9cAsa00ep0iW+6lqx62SSGjOmr+RDzYckEOAgzcknVl/sEmbaTQ4s3z1uRVcmikkxM4LoC0duffq3//LnQvW6zvIR2M2kALfzJBX1g889KbPpf+MvekzfPEFLLbQgIZkzQr7kLvHTi8zmLnju7ocfvgG1k02w==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001; h=From:Date:Subject:Message-ID:MIME-Version;
- bh=1xQEpzKfFhKlK0PSvghR1djW9oWwxrZU6zM4PATfwAk=;
- b=sNlBG/AZSAEfNe2AHJ3NnhmnhPKgC0Z+NYZOhSVeHSVnFH+sXlUKkvQ9f0k86sMA9vgpReDziONPZRRjz1oAkejPaNdZPkuevX1d48fDOB6FwJEsveprl8qFyAt6ZcS3K4X4H2gWTKrVACDScJc2fv1gXiilXDq78QPlfyvq1d/l1AmHc0EL04Zers2rosMqK+h8h6cCy/FSOoQy8+XfFhwGqNLhv0SSPWvtpiyntpvTrk4q9L7fCXvJeQPUdRFW0XjPjH6WvsMkW9YKYGUscDYW9Xzoqu7D9jNyppufNgUw8bpJ+UwBewDMQPpG1c8/Kxbldjq5emKLnhdt17up7A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:183::5)
- by CWLP123MB3937.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:a0::11) with
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jROOVHqsYj0KwYdsXYghawK7bLIe6102ZbnE+qGq5iA=;
+ b=HgLyNiiVCKNoJm/XVI1GuFyNOyc99SaGLaJkBd3ZB0guZjQ8fKaTaMwCxx+LYVzw7mb2aQPdwnOyB243ahJ8K/e2+u5ogY1M9DK7qyN7g/81EQuPz8sBn+JzGYxJliqMlK85PdUkCRYRDago6eLIcvYkb7eRKwVYG4BXjDAdk5S9jwKQGIpsFgfXporKyU0Nkf/c2MQEvHEpOtpUDD4969dyz59M6YN9lsodOmdz6VRM4jJH6Jav2uc1fA46AcnzZOOcKpQogTxiE2706ENTmqO0T8at5Dmh4cptQgzMTY412pdj5PBICDAIo10X2oitjjBYpR6N75Sa9CgkAbx4JA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=synopsys.com smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jROOVHqsYj0KwYdsXYghawK7bLIe6102ZbnE+qGq5iA=;
+ b=tCKBgGf/WinyT/r4h1Rp1jVIvoxrY+0VoZqQK5neGvk4wlB7XM+9VfUWLsY8pkc31EvqG/g/uTw3PAIvvsyVSnNOg1NgkzyEQB4cfRsY1Ug4xgJ0YxL7zuloVagSx4WzMNLvyea3V+rFWsXwLnRRRVcazZSK0gF+BgHOU9kI7I8=
+Received: from PH7P220CA0085.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:32c::26)
+ by PH7PR12MB7308.namprd12.prod.outlook.com (2603:10b6:510:20c::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.13; Tue, 22 Sep
- 2026 17:44:55 +0000
-Received: from CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230]) by CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- ([fe80::cec4:77ab:262e:d230%4]) with mapi id 15.21.0428.011; Tue, 22 Sep 2026
- 17:44:55 +0000
-Date: Tue, 22 Sep 2026 13:44:47 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, 
-	Guenter Roeck <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>, 
-	H Hartley Sweeten <hsweeten@visionengravers.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Rudolf Marek <r.marek@assembler.cz>, Andi Shyti <andi.shyti@kernel.org>, 
-	Chris Snook <chris.snook@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Tony Nguyen <anthony.l.nguyen@intel.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, 
-	Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
-	Yehezkel Bernat <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Jiri Slaby <jirislaby@kernel.org>, Duncan Sands <duncan.sands@free.fr>, 
-	Chas Williams <3chas3@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
-	linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org, 
-	linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org, linux-serial@vger.kernel.org, 
-	linux-atm-general@lists.sourceforge.net, linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] module: Remove obsolete __MODULE_STRING()
-Message-ID: <gzyxlqx3u2a6rrzu752k3i7mepicb27y6ifblzutzvkogaquuh@uqk3fo5azozd>
-References: <20260922-module-string-v1-0-c18766690185@suse.com>
- <20260922-module-string-v1-3-c18766690185@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260922-module-string-v1-3-c18766690185@suse.com>
-X-ClientProxiedBy: SCWP298CA0013.CHLP298.PROD.OUTLOOK.COM
- (2603:10d6:300:14f::18) To CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:183::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Tue, 22 Sep
+ 2026 18:21:46 +0000
+Received: from BY1PEPF000264B3.namprd02.prod.outlook.com
+ (2603:10b6:510:32c:cafe::ad) by PH7P220CA0085.outlook.office365.com
+ (2603:10b6:510:32c::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.14 via Frontend Transport; Tue,
+ 22 Sep 2026 18:21:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ BY1PEPF000264B3.mail.protection.outlook.com (10.167.242.120) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.451.8 via Frontend Transport; Tue, 22 Sep 2026 18:21:46 +0000
+Received: from satlexmb10.amd.com (10.181.42.219) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Tue, 22 Sep
+ 2026 13:21:45 -0500
+Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb10.amd.com
+ (10.181.42.219) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Tue, 22 Sep
+ 2026 13:21:45 -0500
+Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
+ Transport; Tue, 22 Sep 2026 13:21:43 -0500
+From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+To: <Thinh.Nguyen@synopsys.com>, <gregkh@linuxfoundation.org>,
+	<michal.simek@amd.com>, <p.zabel@pengutronix.de>
+CC: <linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, Radhey Shyam Pandey
+	<radhey.shyam.pandey@amd.com>
+Subject: [PATCH v2 0/3] usb: dwc3: xilinx: error path and teardown fixes
+Date: Tue, 22 Sep 2026 23:51:22 +0530
+Message-ID: <20260922182125.11067-1-radhey.shyam.pandey@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB6607:EE_|CWLP123MB3937:EE_
-X-MS-Office365-Filtering-Correlation-Id: 124c6736-0887-4a67-ae1c-08df18d13655
+X-MS-TrafficTypeDiagnostic: BY1PEPF000264B3:EE_|PH7PR12MB7308:EE_
+X-MS-Office365-Filtering-Correlation-Id: 31c3a4a3-8c2a-49d3-a2c8-08df18d65ca6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|23010399003|18002099003|22082099003|10067099003|4143699003|56012099006|41080700001;
+	BCL:0;ARA:13230040|23010399003|1800799024|376014|82310400026|36860700016|10067099003|5023799004|56012099006|11063799006|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	iCCjdPyxhzEDHHVyVvy+ZLDFomfLJAye1vax3W6QVf9aooO/UWLzegaSnGJBhUNZucGWPjLII0u/HsBo0qoTIn8XPUbGgplH/hbEdk/pZ7O3kbSBR7flkh5LDCEVKBng4fD1L5Y9qgROxWii1Isgtxik2jZIxD3Vy8pX2kjmtVx9ZksqAZcz5ewrXjsvDGzMCv6HvqE5nQLazjVcdLrC50/glQ0I9rQUI1j3Nq8kAvUkR7vLDGrrj+k61SPtHSt8pINLDAf3JDb+dEJsRiDlqRqFsoCfCTx8caSSjPPOrFYnPXA2DgEe2livC397Z8sPC8NbD97GTBbgUq7bPIAsX6l1KpEpboLCOG69OsjbOz7/R/GgWl2+hzvkBmbfB4lW35y2qsHVMqBuwIRd2H34L4Ih+ZmyHNaiJ5qBEIPjqA7fx4I5S/i8gnbFKRYwAMSkh6x+90pTXefcdCp/ERLvVzaSsBfZPrJMvhPWmzy6L8UNSfxZBtMtDo7A+GdHCAljmYsyxnRb9TcYGHUjoIi7zs2VNO8RIDjCypW7nXWUm5W9jPgkDOXkzNdVPPm2x5bzneQaEgi0Gk72PUGqFdPD3vyo9ayUr0ICUoD8EFTO+cRPq0yLs9fLiwg0nB+TFbMS+K+FcEEehldtq/wzTQLazpp74B/0N2OsXYO6PKKYD6/RBbBM1N+6hUJAf/aU6A73sq8Xu8zyJCiGy0l76iOONxOnaOrk7ZMzqElPPrRNOVo=
+	7lnA+oZ+vEkjITLqqXCdoYlr6VHuHmsjlnCz+Gy4jpW4o6rdRaHWsKZ5A7hFLLa0tdIegO4GTRKn2LuTyptuESwI0+6ZS5l9sjGwgteNxjq2WOuMThrhlY8OBX11OTZGyt+4ii+evze4uL6btyGw29tWPXpjs5nxIMoZHHQ8+9TuOGwnqFrDJciMODsmcnXFHRzGrGSuL/qUu1zYeiSOXZfG7ZpUpzByhPz9WXk7JdHI0ECHhtAtzKmPh65zq/qle8B9Ip6IRi1xc0UHdn6R9YH+tOTrjhISfH3kmEZKLWfEujd3+4/isbod35NYuHbjdC8ouZ/u20vNxwCkDLn+sSNx0/3KMob9X62oPEl6e9Zt2XcYDKneELQ1vJRLi7X1jWgOS1uUIWZjHCHjDWTxzqu8GFR7Pq1Araq6BB7PUCs2mbhV7PkWbwR3fw0mR61pVyK+xQiNstJgIUTDgciXMZCiYCfDcJjYIVnu6vHbBB13/PISQ7mdCG2H7DQ9KADNcR0tOSvD/km1UN/n9zZWCll0k1NvqRILJ4zdAEZku1SN6QqChEjXsphZDT4EP/edcApBR8R0ugkubRJ2fWwq3VIxKepjZ7qMkI/XHi06tAfS1nW4ST+viC4NU0MN1WtSSN37H8lf/jLv3yC5CxopTX1+sqFVoX5/XRQoUjB4yEDahnVvzzo9ZpmjIe3o+/Q3lMdNVR/MNw7pmSLdY3kt/Q==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(23010399003)(18002099003)(22082099003)(10067099003)(4143699003)(56012099006)(41080700001);DIR:OUT;SFP:1102;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(82310400026)(36860700016)(10067099003)(5023799004)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R2p6VkxTb29ucnMrUDh4akU1NTVaanptTFVqUzJTVFNOSDhPVzJsU0V3MlBE?=
- =?utf-8?B?YkVHSFM2TnZYSm5IWU5ISGN5MUVldHFiNFgvNytrVndFSXcwc2F1V1lFR1Zh?=
- =?utf-8?B?SzVhRzFGalFacUdDRWE1TFgzUHhmOUtsUVpQMXRlTFJYUFdkRGJEcktlSVMz?=
- =?utf-8?B?WGpxeEpnUUZRbGd6cUJqMXpzYXB2L0dKbDVMblFGTXhxRTVYTDh5blBhRkFv?=
- =?utf-8?B?N29vaHQ3Y0hkbDhGRXF0NVRHRTRQR29Bb001UjdRV2dXNUpCSVMyd25Ia3By?=
- =?utf-8?B?VGxiRkthSkxJcmdUQ0tNWTZrdW1SOXFNaGtPcE5leFFZMkthcHFXZkdTUWg5?=
- =?utf-8?B?aldWR3lPVndJK25MU0hzZXBYcTZRZXJVK2tTNGcyb09wZ3lmTWhLbnlDRWlW?=
- =?utf-8?B?ZUgrYWkvYTdlSzVhTzBMSytRZ2pOT0VoNW9DYWRldnhZREYvVmlKVi9BcEtp?=
- =?utf-8?B?U2xKRWd1UzZ6Z0RpTllxdXU0Q0lXYUxXTkdmbEYwNlAyLzRKM050eklMV0Mw?=
- =?utf-8?B?dkVHclVUancxY3Uvbm9ZYzQ2WmJqR3c0ZHQvTGVvcEhZaEZnSkQrUHV5b3d6?=
- =?utf-8?B?UVplM3VhN1ZmQnJKenBTR1RiZk94cGhXMDd0SWl3VDVUMElpRVVxTWplMlhP?=
- =?utf-8?B?enN0cXpzc2g2OUJoZkxjZGtOcm9PZ1hCeXpjaGJIRitjR0FhU1l4Yzg5b3A0?=
- =?utf-8?B?ZTU1eVRZcUhWaVlORkZPTWMzTFlLVU1tT0R5ckN1TFpoU1dnMHVCZkpNK1By?=
- =?utf-8?B?SVB6aXpEWitZL0toTW1GSk1yTFZveWt5VzlYbUdjSm43T0ZnQXJWZllZR0F3?=
- =?utf-8?B?U0J3Rit3SWpvTHE1N29wUGl4cTFMbmtkeWlpT0x3azVyaVE1dFlQZHlxOElL?=
- =?utf-8?B?YkVTQ3ZxRForL2ZnSHBPb0R3MVFab1FWTDJpaUFYUHRpT2xtTUI2RTlmdUt6?=
- =?utf-8?B?Q2tVeEhrWm9rVkFyWHl4d3dKUjFyTm9hN3c0WWs4blZ4VERTRXFVbFJlNXJX?=
- =?utf-8?B?SWdPc0FkbCtkNTAwQ0wyN29yaEpiRGs0M3N2clZEUnhsSnl3RkxCLzFzQ0dZ?=
- =?utf-8?B?U2ExUkw4TG5rNnVldU4xZ29WcElRdlpJU3hnc0xWbUp6QVZFOVZvYUJvV2kx?=
- =?utf-8?B?a3pwRjBRTUtMa0swTk8rZWQ3djJrOXdzc2Z4UUhNcm5ia1dSQlR5YWJ3OUtD?=
- =?utf-8?B?OFVKN3lHeUdIMktoSUp5eUdQNGpGRFhST3Jrc1BidjFlL2U0d1MrVEpldEpS?=
- =?utf-8?B?Tm9RL3NnZGtqNisvYW85bmN4UWcxSWF2cUFaUTVCcU00YUlYUm1MYlVMM0JT?=
- =?utf-8?B?eCtaMW1qUTRxUjN6YW5Eam5qMHh3UEtaZGFXWGs3aUlEMDlNUmV1Uko2UGFt?=
- =?utf-8?B?ZUtyZUlUUTNZbEwyS0lJMU9jZnVrajVRTkIyb2N5MDAybjRwU2pGaS8wSmlM?=
- =?utf-8?B?eU9oQ3ZGWW5HZytBcEJFcTlqMkEwTjh1T2NSR2hPdnd1ZEt0WVFCczhFMzVN?=
- =?utf-8?B?REJjdlQ3dVRMNmNmR0hXOWRHREVIWWNYTTFBN3dnMG5VdVRkVm5PTUMzUXBM?=
- =?utf-8?B?bHBHaXlzRmFUNzkxRkUvTkZ6ZVVQYmpzT2JLVzVRUnNiUnBkRkEvNUZacFV6?=
- =?utf-8?B?ZnZzOERaZ255dWhPYVUyYUpndjF5ZjNENU9iRGFmYjNGV1RBeFZlcEgrekQv?=
- =?utf-8?B?VEFIcjEyR3NFM01zWTl6MHQxZ1kzaVdDcVFoRStxY0QvVlMxTSszR2cxUEhy?=
- =?utf-8?B?U2VTVHpyVmNOSWZncFZYNythK0lUZ0xHTVB4TEtNeEtkU2Q0NDFhSkxXZld1?=
- =?utf-8?B?YUEyeVVUUTAwYmg3Z2E3b1V2bWVEQUJPTjVaek9wNUpkVW4yRlFXdWN2MjVM?=
- =?utf-8?B?UXFXRVNkMjhWSHpDQ2VzK2w4eE5VR2Y3ekQzV0tyUm9tUlR4Z0dQWERHUUQz?=
- =?utf-8?B?S1dyV3lLblY1RThrb2xkMDZoejY4c1dKS0lwWDl2ckhoSW11T2E0WnZRd2NQ?=
- =?utf-8?B?cmdBMWFWSkVEWElDZi9aWjV2U1U5TmtoSjZ6Nlo2alA2TXFqSFl2WTJISlpE?=
- =?utf-8?B?WDlGbHZGT0ZCNDVPU2tyUHJKTCt2YmwxSlVGaVh4QmY2NUt1RGtmZjBGSnkv?=
- =?utf-8?B?OGdycnQzTlczNWNydXdRN3V2UnNrUk16N3orTENpd0RYV2pZVlNwVGFUN001?=
- =?utf-8?B?TXFydU9ucGlmTzJRc0h2UkphRTB1U0I3VDF4Z29RVzRKRWtlUlZzT1hsRHl6?=
- =?utf-8?B?L2VBUklkamhwQ0NlSWJzSEE5NHNnUC9neUxnN3c5TVEwMHdGNGN5a252Yk1Q?=
- =?utf-8?B?TzF0SE5ZVHNmc09KbGh1d0d5ajQyckEyL1ZXYkRaQ1hlQ2VxcUNQdz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 124c6736-0887-4a67-ae1c-08df18d13655
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB6607.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 17:44:54.9610
+	PhCBOkpXuYyO+/UyXUCd2DY+K9YXaxqXZ/iRBahiWlHNFHydWzKwM/jNeW2UI2rN6mlKCkmNl4Xw3eeLuQJIWiH40FkOFWXrDeyimEpOHRHQWIKv3dSKdfKHjH4xT8pcTDWI/wrNsOsDD+XyVtumfYp/Tsygndd/3eAP7w2NJ80EFwrwSuCog4fmAqRpNCM+IXRkHQ4+6JD6smhxrQLDSkBu12PT2CeFI9L7Wz3FAQqM7pWNxSu8cTX+IPdQlGE+hl8+A4SEa2a1Zp2KjWMi4VSnEVnAaUgJluDbxxqjvH6jat8Vr0BXqHQnjQgzJIwI4D+N5fhJb5unCAZxMF0CZMDzwUzpoFGlnJoBmOgQ+N9Fy0zjpDa0tXK1CKD4JQxJC5eFV2DkS7FSpRFYlmV6NpGyFcY5Gyp2hrNwQ71Ui/UumeyHJixnXSnm1K6hocPd
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 18:21:46.4326
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /aKK8JcXrvnEfdwy7GEoiMZaZdylio9/vRuD4xZQKfM8ycaRTtdV6m/WckyJMyJ3YH9JXk6ZOlfMrGFEt1zr4g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB3937
+X-MS-Exchange-CrossTenant-Network-Message-Id: 31c3a4a3-8c2a-49d3-a2c8-08df18d65ca6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BY1PEPF000264B3.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7308
 
-On Tue, Sep 22, 2026 at 03:32:23PM +0200, Petr Pavlu wrote:
-> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
-> MODULE_PARM support for older modules" [1] in 2002-12. That change also
-> moved it to the graveyard section at the end of linux/module.h
-> 
-> Remove __MODULE_STRING() now that all remaining uses have been replaced
-> directly with __stringify().
-> 
-> Link: https://git.kernel.org/tglx/history/c/136839a1b4 [1]
-> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
-> ---
->  include/linux/module.h | 4 ----
->  1 file changed, 4 deletions(-)
-> 
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index 96cc98568eea..0d9157a2d487 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -886,10 +886,6 @@ extern const struct kobj_type module_ktype;
->  
->  #define symbol_request(x) try_then_request_module(symbol_get(x), "symbol:" #x)
->  
-> -/* BELOW HERE ALL THESE ARE OBSOLETE AND WILL VANISH */
-> -
-> -#define __MODULE_STRING(x) __stringify(x)
-> -
->  #ifdef CONFIG_GENERIC_BUG
->  void module_bug_finalize(const Elf_Ehdr *, const Elf_Shdr *,
->  			 struct module *);
-> 
-> -- 
-> 2.55.0
+The ZynqMP path in dwc3-xilinx deasserts three resets and initialises the
+USB3 PHY, but nothing unwinds that state when a later probe step fails,
+and nothing unwinds it on remove either.  System suspend and resume have
+the same problem: suspend calls phy_exit() without powering the PHY off
+and ignores the result, and resume can leave clocks enabled if PHY
+reinitialisation fails.
 
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
+These three patches make each of those paths release what it acquired.
 
+v1 [1] sent them together with two platform-data cleanups.  Per review
+feedback they are now split out so the fixes come first and can be
+backported on their own; the cleanups follow in a separate series against
+usb-next.
+
+Patch 3 was reworked for that split.  In v1 it registered the teardown as
+plat->exit in struct dwc3_xlnx_platdata, which one of the cleanup patches
+introduces, so it could not have been backported.  It now adds a
+pltfm_exit pointer alongside the existing pltfm_init in struct dwc3_xlnx
+and is self-contained.  The follow-up series folds both pointers into the
+platform data struct.
+
+All three are tagged for stable.
+
+Link to v1:
+https://lore.kernel.org/all/20260810174713.2325292-1-radhey.shyam.pandey@amd.com
+
+Radhey Shyam Pandey (3):
+  usb: dwc3: xilinx: fix system suspend and resume PHY handling
+  usb: dwc3: xilinx: re-assert resets on ZynqMP init error paths
+  usb: dwc3: xilinx: unwind ZynqMP platform init on probe failure and
+    remove
+
+ drivers/usb/dwc3/dwc3-xilinx.c | 101 ++++++++++++++++++++++++---------
+ 1 file changed, 77 insertions(+), 24 deletions(-)
+
+
+base-commit: abc36cbda29d8f19cf3a580cd86ca9e865186a41
 -- 
-Aaron Tomlin
+2.43.0
+
