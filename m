@@ -1,64 +1,63 @@
 Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6901413B5B3
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 02:48:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2569390223
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 02:48:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790045312; cv=none; b=uUXH2fpAQRyev8kdGtZK83uqrhVa9zBWI+DZINOCPA/UiJvw6nobEjepVAFF1iN9ot09xEWs8puRTlm/yopwDHkFFBkh1lxa6Z2dzrc9Qosu2weMQglX3ASaxhhr9IH73cvC2YRdMyGWvGpDWHtKg/CWiA9c55cCiqWeYt/gUVI=
+	t=1790045316; cv=none; b=A7PtbQ0p7jJoTxzKlXfCHoC/wgPOOW5lbbRXoS/HxmgtaZySkjz+4PfvE5Q9iQhCxyI4cZRFa2LTwEok4GfEmwtpBqq+wOE99VfPXUYmDScclA/OkpbaQsZRptEI2gTPSrFPXULo2jz0nOHercBMTPaZfhHsCWD3LM8haNOlYC8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790045312; c=relaxed/simple;
-	bh=CZc4QBGy+BG9JJGrAOVmoVxgxeojzJnci50cnAtfNzE=;
+	s=arc-20240116; t=1790045316; c=relaxed/simple;
+	bh=stmJOODU+Gnhhw3HiNjW7TxChO7ziDyF3KPhjuQ4+XE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RjGSIBVRBFNBHLpU5z1Dl/Tmod/wwqNGks/1PDDF7hq8OjlFz0yEC0aL9pcQOrsegV1z7qwq7N+aal9QvA85i/5ZA3w+YEhpFvGDG+ybyMHKdUIZEXSNo2JJrF5cJkzTa+oXF+Dqs5gMS5Mp2DtaRwVNsc4QZ4I9OBliZH03uEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aX0vjANr; arc=none smtp.client-ip=74.125.227.141
+	 MIME-Version; b=kAohKz72F+yOoNlmS80e4NGsIK5T9MWDsE8G3vzrbcMkdC8cIvGpWHmpIS2iC4BsPozzuQmdRsnoQPjkrVhw4VbcDznvVPmP0x9IF3X4h+rXboIiTyajFT2eGv3YVLw2GvROEZdKoIJIHMvB/8u5fD2V4/B4TUFHHI3TDH4OgB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=h3Eo3Wda; arc=none smtp.client-ip=74.125.227.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aX0vjANr"
-Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccda24a3so2758100a91.0
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 19:48:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="h3Eo3Wda"
+Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d8fb334e72so33194205ad.1
+        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 19:48:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790045308; x=1790650108; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790045314; x=1790650114; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rWmT8GXNkKIjtVq2Tp5ZmO6NxHuTlquOEZj2eN8N3GI=;
-        b=aX0vjANrtzKgVtIZGdfa9N0e+322OLQitOduMj0y9pu/VDQ7/dhy308mXhyJ2K6iZY
-         O/N/s2FKnNXl/qFj1ZqtpK7hiktpgVkX94Pot9PbHWIa2/ptiatpGJqaRhdDctWQ2JiP
-         J2JRVDBXc993XkbtpgTl6GlOSa7t3jf09oHYmwtiRO6U72qqBrUWtNZr4OejKjKMb75q
-         yeRIQzlC4olZdQHSTpRa3ggIlZkerIQZXr4+cH85FfsKD4tYlCCcEzKBixa2CoPhJ6hy
-         oq04HgZ9Ce5gX94QyKJZ5kONJYYVWgagBPOYPDBT2tqANiHwkwb8ScX4j2qfXNikK0Sz
-         6dcg==
+        bh=26rOLZ6VAdNb1QMWubw0rV33TxsyOkNQWkVFzg0YEAw=;
+        b=h3Eo3WdaF41QW4/183DmG5ceX5mLNuuJjV7+t7zkBFa9ndGjsBU+eJtOKnUYpK3dS/
+         FRKnQyj22Yenvy2DhNlf6U2UDASw3uqISP5gn90zvykTTl4dkxTVRgqJps+/Fad1NJk3
+         fH0b7EJDYgBdNbnpXG+8r6SnYbNt5+M98muPsArxymyvoxc+/4O4BzHN7axg+xP04XsZ
+         vWp0KM7HDf7zmyKDgmc0M+VFMzjr+yHgWP46U9dD493spzgNE6yD9rmAlCSotEEk1wph
+         IxVnjpfH7eE6iPJfQilkpCYpBTr1hUvWTcj8bi8/EVDQYQ144+KYZL7VfrigO+TJfZ6f
+         pPlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790045308; x=1790650108;
+        d=1e100.net; s=20260707; t=1790045314; x=1790650114;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rWmT8GXNkKIjtVq2Tp5ZmO6NxHuTlquOEZj2eN8N3GI=;
-        b=0RvaHS9fY0u+YlNq/czWOoAuMADqpFs2GTU+f46l7UM+g2pFkOV0G5a5doOUHZcNQF
-         vzUkHJKJ6wf2ypStloa1jNq9QtWhlPQ3t3QBl9i+Ae3HZ2LNfLuGVFoxgX7eu4RMAjFz
-         /FgZPcwvtzJ8+yMshTD70ah/iqKmMG/RZ8Sn6Lq+tK38erAKSBRWETZ+S74V4IJt4ryn
-         lYnWur/QPPokCv5jJRr4GSWStmZy64mku39fYqYHQ0RR3o3Txiy/lYIyImap4rnBwuOV
-         7qYB5dCbxGy+SJ4gqinoR6vsaWeL3HqJDjnCH4DywnWVR/taHYPM7r9BAQ9/z2BbmPJq
-         42Gg==
-X-Forwarded-Encrypted: i=1; AKwUvBxiWtV47gnFEa8DzOJIX9eaPrFJBA/FhbTE3E0ZXD7OtA+NlkZjkv/Kf3MfWox2TvzX4gSDB5gkHdg=@vger.kernel.org
-X-Gm-Message-State: AFuF++mFeAE6YIKezlIVrlit460RKehaVKDr3y/vCpbvi050kn+5VcbQ
-	U49b8cAxe9pzC6PohThHHgs4oYhZ6eYTJgzNikh41XjKgI3BR8eSHrTD
-X-Gm-Gg: AYBFou00ZBoWDgUuT97eRqUucLPfKHvJgdAcy816jOf04XeSy4zeor8/HIx67fnj86Q
-	k/UB1LW9PVI8g95mkkkaTNTNCgX601ebpl0r/oSveSS0N43A6d948qYMraLq2RQx3UqysUhajoX
-	g0B31ttKB7clPt2kXbahKbf+MFvcPXy5QimoWfqItiaYbcpjjcFfW+rm0Cjf8Qa6b7YR2vSLnJt
-	6HjQLVyBQs8JYyYlCnG7b4vCFhPBxxzls1qOH8RQ20J603oSx/hA3+3uWvOU8GX6CpOqC+4VkqU
-	eWuqlFEs1HPcpmueLunUErHq+fl+Mxuyw76QTJoiKQKcYZpgCrxe5bmnPBC3hknw5gFVYdAWbwn
-	ehKriImbIA3ah2xu3ecKkn/64wmOFrvvYXd3m9RXNnn33bbFfzULNYBZ8DEZzLXVKHfQwP8NC+/
-	D7BJc1nvNLsi9Is8UcmiamXwDvjRo+ieMA+uuc+U0R74eesLhCic3wFqsGD8905skSi0PTFUeFx
-	eMqw8jx
-X-Received: by 2002:a17:90b:224c:b0:39d:f317:44cd with SMTP id 98e67ed59e1d1-39e54eab3dbmr22577003a91.14.1790045308578;
-        Mon, 21 Sep 2026 19:48:28 -0700 (PDT)
+        bh=26rOLZ6VAdNb1QMWubw0rV33TxsyOkNQWkVFzg0YEAw=;
+        b=L1GV4xOv29HqTytknP9fFmAJZKZEoddLZbo5gzqJfKMLzujvmAVqm4jgTsT7uYyKfV
+         NCkcne3sOQnaab+fhCRLEJuCDnRdPnXeCgZOI16De35F5b38kLbqAzv84OGrV2ifJyzJ
+         YI3Pbt6W9G9hjetj6TiBgVIn7Wp8q52zaOySSGsCq3pciZOYg6nJ3n3GfBUYFbNja+8X
+         HwWpcU1bQ90d8jmltpkAFrnaR/E0nfFnXXyprFFFwtRX+02zL6iAw5LrEF/1mftQhLgC
+         wXzCCAnC0TANBvcMhBQ74KXmf1Rd3ZxrlAm+OPmZzKjSHOUcXnGCtLUOw33s1JYCO529
+         Kt6A==
+X-Forwarded-Encrypted: i=1; AKwUvBx3yg2FqI6D0gbR2JPVPbXFTBBc3Lp9diSkUOC4FjwXEXUuLK+BEZOzhHNLJygB1uYl6OloFCWviKA=@vger.kernel.org
+X-Gm-Message-State: AFuF++nbj5YjomMU1nDS7xIlOyNgnpSgHnvS0ykf/ViMPXLLXoWrWGKa
+	S8Ahq+KDDu3/24PKcp5dM+nd1k3a9d0d/iyCg+/+TP7oZIDzH+NP6q9R
+X-Gm-Gg: AYBFou3fWDI2QLJ8pBK7vSsG4o8b4UWQD3/vOmoYp8oCkbK6aSFnxyZkl+WhXWP995N
+	I2OVV22Gs7gZJMLE09W0l8tvdDDhOnCw6p72Ox1vQg2dyLSx4STy42VNlmpK0RqwfU5Zi0yH457
+	OnNLeuI+Jl3235YnaPw5pwqxYxStTfFfQK3E3s3g+FrgYNa7YgdmnjiaOWWx7x9RnqvqetPJEk6
+	PjAg3FjpIarJmMbVop/tESLzpWcKaYWdRpagtsq8soPqjD7X9nsxNKYTw3McfEidKZOgs5fRuAZ
+	jFYJZ5GB6gkwgSmHuAAZzsNhvj9x0vxs++Zc8+2rnkx/RWEzWORSM3d2LoNHVZ3SHmSoEdvjn6V
+	kSB9ikwgt/NGlu/0xbLOYAecYgItX23G5B2mZlowxYBsL1qo1B+lLSqt42sVCOYE4K3tgi9H0rs
+	gcuAuW1X3jlXFrLaWi96lhGN9blPIIDQPnWGeliyRiRFkd9cmQINeYvuhWMlqVeDVoOHBzjQ==
+X-Received: by 2002:a17:902:c402:b0:2d7:3f6e:5cb9 with SMTP id d9443c01a7336-2ddb1b7a04cmr194077855ad.8.1790045313882;
+        Mon, 21 Sep 2026 19:48:33 -0700 (PDT)
 Received: from localhost ([2001:19f0:8000:3e6e:5400:6ff:fe38:3d01])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a06caf4a73sm297312a91.2.2026.09.21.19.48.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df5d06808csm1648645ad.83.2026.09.21.19.48.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 19:48:28 -0700 (PDT)
+        Mon, 21 Sep 2026 19:48:33 -0700 (PDT)
 From: Inochi Amaoto <inochiama@gmail.com>
 To: Hans de Goede <hansg@kernel.org>,
 	Damien Le Moal <dlemoal@kernel.org>,
@@ -91,9 +90,9 @@ Cc: Inochi Amaoto <inochiama@gmail.com>,
 	linux-phy@lists.infradead.org,
 	Yixun Lan <dlan@gentoo.org>,
 	Longbin Li <looong.bin@gmail.com>
-Subject: [RFC PATCH 2/5] ata: libahci_platform: Adapt the return value changed for disabled blob
-Date: Tue, 22 Sep 2026 10:47:17 +0800
-Message-ID: <20260922024724.191412-3-inochiama@gmail.com>
+Subject: [RFC PATCH 4/5] usb: dwc3: core: Adapt the return value changed for disabled blob
+Date: Tue, 22 Sep 2026 10:47:19 +0800
+Message-ID: <20260922024724.191412-5-inochiama@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260922024724.191412-1-inochiama@gmail.com>
 References: <20260922024724.191412-1-inochiama@gmail.com>
@@ -109,27 +108,31 @@ Check EOPNOTSUPP for disabled helper function as the change in phy core.
 
 Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
 ---
- drivers/ata/libahci_platform.c | 4 ++--
+ drivers/usb/dwc3/core.c | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/ata/libahci_platform.c b/drivers/ata/libahci_platform.c
-index 6e072d681341..3e8ddbeb49b3 100644
---- a/drivers/ata/libahci_platform.c
-+++ b/drivers/ata/libahci_platform.c
-@@ -371,11 +371,11 @@ static int ahci_platform_get_phy(struct ahci_host_priv *hpriv, u32 port,
- 
- 	rc = PTR_ERR(hpriv->phys[port]);
- 	switch (rc) {
--	case -ENOSYS:
-+	case -EOPNOTSUPP:
- 		/* No PHY support. Check if PHY is required. */
- 		if (of_property_present(node, "phys")) {
- 			dev_err(dev,
--				"couldn't get PHY in node %pOFn: ENOSYS\n",
-+				"couldn't get PHY in node %pOFn: EOPNOTSUPP\n",
- 				node);
- 			break;
- 		}
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index fd5c2cd36c59..6d253810c71f 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -1588,7 +1588,7 @@ static int dwc3_core_get_phy(struct dwc3 *dwc)
+ 		dwc->usb2_generic_phy[i] = devm_phy_get(dev, phy_name);
+ 		if (IS_ERR(dwc->usb2_generic_phy[i])) {
+ 			ret = PTR_ERR(dwc->usb2_generic_phy[i]);
+-			if (ret == -ENOSYS || ret == -ENODEV)
++			if (ret == -EOPNOTSUPP || ret == -ENODEV)
+ 				dwc->usb2_generic_phy[i] = NULL;
+ 			else
+ 				return dev_err_probe(dev, ret, "failed to lookup phy %s\n",
+@@ -1605,7 +1605,7 @@ static int dwc3_core_get_phy(struct dwc3 *dwc)
+ 		dwc->usb3_generic_phy[i] = devm_phy_get(dev, phy_name);
+ 		if (IS_ERR(dwc->usb3_generic_phy[i])) {
+ 			ret = PTR_ERR(dwc->usb3_generic_phy[i]);
+-			if (ret == -ENOSYS || ret == -ENODEV)
++			if (ret == -EOPNOTSUPP || ret == -ENODEV)
+ 				dwc->usb3_generic_phy[i] = NULL;
+ 			else
+ 				return dev_err_probe(dev, ret, "failed to lookup phy %s\n",
 -- 
 2.55.0
 
