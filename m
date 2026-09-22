@@ -1,142 +1,184 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9223BC69C
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 08:05:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE633443C2D
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 08:35:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790064360; cv=none; b=gpOEc9j0KEFoitAahqEmsqCDoqdr7y28z8AID64MVNYlwqV3J3SkA2PBOFb2luZ6if0igyzUkWQWd8hFDZ4sRqeLHThuPTg9uZjMAfDBZlf6Z+Q+GIfsHWA41Uxy+/dZvT58/au6EG005ohOJoa39WQ7JAKFJ2QtM7Z7rezvqTQ=
+	t=1790066102; cv=none; b=tTJ8vlAXiS5FmAXp6/hcRFNsFY+HG9ujX2n8a5ZPXVC0iygE4tUWToDMfUYOHcL8uC2wzNzmO4vMItWqYLqpd3HXptJz64dwQFwPVDonG6GK5xhdyQq2AYFAV7BFRMM663YP78Wyboh0T9jXejJEBbt4AQF3jC/kj7KMAjM/xa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790064360; c=relaxed/simple;
-	bh=mAzOYQqUt4F72g1YLtR8zyHxUm6A24el4YGVu4iM8tg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hkkVGWxUXz57B3e8Xb38mi6+KIQYrMMp8exGAm8PEEuG/tQenQH1SL04Sv6+H+PNIY2KaB25NMV0dD0WYwZtcxoKrqNtoQbiL3klt1JjhOCxkFMwtgdlOZJRgcKXDay50B3ZQczEjdLinLujXvsyqfvPY7Wt3hEL0qTp5zOrMB0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aIYPhoC9; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1790066102; c=relaxed/simple;
+	bh=/MQ9q/kMBz035pPCnw9vOBp/PRzg9yLdoKxGmuxx3uw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XjUHud/0WdAJnTuBoMlC5sdcQY4Gpb2DdVbsZbLJq0F+PFdIuKTop3xq/6mFr3VqdYgWBGpmOSj0zCxPuIb/I2eP+kf+EGHOQfwnoMitQyMePTfn0xGHoyN5A5jTlM/uZWDK2KmO9cis0sbdFN8YuD1VrlKktOK+D5EK8Mc9tlI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=WUZNK4I3; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aIYPhoC9"
-Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccafb751so3253338a91.2
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 01:05:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="WUZNK4I3"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48439feca17so2959316f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 01:35:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1790064349; x=1790669149; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=GpOZWpxjdXQXhMPgIqRaZuniCjJ67+oosNX04DosQoc=;
-        b=aIYPhoC9ZGSM4JtP5va72Hal9eyr5Xz4XLs2xyYBrtSxL4Z72Ae1WcE2QOhyr5TA+x
-         357Dgf6GSbGsoRNakGGD/tZBVQkPfuvGsceMoYV6OOP/o3B7ip+VUvEqCjbp7g9Z/VYw
-         eFjglOYXKvVaqP+7me0yjCQjYzuGisIPMTYVk=
+        d=suse.com; s=google; t=1790066099; x=1790670899; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6vCaHzev1h/MoHQH435Co/njJMhx1fq16i2vRv4vluc=;
+        b=WUZNK4I3gs/n/SLhPw/0Q9mXJdnqA+J/UphS8qjja67DhSLDZktAf8akSnSXNTSbJq
+         OdS+EIhUjSI5pqbjGVwWSVsrICOP4F4afN0obJU5B+bsyzLZC9dYq/4WZiuqf8iXIQ2E
+         umsUhEYlCqXc8797ma5H8ziwz6aWpZH7qlVlT8hqoor8ePFz9WoXnhS6WUwkCiXOJ2xj
+         8XbEj1ogJgr6OqQrHm6HzysRZmwJgS+o7LJ3XpaG3qT4ssiv7dL0Avkp0DKMcPca0jou
+         Fc+wfO86vr0RzLfJXL+8fxS4MWzVRlttpp5IvGW/jlorwGsGzIzP4gP3KcnUVR4hRBwF
+         lsQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790064349; x=1790669149;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790066099; x=1790670899;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GpOZWpxjdXQXhMPgIqRaZuniCjJ67+oosNX04DosQoc=;
-        b=UU9eQq+adhTYb5e2GZgOZCw+piwcxTNZYpl1Y2uS8w8dJpkT22seYWBCfbdWrPvODY
-         8GP4rQHdBwV4O6C7t5ojT80OV7x7ha1sWbuYi3AKTvhcXdawOgzntaTILZEV81dAavLo
-         wyZAVlzATJtaephnNLYPNRgVq9ULwznDqCKmNB5Qhj0QHCPyQ8nvta2C55A+lXnW/USV
-         az2UPy83qEomTNdoSEws/hi8cD+gCMy36jEJ76YgeD0hWRmkA5zATtaYqCXmkseDs7sO
-         bgF+/mKOBzTe1Ae6zP6xeWVf/nedPMVtMgHTCr4/Z47G4LrB25PXJSqchHQp1hEwjT/7
-         429A==
-X-Forwarded-Encrypted: i=1; AKwUvBydDmtoTWGb/to3DiAKl2lx7Ut4U1fcg4dJq5jq3tVNRJr08RuZ14EpQCmadHeoWG/63p5FmqJipqE=@vger.kernel.org
-X-Gm-Message-State: AFuF++kY9GQaaXLOsO/QBu1dYRK90/3VufHHhc38Iz2THD9+4kDe4Pxv
-	HGzBuEXVf3AZVrzTIkILV55DaW4PFJS74JV0yx9UVgtTCUE7h5cDbw1nEBfPlwlY8w==
-X-Gm-Gg: AYBFou2LIq4K4fKFh4dPzg8P05JbEvRb2cZp9hfsPA0GFH7sep/eWluLPfS6V68jefu
-	O0AY/TPc9Wy9e8RGvT28F93KTFYxvQrMKDXRSnnoT4dNfgXP8NfhOq/JTPZw644KoRrJw4QoOgC
-	AAcTuwvsc1uDFNdeJIYnDHXQ+4kWxb/d1djKHoCULK47qA9Av2kaPs2MoCsdQhomAlh6J014N1m
-	vJruio4quJGTKJo0WdjbIc9Im4bn+8kyJssB+CHslg80dDbvlv4VNfYp3YxxkXQWzzwWwtmC9ey
-	xBAFf8LMOydQc9+XZd5XDuL5QoJjC9NbL17J/F/unGu+0JkzC9J6OIHY5Kc/skIBkgsmHJRSHnj
-	SWDKY6DNy7KJgHSp9mMpTEYHbx4Z3lG/Pcaw7Qs2U6HDGVKSKNXLldpMDAzj8wJlT18RP/1rwy/
-	J4jN3pmtL+nBA661LcjZ3gYNOnI7MLkV7FM+uKTpljUJXGd/COVq9I2gjaKe+AGFfjpOpdjYz/P
-	3yarnrDkUbbJsexoY/VSd2vHf+euV/58zNXcxDyoCHQqqg8z4ZAuqWECA==
-X-Received: by 2002:a17:90b:35d1:b0:39d:f95d:bd08 with SMTP id 98e67ed59e1d1-3a073112cc5mr356439a91.14.1790064348807;
-        Tue, 22 Sep 2026 01:05:48 -0700 (PDT)
-Received: from wenst-7875.tpe.corp.google.com ([2a00:79e0:203d:7:387c:500a:8415:7dd1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0674df8bdsm3334602a91.16.2026.09.22.01.05.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 01:05:48 -0700 (PDT)
-From: Chen-Yu Tsai <wenst@chromium.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Chen-Yu Tsai <wenst@chromium.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: hub: Set proper message when usb_hub_create_port_device() fails
-Date: Tue, 22 Sep 2026 16:05:41 +0800
-Message-ID: <20260922080541.1986179-1-wenst@chromium.org>
-X-Mailer: git-send-email 2.55.0.1082.g2b9226bbc0-goog
+        bh=6vCaHzev1h/MoHQH435Co/njJMhx1fq16i2vRv4vluc=;
+        b=kMN6UdY66ObDC0dTixofc3JhqydvyXHWnvBvIm2bof36GiXSSaPVqMdRvDB6hZtDy+
+         AcQg29jAP2B4gQmAmg1DPvd0Dl+jAF75/A0T8aHPyX1L/+1cWv0tnZW2lg5bEoAzIvEH
+         A9RW+K/kC84w+JBC0lRvu0F96ERKMNROrcw5s2pUTFxyfJh7MA1U7AfzwA8T9UA+DDtY
+         gb5GG18Qc2/Ia+avycy5NZWr+aUVDwl4ZPfngcoNGXtG5fCBW3y83TbBhF/wzS5bl4Ve
+         AHJQDkiSMsnPf3OgV8yg/KAxSKJhrb7QPVxur1UFucPS5664LPMfsDxERA5ALZ2kENm3
+         X4lw==
+X-Forwarded-Encrypted: i=1; AKwUvBx2aKI/L7T8gLdhCmRRU/Y8NKi2eeuu0bJgBKrL2kgIvMcOxliyWUk2vPSmG2TLYA56QIoBX2lQeog=@vger.kernel.org
+X-Gm-Message-State: AFuF++kkJvEwat/MYvBipUGzCTmdQsqvJmi7xAiu9SYpQwUKYlBIU8Oc
+	FhprqSp+CaKjw/apwJPYNvMhFyuc/13FlhBH8dvLRymkiXZOwsaOoJyPXWVva1mD4Wk=
+X-Gm-Gg: AYBFou07MDLs4Rosnru5sYRbKSFFPaDL+L0lkEuioFrNilhDSPvGBgZk/itiTzxvJEW
+	N+CB5hQz/Om6uWfthHbE9Y1xaPefl9eMwpAjAZkqVzTMNgrs9SUnm898+GANP2ieyY8d83uErJt
+	bxbKmaBGGd1f8GR8fzsoj0liI4mzQV9ZuRBeMcsdNUxLMD6HMVdjJ7fuZr3JdYbQhcHd+7s5ums
+	cR0/9hbeydjXPMmsT8i7v/WX1B1uDgLKQlJepEjizJCN2XqQ8OM8UM2m7sZqY6GaQ61f3Mjixa7
+	Aa8+bKnIU+qGbgIU3VcwBv0Wn0BOIcS6qtg43e5akX4o5Qo9OWzSWF0i55UaPl6UwD14AVKhnub
+	ApPDjbP6gdpyWrgrf9/PGRfcZy8Ohm7I0XVurCQ8ivpwXecxac2zV8WmcI1SSnlRMFDhQYzWZ+N
+	LCe4Z3Vd+AtlkNZP8zHGvg6dueNlTlCSkJfxMpYlyznfERNVPCuAEpT5edtXXtcU/3B7FMdAJ9h
+	7CQY5DD7GgvlFRtEkl3MI+GNwvgHwtiVbxE+XRw
+X-Received: by 2002:a05:6000:3113:b0:487:10a9:57cb with SMTP id ffacd0b85a97d-4871e3778e6mr19151883f8f.49.1790066099179;
+        Tue, 22 Sep 2026 01:34:59 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13f0:9e01:9a7c:db93:afba:8f7f? ([2001:a61:13f0:9e01:9a7c:db93:afba:8f7f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-488627314d2sm3372106f8f.2.2026.09.22.01.34.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Sep 2026 01:34:58 -0700 (PDT)
+Message-ID: <d3639d68-0213-4b70-a771-aa5dc3ec9767@suse.com>
+Date: Tue, 22 Sep 2026 10:34:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: uas: quiesce SCSI before stopping endpoints on
+ unbind
+To: Jiayi Li <lijiayi@kylinos.cn>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+ Michal Pecio <michal.pecio@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ linux-kernel@vger.kernel.org
+References: <20260922031102.141043-1-lijiayi@kylinos.cn>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20260922031102.141043-1-lijiayi@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Right now when usb_hub_create_port_device() fails, it prints a separate
-error message to say which port failed, but otherwise leaves 'message'
-set to the default "out of memory", which is somewhat misleading.
 
-Allocate some memory to put the custom formatted error message in and
-use it as the error message. If the allocation fails, use a generic
-version of the error message. The allocation is explicitly freed after
-the error message is printed.
 
-Variants of __free() were not used as it ends up mixing usage of __free()
-and goto. Also, kfree_const() won't work as it uses is_kernel_rodata(),
-which only returns true if the symbol or address is in the kernel image's
-.rodata section; it doesn't work for module .rodata. And the USB
-subsystem can be built as a module.
-
-Assisted-by: LLM # local reviews
-Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
----
-Changes since v1:
-- Explicitly track and free the allocated custom error message instead
-  of using devm_kasprintf()
-- Link to v1:
-  https://lore.kernel.org/all/20260728100005.413868-1-wenst@chromium.org/
-
-Sorry Andy, I ended up not using your __free(kfree_const) patch. My LLM
-was telling me that it won't work correctly if CONFIG_USB=m.
----
- drivers/usb/core/hub.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 0e929a4c9fa1..398ae53cd8d7 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -1480,6 +1480,8 @@ static int hub_configure(struct usb_hub *hub,
- 	unsigned int pipe;
- 	int maxp, ret, i;
- 	char *message = "out of memory";
-+	/* Used to hold and clean up kasprintf()-ed failure message */
-+	char *msg_alloc = NULL;
- 	unsigned unit_load;
- 	unsigned full_load;
- 	unsigned maxchild;
-@@ -1756,8 +1758,11 @@ static int hub_configure(struct usb_hub *hub,
- 	for (i = 0; i < maxchild; i++) {
- 		ret = usb_hub_create_port_device(hub, i + 1);
- 		if (ret < 0) {
--			dev_err(hub->intfdev,
--				"couldn't create port%d device.\n", i + 1);
-+			msg_alloc = kasprintf(GFP_KERNEL, "couldn't create port%d device", i + 1);
-+			if (msg_alloc)
-+				message = msg_alloc;
-+			else
-+				message = "couldn't create port device";
- 			break;
- 		}
- 	}
-@@ -1792,6 +1797,7 @@ static int hub_configure(struct usb_hub *hub,
- fail:
- 	dev_err(hub_dev, "config failed, %s (err %d)\n",
- 			message, ret);
-+	kfree(msg_alloc);
- 	/* hub_disconnect() frees urb and descriptor */
- 	return ret;
- }
--- 
-2.55.0.1082.g2b9226bbc0-goog
+On 22.09.26 05:11, Jiayi Li wrote:
+> Unbinding uas while READ commands are in flight can leave the storage
+> device unusable after the driver is rebound.  The first post-bind
+> INQUIRY Data-In transfer completes with -EOVERFLOW, and SCSI error
+> handling eventually offlines the device:
+> 
+>    scsi host7: uas
+>    scsi 7:0:0:0: tag#4 data cmplt err -75 uas-tag 1 inflight: CMD
+>    scsi 7:0:0:0: tag#4 CDB: Inquiry 12 00 00 00 24 00
+>    scsi 7:0:0:0: tag#4 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD
+>    usb 2-2: reset SuperSpeed USB device number 2 using xhci_hcd
+>    scsi host7: uas_eh_device_reset_handler success
+>    ...
+>    scsi 7:0:0:0: tag#7 CDB: Test Unit Ready 00 00 00 00 00 00
+>    scsi host7: uas_eh_device_reset_handler success
+>    sd 7:0:0:0: Device offlined - not ready after error recovery
+> 
+> A command URB may already have delivered a SCSI command when usbcore
+> disables the interface endpoints and kills the data and status URBs
+> before ->disconnect.  uas_disconnect() then removes the SCSI host only
+> after killing its anchored URBs, so SCSI teardown cannot first quiesce
+> the accepted commands.  A newly bound UAS instance can encounter the
+> residual transport state.
+> 
+> The failure reproduced with a VIA Labs 2109:0715 storage bridge on both
+> Zhaoxin 1d17:9204 and Intel 8086:a2af xHCI controllers.  USB device reset
+> and xHCI unbind/rebind did not recover the device; physical reconnection
+> did.
+> 
+> Set soft_unbind so the endpoints remain available during driver unbind.
+> Cancel pending scanning and remove the SCSI host before setting resetting
+> and killing the anchored URBs.  Use the same teardown order for every
+> disconnect path and rely on SCSI host removal to handle a device that can
+> no longer communicate.
+> 
+> With the change, 10 of 10 zero-delay unbind/rebind iterations with 30
+> READ commands in flight reattached the disk and completed a post-bind
+> O_DIRECT read.  Unbind took 82 to 109 ms, with no UAS completion error or
+> command timeout after rebind.
+> 
+> Signed-off-by: Jiayi Li <lijiayi@kylinos.cn>
+Acked-by: Oliver Neukum <oneukum@suse.com>
+> ---
+> Changes in v2:
+> - Remove the USB_STATE_NOTATTACHED-based disconnect classification.
+> - Use the same teardown ordering for all disconnect paths.
+> - Reword the commit message.
+> 
+> Link: https://lore.kernel.org/lkml/20260920012358.3362053-1-lijiayi@kylinos.cn/
+> 
+>   drivers/usb/storage/uas.c | 16 +++++++++-------
+>   1 file changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+> index 8655edbd66b16..8752cecb45915 100644
+> --- a/drivers/usb/storage/uas.c
+> +++ b/drivers/usb/storage/uas.c
+> @@ -1217,6 +1217,14 @@ static void uas_disconnect(struct usb_interface *intf)
+>   	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
+>   	unsigned long flags;
+>   
+> +	/*
+> +	 * Prevent SCSI scanning (if it hasn't started yet)
+> +	 * or wait for the SCSI-scanning routine to stop.
+> +	 */
+> +	cancel_work_sync(&devinfo->scan_work);
+> +
+> +	scsi_remove_host(shost);
+> +
+>   	spin_lock_irqsave(&devinfo->lock, flags);
+>   	devinfo->resetting = 1;
+>   	spin_unlock_irqrestore(&devinfo->lock, flags);
+> @@ -1227,13 +1235,6 @@ static void uas_disconnect(struct usb_interface *intf)
+>   	usb_kill_anchored_urbs(&devinfo->data_urbs);
+>   	uas_zap_pending(devinfo, DID_NO_CONNECT);
+>   
+> -	/*
+> -	 * Prevent SCSI scanning (if it hasn't started yet)
+> -	 * or wait for the SCSI-scanning routine to stop.
+> -	 */
+> -	cancel_work_sync(&devinfo->scan_work);
+> -
+> -	scsi_remove_host(shost);
+>   	uas_free_streams(devinfo);
+>   	scsi_host_put(shost);
+>   }
+> @@ -1267,6 +1268,7 @@ static struct usb_driver uas_driver = {
+>   	.suspend = uas_suspend,
+>   	.resume = uas_resume,
+>   	.reset_resume = uas_reset_resume,
+> +	.soft_unbind = 1,
+>   	.shutdown = uas_shutdown,
+>   	.id_table = uas_usb_ids,
+>   };
 
