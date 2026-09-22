@@ -1,102 +1,51 @@
-Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B343B42EC
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 02:48:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC6A37F33D;
+	Tue, 22 Sep 2026 03:11:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790045322; cv=none; b=Gnyh90IxLVVbPcgHSREEX83omyEM2auKZat3JLcd3HnZgccNdmPsoFfk4Kh1XGFYh1uwSjPZcUhkALcKDllNnZI15SIk0vK3sthsAVhAb+yYIVEV68Gy69u+mIfI5gzNJZ+g6tJX/iN62/aTYtANZNnZilaQqSapmtS7povi3CA=
+	t=1790046693; cv=none; b=Nuo1qhYdVbwar+nHmYkxpLAZYzEwtTbz0FTU6JVews6X9xlfqNKR6j9ANWbIEIVfc3KUway3iLMMDftTbzzKPnBKlqbZdpLafhUptQhbQKKU+1wHjK5ByoTsKHdwMN0JFvh5iJwWMW9pyX4LXlfP8DuzpKQqKJ6QdXRuJY5YODo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790045322; c=relaxed/simple;
-	bh=QstOwR4MoLepqPhwXXcdqhaZXi3o+22oqo/jORxNnxQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bUmPz0KyJQtBJhWOccEFLIzl1AO4bpDHYo4twuJ1nXOLYhzdiiV/5a74Q5w5L7IiCVYMdcQgoRSwy/E4j2NH9v8aoEFCd18ml/HM4y6I0A0LkuODdYNZzMhli6V5wNtJFOuhjSObNE74Cywzv/AG5k3Nn7eSG4TgPCslqBObhxU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KmnDdwo6; arc=none smtp.client-ip=74.125.227.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KmnDdwo6"
-Received: by mail-pj2-f12.google.com with SMTP id d9443c01a7336-2d747f066d8so13480075ad.1
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 19:48:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790045316; x=1790650116; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JQsnO6nBZnTmHd9o3wzHwpj6ldm3p0l1ScGQLsRwCts=;
-        b=KmnDdwo6IDTvhGn9L1EHokueD8DwKYuaoRaNHR4rwKrUHeSLhPCBpVRz5Q/jjExCuI
-         F1AN00FrJJI2uyWnnJdJRmjjKofMsb709IQhW8tcRghnwfY3wgJCvViBvpGIp5dAFyjP
-         fO+v1GiNWQFn7gMTl3ZtMA0tPJ+j2drrKQcx0AABU6iFyeYA0YK6iVCF01eKljIWW/JY
-         tIVW3fKE4KjYu7MuYLZfUroNHrXNA38bkGuB2kq4A6fdFKv1WKuJetgPZjsmDKCITGQr
-         RqpaYMVdXO4gve1W36PQzGMcmQMJk7feF577pmkP0F9JW7ySESZ0UgPc5La/yJMxzi9S
-         Rpkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790045316; x=1790650116;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JQsnO6nBZnTmHd9o3wzHwpj6ldm3p0l1ScGQLsRwCts=;
-        b=rrKX4OjX7kESW6SCgR5JzZXErYJjtsdLaTS+8FVeSspSM89H1hbUUM2aqvN3L+3Zze
-         G/MYrseHu+Gz1zJABr/gNucgv1SXb36obFHgaDDGa+tXutZnN0lIMjNl8uMTZdwMPGpR
-         oS8AM3KMpXRrKPp804KGDovX0B6AQgk4plaXIBNzj0A6Fe6jvNTZrEFfnDueP8XQ7y2y
-         CY5+Zi0oenxXhbfG5VRK4nigU+F1ZrjWE4FlLK/1F1DHp2o/MxFslXLuUPZzc9nxbjZK
-         cwPWWTPwHwsUzA9xd0C8EpJpxbS3b5q0M1RaHZYVzieE23VP9YJ6qqvNTJ8qm/CZPNcA
-         j86Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxRMUrEcxSzW8DuSLPvFuYgAXaGbC7RdAupeA1pGR4VlG+lYLoe3eTwD+RbJjYf35/HoexIVzrOJyw=@vger.kernel.org
-X-Gm-Message-State: AFuF++mvi1l7AuSeCbL8ph1fIvhJ0xSMMx5mBQSNTqdyKGzUq6yWFWsz
-	Wp/Yh++bX3jMdAY7vgBS5RualFXmlsyWLwnxoFrNGjwGTTwUBDycAdHO
-X-Gm-Gg: AYBFou0PYV2anl9RNI8mYp3UTpyPWXlXyNlq+FwU3iSr8BNZzO606DFRH/wNhUBK8dG
-	qmS7RT481rnEFnWTy5Pptb69Xj5SjG4ZghyAljNrnV69bj29s26eNvUB+Z4+bspJ0l8ZVTYxLdt
-	o9TG6OgWWrJ3kHBIZfApp4KrvjZ+BJ55it+uA+hhU8PCT9xE+ee3UA0BK9EaCgMAZJo8YRTx20v
-	3+1gf0zwSgVbmK0Rgsy/ilFrGDyH08MkLqCAtZNNXKVTIQtneVrhG6w0OlKzN52YYfOsVcNQIyn
-	BUv5RUIIx+a7+/dR63gmJjejS/yopIv3ieKChpxyo5gvkx0MBaBcY22IubO+TK2W4osnXwAq8Bh
-	ByxTx/8NK9VqqH4RtNBcyXWOOY6IGjmPeT5c193jr3XfGSpUVX+3utH99/1iuU4zLCYnZWUgLm/
-	wzekjge2iBCY8+Rt+I7tuQVyqYd0FjVmtNuf5VEaCaqeH0JWWEvYIkoD30XXjG0ks4jzvin12Xq
-	yS5+KGk
-X-Received: by 2002:a17:903:2ecf:b0:2dd:c100:251e with SMTP id d9443c01a7336-2df59a72ef5mr12835995ad.39.1790045316497;
-        Mon, 21 Sep 2026 19:48:36 -0700 (PDT)
-Received: from localhost ([2001:19f0:8000:3e6e:5400:6ff:fe38:3d01])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df5d02e929sm1619035ad.33.2026.09.21.19.48.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 19:48:36 -0700 (PDT)
-From: Inochi Amaoto <inochiama@gmail.com>
-To: Hans de Goede <hansg@kernel.org>,
-	Damien Le Moal <dlemoal@kernel.org>,
-	Niklas Cassel <cassel@kernel.org>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Minas Harutyunyan <hminas@synopsys.com>,
+	s=arc-20240116; t=1790046693; c=relaxed/simple;
+	bh=lQ68GCEp0M1/8iWXnt1MdgLFrQR9b+XzPvlHTeQbjoM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XXeXsOb8pKDkdffOaLyci2X6C4ywYiw+tzaLsnmrxBPYGh5AOOrL1qALJAGxLOS1xTLQtaCSmfSWolaIgJ0tRO86gWYXc283rZToTWz4EpDEM0iHx8FDIomoSruWOeOsg12ZBRoRIm3Jq84nP+oEnBy60XirSm71WGTSa1LT1Ks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 453a1c78b63311f19a56ed5b684f684d-20260922
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:142be212-b367-46c9-9856-2bd415814978,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:7d093fac6273d8700a5a3c8a794578fd,BulkI
+	D:nil,BulkQuantity:0,SF:102|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP:nil
+	,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 453a1c78b63311f19a56ed5b684f684d-20260922
+X-User: lijiayi@kylinos.cn
+Received: from thinksys.tail1c7620.ts.net [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1234149315; Tue, 22 Sep 2026 11:11:14 +0800
+From: Jiayi Li <lijiayi@kylinos.cn>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Michal Pecio <michal.pecio@gmail.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Vinod Koul <vkoul@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Damon Ding <damon.ding@rock-chips.com>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: Inochi Amaoto <inochiama@gmail.com>,
-	linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
 	linux-usb@vger.kernel.org,
-	linux-phy@lists.infradead.org,
-	Yixun Lan <dlan@gentoo.org>,
-	Longbin Li <looong.bin@gmail.com>
-Subject: [RFC PATCH 5/5] drm: bridge: analogix/dp: Adapt the return value changed for disabled blob
-Date: Tue, 22 Sep 2026 10:47:20 +0800
-Message-ID: <20260922024724.191412-6-inochiama@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260922024724.191412-1-inochiama@gmail.com>
-References: <20260922024724.191412-1-inochiama@gmail.com>
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	Jiayi Li <lijiayi@kylinos.cn>
+Subject: [PATCH v2] usb: uas: quiesce SCSI before stopping endpoints on unbind
+Date: Tue, 22 Sep 2026 11:11:02 +0800
+Message-Id: <20260922031102.141043-1-lijiayi@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -105,26 +54,95 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Check EOPNOTSUPP for disabled helper function as the change in phy core.
+Unbinding uas while READ commands are in flight can leave the storage
+device unusable after the driver is rebound.  The first post-bind
+INQUIRY Data-In transfer completes with -EOVERFLOW, and SCSI error
+handling eventually offlines the device:
 
-Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
+  scsi host7: uas
+  scsi 7:0:0:0: tag#4 data cmplt err -75 uas-tag 1 inflight: CMD
+  scsi 7:0:0:0: tag#4 CDB: Inquiry 12 00 00 00 24 00
+  scsi 7:0:0:0: tag#4 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD
+  usb 2-2: reset SuperSpeed USB device number 2 using xhci_hcd
+  scsi host7: uas_eh_device_reset_handler success
+  ...
+  scsi 7:0:0:0: tag#7 CDB: Test Unit Ready 00 00 00 00 00 00
+  scsi host7: uas_eh_device_reset_handler success
+  sd 7:0:0:0: Device offlined - not ready after error recovery
+
+A command URB may already have delivered a SCSI command when usbcore
+disables the interface endpoints and kills the data and status URBs
+before ->disconnect.  uas_disconnect() then removes the SCSI host only
+after killing its anchored URBs, so SCSI teardown cannot first quiesce
+the accepted commands.  A newly bound UAS instance can encounter the
+residual transport state.
+
+The failure reproduced with a VIA Labs 2109:0715 storage bridge on both
+Zhaoxin 1d17:9204 and Intel 8086:a2af xHCI controllers.  USB device reset
+and xHCI unbind/rebind did not recover the device; physical reconnection
+did.
+
+Set soft_unbind so the endpoints remain available during driver unbind.
+Cancel pending scanning and remove the SCSI host before setting resetting
+and killing the anchored URBs.  Use the same teardown order for every
+disconnect path and rely on SCSI host removal to handle a device that can
+no longer communicate.
+
+With the change, 10 of 10 zero-delay unbind/rebind iterations with 30
+READ commands in flight reattached the disk and completed a post-bind
+O_DIRECT read.  Unbind took 82 to 109 ms, with no UAS completion error or
+command timeout after rebind.
+
+Signed-off-by: Jiayi Li <lijiayi@kylinos.cn>
 ---
- drivers/gpu/drm/bridge/analogix/analogix_dp_core.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Changes in v2:
+- Remove the USB_STATE_NOTATTACHED-based disconnect classification.
+- Use the same teardown ordering for all disconnect paths.
+- Reword the commit message.
 
-diff --git a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-index 30c0c0b41d5a..8e26cd772482 100644
---- a/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-+++ b/drivers/gpu/drm/bridge/analogix/analogix_dp_core.c
-@@ -1360,7 +1360,7 @@ analogix_dp_probe(struct device *dev, struct analogix_dp_plat_data *plat_data)
- 			 * phy itself is not enabled, so we can move forward
- 			 * assigning NULL to phy pointer.
- 			 */
--			if (ret == -ENOSYS || ret == -ENODEV)
-+			if (ret == -EOPNOTSUPP || ret == -ENODEV)
- 				dp->phy = NULL;
- 			else
- 				return ERR_PTR(ret);
--- 
-2.55.0
+Link: https://lore.kernel.org/lkml/20260920012358.3362053-1-lijiayi@kylinos.cn/
 
+ drivers/usb/storage/uas.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 8655edbd66b16..8752cecb45915 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -1217,6 +1217,14 @@ static void uas_disconnect(struct usb_interface *intf)
+ 	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
+ 	unsigned long flags;
+ 
++	/*
++	 * Prevent SCSI scanning (if it hasn't started yet)
++	 * or wait for the SCSI-scanning routine to stop.
++	 */
++	cancel_work_sync(&devinfo->scan_work);
++
++	scsi_remove_host(shost);
++
+ 	spin_lock_irqsave(&devinfo->lock, flags);
+ 	devinfo->resetting = 1;
+ 	spin_unlock_irqrestore(&devinfo->lock, flags);
+@@ -1227,13 +1235,6 @@ static void uas_disconnect(struct usb_interface *intf)
+ 	usb_kill_anchored_urbs(&devinfo->data_urbs);
+ 	uas_zap_pending(devinfo, DID_NO_CONNECT);
+ 
+-	/*
+-	 * Prevent SCSI scanning (if it hasn't started yet)
+-	 * or wait for the SCSI-scanning routine to stop.
+-	 */
+-	cancel_work_sync(&devinfo->scan_work);
+-
+-	scsi_remove_host(shost);
+ 	uas_free_streams(devinfo);
+ 	scsi_host_put(shost);
+ }
+@@ -1267,6 +1268,7 @@ static struct usb_driver uas_driver = {
+ 	.suspend = uas_suspend,
+ 	.resume = uas_resume,
+ 	.reset_resume = uas_reset_resume,
++	.soft_unbind = 1,
+ 	.shutdown = uas_shutdown,
+ 	.id_table = uas_usb_ids,
+ };
