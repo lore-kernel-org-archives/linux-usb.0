@@ -1,221 +1,332 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010046.outbound.protection.outlook.com [52.101.56.46])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BCE408023;
-	Tue, 22 Sep 2026 20:00:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790107227; cv=fail; b=f8t1dndEM2VNipBvYiPAaQKQVfEN3OwQfv6RNNpxSBAp2Zb51FRvFmp5MxkTFyDqrIoGQDH6MvwEAINp/bopr2fTYEwcBjPqJvdJ5dXa9v9eu4dr+zcJbbfDIiFsp5funw/eEaj0QS4sZsVt0WzuMAlRM187CsfXDELaHocZlqU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790107227; c=relaxed/simple;
-	bh=9hzRwm/cwkk9ouG6X8bimtYro4gax5/sSGesu4/bvnc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=cikqs3AUJ9xAiyD5tvHa2nrmm7ermzjb60GNFl4SIF1UKoWG9kYrS0EWDpkX1GaF2xlb28hBqx0v5Y+/BJowUeUdxuesGGtoPagEgH2i9BFmpg7LOngedRIWmOXn6wHA4b0ggNBqOx9zg2G6g6nws0GYqWSB3mcxdMKdhRB1yQ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Nj73Q4Uf; arc=fail smtp.client-ip=52.101.56.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C732451EE1D;
+	Tue, 22 Sep 2026 21:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790111127; cv=none; b=mPNA8SVif7mOa9d3B1KySrj911KdgTtgt4JGCcwa2I2PnKZJWZXP7QqAWtTWpd9f6PCnaCfOW4zP4Rb5mzZDJPBALlQ+ePjWPB2OfmHnlKnXwg9rt3e893MEZUODBDWiTy0zSHXEjvYfNYrghTXfS9TnVpPDhMajl1W+T8geJ68=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790111127; c=relaxed/simple;
+	bh=9Dv0Y/BGh3R8PeSvjophk2YPpeulfdBgLbKzqOhLo4Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pEApja8Rw1sEdn0ls2fozz/1domfambFEQAFTUGpRVdZpAh+DTlMEVJETUCTaKkiF1dD89AE3Q9FZ1vLTjBzsEzJv5Dy0pplyox0Xv+gk1/jlboz/w9K0x4YH0+ew1EpHmUIP+rGWd0mU4bx5H+ljbeVAZ66GkmeBgP7iZmTU3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=BVPf6FMy; arc=none smtp.client-ip=212.227.15.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Nj73Q4Uf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bm/Ue6mm2nucxbMi3JP6aXCK2C5usnMWGuGjhW2esZtQ5n1ITQ0LdNDOLMwnzea0JagFxEpDBoEQSvLSmt1CYkPFMuZLgT0PnghO6avzHXBLHlWR5ZPePbr1r1BXIlTarX+750HOfOh/MNukv1mTdMzoZYBGGXGga2AJZVIQBYuQp+01Moop9rgVdE2dUwfpt8vSUe5MD6t3zu98qSAWWhnACRWxfoudKqh6mSfllIel/JaGUEO5Q4jgBvdGoTnPxa8DO3h5mfH7MBZCn/WC9tkeu6Bqu7IYsuSN7GjZWP24NRuceTGvG6aUnSacIcPv/KIo0QSAKfuBp5+40IAMaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FhgGkyxuDRLeQSL5yk/ipbrqGWEgaHqN3S/1zVLX3c4=;
- b=TSS5yM0pSFvPL/IVhs2JyC4flQvplFtrSc4keReqEmzRAWelNyvZk46+Tkkg+MUIE9/gYjz90vKyrMsGH5qtnU6XWqidBZC4vB3Yri6FZXTwlkSuxkhjVxKWUTU2mQVRLsjjadlcnWC9HjstUACc8IGMasVn722g/JannDSWWLlOjZE8tIHjE/Z9VWwM2vdb/0SM9DES6n+/1jAlbJHTsIBbgQHkcnFEynR+T3zHL3u7olHo6hYgocCYNXWrktEPXqeK809pEU1FrCfWmmBPOKorGOTZi2vNdGv3UdVLzBFLZ7N3XYZ8eNaFKCYy8fVXW9s5A73KS7GiO4zbRKndMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FhgGkyxuDRLeQSL5yk/ipbrqGWEgaHqN3S/1zVLX3c4=;
- b=Nj73Q4Ufx0prpZKdAqR1zP2Tl4eIHBAOGswhyavuQwt5JC1OK+I9+vIfmepdQbBf8I0ZUG0Rg/MRZdUlYJF42AYY0VhXq2pcXWCsSsdKW/DzbHDJvfiJShPBPpyVSBI36ZXLrMHI2rpHBYl5N6GG46xinprpMa6FoSqNc0xv53I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB6914.namprd12.prod.outlook.com (2603:10b6:510:1cb::21)
- by BY5PR12MB4067.namprd12.prod.outlook.com (2603:10b6:a03:212::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.13; Tue, 22 Sep
- 2026 20:00:15 +0000
-Received: from PH8PR12MB6914.namprd12.prod.outlook.com
- ([fe80::2893:177a:72b0:6000]) by PH8PR12MB6914.namprd12.prod.outlook.com
- ([fe80::2893:177a:72b0:6000%7]) with mapi id 15.21.0451.014; Tue, 22 Sep 2026
- 20:00:14 +0000
-Message-ID: <eaaf891b-7b0b-4eea-b104-de2c0db7cb42@amd.com>
-Date: Tue, 22 Sep 2026 15:00:10 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents
- JHL9480 downstream enumeration
-Content-Language: en-US
-To: "Kovacs, Alexander" <Alexander.Kovacs@amd.com>,
- Freeman Z <SHD-ISAC@outlook.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "bhelgaas@google.com" <bhelgaas@google.com>,
- "westeri@kernel.org" <westeri@kernel.org>,
- "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
- "YehezkelShB@gmail.com" <yehezkelshb@gmail.com>,
- "rafael@kernel.org" <rafael@kernel.org>,
- "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
- "S, Sanath" <Sanath.S@amd.com>,
- "Natikar, Basavaraj" <Basavaraj.Natikar@amd.com>,
- "Martinez, Juan" <Juan.Martinez@amd.com>
-References: <TYCPR01MB1092795BE7AB51121BBAB292496862@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <20260921050450.GM106095@black.igk.intel.com>
- <f8b929da-b4ae-48ae-9667-3eb93aa0a4bd@amd.com>
- <TYCPR01MB10927E6DC71CDC3B39C26F35196832@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <BL4PR12MB9533BF5ABF7035E6DF151C0A9C832@BL4PR12MB9533.namprd12.prod.outlook.com>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <BL4PR12MB9533BF5ABF7035E6DF151C0A9C832@BL4PR12MB9533.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH0PR03CA0415.namprd03.prod.outlook.com
- (2603:10b6:610:11b::26) To PH8PR12MB6914.namprd12.prod.outlook.com
- (2603:10b6:510:1cb::21)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="BVPf6FMy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1790111089; x=1790715889; i=w_armin@gmx.de;
+	bh=HPj6QE4B/HefE3yLab3sUv06uJRi8t/2qBCqZDYS9/A=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=BVPf6FMyTeIyxJMRjkg4iy0eYXktcUzQwdvMkeZ7WJAxtCckYxOGRZ3tTnvXwj5J
+	 +MhhbNRexm4GKX7XJxofDjMyztapU8G93s33wGkwg758e/YJxMqfr7g1CTlV5xWCn
+	 9gtodpcZWuMtHXc4IepVXto86qHxeo/p6kN6+msHm/334a5uXA7oG1rP2tXvbD+yd
+	 mw5fG7rCLZNlbwug98cynB5QYfy0ovFIxss11iE+AMOYY39/3OdTd+5wHCpNpLf+B
+	 59EYHM+UkKCPoOPGOAj7pWftPeVvQO+oHd9yZhW5DRZIPWmb/wmFYVK5W7/oPb0uw
+	 0umH3cvZ6h0J6AQb2A==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from client.hidden.invalid by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MHoRA-1wwSD040xC-00HAHh; Tue, 22
+ Sep 2026 23:04:49 +0200
+Message-ID: <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+Date: Tue, 22 Sep 2026 23:04:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB6914:EE_|BY5PR12MB4067:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9e9524c-b873-4fd5-af8e-08df18e41d98
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|7416014|10067099003|56012099006|6133799003|4143699003|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	92YogMmYNDdYItOUOducraRHsOEA0gC//3XqXRVthC387cHI+8N+VpjCYaTPfTZm0xAikzbfFo+aP5wksbzYsMr2TiQaNiW1acoY4THuQf34G9CyVnFAJNhOzJ+dnFGRJcf7WonPP5OaSRxeck770889ca3CMsvw+jBS3bSZf8gp2ledtaILPj1cTmOQ8WffWDfp0sTyCEHlUKFs3CixJ0jpjEDd1V6ouDVzWhcf9mkiX2nYDYr30baZCDlOUqH4hMIYDsXxaoPaLWUd2fgGTmxXdXZr/beuig1v/K/Qh3DpsAM9zKb2r3oi184AFfUqSFD+Opvyef08ppYaY1hCXbQpitphU0mRdePHDVfdF6zlUa56+p4rtttgePbq4dVnxLUnbMe60uxQqOM4mAEJjpEbWb2IuZuh0j+X+yJftl7UTtOP+gZ/sLNMh/XjYrnhh2JZn6ta3e/45++UaoAvzrKxM5DHLwVJ3BdKK292CvTfZIhTIexiDqAXjpQ8IaaMt/s3J6DGkSjbO2naFtt7UevdPpkWfEc8+cXms4K3ZJcQTMUsV8icPLaFIgL4I4a94okFXgJpG61vL3+Et44BELAwCwp1WLCs5CHb3rvFnFOIU+Cx/iqGF0/RXUch+ASff70VL3EpsUnYjGWzawPpL6b4GTfbjMb6Pmlhm6L1Jwo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB6914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(7416014)(10067099003)(56012099006)(6133799003)(4143699003)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?ZFdES2hjUkpnRlFXa3lXdVA4TlRBMGE2NjVVNWt0eHB2eUdObXk0dzR0ZW9k?=
- =?utf-8?B?Y3lleTZPMFYxa0JoZVBxSWFUVkNuL2M4NmtuaGs4ZCtHK21vTytCcXRMQXQr?=
- =?utf-8?B?V0RRL293MUdxc0x3TnFndTI4ME1vamF1KzBhL1VRcTNSU0hCdXRWUGp3T0VU?=
- =?utf-8?B?eGZkam03OFk0VEF2RjdjdnUvYUVDODRVc3pMUS9SbjNnRUFiNnk3VWNLd0JS?=
- =?utf-8?B?OVdjU0pWa2g3OEZmZyt6RGMybm1xck1ySUZxcjVRbng0WkJPbE45cE4xbzlT?=
- =?utf-8?B?U0NzaFBkQkxrVUp0WXJJSDQxcDFrekxyOU5EcDZMVFBudGU2V1VGK2lPWU9M?=
- =?utf-8?B?TTgydFNsWHBLQjBrOHJ2dUM4MWJJZCtuTUttZTRRVldMY2JrYXNqY2xldWpS?=
- =?utf-8?B?aE5xM3pDTTkzbHpBbFVOZ3FrbDFXMWJmUEQ1TjJkTERIMnI0RlpuTFd0K0Jy?=
- =?utf-8?B?L1ZCMFpUakRHSmtNOW9YTW5PMUhpVUExZEd5dDQrTFJEUHVlQ0s4RG1pbVRI?=
- =?utf-8?B?elZtU3IwL3BocE42NHVRTUFDR2p0cVlkaURPM0VSUTRkZmh3NU9ROGRIZE5L?=
- =?utf-8?B?bXRFR3RxWnFnZkJzTGwzc0I3ejExT1cvTVkzbkkyZmNNSUE3NnU3Z2w0TXlJ?=
- =?utf-8?B?SVVobmJRMTgzVHdXK05OY0E2bjJPZjVUa2RzNkRJN3VBTC9mOTV0cXZWdlBI?=
- =?utf-8?B?TndJL3llcWVOeU5LdlE1Q3VHOFU3THU5MFJoM3BweC81Z0tvdVI3TTVMMGRB?=
- =?utf-8?B?MHh2bFZqbDIxajBoNDRCdmZuU3k5ck9iU2JMSTFjQnBRVThCVE8vMFpWamlK?=
- =?utf-8?B?TFU0QmM5Rlk1S0tpS3BzQjRwd3pKMzRsaUkyOFhDWllQU2s1cXVrQmtpdm1J?=
- =?utf-8?B?aFZBUnJkWFdaUmtBRmtKbnpIU09rTk1OZ1cwbGZPeXhnb21TS280QW5MZ2lN?=
- =?utf-8?B?ZzRabW1zdFRkY3NHZXpSd3dGbExFYmtxNGhzUUlUcU1Cc1lIM3p4VDhLT1lh?=
- =?utf-8?B?MVg4Y0tSWlV0TlByZzR2QXRUTHZUS3ZFblZkYm5QbHhzekR5WHhJbTU2WWtX?=
- =?utf-8?B?bjZaMlVFZGZCY1RVbHZzYzdqN2RYbE9sNVV2STZmNzZFWHppZ1RKcXlqVksv?=
- =?utf-8?B?Z3NjY2RtUFhXeC9QWlZuVnBpVFF5VGc1N2FKSmdJQmRSaWpjUERiaVdPVDBL?=
- =?utf-8?B?QVVxSEVWeEp1cmN0d2pwS2R2TnpKMWpIaHdGNFRQbW9aY01sQ0w4Q1ZJUnd1?=
- =?utf-8?B?YzFyaElrSnQzQm9Ha0U3Wk5MM28xNTdURWJHVWdsdXRjNlE3dW0rVjNRUzBK?=
- =?utf-8?B?bmtIc003dzNrd0VVOVU5eHhRQnRaTGR6YzB0M1lYRDJGdytCbXRVbmE1MzQr?=
- =?utf-8?B?RXRPUGlDdlhCN1RvV1hFdHZidURYZHVnWE93Q1pVSXFDcEdTZFpvY3JJNi9M?=
- =?utf-8?B?L054aU9DR3E5T3dRZU5rQXhVZGRLNmN0YSt3R1ZGZjVDclErSlZWakp2UWNY?=
- =?utf-8?B?QnlTZk04MFZVTFU2NnZNSFViNXh0Slphd0JvSEU2UEhuZVEwaUxoY3hHdmlz?=
- =?utf-8?B?SVo3MHN1d2ZmWmpnWmRoU0M5eHdsMWZEc0Y2NmJVMG9ZQ1hLS0FCQmkxUURN?=
- =?utf-8?B?Vk90czlZNXEzMEFiWXJjZGtJSlNxYUxrRmZLVUdBaGN4b01LQXhXb1BkN0tQ?=
- =?utf-8?B?Ly9RTDd3dVpEWnF2RnBpcmxRTGxCanFBb0tSVlVwUVVOMjh0M1oyMnk2WjJ0?=
- =?utf-8?B?TllMSWlCT2hWSktNVDFZbStkMEcxNkVlYnN1RjJJTkVoeTY0bHBkWEd6eDBh?=
- =?utf-8?B?N1pCRGFvWmJRTDZnbTMrRVpwM0pXVEFVZzk1T2RwQXR6YmdEcDFkOHN5Vkdk?=
- =?utf-8?B?eHNsOG9scEYyR2RYdC9OZW1BUnlka3k1bTg2VVpyVGFLcmtMK295cjRjdVRY?=
- =?utf-8?B?Ui9BS3dKSmNlazNPVFIzcEUrUmVMcDlFeUY1WjIrRlRhZUtMdnN4L25obkRr?=
- =?utf-8?B?SDlRNkd2VEw4Zjg2ZzNmWnhMRTRzQ2cxNTFhdzJIdmpjbmtKTGtUcHM5M2tS?=
- =?utf-8?B?eFFXTG40djhDdjJEUmp3YmRYT1RDdlRZN0xwRm9EZC9wb3lXaGVnWE50ajRy?=
- =?utf-8?B?RC9SRnB0OGhZZTBFM1BJTE84Q0VDZUp1cC8rdE9QVWdUMDU3WkpxcVFlMTIr?=
- =?utf-8?B?UjZOU0Q5WFhBT3NDWXJzR0xucy81Tks5cnJtUkFwOEFYekZmcjZiYy9qdDhO?=
- =?utf-8?B?NWFKMkdOeDdUYUtpdENZU0h1b3pSbzBybWQvMXVsL29ESWZ2VDloSTk4ZjZF?=
- =?utf-8?Q?eLd+axqmO3/IGI8fCy?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9e9524c-b873-4fd5-af8e-08df18e41d98
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6914.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 20:00:14.0636
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 00s96xUyKk0e3bQbb5DU5lfHC8K9RgjijIuOsbt95ar0pg6Y6oRzXMjDe9VJOHb/OuMhs1jNeBx7OaggI9cA/g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR12MB4067
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+To: David Lechner <dlechner@baylibre.com>,
+ =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+ Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>,
+ Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
+ Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>,
+ linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
+ driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org,
+ Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org> <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:WC7Q3H3s8ZsHb6GZdlAH2xhbLNtKPMe9amNYtSfQcE1J7vdyDAD
+ oaZxnVdrivGNmsT1JMOr3xUOZQxBJ8xLk6rh2KvA9bA8/6tc+D+LysIS906O/DpMgKS+ktn
+ l1Kdz2RqzTEneLk5opZq55AEXwMmUeKoQ/eku4K1a3dtOjllrJ1SIufdF46AndHkdZsK7TY
+ 1YrgmsEz6BLYETy1qazqg==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:PuQ2TbBFUU0=;SPWpip2IlpAv3IU5dtJ3vj3wwSh
+ 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
+ Mbz06IpVbstePJ/LEY8LXhgweA==
 
-> -----Original Message-----
-> From: Freeman Z <SHD-ISAC@outlook.com>
-> Sent: Tuesday, September 22, 2026 11:41 AM
-> To: Limonciello, Mario <Mario.Limonciello@amd.com>; Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: linux-pci@vger.kernel.org; linux-usb@vger.kernel.org; bhelgaas@google.com; westeri@kernel.org; andreas.noever@gmail.com; YehezkelShB@gmail.com; rafael@kernel.org; linux-pm@vger.kernel.org; S, Sanath <Sanath.S@amd.com>; Natikar, Basavaraj <Basavaraj.Natikar@amd.com>; Kovacs, Alexander <Alexander.Kovacs@amd.com>
-> Subject: Re: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents JHL9480 downstream enumeration
-> 
-> [You don't often get email from shd-isac@outlook.com. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
-> 
-> 
-> Hi Mika, Mario,
-> 
-> I reproduced the failure following the requested sequence on my installed CachyOS system with kernel 7.2.6-1-cachyos and thunderbolt.dyndbg=+p.
-> 
-> For this trace the dock was physically disconnected at boot. I did not run lspci before or during the reproduction.
-> 
-> Before plugging the dock:
-> 
->      0000:00:04.1
->        power/control        = auto
->        power/runtime_status = suspended
->        power_state          = D3cold
-> 
->      0000:6b:00.6
->        power/control        = auto
->        power/runtime_status = suspended
->        power_state          = D3cold
-> 
-> After plugging the Kensington SD5000T5 and waiting about 15 seconds:
-> 
->      0000:00:04.1
->        power/control        = auto
->        power/runtime_status = suspended
->        power_state          = D3cold
-> 
->      0000:09:00.0
->        missing
-> 
->      0000:6b:00.6
->        power/control        = auto
->        power/runtime_status = active
->        power_state          = D0
-> 
-> The Thunderbolt dynamic debug log shows the NHI/control channel waking and the USB4 fabric being configured. In particular:
-> 
->      thunderbolt 0000:6b:00.6: control channel starting...
->      thunderbolt 0000:6b:00.6: 0: resuming switch
->      thunderbolt 0000:6b:00.6: 0:2: is connected, link is up (state: 2)
->      thunderbolt 0-2: Kensington SD5000T5 EQ Thunderbolt 5 Dock
->      thunderbolt 0000:6b:00.6: 0:5 <-> 2:9 (PCI): activating
->      thunderbolt 0000:6b:00.6: PCIe Down path activation complete
->      thunderbolt 0000:6b:00.6: PCIe Up path activation complete
-> 
-> However, I do not see a PME message corresponding to the dock insertion.
-> The PME messages in the full dmesg are the early-boot
-> "PME: Signaling with IRQ ..." initialization messages.
-> 
-> So in this reproduction, the NHI at 0000:6b:00.6 wakes from D3cold to D0 and the Thunderbolt driver successfully programs the PCIe tunnel in the
-> USB4 fabric, but the AMD 1022:14ef PCIe root port/tunnel at 0000:00:04.1 remains in D3cold and the downstream 0000:09:00.0 hierarchy never appears.
-> 
-> I attached the full dmesg captured after the dock plug, plus the small before/after state files. I redacted only unrelated local network identifiers, the hostname, and filesystem/LUKS UUIDs; the Thunderbolt debug data and device UIDs are otherwise unchanged.
-> 
-> This particular dynamic-debug trace was collected on CachyOS rather than the Arch stock kernel used for my earlier reproduction.
-> 
-It sure sounds like a PME doesn't deliver properly for some reason.
+Am 22.09.26 um 15:40 schrieb David Lechner:
 
-I suppose that while in this state - if you ran lspci the root port at 
-0000:00:04.1 exits D3cold and 0000:09:00.0 shows up, right?
+> On 9/22/26 2:39 AM, Uwe Kleine-K=C3=B6nig wrote:
+>> On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+>>> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+>>>> The ability to add and remove devices from a driver through the sysfs
+>>>> "bind" and "unbind" files was created all those decades ago as a way
+>>>> that kernel developers can iterate faster, and provide a debugging wa=
+y
+>>>> for users to attempt to add a new device to a driver without having t=
+o
+>>>> rebuild their kernel.
+>>>>
+>>>> This api over the years has been abused and recently come under a maj=
+or
+>>>> fuzzing "attack" through tools like syzbot which decided that it woul=
+d
+>>>> attempt to just randomly bind any driver to any type of device, causi=
+ng
+>>>> loads of unneeded errors and pointless kernel patches to be generated=
+ by
+>>>> unsuspecting new developers.
+>>>>
+>>>> Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, whi=
+ch
+>>>> will be set on the driver if the bind/unbind sysfs files are ever
+>>>> written to.  This lets kernel developers "know" that a user is
+>>>> attempting to do something that is not normal, and as such, if the
+>>>> kernel breaks they get to keep the shiny pieces laying around on the
+>>>> floor.
+>>>>
+>>>> The flag is 'Y' which was unused, and can remembered as the user is
+>>>> "yeeting" the device being operated on here (thrown with force withou=
+t
+>>>> regard for the thing being thrown).
+>>>>
+>>>> Note, the taint flag gets set _BEFORE_ the bind/unbind callback happe=
+ns,
+>>>> as many times crashes/oops/warnings/failures happen within the callba=
+ck,
+>>>> and the taint flag needs to be there to show what was being attempted=
+.
+>>>> If it were to be set after the callback happens, the oops report woul=
+d
+>>>> not properly reflect what foolishness was being attempted.
+>>>>
+>>>> Fuzzing tools like syzbot, that doesn't have hand-crafted rules to ke=
+ep
+>>>> the tool from hitting bind/unbind, should be run with panic_on_taint
+>>>> enabled so that they fall over and don't continue on, thinking that t=
+hey
+>>>> actually found a real issue.
+>>>>
+>>>> Userspace operations that rely on the bind/unbind files
+>>> I agree that this should be avoided.
+>>>
+>>> But I also think the biggest offender really is driver_override. Speci=
+fically,
+>>> on a hot-pluggable bus a driver must be complient with the device driv=
+er
+>>> lifecycle rules and hence shouldn't break on bind/unbind. I think it w=
+ould be
+>>> nice to not taint the kernel for such busses, and only taint on driver=
+_override,
+>>> as I think we'd still want the bug reports for such cases.
+>>>
+>>> But I think this is fine to leave for a follow-up.
+>> I fully agree. I'm fine and support tainting on driver_override, but
+>> bind/unbind are used occasionally in my bubble and I consider drivers
+>> not handling that properly buggy.
 
-Does the PME show up in the logs after you've done this?
+I fully agree with this, drivers should correctly implement the lifecycle =
+model
+and not just break when being unbound at a improper time. Drivers sufferin=
+g from
+this can easily break this way when unloading the associated kernel module=
+, so this
+taint is no solution.
 
-Any chance you can easily check Ubuntu 26.04.1 live media?  There is a 
-7.0 based kernel there, and I would like to know if this regressed from 
-that.
+> In the IIO subsystem, unbind/rebind is the de-facto way to reset a wedge=
+d
+> chip.
+>
+> A few examples where other reset methods were reject in favor of unbind/=
+bind:
+>
+> https://lore.kernel.org/linux-iio/20240727160216.2488ed29@jic23-huawei/
+>
+> 	This needs documenting as it's custom ABI. Note that we don't often
+> 	accept custom ABI. Particularly not a hook that seems to reset the
+> 	device. If you want to do that, unbind and rebind the whole drive[r]
+> 	so we are in a known state etc.
+>
+> https://lore.kernel.org/linux-iio/20240720163440.03c713dc@jic23-huawei/
+>
+> 	Firstly as stated below, we don't provide interfaces for this
+> 	because it's a heavy weight process that is most of the effort of
+> 	unbinding and rebinding the driver. So if you need to reset, do that.
+>
+> https://lore.kernel.org/linux-iio/20250505200609.54756520@jic23-huawei/
+>
+> 	The solution is to run it once at driver bind. Similar to reset
+> 	below, if the usecase needs to re do it then unbinding and rebinding
+> 	the driver reflects the fact we are taking it effectively offline
+> 	for a while.
+>
+I also consider bind/unbind to be an official API to interact with devices=
+,
+so i want to use them in the future with the WMI subsystem.
+
+AFAIK the underlying reason for this series is that some drivers break whe=
+n
+being bound to unsupported devices. However IMHO drivers should verify tha=
+t
+they support a given device inside their .probe callback, and the associat=
+ed
+bus should only match devices with drivers that explicitly claim support f=
+or
+those devices (ignoring driver_override).
+
+Can we get some example bugs uncovered this way?
+
+Thanks,
+Armin Wolf
+
+>> So please let's do
+>>
+>> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+>> index c51ad96d4de4..ce8fb14ea19a 100644
+>> --- a/drivers/base/bus.c
+>> +++ b/drivers/base/bus.c
+>> @@ -242,7 +242,6 @@ static ssize_t unbind_store(struct device_driver *d=
+rv, const char *buf,
+>>  =20
+>>   	dev =3D bus_find_device_by_name(bus, NULL, buf);
+>>   	if (dev && dev->driver =3D=3D drv) {
+>> -		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+>>   		device_driver_detach(dev);
+>>   		err =3D count;
+>>   	}
+>> @@ -266,7 +265,6 @@ static ssize_t bind_store(struct device_driver *drv=
+, const char *buf,
+>>  =20
+>>   	dev =3D bus_find_device_by_name(bus, NULL, buf);
+>>   	if (dev && driver_match_device(drv, dev)) {
+>> -		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+>>   		err =3D device_driver_attach(drv, dev);
+>>   		if (!err) {
+>>   			/* success */
+>> @@ -513,6 +511,7 @@ static ssize_t driver_override_store(struct device =
+*dev,
+>>   {
+>>   	int ret;
+>>  =20
+>> +	add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+>>   	ret =3D __device_set_driver_override(dev, buf, count);
+>>   	if (ret)
+>>   		return ret;
+>>
+>> (plus the needed documentation adaptions and maybe a rename
+>> s/TAINT_FORCED_BIND/TAINT_DRIVER_OVERRIDE/).
+>>
+>> Best regards
+>> Uwe
