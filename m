@@ -1,68 +1,65 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+Received: from mail-ej2-f29.google.com (mail-ej2-f29.google.com [74.125.228.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E917F4D2EE0
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 09:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E055C4570D4
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 10:04:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790070963; cv=none; b=BRB5meOsJa4aFqoeJkySrRTDk24v9yeQcQ/HHuTP31QdTDiezoRt9PJeHd7vdQrMCcaUyHBqPZ69rV18wzcTRiV4SMz9wZpR+LBu2oP196irf8gPqGqx2D8bmnoiHzEgyycM+rVuVLWb1jWpHA0q+m0eyyV6KjTOqso3AX5rlBU=
+	t=1790071473; cv=none; b=e1IaSinuubtLkG/vbZ0vXQx/iUAbLdosEUSP5iD9sTCJNsigWoq/BIbjuCrzOBNDffy9Nw0aDiWeZhF8v+QsBMLPyaVeKX63LpCOSnGbn0ZXlBhOt/lkLXAWRZp/BQaHDjSMFTSI4SgYRwCIUGti4j+OC9uHQdMshxhPUOh3tnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790070963; c=relaxed/simple;
-	bh=vhtBOq46+vxnVMew6tqDj9pw32mqh2c/pNpj9HCWF5g=;
+	s=arc-20240116; t=1790071473; c=relaxed/simple;
+	bh=+/p4Q0sgN1gCnPeZQ7lrLCym7jS74y6M4D4tNMXfdHE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=haYVzvlZ3BXdZ6bMFVyWm68l9btliC8kuxplQCju5eqUBj1mVUZ0CMHvlOwqIuLB9kGuu7HOQEmK/IgJn2TaB3P4JT7Lr6rpYD9+mv6RDi4Ji2vbPxduo6yCkreebWUhABuNOTHmHzz0xdBK7XaqQzCM2KyAZmiCriEajMDSzWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EzWbXEjH; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 In-Reply-To:Content-Type; b=KeUD6meYsk6gIx2nzKhc3/QtRnxRbe0lT0r32YX6Keg2E8eryMIceJP75fVouNowbf9pn5dgPw9x0hHFJUo6BEilczvdAZKbBpIjayCK1DrjGWgSh+u0z66zVGwAuXM+lN/wKw1GbTM0+lx5UxFfCl5QwBrRlzUa3I78Lv48s/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XdPA+spD; arc=none smtp.client-ip=74.125.228.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EzWbXEjH"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4858bc96fabso3166185f8f.3
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 02:56:01 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XdPA+spD"
+Received: by mail-ej2-f29.google.com with SMTP id a640c23a62f3a-c294496989aso531837066b.3
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 03:04:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1790070960; x=1790675760; darn=vger.kernel.org;
+        d=linuxfoundation.org; s=google; t=1790071469; x=1790676269; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GovoQhgpkFSxI/w16iH1Xm3iicrwAlkN1B9IHqCNx44=;
-        b=EzWbXEjHED8CPODT/5NP46rKxo3ggWN1EUNgzvlub7kzfVKirtjRRlbe/+XsWzenLY
-         N8v5PATcnHpDVALjG6OOeq2AZe5paIevguOKYuAcLvMRdRw0ZXCMcrceyyZEdSMZ+Nfp
-         6T7vm2QroUq9NAzaB2H6jFLMzbctmRjL0+Un8KoGvjCsdLX5tPnNHIon3Y5JFe9xIlpj
-         negzdjpA2SKvJpu0PN3aQs1PHecSLCSQ8ScRjEfLmhvmBBydXBHMa/btyxFui6DZK+30
-         ox0TD0n6i5giJ1gZhEqG7tSeMu40XqafDQ3H1WZ7z7E76DI5g/eqwHADY6LrRceSXcTi
-         ndgw==
+        bh=6ips8FL5qQlrZs4lRamhBauIUV4D+6bxULsoH9iHoMk=;
+        b=XdPA+spDZmMIGMsVeP4gS7fqQDoUJkMNKFvyFUWUYNBY8mo8b9lCDLOX+r6VDwIcwJ
+         HTYpfmEk+zr4aDfoQSXTzAVzLAVTBDQ2salABtXGjvEhQlLmCwuezcGxZsQdrivcaqeM
+         fP/VOJ70rdFAPENbXQnfkkmHnGLJbXaRdaopg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790070960; x=1790675760;
+        d=1e100.net; s=20260707; t=1790071469; x=1790676269;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=GovoQhgpkFSxI/w16iH1Xm3iicrwAlkN1B9IHqCNx44=;
-        b=Z2SBv58h/3p5iXw8GpbKKXDzCc823NPe1iYErrgflX8Rl4RYo9/4yh/v7z8lJaJ8hm
-         uxVQDpzGdfk6yrSFlJo0O+hTuEQnv0+qdYwBLEvngwBfwitR9DDo9bHMsiXaOtz79qC6
-         qf5du2izfy+SuoSasa3F6bxtuYXHUmG3CczNsROTVXvXOYw3a8pJy7zl2iqr+jQwGwRp
-         gj0rilbKtrT3HhxwBHrBl+ARZTAVJJXOz6iuynqmlngrAGdCRZMNlxitSzNjU2cTqkB9
-         +F7GwIvpLQxIsVkZDZcZFD/QV4xFmtiImWsbo2hJtK0rOAUz8eTlXr4GHbqpL4tejlaG
-         UjFQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy4NQk48S9Wz8C/uTnrwbrFr2adPPWjANPT1+H+VLxUGYdxrASQtYWQEAYX1o+gFohMVb/JkzEPkkE=@vger.kernel.org
-X-Gm-Message-State: AFuF++lNai9qn6J2Azy5zWeDjUAaPRKOuWOtsSJsneDwcLxte4tZ9SQV
-	mgM8SbrsdyeIDlrxzrHn9657DKP52aFh9c/2r7VGVNeQ1VZNep8udG2MooNMFEbo0uc=
-X-Gm-Gg: AYBFou1LGo/qsavDvXQAwW+0ttxvI9wbp63OH8JF0qBPnAsus16y5GdrFOjs41YVA2S
-	7Dhgd8iS9DnQc832yn4iEMezUxXGnLI0RL3CUBWlW7zuyiAfxzy9PNZWW+p9qa98jZfyPIejf79
-	5Bkg6aBEW9lQJTa89vjib8ibJAO3HSzCCviQK/awhr3k/91x4yuLcozCChaqFRz3xpX4J/iGqw4
-	ikf9SfNFljJeUgEjZDWR2KZg0xXoVFe+8IHDYKBCqfYtCcyijyB6VpqXZhRCr5Y6p83NL6jwOeu
-	v63bkEo/9QU5tSVJkDR0kHn9oZzSZUi442wUrVKKCcy3CAGVCvcjkGsDsBioDN8b2vr6hPHqbbH
-	1jZJdKAiIk3MdHyqky68/CMjC8UMKw7Qwd92Qr39YU8ta5ghZgLPsKYep4ZORNA0Nej4HlcSKQ4
-	FgE6YQ9FMAYuDRs0QF/P2X2wVnSGDSjPoLhnWiAiIJh1hF/eir4SM8izYNG9apSSH042oxZbFE9
-	UTt/LGjiQLHYIh2K80HxnTI/URkpkhMzikjmNBi
-X-Received: by 2002:a05:600c:8b61:b0:49e:69ff:c6b1 with SMTP id 5b1f17b1804b1-49fc5749edemr209696075e9.31.1790070960066;
-        Tue, 22 Sep 2026 02:56:00 -0700 (PDT)
-Received: from ?IPV6:2001:a61:13f0:9e01:9a7c:db93:afba:8f7f? ([2001:a61:13f0:9e01:9a7c:db93:afba:8f7f])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fdaa4e47csm78584305e9.1.2026.09.22.02.55.59
+        bh=6ips8FL5qQlrZs4lRamhBauIUV4D+6bxULsoH9iHoMk=;
+        b=gXBt1TlqOS8Am/ZX9xTr7mt8GEcHZpflWS/vzykb1SGWg8c7U75GRdhTvExyJKjE/h
+         GFHHhbipHOToQwNaDg3Y77Tp6by3a31jG2380RTGnVbNxhE95YjJ5Q3UH3qAUT8rw/ZO
+         FmMJSJbaPtDv6mf0oAvOUhq18qmEKSIyJM/wcyAp3Fadszg5vRUOAkVT6AohC1FhJXBv
+         4JioCX9hJ+QJaTttysTR39FRv3/xlfsztPNJxKSnv0b7rQu/VTft5unlp9Pz1GtzGm0w
+         q9/0GgpNcyjRce74Jjm5TDiWuk10U5/UHU877d3DXpPZTZmsxCN0aZdKSxjaVMI7aB6d
+         a5nw==
+X-Gm-Message-State: AFuF++ms/D12qNkI6O/I4Zdt3iaW7HvWIFkAL4kBa2tzHRR53cSNUdjb
+	k+2BJ7UHzZh3GakU0BTjmC19pAvLuXRW9+4UJ+7YpIFMhaGoaxGdE6xPYRDAcMIKee2fmhKKYy8
+	ZtwJEM1CqEw==
+X-Gm-Gg: AYBFou2hzsxFXPbmCGOEQ75RlSNb/Ush5VHZKCp4zn6p4KIsRXqI6ikEQTGtiJGt7x7
+	37z/Ebxn97yDUx89thuv3sNFXfZAfHmGOh2T1Cm3lMlnAA6KP/AtjwqqzAhtloyur2Ss0Jl7Xoy
+	BhJTc9TyAAbLlNe1Q2xsi+nSop8tAbzFMehEx18AD2AtJr7UwqNvyekh5N1+EJ6pAKp6y+0owjN
+	qAIN+en0gUSHcrH5MBSXzgj7DjlsfozBhuxPKaQOIKF3BpijejX/VwWv1LMcddTrmHG7ETH7MDp
+	WP1SgMFv9WM6h20cm/HNKtjONR5tDZbGM02sep8gQ0Tgu/givOt2B3dNW3V/2bZSGEnsI8ndKFR
+	yVky43ziZwd5P8OZYXYS9dLgiM5cTipnngbtHyklZ4JmOrqqi8fRCDHJLTZ8JLMHMI/ZKITaxMW
+	pDqkj+jxwdLFe9rBD2q9XWYF2PJavfwsHW5e/UplkDCRKSQSSwPJ8uhL3UXsiGvrc0+n81N4scU
+	BKggnxtHdE=
+X-Received: by 2002:a17:907:9703:b0:c26:219f:6f74 with SMTP id a640c23a62f3a-c2a15846232mr1049317766b.5.1790071469048;
+        Tue, 22 Sep 2026 03:04:29 -0700 (PDT)
+Received: from [10.214.128.75] ([38.97.137.190])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a9c54f32esm60622866b.15.2026.09.22.03.04.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 02:55:59 -0700 (PDT)
-Message-ID: <38d2639a-d5a3-4d01-ab86-8aa7e2fe75a7@suse.com>
-Date: Tue, 22 Sep 2026 11:55:58 +0200
+        Tue, 22 Sep 2026 03:04:28 -0700 (PDT)
+Message-ID: <b37401c1-b6db-4746-9f6a-af25e9f30829@linuxfoundation.org>
+Date: Tue, 22 Sep 2026 04:04:23 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -70,54 +67,65 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] Bluetooth: btusb: restore powered-off Intel
- adapters
-To: Sean Rhodes <sean@starlabs.systems>, linux-bluetooth@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
- Xu Yang <xu.yang_2@nxp.com>, Kees Cook <kees@kernel.org>,
- linux-usb@vger.kernel.org, Marcel Holtmann <marcel@holtmann.org>,
- Luiz Augusto von Dentz <luiz.dentz@gmail.com>, linux-kernel@vger.kernel.org,
- Paul Menzel <pmenzel@molgen.mpg.de>
-References: <cover.1789679980.git.sean@starlabs.systems>
- <479fdb2638f34ccb02f35a40a34fcdc7cc41ccdf.1789679981.git.sean@starlabs.systems>
+Subject: Re: [PATCH] usbip: add NULL check for calloc in
+ usbip_exported_device_new
+To: longlong yan <yanlonglong@kylinos.cn>, valentina.manea.m@gmail.com,
+ shuah@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260817060618.749-1-yanlonglong@kylinos.cn>
 Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <479fdb2638f34ccb02f35a40a34fcdc7cc41ccdf.1789679981.git.sean@starlabs.systems>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260817060618.749-1-yanlonglong@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 17.09.26 23:19, Sean Rhodes wrote:
-
-Hi,
-
-> Tested on a Star Labs Lite Mk IV with Intel 8087:0aaa. Three Bluetooth
-> off/on cycles reached ACPI D3cold, restored the same hci0 without a USB
-> disconnect, and discovery found nearby devices after resume.
-
-Have you tested this with a different device and S4?
-
-> Signed-off-by: Sean Rhodes <sean@starlabs.systems>
-> ---
->   drivers/bluetooth/btusb_main.c | 33 +++++++++++++++++++++++++++++++++
->   1 file changed, 33 insertions(+)
+On 8/17/26 00:06, longlong yan wrote:
+> Add a NULL check for the return value of calloc() in
+> usbip_exported_device_new(). If calloc() fails and returns NULL,
+> the subsequent dereference of edev->sudev would cause a NULL
+> pointer dereference.
+> 
+> Also fix the error path at the 'err' label to check edev before
+> dereferencing edev->sudev. Without this fix, if calloc() fails and
+> jumps to 'err', the code would dereference NULL when checking
+> edev->sudev.
 > 
 
-[..]
->   #ifdef CONFIG_DEV_COREDUMP
->   static void btusb_coredump(struct device *dev)
->   {
-> @@ -5093,6 +5125,7 @@ static struct usb_driver btusb_driver = {
->   	.disconnect	= btusb_disconnect,
->   	.suspend	= pm_ptr(btusb_suspend),
->   	.resume		= pm_ptr(btusb_resume),
-> +	.reset_resume	= pm_ptr(btusb_reset_resume),
+It is theoretically possible for calloc() to fail, however how often
+does it fail and were you able to make this allocation to fail?
 
-What happens to a connection if a lot of data has been lost?
+If not, how did you test this patch? In any case, I am not going to
+take this patch and all the other patches you sent adding checks to
+calloc() calls in other places in usbip tool.
 
-	Regards
-		Oliver
+> Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
+> ---
+>   tools/usb/usbip/libsrc/usbip_host_common.c | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/tools/usb/usbip/libsrc/usbip_host_common.c b/tools/usb/usbip/libsrc/usbip_host_common.c
+> index 01599cb2fa7b..94762bc282eb 100644
+> --- a/tools/usb/usbip/libsrc/usbip_host_common.c
+> +++ b/tools/usb/usbip/libsrc/usbip_host_common.c
+> @@ -71,6 +71,8 @@ struct usbip_exported_device *usbip_exported_device_new(
+>   	int i;
+>   
+>   	edev = calloc(1, sizeof(struct usbip_exported_device));
+> +	if (!edev)
+> +		goto err;
+>   
+>   	edev->sudev =
+>   		udev_device_new_from_syspath(udev_context, sdevpath);
+> @@ -107,7 +109,7 @@ struct usbip_exported_device *usbip_exported_device_new(
+>   
+>   	return edev;
+>   err:
+> -	if (edev->sudev)
+> +	if (edev && edev->sudev)
+>   		udev_device_unref(edev->sudev);
+>   	if (edev)
+>   		free(edev);
 
-
-
+thanks,
+-- Shuah
