@@ -1,114 +1,132 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41A9123C4F3;
-	Tue, 22 Sep 2026 17:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80B11577E29
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 17:19:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790097334; cv=none; b=eYUWZyrwWAjyz+ZTiXR2qRskGRWgKgU8y60ULEujv7cxAT2SYlJRq38Jqo6+SH64YfhR/L1y0bkZwkE5ESC2+/J3+QMf6xWF46fsr3esNBvaIWYt7JAfDy560dk0T65E/7J/5PtSUKUaw8AguJPoQCPJg89uC7Z1Zcs08Ty8KN0=
+	t=1790097596; cv=none; b=YA08gdoB+dMTfDydx0pFrB6UcWGiVD+dxFntEzVbbmsRx0ZSxRmL2p83f8EXEmNusdM44dLy0tcYY++I8HGYqRiH9v5BnfikHTqbskAyMEvmqo5HkF1vth2oixHlT8V0oAz3vWit0Bgd+YugwzfhrY5Kgx5af+cvYSInDl9CS+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790097334; c=relaxed/simple;
-	bh=o7XCPms2Bib6bRfira2F3Orb6WqbjrC4QrVJj6MkpzI=;
+	s=arc-20240116; t=1790097596; c=relaxed/simple;
+	bh=6wTYl3fPn9nlTqWjvYm7Nq+9tWOEygh9IVzIKdiR2oA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gfQC7Ybt+nE9LHHNp+J9kJEYrrbDNce7MJlIqPkVa6td9/UyA/48nfJ7Hs4PIWST6Bko+1LSXEN30mcK1ZyOghRF+W8E0Rr5cQQDppZ79u4FCk4ns0gCLIk0oA29GCZY2kC6IEXm3gQO7BlKpvOT9BhDXORzDJ7OFIg/huWjrJY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oEpya1Hj; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=bkueuY3hnDq2bJFZA2O9Ls/CEE07LVnYptGiXpFQIivAl0hFuJDmudQQzDEyad+yQwAFN4XNJserhvyhyBDatp8jtpQwfGtJGGb6WYrAxLMPjkagg/T/Ng4ordydURt5S7nWHuf7xPlZonRAihtWOJXC+A1ktgO0M7RBVSj+qSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R3fpi2YG; arc=none smtp.client-ip=74.125.227.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oEpya1Hj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 333831F000FF;
-	Tue, 22 Sep 2026 17:15:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790097332;
-	bh=ruPuFqV56/fcI5FeCOr8sioenZxbHL6buJ4gcKubV/Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=oEpya1Hj4XKvcWRL9lJFg4zKI+YFLQPcbPAfGtQREOU4UW54RaTi6aXCk5E/as3Iy
-	 IJhgBCmXlOM2Wq0tfAFzfgep8aHOoU471XmgfPanYQN5X+4ZLOGpgsh/ohLqCKhToV
-	 aFsXXxj1ywJNoxsDsGyrmPfqs+BareTc8HGrwA8CWGjboHoqOfM7Wx19criKxyW4Fy
-	 nI/sw403O5eOKSBet+uJMW08vMz1Rh3FJPFkNd10VJnNn5ftQXfDIZsKL5lmmrWBp3
-	 y47ktNnM97xIipUkSwYZvwYcWwhftvMrOXfUxOsPMERcosLOcnnyumlYDQvR0DnlNd
-	 /V2LdXZkgp6aw==
-Date: Tue, 22 Sep 2026 18:15:29 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Minda Chen <minda.chen@starfivetech.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v1 1/3] dt-bindings: usb: dwc3: Add JHB100 device
- controller PHY adapter
-Message-ID: <20260922-colonize-uncaring-c604b3529275@spud>
-References: <20260918071103.24482-1-minda.chen@starfivetech.com>
- <20260918071103.24482-2-minda.chen@starfivetech.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R3fpi2YG"
+Received: by mail-pj2-f13.google.com with SMTP id 98e67ed59e1d1-396ccb652d7so143886a91.0
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 10:19:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790097594; x=1790702394; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=zCRq4hnTSVTOASY3u8FUiAUCCMw+X4n90vfRzUKE6C0=;
+        b=R3fpi2YGR1iw8Px21lKPuJxQa3xYXCv9Mpn2pp7nvZTr5cx5S8aK5HbtF3oqZWIFQM
+         RMZ3C0IacF5arX5aUdVWDSlMSotuYQA4Op5VFEMGn055iG+3zTrz5B/Kf8iog9lSXhZZ
+         B157y2CkT0mf/XtYGvnhueJQMfUPdVjeLDGegSgXKkejeOexHV8Jc5oDbrKf3Z2qa4mD
+         hts7qgawAiOZuCKQsdQAw5yKxpocn841NQ5Hu1VNYbKlO1f/HGPcNH19kCYQ/UPmaqF9
+         OYKbnmqRDwKR6tzbt0XUMzLli1e6tFFAlATxO9QSteifnJPhfcdMvKQ7lvc6fqOdrGg/
+         xkkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790097594; x=1790702394;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zCRq4hnTSVTOASY3u8FUiAUCCMw+X4n90vfRzUKE6C0=;
+        b=n03g2fJiQ/T9oHhXE0eTvtv15Z3eJhCQVjvTCzoR+qLH8G6D0375xH+s2RKbeFc9Ck
+         ONaNpzxF2Xtn4ZrLeTkEK2QUuvGjM46MPHEyARtrwdWppfFLIrBPz6aY5DNHMuvApCy1
+         l9bxs+GgeoWNklxIYbhb68QN6pQBd10kd50k+2y1Vu6KehivJLPwzBcgaFAbuf6oNLMF
+         0TLqUfgW1ZaIU4q4GUGtm2KsCTUcFgoR/fpbgvQpAj3V8m+hZC8g2M4StkaYd4y3rrit
+         Zw6cHkSggx2pT678aMPyQVPDsmxLbd/AwQ/iEREakoxnzjG3uhGgogULBJnJqOumM6Y1
+         eJsw==
+X-Forwarded-Encrypted: i=1; AKwUvBz2A5yAW8jgucyoWIYtGrYE6VAUhkuMQ/fb17c70uT+VE9qUIfTdHNBKnjOEp18H4F+xDHnUe/kpbA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mjVWhSla3OjOx+HDMMYTksNJq4TrqvAxhrEojU+MRJkhPPVe+B
+	DjkFWl5jiBM4esYorLyEjNuMnDmCUX7onYg7jIHm7T3yRsw6mG6PRXlX
+X-Gm-Gg: AYBFou1hlmN52CqMFszpRtYW2KtvqkBePgd5/hMuGGCCITrvEGPbTsCHsbAW+RAeV5l
+	LFHqMT/1VrAEi84pAwVvujUZR4rrxcgmY1ENPjOjJzT1/Qr8q2lDcmrRj+jjiml8qyr4R34bVHc
+	Ju/kYkazuzABEbn5428Tpu5m22C3V0q0KJmxzP3vrAiuCLqUOSpPYp68Xt8+5FwkgixnV4LIuF4
+	prvZV+cGCCSbTHHcZGeJDR/d4FnfboRJOxreP/pu2YnYu1b6ArdrzbfEfGMdvOXKyp1Nrjl17Jo
+	0/yMOFT7oTXy5frnaHffFVC0kfR4SH01iEN4XBbIAYT2E11L8HFUNkqd/QAuVZhB8yCeAcMU8kB
+	ErwaidyTbCXLweaJJp7BcoY1hAyaOG3NaTRdhoqSQL7bhykkWm1sEdhfxtfCJ3Dhyd7rGuJX6la
+	NEdMgEVo0EIYoiEfoxBrdBVN3UsWzgJ191IC2dAtsjjmg1mOXxWAsUNP21YRa7mtjmPRAxXeOag
+	SAxOaxcQzpKzQ==
+X-Received: by 2002:a17:90b:2b4c:b0:39e:1ff0:331b with SMTP id 98e67ed59e1d1-3a07e4f7b61mr128059a91.2.1790097593735;
+        Tue, 22 Sep 2026 10:19:53 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a07ddaf4f5sm336767a91.4.2026.09.22.10.19.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 10:19:53 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 22 Sep 2026 10:19:52 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rudolf Marek <r.marek@assembler.cz>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Chris Snook <chris.snook@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Duncan Sands <duncan.sands@free.fr>,
+	Chas Williams <3chas3@gmail.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>, linux-watchdog@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-rtc@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] watchdog: Replace __MODULE_STRING() with
+ __stringify()
+Message-ID: <940e0763-9de3-4d55-90cc-8289d5525b17@roeck-us.net>
+References: <20260922-module-string-v1-0-c18766690185@suse.com>
+ <20260922-module-string-v1-1-c18766690185@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="KHIdktmF23MupoFW"
-Content-Disposition: inline
-In-Reply-To: <20260918071103.24482-2-minda.chen@starfivetech.com>
-
---KHIdktmF23MupoFW
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260922-module-string-v1-1-c18766690185@suse.com>
 
-On Fri, Sep 18, 2026 at 03:11:01PM +0800, Minda Chen wrote:
-> Add dt-binding of JHB100 server host field USB device controller PHY
-> adapter register IO region and its regs-name.
+On Tue, Sep 22, 2026 at 03:32:21PM +0200, Petr Pavlu wrote:
+> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
+> MODULE_PARM support for older modules" [1] in 2002-12. That change also
+> moved it to the graveyard section at the end of linux/module.h
+> 
+> Replace the remaining uses of __MODULE_STRING() with __stringify() in
+> preparation for its removal.
+> 
+> Link: https://git.kernel.org/tglx/history/c/136839a1b4 [1]
+> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+> Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-I don't understand the rationale here or the other binding patch.
-Why is it not always 2 regs? Either the device has 2 or it has 1, there
-shouldn't be variability unless there's more than one instance and the
-dfferent instances have different numbers?
+Applied to watchdog-next.
 
-Cheers,
-Conor.
-
->=20
-> Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
-> ---
->  .../devicetree/bindings/usb/starfive,jhb100-dwc3.yaml | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.y=
-aml b/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
-> index fbabe99e9d5c..b2fd98c06ba0 100644
-> --- a/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
-> +++ b/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
-> @@ -20,7 +20,16 @@ properties:
->      const: starfive,jhb100-dwc3
-> =20
->    reg:
-> -    maxItems: 1
-> +    minItems: 1
-> +    items:
-> +      - description: Core DWC3 region
-> +      - description: DWC3 device controller adapter region
-> +
-> +  reg-names:
-> +    minItems: 1
-> +    items:
-> +      - const: core
-> +      - const: adapter
-> =20
->    interrupts:
->      maxItems: 1
-> --=20
-> 2.17.1
->=20
-
---KHIdktmF23MupoFW
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCarK3sQAKCRB4tDGHoIJi
-0szQAQCwh/dFafRZJB+jn62w8Y2QCRUr/K2AbBr0TrPFgM4FhgD9EGSlYvTElJBw
-EVOd58UALAYKOueaN3htPnZsmZEmNAU=
-=l681
------END PGP SIGNATURE-----
-
---KHIdktmF23MupoFW--
+Thanks,
+Guenter
