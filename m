@@ -1,129 +1,155 @@
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9D4379EE7
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 14:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790088337; cv=none; b=ZUzzyUN2VdqjgfCv4ReTF1ldOSVG3LHdLBgkDyDqnGYKe+3+Gj8ZMKViLtdfZtNaNp1E2cVQ/5Xc2ZwsJCMcU813x4VjhhzObtu1V+/33EZEdVDLkgyzXKde3qKODa41YN/RvLlTgwVXzeybVRHkO44mo5zxRUuyw0WCzS9q7A4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790088337; c=relaxed/simple;
-	bh=6+7YwPssrYwwbcVyy1E2zRmvrRlDS05FVVsJW9+Xl58=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N7/RdYjFCQWOLXoCWVsicE+8u3P7ZYahtUg7gP8a6L+48HBh2kLgJLX50CwzfG1Bj82Y8Ml5vhNDS4fPWJXekLmRzo+R30De60NAlWLi7d9GmCHpVEImvvD9LzZAtYHncvGP5mMfxe0fc+2VsLt88EZn8vlRujd/iN+UbwUq9M4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CguFkjds; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A0F387363
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 14:48:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.76
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790088506; cv=pass; b=n44/NlgTyPhZhCHpZmCxoJ6+isvOi9VL1OmF3TEasd+bhjKxlvXYPtucxQn0RMFBIWVF9j5icBDTsW0vEyGlhojdG/IrJvYtgjT6FAEsS45wfrNQ6LgVk6V3+kNIJbIsqcSN93vzBSrnA/FO4J0qyb+OkNe7pYyEbbRXNlz3cSY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790088506; c=relaxed/simple;
+	bh=/BbID44ZW/fwXNARzdUW2JPI7ko5n2mKUMxn2jhHluc=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=fG/HWs1OvRQ9QCWR3BaRUZFdDoqq4hyP8E6iC/cTrqcjDZyp4n+c5cTf0Y9TbTegQCVsGQqFPKoRrI1enCAzKScniVkgIp6ZrOz11bCTC/TrQEhOVRgr1F3cvyX5OCdBIc/LtXM/7WKd+kMm+SD8FOuuPAnyH53r6tssSvkvWws=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fuWBdSaP; arc=pass smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CguFkjds"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=6+7Y
-	wPssrYwwbcVyy1E2zRmvrRlDS05FVVsJW9+Xl58=; b=CguFkjdsvQ8uo+wX/xEJ
-	3RiokJSXD94GoXAfVLjWKz+1uejkAw7kl4/1xIpbNhEz9+k8g68TzFsoi6LLucFN
-	Ndwn5b23x97IbqfUJS6Ka3H72pLXZn/70hR4VEbM5/VqqBrypDjeacVP/f3C862U
-	QWEM/koX8XX8b5wCCJBbcEyGr3j/76Lp52BWBC+xXj/jZb18FDWsHby8SdFNA5AJ
-	KriCM4PWx7LxDc/OHgfaqQik8Web9Ux9ddtyjZ5Nital6JoZS/EUVbsnJuy5pRGN
-	wavCkHNDjeGpkkALeScB5I6OHW7dAuPRkvR3oBxySwAhM494mYq744+2PmKIpyE+
-	hw==
-Received: (qmail 286476 invoked from network); 22 Sep 2026 16:45:25 +0200
-Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Sep 2026 16:45:25 +0200
-X-UD-Smtp-Session: l3s3148p1@0aq/ahNckKNQT+F6
-Date: Tue, 22 Sep 2026 16:45:25 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rudolf Marek <r.marek@assembler.cz>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Chris Snook <chris.snook@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Duncan Sands <duncan.sands@free.fr>,
-	Chas Williams <3chas3@gmail.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>, linux-watchdog@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
-	intel-wired-lan@lists.osuosl.org, linux-rtc@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] watchdog: Replace __MODULE_STRING() with
- __stringify()
-Message-ID: <arKUgQKr99Ox6ZIW@shikoro>
-References: <20260922-module-string-v1-0-c18766690185@suse.com>
- <20260922-module-string-v1-1-c18766690185@suse.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fuWBdSaP"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a5d8fe8912so768950a12.2
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 07:48:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790088503; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gWo/gCfJXz+bnZSHKJUW6epEekEE2ztQXkd4prps1wQcI02YRu9EcNExbHo9sJyIO5
+         lmc1cnxm3jv59B02e5g239v+bEGR5Zbi6ScoqdZqU6F3SqupylcW8CgUutv2FWDKKdIZ
+         sveKaCTJBJCWz31hvNdPjj8mvBRDh/7gR7jQQegcwiB5d8nHiCqtJ6EYp2KNaUDWh5Kj
+         +81QaTEIM2rPitqLHEgeDuP6YhXMNkgo0U6OqCAusc+hrcQNB/FVew/Tk3Uj1fy/qQec
+         R/vQzcQdU26SWTsbqwKTfr2iJotvyo3RSdFFfsKSjPgBwPcbSsqR24N9cTm9WXZn4Cve
+         EGWg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :mime-version:dkim-signature;
+        bh=lL4JNL6Rht/e+e23hewr4WFED9WIzDsXJCcqQEUFftU=;
+        fh=+CZ+1GZ3225i1ahl592c0nIKp+kpg6or1LmOx4AlZv8=;
+        b=D1w0V/D452B33PLZ95M3inX/UN95X2THc68h3Ldav7at4uhotbRCdNqQ7SW5jpggjJ
+         dw6kPc2V8dEtdwuM6oVyXX+P1LroQB25rTCM5OqLUaqTkRhlHpS0YQ1BhpThBwiMrJo1
+         eetz8G0vA/h9q3s0zsVeJSswIPJyNj4wbb0vOPdpgmMvvz7IU9ffFecr1LB+k2RFI2QV
+         aUTLAaKS7n7EJfBvtRSVKJmUvBwdT5WEdrYdAY2K3EGExxAu47E9Kyx8ZJeJB8u5x4U8
+         6v/1VxMCjrao5g0Ge8akobf2o1DyS2CVTo0bg/D7uL5poZJ1XfjOZzVuWBM3rIcO5qY8
+         qoxA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790088503; x=1790693303; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lL4JNL6Rht/e+e23hewr4WFED9WIzDsXJCcqQEUFftU=;
+        b=fuWBdSaPXVAFOPHpKqSqxJQISpz0UIHriI/yp2wVQvhSPmpDa4DXpKfI2xCi1xKh/e
+         4e9SAIucnREx0SoNuk7KEpSpBijtMvYPtdg/yT/ffDZOR6hrMIAOOqJZdanSS6xyDuCK
+         KlEsshUT2Uy2TNkttKWNV1AESDpgo4D+FY7yycpWEpHsx+8rcZxZULn5skV6xOAmj1qF
+         V8Qu+jAalsYbRGx6dWkastF+BbTBIRlWchNnDfbrnDRaCZbr1aIOJ2DWxLrLvv8ukf4T
+         eaM6TGcMCg5Ft+3OjZuHsUaYgoNYzidtDwGVhjssyrEZYSBTfGAP2sDTkWgwc3H1wshi
+         R6Ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790088503; x=1790693303;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=lL4JNL6Rht/e+e23hewr4WFED9WIzDsXJCcqQEUFftU=;
+        b=N2KggW+1X85wok0MxC/IHUuLwAVrzl9gu0zMd7iFoDXKT8X0Qsdbl4Gf+8Aj32YWxD
+         UZYFpFV6+ruCFhDvZF+2QG3PUYCun25ukXIto7UUpVOc1rgWkvnnZgvF2Tiu9thq4Skm
+         QfN6m9LAk2XGkd1wyfebXZCStn2fVGVRAgviDiXJJtmT0CfAwpkvQJ4jZETS62Yh1Bm3
+         Sjjny4QCz0sehk1g0K1ggmzT29fFIbFGQJlQeie6NzICvH9wTIDf0mx63XCBzOev92Z6
+         lsyY4vf2EhKTgt2ZN2Bn/yAQZvD5PU2pmsiSGQ2+GzkmGzO47EHC4yq+De8sWu96dPai
+         UOnQ==
+X-Gm-Message-State: AFuF++kBjkNAPRibrf0+xpruEf5XNPh6A2i2s84bV1Im+71ZVPk2g1ep
+	qKPr9IYPsj3npAC6NL/Kphr7CG1rdyzto6DQS4c5D5ttx2AQM9S7d2lnihc7KdfQINf/aEmzWmA
+	ctNLbjnML8gdnJ7GO3yW6C7NwNtNmX9Cpb2h5oMY=
+X-Gm-Gg: AYBFou2h0+aYDFmJzYPYu7D2XysY2A43ErE3P4wuMzluCFxKrroieUPVHTzuHmO+U6d
+	bN7wdMisFM9foOd5gPT9dbeXXJ+SDBS44Bu0BQIgOA+6tsUmYxDeiZ4hB0jWuZ64TzuoZIKRTPS
+	TUlHsQrIg9IRKc3pVDXSXm8kCREPpwoLSwmU4LpuUeyKowIpwy/hycl12g6C1Xz1SCoo0gkJygu
+	/vFYgM4jAEfW/9OdXhZ9CgZqd1+ln8dZHynRjwlbC0USw5ZvQ2l1RfcljbxvnPZRmW9Nyl1T1Y8
+	iaJM9EGmu09bTFonW681Mf9y6suNqIpmES5MM4dsZOsPZLARmPn6FcwpKj9RZTdg0S/lXxgyGQ5
+	95FrFoJzGvoJJ
+X-Received: by 2002:a05:6402:e08:b0:6a9:98d7:258f with SMTP id
+ 4fb4d7f45d1cf-6aa57989a40mr12197999a12.3.1790088502920; Tue, 22 Sep 2026
+ 07:48:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sgLEH0/VtwN7fsyT"
-Content-Disposition: inline
-In-Reply-To: <20260922-module-string-v1-1-c18766690185@suse.com>
-
---sgLEH0/VtwN7fsyT
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+From: =?UTF-8?Q?Pawe=C5=82_Frelek?= <pawel.frelek@gmail.com>
+Date: Tue, 22 Sep 2026 16:48:04 +0200
+X-Gm-Features: AcwNN1WiuIXj3M_pQsu_lvG9vy4FW1LUU_EB11Zlr08-26LYJ5iHHDCL5aGU9cM
+Message-ID: <CABL4uFnCWgWdPL5s85O49sDyNADf4Lk684nx60g9wox_qOOOww@mail.gmail.com>
+Subject: [BUG] thunderbolt: NULL pointer dereference in tb_dp_dprx_work after
+ device disconnect (7.2.6)
+To: andreas.noever@gmail.com
+Cc: linux-usb@vger.kernel.org, YehezkelShB@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2026 at 03:32:21PM +0200, Petr Pavlu wrote:
-> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
-> MODULE_PARM support for older modules" [1] in 2002-12. That change also
-> moved it to the graveyard section at the end of linux/module.h
->=20
-> Replace the remaining uses of __MODULE_STRING() with __stringify() in
-> preparation for its removal.
->=20
-> Link: https://git.kernel.org/tglx/history/c/136839a1b4 [1]
-> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
+Hi,
 
-I didn't look at all but at some of the drivers (Renesas ones, da905x,
-STMP and a few others). Those looked good. I guess you generated the
-changeset anyhow:
+I hit a NULL pointer dereference in tb_dp_dprx_work during reboot,
+right after the dock was disconnected from the Thunderbolt bus.
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Hardware:
+- Lenovo ThinkPad X13 Gen 3 AMD (21CNS15T00), BIOS R22ET81W (1.51)
+- Lenovo ThinkPad Thunderbolt 4 Dock (40B0), external monitor over DP
 
+Kernel: 7.2.6-hardened1 (Arch linux-hardened), not tainted
+Cmdline includes: thunderbolt.dprx_timeout=3D-1
 
---sgLEH0/VtwN7fsyT
-Content-Type: application/pgp-signature; name=signature.asc
+What happened:
+The external DP monitor behind the dock did not come up at boot. I
+unplugged and replugged the monitor's DP cable at the dock, without
+success, then rebooted (the dock itself stayed connected). During
+shutdown the dock was reported as disconnected and ~50 ms later the
+pending DPRX work crashed:
 
------BEGIN PGP SIGNATURE-----
+[  140.825070] thunderbolt 0-2: device disconnected
+[  140.875648] BUG: kernel NULL pointer dereference, address: 0000000000000=
+32b
+[  140.877281] CPU: 8 UID: 0 PID: 125 Comm: kworker/u48:4 Not tainted
+7.2.6-hardened1-1-hardened #1 PREEMPT(full)
+[  140.877513] Hardware name: LENOVO 21CNS15T00/21CNS15T00, BIOS
+R22ET81W (1.51 ) 04/10/2026
+[  140.877748] Workqueue: thunderbolt0 tb_dp_dprx_work [thunderbolt]
+[  140.878003] RIP: 0010:tb_dp_dprx_work+0x82/0x160 [thunderbolt]
+[  140.880927] Call Trace:
+[  140.881164]  <TASK>
+[  140.881652]  process_one_work+0x198/0x370
+[  140.881896]  worker_thread+0x1a6/0x310
+[  140.882380]  kthread+0xf3/0x130
+[  140.882863]  ret_from_fork+0x2dc/0x3a0
+[  140.883818]  ret_from_fork_asm+0x1a/0x30
+[  140.884065]  </TASK>
+[  141.399331] Code: 24 20 48 8b 87 58 ff ff ff 48 8d b8 18 03 00 00
+49 89 c4 4c 8d b8 18 03 00 00 e8 39 ff db d3 48 8b 8b 60 ff ff ff 48
+8b 41 20 <0f> b6 90 2b 03 00 00 c0 ea 05 75 5d 66 81 b8 18 03 00 00 86
+80 74
+[  141.399974] RAX: 0000000000000000 RBX: ffff88ae1389c4b0 RCX: ffff88b040d=
+53578
+[  141.400298] RDX: ffff88b0916f0000 RSI: ffff88ae1389c4b8 RDI: ffff88ae011=
+a6318
+[  141.402844] Kernel panic - not syncing: Fatal exception
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmqylIEACgkQFA3kzBSg
-KbZBaw/9FrBesyOyyDUrnxlHP0bOF3BmqDAG1eHCb7OuWj1Wcqrh68l72s5PrP8Y
-omafJO2i4E1dAJdffYG+gz4rfeaT4Kj9TJCODqKn6pB7cEFOj0Gk9Tlc1Pd3sNpo
-3nNxwod06QpdI/1RpmBPR76rj+a0vaK8WM1j1zoARksJT0LK8Jrfm5d73Hoisng7
-2iNk+ZkddaYmPSqgADJxlB+j3VUcWAIp4t/Q4F0c6+xJgA++OzbgOAvDLpXzi4Ae
-zVzinZ552qM8vWVqf9RHbEz05NCRqlYewqsc6ZzFWcLHOcC9cE9nbgwH6qtd5qWU
-LWqNdIl0WXDwSXi79NzvtqsAIXCMN814bx497Fbz4Xe4Sa3KBDkfUPv/JmmRtxcZ
-BQxDPqXjxauBMrmarjBbr2fJy+6JRoJ44Fb3n3USWvZufXWhUbagITi8bfkE+ikP
-6YriAOJVgsI9IQnTTUN5szRzPcFEHTM9N5qptkcwjCyWa3Z61/a2gmppmR4wwQ1l
-Be/BD93oE4Y+DkKI3w3dWjyamEWcx+Hq9JYIMlemrXpGx5f2OZCIJNHFwvdyS02h
-k8AE3H4VIwo7A/6UYTImr/JQAtwuUTyzcK54vyXsGAPSc1FhvXr+8zgbaR06nqgD
-EfSNpsEVCbms7JBhxZphEoSYGUtYUwHE6x/Vd63n78pA5DJoRQ0=
-=++bp
------END PGP SIGNATURE-----
+It looks like the DPRX work is not cancelled when the device behind the
+tunnel goes away. With dprx_timeout=3D-1 the work never expires, which
+makes the window large, but I assume the race exists with the default
+timeout too.
 
---sgLEH0/VtwN7fsyT--
+I set dprx_timeout=3D-1 because the external monitors sometimes did not
+come up at boot (DP tunnel torn down as "not active").
+
+Full pstore dmesg available on request.
+
+Thanks,
+Pawe=C5=82
+
+--=20
+Pawe=C5=82 Frelek   (=EF=BB=BF =CD=A1=C2=B0 =CD=9C=CA=96 =CD=A1=C2=B0)
+pawel.frelek@gmail.com
