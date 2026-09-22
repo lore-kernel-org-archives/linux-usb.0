@@ -1,148 +1,156 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mta0.migadu.com (out-150.mta0.migadu.com [91.218.175.150])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFC6A37F33D;
-	Tue, 22 Sep 2026 03:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365213B8135
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 03:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790046693; cv=none; b=Nuo1qhYdVbwar+nHmYkxpLAZYzEwtTbz0FTU6JVews6X9xlfqNKR6j9ANWbIEIVfc3KUway3iLMMDftTbzzKPnBKlqbZdpLafhUptQhbQKKU+1wHjK5ByoTsKHdwMN0JFvh5iJwWMW9pyX4LXlfP8DuzpKQqKJ6QdXRuJY5YODo=
+	t=1790046765; cv=none; b=AL6E2tEI1/uFxXkUeupD43vRnlwRSqYpOXuDlXun3HtnOdqQmVCL8ecDLmtvw5aWx9qy2CZmI864pZVaUjhtmX5tgp+MBPbOxgurGhqrB/pLnSOlACSL/IkTop8ri+qNdXGglONrDGoOXb9GgraNfyutAvSrImCTsgo6Bnc1Zls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790046693; c=relaxed/simple;
-	bh=lQ68GCEp0M1/8iWXnt1MdgLFrQR9b+XzPvlHTeQbjoM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=XXeXsOb8pKDkdffOaLyci2X6C4ywYiw+tzaLsnmrxBPYGh5AOOrL1qALJAGxLOS1xTLQtaCSmfSWolaIgJ0tRO86gWYXc283rZToTWz4EpDEM0iHx8FDIomoSruWOeOsg12ZBRoRIm3Jq84nP+oEnBy60XirSm71WGTSa1LT1Ks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 453a1c78b63311f19a56ed5b684f684d-20260922
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:142be212-b367-46c9-9856-2bd415814978,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:7d093fac6273d8700a5a3c8a794578fd,BulkI
-	D:nil,BulkQuantity:0,SF:102|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP:nil
-	,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
-	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 453a1c78b63311f19a56ed5b684f684d-20260922
-X-User: lijiayi@kylinos.cn
-Received: from thinksys.tail1c7620.ts.net [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lijiayi@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1234149315; Tue, 22 Sep 2026 11:11:14 +0800
-From: Jiayi Li <lijiayi@kylinos.cn>
-To: Oliver Neukum <oneukum@suse.com>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	Jiayi Li <lijiayi@kylinos.cn>
-Subject: [PATCH v2] usb: uas: quiesce SCSI before stopping endpoints on unbind
-Date: Tue, 22 Sep 2026 11:11:02 +0800
-Message-Id: <20260922031102.141043-1-lijiayi@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1790046765; c=relaxed/simple;
+	bh=fqInk17I5hhfQnP03ChwBojmoHSswahGqJt0SWkJHZA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mfg64nDLR8fQZVGwGromtYrfn7EnAvn4b4hQotqwbpdMVYrHOzB9ZqyfENnEd4YRmLFo15QVJQoLvpUPfleyDfD/xsMOCmUYOfuFktt6+LnDNBLgb05qbPlNcc86K0Ocdv6rxnHOvqVUgaSgG7wCG2JTvO26XN7W9KuIAub9SDc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HRpvztqz; arc=none smtp.client-ip=91.218.175.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HRpvztqz"
+X-Envelope-To: linux-usb@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=fqInk17I5hhfQnP03ChwBojmoHSswahGqJt0SWkJHZA=;
+ c=simple/simple; d=linux.dev;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
+ t=1790046759; v=1; x=1790651559;
+ b=HRpvztqzBplCNT4wUF3xg9yGA+IzIXY67GlAxPCTPEwfFuIcqXorv+T22KohmvoXwABRT/wI
+ Ah5lKYFl8b8IkoTZB5YiH9g8G6cwX5HpLyrg31hXxg7QTJA0E4z/XVk9+WrPDj3v6woZAVGAWjM
+ vqHkvCDQjgIArk7wXnQT5DiU=
+X-Envelope-To: linux-usb@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id 82d2f06f988945bb;
+	Tue, 22 Sep 2026 03:12:29 +0000
+X-Mizu-Trace-ID: 82d2f06f988945bb
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <f151fb61-6e9d-4f42-8a3e-89cf5f4fcaea@linux.dev>
+Date: Tue, 22 Sep 2026 11:13:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [USB] WARNING: mm/page_alloc.c:5345 at
+ __alloc_frozen_pages_noprof+0x39a/0x3d0, CPU#41: swapper/0/1
+To: Luiz Capitulino <luizcap@redhat.com>
+Cc: akpm@linux-foundation.org, mathias.nyman@intel.com,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, linux-mm@kvack.org
+References: <8b77688e-3219-4133-af0f-395e342acb25@redhat.com>
+Content-Language: en-US
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <8b77688e-3219-4133-af0f-395e342acb25@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Unbinding uas while READ commands are in flight can leave the storage
-device unusable after the driver is rebound.  The first post-bind
-INQUIRY Data-In transfer completes with -EOVERFLOW, and SCSI error
-handling eventually offlines the device:
+Hi Luiz
 
-  scsi host7: uas
-  scsi 7:0:0:0: tag#4 data cmplt err -75 uas-tag 1 inflight: CMD
-  scsi 7:0:0:0: tag#4 CDB: Inquiry 12 00 00 00 24 00
-  scsi 7:0:0:0: tag#4 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD
-  usb 2-2: reset SuperSpeed USB device number 2 using xhci_hcd
-  scsi host7: uas_eh_device_reset_handler success
-  ...
-  scsi 7:0:0:0: tag#7 CDB: Test Unit Ready 00 00 00 00 00 00
-  scsi host7: uas_eh_device_reset_handler success
-  sd 7:0:0:0: Device offlined - not ready after error recovery
+On 2026/9/22 10:28, Luiz Capitulino wrote:
+> Hello,
+> 
+> When booting the latest Andrew Morton's mm-new tree[1] commit 498ee28e5ec4
+> ("mm/swap, PM: hibernate: atomically replace hibernation pin") on a KVM guest,
+> I'm getting the following MM warning being triggered:
+> 
+> """
+> [    1.667197] [      T1] WARNING: mm/page_alloc.c:5345 at __alloc_frozen_pages_noprof+0x39a/0x3d0, CPU#41: swapper/0/1
+> [    1.691217] [      T1] CPU: 41 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W           7.3.0-rc1+ #12 PREEMPT(full)
+> [    1.692073] [      T1] Tainted: [W]=WARN
+> [    1.692378] [      T1] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS edk2-20260812-8.fc44 08/12/2026
+> [    1.693158] [      T1] RIP: 0010:__alloc_frozen_pages_noprof+0x39a/0x3d0
+> [    1.693685] [      T1] Code: e2 04 e8 49 85 ff ff 45 31 c9 e9 14 fe ff ff 0f 0b e9 e7 fe ff ff 80 3d 6d 3a f2 05 00 0f 85 2b fe ff ff c6 05 60 3a f2 05 01 <0f> 0b e9 1d fe ff ff 48 89 5c 24 40 48 89 6c 24 48 4c 89 64 24 50
+> [    1.695238] [      T1] RSP: 0000:ff46f50b801538d8 EFLAGS: 00010246
+> [    1.695723] [      T1] RAX: 0000000000000000 RBX: 0000000000000cc0 RCX: 0000000000000000
+> [    1.696356] [      T1] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000cc0
+> [    1.696981] [      T1] RBP: 0000000000000034 R08: 0000000000000000 R09: 0000000000000cc0
+> [    1.697605] [      T1] R10: 0000000000000034 R11: 0000000000000100 R12: 0000000000000034
+> [    1.698231] [      T1] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+> [    1.698872] [      T1] FS:  0000000000000000(0000) GS:ff2b932745209000(0000) knlGS:0000000000000000
+> [    1.699592] [      T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> [    1.700119] [      T1] CR2: 0000000000000000 CR3: 00000006ede4a001 CR4: 0000000000773ef0
+> [    1.700745] [      T1] PKRU: 55555554
+> [    1.701023] [      T1] Call Trace:
+> [    1.701283] [      T1]  <TASK>
+> [    1.701512] [      T1]  alloc_pages_node_noprof+0x4c/0xc0
+> [    1.701919] [      T1]  __dma_direct_alloc_pages.isra.0+0x164/0x1f0
+> [    1.702402] [      T1]  dma_direct_alloc+0x19f/0x2b0
+> [    1.702767] [      T1]  dma_alloc_attrs+0x8d/0x200
+> [    1.703133] [      T1]  xhci_alloc_interrupter+0xc9/0x190
+> [    1.703543] [      T1]  xhci_mem_init+0x283/0x340
+> [    1.703902] [      T1]  ? __pfx_xhci_pci_quirks+0x10/0x10
+> [    1.704317] [      T1]  xhci_gen_setup+0x35e/0x4f0
+> [    1.704684] [      T1]  xhci_pci_setup+0x52/0x1c0
+> [    1.705038] [      T1]  usb_add_hcd.cold+0x241/0x5d8
+> [    1.705413] [      T1]  usb_hcd_pci_probe+0x188/0x480
+> [    1.705803] [      T1]  xhci_pci_common_probe+0x6b/0x2f0
+> [    1.706218] [      T1]  local_pci_probe+0x4a/0x90
+> [    1.706582] [      T1]  ? cpu_hotplug_disable+0x15/0x30
+> [    1.706986] [      T1]  pci_call_probe+0x55/0x150
+> [    1.707357] [      T1]  pci_device_probe+0xae/0x150
+> [    1.707734] [      T1]  ? kernfs_create_link+0x61/0xb0
+> [    1.708139] [      T1]  ? sysfs_do_create_link_sd+0x81/0xf0
+> [    1.708562] [      T1]  call_driver_probe+0x23/0x100
+> [    1.708949] [      T1]  ? driver_sysfs_add+0x55/0xc0
+> [    1.709334] [      T1]  really_probe+0xd7/0x2d0
+> [    1.709681] [      T1]  ? _raw_spin_unlock_irq+0xe/0x30
+> [    1.710098] [      T1]  __driver_probe_device+0x9c/0x1b0
+> [    1.710503] [      T1]  driver_probe_device+0x1f/0x80
+> [    1.710892] [      T1]  ? __pfx___driver_attach+0x10/0x10
+> [    1.711323] [      T1]  __driver_attach+0x10a/0x210
+> [    1.711706] [      T1]  ? __pfx___driver_attach+0x10/0x10
+> [    1.712125] [      T1]  bus_for_each_dev+0x86/0xf0
+> [    1.712488] [      T1]  bus_add_driver+0x13e/0x230
+> [    1.712858] [      T1]  ? __pfx_xhci_pci_init+0x10/0x10
+> [    1.713273] [      T1]  ? __pfx_xhci_pci_init+0x10/0x10
+> [    1.713681] [      T1]  driver_register+0x75/0xe0
+> [    1.714049] [      T1]  do_one_initcall+0x7a/0x1c0
+> [    1.714429] [      T1]  do_initcalls+0xe1/0x100
+> [    1.714780] [      T1]  kernel_init_freeable+0x152/0x1c0
+> [    1.715199] [      T1]  ? __pfx_kernel_init+0x10/0x10
+> [    1.715592] [      T1]  kernel_init+0x1f/0x140
+> [    1.715928] [      T1]  ret_from_fork+0x19e/0x270
+> [    1.716296] [      T1]  ? __pfx_kernel_init+0x10/0x10
+> [    1.716680] [      T1]  ? __pfx_kernel_init+0x10/0x10
+> [    1.717071] [      T1]  ret_from_fork_asm+0x1a/0x30
+> [    1.717438] [      T1]  </TASK>
+> [    1.717663] [      T1] ---[ end trace 0000000000000000 ]---
+> """
+> 
+> This does not happen with latest Linus tree 40288c9206c1 ("Merge tag
+> 'drm-fixes-2026-09-19' of https://gitlab.freedesktop.org/drm/kernel").
+> 
+> What I could determine is:
+> 
+> - In xhci_alloc_interrupter() max_segs=0, which leds to seg=0
+> 
+> - This eventually leads to passing size=0 to get_order() in
+>   __dma_direct_alloc_pages() (call sequenece below). Passing size=0 to
+>   get_order() is undefined and returns order=52 on my guest, whch leads
+>   to the warning since 52 > MAX_PAGE_ORDER
+> 
+>     xhci_alloc_erst()
+>       dma_alloc_coherent()
+>         dma_alloc_attrs()
+>           dma_direct_alloc()
+>             __dma_direct_alloc_pages()
+>             get_order()
+>             alloc_pages_node()
+> 
+> [1] git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm origin/mm-new
+> 
 
-A command URB may already have delivered a SCSI command when usbcore
-disables the interface endpoints and kills the data and status URBs
-before ->disconnect.  uas_disconnect() then removes the SCSI host only
-after killing its anchored URBs, so SCSI teardown cannot first quiesce
-the accepted commands.  A newly bound UAS instance can encounter the
-residual transport state.
+Thanks for the report. From my understanding, it is already
+fixed in mainline by 045b5bef916d ("usb: xhci: Fix HCS_ERST_MAX conversion").
 
-The failure reproduced with a VIA Labs 2109:0715 storage bridge on both
-Zhaoxin 1d17:9204 and Intel 8086:a2af xHCI controllers.  USB device reset
-and xHCI unbind/rebind did not recover the device; physical reconnection
-did.
+Thanks
+Best Regards
+Hao
 
-Set soft_unbind so the endpoints remain available during driver unbind.
-Cancel pending scanning and remove the SCSI host before setting resetting
-and killing the anchored URBs.  Use the same teardown order for every
-disconnect path and rely on SCSI host removal to handle a device that can
-no longer communicate.
 
-With the change, 10 of 10 zero-delay unbind/rebind iterations with 30
-READ commands in flight reattached the disk and completed a post-bind
-O_DIRECT read.  Unbind took 82 to 109 ms, with no UAS completion error or
-command timeout after rebind.
-
-Signed-off-by: Jiayi Li <lijiayi@kylinos.cn>
----
-Changes in v2:
-- Remove the USB_STATE_NOTATTACHED-based disconnect classification.
-- Use the same teardown ordering for all disconnect paths.
-- Reword the commit message.
-
-Link: https://lore.kernel.org/lkml/20260920012358.3362053-1-lijiayi@kylinos.cn/
-
- drivers/usb/storage/uas.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 8655edbd66b16..8752cecb45915 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -1217,6 +1217,14 @@ static void uas_disconnect(struct usb_interface *intf)
- 	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
- 	unsigned long flags;
- 
-+	/*
-+	 * Prevent SCSI scanning (if it hasn't started yet)
-+	 * or wait for the SCSI-scanning routine to stop.
-+	 */
-+	cancel_work_sync(&devinfo->scan_work);
-+
-+	scsi_remove_host(shost);
-+
- 	spin_lock_irqsave(&devinfo->lock, flags);
- 	devinfo->resetting = 1;
- 	spin_unlock_irqrestore(&devinfo->lock, flags);
-@@ -1227,13 +1235,6 @@ static void uas_disconnect(struct usb_interface *intf)
- 	usb_kill_anchored_urbs(&devinfo->data_urbs);
- 	uas_zap_pending(devinfo, DID_NO_CONNECT);
- 
--	/*
--	 * Prevent SCSI scanning (if it hasn't started yet)
--	 * or wait for the SCSI-scanning routine to stop.
--	 */
--	cancel_work_sync(&devinfo->scan_work);
--
--	scsi_remove_host(shost);
- 	uas_free_streams(devinfo);
- 	scsi_host_put(shost);
- }
-@@ -1267,6 +1268,7 @@ static struct usb_driver uas_driver = {
- 	.suspend = uas_suspend,
- 	.resume = uas_resume,
- 	.reset_resume = uas_reset_resume,
-+	.soft_unbind = 1,
- 	.shutdown = uas_shutdown,
- 	.id_table = uas_usb_ids,
- };
