@@ -1,65 +1,68 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54BE2539789;
-	Tue, 22 Sep 2026 11:03:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D105326C0;
+	Tue, 22 Sep 2026 11:05:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790075004; cv=none; b=Z7NbfXfjFG3DiDrpW3eeoi9tvtHAZRD90LhYMNe0ZvE5QljjjGtp/CuZg5VLhM9PNwJfe3SaU/Z9w4Z5tXtJ5FRVM/yF4D5Rd9V42tRH9nlJFBMFdSEdhDncTas8vCoet+GhxgMbwyvdM/DR8/pt9V/qC+QSArpd8sdwDJZhMvw=
+	t=1790075152; cv=none; b=u2c2g7zltvTnvGZM/0TyRiSp6421Pft+dOXnXgAuYdLwZM/5P4iEJUbsIZffcbe7LHL1LeoWrwBUVybk9Z95noTl9zpFczjKICkKSF1xO11e6gESVSAoYWGKxRWxve5kQyPRnQDW3ZvDfQGvky+6aSGOEllxbifsGDP9LX16N7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790075004; c=relaxed/simple;
-	bh=ik2TSWWSMDSo+wj+TTDCw/82I6ainBJxGpgZm7BMKIo=;
+	s=arc-20240116; t=1790075152; c=relaxed/simple;
+	bh=vV34eP6bm9T5Z+5yq/BOI+DgHf66pJwOrOlm2cfh2uk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hnmxo97XlEVsgxRgVG1K31P/sUTKcUZwz6iTomJjVZMmjrsYwI153XgMTkfyjYQ7GvQjandIcM/r+50PakZSjI5gXg/1zRiWAYPyn/G3RGy7GfCM9A67QWSOtvsj6U2+mbo6GpKj4ubKHO45CSPzo/XJ6yaPiW7qkvyW/FO0gqA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xyulv73U; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=THjWWPCefX7sOV8a//PhZybui38j+tGSFSD7pZc/H01lPdo4pEBzR66PH4TlSIYOiW+mnYPkVyn8emwUWuwJ4joXO/49OSRP4cHdGwqB9TwnLom1oFM3cJg9Qsf2hhjSBhj2qiiP2dMovnuhQVMYiHhlA5ZajaGeXTLJxpSoCPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gWL/iqNJ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xyulv73U"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gWL/iqNJ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790075003; x=1821611003;
+  t=1790075151; x=1821611151;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ik2TSWWSMDSo+wj+TTDCw/82I6ainBJxGpgZm7BMKIo=;
-  b=Xyulv73Uptw/sqmR5n7WY2wgvwPg6DLkWYFgyNFjlPMyPLIqMkMg/TWd
-   Pb1vsbcacT0DnAjyFibbSScRgNcyJun+LYPV8Xx7iwqsE5StW9GxMeNIu
-   AWVOsYGijRHePz+VJu1lG8rJxBeARtPtc035yTzAnCyU1FVoX0kf0svgF
-   zgw7QH3I/NhXrFmFX4FhIg6dbq6lXQDUIQUUmAp3bCwLL37wtPXNNLljn
-   8VyY0ccIF+b6jXOLrCaAm4dgrrQ/lXDeHJPXLIfK8d1OyH3t+lPYki5qi
-   2pJaTqD5HebFpLvARreWwb9enGCMVYv2Kj2QUbPknzvde845qFzx0+1FL
+  bh=vV34eP6bm9T5Z+5yq/BOI+DgHf66pJwOrOlm2cfh2uk=;
+  b=gWL/iqNJYWMqspXJsc8u0VIoYlt27TqhsFNFLu6yEDxx43GyAw24GX4P
+   uc4/ZItdOzU8LIpkwjcXVmEb3Tf4tqrdUURE2uDHB6IeyEhjZzWs201xu
+   NAGuDPuNy7SCdX1iToZB7OsHl2s3aCyySHT/lWdKcSQFsvpOnvhuf0GTl
+   MDfslLILqjtnAxcZvONG+DiVtOUi00Y2+VIvYV8OzSHQUTP/S0W0UILFk
+   zVfw8Oo/cJ/BAVU67bb8wa439MciT16Wb7+RYOfndFlnkp9DqhYHkWw6S
+   5nqxLPgb0HSId5knADtpJuOtDd+LFyFnH31VL298hcDHOrS+yuipEuPeg
    g==;
-X-CSE-ConnectionGUID: zfHVlbbWS2+Jwwc1xEFVow==
-X-CSE-MsgGUID: /fHXh1uiQmaAWqTQYno1xw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="116189874"
+X-CSE-ConnectionGUID: bfHnUs0SSpW53M0c1Ki99g==
+X-CSE-MsgGUID: rp8Nxo9BQ9eCpp5FkCfiTA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="116190197"
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="116189874"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 04:03:22 -0700
-X-CSE-ConnectionGUID: jYNSqwELSaymLJSVygnpkw==
-X-CSE-MsgGUID: JY29+J1BTgifCjMru4fGdw==
+   d="scan'208";a="116190197"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 04:05:41 -0700
+X-CSE-ConnectionGUID: +4GedhJQTeihT3XqW17Scg==
+X-CSE-MsgGUID: wed8DS20ScyjBCG8KRMkIA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="277871181"
+   d="scan'208";a="269607111"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa004.fm.intel.com with ESMTP; 22 Sep 2026 04:03:19 -0700
+  by fmviesa009.fm.intel.com with ESMTP; 22 Sep 2026 04:05:38 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 1DC5D99; Tue, 22 Sep 2026 13:03:18 +0200 (CEST)
-Date: Tue, 22 Sep 2026 13:03:18 +0200
+	id CA67399; Tue, 22 Sep 2026 13:05:36 +0200 (CEST)
+Date: Tue, 22 Sep 2026 13:05:36 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Amber Kao <ite_pd@ite.com.tw>
-Cc: Amber Kao <amber.kao@ite.com.tw>, Jeson Yang <jeson.yang@ite.com.tw>,
-	Yaode Fang <Yaode.Fang@ite.com.tw>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: typec: ucsi: itepd: Add DisplayPort
- alternate mode support
-Message-ID: <arJgdmA9cWLMQpzV@black.igk.intel.com>
-References: <20260918-ucsi-itepd-it527x-v2-0-7b2d9437cc72@ite.com.tw>
- <20260918-ucsi-itepd-it527x-v2-2-7b2d9437cc72@ite.com.tw>
+To: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Abel Vesa <abelvesa@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Sebastian Reichel <sre@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	stable@vger.kernel.org, "Dr. David Alan Gilbert" <dave@treblig.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: Re: [PATCH v2 3/3] usb: typec: mux: ps883x: disable USB4 on
+ incomplete USB4 platforms
+Message-ID: <arJhAGzIxGpIhAfC@black.igk.intel.com>
+References: <20260914-ps883x-disable-usb4-v2-0-523c32b4e4d7@oldschoolsolutions.biz>
+ <20260914-ps883x-disable-usb4-v2-3-523c32b4e4d7@oldschoolsolutions.biz>
+ <aq0ENUZzJYKZ6V9f@black.igk.intel.com>
+ <35f0856d-2f39-4a03-b056-fa22b1e56589@oldschoolsolutions.biz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -68,41 +71,33 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260918-ucsi-itepd-it527x-v2-2-7b2d9437cc72@ite.com.tw>
+In-Reply-To: <35f0856d-2f39-4a03-b056-fa22b1e56589@oldschoolsolutions.biz>
 
-On Fri, Sep 18, 2026 at 06:03:44PM +0800, Amber Kao wrote:
-> Add support for DisplayPort alternate mode. The driver retrieves
-> the current alternate mode from the PPM, configures the Type-C mux
-> and retimer accordingly, and reports HPD state and HPD IRQ events
-> through the DRM auxiliary HPD bridge.
+On Fri, Sep 18, 2026 at 04:38:36PM +0200, Jens Glathe wrote:
+> HI Heikki,
 > 
-> Signed-off-by: Amber Kao <ite_pd@ite.com.tw>
-> ---
->  drivers/usb/typec/ucsi/Kconfig      |   8 +-
->  drivers/usb/typec/ucsi/ucsi_itepd.c | 404 +++++++++++++++++++++++++++++++++++-
->  2 files changed, 400 insertions(+), 12 deletions(-)
+> On 9/18/26 11:28, Heikki Krogerus wrote:
+> > On Mon, Sep 14, 2026 at 08:05:03AM +0200, Jens Glathe via B4 Relay wrote:
+> > > From: Jens Glathe <jens.glathe@oldschoolsolutions.biz>
+> > > 
+> [...]
+> > > stays inside the kernel and can be removed later without creating ABI.
+> > > 
+> > > Link: https://patch.msgid.link/20260312101431.2375709-1-krishna.kurapati@oss.qualcomm.com
+> > What's the purpose of that link?
+> > 
+> > I think you want to make a reference to the commit 0c8ee850572b ("usb:
+> > typec: ucsi: Add UCSI_USB4_IMPLIES_USB quirk for X1E80100"), right?
+> > 
+> > Is this meant to fix that commit? If so, then please use a proper
+> > "Fixes: 0c8ee850572b ("usb: typec: ucsi: Add UCSI_USB4_IMPLIES_USB
+> > quirk for X1E80100")" tag.
 > 
-> diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
-> index 0f10dac9b34b..c5eaf4967e4e 100644
-> --- a/drivers/usb/typec/ucsi/Kconfig
-> +++ b/drivers/usb/typec/ucsi/Kconfig
-> @@ -105,11 +105,15 @@ config UCSI_HUAWEI_GAOKUN
->  	  called ucsi_huawei_gaokun.
->  
->  config UCSI_ITEPD
-> -	tristate "UCSI Interface Driver for ITE IT8851/IT8853"
-> +	tristate "UCSI Interface Driver for ITE IT885x and IT527x series"
->  	depends on I2C
-> +	depends on DRM || !DRM
-> +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
->  	help
->  	  This driver enables UCSI support on platforms that expose an
-> -	  ITE IT8851/IT8853 Type-C Power Delivery controller over an I2C interface.
-> +	  ITE IT885x or IT527x series Type-C Power Delivery controller
-> +	  over an I2C interface. It also supports DisplayPort alternate
-> +	  mode, including HPD notification through the DRM bridge.
+> Hmm its not a fixes tag. It is a residual of the thinking process that
+> prompted me to go looking what goes wrong. So its semi-related. Since you
+> acked v3 with the link in (thanks!), do you want a v4 without the link?
 
-Please split this part into separate patch.
+Yes.
 
 Thanks,
 
