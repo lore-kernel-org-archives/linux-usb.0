@@ -1,109 +1,118 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6F4503BC4;
-	Tue, 22 Sep 2026 10:05:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CAF4F4CF4
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 10:07:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790071558; cv=none; b=VkBpn5XjtEyNDFkwnmYbnlIEluJlWT/8tI+jqPlYn1MNMn6iOXJ9dcAQddstJK9l9/niY2HQC9wbxy7tcnBVm5cMz62BoXibxp175Rv6Kmc5V/DWBbaJucPK2wJY8Cesn+UJ5+/wOD6PT7iOn60/luN0ralgSUrjFex+gwzAIEM=
+	t=1790071658; cv=none; b=V5NNB4Y2KW1ShBK1Lzt6c2lRwXk6NvWBu3h9b7xR0HxTnI7jICwiHd/8N4BJRM6EOjlyuKxGoCt9LJA6o0QXcFtdKap1jI6+YijLlpsi/9VQYt8LsCT6egeEOhel7xvWcFKJM4r6r23r9zqMrODm+mvknNQop0/MjMdekkf8CgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790071558; c=relaxed/simple;
-	bh=BfLoF1jCHlUaI48Snp61l0Vu2FM/b5RSH77/+5K/Upk=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=AxsYjexVomF+YFWSAYmE4Kv6kB6/wIQPwez0HmMcT0/z8+KNrV5vd4FNN7ursFInXohFF2cDT6NIosHeO+6dE40TU2/2Jw/iWTHjzjmNZXvQcc8z0vCP9CW8+n8p6ItlkTj4HGlF1qSg6+mx1zxIkm1wbigWXERnnPKQS5KDkpc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2fa29c7ab66d11f19a56ed5b684f684d-20260922
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:07c7e53d-71f7-4b66-880d-5834f7c8bd67,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:dc4b83c9f1d78224a7cd7263c3d279f6,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|817|865|898,TC:nil,Content:-10|-8|
-	-5|14|50|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
-	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2fa29c7ab66d11f19a56ed5b684f684d-20260922
-X-User: lijiayi@kylinos.cn
-Received: from thinksys.tail1c7620.ts.net [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lijiayi@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 288072312; Tue, 22 Sep 2026 18:05:49 +0800
-From: Jiayi Li <lijiayi@kylinos.cn>
-To: sashiko-reviews@lists.linux.dev
-Cc: Oliver Neukum <oneukum@suse.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: uas: quiesce SCSI before stopping endpoints on unbind
-Date: Tue, 22 Sep 2026 18:05:42 +0800
-Message-Id: <20260922100542.164047-1-lijiayi@kylinos.cn>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260922032156.E6AC01F000FF@smtp.kernel.org>
-References: <20260922032156.E6AC01F000FF@smtp.kernel.org>
+	s=arc-20240116; t=1790071658; c=relaxed/simple;
+	bh=e/QbGjIvokxqCfY0OdfhXUChmkjkDlvhD/a0sn0aZeI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GY+8iPmv7hyv8gzpxJT3fR/P3jRswprqQBP2fYx2kdfBMMp7vpWGOFkta5xaP4nLfxllKH+DTvx+P43egKDDvG0QGri0vwF4odTyWIr0YJhwKb78JQOjAnOolN5wdHIAoUXvtZ1qNuMd4t+Qwx6Qa4gjoHhF61jZuMowk2oJjVo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Q4E02mir; arc=none smtp.client-ip=74.125.228.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Q4E02mir"
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a9ab2a135dso5351816a12.1
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 03:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1790071654; x=1790676454; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=M21NvE6hEk+bHsAyKs+VPRDnarAHkFKIx7tvnOO3mWc=;
+        b=Q4E02mirdAFsGxsUn8GNzLsAM6KQFisiieM/GzZeyWlPaRUlF7hx/xx5bvxG2oxT9m
+         IzG8gpIIGSAgVIew5LAFmIKMXzEZQ5RYLCeeyw2ayIaiyNGR1hMC0yKS+lovk1bgy/Vn
+         r7MCTwZf1p1vdR54p0Un1lDhwdzZN1MmhxeXw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790071654; x=1790676454;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=M21NvE6hEk+bHsAyKs+VPRDnarAHkFKIx7tvnOO3mWc=;
+        b=udbZvviCHRaKfvWEKokB9Olmho3a07Oy0RFKSTSl/RJP2+CxbCIhyznSDhmjrRIpeU
+         EK1MvFSMFSCWLW2sqHT3uIrQ9NVCZNkRuOHf0Igat3e9uEvM83jFQ9148tlQjXFM1RcD
+         G6YILxYrW78ATa4xNetklU2F0c4dFZtDbuv0w60oHCTAq0CxJgYuGCCwzEtB4mo32dAg
+         wdmwHd1XP7jY+5OeFZkQTDP60wU8Gb5hhfs22kUc45nCCvSKFyEQpO5swnNRaiUeC4i7
+         reWtTF6Zd7GtUP6bOY3gAwmVyCBaVzAhlXrrBvNnl6kwauDxljheu/wx1jum3qn0/RAh
+         6xsQ==
+X-Gm-Message-State: AFuF++kTljILnEGavRlHfkq6G7AuUYiL+E2C4KWvcM/gWRgIX/TsZ52r
+	efidos0Fw1VqjJTffBwHeU0V7f0ZMW7fkRf9fxTxrE4G2MmKoRN3MFr4EYWykeqa9LH+90oaUx2
+	1hIuNi3xcJw==
+X-Gm-Gg: AYBFou0H6X0yrw4cRDC31pOzQ/uO8H382tXS/9Ni3EOKesbOMwCMltpr01OUBUaQax1
+	dR/OJ0uBmIg1Avvxfsw6qmBTMcNFcSOyNTTunK81mtWDZbHxzXJGEqzwyh8C0BQP0ruRqsxPVzq
+	zh0L9Ts+2fhUiXOxc0lFps3depUwCjnPYDCW/DFY6BgGXxRRb8ql//dlUTzHecAdQ6XUbMf/GJU
+	A36cAThhUf4Sb9hTm8WnQpr0/2dI8ZwQTtGPwJQ02ZiDY3TvSP+MotGVPG8Y6LKeTZIaKY8w4ux
+	gIYE2FoFY4bnl2WYC5043+h61MN7Wd013w/T36H6QYHWcSBsuSTr6AASXHXgcE+yPYIt9ebzsRC
+	e2KXREXzmmh6D4dUUu9QVtV8SwhNxhj1OcuRANnzZLh3P144dL8OGoV0oVChMFq/WI/DQ8cFehM
+	KREpPB3979P5E5dg+tRApWy59C3aeB5Ab4/KPQDE4DxT4YISK0QFcIRPPfF6WRSOQI6VHx5jDKc
+	BNQVtR1cwk=
+X-Received: by 2002:a05:6402:e03:b0:6aa:4529:4cba with SMTP id 4fb4d7f45d1cf-6aa545f7e04mr11215471a12.7.1790071654290;
+        Tue, 22 Sep 2026 03:07:34 -0700 (PDT)
+Received: from [10.214.128.75] ([38.97.137.190])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aaa440dd61sm774693a12.2.2026.09.22.03.07.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Sep 2026 03:07:32 -0700 (PDT)
+Message-ID: <2f14b623-7490-48e5-a509-d605a04930d1@linuxfoundation.org>
+Date: Tue, 22 Sep 2026 04:07:28 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usbip: add NULL check for calloc in do_standalone_mode
+To: longlong yan <yanlonglong@kylinos.cn>, valentina.manea.m@gmail.com,
+ shuah@kernel.org, gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260817061514.765-1-yanlonglong@kylinos.cn>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260817061514.765-1-yanlonglong@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> [Severity: High]
-> Will moving scsi_remove_host() before devinfo->resetting = 1 and
-> uas_zap_pending() cause a 30-second hang and 100% CPU livelock on
-> physical unplug?
->
-> On physical unplug, usbcore detects the disconnect and calls
-> usb_disable_device(), which kills all active URBs with status -ESHUTDOWN
-> before calling uas_disconnect().
->
-> scsi_remove_host() synchronously waits for all in-flight SCSI commands to
-> complete. Because the commands are stuck in-flight until uas_zap_pending()
-> forcefully completes them, scsi_remove_host() will block indefinitely.
+On 8/17/26 00:15, longlong yan wrote:
+> Add a NULL check for the return value of calloc() in
+> do_standalone_mode(). If calloc() fails and returns NULL, the
+> subsequent access to fds[i].fd would cause a NULL pointer
+> dereference.
+> 
+> Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
+> ---
+>   tools/usb/usbip/src/usbipd.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/tools/usb/usbip/src/usbipd.c b/tools/usb/usbip/src/usbipd.c
+> index 3e22b651c754..dbc2b48363b2 100644
+> --- a/tools/usb/usbip/src/usbipd.c
+> +++ b/tools/usb/usbip/src/usbipd.c
+> @@ -544,6 +544,11 @@ static int do_standalone_mode(int daemonize, int ipv4, int ipv6)
+>   	dbg("listening on %d address%s", nsockfd, (nsockfd == 1) ? "" : "es");
+>   
+>   	fds = calloc(nsockfd, sizeof(struct pollfd));
+> +	if (!fds) {
+> +		err("calloc for pollfd");
+> +		usbip_driver_close(driver);
+> +		return -1;
+> +	}
+>   	for (i = 0; i < nsockfd; i++) {
+>   		fds[i].fd = sockfdlist[i];
+>   		fds[i].events = POLLIN;
 
-Thanks for the review.
+It is theoretically possible for calloc() to fail, however how often
+does it fail and were you able to make this allocation to fail?
 
-I tested this case with v2 and can reproduce the approximately
-30-second timeout by physically unplugging the device while UAS
-commands are still in flight. I have not confirmed the reported
-100% CPU livelock.
+If not, how did you test this patch? In any case, I am not going to
+take this patch and all the other patches you sent adding checks to
+calloc() calls in other places in usbip tool.
 
-For a driver-only unbind, soft_unbind keeps the endpoints available
-and the new ordering works as intended.
-
-For a physical disconnect, however, the status URB completes with
--ESHUTDOWN before uas_disconnect() gets to drain the SCSI host.
-uas_stat_cmplt() takes the error path in this case and does not clear
-COMMAND_INFLIGHT.
-
-With the v2 ordering, the sequence is therefore roughly:
-
-    status URB -> -ESHUTDOWN
-        -> COMMAND_INFLIGHT remains set
-        -> scsi_remove_host()
-        -> outstanding command cannot reach scsi_done()
-        -> SCSI timeout
-
-The existing disconnect ordering avoids this because
-uas_zap_pending() runs before scsi_remove_host() and explicitly clears
-COMMAND_INFLIGHT after the status URBs have been killed.
-
-Would it make more sense to retain the original kill/zap-first ordering
-for a physical disconnect, while keeping scsi_remove_host()-first for
-a soft unbind?
-
-I understand Alan's earlier point that USB_STATE_NOTATTACHED alone has
-a race window, so if separate handling is appropriate, the remaining
-question would be how to distinguish these cases reliably.
-
-Thanks,
-Jiayi
+thanks,
+-- Shuah
