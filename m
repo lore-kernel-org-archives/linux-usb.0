@@ -1,114 +1,211 @@
-Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4777C4D9F86
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 06:54:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79FFC3CAA3F
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 07:39:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790060048; cv=none; b=Nh+W9wkRQlkQPRWPkDEuxvBDqS/vCHc7nBOHeKA2ZjcSB5iG5x9PmHY0+pm2IbssfB6nfQTJCJB7iDhaFBL+oJw7k7knVjhpZ6AQStN/3T6HOA8TDEZ1sE3h5xrpL6xoTQsJj6Irwye4VILXzICiAPcrzgEMParJXaLstD9EhQ4=
+	t=1790062783; cv=none; b=k7aFGBTyI64amuXOaNaD3OIqKevLIuHkl/TUV7UHxlaf9IRMnFAj5XSjbTVoDAuWAf32CiJvpdiEgrUatdQx53TYp3DwljBrebPJEIcVLWzZN42b2Oza5G+/yU2s1WCSbDbemdDDfWYl2gglJGrli3fZkNI++AdZGHvvPGCy8+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790060048; c=relaxed/simple;
-	bh=oHqQP3+7NLVruPkJ0itGkQ8WwFpYBXYtrBmSWYS1tf8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fD66qUzGB9PdtHn/nVr4qPOeYkW4hMiticiEgyKh9lBOTAguLaLAmZU20cvMT6K9rlofW0/bBpxPIpGSL0g9kXeA03ucf2wkpaDvZT15SWha7hxf0XwCJE4GOb/B/bzh0/DW4uo5jtTHzFwy7Mxg3Jw/KvRlo88EYUSmYpXc1/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lnvQD8x3; arc=none smtp.client-ip=74.125.227.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790062783; c=relaxed/simple;
+	bh=dl5o9oQr5B5N85FSOPgTlq/lZbjtY8w27lkb6yxJJ5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GF4fGTg5a3btpRUNl7vMJ4IUJqYX27aW+vkHf03Ppa/JW0RBKhHoN//aNspaIKxTZ2Yhk3/C46t9cpavE9Mm9duvnwOIRpfZRNT08EUWUIIMJbBgnHG9xfwKrKEEidwdsenL8x6XrHda1EA990Ms7ynRlrV+HE54zO97/7/2Xks=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=YfL2LgfL; arc=none smtp.client-ip=74.125.225.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lnvQD8x3"
-Received: by mail-pj2-f42.google.com with SMTP id 98e67ed59e1d1-396ccda24afso2719260a91.3
-        for <linux-usb@vger.kernel.org>; Mon, 21 Sep 2026 23:54:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="YfL2LgfL"
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885d4825adso791183f8f.0
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 00:39:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790060043; x=1790664843; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=A6SRMTHbeLZxqza3uo14NUUFifJ389pqstg6f4EPEW8=;
-        b=lnvQD8x3IkL6qen1v7OXPFTRze6ggugqty6R6BldHATjXig/bdSx2ns5kp71KDWgct
-         0eJhJJ8Q54GrDOdwWTD8PSs14rxw0pUgSHy8IeNVVFNTRIFLP9saWEpTnlvQapr0tRS0
-         Eey63Ayv6ZMxWd5V12/y92Fdvns66omnJ3DJfNemouXXew64gQCL0Z+/Mg9ee0zwoE2R
-         fl8r7VctXJ+dAbJcYys05sLLy/Xanlksawl6x7HDg/ae+Gd3r1wsRFpYp0sCflGUQ+0A
-         JWhYh3kEqqjedH3Vg9DY+MZDqrUyPYwqI1ZueAgimbA462bKYBBBlFA2PpPq831xC7p9
-         LvnA==
+        d=baylibre.com; s=google; t=1790062777; x=1790667577; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hNYq47O4Ws8Dm5U8XTWW+CRMw749gUzSYK16o/QDHGk=;
+        b=YfL2LgfLlarjpZs2ZUvAKJZf4AoJMihX3yw8LyVNMzFPzxzFUSicxL9MdAJcxXMGW1
+         RrHAdyuiUNn+Zh2I8z3EJnknxUwA7tkEyzOYZIESSIjYggkpqdMXM2i1c1iGokLcp4Kw
+         xttkABjul59jUyu8am1aLvK1Dnt4o3P551/GIpScreZHyGRB+ujV/kvvrhj3BC9Vh3Pa
+         V5Js6ppUZRHqY1MWgRlqwWtUwOf3zTd9dDEA3DIuROsBgZXzkmSpW6s0sUKMgnl/R4WV
+         ER3KVd5Z+luv9zJpOVsXt3/SIqNdw6hwucGB6wAA1CmtHYrxqp74+PbQ2ikUqQPP9IN2
+         PCuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790060043; x=1790664843;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=A6SRMTHbeLZxqza3uo14NUUFifJ389pqstg6f4EPEW8=;
-        b=wBbZo9woFg85IzaiffD+X8h2ZjGoNrbVUvYgNYfEEAM0HhMc+98+lqJqsCj4TMwMJC
-         vdBDjqsJvlra38WKlsbL3iMCRAt+HaNlVmjQJDTKG0f2OeErxqK1pHksmmcBbKsj5OgK
-         LRYZDKv4tFsQcuURdV9WmUTwW7uoXhi4LMxLGvcQV3fJNn1GMaBEo1iPo1OM7NOnAa8X
-         MftwnxtvwRatu43zr74/xxKyKOEMQrmdXsCis9GgB/14KO3+YJbEP3N8m2+U7L5dTXZk
-         nVXg2ujp6gZlPG6ovrGDvztbpoVQhak2ROfxpBAkSMQs6KXDK2maaNbIyk+Al+s0bkQ9
-         rynw==
-X-Gm-Message-State: AFuF++kMHvN175vOfjTyyu4qRuw/1MqLFAbfCHljvgT/OnNQ6pUnfYNV
-	rUfaUVeVhybXrVz7jNu6EqWisW5imsJLLYiP8lzKozQ5lN0el7xTPdc+TQw9ut5VQzs=
-X-Gm-Gg: AYBFou3vrXV+vwSDoTfdE/5HgNF4Aj0aTv/a40niLvnE1nQmEDUE2YUvnr3KlEY+Cmj
-	OvwQFkVJqZ6X+NC0iFaxL1XXoWVUuQsQAV/6WcSAgZg2Xc4kWBhN1H79p9MSgLckt9qU3aCgdnc
-	c/66FHUcOpVExFdN1MtGzC1ULpwLN16/troHAZmTYIO1TBpq+nQfnbEcnQC5p1dWeHLqeXE4NMR
-	Cn6TZjVIloWQM2pGeLvvKjgltsSK5KgLHY1w/Es5Fxxu0Se110omj0Y2B1shN8rATgwO1eoL6eu
-	qjQEkhTvxQHeNByC5SyxKokxOBGM2K12gF3hTUlE0OkPkhSHdfnWigeIlMroXY7j0p7m0uxt/H4
-	rjXcwFnmCuA6bTiOSz0osn2pLfHzQ0vASw7GwALvStDIw9vYRdLwAkSY/bxx2OH+16LV5yIEGkh
-	5m5WTl9CocFJ5Ex9KoTGu18HvslwRb8PBXccQXCJOv+uqzdlPOxg3ixitiKOtawNV04DQZJSJn5
-	YYOq1QfXoyTwv6PlqyhcCwIXnVv/Ul2OJ51O1IP0JCqTO6vrVBErnw=
-X-Received: by 2002:a17:90b:17d2:b0:39d:f66e:1720 with SMTP id 98e67ed59e1d1-3a0730d284dmr234403a91.13.1790060043143;
-        Mon, 21 Sep 2026 23:54:03 -0700 (PDT)
-Received: from localhost.localdomain (5.240.104.34.bc.googleusercontent.com. [34.104.240.5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a06e26e70asm1952078a91.1.2026.09.21.23.54.01
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 21 Sep 2026 23:54:02 -0700 (PDT)
-From: Ginger Li <ginger.jzllee@gmail.com>
-To: vz@mleia.com,
-	piotr.wojtaszczyk@timesys.com
-Cc: linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: gadget: lpc32xx_udc: Fix a race in lpc32xx_get_frame()
-Date: Tue, 22 Sep 2026 14:53:57 +0800
-Message-ID: <20260922065357.18103-1-ginger.jzllee@gmail.com>
-X-Mailer: git-send-email 2.46.0
+        d=1e100.net; s=20260707; t=1790062777; x=1790667577;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hNYq47O4Ws8Dm5U8XTWW+CRMw749gUzSYK16o/QDHGk=;
+        b=Qv243XBzJRGtiWolDqJMH8RKd8wWxjeEPNyKMjDt0g1P+uLnvr29vji6iqGSksxlOK
+         CAwUaaTGj7ZrB9obAgWNUXDfGTvAZgf+SXLinB3p95tAWz/wG10vLq55w8jG0BIt6UTc
+         Eb4SDQOA+fhIlB2SQXd8b9h3etWa9lOfbOLMuOuli3+JL8LxLurE1RqEhhSIutDmDDVh
+         gEUmTcnwrKMPfTWUjRdkvD1Uu8kc//fauuh8X7dHXmlK9J/h7tz6HqFhwsrJSUjei69g
+         UCP4JqSFmHDNcMVOUp/zmxep/zFPHu0Y0oTERTeDb+8FU2SlmRr1McFA6dsZYInQcFTL
+         YLWg==
+X-Forwarded-Encrypted: i=1; AKwUvByjCzPqtvMV+POU9C18WDw/2hrTmqYpOiaFr0mKfltZlGqf0aZ2gk+WXKXmzAr+vQ+c0nqCH+K9Rrs=@vger.kernel.org
+X-Gm-Message-State: AFuF++lmZHrodugiH8SQT1aoNHuu4D7iAkB5r/0CzueadegNfoe9rvSZ
+	q676VPsALFLTnQ339TRdXy94JG1t6Acu9QYBRHGxFnDt8dDxlrqgXiSi4WUxKVKt7k8=
+X-Gm-Gg: AYBFou1Ri9iKvVCN5zeiCMZKPTykIifOPBJXi7yAZaMfrdg6dGNiuQxLm0VEhEhz6x+
+	1FkgRI/USY3+Ltp+Y8+DPg/I3QuiesAEEVeWBbOhwJEVJir68jGY4CO0rt24f8fEv7MRK49wjLx
+	pGWXOjj9V8znBHXob5pQUBZyXdmRoMlXRciWV8uV9rBD/Z6HuysLDtFM0+/WlAV3rSsV/5GWKFV
+	/O0Yji4n8UPTesCsHPjmpE/qeCU9Fb30NTDCq45oka1b6D/qTl2ry8zfdAt4qtUHgZK3RioXM7w
+	42xXxETAXA3nn59mhz4ETnkKWED/cfJPpilw54yyOS3PaTXETJu1CHAk025Cc3YFWBf/QNOewWu
+	OK+13iFFPnolUawqdtdc38tfv5HE2Jh67/Zh1Pa7cB8Sh8zQOb73kW8QJf9ItVfEu0Gobyi44cK
+	B5fk6p7ayXW1EgbYCNunB3TB0ftmb0iORXjpLHhIO25JXIcuwxZeZP2R+Av6kugLYk1nGhZRvT2
+	mUUMdGwEXkPLM0QSFvod40407aO/HDPEQmD7bNXqsNwz4WcF/aU48oE+k9GVg==
+X-Received: by 2002:a05:6000:3111:b0:487:8ef:2fcf with SMTP id ffacd0b85a97d-4871e26b86fmr18280691f8f.38.1790062777241;
+        Tue, 22 Sep 2026 00:39:37 -0700 (PDT)
+Received: from localhost (p200300f65f19a9041d0e57515b2ea4c8.dip0.t-ipconnect.de. [2003:f6:5f19:a904:1d0e:5751:5b2e:a4c8])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-48862788f61sm2993133f8f.26.2026.09.22.00.39.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 00:39:36 -0700 (PDT)
+Date: Tue, 22 Sep 2026 09:39:35 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <arIvG0nx4LXG9nlW@monoceros>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ikoios7rdkqzgpee"
+Content-Disposition: inline
+In-Reply-To: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
 
-lpc32xx_get_frame() tests udc->clocked before it takes udc->lock, but
-udc->clocked is cleared by udc_clk_set() with the lock held, for example from
-lpc32xx_vbus_session() when the session is disconnected, which also gates the
-UDC clock.
 
-When the test passes on a stale value, udc_get_current_frame() then reads UDC
-registers whose clock has already been turned off.  Check udc->clocked inside
-the critical section so that the state can not change between the check and
-the register access.
+--ikoios7rdkqzgpee
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+MIME-Version: 1.0
 
-Fixes: 24a28e428351 ("USB: gadget driver for LPC32xx")
-Signed-off-by: Ginger Li <ginger.jzllee@gmail.com>
----
- drivers/usb/gadget/udc/lpc32xx_udc.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+> On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+> > The ability to add and remove devices from a driver through the sysfs
+> > "bind" and "unbind" files was created all those decades ago as a way
+> > that kernel developers can iterate faster, and provide a debugging way
+> > for users to attempt to add a new device to a driver without having to
+> > rebuild their kernel.
+> >
+> > This api over the years has been abused and recently come under a major
+> > fuzzing "attack" through tools like syzbot which decided that it would
+> > attempt to just randomly bind any driver to any type of device, causing
+> > loads of unneeded errors and pointless kernel patches to be generated by
+> > unsuspecting new developers.
+> >
+> > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND, which
+> > will be set on the driver if the bind/unbind sysfs files are ever
+> > written to.  This lets kernel developers "know" that a user is
+> > attempting to do something that is not normal, and as such, if the
+> > kernel breaks they get to keep the shiny pieces laying around on the
+> > floor.
+> >
+> > The flag is 'Y' which was unused, and can remembered as the user is
+> > "yeeting" the device being operated on here (thrown with force without
+> > regard for the thing being thrown).
+> >
+> > Note, the taint flag gets set _BEFORE_ the bind/unbind callback happens,
+> > as many times crashes/oops/warnings/failures happen within the callback,
+> > and the taint flag needs to be there to show what was being attempted.
+> > If it were to be set after the callback happens, the oops report would
+> > not properly reflect what foolishness was being attempted.
+> >
+> > Fuzzing tools like syzbot, that doesn't have hand-crafted rules to keep
+> > the tool from hitting bind/unbind, should be run with panic_on_taint
+> > enabled so that they fall over and don't continue on, thinking that they
+> > actually found a real issue.
+> >
+> > Userspace operations that rely on the bind/unbind files
+>=20
+> I agree that this should be avoided.
+>=20
+> But I also think the biggest offender really is driver_override. Specific=
+ally,
+> on a hot-pluggable bus a driver must be complient with the device driver
+> lifecycle rules and hence shouldn't break on bind/unbind. I think it woul=
+d be
+> nice to not taint the kernel for such busses, and only taint on driver_ov=
+erride,
+> as I think we'd still want the bug reports for such cases.
+>=20
+> But I think this is fine to leave for a follow-up.
 
-diff --git a/drivers/usb/gadget/udc/lpc32xx_udc.c b/drivers/usb/gadget/udc/lpc32xx_udc.c
---- a/drivers/usb/gadget/udc/lpc32xx_udc.c
-+++ b/drivers/usb/gadget/udc/lpc32xx_udc.c
-@@ -2403,10 +2403,12 @@ static int lpc32xx_get_frame(struct usb_gadget *gadget
- 	unsigned long flags;
- 	struct lpc32xx_udc *udc = to_udc(gadget);
- 
--	if (!udc->clocked)
--		return -EINVAL;
-+	spin_lock_irqsave(&udc->lock, flags);
- 
--	spin_lock_irqsave(&udc->lock, flags);
-+	if (!udc->clocked) {
-+		spin_unlock_irqrestore(&udc->lock, flags);
-+		return -EINVAL;
-+	}
- 
- 	frame = (int) udc_get_current_frame(udc);
- 
--- 
-2.43.0
+I fully agree. I'm fine and support tainting on driver_override, but
+bind/unbind are used occasionally in my bubble and I consider drivers
+not handling that properly buggy.
 
+So please let's do
+
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index c51ad96d4de4..ce8fb14ea19a 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -242,7 +242,6 @@ static ssize_t unbind_store(struct device_driver *drv, =
+const char *buf,
+=20
+ 	dev =3D bus_find_device_by_name(bus, NULL, buf);
+ 	if (dev && dev->driver =3D=3D drv) {
+-		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+ 		device_driver_detach(dev);
+ 		err =3D count;
+ 	}
+@@ -266,7 +265,6 @@ static ssize_t bind_store(struct device_driver *drv, co=
+nst char *buf,
+=20
+ 	dev =3D bus_find_device_by_name(bus, NULL, buf);
+ 	if (dev && driver_match_device(drv, dev)) {
+-		add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+ 		err =3D device_driver_attach(drv, dev);
+ 		if (!err) {
+ 			/* success */
+@@ -513,6 +511,7 @@ static ssize_t driver_override_store(struct device *dev,
+ {
+ 	int ret;
+=20
++	add_taint_module(drv->owner, TAINT_FORCED_BIND, LOCKDEP_STILL_OK);
+ 	ret =3D __device_set_driver_override(dev, buf, count);
+ 	if (ret)
+ 		return ret;
+
+(plus the needed documentation adaptions and maybe a rename
+s/TAINT_FORCED_BIND/TAINT_DRIVER_OVERRIDE/).
+
+Best regards
+Uwe
+
+--ikoios7rdkqzgpee
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqyMLQACgkQj4D7WH0S
+/k5o6wf/QvL9FWWzFHpKfbzsuAgBOWn5AxVXK3QYhCnvpoqfBJNUrHxYRK4N19fK
+lu4zMQZiIF3pIma55K4HT/BspgIU2PEntjwd3qv5PXAJVEIC4zi94t6jtsjwzfyh
+ICPjAIOv/7a9Hs+DxIFIYAynmaljcmJ9KJQFX+THv55SkTbrvlMBJy5hf8TaH/He
+ZKqYDooGLkS4SnRCuALcqrfQ1nFewrCtmGAPrycGrRrmozUmhsbkWpKdPig0wtfg
+y0qv6g2TrwzvGsclwxgMYqEmLjdVs4GRzN5dnqIdnaTXlk1WtEtJlx4wZ6Ff53dV
+aolAtJZL8PkYcEJ0fpeNtFJvZzxMbg==
+=j+xR
+-----END PGP SIGNATURE-----
+
+--ikoios7rdkqzgpee--
