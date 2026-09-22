@@ -1,90 +1,106 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110F747A879
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 11:58:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0478853ED0A;
+	Tue, 22 Sep 2026 12:17:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790078324; cv=none; b=hPr7WoY5XED3pxKSq0jOEc+2wpL04eH+OCDm+6UdccgHPj9kKwsoUU7+xksKZs7QezmKbtQpQNzmowyehvz4yhx9BAbUqDEzlNwrFtsip2rLDPiqN9I9jcvrdvVLpQCAIfusZmyJ4Nn8aiM0cGBqArHIH218XdAR8d6rUXRZ78U=
+	t=1790079436; cv=none; b=kI5SFqS93BPSXQ2K7fj0ak0LTDoNNMzMGYm49y8drXxcK4B9GTJdLbYhjib1QY/anE2Xdnkct+W8MoWV61Z1Ay2VQf91mkXD9hRaaxcaBj9UaaSX0Zczc8e+LSGjUTkdBvel+/MBshf+X9K98gAG2GKCrGY1ynexIJYZS7nNj6o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790078324; c=relaxed/simple;
-	bh=DeKismMKHS0p82Upd8oTciQyVKpFWEiWOCeG4wxFFmE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ln177Iw0xxjL/l/3LUq9P2KseRQKRGxBhcaBcScKRMfHXXo5ro2XxV7VVi1WpUvQ962InjrPGhSPh4JxgHuX5W7U/RVGffpdx5M1FbN1o7t6HKholUc04fqJuY9tjkePQTl9cZIaUFT3WavyoLAfRglQokGTqVOZn+5sOCdVN/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0WAY0/S; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1790079436; c=relaxed/simple;
+	bh=rMI6B+D6SZSLJn+SA1zuRmeZYw8aPU/OrVYykgg7/bA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ur6Xesrp2yjZ7dBC0BNHnn03Vo+A9L7Ojlqqc8KEwx55CKXoOXu5EFF/v5MWBe173QGY1+tYcdLXhhuYnULsqQtIyov2yMuB3YIqNUdkllcP+34OEHgz59WQnP/l56qj9sKRcmkLnuDPKatDcBKlQ9aX2FbxpVsKAhWPo4k2cjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IZ/dkR1D; arc=none smtp.client-ip=192.198.163.14
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0WAY0/S"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IZ/dkR1D"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790078323; x=1821614323;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=DeKismMKHS0p82Upd8oTciQyVKpFWEiWOCeG4wxFFmE=;
-  b=K0WAY0/SKQydZXZ0SEnFoIu0vmgtknpPTxEHN2M4HYQ7bYPp+q8+pwPZ
-   l5EggixeqVWy124un/69fBIztGuQ7zFiAPhhSpyAcBPUmxvNki8YXn48K
-   BmVrOtADPc3ayxVUojv5yWHHPRwn0DP3oyyXcfGhe6f2QSlVqCmsqgLyY
-   RePNfmUFKzW6r+5sIvsha/rFcCe8WuDgp2NbLNLVyyjnydWoSBGHQ/HRf
-   B8CgK9yY7ysJXS9QKx7kl3hWk9+W3U9qs1UWDsGLzkzBupWQCDy5fp2RT
-   h7Be/6rLyAavFH8g6WNYEWQoX5N5+K+PgdLJrRWFfP5KMIuyJgyiZZAtA
-   g==;
-X-CSE-ConnectionGUID: 8ho5eyvrTcqMsghCxp4yxw==
-X-CSE-MsgGUID: wabn3BvlRi2DVEY9frNPsA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="93174864"
+  t=1790079434; x=1821615434;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=rMI6B+D6SZSLJn+SA1zuRmeZYw8aPU/OrVYykgg7/bA=;
+  b=IZ/dkR1DbZraV/xCbOwneOwjRvd4FshaKT1Z34xVT0iyEgm6qyCCRE1+
+   jHqqYisuTxHqCwr3PmqDSMWXSjtdq21Gkw/lbkdvt3cXu7sghAy85qdzB
+   NPs7ZnYCgDFXre1aOJ/NjVt0wLMSkW+NT3aQ+JO99I9uw/ndCBkt+HQwX
+   0T3UgibrwVBy5sxvksZFchbzyxIg5U+7Hb2eUYfFyjynif5R3BGCbLByb
+   CMNPcPvSYIfKEMSa8+2df4KMDq7EnniaoktJkr+K2Izxmcag1mL9fctHX
+   gJkx8Par9bSuM62B6V+Hh6Y1JWzrRZynA/VYbVy+HN7JoND44XiPyfPg4
+   w==;
+X-CSE-ConnectionGUID: dhZDtFPSSsKeIUX5r8xdeg==
+X-CSE-MsgGUID: /uNBnPYdQgOI/xQPgLjSLQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11912"; a="90697888"
 X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
-   d="scan'208";a="93174864"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 04:58:42 -0700
-X-CSE-ConnectionGUID: PRTeUuZBTBuWhGZgahGGwg==
-X-CSE-MsgGUID: aXIDeawQRZi79eHPIsN0Fg==
+   d="scan'208";a="90697888"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2026 05:17:13 -0700
+X-CSE-ConnectionGUID: 3d26ICrWTM6w/w3d6setew==
+X-CSE-MsgGUID: cuipcsZ0SGim99igoxD8pw==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,116,1787036400"; 
+   d="scan'208";a="272603919"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa003.fm.intel.com with ESMTP; 22 Sep 2026 04:58:40 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 8FFD799; Tue, 22 Sep 2026 13:58:34 +0200 (CEST)
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: linux-usb@vger.kernel.org
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [PATCH] thunderbolt: stream: Announce support for FMODE_NOWAIT
-Date: Tue, 22 Sep 2026 13:58:34 +0200
-Message-ID: <20260922115834.3807356-1-mika.westerberg@linux.intel.com>
-X-Mailer: git-send-email 2.50.1
+  by fmviesa007.fm.intel.com with ESMTP; 22 Sep 2026 05:17:12 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 63BFD99; Tue, 22 Sep 2026 14:17:07 +0200 (CEST)
+Date: Tue, 22 Sep 2026 14:17:07 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Prashanth K <prashanth.k@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Get the connector fwnode based on reg
+ value
+Message-ID: <arJxwyOeMuSUc4HV@black.igk.intel.com>
+References: <20260916042808.2879079-1-prashanth.k@oss.qualcomm.com>
+ <aq0B1fbrqk5_ppsv@black.igk.intel.com>
+ <81666138-d6b4-460d-90fa-3b372e9da99c@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <81666138-d6b4-460d-90fa-3b372e9da99c@oss.qualcomm.com>
 
-Commit 42bc6935339b ("thunderbolt: stream: Support IOCB_NOWAIT in
-non-blocking I/O as well") added support for IOCB_NOWAIT but forgot to
-actually announce it as part of the file->f_mode. Add this now so users
-such as io_uring can actually take advantage of IOCB_NOWAIT.
+On Mon, Sep 21, 2026 at 03:03:55PM +0530, Prashanth K wrote:
+> 
+> 
+> On 9/18/2026 2:48 PM, Heikki Krogerus wrote:
+> > On Wed, Sep 16, 2026 at 09:58:08AM +0530, Prashanth K wrote:
+> >> ucsi_find_fwnode() currently maps UCSI connectors to Device tree
+> >> connector nodes based on the order in which connector child nodes
+> >> are described in DT.
+> >>
+> >> This can fail because the ordering of child nodes isn't guaranteed
+> >> in Device-tree. For example, DTB may contain connector@1 before
+> >> connector@0, causing connector numbers to be associated with the wrong
+> >> fwnode. As a result, role switch and Type-C notifications can be
+> >> delivered to the wrong remote endpoints.
+> >>
+> >> Fix this by using the "reg" property of each connector to match
+> >> its corresponding fwnode. While at it, if the reg property isn't
+> >> present, then fall back to the old method.
+> >>
+> >> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
+> > 
+> > That commit does not yet include any kind of support for DT.
+> > 
+> 
+> I understand DT wasn't added at the point where this commit was
+> authored. But this is the base commit where the bug was introduced,
+> that's why I added it in fixes tag. Do you have any other suggestion ?
+> 
+> The patch simply distinguishes connectors with and without <reg>
+> property and uses different logics, hence it should work for all targets.
 
-Fixes: 42bc6935339b ("thunderbolt: stream: Support IOCB_NOWAIT in non-blocking I/O as well")
-Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
----
- drivers/thunderbolt/stream.c | 3 +++
- 1 file changed, 3 insertions(+)
+Fair enough.
 
-diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
-index bdcca78f3449..4f9a57b77bfa 100644
---- a/drivers/thunderbolt/stream.c
-+++ b/drivers/thunderbolt/stream.c
-@@ -1118,6 +1118,9 @@ static int tbstream_dev_fops_open(struct inode *inode, struct file *file)
- 	}
- 
- 	mutex_unlock(&sdev->lock);
-+
-+	/* Stream handles IOCB_NOWAIT just fine */
-+	file->f_mode |= FMODE_NOWAIT;
- 	return 0;
- 
- err_unlock:
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
 -- 
-2.50.1
-
+heikki
