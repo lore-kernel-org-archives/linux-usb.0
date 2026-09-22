@@ -1,180 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B13B535FD7;
-	Tue, 22 Sep 2026 10:36:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 025C0247280;
+	Tue, 22 Sep 2026 10:38:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790073403; cv=none; b=rSwF7PaAMsqBdCTa1jvdh8FdYy4BL19Z+zv89AI1g8QcIXT1HXCKVHhWk/mfdXt1CAO5pyqy+Ce1vHD84q3hiWQihFgxKn1wbNxHPuK3CQ/CkuvDdWMPB7LgOTzDOFMIFsYu1WEc4vHYh51pGOWqBbE0LMbRX2KlcK8y36Vupg0=
+	t=1790073525; cv=none; b=HJySZBruh6WVWRrXWcLV5UKO1V8qgAPici5m+Lmhadq+giuXassGxTppaEyXmR3gx+r4ttyEk3K1+N4X2MfpS/8nKeijAe+Bi1lEhzHlktTyJzj7ubgWJtewPjFGmTHWWU5fUPCpkIB/Ue9iKZMTnzxocO28idudqEGZeD6O+8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790073403; c=relaxed/simple;
-	bh=0ui00qdYqGIqavaMCgWtVbPGeJpWwJ+VrrPOX5IcVo0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YpcGJp5VdQLEdswhjKf8pQwqt90K+4yjjxCWJ7xN8NX/7rP5uFkyb3G/VP2hR8Ox3NZGtbCy8qoyGr78vLYIutKwKsbyAw83DwB8DwKdi0wj8ya4NA0VJadtcqd3wj/OzHPiORNwVLYtmE8ZvvzZCf8B2VK5dG6NjE8o7N1Txiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F36bTwA+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790073525; c=relaxed/simple;
+	bh=0EIXjeyAI4S9Q4d29IPfXdLZ0TzlUX09hLhqO14gjnM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QyF3sXlAUwGTTDXhKv10Oc01l443CS5kmX8OgFY+bDg1l7cml47BCHJUZSRmwHzGGa/NMP2BFQk3fA6uPeG2OKTAXat56UaZKjqR06Kx05wP3K1OfXyrceLXCXOLqo+n05nFilDQB/gdu4ILMGxZinmbxScMkL6OLB4BclLuT3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=vIZAJbEW; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F36bTwA+"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C9EABC2BCFC;
-	Tue, 22 Sep 2026 10:36:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790073402;
-	bh=0ui00qdYqGIqavaMCgWtVbPGeJpWwJ+VrrPOX5IcVo0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=F36bTwA+ob9kFmV4iydZyJzKTqPSNEjK+tLm+irTFR8s4mppO8/c8ZIsYy7kpveRZ
-	 doeuR6LGsKza+F5kmdzc1pqO3jQ9oJPSIuSsQ03zbCgz/xT+4xfDpFzRdQzNWQLLXo
-	 BXSR86+VEwUDul0KR/TxfziHpFVAQuhX7nJrRnCXfg6OFcD9fBNVekxOLNjD4IgMZG
-	 tBgOFpRYpcCt1exLdKuXTpEna9Q5CHZgGhHgPhtfu7PoCAbQBsqJ9Uw/I3n1n0j4lq
-	 xXamn6IkgR+iyqfHv/vGF5x9NJmaQevRgm5bl296CTr0UdNM9bErulbaWJKWTKnQz7
-	 zIqFnejkMCGCA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB4EEC982F1;
-	Tue, 22 Sep 2026 10:36:42 +0000 (UTC)
-From: Roman Vivchar via B4 Relay <devnull+rva333.protonmail.com@kernel.org>
-Date: Tue, 22 Sep 2026 13:36:41 +0300
-Subject: [PATCH v2 2/3] usb: mtu3: add SoC platform data for FIFO quirk
- handling
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="vIZAJbEW"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 14ACD1576;
+	Tue, 22 Sep 2026 03:38:38 -0700 (PDT)
+Received: from login2.euhpc2.arm.com (login2.euhpc2.arm.com [10.58.100.22])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 3ABA73F632;
+	Tue, 22 Sep 2026 03:38:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790073521; bh=0EIXjeyAI4S9Q4d29IPfXdLZ0TzlUX09hLhqO14gjnM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=vIZAJbEWTlXPu/VZ4y7Cm3s/P8h40IGvctRJFvrzCHJ5H+8HiL2pAfQt88fs1Solb
+	 aUxNZE4rOt04rTDkEvhb2lyVfRs71xEZ3VtVdQlZGvJN/mMMyvAA86bEcXA47TNypW
+	 Gm9aNnZh0od7w05bLPzZMzlzG8GTKGWc4tZ1Ctjs=
+From: Vladimir Murzin <vladimir.murzin@arm.com>
+To: linux-usb@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	chunfeng.yun@mediatek.com,
+	gregkh@linuxfoundation.org,
+	rostedt@goodmis.org,
+	paulmck@kernel.org,
+	mark.rutland@arm.com,
+	Vladimir Murzin <vladimir.murzin@arm.com>
+Subject: [PATCH] usb: mtu3: Fix double dereference in TP_printk
+Date: Tue, 22 Sep 2026 11:37:56 +0100
+Message-Id: <20260922103756.104846-1-vladimir.murzin@arm.com>
+X-Mailer: git-send-email 2.24.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260922-6595-mtu3-v2-2-71203a362b36@protonmail.com>
-References: <20260922-6595-mtu3-v2-0-71203a362b36@protonmail.com>
-In-Reply-To: <20260922-6595-mtu3-v2-0-71203a362b36@protonmail.com>
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Roman Vivchar <rva333@protonmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790073400; l=3783;
- i=rva333@protonmail.com; s=20260510; h=from:subject:message-id;
- bh=PeSYuhPfs9FYqWgAteG4UF+yJ7jUWVa+ILkv9Zw8AWk=;
- b=UNtHttnLwZMsvRPEU3t9LvSZ86hbB5MJFPwU4zkNlZ4JO2xLNtTaugjEPrxpBTUyyP30uXVui
- T5jVG/BHCwlC+0hld/Y/bjlvXK1adHefosMc/nm/JfNbzVayziQLNEw
-X-Developer-Key: i=rva333@protonmail.com; a=ed25519;
- pk=zww/nWjBGoQ4POXCG0BV6fx2iuXK6jx77rsKPA5YK5Y=
-X-Endpoint-Received: by B4 Relay for rva333@protonmail.com/20260510 with
- auth_id=777
-X-Original-From: Roman Vivchar <rva333@protonmail.com>
-Reply-To: rva333@protonmail.com
+Content-Transfer-Encoding: 8bit
 
-From: Roman Vivchar <rva333@protonmail.com>
+Paul reported kernel splat:
 
-Some SoCs, such as mt6595, require specific quirks for the MTU3 to
-function properly.
+[    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
+[    0.000000] ------------[ cut here ]------------
+[    0.000000] Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
+[    0.000000] WARNING: kernel/trace/trace_events.c:420 at test_double_dereference+0x144/0x14c, CPU#0: swapper/0/0
+[    0.000000] Modules linked in:
+[    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.3.0-rc1 #15247 PREEMPT
+[    0.000000] Hardware name: linux,dummy-virt (DT)
+[    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    0.000000] pc : test_double_dereference+0x144/0x14c
+[    0.000000] lr : test_double_dereference+0x144/0x14c
+[    0.000000] sp : ffffc80aa7633bf0
+[    0.000000] x29: ffffc80aa7633bf0 x28: ffffc80aa7c0f047 x27: 000508b58019388f
+[    0.000000] x26: 0000000000000003 x25: 0000000000000007 x24: ffffc80aa5fceff8
+[    0.000000] x23: ffffc80aa7c0f05a x22: ffffc80aa64edfe8 x21: ffffc80aa7c0fce8
+[    0.000000] x20: ffffc80aa7c0f047 x19: 0000000000000013 x18: 0000000000000001
+[    0.000000] x17: 6572656420656c62 x16: 756f642073616820 x15: 746c61685f746573
+[    0.000000] x14: 0000000000000000 x13: ffff000139d90000 x12: 0000000000000045
+[    0.000000] x11: 00000000000000cf x10: ffff00013f546428 x9 : ffff000139d90000
+[    0.000000] x8 : 3fffffffffffc000 x7 : 0000000000000001 x6 : 0000000000000001
+[    0.000000] x5 : ffff00013f4e6440 x4 : 0000000000000000 x3 : 0000000000000000
+[    0.000000] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffc80aa764a700
+[    0.000000] Call trace:
+[    0.000000]  test_double_dereference+0x144/0x14c (P)
+[    0.000000]  trace_event_raw_init+0x37c/0x5d8
+[    0.000000]  event_init+0x34/0xc0
+[    0.000000]  trace_event_init+0xec/0x588
+[    0.000000]  trace_init+0x24/0x6e0
+[    0.000000]  start_kernel+0x4a0/0x8ec
+[    0.000000]  __primary_switched+0x88/0x90
+[    0.000000] irq event stamp: 0
+[    0.000000] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
+[    0.000000] hardirqs last disabled at (0): [<0000000000000000>] 0x0
+[    0.000000] softirqs last  enabled at (0): [<0000000000000000>] 0x0
+[    0.000000] softirqs last disabled at (0): [<0000000000000000>] 0x0
+[    0.000000] ---[ end trace 0000000000000000 ]---
+[    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_disable has double dereference in TP_printk: &REC->gpd_ring->dma
+[    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_enable has double dereference in TP_printk: &REC->gpd_ring->dma
 
-The mt6595 IP block doesn't support multiple slots for the FIFO,
-resulting FIFO wrap.
+Which also observed by Mark and myself.
 
-Fix this by adding platform data with a field to handle FIFO limitation.
-No functional changes for existing SoCs.
+The splat it result of new check introduced by b5cc230af5e5 ("tracing:
+Warn when an event dereferences a pointer in TP_printk()") which
+correctly catches issue with %pad dereferencing the address saved in
+the ring buffer. TP_fast_assign() logic gets executed when the
+tracepoint is triggered, however the TP_printk() is executed when the
+user reads the trace buffer which could be seconds, minutes, hours,
+days, even months later and nothing guarantee that __entry->gpd_ring
+pointer will still be pointing to what it was when it was recorded.
 
-Assisted-by: LLM (debugging)
-Signed-off-by: Roman Vivchar <rva333@protonmail.com>
+Fix the issue by capturing immediate value of gpd_ring.dma when trace
+point is triggered.
+
+Reported-by: Paul E. McKenney <paulmck@kernel.org>
+Tested-by: Mark Rutland <mark.rutland@arm.com>
+Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
+Signed-off-by: Vladimir Murzin <vladimir.murzin@arm.com>
 ---
- drivers/usb/mtu3/mtu3.h        | 9 +++++++++
- drivers/usb/mtu3/mtu3_core.c   | 3 +++
- drivers/usb/mtu3/mtu3_gadget.c | 8 ++++++--
- drivers/usb/mtu3/mtu3_plat.c   | 8 ++++++--
- 4 files changed, 24 insertions(+), 4 deletions(-)
+ drivers/usb/mtu3/mtu3_trace.h | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
-index ba5a63669e5f..349e5b20f285 100644
---- a/drivers/usb/mtu3/mtu3.h
-+++ b/drivers/usb/mtu3/mtu3.h
-@@ -315,6 +315,14 @@ static inline struct ssusb_mtk *dev_to_ssusb(struct device *dev)
- 	return dev_get_drvdata(dev);
- }
- 
-+/**
-+ * struct mtu3_platform_data - platform data for the driver.
-+ * @fifo_single_slot: the IP can handle only one buffer for bulk transfers
-+ */
-+struct mtu3_platform_data {
-+	bool fifo_single_slot;
-+};
-+
- /**
-  * struct mtu3 - device driver instance data.
-  * @slot: MTU3_U2_IP_SLOT_DEFAULT for U2 IP only,
-@@ -369,6 +377,7 @@ struct mtu3 {
- 	unsigned connected:1;
- 	unsigned async_callbacks:1;
- 	unsigned separate_fifo:1;
-+	unsigned fifo_single_slot:1;
- 
- 	u8 address;
- 	u8 test_mode_nr;
-diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index 66dbfe1705d5..15f1b80fd0e2 100644
---- a/drivers/usb/mtu3/mtu3_core.c
-+++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -922,6 +922,7 @@ static int mtu3_set_dma_mask(struct mtu3 *mtu)
- int ssusb_gadget_init(struct ssusb_mtk *ssusb)
- {
- 	struct device *dev = ssusb->dev;
-+	const struct mtu3_platform_data *pdata = device_get_match_data(dev);
- 	struct platform_device *pdev = to_platform_device(dev);
- 	struct mtu3 *mtu = NULL;
- 	int ret = -ENOMEM;
-@@ -930,6 +931,8 @@ int ssusb_gadget_init(struct ssusb_mtk *ssusb)
- 	if (mtu == NULL)
- 		return -ENOMEM;
- 
-+	mtu->fifo_single_slot = pdata->fifo_single_slot;
-+
- 	mtu->irq = platform_get_irq_byname_optional(pdev, "device");
- 	if (mtu->irq < 0) {
- 		if (mtu->irq == -EPROBE_DEFER)
-diff --git a/drivers/usb/mtu3/mtu3_gadget.c b/drivers/usb/mtu3/mtu3_gadget.c
-index f224f2ee379a..8ac244d40afd 100644
---- a/drivers/usb/mtu3/mtu3_gadget.c
-+++ b/drivers/usb/mtu3/mtu3_gadget.c
-@@ -112,8 +112,12 @@ static int mtu3_ep_enable(struct mtu3_ep *mep)
- 	mep->ep.desc = desc;
- 	mep->ep.comp_desc = comp_desc;
- 
--	/* slot mainly affects bulk/isoc transfer, so ignore int */
--	mep->slot = usb_endpoint_xfer_int(desc) ? 0 : mtu->slot;
-+	if (mtu->fifo_single_slot)
-+		/* older IPs can handle only one slot reliably */
-+		mep->slot = 0;
-+	else
-+		/* slot mainly affects bulk/isoc transfer, so ignore int */
-+		mep->slot = usb_endpoint_xfer_int(desc) ? 0 : mtu->slot;
- 
- 	ret = mtu3_config_ep(mtu, mep, interval, burst, mult);
- 	if (ret < 0)
-diff --git a/drivers/usb/mtu3/mtu3_plat.c b/drivers/usb/mtu3/mtu3_plat.c
-index cc8a864dbd63..bb67da4704b2 100644
---- a/drivers/usb/mtu3/mtu3_plat.c
-+++ b/drivers/usb/mtu3/mtu3_plat.c
-@@ -611,9 +611,13 @@ static const struct dev_pm_ops mtu3_pm_ops = {
- 
- #define DEV_PM_OPS (IS_ENABLED(CONFIG_PM) ? &mtu3_pm_ops : NULL)
- 
-+static const struct mtu3_platform_data mt8173_platform_data = {
-+	.fifo_single_slot = false,
-+};
-+
- static const struct of_device_id mtu3_of_match[] = {
--	{.compatible = "mediatek,mt8173-mtu3",},
--	{.compatible = "mediatek,mtu3",},
-+	{ .compatible = "mediatek,mt8173-mtu3", .data = &mt8173_platform_data },
-+	{ .compatible = "mediatek,mtu3", .data = &mt8173_platform_data },
- 	{},
- };
- MODULE_DEVICE_TABLE(of, mtu3_of_match);
-
+diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
+index 89870175d635..9aaa167d69c1 100644
+--- a/drivers/usb/mtu3/mtu3_trace.h
++++ b/drivers/usb/mtu3/mtu3_trace.h
+@@ -224,6 +224,7 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
+ 		__field(unsigned int, flags)
+ 		__field(unsigned int, direction)
+ 		__field(struct mtu3_gpd_ring *, gpd_ring)
++		__field(dma_addr_t, gpd_ring_dma)
+ 	),
+ 	TP_fast_assign(
+ 		__assign_str(name);
+@@ -235,12 +236,13 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
+ 		__entry->flags = mep->flags;
+ 		__entry->direction = mep->is_in;
+ 		__entry->gpd_ring = &mep->gpd_ring;
++		__entry->gpd_ring_dma = mep->gpd_ring.dma
+ 	),
+ 	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
+ 		__get_str(name), usb_ep_type_string(__entry->type),
+ 		__entry->maxp, __entry->slot,
+ 		__entry->mult, __entry->maxburst,
+-		__entry->gpd_ring, &__entry->gpd_ring->dma,
++		__entry->gpd_ring, &__entry->gpd_ring_dma,
+ 		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
+ 		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
+ 		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
 -- 
-2.55.0
-
+2.34.1
 
