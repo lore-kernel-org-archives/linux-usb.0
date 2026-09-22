@@ -1,118 +1,169 @@
-Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com [74.125.231.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6E151AEEB
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 21:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8D2347ACED
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 22:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790112751; cv=none; b=TuBl3h+gjSV44twpG7lErIpSkTmF34DU3SLOg0qwbX5s2jTq974JoVNCmH6sOOxRMRWwdg0wWjUrPx8qPutGRrWIa2jQhbEDyeyPE//eW4bmhCYIRiWdvEbvQZgvvOBjPrp7P59APEzwLmrJbhREJ6r0pSynlYQ5z5DRrHzaPgY=
+	t=1790116913; cv=none; b=B0ZTz1OOfeOYNPACiGtKF/WXrEvFUp26rOa58d3S6lU0j4v2SNmitQI7Mf2bq44Ae+ldPM9pdX8HLVDBfAejZiSs5uzstqQZNsMyRMMM7kc2KHrAeHIxYzupeg6cWwJrnPu/2L1/KT4ikJUpQy2xWFLXdYJR4/m4Gq3PhciSj4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790112751; c=relaxed/simple;
-	bh=2WvlPAIbOGzbHSxW451eh2EWgHCeMfyZm2VVp4rH9Fo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tTSx0jCcr4uT7bs6kzCG2LLnKALAQpXeGfMIxjxgneBhBZQoJVBwU3Gl6z3zTd9Pfs0zJAezYZgg9GfbeoAGhtDyEepf84sYNhpHqmY+3uZrGPU+rPmCTsA4n5w0agEetIZUgClyKBRlwqglpNJ2ux6OWyRDrBkO81XoJ9jWM9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O/VYMqbZ; arc=none smtp.client-ip=74.125.231.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790116913; c=relaxed/simple;
+	bh=eIVPPqAxO8uSX8OH2k/oMubN03cyYg3Hy9gZeIGN3Rs=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=tBxpXWZRfl1a/aYiAVaYVvHBS5gifc5aJ+uyIvUEJp+b+jtDIeyHQJ/lp3tO8+DCqWjV8nvcqt00UVruLSilRuI7qSrR2U+p+QAgDkWxs7JbCAK+qolNkYsXAAtzflQWnv6CabKz9DgYpaCkJREApWxUv33g6qyrWH7zZRy/47M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UstS7770; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O/VYMqbZ"
-Received: by mail-oi2-f12.google.com with SMTP id 46e09a7af769-7f4f0d298caso321062a34.0
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 14:32:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790112739; x=1790717539; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QDHhaSJenqoO/XxOlzKnAhXngtK3EcH5UtYe0wHr2pQ=;
-        b=O/VYMqbZaieVBBW2hYUtA9maSTNTZCqIsRdEiVvUQmhD0AS+RjN+57nDZMC5fnmVXX
-         xn4LOMA0GHSCNJGm+4ayNdAQwGNzaPEwiQI1MhT1Lm7fl5RW1UJKFtVPz4SAY/Fa7sTv
-         ydTssnVoyQFgGglKGG6gey4motxa/zNudQPmeUIj0faS4218VF5a2qF6ZphyEo0RRt27
-         pV0uMgfiUsjZ+GccbAtKgk+b+9DgB89BKTiAQQTHKeLZ+gz+2ql+mL2DyFTprX73utnE
-         nwH7CsUR2CPNFAUAX+pzj617+vtjKDMfxLEzu5IGJ2MAW3UNl4A2cjtQnYlguLhK731N
-         1XhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790112739; x=1790717539;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QDHhaSJenqoO/XxOlzKnAhXngtK3EcH5UtYe0wHr2pQ=;
-        b=GSIZamSnMuuO5ofPDftLeqF3Rqhk8xQhfOB4HXM/rwfpkzgk2iXH2kR3PNjOa0rSqr
-         glu7auKE+HWuI6R4E6UjRCawwocsWkwEWBxwslH5Uk6seB3NyCKeTw2tw3bJj89/ngFD
-         tM5h9oKSxuMZO0SHieA8f22u/gomtyf2PEYt7va+8kET4P29zhBPI4wCfLSFYrvZWgqj
-         vXDJoN7Ide/AD2wtyZsAYHdXqUc6u+ZXhqeZy46DXU2dQXVdD+kYJccFyug0IS82OoFz
-         /jFATH0llG58en6gkdwND/9S/+sXiqftfOQxdGVXz6Icvwh6hKG+eYjYw6PCkhMaWrKY
-         Kd9g==
-X-Gm-Message-State: AFuF++kSreQIlDKngYZwSEEGsbGx9OhflOir7okO5jW61u1/+chThmrg
-	pVsEFYO4EUBSpAfDlcUqlz9a5JSUa4hz14TWYbXfeMgo+aCP4EzmNR3XBYiD0qT+3vY=
-X-Gm-Gg: AYBFou2NanqZcaGjV43rRO+8v7CB6+Ub2lbNVdg6uojgitAHzHoJ3vJJSCtDbjOQ0Q0
-	5QpJAwfc56bbOZSNcx9qxE3f6IN47fDkvd5RN21u+iSjGjXVrPeAFEa91u8394ul8aWtWWZ/J5+
-	gcyxl194W85UbnMVUcsJqRIeboE3Jmj87IzNWGRVjLiL+RqJaydj1+kGb34ivt66tyvjMjrT+/y
-	HBbHNIZFWncoIG5iFR1mdcChal52QVvCAQS9zHpDWsb1u7BOurPMe0gKamZifacmcIg9JAIzYcI
-	auM10prMvSUwZbBSpsK7CNTpAHJWYJ04FlfNEt4LB26hUrPwKPXvE29X5MhfKfSiUQHQKVXXKc3
-	2jST/GcRA0KqBRJR7eebxZgh0LVMLx5weKsfFtjCs9KRZ9I70f2nKG0sJxxMLKw3cQRXuPEyLON
-	5+8+Pvm7qkSLU2OGp2zj45vJlEMXPaTdYezwnmIt+NAltTWBAunYp/LQtTbXluvAEIEdn9FOtzD
-	FVUJCe8Z0qYfSBv
-X-Received: by 2002:a05:6830:2b2b:b0:801:6bec:ff18 with SMTP id 46e09a7af769-815f007097emr1057735a34.2.1790112739471;
-        Tue, 22 Sep 2026 14:32:19 -0700 (PDT)
-Received: from localhost ([35.11.35.209])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-816044c858bsm947461a34.19.2026.09.22.14.32.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 14:32:19 -0700 (PDT)
-From: sjunhyuk1@gmail.com
-To: linux-usb@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Subject: Re: [BUG] HP OMEN Transcend 14 (board 8E41): GPU power ceiling on 65W USB-C charger is non-deterministic across sessions (25W vs ~65W)
-Date: Tue, 22 Sep 2026 17:32:18 -0400
-Message-ID: <20260922213218.5334-1-sjunhyuk1@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260922192312.40607-1-sjunhyuk1@gmail.com>
-References: <20260922192312.40607-1-sjunhyuk1@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UstS7770"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EDAA8C2BCF5
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 22:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790116913;
+	bh=eIVPPqAxO8uSX8OH2k/oMubN03cyYg3Hy9gZeIGN3Rs=;
+	h=From:To:Subject:Date:From;
+	b=UstS7770SQRyy8Z0tWy/L9Hw3lx5VDCuKd8ULDH/X0JEgiIXMw8v2+p+CylWywhMv
+	 SCwkjhlARACkgFSPCc6RHqTKaXmEfQdY2pEv+Ph2FgUXzp2Q3WxTdBP+6DTqNxrDb6
+	 wheCv7LO27cxxdJRuw01oR5i1eSlJDPCpGy3IK9rE5L5uC7efSqJ19wWkC31CBrn+F
+	 zGrIHXArpaA/RmRAavYFUmbapAwSYHO1SiOFhtmng36njwXv6kyqWI7DhhtiYz22nH
+	 9jm4yePuE3t8Lqm1Gg55SCd7f+yfGlkMT0/7RGIetselOBY/xzTBxqCfsmAI7CpXpI
+	 tsaw5pSI0DBjw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id D2CFBC433E1; Tue, 22 Sep 2026 22:41:52 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222049] New: xhci_hcd: USB device on onboard port fails to
+ enumerate (error -110/-71), delays boot  around 70s on ASUS ROG Strix X870-F
+Date: Tue, 22 Sep 2026 22:41:52 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: gtmatthews@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-222049-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Important correction to my earlier report: I ran the same charger
-through HP's OMEN Gaming Hub on Windows (same laptop, dual-boot) and
-found this is very likely *intended* HP behavior, not a bug:
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222049
 
-  "Performance settings are overridden by system defaults while using
-  battery or a low-power AC adapter. Connect a compatible AC adapter
-  to restore normal system performance."
+            Bug ID: 222049
+           Summary: xhci_hcd: USB device on onboard port fails to
+                    enumerate (error -110/-71), delays boot  around 70s on
+                    ASUS ROG Strix X870-F
+           Product: Drivers
+           Version: 2.5
+          Hardware: AMD
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: gtmatthews@gmail.com
+        Regression: No
 
-HP's own first-party software explicitly classifies the 65W charger
-as a "low-power AC adapter" and documents that it intentionally
-overrides performance down. So the 25W ceiling itself is apparently
-by design, not a fault.
+System: ASUS ROG Strix X870-F Gaming WiFi, BIOS 2402 (also reproduced on 23=
+01)
+Kernel: 7.2.5-200.fc44.x86_64 i'm using Fedora 44
 
-More importantly: **it also reproduces on Windows.** Same laptop,
-same 65W charger, Windows test session: 25W ceiling from cold boot,
-OMEN Gaming Hub's presence/absence made no difference, and the full
-poweroff+physical-unplug/replug workaround that reliably restored
-65W on Linux did *not* recover it on Windows in this test (stayed at
-25W for a 60-second FurMark run, 60/60 samples). So my claim that "I
-don't see this at all under Windows" was wrong - apologies for the
-bad data point.
+An internal/onboard USB device consistently fails to enumerate on port 1-11
+during every boot, causing dracut-initqueue.service to block for
+approximately 60-70 seconds before boot can continue.
 
-What's still odd, and still possibly Linux/kernel-relevant: on Linux,
-the same 65W charger sometimes lands on ~65W instead of the
-(apparently intended) 25W, non-deterministically across boots/
-reconnects, and stays fixed at whichever value for the rest of that
-session. If 25W is the intended default for this adapter class, the
-~65W outcome looks like an unintended bypass of HP's low-power-
-adapter policy rather than a "fix" - I just don't yet know whether
-that bypass happens on Windows too (only tested one Windows boot
-session so far, which stayed at 25W throughout).
+The device produces repeated "device descriptor read/64, error -110"
+failures, followed by a port power cycle attempt, then repeated
+"Device not responding to setup address" / "error -71" failures, before
+the kernel gives up with "unable to enumerate USB device" at  around 70
+seconds.
 
-So the interesting question is probably no longer "why is this
-laptop sometimes clamped to 25W" (looks intended) but "what makes
-the negotiated result non-deterministic instead of consistently
-matching HP's stated policy" - which could still be something in the
-UCSI/PD negotiation path. Sorry for the noise, and thanks for reading
-this far.
+This is fully reproducible across multiple boots and persists after I've tr=
+ied=20
+Updating BIOS from 2301 to the latest 2402
+Disabling AURA/RGB in BIOS (an onboard ASUS AURA LED Controller
+  0b05:19af is present at a different port, 1-7, and is unaffected)
+Physically disconnecting all external USB peripherals
+  (only mouse, keyboard, fingerprint reader remain connected)
+Disconnecting the internal front-panel USB 2.0 header
+
+Since it persists with no external devices connected and no front-panel
+header connected, the failing device appears to be an internal/onboard
+USB endpoint on the motherboard itself.
+
+=E2=9D=AF journalctl -b 0 -o short-monotonic --no-pager | grep -B3 -A3 "1-1=
+1"
+[    5.171308] fedora-main kernel: usb 1-7: Manufacturer: AsusTek Computer =
+Inc.
+[    5.171359] fedora-main kernel: usb 1-7: SerialNumber: 9876543210
+[    5.193023] fedora-main kernel: hid-generic 0003:0B05:19AF.000A:
+hiddev100,hidraw9: USB HID v1.11 Device [AsusTek Computer Inc. AURA LED
+Controller] on usb-0000:09:00.0-7/input2
+[    5.366352] fedora-main kernel: usb 1-11: new high-speed USB device numb=
+er
+10 using xhci_hcd
+[   10.970441] fedora-main kernel: usb 1-11: device descriptor read/64, err=
+or
+-110
+[   26.843437] fedora-main kernel: usb 1-11: device descriptor read/64, err=
+or
+-110
+[   27.129393] fedora-main kernel: usb 1-11: new high-speed USB device numb=
+er
+11 using xhci_hcd
+[   32.474430] fedora-main kernel: usb 1-11: device descriptor read/64, err=
+or
+-110
+[   48.346395] fedora-main kernel: usb 1-11: device descriptor read/64, err=
+or
+-110
+[   48.460043] fedora-main kernel: usb usb1-port11: attempt power cycle
+[   48.904403] fedora-main kernel: usb 1-11: new high-speed USB device numb=
+er
+12 using xhci_hcd
+[   53.704061] fedora-main kernel: usb 1-11: Device not responding to setup
+address.
+[   58.717053] fedora-main kernel: usb 1-11: Device not responding to setup
+address.
+[   58.933398] fedora-main kernel: usb 1-11: device not accepting address 1=
+2,
+error -71
+[   59.113460] fedora-main kernel: usb 1-11: new high-speed USB device numb=
+er
+13 using xhci_hcd
+[   62.202367] fedora-main systemd-udevd[404]: usb1: Worker [444] processing
+SEQNUM=3D2850 is taking a long time.
+[   63.914407] fedora-main kernel: usb 1-11: Device not responding to setup
+address.
+[   68.926397] fedora-main kernel: usb 1-11: Device not responding to setup
+address.
+[   69.141050] fedora-main kernel: usb 1-11: device not accepting address 1=
+3,
+error -71
+[   69.148028] fedora-main kernel: usb usb1-port11: unable to enumerate USB
+device
+[   69.237128] fedora-main systemd[1]: Finished dracut-initqueue.service -
+dracut initqueue hook.
+[   69.237364] fedora-main systemd[1]: Reached target remote-fs-pre.target -
+Preparation for Remote File Systems.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
