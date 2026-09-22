@@ -1,162 +1,129 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E14E3BBFB6
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 14:21:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9D4379EE7
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 14:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790086880; cv=none; b=PJ1Z+rH5YZb7U4JIa+5I1VkvIQBFobNtyMynI+RBbYMsd93FhmRZ+m/w9oKraEwKPI2F3VqOHPrAGx8Xx3GbJmkWWGNg6HvqlurrjFuScx5VL8gRsil4u3w7EDMj4et1zsO/esxBldXQ3exVcB9q5lS3efAoIso4Ck0QnUC48i8=
+	t=1790088337; cv=none; b=ZUzzyUN2VdqjgfCv4ReTF1ldOSVG3LHdLBgkDyDqnGYKe+3+Gj8ZMKViLtdfZtNaNp1E2cVQ/5Xc2ZwsJCMcU813x4VjhhzObtu1V+/33EZEdVDLkgyzXKde3qKODa41YN/RvLlTgwVXzeybVRHkO44mo5zxRUuyw0WCzS9q7A4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790086880; c=relaxed/simple;
-	bh=kFdudzyOuDf+UTufRxKMg1DWZlTApoO++p+5sxjhOlM=;
+	s=arc-20240116; t=1790088337; c=relaxed/simple;
+	bh=6+7YwPssrYwwbcVyy1E2zRmvrRlDS05FVVsJW9+Xl58=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QntBi5lVkBjhg+uTMP/jro+nR2xMbFGuYqhiRb5vTlYgRGBwMopAppsVWReGi4rpVcdz2jHo1Vfgz3scp+mkJJIclqSyR+rHyL0pJPV1yWxjU4Zjmll37h/Zke153FBrjH/AxNWBHcUfb/PnVXKpNnOKFaoxrMrx7m+QcTmMRFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ZpA1yPNR; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=N7/RdYjFCQWOLXoCWVsicE+8u3P7ZYahtUg7gP8a6L+48HBh2kLgJLX50CwzfG1Bj82Y8Ml5vhNDS4fPWJXekLmRzo+R30De60NAlWLi7d9GmCHpVEImvvD9LzZAtYHncvGP5mMfxe0fc+2VsLt88EZn8vlRujd/iN+UbwUq9M4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CguFkjds; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="ZpA1yPNR"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-912431d946cso7627336d6.0
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 07:21:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1790086878; x=1790691678; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=umxwx0Of09KggoTYoIkuamgVjHAAANAIciEPCbA83fY=;
-        b=ZpA1yPNRrthTZJgXuxUpH/UyDASp4wqHhzU5wJyEZj0ztEMEoT0cPk+wK1YqG0abOj
-         quNK11WdnORP8OpyI2f0T1KBJRD/ciISxMOTxP7oL/6Uz88Q3MzV/hAbzgWO3ZDH/7KY
-         mFdFQMI1jyTRHd8xSLVMKWZuVB7nI0xLWrBWki6EC/c2cEslfDpxySXzlX+cIcuAzPh4
-         seT7Ukb19HcpY6Bayva/d5bJGnFQh8fVpNP07fIc1vt6wwkVBLAnr/W14kiAWYoaC19x
-         2kPJBJSFT62HcscL4RrWJFbYx1CavNdu4P5qlvXmhuDRjeBaBeEbGi5QWMKA2ZcpDUsI
-         Cg8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790086878; x=1790691678;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=umxwx0Of09KggoTYoIkuamgVjHAAANAIciEPCbA83fY=;
-        b=23yLdNDP9es9HTrYJHVjUh3KWiyUWWo2ZUeAOynUbcaqojczkq3zRa4rtSKH3jBKhA
-         p33x4SAKa6JdJPJQT5mDV6ybJSDR3S9K4RmhtANURuaKq87/Kh3sxk5ipwtyr9nwvdAW
-         HKbnZsC6rtfxa4OQH970jO6bNyWW6ywna9o7afTvO7jy6rgMR1DBObzUup2PwzwWZXmf
-         uBDtO7mHqcVtDYatRHFwdHOj9/O7y6RvK92iAiC5pba+NXX1iBAiXyNKFolpaOHRxdMX
-         XCnHjPszN43yfJmHWuASdiLipe9RBz6sBKBBIJFyCxCGuxUlVeGc+M5h4XyJvzKXO+E4
-         nT5w==
-X-Forwarded-Encrypted: i=1; AKwUvBzgSyB1q/rBkc3wHZAdbLaav1P2RtjN9tEkE+0v7z+zxtXohIGMg3jqPxFZE9nnOeTXTQhZebA5AHc=@vger.kernel.org
-X-Gm-Message-State: AFuF++m/8falpVqxryPPS3FA/eEu/6HTtg0kD281rJAfgT6w9EW1vSQh
-	aIvvIci32LGrXGtkkk9SuBX4gmXVtsd4jTqa6crUespAApVR3NTQmMEt2Y1dhwjYow==
-X-Gm-Gg: AYBFou1t4m448SlyfiVSIL6KceVg5XP/idWadK1x9NXc32rjupMXYRLBpRQqNSf2xyw
-	nDMckJKfbqTw2be091+Ui1uQ7CsMDA109+BmyFxBqtNcmZk7A4vzkluDmMkfvM5WbI1A1kJeOAW
-	RGhSeA7Fb1yvRXRjHpOGMhGrJdKIbZhdZ5aX4TPGdXqKVPcBy8TYKhiWfmAUo1LpvgaqDymVL92
-	/DFiXjWuFy2RBmf8FxQmBzocX1fG5H50RpqwLG7oCpdusAekdU/7mGcryXkNdqnwjcJCJR3m53H
-	xhYUkenzE27mkSgfx0PMzH8TXpyfCJdT5deD9ut+GJ6QH/Ylx6NPOhoQmI3Oks/ihLBFtEqjUyG
-	x8JgAhClU0UmvTnVMg8gO7JOw7Y6pvckTL2JhHbAvcOLPJNRGkzE+Cx9KnPQKbqvhOJwCEoAlro
-	iA6eQ6VaM4U0a9rW0ZdsKTankSpSVU918AX4vkONVfjz/XBFV0ju5qYMGwmp/ejoB5/RnlxqagY
-	jrs1HHQVi9Po6Tu
-X-Received: by 2002:a05:6214:4008:b0:910:5bb4:8407 with SMTP id 6a1803df08f44-913fedba674mr47342836d6.0.1790086877749;
-        Tue, 22 Sep 2026 07:21:17 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-914024beff1sm16868596d6.25.2026.09.22.07.21.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 07:21:16 -0700 (PDT)
-Date: Tue, 22 Sep 2026 10:21:14 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Chen-Yu Tsai <wenst@chromium.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: hub: Set proper message when
- usb_hub_create_port_device() fails
-Message-ID: <abf721b5-c848-4b58-9c0c-a8298d03f803@rowland.harvard.edu>
-References: <20260922080541.1986179-1-wenst@chromium.org>
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CguFkjds"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=6+7Y
+	wPssrYwwbcVyy1E2zRmvrRlDS05FVVsJW9+Xl58=; b=CguFkjdsvQ8uo+wX/xEJ
+	3RiokJSXD94GoXAfVLjWKz+1uejkAw7kl4/1xIpbNhEz9+k8g68TzFsoi6LLucFN
+	Ndwn5b23x97IbqfUJS6Ka3H72pLXZn/70hR4VEbM5/VqqBrypDjeacVP/f3C862U
+	QWEM/koX8XX8b5wCCJBbcEyGr3j/76Lp52BWBC+xXj/jZb18FDWsHby8SdFNA5AJ
+	KriCM4PWx7LxDc/OHgfaqQik8Web9Ux9ddtyjZ5Nital6JoZS/EUVbsnJuy5pRGN
+	wavCkHNDjeGpkkALeScB5I6OHW7dAuPRkvR3oBxySwAhM494mYq744+2PmKIpyE+
+	hw==
+Received: (qmail 286476 invoked from network); 22 Sep 2026 16:45:25 +0200
+Received: by mail.zeus03.de with ESMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 22 Sep 2026 16:45:25 +0200
+X-UD-Smtp-Session: l3s3148p1@0aq/ahNckKNQT+F6
+Date: Tue, 22 Sep 2026 16:45:25 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rudolf Marek <r.marek@assembler.cz>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Chris Snook <chris.snook@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Duncan Sands <duncan.sands@free.fr>,
+	Chas Williams <3chas3@gmail.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>, linux-watchdog@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
+	intel-wired-lan@lists.osuosl.org, linux-rtc@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] watchdog: Replace __MODULE_STRING() with
+ __stringify()
+Message-ID: <arKUgQKr99Ox6ZIW@shikoro>
+References: <20260922-module-string-v1-0-c18766690185@suse.com>
+ <20260922-module-string-v1-1-c18766690185@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sgLEH0/VtwN7fsyT"
+Content-Disposition: inline
+In-Reply-To: <20260922-module-string-v1-1-c18766690185@suse.com>
+
+--sgLEH0/VtwN7fsyT
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260922080541.1986179-1-wenst@chromium.org>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Sep 22, 2026 at 04:05:41PM +0800, Chen-Yu Tsai wrote:
-> Right now when usb_hub_create_port_device() fails, it prints a separate
-> error message to say which port failed, but otherwise leaves 'message'
-> set to the default "out of memory", which is somewhat misleading.
-> 
-> Allocate some memory to put the custom formatted error message in and
-> use it as the error message. If the allocation fails, use a generic
-> version of the error message. The allocation is explicitly freed after
-> the error message is printed.
-> 
-> Variants of __free() were not used as it ends up mixing usage of __free()
-> and goto. Also, kfree_const() won't work as it uses is_kernel_rodata(),
-> which only returns true if the symbol or address is in the kernel image's
-> .rodata section; it doesn't work for module .rodata. And the USB
-> subsystem can be built as a module.
-> 
-> Assisted-by: LLM # local reviews
-> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
-> ---
-> Changes since v1:
-> - Explicitly track and free the allocated custom error message instead
->   of using devm_kasprintf()
-> - Link to v1:
->   https://lore.kernel.org/all/20260728100005.413868-1-wenst@chromium.org/
-> 
-> Sorry Andy, I ended up not using your __free(kfree_const) patch. My LLM
-> was telling me that it won't work correctly if CONFIG_USB=m.
-> ---
->  drivers/usb/core/hub.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 0e929a4c9fa1..398ae53cd8d7 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -1480,6 +1480,8 @@ static int hub_configure(struct usb_hub *hub,
->  	unsigned int pipe;
->  	int maxp, ret, i;
->  	char *message = "out of memory";
-> +	/* Used to hold and clean up kasprintf()-ed failure message */
+On Tue, Sep 22, 2026 at 03:32:21PM +0200, Petr Pavlu wrote:
+> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
+> MODULE_PARM support for older modules" [1] in 2002-12. That change also
+> moved it to the graveyard section at the end of linux/module.h
+>=20
+> Replace the remaining uses of __MODULE_STRING() with __stringify() in
+> preparation for its removal.
+>=20
+> Link: https://git.kernel.org/tglx/history/c/136839a1b4 [1]
+> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
 
-Comment is unnecessary.  People will see what the variable is used for 
-by reading the code; it's not complicated.
+I didn't look at all but at some of the drivers (Renesas ones, da905x,
+STMP and a few others). Those looked good. I guess you generated the
+changeset anyhow:
 
-> +	char *msg_alloc = NULL;
->  	unsigned unit_load;
->  	unsigned full_load;
->  	unsigned maxchild;
-> @@ -1756,8 +1758,11 @@ static int hub_configure(struct usb_hub *hub,
->  	for (i = 0; i < maxchild; i++) {
->  		ret = usb_hub_create_port_device(hub, i + 1);
->  		if (ret < 0) {
-> -			dev_err(hub->intfdev,
-> -				"couldn't create port%d device.\n", i + 1);
-> +			msg_alloc = kasprintf(GFP_KERNEL, "couldn't create port%d device", i + 1);
+Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
 
-Why not use a fixed-size 64-byte buffer on the stack instead of 
-allocating extra memory?
 
-Alan Stern
+--sgLEH0/VtwN7fsyT
+Content-Type: application/pgp-signature; name=signature.asc
 
-> +			if (msg_alloc)
-> +				message = msg_alloc;
-> +			else
-> +				message = "couldn't create port device";
->  			break;
->  		}
->  	}
-> @@ -1792,6 +1797,7 @@ static int hub_configure(struct usb_hub *hub,
->  fail:
->  	dev_err(hub_dev, "config failed, %s (err %d)\n",
->  			message, ret);
-> +	kfree(msg_alloc);
->  	/* hub_disconnect() frees urb and descriptor */
->  	return ret;
->  }
-> -- 
-> 2.55.0.1082.g2b9226bbc0-goog
-> 
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmqylIEACgkQFA3kzBSg
+KbZBaw/9FrBesyOyyDUrnxlHP0bOF3BmqDAG1eHCb7OuWj1Wcqrh68l72s5PrP8Y
+omafJO2i4E1dAJdffYG+gz4rfeaT4Kj9TJCODqKn6pB7cEFOj0Gk9Tlc1Pd3sNpo
+3nNxwod06QpdI/1RpmBPR76rj+a0vaK8WM1j1zoARksJT0LK8Jrfm5d73Hoisng7
+2iNk+ZkddaYmPSqgADJxlB+j3VUcWAIp4t/Q4F0c6+xJgA++OzbgOAvDLpXzi4Ae
+zVzinZ552qM8vWVqf9RHbEz05NCRqlYewqsc6ZzFWcLHOcC9cE9nbgwH6qtd5qWU
+LWqNdIl0WXDwSXi79NzvtqsAIXCMN814bx497Fbz4Xe4Sa3KBDkfUPv/JmmRtxcZ
+BQxDPqXjxauBMrmarjBbr2fJy+6JRoJ44Fb3n3USWvZufXWhUbagITi8bfkE+ikP
+6YriAOJVgsI9IQnTTUN5szRzPcFEHTM9N5qptkcwjCyWa3Z61/a2gmppmR4wwQ1l
+Be/BD93oE4Y+DkKI3w3dWjyamEWcx+Hq9JYIMlemrXpGx5f2OZCIJNHFwvdyS02h
+k8AE3H4VIwo7A/6UYTImr/JQAtwuUTyzcK54vyXsGAPSc1FhvXr+8zgbaR06nqgD
+EfSNpsEVCbms7JBhxZphEoSYGUtYUwHE6x/Vd63n78pA5DJoRQ0=
+=++bp
+-----END PGP SIGNATURE-----
+
+--sgLEH0/VtwN7fsyT--
