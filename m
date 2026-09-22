@@ -1,131 +1,109 @@
-Received: from mail-ej2-f29.google.com (mail-ej2-f29.google.com [74.125.228.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E055C4570D4
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 10:04:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6F4503BC4;
+	Tue, 22 Sep 2026 10:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790071473; cv=none; b=e1IaSinuubtLkG/vbZ0vXQx/iUAbLdosEUSP5iD9sTCJNsigWoq/BIbjuCrzOBNDffy9Nw0aDiWeZhF8v+QsBMLPyaVeKX63LpCOSnGbn0ZXlBhOt/lkLXAWRZp/BQaHDjSMFTSI4SgYRwCIUGti4j+OC9uHQdMshxhPUOh3tnA=
+	t=1790071558; cv=none; b=VkBpn5XjtEyNDFkwnmYbnlIEluJlWT/8tI+jqPlYn1MNMn6iOXJ9dcAQddstJK9l9/niY2HQC9wbxy7tcnBVm5cMz62BoXibxp175Rv6Kmc5V/DWBbaJucPK2wJY8Cesn+UJ5+/wOD6PT7iOn60/luN0ralgSUrjFex+gwzAIEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790071473; c=relaxed/simple;
-	bh=+/p4Q0sgN1gCnPeZQ7lrLCym7jS74y6M4D4tNMXfdHE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KeUD6meYsk6gIx2nzKhc3/QtRnxRbe0lT0r32YX6Keg2E8eryMIceJP75fVouNowbf9pn5dgPw9x0hHFJUo6BEilczvdAZKbBpIjayCK1DrjGWgSh+u0z66zVGwAuXM+lN/wKw1GbTM0+lx5UxFfCl5QwBrRlzUa3I78Lv48s/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=XdPA+spD; arc=none smtp.client-ip=74.125.228.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="XdPA+spD"
-Received: by mail-ej2-f29.google.com with SMTP id a640c23a62f3a-c294496989aso531837066b.3
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 03:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790071469; x=1790676269; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6ips8FL5qQlrZs4lRamhBauIUV4D+6bxULsoH9iHoMk=;
-        b=XdPA+spDZmMIGMsVeP4gS7fqQDoUJkMNKFvyFUWUYNBY8mo8b9lCDLOX+r6VDwIcwJ
-         HTYpfmEk+zr4aDfoQSXTzAVzLAVTBDQ2salABtXGjvEhQlLmCwuezcGxZsQdrivcaqeM
-         fP/VOJ70rdFAPENbXQnfkkmHnGLJbXaRdaopg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790071469; x=1790676269;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6ips8FL5qQlrZs4lRamhBauIUV4D+6bxULsoH9iHoMk=;
-        b=gXBt1TlqOS8Am/ZX9xTr7mt8GEcHZpflWS/vzykb1SGWg8c7U75GRdhTvExyJKjE/h
-         GFHHhbipHOToQwNaDg3Y77Tp6by3a31jG2380RTGnVbNxhE95YjJ5Q3UH3qAUT8rw/ZO
-         FmMJSJbaPtDv6mf0oAvOUhq18qmEKSIyJM/wcyAp3Fadszg5vRUOAkVT6AohC1FhJXBv
-         4JioCX9hJ+QJaTttysTR39FRv3/xlfsztPNJxKSnv0b7rQu/VTft5unlp9Pz1GtzGm0w
-         q9/0GgpNcyjRce74Jjm5TDiWuk10U5/UHU877d3DXpPZTZmsxCN0aZdKSxjaVMI7aB6d
-         a5nw==
-X-Gm-Message-State: AFuF++ms/D12qNkI6O/I4Zdt3iaW7HvWIFkAL4kBa2tzHRR53cSNUdjb
-	k+2BJ7UHzZh3GakU0BTjmC19pAvLuXRW9+4UJ+7YpIFMhaGoaxGdE6xPYRDAcMIKee2fmhKKYy8
-	ZtwJEM1CqEw==
-X-Gm-Gg: AYBFou2hzsxFXPbmCGOEQ75RlSNb/Ush5VHZKCp4zn6p4KIsRXqI6ikEQTGtiJGt7x7
-	37z/Ebxn97yDUx89thuv3sNFXfZAfHmGOh2T1Cm3lMlnAA6KP/AtjwqqzAhtloyur2Ss0Jl7Xoy
-	BhJTc9TyAAbLlNe1Q2xsi+nSop8tAbzFMehEx18AD2AtJr7UwqNvyekh5N1+EJ6pAKp6y+0owjN
-	qAIN+en0gUSHcrH5MBSXzgj7DjlsfozBhuxPKaQOIKF3BpijejX/VwWv1LMcddTrmHG7ETH7MDp
-	WP1SgMFv9WM6h20cm/HNKtjONR5tDZbGM02sep8gQ0Tgu/givOt2B3dNW3V/2bZSGEnsI8ndKFR
-	yVky43ziZwd5P8OZYXYS9dLgiM5cTipnngbtHyklZ4JmOrqqi8fRCDHJLTZ8JLMHMI/ZKITaxMW
-	pDqkj+jxwdLFe9rBD2q9XWYF2PJavfwsHW5e/UplkDCRKSQSSwPJ8uhL3UXsiGvrc0+n81N4scU
-	BKggnxtHdE=
-X-Received: by 2002:a17:907:9703:b0:c26:219f:6f74 with SMTP id a640c23a62f3a-c2a15846232mr1049317766b.5.1790071469048;
-        Tue, 22 Sep 2026 03:04:29 -0700 (PDT)
-Received: from [10.214.128.75] ([38.97.137.190])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a9c54f32esm60622866b.15.2026.09.22.03.04.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 03:04:28 -0700 (PDT)
-Message-ID: <b37401c1-b6db-4746-9f6a-af25e9f30829@linuxfoundation.org>
-Date: Tue, 22 Sep 2026 04:04:23 -0600
+	s=arc-20240116; t=1790071558; c=relaxed/simple;
+	bh=BfLoF1jCHlUaI48Snp61l0Vu2FM/b5RSH77/+5K/Upk=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=AxsYjexVomF+YFWSAYmE4Kv6kB6/wIQPwez0HmMcT0/z8+KNrV5vd4FNN7ursFInXohFF2cDT6NIosHeO+6dE40TU2/2Jw/iWTHjzjmNZXvQcc8z0vCP9CW8+n8p6ItlkTj4HGlF1qSg6+mx1zxIkm1wbigWXERnnPKQS5KDkpc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 2fa29c7ab66d11f19a56ed5b684f684d-20260922
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:07c7e53d-71f7-4b66-880d-5834f7c8bd67,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:dc4b83c9f1d78224a7cd7263c3d279f6,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|817|865|898,TC:nil,Content:-10|-8|
+	-5|14|50|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,CO
+	L:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 2fa29c7ab66d11f19a56ed5b684f684d-20260922
+X-User: lijiayi@kylinos.cn
+Received: from thinksys.tail1c7620.ts.net [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 288072312; Tue, 22 Sep 2026 18:05:49 +0800
+From: Jiayi Li <lijiayi@kylinos.cn>
+To: sashiko-reviews@lists.linux.dev
+Cc: Oliver Neukum <oneukum@suse.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: uas: quiesce SCSI before stopping endpoints on unbind
+Date: Tue, 22 Sep 2026 18:05:42 +0800
+Message-Id: <20260922100542.164047-1-lijiayi@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260922032156.E6AC01F000FF@smtp.kernel.org>
+References: <20260922032156.E6AC01F000FF@smtp.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: add NULL check for calloc in
- usbip_exported_device_new
-To: longlong yan <yanlonglong@kylinos.cn>, valentina.manea.m@gmail.com,
- shuah@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260817060618.749-1-yanlonglong@kylinos.cn>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260817060618.749-1-yanlonglong@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 8/17/26 00:06, longlong yan wrote:
-> Add a NULL check for the return value of calloc() in
-> usbip_exported_device_new(). If calloc() fails and returns NULL,
-> the subsequent dereference of edev->sudev would cause a NULL
-> pointer dereference.
-> 
-> Also fix the error path at the 'err' label to check edev before
-> dereferencing edev->sudev. Without this fix, if calloc() fails and
-> jumps to 'err', the code would dereference NULL when checking
-> edev->sudev.
-> 
+> [Severity: High]
+> Will moving scsi_remove_host() before devinfo->resetting = 1 and
+> uas_zap_pending() cause a 30-second hang and 100% CPU livelock on
+> physical unplug?
+>
+> On physical unplug, usbcore detects the disconnect and calls
+> usb_disable_device(), which kills all active URBs with status -ESHUTDOWN
+> before calling uas_disconnect().
+>
+> scsi_remove_host() synchronously waits for all in-flight SCSI commands to
+> complete. Because the commands are stuck in-flight until uas_zap_pending()
+> forcefully completes them, scsi_remove_host() will block indefinitely.
 
-It is theoretically possible for calloc() to fail, however how often
-does it fail and were you able to make this allocation to fail?
+Thanks for the review.
 
-If not, how did you test this patch? In any case, I am not going to
-take this patch and all the other patches you sent adding checks to
-calloc() calls in other places in usbip tool.
+I tested this case with v2 and can reproduce the approximately
+30-second timeout by physically unplugging the device while UAS
+commands are still in flight. I have not confirmed the reported
+100% CPU livelock.
 
-> Signed-off-by: longlong yan <yanlonglong@kylinos.cn>
-> ---
->   tools/usb/usbip/libsrc/usbip_host_common.c | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tools/usb/usbip/libsrc/usbip_host_common.c b/tools/usb/usbip/libsrc/usbip_host_common.c
-> index 01599cb2fa7b..94762bc282eb 100644
-> --- a/tools/usb/usbip/libsrc/usbip_host_common.c
-> +++ b/tools/usb/usbip/libsrc/usbip_host_common.c
-> @@ -71,6 +71,8 @@ struct usbip_exported_device *usbip_exported_device_new(
->   	int i;
->   
->   	edev = calloc(1, sizeof(struct usbip_exported_device));
-> +	if (!edev)
-> +		goto err;
->   
->   	edev->sudev =
->   		udev_device_new_from_syspath(udev_context, sdevpath);
-> @@ -107,7 +109,7 @@ struct usbip_exported_device *usbip_exported_device_new(
->   
->   	return edev;
->   err:
-> -	if (edev->sudev)
-> +	if (edev && edev->sudev)
->   		udev_device_unref(edev->sudev);
->   	if (edev)
->   		free(edev);
+For a driver-only unbind, soft_unbind keeps the endpoints available
+and the new ordering works as intended.
 
-thanks,
--- Shuah
+For a physical disconnect, however, the status URB completes with
+-ESHUTDOWN before uas_disconnect() gets to drain the SCSI host.
+uas_stat_cmplt() takes the error path in this case and does not clear
+COMMAND_INFLIGHT.
+
+With the v2 ordering, the sequence is therefore roughly:
+
+    status URB -> -ESHUTDOWN
+        -> COMMAND_INFLIGHT remains set
+        -> scsi_remove_host()
+        -> outstanding command cannot reach scsi_done()
+        -> SCSI timeout
+
+The existing disconnect ordering avoids this because
+uas_zap_pending() runs before scsi_remove_host() and explicitly clears
+COMMAND_INFLIGHT after the status URBs have been killed.
+
+Would it make more sense to retain the original kill/zap-first ordering
+for a physical disconnect, while keeping scsi_remove_host()-first for
+a soft unbind?
+
+I understand Alan's earlier point that USB_STATE_NOTATTACHED alone has
+a race window, so if separate handling is appropriate, the remaining
+question would be how to distinguish these cases reliably.
+
+Thanks,
+Jiayi
