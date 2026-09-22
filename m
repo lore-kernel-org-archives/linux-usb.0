@@ -1,79 +1,71 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011054.outbound.protection.outlook.com [52.101.57.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa2-f12.google.com (mail-oa2-f12.google.com [74.125.231.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C5748F03D;
-	Tue, 22 Sep 2026 18:22:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790101326; cv=fail; b=eTsIVvCiILQOtkP4y8VsKE4G0g9ARjzNtBiI50lBFnnAZhyUGZLReDJAmAxNbUfEnhUErEQB9p9NnmWgWmbRPUb66e0ALZJ+5htGdhRB5bIXE3AelIgK1Vc9QkC1/OYeCHEwmZvgnOXuBnYM9hcvDusIF1CH0UkdIFGDHmCmv8k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790101326; c=relaxed/simple;
-	bh=oOAkgwof80FUFNhj0qASUWzuxO7TfGW8oCW4X1rf4r8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=klg+U9CIa8LGBxBl4vOWNWtRzvECG6bW3QkwvH1+lKM3nF1EWPzgs+tCZ5SLywMaVDGHqPovXtACCSFa0qlGGbpkZDVZqZDSKWSqjckKfJYmPidjfFi1TZzolM3WXAyDUQphaZ+Nfgk724c1ayJ5GQDzr7R1jeymGgbDh2+mcUs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=hNMp4uwa; arc=fail smtp.client-ip=52.101.57.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 308D44A3840
+	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 19:23:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.76
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790104997; cv=none; b=IuHmc6qgH2/xbozHU6wABDQ3QD/XfizwguwTP1ztqOEag7d06+j2lLF4gSBLn4xRPidtxWxY1GjNrwAj3/RtcrbMfujUMtSvh+bblO5K9RpyyF07WEKgrpme3FLxegcZdBOW1IDGKZDMktkKwvMMfbEw5/a1N4zQ7zHSjSbyBGk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790104997; c=relaxed/simple;
+	bh=GCrd6HP1YqVVD2Shlp0bMzCJrut+8ZJ/wxofmulhorQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YXdX2nXcn8qN1dYoOhz1QYdNrgpmueJj0T4kuzDhemHd52nCw/lFOGOAAaJxP0DH6KvzEltq/UvUObPg0iIiUcyC425uk4+S0bZxpLlkjHCZZOiFu0UcDaU7DnmdM4aWo67+4Xk35CyR9YFyVt5rbNyiTQFE9iQ16IzqYDkcs1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lT7LlU0G; arc=none smtp.client-ip=74.125.231.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="hNMp4uwa"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yIsIc0MAgPzT62GkJjNwRntx21MK5kRdQXntxeMW1Df//tsB4obdJ3gfmaaQyKYxUB/DmfmHnn/GUAbLC5XQ9jw14pHBJrLUuePbvuUgThK2h/IBZSyCOtB/WOUXqip/jENWGERB0rDWZWhC80TJBji5oAoxNsSTDi4wAg6BifVEkXUWNhhuK7OgHK2b5Uj10NJ1pWu4T9fKiV/oFTH2rV3eJICFJ7z4H+JiC+at9kPyytZpOB7m3aEP6OudD6Khc/antma6tOzinW1Gmu/lRqlBFZEeOatIsJSgXBupUMa9OxqqVbljZ+Sd+0VzgA7BejjPUlQS5/hUUQnHq99XXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rbTpVqSdLfiImzM60AVTajEWpu2PRiqcYfs1wecYkGI=;
- b=xn6+E5jpVhSemTOYProYe0BfoO73/23Ubgb8raUnpwJMFIweBrV6loOpxP2cIpMecG1MzlfvFH7UsDaJwFHGtmIVqbUPGrV493ZxPKRZ6mtzWvfF98FSSzA4bL0x9Xc3ps1PRNN6aljXDrwVDZccAYtlcsLUk739zOx/nk3qAZTZoNp0tYJ6U6pz6Mxf5VN1cvpal7lfUwC2zETwfkGRfQT6IdobxgWmo4qpMU2zak9p4l9yjryJdIZLIKlZpymR93PV2pPAAGiituDc7z25i4OywPg2Hen1mzPOsSbd1Z9IAn6KBVlY87GZNB9ZQh/mAdZaqh7ajXfFBkuvz1UhzQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=synopsys.com smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rbTpVqSdLfiImzM60AVTajEWpu2PRiqcYfs1wecYkGI=;
- b=hNMp4uwazHxkg/l7c167zqcFFDMBlvCNjxz1q71LPie1egZav+0IRDIzlgvHY0faZdx/IzPDY6Gn9QYsZ57Dai4GHuPlsAgfrOOF1SXxdL7SOlWfrBZ+anlIf1GkNYVJFVRGkBFw4t7swfPCai0K2jevxdG69b4/k8WpbkzHJdE=
-Received: from IA1P220CA0006.NAMP220.PROD.OUTLOOK.COM (2603:10b6:208:461::11)
- by LV3PR12MB9096.namprd12.prod.outlook.com (2603:10b6:408:198::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.13; Tue, 22 Sep
- 2026 18:22:00 +0000
-Received: from BN6PEPF00000072.namprd03.prod.outlook.com
- (2603:10b6:208:461:cafe::78) by IA1P220CA0006.outlook.office365.com
- (2603:10b6:208:461::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.14 via Frontend Transport; Tue,
- 22 Sep 2026 18:21:59 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BN6PEPF00000072.mail.protection.outlook.com (10.167.248.199) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Tue, 22 Sep 2026 18:21:59 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Tue, 22 Sep
- 2026 13:21:51 -0500
-Received: from satlexmb07.amd.com (10.181.42.216) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Tue, 22 Sep
- 2026 13:21:51 -0500
-Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server id 15.2.2562.49 via Frontend
- Transport; Tue, 22 Sep 2026 13:21:48 -0500
-From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-To: <Thinh.Nguyen@synopsys.com>, <gregkh@linuxfoundation.org>,
-	<michal.simek@amd.com>, <p.zabel@pengutronix.de>
-CC: <linux-usb@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, Radhey Shyam Pandey
-	<radhey.shyam.pandey@amd.com>, <stable@vger.kernel.org>
-Subject: [PATCH v2 2/3] usb: dwc3: xilinx: re-assert resets on ZynqMP init error paths
-Date: Tue, 22 Sep 2026 23:51:24 +0530
-Message-ID: <20260922182125.11067-3-radhey.shyam.pandey@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260922182125.11067-1-radhey.shyam.pandey@amd.com>
-References: <20260922182125.11067-1-radhey.shyam.pandey@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lT7LlU0G"
+Received: by mail-oa2-f12.google.com with SMTP id 586e51a60fabf-469fdb78b1cso174859fac.0
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 12:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790104993; x=1790709793; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vP5cScwKB/SRV52FulCQsVGt9v1UGZg+U5ZCK2dz35Y=;
+        b=lT7LlU0GJs5rAhItnoiXp5A8VTWVWXW7zjKXD60XtirridtazMHxS7a5uWHpH0LkS4
+         qbpDSlpg2MT7E+qkxMUFkMQ6QH2TcJTY0OSgxsjIhvq7riTbEMVC6xw3677qs+3n6ptq
+         YqGxUL0GgvXZ9zfDX6ggTrTJAKJs4v52Lup93UJ/SSeVOsVvCU3C+i+c2HSsB8v7uxWI
+         vvUTAuqi2yi3dhwEdXkMEMyRkIs0CUxjvYey0wNpaI8E8cRTTpU3+ThhWALPAVPnCTsv
+         dXWg4Dk6hfsdeCpT4d9AOmPXBdQRJmOLTKlD8j9+xrYg0n50oyVmgtG07kGmeB+hQQNp
+         k15g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790104993; x=1790709793;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vP5cScwKB/SRV52FulCQsVGt9v1UGZg+U5ZCK2dz35Y=;
+        b=tNW7AS+Z4fw9yIIIaSuEq5sDEku1nsjD5dLqVpkRpp4u9OC0oUlF5C4fzTx9Or4UTA
+         Kco3G8yev8cJ8cyOvm1MeJm2u9GO8d2doTverpNaWa55wLJRGWyXIjd8bsPW/h8GHm7A
+         DxPzILLcIxREFmrR/eLLiZgT1m0sVizBsSvK16LEYsOLX9MIKlE4HPiTI77s0fTF2ma+
+         PzxBEfEvyiKshgLnxV7YOLWPIe655NCfd5zxpP4Wj7FroNruzAKfVh0wAbHWHplxA9Mj
+         uP/X/CeE0jF3bcDiBTbFR8uviGWiZi+CC31nfnfetvoS2XNJD0Nx4pmjawAQwOorsrKR
+         up1w==
+X-Gm-Message-State: AFuF++nqmFxqkEgsJ6wfqRaKkacPQ2rJbOfJ8WhMv+lDp4A4grImDzLU
+	ob4f27y49nqKQOTYsHrpqKI87PrFm8Wv0JMgJKq93BjsE8RCUl4dF07JIbCMdOPq6wg=
+X-Gm-Gg: AYBFou16hhQwqsKvyUUL6JNy94rBVY2OXo1BbRdi8bmyGjvc3tcNL+HYstwTRIXJf6I
+	rklTVgfgjuapqwpZYUwcT8UUm1VVgm+jm4dHfQDABUL5IUItcVFTN1nkj5lreVgZaqMpbISLY7z
+	zcHw0OMz58/1LiH44wijmAh1uBBmUZM1xUzAnAdxhsg7A48LOD7pIs3EtBGjQP4ieCtlNV4T3tC
+	dCG5f/TWFivtKuPzPX2XmLGt/OjoxOlnzm6LHVBIWbNJtHkahwPigZdvTVyuDvtY7y/hcOZu26L
+	hc8ZLU/DjV2gcPiFsJ8mTLmN3lj9utjYA3U1n86FvsPUJ4/0Kn3dQCLfWgYsuaMLWtF/AC04IBm
+	859mINESfQlbblOXRZlA+f8tgzN/+OHoPoiqq22DzFT6po03J4IvY5FN9eVg3Ph4CVVx0JK264k
+	QkrnGrQ4KX/u6ILUd0of7ZPXan3k4KG/mNruTrZm4Wz5Ka6i2ysk35WQy2Peo/tokVPwuXwTIFW
+	7bnnrGzcGUhXOs8ZBxTrSmGROIT
+X-Received: by 2002:a05:6870:392c:b0:475:a1ec:9613 with SMTP id 586e51a60fabf-49089d46c42mr664002fac.21.1790104993400;
+        Tue, 22 Sep 2026 12:23:13 -0700 (PDT)
+Received: from localhost ([35.11.35.209])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-4908e66112asm489416fac.9.2026.09.22.12.23.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 12:23:12 -0700 (PDT)
+From: sjunhyuk1@gmail.com
+To: linux-usb@vger.kernel.org,
+	platform-driver-x86@vger.kernel.org
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Subject: [BUG] HP OMEN Transcend 14 (board 8E41): GPU power ceiling on 65W USB-C charger is non-deterministic across sessions (25W vs ~65W)
+Date: Tue, 22 Sep 2026 15:23:12 -0400
+Message-ID: <20260922192312.40607-1-sjunhyuk1@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,192 +73,91 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PEPF00000072:EE_|LV3PR12MB9096:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1491e538-207a-4ca6-922f-08df18d66453
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|376014|23010399003|18002099003|22082099003|11063799006|10067099003|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	6wCKFotcGKQCQkuOWGb4aNA2WKBiDaoINgmntx43rKJ+4VVfjnfOAiiwBP0CAvsnINtNT1gsJOqk6E5d/oGIo2HFTEPFMF7Kg23+u9GXKqOmeV7uzfLvnnIFAF1lgDnPoHxJDjQpVfgQ75hNSKhItNAtC5cQBLsPuWYMiFWmsSxHo5DmoP/zH8Qkgnh87ktbe5IbbSYHvvPWMQPvliu6pnsL6kinUC9Lg5e3yhhdGa6daihu3Yb/vUQDTtyc7gT6uZprTtna8Vl0GDuQZwQqkjZKoJ3WZ6ys4aMH66jFhLrI7HJgg1GI1E8kuGJgzZd0gl80IAxul1+9RVoflu6JUMhkE7OM+WK896p0f4uo861TKO9p+t153pzpCf46UB+8/lTSFF+jUscHzz7vPZqz2pmiWeuwKVqMNezAszuzuD4AaE7KYHj7YD6IOxq/dK9cBTUxOS56W1i7hV1CZry8swRtfNhV483U7W7AhK5yaZFcsNqsb03aneaaNAekPWstSmpt/zbgB8rLad4G2XlgW0apMOcyIXRu1K5sBqvq/2n8YexOvwZPE2hIV5of2Or0K1a7h41mkI7AENsOTcVmcFu1RlHyWabfSgJy92yIfsCc1DlCUGI52U+is7BxC02knHF6I52Bhu0oCD2shBEoHmStL1OMqHqEjfzFQV8EASwBS49iVdcn42xF9TFgTCjdKfi7YKjBuVUwLmyZeJhLeg==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014)(23010399003)(18002099003)(22082099003)(11063799006)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	5aC24urWkeSgsxOZ1EM17cAwu+SoFrx5IJGya4CmugwD5YNPeEefGSYSQty34XbwcMJs50i91AwwsBbsrO3e3Anjlq2bORs/2t+Xldusshj1I8F6VlcYgFkuTDrPVvdhzJwH4Sx9XO0nzd+83RIoeI/Fs2nGbyKP+30WTRW6B7QjjP50Jsop189IOqgOx2MubcyFo8uUY3a1sJ1EDT/TiWH68Ej5ImSvj4QMUORAmOpw/ZhlWFsWhKjBRdh5N9qxJPEnnTjXhH8b3YBho6eVioPKwDzdD3A1c88mucOaHl/OBsoNxLW5NEDe/mG1ifYRigCwSx7Dm/Qzfm6tpvRiWAoqK/Bu0FmPtZ+UT2c+aIdJ85CLup6D8fwzkxtLf7u9QlPENZ1GM7afrJEQc3noAjXBaSe3o+pIE0zI2cmoqNRl9HLUCoNNtbb0h5IxnsiB
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 18:21:59.3878
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1491e538-207a-4ca6-922f-08df18d66453
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN6PEPF00000072.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9096
 
-If reset deassert or PHY setup fails partway through
-dwc3_xlnx_init_zynqmp(), re-assert any resets that were already
-released before unwinding the PHY. Use fall-through error labels so
-unwind matches how far init progressed, for both USB2 and USB3 paths.
+Reporting a non-deterministic GPU power ceiling on a 65W USB-C charger,
+in case it's useful alongside other recent reports of EC/PD-controller
+firmware state issues (Legion Pro 7 16IAX10H, ASUS Vivobook K3605ZV).
+I'm not certain this belongs to USB Type-C / UCSI rather than hp-wmi,
+so I've sent it to both lists; happy to be redirected.
 
-Save the ZynqMP reset handles in driver private data so later probe
-teardown can re-assert released resets.
+System
+------
+Model:  HP OMEN Transcend Gaming Laptop 14-fb1013dx (B94GQUA#ABA)
+Board:  8E41
+BIOS:   F.05 (confirmed latest via fwupd/LVFS)
+GPU:    NVIDIA GeForce RTX 5060 Laptop GPU, VBIOS 98.06.2A.80.62
+Driver: NVIDIA Open 610.57.04
+Kernel: 7.2.5-3 (Arch, Omarchy)
 
-Fixes: 84770f028fab ("usb: dwc3: Add driver for Xilinx platforms")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-5
-Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
----
-Changes in v2:
-- Split out of the combined five patch series; see patch 1.
-- Reordered ahead of the platform-data cleanups.
-- Added Cc: stable.
-- No functional change to the patch itself.
+Symptom
+-------
+On the OEM-rated 65W USB-C charger, nvidia-smi's "Current Power Limit"
+lands on either 25.00W or ~60-65W depending on the boot/reconnect
+session, and stays fixed at whichever value for the rest of that
+session. A 140W charger reliably gives 50W (VBIOS default TGP);
+battery-only reliably gives 40W. Confirmed under gpu_burn 100% load in
+both 65W-charger outcomes:
 
- drivers/usb/dwc3/dwc3-xilinx.c | 49 +++++++++++++++++++++-------------
- 1 file changed, 30 insertions(+), 19 deletions(-)
+  25W outcome:  24.7-25.5W draw, clock unstable 200-500MHz
+  65W outcome:  59.4-64.9W draw, clock stable 1630-1860MHz
 
-diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilinx.c
-index 8c63e02575f1..d18d3e364381 100644
---- a/drivers/usb/dwc3/dwc3-xilinx.c
-+++ b/drivers/usb/dwc3/dwc3-xilinx.c
-@@ -48,6 +48,10 @@ struct dwc3_xlnx {
- 	void __iomem			*regs;
- 	int				(*pltfm_init)(struct dwc3_xlnx *data);
- 	struct phy			*usb3_phy;
-+	struct reset_control		*usb_crst;
-+	struct reset_control		*usb_hibrst;
-+	struct reset_control		*usb_apbrst;
-+	bool				usb_resets_released;
- };
- 
- static void dwc3_xlnx_mask_phy_rst(struct dwc3_xlnx *priv_data, bool mask)
-@@ -112,7 +116,6 @@ static int dwc3_xlnx_init_versal(struct dwc3_xlnx *priv_data)
- static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
- {
- 	struct device		*dev = priv_data->dev;
--	struct reset_control	*crst, *hibrst, *apbrst;
- 	struct gpio_desc	*reset_gpio;
- 	int			ret = 0;
- 
-@@ -124,25 +127,25 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
- 		goto err;
- 	}
- 
--	crst = devm_reset_control_get_exclusive(dev, "usb_crst");
--	if (IS_ERR(crst)) {
--		ret = PTR_ERR(crst);
-+	priv_data->usb_crst = devm_reset_control_get_exclusive(dev, "usb_crst");
-+	if (IS_ERR(priv_data->usb_crst)) {
-+		ret = PTR_ERR(priv_data->usb_crst);
- 		dev_err_probe(dev, ret,
- 			      "failed to get core reset signal\n");
- 		goto err;
- 	}
- 
--	hibrst = devm_reset_control_get_exclusive(dev, "usb_hibrst");
--	if (IS_ERR(hibrst)) {
--		ret = PTR_ERR(hibrst);
-+	priv_data->usb_hibrst = devm_reset_control_get_exclusive(dev, "usb_hibrst");
-+	if (IS_ERR(priv_data->usb_hibrst)) {
-+		ret = PTR_ERR(priv_data->usb_hibrst);
- 		dev_err_probe(dev, ret,
- 			      "failed to get hibernation reset signal\n");
- 		goto err;
- 	}
- 
--	apbrst = devm_reset_control_get_exclusive(dev, "usb_apbrst");
--	if (IS_ERR(apbrst)) {
--		ret = PTR_ERR(apbrst);
-+	priv_data->usb_apbrst = devm_reset_control_get_exclusive(dev, "usb_apbrst");
-+	if (IS_ERR(priv_data->usb_apbrst)) {
-+		ret = PTR_ERR(priv_data->usb_apbrst);
- 		dev_err_probe(dev, ret,
- 			      "failed to get APB reset signal\n");
- 		goto err;
-@@ -156,19 +159,19 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
- 	 * absent.
- 	 */
- 	if (priv_data->usb3_phy) {
--		ret = reset_control_assert(crst);
-+		ret = reset_control_assert(priv_data->usb_crst);
- 		if (ret < 0) {
- 			dev_err(dev, "Failed to assert core reset\n");
- 			goto err;
- 		}
- 
--		ret = reset_control_assert(hibrst);
-+		ret = reset_control_assert(priv_data->usb_hibrst);
- 		if (ret < 0) {
- 			dev_err(dev, "Failed to assert hibernation reset\n");
- 			goto err;
- 		}
- 
--		ret = reset_control_assert(apbrst);
-+		ret = reset_control_assert(priv_data->usb_apbrst);
- 		if (ret < 0) {
- 			dev_err(dev, "Failed to assert APB reset\n");
- 			goto err;
-@@ -179,7 +182,7 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
- 	if (ret < 0)
- 		goto err;
- 
--	ret = reset_control_deassert(apbrst);
-+	ret = reset_control_deassert(priv_data->usb_apbrst);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to release APB reset\n");
- 		goto err_phy_exit;
-@@ -195,21 +198,21 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
- 		writel(PIPE_CLK_DESELECT, priv_data->regs + XLNX_USB_FPD_PIPE_CLK);
- 	}
- 
--	ret = reset_control_deassert(crst);
-+	ret = reset_control_deassert(priv_data->usb_crst);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to release core reset\n");
--		goto err_phy_exit;
-+		goto err_apbrst_assert;
- 	}
- 
--	ret = reset_control_deassert(hibrst);
-+	ret = reset_control_deassert(priv_data->usb_hibrst);
- 	if (ret < 0) {
- 		dev_err(dev, "Failed to release hibernation reset\n");
--		goto err_phy_exit;
-+		goto err_crst_assert;
- 	}
- 
- 	ret = phy_power_on(priv_data->usb3_phy);
- 	if (ret < 0)
--		goto err_phy_exit;
-+		goto err_hibrst_assert;
- 
- 	/* ulpi reset via gpio-modepin or gpio-framework driver */
- 	reset_gpio = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
-@@ -226,10 +229,18 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
- 
- 	dwc3_xlnx_set_coherency(priv_data, XLNX_USB_TRAFFIC_ROUTE_CONFIG);
- 
-+	priv_data->usb_resets_released = true;
-+
- 	return 0;
- 
- err_phy_power_off:
- 	phy_power_off(priv_data->usb3_phy);
-+err_hibrst_assert:
-+	reset_control_assert(priv_data->usb_hibrst);
-+err_crst_assert:
-+	reset_control_assert(priv_data->usb_crst);
-+err_apbrst_assert:
-+	reset_control_assert(priv_data->usb_apbrst);
- err_phy_exit:
- 	phy_exit(priv_data->usb3_phy);
- err:
--- 
-2.43.0
+Which outcome a given session lands on appears session-scoped, not a
+fixed hardware fault: the same physical charger, same port, same
+cable produces either result depending on boot/reconnect history.
 
+Ruled out
+---------
+- Kernel version: same kernel (7.2.5-3-omarchy) produced both the 25W
+  and 65W outcomes on different boots.
+- Battery charge state: tested 0%, 79%, 98%, 100% within one boot
+  session, all still 25W.
+- BIOS setting/update: F.05 confirmed latest via fwupd/LVFS; no
+  relevant USB-C/adapter option in BIOS setup.
+- ucsi_acpi driver presence: blacklisted it entirely, then re-ran the
+  known-bad trigger (hot-swap the charger while powered on) - still
+  landed on 25W. So the driver being loaded/unloaded is not itself
+  the deciding factor.
+- HP WMI GPU boost flags (commandtype 0x21/0x22 under command
+  HPWMI_GM in hp-wmi.c, the CTGP/PPAB fields of struct
+  victus_gpu_power_modes): wrote a read-only probe module issuing
+  only the 0x21 GET across all four power states (battery/25W/65W/
+  140W-triggered-50W). Raw response was byte-identical (00 01 01 57)
+  in every state.
+- HP WMI legacy "Smart Adapter" query (commandtype 0x0F under command
+  HPWMI_READ; not defined in mainline hp-wmi.c's enum
+  hp_wmi_commandtype, but present in a third-party Windows tool as a
+  "smart power adapter status" query): also GET-only, also
+  byte-identical (05 1c 1c 0d) between the 25W and 65W states.
+
+Workarounds found
+------------------
+1. Full poweroff, physically unplug/replug the charger, then power
+   on. Reliably restores ~65W in testing so far (recovers even from a
+   25W-clamped state). An OS reboot alone, with the charger left
+   connected, does not help; nor does hot-swapping the charger while
+   powered on (that's actually the known trigger for landing on 25W).
+
+2. Live driver reload with no reboot:
+       sudo modprobe -r ucsi_acpi && sudo modprobe ucsi_acpi
+   From a ~50W "in-between" state reached via a hot-swap, this
+   recovered to 65W in 2/2 attempts within a few seconds. From the
+   classic 25.00W clamp, it did not help in 2/2 attempts. A
+   battery-only control (40W, no charger) showed no change either
+   way, suggesting the effect is specific to USB-C PD renegotiation
+   rather than a general power-limit reset - but it is clearly not a
+   general substitute for (1).
+
+Separately, this board also reproduces the NPCF ACPI-binding issue
+described in NVIDIA/open-gpu-kernel-modules#1162 (Power Management
+Object stays N/A, Dynamic Boost above the 50W base TGP never
+activates) - confirmed via acpidump/iasl decompile, same topology and
+field structure as reported there for board 8D40. That explains why
+>50W boost never works here, but Power Management Object reads N/A in
+both the 25W and 65W states, so it doesn't explain this particular
+25W/65W split.
+
+Full write-up with raw capture data:
+https://claude.ai/artifact/WDAN76AWk1JpW49ZSGc2Cr
+
+Happy to gather more diagnostics (EC register snapshots, more repro
+counts, anything else useful) if that would help narrow this down.
