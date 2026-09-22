@@ -1,36 +1,33 @@
-Received: from mta0.migadu.com (out-150.mta0.migadu.com [91.218.175.150])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365213B8135
-	for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 03:12:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949EF3909B3;
+	Tue, 22 Sep 2026 03:24:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790046765; cv=none; b=AL6E2tEI1/uFxXkUeupD43vRnlwRSqYpOXuDlXun3HtnOdqQmVCL8ecDLmtvw5aWx9qy2CZmI864pZVaUjhtmX5tgp+MBPbOxgurGhqrB/pLnSOlACSL/IkTop8ri+qNdXGglONrDGoOXb9GgraNfyutAvSrImCTsgo6Bnc1Zls=
+	t=1790047443; cv=none; b=pWcA3S/saHeCMXVlD7Gviqt/69/Bo51FIPuQktaKTIBWxTgaFdkXwaZqUhSPNOAxBqI0XIGV9OdyGJeKeeaAwFfBxECjtInveL8QnVUHVwI2/hfe0jRI7N+k5Z8dNNhNd2PmtfBZm1c9Oa86AFnKjEspJ1n33t7lQwJRUF4RUGU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790046765; c=relaxed/simple;
-	bh=fqInk17I5hhfQnP03ChwBojmoHSswahGqJt0SWkJHZA=;
+	s=arc-20240116; t=1790047443; c=relaxed/simple;
+	bh=XUqGq3E6wliJylX/FDBdHcmSuxDx6xPrEWs9647qYjc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Mfg64nDLR8fQZVGwGromtYrfn7EnAvn4b4hQotqwbpdMVYrHOzB9ZqyfENnEd4YRmLFo15QVJQoLvpUPfleyDfD/xsMOCmUYOfuFktt6+LnDNBLgb05qbPlNcc86K0Ocdv6rxnHOvqVUgaSgG7wCG2JTvO26XN7W9KuIAub9SDc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=HRpvztqz; arc=none smtp.client-ip=91.218.175.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 In-Reply-To:Content-Type; b=HIcoz+1tiRCk/HSijGtmpckhcasTf0OuLWq6UOJjpjPaoJ1Cq7sJr2/1W87bTkZb+1hz8RfPp/i2SoNAofbNZrlLo9uCZRM7NCF8V1tqNEb/8uqzfkJUE+ZT6zOmVh3f/bLgbKR23gy7fLFSm+0jgkPfDP9vHy22PVU7gupY/RM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BpMJC8Sy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="HRpvztqz"
-X-Envelope-To: linux-usb@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=fqInk17I5hhfQnP03ChwBojmoHSswahGqJt0SWkJHZA=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1790046759; v=1; x=1790651559;
- b=HRpvztqzBplCNT4wUF3xg9yGA+IzIXY67GlAxPCTPEwfFuIcqXorv+T22KohmvoXwABRT/wI
- Ah5lKYFl8b8IkoTZB5YiH9g8G6cwX5HpLyrg31hXxg7QTJA0E4z/XVk9+WrPDj3v6woZAVGAWjM
- vqHkvCDQjgIArk7wXnQT5DiU=
-X-Envelope-To: linux-usb@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 82d2f06f988945bb;
-	Tue, 22 Sep 2026 03:12:29 +0000
-X-Mizu-Trace-ID: 82d2f06f988945bb
-X-Migadu-Flow: FLOW_OUT
-Message-ID: <f151fb61-6e9d-4f42-8a3e-89cf5f4fcaea@linux.dev>
-Date: Tue, 22 Sep 2026 11:13:25 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BpMJC8Sy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2327F1F000FF;
+	Tue, 22 Sep 2026 03:23:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790047440;
+	bh=Ii3qyc0w1aYDJN77yU+YWW/365rbaC06cgQrcopc6Fc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=BpMJC8SyVUJOti0rK1Ie6MGWeuSoqdfPyKzTiQwdBRdYY4EI/SNW39IKeIQjIE3cC
+	 VA4qzmdOIj+qc6zlDqH1lojF/6QtemOwrf7+HI1ZQg54dPX48Lg7HyWvEo+bGWWWbU
+	 f+2oMo7f8ZRROQdvOJyhC316ig3XBt30r0S5qm726aq4SYYUOyl980MuUUHamYp7Lb
+	 UAPG/mTuzYQlgL7v/fxhCT1fFstwC6c22j4CJhNHD+CrbVMibx5bphuSm6FK3kIiVp
+	 RdzXvvrPKH4I6L5aexGN64U1ZUyNlI71UeUyUT/s2VFwc/X3aS6MPTty+IAOB2OqK2
+	 T3JK08iR/TlSw==
+Message-ID: <f0db06a2-08e4-4013-96cb-c6754f673126@kernel.org>
+Date: Tue, 22 Sep 2026 12:23:54 +0900
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -38,119 +35,75 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [USB] WARNING: mm/page_alloc.c:5345 at
- __alloc_frozen_pages_noprof+0x39a/0x3d0, CPU#41: swapper/0/1
-To: Luiz Capitulino <luizcap@redhat.com>
-Cc: akpm@linux-foundation.org, mathias.nyman@intel.com,
- linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, linux-mm@kvack.org
-References: <8b77688e-3219-4133-af0f-395e342acb25@redhat.com>
+Subject: Re: [RFC PATCH 2/5] ata: libahci_platform: Adapt the return value
+ changed for disabled blob
+To: Inochi Amaoto <inochiama@gmail.com>, Hans de Goede <hansg@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Vinod Koul <vkoul@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Damon Ding <damon.ding@rock-chips.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ linux-phy@lists.infradead.org, Yixun Lan <dlan@gentoo.org>,
+ Longbin Li <looong.bin@gmail.com>
+References: <20260922024724.191412-1-inochiama@gmail.com>
+ <20260922024724.191412-3-inochiama@gmail.com>
 Content-Language: en-US
-From: Hao Ge <hao.ge@linux.dev>
-In-Reply-To: <8b77688e-3219-4133-af0f-395e342acb25@redhat.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Organization: Western Digital Research
+In-Reply-To: <20260922024724.191412-3-inochiama@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Hi Luiz
+On 9/22/26 11:47, Inochi Amaoto wrote:
+> Check EOPNOTSUPP for disabled helper function as the change in phy core.
+> 
+> Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
+> ---
+>  drivers/ata/libahci_platform.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/ata/libahci_platform.c b/drivers/ata/libahci_platform.c
+> index 6e072d681341..3e8ddbeb49b3 100644
+> --- a/drivers/ata/libahci_platform.c
+> +++ b/drivers/ata/libahci_platform.c
+> @@ -371,11 +371,11 @@ static int ahci_platform_get_phy(struct ahci_host_priv *hpriv, u32 port,
+>  
+>  	rc = PTR_ERR(hpriv->phys[port]);
+>  	switch (rc) {
+> -	case -ENOSYS:
+> +	case -EOPNOTSUPP:
+>  		/* No PHY support. Check if PHY is required. */
+>  		if (of_property_present(node, "phys")) {
+>  			dev_err(dev,
+> -				"couldn't get PHY in node %pOFn: ENOSYS\n",
+> +				"couldn't get PHY in node %pOFn: EOPNOTSUPP\n",
 
-On 2026/9/22 10:28, Luiz Capitulino wrote:
-> Hello,
-> 
-> When booting the latest Andrew Morton's mm-new tree[1] commit 498ee28e5ec4
-> ("mm/swap, PM: hibernate: atomically replace hibernation pin") on a KVM guest,
-> I'm getting the following MM warning being triggered:
-> 
-> """
-> [    1.667197] [      T1] WARNING: mm/page_alloc.c:5345 at __alloc_frozen_pages_noprof+0x39a/0x3d0, CPU#41: swapper/0/1
-> [    1.691217] [      T1] CPU: 41 UID: 0 PID: 1 Comm: swapper/0 Tainted: G        W           7.3.0-rc1+ #12 PREEMPT(full)
-> [    1.692073] [      T1] Tainted: [W]=WARN
-> [    1.692378] [      T1] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS edk2-20260812-8.fc44 08/12/2026
-> [    1.693158] [      T1] RIP: 0010:__alloc_frozen_pages_noprof+0x39a/0x3d0
-> [    1.693685] [      T1] Code: e2 04 e8 49 85 ff ff 45 31 c9 e9 14 fe ff ff 0f 0b e9 e7 fe ff ff 80 3d 6d 3a f2 05 00 0f 85 2b fe ff ff c6 05 60 3a f2 05 01 <0f> 0b e9 1d fe ff ff 48 89 5c 24 40 48 89 6c 24 48 4c 89 64 24 50
-> [    1.695238] [      T1] RSP: 0000:ff46f50b801538d8 EFLAGS: 00010246
-> [    1.695723] [      T1] RAX: 0000000000000000 RBX: 0000000000000cc0 RCX: 0000000000000000
-> [    1.696356] [      T1] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000cc0
-> [    1.696981] [      T1] RBP: 0000000000000034 R08: 0000000000000000 R09: 0000000000000cc0
-> [    1.697605] [      T1] R10: 0000000000000034 R11: 0000000000000100 R12: 0000000000000034
-> [    1.698231] [      T1] R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
-> [    1.698872] [      T1] FS:  0000000000000000(0000) GS:ff2b932745209000(0000) knlGS:0000000000000000
-> [    1.699592] [      T1] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [    1.700119] [      T1] CR2: 0000000000000000 CR3: 00000006ede4a001 CR4: 0000000000773ef0
-> [    1.700745] [      T1] PKRU: 55555554
-> [    1.701023] [      T1] Call Trace:
-> [    1.701283] [      T1]  <TASK>
-> [    1.701512] [      T1]  alloc_pages_node_noprof+0x4c/0xc0
-> [    1.701919] [      T1]  __dma_direct_alloc_pages.isra.0+0x164/0x1f0
-> [    1.702402] [      T1]  dma_direct_alloc+0x19f/0x2b0
-> [    1.702767] [      T1]  dma_alloc_attrs+0x8d/0x200
-> [    1.703133] [      T1]  xhci_alloc_interrupter+0xc9/0x190
-> [    1.703543] [      T1]  xhci_mem_init+0x283/0x340
-> [    1.703902] [      T1]  ? __pfx_xhci_pci_quirks+0x10/0x10
-> [    1.704317] [      T1]  xhci_gen_setup+0x35e/0x4f0
-> [    1.704684] [      T1]  xhci_pci_setup+0x52/0x1c0
-> [    1.705038] [      T1]  usb_add_hcd.cold+0x241/0x5d8
-> [    1.705413] [      T1]  usb_hcd_pci_probe+0x188/0x480
-> [    1.705803] [      T1]  xhci_pci_common_probe+0x6b/0x2f0
-> [    1.706218] [      T1]  local_pci_probe+0x4a/0x90
-> [    1.706582] [      T1]  ? cpu_hotplug_disable+0x15/0x30
-> [    1.706986] [      T1]  pci_call_probe+0x55/0x150
-> [    1.707357] [      T1]  pci_device_probe+0xae/0x150
-> [    1.707734] [      T1]  ? kernfs_create_link+0x61/0xb0
-> [    1.708139] [      T1]  ? sysfs_do_create_link_sd+0x81/0xf0
-> [    1.708562] [      T1]  call_driver_probe+0x23/0x100
-> [    1.708949] [      T1]  ? driver_sysfs_add+0x55/0xc0
-> [    1.709334] [      T1]  really_probe+0xd7/0x2d0
-> [    1.709681] [      T1]  ? _raw_spin_unlock_irq+0xe/0x30
-> [    1.710098] [      T1]  __driver_probe_device+0x9c/0x1b0
-> [    1.710503] [      T1]  driver_probe_device+0x1f/0x80
-> [    1.710892] [      T1]  ? __pfx___driver_attach+0x10/0x10
-> [    1.711323] [      T1]  __driver_attach+0x10a/0x210
-> [    1.711706] [      T1]  ? __pfx___driver_attach+0x10/0x10
-> [    1.712125] [      T1]  bus_for_each_dev+0x86/0xf0
-> [    1.712488] [      T1]  bus_add_driver+0x13e/0x230
-> [    1.712858] [      T1]  ? __pfx_xhci_pci_init+0x10/0x10
-> [    1.713273] [      T1]  ? __pfx_xhci_pci_init+0x10/0x10
-> [    1.713681] [      T1]  driver_register+0x75/0xe0
-> [    1.714049] [      T1]  do_one_initcall+0x7a/0x1c0
-> [    1.714429] [      T1]  do_initcalls+0xe1/0x100
-> [    1.714780] [      T1]  kernel_init_freeable+0x152/0x1c0
-> [    1.715199] [      T1]  ? __pfx_kernel_init+0x10/0x10
-> [    1.715592] [      T1]  kernel_init+0x1f/0x140
-> [    1.715928] [      T1]  ret_from_fork+0x19e/0x270
-> [    1.716296] [      T1]  ? __pfx_kernel_init+0x10/0x10
-> [    1.716680] [      T1]  ? __pfx_kernel_init+0x10/0x10
-> [    1.717071] [      T1]  ret_from_fork_asm+0x1a/0x30
-> [    1.717438] [      T1]  </TASK>
-> [    1.717663] [      T1] ---[ end trace 0000000000000000 ]---
-> """
-> 
-> This does not happen with latest Linus tree 40288c9206c1 ("Merge tag
-> 'drm-fixes-2026-09-19' of https://gitlab.freedesktop.org/drm/kernel").
-> 
-> What I could determine is:
-> 
-> - In xhci_alloc_interrupter() max_segs=0, which leds to seg=0
-> 
-> - This eventually leads to passing size=0 to get_order() in
->   __dma_direct_alloc_pages() (call sequenece below). Passing size=0 to
->   get_order() is undefined and returns order=52 on my guest, whch leads
->   to the warning since 52 > MAX_PAGE_ORDER
-> 
->     xhci_alloc_erst()
->       dma_alloc_coherent()
->         dma_alloc_attrs()
->           dma_direct_alloc()
->             __dma_direct_alloc_pages()
->             get_order()
->             alloc_pages_node()
-> 
-> [1] git://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm origin/mm-new
-> 
+I do not see the point in printing an error code name. Instead, let's make the
+error message more sensible. Something like:
 
-Thanks for the report. From my understanding, it is already
-fixed in mainline by 045b5bef916d ("usb: xhci: Fix HCS_ERST_MAX conversion").
+	dev_err(dev, "Node %pOFn: PHY not supported\n", node);
 
-Thanks
-Best Regards
-Hao
+Or
+
+	dev_err(dev, "PHY not supported on node %pOFn\n", node);
+
+>  				node);
+>  			break;
+>  		}
 
 
+-- 
+Damien Le Moal
+Western Digital Research
