@@ -1,195 +1,211 @@
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655F849B5D1
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 14:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790173879; cv=pass; b=T5Kvm4NWLq5QUJqN9CfvQmSRwZsF0CzOxj2YvO4PcaHOQzFsixM5FptaS00kuac4G8mz3WXQibOfLx8gHSvIH2zbKM2kvKc5QjrWf1gFLDcbmlIGaKaxaq7U+MxOM5JceSIqVViwQduqDXJixhrBYn2LhsGfqkaD3fC5tfnUZRo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790173879; c=relaxed/simple;
-	bh=3IRQTfCkVu29EAhzhIq8HL8xV9bhN+vmwTvfaTzW1hg=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998AA440A16
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 14:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790174606; cv=none; b=hRYDsLxEbrKKYwaeAMp3UojeLJa90j5I6bmUWg9RkJFwdxEV9h4K8H+bMJur5BCgUsV00VJx6z1z+IgWq0oTkL4kBYYXiX74C9bkJRGcvm86+YXMSeZOCwCUh3QQ/ra9GZLf5erGqTV+BY7rPSEeo+dCJxhxlCbqVc6smqJ65D8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790174606; c=relaxed/simple;
+	bh=/U1MgBD6VoBqJ/8qiTtjqod/dz4JUJFqpqKojTxWot0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=joOMuYgqO8yQkYljmF7ZtwyGi/TDFLkUy6vbsrM76KX3iG/zLoJlLogaMiF21iZN3INycNFv0kH4+vJ+dBQK3YrVpT4bvd7KjooC67oSEa0DYilYSrY6wpRa2i5oEvbXaZbeWS3WmwVgl5jtG1ZLzHlFXMfb0Zv3/wonBVEVi4M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=C+1Ohl3z; arc=pass smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="C+1Ohl3z"
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-53113d72966so260671cf.1
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 07:31:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790173876; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Bf/4KMMEQoZkNmsbOUGJqgrW24kBo8cbSzWvff9ZSW5ji8XXp8tsJeA69f6Gm3T6fS
-         oMKvIksFAbMa1aDcKLRQIdN3YgJHXZd2W+sX2Vz5TSGG/tgH7Q5my56v4kbYPGDxYM8n
-         ox4+eY5IL0lGhbWCMxr8ZHtbbSFjWsjVcadVP3FkW8oXfZfs+7emQwxRBYGpdT/IkoXt
-         4FAIE7I7rRGsNKqdpCHzdGLoRlzA0iBMNJp6EUIj/xhLE9hnH9eCeq0XvCSnQH54qJgb
-         BVFMGPwA/UiaHHXmxurErEb+FsQUcxjAL0TK0afjGsXBJzw264NeMzlfs9G+yo3z0QEY
-         IL0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=3IRQTfCkVu29EAhzhIq8HL8xV9bhN+vmwTvfaTzW1hg=;
-        fh=DoIDMu0Npyb8fE9fbYKHPkAIIcFkMqbJZ1rCwlnZ8F0=;
-        b=BAqVKkd0D8mxW+WBFOHcRipQbSd+osO7sfSrYc2uExHutEZ70bp1WOaBwlLOypwF5H
-         EA235Lv6+f022OsGADxq/F4cgn9LkqaVzE2OP8ZoL4rEXeUBn4oPFhy00iL+wYZ6U+ti
-         LXJbs8oiHVk6dKeNAl0ZIxLK9yhYAA6+BJdmsRLKSVmweAEaCK3UP7HxbIypqatrnqDq
-         03jgc13mHlGyfRIaWlT/V7m5mue1tHKhoDAQML3DEP5kWJA2ThzyDbA4Q96clZSauq77
-         DAy48/aaol0ebVw0WJ9MG8CCUpZnaw8YbPRpGibE76Ecl8ZMrZs3qIXFCeT8pP3ORKwU
-         UEFQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1790173876; x=1790778676; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3IRQTfCkVu29EAhzhIq8HL8xV9bhN+vmwTvfaTzW1hg=;
-        b=C+1Ohl3zbsMrjh1dB/zOjZD8WctelSpuD7HSjz83HtCzxAu2uQCdrvdk6mQA/qDmED
-         XPmCruc/0qesoh5ZaUY/8kYU55YuQDkrL+NWB4/GzBktzO6vR8i1QACk+3pme9wnGQCn
-         VZQmjl8KrY0HTHromA139b+tgbWQilZ3lTmZ8bgk7A7cwz+FVWfgOIYzhOmTDxAQ89K+
-         VZ5tGKKWdn2SxsyXoo0ZRNPy/7aL5Z2Tdfk7aj0pDU/c4b+4zxQCe6XqJRfIBBmHEG8r
-         fY+QEIfNks1XUT2d6WUeW6MkoHO+EYXflKlYvUF0fbOWU0DbvpsKlrTvHc30tBgH/z4n
-         u9Ww==
+	 To:Cc:Content-Type; b=FWNl2q2Y8ZIK79VK7YAp7WwOjGHhEkpWr2Z6QpS7PlAAKHn9LtM2CNCJ6CGWLUWsj7jIwbKd495en9PEHW7pqzw4JZhvkrsyjWv8KejjMOaTiVTgtI3sStqyzJB+9TOfaLm3sg9qGDDqmZf16AdsJpGkCHLeaxGN99jaiI4HMlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.224.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aa8d882so1179112d50.0
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 07:43:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790173876; x=1790778676;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3IRQTfCkVu29EAhzhIq8HL8xV9bhN+vmwTvfaTzW1hg=;
-        b=x1Pum+zQFcaH+H/xLeBIuEFTXCgYtiyjosiIOZ9WFQQoE63tl/piAJ/mYARXTkjxoD
-         rzgorED7jpgrwOUARholEtxjtHi0Z/RxQVRmFH2IDYz/DcvnzIzIQqAKEQ9gEbabM4qT
-         XJbIuuKT8s+1WiTqfrm9sxD5B9Zrov5cOF3k6PNHVGsMmusuPfXfvqSB3VaOq2aEF0Ox
-         SHI90oMlo9OE168wWWVnBKGj+aRyCyViHscqotjdHd6J7CMLMLbNwifOmoxkUlYOkngf
-         PnOqm6U3CjAvFjy69i9QFSo90WMYPyt8N15h4uqg+22PUBu55Q4kSJII96GA0AD7Fqzf
-         z23w==
-X-Forwarded-Encrypted: i=1; AKwUvBxa0q4qkhNyff9MaMoC7ztaZszLApOzguhM8BF8Ipu+uOeElavQWrWw1XQHo2XtP4strd4yoL7GEdI=@vger.kernel.org
-X-Gm-Message-State: AFuF++n5LbPPkN5f2JT9YtDtZ1Fi1NDwVZPWq/lhyA1Bfi6Lys4VDVzv
-	bqmn4V28aOtHhKF9+Sj4SH5zCb7De5hujT/mO3zd5CKQ8SfuQOgt9ArxwEyFBLj1+R+dGCpngg5
-	Zotij8KxqKv8tWmuQ5+Dw/p0T4mweJXXYtaND6BWQ
-X-Gm-Gg: AYBFou2didV0clQu9pVpYfLLgyo6oVssvCjj98wg0S/eNzaU2GH2zAKuMii7QPvOG23
-	ME8opOyHHXC0g5u3lEVPhtB+/H0ni/WzKqGpGMN00fDOtq6ZSS4T2JveDW2yK3+PElX7+AY9mCy
-	UFR9E5i5ZuwARVWpSpVI9VQ/mi+SJv4XiWylxn5pzO7oJ7ExWzWZ6dpcGmFxUT4ih4MeT6QTCMj
-	5AMReA62fNTg00Ga8yCuipxwr3yx5E2nTrTycNaQnF6jtSTwKqDBaG5qaHozrASyUSh+d323TSW
-	1vYZyUzAMTLfzylS2BQIzYQRPc6zVzFCFXkb48MpJQgj+v5fniMUJnQZAvsG+WntizvG0MDykMw
-	UJR8uE9vZ9w==
-X-Received: by 2002:a05:622a:260e:b0:532:9d15:2e5a with SMTP id
- d75a77b69052e-532ede89b29mr14598791cf.1.1790173874906; Wed, 23 Sep 2026
- 07:31:14 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1790174603; x=1790779403;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=uSSwLrH/CqP5v9Ad6ht8i1AuRmzB1BOZysjgQqfiEm0=;
+        b=C01Stc+hiWc/GXdN/yx8pcCkJLDqIAe+hNpJORg2CLLTPJT8FBePQJzmD7EU1QyIIe
+         PFbsKRX8FlEFhQFfhK1leP9Z6P5TyeDZCZ4R42oTj7fqpMt/5w9j6EeDMe1VIZg/4pQO
+         Ld9OD3O22eFtjAnf2pUbhHMlkpTYj+0F4Y/x2EOPGlo5LnH2iBcscdr49T7fP9goWHwM
+         19ho7xf72yhY1TXjtbPQHBXBelDvzEZvtCe/BsOeNYK6OEmsYYZSWuCmEU2JxImVuHue
+         3ARNgzNcNbp9CSFQvCZ0RrZzAoGI6LKnsCwdt3CFhiXMurlVDMj94jvxuhw686IGNyNL
+         xsiA==
+X-Forwarded-Encrypted: i=1; AKwUvBxCPUXnpNeUWeNFIISNJzfC79UsL6F1xCG8Aaud+tyzofUOjm/BPf9qmy0pbdx/IF74Rp5SKnsR9fQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++nNAtyOlb4rAbcL9edW/iZbd+3FmFNgMgC06+sZzhNCcDJ8LhoB
+	ZHOYUadQrCZHhbrrxSp95d2fFW5KljS6bVY8oONqhjuu70loDh3AldNGIZPtPx7S0Ug=
+X-Gm-Gg: AYBFou1hbid/nI91Tk8o4nw+rvO9wiYVihSipWMICYFAsg3gxGcp+HFwTdaBfI1WJh+
+	5H92pwF8LYPPi6EDth9z6KhGQY8KJRy+qU4EPyjwUp9OWfAwnZpO+tYkjZWzLWVRiM2PI927PPL
+	+b/UlSE77lNM6GNvR4EWreb79SldccesZxn4aIV20Sthtc2ftOSggwpCapaoW6EcpAXfawW91UW
+	OPA0MTdOqqUDLeEo+wsXcyGHy7cEOhAmJC7MpOIp3eK8dGP1kqQCqbyJs8nx46GfeJbBfAzhNux
+	dNrW84zqTy6+0rgSXM5TOBXOQzqIPiwtk6hiQ+HW3fYZliuXrCtORSUXqIMNyW95sTg1oFg669U
+	Authmyy2uFs7+OGQeqeNgJiy/gNuroIBjD3Af7StAJtRZiLFQ/F1JdkLCnqww86mqbWy50QEyHI
+	vsFj7WXNdpOerAoLSSTlh+qd9UXoCYGeSiCfWFHCWOCGzmgkwp6IpHKdFsyqJde47A0N+XEA+so
+	d3/u2d1SAsO8njAFB4XW/E4psua6Vk5/RAzwhrfygl884x6
+X-Received: by 2002:a05:690e:812:10b0:671:5543:52b6 with SMTP id 956f58d0204a3-672d57de7c2mr1347296d50.43.1790174603445;
+        Wed, 23 Sep 2026 07:43:23 -0700 (PDT)
+Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com. [74.125.224.141])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-672d81e102asm1021589d50.19.2026.09.23.07.43.23
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 07:43:23 -0700 (PDT)
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aa8d881so1111290d50.1
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 07:43:23 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByVB2Q20gqm2tyMmzQguZnDTxgDnAK985GGR/3er19SbTDOv41mIEnqAUpD1e1LczY7g1QmiBqWL/E=@vger.kernel.org
+X-Received: by 2002:a05:6102:2922:b0:7a7:198a:c2bd with SMTP id
+ ada2fe7eead31-7ac1da2015fmr2739749137.37.1790174262272; Wed, 23 Sep 2026
+ 07:37:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
- <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org>
- <0b064fe6-ddb3-4f26-a1f2-2e9dd88d590f@kernel.org> <CAJuCfpFBichJH4OcmSHTb1rOuQBT6k5pXeua9_KgpWjDBKvsYw@mail.gmail.com>
- <aq6kzpK7wPl3iFGe@gremlin> <aq6lW9FvL69QeA9H@gremlin> <arOCPN02xB7mykju@gremlin>
- <b007cd0f-29ef-457a-8e44-63ab26f3bcd0@kernel.org>
-In-Reply-To: <b007cd0f-29ef-457a-8e44-63ab26f3bcd0@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Wed, 23 Sep 2026 07:31:02 -0700
-X-Gm-Features: AclHuK_ZGTwaB8ygIyiOyIIeQNRzbEtns-G_Cds8CuZ4q61CHw7YMjTifucik0o
-Message-ID: <CAJuCfpHL=dHjT=O4S88ZBvT1DyodAtCL9QTryepzs3EMwoECDQ@mail.gmail.com>
-Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit, eliminate VM_SPECIAL
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, 
-	Pedro Falcato <pfalcato@suse.de>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, 
-	Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, 
-	Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
+References: <20260904-rzg2-sr-boards-v8-0-94c4674927e8@solid-run.com> <20260904-rzg2-sr-boards-v8-4-94c4674927e8@solid-run.com>
+In-Reply-To: <20260904-rzg2-sr-boards-v8-4-94c4674927e8@solid-run.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 23 Sep 2026 16:37:31 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUGOLr6TQvfS9i2W1ihBWUUuTG0=TcfyZ-Seb02+XW_3w@mail.gmail.com>
+X-Gm-Features: AclHuK-Y4yRPc5ygPTDjA1xgXgYnA6hz3s-S6a8gc_ggzPpYCTe_qr4a-TZ4I5w
+Message-ID: <CAMuHMdUGOLr6TQvfS9i2W1ihBWUUuTG0=TcfyZ-Seb02+XW_3w@mail.gmail.com>
+Subject: Re: [PATCH v8 04/11] arm64: dts: renesas: add support for solidrun
+ rzg2l som and hb-iiot evb
+To: Josua Mayer <josua@solid-run.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
+	Linus Walleij <linusw@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
+	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2026 at 1:40=E2=80=AFAM David Hildenbrand (Arm)
-<david@kernel.org> wrote:
->
-> On 9/23/26 10:13, Lorenzo Stoakes (ARM) wrote:
-> > On Sat, Sep 19, 2026 at 04:09:13PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >> On Sat, Sep 19, 2026 at 04:05:57PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >>>
-> >>> Thanks guys!
-> >>
-> >> Note v3 has been posted to fix a stupid bug in 1/40 + attack some very=
- trivial
-> >> sashiko stuff
-> >>
-> >> https://lore.kernel.org/linux-mm/20260917-b4-mmap-prepare-vma-flag-san=
-ify-v3-0-4583d8a23bca@kernel.org/
-> >
-> > Just a gentle nudge on this :)
-> >
-> > If you guys or anybody else has some time it'd be appreciated! (obv. th=
-e v3 as
-> > linked above not this v2!)
-> >
-> > I know the series seems intimidating but most of the commits are very s=
-mall and
-> > it's been in -next for a while.
->
-> Busy with too many other things sorry. Its time will come.
+Hi Josua,
 
-Had to take care of the pile of bugs but I'm on it now.
+On Fri, 4 Sept 2026 at 13:56, Josua Mayer <josua@solid-run.com> wrote:
+> Add support for the SolidRun RZ/G2L SoM [1] on HummingBoard IIoT [2].
+>
+> The SoM features:
+> - 2x 1Gbps Ethernet with PHY
+> - eMMC
+> - 1/2GB DDR
+> - WiFi + Bluetooth
+> - SDHI Mux switching between eMMC and Carrier Board
+>
+> The HummingBoard IIoT features:
+> - 3x USB-2.0 Type A connector
+> - 2x 1Gbps RJ45 Ethernet
+> - USB Type-C Console Port
+> - microSD connector
+> - RTC with backup battery
+> - RGB Status LED
+> - 1x M.2 B-Key connector with USB-2.0 + SIM card holder
+> - 1x DSI Display Connector
+> - GPIO header
+> - 2x RS232/RS485 ports (configurable)
+> - 2x CAN
+>
+> Descriptions for eMMC, microSD and RS485 are provided as overlays due to
+> their dependency on configurable mux states.
+>
+> [1] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2l-som/
+> [2] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-iot-sbc/
+>
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
 
->
-> --
-> Cheers,
->
-> David
+Thanks for your patch!
+
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-hummingboard-iiot-common.dtsi
+
+> +       aliases {
+> +               gpio1 = &tca6408_u48;
+> +               gpio2 = &tca6408_u37;
+> +               gpio3 = &tca6416_u20;
+> +               gpio4 = &tca6416_u21;
+
+The TCA64xx driver does not seem to support gpio aliases, so please
+drop these.
+
+> +               i2c3 = &i2c_exp;
+> +               i2c4 = &i2c_csi;
+> +               i2c5 = &i2c_dsi;
+> +               i2c6 = &i2c_lvds;
+> +               rtc0 = &carrier_rtc;
+> +               rtc1 = &pmic;
+> +               serial3 = &scif3;
+> +       };
+
+> +       v_1_2: regulator-1-2 {
+
+Preferred node name is "regulator-1v2"...
+
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "1v2";
+> +               regulator-max-microvolt = <1200000>;
+> +               regulator-min-microvolt = <1200000>;
+> +       };
+> +
+> +       v_3_3: regulator-3-3 {
+
+... "regulator-3v3".
+
+> +               compatible = "regulator-fixed";
+> +               regulator-name = "3v3";
+> +               regulator-max-microvolt = <3300000>;
+> +               regulator-min-microvolt = <3300000>;
+> +       };
+
+> +&i2c0 {
+> +       /* highest i2c clock supported by all peripherals is 400kHz */
+
+We have a DT propery for that ;-)
+
+    clock-frequency = <400000>;
+
+Same for i2c1.
+
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/renesas/rzg2l-sr-som.dtsi
+> @@ -0,0 +1,480 @@
+> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +/*
+> + * Device Tree Source for the RZ/G2L Solidrun SoM
+> + *
+> + * Copyright 2023 SolidRun Ltd.
+> + * Copyright 2025 Josua Mayer <josua@solid-run.com>
+> + */
+> +
+> +#include <dt-bindings/gpio/gpio.h>
+> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
+> +
+> +/ {
+> +       aliases {
+> +               ethernet0 = &eth0;
+> +               ethernet1 = &eth1;
+> +               gpio0 = &pinctrl;
+
+The pin control driver does not support gpio aliases, so please
+drop this.
+
+> +               i2c0 = &i2c0;
+> +               i2c1 = &i2c1;
+> +               i2c2 = &i2c3;
+> +               mmc0 = &sdhi0;
+> +               mmc1 = &sdhi1;
+> +               rtc0 = &pmic;
+> +               serial0 = &scif0;
+> +               serial1 = &scif1;
+> +               serial2 = &scif2;
+> +       };
+
+I didn't compare with the board schematics, but the rest LGTM.
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
