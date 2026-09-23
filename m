@@ -1,108 +1,192 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF28D441625
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 09:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B4C4756C3
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 09:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790154008; cv=none; b=PVqqzTg2Ob+oZZ6yhSAj49KkjKq3us/jpDAnDsbD2tmPZP5mJVH8eI8Hoa7mLb1cbpmJ+D7bTj4xVFHoxNEMdZ0kScW+FI801G+DFOHj79YjHAbvQ6VfiX3ZK/c/9vrLH7tDzO5C1JzITwAmEwnRX13iQ6/90izAZZU7JhFtIVA=
+	t=1790154712; cv=none; b=Y9Pzr3lakEPvPnQaOHr/ye7eTJpkX/0CgbGw7k3S2UL9j4CMFIQkIkc4qSCJJu3wsB1ec+l/RyVguaMkwXZrJEGJWWhRrMJ+1C67Iqz+Eel9RjB2jFtj2JQhcjb1xolL6rIEVKfKJvfOgbDjCQHqVNW87NW+KBJDm9izv6TVZe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790154008; c=relaxed/simple;
-	bh=FbzAJg9KFAd0XK3d8yi6dKFFaejwIzukaaxckgS1/bE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=F+NIpy5qC7/qSARFi1XVfAJU5t6ho2zG5lBJt6nJGdWu6gnwzaIyuO3pwuDz6OuXTGsbVtWNvA1LzavxBIhR604BCCzMYekbLNQSYFPxy8tgRF2GueDkMm2hwK2XuUX/kser275glBF1h45vwgnql+CfxR9Wu3EyLYLrFf/nB+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGiDAO5T; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790154712; c=relaxed/simple;
+	bh=ClIrNXvQzgh1phRsj2WKx2BjwWcdDPaTRIsDT7BHJss=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ULxWqYdPaCu+QMavudpmQtNcdPRRcRuj7ab0hysHyaFnZq+7c7Sdk4wvyoaqfXG5u37/I4XoWmt8uPjrg45cFeJ1GrociQ7/f/4ZBc5dFH/0/j+C88Iv6yLdDeV58uo3wOl/6lCGcYOnNeWBAVKa0vXe+3n50FyqyArYmVX0BEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Wf6NLega; arc=none smtp.client-ip=74.125.225.99
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGiDAO5T"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49fbca514f8so434135e9.2
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 02:00:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Wf6NLega"
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885a1480a2so415237f8f.3
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 02:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790154005; x=1790758805; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FbzAJg9KFAd0XK3d8yi6dKFFaejwIzukaaxckgS1/bE=;
-        b=XGiDAO5T3VB4VxzckdDQR8drzNPy8VUTKQ+f1233xydwegKk1rtJEIcsTazkzOOlKC
-         xi6oZoSYw9UfIc/T+thufhiQBzzO6Q76hpw3RegMp2nWam0hKVL/0RLhBnUk6OVZER1S
-         jA9h2x8yfXrq5VkiObRzKOZbxsHW5WvlAwYTYVy4EfAk9coNl/Ptub/eiyRdvMhySdtG
-         gJ1QJAj8f45YEoLFg3Acyq7LR5MVJyl7i+AshWJ0nGDAwIVem0SycDE/dj36lccggXPq
-         9shf6deNF/S+lhtqS5SZj/XjihuxSpbcwtR2oLYOEPcTLo/1YtSy2DGT2uvxoIjRVAaj
-         P6Jw==
+        d=linuxfoundation.org; s=google; t=1790154708; x=1790759508; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iAoiQGthbdNXddwUID6hWK5ILZRJHIUjDxuRCcm0SGQ=;
+        b=Wf6NLegamnVjJcmN+y8oY986P15cb7pxLV1ijB0dWg5AGWOS1vjB4rE6TE7fBSiBC3
+         YVWJ5q9qo8WZpzWdx6h6oU4QftrCIUtLc0jrjVyKjQ+CogzCFFTy7ug/HfdK+8eCNgQ0
+         2P9gv9WoYEPTm3ykuHAW9/Rpw9ieldD4uz260=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154005; x=1790758805;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FbzAJg9KFAd0XK3d8yi6dKFFaejwIzukaaxckgS1/bE=;
-        b=tSJU/FKIMLb9aDNCVdJnKrl6SsHFlwmgTLM0+FRqvSnaZc8buzlEPPW5Sw/1ACmqep
-         7h+qYZZiaoTuZ9d5GE9fP2EVan6VEcwEBNFLiEkuMZ3D/0LyhnmbCJfWKJw9Q53vwNF5
-         UNy/Uqq+J/aNbfPgSaAsm3MncwhB9zjXC1ECUQe45GBGgklZ9kKYGJyJEKI6SVS95PD8
-         A2ey7uXQ98D6JcTIOJCWH1lTZEBmIcNX69GmONHG/tEroQ5F1s9bd2eVlmd7UqRf3eLp
-         fuZzQSdq8zKrXKSEBgQUfp2Havk/XSRV5SMxL7CmcHNncfNcnS7cz9LKG6BqZY7tarMg
-         rdTA==
-X-Forwarded-Encrypted: i=1; AKwUvByv3Es5c0MVAUDfQwUroutodRqe/SdnBREF5tPN0r9KL8skUKPd0ZFHAeAtpDupl+Yp0psE4AKJ4as=@vger.kernel.org
-X-Gm-Message-State: AFuF++lw9yJNf3PaR96DFftAfWrJQVzdWCREK3N6AI3Pv4R1cDoWK0ph
-	4Npy89dhGGHDWJDVWq+luBZj8LmqCxDZMdLi8ARm0mqWBOAW5WfLd89o
-X-Gm-Gg: AYBFou0OUKIr0q41JQf/pMsQ4Ed+E2a4wd8losntnBGA5vJpUXq+HVf2afb3FWtHYwo
-	PVPcYQ57zb/VocIuq4+1HORW4uw204NReFiXJGEBEkvoLatRdYAO/Z0FiFYcewojDn3MYDhTjvW
-	O7eGGfvCX/Q3EqhgFQoI3DTgoHBvcGsVyGJs+2poSwRhNpeigmFym+yeSZbl0s+eO0BWDkKwJKn
-	Sb4DTCkknUdb/sNAwuNAk1K4ToytBsM0/02f7Uo7vvcfgIKt0d0oHoVLkXrGpWGRbYM70/1ID+B
-	9rDTt3qdYVy5ezzlro0A99Mv9q+3LH+9c1vrZzQKso23FGiNrQWrN9ECNtSzOSdJ3q8JIR2ADR7
-	0E5T3F2cgmoB26QYFSXRHSVIDl97neP0Jwc+w4Tzg4AcXPghNtvV5C9+NV8qF2dWumHRPoz+Qk1
-	cZzBS0jEBgM8ujR0xqOIq9+8fuuNNI7InLk8K/q0zZMOZi3HG3P8aBSlWGddvXaiSKWlLzOdgRo
-	zS13LUd7vxOTO11w/ttWdIcrwA+9qlSje3CQZyvniNhp+2fJxCib3onpVjjfs3W
-X-Received: by 2002:a05:600c:4f86:b0:49e:6683:d227 with SMTP id 5b1f17b1804b1-49fdec5dc40mr23139865e9.0.1790154004654;
-        Wed, 23 Sep 2026 02:00:04 -0700 (PDT)
-Received: from OrangePi5-Plus.BB-HOME (20014C4E1B8F4500D949869966507951.dsl.pool.telekom.hu. [2001:4c4e:1b8f:4500:d949:8699:6650:7951])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fde197466sm56190915e9.7.2026.09.23.02.00.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:00:04 -0700 (PDT)
-From: Igor Paunovic <royalnet026@gmail.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Igor Paunovic <royalnet026@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-phy@lists.infradead.org,
-	kernel@collabora.com
-Subject: Re: [PATCH 5/5] usb: dwc3: rockchip: fix USB-C reconnect in gadget mode
-Date: Wed, 23 Sep 2026 10:59:41 +0200
-Message-ID: <20260923085941.16418-1-royalnet026@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <arMyLlcFKgtlwW_T@vbox>
-References: <20260915-b4-rockchip-dwc3-rockchip-glue-v1-0-763bb546824e@collabora.com> <20260915-b4-rockchip-dwc3-rockchip-glue-v1-5-763bb546824e@collabora.com> <arMyLlcFKgtlwW_T@vbox>
+        d=1e100.net; s=20260707; t=1790154708; x=1790759508;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=iAoiQGthbdNXddwUID6hWK5ILZRJHIUjDxuRCcm0SGQ=;
+        b=j+qpn8sAx8CueIa/EimeA55BSXtRf3rFAEZaJTQFxWoVsUPjlHqB2UhBSUvs1/1B8E
+         p8djsfI5GRchMSLB9Ief0mQzQumi5UE3ecwvAddBoY+2pZcMnHyh6ABHJHgGkdLtjq9M
+         wKXTMyNF0vvmYUH58d+QVwWItAiChlR0hotSB1fWq6rsUG0LB4RsBJUdSRu10GsV8Y4a
+         bMHjjQt0Zz1NzP0V8NzxzkTcQtSytered8DDZo6QyFRRm427ymgbp3ZMPt60DSP7MRfV
+         5q++PIwYJLzNa+r6bW/XrKiqGyaIzJ0ZCb+zRbhmBruBBQruWHYgh2IfClKpp7XNWFim
+         rC1g==
+X-Forwarded-Encrypted: i=1; AKwUvBymQGgcaSYp06FIZeV+njSjR7MiPCMStdJeiCS4DeiQ7PD7GT0qNjQ4gdyLMfHr8SGNhZornGiaSFY=@vger.kernel.org
+X-Gm-Message-State: AFuF++mmgsvrI1AkEe1HLR94XTc8sJlyFXSy62qOm9Ti3O8n6TWv+R8X
+	qAoXpNwGYPZIXSyVzZWtfAHreuoHCWNaNJa+f01Q8nrgUSJzH3En0l9rt/nMx+ovxag=
+X-Gm-Gg: AYBFou0s1gaqslNNnK4oGG2H8MFalnUNlINmiQYnclurm+JzIsiIDdmXP/pstf1cxWu
+	dfE983P9SHnsEFLS1bbTIYKyEnFPelERMmt/zigLdSAB468EMhdz8K7VF0NwMqSI2WFYGkd0RL0
+	UMh6F2JbhGjYJZgACsNBmYSgUo50fTjGgjwAQCjRGowGR+VCZrLWrMqtUcrwy37/SqklylwEEOE
+	ZiHg88lGDI0QESIschANUzSxdTrcPNtL+o4F33gGNj+R1BF6TTWXj4D7uhVCFor38gdeL5Ijik2
+	2MpHYjw7OkmlYEHFiKSB+udCCvPL0aYbq1/mfVDnjJ+9YLxcD+PLheMLd2kU53SPApR/v4k40W6
+	AY4sCQR4qVJBSBpa5R6TbketnwfL8qe5gNTCHNG335Bq1swatu4lJ6rrC7Zeh28ulz1FB0n1mfW
+	e/ut7yEj3OSQSbfj2/wqTSIa75ShSnaR+YlOebxkiuSCgWtVGhd9Hb4IRnIMDNSlz1P4ZPQJ0WY
+	kelvFogsk7+PR6j
+X-Received: by 2002:a05:6000:98c:b0:487:40d:af29 with SMTP id ffacd0b85a97d-488670a3566mr3640483f8f.36.1790154708510;
+        Wed, 23 Sep 2026 02:11:48 -0700 (PDT)
+Received: from [10.214.128.75] ([149.7.5.83])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4886848636asm5096242f8f.6.2026.09.23.02.11.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 02:11:47 -0700 (PDT)
+Message-ID: <f1c55b79-4487-40db-b2fc-342b2dc33c1f@linuxfoundation.org>
+Date: Wed, 23 Sep 2026 03:11:39 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usbip: vudc: Prevent transfer timer rearm during
+ teardown
+To: Myeonghun Pak <mhun512@gmail.com>,
+ Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ijae Kim <ae878000@gmail.com>,
+ Michael Bommarito <michael.bommarito@gmail.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260923022033.957777-1-mhun512@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260923022033.957777-1-mhun512@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 23, 2026 at 01:58:19AM +0000, Thinh Nguyen wrote:
-> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+On 9/22/26 20:20, Myeonghun Pak wrote:
+> Commit d96209626a29 ("usbip: vudc: Fix use after free bug in
+> vudc_remove due to race condition") deletes the transfer timer before
+> vudc_remove() frees the vudc, but the receive thread keeps running
+> until usb_del_gadget_udc().  v_kick_timer() calls mod_timer() for
+> CMD_SUBMIT and CMD_UNLINK even in VUDC_TR_STOPPED, so a packet after
+> timer_delete_sync() rearms the timer and v_timer() uses the freed
+> vudc.
+> 
+> Use timer_shutdown_sync(), which ignores later arming.  The transfer
+> state is freed with the timer.  Annotate v_start_timer() and
+> v_kick_timer() with __must_hold(&udc->lock).
 
-Hi Sebastian,
+Can you explain why __must_hold(&udc->lock) necessary?
 
-a heads-up before v2, now that this patch has an Ack: the build issue
-I reported in [1] is still open. With dwc3 host-only and USB_GADGET
-either disabled, or a module while the glue is built in, the build
-fails with usb_udc_vbus_handler undefined. The dwc->gadget test in
-dwc3_rockchip_vbus_handler() is a runtime one, so the call is always
-compiled in, and include/linux/usb/gadget.h has no stub for it.
+> 
+> A KASAN and DEBUG_OBJECTS x86_64 QEMU guest reproduced the free-active
+> timer warning and the use-after-free in v_timer().  The same harness
+> completed 4000 iterations with this change.__must_hold(&udc->lock)
 
-No new build was run; the result is the one from [1]. An LLM assistant
-helped draft this mail.
+What does the harness do? You mentioned it in a response, but I would
+like to see this in the change log.
 
-[1] https://lore.kernel.org/all/20260918091032.15593-1-royalnet026@gmail.com/
+> 
+> Fixes: d96209626a29 ("usbip: vudc: Fix use after free bug in vudc_remove due to race condition")
+> Link: https://lore.kernel.org/all/20230316180940.1601515-1-zyytlz.wz@163.com/
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Co-developed-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Ijae Kim <ae878000@gmail.com>
+> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+> ---
+> Changes in v2:
+> - Drop the lock-held comment and mark v_start_timer() and
+>    v_kick_timer() with __must_hold(&udc->lock), on the prototypes and
+>    the definitions (Greg Kroah-Hartman).
+> 
+>   drivers/usb/usbip/vudc.h          | 6 ++++--
+>   drivers/usb/usbip/vudc_transfer.c | 8 +++-----
+>   2 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/usbip/vudc.h b/drivers/usb/usbip/vudc.h
+> index 5ef0e7d9b23a..c129f4c56e8a 100644
+> --- a/drivers/usb/usbip/vudc.h
+> +++ b/drivers/usb/usbip/vudc.h
+> @@ -157,8 +157,10 @@ int v_rx_loop(void *data);
+>   /* vudc_transfer.c */
+>   
+>   void v_init_timer(struct vudc *udc);
+> -void v_start_timer(struct vudc *udc);
+> -void v_kick_timer(struct vudc *udc, unsigned long time);
+> +void v_start_timer(struct vudc *udc)
+> +	__must_hold(&udc->lock);
+> +void v_kick_timer(struct vudc *udc, unsigned long time)
+> +	__must_hold(&udc->lock);
+>   void v_stop_timer(struct vudc *udc);
+>   
+>   /* vudc_dev.c */
+> diff --git a/drivers/usb/usbip/vudc_transfer.c b/drivers/usb/usbip/vudc_transfer.c
+> index d4ce85c4c6a2..ba625622975e 100644
+> --- a/drivers/usb/usbip/vudc_transfer.c
+> +++ b/drivers/usb/usbip/vudc_transfer.c
+> @@ -441,8 +441,6 @@ static void v_timer(struct timer_list *t)
+>   	spin_unlock_irqrestore(&udc->lock, flags);
+>   }
+>   
+> -/* All timer functions are run with udc->lock held */
+> -
+>   void v_init_timer(struct vudc *udc)
+>   {
+>   	struct transfer_timer *t = &udc->tr_timer;
+> @@ -452,6 +450,7 @@ void v_init_timer(struct vudc *udc)
+>   }
+>   
+>   void v_start_timer(struct vudc *udc)
+> +	__must_hold(&udc->lock)
+>   {
+>   	struct transfer_timer *t = &udc->tr_timer;
+>   
+> @@ -470,6 +469,7 @@ void v_start_timer(struct vudc *udc)
+>   }
+>   
+>   void v_kick_timer(struct vudc *udc, unsigned long time)
+> +	__must_hold(&udc->lock)
+>   {
+>   	struct transfer_timer *t = &udc->tr_timer;
+>   
+> @@ -490,8 +490,6 @@ void v_stop_timer(struct vudc *udc)
+>   {
+>   	struct transfer_timer *t = &udc->tr_timer;
+>   
+> -	/* Delete the timer synchronously before teardown frees udc. */
+>   	dev_dbg(&udc->pdev->dev, "timer stop");
+> -	timer_delete_sync(&t->timer);
+> -	t->state = VUDC_TR_STOPPED;
+> +	timer_shutdown_sync(&t->timer);
+>   }
+> 
+> base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
 
-Igor
+Have you tested this with real devices bound to a host and exported
+to a client?
+
+thanks,
+-- Shuah
+
