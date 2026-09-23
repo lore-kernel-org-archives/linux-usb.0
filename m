@@ -1,211 +1,125 @@
-Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 998AA440A16
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 14:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 093F1535FA3;
+	Wed, 23 Sep 2026 14:44:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790174606; cv=none; b=hRYDsLxEbrKKYwaeAMp3UojeLJa90j5I6bmUWg9RkJFwdxEV9h4K8H+bMJur5BCgUsV00VJx6z1z+IgWq0oTkL4kBYYXiX74C9bkJRGcvm86+YXMSeZOCwCUh3QQ/ra9GZLf5erGqTV+BY7rPSEeo+dCJxhxlCbqVc6smqJ65D8=
+	t=1790174688; cv=none; b=UQC+R8QgwvSLKnksypTSlIBNBLig78c9C2iPbWfYh/OXsI5zr4iWXWqqCzWi9m8Sf2/hFhUotVxYHiXXUjGDIOngLw1a98FTKtQQis3wme7ijRI+5kbuw97fiKiQjLwX3sM3tESn7DJEqA7BkVJhmLU3vTwK9p3TcZQRMs7tew8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790174606; c=relaxed/simple;
-	bh=/U1MgBD6VoBqJ/8qiTtjqod/dz4JUJFqpqKojTxWot0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FWNl2q2Y8ZIK79VK7YAp7WwOjGHhEkpWr2Z6QpS7PlAAKHn9LtM2CNCJ6CGWLUWsj7jIwbKd495en9PEHW7pqzw4JZhvkrsyjWv8KejjMOaTiVTgtI3sStqyzJB+9TOfaLm3sg9qGDDqmZf16AdsJpGkCHLeaxGN99jaiI4HMlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.224.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aa8d882so1179112d50.0
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 07:43:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790174603; x=1790779403;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=uSSwLrH/CqP5v9Ad6ht8i1AuRmzB1BOZysjgQqfiEm0=;
-        b=C01Stc+hiWc/GXdN/yx8pcCkJLDqIAe+hNpJORg2CLLTPJT8FBePQJzmD7EU1QyIIe
-         PFbsKRX8FlEFhQFfhK1leP9Z6P5TyeDZCZ4R42oTj7fqpMt/5w9j6EeDMe1VIZg/4pQO
-         Ld9OD3O22eFtjAnf2pUbhHMlkpTYj+0F4Y/x2EOPGlo5LnH2iBcscdr49T7fP9goWHwM
-         19ho7xf72yhY1TXjtbPQHBXBelDvzEZvtCe/BsOeNYK6OEmsYYZSWuCmEU2JxImVuHue
-         3ARNgzNcNbp9CSFQvCZ0RrZzAoGI6LKnsCwdt3CFhiXMurlVDMj94jvxuhw686IGNyNL
-         xsiA==
-X-Forwarded-Encrypted: i=1; AKwUvBxCPUXnpNeUWeNFIISNJzfC79UsL6F1xCG8Aaud+tyzofUOjm/BPf9qmy0pbdx/IF74Rp5SKnsR9fQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++nNAtyOlb4rAbcL9edW/iZbd+3FmFNgMgC06+sZzhNCcDJ8LhoB
-	ZHOYUadQrCZHhbrrxSp95d2fFW5KljS6bVY8oONqhjuu70loDh3AldNGIZPtPx7S0Ug=
-X-Gm-Gg: AYBFou1hbid/nI91Tk8o4nw+rvO9wiYVihSipWMICYFAsg3gxGcp+HFwTdaBfI1WJh+
-	5H92pwF8LYPPi6EDth9z6KhGQY8KJRy+qU4EPyjwUp9OWfAwnZpO+tYkjZWzLWVRiM2PI927PPL
-	+b/UlSE77lNM6GNvR4EWreb79SldccesZxn4aIV20Sthtc2ftOSggwpCapaoW6EcpAXfawW91UW
-	OPA0MTdOqqUDLeEo+wsXcyGHy7cEOhAmJC7MpOIp3eK8dGP1kqQCqbyJs8nx46GfeJbBfAzhNux
-	dNrW84zqTy6+0rgSXM5TOBXOQzqIPiwtk6hiQ+HW3fYZliuXrCtORSUXqIMNyW95sTg1oFg669U
-	Authmyy2uFs7+OGQeqeNgJiy/gNuroIBjD3Af7StAJtRZiLFQ/F1JdkLCnqww86mqbWy50QEyHI
-	vsFj7WXNdpOerAoLSSTlh+qd9UXoCYGeSiCfWFHCWOCGzmgkwp6IpHKdFsyqJde47A0N+XEA+so
-	d3/u2d1SAsO8njAFB4XW/E4psua6Vk5/RAzwhrfygl884x6
-X-Received: by 2002:a05:690e:812:10b0:671:5543:52b6 with SMTP id 956f58d0204a3-672d57de7c2mr1347296d50.43.1790174603445;
-        Wed, 23 Sep 2026 07:43:23 -0700 (PDT)
-Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com. [74.125.224.141])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-672d81e102asm1021589d50.19.2026.09.23.07.43.23
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 07:43:23 -0700 (PDT)
-Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4aa8d881so1111290d50.1
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 07:43:23 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByVB2Q20gqm2tyMmzQguZnDTxgDnAK985GGR/3er19SbTDOv41mIEnqAUpD1e1LczY7g1QmiBqWL/E=@vger.kernel.org
-X-Received: by 2002:a05:6102:2922:b0:7a7:198a:c2bd with SMTP id
- ada2fe7eead31-7ac1da2015fmr2739749137.37.1790174262272; Wed, 23 Sep 2026
- 07:37:42 -0700 (PDT)
+	s=arc-20240116; t=1790174688; c=relaxed/simple;
+	bh=LAwoB+hDKL1vHcuI1FkBdXq7Kr2Aj3tq2Adr+dI1mAY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QRhhtK2hq/moPESh2dsRujvJRA1Oq0qQFEshzqgU3vr8Lj/BBRJIa/Kw53FUzLJzWlMjgpZB3GHIM/j1UFVtkS4hUASnrH54t32k6tDIpkjNhFwwC76/FqNoufRJRbEqhyfqUBWxkyyaN5khm68qUdsvmdNjG73SU8hR4IV/wDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marmottus.net; spf=pass smtp.mailfrom=marmottus.net; dkim=pass (2048-bit key) header.d=marmottus.net header.i=@marmottus.net header.b=m9go9OTM; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=marmottus.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=marmottus.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=marmottus.net header.i=@marmottus.net header.b="m9go9OTM"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A9CFD3EE2C;
+	Wed, 23 Sep 2026 14:44:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marmottus.net;
+	s=gm1; t=1790174678;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=5u1+zM4KfuVHjxj92oAK2uBOgFJlHkQK0cTCn8jPASU=;
+	b=m9go9OTM2DIK5jqDLhWW1Lmt5s6/SjJwiifG8sBMk9FLltkDrRQPy5VSFA+GAkZIPR7ApW
+	PPUxRv904YLuQ6nK8+unRywL0cXRoVUKhh7xgnpnBMUJnCO9lCgKRRxUjgfknG5CF8+ihY
+	a5/H/IQKR6APXLk7szXDb0FCpShNYW2l635VOdOaWa2oQcOYHZ0omz0F3iV/WOLwZZAYsK
+	1VrAUcCLkIx2ut8GdwN8H+Tp7lbnNRx1/PIZceDirxQdVDxKnR5wMm/uxYa0cQw25EnMXs
+	sA7dHWWcPjufiHi1LHnRmuuQnTstG1rCWDkAmq4YvbX+xLxH4BphmA6WEVCbww==
+From: Arthur Crepin Leblond <arthur@marmottus.net>
+Subject: [PATCH v5 0/2] usb: gadget: f_hid: allow setting different
+ interval for each speed
+Date: Wed, 23 Sep 2026 16:44:14 +0200
+Message-Id: <20260923-usb_hid_interval-v5-0-7e0e2879ba8b@marmottus.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260904-rzg2-sr-boards-v8-0-94c4674927e8@solid-run.com> <20260904-rzg2-sr-boards-v8-4-94c4674927e8@solid-run.com>
-In-Reply-To: <20260904-rzg2-sr-boards-v8-4-94c4674927e8@solid-run.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 23 Sep 2026 16:37:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUGOLr6TQvfS9i2W1ihBWUUuTG0=TcfyZ-Seb02+XW_3w@mail.gmail.com>
-X-Gm-Features: AclHuK-Y4yRPc5ygPTDjA1xgXgYnA6hz3s-S6a8gc_ggzPpYCTe_qr4a-TZ4I5w
-Message-ID: <CAMuHMdUGOLr6TQvfS9i2W1ihBWUUuTG0=TcfyZ-Seb02+XW_3w@mail.gmail.com>
-Subject: Re: [PATCH v8 04/11] arm64: dts: renesas: add support for solidrun
- rzg2l som and hb-iiot evb
-To: Josua Mayer <josua@solid-run.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
-	Linus Walleij <linusw@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL7ls2oC/32PQW7DIBBFrxKxLhYzgIGsco+qirAhNVVjR4BRq
+ 8h3j0kWiVSry//13xvNlSQfg09kv7uS6EtIYRrXIN92pB/s+OlpcGsmyLBlmgk6p+44BHcMY/a
+ x2G/KnDaotRIaW7Jil+hP4eeufP945DR3X77P1VMXQ0h5ir/3mwXq7qFX0IIQBqEBqIWkQG3Mw
+ xwPZxvPU85zakafSdUWfAFRgUTFZKMM1+JfjD+xzXcKX3GjpDUn36NT3ZZEvEg4bEgEZbRlhhs
+ BjLv+j2RZlhsO/gWHewEAAA==
+X-Change-ID: 20260804-usb_hid_interval-0d8928874826
+To: linux-usb@vger.kernel.org
+Cc: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>, 
+ Ben Hoff <hoff.benjamin.k@gmail.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ linux-kernel@vger.kernel.org, Arthur Crepin Leblond <arthur@marmottus.net>
+X-Mailer: b4 0.15.2
+X-GND-Sasl: arthur@marmottus.net
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: dmFkZTGbrVzVQ6Oq8lVeHfcQGwoxt/trbjb9wOx1YNFER9V3QVTrOqGIqra8DnhBgr/EFGjL6mpG9DHHY2hfwC90eldABeXPuNkkUvsA9huCuQRJ0Fo8Mu0Yh35Hn5+4i+2/6iCHxOcSuqwqw4eSfEHeXjWgqU9XPIdBQS1GQYjMZSnLs4ZoJbGVS1RHS6uqKUfzuBQCIZlWE9dxqGuAfi89FrUdsBafNQz4lCl8gDN1iAyrpBarXo1ZPWkGqQ0/VOphJWPyPk5G+mLzNW2krGr1eVCMZNLRJfd6nM0HcOh+bz7CSHe/SbGQxfnWyiX7hXHdK3WSCZHjnWPxvuW/uxuQuqxNNVX9VQhOLf9HHog64eu7nlfD+qvJNq+lk9Z/leiEMtZ+sU3EFVEXpPTe6xeRKVcaSmhOGhab9gf9yxGx8O4vDVyDiYyj1WJkRymkJfyKP2/u4BrMnoVfG3xMnTaXxrbsEVSpjm/cNnWBjIkgrwvsOVtQZLJrxP+EP2+YAF2MWBcXRbhkSpYe0aqD8jxMKkEbj8R0zaa5K+YdWc/3V8ZQchTk4MubR48ZDOnlF1KoBLZe6uSzuBXw8AvBNRHRSaVAf6KJI3xSxPFuUBYwFA+W90yVQV0PgflA6b6I4vqbIX28F6P2ZNOPKGg4SmoZGx5ssDZZEtvr9Bvzl5h9kLKJDA
 
-Hi Josua,
+Hi,
 
-On Fri, 4 Sept 2026 at 13:56, Josua Mayer <josua@solid-run.com> wrote:
-> Add support for the SolidRun RZ/G2L SoM [1] on HummingBoard IIoT [2].
->
-> The SoM features:
-> - 2x 1Gbps Ethernet with PHY
-> - eMMC
-> - 1/2GB DDR
-> - WiFi + Bluetooth
-> - SDHI Mux switching between eMMC and Carrier Board
->
-> The HummingBoard IIoT features:
-> - 3x USB-2.0 Type A connector
-> - 2x 1Gbps RJ45 Ethernet
-> - USB Type-C Console Port
-> - microSD connector
-> - RTC with backup battery
-> - RGB Status LED
-> - 1x M.2 B-Key connector with USB-2.0 + SIM card holder
-> - 1x DSI Display Connector
-> - GPIO header
-> - 2x RS232/RS485 ports (configurable)
-> - 2x CAN
->
-> Descriptions for eMMC, microSD and RS485 are provided as overlays due to
-> their dependency on configurable mux states.
->
-> [1] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2l-som/
-> [2] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-iot-sbc/
->
-> Signed-off-by: Josua Mayer <josua@solid-run.com>
+I am using the HID USB gadget on a system that can be plugged in to
+different machines with different USB speeds (high or full).
 
-Thanks for your patch!
+Since the HID polling interval unit depends on the USB speed:
+ - Full speed: bInterval is linear, in milliseconds (1 to 255)
+ - High/Super speed: bInterval is logarithmic, encoding the interval
+   as 2^(bInterval-1) * 125us (microframes)
 
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/rzg2l-hummingboard-iiot-common.dtsi
+Exposing directly the bInterval means that the user needs to know
+which speed is currently in use and has to convert it accordingly.
 
-> +       aliases {
-> +               gpio1 = &tca6408_u48;
-> +               gpio2 = &tca6408_u37;
-> +               gpio3 = &tca6416_u20;
-> +               gpio4 = &tca6416_u21;
+I propose a solution to to expose the interval for each speed:
+ - interval_fs: bInterval for full-speed
+ - interval_hs: bInterval for high-speed
+ - interval_ss: bInterval for super-speed
+ - interval: legacy bInterval that overwrites the per-speed bInterval
+   to keep backward compatibility
 
-The TCA64xx driver does not seem to support gpio aliases, so please
-drop these.
+When the user sets the legacy interval attribute, all the other
+per-speed interval attributes are set to this value. That way backward
+compatibility is ensured.
 
-> +               i2c3 = &i2c_exp;
-> +               i2c4 = &i2c_csi;
-> +               i2c5 = &i2c_dsi;
-> +               i2c6 = &i2c_lvds;
-> +               rtc0 = &carrier_rtc;
-> +               rtc1 = &pmic;
-> +               serial3 = &scif3;
-> +       };
+Thank you for your reviews!
 
-> +       v_1_2: regulator-1-2 {
+Arthur Crepin Leblond
 
-Preferred node name is "regulator-1v2"...
+Signed-off-by: Arthur Crepin Leblond <arthur@marmottus.net>
+---
+v4 -> v5:
+- Got rid of the f_hid_opt_interval and user_set
+- Put the new attributes in the same documentation block
+- Reword the bInterval differences between speeds
+- Link to v4: https://patch.msgid.link/20260831-usb_hid_interval-v4-0-609394103dcb@marmottus.net
 
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "1v2";
-> +               regulator-max-microvolt = <1200000>;
-> +               regulator-min-microvolt = <1200000>;
-> +       };
-> +
-> +       v_3_3: regulator-3-3 {
+v3 -> v4:
+- Update documentation against 7.4
+- Removed unused struct f_hidg::interval
+- Edit cover letter
+- Link to v3: https://patch.msgid.link/20260804-usb_hid_interval-v3-1-975a9fec2d7b@marmottus.net
 
-... "regulator-3v3".
+v2 -> v3:
+- Use sysfs_emit
+- Link to v2: https://patch.msgid.link/20260727152705.79384-1-arthur@marmottus.net
 
-> +               compatible = "regulator-fixed";
-> +               regulator-name = "3v3";
-> +               regulator-max-microvolt = <3300000>;
-> +               regulator-min-microvolt = <3300000>;
-> +       };
+v1 -> v2:
+- Expose a specific interval attribute per USB speed
+- Use a define for the default values
+- Update ABI documentation
+- Link to v1: https://patch.msgid.link/20260716144921.1120265-1-arthur@marmottus.net
 
-> +&i2c0 {
-> +       /* highest i2c clock supported by all peripherals is 400kHz */
+---
+Arthur Crepin Leblond (2):
+      usb: gadget: f_hid: allow setting different interval for each speed
+      docs: ABI: testing: document hid interval attributes
 
-We have a DT propery for that ;-)
+ Documentation/ABI/testing/configfs-usb-gadget-hid |   8 ++
+ drivers/usb/gadget/function/f_hid.c               | 140 ++++++++++------------
+ drivers/usb/gadget/function/u_hid.h               |   4 +-
+ 3 files changed, 74 insertions(+), 78 deletions(-)
+---
+base-commit: d58dffe9ee2c8883193959ff4ef995ec07932874
+change-id: 20260804-usb_hid_interval-0d8928874826
 
-    clock-frequency = <400000>;
-
-Same for i2c1.
-
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/renesas/rzg2l-sr-som.dtsi
-> @@ -0,0 +1,480 @@
-> +// SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +/*
-> + * Device Tree Source for the RZ/G2L Solidrun SoM
-> + *
-> + * Copyright 2023 SolidRun Ltd.
-> + * Copyright 2025 Josua Mayer <josua@solid-run.com>
-> + */
-> +
-> +#include <dt-bindings/gpio/gpio.h>
-> +#include <dt-bindings/pinctrl/rzg2l-pinctrl.h>
-> +
-> +/ {
-> +       aliases {
-> +               ethernet0 = &eth0;
-> +               ethernet1 = &eth1;
-> +               gpio0 = &pinctrl;
-
-The pin control driver does not support gpio aliases, so please
-drop this.
-
-> +               i2c0 = &i2c0;
-> +               i2c1 = &i2c1;
-> +               i2c2 = &i2c3;
-> +               mmc0 = &sdhi0;
-> +               mmc1 = &sdhi1;
-> +               rtc0 = &pmic;
-> +               serial0 = &scif0;
-> +               serial1 = &scif1;
-> +               serial2 = &scif2;
-> +       };
-
-I didn't compare with the board schematics, but the rest LGTM.
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
