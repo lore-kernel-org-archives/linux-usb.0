@@ -1,169 +1,109 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f42.google.com (mail-pj2-f42.google.com [74.125.227.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69D013D6690
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 08:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1DE379998
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 08:38:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790152704; cv=none; b=f+vI69nw1gLcbsAX9uv2StP45bHmn30OrcB+Vl/CT9rnpS9PY0AXpRFAbtij8YSYRV4uwx7cPBZMSn90GtBPi0QVkEtk1e9yzkg/ul7RELw3xLdmCpsGh92nEiUlLeO+mNeRy8xZNQ3UHn7ZMn1JP8GLkAk7Q5Vu4aP/lCGpUU8=
+	t=1790152741; cv=none; b=P1YW4vlBr2aBY0Lf+kKymX1SbDPEIkQY9Q+eieDAgVQk34diokriDxJfpe+2x3Ci1677yUgAg3CWaaIUucXScYdvaSGcBbA6r/wgcZr7z68NXOsHL2HXmmaFYyZnBRj+IfC122yBWNh2Tz5zBiq2rIeDBGpz1eLBHA1S7OnKUDk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790152704; c=relaxed/simple;
-	bh=yyO1TjjuZ73WiNg4/ZkbI22ApDsMSWGk15dUuD4XbsM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QOHMdHnsLTAEu1m1T/T12E2bK8yYfy26gKYdRpnn7/FeTbFu5J209a93mJc4R0Im+zFy8lyXCp0QOrwoEHEge9JGnNdVOiUT03pJCnAOj8cX8WiPellyXf79jvm99n7TmeBHC0mqxAJD7dFrkxCquHsqK1GU7rxs8jz3LM89JXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gtxTY3Lg; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Zhn2gsns; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790152741; c=relaxed/simple;
+	bh=j0E9slfjlQutlT6Rmi1TRe1co8dcfLW5noTfuk2g2T0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=NeY9CtUd05+CFP78FL0rO5vktmpo/vrtRv0nbZQ+Y/34rWlUeMOlCoPlxT5iIOaharAbFl8R+T+qpwe6zkRN3P3k1yGx/qxKhz2Vl9gmmK25ceCqIpKY8XAiHEaptKnCpTAVRKay2lEXlUzaNBGlhLXuSLt45aAzn3aFQ0r7U4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Cx8ysRbf; arc=none smtp.client-ip=74.125.227.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gtxTY3Lg";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Zhn2gsns"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68N8JjvH3332983
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 08:38:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=cDb0sGso1ETTrzZaYUFiyqOj
-	3EvRajpbPDzXFX1BXvU=; b=gtxTY3Lgmo0J0t3fEs82mwgejpRgmqwLUASBH8J4
-	Ki5McU9Wa1putLIOnCfeR2umYGTLZ6dtjd1ldPWAKWKVn0+w/voJ4XwJk9Nk10sf
-	W9KLmbiD0eHslzVSQMR3TXdKVYrNK/iPV72ioqmV9QIMX3dFcY7fUPWfIogvp95O
-	tFEn/ctHVnLWvtBvr/G0nS28K6k4pyyo280LToKcJaaM2dqRv6X8Wt30Wd9A/h53
-	oBufjpMbb6PvGqZVBOyfmUhbDS8DKbmYehYdOogamQvaZ+8nS5ZNkAlFHv6jhukm
-	O1op1TidfRMkeIimSZA9w9fkPzmjcp4o89brDadfG0SZ2A==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gux7xuded-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 08:38:07 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-939c30aa9a0so68297085a.0
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 01:38:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Cx8ysRbf"
+Received: by mail-pj2-f42.google.com with SMTP id 98e67ed59e1d1-396ccafb74fso453230a91.3
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 01:38:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790152685; x=1790757485; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=cDb0sGso1ETTrzZaYUFiyqOj3EvRajpbPDzXFX1BXvU=;
-        b=Zhn2gsnsHhS6Nzv8y+/c+rW3oWJCtPmHGsG1mtV3+NptTYpprjv2hshm/SfvNImBGJ
-         d0EwYgTxKifE0H9DtIrN3yP5751Y8dBuII1gU0e5t/p6yR7RwM/K9KjYk4EXcqTxLm1i
-         9NcjIFiHXY454YqxV0nSlunE7Tg2O1Suc+vZLodVqM3blUUIkEJkXCsOwA4jhegtBNnN
-         O7M30ltE9K9UIKucvWnJbXpM4kYqGnFTOFM4YKwpy4smpoEFV0OFVb5MxzT2fHKXKp9k
-         haiaDJQQ5jxZkGQiQVCDfCm2Pmdn8JqBNFc8VzIgSWy5FaxvQRV8pfEOaYvkzcKSMzv4
-         rlig==
+        d=gmail.com; s=20251104; t=1790152717; x=1790757517; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IX4TEagbPQFXdBfnOIheUTG+gtBUa9fq/Un7VWSnr+0=;
+        b=Cx8ysRbfrxnCBY5+B/XrzoK05UtRyDDq1w0m/0WZyFqU0zIBJDCFIUNZ4M3enV3fbp
+         jn1lAk6Edc/q6ruU/aOI87lucPU6wSPRN//6xtoaNwrhcxDcIREC/Lr+wU20FHW0zCeq
+         62ZVv70NI7MOwCxmP67YqCPd0RJzF45NN1vaL6oxpRvjz9TQLIxtCs5UbfeloLc88hdh
+         gj8wDzMKduxpUW1ed7XXO0LSgROgooUOHR71Y9NA5qA1NlKZMUiLkLlrXxZXqSbAomcE
+         zkfPWSspXUZBCZXFoFAjSCIAsLuYZoZVsxIdEbh3tKhkZ4Ywn6DuKcMzYAIbUqG+76Oz
+         MxZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790152685; x=1790757485;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cDb0sGso1ETTrzZaYUFiyqOj3EvRajpbPDzXFX1BXvU=;
-        b=Xqdh76RC/3OiW8IcPbCvtAWmu3wIfijfYqBimSQSuRZrgbt56Ez7IYSGEOg3rn+G7V
-         +Fbo9rhb/GAc0KqXOg6G5vponsg9crNlPlJcp8OvQb1yHj1KKzXnCQ3MBxQcbWQRjpmm
-         xKWYxDM+dp8doLWDxoaHGWhBeGGneHm+QvlKARUDdEGJ2FNv2/h6J4bqabllAWbp3Tek
-         i3aOnooqXxEvmwm5Xin2Vf2JshB6PqzSAF8hRdd3fgO6WkMlt4amxekX/EHinOrT4mdJ
-         hZan+y56U/kT5L1UqFNdXroR7gWnKiAFWzylxdsG24R8u/VmHI5VEgexB4EZ87dYdn0Z
-         NNqw==
-X-Forwarded-Encrypted: i=1; AKwUvBwLZ0F93nfSOT7OtFkc9+4plPP54BQi08gepJ0sEc15TEvNq1/IBy3tRJ7u2uZMuOpk/m/HoIEHRyk=@vger.kernel.org
-X-Gm-Message-State: AFuF++m45jikt1nldEa66VeHKeN9Jt4h+0/S2IvbrNL/hY/XbcyboPAI
-	rma2DTq8wKSX2hT6gKJ6K9w2XCcGOQaCiOkqqTELJW9+2hLxIcYvi6s9TWV8Eu09WNeRno7sZGN
-	V7hzt3704T9g08cRtevhenFuS5HjjXq/XOdhZz0hRcK1o6yy//Ei+yc5+V2REqSo=
-X-Gm-Gg: AYBFou3NGRPhLsRm0YRyPCBnKgn12TwfK1ghP1IZDhRHcgHrf+0Bpq9vJoRYVJkWAQY
-	Gf4N0gd/FW7DKWcOQbTG6Dgu04bp3qMpMrFDCp7JAfHuM4XyQr3xipxPgYd7zXIx79dxMSgy+K5
-	Ui0V6FTAdppw1w+WFt3EK+RZ33sHeo9ELxP31mbZ0lgfmOCjUgMKQ9VosdN+NkR5w+lol11n5Cp
-	3nxdJYdCdtx2A7AmFd/MA/fO9JbHeCP/meYEs9dmxVQS3M5BKZ0xV3w3YhlpkkygZ+SOr0kdkUJ
-	xwxA1PnJwvkrnZdBYe0kje0f01g+7fWrJDrxj/4CIl0vuW8vPoMKuaSY1knEIKsNeoeGz9EmAqL
-	Le6kXfg6BlCCn582LaeWK4pKWuF95oWgJM0Qdjk8qHfm0W8VOpUBHGF5zhnvoBjWUh+lu9m/l47
-	zDfMQW8n1N5Fhg
-X-Received: by 2002:a05:620a:4054:b0:93b:c581:2e16 with SMTP id af79cd13be357-93c250cdf90mr298720785a.30.1790152685347;
-        Wed, 23 Sep 2026 01:38:05 -0700 (PDT)
-X-Received: by 2002:a05:620a:4054:b0:93b:c581:2e16 with SMTP id af79cd13be357-93c250cdf90mr298718685a.30.1790152684724;
-        Wed, 23 Sep 2026 01:38:04 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8d859652esm418457e87.83.2026.09.23.01.38.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 01:38:03 -0700 (PDT)
-Date: Wed, 23 Sep 2026 11:38:01 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Fan Wu <fanwu01@zju.edu.cn>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-        Song Li <songl@zju.edu.cn>
-Subject: Re: [PATCH] usb: typec: ucsi: yoga-c630: unregister EC notifier
- before UCSI teardown
-Message-ID: <z7v6erddxh2ydm63xavvfb3sckvwsaruife4bz3r7cpwmyg65r@j44ta55rkcgg>
-References: <20260923074828.489562-1-fanwu01@zju.edu.cn>
+        d=1e100.net; s=20260707; t=1790152717; x=1790757517;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=IX4TEagbPQFXdBfnOIheUTG+gtBUa9fq/Un7VWSnr+0=;
+        b=r8Mc+1hbmrTYJRpKw8eG2HOfN/szxmmtBWXAkVkcZn0MOHvJjiiH8yN/X4AOs7Z1Jb
+         nbz1CybycZqC3h7WJeaUQczRfKpQyTxbYJXjD04VY7uw7qkzNUAzV/7BhBl2CtT8Agbr
+         eW0EDqgHWVo8m2fIdwj1P+gm7Y0NlXUC3FvU3/oSQOLZc6aDeBHRayzTFZ3cEJFY1fw5
+         2eelX7fforIJ2meawVK6yYQirP1itX/aJUpQ8tjS6sw7x6ldP0DMiyHTLInRC54n01Dt
+         Ef45oJcwx5a0g39ysqRbIW3VmHykvaIhJVkQ7TzA0gEGpO286EqydWV5L/kJ+UsncnJQ
+         RD6A==
+X-Gm-Message-State: AFuF++l5wrNVsXayDkO5zqmQAJSbFxH00BPK4VKPcHACeLR26PMvxua3
+	dCVbSl4lgdbfmNB0MyXXUzQIjPwh0zkb53jPjxhNLzFJP+zsIglAvUBEMO7bg/VG
+X-Gm-Gg: AYBFou3fgiuEOj/w46Hovj9KLofnh4jfHyhnxLp/sfgbAwfck0INyrx+JU4FfUnw/h8
+	dYqveadrtZCr6DHXXir2eEmb8SF4S+RXLLFuAofAyv9tcUPqq8NcEPVmWjiinxB/aPUxHunmrjO
+	/QToSOVLgLTOu551yrsjYGaZf8M/YXW4JaTTfm0VqbbyyM6+9TkadrFOsCFkYdr1RebzVQhZLwF
+	i5FJDSJu+N8H2GrJMpGnfTiGG4yCTvX/DN9lARYOh55c6SnqeNQcCHU9B+0DmuNnz2nFOucc1ct
+	Wb/hNvXuaXQPLNzZmlHiuPrYreO7hMMEuWToRCBPq/9xqvWWYO7LxbgWuJdsXQNQlVqRGS+vX5D
+	hQSG391px2upHjTMMW+iIWfUKV9lRn1qAO4S8bfn6OnICxWYkymxuSN9KAl4NwyEbzD554/Ulue
+	QDqNxcio2H7X34+B0Gre+ns+lvgRYd2G+AwK0S/Wof1VOBq9qW0aJj3XJJq5MXjx3hHpW7LsvJF
+	EeYbDBoy/L3TE3ISWpJtDFwGUJwEy9T/8ZgJNZtCC5i8//NdweyAWDfqmK9vp+03l+RENveVZMt
+	qA==
+X-Received: by 2002:a17:90a:fc4b:b0:39e:6c69:776e with SMTP id 98e67ed59e1d1-3a07e69606amr1458680a91.23.1790152716997;
+        Wed, 23 Sep 2026 01:38:36 -0700 (PDT)
+Received: from localhost.localdomain (ec2-13-212-242-176.ap-southeast-1.compute.amazonaws.com. [13.212.242.176])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a07ddf23desm3793463a91.10.2026.09.23.01.38.34
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 23 Sep 2026 01:38:36 -0700 (PDT)
+From: Ginger Li <ginger.jzllee@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] USB: core: Fix unlocked hcd->status_urb access in usb_hcd_poll_rh_status()
+Date: Wed, 23 Sep 2026 16:38:28 +0800
+Message-ID: <20260923083828.64925-1-ginger.jzllee@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260923074828.489562-1-fanwu01@zju.edu.cn>
-X-Proofpoint-GUID: 7pAuC3FosAg7C_H1kKTqufDNeggzGJ55
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDAzNCBTYWx0ZWRfXx/u1GIF0TbNZ
- 6VADQCpNgl8Orlz4uMqCtzogpPdpgvO5rfhaoUadGRtEKq41anlF6aGXLbPbT6zyWCtm3tOGkpe
- Pd9S1KplvhNYwfCaipJm21Di1mqgW9bami5X+CFcdh4rzhF4JwwcyZfUefAaBBIG9GFBwCvps9z
- ZdGy8zomi+qPefahE9U/x07w5wHSnFkhljSJJ5bUG1dwdq027b3s2SO2xQ8uuvg+JMtaAUuzVio
- k9AGxzcXkeFkZri4mKXudoZxUn2gaX4RfxvNv9PIx5tTzZWVYHc51fZttFJ/CseA8kXYlgEZYSL
- wQx1pyQPcREntkjuoIAgv/4ZT/2gXyLHZCWRumEeRE8so5mhn+t/qjrc0LPUNEui24UcytxmsP/
- XTdKky+n65avRWpAcTlknkGEuNOcxuu2N+OYHBo1rT0Dux0PaM41U2MNjTu/s6gn73Gru1sVM06
- fdVb2oC8i/CeT6pXzlg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDAzNCBTYWx0ZWRfXxerOmgDH3de2
- 943O1MUmf3kjXNLUkEPRb8tnhlJsgxXspfac1oJWRbAWAo9QlrD1LEmGfolHkZQvC84zbzNLdlC
- u8PDLRL5/JsTfpUTqn7zGoawDGppbyI=
-X-Authority-Analysis: v=2.4 cv=QsDLTlyd c=1 sm=1 tr=0 ts=6ab38fef cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=pIWJAyJa_h66JnIjfXsA:9 a=CjuIK1q_8ugA:10
- a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-ORIG-GUID: 7pAuC3FosAg7C_H1kKTqufDNeggzGJ55
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-23_04,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 lowpriorityscore=0 phishscore=0 bulkscore=0
- suspectscore=0 impostorscore=0 adultscore=0 malwarescore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230034
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 23, 2026 at 07:48:28AM +0000, Fan Wu wrote:
-> Both yoga_c630_ucsi_remove() and the probe error path call
-> ucsi_unregister() while the EC notifier is still registered.
-> ucsi_unregister() frees the connector array, so an EC event (USB, HPD or
-> UCSI) arriving before yoga_c630_ec_unregister_notify() makes
-> yoga_c630_ucsi_notify() run on freed memory: typec_set_orientation() on the
-> freed port and ucsi_connector_change() queuing work in the freed connector
-> array. USB and HPD events do not depend on the UCSI notification-enable
-> state, so the disable command ucsi_unregister() sends to the EC does not
-> close this window.
-> 
-> Fix this by unregistering the EC notifier before ucsi_unregister() in both
-> paths, restoring the teardown ordering from before the error and remove
-> paths were reworked. blocking_notifier_chain_unregister() waits for a
-> running callback, so once it returns the EC interrupt thread can no longer
-> reach the UCSI instance and ucsi_unregister() can tear the connectors down
-> undisturbed.
-> 
-> The callback is also the only external source that requeues the connector
-> work, so the cancel_work_sync() calls in ucsi_unregister() can no longer
-> race with a new connector-change event.
-> 
-> This issue was found by an in-house static analysis tool.
-> 
-> Fixes: 168c3896f32e ("usb: typec: ucsi: yoga-c630: fix error and remove paths")
-> Cc: stable@vger.kernel.org
-> Co-developed-by: Song Li <songl@zju.edu.cn>
-> Signed-off-by: Song Li <songl@zju.edu.cn>
-> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
-> ---
->  drivers/usb/typec/ucsi/ucsi_yoga_c630.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
+usb_hcd_poll_rh_status() tests hcd->status_urb without holding
+hcd_root_hub_lock, while rh_queue_status() and the completion path inside
+usb_hcd_poll_rh_status() itself update that field under the lock.
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Take hcd_root_hub_lock around the early bail-out check so that the read is
+serialized with the writers.
 
+Fixes: d5926ae7a827 ("[PATCH] usbcore support for root-hub IRQ instead of polling")
+Signed-off-by: Ginger Li <ginger.jzllee@gmail.com>
+---
+ drivers/usb/core/hcd.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+--- a/drivers/usb/core/hcd.c
++++ b/drivers/usb/core/hcd.c
+@@ -727,8 +727,13 @@ void usb_hcd_poll_rh_status(struct usb_hcd *hcd)
+ 
+ 	if (unlikely(!hcd->rh_pollable))
+ 		return;
+-	if (!hcd->uses_new_polling && !hcd->status_urb)
++
++	spin_lock_irqsave(&hcd_root_hub_lock, flags);
++	if (!hcd->uses_new_polling && !hcd->status_urb) {
++		spin_unlock_irqrestore(&hcd_root_hub_lock, flags);
+ 		return;
++	}
++	spin_unlock_irqrestore(&hcd_root_hub_lock, flags);
+ 
+ 	length = hcd->driver->hub_status_data(hcd, buffer);
+ 	if (length > 0) {
 -- 
-With best wishes
-Dmitry
+2.43.0
+
