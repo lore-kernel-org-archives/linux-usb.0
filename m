@@ -1,192 +1,260 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65B4C4756C3
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 09:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790154712; cv=none; b=Y9Pzr3lakEPvPnQaOHr/ye7eTJpkX/0CgbGw7k3S2UL9j4CMFIQkIkc4qSCJJu3wsB1ec+l/RyVguaMkwXZrJEGJWWhRrMJ+1C67Iqz+Eel9RjB2jFtj2JQhcjb1xolL6rIEVKfKJvfOgbDjCQHqVNW87NW+KBJDm9izv6TVZe8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790154712; c=relaxed/simple;
-	bh=ClIrNXvQzgh1phRsj2WKx2BjwWcdDPaTRIsDT7BHJss=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ULxWqYdPaCu+QMavudpmQtNcdPRRcRuj7ab0hysHyaFnZq+7c7Sdk4wvyoaqfXG5u37/I4XoWmt8uPjrg45cFeJ1GrociQ7/f/4ZBc5dFH/0/j+C88Iv6yLdDeV58uo3wOl/6lCGcYOnNeWBAVKa0vXe+3n50FyqyArYmVX0BEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Wf6NLega; arc=none smtp.client-ip=74.125.225.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A415F47AF6E;
+	Wed, 23 Sep 2026 09:13:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.203.200.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790154829; cv=pass; b=ouN/DkUyIKw55+LN4p3SSLdbfffbKPMdlbnbgGW/1eQnTFAooP9WPVPX+MaSvtyk5Fkn1SMYLtawqChzngZ9K/R261nldbtQGp3R05TsN5aCU87+jb89KPzqnqjoNPcOx1e+hTooO1Q45F4tJJzc9r/zf2omt/C24QNKKlNevmY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790154829; c=relaxed/simple;
+	bh=GiooBeXJIZ7JYhRqnUsjUFaZvZgkNBbOsUgFgLdwNjA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=aso7oR4UmVgn1KFY4Q6/VRvs2V9ttuntquqK4mTa4zZXoyEIrZANoMxtU0aTLulvvJ2x+lhtyXTTeRsM8GMaVpr1jOeKPJpmIPjrYlA6TqCGeYSxiorM8bCk1berUoMHznBOL4oXN+vbX7lXPFjCSYLpX1t5ZiTKeS7OvC2uC/8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b=EWEvmagg; arc=pass smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Wf6NLega"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885a1480a2so415237f8f.3
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 02:11:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790154708; x=1790759508; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iAoiQGthbdNXddwUID6hWK5ILZRJHIUjDxuRCcm0SGQ=;
-        b=Wf6NLegamnVjJcmN+y8oY986P15cb7pxLV1ijB0dWg5AGWOS1vjB4rE6TE7fBSiBC3
-         YVWJ5q9qo8WZpzWdx6h6oU4QftrCIUtLc0jrjVyKjQ+CogzCFFTy7ug/HfdK+8eCNgQ0
-         2P9gv9WoYEPTm3ykuHAW9/Rpw9ieldD4uz260=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154708; x=1790759508;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=iAoiQGthbdNXddwUID6hWK5ILZRJHIUjDxuRCcm0SGQ=;
-        b=j+qpn8sAx8CueIa/EimeA55BSXtRf3rFAEZaJTQFxWoVsUPjlHqB2UhBSUvs1/1B8E
-         p8djsfI5GRchMSLB9Ief0mQzQumi5UE3ecwvAddBoY+2pZcMnHyh6ABHJHgGkdLtjq9M
-         wKXTMyNF0vvmYUH58d+QVwWItAiChlR0hotSB1fWq6rsUG0LB4RsBJUdSRu10GsV8Y4a
-         bMHjjQt0Zz1NzP0V8NzxzkTcQtSytered8DDZo6QyFRRm427ymgbp3ZMPt60DSP7MRfV
-         5q++PIwYJLzNa+r6bW/XrKiqGyaIzJ0ZCb+zRbhmBruBBQruWHYgh2IfClKpp7XNWFim
-         rC1g==
-X-Forwarded-Encrypted: i=1; AKwUvBymQGgcaSYp06FIZeV+njSjR7MiPCMStdJeiCS4DeiQ7PD7GT0qNjQ4gdyLMfHr8SGNhZornGiaSFY=@vger.kernel.org
-X-Gm-Message-State: AFuF++mmgsvrI1AkEe1HLR94XTc8sJlyFXSy62qOm9Ti3O8n6TWv+R8X
-	qAoXpNwGYPZIXSyVzZWtfAHreuoHCWNaNJa+f01Q8nrgUSJzH3En0l9rt/nMx+ovxag=
-X-Gm-Gg: AYBFou0s1gaqslNNnK4oGG2H8MFalnUNlINmiQYnclurm+JzIsiIDdmXP/pstf1cxWu
-	dfE983P9SHnsEFLS1bbTIYKyEnFPelERMmt/zigLdSAB468EMhdz8K7VF0NwMqSI2WFYGkd0RL0
-	UMh6F2JbhGjYJZgACsNBmYSgUo50fTjGgjwAQCjRGowGR+VCZrLWrMqtUcrwy37/SqklylwEEOE
-	ZiHg88lGDI0QESIschANUzSxdTrcPNtL+o4F33gGNj+R1BF6TTWXj4D7uhVCFor38gdeL5Ijik2
-	2MpHYjw7OkmlYEHFiKSB+udCCvPL0aYbq1/mfVDnjJ+9YLxcD+PLheMLd2kU53SPApR/v4k40W6
-	AY4sCQR4qVJBSBpa5R6TbketnwfL8qe5gNTCHNG335Bq1swatu4lJ6rrC7Zeh28ulz1FB0n1mfW
-	e/ut7yEj3OSQSbfj2/wqTSIa75ShSnaR+YlOebxkiuSCgWtVGhd9Hb4IRnIMDNSlz1P4ZPQJ0WY
-	kelvFogsk7+PR6j
-X-Received: by 2002:a05:6000:98c:b0:487:40d:af29 with SMTP id ffacd0b85a97d-488670a3566mr3640483f8f.36.1790154708510;
-        Wed, 23 Sep 2026 02:11:48 -0700 (PDT)
-Received: from [10.214.128.75] ([149.7.5.83])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4886848636asm5096242f8f.6.2026.09.23.02.11.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 02:11:47 -0700 (PDT)
-Message-ID: <f1c55b79-4487-40db-b2fc-342b2dc33c1f@linuxfoundation.org>
-Date: Wed, 23 Sep 2026 03:11:39 -0600
+	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b="EWEvmagg"
+Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
+	(Authenticated sender: pza@pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 4F2D6201CEF;
+	Wed, 23 Sep 2026 11:13:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1790154823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PS2sI9UkmHC+157QJRhoi9K5j3T9szzKe4hMK9xu6V8=;
+	b=EWEvmaggRytp4w+VexO1vp7Ii4h01iDFSl6Rk1FY5bMIZ6OYOWnYzWTiYBBqpdlfSE9Tyi
+	MpOivle8AT1X6zZNgGxLUNfhZ6GhhYNz3QQ6BfhIzE3Gar/7fRDGfVeWQ7SkWFqDminL2r
+	1tR7e2FlNc9thj7YZ8MMP0cCAU6mGcS/deWUHK/XwP8oVNvxRBhq6dFeHxoYzCPpfVE0zY
+	tXNHtnB54KiYKDApQlajLDpYN4acGXDNp3qmwp54ESJ298Rg03Vq7VZxLPzAW7REEFg22K
+	ssTPmM17FCB7gpZtn+IyjZcOfEG8hRDV/l4fdo7rhUExltqwHs2TQ+YDwiA3rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1790154823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PS2sI9UkmHC+157QJRhoi9K5j3T9szzKe4hMK9xu6V8=;
+	b=P0+33uyLO+y4AEiD1puLoXrZvB1E2pq4deNWdg+mg1GS1/RzafdZUPUt+D4iqVnkc84bSa
+	wWi5lcUSWK0ePQ7hzdKTjiQgtzG1AAoH+lbXJjfeSsmGi5FT39dvmoouSbd52bkzO7Rewp
+	z9R6+8PP1/rkvysn6AAOkhVNfp6nYdbHsfB09068sG1x12UQkGYXwJVZe3IAUA8CVkrKbw
+	WMIp8RoogzKhwwgsM9xHtVpNH9N03KZHBABfHWJp20JvaJwFowjaH1w/MxBp8LX7B4f4X8
+	PTqU2LSAnB6JrEd6oF9M8Hxa/eLboliL7bRbDwtRzHv8i2FbhvcH2DT6ip25Pw==
+ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1790154823; a=rsa-sha256;
+	cv=none;
+	b=TBoRXXLaPGSPk37AIej7rZWoVLc1YZ7gBNbRSiY4iiqASKB/PcCm6LJ+Vriwsoo/7uzkeA
+	ukDKQDzdfVjR5x+J2JJbFhAwRFgves8lI94/jThopcAm/8ptXfc1f3gzZxzP4RUPuu9zdq
+	ZDeZHuYAo5ZTtVwiqVVC1+d/498O4Xr2BBhe5MzaYeyiXRyK9wzBGc1skc8mE68m8O90jN
+	tcE1Ie57BDFz9vpZlx5dFe0gDo9wbL+w9ZkEmcNYzdKSheJjKFZiq2IseONvfFQ/0QrBJ9
+	rj4EBK8a3OccAXYYbumtTD635TzzCrYsDzWIqXxcv79nob2XA8ZMoRWJjGluuw==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
+Message-ID: <7bfea0211710cc1cdab9ac7235c4f283f2c6d8ad.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/3] usb: dwc3: xilinx: re-assert resets on ZynqMP
+ init error paths
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>, 
+	Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org, michal.simek@amd.com
+Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Date: Wed, 23 Sep 2026 11:13:43 +0200
+In-Reply-To: <20260922182125.11067-3-radhey.shyam.pandey@amd.com>
+References: <20260922182125.11067-1-radhey.shyam.pandey@amd.com>
+	 <20260922182125.11067-3-radhey.shyam.pandey@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] usbip: vudc: Prevent transfer timer rearm during
- teardown
-To: Myeonghun Pak <mhun512@gmail.com>,
- Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ijae Kim <ae878000@gmail.com>,
- Michael Bommarito <michael.bommarito@gmail.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <20260923022033.957777-1-mhun512@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260923022033.957777-1-mhun512@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 9/22/26 20:20, Myeonghun Pak wrote:
-> Commit d96209626a29 ("usbip: vudc: Fix use after free bug in
-> vudc_remove due to race condition") deletes the transfer timer before
-> vudc_remove() frees the vudc, but the receive thread keeps running
-> until usb_del_gadget_udc().  v_kick_timer() calls mod_timer() for
-> CMD_SUBMIT and CMD_UNLINK even in VUDC_TR_STOPPED, so a packet after
-> timer_delete_sync() rearms the timer and v_timer() uses the freed
-> vudc.
-> 
-> Use timer_shutdown_sync(), which ignores later arming.  The transfer
-> state is freed with the timer.  Annotate v_start_timer() and
-> v_kick_timer() with __must_hold(&udc->lock).
-
-Can you explain why __must_hold(&udc->lock) necessary?
-
-> 
-> A KASAN and DEBUG_OBJECTS x86_64 QEMU guest reproduced the free-active
-> timer warning and the use-after-free in v_timer().  The same harness
-> completed 4000 iterations with this change.__must_hold(&udc->lock)
-
-What does the harness do? You mentioned it in a response, but I would
-like to see this in the change log.
-
-> 
-> Fixes: d96209626a29 ("usbip: vudc: Fix use after free bug in vudc_remove due to race condition")
-> Link: https://lore.kernel.org/all/20230316180940.1601515-1-zyytlz.wz@163.com/
+On Di, 2026-09-22 at 23:51 +0530, Radhey Shyam Pandey wrote:
+> If reset deassert or PHY setup fails partway through
+> dwc3_xlnx_init_zynqmp(), re-assert any resets that were already
+> released before unwinding the PHY. Use fall-through error labels so
+> unwind matches how far init progressed, for both USB2 and USB3 paths.
+>=20
+> Save the ZynqMP reset handles in driver private data so later probe
+> teardown can re-assert released resets.
+>=20
+> Fixes: 84770f028fab ("usb: dwc3: Add driver for Xilinx platforms")
 > Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Co-developed-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Ijae Kim <ae878000@gmail.com>
-> Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
+> Assisted-by: Claude:claude-opus-5
+> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
 > ---
 > Changes in v2:
-> - Drop the lock-held comment and mark v_start_timer() and
->    v_kick_timer() with __must_hold(&udc->lock), on the prototypes and
->    the definitions (Greg Kroah-Hartman).
-> 
->   drivers/usb/usbip/vudc.h          | 6 ++++--
->   drivers/usb/usbip/vudc_transfer.c | 8 +++-----
->   2 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/usb/usbip/vudc.h b/drivers/usb/usbip/vudc.h
-> index 5ef0e7d9b23a..c129f4c56e8a 100644
-> --- a/drivers/usb/usbip/vudc.h
-> +++ b/drivers/usb/usbip/vudc.h
-> @@ -157,8 +157,10 @@ int v_rx_loop(void *data);
->   /* vudc_transfer.c */
->   
->   void v_init_timer(struct vudc *udc);
-> -void v_start_timer(struct vudc *udc);
-> -void v_kick_timer(struct vudc *udc, unsigned long time);
-> +void v_start_timer(struct vudc *udc)
-> +	__must_hold(&udc->lock);
-> +void v_kick_timer(struct vudc *udc, unsigned long time)
-> +	__must_hold(&udc->lock);
->   void v_stop_timer(struct vudc *udc);
->   
->   /* vudc_dev.c */
-> diff --git a/drivers/usb/usbip/vudc_transfer.c b/drivers/usb/usbip/vudc_transfer.c
-> index d4ce85c4c6a2..ba625622975e 100644
-> --- a/drivers/usb/usbip/vudc_transfer.c
-> +++ b/drivers/usb/usbip/vudc_transfer.c
-> @@ -441,8 +441,6 @@ static void v_timer(struct timer_list *t)
->   	spin_unlock_irqrestore(&udc->lock, flags);
->   }
->   
-> -/* All timer functions are run with udc->lock held */
-> -
->   void v_init_timer(struct vudc *udc)
->   {
->   	struct transfer_timer *t = &udc->tr_timer;
-> @@ -452,6 +450,7 @@ void v_init_timer(struct vudc *udc)
->   }
->   
->   void v_start_timer(struct vudc *udc)
-> +	__must_hold(&udc->lock)
->   {
->   	struct transfer_timer *t = &udc->tr_timer;
->   
-> @@ -470,6 +469,7 @@ void v_start_timer(struct vudc *udc)
->   }
->   
->   void v_kick_timer(struct vudc *udc, unsigned long time)
-> +	__must_hold(&udc->lock)
->   {
->   	struct transfer_timer *t = &udc->tr_timer;
->   
-> @@ -490,8 +490,6 @@ void v_stop_timer(struct vudc *udc)
->   {
->   	struct transfer_timer *t = &udc->tr_timer;
->   
-> -	/* Delete the timer synchronously before teardown frees udc. */
->   	dev_dbg(&udc->pdev->dev, "timer stop");
-> -	timer_delete_sync(&t->timer);
-> -	t->state = VUDC_TR_STOPPED;
-> +	timer_shutdown_sync(&t->timer);
->   }
-> 
-> base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
+> - Split out of the combined five patch series; see patch 1.
+> - Reordered ahead of the platform-data cleanups.
+> - Added Cc: stable.
+> - No functional change to the patch itself.
+>=20
+>  drivers/usb/dwc3/dwc3-xilinx.c | 49 +++++++++++++++++++++-------------
+>  1 file changed, 30 insertions(+), 19 deletions(-)
+>=20
+> diff --git a/drivers/usb/dwc3/dwc3-xilinx.c b/drivers/usb/dwc3/dwc3-xilin=
+x.c
+> index 8c63e02575f1..d18d3e364381 100644
+> --- a/drivers/usb/dwc3/dwc3-xilinx.c
+> +++ b/drivers/usb/dwc3/dwc3-xilinx.c
+> @@ -48,6 +48,10 @@ struct dwc3_xlnx {
+>  	void __iomem			*regs;
+>  	int				(*pltfm_init)(struct dwc3_xlnx *data);
+>  	struct phy			*usb3_phy;
+> +	struct reset_control		*usb_crst;
+> +	struct reset_control		*usb_hibrst;
+> +	struct reset_control		*usb_apbrst;
+> +	bool				usb_resets_released;
+>  };
+> =20
+>  static void dwc3_xlnx_mask_phy_rst(struct dwc3_xlnx *priv_data, bool mas=
+k)
+> @@ -112,7 +116,6 @@ static int dwc3_xlnx_init_versal(struct dwc3_xlnx *pr=
+iv_data)
+>  static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *priv_data)
+>  {
+>  	struct device		*dev =3D priv_data->dev;
+> -	struct reset_control	*crst, *hibrst, *apbrst;
+>  	struct gpio_desc	*reset_gpio;
+>  	int			ret =3D 0;
+> =20
+> @@ -124,25 +127,25 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *=
+priv_data)
+>  		goto err;
+>  	}
+> =20
+> -	crst =3D devm_reset_control_get_exclusive(dev, "usb_crst");
+> -	if (IS_ERR(crst)) {
+> -		ret =3D PTR_ERR(crst);
+> +	priv_data->usb_crst =3D devm_reset_control_get_exclusive(dev, "usb_crst=
+");
+> +	if (IS_ERR(priv_data->usb_crst)) {
+> +		ret =3D PTR_ERR(priv_data->usb_crst);
+>  		dev_err_probe(dev, ret,
+>  			      "failed to get core reset signal\n");
+>  		goto err;
+>  	}
+> =20
+> -	hibrst =3D devm_reset_control_get_exclusive(dev, "usb_hibrst");
+> -	if (IS_ERR(hibrst)) {
+> -		ret =3D PTR_ERR(hibrst);
+> +	priv_data->usb_hibrst =3D devm_reset_control_get_exclusive(dev, "usb_hi=
+brst");
+> +	if (IS_ERR(priv_data->usb_hibrst)) {
+> +		ret =3D PTR_ERR(priv_data->usb_hibrst);
+>  		dev_err_probe(dev, ret,
+>  			      "failed to get hibernation reset signal\n");
+>  		goto err;
+>  	}
+> =20
+> -	apbrst =3D devm_reset_control_get_exclusive(dev, "usb_apbrst");
+> -	if (IS_ERR(apbrst)) {
+> -		ret =3D PTR_ERR(apbrst);
+> +	priv_data->usb_apbrst =3D devm_reset_control_get_exclusive(dev, "usb_ap=
+brst");
+> +	if (IS_ERR(priv_data->usb_apbrst)) {
+> +		ret =3D PTR_ERR(priv_data->usb_apbrst);
+>  		dev_err_probe(dev, ret,
+>  			      "failed to get APB reset signal\n");
+>  		goto err;
+> @@ -156,19 +159,19 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *=
+priv_data)
+>  	 * absent.
+>  	 */
+>  	if (priv_data->usb3_phy) {
+> -		ret =3D reset_control_assert(crst);
+> +		ret =3D reset_control_assert(priv_data->usb_crst);
+>  		if (ret < 0) {
+>  			dev_err(dev, "Failed to assert core reset\n");
+>  			goto err;
+>  		}
+> =20
+> -		ret =3D reset_control_assert(hibrst);
+> +		ret =3D reset_control_assert(priv_data->usb_hibrst);
+>  		if (ret < 0) {
+>  			dev_err(dev, "Failed to assert hibernation reset\n");
+>  			goto err;
+>  		}
+> =20
+> -		ret =3D reset_control_assert(apbrst);
+> +		ret =3D reset_control_assert(priv_data->usb_apbrst);
+>  		if (ret < 0) {
+>  			dev_err(dev, "Failed to assert APB reset\n");
+>  			goto err;
+> @@ -179,7 +182,7 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *pr=
+iv_data)
+>  	if (ret < 0)
+>  		goto err;
+> =20
+> -	ret =3D reset_control_deassert(apbrst);
+> +	ret =3D reset_control_deassert(priv_data->usb_apbrst);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Failed to release APB reset\n");
+>  		goto err_phy_exit;
+> @@ -195,21 +198,21 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *=
+priv_data)
+>  		writel(PIPE_CLK_DESELECT, priv_data->regs + XLNX_USB_FPD_PIPE_CLK);
+>  	}
+> =20
+> -	ret =3D reset_control_deassert(crst);
+> +	ret =3D reset_control_deassert(priv_data->usb_crst);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Failed to release core reset\n");
+> -		goto err_phy_exit;
+> +		goto err_apbrst_assert;
+>  	}
+> =20
+> -	ret =3D reset_control_deassert(hibrst);
+> +	ret =3D reset_control_deassert(priv_data->usb_hibrst);
+>  	if (ret < 0) {
+>  		dev_err(dev, "Failed to release hibernation reset\n");
+> -		goto err_phy_exit;
+> +		goto err_crst_assert;
+>  	}
+> =20
+>  	ret =3D phy_power_on(priv_data->usb3_phy);
+>  	if (ret < 0)
+> -		goto err_phy_exit;
+> +		goto err_hibrst_assert;
+> =20
+>  	/* ulpi reset via gpio-modepin or gpio-framework driver */
+>  	reset_gpio =3D devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
 
-Have you tested this with real devices bound to a host and exported
-to a client?
+Are the resets asserted if this fails?
 
-thanks,
--- Shuah
+Same question about if probe fails after pltfm_init() succeeded.
 
+> @@ -226,10 +229,18 @@ static int dwc3_xlnx_init_zynqmp(struct dwc3_xlnx *=
+priv_data)
+> =20
+>  	dwc3_xlnx_set_coherency(priv_data, XLNX_USB_TRAFFIC_ROUTE_CONFIG);
+> =20
+> +	priv_data->usb_resets_released =3D true;
+> +
+>  	return 0;
+> =20
+>  err_phy_power_off:
+>  	phy_power_off(priv_data->usb3_phy);
+> +err_hibrst_assert:
+> +	reset_control_assert(priv_data->usb_hibrst);
+> +err_crst_assert:
+> +	reset_control_assert(priv_data->usb_crst);
+> +err_apbrst_assert:
+> +	reset_control_assert(priv_data->usb_apbrst);
+>  err_phy_exit:
+>  	phy_exit(priv_data->usb3_phy);
+>  err:
+
+Rather than storing usb_resets_released state, and then having
+conditional teardown in the next patch, this could be handled via
+devm_add_action_or_reset.
+
+regards
+Philipp
