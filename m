@@ -1,292 +1,98 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D62737DEB5;
-	Wed, 23 Sep 2026 02:26:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.76.78.106])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 112541E8826;
+	Wed, 23 Sep 2026 02:47:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.76.78.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790130370; cv=none; b=ELYKuM+O/vNXYBisBYF7u2EksanP/sDnMZJoAbnOjMcdPu/G1SZkez/GxsBwvzB/cIvW4iruM9qBX7qLTkJgimmhl5n8jfNqJWQa8CBqxMwiir8unjVnpUzFsnsXfy88hJvsWqA0diqxIxrbiXjkNoErtZ3yRLmHlhb9zGgDGTQ=
+	t=1790131666; cv=none; b=bXUZ/Wzg2Vkni5AZ7n09rYDJCh1C8CtMttOa8ZIaY2L1zhK5bb+7RMYCQuK1pZL1Ecnutf83/j93UiMXvgwzRDqgMPNjc6YhxA0UxQO/cyTyQ60pxOIcod4zyXrMxrFeFboJcpslH8KuqS2AP9ehwtpt554YgGMhwUZxO3mkb6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790130370; c=relaxed/simple;
-	bh=u7Zh93ehLZ3lYlwUo4/aTPMg6tJwDR6zibDxyYcBH34=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=KJpaCuaaJAxIaPMxcIipBAAbsCDpBQ/nOTJ2u4H5LM2/5VgqQN/il9V8l7hA3h4EbrUaY4GwRgwPZH68uU7rBKoMn2wi20rJs1X4t9v057iH/pXSOt0fCllqFhUABuEyjlAozM4QAR9c9YKa+r0wEolNRq+aESgwVDdqKNNKS1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lVuy3HSr; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lVuy3HSr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 330511F000FF;
-	Wed, 23 Sep 2026 02:26:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790130369;
-	bh=jh9hXnvdGSYSzMwhJY2hg1ILgIhX9LjaBOmVRgptleQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=lVuy3HSrTYUmoO0dJaHC2lY4WfUaeagZjtQH0J72dURAQFSRY4/tdrK8qltOMGHYj
-	 N1gliQ6+AZzpzZUwFpOi0k3IRGqrVfNeNCmSfJk60aeah5OzY7y69mKLlgFIcaGG4u
-	 JOsiRcX+NAnhmzqMEk3M/cy4HJOvvDrEP2vmWpAFhfTQP1zPXEBkVd0lFjLIhqNcVr
-	 NPg+9YJe9pP2v7DCFEZuZLausgHexdxXNCCXr+f3x3sjKB2agHjQTkCTEw/ypncrQt
-	 efubEyNDRRSn2yP5LbShcpHQ8oFZ0CrwXUfONxrI0RGfdOx1EYIDkctY2QBDQc9sMZ
-	 xP8TA6OFNxQTg==
-Subject: Re: [PATCH net v9 4/4] net: phy: restore the interrupt when the
- generic bind cycle fails
-From: netdev-bot+sashiko@kernel.org
-To: f@lex.la
-Cc: netdev@vger.kernel.org, andrew@lunn.ch, andrew+netdev@lunn.ch,
- hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- olteanv@gmail.com, Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
- steve.glendinning@shawell.net, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Wed, 23 Sep 2026 02:26:07 +0000
-Message-ID: <179013036778.2160803.9271908860128310663@kernel.org>
-In-Reply-To: <20260919015326.499479-5-f@lex.la>
-References: <20260919015326.499479-5-f@lex.la>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1790131666; c=relaxed/simple;
+	bh=J0PoyUVfSo5+Ws6YQikw+r9OfT4Z73lLbkboimSIHOo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=e8X4iAxPbMLQARPXSHcPIesek15YuiZxSHmJRYHi+8VNLO0fA8QL5YpfiyWaPAs4k86pxWydkAS/6YghSNAZa5grSPsHRDXWA97ceATv6fYNEdISIvi7DO3ESvl3sgBBAqLpj5/MvvdY0nxnKJYZ4PXjGKps3DCuPasIZyFfdYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.76.78.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [10.98.66.117])
+	by mtasvr (Coremail) with SMTP id _____wDXKGTEPbNqnRIwAQ--.6652S3;
+	Wed, 23 Sep 2026 10:47:33 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.98.66.117])
+	by mail-app3 (Coremail) with SMTP id zS_KCgD3DnHEPbNqQYFXBQ--.13248S2;
+	Wed, 23 Sep 2026 10:47:32 +0800 (CST)
+From: Fan Wu <fanwu01@zju.edu.cn>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Fan Wu <fanwu01@zju.edu.cn>,
+	Song Li <songl@zju.edu.cn>
+Subject: [PATCH] usb: typec: altmodes/displayport: Disable work before dp is freed
+Date: Wed, 23 Sep 2026 02:46:37 +0000
+Message-Id: <20260923024637.403624-1-fanwu01@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zS_KCgD3DnHEPbNqQYFXBQ--.13248S2
+X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
+X-CM-DELIVERINFO: =?B?IB2FmgXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
+	sfnZPoDCNGYdHSfuFmYJL54WMGb343dmHnkx7Kq4BDc7b2Ctm2wY5NJsL9hT+RlaB0rUL6
+	SW1Trc0gO7qjCzSDMX+p9E6mavGmQbzmcFsnzP86
+X-Coremail-Antispam: 1Uk129KBj93XoWxJry5Gw1xtrW5ZrWfKr4fXrc_yoW8WF1Dpr
+	1aqr9xKFWkWFZIq3WUZ3yIgF4rW39FyrW3Gry3Kw4fWrn8JF1UXa4rGFZ8ZFy7Cr98AFya
+	vFW5Aw45urW5AabCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
+	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
+	xVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
+	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
+	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
+	I_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
+	6r4j6ryUMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj4
+	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
+	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU8Tv3UUUUUU==
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+dp_altmode_remove() cancels dp->work with cancel_work_sync(), but the
+typec bus clears alt->ops only after ->remove() has returned, so the
+dp_altmode_vdm(), dp_cable_altmode_vdm() and dp_altmode_attention()
+callbacks can still call schedule_work(&dp->work) after the cancel. dp
+is devm-allocated on the partner altmode device and is freed once the
+unbind completes; a re-queued dp_altmode_work() may then run on freed
+memory.
 
-Critical: 0 · High: 0 · Medium: 2 (1) · Low: 0
+Fix this by disabling the work instead of only cancelling it.
+disable_work_sync() drains an in-flight dp_altmode_work() and keeps the
+work item disabled, so the late schedule_work() calls are rejected. The
+work is still drained before the plug reference is dropped.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+A later probe initializes a new work item, and the remove path holds no
+lock that dp_altmode_work() takes, so waiting cannot deadlock.
 
-- [Medium] The added restore reads bus->irq[phydev->mdio.addr] instead of
-  the value phydev->irq actually held on entry to phy_attach_direct().
-- [Medium] The correctness argument the patch states for the new store is
-  not backed by any lock or barrier.
+This issue was found by an in-house static analysis tool.
 
-Pre-existing issues:
-- [Medium] The error_module_put label extended by this patch performs no
-  phy_remove()-equivalent rollback when d->driver->probe(d)…
+Fixes: 0e3bb7d6894d ("usb: typec: Add driver for DisplayPort alternate mode")
+Cc: stable@vger.kernel.org # v6.10+
+Co-developed-by: Song Li <songl@zju.edu.cn>
+Signed-off-by: Song Li <songl@zju.edu.cn>
+Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+---
+1 file changed, 1 insertion(+), 1 deletion(-)
 
---
+diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+index d96ab106a980..f7b3566d4029 100644
+@@ -815,7 +815,7 @@
+ {
+ 	struct dp_altmode *dp = typec_altmode_get_drvdata(alt);
+ 
+-	cancel_work_sync(&dp->work);
++	disable_work_sync(&dp->work);
+ 	typec_altmode_put_plug(dp->plug_prime);
+ 
+ 	if (dp->connector_fwnode) {
 
-net: phy: restore the interrupt when the generic bind cycle fails
-
-The patch adds a restore of phydev->irq on the error_module_put label of
-phy_attach_direct(), so that the PHY_POLL substitution done by phy_probe()
-does not outlive a hand-bind of the generic driver that failed.  The value
-is taken from bus->irq[phydev->mdio.addr] and stored before d->driver is
-cleared.
-
-> diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-> index 8e6b399f95d6..69d8911ea7f6 100644
-> --- a/drivers/net/phy/phy_device.c
-> +++ b/drivers/net/phy/phy_device.c
-> @@ -1896,6 +1896,8 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
->  
->  error_module_put:
->  	module_put(d->driver->owner);
-> +	/* Before the NULL below, which lets another probe reach this field. */
-> +	phydev->irq = bus->irq[phydev->mdio.addr];
-
-[Severity: Medium]
-
-Is bus->irq[phydev->mdio.addr] always the value phydev->irq held on entry
-to phy_attach_direct()?  The array is seeded with PHY_POLL for every
-address:
-
-drivers/net/phy/mdio_bus_provider.c:mdiobus_alloc_size() {
-	...
-	for (i = 0; i < PHY_MAX_ADDR; i++) {
-		bus->irq[i] = PHY_POLL;
-	...
-}
-
-Some producers do keep the two in sync, which is why the restore works for
-DT buses:
-
-drivers/net/mdio/fwnode_mdio.c:fwnode_mdiobus_register_phy() {
-	...
-	if (rc > 0) {
-		phy->irq = rc;
-		mdio->irq[addr] = rc;
-	} else {
-		phy->irq = mdio->irq[addr];
-	}
-	...
-}
-
-Others write only phydev->irq.  In sxgbe_mdio_register() the probed
-interrupt goes into irqlist[] - which is mdio_data->irqs or the private
-priv->mii_irq, never mdio_bus->irq[] - and into phy->irq:
-
-drivers/net/ethernet/samsung/sxgbe/sxgbe_mdio.c:sxgbe_mdio_register() {
-	...
-			if ((mdio_data->irqs == NULL) &&
-			    (mdio_data->probed_phy_irq > 0)) {
-				irqlist[phy_addr] = mdio_data->probed_phy_irq;
-				phy->irq = mdio_data->probed_phy_irq;
-			}
-	...
-}
-
-On a bus like that, doesn't the new store put PHY_POLL back into
-phydev->irq?  That would leave exactly the "a later attach finds a PHY that
-can only be polled" state the changelog describes, since sxgbe assigns
-phy->irq once at mdiobus_register() time and a later phy_connect() sees the
-clobbered value.
-
-The opposite mismatch looks possible too.  A MAC that deliberately forces
-PHY_POLL before attaching:
-
-drivers/net/ethernet/qualcomm/emac/emac-mac.c:emac_mac_up() {
-	...
-	adpt->phydev->irq = PHY_POLL;
-	ret = phy_connect_direct(netdev, adpt->phydev, emac_adjust_link,
-				 PHY_INTERFACE_MODE_SGMII);
-	...
-}
-
-If the DT for that bus declares the PHY interrupt, the new line replaces the
-caller's PHY_POLL with the bus number on the error path (transient for emac,
-which re-sets it before every connect), and in that case phy_probe() never
-substituted anything to begin with.
-
-Would saving phydev->irq into a local before d->driver->probe(d) and
-restoring that local instead be correct for every producer?
-
->  	phydev->is_genphy_driven = 0;
->  	d->driver = NULL;
-
-[Severity: Medium]
-
-The changelog and the new comment rest on this claim:
-
-  "That store is what reopens the device to the driver core: until it runs,
-  a driver registering on another CPU is turned away with -EBUSY and
-  phy_probe() cannot be the second writer of this field."
-
-Which lock makes that exclusion hold?  The -EBUSY gate is a plain load taken
-under device_lock(dev):
-
-drivers/base/dd.c:__driver_probe_device() {
-	...
-	if (dev->driver)
-		return -EBUSY;
-	...
-}
-
-phy_attach_direct() never takes device_lock(d).  It writes d->driver in the
-hand-bind:
-
-	if (!d->driver) {
-		if (phydev->is_c45)
-			d->driver = &genphy_c45_driver.mdiodrv.driver;
-		else
-			d->driver = &genphy_driver.mdiodrv.driver;
-
-		phydev->is_genphy_driven = 1;
-	}
-
-and clears it on this label, and calls device_bind_driver() in between,
-whose kerneldoc states:
-
-drivers/base/dd.c:
- * This function must be called with the device lock held.
-
-With no lock shared between the two sides, can a concurrent
-driver_register() -> driver_attach() -> device_driver_attach() ->
-__driver_probe_device() observe d->driver == NULL, pass the gate, and run
-really_probe() -> phy_probe(), which writes the field again?
-
-drivers/net/phy/phy_device.c:phy_probe() {
-	...
-	if (!phy_drv_supports_irq(phydrv) && phy_interrupt_is_valid(phydev))
-		phydev->irq = PHY_POLL;
-	...
-}
-
-That is the "PHY driver module arrives later" case the series is about.
-
-Separately, the intended "restore, then reopen" ordering is two plain stores
-to different addresses with no smp_store_release() or smp_wmb(), and the
-reader side is a plain load, so on a weakly ordered CPU can the NULL become
-visible before the restored irq?
-
-Would performing the hand-bind and this unbind under device_lock(d), as
-device_bind_driver() requires, make both the exclusion and the ordering
-real?
-
-> error_put_device:
-
-[Severity: Medium]
-
-This isn't a bug introduced by this patch - the label came in with
-6d9f66ac7fec - but since the label is being extended, what unwinds
-phy_probe() when d->driver->probe(d) succeeded and device_bind_driver()
-then failed?
-
-	if (phydev->is_genphy_driven) {
-		err = d->driver->probe(d);
-		if (err >= 0)
-			err = device_bind_driver(d);
-
-		if (err)
-			goto error_module_put;
-	}
-
-device_bind_driver() returns driver_sysfs_add()'s error and does not call
-bus->remove, so the caller owns the rollback, but the label only does
-module_put(), the new irq store, is_genphy_driven = 0 and d->driver = NULL.
-
-What phy_probe() established stays live: the kzalloc'd
-phydev->led_link_trigger and phy_led_triggers array plus the triggers
-registered with the LED core in phy_led_triggers_register(), the phy_port
-objects from phy_setup_ports(), the de-asserted reset
-
-drivers/net/phy/phy_device.c:phy_probe() {
-	...
-	/* Deassert the reset signal */
-	phy_device_reset(phydev, 0);
-	...
-}
-
-and phydev->drv still pointing at genphy_driver while d->driver is NULL.
-
-Because the label clears is_genphy_driven and d->driver, can any later
-phy_detach() -> device_release_driver() -> phy_remove() still run the
-counterpart teardown?
-
-drivers/net/phy/phy_device.c:phy_remove() {
-	...
-	if (!phydev->is_on_sfp_module)
-		phy_led_triggers_unregister(phydev);
-	...
-	phy_cleanup_ports(phydev);
-	...
-	/* Assert the reset signal */
-	phy_device_reset(phydev, 1);
-
-	phydev->drv = NULL;
-	...
-}
-
-The leaked triggers also keep their names registered, so a later
-phy_led_triggers_register() for the same MDIO address returns -EEXIST.
-phy_probe() ignores that return value, so the next bind still succeeds, just
-without LED triggers for that PHY.
-
-One reachable trigger for the sysfs link failure: the bind block keys on the
-persistent phydev->is_genphy_driven and runs before the
-
-	if (phydev->attached_dev) {
-		dev_err(&dev->dev, "PHY already attached\n");
-		err = -EBUSY;
-
-check, so attaching the same phydev twice can make sysfs_create_link()
-return -EEXIST.
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260919015326.499479-1-f%40lex.la
