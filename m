@@ -1,33 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB7803DA7DD;
-	Wed, 23 Sep 2026 08:40:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C9424718EC
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 08:42:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790152826; cv=none; b=HJZcqz87q1EA12kCGb+Fx+/I490P/nVfUZ9o36SMW/R5LFnlSWPk4RGbDTukPuEmqbc1Sz44OHAf4VibThbcKres63GzpkzetgjTaYkoMqDQzkpuOiVvge9r4lXcW93uBF6qvshegoFtLe629DbW+ucxJu3anE+zdQlD3yp/n4k=
+	t=1790152930; cv=none; b=peJttJJrb8bp9MBqew3LA8s51ZXDGSuziDsSy88BjmytR6J6rLJrq2L3ZTIf3vFSLMh4emg1o+KTTao3gkymUt+7vzhmVV3aCXzMdOMt7S0rzjGyf/qKh3nF+PjqkiSNT+7qzETHpsAfGqH6E+4ySp7HtJ0v3xU5alSiWp8sfcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790152826; c=relaxed/simple;
-	bh=96Md5DrNgaVWw5OC1SXNKXffLQh1vTtZvJhVJt1cONs=;
+	s=arc-20240116; t=1790152930; c=relaxed/simple;
+	bh=v6gcfZoGlpMVkHmqmxd/ej0FUVKlIMzzY+l7HT86Y2Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qFtZNgm9z9004Z1e81iQYtJhDp9NrLOVJYXCqjel3UKeygZrsN8IPouslhYLkPByvq3Iwffss+QvHlolRaeQp7DXs94wrlzEvKQZwLNkeMuYTV+m34MC3XvrYTQFL0Keh0ZzqiCjvABrCJV0S6HOJ89KzEg2a1aqQic+s/sJzzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UwlzpLjm; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=eXDdQq1PtKhe+uWKiVEU1wPBfSPa3gqQEofWr6YWJ5i4wBHFqXdsmEfhnp2x50/Yty6/F4LCiYYccYSXqQMo/hpJ3L+CnYpeLjl4G5/XbhI9nIzgNSSLfb/2GkGnqKOMw/oF+YWB4+H+/uJ9WmxVsxKFiOUM2YIzwOsaF5C9LIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=YuQqLqZC; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UwlzpLjm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F1AC1F000FF;
-	Wed, 23 Sep 2026 08:39:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790152799;
-	bh=wyh/pOgTF7kL8hlZc2xBVOE3tXIRZyVNxNqqITwdaBM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=UwlzpLjmsWYQu2X1w7dPBuGy9erltg3vOL+NfJ/uSQJOrfQZlmrZRX6l6hUG4aJNu
-	 TIvi5TPQoCTfXAy0RAoguEf6mQORqWqbFPbBFb1Yvt0SH9n2/Qs2LaLGimCaz+fm2w
-	 T8dFUUnNLMdizGKkGqqr2O5bg0+pgzDyYyTE/cTuhGeYVBNIL4mitLsMDxcBI96C2e
-	 u//dZhCVEMH4DJvU7iBXv2WG12zQPZ/UyJlyaQK7I64hFTFC7IROS30zAFLt5WULss
-	 OSRcfn3e8dbaKrIfZo56huYPUUIc4z0kJ1Fi4Zi8c+ZQhg/H4nld0N6VuWFasb9d7U
-	 hnf2wJf5IlUxA==
-Message-ID: <b007cd0f-29ef-457a-8e44-63ab26f3bcd0@kernel.org>
-Date: Wed, 23 Sep 2026 10:39:15 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="YuQqLqZC"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485b1d2874fso282442f8f.0
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 01:41:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1790152914; x=1790757714; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tdCfwiAOTK6xfOE8r9cj3bnlP6s510wMptWKPzoCkJk=;
+        b=YuQqLqZCNXeTvjkKyON30ABZvqg0W1xCLjpRNOm2FNfI+D1b/UyGZKX8zwB1QOSOvq
+         K2m/OjaGXNLx2665J0TuwW3i/NLG+XFSWSO3syA4VK0AfdMd31RTMswBL0/Vf7UPyR2m
+         DMFV4tnzZlyfvu9hfCM65AdfxkSJscPKHQSZg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790152914; x=1790757714;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tdCfwiAOTK6xfOE8r9cj3bnlP6s510wMptWKPzoCkJk=;
+        b=FDF0CkNz8HmKjT1seC/9JZ4CGBTv1/ah+TPLfPFGh5lFawmoUg4ggtO+l1gIOHTPDC
+         7S9Sc6tpnzZZJo14qbl/QSbR7bCGguL+xTiDuOYt/mpbHsVOwMg7pSfx30gx80ONRsN/
+         tjOxE3gSoH3paNpkgm5xCR1gGc8GtuxBuXu+K/KDd3MksWn/b9NL5Ezad3e3CJQlzUUD
+         a6gE7zMjvz3Awb1K/orb0WPVbeaOM9OcSkrbpeoR1/jllLYrqC0vldNF3628YIDO7a0m
+         l2GRRY3n2QnIeOahW5NOvu/VsPuI74qLXDZSBMQIunM6purFpLTHUD3k7tKBbysMQ+CJ
+         s7dQ==
+X-Forwarded-Encrypted: i=1; AKwUvByebzqUyeEvX+QI6a52dAtarQovYtACoJrJql0nKtGplIgkUjCPRWiHTYp/PZPS+DL0R+X+EvMUZWk=@vger.kernel.org
+X-Gm-Message-State: AFuF++nlVMdJbQTWxaFlVJYh4s+B58I0ID+S9LHpPy0T+XTTpdgSO6n9
+	RywGI1kIfuOQ8Hmwjyt3JpoJ9sRdNyPIRldBnVIkIpZcX1f67MB9QSb256XtKErARL8=
+X-Gm-Gg: AYBFou3EV20HKIF7JStuBnU/q5l7OVYSM26T9iJ7FnWUUpSAXXwMdsVEbcZgqQ3NBpV
+	VUryVhRuDF87osbeoqYRwn549Aj0zT9OQTwyG7+Zjpsk+XAKWONrduNXBSQfrqZVChgIJRgIZy7
+	sWpCT2OvuxaFFmhFxFV7caBzXrel4eEpFYZ47+mk69SXFSjjl8xBMgNRINGiZGEosrePgwa39p0
+	VgfIGCt9TO0IgobQA+H86nGiWzumt1fh2DpLup/5Y1W4jU2HQBax2ZRkFQrbAqIwzE3ivlgym7Q
+	x+AR7hAB5SOoYD1JV+3x0aExRdiCJwTGrXkBvGN0egCxVXrDrRR5qEyBkWzF2KxDKj/10yXpbvD
+	e+gd7x/UtbCwHJcRubTLqn4YbdyvqAoN6oIYxi7cWy+vJWjck6Qf/W6LujrhN9/F/b84xATnzpl
+	phQqgNLUBJPOSDZX6wYLYLBRhJMGnvMNIr+VNIhZRNyzu7Z4FQIf72aeShVfd9ezmPWaVJXlHS4
+	GrDpNmwicIIW/OF
+X-Received: by 2002:a5d:6f08:0:b0:484:3311:257a with SMTP id ffacd0b85a97d-4886717a655mr3555659f8f.14.1790152914532;
+        Wed, 23 Sep 2026 01:41:54 -0700 (PDT)
+Received: from [10.214.128.75] ([149.7.5.83])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-488682673bdsm5272749f8f.2.2026.09.23.01.41.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 01:41:53 -0700 (PDT)
+Message-ID: <77e123e2-f967-4a1b-ab98-fa83257c63b0@linuxfoundation.org>
+Date: Wed, 23 Sep 2026 02:41:33 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,166 +67,116 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/40] mm: make VMA flag semantics explicit, eliminate
- VM_SPECIAL
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>
-References: <20260914-b4-mmap-prepare-vma-flag-sanify-v2-0-7d9781ed5361@kernel.org>
- <20260914180811.057cba8fcc48d6e0b53a2683@linux-foundation.org>
- <0b064fe6-ddb3-4f26-a1f2-2e9dd88d590f@kernel.org>
- <CAJuCfpFBichJH4OcmSHTb1rOuQBT6k5pXeua9_KgpWjDBKvsYw@mail.gmail.com>
- <aq6kzpK7wPl3iFGe@gremlin> <aq6lW9FvL69QeA9H@gremlin>
- <arOCPN02xB7mykju@gremlin>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH v6] usbip: make remote list honor parsable output
+To: Jason Colapietro <jasoncola1@gmail.com>, shuah@kernel.org,
+ valentina.manea.m@gmail.com
+Cc: greg@kroah.com, i@zenithal.me, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <178743110815.11397.14988078342421111980@gmail.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <arOCPN02xB7mykju@gremlin>
-Content-Type: text/plain; charset=UTF-8
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <178743110815.11397.14988078342421111980@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 9/23/26 10:13, Lorenzo Stoakes (ARM) wrote:
-> On Sat, Sep 19, 2026 at 04:09:13PM +0100, Lorenzo Stoakes (ARM) wrote:
->> On Sat, Sep 19, 2026 at 04:05:57PM +0100, Lorenzo Stoakes (ARM) wrote:
->>>
->>> Thanks guys!
->>
->> Note v3 has been posted to fix a stupid bug in 1/40 + attack some very trivial
->> sashiko stuff
->>
->> https://lore.kernel.org/linux-mm/20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org/
+On 8/22/26 14:38, Jason Colapietro wrote:
+> The -p option is accepted in every list mode and `usbip help list`
+> documents it as "Parsable list format", but it only ever reached the
+> local (-l) and gadget (-d) paths. list_exported_devices() never took
+> the flag, so -r ignores it and always prints the human-readable report.
 > 
-> Just a gentle nudge on this :)
+> Both commands below pass -p, and only the local one honors it:
 > 
-> If you guys or anybody else has some time it'd be appreciated! (obv. the v3 as
-> linked above not this v2!)
+>    $ usbip list -p -l
+>    busid=1-2#usbid=1a86:55d4#
+>    busid=2-1#usbid=0627:0001#
 > 
-> I know the series seems intimidating but most of the commits are very small and
-> it's been in -next for a while.
+>    $ usbip list -p -r localhost
+>    Exportable USB devices
+>    ======================
+>     - localhost
+>            2-3: ATECH FLASH TECHNOLOGY : Kingston SNA-DC/U (11b0:6298)
+>               : /sys/devices/pci0000:00/0000:00:1d.7/usb2/2-3
+>               : (Defined at Interface level) (00/00/00)
+> 
+> `usbip list -r <host>` and `usbip list -p -r <host>` produce
+> byte-identical output, so a script has to scrape the decorated report
+> instead: the column padding, the " - <host>" banner, the blank line
+> between devices and the per-interface lines. That is what the reporter
+> hit in bugzilla 219502.
+> 
+> Use one file-scope flag for the list command and honor it in the remote
+> listing path. Emit the same busid and usbid record used for local
+> devices while continuing to consume every interface record from the
+> server. After the change -r produces the record shape -l already does:
+> 
+>    $ usbip list -p -r 127.0.0.1
+>    busid=1-1#usbid=0781:5583#
+>    busid=1-2#usbid=046d:c52b#
+> 
+> so the obvious loop works against a remote host:
+> 
+>    for b in $(usbip list -p -r "$host" | sed 's/^busid=//; s/#.*//'); do
+>            usbip attach -r "$host" -b "$b"
+>    done
+> 
+> Without -p the remote output is unchanged.
+> 
+> Fixes: e9837bbb3e69 ("staging: usbip: userspace tools v1.0.0")
+> Closes: https://bugzilla.kernel.org/show_bug.cgi?id=219502
+> Assisted-by: LLM
+> Signed-off-by: Jason Colapietro <jasoncola1@gmail.com>
+> ---
+> v5 -> v6:
+> - Fold a condensed before/after into the commit message, as Shuah asked
+>    for on v2. No code changes; the diff is identical to v5.
+> - Restore the Assisted-by tag, in the format required by
+>    Documentation/process/coding-assistants.rst. v2 carried it as
+>    "Assisted-by: Codex:gpt-5", which predates that document.
+> 
+> Tooling disclosure, per Documentation/process/generated-content.rst: an
+> AI coding assistant was used for the original code change, and in this
+> revision to rewrite the commit message so it carries the before/after
+> requested on v2. The code is byte-identical to v5. checkpatch.pl
+> --strict reports no errors, and the patch applies cleanly with git am
+> onto mainline.
+> 
+> v4 -> v5:
+> - Drop Cc: stable@vger.kernel.org. This changes the user-visible output
+>    of "usbip list -r -p", so it is not a stable backport candidate.
+> 
+> v3 -> v4:
+> - Make parsable file-scope instead of passing it through list helpers.
+> - Drop the option-ordering change to preserve existing behavior.
+> 
+> Two behaviours I checked beyond the output quoted above:
+> 
+> - The connection stays in sync. Interface records are still read from
+>    the socket in parsable mode, only the printf is suppressed. To confirm
+>    that rather than assert it, I had the test server withhold the final
+>    4-byte usbip_usb_interface record for 3 seconds: the patched client
+>    with -p blocks for the full 3 seconds, so it really is draining every
+>    record.
+> 
+> - With no exported devices, -p prints nothing on stdout ("no exportable
+>    devices found on <host>" still goes to stderr), so stdout stays clean.
+> 
+> Testing disclosure: my checkout is on macOS, so I have not run a native
+> USB/IP stack end to end. The output above comes from building the real
+> usbip_list.c, usbip_network.c, usbip_common.c and names.c against a stub
+> libudev -- the remote path never calls udev, and the stubs abort if
+> reached -- and pointing that binary at a small mock usbipd answering
+> OP_REQ_DEVLIST with a real OP_REP_DEVLIST payload. The -p -l side is a
+> second build with a fake udev backend presenting the same devices. So it
+> is the real listing path over a real socket, but not usbip-host or
+> usbip-vudc on hardware. I am happy to redo the runs on a Linux box, or
+> to wait for someone with a usbip setup to confirm, before this goes in.
+> 
 
-Busy with too many other things sorry. Its time will come.
+Sorry. It is important to test end to end on a Linux machine to verify
+patches. I can't accept patches that aren't tested on macOS - it just
+doesn't make sense to do so.
 
--- 
-Cheers,
+thanks,
+-- Shuah
 
-David
