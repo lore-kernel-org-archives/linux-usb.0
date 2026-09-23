@@ -1,122 +1,148 @@
-Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022104.outbound.protection.outlook.com [52.101.126.104])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 835F8372EF5;
-	Wed, 23 Sep 2026 02:58:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71EF37FF5D
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 03:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.141
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790132323; cv=fail; b=ItnIe+sPzfCma2nWZxbeYicEj6D2KXCeWNAdS1LRJpZyPOeeonkbX4eQgkLxCrpw70VgtF6oV7WcVW7F+YKVry1z1NFAlg66WolrYxDHM/FFOzTWwlfe3hftjDc2kDpcuElyv/BBu1YvAvinv45bJFs7hpiPQwC29OWmStypg+c=
+	t=1790134296; cv=pass; b=gICbtLjzs5AJKq9bvPqYoxKUy5CgHYQ7ly2vg8WEJFWFa6Fob4evF4BkqYu80NzTc2J9/jXVpLGZI8pWikMT+KnsLMw8iFmY8ZOVT0EjuDGsvRe3BiAL/vgDAB0+E2N0vQEdormgC8NTBXiEsfeJJXqDY8BhMNS6EsIgk91qgn0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790132323; c=relaxed/simple;
-	bh=MkZQ04tP2NNFMCmVvm54ZQ/Ggyr92WEvjO4M3D7tpGc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Wg/4nlOsMCH7DvlGbtIox1VvMtPkPFgm/ezwdTRDsHfpOGTca/EJJa3+sQT/vZYuGYpHEd5w5XbxYWhVJIcAJ2mfpjKKgm+tiSFQC/lWNMtplxEeGw+8gsmFIAr4uECIOiYr5wk+Cu8ksp/hVvzn0EsCWL4pUT/+ezLVvbx/dOU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com; spf=pass smtp.mailfrom=cixtech.com; arc=fail smtp.client-ip=52.101.126.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cixtech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cixtech.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RmFvob1i6IwL8m0sZSw2Myd3akMvElHBslarqERKm5S6A6eGxOnKmWTHL7gA/T/ThMSpwlHpTSnceWkB4QJyaAiNmlJliBZ6iMeCI2H2N2mM+eiqbog0RJec0ecsy1HAG6IxeE9gvACjn1pu0FST6ZfUb3I7GBrS/OKkO8dWacw04zs6LObfS/aRZZ2t+4OU8wj4Enas8irT2Qndq11cZjghmxMHY/WQSmCpTBuvR20tdh2gz7gS0MOHwLb+1cyOVBIfkyjxVLZUcnVAHWftpZowoDGubvr5E0B7GfN61i4sJD89NqXnWaqLr3COkx6LbT7IbwrZp9rBX8Zsrzrw2Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MkZQ04tP2NNFMCmVvm54ZQ/Ggyr92WEvjO4M3D7tpGc=;
- b=lVwkLbHF/iH5XemVLsBMujHFSEbmu+2Bwbc+z2HCBXMhNO9l2RvzwEb5qo5ClPHbUYRXCnkfBURCwkE3hdWnf4/WM3VvFfBVV8m3i/rJyDl/6EFj6H5sHSYyGg/T4lsjEZWq0wEMC/GIcGzWJ0/BeHOItid/mo2bXrAYiYFtSQiBRo+O98HTnc3TSoFh6zOb6Sz54zWI6Y49wpuEnakwL0GFKRIMzUwCv69/F53D+QEUpeCTFcplrgGKvxXCs/UvSbHdyyMAflb+KMol9XTJXRMji9SerhwLtSQQ8r8F33f2vOuzcaGCOQbDI8KId3Hxk9OOeg0LhrM52fKVMn8oig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 222.71.101.198) smtp.rcpttodomain=cadence.com smtp.mailfrom=cixtech.com;
- dmarc=bestguesspass action=none header.from=cixtech.com; dkim=none (message
- not signed); arc=none (0)
-Received: from SI1PR02CA0001.apcprd02.prod.outlook.com (2603:1096:4:1f7::15)
- by TYZPR06MB6095.apcprd06.prod.outlook.com (2603:1096:400:342::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Wed, 23 Sep
- 2026 02:58:37 +0000
-Received: from SG2PEPF000B66CF.apcprd03.prod.outlook.com
- (2603:1096:4:1f7:cafe::af) by SI1PR02CA0001.outlook.office365.com
- (2603:1096:4:1f7::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.14 via Frontend Transport; Wed,
- 23 Sep 2026 02:58:37 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 222.71.101.198)
- smtp.mailfrom=cixtech.com; dkim=none (message not signed)
- header.d=none;dmarc=bestguesspass action=none header.from=cixtech.com;
-Received-SPF: Pass (protection.outlook.com: domain of cixtech.com designates
- 222.71.101.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=222.71.101.198; helo=smtprelay.cixcomputing.com; pr=C
-Received: from smtprelay.cixcomputing.com (222.71.101.198) by
- SG2PEPF000B66CF.mail.protection.outlook.com (10.167.240.23) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Wed, 23 Sep 2026 02:58:35 +0000
-Received: from hongliang-System-Product-Name (unknown [172.20.64.180])
-	by smtprelay.cixcomputing.com (Postfix) with ESMTPSA id 9FDEE43B1063;
-	Wed, 23 Sep 2026 10:58:34 +0800 (CST)
-From: Hongliang Yang <hongliang.yang@cixtech.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Hongliang Yang <hongliang.yang@cixtech.com>,
-	peter.chen@kernel.org,
-	gregkh@linuxfoundation.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	p.zabel@pengutronix.de,
-	vkoul@kernel.org,
-	neil.armstrong@linaro.org,
-	pawell@cadence.com,
-	rogerq@kernel.org,
-	cix-kernel-upstream@cixtech.com
-Subject: Re: [PATCH v4 2/4] dt-bindings: usb: Add CIX Sky1 USBSSP controller
-Date: Wed, 23 Sep 2026 10:58:34 +0800
-Message-ID: <20260923025834.842467-1-hongliang.yang@cixtech.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260910025227.2490151-1-hongliang.yang@cixtech.com>
-References: <20260910025227.2490151-1-hongliang.yang@cixtech.com>
+	s=arc-20240116; t=1790134296; c=relaxed/simple;
+	bh=kLqjJwxQBMRaJcZV6HUdDnhO8moqJR/ZPOOSCIQmbMo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ADmInkqC45KsF1iDv32/dOhSBH+amcAFT5zvQEuUUajpxsMSEFFRFIkCAIsYaRk7kAphHtLc35oCTjbh7T2Hcsm5tFWJWmFnI67re6vnPmKhCbsg6AyV4US4VtKzoY0GFx4Tb8XRM4YTnKLuiRDREj8wQjyml1dhboIetLL2NrA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hjuoPCPr; arc=pass smtp.client-ip=74.125.224.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hjuoPCPr"
+Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4ab20a33so572248d50.1
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 20:31:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790134294; cv=none;
+        d=google.com; s=arc-20260327;
+        b=p/V9mKIsg3ogrAr4blwpyPpkEIXF0M4Vda3ns5aPRqg7jD9nbCT0IsWaYiNDMYmKfl
+         G1MF1HnsYbNjGT6j/+z8UXxeWsBkklqGggvPyTsEVtsQJ1Y31Nweh49k6VPDvSPJA95a
+         21l4xu4cI2gXwz+b+bAer4Tjytv4tyYyFVnTspPRMwhVMgx0CsUUYx93WF1vTwksoIoT
+         PUVb127+PGC4gy7VUSE5MWoBOZ8ChiYNrjezLsFejaz0amv/Rkr5n1uvXn/RVLxTlOSf
+         /9BGiRhr91hGa8DwOmvldbGVO6xtjEe/1NInqfczWS7GEIqOLmuydV2VwooM5t/Vf53r
+         Z0zw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=GGwyAjv+0/JlwYUUu6lXLzy7ZN4zWkdGhNND/q2LGC0=;
+        fh=nJcimixT1mJGHtK3cFhSq7hDiYT++667ZMtPqyEPFfQ=;
+        b=DJofLipqZfeYxdj2aVJQ3dYhohJ4au6uO1GiOW4eh+B96/A3DrptLSAJgAq/P5hWbU
+         n53UHa8bqtp2GIn3z21HHaoTwvw3i3fpGXOngj3EHCOIv7KHlHeNoMPyg6tpcGhiKpqV
+         zpMfRgft0vaAG9e8MjtViQ4XF/MnzsKW8HPWSuWr3ZhXQV25kXHZM+t78sk4QjTbm5TU
+         kBKTxT/ZYcKl3cdBr9LMw87iVnrQgBvn64qWGJPcejq8whLUBhW1u2lc/W6c0gnIxuIr
+         gVUaswSKplFuVL6vmoTPw3nqATN9i6D7gwnYjD3tXZVgS8bTSeBmQNJx5XMOfTPwaVUR
+         JzWg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790134294; x=1790739094; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GGwyAjv+0/JlwYUUu6lXLzy7ZN4zWkdGhNND/q2LGC0=;
+        b=hjuoPCPr9P7SEA4vAkI9s1Vn3z5GmNr44tNL1ClBWIpgHP+P3fSMKH/AdbjTWGTGpd
+         5q8pk+ZFUhxrMutik5xhzeHpE2ZszNks1yBVxNZEJmMcdGe/+zw8f17qK8NL+Cvb5vIs
+         iaylpIznygFeVG9kF1fh1yFovLJJAWXcAWMJqy864w3B+IoM+ihUmV2Zi7QqjacdDjmY
+         Bvg25d2Veb33I1X50OKiAA1tyyIgBXnwYX69v8iHm4uCUdQRZ/RP0KtkvzNImFgaCGCS
+         vA7opxCrCy9QYd9u04DO7iw+Pb6a0RDCFvVugvILB91TzKzhv8okBWLeDgnjsa46G6lf
+         2TEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790134294; x=1790739094;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GGwyAjv+0/JlwYUUu6lXLzy7ZN4zWkdGhNND/q2LGC0=;
+        b=VuuxeO7A/biohjMvXmZ3CbE1/kgAn3kATP+D0KWNNmd7ndgm7KNVfmgJIoZmRGL0ep
+         shWE+NG5tIepZvtqFq40BCmqH8loI78CrmZceWHwx1CNao8NJGvvDd1C7N2Av3Ge/GXQ
+         X7Sv5e3B0ylJDvCy07+s4wIDnPkwqueYzh7F0N1DTb1JWAXhSKWTdkJKK4mSiSG88k6S
+         RHut07rkJ1t3g5XfAu1gQmSO5PtctE7I3F3sa3uwQ6HbA64/fRauW0iWbHsqTXqQSnVS
+         l5SoZ0EbifZWBhwSixP+zKiWVW4pgrn+stIBca541h1t6wc9uvno5MXkroVYiC5w3DwC
+         Epeg==
+X-Forwarded-Encrypted: i=1; AKwUvByBx5FiWOoNzh5Pkai2xO1ZKuKjNH5dvkzCpLLB9nTaLHccbHugaKP8pNh99LtbdBC2W3QS1+QJ+OU=@vger.kernel.org
+X-Gm-Message-State: AFuF++kGZohtg9BbgiKEwMDGghevufSSNoag8yjOBnH8593nrhHN45AG
+	3BL/AXfhzpumyCbm6NoX19FML0poakNumPV2qspNAoFWJ27i3faAsJ+eLLP2diobMVC4vgasn27
+	2EYNQ0+4NyWX68vFMhgzG3kD5wR18uHcv+q9t
+X-Gm-Gg: AYBFou0dpiaKUIqyusTZ708Nf26KnSO/5sAMsTGfekEb8B5TfoRapSdpljDM/7Bc7W1
+	Hd7+VzzUBjC7CXgQ66f7BnkzeE2OrKZm4z4eAy9Tuj9RiyOhrs2j+6/oOe8QH+Kx6w6sRv6GNAL
+	iyBa3CFJ7TvUL6VF4xsuHeClaqHJXh1zSh72wIiwfhTbjwG9p+TFcUiQKYV21mQtTbds1O81Btg
+	zObBxwS4Tkz1Kc0xq1yJyVcre1I6azT8CLLS/Jlnp9mBA6CPznusSwD9c0bN20Gzorjl+Sej/5Q
+	pFKPS7+aT4xDnTYUzxjvijKLylVRdaUsUBZsWN6/6vrQBtv582jgQ2PnmpD4LpnMSDOtm5tlCj5
+	mbM7sgNSwmtNSLfKcv+8xhVOABWFCIYvIKDwFBovPvco=
+X-Received: by 2002:a53:b089:0:b0:671:499a:26fd with SMTP id
+ 956f58d0204a3-672d577b164mr476926d50.43.1790134293543; Tue, 22 Sep 2026
+ 20:31:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SG2PEPF000B66CF:EE_|TYZPR06MB6095:EE_
-Content-Type: text/plain
-X-MS-Office365-Filtering-Correlation-Id: 7d798a6e-a1cb-46db-9f81-08df191e8f94
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|23010399003|376014|82310400026|36860700016|1800799024|10067099003|56012099006|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	O8bzqpUYzXUm8P45/MMHRfNfL+jm++G9kpiEAFlcJNodCnOZNUKoBlatxJ5SyqXWbuia8fUY9xWQ+XwtltZM6nvzJKfcQjXvuyzsyV7tMQUSQbo5GxSWrgB7mX6Qfmlj3SuoKBa4X/FIycr1CrUlaMvPVsS5E+h4ArWQezn+tapKNOU2qhjp9917QmYoTB4CwGSu9xGQaNrYpsJA9YUKR5HH/AFlQikHSSbsonrEXSFC+ilVzjmjjItpIdNvMfO4lTiF2ljsX7Da1vz8n3ztb1fH7a0/IPhnjgtY4UonlrDnd7I3GPT/u2TAYPcjYz9NZsRfbdPfaMoG6V74gfK23qmMhLxTHHewkJeQuxy9I/Zm5G1P1P+PEvLGTS/YozLuDNx6nO9xXcLGaqv6J3QjKh00vcV1T5K8JrkvX6K/2oWUJqIA/ER3bthTqS7jQAfMo/w5ZBBxX8FnhUNKgPLl0SWjua1HtXsOHrxwrAS6U+BMer2LVBIsBpbiO0sW2fHfyI3zHncrzLCMeUqOj8oplo9sKaJyr3TYdRq55w1cUXS5MMhpxK6JRjjLRnR27L960WGEFhJwPVPvOdzyBZbrb+7TdCmi6EIUr4PX0J8+Jn1E+i5qCgDnjCmVGKtHfJEnxUVVdyML9Mby0wv3SnvMNxUjdMcX/hqeJNWY+2xL3Errcb69aEkqWeHBcDTQt39H0V+f47Xf40+N1fFUgiY3bw==
-X-Forefront-Antispam-Report:
-	CIP:222.71.101.198;CTRY:CN;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtprelay.cixcomputing.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(23010399003)(376014)(82310400026)(36860700016)(1800799024)(10067099003)(56012099006)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	VAs8fR0sXQUFtnJjFQlq0UOwqUtVKe4s4GU364hbwC8psCM2xO0Vy4JmRJLKseZ0cyBFI9qKBd+ACznUDJoHRZuCLDV1sZHhCH1tmcwKE+Q9cWENVk0nqTdVS4w7HonoAkEBykEImdBjdJgsKpLrv3+/24aoiwPSBwwGlVLB7sIUYrZnwVNBUBgltiF4RLqBRJ13h3t7waeKxn67795Ll29xHWIXppxOgX71Jb3ybNDkCn5n70braUaR3UD9KCRT5AjLhPAFjKING9s5OBByrYu7BIh1H+o4A+fMLo+uIzS9T5/eBlvUDx5z+Y6Xf36sovX/8HB5rXV5RgXwv8wDxmNTCzGzmq0Lpi8jPkq3yl68GqtQpxz/66W+U43rkl9Bxs4a67M9Ld3hdWh7VP3eYBDc/w441GTSIDYfbwl0dsbDuQD8m6Xq7BmkEfENYUJe
-X-OriginatorOrg: cixtech.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 02:58:35.6613
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d798a6e-a1cb-46db-9f81-08df191e8f94
-X-MS-Exchange-CrossTenant-Id: 0409f77a-e53d-4d23-943e-ccade7cb4811
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=0409f77a-e53d-4d23-943e-ccade7cb4811;Ip=[222.71.101.198];Helo=[smtprelay.cixcomputing.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SG2PEPF000B66CF.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR06MB6095
+References: <20260821114854.12218-1-kartikey406@gmail.com>
+In-Reply-To: <20260821114854.12218-1-kartikey406@gmail.com>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Wed, 23 Sep 2026 09:01:22 +0530
+X-Gm-Features: AcwNN1V6mUe9WdT8j-R4ug1gRy07h_eAxdnOll35Iy1koOgQkSFlHP8sS39EPFU
+Message-ID: <CADhLXY7fD6jo+xzPPLTh28n9Rw-yhhKYb6ymcyT8iMUjri_GsQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: u_audio: reject srate request for
+ unconfigured direction
+To: gregkh@linuxfoundation.org
+Cc: kees@kernel.org, pavel.hofman@ivitera.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Krzysztof,
+On Fri, Aug 21, 2026 at 5:19=E2=80=AFPM Deepanshu Kartikey
+<kartikey406@gmail.com> wrote:
+>
+> u_audio_get_playback_srate() unconditionally locks and reads
+> uac->p_prm.lock/srate, but g_audio_setup() only initializes
+> p_prm.lock when p_chmask is set. On a UAC2 instance configured
+> without a playback direction, this results in acquiring a
+> never spin_lock_init()'d lock when a GET_CUR sample rate
+> request targets playback, triggering a lockdep "trying to
+> register non-static key" warning.
+>
+> Reject the request with -EOPNOTSUPP when p_chmask is not set,
+> before touching prm->lock.
+>
+> Fixes: eb3a1ce6f5ed ("usb: gadget: u_audio: Add capture/playback srate ge=
+tter")
+> Reported-by: syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+> Closes: http://syzkaller.appspot.com/bug?extid=3De1d0e66badecc32d45eb
+> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> ---
+>  drivers/usb/gadget/function/u_audio.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/drivers/usb/gadget/function/u_audio.c b/drivers/usb/gadget/f=
+unction/u_audio.c
+> index e53f2927b539..ff811ea1e25a 100644
+> --- a/drivers/usb/gadget/function/u_audio.c
+> +++ b/drivers/usb/gadget/function/u_audio.c
+> @@ -575,6 +575,9 @@ int u_audio_get_playback_srate(struct g_audio *audio_=
+dev, u32 *val)
+>         struct uac_rtd_params *prm;
+>         unsigned long flags;
+>
+> +       if (!audio_dev->params.p_chmask)
+> +               return -EOPNOTSUPP;
+> +
+>         prm =3D &uac->p_prm;
+>         spin_lock_irqsave(&prm->lock, flags);
+>         *val =3D prm->srate;
+> --
+> 2.43.0
+>
 
-Gentle ping on my question below about representing the shared RCSU
-region with a simple-bus container and translating ranges, versus
-absolute addresses in reg directly under the soc node. I would like
-to settle this before sending v5.
+Gentle Reminder. Please let me know the status of this patch.
 
-Also noted your comments on the missing blank line before the
-Signed-off-by tag -- the v5 commits are created with git -s, so this
-won't recur.
+Thanks
 
-Best regards,
-Hongliang Yang
+Deepanshu
