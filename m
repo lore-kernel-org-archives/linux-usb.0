@@ -1,104 +1,115 @@
-Received: from mail-wr2-f30.google.com (mail-wr2-f30.google.com [74.125.225.94])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A8636B92D
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 10:07:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.94
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6D647FAF3;
+	Wed, 23 Sep 2026 10:30:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790158062; cv=none; b=aNw7pXjJrGyjplQMMpmjwY63Mmacfat9n6gKktdHrjatknPESTUuSr4fZhGe7u0QM3+j+om7kqlOjpEFI5PAONxSQEj8gwcWufODDMKBNmasosF+EX32WEBzdEGE9ZsQkfNL0JwbWzdUBLKm6nBCT+5sYk/3R8H8zZZ3989I01Y=
+	t=1790159419; cv=none; b=TiAMJCHaiANN6aLwA3ebbiDM8avj5VKPstVD7nLqscJqyFYRvXxEuyHzwNe2NYrhZQLG0Rm64IjA5i/xUH8ocdQxpz1JYTcU10xt9lN57gC5Je9l5X6E5p3f2xBjI2pOReKGais5Yx9nd+tOhQKTXsVEklSeZ+gHsca57ga5n6Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790158062; c=relaxed/simple;
-	bh=oF4Kl8JfVhfUU0dj2/ZVkmxW4BeWTvV9sPnJQM3i1Jg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HIEWQsvZdzCf2/feb6ImBPm75jtKsizPLLc56pRnr5bV4D9L1A1W+MMcSiLHVminWftiKr+WGM9/+xEsbAeHzQaeqwB7pmXH+nqwhZu5QqJD2P5JRNMgDTwl8QHjW+CuL2Ove2yZhUbqhFOMaJHPHOz2OqzXtOeEVHvqtVz1LUU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=MG9ESs+1; arc=none smtp.client-ip=74.125.225.94
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1790159419; c=relaxed/simple;
+	bh=4apTzgSnK41fmpqyWoxUgweK1yzL409akGVwvF+wtlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sx+Z04u6+rMaU7FjWnWOG5DlT3h8jO21Wd8CosnLU/MMZ8I3Te6aqvv80Mvs2gdLD3SnZeNHo2ouT0hMML5fvqX3SSTQ4iq0CGgo0ytTTzKojaz/uArntoObWpE+EfDHEPH3KSowUD41cPul/x7Od376I0QXxFY5S7nUukSDIqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=I+FgPbZ4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="MG9ESs+1"
-Received: by mail-wr2-f30.google.com with SMTP id ffacd0b85a97d-48439feca17so679284f8f.1
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 03:07:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790158058; x=1790762858; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=b3HwIHpPDnN84lvdPQSb4nxQoj1g+sKDTa/uOr7Nwwc=;
-        b=MG9ESs+1DhZn2l7svedZCGdFQAmHP5vCCACZN+EtC3wXaB/z31UrHOUUjjYzF9HhLt
-         FPWrNdUmCNfyIlfOE/s7icwBTtv6bSea8IAbJ8tCb41eDBEHcQH/WRAzEoz7V75dGcCN
-         iYzR5Sv3pwdaHdmJKmt9YbwPdnyVj3e3TrBDQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790158058; x=1790762858;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=b3HwIHpPDnN84lvdPQSb4nxQoj1g+sKDTa/uOr7Nwwc=;
-        b=wabIcjGt87fkdrFEwbqU4YAGJfxoW56fvJXUO2aAadiuZI9g1tZtCB0Pj6jzxmpyq4
-         orob4wpyTr2SXlbg4mSaqN/uOZON7eCebiOYZ6pgzkb38IdU0iRnmRIJFsisaOH6cwIu
-         6at4QkIUvDEWlQlOuG8VQnd4WvOGyqsfqvoUMQkyDLc3mzBKY0afF1nERBOnWV13x1a6
-         WPpj7xg3YmCFgfcDISDkmNeI2xrVjv5/SJAGfxRyfJZFNMBPfIOrkYfd1nBMydKT9AIO
-         bvFvqkrA0VlvVuKOjVDpJQez/SbmPDTVD2K0HmzrvVTYlyEYAwQ65cQrnKxFyFTANX+Y
-         WdxQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwO8cnpX3FK1loNnS70klsI+++QNKRv6xeDJqnCQ6HKms6C21TuVUyoEmysMcIxqWcl+UHRIUrkxSI=@vger.kernel.org
-X-Gm-Message-State: AFuF++k5d5UXzX03uMQpMCyQOWdx1do3Ny16N+VRvX56/sRFvEzOE+R1
-	UiZzEdty3gO257aPoUwg1yozSqXyX1JvG1ia7vEMPZwUqHlADbk/A4HC13IQR1u1Sf0=
-X-Gm-Gg: AYBFou0ktKBctg3O+DvFGpZGmQSzGrVNCu5rZ6RotJqJrUlCyhBri/vLkww2HHLoOz1
-	KXcAAMbCDQ73oIxDGJuFRa1Rl7riTGrFNczrDexkg2CdzCwMoqy6nI+9fXDmVOqzriIB8e7xqlz
-	NbmFeSz8/HsrSFN1tvf4eIb4siY8R/XtLzsB2XoQxthIjYwIZx8HE4xVFg5Z8F9pKQesRsmvmR3
-	aXdeRCOa0IeszKKMS40jMm0eprVwTdHyc0+23B1O+a26CqFkg5IfAweLRkgOb4KkbsgAU2OU1Xe
-	+NIThlSS9g0ehGZS0bzG4NjGfrCR75/IiPaRa1/kcfgYcCpC9TFJXgMmm0RRFbrii0DGFnnrLOE
-	fU5eKwBGGkbrNtVMz77RnCH95TgMRKBel2kSV6sZcmz/KxQPzd6yct4ZwllbwR+c+UtH6RMPwaL
-	5boongzL1jfQ2Sx6mCPE8sfOP2bKMPk+FG8pggXctMGwdkFqr2CaMn/8HG7UQL2bWpxga2sTUQc
-	S8FpA==
-X-Received: by 2002:a05:6000:2901:b0:487:a3f:1ea6 with SMTP id ffacd0b85a97d-4886704a159mr3802209f8f.11.1790158058311;
-        Wed, 23 Sep 2026 03:07:38 -0700 (PDT)
-Received: from [10.214.128.75] ([149.7.5.83])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4886876c267sm6058984f8f.16.2026.09.23.03.07.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 03:07:37 -0700 (PDT)
-Message-ID: <ed2f9269-0428-4dcf-b6b0-d7b6eb0b140b@linuxfoundation.org>
-Date: Wed, 23 Sep 2026 04:07:30 -0600
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="I+FgPbZ4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEBA41F000FF;
+	Wed, 23 Sep 2026 10:29:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790159399;
+	bh=6mPB5sAXT6Vhv1gBFH2na4lrNkRozl/FMt/dP7OxjRk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=I+FgPbZ4GvlC7BewOKRNZweanpyegBPw+Z7yAFipreUI0p/iDWPygp288TTzg9fNW
+	 wG6Yil8IMbspsRFI6ZRrV4LujFy4JyuBlEph2Ub330vypNF3BGsVDnezRyMqqWWtxx
+	 NYdOIla4kATkpDlNoDD//vIXw3e1SpHRXfpR7u/g=
+Date: Wed, 23 Sep 2026 12:29:56 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026092348-victory-erased-0e5a@gregkh>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: Reject unterminated strings received from peers
-To: markdamirkan@gmail.com, valentina.manea.m@gmail.com, shuah@kernel.org
-Cc: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260903-sympwn-linux-005-final-v2-v1-1-f92548abf9ce@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260903-sympwn-linux-005-final-v2-v1-1-f92548abf9ce@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <arOfHEsGGglNse7T@monoceros>
 
-On 9/3/26 04:05, Mark Amirkan via B4 Relay wrote:
-> From: Mark Amirkan <markdamirkan@gmail.com>
+On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-König wrote:
+> > No, drivers should NOT have to do that in their .probe() function,
+> > that's what we moved away from decades ago!  The match function should
+> > handle all of that for you, otherwise it's contant duplication
+> > everywhere that is unneeded.
 > 
-> USB/IP path and busid fields are fixed-size strings and must contain a NUL
-> byte. The list and attach clients and usbipd use fields received from a
-> peer as C strings without checking them first.
-> 
-> A reply with an unterminated field makes both clients read past the end of
-> the 312-byte device record. ASan reports a stack-buffer overflow at the end
-> of the record in both paths. In ten normal attach runs, the busid error
-> printed six bytes beyond the received record. The server did not send those
-> bytes, and their values changed between processes.
-> 
-> An import request with no NUL in its 32-byte busid makes usbipd read past
-> the request too. ASan reports the access at the end of the request.
-> 
-> Check the strings after receiving them and reject messages without the
-> required NUL byte.
+> Well then you have to accept that root can provoke a null pointer
+> exception (e.g. by forcing the pwm-tegra driver on a device) because at
+> least with today's platform bus match function such a match is ok.
 
-How do you reproduce this problem? Can you elaborate on the setup you
-used to reproduce and test the fix?
+Agreed, yes, root can cause a crash and can do tons of horrible things
+much worse than this, that's not the issue.
 
-thanks,
--- Shuah
+That's why this taint is there, to make it obvious that this is not a
+"real" bug at all.
+
+> > Please, learn from our history, don't make the same mistakes.
+> > 
+> > Now I might be convinced that driver_override is the way to go here, but
+> > it still feels really odd as again, bind/unbind was created as a driver
+> > debugging option only, it should NOT be a normal operation that any user
+> > should rely on.  The driver should "just work" properly instead, without
+> > requiring manual bind work, as that's not a good model at all.
+> 
+> I agree in principle, but (in my case wifi) drivers are buggy sometimes
+> (due to missing documentation and/or engineering effort) and being able
+> to rebind the driver instead of rebooting to get a working device again
+> is very useful.
+
+Fine, use it!  Just don't expect that to be "normal".
+
+> So yes, theoretically bind/unbind isn't needed, but theory and practise
+> differ in practise.
+
+Agreed, but again, don't rely on this as a "real" solution fo ranything.
+
+> OK, as a compromise: Let's keep the taint (after all that's not
+> destroying any functionality, just adding a hint for bug reports),
+> and make driver_override opt-in, which should close an attack surface
+> (mostly for fuzzers?) and so reduce the amount of bug reports instead of
+> marking a part of them as tainted only.
+
+How is that going to change anything?  Confused.
+
+greg k-h
