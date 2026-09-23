@@ -1,176 +1,178 @@
-Received: from mail-qk2-f42.google.com (mail-qk2-f42.google.com [74.125.230.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC8C9331200
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 02:20:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5086DEEB3;
+	Wed, 23 Sep 2026 02:26:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790130042; cv=none; b=tUFCU1r9z8RuKE0lODJLM8EvKbL3qLHS9g0i5WgnBESiWnt9d4ISzCqbNnIOREveQ+eOj51d06WwhEk28XED4kkoKCUtAOnb7u7eTJJDykFpt7xGU6DP1sRVSbAfb4Mi9hDWjNzBSx4YZhuRJq2IypvlfWTmNBHhnwnhdd9VhXw=
+	t=1790130367; cv=none; b=gaskuEljKmRrSaMF1M27+F9LRq4fKZ65JQZfQfenKrgLYzUW5HtgmKKR3iRU8fTaDkHXbg84JkuKzGwovKMmrYZK4N+2zEBdato4U/VchVrIMfag+TfLsohAZEfhncfOljdqOY4PDZJXLrlxBOHJ0bn+wUZ3RPKSxSRXqBdWUPU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790130042; c=relaxed/simple;
-	bh=BU14Eadnytj6nuGngvJJCAtwg6ur6ANUyu39bQoUxlU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=rKxOdhadXIpMtJ/w1MuD6pUH0FyHG92pxSbuXNzBEEtcA/ZmYPYIk5D+AZtwKrrL2xzwQ83+G6TUkjKetkNXQp2XWutPx5wfGg12g/6dnIRXCAUnj6wgLrqO/HMAdVuPNkXncsKXDRMmV+hjaKpJzgqT1mfnPwn1BNb0HGIT+mE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g2H6E5rA; arc=none smtp.client-ip=74.125.230.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790130367; c=relaxed/simple;
+	bh=tCl4HUPVZ2Hu7QmAeAwQZyr8ueuNKLJA7PzKLTrGl0c=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=VzkUEvRr7bIArPj88fI3UgPRTHW2mQPM1b1y+ZfDL5zbg7hiTbbkglo4S9aBoZL5/cbYosAWNj0eob5flriLju/UKNZnwtheesV7cQEYDMwRrJ3BcDOhmyEOpx9j7vhnhI0184nmYyZNENqi9//WPqPaFOxCT91srSGGswAsQMo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OZ8nbXxL; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2H6E5rA"
-Received: by mail-qk2-f42.google.com with SMTP id af79cd13be357-93bef17c191so39243385a.2
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 19:20:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790130039; x=1790734839; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=pvoJSjzoTZiGd82xGNgm1yrZlodKS/2nAN2tuYG+izw=;
-        b=g2H6E5rAE4fDiighnoMv+Vi0PvF7ubsH7WNAeg85sBaVJ7aShoTQPiXXV/zsQL9i6Z
-         nM74vMjTaSp22xzJIGkE7S8PsxlmD8qpeTHYTofJvPBeFE+8Xhz27ubsnb+eVgBSBrHS
-         A450YORSatYoSW1CuaCDmFXSkzTlbJtG1AB0rWrAZZ9qFPvqu1LS8dYaDd/f6s7qn5QE
-         S4pnEm5Dn0XnuoCIxt4XulkoLFMcwRyT/2dwO1yZ0qEKsX58JP+ySxNHgKzOLE3D3oKK
-         0sQf8VvhYcOJ/ZYK/6vtomvO4FMwAjVFH7xMaq3uli3Mevd0Pny0mSqLj5VrTAwv7e1Z
-         s+Sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790130039; x=1790734839;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=pvoJSjzoTZiGd82xGNgm1yrZlodKS/2nAN2tuYG+izw=;
-        b=VNCpa317x054cg8ulNuXPF3j3hhlH/Uuq0hh7ui5WW3VDqTC+bM2xpl8mPf/HYb8lC
-         vaCYiNJ96C1EpabjYfuphPMVFOSuyfGw8S3LcfzeMIOJmf9hSr/XqORGbBkh6H0H8DZX
-         tkEx5PWuGl60aUVj03KZWZp3wM6EUWJGYsSLGbT4krho7R35rcsdAcMEhf9jaIFvCDzl
-         Itc7k25b3t69+ymL4a5lFu7wblqdC6/jyIyIJQVma4hxJw7d8mvdo1O9hGt2P3gwNU17
-         +PXtcaGgv7JmbdIZdsIsK/A2+AzA0q+wRyWGqQI5EbsCVF4UYGGnfKlvMpL++84HzPI+
-         AHwQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxVUeGz+dJOZgs5h2iMYQWUbc0e9GyEF9sJSnxep1nQMq5T4zOw+llaMD1YD264OZymnnS1oI2s9D8=@vger.kernel.org
-X-Gm-Message-State: AFuF++n4k0ksasiuGJDCeiyjC0zflrf+5Gvb0nFRoONxDROXfYmV34jo
-	mkC00xjNLEiSu6TIEAFGK38VliM0J2+8xR9H7Ut28TYUT1S9Q5m2cDQ=
-X-Gm-Gg: AYBFou3773Jjw+yiRhEN3kzpAdEheIj+8V7vug0c4PECtMgolgnZYUxnyeJ0B6oE5cS
-	wraTAukokEchkTtGJqFkfPsIL1+d8o3VYxFZyeeCGiGaqgYgEr9mGv5flN1+3UYssf7e5JePQA0
-	eqOQ3Fv4iJ5i+w1rYqtBVzqL2+6MdxSAVhcEBYAkD535OQJFm7hpx/AKTJGOxfpLZAZ+ce8kHvT
-	vUcyf/XD6eirZGakEhgpVs2U3XVyp1B1owg/9MkzQff+Hp7KSfeN5DtgFvUu+7CRbr7PB9E93PC
-	2fiu9GoJ6MAOHgjhSIvpp+qjDJND3MTfNEmGAHiVfo+8xSgxGlQoZhv3uZEvh7EKqx6Afo8+Wtb
-	7r+iBmWzn0NlKqQctEInW0YqhCKcqWzQIRgjtA+ozpAcF5fImF9RRyjhKRva6Md4IGm+irv9Hhf
-	rQR3FneWy7rBDhgUv96sDkT0N1wk3KgUudgjvTruNIFeNqC2v4EBxy5qrZQ0TBvpHtp4Fv35LpU
-	J1y/2onkoai4szZDyUtsGPnYGaJvggDJ3iGsWCmIZ4cOjUvqXF1sB/YQ+IydYnlnO/LW6H2QQGi
-	LuYwIVoX85vr+SskTdHxraYPoHVszQ==
-X-Received: by 2002:a05:620a:3912:b0:93a:9ef5:d370 with SMTP id af79cd13be357-93c25082c96mr220891185a.1.1790130039518;
-        Tue, 22 Sep 2026 19:20:39 -0700 (PDT)
-Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c29e070dbsm26226485a.14.2026.09.22.19.20.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 19:20:38 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Hongren Zheng <i@zenithal.me>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ijae Kim <ae878000@gmail.com>,
-	Michael Bommarito <michael.bommarito@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usbip: vudc: Prevent transfer timer rearm during teardown
-Date: Tue, 22 Sep 2026 22:20:33 -0400
-Message-ID: <20260923022033.957777-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OZ8nbXxL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05E8A1F000FF;
+	Wed, 23 Sep 2026 02:26:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790130365;
+	bh=fSfHxB6vtn6N4sw+fJbEZmatPa++7pwxwtbQq2xMMQg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=OZ8nbXxL+s3z2JtDSfX9yWM/rL1oSitb+r6jcbmJNh8zbru1953wsfNNeppWgLSk/
+	 9Jf9ZiQQzW8aZKxjzedu2pm309XbfJSHZ5WRcu/bZ4Wn18CHiZjnn70tUJDAxZ6GPx
+	 iSjndVHG8Z4h8/2vD3NH8KQuGQcFCExvPV2W2S/aTKo/HsCk0T/NlS3U6S9hf1nHAH
+	 qa3RLyQ4qKmOO+bEkI46Wdy5Rfjo9MRWWyL43fq7izhjI6RaGqUXqh53UM4ZXliyLL
+	 RC0ydICFztDqiH1DlKT+wLv8s0AAq9G0dsGxKNU5HlVmhVjjCi099EwRPBuGN8jWWd
+	 qoEI+70jThDfQ==
+Subject: Re: [PATCH net v9 1/4] net: usb: lan78xx: register the PHY interrupt
+ with the MDIO bus
+From: netdev-bot+sashiko@kernel.org
+To: f@lex.la
+Cc: netdev@vger.kernel.org, andrew@lunn.ch, andrew+netdev@lunn.ch,
+ hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ olteanv@gmail.com, Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
+ steve.glendinning@shawell.net, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Wed, 23 Sep 2026 02:26:04 +0000
+Message-ID: <179013036452.2160803.9091592272745855906@kernel.org>
+In-Reply-To: <20260919015326.499479-2-f@lex.la>
+References: <20260919015326.499479-2-f@lex.la>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Commit d96209626a29 ("usbip: vudc: Fix use after free bug in
-vudc_remove due to race condition") deletes the transfer timer before
-vudc_remove() frees the vudc, but the receive thread keeps running
-until usb_del_gadget_udc().  v_kick_timer() calls mod_timer() for
-CMD_SUBMIT and CMD_UNLINK even in VUDC_TR_STOPPED, so a packet after
-timer_delete_sync() rearms the timer and v_timer() uses the freed
-vudc.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Use timer_shutdown_sync(), which ignores later arming.  The transfer
-state is freed with the timer.  Annotate v_start_timer() and
-v_kick_timer() with __must_hold(&udc->lock).
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
-A KASAN and DEBUG_OBJECTS x86_64 QEMU guest reproduced the free-active
-timer warning and the use-after-free in v_timer().  The same harness
-completed 4000 iterations with this change.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-Fixes: d96209626a29 ("usbip: vudc: Fix use after free bug in vudc_remove due to race condition")
-Link: https://lore.kernel.org/all/20230316180940.1601515-1-zyytlz.wz@163.com/
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
-Changes in v2:
-- Drop the lock-held comment and mark v_start_timer() and
-  v_kick_timer() with __must_hold(&udc->lock), on the prototypes and
-  the definitions (Greg Kroah-Hartman).
+- [Medium] Commit message hides a user-visible precedence inversion and
+  is factually wrong about it.
 
- drivers/usb/usbip/vudc.h          | 6 ++++--
- drivers/usb/usbip/vudc_transfer.c | 8 +++-----
- 2 files changed, 7 insertions(+), 7 deletions(-)
+--
 
-diff --git a/drivers/usb/usbip/vudc.h b/drivers/usb/usbip/vudc.h
-index 5ef0e7d9b23a..c129f4c56e8a 100644
---- a/drivers/usb/usbip/vudc.h
-+++ b/drivers/usb/usbip/vudc.h
-@@ -157,8 +157,10 @@ int v_rx_loop(void *data);
- /* vudc_transfer.c */
- 
- void v_init_timer(struct vudc *udc);
--void v_start_timer(struct vudc *udc);
--void v_kick_timer(struct vudc *udc, unsigned long time);
-+void v_start_timer(struct vudc *udc)
-+	__must_hold(&udc->lock);
-+void v_kick_timer(struct vudc *udc, unsigned long time)
-+	__must_hold(&udc->lock);
- void v_stop_timer(struct vudc *udc);
- 
- /* vudc_dev.c */
-diff --git a/drivers/usb/usbip/vudc_transfer.c b/drivers/usb/usbip/vudc_transfer.c
-index d4ce85c4c6a2..ba625622975e 100644
---- a/drivers/usb/usbip/vudc_transfer.c
-+++ b/drivers/usb/usbip/vudc_transfer.c
-@@ -441,8 +441,6 @@ static void v_timer(struct timer_list *t)
- 	spin_unlock_irqrestore(&udc->lock, flags);
- }
- 
--/* All timer functions are run with udc->lock held */
--
- void v_init_timer(struct vudc *udc)
- {
- 	struct transfer_timer *t = &udc->tr_timer;
-@@ -452,6 +450,7 @@ void v_init_timer(struct vudc *udc)
- }
- 
- void v_start_timer(struct vudc *udc)
-+	__must_hold(&udc->lock)
- {
- 	struct transfer_timer *t = &udc->tr_timer;
- 
-@@ -470,6 +469,7 @@ void v_start_timer(struct vudc *udc)
- }
- 
- void v_kick_timer(struct vudc *udc, unsigned long time)
-+	__must_hold(&udc->lock)
- {
- 	struct transfer_timer *t = &udc->tr_timer;
- 
-@@ -490,8 +490,6 @@ void v_stop_timer(struct vudc *udc)
- {
- 	struct transfer_timer *t = &udc->tr_timer;
- 
--	/* Delete the timer synchronously before teardown frees udc. */
- 	dev_dbg(&udc->pdev->dev, "timer stop");
--	timer_delete_sync(&t->timer);
--	t->state = VUDC_TR_STOPPED;
-+	timer_shutdown_sync(&t->timer);
- }
+net: usb: lan78xx: register the PHY interrupt with the MDIO bus
 
-base-commit: 238650ef6c7c7cca08e032527329424c9fbd70e5
+The driver's mapped PHY interrupt number is now written into every entry of
+mdiobus->irq[] in lan78xx_mdio_init() before of_mdiobus_register(), and the
+later assignment to phydev->irq in lan78xx_phy_init() is removed so that
+phy_device_create() seeds the number from the bus table instead.
+
+> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+> index cb782d81d84f..d7472d894c8d 100644
+> --- a/drivers/net/usb/lan78xx.c
+> +++ b/drivers/net/usb/lan78xx.c
+> @@ -2092,6 +2092,7 @@ static int lan78xx_mdio_init(struct lan78xx_net *dev)
+>  {
+>  	struct device_node *node;
+>  	int ret;
+> +	int i;
+>  
+>  	dev->mdiobus = mdiobus_alloc();
+>  	if (!dev->mdiobus) {
+> @@ -2118,6 +2119,10 @@ static int lan78xx_mdio_init(struct lan78xx_net *dev)
+>  		break;
+>  	}
+>  
+> +	if (dev->domain_data.phyirq > 0)
+> +		for (i = 0; i < PHY_MAX_ADDR; i++)
+> +			dev->mdiobus->irq[i] = dev->domain_data.phyirq;
+> +
+>  	node = of_get_child_by_name(dev->udev->dev.of_node, "mdio");
+>  	ret = of_mdiobus_register(dev->mdiobus, node);
+>  	of_node_put(node);
+
+[ ... ]
+
+> @@ -2892,13 +2897,6 @@ static int lan78xx_phy_init(struct lan78xx_net *dev)
+>  		return 0;
+>  	}
+>  
+> -	/* if phyirq is not set, use polling mode in phylib */
+> -	if (dev->domain_data.phyirq > 0)
+> -		phydev->irq = dev->domain_data.phyirq;
+> -	else
+> -		phydev->irq = PHY_POLL;
+> -	netdev_dbg(dev->net, "phydev->irq = %d\n", phydev->irq);
+> -
+>  	ret = phylink_connect_phy(dev->phylink, phydev);
+
+[Severity: Medium]
+Does moving the number into mdiobus->irq[] change which value ends up in
+phydev->irq for LAN7800/LAN7850?
+
+Before this patch the assignment above ran after of_mdiobus_register() had
+created and probed the PHY, so the driver's number was written last. Now
+the number is present at scan time, and phy_probe() runs after it:
+
+drivers/net/phy/phy_device.c:phy_probe() {
+	...
+	if (!phy_drv_supports_irq(phydev->drv) && phy_interrupt_is_valid(phydev))
+		phydev->irq = PHY_POLL;
+	...
+}
+
+The lan88xx entry in drivers/net/phy/microchip.c deliberately defines no
+interrupt callbacks:
+
+	/* Interrupt handling is broken, do not define related
+	 * functions to force polling.
+	 */
+
+So for the internal PHY at address 1 (phy_mask = ~(1 << 1)) phydev->irq is
+seeded from the table, phy_probe() sees a valid interrupt with a driver that
+does not support one, and demotes it back to PHY_POLL. The old late write in
+lan78xx_phy_init() happened after phy_probe() and defeated that demotion.
+Does this move LAN7515 boards such as Raspberry Pi 3B+/4 from the chip's
+INT_EP_PHY interrupt to phylib polling?
+
+If so, the post-commit note "Neither in-tree lan78xx PHY node carries an
+interrupts property, so nothing in tree changes" does not cover this path,
+since the change here comes from phy_probe() rather than from devicetree.
+
+The commit message also says:
+
+	A devicetree PHY node still overrides that.
+
+Is "still" accurate? Previously fwnode_mdiobus_phy_device_register() wrote a
+devicetree interrupt into both phy->irq and mdio->irq[addr]:
+
+drivers/net/mdio/fwnode_mdio.c:fwnode_mdiobus_phy_device_register() {
+	...
+	if (rc > 0) {
+		phy->irq = rc;
+		mdio->irq[addr] = rc;
+	} else {
+		phy->irq = mdio->irq[addr];
+	}
+	...
+}
+
+and lan78xx_phy_init() then overwrote phy->irq with the driver's number, so
+the devicetree value was discarded. After this patch the devicetree value
+wins. That is a precedence inversion rather than unchanged behaviour, so
+could the commit body state it directly?
+
+The explanation of all of this currently lives in the notes below the ---
+line, which is dropped when the patch is applied. Could the permanent commit
+message carry both behaviour changes, and could the "On its own it fixes
+nothing" reasoning for omitting a Fixes tag be revisited given that
+LAN7800/LAN7850 interrupt handling changes with this patch alone?
+
 -- 
-2.53.0
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260919015326.499479-1-f%40lex.la
