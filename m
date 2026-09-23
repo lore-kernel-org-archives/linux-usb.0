@@ -1,119 +1,107 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [13.75.44.102])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33D3C3C0635;
-	Wed, 23 Sep 2026 07:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.75.44.102
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7A97463B6F
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 07:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790149782; cv=none; b=uXJwQQ7goSkviT/8YcAoUJW8tWfxrTkkp4ax4MwDaotZxKAvb/O6ICii1/HlUaUf4h1lgm3Xoxm0QTVebhs4a/0azxDD8glwLRsReUdowDxPXf474593b3uSIH6CurxtnNGTVtqb0qYH9eBwNlkDdamuwY4N2IQz2X/kwKsT5dg=
+	t=1790150345; cv=none; b=nMokNU0J8tbn2aIaG013xvPmM1lSRNn7Rs8EREEnUssnvV2LeHV7iQe8EW2EhW1kjDdO8Yz1g8W7xt6RmuxvKqbBBn8iQpYVYG9bBolrtlANATZea8A2+vf9XOCi8/yA5De0VX7G0u8zxUgvbJVI2v7766KBKDQAL8Fsz9ME5Rg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790149782; c=relaxed/simple;
-	bh=m/cEceOzCnDodbXJi1kYlQoLj5ukhZwRLEOl76ErlNE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=EcXF0clRBrxvDlz+kT44y14wUHFQNukFVeDHJO33G/jqREtGEgEsZ7WMlNiOeXPOYLZpzJadtHnZCZPX6L6lMBJg3T7F2YJCiqm63VUqAxgwHvVh4knBntb0GeGa6RW+tMvj0X7N561dSAROTERhHJa9qAYXBzz1MdaiaSqSa4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=13.75.44.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [10.98.66.117])
-	by mtasvr (Coremail) with SMTP id _____wAHAYWEhLNq6vwwAQ--.6303S3;
-	Wed, 23 Sep 2026 15:49:25 +0800 (CST)
-Received: from localhost.localdomain (unknown [10.98.66.117])
-	by mail-app4 (Coremail) with SMTP id zi_KCgAnezODhLNq65_OAw--.39044S2;
-	Wed, 23 Sep 2026 15:49:23 +0800 (CST)
-From: Fan Wu <fanwu01@zju.edu.cn>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: linux-usb@vger.kernel.org,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	stable@vger.kernel.org,
-	Song Li <songl@zju.edu.cn>
-Subject: [PATCH] usb: typec: ucsi: yoga-c630: unregister EC notifier before UCSI teardown
-Date: Wed, 23 Sep 2026 07:48:28 +0000
-Message-Id: <20260923074828.489562-1-fanwu01@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1790150345; c=relaxed/simple;
+	bh=tOF3Q53sKK5kaYPNGvvcCdoivuiT7tpbfRxl8ojJ2OU=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=LADeILRowmfrgluhP8+zeJik5x7fMuZI4Aqat7gT5F0T+BJCNsqhVTo2QMuT9s0tOdjC6lE9ln4RNSo+ht3qBqVnwCIaaSGfKbw1bh+uc1fLOtyd5CeU+q8J2wOq+Avn9Ntb6FMzsWbz9SB0Z7NTLukmSJZM0BamcIf3xwPnkPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=pAxMbr2b; arc=none smtp.client-ip=209.85.210.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--khtsai.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="pAxMbr2b"
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-870ec29b035so237941b3a.2
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 00:59:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1790150343; x=1790755143; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=baj4keq09+k1i3lVFY1qZ9vzdStk46/qXFMJ6IHQMnE=;
+        b=pAxMbr2buWDfN9Rgbr8afjG5+e1GvNou6atk3MhqlhIsaOxrhdw4vSFqsyLddlLpvD
+         3J+BAeX1XLSSEIOGfKd6i59vUAjwKvwnPQSe1cPJW1quAk1qRrU93BhBBbguuYVFvFDM
+         ZjA9/yweSXsa9K0sQQ9oVjfaz+yO9rdZ7scjqXjGQ1L+V8Fcd8Og/tS4GoEznqI8htZg
+         wBjUEqQ7jGgreRokAfBrzUntcXpg/f4TOHxjMRAiGuDyHr4VUFX8zxtNTcTbLDqOsVxj
+         I4FNWybbGMxz8OFYigmSONHrEKWP1wQutGsRV/liigdtdJwYnqMnz/FNDjPir0WZX/Ar
+         x+Dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790150343; x=1790755143;
+        h=content-type:cc:to:from:subject:message-id:mime-version:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=baj4keq09+k1i3lVFY1qZ9vzdStk46/qXFMJ6IHQMnE=;
+        b=TQUwpUzYRMyDcy+A/BwBAvnl4bBx+y/MLxVVKNj2owhtVoh6UM5hWIndQAD9hRbWj4
+         GBHeTnqnOiEdDjs4c5J2jLd6LoC4XrbOOFpp7WAwOBYMopm2fAZnIzcsL5dqMS9aYumJ
+         0i1Z5WLcGzhh0hunYlPBDygqjH/T/oRPesTAIdu/Dyv+YBtefmiS9Ku3b5Xg7MAAWPMz
+         73jKsFR/Bl0B8KASBI5xHlBC93fgI/rRpnmfp/+imh2rU3r0Yv2j4ijmk3L/MHMu2Fjt
+         AagT18oy7z43rXJOwPjznFboCVgR3pEh4ongC46KxGz4x8TDmGl1NzXnD0UM35vq+U+Z
+         mG3Q==
+X-Forwarded-Encrypted: i=1; AKwUvBx2ftBxpuzQQE+l3jgfL/D+CdrYulOslN7CgreoDbM97xIG9skWE2Kn9Qw1Zt6x+YMFAVgCSHwv34c=@vger.kernel.org
+X-Gm-Message-State: AFuF++l7b3rtLKwcLwWEBlanlk60a0f8E88Pq+sw/u3ID3GGTzJwuDpH
+	+1qj61FCktbq8ubLwFT0Dn2FiQG1bT8BKnse/KMTIG8IVHDgX7dgiXM+GMQSxtX1wlIqtpVIKvs
+	QkuMUgA==
+X-Received: from pfcy24.prod.google.com ([2002:a05:6a00:93d8:b0:87c:bf52:8514])
+ (user=khtsai job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:4191:b0:86f:68:4427
+ with SMTP id d2e1a72fcca58-87d1b6ac38bmr1616277b3a.25.1790150342849; Wed, 23
+ Sep 2026 00:59:02 -0700 (PDT)
+Date: Wed, 23 Sep 2026 15:58:34 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zi_KCgAnezODhLNq65_OAw--.39044S2
-X-CM-SenderInfo: qrstjiaswqq6lmxovvfxof0/
-X-CM-DELIVERINFO: =?B?7bhr7wXKKxbFmtjJiESix3B1w3vZ3A9ovKVTomAyoQazvoRs/NHSP8GI2EvgeEEW7R
-	sfnXz+g1OQfMo27QHy5TwQyZwE/vSQZ160CDmmYAs9ddiCPQNmRWzJkHDvskmO3z+yVcoJ
-	pDGAI6upKb0vpIyZY2Op9E6mavGmQbzmcFsnzP86
-X-Coremail-Antispam: 1Uk129KBj93XoW7tw45XF1rtrWUCw1DXry5Awc_yoW5JF4Dpr
-	nIkaykGrW0qF45Ww45u3W5JFy5AF97JFWUZ347W348Krs8Jas7ua97AFy5ZFy5Ar1DCF47
-	tw45K3y5Z398A3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
-	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
-	0xBIdaVrnRJUUU9Gb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I20VC2zVCF04k26cxKx2
-	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
-	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
-	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
-	xVW0oVCq3wAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc804V
-	CY07AIYIkI8VC2zVCFFI0UMc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AK
-	xVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48Icx
-	kI7VAKI48JM4x0Y48IcxkI7VAKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s02
-	6xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_Jr
-	I_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v2
-	6r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj4
-	0_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8
-	JrUvcSsGvfC2KfnxnUUI43ZEXa7IU86c_DUUUUU==
+Mime-Version: 1.0
+X-B4-Tracking: v=1; b=H4sIAKqGs2oC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDSyNj3VLd1JKM1CLd9MSU9NQS3byCVF2jtJSUxLQkY/M0I2MloMaCotS 0zAqwodGxtbUAhAgEs2QAAAA=
+X-Change-Id: 20260923-u-ether-gadget-npe-2fddafb37f23
+X-Developer-Key: i=khtsai@google.com; a=ed25519; pk=abA4Pw6dY2ZufSbSXW9mtp7xiv1AVPtgRhCFWJSEqLE=
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790150340; l=1114;
+ i=khtsai@google.com; s=20250916; h=from:subject:message-id;
+ bh=tOF3Q53sKK5kaYPNGvvcCdoivuiT7tpbfRxl8ojJ2OU=; b=NEa9+Sfovl3T/t6GA7JKIo8zl1KCqLcmdn2fnsZGcLX3EOOohoICC1y7PT8wp7r+nV6XqTWcw
+ 6lyntEWrSnsDyOVNEL0SZVBjsi4Pz7v/6ejYM0sIlFIWVyET1MT5oaH
+X-Mailer: b4 0.14.3
+Message-ID: <20260923-u-ether-gadget-npe-v1-0-ff466c55ecc0@google.com>
+Subject: [PATCH 0/2] usb: gadget: u_ether: Fix NULL pointer dereferences after
+ gadget unbind
+From: Kuen-Han Tsai <khtsai@google.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, Faqiang Zhu <faqiang.zhu@nxp.com>, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Kuen-Han Tsai <khtsai@google.com>, stable@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-Both yoga_c630_ucsi_remove() and the probe error path call
-ucsi_unregister() while the EC notifier is still registered.
-ucsi_unregister() frees the connector array, so an EC event (USB, HPD or
-UCSI) arriving before yoga_c630_ec_unregister_notify() makes
-yoga_c630_ucsi_notify() run on freed memory: typec_set_orientation() on the
-freed port and ucsi_connector_change() queuing work in the freed connector
-array. USB and HPD events do not depend on the UCSI notification-enable
-state, so the disable command ucsi_unregister() sends to the EC does not
-close this window.
+Hi all,
 
-Fix this by unregistering the EC notifier before ucsi_unregister() in both
-paths, restoring the teardown ordering from before the error and remove
-paths were reworked. blocking_notifier_chain_unregister() waits for a
-running callback, so once it returns the EC interrupt thread can no longer
-reach the UCSI instance and ucsi_unregister() can tear the connectors down
-undisturbed.
+This series fixes two NULL pointer dereference issues in u_ether after
+the gadget is unbound and dev->gadget is cleared by
+gether_detach_gadget():
 
-The callback is also the only external source that requeues the connector
-work, so the cancel_work_sync() calls in ucsi_unregister() can no longer
-race with a new connector-change event.
+- Patch 1 replaces the composite.h DBG()/VDBG()/ERROR()/INFO() macros in
+  u_ether.c with netdev_*() helpers so debug logging does not 
+  dereference dev->gadget when the net_device is detached from the
+  gadget.
+- Patch 2 extends dev->lock to serialize dev->gadget accesses across
+  eth_get_drvinfo(), rx_submit(), gether_set_gadget(), and
+  gether_detach_gadget(), closing a check-then-use race in
+  eth_get_drvinfo().
 
-This issue was found by an in-house static analysis tool.
-
-Fixes: 168c3896f32e ("usb: typec: ucsi: yoga-c630: fix error and remove paths")
-Cc: stable@vger.kernel.org
-Co-developed-by: Song Li <songl@zju.edu.cn>
-Signed-off-by: Song Li <songl@zju.edu.cn>
-Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
 ---
- drivers/usb/typec/ucsi/ucsi_yoga_c630.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Kuen-Han Tsai (2):
+      usb: gadget: u_ether: Fix NULL pointer deref in debug logging
+      usb: gadget: u_ether: Protect dev->gadget access with dev->lock
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_yoga_c630.c b/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-index 1be18d1..59738dc 100644
---- a/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-+++ b/drivers/usb/typec/ucsi/ucsi_yoga_c630.c
-@@ -296,7 +296,9 @@ static int yoga_c630_ucsi_probe(struct auxiliary_device *adev,
- 	return 0;
- 
- err_ucsi_unregister:
-+	yoga_c630_ec_unregister_notify(uec->ec, &uec->nb);
- 	ucsi_unregister(uec->ucsi);
-+	goto err_destroy;
- 
- err_unregister:
- 	yoga_c630_ec_unregister_notify(uec->ec, &uec->nb);
-@@ -311,8 +313,8 @@ static void yoga_c630_ucsi_remove(struct auxiliary_device *adev)
- {
- 	struct yoga_c630_ucsi *uec = auxiliary_get_drvdata(adev);
- 
--	ucsi_unregister(uec->ucsi);
- 	yoga_c630_ec_unregister_notify(uec->ec, &uec->nb);
-+	ucsi_unregister(uec->ucsi);
- 	ucsi_destroy(uec->ucsi);
- }
- 
+ drivers/usb/gadget/function/u_ether.c | 84 ++++++++++++++++++-----------------
+ 1 file changed, 44 insertions(+), 40 deletions(-)
+---
+base-commit: abc36cbda29d8f19cf3a580cd86ca9e865186a41
+change-id: 20260923-u-ether-gadget-npe-2fddafb37f23
+
+Best regards,
+-- 
+Kuen-Han Tsai <khtsai@google.com>
 
