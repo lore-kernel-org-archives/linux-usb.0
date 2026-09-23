@@ -1,65 +1,87 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 469695293F5
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 13:25:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7075F5349CD
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 13:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790169930; cv=none; b=WDymbRj5d2SsxqC10TUR76/NIzLGevTW7bI6mjg9Ktaw7jsozbBTFSwgTNv289eMThFlRDpDCoZkdJvXD1N7sh41yqvvsAA7Xjf91X2/k/nb/22ewBvYopeKHSEvzwi04okg+k3ZgToM9idV3c9Pbd9rd6lqax75WJ2gdphTR28=
+	t=1790171150; cv=none; b=bsH2fpOz68W/36oZBJZpxrR/lHwHe/2Bd6oVmADnXrGkVnPXP4NdaUgQ8gzsgIlxIOPsmhhZiq1f4wwaa76v/mbGwnnrxDTgck1bXNI9zj39+Mys5ZO6ZY/BpQD9jl1/dr/uj0fwRqijaOuIjvZ7RowA8Y6MLXLUW2hVoqNtgzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790169930; c=relaxed/simple;
-	bh=eX0EMAdgzlWJwq/2HWNye7UTxaEWtnJ84b/9Qdva1sc=;
+	s=arc-20240116; t=1790171150; c=relaxed/simple;
+	bh=hAUIAJP2KyIPOrXkm/QtyPmhhjrZyPRauTKH3tyreRE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nNx+3eL0fhM/nXRm3BkmEXWJXMMJPHcP7J12GhtDO0M3mhiGmOhiqv3GIxL2JgwySus9w0cpu20GUrx88bqCkOL9/Q9RkF3yiWS05WjBTqoKNei6txpfQLHAJ7iwbPgg3HNF3d+lLuawqaWOLc05egBA9yGBSBMwtBFOdWbdpis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=emWUySjX; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	 In-Reply-To:Content-Type; b=BkMzRWsUr5TLJxAmM4kapmPLEf7WuNi/usuGmaSSe3HpVKlzlRoN35f1P59El/8K3NYmeF21nLDjJWE8+GiuR2B4BLtPJlSlasTrY2gule7gwgwiVYE3dV3vciDRjhyWpF+11LTjI7fPP1du7qByAbS/fd7WEkSoI9hFVYMgRfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NHhZfGyt; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fDmcghML; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="emWUySjX"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0f79so4875225e9.3
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:25:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NHhZfGyt";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fDmcghML"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NDPNAH2698521
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 13:45:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=; b=NHhZfGytzmWFyCsj
+	Zbq1+A+FQqTZC64KnzfYTjTVPG4qQ2PppdfaDev7x8JA0PLgl8xEusRGtaUk2Jnu
+	dktSsj6AkBdohfO4tO1sewfq6TnnSSJAfWsSJiulrAuLH1YzPMPiVH1eN1YzL+gr
+	rXl5tjJO3b9ESRI7PcAkNumaqBIipyJqWDIi7+ikcMskQZRd0A3wRk2DfxasF1it
+	2mcq9TNtRWWuNicMFsLObGoyuSiP7WGMx9NrG7MnL3ooMu+9W0VVVhVHfTo5swQf
+	RGt6T1OymuOg3EfZA02+riv6lxDfUWyRTWk+mzOgJ+2ZyLA7Gl/eBGkdBvnXp9gg
+	Mxdl+Q==
+Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvfmwg2k6-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 13:45:47 +0000 (GMT)
+Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-791265014f7so74573137.1
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790169924; x=1790774724; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1790171146; x=1790775946; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=UbqTmyvAXsPMX/OWViL/BojYfy+amNPgcnI6jZ+rUSM=;
-        b=emWUySjXpygiP1Cinddy3IujnpvW/szmXnkSAEud46C53jhYg7ViBXVS5UyQ5cFC2I
-         e60tTwLNoPmL1VTNRJShtJzMZQIyIEnBnjqYmzQ0S9Khv0WxTj2pBzLw8WwWxu9Kb9sX
-         pmdWFd7egf3UI5sbjkjgYP3CqkHpkf1K+PzuQ=
+        bh=bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=;
+        b=fDmcghML5Vx4RH/N2Fr1VuCeWYF4xgPjKxuR/8UkN9F8Gev4CYn1n7dhiotNAPl9j8
+         1GFXU1vvROPDmy5O9/4Z5nBDDtJ11aQZw8pzN4KFgdJyvfLQXHxqQjW4jeo1I73xdaY4
+         0dR+eNdEbQrG6vr/kz8b+vXgLjt5QuTwt0368pIKNrNilL0GclR9z7r6LGmJCO86hJ1u
+         1KATXHK/Qv/+HVPntHBylf39KTYji/rDZDJPUHWxgjDPiKouS8UZ6It3cfR04WIN6gdH
+         1NYaq2eObkbLanZpV+jaMyb0DD2hzy5jlcBRdwtZsSn+uJo0LNEMNAK4nGnIHR/pPjCG
+         ONWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790169924; x=1790774724;
+        d=1e100.net; s=20260707; t=1790171146; x=1790775946;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=UbqTmyvAXsPMX/OWViL/BojYfy+amNPgcnI6jZ+rUSM=;
-        b=G8zYPwrf5g8yGSLf4OSLMMUXv9uQe7LWEydmCDyccuuaxpMhqZkLEaEIgFs6Phzk0q
-         JHAKBdZ7Sh7Ou3MtU4pZJy0t2u/mEe9VJrjxe6I+/+60hfW+2LDdC1GeWqb8onmmuBDT
-         u3ypVlsPKnseDD8cQNRTkNnA8JHQk6qXvrfOmNk6pVR1sNmQ0Exl8qQvQy08jyBe32Qx
-         xgr1RwxoH1gg46yJyGtQqTcrQuqruULVQuetcBNCAab5/FWV6BFSFXJr50k8bv3M6++8
-         m3xoxY6NwY/Iu2C7SNyT5ME3kfFRlo2DOod0g/8zzi00OqEEcdREuGyTTLOnv8E2Eihw
-         6FqA==
-X-Forwarded-Encrypted: i=1; AKwUvBzEYxk/M2mfN6wjbIwJqifXoryffN/jSEt3ss7ekU7G0ksZrKR7ylt2QL9YtWHuEWWRTBAD55ZKuiU=@vger.kernel.org
-X-Gm-Message-State: AFuF++n0rdcAWHIrZiWkHaVUdvRq9phVbAEEV2oq0fPxCnTKKnU6tfVv
-	epX0HpwCFzhx3Jek5GNXF5TlLDFje38m8LuTnSQY/bGQyWLAjfFlvoYk4JSzErd+938=
-X-Gm-Gg: AYBFou1FisCd3MHs7BHgV32+S4Aru+omBsMdY9rqXWv/5kwzNGOahqcy7TE5hdvYy6p
-	2lfbz+5tjCoZOooeLPhC/RfLnUM4FWCV9MEf/uk4wMbCfuGTLcLymEXUJsQoGfZxDX4hc/7Ueja
-	KikmlCt1Gn+nHEJxvkZMwNns4LDV4F2OIEyFRXYOuVaK+1QBst9JHLvQ2z1vP/U8kkTCmVjYmFO
-	nnpBxolPjh3+Iv0KsMC4hzXWbWhWUf/xJYdBA04+A6DuuRneGq5SHDZUsa0TH78/hkjERo3tHRs
-	mq9aV5uZWtac6m7TkYLuwIRWJxf+z45ZbGLtgutrx5rv9P5plxBv+o97HpVKARc32+0Mi9Acs1N
-	4cDlP+bZ1Z1Yre+7szHZomPIwE6u4szj5VFUB4OJ4Au4hUeDwjEvA6RDV8uZW4RV5lRfzANzT+8
-	NzBSBFx+lvlH1E32A2o1Z34k4r3V/vEw2fv8sP501uXWCDtfrdV33jh4rBSxPHwGzE+j8zUzDIL
-	eBwvKw=
-X-Received: by 2002:a05:600c:c48e:b0:49f:ce78:356a with SMTP id 5b1f17b1804b1-49fdeffdc94mr35490545e9.27.1790169924310;
-        Wed, 23 Sep 2026 06:25:24 -0700 (PDT)
-Received: from [10.214.128.75] ([149.7.5.167])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fde1ccb90sm77720025e9.6.2026.09.23.06.25.18
+        bh=bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=;
+        b=D+n4aIM2B+aU1N2rVZQIEQdt0JwL1SyMD/e7Ft3Y6E7DW6UsQVzF3VN8pJyKK3EDaa
+         eHNN4gmzMt5UDXN0ESBiu5ac+Ilyga8JeBLBd86wrQdAr5dxUnbAqHx57UHtezzAly1V
+         QfPieIsqDfvlcWV/bDdfd5rGLWOK+kaVD7Q/uKV6Utb/sNNOhr8LQPlrp4sj8AGqdJJn
+         hbwgX2f7Fy+mvOGIejS0VgvbPF6UeGQPMEYfxiovwe7UdUadUoFeZBDgyY5Sa/ECnryT
+         nPTIB5K6enMO+BDhCocK7QHO9AuYRdNB4WssJXWqmKhZjjGHN621DtYvhDPUTgi2xfH5
+         Z5mg==
+X-Forwarded-Encrypted: i=1; AKwUvBwsE2CMKuwwte4fg6c+Wnk1D0350jOzrpTHac5IuFXarfeUIgni00YQ5AjxkbDHQYchlrXiyfjNg9Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++lHCMaYIPTx0Zl+5IB7QC3z/MUU+zXNXO1M39Fi+8jPU5LckRBc
+	3CxahoTAVP+Vuq8yqyHnyXuuT4KmSLqu7B0/wsVvTFK8acXy1qLXWqZNAlFVUrEaw+TpNzVuOiX
+	FhaBL6wOKIX9Yg8i1Eyn5DAhpraHZGeXHHxVWzvsN/10SNlwT0BHjOb9XhqnQ4yU=
+X-Gm-Gg: AYBFou1JFjceIb9Vio/8aTZ4CTInKP1Kvs+AxynlxYq3S3y8OOGQ8g2S2lt0GqxSs/W
+	U9DWSS+aYF2DabJ46kHrtzTeLIRD830naG0iuk2ZiN+jyQlYhINwOeiPXZB2nMZjzkoGAC/IxtG
+	L0/uOsY44LQoY5vxuwfraWvMuktGABxqne+P4Gvn06qIklZC+2nxxVr36RNGKyP7HCEmqr2EDzq
+	RlqppOORDBNcu3ePPA5oZf2bxWb9gRxn5b6M7Yhj8hpv/betFQO2q8l7jEGDQaKGxeYH9XfWG93
+	QQZ+eFcWZc7Qs4gvdq2bgIfOGI+rFcBk9BOXRu/cXgcezSmE2Cqol6X4JwpbUa3DQ70r4LE4ZF1
+	GWgF1+ytXiSI9rHziBjvuYg==
+X-Received: by 2002:a05:6102:5121:b0:7a7:326b:688d with SMTP id ada2fe7eead31-7ac1c454b57mr2548249137.2.1790171146471;
+        Wed, 23 Sep 2026 06:45:46 -0700 (PDT)
+X-Received: by 2002:a05:6102:5121:b0:7a7:326b:688d with SMTP id ada2fe7eead31-7ac1c454b57mr2548220137.2.1790171145961;
+        Wed, 23 Sep 2026 06:45:45 -0700 (PDT)
+Received: from [192.168.202.12] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aab37478c9sm1722267a12.0.2026.09.23.06.45.41
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 06:25:22 -0700 (PDT)
-Message-ID: <13686465-879b-4afe-8b33-486fc84d9307@linuxfoundation.org>
-Date: Wed, 23 Sep 2026 07:25:09 -0600
+        Wed, 23 Sep 2026 06:45:44 -0700 (PDT)
+Message-ID: <32bceb7e-d06b-4537-9d34-91bfe27f4ff7@oss.qualcomm.com>
+Date: Wed, 23 Sep 2026 15:45:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,72 +89,129 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: prevent priv from uaf in cmd submit
-To: Edward Adam Davis <eadavis@sina.com>,
- syzbot+06fa667a0931a3430026@syzkaller.appspotmail.com
-Cc: gregkh@linuxfoundation.org, i@zenithal.me, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, shuah@kernel.org,
- syzkaller-bugs@googlegroups.com, valentina.manea.m@gmail.com,
- suwan.kim027@gmail.com, Shuah Khan <skhan@linuxfoundation.org>
-References: <6a8f1920.1d9ded08.62e62.00b7.GAE@google.com>
- <20260827012153.138991-1-eadavis@sina.com>
+Subject: Re: [PATCH v6 06/16] usb: hub: Associate port@ fwnode with USB port
+ device
+To: wens@kernel.org
+Cc: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger
+ <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
+        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+References: <20260721065413.2306137-1-wenst@chromium.org>
+ <20260721065413.2306137-7-wenst@chromium.org>
+ <c6526ba0-be08-46c6-a501-1b161939657c@oss.qualcomm.com>
+ <CAGb2v66c8L20yNNmvj6TaQbS7LnqAyuv0tMQfj+0PSjMUcSByA@mail.gmail.com>
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260827012153.138991-1-eadavis@sina.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <CAGb2v66c8L20yNNmvj6TaQbS7LnqAyuv0tMQfj+0PSjMUcSByA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA1NCBTYWx0ZWRfX3cy9G3AoHViO
+ b0BnagFJ/0IlSFrNRbt2GIJU8ps7sRvfOtIEFVxKrPl+y1lvoo/EFUkcYDgubKWQjwszkgNtdBL
+ eTsWD3rp22CAxyY91F5qqtdzQ26dru3S36aCAYSCjL0wxmVxf3OH0gUmKHnP3GdLFQ9ZbtIwYmP
+ 9A9wYI4Ws7h/Zyp4QeEiV9JFl48npEfLldufZ85FG6SKQGd6iplext32J7+VwGQkjzuztkgsIp7
+ fl3BK6KUKThs8dnRZ8IlSH6YJRiUv+LJ/KJAshNS6W/amZodRYnQMfLu8uFuXs8tcZ2RDGqrUHC
+ DeE+ZgE6EhGOB2MMqppkFn2TbitA0NHHLqYjzvbxN5sAVwpk92mxpubOvOaeO5Bp10WQSwCnOVF
+ LxdDMElDoBcfVA6w6/kbxfdwOdM13rkVsQy1K9nnvaStH0U/mQBnQT/CEMda6703G+TzdoJOroz
+ BMwl/JoPgsFmXqDC4rQ==
+X-Authority-Analysis: v=2.4 cv=WK/qzXsR c=1 sm=1 tr=0 ts=6ab3d80b cx=c_pps
+ a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=M7ONEjnSaIfHBpTaVFwA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=crWF4MFLhNY0qMRaF8an:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA1NCBTYWx0ZWRfX0yO9y8H2m2sw
+ HG1C1jHnrc2uuP0fdD4yvk3UkQDGzb6jBPbSU9+V2m3HkMD30aEVN1cmo+zZ1Vh3dSgLOeZyFpc
+ vxyh4I3awsh5EIHOEKjD+Z/e/6Jgjuc=
+X-Proofpoint-ORIG-GUID: xujiXJyhzXkfBNZuCBG4j_NT7SAyBTPp
+X-Proofpoint-GUID: xujiXJyhzXkfBNZuCBG4j_NT7SAyBTPp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-23_04,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 bulkscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 impostorscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609230054
 
-On 8/26/26 19:21, Edward Adam Davis wrote:
-> The num_urbs is 1, and the request is not special, so it is not tweaked.
-> After stub_complete() executes, priv is added to the tx queue.
-> stub_tx_loop() immediately dequeues it and frees priv; the subsequent
-> loop iteration then checks priv->num_urbs, which ultimately triggers [1].
+On 9/4/26 12:30 PM, Chen-Yu Tsai wrote:
+> (dug this out of my kernel.org email)
 > 
-> Use num_urbs directly to avoid accessing the already-freed priv.
-> 
-> [1]
-> BUG: KASAN: slab-use-after-free in stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:609 [inline]
-> Read of size 4 at addr ffff888034999db0 by task stub_rx/6028
-> Call Trace:
->   stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:609 [inline]
->   stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
->   stub_rx_loop+0x2d3b/0x31c0 drivers/usb/usbip/stub_rx.c:707
-> 
-> Allocated by task 6028:
->   stub_priv_alloc drivers/usb/usbip/stub_rx.c:314 [inline]
->   stub_recv_cmd_submit drivers/usb/usbip/stub_rx.c:490 [inline]
->   stub_rx_pdu drivers/usb/usbip/stub_rx.c:688 [inline]
->   stub_rx_loop+0x638/0x31c0 drivers/usb/usbip/stub_rx.c:707
-> 
-> Freed by task 6029:
->   stub_free_priv_and_urb+0x427/0x570 drivers/usb/usbip/stub_main.c:321
->   stub_send_ret_submit+0xecf/0x1810 drivers/usb/usbip/stub_tx.c:333
->   stub_tx_loop+0xe2/0x3e0 drivers/usb/usbip/stub_tx.c:437
-> 
-> Fixes: ea44d190764b ("usbip: Implement SG support to vhci-hcd and stub driver")
-> Reported-by: syzbot+06fa667a0931a3430026@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=06fa667a0931a3430026
-> Signed-off-by: Edward Adam Davis <eadavis@sina.com>
-> ---
->   drivers/usb/usbip/stub_rx.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/usbip/stub_rx.c b/drivers/usb/usbip/stub_rx.c
-> index 1e9ae578810d..85370b3bc600 100644
-> --- a/drivers/usb/usbip/stub_rx.c
-> +++ b/drivers/usb/usbip/stub_rx.c
-> @@ -606,7 +606,7 @@ static void stub_recv_cmd_submit(struct stub_device *sdev,
->   		return;
->   
->   	/* urb is now ready to submit */
-> -	for (i = 0; i < priv->num_urbs; i++) {
-> +	for (i = 0; i < num_urbs; i++) {
->   		if (!is_tweaked) {
->   			ret = usb_submit_urb(priv->urbs[i], GFP_KERNEL);
->   
+> On Fri, Jul 31, 2026 at 10:44 PM Konrad Dybcio
+> <konrad.dybcio@oss.qualcomm.com> wrote:
+>>
+>> On 7/21/26 8:54 AM, Chen-Yu Tsai wrote:
+>>> When a USB hub port is connected to a connector in a firmware node
+>>> graph, the port itself has a node in the graph.
 
-This fix is incorrect. if priv is being free'd it has to be handled differently
-and not by using num_urbs. priv is accessed in this loop.
+[...]
 
-thanks,
--- Shuah
+>> But something I faced when I was poking at USB4 was that dt-bindings
+>> currently assume every controller is effectively single-port and the
+>> of_graph ports under it represent HS/SS lanes, i.e. the entire
+>> "ports" subnode represents a single USB port
+> 
+> Which controller is this? AFAIK for xHCI hosts there currently is no
+> "ports" node specified in the common usb-hcd.yaml binding. I plan to
+> add this separately, as it can already be used for USB A connectors.
+
+DWC3, the qcom flavor specifically (qcom,snps-dwc3)
+
+> The kernel maps every downstream port of the root hub to a separate
+> node. On the XHCI it is more complicated because it has two root hubs,
+> one for HS and one for SS. I'm not familiar with the hardware specifics
+> but they seem to map into one common namespace, so you probably get
+> ports 1~8 for HS and then 9~12 for SS. Note the number of ports is
+> different. This is just an example from my x86 workstation. And on
+> x86 each port is mapped to a different ACPI node.
+> 
+>> I think the solution here would be to do ports {} under the controller
+>> and have every one of them have 2 endpoints (for HS and SS
+>> respectively) - then, each DT-port would correspond to a USB port
+>> (sorta like in the hub case, minus the hubs are split for HS/SS so
+>> they have just a single endpoint under each port)
+> 
+> But the hardware descriptors actually give two ports, one for HS and one
+> for SS. And in the case of dwc3, I suspect that they always come with
+> one downstream HS port and (optionally) one downstream SS port. So the
+> binding is actually correct, except for the numbering.
+
+Ohh yeah I overlooked the HS/SS port split.. I think you're right!
+
+> I'm looking into the dwc3 case. Changing the numbering might actually
+> not break anything. Linux seems to just need one *a* graph connection,
+> but doesn't care about the number. I looked through some other projects:
+> 
+> - FreeBSD doesn't use the OF graph for anything
+> - U-boot doesn't use the OF graph for USB
+> - OpenBSD doesn't support dwc3, only the XHCI in dwc3, and doesn't use the
+>   OF graph for USB
+> - coreboot doesn't use the OF graph for anything
+> - Zephyr doesn't support dwc3
+> - TF-A doesn't use the OF graph for anything
+> - EDK2 doesn't support dwc3 and doesn't support OF graph
+> - OP-TEE doesn't support dwc3 and doesn't support OF graph
+> 
+>> But that comes with a big breakage, as always..
+> 
+> As I mentioned, it probably isn't as large of a breakage.
+
+That's very welcome for a change! Thanks for checking all of them.
+
+Konrad
