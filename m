@@ -1,181 +1,281 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f31.google.com (mail-wr2-f31.google.com [74.125.225.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C15AF3C1977
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:04:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFB89442B33
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:29:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790143486; cv=none; b=ZOeidAOBE/HhueqWHm+4KeMXkfimR5No5Bg0aFSW6jP5TN3096APgrUYH2QI+NDBrorlwFMIoGNqQWWBZNVkN1QRipxvZOeccYK0EdC5r+gctciPy2dQCwGuweosC38+hR1T1TnjEdO7tz4YndqVyht03ddaHoRtGv8cBWOtVl0=
+	t=1790144961; cv=none; b=XeYtHnjgaIfJVCxR3ltE3pJx0kxiEsiBMmT0jamhSHHa7Ykn2FivDn2JQ9ykNb4G0eg7c6gVRSJPEQ84BqOBXz24VS3ILZRyAaOYSIwHEnBrl8NMQsZj2CI/OqVg91YMDe1Ynbe7LRY+ozbGe9KA2zcoJB0XpbAOvlsyapIjwHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790143486; c=relaxed/simple;
-	bh=bvrVATNrYUGQD4mbSi+niLn87cAnb4xf2QWn2yNGmnk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jjMXv6B+dhButlhdfrRgm4TxsqBK09D6vyz6wfxmnkGG4oiQXWzC4hm9m7+vOg5K/36DEOct7jCGbRNgf1bV/FpUBxnsI2vJjVuuLScKfOzKe1zo38MgSTwUKmZVrkZT/TiNla9zRsmsuzgr2+1P0SWcnrq79pmvYpv+xrddJ4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PUnGCFF+; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=U6wf5o94; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790144961; c=relaxed/simple;
+	bh=2P1/Y+7yd2b38wkBtdBMXr+oehxAhkxnhsbRjMjb8Ls=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p1Tm0kJMSy/km+WLeuXdqOfgnE6UlR0XqHPCdLxxiS2K0NF19J7aqrB3xA2cvIHPBtfisbuYg9ydIQ0fsQf+q/v2j6Radu+GjH2IbL3tV30QxZYv0dQmVvjRz4HtCnB1M0IbBsarLOVlDG+mQbqV75JiCNL//0IFP8Lru+Sxjtc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b=l6od56IM; arc=none smtp.client-ip=74.125.225.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PUnGCFF+";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="U6wf5o94"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68N3ijr81425421
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:04:43 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=A4IntU3s8x9cUVN8CZ1tZN89y+BE+ON00Xs
-	gdwyZ3e8=; b=PUnGCFF+1G/cjc24MgRQf5snoDnCog3cmHmDWAW/BGsxnB+KUAE
-	FtaeYjEsFzsyFyVBO3WLdw2G/ufr2V7ji4Ko69dPB4KHaz+v3ax/LHLSC5HkrkMx
-	9y+3qMSDi2uW9tgAhkK6eDuhXZe7BTpDBeVNMXY33nuj1839gVaa/Un1m0gFQ4bg
-	3VCNNhg3SzBPx7cRl+7nW65yL54Tf4yKKCK1uqEhXkDLHqnW/h9nJK0Txiat+LJr
-	pQELSdZ4luIJUT1/aIgVjRaEa6MUwNGsdG3brhewRvRg3Wx2E75FvGS9GVFXa43p
-	Osv7JUl06QXGltr8swvFHriOrlUtW7Pk/LQ==
-Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4guy2c2fcd-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:04:43 +0000 (GMT)
-Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-143803143c4so1197791c88.1
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 23:04:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre.com header.i=@baylibre.com header.b="l6od56IM"
+Received: by mail-wr2-f31.google.com with SMTP id ffacd0b85a97d-4843c2790ccso390129f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 23:29:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790143482; x=1790748282; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=A4IntU3s8x9cUVN8CZ1tZN89y+BE+ON00XsgdwyZ3e8=;
-        b=U6wf5o94nC02Jop2j8ruJt4IHAAWdX24x8991sZd1cm2y1fcAlheFBZH/RW0QfrjEz
-         6Yxw8n5iPh+R6I8XGtG4XnpB4UMla0rpO+cOysdeboTb1atGBMcI/42Yc8hFtO0jfnNg
-         lMTiVWt9h/bkaNvH3eWBdSlRYEtca871CPC+tJA1BdsCTuMmaNcv8fBHjV8+dCz5zViZ
-         aN0I737/rHQxG9dDSs8sMAFGPMee0ZiIUnklq9fzK3Yj4Vga2WCTBFNvyqfgyuth9dZc
-         i+e29SOw+mfvtVIwHoX3H7X4YL6yknGIiFE6mlUtqHhIyl+iorc3LStVFOi0w2UfrGK0
-         s32w==
+        d=baylibre.com; s=google; t=1790144951; x=1790749751; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=IqBBUCm9D3kcAtSAGWx9YPoXXMR7IIvhwpg10TQoYm0=;
+        b=l6od56IMX74BNqnz4bkTqVsvT7TD24l1V6scX5Gxcm2Ba0nNYt0lyH968epWiozZQX
+         EsQfZEgGNgKa0yumSDHHGtbh8TtcstcLd5rpQkOdGDWJkWOyuZIcy/H2MCD6N2ngdeDZ
+         D/PhGynIR4UpFG+LQ8pifR7209dFV43U2wYIe/4iRiwA8zT6D4Co7F7cvdCcrzLoKfag
+         qM2CyIdWDF8xgmhzsXgYmW7faTWr8aoPqrM309n+jxkHx9OSAiKmmHs3cDYNYM2Ch4GP
+         68kPpsY7cGyX8SGtVyBqRGxz/405HuON/8+PfuCz7oz61mKOwSo9+KhIQPNeHvN8q9n3
+         RUCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790143482; x=1790748282;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=A4IntU3s8x9cUVN8CZ1tZN89y+BE+ON00XsgdwyZ3e8=;
-        b=TjDSAMjRv1/Fe3AlQl7tP49DYPwXEUFcN83skwIxdOO7kcB87Hr3e4Oojblpyklerm
-         qv2j82psFoRvOvntil5/KCjI3OorgmzHTL1KjyyxMx/R4C7VexeJzSHvePD/MITO2aSK
-         riX+ZtIa1M4W7jmEC0YSc+zLlYGSBYfKqFb5xuxTnQTBFRpNEioE5tOR/qsqwalXm7vH
-         1nKPYCcdsvJSIVmG1BIG+8yUfBVbSUifc9m/RSvrIoP+aGWZ0X5i3zKG2jkc05IDTCDl
-         tCqCJHhAhgwPqVD5sU+ZWgrzE9GwIy39jkmkMHMg0JVCLk/wz0W3z+ibjLFsKAA5sqqC
-         48mw==
-X-Forwarded-Encrypted: i=1; AKwUvBxIWyfjcg0Z/4wPge89egmkwk5pPwPKV8HH7hpHJpyQxwgeAiN/cfza6pyIvPBjQ6w3lXvN4UNhgUs=@vger.kernel.org
-X-Gm-Message-State: AFuF++nckdLFD2zJ9RL+bN85E550S8U6pMdje1tfZ2vZB1i0RZDjMScF
-	ohHyzfsSk2vAn97MBS6/8lALkQ8mZeOeEtCnMkJ0KznRY8x9Hsr4eNV7YuJbEFAEEeKuxj2TA4a
-	JWS77nuaALV4MX5E8tvoE7OTgZ08OzGkHTJuGp6yRqDGw7qu2V0R5orexBAdH63Q=
-X-Gm-Gg: AYBFou05XsXns46DxcrLf+ojz2Ix3W5eItut/2T/W7caXJ7R1gJsadtLUCcCa8lPRs9
-	G3Yfx9BZq25ZpoqgqKoVGXGpjLmRetcGpRXsX0uU0lK6cARAeNY2HjNW/oTsiaN5kcBbexE/7sg
-	kKoBa3cedXZfJg6LyZ24r+yVLrC7I2lPfJyQABYSVgfg3XRU6JZO6Tb6YxxuLRwpYk0oi4hu7h5
-	fy5Qwb6CkJTnqIdk8kpDOfsdwkviuBaEw810ZpRRYC7anOBL3vkEiNBvAwQCA+uWxwSGGdfZSOD
-	B2yDMmqySxgMF3C2QQ6ztevNjQ/pInlfaA6ULdsBPm5A8Miho9VDUzA+cuEw3GE7vxobDt7YR8h
-	exQ7gq+htD33hxOoyddO7p0Gl58016dMssBmURDw=
-X-Received: by 2002:a05:701b:4503:20b0:143:26cf:8616 with SMTP id a92af1059eb24-144f91546e7mr1785663c88.24.1790143482485;
-        Tue, 22 Sep 2026 23:04:42 -0700 (PDT)
-X-Received: by 2002:a05:701b:4503:20b0:143:26cf:8616 with SMTP id a92af1059eb24-144f91546e7mr1785639c88.24.1790143481871;
-        Tue, 22 Sep 2026 23:04:41 -0700 (PDT)
-Received: from hu-uaggarwa-hyd.qualcomm.com ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144f98a288esm5050512c88.13.2026.09.22.23.04.39
+        d=1e100.net; s=20260707; t=1790144951; x=1790749751;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=IqBBUCm9D3kcAtSAGWx9YPoXXMR7IIvhwpg10TQoYm0=;
+        b=LHROAV0o71nRT1fSmzctejLmv0hxlE6oYwwVOr13XWJn5xkAw7laurmRKevZIj2yly
+         arqftyAKeXtavD90mquqS63RT4vzjWKrDKj6Ei1BKrPcXeO2siJ1cSDR6qNWDUqjN7EZ
+         h057ujyllBqcuAg5jbBgwEiWyWSSk4hL/g7mZ7UclETS7F2xOj9aKwe5R5iEh+MR4lvS
+         msVQTC7481HTD1uZwX9SuluY6SGV5hMNmizFz2j4Rzgp73myCdL39lI5dVk8+RA8sVYi
+         8Rd4OkRRYF1bW9gHdRyN7u3YyqWQhvwzyBMOFqrv9npr4tQ2opGzUThvyOa7fvKasnQi
+         ZP3w==
+X-Forwarded-Encrypted: i=1; AKwUvBxVN3mhIyP1hvaM9KdWuAXDotO2EVED0vMMdEwxPuZCCOhjQNWAitQZB7U2OPRPhb1PqXlPzM1tuN4=@vger.kernel.org
+X-Gm-Message-State: AFuF++ns+bD2MnSmrF5BLbtnJvGCXMP+P3Tcosy2MBfU+2+cbikfwXnh
+	wuF1B1xRTEAEZmi3VbG6qg2lv/6bGRHbPXVcCirUNjAfXZVylk1kYJJvpDrCXxZ9qNI=
+X-Gm-Gg: AYBFou2kDYyOGhyc9J8LXsFY9c9/9roR0QiSZFY4/FPxIVo2Zdd/+MZ1r6QGL7cr8Te
+	Wq9BY8FPyL66RalqDK84sRR4JkxK+//cQNDLAGriibavGssOMnXUawuKtGNJVqmoqnKRGuUact5
+	SR2O77Fj75R0bLzXwtbKHyBJBsA6dM62wsN1aVwPRVPVSkSqGF/nA7nR3jiZW8p/snEzXhVL+tQ
+	j6/ttmMrdXy9Zqy9EDscZoZ7jf88A0fPrR0QmTLFpGojkEWaL7zCjpKdNdxh9wXnhNBnzI2v2+6
+	7KIleaaU8d++l+rONCvsL8regylbGXSI+eJoKKveQPrgoVwgw8YaZ66ShMBYrmfJNDbuLXqmTu1
+	OG+SM413KF+aeJM+rQv2wv1eKTjdOBGg4S8c7r6URau6ycAOIFTKnLCIoYOHsHuMcSiGiK4y5gk
+	3K+UBp1bhunRTXqkZnkg83gWRZQNOB3+yK11X2w3+MD2SC05wIzS4yk8Izw85KTEgO62e1EnESV
+	LIUr9lsN9Qyvg4=
+X-Received: by 2002:a05:6000:40dd:b0:487:27f6:a4db with SMTP id ffacd0b85a97d-48867092e81mr2065474f8f.43.1790144951218;
+        Tue, 22 Sep 2026 23:29:11 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4886876c1fdsm4980428f8f.14.2026.09.22.23.29.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 23:04:41 -0700 (PDT)
-From: Uttkarsh Aggarwal <uttkarsh.aggarwal@oss.qualcomm.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Uttkarsh Aggarwal <uttkarsh.aggarwal@oss.qualcomm.com>
-Subject: [PATCH] usb: typec: ucsi: Set ucsi->connector before enabling notifications
-Date: Wed, 23 Sep 2026 11:34:34 +0530
-Message-Id: <20260923060434.2599545-1-uttkarsh.aggarwal@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 22 Sep 2026 23:29:09 -0700 (PDT)
+Date: Wed, 23 Sep 2026 08:29:08 +0200
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Armin Wolf <W_Armin@gmx.de>
+Cc: David Lechner <dlechner@baylibre.com>, 
+	Danilo Krummrich <dakr@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <arNuIicuNMmA7E3K@monoceros>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: D0I1b_oHEr-34zRv_bnis-vWGnS6rqxU
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDAyNCBTYWx0ZWRfXxUhkC2LfLI2u
- 6me3PQlfn8qPyq/WMaxmbIH8TIICEDlD2zAnBmFtGBgKXVtl00rns284bXjzHj7fPlaaIoIaQ8a
- 4FUWn874igfgUbW3sWqZZiTSxNVndE4=
-X-Authority-Analysis: v=2.4 cv=Zsh4uN7G c=1 sm=1 tr=0 ts=6ab36bfb cx=c_pps
- a=JYo30EpNSr/tUYqK9jHPoA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
- a=aR1d7MnS8zDfWtQP9dEA:9 a=Fk4IpSoW4aLDllm1B1p-:22
-X-Proofpoint-ORIG-GUID: D0I1b_oHEr-34zRv_bnis-vWGnS6rqxU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDAyNCBTYWx0ZWRfX1miQdOG8dQLO
- 7raqz4jjcZlVc2/Qaiv/cXKRCOtrhAYLULnLWTUaPVxLRwfUt+MvOpq0w3TqEw6V3k/8w7ItjXq
- 1LokyvRgIk9yL9RfMH0lu16Pfe4UnKdG9F2tv7Uf5i0eIdoCrVa0t/7D3rAhD/H6t7xZgvT3Xch
- 19hQxhVjaFkC9krqyN+v4weSJgI2IG1Rhk9+OtR112XTC1I07tfazCLbo7/0fO0JNGME7KZbfyd
- 8idRsldnO/0PF1QJIOm0cLsngZ/Jbit44MWXGeUmwtq0EgfoI+jqVquA2MqKC03Avm7fso0sm7g
- jTvS9V+LLU1cA3hYoXgzyPpIXXCJZ2n4byZDAARcF85WJJuC9jSOy9e0mMojOEaVtU03Yu5vVlV
- fEKyPCW6GNYEWmw9o/1lQsEvfdwaqOpXhi2rh+tZYsNmUAHswCGAJ5JPeUp+SeXAqLbZtMahx3K
- HgWX+v6CyqPk4zT1N/g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-23_02,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 clxscore=1011 priorityscore=1501 phishscore=0
- bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230024
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="m4tmncbnbg4g756x"
+Content-Disposition: inline
+In-Reply-To: <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
 
-In ucsi_init(), ucsi->connector is assigned only after the
-UCSI_SET_NOTIFICATION_ENABLE command completes. But once that command
-is sent, the PPM is free to raise a connector change notification at
-any time, which is handled through:
 
-    ucsi_notify_common() -> ucsi_connector_change()
+--m4tmncbnbg4g756x
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+MIME-Version: 1.0
 
-ucsi_connector_change() indexes into ucsi->connector to get the
-connector and schedule its work item. If this notification arrives
-before ucsi_init() reaches the "ucsi->connector = connector;" line,
-ucsi->connector is still NULL and the driver crashes dereferencing it.
+On Tue, Sep 22, 2026 at 11:04:46PM +0200, Armin Wolf wrote:
+> Am 22.09.26 um 15:40 schrieb David Lechner:
+>=20
+> > On 9/22/26 2:39 AM, Uwe Kleine-K=F6nig wrote:
+> > > On Fri, Sep 18, 2026 at 06:39:02PM +0200, Danilo Krummrich wrote:
+> > > > On Mon Sep 14, 2026 at 4:30 PM CEST, Greg Kroah-Hartman wrote:
+> > > > > The ability to add and remove devices from a driver through the s=
+ysfs
+> > > > > "bind" and "unbind" files was created all those decades ago as a =
+way
+> > > > > that kernel developers can iterate faster, and provide a debuggin=
+g way
+> > > > > for users to attempt to add a new device to a driver without havi=
+ng to
+> > > > > rebuild their kernel.
+> > > > >=20
+> > > > > This api over the years has been abused and recently come under a=
+ major
+> > > > > fuzzing "attack" through tools like syzbot which decided that it =
+would
+> > > > > attempt to just randomly bind any driver to any type of device, c=
+ausing
+> > > > > loads of unneeded errors and pointless kernel patches to be gener=
+ated by
+> > > > > unsuspecting new developers.
+> > > > >=20
+> > > > > Handle all of this by adding a new taint flag, TAINT_FORCED_BIND,=
+ which
+> > > > > will be set on the driver if the bind/unbind sysfs files are ever
+> > > > > written to.  This lets kernel developers "know" that a user is
+> > > > > attempting to do something that is not normal, and as such, if the
+> > > > > kernel breaks they get to keep the shiny pieces laying around on =
+the
+> > > > > floor.
+> > > > >=20
+> > > > > The flag is 'Y' which was unused, and can remembered as the user =
+is
+> > > > > "yeeting" the device being operated on here (thrown with force wi=
+thout
+> > > > > regard for the thing being thrown).
+> > > > >=20
+> > > > > Note, the taint flag gets set _BEFORE_ the bind/unbind callback h=
+appens,
+> > > > > as many times crashes/oops/warnings/failures happen within the ca=
+llback,
+> > > > > and the taint flag needs to be there to show what was being attem=
+pted.
+> > > > > If it were to be set after the callback happens, the oops report =
+would
+> > > > > not properly reflect what foolishness was being attempted.
+> > > > >=20
+> > > > > Fuzzing tools like syzbot, that doesn't have hand-crafted rules t=
+o keep
+> > > > > the tool from hitting bind/unbind, should be run with panic_on_ta=
+int
+> > > > > enabled so that they fall over and don't continue on, thinking th=
+at they
+> > > > > actually found a real issue.
+> > > > >=20
+> > > > > Userspace operations that rely on the bind/unbind files
+> > > > I agree that this should be avoided.
+> > > >=20
+> > > > But I also think the biggest offender really is driver_override. Sp=
+ecifically,
+> > > > on a hot-pluggable bus a driver must be complient with the device d=
+river
+> > > > lifecycle rules and hence shouldn't break on bind/unbind. I think i=
+t would be
+> > > > nice to not taint the kernel for such busses, and only taint on dri=
+ver_override,
+> > > > as I think we'd still want the bug reports for such cases.
+> > > >=20
+> > > > But I think this is fine to leave for a follow-up.
+> > > I fully agree. I'm fine and support tainting on driver_override, but
+> > > bind/unbind are used occasionally in my bubble and I consider drivers
+> > > not handling that properly buggy.
+>=20
+> I fully agree with this, drivers should correctly implement the lifecycle=
+ model
+> and not just break when being unbound at a improper time. Drivers sufferi=
+ng from
+> this can easily break this way when unloading the associated kernel modul=
+e, so this
+> taint is no solution.
+>=20
+> > In the IIO subsystem, unbind/rebind is the de-facto way to reset a wedg=
+ed
+> > chip.
+> >=20
+> > A few examples where other reset methods were reject in favor of unbind=
+/bind:
+> >=20
+> > https://lore.kernel.org/linux-iio/20240727160216.2488ed29@jic23-huawei/
+> >=20
+> > 	This needs documenting as it's custom ABI. Note that we don't often
+> > 	accept custom ABI. Particularly not a hook that seems to reset the
+> > 	device. If you want to do that, unbind and rebind the whole drive[r]
+> > 	so we are in a known state etc.
+> >=20
+> > https://lore.kernel.org/linux-iio/20240720163440.03c713dc@jic23-huawei/
+> >=20
+> > 	Firstly as stated below, we don't provide interfaces for this
+> > 	because it's a heavy weight process that is most of the effort of
+> > 	unbinding and rebinding the driver. So if you need to reset, do that.
+> >=20
+> > https://lore.kernel.org/linux-iio/20250505200609.54756520@jic23-huawei/
+> >=20
+> > 	The solution is to run it once at driver bind. Similar to reset
+> > 	below, if the usecase needs to re do it then unbinding and rebinding
+> > 	the driver reflects the fact we are taking it effectively offline
+> > 	for a while.
+> >=20
+> I also consider bind/unbind to be an official API to interact with device=
+s,
+> so i want to use them in the future with the WMI subsystem.
+>=20
+> AFAIK the underlying reason for this series is that some drivers break wh=
+en
+> being bound to unsupported devices. However IMHO drivers should verify th=
+at
+> they support a given device inside their .probe callback, and the associa=
+ted
+> bus should only match devices with drivers that explicitly claim support =
+for
+> those devices (ignoring driver_override).
+>=20
+> Can we get some example bugs uncovered this way?
 
-Fix this by setting ucsi->connector right after the connectors are
-registered, before notifications are enabled, so it is always valid
-by the time a connector change event can be delivered. Also clear
-ucsi->connector in the err_unregister path so it isn't left pointing
-at freed memory if a later step in ucsi_init() fails.
+There is a related set of mail threads, that however are not the trigger
+for Greg's effort.=20
 
-Signed-off-by: Uttkarsh Aggarwal <uttkarsh.aggarwal@oss.qualcomm.com>
----
- drivers/usb/typec/ucsi/ucsi.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+Initially I suggested to protect the pwm-tegra driver from attaching
+to unexpected devices via a check in .probe():
 
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index bef3f9b71d71..8f7b73a9f4f4 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -2122,6 +2122,14 @@ static int ucsi_init(struct ucsi *ucsi)
- 			goto err_unregister;
- 	}
- 
-+	/*
-+	 * Set ucsi->connector before enabling notifications. A connector
-+	 * change event can be handled as soon as the notifications are
-+	 * enabled below, and ucsi_connector_change() indexes into
-+	 * ucsi->connector, so it must not be NULL at that point.
-+	 */
-+	ucsi->connector = connector;
-+
- 	/* Enable all supported notifications */
- 	ntfy = ucsi_get_supported_notifications(ucsi);
- 	command = UCSI_SET_NOTIFICATION_ENABLE | ntfy;
-@@ -2129,7 +2137,6 @@ static int ucsi_init(struct ucsi *ucsi)
- 	if (ret < 0)
- 		goto err_unregister;
- 
--	ucsi->connector = connector;
- 	ucsi->ntfy = ntfy;
- 
- 	mutex_lock(&ucsi->ppm_lock);
-@@ -2143,6 +2150,7 @@ static int ucsi_init(struct ucsi *ucsi)
- 	return 0;
- 
- err_unregister:
-+	ucsi->connector = NULL;
- 	for (con = connector; con->port; con++)
- 		ucsi_unregister_port(con);
- 	for (i = 0; i < ucsi->cap.num_connectors; i++)
--- 
-2.34.1
+   https://lore.kernel.org/linux-pwm/ed943d9be3b785514e0f65a5b8c13a78aba7a0=
+90.1789741839.git.u.kleine-koenig@baylibre.com/
 
+Thierry suggested a dedicated flag in struct device_driver instead
+allowing to opt out of the driver_override mechanism:
+
+   https://lore.kernel.org/linux-pwm/20260922-driver-override-opt-out-v1-0-=
+58c35ded3b83@nvidia.com/
+
+I think Greg was motivated by syzcaller triggering various exceptions
+using driver_override.
+
+So my opinion on the right way forward is:
+
+ - Given that there are only very few drivers that are supposed to be
+   used for a driver override, there should be an opt-in (instead of the
+   opt-out that Thierry suggested).
+
+ - The changes from this thread (i.e. make usage of bind/unbind result
+   in a taint) should be dropped. I wrote earlier that I'm ok with a
+   taint for a usage of driver_override, but with the previous item
+   implemented, I don't think that is necessary.
+
+Best regards
+Uwe
+
+--m4tmncbnbg4g756x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmqzcbIACgkQj4D7WH0S
+/k5/RAf/SE7NQiSIqLNn4DRqC5N/7ANJOhVQL7lvqZeGImpxnvizJPahFAQ5wgHr
+TqvOjwfgQW2cjqr0dT1HbkBIxqhE/FQQPy/wGiSAEwVqGPoaf3NQ2+EJhFtbkW3A
+UhHydl1NRAl0lJI3aDHu8yvr2fYi1JsjVoGk6bEHLa8H3g4mxV09GAmn5486tQ6N
+WbofIbgRNtpIYlMN9eWRKKBBB8j/EQvMHXZwBIy05z/jru237w9UWObXjS/FhwD6
+ktITAnnTBacmzUAC1u5hm2Z3lpH88/MCe014xcIal73LJ1HgVnwnjH7uaBmRrzsR
+r/G6IKsL4nPw3DX9iCQvpNDM+a44MQ==
+=ea/U
+-----END PGP SIGNATURE-----
+
+--m4tmncbnbg4g756x--
