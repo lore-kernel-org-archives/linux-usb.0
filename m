@@ -1,87 +1,87 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 530E3416841
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 05:53:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FCF0416841
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 05:54:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790142791; cv=none; b=oT2dK506vcFYsVvXIyX8wuN7Y53bdhaUQALzjfgGQ9JUYw0Q6I2bM5EDmh9IqBF5pln/Cnm2F2+bFchCVLcv7jUG+0xWBrbvtb2MUVy7Q9ptH29QFQkFhMa2pofIbN16ohhIU5lD74oaHkF4mYpKAPz3wVZMshUyCJraj0tLv30=
+	t=1790142858; cv=none; b=Lav6J/YHcciRRHfYHkGRFk+VIuRSyXUXmjLmJN7FDjDOkV6ZiTOzhlPRBSE1afVpNtYreBVn0CXrXJctDbrhHtS6Z7gbWfitB8gp2tce6lU7jScaP0BxjkTNLog0ezLOO0lqoM3i+M8mfFxieIPkJgrpbVmtPX8PNKWfPCkx54g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790142791; c=relaxed/simple;
-	bh=sdTFEiwdKBdmLGPDrLxGYW/wYoC7r+tG6zp8sSE5yS0=;
+	s=arc-20240116; t=1790142858; c=relaxed/simple;
+	bh=nx72HZix5RJQGzqg2UiYbR8bywGzuswE6lXXmCOSpRs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lrMMOIdfeNSojxa9SpE2ypJaC8qf9Wf1F4URxOHjDCL6Oci/yNjI4B50GbdbvG88Bxj0HHjjyAZZwYoRFdlTIQoHcqYK5mDkXoQjlc9ICJ8NzBecgSdbdaM/n4QPMkJXc3rGoGQ4BgKLGnqnb54k6qqM1RDUD296DhN5vt5k2wc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Qm/nLYLP; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iw7IOW22; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:Content-Type; b=pC7NaItiPSWymlCPPIi4bDx1/CC04cUz121QtiKZaSqkyk6xEUNY0cCr4buCiW0K0hM1CyS++Duod9rOeJof7Zq8FzosdH8HN7O9U5pgzS1yUt5I3okoYMHA/qyxJmfnc8GayJFr8bEivsWw3Pzvnn2NtcNdF3zBFnN+15C4nMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gs6N7DBd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=J86fdC+B; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Qm/nLYLP";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iw7IOW22"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68N3iXIF783459
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 05:53:09 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gs6N7DBd";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="J86fdC+B"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68N3ifFj3096560
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 05:54:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	z5cLAc80IiBbwoigdU/i/N1CoamITkaZCOc7qVEzHfw=; b=Qm/nLYLPOzPVqxzO
-	OsePaFUAwjDa3uUoWzh35323Zjb+087nMe61H+Xhh00oaU91ndd4JBfJnBEA3BFq
-	rDKs/XnC5DXtgYnd8qFkrEJgmCh6xUSW8M6NgtIeWL0XaThyPe/We5iqoq/Crs23
-	zVu18YaZ9InCcmaXHd5posygTTWYdaq5jNa284MugjoD/6i3VMlTjdBMK0m2kX5t
-	EAgZzgka3gLC4XEAYyhQ/fLMQKQeuZFuafAdOpz2d8htuGXFJzIbvfTrCnJ2Yoku
-	UrjTaoLH5AHV54RjmeWduzxnuhZYCt/FChgj1WX5C0NKIdS8SXb/Cvnq/FwRT6HN
-	DbOk4g==
-Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4guyma28ad-1
+	1qjLbtTDhsHiX99dZ4U9zPc7b9TIIVkqC+Y1oTNhL7I=; b=gs6N7DBdlGDdnTzF
+	J6NVzxTVIPUy88VXKo6EAbYiC6noCrTNvdM9E6DNFHc5S9bGvWyddl1rXMpRvaLp
+	TfUF9IEVfo2WBmS0BqHPpWOMSoEbBDuD0Om94aunEBQ91h/9c/hAAEESrH140Dj/
+	j45sKoMQp2hN76zSYykEeSw8QwB73dsLO+0z32CCBTbmCBKz169T6o4RGNn2opy8
+	+CW2A3Z8iWUn5SZrrdWCX9bT38Qr5FhRGUA9QNrFF1tNAhjD/EtOv2iUVYynfh6q
+	Tgr2G2Z40PIUPRYCKi0FIFdQU/hnUuEHuIsugjlPpgpFA56O1gWHQ9AZk9QqVNXa
+	oNnpTw==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gv428s2ce-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 05:53:09 +0000 (GMT)
-Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-33bee712354so662807eec.1
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 22:53:09 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 05:54:16 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-33bb08e80a8so552844eec.0
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 22:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790142789; x=1790747589; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1790142855; x=1790747655; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=z5cLAc80IiBbwoigdU/i/N1CoamITkaZCOc7qVEzHfw=;
-        b=iw7IOW22+R/VfWka7D8eGxIh0Q2qahFS422Sw4npEE1FPlRV+Bkp9F/myXUa4jzcw6
-         ogT6yJzjvf3T48kMiura+GUBVmpOTOJl1LwtUhRMguVNVrVb1MGRPjdwk6CalkSY5q6m
-         FfbodRR5ODlKEI0Eng/nr2Vqnw7Kh4P2pIeC5Mm8dWlwSyjSX2phmQqJ2Ly+g6AZbYG9
-         70ks/EjXL6BnPwnanrGceIiP4Ebtr47k6TaMfIkWtpw9mcm6CC+KKlKwo7OnZe0jJUmA
-         6J1U68esIK8gj4athNvdP0z+rdfdH1DPI0xifVL+UWKmKCaVHqLbt3dmYE/ZatKHHN+5
-         fvkg==
+        bh=1qjLbtTDhsHiX99dZ4U9zPc7b9TIIVkqC+Y1oTNhL7I=;
+        b=J86fdC+B6oklYT+HItgVTFQHvPF6SMGLwmzIjF2JaoSn3WEktat/l/a3CJJ6GPWgYZ
+         0Yg18uR+Uiql0aa+GxI1tLxG1U0XsBxTVd0EGYuam4eE8SmYA/lrc9OhyYGDd3AnWmP5
+         82iCvFHlvPLo31EHcS/sxxVMEzo0f2uuWtvVUFReMNxxW7npK0TzlZFfbQMVdrZfj6h+
+         qWfdpnHtdzhQ0fwrfkiodKPmi/eaUAJ56yOYYYYAjXkP9hlttwFQYKxnOBRLs7lzkWRa
+         FU6WWIYh3RRQrnkNAWdQZkSwl3odGFR5TnpjDCuLRTS+OCRENfipXfQKjZAZCCHHLM/V
+         Jt8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790142789; x=1790747589;
+        d=1e100.net; s=20260707; t=1790142855; x=1790747655;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=z5cLAc80IiBbwoigdU/i/N1CoamITkaZCOc7qVEzHfw=;
-        b=19XW0aU31UCXKtmNDoNho9BLhl6uKrYCGpxj4gw86OmxXcYLcEdsePIK5wjQUH8zX0
-         qq9rm9lUUNmxCbbdjQ3x9jtx0mNRX54Cli6T+z0StcSsSB1dwLHycdnpzmZmvWZOp1g/
-         7byxDcFQ5mzzICdCdCelCx9VpIbvduNqZQXvE8ZnyKRkIyPKPDUZpAfJhcqsuyC9U4ZY
-         GCVGDsXBfYWpbYl6SaivewyqEXOvLtLNMuQUwedzhxkIYt5FTFzlvXoJI8RWsmTbj5L0
-         OzcoDdbcjnDUgBnqCGosdSbMSabH8gkGL94yHthDrp2LVTq/cxWGM0ys5kSm2cURvURD
-         cZNg==
-X-Forwarded-Encrypted: i=1; AKwUvByycOMw1RuMJRnyai33ZvIeTh86ekK/HAH1dv2I4eicWQFTaxSi/yRbJx5nM2StJUd5b20qRnQPbCU=@vger.kernel.org
-X-Gm-Message-State: AFuF++l7TWQ2aqbyOzAln5U/ayzVmxpTVwoLcsgswzAj/O6+++0LGHxb
-	+oHKHjZ7sEH+2VTXNTbTdbjs6OqZ2/AtchXaJwKl2KXfCNQKUbsF3rG1AFRwcGWSIhMB9jNQXhQ
-	x5U41YbVVKGihZvjb9Sn4Ko6JsulRrhOrEB61kvvHL5H8n7mzmP7yQD4dHUXtOE4=
-X-Gm-Gg: AYBFou1e1N4ElvZMhU1Q1umCt2EFA2g5b7Xnh+6ph52R8uSOMOtqG8LCtylRJxn8Wjs
-	jDOc/g7L/pzjtN6sw+jNWbbE1ivKUsiTX2g/757INiadqbFR4LaGIRxXQoHZNNcZqZ8gqUvKhXQ
-	3r+H0nA9F9FRNfG8c5ABz9eyg616tveWKGNGP/auacq/yUfrBQXBICzNGP/FECZoP/tD4ENg+IY
-	pokZTYbTUd+VJkDz9emuMGnF8ecKDEf7k68nqLPZy6gOG8QiAR6j2CPR5jSbZjxSesnbK9esXsr
-	GvU92tubeceOMX/aM4j1oVV3KDzAd6DlWXOeFAsF9bPYOFQhIUAquv2aQJDUsAt5Q6n5Q1EahlE
-	sTa9iwC8pnNxYrZ0dHHlcpr5B1d0tnXt0eDkk9LgGhIPeC+nufqrXIX4PIj1LpGHVVjs=
-X-Received: by 2002:a05:7301:6187:10b0:33e:c164:b5d7 with SMTP id 5a478bee46e88-33ec164b694mr1044436eec.3.1790142788775;
-        Tue, 22 Sep 2026 22:53:08 -0700 (PDT)
-X-Received: by 2002:a05:7301:6187:10b0:33e:c164:b5d7 with SMTP id 5a478bee46e88-33ec164b694mr1044401eec.3.1790142788212;
-        Tue, 22 Sep 2026 22:53:08 -0700 (PDT)
+        bh=1qjLbtTDhsHiX99dZ4U9zPc7b9TIIVkqC+Y1oTNhL7I=;
+        b=mdEEn5dSc2kDsYIL+ZrFHVIuRUUOkCa+BTJPK47r3biN/Ccq++SBveYPK3pJ739+Yr
+         0dZWDNpaKVavwlwgCxw9pN7LR7UiVFFfgw821GARiRufmoWSnri8sjuLhDBZE9AjI9hZ
+         8aiK+K8A66k5HQQyqYQb+IBhZhafsVXywGtj3rH3i7Ql7HgEGosR1h3WdCbr4XoSjbW6
+         3TfIUSbX30ts9B/3iP7C7zcEND5wYXBqM6AnGIFp4uV7gHFfPRfmAz29yS2x19/6oMuq
+         9ntXkV20hBAQsnHNhtrc098miRD1l9z+8/Nd/h8OFiftl23R+hRWPyyjHXXNubr7gnKC
+         4l4A==
+X-Forwarded-Encrypted: i=1; AKwUvBxzDSu4vvyk+xu6HfyvBHWP8rGN2OIqPJn6kM5NqclqrR6KUGFXxbPXR9ADWRB3rSCN8SbKMnmrHlc=@vger.kernel.org
+X-Gm-Message-State: AFuF++mBmbYkAtrcDHXlOWe4zSVlyJx72yq/GfHU4L1QWkrRtNJpft1I
+	XcI51jmA3TDxvmdtOosroOe5fPu7UImks0mCM5o7SdGx81pPNHmCC9oKWpCU1NZfdhzHrRbABEn
+	D8l0D8F9aZCskWeyG0rrTNDaK8nltAY/W9EZ3/b3Oq5VcPXqnMwmCMmfL7XDb6VU=
+X-Gm-Gg: AYBFou1oMzgsTgXu4BgYMPpkhpG/mv9nEmLmZMbJcyMFDhEqm+bIg1brbOpH3AbdXvX
+	xXj7IfbaaBwbj24/7INHSDZhaoxQX6KafXE8gOp/DXAhXIgWd6Wj1Fr/g/VQ6UrMNVhVs6e5Ytb
+	3zMHHhATtZjbPbcr2/5h9RTk27deaLw7Xt0UlBeKbf/PdIFopgPCPJbRxcZoWVGVrGydEw3p/Nh
+	FhALPiJNRxIY7rKYq87PKXzcDcjU7SY+hiqpnHvxqPmeBwR8AZ4zOR2DF7DnwrGoF3zGT1+hE0B
+	HKdtFfANp3wpJ+KFMwWsRlak/yhs+yyIcTBTMZO5DN7q+58Fg3J7i7P1SALYSgkBhc2RZTg24ka
+	wbRO0lcib/bvVzQxFpTjQyBhqeMg/0WLfVdg0xVHhRi0cUlCctIUWEVVxPeHAtLN6yHk=
+X-Received: by 2002:a05:693c:80cb:b0:33c:43c:f3dd with SMTP id 5a478bee46e88-33e7c426a71mr1660462eec.11.1790142855364;
+        Tue, 22 Sep 2026 22:54:15 -0700 (PDT)
+X-Received: by 2002:a05:693c:80cb:b0:33c:43c:f3dd with SMTP id 5a478bee46e88-33e7c426a71mr1660444eec.11.1790142854850;
+        Tue, 22 Sep 2026 22:54:14 -0700 (PDT)
 Received: from [10.217.219.121] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33e96f47d52sm3611698eec.28.2026.09.22.22.53.03
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33e96258351sm3304240eec.12.2026.09.22.22.54.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 22:53:07 -0700 (PDT)
-Message-ID: <6eacce65-5636-413f-8213-10910f3a7ee8@oss.qualcomm.com>
-Date: Wed, 23 Sep 2026 11:23:01 +0530
+        Tue, 22 Sep 2026 22:54:14 -0700 (PDT)
+Message-ID: <f4b3fb1e-4628-43c5-97da-8af96da4d642@oss.qualcomm.com>
+Date: Wed, 23 Sep 2026 11:24:08 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -89,7 +89,8 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] usb: dwc3: rockchip: introduce glue driver
+Subject: Re: [PATCH 3/5] usb: dwc3: core: add post PHY registration hook for
+ platform glue
 To: Sebastian Reichel <sebastian.reichel@collabora.com>,
         Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
@@ -101,193 +102,101 @@ Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
         Neil Armstrong <neil.armstrong@linaro.org>,
         Manivannan Sadhasivam <mani@kernel.org>
 References: <20260915-b4-rockchip-dwc3-rockchip-glue-v1-0-763bb546824e@collabora.com>
- <20260915-b4-rockchip-dwc3-rockchip-glue-v1-2-763bb546824e@collabora.com>
+ <20260915-b4-rockchip-dwc3-rockchip-glue-v1-3-763bb546824e@collabora.com>
 Content-Language: en-US
 From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <20260915-b4-rockchip-dwc3-rockchip-glue-v1-2-763bb546824e@collabora.com>
+In-Reply-To: <20260915-b4-rockchip-dwc3-rockchip-glue-v1-3-763bb546824e@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: TdMpbc32jIl6C8DmtTa22-ZUzo5oCaIv
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDAyMyBTYWx0ZWRfX8XOjzH02MPry
- iqiS4lCMHgo40qHC13gqZzGa9QJfpRjgrkUDmjRZUQfNljlB6d1iwaRMDnvgI+yL9Eo6y3U0dhY
- 9+OiJd37ghwmlXbu1tIJdyiqWNIvdTM=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDAyMyBTYWx0ZWRfX52WnHHqLDwVD
- 7xTe1Ymu8xzEyH2C9QLqLIiniEKGgoBWnuvcF/tGDWmqkvPBb92nNS0cnSb2VJ2IXTilFWjZKr5
- ETL+tZlJSB/Z73CTcK3qOQikF9hl6eLu0OGi/CDr51V1AAaL76K3eQB5R0MBKR18ztMfEmSBATG
- 5Yi40gLDtIc6RwlXj5MsZQy1lLzrqR+ih2mWgiGX8M8pDEfAOhK1LJRL8r/OSTgJD2DViiQjHLz
- Vs1CuMH30WzKWhW6yFnav3QQr2yH9KXw40F3ulp2puQvdBLJVMOUjYOnk2xv1FCKDYNfLDBzI8j
- qxHwTT7DlpfrTgy3nsCOCBQur9q1k3sn6og3nUPQIIioLitCm39fOP5L44MwPYDfX5lwRwhyiZm
- 1l0U4ZTpxtZofp663AQurYwnNzmMyzKj1XGzY4Tq1MwqQ98Af5LczA5kgKoEwDEaAMjBx5ycBoT
- A48qzKnZ9EeqbsqjujA==
-X-Authority-Analysis: v=2.4 cv=N828hG9B c=1 sm=1 tr=0 ts=6ab36945 cx=c_pps
- a=cFYjgdjTJScbgFmBucgdfQ==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+X-Authority-Analysis: v=2.4 cv=EZdd0/mC c=1 sm=1 tr=0 ts=6ab36988 cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
  a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=J57iu7YKHINu3dHgQOYA:9 a=QEXdDO2ut3YA:10 a=scEy_gLbYbu1JhEsrz4S:22
-X-Proofpoint-GUID: TdMpbc32jIl6C8DmtTa22-ZUzo5oCaIv
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=pGLkceISAAAA:8 a=QX4gbG5DAAAA:8 a=EUspDBNiAAAA:8 a=fFHpL_doKWamrhBxXOoA:9
+ a=QEXdDO2ut3YA:10 a=bBxd6f-gb0O0v-kibOvt:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-ORIG-GUID: BHhywr2Qfsw8DYhO-qTsS4K1dR6wBpG3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDAyMyBTYWx0ZWRfX17sIhDJ3zI01
+ 7/XroMDEtTtEM8XPt6d+eEnuqJd4IvWsSbDsLnP7JNqnFSYCntkOZS8n1jN/MWvKxO2VU6/he4p
+ 0t/YajFg+XNv3e100K/vB27ZYuYQLrtf6M18+07iPsa//ynxh4Weh0T02RUXsjtaHijKSAa62x1
+ w08yjMVK42aeFAUI0rpaG/F+kFc2ts9g4UL8uzM6u2qVvXPNBPjSLU+wO4XhkL7G4Y4ufxLsvJg
+ 8xtl/0U9EwSoZpaCIrJcvU5WnCgWLjyOWtjweMCShZEbig4VndsDl/wcVfasO0O+z5VWLPQSFOK
+ u5g31NKX7P/QU8teQHZQWhJcHxC2b6KrcdhoREHjFM8QaJJWoQXoUP2MgOCHFlKVbyR4RQGYqKT
+ s/7ywhx8O6bN69CSVwp8oXdpFdzUapcM6TppF80u9HxF/CD5FPhWhmMYQquEIOLr2ui2JxFx1GF
+ LdQ0U29lTNr9zfbeudQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDAyMyBTYWx0ZWRfX2tM24a3IUOM0
+ jUhfeZBXZa5xFyQV2iHL4fUGeUVS2Gwe6JB4JY2HJSG0SKWb1kAebv4H7rXlAnq7vKvgniDTo48
+ zH/FLOjloqv6Ya1n1JL1ZMWuw4yo8a0=
+X-Proofpoint-GUID: BHhywr2Qfsw8DYhO-qTsS4K1dR6wBpG3
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-23_02,2026-09-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 malwarescore=0 adultscore=0 spamscore=0
- impostorscore=0 bulkscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230023
+ clxscore=1015 suspectscore=0 bulkscore=0 adultscore=0 spamscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609230023
 
 
 
 On 9/15/2026 8:47 PM, Sebastian Reichel wrote:
-> Introduce Rockchip specific glue code for the Synopsys DWC3 USB driver.
-> For now this handles things identical to the default glue.
+> Add support for custom PHY handling steps in platform glue code
+> by adding a post registration hook. This will be used for handling
+> PHY reset notifications on the Rockchip platform.
 > 
+> Tested-by: Igor Paunovic <royalnet026@gmail.com> # Orange Pi 5 Plus
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-[...]
+Reviewed-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
-> @@ -2448,11 +2448,26 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
+> ---
+>   drivers/usb/dwc3/core.c | 2 +-
+>   drivers/usb/dwc3/core.h | 9 +++++++++
+>   2 files changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+> index 4b7132887a03..daf5aec07fbf 100644
+> --- a/drivers/usb/dwc3/core.c
+> +++ b/drivers/usb/dwc3/core.c
+> @@ -1613,7 +1613,7 @@ static int dwc3_core_get_phy(struct dwc3 *dwc)
+>   		}
+>   	}
+>   
+> -	return 0;
+> +	return dwc3_post_phy_registration(dwc);
 >   }
->   EXPORT_SYMBOL_GPL(dwc3_core_probe);
 >   
-> +/*
-> + * List of compatibles, which have "synopsys,dwc3" as a fallback
-> + * compatible, but have a vendor specific glue driver that should
-> + * be used instead of this one.
-> + */
-> +static const char *const dwc3_compatible_blocklist[] = {
-> +	"rockchip,rk3588-dwc3",
-> +	"rockchip,rk3576-dwc3",
-> +};
-> +
->   static int dwc3_probe(struct platform_device *pdev)
->   {
->   	struct dwc3_probe_data probe_data = {};
->   	struct resource *res;
->   	struct dwc3 *dwc;
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(dwc3_compatible_blocklist); i++)
-> +		if (device_is_compatible(&pdev->dev, dwc3_compatible_blocklist[i]))
-> +			return -ENODEV;
+>   static int dwc3_core_init_mode(struct dwc3 *dwc)
+> diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+> index 608daeb7ef10..e9d8df0a298e 100644
+> --- a/drivers/usb/dwc3/core.h
+> +++ b/drivers/usb/dwc3/core.h
+> @@ -995,10 +995,12 @@ struct dwc3_scratchpad_array {
+>    *				need to be passed on to glue layer
+>    * @pre_set_role: Notify glue of role switch notifications
+>    * @pre_run_stop: Notify run stop enable/disable information to glue
+> + * @post_phy_registration: Called directly after PHY got registered
+>    */
+>   struct dwc3_glue_ops {
+>   	void	(*pre_set_role)(struct dwc3 *dwc, enum usb_role role);
+>   	void	(*pre_run_stop)(struct dwc3 *dwc, bool is_on);
+> +	int	(*post_phy_registration)(struct dwc3 *dwc);
+>   };
 >   
-
-Would it be better to split this patch into two ? I see core changes are 
-independent of addition of the new driver.
-
-Regards,
-Krishna,
-
->   	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->   	if (!res) {
-> diff --git a/drivers/usb/dwc3/dwc3-rockchip.c b/drivers/usb/dwc3/dwc3-rockchip.c
-> new file mode 100644
-> index 000000000000..62f2a03b08a2
-> --- /dev/null
-> +++ b/drivers/usb/dwc3/dwc3-rockchip.c
-> @@ -0,0 +1,106 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/* Copyright (c) 2026, Collabora Ltd. */
-> +#include <linux/module.h>
-> +#include <linux/platform_device.h>
-> +#include <linux/pm_runtime.h>
-> +#include "glue.h"
-> +
-> +struct dwc3_rockchip {
-> +	struct dwc3		dwc;
-> +};
-> +
-> +static int dwc3_rockchip_probe(struct platform_device *pdev)
+>   /**
+> @@ -1655,6 +1657,13 @@ static inline void dwc3_pre_run_stop(struct dwc3 *dwc, bool is_on)
+>   		dwc->glue_ops->pre_run_stop(dwc, is_on);
+>   }
+>   
+> +static inline int dwc3_post_phy_registration(struct dwc3 *dwc)
 > +{
-> +	struct dwc3_probe_data probe_data = {};
-> +	struct resource *res;
-> +	struct dwc3_rockchip *dwc_rk;
-> +
-> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
-> +	if (!res) {
-> +		dev_err(&pdev->dev, "missing memory resource\n");
-> +		return -ENODEV;
-> +	}
-> +
-> +	dwc_rk = devm_kzalloc(&pdev->dev, sizeof(*dwc_rk), GFP_KERNEL);
-> +	if (!dwc_rk)
-> +		return -ENOMEM;
-> +
-> +	dwc_rk->dwc.dev = &pdev->dev;
-> +	dwc_rk->dwc.glue_ops = NULL;
-> +
-> +	probe_data.dwc = &dwc_rk->dwc;
-> +	probe_data.res = res;
-> +	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
-> +
-> +	return dwc3_core_probe(&probe_data);
+> +	if (dwc->glue_ops && dwc->glue_ops->post_phy_registration)
+> +		return dwc->glue_ops->post_phy_registration(dwc);
+> +	return 0;
 > +}
 > +
-> +static void dwc3_rockchip_remove(struct platform_device *pdev)
-> +{
-> +	dwc3_core_remove(platform_get_drvdata(pdev));
-> +}
-> +
-> +static int __maybe_unused dwc3_rockchip_runtime_suspend(struct device *dev)
-> +{
-> +	return dwc3_runtime_suspend(dev_get_drvdata(dev));
-> +}
-> +
-> +static int __maybe_unused dwc3_rockchip_runtime_resume(struct device *dev)
-> +{
-> +	return dwc3_runtime_resume(dev_get_drvdata(dev));
-> +}
-> +
-> +static int __maybe_unused dwc3_rockchip_runtime_idle(struct device *dev)
-> +{
-> +	return dwc3_runtime_idle(dev_get_drvdata(dev));
-> +}
-> +
-> +static int __maybe_unused dwc3_rockchip_suspend(struct device *dev)
-> +{
-> +	return dwc3_pm_suspend(dev_get_drvdata(dev));
-> +}
-> +
-> +static int __maybe_unused dwc3_rockchip_resume(struct device *dev)
-> +{
-> +	return dwc3_pm_resume(dev_get_drvdata(dev));
-> +}
-> +
-> +static void __maybe_unused dwc3_rockchip_complete(struct device *dev)
-> +{
-> +	dwc3_pm_complete(dev_get_drvdata(dev));
-> +}
-> +
-> +static int __maybe_unused dwc3_rockchip_prepare(struct device *dev)
-> +{
-> +	return dwc3_pm_prepare(dev_get_drvdata(dev));
-> +}
-> +
-> +static const struct dev_pm_ops dwc3_rockchip_dev_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(dwc3_rockchip_suspend, dwc3_rockchip_resume)
-> +	SET_RUNTIME_PM_OPS(dwc3_rockchip_runtime_suspend, dwc3_rockchip_runtime_resume,
-> +			   dwc3_rockchip_runtime_idle)
-> +	.complete = pm_sleep_ptr(dwc3_rockchip_complete),
-> +	.prepare = pm_sleep_ptr(dwc3_rockchip_prepare),
-> +};
-> +
-> +static const struct of_device_id dwc3_rockchip_of_match[] = {
-> +	{ .compatible = "rockchip,rk3588-dwc3" },
-> +	{ .compatible = "rockchip,rk3576-dwc3" },
-> +	{ }
-> +};
-> +MODULE_DEVICE_TABLE(of, dwc3_rockchip_of_match);
-> +
-> +static struct platform_driver dwc3_rockchip_driver = {
-> +	.probe		= dwc3_rockchip_probe,
-> +	.remove		= dwc3_rockchip_remove,
-> +	.driver		= {
-> +		.name	= "dwc3-rockchip",
-> +		.pm	= pm_ptr(&dwc3_rockchip_dev_pm_ops),
-> +		.of_match_table	= dwc3_rockchip_of_match,
-> +	},
-> +};
-> +
-> +module_platform_driver(dwc3_rockchip_driver);
-> +
-> +MODULE_LICENSE("GPL");
-> +MODULE_DESCRIPTION("DesignWare DWC3 Rockchip Glue Driver");
+>   #if IS_ENABLED(CONFIG_USB_DWC3_HOST) || IS_ENABLED(CONFIG_USB_DWC3_DUAL_ROLE)
+>   int dwc3_host_init(struct dwc3 *dwc);
+>   void dwc3_host_exit(struct dwc3 *dwc);
 > 
 
