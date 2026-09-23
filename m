@@ -1,143 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AD6341DDEC;
-	Wed, 23 Sep 2026 08:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF28D441625
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 09:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790153879; cv=none; b=cDegpxq1VMG1EfHufNBDiJuxGNewlckc/VlBFIy5e73L8aiz5DLKBD2yqxrJCC1zhFYQG5CrNIarT6L4vPsiVkLa0J/C/o0WuVcQxkPz5F1yZZsG+6xy+nfYon6pilTebONhyukPJcaWXtmBow80Brv6/TNgF9haQ+pP8RlZnRk=
+	t=1790154008; cv=none; b=PVqqzTg2Ob+oZZ6yhSAj49KkjKq3us/jpDAnDsbD2tmPZP5mJVH8eI8Hoa7mLb1cbpmJ+D7bTj4xVFHoxNEMdZ0kScW+FI801G+DFOHj79YjHAbvQ6VfiX3ZK/c/9vrLH7tDzO5C1JzITwAmEwnRX13iQ6/90izAZZU7JhFtIVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790153879; c=relaxed/simple;
-	bh=NbxeVu7GQLPX31Zd04XaMUDdaWB7vEAx8Jmlhh/1e94=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PlCACv5r12DxK3VvBMUnekWHdevec1z+QQ9X3FQUweD3qnMRhq+qH/CaEidvaRjT2mQSK0ycXxRCTZhqg3tO2fksKqvuxjT5o59hx4ToDl27e7Xwyd61Z77KW1Y3NDMIEGxI6ptsTqXsrhPfdBSovG3m51DzzeWlduUhZlcuqKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XXowWt4z; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790154008; c=relaxed/simple;
+	bh=FbzAJg9KFAd0XK3d8yi6dKFFaejwIzukaaxckgS1/bE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=F+NIpy5qC7/qSARFi1XVfAJU5t6ho2zG5lBJt6nJGdWu6gnwzaIyuO3pwuDz6OuXTGsbVtWNvA1LzavxBIhR604BCCzMYekbLNQSYFPxy8tgRF2GueDkMm2hwK2XuUX/kser275glBF1h45vwgnql+CfxR9Wu3EyLYLrFf/nB+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XGiDAO5T; arc=none smtp.client-ip=74.125.225.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XXowWt4z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89D981F000FF;
-	Wed, 23 Sep 2026 08:57:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790153877;
-	bh=zEbllmgiFfsLRk0pKgzNXwTCI+1F1P5ofJi8LFNISns=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=XXowWt4ziL/56y/Y94hdTEZbLLr97gz3vPYecgnU+2OLdzbRXNjVt79AFC23MY5tr
-	 oTJY4tAIVUSxYNA273DbifXhFQN5PmgBpv0TsVokaKinyjXefw20slNXoVFuzwiHLS
-	 F6ZYPX0Cqw7UBvBS+5fOLuIQVKaCqWPhvvdVx7EVb3HJaQ4wuHkk+WrSgfva1xzANX
-	 bHdWs2TB7EVaJ4pr9L0v2ILwyY9eS00lIEN1Y7x7dNWVkC56JD9zi1iKd9QoWfdwqu
-	 /X8/fzcyQTfJjStJTXhyCnJotJ5LbvBVoTP27bIDNCCQV90j0yhBvB6DJjUfHmgpLx
-	 LQAT+4T8xfxRQ==
-Date: Wed, 23 Sep 2026 09:57:27 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
-	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
-	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
-	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>, 
-	Emil Tsalapatis <emil@etsalapatis.com>
-Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
- VM_SPECIAL
-Message-ID: <arOMefPN1gxMpyx8@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XGiDAO5T"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49fbca514f8so434135e9.2
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 02:00:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790154005; x=1790758805; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=FbzAJg9KFAd0XK3d8yi6dKFFaejwIzukaaxckgS1/bE=;
+        b=XGiDAO5T3VB4VxzckdDQR8drzNPy8VUTKQ+f1233xydwegKk1rtJEIcsTazkzOOlKC
+         xi6oZoSYw9UfIc/T+thufhiQBzzO6Q76hpw3RegMp2nWam0hKVL/0RLhBnUk6OVZER1S
+         jA9h2x8yfXrq5VkiObRzKOZbxsHW5WvlAwYTYVy4EfAk9coNl/Ptub/eiyRdvMhySdtG
+         gJ1QJAj8f45YEoLFg3Acyq7LR5MVJyl7i+AshWJ0nGDAwIVem0SycDE/dj36lccggXPq
+         9shf6deNF/S+lhtqS5SZj/XjihuxSpbcwtR2oLYOEPcTLo/1YtSy2DGT2uvxoIjRVAaj
+         P6Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790154005; x=1790758805;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=FbzAJg9KFAd0XK3d8yi6dKFFaejwIzukaaxckgS1/bE=;
+        b=tSJU/FKIMLb9aDNCVdJnKrl6SsHFlwmgTLM0+FRqvSnaZc8buzlEPPW5Sw/1ACmqep
+         7h+qYZZiaoTuZ9d5GE9fP2EVan6VEcwEBNFLiEkuMZ3D/0LyhnmbCJfWKJw9Q53vwNF5
+         UNy/Uqq+J/aNbfPgSaAsm3MncwhB9zjXC1ECUQe45GBGgklZ9kKYGJyJEKI6SVS95PD8
+         A2ey7uXQ98D6JcTIOJCWH1lTZEBmIcNX69GmONHG/tEroQ5F1s9bd2eVlmd7UqRf3eLp
+         fuZzQSdq8zKrXKSEBgQUfp2Havk/XSRV5SMxL7CmcHNncfNcnS7cz9LKG6BqZY7tarMg
+         rdTA==
+X-Forwarded-Encrypted: i=1; AKwUvByv3Es5c0MVAUDfQwUroutodRqe/SdnBREF5tPN0r9KL8skUKPd0ZFHAeAtpDupl+Yp0psE4AKJ4as=@vger.kernel.org
+X-Gm-Message-State: AFuF++lw9yJNf3PaR96DFftAfWrJQVzdWCREK3N6AI3Pv4R1cDoWK0ph
+	4Npy89dhGGHDWJDVWq+luBZj8LmqCxDZMdLi8ARm0mqWBOAW5WfLd89o
+X-Gm-Gg: AYBFou0OUKIr0q41JQf/pMsQ4Ed+E2a4wd8losntnBGA5vJpUXq+HVf2afb3FWtHYwo
+	PVPcYQ57zb/VocIuq4+1HORW4uw204NReFiXJGEBEkvoLatRdYAO/Z0FiFYcewojDn3MYDhTjvW
+	O7eGGfvCX/Q3EqhgFQoI3DTgoHBvcGsVyGJs+2poSwRhNpeigmFym+yeSZbl0s+eO0BWDkKwJKn
+	Sb4DTCkknUdb/sNAwuNAk1K4ToytBsM0/02f7Uo7vvcfgIKt0d0oHoVLkXrGpWGRbYM70/1ID+B
+	9rDTt3qdYVy5ezzlro0A99Mv9q+3LH+9c1vrZzQKso23FGiNrQWrN9ECNtSzOSdJ3q8JIR2ADR7
+	0E5T3F2cgmoB26QYFSXRHSVIDl97neP0Jwc+w4Tzg4AcXPghNtvV5C9+NV8qF2dWumHRPoz+Qk1
+	cZzBS0jEBgM8ujR0xqOIq9+8fuuNNI7InLk8K/q0zZMOZi3HG3P8aBSlWGddvXaiSKWlLzOdgRo
+	zS13LUd7vxOTO11w/ttWdIcrwA+9qlSje3CQZyvniNhp+2fJxCib3onpVjjfs3W
+X-Received: by 2002:a05:600c:4f86:b0:49e:6683:d227 with SMTP id 5b1f17b1804b1-49fdec5dc40mr23139865e9.0.1790154004654;
+        Wed, 23 Sep 2026 02:00:04 -0700 (PDT)
+Received: from OrangePi5-Plus.BB-HOME (20014C4E1B8F4500D949869966507951.dsl.pool.telekom.hu. [2001:4c4e:1b8f:4500:d949:8699:6650:7951])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fde197466sm56190915e9.7.2026.09.23.02.00.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 02:00:04 -0700 (PDT)
+From: Igor Paunovic <royalnet026@gmail.com>
+To: Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: Igor Paunovic <royalnet026@gmail.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	linux-phy@lists.infradead.org,
+	kernel@collabora.com
+Subject: Re: [PATCH 5/5] usb: dwc3: rockchip: fix USB-C reconnect in gadget mode
+Date: Wed, 23 Sep 2026 10:59:41 +0200
+Message-ID: <20260923085941.16418-1-royalnet026@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <arMyLlcFKgtlwW_T@vbox>
+References: <20260915-b4-rockchip-dwc3-rockchip-glue-v1-0-763bb546824e@collabora.com> <20260915-b4-rockchip-dwc3-rockchip-glue-v1-5-763bb546824e@collabora.com> <arMyLlcFKgtlwW_T@vbox>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
 
-I know everybody is very busy but I'd appreciate if people could take the time
-to have a look at this if possible!
+On Wed, Sep 23, 2026 at 01:58:19AM +0000, Thinh Nguyen wrote:
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
-I asked an LLM to look at review replies per week in mm (see below), and
-clearly 7.3 is an insane cycle, which I understand.
+Hi Sebastian,
 
-(And dropping the THP M, remarkably, has not resulted in a drop in review
-workload for me).
+a heads-up before v2, now that this patch has an Ack: the build issue
+I reported in [1] is still open. With dwc3 host-only and USB_GADGET
+either disabled, or a module while the glue is built in, the build
+fails with usb_udc_vbus_handler undefined. The dwc->gadget test in
+dwc3_rockchip_vbus_handler() is a runtime one, so the call is always
+compiled in, and include/linux/usb/gadget.h has no stub for it.
 
-However, I'd also ask people to perhaps 'give a little back' to those who
-are doing a lot of review also :) review can be thankless at the best of
-times, but having your own work sit there unreviewed for weeks while you
-are working so hard to review others' work is a little much.
+No new build was run; the result is the one from [1]. An LLM assistant
+helped draft this mail.
 
-Thanks!
+[1] https://lore.kernel.org/all/20260918091032.15593-1-royalnet026@gmail.com/
 
-┌───────────────────┬──────┬──────┬──────┬──────┬──────┬──────┬───────┐
-│      person       │ 6.17 │ 6.18 │ 6.19 │ 7.0  │ 7.1  │ 7.2  │  7.3  │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ David Hildenbrand │ 84.8 │ 70.8 │ 44.5 │ 74.7 │ 80.3 │ 85.7 │ 107.0 │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ Lorenzo Stoakes   │ 50.9 │ 25.1 │ 16.0 │ 45.4 │ 35.2 │ 40.1 │ 52.1  │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ Mike Rapoport     │ 11.8 │ 17.7 │ 12.8 │ 17.8 │ 30.1 │ 21.0 │ 24.1  │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ Zi Yan            │ 17.3 │ 12.8 │ 15.0 │ 14.4 │ 10.2 │ 24.0 │ 28.7  │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ Vlastimil Babka   │ 15.6 │ 19.3 │ 12.5 │ 23.8 │ 17.8 │ 25.2 │ 14.7  │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ SeongJae Park     │ 16.2 │ 7.7  │ 13.3 │ 23.4 │ 22.8 │ 17.0 │ 19.2  │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ Shakeel Butt      │ 13.0 │ 5.3  │ 11.7 │ 9.6  │ 7.2  │ 8.2  │ 14.5  │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ Harry Yoo         │ 10.6 │ 15.0 │ 11.7 │ 15.0 │ 10.9 │ 11.3 │ 6.8   │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ Baolin Wang       │ 6.0  │ 3.0  │ 4.1  │ 7.1  │ 6.7  │ 6.4  │ 17.4  │
-├───────────────────┼──────┼──────┼──────┼──────┼──────┼──────┼───────┤
-│ Kiryl Shutsemau   │ 5.6  │ 3.3  │ 2.2  │ 3.0  │ 0.9  │ 2.9  │ 16.2  │
-└───────────────────┴──────┴──────┴──────┴──────┴──────┴──────┴───────┘
+Igor
