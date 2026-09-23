@@ -1,313 +1,205 @@
-Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B553A6EE9
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 03:32:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790134370; cv=pass; b=WhoJeFWz5t168zYA/vZYpu9U0VAQZrj0LFzkORHgS5M+sVYSNPo+rQEkwh5FHyzg1Un+0QEj/q7LlYGJdVXjRVQ6Stk9vLN1JacH200wDHXTGFcY/G65AXtKibUggpS7YykZPlngBXJl8PpvU6w/6gtaqBfkdkayFpvElEmQfPU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790134370; c=relaxed/simple;
-	bh=K1qPM9hjnXJfPu3SDCcdpkpSeBMlGT3kyoPhf0UKiAU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rp4LQkVBSbcDApjgIoPumg4w6zIhdwS2icI2Du/snyNBJiNB9zk1vx9o59rGEMNVDzzR5VAKUczbcFFvL4B0CDMd6lORNnGcsVN7Yf4eyQ8xCSEScC6UsO4dVhfPVtZs18tYfg+XPngmuOo8mBtCp2jBiY/lm0tavqSBPP33Htc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ayyR/xfw; arc=pass smtp.client-ip=74.125.224.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655533932F9
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 04:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790138450; cv=none; b=qnJ+wv1Cf/m6VtAu5jeLsVdGksRSw8xud8PxruXdYJQFZqyiEwXNt8CozinUwszkX5GZUiX159py5TvLaSKR4FLjMvOX6Okkqre2heWmejXLwyYQDaBzNRcYPquOL9FKD++K0usQkx9bzb30TnBMOcN1yeKdPvgjQPefRda/6jw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790138450; c=relaxed/simple;
+	bh=VPyV7a3xkDcgrm9q8NZfLDEhH7ky+H3tTw4yjI/sfoc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l4p9JZC6ViUwZhXc3S6h/b0itePQEoo3xucyICqbq75KIRo0CHTnXlhp1ktVD6e23XGTG8tCucdUG3BX5Zjr9YWNwC4SbqcIQFLZsJgM2KeOBXqlyPOO7au3M7fp8GnaIJH2HgyEcCLjJgFUWlQfss8ZtQdD3+jg8MXO/NYj92A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wg3MTmL/; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ZrfYdjc0; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ayyR/xfw"
-Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-66e4ab201f9so436044d50.0
-        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 20:32:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790134360; cv=none;
-        d=google.com; s=arc-20260327;
-        b=k9DBuRIBfKRy4D7RvyEnEBNyq+Eb26w8JzNiPHSWAxxELkXgJKXaDf2AacKP+5TAPz
-         dXB+vQCxT4F9wd4a7V8tHJVGLbxFyf+SLXIsLL2KSOtlyD3ol5iBGx72N8tK7D3TMPvc
-         1m2g/6yKBPa+2DQuAYuKEhX+RuliGDZzsJehUnAauGRXCGtp659lrpXugwU4EJLL9+KT
-         9vGYraTEz5v/tJOayTlxO40vahYMr2pW1OeaUIKGnGBi+EZUaqLUbSZsm+maL9hqKLmT
-         Z0hGrVHoBfaJKPCSf0lnyKGv/qp+PdlaLilVP12eI6osOmAb6JK3oDIZjq8KroVHFncF
-         T5VQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=IADwZsna+z2G3DbifRLwGvdi1yVjeTXiluD0rHvc+iI=;
-        fh=RcW5TsJ6Q7jj/KQR/b12ccMZTWVYiJSLalvRLU9QWso=;
-        b=d5bll6sn64b+8d7uRAgO+3PIpU5y5l4djzsta8chGutf//l3Va1dAq8yLov2b6xxI2
-         65WI45j7k9dJDINAC80yAJI5TzIh55NJJ5mEpQFYuED/beH6wF7FSa/+Nfb7sVKB4COd
-         k5AJegF6BW+2JzFMEwJi3I0tP/rMMWyhoNNSemkK5Y4iM9EQtG9r9xYt58UTPUbitaNY
-         GimiM5EiAIMN07Uv/nThWkIRDY7PgSvXG/eQ9v8lnPGQK78cSsxEvhObOySKjslQIDND
-         y8boUReguho/nk0mLY8qBsA0AGMyFb+2JhDytqPCYZqBuMWE/AJGbWIvD6CaM4bOPaZz
-         zT5g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wg3MTmL/";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ZrfYdjc0"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68N3ieTN1986382
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 04:40:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	adnXMOlaGdiVvNccfQEuf1IxL8hL39dpJ1d6HYQXyVw=; b=Wg3MTmL/7eB7QUZx
+	P+tayauqoJw7YlEL3+MSt9QlCjFkHTTZBeQXmzR8GjdyJKTtUQSDUqC2GULp11Ar
+	G3yIs0J+B4Wg74DeK4sYU9HINcmIyivfiY6eOHBmycfqNrT1cbra+3UwnOg6VEFi
+	OAQ+kctCe4l3MAJJQvi9uaCnQOZm/NYonTzDKHqBYs58yAiEToBtclXcZxqg1FsV
+	va+zNgy/17EAUmb1bBi0Vkd7muk1q2MO2zBoemaMo4zRYcBZhLtmrPzcc5Ly4Hx/
+	v4eFRNrILUutyyWELrdBAsZvDF+tnA6O5ZSitFA7oiGForrEj1PeONO7LSX/Er3J
+	CuKurQ==
+Received: from mail-dl1-f70.google.com (mail-dl1-f70.google.com [74.125.82.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gv33190ak-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 04:40:47 +0000 (GMT)
+Received: by mail-dl1-f70.google.com with SMTP id a92af1059eb24-139b62317d0so1398808c88.0
+        for <linux-usb@vger.kernel.org>; Tue, 22 Sep 2026 21:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790134360; x=1790739160; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=IADwZsna+z2G3DbifRLwGvdi1yVjeTXiluD0rHvc+iI=;
-        b=ayyR/xfwfTkXREDEgdkBV66tDxqUAHyfxw+Lr8vc9w2vUxSqxkZTd/ZgPqbhHpu1w2
-         QwwpJNhvy/gKKO3lGyqZJN2W4BBqOXP+i7iu88+5/PpWiopNhqZhxXrRoxzjYqwzAip2
-         2+00Y7sIFCbRjxDW1XltU6+HIEkFK1+URjT/qUsy6sIHq1N3E8qWox6HkMouHs4xqfwk
-         GBlfEbjPMp1quA7ACDeWUUZ6NY6e++fOxmtmrh+HowzNGfzmZX/2f/1BjQFjhVxTP+Fa
-         bwS4XnaJZEh2VS6/vJVvmN4wBKHfPQBq+WYlCG1Itff3RSQvYQBoH9QadVARWAiLHpq7
-         ZaxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790134360; x=1790739160;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1790138447; x=1790743247; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=IADwZsna+z2G3DbifRLwGvdi1yVjeTXiluD0rHvc+iI=;
-        b=k8omT+NdvL6+nqYRVzXxDlkrHcbSR0pz43WfvyTuM/D3W1HJ66eFAE1aKYOY04un9j
-         K+7dqMmgNHwv7Oslj6XcvGve0CzVsMrtU2XzrRDj4/GD8FHV5Ch9Ckm45IFOoUxKUE1z
-         wNwvo63kxWwol/9BcyQ3Y4BTMgcgy7x2XidOlTMGlKQnSJlkvDG/3A75gEoLKuZWcqHj
-         oj+DaztxGxtv1AZdlL6I97td9jloaM06vizqlCJJ0QYffm5QX3cxK/HU4g3fEJGZxGi6
-         E/NHV144sHM4GqqN3tO0uTuw5j1dR00CzCKAFC8O3lqiQKcFvcZ7zuiOa/0kaIYzmQ1h
-         raTA==
-X-Forwarded-Encrypted: i=1; AKwUvBwIxDd/Gb4jSNKk3NczhUYDICBgy6d53c7YSwo9sgZzA5z/dAKiFt0X3ziQfkho9hltYV9Y6zyjC0M=@vger.kernel.org
-X-Gm-Message-State: AFuF++m3guRtcbzMKRgHIgyG/NZiEmo42y8BxAKK2q6k7cEe3AMM+Wlb
-	iqzG9IygJTQGL1neZH9ew9hZSfwqVJa+p0GLa4o0M9zwC76VtwMPqOlRO4iu9yGhM3oe7owL8lz
-	TG16+3cPu8giRXW4dgZld+WiQZQrid7M=
-X-Gm-Gg: AYBFou2WYUk7wv1N0B1N3ja0Z3L9Pr79YeyOYmabCQRZ/B1EXFz+6gUMMdLx5E1jp8K
-	8w6q2Dl3KEfn0lAK+Dp1tntjmkHmO4+6FBRpy8uF7X1nTDIKHEUuxcBlrTjX1praEAx103lUfsG
-	lkpeQ/WJUmppX2nUjMsnZs9RXqeqQOQ1+1KduTb35uYVrPZWJ/RBuSpFZdicyJq/pQs+r8bgG+p
-	B2zcMur6FepbtYUQWW+DxQTI+zg4U2TlGD5YaNVtTnJ1rDz76LAwDWLjeMVInh9JTWA/b4h0L14
-	fPJjun/+YM1hpc4k0fQ9iGcNWilQlBjIScMczMrhgMrIPr6Lti3sO18hOkOAUZt7aBMJJEE0bqY
-	7oC/LyhScejuoFkfnJMdNzVUjA63mHmBglnwP/qW1QmA0cooUep53WQ==
-X-Received: by 2002:a05:690e:d46:b0:672:a314:f3b with SMTP id
- 956f58d0204a3-672d599edb6mr531510d50.155.1790134359954; Tue, 22 Sep 2026
- 20:32:39 -0700 (PDT)
+        bh=adnXMOlaGdiVvNccfQEuf1IxL8hL39dpJ1d6HYQXyVw=;
+        b=ZrfYdjc0fCdHfsZSlmJmkkYNtZDB/LaTAS5wWRA41QQqjVbaW9qg0hsaZ6YES8/kAl
+         /iUFCWrALaS3XVrfMJYqUC2ilfR/hoDE9j1jRDun0sjPajWqDjcjckCN8EBh61IPzlgq
+         ubQfOzcxx/5FUPVwjezMdszMeHw8waWFukWh5/Oswo4D3GWVqV1A4810TH+Oz5MTSSV3
+         NYjM2MnHlIOtZHRqIFm7zER0Hp/mlZXow8NyCnEjB9nyuRhr8hjKbz78R1G2GiUkOQKM
+         pWXpiZrPSiEf73nRo4Ll5U+FkyVNsp3EZja+0zhI2pnEMkmCXSYSpjgrBhGfrsFKcrux
+         eeIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790138447; x=1790743247;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=adnXMOlaGdiVvNccfQEuf1IxL8hL39dpJ1d6HYQXyVw=;
+        b=mvtd4E8yeH1cnnuoMhNVKMfxZ1owLmL0QYshUaFq3tT4orGtjLabpSoPtMhkxdnSGs
+         uSVaand3VDOsIG99ktsQu7eBJjRylS6AC0WDKrsw6FsiJK5akmTzlCJyndE6AUpJkI4U
+         jYZOzRfeQiVzIIvWGMP1YuHP5WaN0azmQcAo4m4weoqYwUzN7COSj5MjbyufSp2gMHe7
+         XJCNAGjj7kMiEOLJ2e0CzwUbTDXBFgRtb2kRqZxlyTh9qdu593KMmyGO4vQAQ9Jo8aDc
+         hZ92ChooF4zEZol569kvRhN6yUADo7lrGNJKVB98WhTgLPsm/DK2HmWwAVxFYWdNZ54j
+         1rlg==
+X-Forwarded-Encrypted: i=1; AKwUvBydCyxzJXfNZXuA6EgijGVYDQRwHJ2m9y0NHZpFIj6UJEDfP8ivlrAsAfXKBBX48JbCbeKOXsF9QB8=@vger.kernel.org
+X-Gm-Message-State: AFuF++mhVftYH9XmCqD3D5ycQt2+2OwwTDsifMMRO0Bq3/Nhvide2Xzg
+	PO0qukY0bwzlx1xymK25gSBfYngoaq1fQWCc5Akbs7QvK6C6+0AYIW1YGgH19Sl4NaSatF8s7TB
+	eh9ELZdGF4FzqxPAErihK06ppM8kdXCikbFBvJD1pPixqLhc2YAls2L3eqBG6AdQ=
+X-Gm-Gg: AYBFou0BXYravKbydt42N1jNoFztXW1HfHmsKvNbsHeaLx3N/HwWCXd2iqu/wHTkcuC
+	n4E97sKYq1d+ZejT2RsB9Z/3VrIIdazt6KGGspZ6SHHTQgmhptO1A4DZxyXZVCta95te1UrIokg
+	A9UlSvqzvy0YFMDH5UXzzuxMENornVlLtOkhBzQCUBeQU41MeWM3v+XhI7BUS+rXRmWP2XpIP09
+	H/1Xip7hIPxGzpR7pugO5K2djBivGFubvsanflZEMItHCFH1SnEjTf+uX/LO10+A9++K7zY8H5w
+	l8Yh28OnWt71nzQuufAd1SvDCzHf81SgZf4HEV2SMMJnGGHffVfoVsEcQkbdDzSTU09hgwW/xVA
+	Kjcpdm0FlTUgGa3ZP+s6YWLy3BPQ3fQ==
+X-Received: by 2002:a05:7022:6984:b0:142:d676:146a with SMTP id a92af1059eb24-144f90a43camr2614030c88.9.1790138446846;
+        Tue, 22 Sep 2026 21:40:46 -0700 (PDT)
+X-Received: by 2002:a05:7022:6984:b0:142:d676:146a with SMTP id a92af1059eb24-144f90a43camr2613967c88.9.1790138445828;
+        Tue, 22 Sep 2026 21:40:45 -0700 (PDT)
+Received: from [192.168.1.132] ([172.88.17.160])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33e939fe502sm2685952eec.2.2026.09.22.21.40.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Sep 2026 21:40:45 -0700 (PDT)
+Message-ID: <07e73495-ac4e-42a6-b5a3-5eb11021d7fb@oss.qualcomm.com>
+Date: Tue, 22 Sep 2026 21:40:39 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260903121938.7661-1-kartikey406@gmail.com>
-In-Reply-To: <20260903121938.7661-1-kartikey406@gmail.com>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Wed, 23 Sep 2026 09:02:28 +0530
-X-Gm-Features: AcwNN1XLcCRqZ3dwAEcyeNO_SAQFBracNGZPqDQTPW2eXSCPoixNM1HuSvjNQAY
-Message-ID: <CADhLXY4MpFNrutY7D=BD96yTOeT2TjUPzgT3v8q8yXhwvNWtFg@mail.gmail.com>
-Subject: Re: [PATCH v4] usbip: vhci_hcd: let the driver core manage the sysfs attributes
-To: valentina.manea.m@gmail.com, shuah@kernel.org, i@zenithal.me, 
-	gregkh@linuxfoundation.org
-Cc: yuyang.du@intel.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 8/8] arm64: dts: qcom: kodiak: Desribe EUD UTMI routing
+ and connector mapping
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring <robh@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260912225301.3396556-1-elson.serrao@oss.qualcomm.com>
+ <20260912225301.3396556-9-elson.serrao@oss.qualcomm.com>
+ <8daa32e6-f140-44d1-a2d2-c475d8a5959c@oss.qualcomm.com>
+Content-Language: en-US
+From: Elson Serrao <elson.serrao@oss.qualcomm.com>
+In-Reply-To: <8daa32e6-f140-44d1-a2d2-c475d8a5959c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: KYaXq5ta90mXRzY5lNCH0jOtVo7PM8VS
+X-Authority-Analysis: v=2.4 cv=HdaB3SE8 c=1 sm=1 tr=0 ts=6ab35850 cx=c_pps
+ a=SvEPeNj+VMjHSW//kvnxuw==:117 a=p3NwzfejtmCMKWTc25r7/Q==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
+ a=EUspDBNiAAAA:8 a=QD3PrJr-WEZcEFCR36sA:9 a=QEXdDO2ut3YA:10
+ a=Kq8ClHjjuc5pcCNDwlU0:22
+X-Proofpoint-ORIG-GUID: KYaXq5ta90mXRzY5lNCH0jOtVo7PM8VS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDAxOCBTYWx0ZWRfXwqkWLBZ2VlZP
+ 9o8+GNgFXT8OV0O0UibxKD+HmRMemEoWlFh2PeGx8AneGgRd6iFV/Pcz69rtvD9fK6tLfTv7f0g
+ pgfM0EY3fwwT37QkybIdmFzzXDVjr9Pl0B6QYYRhoDmZ+1NWwYo3h6E4PU18nCK6U1PdC8thwbQ
+ QN3SfKBeBfHcUDG6KLCV7Zn8XxC83VkvNFXsVhRfgf0Hnp0h9G2AD/4wCXtwkiAwMRGSKuL8bKz
+ AbksSVbVZu6hZdmO4ElWviX0n8UO67FwJzta4s3x2gMV6oPnoHXT4EIXjw6Vw4H2Nexj/LanNZt
+ 3kGe2+IMrR/H7mrzI1wNHlYuW41cFebLTBxiKu9WTpO5fuZAbb5hX9KrHuF7+yU0ApxtxwDhk0/
+ f6kHebh/vjPVfhNAzEfQvDm0DA+wQ2f2P/0GFb6mljnBoDySAJpWy+9j+kmvW5tWjKv+a4h1k+m
+ xwowBiM3gnDzemtKm6w==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDAxOCBTYWx0ZWRfX+uGhi8WJxnVD
+ wWzs4HC/YH5OCiPXVM8pWrkO1pC5Vb6g5SaF2IepcLMydG3UZOc/mFmvfI4Zgjs+gWU2aDafz1X
+ N89cMi4tkwRFzYaJnakMx3m9yo+8INg=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-23_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ priorityscore=1501 clxscore=1015 suspectscore=0 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230018
 
-On Thu, Sep 3, 2026 at 5:49=E2=80=AFPM Deepanshu Kartikey <kartikey406@gmai=
-l.com> wrote:
->
-> The vhci attribute group is created in vhci_start() and removed in
-> vhci_stop(), guarded by usb_hcd_is_primary_hcd(). Both run from
-> usb_add_hcd()/usb_remove_hcd(), which are called once per hcd, so the
-> attach attribute is live while only one of the two hcds exists: it is
-> created during the first usb_add_hcd() before vhci_hcd_ss is set, and it
-> survives the first usb_put_hcd() on removal. A concurrent write to attach
-> can therefore reach a NULL or freed vhci_hcd_ss.
->
-> Register the group as dev_groups on the platform driver instead, so the
-> driver core creates the files before probe and removes them after remove
-> returns, and drop the sysfs_create_group()/sysfs_remove_group() calls fro=
-m
-> the driver. The attributes have always been created only on vhci_hcd.0;
-> an is_visible() callback keeps them there.
->
-> vhci_init_attr_group() is moved into vhci_hcd_init() ahead of
-> platform_driver_register() so the group is populated before the core
-> reads it. The attribute array is still built at runtime because the
-> number of status attributes comes from CONFIG_USBIP_VHCI_NR_HCS and the
-> preprocessor cannot emit a variable number of __ATTR() declarations.
->
-> Fixes: 1c9de5bf4286 ("usbip: vhci-hcd: Add USB3 SuperSpeed support")
-> Reported-by: syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D8753715f05759f1a10de
-> Tested-by: syzbot+8753715f05759f1a10de@syzkaller.appspotmail.com
-> Link: https://lore.kernel.org/all/20260815143427.19066-1-kartikey406@gmai=
-l.com/T/ [v1]
-> Link: https://lore.kernel.org/all/20260816015051.13184-1-kartikey406@gmai=
-l.com/T/ [v2]
-> Link: https://lore.kernel.org/all/20260816061034.17769-1-kartikey406@gmai=
-l.com/T/ [v3]
-> Assisted-by: Claude (Anthropic)
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
->
-> v4:
->  - add Assisted-by: tag (Greg)
->
-> v3:
->  - make vhci_attr_group static, drop its extern from vhci.h (Greg)
->  - drop stray blank line in vhci_hcd_init()
->  - fix indentation in vhci_sysfs.c
->
-> v2:
->  - use dev_groups instead of moving sysfs_create_group() into probe (Greg=
-)
->  - add is_visible() to keep the attributes on vhci_hcd.0 only
->  - move vhci_init_attr_group() into vhci_hcd_init()
->
->  drivers/usb/usbip/vhci.h       |  2 +-
->  drivers/usb/usbip/vhci_hcd.c   | 36 ++++++++++------------------------
->  drivers/usb/usbip/vhci_sysfs.c | 21 +++++++++++++++++++-
->  3 files changed, 31 insertions(+), 28 deletions(-)
->
-> diff --git a/drivers/usb/usbip/vhci.h b/drivers/usb/usbip/vhci.h
-> index 5659dce1526e..f3993238f91d 100644
-> --- a/drivers/usb/usbip/vhci.h
-> +++ b/drivers/usb/usbip/vhci.h
-> @@ -120,7 +120,7 @@ struct vhci_hcd {
->
->  extern int vhci_num_controllers;
->  extern struct vhci *vhcis;
-> -extern struct attribute_group vhci_attr_group;
-> +extern const struct attribute_group *vhci_groups[];
->
->  /* vhci_hcd.c */
->  void rh_port_connect(struct vhci_device *vdev, enum usb_device_speed spe=
-ed);
-> diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-> index 39e8faf4c18c..22b9bad7ca31 100644
-> --- a/drivers/usb/usbip/vhci_hcd.c
-> +++ b/drivers/usb/usbip/vhci_hcd.c
-> @@ -1199,7 +1199,6 @@ static int vhci_start(struct usb_hcd *hcd)
->  {
->         struct vhci_hcd *vhci_hcd =3D hcd_to_vhci_hcd(hcd);
->         int id, rhport;
-> -       int err;
->
->         usbip_dbg_vhci_hc("enter vhci_start\n");
->
-> @@ -1230,40 +1229,17 @@ static int vhci_start(struct usb_hcd *hcd)
->                 return -EINVAL;
->         }
->
-> -       /* vhci_hcd is now ready to be controlled through sysfs */
-> -       if (id =3D=3D 0 && usb_hcd_is_primary_hcd(hcd)) {
-> -               err =3D vhci_init_attr_group();
-> -               if (err) {
-> -                       dev_err(hcd_dev(hcd), "init attr group failed, er=
-r =3D %d\n", err);
-> -                       return err;
-> -               }
-> -               err =3D sysfs_create_group(&hcd_dev(hcd)->kobj, &vhci_att=
-r_group);
-> -               if (err) {
-> -                       dev_err(hcd_dev(hcd), "create sysfs files failed,=
- err =3D %d\n", err);
-> -                       vhci_finish_attr_group();
-> -                       return err;
-> -               }
-> -               dev_info(hcd_dev(hcd), "created sysfs %s\n", hcd_name(hcd=
-));
-> -       }
-> -
->         return 0;
->  }
->
->  static void vhci_stop(struct usb_hcd *hcd)
->  {
->         struct vhci_hcd *vhci_hcd =3D hcd_to_vhci_hcd(hcd);
-> -       int id, rhport;
-> +       int rhport;
->
->         usbip_dbg_vhci_hc("stop VHCI controller\n");
->
-> -       /* 1. remove the userland interface of vhci_hcd */
-> -       id =3D hcd_name_to_id(hcd_name(hcd));
-> -       if (id =3D=3D 0 && usb_hcd_is_primary_hcd(hcd)) {
-> -               sysfs_remove_group(&hcd_dev(hcd)->kobj, &vhci_attr_group)=
-;
-> -               vhci_finish_attr_group();
-> -       }
-> -
-> -       /* 2. shutdown all the ports of vhci_hcd */
-> +       /* shutdown all the ports of vhci_hcd */
->         for (rhport =3D 0; rhport < VHCI_HC_PORTS; rhport++) {
->                 struct vhci_device *vdev =3D &vhci_hcd->vdev[rhport];
->
-> @@ -1513,6 +1489,7 @@ static struct platform_driver vhci_driver =3D {
->         .resume =3D vhci_hcd_resume,
->         .driver =3D {
->                 .name =3D driver_name,
-> +               .dev_groups =3D vhci_groups,
->         },
->  };
->
-> @@ -1541,6 +1518,10 @@ static int __init vhci_hcd_init(void)
->         if (vhcis =3D=3D NULL)
->                 return -ENOMEM;
->
-> +       ret =3D vhci_init_attr_group();
-> +       if (ret)
-> +               goto err_init_attr_group;
-> +
->         ret =3D platform_driver_register(&vhci_driver);
->         if (ret)
->                 goto err_driver_register;
-> @@ -1568,6 +1549,8 @@ static int __init vhci_hcd_init(void)
->  err_add_hcd:
->         platform_driver_unregister(&vhci_driver);
->  err_driver_register:
-> +       vhci_finish_attr_group();
-> +err_init_attr_group:
->         kfree(vhcis);
->         return ret;
->  }
-> @@ -1576,6 +1559,7 @@ static void __exit vhci_hcd_exit(void)
->  {
->         del_platform_devices();
->         platform_driver_unregister(&vhci_driver);
-> +       vhci_finish_attr_group();
->         kfree(vhcis);
->  }
->
-> diff --git a/drivers/usb/usbip/vhci_sysfs.c b/drivers/usb/usbip/vhci_sysf=
-s.c
-> index a7ede6fb3da9..d87d9e449d72 100644
-> --- a/drivers/usb/usbip/vhci_sysfs.c
-> +++ b/drivers/usb/usbip/vhci_sysfs.c
-> @@ -497,8 +497,27 @@ static void finish_status_attrs(void)
->         kfree(status_attrs);
->  }
->
-> -struct attribute_group vhci_attr_group =3D {
-> +static umode_t vhci_attr_is_visible(struct kobject *kobj,
-> +                                   struct attribute *attr, int n)
-> +{
-> +       struct platform_device *pdev =3D to_platform_device(kobj_to_dev(k=
-obj));
-> +
-> +       /*
-> +        * The attributes control every controller and have always lived =
-on
-> +        * vhci_hcd.0 only.  Keep them there now that the driver core cre=
-ates
-> +        * the group for each device.
-> +        */
-> +       return pdev->id =3D=3D 0 ? attr->mode : 0;
-> +}
-> +
-> +static struct attribute_group vhci_attr_group =3D {
->         .attrs =3D NULL,
-> +       .is_visible =3D vhci_attr_is_visible,
-> +};
-> +
-> +const struct attribute_group *vhci_groups[] =3D {
-> +       &vhci_attr_group,
-> +       NULL,
->  };
->
->  int vhci_init_attr_group(void)
-> --
-> 2.43.0
->
 
-Gentle Reminder. Please let me know the status of this patch.
+
+On 9/21/2026 4:37 AM, Konrad Dybcio wrote:
+> On 9/13/26 12:53 AM, Elson Serrao wrote:
+>> The existing EUD description uses a legacy single-path representation
+>> that assumes uniform UTMI routing. This was sufficient for minimal
+>> configurations where the USB port operated only in device mode and role
+>> switching was not considered.
+>>
+>> Update the description to explicitly model the topology using eud path
+>> child node and add a role-switch declaration to reflect role-dependent
+>> UTMI routing. Also on this SoC, the EUD hardware intercepts only the
+>> primary UTMI path. So remove the USB endpoint mapping to the secondary
+>> controller and associate it with the primary controller.
+>>
+>> With the intermediate EUD node now in place, update the Kodiak board
+>> descriptions to map the USB connector endpoint to the EUD instead of
+>> directly to the USB controller, reflecting the intended hardware
+>> topology. Enable the EUD by default now that the complete topology is
+>> described.
+>>
+>> Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
+>> ---
+> 
+> [...]
+> 
+>> diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+>> index f41ad446a39e..b1f1ff6b99e6 100644
+>> --- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+>> +++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+>> @@ -98,7 +98,7 @@ port@0 {
+>>  					reg = <0>;
+>>  
+>>  					pmic_glink_hs_in: endpoint {
+>> -						remote-endpoint = <&usb_1_dwc3_hs>;
+>> +						remote-endpoint = <&eud_con>;
+>>  					};
+>>  				};
+>>  
+>> @@ -1530,10 +1530,6 @@ &usb_1 {
+>>  	status = "okay";
+>>  };
+>>  
+>> -&usb_1_dwc3_hs {
+>> -	remote-endpoint = <&pmic_glink_hs_in>;
+>> -};
+>> -
+>>  &usb_1_hsphy {
+>>  	vdda-pll-supply = <&vreg_l10c>;
+>>  	vdda18-supply = <&vreg_l1c>;
+>> @@ -1573,3 +1569,7 @@ &wifi {
+>>  	qcom,calibration-variant = "Fairphone_5";
+>>  	status = "okay";
+>>  };
+>> +
+>> +&eud_con {
+>> +	remote-endpoint = <&pmic_glink_hs_in>;
+>> +};
+> 
+> Label references should be sorted alphabetically within a file,
+> there may be slight deviations because the tooling to enforce
+> that is still under development, but let's try to not add more
+> 
+Ack. I will update this in v9
 
 Thanks
-
-Deepanshu
+Elson
