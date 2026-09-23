@@ -1,255 +1,121 @@
-Received: from mail-pj2-f28.google.com (mail-pj2-f28.google.com [74.125.227.156])
+Received: from mail-vs2-f43.google.com (mail-vs2-f43.google.com [74.125.227.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8B19377EC7
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 15:08:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.156
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 845DF521884
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 15:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790176082; cv=none; b=BZMQZSPLX4FaHHQevJLa7dRXqmfp5hB0C90ndkohPJF929HW/PySkZ1cHuv9cfNsFbO5eD77qtTClSKEQxuY0UHZpK/Di8uivBSJG23vb2DJ2Yqmv//zIip6XWYu0WvXlbZBmmiojaIcEtLfzxv7ceDtcg6ibQCtMJgiRfQbL9E=
+	t=1790176171; cv=none; b=ZFmk7hpr6FDvwtTpJD+RdYnpwYYgQXwvhQTkDtOri9/hXeenR04SrFTq1HDYQu6gpuoMpenWOadJRYeN/e4vFO+RgUv6KblRlDbvWhakJqQacd3R/iWbK352/wX1vcKrJwZ/8AfvU0E6sl47P0fHJ67z+bWKmAu38c1DHrOzNCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790176082; c=relaxed/simple;
-	bh=/J83ruJbsWF/uwh9PLynk9MBeoHwfhETAcdSEkxqkeQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=bDV28C2HCiX7PsvtZF/OPfeOU0LMVQFj10XZOqCEVveabM5P2kKxRX16FKlIEka8AG4lD5jT3tWnjaLdJQMO4ub6v3y+XKsDoYTnjIs57MZtsfaCLuaJfshWcP/k2wyzX8AabvOhCS9qCzbuN5W2DGdTBPHxxKyW8afMGaigdvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OhTfmV8I; arc=none smtp.client-ip=74.125.227.156
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1790176171; c=relaxed/simple;
+	bh=3CAD3EBkGvkw8ITbSCbAKxzYiupi8Enwarxa/dgYn1Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T5W7+QXLVqWOiP3KmuCcToRakTmJ6XZtzKbG3Yj4F94+IkL48JJvr1pY5EErRZYcp9knbXKLf+/Jx1TDat0Gkut9+i4+AVDjuxxOU3kNMVPTveoJ7NE0/xHPuXi0/ELsvH5wi0DSGSHLCeXBcD7PgGspCYKukI3rNTc6hKMi4y4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OhTfmV8I"
-Received: by mail-pj2-f28.google.com with SMTP id d9443c01a7336-2d91c22d27dso4230365ad.1
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 08:08:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790176080; x=1790780880; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/oiLgwpixmTi6/OckLG7kg10z7r50fdYVvYUYjPXtws=;
-        b=OhTfmV8IY/bUZwaX7vXIR2J1BpWNr0LJqGRPuVWJZD2JXrWyVNmAGA6mAGT0aNsHwM
-         E2B3BZhuwntKhnKVDTNsSHo9SVZk6dnTKeZAZREX/aSsLxufRfWUPWGCgkvY8gamD67Q
-         8jyWdTqF6ZDE9huodAoQKA6imcozCtpfxYJuIoeoG+o06hKjcjm1wl6DEaEN7AGmWoJ7
-         yWC6+FBR5hVavHoMR7RGkdjFCEGR8tgm5ykoCstaXH6Oxj5C3epyBKmdT/RJ6Zo1sima
-         O6uruNdXlHzDUIo1PL4V6z4e821rJ3WDZkGBPouLDcL6ve8dzaJd3D6ELzYzk5gHW2lK
-         Cu9g==
+Received: by mail-vs2-f43.google.com with SMTP id 71dfb90a1353d-5c82bb05ddaso826342e0c.3
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 08:09:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790176080; x=1790780880;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/oiLgwpixmTi6/OckLG7kg10z7r50fdYVvYUYjPXtws=;
-        b=Je/QOu8ACyBz38LqzgQdSbvKchlf3Iyw7RKubfWqGjA9VkQDghAxCU8UCqKYGs1vrB
-         O3BrqK+a8bxKT24984lpO3+Y7/qVb9QNZl6+xtUByLAs8CcBX4U+dHgaq4ij/rOPhbuM
-         vFMEywg03BuG9raAsIKv9MbSg1jVjBeWSgRQ12GverygVwsEgs2zp5g1SCuqsqNSgCwi
-         vWMI/fuXZmVgUAkKTN6uO3cc4I6ZLdDe76kHerGrzn/ZAGyONAgANvbYHzRztt645lVz
-         TFSJQWJdo6rXcmkKYct4SMmaFF25HT/ER1+2kXrkd0mSeTlpv5kzeEfZ1GewztxF37li
-         GXcw==
-X-Gm-Message-State: AFuF++k7IEWKjV6REAi5o5Yi0cDhCckkd/hyhjuxsFAR5fCyTV1guNCN
-	Fs5xXiJQnyrcOM+BxqxT3pq2UkhBAvtFgx9RPHK7YaQtZW0e6IU7HOnN
-X-Gm-Gg: AYBFou3UVZFQpgNX7CnzTdlXZLUtJJsh41RxISWXP4a8sRn+83U8QvF+c+ru8WhjemF
-	ucg186rUZEZSPzhRzuUUAueBqwRlQsqj2koQj79oGRd6VWzHygk9Vpg43Oqm2bjyp0PANSUSEBa
-	ZfxMgBF94pz7xRC4Uc2bDU+2tVITvejzLUIXx8iI+YRPxFtp9VIsnCI2FCc33zT3aQkyX7+oz89
-	h429V4pl6YryTaoO9yXlgXnc5D/i8f+GGsW+70X7JAfORJON0d3OFR5Hp/1Z28b23qLnzsqMXPn
-	4L6fTWgEVLewpQ1VL7By9xtLwjUXMugxKdJYmHhOOnqv2/ru/wPXa1SxPvCyC+du/Dhx7qfYLg+
-	Grodgw8Bg4B5drn2pDJrqrp40+BhxjXaae2EDmWIdixfJcqhK0byJH/W9iEMFmxe7e9KJ0r1Y2r
-	ug/DRU7Aay522AFM+tzQtPkhmkF1E8BNRNOH8VQh2YXmobRjMSvyNmMpbaA6iXsfqbklhKrtilz
-	mxZ5Ykb1GpkgDWf
-X-Received: by 2002:a17:903:3846:b0:2dd:ad74:6d1a with SMTP id d9443c01a7336-2df69d3577cmr23037265ad.23.1790176079907;
-        Wed, 23 Sep 2026 08:07:59 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:f072:2258:ced5:5d8c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df6a516d96sm12825075ad.2.2026.09.23.08.07.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 08:07:59 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: Thomas Winischhofer <thomas@winischhofer.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
-	syzbot+109061940215dd4b011e@syzkaller.appspotmail.com
-Subject: [PATCH] usb: sisusbvga: stop early init on the first failed transfer
-Date: Wed, 23 Sep 2026 22:07:53 +0700
-Message-ID: <20260923150754.31652-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20260707; t=1790176168; x=1790780968;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=6YS2k2hncr+GFNhOluY330WU9W5Yzfq4y1ZEwqZxKbc=;
+        b=nVlksnrhDwixC/Nov6Pr8aWnTL0/llxxCpzXDng/7hOdNRC+McrFt5mP7ea+WKycu5
+         VW8CtbqrS/o4Vse7km1pt3/FzBxLhEoKamGz4Vvzw9jDwhHqeFr/wQ7Nfd//7L6tYpaw
+         vF8fW7B+tJRJQEaL+w1AF2oKQDTPjD5rcw+kp81sisKbwqUgCXy9d4WVaqtF5g/ecnAg
+         jC+kwV6kgo0afrnB6XLL1lh9n8sLHzpqAB9afvtNJL46wKnFQp3ZIdF6t3MPJ1Oiy80b
+         b4nNFlez4g47uOtjW0zniPbY2FscNZv9zZDCRxlEH16ShKyU5P1mnNUtEoiAB7R3pzwH
+         Sxzg==
+X-Forwarded-Encrypted: i=1; AKwUvBy7Hj9MIy25l7K8F17WVwsYEmcimyrERdS5yd7UoeUJNltSdUA7Ts+VE4eKdGnne4RpqqoMF4tiPv0=@vger.kernel.org
+X-Gm-Message-State: AFuF++lIpcqoej+CXhkGrY0Rm30eBiGfzblIcsEedseJ+BILoJZlJXPW
+	nwdN51doHPegFDC5gxuNBr9iKcw31DNzMfwkG8CB3vkJtxCzuy0XRkI6zun26fEf7zk=
+X-Gm-Gg: AYBFou0nCa/FCwFYJZR5M3bg84GPTHyO8MlnwezPEDHa4chJ/YJ+Qv79AXRRdtH82wM
+	+YAUZxUXIEAUCxW0bLyJUc1kMadquHkDYsSLHj1OaNpbVZuEYlcWi6yjv5Sx0qtzuJvDggJL5Jg
+	NW1DazSsG5tHGZQfHyBvIaOvWJiknKGFF0/2IFG/V1wPm14vwrtK7/cmjPWoZ06Fk9YksPv04du
+	yBAtw0bG2SZp22qv0v5o+ZaNeAvq9MiOdA2oUS0tPvs9kisra876yLWwkTr+XT3ZTTei6yWtS/P
+	3Cu/jKXc8zTaXc548lVPxjgL1pzQ0W/azfoIhRFQLPbOzETkKvEzRdzr0JJMkS9YsVD1vPpuhTo
+	DQfSGZtfzqZ+xpUf3z8kZrzJkVP0FsGhNWd+QfjQ1Q1B6ucTOdKSZgBZpTvn/U9A84ZIP8g138A
+	njFiUGosq4gWbVih/alYJfCtlF4ryte6b1Y1RECvNOKNyqzt3boi/AoGmlEAOoUp7AYsNBHM3J7
+	Dty26T9slcjDdhhnaR4Efd+Xa63rf0dWjWB
+X-Received: by 2002:a05:6122:1313:b0:5c9:c60e:5cf7 with SMTP id 71dfb90a1353d-5c9f16bee0fmr3308695e0c.21.1790176168302;
+        Wed, 23 Sep 2026 08:09:28 -0700 (PDT)
+Received: from mail-vs2-f41.google.com (mail-vs2-f41.google.com. [74.125.227.41])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c9f053f9b2sm3301367e0c.14.2026.09.23.08.09.27
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Sep 2026 08:09:27 -0700 (PDT)
+Received: by mail-vs2-f41.google.com with SMTP id ada2fe7eead31-79189dbfb32so195471137.1
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 08:09:27 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBzzDQrnTr39EEcpY54riQ9GuuoH4wxHXKzWs828RJ86rH4YxflPJDU2xgV+W2SpHZCc9twPBYisulk=@vger.kernel.org
+X-Received: by 2002:a05:6102:f83:b0:7a1:f7e2:aae3 with SMTP id
+ ada2fe7eead31-7ac1d0cb103mr2545079137.21.1790176167279; Wed, 23 Sep 2026
+ 08:09:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260904-rzg2-sr-boards-v8-0-94c4674927e8@solid-run.com> <20260904-rzg2-sr-boards-v8-8-94c4674927e8@solid-run.com>
+In-Reply-To: <20260904-rzg2-sr-boards-v8-8-94c4674927e8@solid-run.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 23 Sep 2026 17:09:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUzDBMVEV7VP4JeoKFvbbYs6txYqHzw+j4qnvkKZJ3Zyw@mail.gmail.com>
+X-Gm-Features: AclHuK9TWKX7_LFBBJY6lEHypNQ2_JvEQbFVziKurEpWXaJo034l1OL9z_ll5Zs
+Message-ID: <CAMuHMdUzDBMVEV7VP4JeoKFvbbYs6txYqHzw+j4qnvkKZJ3Zyw@mail.gmail.com>
+Subject: Re: [PATCH v8 08/11] arm64: dts: renesas: add support for solidrun
+ hb-ripple with rzg2l som
+To: Josua Mayer <josua@solid-run.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
+	Linus Walleij <linusw@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
+	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-sisusb_probe() initializes the graphics device from within the hub's
-enumeration work, i.e. with the parent hub's device lock held.
-sisusb_do_init_gfxdevice() accumulates errors with "ret |=" and keeps
-going after a failed transfer. If the device does not answer, every
-remaining transfer sits out its full timeout (5s, retried 6 times), so
-probe holds the hub lock for ~30s per access and about 10 minutes in
-total. Anything that needs that lock, such as usbdev_open() and
-usbdev_ioctl() on the root hub, is blocked for the duration and trips the
-hung task detector.
+On Fri, 4 Sept 2026 at 13:56, Josua Mayer <josua@solid-run.com> wrote:
+> Add support for the SolidRun HummingBoard Ripple [2] with RZ/G2L
+> SoM [1].
+>
+> The HummingBoard Ripple is a reduced version of HummingBoard Pulse,
+> featuring:
+> - 2x USB-2.0 Type-A connector
+> - 1x 1Gbps RJ45 Ethernet
+> - micro-HDMI connector
+> - microSD connector
+> - mini-PCI-E connector with SIM slot supporting USB-2.0 interface
+> - MIPI-CSI Camera Connector (not described without specific camera)
+> - RTC with backup battery
+>
+> The carrier board is identical between RZ/G2L, RZ/G2LC, RZ/G2UL and
+> RZ/V2L SoMs, yet only the RZ/G2LC combination has a product page [2].
+>
+> While the variant being supported here is named "Ripple", shared include
+> files are still named according to the full board for consistency with
+> schematics, silk screen labels and other SoMs on same board.
+>
+> Description for microSD is shared with HummingBoard IIoT.
+>
+> [1] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2l-som/
+> [2] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2lc-base/
+>
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
 
-Return on the first error instead. Also fold the three identical BAR
-setup sequences into a helper and the leading magic writes into a table.
-The sequence of accesses is unchanged when the device responds.
+I didn't compare with the board schematics, but the rest LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Reproduced with a raw-gadget device (0711:0550, six bulk endpoints that
-never complete I/O) on dummy_hcd: opening the root hub blocked for 603s
-before, 29s after.
+Gr{oetje,eeting}s,
 
-Reported-by: syzbot+109061940215dd4b011e@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=109061940215dd4b011e
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
----
-Notes (not for the commit log):
-I have no SiS USB2VGA hardware, so the reordering is verified by inspection
-only. A single silent device can still hold the hub lock for ~30s (one failed
-transfer); removing that entirely would mean moving init out of probe. Happy
-to do that if you prefer.
- drivers/usb/misc/sisusbvga/sisusbvga.c | 120 +++++++++++++------------
- 1 file changed, 62 insertions(+), 58 deletions(-)
+                        Geert
 
-diff --git a/drivers/usb/misc/sisusbvga/sisusbvga.c b/drivers/usb/misc/sisusbvga/sisusbvga.c
-index 3e75a7c24828..544284111191 100644
---- a/drivers/usb/misc/sisusbvga/sisusbvga.c
-+++ b/drivers/usb/misc/sisusbvga/sisusbvga.c
-@@ -2064,77 +2064,81 @@ static void sisusb_get_ramconfig(struct sisusb_usb_data *sisusb)
- 			ram_datarate[ramtype], ram_dynamictype[ramtype], bw);
- }
- 
-+/* Probe BAR size, then map it at @base */
-+static int sisusb_init_bar(struct sisusb_usb_data *sisusb, int regnum, u32 base)
-+{
-+	u32 tmp32;
-+	int ret;
-+
-+	ret = sisusb_read_pci_config(sisusb, regnum, &tmp32);
-+	if (ret)
-+		return ret;
-+	ret = sisusb_write_pci_config(sisusb, regnum, 0xfffffff0);
-+	if (ret)
-+		return ret;
-+	ret = sisusb_read_pci_config(sisusb, regnum, &tmp32);
-+	if (ret)
-+		return ret;
-+	return sisusb_write_pci_config(sisusb, regnum, (tmp32 & 0x0f) | base);
-+}
-+
-+/* Bail out on the first failure: each access to a dead device takes 5s */
- static int sisusb_do_init_gfxdevice(struct sisusb_usb_data *sisusb)
- {
-+	static const struct { u32 address, data; } magic[] = {
-+		{ 0x00000324, 0x00000004 },
-+		{ 0x00000364, 0x00000004 },
-+		{ 0x00000384, 0x00000004 },
-+		{ 0x00000100, 0x00000700 },
-+	};
-+	static const struct { int regnum; u32 base; } bars[] = {
-+		{ 0x10, SISUSB_PCI_MEMBASE },
-+		{ 0x14, SISUSB_PCI_MMIOBASE },
-+		{ 0x18, SISUSB_PCI_IOPORTBASE },
-+	};
- 	struct sisusb_packet packet;
--	int ret;
-+	int ret, i;
- 	u32 tmp32;
- 
- 	/* Do some magic */
--	packet.header  = 0x001f;
--	packet.address = 0x00000324;
--	packet.data    = 0x00000004;
--	ret = sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
--
--	packet.header  = 0x001f;
--	packet.address = 0x00000364;
--	packet.data    = 0x00000004;
--	ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
--
--	packet.header  = 0x001f;
--	packet.address = 0x00000384;
--	packet.data    = 0x00000004;
--	ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
--
--	packet.header  = 0x001f;
--	packet.address = 0x00000100;
--	packet.data    = 0x00000700;
--	ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	for (i = 0; i < ARRAY_SIZE(magic); i++) {
-+		packet.header  = 0x001f;
-+		packet.address = magic[i].address;
-+		packet.data    = magic[i].data;
-+		ret = sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+		if (ret)
-+			return ret;
-+	}
- 
- 	packet.header  = 0x000f;
- 	packet.address = 0x00000004;
--	ret |= sisusb_send_bridge_packet(sisusb, 6, &packet, 0);
-+	ret = sisusb_send_bridge_packet(sisusb, 6, &packet, 0);
-+	if (ret)
-+		return ret;
- 	packet.data |= 0x17;
--	ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
--
--	/* Init BAR 0 (VRAM) */
--	ret |= sisusb_read_pci_config(sisusb, 0x10, &tmp32);
--	ret |= sisusb_write_pci_config(sisusb, 0x10, 0xfffffff0);
--	ret |= sisusb_read_pci_config(sisusb, 0x10, &tmp32);
--	tmp32 &= 0x0f;
--	tmp32 |= SISUSB_PCI_MEMBASE;
--	ret |= sisusb_write_pci_config(sisusb, 0x10, tmp32);
--
--	/* Init BAR 1 (MMIO) */
--	ret |= sisusb_read_pci_config(sisusb, 0x14, &tmp32);
--	ret |= sisusb_write_pci_config(sisusb, 0x14, 0xfffffff0);
--	ret |= sisusb_read_pci_config(sisusb, 0x14, &tmp32);
--	tmp32 &= 0x0f;
--	tmp32 |= SISUSB_PCI_MMIOBASE;
--	ret |= sisusb_write_pci_config(sisusb, 0x14, tmp32);
--
--	/* Init BAR 2 (i/o ports) */
--	ret |= sisusb_read_pci_config(sisusb, 0x18, &tmp32);
--	ret |= sisusb_write_pci_config(sisusb, 0x18, 0xfffffff0);
--	ret |= sisusb_read_pci_config(sisusb, 0x18, &tmp32);
--	tmp32 &= 0x0f;
--	tmp32 |= SISUSB_PCI_IOPORTBASE;
--	ret |= sisusb_write_pci_config(sisusb, 0x18, tmp32);
--
--	/* Enable memory and i/o access */
--	ret |= sisusb_read_pci_config(sisusb, 0x04, &tmp32);
--	tmp32 |= 0x3;
--	ret |= sisusb_write_pci_config(sisusb, 0x04, tmp32);
-+	ret = sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	if (ret)
-+		return ret;
- 
--	if (ret == 0) {
--		/* Some further magic */
--		packet.header  = 0x001f;
--		packet.address = 0x00000050;
--		packet.data    = 0x000000ff;
--		ret |= sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
-+	for (i = 0; i < ARRAY_SIZE(bars); i++) {
-+		ret = sisusb_init_bar(sisusb, bars[i].regnum, bars[i].base);
-+		if (ret)
-+			return ret;
- 	}
- 
--	return ret;
-+	/* Enable memory and i/o access */
-+	ret = sisusb_read_pci_config(sisusb, 0x04, &tmp32);
-+	if (ret)
-+		return ret;
-+	ret = sisusb_write_pci_config(sisusb, 0x04, tmp32 | 0x3);
-+	if (ret)
-+		return ret;
-+
-+	/* Some further magic */
-+	packet.header  = 0x001f;
-+	packet.address = 0x00000050;
-+	packet.data    = 0x000000ff;
-+	return sisusb_send_bridge_packet(sisusb, 10, &packet, 0);
- }
- 
- /* Initialize the graphics device (return 0 on success)
 -- 
-2.43.0
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
