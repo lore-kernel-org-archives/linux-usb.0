@@ -1,217 +1,147 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi2-f13.google.com (mail-oi2-f13.google.com [74.125.231.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7075F5349CD
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 13:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54E1531609
+	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 13:48:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790171150; cv=none; b=bsH2fpOz68W/36oZBJZpxrR/lHwHe/2Bd6oVmADnXrGkVnPXP4NdaUgQ8gzsgIlxIOPsmhhZiq1f4wwaa76v/mbGwnnrxDTgck1bXNI9zj39+Mys5ZO6ZY/BpQD9jl1/dr/uj0fwRqijaOuIjvZ7RowA8Y6MLXLUW2hVoqNtgzg=
+	t=1790171308; cv=none; b=BQbI/mbqOIcN+Nr1afzUJcoVrBE5mbXWhNOEraz0JnH5GotMl2pNlcK1CzFF1EjVG14cq7cOhbx7+ZOkJ9u2cTouL9sfhccm1OQUEkYzBtTSRkuEpm9ry/QmDxFh+mmKnuDhTvLsQd7cFziAQpN+r51V6DPMVFQ2U+I9DEaHNLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790171150; c=relaxed/simple;
-	bh=hAUIAJP2KyIPOrXkm/QtyPmhhjrZyPRauTKH3tyreRE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BkMzRWsUr5TLJxAmM4kapmPLEf7WuNi/usuGmaSSe3HpVKlzlRoN35f1P59El/8K3NYmeF21nLDjJWE8+GiuR2B4BLtPJlSlasTrY2gule7gwgwiVYE3dV3vciDRjhyWpF+11LTjI7fPP1du7qByAbS/fd7WEkSoI9hFVYMgRfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NHhZfGyt; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=fDmcghML; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NHhZfGyt";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="fDmcghML"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68NDPNAH2698521
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 13:45:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=; b=NHhZfGytzmWFyCsj
-	Zbq1+A+FQqTZC64KnzfYTjTVPG4qQ2PppdfaDev7x8JA0PLgl8xEusRGtaUk2Jnu
-	dktSsj6AkBdohfO4tO1sewfq6TnnSSJAfWsSJiulrAuLH1YzPMPiVH1eN1YzL+gr
-	rXl5tjJO3b9ESRI7PcAkNumaqBIipyJqWDIi7+ikcMskQZRd0A3wRk2DfxasF1it
-	2mcq9TNtRWWuNicMFsLObGoyuSiP7WGMx9NrG7MnL3ooMu+9W0VVVhVHfTo5swQf
-	RGt6T1OymuOg3EfZA02+riv6lxDfUWyRTWk+mzOgJ+2ZyLA7Gl/eBGkdBvnXp9gg
-	Mxdl+Q==
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com [209.85.217.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvfmwg2k6-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 13:45:47 +0000 (GMT)
-Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-791265014f7so74573137.1
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:45:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790171146; x=1790775946; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=;
-        b=fDmcghML5Vx4RH/N2Fr1VuCeWYF4xgPjKxuR/8UkN9F8Gev4CYn1n7dhiotNAPl9j8
-         1GFXU1vvROPDmy5O9/4Z5nBDDtJ11aQZw8pzN4KFgdJyvfLQXHxqQjW4jeo1I73xdaY4
-         0dR+eNdEbQrG6vr/kz8b+vXgLjt5QuTwt0368pIKNrNilL0GclR9z7r6LGmJCO86hJ1u
-         1KATXHK/Qv/+HVPntHBylf39KTYji/rDZDJPUHWxgjDPiKouS8UZ6It3cfR04WIN6gdH
-         1NYaq2eObkbLanZpV+jaMyb0DD2hzy5jlcBRdwtZsSn+uJo0LNEMNAK4nGnIHR/pPjCG
-         ONWw==
+	s=arc-20240116; t=1790171308; c=relaxed/simple;
+	bh=zQLNcKwt8lnNKrUhZWYc0UbpzKFARTsV6kXIZiSRVZ0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GHf1yW96r29GDKkJzIP30KOH/oUCEPj+d8FDKZD5IlhSCsCzdCgOvtNyKj1jfw0ppIqIIwh9aPmjfaakjdWVv/IbpeC8Xu9zo9qj9DlDhj1WVlG3aFh+nEQY9R/zhlybUkSC+EYJfeQtsUxX7gk2inH9S70rOaU6Tt9iN0sWpzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.231.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-oi2-f13.google.com with SMTP id 5614622812f47-4c13f2685f2so583942b6e.1
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:48:26 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790171146; x=1790775946;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=bvAW3yceqnT6AttFLk4NW8DsgIwVtqPiNNE7x4zTQZg=;
-        b=D+n4aIM2B+aU1N2rVZQIEQdt0JwL1SyMD/e7Ft3Y6E7DW6UsQVzF3VN8pJyKK3EDaa
-         eHNN4gmzMt5UDXN0ESBiu5ac+Ilyga8JeBLBd86wrQdAr5dxUnbAqHx57UHtezzAly1V
-         QfPieIsqDfvlcWV/bDdfd5rGLWOK+kaVD7Q/uKV6Utb/sNNOhr8LQPlrp4sj8AGqdJJn
-         hbwgX2f7Fy+mvOGIejS0VgvbPF6UeGQPMEYfxiovwe7UdUadUoFeZBDgyY5Sa/ECnryT
-         nPTIB5K6enMO+BDhCocK7QHO9AuYRdNB4WssJXWqmKhZjjGHN621DtYvhDPUTgi2xfH5
-         Z5mg==
-X-Forwarded-Encrypted: i=1; AKwUvBwsE2CMKuwwte4fg6c+Wnk1D0350jOzrpTHac5IuFXarfeUIgni00YQ5AjxkbDHQYchlrXiyfjNg9Q=@vger.kernel.org
-X-Gm-Message-State: AFuF++lHCMaYIPTx0Zl+5IB7QC3z/MUU+zXNXO1M39Fi+8jPU5LckRBc
-	3CxahoTAVP+Vuq8yqyHnyXuuT4KmSLqu7B0/wsVvTFK8acXy1qLXWqZNAlFVUrEaw+TpNzVuOiX
-	FhaBL6wOKIX9Yg8i1Eyn5DAhpraHZGeXHHxVWzvsN/10SNlwT0BHjOb9XhqnQ4yU=
-X-Gm-Gg: AYBFou1JFjceIb9Vio/8aTZ4CTInKP1Kvs+AxynlxYq3S3y8OOGQ8g2S2lt0GqxSs/W
-	U9DWSS+aYF2DabJ46kHrtzTeLIRD830naG0iuk2ZiN+jyQlYhINwOeiPXZB2nMZjzkoGAC/IxtG
-	L0/uOsY44LQoY5vxuwfraWvMuktGABxqne+P4Gvn06qIklZC+2nxxVr36RNGKyP7HCEmqr2EDzq
-	RlqppOORDBNcu3ePPA5oZf2bxWb9gRxn5b6M7Yhj8hpv/betFQO2q8l7jEGDQaKGxeYH9XfWG93
-	QQZ+eFcWZc7Qs4gvdq2bgIfOGI+rFcBk9BOXRu/cXgcezSmE2Cqol6X4JwpbUa3DQ70r4LE4ZF1
-	GWgF1+ytXiSI9rHziBjvuYg==
-X-Received: by 2002:a05:6102:5121:b0:7a7:326b:688d with SMTP id ada2fe7eead31-7ac1c454b57mr2548249137.2.1790171146471;
-        Wed, 23 Sep 2026 06:45:46 -0700 (PDT)
-X-Received: by 2002:a05:6102:5121:b0:7a7:326b:688d with SMTP id ada2fe7eead31-7ac1c454b57mr2548220137.2.1790171145961;
-        Wed, 23 Sep 2026 06:45:45 -0700 (PDT)
-Received: from [192.168.202.12] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aab37478c9sm1722267a12.0.2026.09.23.06.45.41
+        d=1e100.net; s=20260707; t=1790171305; x=1790776105;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=cZcaHlSLoWG/YlsEmorJF69zsl7G8OYYQpV3ToGZCjU=;
+        b=HKcpJZtTTpYIeifIXO5qXn84BxTD5zP/7B2rxVtOVJ8cM9tWQuhp0O5DyqZoE2wbws
+         AbcnIB69wHlplAL4RYhhRk0fb9CHYWUQ78bvdf8NFDjPRZNtzqaG9TwLx3cVun6Z0uOX
+         toETUVOwI2Jhit/sUDwhYtIBVp4cPffElzj0Gs4azc04DJ/fEpAbsVH8bkFq/tF3tsWY
+         YOfgl2wYHHKZYPLXaBVl9PQ5AmuiCdO7lQRDed8M0dZjV9z6bmFVL5WqL85QIZayi66H
+         Zstb6SjwgJp64JHbPiCoxI3/RVsYz8fRXhzq8jh6JOVjwiyJI+TpS37YkfuOYCEBa8DF
+         g7Jg==
+X-Forwarded-Encrypted: i=1; AKwUvBwe82WLjXJcSVFpEtGmYRFYptaH6Qz14aj5ot+BxsI3R6L5Nx3rNM5TVB8UGziG/wq4vj7Wlfw/Hug=@vger.kernel.org
+X-Gm-Message-State: AFuF++mFkT5lkp9eghTNyoxmxHLRQlRUILlxZLlaMAW1zuxDKCkGA29d
+	3ZTc7v/0xhuidITmt6Ha0BIpdUv3a01jXuRmUhYz87H5i824tk5hs1xnE58fvcIqczY=
+X-Gm-Gg: AYBFou1IgURh6D9j7b7uNnzCoAK6O17vCnOsZ/oABvjeR2XKEFHEoGbLyScbeyM9KzN
+	40rBbRLSgocROxi9yb/V03W7J6NGAzkIG7VQeFNW4VMbzC/I1Rsqr7QfqG1quXZ3JVbVskqHYhN
+	5HwHhQLFkJBXnE7Q/v8ocootLza1h+zjbW3plBCjaoHlVou0MZUUM04Yz1c3qPRXJj8AGTF6M57
+	czmaOwy+CruQpIoV1vV6PYp1WkxXxH1OXTCdn1HHEO5ZTPQ0V94eBD5QZGznG6F8PVYf02KECwz
+	Lf7RH2c3tEpyyitmw0I0m1OUGX+5QXHs9aQJM5PUcnluDg3YhUnkikGa4FIDEq8U3M/E7wxywQV
+	pVK5g6FqcssXyNL50RmpXIU7swWF7YF5rEKHKgiS11TEQl+3W+ov4kmhJhHLenK/0+jJOomBYoZ
+	6qn7uXkCnBKS4VMYvEHlJ1IAD2SjLhbSnW8yFxo4piINY3P/NW9q76x3toJDsUg6uxj7oM3ENyp
+	tyOVxLtEq0IibCdiiUCGgyT3Un4s9jUQ2XqBQ==
+X-Received: by 2002:a05:6808:17aa:b0:4c4:aaaf:fdfa with SMTP id 5614622812f47-4d5b7e62818mr3074173b6e.18.1790171305450;
+        Wed, 23 Sep 2026 06:48:25 -0700 (PDT)
+Received: from mail-oi2-f12.google.com (mail-oi2-f12.google.com. [74.125.231.204])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4d5c522b9efsm2036543b6e.18.2026.09.23.06.48.25
+        for <linux-usb@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 06:45:44 -0700 (PDT)
-Message-ID: <32bceb7e-d06b-4537-9d34-91bfe27f4ff7@oss.qualcomm.com>
-Date: Wed, 23 Sep 2026 15:45:40 +0200
+        Wed, 23 Sep 2026 06:48:25 -0700 (PDT)
+Received: by mail-oi2-f12.google.com with SMTP id 5614622812f47-4b37a368895so599202b6e.3
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 06:48:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByYX5JzWcJuStQVCcbV1vuu+u2wsZm8WaMW99LNAB5dlPj/PJWHwIxD0KlghAffrjEDM99XgcKTPl8=@vger.kernel.org
+X-Received: by 2002:a05:6102:390e:b0:7a7:195a:1b26 with SMTP id
+ ada2fe7eead31-7ac1de3a707mr2471914137.32.1790170950472; Wed, 23 Sep 2026
+ 06:42:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 06/16] usb: hub: Associate port@ fwnode with USB port
- device
-To: wens@kernel.org
-Cc: Chen-Yu Tsai <wenst@chromium.org>, Bartosz Golaszewski <brgl@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Danilo Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger
- <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        linux-acpi@vger.kernel.org, driver-core@lists.linux.dev,
-        linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-References: <20260721065413.2306137-1-wenst@chromium.org>
- <20260721065413.2306137-7-wenst@chromium.org>
- <c6526ba0-be08-46c6-a501-1b161939657c@oss.qualcomm.com>
- <CAGb2v66c8L20yNNmvj6TaQbS7LnqAyuv0tMQfj+0PSjMUcSByA@mail.gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <CAGb2v66c8L20yNNmvj6TaQbS7LnqAyuv0tMQfj+0PSjMUcSByA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDA1NCBTYWx0ZWRfX3cy9G3AoHViO
- b0BnagFJ/0IlSFrNRbt2GIJU8ps7sRvfOtIEFVxKrPl+y1lvoo/EFUkcYDgubKWQjwszkgNtdBL
- eTsWD3rp22CAxyY91F5qqtdzQ26dru3S36aCAYSCjL0wxmVxf3OH0gUmKHnP3GdLFQ9ZbtIwYmP
- 9A9wYI4Ws7h/Zyp4QeEiV9JFl48npEfLldufZ85FG6SKQGd6iplext32J7+VwGQkjzuztkgsIp7
- fl3BK6KUKThs8dnRZ8IlSH6YJRiUv+LJ/KJAshNS6W/amZodRYnQMfLu8uFuXs8tcZ2RDGqrUHC
- DeE+ZgE6EhGOB2MMqppkFn2TbitA0NHHLqYjzvbxN5sAVwpk92mxpubOvOaeO5Bp10WQSwCnOVF
- LxdDMElDoBcfVA6w6/kbxfdwOdM13rkVsQy1K9nnvaStH0U/mQBnQT/CEMda6703G+TzdoJOroz
- BMwl/JoPgsFmXqDC4rQ==
-X-Authority-Analysis: v=2.4 cv=WK/qzXsR c=1 sm=1 tr=0 ts=6ab3d80b cx=c_pps
- a=N1BjEkVkxJi3uNfLdpvX3g==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=M7ONEjnSaIfHBpTaVFwA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=crWF4MFLhNY0qMRaF8an:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDA1NCBTYWx0ZWRfX0yO9y8H2m2sw
- HG1C1jHnrc2uuP0fdD4yvk3UkQDGzb6jBPbSU9+V2m3HkMD30aEVN1cmo+zZ1Vh3dSgLOeZyFpc
- vxyh4I3awsh5EIHOEKjD+Z/e/6Jgjuc=
-X-Proofpoint-ORIG-GUID: xujiXJyhzXkfBNZuCBG4j_NT7SAyBTPp
-X-Proofpoint-GUID: xujiXJyhzXkfBNZuCBG4j_NT7SAyBTPp
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-23_04,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 bulkscore=0 suspectscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 lowpriorityscore=0 impostorscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609230054
+References: <20260904-rzg2-sr-boards-v8-0-94c4674927e8@solid-run.com> <20260904-rzg2-sr-boards-v8-1-94c4674927e8@solid-run.com>
+In-Reply-To: <20260904-rzg2-sr-boards-v8-1-94c4674927e8@solid-run.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Wed, 23 Sep 2026 15:42:17 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXtcxyD4Zh+HyM1D43zu8KND-18FiLhi9OXTHZPojRH=A@mail.gmail.com>
+X-Gm-Features: AclHuK-TckegHvHKUKBwHK2truVsVTBXY6gTl27m7I0mB2ihxriiWdVUDyPODHw
+Message-ID: <CAMuHMdXtcxyD4Zh+HyM1D43zu8KND-18FiLhi9OXTHZPojRH=A@mail.gmail.com>
+Subject: Re: [PATCH v8 01/11] dt-bindings: soc: renesas: Add various SolidRun
+ RZ/G2 based boards
+To: Josua Mayer <josua@solid-run.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
+	Linus Walleij <linusw@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
+	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 9/4/26 12:30 PM, Chen-Yu Tsai wrote:
-> (dug this out of my kernel.org email)
-> 
-> On Fri, Jul 31, 2026 at 10:44 PM Konrad Dybcio
-> <konrad.dybcio@oss.qualcomm.com> wrote:
->>
->> On 7/21/26 8:54 AM, Chen-Yu Tsai wrote:
->>> When a USB hub port is connected to a connector in a firmware node
->>> graph, the port itself has a node in the graph.
+Hi Joshua,
 
-[...]
+On Fri, 4 Sept 2026 at 13:56, Josua Mayer <josua@solid-run.com> wrote:
+> Add bindings for various SolidRun boards and System on Module built
+> around Renesas RZ/G2 family of SoCs:
+>
+> - RZ/G2L SoM [1]
+> - RZ/V2L SoM [2]
+>   (shares PCB with G2L and has very similar programming model)
+> - RZ/G2LC SoM [3]
+> - RZ/G2UL SoM [4]
+>   (shares PCB with G2LC but programming model differs largely)
+> - HummingBoard IIoT [5] (RZ/G2L, RZ/V2L, RZ/G2LC)
+> - HummingBoard Pro [6] (RZ/G2L, RZ/V2L)
+> - HummingBoard Base (Ripple) [7] (RZ/G2L, RZ/V2L, RZ/G2LC, RZ/G2UL)
+>
+> [1] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2l-som/
+> [2] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-v2l-som/
+> [3] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2lc-som/
+> [4] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/rz-g2ul-som/
+> [5] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-iot-sbc/
+> [6] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2l-sbc/
+> [7] https://www.solid-run.com/embedded-industrial-iot/renesas-rz-family/hummingboard-rz-series-sbcs/hummingboard-rz-g2lc-base/
+>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Josua Mayer <josua@solid-run.com>
 
->> But something I faced when I was poking at USB4 was that dt-bindings
->> currently assume every controller is effectively single-port and the
->> of_graph ports under it represent HS/SS lanes, i.e. the entire
->> "ports" subnode represents a single USB port
-> 
-> Which controller is this? AFAIK for xHCI hosts there currently is no
-> "ports" node specified in the common usb-hcd.yaml binding. I plan to
-> add this separately, as it can already be used for USB A connectors.
+Thanks for your patch!
 
-DWC3, the qcom flavor specifically (qcom,snps-dwc3)
+> --- a/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> +++ b/Documentation/devicetree/bindings/soc/renesas/renesas.yaml
+> @@ -508,6 +508,14 @@ properties:
+>                - renesas,r9a07g043u12 # RZ/G2UL Type-2
+>            - const: renesas,r9a07g043
+>
+> +      - description: SolidRun RZ/G2UL based boards
+> +        items:
+> +          - enum:
+> +              - solidrun,rzg2ul-hummingboard-ripple # SolidRun RZ/G2UL HummingBoard Ripple
 
-> The kernel maps every downstream port of the root hub to a separate
-> node. On the XHCI it is more complicated because it has two root hubs,
-> one for HS and one for SS. I'm not familiar with the hardware specifics
-> but they seem to map into one common namespace, so you probably get
-> ports 1~8 for HS and then 9~12 for SS. Note the number of ports is
-> different. This is just an example from my x86 workstation. And on
-> x86 each port is mapped to a different ACPI node.
-> 
->> I think the solution here would be to do ports {} under the controller
->> and have every one of them have 2 endpoints (for HS and SS
->> respectively) - then, each DT-port would correspond to a USB port
->> (sorta like in the hub case, minus the hubs are split for HS/SS so
->> they have just a single endpoint under each port)
-> 
-> But the hardware descriptors actually give two ports, one for HS and one
-> for SS. And in the case of dwc3, I suspect that they always come with
-> one downstream HS port and (optionally) one downstream SS port. So the
-> binding is actually correct, except for the numbering.
+As RZ/G2UL is pin-compatible with RZ/G2LC, I guess you could have an
+RZ/G2UL-based HummingBoard IIoT, too?
 
-Ohh yeah I overlooked the HS/SS port split.. I think you're right!
+> +          - const: solidrun,rzg2ul-sr-som
 
-> I'm looking into the dwc3 case. Changing the numbering might actually
-> not break anything. Linux seems to just need one *a* graph connection,
-> but doesn't care about the number. I looked through some other projects:
-> 
-> - FreeBSD doesn't use the OF graph for anything
-> - U-boot doesn't use the OF graph for USB
-> - OpenBSD doesn't support dwc3, only the XHCI in dwc3, and doesn't use the
->   OF graph for USB
-> - coreboot doesn't use the OF graph for anything
-> - Zephyr doesn't support dwc3
-> - TF-A doesn't use the OF graph for anything
-> - EDK2 doesn't support dwc3 and doesn't support OF graph
-> - OP-TEE doesn't support dwc3 and doesn't support OF graph
-> 
->> But that comes with a big breakage, as always..
-> 
-> As I mentioned, it probably isn't as large of a breakage.
+Is there any special meaning of the "sr" in the middle of this and all
+other SoM compatible values?
+If it just means "SolidRun", I think it can be dropped.  However,
+you already have that for various SoMs with non-Renesas SoCs.
 
-That's very welcome for a change! Thanks for checking all of them.
+> +          - const: renesas,r9a07g043u12 # RZ/G2UL Type-2
+> +          - const: renesas,r9a07g043
 
-Konrad
+The rest LGTM, so
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
