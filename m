@@ -1,274 +1,150 @@
-Received: from smtpfallback04.a1.net (smtpfallback04.a1.net [194.48.128.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E5573A7F79
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 05:01:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.48.128.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616143A6B8E
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 05:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790226100; cv=none; b=CanwaKz49onX6ztoI8sVQdq2dG5432jlefqwKSQN86hA/4lk6QgxLnqueG4+/pdryNnKgi/3jssFu7tx4eEMpIgKTv2b8qRRs+WAolxSHqJ6oEkP+4K2V0JMidFjkFW10t0hCkrRf1Cgi09foFLL7uhNKz8OziEmd49EWa8YqSA=
+	t=1790226443; cv=none; b=JIt9/WQ1pEPenKmAMaxCXIwPBI9JnfLc1uEJWCBDFM3cGbQgPcApHMehmQLyjbVbFqpfZjJeSbx7jZLvbbdxTxYbODTqgkkVGnP+zOS0dQD/Xj8sJp7Fp3W0hw0SZhy5QJkAKxVBSJDHpmaA2SlY/5u9T93hCv4XmU47v0G3QGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790226100; c=relaxed/simple;
-	bh=6xkhmR7TzPdHaY5Ju4Aa0c27i0hW1ntvXuaaNwNG4hQ=;
-	h=Subject:References:To:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=VcKUTwJNCRdw3UNF+uzLnPFF8yVCXDOtGPEXFxePCpnerch0mGh4aab4BhPYltnYF7seMHPxU6DaIayoilif1EIrRYAmlLZv/UiiiGt+zrPaNrZ5yHzV9LV/xsO/GS4hqjjOMn9WeJramXr/D0FctkcnxuVOXeO0udNojVQKW5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net; spf=pass smtp.mailfrom=a1.net; dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b=aqfK2JIV; arc=none smtp.client-ip=194.48.128.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a1.net
+	s=arc-20240116; t=1790226443; c=relaxed/simple;
+	bh=RvN9tr7OMSHjhSPPDl4QRVwPNOQ621tRsWxmvVvpx70=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=GHHcL1OOKPz++1EHsRjmYmluFiSpYX3LXlblpGLr8cLStpbUeN3kkCUMlrR/mKiSWYxOYJ1YJ2VT+LdT7MSyvPC9CSEMRlIEF02HE42/gNGxzgwqILcNb+5+duH+wTvCOHCUkpBWQiblARDkOfQYqoGDc7RdMKyU/nYjt34IEIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VUFKHl6x; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b="aqfK2JIV"
-Received: from smtpout07.a1.net (unknown [10.247.84.37])
-	by smtpfallback04.a1.net (Postfix) with ESMTPS id 4hr1rt0BKBzYkqKK
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 07:01:33 +0200 (CEST)
-Received: from [192.168.0.6] (unknown [100.78.20.214])
-	by smtpout07.a1.net (Postfix) with ESMTPSA id 4hr1rh4CcMzGrqnr
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 07:01:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a1.net; s=resmail1;
-	t=1790226084;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=EeA/YSysus3h8HHOxGn/UZl5F3Io9Mn4j/LhPymPPdE=;
-	b=aqfK2JIVu2vrL2ViXFEY1oelE3MXj1r4rfvKlKz8jsA1CRAE/LgcWVc7xaLfglVclrQUgN
-	76BocFkgt/v3PlBjrfbdSXwQHzimAHXHy5TuZAxP9MDDwuQJHwU2M2J+zHbPRVa7RO+0kw
-	YdJuQ3KmKH9NKppURR363yzROFemgYzUL9nKeclBYRAVvfRiwK69LqoX6b4qxlMK+KUV0H
-	5LHzyKoMxZ9V2uFW6eBjVkKkp4BYY5Fx+lT7Vy7LC5dGOVTdKpAPnD6oGajppB8noyTcIJ
-	nJpOD/mASmtlBooQxqgkf7ByidGOl0JBVfbcjmY2RyG/Cw53E/Ll3IiffhbH0O7RypQbKS
-	287ahDSE7hTs+SaJlIdKy5XP/dOp+dr7SvepgCI1De0QXRcYTxrJBs6Tb+bptGud93nIh6
-	CLc/KRqmg23uwVWxmSaku4v0QNLbRMUMW2buszx3mUJTxA9BSU/c51jaRkOUmuWvHJeNze
-	Ce7cGNV16PNUiF+TXWfZUMBAwNSL4a9w4pVnf2uQ1V2q3Bg9G8gRFPUvR6bq5ZUTo53/x1
-	DYigqUN20DmbFF/ecd/eQ/VpLyJysQgRIy6+skvGWEOZJUsmcRPa1MpUWsxOkEytEToEKY
-	z3tNvOvmD74fLa+WKp2PMeBC60B+X12utO0mYBdDNu/CAgATraswE=
-Subject: Re: possible regression in usb-storage?
-References: <c6fc5257-a41f-4ae7-92fe-93284d9ebc43@a1.net>
- <79f2c208-bca0-3bf2-afdd-3bf095ff7b31@a1.net>
- <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
-To: linux-usb@vger.kernel.org
-From: Johann Klammer <klammerj@a1.net>
-Message-ID: <3df6f96f-1553-6842-0e11-9c08254b8da7@a1.net>
-Date: Thu, 24 Sep 2026 07:00:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VUFKHl6x"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f633ecdeso1321081f8f.2
+        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 22:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790226440; x=1790831240; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hAiejLrEozrEZ8WjZRhX5Jq/prYDWf06MJHYnvfVrr4=;
+        b=VUFKHl6x+BYZUQl45FQlDzv+KJoGQOZzuRwADS+os4hNlF4tNPoFfbI6k+sRmzsH2F
+         S/n75OgaptPOdl9vNooYjPfiSDCtIwTPmGSLoDuIeqWXGm9I0HfZIRMevhHDNNzThqQy
+         Ltvi7ZnVSfVNbyjeF+h3XERurhdscX2L3IiK3HUHbidQylUMS0rVx00ZcvokIzagtxZW
+         ePKAeb11bG3gDOB9cdGo27O+jsPuisdS6REgVhM1Dt0EVtbIL2GlEIx8ucFJY3piKEFi
+         /WMRruckjDrNAoMFU8OBynCMQm1yCp8PqwSUpcDCBXejU+55FQiheDRmMnCJ4+IhTMN7
+         tq1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790226440; x=1790831240;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hAiejLrEozrEZ8WjZRhX5Jq/prYDWf06MJHYnvfVrr4=;
+        b=yWtLMbi5ZVUyILasX6WVHJxNuAxeW4plwjZ/Ly6tfy+rf4KCu+0YMz0rkTgCCQtbD9
+         6pCXj6niQMVVhDRZxyEne+Vi5l4o5YGwAw/FL0rrX7/DeuauIOMxCfNc4a5Vlb7DuhBL
+         0CKFZrRefoh+ecNxnJ8oyuQw1ylLyQwhl2UN0mCNd8sn0DFp/XSu859rMAgqDvwY7LJ4
+         7Z80v+udW6K2fM0IK6qrmxGKp51fLnvq7/oPb2g2tcNqiCuf0eeY3I8UUnU4U8O6Rofg
+         ux5fHi648tOPD+kwqV0cKpGcZd3f4bJ70erA4klvk6jUJsKfYdXbi6Pweokroa2zxJ9+
+         dXyw==
+X-Gm-Message-State: AFuF++lRFuOcVfrjUBbIqT9P7lbJlg0F8NASxcIw4w2X8ctXh/nBRtHM
+	VhFGTcC6hB3KeZEHVYjtWxFfuqPTUqQ/1TLXIZRJLqbHDqJ8PKIDKKt5
+X-Gm-Gg: AYBFou22uxvovvKdN1x5RrgEOG2bf8CE8EWDN4JyS0vYYsOA+Q2MTA6gfXNENMCtmZL
+	VGGOQIPF3nhHLYJlHYbLuRadAng1Eipvs1BbtmEYm6PxXwD6IkUvTp66fBGwOh44Q0sdC0c4Pwu
+	lJL7QtC3lRctLZHH6Od/wHZn8zN6p9laKVkJpYB5UU/bQClQMU/K9wGe7do6ZBxRrIcVbxv6LsZ
+	2TAPkA9JraAJjEHGGQFRAxTsJJY6wt/sBy6/8Vo8ix46v5fEhGDPSXZXNm1swTC8LwJqkAYxjjC
+	nCHoVuwWlqWlsBZ2HISngItHQ3ez0vvSaqcI0/jHw3tIVxYO9r+d9Ox93UGFd3D4HzVLUvxLNml
+	CEcrp808WBg8e1inyGg47xdFi8+nYIx5WOSuoB8rquC+s1MR4LxFtD/tWo9JZAV/1ocXBFgopUw
+	2SIR4wJ9vGSRlcgWUJFFy52yZWGbukLJ9vU/+xdKwUiUKYrKcDk/xLdFueCNWdXNxUaDN0
+X-Received: by 2002:a05:6000:2510:b0:487:c99:9020 with SMTP id ffacd0b85a97d-48871714226mr2176971f8f.2.1790226439478;
+        Wed, 23 Sep 2026 22:07:19 -0700 (PDT)
+Received: from archlinux ([188.163.27.108])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48868889926sm15720202f8f.36.2026.09.23.22.07.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Sep 2026 22:07:18 -0700 (PDT)
+From: Matvey Valigura <valigurasm@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chas Williams <3chas3@gmail.com>,
+	Duncan Sands <duncan.sands@free.fr>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	syzbot+9ca2c9f85bd8b5e46516@syzkaller.appspotmail.com,
+	Matvey Valigura <valigurasm@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: atm: use request_firmware_direct() for firmware probing
+Date: Thu, 24 Sep 2026 08:06:54 +0300
+Message-ID: <20260924050654.15347-1-valigurasm@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
+When disconnecting a device while firmware is not present on the system,
+usbatm_usb_disconnect() waits for the heavy_init thread to finish:
+    wait_for_completion(&instance->thread_exited);
 
+If CONFIG_FW_LOADER_USER_HELPER_FALLBACK is enabled, missing firmware
+causes request_firmware() to fall back to sysfs/udevd. This creates a
+circular dependency during disconnect:
+1. usb_disconnect() holds device_lock(&udev->dev).
+2. usbatm_usb_disconnect() waits for instance->thread to exit.
+3. instance->thread waits for request_firmware() sysfs fallback.
+4. udevd receives the firmware uevent and attempts to read sysfs
+   attributes (e.g. serial), blocking on device_lock(&udev->dev).
 
-On 9/24/26 4:08 AM, Alan Stern wrote:
-> 
->>> c6f9c300 1171417312 S Bo:1:007:2 -115 31 = 55534243 03000000 00000000 00000600 00000000 00000000 00000000 000000
->>> c6f9c300 1171417339 C Bo:1:007:2 0 31 >
->>> c6f9c300 1171417347 S Bi:1:007:1 -115 13 <
->>> c6f9c300 1174819198 C Bi:1:007:1 -108 0
-> 
-> And that is a perfectly ordinary TEST UNIT READY command.  But instead
-> of responding normally, the drive seems to have disconnected itself from
-> the bus after about 3.4 seconds for no apparent reason (the -108 is an
-> ESHUTDOWN error code).
-> 
-> Alan Stern
-> 
-that may have been me unplugging it.
-here's a longer trace. I waited for the threads to crash.
+Furthermore, the fallback wait uses wait_for_completion_killable_timeout(),
+which ignores the non-fatal SIGTERM signal sent by usbatm_usb_disconnect().
+Because speedtch and cxacru probe multiple candidate firmware files
+sequentially, each file stalls for the 60-second fallback timeout,
+triggering hung task timeouts (>120s) reported by syzbot.
 
-> c1aaeb00 1632504006 S Ci:1:005:0 s 80 06 0100 0000 0012 18 <
-> c1aaeb00 1632504231 C Ci:1:005:0 0 18 = 12011002 00000040 c20b3920 01190102 0301
-> c1aaeb00 1632504237 S Ci:1:005:0 s 80 06 0f00 0000 0005 5 <
-> c1aaeb00 1632504481 C Ci:1:005:0 0 5 = 050f1600 02
-> c1aaeb00 1632504511 S Ci:1:005:0 s 80 06 0f00 0000 0016 22 <
-> c1aaeb00 1632504730 C Ci:1:005:0 0 22 = 050f1600 02071002 0e0f0000 0a100300 0e00010a 2000
-> c1aaeb00 1632504740 S Ci:1:005:0 s 80 06 0200 0000 0009 9 <
-> c1aaeb00 1632504981 C Ci:1:005:0 0 9 = 09025500 01010080 fa
-> c1aaeb00 1632504993 S Ci:1:005:0 s 80 06 0200 0000 0055 85 <
-> c1aaeb00 1632505230 C Ci:1:005:0 0 85 = 09025500 01010080 fa090400 00020806 50000705 81020002 00070502 02000200
-> c1aae300 1632505248 S Ci:1:005:0 s 80 06 0300 0000 00ff 255 <
-> c1aae300 1632505480 C Ci:1:005:0 0 4 = 04030904
-> c1aae300 1632505485 S Ci:1:005:0 s 80 06 0302 0409 00ff 255 <
-> c1aae300 1632505730 C Ci:1:005:0 0 26 = 1a034500 78007000 61006e00 73006900 6f006e00 20005300 5700
-> c1aae300 1632505736 S Ci:1:005:0 s 80 06 0301 0409 00ff 255 <
-> c1aae300 1632505980 C Ci:1:005:0 0 16 = 10035300 65006100 67006100 74006500
-> c1aae300 1632505993 S Ci:1:005:0 s 80 06 0303 0409 00ff 255 <
-> c1aae300 1632506231 C Ci:1:005:0 0 34 = 22033000 30003000 30003000 30003000 30004e00 41004300 44003200 35003600
-> c1aae480 1632506395 S Co:1:005:0 s 00 09 0001 0000 0000 0
-> c1aae480 1632506606 C Co:1:005:0 0 0
-> c4b80280 1633528007 S Ci:1:005:0 s a1 fe 0000 0000 0001 1 <
-> c4b80280 1633528140 C Ci:1:005:0 0 1 = 00
-> c4b80280 1633528205 S Bo:1:005:2 -115 31 = 55534243 01000000 24000000 80000612 00000024 00000000 00000000 000000
-> c4b80280 1633528264 C Bo:1:005:2 0 31 >
-> d8d9e380 1633528270 S Bi:1:005:1 -115 36 <
-> d8d9e380 1633528389 C Bi:1:005:1 0 36 = 00000612 5f002000 53656167 61746520 45787061 6e73696f 6e205357 20202020
-> c4b80280 1633528394 S Bi:1:005:1 -115 13 <
-> c4b80280 1633528513 C Bi:1:005:1 0 13 = 55534253 01000000 00000000 00
-> c4b80280 1633528546 S Bo:1:005:2 -115 31 = 55534243 02000000 64000000 80000612 00000064 00000000 00000000 000000
-> c4b80280 1633528639 C Bo:1:005:2 0 31 >
-> d8d9e380 1633528643 S Bi:1:005:1 -115 100 <
-> d8d9e380 1633528764 C Bi:1:005:1 0 100 = 00000612 5f002000 53656167 61746520 45787061 6e73696f 6e205357 20202020
-> c4b80280 1633528768 S Bi:1:005:1 -115 13 <
-> c4b80280 1633528889 C Bi:1:005:1 0 13 = 55534253 02000000 00000000 00
-> c4b80280 1633529404 S Bo:1:005:2 -115 31 = 55534243 03000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1633529515 C Bo:1:005:2 0 31 >
-> c4b80280 1633529521 S Bi:1:005:1 -115 13 <
-> c4b80280 1641551776 C Bi:1:005:1 0 13 = 55534253 03000000 00000000 01
-> c4b80280 1641551785 S Bo:1:005:2 -115 31 = 55534243 04000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1641551901 C Bo:1:005:2 0 31 >
-> c4b80b00 1641551905 S Bi:1:005:1 -115 96 <
-> c4b80b00 1641552027 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1641552031 S Bi:1:005:1 -115 13 <
-> c4b80280 1641552401 C Bi:1:005:1 -32 0
-> c4b80280 1641552404 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1641552651 C Co:1:005:0 0 0
-> c4b80280 1641552655 S Bi:1:005:1 -115 13 <
-> c4b80280 1641552775 C Bi:1:005:1 0 13 = 55534253 04000000 4e000000 00
-> c4b80280 1641552802 S Bo:1:005:2 -115 31 = 55534243 05000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1641552901 C Bo:1:005:2 0 31 >
-> c4b80280 1641552904 S Bi:1:005:1 -115 13 <
-> c4b80280 1661610807 C Bi:1:005:1 0 13 = 55534253 05000000 00000000 01
-> c4b80280 1661610819 S Bo:1:005:2 -115 31 = 55534243 06000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1661610931 C Bo:1:005:2 0 31 >
-> d8d9ee80 1661610937 S Bi:1:005:1 -115 96 <
-> d8d9ee80 1661611057 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1661611063 S Bi:1:005:1 -115 13 <
-> c4b80280 1661611431 C Bi:1:005:1 -32 0
-> c4b80280 1661611436 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1661611557 C Co:1:005:0 0 0
-> c4b80280 1661611562 S Bi:1:005:1 -115 13 <
-> c4b80280 1661611805 C Bi:1:005:1 0 13 = 55534253 06000000 4e000000 00
-> c4b80280 1661611833 S Bo:1:005:2 -115 31 = 55534243 07000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1661611931 C Bo:1:005:2 0 31 >
-> c4b80280 1661611935 S Bi:1:005:1 -115 13 <
-> c4b80280 1681669711 C Bi:1:005:1 0 13 = 55534253 07000000 00000000 01
-> c4b80280 1681669720 S Bo:1:005:2 -115 31 = 55534243 08000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1681669835 C Bo:1:005:2 0 31 >
-> c4b80b00 1681669840 S Bi:1:005:1 -115 96 <
-> c4b80b00 1681669962 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1681669966 S Bi:1:005:1 -115 13 <
-> c4b80280 1681670337 C Bi:1:005:1 -32 0
-> c4b80280 1681670341 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1681670585 C Co:1:005:0 0 0
-> c4b80280 1681670589 S Bi:1:005:1 -115 13 <
-> c4b80280 1681670710 C Bi:1:005:1 0 13 = 55534253 08000000 4e000000 00
-> c4b80280 1681670737 S Bo:1:005:2 -115 31 = 55534243 09000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1681670836 C Bo:1:005:2 0 31 >
-> c4b80280 1681670839 S Bi:1:005:1 -115 13 <
-> c4b80280 1701728616 C Bi:1:005:1 0 13 = 55534253 09000000 00000000 01
-> c4b80280 1701728623 S Bo:1:005:2 -115 31 = 55534243 0a000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1701728740 C Bo:1:005:2 0 31 >
-> c4b80b00 1701728744 S Bi:1:005:1 -115 96 <
-> c4b80b00 1701728866 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1701728870 S Bi:1:005:1 -115 13 <
-> c4b80280 1701729241 C Bi:1:005:1 -32 0
-> c4b80280 1701729245 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1701729367 C Co:1:005:0 0 0
-> c4b80280 1701729370 S Bi:1:005:1 -115 13 <
-> c4b80280 1701729615 C Bi:1:005:1 0 13 = 55534253 0a000000 4e000000 00
-> c4b80280 1701729654 S Bo:1:005:2 -115 31 = 55534243 0b000000 00000000 0000061b 01000001 00000000 00000000 000000
-> c4b80280 1701729740 C Bo:1:005:2 0 31 >
-> c4b80280 1701729743 S Bi:1:005:1 -115 13 <
-> c4b80280 1721787521 C Bi:1:005:1 0 13 = 55534253 0b000000 00000000 01
-> c4b80280 1721787529 S Bo:1:005:2 -115 31 = 55534243 0c000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1721787645 C Bo:1:005:2 0 31 >
-> c4b80b00 1721787650 S Bi:1:005:1 -115 96 <
-> c4b80b00 1721787772 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1721787775 S Bi:1:005:1 -115 13 <
-> c4b80280 1721788146 C Bi:1:005:1 -32 0
-> c4b80280 1721788150 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1721788396 C Co:1:005:0 0 0
-> c4b80280 1721788399 S Bi:1:005:1 -115 13 <
-> c4b80280 1721788520 C Bi:1:005:1 0 13 = 55534253 0c000000 4e000000 00
-> c4b80280 1722808029 S Bo:1:005:2 -115 31 = 55534243 0d000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1722808180 C Bo:1:005:2 0 31 >
-> c4b80280 1722808183 S Bi:1:005:1 -115 13 <
-> c4b80280 1742865459 C Bi:1:005:1 0 13 = 55534253 0d000000 00000000 01
-> c4b80280 1742865469 S Bo:1:005:2 -115 31 = 55534243 0e000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1742865584 C Bo:1:005:2 0 31 >
-> d8d9e200 1742865589 S Bi:1:005:1 -115 96 <
-> d8d9e200 1742865710 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1742865715 S Bi:1:005:1 -115 13 <
-> c4b80280 1742866085 C Bi:1:005:1 -32 0
-> c4b80280 1742866089 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1742866334 C Co:1:005:0 0 0
-> c4b80280 1742866339 S Bi:1:005:1 -115 13 <
-> c4b80280 1742866459 C Bi:1:005:1 0 13 = 55534253 0e000000 4e000000 00
-> c4b80280 1742866484 S Bo:1:005:2 -115 31 = 55534243 0f000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1742866584 C Bo:1:005:2 0 31 >
-> c4b80280 1742866588 S Bi:1:005:1 -115 13 <
-> c4b80280 1762924364 C Bi:1:005:1 0 13 = 55534253 0f000000 00000000 01
-> c4b80280 1762924373 S Bo:1:005:2 -115 31 = 55534243 10000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1762924489 C Bo:1:005:2 0 31 >
-> d8d9e280 1762924495 S Bi:1:005:1 -115 96 <
-> d8d9e280 1762924615 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1762924620 S Bi:1:005:1 -115 13 <
-> c4b80280 1762924989 C Bi:1:005:1 -32 0
-> c4b80280 1762924993 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1762925238 C Co:1:005:0 0 0
-> c4b80280 1762925243 S Bi:1:005:1 -115 13 <
-> c4b80280 1762925364 C Bi:1:005:1 0 13 = 55534253 10000000 4e000000 00
-> c4b80280 1762925392 S Bo:1:005:2 -115 31 = 55534243 11000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1762925489 C Bo:1:005:2 0 31 >
-> c4b80280 1762925493 S Bi:1:005:1 -115 13 <
-> c4b80280 1782983269 C Bi:1:005:1 0 13 = 55534253 11000000 00000000 01
-> c4b80280 1782983277 S Bo:1:005:2 -115 31 = 55534243 12000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1782983393 C Bo:1:005:2 0 31 >
-> c4b80b00 1782983397 S Bi:1:005:1 -115 96 <
-> c4b80b00 1782983519 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1782983523 S Bi:1:005:1 -115 13 <
-> c4b80280 1782983894 C Bi:1:005:1 -32 0
-> c4b80280 1782983898 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1782984144 C Co:1:005:0 0 0
-> c4b80280 1782984148 S Bi:1:005:1 -115 13 <
-> c4b80280 1782984268 C Bi:1:005:1 0 13 = 55534253 12000000 4e000000 00
-> c4b80280 1782984295 S Bo:1:005:2 -115 31 = 55534243 13000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1782984393 C Bo:1:005:2 0 31 >
-> c4b80280 1782984396 S Bi:1:005:1 -115 13 <
-> c4b80280 1803042299 C Bi:1:005:1 0 13 = 55534253 13000000 00000000 01
-> c4b80280 1803042307 S Bo:1:005:2 -115 31 = 55534243 14000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1803042423 C Bo:1:005:2 0 31 >
-> c4b80b00 1803042428 S Bi:1:005:1 -115 96 <
-> c4b80b00 1803042549 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1803042553 S Bi:1:005:1 -115 13 <
-> c4b80280 1803042924 C Bi:1:005:1 -32 0
-> c4b80280 1803042927 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1803043173 C Co:1:005:0 0 0
-> c4b80280 1803043177 S Bi:1:005:1 -115 13 <
-> c4b80280 1803043298 C Bi:1:005:1 0 13 = 55534253 14000000 4e000000 00
-> c4b80280 1804056025 S Bo:1:005:2 -115 31 = 55534243 15000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1804056082 C Bo:1:005:2 0 31 >
-> c4b80280 1804056086 S Bi:1:005:1 -115 13 <
-> c4b80280 1824113111 C Bi:1:005:1 0 13 = 55534253 15000000 00000000 01
-> c4b80280 1824113122 S Bo:1:005:2 -115 31 = 55534243 16000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1824113237 C Bo:1:005:2 0 31 >
-> d8d9e100 1824113242 S Bi:1:005:1 -115 96 <
-> d8d9e100 1824113363 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1824113368 S Bi:1:005:1 -115 13 <
-> c4b80280 1824113737 C Bi:1:005:1 -32 0
-> c4b80280 1824113742 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1824113986 C Co:1:005:0 0 0
-> c4b80280 1824113991 S Bi:1:005:1 -115 13 <
-> c4b80280 1824114112 C Bi:1:005:1 0 13 = 55534253 16000000 4e000000 00
-> c4b80280 1824114138 S Bo:1:005:2 -115 31 = 55534243 17000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1824114237 C Bo:1:005:2 0 31 >
-> c4b80280 1824114242 S Bi:1:005:1 -115 13 <
-> c4b80280 1844172017 C Bi:1:005:1 0 13 = 55534253 17000000 00000000 01
-> c4b80280 1844172026 S Bo:1:005:2 -115 31 = 55534243 18000000 60000000 80000603 00000060 00000000 00000000 000000
-> c4b80280 1844172141 C Bo:1:005:2 0 31 >
-> d8d9e980 1844172147 S Bi:1:005:1 -115 96 <
-> d8d9e980 1844172267 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> c4b80280 1844172272 S Bi:1:005:1 -115 13 <
-> c4b80280 1844172642 C Bi:1:005:1 -32 0
-> c4b80280 1844172646 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> c4b80280 1844172891 C Co:1:005:0 0 0
-> c4b80280 1844172896 S Bi:1:005:1 -115 13 <
-> c4b80280 1844173017 C Bi:1:005:1 0 13 = 55534253 18000000 4e000000 00
-> c4b80280 1844173059 S Bo:1:005:2 -115 31 = 55534243 19000000 00000000 00000600 00000000 00000000 00000000 000000
-> c4b80280 1844173141 C Bo:1:005:2 0 31 >
-> c4b80280 1844173146 S Bi:1:005:1 -115 13 <
-> c4b80280 1846480092 C Bi:1:005:1 -108 0
+Switch to request_firmware_direct() to probe firmware files directly from
+the filesystem without falling back to user-mode helper.
+
+Reported-by: syzbot+9ca2c9f85bd8b5e46516@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=9ca2c9f85bd8b5e46516
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Matvey Valigura <valigurasm@gmail.com>
+---
+ drivers/usb/atm/cxacru.c   | 2 +-
+ drivers/usb/atm/speedtch.c | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/atm/cxacru.c b/drivers/usb/atm/cxacru.c
+index 636f7886f..7d1944487 100644
+--- a/drivers/usb/atm/cxacru.c
++++ b/drivers/usb/atm/cxacru.c
+@@ -993,7 +993,7 @@ static int cxacru_find_firmware(struct cxacru_data *instance,
+ 	sprintf(buf, "cxacru-%s.bin", phase);
+ 	usb_dbg(usbatm, "cxacru_find_firmware: looking for %s\n", buf);
+ 
+-	if (request_firmware(fw_p, buf, dev)) {
++	if (request_firmware_direct(fw_p, buf, dev)) {
+ 		usb_dbg(usbatm, "no stage %s firmware found\n", phase);
+ 		return -ENOENT;
+ 	}
+diff --git a/drivers/usb/atm/speedtch.c b/drivers/usb/atm/speedtch.c
+index 9d28c652b..c82db2f7a 100644
+--- a/drivers/usb/atm/speedtch.c
++++ b/drivers/usb/atm/speedtch.c
+@@ -357,15 +357,15 @@ static int speedtch_find_firmware(struct usbatm_data *usbatm, struct usb_interfa
+ 	sprintf(buf, "speedtch-%d.bin.%x.%02x", phase, major_revision, minor_revision);
+ 	usb_dbg(usbatm, "%s: looking for %s\n", __func__, buf);
+ 
+-	if (request_firmware(fw_p, buf, dev)) {
++	if (request_firmware_direct(fw_p, buf, dev)) {
+ 		sprintf(buf, "speedtch-%d.bin.%x", phase, major_revision);
+ 		usb_dbg(usbatm, "%s: looking for %s\n", __func__, buf);
+ 
+-		if (request_firmware(fw_p, buf, dev)) {
++		if (request_firmware_direct(fw_p, buf, dev)) {
+ 			sprintf(buf, "speedtch-%d.bin", phase);
+ 			usb_dbg(usbatm, "%s: looking for %s\n", __func__, buf);
+ 
+-			if (request_firmware(fw_p, buf, dev)) {
++			if (request_firmware_direct(fw_p, buf, dev)) {
+ 				usb_err(usbatm, "%s: no stage %d firmware found!\n", __func__, phase);
+ 				return -ENOENT;
+ 			}
+-- 
+2.55.0
+
