@@ -1,116 +1,114 @@
-Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADECE47F2D9
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 12:43:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795E72E2665;
+	Thu, 24 Sep 2026 12:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790253784; cv=none; b=CZwC8JiF1JrlMfD2wAXC9sQtm5Jq5RIhDYPHETFmpMZKDyIzj/+TXy0IDR0fC73+YGIZbSwKTwOhDUm+ULGoesO6cBLNUJ+ReivqwCXtd48trm43R/pdHUWSplJKXwN9kaXzbCZKDVqAB/umCdkVorwNmu9bfNaEl6QM/HAR27M=
+	t=1790254654; cv=none; b=qV6ewG+UbmajF3pN6XmmAVeMxRZU+xj3C0JjnhA9mfdYbOfBOnm6zmudus8vSmW0moqn24Eqlq50sxIFsg/RQaIqxJRe7gD0zfIpSk6TQFVjVMEWjNFFfov5f16Lbf/MYmrY2GSaT3exv3OMPdUUA6jPM+TvLeFRQABbh4aEKg4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790253784; c=relaxed/simple;
-	bh=zcsQVVHG/G9+6qqRVAx1sDrnuXrYOr6+3mo7RH0lCAI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M/bb/19hljm6/IDSj+WposDE1P6GTOpDQEieEcBXik3xPbqhqYawdoU5fBQXqudPj8S1ENGNtFdjVS2clTB/t8+0E3dH7K5eIlj0nHV3kXs5JL3vkDYYzJ6HrpOZuJSWqzaJbA5UucNsM57uljPIJi8AoabxUjFISr3+jJ1qk1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Aj7ctAZx; arc=none smtp.client-ip=74.125.229.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790254654; c=relaxed/simple;
+	bh=cW8vRK1hmQWqiQ8EquMxm2xuDMxuWNb4wxnC0uRM1nY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ak9+iosNNgSKd8gEhqsQ+ld1gjiW//DLDHAzImk79sMvvY+EQLmjE0Qfavv/qP8pmz216M5crIXjFU1ljbJjT7RFmyREL7RG+cpmC+avziyBR55d1UZBBQxhZrqeUu+6ZMhJzBQR1lYNBrZ6bo6LidqCvTrVqMaOdVnjy3tw9jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DkgLac5X; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Aj7ctAZx"
-Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-142dd05d97cso2854861c88.2
-        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 05:43:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790253781; x=1790858581; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bELcUaHa80x3oRnyW7uPxII023inc9Yoea4iI4j6aQo=;
-        b=Aj7ctAZxcUT2DsFWBcZuTx3bUp9PIO6VyoAg7r2/92U8y9vvz32Fd+/FwXE86dTnBJ
-         Jwaa1yQneWb5BWlS6cdzpSWvgWA6C54r8HSSsUhs9iatD0cXS1OcDm8Gw2oHng+Ylevq
-         49d5CKr+Z9B101H94tx1/A6i47BQevxfuQlQgWw2DGgLKIf2zD2NcgH16N0nBdVnhn9a
-         JMVaceQopf97SMXJFIJPGqva1GSzrHmatCgJqsJLiHvocaHExUj2Wy/IYAeR/pMkElK3
-         1uxj23ictd2VjzXzPdTIb1B5cvEzLDNhH6YVPv9TBMJ7tUMfPiZv5pw70L2/7xIHoj8N
-         +EpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790253781; x=1790858581;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bELcUaHa80x3oRnyW7uPxII023inc9Yoea4iI4j6aQo=;
-        b=tKTayHoinkFaS4z+zHivL8JYqbRFnj1FcCmAOSdivC6FQS+GDnoRD06zHTsHpAdC4d
-         pxcV8/LWx3TCRXoRRESDb2hNKF0mbXmbu4qud4XpVtD08SAacdr+vThb3Pp4O02cfJTU
-         7pENYsEWZ1MIhJxNQ5pW5hnpbSBxii9JqUvsjG+CfvUNLRBvEPiAmqYAtAiI4nEEGDzv
-         1XqMY/0JLDRTdeFcgjzZ8qFNjv6OBuSa9t4YRG72pfW6w/YH/l+rvbBsdPE1j4vHDmZI
-         HxNrz2oOAtP40Uwtvcs0pWrlvfpxYziDwKLEShCl9yGc/wGR76BexpaLjeVyx6TdAWh/
-         coAQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx5KesJ557XbBX4LFAZxgtfKKR76rDtwk8tmME4QCL99VMKt3Jn9LlojgVIPraFu32Hgt7X4httgmQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++kUE3Gsuris3fhiZ90QLAseXbURmDWbC+LsFMklTbxdZneC8znM
-	CybPapyvlS2v68wxjgi7y6u0UxcjAwb+YmsOcVU+d6DRLcb97zC3TKBK
-X-Gm-Gg: AYBFou1ex+7df9M6zjk0PDqrCQZT33LBPn8Yt6YS0ErQdCp5wN25xOIZOzclSRjgDti
-	E5zl6NmWpAK3wTfo6DxZVkp1m7k+t/AVo2E63h5QAAY6NXkhI80m+8gpdkxbbJg3k1oyCtN1EUX
-	rBtHpbrWKxzSDQxsU7VojUf84K9IaDT6HPeBDyBazNLFLoruF/ujnE17Bq/suqywgW62GBPYSjK
-	S6J7XSoHjHC+CzgKn9+CCaLJdFfEhZTjWRNGIwFyrAS2vhcupZ2OUtf+C/8E15mHMAeTIkr2Dze
-	watyfBWMP8co4lQh5GBqHP1BTgnQseZgUTobSbnVt5JWcsIqFZux7DEDrGWjhYcJDwI6pGdS2yd
-	QmCvoCNLU4u3fnfFHUG8ZpUGT44FLelloBAQRbHPdokShNqRzkBoyhPGjZudt30EcA+9thdTyUh
-	8VH8d/DoSZxe4ZitQjuzOGPVDLWBmPghBcFPy+1sit4Gsvr34tMrWMhDrNYOIw4VxlTfBDpuq3D
-	vXr/yvp
-X-Received: by 2002:a05:7022:5f04:b0:144:f4a0:a399 with SMTP id a92af1059eb24-14503f2edc2mr2002874c88.1.1790253779736;
-        Thu, 24 Sep 2026 05:42:59 -0700 (PDT)
-Received: from maclinux ([2803:c600:9110:8ba5:43a9:9b8b:ebdc:6411])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144f986e465sm13466113c88.9.2026.09.24.05.42.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 05:42:59 -0700 (PDT)
-From: =?UTF-8?q?Francisco=20Beltr=C3=A1n=20Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
-To: bhelgaas@google.com,
-	linux-pci@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] PCI: Do not mistake an absent device for an active link
-Date: Thu, 24 Sep 2026 09:42:21 -0300
-Message-ID: <20260924124221.12374-5-fbeltranmillalen@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260924124221.12374-1-fbeltranmillalen@gmail.com>
-References: <20260924124221.12374-1-fbeltranmillalen@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DkgLac5X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790254653; x=1821790653;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cW8vRK1hmQWqiQ8EquMxm2xuDMxuWNb4wxnC0uRM1nY=;
+  b=DkgLac5XhE/UMRwtvc/xRq2lh3bGXd9QL2nqALCraHJ8+sZ00H4njt96
+   +KbI+d/0Z6+Uzi8edMhrlid+JZTBje8C6hB9SKtlFciWl23C1E6K3A4PQ
+   My6TKouRp0nB2HXc0KtK2jaFMg/Ps1tSYFpS7o2XAYbNPZjiakBjJfHmA
+   5OEigPtJ9zYrWuPzXEpFN4Z+F3yYJJBR1/1gDMudrRVOigH1dD4MbWdea
+   UIxzWP7efN2/wDsbB25ntufaXlEvzDoWoCPtjErhuQ7F34reeqOW1Ar9t
+   OPXiQNPmM0+oKAxS1dVo/Xqf2tpSCupJ38CeBCz4bxI4C+yRuuq2XOEdX
+   A==;
+X-CSE-ConnectionGUID: LMt9OhlmQK+pACP/xLH/Ag==
+X-CSE-MsgGUID: Y9lDP4KOQVKnAlSB/sPDuQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="107409437"
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="107409437"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 05:57:32 -0700
+X-CSE-ConnectionGUID: 9f9B2BYuT4elZ4SuR6kqFQ==
+X-CSE-MsgGUID: LVv7J+8DTDeD/tMVD7tJdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="300287902"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa002.fm.intel.com with ESMTP; 24 Sep 2026 05:57:30 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 6024599; Thu, 24 Sep 2026 14:57:29 +0200 (CEST)
+Date: Thu, 24 Sep 2026 14:57:29 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Kurt Lieber <kurt@lieber.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"westeri@kernel.org" <westeri@kernel.org>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] thunderbolt: Disable CL states for the Anker Prime TB5
+ dock
+Message-ID: <20260924125729.GP106095@black.igk.intel.com>
+References: <SJ0PR15MB4696D491504DB667AA8E0617A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924073514.GM106095@black.igk.intel.com>
+ <SJ0PR15MB4696C6AB0D4FB7C86C420008A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924101046.GN106095@black.igk.intel.com>
+ <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
 
-pci_bridge_wait_for_secondary_bus() reads PCI_EXP_LNKSTA and treats
-PCI_EXP_LNKSTA_DLLLA as "the link is up".  When the device is gone the
-read returns 0xffff, which has that bit set, so an absent device looks
-like an active link and the code waits PCIE_RESET_READY_POLL_MS -- 60
-seconds -- before giving up.
+Hi,
 
-Treat an all-ones read as "no link", which is what it means.  On a
-MacBookPro14,3 whose Thunderbolt controller does not come back from S3
-this takes the resume from 65 seconds down to one.
+On Thu, Sep 24, 2026 at 12:26:37PM +0000, Kurt Lieber wrote:
+> The Anker Prime TB5 dock identifies itself in the DROM as 01ea:83b5.
+> Its router config space is an Intel Barlow Ridge 80G hub (8087:5786).
+> The upstream lane adapter advertises CL0s, CL1, and CL2. With CLx left
+> enabled, TMU uni-directional LowRes setup fails with -ENOTCONN, the USB3
+> and DisplayPort tunnels are aborted, and the router reconnects in a loop.
+> Loading thunderbolt with clx=0 keeps the link up on this machine.
 
-Signed-off-by: Francisco Beltrán Millalén <fbeltranmillalen@gmail.com>
----
-diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
---- a/drivers/pci/pci.c
-+++ b/drivers/pci/pci.c
-@@ -4773,8 +4773,16 @@
- 		if (!dev->link_active_reporting)
- 			return -ENOTTY;
- 
-+		/*
-+		 * A device that is gone answers config reads with all ones,
-+		 * and all ones has DLLLA set, so an unchecked read here is
-+		 * indistinguishable from an active link.  That makes the
-+		 * code below wait the full PCIE_RESET_READY_POLL_MS for a
-+		 * device that is not there.  Treat it as absent instead.
-+		 */
- 		pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &status);
--		if (!(status & PCI_EXP_LNKSTA_DLLLA))
-+		if (PCI_POSSIBLE_ERROR(status) ||
-+		    !(status & PCI_EXP_LNKSTA_DLLLA))
- 			return -ENOTTY;
- 
- 		return pci_dev_wait(child, reset_type,
+Hmm, I missed that it's Barlow Ridge. That should definitely support CL
+states. I have one here and it for sure works. 
+
+What's the NVM version can you check? It could be that some older ones have
+issues.
+
+> Match the DROM id together with the Barlow Ridge hub id and disable CL
+> states for this dock only. QUIRK_NO_CLX takes the same early-out as the
+> module parameter, without disabling CLx for every other router.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Kurt Lieber <kurt@lieber.org>
+> ---
+> Runtime-tested on linux-omarchy 7.2.5-3 (LG Gram 17Z90S, Meteor Lake).
+> Booted with thunderbolt.clx left at the default (Y). The dock came up
+> once, CL0s/CL1/CL2 Enable stayed 0 while the support bits stayed 1, the
+> link stayed in CL0 at 40 Gb/s, and the TMU uni-directional reconnect
+> loop did not occur.
+> 
+>  drivers/thunderbolt/quirks.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
+> --- a/drivers/thunderbolt/quirks.c
+> +++ b/drivers/thunderbolt/quirks.c
+> @@ -116,2 +116,5 @@
+>  	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },
+> +	/* CLx is unstable on the Anker Prime TB5 dock (DROM 01ea:83b5). */
+> +	{ 0x8087, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HUB_80G_BRIDGE, 0x01ea, 0x83b5,
+> +		  quirk_clx_disable },
+>  };
