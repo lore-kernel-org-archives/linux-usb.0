@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D92340BCDB
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 11:13:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB01E470426
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 11:14:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790248427; cv=none; b=flqzriDBo7wX2CvqrmeXC3qyAmxQNCJNYaGDQ+CtZoWu4Ku8CT879v/aIZhdo9n881DK2Xe5q/a3oms4W0V/xlwnbghaj/7oq8h3uckYMGCOwzgkDsGqFM1zzjdeBP59QOCEaSAB3ncv+nu29nuhT7XodKer/9tY0+COS2kZAlU=
+	t=1790248477; cv=none; b=DUErLeJZTNHBWDwA1YoF4AMm06oPfSGQaVUwqw9y14OUzWHJRSKBT2d/eHomznC2NckkKNFZSKFxieyksoF69+mvN2vWsENgeLvo3yhrmXQY4sz0PrybaNJTGj0HTawY/5IhYIk+rWoPx7CGfHlMMkgTPUUeAD6cdum8zfZHAFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790248427; c=relaxed/simple;
-	bh=d6a4s4fC7LmCmw767j7A2NTzQhqT0+oJAtUOenhVUr4=;
+	s=arc-20240116; t=1790248477; c=relaxed/simple;
+	bh=cEVTj8FBj8Iv/QiVJZXOrycjSx+weJ4LTdFUBTItK2w=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IObePACtVYsZlBG550zgyZqj7TXQcABhPVbVf2AbBsJM0QQgV0X93EWglqEjVoZJ8GCaSkagz+pVBmOLZbdRlvMk3IphiYNQKwes9+4Mr59rFygojXTeBEsJuVj3i3Bi2x1KYGMGS/whLWfh1ItmSnFd9yOpNM0shvRRnDomGvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LY721Kp2; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:MIME-Version; b=kxCOGLqVluAX3axZlFSb3lyoil3XkWGDbZPgmMwi1oL1LyEWQ3V7kPtQ1sT5dWrCwvahK2n6WuMFCxzrzu9w6duVmuDcPL0euj2DpF/0bu75NXtGXOjqPTjc10/EL28CcDb/uUIfFuhly6rOHTDFCBBkwJik1ZFHjiY1UqT1xEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CrRjio7+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LY721Kp2"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 03B3DC2BCB3
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 11:13:47 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CrRjio7+"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 86C87C2BCF7
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 11:14:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790248427;
-	bh=d6a4s4fC7LmCmw767j7A2NTzQhqT0+oJAtUOenhVUr4=;
+	s=k20201202; t=1790248476;
+	bh=cEVTj8FBj8Iv/QiVJZXOrycjSx+weJ4LTdFUBTItK2w=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=LY721Kp2+ZEqaGa6oPIXGgoMPlgez3hQ9Wd+0tczZmPH2SzazuVD44PEeLGJv5jK5
-	 jjvMBoFrzjbtZFHhao72/aVzvn/ydDk39nCF+ZXOf6c5Essl5CH7QqD+c/PgY7CBHy
-	 k5D9ul8jy1hGK/7jx/iFco8qiDK+9k/Gi1NLepKpz7/AAxobvvMm4KDCzmfS1IzrYv
-	 Eq9mlo4z23g9SjQExsbbIDyPweYn7T13yk2zT1Wlb8lQpqfdl7boaKJb4dq5vpIXKV
-	 H0eSi8UFGnwpdzjB4QLyWt+btY42rCPuVKAZ8F4UhhANRx6AVPXcP4MblGoB7q+wDa
-	 imJ3gSe9kazag==
+	b=CrRjio7+odfelJUD9T2phluRKy3wB8IMobra2jzIsWK/LbH/+rQ88arlFqiuzse3/
+	 YU3L0VcB8FXPoLPsqYwY2jKMrAaXGef+W/I3Bx8ZugfvlzSoiqjF51zyWQ3Q4TX+lq
+	 PVORqqMqDlsMs64eWuESM30NOO+8fcEggCyBxjjTk5wJl80Q9HObEpkGyK9FVjHIeN
+	 PhYws1ENr/nzg0s5XeRouJOww/zIcgtZqh9D2dihMObNA7qa06bcgwTtY6HvDOnCOz
+	 4fMi5GxfBj8NjbCCRloflj2ZhRzpUGGU1qmmosmZK0x4KoznQ7KC42L7zpbcBWFbM2
+	 KfeOApIPRUjfA==
 Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id D5F71C3279F; Thu, 24 Sep 2026 11:13:46 +0000 (UTC)
+	id 7722BC41613; Thu, 24 Sep 2026 11:14:36 +0000 (UTC)
 From: bugzilla-daemon@kernel.org
 To: linux-usb@vger.kernel.org
 Subject: [Bug 222049] xhci_hcd: USB device on onboard port fails to enumerate
  (error -110/-71), delays boot  around 70s on ASUS ROG Strix X870-F
-Date: Thu, 24 Sep 2026 11:13:46 +0000
+Date: Thu, 24 Sep 2026 11:14:36 +0000
 X-Bugzilla-Reason: None
 X-Bugzilla-Type: changed
 X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
@@ -42,13 +42,13 @@ X-Bugzilla-Version: 2.5
 X-Bugzilla-Keywords: 
 X-Bugzilla-Severity: normal
 X-Bugzilla-Who: gtmatthews@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
+X-Bugzilla-Status: RESOLVED
+X-Bugzilla-Resolution: ANSWERED
 X-Bugzilla-Priority: P3
 X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
 X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222049-208809-rBD7qz0Uo9@https.bugzilla.kernel.org/>
+X-Bugzilla-Changed-Fields: bug_status resolution
+Message-ID: <bug-222049-208809-ohQzo65Ttj@https.bugzilla.kernel.org/>
 In-Reply-To: <bug-222049-208809@https.bugzilla.kernel.org/>
 References: <bug-222049-208809@https.bugzilla.kernel.org/>
 Content-Type: text/plain; charset="UTF-8"
@@ -64,10 +64,12 @@ MIME-Version: 1.0
 
 https://bugzilla.kernel.org/show_bug.cgi?id=3D222049
 
---- Comment #2 from Todd (gtmatthews@gmail.com) ---
-Thank you for the explanation Micha=C5=82. I=E2=80=99ll go through all thos=
-e Bluetooth
-troubleshooting steps.
+Todd (gtmatthews@gmail.com) changed:
+
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+             Status|NEW                         |RESOLVED
+         Resolution|---                         |ANSWERED
 
 --=20
 You may reply to this email to add a comment.
