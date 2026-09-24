@@ -1,112 +1,93 @@
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038723B83F9
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 14:28:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D8A39A4A7
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 14:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790260089; cv=none; b=h8Ca6nKl74+BzsDpqUAPRmw6JTEQaHIeWKIcrC+Brz4L49TUUntah97umoRgpzfGJQm0U+tb7KrA5BiiH+ttp3piEHg32QQZ764PaISMTsW7iBaQxfMPMXcJyUjpPvKIiWB8A/RdqZjCVq2GJ9MqZXKi51CSWnBWdSv2mrpnlgQ=
+	t=1790261695; cv=none; b=X2rcdmI52HdyvFdp6K1iqdyV3PyZ66v8WSzrDWqSiy0OEeUzJX9qNoJaZYioQVxHi3zWD1J9U+t0IOtL29WRcGfF1it5JjHUM+Hi1eDdLF/3BWqYijZv2pn7C7JDHQC9tX28mzG/lV9VLmqP9/6Uzo/2uAmknWlA3q7SG89GFxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790260089; c=relaxed/simple;
-	bh=Pxat2Xb8VQzGsfdF8jUB0vNzqa7EZk6++nhkfiZ+FDQ=;
+	s=arc-20240116; t=1790261695; c=relaxed/simple;
+	bh=ynoRrsrSIdeqLf28XLN49ma1e+iV8wlkOoosLSqGa6k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e308lynaClwCbU72fg3na6e6ji4sJxGjSPYhezYH6HgH/Lv7O1PRBfCfdPxm2GGh88wzYqEzQhN+Iu9GbGjIy8aV0jOOqmq1PlR7QmUsRmHBiay1JQwcHEBgbVC5T60IUkuQDk3k5L38OLgtkTB37emkQeDot1HkLjeOlyELdMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ghtXcn8X; arc=none smtp.client-ip=74.125.230.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	 Content-Type:Content-Disposition:In-Reply-To; b=qNBU/7Ps5gfBn+d06q+VIdK3A/adHMIRS0CSDnyCEHAO0ZpXVkm0Xf2o46r3F9V3fbbc5KGSpi5URxXlJIMZacZihZmdjQTEIK5vzKAwU/yEbtZs/0XB55+Mu52p4uvLC7Xf6w071KW9Cb4Wv6JdSzapfObljMcUTYynqY/xNF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HS3DMAM2; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="ghtXcn8X"
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb766bfd6so19014291cf.1
-        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 07:28:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1790260085; x=1790864885; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=rqDDblUSujyS0FvgZyFExCbJZd+ab+FPQ/66S3dp/84=;
-        b=ghtXcn8XWfY0Ua1PGs5pCrURu/cS2g25LLIe8lYTZryPwzD91kNodkjcPwHJ8tsCB7
-         ol6O3pQ7/XrWULbZN98pBksXeYgLAm0JnGqsl1iqtEZeFl+lGq2t3VKEzGIDdTCr3pLQ
-         NSqm1/jM2dzSZcQoUovTg9JIW0zT4kgmuVXGeTfeAg4235jFYJsHHOFWfScCSdL3ihQI
-         XhgJZwZ8muX214CLXuSeS79jwMPiMRO2Y1b+pyfkG3q9uvEuqg6EVp3EOnsdMlHVhfIH
-         65L1BQcmZnGzBrjJLVVG/5HyhmXFPTaj6uRXEAvyzJKg9sz7XDZnb2VkdKHoovNG3aGw
-         u49g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790260085; x=1790864885;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rqDDblUSujyS0FvgZyFExCbJZd+ab+FPQ/66S3dp/84=;
-        b=Sh6fqS8L/FNdksDbep9BcFuR/GDobSa1GI2FOCt3JqHxsL1Gg+fsTHHC4g5L+vjxZd
-         ma+I88ODSIcSnJgiqEOQYKS+S3abHkoMy1uKDT2wlFPaujUKPqkSxz1Nfh7sUQxuzIoF
-         o2TF0l6f3y28p+KwIhzb+n+Fcv80gvaDkiEEOsZws5y8hrwJa6lWbGUQHH/+iM2PtITX
-         1lQBU3RidOhDMRdLX+M0lS6CHxsItZKEaSpUyihLLmOMg9NuVb6Lj6Mv+5jnw6x65dca
-         fMCcddXSFwrkWGFBEsvrbMz7Cu1igIFGJz7aI8pbQN+FgDeaq3fibhoqEY9k8BhYprSB
-         x6Rg==
-X-Gm-Message-State: AFuF++mOyrLBR5vLFtLgM5GLitRckgZBNb3b4HZzevZ0RaWaIMYyeHRv
-	HsYBjjE5gW6QtbEwaII2HKw5bwn62Baoa6aJUmUT2Hc2IswIzpFYZuXnT0/YvLaLscfyWOIkgdQ
-	BMcLBZg==
-X-Gm-Gg: AYBFou1YA8tH/mubkg2S06BWSf0uuisPXagFT+47E91e6rUN+wPMD0Lwz1x3tWv7OID
-	Ov7PCcDis7YTsRLDEzYoDSzT82YRvUkVZwbKpEM2HOEfjl1sLxnbEKXXnAb8eMBpo/QzoMIIYTS
-	oJKD3qYNTbxUE5ESDvyG9KAbPaxBhukiXTcCAcwYID/IAxN5/UJp+BUYoIRcc826Hai73YX/w3B
-	cQK5AaNFS7FCGKhgMjoOHsXVgaOjHEq8PCWvizQXkecxNzMHkzMrAfKVYOo+TjjnwP1k4GAZWeD
-	uw+KW05bOgrOWWa+wVgvfnzmdGvUQQahpRIARZE0rsO1sN1E7bkdyx8IKZZD1d5Zwc9PIRtWmXf
-	TiXsc0yv/CLhJHbkYGhC4dihfiYaZBOj1vKkrQ45dGi4Iq6n6BnGTneHbN7jcsk+0YfD6zbPRu0
-	l/v+icJ98i+FvH9N+XMbbEdq/2DNcqSst8gAZ359v7M06nsDO8DY71AvTMvQ9/x9X0nJp+eYzGM
-	45Etkm/URWnkJr1
-X-Received: by 2002:a05:620a:2803:b0:93b:d79b:9a5b with SMTP id af79cd13be357-93c3640a746mr295405285a.60.1790260085356;
-        Thu, 24 Sep 2026 07:28:05 -0700 (PDT)
-Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c2485dce4sm478149485a.23.2026.09.24.07.28.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 07:28:04 -0700 (PDT)
-Date: Thu, 24 Sep 2026 10:28:02 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Johann Klammer <klammerj@a1.net>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: possible regression in usb-storage?
-Message-ID: <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
-References: <c6fc5257-a41f-4ae7-92fe-93284d9ebc43@a1.net>
- <79f2c208-bca0-3bf2-afdd-3bf095ff7b31@a1.net>
- <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
- <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HS3DMAM2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790261692; x=1821797692;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ynoRrsrSIdeqLf28XLN49ma1e+iV8wlkOoosLSqGa6k=;
+  b=HS3DMAM2Dksnbt9tQ9T266Es3WoXj9uyHSwzi8qOFZKPwBcP9GAn5AbA
+   aKIlJqRZmlnW1WKqr2Yq67yVXuQTFYh07l6dpE2cQnZ5p63V3u1KOOpdY
+   KrlMYwVJCXUlWLSiZGHtorJhMcnKX7kXlUQBvWtNecnBS5QyfLxfyCoQL
+   Y4867QExsFWc7Yb3wrV5C4m7zxE8bMfbmUNXnoW2TWUWoEstbIlSzp8Fu
+   mYLsYN4/2UAtkw3RJRZEBrGKpRmQ71FpLoMJBHikFj1DiF9m0T20MvBBr
+   G4hDscm5FK9Dg4f83STBAj5CajIVd6AhimRz5zQkp/fOiK6RyjaHUwbgt
+   w==;
+X-CSE-ConnectionGUID: btbPfcffRLaqvS94v7xNEA==
+X-CSE-MsgGUID: i/GtPEEoSUGJZwrfexfWCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89991715"
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="89991715"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 07:54:50 -0700
+X-CSE-ConnectionGUID: RS3moWlUQn2lhuGZz7ONGw==
+X-CSE-MsgGUID: G26Ixc8bTrCSSqM579KTeA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="272182636"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa010.jf.intel.com with ESMTP; 24 Sep 2026 07:54:49 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id D3CFB99; Thu, 24 Sep 2026 16:54:47 +0200 (CEST)
+Date: Thu, 24 Sep 2026 16:54:47 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Kurt Lieber <kurt@lieber.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"westeri@kernel.org" <westeri@kernel.org>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>
+Subject: Re: [PATCH] thunderbolt: Disable CL states for the Anker Prime TB5
+ dock
+Message-ID: <20260924145447.GR106095@black.igk.intel.com>
+References: <SJ0PR15MB4696D491504DB667AA8E0617A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924073514.GM106095@black.igk.intel.com>
+ <SJ0PR15MB4696C6AB0D4FB7C86C420008A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924101046.GN106095@black.igk.intel.com>
+ <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924125729.GP106095@black.igk.intel.com>
+ <SJ0PR15MB469651A447568D8E66757EB1A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
+In-Reply-To: <SJ0PR15MB469651A447568D8E66757EB1A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
 
-On Thu, Sep 24, 2026 at 07:18:20AM +0200, Johann Klammer wrote:
+On Thu, Sep 24, 2026 at 01:33:01PM +0000, Kurt Lieber wrote:
+> Hello - 
 > 
+> > Hmm, I missed that it's Barlow Ridge. That should definitely support CL
+> > states. I have one here and it for sure works.
+> >
+> > What's the NVM version can you check? It could be that some older ones have 
+> > issues.
 > 
-> On 9/24/26 4:08 AM, Alan Stern wrote:
-> > 
-> > Better still would be is you could also collect a usbmon trace under an
-> > earlier kernel that the drive worked with, so we can compare the working
-> > trace with a current non-working trace.
-> > 
+> The dock router (route 0-1, DROM 01ea:83b5) reports:
 > 
-> this one is from a 4.9.210-1+deb9u1~deb8u1 (2020-06-09) i686 GNU/Linux
-> the device node shows up and can be mounted but the drive light is on
-> permanently and I get
-> > [31473.010372] usb 2-7: USB disconnect, device number 4
-> > [31473.016105] sd 4:0:0:0: [sdc] Synchronizing SCSI cache
-> > [31473.256060] sd 4:0:0:0: [sdc] Synchronize Cache(10) failed: Result: hostbyte=DID_ERROR driverbyte=DRIVER_OK
+>   /sys/bus/thunderbolt/devices/0-1/nvm_version
+>   62.2
+> 
+> Read with the dock authorized and thunderbolt.clx=0.
 
-When do you get this?  When you unplug the drive?
-
-> the log filtered by device 2:004
-
-...
-
-> > ddba6300 2786664488 S Bi:2:004:2 -115 112 <
-> > dcd97860 2786664509 S Bo:2:004:1 -115 32 = 01000001 00000000 00000000 00000000 12000000 24000000 00000000 00000000
-
-This trace shows that the uas driver was bound to the device, not 
-usb-storage.  So it is not at all comparable to the earlier traces.
-
-Alan Stern
+Okay that's recent enough. I do wonder if we try to enable CL2 too. We
+should only do that for Gen 4 link. Can you still take dynamic debug log
+for me without clx=0 so we can see that it tries to enable?
