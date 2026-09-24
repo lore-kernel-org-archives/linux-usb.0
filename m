@@ -1,140 +1,127 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E79A47D935
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 12:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51D953101A5
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 12:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790253673; cv=none; b=rDu6uTRAGw5XK8L+U+GdQjjHaKgI4AchsD6ps3ppxbiX08n4u4SFM7gdSWZxmXm23estXQ/80TcFySRci/qX7j9MlOc7IFJGDHosp4Dnbe0x0zW3V0OZHK1jhBERlJ3WYsINm13pHmBIjFKN5KdH5Ju/NJTETT4fFn4LgUq6I4I=
+	t=1790253768; cv=none; b=XBc7sDjKQj8LazwKWGw0LgYlHdLxSmpFzjn0g/6Xd0v54e8KPuQnBhInH6KcF3b3pLxkdPAmusLTacDTiBS3l6Nzgqcs2yMDoK68cfSuQxRmgz5vvg7InkqrK/+TOkVc6uFCIfBJ27dLFxOxrBkvDOh0JDrMNNPtdiCkq9xbEp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790253673; c=relaxed/simple;
-	bh=0lQB1A6p8+X7aK18vQ2T7xJjipK5Cs4nvBNiXn5k5hE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lNk7UoJASpkTGNzq9D5+g7AIQw9J+e/3iXyHa06dDY49YZxbbaMjkFwXJN1CdnlEnPnapG2HMnmYd1OPT+BYF1ow612/SW7mBItUqUQNGvmaz8ydJCFZ1N6iqPnwrm1s3yYsdbIuufA/nMY6+j+mmoEwMfFLJG+JQc0Ob+RJIvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Ef6uSAnN; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1790253768; c=relaxed/simple;
+	bh=wLX5ACO76CYyjqvPrTUiakOoVRgLxi+/VLgc570FxQw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m7iCE4SpHAmv+tMi7ubbgXeiPwawdHhAJnowRdcRBa65gySAzqgpTl47AdSUOqCikB1TQu/SZu+Txna3UVPLUeNQLrnP/8ptRFB6W1KZcaIVBAa1nHEFV8udKMJ07J8QTVLZgRDp38u2n3ojeZSwPMuQV013WZ6iMAzMqYuIDUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=giAW6efS; arc=none smtp.client-ip=74.125.229.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Ef6uSAnN"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d37b5so11997415e9.2
-        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 05:41:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="giAW6efS"
+Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-142dce6e235so1562011c88.1
+        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 05:42:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1790253666; x=1790858466; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=m+K9xI1+b45+Hx50rEe06X/tskVciHAk+ndafWRnnYs=;
-        b=Ef6uSAnN1G23WQfE+lhtOb0XuJdoDKeMU3FC4unVrPCFnGpUELO7+iSnm87cFobZEQ
-         vrBJuhed/4G4BJuc07lAVQLzhND4cDXfxmJ9OU8PgNfKh7FULDp1JbDsOaSp2PEfxekW
-         0n/0dG99ZwPfrKjiFWq1jBtiVv0ApgmuqnanaA1w33mEGa12NqylqyR3Bxd9e5k15z4y
-         I9d+7CkuxmHcBF5hKJxwkmA30kNUNAalh9XMzPjiUF7t6bctA+NcRiD4d/IrdARpih+J
-         p/3cc3zmUsx/QQ+nJPxD4TsIr2kuOXEIr+ExHUkWm95kROgz/Jn20n0tZN+j3DRwxHNx
-         jfHw==
+        d=gmail.com; s=20251104; t=1790253766; x=1790858566; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kwZSkoonyIIiM74/8ebCFVKSM2BQQiG3RNHpeccfAIo=;
+        b=giAW6efSlTWo/0be2oUH2Rx2a8pOYgAjqskmFa6kYaluzpIK4fLPSMpMKbMrJVNXOq
+         Lino9QgrYzLM7tClqz2CMlxNgy+iDmJ+AVktKHlTJwGPQuSpL9dX588tualy9Rp/yWyW
+         xYlLwSztK1UF0sEci2HngwapUTHjnyUJaIfzzb7KIQaOHzYMHoL9N8Oi/zA99vfl2Cs2
+         iEF690f/01D22xKaPUVvnsRpDIEgw8U9ANCd4FVz6xmqWoTGZlAGTwK47Ylm/K46Va7p
+         Q2U27EIXoQ1CspQJ/qlhcmcOoyxlZqnA6ie6v0zPK9aZxqrAvKgTN39hoH8ZsGLejFRi
+         v2jA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790253666; x=1790858466;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1790253766; x=1790858566;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=m+K9xI1+b45+Hx50rEe06X/tskVciHAk+ndafWRnnYs=;
-        b=xV+/3GXZ05PvL9+fagcxt9aa5ApknRXuIpoQtnBeX9j44OAGgroX8sH8RT2AkjSurI
-         kiXlQR5LYZn1MEXKCtM41Fn+6lAdqh147JVkkx5pW3aGkD2qu2gqZ263/wTkQV2Ny2gv
-         mq0CdUsxsN9OfZgSqTan0D0YJ35uPpTXrOMIWhoUOC7cRdxd9sYEg/E/XPY3AZ0qyeju
-         HR0LAQAV3pbKue0S6Ci/nIsrP5nXoshQf8jK1dHhwH2SqmnMR1JwmthYwdC3EPlOY1Gs
-         defupX0F75bXYk9mHpibMMXQ0Chu4TR6upHwnX2IXdMlWC2rRBVJlwWeP3LyNw5IJ+q6
-         gznQ==
-X-Forwarded-Encrypted: i=1; AKwUvByenItWJYnXbbiz3TJEcYzucLVk1EyuygxYa2HykOSKcm7PBL4kabJ4JJnpTktobgAtdZvWsTLafKI=@vger.kernel.org
-X-Gm-Message-State: AFuF++m8XRziYxVDmO8CYhTE4zLyJ5kZ7yLjKGeb4nQbvKDem6+QpuX2
-	WGbqz7BwKOOr5LcMfv1RV2n7Em0PjsswoqxP3HlL7+mBnB3zzMJusGG9FmDkAh/Ek4A=
-X-Gm-Gg: AYBFou3gQlQPvDh7ugg6Ii85y8B6nUYNmwA2GoynKe+bN0cAY7FDluN45GLvYcqEVnT
-	xnGmaVeGxzYIJG2NqibkblOr2u+lty2y39IDwq3oNDn4YbWhzEBZSXyI6Yq1J2b3eE31IhThbTx
-	oum5zG+qTggxizGS538+V0KN9s5dvPrS4QPhN3bl93sCTjKySXYIYB1GXD6BH6lDjBuBU5LBV4P
-	Bew7BaDBgiLF3BL42SJo1N10Uimv8GQKJzSGD6vpc9bTko6mF2QPeFndiMPqzxfONIedPUJKEKK
-	zdx0oiq3Yo47lSMSf1gmD7ownTohuUtg+BxH7m6ouS9DGopV1I7jMNllbvwqOuitRd0aeEmji/0
-	Pc/kNzQnerRCtaPFgyUWp4Bx7MFd3ZxIcbKGSZ+dvdDSMRNjTbhkeQVA7zmHyJ8mXh7dn1fmzXy
-	1aQvSXnRlbex6P6Enb74LoEs/IottGS8xGjAl/8TksxSjWuyKqrS7hldogF7F/KjXTEybIVWvHA
-	ZhboCfjoVrKNE0VWxLyRDkv5F0Aenb7zX0=
-X-Received: by 2002:a05:600d:8642:20b0:49f:e8bf:c38 with SMTP id 5b1f17b1804b1-49fe8bf0d97mr19384015e9.34.1790253665749;
-        Thu, 24 Sep 2026 05:41:05 -0700 (PDT)
-Received: from ?IPV6:2a07:de40:8100:0:89a9:fd0e:583d:4a53? ([2001:af0:8000:1409:193:86:92:181])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe5cbd77bsm78152645e9.8.2026.09.24.05.41.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2026 05:41:05 -0700 (PDT)
-Message-ID: <f3b91a89-2733-4159-98b4-129e3127e7e4@suse.com>
-Date: Thu, 24 Sep 2026 14:41:03 +0200
+        bh=kwZSkoonyIIiM74/8ebCFVKSM2BQQiG3RNHpeccfAIo=;
+        b=FVXXxY0PjhVKUQQJ2Kk64aPEuF+emeijxIgiDr7ze2YVweWrlfm52RsJrYfZN/Lmy7
+         LIvrWh3uZ7QUJd8ahxCOYjocy7gAodlRbT2MN+C7wHwZ7Mjo8Ruhf9FiOxs8BA+1J0Re
+         PYTcCa3qwC2FyStQxzgCxkNOuWQACEpiweRqH9DfhOL2BAJJ5xIU+AuuzZowBXaJOho0
+         WbLsvyXKeauRgipZvexOvrRSoo/zG7gis3IOiD4otZXZQZ0526sbvD7GuQQb9HDei3dC
+         VNErq5P0llyZVy9bBMo/pgoKwecsMkuVWnIeZ4dBvlMFKEypZoTxUZF5dnVhe5nuMup+
+         Fo2Q==
+X-Forwarded-Encrypted: i=1; AKwUvBwCsIM4HXP6Qn1lfaWk3fKa9klr+Qq8lxarVGm5n6SJW4Sc0EICByNvjDLTi06XvSNzn2dg8pLoD4M=@vger.kernel.org
+X-Gm-Message-State: AFuF++lCMNSEVMRlyaw0ICr84wQAvKHu4xdtqqoTjpltxGMQElTkELrC
+	n4n9Cdf//+yC10PNwelTWcPhh+6Q+CHDVVE5ejvRAqVQEtsaCD6TOylzjls4Ag9v
+X-Gm-Gg: AYBFou05lAs5YytAcKeDyZ80dJP+OxaADh0tYMBPNmsRMArn0ejD9Ady+wHppI2gqcz
+	ko/33beUhdo6o7GICSgp1hPtecshZ4vRhb7Yj1UqanTG8NVYgqoDFCbUuPsrFYzgLPSgl4k8kDg
+	mzbc2Cf0LXcjAdNWWxeXjNwRgqsEKCimdEAha+CRwprj12lW/SHghv59IX/jEolaTA7Vlkn0b7M
+	nAXDoPGhsHZ1qVcnKnp2bH7EXoJfewR+gcD4hspoaS+IKALCclIhl5hcAA45ci6ZYgCo0KKOoE5
+	xVTf9S3bjE780uKMUTgrLgo0galKkMR0JIyETyB/YnRqp3JNF0TQXC+wObPVyIzPDJr3UkmcRaZ
+	Fxz0+LjWh0jEF/+/xwuPngSHTCtxyyaCLjTKShTBf3+BH51OsxYp+/AOhJpiKa2ZxfnwXimOqVH
+	Vg2jjAqsyXa3/4Ie2EDfmi/KwN9SxJ3WAdHmzApeQRdIblQwB+U9oww71yOCgitYvRfEcJ8GE/T
+	rLNyYI6
+X-Received: by 2002:a05:701b:4554:20b0:144:ed03:7c31 with SMTP id a92af1059eb24-145040379c7mr1651998c88.10.1790253766240;
+        Thu, 24 Sep 2026 05:42:46 -0700 (PDT)
+Received: from maclinux ([2803:c600:9110:8ba5:43a9:9b8b:ebdc:6411])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144f986e465sm13466113c88.9.2026.09.24.05.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 05:42:45 -0700 (PDT)
+From: =?UTF-8?q?Francisco=20Beltr=C3=A1n=20Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
+To: bhelgaas@google.com,
+	linux-pci@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/4] PCI/PM: Do not save or restore the config space of an inaccessible device
+Date: Thu, 24 Sep 2026 09:42:17 -0300
+Message-ID: <20260924124221.12374-1-fbeltranmillalen@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] drivers: Replace __MODULE_STRING() with __stringify()
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, Ian Abbott
- <abbotti@mev.co.uk>, H Hartley Sweeten <hsweeten@visionengravers.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rudolf Marek <r.marek@assembler.cz>, Andi Shyti <andi.shyti@kernel.org>,
- Chris Snook <chris.snook@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Duncan Sands <duncan.sands@free.fr>,
- Chas Williams <3chas3@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>, linux-watchdog@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
- linux-i2c@vger.kernel.org, netdev@vger.kernel.org,
- intel-wired-lan@lists.osuosl.org, linux-rtc@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-atm-general@lists.sourceforge.net, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260922-module-string-v1-0-c18766690185@suse.com>
- <20260922-module-string-v1-2-c18766690185@suse.com>
- <cc03390d-8fc7-422a-bbcf-93bfbb82276f@roeck-us.net>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <cc03390d-8fc7-422a-bbcf-93bfbb82276f@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/22/26 7:21 PM, Guenter Roeck wrote:
-> On Tue, Sep 22, 2026 at 03:32:22PM +0200, Petr Pavlu wrote:
->> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
->> MODULE_PARM support for older modules" [1] in 2002-12. That change also
->> moved it to the graveyard section at the end of linux/module.h
->>
->> Replace the remaining uses of __MODULE_STRING() with __stringify() in
->> preparation for its removal.
->>
->> Link: https://git.kernel.org/tglx/history/c/136839a1b4 [1]
->> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
->> ---
->>  drivers/comedi/comedi_fops.c                          |  5 +++--
->>  drivers/gpu/drm/drm_fb_helper.c                       |  3 ++-
->>  drivers/hwmon/fschmd.c                                |  3 ++-
->>  drivers/hwmon/nct7904.c                               |  5 +++--
->>  drivers/hwmon/sch56xx-common.c                        |  3 ++-
->>  drivers/hwmon/w83793.c                                |  5 +++--
-> 
-> I don't know how other subsystem maintainers want to handle it,
-> but please send the hwmon patches separately; I'll want to apply
-> it through the hwmon tree to avoid the potential of merge conflicts.
+When a PCI device becomes inaccessible while the system is suspending,
+pci_save_state() happily stores 0xFFFFFFFF into all 16 dwords of the
+saved config space, and pci_restore_state() writes that back on resume --
+to a device that by then *is* responding again.
 
-Sure, I'll do it in v2.
+On a MacBookPro14,3 (Intel Alpine Ridge Thunderbolt 3) this is not
+theoretical.  The upstream bridge of the Thunderbolt switch stops
+responding during suspend, and on resume the restore leaves it with:
 
-If other maintainers would also like changes affecting their drivers to
-be split into separate patches, please let me know.
+  - the Secondary Bus Reset bit asserted (0xFF contains
+    PCI_BRIDGE_CTL_BUS_RESET),
+  - primary/secondary/subordinate bus numbers set to ff/ff/ff,
+  - the link retrained down from 8 GT/s to 2.5 GT/s.
 
--- 
-Thanks,
-Petr
+The visible effect is a 65-second resume while the kernel waits for
+devices that can no longer be reached, followed by the removal of both
+xHCI controllers: every USB-C port on the machine is gone until reboot.
+
+The series makes the save path refuse to snapshot a device that is not
+there, the restore path refuse to write back a snapshot that is all
+ones, and teaches one more caller not to mistake an absent device for a
+working link.
+
+Patch 1 makes the USB PCI HCD honour the pci_save_state() return value,
+which it currently ignores.  It is a fix in its own right --
+pci_save_state() can already fail today -- and it is placed first so
+that no patch in the series introduces an error condition before its
+caller knows how to handle it.
+
+Measured on the affected machine, comparing the same suspend/resume
+cycle with and without the series:
+
+  - resume time for the affected bridge: 65 s -> 1 s;
+  - the bridge keeps its bus numbers (04/05/79) and its 8 GT/s link,
+    with no Secondary Bus Reset asserted;
+  - the xHCI behind it survives the cycle: 1 of 2 controllers instead of
+    0 of 2, and 4 USB buses instead of 2.
+
+v2 of this work fixes two defects found in review of v1: a
+pci_WARN_ONCE() that the first version could trigger in
+pci_pm_suspend_noirq(), and a partially written snapshot -- v1 could
+leave dev->saved_config_space half updated if the device disappeared
+while it was being read.  v2 reads into a temporary buffer and only
+commits it after re-checking that the device is still there.  Both were
+verified on hardware: the warning count went from 1 and 1 to 0 and 0,
+and the per-device resume timings are unchanged to within 0.01%.
+
+Tested on 6.18.49 on the machine described above.  I do not have other
+affected hardware, so wider testing of the PCI core changes would be
+welcome.
