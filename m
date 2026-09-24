@@ -1,93 +1,306 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0D8A39A4A7
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 14:54:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790261695; cv=none; b=X2rcdmI52HdyvFdp6K1iqdyV3PyZ66v8WSzrDWqSiy0OEeUzJX9qNoJaZYioQVxHi3zWD1J9U+t0IOtL29WRcGfF1it5JjHUM+Hi1eDdLF/3BWqYijZv2pn7C7JDHQC9tX28mzG/lV9VLmqP9/6Uzo/2uAmknWlA3q7SG89GFxY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790261695; c=relaxed/simple;
-	bh=ynoRrsrSIdeqLf28XLN49ma1e+iV8wlkOoosLSqGa6k=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4A14A0F1B;
+	Thu, 24 Sep 2026 15:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790263811; cv=pass; b=U1oLHh5FwXsWKkZbxCF/tKSWZSSkCNz9/JK1huWwygM/PQtGnApwrJPySF3K9AJ3dd4yjyiXNnFXjlu26rmYuvU9qO8jNXvhzElwxKXn2uw4Lj8ooWlEC3K1IC0ipeBXj0n03H2vKKZcR4AA1zpUwtUjVsgNs0LZGzqBcQS3dSA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790263811; c=relaxed/simple;
+	bh=YRH6Rar1sYyh2YGzCVd5DnssVof55np0H86XwWyFpJQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qNBU/7Ps5gfBn+d06q+VIdK3A/adHMIRS0CSDnyCEHAO0ZpXVkm0Xf2o46r3F9V3fbbc5KGSpi5URxXlJIMZacZihZmdjQTEIK5vzKAwU/yEbtZs/0XB55+Mu52p4uvLC7Xf6w071KW9Cb4Wv6JdSzapfObljMcUTYynqY/xNF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HS3DMAM2; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=YTPeOIDnmVc30eLd+awBMv0lRrHevdnBeLI2Qebl2FvRMSXk1L2VaPMvIhY7Q51i3arruCOzcJYnkb19rjtXOuruP+3DI+wGGQtubSGYRlL5VZ17VbjA5mUM+79ZM7ODVkELANo+IKNwTgqyRizBigt4FmJZcPID8mKEm5ywjmY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=XCyollQY; arc=pass smtp.client-ip=165.173.180.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HS3DMAM2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790261692; x=1821797692;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ynoRrsrSIdeqLf28XLN49ma1e+iV8wlkOoosLSqGa6k=;
-  b=HS3DMAM2Dksnbt9tQ9T266Es3WoXj9uyHSwzi8qOFZKPwBcP9GAn5AbA
-   aKIlJqRZmlnW1WKqr2Yq67yVXuQTFYh07l6dpE2cQnZ5p63V3u1KOOpdY
-   KrlMYwVJCXUlWLSiZGHtorJhMcnKX7kXlUQBvWtNecnBS5QyfLxfyCoQL
-   Y4867QExsFWc7Yb3wrV5C4m7zxE8bMfbmUNXnoW2TWUWoEstbIlSzp8Fu
-   mYLsYN4/2UAtkw3RJRZEBrGKpRmQ71FpLoMJBHikFj1DiF9m0T20MvBBr
-   G4hDscm5FK9Dg4f83STBAj5CajIVd6AhimRz5zQkp/fOiK6RyjaHUwbgt
-   w==;
-X-CSE-ConnectionGUID: btbPfcffRLaqvS94v7xNEA==
-X-CSE-MsgGUID: i/GtPEEoSUGJZwrfexfWCg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89991715"
-X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="89991715"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 07:54:50 -0700
-X-CSE-ConnectionGUID: RS3moWlUQn2lhuGZz7ONGw==
-X-CSE-MsgGUID: G26Ixc8bTrCSSqM579KTeA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="272182636"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa010.jf.intel.com with ESMTP; 24 Sep 2026 07:54:49 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id D3CFB99; Thu, 24 Sep 2026 16:54:47 +0200 (CEST)
-Date: Thu, 24 Sep 2026 16:54:47 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Kurt Lieber <kurt@lieber.org>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-	"westeri@kernel.org" <westeri@kernel.org>,
-	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>
-Subject: Re: [PATCH] thunderbolt: Disable CL states for the Anker Prime TB5
- dock
-Message-ID: <20260924145447.GR106095@black.igk.intel.com>
-References: <SJ0PR15MB4696D491504DB667AA8E0617A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
- <20260924073514.GM106095@black.igk.intel.com>
- <SJ0PR15MB4696C6AB0D4FB7C86C420008A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
- <20260924101046.GN106095@black.igk.intel.com>
- <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
- <20260924125729.GP106095@black.igk.intel.com>
- <SJ0PR15MB469651A447568D8E66757EB1A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="XCyollQY"
+ARC-Seal: i=1; a=rsa-sha256; t=1790263788; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=abg3tD7gCn40tZBonWdZgORycIx1YU6wZqDmUrH2Gnd23rPRFFfpKVI7MfbJcgUeDTTH+rCVFkfNQrX0juuIK+CS+RxWK314U/DEL0AewBkqJVf50oSpfmM1bGIgyew3jb8LtxEtN3MZKutX3cacJ58D6V7BOGvMygY572JEIJA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1790263788; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=ojt2BoZRoit8YTa2oyVkPQDILAU3Mszm9vA+7r1Y+sA=; 
+	b=ALrCtEpougLfWu0xgNeeaNbeDwS2DhTMD4P7+sly0gtSqEHmZKOvNLMhVzCx0b+YKca9QIl44SlI6uScgj7MXwymTpijt+NLKgbkSMyy1BFecrMzAP6f5z4XGOwd/jFY4VwgzQGBPbTzRKjfbZI7yNS85AgHttitdOtHR3691kk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790263788;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=ojt2BoZRoit8YTa2oyVkPQDILAU3Mszm9vA+7r1Y+sA=;
+	b=XCyollQYtXMfftFpQuXEw/OZQ//HFVoEGB8bi3XL48hTfvEb06MV9q08GU21iSyt
+	hdSDtJU0YyHujH3q9GIqwWi6vHD7IjYwQJfKDIlJNmGsrSPi4quF48xJFVI+rDTIMJx
+	rqob72feqCv0BAAYruxTWcEG9cYbJKvjxOhuwnXI=
+Received: by smtp.zohomail.com with SMTPS id 1790263785416232.6245725162671;
+	Thu, 24 Sep 2026 08:29:45 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id 86684180EDC; Thu, 24 Sep 2026 17:29:40 +0200 (CEST)
+Date: Thu, 24 Sep 2026 17:29:40 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
+	"linux-rockchip@lists.infradead.org" <linux-rockchip@lists.infradead.org>, "linux-phy@lists.infradead.org" <linux-phy@lists.infradead.org>, 
+	"kernel@collabora.com" <kernel@collabora.com>, Igor Paunovic <royalnet026@gmail.com>
+Subject: Re: [PATCH 2/5] usb: dwc3: rockchip: introduce glue driver
+Message-ID: <arU0_rRUerCfhAs0@venus>
+References: <20260915-b4-rockchip-dwc3-rockchip-glue-v1-0-763bb546824e@collabora.com>
+ <20260915-b4-rockchip-dwc3-rockchip-glue-v1-2-763bb546824e@collabora.com>
+ <arMkheCePz6PD8NZ@vbox>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5yc4rucu7v66hpki"
 Content-Disposition: inline
-In-Reply-To: <SJ0PR15MB469651A447568D8E66757EB1A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+In-Reply-To: <arMkheCePz6PD8NZ@vbox>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/290.230.26
+X-ZohoMailClient: External
 
-On Thu, Sep 24, 2026 at 01:33:01PM +0000, Kurt Lieber wrote:
-> Hello - 
-> 
-> > Hmm, I missed that it's Barlow Ridge. That should definitely support CL
-> > states. I have one here and it for sure works.
-> >
-> > What's the NVM version can you check? It could be that some older ones have 
-> > issues.
-> 
-> The dock router (route 0-1, DROM 01ea:83b5) reports:
-> 
->   /sys/bus/thunderbolt/devices/0-1/nvm_version
->   62.2
-> 
-> Read with the dock authorized and thunderbolt.clx=0.
 
-Okay that's recent enough. I do wonder if we try to enable CL2 too. We
-should only do that for Gen 4 link. Can you still take dynamic debug log
-for me without clx=0 so we can see that it tries to enable?
+--5yc4rucu7v66hpki
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 2/5] usb: dwc3: rockchip: introduce glue driver
+MIME-Version: 1.0
+
+Hi,
+
+On Wed, Sep 23, 2026 at 01:31:03AM +0000, Thinh Nguyen wrote:
+> On Tue, Sep 15, 2026, Sebastian Reichel wrote:
+> > Introduce Rockchip specific glue code for the Synopsys DWC3 USB driver.
+> > For now this handles things identical to the default glue.
+> >=20
+> > Tested-by: Igor Paunovic <royalnet026@gmail.com> # Orange Pi 5 Plus
+> > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> > ---
+> >  drivers/usb/dwc3/Kconfig         |  11 ++++
+> >  drivers/usb/dwc3/Makefile        |   1 +
+> >  drivers/usb/dwc3/core.c          |  15 ++++++
+> >  drivers/usb/dwc3/dwc3-rockchip.c | 106 +++++++++++++++++++++++++++++++=
+++++++++
+> >  4 files changed, 133 insertions(+)
+> >=20
+>=20
+> <...>
+>=20
+> > =20
+> > +/*
+> > + * List of compatibles, which have "synopsys,dwc3" as a fallback
+> > + * compatible, but have a vendor specific glue driver that should
+> > + * be used instead of this one.
+> > + */
+>=20
+> Shouldn't these be guarded by CONFIG_USB_DWC3_ROCKCHIP so that
+> we can still fall back to the generic DWC3 driver?
+
+I think it's better to not probe at all. The reason for introducing
+the new glue driver is avoiding PHY startup problems. They already
+happen every now and then (so the bug is not introduced by my USBDP
+patches, but rather its an existing race condition). Fixing the hangs
+also requires driving the reset notifier from the USBDP PHY, which is
+not part of this series. But I doubt we get a lot from making
+patch series interdependencies even more complicated by temporarily
+continueing to allow using the generic DWC3 driver on Rockchip.
+
+Note that the PHY startup hang probability increases a lot by my
+USBDP series. So once that landed the generic code is no longer
+usable without doing lots of reboots and getting very lucky.
+
+> > +static const char *const dwc3_compatible_blocklist[] =3D {
+>=20
+> #if IS_ENABLED(CONFIG_USB_DWC3_ROCKCHIP)
+>=20
+> > +	"rockchip,rk3588-dwc3",
+> > +	"rockchip,rk3576-dwc3",
+>=20
+> #endif
+>=20
+> > +};
+> > +
+>=20
+>=20
+>=20
+> >  static int dwc3_probe(struct platform_device *pdev)
+> >  {
+> >  	struct dwc3_probe_data probe_data =3D {};
+> >  	struct resource *res;
+> >  	struct dwc3 *dwc;
+> > +	int i;
+> > +
+> > +	for (i =3D 0; i < ARRAY_SIZE(dwc3_compatible_blocklist); i++)
+> > +		if (device_is_compatible(&pdev->dev, dwc3_compatible_blocklist[i]))
+> > +			return -ENODEV;
+> > =20
+> >  	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> >  	if (!res) {
+>=20
+>=20
+>=20
+> <...>
+>=20
+>=20
+>=20
+> > diff --git a/drivers/usb/dwc3/dwc3-rockchip.c b/drivers/usb/dwc3/dwc3-r=
+ockchip.c
+> > new file mode 100644
+> > index 000000000000..62f2a03b08a2
+> > --- /dev/null
+> > +++ b/drivers/usb/dwc3/dwc3-rockchip.c
+> > @@ -0,0 +1,106 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/* Copyright (c) 2026, Collabora Ltd. */
+> > +#include <linux/module.h>
+> > +#include <linux/platform_device.h>
+> > +#include <linux/pm_runtime.h>
+> > +#include "glue.h"
+> > +
+> > +struct dwc3_rockchip {
+> > +	struct dwc3		dwc;
+> > +};
+> > +
+> > +static int dwc3_rockchip_probe(struct platform_device *pdev)
+> > +{
+> > +	struct dwc3_probe_data probe_data =3D {};
+> > +	struct resource *res;
+> > +	struct dwc3_rockchip *dwc_rk;
+> > +
+> > +	res =3D platform_get_resource(pdev, IORESOURCE_MEM, 0);
+> > +	if (!res) {
+> > +		dev_err(&pdev->dev, "missing memory resource\n");
+> > +		return -ENODEV;
+> > +	}
+> > +
+> > +	dwc_rk =3D devm_kzalloc(&pdev->dev, sizeof(*dwc_rk), GFP_KERNEL);
+> > +	if (!dwc_rk)
+> > +		return -ENOMEM;
+> > +
+> > +	dwc_rk->dwc.dev =3D &pdev->dev;
+> > +	dwc_rk->dwc.glue_ops =3D NULL;
+> > +
+> > +	probe_data.dwc =3D &dwc_rk->dwc;
+> > +	probe_data.res =3D res;
+> > +	probe_data.properties =3D DWC3_DEFAULT_PROPERTIES;
+> > +
+> > +	return dwc3_core_probe(&probe_data);
+> > +}
+> > +
+> > +static void dwc3_rockchip_remove(struct platform_device *pdev)
+> > +{
+> > +	dwc3_core_remove(platform_get_drvdata(pdev));
+> > +}
+> > +
+> > +static int __maybe_unused dwc3_rockchip_runtime_suspend(struct device =
+*dev)
+>=20
+> Please use the same PM callback pattern as dwc3-generic-plat.c. That
+> should avoid the need for __maybe_unused on each callback.
+
+Will do. FWIW this wastes a bunch of memory for !CONFIG_PM by simply
+always including the code, even when it's not needed. I suppose
+that's fine as disabled CONFIG_PM is uncommon config anyways.
+
+> > +{
+> > +	return dwc3_runtime_suspend(dev_get_drvdata(dev));
+> > +}
+> > +
+> > +static int __maybe_unused dwc3_rockchip_runtime_resume(struct device *=
+dev)
+> > +{
+> > +	return dwc3_runtime_resume(dev_get_drvdata(dev));
+> > +}
+> > +
+> > +static int __maybe_unused dwc3_rockchip_runtime_idle(struct device *de=
+v)
+> > +{
+> > +	return dwc3_runtime_idle(dev_get_drvdata(dev));
+> > +}
+> > +
+> > +static int __maybe_unused dwc3_rockchip_suspend(struct device *dev)
+> > +{
+> > +	return dwc3_pm_suspend(dev_get_drvdata(dev));
+> > +}
+> > +
+> > +static int __maybe_unused dwc3_rockchip_resume(struct device *dev)
+> > +{
+> > +	return dwc3_pm_resume(dev_get_drvdata(dev));
+> > +}
+> > +
+> > +static void __maybe_unused dwc3_rockchip_complete(struct device *dev)
+> > +{
+> > +	dwc3_pm_complete(dev_get_drvdata(dev));
+> > +}
+> > +
+> > +static int __maybe_unused dwc3_rockchip_prepare(struct device *dev)
+> > +{
+> > +	return dwc3_pm_prepare(dev_get_drvdata(dev));
+> > +}
+> > +
+> > +static const struct dev_pm_ops dwc3_rockchip_dev_pm_ops =3D {
+> > +	SET_SYSTEM_SLEEP_PM_OPS(dwc3_rockchip_suspend, dwc3_rockchip_resume)
+> > +	SET_RUNTIME_PM_OPS(dwc3_rockchip_runtime_suspend, dwc3_rockchip_runti=
+me_resume,
+> > +			   dwc3_rockchip_runtime_idle)
+> > +	.complete =3D pm_sleep_ptr(dwc3_rockchip_complete),
+> > +	.prepare =3D pm_sleep_ptr(dwc3_rockchip_prepare),
+> > +};
+> > +
+> > +static const struct of_device_id dwc3_rockchip_of_match[] =3D {
+> > +	{ .compatible =3D "rockchip,rk3588-dwc3" },
+> > +	{ .compatible =3D "rockchip,rk3576-dwc3" },
+> > +	{ }
+> > +};
+> > +MODULE_DEVICE_TABLE(of, dwc3_rockchip_of_match);
+> > +
+> > +static struct platform_driver dwc3_rockchip_driver =3D {
+> > +	.probe		=3D dwc3_rockchip_probe,
+> > +	.remove		=3D dwc3_rockchip_remove,
+> > +	.driver		=3D {
+> > +		.name	=3D "dwc3-rockchip",
+> > +		.pm	=3D pm_ptr(&dwc3_rockchip_dev_pm_ops),
+> > +		.of_match_table	=3D dwc3_rockchip_of_match,
+> > +	},
+> > +};
+> > +
+> > +module_platform_driver(dwc3_rockchip_driver);
+> > +
+> > +MODULE_LICENSE("GPL");
+> > +MODULE_DESCRIPTION("DesignWare DWC3 Rockchip Glue Driver");
+> >=20
+>=20
+>=20
+> Thanks,
+> Thinh
+
+--5yc4rucu7v66hpki
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmq1QeAACgkQ2O7X88g7
++ppB2hAAjYENPwlnCsE+aWnPmc/FTPh4KKly3W7g+jkx92kcGIcWRH8hmIhQMl+I
+jPUOAsSbSWt55UU1YPfjv07sTJzZu3/0mV06gq0dzuPpg4ydlNO8JUenXrsCDOA6
+I2Rupq0w00a1abBCVazFtKDwk6pyF434Tt0f9x3F6OZule95Jhwi6ZqM9pYRt2es
+NOf1gTLVzPspX+jscjWhRm6KOk+ZS63jKkxXyer6W1OV2efRJAVd1hmPQzt1k7zC
+kFAWJxYc7r7nApdiHeEoKgudQTFg76D7rZ3eYbk9zLGifIwAe+SYUcUtJb3rsY7+
+9Kas/Edff1CUuNf5ho7v81cr8QvB+bytgv1eHGS5je7C3/zHRnUOfPUM6wIfdfr5
+kD7l+iAthwlokCyuftXJtrdgw0fV3WcFnUwTc0eA429xwUQpAxKhGvi3evWKFn0S
+ZuH65oux33Lde8rEvvzyF0uZWipCvk5FU2qPsdQpOvOdWU6jBL5XvHDo3pWVvyh1
+refxT+ZtLlKJbdJ9YKkNyQKhZr36DO5trAUMELrRFMRIx4p0VCRFrc6Pr/qnKtn9
+Ihw8vNzTw7P3VuiQo6INPC9/MtQQ6EMxGFXFP59yBxeBe2l9jmOna4Ea8NFljaa4
+3yT9E6uRDq9kj3rMt94cbdp+76Bq5McRwEsd+Zua6lo4q+tvGtI=
+=VHfI
+-----END PGP SIGNATURE-----
+
+--5yc4rucu7v66hpki--
