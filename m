@@ -1,80 +1,82 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D929B4AA1E7
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 16:09:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AFE480346
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 16:09:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790266170; cv=none; b=LLQsbpEU1WdBKWFTY1AzJKeWOvonte11eXaKWgpcKRJr5aHZgI6Y7YFOSdRj58FZ8wvVu5AyprMQnHE4c/hXPZ8+2aOCMIrM3YEBXm74u0WmYU7elEnjSq6Gw3713N4EGBkbjrcHlDuFrca8wHfL/qaUxKKuUzWiF6IeASbeJLY=
+	t=1790266177; cv=none; b=Su/fSgWrCLsRnrEd5CBlxdeWDbS/0DgE5ydF4kLfFDGAQ94UyIFdVOS4y9FHwX1QSMczD9PXeCCxT/BQMftEjSrGoRk8ev7KKRa+3Hw3Lbns1164dGaW8zqrW2sCi3U1pR11LS54HH7gjcofuRfPFvv4wDFo0beURUsZ8gKV+3Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790266170; c=relaxed/simple;
-	bh=mRM8V/B/GHW0cq2R1yHq9xtQiPbavwz59aLnGlc5Reg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=szAzMplQa5e1ENq/S/9PLwNI109nwckn/iC6aZ9ejq2W3IKeZRyPxR83ThNByVSuLXZeQzFzh8mzhT5qXE3QC26yBzXClso0gu8sDuIyb000gBEMNvYHp9wZwod8uv+9wrQuUvdG66nskBiVAI1xaKAfwMDSRb+vo5z96PyKtIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LJXbUvqB; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MykF5m/h; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1790266177; c=relaxed/simple;
+	bh=JVNoDa36ZUq4h5v6V/7FJGEvJhRQd4uDwAiFlkzHP/0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FBRE9YMRrRvD9vwSOoCf1TRP5VFlAC/nGm//lb4cObvybuDb38Lkl213r0LVngrb8xgCjBjLaPU8Z+vnf+YdM+jlwaYjdYBvrKggHuCpmpigubXx9740NdMeSMZURfT58eE9WCyQATtnWZ138+XnjomMJtd2WpSQAJJEXucrFd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gn7N7C4Z; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=YEOlZj+t; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LJXbUvqB";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MykF5m/h"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68OFeMan1899849
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 16:09:28 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gn7N7C4Z";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="YEOlZj+t"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68OFePY83754719
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 16:09:34 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=b46rZL+UCcNF/EAt0vMbqoRuBIBxVdRfxK4
-	jqHeV8pI=; b=LJXbUvqB36gbhriv938ZtMKgs/GB1mQFEd1aWvJNWTA4Dbgf3Ln
-	H+d6g2RkIHFYucZSv+3nPqAOSaqDh5kLU9frQk/6QAEITWd/r6Gt7/xJOjrflM1j
-	FcEk/NGfi9RYUlCDxNnpJmx1te6/i6XwpxC+CA75ycHVN4AMwmDheDQ0Zf2JSBxj
-	JUobASVvpSc2Fao4s9NN1dDcQi7EdQtnvU2ElIvXkXzNkriGSEgtVAz4ejS4SbZT
-	CVVWBH6Z3Y0fPzyIpFV97q3zGBsSX1hKuiHaAI0oJ9riCRKTWnFK5/VsuxtF6hhE
-	oVFtJ48M3/zWbg/bjwJohjnVcFsOQhU29aw==
-Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvvghb0a3-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=mglXxo1pYWw
+	zuOt97qZ4yF19yEeGDDvj2TJ71dmGgJU=; b=gn7N7C4ZYwdNt9pvi11VVcM3qYz
+	a17nG6hWPkCtST1lfwc3qkFGKWvFBP316GjgKu5QlDZzTFchBSJyFxFmlzRdw0dd
+	hWJibTTSMx7HomDG2dlbX0RM1g+Kjd4pumFu+mTn+ZjiiHYoYfXZ7BdHRTsK9XN4
+	9gdUNbIasJnuK43wWUhbDYfM209ILSer3DpecLK5dL6flyhu7IJgXIwxVNl5PCty
+	OxK4qAreuX+uMA1yxUduSFyuu92gPUZB/Ssbve3hLapikpnyRlYtHw/zZArzaOUq
+	se6cjgUDSGHsNkoUYp9yXC1IDbuXQfUDXNLpEojfxMuvZPlBEZglyHcE7bw==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gvstukm6u-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 16:09:28 +0000 (GMT)
-Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-78830f4bebaso595612137.0
-        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 09:09:27 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 16:09:34 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-98536d467c4so16805241.0
+        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 09:09:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790266167; x=1790870967; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b46rZL+UCcNF/EAt0vMbqoRuBIBxVdRfxK4jqHeV8pI=;
-        b=MykF5m/h/wbDKLMfi4wTr6K7vK6nkjqU65GKYoPS5ZE1wTqYmiVGO1UWKohKWLH+Cr
-         XaXI9iIpPR6OblsZb0E+QNSpmSTpSSIHWZNvrf9ftBwkftUeXrdM4efp2Lqu8DQrqVrm
-         UB5QdaBFyWVw8YxSYLxTRMGRGigIXTR71GUevnx/xE9f8Zf9usGSW5PgPXEa4IlAJXlO
-         IXR4DhojLEH+VBGdnn9sbOUHJlXlXGXufjeE139EH0rR2DzQWGltvUnjlyKLzm8IHgsh
-         QL9yBL9Sfv6i3/KmM5D07drYU9rP6SyWaBTBEsdHIajJn8IQRS9wRrJBlaLn1Ou1NjIm
-         qX6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790266167; x=1790870967;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=oss.qualcomm.com; s=google; t=1790266173; x=1790870973; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=b46rZL+UCcNF/EAt0vMbqoRuBIBxVdRfxK4jqHeV8pI=;
-        b=V+JEX/JRUQSvtkC/r1uXUalqGtC4k//rnPKZSUdgQ65viA4V4b8sQM3RI/2gfGhWMU
-         ziatuwDYUCkUcKXL0V1JPD3RymnUXcVXFPDDiEEJjnFAhHBUpIa5LWlDHumCKiOvyz53
-         4CNJgW0M4AtdaTpnsgZZOhUrxWNs+8NTvGJ3hX04keoiDG7di5cmirGZXwgxaB9FCNEz
-         jW0hy/Cz/Aoj2BolZBywUTwYgZ1jyMMbg/Z3kOMWlc500jtqRXaCR3QUhsks0pWS+96n
-         ar3v8Jk6qfQJ6C+pjE6WwwSAunQnYzEgiSBKxerysJfumOsRbHaiJGvo6XaX6SpusjFU
-         Yq1w==
-X-Forwarded-Encrypted: i=1; AKwUvBxxvkorA7lFX59wu1N821SsdAS/KkkB/PGw2zYJ5WMJm13cuE0EVz7KZL1d4+fdPuMCkA6YjyBpP4o=@vger.kernel.org
-X-Gm-Message-State: AFuF++lvroGdlwbEdPDGFkZhrAdyQ/8odaZNBAoEO52TckfLRC6wMZfg
-	dmVWr02poy/VBrVH2gJ5blPO1PHjtUDyDzO+pPdR5Uh98e4PIzUm9aaEnVLpb3dXDpOnG5ea8P5
-	y1+sTGvp3aSHTz/P+LIMiInDH32XyI4dlcu7tmWu2bguJZpgT0KJZ1DCVARYXBdY=
-X-Gm-Gg: AYBFou1/Rj+X1F1sGsjoU+mom/4pD5KzplZb2e1gHD6Hcq69gUqIIK7WIKSkBZaylSp
-	xaqufJ4+f8gG8MghnbLHxoQMPH3Z5zaI/EZRPrYNYRkHicbhsh/u1jiHySYdOwczUMKlgXatNRq
-	2CPOym7OxCsG18azscrTl35zyGGbAbBQwsOBxTidGdHqMme5fHZ7dUA5oyV8txoAFR/PkrONp0y
-	VlkuQTUjTsxwyk2iCbKoTVabvOefRnucLw2qhSHz479cDabeJ89l8Ww7Np55XDHxu+BW2kDAXQr
-	rAitiyMlP7TpYDVLNdDabtXma3hLcsF3N0FxE4aUvsv3l8/ERn1L+DDdvc+ys7V9o8prPgaPwIG
-	vIuESQCe1ee8eEh1nC973Ha77RMNMUoo=
-X-Received: by 2002:a05:6102:2d04:b0:7a6:accf:72c1 with SMTP id ada2fe7eead31-7af19740319mr1403791137.0.1790266166637;
-        Thu, 24 Sep 2026 09:09:26 -0700 (PDT)
-X-Received: by 2002:a05:6102:2d04:b0:7a6:accf:72c1 with SMTP id ada2fe7eead31-7af19740319mr1403774137.0.1790266166095;
-        Thu, 24 Sep 2026 09:09:26 -0700 (PDT)
+        bh=mglXxo1pYWwzuOt97qZ4yF19yEeGDDvj2TJ71dmGgJU=;
+        b=YEOlZj+t/rulhSGusZCMTaZR0dnJNPc7yyRFUAu0Ho53vTnifC96HzJs6LQZaErMex
+         3XjZhCqCo4N/JH8C8AR7PLnXhh7lE0XzWuamXBLyU0uumZM/zoTNEX4mh9C09cKGiZuP
+         dZe2VfefThCv+AzDp5Wpb+sN8Yh4jL2hxRhgfrvCXQiYr8TfsMJEzjhxJraFoXv3lgPO
+         f+fQCx+B0kJnfTm8pP1/d5P71Ed49QLa9qgnnxzNMdaDRxhaAWVPX44VUJIzFOmbSXlC
+         Gtn0w808LqihgtY8JBZH2jmgBOYZ00KRbFD+W3UTQEL7tSnKVk69lY1jeR0yQJ/ttsOg
+         hv2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790266173; x=1790870973;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mglXxo1pYWwzuOt97qZ4yF19yEeGDDvj2TJ71dmGgJU=;
+        b=UXr6ZHXEyCaQ1izYscRu5HoTTRLAd9B80jqmczBTFVLjZvPa2oxDRzEAYwzAtSNB4/
+         DhSxCoKhgaHSZt8FUS7QKotSYtEJEG1G6hUkHBYVH84/znHlYlQztkA/SZH+t9uaPAPm
+         2RsIFV8vI2umWO8lb+hUwn84U+zmTQkYt+ZN91RniWD/vz18e6iO1w1zqKXkUo0OxwKK
+         b8ZzoE7yqZrxTUTnA07L8zWyU1glqTtuQr80rNHLRNHuh+53JlWh/1N+visDlgFOXa++
+         Ex5Zk5BRYVa9o2e81UevoQ/6N0/SL4bUvmEeTsaCHrzXg8Z/TX6dvKTJzuMnD+VksRyW
+         LMNQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxDqcQwmXZk+mRERzVlRsITjz+qhCG8t2TZkc5syctz6uw4Oobtsu+J6ZFaKAuSVs60YpnMWulTpgk=@vger.kernel.org
+X-Gm-Message-State: AFuF++mBSBM1RFHHXqoeseOc2IKgjwqGWmwPp/Bgq/niOAA/f7gsKakD
+	gsmRW4IZEgmhKii6xGhHk6I3F7lsGwPFpF2NpIcWaC9ZZgMl7phaOVGzQmJ31g8ZP6BRK+4skYI
+	5Al2xRU+hyARnDw6alEPbLqa3FOngWVh/w83wBDCTinSBW6B8Ngxc4rgwSD+xMck=
+X-Gm-Gg: AYBFou1AVVp/ZqT1tIpZtVqyPDbLm4wWTUwi4PAsvfietEcQwkD2wn6cA1DyatF12Ci
+	Yh7DQGsSQHGfYYFowQu0IirnwbwcnzzECeRJA40BLqpHFFh/OQVGnKMV1QPipqWp31kwYU1pNg4
+	/cdSszM5d/UxGVM8YKNaauhM4XI6GECSsUTIBTUdJhgf2JfqJ98uJWB3DjrnGCfO7pG2ojE+3AC
+	pcum6x/ykHolM9Lj0dl2Kbq0mR8VzvTRMQCYQ66mFlMIlEkmebSN/Wc9OlFc1wXW3y68PWARmEu
+	EuYdiznw33C8h6i0IJJQnnWVd492knZ/TbbsofIq4NlH8BaOO9beNRXCSZ0c1aZVTO45PThy4Hk
+	IHAsJ/rElEnqzBVt5tnEKiIIsm+pfqc0=
+X-Received: by 2002:a05:6102:3706:b0:7a3:ff5b:ef2d with SMTP id ada2fe7eead31-7af1e6f368bmr1596745137.24.1790266172911;
+        Thu, 24 Sep 2026 09:09:32 -0700 (PDT)
+X-Received: by 2002:a05:6102:3706:b0:7a3:ff5b:ef2d with SMTP id ada2fe7eead31-7af1e6f368bmr1596730137.24.1790266172355;
+        Thu, 24 Sep 2026 09:09:32 -0700 (PDT)
 Received: from QCOM-WFsSr66Fqw.qualcomm.com ([212.136.9.4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae5c5c4csm328306766b.18.2026.09.24.09.09.24
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae5c5c4csm328306766b.18.2026.09.24.09.09.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 09:09:25 -0700 (PDT)
+        Thu, 24 Sep 2026 09:09:31 -0700 (PDT)
 From: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
 To: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang <jasowangio@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>
@@ -84,10 +86,12 @@ Cc: virtualization@lists.linux.dev, linux-usb@vger.kernel.org,
         Anton Yakovlev <anton.yakovlev@oss.qualcomm.com>,
         Trilok Soni <trilok.soni@oss.qualcomm.com>,
         Igor Skalkin <igor.skalkin@oss.qualcomm.com>
-Subject: [PATCH 0/8] virtio-usb: add dual-role virtio USB driver
-Date: Thu, 24 Sep 2026 18:08:59 +0200
-Message-ID: <20260924160907.145405-1-igor.skalkin@oss.qualcomm.com>
+Subject: [PATCH 1/8] virtio-usb: add protocol header and skeleton dual-role driver
+Date: Thu, 24 Sep 2026 18:09:00 +0200
+Message-ID: <20260924160907.145405-2-igor.skalkin@oss.qualcomm.com>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260924160907.145405-1-igor.skalkin@oss.qualcomm.com>
+References: <20260924160907.145405-1-igor.skalkin@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -95,131 +99,708 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=KYhHIgYD c=1 sm=1 tr=0 ts=6ab54b38 cx=c_pps
- a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI0MDA2NiBTYWx0ZWRfX7MYYBw2mgUdV
+ nhwWe/SIk/bJTTIR+jsMlHUzzsJGTwlzzf01dDTIZyYj0IJK01KSk4gPqxRndPBHdTGiR4WrRRY
+ jCuyhOxt5dw0dPXs95jkRirPiuaGqPg=
+X-Proofpoint-ORIG-GUID: y6UYXTkswsaEnqL8EibrqYRgYrdYfmAU
+X-Proofpoint-GUID: y6UYXTkswsaEnqL8EibrqYRgYrdYfmAU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI0MDA2NiBTYWx0ZWRfX0Owpodetbwsa
+ /XDJedxbjQtpjwMkHbmsL4JoRbjZ9O5Wr6mkOWZmjkBdKw6f37iFoaqvSc3PoGS3hk3ESCX7DjK
+ twQFOxBTXmXsNAQOounude/SZHMMR24BCF/sawgfY7B1IkfBEodwpr1vz0Mv68NfV+kRZ/axczA
+ 9K7M/QuJkZqJe4b9JOsLi+rsWd06bLC76tvKT98HByc2Rc76x8l95tsbFR3O4i+Wlad8+i3qMe2
+ vnaaIdK95rk902a4XcULEc73neF6Vb3r5prHY7OMg0kOa+I6UG2IcW+0pl53I89P59KlPEsqGYI
+ PZZ1P6YRS4FaMGqJ/4MTRrueZ8TpU6Njq860FBcNTt6qeNlKC76ofEJFj9xLZYKUVT8uKh79Z+i
+ eY9U3FA2MmrdiyrK+ddFpPI9gPWgLcvp0Q4RuMeRyH2zz2fWtgujPKRNsH9CiZ1P8nbTROE9/qh
+ f9bpZ8t7SAFCy7Uw0Eg==
+X-Authority-Analysis: v=2.4 cv=cKp1IVeN c=1 sm=1 tr=0 ts=6ab54b3e cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
  a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=VwQbUJbxAAAA:8
- a=EUspDBNiAAAA:8 a=q6LqD5CuZsS-vr7wHY0A:9 a=gYDTvv6II1OnSo0itH1n:22
-X-Proofpoint-GUID: cw7nT63Fw_b3upR47BdnSRKic1xvV-tP
-X-Proofpoint-ORIG-GUID: cw7nT63Fw_b3upR47BdnSRKic1xvV-tP
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI0MDA2NiBTYWx0ZWRfX4z/pttWlcZrE
- wFP0ixkhYSgRMIQvjcZULLmHiyxjEolmQU9CPgLupP9b+UZpnmTU/nty8aSx7su5moSaNhTtiUi
- gSFCzDl19f5nVdUackIp3PpLelOo5AM=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI0MDA2NiBTYWx0ZWRfX1+v6JRjjEke3
- /M6tSj69KxtSqa2u/ev0wt3ukAcb5MtW59VsMgTnQG0S/hn6gfqHlUPC6LlN7i3UKylxeG1ZFNl
- blLUgzYPThINmocClh0L9u21UkhB5j3buG/zQUvaxKS+8176KjbUWJ4X4AJfQpRXTKz291UL4te
- rpuZKEV5+cA1gEv28t3FtnV+jN/uxPvXlo3QOUumdkwMiV1rmlqh1DgHfF4Sep5sNl0EtJpyjeT
- AhzCpxHFuHRd2o5xoEf0BbUXZNTLRzgxMCNBh/qH6qjucIlxqvPdUZzXTaf0jdKONgojfjQdZc2
- Q3+dbA+HSdB8nWZMaU1/lq0gqx40otecm3GyaewbMtVfkaEgCmLt8CkDOi9XqiJ9uMX8uWPmfkK
- MzWojHvnL+YFVfj5yOG4pYEv28Pvq3nuCdhURgqG5nxm4HnBW/2EbuMV740gICO2jV7lNT8qE4N
- 2Iipa/GX0ZSs2ByKgUw==
+ a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=ISgsD1N0DMwXzmNTllcA:9 a=o1xkdb1NAhiiM49bd1HK:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-24_04,2026-09-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 impostorscore=0 adultscore=0 lowpriorityscore=0 bulkscore=0
- clxscore=1015 spamscore=0 suspectscore=0 phishscore=0 priorityscore=1501
+ spamscore=0 malwarescore=0 impostorscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 bulkscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609240066
 
-This series adds a new virtio-usb driver: a dual-role virtio device
-capable of acting as a USB host controller, a USB device controller,
-or both simultaneously with runtime role switching between the two
-(USB OTG-style role switching) on ports that support it.
+From: Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>
 
-The corresponding virtio-usb device specification has been posted to
-virtio-comment for review. This series matches the v2 revision of
-that spec, which reconciles a small number of protocol details
-(per-role virtqueue presentation, host-role vp_idx for hub/multi-VP
-support, and the device-role BIND/UNBIND event split) that were
-clarified while integrating and testing this driver against the
-spec:
+Add the virtio_usb device and virtqueue-wrapper skeleton, the
+protocol header shared with the vhost gadget driver and userspace
+backend, and probe()/remove() plumbing with no role support yet.
 
-  [RFC PATCH v2] virtio-usb: Add initial virtio-usb specification
-  Igor Skalkin <igor.skalkin@oss.qualcomm.com>
-  virtio-comment@lists.linux.dev
-  https://lore.kernel.org/virtio-comment/20260924154007.143927-1-igor.skalkin@oss.qualcomm.com/
+Introduce a per-port virtio_usb_port array (vports[]), sized to the
+device's negotiated port count, ahead of any code that actually
+populates or reads it. Every later commit that adds a role to a port
+(host, device, OTG) builds on this same array from the start, instead
+of the host, device, and OTG subsystems each growing their own
+separate port-indexed storage that later has to be reconciled.
 
-This driver has been tested end-to-end against our own userspace
-virtio-usb device implementation (host-side backend) in two setups:
-  - arm64 hardware with a type-1 hypervisor, exercising a real dwc3
-    USB controller on the host side.
-  - x86 with a type-2 hypervisor (QEMU/KVM), using dummy_hcd/dummy_udc
-    on the host side in place of real USB hardware.
-Host role and device role were exercised in both setups: testusb on
-the guest, over a virtualized host port, against g_zero running on
-a real hardware UDC or on dummy UDC on the host side (host role);
-and testusb on the host side, against g_zero running on a virtualized
-UDC on the guest (device role); plus real USB mass-storage
-hardware/gadgets and iperf3 over usbnet. Role switching was exercised
-in both setups as well, but not with a real OTG cable/ID-pin connection:
-on dwc3, role switching was driven through its "role-switch" sysfs
-configuration; on dummy_hcd, it was emulated by toggling between two
-simultaneously-configured dummy_hcd instances on the same port.
-Testing with a real OTG connection is planned as a follow-up.
+Wire the new drivers/usb/virtio_usb/ directory into the USB
+subsystem's build (drivers/usb/Kconfig, drivers/usb/Makefile) as a
+new CONFIG_USB_VIRTIO option, listed alongside the other USB
+dual-mode controller drivers.
 
-Known scope: this driver virtualizes an entire UDC per device-role
-port, with each port owned by a single guest. USB function-level
-virtualization - a single physical UDC exposing a composite gadget
-whose individual functions are routed to different guests - is a
-separate approach currently being explored, and is out of scope for
-this series.
-
-Patch summary:
-  1:   protocol header and skeleton dual-role driver (probe/remove
-       plumbing, no role support yet).
-  2:   USB host controller (HCD) role support.
-  3:   USB device controller (UDC) role support.
-  4-5: USB OTG-style role query and role-switching support.
-  6:   endpoint-lifecycle robustness rework (async split-phase state
-       machine, replacing an earlier out-of-tree gadget.nonatomic
-       patch that didn't pass upstream review).
-  7:   SuperSpeed device-role support.
-  8:   guest UDC naming fix (name prefix from the bind event).
-
-Aiswarya Cyriac (3):
-  virtio-usb: add protocol header and skeleton dual-role driver
-  virtio-usb: add host role (USB Host Controller) support
-  virtio-usb: add device role (USB Device Controller) support
-
-Igor Skalkin (5):
-  virtio-usb: add OTG role query support
-  virtio-usb: add USB On-The-Go role-switching support
-  virtio-usb: rework endpoint lifecycle to an async split-phase state
-    machine
-  virtio-usb: add SuperSpeed device-role support
-  virtio-usb: support a guest UDC name prefix from the bind event
-
+Signed-off-by: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+---
  MAINTAINERS                         |   10 +
- drivers/usb/Kconfig                 |    2 +
- drivers/usb/Makefile                |    1 +
- drivers/usb/virtio_usb/Kconfig      |   21 +
- drivers/usb/virtio_usb/Makefile     |    9 +
- drivers/usb/virtio_usb/controller.c |  422 ++++++++
- drivers/usb/virtio_usb/controller.h |  152 +++
- drivers/usb/virtio_usb/device.c     | 1893 +++++++++++++++++++++++++++++++++++
- drivers/usb/virtio_usb/device.h     |  115 +++
- drivers/usb/virtio_usb/host.c       | 1368 +++++++++++++++++++++++++
- drivers/usb/virtio_usb/host.h       |  203 ++++
- drivers/usb/virtio_usb/otg.c        |  403 ++++++++
- drivers/usb/virtio_usb/otg.h        |   38 +
- drivers/usb/virtio_usb/vq_common.c  |  740 ++++++++++++++
- drivers/usb/virtio_usb/vq_common.h  |  163 +++
- include/uapi/linux/virtio_usb.h     |  346 +++++++
- 16 files changed, 5886 insertions(+)
+ drivers/usb/Kconfig                 |    2 
+ drivers/usb/Makefile                |    1 
+ drivers/usb/virtio_usb/Kconfig      |   21 ++
+ drivers/usb/virtio_usb/Makefile     |    5 
+ drivers/usb/virtio_usb/controller.c |  155 ++++++++++++++++++
+ drivers/usb/virtio_usb/controller.h |   84 ++++++++++
+ include/uapi/linux/virtio_usb.h     |  302 ++++++++++++++++++++++++++++++++++++
+ 8 files changed, 580 insertions(+)
  create mode 100644 drivers/usb/virtio_usb/Kconfig
  create mode 100644 drivers/usb/virtio_usb/Makefile
  create mode 100644 drivers/usb/virtio_usb/controller.c
  create mode 100644 drivers/usb/virtio_usb/controller.h
- create mode 100644 drivers/usb/virtio_usb/device.c
- create mode 100644 drivers/usb/virtio_usb/device.h
- create mode 100644 drivers/usb/virtio_usb/host.c
- create mode 100644 drivers/usb/virtio_usb/host.h
- create mode 100644 drivers/usb/virtio_usb/otg.c
- create mode 100644 drivers/usb/virtio_usb/otg.h
- create mode 100644 drivers/usb/virtio_usb/vq_common.c
- create mode 100644 drivers/usb/virtio_usb/vq_common.h
  create mode 100644 include/uapi/linux/virtio_usb.h
 
--- 
-2.49.0
+diff --git a/MAINTAINERS b/MAINTAINERS
+index cc3cae2e378b..93869e5f4b51 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -28450,6 +28450,16 @@ F:	drivers/media/usb/uvc/
+ F:	include/linux/usb/uvc.h
+ F:	include/uapi/linux/uvcvideo.h
+ 
++USB VIRTIO DRIVER
++M:	Igor Skalkin <igor.skalkin@oss.qualcomm.com>
++R:	Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>
++R:	Vasilii Ianikeev <vasilii.ianikeev@oss.qualcomm.com>
++L:	linux-usb@vger.kernel.org
++L:	virtualization@lists.linux.dev
++S:	Maintained
++F:	drivers/usb/virtio_usb/
++F:	include/uapi/linux/virtio_usb.h
++
+ USB WEBCAM GADGET
+ L:	linux-usb@vger.kernel.org
+ S:	Orphan
+diff --git a/drivers/usb/Kconfig b/drivers/usb/Kconfig
+index abf8c6c..68076db 100644
+--- a/drivers/usb/Kconfig
++++ b/drivers/usb/Kconfig
+@@ -139,6 +139,8 @@ source "drivers/usb/chipidea/Kconfig"
+ 
+ source "drivers/usb/isp1760/Kconfig"
+ 
++source "drivers/usb/virtio_usb/Kconfig"
++
+ comment "USB port drivers"
+ 
+ if USB
+diff --git a/drivers/usb/Makefile b/drivers/usb/Makefile
+index eecbd63..f28a4b7 100644
+--- a/drivers/usb/Makefile
++++ b/drivers/usb/Makefile
+@@ -12,6 +12,7 @@ obj-$(CONFIG_USB_SUPPORT)	+= phy/
+ obj-$(CONFIG_USB_DWC3)		+= dwc3/
+ obj-$(CONFIG_USB_DWC2)		+= dwc2/
+ obj-$(CONFIG_USB_ISP1760)	+= isp1760/
++obj-$(CONFIG_USB_VIRTIO)	+= virtio_usb/
+ 
+ obj-$(CONFIG_USB_CDNS_SUPPORT)	+= cdns3/
+ 
+diff --git a/drivers/usb/virtio_usb/Kconfig b/drivers/usb/virtio_usb/Kconfig
+new file mode 100644
+index 0000000..bd377b9
+--- /dev/null
++++ b/drivers/usb/virtio_usb/Kconfig
+@@ -0,0 +1,21 @@
++config USB_VIRTIO
++	tristate "Virtio USB device support"
++	depends on USB_SUPPORT && VIRTIO
++	depends on USB || USB_GADGET
++	depends on USB if !USB_GADGET
++	depends on USB_GADGET if !USB
++	select USB_ROLE_SWITCH
++	help
++	  Say Y here if you want to support a virtio-usb device: a virtio
++	  transport for USB that can present itself to the guest as a USB
++	  host controller, a USB device controller (UDC), or both, with
++	  each port independently configurable and, on ports where the
++	  virtio-usb device advertises support for it, capable of
++	  switching between the host and device role at runtime (USB
++	  OTG-style role switching), backed by the standard USB Role
++	  Switch class.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called virtio-usb.
++
++	  If unsure, say N.
+diff --git a/drivers/usb/virtio_usb/Makefile b/drivers/usb/virtio_usb/Makefile
+new file mode 100644
+index 0000000..b7ee9e8
+--- /dev/null
++++ b/drivers/usb/virtio_usb/Makefile
+@@ -0,0 +1,5 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++
++virtio-usb-y := controller.o
++
++obj-$(CONFIG_USB_VIRTIO) += virtio-usb.o
+diff --git a/drivers/usb/virtio_usb/controller.c b/drivers/usb/virtio_usb/controller.c
+new file mode 100644
+index 0000000..2fc6f50
+--- /dev/null
++++ b/drivers/usb/virtio_usb/controller.c
+@@ -0,0 +1,155 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * virtio_usb: VirtIO USB device
++ *
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ */
++
++#include <linux/module.h>
++#include <uapi/linux/virtio_ids.h>
++
++#include "controller.h"
++
++/**
++ * virtio_usb_find_vqs() - Enumerate and initialize all virtqueues.
++ * @vusb: VirtIO usb device.
++ *
++ * Context: Any context.
++ * Return: 0 on success, -errno on failure.
++ */
++static int virtio_usb_find_vqs(struct virtio_usb *vusb)
++{
++	unsigned int nvqs = vusb->nvqs, i;
++	struct virtqueue **vqs = NULL;
++	int rc = -ENOMEM;
++
++	vqs = kcalloc(nvqs, sizeof(void *), GFP_KERNEL);
++	if (!vqs)
++		return -ENOMEM;
++
++	struct virtqueue_info *vqs_info =
++		kcalloc(nvqs, sizeof(*vqs_info), GFP_KERNEL);
++	if (!vqs_info) {
++		rc = -ENOMEM;
++		goto on_exit;
++	}
++	for (i = 0; i < nvqs; i++) {
++		vqs_info[i].name = vusb->vqueues[i].name;
++		vqs_info[i].callback = vusb->vqueues[i].callback;
++	}
++	rc = virtio_find_vqs(vusb->vdev, nvqs, vqs, vqs_info, NULL);
++
++	kfree(vqs_info);
++
++	for (i = 0; i < nvqs; i++) {
++		vusb->vqueues[i].vqueue = vqs[i];
++		spin_lock_init(&vusb->vqueues[i].lock);
++	}
++on_exit:
++	kfree(vqs);
++	return rc;
++}
++
++/**
++ * virtio_usb_validate() - Validate if the device can be started.
++ * @vdev: VirtIO parent device.
++ *
++ * Context: Any context.
++ * Return: 0 on success, -EINVAL on failure.
++ */
++static int virtio_usb_validate(struct virtio_device *vdev)
++{
++	if (!vdev->config->get) {
++		dev_err(&vdev->dev, "configuration access disabled\n");
++		return -EINVAL;
++	}
++
++	if (!virtio_has_feature(vdev, VIRTIO_F_VERSION_1)) {
++		dev_err(&vdev->dev,
++			"device does not comply with spec version 1.x\n");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++/**
++ * virtio_usb_probe() - Probe VirtIO usb controller.
++ * @vdev: VirtIO parent device.
++ *
++ * Context: Any context that permits to sleep.
++ * Return: 0 on success, -errno on failure.
++ */
++static int virtio_usb_probe(struct virtio_device *vdev)
++{
++	struct virtio_usb *vusb;
++	unsigned int nvqs = 0;
++	int rc = 0;
++
++	vusb = devm_kzalloc(&vdev->dev, sizeof(*vusb), GFP_KERNEL);
++	if (!vusb)
++		return -ENOMEM;
++
++	vusb->vdev = vdev;
++	vdev->priv = vusb;
++
++	virtio_cread_le(vdev, struct virtio_usb_config, ports, &vusb->nports);
++
++	vusb->vports = devm_kcalloc(&vdev->dev, vusb->nports,
++				    sizeof(*vusb->vports), GFP_KERNEL);
++	if (!vusb->vports)
++		return -ENOMEM;
++
++	vusb->vqueues = devm_kcalloc(&vdev->dev, nvqs, sizeof(*vusb->vqueues),
++				     GFP_KERNEL);
++	if (!vusb->vqueues)
++		return -ENOMEM;
++
++	vusb->nvqs = nvqs;
++
++	rc = virtio_usb_find_vqs(vusb);
++	if (rc)
++		goto on_exit;
++
++	virtio_device_ready(vdev);
++
++on_exit:
++	return rc;
++}
++
++/**
++ * virtio_usb_remove() - Remove VirtIO usb device.
++ * @vdev: VirtIO parent device.
++ *
++ * Context: Any context that permits to sleep.
++ */
++static void virtio_usb_remove(struct virtio_device *vdev)
++{
++	struct virtio_usb *vusb = vdev->priv;
++	int i;
++
++	virtio_reset_device(vdev);
++	for (i = 0; i < vusb->nvqs; i++)
++		vusb->vqueues[i].stop(vusb, &vusb->vqueues[i]);
++
++	vdev->config->del_vqs(vdev);
++}
++
++static const struct virtio_device_id id_table[] = {
++	{ VIRTIO_ID_USB, VIRTIO_DEV_ANY_ID },
++	{ 0 },
++};
++
++static struct virtio_driver virtio_usb_driver = {
++	.driver.name = KBUILD_MODNAME,
++	.id_table = id_table,
++	.validate = virtio_usb_validate,
++	.probe = virtio_usb_probe,
++	.remove = virtio_usb_remove,
++};
++
++module_virtio_driver(virtio_usb_driver);
++
++MODULE_DEVICE_TABLE(virtio, id_table);
++MODULE_DESCRIPTION("Dual-role virtio-usb controller driver");
++MODULE_LICENSE("GPL");
+diff --git a/drivers/usb/virtio_usb/controller.h b/drivers/usb/virtio_usb/controller.h
+new file mode 100644
+index 0000000..eb07d0b
+--- /dev/null
++++ b/drivers/usb/virtio_usb/controller.h
+@@ -0,0 +1,84 @@
++/* SPDX-License-Identifier: GPL-2.0-or-later */
++/*
++ * virtio-usb: Virtio usb device
++ *
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ */
++
++#ifndef VIRTIO_USB_CONTROLLER_H
++#define VIRTIO_USB_CONTROLLER_H
++
++#include <linux/slab.h>
++#include <linux/virtio.h>
++#include <linux/virtio_config.h>
++
++#include <uapi/linux/virtio_usb.h>
++
++/**
++ * struct virtio_usb_port - Per-virtual-port state.
++ * @role: Role of this port (VIRTIO_USB_ROLE_HOST or _DEVICE), once a
++ *        role-providing commit has assigned it. Unused for now - this
++ *        struct is deliberately introduced ahead of any code that
++ *        populates or reads @role, so that every later commit that adds
++ *        a role (host, device, OTG) can build on this same per-port
++ *        array from the start instead of each reinventing its own
++ *        port-indexed storage.
++ */
++struct virtio_usb_port {
++	unsigned int role;
++};
++
++/**
++ * struct virtio_usb - VirtIO USB device.
++ * @vdev: Underlying virtio device
++ * @vqueues: Array of virtqueue wrappers.
++ * @vports: Array of per-port structures, one entry per virtual port.
++ * @nports: number of supported ports
++ * @nvqs: number of virtqueues for the device
++ */
++struct virtio_usb {
++	struct virtio_device *vdev;
++	struct virtio_usb_queue *vqueues;
++	struct virtio_usb_port *vports;
++	unsigned int nports;
++	u32 nvqs;
++};
++
++/**
++ * struct virtio_usb_queue - Virtqueue wrapper structure.
++ * @name: Name of the virtqueue.
++ * @callback: Used to synchronize access to a virtqueue.
++ * @vqueue: Underlying virtqueue.
++ * @lock: Used to synchronize access to a virtqueue.
++ * @process: queue process callback function
++ * @stop: queue stop callback function
++ */
++struct virtio_usb_queue {
++	const char *name;
++	vq_callback_t *callback;
++	struct virtqueue *vqueue;
++	spinlock_t lock;
++	void (*process)(struct virtio_usb *vusb, void *buf);
++	void (*stop)(struct virtio_usb *vusb, struct virtio_usb_queue *vq);
++};
++
++/**
++ * struct virtio_usb_vq_desc - Read-only virtqueue template.
++ * @name: Name of the virtqueue.
++ * @callback: Virtqueue notification callback function.
++ * @process: queue process callback function.
++ * @stop: queue stop callback function.
++ *
++ * Immutable per-role virtqueue description, copied into a fresh
++ * per-instance struct virtio_usb_queue during probe() instead of being
++ * shared directly - so that multiple probed virtio_usb instances never
++ * alias the same struct virtqueue.
++ */
++struct virtio_usb_vq_desc {
++	const char *name;
++	vq_callback_t *callback;
++	void (*process)(struct virtio_usb *vusb, void *buf);
++	void (*stop)(struct virtio_usb *vusb, struct virtio_usb_queue *vq);
++};
++
++#endif /* VIRTIO_USB_CONTROLLER_H */
+diff --git a/include/uapi/linux/virtio_usb.h b/include/uapi/linux/virtio_usb.h
+new file mode 100644
+index 0000000..b9dc448
+--- /dev/null
++++ b/include/uapi/linux/virtio_usb.h
+@@ -0,0 +1,302 @@
++/* SPDX-License-Identifier: BSD-3-Clause */
++/*
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ */
++
++#ifndef _UAPI_LINUX_VIRTIO_USB_H
++#define _UAPI_LINUX_VIRTIO_USB_H
++
++#include <linux/virtio_types.h>
++
++/*****************************************************************************
++ * FEATURE BITS
++ */
++enum {
++	/* Host controller is supported */
++	VIRTIO_USB_F_HOST = 0,
++	/* Device controller is supported */
++	VIRTIO_USB_F_DEVICE,
++	/* Role switching is supported */
++	VIRTIO_USB_F_SWITCH_ROLE,
++};
++
++/*****************************************************************************
++ * CONFIGURATION SPACE
++ */
++struct virtio_usb_config {
++	/* # of available ports */
++	__le32 ports;
++};
++
++/*****************************************************************************
++ * COMMON DEFINITIONS
++ */
++enum {
++	VIRTIO_USB_VQ_HOST_COMMAND = 0,
++	VIRTIO_USB_VQ_HOST_EVENT,
++	VIRTIO_USB_VQ_HOST_DATA,
++	VIRTIO_USB_VQ_DEV_COMMAND,
++	VIRTIO_USB_VQ_DEV_EVENT,
++	VIRTIO_USB_VQ_DEV_DATA,
++	VIRTIO_USB_VQ_OTG_COMMAND,
++	VIRTIO_USB_VQ_OTG_EVENT,
++	VIRTIO_USB_VQ_MAX,
++};
++
++enum {
++	VIRTIO_USB_EP_CONTROL = 0,
++	VIRTIO_USB_EP_INTERRUPT,
++	VIRTIO_USB_EP_BULK,
++	VIRTIO_USB_EP_ISOCHRONOUS,
++};
++
++enum {
++	VIRTIO_USB_S_OK = 0,
++	VIRTIO_USB_S_ERR_BAD_MSG,
++	VIRTIO_USB_S_ERR_INTERNAL,
++	VIRTIO_USB_S_ERR_NO_DEVICE,
++	VIRTIO_USB_S_ERR_ISO_XFER,
++	VIRTIO_USB_S_ERR_ISO_BIG,
++	VIRTIO_USB_S_ERR_DATA_IN,
++	VIRTIO_USB_S_ERR_DATA_OUT,
++	VIRTIO_USB_S_ERR_MSG_SIZE,
++	VIRTIO_USB_S_ERR_OVERFLOW,
++	VIRTIO_USB_S_ERR_STALL,
++	VIRTIO_USB_S_ERR_SHORT_PKT,
++	VIRTIO_USB_S_ERR_CANCELLED,
++	VIRTIO_USB_S_ERR_HOST,
++};
++
++struct virtio_usb_cmd_status {
++	__le32 code; /* VIRTIO_USB_S_XXX */
++};
++
++/*****************************************************************************
++ * HOST COMMAND MESSAGES
++ */
++enum {
++	VIRTIO_USB_CMD_HOST_CANCEL = 0,
++	VIRTIO_USB_CMD_HOST_STREAMS_ALLOC,
++	VIRTIO_USB_CMD_HOST_STREAMS_FREE,
++};
++
++struct virtio_usb_host_cmd_hdr {
++	__le32 code; /* VIRTIO_USB_CMD_HOST_XXX */
++	__le32 port; /* Port ID */
++};
++
++/* VIRTIO_USB_CMD_HOST_CANCEL */
++struct virtio_usb_host_cmd_cancel {
++	struct virtio_usb_host_cmd_hdr hdr;
++	__le64 tag;
++};
++
++/* VIRTIO_USB_CMD_HOST_STREAMS_ALLOC/FREE */
++struct virtio_usb_host_cmd_streams {
++	struct virtio_usb_host_cmd_hdr hdr;
++	__le32 number_of_streams;
++	__le32 number_of_eps;
++};
++
++/*****************************************************************************
++ * HOST EVENT MESSAGES
++ */
++enum {
++	VIRTIO_USB_EVT_HOST_PORT_CONNECTED = 0,
++	VIRTIO_USB_EVT_HOST_PORT_DISCONNECTED,
++};
++
++/* VIRTIO_USB_EVT_HOST_PORT_CONNECTED/DISCONNECTED */
++enum {
++	VIRTIO_USB_SPEED_UNKNOWN = 0,
++	VIRTIO_USB_SPEED_LOW,
++	VIRTIO_USB_SPEED_FULL, /* usb 1.1 */
++	VIRTIO_USB_SPEED_HIGH, /* usb 2.0 */
++	VIRTIO_USB_SPEED_WIRELESS, /* wireless (usb 2.5) */
++	VIRTIO_USB_USB_SPEED_SUPER, /* usb 3.0 */
++	VIRTIO_USB_SPEED_SUPER_PLUS, /* usb 3.1 */
++};
++
++struct virtio_usb_host_port_event {
++	__le32 code; /* VIRTIO_USB_EVT_HOST_PORT_XXX */
++	__le32 port_id;
++	__le32 speed; /* VIRTIO_USB_SPEED_XXX */
++	__le32 padding;
++};
++
++/*****************************************************************************
++ * DEVICE COMMAND MESSAGES
++ */
++enum {
++	VIRTIO_USB_CMD_DEV_GET_ENDPOINT_COUNT = 0,
++	VIRTIO_USB_CMD_DEV_GET_ENDPOINT_INFO,
++	VIRTIO_USB_CMD_DEV_PULLUP,
++	VIRTIO_USB_CMD_DEV_VBUS_DRAW,
++	VIRTIO_USB_CMD_DEV_EP_ENABLE,
++	VIRTIO_USB_CMD_DEV_EP_DISABLE,
++	VIRTIO_USB_CMD_DEV_EP_SET_HALT,
++	VIRTIO_USB_CMD_DEV_EP_SET_WEDGE,
++	VIRTIO_USB_CMD_DEV_CANCEL,
++};
++
++struct virtio_usb_dev_cmd_hdr {
++	__le32 code; /* VIRTIO_USB_CMD_DEV_XXX */
++	__le16 port; /* Port ID */
++	__le16 endpoint; /* Endpoint ID */
++};
++
++/* VIRTIO_USB_CMD_DEV_GET_ENDPOINT_COUNT */
++struct virtio_usb_dev_cmd_ep_count {
++	struct virtio_usb_cmd_status status;
++	__le32 count; /* # of supported endpoints */
++};
++
++enum {
++	VIRTIO_USB_DIR_OUT = 0,
++	VIRTIO_USB_DIR_IN,
++};
++
++enum {
++	VIRTIO_USB_EP_DIR_OUT = 0,
++	VIRTIO_USB_EP_DIR_IN = 0x80,
++};
++
++/**
++ * VIRTIO_USB_CMD_DEV_GET_ENDPOINT_INFO
++ *
++ * Response:
++ *     struct virtio_usb_cmd_status
++ *     struct virtio_usb_dev_cmd_ep_info [count]
++ */
++struct virtio_usb_dev_cmd_ep_info {
++	__le16 types; /* supported type bit map (1 << VIRTIO_USB_EP_XXX) */
++	__le16 directions /* supported direction bit map (1 << VIRTIO_USB_DIR_XXX) */;
++	__le16 maxpacket_limit;
++	__le16 max_streams;
++};
++
++/*******************************************************************************
++ * DEVICE EVENT MESSAGES
++ */
++enum {
++	VIRTIO_USB_EVT_DEV_CONNECTED = 0,
++	VIRTIO_USB_EVT_DEV_DISCONNECTED,
++	VIRTIO_USB_EVT_DEV_SETUP,
++	VIRTIO_USB_EVT_DEV_RESET,
++	VIRTIO_USB_EVT_DEV_SUSPEND,
++	VIRTIO_USB_EVT_DEV_RESUME,
++};
++
++struct virtio_usb_dev_event {
++	__le32 code; /* VIRTIO_USB_EVT_DEV_XXX */
++	__u8 padding[12];
++};
++
++/* VIRTIO_USB_EVT_DEV_SETUP */
++struct virtio_usb_dev_setup_event {
++	__le32 code; /* VIRTIO_USB_EVT_DEV_SETUP */
++	__u8 setup[8]; /* setup packet contents */
++	__u8 padding[4];
++};
++
++/*******************************************************************************
++ * HOST/DEVICE DATA MESSAGES
++ */
++enum {
++	VIRTIO_USB_FLAG_SHORT_NOT_OK = (1 << 0),
++	VIRTIO_USB_FLAG_ISO_ASAP = (1 << 1),
++	VIRTIO_USB_FLAG_ZERO_PACKET = (1 << 2),
++};
++
++struct virtio_usb_request {
++	__le64 tag;
++	__le16 port; /* Port ID */
++	__le16 endpoint; /* Endpoint ID */
++	__le16 transfer_type; /* VIRTIO_USB_EP_XXX */
++	__le16 transfer_flags; /* VIRTIO_USB_FLAG_XXX */
++	union {
++		/* transfer_type = VIRTIO_USB_EP_CONTROL */
++		struct {
++			__u8 setup[8];
++		} control;
++		/* transfer_type = VIRTIO_USB_EP_INTERRUPT */
++		struct {
++			__le32 interval;
++		} interrupt;
++		/* transfer_type = VIRTIO_USB_EP_BULK */
++		struct {
++			__le32 stream_id;
++		} bulk;
++		/* transfer_type = VIRTIO_USB_EP_ISOCHRONOUS */
++		struct {
++			__le32 interval;
++			__le32 start_frame;
++			__le32 number_of_packets;
++			__le32 padding;
++		} iso;
++	};
++};
++
++struct virtio_usb_response {
++	__le32 status; /* VIRTIO_USB_S_XXX */
++	__le32 actual_length;
++	__le32 interval; /* type = VIRTIO_USB_EP_INTERRUPT/ISOCHRONOUS */
++	__le32 start_frame; /* type = VIRTIO_USB_EP_ISOCHRONOUS */
++};
++
++/**
++ * ISO request:
++ *     struct virtio_usb_request
++ *     struct virtio_usb_iso_packet [number_of_packets]
++ * ISO response:
++ *     struct virtio_usb_response
++ *     struct virtio_usb_iso_status [number_of_packets]
++ */
++struct virtio_usb_iso_packet {
++	__le32 offset;
++	__le32 length;
++};
++
++struct virtio_usb_iso_status {
++	__le32 status; /* VIRTIO_USB_S_XXX */
++	__le32 actual_length;
++};
++
++/*****************************************************************************
++ * OTG COMMAND MESSAGES
++ */
++enum {
++	VIRTIO_USB_CMD_OTG_GET_ROLE = 0,
++	/* If VIRTIO_USB_F_SWITCH_ROLE is negotiated */
++	VIRTIO_USB_CMD_OTG_SWITCH_ROLE,
++};
++
++struct virtio_usb_otg_cmd_hdr {
++	__le32 code; /* VIRTIO_USB_CMD_OTG_XXX */
++	__le32 port; /* Port ID */
++};
++
++/* VIRTIO_USB_CMD_OTG_GET_ROLE */
++enum {
++	VIRTIO_USB_ROLE_HOST = 0,
++	VIRTIO_USB_ROLE_DEVICE,
++};
++
++struct virtio_usb_otg_cmd_role {
++	struct virtio_usb_cmd_status status;
++	__le32 role; /* VIRTIO_USB_ROLE_XXX */
++};
++
++/*****************************************************************************
++ * OTG EVENT MESSAGES
++ */
++enum {
++	VIRTIO_USB_EVT_OTG_CHANGE_ROLE = 0,
++};
++
++struct virtio_usb_otg_event {
++	__le32 code; /* VIRTIO_USB_EVT_OTG_XXX */
++	__le32 port; /* Port ID */
++};
++
++#endif /* _UAPI_LINUX_VIRTIO_USB_H */
