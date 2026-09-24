@@ -1,81 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC17446053;
-	Thu, 24 Sep 2026 16:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29ED73FA5CC
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 16:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790267477; cv=none; b=LBGS+2BNjtJz5FHGMypVV94hlg4LxShZ5+J/Eh1oZC6jbMIYX8JSqHYjRey3l5BW6rmDBKC//tf3tIv6ZQjGlaEs6Pc12HRZn/YqsZgORZERjOpzHzppSQY9u9268ZnUf3/GEiHsZYvBWYr4ItPYslKH3JRK6gLVrMG7XNsoXPE=
+	t=1790267893; cv=none; b=Agg8tVgCrzWYxIPUW2qvQEZgKaMnjeFuyewgnXhMcitdg2xZhoqRl0e3MRaP86M3+XxtLM+I6mK1tZuc/Y1jCv/HizwLmvX3COQhWwvF6f6nTetm9Vq6n/ytRTKmw02aKjja3WQdUxW7X1tKjwnSzcjgb+WTPAz5GVOYpS/Yv/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790267477; c=relaxed/simple;
-	bh=IdA+mcFIM/aPB3twx0y7leb4szaFE/tPvTooXY9G6LA=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=OILzECM2DxC4qPB/oQQUknbbyyM+7p0ae/ZWl/ZN3lkHEQOkVw6j4hXmq6W2NY4pOv5DzobMguAefu0w1DimS6+7QhJX99jEUofP+aCmNZEdY7dTzpTrhSp2c8qo7hqntHls9Cf67/GK0Ku6AGJAZM43x04QjXPwkLfjoBe/9s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Nk5g+hFX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790267893; c=relaxed/simple;
+	bh=Y6dfgoDu9ENyHz35342iESy0PYqePxl/sIn9jSurkUk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nfaQxPSxHnwurn2FjhkxtjPAvAf4ikKoYBfifFUFvEXFuiMIgCtNaB6OPyQ+dSl5HuSQbLhmBFFN+x5Nw1WL3LAHZLOFcc8jI4SC4rBIvSgtTWq6/obp9wCTU219ebd6QZY5exH8m4oQkAyJgPW/ak6c9CcJjPsO843LgPEZiH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=DELaQ6H+; arc=none smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nk5g+hFX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB2B31F00893;
-	Thu, 24 Sep 2026 16:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790267475;
-	bh=ow/Q57RKC0ibuf1QxYnFsae0EBpIqB7kmXidBtLR4os=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=Nk5g+hFX1F5vuh0mFcjO9vJLU3bQNQh2q8Jv8EOPPrKTp3bmz34Q81opzVIUcFbpm
-	 2CdBEc85FeGnWgT7q8USMGOtJhkks+q+7mcp14Jh6v9myPXNrdt7DX/I5/Wir5PrmV
-	 e9SdfZ9QC8T/tnGDT5i7ytogWbRuFCQn6fRQqz4nXRlTg3MC6VTPXlGk0rHWbs5eCZ
-	 39wScb4ed3A7SI86rDT+Yc7fP3S54TsGUY94l+HD/yILUenFyLW3nRDF/oo4JiJmMl
-	 uC6RxEVoxLAq7fJemHXmn6f12lFPYshTTmMFFKciI90D/HurIMP2Q9glFSC1eFEPvx
-	 M4oLnshqtfj/A==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 198543A566CE;
-	Thu, 24 Sep 2026 16:30:06 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="DELaQ6H+"
+Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-52fb76543e1so245181cf.0
+        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 09:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1790267891; x=1790872691; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=LuPrvXBzY5FQ+f/5fzbveR9yF272P1V2+jsIcGJNdC0=;
+        b=DELaQ6H+GoqYKhSPbbw83I2UghjOPLUKt/HJzwYXOl5vd4By1b/ewKsZIbd9ahXhZb
+         TJDLBT2drAnq8j1D4gtZjKdZE54vfhHIW07z7SMjyhNrpJZ88lIXL27llafwJKgt7Hvw
+         zeqWn52o1fsiwmzoo4rrDQZv3h3IiFJnFO2iuBnkUsGA3ktjvtFHA3Jr6K2ZEcGMg8M1
+         1di2ZTIAJ2yTB2V6zmlctv6zG6tcG5IvMF9RkWmI06r7tX+skZxDuVThBB0MSr3NZe3S
+         B2+XxiOTA95Xk/3/+mlBZ2rpvQSIcAx9lD43yFxhcrOBvTesr5mE416XkZK5Fw1vsdLx
+         5Q7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790267891; x=1790872691;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=LuPrvXBzY5FQ+f/5fzbveR9yF272P1V2+jsIcGJNdC0=;
+        b=oIrC5ycYf2ivrrLlNkbQ8eI4P3Zh9Hw3E/jkAvKzPF1NcfPj8wHb/YW7NucUp9Pg/D
+         WZ9KK4P5MsNWtSe97RhBeJ3YgLd3AThSDQ55XUeOuAQXdsESWgjtxtKomg/9RAK/u2Ne
+         JBo+AzYdXZtPKo4/OYr2runK59HT+Lp4XrHFNjJnXA+yib+N42G21gEf3aqKZjaDLA/+
+         j3m7I1cYQ3XETtUdvo3f6F1XfAqwhxScZ4IOoZCEFKzk/+RbTyh/YfVKlTmEnIRwkU0D
+         TF4kSR4CYSr7zPmulJodw++Gd8igN8K7WQtjY8OecKNJd1/lougJZnEJPicPhp6ExNZi
+         lmnQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz0qDtlR8ztE+Vf1vXLBhNE5YMWVuY/HfrVJldD26kF3qSqWlKKO9wcNvvcewYZiU1+A8FSJR0ZFck=@vger.kernel.org
+X-Gm-Message-State: AFuF++mvAsF9DujdJuVjCLrKWaC/vm+IzsFnUQeZxc71vYDSB3dIRwbs
+	91OsVC2bxgf19xq8wMUQnVBQa4oXAJlxV1v9Aj2+QWtlCZEAA6ielmeFxWLWD9zAnEo=
+X-Gm-Gg: AYBFou3TB4BEbISg4162LSOeZI6advAPrZpPQUO1yMiUyQ7D16aA/D0h9uSGR1YRZON
+	1EaeEevI3LqfQWLvbRUz8TwpRqzH5zl24sV/VC1lqmhRPviejuQnLn6T8ifXIOe9TenEqm14UMt
+	hs4uLtiPcDdLFucTarpXWxXzVAdAqr4T/84rn32Es37b4/mAB+wrKn3vhBDP8qYl8BoSQO0ODk+
+	9EFMh6RyXXqQayIV5V4RIb0M5X9SLKMD6FR4wT4kPsaGWRysqSzZ0u7nC/m11z2h4QkUNBGls9H
+	yt+AJ5YUHl76+d0xXW6jsYDrwJ4yWvEzUpb5yIUYm9l7nknZvS+qrkmj/aq9nPJsI4cH5rLf6Qv
+	qmXeGv5KGcSlHFNVc66bPMmikcHryx+7MAqNPZkBivM2TqhPBJ6jOT8QAUDvm1feF6A92UBtP9M
+	1U7awE7qQmDiznkiBhKZsivJBOY9QenK1qMFWkqmKtARM+5XKrubel3nmAXQGQfp2unl8tiOtMv
+	JYkOkFVKbSEcyG/MaNtNWximq8Z1IQa7OlDag/AGyeHL4o6UiX3114=
+X-Received: by 2002:ac8:5743:0:b0:530:d860:ffba with SMTP id d75a77b69052e-532fe9f05bamr29797891cf.6.1790267890993;
+        Thu, 24 Sep 2026 09:38:10 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532eb32f6aasm45064551cf.16.2026.09.24.09.38.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 09:38:10 -0700 (PDT)
+Date: Thu, 24 Sep 2026 12:38:08 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 03/40] mm/vma: introduce and use
+ vma_[flags_]can_merge()
+Message-ID: <arVRqJZkql6sGunt@gourry-fedora-PF4VCD3F>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v2] net: usb: cdc_mbim: add MeiG Smart SRM821 to ZLP
- whitelist
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <179026740490.1641283.14259237051960646702.git-patchwork-notify@kernel.org>
-Date: Thu, 24 Sep 2026 16:30:04 +0000
-References: <20260920074500.826121-1-wangming01@loongson.cn>
-In-Reply-To: <20260920074500.826121-1-wangming01@loongson.cn>
-To: Ming Wang <wangming01@loongson.cn>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, stable@vger.kernel.org,
- oliver@neukum.org, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-3-4583d8a23bca@kernel.org>
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Sun, 20 Sep 2026 15:44:59 +0800 you wrote:
-> The MeiG Smart SRM821 5G module (0x2dee:0x4d53) crashes and drops off
-> the USB bus when it receives a Zero Length Packet (ZLP) after sending
-> or receiving an NTB of exactly 16384 bytes (tx_max).
+On Thu, Sep 17, 2026 at 05:22:12PM +0100, Lorenzo Stoakes (ARM) wrote:
+> Replace the open-coded VMA_SPECIAL_FLAGS check in the VMA merge logic with
+> two new functions vma_flags_can_merge() and vma_can_merge() and update the
+> merge logic to use the former.
 > 
-> According to the MBIM specification, devices do not require a ZLP
-> if the NTB size is exactly dwNtbOutMaxSize. However, the cdc_mbim
-> driver defaults to sending ZLPs for devices not explicitly whitelisted
-> to accommodate non-conformant hardware. This default behavior breaks
-> the strictly conformant MeiG SRM821 module.
+> This abstracts the check and expresses it in terms of the desired behaviour
+> rather than an arbitrary and confusing VMA flag.
 > 
-> [...]
+> This also lays the groundwork for making further improvements in VMA flag
+> usage.
+> 
+> Also update the userland VMA tests to reflect the change.
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-Here is the summary with links:
-  - [v2] net: usb: cdc_mbim: add MeiG Smart SRM821 to ZLP whitelist
-    https://git.kernel.org/netdev/net/c/f75f21ef3628
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
 
