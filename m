@@ -1,132 +1,75 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D4D47887F
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 10:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153EC3A9D94
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 10:31:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790245454; cv=none; b=phN7G/c0s4yEqWQpxgel0WulJgEzRHo8260FPc59rfGIrAtF4q7FaPbr0iSpKlrqP4LY+pi3vbNptfMymuZ/5S7F3bQZRntZ3XoVFa1ZosLZdtK7AR6gX4dXAzW3OSdvfBAO9HZP4mTImvPVLaiREteZCdNeNlHSNf8eXDWAnCA=
+	t=1790245920; cv=none; b=Tqtmxa4ZzfA+hEceGHB73c67Nu6UuHdnDrC50dS/8xOprqhg3BzTGj8OoaJcLEbabYYE2QiL8gp8V0W/CNwZJ5zicG6t6Eb1FCq6pNK4A2J9vwIpTbZdLVq+PYYVVnZUa3XkGCcudDzv9N4OuwXVyCzLjJrYpDFDZ6afesVI7d4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790245454; c=relaxed/simple;
-	bh=/I7sMKRC+Fm/RMOumClgldkrmS5D2N3LRxy0pszOg5k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JQnawdEcOv824XtFFM7V5Q2pkkcGBZI2yPkz5qZoZ/pUiXFwiUpxyaDVCOBXVC75oEdK+epnV9qhsy1gOvc9KPH7CePx0K2BQlqYxaSdMq5YcUEEBddgot1NMyFzkpx+d+9Zrb0p2bew4HYFA6VGb1aU+TtflvJyrdnEGEUssrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hXIReeRt; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jetjw+p0; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1790245920; c=relaxed/simple;
+	bh=uYFfpJkVt46fZ2txBiCNwR6dpa8azOiewf0euUP1yhI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fYGQe8XbBwK/rsP6gyzqKyQE0zHOXeRN32qKCJNX70PWPAfGp5fuNldFMgQBfkqCiF/fYdyPMLIDdS+CiplJXZv34WK5SmYecSH0IhE3LM348H88w0GAIZU1A227JZ5ZYqGIvEwHWGst9zWNPoEFDDqyDXHfoZjNG79gWNGGLXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bc1360UC; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hXIReeRt";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jetjw+p0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1790245450;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4gKaCmlo8zL0/IT3A5NQAgJVMGj3NM0BKVIjo7Jj9JQ=;
-	b=hXIReeRtmdztWdNm93WBpP5nhcBdOLR+FevhnF/gt9JaH2QKBflgOorkLHSg5oSQ1eRH2U
-	KcO7q4c/i2qArJFvv/dsCfDRV1p+0QjOQbNHgNDlC3EX5dYWmleUzYzzilXIGJXwRtG1WH
-	Pzjjsc1MOBbWs1BERyy33e0hxNU4aPo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-443-hwVKueWFOSudR--R0XTHkw-1; Thu, 24 Sep 2026 06:24:09 -0400
-X-MC-Unique: hwVKueWFOSudR--R0XTHkw-1
-X-Mimecast-MFC-AGG-ID: hwVKueWFOSudR--R0XTHkw_1790245448
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-49cf9df1eadso16299345e9.3
-        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 03:24:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1790245448; x=1790850248; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4gKaCmlo8zL0/IT3A5NQAgJVMGj3NM0BKVIjo7Jj9JQ=;
-        b=Jetjw+p0l+j2Sxgn8CqbAnf8sEthYJm2QROIeqJNHCOqddxM4t2MUsTeAhf9Lu6Szp
-         2PyQ3mMNvp1B1MyikvsoT2ICLqft92Tk1Ce/NVG0nAD1I6yvukwgvoHvoVm2VkuQAVM+
-         sv9cOBYRBZkNtxz45f9KxA6V+2pkcU+4AeWGEBd71sKlpww5HdWzw8oRfrA9rrYeBTZ1
-         hBzm3qiVZ8rqkUWJ/5zSq8yA8T7aAd7GZHVkBIj5CJKcNMxwR9IcGtqPFai1YQseoAB6
-         agHZhGPWSpzndeQwdB6rbbhtGNMAX7SFjbp9pAYP0Aowd0la9jnm1AQ6Gxs32c1XnVIM
-         1h5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790245448; x=1790850248;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4gKaCmlo8zL0/IT3A5NQAgJVMGj3NM0BKVIjo7Jj9JQ=;
-        b=gDzcnNw3k6QGN1/e7JVlkE7dfTp81B+iDzWaAtf/T2q+uKXBqNKXqWkviOpBdbSdsz
-         JI5kjjDSRCACb8h4/Z5LmAThkbgeYsIoco5aDZ8ddp68oN6VxDd7kR7lLjPeEArgs0cq
-         E0aVjrnRbX1YAJDrCiFA8rhwRKPI80a7If56quQpm0A8j8MfWGjJ8DTz6GpvZXnV39Aj
-         uEFSiHH8SZ25+h4eZ4f9FIr+qAKVkSIYNgar0ndviHhjaWlkf3cQc6q77YtQqpLO/1+R
-         CXIezfrykAzjtgnHSLQP8Qdw2R9jKf1bnu69H+tLEWIdELZFqq44yScTJKk6MJqofn79
-         MQOA==
-X-Gm-Message-State: AFuF++kvfgn043HI9Dm1GaEY6RL78MJySmHyRjeaxLJoUprOMKyD2cuH
-	lSlfYo7ZkShOLKdv+8VNkM1MI+8g6onCAiesgXUgddTi+cFYuvpmphkVkDZlUuAArI4WjXWH+cJ
-	UF2ntqYrO4EljdGVHckprVE3tIoSyxArSjuQvnZvIll0akCoREnSnMMCujBchjg==
-X-Gm-Gg: AYBFou33pTsnmx+ZdT/JBsPS6Nl+CX/Ig2E+p2SMvi24x0qKqJhHATuJ3TUu/LfbHdp
-	pzxMmwDN3uPQ1r6k+tPSXSyDCh1nsBrb28mV+rzq4VLxfn/+u0q1pxwtOh1c/0cJsIoWts/aZAF
-	tBRvbXNc95tQ/V2GZhDw2vF3WmcJr+fdGi0gWZSe9ggSVJ/0jz9gWN+i6EV38ZpZeTtqCVyePA/
-	hjRyOd4oTgnETPwfTDZupsbNyymqBgCeTcWbOyq0GzWsUu5XQpnO2/dWV9tBMPBa5Zx6+7+9w+2
-	02FgoGYkaqXfM2ZpSyVlZz+bJ9ao8R5n75Fbkd90QxC9RPZvZLXfhObw5AKeQhirBav6yRwyH0d
-	7JrvSFSOtK0KPrFD+AEfeg+W98Ri7FUtBsfN5fSr5fGxxN77+WJl8i7BmMZ9Oh+d0YX8zB7R93A
-	==
-X-Received: by 2002:a05:600c:3515:b0:49f:d778:be09 with SMTP id 5b1f17b1804b1-49fe66fcc19mr33137675e9.24.1790245448042;
-        Thu, 24 Sep 2026 03:24:08 -0700 (PDT)
-X-Received: by 2002:a05:600c:3515:b0:49f:d778:be09 with SMTP id 5b1f17b1804b1-49fe66fcc19mr33137285e9.24.1790245447655;
-        Thu, 24 Sep 2026 03:24:07 -0700 (PDT)
-Received: from [192.168.188.234] (ip232-47-231-195.pool-bba.aruba.it. [195.231.47.232])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe5b9c59dsm52797735e9.1.2026.09.24.03.24.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 24 Sep 2026 03:24:07 -0700 (PDT)
-Message-ID: <4d5e2857-e6eb-43e2-b668-83e779aaa734@redhat.com>
-Date: Thu, 24 Sep 2026 12:24:06 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bc1360UC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790245918; x=1821781918;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uYFfpJkVt46fZ2txBiCNwR6dpa8azOiewf0euUP1yhI=;
+  b=Bc1360UC0/sUV5Lva7Y8jf7lRtiPtWVgSQl3726Pf94+uYedwHiZTn9I
+   epHhMhLfZWdGowE04Y8KbWohr1khhb2bEXLSOa35AQ6kEMojSCKcb7KjJ
+   vYT5kPXh9iiDf+rVFjfZukdnnKdNZnUgEE0l2hsRrfcKdbEyk69zto/fr
+   Rw6Eqxlg0kV2/pYUDD1vqTE/tayKgdIANX8J10foJrEVnSjm6aTbkWnOs
+   CQa+m04C5gprRlDXX+r9iaA1ofsYhhQvf7y+t2fG8/CRn5zVAQtWs6qNY
+   eGeUjl/o3ariKUPdswxK+F6WDLisNa1/FgfNnxXHlD6NwD+15NvZFu38z
+   A==;
+X-CSE-ConnectionGUID: 8dpMVzAVRYa+gzfgigyuVw==
+X-CSE-MsgGUID: HrZM3VM2T12GIOEZ2AuL/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="78564900"
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="78564900"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 03:31:57 -0700
+X-CSE-ConnectionGUID: mi6krPLhS9Wdiglqi3MaMQ==
+X-CSE-MsgGUID: FomHQAE4SESl2Zax9vLH+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="278707123"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa004.fm.intel.com with ESMTP; 24 Sep 2026 03:31:56 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 0424099; Thu, 24 Sep 2026 12:31:55 +0200 (CEST)
+Date: Thu, 24 Sep 2026 12:31:54 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: linux-usb@vger.kernel.org
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>, Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>
+Subject: Re: [PATCH] thunderbolt: stream: Announce support for FMODE_NOWAIT
+Message-ID: <20260924103154.GO106095@black.igk.intel.com>
+References: <20260922115834.3807356-1-mika.westerberg@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] net: usb: cdc_mbim: add MeiG Smart SRM821 to ZLP
- whitelist
-To: Ming Wang <wangming01@loongson.cn>, netdev@vger.kernel.org
-Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org,
- Oliver Neukum <oliver@neukum.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, linux-kernel@vger.kernel.org
-References: <20260920074500.826121-1-wangming01@loongson.cn>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20260920074500.826121-1-wangming01@loongson.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260922115834.3807356-1-mika.westerberg@linux.intel.com>
 
-On 9/20/26 09:44, Ming Wang wrote:
-> The MeiG Smart SRM821 5G module (0x2dee:0x4d53) crashes and drops off
-> the USB bus when it receives a Zero Length Packet (ZLP) after sending
-> or receiving an NTB of exactly 16384 bytes (tx_max).
+On Tue, Sep 22, 2026 at 01:58:34PM +0200, Mika Westerberg wrote:
+> Commit 42bc6935339b ("thunderbolt: stream: Support IOCB_NOWAIT in
+> non-blocking I/O as well") added support for IOCB_NOWAIT but forgot to
+> actually announce it as part of the file->f_mode. Add this now so users
+> such as io_uring can actually take advantage of IOCB_NOWAIT.
 > 
-> According to the MBIM specification, devices do not require a ZLP
-> if the NTB size is exactly dwNtbOutMaxSize. However, the cdc_mbim
-> driver defaults to sending ZLPs for devices not explicitly whitelisted
-> to accommodate non-conformant hardware. This default behavior breaks
-> the strictly conformant MeiG SRM821 module.
-> 
-> Add this device to the ZLP conformance whitelist (cdc_mbim_info) so
-> the driver will pad the NTB to avoid sending ZLPs, preventing the
-> device firmware from crashing.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Ming Wang <wangming01@loongson.cn>
+> Fixes: 42bc6935339b ("thunderbolt: stream: Support IOCB_NOWAIT in non-blocking I/O as well")
+> Signed-off-by: Mika Westerberg <mika.westerberg@linux.intel.com>
 
-Before any other step, please read:
-
-https://elixir.bootlin.com/linux/v7.3-rc3/source/Documentation/process/maintainer-netdev.rst#L454
-
-AFAICS this is actually support for additional H/W, just worded in
-very unusual way: please reword the commit message accordingly and
-drop stable from CC.
-
-/P
-
+Applied to thunderbolt.git/fixes.
