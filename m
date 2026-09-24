@@ -1,113 +1,179 @@
-Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-BJS-obe.outbound.protection.partner.outlook.cn (mail-bjschn02on2129.outbound.protection.partner.outlook.cn [139.219.17.129])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3D6137F339
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 03:42:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.171
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790221373; cv=none; b=cQhKYjjk8QsvH9MJgGi8fd62fq9ya4XFHDBmrCpuodOsYfedvVIwD2bUpOPjyFV+K3VIrlFiQ6v1TmyG1lmLhC3JOWAPtwMSpmETWw9LXXh6YHPYoyFtROnyAa1Q/6iYdugeW48soZW0usWWMAMKIsbfmxoISLAPEFGho5FX1ZU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790221373; c=relaxed/simple;
-	bh=L7Qj0R81FVetP/4gVv5QkY4ivQKBZys/aLRQObP1Z/A=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DdUfoa6vT9IMu/WBtbECwwaRiVVH67WpjH90Vd4IjQ7Bi5aiqiKv2bPB+ajvg+7YM6Mr/x3BRV0aLyEGaOHYP0CYeooYKg1tgWzlF6T/ris0IMljCLbg9IH/TxpfH42HJzmv24WwBbESJcGu9FNdS3JsX5l3vcTdSGN5JLfnDuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i/U9HuQM; arc=none smtp.client-ip=74.125.230.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i/U9HuQM"
-Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-910537b51a0so11842756d6.3
-        for <linux-usb@vger.kernel.org>; Wed, 23 Sep 2026 20:42:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790221367; x=1790826167; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0yFANMoCUp7JOoOigAwUOA4gmgxzBSM9RgfKkSVfdaA=;
-        b=i/U9HuQMuFeimXCIazXolokMFgaDQBJRwNBVJfgOa2zxMRNeh/D4moi++3s3gvdKBE
-         4fUI4uJE3i56Jj4pGNZq0dhw3HNJxIC1YaPem9yZASOGbW2HWsetFQUbvuz5h7JjUMfo
-         hnYlg7GtULycFTSVmDYdEiEoXP35W1NKMl8iC4J4BZqkcnVmFUzYgUilwIP5+vQb+uR0
-         PArP11Hm+dVzs2na91uVH32oypqf7ssTT8bD7Xa66YsN/36HklG7ZbVR2aAcSds4IxBq
-         MeNHLeG1xmtxmGNK0A8nYApE/giapcITbABmjLqIPcRqiSmh1RGfsTxw6MNJ38+upTxv
-         Elfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790221367; x=1790826167;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0yFANMoCUp7JOoOigAwUOA4gmgxzBSM9RgfKkSVfdaA=;
-        b=INSDi/kmfstsXZl+uwSYxbNjOkNVXkcQeVAApyjpXPEf7VBQ0kcvyZ5Jfg9+M9AKSs
-         JhdRGpJlacptF+LI1GfTTxTRX3Udl/v3JJGVGZ62xDuCgb+UgxXRqkUwiujk8dBF1Wtp
-         V1QRgtaW4qiZsrDGRx1yrZP0V/dNiDagIiZsai9q+ZewsZZhigzUMD6PAjDK4S4s88MP
-         D6uQAy+6CqrWHaWXz9gndb3VZwWKgiNw/nr7RSLk+ADZGlf1P34cRfhg+AZ39Zbjnw2W
-         Bhqbf6t5cAzSVwjaddMMtzMz7qOJTUQBIni6lEXM2PRM5CDkFBG17l0ZD12gCKaSBFUK
-         OkLA==
-X-Gm-Message-State: AFuF++mSusK4qJLT+GxOi+U7FjeygB3/F7qVaicmoT0NHJi1qzds8cG+
-	3CUlUsAuADIpw3xx+hlpaqKYA/YY0CVs19iQjnGxXqAbx4KG9HPoH5eG
-X-Gm-Gg: AYBFou3wAvp2lp8oWPR0cv20G+iFISa1My/1Z0SCFJbROCXq387l77rXDyCCvTxHgEV
-	MSH/FuoriZ3ScCPIhtj/Ss2Ez2tVqA/SI0dljccQjUqgvottuVAsz6NPa3ALvR9ppvzkaT/QnBW
-	meQYyxfLmclV1DZZ82qY5dB6QiFcb6BKkqTNgEFhdwR+ilZHGUHWK5jDXH9IvhfLnoLVgAiZGKD
-	io415JP94Jqs9rHqSqqIi8KBc5e0QGmm05OF4+3ULU98KkC4fQu4LHXuqWTMtqEN8nqJfvbwUtn
-	Dhn2ajOyvz056u0x3tfcT/YDphLc3GRgjukvNQr1c/xUiryHPhTl7R5gtXpGAq4AYL2nlsaV1dw
-	dPlSmGmEHTYGL1Yisdc2y5S7sPueAlk/sanM4J5Yp1niKvux8VwV/La/a+XhARxCeEECBMMfXr3
-	1iAoWN6KVbAU+/5SkwHC2y06HVxkSKIoAOJCCoITOpurrhebuXwG1Uv/8tXkNGfdeR4Laeajuzz
-	6E+o4KbYk035Syw5559YUODeHOT8vqSyom3pw==
-X-Received: by 2002:a05:6214:4b03:b0:912:517b:974c with SMTP id 6a1803df08f44-91421eefa65mr5437166d6.38.1790221367421;
-        Wed, 23 Sep 2026 20:42:47 -0700 (PDT)
-Received: from dhoja.local (S01067483c248479d.wp.shawcable.net. [50.72.244.202])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-9141e2177f0sm8229836d6.14.2026.09.23.20.42.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 20:42:46 -0700 (PDT)
-From: Curtis Vogt <curtis.vogt@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Curtis Vogt <curtis.vogt@gmail.com>
-Subject: [PATCH] USB: quirks: Ignore wakeup from the Valve Index HMD hub
-Date: Wed, 23 Sep 2026 22:41:19 -0500
-Message-ID: <20260924034200.421686-1-curtis.vogt@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C44A18C02E;
+	Thu, 24 Sep 2026 04:03:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.17.129
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790222636; cv=fail; b=lQkq4f2y8q7ZZsoZECqWP4xiGETIUvCbDMI+meQp6h4Q2YfiCVFYw2e9xIcu803479oKXy5hvQyLhT5KVobmUEnkcoKAKAp+jYsw46xSOYewkFvxjAOfILroxAEudq19NAvlE6uvaC+M+uIUlc4aDLecdBzFd4iq8iL6OQoM8Ak=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790222636; c=relaxed/simple;
+	bh=oY6cH2VJ9H46PKNz54n5kFZLO5LIFPebjI1LQk98Kjc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=H+Uw8GWgyooS8x2d1tSpaP73m7M3QlXd3sjSkfAeitXNBPb03LXW79SVcIcz6IH6eeZUiWZi3l+nA82c4LalwJQg489QIyazd15SmlRJZSVTsKIMwjvx0233VwvxcbhsvvEhwptULJo6rr0v959+q1yGylLkP+6wM8j++5iLVxw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.17.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BiC4QC2KVXG8em1C8bQNxQeJWB3GiC67WS0dAHJI2tw3mrNw/diuD9CTN8hGafD2q4PvJQ7GBwtDvrkymtB68P6TQuIk38LIgY1yKKhCDJTzXbdDPC61yxJYY3ZIBi5jyB70N0o8B0BP29WN8isHTlfhIGOZIjDh+DADMXhnEzVEHgVmovSWKUM8oMoThn6wXd88ENr5brBpNsEs0nePw7D/XXbm27xitMPG/+K1rKk5u7vR38Cv/uswkYaTu4EgnjzZ7PTAow49Xw4u2CZirwfKmxXci3qOZjyK5lhChdDjCMdNerU38Xip2DyzVynvzjIagA5RfNoShN5TyYAS3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ulc9LYHgRStiImAZhruyPekaaQaMrYUh0lfNMeZyA+w=;
+ b=FEXhV3kORpmu0FTA9Jo2EC023URHhjtMXzaZBSk1024TRMVVZGYCY0MRLnC2QMYNVW/jJfP+g/bTc+4OF3n5Dbxk/CJ+iiiwUDLlFb1Dm9tnbDu/1FaNJ9izMcK2QbPVPjGoYI8yir0qnHxRSOPf5/10/kQ1KywsnQRhXMZhvmNdYK4ww0OqD47n/P/U9jzrO1biXNB+Hmh6bv0GVhFJwfsaE758V0MTR+YP6mB/DvvpXKf09GeJabBl5GE/HJoT1VcXhLchlR5i9Lq8BHgX6jmNSIVUGULkZ64kngwW6ALP+Mg6YWEaDV85+tqqH18yJcImhaxQaTllTWqBYqkCmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:25::15) by SHXPR01MB0878.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c311:1e::17) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Thu, 24 Sep
+ 2026 04:03:38 +0000
+Received: from SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn
+ ([fe80::9b99:12dc:a115:b90f]) by
+ SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn ([fe80::9b99:12dc:a115:b90f%4])
+ with mapi id 15.21.0428.014; Thu, 24 Sep 2026 04:03:37 +0000
+From: Minda Chen <minda.chen@starfivetech.com>
+To: Conor Dooley <conor@kernel.org>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>
+Subject: Re: [PATCH v1 1/3] dt-bindings: usb: dwc3: Add JHB100 device
+ controller PHY adapter
+Thread-Topic: [PATCH v1 1/3] dt-bindings: usb: dwc3: Add JHB100 device
+ controller PHY adapter
+Thread-Index: AQHdRzzjXuT9ARZGdUGDbHIGHUq+Qbba3XSAgAJHa5A=
+Date: Thu, 24 Sep 2026 04:03:37 +0000
+Message-ID:
+ <SHXPR01MB0863BEE05D53154B1F61BFE6E6812@SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn>
+References: <20260918071103.24482-1-minda.chen@starfivetech.com>
+ <20260918071103.24482-2-minda.chen@starfivetech.com>
+ <20260922-colonize-uncaring-c604b3529275@spud>
+In-Reply-To: <20260922-colonize-uncaring-c604b3529275@spud>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SHXPR01MB0863:EE_|SHXPR01MB0878:EE_
+x-ms-office365-filtering-correlation-id: 555de3e7-13e1-4d67-101e-08df19f0cfc5
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|10067099003|56012099006|18002099003|22082099003|4143699003|38070700021;
+x-microsoft-antispam-message-info:
+ 8r0ZLbVmhH5hd0bA0A+QRHb8wF7lJrbZlkBZrZz9TMQoz9cUTs6WvfbBx2Sqe1M7z44U9wKXGsAuackOSIr2lxakqG2+PdoCLR2RixkMBdpT26jEMeXZXkldeSOlz5zVcSgr3Hl6OMimQTUGiHnGY6p0CnhnxBRgDfp3MFgmGwffFZpQQ8pXr9apf4G8FPUrhRaNoDrgT8I/JoyRASULAqCP6zLUiGx3H26o87siBKBkBQXudNco+ARnz8X/hZxL+aumTEHcs2i1I/7gqTMl8O/giYKQC8YUsiMg3oZ9Udo/Or5HcvJK7C6xgrNAwHQ/qEpxpbVP1QYAf9gt01TG2sYThoo6TQ0h7sUi9uI5jRNIxr0+0kb5kMFwxG5EiZTwpZ2LwT/e9CmarAofXQACmf0ZNk/HC1OF+L+vAWGD9TpIErtEI5j/lcEsX6OOCuqYj7EQzGZE8HjB6MitGLpywHxjcKbYblKRYb9LBIbEkUIoqPGTS5zF0tCFbVKE2ekoDKhvzAQhSPyJftL3dSe3VtH91Jx82M5MBe2FHCuNHDzHlceJ43y68tmEzeXNBzkf
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(10067099003)(56012099006)(18002099003)(22082099003)(4143699003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?gJYdN7gGiOgFUsdSkdW4CO5sggmxkKTgCu5igAwq8/oN8BcKYL3z+q7Q2AV+?=
+ =?us-ascii?Q?qs1LHvIHcdcFkepEIYXaQnCLSRbSMuSSbMsy3moW0ZQA5ucCs7W3d+8A+TaM?=
+ =?us-ascii?Q?hTbDHDmqnAUZ+EjuVwLSu7q9QMJWvcQkLAn/A/RfEDg/jHcS0jMPOC7exHDF?=
+ =?us-ascii?Q?RAY8g/IuIv6vazUHsVP3D5GrrdzfhMiqhsDXP7uAVfHhYDoFz9DDZ9bCH19T?=
+ =?us-ascii?Q?GC915qwC/b5a6OYK0p7GTybFAY8UD6DK6l7wfN+VuyTU9aQZgpv7JRp2Vy02?=
+ =?us-ascii?Q?dOdbqfl9Xz5v/t/vIRA4c5nk6WylxLtLI981zVx50ib8lb0F0I8BUd9LHm9J?=
+ =?us-ascii?Q?o7AqMKxdHi1kY4EaXoWsXSmUy9++zziTgvMVULg3wrsmZIbnDQnt1imt0nba?=
+ =?us-ascii?Q?ZCBp7FCawlGh3DBcj5JIcLoOJUviTxySVQdgt6iBgDnmvFUzkgKxZyAcS3hg?=
+ =?us-ascii?Q?QZfBdjTUJ46CqC6bSqID1zLVhbRjqdvKBsIxsVAxmx/tE+Ly1y3NuBzRcLmx?=
+ =?us-ascii?Q?SsvB8KwWqFD0opRWBgkxyjeGj59hu6+hftkWDZAhBLRGYyLPvsdAjHcVSzL1?=
+ =?us-ascii?Q?Xo+SDH5c15SPtbAAvlJUQi9UBTeqNVo9/cfMpG7nQf8LLWhSkWzKnWy0ySyR?=
+ =?us-ascii?Q?uyu3T17MxVPz+IqDo6wrkSq5LaOIRYOpTe32inuP5Ey5hGmVdlYC+jEBs05a?=
+ =?us-ascii?Q?Iww4szy8pFCH7Lillb7ZyZzgOYyQi129SjfczFmMh9sSWI+brmsRiJhA83Ze?=
+ =?us-ascii?Q?/OuX8mkczD/FylBe6B0v6BX9dMvBVT3KdQuzj+Asy8RSdKJBVA7geA2K4ftl?=
+ =?us-ascii?Q?AxbdxYM87AP2eUzjDIzxEmXinDgZc5ET75+/MQmAEck6QRR1A3uTIaaVdHUG?=
+ =?us-ascii?Q?SwtzmB0PkM7+GQuaIozOf8bnS+AKm3RbnG2q1n+BETrJ9RDRrR22fDZtt2TW?=
+ =?us-ascii?Q?Vrk3mDc6FExbv+lvuLKaBzlqUYU5+fl74qsAFE5o54PtMuoPWJw9g+lZFx6y?=
+ =?us-ascii?Q?PUQuBu2MaC6pyodVkkm5/2SXzWPeLVwPb8d97CmMrZdLUTHvL5H4TQiqSIhP?=
+ =?us-ascii?Q?DlJQ0jvPHm7Ey4y3fIf7y04pB+mltjadvXcDcu6l/AhBV1F+CVRI7CTjNBE6?=
+ =?us-ascii?Q?7xoNDd50CiN7XeELWRHkHSznb0Tbqogm/cIoUEGeJxyKFlAw/4A5zgJ13mwC?=
+ =?us-ascii?Q?LKYtnJWkVh4EsfWRA1f+Q0XAd/qC9MnRwFC/TT/8SACLdk1flZFHcb4boELy?=
+ =?us-ascii?Q?rBFnVWbVL9Ais8IMNlIoYjHpBkOaredunJujInyZ02FOYVq0yD8ywQOL6dbE?=
+ =?us-ascii?Q?8fNrbhUmTHJb7DvzCUl+LtNIpRmT5OxCOVXDUpDPsvjN1/JUF/3/7YhVL8zi?=
+ =?us-ascii?Q?zZit2zpbjeuqZr1LIZkFF7fokJl2mOMKJVTlgn0nNgDW+zBD1Z6S14MLvh1E?=
+ =?us-ascii?Q?+zKgjM7FB+t9qZjbcHkR5nUCk/fLMf7pPxn099EhGHziA5snd01dLcxtXeff?=
+ =?us-ascii?Q?XvoQHUluWSKSlYMak27LDrH+swhgq58pfQ2+/nALJB4ARZDoVTm2nK7cDCgF?=
+ =?us-ascii?Q?e2nieLurEgfGmkfbEozQnFGDeyND5jXzoQhKPlrrRuEDieu8rnVhprH79GNm?=
+ =?us-ascii?Q?uzknWFTF3hQZjO0fZe/MYDwrQfJYCLulmXLzCUOZRhjL1NP85aZL7hXWDo46?=
+ =?us-ascii?Q?yAsWyTpXjyXyAi76UZWG0LKRhRdnRQKZpEB0hwELaQOyLFbEDLmSPMkrvyjX?=
+ =?us-ascii?Q?8+n4hV79dw=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SHXPR01MB0863.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: 555de3e7-13e1-4d67-101e-08df19f0cfc5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2026 04:03:37.8216
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FHD5NUU9n+H3bZbDt/PZwbY4HVRL+xQR7xfd/KovV2yRV6PLTDaHxmEaKmzTAQlr7s8JIHLVWZsliZ3kB3Q0DItMqaPCB+iZqn7mfJedXuA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SHXPR01MB0878
 
-The Valve Index HMD's onboard USB hub (28de:2613) asserts remote wakeup a
-few seconds after the host enters S3, so a system with the headset
-attached does not stay suspended. Observed on 7.3-rc2: every suspend
-attempt returned after ~6 seconds with wakeup events recorded from the
-hub. Disabling wakeup on the hub through sysfs allows the host to stay
-asleep until woken from the front panel. The headset most likely reacts to
-the DisplayPort link being taken down as the host suspends.
+>=20
+> On Fri, Sep 18, 2026 at 03:11:01PM +0800, Minda Chen wrote:
+> > Add dt-binding of JHB100 server host field USB device controller PHY
+> > adapter register IO region and its regs-name.
+>=20
+> I don't understand the rationale here or the other binding patch.
+> Why is it not always 2 regs? Either the device has 2 or it has 1, there s=
+houldn't
+> be variability unless there's more than one instance and the dfferent ins=
+tances
+> have different numbers?
+>=20
+> Cheers,
+> Conor.
+>=20
+Thanks for reviewing. The virtual device controller do not contain PHY
+but need to add PHY adapter setting(self-develop by StarFive). So have 2 re=
+gs.=20
+Previous is BMC USB module do not contain it. But if PHY adapter be moved
+to PHY related driver can remove this . But Thinh still no review the patch=
+3.
 
-Nothing behind this hub is a device that should be able to wake the host.
-The headset includes a radio, microphone, and a downstream Microchip
-USB2744 hub.
-
-Link: https://lore.kernel.org/all/20260910170254.833871-1-mario.limonciello@amd.com
-Signed-off-by: Curtis Vogt <curtis.vogt@gmail.com>
----
- drivers/usb/core/quirks.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index b5b577f0b931..7ededf8d9cfd 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -596,6 +596,10 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* ShanWan Wireless Gamepad */
- 	{ USB_DEVICE(0x2563, 0x0575), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
- 
-+	/* Valve Index HMD hub */
-+	{ USB_DEVICE(0x28de, 0x2613), .driver_info =
-+			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
-+
- 	/* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
- 	{ USB_DEVICE(0x2b89, 0x5871), .driver_info = USB_QUIRK_NO_BOS },
- 
--- 
-2.55.0
-
+> >
+> > Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
+> > ---
+> >  .../devicetree/bindings/usb/starfive,jhb100-dwc3.yaml | 11
+> > ++++++++++-
+> >  1 file changed, 10 insertions(+), 1 deletion(-)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
+> > b/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
+> > index fbabe99e9d5c..b2fd98c06ba0 100644
+> > --- a/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/starfive,jhb100-dwc3.yaml
+> > @@ -20,7 +20,16 @@ properties:
+> >      const: starfive,jhb100-dwc3
+> >
+> >    reg:
+> > -    maxItems: 1
+> > +    minItems: 1
+> > +    items:
+> > +      - description: Core DWC3 region
+> > +      - description: DWC3 device controller adapter region
+> > +
+> > +  reg-names:
+> > +    minItems: 1
+> > +    items:
+> > +      - const: core
+> > +      - const: adapter
+> >
+> >    interrupts:
+> >      maxItems: 1
+> > --
+> > 2.17.1
+> >
