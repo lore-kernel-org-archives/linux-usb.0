@@ -1,74 +1,74 @@
 Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1DEA3B8BB9
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 12:42:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3B0731E84F
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 12:42:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790253775; cv=none; b=npHYhCLzzFoxefcWCc4Yj4oBi9gxBVvTT5UCjgZIGyXP1aVslyfK+pmhuMN3eBZ1AI1oLNzsQHcdbqnHS0EEPcupiuF/TvXwSyF8KGbXeiewNJHaIo1vI67kcjqQHYG8tTjtKPfVjexi/rH/d6CaT9LIcmcCHjPgkL661IqFggg=
+	t=1790253780; cv=none; b=HJSPScIn+Rm8uZVIzSsPR27kwuqUChHKWxhOrIHon2RXpsrayNq5gA6zFUGzhh64iZ/ez/PFH0Vbp/xLH5tlXka9BN8fbf64xsl722HRjsmVVoI8c9TyR1NywCSKtz+D5iFCmS0zjIEmt2zQe7GobMBtnCJUOdVbjp8+irI+NAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790253775; c=relaxed/simple;
-	bh=nP84PB3kRCTCnlOz1Nc7H4NTVYOtR4vU9qO9eligIho=;
+	s=arc-20240116; t=1790253780; c=relaxed/simple;
+	bh=iSvvSNclJPG2ooYiR9bHRNj3aceifTgkKrBOLKWAyB0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oX9A/fQXkFhc3YpRqHbbAFN278BENzC4CSOXHLEgZGVLCCYTaeS9ZZnWlzKwMBjSfzd5bvB3eJ8BQsH4nmskxDvjlTOFrp/GhdjyJcV8Q+kaVkD1/smXO6PHT6CIJXf1vufMo2ztDCK7MEbJKLafPcmZLGbuWJSNwqzAYwYIZBY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y2fAmdHG; arc=none smtp.client-ip=74.125.229.171
+	 MIME-Version:Content-Type; b=RpfvUmJ9VHaHQlqgFHOwL/FQSvmLjy/gUGkK5YU82qYQf62OF/2tXf+YkTQ4e+ovI6i0G2Qa2jyqk+gEpNRXKwSunk106zxhap7FPoMAJ4ibVcuK9vUf0lAq3A9e9hUaGRlwT7s/4a+m35VCwazUM82Ixbxc0HqJecgIX+PphtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rixI0hle; arc=none smtp.client-ip=74.125.229.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y2fAmdHG"
-Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-142dd04edb5so3513279c88.2
-        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 05:42:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rixI0hle"
+Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-1438f55921fso793778c88.1
+        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 05:42:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790253772; x=1790858572; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790253777; x=1790858577; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=yLhM0k1QZB/+EkXXYqDnetrlY3awQVlONe5SUYK8ebc=;
-        b=Y2fAmdHG7VLB0KzExPYE3FTjlWN7ejNqufQhqht2s5WV8r8mU1pU18GLWxFR5J6w42
-         EBO+tTQJtu2AuHYztSgFKUgZkDoXX7MshgPneYxfUR2zOxXlJrHBch5BafhHGsb1+H3D
-         VdpKEgaD85+lQnxP3qlR/NQJsSQbA4TvHVECkWVihGH1FiFpTsZZxrI9a2ByphnFPquL
-         Hkv3kvZ2kUFzoUB7XAut6FPDVMK+W9fX5jhnbOHPzXFndYmURHdeI0wERv3rM8B2zxEU
-         GX4fTAIjjF13Tlcm5y/g4ZcYgm9LXvw1z7bRaRMeKgDon2NikNdbwgghGw3alETZU4F0
-         bMrw==
+        bh=3nSA9EEF3/n3h1KuMWloOJQEZf6Lv9q69NWlFq+IQMA=;
+        b=rixI0hlecLqh6QLAeD2RrqsIhnaxNtFRWQLVsA0djKK6dWiH8iMNRJjGXFUiCMPWls
+         5HrcZ2gG6eG9Okgr8E4hgy8mVxJqBxHqZVCQgZKRWV6fRW2cX5lzntMqLksgY/7M4Rwg
+         TsBC5djn8SduceZaQ2r6NaV60zim6i23v0doTht6kbyjRplOJegARec23+DK+jYZvBty
+         MhCaVnzdSKC+2ZV/scjxjvduRittpHxwnM+mu46Hmz290gxNVMg9QOxYYNNJn3VlpMPe
+         krBxxb92P2RuK4MAB3c+E2eg0ZbhpQ7pzinGLtxDDB14WlExZhyzE5SZ7lko0qfnzDx1
+         kEOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790253772; x=1790858572;
+        d=1e100.net; s=20260707; t=1790253777; x=1790858577;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yLhM0k1QZB/+EkXXYqDnetrlY3awQVlONe5SUYK8ebc=;
-        b=fgBGeWlpMiVTfbFGaFenkS56RL7++z5pMrHSwCTlvorI1bM6AvN51rjqbR+zwhhz1m
-         6SR48HBH0CihqdQgbRHr5ynZTsPteYVboPfiWX4iIKS2g9NxqZpdRbXemEMezt3A6XPz
-         AK23rq5qDU/6K6+0w4INeFGCYKm9RQZxU8IrC/dNg8V0AHpQthseFDde4lg3kdtpUYbU
-         bMjyiK1WU/UBnlhcduJO49pFS63agOqUNuHC7+54GUnqDGySvRtqD0CKrx6qBdr7NuGA
-         vZfH7T3BpI3Mqu2g4BU67HW3mL+BbwhLqqfmaUKTgIX65AiE3gWLlo069oKCM9Yes6pj
-         UxNQ==
-X-Forwarded-Encrypted: i=1; AKwUvByyPSr4/VPfbuZ+e6xBoQ4X+A3aa+TOivAWP5//HrvphEtwvfPHkiY/FDVdllKXmk4K7YnmfMjz/Rs=@vger.kernel.org
-X-Gm-Message-State: AFuF++luoK3m4WfA5xYnLRV2P2xmH+lySSGmmSidXsnY+ICa3H3MZKvs
-	+yUoGZ987s/jHAihlC8ma6jQyJT2KIwGJdCtMnSIPtODuT06I9N7/9Ag
-X-Gm-Gg: AYBFou1ldErvb6kh7LV1psLtIyBqaAkiC5RSQZ1EGQOlyzfjr3B50M5OrUkbaE9ABoS
-	2vghGAwzqMJEEFAuTkn3UDkanyf1ftL/FotQxVMjp8/35OY7rWTR2lP+0qzRbkHGKC6CqdAyrYe
-	dQuPbULO2QroH2Kx69dAAg6bv1z9U6WHhZI4ZS2VgxeS84WBysCcUXeP0hMVbfGdIN6U8WIaCkg
-	5QmdCIuSz0vwzbjhQHdb4IgxkL5OPyN8tnzS69EQt3JyKmBYJiRKVs53m1JpRyLUh6sv1GMhdNP
-	lQJqQpDwrkCpYQ99zizgTVgXKDhHaNQ5+I7h1IlgPQZLyDGTihVuKEr1k7XzNXoT9IhsG6fBo9P
-	M3uUbofEZb5sqLSoDyp7vJ2OmHc71VawKW/e29DVs6g7/naSxAib+aUezlod51I5K0h0neL2V3p
-	x06kfewTGuQVQm+aYzXdH3tZlOI+sr1k+QrcKR5ZHPujiSYf9SmZeSh7g1sNnEtMR/8RO47ZGcn
-	Qxo8fDz
-X-Received: by 2002:a05:7022:b055:10b0:144:f47d:c2d9 with SMTP id a92af1059eb24-1450402286dmr1943677c88.38.1790253771515;
-        Thu, 24 Sep 2026 05:42:51 -0700 (PDT)
+        bh=3nSA9EEF3/n3h1KuMWloOJQEZf6Lv9q69NWlFq+IQMA=;
+        b=oddkwCZ4m26wNLjRhHY9a7kRHCTN4q3N295i7c7viJLtZjWwEWzc6RseJsx5wA58pC
+         ebU+ONpwh8i1YGZ7lZuNh9mdPcgBlwpeSbKkksXnL63qBDehnMIU8FYatfXwQspinlUk
+         Ax/HxgYl6B9j5paxd0InySESxx51iMbWe9egLY56QUMEr+ljeW/5mg5kiavY9vgENl8O
+         +eF4tcu5hYzpUmjx4RU/6etII7nDsEJIeo4L4yy7DI5XeAMopVzo3QbIajfuwKBvkObG
+         NjHBodl5uzwlPdMMmWgxmqrud+68RmWuQJ4+VOFOre9QvGEw1NdcMLREMZf9bd1ZRJRS
+         kbhg==
+X-Forwarded-Encrypted: i=1; AKwUvByHAvNdP6hF1Evqu1GlWwRm2A6D1GW4MFD0qLqRyZ0V1zd+9H8CC4t7EYBP67Rc/PGPNmBRzLa8D8o=@vger.kernel.org
+X-Gm-Message-State: AFuF++m2IOd1dEbPWtELhroW6F0Bm1kwrkrWQ9jhFWeq5t/gmpjBcOHR
+	XGCYo3dmLln0d4v1cRZ0j8QFe0UEcx4AN9n3MHPEjC1IJjmUVk0i73u1
+X-Gm-Gg: AYBFou0AWKL/iTGW4TZ/t0NAIYk18qXY3S0nZq7TgvjXyhgRvKDUNgPDg0DPmIXfCaT
+	nZPBJPE5KlLj59MYxomHRMpYhoYPCZJi+2WigdDrligwZOI6PQ2HmiHwDU+fI9d77DuVF7Xf42E
+	fFzf5Q5sJSDdSNNN0A2Tr0pzwNtyJ+kkxBV8mhxI7QHjtXq3fW09D6b0gcBgQTPlrAeReMqq/GC
+	aeflDYoW8dPs1+QblEy6NZkNpOvKdn5Jo400bdIJWT/uki85opVyM9h7q8LFL5ze7tsNKDFaOgc
+	nRQgJxSlERufHzHxl7rx6CPueFsIXbIWiEos12WCrDl1C3Aib+qP+OGuWDpO/PuR4m8Z5UNkOqr
+	o0wWEib62sy0tc5iNn41iCECvF2R+bvD4ZfYB1zS47cRH+0FiSYprcFsMtCahyUeYNP+zuYq5Pe
+	6prkbs6PTP9sLQEh1L6l5mLemuLaqci2DoKDSECKXRUleTgSl9+qkU9fSylF39ovFtysAEpKVNq
+	PKQHIRQ
+X-Received: by 2002:a05:7022:c4d:b0:143:8829:5fb9 with SMTP id a92af1059eb24-14503f3c3fdmr1827214c88.16.1790253776803;
+        Thu, 24 Sep 2026 05:42:56 -0700 (PDT)
 Received: from maclinux ([2803:c600:9110:8ba5:43a9:9b8b:ebdc:6411])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144f986e465sm13466113c88.9.2026.09.24.05.42.50
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144f986e465sm13466113c88.9.2026.09.24.05.42.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 05:42:51 -0700 (PDT)
+        Thu, 24 Sep 2026 05:42:56 -0700 (PDT)
 From: =?UTF-8?q?Francisco=20Beltr=C3=A1n=20Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
 To: bhelgaas@google.com,
 	linux-pci@vger.kernel.org
 Cc: gregkh@linuxfoundation.org,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 1/4] usb: hcd-pci: Honour pci_save_state() failure
-Date: Thu, 24 Sep 2026 09:42:18 -0300
-Message-ID: <20260924124221.12374-2-fbeltranmillalen@gmail.com>
+Subject: [PATCH 3/4] PCI/PM: Do not restore a config space snapshot that is all ones
+Date: Thu, 24 Sep 2026 09:42:20 -0300
+Message-ID: <20260924124221.12374-4-fbeltranmillalen@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260924124221.12374-1-fbeltranmillalen@gmail.com>
 References: <20260924124221.12374-1-fbeltranmillalen@gmail.com>
@@ -81,40 +81,31 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-hcd_pci_suspend_noirq() calls pci_save_state() and ignores its return
-value, then goes on to call pci_prepare_to_sleep().  pci_save_state()
-can fail -- it already propagates failures from pci_save_pcie_state()
-and friends -- and when it does there is no saved state to restore
-later, so putting the device into a low-power state only makes matters
-worse: the subsequent transition fails too, and the PCI core then warns
-that the callback returned without saving the state.
-
-Check the return value.  If the state could not be saved, leave the
-device alone and return success, so the rest of the system can still
-suspend.  Leaving the power state untouched also means the PCI core has
-nothing to complain about.
+Belt and braces for the previous patch: even if a snapshot of all ones
+is somehow recorded, never write it back.  The vendor ID of a device
+that was present can never be 0xffffffff, so a snapshot whose first
+dword is all ones is known to be garbage.
 
 Signed-off-by: Francisco Beltrán Millalén <fbeltranmillalen@gmail.com>
 ---
-diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
---- a/drivers/usb/core/hcd-pci.c
-+++ b/drivers/usb/core/hcd-pci.c
-@@ -541,7 +541,17 @@
- 	if (retval)
- 		return retval;
+diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
+--- a/drivers/pci/pci.c
++++ b/drivers/pci/pci.c
+@@ -1833,6 +1833,17 @@
  
--	pci_save_state(pci_dev);
+ static void pci_restore_config_space(struct pci_dev *pdev)
+ {
 +	/*
-+	 * If the controller is already inaccessible, there is no state to
-+	 * save and nothing to put into a low-power state.  Leaving the power
-+	 * state alone also keeps the PCI core from warning that this callback
-+	 * returned without saving the state.
++	 * Vendor and Device ID are read-only, so a snapshot whose first
++	 * dword reads as all ones was taken from an inaccessible device and
++	 * is garbage.  Writing it back would corrupt a device that has since
++	 * become accessible again, so leave the hardware alone.
 +	 */
-+	retval = pci_save_state(pci_dev);
-+	if (retval) {
-+		dev_dbg(dev, "--> not suspending, device inaccessible\n");
-+		return 0;
++	if (PCI_POSSIBLE_ERROR(pdev->saved_config_space[0])) {
++		pci_warn(pdev, "not restoring config space, saved state is invalid\n");
++		return;
 +	}
- 
- 	/* If the root hub is dead rather than suspended, disallow remote
- 	 * wakeup.  usb_hc_died() should ensure that both hosts are marked as
++
+ 	if (pdev->hdr_type == PCI_HEADER_TYPE_NORMAL) {
+ 		pci_restore_config_space_range(pdev, 10, 15, 0, false);
+ 		/* Restore BARs before the command register. */
