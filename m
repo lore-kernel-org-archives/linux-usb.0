@@ -1,75 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f13.google.com (mail-qk2-f13.google.com [74.125.230.205])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F48F2E5429;
-	Thu, 24 Sep 2026 16:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA0233F9270
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 17:17:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.205
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790269012; cv=none; b=GeGmrcSGQH/V8Wnf5BFMIPDwxPXgXnA+ZZPMyHQkhn/nm2va3ke35cTi9+gZUeO13Oi2HmELVHKCbnKohJ3ErCuq+HDuA/4JHNefBlvB0sC1JWv6b9Ugcag8DYmQIUk8GAMxuX5mlUr3llRmPxBK5ldLw4cL5xB1wktk4eL0Lh8=
+	t=1790270254; cv=none; b=Z8yYmcUvZZFt/ZEP/zSFOy6gBbQBLJb4A6lvoXs12+1Fcd2Qz11UF1DCluRlDkVW9i0y+J+CL0P7appeHQugu9BqMN8G71fVuOgflbXm1D1JIcYoF4MKE2HmU3n0mCKrDr+Y2V5tmG59+rHITaIyt4gFdGyJ1uu1w1k085E+LjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790269012; c=relaxed/simple;
-	bh=z+0bitBpDapIruVyf5owmh9htDpLyrMlmjPJblWlHFQ=;
+	s=arc-20240116; t=1790270254; c=relaxed/simple;
+	bh=N9G2xDWLJkhjpVHjPudlC9eB56JQvy0Q3UFpvQ70GnM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FBtgvA+TzDIzU/mjk/Ynmf6TRvxY4V2Hhbw7WWBcBIoqAZ8L9gEkjfzuob8VH48Ak1QTNmyGs4vDs0/QAihi5/qFESm68xx3GQtN8DUC/hatHNACWJ2vjaDopPsS7Tjxq7s49xYQjc64cW4Ue4zsaCDNqdYEYqnjVx91rjIaCOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zg5BDtNZ; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=kW/jTB9MLNEwbYTxidsqZaovFyr0CwnL61kvTRWs/q/JuVy+jMjaJs68XS+F2qOvos5GasjlhGMtnpfQDH0QJNFQfXTRM3CTKzR5AEnMB9d0D/kr5vsJDF6B6t8ucX2WR+OXdlmNOOLkss1Hf/EvaeKwWItBn+CFKRb+Dxdny5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=tprV5yBU; arc=none smtp.client-ip=74.125.230.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zg5BDtNZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2BEA1F000FF;
-	Thu, 24 Sep 2026 16:56:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790269011;
-	bh=z+0bitBpDapIruVyf5owmh9htDpLyrMlmjPJblWlHFQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Zg5BDtNZBgD2OxPdvQpKpA+A767a6BkQoCQPeQug6TXEzo0YAJSVhhRnAC5zsiE1m
-	 KYYK2oGw5JuTVmmt5uY8gFGnD2W6nMdjvn5DPrYMzPDDIE4ojCvJvgU/WD1SLL5Le6
-	 ZiFr0HCJj0aGz8u2Svwbm3WyzKlUUwMn03QnVWw8sT0Ap2Mae03MT6w9A/Mjr7Syvt
-	 65gro03NbZwXRCOFrvB3AOGCLKtzRHYkSyYCoHd2KTB24U1WiIAEHLbxrXgDljXiul
-	 Il7lw8snPjPNT6FhMZ58Ud5+sij8GFe1YgXBguilNusCffo5tEV479+h15nCkIe15Z
-	 CjEmcR2faPuvw==
-Date: Thu, 24 Sep 2026 17:56:46 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Amber Kao <ite_pd@ite.com.tw>
-Cc: Amber Kao <amber.kao@ite.com.tw>, Jeson Yang <jeson.yang@ite.com.tw>,
-	Yaode Fang <Yaode.Fang@ite.com.tw>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] dt-bindings: usb: ite,it8851: Add IT527x and
- IT885x series support
-Message-ID: <20260924-spring-siren-c56717144e8d@spud>
-References: <20260924-ucsi-itepd-it527x-v3-0-a7392aa087f5@ite.com.tw>
- <20260924-ucsi-itepd-it527x-v3-1-a7392aa087f5@ite.com.tw>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="tprV5yBU"
+Received: by mail-qk2-f13.google.com with SMTP id d75a77b69052e-52fb76bcb1fso765471cf.0
+        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 10:17:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1790270251; x=1790875051; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=feTLx7y3sxZ57LB+c+M8YbdddVhljMzyHzPRAu6TpA4=;
+        b=tprV5yBUII/qRzLyqKPdJDICtcHMIXdxXt3R1PhRppTAqbBmNEs7Uqtgc/IauT7bas
+         6q+btZ6riiYDfPxMNxJ9LlKIzVy4E/rMZS8FF2kWFWhC/RTZ0m/dLDIeIJEc6DmgUeKW
+         rRe5l+D4Gb5EgFoh0bNUVpRhgcRfueygz54BCmywUEAofeJDIrYo8R8bOOlnVVhbm8Xx
+         8y1PvkD+okpXc2BYxVcdIyuBwaEwabsdPE+xSDWc5coaNizNqVaWAFRlWZ+CHrBLXEHc
+         +ibea7n8Gc0GPrQRe/RTIUKy7LATsQy5mAZvm52IfaGHNyUnZEVBqjo1InS2m+tWjzj5
+         xc4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790270251; x=1790875051;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=feTLx7y3sxZ57LB+c+M8YbdddVhljMzyHzPRAu6TpA4=;
+        b=NKSzVXxIKHCTtCFdZJpL/P48Viqn5G3F5mZEHvJL82acVSq6xw5vx7uj4JLGPJBckD
+         JmjGq7VyuBmrbWjuuEko68bbIoP+gzZPASEylEw7LqLH2PCBdPMBky9vs6R6+9XrL99l
+         0rBJLuH3quBnOsbsd+zOSb36LIjdxfkW4UXinoNM7WsaZvmtP7Q9SSSBZDqlx0KVF43M
+         TzMLcP3ywR4L5zeRNOTjkYhCPHf7u87pQxAOA63Bn/TseWXkJenlkfbVx0x69L0s+TCH
+         nxsGocx1I2wrJj9lQJ5trDrlVZijRzgbcQZFfxZJfRtRhNKzDop7OeeSNXWChKs1UQzt
+         zD/A==
+X-Forwarded-Encrypted: i=1; AKwUvBwSm5Vfn8b3ILeI8RPEJ/zfLnjje71XfHSJyaqGyArqMccv0AuYn5iXc9zZujnedbid4VSQxvaV16c=@vger.kernel.org
+X-Gm-Message-State: AFuF++nJk0AYP3lvY3qxFJQkytFcO2wuGnzbjGkOiW7sdZ9DgcZO9+5g
+	tKa3OAuXfNdAdMDArx9CVeP7blALB+oGQ0SVVg3xBvZALzKietKqCxpXvLvLmsRSfKE=
+X-Gm-Gg: AYBFou1+hHdMcAzlEtL/P9KJlRYra0idkzCy1DTwPE//ce4W81x7+PKacRu3h48l70v
+	o/0WpQ3JIdNxRYBBzZ4whuf0VzGCdAspWzihwxqHIDO7AyGQyljF82N9Qs64LO7bdMzIaC2V4ff
+	FriPSZikTCBUCf23Ym7LaLM2kSCRGwoeTMKq8Tho110jqd+Gn8/xf/hvsoYlkcQitI9zngwnJ0m
+	vPRMj1mhaCDgYEADem71/94MtneVFWYbM13+B3/1sMtq8XEk5pOHxDsyD6gXxy9uksQ6b9vjDJi
+	ai9cgAe+9ojFH2Mjsey97WsyvE5EEy6xGKp/E21mO4JKvErfeq5Rlxp0j9Tzqc+18vP0dkBUGHS
+	5yH4kljg6oz8+kpVBHxdNOZkmxgZEyI/+Nnz23kyYeMsk5nGvNB1Z6vyCuepIRJ4pS7WHTMCTnC
+	mE8rB70TQxdqGsjo+eIfxAfNMBvNpHII4xGQgPC9OtsxK5v96xPx9f4K+LROpK/Hk+xd2o4O99I
+	HKL9Plkx7/8+EHuOcoz/Rz3YMuuKxtu+iDnl/CiwCTxg/zZT6JIiYg=
+X-Received: by 2002:a05:622a:2b05:b0:530:42e4:f001 with SMTP id d75a77b69052e-532feb3025amr31555731cf.46.1790270250746;
+        Thu, 24 Sep 2026 10:17:30 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-173-79-60-52.washdc.fios.verizon.net. [173.79.60.52])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532f8b7174asm25743881cf.14.2026.09.24.10.17.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 10:17:30 -0700 (PDT)
+Date: Thu, 24 Sep 2026 13:17:28 -0400
+From: Gregory Price <gourry@gourry.net>
+To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 04/40] mm: consistently validate VMA state after
+ mmap[_prepare] hooks
+Message-ID: <arVW5i8pvySq6Co2@gourry-fedora-PF4VCD3F>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-4-4583d8a23bca@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Gl4nmSmijPuxfq/N"
-Content-Disposition: inline
-In-Reply-To: <20260924-ucsi-itepd-it527x-v3-1-a7392aa087f5@ite.com.tw>
-
---Gl4nmSmijPuxfq/N
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-4-4583d8a23bca@kernel.org>
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
-pw-bot: not-applicable
+On Thu, Sep 17, 2026 at 05:22:13PM +0100, Lorenzo Stoakes (ARM) wrote:
+>  static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
+>  {
+...
+> +	err = mmap_hook_validate(prev_start, prev_end, &prev_flags, vma);
+> +	if (unlikely(err)) {
+> +		vma->vm_start = prev_start;
+> +		vma->vm_end = prev_end;
+> +		vma_close(vma);
+>  	}
+> +
+> +	return err;
+>  }
+>  
 
---Gl4nmSmijPuxfq/N
-Content-Type: application/pgp-signature; name=signature.asc
+I indepdeantly validated the sashiko report on this chunk.  Seems like
+close() should be deferred until after __map_new_file_vma() calls
+unmap_region().
 
------BEGIN PGP SIGNATURE-----
+suggested fix is to drop vma_close() from mmap_file()  and update the
+cleanup in __mmap_new_file_vma() 
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCarVWTgAKCRB4tDGHoIJi
-0ss0AQCU1jvOjMQ0QuH+3PuYoSGSUay5Un63474cy0HoOCCxrgD/bz7tQIHV/r8r
-LFMvqsgTK78G9nTlnJJAu2rWn0FHLQY=
-=1xKi
------END PGP SIGNATURE-----
+if (error) {
+	UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
+		    map->prev, map->next);
+	vma_iter_set(vmi, vma->vm_end);
+	unmap_region(&unmap);
 
---Gl4nmSmijPuxfq/N--
+	/* Release driver state only after its mappings are gone. */
+	vma_close(vma);
+
+	if (map_same_file(map))
+		fput(map->vm_file);
+	vma->vm_file = NULL;
+
+	return error;
+}
+
+Example race:
+
+  Thread A                              Thread B
+
+  mmap(MAP_FIXED, address A)
+    driver remap_pfn_range(A, page P)
+                                         load/store at known address A
+                                         hardware finds the new present PTE
+    validation fails
+    ->close() frees page P
+                                         UAF
+    unmap_region()
+    TLB shootdown
+
+With that fix
+
+Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
+
+~Gregory
+
