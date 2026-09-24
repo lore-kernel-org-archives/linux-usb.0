@@ -1,75 +1,75 @@
-Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
+Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0FAC3B0595
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 14:24:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 038723B83F9
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 14:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.204
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790259883; cv=none; b=rRq33U9Rc836WC7GiTmry08XKsVoBIhht8Nsa7E8PFPe9B/me/rSYnisDd2Hq/+gx/dAljPZwo+t9f3ZXs9wb0PherzWBJiUXb7kuSXDzbW8AoFuqhshRSWme82A0Xxbu4bnXUjt6n0pC5iYfQdfDbiy0I7B+zbQTWeUuiYMXas=
+	t=1790260089; cv=none; b=h8Ca6nKl74+BzsDpqUAPRmw6JTEQaHIeWKIcrC+Brz4L49TUUntah97umoRgpzfGJQm0U+tb7KrA5BiiH+ttp3piEHg32QQZ764PaISMTsW7iBaQxfMPMXcJyUjpPvKIiWB8A/RdqZjCVq2GJ9MqZXKi51CSWnBWdSv2mrpnlgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790259883; c=relaxed/simple;
-	bh=CpPebt1boAjkIYdju32M4ceuk/hM6KmrE9O5Nvo5iE4=;
+	s=arc-20240116; t=1790260089; c=relaxed/simple;
+	bh=Pxat2Xb8VQzGsfdF8jUB0vNzqa7EZk6++nhkfiZ+FDQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YhCqmbJvoS1WQaebsnpxnK2n63amxCj/Uu8x9Ef3vNu2zxOZ1mZO3xj5dQhahoSwO5K48Uzn3EzOpqxrK6v82GMPZd63/oVLFH+ZQTNxVwHQDrPM5LPSTf3V5uEqA/NLv6SlZDO+o+omaYIDwPCw0h+hAEpqDp6fzrVUX4bPwgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=qn9QAKNg; arc=none smtp.client-ip=74.125.230.235
+	 Content-Type:Content-Disposition:In-Reply-To; b=e308lynaClwCbU72fg3na6e6ji4sJxGjSPYhezYH6HgH/Lv7O1PRBfCfdPxm2GGh88wzYqEzQhN+Iu9GbGjIy8aV0jOOqmq1PlR7QmUsRmHBiay1JQwcHEBgbVC5T60IUkuQDk3k5L38OLgtkTB37emkQeDot1HkLjeOlyELdMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=ghtXcn8X; arc=none smtp.client-ip=74.125.230.204
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="qn9QAKNg"
-Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-52fb769ca02so20779211cf.0
-        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 07:24:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="ghtXcn8X"
+Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb766bfd6so19014291cf.1
+        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 07:28:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1790259880; x=1790864680; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1790260085; x=1790864885; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=tP9huc7KmRZ5Wpn23x8YAWMZ4hVPyXqd0mcF2NaR45U=;
-        b=qn9QAKNgyPgHKl6VLc+gmzzClvIFAYVVX8DXc2Xx7nysQHdMM+KdMGjY2thkLhsZ2j
-         3nkjDrMqc7xjC/wDZ+hZcC36NrsOlsWHSksAd/6KQFH1++S8xT8y9Al/bYjieUmHAWZE
-         KKdZVN92xTP98xDeFlsQe4gN6rJQel+1PfnD+bFp2kffDjIyMAvceunD6HVTBqVZAWJA
-         Qdq+OjILOBDjBzr0cfVbfMAmNChBK53li1eJH3AaOTJdgOIgfPrN09ADY5RRuI4mJRQP
-         MaZ302lzmS0E4HGOLlEGA3wplD/9xGDuoPPXHB5Zkaents/Kped11HDjX6sjFbFPHg5q
-         FjsQ==
+        bh=rqDDblUSujyS0FvgZyFExCbJZd+ab+FPQ/66S3dp/84=;
+        b=ghtXcn8XWfY0Ua1PGs5pCrURu/cS2g25LLIe8lYTZryPwzD91kNodkjcPwHJ8tsCB7
+         ol6O3pQ7/XrWULbZN98pBksXeYgLAm0JnGqsl1iqtEZeFl+lGq2t3VKEzGIDdTCr3pLQ
+         NSqm1/jM2dzSZcQoUovTg9JIW0zT4kgmuVXGeTfeAg4235jFYJsHHOFWfScCSdL3ihQI
+         XhgJZwZ8muX214CLXuSeS79jwMPiMRO2Y1b+pyfkG3q9uvEuqg6EVp3EOnsdMlHVhfIH
+         65L1BQcmZnGzBrjJLVVG/5HyhmXFPTaj6uRXEAvyzJKg9sz7XDZnb2VkdKHoovNG3aGw
+         u49g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790259880; x=1790864680;
+        d=1e100.net; s=20260707; t=1790260085; x=1790864885;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tP9huc7KmRZ5Wpn23x8YAWMZ4hVPyXqd0mcF2NaR45U=;
-        b=BWmrtfQ5x83rAeeYJzBaqCLcTKYSyfMvKz+S2iMenzUoa3IQhM6l/A8gGtxSfLnPQA
-         WqY3nOOOjuw489wIWWMFSEFaMOLudYFXVOQnJTv77tLDNyw0nPUwNa4urhtF5SuUM16j
-         OQi2BaoFLJddd9SOXD8lcwTer83hGO6ppqD8hRQMPFhYjX6996ttpMeUNR6T4vJkwsIS
-         HmQMARB0dP19oSk59r+8Crzxy7VSPKSu3/ZRWQ5DEESDLbklgS1X/Smnr5i/VgMoXCqq
-         /ABnC42XlFC52DwkINZoDujtODjXxhbLg7veg3wMv27Emg/SozTijTIofW++X3YQNLPq
-         YYAA==
-X-Gm-Message-State: AFuF++l9XCskwSVkETa38piEBZqhR6/NJlVqVADFQkC2jaDMDnmyHQZ6
-	81M6kf/wbRHGb0p6l1L4gwTkV6QbIhrOA6KvLJhJloLy+AnMVOx11cHEHN2eXz3XGfOm4yfLXpe
-	w+lvmWA==
-X-Gm-Gg: AYBFou2ji6csNFePrIHAkWf2bMjtlHBl9SeGP2KV74IDVljCDYGd+fnU/zUVS+FFVUt
-	Vrbs3Chg5MgLvtWgE76XhN8e+/MY4dS8rxiUfP38EV5pdPThgnCvWHauq41Hg8h7318fCg+d29C
-	WRi/YwnWAjp+F9yOcGMUVfgAIKu5BXlUrfqQ3oj2h3nJgtBse/Sk+Dt3HF89Xyx7IaSDxpOz7zo
-	47btpQ3IR8TsS7Rj+S2VZyuxVIfi2dnPiFZhP9i5cq/i8GQtvpfxAI005xJ2dQ+BhwoY7BiPqVj
-	eU0hCyinNFMDkFWGo82xgAM8Y2Bk47Ywnm3q+QDpAptyBgthzxufmpicG1Lfqk16LfmOi7AIbke
-	Zy5AQO2tmnEvQPbHhaeZ/PUkTi+6lhjAOUvfZeXUJ8T2UzUgc/6CMKwuxOgyWp6+LsCsfHqXjJC
-	fQNe6iTkRjKm5vmLvbx81Q/ZWymDE7mEv+JljQSi+2winpbXyufzW7hqjI7iezoGjChxePtGX60
-	89G7vnjOJC7EUUH4bJdiAGyajE=
-X-Received: by 2002:a05:622a:250d:b0:52d:28f8:578c with SMTP id d75a77b69052e-532feb18bfemr24361881cf.31.1790259880171;
-        Thu, 24 Sep 2026 07:24:40 -0700 (PDT)
+        bh=rqDDblUSujyS0FvgZyFExCbJZd+ab+FPQ/66S3dp/84=;
+        b=Sh6fqS8L/FNdksDbep9BcFuR/GDobSa1GI2FOCt3JqHxsL1Gg+fsTHHC4g5L+vjxZd
+         ma+I88ODSIcSnJgiqEOQYKS+S3abHkoMy1uKDT2wlFPaujUKPqkSxz1Nfh7sUQxuzIoF
+         o2TF0l6f3y28p+KwIhzb+n+Fcv80gvaDkiEEOsZws5y8hrwJa6lWbGUQHH/+iM2PtITX
+         1lQBU3RidOhDMRdLX+M0lS6CHxsItZKEaSpUyihLLmOMg9NuVb6Lj6Mv+5jnw6x65dca
+         fMCcddXSFwrkWGFBEsvrbMz7Cu1igIFGJz7aI8pbQN+FgDeaq3fibhoqEY9k8BhYprSB
+         x6Rg==
+X-Gm-Message-State: AFuF++mOyrLBR5vLFtLgM5GLitRckgZBNb3b4HZzevZ0RaWaIMYyeHRv
+	HsYBjjE5gW6QtbEwaII2HKw5bwn62Baoa6aJUmUT2Hc2IswIzpFYZuXnT0/YvLaLscfyWOIkgdQ
+	BMcLBZg==
+X-Gm-Gg: AYBFou1YA8tH/mubkg2S06BWSf0uuisPXagFT+47E91e6rUN+wPMD0Lwz1x3tWv7OID
+	Ov7PCcDis7YTsRLDEzYoDSzT82YRvUkVZwbKpEM2HOEfjl1sLxnbEKXXnAb8eMBpo/QzoMIIYTS
+	oJKD3qYNTbxUE5ESDvyG9KAbPaxBhukiXTcCAcwYID/IAxN5/UJp+BUYoIRcc826Hai73YX/w3B
+	cQK5AaNFS7FCGKhgMjoOHsXVgaOjHEq8PCWvizQXkecxNzMHkzMrAfKVYOo+TjjnwP1k4GAZWeD
+	uw+KW05bOgrOWWa+wVgvfnzmdGvUQQahpRIARZE0rsO1sN1E7bkdyx8IKZZD1d5Zwc9PIRtWmXf
+	TiXsc0yv/CLhJHbkYGhC4dihfiYaZBOj1vKkrQ45dGi4Iq6n6BnGTneHbN7jcsk+0YfD6zbPRu0
+	l/v+icJ98i+FvH9N+XMbbEdq/2DNcqSst8gAZ359v7M06nsDO8DY71AvTMvQ9/x9X0nJp+eYzGM
+	45Etkm/URWnkJr1
+X-Received: by 2002:a05:620a:2803:b0:93b:d79b:9a5b with SMTP id af79cd13be357-93c3640a746mr295405285a.60.1790260085356;
+        Thu, 24 Sep 2026 07:28:05 -0700 (PDT)
 Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532eb210527sm42774991cf.12.2026.09.24.07.24.38
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c2485dce4sm478149485a.23.2026.09.24.07.28.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 07:24:39 -0700 (PDT)
-Date: Thu, 24 Sep 2026 10:24:36 -0400
+        Thu, 24 Sep 2026 07:28:04 -0700 (PDT)
+Date: Thu, 24 Sep 2026 10:28:02 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
 To: Johann Klammer <klammerj@a1.net>
 Cc: linux-usb@vger.kernel.org
 Subject: Re: possible regression in usb-storage?
-Message-ID: <0ec3cc09-0c51-47b4-9f3e-934d5c23ef5d@rowland.harvard.edu>
+Message-ID: <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
 References: <c6fc5257-a41f-4ae7-92fe-93284d9ebc43@a1.net>
  <79f2c208-bca0-3bf2-afdd-3bf095ff7b31@a1.net>
  <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
- <3df6f96f-1553-6842-0e11-9c08254b8da7@a1.net>
+ <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,56 +78,35 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3df6f96f-1553-6842-0e11-9c08254b8da7@a1.net>
+In-Reply-To: <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
 
-On Thu, Sep 24, 2026 at 07:00:25AM +0200, Johann Klammer wrote:
+On Thu, Sep 24, 2026 at 07:18:20AM +0200, Johann Klammer wrote:
 > 
 > 
 > On 9/24/26 4:08 AM, Alan Stern wrote:
 > > 
-> > > > c6f9c300 1171417312 S Bo:1:007:2 -115 31 = 55534243 03000000 00000000 00000600 00000000 00000000 00000000 000000
-> > > > c6f9c300 1171417339 C Bo:1:007:2 0 31 >
-> > > > c6f9c300 1171417347 S Bi:1:007:1 -115 13 <
-> > > > c6f9c300 1174819198 C Bi:1:007:1 -108 0
+> > Better still would be is you could also collect a usbmon trace under an
+> > earlier kernel that the drive worked with, so we can compare the working
+> > trace with a current non-working trace.
 > > 
-> > And that is a perfectly ordinary TEST UNIT READY command.  But instead
-> > of responding normally, the drive seems to have disconnected itself from
-> > the bus after about 3.4 seconds for no apparent reason (the -108 is an
-> > ESHUTDOWN error code).
-> > 
-> > Alan Stern
-> > 
-> that may have been me unplugging it.
-> here's a longer trace. I waited for the threads to crash.
+> 
+> this one is from a 4.9.210-1+deb9u1~deb8u1 (2020-06-09) i686 GNU/Linux
+> the device node shows up and can be mounted but the drive light is on
+> permanently and I get
+> > [31473.010372] usb 2-7: USB disconnect, device number 4
+> > [31473.016105] sd 4:0:0:0: [sdc] Synchronizing SCSI cache
+> > [31473.256060] sd 4:0:0:0: [sdc] Synchronize Cache(10) failed: Result: hostbyte=DID_ERROR driverbyte=DRIVER_OK
 
-How do you know that any threads crashed?
+When do you get this?  When you unplug the drive?
 
-This trace is the same as before, only longer.  At the end it has this:
+> the log filtered by device 2:004
 
-> > c4b80280 1844172026 S Bo:1:005:2 -115 31 = 55534243 18000000 60000000 80000603 00000060 00000000 00000000 000000
-> > c4b80280 1844172141 C Bo:1:005:2 0 31 >
+...
 
-Another TEST UNIT READY command.
+> > ddba6300 2786664488 S Bi:2:004:2 -115 112 <
+> > dcd97860 2786664509 S Bo:2:004:1 -115 32 = 01000001 00000000 00000000 00000000 12000000 24000000 00000000 00000000
 
-> > d8d9e980 1844172147 S Bi:1:005:1 -115 96 <
-> > d8d9e980 1844172267 C Bi:1:005:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-
-The reply says "NOT READY: Logical unit is in process of becoming 
-ready".  The drive sent the same reply to all the preceding TEST UNIT 
-READY commands as well.
-
-> > c4b80280 1844172272 S Bi:1:005:1 -115 13 <
-> > c4b80280 1844172642 C Bi:1:005:1 -32 0
-> > c4b80280 1844172646 S Co:1:005:0 s 02 01 0000 0081 0000 0
-> > c4b80280 1844172891 C Co:1:005:0 0 0
-> > c4b80280 1844172896 S Bi:1:005:1 -115 13 <
-> > c4b80280 1844173017 C Bi:1:005:1 0 13 = 55534253 18000000 4e000000 00
-> > c4b80280 1844173059 S Bo:1:005:2 -115 31 = 55534243 19000000 00000000 00000600 00000000 00000000 00000000 000000
-> > c4b80280 1844173141 C Bo:1:005:2 0 31 >
-> > c4b80280 1844173146 S Bi:1:005:1 -115 13 <
-> > c4b80280 1846480092 C Bi:1:005:1 -108 0
-
-This is another TEST UNIT READY command, but this time the drive 
-disconnected after about 2 seconds instead of replying.
+This trace shows that the uas driver was bound to the device, not 
+usb-storage.  So it is not at all comparable to the earlier traces.
 
 Alan Stern
