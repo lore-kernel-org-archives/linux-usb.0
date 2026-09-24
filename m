@@ -1,66 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 795E72E2665;
-	Thu, 24 Sep 2026 12:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E8247F793;
+	Thu, 24 Sep 2026 13:02:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790254654; cv=none; b=qV6ewG+UbmajF3pN6XmmAVeMxRZU+xj3C0JjnhA9mfdYbOfBOnm6zmudus8vSmW0moqn24Eqlq50sxIFsg/RQaIqxJRe7gD0zfIpSk6TQFVjVMEWjNFFfov5f16Lbf/MYmrY2GSaT3exv3OMPdUUA6jPM+TvLeFRQABbh4aEKg4=
+	t=1790254928; cv=none; b=F6GvSs/gOd04mpLMoaGw4j5HnDwO+VO/ZUKeWEU/bAzaL90cL5ThJbk343tXmNe8rLuUirqYDGKUiQeAgAHm6WzX5pFsJ2G/GIEAuO4qX7OysREHlmt6rGmMfrNANMi0LkvjRw3KiOnUeYrRLwbzHDZuqA9R/dl51HSQcIr20cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790254654; c=relaxed/simple;
-	bh=cW8vRK1hmQWqiQ8EquMxm2xuDMxuWNb4wxnC0uRM1nY=;
+	s=arc-20240116; t=1790254928; c=relaxed/simple;
+	bh=fH1YlHdpVzJOv1MKPYJD038MGT4z5fvT8UETPtmncrk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ak9+iosNNgSKd8gEhqsQ+ld1gjiW//DLDHAzImk79sMvvY+EQLmjE0Qfavv/qP8pmz216M5crIXjFU1ljbJjT7RFmyREL7RG+cpmC+avziyBR55d1UZBBQxhZrqeUu+6ZMhJzBQR1lYNBrZ6bo6LidqCvTrVqMaOdVnjy3tw9jI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DkgLac5X; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=WpCsDM908qhTKG2PgjSbZWoOnYSY59L2oReZcM4WpOi9N+KqAPp25MSN/Y3Pxhnv04G86SmV+ocE3VZoqfkMe1rfbvDY2vUTO1sGtYOFuRy4KN+oBUWMb0yigNiAIHGHN//DiG6+wbLGfzk8vrpr+gpoOc6gU34mr7cCnR/Ni6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONQNKred; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DkgLac5X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790254653; x=1821790653;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cW8vRK1hmQWqiQ8EquMxm2xuDMxuWNb4wxnC0uRM1nY=;
-  b=DkgLac5XhE/UMRwtvc/xRq2lh3bGXd9QL2nqALCraHJ8+sZ00H4njt96
-   +KbI+d/0Z6+Uzi8edMhrlid+JZTBje8C6hB9SKtlFciWl23C1E6K3A4PQ
-   My6TKouRp0nB2HXc0KtK2jaFMg/Ps1tSYFpS7o2XAYbNPZjiakBjJfHmA
-   5OEigPtJ9zYrWuPzXEpFN4Z+F3yYJJBR1/1gDMudrRVOigH1dD4MbWdea
-   UIxzWP7efN2/wDsbB25ntufaXlEvzDoWoCPtjErhuQ7F34reeqOW1Ar9t
-   OPXiQNPmM0+oKAxS1dVo/Xqf2tpSCupJ38CeBCz4bxI4C+yRuuq2XOEdX
-   A==;
-X-CSE-ConnectionGUID: LMt9OhlmQK+pACP/xLH/Ag==
-X-CSE-MsgGUID: Y9lDP4KOQVKnAlSB/sPDuQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11914"; a="107409437"
-X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="107409437"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 05:57:32 -0700
-X-CSE-ConnectionGUID: 9f9B2BYuT4elZ4SuR6kqFQ==
-X-CSE-MsgGUID: LVv7J+8DTDeD/tMVD7tJdw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
-   d="scan'208";a="300287902"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa002.fm.intel.com with ESMTP; 24 Sep 2026 05:57:30 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 6024599; Thu, 24 Sep 2026 14:57:29 +0200 (CEST)
-Date: Thu, 24 Sep 2026 14:57:29 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Kurt Lieber <kurt@lieber.org>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-	"westeri@kernel.org" <westeri@kernel.org>,
-	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] thunderbolt: Disable CL states for the Anker Prime TB5
- dock
-Message-ID: <20260924125729.GP106095@black.igk.intel.com>
-References: <SJ0PR15MB4696D491504DB667AA8E0617A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
- <20260924073514.GM106095@black.igk.intel.com>
- <SJ0PR15MB4696C6AB0D4FB7C86C420008A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
- <20260924101046.GN106095@black.igk.intel.com>
- <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONQNKred"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 213AA1F000FF;
+	Thu, 24 Sep 2026 13:02:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790254926;
+	bh=wSmjG+8ya7+DkDDhvWJ91+gvE0FCwI8vKpS9WlMFCkI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ONQNKredBEDe/8UuXV9lszmQ4agu7kTAXy7lqmtEtEMYEnHCvguflvKtlJkaljGd7
+	 gDKJleE90UOzklXylWPjrVvMYEQWpy1U2L/mmHavW2ei9lmeyv9TgS7YJzLNmbmMte
+	 pz2EJluuKS9reRJmUiKtmftckrUgMnlPHtUrrxxcJBTCwaDZeHJSYXNuNL6LFilAuT
+	 wtgJJLnm8KFisFiQ7Vh4cgiNytQxRyAEiWudCR9pJml4S/sqiopl/qBLGZAzvmA5G4
+	 sfGu9zt78mBU34LhAGswRmF4OWA6pTzEZJ2fPCTmAnLgYkyuffNJlUS0rNpNFJMtPk
+	 tvNH4vFd6/2uw==
+Date: Thu, 24 Sep 2026 15:01:55 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] dt-bindings: usb: qcom,pmic-types: make example use
+ generic VBUS property
+Message-ID: <20260924-snow-goose-of-mathematics-290582@quoll>
+References: <20260920-fix-tcpm-vbus-bis-v1-0-cc9347bbe81a@oss.qualcomm.com>
+ <20260920-fix-tcpm-vbus-bis-v1-2-cc9347bbe81a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -69,46 +47,23 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+In-Reply-To: <20260920-fix-tcpm-vbus-bis-v1-2-cc9347bbe81a@oss.qualcomm.com>
 
-Hi,
-
-On Thu, Sep 24, 2026 at 12:26:37PM +0000, Kurt Lieber wrote:
-> The Anker Prime TB5 dock identifies itself in the DROM as 01ea:83b5.
-> Its router config space is an Intel Barlow Ridge 80G hub (8087:5786).
-> The upstream lane adapter advertises CL0s, CL1, and CL2. With CLx left
-> enabled, TMU uni-directional LowRes setup fails with -ENOTCONN, the USB3
-> and DisplayPort tunnels are aborted, and the router reconnects in a loop.
-> Loading thunderbolt with clx=0 keeps the link up on this machine.
-
-Hmm, I missed that it's Barlow Ridge. That should definitely support CL
-states. I have one here and it for sure works. 
-
-What's the NVM version can you check? It could be that some older ones have
-issues.
-
-> Match the DROM id together with the Barlow Ridge hub id and disable CL
-> states for this dock only. QUIRK_NO_CLX takes the same early-out as the
-> module parameter, without disabling CLx for every other router.
+On Sun, Sep 20, 2026 at 05:37:57PM +0300, Dmitry Baryshkov wrote:
+> The commit fe2195b019f6 ("dt-bindings: usb: qcom,pmic-typec: deprecate
+> device-specific VBUS") switched the schema to use generic vbus-supply
+> property, however the example continued to use the old, deprecated one.
+> Update example to use the expected style of specifying the VBUS.
 > 
-> Assisted-by: LLM
-> Signed-off-by: Kurt Lieber <kurt@lieber.org>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
-> Runtime-tested on linux-omarchy 7.2.5-3 (LG Gram 17Z90S, Meteor Lake).
-> Booted with thunderbolt.clx left at the default (Y). The dock came up
-> once, CL0s/CL1/CL2 Enable stayed 0 while the support bits stayed 1, the
-> link stayed in CL0 at 40 Gb/s, and the TMU uni-directional reconnect
-> loop did not occur.
-> 
->  drivers/thunderbolt/quirks.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
-> --- a/drivers/thunderbolt/quirks.c
-> +++ b/drivers/thunderbolt/quirks.c
-> @@ -116,2 +116,5 @@
->  	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },
-> +	/* CLx is unstable on the Anker Prime TB5 dock (DROM 01ea:83b5). */
-> +	{ 0x8087, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HUB_80G_BRIDGE, 0x01ea, 0x83b5,
-> +		  quirk_clx_disable },
->  };
+>  Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+
+The other one has a valid Sashiko comment.
+
+Best regards,
+Krzysztof
+
