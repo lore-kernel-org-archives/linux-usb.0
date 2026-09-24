@@ -1,174 +1,172 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011018.outbound.protection.outlook.com [52.101.52.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E44E4A0F0C;
-	Thu, 24 Sep 2026 15:44:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790264665; cv=fail; b=XXTBZ8mNNK4GVNfHDhLFLiyhetkkUoXG0NcrDcle4HhF3xoWuXGF1D8qyc1M6QaLuf7mfKJgtzhpDwFlAxjEvc+N/4o6WG4JoGKLjf/EzqjBxmCBHgAjTWT/q4JU2mOxtCo4WAPYukqz306pmMzK/8znP5/krTSsDNtp54cQbqs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790264665; c=relaxed/simple;
-	bh=DRE6LolWDJyl+9bCPDiChsQrUEU4xEy1VVhFdoMHgD4=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=XnobXTHjjUs2k7AMGOxlPpd7eLuDMsXfylQxz5mrI8G2iFrqNDMPxR/ctVUrrSXiv4/HTBe4ig1EjRYcLMT9ZoJtbkwLuHhaFK6VJkNn0LoXor0uKNUrMUIorjms03pNcQlca4TLw4YgV4LmAGK2Ba9qQoTelvCSBM/u1jhAp44=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uHGNVDzW; arc=fail smtp.client-ip=52.101.52.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA1A377ECF
+	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 15:49:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790264971; cv=none; b=lvQZE4aksgWgnoiJHwSVCFjDFJNP+8F6w/buUikkt+hjHU//Pcli0QnRUhb9gFdLJfi3JpO5ToEukksVunqawWG+R3B80pvhh+L9ogmLNLAFBJ8fBTWZp02yiGgWTujjv7sLTscOLJlZlaqbNzcaPw9wdWmvv8oxow7PqyqGDi4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790264971; c=relaxed/simple;
+	bh=WJTUowe5H6pdtw0+cLFJuxZT9ymkSCI4E03mWScB6OY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rcrwpVXaD1K4pN6fDvyZYbOZDCW9dmfFQXrSD3qM+FFV0KWsewF+EThfQNgg0t5F2+rucBGh/eeEGojgQvCHc/fyaWjQF8oC9w6C28K0wfCbIBVr7elSSLmQyf8X4rfk1//N6GytA6nWRO35sb3tMDCgNFIcRIlZhDf5kMIVhgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z7Sv/WNq; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uHGNVDzW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Tf6pKqZxIPBql2Ia8/rRnoAbUSUPOPo9Cj9Gw/G0qg1iM3/FyPrQRNW1vheHScRjs9MFrEMC4lXvX7LQfQoQ3t3sUIm4ELy7kZKtJ9GH5GxNowMZ5xK9lH++QzjMNWynpagkxGBVlwfwhvBhN8d/O9OFRwJZdeysvGIUTgrvOAWoYi/+gAacvHqvNxxhXg1pkXlOOiD0mvzXMBFDB7YaZSfgMIeXhNcPaENvlkdsy+GiPE7ZXyEWPOQn+u+3OlID2Z3csy3UwNIwI16G6c7+Vbe+2vXlCTj9MQClvu/mBdjfqR0QFhlyN9IA21k7mm9QkAxXbe7W5EQ2B35YkUQ+WA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CRW9wY4Z1+O6DWOU9N2SUhA4D6AxgLdH4aFsl5GVgJc=;
- b=Wm0nBcviOYWgA7/GZIU66aARPcWAFf/bXv4ePSEu+mWHUD8HL60EbZ9niD2N32S2EofjrOfMDFCr0boUwiWphrelLU5ClF4vnsrikvwSClLXtxr4hKlfdJOOVqH+y0j3A06i0RE5+V2E9VDqyc7uDxRMBkO2sBUy+H3EBBbpe0HWS8HzE8uzQtqSBgr5RlxY7UVzoyhfA1rWG+2VpTWcHEXzQcVk35ilcpVwjj0NLG8BrYRb1NdRKr00Yrgrw2CCkp8LJowC/SSnZCrXHkMC8IekxvT7lhYltII22JfhmjN3HDw8ZDhXVlHqd8o5Dk2Mog0i6psa6h0fKgcYBsgzBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CRW9wY4Z1+O6DWOU9N2SUhA4D6AxgLdH4aFsl5GVgJc=;
- b=uHGNVDzWzqRRJtTotoON/aAtQjLiI7uO9MCs8VlsWcRaXXZ7gJYRmV7d6YIPXlOczgTBIRk+qa/0pMd9vF7OSVZMp5DnYvTj1ex6j9JxI7ydnSilmzu+AMrqeFyg+4pGxhukAtkZr0nGdbVUWDldhU24VCd5C7VrYk3b5HuVH9o=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH8PR12MB6914.namprd12.prod.outlook.com (2603:10b6:510:1cb::21)
- by DS6PR12MB152050.namprd12.prod.outlook.com (2603:10b6:8:410::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
- 2026 15:44:20 +0000
-Received: from PH8PR12MB6914.namprd12.prod.outlook.com
- ([fe80::2893:177a:72b0:6000]) by PH8PR12MB6914.namprd12.prod.outlook.com
- ([fe80::2893:177a:72b0:6000%7]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
- 15:44:20 +0000
-Message-ID: <a2f981e4-ac6a-4d1f-8c5c-bf529e0a16e2@amd.com>
-Date: Thu, 24 Sep 2026 10:44:18 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] USB: quirks: Ignore wakeup from the Valve Index HMD hub
-Content-Language: en-US
-To: Curtis Vogt <curtis.vogt@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Michal Pecio <michal.pecio@gmail.com>
-References: <20260924034200.421686-1-curtis.vogt@gmail.com>
-From: Mario Limonciello <mario.limonciello@amd.com>
-In-Reply-To: <20260924034200.421686-1-curtis.vogt@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH2PR07CA0045.namprd07.prod.outlook.com
- (2603:10b6:610:5b::19) To PH8PR12MB6914.namprd12.prod.outlook.com
- (2603:10b6:510:1cb::21)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z7Sv/WNq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790264968; x=1821800968;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=WJTUowe5H6pdtw0+cLFJuxZT9ymkSCI4E03mWScB6OY=;
+  b=Z7Sv/WNqWDwWjhtdl8RUKyFwUyglSiDC8ICwjVwmJPn5KJULVv/qSvqV
+   QZGeoMPi1R+SLONUHejOLojHcqqITXOng6M3oNBmG+90xOfIj38BXTinY
+   wMw2n3d+7p+ww7wPQql+onfLTDv4J00oUKhZR4oWNEcR2hQHB8KWzdWlX
+   ZFedQI+IIBYTU7IhLVNToKaG2icashr8KljRAqolz1K4ZIx/v0LUM32/n
+   3OnpqByALUOeEKeMqxkB4k8O+QqaohFG9ft/gEAbyqZfoCL8AyKTDtBdL
+   6pNjjIPrLb3y6+FgE3usm9BaJ+ZwEFJ320fSiuLFPtWt7fccfyApch9JC
+   A==;
+X-CSE-ConnectionGUID: h/CQJuPoRFuToegYuujHYA==
+X-CSE-MsgGUID: jEzgBTsXTK69nXpEfpiSvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="91147607"
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="91147607"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 08:49:27 -0700
+X-CSE-ConnectionGUID: M1mvO0sqS1+eU1f5/ORr0w==
+X-CSE-MsgGUID: g97kINuwRKGcew0O4/M6Fg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,120,1787036400"; 
+   d="scan'208";a="273178212"
+Received: from abityuts-desk1.ger.corp.intel.com (HELO [10.245.244.151]) ([10.245.244.151])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 08:49:24 -0700
+Message-ID: <2a4026e7-f5d3-4301-bc60-0570cbd7fa09@linux.intel.com>
+Date: Thu, 24 Sep 2026 18:49:22 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR12MB6914:EE_|DS6PR12MB152050:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e1a0361-ad9b-496d-0dfc-08df1a52b320
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|22082099003|18002099003|56012099006|5023799004|11063799006|10067099003;
-X-Microsoft-Antispam-Message-Info:
-	hzIe+QKO86Ys9knjQYPbrq0BwCiIi2gX9PQmlZiyX0HhbL2VV4qgEINV0dhSU7GsamqpJ7le5f46xvaE7kEW7XAvgjjpsigmF6BslC0Zg9+m3/MEqbpT35eojMGEGsWyA3726VO43dBsqrrG2fl7IHI0Yo9PjA2WSXVEeS3ePQwJpbmdY9cp0/iFbaO8r8jLzvxgC8001dRBes4jLpS/FZV85e4FRuq2t2Nqlyt7HRf3FA06GvDlt1xy3e4x2+9ud9YVxCwWQC8zhZ8T7urfyejBVBIeKhO3PDbaOE5YMowgFD/kr8wGRIT9dakWGYByyFZlNNALdySuq2u0Z3EQIogaH6xY/+GxaqYIS329dbfHse1ZqBqu4Gd9AO/9LVJAjlVvQe7QmGsaNfzBLgOUHIfYsURUAvxaPCQ/74eidYE73+efvBfVN9hpY4TTQx7AKTnUkRkEpA9mXSe6HYS0IIIhaPblIaVUG7qZkLyEPedr/rkfgmKuDTKnQAS7YX5A1qYmStUp4nW5Gvvu3UNut4+upiURCNKMuJgBH9q/lSBJOPTYi5J6/TuvG5NLHXCxcW+gJeG1bZiHv+wfI2na3JP+yEzhKpWQIfWB51NDlCg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB6914.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(22082099003)(18002099003)(56012099006)(5023799004)(11063799006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RzVsbVZyU0F2ODlYRXEzUytDR3pkeStKQ1hiNXQ1YjBZMUVleWpnTG1sVWlI?=
- =?utf-8?B?QVA2aWlGL1BjMmRZU0M4N2YxcVhxRnArK25IZTF6dldMdmV4bFowOWhJMW96?=
- =?utf-8?B?Y295emhjdDJJaG5NaFlQcTZWTkdhNkJQMXJrL3Q0M1QwWUVXbkRUM2VtdTNt?=
- =?utf-8?B?SklYY2crZHk2U0FwcVhYbGhaMWZFcVdnemp5TU1LMHpzbWVQWGlWWkVaVk1S?=
- =?utf-8?B?OGFQZllEN2NjMGt0YWV0RkV2M2FtVlF5SExkYWM0WmhLdEZ0MTJVUmVLdGkv?=
- =?utf-8?B?bHJKNmFNeUNSelZjaTMwNUVieS9aMVZ3OGsyRTE5aG9LWHJtZkhja1NBaFBs?=
- =?utf-8?B?S1p2WFNEMXljREw3RjFGdm9YQnpFT2VPV2Y4VlROVEtFTW0wcURhZFRZMC81?=
- =?utf-8?B?MUJCVmxObVpsaFp3RzJLTnBxbmI3OHVXTGFVU1g2LzlqZW9Oc0ZrUDRndnNs?=
- =?utf-8?B?UVZsV0R5N2UvVUJPQkk5QUs2Yjd0K3dkUmI3UlNraTlXc2FIVTZaRGFOZWUx?=
- =?utf-8?B?M0Q3Um1MdGxacU9Fcjcrd25ta2kwUitocDVCRlZxOTZtMzI0dzNJd1gxVEIw?=
- =?utf-8?B?K0xVa01YNDk1WVNEaDRFN29lbXhVcFJRNzVra2tpK0Z0cUNGTTNrVUdXdHg5?=
- =?utf-8?B?cmhPU2VzczNiMXdwNFppd0dKdFVDbHd4eEVLZ2s0WktOTklsbWV0UnMrN0Nk?=
- =?utf-8?B?NEZnemdXOWphRlBtenRBRGRTV3psNVp0ZXlQNlZncFcwcWV0RmhIMnlxdFM4?=
- =?utf-8?B?a2pXdU93eHladzBURWNxVFJoR3BQVlVHWFhvMENTeU9GK0UxdHhEaGVHSmpV?=
- =?utf-8?B?QlhFNStvNExSNFJ2ZHFnZVh0Q1lvak1WY2xKOWt1UllXRG82NWV2SXNqUlp0?=
- =?utf-8?B?eWZtY2x0TTRFK2htYW1vTHMwVWNSVVl0b25LOEZYWU5WOWFURHN3a0ZnS3dh?=
- =?utf-8?B?cGhCLy9QZ21MU0Y3ZGRrRk0wcGxOWVZ4MG8vRGdjVHJQa2YrMS8ycjR6N25L?=
- =?utf-8?B?YUdYekpMM2Zya2U4VU9FS2ZqbVBlRStMS3lBU1RYVlVHcVMxVzNJbnU4UThi?=
- =?utf-8?B?YlJVbVFRSFM5ZkpWVUlDTWtoMHlTMDl1OHA0YVhjZ0h2RTVQRjhaNmVScjlV?=
- =?utf-8?B?WTJWV1RKdnd3cmxmT2VuaXpRV1JZY3RhQ0c3SjUxVGJ5MHlWRU5WYTN5cS9S?=
- =?utf-8?B?SDJlQ0Z2Z012YVRZbzkzaUZGVjZFL1JnSHpvZmpFV0xCWWtZZUc4elVURjBw?=
- =?utf-8?B?YXI0bXZON2VvVlpEYktrRWdzTjQrcVlJZlhIUGd6dVVWOUdBbjRFT0Z4djBr?=
- =?utf-8?B?U1h1ZlQ0RXpRcFIxc2Yvd1hkNmpIcXFld0w5bm9Jblo0OEd1N0RuVDNzcnZa?=
- =?utf-8?B?Y3kwZnNoY1BxUnIvdk4vRDRVck9HYmttcGZxcEJ3K2ZyeGpvb3pXdFkxZ3ZK?=
- =?utf-8?B?MTZIYktCUmo5aUxseC93UHZySVMzbXNEYWFzdjc4Z2FrR2tVdHJmQ0dFaVVa?=
- =?utf-8?B?U0h5OEZoTTJ5V0NYdmZyZ0FGZ3RRKy9hYU5KZmplNE9MQWtobXcwU0FDRWJO?=
- =?utf-8?B?WjlmZ1g1dE1BYzBRcUVJWlZ3MXl0UDliWDVFUnRybE1hZHNKUWNLMGthOVpV?=
- =?utf-8?B?SDZZTGZYMXlNc3hVd0pvd2x5VGxEQ2sxRmNMRUU2Sk4rQ00vd3lhaHVWTkdp?=
- =?utf-8?B?Qk02WVNYUzhpWHdhemVwZGcyTTMvTFQycEV4N0JOWFFqK3FXVGNvQk5JYlI3?=
- =?utf-8?B?bFZaMWdIaW91THhFd29QWGNxbmUvbHpDZ01zSXJ1YWdjR3YrTE93ZEZlYWt6?=
- =?utf-8?B?dkpLNW9oLy9Td1RvaUpWb0s1WnNLL3hZLzV2R21pRFlUNFVCbDFnUklMRzVy?=
- =?utf-8?B?MFNqMXRGdHFFRTZtRVpXajJBMGlKRkRLckJrUElwZmZSQzE5alpFUTRHb0RN?=
- =?utf-8?B?WGc5MGprZFNPbWgxbTJ3K3JHeFV5Z0dzT3c4VndEK3JkTEZQMlBSR2JJV1pP?=
- =?utf-8?B?dDF6ZUtUWUNJTDNBRUJueStJNjBocnNaNnJpQUpjM3JiNUJkeXFDeWZkS1Vo?=
- =?utf-8?B?TW1KMGswYTROZmVPU3BHTHExZHZ0UWJ4czVTWUVQSXEvdTFRQXpWNVRDOXZm?=
- =?utf-8?B?blljUVZrLzUwaklqT1lSb2dyd2laMkJBSi9sS2RMck9FUHM5TmJvRVU3NjZT?=
- =?utf-8?B?WE5Mc3hwcU1oWUVHQjVneS92K2s4cEhvSWZtK0hUa2J2NlV2OW9UZFY0U1NT?=
- =?utf-8?B?SUtTQVZzcU9ic0Uyd0FMYWhNNjVRcjJmcGFTZHA3MlRFdStEY3RkVUNIMldM?=
- =?utf-8?B?Mnh6bFNGK0Z4dE1HTHZVZG1KZnF6WFRibzZOQ1doZDE3RkpjZ3RlZz09?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e1a0361-ad9b-496d-0dfc-08df1a52b320
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB6914.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 15:44:20.6456
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 20t6DS0MWAHrC67R6par1Y3WPM9xwm5Y2D6es4MZ5vtC1F29+fxoakiu2Lds/fXaCKKa8/ACSEgRwbiyDSGSSw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS6PR12MB152050
+User-Agent: Mozilla Thunderbird
+Subject: Re: [WARNING: UNSCANNABLE EXTRACTION FAILED]Re: xhci_hcd 0000:0c:00.0
+ dies with "Abort failed to stop command ring: -110" exactly 24s post-init,
+ tunneled USB4 xHCI behind Goshen Ridge (ASUS ThunderboltEX 4) + CalDigit TS4
+To: Ben <benstaples10@gmail.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, andreas.noever@gmail.com, westeri@kernel.org,
+ YehezkelShB@gmail.com
+References: <20260915043845.GG106095@black.igk.intel.com>
+ <CANcA1gDh9AKFOdzK+kfLieJByxN1kjFQpSiexKPjHyOY8YMVQA@mail.gmail.com>
+ <20260915050515.GI106095@black.igk.intel.com>
+ <CANcA1gDbddDkZAQr_O6njK4PvaDk6nnj+fPsrzigH132u0f0Ng@mail.gmail.com>
+ <20260916075135.GN106095@black.igk.intel.com>
+ <CANcA1gCjSCdXz_3+XA5ZOndm2pAL4ZUs93q_69dzZeq_cmq8Og@mail.gmail.com>
+ <20260917043847.GV106095@black.igk.intel.com>
+ <CANcA1gDFygEN68vnoocpLg10jMQctb3aG_QU55nZK3GuxSrD6w@mail.gmail.com>
+ <20260921044453.GJ106095@black.igk.intel.com>
+ <CANcA1gA_o_34UUZMzFp+cMuMFvk9S4uizYCdR8iG55pKaw+71A@mail.gmail.com>
+ <20260922042608.GZ106095@black.igk.intel.com>
+ <CANcA1gAijg6Ftmw9+aeuG+SjKKwKo-HyXb+kfBiGFGj=ZzNvaQ@mail.gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <CANcA1gAijg6Ftmw9+aeuG+SjKKwKo-HyXb+kfBiGFGj=ZzNvaQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-
-On 9/23/26 22:41, Curtis Vogt wrote:
-> The Valve Index HMD's onboard USB hub (28de:2613) asserts remote wakeup a
-> few seconds after the host enters S3, so a system with the headset
-> attached does not stay suspended. Observed on 7.3-rc2: every suspend
-> attempt returned after ~6 seconds with wakeup events recorded from the
-> hub. Disabling wakeup on the hub through sysfs allows the host to stay
-> asleep until woken from the front panel. The headset most likely reacts to
-> the DisplayPort link being taken down as the host suspends.
+On 9/24/26 06:02, Ben wrote:
+> Hello,
 > 
-> Nothing behind this hub is a device that should be able to wake the host.
-> The headset includes a radio, microphone, and a downstream Microchip
-> USB2744 hub.
+>> It could be that it went into runtime suspend before that. One thing you
+>> could try is to connect USB3 device to the dock, like memory stick or so.
+>> That would prevent xHCI from entering runtime suspend.
 > 
-> Link: https://lore.kernel.org/all/20260910170254.833871-1-mario.limonciello@amd.com
-> Signed-off-by: Curtis Vogt <curtis.vogt@gmail.com>
-
-I guess this would make sense:
-
-Closes: https://gitlab.freedesktop.org/drm/amd/-/work_items/4333
-
-Thanks for the patch.
-
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>> ---
->   drivers/usb/core/quirks.c | 4 ++++
->   1 file changed, 4 insertions(+)
+> I have had a usb drive plugged into the dock just for quickly checking
+> whether the usb ports on the dock are working properly each boot via
+> lsusb. I believe that was the case during the boot that I shared.
 > 
-> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-> index b5b577f0b931..7ededf8d9cfd 100644
-> --- a/drivers/usb/core/quirks.c
-> +++ b/drivers/usb/core/quirks.c
-> @@ -596,6 +596,10 @@ static const struct usb_device_id usb_quirk_list[] = {
->   	/* ShanWan Wireless Gamepad */
->   	{ USB_DEVICE(0x2563, 0x0575), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
->   
-> +	/* Valve Index HMD hub */
-> +	{ USB_DEVICE(0x28de, 0x2613), .driver_info =
-> +			USB_QUIRK_IGNORE_REMOTE_WAKEUP },
-> +
->   	/* UGREEN 35871 - BOS descriptor fetch hangs at SuperSpeed Plus */
->   	{ USB_DEVICE(0x2b89, 0x5871), .driver_info = USB_QUIRK_NO_BOS },
->   
+>> Can you see the 0c:00.0 xHCI in the device manager? I would expect yes and
+>> then this ends up just being Linux specific issue with the xHCI on GR. I'm
+>> adding Mathias in case he has any ideas.
+> 
+> I was truly having a hard time figuring out how to get this
+> information on Windows and it really was not cooperating when I booted
+> it up.
+> If it's still useful, the next time around (or within the next couple
+> days when I can find some time) I can confirm this with certainty.
+> 
+>> Can you take snapshot copy of some xHC rings and registers a couple seconds before
+>> the crash? following directories would be interesting, (including all files,
+>> especially the 'trbs' ones):
+> 
+> I've attached logs that should contain the relevant information around
+> the time of this event:
+>      command-ring  msi-irqs.txt    pci-irq.txt      proc-interrupts.txt
+>   reg-op       uptime.txt
+>      event-ring    pci-enable.txt  power-state.txt  reg-cap
+>   reg-runtime
+> 
+>> [   24.975645] xhci_hcd 0000:0c:00.0: Abort failed to stop command ring: -110
+> 
+> I am providing these and I will hold onto additional ones from 2.48
+> seconds into the boot.
+>      24.57 /run/xhci-initrd/slot_200
+>      24.68 /run/xhci-initrd/slot_201
+>      24.79 /run/xhci-initrd/slot_202
+>      24.90 /run/xhci-initrd/slot_203
+>      25.01 /run/xhci-initrd/slot_204
+>      25.12 /run/xhci-initrd/slot_205
+> 
 
+Thanks for the logs.
+
+Registers show xHC and the command ring are running, but it still didn't process the
+'enable slot' command. There are no command completion events on the event ring.
+No interrupts either, but that is expected as there are no events.
+
+Odd thing is that event ring is completely empty.
+There's usually a port change event when host detects a device, this event triggers
+hub driver to start the usb device enumeration process, queuing the 'enable slot'
+command as one of the first steps.
+
+Either xHC isn't really running, or fails to write to the event ring.
+
+I noticed that both event and command rings DMA addresses are above 32 bit.
+
+Maybe dmesg log with usb core and xhci dynamic debug enabled could show something.
+Can you add the following to the kernel cmd line:
+
+xhci_hcd.dyndbg=+p usbcore.dyndbg=+p
+
+Could also be worth testing with with 32bit DMA mask:
+
+xhci_hcd.quirks=0x800000
+
+
+Details from slot_200 logs;
+reg-op
+USBCMD = 0x00000005     xHC is Running with interrupts enabled,
+USBSTS = 0x00000010     port change detect active, EINT==0 so no unhandled interrupt pending.
+CRCR = 0x00000008       command ring is running
+
+reg-runtime
+MFINDEX = 0x00003252
+IR0_IMAN = 0x00000002      primary interrupter enabled
+IR0_ERDP_LOW = 0x026d3000  event ring dma address has both high and low 32 bit values
+IR0_ERDP_HIGH = 0x00000001
+
+command-ring/trbs
+  0 0x00000001026d1000: Enable Slot Command: flags C
+  0 0x00000001026d1010: type 'UNKNOWN' -> raw 00000000 00000000 00000000 00000000
+
+event-ring/trbs
+  0 0x00000001026d3000: type 'UNKNOWN' -> raw 00000000 00000000 00000000 00000000
+  0 0x00000001026d3010: type 'UNKNOWN' -> raw 00000000 00000000 00000000 00000000
+
+Event ring is empty, command ring shows the Enable Slot command that times out.
+
+Thanks
+Mathias
