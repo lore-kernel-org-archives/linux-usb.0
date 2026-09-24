@@ -1,610 +1,167 @@
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11022098.outbound.protection.outlook.com [40.107.209.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB5AC477282
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 12:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790252701; cv=none; b=LQw5ycwGnFHfkTcJurqCulCG0a41t1Y2SMDxXGPirIUvpbJJklyz3mbHtSMssy6L/fz4LHJJR7qUS44EiOVkvyzysyyAl4YuufclnKWLrtD4v7vHuVp+Abz1KdW6qNPv6tJWQeOl/SZbVzpfWV/kMgKhORJWUfoa5TRb1DYU5Bs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790252701; c=relaxed/simple;
-	bh=kW7cQMfvdkotjmjlfYnmfdotfG/2jbE3uOJWp3G9K9c=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:In-Reply-To:
-	 Content-Type:References; b=eDJo9Ldfe7JT7piSrfQpX9AaXxhOW+jyz8aSoP2ujGhiu6JSGk9Rys56kxZ4VycpIiqWNJiX1mhn221uV+9VBq5kBlaz3bSsdQZpx0TAmNYfToXntxwfpclpNCm4mPv1EKpkNRWqC2hcrm46va12899vPdKsHeKT4LQEzGOyBHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=XEZJCmrO; arc=none smtp.client-ip=203.254.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7775C35C1B2;
+	Thu, 24 Sep 2026 12:26:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.98
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790252805; cv=fail; b=U2Yum2kgEamndEEB4xyZ8GV5tWLhlmb4/6mNoAoN9J8w1N05JUZrj9LY2q/GyyeHH2Xey5E9/OVd8tg/4PwEthETng+7Cy/xOeLTZ0M5QZelSvXOsEF+h63YwP9hb3y7GIIEXdCuiZegry4Oaq2rBW6Ytllh15XH0coJeDTRt28=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790252805; c=relaxed/simple;
+	bh=E4duF26uw45GQXW4vGK1Hb04SfZgqVMZl9LIADehhAo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=W2y8hqUxAvXxEgd/wel9e0XCrsaTNAbZa1m8dssY04KwXSFL6eU6j8FmhFWBuIOjrdTLa86JzOddcjMpb+DjSZ9K+RYxxJPOakGIkHgrN04/keuv2joM1w3KhARhoupm6hVVoX0c9CA0RsrC2tNs8cDTrv2nPNo7tyaOWjpezEk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lieber.org; spf=pass smtp.mailfrom=lieber.org; dkim=pass (2048-bit key) header.d=lieber.org header.i=@lieber.org header.b=mmDE5I3T; arc=fail smtp.client-ip=40.107.209.98
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lieber.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lieber.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="XEZJCmrO"
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20260924122455epoutp04778329d8f8de3158c2cdd12a45c75cfd~YQVdk7vj42739927399epoutp04e
-	for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 12:24:55 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20260924122455epoutp04778329d8f8de3158c2cdd12a45c75cfd~YQVdk7vj42739927399epoutp04e
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1790252695;
-	bh=PLyWZNlRh+SqL62fod9ga5J9WPMTRgPT0FNEe3sdVCU=;
-	h=Date:Subject:From:To:Cc:In-Reply-To:References:From;
-	b=XEZJCmrOASh2ZCL4ME4nKWYDde9t4eAc6rQFdkcInwTceosWbYGdJZdIRuS+xMzvp
-	 fUXlr8+gqoBdKzyNQg+XBJrIP4YPy5xduy+6M6ATTrx1LozJBreSZQE4MXH7sUZmJs
-	 Qub2+iFM8KnMXszvZm/nPKDpVlr1tR25S5Kj0T3w=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPS id
-	20260924122454epcas5p3149d870e24dc38c88932355141e5ed83~YQVdFTM9-0354403544epcas5p31;
-	Thu, 24 Sep 2026 12:24:54 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.87]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4hrChP6VBVz6B9m4; Thu, 24 Sep
-	2026 12:24:53 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20260924122453epcas5p17ab21847d3a7bd5b9f3dab529b96be49~YQVbb_wHF3269232692epcas5p1J;
-	Thu, 24 Sep 2026 12:24:53 +0000 (GMT)
-Received: from [107.122.5.126] (unknown [107.122.5.126]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20260924122450epsmtip2f734ee1235c75a07729ce8767a01bc6a~YQVZXm5931701617016epsmtip2w;
-	Thu, 24 Sep 2026 12:24:50 +0000 (GMT)
-Message-ID: <23d3977a-5781-4b7c-b581-077526f8a901@samsung.com>
-Date: Thu, 24 Sep 2026 17:54:50 +0530
+	dkim=pass (2048-bit key) header.d=lieber.org header.i=@lieber.org header.b="mmDE5I3T"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XsRo9k+7Jr0COSazaFwzvjK2F+N08fVM2GSSQZmB7FGF52qcnwXwpKFlq8Z42Io96YSZ8Vfx1prwnDd4tIoe7lFfLO+GwChoNCp4rId+0Jo+rthMVlufW6r03AmxWx/CkGoNNNU2E+kQ2V7Lr0+tKKGaaXLnQmTbDhlwxlQ6iW/0o91InWcyDYL/7+cIGcAehWeVp3CWsB4QGpj67s+iGeUmUmkMMWTxE9KgsFGKvyEGSZaUf0KU0OF0CTFAr1635bpnvFCzV3jlYfvyPPQH+06yNVNFkj7gYyA1lzFFxazZjCO95z6FwUDUcae/50L7uJUiCytqRLweib/zWLTKDA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mA/BU78xhBed7iNu6lEnIfOPb1U/xRiB8zzX0R65AdY=;
+ b=c5kXahrPGzizB1KdcSJfCKC7tEzGEjDZEbgfBoQ8skoTUT+vft1z77GJ+CycdArAEBoGtZvuNtVp+2VNv13lw5Hfx0Srn80n5tELNxk7pavgHMaSTow7I0TSSkW6qqYiE84yGgit9fHS4GZYoYeGh3IFUrtTMe85FzI6DQv6qen9J5t39oaiOAdsjUfn1xzDbcoY1EzSGaYXvqzpP/X5yVxrMIG6rTnb6+AaQQ+w3JwvUqSsRIzdwN1WS1ibPdBEekg/aMhberTKpGGRP6Bx4vrpfc0KmlH7Sc1+w8eb0tq1Z4Hf83g10mcdQIvzU/uH5GoI7lPA2/CFqvs6oKNvSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=lieber.org; dmarc=pass action=none header.from=lieber.org;
+ dkim=pass header.d=lieber.org; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lieber.org;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mA/BU78xhBed7iNu6lEnIfOPb1U/xRiB8zzX0R65AdY=;
+ b=mmDE5I3T7QwHoIg0q3cjqzdArMUNvtBifG0jZL6ZHCa9d4qx8G8ULwygt7+c1IqKODN5QSKsrvXclafim4AFCjiVFSy1cVncXgsVbsuPZ/wm6XH9T6fbix5H6fHBN+zOddN/h2NrWdBs4ir6EDkf0J1FIwZV+8TVrjiykWnvVmYwFU+tJzdkJRuxuuYlgMYvR118c83CpCWNGekrmBL6s7P35U8oOpVV663wPDhkhr7xjRpxFesW/Vy5qTK3gv7g01Sew+MJglZhkmifoDGd0g4wphWOHkLnNxHIrqfkI0Nd0DBH5wE10K8PMoadTKUG/kavITXhgX1Iry0GGNIiZA==
+Received: from SJ0PR15MB4696.namprd15.prod.outlook.com (2603:10b6:a03:37d::17)
+ by MW3PR15MB4009.namprd15.prod.outlook.com (2603:10b6:303:51::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
+ 2026 12:26:37 +0000
+Received: from SJ0PR15MB4696.namprd15.prod.outlook.com
+ ([fe80::14c7:ac20:ac6e:6f61]) by SJ0PR15MB4696.namprd15.prod.outlook.com
+ ([fe80::14c7:ac20:ac6e:6f61%5]) with mapi id 15.21.0451.014; Thu, 24 Sep 2026
+ 12:26:37 +0000
+From: Kurt Lieber <kurt@lieber.org>
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+CC: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>, "westeri@kernel.org"
+	<westeri@kernel.org>, "YehezkelShB@gmail.com" <YehezkelShB@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH] thunderbolt: Disable CL states for the Anker Prime TB5 dock
+Thread-Topic: [PATCH] thunderbolt: Disable CL states for the Anker Prime TB5
+ dock
+Thread-Index: AQHdTB/xumZMHV37HU+Dgj/1DHc0GQ==
+Date: Thu, 24 Sep 2026 12:26:37 +0000
+Message-ID:
+ <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+References:
+ <SJ0PR15MB4696D491504DB667AA8E0617A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924073514.GM106095@black.igk.intel.com>
+ <SJ0PR15MB4696C6AB0D4FB7C86C420008A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924101046.GN106095@black.igk.intel.com>
+In-Reply-To: <20260924101046.GN106095@black.igk.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=lieber.org;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SJ0PR15MB4696:EE_|MW3PR15MB4009:EE_
+x-ms-office365-filtering-correlation-id: 2b909b6a-6a29-43bf-1a68-08df1a371432
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|10070799003|10067099003|56012099006|4143699003|38070700021|7055299009|18002099003|22082099003|55112099003;
+x-microsoft-antispam-message-info:
+ 74pncuXkWRd42fDiPh7XKmBtWSMmbv7hNZRm13DJa3l80kBVRGW9Qljg5nCXzY+5QLHx+B6ydue5ro/2YTZ5XYhsreqsiF/kR5sQ+cY4sBxteRaENRkx7WQGYEub3s4fHw1oxMqvHw5fGIPh56iDRJO0h8ZFJ4/mu52/wOk6Vb/dzvNq5ZixhgR0Q4frOKmXEQ2NENMeQtsCFtVYFfYSvEsZmWj3E8MUURgBZ8GPuERlU98qvNw6nbzjY70PmQzvaJ48yxqlzyJxRxhPVZ3P/umDcPSwNof5l0MsXh1aeagDT1XZLKg05VFK/Jto31GEIl1JERTKx0oScwKfegC4mvDC+hunj+WupX2tenYbG1vnhc5F2/wJCjFYpAMHAXycFoREoyHZDbyWWu4GlVPAoWinRv03JTvA6VmV/z8RGnLUM89wV3OLSRsmB9BvQd6O+lEhq0ih/vHqjN6sCsq8RY9OgzWtzxUMMaunry3/3p/V1I/0tOz3rLzGCogXuApPWz8kIJndZ1/4zwEVxnbu9VcGJoNt6OF/wZD9AwdF1BDeGuncukP9fRkEFdSWR9PxzMkTL57RTKP4tC0YYipWKaNHtYRrsRLdjcaZw9wBhDFJ7UHIbq7w+BuMftVsspHaRGUWsQ+NAbNSpiXpFX/rtSWbmUjxNEBNw3GM8o14i+BP37dDXY7xCwnRUCnHIhmoRMwxmHvdfmTdOv+VZ+nGfVIuRID1rJMTuB4kcNaEvtC/59DNR5MBU37N6e+Z4kDG
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR15MB4696.namprd15.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(10070799003)(10067099003)(56012099006)(4143699003)(38070700021)(7055299009)(18002099003)(22082099003)(55112099003);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?PcdvuCcLZfEQOr2UDNrr/xjUDsgnR5+jfaOf1/upah6JtqivgEOnb6Fzev?=
+ =?iso-8859-1?Q?7SMduDdS5UjWAvZzd+ZFpoO6rUzE8j7ujMh+BeuH8r2boqM5cTfjUAhpbF?=
+ =?iso-8859-1?Q?6Q2HFt4ce87G8HxhIdQCEDeCe9Yj5XxVpbSNNcmadm9q82+LdxJTMf4M+q?=
+ =?iso-8859-1?Q?qr3lPHp6cSGjm/sgG4WozWyplR8ZoFHC9F6pMNvLnvmbHWZ2jSlchkbTU+?=
+ =?iso-8859-1?Q?LNy0sruVY9evwNQsh3NVGNTIWfUgnZEFQhkCIGnIwFfCUi9190oggVvzbA?=
+ =?iso-8859-1?Q?jiKWvjs4RCmh43QHoIrMiO1/nrpVTW91zXxVBj7gyob85X5rMXq6y+9o+2?=
+ =?iso-8859-1?Q?80oNmkQm8u1pLnI7mdFXM/taPUJTAKdh7wWFCiHuyjIZ2yvca95iQ5Ca9f?=
+ =?iso-8859-1?Q?fND1DFr7D24hz0ziSGAfc1l1g/Ez0Gm+E9cIqmvwEyq5I9keQUBGQbPJs5?=
+ =?iso-8859-1?Q?r/GLuBXHJtFmVDBtEcl/q5yXRtD+ctfdY44ZBv6C2+nUPytIPWC0MZI0bz?=
+ =?iso-8859-1?Q?2WxBu8RX3YSj7TWfR337VLkFNKjx15xSuriL1ijaXtH1zueDXPKxQ94iDA?=
+ =?iso-8859-1?Q?r+iU/6R4sGet461rJZFmcGhlnuWu1jh7cM515NWPVaTmv3gdFa+98r8Z+T?=
+ =?iso-8859-1?Q?ikdODZkVHrgZTLM+V9u/mU7x4QXtbjGJ5yukLi7L0SLDQd/aRWc+wEsqsf?=
+ =?iso-8859-1?Q?MNp79rtyYigR8F0K0V4TPVBU3R3VvzDqhct1a5NPU8CO96jH0x3VpCtJhH?=
+ =?iso-8859-1?Q?h5JkC2F7xsbno3wj2KL719AxzK1B6q929++DeagDi1Kz3C5H4RyDa5lyem?=
+ =?iso-8859-1?Q?5gYLEjUm24WK9HAVOrP0tQ4/k7dskqsbfrbxi201KDu3+SjSQNXiDwSRLD?=
+ =?iso-8859-1?Q?YFsBCBd1SrQ6YxN4Da+DZJiJv2phwFr8gTfW+uwdjnbCi7IiOU/u8DeuLl?=
+ =?iso-8859-1?Q?8HYVmwU0El2fbCj7+NXDOBnVl2Tx0af3lqDp+mhlrs/B/tSUYuRtQMP5+O?=
+ =?iso-8859-1?Q?alJZCN56kda+LxoeRHpTaTK0CXTJFc4kZgHClbwI+t1+d8GCSAwZEsk1Vd?=
+ =?iso-8859-1?Q?2CPdczl63CnMIUwwuwzjaXBpxFcT3CRbrvUyPUOCAeHCAMWhKZshc9mQg1?=
+ =?iso-8859-1?Q?OoSNkLZb0A/MQe9nFJaGNjuqup63YIx18GcQQrOON/pDmWQ+EGB96U1KKl?=
+ =?iso-8859-1?Q?daUM1T7BS2nFPnN/sTKdsPIgI1O2r2Wr2sgLd2qTWsvUy1byWtbMCemE5j?=
+ =?iso-8859-1?Q?yhQJDHi0tZ7rSeaS5+83UEDILbnw6NyH8sHG5RMwE73k+ZJfrMqi1Qt5sv?=
+ =?iso-8859-1?Q?IdyavjtdfW6mhB6/6/3BNQN+fbkzyOHqjOGR3ezNsfhbmwI3PU420C2WZx?=
+ =?iso-8859-1?Q?FlNcrm7abMXxgoSVi5mrHmFiF79E4Jp3decMVuh8L1Pyl+qSM2raWUpzpQ?=
+ =?iso-8859-1?Q?k1WJXU+57r7f+yLhe79+awaKBbrxo4/cS6OvZVyCl/kHbHzNn57GcPa3Pr?=
+ =?iso-8859-1?Q?iM7CSZbkd1zh2PGzLv1ePtQjLGvWhZ92BCJappAMWUZDhpLxr+9ku8IfZk?=
+ =?iso-8859-1?Q?R19cECb9mWO99ycZScy5icAS3aD717b2+KhlnePN93qKtLrnJSWu9/xKDM?=
+ =?iso-8859-1?Q?5+6Dr9EXnlHZ/E/+dhsOC78KL/7T6ClZoZjytuyY9/YWudT2HZkNZDACme?=
+ =?iso-8859-1?Q?sZ6d3Q2mW/ZvjZCqow+edObrlv9LQ2/65WbbiHw24PYNTlaZtYRiZLlDTs?=
+ =?iso-8859-1?Q?1CpMv/TS48TFafy9EfP428dpbeG/3fsMdA3r1aEuWCdyWuSaVaFaTCUPzQ?=
+ =?iso-8859-1?Q?ow+ScH10gN7DGoCHD6y60Ys5W+7S0LX9le6NUre4V2G9NY7P5hG7?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] usb: dwc3: gadget: Prevent EP resource conflicts
- during StartTransfer
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"jh0801.jung@samsung.com" <jh0801.jung@samsung.com>, "dh10.jung@samsung.com"
-	<dh10.jung@samsung.com>, "akash.m5@samsung.com" <akash.m5@samsung.com>,
-	"hongpooh.kim@samsung.com" <hongpooh.kim@samsung.com>,
-	"eomji.oh@samsung.com" <eomji.oh@samsung.com>, "h10.kim@samsung.com"
-	<h10.kim@samsung.com>, "shijie.cai@samsung.com" <shijie.cai@samsung.com>,
-	"alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
-	"muhammed.ali@samsung.com" <muhammed.ali@samsung.com>,
-	"thiagu.r@samsung.com" <thiagu.r@samsung.com>, "pritam.sutar@samsung.com"
-	<pritam.sutar@samsung.com>, "stable@vger.kernel.org"
-	<stable@vger.kernel.org>
-Content-Language: en-US
-In-Reply-To: <7f8a7341-3701-4ade-a198-cf86719da931@samsung.com>
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20260924122453epcas5p17ab21847d3a7bd5b9f3dab529b96be49
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260227121338epcas5p4baebb406db37f07223545b2f85751bf2
-References: <CGME20260227121338epcas5p4baebb406db37f07223545b2f85751bf2@epcas5p4.samsung.com>
-	<20260227121236.963-1-selvarasu.g@samsung.com>
-	<20260228002711.e442cuxwld4s2f66@synopsys.com>
-	<20260303003955.5lbb6xdrg7tp3zzi@synopsys.com>
-	<08273adc-d8cf-48b3-ba45-853d363af0e6@samsung.com>
-	<20260306214123.3jnlzd2tmtwggch2@synopsys.com>
-	<7f8a7341-3701-4ade-a198-cf86719da931@samsung.com>
+X-OriginatorOrg: lieber.org
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR15MB4696.namprd15.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b909b6a-6a29-43bf-1a68-08df1a371432
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Sep 2026 12:26:37.4114
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 213667ce-a7c7-4f7f-ac87-9abccbddaa2f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: tUdYwRK9Gd5sV5PMOU/N2acVQGbRpEN2Mt+glJyGBMpaOyT9jQifjZH4uO1bdCgY
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR15MB4009
 
-
-On 9/24/2026 5:35 PM, Selvarasu Ganesan wrote:
->
-> On 3/7/2026 3:11 AM, Thinh Nguyen wrote:
->> On Fri, Mar 06, 2026, Selvarasu Ganesan wrote:
->>> On 3/3/2026 6:09 AM, Thinh Nguyen wrote:
->>>> On Sat, Feb 28, 2026, Thinh Nguyen wrote:
->>>>> On Fri, Feb 27, 2026, Selvarasu Ganesan wrote:
->>>>>> The below “No resource for ep” warning appears when a StartTransfer
->>>>>> command is issued for bulk or interrupt endpoints in
->>>>>> `dwc3_gadget_ep_enable` while a previous StartTransfer on the same
->>>>>> endpoint is still in progress. The gadget functions drivers can 
->>>>>> invoke
->>>>>> `usb_ep_enable` (which triggers a new StartTransfer command) 
->>>>>> before the
->>>>>> earlier transfer has completed. Because the previous 
->>>>>> StartTransfer is
->>>>>> still active, `dwc3_gadget_ep_disable` can skip the required
->>>>>> `EndTransfer` due to `DWC3_EP_DELAY_STOP`, leading to the endpoint
->>>>>> resources are busy for previous StartTransfer and warning ("No 
->>>>>> resource
->>>>>> for ep") from dwc3 driver.
->>>>>>
->>>>>> Additionally, a race condition exists between 
->>>>>> dwc3_gadget_ep_disable()
->>>>>> and dwc3_gadget_ep_queue() when manipulating dep->flags. When
->>>>>> dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(), the 
->>>>>> dwc->lock is
->>>>>> temporarily released. If dwc3_gadget_ep_queue() runs in that 
->>>>>> window, it
->>>>>> may set the DWC3_EP_TRANSFER_STARTED flag as part of
->>>>>> dwc3_send_gadget_ep_cmd(). When ep_disable resumes, it 
->>>>>> unconditionally
->>>>>> clears all flags except those explicitly masked, potentially 
->>>>>> clearing
->>>>>> DWC3_EP_TRANSFER_STARTED even though a new transfer has started. 
->>>>>> This
->>>>>> leads to "No resource for ep" warnings on subsequent StartTransfer
->>>>>> attempts.
->>>>>>
->>>>>> The underlying framework issue is that usb_ep_disable() is 
->>>>>> expected to
->>>>>> complete pending requests before returning, but is allowed to be 
->>>>>> called
->>>>>> from interrupt context where sleeping to wait for completion is not
->>>>>> possible.
->>>>>>
->>>>>> As temporary workarounds for this framework limitation:
->>>>>>
->>>>>> 1. In __dwc3_gadget_ep_enable(), add a check for the
->>>>>>      DWC3_EP_TRANSFER_STARTED flag before issuing a new 
->>>>>> StartTransfer.
->>>>>>      This prevents a second StartTransfer on an already busy 
->>>>>> endpoint,
->>>>>>      eliminating the resource conflict.
->>>>>>
->>>>>> 2. In __dwc3_gadget_ep_disable(), preserve the 
->>>>>> DWC3_EP_TRANSFER_STARTED
->>>>>>      flag when masking dep->flags if it is actually set, 
->>>>>> preventing the
->>>>>>      race with dwc3_gadget_ep_queue() from corrupting the flag 
->>>>>> state.
->>>>>>
->>>>>> These changes eliminate the "No resource for ep" warnings and 
->>>>>> potential
->>>>>> kernel panics caused by panic_on_warn.
->>>>>>
->>>>>> dwc3 13200000.dwc3: No resource for ep1out
->>>>>> WARNING: CPU: 0 PID: 700 at drivers/usb/dwc3/gadget.c:398 
->>>>>> dwc3_send_gadget_ep_cmd+0x2f8/0x76c
->>>>>> Call trace:
->>>>>> dwc3_send_gadget_ep_cmd+0x2f8/0x76c
->>>>>> __dwc3_gadget_ep_enable+0x490/0x7c0
->>>>>> dwc3_gadget_ep_enable+0x6c/0xe4
->>>>>> usb_ep_enable+0x5c/0x15c
->>>>>> mp_eth_stop+0xd4/0x11c
->>>>>> __dev_close_many+0x160/0x1c8
->>>>>> __dev_change_flags+0xfc/0x220
->>>>>> dev_change_flags+0x24/0x70
->>>>>> devinet_ioctl+0x434/0x524
->>>>>> inet_ioctl+0xa8/0x224
->>>>>> sock_do_ioctl+0x74/0x128
->>>>>> sock_ioctl+0x3bc/0x468
->>>>>> __arm64_sys_ioctl+0xa8/0xe4
->>>>>> invoke_syscall+0x58/0x10c
->>>>>> el0_svc_common+0xa8/0xdc
->>>>>> do_el0_svc+0x1c/0x28
->>>>>> el0_svc+0x38/0x88
->>>>>> el0t_64_sync_handler+0x70/0xbc
->>>>>> el0t_64_sync+0x1a8/0x1ac
->>>>>>
->>>>>> Cc: stable@vger.kernel.org
->>>>>> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
->>>>>> ---
->>>>>>
->>>>>> Note: No Fixes tag is added because this is a workaround for the
->>>>>> gadget framework issue where the gadget framework calls 
->>>>>> usb_ep_disable()
->>>>>> in interrupt context without ensuring endpoint flushing completes.
->>>>>> A proper fix requires refactoring the framework to make sure
->>>>>> usb_ep_disable is invoked in process context.
->>>>>>
->>>>>> Changes in v3:
->>>>>>    - Revised the commit message to detail the real gadget 
->>>>>> framework issue
->>>>>>      pointed out by the reviewer.
->>>>>>    - Merged the two fixes for the same ep wringing into one patch.
->>>>>> Link to v2: 
->>>>>> https://protect2.fireeye.com/v1/url?k=5535d0f4-344e7a7d-55345bbb-74fe48600034-c617d7b77912682d&q=1&e=2a6508e6-6363-4d6e-b6ab-ce6c77832c8d&u=https%3A%2F%2Flore.kernel.org%2Flinux-usb%2F20251117155920.643-1-selvarasu.g%40samsung.com%2F
->>>>>>
->>>>>> Changes in v2:
->>>>>> - Removed change-id.
->>>>>> - Updated commit message.
->>>>>> Link to v1: 
->>>>>> https://protect2.fireeye.com/v1/url?k=c8daed0d-a9a14784-c8db6642-74fe48600034-8488506d5854e40d&q=1&e=2a6508e6-6363-4d6e-b6ab-ce6c77832c8d&u=https%3A%2F%2Flore.kernel.org%2Flinux-usb%2F20251117152812.622-1-selvarasu.g%40samsung.com%2F
->>>>>> ---
->>>>>>    drivers/usb/dwc3/gadget.c | 22 ++++++++++++++++++++--
->>>>>>    1 file changed, 20 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
->>>>>> index 0a688904ce8c5..3af1bbfe3d92b 100644
->>>>>> --- a/drivers/usb/dwc3/gadget.c
->>>>>> +++ b/drivers/usb/dwc3/gadget.c
->>>>>> @@ -971,8 +971,9 @@ static int __dwc3_gadget_ep_enable(struct 
->>>>>> dwc3_ep *dep, unsigned int action)
->>>>>>         * Issue StartTransfer here with no-op TRB so we can 
->>>>>> always rely on No
->>>>>>         * Response Update Transfer command.
->>>>>>         */
->>>>>> -    if (usb_endpoint_xfer_bulk(desc) ||
->>>>>> -            usb_endpoint_xfer_int(desc)) {
->>>>>> +    if ((usb_endpoint_xfer_bulk(desc) ||
->>>>>> +            usb_endpoint_xfer_int(desc)) &&
->>>>>> +            !(dep->flags & DWC3_EP_TRANSFER_STARTED)) {
->>>>>>            struct dwc3_gadget_ep_cmd_params params;
->>>>>>            struct dwc3_trb    *trb;
->>>>>>            dma_addr_t trb_dma;
->>>>>> @@ -1096,6 +1097,23 @@ static int __dwc3_gadget_ep_disable(struct 
->>>>>> dwc3_ep *dep)
->>>>>>         */
->>>>>>        if (dep->flags & DWC3_EP_DELAY_STOP)
->>>>>>            mask |= (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
->>>>>> +
->>>>>> +    /*
->>>>>> +     * When dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(),
->>>>>> +     * the dwc->lock is temporarily released. If 
->>>>>> dwc3_gadget_ep_queue()
->>>>>> +     * runs in that window it may set the 
->>>>>> DWC3_EP_TRANSFER_STARTED flag as
->>>>>> +     * part of dwc3_send_gadget_ep_cmd. The original code 
->>>>>> cleared the flag
->>>>>> +     * unconditionally in the mask operation, which could 
->>>>>> overwrite the
->>>>>> +     * concurrent modification.
->>>>>> +     *
->>>>>> +     * As a workaround for the interrupt context constraint 
->>>>>> where we cannot
->>>>>> +     * wait for endpoint flushing, preserve the 
->>>>>> DWC3_EP_TRANSFER_STARTED
->>>>>> +     * flag if it is set, avoiding resource conflicts until the 
->>>>>> framework
->>>>>> +     * is fixed to properly synchronize endpoint lifecycle 
->>>>>> management.
->>>>>> +     */
->>>>>> +    if (dep->flags & DWC3_EP_TRANSFER_STARTED)
->>>>>> +        mask |= DWC3_EP_TRANSFER_STARTED;
->>>>>> +
->>>>>>        dep->flags &= mask;
->>>>>>           /* Clear out the ep descriptors for non-ep0 */
->>>>>> -- 
->>>>>> 2.34.1
->>>>>>
->>>>> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
->>>>>
->>>> Oh wait, don't pick this patch up yet.
->>>>
->>>> This will cause a regression for UAS device. When switching 
->>>> alt-setting
->>>> interface for BOT to UASP, the device needs to issue a Start Transfer
->>>> command.
->>>>
->>>> This workaround won't work. Can we fix the usb_ep_disable() interface
->>>> and rework this instead?
->>>>
->>>> BR,
->>>> Thinh
->>> Hi Thinh,
->>>
->>> We’re trying to see how this change could cause a regression for UAS
->>> devices.
->>> Could you explain why the workaround might be a problem for UAS? Are 
->>> you
->>> concerned that it could miss a valid StartTransfer when a previous
->>> transfer finishes later than expected as part of ep_disable?
->> In UAS, the device controller uses the first PRIME to synchronize with
->> the host to determine whether the Start Transfer command can initiate
->> the stream. After configuring an endpoint, if we issue the StartTransfer
->> command too late, then the device controller may not initiate the
->> transfer (sending ERDY), and host will not know when to start the
->> transfer.
->
->
-> HI Thinh,
->
-> Sorry for the delayed response. We're seeing this issue a lot in 
-> Exynos platform, so we want to get it fixed.
->
-> Thanks for the explanation about UASP in last comment.
->
-> We agree that for UASP, the new StartTransfer sent in ep_enable() is 
-> what makes the controller send ERDY for the host's first PRIME. The 
-> old patch skipped that StartTransfer that was wrong. If it is skipped 
-> and no request is queued right away, the controller never sends ERDY 
-> for the first PRIME and the UAS device possible hangs as you mentioned.
->
-> The new patch is simpler, we won't skip it and just trigger it once 
-> the inflight end transfer is done.
->
-> Please see the proposed sequence,
->
->   1. usb_ep_disable() --> EndTransfer deferred due to pending control 
-> transfer data/status stages (DWC3_EP_DELAY_STOP), old transfer still 
-> active in HW.
->   2. usb_ep_enable() on the same endpoint --> instead of issuing the 
-> new StartTransfer, set DWC3_EP_PENDING_START_TRANSFER (New flag) as 
-> below,
->
->   /* __dwc3_gadget_ep_enable() */
->   if (dep->flags & (DWC3_EP_DELAY_STOP |
->                     DWC3_EP_END_TRANSFER_PENDING |
->                     DWC3_EP_TRANSFER_STARTED))
->       dep->flags |= DWC3_EP_PENDING_START_TRANSFER;
->   else
->       ret = dwc3_gadget_ep_start_noop_transfer(dep);   /* unchanged 
-> path */
->
->   3. Control request finishes --> next SETUP --> existing delayed stop 
-> retry in dwc3_ep0_out_start() sends the EndTransfer for all delayed 
-> stop endpoints.
->   4. EndTransfer completion and trigger a previously skipped 
-> StartTransfer in ep_enable by checking DWC3_EP_PENDING_START_TRANSFER.
->
->   /* dwc3_gadget_endpoint_command_complete() */
->   if (dep->flags & DWC3_EP_PENDING_START_TRANSFER) {
->       dep->flags &= ~DWC3_EP_PENDING_START_TRANSFER;
->       dwc3_gadget_ep_start_noop_transfer(dep);
->   }
->
-> So the endpoint gets the same start/stop sequence you described, only 
-> sent later, it goes out as soon as the EndTransfer finishes. So this 
-> is high possible of happens before the host's first PRIME arrives. 
-> ERDY is still sent, no UAS regression.
->
-> The below testing log is for the reference. You can see the timestamp 
-> where pending start transfer triggered.
->
-> [ 3273.597476]  Entry __dwc3_gadget_ep_disable
-> [ 3273.597481]  dwc3_remove_requests ep1out skip stop transfer due to 
-> DWC3_EP_DELAY_STOP
-> [ 3273.597510]  Entry __dwc3_gadget_ep_enable 1045 dep->name =ep1out 
-> dep->flags =e009
-> [ 3273.597590]  dwc3_gadget_endpoint_command_complete 3857 dep->name 
-> =ep1out dep->flags =4009 --> Triggered skipped Start transfer when 
-> endpoint command completion is done.
->
->
-> Thanks,
-> Selva
->
-
-The below patch is for this proposed sequence,
-
-
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index fa0f16ffafef..40fe930a6c2c 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -906,6 +906,72 @@ static int dwc3_gadget_resize_tx_fifos(struct 
-dwc3_ep *dep)
-         return 0;
-  }
-
-+/**
-+ * dwc3_gadget_ep_start_noop_transfer - start a no-op transfer on the 
-endpoint
-+ * @dep: bulk or interrupt endpoint
-+ *
-+ * Issue StartTransfer here with no-op TRB so we can always rely on No
-+ * Response Update Transfer command.
-+ *
-+ * Caller should take care of locking. The endpoint must be enabled and 
-must
-+ * not have an active transfer.
-+ */
-+static int dwc3_gadget_ep_start_noop_transfer(struct dwc3_ep *dep)
-+{
-+       struct dwc3_gadget_ep_cmd_params params;
-+       struct dwc3_trb *trb;
-+       struct dwc3             *dwc = dep->dwc;
-+       dma_addr_t trb_dma;
-+       u32 cmd;
-+       int ret;
-+
-+       memset(&params, 0, sizeof(params));
-+       trb = &dep->trb_pool[0];
-+       trb_dma = dwc3_trb_dma_offset(dep, trb);
-+
-+       params.param0 = upper_32_bits(trb_dma);
-+       params.param1 = lower_32_bits(trb_dma);
-+
-+       cmd = DWC3_DEPCMD_STARTTRANSFER;
-+
-+       ret = dwc3_send_gadget_ep_cmd(dep, cmd, &params);
-+       if (ret < 0)
-+               return ret;
-+
-+       if (dep->stream_capable) {
-+               /*
-+                * For streams, at start, there maybe a race where the
-+                * host primes the endpoint before the function driver
-+                * queues a request to initiate a stream. In that case,
-+                * the controller will not see the prime to generate the
-+                * ERDY and start stream. To workaround this, issue a
-+                * no-op TRB as normal, but end it immediately. As a
-+                * result, when the function driver queues the request,
-+                * the next START_TRANSFER command will cause the
-+                * controller to generate an ERDY to initiate the
-+                * stream.
-+                */
-+               dwc3_stop_active_transfer(dep, true, true);
-+
-+               /*
-+                * All stream eps will reinitiate stream on NoStream
-+                * rejection until we can determine that the host can
-+                * prime after the first transfer.
-+                *
-+                * However, if the controller is capable of
-+                * TXF_FLUSH_BYPASS, then IN direction endpoints will
-+                * automatically restart the stream without the driver
-+                * initiation.
-+                */
-+               if (!dep->direction ||
-+                   !(dwc->hwparams.hwparams9 &
-+                     DWC3_GHWPARAMS9_DEV_TXF_FLUSH_BYPASS))
-+                       dep->flags |= DWC3_EP_FORCE_RESTART_STREAM;
-+       }
-+
-+       return 0;
-+}
-+
-  /**
-   * __dwc3_gadget_ep_enable - initializes a hw endpoint
-   * @dep: endpoint to be initialized
-@@ -973,52 +1039,26 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep 
-*dep, unsigned int action)
-          */
-         if (usb_endpoint_xfer_bulk(desc) ||
-                         usb_endpoint_xfer_int(desc)) {
--               struct dwc3_gadget_ep_cmd_params params;
--               struct dwc3_trb *trb;
--               dma_addr_t trb_dma;
--               u32 cmd;
--
--               memset(&params, 0, sizeof(params));
--               trb = &dep->trb_pool[0];
--               trb_dma = dwc3_trb_dma_offset(dep, trb);
--
--               params.param0 = upper_32_bits(trb_dma);
--               params.param1 = lower_32_bits(trb_dma);
--
--               cmd = DWC3_DEPCMD_STARTTRANSFER;
--
--               ret = dwc3_send_gadget_ep_cmd(dep, cmd, &params);
--               if (ret < 0)
--                       return ret;
--
--               if (dep->stream_capable) {
-+               if (dep->flags & (DWC3_EP_DELAY_STOP |
-+                                 DWC3_EP_END_TRANSFER_PENDING |
-+                                 DWC3_EP_TRANSFER_STARTED)) {
-                         /*
--                        * For streams, at start, there maybe a race 
-where the
--                        * host primes the endpoint before the function 
-driver
--                        * queues a request to initiate a stream. In 
-that case,
--                        * the controller will not see the prime to 
-generate the
--                        * ERDY and start stream. To workaround this, 
-issue a
--                        * no-op TRB as normal, but end it immediately. As a
--                        * result, when the function driver queues the 
-request,
--                        * the next START_TRANSFER command will cause the
--                        * controller to generate an ERDY to initiate the
--                        * stream.
--                        */
--                       dwc3_stop_active_transfer(dep, true, true);
--
--                       /*
--                        * All stream eps will reinitiate stream on NoStream
--                        * rejection.
--                        *
--                        * However, if the controller is capable of
--                        * TXF_FLUSH_BYPASS, then IN direction endpoints 
-will
--                        * automatically restart the stream without the 
-driver
--                        * initiation.
-+                        * The previous transfer has not been ended in
-+                        * hardware yet: the prior usb_ep_disable() left a
-+                        * deferred (DWC3_EP_DELAY_STOP) or in-flight
-+                        * (DWC3_EP_END_TRANSFER_PENDING) EndTransfer
-+                        * command.  Issuing StartTransfer now would be
-+                        * rejected with "No resource" because the endpoint
-+                        * still has an active transfer.  Defer the no-op
-+                        * StartTransfer; it will be replayed from
-+                        * dwc3_gadget_endpoint_command_complete() once the
-+                        * EndTransfer has completed.
-                          */
--                       if (!dep->direction ||
--                           !(dwc->hwparams.hwparams9 &
--  DWC3_GHWPARAMS9_DEV_TXF_FLUSH_BYPASS))
--                               dep->flags |= DWC3_EP_FORCE_RESTART_STREAM;
-+                       dep->flags |= DWC3_EP_PENDING_START_TRANSFER;
-+               } else {
-+                       ret = dwc3_gadget_ep_start_noop_transfer(dep);
-+                       if (ret < 0)
-+                               return ret;
-                 }
-         }
-
-@@ -1096,6 +1136,23 @@ static int __dwc3_gadget_ep_disable(struct 
-dwc3_ep *dep)
-          */
-         if (dep->flags & DWC3_EP_DELAY_STOP)
-                 mask |= (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
-+
-+       /*
-+        * When dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(),
-+        * the dwc->lock is temporarily released. If dwc3_gadget_ep_queue()
-+        * runs in that window it may set the DWC3_EP_TRANSFER_STARTED 
-flag as
-+        * part of dwc3_send_gadget_ep_cmd. The original code cleared 
-the flag
-+        * unconditionally in the mask operation, which could overwrite the
-+        * concurrent modification.
-+        *
-+        * As a workaround for the interrupt context constraint where we 
-cannot
-+        * wait for endpoint flushing, preserve the DWC3_EP_TRANSFER_STARTED
-+        * flag if it is set, avoiding resource conflicts until the 
-framework
-+        * is fixed to properly synchronize endpoint lifecycle management.
-+        */
-+       if (dep->flags & DWC3_EP_TRANSFER_STARTED)
-+               mask |= DWC3_EP_TRANSFER_STARTED;
-+
-         dep->flags &= mask;
-
-         /* Clear out the ep descriptors for non-ep0 */
-@@ -3861,6 +3918,22 @@ static void 
-dwc3_gadget_endpoint_command_complete(struct dwc3_ep *dep,
-                         dwc3_ep0_send_delayed_status(dwc);
-         }
-
-+       /*
-+        * __dwc3_gadget_ep_enable() deferred the no-op StartTransfer while
-+        * this EndTransfer was pending (the endpoint was re-enabled before
-+        * the deferred EndTransfer of a prior usb_ep_disable() completed).
-+        * Now that the previous transfer has been ended in hardware, issue
-+        * the no-op StartTransfer to (re)arm the endpoint, mirroring the
-+        * original usb_ep_enable() path.  If requests were queued in the
-+        * meantime, the delayed-start kick below issues an UpdateTransfer
-+        * with the first request's TRB, exactly like the normal
-+        * enable-then-queue sequence.
-+        */
-+       if (dep->flags & DWC3_EP_PENDING_START_TRANSFER) {
-+               dep->flags &= ~DWC3_EP_PENDING_START_TRANSFER;
-+               dwc3_gadget_ep_start_noop_transfer(dep);
-+       }
-+
-         if ((dep->flags & DWC3_EP_DELAY_START) &&
-             !usb_endpoint_xfer_isoc(dep->endpoint.desc))
-                 __dwc3_gadget_kick_transfer(dep);
-
-
-Thanks,
-Selva
->> So we have this workaround that we would have the device Start and Stop
->> the endpoint immediately just to arm the endpoint for UASP transfers. In
->> the newer IPs, this workaround may not be needed.
->>
->>> If we don’t use this temporary fix, the driver can still report “EP
->>> resource busy” when an earlier StartTransfer hasn’t finished
->>> before ep_disable returns. That can happen when a UAS device needs to
->>> start a new transfer during ep_enable while the prior transfer is still
->>> pending.
->>>
->>> The patch simply blocks a second StartTransfer when the same endpoint
->>> already has a transfer in progress to prevent a “EP resource busy” 
->>> issue.
->>>
->>> And it can cause a new StartTransfer to be issued later from ep_queue
->>> while the starttransfer that should have been started during ep_enable
->>> is skipped.
->>>
->> Also, if the gadget driver just uses usb_ep_disable() to handle the
->> teardown instead of proactively dequeuing all the active requests, then
->> the DWC3_EP_TRANSFER_STARTED flag will still be cleared immediately on
->> usb_ep_disable() and we will still run into this issue again.
->>
->> Another workaround is to have the dwc3 driver retry the command after a
->> small delay if there's no resource error report. Only do dev_WARN after
->> a few times of the same failure.
->>
->> Ideally, we should fix the usb_ep_disable() and have the composite
->> framework properly handle the "wait" for completion.
->>
->> BR,
->> Thinh
+The Anker Prime TB5 dock identifies itself in the DROM as 01ea:83b5.=0A=
+Its router config space is an Intel Barlow Ridge 80G hub (8087:5786).=0A=
+The upstream lane adapter advertises CL0s, CL1, and CL2. With CLx left=0A=
+enabled, TMU uni-directional LowRes setup fails with -ENOTCONN, the USB3=0A=
+and DisplayPort tunnels are aborted, and the router reconnects in a loop.=
+=0A=
+Loading thunderbolt with clx=3D0 keeps the link up on this machine.=0A=
+=0A=
+Match the DROM id together with the Barlow Ridge hub id and disable CL=0A=
+states for this dock only. QUIRK_NO_CLX takes the same early-out as the=0A=
+module parameter, without disabling CLx for every other router.=0A=
+=0A=
+Assisted-by: LLM=0A=
+Signed-off-by: Kurt Lieber <kurt@lieber.org>=0A=
+---=0A=
+Runtime-tested on linux-omarchy 7.2.5-3 (LG Gram 17Z90S, Meteor Lake).=0A=
+Booted with thunderbolt.clx left at the default (Y). The dock came up=0A=
+once, CL0s/CL1/CL2 Enable stayed 0 while the support bits stayed 1, the=0A=
+link stayed in CL0 at 40 Gb/s, and the TMU uni-directional reconnect=0A=
+loop did not occur.=0A=
+=0A=
+ drivers/thunderbolt/quirks.c | 3 +++=0A=
+ 1 file changed, 3 insertions(+)=0A=
+=0A=
+diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c=0A=
+--- a/drivers/thunderbolt/quirks.c=0A=
++++ b/drivers/thunderbolt/quirks.c=0A=
+@@ -116,2 +116,5 @@=0A=
+ 	{ 0x0438, 0x020b, 0x0000, 0x0000, quirk_clx_disable },=0A=
++	/* CLx is unstable on the Anker Prime TB5 dock (DROM 01ea:83b5). */=0A=
++	{ 0x8087, PCI_DEVICE_ID_INTEL_BARLOW_RIDGE_HUB_80G_BRIDGE, 0x01ea, 0x83b5=
+,=0A=
++		  quirk_clx_disable },=0A=
+ };=0A=
