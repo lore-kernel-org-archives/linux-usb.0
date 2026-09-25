@@ -1,326 +1,79 @@
-Received: from smtpfallback03.a1.net (smtpfallback03.a1.net [194.48.128.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177423ADB89
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 17:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.48.128.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA33B41DDEC;
+	Fri, 25 Sep 2026 20:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790357370; cv=none; b=HNRWwV4XvoTZvH3MvwEFZzdBptzNP6NazMMiSFJBJritR6DTKc3KCOxppkBJjIvvux9D2WHl9sQd0JwYOo28Aybd1I3sYQiZrTc4wFNLLiWksHKpxl3oa7OFuaLXd77q8eDhsy8INea9tB/GGFAjDTKdu7yrCKB8GeIgX4aaWX4=
+	t=1790367805; cv=none; b=Zyhs2vVHwDJCo7T6+c+eEc2OzZj83Nf+NTSSzSJJSeTTKrDvAwGuTrz0Tep+IrZuk3RHAdnqBEW5zFZGfobCuZUp11yERMFO2GgJHWcBXK5t2lG2w+8PzvVRbS1Iai5AMepppyI2RWixbNWzvD4H0yCq6zqreiok2Zaz/DLLa8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790357370; c=relaxed/simple;
-	bh=uok/54e74BSNPWRTxfw6NfrbClG0MFCU7L1fqSaBw28=;
-	h=Subject:References:From:To:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=jthi95HwyTuGZ+NOrF+L3ZEQgXSqusOiSr3yUikRILZ4vCeau0e333BsikEqN/1iwJHiDcXgWu1d3OR/ctgf2LVrRC3p/jmrt3x5YP0Ydy4n+vx9xiWK9Xpqt2ZBs2y1HJSI5cDeIFSMWrQR83aMmLXA6eOiyClzialxVlbj6ew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net; spf=pass smtp.mailfrom=a1.net; dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b=r6MSVwCG; arc=none smtp.client-ip=194.48.128.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a1.net
+	s=arc-20240116; t=1790367805; c=relaxed/simple;
+	bh=yku3ipPh57nbU+UgKjHx2/722iALfb4YCYhKbE75SZ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=u+QymQlub1yJModUWToyt4SPXQDqcyK74C+docqA3oGooWSl97tqvdg3dpk35RPzXXrmvIE4wlQqz/oZhIbIyVuIqSlEG0KZtTJOfcexCoVyoSMSqEGXkobwEVgZh7lUCkbmujEaUqNtqApRw8ddmqFgg6H0RnTGadeE9HGg6fA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EtXFoqh7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b="r6MSVwCG"
-Received: from smtpout02.a1.net (unknown [10.247.84.12])
-	by smtpfallback03.a1.net (Postfix) with ESMTPS id 4hryPK5gzDzYksKT
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 19:29:25 +0200 (CEST)
-Received: from [192.168.0.6] (unknown [100.70.238.17])
-	by smtpout02.a1.net (Postfix) with ESMTPSA id 4hryP66YvxzGrqnn
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 19:29:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a1.net; s=resmail1;
-	t=1790357355;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=wnXj6POSfCBgUZrTESZXZdKqDe+tFF984eedtutwHjs=;
-	b=r6MSVwCG6eeimXFqenJnmc4B8zwCVospoySWKw3U51M07BiXk3iFZP574DMuY5j8rs8Rsg
-	QvAOVLthk8vk0Ku8YAoKyyUsk1GbG8FZPLuAOC+sAoh9HyvLTaeuct6e30wKkKp+b/zgpZ
-	tWiSJp20/Xtxol60BREAai27qsi19/TtoF6BscyKqMz2CQV6TzmoO4H5uz3wEWC5u+fF+z
-	Vb/irT7bifPSTYak1fOIv74y9hrFLT7KUVbxLwSqpIwebDi4inkEVSmjbebrV7Iq9rhoQ3
-	0uIyzqm4DYsVkmbklFYREtd6Yf9TTbWMy6tNLqK7iilGx2HWa70w4lXMZI/HmJwNP+9O9c
-	wewkqmf3i32QMCKcccROCIOViaqak41ZrudnLkMlpaaogxQH7Z2caSuuKvnSfGkvGonsfl
-	6ObJVCbKiqfokPwCl9te5zuLKfS/m3eUP2+rJ2lqO6naXsOuNdaiFWkMBNI7Q9KDC6aoXu
-	OYZ8PY3HQ9YQ4KbDVHI4y4rs3zRKohBlNqPHen4fkRV1hWFqizciovvaXvHTMxyAMKVufg
-	+1ow2ghYagn/UozOBZlOYm2qUJaK4UyrRPKc0uI0LVqc+h72rKhjDR3Uc9TNy05R7+JCsk
-	Xn3P+Y3EL09AEwVn/QFLzE7qxFv11IOczn9DRil3EACofkJN43l6k=
-Subject: Re: possible regression in usb-storage?
-References: <79f2c208-bca0-3bf2-afdd-3bf095ff7b31@a1.net>
- <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
- <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
- <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
- <d0cd9a1e-cdb4-97c2-5bcd-1bc9f5d9173c@a1.net>
- <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
- <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
- <605c0845-cfd4-0702-4322-53d9c8037b70@a1.net>
- <be5899e3-3e3e-4977-e4aa-32ca368f06cd@a1.net>
- <7e2440cb-41aa-3429-fb6f-b0f4cf761029@a1.net>
- <986f81b9-c195-4ef4-8176-ca69a8f506c4@rowland.harvard.edu>
-From: Johann Klammer <klammerj@a1.net>
-To: linux-usb@vger.kernel.org
-Message-ID: <04f165bc-e79e-4ef4-1f22-d4ad086c3ffb@a1.net>
-Date: Fri, 25 Sep 2026 19:28:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EtXFoqh7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E62E21F000FF;
+	Fri, 25 Sep 2026 20:23:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790367803;
+	bh=be7aOpwVM70umZjqiE59C+n0H3rASjAY9dZun5+KBHQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=EtXFoqh75BWAK5V012E9A+bi+Qa0NXe57pOz37rERkyCg0JqZIK/MvNnra6gpyHjg
+	 OILUO4/2Qysh8b96YxFvHPqvYh6JcFwkZnuXHW8E29ehpIh0IlJO4YPvgbIEKDRAUt
+	 grGBJOtJW3j8eh4DYVrxCJDoMn0qx1tsum9YUy/dOcrNKRSyjfPbzYSOiaQPxIsZ2r
+	 8ohqvQr9t74YPTf4HhG8AGossqe/aQa0ikcYTDrDEmtzwTbKitq70xuHBSN+HHv1Nu
+	 G1CkCgMYGkpHGSuOK1QyhbymQq2ulHcCZA/XQ8zWeCFjWO14w91CZ/+gPFV1ZfQuE9
+	 7g1LSZyxRMqZQ==
+Date: Fri, 25 Sep 2026 13:23:22 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Paolo Abeni <pabeni@redhat.com>, Ming Wang <wangming01@loongson.cn>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org, stable@vger.kernel.org,
+ Oliver Neukum <oliver@neukum.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] net: usb: cdc_mbim: add MeiG Smart SRM821 to ZLP
+ whitelist
+Message-ID: <20260925132322.1798356b@kernel.org>
+In-Reply-To: <2026092507-jurist-protector-c7e7@gregkh>
+References: <20260920074500.826121-1-wangming01@loongson.cn>
+	<4d5e2857-e6eb-43e2-b668-83e779aaa734@redhat.com>
+	<2026092409-status-rocker-0fef@gregkh>
+	<20260924092851.33737b1e@kernel.org>
+	<2026092507-jurist-protector-c7e7@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <986f81b9-c195-4ef4-8176-ca69a8f506c4@rowland.harvard.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-
-
-On 9/25/26 3:06 PM, Alan Stern wrote:
-> On Fri, Sep 25, 2026 at 09:51:14AM +0200, Johann Klammer wrote:
->>
->>
->> On 9/25/26 8:20 AM, Johann Klammer wrote:
->> [...]
->>>> [  157.965753] sd 5:0:0:0: [sdd] Assuming drive cache: write through
->>>> [  157.967330] sd 5:0:0:0: [sdd] Preferred minimum I/O size 4096
->>>> bytes not a multiple of physical block size (0 bytes)
->>>> [  157.968382] sd 5:0:0:0: [sdd] Optimal transfer size 33553920
->>>> bytes not a multiple of physical block size (0 bytes)
->>>> [  157.969763] sd 5:0:0:0: [sdd] Attached SCSI disk
->>>> [  310.080965] usb 5-6: USB disconnect, device number 4
->>
->> On another try I can't actually reproduce this. Must have been a one-off.
->> *shrug*
+On Fri, 25 Sep 2026 07:12:06 +0200 Greg KH wrote:
+> On Thu, Sep 24, 2026 at 09:28:51AM -0700, Jakub Kicinski wrote:
+> > On Thu, 24 Sep 2026 16:22:54 +0200 Greg KH wrote:  
+> > > > > Cc: stable@vger.kernel.org
+> > > > > Signed-off-by: Ming Wang <wangming01@loongson.cn>    
+> > > > 
+> > > > Before any other step, please read:
+> > > > 
+> > > > https://elixir.bootlin.com/linux/v7.3-rc3/source/Documentation/process/maintainer-netdev.rst#L454
+> > > > 
+> > > > AFAICS this is actually support for additional H/W, just worded in
+> > > > very unusual way: please reword the commit message accordingly and
+> > > > drop stable from CC.    
+> > > 
+> > > Why drop stable from cc:?  Do you not want it in any stable kernel
+> > > release?  Seems like it should be to me, we gladly take quirk additions
+> > > and new device ids in stable kernels.  
+> > 
+> > the irony of telling someone to RTFM while not reading 
+> > someone else's FM :)  
 > 
-> So is it working or isn't it?  And if it isn't, what's in the usbmon
-> trace?
-> 
-> Alan Stern
-> 
+> I did, and it says to keep stable tags, not to remove them, unlike the
+> request here.
 
-not working. same as before.
-here is the log for kernel 6.9.9 quirks uw
-options usb-storage quirks=0bc2:2039:uw
-options scsi_mod dev_flags="Seagate:Expansion SW:1024"
-
-
-
-> cba07900 1013012005 S Ci:1:004:0 s 80 06 0100 0000 0012 18 <
-> cba07900 1013012094 C Ci:1:004:0 0 18 = 12011002 00000040 c20b3920 01190102 0301
-> cba07900 1013012100 S Ci:1:004:0 s 80 06 0f00 0000 0005 5 <
-> cba07900 1013012218 C Ci:1:004:0 0 5 = 050f1600 02
-> cba07900 1013012222 S Ci:1:004:0 s 80 06 0f00 0000 0016 22 <
-> cba07900 1013012343 C Ci:1:004:0 0 22 = 050f1600 02071002 0e0f0000 0a100300 0e00010a 2000
-> cba07900 1013012350 S Ci:1:004:0 s 80 06 0200 0000 0009 9 <
-> cba07900 1013012468 C Ci:1:004:0 0 9 = 09025500 01010080 fa
-> cba07900 1013012472 S Ci:1:004:0 s 80 06 0200 0000 0055 85 <
-> cba07900 1013012593 C Ci:1:004:0 0 85 = 09025500 01010080 fa090400 00020806 50000705 81020002 00070502 02000200
-> cba07180 1013012600 S Ci:1:004:0 s 80 06 0300 0000 00ff 255 <
-> cba07180 1013012719 C Ci:1:004:0 0 4 = 04030904
-> cba07180 1013012722 S Ci:1:004:0 s 80 06 0302 0409 00ff 255 <
-> cba07180 1013012843 C Ci:1:004:0 0 26 = 1a034500 78007000 61006e00 73006900 6f006e00 20005300 5700
-> cba07180 1013012848 S Ci:1:004:0 s 80 06 0301 0409 00ff 255 <
-> cba07180 1013012968 C Ci:1:004:0 0 16 = 10035300 65006100 67006100 74006500
-> cba07180 1013012972 S Ci:1:004:0 s 80 06 0303 0409 00ff 255 <
-> cba07180 1013013093 C Ci:1:004:0 0 34 = 22033000 30003000 30003000 30003000 30004e00 41004300 44003200 35003600
-> cba07200 1013013249 S Co:1:004:0 s 00 09 0001 0000 0000 0
-> cba07200 1013013344 C Co:1:004:0 0 0
-> cba07c00 1014044006 S Ci:1:004:0 s a1 fe 0000 0000 0001 1 <
-> cba07c00 1014044127 C Ci:1:004:0 0 1 = 00
-> cba07c00 1014044194 S Bo:1:004:2 -115 31 = 55534243 01000000 24000000 80000612 00000024 00000000 00000000 000000
-> cba07c00 1014044252 C Bo:1:004:2 0 31 >
-> caa2f700 1014044258 S Bi:1:004:1 -115 36 <
-> caa2f700 1014044377 C Bi:1:004:1 0 36 = 00000612 5f002000 53656167 61746520 45787061 6e73696f 6e205357 20202020
-> cba07c00 1014044381 S Bi:1:004:1 -115 13 <
-> cba07c00 1014044501 C Bi:1:004:1 0 13 = 55534253 01000000 00000000 00
-> cba07c00 1014044973 S Bo:1:004:2 -115 31 = 55534243 02000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1014045003 C Bo:1:004:2 0 31 >
-> cba07c00 1014045010 S Bi:1:004:1 -115 13 <
-> cba07c00 1022067889 C Bi:1:004:1 0 13 = 55534253 02000000 00000000 01
-> cba07c00 1022067898 S Bo:1:004:2 -115 31 = 55534243 03000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1022068013 C Bo:1:004:2 0 31 >
-> cba07e00 1022068018 S Bi:1:004:1 -115 96 <
-> cba07e00 1022068139 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1022068143 S Bi:1:004:1 -115 13 <
-> cba07c00 1022068514 C Bi:1:004:1 -32 0
-> cba07c00 1022068518 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1022068640 C Co:1:004:0 0 0
-> cba07c00 1022068644 S Bi:1:004:1 -115 13 <
-> cba07c00 1022068888 C Bi:1:004:1 0 13 = 55534253 03000000 4e000000 00
-> cba07c00 1022068910 S Bo:1:004:2 -115 31 = 55534243 04000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1022069014 C Bo:1:004:2 0 31 >
-> cba07c00 1022069018 S Bi:1:004:1 -115 13 <
-> cba07c00 1042126794 C Bi:1:004:1 0 13 = 55534253 04000000 00000000 01
-> cba07c00 1042126803 S Bo:1:004:2 -115 31 = 55534243 05000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1042126918 C Bo:1:004:2 0 31 >
-> caa2f280 1042126924 S Bi:1:004:1 -115 96 <
-> caa2f280 1042127044 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1042127049 S Bi:1:004:1 -115 13 <
-> cba07c00 1042127419 C Bi:1:004:1 -32 0
-> cba07c00 1042127423 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1042127545 C Co:1:004:0 0 0
-> cba07c00 1042127549 S Bi:1:004:1 -115 13 <
-> cba07c00 1042127793 C Bi:1:004:1 0 13 = 55534253 05000000 4e000000 00
-> cba07c00 1042127817 S Bo:1:004:2 -115 31 = 55534243 06000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1042127918 C Bo:1:004:2 0 31 >
-> cba07c00 1042127922 S Bi:1:004:1 -115 13 <
-> cba07c00 1062185699 C Bi:1:004:1 0 13 = 55534253 06000000 00000000 01
-> cba07c00 1062185708 S Bo:1:004:2 -115 31 = 55534243 07000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1062185824 C Bo:1:004:2 0 31 >
-> caa2f980 1062185829 S Bi:1:004:1 -115 96 <
-> caa2f980 1062185950 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1062185954 S Bi:1:004:1 -115 13 <
-> cba07c00 1062186324 C Bi:1:004:1 -32 0
-> cba07c00 1062186328 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1062186450 C Co:1:004:0 0 0
-> cba07c00 1062186454 S Bi:1:004:1 -115 13 <
-> cba07c00 1062186698 C Bi:1:004:1 0 13 = 55534253 07000000 4e000000 00
-> cba07c00 1062186719 S Bo:1:004:2 -115 31 = 55534243 08000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1062186824 C Bo:1:004:2 0 31 >
-> cba07c00 1062186827 S Bi:1:004:1 -115 13 <
-> cba07c00 1082244728 C Bi:1:004:1 0 13 = 55534253 08000000 00000000 01
-> cba07c00 1082244738 S Bo:1:004:2 -115 31 = 55534243 09000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1082244853 C Bo:1:004:2 0 31 >
-> caa2f980 1082244859 S Bi:1:004:1 -115 96 <
-> caa2f980 1082244979 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1082244984 S Bi:1:004:1 -115 13 <
-> cba07c00 1082245354 C Bi:1:004:1 -32 0
-> cba07c00 1082245359 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1082245480 C Co:1:004:0 0 0
-> cba07c00 1082245484 S Bi:1:004:1 -115 13 <
-> cba07c00 1082245728 C Bi:1:004:1 0 13 = 55534253 09000000 4e000000 00
-> cba07c00 1082246892 S Bo:1:004:2 -115 31 = 55534243 0a000000 00000000 0000061b 01000001 00000000 00000000 000000
-> cba07c00 1082246979 C Bo:1:004:2 0 31 >
-> cba07c00 1082246984 S Bi:1:004:1 -115 13 <
-> cba07c00 1102304634 C Bi:1:004:1 0 13 = 55534253 0a000000 00000000 01
-> cba07c00 1102304642 S Bo:1:004:2 -115 31 = 55534243 0b000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1102304759 C Bo:1:004:2 0 31 >
-> caa2f280 1102304763 S Bi:1:004:1 -115 96 <
-> caa2f280 1102304885 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1102304889 S Bi:1:004:1 -115 13 <
-> cba07c00 1102305259 C Bi:1:004:1 -32 0
-> cba07c00 1102305263 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1102305385 C Co:1:004:0 0 0
-> cba07c00 1102305389 S Bi:1:004:1 -115 13 <
-> cba07c00 1102305633 C Bi:1:004:1 0 13 = 55534253 0b000000 4e000000 00
-> cba07c00 1103320016 S Bo:1:004:2 -115 31 = 55534243 0c000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1103320042 C Bo:1:004:2 0 31 >
-> cba07c00 1103320045 S Bi:1:004:1 -115 13 <
-> cba07c00 1123377446 C Bi:1:004:1 0 13 = 55534253 0c000000 00000000 01
-> cba07c00 1123377456 S Bo:1:004:2 -115 31 = 55534243 0d000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1123377571 C Bo:1:004:2 0 31 >
-> caa2f280 1123377576 S Bi:1:004:1 -115 96 <
-> caa2f280 1123377698 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1123377702 S Bi:1:004:1 -115 13 <
-> cba07c00 1123378072 C Bi:1:004:1 -32 0
-> cba07c00 1123378077 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1123378198 C Co:1:004:0 0 0
-> cba07c00 1123378202 S Bi:1:004:1 -115 13 <
-> cba07c00 1123378446 C Bi:1:004:1 0 13 = 55534253 0d000000 4e000000 00
-> cba07c00 1123378467 S Bo:1:004:2 -115 31 = 55534243 0e000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1123378572 C Bo:1:004:2 0 31 >
-> cba07c00 1123378577 S Bi:1:004:1 -115 13 <
-> cba07c00 1143436352 C Bi:1:004:1 0 13 = 55534253 0e000000 00000000 01
-> cba07c00 1143436360 S Bo:1:004:2 -115 31 = 55534243 0f000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1143436477 C Bo:1:004:2 0 31 >
-> caa2fd80 1143436482 S Bi:1:004:1 -115 96 <
-> caa2fd80 1143436602 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1143436607 S Bi:1:004:1 -115 13 <
-> cba07c00 1143436977 C Bi:1:004:1 -32 0
-> cba07c00 1143436988 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1143437102 C Co:1:004:0 0 0
-> cba07c00 1143437107 S Bi:1:004:1 -115 13 <
-> cba07c00 1143437351 C Bi:1:004:1 0 13 = 55534253 0f000000 4e000000 00
-> cba07c00 1143437371 S Bo:1:004:2 -115 31 = 55534243 10000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1143437476 C Bo:1:004:2 0 31 >
-> cba07c00 1143437480 S Bi:1:004:1 -115 13 <
-> cba07c00 1163495381 C Bi:1:004:1 0 13 = 55534253 10000000 00000000 01
-> cba07c00 1163495389 S Bo:1:004:2 -115 31 = 55534243 11000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1163495506 C Bo:1:004:2 0 31 >
-> c4f67580 1163495510 S Bi:1:004:1 -115 96 <
-> c4f67580 1163495632 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1163495636 S Bi:1:004:1 -115 13 <
-> cba07c00 1163496008 C Bi:1:004:1 -32 0
-> cba07c00 1163496011 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1163496132 C Co:1:004:0 0 0
-> cba07c00 1163496136 S Bi:1:004:1 -115 13 <
-> cba07c00 1163496381 C Bi:1:004:1 0 13 = 55534253 11000000 4e000000 00
-> cba07c00 1163496402 S Bo:1:004:2 -115 31 = 55534243 12000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1163496506 C Bo:1:004:2 0 31 >
-> cba07c00 1163496511 S Bi:1:004:1 -115 13 <
-> cba07c00 1183554286 C Bi:1:004:1 0 13 = 55534253 12000000 00000000 01
-> cba07c00 1183554294 S Bo:1:004:2 -115 31 = 55534243 13000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1183554411 C Bo:1:004:2 0 31 >
-> c4f67480 1183554416 S Bi:1:004:1 -115 96 <
-> c4f67480 1183554537 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1183554541 S Bi:1:004:1 -115 13 <
-> cba07c00 1183554912 C Bi:1:004:1 -32 0
-> cba07c00 1183554915 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1183555037 C Co:1:004:0 0 0
-> cba07c00 1183555041 S Bi:1:004:1 -115 13 <
-> cba07c00 1183555286 C Bi:1:004:1 0 13 = 55534253 13000000 4e000000 00
-> cba07c00 1184568016 S Bo:1:004:2 -115 31 = 55534243 14000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1184568071 C Bo:1:004:2 0 31 >
-> cba07c00 1184568076 S Bi:1:004:1 -115 13 <
-> cba07c00 1204625100 C Bi:1:004:1 0 13 = 55534253 14000000 00000000 01
-> cba07c00 1204625107 S Bo:1:004:2 -115 31 = 55534243 15000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1204625224 C Bo:1:004:2 0 31 >
-> c4f67580 1204625228 S Bi:1:004:1 -115 96 <
-> c4f67580 1204625350 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1204625354 S Bi:1:004:1 -115 13 <
-> cba07c00 1204625725 C Bi:1:004:1 -32 0
-> cba07c00 1204625728 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1204625850 C Co:1:004:0 0 0
-> cba07c00 1204625854 S Bi:1:004:1 -115 13 <
-> cba07c00 1204626099 C Bi:1:004:1 0 13 = 55534253 15000000 4e000000 00
-> cba07c00 1204626118 S Bo:1:004:2 -115 31 = 55534243 16000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1204626224 C Bo:1:004:2 0 31 >
-> cba07c00 1204626229 S Bi:1:004:1 -115 13 <
-> cba07c00 1224684006 C Bi:1:004:1 0 13 = 55534253 16000000 00000000 01
-> cba07c00 1224684014 S Bo:1:004:2 -115 31 = 55534243 17000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1224684130 C Bo:1:004:2 0 31 >
-> caa2ff00 1224684135 S Bi:1:004:1 -115 96 <
-> caa2ff00 1224684256 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1224684260 S Bi:1:004:1 -115 13 <
-> cba07c00 1224684630 C Bi:1:004:1 -32 0
-> cba07c00 1224684634 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1224684755 C Co:1:004:0 0 0
-> cba07c00 1224684760 S Bi:1:004:1 -115 13 <
-> cba07c00 1224685003 C Bi:1:004:1 0 13 = 55534253 17000000 4e000000 00
-> cba07c00 1224685024 S Bo:1:004:2 -115 31 = 55534243 18000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1224685129 C Bo:1:004:2 0 31 >
-> cba07c00 1224685133 S Bi:1:004:1 -115 13 <
-> cba07c00 1240167260 C Bi:1:004:1 0 13 = 55534253 18000000 00000000 01
-> cba07c00 1240167269 S Bo:1:004:2 -115 31 = 55534243 19000000 60000000 80000603 00000060 00000000 00000000 000000
-> cba07c00 1240167385 C Bo:1:004:2 0 31 >
-> caa2fa80 1240167390 S Bi:1:004:1 -115 96 <
-> caa2fa80 1240167511 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
-> cba07c00 1240167515 S Bi:1:004:1 -115 13 <
-> cba07c00 1240167886 C Bi:1:004:1 -32 0
-> cba07c00 1240167890 S Co:1:004:0 s 02 01 0000 0081 0000 0
-> cba07c00 1240168011 C Co:1:004:0 0 0
-> cba07c00 1240168016 S Bi:1:004:1 -115 13 <
-> cba07c00 1240168259 C Bi:1:004:1 0 13 = 55534253 19000000 4e000000 00
-> cba07c00 1240168283 S Bo:1:004:2 -115 31 = 55534243 1a000000 00000000 00000600 00000000 00000000 00000000 000000
-> cba07c00 1240168385 C Bo:1:004:2 0 31 >
-> cba07c00 1240168390 S Bi:1:004:1 -115 13 <
-> cba07c00 1250326842 C Bi:1:004:1 -108 0
-
-..I also tried to debug this early on but only got as far as:
-
-> c6f9c300 1171416007 S Ci:1:007:0 s a1 fe 0000 0000 0001 1 <
-> unknown? request tp=a1 req=fe
-> (that one isn't in the usb3.1 spec)
-
-One thing that baffles me tho' is the device descriptor that has a 
-packet size of 64 right at the start.
-
-> c6f9c900 1170412013 S Ci:1:007:0 s 80 06 0100 0000 0012 18 <
-> URB      time    submiss  ctrl_in setup type,req,value,index,len  ??
->                                      get_descriptor 0100 0    12  18
-> wot's descriptor 0100 ?  1=DEVICE
-> possibly device descriptor... type=1
-> c6f9c900 1170412180 C Ci:1:007:0 0 18 = 12011002 00000040 c20b3920 01190102 0301
->                  callback            len=18 type=1 usb ver=10.02 class=0 sub=0.
->                                      proto=0 pksz=64 vendor=c20b prod=3920
->                                      release=0119 mfgs=01 prds=02 snrs=03 cfgs=1
-
-is it generally ok to have transfers longer than 64 on this device?
-
-
+I meant Paolo did not read the stable one, sorry.
