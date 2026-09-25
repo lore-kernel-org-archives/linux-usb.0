@@ -1,49 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mr6.vodafonemail.de (mr6.vodafonemail.de [145.253.228.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49765470E84;
-	Fri, 25 Sep 2026 12:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C1A497B60
+	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 13:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=145.253.228.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790340679; cv=none; b=cbxUAt+Bj52HXNmqJdDpnNAZRsjj5Dgd/O161WRAo+DMTGbQdVXlm8ejnc2WCCOLb4Gapqz4iG/ciFfmYUzH3Fb6yyHLPlRKR4mLVMmSNvjuKwgfA7TJfhpfmucvwIfQFGEHOxwGkHf1IfITQQUtKPLI/jwraTzFblbmRySvdxY=
+	t=1790341514; cv=none; b=UOi+iokgdilMTnaZKf8to9wxGrbHwY7CUHRGIyH3cteFHa1fSgvM0puhpDgJW2KOqrgBSjcDURrDptFO9/fta4vXA/244aXRzLsArHQnFQZZyUet/XKGG1Gy+NbhBwfDyfx6qa6fqMoDvezk70nDCFo1BAaum+N3RFBFfUr64GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790340679; c=relaxed/simple;
-	bh=KO2TEy9loU8QK2IS8vmNyCcNin1HMfXr4zTewREYrSQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=na5ry8jNWA+1ZLoi1PtEmAHCFLXpUmeM9lbYdrEhjxGX2OMefczwPmCcKo4Fg/FErgUc9yy27ZLUMGenMb6leAUGwCQ45L2mdjgn34/0FLQS58ub8XJ49V55pFXdiCPQknizWltOxPMGh53WPKJfH1lYSckFVWoQphxnrWQKeFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y53djdWl; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790341514; c=relaxed/simple;
+	bh=9d8cmcpjqNwQvPyemlsTmHG6zcNp+0HqZBBQgvlnp9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Fxsutvp0LjSm5SiTtqajveLFCsyMoK1xApJq/BJnfxgLWyPIKBRu2wDGUwhaBPK1lQUXf0ABcdNdeSIF64TwBvr9P833DfjcWBY5zk2j5U3JMegAgsXq4dfELAw+TkZFvCmavB9dNvpWZm3OWxhQhJMpDEni1dEM1dL9+BfKgio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arcor.de; spf=pass smtp.mailfrom=arcor.de; dkim=pass (1024-bit key) header.d=arcor.de header.i=@arcor.de header.b=CmwgdXdo; arc=none smtp.client-ip=145.253.228.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=arcor.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arcor.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y53djdWl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47E621F00898;
-	Fri, 25 Sep 2026 12:51:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790340678;
-	bh=D3elFlAcGaZH0VbYl18NIe5+45MZxJu3tV5JyNgmc1k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Y53djdWlLd4diT/AvrOcXi2GrVkUMfZOD6dmk5wrBuqGrapZjitCvRDfrBfg9d5x0
-	 BnTKh4bxCfiX0tMKCdrW8JtFurhbBTQYO3LW88thuG01Cb/ZYE7hw59evarzLYTO38
-	 7wZU6lEFZdgk6ZZ7hHn/Dp2Lao89/ocNv/c66cAQXdIQWZDLRciBbhbYw+b5WFshwd
-	 SgfnG/v9weC791zQC+pDBEFG7GNZuzILu4ouO1eex0u514XgRGL7lU1F1WRmmHIXhs
-	 yqzMlC0qHyJaHLn+n3KPUNM1XrW75NKKVif7jm3AOyuuULaCC+82pdP6bc1SuqvtsJ
-	 b7HBLAWBmeiCg==
-Date: Fri, 25 Sep 2026 13:51:09 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 04/40] mm: consistently validate VMA state after
- mmap[_prepare] hooks
-Message-ID: <arZriK1tyOC7DjBw@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-4-4583d8a23bca@kernel.org>
- <arVW5i8pvySq6Co2@gourry-fedora-PF4VCD3F>
+	dkim=pass (1024-bit key) header.d=arcor.de header.i=@arcor.de header.b="CmwgdXdo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arcor.de;
+	s=vfde-mb-mr2-23sep; t=1790341029;
+	bh=IRodS0Cnbs3mEsRwBBztGKFjR9dO2kjPlGhwsmcc/6I=;
+	h=Date:From:To:Subject:Message-ID:Content-Type:From;
+	b=CmwgdXdobf66dgGTeDCbYB82QhLLQyVoM+oOBIlqGM18rbaHthf84Ix8ZO4bhV85Q
+	 NTDmcJapMwngB6VAtxsfK5BNauCynE6qKtdZa2BMgRou2r8IZ1kzUFQusqcPeWrESg
+	 xoUzaznF8LaFvIKn66KLwQEZmWGdWZMA08soOJ9g=
+Received: from smtp.vodafone.de (unknown [10.5.0.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits))
+	(No client certificate requested)
+	by mr6.vodafonemail.de (Postfix) with ESMTPS id 4hrrM93RZYz3sTjW;
+	Fri, 25 Sep 2026 12:57:09 +0000 (UTC)
+Received: from arcor.de (p5b281a72.dip0.t-ipconnect.de [91.40.26.114])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.vodafone.de (Postfix) with ESMTPSA id 4hrrM16GQpz9054;
+	Fri, 25 Sep 2026 12:56:58 +0000 (UTC)
+Date: Fri, 25 Sep 2026 14:56:52 +0200
+From: Reinhard Speyerer <rspmn@arcor.de>
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [PATCH] USB: serial: option: add Rolling Wireless RN947R
+Message-ID: <arZvlM3mT-pQPHaJ@arcor.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,80 +49,73 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <arVW5i8pvySq6Co2@gourry-fedora-PF4VCD3F>
+X-purgate-server: smtpa03
+X-purgate-type: clean
+X-purgate: clean
+X-purgate-size: 3049
+X-purgate-ID: 155817::1790341025-9FE37FAA-116482B0/0/0
 
-On Thu, Sep 24, 2026 at 01:17:28PM -0400, Gregory Price wrote:
-> On Thu, Sep 17, 2026 at 05:22:13PM +0100, Lorenzo Stoakes (ARM) wrote:
-> >  static inline int mmap_file(struct file *file, struct vm_area_struct *vma)
-> >  {
-> ...
-> > +	err = mmap_hook_validate(prev_start, prev_end, &prev_flags, vma);
-> > +	if (unlikely(err)) {
-> > +		vma->vm_start = prev_start;
-> > +		vma->vm_end = prev_end;
-> > +		vma_close(vma);
-> >  	}
-> > +
-> > +	return err;
-> >  }
-> >
->
-> I indepdeantly validated the sashiko report on this chunk.  Seems like
-> close() should be deferred until after __map_new_file_vma() calls
-> unmap_region().
+Add Rolling Wireless RN947R 0x9300 compositions:
 
-Ack perhaps too quickly dismissed that one...!
+Standard mode: DIAG + ADB + NMEA + MODEM + RMNET + QDSS + ADPL
 
->
-> suggested fix is to drop vma_close() from mmap_file()  and update the
-> cleanup in __mmap_new_file_vma()
->
-> if (error) {
-> 	UNMAP_STATE(unmap, vmi, vma, vma->vm_start, vma->vm_end,
-> 		    map->prev, map->next);
-> 	vma_iter_set(vmi, vma->vm_end);
-> 	unmap_region(&unmap);
->
-> 	/* Release driver state only after its mappings are gone. */
-> 	vma_close(vma);
->
-> 	if (map_same_file(map))
-> 		fput(map->vm_file);
-> 	vma->vm_file = NULL;
->
-> 	return error;
-> }
->
-> Example race:
->
->   Thread A                              Thread B
->
->   mmap(MAP_FIXED, address A)
->     driver remap_pfn_range(A, page P)
->                                          load/store at known address A
->                                          hardware finds the new present PTE
->     validation fails
->     ->close() frees page P
->                                          UAF
->     unmap_region()
->     TLB shootdown
->
-> With that fix
+T:  Bus=01 Lev=01 Prnt=01 Port=02 Cnt=02 Dev#=  6 Spd=480  MxCh= 0
+D:  Ver= 2.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=33f8 ProdID=9300 Rev= 0.00
+S:  Manufacturer=Rolling Wireless
+S:  Product=RN947R
+S:  SerialNumber=xxxxxxxxxxx
+C:* #Ifs= 7 Cfg#= 1 Atr=a0 MxPwr=500mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=30 Driver=option
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 1 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=42 Prot=01 Driver=usbfs
+E:  Ad=02(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=82(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 2 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=84(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=83(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=03(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 3 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=40 Driver=option
+E:  Ad=86(I) Atr=03(Int.) MxPS=  10 Ivl=32ms
+E:  Ad=85(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=04(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#= 8 Alt= 0 #EPs= 3 Cls=ff(vend.) Sub=ff Prot=50 Driver=qmi_wwan
+E:  Ad=88(I) Atr=03(Int.) MxPS=   8 Ivl=32ms
+E:  Ad=87(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=05(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#=21 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=70 Driver=(none)
+E:  Ad=89(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+I:* If#=22 Alt= 0 #EPs= 1 Cls=ff(vend.) Sub=ff Prot=80 Driver=(none)
+E:  Ad=8a(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
 
-Ack, yeah. It's kind of a situation that should never happen, but if validation
-is supposed to actually be run against things then we should keep the kernel
-stable when we do it :)
+QDL mode:
 
-Will apply for the respin.
+T:  Bus=01 Lev=01 Prnt=01 Port=02 Cnt=02 Dev#= 12 Spd=480  MxCh= 0
+D:  Ver= 2.10 Cls=00(>ifc ) Sub=00 Prot=00 MxPS=64 #Cfgs=  1
+P:  Vendor=33f8 ProdID=9300 Rev= 0.00
+S:  Manufacturer=Rolling Wireless
+S:  Product=RN947R
+S:  SerialNumber=xxxxxxxxxxx
+C:* #Ifs= 1 Cfg#= 1 Atr=a0 MxPwr=  2mA
+I:* If#= 0 Alt= 0 #EPs= 2 Cls=ff(vend.) Sub=ff Prot=10 Driver=option
+E:  Ad=81(I) Atr=02(Bulk) MxPS= 512 Ivl=0ms
+E:  Ad=01(O) Atr=02(Bulk) MxPS= 512 Ivl=0ms
 
->
-> Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-
-Thanks!
-
->
-> ~Gregory
->
-
---
-Cheers, Lorenzo
+Signed-off-by: Reinhard Speyerer <rspmn@arcor.de>
+---
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index e4ad14375d6a..e22f95546cfc 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -2496,6 +2496,10 @@ static const struct usb_device_id option_ids[] = {
+ 	  .driver_info = RSVD(5) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x33f8, 0x1003, 0xff),			/* Rolling RW135R-GL (laptop MBIM) */
+ 	  .driver_info = RSVD(5) },
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x33f8, 0x9300, 0xff, 0xff, 0x30) },	/* Rolling RN947R */
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x33f8, 0x9300, 0xff, 0xff, 0x40) },
++	{ USB_DEVICE_AND_INTERFACE_INFO(0x33f8, 0x9300, 0xff, 0xff, 0x10),
++	  .driver_info = ZLP },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x3466, 0x3301, 0xff) },			/* TDTECH MT5710-CN */
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x3731, 0x0100, 0xff, 0xff, 0x30) },	/* NetPrisma LCUK54-WWD for Global */
+ 	{ USB_DEVICE_AND_INTERFACE_INFO(0x3731, 0x0100, 0xff, 0x00, 0x40) },
