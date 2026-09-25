@@ -1,121 +1,124 @@
-Received: from smtpout07.a1.net (smtpout07.a1.net [80.75.33.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A31F36F8F1
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 06:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.75.33.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C9E6394499;
+	Fri, 25 Sep 2026 06:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790317288; cv=none; b=jSjOc7LmeV9eOv7rBZkWgdiwr/GgHDkIVCNxl217koBYTau7x9MhtalZsFUmvyvBYbs5R8BlNO5XiWLld67sgQW7NX5XGbDfv8yrEd6i4Q5wiF79QT6BbVZqy0+IF1qQgPan4NHzv4f2+ozDqju4AYcObgVc8vCRz6a/p1Divis=
+	t=1790319282; cv=none; b=jsdVbqzwBkmkpUP60oVyv6JNLuJ5V0BKFwfRppslr+SAADo6z8VIFDESCXOu9bKLEIPHJAjKC3UwusSnentvQb9Q+w2H7OUdg8IAwBDnpNl4o4i6YIukuzFYTLd19TMeCPRLCdWs3wjiM3MXYYElZqVlwk0FEgvscTtneAZGcgs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790317288; c=relaxed/simple;
-	bh=ZASyk0FIV3LHzDXnTMsnN4v32O0auOY6o6oysj7s5uY=;
-	h=Subject:References:To:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=U0FTPkCNod9nLqrFgq+GIjUwKkkufEJVuzuibUC8WyHN5uXEdn3auhyVaa4c9QNzjbMZ44t7lRJnjTUQNbLT/dgbOhMP8gKq1nHIqY/nD4pvQLwLNCic5rpRen6gkjultTPs/60qIj0GQyCMXEy4VyM4fuI9qI9gwHTWF9x+lUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net; spf=pass smtp.mailfrom=a1.net; dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b=GHcLCQ7I; arc=none smtp.client-ip=80.75.33.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a1.net
+	s=arc-20240116; t=1790319282; c=relaxed/simple;
+	bh=aLoNdd5xjFAH/wL0zMCYq8VlqE/pXcEPZpBx2I9JFvo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DG76QtEJ/tXJ6cOIwkg9ruw30i1ynXsdGEgS0uiBNOvdPekQvJ6JreUkh+fmrU62PkL+fDBy0RZ4rfn27QD09zqNvSroYQsE3H50KHIQ3OHTy+H31i1WdE9WsclYbPxV4g1gw7bTtMMmY4xMsG5CU/f1jSkcuey8TANy5qQRLVk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dFP/SFVf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b="GHcLCQ7I"
-Received: from [192.168.0.6] (unknown [100.72.67.144])
-	by smtpout07.a1.net (Postfix) with ESMTPSA id 4hrgZM2mPjzGrqnn
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 08:21:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a1.net; s=resmail1;
-	t=1790317275;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ke7bk5/ZL1Q0oYaH3Sn3t7dDUgowjde09oEtAwnzWEM=;
-	b=GHcLCQ7I6nD3q1cphFHXmdY8LW/n2KsxlYAUKMD8yfVZMotrCezWyv9VxUqUijjCykZFVK
-	5a5RJgt4tOo+A1TDh26cWiGb7Qur9EZ7JwgPsXYKOd5JWXU1WVBbDgl3J6JPozN2osdkWX
-	X+IuSGc3lQWuisS+jMjRc0n+noXI2ooawt94SHm/W4EY/5r5gozmIludrSOX+kpj5zfyf1
-	7cqi/zfdj7oAegsekTCkWVnfkur4MySqdAV862W0peTgC/JIcNVlma2KmfMEyLJnziwtgN
-	VfgCSF5mLM1274DnOK8B/0/B9Sw8NLIV8ghDK2sxhsPXTOHY8Ws/lCUe30cpyN+nLuncc8
-	EcGLR2iJAeFLey36xlg3H7jlBmxHtqdXxqqkTRyIAFClHU8+8UocLiiup8Az0MO4JTXhjf
-	FgkwK8Dt0fBenVhG3YoYbgL1iNM9XZZlQQW5rqST+Br2Pbzn1hFZxt5GIacAMwZWZpVzmi
-	pafGMyv2q5qaGFACA7CCbIkuFio8pE+JPg4lpFWn/s2W9zkL5tiJMpAlGLW0hXliCJ3du3
-	BSlDSyPp6sj/TlPFynzv7KvBtpY58l8FmpRWkTkZc6nAQZhmjeQJl26HM8J3OVXvKuxmRr
-	nl83iF8H8oweFeAj009ZhV9jfXECtY6kkZ8j3h72Nl2LGf+mNDya8=
-Subject: Re: possible regression in usb-storage?
-References: <c6fc5257-a41f-4ae7-92fe-93284d9ebc43@a1.net>
- <79f2c208-bca0-3bf2-afdd-3bf095ff7b31@a1.net>
- <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
- <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
- <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
- <d0cd9a1e-cdb4-97c2-5bcd-1bc9f5d9173c@a1.net>
- <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
- <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
- <605c0845-cfd4-0702-4322-53d9c8037b70@a1.net>
-To: linux-usb@vger.kernel.org
-From: Johann Klammer <klammerj@a1.net>
-Message-ID: <be5899e3-3e3e-4977-e4aa-32ca368f06cd@a1.net>
-Date: Fri, 25 Sep 2026 08:20:19 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dFP/SFVf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B44251F000FF;
+	Fri, 25 Sep 2026 06:54:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790319280;
+	bh=ll7flwWgIu475+3ZjFH1CFh44ywyc/783LJaMOFJs1U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=dFP/SFVffpEfADCUW/3/h/rABojLtLdqrQ6lHU48baRKVVHzSKiCMiPFJn5eqoqe/
+	 JRPElPZR+1q9sCfcW3bZDlH5weJ4mzfrVWKZrXbzXeHwSwueE/Wm6ouT61K5bpVBTH
+	 dBIO4CgDYmDH1pyzhiulXZ1ucXebE7TXWzyODOP7n/rqfBsHN6HnsphcKCEOJbspeU
+	 aANb57pekKLUchOl1Vavezn4Rf2VPuTNgeUznlmK6tY5MLIloMzkiyMHLwDHYir2PS
+	 osAiiac2ZJFzmcu5BCyt2HpqKZUZquYoUVrMi80GHGt/J0BSxeIPNb8Q4gxAqFuPvX
+	 rk7aAzDLNY9rA==
+Message-ID: <feeed1f5-0e82-4b6f-8640-f38f3a892d20@kernel.org>
+Date: Fri, 25 Sep 2026 08:54:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <605c0845-cfd4-0702-4322-53d9c8037b70@a1.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv3 0/2] usb: bcma: control VBUS via a regulator
+To: Rosen Penev <rosenp@gmail.com>, linux-usb@vger.kernel.org
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+ Hauke Mehrtens <hauke@hauke-m.de>, =?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?=
+ <zajec5@gmail.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "moderated list:BROADCOM BCM5301X ARM ARCHITECTURE"
+ <linux-arm-kernel@lists.infradead.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+References: <20260924233831.127617-1-rosenp@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <20260924233831.127617-1-rosenp@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-
-
-On 9/25/26 6:37 AM, Johann Klammer wrote:
+On 25/09/2026 01:38, Rosen Penev wrote:
+> bcma-hcd currently drives the USB power line by grabbing the
+> undocumented "vcc-gpio" property from the controller node and poking
+> it through gpiolib. Besides relying on a non-standard binding, this
+> cannot work on boards such as the NETGEAR R7000 and R8000 where one
+> chipcommon GPIO powers both the USB2 and USB3 cores: the two
+> controllers each request that GPIO exclusively, so the second one
+> fails with -EBUSY and its port stays dead.
 > 
-> 
-> On 9/25/26 4:03 AM, Alan Stern wrote:
->>
->> Maybe the drive doesn't like the 100-byte INQUIRY, even though it
->> claims to support it.  You can test this by doing (as root):
->>
->>     echo 'Seagate:Expansion SW:1024' >/proc/scsi/device_info
->>
->> before you plug in the drive.  That should suppress the 100-byte
->> INQUIRY command.
->>
->> Alan Stern
->>
-> I don't seem to have that file. Am I missing a module?
-Nevermind. I put it in modprobe.d
+> Instead, switch the driver to the standard regulator interface and
+> express the power rails as regulator-fixed nodes bound to the
+> chipcommon GPIOs. The regulator core reference-counts enable/disable
+> requests, letting both controllers share one GPIO without conflicts.
 
-kernel 6.9.9 with no usb quirks and
-options scsi_mod dev_flags="Seagate:Expansion SW:1024"
-I did not get crashing threads this time. but a slew of errors.
-and a 0 bytes sdd device.
+Please use standard email subjects, so with the PATCH keyword in the
+title. `git format-patch -vX` helps here to create proper versioned
+patches. Another useful tool is b4. Skipping the PATCH keyword makes
+filtering of emails more difficult thus making the review process less
+convenient.
 
-> [  125.722585] usb 5-6: new high-speed USB device number 4 using ehci-pci
-> [  125.927652] usb 5-6: New USB device found, idVendor=0bc2, idProduct=2039, bcd
-> [  125.927686] usb 5-6: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> [  125.927713] usb 5-6: Product: Expansion SW
-> [  125.927733] usb 5-6: Manufacturer: Seagate
-> [  125.927752] usb 5-6: SerialNumber: 00000000NACD256B
-> [  125.928687] scsi host5: uas
-> [  125.929390] scsi 5:0:0:0: Direct-Access     Seagate  Expansion SW     1901 PQ
-> [  125.934625] scsi 5:0:0:0: Attached scsi generic sg3 type 0
-> [  157.950205] sd 5:0:0:0: [sdd] Unit Not Ready
-> [  157.951286] sd 5:0:0:0: [sdd] Sense Key : Hardware Error [current].
-> [  157.952357] sd 5:0:0:0: [sdd] ASC=0x44 <<vendor>>ASCQ=0x81.
-> [  157.953828] sd 5:0:0:0: [sdd] Read Capacity(16) failed: Result: hostbyte=DID_
-> [  157.954921] sd 5:0:0:0: [sdd] Sense Key : Hardware Error [current].
-> [  157.952357] sd 5:0:0:0: [sdd] ASC=0x44 <<vendor>>ASCQ=0x81.
-> [  157.953828] sd 5:0:0:0: [sdd] Read Capacity(16) failed: Result: hostbyte=DID_OK driverbyte=DRIVER_OK
-> [  157.954921] sd 5:0:0:0: [sdd] Sense Key : Hardware Error [current].
-> [  157.956034] sd 5:0:0:0: [sdd] ASC=0x44 <<vendor>>ASCQ=0x81.
-> [  157.957578] sd 5:0:0:0: [sdd] Read Capacity(10) failed: Result: hostbyte=DID_OK driverbyte=DRIVER_OK
-> [  157.958688] sd 5:0:0:0: [sdd] Sense Key : Hardware Error [current].
-> [  157.959789] sd 5:0:0:0: [sdd] ASC=0x44 <<vendor>>ASCQ=0x81.
-> [  157.960958] sd 5:0:0:0: [sdd] 0 512-byte logical blocks: (0 B/0 B)
-> [  157.962042] sd 5:0:0:0: [sdd] 0-byte physical blocks
-> [  157.963454] sd 5:0:0:0: [sdd] Test WP failed, assume Write Enabled
-> [  157.964703] sd 5:0:0:0: [sdd] Asking for cache data failed
-> [  157.965753] sd 5:0:0:0: [sdd] Assuming drive cache: write through
-> [  157.967330] sd 5:0:0:0: [sdd] Preferred minimum I/O size 4096 bytes not a multiple of physical block size (0 bytes)
-> [  157.968382] sd 5:0:0:0: [sdd] Optimal transfer size 33553920 bytes not a multiple of physical block size (0 bytes)
-> [  157.969763] sd 5:0:0:0: [sdd] Attached SCSI disk
-> [  310.080965] usb 5-6: USB disconnect, device number 4
+Almost all your patches for months now do everything to escape my filters.
+
+Best regards,
+Krzysztof
