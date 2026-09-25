@@ -1,113 +1,271 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C3147887A
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 08:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B473C47C10B;
+	Fri, 25 Sep 2026 09:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790325620; cv=none; b=WukxJoylrNDhX5YSWOs+hajKMV5f2cVF81PpgIAv2a2hlQ1Z0AlHhZpR11Gob9gbdoFLYjFd1ECIRoAK9NZsvva/7BzKMKhxY88IZbcvsbDFn1WHIt8YnmBdcMCfswRK9+wKXik+GKHEZJhesWI+RN9Ec6Y8gJ3mgIFYkvhNJPk=
+	t=1790327603; cv=none; b=ufAi36bI2WKzbCs9M2pYVB9XZy3C7k5gRxmjHgMUAZoiCxXM0/6R84sYnllDGSUq5TzZi3ow5dZK4TSlWNjJdnC5Mk0SL5fVJ0k7VEglVHEt6Vr1ehWFEe8TrWo/+hXFjYHiuxS8Ap3HRe69asyX3WA1BC44T6EPC8mS3N3Muuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790325620; c=relaxed/simple;
-	bh=srY0H7mYHc92uRhlgsuKOa8KwP+jnMDvAjWaFiC0inc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=du1J5RfTuEFz3aCIMoTaa/qsAcesEcGUf/HIfqCJyv/4yWvsYkioISCqRcq31CldTt7ZvHJsCDJeu/tlK5avhMxVzC7X2ppM7o8hOrAdRgNIAahp4DHCDhKcj6zfGEdtK4eZE3HgVw5yvECjxs+3mrvcLLk1XLLmvel+JsfnL+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kUUxV0nf; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790327603; c=relaxed/simple;
+	bh=Tk8lnLCIykMhwm4FM62K4d7d7QJOAD1dpQSl1O/g2h4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BMuTZigNeyXY/MMRlXWwpVhOMZOOi8C7EA4/h615K5aeMjPdPGqKPC+T/5cryzp/VTJ9d0VGzrgfBuMgfLPrLYRWHn9B5xbeyD+F14wIWdlIXLTBnsVxYVZFMjgzHcjBtbeSH9e4cj/51QQprRD4r4+8O+qccaR/RWw2zv10Pbw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K2qi0Whp; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kUUxV0nf"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d391aso4402065e9.2
-        for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 01:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790325617; x=1790930417; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=srY0H7mYHc92uRhlgsuKOa8KwP+jnMDvAjWaFiC0inc=;
-        b=kUUxV0nf1aGdFSFS7WLpDs31ii15AjqRFklEz0R16lepT4MxUxenaVpsdH26pddNLH
-         ffQrA50ro9fLU0ONUXl4gwUZJo28we4A1IAEcbIpPSU/zKVYQnL52+XROOiJFLb3WRzV
-         l7+rBr7r78cNbg7K5Qh9S4XyqqzWYH/XznxBKjD4WcVyHRf/kNZf7BqQpZnGs6vDoi1r
-         j39gU+bhmwCX90ONeiwTXKMnZiwif2HYHGHiO57fPsqgRqjGAx1mG8TjbkxQ660J4CSs
-         btK7BSwQhFWw3RyQbjYXEzJu0HupwajEUgVGlxIvVqfG8b/WqZ4wUqMwF7ymxswSH3AU
-         Au4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790325617; x=1790930417;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=srY0H7mYHc92uRhlgsuKOa8KwP+jnMDvAjWaFiC0inc=;
-        b=i0v518dpVAMMFZmP/lbZhwzo7YqGq+XgZFnKYn6QZOID/Ct/XdgDXZEWGU4OK7EIax
-         bznudPZFs1ZB9UhQVk5oEeyH9IJflLC/kjrmGRY9YMD2Fd6gf5njx+O6GHIOwOjv4stp
-         dB8X/H2ZlwH+VZxv3V52+OLs1gzIwr47R3wHr5qD/CFMPdy4LIvBXBNX/GEzlZmM2KBw
-         fK4mmJSuXgIk17Bnc/BGaSnKJat2mmJugLY4gVkzAbciXvwnfRuQJM4yp7FiqrzgSvk/
-         P5UyPwx3FWAEi4r3mnFDALk0awQQQ7EaMYAW6FNuEZz4VvctxgW2fhxIdyQAJA2z//2A
-         crgw==
-X-Forwarded-Encrypted: i=1; AKwUvBztCaL22r9hJKNdn0SU+0ZIdc3U+R7MsNGNtQYUL7uxlWDpIlTqlgwfvWaIZ0ek+LrAjXUas2Wrt1M=@vger.kernel.org
-X-Gm-Message-State: AFuF++mTSeZr2fQ2c73gyp+gU6vlLjd3LlCdX+R2Urw7M1put7+ySNEP
-	N4BNoRoPXpdWxaX35ecXOuAPBdC64DGEDke/NYrHcOD9vtgj9bjAFj7n/NNDxQ==
-X-Gm-Gg: AYBFou3N1GIrDARQQcdbu7UuMBTnHcdaN8h2mS1lYLvsVwPmtjb8XAx7vAM/5AVX1/B
-	rS5xtxNW0vWzaa8fNws+hIOgIHiAFyi/m7jsyj3JUQQkVcDrqyQbokPopiWSAEjqn0/Yn+87d0z
-	XbDMU3TtiVikHvrR4LBS5Uc7qoVXv82jmIumk6wIx4P4s0sBeCaQXpCvna69YiZFUmplCC6VWo6
-	FoXyiwSSIOMJx+PPXK628q/TbIjl+BYvRWi53a0lQM4/noTJW6bXftV05Y+TQcnA9BE2A2kAb57
-	BKBlI368C9L8coBC2lPM0Cq+6m0CF6IS9gMXrGdno+bIKLwNinxQuNwkENgeLpgGHodv4SiLb9v
-	mi7cFyoFDpQz7HG6kiOamVoFo5EzMGu6cJ8KmlZn0v7AnPmekZ6SiSRsU6XPiGZNaN91YZI8c86
-	dLZdl7WJa3N7jbNS322aIAgIHzMa4tgOPO5EtbAz2hVSnctMbGE2HRA4V++eO146qwfFP0pZEFL
-	Eka5i0g/g==
-X-Received: by 2002:a05:600c:3b07:b0:49e:84bf:6121 with SMTP id 5b1f17b1804b1-49fe66d1653mr89115345e9.13.1790325616955;
-        Fri, 25 Sep 2026 01:40:16 -0700 (PDT)
-Received: from foxbook (bez152.neoplus.adsl.tpnet.pl. [83.28.37.152])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff06b6108sm50928595e9.8.2026.09.25.01.40.16
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 25 Sep 2026 01:40:16 -0700 (PDT)
-Date: Fri, 25 Sep 2026 10:40:13 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Ben <benstaples10@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, linux-usb@vger.kernel.org,
- andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com
-Subject: Re: xhci_hcd 0000:0c:00.0 dies with "Abort failed to stop command
- ring: -110" exactly 24s post-init, tunneled USB4 xHCI behind Goshen Ridge
- (ASUS ThunderboltEX 4) + CalDigit TS4
-Message-ID: <20260925104013.1c8e21cb.michal.pecio@gmail.com>
-In-Reply-To: <20260925102746.25e87ef0.michal.pecio@gmail.com>
-References: <20260915043845.GG106095@black.igk.intel.com>
-	<CANcA1gDh9AKFOdzK+kfLieJByxN1kjFQpSiexKPjHyOY8YMVQA@mail.gmail.com>
-	<20260915050515.GI106095@black.igk.intel.com>
-	<CANcA1gDbddDkZAQr_O6njK4PvaDk6nnj+fPsrzigH132u0f0Ng@mail.gmail.com>
-	<20260916075135.GN106095@black.igk.intel.com>
-	<CANcA1gCjSCdXz_3+XA5ZOndm2pAL4ZUs93q_69dzZeq_cmq8Og@mail.gmail.com>
-	<20260917043847.GV106095@black.igk.intel.com>
-	<CANcA1gDFygEN68vnoocpLg10jMQctb3aG_QU55nZK3GuxSrD6w@mail.gmail.com>
-	<20260921044453.GJ106095@black.igk.intel.com>
-	<CANcA1gA_o_34UUZMzFp+cMuMFvk9S4uizYCdR8iG55pKaw+71A@mail.gmail.com>
-	<20260922042608.GZ106095@black.igk.intel.com>
-	<CANcA1gAijg6Ftmw9+aeuG+SjKKwKo-HyXb+kfBiGFGj=ZzNvaQ@mail.gmail.com>
-	<2a4026e7-f5d3-4301-bc60-0570cbd7fa09@linux.intel.com>
-	<CANcA1gAM7UsSxNyHET7HZndeWzAnf4yBDdhLC4pRFsMNuWOHgQ@mail.gmail.com>
-	<20260925102746.25e87ef0.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K2qi0Whp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00A0E1F000FF;
+	Fri, 25 Sep 2026 09:12:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790327601;
+	bh=yfSL2ku4OKsR1ZwNLU9aq+Cv4BSlDAV3gm6yCuANvXg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=K2qi0Whp5/6TRdhA6MhlGYRilQhTQ8jPlG08QvTUUmQwkWOHWgmSx5AdhFTFi0qw/
+	 r4+3OumzOouGc7txXhbbk80xasHy05dho7/yw8n5cfGkWIhweFLORuSQD6wUTgF3bF
+	 dlK10/x8cBD+DlIEYdpY/JpYJifQA5N4twHg7jDXzl6B1XyEXIXzNDQx16+MJsnNtN
+	 sTXe6Jh9EmnWLdP4R1YQtEnnOP8lnDSORnscuubhZoG/xGcNI3ROCCX9s0YjPIJIxI
+	 MdK5fq25MLwiukRwd6j6BdAO4Z4mjaXg/lCXJQXPIaGguKLjAmtHiggDOa9mUzFR4Z
+	 ur0MJU3/gDHOA==
+Date: Fri, 25 Sep 2026 10:12:50 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: "Liam R. Howlett" <liam@infradead.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v3 01/40] mm/vma: fix mmap_prepare file handling, remove
+ file_doesnt_need_get
+Message-ID: <arY3xqkPCgZj3IVD@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-1-4583d8a23bca@kernel.org>
+ <qpkcjtl5jbip46zxcpyogsk4phmhetfvrvgftxhsxlbxjhucnn@h3a64dfoxcmj>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <qpkcjtl5jbip46zxcpyogsk4phmhetfvrvgftxhsxlbxjhucnn@h3a64dfoxcmj>
 
-On Fri, 25 Sep 2026 10:27:46 +0200, Michal Pecio wrote:
-> Broken 64 bit support usually shows as IOMMU faults logged in dmesg,
-> because the chip tries to access different addresses than intended.
-> Here, it looks like this chip doesn't attempt DMA at all.
+(forgive my possibly semi-broken efforts to trim the mail)
 
-But wait a moment, are you sure that you have removed all the weird
-boot options as requested, and particularly iommu=soft?
+On Thu, Sep 24, 2026 at 03:00:44PM -0400, Liam R. Howlett wrote:
+> On 26/09/17 05:22PM, Lorenzo Stoakes (ARM) wrote:
 
-This option being present could explain why the chip is set up with
-addresses >4GB, which is otherwise a little unusual thing to see.
+> > diff --git a/mm/internal.h b/mm/internal.h
+> > index 0dca33db068f..fe576d468af4 100644
+> > --- a/mm/internal.h
+> > +++ b/mm/internal.h
+> > @@ -7,6 +7,7 @@
+> >  #ifndef __MM_INTERNAL_H
+> >  #define __MM_INTERNAL_H
+> >
+> > +#include <linux/file.h>
+> >  #include <linux/fs.h>
+> >  #include <linux/khugepaged.h>
+> >  #include <linux/mm.h>
+> > diff --git a/mm/util.c b/mm/util.c
+> > index bf0513d1d3d0..016932780925 100644
+> > --- a/mm/util.c
+> > +++ b/mm/util.c
+> > @@ -1228,8 +1228,11 @@ int __compat_vma_mmap(struct vm_area_desc *desc,
+> >
+> >  	/* Perform any preparatory tasks for mmap action. */
+> >  	err = mmap_action_prepare(desc);
+> > -	if (err)
+> > +	if (err) {
+> > +		if (desc->vm_file != vma->vm_file)
+> > +			fput(desc->vm_file);
+> >  		return err;
+> > +	}
+> >  	/* Update the VMA from the descriptor. */
+> >  	compat_set_vma_from_desc(vma, desc);
+> >  	/* Complete any specified mmap actions. */
+> > diff --git a/mm/vma.c b/mm/vma.c
+> > index 55917d097933..fa784f069da4 100644
+> > --- a/mm/vma.c
+> > +++ b/mm/vma.c
+> > @@ -24,7 +24,8 @@ struct mmap_state {
+> >  		vm_flags_t vm_flags;
+> >  		vma_flags_t vma_flags;
+> >  	};
+> > -	struct file *file;
+> > +	struct file *file;	/* mmap()-specified file. */
+>
+> I guess renaming file to mmaped_file would be a lot more changes.
 
-Using iommu=soft is 100% asking for trouble and it makes debugging
-harder too.
+Yeah :) and want to keep things sync'd with vm_area_desc.
 
-Regards,
-Michal
+Can always obviously follow up later with renames sync'd across both.
+
+<snip>
+
+> >  static int __mmap_new_file_vma(struct mmap_state *map,
+> >  			       struct vm_area_struct *vma)
+> > @@ -2593,20 +2597,23 @@ static int __mmap_new_file_vma(struct mmap_state *map,
+> >  	struct vma_iterator *vmi = map->vmi;
+> >  	int error;
+> >
+> > -	vma->vm_file = map->file;
+> > -	if (!map->file_doesnt_need_get)
+> > -		get_file(map->file);
+> > +	vma->vm_file = map->vm_file;
+> > +	if (map_same_file(map))
+> > +		get_file(map->vm_file);
+> >
+> > -	if (!map->file->f_op->mmap)
+> > +	if (!map->vm_file->f_op->mmap)
+> >  		return 0;
+> >
+> >  	error = mmap_file(vma->vm_file, vma);
+> > +	map->vm_file = vma->vm_file;
+> > +
+>
+> You set vma->vm_file to map->vm_file unconditionally above, is this
+> necessary?
+
+Yeah, because the mmap hook can change vma->vm_file, and this is necessary
+for the correct file refcount accounting.
+
+The accounting is actually very tricky, because the file that was passed
+via mmap() is fput() after the operation is done but if its swapped then
+you have to make sure everything works out correctly on both error and
+success paths.
+
+Which this patch does (with a lot of AI review checking to make sure it's
+not broken! FWIW)
+
+<snip>
+
+> > @@ -2688,7 +2694,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap,
+> >  	}
+> >
+> >  	/* Invoke callbacks. */
+> > -	if (map->file)
+> > +	if (map->vm_file)
+> >  		error = __mmap_new_file_vma(map, vma);
+> >  	else if (!is_anon)
+> >  		error = shmem_zero_setup(vma);
+> > @@ -2797,11 +2803,15 @@ static int call_mmap_prepare(struct mmap_state *map,
+> >  	int err;
+> >
+> >  	/* Invoke the hook. */
+> > -	err = vfs_mmap_prepare(map->file, desc);
+> > +	err = vfs_mmap_prepare(map->vm_file, desc);
+> >  	if (err)
+> >  		return err;
+> >
+> > -	/* It's invalid for mmap_preprare hooks to clear vm_ops. */
+> > +	/* Update first so file refcount tracked correctly. */
+> > +	if (desc->vm_file != map->vm_file)
+> > +		map->vm_file = desc->vm_file;
+> > +
+> > +	/* It's invalid for mmap_prepare hooks to clear vm_ops. */
+>
+> The less rare of prepare ;)
+
+Haha 'It's a rare prepare that would dare' is what I'd LIKE to put here as a
+comment but probably can't :P
+
+<snip>
+
+> > +static void put_map(struct mmap_state *map)
+>
+>
+> I like the put_map_file() instead, like Suren suggested.. but maybe
+> put_map_vm_file(), especially since it could be read as put to the file
+> pointer instead of vm_file.
+
+Ack, and of course to bikeshed it a bit :P maybe map_put_vm_file() so the
+'put vm_file' bit is clearer?
+
+<snip>
+
+> > diff --git a/mm/vma.h b/mm/vma.h
+> > index e97bd2dfa786..f15faa83f3d6 100644
+> > --- a/mm/vma.h
+> > +++ b/mm/vma.h
+> > @@ -394,8 +394,10 @@ static inline void compat_set_vma_from_desc(struct vm_area_struct *vma,
+> >
+> >  	/* Mutable fields. Populated with initial state. */
+> >  	vma_set_pgoff(vma, desc->pgoff);
+> > -	if (desc->vm_file != vma->vm_file)
+> > -		vma_set_file(vma, desc->vm_file);
+> > +	if (desc->vm_file != vma->vm_file) {
+> > +		fput(vma->vm_file);
+> > +		vma->vm_file = desc->vm_file;
+>
+> This isn't going to be racy somehow, right?
+
+No, at this point the VMA write lock is held and everything should be
+pinned correctly.
+
+The vma_set_file() dance was the problematic bit here as it didn't
+handle the file refcount properly.
+
+>
+> > +	}
+> >  	vma->flags = desc->vma_flags;
+> >  	vma->vm_page_prot = desc->page_prot;
+> >
+> >
+> > --
+> > 2.55.0
+> >
+
+--
+Cheers, Lorenzo
