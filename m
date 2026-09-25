@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 074D7426690;
-	Fri, 25 Sep 2026 05:30:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E632F43B6C1;
+	Fri, 25 Sep 2026 05:30:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790314222; cv=none; b=mNu4HClNeSwg3c/PgVPwkASYA0VeEzl6ptZrSeTkgzDnp600BbUDziWPRJZkbU2KmcQcofBfJ2AmsOXaWyPtGdIIQotSguY52cMA7+ltmLSqJNnHxDlCwPbMaGdYu66vN73zLVzwzT8LkqCbLzxLXZiFmUc3c0v74j2skDlTe4I=
+	t=1790314225; cv=none; b=VwT9kTDU15QFWhMlTDGQswmJ6Br/MzShch75OPszM+PBN6BN602lQnc6P1DXk/fBIyanGLzJco2Hk5nZOAmg/KyY4JYI/G4FEQw/KlhJYpoLOfyM88IMHJG3UXoh+s8K3ekpBexbITFUPw794KO0uYAdiss0Tg2YYSQZWxZMtuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790314222; c=relaxed/simple;
-	bh=Mhtq+1aGrHhZ35m9tOg8Zg/jtwtqv1LkO628Nmphg34=;
+	s=arc-20240116; t=1790314225; c=relaxed/simple;
+	bh=fDgOahO/A/EbHiIZOfgUHkJ2oYdnog6hVanThi59N+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VnSVpaG5c5n5DRBydiN4hmWNxnFzPRZlxo6Ll1/XwdArWmLTqMkCk32MUK+90iLwb16dA8GXIdnzxPQk3xq5TckBoOp1Z+fzH/CdBXXr3h9N4MsgvxUWsRtQD+RZ1xBzvQPshRYU2ZQI/e0ZybcoHPTBVX1dyiIB/AduldIspLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1AR3fCCO; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=eHz5puPOgdcx0qPaXnIS4kcsqsez5Ey4bZuuT09LLIQxROz9cwyRc5POUBW5OZV94Yy6+Huo1YvKY+9Rgkj5cR0vC6ixJ4thwsYNUG14hheeYHrMDXwD6olW6pXQ5Ok3DnyKZaGFdWrlhRavlihayXNtd2SFFGggZjeMUv5+NNI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=P/lefAuK; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1AR3fCCO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21DA11F000FF;
-	Fri, 25 Sep 2026 05:30:19 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="P/lefAuK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 184C81F000FF;
+	Fri, 25 Sep 2026 05:30:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790314220;
-	bh=aecCSw0mS/lusjDCAjCGFCN7hvR1Yx7c6vMxr7RP+qk=;
+	s=korg; t=1790314223;
+	bh=RnWHYl02BB8v+ezbhuX60mFEti5SfTkQILA/roLAwJw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=1AR3fCCOlg8Uk/pmNdGLoYAD2ZPT2DN6nNV2i1xfzOnzmlf2lsMHkuTIykVWHizUO
-	 5wE+ZW3Drd4v+3avqEq90AKzKgor/eFFqoHAvEAbtskODLVqyXD0Gzt5efIp4CmELk
-	 +kNrR5GYcC02qIMUXXi/Cnrtm2eHxaim0RXFe1Mo=
-Date: Fri, 25 Sep 2026 07:12:06 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: Paolo Abeni <pabeni@redhat.com>, Ming Wang <wangming01@loongson.cn>,
-	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	stable@vger.kernel.org, Oliver Neukum <oliver@neukum.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] net: usb: cdc_mbim: add MeiG Smart SRM821 to ZLP
- whitelist
-Message-ID: <2026092507-jurist-protector-c7e7@gregkh>
-References: <20260920074500.826121-1-wangming01@loongson.cn>
- <4d5e2857-e6eb-43e2-b668-83e779aaa734@redhat.com>
- <2026092409-status-rocker-0fef@gregkh>
- <20260924092851.33737b1e@kernel.org>
+	b=P/lefAuK4d1oIizhAZ9FeEEYD8i+WjJ3uCrUggzoM0A+ZGpzH/vwG2coCZV0f4QqQ
+	 f+MDjIjY2pTysHeXofmAmph0yt7Tj9EJFewGRW+Kcnv0LjabdG/6DSy5+ggKc0kPhY
+	 a/VwL532N0VwaTJxzbXm75vfZcQ3nEEei9iejgsA=
+Date: Fri, 25 Sep 2026 07:14:11 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowangio@gmail.com>, virtualization@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Vasilii Ianikeev <vasilii.ianikeev@oss.qualcomm.com>,
+	Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>,
+	Anton Yakovlev <anton.yakovlev@oss.qualcomm.com>,
+	Trilok Soni <trilok.soni@oss.qualcomm.com>
+Subject: Re: [PATCH 1/8] virtio-usb: add protocol header and skeleton
+ dual-role driver
+Message-ID: <2026092557-condiment-surviving-ec8f@gregkh>
+References: <20260924160907.145405-1-igor.skalkin@oss.qualcomm.com>
+ <20260924160907.145405-2-igor.skalkin@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,31 +46,31 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260924092851.33737b1e@kernel.org>
+In-Reply-To: <20260924160907.145405-2-igor.skalkin@oss.qualcomm.com>
 
-On Thu, Sep 24, 2026 at 09:28:51AM -0700, Jakub Kicinski wrote:
-> On Thu, 24 Sep 2026 16:22:54 +0200 Greg KH wrote:
-> > > > Cc: stable@vger.kernel.org
-> > > > Signed-off-by: Ming Wang <wangming01@loongson.cn>  
-> > > 
-> > > Before any other step, please read:
-> > > 
-> > > https://elixir.bootlin.com/linux/v7.3-rc3/source/Documentation/process/maintainer-netdev.rst#L454
-> > > 
-> > > AFAICS this is actually support for additional H/W, just worded in
-> > > very unusual way: please reword the commit message accordingly and
-> > > drop stable from CC.  
-> > 
-> > Why drop stable from cc:?  Do you not want it in any stable kernel
-> > release?  Seems like it should be to me, we gladly take quirk additions
-> > and new device ids in stable kernels.
+On Thu, Sep 24, 2026 at 06:09:00PM +0200, Igor Skalkin wrote:
+> From: Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>
 > 
-> the irony of telling someone to RTFM while not reading 
-> someone else's FM :)
+> Add the virtio_usb device and virtqueue-wrapper skeleton, the
+> protocol header shared with the vhost gadget driver and userspace
+> backend, and probe()/remove() plumbing with no role support yet.
+> 
+> Introduce a per-port virtio_usb_port array (vports[]), sized to the
+> device's negotiated port count, ahead of any code that actually
+> populates or reads it. Every later commit that adds a role to a port
+> (host, device, OTG) builds on this same array from the start, instead
+> of the host, device, and OTG subsystems each growing their own
+> separate port-indexed storage that later has to be reconciled.
+> 
+> Wire the new drivers/usb/virtio_usb/ directory into the USB
+> subsystem's build (drivers/usb/Kconfig, drivers/usb/Makefile) as a
+> new CONFIG_USB_VIRTIO option, listed alongside the other USB
+> dual-mode controller drivers.
+> 
+> Signed-off-by: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
 
-I did, and it says to keep stable tags, not to remove them, unlike the
-request here.
+Why does this not match the author name?
 
-confused,
+thanks,
 
 greg k-h
