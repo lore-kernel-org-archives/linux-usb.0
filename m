@@ -1,83 +1,112 @@
-Received: from smtpfallback03.a1.net (smtpfallback03.a1.net [194.48.128.16])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AD303B0594
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 04:38:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.48.128.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9523F44D7
+	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 05:01:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790311125; cv=none; b=Mfi5rbVv9sp78B4PgvfELHC84oN+6yh3KREuoTHFxvoz0y0bENqhkPWs76ouP514+buHL2JdPIEQ7/DrNXKAQIcK0/lcxKq8hkEukJvzDmhkY429GS9JYFU2UrOAdG6s6i70dnS+JG8gYlTHaRrz8LTnIg3dweuyolHw9TMaRrk=
+	t=1790312491; cv=none; b=kuW+ApAknzb23wwbF7dGgu2AWthaGpb90+iHagaLGvPqUuZLJI1QOAr+8OWG9QLifAvZthXR/K/Wd9g3B0Mr0hA4fTX6uSEaLdwHh2dhZp5LGEVwEfDpz6TOXPJewMUO5XHPfomaM4G8HkLwMFTGor62qG32WgrqebrMGtbA0GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790311125; c=relaxed/simple;
-	bh=HRG1MFxvrzPoc2VrjKWyxwvDdasgqkmso1iU2u4WlCA=;
-	h=Subject:References:To:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=lacra1GT7vQJJMmaJKTz0HOaP2ornwHjt4H4mCi0nudd0lN0p0zNkdVHQaQzqdkZ6hZh4oiKRVhEwku8aczyB3EoTinnp+RqVixdN8YlKymRrZaVmzzLzcljPhi6weCWbBBFdtUyzSDACZETpg/AMgOFtly5v4MazySF0KscsGc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net; spf=pass smtp.mailfrom=a1.net; dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b=zfHVBJzm; arc=none smtp.client-ip=194.48.128.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a1.net
+	s=arc-20240116; t=1790312491; c=relaxed/simple;
+	bh=FWbX/jSSeGgUML9H4sco4i9sWeeGlB/8G5SKBcDRj+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jdavA/L7OQ6xzynZIZDrhjLMqblLV4up4+ZJ0ssC1BNbGmk3+fUdjRv4EfL9YOXxltWZyawBaTHnKfS9YQzza/SvgFylwSyfYWguGEqfuMJt0ga3xWS8gFPaaeKgnTM4/M6xz2eJpCnRPGidqvxqhVEqdwo68jlCC1N4fzruU6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RmlY9qvk; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b="zfHVBJzm"
-Received: from smtpout17.a1.net (unknown [10.247.84.8])
-	by smtpfallback03.a1.net (Postfix) with ESMTPS id 4hrdHr6Tg6zYkjh8
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 06:38:32 +0200 (CEST)
-Received: from [192.168.0.6] (unknown [100.72.67.144])
-	by smtpout17.a1.net (Postfix) with ESMTPSA id 4hrdHf33btzGrqnn
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 06:38:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a1.net; s=resmail1;
-	t=1790311102;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lx2dFeFxiCeSGvOHhDb82AeR097AwGgqN3IN96WMfn0=;
-	b=zfHVBJzma8sd4A+WX8X+cXNDcGupCD4n4Z33WmKbbeGShRkZfwnL12UK6oYQY20+jdZGJS
-	txSDpFLIaAtdSfzpXceu3dSg2ZdOukSiN9T6lEivpsOAghqbDP0i0a2KH5y4CQNQuDoh51
-	MH22997gTTkYtFR/NAPOdpDwINJoewegVDAU/V5njdmsmaYYQN4hSsymDnaqTCpo+GNxnT
-	/JDckk0EXt6KlvQbsmvszG0PPoOtWKyYpTBpYoAhcbp/TKGp6CVq/FAgn0a1iOBYU/ZKP7
-	7Z09dQrB3cjJe0BmCCAhvJOWSH3umNgXt59eZ5avw3voyJaOj4J0BpwIPIDSX/K1DaSa11
-	5UGXYUzovFgWvXCFSG6QBuWlnBW5ZAoHNqQ+xearxeiHK5DcxIuBjOnetMNHI4rjpmn9JS
-	Zz9YZgwksSQeN48M+TOFEJgqA1gIoUKpKJx+Wmi+jck2rp/frIhWW73pdiW8/tnDy6podP
-	4kxhWL3gL+pc+5n0IcB4SVcyx11a4xMnw1kcsU2h+/irC8e+5mDQgV8p+qMT5QwfWPoQrg
-	fHO+sLJ9apNxKhPdQNPzvQyZJ0BImkw3zL8sSV9gRB9mkBKG/W3ib9hvuFwt0VDzgHJ4Af
-	/YCB60pCfvVjEaPel+HcaK6PZmMEFsUA5X9I9R3gtB+EWS0OTx2Jo=
-Subject: Re: possible regression in usb-storage?
-References: <c6fc5257-a41f-4ae7-92fe-93284d9ebc43@a1.net>
- <79f2c208-bca0-3bf2-afdd-3bf095ff7b31@a1.net>
- <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
- <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
- <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
- <d0cd9a1e-cdb4-97c2-5bcd-1bc9f5d9173c@a1.net>
- <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
- <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
-To: linux-usb@vger.kernel.org
-From: Johann Klammer <klammerj@a1.net>
-Message-ID: <605c0845-cfd4-0702-4322-53d9c8037b70@a1.net>
-Date: Fri, 25 Sep 2026 06:37:28 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RmlY9qvk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790312488; x=1821848488;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FWbX/jSSeGgUML9H4sco4i9sWeeGlB/8G5SKBcDRj+o=;
+  b=RmlY9qvkoVl9p6RU2yb64GqDhL4ctWqAErg77yEXiKrM+yM1usUknOJy
+   5khwObcsFZ6G5joVCuawTDOIx1PGqUF/0s9SMTvvqd+cF+F/ccmn9dvxw
+   KiPXag5AeqjXI1tpDVeYt1h2n9GpwmThmyyHlhbdeSPJQtImCjsuPiUKn
+   H3eIoe4t2pjbBSCKSlmnxpO5R8mmJpoNK2iE/qsx4CmTzYwZewqERDsLH
+   0iXPzECRFh8JBwE3HHuFiZFnU9kNraQ4u5tuWHzFhQPMSOpHjv7ITDSTu
+   VtlbaLg/Fk07SFlgJxkaliDObEnS7vtY1Cin9Hz42iuhkE3H+ygAE2RFR
+   A==;
+X-CSE-ConnectionGUID: FTb7QjmkTbKh6VjPhQKTsg==
+X-CSE-MsgGUID: e4VOWQUVQNqsY1xz5wuLkg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11915"; a="89862708"
+X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
+   d="scan'208";a="89862708"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Sep 2026 22:01:27 -0700
+X-CSE-ConnectionGUID: 0YOAWFvjT2+8UcrGni245A==
+X-CSE-MsgGUID: OtWrxyFdQGWsrQ67m/JyIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,121,1787036400"; 
+   d="scan'208";a="273323565"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa008.jf.intel.com with ESMTP; 24 Sep 2026 22:01:25 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 310FA99; Fri, 25 Sep 2026 07:01:24 +0200 (CEST)
+Date: Fri, 25 Sep 2026 07:01:24 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Kurt Lieber <kurt@lieber.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"westeri@kernel.org" <westeri@kernel.org>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>
+Subject: Re: [PATCH] thunderbolt: Disable CL states for the Anker Prime TB5
+ dock
+Message-ID: <20260925050124.GT106095@black.igk.intel.com>
+References: <SJ0PR15MB4696D491504DB667AA8E0617A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924073514.GM106095@black.igk.intel.com>
+ <SJ0PR15MB4696C6AB0D4FB7C86C420008A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924101046.GN106095@black.igk.intel.com>
+ <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924125729.GP106095@black.igk.intel.com>
+ <SJ0PR15MB469651A447568D8E66757EB1A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924145447.GR106095@black.igk.intel.com>
+ <SJ0PR15MB4696FC97236D81E59D40E142A3802@SJ0PR15MB4696.namprd15.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <SJ0PR15MB4696FC97236D81E59D40E142A3802@SJ0PR15MB4696.namprd15.prod.outlook.com>
 
+Hi,
 
+On Fri, Sep 25, 2026 at 12:02:28AM +0000, Kurt Lieber wrote:
+> Hi Mika,
+> 
+> On Thu, Sep 24, 2026 at 02:54:56PM +0000, Mika Westerberg wrote:
+> > Okay that's recent enough. I do wonder if we try to enable CL2 too. We
+> > should only do that for Gen 4 link. Can you still take dynamic debug log
+> > for me without clx=0 so we can see that it tries to enable?
+> 
+> Dynamic debug with thunderbolt.clx left at Y, dock plugged in (route 1,
+> DROM 01ea:83b5, NVM 62.2). The same sequence repeats about once a
+> second. CL2 does not appear in the trace. What it enables is CL0s/CL1:
+> 
+>   thunderbolt 0000:00:0d.3: 1: current link speed 20.0 Gb/s
+>   thunderbolt 0000:00:0d.3: 1: current link width symmetric, single lane
+>   thunderbolt 0000:00:0d.3: 1: link width set to symmetric, dual lanes
+>   thunderbolt 0000:00:0d.3: 1:1: CLx: CL0s/CL1 supported
+>   thunderbolt 0000:00:0d.3: 0:1: CLx: CL0s/CL1 supported
+>   thunderbolt 0000:00:0d.3: 1: CLx: CL0s/CL1 enabled
+>   thunderbolt 0000:00:0d.3: 1: TMU: mode change off -> uni-directional, LowRes requested
+>   thunderbolt 0000:00:0d.3: 1: TMU: failed to enable mode uni-directional, LowRes: -107
+>   thunderbolt 0000:00:0d.3: 1: failed to enable TMU
+>   thunderbolt 0000:00:0d.3: 1: USB3 tunnel creation failed
+>   thunderbolt 0000:00:0d.3: 1:12: DP tunnel activation failed, aborting
+>   thunderbolt 0-1: device disconnected
 
-On 9/25/26 4:03 AM, Alan Stern wrote:
-> 
-> Maybe the drive doesn't like the 100-byte INQUIRY, even though it
-> claims to support it.  You can test this by doing (as root):
-> 
-> 	echo 'Seagate:Expansion SW:1024' >/proc/scsi/device_info
-> 
-> before you plug in the drive.  That should suppress the 100-byte
-> INQUIRY command.
-> 
-> Alan Stern
-> 
-I don't seem to have that file. Am I missing a module?
+I just tried on my side MTL/PTL + BR Hub and works fine with CL0s/CL1
+enabled. Also checked release notes of the NVM and there are no mention
+about issues with CLx with the one you are running.
+
+There is one more thing that we can check though, can you run:
+
+  # tbdump -r 1 -a 1 -vv -N 1 PORT_CS_18
+
+and provide the output?
