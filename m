@@ -1,208 +1,326 @@
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazolkn19010018.outbound.protection.outlook.com [52.103.43.18])
+Received: from smtpfallback03.a1.net (smtpfallback03.a1.net [194.48.128.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744F14D8DA0;
-	Fri, 25 Sep 2026 15:48:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.43.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790351336; cv=fail; b=qibEN7JW07RLJefzadlkTgsuLInXAXVEu9XKFcvJwYLgcI01/YvL/ALu3KxCFZa1ytej8+Z2CwmmaISHL0xrtwLvxeVESR9uSthoYBXIYouOEH4m4MeYNNQMm6ls29/nNBkx5b0o5vqn9V3MqD8J5wjJxNGPkcEbC7kaBBmGn7c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790351336; c=relaxed/simple;
-	bh=uScpuFFXqw5QJjfihCcZI6rvhyBYRW0+5tZ3HFf7SCk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IoZU9/RHyFVAE+e909i1tzbC6K1L5DLt5A4vxpj8eyycMc/K5wnwTnPqC5/CszkvCWoZJ9Pi/SxiHEfYQITugeZHp4iKBcsPqNOH4AhnSD+eYir8ChCZedhjC+RLnmHNc7gJqQ0teN0vuknFA8AvCjR8qn0zgmxAOfj9RnUDGig=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=n+tR2TrO; arc=fail smtp.client-ip=52.103.43.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177423ADB89
+	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 17:29:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.48.128.16
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790357370; cv=none; b=HNRWwV4XvoTZvH3MvwEFZzdBptzNP6NazMMiSFJBJritR6DTKc3KCOxppkBJjIvvux9D2WHl9sQd0JwYOo28Aybd1I3sYQiZrTc4wFNLLiWksHKpxl3oa7OFuaLXd77q8eDhsy8INea9tB/GGFAjDTKdu7yrCKB8GeIgX4aaWX4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790357370; c=relaxed/simple;
+	bh=uok/54e74BSNPWRTxfw6NfrbClG0MFCU7L1fqSaBw28=;
+	h=Subject:References:From:To:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=jthi95HwyTuGZ+NOrF+L3ZEQgXSqusOiSr3yUikRILZ4vCeau0e333BsikEqN/1iwJHiDcXgWu1d3OR/ctgf2LVrRC3p/jmrt3x5YP0Ydy4n+vx9xiWK9Xpqt2ZBs2y1HJSI5cDeIFSMWrQR83aMmLXA6eOiyClzialxVlbj6ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net; spf=pass smtp.mailfrom=a1.net; dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b=r6MSVwCG; arc=none smtp.client-ip=194.48.128.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a1.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="n+tR2TrO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rsNEtsUP7Mw2pk40MpdCN34M7UNNK2iVfWo3KkrLpjh035waLoc2mXH3RzNo2CSXQU88lI0NFblKZ41ikhS3d3wDc8FxmG5kskWeSnuttf1bWey7j6XS6xFhuKh+Rmz+esv/RJYojbd92A+PSkZFfh/f7uFwAp2m06NXYh9uIZ2QEDKDB+i0mpXGQhVSbcqi97wM9tVTvTqBeZpHWXmSRDJZVtQw9JrTyqaJZCVXl5mfctyJwEpmFdlnQSc+dVDCRDPkOHUAomfbM1XcPGQibjI//i7hC2G4wHAdb8VIFDtyo7X7TxoooNwyahEZSuGJWhTvRWs+k+xdiFc61olTrQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uScpuFFXqw5QJjfihCcZI6rvhyBYRW0+5tZ3HFf7SCk=;
- b=XWHuby6bllyhyM3E9O2S7N0/B8oySx1+o8Q6znBC1SMnoRNel+/7fG25E7kUuERJ3CIwoMTYf3KkZ0/GGd8wxDobK+P4TQUA3L2T38gWsnUC6IOdLU6ykeb+UOpIKmEK7WLSaq+/7ATF93VUjBg9H0EBRvdP0MAJqa7GJYdw6Qb4wu5hf6b8zXqlWyimaPPcgj8avbXSAoRY09hcwN4b75SY2cacbjYzctBdaKuVt0VpDUhrHzZWeu1gOgUAHCoPOaDyB7+K2DmAyAuaDOxSDzukIpr20QTLr7yQGEaSG8Rk8ZnJ7CR15ybaiA1L8dZJFBm5jetOZvtvdl9HgPGIuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uScpuFFXqw5QJjfihCcZI6rvhyBYRW0+5tZ3HFf7SCk=;
- b=n+tR2TrOBNI9eLzqAARCMfjVUj2+lQvJV/D6yfbJ8xpEMw2DpJAlYtCmNeu+VwVREkCmB/RwWkf43sKT3Fv6RoA13qxMVW8E7T+g+y79BkgyDUpoT4cZ3YnRH1hEneiwVsKBa3yHJzkCYORrz2f+fT4fuEiMHIPWsIaFY+tMNIVr8t6cnSgryUcYWZPKbStWrac66kqcY5N/MwZHvITt8y1V737enyUFZQZyRFuBYYT2Q1PAR042tiMTcN+exGcg21KXWJhpft01+tZxPXaHbNiriiEICbyKMRDOHCcLWJ5wCXUodPPB1ztgzyegLpD7QzxhVqYJkCOgTt8PwCPF6g==
-Received: from TYCPR01MB10927.jpnprd01.prod.outlook.com
- (2603:1096:400:3aa::13) by OS9PR01MB14142.jpnprd01.prod.outlook.com
- (2603:1096:604:360::5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.19; Fri, 25 Sep
- 2026 15:48:42 +0000
-Received: from TYCPR01MB10927.jpnprd01.prod.outlook.com
- ([fe80::c225:1d5a:1a78:c5c7]) by TYCPR01MB10927.jpnprd01.prod.outlook.com
- ([fe80::c225:1d5a:1a78:c5c7%4]) with mapi id 15.21.0451.014; Fri, 25 Sep 2026
- 15:48:42 +0000
-From: Freeman Z <SHD-ISAC@outlook.com>
-To: Mario Limonciello <mario.limonciello@amd.com>, Mika Westerberg
-	<mika.westerberg@linux.intel.com>
-CC: "Kovacs, Alexander" <Alexander.Kovacs@amd.com>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"bhelgaas@google.com" <bhelgaas@google.com>, "westeri@kernel.org"
-	<westeri@kernel.org>, "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-	"YehezkelShB@gmail.com" <yehezkelshb@gmail.com>, "rafael@kernel.org"
-	<rafael@kernel.org>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"S, Sanath" <Sanath.S@amd.com>, "Natikar, Basavaraj"
-	<Basavaraj.Natikar@amd.com>, "Martinez, Juan" <Juan.Martinez@amd.com>,
-	"Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-Subject: Re: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents
- JHL9480 downstream enumeration
-Thread-Topic: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents
- JHL9480 downstream enumeration
-Thread-Index:
- AQHdSDNPea4qqw1tcEOkT/edQjHT9rbYfQ8AgACtPACAAaXMFIAAN8+AgAABpQCAAPzaBYAAjxGAgAC1UD2AAYHugIAAQ8E/gAAe2FyAAAh6gIAAJxUAgAAPH8SAAAVwgIAABbk/
-Date: Fri, 25 Sep 2026 15:48:42 +0000
-Message-ID:
- <TYCPR01MB109279CDE9AAF47B40FD1770996802@TYCPR01MB10927.jpnprd01.prod.outlook.com>
-References: <f8b929da-b4ae-48ae-9667-3eb93aa0a4bd@amd.com>
- <TYCPR01MB10927E6DC71CDC3B39C26F35196832@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <BL4PR12MB9533BF5ABF7035E6DF151C0A9C832@BL4PR12MB9533.namprd12.prod.outlook.com>
- <eaaf891b-7b0b-4eea-b104-de2c0db7cb42@amd.com>
- <TYCPR01MB1092762E3E179C4A43874BBE696822@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <DS7PR12MB9550558C737D92A5762C3AAC9C822@DS7PR12MB9550.namprd12.prod.outlook.com>
- <TYCPR01MB109271EBFCFBEA8A8855D600496812@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <20260925052727.GV106095@black.igk.intel.com>
- <TYCPR01MB10927DEE310195FA62C67E9D296802@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <TYCPR01MB1092798A529672215ACC586BA96802@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <20260925115041.GX106095@black.igk.intel.com>
- <5d065dcb-a4b9-4e9d-aeee-8a9bd1d875d7@amd.com>
- <TYCPR01MB10927F1B586DACDC97FFB606A96802@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <7822cb02-f32b-4f02-ba65-4b90ebc42ce8@amd.com>
-In-Reply-To: <7822cb02-f32b-4f02-ba65-4b90ebc42ce8@amd.com>
-Accept-Language: en-US, zh-CN
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TYCPR01MB10927:EE_|OS9PR01MB14142:EE_
-x-ms-office365-filtering-correlation-id: e8cf60ad-5d30-481c-50a3-08df1b1c79e2
-x-ms-exchange-slblob-mailprops:
- qdrM8TqeFBvhuFgLLe5qs4jWk9CHdv0AIlX9X84YAsUCD8Js/BT4S+LlygFOhD8c6RCGqK80fWowN5sb0W79yyOkfAbmuXoac7wFMeMBwSoGs6APvlsFxV5zsgYv424pJHFNqUVddTrTDyprpu4v9FfK/RdPUbgK2oqlzpibcmkTwsKe43SdpSlLfCdwIJAD2Gwcgnsns/w0K8moEy23C0NE6tvMOUaC20g5rEQ+lCIE0st7+tPmnHlWHpLKMplOOPM1ya6a78P5OOlzun2UcXgRmg1TBknqv2IizkX4pGBdPmgDqSeOWKE5HRtl8r3rlHg+AdsWcpUMpcNJ6zcA4F/W+zd3c76vHyb92ukruMM5UuzAtJBjMGImQxMSwKhFsDq+G2u1iMtJekAn+btG3RxTlHqoW70XfzmEpVDni0UEAhHQ1PByVRc9SuMEdDIolmrSJE2/GATzYvue6SJyK6rgi5+En9rPyezXsZ7u7bfAm3piGYUGkaIlqbcaOkSH9Hixe55ZTWZ0KClUqulajCpxygGC2GQ97S4PC14iBgvxwKb3bIE4HxDkKaIa3M/C2ly2mZl22ftJlfW4vwgOtasUPsIWpslbOKjRHkYNMGgCrdxHI+/Hl87QkKeJy3ko/LqzGr8YOc3VwR1S6zY9WzxWX6+2pZmHyElD9xtje2Tc+F6oyX7DdF3KRalZGcpalwu13mCerApkrPsiEFSDOgxbimeajgu5whYY9ftzyvjTLumcHsOb89Po7Ca2G3KVBTmJL3l/C5YcEaVLd3gI+5kC1s/fw9hH
-x-microsoft-antispam:
- BCL:0;ARA:14566002|8060799015|15030799006|51005399006|15080799012|25010399006|8062599012|19110799012|31061999003|24021099003|3412199025|440099028|26104999009|102099032|40105399003|2607281247196008;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?PjCC7rwA0eNpG33fqfH20lmghhijFRX33onwakDJcpBgo7Y8P1UUr3mk1Q?=
- =?iso-8859-1?Q?SH0BGok32jOh84z5CqsloGKgMFU2vTZaRVqxMEX2DUgotH1Yuau2MCgXR4?=
- =?iso-8859-1?Q?XxaKMup8er3svKw3s9oNUnmJ0h4Wghfv8FLBFfx+P0VeuDwQkPayrnUJ6Q?=
- =?iso-8859-1?Q?8OLS6Fz9MotHutj4PDaUA/UWv/rTVXLn57R5VSwc2vEyUYXKKu2Cu/5tx3?=
- =?iso-8859-1?Q?orKfluMTEXfOm6NEw7QUgMcQafCVT1KUn8W1N8FJ70YvHln1lWDAoP6BNG?=
- =?iso-8859-1?Q?MgNddKQu8kCw5JEHROToBKguHic/iba1pZ1hchDDUmnJT2pjhcf1A2rBvw?=
- =?iso-8859-1?Q?T1RGsOHKJ5/m7kn5XZPfaxZWuj7U0gK3XE0PiCMa33HTg3P8KGkNCivHdW?=
- =?iso-8859-1?Q?LIMWRmMyr+vzZfvHKPkdCVI1Jthn/NNFJp734xtmqt09HYx3UGAA+5/9Uh?=
- =?iso-8859-1?Q?r+3GnZsfOpuYW0et48+oKrwrXQwChpvmQxpWGrpipuKBHkdug2anNArRAl?=
- =?iso-8859-1?Q?rkobGHrpXsQa4Tg/s4er/V9y6dBLCJvhtqejq+6zVoDqNtIo7EuFDr6qef?=
- =?iso-8859-1?Q?VQtbkKC1e/as8uv7JSNUMlmKqCSSAbgvDtpFbQCOPNuKbEPpNW+D6AT12j?=
- =?iso-8859-1?Q?0OgNVh1IAExx/P4yHkmS/R6qKt0r/4aaKKzM4QyYDsJiPZyle2FRPU7XDJ?=
- =?iso-8859-1?Q?ZLis2+YmaISqJMZhL1Zv6A4+E/CRLlNXaHU24cmq6cxV/xar5Pm8NhPftq?=
- =?iso-8859-1?Q?HWebEpouEqke8ytfa9rqTqKIRszVtID+TtPTNlwCbwFdQhLKJEXcCMqaQk?=
- =?iso-8859-1?Q?dlH16d6731Fx4F2L8bhz/mmeR9JqsD5FZKNlEq/xlKKYsKAh9z4Vmz37dH?=
- =?iso-8859-1?Q?Mr8zknXxe8B8rGCcMyK3c7BEhEfMcLPL07QXnfYMj58lY3b1RS/o6tlL3P?=
- =?iso-8859-1?Q?HYZsyKEbmKlAF0v+gV5j7IhojxqAJYIBTvQbPd0J+BVnJbMBNgXT77zHfN?=
- =?iso-8859-1?Q?HRY4wsqbQ08mfeA7k=3D?=
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?1LUegSzzphi8iFLbBFd0WN+QUzMUmJVFIPH/7mbJOUYSUHsrj8k60fw4H2?=
- =?iso-8859-1?Q?T3MAaGtNTKxoQKZaIsrxlPNuglSXjYV3fqCCZy5vPn0LW6AetyK+BNkr/u?=
- =?iso-8859-1?Q?HA0ry3uH9k9ak6hcak4Ponq4sT1ZOq4MhQx3/tBITAX/lpEHe4NUNwKgyW?=
- =?iso-8859-1?Q?uETYCF9OTkhEKFfUjOFwd5b/vj57t3CSdAkoUtBGYOqtsy6kJx/Ni0AIOj?=
- =?iso-8859-1?Q?F+Ncy+MWub3oa/YzV0e4itgCC9Tagefh1JhCchAlFHODT+HoXSiGCsurOX?=
- =?iso-8859-1?Q?g0V5HmBM+LZGypB8fU5dmDpQX20YK7hz7+FLjQpz79sNWckGLbJzBD6ki9?=
- =?iso-8859-1?Q?iLuqwqAVTOoNwohNDPE+HPPD02tt+6xiN/tRmv+iTieiO6aE9nwST11m5K?=
- =?iso-8859-1?Q?3qSu2fvk34p9LpYe2mcT0sjaV1FMk67zGVyvjh4YX085qdc/ZqgaumHMrV?=
- =?iso-8859-1?Q?xmbhaHbeYyI091qZjRnPaW8x7Mg9k21AAkD2Di80hhSmfwNvIBWbUAfy6w?=
- =?iso-8859-1?Q?Xs+5G/og0sgYih6jmQzwF1iXZ998Qd9roZvNKKkJJRC15eu6VNmeMczr3B?=
- =?iso-8859-1?Q?4nkmWd17O9Q83TAcSFJ1UJfwUQLh4UpvpphnGKqjseXRy0F1kWfj5dQXAx?=
- =?iso-8859-1?Q?Q6AL2Cewt+IrNszZ/LVueT5CHJD1NeoKGkIBjmwAXR4xykeu22ZvoGlwy7?=
- =?iso-8859-1?Q?NJAcck7smzjIEUsRk5Umj18HTX31I4TTieR0BU+FkyudiKpDKZ+4Wuuj3g?=
- =?iso-8859-1?Q?RBln5hqjzQXpaSQotUJZyKCT6M3g/zGx46+2y433iUW+MCQ65RKsB0Ir7H?=
- =?iso-8859-1?Q?JpG90OUwsZgmOWP+GbdlkekC5dHWFpLT1CAOax0EP2wFsA5DnT6CkCW+B4?=
- =?iso-8859-1?Q?YhTaZzdHZOhkPsg1dX42D2bnb5Syvswgm3T7FSdMBdXfWC7JGbIh/FDje9?=
- =?iso-8859-1?Q?+txEgMThahX5hxWxqq033fTxeUV9pZ+JHORMgbOoRJ7O5ArbDoUpSxMPM2?=
- =?iso-8859-1?Q?i4FNDdZWHk5AVSuiYwV9Cx+boB4oFnAeNtngBaqHYtSHqa3CtZAu79WA5l?=
- =?iso-8859-1?Q?yE0PHPz4TW3O7doqgLP2KGYpSl2JYS1xsieBqekp1a/hjuLqo9AXVdCrV3?=
- =?iso-8859-1?Q?2JSitHyBn/5dLycXLbv18YEXZx2D3ZF8Qr83UjxKbX6y9fP01eo3CGt6bv?=
- =?iso-8859-1?Q?f/ricNwu2aIeW8C6Qk7h1u6Xsl8ULpptwvIiXHm+S2X1nVscVvPncz0NCr?=
- =?iso-8859-1?Q?2Kdzg0eV2kHHwhlT1EP1xTmCvJM52c8dZv/cfCz/uEja03E/MWxkvZNBBE?=
- =?iso-8859-1?Q?ZC8AD331l+m3cuWJRWgsr14/kmajGeE+zS3nXQPAqdaNfYEw+RAlVCcYba?=
- =?iso-8859-1?Q?8WSJe0ioWjb/IoLuYVBiFzrtJVFFdr4cdZrmJw6t2caILEjsb/P8VYJqdV?=
- =?iso-8859-1?Q?tO2AS30w7eUfRKXcXxPn+D4aEaQbnBYgVI3b4Q=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b="r6MSVwCG"
+Received: from smtpout02.a1.net (unknown [10.247.84.12])
+	by smtpfallback03.a1.net (Postfix) with ESMTPS id 4hryPK5gzDzYksKT
+	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 19:29:25 +0200 (CEST)
+Received: from [192.168.0.6] (unknown [100.70.238.17])
+	by smtpout02.a1.net (Postfix) with ESMTPSA id 4hryP66YvxzGrqnn
+	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 19:29:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a1.net; s=resmail1;
+	t=1790357355;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=wnXj6POSfCBgUZrTESZXZdKqDe+tFF984eedtutwHjs=;
+	b=r6MSVwCG6eeimXFqenJnmc4B8zwCVospoySWKw3U51M07BiXk3iFZP574DMuY5j8rs8Rsg
+	QvAOVLthk8vk0Ku8YAoKyyUsk1GbG8FZPLuAOC+sAoh9HyvLTaeuct6e30wKkKp+b/zgpZ
+	tWiSJp20/Xtxol60BREAai27qsi19/TtoF6BscyKqMz2CQV6TzmoO4H5uz3wEWC5u+fF+z
+	Vb/irT7bifPSTYak1fOIv74y9hrFLT7KUVbxLwSqpIwebDi4inkEVSmjbebrV7Iq9rhoQ3
+	0uIyzqm4DYsVkmbklFYREtd6Yf9TTbWMy6tNLqK7iilGx2HWa70w4lXMZI/HmJwNP+9O9c
+	wewkqmf3i32QMCKcccROCIOViaqak41ZrudnLkMlpaaogxQH7Z2caSuuKvnSfGkvGonsfl
+	6ObJVCbKiqfokPwCl9te5zuLKfS/m3eUP2+rJ2lqO6naXsOuNdaiFWkMBNI7Q9KDC6aoXu
+	OYZ8PY3HQ9YQ4KbDVHI4y4rs3zRKohBlNqPHen4fkRV1hWFqizciovvaXvHTMxyAMKVufg
+	+1ow2ghYagn/UozOBZlOYm2qUJaK4UyrRPKc0uI0LVqc+h72rKhjDR3Uc9TNy05R7+JCsk
+	Xn3P+Y3EL09AEwVn/QFLzE7qxFv11IOczn9DRil3EACofkJN43l6k=
+Subject: Re: possible regression in usb-storage?
+References: <79f2c208-bca0-3bf2-afdd-3bf095ff7b31@a1.net>
+ <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
+ <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
+ <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
+ <d0cd9a1e-cdb4-97c2-5bcd-1bc9f5d9173c@a1.net>
+ <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
+ <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
+ <605c0845-cfd4-0702-4322-53d9c8037b70@a1.net>
+ <be5899e3-3e3e-4977-e4aa-32ca368f06cd@a1.net>
+ <7e2440cb-41aa-3429-fb6f-b0f4cf761029@a1.net>
+ <986f81b9-c195-4ef4-8176-ca69a8f506c4@rowland.harvard.edu>
+From: Johann Klammer <klammerj@a1.net>
+To: linux-usb@vger.kernel.org
+Message-ID: <04f165bc-e79e-4ef4-1f22-d4ad086c3ffb@a1.net>
+Date: Fri, 25 Sep 2026 19:28:21 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB10927.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: e8cf60ad-5d30-481c-50a3-08df1b1c79e2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Sep 2026 15:48:42.6862
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS9PR01MB14142
+In-Reply-To: <986f81b9-c195-4ef4-8176-ca69a8f506c4@rowland.harvard.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
 
-Hi Mario,=0A=
-=0A=
-Yes. The laptop is already running BIOS 319, and I do not see a=0A=
-newer BIOS available from ASUS for this model.=0A=
-=0A=
-BIOS 319 has also been installed on this laptop for over 1 year, =0A=
-the reproductions I reported were all done with this BIOS version.=0A=
-=0A=
-Thanks,=0A=
-Freeman=0A=
-=0A=
-________________________________________=0A=
-From: Mario Limonciello <mario.limonciello@amd.com>=0A=
-Sent: Friday, September 25, 2026 23:24=0A=
-To: Freeman Z <SHD-ISAC@outlook.com>; Mika Westerberg <mika.westerberg@linu=
-x.intel.com>=0A=
-Cc: Kovacs, Alexander <Alexander.Kovacs@amd.com>; linux-pci@vger.kernel.org=
- <linux-pci@vger.kernel.org>; linux-usb@vger.kernel.org <linux-usb@vger.ker=
-nel.org>; bhelgaas@google.com <bhelgaas@google.com>; westeri@kernel.org <we=
-steri@kernel.org>; andreas.noever@gmail.com <andreas.noever@gmail.com>; Yeh=
-ezkelShB@gmail.com <yehezkelshb@gmail.com>; rafael@kernel.org <rafael@kerne=
-l.org>; linux-pm@vger.kernel.org <linux-pm@vger.kernel.org>; S, Sanath <San=
-ath.S@amd.com>; Natikar, Basavaraj <Basavaraj.Natikar@amd.com>; Martinez, J=
-uan <Juan.Martinez@amd.com>; Chia-Lin Kao (AceLan) <acelan.kao@canonical.co=
-m>=0A=
-Subject: Re: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents=
- JHL9480 downstream enumeration=0A=
-=A0=0A=
-On 9/25/26 10:12, Freeman Z wrote:> Hi Mario, Alex and Mika,=0A=
->=0A=
-> Sure. Attached is the exact .config used for my unmodified Linus v7.3-rc4=
- test=0A=
-> that reproduces the failure.=0A=
->=0A=
-> SHA256:=0A=
->=A0=A0=A0=A0=A0 488899cc5a0b5f2de69466df2639e39769d40d90682f51690400399a54=
-9309c2=0A=
->=0A=
-> This is the final .config used after make olddefconfig for the v7.3-rc4 t=
-est.=0A=
->=0A=
-> The v7.3-rc4 delayed-rescan test that succeeded used the same configurati=
-on base.=0A=
-> The patched kernel was distinguished with a different LOCALVERSION.=0A=
->=0A=
-> Please let me know if there are any other platform or configuration detai=
-ls that=0A=
-> would help align the reference-board setup.=0A=
->=0A=
-Thanks.=A0 Can you also look for a BIOS update on your side from the=0A=
-vendor in case it ends up being something unique to their BIOS?=
+
+
+On 9/25/26 3:06 PM, Alan Stern wrote:
+> On Fri, Sep 25, 2026 at 09:51:14AM +0200, Johann Klammer wrote:
+>>
+>>
+>> On 9/25/26 8:20 AM, Johann Klammer wrote:
+>> [...]
+>>>> [  157.965753] sd 5:0:0:0: [sdd] Assuming drive cache: write through
+>>>> [  157.967330] sd 5:0:0:0: [sdd] Preferred minimum I/O size 4096
+>>>> bytes not a multiple of physical block size (0 bytes)
+>>>> [  157.968382] sd 5:0:0:0: [sdd] Optimal transfer size 33553920
+>>>> bytes not a multiple of physical block size (0 bytes)
+>>>> [  157.969763] sd 5:0:0:0: [sdd] Attached SCSI disk
+>>>> [  310.080965] usb 5-6: USB disconnect, device number 4
+>>
+>> On another try I can't actually reproduce this. Must have been a one-off.
+>> *shrug*
+> 
+> So is it working or isn't it?  And if it isn't, what's in the usbmon
+> trace?
+> 
+> Alan Stern
+> 
+
+not working. same as before.
+here is the log for kernel 6.9.9 quirks uw
+options usb-storage quirks=0bc2:2039:uw
+options scsi_mod dev_flags="Seagate:Expansion SW:1024"
+
+
+
+> cba07900 1013012005 S Ci:1:004:0 s 80 06 0100 0000 0012 18 <
+> cba07900 1013012094 C Ci:1:004:0 0 18 = 12011002 00000040 c20b3920 01190102 0301
+> cba07900 1013012100 S Ci:1:004:0 s 80 06 0f00 0000 0005 5 <
+> cba07900 1013012218 C Ci:1:004:0 0 5 = 050f1600 02
+> cba07900 1013012222 S Ci:1:004:0 s 80 06 0f00 0000 0016 22 <
+> cba07900 1013012343 C Ci:1:004:0 0 22 = 050f1600 02071002 0e0f0000 0a100300 0e00010a 2000
+> cba07900 1013012350 S Ci:1:004:0 s 80 06 0200 0000 0009 9 <
+> cba07900 1013012468 C Ci:1:004:0 0 9 = 09025500 01010080 fa
+> cba07900 1013012472 S Ci:1:004:0 s 80 06 0200 0000 0055 85 <
+> cba07900 1013012593 C Ci:1:004:0 0 85 = 09025500 01010080 fa090400 00020806 50000705 81020002 00070502 02000200
+> cba07180 1013012600 S Ci:1:004:0 s 80 06 0300 0000 00ff 255 <
+> cba07180 1013012719 C Ci:1:004:0 0 4 = 04030904
+> cba07180 1013012722 S Ci:1:004:0 s 80 06 0302 0409 00ff 255 <
+> cba07180 1013012843 C Ci:1:004:0 0 26 = 1a034500 78007000 61006e00 73006900 6f006e00 20005300 5700
+> cba07180 1013012848 S Ci:1:004:0 s 80 06 0301 0409 00ff 255 <
+> cba07180 1013012968 C Ci:1:004:0 0 16 = 10035300 65006100 67006100 74006500
+> cba07180 1013012972 S Ci:1:004:0 s 80 06 0303 0409 00ff 255 <
+> cba07180 1013013093 C Ci:1:004:0 0 34 = 22033000 30003000 30003000 30003000 30004e00 41004300 44003200 35003600
+> cba07200 1013013249 S Co:1:004:0 s 00 09 0001 0000 0000 0
+> cba07200 1013013344 C Co:1:004:0 0 0
+> cba07c00 1014044006 S Ci:1:004:0 s a1 fe 0000 0000 0001 1 <
+> cba07c00 1014044127 C Ci:1:004:0 0 1 = 00
+> cba07c00 1014044194 S Bo:1:004:2 -115 31 = 55534243 01000000 24000000 80000612 00000024 00000000 00000000 000000
+> cba07c00 1014044252 C Bo:1:004:2 0 31 >
+> caa2f700 1014044258 S Bi:1:004:1 -115 36 <
+> caa2f700 1014044377 C Bi:1:004:1 0 36 = 00000612 5f002000 53656167 61746520 45787061 6e73696f 6e205357 20202020
+> cba07c00 1014044381 S Bi:1:004:1 -115 13 <
+> cba07c00 1014044501 C Bi:1:004:1 0 13 = 55534253 01000000 00000000 00
+> cba07c00 1014044973 S Bo:1:004:2 -115 31 = 55534243 02000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1014045003 C Bo:1:004:2 0 31 >
+> cba07c00 1014045010 S Bi:1:004:1 -115 13 <
+> cba07c00 1022067889 C Bi:1:004:1 0 13 = 55534253 02000000 00000000 01
+> cba07c00 1022067898 S Bo:1:004:2 -115 31 = 55534243 03000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1022068013 C Bo:1:004:2 0 31 >
+> cba07e00 1022068018 S Bi:1:004:1 -115 96 <
+> cba07e00 1022068139 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1022068143 S Bi:1:004:1 -115 13 <
+> cba07c00 1022068514 C Bi:1:004:1 -32 0
+> cba07c00 1022068518 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1022068640 C Co:1:004:0 0 0
+> cba07c00 1022068644 S Bi:1:004:1 -115 13 <
+> cba07c00 1022068888 C Bi:1:004:1 0 13 = 55534253 03000000 4e000000 00
+> cba07c00 1022068910 S Bo:1:004:2 -115 31 = 55534243 04000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1022069014 C Bo:1:004:2 0 31 >
+> cba07c00 1022069018 S Bi:1:004:1 -115 13 <
+> cba07c00 1042126794 C Bi:1:004:1 0 13 = 55534253 04000000 00000000 01
+> cba07c00 1042126803 S Bo:1:004:2 -115 31 = 55534243 05000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1042126918 C Bo:1:004:2 0 31 >
+> caa2f280 1042126924 S Bi:1:004:1 -115 96 <
+> caa2f280 1042127044 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1042127049 S Bi:1:004:1 -115 13 <
+> cba07c00 1042127419 C Bi:1:004:1 -32 0
+> cba07c00 1042127423 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1042127545 C Co:1:004:0 0 0
+> cba07c00 1042127549 S Bi:1:004:1 -115 13 <
+> cba07c00 1042127793 C Bi:1:004:1 0 13 = 55534253 05000000 4e000000 00
+> cba07c00 1042127817 S Bo:1:004:2 -115 31 = 55534243 06000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1042127918 C Bo:1:004:2 0 31 >
+> cba07c00 1042127922 S Bi:1:004:1 -115 13 <
+> cba07c00 1062185699 C Bi:1:004:1 0 13 = 55534253 06000000 00000000 01
+> cba07c00 1062185708 S Bo:1:004:2 -115 31 = 55534243 07000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1062185824 C Bo:1:004:2 0 31 >
+> caa2f980 1062185829 S Bi:1:004:1 -115 96 <
+> caa2f980 1062185950 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1062185954 S Bi:1:004:1 -115 13 <
+> cba07c00 1062186324 C Bi:1:004:1 -32 0
+> cba07c00 1062186328 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1062186450 C Co:1:004:0 0 0
+> cba07c00 1062186454 S Bi:1:004:1 -115 13 <
+> cba07c00 1062186698 C Bi:1:004:1 0 13 = 55534253 07000000 4e000000 00
+> cba07c00 1062186719 S Bo:1:004:2 -115 31 = 55534243 08000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1062186824 C Bo:1:004:2 0 31 >
+> cba07c00 1062186827 S Bi:1:004:1 -115 13 <
+> cba07c00 1082244728 C Bi:1:004:1 0 13 = 55534253 08000000 00000000 01
+> cba07c00 1082244738 S Bo:1:004:2 -115 31 = 55534243 09000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1082244853 C Bo:1:004:2 0 31 >
+> caa2f980 1082244859 S Bi:1:004:1 -115 96 <
+> caa2f980 1082244979 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1082244984 S Bi:1:004:1 -115 13 <
+> cba07c00 1082245354 C Bi:1:004:1 -32 0
+> cba07c00 1082245359 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1082245480 C Co:1:004:0 0 0
+> cba07c00 1082245484 S Bi:1:004:1 -115 13 <
+> cba07c00 1082245728 C Bi:1:004:1 0 13 = 55534253 09000000 4e000000 00
+> cba07c00 1082246892 S Bo:1:004:2 -115 31 = 55534243 0a000000 00000000 0000061b 01000001 00000000 00000000 000000
+> cba07c00 1082246979 C Bo:1:004:2 0 31 >
+> cba07c00 1082246984 S Bi:1:004:1 -115 13 <
+> cba07c00 1102304634 C Bi:1:004:1 0 13 = 55534253 0a000000 00000000 01
+> cba07c00 1102304642 S Bo:1:004:2 -115 31 = 55534243 0b000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1102304759 C Bo:1:004:2 0 31 >
+> caa2f280 1102304763 S Bi:1:004:1 -115 96 <
+> caa2f280 1102304885 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1102304889 S Bi:1:004:1 -115 13 <
+> cba07c00 1102305259 C Bi:1:004:1 -32 0
+> cba07c00 1102305263 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1102305385 C Co:1:004:0 0 0
+> cba07c00 1102305389 S Bi:1:004:1 -115 13 <
+> cba07c00 1102305633 C Bi:1:004:1 0 13 = 55534253 0b000000 4e000000 00
+> cba07c00 1103320016 S Bo:1:004:2 -115 31 = 55534243 0c000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1103320042 C Bo:1:004:2 0 31 >
+> cba07c00 1103320045 S Bi:1:004:1 -115 13 <
+> cba07c00 1123377446 C Bi:1:004:1 0 13 = 55534253 0c000000 00000000 01
+> cba07c00 1123377456 S Bo:1:004:2 -115 31 = 55534243 0d000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1123377571 C Bo:1:004:2 0 31 >
+> caa2f280 1123377576 S Bi:1:004:1 -115 96 <
+> caa2f280 1123377698 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1123377702 S Bi:1:004:1 -115 13 <
+> cba07c00 1123378072 C Bi:1:004:1 -32 0
+> cba07c00 1123378077 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1123378198 C Co:1:004:0 0 0
+> cba07c00 1123378202 S Bi:1:004:1 -115 13 <
+> cba07c00 1123378446 C Bi:1:004:1 0 13 = 55534253 0d000000 4e000000 00
+> cba07c00 1123378467 S Bo:1:004:2 -115 31 = 55534243 0e000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1123378572 C Bo:1:004:2 0 31 >
+> cba07c00 1123378577 S Bi:1:004:1 -115 13 <
+> cba07c00 1143436352 C Bi:1:004:1 0 13 = 55534253 0e000000 00000000 01
+> cba07c00 1143436360 S Bo:1:004:2 -115 31 = 55534243 0f000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1143436477 C Bo:1:004:2 0 31 >
+> caa2fd80 1143436482 S Bi:1:004:1 -115 96 <
+> caa2fd80 1143436602 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1143436607 S Bi:1:004:1 -115 13 <
+> cba07c00 1143436977 C Bi:1:004:1 -32 0
+> cba07c00 1143436988 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1143437102 C Co:1:004:0 0 0
+> cba07c00 1143437107 S Bi:1:004:1 -115 13 <
+> cba07c00 1143437351 C Bi:1:004:1 0 13 = 55534253 0f000000 4e000000 00
+> cba07c00 1143437371 S Bo:1:004:2 -115 31 = 55534243 10000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1143437476 C Bo:1:004:2 0 31 >
+> cba07c00 1143437480 S Bi:1:004:1 -115 13 <
+> cba07c00 1163495381 C Bi:1:004:1 0 13 = 55534253 10000000 00000000 01
+> cba07c00 1163495389 S Bo:1:004:2 -115 31 = 55534243 11000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1163495506 C Bo:1:004:2 0 31 >
+> c4f67580 1163495510 S Bi:1:004:1 -115 96 <
+> c4f67580 1163495632 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1163495636 S Bi:1:004:1 -115 13 <
+> cba07c00 1163496008 C Bi:1:004:1 -32 0
+> cba07c00 1163496011 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1163496132 C Co:1:004:0 0 0
+> cba07c00 1163496136 S Bi:1:004:1 -115 13 <
+> cba07c00 1163496381 C Bi:1:004:1 0 13 = 55534253 11000000 4e000000 00
+> cba07c00 1163496402 S Bo:1:004:2 -115 31 = 55534243 12000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1163496506 C Bo:1:004:2 0 31 >
+> cba07c00 1163496511 S Bi:1:004:1 -115 13 <
+> cba07c00 1183554286 C Bi:1:004:1 0 13 = 55534253 12000000 00000000 01
+> cba07c00 1183554294 S Bo:1:004:2 -115 31 = 55534243 13000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1183554411 C Bo:1:004:2 0 31 >
+> c4f67480 1183554416 S Bi:1:004:1 -115 96 <
+> c4f67480 1183554537 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1183554541 S Bi:1:004:1 -115 13 <
+> cba07c00 1183554912 C Bi:1:004:1 -32 0
+> cba07c00 1183554915 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1183555037 C Co:1:004:0 0 0
+> cba07c00 1183555041 S Bi:1:004:1 -115 13 <
+> cba07c00 1183555286 C Bi:1:004:1 0 13 = 55534253 13000000 4e000000 00
+> cba07c00 1184568016 S Bo:1:004:2 -115 31 = 55534243 14000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1184568071 C Bo:1:004:2 0 31 >
+> cba07c00 1184568076 S Bi:1:004:1 -115 13 <
+> cba07c00 1204625100 C Bi:1:004:1 0 13 = 55534253 14000000 00000000 01
+> cba07c00 1204625107 S Bo:1:004:2 -115 31 = 55534243 15000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1204625224 C Bo:1:004:2 0 31 >
+> c4f67580 1204625228 S Bi:1:004:1 -115 96 <
+> c4f67580 1204625350 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1204625354 S Bi:1:004:1 -115 13 <
+> cba07c00 1204625725 C Bi:1:004:1 -32 0
+> cba07c00 1204625728 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1204625850 C Co:1:004:0 0 0
+> cba07c00 1204625854 S Bi:1:004:1 -115 13 <
+> cba07c00 1204626099 C Bi:1:004:1 0 13 = 55534253 15000000 4e000000 00
+> cba07c00 1204626118 S Bo:1:004:2 -115 31 = 55534243 16000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1204626224 C Bo:1:004:2 0 31 >
+> cba07c00 1204626229 S Bi:1:004:1 -115 13 <
+> cba07c00 1224684006 C Bi:1:004:1 0 13 = 55534253 16000000 00000000 01
+> cba07c00 1224684014 S Bo:1:004:2 -115 31 = 55534243 17000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1224684130 C Bo:1:004:2 0 31 >
+> caa2ff00 1224684135 S Bi:1:004:1 -115 96 <
+> caa2ff00 1224684256 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1224684260 S Bi:1:004:1 -115 13 <
+> cba07c00 1224684630 C Bi:1:004:1 -32 0
+> cba07c00 1224684634 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1224684755 C Co:1:004:0 0 0
+> cba07c00 1224684760 S Bi:1:004:1 -115 13 <
+> cba07c00 1224685003 C Bi:1:004:1 0 13 = 55534253 17000000 4e000000 00
+> cba07c00 1224685024 S Bo:1:004:2 -115 31 = 55534243 18000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1224685129 C Bo:1:004:2 0 31 >
+> cba07c00 1224685133 S Bi:1:004:1 -115 13 <
+> cba07c00 1240167260 C Bi:1:004:1 0 13 = 55534253 18000000 00000000 01
+> cba07c00 1240167269 S Bo:1:004:2 -115 31 = 55534243 19000000 60000000 80000603 00000060 00000000 00000000 000000
+> cba07c00 1240167385 C Bo:1:004:2 0 31 >
+> caa2fa80 1240167390 S Bi:1:004:1 -115 96 <
+> caa2fa80 1240167511 C Bi:1:004:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> cba07c00 1240167515 S Bi:1:004:1 -115 13 <
+> cba07c00 1240167886 C Bi:1:004:1 -32 0
+> cba07c00 1240167890 S Co:1:004:0 s 02 01 0000 0081 0000 0
+> cba07c00 1240168011 C Co:1:004:0 0 0
+> cba07c00 1240168016 S Bi:1:004:1 -115 13 <
+> cba07c00 1240168259 C Bi:1:004:1 0 13 = 55534253 19000000 4e000000 00
+> cba07c00 1240168283 S Bo:1:004:2 -115 31 = 55534243 1a000000 00000000 00000600 00000000 00000000 00000000 000000
+> cba07c00 1240168385 C Bo:1:004:2 0 31 >
+> cba07c00 1240168390 S Bi:1:004:1 -115 13 <
+> cba07c00 1250326842 C Bi:1:004:1 -108 0
+
+..I also tried to debug this early on but only got as far as:
+
+> c6f9c300 1171416007 S Ci:1:007:0 s a1 fe 0000 0000 0001 1 <
+> unknown? request tp=a1 req=fe
+> (that one isn't in the usb3.1 spec)
+
+One thing that baffles me tho' is the device descriptor that has a 
+packet size of 64 right at the start.
+
+> c6f9c900 1170412013 S Ci:1:007:0 s 80 06 0100 0000 0012 18 <
+> URB      time    submiss  ctrl_in setup type,req,value,index,len  ??
+>                                      get_descriptor 0100 0    12  18
+> wot's descriptor 0100 ?  1=DEVICE
+> possibly device descriptor... type=1
+> c6f9c900 1170412180 C Ci:1:007:0 0 18 = 12011002 00000040 c20b3920 01190102 0301
+>                  callback            len=18 type=1 usb ver=10.02 class=0 sub=0.
+>                                      proto=0 pksz=64 vendor=c20b prod=3920
+>                                      release=0119 mfgs=01 prds=02 snrs=03 cfgs=1
+
+is it generally ok to have transfers longer than 64 on this device?
+
+
