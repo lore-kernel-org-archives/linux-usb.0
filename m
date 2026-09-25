@@ -1,156 +1,178 @@
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 081C8429036
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 08:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6A244C4E8
+	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 08:27:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790323356; cv=none; b=oGisRncxbOhcB2EETYSYhFspRYijkmn/9MaYWGslMDwFWYRBlJr36VDxIkkjLt/uhK6J56LxlN9+b1IDjuSDv5vlWjHsRLf923zugrSCjZA0PkV2wREgYU58TXonxzgbmVNfip8mOJKKbk2r948BfsUcF0J/JDFXxxewEojCJRI=
+	t=1790324875; cv=none; b=i47ALiY4T757lFCT6Sa7sNctloZtsa0afWyD+BYkCm+SdReZ/uSA10v+gqm5EUI6mVLZ1sYx30dDhQ7VRO745DZupA1C3EHkW/YhO6057w68XyAjjJcE2lm0zOHWzm41aLa8PlCzwnZyvA5CeIadU/GFBdUleEiTXAyt8WT3C7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790323356; c=relaxed/simple;
-	bh=qNr6Apk3Godwi/9ImXuWGabmY96dx2BaJxTeEFghH6E=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=PLp1hKt+5ALlhlv82UbPXWLRKezR3HwojIlo9Snvmv+OmlT0eN8hCEGMrDkO2TAWrPt2rOnUxMp6IksUY5z2YO/hEEVfSPvdaprrmIfIPfObx6h05HS/+EQb0FGHYVz7F+bkhiC4mCrm7uTvNiZDLSNHCOqs/jf+d7N5KtiTkIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-81120824498so2288635a34.0
-        for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 01:02:34 -0700 (PDT)
+	s=arc-20240116; t=1790324875; c=relaxed/simple;
+	bh=dV+yEF8vwO7Bgg4Vha4du9LSz1RfJcsenP6zJWrCCf8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DdZh7UzSM+VqC2CEIGZIJ64pgEp2C7EELBdDjM9gCm8WNGVOdCZ7gWi0yIXbXvWOLSe3nES/xS0dJzA8H+qmg8w86CZtRug26EUTmgermfWpFNkcfwUicjeGf6oQ0DMGU26Ihab9j/F+MEERkAr4lqBdLFixfSWvLbNb3zGDQKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Izf8SeS9; arc=none smtp.client-ip=74.125.225.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Izf8SeS9"
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6350f88so355632f8f.2
+        for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 01:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790324871; x=1790929671; darn=vger.kernel.org;
+        h=content-type:mime-version:references:in-reply-to:message-id:subject
+         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pLG3+U+EsgBznmzJjPEyscpewRswLCSuYk8HICKUXVw=;
+        b=Izf8SeS9RE7d+hVhiEd/ewGEmIxkuAN8gvXZ+QuTVVezEfbGVyQoXMgtjPXMcLeF18
+         kj+pihcbpYb+jnJhMOgJenG0e2gEu7v0mNH5mJTECVtFaRhR/KSPSmfAlTzi3hCP3XSQ
+         uc9OGQ8VDm7sAz2bywAlTHTEDnkedxsJ1OdM0BHK419vJXLLxUrr1FCABpO7yIZE6rC7
+         x9mC+jt6FQsAcK0e+pebL9vwUxO0dsxXMwE4ULocNY+cmT4dCCWQsUutf7J2IU58Rzcp
+         30eQMvKuOv8Zhz5BSbRuRCIYm522JUYYl44ziApXVgpw99w69UOvCTf3yKG1wjns7puk
+         RNBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790323354; x=1790928154;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=+JdXLViuf1GiHiJeHTfCLCCXl9xI/LP8+sA7j9T/9hY=;
-        b=AJThiy8Awnz4W9Gt8eVZEhzYqocQudCGVEDjNqA8kh1hFLhHFa8Hg0c/UX+u2tMARN
-         tlWR1zlGf7ItpHVuMkdkHpwulx3O2ZPuTs4JdRcc6dRGUZK3rqD23RTXmbOdKVQz1/Fp
-         rQdnoQfGOn8z1d0adNxAqtdWHDBd4vaLgahALIB+SLLqEyEAeYqb5oOwhnHiBRcGVmlp
-         V3qm5ALQBa3+FrOqSkmrBSq4cJ3J23x9n9Nj0/vfNMlEGp06nFTXMa5bBYf7i7DSg8R5
-         mDBOlf9In0rEueYxY+TCgE2bw4XjU7apRc/npw9sjpPcufgZxIbO4o8WS0ptqEzj2bD9
-         j4Cg==
-X-Forwarded-Encrypted: i=1; AKwUvBwIzdYpbk+2cXrBW0hTh+oSYJGYjLKJ5MiBb1TxaauFsiNkbnrnzHva3rGeZJKOW1SSbv4d/OxyE9E=@vger.kernel.org
-X-Gm-Message-State: AFuF++kwH6swpLWJkVEz+UP+g/TyuOznCe3cmI1Gj5Ap+sESCoVQImcS
-	DdxNItk+NgOxnkg1dTQpNRu5/T/n8H/MAETFi5tctCn+A0/2sxD9x5KNyn6FaVwSXH52JNwagRp
-	mmPd0rudavxHI4XlwjVUHoKKcluxfTYe3vHPAJvlUsqSVIgN7q6HlicY+qMA=
+        d=1e100.net; s=20260707; t=1790324871; x=1790929671;
+        h=content-type:mime-version:references:in-reply-to:message-id:subject
+         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pLG3+U+EsgBznmzJjPEyscpewRswLCSuYk8HICKUXVw=;
+        b=ua5Y7zIFrQcaqJYTluoZiupe+hjf7NvuxdIdcvjxArrIhszZvnWC56FOhLDz/uphYn
+         vINklKSvDcmI1Vt8AyyB/NDC/KQo2gUlmZxcg+/rkmHNVCICd85xUBDgbaCrmbLkrlvY
+         q5l+MiXXyIrZpl5+E96XicBCyhxkBpeC81Ek//Asq3ZPXh74UIM+ddsJAd8jw5rcVSfg
+         tvme8L/tVxQriTcAIKi8PY6Ss5dM0uM6THzAaKUwfgMD6vEKYxoNiqjU9j1IfS3cIJVl
+         QZGQXp1GRMKSIG0nHwCo2obMW7Nak6D6l6DyMOwZ+HzPxzf5ScOEK3lj/5WJwGwnKnQc
+         Uxbg==
+X-Forwarded-Encrypted: i=1; AKwUvBx9F3xVRS1zxhTKVWLi0QwPoyaOccFXwUirszoXYel9AEel6m6eEnmtxCLe/9G02zUYhosPMNlGd9E=@vger.kernel.org
+X-Gm-Message-State: AFuF++m7RQdLe/qp0SjKU0eICxAiVxYsEW6f1WKrZWCGIaCl4b7VZ+Qr
+	AtUhkFnDTQYcrZjR0UAzgqty2ceX1yynjN9Qr3aPADOtZV979aKpxv+a
+X-Gm-Gg: AYBFou21rCHSx7Z3S8P2ZZx9P0HnydonIWv4Rm6jJSurPqIv3Kp2v6ocieE4bsLRlbC
+	RYni7S6NoN/rNI98W/WADDQAMHdQkGp3u3f3x3gLHnb0yHRIXjxIYdWqFzSJnKslxFPit9HBDDl
+	3AUVS27KQkr2/IrMoWzSsRTCTZNQTIhUalzztUu/cP5kJuB2Qg2JCpiKIs4LszmDtjnxYwZblOV
+	qEC3Xitic5Ma4AQUhhaTsy2CcrZZiuMXU7F46VQ836ALdKjEi4gOzmiKdyZaEsXfGcbpgG7Z3AH
+	xvhPjuW4x5Uo/yfNlpzqTNjRI/sTXtU5G7R2ht/ZCfGX1xYNfeGN3ji6rxzOAleHLKttkVLW3up
+	oPuxn0YMXP7BFFvOUINkx6tKfbW1Yt4fc4JWZ3aSn9WtwsKr/uUqLeRWcZFAIaplz1ZVQjOFjKR
+	CgfStO13nVWDrsNmXczMpMu1Q8cGxNI8fQxrvW0/WACZ95xENs1gmXqPjQXq8M9Ch9WsN8/D1BO
+	m18/fOkHw==
+X-Received: by 2002:a05:6000:2909:b0:486:fe09:6918 with SMTP id ffacd0b85a97d-4887db5d401mr2301567f8f.56.1790324871329;
+        Fri, 25 Sep 2026 01:27:51 -0700 (PDT)
+Received: from foxbook (bez152.neoplus.adsl.tpnet.pl. [83.28.37.152])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a3625ccsm5612376f8f.22.2026.09.25.01.27.50
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 25 Sep 2026 01:27:50 -0700 (PDT)
+Date: Fri, 25 Sep 2026 10:27:46 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Ben <benstaples10@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, Mika Westerberg
+ <mika.westerberg@linux.intel.com>, linux-usb@vger.kernel.org,
+ andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com
+Subject: Re: xhci_hcd 0000:0c:00.0 dies with "Abort failed to stop command
+ ring: -110" exactly 24s post-init, tunneled USB4 xHCI behind Goshen Ridge
+ (ASUS ThunderboltEX 4) + CalDigit TS4
+Message-ID: <20260925102746.25e87ef0.michal.pecio@gmail.com>
+In-Reply-To: <CANcA1gAM7UsSxNyHET7HZndeWzAnf4yBDdhLC4pRFsMNuWOHgQ@mail.gmail.com>
+References: <20260915043845.GG106095@black.igk.intel.com>
+	<CANcA1gDh9AKFOdzK+kfLieJByxN1kjFQpSiexKPjHyOY8YMVQA@mail.gmail.com>
+	<20260915050515.GI106095@black.igk.intel.com>
+	<CANcA1gDbddDkZAQr_O6njK4PvaDk6nnj+fPsrzigH132u0f0Ng@mail.gmail.com>
+	<20260916075135.GN106095@black.igk.intel.com>
+	<CANcA1gCjSCdXz_3+XA5ZOndm2pAL4ZUs93q_69dzZeq_cmq8Og@mail.gmail.com>
+	<20260917043847.GV106095@black.igk.intel.com>
+	<CANcA1gDFygEN68vnoocpLg10jMQctb3aG_QU55nZK3GuxSrD6w@mail.gmail.com>
+	<20260921044453.GJ106095@black.igk.intel.com>
+	<CANcA1gA_o_34UUZMzFp+cMuMFvk9S4uizYCdR8iG55pKaw+71A@mail.gmail.com>
+	<20260922042608.GZ106095@black.igk.intel.com>
+	<CANcA1gAijg6Ftmw9+aeuG+SjKKwKo-HyXb+kfBiGFGj=ZzNvaQ@mail.gmail.com>
+	<2a4026e7-f5d3-4301-bc60-0570cbd7fa09@linux.intel.com>
+	<CANcA1gAM7UsSxNyHET7HZndeWzAnf4yBDdhLC4pRFsMNuWOHgQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1642:b0:4d6:9133:cfe0 with SMTP id
- 5614622812f47-4d72cd32638mr3804097b6e.37.1790323354036; Fri, 25 Sep 2026
- 01:02:34 -0700 (PDT)
-Date: Fri, 25 Sep 2026 01:02:34 -0700
-In-Reply-To: <6a895324.ae6ddae5.3da009.0053.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ab62a9a.7eec07f4.c25c.0004.GAE@google.com>
-Subject: Re: [syzbot] [usb?] possible deadlock in lookup_open
-From: syzbot <syzbot+c39ae720fb00e7e6f14b@syzkaller.appspotmail.com>
-To: a.hindborg@kernel.org, gregkh@linuxfoundation.org, leitao@debian.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/mixed; boundary="MP_/kUnTxCQcCOxww4w98C3fCYQ"
 
-syzbot has found a reproducer for the following issue on:
+--MP_/kUnTxCQcCOxww4w98C3fCYQ
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
 
-HEAD commit:    5fc5768c7ca9 Merge tag 'bpf-fixes' of git://git.kernel.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=15a7a2c9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2a820d8842c77560
-dashboard link: https://syzkaller.appspot.com/bug?extid=c39ae720fb00e7e6f14b
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1562fc05580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1409ed25580000
+On Thu, 24 Sep 2026 18:18:53 -0400, Ben wrote:
+> >I noticed that both event and command rings DMA addresses are above
+> >32 bit. Maybe dmesg log with usb core and xhci dynamic debug enabled
+> >could show something. Can you add the following to the kernel cmd
+> >line:  
+> 
+> Unfortunately, did not fix the issue.
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-5fc5768c.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/2038b7f58a0e/vmlinux-5fc5768c.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/1f03bad44e45/bzImage-5fc5768c.xz
+Broken 64 bit support usually shows as IOMMU faults logged in dmesg,
+because the chip tries to access different addresses than intended.
+Here, it looks like this chip doesn't attempt DMA at all.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c39ae720fb00e7e6f14b@syzkaller.appspotmail.com
+USBSTS.HSE is supposed to be set by the chip if its DMA transactions
+are failing, but it's clear. Only "Port Change Detect" is set.
 
-LUN: removable file: (no medium)
-============================================
-WARNING: possible recursive locking detected
-syzkaller #0 Not tainted
---------------------------------------------
-syz.0.17/5921 is trying to acquire lock:
-ffff888022716460 (sb_writers#12){.+.+}-{0:0}, at: lookup_open+0x150/0x1990 fs/namei.c:4451
+I suspect we could write junk into CRCR and ERSTBA and nothing would
+change. Maybe worth trying, see patch attached.
 
-but task is already holding lock:
-ffff888022716460 (sb_writers#12){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
+Are you using some Thunderbolt adapter in a motherboard not officially
+supported by this adapter? I recall reading about such configurations
+that they may need various tweaks to work.
 
-other info that might help us debug this:
- Possible unsafe locking scenario:
+But Windows works, right?
 
-       CPU0
-       ----
-  lock(sb_writers#12);
-  lock(sb_writers#12);
+> > Odd thing is that event ring is completely empty.
+> > There's usually a port change event when host detects a device,
+> > this event triggers hub driver to start the usb device enumeration
+> > process, queuing the 'enable slot' command as one of the first
+> > steps.
+> >
+> > Either xHC isn't really running, or fails to write to the event
+> > ring.
 
- *** DEADLOCK ***
+I think usbcore scans hubs using control transfers without waiting for
+any change events. Here control transfers are emulated by xhci-hub.c
+and turned into MMIO accesses. This, if confirmed, would indicate that
+the HC is somewhat functional and responsive to MMIO, but doesn't DMA.
 
- May be due to missing lock nesting notation
+It can be confirmed by watching usbmon0 and then:
 
-locks held by syz.0.17/5921: 4, last CPU#1:
- #0: ffff888022716460 (sb_writers#12){.+.+}-{0:0}, at: ksys_write+0x12a/0x250 fs/read_write.c:739
- #1: ffff88802a22f280 (&buffer->mutex){+.+.}-{4:4}, at: configfs_write_iter+0x76/0x4e0 fs/configfs/file.c:226
- #2: ffff888023773970 (&p->frag_sem){.+.+}-{4:4}, at: flush_write_buffer fs/configfs/file.c:205 [inline]
- #2: ffff888023773970 (&p->frag_sem){.+.+}-{4:4}, at: configfs_write_iter+0x218/0x4e0 fs/configfs/file.c:229
- #3: ffff888024051120 (&common->filesem){+.+.}-{4:4}, at: fsg_store_file+0x193/0x450 drivers/usb/gadget/function/storage_common.c:452
+echo 0000:0c:00.0 >/sys/bus/pci/drivers/xhci_hcd/unbind
+echo 0000:0c:00.0 >/sys/bus/pci/drivers/xhci_hcd/bind
 
-stack backtrace:
-CPU: 1 UID: 0 PID: 5921 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_deadlock_bug.cold+0xbd/0xca kernel/locking/lockdep.c:3085
- check_deadlock kernel/locking/lockdep.c:3137 [inline]
- validate_chain kernel/locking/lockdep.c:3939 [inline]
- __lock_acquire+0x13f4/0x1f40 kernel/locking/lockdep.c:5288
- lock_acquire kernel/locking/lockdep.c:5942 [inline]
- lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
- percpu_down_read_internal include/linux/percpu-rwsem.h:53 [inline]
- percpu_down_read_freezable include/linux/percpu-rwsem.h:83 [inline]
- __sb_start_write include/linux/fs/super.h:19 [inline]
- sb_start_write include/linux/fs/super.h:125 [inline]
- mnt_want_write+0x6f/0x420 fs/namespace.c:494
- lookup_open+0x150/0x1990 fs/namei.c:4451
- open_last_lookups fs/namei.c:4767 [inline]
- path_openat+0xa2c/0x2440 fs/namei.c:4997
- do_file_open+0x20e/0x430 fs/namei.c:5029
- file_open_name+0x1c3/0x3e0 fs/open.c:1375
- filp_open+0x2e/0x50 fs/open.c:1392
- fsg_lun_open+0x6b/0x7b0 drivers/usb/gadget/function/storage_common.c:194
- fsg_store_file+0x1e7/0x450 drivers/usb/gadget/function/storage_common.c:455
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x302/0x4e0 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x6af/0x1050 fs/read_write.c:687
- ksys_write+0x12a/0x250 fs/read_write.c:739
- do_syscall_32_irqs_on arch/x86/entry/syscall_32.c:79 [inline]
- __do_fast_syscall_32+0x13a/0x8b0 arch/x86/entry/syscall_32.c:291
- do_fast_syscall_32+0x32/0x70 arch/x86/entry/syscall_32.c:316
- entry_SYSENTER_compat_after_hwframe+0x84/0x8e
-RIP: 0023:0xf701efec
-Code: Unable to access opcode bytes at 0xf701efc2.
-RSP: 002b:00000000ff91c89c EFLAGS: 00000292 ORIG_RAX: 0000000000000004
-RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 00000000800003c0
-RDX: 0000000000000005 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- </TASK>
-mass_storage.0/lun.0: unable to open backing file: file0
+Regards,
+Michal
 
+--MP_/kUnTxCQcCOxww4w98C3fCYQ
+Content-Type: text/x-patch
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename=xhci-bogus-dma.patch
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+index 83ed26c4f9e4..8d0b42afe911 100644
+--- a/drivers/usb/host/xhci-mem.c
++++ b/drivers/usb/host/xhci-mem.c
+@@ -2349,7 +2349,7 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, unsigned int intr_num)
+ 
+ 	erst_base = xhci_read_64(xhci, &ir->ir_set->erst_base);
+ 	erst_base &= ~ERST_BASE_ADDRESS_MASK;
+-	erst_base |= ir->erst.erst_dma_addr & ERST_BASE_ADDRESS_MASK;
++	erst_base |= 0xbeef0000;
+ 	if (xhci->quirks & XHCI_WRITE_64_HI_LO)
+ 		hi_lo_writeq(erst_base, &ir->ir_set->erst_base);
+ 	else
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index e5c8b3a945a6..803cbadae9c5 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -497,7 +497,7 @@ static void xhci_set_cmd_ring_deq(struct xhci_hcd *xhci)
+ 
+ 	crcr = xhci_read_64(xhci, &xhci->op_regs->cmd_ring);
+ 	crcr &= ~(CMD_RING_PTR_MASK | CMD_RING_CYCLE);
+-	crcr |= deq_dma;
++	crcr |= 0xcafe0000;
+ 	crcr |= xhci->cmd_ring->cycle_state;
+ 
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Setting command ring address to 0x%llx", crcr);
+
+--MP_/kUnTxCQcCOxww4w98C3fCYQ--
