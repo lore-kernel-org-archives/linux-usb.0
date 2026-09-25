@@ -1,338 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A957C3375C3;
-	Fri, 25 Sep 2026 01:22:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CCE317B425
+	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 02:03:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790299343; cv=none; b=Jka/fDOPRsZHH1mlLQLqLGlY6jb1qJKtUmITGX8CT8DzMGrVIy+VSdwpZsDPr0nHUKx5IiiQf25ISLtyB3MOtsnOnCZCVeq+tU6HVT8IjHasUuCV8cKA0OswaBHKGxChxEhCv8txrgyBDUA/FlMsq47jPKiQywz6s27IfoEHmjw=
+	t=1790301794; cv=none; b=nfIg1kTyQ6JZcllSqkIFV3rccB4kzeESIC8R5VfeQX9s9hKp5T2K7itQNFp6fUtl3Lz7+LH/qy42CRQ/+LsSBfPObwB2dsBd+Wpal3WeSQpQFnLpE9Pjeb5NVdYagZ6vkLB7IcJu5Nrf2MRnrakiR7dEA7GKmk+fzO/kpDlLew4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790299343; c=relaxed/simple;
-	bh=2K2h4K9jt7pGkjFOTuuCFQXIyQ8NxnZbG57GeJQuknU=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=agsIG+GCh9RWswxNrvbQRUj7lHdRcIIHb1ieFOJm9X6/EYxlRnHjk1j76P1FFk5l6gtB9uBJCfO443PVi/xNzlIQxQAK5v9oT6zslACYT68o52cp6Fro7Y8l7TukLBGAYQIY9urROkGzt1sjnbncpjAEqPKrj33ZXWcViPOogPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ffPKpxwy; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790301794; c=relaxed/simple;
+	bh=5tSv8WEXDmhxXuj7sx2k8U2/4lYfbfwpJHxYR2bf7hA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YJHvpa0J0qFlEcDQ5wmebk7LsCMndjNWxZKi6CUKMRQRHdmg7d1KRIa+MtFEwwJ1WsdYFkhjzLq2sEgRmuWOoJbxpZ2waIOVhFOzeGnO+nPey2blRnMuamxvd/5xlGZZXszH4MlLIX49TiiawO8b/k6b/C6990gkdch3+k5mZq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=GstgHjEh; arc=none smtp.client-ip=74.125.230.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ffPKpxwy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FBBF1F00893;
-	Fri, 25 Sep 2026 01:22:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790299341;
-	bh=LzcTwSM6AeYh2mGQMqqHSRmA18fiJSrgxXzEy0KKnec=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ffPKpxwywfgHTX189iUFtiIdeKn46+nRzYy6qiby0vRhtA+tGx1CXsW3WCb2nbdsX
-	 J6AcGfDyGFHRiEncVsi6cMnyGfGtbbExHxHistnrX4rqCXdgpNDzV78qGQYn3CdxbX
-	 Y4Ez4V70iL80Is4ozNhQbLOi/Uv5Fga228LDzpuPMmQXLjAZA9v1lPHTawlVLiRiYL
-	 JqvDmaD0iNnHC627laKvu0r5998lFg7yKgDV70uxfCeM4thOPIQxcfBIZUU81iAXZz
-	 k017+EejP3q8kWkf3b+S49AU1o7BTPSZ/zPEfAOAgAoutYdZssH+9Jz0rK8KPdtVZs
-	 ibtLMCl1U0t1g==
-Subject: Re: [PATCH net v10 4/4] net: phy: restore the interrupt when the
- generic bind cycle fails
-From: netdev-bot+sashiko@kernel.org
-To: f@lex.la
-Cc: netdev@vger.kernel.org, andrew@lunn.ch, andrew+netdev@lunn.ch,
- hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
- edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
- olteanv@gmail.com, Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
- steve.glendinning@shawell.net, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Fri, 25 Sep 2026 01:22:20 +0000
-Message-ID: <179029934006.2160803.15009748802759836692@kernel.org>
-In-Reply-To: <20260922131955.4175785-5-f@lex.la>
-References: <20260922131955.4175785-5-f@lex.la>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="GstgHjEh"
+Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-9142e0b0668so4956456d6.2
+        for <linux-usb@vger.kernel.org>; Thu, 24 Sep 2026 19:03:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1790301792; x=1790906592; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=gT7cwoS8k3kEIWqKd7SZ1DebMDzkHiM+DtBuYnpTJK8=;
+        b=GstgHjEhSp7muS9/AHYTVcQPAza8thvBPC5q3JMXWgK7Q3LtEcVS0cKupcu8lJ8SK3
+         lj4OEuhzpT6iJiFI/sTo/iYLR+l/BjlXl4MfDlkPGDQerMxJQPQs2iVBg+VLNlnyYswP
+         0E8Qvikmv6DkO+r3nAeFr4pZLQbx5Q55Brhlmy4mE3QVwapYEx3YCKGGuSLenGWFMU75
+         0wegFI7FjkYkXQXLPl13MoAMQJdePYMiIe7kmGoU2HixaYZ+gVr7PMILSgH9NT26lZpQ
+         n07mUFWud5SWSZR9KKtRxF8s7KfsOpIIpMq76ODVvyH2hTwwScG+8Lnsv0k/oguFMJ0O
+         uzsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790301792; x=1790906592;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=gT7cwoS8k3kEIWqKd7SZ1DebMDzkHiM+DtBuYnpTJK8=;
+        b=YNvkbrio6czgpT3J1rabS/G7HygyPbu1MI8SRCSAnSlHkJxuyD+gBi5WbZMS0T3XKR
+         0OIWh2La0U0irp+2C2ZeR/LxVazwE8Mheb5qORwkpjzq/plwQh8v8pB9do5c+Q8/WXAx
+         1W5YmVNrh0cHEwVyn3n0kKuUgUByDZepmLMgEA0wwjrq34XLflgTDM9tRSWXaJLzc5lt
+         P3j+uKLZPNBYCn4O9MmhG65DXvcjJMjH82NGaBVV8veF54tGDT25liJOauBytRpfRhNO
+         Zd/h9+mPF0UmoZwKS1+RNEqluseZx3c9lHCiP/RIe8GGSk083coT5UWh03i/s5973em9
+         dYxQ==
+X-Gm-Message-State: AFuF++lSsbfhi6lwiurcQDm5dkspSxFiykLp8q6ZNVITfl7S2n64eQss
+	bssGyXA3kCQkb1zCUr5QY+buouJb7QiRVMswj9IlMliQbmFmTzZoGqRUYsIv5/DxV+aGtOWNR6Q
+	7BLHO4w==
+X-Gm-Gg: AYBFou1TPNo8XDPBFZ7CYlb9vfDvhb21AGWBeM/Or1TtGpb6fPs+TV8J4qo23D28M1s
+	/uCSqO8yWsY2V5UPWyX503KEy0Im5nVKuYEp10h2mJZqvMa0YRYU9MM7kqY1OOhKzmmiUOu76m4
+	QIBdWSchqdRjYK2XIEIGYkoyH5bPfTL/yzCGb4qmVs6JITxZqRlW2DzcDxw0lTTzEzKeMyV5FjF
+	gA3FwqL+TawrStA8IBzXdPg/aBRl0gIjjRgzEMTi2I3vM+fklN5uRRxTd6XLOtVT2lUUoxA+WD/
+	uoZw2GCYeX1ZKE+1O2JCZ81QFZYWGDWABxjk0D0GUt8i4JnfkEiauVGOT2heKBoKSbfWEEwqafx
+	KzWf7IIi8/YFl848omoe+9e0h/UKnQDmAcRqgSROh1SbKezRCChrB9HPWCla+0pgUeArTF7zIzO
+	jBxdwl5l11noxFQri7vQe85FZHWx5UwqrWEyBVXdw7qbGJfR2DRHWXyAGSayiXM2aivlfm6Ym0Q
+	cLFNr4mJA==
+X-Received: by 2002:a05:6214:3b87:b0:914:2d3a:a652 with SMTP id 6a1803df08f44-9142f8fe985mr19674006d6.36.1790301792106;
+        Thu, 24 Sep 2026 19:03:12 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::1b7d])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91430e6ccfcsm6499636d6.40.2026.09.24.19.03.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 19:03:11 -0700 (PDT)
+Date: Thu, 24 Sep 2026 22:03:07 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Johann Klammer <klammerj@a1.net>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: possible regression in usb-storage?
+Message-ID: <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
+References: <c6fc5257-a41f-4ae7-92fe-93284d9ebc43@a1.net>
+ <79f2c208-bca0-3bf2-afdd-3bf095ff7b31@a1.net>
+ <ef6be2fd-29f7-4577-a229-35058bb9191e@rowland.harvard.edu>
+ <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
+ <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
+ <d0cd9a1e-cdb4-97c2-5bcd-1bc9f5d9173c@a1.net>
+ <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+On Thu, Sep 24, 2026 at 07:53:21PM +0200, Johann Klammer wrote:
+> 
+> 
+> On 9/24/26 7:30 PM, Johann Klammer wrote:
+> > Sorry. is a different box. will edit modprobe.conf and regenerate..
+> 
+> This is with uw quirks 4.9.210 kernel, filtered by device 2:003.
+> The error message about the cache when unplugging is gone.
 
-Critical: 0 · High: 1 (1) · Medium: 1 · Low: 0
+> > dbf07000 396249647 S Co:2:003:0 s 00 09 0001 0000 0000 0
+> > dbf07000 396249808 C Co:2:003:0 0 0
+> > dc2817a0 397280030 S Ci:2:003:0 s a1 fe 0000 0000 0001 1 <
+> > dc2817a0 397284164 C Ci:2:003:0 0 1 = 00
+> > dc2817a0 397284506 S Bo:2:003:2 -115 31 = 55534243 01000000 24000000 80000612 00000024 00000000 00000000 000000
+> > dc2817a0 397284649 C Bo:2:003:2 0 31 >
+> > df734900 397284663 S Bi:2:003:1 -115 36 <
+> > df734900 397284768 C Bi:2:003:1 0 36 = 00000612 5f002000 53656167 61746520 45787061 6e73696f 6e205357 20202020
+> > dc2817a0 397284778 S Bi:2:003:1 -115 13 <
+> > dc2817a0 397284892 C Bi:2:003:1 0 13 = 55534253 01000000 00000000 00
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+36-byte INQUIRY, successful.
 
-- [High] The new unconditional store `phydev->irq =
-  bus->irq[phydev->mdio.addr]` at drivers/net/phy/phy_device.c:1900 is…
-- [Medium] The correctness argument the commit message gives for the new
-  store ("Take the number back on that label as well, before it clears…
+> > dc2817a0 397287747 S Bo:2:003:2 -115 31 = 55534243 02000000 00000000 00000600 00000000 00000000 00000000 000000
+> > dc2817a0 397287910 C Bo:2:003:2 0 31 >
+> > dc2817a0 397287937 S Bi:2:003:1 -115 13 <
+> > dc2817a0 399105730 C Bi:2:003:1 0 13 = 55534253 02000000 00000000 01
+> > dc2817a0 399105844 S Bo:2:003:2 -115 31 = 55534243 03000000 60000000 80000603 00000060 00000000 00000000 000000
+> > dc2817a0 399105957 C Bo:2:003:2 0 31 >
+> > df734240 399105970 S Bi:2:003:1 -115 96 <
+> > df734240 399106084 C Bi:2:003:1 -121 18 = 70000200 0000000a 00000000 04010000 0000
+> > dc2817a0 399106094 S Bi:2:003:1 -115 13 <
+> > dc2817a0 399106456 C Bi:2:003:1 -32 0
+> > dc2817a0 399106465 S Co:2:003:0 s 02 01 0000 0081 0000 0
+> > dc2817a0 399106584 C Co:2:003:0 0 0
+> > dc2817a0 399106595 S Bi:2:003:1 -115 13 <
+> > dc2817a0 399106831 C Bi:2:003:1 0 13 = 55534253 03000000 4e000000 00
 
-Pre-existing issues:
-- [High] The `error_module_put` unwind in `phy_attach_direct()`
-  (drivers/net/phy/phy_device.c:1897-1902), which this patch extends…
+TEST UNIT READY, failed with the same error codes as before.
 
---
+> > dc2817a0 399106908 S Bo:2:003:2 -115 31 = 55534243 04000000 00000000 00000600 00000000 00000000 00000000 000000
+> > dc2817a0 399106957 C Bo:2:003:2 0 31 >
+> > dc2817a0 399106964 S Bi:2:003:1 -115 13 <
+> > dc2817a0 399150206 C Bi:2:003:1 0 13 = 55534253 04000000 00000000 00
 
-net: phy: restore the interrupt when the generic bind cycle fails
+TEST UNIT READY, successful.
 
-The hand-rolled generic driver bind in phy_attach_direct() unwinds on the
-error_module_put label, which never runs phy_detach(), so the PHY_POLL
-value that phy_probe() writes into phydev->irq used to survive the failed
-bind.  This patch adds a store of bus->irq[phydev->mdio.addr] back into
-phydev->irq on that label, before d->driver is cleared.
+The big difference is that in this trace, the kernel asks for the
+regular 36-byte INQUIRY information but then does not ask for the
+complete 100-byte INQUIRY information.  Instead it goes directly to
+TEST UNIT READY, which fails with the same NOT READY status as in the
+previous trace.  But then the second TEST UNIT READY succeeds.
 
-> diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-> index a9c71a2861186..06161a73fe3f9 100644
-> --- a/drivers/net/phy/phy_device.c
-> +++ b/drivers/net/phy/phy_device.c
-> @@ -1896,6 +1896,8 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
->  
->  error_module_put:
->  	module_put(d->driver->owner);
-> +	/* The NULL below lets phy_probe() write this field. */
-> +	phydev->irq = bus->irq[phydev->mdio.addr];
+Maybe the drive doesn't like the 100-byte INQUIRY, even though it
+claims to support it.  You can test this by doing (as root):
 
-[Severity: High]
-Can this store land on a PHY that is still attached to another netdev?
+	echo 'Seagate:Expansion SW:1024' >/proc/scsi/device_info
 
-phydev->is_genphy_driven is set when the hand-bind happens and is cleared
-only by phy_detach() or by this label, so a PHY that attached with the
-generic driver keeps is_genphy_driven == 1 and d->driver ==
-&genphy_driver.mdiodrv.driver for its whole attached lifetime.  On a second
-phy_attach_direct() for that same phydev, the "if (!d->driver)" assignment
-is skipped, but the bind block still runs, and it runs before the guard
-that is supposed to reject this case:
+before you plug in the drive.  That should suppress the 100-byte
+INQUIRY command.
 
-drivers/net/phy/phy_device.c:phy_attach_direct() {
-	...
-	if (phydev->is_genphy_driven) {
-		err = d->driver->probe(d);
-		if (err >= 0)
-			err = device_bind_driver(d);
-
-		if (err)
-			goto error_module_put;
-	}
-
-	if (phydev->attached_dev) {
-		dev_err(&dev->dev, "PHY already attached\n");
-		err = -EBUSY;
-		goto error;
-	}
-	...
-}
-
-device_bind_driver() -> driver_sysfs_add() -> sysfs_create_link() returns
--EEXIST for an already bound device, so error_module_put is reached with no
-hardware error involved, and the new store then writes bus->irq[addr] into
-the live attachment's phydev->irq.
-
-For a DT PHY with an interrupt, that value is a real IRQ number rather than
-PHY_POLL:
-
-drivers/net/mdio/fwnode_mdio.c:fwnode_mdiobus_phy_device_register() {
-	...
-	if (rc > 0) {
-		phy->irq = rc;
-		mdio->irq[addr] = rc;
-	} else {
-		phy->irq = mdio->irq[addr];
-	}
-	...
-}
-
-Does the still-working netdev then stop noticing link changes?  No handler
-was ever requested, because the first attach saw PHY_POLL, and after the
-clobber the state machine no longer re-queues itself:
-
-drivers/net/phy/phy.c:_phy_state_machine() {
-	...
-	if (phy_polling_mode(phydev) && phy_is_started(phydev))
-		phy_queue_state_machine(phydev,
-					phy_get_next_update_time(phydev));
-	...
-}
-
-And on teardown, does phy_disconnect() call free_irq() for an interrupt
-that was never requested?
-
-drivers/net/phy/phy_device.c:phy_disconnect() {
-	...
-	if (phy_interrupt_is_valid(phydev))
-		phy_free_interrupt(phydev);
-	...
-}
-
-Separately, is reconstructing the value from bus->irq[] the same thing as
-restoring what phydev->irq held on entry?  Some MACs install phydev->irq
-themselves without ever touching bus->irq[]:
-
-drivers/net/ethernet/broadcom/genet/bcmmii.c:bcmgenet_mii_probe() {
-	...
-	if (priv->internal_phy && !GENET_IS_V5(priv))
-		dev->phydev->irq = PHY_MAC_INTERRUPT;
-	...
-}
-
-Would saving the entry value in a local and writing it back on the label be
-more faithful than recomputing it from the bus array?
-
-[Severity: Medium]
-The commit message says:
-
-  "Take the number back on that label as well, before it clears d->driver.
-   That store is what reopens the device to the driver core: until it runs,
-   the core turns a probe away with -EBUSY. That is ordering, not
-   exclusion - this bind and its unwind run without the device lock
-   device_bind_driver() asks its callers to hold."
-
-Is that ordering actually enforced anywhere?  phydev->irq and d->driver are
-non-aliasing plain stores, so the compiler may sink the irq store past the
-d->driver = NULL, and on a weakly ordered CPU another core may observe
-d->driver == NULL before the irq store becomes visible.
-
-There is also no lock in common with the driver core, which reads and
-writes dev->driver only under the device lock:
-
-drivers/base/dd.c:device_bind_driver() {
- * This function must be called with the device lock held.
- *
- * Callers should prefer to use device_driver_attach() instead.
-}
-
-drivers/base/dd.c:__driver_probe_device() {
-	...
-	if (dev->driver)
-		return -EBUSY;
-	...
-}
-
-So can the restore land after a competing bind has already completed?
-
-CPU0 phy_attach_direct()
-   device_bind_driver() fails
-   d->driver = NULL becomes visible
-
-CPU1 driver_attach() -> really_probe() -> mdio_probe() -> phy_probe()
-   takes device_lock(), sees dev->driver == NULL, binds
-   drivers/net/phy/phy_device.c:phy_probe() {
-	if (!phy_drv_supports_irq(phydrv) && phy_interrupt_is_valid(phydev))
-		phydev->irq = PHY_POLL;
-   }
-
-CPU0
-   phydev->irq = bus->irq[phydev->mdio.addr];   /* pending store lands */
-
-leaving the PHY marked interrupt-driven for a driver that cannot service
-interrupts, which is the inverse of what the patch intends?  And in the
-mirror interleaving, where CPU1 reads phydev->irq before CPU0's store lands,
-is the restore simply lost?  There are drivers keying off that value during
-config:
-
-drivers/net/phy/smsc.c:smsc_phy_config_init() {
-	...
-	if (!priv->edpd_mode_set_by_user && phydev->irq != PHY_POLL)
-		priv->edpd_enable = false;
-	...
-}
-
-The detach side does not have this problem, since the equivalent restore is
-immediately followed by device_release_driver(), which takes the device lock
-internally:
-
-drivers/net/phy/phy_device.c:phy_detach() {
-	if (phydev->is_genphy_driven) {
-		/* The release below lets phy_probe() write this field. */
-		phydev->irq = phydev->mdio.bus->irq[phydev->mdio.addr];
-		device_release_driver(&phydev->mdio.dev);
-		phydev->is_genphy_driven = 0;
-	}
-}
-
-Would holding device_lock(d) across the hand-bind and its unwind, or using
-device_driver_attach(), be preferable to relying on source order here?
-
->  	phydev->is_genphy_driven = 0;
->  	d->driver = NULL;
->  error_put_device:
-
-[Severity: High]
-This isn't a bug introduced by this patch, but since the patch extends this
-label with another per-field restore, is a per-field restore enough here?
-
-The label is also reached when phy_probe() succeeded and only
-device_bind_driver() failed:
-
-	if (phydev->is_genphy_driven) {
-		err = d->driver->probe(d);
-		if (err >= 0)
-			err = device_bind_driver(d);
-
-		if (err)
-			goto error_module_put;
-	}
-
-In that case neither phy_probe()'s own out: unwind nor phy_remove() runs,
-so does everything phy_probe() set up stay behind?  phy_probe() registers
-LED triggers and sets up ports:
-
-drivers/net/phy/phy_device.c:phy_probe() {
-	...
-	/* Deassert the reset signal */
-	phy_device_reset(phydev, 0);
-	...
-	/* Register the PHY LED triggers */
-	if (!phydev->is_on_sfp_module)
-		phy_led_triggers_register(phydev);
-	...
-}
-
-drivers/net/phy/phy_led_triggers.c:phy_led_triggers_register() {
-	...
-	phy->led_link_trigger = kzalloc_obj(*phy->led_link_trigger);
-	...
-	phy->phy_led_triggers = kzalloc_objs(struct phy_led_trigger,
-					     phy->phy_num_led_triggers);
-	...
-}
-
-and only phy_remove() undoes it:
-
-drivers/net/phy/phy_device.c:phy_remove() {
-	phy_led_triggers_unregister(phydev);
-	...
-	phy_cleanup_ports(phydev);
-	...
-	phy_device_reset(phydev, 1);
-
-	phydev->drv = NULL;
-}
-
-Is the leak permanent?  Destroying the phydev does not unregister the
-triggers or clean the ports:
-
-drivers/net/phy/phy_device.c:phy_device_release() {
-	fwnode_handle_put(dev->fwnode);
-	kfree(to_phy_device(dev));
-}
-
-Is the missing re-assert of the reset also not self-correcting, given that
-the level is cached?
-
-drivers/net/phy/mdio_device.c:mdio_device_reset() {
-	...
-	if (mdiodev->reset_state == value)
-		return;
-	...
-}
-
-A later bind's de-assert would then be a no-op, so the PHY never gets the
-reset pulse the bind sequence provides.
-
-And does phydev->drv stay pointing at genphy_driver while d->driver is set
-to NULL on this label, leaving phylib and the driver core disagreeing about
-whether a driver is bound?  phy_attach_direct() returns err straight to
-phy_connect_direct()/phy_attach(), which propagate it without calling
-phy_detach().
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260922131955.4175785-1-f%40lex.la
+Alan Stern
