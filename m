@@ -1,80 +1,82 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E43CA48822A
-	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 10:12:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0700A48CD54
+	for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 10:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790331174; cv=none; b=Z+WixtSE9EMkpKDE2bokAYi8rztYawfRsCdGs71DdKtalLhYFC0p9t/AL67T0iIjjqhyQWFDOPd/JKwGu60btvbFLBkqx7ih2lRaavDgt/2s65QV7umzsAom9tafcjVssxPrMxPfXNaAorlhO+VW9BHYppYk2sMxAKk98u6VDlk=
+	t=1790331550; cv=none; b=nRaesnLJXDWrJvECR4R0yM7hFfnkglNQqkP5446quXolszTePBAvTScE+xfh08MZvd/yvYuI7KPFQnUfdNtbxAHvSS2noseUE/+ZxF3aDD1Z8C+eSgRIP5cu8X1ki2GiV9X0pGaJTJlyEbNaHIkvJF3G5qL3kVx+6+Kznl26Udk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790331174; c=relaxed/simple;
-	bh=CC567qKsUfgoyKrNNflLFTpJYo6DoPTZxNhRpHvgoRk=;
+	s=arc-20240116; t=1790331550; c=relaxed/simple;
+	bh=Vy0BEaJXI/sgJiHnpzCCPocdjuq8/DGs5MXWEPWVMLo=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eEiKChkODmSdablgMBTKZsCksofY0IrtXzUxR9p+75jKlcBcFgUgnsefCgLAcGdRsO6Bk4kqldmCP989MqmFLWg+DG6YBT2yN8YvnmJxIOJKSjrnE1TaeHtPCICtxHgjfz0Qr3dFc/yB8fmrPXJPlt91aYaS8UPPwys1Wjsr1pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OefcyB8Q; arc=none smtp.client-ip=74.125.225.140
+	 MIME-Version:Content-Type; b=LbfpO1J9C/R/2FnlvstTzpZoKTyCf0NHIE8vnk1sN1XM63rnc0Jo6rkCSzxqRdw9UGYkpe28WkTu7/phnG3w5yVwITu6H8YYXq+Rzl8ozb73fJ+F8mYPKYNeK04qfrXyNWmdTQdo25q+yDBA0jn/DRVQZb84AUE5SNlJjMVgMAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l+ChUMlF; arc=none smtp.client-ip=74.125.225.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OefcyB8Q"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e64ccso4771325e9.0
-        for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 03:12:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+ChUMlF"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6b885ef8so4512075e9.1
+        for <linux-usb@vger.kernel.org>; Fri, 25 Sep 2026 03:19:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790331171; x=1790935971; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790331547; x=1790936347; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=3OL5IUnkxezEvQtx7bFDxp48e1R0t/qQajh7OCSGPQU=;
-        b=OefcyB8QiaHxDvcZSU+BVwit3PEQWsRpQUoyyD4rw1yLI4gBKaoQhNmQBrYaK1ZnLu
-         zCFwMSaGEc+985PDrnLJTjDGrO3T5mzzyDV/iUZCDkxcHwHO93MZzz3/77nB4Q1Sj+DL
-         NoJccgbKnQnVOshykvFnRjGO0piZR3SqH9lby2/fBE2npqFEjKbL9DRK1s1FxZUDIENW
-         ieIz5HeuJC+j9mEvWy+ka4x/pyXL8LZhW7fBqYIGAgU/5BTc+O3mvbkoY7elXCc8tUQW
-         hMKeP18kGVs8uI5JC3BOxqI1iX4zRb07ZOS49rQdvuUImUeJoYlU6uTbijhrjrof9nGB
-         oeMg==
+        bh=uzt8qnaNUNgPrBzOLY5U/g5H8B5eMSOss0W//LWBCGk=;
+        b=l+ChUMlF+DbiAK5Nl2eXQbTxXMNm1SZwCWM5/eF/ZoKOoE4qM/S2J6gCDKmOuMesF4
+         W2W0HcTpXxq+t2aJ3a0wRVA11VTmh573Nvv6rmL2XHHTaEAQJeQqy93WrzBGtSacWxbj
+         nm7lylCNFEW81fAfI1Q5lGtPX9+Shbh2ZQFELkvvwRUOJ2yLv5x3VF/gIgmFf048yyov
+         5NjVMuP1pOSbm7HqPJNDp0qPWClTWOKA/iTu/hlFlJhBUAW9X1NWmKqC/4X4nTUl39WR
+         r04fKu+Z80ReW6SS7zNZZ0FDP6rHFgrcdzpzM1IwoxID7i7L9ECvzUb6msU72KcxMBTF
+         5XRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790331171; x=1790935971;
+        d=1e100.net; s=20260707; t=1790331547; x=1790936347;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3OL5IUnkxezEvQtx7bFDxp48e1R0t/qQajh7OCSGPQU=;
-        b=DcMlM3UwcKxbhO8gIK8dxlfaQcXZko5SpfsGJswDWZgWEGmTUb+cAZsV48e1Fr2d/g
-         A6DVZVw+buCS50Zw2v/vFjUnC0JD1aQxsbNGCIwl+hDmVz+kbFHmPBxGrAhlTpsLM0uz
-         Mu1DAAkWhVGYxWbimGpK4hUGt7USuHpRgoYhMlfp4RdShPVnn8FEDiGbmFi+Sv7JaiDl
-         abCL8xNYxZYL0SZFSrxePSko1mPctZ+I3BqFMzCqH5TjbekBFCEaq8xSF8zJuwmUi6+9
-         8BfIi59t61QaaXP6YwoYPgvOg87lNrNguaLQES+PrrilkrOizxlZ1XZ1Bpv28RZfuLuX
-         9hyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy3ZYomgR08LfhGTLN9GhU2lOsPUBNTKB9KA9RBgexmIk+6x+iXYLhFO5/DPtTpk+gflANw5lst77Q=@vger.kernel.org
-X-Gm-Message-State: AFuF++nTxkYDaYI+WRyhpR+0ritMOL28JzQtCSpmg3/QuksWWbtBQuZu
-	zSBB2Hxm0SmfJsfz83rJhTswGrRYGR38Ej29rY0mRhUntms5iH9asDjkAyyGgA==
-X-Gm-Gg: AYBFou1sZAF1i9ix3QzKrD+7GxllU00XX1zcQRpt0gi8nTtYl+ebtcw6ZRIOemRML2q
-	BhFgC6TfEPVAzhcRA61YLpoYv4MiWZlxorgfVNMlb2LeaHTK7VC9cuSE3iqPY94ig8q7nOpcMeQ
-	zbtlTphlOxXsXHd+/ZJd+clI+WhX8QKiQgitBFmIOdCqCFl+TPOE/VaIcNebSniixAHDHaMWDx+
-	hT7iYyzKRvEEa3CON8VEJPa6dR/ArhJwJgWuPErsMq7J8uu76SDXoSDwciSdPlDNI3qir+Vohy9
-	vdwlIDqAAXYouG6upimupfSnd4IiIavCSCu3MCEZH9tOl7U3LcGVRdpg0c3Cv3iV5TAmnoB9eKf
-	OE3005yJ9ONXEZSqaAscz5iu1+ZDwgZNrPhkZ5XunDuU6vwaHekHg4zb/kFa3YgyGoef2UZ1D+K
-	hyNlAyNSI9qoC1yUs5lgEwBXg8BCYpPlxQJ3n+kIv8XLVmO2twBYhE50zWe7WEl6ga0KIxrjtVU
-	AyddmhqcGQUY3vxwE4L
-X-Received: by 2002:a05:600c:4705:b0:49f:dde2:3906 with SMTP id 5b1f17b1804b1-49fe66d95f2mr92712495e9.15.1790331171003;
-        Fri, 25 Sep 2026 03:12:51 -0700 (PDT)
+        bh=uzt8qnaNUNgPrBzOLY5U/g5H8B5eMSOss0W//LWBCGk=;
+        b=J5kEUtRROtyanLtZTA+gRP5tWIu0ymgErF59jZlorOd1hAbAaAV5v/S6nPoGh2lmTE
+         Hj7gLQtE85osp7Mtdyb2nZZSDNfCZJo6htQJlW0ITgYGo1UHTMn5WCyp9P6vD7miyTqj
+         W/PC8s2SuAOeQopHw7csoEEFQyN8RAnEe1tzp0eu/lY7BvlZg3yrVS7XsshhpuxIqMbY
+         fUGS7MT3Ar+Z/k6qq5nmi3m+f1lG64PK+7HxZsxoEXYXLr3QfAaifgys8LL1ZwUZ0FAR
+         +4QpDnpeJuTaaaxr3IUNTH4e0kyPrVvfm/oaqcwQotJ4Rlrf6PCfputEQBYZYHA8fH2a
+         Nm9g==
+X-Forwarded-Encrypted: i=1; AKwUvByxVud3spbCmxHQJlo6BYfOZgjVi09BQ88rJtQOke+5fgOpxHbuEuuHv82gaUEQQ17PEcHDO5k5Qbo=@vger.kernel.org
+X-Gm-Message-State: AFuF++kF4c2LMZGpLSXqx0V8gn8QUgH46UoI/hGeNF63S0MKXD9t9IBU
+	fkfGWrwbgakrB9uiYWgQ/f5uf1RUqOP+vRGfa01+8qYjA6wgSq1dGllx
+X-Gm-Gg: AYBFou31Oxka3722nVkMc+sd8+6goJrbLFMu1z9Az21RgQbSHEPPMYX6kuAK5gXjfIz
+	tpVH9dwAB2H04y8Pn+r6og/FslBe10/jtPslS4iGpPblEXetQ3z2OUFS2VZC9OEmERhqcJtY10Y
+	bvJSCR5JcEk23TSx5M75pkC7p2YYE7m0HHNtj3jE51qiRharnabs7M6X7CJfTu/oTdznJkDgoms
+	X9AEOeCOQQozE+it+KkbTaxhSr3lIUWIzA6uoSdFJMDrdWkDrAoBgHvjVY4npFua4cY2LDwsw+V
+	x1WaOBvQ8jSnvmGejvzg5KK46U4AIQPL+9AgMu/oDlAF+NhAVXcjKQTDfNrPp+9Oxf/wmfh0ost
+	bbM7bnpcBb2xoeullawrjks8wYuKkJyfNbwGwXrXzHQqjUcJWq91qqUG7ZxdxayoLvOCUZ9rPyB
+	aKg3Bv1pkHh9IAKgeAsEudAQzynp6IkXlMpdruXevcqciruUHAJ8TJ2lzFM8hZeiYMiwWkKkgBQ
+	uW+N2nqtbqAgrsO5i7J/A==
+X-Received: by 2002:a05:600c:3b84:b0:49f:f099:6f98 with SMTP id 5b1f17b1804b1-49ff09970dcmr34896555e9.20.1790331546908;
+        Fri, 25 Sep 2026 03:19:06 -0700 (PDT)
 Received: from foxbook (bez152.neoplus.adsl.tpnet.pl. [83.28.37.152])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff06bdef2sm48473885e9.11.2026.09.25.03.12.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff044406dsm56519475e9.1.2026.09.25.03.19.05
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 25 Sep 2026 03:12:50 -0700 (PDT)
-Date: Fri, 25 Sep 2026 12:12:40 +0200
+        Fri, 25 Sep 2026 03:19:06 -0700 (PDT)
+Date: Fri, 25 Sep 2026 12:19:02 +0200
 From: Michal Pecio <michal.pecio@gmail.com>
 To: Kean Ren <rh_king@163.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Mathias Nyman
- <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
- Griffin Kroah-Hartman <griffin@kroah.com>, Kuen-Han Tsai
- <khtsai@google.com>, Kees Cook <kees@kernel.org>, Nikhil Solanke
- <nikhilsolanke5@gmail.com>, Thorsten Blum <blum@kernel.org>
-Subject: Re: [PATCH 2/2] xhci: fix ASM3242 port speed report for Gen 2x2
- links after cold boot
-Message-ID: <20260925121240.2bda9984.michal.pecio@gmail.com>
-In-Reply-To: <20260920025308.2358862-3-rh_king@163.com>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Mathias Nyman <mathias.nyman@intel.com>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Alan Stern
+ <stern@rowland.harvard.edu>, Griffin Kroah-Hartman <griffin@kroah.com>,
+ Kuen-Han Tsai <khtsai@google.com>, Kees Cook <kees@kernel.org>, Nikhil
+ Solanke <nikhilsolanke5@gmail.com>, Thorsten Blum <blum@kernel.org>
+Subject: Re: [PATCH 1/2] usb: core: hub: recognise two-lane SuperSpeed
+ sublinks as Gen 1x2
+Message-ID: <20260925121902.3d75df9b.michal.pecio@gmail.com>
+In-Reply-To: <arSByjrfc4e9fUr1@vbox>
 References: <20260920025308.2358862-1-rh_king@163.com>
-	<20260920025308.2358862-3-rh_king@163.com>
+	<20260920025308.2358862-2-rh_king@163.com>
+	<arSByjrfc4e9fUr1@vbox>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -84,123 +86,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Sun, 20 Sep 2026 10:52:43 +0800, Kean Ren wrote:
-> The ASMedia ASM3242 (1b21:3242) reports the SuperSpeed speed ID (4) in
-> PORTSC[13:10], together with two active lanes, for a link that is
-> actually running at Gen 2x2 after a cold boot.
-> xhci_get_ext_port_status() copies that ID into dwExtPortStatus, so the
-> USB core matches SSID 4 (whose LP is SuperSpeed, not SuperSpeedPlus),
-> returns USB_SSP_GEN_UNKNOWN and falls back to USB_SPEED_SUPER:
+On Thu, 24 Sep 2026 02:06:12 +0000, Thinh Nguyen wrote:
+> On Sun, Sep 20, 2026, Kean Ren wrote:
+> > get_port_ssp_rate() rejects every matching sublink speed attribute
+> > whose link protocol (LP) is not SuperSpeedPlus by jumping to the
+> > "unknown" exit before it looks at the number of active lanes.
+> > 
+> > USB 3.2 Gen 1x2 runs two SuperSpeed (Gen 1) lanes, so the matching  
 > 
->   $ lsusb -t
->       |__ Port 001: Dev 002, If 0, Class=Mass Storage, Driver=uas, 5000M/x2
->   $ cat /sys/bus/usb/devices/2-1/speed
->   5000
+> Gen 1x2 is SuperSpeed Plus and should use LP = SSP
 > 
-> while the link really runs at 20 Gbps:
-> 
->   GetPortStatus(HUB_EXT_PORT_STATUS) -> dwExtPortStatus = 0x00001144
->       (RX/TX speed id 4, RX/TX lanes 2)     after a cold boot
->   GetPortStatus(HUB_EXT_PORT_STATUS) -> dwExtPortStatus = 0x00001177
->       (RX/TX speed id 7, RX/TX lanes 2)     after an S3 resume
-> 
->   O_DIRECT throughput, cross-checked with /proc/diskstats:
->       1.49 - 1.60 GB/s (11.9 - 12.8 Gbps)  in the "5000M" state
->       1.63 - 1.83 GB/s (13.0 - 14.7 Gbps)  in the "20000M" state
-> 
-> Both exceed the physical ceiling of a 10 Gbps link (~1.25 GB/s), so the
-> link is Gen 2x2 in both states and only the controller's report is
-> wrong.  Only an S3 suspend/resume makes the controller report speed ID
-> 7; a device re-plug, a port disable/enable, an xhci_hcd unbind/bind, a
-> PCI function reset and a PCI remove+rescan all leave the wrong value in
-> place.
+> > sublink entry advertises LP = SuperSpeed while two lanes are in use.
+> > The current code therefore returns USB_SSP_GEN_UNKNOWN for such a
+> > link and the USB core falls back to USB_SPEED_SUPER, reporting 5000
+> > Mbps.
+> > 
+> > Handle the two-lane cases before rejecting non-SuperSpeedPlus
+> > entries: 
+> >   >= 10 Gbps per lane and 2 lanes -> USB_SSP_GEN_2x2
+> >   >=  5 Gbps per lane and 2 lanes -> USB_SSP_GEN_1x2  
+> > 
+> > so that a genuine Gen 1x2 link is reported as 10000 Mbps instead of
+> > 5000 Mbps.
 
-Out of curiosity, does it mean that after one suspend cycle the
-controller begins to work normally and reports correct speed for
-new devices too, or only for those present during resume?
+Was it tested with a genuine Gen 1x2 device? On which hub?
 
-> Add XHCI_ASM3242_SPEED_QUIRK and, when it is set, report the Gen 2x2
-> speed ID when the controller reports SuperSpeed with two active lanes.
+> > 
+> > Signed-off-by: Kean Ren <rh_king@163.com>  
 > 
-> Reported-by: Kean Ren <rh_king@163.com>
-> Link: https://lore.kernel.org/linux-usb/<your-report-message-id>/
-> Signed-off-by: Kean Ren <rh_king@163.com>
-> ---
->  drivers/usb/host/xhci-hub.c | 17 +++++++++++++++--
->  drivers/usb/host/xhci-pci.c |  4 ++++
->  drivers/usb/host/xhci.h     |  1 +
->  3 files changed, 20 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-> index 470bafe1802b..ef2b35b31492 100644
-> --- a/drivers/usb/host/xhci-hub.c
-> +++ b/drivers/usb/host/xhci-hub.c
-> @@ -1001,13 +1001,26 @@ static int xhci_handle_usb2_port_link_resume(struct xhci_port *port,
->  	return 0;
->  }
->  
-> -static u32 xhci_get_ext_port_status(u32 portsc, u32 port_li)
-> +static u32 xhci_get_ext_port_status(struct xhci_hcd *xhci, u32 portsc,
-> +				    u32 port_li)
->  {
->  	u32 ext_stat = 0;
->  	int speed_id;
->  
->  	/* only support rx and tx lane counts of 1 in usb3.1 spec */
->  	speed_id = DEV_PORT_SPEED(portsc);
-> +
-> +	/*
-> +	 * The ASM3242 reports the SuperSpeed speed ID (4) together with two
-> +	 * active lanes for a link that is actually running at Gen 2x2 after a
-> +	 * cold boot.  Reporting that ID makes the USB core fall back to
-> +	 * USB_SPEED_SUPER (5000 Mbps) although the link runs at 20 Gbps, so
-> +	 * report the Gen 2x2 speed ID (7) instead.
-> +	 */
-> +	if ((xhci->quirks & XHCI_ASM3242_SPEED_QUIRK) && speed_id == 4 &&
-> +	    PORT_RX_LANES(port_li) && PORT_TX_LANES(port_li))
-> +		speed_id = 7;
+> Gen 1x2 is a SuperSpeed Plus mode and should advertise LP =
+> USB_SSP_SUBLINK_SPEED_LP_SSP. A controller reporting Gen 1x2 with LP =
+> SuperSpeed is violating the expected encoding.
 
-Is there any way to distinguish 2x2 from 1x2 here? If 1x2 gets the same
-bogus Speed ID as 2x2, this will incorrectly report it as 2x2, right?
+This deals with the bmSublinkSpeedAttr array of hub BOS descriptor.
+For host controller root hubs it's generated by xhci-hub.c.
 
-> +
->  	ext_stat |= speed_id;		/* bits 3:0, RX speed id */
->  	ext_stat |= speed_id << 4;	/* bits 7:4, TX speed id */
->  
-> @@ -1265,7 +1278,7 @@ int xhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
->  				break;
->  			}
->  			port_li = readl(&port->port_reg->portli);
-> -			status = xhci_get_ext_port_status(portsc, port_li);
-> +			status = xhci_get_ext_port_status(xhci, portsc, port_li);
->  			put_unaligned_le32(status, &buf[4]);
->  		}
->  		break;
-> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> index a8889081ae82..6219151d9eb0 100644
-> --- a/drivers/usb/host/xhci-pci.c
-> +++ b/drivers/usb/host/xhci-pci.c
-> @@ -471,6 +471,10 @@ static void xhci_pci_quirks(struct device *dev, struct xhci_hcd *xhci)
->  	     pdev->device == PCI_DEVICE_ID_ASMEDIA_3242_XHCI))
->  		xhci->quirks |= XHCI_NO_64BIT_SUPPORT;
->  
-> +	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
-> +	    pdev->device == PCI_DEVICE_ID_ASMEDIA_3242_XHCI)
-> +		xhci->quirks |= XHCI_ASM3242_SPEED_QUIRK;
-> +
->  	if (pdev->vendor == PCI_VENDOR_ID_ASMEDIA &&
->  		pdev->device == PCI_DEVICE_ID_ASMEDIA_1042A_XHCI)
->  		xhci->quirks |= XHCI_ASMEDIA_MODIFY_FLOWCONTROL;
-> diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-> index c7bfa7f028d3..77fab2f29693 100644
-> --- a/drivers/usb/host/xhci.h
-> +++ b/drivers/usb/host/xhci.h
-> @@ -1647,6 +1647,7 @@ struct xhci_hcd {
->  #define XHCI_CDNS_SCTX_QUIRK	BIT_ULL(48)
->  #define XHCI_ETRON_HOST	BIT_ULL(49)
->  #define XHCI_LIMIT_ENDPOINT_INTERVAL_9 BIT_ULL(50)
-> +#define XHCI_ASM3242_SPEED_QUIRK	BIT_ULL(51)
->  
->  	unsigned int		num_active_eps;
->  	unsigned int		limit_active_eps;
-> 
+And I think that the code which generates it already tries to avoid
+setting SS (non-P) in multi-lane speeds, so what triggers this bug?
+
+Regards,
+Michal
