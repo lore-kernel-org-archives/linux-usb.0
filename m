@@ -1,174 +1,114 @@
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+Received: from mail-pj2-f41.google.com (mail-pj2-f41.google.com [74.125.227.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 483E934F247
-	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 22:23:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3CA347BC4
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 23:05:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790461413; cv=none; b=n2e8p3V5pljF9Cz61X6QaoUH6k8KNpnh1l9Xa9YW7V5d10ng8css2VqORZ/UermcJsnMqK/D5d1flAwa/9fc/HwzRm24nC6QazeAe6q+uPk/pn1XWLuTPOTu0kNOakakq6JmJ7PtsfjIr+d9ChHvyHHijWwGQ+hJQA+jRgfUYFI=
+	t=1790463942; cv=none; b=cvCqmJFFydABHfHHxYOB6161kAe/vNGLAkCmai42F8rX3NqroMWxL4agLEx8Fi2txmqE+TdYasL1kLAWZfXq+dHmqKlgqh6sueBLlgcfhF6jvSky7LifY6E6rgAPmgErQa3spdSVJh4T1KXNEjL4BlQRHW32Yr96VN1tKPsGAfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790461413; c=relaxed/simple;
-	bh=/R+QVqr3aAgIHoKL9XnLG4r1x5KOKm9X430DAmdgfVo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=YU5xyY4hGFoC430MLD2d6u79ZtxWU080Awk5E6Zt32OhpAmOjsrX0h7arGDfB84jky8nPxrz3p6DfxazwUZi+HavjSxU+2EygmmYiMrMrWWXiVIB0+psSuA+jmHVFP74+ipmNlkog6OJEfYDv4h0Z1h4bJo+sVuZSzLU63DkAsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-4c467e19391so4259005b6e.3
-        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 15:23:31 -0700 (PDT)
+	s=arc-20240116; t=1790463942; c=relaxed/simple;
+	bh=lUZwpcjfJVbjPXfPcIHxuhk3nhpQ2sZnS/KtAXx4GVI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=B6ZmVHAOVNY8fFCAlhj1F7jPUHGwlyRsuqoyaxXGm52HrXw04cKFJGZEt6UrPMqI3B3U5YdvGSxe9m/dKR1YWAvm+K9y4aqENhWXjkc1wD6bF2OfxUTOzvxUNy4WCpdu/GhJFGZPLq0zwf3/CIOM4QR1TatCt9zRej7mikPxCMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pxAM65l6; arc=none smtp.client-ip=74.125.227.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pxAM65l6"
+Received: by mail-pj2-f41.google.com with SMTP id 98e67ed59e1d1-3a0bec20a6fso706329a91.0
+        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 16:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790463940; x=1791068740; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5b+3IogLhmEcJn2krORIy7k4m3K29JGGK/T/+oSR1EY=;
+        b=pxAM65l60lZ2HlYEikg54edpgUfZrqhxZYv/ooKkv4BstNJinUOdZVWF5lyS1QiBdc
+         FTj7wDn+KdIqp2i0TLcZasj87lmTRIWsRNXLNo80hbzfMtsgfwwRxeZY3syC+8KHeNKB
+         QzS3zYiwpnNvuLKzVDDSHaeSxNASvpDORrG2Uw/+4HiHowa9+MDeefoPVZzz7P067uus
+         itLPBJcxwzUIliZxLqhW4GzyyWeaOtHzMA0dtUS4g5cKmv8DSK3656XIrCj3cPY8zMLp
+         wrb0ZnE4fU6QHN28So5++s6JaFGqeYMs6WJQvbMhAPliDLL2JgWllbTqwqFVJkggX+2O
+         MfLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790461410; x=1791066210;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ddSBLIw73d/Y9INkuZNrFEgdyDpyN4p2NvVyq+7XVwo=;
-        b=QflpOdVBV86G/tzq4LxKhLCYhkCFcZXQnlsoqRNYCEw+WP0eW0J7qop57EkBqtWI/h
-         P0kiJVpSrkc+hXilAeRNDbU2/q3iq/J+QpszsgiLK7qazydpEyufeaiv9/Bgqk+u8FkA
-         9V3WX/pWND+ayTrDmCm46s4yuYceLKbWubhzCgAS013hZs881+bUGUkey25PhmAZylMp
-         GQ7awN41MaxhSfEDNFi/e12kUuQtVEQISVyTthVLVR0KaWDrujwp1IGOeXApOaVA1Qcz
-         DaheKrAytELjAEwqsYcWnRKBKUNTU41Rk5lmgfHR+uPdUU8R78KVYr/FUDdUs1jK2fN7
-         lIog==
-X-Forwarded-Encrypted: i=1; AKwUvBzoh+mNz24uk2KMzdX9+AEP4n9C6joCO3uHKF8SuJZAvM+nZ2Eu1Dzi/qev0oHDnGsSnuyZkPMIl4s=@vger.kernel.org
-X-Gm-Message-State: AFuF++lnBeFiIY50ALFN4ZTjlqdV1jQie4bmKQfuWyj63rI0+J5bo0aM
-	EupbzIyOCFU/D4jggn1QoT2HNL21p6Jjc5eaH3FdwJbQtRa0/ATaz8Spy6rjJpvAZfn6bcJiNI3
-	86lumGgCgiAG3r/dY4JtC2nxLPHJobxkNE7WCib+dBZQCbT5oefIMxUPBUUs=
+        d=1e100.net; s=20260707; t=1790463940; x=1791068740;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=5b+3IogLhmEcJn2krORIy7k4m3K29JGGK/T/+oSR1EY=;
+        b=a5uJ0UfgJaMBaMVMmuwTbODsOvw1i7vgu7fSrirF9i3hb5lu90Jd5f4so4TzgBSqnL
+         hYEah9MYhxOeoLiaCA1gM5DpdGpCJk47E7vhxFM8cH1f8qHYfl/V85JwuB1QPPME6wp/
+         pHxggzF5OTmvgiMLh8aRk/2zpxL+P7E4BMFdgeLDYz0yCt7ZknQsJp4RQJ8vQsSng3a/
+         d09g/ib/U16CBO6viC+1j9OLw3ZrHPOcP3lwHZu2M9OOwQNGQv9povvG5J9T2A86hcKf
+         FLxY4y3GTsT2yS3xa7aD0Y4sVK4UVRxOKNHO0tI6Rv/i2LJFIJSA6tlPGTvpS+GqNDmb
+         t8uQ==
+X-Gm-Message-State: AFq9FYK6Z6BlnXogbXr0GDvBCwf3P77QGlL+30EYIh/S8Ia4kXq7l4cd
+	xMq8l7CLif4lDO1AFq2vdYPZ2I1XvG+E88ll3ruHXiW3bVJetQ1UMuaQXfXdQjtD
+X-Gm-Gg: AYBFou2BgZ/qZuFaOKsfe0/dpBlMhEHVTizsl0rUZnLCt2RdmiKHWo3G1Eja1aXa42l
+	mawb8nNW3twn07mMWrStT3rA+H32bCZYWr8HuLEVB3ituzqyx7mDN/jilDBQ3jNmb0UDSu10/7h
+	P0zNntyk1pO2vz0fxPZkBGDfLsukV3WwyTf3wAs6LnS7dREdu+kXI9+O39tCxyoJaFtXfigYxVB
+	aWTYjaSL3c5ht2NyhYnP5i6JQ7MNkAJafk8a2Ojb3I1zi+OCvNROhrCrzpDBvZ7DPkNqSgytncJ
+	KqcxYik7Qg2wKw7+vQTvuFcWfBrRdm9uvFNQXX/8b4fn1MNJgOTZI0TaRtY8G8V8M8rVT1t/sid
+	bmQbFoAfbATWsb0sK12UhDAkSjiinYCJtgNbO7L1nX8m7H280eFo7cPDzGX73qF153fSXnWJjSA
+	cj4mOCvblA6DZrg0fEGKPlEiKMZby9mIHAv2HPhpEZN0ScbYTJBy1f299qyvPoKkujQA7XkcpQj
+	cnML5HUTDyXyWnoMa6wCcWKbjLHWG+Y0PA4t3fXAgsDj468pwwkiK2RpnfNd95vxKixxJEUjXk4
+	U+0ItnCCMy1aAmOtZfYTYco2Bc+vbKMZc3WlYhckgYKzD+7n
+X-Received: by 2002:a17:90b:5247:b0:39e:6c68:fd8f with SMTP id 98e67ed59e1d1-3a098b628d9mr5530592a91.36.1790463940362;
+        Sat, 26 Sep 2026 16:05:40 -0700 (PDT)
+Received: from ryzen.lan ([2601:644:8000:7a86::e35])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b9355e49sm11778543a91.4.2026.09.26.16.05.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2026 16:05:39 -0700 (PDT)
+From: Rosen Penev <rosenp@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH] USB: bcma: defer probe until USB3 is ready
+Date: Sat, 26 Sep 2026 16:05:38 -0700
+Message-ID: <20260926230538.223565-1-rosenp@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:6712:b0:4b9:e6ab:d07c with SMTP id
- 5614622812f47-4d72cb41489mr9816168b6e.28.1790461410322; Sat, 26 Sep 2026
- 15:23:30 -0700 (PDT)
-Date: Sat, 26 Sep 2026 15:23:30 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ab845e2.e548f532.1ca396.0033.GAE@google.com>
-Subject: [syzbot] [media?] [usb?] general protection fault in mxl111sf_ep6_streaming_ctrl
-From: syzbot <syzbot+c35815bad054e6ad396e@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, mkrufky@linuxtv.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Northstar SuperSpeed data goes to xHCI while D+/D- go to EHCI. If EHCI
+probes first with VBUS already on, a SuperSpeed device falls back to
+high-speed and stays there.
 
-syzbot found the following issue on:
+Defer the NS USB2 core until the USB3 core has probed, and enable VBUS
+only after that host init (of_platform_populate binds xHCI when
+xhci-plat is already registered). USB2-only chips have no NS USB3 core
+and are unchanged.
 
-HEAD commit:    6812ce4e4379 Merge tag 'drm-fixes-2026-09-26' of https://g..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=133dc605580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=9d4242cb1c54cdf7
-dashboard link: https://syzkaller.appspot.com/bug?extid=c35815bad054e6ad396e
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12c77a05580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14d05a05580000
+Remove the TODO since checks are being added.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/75990baa24e4/disk-6812ce4e.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/bc9afcf309d7/vmlinux-6812ce4e.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/35a3beb2ec93/bzImage-6812ce4e.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+c35815bad054e6ad396e@syzkaller.appspotmail.com
-
-usb 1-1: dvb_usb_v2: could not submit urb no. 0 - get them all back
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000061: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000308-0x000000000000030f]
-CPU: 0 UID: 0 PID: 5651 Comm: syz-executor908 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/05/2026
-RIP: 0010:mxl111sf_ep6_streaming_ctrl+0x2e/0x2e0 drivers/media/usb/dvb-usb-v2/mxl111sf.c:348
-Code: 55 41 57 41 56 41 54 53 89 f5 49 89 fe 49 bc 00 00 00 00 00 fc ff df e8 10 62 93 f9 49 8d 9e 08 03 00 00 48 89 d8 48 c1 e8 03 <42> 80 3c 20 00 74 08 48 89 df e8 53 66 03 fa 48 8b 1b 48 83 c3 38
-RSP: 0018:ffffc900036b7b30 EFLAGS: 00010212
-RAX: 0000000000000061 RBX: 0000000000000308 RCX: ffff88807faf0000
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: 0000000000000001 R08: ffffc900036b7647 R09: 1ffff920006d6ec8
-R10: dffffc0000000000 R11: ffffffff883479d0 R12: dffffc0000000000
-R13: ffff8880798113b8 R14: 0000000000000000 R15: ffff8880798108d8
-FS:  000055558749c400(0000) GS:ffff888124cca000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fbf685aaa20 CR3: 0000000020716000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- dvb_usb_start_feed+0x57a/0xc70 drivers/media/usb/dvb-usb-v2/dvb_usb_core.c:308
- dmx_ts_feed_start_filtering+0x129/0x220 drivers/media/dvb-core/dvb_demux.c:747
- dvb_dmxdev_start_feed drivers/media/dvb-core/dmxdev.c:658 [inline]
- dvb_dmxdev_filter_start+0x434/0x10d0 drivers/media/dvb-core/dmxdev.c:769
- dvb_demux_do_ioctl+0x48b/0x540 drivers/media/dvb-core/dmxdev.c:1099
- dvb_usercopy+0x199/0x2e0 drivers/media/dvb-core/dvbdev.c:996
- dvb_demux_ioctl+0x29/0x40 drivers/media/dvb-core/dmxdev.c:1208
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fbf6855bcf9
-Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff0240de98 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fbf6855bcf9
-RDX: 0000200000000100 RSI: 0000000040146f2c RDI: 0000000000000004
-RBP: 00000000000f4240 R08: 0000000000000000 R09: 0000000000000009
-R10: 0000000000000000 R11: 0000000000000246 R12: 00000000000140fe
-R13: 00007fff0240deac R14: 00007fff0240dec0 R15: 00007fff0240deb0
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:mxl111sf_ep6_streaming_ctrl+0x2e/0x2e0 drivers/media/usb/dvb-usb-v2/mxl111sf.c:348
-Code: 55 41 57 41 56 41 54 53 89 f5 49 89 fe 49 bc 00 00 00 00 00 fc ff df e8 10 62 93 f9 49 8d 9e 08 03 00 00 48 89 d8 48 c1 e8 03 <42> 80 3c 20 00 74 08 48 89 df e8 53 66 03 fa 48 8b 1b 48 83 c3 38
-RSP: 0018:ffffc900036b7b30 EFLAGS: 00010212
-RAX: 0000000000000061 RBX: 0000000000000308 RCX: ffff88807faf0000
-RDX: 0000000000000000 RSI: 0000000000000001 RDI: 0000000000000000
-RBP: 0000000000000001 R08: ffffc900036b7647 R09: 1ffff920006d6ec8
-R10: dffffc0000000000 R11: ffffffff883479d0 R12: dffffc0000000000
-R13: ffff8880798113b8 R14: 0000000000000000 R15: ffff8880798108d8
-FS:  000055558749c400(0000) GS:ffff888124dca000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007fff0240ce50 CR3: 0000000020716000 CR4: 0000000000350ef0
-----------------
-Code disassembly (best guess):
-   0:	55                   	push   %rbp
-   1:	41 57                	push   %r15
-   3:	41 56                	push   %r14
-   5:	41 54                	push   %r12
-   7:	53                   	push   %rbx
-   8:	89 f5                	mov    %esi,%ebp
-   a:	49 89 fe             	mov    %rdi,%r14
-   d:	49 bc 00 00 00 00 00 	movabs $0xdffffc0000000000,%r12
-  14:	fc ff df
-  17:	e8 10 62 93 f9       	call   0xf993622c
-  1c:	49 8d 9e 08 03 00 00 	lea    0x308(%r14),%rbx
-  23:	48 89 d8             	mov    %rbx,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 80 3c 20 00       	cmpb   $0x0,(%rax,%r12,1) <-- trapping instruction
-  2f:	74 08                	je     0x39
-  31:	48 89 df             	mov    %rbx,%rdi
-  34:	e8 53 66 03 fa       	call   0xfa03668c
-  39:	48 8b 1b             	mov    (%rbx),%rbx
-  3c:	48 83 c3 38          	add    $0x38,%rbx
-
-
+Assisted-by: LLM
+Signed-off-by: Rosen Penev <rosenp@gmail.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/usb/host/bcma-hcd.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+diff --git a/drivers/usb/host/bcma-hcd.c b/drivers/usb/host/bcma-hcd.c
+index 519386255886..9a5704358996 100644
+--- a/drivers/usb/host/bcma-hcd.c
++++ b/drivers/usb/host/bcma-hcd.c
+@@ -396,8 +396,13 @@ static int bcma_hcd_probe(struct bcma_device *core)
+ {
+ 	int err;
+ 	struct bcma_hcd_device *usb_dev;
++	struct bcma_device *usb3;
+ 
+-	/* TODO: Probably need checks here; is the core connected? */
++	if (core->id.id == BCMA_CORE_NS_USB20) {
++		usb3 = bcma_find_core(core->bus, BCMA_CORE_NS_USB30);
++		if (usb3 && !bcma_get_drvdata(usb3))
++			return -EPROBE_DEFER;
++	}
+ 
+ 	usb_dev = devm_kzalloc(&core->dev, sizeof(struct bcma_hcd_device),
+ 			       GFP_KERNEL);
+-- 
+2.55.0
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
