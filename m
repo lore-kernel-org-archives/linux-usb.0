@@ -1,211 +1,145 @@
-Received: from ixit.cz (ixit.cz [84.42.129.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk2-f41.google.com (mail-qk2-f41.google.com [74.125.230.233])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 218913B6C17;
-	Sat, 26 Sep 2026 14:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=84.42.129.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3A7347FCD
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 14:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790433934; cv=none; b=NSg5BQ43doaiPHs3EVzPG5D7HgSuN2YJhqMl+wVlYArgESlI1Oi7aChiGSJNzeGdyD73Onhoj9tYgeRv0nCJSdJjqXPlsYHhJRYLjTs9PhXPaxO2jTqI6NnGpAsD5sxRtx+UcbO+jFnt5x8twCTYDyhGXTdpo9Mw1CU5katRy1s=
+	t=1790433979; cv=none; b=A7FUCUteyDIs6NfIja5wSXvgK9SNBYzoBQXAfSqW652v26nqOMqR92e+/KsHUUIXpBzJAIEbsifXx03YRHmw/MhigwvP5akQ3lJdujjJTt4DasGiKikGeqrVi6v5t0Gfw1NFU1y/ktI8l/V+ZI7DgA+ni5SxOoJHZ6/NlUTtG7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790433934; c=relaxed/simple;
-	bh=dmZUngUCVOz2gkdF1xafc2BAzFipK5XtAgENKFzA6dI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=crtLhQdzHZBkm+Vcmla9asnxrRvwrerU53BTs7LFDbbWuUSh4m5Y2go7dcNJNHykDQUn0/iT262dRmecdXThuaZAKHCx/ZZTH9AzA9lWnm7QzBxvMRsfeG5tX5muI15Q/y8PTtFIFLay4aPjgMz040IUqVXnA/vMrp+nJaGqn44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=SmdpAoZs; arc=none smtp.client-ip=84.42.129.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+	s=arc-20240116; t=1790433979; c=relaxed/simple;
+	bh=JBsSQ55lN1QUpXoEExU0iVXLTvVf37cIW913mQR61YU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O4SLFX6y8MS12kb/KhiRPZ1uUIeE9+Z0yZhC47fXqquZi9VJ2dWLD7Y3/ggRnVk7D1OA5c3qibF07wZOb5PpsUeBJQh9NJmBZaFT1yIIcBMBiD9SRyUtr4wnjUX55LQb3YcNVB7bd1xzl1/bplagL8aXWiWkC1hErLwxYPD5FE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=oLqqU/4N; arc=none smtp.client-ip=74.125.230.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="SmdpAoZs"
-Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange x25519)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id C32E653401FA;
-	Sat, 26 Sep 2026 16:45:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1790433930;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5Apn2YF5XEj2vUVw6Yx8RwrmsIykiLewffaA3kcaTPY=;
-	b=SmdpAoZs79lrPkVy/0d+Ku1eDb2aVPLHg3M/IWW+9PinutKr4USvtM7HE9Xn4uWEAreLkU
-	GHgQKxpspvwHBLkZJ7BaUDTp1laR0/30vr0PUpFfmqm4Q3cuJFRgLrebS480GZ2cYg+8nP
-	dplAPgHy//yTykZw0X1o8RiWFUVLc8Y=
-Message-ID: <b6628737-6535-42ea-bf8e-93dcaddaeb5c@ixit.cz>
-Date: Sat, 26 Sep 2026 16:45:30 +0200
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="oLqqU/4N"
+Received: by mail-qk2-f41.google.com with SMTP id af79cd13be357-93bfa7b2093so206175185a.1
+        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 07:46:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1790433977; x=1791038777; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=sWxNzLmCVGq2M805s0Dqw+7yFQaCR+tur2n9MiDKJV8=;
+        b=oLqqU/4Ndk1LUgCv85zS/WF0gzp2HQF31WB7TGONumKQ7GAMKESmvD/GJKzNhDSw0l
+         Xwyma5pe/YNVwufw/xJ2XLXufw0UcvcRdS3K1+OwxQx2QDULHpOpvAToi3UQNwELk0eV
+         KymVy5Q5A+U8IelyxIJOVHe1t7SmMdzJUh/QvHh33aSfTnQnLVRh5kJAy7Lyg9GraMtl
+         vgATMldCCoFvRv6Dir1i8HYeKJIvvc1Jxim2VpRo8rHtPZRdATVsW0VANEDH/SK66GBq
+         X0u0CrXHvU7ku+aqlfVFZ5UET6lpNOyn9C7Ks4mkh4NMzYQJb8HCu9zXShSRRF1WXC5e
+         seDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790433977; x=1791038777;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=sWxNzLmCVGq2M805s0Dqw+7yFQaCR+tur2n9MiDKJV8=;
+        b=HbuNext6W9NHpbzdRYpD/qjTO8JeHr9QGp47LBRMlskPrli44dtbOnpZxPGVyk0XTB
+         VcGKYfD/KL4KZ40v4+2UJQ8GSH/MsiIjNIz4oJ7qbQvyv+WxxUp+UMjW4nfGhupqsUH0
+         hsi30IiaojNNBTBd1J8UCimRfysLwXyR2NTSsNlBAxQgeDr+J4mjqR2mLNLyF0//Hzv8
+         wsGMM50aLs4UIxK2UMU5QOf/d9iksoyxDNLY7PVhS2T3GLtBCfosTHJN7fFUnrcgYmub
+         HTdeR6OiirNQrlLfgNqlFE3Oh7DEh1ykGnR67UKHJNAuPmNtpKtv0JZAPd9fs4tZK4Dg
+         425w==
+X-Gm-Message-State: AFuF++lcwvHBhhh7EoVe1jaNYArymB9IweTEe8BjnfC8rkQaW/8qwwNa
+	CtwXM+hRYnq/mYxFRLkxvaKMu/8deDcD0VAKReMA+gmDTcqsi8qAaL1G0bsI5LCh17ZiTuaMC9Y
+	9Mhg=
+X-Gm-Gg: AYBFou3bY664bGXqFEM1GDTa2tqQCikv+cN/QpD5Gq/GGJSXxd6v6PrlEW21VJo7vGD
+	s2by6datYW+tYqYIqsNQGX8w/DZYKwQUyL2rfe8DJGZ7kwSOPEQZd3bdiXj1eZARi635evtQudj
+	KSBuZKe0aSYUKstIdljtHubtE2HWoOe3TcFZzyOFosNFMpYzhPoZi6lbdLRh+gHcgd5wOoHZl5S
+	iUfpe644rD2CDBJzAmD5LsbFPU3GV4wal7l+ocDHq1rkwy8N3zo5QzOFkkeCqBKSNEJVbZo8PCQ
+	2VVk1QdVpopLXSI2sk2SLsFZgtvZ7CDXNw48uvCNdsjTYpPpivBNrVpGeSFpdEe7l9BKbm3IXSK
+	r550ptTMGCnhZVTv19S27ljcOLI1qKoz/YcbEFzClfv4oJXE1Xq2YRnLsCaT0mRiVUbrtwhTW+R
+	Xz3ZkL/c8uQkgFyOcYxazw45a3C5KY9ybK1GrypEF17NSJz6n/wtmmK63fj/t4+1jIctidVjPBu
+	mYenilEuS7n
+X-Received: by 2002:a05:620a:8081:b0:93b:d79a:c468 with SMTP id af79cd13be357-93c43e3e46cmr988160285a.64.1790433976580;
+        Sat, 26 Sep 2026 07:46:16 -0700 (PDT)
+Received: from rowland.harvard.edu ([206.64.9.46])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c448adc24sm431752585a.8.2026.09.26.07.46.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Sep 2026 07:46:16 -0700 (PDT)
+Date: Sat, 26 Sep 2026 10:46:13 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Johann Klammer <klammerj@a1.net>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: possible regression in usb-storage?
+Message-ID: <0a83299e-c9db-46fb-a4ee-85b4e861f5d4@rowland.harvard.edu>
+References: <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
+ <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
+ <d0cd9a1e-cdb4-97c2-5bcd-1bc9f5d9173c@a1.net>
+ <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
+ <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
+ <605c0845-cfd4-0702-4322-53d9c8037b70@a1.net>
+ <be5899e3-3e3e-4977-e4aa-32ca368f06cd@a1.net>
+ <7e2440cb-41aa-3429-fb6f-b0f4cf761029@a1.net>
+ <986f81b9-c195-4ef4-8176-ca69a8f506c4@rowland.harvard.edu>
+ <04f165bc-e79e-4ef4-1f22-d4ad086c3ffb@a1.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 06/12] usb: typec: qcom: Add gen1 Type-C port support
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Alexey Minnekhanov <alexeymin@minlexx.ru>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Lee Jones <lee@kernel.org>, Stephen Boyd <sboyd@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- phone-devel@vger.kernel.org, mfd@lists.linux.dev
-References: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
- <20260926-typec-v1-6-31adc19f32c6@ixit.cz>
- <4f089c98-a479-45c9-9b11-0207c895367a@linaro.org>
- <f83b2992-9214-49b7-be3d-28ad435a73c9@ixit.cz>
- <8f6c3e69-f616-42b4-8e33-f05ac0812722@linaro.org>
-Content-Language: en-US, cs-CZ
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- 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
-In-Reply-To: <8f6c3e69-f616-42b4-8e33-f05ac0812722@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <04f165bc-e79e-4ef4-1f22-d4ad086c3ffb@a1.net>
 
-On 26/09/2026 16:41, Bryan O'Donoghue wrote:
-> On 26/09/2026 15:32, David Heidelberg wrote:
->> On 26/09/2026 16:22, Bryan O'Donoghue wrote:
->>> On 26/09/2026 13:40, David Heidelberg via B4 Relay wrote:
->>>> From: David Heidelberg <david@ixit.cz>
->>>>
->>>> Add a port backend for the first generation of the Qualcomm PMIC Type-C
->>>> block, found on PM660 and PMI8998.
->>>>
->>>> On gen1 the Type-C CC logic is part of the charger's USBIN peripheral
->>>> (base 0x1300) instead of the standalone Type-C peripheral used by
->>>> PM8150B and later PMICs. All Type-C events (CC state change,
->>>> tCCDebounce done, VBUS change and error) are signalled through a single
->>>> aggregate "type-c-change" interrupt, the handler re-reads TYPEC_STATUS_4
->>>> to find out what changed. The PD PHY is register compatible with PM8150B
->>>> and is reused as is.
->>>>
->>>> Differences to the PM8150B backend:
->>>>   - get_cc() returns -EBUSY until the hardware reports tCCDebounce done,
->>>>     instead of using a software debounce.
->>>>   - As a source, only the default and 1.5A Rp can be advertised, 3.0A
->>>>     requests are advertised as 1.5A.
->>>>   - The PBS workaround of the downstream SMB2 driver (TM_IO_DTEST4_SEL)
->>>>     is applied on every power role change.
->>>>
->>>> VBUS sourcing is optional and only used when the connector provides
->>>> a vbus-supply, as the charger doesn't expose a VBUS regulator yet.
->>>>
->>>> Assisted-by: LLM
->>>> Co-developed-by: Alexey Minnekhanov <alexeymin@minlexx.ru>
->>>> Signed-off-by: Alexey Minnekhanov <alexeymin@minlexx.ru>
->>>> Signed-off-by: David Heidelberg <david@ixit.cz>
->>>> ---
->>>>   drivers/usb/typec/tcpm/qcom/Makefile               |   1 +
->>>>   drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c      |   9 +
->>>>   .../typec/tcpm/qcom/qcom_pmic_typec_port_gen1.c    | 605 ++++++++++ ++++++ 
->>>> +++++
->>>>   .../typec/tcpm/qcom/qcom_pmic_typec_port_gen1.h    |  15 +
->>>>   4 files changed, 630 insertions(+)
->>>>
->>
->> [...]
->>
->>>> +/*
->>>> + * Failure of this workaround write is non-fatal and
->>>> + * we can continue with the role transition.
->>>> + */
->>>> +static void gen1_typec_pbs_wa(struct gen1_typec_port *port, bool sink)
->>>> +{
->>>> +    unsigned int val = sink ? 0 : PBS_CRUDE_SENSOR_ENABLE;
->>>> +    int ret;
->>>> +
->>>> +    ret = regmap_write(port->regmap, port->base +
->>>> +               MISC_BASE_OFFSET + TM_IO_DTEST4_SEL, val);
->>>> +    if (!ret)
->>>> +        return;
->>>
->>> Why would the write fail and why wouldn't that be a critical case if the 
->>> write did fail ?
->>
->> Heya Bryan,
->>
->> thanks a lot for reviewing the series. For the rest notes, I'll incorporate 
->> that and/or think about it later. Here to quickly answer to this note,
->>
->> this one quirk is definitely NOT REQUIRED. Originally, I was testing the 
->> driver without it on sdm845 devices, and everything worked without it just 
->> fine. I ASSUME in some situation or with some devices combination it may come 
->> handy, thus likely if it fails, not much usually happens (and clanker was 
->> suggesting to port this one from downstream, so I did).
->>
->> David
->>
->> [...]
+On Fri, Sep 25, 2026 at 07:28:21PM +0200, Johann Klammer wrote:
 > 
-> I ran this code though an LLM and it is babbling about the "shape" of things to 
-> hand you LoL.
 > 
-> Anyway the pattern matching part flagged this:
+> On 9/25/26 3:06 PM, Alan Stern wrote:
+> > So is it working or isn't it?  And if it isn't, what's in the usbmon
+> > trace?
+> > 
+> > Alan Stern
+> > 
 > 
-> "Write outside the node's reg. base + MISC_BASE_OFFSET + TM_IO_DTEST4_SEL is 
-> 0x16e9, the MISC peripheral. 03 declares reg = <USBIN>, <PDPHY> only."
+> not working. same as before.
+> here is the log for kernel 6.9.9 quirks uw
+> options usb-storage quirks=0bc2:2039:uw
+> options scsi_mod dev_flags="Seagate:Expansion SW:1024"
+
+This is the same as we saw before: repeated TEST UNIT READY commands 
+all getting the same NOT READY response.  In spite of the fact that 
+there was no 100-byte INQUIRY command, so that's not the right 
+explanation.
+
+> ..I also tried to debug this early on but only got as far as:
 > 
-> Worth also verifying.
+> > c6f9c300 1171416007 S Ci:1:007:0 s a1 fe 0000 0000 0001 1 <
+> > unknown? request tp=a1 req=fe
+> > (that one isn't in the usb3.1 spec)
 
-Yup, I explicitly split the addr into MISC_BASE_OFFSET, as it's pretty much 
-outside of this block range (same reason why I haven't sent the vbus patches for 
-qcom smbx charger).
+No, it's in the USB Mass Storage Class Bulk-Only Transport spec.  It is 
+a request for the number of Logical Units supported by the drive, and 
+the response says that there's only one.
 
-Maybe Konrad with more insight can tell more about it. In the Type-C submission 
-I can pretty much confidently drop it (if it'll need separate driver) and still 
-assure users get expected functionality.
+> One thing that baffles me tho' is the device descriptor that has a packet
+> size of 64 right at the start.
 
-David
+The descriptor's size is 18, not 64.  64 is the size requested by the 
+kernel when it gets the device descriptor for the first time.
 
-> 
-> ---
-> bod
+It's a normal device initialization command.  It shouldn't make any 
+difference as far as the drive's behavior is concerned.  Your working 
+4.9.210 kernel probably did the same thing, although it doesn't show up 
+in the trace you posted because you filtered that trace based on the 
+device address.
 
+> is it generally ok to have transfers longer than 64 on this device?
+
+Don't know what you mean by that question.  If you're referring to 
+the packet size for endpoint 0 and the device is running at High Speed 
+(USB 2, 480 Mb/s) or below, the answer is No.  SuperSpeed (USB 3, 5000 
+Mb/s or above) has a maximum packet size for endpoint 0 of 512 bytes.  
+But transfers can contain multiple packets.
+
+At this point I don't see any reasonable explanation for the difference 
+in behavior you're observing.  My best recommendation is that you try a 
+bunch of different kernel versions between 4.9 and 6.9 to pin down 
+exactly at what stage things stopped working.  A git bisection could 
+then zero in on the exact commit responsible for the change.
+
+Alan Stern
