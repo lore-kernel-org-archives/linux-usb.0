@@ -1,170 +1,96 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout17.a1.net (smtpout17.a1.net [194.48.128.1])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E89963939A9
-	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 19:57:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E7232E128
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 20:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.48.128.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790452649; cv=none; b=ZU9yCUkSWO38ppJXdluZk+KGf/6FHxvFDv/l50PamoEDu/WtwXzSlKXhPU1hJmm6rPXJiBXoMV2tp4gz2io4jbEtjnWP1U/dEkEz5qByypbbGff2a62TPhJ4OCnbFTAXteSR1HyAYZwVT0AZOH+PNaG9+DF5PodmKaQPtiytPzI=
+	t=1790455548; cv=none; b=eSDwUCEG5/8FRn5B00YO3uM+cJA80Wb9xEbo9qP9BWGsMwUxccgqUnIdUrsNvnuSss5SWiH+TEu0yhsw6yCuhT2ZNtwQ7jj9xNK3B03stgkxJ129vrcnWQNUixCvx+10HABcntK7As9JBsV4cwMp1WwomYm+etCv1MX0kG3PJjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790452649; c=relaxed/simple;
-	bh=qWq++QraPZZgfewzC7tf2JHtRehzSir1xvdICagfjjM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=et/ZKUfjLehQjWpuTsnxG+T3EsG69Gcaqneh3nL4PGkJFCp13jquXJDtfExR0hvgXXvizLjSLNuOx4uW+IsbdThG/BI2WaaKCbQWBqnh7dIgqxOESt9WkA617luqBIZJVOrr3E1Z6adsHiUliq6rDdQxi5+r2CndK5IH1l5o36A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RATiE6m3; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1790455548; c=relaxed/simple;
+	bh=3+n39fNnQtk8CI/6hGOJPOoIxd/FLI7tz8anfFIy14E=;
+	h=Subject:References:To:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=s8eSFjx/6wJvWGPG37fFo+xykO/JCzuX8Q0wW46UKHb1H6zVLqQ0R7870vSzWmxKZ8Jo0jrC55ILRt1R3ts1dFL/6OAyz7tdE3aUvHC3OWlhARwt4T59qBDMp+/KreeCGpYuzX5FSb2EutoA4YZZuTP86pqQRBKuKFz+uo/7FhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net; spf=pass smtp.mailfrom=a1.net; dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b=PJqJP+8i; arc=none smtp.client-ip=194.48.128.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a1.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RATiE6m3"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so9972435e9.0
-        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 12:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790452645; x=1791057445; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UvlokUDDlkO4+4AUk5rq3f1vyywZ8aScoT8XENLNdjw=;
-        b=RATiE6m3NJ/EN5WtoynkuZZ+lstuFnbNTTA0fQkfp6MTize5jKHdCElW1LOVeHTIet
-         XiRp3RPCmSNChLgzAVJugHgZuELIBDKPMssGOktfBoozro5wh3RB7arDYFzMLeEYI7I4
-         ZLkCyUVq7m1ON3GANc9a0IP2wOhZ4E5a4LuYc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790452645; x=1791057445;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=UvlokUDDlkO4+4AUk5rq3f1vyywZ8aScoT8XENLNdjw=;
-        b=vQLZ9PiHEE4nPxeERMbDhSWa2MeZk1Kjn9qgG5wECbk9CrXWcbGCumthJ4N8IQB0MF
-         9Lj2Xr5+xBKRo7IijsD7juheIrpI4GkbcR/5Lz9/AnaZ8rAYk5Qeve43Sqg7pOTuY8ff
-         v4gRiM2qCFeEaexd4ltZBEYQSVpLNunrnMGk949xXD1XqbjgSrUNunG8d9+Z3mcWCMM5
-         ngTKdMBBFT+2Ue++WMMuN0gbvVWW32ZzcKtPbvd3oyGYboEkStAb1NoOOhJloTQNjYv2
-         kT7K3BUgPeFqJhm19sZy8OCCeKbufMhve4vK+myCe+nhm7GMswg9vMbUnK9uM+o2VtSa
-         orKw==
-X-Forwarded-Encrypted: i=1; AKwUvBw1WltK/ZkuCXXki6pr+eMuEhrB/ZYv2nmkWRE5ac4askrcebmkHSvL/4kewOWk8YKY6Eq5yN5gs/Y=@vger.kernel.org
-X-Gm-Message-State: AFuF++kUaI/vfl2DqFyBjbY3kVSZtgdndZlfCKQuRoz0h21lMttS90Eh
-	JjXAp8PEE1HweJRUjCW4VUuZBF5LbyH5weHa4+NH4mjbGNCmZNMdGVU+yRI2GR6qjBk=
-X-Gm-Gg: AYBFou2qE8URfE2T+Kdm3rgcVBeyL9cIl4D75Bbhpshdj4Qw19H9Xg+Av8K7UA51Xvp
-	5pkQw849A6QJ7JYV/pKZ60sPAnJoixK+E9yVZQUU2SOWdpCXVW5AJIyTvr1oo6nKLmF/e5nOulH
-	eN5V4ZoW2qmS3nY2seW+9f3xF7W5IyriYITUccVP98HDPUfs9ngiQaHFL8+IhGyGsO88IdEHuhB
-	a3sn/+T3pj62TsRJYtAvMTww6eMIZsbcqcOc0jIA+OoVAjki8fz4NXsjcjcq7YKOedkMj5PPkeM
-	w4pb8wtWfAPKsz5n9PQknmTvNpncykVdkIBXy+9r3a769krkdwZwQ1Y5Q+MyTW1yqwYU3ps0Df4
-	DOGjBf8vaA2fmARxQmrcwDcKO7Y2ZGccKMzOENtVyf/ROzDwZl+sx/YZ7tSFkbQpPOuq7+lg181
-	5FFNtB2pGxkeG+oKx9nbVly5foNguex5UYcCbvhF1FSTBi05z9znosBT4OWdzxSUs5vZPNeM9Uc
-	+HYZNogdmMW5LB0jYN9ipFjVjo17BUpyv3lPJpJUerh3TcKd95XGFs6l0WSmDY3LULY
-X-Received: by 2002:a05:600c:4e14:b0:49f:ce78:3563 with SMTP id 5b1f17b1804b1-49fe66f1a7bmr146614685e9.20.1790452645039;
-        Sat, 26 Sep 2026 12:57:25 -0700 (PDT)
-Received: from [10.188.205.27] (cust-west-par-46-193-1-237.cust.wifirst.net. [46.193.1.237])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fffa334e6sm55147175e9.10.2026.09.26.12.57.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Sep 2026 12:57:22 -0700 (PDT)
-Message-ID: <6a97a599-db32-4fbc-90ca-e052cc23d317@linuxfoundation.org>
-Date: Sat, 26 Sep 2026 13:57:19 -0600
+	dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b="PJqJP+8i"
+Received: from [192.168.0.6] (unknown [100.64.124.178])
+	by smtpout17.a1.net (Postfix) with ESMTPSA id 4hsfjD1l9lzGrqnq
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 22:45:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a1.net; s=resmail1;
+	t=1790455536;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/krdb+n32+wzjLy/vrJU96ajzzr1DQvaDARb9SXdQ90=;
+	b=PJqJP+8iJSx/en4Vh3jY67bGeEUdn617Ccbuq/DvHnPRvFDxlvtubzR2utZn9NBknUbfw5
+	rK/qRCX8rQYekft2RKcQm1Dl99eQUQT4AAaF3JbSsrvkELN1sUsiX0M5kKBfJady0waQXJ
+	RFgRhD1tac9Er8Qz7VBAB26pZe00bd8qOZc4Q45EMsH1wRkUUne39qbsDQswsDl58bOY0l
+	G91oiYi5AqjBJYKl4cG5iZrKjQ4yEE5MXpfht2RMS7Ba28IZ7CybyO2+zDqwpBeBBXHCuT
+	JeLUwqa982PKcPvzE0HGQXZpdht1oji/6LBM6h3MTAP2NcfuFMc+/Exd3A7zqNdpgiVJy1
+	gd3s3vkvk20yDkDGHf3UcrfCFEH4KM/+gxgBKRbV47RGEL8HAgKzNdeiSfpHxOPyifkYzY
+	i1oH9UOIguLAJdcfH2FKN6dj+wacZ1S8Fj2M+5dYHhixwawyUmQrH/9zN+5UGMcZHXW5q7
+	DQfOSw9q/NIkz9Yl0gSc/ASleS/spfDWmEVp5E+d+3hk0rckZSGgyt7I5bdmlhYKMPE+ma
+	MnkdfRLZtFR4d8a0Ty8rZhOCtBkBCOuKMs8riH3OaNC3+ms671/QXXC3B7J0T5xyPfmLFT
+	UEiU10FUwchS/1GohGNXHqHpxsZBHolFUOJoBEhASMk5fyl4fzIYs=
+Subject: Re: possible regression in usb-storage?
+References: <18c4b811-e91e-c163-fe1f-ee081a00602e@a1.net>
+ <28d1f995-5e4b-4d01-aad4-6c5626e51e29@rowland.harvard.edu>
+ <d0cd9a1e-cdb4-97c2-5bcd-1bc9f5d9173c@a1.net>
+ <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
+ <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
+ <605c0845-cfd4-0702-4322-53d9c8037b70@a1.net>
+ <be5899e3-3e3e-4977-e4aa-32ca368f06cd@a1.net>
+ <7e2440cb-41aa-3429-fb6f-b0f4cf761029@a1.net>
+ <986f81b9-c195-4ef4-8176-ca69a8f506c4@rowland.harvard.edu>
+ <04f165bc-e79e-4ef4-1f22-d4ad086c3ffb@a1.net>
+ <0a83299e-c9db-46fb-a4ee-85b4e861f5d4@rowland.harvard.edu>
+To: linux-usb@vger.kernel.org
+From: Johann Klammer <klammerj@a1.net>
+Message-ID: <bc169809-3fa0-0a8f-911b-909ad2f8d46f@a1.net>
+Date: Sat, 26 Sep 2026 22:44:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
+ Thunderbird/68.9.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: flush the event handler in usbip_stop_eh() to fix
- use-after-free
-To: =?UTF-8?Q?Jo=C3=A3o_Moreira_Fernandes?= <joao.fernandes@ist.utl.pt>,
- Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
- <shuah@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Hongren Zheng <i@zenithal.me>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260715133855.2312018-1-joao.fernandes@ist.utl.pt>
+In-Reply-To: <0a83299e-c9db-46fb-a4ee-85b4e861f5d4@rowland.harvard.edu>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260715133855.2312018-1-joao.fernandes@ist.utl.pt>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: 
 
-On 7/15/26 07:38, João Moreira Fernandes wrote:
-> usbip_stop_eh() is used by the stub, vhci and vudc sides to wait for the
-> event handler to finish with a usbip_device before the caller tears it
-> down.  It waits only on the event bitmask:
-> 
-> 	wait_event_interruptible(ud->eh_waitq, !(ud->event & ~USBIP_EH_BYE));
-> 
-> but event_handler() clears those bits with unset_event() *before* its
-> final dereferences of ud:
-> 
-> 	if (ud->event & USBIP_EH_SHUTDOWN) {
-> 		ud->eh_ops.shutdown(ud);
-> 		unset_event(ud, USBIP_EH_SHUTDOWN);   /* wait may now return */
-> 	}
-> 	...
-> 	mutex_unlock(&ud->sysfs_lock);            /* still touches ud */
-> 	wake_up(&ud->eh_waitq);                   /* still touches ud */
-> 
-> Once the last non-BYE bit is cleared the waiter can wake and the caller
-> proceeds to free ud.  For the stub side, stub_disconnect() ->
-> shutdown_busid() calls usbip_stop_eh() and then stub_device_free() frees
-> the stub_device that embeds ud, while event_handler() is still executing
-> mutex_unlock(&ud->sysfs_lock) and wake_up(&ud->eh_waitq), and may still
-> mutex_lock(&ud->sysfs_lock) on a second queued event for the same ud.
-> The result is a use-after-free in the usbip_event workqueue.
-> 
-> It is readily triggered by a reverse/exported-device teardown that
-> unbinds usbip-host while the importer is still attached: the socket EOF
-> queues SDEV_EVENT_ERROR_TCP (SHUTDOWN|RESET) from the stub_rx thread at
-> the same moment stub_disconnect() queues SDEV_EVENT_REMOVED
-> (SHUTDOWN|BYE), so the handler re-runs shutdown/reset on ud in the exact
-> window where it is being freed.
-> 
-> Reproduced under KASAN on v6.12.95 (usbip built as vhci_hcd importer and
-> usbip-host exporter on two separate VMs).  The freed object is the
-> stub_device, freed by the unbind write and then read by the event
-> workqueue:
-> 
->    BUG: KASAN: slab-use-after-free in event_handler+0x2ba/0x3a0
->    Read of size 8 at addr ffff888005cc6058 by task kworker/u8:5/63
->    Workqueue: usbip_event event_handler
->    Call Trace:
->     event_handler+0x2ba/0x3a0
->     process_one_work+0x5c2/0xfd0
->     worker_thread+0x49d/0xb00
->     kthread+0x246/0x300
-> 
->    Allocated by task 1657:
->     stub_probe+0xf0/0xb00
->     usb_probe_device+0xaa/0x2e0
->     bind_store+0xce/0x140
->     vfs_write+0x87c/0xd70
-> 
->    Freed by task 1660:
->     kfree+0x1a4/0x3a0
->     stub_disconnect+0x21e/0x340
->     usb_unbind_device+0x6b/0x170
->     device_release_driver_internal+0x384/0x550
->     unbind_store+0xdb/0xf0
->     vfs_write+0x87c/0xd70
-> 
-> The same run produced 37 KASAN splats against the one freed object,
-> reached through every place the handler still touches ud after clearing
-> the event bits: mutex_lock() on ud->sysfs_lock, the eh_waitq wake
-> (__wake_up_common / finish_wait / prepare_to_wait_event), and
-> stub_shutdown_connection() called from event_handler().
-> 
-> Waiting on the event bits cannot close the window, because the handler's
-> last accesses to ud are inherently after the bit is cleared.  Instead,
-> flush the event work in usbip_stop_eh() so the handler has fully returned
-> before the caller is allowed to free ud.  Every *_EVENT_REMOVED sets
-> USBIP_EH_BYE, after which usbip_event_add() no longer queues new work for
-> that ud, so flush_work() only has to wait out the in-flight run.  Guard
-> the flush with usbip_in_eh() so it is skipped in the (stub reset) path
-> that runs from the handler itself, and move the usbip_work declaration
-> above usbip_stop_eh() so it is in scope.  None of the three usbip_stop_eh()
-> callers hold ud->sysfs_lock, so flushing the worker (which takes it)
-> cannot deadlock.
-> 
-> With the patch applied, the same KASAN reproducer runs the teardown
-> suite repeatedly with zero KASAN reports.
 
-Hmm. Did you test this change with usbip host and client? What kind of
-testing was done on this change?
 
-thanks,
--- Shuah
+On 9/26/26 4:46 PM, Alan Stern wrote:
+> 
+> Don't know what you mean by that question.  If you're referring to
+> the packet size for endpoint 0 and the device is running at High Speed
+> (USB 2, 480 Mb/s) or below, the answer is No.  SuperSpeed (USB 3, 5000
+> Mb/s or above) has a maximum packet size for endpoint 0 of 512 bytes.
+> But transfers can contain multiple packets.
+> 
+> At this point I don't see any reasonable explanation for the difference
+> in behavior you're observing.  My best recommendation is that you try a
+> bunch of different kernel versions between 4.9 and 6.9 to pin down
+> exactly at what stage things stopped working.  A git bisection could
+> then zero in on the exact commit responsible for the change.
+> 
+> Alan Stern
+> 
+
+It seems that my power supply is unstable. I had a dvb stick and another 
+hdd(selfpowered) plugged in, and with both disconnected the drive comes 
+up ok with and without the quirks(except for a cache consistency message 
+when unplugging). Plugging in the second hdd with the seagate mounted 
+gives me `critical target errors`in dmesg. Plugging in just the dvb 
+stick with seagate mounted gives no disk errors but unplugging and 
+replugging the drive it won't come up.
+
+Sorry..
