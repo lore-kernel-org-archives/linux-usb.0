@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D750B3A83AC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D772340BCB6;
 	Sat, 26 Sep 2026 12:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790426433; cv=none; b=knJ0FK34I0z4RYk3TAYNa4KoknvmFaQpn814usoHJdivRyAQi5Fyw0vFyYNEbixG9Hh7WiPgOHRbnCuvYTTpScyFPUwIBaDNzOaPfywI4qao80EvHkDqf2WrXMflpCr7W54WrfVm0nUe6HBxnP5sFzgGmu38IePeEQISdPs6Ans=
+	t=1790426433; cv=none; b=NWzjMTdcyzy6ec2tATrcwp32VpDeAfSrxmZcLGsV5a2jvsgsdVHIQntNm8c3g7iUm0CsSwCTsvnss0h46EeVcPb77uus6AI2wPD9IBLbbmNa078QhyWQh8ol0ovZf3+CtMadXBG+9fGiIZGhij2XMRPKKU1yY10Wo+nA0MqHEaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790426433; c=relaxed/simple;
-	bh=fbeH1V4vzunDOndyawowxW/6qRCo8v7L07Fr6mvTg5k=;
+	bh=NVmjkH7jPCdZBTzC0lyKhmKhkaZqH5Il1xxRCP38QFQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=njVzCbOn0asWQIK4Drk2nFyv9JlRqNzZIVXFASO0L3VytE8VWS/Z37me+iZHrLkiXsSVaDJh2J/kiS+Y+nkWvcYWFIYSHw4mWOtQ5TsPqMN1S+Lnw0V4F625mjRTnwZU6KjvQ7TdQA/B0L8mX7vx83Z8LDfXHwFmnoDwFddlGeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pRx+Op4v; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=m0kk+aEVrW6HbG2MEoiZf3d//I23n1Hp2qJJEXs9cilhANjW1CJ/xY9ws37RHLnZpOXmgPtC3hOw4C2N5gUKFLhjTnCtNU+cvwitoIxB82IONnEkY9x9YJdWtXdGi67XbknTrOibBLuv76Vx2OIrYVYCq/TwQVmaKbK3+f29dMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDm4bzFr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pRx+Op4v"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A29EC32782;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDm4bzFr"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 84A93C4AF0C;
 	Sat, 26 Sep 2026 12:40:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1790426433;
-	bh=fbeH1V4vzunDOndyawowxW/6qRCo8v7L07Fr6mvTg5k=;
+	bh=NVmjkH7jPCdZBTzC0lyKhmKhkaZqH5Il1xxRCP38QFQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=pRx+Op4v7ku1/IUyCHwevHXuHkCucoxQe0N9phyPYaX77lPzoBg9QnjNkn9Bzmf6S
-	 NVqz+cOV51xw9OsosZ7AX7cNHMOXzrmha1sx6xhEApB+joZvrTusBj51deDqNeLT5M
-	 bRQPU4agF2/JsdW5YK8x6ovFr9BrMUQWPeOU1Tj8hQ0U5l897BEgtUpBAo54y2+Gfv
-	 ye3yX+ROPx1AovA2L3AmBZq2s9FrgR4bnArriW3nrIw3i9pOLvrPWPZmw3XXF0u1WM
-	 KHJ3Z7bP1+eFsO6rkdO1BRXXSXuqdNmrBFKu0suVoUmCh4m4C9F5FL/Wg8XzBEJPE2
-	 /46mEwAj8An2Q==
+	b=EDm4bzFrhQ9Sbl37KTnntug6hRzqsnMHtg+ykRDgZhb9BXJY/Df7cp1J6FBSNIWb8
+	 QHaqRwSuHKHB8/fZCbeaMZH+2F4d6hQ90Td9t+PoWuNSx5x2Ngfw8PWwZnbCxvcwyM
+	 p7i677dkkAGFqM0gni2hlUaRV1C5KyTvkcvf/Mi7YAFSrmb7aGfdeSxpTOyJz5DPTv
+	 ZBfQOnjzACWrtuCzWwJWfu9qEiFBM9a+yiUOEesf/Kgy/o430Pgy247hxgfSwbioDR
+	 bG2gk9B1cpnMElYYHkUUiACgTmW8RmQbHvvU80coIJytUJc06o91DPIgTqccSyXciR
+	 oW9bWTRmL6/4Q==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78AE1C98328;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65BF6C9833D;
 	Sat, 26 Sep 2026 12:40:33 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sat, 26 Sep 2026 14:40:23 +0200
-Subject: [PATCH RFC 04/12] usb: typec: qcom: Make PMIC port probe
- selectable
+Date: Sat, 26 Sep 2026 14:40:22 +0200
+Subject: [PATCH RFC 03/12] dt-bindings: usb: Add Qualcomm 1st-gen PMIC
+ Type-C
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260926-typec-v1-4-31adc19f32c6@ixit.cz>
+Message-Id: <20260926-typec-v1-3-31adc19f32c6@ixit.cz>
 References: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
 In-Reply-To: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
 To: Alexey Minnekhanov <alexeymin@minlexx.ru>, 
@@ -61,21 +61,21 @@ Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
  phone-devel@vger.kernel.org, mfd@lists.linux.dev, 
  David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2776; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6560; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=0rBqhoYEUS5e6Dqw7gl8GlLS56lHpFV9ezYYskglvBA=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqt70+w/f0+R0Sai12heN/MhIh3cfG2zGBplQjT
- Amw5uAyGPOJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCare9PgAKCRBgAj/E00kg
- cq/aEACDASJtuj9XnIaBYYWlfCvYWzdnaO1kkWypCP+jJS9r7zLJAfnX7V+vN5kArhjrFrO46gk
- wHleVtVTSF2vyK8zTICd68HEyjr1rUL0LWxPZwPNiIvOF6oPeg3HuSVxk6WpWm1ySQt2o+L906B
- 0GYzUGwdQYDdV23gcLx8/016p1ubedMwj5IE3iSi4UyYZ7QDzVoigcMNXKvWsmjjBb0FpyB487y
- 6oFuYyuNPxdcUbO4nj0Y5smop/cVT0RkGwWPBsFSptKftApLgPTJM3pGqXUESqf24d3R1iJc2pH
- hd3EkC7gQvz5tao6GQC4J0W6RtWw1NhGHERO58xe4eiOlBw37j/ajp69Y6yI8kKiWeNOaM5cl8I
- 0TW8qnBMuFaxHhK8GrrC5YT/8gdVX1IaMafE8ZzeebEU9euOrUMRUQNBb8SRnjXBn/Q8veANnj8
- k2YJ+O/KPGpJbiWtuYcbHRtyy5+IqIQprLjhJ+MCc6a9jHsMKQz+LYZGv5lzaFi5m8mWtM42ail
- HiBo82MfXe5eaRKoSrEnA3Q73RGDRbLJfGzu1WHkJit5+kfCOoFBPoBpeux6s8wzjWgxEAWm7kD
- ptCg/Ko3aWWfoi0fTd2g9jasGpzv2KKr/4hg6c5jZe/gIp9dMPf1jOaTgKLHO/yy7hloxJVOuHi
- WLyGtBvZK1f26hg==
+ bh=h5jokoIGgyRIrcE5uqQ2ilFZQ7nRsHBBtFGlJGzRCmc=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqt70+N08iri4moGn4GRPNFAjjCc33g/d+t6dvb
+ 0ntxoZYIIOJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCare9PgAKCRBgAj/E00kg
+ ch+6D/9KoE80RjKlFmJnGWmJvaw9C7H3rPoqPuhClVet63WdKDaAQePP35i2ICzcBUV+ELgTbo0
+ r283gsIAUwZwrqZeQ8zgWERl1Ep01Wg9BdXqOvW6Fk9YrEKvVUpRQWSF9yYwj7iiayD64TjH7Uy
+ Occ8KAsM93wFHd3slgoSER0JnLSckY5exUWo5FQ4mw8qjA5rdUaGpNruSBYbiIGbdAZaKehiN5h
+ +bjRkxmiHpljldWXk7oJBLkAmqzZPkqMk4A6am29awqqnD0+jXOQCis0cGxoldqiqp+hEQ/8n1I
+ VeOLyxIkw7sThyR5yZRfjJ5qQImD78m3KW+tUoiCqNomFXgT+gzQnEUuK8988sF3S5bRt3SQMuU
+ mEcpPTiaCLPMqLp9DsfS9MbEE0V0slafl1ucO1JF9CmPaJlld+kf3SWVrqPCKbjfE3K1PI8Nna9
+ YsD1sSdlkC0m0Vl5wEaxM4lENTyblaPMqDS+35yMErlIGmJDAM5EFCQjS1GoGBMyrIzf2CTmq1i
+ +qX7l65nhxnRiPzkfnYAzhAqYR8IAJolG5qk2XRUIamV6xkeU5ipw1I/VsuZ3Wb2O0Kb2tdb5lU
+ XtcgXPTmPCTIzouYqk6XbBwZsa8Ows0P8Lx8NGkbbRwOC8GpOOForCaO5wp01N5NefTt/pWDW0r
+ YhjHPeTQXAafbOA==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -84,91 +84,192 @@ Reply-To: david@ixit.cz
 
 From: David Heidelberg <david@ixit.cz>
 
-This is a preparation for extending the support with 1st generation
-Type-C.
+Add a binding for the first generation of the Qualcomm PMIC USB Type-C
+port controller, found on the PM660 and PMI8998 PMICs.
+
+Unlike the later standalone Type-C peripheral at 0x1500 (e.g. PM8150B),
+the gen1 Type-C CC logic is part of the charger's USBIN peripheral
+(base 0x1300) and signals all Type-C events (CC state change,
+tCCDebounce done, VBUS change and error) through a single aggregate
+"type-c-change" interrupt. The USB PD PHY at 0x1700 is register
+compatible with PM8150B.
+
+The different interrupt set and register layout make it a separate
+binding rather than another variant of qcom,pmic-typec. As with PM8150B,
+the Type-C block and PD PHY are described as a separate SPMI node from
+the charger.
+
+Allow typec nodes of the Qualcomm SPMI PMIC to use the new binding as
+well.
 
 Assisted-by: LLM
-Co-developed-by: Alexey Minnekhanov <alexeymin@minlexx.ru>
-Signed-off-by: Alexey Minnekhanov <alexeymin@minlexx.ru>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ .../devicetree/bindings/mfd/qcom,spmi-pmic.yaml    |   4 +-
+ .../bindings/usb/qcom,pmic-typec-gen1.yaml         | 130 +++++++++++++++++++++
+ 2 files changed, 133 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-index d770e58bc16cf..41aaae6bb3724 100644
---- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-+++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.c
-@@ -13,19 +13,25 @@
- #include <linux/usb/tcpm.h>
+diff --git a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
+index 5e0ed30a9a466..d7a43aa423c8a 100644
+--- a/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
++++ b/Documentation/devicetree/bindings/mfd/qcom,spmi-pmic.yaml
+@@ -199,17 +199,19 @@ patternProperties:
+     $ref: /schemas/thermal/qcom,spmi-temp-alarm.yaml#
  
- #include <drm/bridge/aux-bridge.h>
+   "^temperature-sensor@[0-9a-f]+$":
+     type: object
+     $ref: /schemas/thermal/qcom,pm8775-mbg-tm.yaml#
  
- #include "qcom_pmic_typec.h"
- #include "qcom_pmic_typec_pdphy.h"
- #include "qcom_pmic_typec_port.h"
+   "^typec@[0-9a-f]+$":
+     type: object
+-    $ref: /schemas/usb/qcom,pmic-typec.yaml#
++    oneOf:
++      - $ref: /schemas/usb/qcom,pmic-typec.yaml#
++      - $ref: /schemas/usb/qcom,pmic-typec-gen1.yaml#
  
-+typedef int (*pmic_typec_port_probe_fn)(struct platform_device *pdev,
-+					struct pmic_typec *tcpm,
-+					const struct pmic_typec_port_resources *res,
-+					struct regmap *regmap, u32 base);
+   "^usb-detect@[0-9a-f]+$":
+     type: object
+     $ref: /schemas/extcon/qcom,pm8941-misc.yaml#
+ 
+   "^usb-vbus-regulator@[0-9a-f]+$":
+     type: object
+     $ref: /schemas/regulator/qcom,usb-vbus-regulator.yaml#
+diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec-gen1.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec-gen1.yaml
+new file mode 100644
+index 0000000000000..8e93719fac3d1
+--- /dev/null
++++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec-gen1.yaml
+@@ -0,0 +1,130 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/usb/qcom,pmic-typec-gen1.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- struct pmic_typec_resources {
- 	const struct pmic_typec_pdphy_resources	*pdphy_res;
- 	const struct pmic_typec_port_resources	*port_res;
-+	pmic_typec_port_probe_fn	port_probe;
- };
- 
- static int qcom_pmic_typec_init(struct tcpc_dev *tcpc)
- {
- 	return 0;
- }
- 
- static int qcom_pmic_typec_probe(struct platform_device *pdev)
-@@ -55,18 +61,17 @@ static int qcom_pmic_typec_probe(struct platform_device *pdev)
- 		dev_err(dev, "Failed to get regmap\n");
- 		return -ENODEV;
- 	}
- 
- 	ret = of_property_read_u32_index(np, "reg", 0, &base);
- 	if (ret)
- 		return ret;
- 
--	ret = qcom_pmic_typec_port_probe(pdev, tcpm,
--					 res->port_res, regmap, base);
-+	ret = res->port_probe(pdev, tcpm, res->port_res, regmap, base);
- 	if (ret)
- 		return ret;
- 
- 	if (res->pdphy_res) {
- 		ret = of_property_read_u32_index(np, "reg", 1, &base);
- 		if (ret)
- 			return ret;
- 
-@@ -132,21 +137,23 @@ static void qcom_pmic_typec_remove(struct platform_device *pdev)
- 	tcpm->port_stop(tcpm);
- 	tcpm_unregister_port(tcpm->tcpm_port);
- 	fwnode_handle_put(tcpm->tcpc.fwnode);
- }
- 
- static const struct pmic_typec_resources pm8150b_typec_res = {
- 	.pdphy_res = &pm8150b_pdphy_res,
- 	.port_res = &pm8150b_port_res,
-+	.port_probe = qcom_pmic_typec_port_probe,
- };
- 
- static const struct pmic_typec_resources pmi632_typec_res = {
- 	/* PD PHY not present */
- 	.port_res = &pm8150b_port_res,
-+	.port_probe = qcom_pmic_typec_port_probe,
- };
- 
- static const struct of_device_id qcom_pmic_typec_table[] = {
- 	{ .compatible = "qcom,pm8150b-typec", .data = &pm8150b_typec_res },
- 	{ .compatible = "qcom,pmi632-typec", .data = &pmi632_typec_res },
- 	{ }
- };
- MODULE_DEVICE_TABLE(of, qcom_pmic_typec_table);
++title: Qualcomm PMIC USB Type-C block (gen1)
++
++maintainers:
++  - David Heidelberg <david@ixit.cz>
++
++description:
++  First generation of the Qualcomm PMIC Type-C port controller.
++
++properties:
++  compatible:
++    enum:
++      - qcom,pm660-typec
++      - qcom,pmi8998-typec
++
++  reg:
++    items:
++      - description: USBIN peripheral base (Type-C CC logic)
++      - description: USB PD PHY peripheral base
++
++  interrupts:
++    items:
++      - description: Type-C change - CC state, tCCDebounce done, VBUS change or error
++      - description: Power Domain Signal TX - HardReset or CableReset signal TX
++      - description: Power Domain Signal RX - HardReset or CableReset signal RX
++      - description: Power Domain TX complete
++      - description: Power Domain RX complete
++      - description: Power Domain TX fail
++      - description: Power Domain TX message discard
++      - description: Power Domain RX message discard
++      - description: Power Domain Fast Role Swap event
++
++  interrupt-names:
++    items:
++      - const: type-c-change
++      - const: sig-tx
++      - const: sig-rx
++      - const: msg-tx
++      - const: msg-rx
++      - const: msg-tx-failed
++      - const: msg-tx-discarded
++      - const: msg-rx-discarded
++      - const: fr-swap
++
++  vdd-pdphy-supply:
++    description: VDD regulator supply to the PDPHY.
++
++  connector:
++    type: object
++    $ref: /schemas/connector/usb-connector.yaml#
++    unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - interrupts
++  - interrupt-names
++  - vdd-pdphy-supply
++  - connector
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/interrupt-controller/irq.h>
++    #include <dt-bindings/usb/pd.h>
++
++    pmic {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        typec@1300 {
++            compatible = "qcom,pmi8998-typec";
++            reg = <0x1300>,
++                  <0x1700>;
++
++            interrupts = <0x2 0x13 0x7 IRQ_TYPE_EDGE_RISING>,
++                         <0x2 0x17 0x0 IRQ_TYPE_EDGE_RISING>,
++                         <0x2 0x17 0x1 IRQ_TYPE_EDGE_RISING>,
++                         <0x2 0x17 0x2 IRQ_TYPE_EDGE_RISING>,
++                         <0x2 0x17 0x3 IRQ_TYPE_EDGE_RISING>,
++                         <0x2 0x17 0x4 IRQ_TYPE_EDGE_RISING>,
++                         <0x2 0x17 0x5 IRQ_TYPE_EDGE_RISING>,
++                         <0x2 0x17 0x6 IRQ_TYPE_EDGE_RISING>,
++                         <0x2 0x17 0x7 IRQ_TYPE_EDGE_RISING>;
++            interrupt-names = "type-c-change",
++                              "sig-tx",
++                              "sig-rx",
++                              "msg-tx",
++                              "msg-rx",
++                              "msg-tx-failed",
++                              "msg-tx-discarded",
++                              "msg-rx-discarded",
++                              "fr-swap";
++
++            vdd-pdphy-supply = <&vreg_l24a_3p075>;
++
++            connector {
++                compatible = "usb-c-connector";
++
++                power-role = "dual";
++                data-role = "dual";
++                try-power-role = "sink";
++
++                source-pdos = <PDO_FIXED(5000, 900, PDO_FIXED_DUAL_ROLE |
++                               PDO_FIXED_USB_COMM | PDO_FIXED_DATA_SWAP)>;
++                sink-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_DUAL_ROLE |
++                             PDO_FIXED_USB_COMM | PDO_FIXED_DATA_SWAP)>;
++                op-sink-microwatt = <15000000>;
++
++                ports {
++                    #address-cells = <1>;
++                    #size-cells = <0>;
++
++                    port@0 {
++                        reg = <0>;
++                        endpoint {
++                            remote-endpoint = <&usb_dwc3_hs>;
++                        };
++                    };
++                };
++            };
++        };
++    };
++...
 
 -- 
 2.55.0
