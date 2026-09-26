@@ -1,67 +1,67 @@
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69CF0437463
-	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 13:34:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0132643551D
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 13:39:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790429697; cv=none; b=aJNG7i/cDGihcY7xyyrkTxegPPqUIIEpt5B+yYZwX646AJv2n1IpbHXv+o8+LpP6vVad5TCLlFwNNz/wkqmMKheKZIKOtiPsqbToN8ardZynk17k0AQJfOOHuC4vfH4ABmlpCi3k9CmZmxtzrRPnU0nWBmZwHOMqJ//ps6Rw+Rg=
+	t=1790429975; cv=none; b=cIJ3CEgAkGaTw5X0mHiCFBGztTL2z9uDvOvClV9jBel2NMbd2YhB3bb+mUyIBVNX8WsZqURsLt88qk6wfS+aQP9VBqEcM3IXSnXSBlvKnDwK3+LgMW9ZkPYGMfNMTgj5fK4mIirhYPLf+12R5rCMZMHYtQefz5ZXPdDSkhpGmmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790429697; c=relaxed/simple;
-	bh=3CWJLlofZQApttlhq+kpMHCeVeEF0wllP78y3q08F/4=;
+	s=arc-20240116; t=1790429975; c=relaxed/simple;
+	bh=4PCF/pTuaQyrbWnAxj22N/OYcuTbKlF5oGBXIAB9HlY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IL6aQUqUgp6a2Y7Mx0tT9r23L36eVBtHOADdaSOPZBSGzIxFKmaKaTuma+ad31y1o5JHqcAN7ZUbokRJ5go9RyeNIL0ABgLi5rNuQotHpTl5vfSKlb1jOOE5bytyNFDG7MXBmzfOuON1ppRpHx1wQwHZe1OLj+UEL9ldjcJIb04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=R5gT76e8; arc=none smtp.client-ip=74.125.225.99
+	 In-Reply-To:Content-Type; b=qry6uLKzrnlEqTCqZFAnugD/QF4uSDs7ue43NYV/5k8XoXfU2KQRpYKosZiv9lFtNNnxzhD2618K9l6qjWubDZPFRBmOyfr/BPDZPxPrdBgID6UVIDQ3oa0ycS8Ayg9biDwEYLVFqy/MRJ+zGpuKQLy7e2E+SiIy0Ybv9nClMdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ihBQu6b0; arc=none smtp.client-ip=74.125.225.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="R5gT76e8"
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4887f6cf16bso954389f8f.0
-        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 06:34:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ihBQu6b0"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso15493785e9.3
+        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 06:39:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1790429693; x=1791034493; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1790429972; x=1791034772; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QfnxRYVPxR6v6awtj9prtQ+scY/SGqS6pi8ulBW0ptg=;
-        b=R5gT76e8ka3FKKJgaJPAaXmpOBM67BCN4ULBx7zq1oJqtGgnARua0vbh9cM1gJ6oiX
-         9irFqkkkh87vKqS0k1c4sQnWlyp/5cpEQ6LcOPbdcIxANIrxEObYH3siJsbFj2NK/wbW
-         y0ZzH/Xku9oT4lGkyJ3tQThbf5r/B/P4Hu0mCowv2NMLkiISlzRF/pANPqZT5ssW74p7
-         j1gkpJokbefo2TKRJNKzd2SepF2l8Gfpw9+iJpGuiUohj9uNQshq32ImooazTLcO11Xf
-         F9Anub4N1w0PDn/IVmzvV+6iMzSXlM8AOTZppHZD69LoyfegXiJnLFA92TznHAwzui0l
-         sDGQ==
+        bh=8Z7fw3g78kgiNXX0wSmQAAF31Sb6byeELkTa2HVDBpw=;
+        b=ihBQu6b09GQpB3/He72I1I2v3E07wXqqmjmsqIP37DuzjzuVmmABwkkLhduGoWmsYH
+         3Jf4ADssSWbaTfm8tWx3K6Ur/bS4GQ0Ca0zZ5x7GZYOoCHkqdrXVEoFNrD1+uX4s0W1M
+         mv6BO6eHrVTqzPmtmVPpJBthPJR5aO5koB6ecyAjWTHmAFbAPJCt56+PlR/G280162Az
+         UMKIQ7QNn3EuhBnprpcuedFgJ4uV1NuxjBlg0tQ2IcK9s+WH8I6B/CUk6X/vYffr+mAH
+         eL7/Y2ipqi6v9Nw1GsUIqNeYtvopTcs9DxRRPpMyTAGiZWj+QCqIzSN02eHd2srToM+q
+         9n8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790429693; x=1791034493;
+        d=1e100.net; s=20260707; t=1790429972; x=1791034772;
         h=content-transfer-encoding:content-type:in-reply-to:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=QfnxRYVPxR6v6awtj9prtQ+scY/SGqS6pi8ulBW0ptg=;
-        b=mgcBrTJDo0dNJSAWnKp+yD2lXnrOQCfOqPQmpRN1GcGJjpI+yTT1KWXZNcBjxeRaRI
-         JqSO0KnQN8aFKt5cDlu6+0QrPm1IrnHgNkTl21PIyrk/xKwwOP/5uTSVTjni9CWnE5yk
-         ultlEkvlL/nuV5nhM9GVY59/mfNBSj/gz8Y9pQvSkiQyIz5zCgrKL0x3EOmmU2xKvf4r
-         b9/nARn0HriHmky/p67+cuKTghOMzzEArCcWD02sI1RNNRjp1bRgV9atVEOSK2YiNMDG
-         rMhiM6zFykcFfRgsoVcYehgXk4rBLoCSgWCvjEj1jCn+6UdcKueYOT0eeK/KXZALY4oE
-         ZY+Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxhwhfGzvqM6hb+EnmsDXoiTTk7xlOu7ywUhz1YMt2X2rakFzXvGhhyqrdlxAnvuh6FpRBszGzA7PY=@vger.kernel.org
-X-Gm-Message-State: AFuF++kfP4nte1EEQQ/hj1iWt58T+ILiaMhA9PiEy87e7xAACfQMoN9/
-	JaCW2aIMyjngPWGIFm6FC/mT+2f2Nr1XtejnKozqHb/hlXXuQ1IqehrCKCT2c1AQ+P4=
-X-Gm-Gg: AYBFou11WRE+7o1mR5hMATnxEIODc4Jz4xk8ryYS1tHn8VYbs7pqvENzDcnG7r3x+kY
-	o0tsNYDzbwfZTLeZd+5nrIthgVdXIsFI8RPyA2odJj/s2lXpsUWVF95gSBMwDEzjQWpo8/u+jwD
-	GyCCwlzmDpNPn1bw3tQUmj0VBJtjpYVLmnSVhnzbU0KgtK1Tr+LaVitpQ2+ZUkpzdCOFMft558P
-	T7y/mAmRuD/68SK6kUoxOseNKXdhomt9GpiFSECqotpcY3394qnHsWKw2JzHEufi2quPA8F44FQ
-	huXJ+FBm7yZBvRT6uQaHcG0QqmudqPPmg+4aaTVCscXa2W5ZHBAV4RWkS9B7LzYZiDx4G8bHYKi
-	TXUZvcsAJNB46hjXhCjjGQrmEtbC2ObdasGZ0H49etQqHx/uCN0CGEF+GYLWnQyGnxNOd0gPZec
-	bwoErR/KVHunfuVqINgQNjv+/Js9vqD069hlH0bTacpKJHJJ1P8+zfVeMaktIqDLqwIaL2H3baq
-	4IKMl6DdJ0=
-X-Received: by 2002:a05:600c:3b0f:b0:49e:7cc2:e6c2 with SMTP id 5b1f17b1804b1-49ff06ed8a4mr87510495e9.27.1790429692711;
-        Sat, 26 Sep 2026 06:34:52 -0700 (PDT)
+        bh=8Z7fw3g78kgiNXX0wSmQAAF31Sb6byeELkTa2HVDBpw=;
+        b=TX6c/wUnYXt4Je9A0F3Z3GCO/KPtCDiwbLbT4xWBzulA/brn7CcTW7ErDYF74wBj0I
+         Yca/twDK4xgnSSP//Mp+H27csu1kVcd40ZtQt24Fpu2q586ak+dHzBl0mv7MoPnJggQC
+         ivgwfDjq9K6PNWkjlpMuTtjNA31YjEdHFta+YuIBY0/3zespl8vbtzI/NeZ7f9W/a8Wt
+         C7uVs91FSvxIPySBHWaWPlHT30YqDXmITk3OLTnuVtWwZsobEnhmj8skwkYWECaeP5N0
+         GayNHm0dPSCO/GLVn0X4m+Lp2p0DlAoLp0mkxdtyJaNDUCvh6MXhWTq3VUUH6xDYT1Iu
+         5q8A==
+X-Forwarded-Encrypted: i=1; AKwUvByAEYzV+3SKn9P3DTzvzcL3KEkZuqOAjVkfCmTNQUlOGYdsS04anC3kbVzfadAAHKt1M2/7tpUxkgc=@vger.kernel.org
+X-Gm-Message-State: AFuF++nXzxj6apgOIJKlkwsM/7XMe64C5YlojUzVbJgF8zkJ/1W1BrUq
+	5nb3i0XJYdL97fFiaqn91PFsJrXixyTmE1gifkb9Uvue2Tqmi21v+18hVeyJflUXyHI=
+X-Gm-Gg: AYBFou0SW6zVhce6WCuZhFwlEDv2lbSWAeXfHxEoNxwadeGneHTTkkMtV0fwAcv1uEf
+	61eRBFOTKJ+9dklmTkbK45D/VH9ofUfttaCCVMUVOxErEJH43v7l2UdYOV7HfkdLNhFzdhHh49v
+	qFqdHtOrzkhqN4WkaoQi0EAZ+t6qwxNQxFPVFg41zM8W1VIotT4xF8CzsR7dSl8AtUwPnQUZJ5f
+	zMj660wWaoYdQ+BrS7ifchsINLV1Ir2QtpVM7fT/q/ASUc/0dlIkJIDLZd64n/SG1t5nV9RY2Sr
+	I4KN9ykkjuFxAho2aYCT+oTQYi/9E40zIJGFVf+gO8nNeOFFmOfXpMBcBCpVbcV2X1RbwmF1lTK
+	pa7lt2xRbLichZYGxOrlvMNDQFx8cQrUs1qlFu7SyUrHii4oQV4+WRtEWFUI6+AUBCy4m8gYVMO
+	+MJWZBC4Z/9zR46QDDvyv17PvI2OhMPlpLmZRnUbaSBEfSqGIQT5Q8Xf6SMsB2dpsWk6533hsdV
+	daU49mZTDg=
+X-Received: by 2002:a05:600c:a10d:b0:49f:e8bf:8f9b with SMTP id 5b1f17b1804b1-49fe8bf91bbmr113280505e9.4.1790429972111;
+        Sat, 26 Sep 2026 06:39:32 -0700 (PDT)
 Received: from [192.168.0.167] ([109.77.79.156])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a744fb5sm12791808f8f.33.2026.09.26.06.34.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a34a76fsm14706746f8f.7.2026.09.26.06.39.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Sep 2026 06:34:52 -0700 (PDT)
-Message-ID: <f9e0f1d3-efb3-4c56-8c1c-9a608097c2a3@linaro.org>
-Date: Sat, 26 Sep 2026 14:34:49 +0100
+        Sat, 26 Sep 2026 06:39:31 -0700 (PDT)
+Message-ID: <0946da1a-e8e5-4ccf-a422-abcbc24cdab3@linaro.org>
+Date: Sat, 26 Sep 2026 14:39:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -69,8 +69,8 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 02/12] dt-bindings: usb: qcom,pmic-typec: Update
- example with vbus-supply
+Subject: Re: [PATCH RFC 04/12] usb: typec: qcom: Make PMIC port probe
+ selectable
 To: david@ixit.cz, Alexey Minnekhanov <alexeymin@minlexx.ru>,
  Heikki Krogerus <heikki.krogerus@linux.intel.com>,
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -85,60 +85,26 @@ Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
  linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
  phone-devel@vger.kernel.org, mfd@lists.linux.dev
 References: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
- <20260926-typec-v1-2-31adc19f32c6@ixit.cz>
+ <20260926-typec-v1-4-31adc19f32c6@ixit.cz>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-GB
-In-Reply-To: <20260926-typec-v1-2-31adc19f32c6@ixit.cz>
+In-Reply-To: <20260926-typec-v1-4-31adc19f32c6@ixit.cz>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 26/09/2026 13:40, David Heidelberg via B4 Relay wrote:
-> From: David Heidelberg <david@ixit.cz>
+> From: David Heidelberg<david@ixit.cz>
 > 
-> The vdd-vbus-supply is deprecated, thus don't suggest deprecated usage in
-> example.
+> This is a preparation for extending the support with 1st generation
+> Type-C.
 > 
 > Assisted-by: LLM
-> Signed-off-by: David Heidelberg <david@ixit.cz>
-> ---
->   Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-> index ba790c4488b76..2c8b11e92fb28 100644
-> --- a/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-> +++ b/Documentation/devicetree/bindings/usb/qcom,pmic-typec.yaml
-> @@ -163,29 +163,30 @@ examples:
->                                 "sig-rx",
->                                 "msg-tx",
->                                 "msg-rx",
->                                 "msg-tx-failed",
->                                 "msg-tx-discarded",
->                                 "msg-rx-discarded",
->                                 "fr-swap";
->   
-> -            vdd-vbus-supply = <&pm8150b_vbus>;
->               vdd-pdphy-supply = <&vreg_l2a_3p1>;
->   
->               connector {
->                   compatible = "usb-c-connector";
->   
->                   power-role = "source";
->                   data-role = "dual";
->                   self-powered;
->   
->                   source-pdos = <PDO_FIXED(5000, 3000, PDO_FIXED_DUAL_ROLE |
->                                  PDO_FIXED_USB_COMM | PDO_FIXED_DATA_SWAP)>;
->   
-> +                vbus-supply = <&pm8150b_vbus>;
-> +
->                   ports {
->                       #address-cells = <1>;
->                       #size-cells = <0>;
->   
->                       port@0 {
->                           reg = <0>;
->                           pmic_typec_hs_in: endpoint {
->                               remote-endpoint = <&usb_hs_out>;
-> 
+> Co-developed-by: Alexey Minnekhanov<alexeymin@minlexx.ru>
+> Signed-off-by: Alexey Minnekhanov<alexeymin@minlexx.ru>
+> Signed-off-by: David Heidelberg<david@ixit.cz>
+The code looks fine but, I think the commit log could do with a bit more 
+flesh on the bones. "We want our own probe function because"
+
+Then:
+
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
