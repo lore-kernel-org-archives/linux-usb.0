@@ -1,204 +1,173 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1B821A447
-	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 08:37:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C0B3AE188;
+	Sat, 26 Sep 2026 09:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790411838; cv=none; b=A9V6jlI4HTCtiT9oUxKOxIHol008gMUwBmizpRvXhWsw5cJMnjspub2ujVRhCR0a69H7JTd+kVldVnBwExjSz3dgUCPUPSfV4HwGc+95DoOdwPMfaMOaRWVihfWi/gBWs0/Sw4WJkRrfR87KhTybmmle1/1jr0lersnQwIW1O3Y=
+	t=1790415690; cv=none; b=C2NmT9uWz00F0F1OANcjzmMvRfxVUwRlXBKIZsTj3xKMUFHAsDJIg0NLrKc2Kv37EWVhSH08UWQhobLZehvPPXF509WL4GtZzdb73pquMNk0gY/vVOMIgLexw5M/TxNHOyv213kRJTWNORjTpKOEHjRcLRnDfJS5skkvfJZcNfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790411838; c=relaxed/simple;
-	bh=kjStB40TqhVIMYtiJnvfrBcR7V47PfTyysP2ProwVaM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UMs9d5Wg1Khu2sw9gL+iSROw2/20ey8EfLgDofJLMKaHdt4gQIQUUc1nUvlgnvOeZZEtealS55Ug8ynT6T1twsQ8ADVx0zQZUOYdtZOZILsKd4+X9JCZamU4JfNZ7Ej+tyUDM7LFX6fFDZdCg748fHN7So5Bz+an7JKanwxcXqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ogn/DmK2; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790415690; c=relaxed/simple;
+	bh=fG0FKQk8YwZ1VwP7/bshHcrrty8QQFIrgXpFDMvFJbw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LEXT0M+HYTvukNeD9kCslGYlsOpJPDSAmYGTHCtvAATFmU7F2IMvZ4oF0ATuWOxmIjzvGXY8qPTU3bizAE1W57DWfz327NEAfxBrTbFdCyjrieYm0nFGmDF2Jvzwwc9YYph8Zydt0CsEURa1TxE06yrSsFUaOw4SGb5b3o2DhQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jp0AvcBc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ogn/DmK2"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e71cdb22bso11440405e9.2
-        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 01:37:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790411835; x=1791016635; darn=vger.kernel.org;
-        h=content-type:mime-version:references:in-reply-to:message-id:subject
-         :cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xNZNOUDOgurnPd7Z4F0Jp9l9rVDlpVvUb1+k9XbjBtQ=;
-        b=Ogn/DmK2KPMGPAaEMYODEFaPfWvm81PvbTMRwQVF+D5kNXJ2Wh/RacGPZq/7hUOqDv
-         GxvPjl7B/FVJjCIIvff5LJT9qp3L3lLRvKV6k2krEXNm3zNMusd3gXYsxp8bS9sN35Bp
-         oAp2Egme2z9nHNcHgCy4VN/gZGMmDUR/cu4BD4zwhoLgAixDencgkLe7/KEX1SK+xTm9
-         /8xlp52XK4N5qe1IO05X2Cdb14K0KGpPOrMKCNjZE5aNV4gKEB1GaO9QLfuOw6eYMmKI
-         FrPrZY2GsZ7WNGPPCZ1kilTOH/meF+6ZWg+m9SvWnS9D0DQ2spHQPQSn+xm6Jbv371N5
-         LQXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790411835; x=1791016635;
-        h=content-type:mime-version:references:in-reply-to:message-id:subject
-         :cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xNZNOUDOgurnPd7Z4F0Jp9l9rVDlpVvUb1+k9XbjBtQ=;
-        b=Mv2SvC3I7idenPa6VlTpysWw+q2WKIsm1QYtgVkRyXj8bxSv7jaBgSf5fkvBAz+vUc
-         EfCEL1R4P/XWGQqbfYAdj9R1AE3xNQE9SWXIGnqJMKpXShVyjr7fZdTnNakYF6OSniiZ
-         ErareYjq0Mfu0HKvFR3jvSJeDrWiEKEffH5n9kOUIIMfjl5vyRC5+9Pq0LtupOPBB8XV
-         NodmFKavtw21XeF0X87rGdmQ+Bv/7Ube48YxmwWi8wNcSyTjN8ZNP97UXIuahweCQewq
-         azR7+CvWWEel5c2ME73gS476khKQR55NCZ7yaI90XsFQCrn6WQK4tpJVSoxnpl6MWJqg
-         sOmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx8fV+n1zYgCjKZLadJaID+RnJ7++SPSjiphNYpaZRTW2Z6bt2q4QMMGvpkZH7+Jaf4P9E9nmjNyws=@vger.kernel.org
-X-Gm-Message-State: AFuF++kXQantxKkuEvKXyMwAfV/9W66BHLMwzLHgHUHgvzyEELPhKf+/
-	PbLUBcbPuMfg0UFFPzxLPA/VAbxQrSn5m/BlXPDQdYnbx0yZodPt+NMs
-X-Gm-Gg: AYBFou3TsPUZxEAAM0xNPLgnrJo4OqhccSs5ZDbQrfak5VQwAZtnGYmCl9PFkgVhYeQ
-	bDVOucKE6a5jSTv3U/NiNYLlJkcCkXSldmg2ZUrWJbYFfQlPEAAzsvtnnWETIHKOllF/+f12BRY
-	Uank4qQjorlNWm48ABcmzxA5A7mkbAIZUtQCiSt9bqdamtD9G1b4l5hxxGX5pJkQd3ZRX5ys1nB
-	djz3XIYrCoeQhDPee5d6Yhgm6owPJrDcw0MjUkR0YsFD+jt+PFSKovKHlKkCo8ZFZLGqXZTYSqB
-	yHkHLIMacvZqAB/QOoZ2HVQbY2fNz8ogtXTDH1Zk+OiEl0O3Usjx8BTgWw78Z/ddLriKAJxtrxT
-	Jb0rUswZ8JztxoEr0YtTgrKs0FZhVAcWFdFX0FZAP+k+95uA73/onT0jwTnwAIE6Y1e6TfdJ7fQ
-	R0bUUPqEuz88K9gY0btAcHkFtcsWpUS8olA1N1WLTStVbSln34kWBob7P/+8/z+gM2ypC/nou3H
-	SKREyGxBg==
-X-Received: by 2002:a05:600c:1546:b0:49c:fa20:cc00 with SMTP id 5b1f17b1804b1-49fe66f4f59mr138394915e9.23.1790411835054;
-        Sat, 26 Sep 2026 01:37:15 -0700 (PDT)
-Received: from foxbook (bez152.neoplus.adsl.tpnet.pl. [83.28.37.152])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fef5fc189sm86201405e9.3.2026.09.26.01.37.13
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sat, 26 Sep 2026 01:37:14 -0700 (PDT)
-Date: Sat, 26 Sep 2026 10:37:08 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Ben <benstaples10@gmail.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, Mika Westerberg
- <mika.westerberg@linux.intel.com>, linux-usb@vger.kernel.org,
- andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com
-Subject: Re: xhci_hcd 0000:0c:00.0 dies with "Abort failed to stop command
- ring: -110" exactly 24s post-init, tunneled USB4 xHCI behind Goshen Ridge
- (ASUS ThunderboltEX 4) + CalDigit TS4
-Message-ID: <20260926103708.0025dad2.michal.pecio@gmail.com>
-In-Reply-To: <CANcA1gCRveYso4ishW68P_2N3z0pRYevAwShS_VRNQLEMKJfQg@mail.gmail.com>
-References: <20260915043845.GG106095@black.igk.intel.com>
-	<20260915050515.GI106095@black.igk.intel.com>
-	<CANcA1gDbddDkZAQr_O6njK4PvaDk6nnj+fPsrzigH132u0f0Ng@mail.gmail.com>
-	<20260916075135.GN106095@black.igk.intel.com>
-	<CANcA1gCjSCdXz_3+XA5ZOndm2pAL4ZUs93q_69dzZeq_cmq8Og@mail.gmail.com>
-	<20260917043847.GV106095@black.igk.intel.com>
-	<CANcA1gDFygEN68vnoocpLg10jMQctb3aG_QU55nZK3GuxSrD6w@mail.gmail.com>
-	<20260921044453.GJ106095@black.igk.intel.com>
-	<CANcA1gA_o_34UUZMzFp+cMuMFvk9S4uizYCdR8iG55pKaw+71A@mail.gmail.com>
-	<20260922042608.GZ106095@black.igk.intel.com>
-	<CANcA1gAijg6Ftmw9+aeuG+SjKKwKo-HyXb+kfBiGFGj=ZzNvaQ@mail.gmail.com>
-	<2a4026e7-f5d3-4301-bc60-0570cbd7fa09@linux.intel.com>
-	<CANcA1gAM7UsSxNyHET7HZndeWzAnf4yBDdhLC4pRFsMNuWOHgQ@mail.gmail.com>
-	<20260925102746.25e87ef0.michal.pecio@gmail.com>
-	<20260925104013.1c8e21cb.michal.pecio@gmail.com>
-	<CANcA1gCRveYso4ishW68P_2N3z0pRYevAwShS_VRNQLEMKJfQg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jp0AvcBc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3E8C81F000FF;
+	Sat, 26 Sep 2026 09:40:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790415681;
+	bh=0u13dbBevDvvrKeztStjJV2PV5yx6LiZibgW9CGmgFg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Jp0AvcBc2qFPX1KUyqat5xOo7kolWDkC6C0w6P6DaUvXm5iSIG2CZI03JVCmdPvQ2
+	 vFXKg46qQ6h6qbDwt9b4xtSV8aaaHLKGAB793g+poJ3xMYhkIZo7xqXL5RLvULfLUx
+	 vltnCfE9F9DOd8HFLd4r2r4Sg0lUuE/yF336VcdgoJJtQs97NrE8ayt+3eU4eDKxGI
+	 oItyuRRw3Cj0jyhydyYqR3Mm1CDYrci/+rQrHCVid7DDrx80EwRj+MiAUgyhESJ7FS
+	 iOAhXbJnk5J5uDUKfyr1oX15QJ3wMcCu5lNOsTEzc+QVqHwaov8/ApQZu8GqGu9l4+
+	 gmVl8+MdCcOZA==
+Date: Sat, 26 Sep 2026 10:40:50 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	"David Hildenbrand (Red Hat)" <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
+	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
+	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
+	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	"Kirill A. Shutemov" <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Jaya Kumar <jayalk@intworks.biz>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
+	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, peterx <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Dave Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>, Nicholas Piggin <npiggin@gmail.com>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S . Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>, 
+	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, 
+	linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, 
+	linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
+	fuse-devel@lists.linux.dev, Takashi Iwai <tiwai@suse.de>, 
+	Emil Tsalapatis <emil@etsalapatis.com>
+Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+Message-ID: <areSEI5pWBadkqIe@gremlin>
+References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="MP_/+QhLVpzWgHzxnhzO8nqFFmi"
-
---MP_/+QhLVpzWgHzxnhzO8nqFFmi
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
 
-On Fri, 25 Sep 2026 20:28:14 -0400, Ben wrote:
-> Kernel Information:
-> > =EE=A9=B1 =EF=81=8B git remote -v
-> > origin https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git=
- (fetch)
-> > origin https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git=
- (push)
-> > thunderbolt https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thu=
-nderbolt.git/ (fetch)
-> > thunderbolt https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thu=
-nderbolt.git/ (push)
-> > =EE=A9=B1 =EF=81=8B git status
-> > HEAD detached at thunderbolt/master
-> > Changes not staged for commit:
-> >  (use "git add <file>..." to update what will be committed)
-> >  (use "git restore <file>..." to discard changes in working directory)
-> > modified:   drivers/usb/host/xhci-mem.c
-> > modified:   drivers/usb/host/xhci.c =20
->=20
-> I've provided more snapshots. One with the quirks from console
-> options, one without.
+On Sat, Sep 26, 2026 at 12:06:22AM +0200, Arnd Bergmann wrote:
+> On Thu, Sep 17, 2026, at 18:22, Lorenzo Stoakes (ARM) wrote:
+> >
+> >  mm/vma.c                                   | 246 +++++++++++++++++++-------
+>
+> Hi Lorenzo,
+>
+> I see that in linux-next there is a new build failure in some
+> configurations in code that you are changing here:
 
-This looks right, but the debugfs dumps don't seem to have been taken
-from the patched kernel. Not sure what are those slot_2xx directories,
-but neither of them has the bogus IR0_ERSTBA_LOW value.
+Thanks for the report!
 
-Was USB functional at all? The patch would break it. Maybe it wasn't
-ideal, please try this revised patch which only touches the suspect
-host controller. And don't use xhci_hcd.quirks=3D0x800000 anymore.
+>
+> mm/vma.c: In function '__mmap_region':
+> mm/vma.c:3083:1: error: the frame size of 1552 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
+>
+> I don't immediately see anything that you did that would have introduced
+> something bad that wasn't already there, so it's likely just gone from
+> just below the limit I was using for my testing to just above. The 1536
+> byte limit is what I use on 64-bit builds with KASAN and otherwise
+> still has a clean build (with a small number of local fixup patches).
 
-Please confirm that the string "beef cafe" appears in dmesg, this shows
-that the patch is applied and it recognized the suspect controller.
-Then check if there are any "AMD-Vi" errors logged, particularly at
-addresses 0xbeef0000 and 0xcafe0000, and check this:
+Hmm are you specifying this limit manually somehow?
 
-# grep ERSTBA_LOW /sys/kernel/debug/usb/xhci/0000\:0c\:00.0/reg-runtime
-IR0_ERSTBA_LOW =3D 0xbeef0000
- =20
-> usbmon.txt is the result of:
->   sudo cat /sys/kernel/debug/usb/usbmon/0u | tee usbmon.log
->=20
-> followed by:
->   echo 0000:0c:00.0 | sudo tee /sys/bus/pci/drivers/xhci_hcd/unbind
->   sleep 2
->   echo 0000:0c:00.0 | sudo tee /sys/bus/pci/drivers/xhci_hcd/bind
+>
+> What I see is that this function has multiple structures on the
+> stack that have nontrivial sizes:
+>
+>         VMA_ITERATOR(vmi, mm, addr); /* 104 bytes */
+>         MMAP_STATE(map, mm, &vmi, addr, len,...); /* 384 bytes */
+>         struct vm_area_desc desc; /* 128 bytes */
+>
+> The config that caused this is https://pastebin.com/raw/5M95qHy5,
+> which is an x86-64 build with CONFIG_KASAN_STACK enabled, and likely
+> a few other configuration options that made it a little worse.
+> KASAN_STACK tends to double the stack size used by structures
+> in order to catch out-of-bounds accesses.
 
-This confirms that USB core initializes the hub, detects connected
-ports and tries to enable them without working Port Status Change
-events. Hub interrupt endpoints only see submissions and unlinks.
+Yeah, there is a lot on the stack admittedly but there is also a lot of state
+being used. I'm sure we can reduce it.
 
-I separately confirmed the same on my system. I completely patched
-out the call to handle_port_status() and devices connected during
-driver reload were still detected, only hotplug stopped working.
+>
+> If I sprinkle some 'noinline_for_stack' annotations on functions
+> called by __mmap_region(), I can get the size down to 1144 in this
+> config, but that doesn't sound like a great workaround.
+>
+> The large stack usage is potentially harmful if this ends up
+> in call chains that have additional large stack usage (e.g.
+> kmalloc() leading to reclaim). Any ideas for how to reduce it here?
 
-So it's not surprising that Enable Slot command is queued without
-functional xHCI events.
+That can never happen :) this call chain is _only_ for an mmap() call.
 
-Regards,
-Michal
+>
+>      Arnd
 
---MP_/+QhLVpzWgHzxnhzO8nqFFmi
-Content-Type: text/x-patch
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename=xhci-bogus-dma.patch
+In general I am absolutely taking this seriously and will find a way to
+reduce this, but my only question is whether this is actually something
+that needs to be done in this series?
 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 83ed26c4f9e4..a8f6d50eaf03 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -2349,7 +2349,7 @@ void xhci_add_interrupter(struct xhci_hcd *xhci, unsigned int intr_num)
- 
- 	erst_base = xhci_read_64(xhci, &ir->ir_set->erst_base);
- 	erst_base &= ~ERST_BASE_ADDRESS_MASK;
--	erst_base |= ir->erst.erst_dma_addr & ERST_BASE_ADDRESS_MASK;
-+	erst_base |= xhci->quirks == 0x9810 ? 0xbeef0000 : ir->erst.erst_dma_addr & ERST_BASE_ADDRESS_MASK;
- 	if (xhci->quirks & XHCI_WRITE_64_HI_LO)
- 		hi_lo_writeq(erst_base, &ir->ir_set->erst_base);
- 	else
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index e5c8b3a945a6..62c0690d4b55 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -497,7 +497,7 @@ static void xhci_set_cmd_ring_deq(struct xhci_hcd *xhci)
- 
- 	crcr = xhci_read_64(xhci, &xhci->op_regs->cmd_ring);
- 	crcr &= ~(CMD_RING_PTR_MASK | CMD_RING_CYCLE);
--	crcr |= deq_dma;
-+	crcr |= xhci->quirks == 0x9810 ? 0xcafe0000 : deq_dma;
- 	crcr |= xhci->cmd_ring->cycle_state;
- 
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Setting command ring address to 0x%llx", crcr);
-@@ -533,6 +533,9 @@ static void xhci_init(struct usb_hcd *hcd)
- {
- 	struct xhci_hcd *xhci = hcd_to_xhci(hcd);
- 
-+	if (xhci->quirks == 0x9810)
-+		xhci_info(xhci, "beef cafe\n");
-+
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init, "Starting %s", __func__);
- 
- 	/* Set the Number of Device Slots Enabled to the maximum supported value */
+Because it's already huge and I would rather avoid adding yet another patch
+to it if possible.
 
---MP_/+QhLVpzWgHzxnhzO8nqFFmi--
+If I can do it as a follow-up that'd be ideal!
+
+Thanks!
+
+--
+Cheers, Lorenzo
