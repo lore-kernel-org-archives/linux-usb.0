@@ -1,254 +1,328 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4974244237A;
-	Sat, 26 Sep 2026 12:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C0E2E7BD9;
+	Sat, 26 Sep 2026 13:07:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790426434; cv=none; b=Zxsqd4ujDU20/TTJA0c7mj7VdE6UI5vGV0HX3/t1osr482/yxLIoYunrDZw+o/7TSEK+BXujegFN7vJf8oWTALWU/eBvsAuxUf8QkW1SNrhVET0J8ls1Tz+87sxc1UeCBij8DuZSNB0aAKTuCKnydDY87Ne+ABUVkrYsY7MmGfM=
+	t=1790428040; cv=none; b=LHTFsMpEt13USu9HeMsUElviBDbXakGh/BVQrLdDpdPjfppJc/k301DI/JS7U0dOhkHQa4LHyCkQwCzeT6g6RNHtXLWrqzYQ4S/tDf9KBIHKC4VPrct090TXd2TboaIEaQdE2VcgzZ1zOhC8KR/q3X2TMuaH3qjd6gUS+YebX6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790426434; c=relaxed/simple;
-	bh=tcPHSgwlBjZs9/CWT2bgvix/rz4IKMDvnGfKwY69OS4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TJJcZKeA/hLTHt9pH3My4mJcFQXBNu05zRrZb7bup/k6fAqL9OXcZ5AW4XEjgbUeCFbO1H7Z8GH0cV4ELdrx4wg5ylrjt+l9p9mhn3AzY5HvgNdYCVj4xzDmfDhSuc/P7DJ/AdkxmXhWSTl7SD+hfDdj+aNyCMr2n/zTOQGiBds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=l+d0jgpU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790428040; c=relaxed/simple;
+	bh=wko7kmHoPQKSvHJFu02PIBG+REawZo/0kXd/Igypq3o=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=PeKUwu/VkZcAsYQlRhD/aEYl/9X1wk7hWEjQ0J0g32Dpz2cGUSiNBpQco6qeEVcVocgMCmUsV3ZagJd6oTpN+D0Zd0wVxQgYD0chX2YyFpkZVc7x6nikuNqW3FchIz4QGPS3Oc5Znazd4zNxadz/Pkz3EMBRLGmaWdbBOST5ouM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=GUmK00Nm; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=CFCADCnP; arc=none smtp.client-ip=103.168.172.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="l+d0jgpU"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 2981AC2BD01;
-	Sat, 26 Sep 2026 12:40:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790426434;
-	bh=tcPHSgwlBjZs9/CWT2bgvix/rz4IKMDvnGfKwY69OS4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=l+d0jgpUW5BXyMTcWX+yfweRqctAb8fwG6KFWg2sNrDq5qkz0B+jZ6qHvkzttMU5/
-	 SWl8XMN2DhSNhEKp3zmZ9UnTtm11kDAZyNZ/BK6jge92BdV5E4D9QG9co6mQow8GCq
-	 Z6hgUVHSwgDAFXKhvbXLKXhqr5zcYN/ri3oTMCbsL29f3dqQ36PI33EaIfheCnCeUn
-	 dmvaEDPyAkTJymJTOfWvCSHCz8/wfD23IDg1sqS9dUkFEnTXOSdyL8VM51SNKbN0DP
-	 e8vuFJTXFv5HHAH5NJ8yGoenwLRSknvf96/1ADZ2sP545Zii4bBwVEzMBg3mezyJ30
-	 UxqR6+8r7OgXA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17526C98328;
-	Sat, 26 Sep 2026 12:40:34 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sat, 26 Sep 2026 14:40:31 +0200
-Subject: [PATCH RFC 12/12] arm64: dts: qcom: sdm845-shift-axolotl: Enable
- USB Type-C port controller
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="GUmK00Nm";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="CFCADCnP"
+Received: from ams-compute-02.internal (ams-compute-02.internal [10.64.2.62])
+	by mailflow.phl.internal (Postfix) with ESMTP id B12EC1380386;
+	Sat, 26 Sep 2026 09:07:13 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-02.internal (MEProxy); Sat, 26 Sep 2026 09:07:16 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1790428032;
+	 x=1790435232; bh=E/0Aixz4MoGQbluxHxh98fr8xrgoH3pVa08CacPtFqs=; b=
+	GUmK00NmjYxSwfTBR3tVNjpqLAkVRWaCBtQW8hPgHgcvYPwGIIBCDq+aR194QZJV
+	hmIcmgKgFrX27w+CIuLZuGT+yAFPNfLObwbKGmV03uNiklrcV1jmuaY6kEgV6x+q
+	WRmC/1yuc3swDBfzqYG9TWNOngXm1W05PRIhj/dtOD6JqYWH9z9czT6feZHU2JL3
+	JlQkDDPxveVpZogI1dYghXXZz++8wtMbQ/lGmn0NVM61W0LRFcwZWYUslQl8bO8O
+	UX5rFh6elLuPZ8IbUOIIE0sUFyCCB2PLQbbO8ZRv4Z20dH1JfoSTZZZNWihCrVx9
+	4U3VBA18TINEk/vd5YlE2g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790428032; x=
+	1790435232; bh=E/0Aixz4MoGQbluxHxh98fr8xrgoH3pVa08CacPtFqs=; b=C
+	FCADCnP4fRR97/s//gFNfg+o+dRoT3zAGmmVQgzGghEZGGxzUUe6/HRcoxd0Wg1G
+	g/HL22FnHnD3JvV0Dgj/rtpsMttSHnLk2hw5GuDQVsB9O1YsKx0PDaNwhGHxs7Z4
+	3yzAqm5Dy1VVfvzQEYifHlvzaW2kEkSCIoH/+P2bVn2V9YgQVxn/pdYQA2rgNAx5
+	67xRqC8Rz+PiPjdOzdId03n7pB6tcKzF4LBtK2G+iJk/8veJj42P4Bud7seJhcKM
+	a9xTeAIp8QgYEr0LPZkLtZzLvDWJ1EdO7EU5y2Trcfp8zShGMwSGmxEVyk27RcDm
+	3//dExIenidGLUR3jnVhg==
+X-ME-Sender: <xms:d8O3au7n76eGhw2jpYdaVcHYn7upNz3419mg3XiM0JtuvZuHQIUVeA>
+    <xme:d8O3aitofBqjo_lbLDOAU7mZfGFzex12BqHRTCkWnEKu20vrV6Gu_C_19EF4s5u5Q
+    uVEwdBKfpJgOZoKzIw3RmstgUNQ8069BcGi5cScnfwl2JtyCll0uws>
+X-ME-Proxy-Cause: dmFkZTGUsKpqFXqlz0GGP/SFu+nZLjbDSu7At32QI34HLKVvf1fGYqDec9fSpPeFMwM2na
+    lCIyfst1DkAn1nxttW/0OGqAIcgR9hP0+9KRaczAEVzAiyIUrCzfAz3NG4OEkYMphPiska
+    sxzrcia7B/OfHjuc0OL3x2A6enil36KUIzawLytpDPNS07jW2p5hyCyp71P9EehHhgSWHo
+    13Bfkrk0kKx87sKF02XDEMx1t5GR+s+avdeSQ+AKRYbyaAuXdnE7xZSXQLdPsxEPtOlIpj
+    o0ANo6Se5VTMUcD0Mj9SJPo17T3fs8fxxCSDV2AftKwgRroxTJNkJPQnQ7BWLJ6W6fgTL5
+    wcNX32wzcM+QcLysY+pG69bj2RWFiUEd6wCYRTkVdCNfg7iFgjgAMtc09dsEXp4rUb9h87
+    Oh8IM3cXORgKjuqI9lWC+3kWwTogF+JMgqrNQVO7wVPJtcj/YPXt3JSnFSK50DuW3jJQwf
+    vC9xfsQarOpSwgT1SAHLeR5I1+SexGjeb1uJYikij/Vz/Qj8km+B2lRt2ir399BexDXylD
+    PxhinKlmSGCiwMsbu3RaQoA44Ynwc4XeDZEW0AvzHcge9LqoiYgRJjopaNATJs7VKeCwkb
+    Jf57C98/6wGVpJMIDVVR8ZEuU5t017X4o0/d6NVEbPZlm4dkUa5KYbehg+PA
+X-ME-Proxy: <xmx:fMO3apNP7HWsw2MPRs-ieBJZJpJm3doBBN88O0NvYsDI9Xk97LbkcA>
+    <xmx:fMO3asQhfZWmNKKQDfWOq1r6BmT1NpDzrtyIVNly6k8o72fqmwu0-Q>
+    <xmx:fMO3av5b2ChKxwow5wOHgSJTP_6AHC2Hcrx_qsRy59RQjkEcTmxgSg>
+    <xmx:fMO3agURH6NbNbT-w9t55VsJrrqeLwZ3RwxTXuqbm65L-K8N8i-6xA>
+    <xmx:gMO3ashG8E4Vx1KpZYgMvK8nuPd1Idi8GbsxL2-2Fwaj5ZgG-zhsdId_>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id 577F132A0087; Sat, 26 Sep 2026 09:07:03 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-ThreadId: AJwEWD5WPnhk
+Date: Sat, 26 Sep 2026 15:06:33 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Lorenzo Stoakes" <ljs@kernel.org>
+Cc: "Andrew Morton" <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <liam@infradead.org>,
+ "Vlastimil Babka (SUSE)" <vbabka@kernel.org>,
+ "Jann Horn" <jannh@google.com>, "Pedro Falcato" <pfalcato@suse.de>,
+ "David Hildenbrand (Red Hat)" <david@kernel.org>,
+ "Mike Rapoport" <rppt@kernel.org>,
+ "Suren Baghdasaryan" <surenb@google.com>,
+ "Michal Hocko" <mhocko@suse.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Dennis Dalessandro" <dennis.dalessandro@cornelisnetworks.com>,
+ "Jason Gunthorpe" <jgg@ziepe.ca>, "Leon Romanovsky" <leon@kernel.org>,
+ "Paul Moore" <paul@paul-moore.com>,
+ "Stephen Smalley" <stephen.smalley.work@gmail.com>,
+ "Jaroslav Kysela" <perex@perex.cz>, "Takashi Iwai" <tiwai@suse.com>,
+ "Alexei Starovoitov" <ast@kernel.org>,
+ "Daniel Borkmann" <daniel@iogearbox.net>,
+ "Andrii Nakryiko" <andrii@kernel.org>,
+ "Eduard Zingerman" <eddyz87@gmail.com>,
+ "Kumar Kartikeya Dwivedi" <memxor@gmail.com>, "Zi Yan" <ziy@nvidia.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>,
+ "Nico Pache" <nico.pache@linux.dev>,
+ "Ryan Roberts" <ryan.roberts@arm.com>, "Dev Jain" <dev.jain@arm.com>,
+ "Barry Song" <baohua@kernel.org>, "Lance Yang" <lance.yang@linux.dev>,
+ "Usama Arif" <usama.arif@linux.dev>,
+ "Kirill A. Shutemov" <kas@kernel.org>,
+ "Doug Gilbert" <dgilbert@interlog.com>,
+ "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>,
+ "Jaya Kumar" <jayalk@intworks.biz>, "Simona Vetter" <simona@ffwll.ch>,
+ "Helge Deller" <deller@gmx.de>, "Sebastian Reichel" <sre@kernel.org>,
+ "John Hubbard" <jhubbard@nvidia.com>, peterx <peterx@redhat.com>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Oleg Nesterov" <oleg@redhat.com>,
+ "Peter Zijlstra" <peterz@infradead.org>,
+ "Thomas Gleixner" <tglx@kernel.org>, "Ingo Molnar" <mingo@redhat.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "Arnaldo Carvalho de Melo" <acme@kernel.org>,
+ "Namhyung Kim" <namhyung@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>, "Rik van Riel" <riel@surriel.com>,
+ "Harry Yoo" <harry@kernel.org>, "Juri Lelli" <juri.lelli@redhat.com>,
+ "Vincent Guittot" <vincent.guittot@linaro.org>,
+ "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>,
+ "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>,
+ "Dave Airlie" <airlied@gmail.com>, "Will Deacon" <will@kernel.org>,
+ "Aneesh Kumar K.V (Arm)" <aneesh.kumar@kernel.org>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Muchun Song" <muchun.song@linux.dev>,
+ "Oscar Salvador" <osalvador@suse.de>,
+ "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
+ "Marc Zyngier" <maz@kernel.org>, "Oliver Upton" <oupton@kernel.org>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Anup Patel" <anup@brainfault.org>, "Paul Walmsley" <pjw@kernel.org>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>,
+ "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Christian Borntraeger" <borntraeger@linux.ibm.com>,
+ "Janosch Frank" <frankja@linux.ibm.com>,
+ "Claudio Imbrenda" <imbrenda@linux.ibm.com>,
+ "Alexander Gordeev" <agordeev@linux.ibm.com>,
+ "Gerald Schaefer" <gerald.schaefer@linux.ibm.com>,
+ "Heiko Carstens" <hca@linux.ibm.com>,
+ "Vasily Gorbik" <gor@linux.ibm.com>,
+ "David S . Miller" <davem@davemloft.net>,
+ "Andreas Larsson" <andreas@gaisler.com>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>,
+ "Joshua Hahn" <joshua.hahnjy@gmail.com>, "Rakie Kim" <rakie.kim@sk.com>,
+ "Byungchul Park" <byungchul@sk.com>, "Gregory Price" <gourry@gourry.net>,
+ "Ying Huang" <ying.huang@linux.alibaba.com>,
+ "Alistair Popple" <apopple@nvidia.com>, "Chris Li" <chrisl@kernel.org>,
+ "Kairui Song" <kasong@tencent.com>,
+ "Kemeng Shi" <shikemeng@huaweicloud.com>,
+ "Nhat Pham" <nphamcs@gmail.com>, "Baoquan He" <baoquan.he@linux.dev>,
+ "Youngjun Park" <youngjun.park@lge.com>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, "Qi Zheng" <qi.zheng@linux.dev>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>,
+ "Axel Rasmussen" <axelrasmussen@google.com>,
+ "Yuanchu Xie" <yuanchu@google.com>, "Wei Xu" <weixugc@google.com>,
+ "Chengming Zhou" <chengming.zhou@linux.dev>,
+ "Michal Hocko" <mhocko@kernel.org>, "Miklos Szeredi" <miklos@szeredi.hu>,
+ "Xu Xin" <xu.xin@linux.dev>, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org,
+ selinux@vger.kernel.org, linux-sound@vger.kernel.org,
+ bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ Linux-Arch <linux-arch@vger.kernel.org>, linux-fsdevel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
+ kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
+ fuse-devel@lists.linux.dev, "Takashi Iwai" <tiwai@suse.de>,
+ "Emil Tsalapatis" <emil@etsalapatis.com>
+Message-Id: <408aef6e-5b0a-482f-8ba8-f8c20ee870e5@app.fastmail.com>
+In-Reply-To: <areSEI5pWBadkqIe@gremlin>
+References: 
+ <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
+ <d4d7d4c2-a1d5-41d0-b1c8-8ea0cc5a0397@app.fastmail.com>
+ <areSEI5pWBadkqIe@gremlin>
+Subject: Re: [PATCH v3 00/40] mm: make VMA flag semantics explicit, eliminate
+ VM_SPECIAL
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260926-typec-v1-12-31adc19f32c6@ixit.cz>
-References: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
-In-Reply-To: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
-To: Alexey Minnekhanov <alexeymin@minlexx.ru>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Lee Jones <lee@kernel.org>, Stephen Boyd <sboyd@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- phone-devel@vger.kernel.org, mfd@lists.linux.dev, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4218; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=x32COcG8Butqrlw/fff8Lfo8b61ySUHbjR8/5yIgBUw=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqt70+D9ld9Gu1iU4YWKZL3BfGDTzOC2I5j0XtG
- MZVW8YLmNSJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCare9PgAKCRBgAj/E00kg
- ctTpEACDKiK7HntwbRh9oZMsTQl2VLJx030TyTKvQKkMLV8xfAZzVCr5NtbggSwgcW0cuAvvmOf
- a/eC3re114t2mQqz5sFmPuwQMndQPdUwdyB83yUpq/FG8jOD6b6H/qSFdeI3AmmAi2I5LPlbnXD
- q3sYf74UJo0aHBXbWzgluM5ucCqIOqFILfIVKCRF0spodPSY5IJO4GgJ3WTb4wDJWfjCdHWXRnd
- veQXKjLYzes/VLbdZbAPCx+SDuBG52lLqgFJjvu1aTLNK+24x29Xv9fnqFIjTyy+lMS1TB1fhVO
- hE+rbWoQQ3mkFIgo1XjLO0x3hKmV5GdNKbQeSSPJ/xXUZUcAdTmrXUnslz/Cq692xxWAW47QW3M
- OxKKwsda304QmybzA0WNQWQ2D4B28rcbirGgirSEzqkL1H3izI8hEzz1X6IN+D8FDxeqACkHg49
- 66PoG3U5OwiONfiXCGgqq09ZYEqxTPxTISJmArCt9Ic8XvTBceLpuWADxTooDzcqh03j/tHDNW5
- xaGN43A/RRotu2VPLYwRtTM0Yq4xqx5WT2RbEo8o7QqtvG29uVbaWS8XPVnFFk5ZJVft4YefF3H
- X3xrniO/S5/tjmegs/I3vFYYM59GcJcalPPBN1kFmO7nI3pQ9Q3EywU8Qcbm1d63FhhHVzdiETq
- K5u4gTq0aPACfNg==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
 
-From: David Heidelberg <david@ixit.cz>
+On Sat, Sep 26, 2026, at 11:40, Lorenzo Stoakes (ARM) wrote:
+> On Sat, Sep 26, 2026 at 12:06:22AM +0200, Arnd Bergmann wrote:
+>>
+>> mm/vma.c: In function '__mmap_region':
+>> mm/vma.c:3083:1: error: the frame size of 1552 bytes is larger than 1536 bytes [-Werror=frame-larger-than=]
+>>
+>> I don't immediately see anything that you did that would have introduced
+>> something bad that wasn't already there, so it's likely just gone from
+>> just below the limit I was using for my testing to just above. The 1536
+>> byte limit is what I use on 64-bit builds with KASAN and otherwise
+>> still has a clean build (with a small number of local fixup patches).
+>
+> Hmm are you specifying this limit manually somehow?
 
-Enable the PMI8998 Type-C port controller with a USB-C connector
-description for the SHIFT6mq:
+It's a Kconfig setting upstream, but the way I'm doing it is to have
+patch that calculates a sensible default based on other options that
+is a little smaller than the default (currently 2048 bytes) on x86-64
+to catch more cases where something sticks out.
 
-  - Sink-only power role with a 5V/3A sink PDO
-  - Dual-role data with USB role switching
+>> If I sprinkle some 'noinline_for_stack' annotations on functions
+>> called by __mmap_region(), I can get the size down to 1144 in this
+>> config, but that doesn't sound like a great workaround.
+>>
+>> The large stack usage is potentially harmful if this ends up
+>> in call chains that have additional large stack usage (e.g.
+>> kmalloc() leading to reclaim). Any ideas for how to reduce it here?
+>
+> That can never happen :) this call chain is _only_ for an mmap() call.
 
-The VBUS output of the charger is not supported yet, so the port can't
-act as a power source. Describe it as sink-only until VBUS support lands,
-USB host mode is still reachable through a PD data role swap. Higher
-voltage PDOs are left out until the charger driver programs the allowed
-USBIN adapter voltage.
+I mean more functions called /from/ here, something like
 
-Wire the USB-C connector port graph:
-  - port@0: DWC3 HS endpoint for USB role switching
-  - port@1: QMP combo PHY for SS lane orientation
+  __mmap_region()
+  __mmap_new_vma()
+  vm_area_alloc()
+  kmem_cache_alloc(..., GFP_KERNEL)
+  slab_alloc_node()
+  allocate_slab()
+  alloc_slab_page()
+  __alloc_pages_slowpath()
+  __alloc_pages_direct_reclaim()
+  __perform_reclaim()
+  try_to_free_pages()
+  shrink_zones()
+  shrink_node()
+  lru_gen_shrink_node()
+  shrink_many()
+  shrink_one()
+  try_to_shrink_lruvec()
+  evict_folios()
+  shrink_folio_list()
+  pageout()
+  shmem_writeout()
+  swap_writeout()
+  swap_add_folio()
+  swap_write_submit()
+  nfs_swap_submit_write()
+  nfs_file_direct_write()
+  nfs_direct_extract_pages()
+  nfs_do_recoalesce()
+  __nfs_pageio_add_request()
+  nfs_pageio_doio()
+  pnfs_generic_pg_writepages()
+  pnfs_do_write()
+  pnfs_try_to_write_data()
+  filelayout_write_pagelist()
+  nfs_initiate_pgio()
+  nfs_local_doio()
+  nfs_local_do_write()
+  nfs_local_call_write()
+  ->write_iter()
+  generic_file_write_iter()
+  generic_write_sync()
+  vfs_fsync_range()
+  ->fsync()
+  xfs_file_fsync()
+  file_write_and_wait_range()
+  filemap_fdatawrite_range()
+  filemap_writeback()
+  do_writepages()
+  ->writepages()
+  xfs_vm_writepages()
+  iomap_writepages()
+  iomap_writeback_folio()
+  iomap_writeback_range()
+  ->writeback_range()
+  xfs_zoned_writeback_range()
+  iomap_add_to_ioend()
+  ->writeback_submit()
+  xfs_zoned_writeback_submit()
+  xfs_zone_alloc_and_submit()
+  xfs_submit_zoned_bio()
+  submit_bio()
+  submit_bio_noacct()
+  submit_bio_noacct_nocheck()
+  __submit_bio_noacct()
+  __submit_bio()
+  blk_mq_submit_bio()
+  blk_mq_run_dispatch_ops()
+  blk_mq_try_issue_directly()
+  blk_mq_run_hw_queue()
+  blk_mq_sched_dispatch_requests()
+  blk_mq_do_dispatch_sched()
+  __blk_mq_do_dispatch_sched()
+  blk_mq_dispatch_rq_list()
+  ->queue_rq()
+  scsi_queue_rq()
+  scsi_dispatch_cmd()
+  ->queuecommand()
+  ata_scsi_queuecmd()
+  __ata_scsi_queuecmd()
+  ata_scsi_translate()
+  ata_scsi_qc_issue()
+  ata_qc_issue()
+  qc_issue()
+  ata_sff_qc_issue()
+  ata_sff_queue_pio_task()
 
-Switch the DWC3 controller from peripheral-only to OTG mode with
-usb-role-switch to allow the TCPM framework to control USB host/device
-role based on CC pin detection.
+There are many ways the call chain can go of course, but the actual
+stack overflows do tend to follow this pattern where you are at a
+function with high stack usage and call kmalloc() during low memory
+condition and that ends up waiting for a block I/O down the line.
+(you normally don't go through swap and nfs, I was just looking
+for the worst case I could easily see in the code)
 
-DisplayPort Alt Mode is not advertised yet, it will be added together
-with enabling the DP controller (mdss_dp).
+> In general I am absolutely taking this seriously and will find a way to
+> reduce this, but my only question is whether this is actually something
+> that needs to be done in this series?
+>
+> Because it's already huge and I would rather avoid adding yet another patch
+> to it if possible.
+>
+> If I can do it as a follow-up that'd be ideal!
 
-Assisted-by: LLM
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
- arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts | 62 ++++++++++++++++++++++-
- 1 file changed, 61 insertions(+), 1 deletion(-)
+What I was hoping for is that as you are already deep into the
+exact code that caused the warning and you can already see something
+in there that may help.
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-index 1b0eaeafbd517..2ddbe732961a2 100644
---- a/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-+++ b/arch/arm64/boot/dts/qcom/sdm845-shift-axolotl.dts
-@@ -6,16 +6,17 @@
-  */
- 
- /dts-v1/;
- 
- #include <dt-bindings/arm/qcom,ids.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/leds/common.h>
- #include <dt-bindings/regulator/qcom,rpmh-regulator.h>
-+#include <dt-bindings/usb/pd.h>
- #include "sdm845.dtsi"
- #include "pm8998.dtsi"
- #include "pmi8998.dtsi"
- 
- / {
- 	model = "SHIFT SHIFT6mq";
- 	compatible = "shift,axolotl", "qcom,sdm845";
- 	chassis-type = "handset";
-@@ -654,16 +655,66 @@ led-1 {
- 		color = <LED_COLOR_ID_YELLOW>;
- 		led-sources = <2>;
- 		led-max-microamp = <100000>;
- 		flash-max-microamp = <1100000>;
- 		flash-max-timeout-us = <1280000>;
- 	};
- };
- 
-+&pmi8998_typec {
-+	status = "okay";
-+
-+	vdd-pdphy-supply = <&vreg_l24a_3p075>;
-+
-+	connector {
-+		compatible = "usb-c-connector";
-+
-+		/*
-+		 * Sink only for now, as the PMI8998 charger doesn't provide
-+		 * the VBUS output yet. Switch to the dual power role with
-+		 * source PDOs, try-power-role and vbus-supply once it is
-+		 * supported.
-+		 *
-+		 * Higher voltage sink PDOs will be added once the charger
-+		 * driver programs the allowed USBIN adapter voltage.
-+		 *
-+		 * DisplayPort Alt Mode will be added together with enabling
-+		 * the DP controller (mdss_dp).
-+		 */
-+		power-role = "sink";
-+		data-role = "dual";
-+		self-powered;
-+
-+		sink-pdos = <PDO_FIXED(5000, 3000,
-+				       PDO_FIXED_USB_COMM |
-+				       PDO_FIXED_DATA_SWAP)>;
-+		op-sink-microwatt = <15000000>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				pmi8998_hs_in: endpoint {
-+					remote-endpoint = <&usb_1_dwc3_hs>;
-+				};
-+			};
-+
-+			port@1 {
-+				reg = <1>;
-+				pmi8998_typec_mux_in: endpoint {
-+					remote-endpoint = <&usb_1_qmpphy_out>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &qup_uart9_rx {
- 	drive-strength = <2>;
- 	bias-pull-up;
- };
- 
- &qup_uart9_tx {
- 	drive-strength = <2>;
- 	bias-disable;
-@@ -855,17 +906,22 @@ &ufs_mem_phy {
- 	vdda-pll-supply = <&vdda_ufs1_1p2>;
- };
- 
- &usb_1 {
- 	status = "okay";
- };
- 
- &usb_1_dwc3 {
--	dr_mode = "peripheral";
-+	dr_mode = "otg";
-+	usb-role-switch;
-+};
-+
-+&usb_1_dwc3_hs {
-+	remote-endpoint = <&pmi8998_hs_in>;
- };
- 
- &usb_1_hsphy {
- 	status = "okay";
- 
- 	vdd-supply = <&vreg_l1a_0p875>;
- 	vdda-phy-dpdm-supply = <&vreg_l24a_3p075>;
- 	vdda-pll-supply = <&vreg_l12a_1p8>;
-@@ -873,16 +929,20 @@ &usb_1_hsphy {
- 
- &usb_1_qmpphy {
- 	status = "okay";
- 
- 	vdda-phy-supply = <&vreg_l1a_0p875>;
- 	vdda-pll-supply = <&vreg_l26a_1p2>;
- };
- 
-+&usb_1_qmpphy_out {
-+	remote-endpoint = <&pmi8998_typec_mux_in>;
-+};
-+
- &venus {
- 	firmware-name = "qcom/sdm845/SHIFT/axolotl/venus.mbn";
- 
- 	status = "okay";
- };
- 
- &wifi {
- 	vdd-0.8-cx-mx-supply = <&vreg_l5a_0p8>;
+I don't think it's urgent, I just don't want it to be forgotten.
 
--- 
-2.55.0
-
-
+     Arnd
