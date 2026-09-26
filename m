@@ -1,69 +1,68 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qk2-f41.google.com (mail-qk2-f41.google.com [74.125.230.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C818D382F0C
-	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 16:25:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D5A3815DF
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 16:25:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790439938; cv=none; b=EjhO+8wbZkYxsEB7lOs4T8CN7e+fmglTMQcKZYuUn/Sd3HBF6XlLtYhJ/HbB6so2tFUZoHHfuXASXg3zIB+sqR74D0q8VY5FTddCBJuER+BPFyVx2CL3UY0dhXCdgeWrK0A1s216yX73O1QWcA+rLoGzWwLD6Cgi/Y+HsTTqe4U=
+	t=1790439944; cv=none; b=NC3x0y1eqYy2HPyNqgHbtC8EViwFvFOWbtGL6sR5GKlTEd5uVEmW268dr5ov7vi2V7H8f+GQwiHRf42thzBCkgvj98zrtg1+V2vjZKDNP8pEClrAt+j2mp5JnZN4i2eOCgQQferRx/vGDtSTNIE/RUh0LFsSJoZUjzdi3LX+BOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790439938; c=relaxed/simple;
-	bh=GiLTx1fkhx8yG7X6K9mjE54jwkCBrB2Fu6pZDDSAyrY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cftyze5et2rIZwdXTQQ59oh1cscZ0GMWY1JRt1ooXFQCYZ3DtPEz9PWl3apOwRPMT36qQb+JDfpEoxc/f/DnpU16ZFKJRzMI9nhieD5qoUF0PmAe1xkJN42jLPS4rCz8LpH1DhrNdVuvGYAM/SR9O7Q04HeKbBoxGROIPwUQDNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pmv6eN0Z; arc=none smtp.client-ip=209.85.222.176
+	s=arc-20240116; t=1790439944; c=relaxed/simple;
+	bh=KHu6n6nF7r8HoMbgICyqgJcdR6e9Uz2lwSDzo87ed9o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Nr/8l/e1BQBZ/G/78sAJ+aRBI/T4LczCiRiqugPsRuyjvsds9B1FdgnYsL/CMVAbLqRiy+057mzmVGqYTVmctyOc6mxFqIDJwKt8nEYCh+jmtr5kyVhtqEtxGp4Odq6oEQtojcZh5ow46shRe0UDvLsjBX3W07hThQxywy+/mfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m4kt2Q2c; arc=none smtp.client-ip=74.125.230.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pmv6eN0Z"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93c5b7f5bfaso48386085a.1
-        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 09:25:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m4kt2Q2c"
+Received: by mail-qk2-f41.google.com with SMTP id af79cd13be357-93bfa7b2093so212033385a.1
+        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 09:25:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790439922; x=1791044722; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790439927; x=1791044727; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7fg3dbwS3W1KU8abSpFzbimpRIYbTpSGslxm2lys07I=;
-        b=pmv6eN0Z89n+/W0A28ck7gkM5yl5zAt4CQcPktJlI6ENaZsRdFF5wDidIJ/gRh4bWY
-         Ld+txmckHc9vnJuRCrmWsx7GfwawXGc5dt/Y7qkG+nsW4e8Yd+uR4VjnezHxFnTXkl2P
-         mvfnSQYGZPHjf4lkgPcCYEzlkDGmPrW1IpC/VoA0sQM2KJIxYrJTUj4DV0jch1HA8WbA
-         FlSHktH1LgnTmzvJRNhjPid0ASMKC/CVkJzxloYGBxOmH+oaF4C1EgeAkGMRHcHypNGF
-         7NJuWf3fcRnzHvgTekdCtAv8qNyWMr9I/pcX685h0JVr3SmwxcrkNsNaBIPi7/iDfDu4
-         CfpQ==
+        bh=yxGw90+JpYDU2nxs8d7bIbWjyZdBY1QVcTsJVhZ3GNI=;
+        b=m4kt2Q2c5pA1VSj4Zp8vqILDOQM+yQ+cnrNu8NJp6OocUIsaYs7FwpS7tP9KoHdEun
+         RtALTZ7n0s1REPOLxwcIyTHIJ0kad6Yn3WUJj/FMM7DjZ28QIW9fj9FnXAjfWbZr2kGe
+         cUETHvyp+/Tn5VJ2RIGbHE/sWA5oppZCcc519Ila0rAykWXmweIg1HjpXsm3pf6e/KQi
+         bzRU9tr2YbvT1crVSQub336JREZB7a7J28w8X7q21RlNl3WIL6bZrTYDkQZljLH2Wh+W
+         0u44pTlP13sXqwYOMS1+gVmIzBtH+Fs0aoY2+Y5rOdjuImsoo9VWQjeArhoDXqutk0ls
+         6kPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790439922; x=1791044722;
+        d=1e100.net; s=20260707; t=1790439927; x=1791044727;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7fg3dbwS3W1KU8abSpFzbimpRIYbTpSGslxm2lys07I=;
-        b=xiG0g7IE+0frNGEpWwlb3F+XaHSb5UvVFUr06QSvgwHBiyt7VVBEj4qG1xMItQSAMU
-         N+OBFNl+RGJKtGih/TSj3+C92RlGLfzqT3d28lSqW1oRFFosi3aQQ+H/tUmxIi88xOmt
-         m2b+wBmk4Q8xj51tyK3LZSYZNiKdHX0kHL3PtfD1DIZWW1sovnP2y5cnJoBLymcuKgxU
-         53EtqedMttOL3F5h7Zt+tXbfvG7aN6kQwmqBRTM9CS3qBDIYlLolmN2ebaj1nU3cOQxm
-         aTPt5gVcfC+VWeoW1CfBuF/AYbEXkDGlnFtdpHjU56opSS31BzcFSG6u9J+IaQgOimuc
-         wTyw==
-X-Gm-Message-State: AFuF++mQVkeN6YdU4+DlC3VW1l+RFOuIDGPHmbNjNRMvx9ILl/6+UKn8
-	xFHaXAbssvu4SPmvGdZEXLPZZRxvUDLf+GAYbrdgkjr57biRBbmQZ6DQ
-X-Gm-Gg: AYBFou3XKCjPfTU4slTh1y3Mdt9WyV4F0YacxejP/KpaRtu3ASdigsl6T6n9hT8gviI
-	h9kFcdzqVSCAwAmn84k6XdUf+VZwB7OtZGHii9mKPa/zSk2bc3fvmt5a6x+QN9HNGDgWLhim/ct
-	khSotWoZV2/mg6t7NZDmCxHwdFIRyFLzchvm8C0rlSrBcNwIIAElkjreEBfo3HTmhKBFs/QsHZG
-	Ig95CNCp+Dpf8HUigcP7+YlNprcBsM0BZeECiKeHJOSzYUus/R6rBhnrYidw3yK99sx/GK7Po46
-	ODLNWVkD2kevDRIFWysfXF6XtxzbavSlnFrA4KTttYzORGrtuj219mPKY8ieNC75JX8i/wEIWU7
-	IjBWsziWYcAk8xiEVZ3b0SyQNUc1IzBxnZAdavdVVz75ByD8YG9q756i1bK2eXWnZbMcV4hMxBV
-	j6FJiNOoMm9VS/XSJJbwP7F1ef/2fKXHDnhYIHEIWv20+DQB91TK6mI4OkDU3bXqJ3cToCwzQxY
-	CZT6uTBsfenhyq+66rZzn93OCOGX9vPumv9IzzMR5d7tO+8
-X-Received: by 2002:a05:620a:1724:b0:939:72cb:bae5 with SMTP id af79cd13be357-93c43d6c35amr1003367685a.28.1790439922023;
-        Sat, 26 Sep 2026 09:25:22 -0700 (PDT)
+        bh=yxGw90+JpYDU2nxs8d7bIbWjyZdBY1QVcTsJVhZ3GNI=;
+        b=RWBuXXOaMsbvatXAS7ZR37G/guMW/UcHqG04oxxxJdh66v04kxBZjkE9t6Kzme7sM6
+         uMmkKNq7Ft3XSrFGgMYunvBwFVTX7d4ObUkovRrZnbLvzrKHJAYMOJvWgYIU+3zM87cC
+         YCrKdpFpXpPp98SLquGty0xt2V6w8lLxOtk4fQzMRD1GKEAzV7fUmxX0HiwriGpKZD3i
+         yBKyclLd24siiBaLXFZroSizExRwjxqXva/lZGTN07n8R93czuTBfe4Uw7ry/7aIVkvM
+         d3hhFEEvE9ycHhXIoZ244ag3QdKHJv1FjMzH/snRN2JOOWFOu8UBA1fDy9irW7qzmDyk
+         WzOg==
+X-Gm-Message-State: AFuF++mtpcN/PZXQ0tPNiPtTFxYumlWDbIjCJiyK4/hgWxfvlW71qrTA
+	3JHiSYN5llxVFaRLL//SRTafJ9anIdQdq1P7a706UjLp4Akp23/Lb3NZ
+X-Gm-Gg: AYBFou38Eqnct94H87VHgj3Lx3/1fYTDRvwT2zSqMwzSJeCWv5UvKWGVTlfwEeqE0NJ
+	uoGlnmcCp4Ym408EeOHJzwibboahl+b5R/cvaqvQfFSuQh2nIGp4ccHCMaGUntQF058L4krNkXd
+	xLRLLASSotBR60+l2Wo2VMwMP7oULD/Yom7a8CJq/Jspy+wcM14dl+g0Cg7lpt7tFOT8H064pUp
+	d9S9MJ7JR6JQ0rjV5ufHB/D0jIhO1waaJY/tjTxq/rZAHFQp+sOMIcPYvz7nd7261MtXQ7gfa5q
+	7yYz9yeQIEohA/53i5obOSu6Ri/1JsuIVQnLtFIVcYzdfj7V3esjsw/cyKhs8quIpNKfne0uuTW
+	H29i81JEWhdzAyKHAsC2WUz+jBpfjjWC3Igi5SEVxEN2Fwrnk5Gc1d8RELd6MX6SzutdYzJjKF/
+	ES1ceATYcmN0WCyAitsESr8zMoDPWAfDyCYQi3+x4Ph+pc5DkZXB2gKU+e9k5FMCb8vWoaOerUf
+	Y9pVMuvKihCd9hyw7tF3dZOqMPPKUgWn0+yiFyowzFAu16I2Q==
+X-Received: by 2002:a05:620a:4492:b0:939:2c5c:7977 with SMTP id af79cd13be357-93c43c75a3emr1115967985a.20.1790439926593;
+        Sat, 26 Sep 2026 09:25:26 -0700 (PDT)
 Received: from zaina.localdomain ([172.56.198.134])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-914309a2bafsm42615726d6.7.2026.09.26.09.25.21
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91430ecf80csm42110476d6.49.2026.09.26.09.25.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 09:25:21 -0700 (PDT)
+        Sat, 26 Sep 2026 09:25:26 -0700 (PDT)
 From: Zain Aboobacker <zainaboobacker33@gmail.com>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: xhci: fix typos in comments
-Date: Sat, 26 Sep 2026 12:25:18 -0400
-Message-ID: <20260926162518.25301-1-zainaboobacker33@gmail.com>
+Subject: [PATCH] usb: gadget: pch_udc: fix typos in comments
+Date: Sat, 26 Sep 2026 12:25:23 -0400
+Message-ID: <20260926162523.25335-1-zainaboobacker33@gmail.com>
 X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -73,149 +72,127 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix various spelling mistakes in comments found by codespell.
+Fix various spelling mistakes in comments and kernel-doc found by
+codespell.
 
 Assisted-by: Claude:claude-opus-5-5 codespell
 Signed-off-by: Zain Aboobacker <zainaboobacker33@gmail.com>
 ---
- drivers/usb/host/xhci-ring.c | 14 +++++++-------
- drivers/usb/host/xhci.c      | 14 +++++++-------
- 2 files changed, 14 insertions(+), 14 deletions(-)
+ drivers/usb/gadget/udc/pch_udc.c | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index ec278a9f9540..5a9bb18929f8 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -243,7 +243,7 @@ static void inc_enq_past_link(struct xhci_hcd *xhci, struct xhci_ring *ring, u32
- 		 * fixed in the 0.96 specification errata, but we have to assume that all 0.95
- 		 * xHCI hardware can't handle the chain bit being cleared on a link TRB.
- 		 *
--		 * On 0.95 and some 0.96 HCs the chain bit is set once at segment initalization
-+		 * On 0.95 and some 0.96 HCs the chain bit is set once at segment initialization
- 		 * and never changed here. On all others, modify it as requested by the caller.
- 		 */
- 		if (!xhci_link_chain_quirk(xhci, ring->type)) {
-@@ -661,7 +661,7 @@ struct xhci_ring *xhci_triad_to_transfer_ring(struct xhci_hcd *xhci,
-  * Get the hw dequeue pointer xHC stopped on, either directly from the
-  * endpoint context, or if streams are in use from the stream context.
-  * The returned hw_dequeue contains the lowest four bits with cycle state
-- * and possbile stream context type.
-+ * and possible stream context type.
-  */
- static u64 xhci_get_hw_deq(struct xhci_hcd *xhci, struct xhci_virt_device *vdev,
- 			   unsigned int ep_index, unsigned int stream_id)
-@@ -989,7 +989,7 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
- 	int err;
+diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
+index 99b3ce28210f..e8ad452a852f 100644
+--- a/drivers/usb/gadget/udc/pch_udc.c
++++ b/drivers/usb/gadget/udc/pch_udc.c
+@@ -53,7 +53,7 @@
+ #define UDC_EPCTL_F			(1 << 1)
+ #define UDC_EPCTL_S			(1 << 0)
+ #define UDC_EPCTL_ET_SHIFT		4
+-/* Mask patern */
++/* Mask pattern */
+ #define UDC_EPCTL_ET_MASK		0x00000030
+ /* Value for ET field */
+ #define UDC_EPCTL_ET_CONTROL		0
+@@ -73,7 +73,7 @@
+ #define UDC_EPSTS_BNA			(1 << 7)
+ #define UDC_EPSTS_IN			(1 << 6)
+ #define UDC_EPSTS_OUT_SHIFT		4
+-/* Mask patern */
++/* Mask pattern */
+ #define UDC_EPSTS_OUT_MASK		0x00000030
+ #define UDC_EPSTS_ALL_CLR_MASK		0x1F0006F0
+ /* Value for OUT field */
+@@ -110,7 +110,7 @@
+ #define UDC_DEVSTS_ALT_SHIFT		8
+ #define UDC_DEVSTS_INTF_SHIFT		4
+ #define UDC_DEVSTS_CFG_SHIFT		0
+-/* Mask patern */
++/* Mask pattern */
+ #define UDC_DEVSTS_TS_MASK		0xfffc0000
+ #define UDC_DEVSTS_ENUM_SPEED_MASK	0x00006000
+ #define UDC_DEVSTS_ALT_MASK		0x00000f00
+@@ -132,7 +132,7 @@
+ #define UDC_DEVINT_ES			(1 << 2)
+ #define UDC_DEVINT_SI			(1 << 1)
+ #define UDC_DEVINT_SC			(1 << 0)
+-/* Mask patern */
++/* Mask pattern */
+ #define UDC_DEVINT_MSK			0x7f
  
- 	/*
--	 * Avoid resetting endpoint if link is inactive or device disonnected.
-+	 * Avoid resetting endpoint if link is inactive or device disconnected.
- 	 * Can cause host hang.
- 	 * Device will be reset to recover an inactive link, so don't do anything
- 	 */
-@@ -1384,7 +1384,7 @@ static void xhci_kill_endpoint_urbs(struct xhci_hcd *xhci,
-  * held for the URBs to finish during device disconnect, blocking host remove.
-  *
-  * Call with xhci->lock held.
-- * lock is relased and re-acquired while giving back urb.
-+ * lock is released and re-acquired while giving back urb.
+ /* Endpoint irq register */
+@@ -141,7 +141,7 @@
+ #define UDC_EPINT_OUT_SHIFT		16
+ #define UDC_EPINT_IN_EP0		(1 << 0)
+ #define UDC_EPINT_OUT_EP0		(1 << 16)
+-/* Mask patern */
++/* Mask pattern */
+ #define UDC_EPINT_MSK_DISABLE_ALL	0xffffffff
+ 
+ /* UDC_CSR_BUSY Status register */
+@@ -162,7 +162,7 @@
+ #define UDC_CSR_NE_INTF_SHIFT		11
+ #define UDC_CSR_NE_ALT_SHIFT		15
+ #define UDC_CSR_NE_MAX_PKT_SHIFT	19
+-/* Mask patern */
++/* Mask pattern */
+ #define UDC_CSR_NE_NUM_MASK		0x0000000f
+ #define UDC_CSR_NE_DIR_MASK		0x00000010
+ #define UDC_CSR_NE_TYPE_MASK		0x00000060
+@@ -296,7 +296,7 @@ struct pch_udc_ep {
+ };
+ 
+ /**
+- * struct pch_vbus_gpio_data - Structure holding GPIO informaton
++ * struct pch_vbus_gpio_data - Structure holding GPIO information
+  *					for detecting VBUS
+  * @port:		gpio descriptor for the VBUS GPIO
+  * @intr:		gpio interrupt number
+@@ -319,7 +319,7 @@ struct pch_vbus_gpio_data {
+  * @ep:			array of endpoints
+  * @lock:		protects all state
+  * @stall:		stall requested
+- * @prot_stall:		protcol stall requested
++ * @prot_stall:		protocol stall requested
+  * @suspended:		driver in suspended state
+  * @connected:		gadget driver associated
+  * @vbus_session:	required vbus_session state
+@@ -332,7 +332,7 @@ struct pch_vbus_gpio_data {
+  * @base_addr:		for mapped device memory
+  * @bar:		PCI BAR used for mapped device memory
+  * @cfg_data:		current cfg, intf, and alt in use
+- * @vbus_gpio:		GPIO informaton for detecting VBUS
++ * @vbus_gpio:		GPIO information for detecting VBUS
   */
- void xhci_hc_died(struct xhci_hcd *xhci)
- {
-@@ -1969,7 +1969,7 @@ static void handle_device_notification(struct xhci_hcd *xhci,
+ struct pch_udc_dev {
+ 	struct usb_gadget		gadget;
+@@ -846,7 +846,7 @@ static inline u32 pch_udc_read_ep_interrupts(struct pch_udc_dev *dev)
  }
  
- /*
-- * Quirk hanlder for errata seen on Cavium ThunderX2 processor XHCI
-+ * Quirk handler for errata seen on Cavium ThunderX2 processor XHCI
-  * Controller.
-  * As per ThunderX2errata-129 USB 2 device may come up as USB 1
-  * If a connection to a USB 1 device is followed by another connection
-@@ -3087,7 +3087,7 @@ static void xhci_clear_interrupt_pending(struct xhci_interrupter *ir)
- 
- /*
-  * Handle all OS-owned events on an interrupter event ring. It may drop
-- * and reaquire xhci->lock between event processing.
-+ * and reacquire xhci->lock between event processing.
+ /**
+- * pch_udc_write_ep_interrupts() - Clear endpoint interupts
++ * pch_udc_write_ep_interrupts() - Clear endpoint interrupts
+  * @dev:	Reference to structure of type pch_udc_regs
+  * @val:	The value to be written to interrupt register
   */
- static int xhci_handle_events(struct xhci_hcd *xhci, struct xhci_interrupter *ir,
- 			      bool skip_events)
-@@ -3801,7 +3801,7 @@ int xhci_queue_ctrl_tx(struct xhci_hcd *xhci, gfp_t mem_flags,
- 		/*
- 		 * If next available TRB is the Link TRB in the ring segment then
- 		 * enqueue a No Op TRB, this can prevent the Setup and Data Stage
--		 * TRB to be breaked by the Link TRB.
-+		 * TRB to be broken by the Link TRB.
- 		 */
- 		if (last_trb_on_seg(ep_ring->enq_seg, ep_ring->enqueue + 1)) {
- 			field = TRB_TYPE(TRB_TR_NOOP) | ep_ring->cycle_state;
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a9e47e178c28..db7310f15313 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -406,7 +406,7 @@ static void compliance_mode_recovery(struct timer_list *t)
-  * The quirk creates a timer that polls every 2 seconds the link state of
-  * each host controller's port and recovers it by issuing a Warm reset
-  * if Compliance mode is detected, otherwise the port will become "dead" (no
-- * device connections or disconnections will be detected anymore). Becasue no
-+ * device connections or disconnections will be detected anymore). Because no
-  * status event is generated when entering compliance mode (per xhci spec),
-  * this quirk is needed on systems that have the failing hardware installed.
-  */
-@@ -796,7 +796,7 @@ static void xhci_save_registers(struct xhci_hcd *xhci)
- 	xhci->s3.config_reg = readl(&xhci->op_regs->config_reg);
- 
- 	/* save both primary and all secondary interrupters */
--	/* fixme, shold we lock  to prevent race with remove secondary interrupter? */
-+	/* fixme, should we lock  to prevent race with remove secondary interrupter? */
- 	for (i = 0; i < xhci->max_interrupters; i++) {
- 		ir = xhci->interrupters[i];
- 		if (!ir)
-@@ -2046,7 +2046,7 @@ int xhci_add_endpoint(struct usb_hcd *hcd, struct usb_device *udev,
- 
- 	/*
- 	 * Configuration and alternate setting changes must be done in
--	 * process context, not interrupt context (or so documenation
-+	 * process context, not interrupt context (or so documentation
- 	 * for usb_set_interface() and usb_set_configuration() claim).
- 	 */
- 	if (xhci_endpoint_init(xhci, virt_dev, udev, ep, GFP_NOIO) < 0) {
-@@ -3302,7 +3302,7 @@ static void xhci_endpoint_disable(struct usb_hcd *hcd,
-  * state. For software that wishes to reset the data toggle or sequence number
-  * of an endpoint that isn't in the halted state this function will issue a
-  * configure endpoint command with the Drop and Add bits set for the target
-- * endpoint. Refer to the additional note in xhci spcification section 4.6.8.
-+ * endpoint. Refer to the additional note in xhci specification section 4.6.8.
-  *
-  * vdev may be lost due to xHC restore error and re-initialization during S3/S4
-  * resume. A new vdev will be allocated later by xhci_discover_or_reset_device()
-@@ -4296,7 +4296,7 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 		pm_runtime_get_noresume(hcd->self.controller);
- 
- 	/* Is this a LS or FS device under a HS hub? */
--	/* Hub or peripherial? */
-+	/* Hub or peripheral? */
- 	return 1;
- 
- disable_slot:
-@@ -4512,7 +4512,7 @@ static int xhci_enable_device(struct usb_hcd *hcd, struct usb_device *udev)
- 
- /*
-  * Transfer the port index into real index in the HW port status
-- * registers. Caculate offset between the port's PORTSC register
-+ * registers. Calculate offset between the port's PORTSC register
-  * and port status base. Divide the number of per port register
-  * to get the real index. The raw port number bases 1.
-  */
-@@ -5394,7 +5394,7 @@ static void xhci_hcd_init_usb3_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
- 	/*
- 	 * Early xHCI 1.1 spec did not mention USB 3.1 capable hosts
- 	 * should return 0x31 for sbrn, or that the minor revision
--	 * is a two digit BCD containig minor and sub-minor numbers.
-+	 * is a two digit BCD containing minor and sub-minor numbers.
- 	 * This was later clarified in xHCI 1.2.
- 	 *
- 	 * Some USB 3.1 capable hosts therefore have sbrn 0x30, and
+@@ -1064,7 +1064,7 @@ static void pch_udc_init(struct pch_udc_dev *dev)
+ 	if (speed_fs)
+ 		pch_udc_bit_set(dev, UDC_DEVCFG_ADDR, UDC_DEVCFG_CSR_PRG |
+ 				UDC_DEVCFG_SP | UDC_DEVCFG_SPD_FS);
+-	else /* defaul high speed */
++	else /* default high speed */
+ 		pch_udc_bit_set(dev, UDC_DEVCFG_ADDR, UDC_DEVCFG_CSR_PRG |
+ 				UDC_DEVCFG_SP | UDC_DEVCFG_SPD_HS);
+ 	pch_udc_bit_set(dev, UDC_DEVCTL_ADDR,
+@@ -2569,7 +2569,7 @@ static void pch_udc_svc_intf_interrupt(struct pch_udc_dev *dev)
+ 	dev->setup_data.bRequestType = USB_RECIP_INTERFACE;
+ 	dev->setup_data.wValue = cpu_to_le16(dev->cfg_data.cur_alt);
+ 	dev->setup_data.wIndex = cpu_to_le16(dev->cfg_data.cur_intf);
+-	/* programm the Endpoint Cfg registers */
++	/* program the Endpoint Cfg registers */
+ 	/* Only one end point cfg register */
+ 	reg = pch_udc_read_csr(dev, UDC_EP0OUT_IDX);
+ 	reg = (reg & ~UDC_CSR_NE_INTF_MASK) |
 -- 
 2.53.0
 
