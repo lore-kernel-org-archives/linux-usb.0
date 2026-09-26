@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C9A44063B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC5943F4A9;
 	Sat, 26 Sep 2026 12:40:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790426434; cv=none; b=TiC+XCX/FPFCtCRV1vjI2eti+8LUlGu7W6k5F3O5otrOFKr1bZKDzuqVyMfOlzylOjfdESGFu0d6EH4un7HBDugAwBzlmM0zDe/HQS1yruvb63i+PtJpNPHsEVLKI7uote3XLF1iO1YSEkusOH0SyAEhlGTLC8eQIhPnNXP0L1E=
+	t=1790426434; cv=none; b=LfkAB7Snu2qgMWhDwPxTpuDNxeUunTNvH9uEohk65nap7J7QzCK/iO7HBN45mxaJ7pYwcWoeL/HrvD+BMVCEQlkxsCnmiomfVdkJ4c9hLK5NEtMH0TvGCTM49ffycU6xDZdCHwouMpGtoWuR31OuR4O1/wyRNzknaQXoowxnOf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1790426434; c=relaxed/simple;
-	bh=tR7p4+86bpeoj1XWILrzonGsW3yNL821Kp8a2y4sEFo=;
+	bh=IKIueHDGdKad1dbZuuleadx3ptYZIb6DginSe2S+pGw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YuJz3DyvNiWVteGaB9y4IiB9F5ZFWYGfu7ECrtJBXSDSWwjLPEpFK6qNC6WQBVuh5jza821nwZev/Lp9OxpA9Fixd3jrhJaG2eEw016WG6KFFzMv+pDbHmVzPYCI+mqzVjmDiDDzF3bz4mgPDUo7RhQ3esrQXa1xbDrfTQoiPQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ngGj+HgP; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=BaYpv3ZwVYjWUxMXZQTEhrBJC4OrImQKjfLZWZHZXb9V9llLgLDFH4/JfBmP2pJwr7vGPCj2U2X3rqU/iLxgh3nh0jE8taB0ABnpbeiH84dhbMahZHq7LdB/TX95zq4uSZQ78Q5u2yJWMuqGYgDiginNoUqT8QBcG58z5MUkxAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q5g+k5pZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ngGj+HgP"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id EA1B3C2BCFC;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q5g+k5pZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A0936C2BCFB;
 	Sat, 26 Sep 2026 12:40:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790426434;
-	bh=tR7p4+86bpeoj1XWILrzonGsW3yNL821Kp8a2y4sEFo=;
+	s=k20201202; t=1790426433;
+	bh=IKIueHDGdKad1dbZuuleadx3ptYZIb6DginSe2S+pGw=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=ngGj+HgP2PXnVe7PvcYyTYlD8pfJFGiVBy6Y+SknDEwy81QA4+63QrcotJbXahOGv
-	 ohuT33t3rYWwkC8FdJQHUt6t68hk07IgeLmDPiC0Y87hNMqMY8+z0kON04uNlNuvNR
-	 JrqlHdG/zKjtLjSrkkcdjf0aSBGg0Q/7B9Y7madbygH0JmnMwEsXGK7nDPfJNk13WJ
-	 YJ6HKwhccahtd4azwLGKYMsMC6ijd8D0R1T9ReiIk+4FZasL3N1voA2mM3tfmepQqK
-	 cOkPag0/1+YHXciHs4hPdoJ4gUnPMEfSJeRqH2SPTaCrxYiCvOYczM2eWVIrdwWrKp
-	 4BdLEdOJDpVOA==
+	b=Q5g+k5pZt0RL6PzhpUgUlzuqSTJ0oVd0QB5VWm4GVyLaaddzMjjKWJJICkSNUazUy
+	 taH9m5x7QuCOH0uvRDi08yB6r7zLi4xXA4WWEXEBy56TqznDJsAMLjGOjiKmGZtERq
+	 l7wzWGal49qqP5gQyrDxXWWKXQjsVVpF8CgdTk6uebxN5QfnPGgf5W590d16H6s2Ja
+	 No3/MK1+Sd9SC3vVSSg6ayAW07lziby52fXUhH0eflHCHtirgvRx8iZ9s0/3yMFkcE
+	 GUAHiG6Bs8H4C9yPRMT+VxzoQw8G+mvR3EsCcUbXhHIVsP2Y5HjBHWG6+l2qfHicJB
+	 CxSnbJqit8Bgw==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D75AAC9833D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B174C9833E;
 	Sat, 26 Sep 2026 12:40:33 +0000 (UTC)
 From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Sat, 26 Sep 2026 14:40:28 +0200
-Subject: [PATCH RFC 09/12] arm64: dts: qcom: sdm670-google-common: Enable
- USB Type-C port controller
+Date: Sat, 26 Sep 2026 14:40:24 +0200
+Subject: [PATCH RFC 05/12] usb: typec: qcom: Make typec_port accept also
+ different structure
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260926-typec-v1-9-31adc19f32c6@ixit.cz>
+Message-Id: <20260926-typec-v1-5-31adc19f32c6@ixit.cz>
 References: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
 In-Reply-To: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
 To: Alexey Minnekhanov <alexeymin@minlexx.ru>, 
@@ -61,21 +61,21 @@ Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
  phone-devel@vger.kernel.org, mfd@lists.linux.dev, 
  David Heidelberg <david@ixit.cz>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3664; i=david@ixit.cz;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1220; i=david@ixit.cz;
  h=from:subject:message-id;
- bh=CjS4hw3kr0t8vOchmksh9hh2KTW9zTk6YzJTOsPRVhk=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqt70+gGgkptBxM92aPKjE+5O95WN0shFAlu1nR
- v+Fpo3bXr6JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCare9PgAKCRBgAj/E00kg
- cqkqEADPo2oLUvuGwwEQukf+Tf1e58KayaODxbTvtiWcIGeujCSmRGCBqskRF4wxyOWldimWLGz
- B+u4qEie7FN6OyGhkQkhcL8tRVIsvoP4vSvG7xoe911nglRao2HOSkix4g55OxBee+Bogxczd3K
- RqOq30o/DrvkVFoojYAV/xHrwa/xWKww9dfdMOtfozkn2QK1hCgzztB+2T5meV/uCN32SB2bN0f
- +DO6A74g1oWJSi2FGZMSM/KBx/qU6qQ7jrUiOZgENwiWgY96SAEXq9uAC3iEnaKriiRJTw1m4eH
- h32s+PfTmcdHxU9Sez71jiQpu5P/OZWzScPbkbkAh7MmFyKDRbmwpo5vy1QPk+9k9d04S4yYjuy
- 87xLQY6C6tXwFTDkLto4X2VM18CDtN4NpyRGUXcBvkO6A1gQF3GZT2PJ+qQNro2dm/vL/QgMejZ
- uPIhEc1hXPPhHinz338vu07fzQe54JRoUJNncN3Df6MfZvn1EZu1kSJYpIOrgSFNejqRi7FLAaX
- qqyZemCAT9iro+5JSErr+cr0aag5QHS6hhRpYoSU5KVT14pyOUbsf4e8OgmS9S1+zgb/SyWbgGY
- zM/9INYpOIl89mPueOmBlYXP3TylaJiHbyVbhiwp9ks202uLrx19W75Mrvk4qJcQNBiGDAz0sqW
- kK+RhsbszxWqCMw==
+ bh=Rv/C1XQqReAptmVTI+ZJAAlK7aFi13337WHcMdGcM48=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBqt70+EPEh7Pr+laDPW4tWdnCaH47gu2yL7r0Gt
+ l2/AzxTDnCJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCare9PgAKCRBgAj/E00kg
+ cr+8EACMj0EdXOb53DNNjlp+WWKFSp/7RfbfxhXER7ZgaAxztTLpMF8MUe49qSwIIE7evRvh3U2
+ 3dtguNMZCawah/9kZLL89nEsaR0piJKrZLC1m6td+zSz0diVBwm22ixLjImzV1w1vkMJdicxH8A
+ 8QzSC/SsegXq/dZZYXdBEv1N5wKE8WTUT59/4W+JDaYBu7eoB0oG+EcVhfNOrDF7kJxMfpUOZML
+ oC8k3IuDvpdPuQ+zY1T+lcOsN8SlkU3HZjzjNY54VeoMz/DCZ0YUhIKnSeOspXgVPMsq82nvJAt
+ hpOZosAoeYj4q0R9S9FTqycfx3ZNYdMnJBRaN6+tGK24U7p+8JD67ke/SPgQg3atm/Xnp8cFP70
+ m1lKB8rdLu3OHSXEu8qUpi+xuvtFSCFJCWjC85N5cIWTC69oVWqPrb/hcEMkLuWlDYBGAQCIdly
+ BtmDFEMkDbc8jcJbOtUnR5RUHWKC1Wv6ffjFCPbwn0Pr0XrL9JhS1U+11XnpgUs15KIpYW2YCqb
+ LFMkID4eBa2HMb/cq25zJYFOaXYy12MnmuZcpO+dzIyIS6k9cvX5V80kiNJ7nHQMurJe9MYpgA9
+ YWvMbtcY4i74m0sl7u7obrR6Cr1ib1JGhwgcoTcmsZGiQrz4SYGkm/lot/jrcr+3eJfBakNftN5
+ MO9GKRI02vmmyFA==
 X-Developer-Key: i=david@ixit.cz; a=openpgp;
  fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
 X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
@@ -84,137 +84,39 @@ Reply-To: david@ixit.cz
 
 From: David Heidelberg <david@ixit.cz>
 
-Enable the PM660 Type-C port controller with a USB-C connector
-description for the Google Pixel 3a (sargo) and Pixel 3a XL (bonito),
-which share the same USB-C hardware via this common dtsi.
-
-The connector is configured as:
-  - Sink-only power role with a 5V/3A sink PDO
-  - Dual-role data with USB role switching
-
-The VBUS output of the charger is not supported yet, so the port can't
-act as a power source. Describe it as sink-only until VBUS support lands,
-USB host mode is still reachable through a PD data role swap. Higher
-voltage PDOs are left out until the charger driver programs the allowed
-USBIN adapter voltage.
-
-The Pixel 3a USB-C port is USB 2.0 only, so only the HS endpoint is
-wired to the DWC3 controller.
-
-Switch the DWC3 controller from peripheral-only to OTG mode with
-usb-role-switch to allow the TCPM framework to control USB host/device
-role based on CC pin detection.
+This is needed by followup commit introducing 1st gen of type-c support.
 
 Assisted-by: LLM
+Co-developed-by: Alexey Minnekhanov <alexeymin@minlexx.ru>
+Signed-off-by: Alexey Minnekhanov <alexeymin@minlexx.ru>
 Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
- arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi | 51 +++++++++++++++++++++-
- 1 file changed, 49 insertions(+), 2 deletions(-)
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi b/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
-index b4854801a5f5e..afecbef2e5bc2 100644
---- a/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm670-google-common.dtsi
-@@ -6,16 +6,17 @@
-  * Copyright (c) 2022, Richard Acayan. All rights reserved.
-  */
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.h b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.h
+index 3c75820c91876..6f89d296ad151 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.h
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec.h
+@@ -6,17 +6,17 @@
+ #ifndef __QCOM_PMIC_TYPEC_H__
+ #define __QCOM_PMIC_TYPEC_H__
  
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/input/input.h>
- #include <dt-bindings/leds/common.h>
- #include <dt-bindings/pinctrl/qcom,pmic-gpio.h>
- #include <dt-bindings/power/qcom-rpmpd.h>
-+#include <dt-bindings/usb/pd.h>
- #include "sdm670.dtsi"
- #include "pm660.dtsi"
- #include "pm660l.dtsi"
+ struct pmic_typec {
+ 	struct device		*dev;
+ 	struct tcpm_port	*tcpm_port;
+ 	struct tcpc_dev		tcpc;
+ 	struct pmic_typec_pdphy	*pmic_typec_pdphy;
+-	struct pmic_typec_port	*pmic_typec_port;
++	void			*pmic_typec_port;
  
- /delete-node/ &mpss_region;
- /delete-node/ &venus_mem;
- /delete-node/ &wlan_msa_mem;
- /delete-node/ &cdsp_mem;
-@@ -580,16 +581,56 @@ cam_vio_pin: cam-vio-state {
- 		power-source = <0>;
- 	};
- };
+ 	int (*pdphy_start)(struct pmic_typec *tcpm,
+ 			   struct tcpm_port *tcpm_port);
+ 	void (*pdphy_stop)(struct pmic_typec *tcpm);
  
- &pm660_rradc {
- 	status = "okay";
- };
- 
-+&pm660_typec {
-+	vdd-pdphy-supply = <&vreg_l7b_3p125>;
-+
-+	status = "okay";
-+
-+	connector {
-+		compatible = "usb-c-connector";
-+
-+		/*
-+		 * Sink only for now, as the PM660 charger doesn't provide
-+		 * the VBUS output yet. Switch to the dual power role with
-+		 * source PDOs, try-power-role and vbus-supply once it is
-+		 * supported.
-+		 *
-+		 * Higher voltage sink PDOs will be added once the charger
-+		 * driver programs the allowed USBIN adapter voltage.
-+		 */
-+		power-role = "sink";
-+		data-role = "dual";
-+		self-powered;
-+
-+		sink-pdos = <PDO_FIXED(5000, 3000,
-+				       PDO_FIXED_USB_COMM |
-+				       PDO_FIXED_DATA_SWAP)>;
-+		op-sink-microwatt = <15000000>;
-+
-+		ports {
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			port@0 {
-+				reg = <0>;
-+				pm660_hs_in: endpoint {
-+					remote-endpoint = <&usb_1_dwc3_hs>;
-+				};
-+			};
-+		};
-+	};
-+};
-+
- &pm660l_flash {
- 	status = "okay";
- 
- 	led-0 {
- 		function = LED_FUNCTION_FLASH;
- 		color = <LED_COLOR_ID_WHITE>;
- 		led-sources = <1>, <2>;
- 		led-max-microamp = <500000>;
-@@ -702,16 +743,22 @@ &usb_1_hsphy {
- };
- 
- &usb_1 {
- 	qcom,select-utmi-as-pipe-clk;
- 	status = "okay";
- };
- 
- &usb_1_dwc3 {
--	/* Only peripheral works for now */
--	dr_mode = "peripheral";
-+	dr_mode = "otg";
-+	usb-role-switch;
- 
- 	/* Do not assume that sdm670.dtsi will never support USB 3.0 */
- 	phys = <&usb_1_hsphy>;
- 	phy-names = "usb2-phy";
- 	maximum-speed = "high-speed";
-+
-+	port {
-+		usb_1_dwc3_hs: endpoint {
-+			remote-endpoint = <&pm660_hs_in>;
-+		};
-+	};
- };
+ 	int (*port_start)(struct pmic_typec *tcpm,
+ 			  struct tcpm_port *tcpm_port);
+ 	void (*port_stop)(struct pmic_typec *tcpm);
 
 -- 
 2.55.0
