@@ -1,73 +1,74 @@
 Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D3143B3EE
-	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 11:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96D73EA97A
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 11:32:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790420800; cv=none; b=IPyi8ymGIwZxZFKfGDVChEE7QxHAxIndGRFFuUv80pXtLGWD8QI5yKlaTmDNYgE27G2+/7R4rlYB2sBY+7XY5cgwoyqqVLSMozpES7xfO/zixAz4aTAV3hYbcV3SfrwV1DH17A72DRg7CTfLkly8wVJVdWiZVKv4Ta2kstnStHE=
+	t=1790422344; cv=none; b=YTDUewEoP3NoeBYZNP+f/usb3KAQw8CKeqWmQVTAMm/eX9CeCaIKtmakPIwD+rKwIfKCX4hrmV/JYqj7mocdsLTObkXTLcK2esY7TIF5DAXmNKzHFmd8QYQrwsEtcx/HFgSTpwWPBRkVgW+EpLxWDP4rZk02FgTEpQFm263Anew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790420800; c=relaxed/simple;
-	bh=1msmKYuNovKJCEu2Eg9jzolVXqozK1HaBSjClyN0HFU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JtA4waU1lM3RM+6l0HmqNv8+Sf341E4ObN7s8APCZ0abVd7qs+JVxMXkpPcWp+ThKtusRU8WasgTjjOhiOm/CwAWOQ8iD1jU3o0JRgmnafI5ztVtoMws7vn2cvuxF95Ade5JKxIDi/6/fP31czofWX+fQ9zIiTPA87ljvWsHp9A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UtvJZ+++; arc=none smtp.client-ip=74.125.225.141
+	s=arc-20240116; t=1790422344; c=relaxed/simple;
+	bh=8IVFXp8tl/nwKPrrJEG/SxqJdustiqxpwp9MAE+ck3o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=dmKS/7274X3MplFS8aW+xo4t56u35j93cS9MPvVh33vWTOHzrqSIBL2abXbJHboOQAFt5ZTlYnWA3i4Mz6pPgAUGxT4cDJgZRFjSLzx4LomADrhOv625AbelyGyG3RdpzjSKtdCXPTy+o33lb1v0TO0EMSZRd6ce7XEUHAOZ5Ho=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tK10ZOzv; arc=none smtp.client-ip=74.125.225.141
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UtvJZ+++"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e79a408deso9607615e9.2
-        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 04:06:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tK10ZOzv"
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b91369d18so10506135e9.0
+        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 04:32:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790420794; x=1791025594; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790422340; x=1791027140; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DETyHTH+1SFUdbDpZ6PXLVMzsHnJRWHB9+9aLI0a21o=;
-        b=UtvJZ+++sc0ySKv7KKyG+NaiFLQs5G0D7UWrtBm2+VaDK3zG2sTKX0L8EtupswKtu0
-         P8OI7uMcPByVvCPiDdUgdQw1f0ppn9hby6ZDbvHErUZYT1T36UMBA/Z5BB4syGC9eONY
-         HHO6CA8n3d6hxUxVU9rEsuBFGtoxsa947+E2pne6xv9vZCeBjAs/NKuwGh3AH93cO6Ny
-         IC/Nm6/ndHFeibhREawIBDTTgpZ8Drjnk61xPAz9T2NfpUZdB+9mB7M6dAJlEWlYlMW2
-         4l4ExzOXVkHwGpFYPvDbeIWrrC/JBMUTmxbTLSsLVrWg/+zPmVO8RwKdTiHbKYqhjmQ8
-         rc9g==
+        bh=Os2bYo4AnRwo9QH8egs2OdVlJ8NoUt4djnpg859QIl0=;
+        b=tK10ZOzvoPmkC8rClB+g0CG+ey32jsqYWpubLVeCWxakUKfEsfoHW+dCwfQNxUs4mn
+         53SW2pzHqOt0bSYOhJSLbY9cg1nZQpZGtcetwxpLVLqTqkfFAVWHl4IBACgwqZAdYMAq
+         SYZUCtIb69pMWePFuV2R9wgRlEUUjyhqI5dnbi9Sl8RHKqZDraZiFUfj9PaHlybCxCgA
+         1PP6jSrQhSGnbH29kanpmdtRpBik9Ein5tCv591AQTV+uX3c28R8eAbSqtISF7VQu2EF
+         DCEQCVo2ru0zueSfxD6UGWXZ4LyjcD7LS8GInipgL2c8zI4YTHocinoi0xP4twLXB45k
+         PpaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790420794; x=1791025594;
+        d=1e100.net; s=20260707; t=1790422340; x=1791027140;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=DETyHTH+1SFUdbDpZ6PXLVMzsHnJRWHB9+9aLI0a21o=;
-        b=Ni8jBFRS4OMUIdkSymfPIT4PQSqHKy4q/YQyipXfW2KBZUUsPHgbWsiVgSXpnTUy4+
-         LVAc6EFuKjnEbmde2wwYH8sr9pEuip9CjbgUYcc9dphhNP4ZhUazpS8LIFHfN4zL6yzl
-         Lc86Uuozvv+10l2ugS5J9DxScK4gCEuhk8ar49HrkR5mmsjoFuRNu4uh0dCWea1jXBBr
-         SwygfvH5eORk++pwUPlWWeiHG817VPciNA9YKfMcr6cvSmW3C3SBogSAh6a7X46l0OFd
-         LKQ8LMtIXm8stQKy55Vg6i7DsceAjt0z3TyWxaAlLX+6YQc8beOfHvxFMd0AdMqd2s5Z
-         T87w==
-X-Forwarded-Encrypted: i=1; AKwUvBzHDFd0NhQmBSAR3t0KgFX277ILVYbT+/JdNbDLo9QjSdGqRGx4KaiaSeeEYgI0FH1dHu8Ikqhs9XM=@vger.kernel.org
-X-Gm-Message-State: AFuF++nPv2b71iM7GOvXe9NBFwPq9vrTjzfUgzJGD2UoN6SYBY/XXTjc
-	ZRMEfipvEubmfOy70J94ptQE/jbvEDkvmCPWB0lUA7cthgeD7vfOXGkP
-X-Gm-Gg: AYBFou2oHICd29VS+QrtxNPWao++oW/1LdEU3Yano8tkiugPBwXZBWgikNlCS6xzneW
-	nGMuIpHO4mcAOG3ML02vyz3qh9oTTfWXgEr1iMQ8jCiwnxdb33JbGEp2Z1ZYrgYi7gybVYUti6O
-	M5qbgV3ppQPkU14AY6B/vQuN9o2729QNZheSQT6uSL8xSwhEUwmy6CtOLeEfZhQEy3qGJPHHePY
-	KNmEsr/au79YXoCveVR/wk4LT3A/fwnoAR8eiWeldrA6RX3HntQDuceURNC0P9wQh6fs7t6bdXH
-	FVGK3/1FKWBa63nzi+nQkJf+NfAO26Xr1gg5m10QeUtrUD3KMKHoGoVFT0MGJDGC4HUw1lbKN4C
-	eAXY4agWOORZzAFBHcDX6DcrFWOBKp3Cm5XMxSuarDJFK9DXnPVBPEspxl5mE8XsasjgDxAhd1z
-	dAirJxkiyOd+s5luBNLwnJyWQXbQ4MtZVXb9sRJokYsjFA1oEpijgGcRVGyQrq6yHZSIkZICWt6
-	SFEQ5g6MGbqr5oZm7JFLov/apq32HdW1t9/Vf+Rk0ijLQ46Cg==
-X-Received: by 2002:a05:600c:a418:b0:49f:e4ca:e1d with SMTP id 5b1f17b1804b1-49fe66fa070mr120630635e9.27.1790420793656;
-        Sat, 26 Sep 2026 04:06:33 -0700 (PDT)
-Received: from DESKTOP-IR7J1S9.esi-lan.dz ([154.121.80.215])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ff06cbd2dsm122149255e9.12.2026.09.26.04.06.31
+        bh=Os2bYo4AnRwo9QH8egs2OdVlJ8NoUt4djnpg859QIl0=;
+        b=D2jcGl6MEfgfdFEdqhHjfwi3GW0WcDW5yu5e2Va6eNjtx1s/Ih1mIYnrkZuNCxvP7J
+         0wjvrzhfubdJ1bIDQ98ODorrAUDclyJaWGVQhSF/AN3rq2v/qNSQBvLLzWbfl9N9AA4q
+         eV0ShW1Bn0B8CR85XvCkh3oY5cZvIJCIz59zS8IOIjjSuD2PABXA3uuxcMxIDwuXdhJp
+         Ao8OfIWDDGQoi0dc6zPsJelC/OSZjVw2zBEehZuaP1Ln7W78D5lKnZWiG8VGAcc+vrk4
+         EcKEEatuq4qgKsIe+ZOPKps8PYclhVKntULzPebQzUZeoLuz4o4d4VseMTnppibFKV40
+         wfpw==
+X-Forwarded-Encrypted: i=1; AKwUvBzsxjySnfB7zpfcjUbVbg8FABUfaQmNY8sEXgun3Mwnkcq32aO6YGlaqBkt4SL6hOJTp47TuEPLt5M=@vger.kernel.org
+X-Gm-Message-State: AFuF++k1tfFXDnDDBAoQF3hhMwJx5kOrVTPyS4Wa7/0tLiAzrz053zKR
+	9ELg3YBWLMGbeJoPGW6AAeJOr7kg4IlMgqXCaE4Ek3oagzDXwNOWQnwKgVCoirwi7SI=
+X-Gm-Gg: AYBFou2K08Y5sFSCnTOcPfHvBt6u3nmeWoHIPi4nXst1stgrMbrc+LedQi6a7nAACSm
+	EYJnWEDFroYNzLX42SNZtGjoyZeGJwMFS9qwViN5xGtaZYCgbLUGVKy1RSSqDNhhKJO/u3kXbpi
+	dQ4PFIIHOHGwGVC6qsJTBkIHYccENJsO1EZbQsJ5+z3/HZxK0nbph5lN6HnkpOOycl4IKmY6ECJ
+	Y0tBCq16S9rQ5G7LOlJTr1rC+oFwB/QVRqe/iYbQkL62NDr59l+vUhcNWislaSHmcux1aOV7k6H
+	joSJBm0hd4OEIpEiXWIS/tvrKc2E5obeCkZwGJ4qk8i8i0560+WZNlzW4wmCk32HgHNO35Gly+A
+	YmxpjhXRHM0tVz/wl7eWLuBRyRJ1FQs0pHTdvQp2Cj1uRmYy/eu+skYuMU6utrIKy5G8ne+yrcN
+	KXMAPY7ID/DASND2BeSt6BIW6DeMfNNho3/JPM/xHN4trEOIRsyQ7aLJ1GAl0AYYdQ4S4RAiIx+
+	yGtfHL+re8TBnxBs3F/uKZcMNNab641MCLu02FfIxj0PfxtHg==
+X-Received: by 2002:a05:600c:4703:b0:49c:fc6e:a3e1 with SMTP id 5b1f17b1804b1-49fe66fd374mr142201825e9.32.1790422339428;
+        Sat, 26 Sep 2026 04:32:19 -0700 (PDT)
+Received: from DESKTOP-IR7J1S9.localdomain ([154.121.80.215])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe5df44f9sm204031025e9.11.2026.09.26.04.32.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 04:06:33 -0700 (PDT)
+        Sat, 26 Sep 2026 04:32:18 -0700 (PDT)
 From: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrey Konovalov <andreyknvl@gmail.com>,
-	Kees Cook <kees@kernel.org>,
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrey Konovalov <andreyknvl@gmail.com>
+Cc: Kees Cook <kees@kernel.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>,
-	syzbot+d4c69e884538d43cc946785d621314039a1ed491@syzkaller.appspotmail.com
-Subject: [PATCH] usb: raw-gadget: fix UAF in raw_process_ep_io
-Date: Sat, 26 Sep 2026 12:06:24 +0100
-Message-ID: <20260926110624.1419-1-drifabdelmalekmohamedsaid@gmail.com>
+	syzbot+596b59aea1a9deaaab67@syzkaller.appspotmail.com,
+	syzkaller-bugs@googlegroups.com,
+	Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
+Subject: [PATCH v2] usb: raw-gadget: fix UAF in raw_process_ep_io
+Date: Sat, 26 Sep 2026 12:32:12 +0100
+Message-ID: <20260926113213.1469-1-drifabdelmalekmohamedsaid@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -203,11 +204,14 @@ Since gadget is freed, this causes a UAF.
 To fix it, we simply nullify dev->gadget in gadget_unbind. This requires
 a spinlock.
 
-Reported-by: syzbot+d4c69e884538d43cc946785d621314039a1ed491@syzkaller.appspotmail.com
-Tested-by: syzbot+d4c69e884538d43cc946785d621314039a1ed491@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=d4c69e884538d43cc946785d621314039a1ed491
+Reported-by: syzbot+596b59aea1a9deaaab67@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=596b59aea1a9deaaab67
+Tested-by: syzbot+596b59aea1a9deaaab67@syzkaller.appspotmail.com
 Signed-off-by: Drif Abdelmalek Mohamed Said <drifabdelmalekmohamedsaid@gmail.com>
 ---
+v2: 
+  -fixed a typo, added syzbot to cc to get tracked by dashboard, my bad.
+
  drivers/usb/gadget/legacy/raw_gadget.c | 7 +++++++
  1 file changed, 7 insertions(+)
 
@@ -224,7 +228,7 @@ index 4febf8dac7ca..9c263950f609 100644
  
  	set_gadget_data(gadget, NULL);
 +
-+	/*Avoid dangling pointer in case it remaining references*/
++	/* Avoid dangling pointer in case of remaining references */
 +	spin_lock_irqsave(&dev->lock, flags);
 +	dev->gadget = NULL;
 +	spin_unlock_irqrestore(&dev->lock, flags);
