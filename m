@@ -1,116 +1,228 @@
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3964D350298
-	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 14:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71A701FBEA8
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 15:37:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790434187; cv=none; b=dEZzymIZegiRUwZe5xtAXmwbDHMUXUx2RE1uzC12zrzyHqypV7CYwRTfqkkq4vkPyyHgmYBz4OVFIscUVRBbFiz+VLJImfRimMkQuyNvcRb5E2mH5kMG/PlhlqJNLIgaNaewcyC7rTnUiMf1YuoLn4CQyYQ46iNNxJLs7j07rbc=
+	t=1790437032; cv=none; b=ER6QFAwtPopyCgG5hSsePcTBiy26X4wDtYOyOnCw8lpoKmj3dXba/EvI3vLIDTHWEUTWHm6ulaHZ1YnbvKiLExwNwk6bNcDj+v+9Kr32Y+YUFqDfbBgVHRnHAgtD5TfuV9djlOuwrjcw1l9UTt3tCobbYOsT4VeD9aXh/qVpfHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790434187; c=relaxed/simple;
-	bh=O4ei2s9gZuecLamrTdJFFCxcBL+em9k63fiNXCLXqzM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X0FEMa6sHf0+PzcIi3FH6FTq862LSIcccVmK1FvQt8onp9anaXwVNqbgOUjeyxjOYIgElpi4UVLCRDOJsplXcIoDcGfixl8zWW3iaeziwMDLvl49PNrpzPA8drV3cAp1XRo0nPUc1ZH/OBKoiolSH7NyPEYS0BbiwjISYgYi88w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qp2Ww90z; arc=none smtp.client-ip=74.125.227.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790437032; c=relaxed/simple;
+	bh=sUApYNmr96sY5URHw0P6DtF13NOawyFroOGvi/s5xYo=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=dpQG9yP2/oHpzDq7ICpH34WFRhwAzu65J4nwTLjsKZVTs98x9yEX3IjWlrkWdi75t1dVGKAnevoWAZLI4rnTBQs61e3Bjv7bQm6azQW/8yFsNxjv5ov0BSKu+N8Jn35kBJgrJmbNUoOFbM8hFL4tA1WZZh0Z2IXhtGj5Dx5GVIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KZHwXXE9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qp2Ww90z"
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d747ed9866so12495665ad.2
-        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 07:49:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790434185; x=1791038985; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LxnEwlfneT94G2UrKcochh8UCTOdTS8Fzu8EtUevf3s=;
-        b=qp2Ww90zkqywzHPDhgrZqLYZkkjgVFTs+7wMumtGuxSvnBFuqfPm720+/gaLeoUafx
-         HyWcc21HV02Wzl1EgDsXLDuGYvmK2GPqtAsjZF+iZuZNlLr83yiWoUDtIpVrzSHPgYAv
-         qP7LlLOxtl7Ax0rWyw10zj10FYEdtDCs+QRFm7CxrcHWAofs4ydb64b5O9IQG38FPeMo
-         h3Sq2sXVHxncoEsy4AngWZx7s/O4AyRvMkp013z39bZkXx8Ib7Qh51Cf/ztWpPR7eGHN
-         5AXo4ripakkqKWH6F8zKWj+3Q5U4MMErlObyMnmFtjP8i8JA7MU4ARTb2IWXRjw7yVL3
-         ehTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790434185; x=1791038985;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LxnEwlfneT94G2UrKcochh8UCTOdTS8Fzu8EtUevf3s=;
-        b=PNOJpO7ERAyRaCi/0gBTEBQoRWiQpEq9C3Rd/OdbT/rlzeXvdLQv2Cl1UikySkpph4
-         BKPNqgkNCofy/GZpdXtdUukH6jscU/TqpE6dZWOBUdV29F4Zm5xMQuXt1yf2cVj/heW6
-         tj/etETH5O/w/2eFtHw/5QUwUfF1z8EELCGq38yd0C98yZ3CiKrQWghKxdQm0NLYf6Qm
-         oSauKWkNXAWj7n0FXC/22ZP1QQ3YoupH9hn+NbosSJKH4qDloDK3ka15uWwcBuDuhqcG
-         ctrWFb/xAn0vku7Cg6+DnUuiGNTJFCgx4Cvs6/Nk6JM6ANvYfB2HA7sl4Vsaqxc1xrgF
-         IyAw==
-X-Forwarded-Encrypted: i=1; AKwUvBwrw9C5AJpYKk1lho/ee15fBDPX3gp88auzCUGhlx31rgh7QRoFGEl5lAbOMZuItMNVQwuCaPeg+hY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJCOG65kbNSSMxI2pX0MEIJzTYfpE53siARnrPRbboUJwlogmfX
-	hrX2aESFXSSKzcVuNJ+1WeujMy9Dy20LIfcYJ+aI1/G/ZD52gxHeex1m
-X-Gm-Gg: AYBFou22weoQgTzV7FR80R4Ur/BSVzo57IN8j6IFAIurtoJLcjU8hnqRgPNc1OYWT+l
-	McvDTzemIBtLPN13yRc86KtTpBc2OeXXFJ2t7DzrYDPkqu5DmnbFHiAlJyfBDWkB47/+VebXg1A
-	O6lPL7tYEKajy+9qRe1JtwaCO13tiYtV7oy3Y+/LlU7irgdVO8jLcdGi1UktAXzZjapnZUpL5xa
-	7VgWuEG3PKREl0+3h1L0n8wSujx6cSoTytOUahsbt3YPo2LuBUz7EoCuwW70H8FvJwwnbMUeK4i
-	GVGJRDOuFtPNh40EFZzHWrdxdh0Zbm8fg5R5/hvJftFvRyMIpJ66BHH2kZt5jSe0yjqxBtzPIHG
-	mdK2sUTTmbnEM0MdSRNuuMrybJQ1pger27sesV8u6qPl2DE8cy2Ohc+xzoOrQ7yl6PBIvejSiYs
-	S9u30/MQMrG5Pf4ouzS0LjB9LxpOqaJVVrpdbjXFpx/SXNWD+4T++MDUKipZwTFidghIurAXp5w
-	knlEgPz+cAQ0g+M
-X-Received: by 2002:a17:90b:3d92:b0:3a0:f0a1:b460 with SMTP id 98e67ed59e1d1-3a0f0a1b954mr748138a91.66.1790434185508;
-        Sat, 26 Sep 2026 07:49:45 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2405:4802:1d4a:e90:a00e:c90a:972a:c5a2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a0b9589f7esm10105011a91.10.2026.09.26.07.49.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 07:49:45 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: oe-linux-nfc@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
-	syzbot+89f5f8143d8e62af2b61@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] nfc: port100: cancel a stale out URB before sending a command
-Date: Sat, 26 Sep 2026 21:49:40 +0700
-Message-ID: <20260926144940.14412-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KZHwXXE9"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EED67C2BCB8
+	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 15:37:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790437032;
+	bh=sUApYNmr96sY5URHw0P6DtF13NOawyFroOGvi/s5xYo=;
+	h=From:To:Subject:Date:From;
+	b=KZHwXXE9CtdHg3Y8mJZ6TiJ6shRqyMtOY4CD3OzHiJLBlud7YTG0dZpxXvX0+TLVC
+	 kLxkyHklUzouzA3wrKeaQM2+RrWZPozu8XKTagsq0S0mSrRn6K3HeXQtF6F9SA6hD7
+	 EUpUwSp8CxsapNPWaD+7WtdS/6z4EfVyROmXZP/XxfPT54YNfjN7SRh+wh7pyQeFRR
+	 XT9rtycVrUzUnK9j3PSmYPTmsasAuQj/5pxA7Ddj0+uHDGtcEAEMck9e/Ys79Akqsa
+	 6TGXxgiufbRGOIhxZDOjx/gdhwnT0tE05mj8YQD9mQuCRcfaetJHWEZYSvPkcL/s4l
+	 NWmucOJMwBDvw==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id CAFBFC3279F; Sat, 26 Sep 2026 15:37:11 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjIwNjRdIE5ldzogRXh0ZXJuYWwgbW9uaXRvciBvdmVy?=
+ =?UTF-8?B?IFVTQi1D4oaSRFAgYWRhcHRlciBuZXZlciByZWNvdmVycyAoc3R1Y2sgYXQg?=
+ =?UTF-8?B?MHgwIEVESUQpIGFmdGVyIHN1c3BlbmQvcmVwbHVnIOKAlCBvbmx5IGEgZnVs?=
+ =?UTF-8?B?bCByZWJvb3QgZml4ZXMgaXQg4oCUIEFscGluZSBSaWRnZSAoSkhMNjU0MCkg?=
+ =?UTF-8?B?VGh1bmRlcmJvbHQgMyBjb250cm9sbGVy?=
+Date: Sat, 26 Sep 2026 15:37:11 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: zarej@svrljig.net
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-222064-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-port100_send_frame_async() reuses dev->out_urb for every command. It
-assumes that once the device has ACKed and answered a command, the out
-URB of that command has completed. A device can answer without ever
-consuming the OUT transfer, leaving the URB queued. The next command
-then resubmits an active URB and trips the "URB submitted while active"
-warning in usb_submit_urb(), e.g. from port100_probe() when it sends
-SET_COMMAND_TYPE right after GET_COMMAND_TYPE.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222064
 
-Kill the out URB before submitting it again, as port100_send_ack()
-already does.
+            Bug ID: 222064
+           Summary: External monitor over USB-C=E2=86=92DP adapter never re=
+covers
+                    (stuck at 0x0 EDID) after suspend/replug =E2=80=94 only=
+ a full
+                    reboot fixes it =E2=80=94 Alpine Ridge (JHL6540) Thunde=
+rbolt 3
+                    controller
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: zarej@svrljig.net
+        Regression: No
 
-Reported-by: syzbot+89f5f8143d8e62af2b61@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=89f5f8143d8e62af2b61
-Fixes: 0347a6ab300a ("NFC: port100: Commands mechanism implementation")
-Cc: stable@vger.kernel.org
-Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
----
- drivers/nfc/port100.c | 3 +++
- 1 file changed, 3 insertions(+)
+## Summary
 
-diff --git a/drivers/nfc/port100.c b/drivers/nfc/port100.c
-index b613f5e2fd57..5fad6444fe3a 100644
---- a/drivers/nfc/port100.c
-+++ b/drivers/nfc/port100.c
-@@ -780,6 +780,9 @@ static int port100_send_frame_async(struct port100 *dev,
- 	print_hex_dump_debug("PORT100 TX: ", DUMP_PREFIX_NONE, 16, 1,
- 			     out->data, out->len, false);
- 
-+	/* The device may answer without consuming the previous frame. */
-+	usb_kill_urb(dev->out_urb);
-+
- 	rc = usb_submit_urb(dev->out_urb, GFP_KERNEL);
- 	if (rc)
- 		goto exit;
--- 
-2.43.0
+On a ThinkPad X1 Carbon Gen 8 (Intel Comet Lake-U, Alpine Ridge JHL6540 TB3
+controller), an external monitor connected via a USB-C=E2=86=92DisplayPort =
+adapter
+routinely fails to (re-)establish its DisplayPort alt-mode link after a
+suspend/resume cycle or a physical replug. The GPU (i915) reports EDID
+checksum/header corruption and an "Unexpected DP dual mode adaptor ID", and
+Hyprland/DRM shows the connector as `connected` but with a `0x0` mode
+(no valid video mode) indefinitely. Only a full system power cycle (reboot)
+recovers it =E2=80=94 no in-session software action was found that clears t=
+he
+condition.
 
+## System
+
+- Model: Lenovo ThinkPad X1 Carbon Gen 8 (Type 20U9006HMX)
+- BIOS: N2WET48W (2024-11-08)
+- CPU/GPU: Intel Comet Lake-U, `i915 0000:00:02.0` (CometLake-U GT2 [UHD
+Graphics])
+- Thunderbolt controller: `Intel Corporation JHL6540 Thunderbolt 3 [Alpine
+Ridge 4C 2016]` (rev 02)
+  - `0000:05:00.0` PCI bridge (root)
+  - `0000:06:00.0` / `06:01.0` / `06:02.0` / `06:04.0` PCI bridges
+  - `0000:07:00.0` Thunderbolt 3 NHI
+  - `0000:2d:00.0` xHCI USB controller (this BDF shifts after a reset, e.g.=
+ to
+`2e:00.0`)
+- Kernel: `7.2.5-3-omarchy` (Arch-based, x86_64)
+- External monitor: Xiaomi "Mi monitor", connected via a USB-C=E2=86=92Disp=
+layPort
+adapter (dongle), DP dual-mode (DP++)
+
+## Symptom
+
+After the laptop suspends and resumes (or, less reliably, after unplugging
+and replugging the adapter), the external monitor connector (`DP-2` in
+Hyprland/DRM) stays reported as `connected` but with mode `0x0@60` =E2=80=
+=94 i.e. no
+usable video mode. The screen stays black. This can also happen without any
+suspend at all, just from a cold plug sometime after boot.
+
+## Kernel log evidence
+
+```
+xhci_hcd 0000:2d:00.0: xHC error in resume, USBSTS 0x401, Reinit
+typec port1-partner: PM: parent port1 should not be sleeping
+EDID block 0 (tag 0x00) checksum is invalid, remainder is 141
+i915 0000:00:02.0: [drm] *ERROR* Unexpected DP dual mode adaptor ID 50
+EDID has corrupt header
+i915 0000:00:02.0: [drm] *ERROR* Unexpected DP dual mode adaptor ID 50
+EDID block 0 (tag 0x00) checksum is invalid, remainder is 18
+i915 0000:00:02.0: [drm] *ERROR* Unexpected DP dual mode adaptor ID 54
+EDID has corrupt header
+i915 0000:00:02.0: [drm] *ERROR* Unexpected DP dual mode adaptor ID 54
+```
+
+This repeats with different adaptor-ID/checksum-remainder values across
+independent replug/resume attempts throughout the day, always the same
+shape: xHCI hits a "broken_suspend"-style resume error on the Alpine Ridge
+controller, and the DP dual-mode adaptor's EDID/AUX read comes back invalid
+immediately after.
+
+## What was tried (in order), and results
+
+1. `hyprctl reload` =E2=80=94 no effect (mode stays `0x0`).
+2. Forcing a DRM connector reprobe via
+   `echo detect > /sys/class/drm/card1-DP-2/status` (as root) =E2=80=94 sta=
+tus stays
+   `connected`, mode stays `0x0`.
+3. Forcing the connector off then re-detect
+   (`echo off > .../status; sleep 1; echo detect > .../status`) =E2=80=94 s=
+ame result.
+4. Physical unplug/replug of the adapter at both the monitor end and the
+   laptop USB-C end =E2=80=94 no change, same EDID/adaptor-ID errors reappe=
+ar in
+   `dmesg`.
+5. Full suspend (S3) and resume =E2=80=94 no change; xHCI logs the same
+   `xHC error in resume, USBSTS 0x401, Reinit` on every resume, and the DP
+   link does not come back afterward.
+6. PCI-level reset of just the TB3 xHCI USB function
+   (`echo 1 > /sys/bus/pci/devices/0000:2d:00.0/remove` then
+   `echo 1 > /sys/bus/pci/rescan`) =E2=80=94 the USB function cleanly re-en=
+umerates
+   (new BDF, e.g. `2e:00.0`), but the DP-2 connector is unaffected, still
+   `0x0`. This confirms the DP tunnel is not owned by the xHCI PCI function.
+7. Full PCI-level reset of the entire TB3 hierarchy from the root bridge
+   (`echo 1 > /sys/bus/pci/devices/0000:05:00.0/remove` then
+   `echo 1 > /sys/bus/pci/rescan`) =E2=80=94 the entire Alpine Ridge hierar=
+chy
+   (bridges, NHI, xHCI, typec ports) re-enumerates from scratch, functional=
+ly
+   as close to a live "power cycle" of the controller as the kernel's PCI
+   core allows. DP-2 is still stuck at `0x0` afterward.
+8. Only a full system reboot (real ACPI S5 power-off/on) reliably clears
+   the condition and the external monitor comes up normally.
+
+## Analysis
+
+Step 6 and especially step 7 are the interesting data points: even a full
+software-level teardown/re-probe of the entire Thunderbolt PCI hierarchy did
+not recover the DisplayPort tunnel. This suggests the DP alt-mode/tunnel
+negotiation state for this connector is not represented in anything the
+Linux PCI core can reset =E2=80=94 it likely lives in EC/PMC firmware or in=
+ a
+redriver/mux chip on the board that is only reset by an actual platform
+power cycle, not a live device removal+rescan. Given `USBSTS 0x401` is a
+recognized "broken_suspend"-class quirk already handled defensively by
+`xhci_hcd` (see 30f3808d10f8, "xhci: Don't show warning for reinit on known
+broken suspend"), this looks like a case where the existing reinit path
+successfully recovers plain USB but does not (and structurally cannot)
+recover the co-tunneled DisplayPort link.
+
+## Expected behavior
+
+Either the DP alt-mode link should survive/recover across suspend-resume
+and hot-replug on this controller, or there should be some way (from
+software, without a full power cycle) to force the platform to redo the
+Type-C/DP mux negotiation for a specific port.
+
+## Reproduction rate
+
+Observed multiple times over one day of normal use (several suspend/resume
+cycles plus manual replugs), each time requiring a full reboot to recover.
+
+## Notes for triage
+
+- Willing to gather additional logs (`acpidump`, `sudo dmesg` full buffer,
+  `boltctl` output, EC firmware version) on request.
+- Not currently able to test with a direct DP/HDMI cable (no non-adapter
+  port available on this hardware) to isolate adapter vs. platform, but the
+  full TB3-hierarchy reset in step 7 argues against a simple "flaky dongle"
+  explanation, since a fresh, cleanly re-enumerated controller still fails
+  to bring the link up.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
