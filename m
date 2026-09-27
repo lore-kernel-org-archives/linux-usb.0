@@ -1,243 +1,158 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD6933F8D4
-	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 16:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EB83B2FD9;
+	Sun, 27 Sep 2026 16:35:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790526895; cv=none; b=fKsMqu8FVIwPYLmuaB4pH8lA4FlTtcT0ROlmgqSYx7t/SiK3Fy1Npfjc5U/VfHQXkasEaMhMqgjUqtOMpo59dq8AqqVwaFatKPfcUa4KIR8RZt2KdnsEf9Jq+VYF+d5p2Kymc6YIZc7CUL775W3QxlZ0Jb7gsiUnL9oEYVFLWKs=
+	t=1790526945; cv=none; b=ARDw5JT2FD6MLfpCUgfdGpJkjmueFMGSNBWbP1CId7LREPe+vsiXESNcKnlIrSeG1u8Fh5zzvTGh9PgCJqaRsVaXLKDRxUJZS4o8P96vaTAsloLDRf0qKXqlvAnTYM7GQfUpRwZBKXHZZMvJZn3uW0kGMUEiBu7bcDQRyAAPukQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790526895; c=relaxed/simple;
-	bh=pDOZOOWaBT7bPuq8slE8xVFevxZOBPoEbocvdhQtSt8=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=VzR9WN+h9b5z364F/HXo/SS4BWYN3kGBrzY6PESrzH9xXJuSYkYWtrNL6N7YAdI8lcw47DeXsxTOD/r3tF2rv1vE2Zq+qkx6A/j+O9aA/b5vf7xQ7e9Jtkdx1LXsUXSYCAgqkQZflTX5VT0fXIaCFlkkUOCXrH20exdn84ctt3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AsIkcb3/; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790526945; c=relaxed/simple;
+	bh=Bh4eqpjlXYZJnktfb6bIA8/7sjOl3WFlNWua6nYXIIg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=BNa2s6FRy8upKhDiUoU6Y1k9EKcPt+4u1kUCzb3o1Ews8ADcT6VSc+wihoMg6Vf1vdmUt/K+sxEuWnba6rDVyzOe8PdAPUXrd7gtRTTRNyR5s9MNreFD2SNHL7LHi7fCF1Tr4RiyuOQ2Dx9sHBjlLYSpE4+8vlLTw2ktf5q5zKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z6wNIx6G; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AsIkcb3/"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffde3cec6so4411315e9.3
-        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 09:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790526891; x=1791131691; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=QHjXpFdzhv3C4hfYuzeo58w6uZ3blP9zXG/f+JNvoxg=;
-        b=AsIkcb3/Jagj1XOj23ClOcvW0JwKFtRXkObtVSevHeUys/TrFcnuqAqAif/23kO9PD
-         XoFWx/J83RHBkXG9gQf0Cyp8Yx0IP/WKLikTjC8YDBtyKBtZ+t9J5W1JtMwtGaEFrZbW
-         iINq1iUgwfWkuEj3RDrsjuR1Ogv5FCH/Yq5vxORnfwwSC0zOgdGK4mpdi5xLYB2iVFYM
-         QTpztmfS/FyN9QTO4pQRVWp2fr49mye3zps52CwG0pwkj3BU1otwwBhwJfbE5q6moPu4
-         49maWhfIlGA8cmAtzTY+ZUahlCLElnRYtlU4GDT9CvXP6SwTRf4DenKUuNNNBzwn78Uc
-         WGeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790526891; x=1791131691;
-        h=content-transfer-encoding:content-type:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=QHjXpFdzhv3C4hfYuzeo58w6uZ3blP9zXG/f+JNvoxg=;
-        b=pD6BGadY7Wxrh1yGRdyapOPLqOiwVJgO4bZDANao1uVmkbc8xLhEyOfswq9PWTkTH4
-         b9hu25lmmT0VDtFMCvvcX3Qq7RfhfYfVmJc8aiA9JVqCwMEce+fScdh7D5+zIlHNh3p9
-         BbfpjhaLQ15Idge+WqTrZXT7Ru7ymc5VbQulgdTM9gWQQ+aVDXiHl0Qj9bD+mBK4h6Bc
-         fPUrhKOQs3hHeeKFFLZ5dSWc1nK3G4yDs7L6f4J+boGw1ffJoqYe4txofCymBVn0sUTu
-         0x/VdNhAVPPaOGqIa6HnUFSARox9NM787p5gAAZNSehoZYL5j+0j91VMYu4aJcnmSVfJ
-         vqZw==
-X-Forwarded-Encrypted: i=1; AKwUvByqGtShjfPQgjvepgwMIo6CL29uDm6TYgdcrLW08fp5wn63PhUlzd38APXn0tPj28d0Jo+Dr/b1wkc=@vger.kernel.org
-X-Gm-Message-State: AFuF++mfjaIVTp3Bsphllwv6p8qVNPML1ckXHh+ymhvpFzTiWmnPORX6
-	xuPu8jMJUrSCx6hIYKQRDOdhiIJDhwv/BMsNYYRfiQ9/CrDQUiq4il+vWAJosLY05WQ=
-X-Gm-Gg: AYBFou2u3UZG4/JzUFvoefLk80ByMqG/glYvpQU1tpjTZq96umY6J2ybBgq9Bu8f1Dx
-	BqLJEUDzNjD8nOZk2JmiRcB7jlubGKo+mQodENC8GzBqA+DwQLc4Er0qvJ2cp7OLuAqJjsmIPzd
-	Ma9GKSRvW9jhpFR7h58JzPwu06spgqZGrOWsw/nTn1Xov3t/jlP+v2KzcOjTAbExWqWoZApyO2k
-	EvaFe8YyZHFPvm2At4xbFR8lTUWoYPWCWQRsx/apa5n2DgfQEik+CqET2iScPmNdL6CwVwIp9A4
-	e5Dzbj+GsYdtOEq6e8eq5cobvDm76qYAsp+mwLWz7rgvmAelDym5P+B94rBK1EvDoS3nd0Pn+8q
-	0MO5PDWVNqqsZmURvcCYqP/0GixGMZzE5EY6vYH6bMbGaQLdBYc2TpCzbyeqL43M5nXibI17dFw
-	GDm1J20PkGV94canchT/iF9D/KnuHT6rVpTOno8HRTciVMGcX0emPnNcxMQUoTkDdFQ+RBQb1qy
-	fVdUEqvv+NOM/5xBGnG1HYi5LCnpryQ9l8DSx1sF3SSH57qvcmpOhyUfTE=
-X-Received: by 2002:a05:600c:a418:b0:49f:e4ca:e1d with SMTP id 5b1f17b1804b1-49fe66fa070mr158260075e9.27.1790526890971;
-        Sun, 27 Sep 2026 09:34:50 -0700 (PDT)
-Received: from ?IPV6:2a07:7e87:3bf2:0:1388:ec72:45b6:c87e? ([2a07:7e87:3bf2:0:1388:ec72:45b6:c87e])
-        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49fef5fe71csm144419165e9.2.2026.09.27.09.34.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Sep 2026 09:34:50 -0700 (PDT)
-Message-ID: <18c22d05-af53-4d94-b6ff-91441adc65c2@gmail.com>
-Date: Sun, 27 Sep 2026 18:34:50 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z6wNIx6G"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id DD4BBC2BCF4;
+	Sun, 27 Sep 2026 16:35:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790526944;
+	bh=Bh4eqpjlXYZJnktfb6bIA8/7sjOl3WFlNWua6nYXIIg=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=Z6wNIx6G+1IzwqCf1wmwRPHE2Iu4/T73fG+VYOwC+FKMcmT3CHZE4ZZDSOBco0SKi
+	 vSbqU9+TDDIGPZt7slABHtS9FKERqYubrfExFPpCLKuEE0KgizfUG0NRkxf+531wGu
+	 lrmaPWGQUHgYCkyKfjQxS3TH+04Mt6Bm7twvzMzZX3XaZ7gzHh+NbBwKe/NCgVLZ2p
+	 RuRCQNHdR5gxuX+8RgwvCFsV6tJhtbE5zE/QZ37ITrlKOTmj3kZEAqu8KefP75uMqH
+	 CpolIcqcOSBZlO30zjkobRxRdD5coqSbKJiUzRtevOlL4N0oQ+C7NDOTWWE9i4Achz
+	 ZlqgNwr78ebxw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B43BBC9832F;
+	Sun, 27 Sep 2026 16:35:44 +0000 (UTC)
+From: Brian Ellis via B4 Relay <devnull+brianellis.gotenna.com@kernel.org>
+Date: Sun, 27 Sep 2026 10:35:45 -0600
+Subject: [PATCH v2] usb: gadget: u_serial: fix NULL deref in gs_close()
+ after failed open
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-PH
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-From: Carlo D'Ambrosio <carlo.dambrosio@gmail.com>
-Subject: [BUG] usb: typec: ucsi: Acer Aspire 16 AI reports connector 2 while
- num_connectors=1
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260927-u_serial-gs-close-null-v2-1-bdedf57fe96f@gotenna.com>
+X-B4-Tracking: v=1; b=H4sIAOBFuWoC/4WNQQ6DIBREr2L+ur8Bag121Xs0pkH9IgmFBpS0M
+ dy96AU6uzfJm9kgUjAU4VZtECiZaLwrIE4VDLNymtCMhUEw0bCWM1yfu6Es6oiD9ZHQrdaikkz
+ Vl6aEJBT5HWgyn2P40RWeTVx8+B4/ie/t38nEkWOrriRr2fNx6u/aL+ScOg/+BV3O+QcaJtuEv
+ gAAAA==
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kuen-Han Tsai <khtsai@google.com>, 
+ Prashanth K <prashanth.k@oss.qualcomm.com>, stable@vger.kernel.org, 
+ Brian Ellis <brianellis@gotenna.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790526944; l=3198;
+ i=brianellis@gotenna.com; s=20260910; h=from:subject:message-id;
+ bh=zsIlMAuOeo/QnHXqKOHJz0TaS0Y3etnOytR55Awk234=;
+ b=UbZHsXI/07D4SVkdfqO4AceRih61lDgprVhAzuVohFqBwIu/HErZdHfTUTj+AcSf+1L7324TZ
+ ePzkmRDf0ZDCzp6lQvskMcXKgpTsdt6TaA2MpIAiJB0E2nXHjR9DCJH
+X-Developer-Key: i=brianellis@gotenna.com; a=ed25519;
+ pk=JciDR8ctfMqvKeRCDP8VPwNLUDULxCAqDum6H+/ByBY=
+X-Endpoint-Received: by B4 Relay for brianellis@gotenna.com/20260910 with
+ auth_id=1022
+X-Original-From: Brian Ellis <brianellis@gotenna.com>
+Reply-To: brianellis@gotenna.com
 
-Hello,
+From: Brian Ellis <brianellis@gotenna.com>
 
-I am seeing a reproducible UCSI issue on an Acer Aspire 16 AI running 
-Fedora 44.
+gs_close() dereferences tty->driver_data without checking it:
 
-System:
-- Acer Aspire 16 AI
-- BIOS 1.22 (latest available from Acer)
-- Fedora 44
-- Linux 7.2.7-200.fc44.x86_64
-- Dual boot with Windows 11
-- Two physical USB-C ports on the left side of the laptop; the upper one 
-is Thunderbolt-capable
+	struct gs_port *port = tty->driver_data;
+	struct gserial	*gser;
 
-The problem occurs when I connect either a USB device or the original 
-Acer charger to the upper USB-C/Thunderbolt port.
+	spin_lock_irq(&port->port_lock);
 
-Immediately after connecting it, the kernel log starts being flooded with:
+but gs_open() assigns tty->driver_data only after two error returns:
 
-   ucsi_acpi USBC000:00: bogus connector number in CCI: 2
+	if (!port) {
+		status = -ENODEV;
+		goto out;
+	}
+	...
+		status = kfifo_alloc(&port->port_write_buf,
+				     WRITE_BUF_SIZE, GFP_KERNEL);
+		if (status) {
+			...
+			goto out;
+		}
+	...
+	tty->driver_data = port;
 
-The messages continue after disconnecting the device and also survive a 
-normal Fedora reboot.
+and when ->open() returns an error the tty core calls ->close() anyway:
 
-The lower USB-C port does not trigger the problem.
+	if (tty->ops->open)
+		retval = tty->ops->open(tty, filp);
+	...
+	if (retval) {
+		tty_debug_hangup(tty, "open error %d, releasing\n", retval);
+		tty_unlock(tty); /* need to call tty_release without BTM */
+		tty_release(inode, filp);
 
-The condition can be cleared in either of these ways:
+So opening /dev/ttyGS<n> for a port that has already been freed, or when
+the write-buffer allocation fails, oopses in gs_close().
 
-1. Power off and perform an EC reset by holding the power button for 
-about 30 seconds.
-2. Boot Windows 11 and then reboot into Fedora.
+This is not the situation commit ffd603f21423 ("usb: gadget: u_serial: Add
+null pointer check in gs_start_io") was reverted for. That check was
+redundant because gs_start_io()'s callers are required to hold port_lock
+with port.tty and port_usb non-NULL, and the dereference it hid was a race.
+Here the NULL is not a race: the tty core deliberately calls ->close() for
+an ->open() that failed, as its own debug message says, so driver_data is
+legitimately unset on that path and every tty driver has to tolerate it.
 
-Interestingly, Windows itself does not appear to trigger the problem. 
-After Windows -> Fedora, Fedora starts cleanly again until something is 
-connected to the affected upper USB-C port.
+Fixes: c1dca562be8a ("usb gadget: split out serial core")
+Cc: stable@vger.kernel.org
+Signed-off-by: Brian Ellis <brianellis@gotenna.com>
+---
+Found on a downstream 6.6-adi BSP kernel, then confirmed present in usb-linus
+by inspection: gs_close() still dereferences tty->driver_data unguarded, and
+gs_open() still assigns it only after its error returns.
 
-Reloading ucsi_acpi does not clear the underlying condition:
+Compile-tested against usb-linus with allmodconfig (CONFIG_USB_U_SERIAL=m).
+Not boot-tested on mainline: the board it was found on needs a vendor BSP
+device tree to boot, so the argument here is from source, with both halves
+quoted in the commit message.
+---
+Changes in v2:
+- Remove the comment above the check, rather than reword it as Prashanth
+  suggested. The commit message already explains the path that leaves
+  tty->driver_data NULL, so the comment only restated it. Happy to add a
+  reworded one instead if that is preferred.
+- Link to v1: https://lore.kernel.org/r/20260910-u_serial-gs-close-null-v1-1-9a5e848b1dfb@gotenna.com
+---
+ drivers/usb/gadget/function/u_serial.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-   modprobe -r ucsi_acpi
-   modprobe ucsi_acpi
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index cdd1dfc66..892d2673e 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -695,6 +695,9 @@ static void gs_close(struct tty_struct *tty, struct file *file)
+ 	struct gs_port *port = tty->driver_data;
+ 	struct gserial	*gser;
+ 
++	if (!port)
++		return;
++
+ 	spin_lock_irq(&port->port_lock);
+ 
+ 	if (port->port.count != 1) {
 
-Removing the module stops the log messages, but after loading it again 
-the flooding resumes.
+---
+base-commit: be4219dd98608736e13e0b790ef742b76a13254d
+change-id: 20260910-u_serial-gs-close-null-a80a436666e8
 
-In a clean Fedora boot (after Windows -> Fedora, with nothing connected) 
-I get:
+Best regards,
+-- 
+Brian Ellis <brianellis@gotenna.com>
 
-   typec port0: bound usb3-port1 (ops connector_ops)
-   typec port0: bound usb2-port1 (ops connector_ops)
-   typec port0: bound usb4_port1 (ops connector_ops [thunderbolt])
-   ucsi_acpi USBC000:00: UCSI_GET_PDOS failed (-70)
-   ucsi_acpi USBC000:00: UCSI_GET_PDOS failed (-70)
-
-There is no "bogus connector number" flooding at this point.
-
-Also, /sys/class/typec contains only port0.
-
-I used bpftrace to inspect the UCSI state directly.
-
-While the failure is active, tracing ucsi_acpi_read_cci() shows:
-
-   ret=0  CCI=0x20000004
-
-repeatedly.
-
-I also traced ucsi_notify_common() while reading the UCSI capability 
-stored by the kernel:
-
-   CCI=0x20000004  num_connectors=1
-
-This repeats continuously.
-
-I then reproduced the issue starting from a known-clean Fedora boot. 
-Before connecting anything there were no such notifications. I started 
-the ucsi_notify_common() probe and connected the original Acer charger 
-to the affected upper USB-C port.
-
-The very first notification observed was already:
-
-   CCI=0x20000004  num_connectors=1
-
-and it then repeated continuously.
-
-The bpftrace probe used was:
-
-   kfunc:ucsi_notify_common
-   {
-       printf("CCI=0x%08x  num_connectors=%u\n",
-              args.cci,
-              args.ucsi->cap.num_connectors);
-   }
-
-I separately traced ucsi_acpi_read_cci() with:
-
-   kfunc:ucsi_acpi_read_cci
-   {
-       @cci[tid] = args.cci;
-   }
-
-   kretfunc:ucsi_acpi_read_cci
-   /@cci[tid]/
-   {
-       $p = @cci[tid];
-
-       printf("ret=%d  CCI=0x%08x\n",
-              retval,
-              *(uint32 *)$p);
-
-       delete(@cci[tid]);
-   }
-
-This indicates that 0x20000004 is already being returned through the 
-ACPI UCSI path; it is not a connector number subsequently generated by 
-the typec_ucsi bounds check.
-
-I also verified:
-
-   ucsi->cap.num_connectors = 1
-
-using BTF/bpftrace.
-
-Finally, I inspected the Fedora typec_ucsi module corresponding to the 
-running 7.2.7 kernel. In ucsi_init(), the code calls ucsi_reset_ppm() 
-and subsequently obtains the capability data into ucsi->cap. The 
-num_connectors field being used by the core is therefore 1 when the 
-connector-2 CCI notifications are received.
-
-So the state visible to Linux appears to be:
-
-   UCSI capability:
-       num_connectors = 1
-
-   after using upper USB-C port:
-       CCI = 0x20000004
-       connector change = 2
-
-which results in:
-
-   bogus connector number in CCI: 2
-
-I am aware of the earlier UCSI issue where connector notifications could 
-arrive before num_connectors had been initialized, resulting in 
-num_connectors == 0. This does not appear to be the same case: 
-num_connectors is already initialized to 1 here, and the problem can be 
-triggered reproducibly after the system is fully booted.
-
-The fact that booting Windows clears the persistent condition is also 
-interesting, although I do not know what initialization/reset sequence 
-Windows performs and I do not want to infer the root cause from that alone.
-
-Could you advise whether this looks like an Acer UCSI/PPM firmware 
-inconsistency, or whether something in the Linux UCSI/ACPI 
-initialization could cause the second physical USB-C port to generate 
-connector-2 notifications while GET_CAPABILITY exposes only one connector?
-
-I can provide additional bpftrace output, ACPI tables, full dmesg, or 
-run additional tests if useful.
-
-Regards,
-
-
-Carlo D'Ambrosio
 
