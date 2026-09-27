@@ -1,82 +1,134 @@
-Received: from mail-pz2-f31.google.com (mail-pz2-f31.google.com [74.125.228.31])
+Received: from mail-ed2-f34.google.com (mail-ed2-f34.google.com [74.125.228.98])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654623C062D
-	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 19:40:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.31
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790538002; cv=none; b=sy6ImjPLT44A6TSOImDwVwMI+9G8+Y6WKjCmRktagytJopsRaPomGuFA48xVF81jwZZuaDYJTkuzKFRCyb7kSejht8s+nhwl8bxaK0h05oE4pxunLvjgIHp9zbOS1qiD099gVdRn1wElwV1jKvKSihmD93mEMNvXezQjaq5WKNk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790538002; c=relaxed/simple;
-	bh=Xp96osNKNV73rMrH2Cx3GnQRPM4ktS3CCX6WmIYhStg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dU0wuBWpODC5th1N6SWKSqJ3rrig3EVSGEmEqZDGRbsObFRfW06XC6s7PHO8YRo0c5sYJ/bdJ7Qfk+5LiDyZWoYXkGLZRDgg1rgvnhThkFosug0B+iFqgldweIoEYu5YAQeat2oxQdrqJHOznJJPw/QIdX4ENE1pVb6mu1T3Gug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V/gsvUH6; arc=none smtp.client-ip=74.125.228.31
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DCEE3B992A
+	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 21:10:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.228.98
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790543454; cv=pass; b=ovnMAfoDvj+5kyE0gp5WHhUWVDX6ob3jhHwT0nVgjJ9eWMw4kRUpxktM4D0F4/zE/z7e4ytQthqMp7yoH83OcAXhMUZA5OGJmBysQ1NNec4TlCBjLquwUCOto75M9S8Q4wo+vZbhWm4ocoxKpTqxLPtEnqcHRr+dZXKlpNKxtaE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790543454; c=relaxed/simple;
+	bh=K+JP+LPdxc4vpdnaEOF+IpoVDd3fTmu6ZNu6gMPY2s8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u2ss/KtS9HwBpF2Q2MIhU6xDfn0fgnPJNOCE+8637ZteoZZ0GhqOcgvkoFpwq7qBcduOZ0MPyidkJrfNujCavZ3zRYp9WevrftagnEOSmreMGQ1dsLnNCMQl08kR3/jK3cfZIL10ELyX+6XClqYPQmb4sdCO1/Q14KNH4RApZBo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oSwhkhlf; arc=pass smtp.client-ip=74.125.228.98
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V/gsvUH6"
-Received: by mail-pz2-f31.google.com with SMTP id d2e1a72fcca58-8814e797a5bso438307b3a.0
-        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 12:40:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oSwhkhlf"
+Received: by mail-ed2-f34.google.com with SMTP id 4fb4d7f45d1cf-6aaf5e6878fso2781547a12.3
+        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 14:10:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790543451; cv=none;
+        d=google.com; s=arc-20260327;
+        b=CS9Anqj3IKFpJdSTeDXwstM1bKfwr/Md7LXGgvORWBggOvPjRwj/BYVXHSWDnMfbra
+         c3Esg/EE0TCPM0XXqf9zB3pvbpJRzJdZC6SB5pw1NeepkJuhq3s5trrj/NPCAolFn9Mq
+         mBuJjpHy6VT+JafTEjli0s63GPPda5yREYz0azWRRUP6HnboLiY1fYWO8IF4yaFdPWWE
+         8OM+A5v1DXPgLu4vaNpNpxTP3/jjUjWhvpl4+94vPrS3oGOQpHRvWzFSmDlebGxKs7+0
+         an9sidx7shY8/sIdmnzIQF8KSiLgiTbaHJTM7Tl+UV7klEtFAoNFiE6ujU/esUB11QL5
+         YrMQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=K+JP+LPdxc4vpdnaEOF+IpoVDd3fTmu6ZNu6gMPY2s8=;
+        fh=pQcRkoGS10NZuaJp+UOESi62rvOsODxyyNP5qysCSYQ=;
+        b=enyIpXKXrqkj/xGeaDqZtaZLeEv6cfBtcBQmvl77u/7VFNgfCBQuTGg3o9YthiROgH
+         r34TsjgY0KPAt0ZFKFSEeklK9m/HYz1iRHIOqzE0IVtF4Xx2pBtEum+LMPvs2Y9VDNCl
+         Gv+B0kKiE5qASfYuysFZnEY5SM0tMfR1+tdFkF3Ka7m5XiUYPpGExI5RDHmSPklr9s2F
+         ooLmtRknf2Vad0Kl+aJEXDsw8qw9fI4zNEhj8/9wwvQ0Chix0o0HxXono2Aj2c6lS+h8
+         UVtb65SsgP93PkUVmk+oyVXsL/BkzJrp6r6tb2+qIzC4AmpWrSRT9pBqdcdpwavAouea
+         866Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790538001; x=1791142801; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Xp96osNKNV73rMrH2Cx3GnQRPM4ktS3CCX6WmIYhStg=;
-        b=V/gsvUH65f4/MTfHpEyxrxLt7CuC3Nn+xHKvmyHw5u0aKsv7siqAZsonHiNd9uIrld
-         vn/6U5u2EcikMRGHOivMrfq9/Vj6IEINAWHGPfO/j0Acn2AxFk3OkXc//ZJBciisHVSQ
-         DuzRSmvFzRzw1e+UkN+lXsCEXtKRs/Tx6dRGljlIQVgcjoAjPhN9W9wfXjW7XYFkxr1b
-         az2wI5jC0icN5shiG9jVMNT3BscI4l/SUqj2pAw7UXQ7yrK/p3zxK/Xtj09PjuFTV5NO
-         k+y+gZ89dZeNPwNU1x9M0mF0DTTEnpisVimOgcYKwEFxvYmqZCjbHPVhsJ7LD6ECLOw6
-         3sXQ==
+        d=gmail.com; s=20251104; t=1790543451; x=1791148251; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=K+JP+LPdxc4vpdnaEOF+IpoVDd3fTmu6ZNu6gMPY2s8=;
+        b=oSwhkhlf5AxBUNHBP9ueBnjtMWNC2CFksnniRllzgebZw6iCtl3TTIv8ZjsUMJPLMh
+         Qjse3mO5n1MNPjgtM8Hjq1jtuKXq3f/q+IQisE0iw2DaReXegMd1x8v0YHfI5Jh9Swy1
+         QPGfOlkjzkdvHoz/lSbRY2+l5s0Y4EF106rQ5PqTGflvvJFlesu+WqE1ASShoRFvs96+
+         Szo8TF6uS0yn3ORZTPuHe6aavRYQTp2CP194yJYPbKi7hvFY+unI3RHSRlJFr+kbZ0Nz
+         EJ5IieKyOoQt1qfcXBbI1NiR6FEjoTEM4Qfr0eg6NkLhsUzwuomQw0cxyvtOfzUrQ6ua
+         xbHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790538001; x=1791142801;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Xp96osNKNV73rMrH2Cx3GnQRPM4ktS3CCX6WmIYhStg=;
-        b=KYmrLmSQog6LEibFd6+ei5aO6yic0y4kOWC1ecFrXl7Y69HflPOKTXIY89zA95t0VT
-         Kt/y3eTJ6pch0lCb/bdSMtMzp27x2rfb7HhGCpaqBxm1qdoW1zcQsOBlzQ4Q0Yl7kOUd
-         GUIpHbxY26e56/zSFR95JeJMHIf/U+CxvnEn0tWHVLTlx2zLZiLKfg+ORnDTlk3MkFUj
-         kfSrYo0yS51HtFzpRL7NCsj8oDdpVf0nMZ0dR/1JBmY1db59htaO0/PnkyR6mAjb+5F7
-         PCM/g9yKuFdMlVmKq7mWXjco5Pdei4do+OtxwAaUscRiyFdoN/bMLwBTTcMiiE9pY/WD
-         tMiA==
-X-Forwarded-Encrypted: i=1; AKwUvBxNWPDBG9iWd1a62+9mZRmmSQok7hS+TLhIR5GqE3OfR/Hg5wxI/fn3TxulcZIBgeyxeB4iK1rhV8k=@vger.kernel.org
-X-Gm-Message-State: AFuF++lzx0/9B7hg1ppGNxBV9/mjyJ/pdImRGsDyRrHT3OgrOylIdKO0
-	YzdeCbrU3m52q5+uui1VEd/BT+mhhQETw8zLScPXSUTUVzyf+oKZgNamlgEMCgup
-X-Gm-Gg: AYBFou1nb62Ow1tzn9ExViPqk6rvWE7KGnTRrJ/aS3VZpFqLHFxs9KpP/xt0mKEv/Th
-	tmMMKfs6GX2zZdhOp9+igZj5iYgaRvPovQoZ2AjJOaf4YnNNZJFrdTz0cgVDxld9AjhUSFZM/64
-	c2jHVQh/DVJcSEzI0fXpPi0u3cBrOChn9imbj73yZhTRPAknVdDtTMsUz3/VQ/6MzfL9ZxjDklR
-	dqmHJUYenpETXJlAs2Rd7jM2iYKz4PZval4CMA+1M97Sa3Q28tuPcNkIg0A2+ibkBn/a4dKL3BF
-	Ov5E4fEuwM/uTUkSSnM6Hc3QkkNBy5Phk3pvIG+kpATLIL/9SiOKxkyQ0rWe+jrVT5c++NzsSJX
-	F/hQAy+alCmXgseiZqj5/Ix1C1ewI5uAmqdVsoBpdlsjhfEY9N1KphQqO8yeaJqA+amdhwvl3OL
-	pcz6xcC60Oje7h6dWpRdqHTGVmcZlv3t1F9uzl7hgSzLv0koyRe5eiHVHBQQyiGMM=
-X-Received: by 2002:a05:6a20:d707:b0:3dd:a197:cf25 with SMTP id adf61e73a8af0-3de0e9185e1mr10431840637.73.1790538000543;
-        Sun, 27 Sep 2026 12:40:00 -0700 (PDT)
-Received: from bloom.localdomain ([2604:3d09:178e:e100::a891])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-882585621d6sm969652b3a.34.2026.09.27.12.39.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 12:40:00 -0700 (PDT)
-From: Ivy Lopez <skunkolee@gmail.com>
-To: stern@rowland.harvard.edu
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ivy Lopez <skunkolee@gmail.com>
-Subject: Re: [PATCH] usb: ohci-sa1111: remove unused dump_hci_status() debug helper
-Date: Sun, 27 Sep 2026 13:39:56 -0600
-Message-ID: <20260927193956.219321-1-skunkolee@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260926162513.25268-1-zainaboobacker33@gmail.com>
-References: <20260926162513.25268-1-zainaboobacker33@gmail.com>
+        d=1e100.net; s=20260707; t=1790543451; x=1791148251;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=K+JP+LPdxc4vpdnaEOF+IpoVDd3fTmu6ZNu6gMPY2s8=;
+        b=TJpJz5w2N9UDSRCdTb88Kp8MA4bj+RpjD4o0XhIDPQmO5IB6dA0Lc7QSmVBbHe69uW
+         Txk89UXQovhVvLafBlhaMV8CatzvvzTSkZSVC4JL1Fw0xg2SrkqB2hPLvAX+8M0bADeZ
+         F0iNsV3+9VabGwySAduVUYNwDUdN3CVCQr0EoA5IeYFtvZS6GmPGBq9/BF8FR+tvm8ny
+         v7c7ql4r+CwXYXj9l5VOAlgHVBzUUwQfUV7C+Y8giy4S/a+AGN4a8cpMAegcw0qQkhAl
+         KpxKBcwv4T0ynR5czPtcmSGZYRtC80T/wruukHCsQlvRyeFr9n6n6xdU7U0KPT8FayFI
+         9IGg==
+X-Gm-Message-State: AFq9FYJsSP7/8X49BqCiEj4lme8Y1Z6ZWW8us59RPOGqMQ5EgKZ0G7VJ
+	6CmLf82TSKOZHQ2WTADzGWDSOJXDSXi2kTNRuhlIegyQGX8ETsnmiGwn0qsk8j4MkBEoofpNIaZ
+	4xDJSz8Liux4vT7F9jERsRm71ppbvhO4=
+X-Gm-Gg: AYBFou3cMdKtcUa+s5vkNC5Qy7YbjolRoNK2xGoQAYpF6uoUshsr0rJr92Etm6AnGNq
+	OdvKkZW+Sur5nzIQ8qQaBCgeOLK9cTnvwXNbjKoMsPR8Y3CpaAtuCckKvbc9ojQZF/CeaJOjqS3
+	W8GWQQKyEqdZt4+d6+C271aG9GDjb9nSF+bEIxIRS4NkYJslG1exyQhaiUc+7IM4J8ceKrUkhRP
+	1XBAqPNRMu6xfY4flEU0Qjqa6lhlvdItkDX5Idgr5/S0kR4nrTc6d75aszpt32I00emeWhTMDFV
+	lCJdDgp2XtSGVZ2GRJs6S/ePn+puDnxOyczZahvN7ihXVTuYj979R4gdqP0qBFBayICvIdp/1qI
+	q/nOiK8mqDMwMpoaVTkK74l0Dds1gHtglP4sd+dmqRRz8aWLecoPt3rofSaE3XsbYk+WGCoQaYH
+	0pv9P4DonLYv133d0rI4W4fc7J9C4hxcybDGwAIjTjeZmlYmJUkk7JM75tsPPfdwIrOg==
+X-Received: by 2002:a05:6402:1e93:b0:6a6:37a3:2b0f with SMTP id
+ 4fb4d7f45d1cf-6aac8ecf40cmr8425968a12.8.1790543451233; Sun, 27 Sep 2026
+ 14:10:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260924233831.127617-1-rosenp@gmail.com> <feeed1f5-0e82-4b6f-8640-f38f3a892d20@kernel.org>
+In-Reply-To: <feeed1f5-0e82-4b6f-8640-f38f3a892d20@kernel.org>
+From: Rosen Penev <rosenp@gmail.com>
+Date: Sun, 27 Sep 2026 14:10:40 -0700
+X-Gm-Features: AclHuK9nXtwhKZKT8OEvWTXnJF3sAiZwWnAZputjHhM41eg1WXS42W-4ztR4xkU
+Message-ID: <CAKxU2N8JeJi=cNkXKKdCS7HChvhGHziCTz3j-wm27Nr04RMD-g@mail.gmail.com>
+Subject: Re: [PATCHv3 0/2] usb: bcma: control VBUS via a regulator
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-usb@vger.kernel.org, 
+	Florian Fainelli <florian.fainelli@broadcom.com>, Hauke Mehrtens <hauke@hauke-m.de>, 
+	=?UTF-8?B?UmFmYcWCIE1pxYJlY2tp?= <zajec5@gmail.com>, 
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"moderated list:BROADCOM BCM5301X ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Ivy Lopez <skunkolee@gmail.com>
-
+On Thu, Sep 24, 2026 at 11:54=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.o=
+rg> wrote:
+>
+> On 25/09/2026 01:38, Rosen Penev wrote:
+> > bcma-hcd currently drives the USB power line by grabbing the
+> > undocumented "vcc-gpio" property from the controller node and poking
+> > it through gpiolib. Besides relying on a non-standard binding, this
+> > cannot work on boards such as the NETGEAR R7000 and R8000 where one
+> > chipcommon GPIO powers both the USB2 and USB3 cores: the two
+> > controllers each request that GPIO exclusively, so the second one
+> > fails with -EBUSY and its port stays dead.
+> >
+> > Instead, switch the driver to the standard regulator interface and
+> > express the power rails as regulator-fixed nodes bound to the
+> > chipcommon GPIOs. The regulator core reference-counts enable/disable
+> > requests, letting both controllers share one GPIO without conflicts.
+>
+> Please use standard email subjects, so with the PATCH keyword in the
+> title. `git format-patch -vX` helps here to create proper versioned
+> patches. Another useful tool is b4. Skipping the PATCH keyword makes
+> filtering of emails more difficult thus making the review process less
+> convenient.
+I will make this change going forward.
+>
+> Almost all your patches for months now do everything to escape my filters=
+.
+That explains a lot.
+>
+> Best regards,
+> Krzysztof
