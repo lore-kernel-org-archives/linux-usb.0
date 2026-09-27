@@ -1,185 +1,243 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A1433F8D4
-	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 16:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD6933F8D4
+	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 16:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790526823; cv=none; b=lEur0q8+XaRo1C6v8TvkSel3ClJseDnpXZ2CoWYbcpDk1nWAWQTSlRnmOCudfIvcqupkuhUaSY3DsWn/3A0jIilVhIUDRclPNYb1L7DwJN/OPUjeviOAtdPGaduI/KvAE613RAmu4DLZd1KisT7+/f5JSyGZb3+iHS6SB/Jftlo=
+	t=1790526895; cv=none; b=fKsMqu8FVIwPYLmuaB4pH8lA4FlTtcT0ROlmgqSYx7t/SiK3Fy1Npfjc5U/VfHQXkasEaMhMqgjUqtOMpo59dq8AqqVwaFatKPfcUa4KIR8RZt2KdnsEf9Jq+VYF+d5p2Kymc6YIZc7CUL775W3QxlZ0Jb7gsiUnL9oEYVFLWKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790526823; c=relaxed/simple;
-	bh=xGlbAsXAOE8rH+2A5jMDhH2JAdQcuVK+CGw16Ag4g3w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Fp1g3wAtKUDhhiKpvNoWAm6eG017b6Lhlgw/a2bok0MhSdXtRTfhg23yqYZlBCfpeLl6LTdFX5WkW87Y3lf0fUyvJaa+JETuQbZvzjfz2wZfuCsrNNLdJpdbHVuo0pW95vR5kQKNbJxz47zFZC5+yV6YMC8dHPi5XCisjfKurQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EN/ib10L; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=g3cmqhd5; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790526895; c=relaxed/simple;
+	bh=pDOZOOWaBT7bPuq8slE8xVFevxZOBPoEbocvdhQtSt8=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=VzR9WN+h9b5z364F/HXo/SS4BWYN3kGBrzY6PESrzH9xXJuSYkYWtrNL6N7YAdI8lcw47DeXsxTOD/r3tF2rv1vE2Zq+qkx6A/j+O9aA/b5vf7xQ7e9Jtkdx1LXsUXSYCAgqkQZflTX5VT0fXIaCFlkkUOCXrH20exdn84ctt3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AsIkcb3/; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EN/ib10L";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="g3cmqhd5"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68QH0WgQ247015
-	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 16:33:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=kBaOyYV1iWR4jpfFBZ3VawI9
-	vIbejaQgOQsY1cvSmjY=; b=EN/ib10LX8Y/+lkH0LFd8Jk09MJQN+CIC0e7m+uf
-	SFjv96uGdqB/t/rKCAY44aGZobz57ViFMvRnVljBHQPa9qd1lHKiYuXvfhaqGAnH
-	H92h5WAYp5cigEofp8/jBwuvtbpKRFddGeaCvseffvOiUEtKXC8uS6cPUNmPD7WF
-	/BVSAi27/TO/jOfutRTKml2kn7amU4nYxvTg8i8Xa3nxxQlozuSAiYgy/sWmUAxD
-	/4drmk0V+Ith/qcM7lQeW0TtVrZqZIQ/jn2l2MAZf3o0CQsKbD90B5+p+VmHrund
-	F0ME9KJN4BafMYiviDoi8ZgU1f4tRmUJ33kUeWMiI1rxkQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gx3dp3kuj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 16:33:38 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93c6a0d2122so138590885a.3
-        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 09:33:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AsIkcb3/"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ffde3cec6so4411315e9.3
+        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 09:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790526818; x=1791131618; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kBaOyYV1iWR4jpfFBZ3VawI9vIbejaQgOQsY1cvSmjY=;
-        b=g3cmqhd5myslN0V5757uS/KwZ29tSu5wq/u4g3X9CKoKDEvEpjscVkZmnxP7WZvl11
-         l9w+vWLlaUqQ4z5Ov0fW1t1Aa8os0JB3hIoH9DnPj0d9fhTHpDQZZeu+vzyiCEm7X5tc
-         kfO1WiSzQkbUTO4DAYguORKrufsSprYwIaI9S4jjnmRiXYNB9HWX48cveKUfxRWMcJKa
-         gF8tsLgm8BJtCWmGgiZkcPJoF8C7uTni4M8e8C9UvUKyD+bCjlfe/eE1ZYpwwcPsn/rg
-         3giZsQkmfNg0M+7U/DAwNwyXnk7/MjJYTumBDDBSk1AOMG/m7M2k0qvGOEqXkxqUiZ0i
-         +r5g==
+        d=gmail.com; s=20251104; t=1790526891; x=1791131691; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QHjXpFdzhv3C4hfYuzeo58w6uZ3blP9zXG/f+JNvoxg=;
+        b=AsIkcb3/Jagj1XOj23ClOcvW0JwKFtRXkObtVSevHeUys/TrFcnuqAqAif/23kO9PD
+         XoFWx/J83RHBkXG9gQf0Cyp8Yx0IP/WKLikTjC8YDBtyKBtZ+t9J5W1JtMwtGaEFrZbW
+         iINq1iUgwfWkuEj3RDrsjuR1Ogv5FCH/Yq5vxORnfwwSC0zOgdGK4mpdi5xLYB2iVFYM
+         QTpztmfS/FyN9QTO4pQRVWp2fr49mye3zps52CwG0pwkj3BU1otwwBhwJfbE5q6moPu4
+         49maWhfIlGA8cmAtzTY+ZUahlCLElnRYtlU4GDT9CvXP6SwTRf4DenKUuNNNBzwn78Uc
+         WGeg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790526818; x=1791131618;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1790526891; x=1791131691;
+        h=content-transfer-encoding:content-type:subject:from:cc:to
+         :content-language:user-agent:mime-version:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kBaOyYV1iWR4jpfFBZ3VawI9vIbejaQgOQsY1cvSmjY=;
-        b=ZYddOUHVG+rLLRjceJ2FO9ertx8aLMIyZKSv3CzO5/51yE8C0LPJWHZpimL0RgN7Jo
-         GnU+PIbpigftBWeMlYIPakWZGT49ap6HY/UZ1/lzGDyLcBveDAsNzSCegDP3BZMSUb74
-         +TLxVBxJXzNN0Ju3cqzGhebeIM4ehPiHOZdMMXa7B7fgjbsbFu4awB1kqrhMAKr9Any6
-         SknCFo259kBghPSBGj2vIlmdSs8sjTTOX2j8C4tGgnbWLQPBYM8p3WyqGMudkYo4ZJ1N
-         njW+k3N8fQL2iarM5YRzjkTeD39DydAN6/npr8jyjYnRaftOaI+OzlelMSNHQGGV/Dm7
-         Kumg==
-X-Forwarded-Encrypted: i=1; AKwUvBxheMw+uY3HgQflIEVfuOKaWNara5ruIWCutpPg1vcoGpdyg1sEqkheliMzOCHjYe5ghyMMft1rKyk=@vger.kernel.org
-X-Gm-Message-State: AFuF++lJ5EgmassoXFwenL/MyunBzdvGfgGwmkTHLh1BeI6ZYdyQ1dWD
-	Eej3vjBqsNNE8ukVWwfVoIOQlTBejPsqHWNTOpDhUjMqy8MNVz3aU/1XS2tceMy5CtqjJCpkBVL
-	E8hCwzEqwu2/68hmM4ZEW/qoMVOgmF7tNKvJy+xBPxL/cxF+YbqzMWqOe6qGBTTw=
-X-Gm-Gg: AYBFou09rwJFwYMrPOPt45NqE0tkUBvJjsdBtWfbonWTWG1OFKQEQ+XKQRJhX8NKRzj
-	sKeEhjIC/OH9Pg8CyosUaz75fLZepc72bibKrKGifCifn9o+NxTT1jEFHeiXbvf7LhUnzxzBwyz
-	BL2PLxUMsWKFlREamtVjnuDgVywhrjCcmEf96Sjk/oH63HGf0AxbpDRf0A4M+zQHvpv/7kPcXGw
-	ZnX16iZIzR2np1xeKhtmNtnEc1z88ztSktLalwahlgsC7txQ+FE0ZhM5FzVcq5zqxv/9DS4YqG9
-	BsRj5Fl9EDpiqWnvPezvRmSF5jN9s5T3FteRQP+b/D5GrZnrAAnpEacyirGfxudsg/yoUt0L1rE
-	bP/tHT06ZAk/P6rTHDetEhXKlsxdpqzPnL21Rb2LI7uGUlevo/1OkdG2cL6g+ANR2eGuBdYm78Q
-	u/YpI5dGymnouE
-X-Received: by 2002:a05:620a:8001:b0:93c:735c:2477 with SMTP id af79cd13be357-93c735c28b2mr277172585a.21.1790526818143;
-        Sun, 27 Sep 2026 09:33:38 -0700 (PDT)
-X-Received: by 2002:a05:620a:8001:b0:93c:735c:2477 with SMTP id af79cd13be357-93c735c28b2mr277166485a.21.1790526817696;
-        Sun, 27 Sep 2026 09:33:37 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8e6ae622bsm1929439e87.16.2026.09.27.09.33.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 09:33:36 -0700 (PDT)
-Date: Sun, 27 Sep 2026 19:33:34 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: David Heidelberg <david@ixit.cz>
-Cc: Alexey Minnekhanov <alexeymin@minlexx.ru>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Lee Jones <lee@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        phone-devel@vger.kernel.org, mfd@lists.linux.dev
-Subject: Re: [PATCH RFC 00/12] Qualcomm Type-C support for 1st generation
-Message-ID: <zb3s4fmwx7vu3kcqigensacbgdqoaqnipfn4ntx4dh7ahrfr42@hvdw36dqb3qn>
-References: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
- <voc4ie6fcegr3thk5n6dib4pkdxmracch4hhgjdih6pxrq2bfm@lq7mx4flowqk>
- <f85cdfb7-b797-4b4b-9937-670c6dfe52c3@ixit.cz>
+        bh=QHjXpFdzhv3C4hfYuzeo58w6uZ3blP9zXG/f+JNvoxg=;
+        b=pD6BGadY7Wxrh1yGRdyapOPLqOiwVJgO4bZDANao1uVmkbc8xLhEyOfswq9PWTkTH4
+         b9hu25lmmT0VDtFMCvvcX3Qq7RfhfYfVmJc8aiA9JVqCwMEce+fScdh7D5+zIlHNh3p9
+         BbfpjhaLQ15Idge+WqTrZXT7Ru7ymc5VbQulgdTM9gWQQ+aVDXiHl0Qj9bD+mBK4h6Bc
+         fPUrhKOQs3hHeeKFFLZ5dSWc1nK3G4yDs7L6f4J+boGw1ffJoqYe4txofCymBVn0sUTu
+         0x/VdNhAVPPaOGqIa6HnUFSARox9NM787p5gAAZNSehoZYL5j+0j91VMYu4aJcnmSVfJ
+         vqZw==
+X-Forwarded-Encrypted: i=1; AKwUvByqGtShjfPQgjvepgwMIo6CL29uDm6TYgdcrLW08fp5wn63PhUlzd38APXn0tPj28d0Jo+Dr/b1wkc=@vger.kernel.org
+X-Gm-Message-State: AFuF++mfjaIVTp3Bsphllwv6p8qVNPML1ckXHh+ymhvpFzTiWmnPORX6
+	xuPu8jMJUrSCx6hIYKQRDOdhiIJDhwv/BMsNYYRfiQ9/CrDQUiq4il+vWAJosLY05WQ=
+X-Gm-Gg: AYBFou2u3UZG4/JzUFvoefLk80ByMqG/glYvpQU1tpjTZq96umY6J2ybBgq9Bu8f1Dx
+	BqLJEUDzNjD8nOZk2JmiRcB7jlubGKo+mQodENC8GzBqA+DwQLc4Er0qvJ2cp7OLuAqJjsmIPzd
+	Ma9GKSRvW9jhpFR7h58JzPwu06spgqZGrOWsw/nTn1Xov3t/jlP+v2KzcOjTAbExWqWoZApyO2k
+	EvaFe8YyZHFPvm2At4xbFR8lTUWoYPWCWQRsx/apa5n2DgfQEik+CqET2iScPmNdL6CwVwIp9A4
+	e5Dzbj+GsYdtOEq6e8eq5cobvDm76qYAsp+mwLWz7rgvmAelDym5P+B94rBK1EvDoS3nd0Pn+8q
+	0MO5PDWVNqqsZmURvcCYqP/0GixGMZzE5EY6vYH6bMbGaQLdBYc2TpCzbyeqL43M5nXibI17dFw
+	GDm1J20PkGV94canchT/iF9D/KnuHT6rVpTOno8HRTciVMGcX0emPnNcxMQUoTkDdFQ+RBQb1qy
+	fVdUEqvv+NOM/5xBGnG1HYi5LCnpryQ9l8DSx1sF3SSH57qvcmpOhyUfTE=
+X-Received: by 2002:a05:600c:a418:b0:49f:e4ca:e1d with SMTP id 5b1f17b1804b1-49fe66fa070mr158260075e9.27.1790526890971;
+        Sun, 27 Sep 2026 09:34:50 -0700 (PDT)
+Received: from ?IPV6:2a07:7e87:3bf2:0:1388:ec72:45b6:c87e? ([2a07:7e87:3bf2:0:1388:ec72:45b6:c87e])
+        by smtp.googlemail.com with ESMTPSA id 5b1f17b1804b1-49fef5fe71csm144419165e9.2.2026.09.27.09.34.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 27 Sep 2026 09:34:50 -0700 (PDT)
+Message-ID: <18c22d05-af53-4d94-b6ff-91441adc65c2@gmail.com>
+Date: Sun, 27 Sep 2026 18:34:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f85cdfb7-b797-4b4b-9937-670c6dfe52c3@ixit.cz>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI3MDA2NSBTYWx0ZWRfX1Nme/CdGDZJf
- J9eNZIMBLdxyYLU+dMIGZE0ojRsYp5T9qySFuCu6+BnJRlRk4Yuw5jUfqUVtepMquPD1+6AVn2Y
- 1JrdT+Xml8eGZsTdflkGuI8Na5yT/cpWrWaLr42EGKpGSmlIUSt4zcRE0IOGZvWPIHOFW+hnPdw
- 0Fxc8fvciZnHTeMQqtgxF5UOLkqk/iOkXaGGZ2767yiopeISv2ihToDvq6CT8ovmLJ7HxbzBIwj
- 5XYkXfMsZxF2vs23Z/mKDB7pykFA5nraZkE+RH2fjc1COV7b9lZxJEcu4UxNbfpSlZDn5oZHIIW
- xhtQZy0OY3aM/QdeFSDvkbLN7bSDFUqzKU50z5IcOnoJ1sy/paWZcAXajC1ahDiG/KyX/m2S40l
- THgLnkvlS0n9B8ToV5sK1eq1Hz1bXLqmJ0pRMGzcNgP5FME1F5WboIwSJRF3zE0K/CnAjgrDmLK
- hGydchCbsNkoITIsdwA==
-X-Authority-Analysis: v=2.4 cv=QsXLTlyd c=1 sm=1 tr=0 ts=6ab94562 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=Ei4b4_x7BeZEOqWOIxkA:9
- a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: fTfddN9IKgUJUnsgfVbcMYgjeD-44NFa
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI3MDA2NSBTYWx0ZWRfX1y+6cR/b9Sw+
- koAkhruysGY7BUgaVqcnmdxP50c7WENltfnO7vtZCnvq7EXvPcZLu3nTZ/xt64JrtiB/bdMMGt+
- LDGsvb3AbBSjdyNbpREk6DkU6WIfW5s=
-X-Proofpoint-ORIG-GUID: fTfddN9IKgUJUnsgfVbcMYgjeD-44NFa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-26_05,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0
- adultscore=0 bulkscore=0 priorityscore=1501 spamscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609270065
+User-Agent: Mozilla Thunderbird
+Content-Language: en-PH
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+From: Carlo D'Ambrosio <carlo.dambrosio@gmail.com>
+Subject: [BUG] usb: typec: ucsi: Acer Aspire 16 AI reports connector 2 while
+ num_connectors=1
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Sun, Sep 27, 2026 at 05:16:28PM +0200, David Heidelberg wrote:
-> On 27/09/2026 15:05, Dmitry Baryshkov wrote:
-> > On Sat, Sep 26, 2026 at 02:40:19PM +0200, David Heidelberg via B4 Relay wrote:
-> > > This series adds basic USB Type-C support for 1st gen devices, covering
-> > > configurations that do not require VBUS power (e.g. devices using
-> > > externally powered docks).
-> > > 
-> > > VBUS support will be added in a follow-up series after this one is merged.
-> > > Supporting VBUS will likely require refactoring parts of the SMBX charger
-> > > support, which is why it is not included here.
-> > > 
-> > > Tested with an externally powered dock station:
-> > > 
-> > >   - Pixel 3 / 3 XL
-> > >   - SHIFT 6mq
-> > >   - OnePlus 6
-> > > 
-> > > Tested with an additional, not-yet-included VBUS patch for non-powered
-> > > devices:
-> > > 
-> > >   - Xiaomi Redmi Note 7
-> > >   - Xiaomi Mi Pad 4
-> > 
-> > THis is very interesting, as it will also unblock DisplayPort support on
-> > devices from those generations.
-> 
-> Yes, DP works with some minor adjustment there and there (going to be follow-up)
-> 
-> > 
-> > 
-> > One major comment. As we see, on SMB2 PMICs parts of the Type-C
-> > functionality are provided by the charger / FG device. I guess that on
-> > SMB5 PMICs we will get the same problem once somebody tries to implement
-> > additional charger features. Would it make sense to rework the PMIC TCPM
-> > driver to be a composite driver, taking several components via the
-> > existing Linux interface?
-> 
-> As this gets decided from the QCOM side, I'm fine with whatever suits the
-> hardware best.
+Hello,
 
-Bryan, as you are a maintainer of the PMIC-TCPM? Would the use of
-components be fine?
+I am seeing a reproducible UCSI issue on an Acer Aspire 16 AI running 
+Fedora 44.
 
--- 
-With best wishes
-Dmitry
+System:
+- Acer Aspire 16 AI
+- BIOS 1.22 (latest available from Acer)
+- Fedora 44
+- Linux 7.2.7-200.fc44.x86_64
+- Dual boot with Windows 11
+- Two physical USB-C ports on the left side of the laptop; the upper one 
+is Thunderbolt-capable
+
+The problem occurs when I connect either a USB device or the original 
+Acer charger to the upper USB-C/Thunderbolt port.
+
+Immediately after connecting it, the kernel log starts being flooded with:
+
+   ucsi_acpi USBC000:00: bogus connector number in CCI: 2
+
+The messages continue after disconnecting the device and also survive a 
+normal Fedora reboot.
+
+The lower USB-C port does not trigger the problem.
+
+The condition can be cleared in either of these ways:
+
+1. Power off and perform an EC reset by holding the power button for 
+about 30 seconds.
+2. Boot Windows 11 and then reboot into Fedora.
+
+Interestingly, Windows itself does not appear to trigger the problem. 
+After Windows -> Fedora, Fedora starts cleanly again until something is 
+connected to the affected upper USB-C port.
+
+Reloading ucsi_acpi does not clear the underlying condition:
+
+   modprobe -r ucsi_acpi
+   modprobe ucsi_acpi
+
+Removing the module stops the log messages, but after loading it again 
+the flooding resumes.
+
+In a clean Fedora boot (after Windows -> Fedora, with nothing connected) 
+I get:
+
+   typec port0: bound usb3-port1 (ops connector_ops)
+   typec port0: bound usb2-port1 (ops connector_ops)
+   typec port0: bound usb4_port1 (ops connector_ops [thunderbolt])
+   ucsi_acpi USBC000:00: UCSI_GET_PDOS failed (-70)
+   ucsi_acpi USBC000:00: UCSI_GET_PDOS failed (-70)
+
+There is no "bogus connector number" flooding at this point.
+
+Also, /sys/class/typec contains only port0.
+
+I used bpftrace to inspect the UCSI state directly.
+
+While the failure is active, tracing ucsi_acpi_read_cci() shows:
+
+   ret=0  CCI=0x20000004
+
+repeatedly.
+
+I also traced ucsi_notify_common() while reading the UCSI capability 
+stored by the kernel:
+
+   CCI=0x20000004  num_connectors=1
+
+This repeats continuously.
+
+I then reproduced the issue starting from a known-clean Fedora boot. 
+Before connecting anything there were no such notifications. I started 
+the ucsi_notify_common() probe and connected the original Acer charger 
+to the affected upper USB-C port.
+
+The very first notification observed was already:
+
+   CCI=0x20000004  num_connectors=1
+
+and it then repeated continuously.
+
+The bpftrace probe used was:
+
+   kfunc:ucsi_notify_common
+   {
+       printf("CCI=0x%08x  num_connectors=%u\n",
+              args.cci,
+              args.ucsi->cap.num_connectors);
+   }
+
+I separately traced ucsi_acpi_read_cci() with:
+
+   kfunc:ucsi_acpi_read_cci
+   {
+       @cci[tid] = args.cci;
+   }
+
+   kretfunc:ucsi_acpi_read_cci
+   /@cci[tid]/
+   {
+       $p = @cci[tid];
+
+       printf("ret=%d  CCI=0x%08x\n",
+              retval,
+              *(uint32 *)$p);
+
+       delete(@cci[tid]);
+   }
+
+This indicates that 0x20000004 is already being returned through the 
+ACPI UCSI path; it is not a connector number subsequently generated by 
+the typec_ucsi bounds check.
+
+I also verified:
+
+   ucsi->cap.num_connectors = 1
+
+using BTF/bpftrace.
+
+Finally, I inspected the Fedora typec_ucsi module corresponding to the 
+running 7.2.7 kernel. In ucsi_init(), the code calls ucsi_reset_ppm() 
+and subsequently obtains the capability data into ucsi->cap. The 
+num_connectors field being used by the core is therefore 1 when the 
+connector-2 CCI notifications are received.
+
+So the state visible to Linux appears to be:
+
+   UCSI capability:
+       num_connectors = 1
+
+   after using upper USB-C port:
+       CCI = 0x20000004
+       connector change = 2
+
+which results in:
+
+   bogus connector number in CCI: 2
+
+I am aware of the earlier UCSI issue where connector notifications could 
+arrive before num_connectors had been initialized, resulting in 
+num_connectors == 0. This does not appear to be the same case: 
+num_connectors is already initialized to 1 here, and the problem can be 
+triggered reproducibly after the system is fully booted.
+
+The fact that booting Windows clears the persistent condition is also 
+interesting, although I do not know what initialization/reset sequence 
+Windows performs and I do not want to infer the root cause from that alone.
+
+Could you advise whether this looks like an Acer UCSI/PPM firmware 
+inconsistency, or whether something in the Linux UCSI/ACPI 
+initialization could cause the second physical USB-C port to generate 
+connector-2 notifications while GET_CAPABILITY exposes only one connector?
+
+I can provide additional bpftrace output, ACPI tables, full dmesg, or 
+run additional tests if useful.
+
+Regards,
+
+
+Carlo D'Ambrosio
+
