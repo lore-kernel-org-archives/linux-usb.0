@@ -1,149 +1,183 @@
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3C23C061F
-	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 12:03:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090113E49C1
+	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 13:05:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790510582; cv=none; b=S9NAJ6mYTAlJv1PVSX3LEhFGcnpfP+iKIVg2N883ffnPt7HpbO3JLpSbDPGr0SAjhQdgIcKgUQZQOl8R19K2yFmPTF5ZxWHQMq4/uOgCRdDrMffeHz+AKJDJkFVbwIn32bdBIqkIBVLYaLPRVDRxusho9FmSzgXKf9vTVwBsiWA=
+	t=1790514357; cv=none; b=Ug3cmKUmM1OhbgbTG0Sjj8voACL24GJrwWZPoVPzrMdpwGuuQPU8kTuJA0WRqvDPkUrZeKUyjbgyOxtc7FukkYtawhcY7of+HHY91EOO48X7xJebYfY+R3e6z0O1wFS6d9W8GXERh+gDMgVGoYjxhzS/tWltDNRjaysx0IKF6jM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790510582; c=relaxed/simple;
-	bh=Z+V9unX6aBDFJuuH1gIxp0fin+EUilc5XMo2mblqJ30=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=P2EkTAzJzKCIPu1CzhMOZao/+KrS0CAY0D6wbfALqa3IpzAJgqvZrdVra4aer+8zN1x6KdnMcsSKigBQFQ+ZSsjYch1hGcnHqlQ+fIf5HzV+o3C7Fxo7MzCvx+2kudIn1oPwTO2G5qtxi1pX77rZl0olU0s9N+HQjv3GXoYVR1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eygImu1h; arc=none smtp.client-ip=74.125.225.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790514357; c=relaxed/simple;
+	bh=5PhNDLHcT1Iw8t7jW4E73wXBcMvAkzi2XT999lFdLh8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mwF7M5t3SouEFNACf0r3yRq3pmfwbqbwbbfXaYeyaMgDK84AqbFC7UXbIX4hbGQnriTKzMG1KCzGRojuIvHWHFtwoUO1kEAJBRR3CDw11MGEs5d3QeP1llIKjqnZLbhFGdgx3B8WYyRCIArRmOZSBWnCjemp6DYUGJCeFahW9vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=C6MAGmwO; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=WJODZZKf; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eygImu1h"
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-484399babcaso213028f8f.0
-        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 05:03:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="C6MAGmwO";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="WJODZZKf"
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68R4F2UK1842936
+	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 13:05:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	BkXSWtx80akFwCoBF0CHDjIQOF+Xh2PE8+5HXZlOT+Q=; b=C6MAGmwOfdVa2x9A
+	maezeYrZhsF9SpMTWajUBPo+2s3f7fQpCsYx77CY/WPaMwziB1n5xB5W8bYvNFfA
+	+GBV9wCPfEe/BRpt+feGZJpDdKataviwMaXkYod25/cL+y6uAbaPbv2JLqknjMtM
+	WrucOL+nJU0s9UYzCqeLBVO6JoMiXuObY63Tm5UnEwyGCHEIAC2x1OyZbLEkcD0P
+	6QUcpeY7UNwfkRenxn2xlaoNymEGWMe9jaW4b5bB6U+Kqe9F61ec4sLwNz+OaDAE
+	Bw8kf3NdOEFN1KxIfpMqYhHLmxEh3z+s8TobhFbIxy1/z32i1zTyyR9IaWKpdiUB
+	eMFEqw==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gx64uu4sk-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 13:05:53 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-530f49fc5ffso74851431cf.2
+        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 06:05:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790510579; x=1791115379; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Z+V9unX6aBDFJuuH1gIxp0fin+EUilc5XMo2mblqJ30=;
-        b=eygImu1hdlEAduNQFCw3y92qkiLLtoq2AsigeZUWoJP7O2xhLiEoKIQOXpnxtoQdS8
-         OBGYSwa7lIYUhE8g9TYfxBoRTqfZ/CjbRn+1ViTH1QWBwF29vba/pV1YyVU9VrCHrOEu
-         1Y+QLyj+ImXoJi5HYXkssMEF1F5P8IW2eIFKTCmjshq2L6twsI103CSKgDeoGw6BqKDV
-         7T/SdVny/diB/pfnOw2vyVPIryZS15XBqEI8kOVLFz7HrvbGIJ59u/1Jr4Lbaa5XpuJ9
-         mff/pHhr0MKPxm31yu8SfGUIufruRds0onTko9Qfl5LSLlpO3RDuFVM9IcaSCmWYyR5B
-         9R0g==
+        d=oss.qualcomm.com; s=google; t=1790514353; x=1791119153; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=BkXSWtx80akFwCoBF0CHDjIQOF+Xh2PE8+5HXZlOT+Q=;
+        b=WJODZZKfo0IqUmb+skQ+0ALeZ8x1wL8MnWJSj6pviVO1Eyj0hZP/4GN/q4Mpi0Zuju
+         Ns1jpqx4GMQb8qzIoiO/VNKyg1WeDGhIGeUUPubAmvQzo/x2KaKARPSWqiQRN0cw8wwn
+         CRyjkxldUHGv2nAPXPl6rANo6NAafG9oAIm6DCrQYBf1kuFYx7ZqaHi7u//kLOigUzL+
+         UO68Ds+95XRr2NZHIbig9O7l147Z1vXgk8y6VVtba3aoSBTP+jHcnT/wbha6MJPMd2Cn
+         O7OqNr8tLwekSsmavucM9Zlv9ENut9XuQvKxa4tn6+J2/tUzwaebCDkf8RBEnwC13LZ3
+         sUyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790510579; x=1791115379;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Z+V9unX6aBDFJuuH1gIxp0fin+EUilc5XMo2mblqJ30=;
-        b=e5A0wEOTDXX6YUCn8Uja6OSgFEHGLcwBCuOD808ejfUXIPsHsN6cNusqcCEVXWcUK7
-         MAANewAEZY4W7AaBwGlCLKQ1Zr/OurGq+fJ0RNMT1qqKduOBF9yxS3JzkRb44gEIu3KM
-         jxaQsrdYKBzyjEHTU9qD1taAdsXbWO6jKQCu9oOsB4XLte6zWsYPeNPWG04JdbX/ASzx
-         YVSAk4lwFYNq9TSSw8QFmGFLV+et2YBZodrl+jxcj6mm8ZzibEVbkIA/o1Z8GAtrDGGz
-         LwyJYJ72Hz1U43IDgLRObfxzRbYK2Ack+mrsNM/KlPbtL0LX9Q0y6DUxU7Kfdt8Peq2+
-         tvvA==
-X-Forwarded-Encrypted: i=1; AKwUvBzgkDXEUGZJGp0b87tPsLKkM5MFGmEbiMRSNEWBs1+Q/ZLQHc5IYaAkML0UVXcMPUDcDRTheHXbE7U=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLSX8WVI+M+j16PQbViwLpww90ef+rRygaMXYV2cyCTTxoc8p9Q
-	1V3f7iwI5S4rJre9R5rnN5s3Knfnn4fPurHyk44fpc4XaeSF7Vrr+Gwf
-X-Gm-Gg: AYBFou2HWy8Wbob2z3D905DgavRqjHTTXExqW5olHrchGbSbIJXK4Z1NrbxlgepBDWk
-	r0yFKe8sls2q9l9Vhcj6vhBWX1xJeZGEvfhAFVmiguInGz9zludWPqykPECJiS3jNt42jqoLT6H
-	rZBWc7ARU9igTzxX09PtgYiQrPBE8zz998OGjzg8AJk3UEBJCmsyKTgjgA5cm+topd0/27X9IIp
-	sRZvjaryiVqiD66zBej3q3jNWEUOxKDxWVcE59lyswtFLO85jiylVrS58CIXyYoovaEz8wizvFP
-	fRlfrPff4gWZrC0DsLqCgPz9mxhzXDwK7K27THgHReS7FYyoViZ3GELRodo4XvQx3ouf6XEfvgS
-	Zd1+N+xetV7Kh2h+FLZPeoVmIFn3WARBeh+Q9B4JbPBLDky9mAj2u9sbFaETGqb2Q0M+kSV5Qbt
-	dFTM4ktnlUM/tqWzxlccIFi1RX+rzf/oNS7yEGn2CH+E7NEQ2kf0BML7m387WsdiaGFLrqz9m4T
-	7ZMtyj5gvS3b+ReOPJRlmkBVTwe7N7bcmfebMCuZ2FAMQlMn1Kfm5CLPozVUD9M8B9AIMRTVZvI
-	AAc=
-X-Received: by 2002:a05:6000:184f:b0:487:fa3:7630 with SMTP id ffacd0b85a97d-4887acd8844mr13892557f8f.6.1790510579294;
-        Sun, 27 Sep 2026 05:02:59 -0700 (PDT)
-Received: from OrangePi5-Plus.BB-HOME (20014C4E1B89A9009A7C72AB6C68D3F9.dsl.pool.telekom.hu. [2001:4c4e:1b89:a900:9a7c:72ab:6c68:d3f9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a74538asm19548417f8f.34.2026.09.27.05.02.57
+        d=1e100.net; s=20260707; t=1790514353; x=1791119153;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=BkXSWtx80akFwCoBF0CHDjIQOF+Xh2PE8+5HXZlOT+Q=;
+        b=pXOoussbi8OMGC+5lkqDWgUjPw5mXrvaNGBV4a4MpZCCgNsM1D3wpZ0ToWJm4UKvMN
+         J2+HvQfQ6KRu2wIrMEB/OwMD9HFiKH3wSQ8akbVbE4+WDEhwFsQQ85n8yquNZQYCnqpB
+         z7BcLpo+q0ulC9lLxN5WkLwq1Z20phE427q7Jw2MOiUOh7AtpijTuFtnD4pur+apGVWN
+         6MbuTNwJD37mnyIdFQN+kIEVPXvgnVNz6on3/oFsALRGhs3RqERM5QXD4RaJlNZOFLdM
+         NLfpxzvN3JqS1mL/g6QKn+jsrEW95WNZW2N1o/vGxWjlZLHJTPPWxfhCUxavM7DvxbME
+         mR6g==
+X-Forwarded-Encrypted: i=1; AKwUvBxFzhJgqEqXd/2Sp6yhqd3zyvnbQtEqOiKT1UJ9FAj0E5YLafJ2DuCtccqrz3ptnLO62pOBdhoCYcE=@vger.kernel.org
+X-Gm-Message-State: AFuF++lQl/QotqOkek6ljz2/94R3cfgNvQL/S5g9XYTRArumvmefGgjw
+	ga4GCuGPdMqS5rPwaPHwJKcCfQKo5z2hpWyyx87T9aZjVLV88N5xYIlPbsRSWPunPPOunFeELuE
+	JCmExP/egAUN2vuD3a2GbN03nP7HInGnlvhOkDsG0IuJwq88AP8n+bwGwU44l4HxyslT0LSA=
+X-Gm-Gg: AYBFou141XQoOUTYyWecp9Ga6vZ5fWm+zGqNMwoAgXILatx0IpZrjttpngvoMUeKVb4
+	7vD8QrYU4dGBLcOBPm0Ki8Rkex2zhiGrLUySY2yWWAEGwEd/ULRbc1gmM9KHIl7rfv9wMHkhOAT
+	fNRRPSK5jrNzuLRtpMWuFlwgOVUKM0NJ57z1O5nRvlsdbRSZc5c8oiqrloTgFm7omQFWgL0YIH0
+	7I6AHG0AhWIdwyvWq4fQfgHKzakS9L0gMUdlhZuHOHwmZzwKgfBLbm20oLQIaTHwzlHHaQHUkKp
+	xuomrdxW0NtLaKqXcnZxKf/8K277kZ1Wp99dff5sQvof112kRnPgfCzSZszCNxLgkUuIHByN6Kj
+	2353iHe9z6vCagh0kyRZwTsXnFQY+l8Xf1CaTtKJFzw2bmUd3Oj49oK1UIiSXxSHjqgah5StUme
+	lPmDt7HJLkl80i
+X-Received: by 2002:a05:622a:580a:b0:532:d3c2:165c with SMTP id d75a77b69052e-5330dbe7682mr144377431cf.5.1790514353162;
+        Sun, 27 Sep 2026 06:05:53 -0700 (PDT)
+X-Received: by 2002:a05:622a:580a:b0:532:d3c2:165c with SMTP id d75a77b69052e-5330dbe7682mr144376751cf.5.1790514352651;
+        Sun, 27 Sep 2026 06:05:52 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a64b580c66sm20204111fa.6.2026.09.27.06.05.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 05:02:58 -0700 (PDT)
-From: Igor Paunovic <royalnet026@gmail.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Igor Paunovic <royalnet026@gmail.com>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Vinod Koul <vkoul@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-phy@lists.infradead.org,
-	kernel@collabora.com
-Subject: Re: [PATCH v16 6/6] usb: dwc3: rockchip: fix USB-C reconnect in gadget mode
-Date: Sun, 27 Sep 2026 14:02:47 +0200
-Message-ID: <20260927120247.9807-1-royalnet026@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260924-b4-rockchip-dwc3-rockchip-glue-v16-6-126a2e9133c3@collabora.com>
-References: <20260924-b4-rockchip-dwc3-rockchip-glue-v16-0-126a2e9133c3@collabora.com> <20260924-b4-rockchip-dwc3-rockchip-glue-v16-6-126a2e9133c3@collabora.com>
+        Sun, 27 Sep 2026 06:05:50 -0700 (PDT)
+Date: Sun, 27 Sep 2026 16:05:47 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: david@ixit.cz
+Cc: Alexey Minnekhanov <alexeymin@minlexx.ru>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Lee Jones <lee@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+        linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        phone-devel@vger.kernel.org, mfd@lists.linux.dev
+Subject: Re: [PATCH RFC 00/12] Qualcomm Type-C support for 1st generation
+Message-ID: <voc4ie6fcegr3thk5n6dib4pkdxmracch4hhgjdih6pxrq2bfm@lq7mx4flowqk>
+References: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI3MDA1MiBTYWx0ZWRfXwEMvRIp8XpJn
+ amd7AAB1thLWWfyOeuCiZ3Con6+nz83u1STOzmHtWiNOGWFVn5x1CQjJXOaOIgE0k5PqqvFpLAF
+ iLoDn5+ndqx0r9qZTK2qi9sZsr0RWoU=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI3MDA1MiBTYWx0ZWRfX+3Bbb68cFoX/
+ /TE3BXHEIeVTYzNOoIEQNEWs6NP0QVCFo8eLsatmpYWdwDPpxxVN7l4t1ncZR501kRiyaP4x9JS
+ q9jSfn2BjuTlXV5JuVevN5WTK+p/4gjCHG2Njg6HameKlqe2yz2P58e7GhkorrYxupIs6BjU9Aw
+ GU8Yj4OeZO4r9ROPnXftjddbtyFZ/QKnacbankgLMCocoDbgvzovlqkOpFN23J0qZFfos21Jnx0
+ iqlUMToE4hKKzJnxO2pibWof3Vozu3339wX+FrTuG5T83I0GgrP44/pcY3u3mi6uKj6sMK6f8km
+ Mzqc21tolwohS59aQ5IXf0Nov0f31p2m+JTwMMeIDwMlhpn/GV19py4dRzRplkb/liTdcEflCNl
+ T/SNbenu8VeCAMFgU+PLHyNpchXoN6OtaIP4YLU1Pe7XawnGIk7BBp9rc2d4CXb8IDcAFc/s5eC
+ v0eCGrXmEWpyBFuirJQ==
+X-Proofpoint-ORIG-GUID: 8yGBAPv_Sad95nXu0GAXMB7qE7vpa5uQ
+X-Authority-Analysis: v=2.4 cv=E6xYNqdl c=1 sm=1 tr=0 ts=6ab914b1 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22 a=MMZBmsOjQwISAzkKN4QA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
+X-Proofpoint-GUID: 8yGBAPv_Sad95nXu0GAXMB7qE7vpa5uQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-26_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0
+ malwarescore=0 adultscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609270052
 
-Hi Sebastian,
+On Sat, Sep 26, 2026 at 02:40:19PM +0200, David Heidelberg via B4 Relay wrote:
+> This series adds basic USB Type-C support for 1st gen devices, covering
+> configurations that do not require VBUS power (e.g. devices using
+> externally powered docks).
+> 
+> VBUS support will be added in a follow-up series after this one is merged.
+> Supporting VBUS will likely require refactoring parts of the SMBX charger
+> support, which is why it is not included here.
+> 
+> Tested with an externally powered dock station:
+> 
+>  - Pixel 3 / 3 XL
+>  - SHIFT 6mq
+>  - OnePlus 6
+> 
+> Tested with an additional, not-yet-included VBUS patch for non-powered
+> devices:
+> 
+>  - Xiaomi Redmi Note 7
+>  - Xiaomi Mi Pad 4
 
-I tested gadget mode on the Orange Pi 5 Plus with the same v16
-kernel as in my reply to the cover letter. The board was an ACM
-gadget (configfs) on fc000000.usb, with the Type-C port set to
-port_type=sink for the test, connected with a USB-C to USB-C cable
-to a USB4 port of an x86 host (Ubuntu 24.04, kernel
-7.0.0-30-generic).
+THis is very interesting, as it will also unblock DisplayPort support on
+devices from those generations.
 
-dwc3 forbids runtime PM by default, and with power/control left at
-"on" the controller never suspends, so the case from the commit
-message does not come up. For the test I set power/control to
-"auto", unplugged the cable, waited until runtime_status was
-"suspended" (about 6 s after the unplug; autosuspend_delay_ms is
-5000), then plugged it back in. I did this 12 times, 2 of them with
-the connector flipped. Each time the controller resumed and the
-host enumerated the gadget again at SuperSpeed; where my script
-timed it, the UDC was "configured" 0.9-1.5 s after the Type-C
-partner appeared. Apart from the message mentioned below, neither
-the board nor the host logged USB, Type-C or PHY warnings or errors.
 
-On sashiko's question about the early return [1]: I have ftrace
-output for 6 of the 12 cycles (the trace of the second run was
-lost). usb_udc_vbus_handler() was called 12 times, once on each
-unplug and once on each plug, always from dwc3_rockchip_set_role()
-and never from dwc3_usb3_phy_notify(). The PHY notifier ran only
-inside the runtime suspend and resume, twice each time, never while
-the controller was suspended. In each PRE_RESET
-pm_runtime_get_if_active() took no reference and the VBUS call was
-not reached, so the early return does happen. On each plug the
-resume was started by dwc3_gadget_pullup() from
-usb_gadget_connect_locked(), after the VBUS update from the
-pre_set_role hook, and the gadget reconnected.
-About 50 us later a second resume request came from another worker;
-from the code this looks like the pm_runtime_get_sync() in
-__dwc3_set_mode(). I did not trace that function, so I cannot say
-whether it alone would reconnect the gadget without this patch.
+One major comment. As we see, on SMB2 PMICs parts of the Type-C
+functionality are provided by the charger / FG device. I guess that on
+SMB5 PMICs we will get the same problem once somebody tries to implement
+additional charger features. Would it make sense to rework the PMIC TCPM
+driver to be a composite driver, taking several components via the
+existing Linux interface?
 
-Not tested: the board without this patch, data transfer (only
-enumeration), sashiko's other three points, system suspend, and a
-host with a dual-role port. On every unplug dwc3 logs "request ...
-was not queued to ep1in", also with runtime PM forbidden; I did not
-look into it.
+> 
+> Credits to everyone who has contributed to Type-C enablement before:
+> 
+>  Casey Connolly
+>  Zachary Dry — LLM generation and testing
+>  Max Furman — LLM generation and testing
+> 
+> Signed-off-by: David Heidelberg <david@ixit.cz>
 
-In one of the 12 cycles my script first marked a failure: the
-board's Ethernet link dropped while I handled the cables, and the
-script checks the host over ssh. The host's kernel log shows the
-gadget enumerated normally in that cycle.
-
-An LLM assistant wrote the test script, analysed the logs and the
-ftrace output and drafted this mail. I ran the test on the board
-and did the cable pulls.
-
-Tested-by: Igor Paunovic <royalnet026@gmail.com> # Orange Pi 5 Plus
-
-[1] https://lore.kernel.org/all/20260924174014.366B21F000FF@smtp.kernel.org/
-
-Igor
+-- 
+With best wishes
+Dmitry
