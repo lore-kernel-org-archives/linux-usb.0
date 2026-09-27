@@ -1,52 +1,40 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from smtpbgau1.qq.com (smtpbgau1.qq.com [54.206.16.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178293E40F0;
-	Sun, 27 Sep 2026 09:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29393CA4AF;
+	Sun, 27 Sep 2026 11:41:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.206.16.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790502248; cv=none; b=e1XBEqivEybWASpdTQr+oQn43a7hHJnkNkWmCMI5NiZY2g7h4fRZhR0/zyynaK3NxIarGXql/DzELpymzStkGGIZ2tWwBrXQU+iVFKOyyCDbtngx4MmGcHQK7HBOUMnKv1nfgQlaynr4pdahv3V/Yrr3scLIe3Ieu0LP5ef+8K0=
+	t=1790509278; cv=none; b=YYL/stUkqkPu99V03Pqmticc48Np7Ap5Cj/AlAJUF3cmQQybpRX4KgWMElikmZordoJN1nsXWYsel7p0JguG/wPnrK6PHoNRDE77nfY3WDfIb7GaNuQOynKG6bNRvhQXiggkdXLL8034KFzeVLH53WeyABEkphCXz9NaBOK7Qq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790502248; c=relaxed/simple;
-	bh=aIESsd1MIYvyD9ig8en/i82IfOWwWDuZSS5pbC1x0Lg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=m5uhqp79epC3/YyYeqnRph+nc+dnNBcGjSvdEqCaiXn6RHq9aWVZYJWpGsP2QlIK262b/G4bU4B3WtdByolx4aGWJT6fxCNIGSQ8lDuz7CUkzIOqZJmRtCpzRanPqbyUlHwr9oZcDvP/jxGnrL9XsH/Lq22ecWzueeHb0WTlzkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=KIKDXmVZ; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=GsKdiksQ; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1790509278; c=relaxed/simple;
+	bh=asa+MsEEaghr825AnlVjPpirbKiYu35emIZXmfiDU9Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oTMl9xadksmHOXlpzE60L7AYgK3cdV7dy5nIb2q8GM1bPeHaBpaqZIWaPaC6zSTjiT1FYy3mSeTIKATVO3A3nRyXIZzEN0EytGwh8EQaTx+s1zAA3LnvJLPbrdgvW3U3Klg1hKYUVWfh9Xp0SAHqrgFxvZ+nQm+0Xlxvho00olE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=JJl4NTrz; arc=none smtp.client-ip=54.206.16.166
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="KIKDXmVZ";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="GsKdiksQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1790502243;
-	bh=aIESsd1MIYvyD9ig8en/i82IfOWwWDuZSS5pbC1x0Lg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KIKDXmVZ0aE/cRTq2BJcFba90f3zBKcTmMbg6MHCexipTxED6n9zPCtJ5zopdGQqF
-	 PSMZkH1SXjTlKxhPmnB6FZRIbi+ne5KGPqaudzApU4BssqiBGanXXBGVqZwAf0xg4g
-	 f7XBS4dF3qEIjkZIj05QjogXMUayrRKtlto0eHwP0mCkYr7NgDqt3K7LG4PgwkLRnq
-	 Gdqkni1cjlnhRcANO8/ebJbsr1EPCGdeHR90Mc6LA3aF6l/gkO4J9BQiLmEyNa22/k
-	 09WORJa0AG5wsJC4tIsXQkk8cdL+lI2JGnXQTIc6YQ8UPj0VFIgWvGKNBpaBQBZ5vp
-	 Sgfy6fNaVktuQ==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 5804741F78; Sun, 27 Sep 2026 09:44:03 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1790502223;
-	bh=aIESsd1MIYvyD9ig8en/i82IfOWwWDuZSS5pbC1x0Lg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=GsKdiksQws0Jg2q8vzLf3cdeSKy2YuaUXfFkyqzO9MFskotgwWGKYLLIVVG0j4s1/
-	 MHxF/b54512HziR5SO/a+kfhkjhjvfnUXD6Fp9SEWD7fB3TIATg2+x9arxCYxvoDb2
-	 ayg61S/mqPZYMIJqTeBE9ykM/VKMzra6pmd5YHr+T5LpbY8tgmMkLMFHl5cl+TCaNy
-	 uU6rwvAi83N9lC/Kk54TlzkQixriKPFcwSEVmz+wH3ktNKCI5/4tbQHseh0sl020/L
-	 S7VbEn0vDvbSG7bot7ivftRMbqmxoisTSrSakkDyVDgclym2lg4UoxQx1vXNbuqoNX
-	 23gmEES9YFnnw==
-Received: from AMDDesktop.lan (p5798b961.dip0.t-ipconnect.de [87.152.185.97])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 59841420DF;
-	Sun, 27 Sep 2026 09:43:43 +0000 (UTC)
-From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Sun, 27 Sep 2026 11:43:51 +0200
-Subject: [PATCH net-next v13 13/14] ax88179_178a: Add support for
- AX88179A/772D/279 EEPROM access
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="JJl4NTrz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1790509208;
+	bh=CPmOq6BK13Nsbhu5OP9qNR730qQVIiIlNJukZT/cixU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:To;
+	b=JJl4NTrzCD46gKlTAePEURfB4drhzK0BoRzqikDGm4gbGyiNGHM0sDyjyilU8Gjut
+	 iT6zE0vzd4qbYWK4DcURST0V4/faFTPL+c4t44sVk5Im3x8OhsdfuOxY+DpSTZlIJs
+	 aN0LMw71t2lyO96vdLIm9/vhA+naIln/2PosGatU=
+X-QQ-mid: esmtpgz12t1790509207t267bbc4c
+X-QQ-Originating-IP: 8WJQsZz/cgYOM4aQokZMFQH4bIW5uHOxAEzhvAcRm+w=
+Received: from LT-PANJUNZHONG.dc.com ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Sun, 27 Sep 2026 19:40:04 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 279318126302960146
+EX-QQ-RecipientCnt: 22
+From: Junzhong Pan <panjunzhong@linux.spacemit.com>
+Subject: [PATCH v3 0/8] Add SpacemiT K1 USB2.0 controllers support
+Date: Sun, 27 Sep 2026 19:40:02 +0800
+Message-Id: <20260927-b4-spacemit-k1-usb2-v3-0-ce7095896039@linux.spacemit.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -55,149 +43,100 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260927-ax88179a-v13-13-4fac6b3e032e@birger-koblitz.de>
-References: <20260927-ax88179a-v13-0-4fac6b3e032e@birger-koblitz.de>
-In-Reply-To: <20260927-ax88179a-v13-0-4fac6b3e032e@birger-koblitz.de>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Russell King <linux@armlinux.org.uk>, Andrew Lunn <andrew@lunn.ch>, 
- Heiner Kallweit <hkallweit1@gmail.com>, Huacai Chen <chenhuacai@kernel.org>, 
- WANG Xuerui <kernel@xen0n.name>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
- Jianhui Xu <neuromoments@gmail.com>, 
- Birger Koblitz <mail@birger-koblitz.de>
-X-Mailer: b4 0.14.2
+X-B4-Tracking: v=1; b=H4sIAJIAuWoC/33NzQ6CMAzA8VchO1uyFZDhyfcwHsbYpFE+sgHBE
+ N7dQWK8EI//pv11Yd44Mp5dooU5M5Gnrg2RnCKma9U+DFAVmiHHM5cCoUzB90qbhgZ4Chh9iVD
+ kqrIaZVJlkoXL3hlL867e7qFr8kPn3vuTSWzT/94kgINFqS0WJkMsry9qxzn+Lsa6a9gGT/jDC
+ i6PMdwwnicpWqt4Jg6xdV0/nJ/o2AwBAAA=
+X-Change-ID: 20260812-b4-spacemit-k1-usb2-97adfc283d58
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
+ Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
+ Peter Chen <peter.chen@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ spacemit@lists.linux.dev, Junzhong Pan <panjunzhong@linux.spacemit.com>, 
+ Conor Dooley <conor.dooley@microchip.com>, Ze Huang <huang.ze@linux.dev>, 
+ Troy Mitchell <troy.mitchell@linux.spacemit.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790509204; l=2184;
+ i=panjunzhong@linux.spacemit.com; s=20260306; h=from:subject:message-id;
+ bh=asa+MsEEaghr825AnlVjPpirbKiYu35emIZXmfiDU9Y=;
+ b=J3/1Pg17aEWHWzQleu4/UIshWwK06TGX4QOp6HooZr0as6nhOi3Jh3Ax8XAvUDSAdY4I95e7G
+ tZmf0IbRfhEDZ6vrgGW8bRhI/PRZqsOiaR1HXoVBZ8zGI7KUFfxbR2F
+X-Developer-Key: i=panjunzhong@linux.spacemit.com; a=ed25519;
+ pk=bY08BOg2T9H93/jG8fEE/tVmdXoQQMp9M2rtzPFoyJg=
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
+X-QQ-XMAILINFO: M3xlU5+6KERV8T1FpzQDQgcb2nRgOmPz/rID42RDQCRK7G1EgrmVgcu+
+	geSLF2GsjaO3wJO8iP49Ogzp8MBIXCETL7vwRYJMklDgnin161t5D+vu9rQXFS7bzL6mQpS
+	6z0kvAbH9LkDa8+d1mXKTKhvj4K9IW4g+WIAMpo3FGsfXYRNfk1IZRP+wGG30rvO5tqpILr
+	VZGegvrcHnsfjjy2gjPEGGKramgWHOlrh5hl5gR5L97rQ945JR1WQW/Jvd5H4UrmxK5U+9E
+	bgvZ6tbZwJdtH2Tqd8SgXAuMMbL6NkGJ0wCHlAn50Th8ITO2ZuoV1NeK+GD6aD9YtWA0bnB
+	qSBzQb+vYVBzoaVxmJR1UjwsvkXjTWRHNjDgCzVdB0VtY2g+GiX3vVpeR/NipVq1CqT6etn
+	+32K0uNMoK4heoCE6wNrTJR9dH1HAfcvZTMusYEk4XmzsT1JW0x+yXI3QBYFDdghwyXUgKx
+	zE7BeZlRjT3DVhw9y9PGB4vDs5hgKs7q+4SszHdOEX3TAes0Ampp0Gm3kbMmih7/8HYI1Hc
+	zod40IZUaT6aoa3Pz3UaCFT7t3EOqhkw0bpTynhqsMIZBhGHwWO72jd5GH52cJkFtp7azEM
+	BDEbp+t2YmznfOdODecEzANd3oR8urpvsP7Kp6Z5odVQtACerSRybzYTtB27ireZxVqrmV6
+	SnWQ5Cydrzo9tsRSBnIUbEiwvCkVRHSBEIKN2DDlrl8Fe1oeBt3R0CP7Pt+b4FqYEUIIMRD
+	7oh1Xyl07x2LLzQMfqBizLn9CXEZRKnGjH1PQ5d/MA6qoAc3PaYKLvnc4v6tEYb+w6ql8mG
+	5he0dKDBhWBh8R3IKF31HnSXs5KLKF9jaH+HEkBrerZTmmDZzKPLKlFOpBQeEsiRsq3EsOp
+	8aH5NS9qKz+SwP98CdnWkLeMtkIUe3BgPpRaa9boPt8IxIYLrEyPgTp+ZQJhtorD+knReud
+	8Q2KI7aPSX58vQB2gj2cjnfeyWqttZxv7VpRVU7Hsjy9ZMugL/pZSB6mTiuBbTKEsFhwbPa
+	1jvpDXixNNTUlpp+wgRc6bTqbz+Fxms1X6Oncw7XgOw5jKYXznYVuDqRs/7cQrecUpU/PUq
+	FSRu2phKku3RxLBI9W6fgpwJHSCXaT4Fbx5EBjXw/OXyY/pRI7vrjuoecLPsnrwscO4CBXj
+	X8l6ZHJdj4IprXyPzP5Zdz99EZI4oJLzZwtshRBiN6+PQT+Gc1TjGOIPlA==
+X-QQ-XMRINFO: OD9hHCdaPRBwH5bRRRw8tsiH4UAatJqXfg==
+X-QQ-RECHKSPAM: 0
 
-The AX88179A/772D devices have 32 efuses with 20 bytes each,
-which can be randomly programmed. The AX88279 has 16K FLASH.
+The SpacemiT K1 SoC has two USB2.0 controllers, one has Dual-Role
+support, but the hardware has no internal OTG registers, the other is
+Host only. These controllers are compatible with Chipidea USB2 driver
+with some flags set and reset control support.
 
-Provide ethtool read capability for these devices. However,
-no write access is provided.
+This series is based on 7.3-rc1 and has been tested on Banana Pi F3
+development board.
 
-Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+A self-powered USB device/hub is needed to test the host function of the
+dual-role controller on Banana Pi F3, a MINI-PCIe USB2.0 module (a
+cellular module e.g.) is needed to test the host only controller.
+
 ---
- drivers/net/usb/ax88179_178a.c |  6 +++++
- drivers/net/usb/ax88179_lib.c  | 56 ++++++++++++++++++++++++++++++++----------
- 2 files changed, 49 insertions(+), 13 deletions(-)
+Changes in v3:
+- collect tags
+- merge the two dt-binding commits
+- use local variables when acquiring devm managed clock/reset
+- drop manual clk_disable_unprepare() from the remove path
+- enable related drivers as modules in defconfig
+- Link to v2: https://lore.kernel.org/r/20260908-b4-spacemit-k1-usb2-v2-0-f07342ffa051@linux.spacemit.com
 
-diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index 8b52994e2a604101b61ec9cc0d698a0ecb520a14..7ec71438054844c7263c82ca911e42ea5854a682 100644
---- a/drivers/net/usb/ax88179_178a.c
-+++ b/drivers/net/usb/ax88179_178a.c
-@@ -724,6 +724,12 @@ static int ax88179_bind(struct usbnet *dev, struct usb_interface *intf)
- 	ax88179_reset(dev);
- 
- 	return 0;
-+
-+err_nodev:
-+	kfree(ax179_data);
-+	ax179_data = NULL;
-+
-+	return ret;
- }
- 
- static void ax88179_unbind(struct usbnet *dev, struct usb_interface *intf)
-diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
-index 6f32d4da601ca11d19cf428ecb79206ab4460f3e..de849650f7871022290fc1ba3e3d463434e42fbe 100644
---- a/drivers/net/usb/ax88179_lib.c
-+++ b/drivers/net/usb/ax88179_lib.c
-@@ -210,36 +210,61 @@ int ax88179_set_wol(struct net_device *net, struct ethtool_wolinfo *wolinfo)
- 	return 0;
- }
- 
-+static void
-+ax88179_eeprom_access_params(struct ax88179_data *ax179_data, int i, u16 *value, u16 *idx)
-+{
-+	/* AX88179 has a word-addressable EEPROM
-+	 * AX88179A uses EFUSES with 20 bytes length
-+	 * AX88279 has an EEPROM addressable in 256 byte blocks
-+	 */
-+	if (ax179_data->chip_version < AX_VERSION_AX88179A) {
-+		*value = i;
-+		*idx = 1;
-+	} else if (ax179_data->chip_version == AX_VERSION_AX88279) {
-+		*value = (i * ax179_data->eeprom_block) >> 16;
-+		*idx = (i * ax179_data->eeprom_block) & 0xffff;
-+	} else {
-+		*value = i << 4;
-+		*idx = 0;
-+	}
-+}
-+
- int ax88179_get_eeprom(struct net_device *net, struct ethtool_eeprom *eeprom, u8 *data)
- {
- 	struct usbnet *dev = netdev_priv(net);
--	u16 *eeprom_buff;
--	int first_word, last_word;
--	int i, ret;
-+	struct ax88179_data *ax179_data;
-+	int first, last, i, ret;
-+	u8 *eeprom_buff;
-+
-+	ax179_data = dev->driver_priv;
- 
- 	if (eeprom->len == 0)
- 		return -EINVAL;
- 
- 	eeprom->magic = AX88179_EEPROM_MAGIC;
- 
--	first_word = eeprom->offset >> 1;
--	last_word = (eeprom->offset + eeprom->len - 1) >> 1;
--	eeprom_buff = kmalloc_array(last_word - first_word + 1, sizeof(u16),
--				    GFP_KERNEL);
-+	first = eeprom->offset / ax179_data->eeprom_block;
-+	last = (eeprom->offset + eeprom->len - 1) / ax179_data->eeprom_block;
-+
-+	eeprom_buff = kzalloc((last - first + 1) * ax179_data->eeprom_block, GFP_KERNEL);
- 	if (!eeprom_buff)
- 		return -ENOMEM;
- 
--	/* ax88179/178A returns 2 bytes from eeprom on read */
--	for (i = first_word; i <= last_word; i++) {
--		ret = __ax88179_read_cmd(dev, AX_ACCESS_EEPROM, i, 1, 2,
--					 &eeprom_buff[i - first_word]);
--		if (ret < 0) {
-+	for (i = first; i <= last; i++) {
-+		u16 value, idx;
-+
-+		ax88179_eeprom_access_params(ax179_data, i, &value, &idx);
-+		ret = __ax88179_read_cmd(dev, ax179_data->eeprom_read_cmd,
-+					 value, idx, ax179_data->eeprom_block,
-+					 eeprom_buff + (i - first) * ax179_data->eeprom_block);
-+
-+		if (ret != ax179_data->eeprom_block) {
- 			kfree(eeprom_buff);
- 			return -EIO;
- 		}
- 	}
- 
--	memcpy(data, (u8 *)eeprom_buff + (eeprom->offset & 1), eeprom->len);
-+	memcpy(data, eeprom_buff + eeprom->offset % ax179_data->eeprom_block, eeprom->len);
- 	kfree(eeprom_buff);
- 	return 0;
- }
-@@ -247,12 +272,17 @@ int ax88179_get_eeprom(struct net_device *net, struct ethtool_eeprom *eeprom, u8
- int ax88179_set_eeprom(struct net_device *net, struct ethtool_eeprom *eeprom, u8 *data)
- {
- 	struct usbnet *dev = netdev_priv(net);
-+	struct ax88179_data *ax179_data;
- 	u16 *eeprom_buff;
- 	int first_word;
- 	int last_word;
- 	int ret;
- 	int i;
- 
-+	ax179_data = dev->driver_priv;
-+	if (ax179_data->chip_version >= AX_VERSION_AX88179A)
-+		return -EOPNOTSUPP;
-+
- 	netdev_dbg(net, "write EEPROM len %d, offset %d, magic 0x%x\n",
- 		   eeprom->len, eeprom->offset, eeprom->magic);
- 
+Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
 
+---
+Junzhong Pan (8):
+      dt-bindings: usb: ci-hdrc-usb2: add spacemit,k1-usb2 compatible
+      usb: chipidea: usb2: use devm_clk_get_optional_enabled()
+      usb: chipidea: usb2: add optional reset support
+      usb: chipidea: usb2: add SpacemiT K1 support
+      riscv: dts: spacemit: add USB2.0 controller nodes for K1
+      riscv: dts: spacemit: enable USB2.0 controllers on BananaPi F3
+      riscv: dts: spacemit: enable USB2.0 controllers on OrangePi RV2
+      riscv: defconfig: enable ChipIdea USB controller support
+
+ .../devicetree/bindings/usb/ci-hdrc-usb2.yaml      | 15 ++++++++
+ arch/riscv/boot/dts/spacemit/k1-bananapi-f3.dts    | 16 +++++++++
+ arch/riscv/boot/dts/spacemit/k1-orangepi-rv2.dts   | 28 +++++++++++++++
+ arch/riscv/boot/dts/spacemit/k1.dtsi               | 40 ++++++++++++++++++++++
+ arch/riscv/configs/defconfig                       |  4 +++
+ drivers/usb/chipidea/ci_hdrc_usb2.c                | 35 +++++++++++--------
+ 6 files changed, 123 insertions(+), 15 deletions(-)
+---
+base-commit: cee9395acd8043be0644b25c34bfa86623f2b935
+change-id: 20260812-b4-spacemit-k1-usb2-97adfc283d58
+
+Best regards,
 -- 
-2.47.3
+Junzhong Pan <panjunzhong@linux.spacemit.com>
 
