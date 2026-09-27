@@ -1,88 +1,79 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133403AF644
-	for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 23:50:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 409CC37F8C3
+	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 02:17:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790466640; cv=none; b=oV7RK6fv/VJJOVaSdd57Yiek4lb/qvcMT1jGV3z+E2OuAqvA4HOjKxgpx/jqit5Jc/g7VT8LFzvxIihNSUlMe6v9Bf9RE37rXtGmbNG9UzvZXaTzZiiOI8GFe5XDx3G4NfO/EJdB0x/DyK2mUcxCH0/PIK+zj+kXE+5hsparh2E=
+	t=1790475424; cv=none; b=eliQ09HkxJFjeLsrlB0/PG5FjHDaWF1eDLhhMwlY8LsabnnMmuvi2PDzN6bXjL4uTBEj6+x4EFhAIKzhTT8+5NesCtICwQj2WuiY/20hMKO2SE5AFshygOp7aBk2IgMv1TJ49cW1omSP8OIGXUJb6EmNi8mijN6CbvdeA1dubdI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790466640; c=relaxed/simple;
-	bh=yu+FWbTBNR4w3RS3h+ePS0wkYH+4aMC72bViihdyVlQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=rmJp01nv9SAGdbUFRUQAhtyezymmHTR52v8ZvbjNcusfKKQM+/57AP/hQv/hZJC5Yz5TRja/JFQoF5ESfi9cGIVGFB/OVWsG8JfJD2Vmf6HKnhfHNgxM56yPP9ZbLRBY1gRPfAtB5D50OxT3L5qUNcTYMl9YcYqtGjAGEB2EKq0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la; spf=pass smtp.mailfrom=lex.la; dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b=aEvtgBgM; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lex.la
+	s=arc-20240116; t=1790475424; c=relaxed/simple;
+	bh=CimnbEdL/fI+14EzbWIUB3wxS6Zq7zdxIR5jRBUDEE8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZlCvFMl+EF9bnDtIzl8M5YU4CgXGdjfVkkdwm9Ib+slVNan0Hv6MV7kE1+VJJhAXoZb4PG7UryAfRjLDyC7i3ue35crCrQat+RYe9fvtDnFLuPo9z18wXE2JbpmPS7y3Tt2wdrCvl6nYCCa3eZta0t7BXHB8qAg3XKaVXhLK/Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XgcDPnaA; arc=none smtp.client-ip=74.125.229.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b="aEvtgBgM"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-488885c3844so424414f8f.0
-        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 16:50:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XgcDPnaA"
+Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-341d5303884so1206896eec.3
+        for <linux-usb@vger.kernel.org>; Sat, 26 Sep 2026 19:17:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lex.la; s=google; t=1790466636; x=1791071436; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=r1yHDWljL5Sb6p6flxG/OoWaxJ52niTk3EaC1lnbd/c=;
-        b=aEvtgBgMiGOO3eGeaf0hZyh+eKAFrkNzilKVawgMB4xMvRBG9xpfIWUf74s6tqxKrV
-         SCuurymfJjAAiea2KG+lJc0YwRpf/aoGPUu4KvXn1/pRmZmJaSDRKoSnTL92q+Yd+/e8
-         7pfI88nSFaMaUH3VHYm5wanoYohm//fvjwsj1xjHlm3C+owo8tpZtzOlAg9t439ZUysD
-         nKbY29RLP8xjD88WIG8dzhNblnQ63k5f+JVy3mdE0UDq7oqD4divoNPSX1CRa1muwA9w
-         YNhrLEkd0A73E1bvM6RSAVJv5KgkyfdoiNk3OrRf/2beUa/1dhK51MAPCi1vAfbav8IF
-         K/6Q==
+        d=gmail.com; s=20251104; t=1790475422; x=1791080222; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=T/SZOGr7JpcDmeWPHecdCBMiWMxgwXtwWIncAhWIkpk=;
+        b=XgcDPnaAMOo1Nirw9wLTovHRyPoiJJYNKaXEM9ecn4+Us/0uLbedYYjNSodSG3Kk9u
+         dBuuGi/QB65N2UcAmNLNeBsMAM1iiumYpwdrf45rrG2ddi39lItfA+OvmfVAw2r2v508
+         P7L0ZRvviLGHVbUmuoeYbUFSLTkOPyr1dTIfqVJLt+/k9rtLFcJLK/4mk7nE53kknOlH
+         8QiQVMkiaVIhSafUUgyIe3MoPGavzegyka462nD8QvGO5wuy5UlyrpOskdOhByDj+hjS
+         W83Mdg6xkfk6jDwCsRe+jPXPWMFGWY0ZhUIlY85PoXQbQ1gKRe17+QsaXmZ0zTeVVEat
+         tFcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790466636; x=1791071436;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=r1yHDWljL5Sb6p6flxG/OoWaxJ52niTk3EaC1lnbd/c=;
-        b=RYcG12+X/kRZd/Kjf98RYHab5OpQ/CiWXmNJ2I9r9VMOkAOrDNTue0LCk8vl1BO5lR
-         Z4vsyPSldhcPfGNvodZrM2BZK72ee/a4pDRJ7IWOWuqevgE7d/ICNs0Us+MHCD1h2buZ
-         ys6ORNoYT85q2hGHduuS2P/EFV1oThBaRKABBSNZwBJdGCXRgToKor8ulcBEOT+rBkYm
-         TH+SyapKU89g1b4ZwAWC4646x11KFwRfQFQz2P0QDUvewBtFEK1eDweYfXrKKKopj+40
-         um/xsIEoRhA/bnihh1TrYKVFmh9iHbfpOl9+d6aQRyNSUsv0CRyL2fqFrg0liOnFTH/Z
-         l0tQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxYCdde3Ue/gZrKzhoR+R0zoM8aerPP5aegGYRRUrCEa5SIcnprbVJmR2M8E2CObBBgWCtbJ5m2RmY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLWYwDTfM50fBclExHqqr1xx0IioJQlcFcXfvlfs2GtU7/OofTl
-	T1eO9M4S+BK+OxlL6OHRDky4eccYuVfQtwYqHagKKj6Ct4MTx1ni3zN7iKN9Rh54dfY=
-X-Gm-Gg: AYBFou1wapDo/jjQlJfNSvutJB+1mbHIRVNnEWIWiZcvHBW2cPZ+686un+WlHHqFJ3Q
-	r4N5nGuOxB0F5z/Bg1h/+E6rP2gkIX7Gv7ekmrKk36oFb56vEobUjdaW9m/dyVRwcjQn4Z6B7Bm
-	pGzv7Ldte+LXbRvmZYSU38p1gtmmo4wOtppYEHS1NGSTfKd6QA9CR7kmp19UxkcBxVhcwLjUcNv
-	czYAMMD0haX8MksSLyUapDW1GL53WUs6jKiTl9kSZmBMUNub1SqgkFqasbhni0I/ahQb66tyS7d
-	2oPFOrDC0xveOP78FX3ZK6f64dPOu9JbpmAtX/aQLt3kwyWIa72XwxHV5bM0ojkP0+AGCKQVcGx
-	kI1u3+iCiEgNrc3wOAghxJ/1GJVu2PFqXcqcrG/JDamDoq/vruma5aJFFVvyGPiShWD1P7lkLzk
-	SLLWs7YZF6WkWihDAybLP0Qo2INHMZa/I7JReWcud5p59R1GMAjQ==
-X-Received: by 2002:a05:6000:2585:b0:488:8074:ef57 with SMTP id ffacd0b85a97d-4888074f0d9mr11291257f8f.3.1790466636166;
-        Sat, 26 Sep 2026 16:50:36 -0700 (PDT)
-Received: from remote-01 ([84.17.55.134])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a349fa1sm24716798f8f.8.2026.09.26.16.50.34
+        d=1e100.net; s=20260707; t=1790475422; x=1791080222;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=T/SZOGr7JpcDmeWPHecdCBMiWMxgwXtwWIncAhWIkpk=;
+        b=I/pJq96aTuVZPSi++B+ZFvIrNvsMLHC1WA1WbVNGbDlJv1EPBBtCu/ID9Jm6amSTKh
+         NofTpY8BzPbx8HywtpdU0wipHELpk5HMIjbbsHeTyW1Ffsst6y/JYf5vOJy6stiX6CGI
+         RIBsM5BgtZF+bIWgVljrmDOOxFxPeYal73+H092ocBvoy47eWxlpRBr8wYfYfHtS6Frd
+         uwO1btP9KKnUoKz0ulSuYxz4upudYTyb/XP3n5whxU/VhQbTIdfpalPToScJEXPiu/Mk
+         AlBipZZV+OJh6KRc6+2WYVwDyBDhqYU9pFkM4ZqQeawLNvM3Stq/RfT9+nE3q4XU0RST
+         pWyw==
+X-Forwarded-Encrypted: i=1; AKwUvByp/rYB7WtWDBwPfyrvSBJpHXLvjK80EVyRj9dkjYMrTaDzVbYHBFIyZR3OS7nbBgTbLasq9+/IE1g=@vger.kernel.org
+X-Gm-Message-State: AFuF++mh1c5OSiGmahC6FiRB3oG/tRS6pMv0mVZMD0nfZSdLLsbMY/fr
+	Wq3D+3o68/5VExNv8uOC3lYwiu93vnU01wDHd0RTNs8wqhjoknif7qcD
+X-Gm-Gg: AYBFou1GFw90dsSvh4o0VhkBHELUTTdbFX4tMFWyX1EYXCuGSTqwvEqFSm1spfNsmYS
+	4ZJKgl1/z735ZqnctMKlRpirnSqrCVWfjnYOMs230Npv4OOA6FzIOMDuDDOy747aOWXRRH+8bBE
+	3nmE1L6VXlzQOOoDS52IvIBJWLEZcIZnyh96KNuQwCSPLs3++L5zEasP5FOSExymFdLnQ6mDM80
+	y6EEKOdGv4Zo8Q+sDbHgMdib98ar4pjQ2b0H+poduFDHgQjVKc8p9IpcSAV2vA3nsFfJI3mUpB+
+	SyicPKyYuDLgXlrZBSFC+VYipEuYMZAqNlsn7jWmUWi1Qn6bqLeInyRdTsaTRIUgJMzZjeD0OOf
+	yNFlTuNfgvDQC2vN99nappAwIgIqepBAtxtrYByFVHKqbHEccAKNNQwiKGDgmfUza3RuSs797go
+	bPiyOepwUaBX/KrxTJW1J2GhjokUk2oaJN3LD63QVz9PfIHmq4j/JY5APLq1PQtRvz9rPIgGm35
+	YAblW7Y0W4KlJhy1A==
+X-Received: by 2002:a05:701b:2406:b0:146:852d:60ac with SMTP id a92af1059eb24-146cdfbd198mr4755230c88.10.1790475422169;
+        Sat, 26 Sep 2026 19:17:02 -0700 (PDT)
+Received: from Gris-Laptop ([116.169.71.40])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-145ac67c0ccsm15757238c88.4.2026.09.26.19.16.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2026 16:50:35 -0700 (PDT)
-From: Aleksei Sviridkin <f@lex.la>
-To: netdev@vger.kernel.org
-Cc: andrew@lunn.ch,
-	andrew+netdev@lunn.ch,
-	hkallweit1@gmail.com,
-	linux@armlinux.org.uk,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	olteanv@gmail.com,
-	Thangaraj.S@microchip.com,
-	UNGLinuxDriver@microchip.com,
-	steve.glendinning@shawell.net,
-	f.fainelli@gmail.com,
+        Sat, 26 Sep 2026 19:17:01 -0700 (PDT)
+From: Gris Ge <cnfourt@gmail.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Gris Ge <cnfourt@gmail.com>,
+	stable@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aleksei Sviridkin <f@lex.la>
-Subject: [PATCH net v11 4/4] net: phy: restore the interrupt when the generic bind cycle fails
-Date: Sun, 27 Sep 2026 02:50:24 +0300
-Message-ID: <20260926235024.705646-5-f@lex.la>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260926235024.705646-1-f@lex.la>
-References: <20260926235024.705646-1-f@lex.la>
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: typec: ucsi: Skip CAM query when partner has no alt modes
+Date: Sun, 27 Sep 2026 10:16:46 +0800
+Message-ID: <20260927021649.8967-1-cnfourt@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -91,87 +82,47 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-phy_attach_direct() binds the generic driver by hand, and the probe it
-calls is phy_probe(), which replaces phydev->irq with PHY_POLL before
-either point the hand-bind can fail at. That failure unwinds on a label
-of its own, which does not go through phy_detach(), so the substitution
-outlives a bind cycle that never completed and a later attach finds a
-PHY that can only be polled. Found on a Keenetic KN-1012 while placing
-the restore of the previous patch, as the other exit of the same bind
-cycle.
+Since Thunderbolt alternate mode support was added,
+`ucsi_altmode_update_active()` is called on every Connector Partner
+Changed event.  This made the driver send `UCSI_GET_CURRENT_CAM` to
+PPMs even when the partner had no alternate modes registered. Firmware
+that does not support the optional alternate mode details answered Not
+Supported, which produced a spurious error on every partner change:
 
-Save phydev->irq on entry and put it back on that label. The unwind runs
-inside the call that made the substitution, so the value from before it
-is known exactly. The bus table the previous patch reads from would be
-wrong here twice over: it does not hold a PHY_MAC_INTERRUPT that a MAC
-wrote into phydev->irq alone, and the label is also reached when a
-second attach of an attached PHY fails its bind, where the field is
-live.
+```
+ucsi_acpi USBC000:00: GET_CURRENT_CAM command failed
+```
 
-The store is not ordered against a concurrent bind: this unwind, like
-the hand-bind it undoes, runs without the device lock that
-device_bind_driver() asks its callers to hold.
+Fixed by skipping the command when there is nothing to update.
 
-Fixes: 6d9f66ac7fec ("net: phy: Fix PHY module checks and NULL deref in phy_attach_direct()")
-Assisted-by: LLM
-Signed-off-by: Aleksei Sviridkin <f@lex.la>
+Fixes: da87d45b1951 ("usb: typec: ucsi: Add Thunderbolt alternate mode support")
+Cc: stable@vger.kernel.org # v7.0+
+Assisted-by: Codex:deepseek-v4.1-flash
+Signed-off-by: Gris Ge <cnfourt@gmail.com>
 ---
+ drivers/usb/typec/ucsi/ucsi.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-Notes:
-    Both points the hand-bind can fail at are reachable. phy_probe() reaches
-    genphy_read_abilities() through genphy_driver's .get_features, and that
-    returns the error from phy_read(phydev, MII_BMSR); device_bind_driver()
-    returns whatever driver_sysfs_add() got, from either of its two
-    sysfs_create_link() calls or from the coredump attribute.
-    
-    A failed genphy bind leaves the device with no driver bound at all, so the
-    next driver to arrive binds directly and never goes through phy_detach().
-    That is why patch 3 cannot cover this path, and why the Fixes: tag here is
-    6d9f66ac7fec rather than the one patch 3 carries. That commit did not
-    introduce the lost number - the substitution is far older - it created this
-    second exit from the bind cycle, splitting the failure off the label that
-    calls phy_detach(). Before it, patch 3 alone would have covered this, so
-    that is where the backport range for this one starts.
-    
-    Exercised on the board described in patch 3, with a debug-only module
-    parameter that fails the hand-bound generic probe once for one MDIO
-    address. The connect then ends in -EIO rather than the -EINVAL of the
-    validation path, so the unwind takes the label this patch touches.
-    Measured again for this version, since the value now comes from the
-    local: two images of the distribution's 6.18.52 kernel differing only
-    by this patch, injected failure at 2.0 s, real driver bound at 6.4 s.
-    phydev->irq afterwards reads -1 with patch 3 alone and 15 with this
-    one; the three switch ports read 79, 80 and 81 in both.
-    
-    One difference between the injector and a real failure, since it does not
-    affect what was measured but should not be implied away: a genuine error
-    inside phy_probe() leaves through its out: label, which re-asserts the PHY
-    reset before returning, while the injector returns earlier than that.
-    Neither path touches phydev->irq.
-
- drivers/net/phy/phy_device.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index a9c71a286118..8bfb154402ad 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -1755,6 +1755,7 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
- 	struct mii_bus *bus = phydev->mdio.bus;
- 	struct device *d = &phydev->mdio.dev;
- 	struct module *ndev_owner = NULL;
-+	int irq = phydev->irq;
- 	int err;
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index bef3f9b71d71..71b28e4df470 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -360,6 +360,15 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
+ 	u8 cur;
+ 	int i;
  
- 	/* For Ethernet device drivers that register their own MDIO bus, we
-@@ -1896,6 +1897,7 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
- 
- error_module_put:
- 	module_put(d->driver->owner);
-+	phydev->irq = irq;
- 	phydev->is_genphy_driven = 0;
- 	d->driver = NULL;
- error_put_device:
++	/*
++	 * Alternate mode support is optional, and the PPM is not required to
++	 * support GET_CURRENT_CAM when it does not support alternate modes.
++	 * There is also nothing to update when the partner has not registered
++	 * any alternate modes, so don't send the command in that case.
++	 */
++	if (!con->partner_altmode[0])
++		return;
++
+ 	command = UCSI_GET_CURRENT_CAM | UCSI_CONNECTOR_NUMBER(con->num);
+ 	ret = ucsi_send_command(con->ucsi, command, &cur, sizeof(cur));
+ 	if (ret < 0) {
 -- 
-2.53.0
+2.55.0
 
