@@ -1,64 +1,59 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65548302CC1;
-	Mon, 28 Sep 2026 12:49:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2B83CAA2F;
+	Mon, 28 Sep 2026 12:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790599797; cv=none; b=auRs3e8YgIxCEiARwRWwtYozDmpliLqOxlE6p+nArnPuGT8qpN9s3zG6AjNl8XVPqAtRFD3gMFAyMtp/UDUjyjLGskEyUZAqZfgjuqI0YBWGA0S7ZERi3jiNQHUDK3EXGIh05SRS14WztnMCQfs6a53RTwkTGXBTR3hn1uq+uKE=
+	t=1790600026; cv=none; b=dvX/VrvzolJfI46i7dCM+rP6qwZOcyzbVRj7NR3MTDmdP7EdPSmAz8PB8Q/SkMo9G1MKDShVFixrwU2Q73tRFb2EgG2biz2MVpIkobpGon3FHkPakbKlSRx467VcHlhN+Sb6bOoYys5aRLFAvs/tUK5Gveqy6z1EYJrj+/vdrW8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790599797; c=relaxed/simple;
-	bh=9ui8wOAGwqBSE2/0m8IaZ6FAQsSNjQ+1mm9+R4yja2s=;
+	s=arc-20240116; t=1790600026; c=relaxed/simple;
+	bh=2tS3MczwPj42PWO3FAUfVUyYTR3S8sDgpalVZFYNROk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VCbrsinTe3QepozQxqBjeo6JLD9PiKCdSp270wbC4xufqs+acIrkBcgJrrvvkvsBApp0+xJGURVdJxkIP+JMjsyMJOA5NfTO6MW0wEpX917caPSRZ6T2fFiSERmcGoTy92XrODeuwVTCBbqbRnYzw/cVGUUjqtEdkxK3huWqAsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JT86vmjP; arc=none smtp.client-ip=192.198.163.8
+	 Content-Type:Content-Disposition:In-Reply-To; b=gTCWMthMKknQxjpcXaTjtteuVKlzqqjt8+m9fbX1OnfQY2LeZ4TCnRyvL2CeMvcm76R1kfYKzq61p3tmkYlOrBw14wc7wnHPrhf+wABj4tCwFxjmeiwqZbpwhjb6pZS8m2W69e72Mn6J4umkD4z+vNIKuTXbDxg0mvO8iyyonDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rx6pXc/Z; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JT86vmjP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rx6pXc/Z"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790599795; x=1822135795;
+  t=1790600024; x=1822136024;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=9ui8wOAGwqBSE2/0m8IaZ6FAQsSNjQ+1mm9+R4yja2s=;
-  b=JT86vmjPqZEBOrs01+h8r1XFDB0DyRSesrIwGYuyPwKR5KcemUuPlWth
-   Z1G3IMB1JXjCT/R0pGz/8bjif5faEpZu10SoSJQp7C9EX5V9LCyigtu2W
-   3OwdbdgaJTiFoFnY+krJMXjapCUHywlx3+aqzsS3kMh+IEac8FxRUxP9Y
-   VB2DijrXpJLESuHrn+tAesZ3ZYv+4xHWaJK99Gujx4XtpUZb9pUrBFy38
-   VzrX4nR6YoByHA9EusQEfvEX9Nr/ciiijR2Dy/TtTAYskNdVRfG8Yg3bc
-   dsneN7xykxXntIjB36m+iklpRvtnSW7NJhS2Q7uC/qr693Kxu8DFp4sx+
-   g==;
-X-CSE-ConnectionGUID: Ih20ZQUTSRG0COHtO2yXIA==
-X-CSE-MsgGUID: MosLQ9wTSF2JyPI/qZ/NGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="108786997"
+  bh=2tS3MczwPj42PWO3FAUfVUyYTR3S8sDgpalVZFYNROk=;
+  b=Rx6pXc/ZXK0WiqlOeTuNM/Pfa76ThZRczMfgOMvY9ArcXeZPpQ5Oiayt
+   pyCQv4nI5V7quewqtLaEnkZoSwO9T7aeh+xRoxgYwPyBJOKn0i8APE/qs
+   WE+6gEQMDRTbQOxkpYB/AFiGLh7pZqnzj3biWUO924xD9tS5dPouyGc1C
+   obzKgTkXlU9rGB4zWvZNr330pV8A7K33WvFQh6SacAu86IgOq/BemYUAB
+   ZIgbvZEZRKc5Hdd3u7cgRzs7JP3q1XfzkZHV1EVc14LtMJd2LsCTK8YAf
+   /6hvl7A0Pq1AKx+tCEqk3sUE9dvD2lB+uSPDA6InCQINlLcVP6r51BxL6
+   w==;
+X-CSE-ConnectionGUID: Jb/VSg6bRau41kdVyW29zg==
+X-CSE-MsgGUID: T+Amhz81SZuzz8bAYpcVeQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="90349316"
 X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="108786997"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 05:49:54 -0700
-X-CSE-ConnectionGUID: aWXxhip/QdGoIrz/iToTEQ==
-X-CSE-MsgGUID: H7DTyoqiR2O1/qHpVzrBeQ==
+   d="scan'208";a="90349316"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 05:53:43 -0700
+X-CSE-ConnectionGUID: Gl1DAGKuQ72sQ7VZUK7+Hg==
+X-CSE-MsgGUID: 179CtxMER2ugTVWL4w6T7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="274267253"
+   d="scan'208";a="275168739"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 28 Sep 2026 05:49:52 -0700
+  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2026 05:53:42 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 181C099; Mon, 28 Sep 2026 14:49:51 +0200 (CEST)
-Date: Mon, 28 Sep 2026 14:49:51 +0200
+	id 1669299; Mon, 28 Sep 2026 14:53:41 +0200 (CEST)
+Date: Mon, 28 Sep 2026 14:53:41 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: amber.kao@ite.com.tw
-Cc: ite_pd@ite.com.tw, jeson.yang@ite.com.tw, Yaode.Fang@ite.com.tw,
-	gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] usb: typec: ucsi: itepd: Add DisplayPort
- alternate mode support
-Message-ID: <arpib-_yT8o6-hhg@black.igk.intel.com>
-References: <20260918-ucsi-itepd-it527x-v2-0-7b2d9437cc72@ite.com.tw>
- <20260918-ucsi-itepd-it527x-v2-2-7b2d9437cc72@ite.com.tw>
- <arJgdmA9cWLMQpzV@black.igk.intel.com>
- <e0b87bb4960a4faa97078cb0cb9fdff1@ite.com.tw>
+To: Fan Wu <fanwu01@zju.edu.cn>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org, Song Li <songl@zju.edu.cn>
+Subject: Re: [PATCH] usb: typec: altmodes/displayport: Disable work before dp
+ is freed
+Message-ID: <arpjVXg8DdgCv6Yh@black.igk.intel.com>
+References: <20260923024637.403624-1-fanwu01@zju.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,35 +62,49 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e0b87bb4960a4faa97078cb0cb9fdff1@ite.com.tw>
+In-Reply-To: <20260923024637.403624-1-fanwu01@zju.edu.cn>
 
-On Wed, Sep 23, 2026 at 10:33:50AM +0000, amber.kao@ite.com.tw wrote:
-> On Fri, Sep 18, 2026 at XX:XX, Heikki Krogerus wrote:
-> > >  config UCSI_ITEPD
-> > > -	tristate "UCSI Interface Driver for ITE IT8851/IT8853"
-> > > +	tristate "UCSI Interface Driver for ITE IT885x and IT527x series"
-> > >  	depends on I2C
-> > > +	depends on DRM || !DRM
-> > > +	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
-> >
-> > Please split this part into separate patch.
+On Wed, Sep 23, 2026 at 02:46:37AM +0000, Fan Wu wrote:
+> dp_altmode_remove() cancels dp->work with cancel_work_sync(), but the
+> typec bus clears alt->ops only after ->remove() has returned, so the
+> dp_altmode_vdm(), dp_cable_altmode_vdm() and dp_altmode_attention()
+> callbacks can still call schedule_work(&dp->work) after the cancel. dp
+> is devm-allocated on the partner altmode device and is freed once the
+> unbind completes; a re-queued dp_altmode_work() may then run on freed
+> memory.
 > 
-> Hi Heikki,
+> Fix this by disabling the work instead of only cancelling it.
+> disable_work_sync() drains an in-flight dp_altmode_work() and keeps the
+> work item disabled, so the late schedule_work() calls are rejected. The
+> work is still drained before the plug reference is dropped.
 > 
-> Understood, thanks for the suggestion.
+> A later probe initializes a new work item, and the remove path holds no
+> lock that dp_altmode_work() takes, so waiting cannot deadlock.
 > 
-> I will move the Kconfig prompt, help text and MODULE_DESCRIPTION
-> updates out of the DisplayPort patch, so that the IT885x/IT527x
-> support and the DisplayPort alternate mode support are separate
-> patches.
+> This issue was found by an in-house static analysis tool.
 > 
-> Would it be fine to send both patches at the same time, or would you
-> prefer that I send the DisplayPort alternate mode support after the
-> IT885x/IT527x support has been accepted?
+> Fixes: 0e3bb7d6894d ("usb: typec: Add driver for DisplayPort alternate mode")
+> Cc: stable@vger.kernel.org # v6.10+
+> Co-developed-by: Song Li <songl@zju.edu.cn>
+> Signed-off-by: Song Li <songl@zju.edu.cn>
+> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
 
-It does not matter to me.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Thanks,
+> ---
+> 1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
+> index d96ab106a980..f7b3566d4029 100644
+> @@ -815,7 +815,7 @@
+>  {
+>  	struct dp_altmode *dp = typec_altmode_get_drvdata(alt);
+>  
+> -	cancel_work_sync(&dp->work);
+> +	disable_work_sync(&dp->work);
+>  	typec_altmode_put_plug(dp->plug_prime);
+>  
+>  	if (dp->connector_fwnode) {
 
 -- 
 heikki
