@@ -1,150 +1,225 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 564353DDB0A
-	for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 23:57:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B01D3547049
+	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 00:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790553471; cv=none; b=fx5OIpSyjeUpgHUMq50X6qC2EGsDmD3EXEv6DgwXwASxQuYGZFJxOS2wZoz+8Q85U1Vb+LtxqP3tSE98Q7IP9ziOayN6FyatcXCVyQYFjDvmpNMXT06WCJ4EaH7yKcYj/UTJVOf7Sl0d1DXFheeYaQayNr+EvNjI4qL3NYOwpfU=
+	t=1790554409; cv=none; b=pzwDcPy8ODaeENXctx4tS1ANIWW2mtrgA7fD604Tzg9I0yfJAvWWG2ZXoOlTVB7vyZh+UyPPKI2tm7SiktXL06jDu+TbjGNdyIV7B2UBSRqgdE375sJxi+CRElH6C6lXz5GJFJ6mCxYgBNUP96YyxjOPeXIw+mjNibCCbJgJUGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790553471; c=relaxed/simple;
-	bh=DTm+8VkU5gcH3XgRDOy8kN9YKZ+MZN+K6h7Y7ZTzZkE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=YqFzo/kF27Yt1tkISC35QLrXRfPSwdK7ihtq8m9vUBACPah6pKOKwZBziG+JM4hI17mIuuECl1WJrHA0QQvUp+dVsBiEf8bIV+MnU9hTcBbGAQT1A/Xuv3WG+AVMMk6xFti0QvkOQKbQIrR1OmwgQWK3CGJKEuyrp6Uw90wrEX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la; spf=pass smtp.mailfrom=lex.la; dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b=EiWrHDvo; arc=none smtp.client-ip=74.125.225.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lex.la
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b="EiWrHDvo"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso22921265e9.3
-        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 16:57:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lex.la; s=google; t=1790553465; x=1791158265; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=gZ8p/NVIadAMhbwnanN8QfTI2Nz4vTcQTSBnLNkkJao=;
-        b=EiWrHDvoGPu1pv31N0eklGwGWwdl/XhlLest5aA9BDbyED0VD7KzLIeINxU6L49ZX1
-         f5n5XF823gLQyRCaR/vV+MsjCzgtNK9tWnfntpbLIVplARWK8uM48Mj9gjg1fBI30ksd
-         t4YJUAFYoOujuee1XGT80g3MUDoAjuRSNULPNd7GJHpY6IK746LsF6Anv0GG0syPeiO+
-         9xCd8fqcDHz/8WoO2QfKDl5ranjgvCTDB2M5sU9krjJhL6sx38cuwXH8BuxJeVmCFokF
-         1U0ehmgIUzd0KDhY43bGm+NIHEI1h5W5N7VKqPoMOOFM5vMtPf0Govc8VDd4qjo9wt8w
-         Z6ZA==
+	s=arc-20240116; t=1790554409; c=relaxed/simple;
+	bh=YZydMoameDYL3fo6XfSreYDvxZwQWHV2MCw3517c0iY=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=XWJQwdO1nF1IVWIPt+Nf1r7rJhqEkLsoo2QmpsD+34ntdz3qLB2dLbUmMyUmvEoQpodm2y3hN7MuBzQ/n7onJUfuPV7WfKXInJQAeo7mkzQQ+0ohEgWjasdsbluR2E4Z1TnoamQ96I0dLoIrkdNR0qvNFD6V+Ey2GRqAt2777jQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4c9ade8cfe1so4772677b6e.0
+        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 17:13:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790553465; x=1791158265;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gZ8p/NVIadAMhbwnanN8QfTI2Nz4vTcQTSBnLNkkJao=;
-        b=OfTBzorCv+rC1EsgU1bSYKr7RwHcqemeeoWqy7s/hiyx0jtvr7omLhtU2ViaZaYmw4
-         XtxuR26VCRAMMjTrcB1ygHo3MSua+yHv8ZurfoJGnZBcnHylVocFraJhc/wrSIQ1OM8I
-         OyqcaKbNSTo+TahATVWy/IGMB2srH608QQF+7BujOotSL1QY01fWV8ip67b7EGe1yXh3
-         YAkhxKkkcRMAaNH8DlkCnFUwshNLH2lhzpOdM8NXZ+zShYfoUTn97YggLdCbpiH5Dg6f
-         1t1GQhBdw87XNpzJH5DvhokERAgX2w5J6Cb995FWw2gRrhjxQt9/fvzGm7o9RjGEbfKK
-         T/1g==
-X-Forwarded-Encrypted: i=1; AKwUvBxHb402cSPgmuRqQCM2sNrZVd5wXBs1Ctz58EdyGIS9ldrto+8s5fBEFtmFQxSp5fKfGObvv895mAY=@vger.kernel.org
-X-Gm-Message-State: AFuF++nW6dDR+HRZY00Wd3WkehE/NXGYSdGI5fjSKcwdQdlsl1FUnn9T
-	IvZGQlGjLYmZjlt2JwuUtHTsDXoEwHRyAFpHRYS20s9vZlZ2288dCf+av6xM4hvL2YY=
-X-Gm-Gg: AYBFou1TrCb5d6uvnGcYDb8W8oBQHTJ1evCfUfJJPfc1zasIyF2oZ52FqDue0Z4BXXB
-	qSuHyy4s5t3pAfkIr7DNbrtxQMbtJ2twXM8lXPRknJ4HtIaFpC7vz1izGGrth1J1I7biFeT4vE/
-	g8tbeXRfheW9RcO1jzwCvdhmR8Bf0V1sIIlD/ld1H1XYLyuCUiaXt4AS8PqT+6ozkozwqIbCMlL
-	PIPCCf1dP2kmZSQNAtA+vRzbh0n+xQ1TnDn+pjOzTiI3pXcTLuyD1yfdlhmS/zYdMqkCpO6514O
-	J1nWBUs0AJDWmMSvTwub9Ul3gja5SIqPQVebDWsCmLSgtbWxsx6jxKzqP5iVJKIxr6Vgz0xFufr
-	q2FvcwuuEs1O1u8Pkpk3EAvUFE+FizKAjwfb468I+4Ar5efxa2vFfzx/+NXxI1wAAthDURDC3wY
-	6ZSWpV/jfdOW7/GMOhhhCR4o8Z6fp1R4LyhhYzeoiEbbxeTo+2Bw==
-X-Received: by 2002:a05:600c:37c4:b0:4a0:b6:460f with SMTP id 5b1f17b1804b1-4a001e8c579mr42530565e9.33.1790553465459;
-        Sun, 27 Sep 2026 16:57:45 -0700 (PDT)
-Received: from remote-01 ([84.17.55.134])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0017998dbsm137971495e9.14.2026.09.27.16.57.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 16:57:45 -0700 (PDT)
-From: Aleksei Sviridkin <f@lex.la>
-To: netdev@vger.kernel.org
-Cc: andrew@lunn.ch,
-	andrew+netdev@lunn.ch,
-	hkallweit1@gmail.com,
-	linux@armlinux.org.uk,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	olteanv@gmail.com,
-	Thangaraj.S@microchip.com,
-	UNGLinuxDriver@microchip.com,
-	steve.glendinning@shawell.net,
-	f.fainelli@gmail.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Aleksei Sviridkin <f@lex.la>
-Subject: [PATCH net v12 4/4] net: phy: restore the interrupt when the generic bind cycle fails
-Date: Mon, 28 Sep 2026 02:57:33 +0300
-Message-ID: <20260927235733.2619081-5-f@lex.la>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260927235733.2619081-1-f@lex.la>
-References: <20260927235733.2619081-1-f@lex.la>
+        d=1e100.net; s=20260707; t=1790554404; x=1791159204;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/gihveQMEggeio5H0RThhS3vMuwQoXGYNU/ZAKVdLUI=;
+        b=Wep1VfY2u8og0Ci3pAaJzmWGWT+suqvhpcUG+piEjzOLVlKDXFQg0ns3uanPDJ4lqz
+         t45kwhGdEYzmVOv5ZgIuAlnJH5atZSviSpIuuSAU/TfD4R3wzwvGVhANIe2UG/5stqrp
+         Xc3Gcwwxove/oPFwzP+/5+Ubm4NPrUxXIDMs+kWFB+zup3nuCpnFPpPZ+rer7mVfeMRW
+         Sym7yiY7wzkw4tN0hAbgMWsm3tG9p57bnBfJmL9SM81GDWfb65PytOBDSD+k3WSmyAa3
+         HfNJVFjgGlurD1H3uAyteUBYqCyLGWFHSPyBi+QSWNodDHLZ+uKYpxPZpsVV3GIRuzIi
+         hDjg==
+X-Forwarded-Encrypted: i=1; AKwUvBygbG1uv/Es4jEayhRT8/B6cKK+7kHlu7cb2Bb98yHIVuOTvT2UJdpfAlFHkymXTq292rfJsmQrY9c=@vger.kernel.org
+X-Gm-Message-State: AFuF++lVQUYK+fIPAul9lXCD8pY0pJBURWVZnUXYxD6SlxjhqECKiMYC
+	+3hlQRy5InScJH2P2wJXSNro8Er8K6J7RYCfEYq/s8kv2uHfcABAWJsH0NpCLaq5UJwxe7GH4xj
+	ET6xu2WCYB7m8MwncQb7feSmWYS88WYJJnKgJUOjRzxAWnmZJCj2UzVQMcdc=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:16aa:b0:4c9:f7ca:82b1 with SMTP id
+ 5614622812f47-4d72cd3640amr8838646b6e.33.1790554404223; Sun, 27 Sep 2026
+ 17:13:24 -0700 (PDT)
+Date: Sun, 27 Sep 2026 17:13:24 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ab9b124.dc2998a4.2261f5.0070.GAE@google.com>
+Subject: [syzbot] [mmc?] KASAN: slab-use-after-free Read in memstick_next_req
+From: syzbot <syzbot+34f63c11dab47d09ad9a@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, maximlevitsky@gmail.com, oakad@yahoo.com, 
+	syzkaller-bugs@googlegroups.com, ulf.hansson@linaro.org, ulfh@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-When the generic driver is bound by hand and the bind fails, the PHY is
-left with polling in place of its interrupt. phy_probe() has already
-replaced phydev->irq with PHY_POLL by then. The unwind does not go
-through phy_detach(), so the restore there does not run, and a later
-attach finds a PHY that can only be polled.
+Hello,
 
-Found on a Keenetic KN-1012 while adding the restore in phy_detach(),
-as the other way out of the same bind cycle.
+syzbot found the following issue on:
 
-Save the interrupt number on entry and put it back on the error path.
-The bus table is not the right source here. The same label is reached
-when a second attach of an already attached PHY fails, and there the
-field is live. The table also misses a PHY_MAC_INTERRUPT that a MAC
-wrote into phydev->irq.
+HEAD commit:    d58dffe9ee2c USB: core: amend usb_get_from_anchor() kernel..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=1371cd25580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=c451f9f64434b622
+dashboard link: https://syzkaller.appspot.com/bug?extid=34f63c11dab47d09ad9a
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-Tested on the KN-1012 with a 6.18 distribution kernel and an injected
-failure of the generic probe: phydev->irq reads 15 afterwards, and -1
-with only the restore in phy_detach().
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Fixes: 6d9f66ac7fec ("net: phy: Fix PHY module checks and NULL deref in phy_attach_direct()")
-Assisted-by: LLM
-Signed-off-by: Aleksei Sviridkin <f@lex.la>
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/424c61cbb872/disk-d58dffe9.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4124586dc97c/vmlinux-d58dffe9.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/a07e8e384dc4/bzImage-d58dffe9.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+34f63c11dab47d09ad9a@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: slab-use-after-free in memstick_next_req+0x1f4/0x240 drivers/memstick/core/memstick.c:227
+Read of size 4 at addr ffff888113453074 by task kworker/1:2/15608
+
+CPU: 1 UID: 0 PID: 15608 Comm: kworker/1:2 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
+Workqueue: events rtsx_usb_ms_handle_req
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_address_description mm/kasan/report.c:378 [inline]
+ print_report+0x13d/0x4b0 mm/kasan/report.c:482
+ kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
+ memstick_next_req+0x1f4/0x240 drivers/memstick/core/memstick.c:227
+ rtsx_usb_ms_handle_req+0x1dc/0x1a00 drivers/memstick/host/rtsx_usb_ms.c:520
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+
+Allocated by task 9796:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
+ __kasan_kmalloc+0x8f/0xa0 mm/kasan/common.c:415
+ kasan_kmalloc include/linux/kasan.h:263 [inline]
+ __kmalloc_cache_noprof+0x2d8/0x680 mm/slub.c:5563
+ _kmalloc_noprof include/linux/slab.h:991 [inline]
+ _kzalloc_noprof include/linux/slab.h:1312 [inline]
+ memstick_alloc_card drivers/memstick/core/memstick.c:383 [inline]
+ memstick_check+0x2c1/0x10d0 drivers/memstick/core/memstick.c:452
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+Freed by task 9796:
+ kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
+ kasan_save_track+0x14/0x30 mm/kasan/common.c:78
+ kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
+ poison_slab_object mm/kasan/common.c:253 [inline]
+ __kasan_slab_free+0x43/0x70 mm/kasan/common.c:285
+ kasan_slab_free include/linux/kasan.h:235 [inline]
+ slab_free_hook mm/slub.c:2748 [inline]
+ slab_free mm/slub.c:6499 [inline]
+ kfree+0x20c/0x650 mm/slub.c:6792
+ memstick_alloc_card drivers/memstick/core/memstick.c:420 [inline]
+ memstick_check+0x72b/0x10d0 drivers/memstick/core/memstick.c:452
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+
+The buggy address belongs to the object at ffff888113453000
+ which belongs to the cache kmalloc-2k of size 2048
+The buggy address is located 116 bytes inside of
+ freed 2048-byte region [ffff888113453000, ffff888113453800)
+
+The buggy address belongs to the physical page:
+page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x113450
+head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
+flags: 0x200000000000040(head|node=0|zone=2)
+page_type: f5(slab)
+raw: 0200000000000040 ffff888100042000 dead000000000100 dead000000000122
+raw: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 0200000000000040 ffff888100042000 dead000000000100 dead000000000122
+head: 0000000000000000 0000000000080008 00000000f5000000 0000000000000000
+head: 0200000000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
+head: 0000000000000000 0000000000000000 00000000ffffffff 0000000000000008
+page dumped because: kasan: bad access detected
+page_owner tracks the page as allocated
+page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 2979, tgid 2979 (syz-executor), ts 50665226939
+ set_page_owner include/linux/page_owner.h:33 [inline]
+ post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
+ prep_new_page mm/page_alloc.c:1879 [inline]
+ get_page_from_freelist+0xf4b/0x3440 mm/page_alloc.c:3943
+ __alloc_frozen_pages_noprof+0x2d7/0x2f70 mm/page_alloc.c:5436
+ alloc_slab_page mm/slub.c:3347 [inline]
+ allocate_slab mm/slub.c:3462 [inline]
+ new_slab+0xa9/0x6e0 mm/slub.c:3513
+ refill_objects+0xe3/0x410 mm/slub.c:7410
+ refill_sheaf mm/slub.c:2885 [inline]
+ __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4774
+ alloc_from_pcs mm/slub.c:4850 [inline]
+ slab_alloc_node mm/slub.c:4984 [inline]
+ __do_kmalloc_node mm/slub.c:5413 [inline]
+ __kmalloc_noprof+0x61c/0x7e0 mm/slub.c:5439
+ _kmalloc_noprof include/linux/slab.h:995 [inline]
+ sk_prot_alloc+0x10b/0x2a0 net/core/sock.c:2251
+ sk_alloc+0x36/0xe80 net/core/sock.c:2307
+ __netlink_create+0x5e/0x2c0 net/netlink/af_netlink.c:627
+ __netlink_kernel_create+0xed/0x750 net/netlink/af_netlink.c:2024
+ netlink_kernel_create include/linux/netlink.h:62 [inline]
+ diag_net_init+0xbd/0x140 net/core/sock_diag.c:333
+ ops_init+0x1e2/0x5f0 net/core/net_namespace.c:137
+ setup_net+0x118/0x3a0 net/core/net_namespace.c:443
+ copy_net_ns+0x345/0x7a0 net/core/net_namespace.c:582
+ create_new_namespaces+0x3ea/0xac0 kernel/nsproxy.c:132
+page last free pid 2979 tgid 2979 ts 50662397831 stack trace:
+ reset_page_owner include/linux/page_owner.h:26 [inline]
+ __free_pages_prepare mm/page_alloc.c:1418 [inline]
+ __free_frozen_pages+0x714/0xfc0 mm/page_alloc.c:2962
+ rcu_do_batch kernel/rcu/tree.c:2650 [inline]
+ rcu_core+0x5f0/0x1260 kernel/rcu/tree.c:2919
+ handle_softirqs+0x1d9/0x9b0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x168/0x210 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+
+Memory state around the buggy address:
+ ffff888113452f00: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+ ffff888113452f80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
+>ffff888113453000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+                                                             ^
+ ffff888113453080: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+ ffff888113453100: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
+==================================================================
+
+
 ---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Notes:
-    v12: shorter commit message, no code change.
-    
-    The Fixes: tag differs from patch 3 because 6d9f66ac7fec split this
-    failure off the label that calls phy_detach(). The failure was injected
-    with a debug-only module parameter, once for one MDIO address.
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
- drivers/net/phy/phy_device.c | 2 ++
- 1 file changed, 2 insertions(+)
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
 
-diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
-index a9c71a286118..8bfb154402ad 100644
---- a/drivers/net/phy/phy_device.c
-+++ b/drivers/net/phy/phy_device.c
-@@ -1755,6 +1755,7 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
- 	struct mii_bus *bus = phydev->mdio.bus;
- 	struct device *d = &phydev->mdio.dev;
- 	struct module *ndev_owner = NULL;
-+	int irq = phydev->irq;
- 	int err;
- 
- 	/* For Ethernet device drivers that register their own MDIO bus, we
-@@ -1896,6 +1897,7 @@ int phy_attach_direct(struct net_device *dev, struct phy_device *phydev,
- 
- error_module_put:
- 	module_put(d->driver->owner);
-+	phydev->irq = irq;
- 	phydev->is_genphy_driven = 0;
- 	d->driver = NULL;
- error_put_device:
--- 
-2.53.0
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
 
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
