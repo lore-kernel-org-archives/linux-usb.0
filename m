@@ -1,148 +1,152 @@
-Received: from mail-qv2-f42.google.com (mail-qv2-f42.google.com [74.125.230.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B062536F8E7
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 05:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E62F4519A8;
+	Mon, 28 Sep 2026 06:58:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790574140; cv=none; b=BLBmuSZvCqzdpYZO2oC2mk6EuK2jaYreRMNMQnSbD+6x3YlQkNBaeduWYN41MjnS9LxB4eWHRnUgNbaVSX9S3IDQIUB4pTSJA4f0WGJVeeDNI0FYIsfwKeNNkVcqzkxnxRz0Mvdff8WCjdPloUO1XETC7W0AU1jjR/MlgJ/9ZXc=
+	t=1790578709; cv=none; b=hkK3hGdXIIcoMNPeTsYRNFobIO1e3hvQi2qj9EKW0J9qXtvRuplL7mP63f7bV8vXFkIyijRrdurRM+pFqrsg3ZSBDN1K8mCkcZy9NdwY5HCTWoEqzZeQ/1VyR0OxJIx1lLlJllKFLpyKckFwlkIfBSJm+iRUccF3KyLDJ/hUWd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790574140; c=relaxed/simple;
-	bh=P4Vsh1ZbYRmqZTHpG78i1hS07HrZhfBOCO4NGcvEKEE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=i1shnj4LQ3qQHpWm3c/ppa/Zi3z147Hi3TPgRhDfLOj+hZ3dlJLJkD2P8ovi9wivDYVtVPx6YHHMF+ogfoqxoPixED3HvWZNcv8DXeTcoTHe0OpLKtHIY3MHJkE7jL00mapT5g9Ga0X9CU/A/sdck3ZlNE0mLDRgShe0NvkOSZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mQO2F5yT; arc=none smtp.client-ip=74.125.230.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mQO2F5yT"
-Received: by mail-qv2-f42.google.com with SMTP id 6a1803df08f44-91447a0d24bso4471116d6.0
-        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 22:42:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790574134; x=1791178934; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TzHcf3s12a0U+VG6RoG8MbFaU5doXW0O9eGxG+zaczo=;
-        b=mQO2F5yTdyfhIFkcdNNKa5dbbRlvVGKsqP0fX9jBq/RPLK2yRb6sEMXqGr8s4WU1tk
-         Na4wlMH/tpEbehJlh972pTZNinOqQujMV5Rh0tXrAxu2Dk15xgeNmwgByJ8rgfSQTYCe
-         9lKHZlhmkl1flouTJGrFrE7UBmhL3gFT8iJVyaIDWQnK9VRFtaR8Cv+aGGJ61H3xqDbY
-         5ADVuGn9/Qd4DZw0G1taal/KtU4TdxmeXVYPcvTdqMvYgRg57CAueuETlpyWIfB6MKCh
-         V0iULfIEs4pXu60cV+lX3BUl/6/k+VEKRIjbBeKvshB+OjbCobyxVcGFBdvTp+KSRfme
-         6R6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790574134; x=1791178934;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TzHcf3s12a0U+VG6RoG8MbFaU5doXW0O9eGxG+zaczo=;
-        b=XPZVNblI+wKyLjdFQczdjbQjd9w0Me/WusvJ+tqbI6dd8kQucL22kGa4gjaeZW/Phv
-         148Utb7nmNXpA4ZioLWpvwCtBvmhlGQVkoEq5qk4JS60VzzhcmfqPzzbNssY6rf3KfUI
-         Dtomno0PYoa2Y3JT8PwU1eW1srGZjoHIH3kO+vngCQ6YGOnBh2QAHwqqSUolTTNDJRgi
-         3+KNWl59479YAvx48bjnsoseMSwPOdbEnTiJMPYdtQ4f5rJja1ohBmncKbz5ghQTm86L
-         S4iYZAzvBN4ALm85zhXmNU4WVuhQaA3yRmUcQuV1MPe8O6psPbu6ktfErzrgEfHRx/m0
-         7a2Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxyZM0kD6FsPakvIFVL/ddg8fJNOLhojWRynIwYEsPzdhdBwXcvWLccxdaCQ8s7JiHZbbBjcKmaStw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIk1Q9GzDdK0N1OtgoQcTRpK5KP9aZw0ICi/+KjPEqU80WP2sxh
-	jLlwPrtIpdnWrm3MIjUwIEWLaRDtpdNz1Lp1ypfu15mRJQiFO0mxZ8+O
-X-Gm-Gg: AYBFou1jnLz024IrUjcz2U7xYU8vcRBXGNraimlkppLbiqIzLpSejMldqPKI2AVx2Ch
-	ep9yrdvy1sVTSZVQgSm7Y/wHJVQSScXcMsRZSKd8f9/WySS9picIEr/VW1PHatuQnleNpa4UiQg
-	xhII5DyZGyrDJBcV6vg4yfXVV3jyOn8weBp6YfZs5/bvxfJ+46EYEdLX7eUzQjgsdGrm3NE6PVc
-	gkBUTEKSdyKcHqM0cnNe3n/n6qSRf95T/n/ethAcLjmagYQT1SmSPlfEDytSOMRTFwr4nDcmR9T
-	ExpW+hDQ1bSRVKAqvMh+6P/rG0evCBhnv4eLOyh6XviNsyUcS3ZjuyIJcX7jFE4um4rGua6AxaV
-	c8WQqFDVurQ/Q+9Ygp1aJIcDSpbiN1eG5Am22rXMrc0L8RgDggvu/E/JGxLqzWoMk+IwmjW6Tj+
-	ngezFlvNTUf5Qcl8K+f8rnAEooVn4wC85d92IZV25dzDAZqpE0aN8rMIbQtRcuOYSdpC1heKRS8
-	4wHCawRFV02gWjW1PNHMtMYDepqmfhhOxjvNQ==
-X-Received: by 2002:a05:6214:319b:b0:914:4fc3:e85d with SMTP id 6a1803df08f44-9144fc3f607mr102677316d6.4.1790574134183;
-        Sun, 27 Sep 2026 22:42:14 -0700 (PDT)
-Received: from mango-teamkim.. ([129.170.192.203])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91430dd1b90sm73359066d6.22.2026.09.27.22.42.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 22:42:12 -0700 (PDT)
-From: pip-izony <eeodqql09@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Pooja Katiyar <pooja.katiyar@intel.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	Johan Hovold <johan@kernel.org>,
-	Ajay Gupta <ajayg@nvidia.com>,
-	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
-	Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Seungjin Bae <eeodqql09@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: typec: ucsi: ccg: Validate altmode index in GET_CURRENT_CAM response
-Date: Mon, 28 Sep 2026 01:38:01 -0400
-Message-ID: <20260928053759.533956-3-eeodqql09@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1790578709; c=relaxed/simple;
+	bh=z3n3rg8k6zTgjeFWHEW3cLredLpTE0Dl6r06+sShjxg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dlMnnw9O3BiQg6hOiPGLkywb30WeRnDNLQHe4G1R2z2zZLcoOKhBfKDh1WJc+IvrUETmw35ZfQGQYlfHCxd4fmpOplbMPoJnabcUO55vVgJQnfkDAYnl3IKF9F8+m4Cj6ZCwmIZ7BYORn0sf65x2pnn0eB6iE4I1Xo+zfTWfpaw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: f99bf2f6bb0911f19a56ed5b684f684d-20260928
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:caa1c705-9a11-4072-83c6-de7ddb604b48,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:7db8b62,CLOUDID:e5c8ad7c1779f63221775d3fe4af8e69,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|865|898,TC:nil,Content:0|15|52|99,
+	EDM:-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0
+	,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: f99bf2f6bb0911f19a56ed5b684f684d-20260928
+X-User: dengjie03@kylinos.cn
+Received: from [10.42.12.246] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <dengjie03@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 24528131; Mon, 28 Sep 2026 14:58:14 +0800
+Message-ID: <97a321af-12e1-41a4-a401-159b8fe955f8@kylinos.cn>
+Date: Mon, 28 Sep 2026 14:58:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: cdns3: Fix NULL pointer dereference in
+ cdns3_pci_probe
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: pawell@cadence.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Peter Chen <peter.chen@kernel.org>
+References: <20260810023626.70669-1-dengjie03@kylinos.cn>
+ <154cb7e0-f2ae-4ed4-b661-0904a12b9e06@kylinos.cn>
+ <ao5PoUihfGkPGeSJ@hu-petche-lv.qualcomm.com>
+From: Jie Deng <dengjie03@kylinos.cn>
+In-Reply-To: <ao5PoUihfGkPGeSJ@hu-petche-lv.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Seungjin Bae <eeodqql09@gmail.com>
+Hi Greg,
 
-When the PPM reports more than one DisplayPort alternate mode for a
-connector, ucsi_ccg_update_altmodes() merges them into a single entry
-in uc->updated[] and sets uc->has_multiple_dp. In that case,
-ucsi_ccg_update_get_current_cam_cmd() rewrites the response of the
-GET_CURRENT_CAM command. The response is a single byte holding the
-index of the currently active alternate mode, and it is provided by
-the PPM firmware.
+A gentle ping on this patch:
+   [PATCH v2] usb: cdns3: Fix NULL pointer dereference in cdns3_pci_probe
+https://lore.kernel.org/all/20260810023626.70669-1-dengjie03@kylinos.cn/
 
-The function uses this byte directly as an index into uc->orig[], and
-then uses the linked_idx read from that entry as the translated index
-into uc->updated[]. Both arrays have UCSI_MAX_ALTMODES entries, but
-neither index is checked against that size.
+It carries Peter Chen's Acked-by and fixes a NULL pointer dereference on
+two-function Cadence USBSS devices. Could you take a look and queue it
+when you get a chance?
 
-If a malicious or buggy PPM reports a value of UCSI_MAX_ALTMODES or
-larger, e.g. 0xFF, uc->orig[cam].linked_idx reads over the end of
-uc->orig[]. The byte read from there is then used as the index for
-writing cam into uc->updated[new_cam].active_idx, so the out-of-bounds
-read is followed by an out-of-bounds write. This happens without any
-userspace action, since the UCSI core issues GET_CURRENT_CAM on its own
-when handling connector changes.
+Thanks,
+Jie
 
-Fix this by ignoring responses whose index is out of range and leaving
-the original value in place. The UCSI core only uses the value as an
-index into con->port_altmode[] when it is below UCSI_MAX_ALTMODES, and
-otherwise treats it as no active alternate mode. Also check linked_idx
-before using it as an index, so that the write into uc->updated[] is
-always within bounds.
-
-Fixes: 170a6726d0e2 ("usb: typec: ucsi: add support for separate DP altmode devices")
-Cc: stable@vger.kernel.org
-Reported-by: Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>
-Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
----
-The issue was found through code audit and was reported privately,
-so there is no public report to link to.
-
- drivers/usb/typec/ucsi/ucsi_ccg.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 91c2958a708c..4d1166c20639 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -389,7 +389,13 @@ static void ucsi_ccg_update_get_current_cam_cmd(struct ucsi_ccg *uc, u8 *data)
- 	u8 cam, new_cam;
- 
- 	cam = data[0];
-+	if (cam >= UCSI_MAX_ALTMODES)
-+		return;
-+
- 	new_cam = uc->orig[cam].linked_idx;
-+	if (new_cam >= UCSI_MAX_ALTMODES)
-+		return;
-+
- 	uc->updated[new_cam].active_idx = cam;
- 	data[0] = new_cam;
- }
--- 
-2.43.0
-
+在 2026/8/26 10:29, Peter Chen 写道:
+> On 26-08-25 14:50:55, Jie Deng wrote:
+>> Hi Peter,
+>> Thanks for the review.
+>> I've sent the v2 with the Fixes tag updated to 7733f6c32e36
+>> ("usb: cdns3: Add Cadence USB3 DRD Driver") and your Acked-by
+>> added, per your suggestion:
+>>
+>>    v2 patch:
+>> https://lore.kernel.org/all/20260810023626.70669-1-dengjie03@kylinos.cn/
+>>
+>> Could you please help pick it up when you get a chance?
+>> Thanks,
+>>
+> Hi Jie,
+>
+> Usually, Greg will queue it.
+>
+> Peter
+>> 在 2026/8/10 10:36, Jie Deng 写道:
+>>> The Cadence USBSS controller is a two-function PCI device. The first
+>>> probed function allocates the driver data and stores it with
+>>> pci_set_drvdata(), while the second function reuses it via
+>>> pci_get_drvdata() when pci_is_enabled() reports that the first
+>>> function has already been probed.
+>>>
+>>> When the second function is probed while the first one has been
+>>> enabled but has not yet set its driver data, pci_get_drvdata()
+>>> returns NULL, and the subsequent wrap->devfn assignment dereferences
+>>> a NULL pointer and crashes the kernel.
+>>> logs:
+>>> Call trace:
+>>>     cdns3_pci_probe+0xa4/0x300
+>>>     local_pci_probe+0x44/0xa8
+>>>     pci_call_probe+0x54/0x158
+>>>     pci_device_probe+0x84/0x100
+>>>     really_probe+0x184/0x3d0
+>>>     __driver_probe_device+0x80/0x178
+>>>     driver_probe_device+0x44/0xe8
+>>>     __driver_attach+0xec/0x1f8
+>>>     bus_for_each_dev+0x7c/0xe0
+>>>     driver_attach+0x28/0x38
+>>>     bus_add_driver+0x110/0x238
+>>>     driver_register+0x64/0x128
+>>>     __pci_register_driver+0x50/0x60
+>>>     cdns3_pci_driver_init+0x28/0x38
+>>>     do_one_initcall+0x5c/0x280
+>>>     do_initcalls+0x104/0x1d8
+>>>     kernel_init_freeable+0x140/0x218
+>>>     kernel_init+0x28/0x1f8
+>>>     ret_from_fork+0x10/0x20
+>>>
+>>> Return -EPROBE_DEFER in this case so that probing is retried after
+>>> the first function has completed its probe.
+>>>
+>>> Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
+>>> Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
+>>> Acked-by: Peter Chen <peter.chen@kernel.org>
+>>> ---
+>>> Changes in v2:
+>>> - Fix the wrong Fixes tag: 8bc1901ca7b0 was reverted, use 7733f6c32e36
+>>>     which introduced the driver in the current tree (per Peter Chen's review)
+>>> - Add Acked-by from Peter Chen
+>>>
+>>>    drivers/usb/cdns3/cdns3-pci-wrap.c | 5 +++++
+>>>    1 file changed, 5 insertions(+)
+>>>
+>>> diff --git a/drivers/usb/cdns3/cdns3-pci-wrap.c b/drivers/usb/cdns3/cdns3-pci-wrap.c
+>>> index eb5760f75b9d..fd06a3d8e638 100644
+>>> --- a/drivers/usb/cdns3/cdns3-pci-wrap.c
+>>> +++ b/drivers/usb/cdns3/cdns3-pci-wrap.c
+>>> @@ -96,6 +96,11 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
+>>>    	if (pci_is_enabled(func)) {
+>>>    		wrap = pci_get_drvdata(func);
+>>> +		if (!wrap) {
+>>> +			dev_err(&pdev->dev,
+>>> +				"second function not initialized, retrying\n");
+>>> +			return -EPROBE_DEFER;
+>>> +		}
+>>>    	} else {
+>>>    		wrap = kzalloc_obj(*wrap);
+>>>    		if (!wrap)
