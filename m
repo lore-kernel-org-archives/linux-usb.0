@@ -1,59 +1,65 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2B83CAA2F;
-	Mon, 28 Sep 2026 12:53:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E628023394A;
+	Mon, 28 Sep 2026 12:56:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790600026; cv=none; b=dvX/VrvzolJfI46i7dCM+rP6qwZOcyzbVRj7NR3MTDmdP7EdPSmAz8PB8Q/SkMo9G1MKDShVFixrwU2Q73tRFb2EgG2biz2MVpIkobpGon3FHkPakbKlSRx467VcHlhN+Sb6bOoYys5aRLFAvs/tUK5Gveqy6z1EYJrj+/vdrW8=
+	t=1790600170; cv=none; b=q+7hw+nNVNT0iqvMZAoYOrzhBJeXR2ct1j094Zyfob3pgwqv7xmnuciBe1q0zUCgAGjaobAV7YS1j5lKUiAbZUgA4sE+GygXa+RVsHFlCYVMsBwm1DhOYxW6jTfHGdrA9ZALZ5jL6MFSPCpe5nW3bDXETX1Y+1PUOJAx9B37iBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790600026; c=relaxed/simple;
-	bh=2tS3MczwPj42PWO3FAUfVUyYTR3S8sDgpalVZFYNROk=;
+	s=arc-20240116; t=1790600170; c=relaxed/simple;
+	bh=tqLJfY7pY3vlH3m3lHxCKrygabEuCfg+II+xqOyLmx0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gTCWMthMKknQxjpcXaTjtteuVKlzqqjt8+m9fbX1OnfQY2LeZ4TCnRyvL2CeMvcm76R1kfYKzq61p3tmkYlOrBw14wc7wnHPrhf+wABj4tCwFxjmeiwqZbpwhjb6pZS8m2W69e72Mn6J4umkD4z+vNIKuTXbDxg0mvO8iyyonDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Rx6pXc/Z; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=IsP3n19y7r3Se2g7weEaKGsWXBMJ8sQ6r3Y94KefSFC8+2EibrdS9QzTyCpa6IO45IKZshbTM3W628D+epb3sCTSMKI8gVySk49ui6DeL5gxDS5FwOIw9rOo7gd5hvOc5c9wqyn6mMytTDgKRKNlUDSolpL3eO77/VvU8dhfkq8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RYcksAkI; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Rx6pXc/Z"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RYcksAkI"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790600024; x=1822136024;
+  t=1790600169; x=1822136169;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=2tS3MczwPj42PWO3FAUfVUyYTR3S8sDgpalVZFYNROk=;
-  b=Rx6pXc/ZXK0WiqlOeTuNM/Pfa76ThZRczMfgOMvY9ArcXeZPpQ5Oiayt
-   pyCQv4nI5V7quewqtLaEnkZoSwO9T7aeh+xRoxgYwPyBJOKn0i8APE/qs
-   WE+6gEQMDRTbQOxkpYB/AFiGLh7pZqnzj3biWUO924xD9tS5dPouyGc1C
-   obzKgTkXlU9rGB4zWvZNr330pV8A7K33WvFQh6SacAu86IgOq/BemYUAB
-   ZIgbvZEZRKc5Hdd3u7cgRzs7JP3q1XfzkZHV1EVc14LtMJd2LsCTK8YAf
-   /6hvl7A0Pq1AKx+tCEqk3sUE9dvD2lB+uSPDA6InCQINlLcVP6r51BxL6
-   w==;
-X-CSE-ConnectionGUID: Jb/VSg6bRau41kdVyW29zg==
-X-CSE-MsgGUID: T+Amhz81SZuzz8bAYpcVeQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="90349316"
+  bh=tqLJfY7pY3vlH3m3lHxCKrygabEuCfg+II+xqOyLmx0=;
+  b=RYcksAkIu4r+gli2amJpHWtkKum2cG1ynyUDMUtuxbTrVmpKmvns6zUX
+   oojp/urRD878saYe2+Xn5cieHACMC1hR0YB0MNZHT2+BgTpQRRsuoERZQ
+   1yLaaa81VXGvXLdcW+YpqUZ4jCyMPBpIo8XtB9BuZ1Bwik60xU9i0OHat
+   rgNg/dnLsfxmGeNApPQngPxf0wnLBEeHy0jO6mY3QvEdSkhWaONjqQKLF
+   C5dLoCN7x0itpNDoD0qvenox1Xf94pTW/YYAOrENAkc00clIkNequnHZZ
+   1y5qmXYmUVHPBjTBgb03q43pZME/vZ18mNApRZa1D3idG6uERub46w/DV
+   g==;
+X-CSE-ConnectionGUID: YyiHMks3RBCpnHemAvcV6g==
+X-CSE-MsgGUID: /RXBUNmbS0eBr+COLoLyxQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="90063779"
 X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="90349316"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 05:53:43 -0700
-X-CSE-ConnectionGUID: Gl1DAGKuQ72sQ7VZUK7+Hg==
-X-CSE-MsgGUID: 179CtxMER2ugTVWL4w6T7Q==
+   d="scan'208";a="90063779"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 05:56:08 -0700
+X-CSE-ConnectionGUID: CnfWhjjKQmWpFpWp7zNU2Q==
+X-CSE-MsgGUID: zejW5/j6Q/6sQhZiZArpQQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="275168739"
+   d="scan'208";a="273649793"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa008.fm.intel.com with ESMTP; 28 Sep 2026 05:53:42 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 28 Sep 2026 05:56:06 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 1669299; Mon, 28 Sep 2026 14:53:41 +0200 (CEST)
-Date: Mon, 28 Sep 2026 14:53:41 +0200
+	id E9FCD99; Mon, 28 Sep 2026 14:56:04 +0200 (CEST)
+Date: Mon, 28 Sep 2026 14:56:04 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Fan Wu <fanwu01@zju.edu.cn>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Song Li <songl@zju.edu.cn>
-Subject: Re: [PATCH] usb: typec: altmodes/displayport: Disable work before dp
- is freed
-Message-ID: <arpjVXg8DdgCv6Yh@black.igk.intel.com>
-References: <20260923024637.403624-1-fanwu01@zju.edu.cn>
+To: Amber Kao <ite_pd@ite.com.tw>
+Cc: Amber Kao <amber.kao@ite.com.tw>, Jeson Yang <jeson.yang@ite.com.tw>,
+	Yaode Fang <Yaode.Fang@ite.com.tw>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] usb: typec: ucsi: itepd: Update descriptions for
+ IT885x and IT527x series
+Message-ID: <arpj5IBEMYoXWBM7@black.igk.intel.com>
+References: <20260924-ucsi-itepd-it527x-v3-0-a7392aa087f5@ite.com.tw>
+ <20260924-ucsi-itepd-it527x-v3-2-a7392aa087f5@ite.com.tw>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,49 +68,56 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260923024637.403624-1-fanwu01@zju.edu.cn>
+In-Reply-To: <20260924-ucsi-itepd-it527x-v3-2-a7392aa087f5@ite.com.tw>
 
-On Wed, Sep 23, 2026 at 02:46:37AM +0000, Fan Wu wrote:
-> dp_altmode_remove() cancels dp->work with cancel_work_sync(), but the
-> typec bus clears alt->ops only after ->remove() has returned, so the
-> dp_altmode_vdm(), dp_cable_altmode_vdm() and dp_altmode_attention()
-> callbacks can still call schedule_work(&dp->work) after the cancel. dp
-> is devm-allocated on the partner altmode device and is freed once the
-> unbind completes; a re-queued dp_altmode_work() may then run on freed
-> memory.
+On Thu, Sep 24, 2026 at 05:56:37PM +0800, Amber Kao wrote:
+> The IT527x series and the IT8855, IT8856 and IT8857 run the same UCSI
+> firmware codebase as the IT8851 and are handled by this driver through
+> the "ite,it8851" fallback compatible. Update the Kconfig prompt, help
+> text and module description to cover the IT885x and IT527x series.
 > 
-> Fix this by disabling the work instead of only cancelling it.
-> disable_work_sync() drains an in-flight dp_altmode_work() and keeps the
-> work item disabled, so the late schedule_work() calls are rejected. The
-> work is still drained before the plug reference is dropped.
-> 
-> A later probe initializes a new work item, and the remove path holds no
-> lock that dp_altmode_work() takes, so waiting cannot deadlock.
-> 
-> This issue was found by an in-house static analysis tool.
-> 
-> Fixes: 0e3bb7d6894d ("usb: typec: Add driver for DisplayPort alternate mode")
-> Cc: stable@vger.kernel.org # v6.10+
-> Co-developed-by: Song Li <songl@zju.edu.cn>
-> Signed-off-by: Song Li <songl@zju.edu.cn>
-> Signed-off-by: Fan Wu <fanwu01@zju.edu.cn>
+> Signed-off-by: Amber Kao <ite_pd@ite.com.tw>
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
-> 1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/usb/typec/ucsi/Kconfig      | 5 +++--
+>  drivers/usb/typec/ucsi/ucsi_itepd.c | 2 +-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/altmodes/displayport.c b/drivers/usb/typec/altmodes/displayport.c
-> index d96ab106a980..f7b3566d4029 100644
-> @@ -815,7 +815,7 @@
->  {
->  	struct dp_altmode *dp = typec_altmode_get_drvdata(alt);
+> diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
+> index 0f10dac9b34b..5e32ff20ebb5 100644
+> --- a/drivers/usb/typec/ucsi/Kconfig
+> +++ b/drivers/usb/typec/ucsi/Kconfig
+> @@ -105,11 +105,12 @@ config UCSI_HUAWEI_GAOKUN
+>  	  called ucsi_huawei_gaokun.
 >  
-> -	cancel_work_sync(&dp->work);
-> +	disable_work_sync(&dp->work);
->  	typec_altmode_put_plug(dp->plug_prime);
+>  config UCSI_ITEPD
+> -	tristate "UCSI Interface Driver for ITE IT8851/IT8853"
+> +	tristate "UCSI Interface Driver for ITE IT885x and IT527x series"
+>  	depends on I2C
+>  	help
+>  	  This driver enables UCSI support on platforms that expose an
+> -	  ITE IT8851/IT8853 Type-C Power Delivery controller over an I2C interface.
+> +	  ITE IT885x or IT527x series Type-C Power Delivery controller
+> +	  over an I2C interface.
 >  
->  	if (dp->connector_fwnode) {
+>  	  To compile the driver as a module, choose M here: the module
+>  	  will be called ucsi_itepd.
+> diff --git a/drivers/usb/typec/ucsi/ucsi_itepd.c b/drivers/usb/typec/ucsi/ucsi_itepd.c
+> index 50a9eae656ab..5b39ba286db7 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_itepd.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_itepd.c
+> @@ -353,5 +353,5 @@ module_i2c_driver(itepd_driver);
+>  
+>  MODULE_AUTHOR("Jeson Yang <jeson.yang@ite.com.tw>");
+>  MODULE_AUTHOR("Amber Kao <amber.kao@ite.com.tw>");
+> -MODULE_DESCRIPTION("UCSI driver for ITE IT8851 and IT8853 Type-C PD controllers");
+> +MODULE_DESCRIPTION("UCSI driver for ITE IT885x/IT527x Type-C PD controllers");
+>  MODULE_LICENSE("GPL");
+> 
+> -- 
+> 2.53.0
 
 -- 
 heikki
