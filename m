@@ -1,65 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FA9A45FFAC;
-	Mon, 28 Sep 2026 07:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10535475348
+	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 08:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790581906; cv=none; b=InsC2TCSziU523GAuqY2biXXo6aN7GQvLarGMqPDkMFiYheIdmD2vP2VvvPgf1Xc1wFyqqL2sGfAJGXN31YwaJVKnoEctr5TMbq2EBsHe1V4dz9s5kGwK4i692l8c4VjIhl4IjwqMZ2KEXJN1hVZROjHZ1qU8+5GOdNTQsya/UY=
+	t=1790584422; cv=none; b=bL0mbj0dnGLoqCkfU3Euz4rLzqOZvTmr6NeHzBwMq+DjhxkwC6u/lsoYjNYQM3n9IbGVlQImgZd0paTJrr5XVRFC5oSpXSMIRTiZSIkj/V8X5stMK0ahEmxQl441fmC7n8NnveTorekO7PWS/U6bvXnZmgErKMUWhQBraQxbx9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790581906; c=relaxed/simple;
-	bh=cVfzDaABLlZPz5p9s3s2PIho0y+MsH230Fc2SMYYY4g=;
+	s=arc-20240116; t=1790584422; c=relaxed/simple;
+	bh=WgL5FQGY0Yvru/rXhiulvLPt4q4aZxBV22ra11rN4Qg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MWJArPueBFrPmYEI7gRxRVnDvGBrECAYodJ1k85wLNIrjagiXbPV6kcaLxbYEnQpZVisr9urB0BgsxBFQE4lAOyCQksDFTJTk9q4t/mqo2vQQ5fqYVia8Soszf5v0Fl4LMVS0/j7+faJPo/tsQVUG9kZ9V2HLpyrvU3iYfMgsyM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQCp+9zE; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gytI9y+ET/uGIZ3wu8qW4B+ZswCEzlJPjK1enggbWL0K1GnQ3LW1UR6HcCitfpeIHIePcT3m2sJ2HGjRsQbwV8iF/IJLW5quEfN8oyLbQ8F2b+5Yzcum+k2zCwKKbwQBUmqjvUG2x0AIQEmFjkwLnKjIPk+N6orj0UdO8fUBrS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bAta+DCG; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iQCp+9zE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 28D061F000FF;
-	Mon, 28 Sep 2026 07:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790581904;
-	bh=OoLBh6lfAWYXvbWbi9rrxy8K4duhjeCURDS3yTBgXJg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=iQCp+9zELY3KhQhoY0zQRV/A7R7sgFnlMnR2lPTBUhauoONhe0Lxc5oCFyp3BL23C
-	 qsYiwU0rCBniyWAR0IAw9+9gjRxWPtVPAw9VdM8iKPoS0ggKFhdoYfaN60hjKrUW7l
-	 lQeg9gpstoT8qZyTr1qnQP5iPamtvTuE5CnvukbQGb9tftYmTz/hQy31twU0clPNAA
-	 JkRlIkaAmGpBfz81dDAX8EXVn6hqfk4rZrUNnt50v6ixRYsu/bIZnNtr7UZ8cRMZI+
-	 aFNNHUsOoRQ6XdxR11Ldd5nX9fkS/yVM0lyY8hb7oZ1a4Ki6BIMwZ3615xzurQvRHu
-	 BKFIQoZdRSTPw==
-Date: Mon, 28 Sep 2026 09:51:41 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Roman Vivchar <rva333@protonmail.com>
-Cc: Chunfeng Yun <chunfeng.yun@mediatek.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: usb: mtu3: add mt6595
-Message-ID: <20260928-rapid-jovial-zebra-1f984b@quoll>
-References: <20260922-6595-mtu3-v2-0-71203a362b36@protonmail.com>
- <20260922-6595-mtu3-v2-1-71203a362b36@protonmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bAta+DCG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790584421; x=1822120421;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=WgL5FQGY0Yvru/rXhiulvLPt4q4aZxBV22ra11rN4Qg=;
+  b=bAta+DCGxQTSHYnaZX41IBiN35Xh/a/hQsLOBb5Md+rm5rd8CkvZixa8
+   Kq6BVBvW1WWiAxnkosexLS426SEttwGvjn7GR+J7t4onT/9fwRR999Pzw
+   uf0mB1EAE4YdfiFer4ZkPN5O2fQTC35CLIgOjnWOZ/oilwbkBAlG3FFlx
+   007/I8oYP+PWuqETF1mcp4acSv+oMH/og8LmLNQo0KeI7PyqTZV1Q+Rxh
+   cRzEJuk5qxt1v9zaYTw/gV8GMffCTz2VcJ27mvLxCQgalB/fN2ilV8ELz
+   EOFDWOi+Y8BKN1Ijo1B41ubxder2bDwn9l0I306/dphh0GR7WXFvLUwml
+   g==;
+X-CSE-ConnectionGUID: jvrIxcLGSnmWfO4JGGHnUQ==
+X-CSE-MsgGUID: zj1+/oI+R+qQ844Zg4sSwA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="90180743"
+X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
+   d="scan'208";a="90180743"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 01:33:40 -0700
+X-CSE-ConnectionGUID: TKyANRmCQnyCK79veMj71g==
+X-CSE-MsgGUID: NfWAlhfDQPSGSmvvW3kxaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
+   d="scan'208";a="304465651"
+Received: from abityuts-desk1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.65])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 01:33:39 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id A76C5121BA9;
+	Mon, 28 Sep 2026 11:33:40 +0300 (EEST)
+Date: Mon, 28 Sep 2026 11:33:40 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Antti Laakso <antti.laakso@linux.intel.com>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 1/1] MAINTAINERS: Update usbio driver maintainers and
+ reviewers
+Message-ID: <aromZGGDP-rTsNCz@kekkonen.localdomain>
+References: <20260803164533.58833-1-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260922-6595-mtu3-v2-1-71203a362b36@protonmail.com>
+In-Reply-To: <20260803164533.58833-1-sakari.ailus@linux.intel.com>
 
-On Tue, Sep 22, 2026 at 01:36:40PM +0300, Roman Vivchar wrote:
-> Add a compatible string for the MTU3 IP found on the MediaTek mt6595 SoC.
+Ping.
+
+On Mon, Aug 03, 2026 at 07:45:33PM +0300, Sakari Ailus wrote:
+> Israel's e-mail address is no longer functional so remove him as a
+> maintainer of the usbio driver. At the same time, add myself as a
+> maintainer and Antti as a reviewer for the driver.
 > 
-> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-> Signed-off-by: Roman Vivchar <rva333@protonmail.com>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  Documentation/devicetree/bindings/usb/mediatek,mtu3.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  MAINTAINERS | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 88de4216d7d4..d1c26db44ca0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13430,9 +13430,9 @@ F:	Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+>  F:	drivers/platform/x86/intel/uncore-frequency/
+>  
+>  INTEL USBIO USB I/O EXPANDER DRIVERS
+> -M:	Israel Cepeda <israel.a.cepeda.lopez@intel.com>
+>  M:	Hans de Goede <hansg@kernel.org>
+> -R:	Sakari Ailus <sakari.ailus@linux.intel.com>
+> +M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+> +R:	Antti Laakso <antti.laakso@linux.intel.com>
+>  S:	Maintained
+>  F:	drivers/gpio/gpio-usbio.c
+>  F:	drivers/i2c/busses/i2c-usbio.c
+> -- 
+> 2.47.3
+> 
+> 
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-
-Best regards,
-Krzysztof
-
+-- 
+Sakari Ailus
