@@ -1,158 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo2-f4.google.com (mail-oo2-f4.google.com [74.125.231.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1044382F1F;
-	Mon, 28 Sep 2026 18:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D27D4EE873
+	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 19:21:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790619668; cv=none; b=FSZnN4eoeHBd1CDfRWxtifLFNumdgcNOBDlaPGDPt6pGi4ADcdGztCwHWKUlTARs72dhejQV9iqhUjiZJGGINIJN6sCN03udPHhiJs3wem/oSRKHeNojQzC+aXntlNtn9sOJwm3V0Mt5wsZq1b7xkSxDAqEvZ1aX/bBaeKn27Fw=
+	t=1790623290; cv=none; b=j0kNwpgMpQ25oduI9jEy5gFXFFGrq257r/x32sUhS+UdibbVIWm92+3KnHr1WRGoNlz1+xRuapg1LS51zq6mJrzDsjv+anU1Cr7wpNaiyUANXJVucDIAm5C4xAaLGgLz6L3J7SDQShzHFmAD7hvhU9/udIQ8yPzvFNmYQ+0gRuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790619668; c=relaxed/simple;
-	bh=pbWcz9JuCQ5MF4hv3k6H3235mPBDOc8rrSPE0CXIaT4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GogMR4C4ctTceMFl7qPATwgVFA97SY6gHiFlZDqWvDKd7+uTvu3gfv3aSx24HRiWdLMa7Upgrmv3ulGvp0hT+uDrcRTfhrC7tTLutRkAo66N7IJcHBl5z391NFixDn1RyGHWEztca4rugly+9jukTInssng7L2/QChXMohQh/Ww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jnGBehAp; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790623290; c=relaxed/simple;
+	bh=e4W3heWpJSSfMatKHc6jQT2QirxzrrhJb2u5eQNHmGQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FsPbaMeD1nTg0f5d0+ua9c+6yNznHIEAlapjQTKPbV0C0GlWL3+p2E3cCi0q9yzOxNJZ1qzmBuCIJViW+HzAajikqoWUJRoKOMJTPz7dC8+jvi+NouE2wjQK+DGpmkyW8b4ALwbSATHrMPqIx33r4yQrm60C2A8AZmG7e3IW+H8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xz+GHSZ/; arc=none smtp.client-ip=74.125.231.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jnGBehAp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F2071F000FF;
-	Mon, 28 Sep 2026 18:21:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790619666;
-	bh=c45RCiZFnpvIRIApUW8GP2qBnj9FSWOECr9ZirFB7BY=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=jnGBehApRnp2zUzBcxAhucOVsXYejV9U9aAaHeA4OAN0/hqqLC/54hDmJ9EemU7y7
-	 eWsMelFCW3E0bWLJ0JNlODXbnGZtwH1JW7dJvTLdwCezVDmh4cSZP7SMlS70rF5YAL
-	 LxIGecBHfP8A1U8JG9F0SNfjJTXLpDBGP2T3V9Gb6H0Xhz+J2vEMHm6CIRxfYqb1HQ
-	 3w/xwflut2yQ5gzl4FGbzJbpI4cosUAKFEGtkinGfKkANqjGscY7Mh/yBw4GsaUOBU
-	 5XsYkIWBrpRPlkAMxOAjMsW2NazfFlaqqcS/A5UIBqdhZD7WWfmxArnh2UC8Q0L1VS
-	 JGApbadXzpvRA==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id 1AEDCCE0832; Mon, 28 Sep 2026 11:21:06 -0700 (PDT)
-Date: Mon, 28 Sep 2026 11:21:06 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Vladimir Murzin <vladimir.murzin@arm.com>
-Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	chunfeng.yun@mediatek.com, gregkh@linuxfoundation.org,
-	rostedt@goodmis.org, mark.rutland@arm.com
-Subject: Re: [PATCH] usb: mtu3: Fix double dereference in TP_printk
-Message-ID: <315259c9-d7b9-44bc-8896-ecb9429a6eb5@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260922103756.104846-1-vladimir.murzin@arm.com>
- <845ef1a3-8d85-4007-aa2c-05e59e79afcd@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xz+GHSZ/"
+Received: by mail-oo2-f4.google.com with SMTP id 006d021491bc7-6d8f2bdc754so643260eaf.0
+        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 12:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790623287; x=1791228087; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AVeRClalrWLka3P0+7DfFgAskiK62atsVktrSXYS9Rw=;
+        b=Xz+GHSZ/gIoBvLcPJjaQk3rDT+HEw67Hwg3rJt4chZEILO8gHA6xK9dtcWq/JDyflT
+         0BAuG+Sl8zwoOOArQSDZi93W4CTdpe06z0XZ3nqC4jG+k89A65gtxvDuR2I9RT8ucY0L
+         77xDGU6SZe7JtV6l6XGwH6KVqiv3VynwuSdUJIeSM6aThb2IA4M/WbCwNl6OB2o4uXVZ
+         9PbVwkOMm/SBHtNFpYVbyaG4aUEz8pno3b7y9vsae02eT0oickJRlaU7oJKC3H5RpNqr
+         LnL/QKLB+g2iBsI7KtWJw1naFeBXOImVEWyiUjQ/4VFvTWwM4+mltB2eVoxQO9JDpzIk
+         c+aA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790623287; x=1791228087;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AVeRClalrWLka3P0+7DfFgAskiK62atsVktrSXYS9Rw=;
+        b=cM7BHl2r1Jo1o12gC/tD2yQtIzMpsmnBcWmCYXWLppvj7Qsj/oit2+i8GFXkW1Vwt+
+         gDa8XUWzx2/YCHxMVyNHBHh30RtR/QGC/7E5NlkDwLIfz57/g2F3Ozzcr6c4p2JqQtLU
+         /orHHF2x8a8Qko5hvDlaspk4g2AOydx7L2BuryaA3NpyA7xCujoi7UdRzJwgABsWKq2l
+         FlG9GZwW5dAchvXeRtFXEJYoUUE902gb+1daDQOrQqlDgbIOceFD64sYxrBqYoCW5aVI
+         D0SEy60HnaD4Wv4t6s/vctwuBV7Hqd/ZIc/MktxZeN9PVa2UHah/7MiwTHTx2O985vUe
+         LfXQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzlUdcB3QzJLJ60ZL3dpP6TtRSvArhN2Cj71lMvVci0k9WRfGbMRRzZ+l6kuyqmRc1i8UpKcAhbnMg=@vger.kernel.org
+X-Gm-Message-State: AFuF++msqFBT9MDbl9Jr/BN3UlC759CbuVWKho7otOf0Uw3urXwhb9MV
+	wL95PJBSFXB/1mcWXPofpSQhZyYLTk21d3iODcSeUUBUADaLMV71YEnN
+X-Gm-Gg: AYBFou3Ya2wYlHe8GvRIgROq6TZ6Pm++HReC2cFp02TtLneOhQZFw24V9Jh9W+2CmT1
+	7XbgVn1hS89uHyHk5asGvGWS5tLz1We8c/rc3LSenRrC/WcPtLKfgvWxpicoKqGA3xWEoHoxV8P
+	acc7lV+TAfHAK4+vR/t6NXcLcEMk9fIehZWDmQw0DEnNf41GLRfHpIEHfiA1Fp3XzOgqUN2zNgX
+	BsjbLKVKt6ct2snSpbGe0F44iQcsoTUP6YWAuczErNRipP3uKrWaBDEdJYOwP2fADooMnd3TWlv
+	NkMAvnCkB83uenACImU7GgETgLPK99uWuEfuDpI97Spg4J9+Taj3496846r1neKa90C2Trypm+A
+	npR96h0aHPlMN19IX9kFZGvw1JRgE4nbeQKP6s3EATXYtJu8d/7v6Spsq6+LC5HzYt7p1Os8Gka
+	6sS9UfKb5xmvLJU9VgJGmS3/JADM8QkxTv3xxuxMy1QbNDWOEwhsZciYloHJmfj2E59FcAr5Z3D
+	iP6hOb2W5n4a21ADYVRxzE=
+X-Received: by 2002:a05:6820:214:b0:6d9:8fed:b73c with SMTP id 006d021491bc7-6d98fedb9aamr2471163eaf.57.1790623287111;
+        Mon, 28 Sep 2026 12:21:27 -0700 (PDT)
+Received: from Xinshengs-MBP ([129.79.197.98])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6d882dc49dbsm6088996eaf.9.2026.09.28.12.21.25
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 28 Sep 2026 12:21:26 -0700 (PDT)
+From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+To: netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next] net: usb: asix: remove redundant PHY address short-read check
+Date: Mon, 28 Sep 2026 15:21:19 -0400
+Message-ID: <20260928192119.73351-1-xinsheng.zhu.ny@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <845ef1a3-8d85-4007-aa2c-05e59e79afcd@arm.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 28, 2026 at 02:11:42PM +0100, Vladimir Murzin wrote:
-> Hi All,
-> 
-> Gentle ping... spat is still present in v7.3-rc5
+Short-read handling was added to asix_read_cmd() by commit
+920a9fa27e78 ("net: asix: add proper error handling of usb read errors").
+The helper converts short reads to -ENODATA while preserving negative
+errors from the underlying USB read operation.
 
-If no one else wants to push it, I can do so.  I gotta admit that the
-resulting test failures when I forget to apply it are a bit annoying.  ;-)
+Remove the redundant short-read check in asix_read_phy_addr()
+and its unreachable -EIO assignment. The existing negative-return check
+handles both short reads and underlying USB read errors.
 
-							Thanx, Paul
+Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+---
+ drivers/net/usb/asix_common.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-> Cheers
-> Vladimir
-> 
-> On 9/22/26 11:37, Vladimir Murzin wrote:
-> > Paul reported kernel splat:
-> > 
-> > [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-> > [    0.000000] ------------[ cut here ]------------
-> > [    0.000000] Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-> > [    0.000000] WARNING: kernel/trace/trace_events.c:420 at test_double_dereference+0x144/0x14c, CPU#0: swapper/0/0
-> > [    0.000000] Modules linked in:
-> > [    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.3.0-rc1 #15247 PREEMPT
-> > [    0.000000] Hardware name: linux,dummy-virt (DT)
-> > [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> > [    0.000000] pc : test_double_dereference+0x144/0x14c
-> > [    0.000000] lr : test_double_dereference+0x144/0x14c
-> > [    0.000000] sp : ffffc80aa7633bf0
-> > [    0.000000] x29: ffffc80aa7633bf0 x28: ffffc80aa7c0f047 x27: 000508b58019388f
-> > [    0.000000] x26: 0000000000000003 x25: 0000000000000007 x24: ffffc80aa5fceff8
-> > [    0.000000] x23: ffffc80aa7c0f05a x22: ffffc80aa64edfe8 x21: ffffc80aa7c0fce8
-> > [    0.000000] x20: ffffc80aa7c0f047 x19: 0000000000000013 x18: 0000000000000001
-> > [    0.000000] x17: 6572656420656c62 x16: 756f642073616820 x15: 746c61685f746573
-> > [    0.000000] x14: 0000000000000000 x13: ffff000139d90000 x12: 0000000000000045
-> > [    0.000000] x11: 00000000000000cf x10: ffff00013f546428 x9 : ffff000139d90000
-> > [    0.000000] x8 : 3fffffffffffc000 x7 : 0000000000000001 x6 : 0000000000000001
-> > [    0.000000] x5 : ffff00013f4e6440 x4 : 0000000000000000 x3 : 0000000000000000
-> > [    0.000000] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffc80aa764a700
-> > [    0.000000] Call trace:
-> > [    0.000000]  test_double_dereference+0x144/0x14c (P)
-> > [    0.000000]  trace_event_raw_init+0x37c/0x5d8
-> > [    0.000000]  event_init+0x34/0xc0
-> > [    0.000000]  trace_event_init+0xec/0x588
-> > [    0.000000]  trace_init+0x24/0x6e0
-> > [    0.000000]  start_kernel+0x4a0/0x8ec
-> > [    0.000000]  __primary_switched+0x88/0x90
-> > [    0.000000] irq event stamp: 0
-> > [    0.000000] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-> > [    0.000000] hardirqs last disabled at (0): [<0000000000000000>] 0x0
-> > [    0.000000] softirqs last  enabled at (0): [<0000000000000000>] 0x0
-> > [    0.000000] softirqs last disabled at (0): [<0000000000000000>] 0x0
-> > [    0.000000] ---[ end trace 0000000000000000 ]---
-> > [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_disable has double dereference in TP_printk: &REC->gpd_ring->dma
-> > [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_enable has double dereference in TP_printk: &REC->gpd_ring->dma
-> > 
-> > Which also observed by Mark and myself.
-> > 
-> > The splat it result of new check introduced by b5cc230af5e5 ("tracing:
-> > Warn when an event dereferences a pointer in TP_printk()") which
-> > correctly catches issue with %pad dereferencing the address saved in
-> > the ring buffer. TP_fast_assign() logic gets executed when the
-> > tracepoint is triggered, however the TP_printk() is executed when the
-> > user reads the trace buffer which could be seconds, minutes, hours,
-> > days, even months later and nothing guarantee that __entry->gpd_ring
-> > pointer will still be pointing to what it was when it was recorded.
-> > 
-> > Fix the issue by capturing immediate value of gpd_ring.dma when trace
-> > point is triggered.
-> > 
-> > Reported-by: Paul E. McKenney <paulmck@kernel.org>
-> > Tested-by: Mark Rutland <mark.rutland@arm.com>
-> > Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-> > Signed-off-by: Vladimir Murzin <vladimir.murzin@arm.com>
-> > ---
-> >  drivers/usb/mtu3/mtu3_trace.h | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
-> > index 89870175d635..9aaa167d69c1 100644
-> > --- a/drivers/usb/mtu3/mtu3_trace.h
-> > +++ b/drivers/usb/mtu3/mtu3_trace.h
-> > @@ -224,6 +224,7 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
-> >  		__field(unsigned int, flags)
-> >  		__field(unsigned int, direction)
-> >  		__field(struct mtu3_gpd_ring *, gpd_ring)
-> > +		__field(dma_addr_t, gpd_ring_dma)
-> >  	),
-> >  	TP_fast_assign(
-> >  		__assign_str(name);
-> > @@ -235,12 +236,13 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
-> >  		__entry->flags = mep->flags;
-> >  		__entry->direction = mep->is_in;
-> >  		__entry->gpd_ring = &mep->gpd_ring;
-> > +		__entry->gpd_ring_dma = mep->gpd_ring.dma
-> >  	),
-> >  	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
-> >  		__get_str(name), usb_ep_type_string(__entry->type),
-> >  		__entry->maxp, __entry->slot,
-> >  		__entry->mult, __entry->maxburst,
-> > -		__entry->gpd_ring, &__entry->gpd_ring->dma,
-> > +		__entry->gpd_ring, &__entry->gpd_ring_dma,
-> >  		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
-> >  		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
-> >  		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
-> > -- 2.34.1
-> > 
-> 
+diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
+index 4f03f4e57655..51bf887e3520 100644
+--- a/drivers/net/usb/asix_common.c
++++ b/drivers/net/usb/asix_common.c
+@@ -327,11 +327,6 @@ int asix_read_phy_addr(struct usbnet *dev, bool internal)
+ 	if (ret < 0)
+ 		goto error;
+ 
+-	if (ret < 2) {
+-		ret = -EIO;
+-		goto error;
+-	}
+-
+ 	offset = (internal ? 1 : 0);
+ 	ret = buf[offset];
+ 
+
+base-commit: 014d795c73837ea2339a4ea8e8f82c6e959b845d
+-- 
+2.54.0 (Apple Git-157)
+
