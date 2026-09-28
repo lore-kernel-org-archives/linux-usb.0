@@ -1,145 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF914D599E;
-	Mon, 28 Sep 2026 14:15:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E884DA9B5
+	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 14:19:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790604920; cv=none; b=cTvntvnoNAgcJAKQ8Y0USHDuyKktd0pm9LLUY+bqO2MUFFRAZor1sE8lcm4oiAQoo8wFjNzIQtou9WXwenqqnc1i7fPrBetxjW7fdnTWQLX21nqOeSWuBlUhKU6u6P0BEeLYbqzUbmYD3689bkKsOk7c9IM3nUM2z4nU6OsMgvc=
+	t=1790605158; cv=none; b=QdFdxopeI6No4iOtHUyL8d8xUZh9ubtQM6yiTzXPiG9IRy7474hHbwjchyHr1nWrO0BpnxhbVm96qB1oXTOB7qc21uQPKFaEZ/+Drtwx4cdB3CwSZgI/Eb11KFRHZHdG7Zd6brkdwOuiz3+aYdZurzmPbonoEWyYxuRb4dogLWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790604920; c=relaxed/simple;
-	bh=sNGhPL/BkYrHIBtMiL3IlNg9RUcfbK/9dzPLjSy+4LI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XqDm61k4McE8pKmNQNXp75tbZs9pew2Fw/NNdAolKlbw8Rs4ZzYD3C8qteh3/jHGUbF4V+KAN0kbJbLx1SFwpquiB83A31ViS3XoCFSJssG9dj38g0CLZMfWVu78kYpFtPlbsnyE9l8jN4c3BPu444TutEhA2w4y5ZQtNgoSJWs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mSKt3AyN; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790605158; c=relaxed/simple;
+	bh=cHd+AGbgiR6kbIWovPWUkjehsKhorHaJgk8OxjzXVA0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=s+/t50vX5U2miAJlL/YdWl6zBzg1awElEfGCIOb+J3kcSwfJrpqOM4F30A+QJXyHjqoVCyPq47MUJ6s3X99iJjOCPkyuP5GU54vXOPAbaNpob9TZViQNWeWRn9Yn4tu5q5giJeQef+X1imqL8zeBN4GvUHn7m22udOF108nNJCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Dmf4lOKW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GVuGGKgR; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mSKt3AyN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790604919; x=1822140919;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sNGhPL/BkYrHIBtMiL3IlNg9RUcfbK/9dzPLjSy+4LI=;
-  b=mSKt3AyN1KYH6i2x1jyGsXsMOb5d8ioL5o4xOCUKbcqIMGa1Jye+KsPR
-   s53z2MdpGcTclhU2rrWh/w6jFZqzEBNBptcUCmbteunpseXr8ZmAh4SVX
-   RZ+czCV5nW4Ic1IG+Bi1CWQv84TAqj6fxpADLlm+6xoDIfjin4A1a81l6
-   yuMKenB7F5dQlvWprhdZiEyOmKck61Gf/u/2+LlmgxHlOVvDw34z3Aybi
-   YyS191AW709HVZdxUXpGEWF6UKKbzM5ieLhl6Hvf6D0wXg5u7ygJh8hg8
-   k6QcBjatF59JQPt11NCXlRnNOtV26llPodhGrJK+dhjoDearxQGxNbDBm
-   A==;
-X-CSE-ConnectionGUID: /nKmFZ2XTRC8wDkI5vwvLg==
-X-CSE-MsgGUID: TTHRAgZSR8ymXoGaC6XpPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="100637662"
-X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="100637662"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 07:15:18 -0700
-X-CSE-ConnectionGUID: r7LjRJF3RLeWL+cE9ECceA==
-X-CSE-MsgGUID: 2b49oJs6Tw69bZQeBSldAw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="278425331"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa004.jf.intel.com with ESMTP; 28 Sep 2026 07:15:16 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 3784699; Mon, 28 Sep 2026 16:15:14 +0200 (CEST)
-Date: Mon, 28 Sep 2026 16:15:14 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: pip-izony <eeodqql09@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Saranya Gopal <saranya.gopal@intel.com>,
-	Rajaram Regupathy <rajaram.regupathy@intel.com>,
-	Benson Leung <bleung@chromium.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Jameson Thies <jthies@google.com>,
-	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: limit the PDO count to the number of
- PDOs requested
-Message-ID: <arp2cstT7184pH66@black.igk.intel.com>
-References: <20260927214904.447250-2-eeodqql09@gmail.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Dmf4lOKW";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GVuGGKgR"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68SBAubZ1841013
+	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 14:19:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	G1Gq9bso3QuSJSV85bajXkwDOEjJ3tscsrkv0Eiicfs=; b=Dmf4lOKWKQFKbjLC
+	dldeUARoifDCTaF7dMN3ZVYYUTqiJiiM0EuZO31lLlqf3QlAXMXURuujrjo+qdue
+	18illohXArUq0GAeXN3QUFuio1PcJJHo9VgmL1sjHgZr1tqSMFcecudTP+2nqGTM
+	1zNJvPLW4cUfYsg+cSPJGZtiNvZgIjCHoV+rezVf8Xu1iT2L8tfZXbWe/JxpM9Gp
+	cd65vcmAyGWiJG4gcUV8d0FI7Kl6Dl9Ed58tFr7/UrkZlWNyr4bYqNJIsiJzshGo
+	DO/WDg+c8tDv7R7DoAy9W5dEJg5TusExwlLu0/frWgi/vr4U+M1GUY3m5I77Rden
+	ND6cxg==
+Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gynb6h4sr-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 14:19:10 +0000 (GMT)
+Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-985374f150aso296770241.0
+        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 07:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790605150; x=1791209950; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=G1Gq9bso3QuSJSV85bajXkwDOEjJ3tscsrkv0Eiicfs=;
+        b=GVuGGKgRPfHwFrXM3qt1qmYcp0xjcAb8YoyFr3NOMAbZUvflPgmHyUtsxHTztO19n7
+         B7idKokrpDQ7mxPPXqoKLCRLRR4CEQkDfYxEDqUd5pAfvQ/myrlU4WCUQx/aNOyHWfPf
+         TOPRoJQdQeVjmxbfM+9tWdg85OpeRoFCto/i4+xoFw6nmMLtwaAVwbIH+ToOURyj+0rQ
+         fzB0E6SyuQsk8iehyTSQURHdpEDXU1fQvmSjq9UT/S8bEK/jArUd/BW0GFyJawdVMOwj
+         SYZAGDnJo68JNvG/Zcfnp7osz8ORNQy0kS+grObxqMAmsIdOa+IYWN6YIy0d4NIMdBsd
+         6d2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790605150; x=1791209950;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=G1Gq9bso3QuSJSV85bajXkwDOEjJ3tscsrkv0Eiicfs=;
+        b=TpRYssV7YWEI454P3WiSq3BlrgTEXFZA2Ujh7/4f/ELkbebAKGqhIJuCuvB3p6LI5s
+         k00Ddbb0Hq3wgfIawwKAEaCYZKD5+GrlaYL8vpr9mvYjNBhjMIlQpF4aZVAMpKMs75ac
+         fYuh8hvSA3JiG5nyJEMlWYzmdMy7WbpFBN6TRoOON/NeMPOVrrf1VXgAM5kukK6YZzFe
+         KzBkctm+S7ZqIJT132PJqTqO4A9EuqDyQD02pmorGvOqO/HdUU/smB0yjpEhfR4xAFkE
+         wzA89Obbvgy1/TEmLVa15sy380CwkYrKs0ekX9Fn5XxTU+5l/PJYg5yuf+mNsLA3RUBu
+         67hw==
+X-Forwarded-Encrypted: i=1; AKwUvBx3sxysszdNcNtIpx/SfsEAqHPJIemC76rfSqj93fpUdtJsbF5CwZxrDvFrjmE7b9zbl17qQF2OEqM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL16pmWaiDT0GCjUJ1gAkWShfVPkNuTBgi+VhS1gN+E6xVsVSDJ
+	XLCccyHE2CgWjbsiNjxZkZ1eP7NrzuH8bgHDXvkHnbJEaNGAxFeZfC+e0jqaQLEMFvSXYoetW6s
+	OccMHd3z8Rm+S3z4IfqzNHMARPwmx4lLENcD1kqbdR8RnJp/lWkTHIFCCqYXl9+U=
+X-Gm-Gg: AYBFou2B1YTtrAcPxc38TV2wOmfGqpvmaPicudlKWS3OWpKyNAoH+rytwk8aF/sosRZ
+	pFkV7QCpCvIton1O8Ls3RL/RTNtOptAVeu6eBU/UGSvKudOk4pPjkaSfSRPyWdjt5KuLAqyD4LV
+	Y3xHVk1iFMUn3v51EOpmhGWK8mTkmsoh8CNQi9QEGMFccFNPLWjjeQ4lG76jsSFDy2kU771l9Tc
+	VD5xY1sMxSq6djY2eZBcdsayrzBsB23wJysMJ8PjXlu6bBjvDTTTSfxkPU0gYnwhHc7rQvrUOFi
+	1j0imGwTq0IvA3h0Un5MTzEDWgEp1kCMTWMwMLeE5ysqJdIo1xwed6Nq9abskqoIKt/Tv1v8+5j
+	r82AthUpNmQQYdxDYDFckdC5UsPU5eA==
+X-Received: by 2002:a05:6102:5801:b0:785:c39b:6a1 with SMTP id ada2fe7eead31-7af1c99cf51mr3398368137.6.1790605149826;
+        Mon, 28 Sep 2026 07:19:09 -0700 (PDT)
+X-Received: by 2002:a05:6102:5801:b0:785:c39b:6a1 with SMTP id ada2fe7eead31-7af1c99cf51mr3398358137.6.1790605149168;
+        Mon, 28 Sep 2026 07:19:09 -0700 (PDT)
+Received: from [10.224.243.150] ([212.136.9.4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2af8ac48ccsm390077966b.38.2026.09.28.07.19.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Sep 2026 07:19:08 -0700 (PDT)
+Message-ID: <b4d8a778-0a32-4d0b-9610-862ec5721be2@oss.qualcomm.com>
+Date: Mon, 28 Sep 2026 16:19:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260927214904.447250-2-eeodqql09@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/8] virtio-usb: add protocol header and skeleton
+ dual-role driver
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang
+ <jasowangio@gmail.com>,
+        virtualization@lists.linux.dev, linux-usb@vger.kernel.org,
+        Vasilii Ianikeev <vasilii.ianikeev@oss.qualcomm.com>,
+        Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>,
+        Anton Yakovlev <anton.yakovlev@oss.qualcomm.com>,
+        Trilok Soni <trilok.soni@oss.qualcomm.com>
+References: <20260924160907.145405-1-igor.skalkin@oss.qualcomm.com>
+ <20260924160907.145405-2-igor.skalkin@oss.qualcomm.com>
+ <2026092557-condiment-surviving-ec8f@gregkh>
+Content-Language: en-US
+From: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+In-Reply-To: <2026092557-condiment-surviving-ec8f@gregkh>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDA1NyBTYWx0ZWRfX466U0oUfit4R
+ P6cdhsk5AVSCdbw3d+fNVOzdj8QPGMnWN87nqiw0SRsLIJWPJaNTwDihYe0SgL9wQ9BpD7goos+
+ 6AnE/h8bwgnCT4t59p+aS9wFhOwaOJy3qoCcBk7nU+/gLXyEhHE32ubvjO8NEug0qhTFFr0AB83
+ 1rnZkFlvK0+XUU61R3fl5GTH8Dm8mxo+6KhcODsFugJVHPVuuTtU6ONNyjeV+qh4L5dcghhxXcs
+ +0CVCAUdNneHPQlZLN8Bd0DZu4Owd4B/Z5ZwfSytohr7QuS+mpULQk3EJb+WqBM6lyCI5dFNtgI
+ 81NAYTV3KHJ5Q1R/qnCN49Bd7KBZTdJ9sX2lCDTvfretwfgR5DlbAo/N05PO/6X1YE6A6Tp9ims
+ 3hMgl5tn2tWBU3/d9oMeaVW9nzMJd8FQrWY/GxAin49ywZywFJebVxfQ5TjdLQtmahWe7nQNnUs
+ 7ntA/4AY4k4jDZzoAzA==
+X-Authority-Analysis: v=2.4 cv=K+e3jCWI c=1 sm=1 tr=0 ts=6aba775e cx=c_pps
+ a=KB4UBwrhAZV1kjiGHFQexw==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=LOiNTj8lzfyKgz_g5nQA:9 a=QEXdDO2ut3YA:10
+ a=o1xkdb1NAhiiM49bd1HK:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDA1NyBTYWx0ZWRfX45MJHI25ev0Z
+ Lp/eN4BbSIcp80ycug/CVW+wS+OoeokMdkDTijQZGzI4PiC+HgSKp5nrOOJvjRyAdMTDYxSUVgP
+ zoI3k7sSXhswb7FP/sYygPCLwpweK6A=
+X-Proofpoint-ORIG-GUID: VyilyFuhlydpMw4m5xcIz8IeJEzL36n5
+X-Proofpoint-GUID: VyilyFuhlydpMw4m5xcIz8IeJEzL36n5
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-28_03,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 spamscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609280057
 
-On Sun, Sep 27, 2026 at 05:49:05PM -0400, pip-izony wrote:
-> From: Seungjin Bae <eeodqql09@gmail.com>
-> 
-> In ucsi_get_pdos(), the number of PDOs is derived from the data length
-> reported in the CCI register, which is provided by the PPM firmware.
-> 
-> The function requests at most UCSI_MAX_PDOS PDOs on the first read and
-> PDO_MAX_OBJECTS - UCSI_MAX_PDOS on the second, and ucsi_send_command()
-> only copies that many bytes into the buffer. However, the returned
-> length is taken from the 8 bit CCI data length field and is not bounded
-> by the size of the request.
-> 
-> If a malicious PPM reports a larger length, e.g. 0xFF, each
-> read is counted as 63 PDOs and ucsi_get_pdos() returns up to 126, beyond
-> PDO_MAX_OBJECTS and the number of PDOs actually read.
-> 
-> ucsi_get_src_pdos() stores this value in con->num_pdos, and
-> ucsi_psy_get_voltage_max() and ucsi_psy_get_current_max() use it to
-> index con->src_pdos[con->num_pdos - 1], resulting in an out-of-bounds
-> read. This happens without any userspace action, since
-> ucsi_get_src_pdos() calls ucsi_port_psy_changed() and the resulting
-> uevent reads every property.
-> 
-> Fix this by limiting the count of each read to the number of PDOs
-> requested, so that the returned value always matches the buffer
-> contents and never exceeds PDO_MAX_OBJECTS.
 
-I'm not going to accept any more changes like this that silently "fix"
-real or hypothetical firmware issues.
 
-In stead of doing that, make the code print a big fat error message
-informing the user that the FW/PPM sucks in the system, and then
-return a failure from the function.
+On 9/25/2026 7:14 AM, Greg Kroah-Hartman wrote:
+> On Thu, Sep 24, 2026 at 06:09:00PM +0200, Igor Skalkin wrote:
+>> From: Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>
+>>
+>> Add the virtio_usb device and virtqueue-wrapper skeleton, the
+>> protocol header shared with the vhost gadget driver and userspace
+>> backend, and probe()/remove() plumbing with no role support yet.
+>>
+>> Introduce a per-port virtio_usb_port array (vports[]), sized to the
+>> device's negotiated port count, ahead of any code that actually
+>> populates or reads it. Every later commit that adds a role to a port
+>> (host, device, OTG) builds on this same array from the start, instead
+>> of the host, device, and OTG subsystems each growing their own
+>> separate port-indexed storage that later has to be reconciled.
+>>
+>> Wire the new drivers/usb/virtio_usb/ directory into the USB
+>> subsystem's build (drivers/usb/Kconfig, drivers/usb/Makefile) as a
+>> new CONFIG_USB_VIRTIO option, listed alongside the other USB
+>> dual-mode controller drivers.
+>>
+>> Signed-off-by: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+> 
+> Why does this not match the author name?
+> 
+Sorry, this is an artifact of squashing a much larger internal history
+(100+ commits) down to this 8-commit series. Will be fixed.
 
+> thanks,
+> 
+> greg k-h
 Thanks,
-
-> Fixes: b04e1747fbcc ("usb: typec: ucsi: Register USB Power Delivery Capabilities")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
-> ---
->  drivers/usb/typec/ucsi/ucsi.c | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index bef3f9b71d71..639f99f49ff9 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -898,7 +898,8 @@ static int ucsi_get_pdos(struct ucsi_connector *con, enum typec_role role,
->  	if (ret < 0)
->  		return ret;
->  
-> -	num_pdos = ret / sizeof(u32); /* number of bytes to 32-bit PDOs */
-> +	/* The PPM may report more data than was requested */
-> +	num_pdos = min_t(u8, ret / sizeof(u32), UCSI_MAX_PDOS);
->  	if (num_pdos < UCSI_MAX_PDOS)
->  		return num_pdos;
->  
-> @@ -908,7 +909,8 @@ static int ucsi_get_pdos(struct ucsi_connector *con, enum typec_role role,
->  	if (ret < 0)
->  		return ret;
->  
-> -	return ret / sizeof(u32) + num_pdos;
-> +	return min_t(u8, ret / sizeof(u32),
-> +		     PDO_MAX_OBJECTS - UCSI_MAX_PDOS) + num_pdos;
->  }
->  
->  static int ucsi_get_src_pdos(struct ucsi_connector *con)
-> -- 
-> 2.43.0
-
--- 
-heikki
+Igor
