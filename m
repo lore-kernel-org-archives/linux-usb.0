@@ -1,83 +1,125 @@
-Received: from smtpfallback04.a1.net (smtpfallback04.a1.net [194.48.128.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f6.google.com (mail-yx2-f6.google.com [74.125.224.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A23B38DD3
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 03:16:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.48.128.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31E4547054
+	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 04:40:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.134
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790565374; cv=none; b=YLjxfIKs2djoymcLp9KRqyJ97+EcpyFD+DLEDbP+LGQv2nTlpZNpwyCnYOqk0XBU+X6qzZLvXSHn7GsFMC8TZUeXpgi7slaV+Pm/yl5i2PiNF4i0w0Y+G6209fcW0Y6uupyzIhWa3pmWNrC6h1jgjeFafsjYO3U3sOnkjJ3HhhI=
+	t=1790570430; cv=none; b=bkq+HKN9s8NCZ0HPLNoUgXkxyOMkV1FCWk+G9FDMeTon3mV5eIa/gmDFDXvOsW1VuIzo9cQxOjYCAH/HrQfNAZEOA7Rqnf4POLaFsBf1q1fkraDJDy7+n4GRt7up8WosLKQE6kd3shTdZCM3uQ4Df0X4wwj4U5AyXb9/tTOK32I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790565374; c=relaxed/simple;
-	bh=T7sfTCE0U1QAed+gPelXGuNjT6SBTED6v/Qia41aU/0=;
-	h=Subject:References:To:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=Z3EZ4Q/IAGARf4j58JmbvuIi2ElcoGEnqHiYXSqCN5RWSHHMPt7kYyKJFpZOeNwTE93FjDFryIZ+ivu1vYo8QLe/qGpJTQt4Wd1ofjqfE1EGC4LhJh1g2sfN8B0VttJpnCLAgpE9p8G2fGcgT9T6Ck+6Za8NDM8ggX6N49qpzLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net; spf=pass smtp.mailfrom=a1.net; dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b=qcRoJfU2; arc=none smtp.client-ip=194.48.128.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=a1.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=a1.net
+	s=arc-20240116; t=1790570430; c=relaxed/simple;
+	bh=ZyJlgK2kDWR3C9TbduJX74lPU1kiQGhl4K9ex08siEI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SMndb/hIQa+7rCeldh1uWUZsSzFjsNHfo0VqhrHlcVQSSOlcta6QvBg8s+uThhoQQDzjHlve17+Nv7ldFuY3oE/MxyotGwY6emDgY5ja1XQ+iHZ2JU7oi6dRK9QRKusiLsRT1exqzrrWWIfK8bvD4lrdMTfospkXVBHy0vhbdCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W621x2cB; arc=none smtp.client-ip=74.125.224.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=a1.net header.i=@a1.net header.b="qcRoJfU2"
-Received: from smtpout06.a1.net (unknown [10.247.84.32])
-	by smtpfallback04.a1.net (Postfix) with ESMTPS id 4htRKH6fnzzYktc8
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 05:16:03 +0200 (CEST)
-Received: from [192.168.0.6] (unknown [100.70.236.76])
-	by smtpout06.a1.net (Postfix) with ESMTPSA id 4htRK626RNzGrqnn
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 05:15:54 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=a1.net; s=resmail1;
-	t=1790565354;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=cMv588N3a+z6xhOKPqL4xUxUo54UyKKCnzRMv7+vlFA=;
-	b=qcRoJfU2xXdEyr/JjpPAzmRJ2hjmO3qpuA4CuKFKSYkWPLYvyHgQvDW8hvwSZYrKEoCTO+
-	oX2Z1fYVEYSX0Gj5ssr/G4Qvave95z0MKIv080diV8WNmuwKlicxPd1oOVC9QrOMcmkoXh
-	ilGnTuXCGmds21Sljo4BA7m0nuUg3p8zno1ZDr300t6lSSvK/Qc3HmJix7LRLMBYouPDgO
-	p0GUmzpWMdMeTmOaEwVjfDUbJEEqS0NCK2cNhhsWjnnZo10CcnpRYsXIqLVpJxnOk3yF2Y
-	4GJR/C8/m/iRRP/tDO846kAgvtEIUlcSLuAXmgtQk/QzhOblb1+90FwgHAaEpPZ83j6vA6
-	SUR1xo/rgzgVxxAZiBxHcN0ouu3xQh2ILsZrKql0Q+3pNasgFIr+NC0cClNGPXj2zt1jmM
-	SmgSts2aiSuaHRVjYYUTFBWZ0T645NFjRkEH0XPzw/pD06Xgg4RPOT7tTzO7Bt5DJtkSG8
-	jB0k2eIchsRO013hux8SnMv7NqN60mWfK78hTbdCVjwsPzxlLqEf9Yenu6Xm/3nn1A+Dor
-	PDPL2pI5Pp/q2MfxtsFhMvIn/4oNL4yfHoKZfhphQYLe9nLb3CZxvhhOZ5/pOPnaGp/UhA
-	KOrXUEB7G7/uWgiPD6ArYLVbGjkz8PAZ5JsgQy7u9J7uuXZur2fFw=
-Subject: Re: possible regression in usb-storage?
-References: <d0cd9a1e-cdb4-97c2-5bcd-1bc9f5d9173c@a1.net>
- <5ab3e86c-f209-ca72-58e7-8ea56225775b@a1.net>
- <f66b21bd-707b-4503-a40d-972832db130f@rowland.harvard.edu>
- <605c0845-cfd4-0702-4322-53d9c8037b70@a1.net>
- <be5899e3-3e3e-4977-e4aa-32ca368f06cd@a1.net>
- <7e2440cb-41aa-3429-fb6f-b0f4cf761029@a1.net>
- <986f81b9-c195-4ef4-8176-ca69a8f506c4@rowland.harvard.edu>
- <04f165bc-e79e-4ef4-1f22-d4ad086c3ffb@a1.net>
- <0a83299e-c9db-46fb-a4ee-85b4e861f5d4@rowland.harvard.edu>
- <bc169809-3fa0-0a8f-911b-909ad2f8d46f@a1.net>
- <ed5b68f1-2875-4d2a-97a2-ddb075a562e0@rowland.harvard.edu>
-To: linux-usb@vger.kernel.org
-From: Johann Klammer <klammerj@a1.net>
-Message-ID: <3ddebde5-c69b-8676-e022-03a87f2c2965@a1.net>
-Date: Mon, 28 Sep 2026 05:15:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux i686; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W621x2cB"
+Received: by mail-yx2-f6.google.com with SMTP id 956f58d0204a3-66e623a0149so1145687d50.1
+        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 21:40:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790570427; x=1791175227; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KnkJG/BFuPflYXbPqzI6CXrDjqgOy9NIeRkK6DTXM0E=;
+        b=W621x2cBXhPUH8QpJ2nm8mhiNztL73PPiZeBhNpsL0UIKbk10KfCJXJWtRwyJztBt9
+         QRTI/MDKUQ5b8ea7lNSOzYdk8+hhKGfFrTZiRGhbM5GvJrelZUCilBLel5PGlHX1BLvf
+         uuAmgvvd5R8GooIMyOzHc7OBFR2E3845jHRSV0El2I+xmKzQHXdgkgZmXiicVO9vV14U
+         PfBiRXNUV6qlp6NtNbBxfpFWV22TdfVZ2N2ipUDy7osg3EA5JBUe3or1duxCr4G1gXQk
+         8pv3uTUqdnjOHyhHU+6selfR/fqo31J+L/uQmM3WqmEYfCzNA2AXM65229V2U9ppQJ7S
+         TgCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790570427; x=1791175227;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KnkJG/BFuPflYXbPqzI6CXrDjqgOy9NIeRkK6DTXM0E=;
+        b=tGW98Y6PPVLr22nzrxF0zJyrb9bQKBnQDX2yNTVf8xmkymwG6wId4b2gq5j4+W+SxS
+         Qq9OSs9s+BKMndPxfGECm+mGHzFtsZhnSev545iV8KtRGDSo7uoqjmr95cedUQYX05fg
+         ZoHr3iTmnWzvoY1ZbeOU73P1zF1SG8eJzMhScjETZsUGWHYQ6l4d8tEt4tmrnJkf/cVD
+         ZrbNEeL8YR/MkxGekt2YhqI6Er+um9bbfhgFhjrLeQC8tWhzE9N1/IhbmQM/t0WLz+tT
+         YkVx14tOQfAq9eKP5HRTkVnj2SPtDKOYemMQMhQMF0wZXZI2QhU4zCityEHdgnxtt2es
+         A2GQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxUr5ItjnG2kuxegO8ZHdOwOhyZ3ZGm3cqzcFtf6nE2kYC2ox1fEveqMKcPFYrYQ3+To34hegVZrck=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL8em8wEKe9C3upT1wEuOckcr6ZCY7zHy/sQVsR0VGA1sEGyE7G
+	xuB3X1khJEKejvI6g6bE6O3TPNRBp//bZdlZEs+n8YWO3phCjrZvaHvF
+X-Gm-Gg: AYBFou18J03TugPW+KAkBxGNSB+6yxicrX5wyB/+i8SArjJHIMh/rZwwsgaAcxhYEKm
+	QLIx2gMbmcbm7QVT1VJXUu7BgTtDoTvsVVzKcaqJk1+ERyrdI/2pf1ZCcWd2Bzzb87qotyiJMEg
+	kfPY4pzhrlT41VNLaHq1OjGm79Salfc0PbZz4zS/815gRwJnh2NGuP2r0Yz4hR7GhzaHP4qQpLF
+	JwEV+3Xb26YoAUB9R7IrDjdxBJek0tdba0ze5UGoHbDRgeM6Ac+zMTCJ1gnGTwXW6cxAllqZErG
+	XiutD0sMiB7BEVWl9ay+Tr+doHxIzxg0Z4t7CRXIgb1zDQkKQauye9ZSc1utrXb49g/X8L7zFxc
+	QPjN+hdQZ6UaxFjplA7EqOS+2wuhV/3LlsskOdMw6cbtj2XpuY40nTqFIPcD0ryEEx/QI9xJQZe
+	PTCG7dBLactJNFBjnEPX8/ySdSlk5hUM0IMmLTO7IfIfExSRX2Uc+oIhR236V8ngUknMnjBQHVO
+	q2OkD9SyrawAWdZ69Ldj8L0/oQY64g0V2gp0lAG8rMVgDo9cMYt
+X-Received: by 2002:a05:690c:6609:b0:8a6:b4f4:7339 with SMTP id 00721157ae682-8a870638d9dmr35527787b3.35.1790570427627;
+        Sun, 27 Sep 2026 21:40:27 -0700 (PDT)
+Received: from Xinshengs-MBP.attlocal.net ([2600:1702:7d20:7d20:7139:eae7:b25b:5d54])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a85ec40be3sm38503747b3.0.2026.09.27.21.40.25
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 27 Sep 2026 21:40:26 -0700 (PDT)
+From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+To: netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next] net: usb: ax88172a: improve MAC address read error handling
+Date: Mon, 28 Sep 2026 00:40:11 -0400
+Message-ID: <20260928044011.63926-1-xinsheng.zhu.ny@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <ed5b68f1-2875-4d2a-97a2-ddb075a562e0@rowland.harvard.edu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Spam-Level: 
+Content-Transfer-Encoding: 8bit
 
+When retrieving the MAC address, ax88172a_bind() checks the return
+value of asix_read_cmd() against ETH_ALEN to detect short reads.
+Commit c28d9a285668 ("ax88172a: fix ax88172a_unbind() failures") added
+an -EIO assignment to ensure that this failure path returns a negative
+error code, even when asix_read_cmd() returns a non-negative short-read
+length.
 
+Short-read handling was subsequently added to asix_read_cmd() by commit
+920a9fa27e78 ("net: asix: add proper error handling of usb read errors").
+The helper now converts short reads to -ENODATA while preserving
+negative errors from the underlying USB read operation.
 
-On 9/28/26 3:22 AM, Alan Stern wrote:
-> 
-> Regardless, simply unplugging a drive while it is mounted isn't a good
-> idea; it can lead to data loss.
-> 
-> Alan Stern
-> 
+The MAC address short-read check in ax88172a_bind() is therefore
+redundant now, and overwriting the return value with -EIO is no longer
+necessary to ensure that the failure path returns a negative error code.
 
-I had it unmounted, and (to my knowledge) there are no automounters running.
+Check only for negative return values and remove the -EIO assignment
+to preserve the error returned by asix_read_cmd() through the existing
+cleanup path.
+
+Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+---
+ drivers/net/usb/ax88172a.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/net/usb/ax88172a.c b/drivers/net/usb/ax88172a.c
+index 6b14bce2a552..f5036451f086 100644
+--- a/drivers/net/usb/ax88172a.c
++++ b/drivers/net/usb/ax88172a.c
+@@ -173,9 +173,8 @@ static int ax88172a_bind(struct usbnet *dev, struct usb_interface *intf)
+ 
+ 	/* Get the MAC address */
+ 	ret = asix_read_cmd(dev, AX_CMD_READ_NODE_ID, 0, 0, ETH_ALEN, buf, 0);
+-	if (ret < ETH_ALEN) {
++	if (ret < 0) {
+ 		netdev_err(dev->net, "Failed to read MAC address: %d\n", ret);
+-		ret = -EIO;
+ 		goto free;
+ 	}
+ 	eth_hw_addr_set(dev->net, buf);
+
+base-commit: 014d795c73837ea2339a4ea8e8f82c6e959b845d
+-- 
+2.54.0 (Apple Git-157)
 
