@@ -1,172 +1,129 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E884DA9B5
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 14:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A5F64DE729;
+	Mon, 28 Sep 2026 14:39:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790605158; cv=none; b=QdFdxopeI6No4iOtHUyL8d8xUZh9ubtQM6yiTzXPiG9IRy7474hHbwjchyHr1nWrO0BpnxhbVm96qB1oXTOB7qc21uQPKFaEZ/+Drtwx4cdB3CwSZgI/Eb11KFRHZHdG7Zd6brkdwOuiz3+aYdZurzmPbonoEWyYxuRb4dogLWE=
+	t=1790606352; cv=none; b=PZNf5Lhbe+fvHXWNs6FGXW1ZE3JiKtUaSj76tJXT4zHnEQK35SnACr99eRIzC8qThdsqeRD6f7pYbJpCt/xBteay+3rsnPFspJi5/1B6a9hp5QGJ7KFwbIjXc8UkMNPeo/YOY+VRP2cVFjehQjDTpQ4FoXV7+HdglmS+iIU9amU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790605158; c=relaxed/simple;
-	bh=cHd+AGbgiR6kbIWovPWUkjehsKhorHaJgk8OxjzXVA0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s+/t50vX5U2miAJlL/YdWl6zBzg1awElEfGCIOb+J3kcSwfJrpqOM4F30A+QJXyHjqoVCyPq47MUJ6s3X99iJjOCPkyuP5GU54vXOPAbaNpob9TZViQNWeWRn9Yn4tu5q5giJeQef+X1imqL8zeBN4GvUHn7m22udOF108nNJCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Dmf4lOKW; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=GVuGGKgR; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790606352; c=relaxed/simple;
+	bh=4YjKs+L2GTxwc1OBkiJDc7B54oY4PcXWb8rFB33O4JQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=crsq2vRhX0RNlVbLvgCF4VAhiMpUNnM/bldnilxtgX0Q09WbwDE0beB5pVN4ElRpjXnq3lZo2y0AdHZnI7Yszba0Kcgr1AnrtsyMD5tQJwaOonjdWo+387KnMBPZf9k9idxdG4seI0uwB3+On1pTw4pxTAp37KRbtP7JivuJDX4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=O5ZrpoO5; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Dmf4lOKW";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="GVuGGKgR"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68SBAubZ1841013
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 14:19:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	G1Gq9bso3QuSJSV85bajXkwDOEjJ3tscsrkv0Eiicfs=; b=Dmf4lOKWKQFKbjLC
-	dldeUARoifDCTaF7dMN3ZVYYUTqiJiiM0EuZO31lLlqf3QlAXMXURuujrjo+qdue
-	18illohXArUq0GAeXN3QUFuio1PcJJHo9VgmL1sjHgZr1tqSMFcecudTP+2nqGTM
-	1zNJvPLW4cUfYsg+cSPJGZtiNvZgIjCHoV+rezVf8Xu1iT2L8tfZXbWe/JxpM9Gp
-	cd65vcmAyGWiJG4gcUV8d0FI7Kl6Dl9Ed58tFr7/UrkZlWNyr4bYqNJIsiJzshGo
-	DO/WDg+c8tDv7R7DoAy9W5dEJg5TusExwlLu0/frWgi/vr4U+M1GUY3m5I77Rden
-	ND6cxg==
-Received: from mail-ua1-f71.google.com (mail-ua1-f71.google.com [209.85.222.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gynb6h4sr-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 14:19:10 +0000 (GMT)
-Received: by mail-ua1-f71.google.com with SMTP id a1e0cc1a2514c-985374f150aso296770241.0
-        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 07:19:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790605150; x=1791209950; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=G1Gq9bso3QuSJSV85bajXkwDOEjJ3tscsrkv0Eiicfs=;
-        b=GVuGGKgRPfHwFrXM3qt1qmYcp0xjcAb8YoyFr3NOMAbZUvflPgmHyUtsxHTztO19n7
-         B7idKokrpDQ7mxPPXqoKLCRLRR4CEQkDfYxEDqUd5pAfvQ/myrlU4WCUQx/aNOyHWfPf
-         TOPRoJQdQeVjmxbfM+9tWdg85OpeRoFCto/i4+xoFw6nmMLtwaAVwbIH+ToOURyj+0rQ
-         fzB0E6SyuQsk8iehyTSQURHdpEDXU1fQvmSjq9UT/S8bEK/jArUd/BW0GFyJawdVMOwj
-         SYZAGDnJo68JNvG/Zcfnp7osz8ORNQy0kS+grObxqMAmsIdOa+IYWN6YIy0d4NIMdBsd
-         6d2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790605150; x=1791209950;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=G1Gq9bso3QuSJSV85bajXkwDOEjJ3tscsrkv0Eiicfs=;
-        b=TpRYssV7YWEI454P3WiSq3BlrgTEXFZA2Ujh7/4f/ELkbebAKGqhIJuCuvB3p6LI5s
-         k00Ddbb0Hq3wgfIawwKAEaCYZKD5+GrlaYL8vpr9mvYjNBhjMIlQpF4aZVAMpKMs75ac
-         fYuh8hvSA3JiG5nyJEMlWYzmdMy7WbpFBN6TRoOON/NeMPOVrrf1VXgAM5kukK6YZzFe
-         KzBkctm+S7ZqIJT132PJqTqO4A9EuqDyQD02pmorGvOqO/HdUU/smB0yjpEhfR4xAFkE
-         wzA89Obbvgy1/TEmLVa15sy380CwkYrKs0ekX9Fn5XxTU+5l/PJYg5yuf+mNsLA3RUBu
-         67hw==
-X-Forwarded-Encrypted: i=1; AKwUvBx3sxysszdNcNtIpx/SfsEAqHPJIemC76rfSqj93fpUdtJsbF5CwZxrDvFrjmE7b9zbl17qQF2OEqM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL16pmWaiDT0GCjUJ1gAkWShfVPkNuTBgi+VhS1gN+E6xVsVSDJ
-	XLCccyHE2CgWjbsiNjxZkZ1eP7NrzuH8bgHDXvkHnbJEaNGAxFeZfC+e0jqaQLEMFvSXYoetW6s
-	OccMHd3z8Rm+S3z4IfqzNHMARPwmx4lLENcD1kqbdR8RnJp/lWkTHIFCCqYXl9+U=
-X-Gm-Gg: AYBFou2B1YTtrAcPxc38TV2wOmfGqpvmaPicudlKWS3OWpKyNAoH+rytwk8aF/sosRZ
-	pFkV7QCpCvIton1O8Ls3RL/RTNtOptAVeu6eBU/UGSvKudOk4pPjkaSfSRPyWdjt5KuLAqyD4LV
-	Y3xHVk1iFMUn3v51EOpmhGWK8mTkmsoh8CNQi9QEGMFccFNPLWjjeQ4lG76jsSFDy2kU771l9Tc
-	VD5xY1sMxSq6djY2eZBcdsayrzBsB23wJysMJ8PjXlu6bBjvDTTTSfxkPU0gYnwhHc7rQvrUOFi
-	1j0imGwTq0IvA3h0Un5MTzEDWgEp1kCMTWMwMLeE5ysqJdIo1xwed6Nq9abskqoIKt/Tv1v8+5j
-	r82AthUpNmQQYdxDYDFckdC5UsPU5eA==
-X-Received: by 2002:a05:6102:5801:b0:785:c39b:6a1 with SMTP id ada2fe7eead31-7af1c99cf51mr3398368137.6.1790605149826;
-        Mon, 28 Sep 2026 07:19:09 -0700 (PDT)
-X-Received: by 2002:a05:6102:5801:b0:785:c39b:6a1 with SMTP id ada2fe7eead31-7af1c99cf51mr3398358137.6.1790605149168;
-        Mon, 28 Sep 2026 07:19:09 -0700 (PDT)
-Received: from [10.224.243.150] ([212.136.9.4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2af8ac48ccsm390077966b.38.2026.09.28.07.19.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2026 07:19:08 -0700 (PDT)
-Message-ID: <b4d8a778-0a32-4d0b-9610-862ec5721be2@oss.qualcomm.com>
-Date: Mon, 28 Sep 2026 16:19:06 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="O5ZrpoO5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790606348; x=1822142348;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4YjKs+L2GTxwc1OBkiJDc7B54oY4PcXWb8rFB33O4JQ=;
+  b=O5ZrpoO5ctK1ckLnxKCVOEyWl2YwT7lDNxf8Xkqp8Vq0aDx2bBrF7CU+
+   S7Sw7mxRWQo6J2jVfjQCSsA518n2pi1YTuGothIRrBZx8JVjgQ6QA8HKD
+   NSm7uDLI6U7SxTizqaR1/dIMVxW9g1vdHtoyJo2dth305odaS5TJZV8jn
+   k5lhIzPoJ1D6XfYGxIYqAjrsa43ep/XsH6h4heM2EWVqdug8NnXbUlVdW
+   ZhqfMUr7bpoI9x/lzdpH4UU4BLoT9p30XenQaj0hMEV6t5OXsRbnnou0i
+   PEGojPHrSBIi6bKNfPgST6Lp/th5pbCIwD6M8d7GeJJEMR9lgkFBvxfbg
+   g==;
+X-CSE-ConnectionGUID: l4jF6hM/SwOOKD4g41driA==
+X-CSE-MsgGUID: SSYTAW8PSUCOcdGz0kWP5Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="90173831"
+X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
+   d="scan'208";a="90173831"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 07:39:05 -0700
+X-CSE-ConnectionGUID: G4kgOxMISGC+43LOX2830Q==
+X-CSE-MsgGUID: PrTpgZWaTx6eAiTarsbhbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
+   d="scan'208";a="272867583"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa006.jf.intel.com with ESMTP; 28 Sep 2026 07:39:02 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 640C599; Mon, 28 Sep 2026 16:39:01 +0200 (CEST)
+Date: Mon, 28 Sep 2026 16:39:01 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Andrei Kuchynski <akuchynski@chromium.org>
+Cc: Gris Ge <cnfourt@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	stable@vger.kernel.org, Benson Leung <bleung@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Johan Hovold <johan@kernel.org>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: Skip CAM query when partner has no alt
+ modes
+Message-ID: <arp8BXZIrW6UFdbi@black.igk.intel.com>
+References: <20260927021649.8967-1-cnfourt@gmail.com>
+ <CAMMMRMeX9-r_coX1zbUNoMGU+GUW56o4iY_jfyE5_ovFYs6UCA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] virtio-usb: add protocol header and skeleton
- dual-role driver
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Michael S . Tsirkin" <mst@redhat.com>, Jason Wang
- <jasowangio@gmail.com>,
-        virtualization@lists.linux.dev, linux-usb@vger.kernel.org,
-        Vasilii Ianikeev <vasilii.ianikeev@oss.qualcomm.com>,
-        Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>,
-        Anton Yakovlev <anton.yakovlev@oss.qualcomm.com>,
-        Trilok Soni <trilok.soni@oss.qualcomm.com>
-References: <20260924160907.145405-1-igor.skalkin@oss.qualcomm.com>
- <20260924160907.145405-2-igor.skalkin@oss.qualcomm.com>
- <2026092557-condiment-surviving-ec8f@gregkh>
-Content-Language: en-US
-From: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
-In-Reply-To: <2026092557-condiment-surviving-ec8f@gregkh>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDA1NyBTYWx0ZWRfX466U0oUfit4R
- P6cdhsk5AVSCdbw3d+fNVOzdj8QPGMnWN87nqiw0SRsLIJWPJaNTwDihYe0SgL9wQ9BpD7goos+
- 6AnE/h8bwgnCT4t59p+aS9wFhOwaOJy3qoCcBk7nU+/gLXyEhHE32ubvjO8NEug0qhTFFr0AB83
- 1rnZkFlvK0+XUU61R3fl5GTH8Dm8mxo+6KhcODsFugJVHPVuuTtU6ONNyjeV+qh4L5dcghhxXcs
- +0CVCAUdNneHPQlZLN8Bd0DZu4Owd4B/Z5ZwfSytohr7QuS+mpULQk3EJb+WqBM6lyCI5dFNtgI
- 81NAYTV3KHJ5Q1R/qnCN49Bd7KBZTdJ9sX2lCDTvfretwfgR5DlbAo/N05PO/6X1YE6A6Tp9ims
- 3hMgl5tn2tWBU3/d9oMeaVW9nzMJd8FQrWY/GxAin49ywZywFJebVxfQ5TjdLQtmahWe7nQNnUs
- 7ntA/4AY4k4jDZzoAzA==
-X-Authority-Analysis: v=2.4 cv=K+e3jCWI c=1 sm=1 tr=0 ts=6aba775e cx=c_pps
- a=KB4UBwrhAZV1kjiGHFQexw==:117 a=dNlqnMcrdpbb+gQrTujlOQ==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=LOiNTj8lzfyKgz_g5nQA:9 a=QEXdDO2ut3YA:10
- a=o1xkdb1NAhiiM49bd1HK:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDA1NyBTYWx0ZWRfX45MJHI25ev0Z
- Lp/eN4BbSIcp80ycug/CVW+wS+OoeokMdkDTijQZGzI4PiC+HgSKp5nrOOJvjRyAdMTDYxSUVgP
- zoI3k7sSXhswb7FP/sYygPCLwpweK6A=
-X-Proofpoint-ORIG-GUID: VyilyFuhlydpMw4m5xcIz8IeJEzL36n5
-X-Proofpoint-GUID: VyilyFuhlydpMw4m5xcIz8IeJEzL36n5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-28_03,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 spamscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 impostorscore=0
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609280057
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMMMRMeX9-r_coX1zbUNoMGU+GUW56o4iY_jfyE5_ovFYs6UCA@mail.gmail.com>
 
-
-
-On 9/25/2026 7:14 AM, Greg Kroah-Hartman wrote:
-> On Thu, Sep 24, 2026 at 06:09:00PM +0200, Igor Skalkin wrote:
->> From: Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>
->>
->> Add the virtio_usb device and virtqueue-wrapper skeleton, the
->> protocol header shared with the vhost gadget driver and userspace
->> backend, and probe()/remove() plumbing with no role support yet.
->>
->> Introduce a per-port virtio_usb_port array (vports[]), sized to the
->> device's negotiated port count, ahead of any code that actually
->> populates or reads it. Every later commit that adds a role to a port
->> (host, device, OTG) builds on this same array from the start, instead
->> of the host, device, and OTG subsystems each growing their own
->> separate port-indexed storage that later has to be reconciled.
->>
->> Wire the new drivers/usb/virtio_usb/ directory into the USB
->> subsystem's build (drivers/usb/Kconfig, drivers/usb/Makefile) as a
->> new CONFIG_USB_VIRTIO option, listed alongside the other USB
->> dual-mode controller drivers.
->>
->> Signed-off-by: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+On Mon, Sep 28, 2026 at 08:47:40AM +0000, Andrei Kuchynski wrote:
+> On Sun, Sep 27, 2026 at 2:17 AM Gris Ge <cnfourt@gmail.com> wrote:
+> >
+> > Since Thunderbolt alternate mode support was added,
+> > `ucsi_altmode_update_active()` is called on every Connector Partner
+> > Changed event.  This made the driver send `UCSI_GET_CURRENT_CAM` to
+> > PPMs even when the partner had no alternate modes registered. Firmware
+> > that does not support the optional alternate mode details answered Not
+> > Supported, which produced a spurious error on every partner change:
+> >
+> > ```
+> > ucsi_acpi USBC000:00: GET_CURRENT_CAM command failed
+> > ```
+> >
+> > Fixed by skipping the command when there is nothing to update.
+> >
+> > Fixes: da87d45b1951 ("usb: typec: ucsi: Add Thunderbolt alternate mode support")
+> > Cc: stable@vger.kernel.org # v7.0+
+> > Assisted-by: Codex:deepseek-v4.1-flash
+> > Signed-off-by: Gris Ge <cnfourt@gmail.com>
+> > ---
+> >  drivers/usb/typec/ucsi/ucsi.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> >
+> > diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> > index bef3f9b71d71..71b28e4df470 100644
+> > --- a/drivers/usb/typec/ucsi/ucsi.c
+> > +++ b/drivers/usb/typec/ucsi/ucsi.c
+> > @@ -360,6 +360,15 @@ void ucsi_altmode_update_active(struct ucsi_connector *con)
+> >         u8 cur;
+> >         int i;
+> >
+> > +       /*
+> > +        * Alternate mode support is optional, and the PPM is not required to
+> > +        * support GET_CURRENT_CAM when it does not support alternate modes.
+> > +        * There is also nothing to update when the partner has not registered
+> > +        * any alternate modes, so don't send the command in that case.
+> > +        */
+> > +       if (!con->partner_altmode[0])
 > 
-> Why does this not match the author name?
+> Should we move this validation into ucsi_handle_connector_change?
 > 
-Sorry, this is an artifact of squashing a much larger internal history
-(100+ commits) down to this 8-commit series. Will be fixed.
+>         if (con->partner_altmode[0])
+>                 ucsi_altmode_update_active(con);
+> 
+> All other call sites are already guarded by this condition.
 
-> thanks,
-> 
-> greg k-h
-Thanks,
-Igor
+Makes sense to me.
+
+> Besides, I don't think we need that comment above.
+
+I agree.
+
+-- 
+heikki
