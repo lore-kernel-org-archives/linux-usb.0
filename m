@@ -1,125 +1,113 @@
-Received: from mail-yx2-f6.google.com (mail-yx2-f6.google.com [74.125.224.134])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A31E4547054
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 04:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.134
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6AA3546DE;
+	Mon, 28 Sep 2026 04:41:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790570430; cv=none; b=bkq+HKN9s8NCZ0HPLNoUgXkxyOMkV1FCWk+G9FDMeTon3mV5eIa/gmDFDXvOsW1VuIzo9cQxOjYCAH/HrQfNAZEOA7Rqnf4POLaFsBf1q1fkraDJDy7+n4GRt7up8WosLKQE6kd3shTdZCM3uQ4Df0X4wwj4U5AyXb9/tTOK32I=
+	t=1790570476; cv=none; b=G7sh0sjc5qOri6rzmVWSbAstLL4+98TB3e8LlIFiowzAzvDXys0VGrCE+lkPy4VjIza4wm+9E9wZFFrAXjkXzQWcM5XK9cObKvA+Zlw64Nhz3m3dsEYTKJAOCljx6T0GaCj9z7m1gfzbdvPAfMzL149072BMzremL+/R8ghM6Vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790570430; c=relaxed/simple;
-	bh=ZyJlgK2kDWR3C9TbduJX74lPU1kiQGhl4K9ex08siEI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SMndb/hIQa+7rCeldh1uWUZsSzFjsNHfo0VqhrHlcVQSSOlcta6QvBg8s+uThhoQQDzjHlve17+Nv7ldFuY3oE/MxyotGwY6emDgY5ja1XQ+iHZ2JU7oi6dRK9QRKusiLsRT1exqzrrWWIfK8bvD4lrdMTfospkXVBHy0vhbdCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W621x2cB; arc=none smtp.client-ip=74.125.224.134
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790570476; c=relaxed/simple;
+	bh=Qtn38T9yEm5zd4cKcGAxVCPnrnB+1QUYJYVJUF8RNUY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V3XxWXeCBN73lpA0uRPNaKIWiVbTB48BSwc4TAK92fsdf87zqoC6XLL3Gm3pSjv41ZWY7lgyiQwuebaAtPYvrhfUK+37j8COJ8YNKOf4SELFIetLrgaUFwWm61XrC9LIZavdKu3gql7LuoDxXbGwIIPCn3qfxwcgS1DmEs5kTps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=NJYk3YZ0; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Pmaf/QmK; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W621x2cB"
-Received: by mail-yx2-f6.google.com with SMTP id 956f58d0204a3-66e623a0149so1145687d50.1
-        for <linux-usb@vger.kernel.org>; Sun, 27 Sep 2026 21:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790570427; x=1791175227; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KnkJG/BFuPflYXbPqzI6CXrDjqgOy9NIeRkK6DTXM0E=;
-        b=W621x2cBXhPUH8QpJ2nm8mhiNztL73PPiZeBhNpsL0UIKbk10KfCJXJWtRwyJztBt9
-         QRTI/MDKUQ5b8ea7lNSOzYdk8+hhKGfFrTZiRGhbM5GvJrelZUCilBLel5PGlHX1BLvf
-         uuAmgvvd5R8GooIMyOzHc7OBFR2E3845jHRSV0El2I+xmKzQHXdgkgZmXiicVO9vV14U
-         PfBiRXNUV6qlp6NtNbBxfpFWV22TdfVZ2N2ipUDy7osg3EA5JBUe3or1duxCr4G1gXQk
-         8pv3uTUqdnjOHyhHU+6selfR/fqo31J+L/uQmM3WqmEYfCzNA2AXM65229V2U9ppQJ7S
-         TgCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790570427; x=1791175227;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KnkJG/BFuPflYXbPqzI6CXrDjqgOy9NIeRkK6DTXM0E=;
-        b=tGW98Y6PPVLr22nzrxF0zJyrb9bQKBnQDX2yNTVf8xmkymwG6wId4b2gq5j4+W+SxS
-         Qq9OSs9s+BKMndPxfGECm+mGHzFtsZhnSev545iV8KtRGDSo7uoqjmr95cedUQYX05fg
-         ZoHr3iTmnWzvoY1ZbeOU73P1zF1SG8eJzMhScjETZsUGWHYQ6l4d8tEt4tmrnJkf/cVD
-         ZrbNEeL8YR/MkxGekt2YhqI6Er+um9bbfhgFhjrLeQC8tWhzE9N1/IhbmQM/t0WLz+tT
-         YkVx14tOQfAq9eKP5HRTkVnj2SPtDKOYemMQMhQMF0wZXZI2QhU4zCityEHdgnxtt2es
-         A2GQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxUr5ItjnG2kuxegO8ZHdOwOhyZ3ZGm3cqzcFtf6nE2kYC2ox1fEveqMKcPFYrYQ3+To34hegVZrck=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL8em8wEKe9C3upT1wEuOckcr6ZCY7zHy/sQVsR0VGA1sEGyE7G
-	xuB3X1khJEKejvI6g6bE6O3TPNRBp//bZdlZEs+n8YWO3phCjrZvaHvF
-X-Gm-Gg: AYBFou18J03TugPW+KAkBxGNSB+6yxicrX5wyB/+i8SArjJHIMh/rZwwsgaAcxhYEKm
-	QLIx2gMbmcbm7QVT1VJXUu7BgTtDoTvsVVzKcaqJk1+ERyrdI/2pf1ZCcWd2Bzzb87qotyiJMEg
-	kfPY4pzhrlT41VNLaHq1OjGm79Salfc0PbZz4zS/815gRwJnh2NGuP2r0Yz4hR7GhzaHP4qQpLF
-	JwEV+3Xb26YoAUB9R7IrDjdxBJek0tdba0ze5UGoHbDRgeM6Ac+zMTCJ1gnGTwXW6cxAllqZErG
-	XiutD0sMiB7BEVWl9ay+Tr+doHxIzxg0Z4t7CRXIgb1zDQkKQauye9ZSc1utrXb49g/X8L7zFxc
-	QPjN+hdQZ6UaxFjplA7EqOS+2wuhV/3LlsskOdMw6cbtj2XpuY40nTqFIPcD0ryEEx/QI9xJQZe
-	PTCG7dBLactJNFBjnEPX8/ySdSlk5hUM0IMmLTO7IfIfExSRX2Uc+oIhR236V8ngUknMnjBQHVO
-	q2OkD9SyrawAWdZ69Ldj8L0/oQY64g0V2gp0lAG8rMVgDo9cMYt
-X-Received: by 2002:a05:690c:6609:b0:8a6:b4f4:7339 with SMTP id 00721157ae682-8a870638d9dmr35527787b3.35.1790570427627;
-        Sun, 27 Sep 2026 21:40:27 -0700 (PDT)
-Received: from Xinshengs-MBP.attlocal.net ([2600:1702:7d20:7d20:7139:eae7:b25b:5d54])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8a85ec40be3sm38503747b3.0.2026.09.27.21.40.25
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 27 Sep 2026 21:40:26 -0700 (PDT)
-From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
-To: netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next] net: usb: ax88172a: improve MAC address read error handling
-Date: Mon, 28 Sep 2026 00:40:11 -0400
-Message-ID: <20260928044011.63926-1-xinsheng.zhu.ny@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="NJYk3YZ0";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Pmaf/QmK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1790570472;
+	bh=Qtn38T9yEm5zd4cKcGAxVCPnrnB+1QUYJYVJUF8RNUY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NJYk3YZ03pCVnUJyC7PItYfgm9nW2isvvAhRjdjKgkLGKw2qs/GnJHQi1bJFXU32a
+	 bZi28NHiubbFJSdDRrlC1KsjgNbv1j0iL8js4D+6SBdzLRjTIOxWnyJs2sXs83XYdn
+	 DwcuAs9hAMYHxmdb0+ACwvn5kAZNs1uLv76+ltS4jtbx4Q5MXgqnhspW9p975a98zo
+	 /OvMshWRAC2AHpCRgDxHQuzJHAimRpFWmn+02ka4NPiF3+XYuQ7VbwenTqqYHase1i
+	 Gis9pziGrS+/pljKqj4PTv5LUOIGdt1mYOWOwO+2FJ0iA0EbtKG4l2SvsDuYKkJ4BV
+	 GXmAo58CA7X/A==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id B781E421D2; Mon, 28 Sep 2026 04:41:12 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1790570470;
+	bh=Qtn38T9yEm5zd4cKcGAxVCPnrnB+1QUYJYVJUF8RNUY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Pmaf/QmKTVYA0EVXeWt6AamRtSfRiRtS7uDPJJ1ikgI7moYOTpC45swCb8JKrXSAX
+	 N+eYTumNEkjOFfCJEWQH0L455DNd+Ml8keaywQuO9fJ+CdD6IAO2zxlDtJd4tQChRa
+	 pzTdDbqq/ZQUm5H1u3RGgMimmlQsXHd42nv+FbexapOl+gDUO8m/kTLcdd2JBsg29h
+	 d6bOZamDk4X3RCy1Yyc4vRW+CwCBNttL7XeaSw6DrG2s8XEsUZO0shGQReVbaRJgA2
+	 DuW2f3QPlntRatjkmbe37lAkn9FwNFbpSHPgdaxGF5cqwK1sLxp7N7i5DSSeYvnBE/
+	 TySmDtwyAS9fQ==
+Received: from [192.168.2.51] (p5dd1e959.dip0.t-ipconnect.de [93.209.233.89])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 2A5593F52D;
+	Mon, 28 Sep 2026 04:41:10 +0000 (UTC)
+Message-ID: <074fb937-52fd-4806-b225-c495e874baeb@birger-koblitz.de>
+Date: Mon, 28 Sep 2026 06:41:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v12 09/15] ax88179_178a: Add VLAN offload support
+ for AX88179A
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: netdev-bot+sashiko@kernel.org, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, linux@armlinux.org.uk, hkallweit1@gmail.com,
+ linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, neuromoments@gmail.com
+References: <20260916-ax88179a-v12-9-60c04c9924a2@birger-koblitz.de>
+ <178968030096.22033.824447734953057557@kernel.org>
+ <289700c4-8569-4160-97c5-2fc37a901a9d@birger-koblitz.de>
+ <f27b2a1c-afb7-48db-9682-acf6c0a83479@lunn.ch>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <f27b2a1c-afb7-48db-9682-acf6c0a83479@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-When retrieving the MAC address, ax88172a_bind() checks the return
-value of asix_read_cmd() against ETH_ALEN to detect short reads.
-Commit c28d9a285668 ("ax88172a: fix ax88172a_unbind() failures") added
-an -EIO assignment to ensure that this failure path returns a negative
-error code, even when asix_read_cmd() returns a non-negative short-read
-length.
+On 27/09/2026 4:24 pm, Andrew Lunn wrote:
+>> You ask: On a busy bus, or when a transfer stalls and hits the timeout, this
+>> blocks
+>>    all other network configuration in the system for a long time.  Could the
+>>    clear be limited to rows actually in use, batched, or moved out of the
+>> RTNL
+>>    section?
+> 
+> How long does this typically take?
+> 
+> And what is the worst case, if the device is hot-unplugged?
+> 
+> If these values are small, i don't think it is an issue.
+> 
 
-Short-read handling was subsequently added to asix_read_cmd() by commit
-920a9fa27e78 ("net: asix: add proper error handling of usb read errors").
-The helper now converts short reads to -ENODATA while preserving
-negative errors from the underlying USB read operation.
+I tested this on an AX88279 with SS and AX88772D with FS.
+In both cases the time to update the VLAN offload table is 165ms, there 
+is very little statistical variation, since 768 transfers are made, 
+averaging out the individual transfer times.
 
-The MAC address short-read check in ax88172a_bind() is therefore
-redundant now, and overwriting the return value with -EIO is no longer
-necessary to ensure that the failure path returns a negative error code.
+I then did
+sudo ethtool -K enx6c6e07090001 rx-vlan-filter on
+and unplugged immediately the device. This is not an issue at all, since 
+now all transfers fail immediately, so the whole table setting takes 2ms
+and then the device disappears.
 
-Check only for negative return values and remove the -EIO assignment
-to preserve the error returned by asix_read_cmd() through the existing
-cleanup path.
+Finally, I started iperf transferring 2.5GBit/s and only then changed 
+rx-vlan-filter. The time to completion was now 173ms.
 
-Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
----
- drivers/net/usb/ax88172a.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I really do not believe this to be a problem. bind() takes much longer 
+because of the wait-time for the PHY (phy-wait: 250ms, total: 320ms), 
+which is also seen e.g. on the r8152 driver (total 400ms). And bind() is 
+the much more common operation in practice compared to initializing VLAN 
+filtering.
 
-diff --git a/drivers/net/usb/ax88172a.c b/drivers/net/usb/ax88172a.c
-index 6b14bce2a552..f5036451f086 100644
---- a/drivers/net/usb/ax88172a.c
-+++ b/drivers/net/usb/ax88172a.c
-@@ -173,9 +173,8 @@ static int ax88172a_bind(struct usbnet *dev, struct usb_interface *intf)
- 
- 	/* Get the MAC address */
- 	ret = asix_read_cmd(dev, AX_CMD_READ_NODE_ID, 0, 0, ETH_ALEN, buf, 0);
--	if (ret < ETH_ALEN) {
-+	if (ret < 0) {
- 		netdev_err(dev->net, "Failed to read MAC address: %d\n", ret);
--		ret = -EIO;
- 		goto free;
- 	}
- 	eth_hw_addr_set(dev->net, buf);
+That said, I actually managed to introduce a bug when adding return 
+value checking in v13 for the vlan-offload function, as the positive 
+length value of the last read was returned as an error. Will need to fix 
+that in the next round.
 
-base-commit: 014d795c73837ea2339a4ea8e8f82c6e959b845d
--- 
-2.54.0 (Apple Git-157)
-
+Birger
