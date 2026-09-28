@@ -1,115 +1,71 @@
-Received: from mail-oo2-f4.google.com (mail-oo2-f4.google.com [74.125.231.132])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D27D4EE873
-	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 19:21:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46E084F3EA0;
+	Mon, 28 Sep 2026 19:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790623290; cv=none; b=j0kNwpgMpQ25oduI9jEy5gFXFFGrq257r/x32sUhS+UdibbVIWm92+3KnHr1WRGoNlz1+xRuapg1LS51zq6mJrzDsjv+anU1Cr7wpNaiyUANXJVucDIAm5C4xAaLGgLz6L3J7SDQShzHFmAD7hvhU9/udIQ8yPzvFNmYQ+0gRuc=
+	t=1790623628; cv=none; b=THI4lAyXwMIhV/m6Tt7Ih38+RRPJikpfYexhtrnq2KtCeZCvoAJQYZ47iNpg+4J/ydkC9jViwAHeIhX2ySfwUhV5or6YAFRtKpbwLqOyO+3BG7mKQbcmClHwTIeocoAaVYx4HAneyiJ2tjNgylB1NUWPWh3XGb1xkAeFp+c8qT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790623290; c=relaxed/simple;
-	bh=e4W3heWpJSSfMatKHc6jQT2QirxzrrhJb2u5eQNHmGQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FsPbaMeD1nTg0f5d0+ua9c+6yNznHIEAlapjQTKPbV0C0GlWL3+p2E3cCi0q9yzOxNJZ1qzmBuCIJViW+HzAajikqoWUJRoKOMJTPz7dC8+jvi+NouE2wjQK+DGpmkyW8b4ALwbSATHrMPqIx33r4yQrm60C2A8AZmG7e3IW+H8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Xz+GHSZ/; arc=none smtp.client-ip=74.125.231.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790623628; c=relaxed/simple;
+	bh=Dwg9PmdBa9OnhcGO3thc+vbhTBqGj8fyJxR6pGRJtCA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ijD9UOZCk0sQP11Sp8yGB7E+rCRQQylqgHO/ItBmn3U48zx7h3Ulm7y9ErPR8hTV/Jt4XVYoI288KP/qiQk9BZismamWUKSzkugkte1bsr/yAxqIb/KkzN+NsMJD7Ak0af5Ps4knrorBxFfppwYeLs+Qy7Bttl5Yuw0CKgGY0NE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IgQ3Wz8E; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Xz+GHSZ/"
-Received: by mail-oo2-f4.google.com with SMTP id 006d021491bc7-6d8f2bdc754so643260eaf.0
-        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 12:21:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790623287; x=1791228087; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AVeRClalrWLka3P0+7DfFgAskiK62atsVktrSXYS9Rw=;
-        b=Xz+GHSZ/gIoBvLcPJjaQk3rDT+HEw67Hwg3rJt4chZEILO8gHA6xK9dtcWq/JDyflT
-         0BAuG+Sl8zwoOOArQSDZi93W4CTdpe06z0XZ3nqC4jG+k89A65gtxvDuR2I9RT8ucY0L
-         77xDGU6SZe7JtV6l6XGwH6KVqiv3VynwuSdUJIeSM6aThb2IA4M/WbCwNl6OB2o4uXVZ
-         9PbVwkOMm/SBHtNFpYVbyaG4aUEz8pno3b7y9vsae02eT0oickJRlaU7oJKC3H5RpNqr
-         LnL/QKLB+g2iBsI7KtWJw1naFeBXOImVEWyiUjQ/4VFvTWwM4+mltB2eVoxQO9JDpzIk
-         c+aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790623287; x=1791228087;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AVeRClalrWLka3P0+7DfFgAskiK62atsVktrSXYS9Rw=;
-        b=cM7BHl2r1Jo1o12gC/tD2yQtIzMpsmnBcWmCYXWLppvj7Qsj/oit2+i8GFXkW1Vwt+
-         gDa8XUWzx2/YCHxMVyNHBHh30RtR/QGC/7E5NlkDwLIfz57/g2F3Ozzcr6c4p2JqQtLU
-         /orHHF2x8a8Qko5hvDlaspk4g2AOydx7L2BuryaA3NpyA7xCujoi7UdRzJwgABsWKq2l
-         FlG9GZwW5dAchvXeRtFXEJYoUUE902gb+1daDQOrQqlDgbIOceFD64sYxrBqYoCW5aVI
-         D0SEy60HnaD4Wv4t6s/vctwuBV7Hqd/ZIc/MktxZeN9PVa2UHah/7MiwTHTx2O985vUe
-         LfXQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzlUdcB3QzJLJ60ZL3dpP6TtRSvArhN2Cj71lMvVci0k9WRfGbMRRzZ+l6kuyqmRc1i8UpKcAhbnMg=@vger.kernel.org
-X-Gm-Message-State: AFuF++msqFBT9MDbl9Jr/BN3UlC759CbuVWKho7otOf0Uw3urXwhb9MV
-	wL95PJBSFXB/1mcWXPofpSQhZyYLTk21d3iODcSeUUBUADaLMV71YEnN
-X-Gm-Gg: AYBFou3Ya2wYlHe8GvRIgROq6TZ6Pm++HReC2cFp02TtLneOhQZFw24V9Jh9W+2CmT1
-	7XbgVn1hS89uHyHk5asGvGWS5tLz1We8c/rc3LSenRrC/WcPtLKfgvWxpicoKqGA3xWEoHoxV8P
-	acc7lV+TAfHAK4+vR/t6NXcLcEMk9fIehZWDmQw0DEnNf41GLRfHpIEHfiA1Fp3XzOgqUN2zNgX
-	BsjbLKVKt6ct2snSpbGe0F44iQcsoTUP6YWAuczErNRipP3uKrWaBDEdJYOwP2fADooMnd3TWlv
-	NkMAvnCkB83uenACImU7GgETgLPK99uWuEfuDpI97Spg4J9+Taj3496846r1neKa90C2Trypm+A
-	npR96h0aHPlMN19IX9kFZGvw1JRgE4nbeQKP6s3EATXYtJu8d/7v6Spsq6+LC5HzYt7p1Os8Gka
-	6sS9UfKb5xmvLJU9VgJGmS3/JADM8QkxTv3xxuxMy1QbNDWOEwhsZciYloHJmfj2E59FcAr5Z3D
-	iP6hOb2W5n4a21ADYVRxzE=
-X-Received: by 2002:a05:6820:214:b0:6d9:8fed:b73c with SMTP id 006d021491bc7-6d98fedb9aamr2471163eaf.57.1790623287111;
-        Mon, 28 Sep 2026 12:21:27 -0700 (PDT)
-Received: from Xinshengs-MBP ([129.79.197.98])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6d882dc49dbsm6088996eaf.9.2026.09.28.12.21.25
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 28 Sep 2026 12:21:26 -0700 (PDT)
-From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
-To: netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next] net: usb: asix: remove redundant PHY address short-read check
-Date: Mon, 28 Sep 2026 15:21:19 -0400
-Message-ID: <20260928192119.73351-1-xinsheng.zhu.ny@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IgQ3Wz8E"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E5801F0089A;
+	Mon, 28 Sep 2026 19:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790623625;
+	bh=fxckD1krKfRtQIKDHO99dwo75wNwJ6oW0NCUPNJVZaw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IgQ3Wz8EKMtUK/W4yVTlytp/Xqwe8maY93L7S0yNC4EneYe012MS4aFgYUByF6O8M
+	 SvENRqvMZLtVUngcs/b06rTJCDm12JOw63IKH0SsvGRsMk/6NjWM6WOV6aq386Rvn0
+	 vEL/ThisUBAyJwQcDL76hDGe/st+qbXfY16BOAFQKuYzqqNhS8FXhY3oOZR93ExoYH
+	 6LeQ4sTs6VNNpHFVJ1Uv9JP4DgZN8gG+s/z7VYpoBBVf9w6yEuFBE87JIzE/nvrXgP
+	 jorhoraW2JTvhnZPYxKmvqHxCYFpPCc0SmK4Bgi9BVVEiifoC3rhM8Q5s1gl1/SSaS
+	 Z74CLvm+NfHQQ==
+Date: Mon, 28 Sep 2026 14:27:03 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Amber Kao <ite_pd@ite.com.tw>
+Cc: linux-usb@vger.kernel.org, Yaode Fang <Yaode.Fang@ite.com.tw>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Jeson Yang <jeson.yang@ite.com.tw>, linux-kernel@vger.kernel.org,
+	Amber Kao <amber.kao@ite.com.tw>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>
+Subject: Re: [PATCH v2 1/2] dt-bindings: usb: ite,it8851: Add IT527x and
+ IT885x series support
+Message-ID: <179062362317.393924.10049556880529818458.robh@kernel.org>
+References: <20260918-ucsi-itepd-it527x-v2-0-7b2d9437cc72@ite.com.tw>
+ <20260918-ucsi-itepd-it527x-v2-1-7b2d9437cc72@ite.com.tw>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260918-ucsi-itepd-it527x-v2-1-7b2d9437cc72@ite.com.tw>
 
-Short-read handling was added to asix_read_cmd() by commit
-920a9fa27e78 ("net: asix: add proper error handling of usb read errors").
-The helper converts short reads to -ENODATA while preserving negative
-errors from the underlying USB read operation.
 
-Remove the redundant short-read check in asix_read_phy_addr()
-and its unreachable -EIO assignment. The existing negative-return check
-handles both short reads and underlying USB read errors.
+On Fri, 18 Sep 2026 18:03:43 +0800, Amber Kao wrote:
+> Add compatible strings for the ITE IT527x series and for the IT8855,
+> IT8856 and IT8857. All parts run the same UCSI firmware codebase as the
+> IT8851 and are software compatible with it, so they are described as
+> fallbacks to "ite,it8851".
+> 
+> The IT8853, IT8856, IT8857, IT5272 and IT5274 drive two Type-C
+> connectors, the other variants drive one.
+> 
+> Signed-off-by: Amber Kao <ite_pd@ite.com.tw>
+> ---
+>  .../devicetree/bindings/usb/ite,it8851.yaml        | 49 +++++++++++++++-------
+>  1 file changed, 35 insertions(+), 14 deletions(-)
+> 
 
-Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
----
- drivers/net/usb/asix_common.c | 5 -----
- 1 file changed, 5 deletions(-)
-
-diff --git a/drivers/net/usb/asix_common.c b/drivers/net/usb/asix_common.c
-index 4f03f4e57655..51bf887e3520 100644
---- a/drivers/net/usb/asix_common.c
-+++ b/drivers/net/usb/asix_common.c
-@@ -327,11 +327,6 @@ int asix_read_phy_addr(struct usbnet *dev, bool internal)
- 	if (ret < 0)
- 		goto error;
- 
--	if (ret < 2) {
--		ret = -EIO;
--		goto error;
--	}
--
- 	offset = (internal ? 1 : 0);
- 	ret = buf[offset];
- 
-
-base-commit: 014d795c73837ea2339a4ea8e8f82c6e959b845d
--- 
-2.54.0 (Apple Git-157)
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
