@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF2A03B8BC6;
-	Mon, 28 Sep 2026 12:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D1D401A25;
+	Mon, 28 Sep 2026 13:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790600287; cv=none; b=QRtpXDuXXuDo+5O8XE1q3G/T9auV6o1xyQIk2ZdcPrhvrasxf53v1kL6xqJfQTlrb11vndvEMyoeu05oD+q8tNMSVaiBHlD8c4ln04uu8TiTI8VIapLRSAbxE0plDWtc0YSjYqSaVYXZ8Fj/QO+/JOLlHM4D3PXDSZkhipIqU5M=
+	t=1790600937; cv=none; b=CizFIaCwwBkR72vI/7ayg8uat8b7qPF+rimEFJMoejaO58Xj4nC4uGnn9wG3QnPFDMgD1I0kjh5dAdefdN5FVJ4ocrufu8V68F2mlTFuhGDVaCyt3aC7L0DxnTKCVoK7eDC5NIzvBTK5zSB5G6ALezePmI73M/6DbkJGAkTJQWE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790600287; c=relaxed/simple;
-	bh=QGMT5e++tACn46+4FFxOLS4u0Q88D+y8NooM6+9yh5g=;
+	s=arc-20240116; t=1790600937; c=relaxed/simple;
+	bh=6qQf4RhaH0BmLuDSzTlP51a6XdeA8jUYoENzUueonkY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KigFLdEh3lAmBqflye3bzrp+87+L/XccXSVSQZKxBYQvX/2pJcdyvLnU3rR16y+Sc+A7zOHzWu1Zyv/MbL6kywVhORDyMnDgioo2iSPCUA8vM4k6cjRcl6UixyQ9C43pioIZstsWRvuUZyzhWFyU2wK58DQpXcdKCVsArAnzVWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TAI68bah; arc=none smtp.client-ip=198.175.65.16
+	 Content-Type:Content-Disposition:In-Reply-To; b=mgOGnL8oh/DBbXlEfE+wwYD5zcObvW7UZArU4OUv0p2oeqSRJihkcI0aqYYNnKDkhEDmEAFn2wsAyO+wJXmvJipc42Xo2z7zPi5WU79VSn7C01V1WhA3lSIzikeGggV1ksBRjAWK/9G7pgnKVZk3I7bXCL03c/7nbR9hBzBzWyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W2YNCQGB; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TAI68bah"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W2YNCQGB"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790600286; x=1822136286;
+  t=1790600936; x=1822136936;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=QGMT5e++tACn46+4FFxOLS4u0Q88D+y8NooM6+9yh5g=;
-  b=TAI68bah7aefjnbb7Z8yIObHqWs/TtlWr1ULhvcmFLniy2tXwneBe6N2
-   1+NS9Oy+m5n2pEAKUlYMt48/Avoxph89W3cnz4FWxJ1l/bBkwceVCIyvR
-   rYLYpyktKLgU2+10+KlN/DsFF9KvRM0EaUjnpVBr0zlANPi35JmfsoyZU
-   +VK+Q8Jt2JgVJWu3qmuaCtzbKFescgYrr2eNqoFz1UmHsHsA+mBcfWO+A
-   XYrMe1tryElG2bvRRB1gDL40DgOShAexu6YIhJwmAree/EnRdDOB2kHPE
-   V48lqck7CfI5oAS9d1zgFR92gdM26M7nvoYGDxIQCpXFgRDQxRteUKZzj
-   g==;
-X-CSE-ConnectionGUID: qVo3jkg5QBK9YWJ/ybqlyg==
-X-CSE-MsgGUID: tpfVEE5wTl2DQjrvBdZdIw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="90515600"
+  bh=6qQf4RhaH0BmLuDSzTlP51a6XdeA8jUYoENzUueonkY=;
+  b=W2YNCQGBLC1Hk09yAbeMso8sI0lx0IirQmGzcHcMksrAGq3cT6eoVwWc
+   bxe/+BSL+lnraPa0vMbZrzLDKlMmyaVYJj1ItZwU4Em+XB2xjaU88FSDA
+   bLP8kP2fU3Q7QHieYzv8dCcTyEV0JQQXo13VE11O43W0WZQeeK2OGkkvY
+   aS5/WHIwODA3L7EuI3+rEFq3ik+5mQvC/t45X1pf7s78zGQVVvfLIAJG4
+   tZ1Bq++yCq0AelMHiJ37/1id/kqV8CLOF2auSOV7uce5E6DxNL++BxzsS
+   AeVduj3/+mRMxmJyaQhZ9qIVmhWt1nKBlzlmgv4bEzk5JTW+r0Mo5PW5X
+   w==;
+X-CSE-ConnectionGUID: 4Jg8rgHpQ/eC9BHfLiNzsg==
+X-CSE-MsgGUID: FpNv0RrVRKuiUFQJXMZkdw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="101867171"
 X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="90515600"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 05:58:06 -0700
-X-CSE-ConnectionGUID: wNZP/cTySYauBwzqOY5iQg==
-X-CSE-MsgGUID: Ahnhv6lMQm6R8u3d/zhx7Q==
+   d="scan'208";a="101867171"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 06:08:55 -0700
+X-CSE-ConnectionGUID: bbK0evoWRcCK758tZKw+VQ==
+X-CSE-MsgGUID: YhqaW/lCSTeUR0cK7c+1FA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="271533145"
+   d="scan'208";a="274270715"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa009.fm.intel.com with ESMTP; 28 Sep 2026 05:58:03 -0700
+  by fmviesa010.fm.intel.com with ESMTP; 28 Sep 2026 06:08:53 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id D4D1C99; Mon, 28 Sep 2026 14:58:02 +0200 (CEST)
-Date: Mon, 28 Sep 2026 14:58:02 +0200
+	id 3339999; Mon, 28 Sep 2026 15:08:52 +0200 (CEST)
+Date: Mon, 28 Sep 2026 15:08:52 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Xu Yang <xu.yang_2@oss.nxp.com>
-Cc: badhri@google.com, gregkh@linuxfoundation.org,
+To: Marek Maslanka <mmaslanka@google.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, jun.li@nxp.com
-Subject: Re: [PATCH v2] usb: typec: tcpm: advance vdm_discovery_state on
- Discover Identity Not_Supported
-Message-ID: <arpkWnX7k4c45vCP@black.igk.intel.com>
-References: <20260916043957.3362995-1-xu.yang_2@oss.nxp.com>
+	stable@vger.kernel.org,
+	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
+Subject: Re: [PATCH] usb: typec: port-mapper: Only match USB4 port if host
+ interface is available
+Message-ID: <arpm5HpsYGtfbXLs@black.igk.intel.com>
+References: <20260925131650.3777399-1-mmaslanka@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,74 +64,94 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260916043957.3362995-1-xu.yang_2@oss.nxp.com>
+In-Reply-To: <20260925131650.3777399-1-mmaslanka@google.com>
 
-On Wed, Sep 16, 2026 at 12:39:57PM +0800, Xu Yang wrote:
-> From: Xu Yang <xu.yang_2@nxp.com>
+On Fri, Sep 25, 2026 at 03:16:50PM +0200, Marek Maslanka wrote:
+> typec_port_match() adds a component match for the USB4 port whenever a
+> USB 3.x port that shares the _PLD with the Type-C connector has the
+> "usb4-host-interface" property, regardless of whether a USB4 port can
+> ever be registered for it. The component framework binds the aggregate
+> device only once every match has found its component, so if the USB4
+> port never shows up, the USB 2.0 and USB 3.x ports are not linked to the
+> connector either: the "connector" symlinks are never created and USB
+> devices enumerated on those ports are never linked with the Type-C
+> partner.
 > 
-> Commit Fixes: 205dc9cb39f5 ("usb: typec: tcpm: implement retry mechanism
-> for Discover Identity VDMs") advances vdm_discovery_state to
-> VDM_DISCOVERY_COMPLETE when a CMDT_RSP_NAK is received, but it does not
-> advance the state when a non-modal port returns PD_CTRL_NOT_SUPP.
+> This happens in at least two cases:
 > 
-> This can re-arm another vdm_discovery_work if the port is going to
-> respond with PD_CTRL_NOT_SUPP to the partner.
+> 1. CONFIG_USB4 is not reachable from the Type-C core, i.e. CONFIG_USB4=n,
+>    or CONFIG_USB4=m with CONFIG_TYPEC=y as in the x86_64 gki_defconfig.
+>    usb4_usb3_port_match() is then a stub that always returns false.
 > 
->   tcpm_pd_handle_msg(port, PD_MSG_CTRL_NOT_SUPP, NONE_AMS);
->     tcpm_queue_message();
->       mod_tcpm_delayed_work();
->         tcpm_state_machine_work()
->           tcpm_send_queued_message()  -> send PD_MSG_CTRL_NOT_SUPP
->           run_state_machine()
->             case SRC_READY:
->             case SNK_READY:
->               mod_vdm_discovery_delayed_work(port, 0);
+> 2. The firmware references a USB4 host interface that is disabled. For
+>    example, on Intel Alder Lake-N (ChromeOS Nissa) the TCSS xHCI USB3
+>    ports (SS01-SS04) reference TDM0/TDM1, whose _STA returns 0 because
+>    the SoC has no integrated Thunderbolt/USB4 and the DMA controllers
+>    are disabled in TCSS DEVEN. No PCI device is enumerated for them.
 > 
-> If both the port and its partner do not support modal operation, they
-> will send DISCOVER_IDENTITY to each other infinitely.
+> Only add the USB4 component match if CONFIG_USB4 is reachable and the
+> referenced host interface is available and has been enumerated as a
+> device. The latter mirrors the check in usb_acpi_add_usb4_devlink(), see
+> commit 623dae3e7084 ("usb: acpi: fix boot hang due to early incorrect
+> 'tunneled' USB3 device links").
 > 
-> Advance vdm_discovery_state to VDM_DISCOVERY_COMPLETE in this path as
-> well. In particular, update the state to VDM_DISCOVERY_COMPLETE if it comes
-> from the port partner, and to VDM_DISCOVERY_CABLE_IDENT if it comes from a
-> cable.
-> 
-> Fixes: 205dc9cb39f5 ("usb: typec: tcpm: implement retry mechanism for Discover Identity VDMs")
-> Signed-off-by: Xu Yang <xu.yang_2@nxp.com>
+> Fixes: 4fd7a1f0f7f2 ("usb: typec: Connect Type-C port with associated USB4 port")
+
++Alan
+
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Marek Maslanka <mmaslanka@google.com>
 
 Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
-> Changes in v2:
->  - cover a cable returns PD_CTRL_NOT_SUPP case reported by sashiko
->  - kick off vdm_discovery work to continue working
->  - correct previous wrong fix commit id
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 10 ++++++++++
->  1 file changed, 10 insertions(+)
+>  drivers/usb/typec/port-mapper.c | 21 +++++++++++++++++++--
+>  1 file changed, 19 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index 2d6b14aa2085..5cea820e00c4 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -3891,6 +3891,16 @@ static void tcpm_pd_ctrl_request(struct tcpm_port *port,
->  		case SRC_READY:
->  		case SNK_READY:
->  			if (port->vdm_state > VDM_STATE_READY) {
-> +				if (port->ams == DISCOVER_IDENTITY) {
-> +					if (rx_sop_type == TCPC_TX_SOP) {
-> +						tcpm_update_vdm_discovery_state(port,
-> +								VDM_DISCOVERY_COMPLETE);
-> +					} else if (rx_sop_type == TCPC_TX_SOP_PRIME) {
-> +						tcpm_update_vdm_discovery_state(port,
-> +								VDM_DISCOVERY_CABLE_IDENT);
-> +						mod_vdm_discovery_delayed_work(port, 0);
-> +					}
-> +				}
->  				port->vdm_state = VDM_STATE_DONE;
->  				if (tcpm_vdm_ams(port))
->  					tcpm_ams_finish(port);
+> diff --git a/drivers/usb/typec/port-mapper.c b/drivers/usb/typec/port-mapper.c
+> index cdbb7c11d714..3a97b084c3bd 100644
+> --- a/drivers/usb/typec/port-mapper.c
+> +++ b/drivers/usb/typec/port-mapper.c
+> @@ -42,6 +42,23 @@ static int usb4_port_compare(struct device *dev, void *fwnode)
+>  	return usb4_usb3_port_match(dev, fwnode);
+>  }
+>  
+> +static bool typec_has_usb4_host_interface(const struct fwnode_handle *fwnode)
+> +{
+> +	if (!IS_REACHABLE(CONFIG_USB4))
+> +		return false;
+> +
+> +	struct fwnode_handle *nhi_fwnode __free(fwnode_handle) =
+> +		fwnode_find_reference(fwnode, "usb4-host-interface", 0);
+> +
+> +	/*
+> +	 * The USB4 port can only appear if the host interface is enabled in
+> +	 * the firmware and has been enumerated as a device. The latter is
+> +	 * the same check as in usb_acpi_add_usb4_devlink().
+> +	 */
+> +	return !IS_ERR(nhi_fwnode) && fwnode_device_is_available(nhi_fwnode) &&
+> +	       nhi_fwnode->dev;
+> +}
+> +
+>  static int typec_port_compare(struct device *dev, void *fwnode)
+>  {
+>  	return device_match_fwnode(dev, fwnode);
+> @@ -64,11 +81,11 @@ static int typec_port_match(struct device *dev, void *data)
+>  				    adev_fwnode);
+>  
+>  		/*
+> -		 * If dev is USB 3.x port, it may have reference to the
+> +		 * If dev is USB 3.x port, it may have reference to an available
+>  		 * USB4 host interface in which case we can also link the
+>  		 * Type-C port with the USB4 port.
+>  		 */
+> -		if (fwnode_property_present(adev_fwnode, "usb4-host-interface"))
+> +		if (typec_has_usb4_host_interface(adev_fwnode))
+>  			component_match_add(&arg->port->dev, &arg->match,
+>  					    usb4_port_compare, adev_fwnode);
+>  	}
 > -- 
-> 2.34.1
+> 2.56.0.rc1.315.gc6ed9934b7-goog
 
 -- 
 heikki
