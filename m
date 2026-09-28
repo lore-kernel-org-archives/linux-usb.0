@@ -1,66 +1,43 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A6B4C9573;
-	Mon, 28 Sep 2026 14:44:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016BF4D6C3F;
+	Mon, 28 Sep 2026 14:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790606656; cv=none; b=ZIgdDgkgasnYXruMdUkH2DNx9nLTbJ7tJMYEkoHRbzeVuVimKvBHQ8VChZf6HA11LdgE75ZFLqoDZmfztCX9a2ytp5hV8aa1mHwubnlnl1UMwaN8FH1L1ue5ZrRvGFiidZesHZmxpshoXLEhVZhr8mR5FBVepEOifAA+YoQf1eI=
+	t=1790606693; cv=none; b=Jtf9wCinAZoh8aBeh80XdmpB+ENB8cFvtF9cxpHMyHmbyZ56hUWJtQsMX1Og5deZe0KatmxgxOZJMGFoDiwvvc3tgF1ZFXvP6s7gCMJhawD52XLwqKKZjGmJyDtzFcnvDu2LUeT5SXy1oBM/Ie08oYjGm3TxpcTxazz5veXz+7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790606656; c=relaxed/simple;
-	bh=8827mwI9ePq+tLBqt0/WixaVjA5dDxqutBrhIqv0p3w=;
+	s=arc-20240116; t=1790606693; c=relaxed/simple;
+	bh=ke9JBBtwtylHKdeQZ1wwGoeFC0gM2nZZGn1nsc7tj3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e7RlvroNpAeddV8GFNayxpgtyAUfbcmyIsEB/QRs0zpDvbcBtOPongjWk1wgtKgCu75lM0KGUq08HvMUS8NWefxamAhVjeNuRfLAqpvIbjC23jiCjk/HgludYb2QQDc+nmUZjrRnKlwgkMeq5ONgYhKGe7bcoos4ZLoTdV7Rks8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kr9CVAyD; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=PUKfXsTFFDZwP6WQdoVlWvlxfapVZ+fJz9k0sLnD9kug1W2ABGACnLAiAmYzgmzN//OAeFK7GjV6dmy85k8Rj0kKm3y9+WjcVgQzF0pISNlzbifpJGo0PDmvR7k7zp1uonv2bIGR2ZwwpVSLxujY1yAjyvrkfqivKOPNtoj/i4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nbEuX46B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kr9CVAyD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790606651; x=1822142651;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=8827mwI9ePq+tLBqt0/WixaVjA5dDxqutBrhIqv0p3w=;
-  b=Kr9CVAyDU2Fnfn0acA5L7O2Ph3BASZHk0OriRz/FR9Zg3Ox7Et7T9asn
-   tvBnqk8fsWiy5exRN0VunAPj3VcB9ghwq0OOdI4DSq7ASIbUQgQPxTwhl
-   eDxIUs4tpgwhYftaPadvwLeiTkucrG+CoYHjo1GvSVwr2u5YqijatFtyz
-   LCRzB/uGPAcBCsmCXk3/A90f+iOQr75VtuCYqqot2cgqCvZ7gIk9kw8vo
-   hg/QM/EoxNjnTVNvPmwCEb2WXum2ZswohEQ1Et0vjjLf6wlozER5G2Lit
-   mhFaZ3hUjD3QFFYtD86KfHvB8IglhwexkIPogZw7k0EbSsraDC7vhlvJr
-   Q==;
-X-CSE-ConnectionGUID: CqLi2X0GT2y3/uzcHoUT8A==
-X-CSE-MsgGUID: uLETA+4gR/S+lRtqusOnOQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="113092611"
-X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="113092611"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 07:44:03 -0700
-X-CSE-ConnectionGUID: BAZDn/oDQnS/t4YIJWGPsw==
-X-CSE-MsgGUID: VCYkQyrZRxa0xIQGyzx3fw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
-   d="scan'208";a="274182044"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa008.jf.intel.com with ESMTP; 28 Sep 2026 07:44:00 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id A875599; Mon, 28 Sep 2026 16:43:59 +0200 (CEST)
-Date: Mon, 28 Sep 2026 16:43:59 +0200
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: pip-izony <eeodqql09@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Randy Dunlap <rdunlap@infradead.org>, Fan Wu <fanwu01@zju.edu.cn>,
-	Johan Hovold <johan@kernel.org>, Ajay Gupta <ajayg@nvidia.com>,
-	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
-	Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: ccg: Validate altmode index in
- GET_CURRENT_CAM response
-Message-ID: <arp9LwRxhoyolsTA@black.igk.intel.com>
-References: <20260928053759.533956-3-eeodqql09@gmail.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nbEuX46B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E50FB1F00893;
+	Mon, 28 Sep 2026 14:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790606691;
+	bh=fss5/qW2KRPxMx2bFllwYMgwLmwU+5fSludVz5uECCQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=nbEuX46BYgySxw8NlsdBzixeoKoIP130DIb7IHtw95XNdhuz/Bqik10EefmXQrQe3
+	 Ks0ugd5BiLP5zi4u/vuD3fcopLZ4Y3emQH9MpqtkZYafP2p2ZNvfjscOb8KyeQgjPv
+	 ojzCdSGcrSpNaVCNKdP8scMWiVF0LRsGJiZ7O0Ls=
+Date: Mon, 28 Sep 2026 16:44:45 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+Cc: "Michael S . Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowangio@gmail.com>, virtualization@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Vasilii Ianikeev <vasilii.ianikeev@oss.qualcomm.com>,
+	Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>,
+	Anton Yakovlev <anton.yakovlev@oss.qualcomm.com>,
+	Trilok Soni <trilok.soni@oss.qualcomm.com>
+Subject: Re: [PATCH 0/8] virtio-usb: add dual-role virtio USB driver
+Message-ID: <2026092846-word-shape-dab9@gregkh>
+References: <20260924160907.145405-1-igor.skalkin@oss.qualcomm.com>
+ <2026092520-aerosol-brim-22d1@gregkh>
+ <1149e188-7279-4c60-bd96-f8d75d721ae0@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -69,73 +46,119 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260928053759.533956-3-eeodqql09@gmail.com>
+In-Reply-To: <1149e188-7279-4c60-bd96-f8d75d721ae0@oss.qualcomm.com>
 
-On Mon, Sep 28, 2026 at 01:38:01AM -0400, pip-izony wrote:
-> From: Seungjin Bae <eeodqql09@gmail.com>
+On Mon, Sep 28, 2026 at 03:55:38PM +0200, Igor Skalkin wrote:
 > 
-> When the PPM reports more than one DisplayPort alternate mode for a
-> connector, ucsi_ccg_update_altmodes() merges them into a single entry
-> in uc->updated[] and sets uc->has_multiple_dp. In that case,
-> ucsi_ccg_update_get_current_cam_cmd() rewrites the response of the
-> GET_CURRENT_CAM command. The response is a single byte holding the
-> index of the currently active alternate mode, and it is provided by
-> the PPM firmware.
 > 
-> The function uses this byte directly as an index into uc->orig[], and
-> then uses the linked_idx read from that entry as the translated index
-> into uc->updated[]. Both arrays have UCSI_MAX_ALTMODES entries, but
-> neither index is checked against that size.
-> 
-> If a malicious or buggy PPM reports a value of UCSI_MAX_ALTMODES or
-> larger, e.g. 0xFF, uc->orig[cam].linked_idx reads over the end of
-> uc->orig[]. The byte read from there is then used as the index for
-> writing cam into uc->updated[new_cam].active_idx, so the out-of-bounds
-> read is followed by an out-of-bounds write. This happens without any
-> userspace action, since the UCSI core issues GET_CURRENT_CAM on its own
-> when handling connector changes.
-> 
-> Fix this by ignoring responses whose index is out of range and leaving
-> the original value in place. The UCSI core only uses the value as an
-> index into con->port_altmode[] when it is below UCSI_MAX_ALTMODES, and
-> otherwise treats it as no active alternate mode. Also check linked_idx
-> before using it as an index, so that the write into uc->updated[] is
-> always within bounds.
-> 
-> Fixes: 170a6726d0e2 ("usb: typec: ucsi: add support for separate DP altmode devices")
-> Cc: stable@vger.kernel.org
-> Reported-by: Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>
-> Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
-> ---
-> The issue was found through code audit and was reported privately,
-> so there is no public report to link to.
-> 
->  drivers/usb/typec/ucsi/ucsi_ccg.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> index 91c2958a708c..4d1166c20639 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-> @@ -389,7 +389,13 @@ static void ucsi_ccg_update_get_current_cam_cmd(struct ucsi_ccg *uc, u8 *data)
->  	u8 cam, new_cam;
->  
->  	cam = data[0];
-> +	if (cam >= UCSI_MAX_ALTMODES)
-> +		return;
-> +
->  	new_cam = uc->orig[cam].linked_idx;
-> +	if (new_cam >= UCSI_MAX_ALTMODES)
-> +		return;
-> +
->  	uc->updated[new_cam].active_idx = cam;
->  	data[0] = new_cam;
->  }
+> On 9/25/2026 7:17 AM, Greg Kroah-Hartman wrote:
+> > On Thu, Sep 24, 2026 at 06:08:59PM +0200, Igor Skalkin wrote:
+> >> This series adds a new virtio-usb driver: a dual-role virtio device
+> >> capable of acting as a USB host controller, a USB device controller,
+> >> or both simultaneously with runtime role switching between the two
+> >> (USB OTG-style role switching) on ports that support it.
+> >>
+> >> The corresponding virtio-usb device specification has been posted to
+> >> virtio-comment for review. This series matches the v2 revision of
+> >> that spec, which reconciles a small number of protocol details
+> >> (per-role virtqueue presentation, host-role vp_idx for hub/multi-VP
+> >> support, and the device-role BIND/UNBIND event split) that were
+> >> clarified while integrating and testing this driver against the
+> >> spec:
+> > 
+> > Why do we need this at all when we have other ways of doing usb devices
+> > through virtio?
+> > 
+> > Why is a USB virtio spec needed at all, who is going to use it?
+> > 
+> > 
+> For device classes that already have a virtio equivalent (storage, HID,
+> video, audio) there's no need for virtio-usb: we can use
+> virtio-blk/virtio-input/virtio-video/virtio-snd directly.
+> What virtio-usb actually addresses is different: protocols that are
+> about raw USB semantics itself, not about any particular device class.
+> Two concrete cases we care about. ADB (Android Debug Bridge), a specific
+> USB interface/vendor-class protocol used throughout Android development
+> and debugging, with no meaningful way to express it as a block or HID
+> device. And Android Auto (AOA) / Apple CarPlay, USB-level
+> control-transfer and vendor-negotiation protocols used when a phone is
+> plugged into an automotive head unit.
+> Our motivating use case is automotive cockpit virtualization: a physical
+> USB port where a phone is plugged in needs to be handed to a guest VM
+> running the head-unit stack, and that guest needs to run one of these
+> USB-native protocols. The existing software on both sides already speaks
+> raw USB and works unmodified if it sees a real-looking USB device.
+> virtio-usb lets that keep working, instead of needing a new bespoke
+> virtio spec for every such protocol as new USB-based ecosystems show up.
 
-Make this function return an error, and don't forget to print
-something too.
+So you just want "raw" usb, then why not use usb-ip?  Isn't that what
+it's there for?  Or just mount usbfs and expose that to the host as
+that's what adb is using already, right?
 
-> 2.43.0
+> >>   [RFC PATCH v2] virtio-usb: Add initial virtio-usb specification
+> >>   Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+> >>   virtio-comment@lists.linux.dev
+> >>   https://lore.kernel.org/virtio-comment/20260924154007.143927-1-igor.skalkin@oss.qualcomm.com/
+> >>
+> >> This driver has been tested end-to-end against our own userspace
+> >> virtio-usb device implementation (host-side backend) in two setups:
+> > 
+> > Where is that code and why isn't it part of this submission?
+> > 
+> The backend we used for the testing described above is an internal
+> implementation that we're not releasing as part of this submission - it
+> integrates with some systems that aren't ready to be public. We
+> recognize that limits independent verification of our specific test
+> results, and we don't think that's an ideal situation.
 
--- 
-heikki
+Then we can't even review this at all, sorry, you all know better than
+that.
+
+> >>   4-5: USB OTG-style role query and role-switching support.
+> > 
+> > There's a reason OTG isn't used anymore by devices, how have you
+> > addressed those problems here?  And why duplicate the failures of the
+> > past?
+> > 
+> We're not implementing ID-pin detection, HNP, or SRP - none of that.
+> "OTG" here is just a reused name for something much simpler: an explicit
+> role-switch command exposed to the guest via sysfs. Device-to-host is
+> driver-initiated (guest writes to that sysfs entry); host-to-device is
+> host-initiated (the host switches on its own and notifies the guest).
+> Either direction is always granted - no negotiation step to get wrong.
+> Happy to rename the OTG-tagged commands/constants if the naming is
+> causing confusion.
+
+"OTG" has a _VERY_ specific definition in the USB world, don't attempt
+to re-define it please.  That way lies madness...
+
+> >>   6:   endpoint-lifecycle robustness rework (async split-phase state
+> >>        machine, replacing an earlier out-of-tree gadget.nonatomic
+> >>        patch that didn't pass upstream review).
+> >>   7:   SuperSpeed device-role support.
+> > 
+> > Why should speed settings matter to a virtual connection?
+> >
+> Because the kernel APIs we're implementing on top of are inherently
+> speed-typed, not because of any real electrical/physical constraint.
+> usb_hcd (host role) and the USB Gadget API (device role) both bake speed
+> into their core design - it drives enumeration, bandwidth scheduling,
+> and descriptor selection (e.g. SuperSpeed companion descriptors) in the
+> USB core and in gadget function drivers. dummy_hcd is a good precedent:
+> it's also a purely virtual host controller with no real signaling, and
+> it still has to declare and support different speed configurations,
+> because the framework requires it. We're in the same position -
+> unmodified guest USB class drivers and gadget function drivers depend on
+> accurate speed information regardless of what's actually behind the
+> interface.
+
+This is a virtual connection, speed means nothing here other than some
+descriptor stuff in a few places.
+
+Again, try using the existing code, usb-ip or usbfs, don't invent
+something new, especially when it's not even visable to anyone.  Would
+you want to attempt to review something like this in that situation?
+
+thanks,
+
+greg k-h
