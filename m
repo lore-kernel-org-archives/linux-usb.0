@@ -1,107 +1,115 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DE6451984;
-	Mon, 28 Sep 2026 08:52:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 770DB30FF36
+	for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 09:25:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790585580; cv=none; b=C6ZdU6WC/QmYJLoUlGY9jIhHTmmKTfC7Jie8IeypiE6iaqUNczzBXs2/fOZaFmF7gl80pTcbN1kNIlijyvIUpsUSFnMm89bU0HxwQQ7ZmZE6gUvw/l6BPW2QX51wv10lV/LhS4sY3mGCCxqEcsnjZRV8YLAFOppEZgKleUCkJgI=
+	t=1790587522; cv=none; b=DEDP4Eg3upXt1OsWAecmxEf0C5ygYjNmwK6N6sK2IegGELV/6RJ3RqU6xMEc1YyBti95lvC3ZaQz9OtrscyRnVMNyXhf2TwwWBiQrDY5bEhklNGW5zyvh2L/Rz4Vg+lm8+nXmK9YXUSgQXa7Ez086v6EFk4b3qsZmg88DaPqKjg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790585580; c=relaxed/simple;
-	bh=GJkv0KF9EJJYzhj5G3y3cOyBlUvjSK7/fTYN1p2HQcY=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=SYljfis4DSL88lZ1SFM6MrzNdogfN6xey2nASvVn4tn6v4H5FcWG6mfpqvwlmpJbxp+iJuMr9E+4p3s12AhMB1ZkXyJlzUOnBLBp4wLf0affI4zmefhNBGpDYGpUnHgsvkiiGqUlAVtvxBWTgYZZvmirayKJGpUHLMuj8jntEEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=lTs22dex; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1790587522; c=relaxed/simple;
+	bh=sRD9ofnlXZkewc41XWvNYzZyylkdw1BZP+frC5NLTO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AP4WufdlccgAFIBWsHmqLTftmVzuw363TAyFamzU03mUvWQiVZa4GHCH8x+0CzZL2AcJGRm1Zp1Rs1TPNUhantObMuekd60ZWW9yUS39z6LYyDDsx0EEGAfJw9zbCD/gmuw+wTaFbbXpLrEdu8VdkEYFi/qdUkqNjL2jkfc6mTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kReiAaDI; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="lTs22dex"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=Rk
-	I040s/UcDuypkKQtOsqL0mxZcgriN1x2lBhMZKc2E=; b=lTs22dexmtx++MldfV
-	ZRvXAZGBX6Ljd6LT3/KzYw2SSNgSYlDdcnyjX4OmXNDqSzG72O1AvbwT3fdhsQom
-	pZPKEsDtZxGtDlTkjfgWEgPXvGFhIgLEbH9IgmoZgeQU6sCK8pTjHSEYhniy0zLw
-	K7nw3fKttRc1XxN9KFCq3c6w8=
-Received: from thinkpadx13gen2i.. (unknown [])
-	by gzsmtp4 (Coremail) with SMTP id PygvCgDXx1vTKrpqCYxKBw--.63307S2;
-	Mon, 28 Sep 2026 16:52:36 +0800 (CST)
-From: Zongmin Zhou <min_halo@163.com>
-To: david-b@pacbell.net,
-	gregkh@linuxfoundation.org,
-	kees@kernel.org
-Cc: nikolayof23@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Zongmin Zhou <zhouzongmin@kylinos.cn>
-Subject: [RESEND PATCH v2] usb: host: sl811_cs: fix memory leak on probe failure
-Date: Mon, 28 Sep 2026 16:52:34 +0800
-Message-Id: <20260928085234.43277-1-min_halo@163.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260901020352.20252-1-min_halo@163.com>
-References: <20260901020352.20252-1-min_halo@163.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kReiAaDI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790587521; x=1822123521;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sRD9ofnlXZkewc41XWvNYzZyylkdw1BZP+frC5NLTO4=;
+  b=kReiAaDIvHxDcPDEsmW1E41lnIbW5b1x8SAyknundxk4BjecC62aqMfT
+   VPK7ynTOZqYC8c3YIhSAl1Xh8sbWRxZaOWsh6BJV9KeNQthHhFhrIJVJ3
+   siYm/VX1fp9ygB4oCRYxlnPatemNprizMkUb8uCvMrn90IYs6tgbRZATb
+   ghWWSRB6JaTXWXtmnOSH2Cz4hbNSPfL1I/GFx++ho9vrbmunL/t76wE8j
+   pmZld4w0yGcKm1VZJol9FAgR38RMo0t7QtlJiZLEQRsigLnmEQ7TZSNgS
+   n3p4B06hLgi3zgW7TnQwTJTUdGkwsveug5EHbtDO9P61SR0UnaBDZCW4U
+   w==;
+X-CSE-ConnectionGUID: toWD0sJ2SL+da5Qhb3AJGA==
+X-CSE-MsgGUID: f2fn6JhdQ9S/PIipDOmDwQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11918"; a="78845892"
+X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
+   d="scan'208";a="78845892"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 02:25:20 -0700
+X-CSE-ConnectionGUID: V5EKJ6JSSHeBXHeQeeEViw==
+X-CSE-MsgGUID: hTNwOyzERTqZXDfWWtUvLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,128,1787036400"; 
+   d="scan'208";a="283078687"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa005.fm.intel.com with ESMTP; 28 Sep 2026 02:25:18 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 59C1899; Mon, 28 Sep 2026 11:25:17 +0200 (CEST)
+Date: Mon, 28 Sep 2026 11:25:17 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Kurt Lieber <kurt@lieber.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"andreas.noever@gmail.com" <andreas.noever@gmail.com>,
+	"westeri@kernel.org" <westeri@kernel.org>,
+	"YehezkelShB@gmail.com" <YehezkelShB@gmail.com>
+Subject: Re: [PATCH] thunderbolt: Disable CL states for the Anker Prime TB5
+ dock
+Message-ID: <20260928092517.GE106095@black.igk.intel.com>
+References: <20260924101046.GN106095@black.igk.intel.com>
+ <SJ0PR15MB46960A6F15BCA58C0726C908A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924125729.GP106095@black.igk.intel.com>
+ <SJ0PR15MB469651A447568D8E66757EB1A3812@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260924145447.GR106095@black.igk.intel.com>
+ <SJ0PR15MB4696FC97236D81E59D40E142A3802@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260925050124.GT106095@black.igk.intel.com>
+ <SJ0PR15MB46968FAE6C8D0A6A250C5ACBA38F2@SJ0PR15MB4696.namprd15.prod.outlook.com>
+ <20260926102705.GD106095@black.igk.intel.com>
+ <SJ0PR15MB46961EF9154F8795B63E66C7A38F2@SJ0PR15MB4696.namprd15.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PygvCgDXx1vTKrpqCYxKBw--.63307S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Kr43uF1xWw18WF4kuF47XFb_yoW8XFWxpF
-	s8W398ArZ5Ka43uFZrGFyxuw1Sgan7JayUGrZrK3y2vrnxAr98XF92v3WYgr4DZrWDKF15
-	tryktrWUAF9ay37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07joKZJUUUUU=
-X-CM-SenderInfo: pplqsxxdorqiywtou0bp/xtbC8xQJtGq6KtRj9AAA3j
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <SJ0PR15MB46961EF9154F8795B63E66C7A38F2@SJ0PR15MB4696.namprd15.prod.outlook.com>
 
-From: Zongmin Zhou <zhouzongmin@kylinos.cn>
+Hi,
 
-sl811_cs_probe() leaks the local_info_t allocated into link->priv when
-sl811_cs_config() fails: the only kfree() lives in the remove callback
-sl811_cs_detach(), which the PCMCIA core never calls for a device whose
-probe failed.
+On Sat, Sep 26, 2026 at 11:37:09AM +0000, Kurt Lieber wrote:
+> Hi -
+> 
+> On Sat, Sep 26, 2026 at 10:27:14AM +0000, Mika Westerberg wrote:
+> 
+> > This is the smoking gun! Thanks for taking the dump from the other side as
+> > well. CM guide actually says we cannot enable CL states if this bit is not
+> > set. Can you try the below patch (without clx=0)?
+> 
+> The patch works here with thunderbolt.clx left at Y.
+> 
+> linux-omarchy 7.2.5-4. I built your change into the 7.2.5
+> thunderbolt module (usb4_port_clx_supported requires both
+> PORT_CS_18_CPS and PORT_CS_18_CSC; the function tests mask
+> 0x800400) and loaded that module with the clx=0 option not
+> applied. The Anker Prime (DROM 01ea:83b5, NVM 62.2) disconnected
+> when the old module unloaded, then came back once:
+> 
+>   thunderbolt 0-3: new device found, vendor=0x1ea device=0x83b5
+>   thunderbolt 0-3: Anker Prime Docking Station (14-in-1, 8K, Thunderbolt 5)
+> 
+> It stayed authorized at 40 Gb/s (2 x 20 Gb/s). For the next 15
+> seconds dmesg had no "TMU: failed to enable mode uni-directional,
+> LowRes: -107" and no further thunderbolt disconnect. The dock USB
+> devices enumerated and stayed.
+> 
+> So the patch is successful, I believe.  Thank you for puzzling through it.  Let me know if there's anything else I can do on my end.  Cheers!
 
-Free the private data when sl811_cs_config() fails.
+Thanks for testing! I realized now that the host side shows the CSC bit 0
+because that was added in USB4 v2 so the v1 host does not know about that
+bit and that's why we see different values between the ends. So the cable
+supports it, the host supports it and the dock (well BR) should support too
+but we don't know if there is something in the Anker firmwares like the
+PD/retimer that could have issues with CL states. 
 
-Fixes: 15b99ac17295 ("[PATCH] pcmcia: add return value to _config() functions")
-Reviewed-by: Nikolay Kulikov <nikolayof23@gmail.com>
-Signed-off-by: Zongmin Zhou <zhouzongmin@kylinos.cn>
----
-Changes in v2:
-- Fix the Fixes tag to 15b99ac17295, the commit that made
-  sl811_cs_config() failures observable as probe failures.
-- Add Reviewed-by from Nikolay Kulikov.
-
- drivers/usb/host/sl811_cs.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/host/sl811_cs.c b/drivers/usb/host/sl811_cs.c
-index ada91ca33f65..fd0cd541bf53 100644
---- a/drivers/usb/host/sl811_cs.c
-+++ b/drivers/usb/host/sl811_cs.c
-@@ -177,6 +177,7 @@ failed:
- static int sl811_cs_probe(struct pcmcia_device *link)
- {
- 	local_info_t *local;
-+	int ret;
-
- 	local = kzalloc_obj(local_info_t);
- 	if (!local)
-@@ -184,7 +185,11 @@ static int sl811_cs_probe(struct pcmcia_device *link)
- 	local->p_dev = link;
- 	link->priv = local;
-
--	return sl811_cs_config(link);
-+	ret = sl811_cs_config(link);
-+	if (ret)
-+		kfree(local);
-+
-+	return ret;
- }
-
- static const struct pcmcia_device_id sl811_ids[] = {
---
-2.34.1
-
-No virus found
-		Checked by Hillstone Network AntiVirus
-
+I'm going to apply your quirk instead.
