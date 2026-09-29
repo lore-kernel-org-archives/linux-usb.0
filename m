@@ -1,70 +1,98 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D8E3E4106;
-	Tue, 29 Sep 2026 13:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D5452B1F4;
+	Tue, 29 Sep 2026 13:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790688236; cv=none; b=sjaVqRJp3B9MO/S6D1DWaSIBK2v8FQB7CWC8J7KLvc6PgiBDLXxRU3Tv6DKzO133Fy7i2GYBwjIzcluGa11DnFoq+FwqRuSiRMMiNHcNgzX0ziPJrR5Hah7X2pb+JmDYjLvNoNHMLYv1hVNthLuKPDe23OEC3um0WC+W60UXWro=
+	t=1790688626; cv=none; b=uGmd6Goc96R2CwNDYq6INnledxEeNwzVt3ocgy2wVs9bS93xhdhWiiNbzRSxH5SrvPcd0IteXI4OxBrA4iF8R8TryrVQduQ7ER3/0E3SF0g6TfmXYrRYxUTnwwlRWWdtC4GjDy5U++kqjuNQrJ4wDv/Cf1S6PIdm33Wn7K7jsmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790688236; c=relaxed/simple;
-	bh=xHxwiDeZq7L2wt51F8Qm7ClYHwkgZ0cBXSOz515KatA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bevdPflJYGRO4zAEcpzmFz3FxE8u1yt1cT6vuCOCcdZ9jE1Ph2JPCc8SNnBrix1lbOtb8R/3jLgwf3AdadFQoC70yX+lIt5tJF8sbqAlZIjnAd5XaoeGt6A0ZzcT0VZC5TOW14Dzantjp37Ets0ij3L3qniOz6OtMsENfUw3h5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=RUJfwNDT; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790688626; c=relaxed/simple;
+	bh=jDaZ9QN1PfNQN7ekeOwptKaWTdUXlHDdlPTWkH0ZRkc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BHeyJvSguEZxSGcSvu4It7RVMlPTnNdGvKXdaW3sLOZik14YUh6UYhW2XDhgM7dmdhJsfuO+P097UF6XCSS9xsE2RV2K3QX1rSpGJMX6w3oNunYOlI6LEyTpGJ1TjGEY62MgchEfDOOQXTSmW2uW/8UUHEqFF2xiXo8RmlCN6zg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RIuUtXQ7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RUJfwNDT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF52E1F000FF;
-	Tue, 29 Sep 2026 13:23:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790688235;
-	bh=sgbsnVzbaF2JP0dXhwqPl6l+cHOMlrsPEy71mTmO5Nk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=RUJfwNDTL1ez80vSyfPPo7MgfVX3oF+XHMHbE8maLbAy31zTwknS/yS0h4CPSESgq
-	 SRo4dJBQ9Flgvq9kHrY5V2g+m5xLmxCi44zyV3q6jlK7GljQyViac+3Z7h+XTp0u/k
-	 XgWiT6MOCGfRX2iT+DF0OpzhUO7T7h0kqTpyqNo8=
-Date: Tue, 29 Sep 2026 15:23:49 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Deepanshu Kartikey <kartikey406@gmail.com>
-Cc: kees@kernel.org, pavel.hofman@ivitera.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
-Subject: Re: [PATCH] usb: gadget: u_audio: reject srate request for
- unconfigured direction
-Message-ID: <2026092925-licorice-strode-7905@gregkh>
-References: <20260821114854.12218-1-kartikey406@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RIuUtXQ7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67FB61F00893;
+	Tue, 29 Sep 2026 13:30:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790688624;
+	bh=YddyNBlBeMGDVbqSqWAWeupeImPN1+vt/HIPaYWlt0Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=RIuUtXQ7pN1ntHH5E9SHtFiVxk4VlC3Lx05nbDdqWgnrCoGrr5Kaw9EB3EurZOqnd
+	 ver7PIljjQDwRadvVv/c0J+hSkjXNlJWDffpZQLU4o93+0nCvAAl0Ux4SYrhGz087x
+	 /Em+ZWodHWV8OvgVNkTQErGD8adcsGYl1RKaedB7Hpt6DTY+b0QeVKsaMmFWtR0wIy
+	 1brTzz3b1fmLHV899/10+jQutIesNgOTsfOa5laHgSWmjnUC6CSWuXFwsRIMHGnLYv
+	 HGMSS19MSaUoKNmt7xqQq6t+vM1Gswc7Xht5EjiEDmf4hpi5r6Q6EcIVHkhsOwMVNz
+	 JNZ4Kdafpc/Lw==
+Message-ID: <45963e29-f896-4e67-87ee-ac90131773e2@kernel.org>
+Date: Tue, 29 Sep 2026 15:30:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260821114854.12218-1-kartikey406@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] phy: core: Use EOPNOTSUPP for disabled blob return value
+To: Inochi Amaoto <inochiama@gmail.com>, Hans de Goede <hansg@kernel.org>,
+ Niklas Cassel <cassel@kernel.org>, Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Minas Harutyunyan <hminas@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Vinod Koul <vkoul@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Damon Ding <damon.ding@rock-chips.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-ide@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org,
+ linux-phy@lists.infradead.org, Yixun Lan <dlan@gentoo.org>,
+ Longbin Li <looong.bin@gmail.com>
+References: <20260929084739.467082-1-inochiama@gmail.com>
+From: Damien Le Moal <dlemoal@kernel.org>
+Content-Language: en-US
+Organization: Western Digital Research
+In-Reply-To: <20260929084739.467082-1-inochiama@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Aug 21, 2026 at 05:18:54PM +0530, Deepanshu Kartikey wrote:
-> u_audio_get_playback_srate() unconditionally locks and reads
-> uac->p_prm.lock/srate, but g_audio_setup() only initializes
-> p_prm.lock when p_chmask is set. On a UAC2 instance configured
-> without a playback direction, this results in acquiring a
-> never spin_lock_init()'d lock when a GET_CUR sample rate
-> request targets playback, triggering a lockdep "trying to
-> register non-static key" warning.
+On 2026/09/29 10:47, Inochi Amaoto wrote:
+> Currently, the phy subsystem uses ENOSYS for dummy blob functions,
+> it does not reflect the function state correctly. As kernel already
+
+s/function state/hardware capability ?
+
+s/As kernel/As the kernel
+
+> has EOPNOTSUPP for disabled blob function, replace ENOSYS with
+
+What is "blob function" ? Are you talking about all the phy_xxx() functions?
+
+> EOPNOTSUPP for a clear return value. Also adapt the return value
+> changed in the following affect file:
+
+s/affect/affected
+
+> - ata/libahci_platform.c
+> - drm/bridge/analogix/analogix_dp_core.c
+> - usb/dwc2/platform.c
+> - usb/dwc3/core.c
 > 
-> Reject the request with -EOPNOTSUPP when p_chmask is not set,
-> before touching prm->lock.
-> 
-> Fixes: eb3a1ce6f5ed ("usb: gadget: u_audio: Add capture/playback srate getter")
-> Reported-by: syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
-> Closes: http://syzkaller.appspot.com/bug?extid=e1d0e66badecc32d45eb
-> Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> ---
+> Signed-off-by: Inochi Amaoto <inochiama@gmail.com>
 
-How was this tested?
+The ata bits looks OK, but this still feels like a lot of churn for no
+functional change since the error is an internal one that is not exposed to the
+user, as far as I can tell. The code in many places also uses -ENODEV, so the
+error returned does not seem to be consistent anyway.
 
-Did you forget a Assisted-by: tag?
-
-thanks,
-
-greg k-h
+-- 
+Damien Le Moal
+Western Digital Research
