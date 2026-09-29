@@ -1,78 +1,255 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A80E041D4F4;
-	Tue, 29 Sep 2026 06:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E0239A802
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 06:51:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790664162; cv=none; b=EREf6cJKfJm2z37kCejXB3FVTOCoVtO85B/cjbpka5W8XDGEOmkMj/YQvfuGSOp1NWs+KS3e4efZtsUvkvYXm1x7lBiRcOzQqoiupXD46flrSv458Y1h3ehJsIFvxZyI59t9uU2kBu4fyrHPLfjgnVj+0i5mOP7+w5HHz/ksuQI=
+	t=1790664701; cv=none; b=cmFRt4a0ufxR89dMd94tIOLqRHwgdfkOqjVVasFXdpJEgkHkwva3sFhflkT+bx2VZE+F5nz91Xq1DifJwt6uWTEGf0xEnCPG2NQ/pHGQBVAzgj0ArqCsTFtoke5A3ArwlpRxYZCK599U12zEbFINjTzkBeVQ6mz4M5Ezsj4ZKDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790664162; c=relaxed/simple;
-	bh=eD3aM0hTN885DZDJGbILVdaFcCSySeWIFbdgXoX2TFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i/FNCqTwliRp4LDWHYxXpzeomLXEOSfGQMdd51aKWQ5imn6z+UxKNFlKRCzGYO2nEBeX/oRjEbvcOl3VIjtpZOLnFnlk9zX09t/JYnbY+BNyoJAkrVkW18xlzhsU1+FZdIwK0+4el3qRp4oDRDcieSKyHWby0cMJIA+cGeunXj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NKiosH33; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790664701; c=relaxed/simple;
+	bh=oj0Yub+oe39leUE4pOQimQKi/Wg4oVTD4X9YKCoTNDU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=fgp3bZS42JRRN3y9rs2O0uq0V8UdHWRSwwcows8sgw+ebxLlTC4xrUXYHXbu0HE2oUkJK+/+ieyXQoTCnrA76xZCXuTm51RIFdmYoORj+BoZ7Mgx8mteM3EXaWCv6XMyRRzGNnY/0ANm6aoyRTmuDB2G3Gne4kMVF21ofFhERyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=YX77loSW; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NKiosH33"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790664160; x=1822200160;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eD3aM0hTN885DZDJGbILVdaFcCSySeWIFbdgXoX2TFg=;
-  b=NKiosH33xre0vUEI5jdGq4rjj7+bEGGfp82+r1aqgrhzalKZvBTJZe68
-   B6ltlpz01NUVhogy0OoYs+u9FUbyDV0AFuxIyhEi9TRlIjpmqzUC1s8wq
-   Rum559kjMZohcgh9MchI+CWzmxMXFlg/PtRS+wVp08zIIo9B3XBhT7Q1D
-   EOfOtmTB77txZdh3utvug1yvqVnq2Lb9BPoyxSZz93WlpUT5KOQ7szLqk
-   E+zY0pffYa/C4KLvbqHbTKCGkRLdR49MImDf01sE6hnun6ZodZW697+sG
-   ybkLIvt1Hshbqk2p96gc4+AXvu2Dc6X5mY6HjgQf7KN6EYX0ThyzS/ZB7
-   g==;
-X-CSE-ConnectionGUID: xChaig1xQDeyOJuerZ0D2w==
-X-CSE-MsgGUID: Q+EmE/3nRmaNyjJZkMzXFQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11919"; a="90239249"
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="90239249"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Sep 2026 23:42:40 -0700
-X-CSE-ConnectionGUID: gjeF6tBaS3q+98OnTRjoOg==
-X-CSE-MsgGUID: J4Cas1MXQ6ivk9g3xD4M9g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,130,1787036400"; 
-   d="scan'208";a="313220375"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 28 Sep 2026 23:42:38 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 2216299; Tue, 29 Sep 2026 08:42:37 +0200 (CEST)
-Date: Tue, 29 Sep 2026 08:42:37 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Cc: ericvh@kernel.org, lucho@ionkov.net, asmadeus@codewreck.org,
-	andreas.noever@gmail.com, YehezkelShB@gmail.com, corbet@lwn.net,
-	linux-usb@vger.kernel.org, v9fs@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux_oss@crudebyte.com
-Subject: Re: [PATCH 1/3] thunderbolt: stream: Add tbstream_dev_from_file()
-Message-ID: <20260929064237.GL106095@black.igk.intel.com>
-References: <20260924162333.147033-1-alan.borzeszkowski@linux.intel.com>
- <20260924162333.147033-2-alan.borzeszkowski@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="YX77loSW"
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260929064607epoutp028fd77f6be9977f8a50e63d9b46915681~Zt8FTnzv00939309393epoutp02N
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 06:46:07 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260929064607epoutp028fd77f6be9977f8a50e63d9b46915681~Zt8FTnzv00939309393epoutp02N
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1790664367;
+	bh=Eove7Yz9RcTn68TqKvHfmy8fKhAw/yKO3H/GbD/V3ps=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=YX77loSWhdqfyYa911Hg+sUaNFF2CsDBjU1cKIORu1Vb6EIHeGAJkckDhtalb6vQ1
+	 mQgPHtLCOZUIe0MQAlXduD+nrkS/AwkofhKEV1TZfsm1vBBB3DM/IS12ZR1DfWW6sp
+	 6GeILxV5hiMkfXfsxvTyy+Rk9s29nT8MdOmsx+2c=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20260929064607epcas5p2a1e4e6c2bcfbf029356e14fdb28a428b~Zt8E-1NPV0471104711epcas5p2F;
+	Tue, 29 Sep 2026 06:46:07 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.86]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4hv7xB4xDBz6B9mK; Tue, 29 Sep
+	2026 06:46:06 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20260929064606epcas5p4155e448857db11ccb2258e4e08c72edc~Zt8D4NQ8N0110001100epcas5p40;
+	Tue, 29 Sep 2026 06:46:06 +0000 (GMT)
+Received: from [107.122.5.126] (unknown [107.122.5.126]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20260929064605epsmtip1e0a5a42fb26d4cac84ca5cf60969f9cc~Zt8DIOk_s2258722587epsmtip1C;
+	Tue, 29 Sep 2026 06:46:05 +0000 (GMT)
+Message-ID: <e8b9b694-0ba5-4d0f-97c9-ceeb89ae4729@samsung.com>
+Date: Tue, 29 Sep 2026 12:15:56 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260924162333.147033-2-alan.borzeszkowski@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] usb: dwc3: core: Fix RAM interface getting stuck
+ during enumeration
+To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>, Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Language: en-US
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+In-Reply-To: <20260929-ram-interface-stuck-v3-v3-1-0d1a54db233c@oss.qualcomm.com>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20260929064606epcas5p4155e448857db11ccb2258e4e08c72edc
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20260929051941epcas5p27a5c69151937b9105660941776cda819
+References: <CGME20260929051941epcas5p27a5c69151937b9105660941776cda819@epcas5p2.samsung.com>
+	<20260929-ram-interface-stuck-v3-v3-1-0d1a54db233c@oss.qualcomm.com>
 
-On Thu, Sep 24, 2026 at 06:23:31PM +0200, Alan Borzeszkowski wrote:
-> Add tbstream_dev_from_file() which returns USB4STREAM device behind a
-> file. Expose it to in-kernel users via separate header.
-> 
-> Required by the 9P Thunderbolt transport driver to validate mount
-> source.
-> 
-> Signed-off-by: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 
-Acked-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+On 9/29/2026 10:49 AM, Krishna Kurapati wrote:
+> During plug-in/plug-out test cases, it is sometimes seen that no events
+> are generated by the controller and all CSR register reads give "0" and
+> CSR_Timeout bit gets set indicating that CSR reads/writes are timing out
+> or timed out.
+Hi Krishna,
+
+As per our discussion with synopsys we got a below feedback for CSR 
+timeout in different issue.
+
+"Note: CSR timeout is not expected to occur during functional mode. Once 
+timeout is reported by controller, s/w should treat it as a fatal error 
+and should identify the root cause of issuing the parallel access during 
+soft reset and fix it"
+
+As per our understanding, there is no recovery from CSR timeout.
+
+Are you able to recover from CSR timeout in your case even after trigger 
+controller recovery?.
+
+
+>
+> The issue comes up on different instnaces of enumeration on different
+> platforms. On SM8550, the debug log is as follows:
+>
+> Prepared a TRB on ep0out and did start transfer to get set
+> address request from host:
+>
+> <...>-7191    [000] D..1.    66.421006: dwc3_gadget_ep_cmd: ep0out:
+> cmd 'Start Transfer' [406] params 00000000 efffa000 00000000 -->
+> status: Successful
+>
+> <...>-7191    [000] D..1.    66.421196: dwc3_event: event (0000c040):
+> ep0out: Transfer Complete (sIL) [Setup Phase]
+>
+> <...>-7191    [000] D..1.    66.421197: dwc3_ctrl_req: Set
+> Address(Addr = 01)
+>
+> An XFER NRDY is received on ep0in for zero length status phase and
+> a Start Transfer was done on ep0in with 0-length packet in 2 Stage
+> status phase:
+>
+> <...>-7191    [000] D..1.    66.421249: dwc3_event: event (000020c2):
+> ep0in: Transfer Not Ready [00000000] (Not Active) [Status Phase]
+>
+> <...>-7191    [000] D..1.    66.421266: dwc3_prepare_trb: ep0in: trb
+> ffffffc00fcfd000 (E0:D0) buf 00000000efffa000 size 0 ctrl 00000c33
+> sofn 00000000 (HLcs:SC:status2)
+>
+> <...>-7191    [000] D..1.    66.421387: dwc3_gadget_ep_cmd: ep0in: cmd
+> 'Start Transfer' [406] params 00000000 efffa000 00000000 -->status:
+> Successful
+>
+> A bus reset was then received directly after 500 msec. Software never
+> got the cmd complete for the start transfer done in status phase. Here
+> the RAM interface is stuck. So host issues a bus reset as link is
+> idle for 500 msec:
+>
+> <...>-7191    [000] D..1.    66.935603: dwc3_event: event (00000101):
+> Reset [U0]
+>
+> Then software sees that it is in status phase and we issue an ENDXFER
+> on ep0in and it gets timedout waiting for the CMDACT to go '0':
+>
+> <...>-7191    [000] D..1.    66.958249: dwc3_gadget_ep_cmd: ep0in: cmd
+> 'End Transfer' [10508] params 00000000 00000000 00000000 --> status:
+> Timed Out
+>
+> Upon debug with Synopsys, the root cause is as follows:
+>
+> During any transfer, if the data is not successfully transmitted,
+> then a Done (with failure) handshake is returned, so that the BMU
+> can re-attempt the same data again by rewinding its data pointers.
+>
+> But, if the USB IN is a 0-length payload (which is what is happening
+> in this case - 2 stage status phase of set_address), then there is no
+> need to rewind the pointers and the Done (with failure) handshake is
+> not returned for failure case. This keeps the Request-Done interface
+> busy till the next Done handshake. The MAC sends the 0-length payload
+> again when the host requests. If the transmission is successful this
+> time, the Done (with success) handshake is provided back. Otherwise,
+> it repeats the same steps again.
+>
+> If the cable is disconnected or if the Host aborts the transfer on 3
+> consecutive failed attempts, the Request-Done handshake is not
+> complete. This keeps the interface busy.
+>
+> The subsequent RAM access cannot proceed until the above pending
+> transfer is complete. This results in failure of any access to RAM
+> address locations. Many of the EndPoint commands need to access the
+> RAM and they would fail to complete successfully.
+>
+> Furthermore when cable removal happens, this would not generate a
+> disconnect event and the "connected" flag remains true always blockin
+> suspend.
+>
+> Synopsys confirmed that the issue is present on all USB3 devices and
+> as a workaround, suggested to re-initialize device mode.
+>
+> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+> ---
+> This series has only been compile tested. The issue was reproduced
+> easily with a certain kind of cable and CDP port of AMD based Lenovo
+> laptop. I don't have access to the cable currently and hence only
+> compile testing the fix for now. But the issue has popped up on OEM
+> testing as well.
+>
+> Also, didn't add locking while calling error recovery work in
+> gadget_ep_cmd since the caller is supposed to handle it.
+>
+> Changes to v3:
+> - Using error receovery mechanism from [1].
+>
+> Link to v2:
+> https://lore.kernel.org/all/20260806-ram-interface-code-v2-1-fe4a0de31d42@oss.qualcomm.com/
+>
+> Changes in v2:
+> - Implemented gadget recovery mechanism during gadget_ep_cmd instead of
+> handling this issue only during disconnect.
+>
+> Link to RFC:
+> https://lore.kernel.org/all/20231011100214.25720-1-quic_kriskura@quicinc.com/
+>
+> [1]: https://lore.kernel.org/all/20260915110637.17658-1-jiazi.liu1984@gmail.com/
+> ---
+>   drivers/usb/dwc3/gadget.c | 19 +++++++++++++++++++
+>   1 file changed, 19 insertions(+)
+>
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index ee837235630a..a7c4514cf0e2 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -283,6 +283,8 @@ int dwc3_send_gadget_generic_command(struct dwc3 *dwc, unsigned int cmd,
+>   	return ret;
+>   }
+>   
+> +static void dwc3_schedule_err_recovery(struct dwc3 *dwc);
+
+Where is the function implementation for this function?. Could you 
+please point me on what you are doing in this function?
+
+
+Thanks,
+Selva
+
+
+> +
+>   /**
+>    * dwc3_send_gadget_ep_cmd - issue an endpoint command
+>    * @dep: the endpoint to which the command is going to be issued
+> @@ -432,6 +434,23 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned int cmd,
+>   		cmd_status = -ETIMEDOUT;
+>   	}
+>   
+> +	/*
+> +	 * STAR 5001544 - In some situations, like the cable is
+> +	 * disconnected or if the Host aborts the transfer on 3
+> +	 * consecutive failed attempts, the Request-Done handshake is not
+> +	 * complete. This keeps the RAM interface busy.
+> +	 *
+> +	 * The subsequent RAM access cannot proceed until the pending
+> +	 * transfer is complete. This results in failure of any access
+> +	 * to RAM address locations. Many of the EndPoint commands need to
+> +	 * access the RAM and they would fail to complete successfully.
+> +	 *
+> +	 * If the depcmd doesn't match the actual command, trigger controller
+> +	 * recovery.
+> +	 */
+> +	if (DWC3_DEPCMD_CMD(reg) != DWC3_DEPCMD_CMD(cmd))
+> +		dwc3_schedule_err_recovery(dwc);
+> +
+>   skip_status:
+>   	trace_dwc3_gadget_ep_cmd(dep, cmd, params, cmd_status);
+>   
+>
+> ---
+> base-commit: ab29ca7714b82485ebb31d66835ccd5364221a76
+> change-id: 20260929-ram-interface-stuck-v3-aaf0c4b13b98
+>
+> Best regards,
+> --
+> Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
