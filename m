@@ -1,100 +1,82 @@
-Received: from mail-vs2-f38.google.com (mail-vs2-f38.google.com [74.125.227.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E20397338
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:12:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D26F73A4505
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790669552; cv=none; b=V7RkXkjU3oWhpqc0+IADKHL8PJbO5dZY3Fe7Wx10WR7FhVHKr0buIuAwUusnOY95o3KOjaZOt9FCnRNAgNBbWm+xHFtkrcu+e6B/qgHDBm4pjmz5F6gaFI2lZDltaI/r9+MWYTlKPlsvpeYkDKL5+C4Qik5cQsQAn89PLhcRxxc=
+	t=1790669971; cv=none; b=u1+B/EsLUa2HslA/Af2+jSbq0mlv7CCvJzJPdM4APIE6+qZh03g6QhmVk6epZH1Su5qe3bYYRZ7iSi1XvBKCKruMhpCuIklRj/fmc+3LEED6ncXbTNS1QQcO8ZT+66JWk926i9vEWlFAJDj0Y1o+PidKLOncYgrR/wtTwUvLs7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790669552; c=relaxed/simple;
-	bh=e8jTQ59tb4Ke+Zmo+wcDDbIer2Daet/lCXTrHvU+JBY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oldAniyAHhsJ6fOi5MVDAbxdjUJTE6M+46CCG5oi04aSPP8rXb8Tb6Cr2//lL922piATjMepWOl9SvlHkaa/miJgsZYlkVmPViGUr1+cI3Ck+8fYH4brsrKelZvRP+1Amp4EjKtUy8IqLRIeDk9qkDASfJQOvpCc8loLZh1aqbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vs2-f38.google.com with SMTP id 71dfb90a1353d-5cda0838062so2023993e0c.1
-        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 01:12:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790669550; x=1791274350;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=wKTPnbd7pHw8WKn97YDxHbj3C025J4UMPNethHoNt9I=;
-        b=pN/KZXJTi3XZEznszts+kYzvuY6klxGdf4Ppimikx0jZMa7qHK9AemBH/EMqDRuXaa
-         iHAZv0waPtxA5Z/m48eQC4w0ujtuPPS9sRfkDpInXVYD8xxfZivpKRQkIi2jBiJaEdxv
-         khz/FHbYJr/ApIWM3fjW9BFAUc05rTZ9Zmd07wvDxbZHxWuiEEa12OxvpRWaVMjk7nzF
-         zN8W7srgOt6Wud5Zni3m4TfVomR5q7SZvKSk0wIpd7XPYi4W3L2LTBB/iydPiOskMwT6
-         rE6u7IRQDrSW+TsblpRiaK3/hqyvH1VX5+OiHcgh22X1i1lKTgeE+ryDyRZuUeHwny/J
-         J0YQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwkdmhsb0pV4qhf8F24hw4+3t9BTr7DzwEOJCG6sDzIXaIeXkVZmy5OXAFvFnSa4FW2icSvZ0gzTbw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLtwXPN1MSuASPDhyWrlO2bVGoh+JDJRz6c4ljiwrWiGcsDDI2D
-	82xFqJ/HwqD8Js49rQ456eLNA6oqKPTx7GoUxXSNUhXL0ftqHNnL46hZfkBoRKBQBEA=
-X-Gm-Gg: AYBFou0o4Ru0mbqMj4PP1/Jv3I1nERZfx2uJjD1ueJ8N5dAUYliDeu+dSv7RM79PhB6
-	OEAjfldBDzDTELjWoPW3GSkr0c4yKIBuh/mNtLt02cxxHMBQLh+5tbSH+F3h0A4RD+KZqLwtYRv
-	D4jo+PRmtxcPWfzntgWV3EUjs/tiMUthE8dUiT6ujJm5SPWygxMHTFXGTo2+6NaYIdr2H+NAXhy
-	enxC+BlcMogouoJYdYPaclE7W+lnEBtBjxStXOWjXeWqcWg5MYzlsmpn6i8pHtVOcHO3w/2prZG
-	/h2F47PKp41d8iQWQ72Ofm9rS1hcS9ZFXwUytbHBqazQ8TxrcV+/zMk3gib/E75P2j3iaKNyKAo
-	BQPC5ceHir3iq54m7oflKyPpU6xLfYywSNhHegCowQHX6oD2ngKNI8qJevq/pezoeiYVG9SuCo5
-	p5p34pH67V+wLN7jl6uvY+ofVgG1+CKSp5YfwlJcX7ZVTfLYV0JJmuAR6uyFQa6GfnVLxOeXGSC
-	mwhpHlHV01KpkyIO5zIxBl0dtJ0G9v3+zK4yg==
-X-Received: by 2002:a05:6122:2909:b0:5c8:2852:36cf with SMTP id 71dfb90a1353d-5cb090264f1mr7060123e0c.4.1790669549856;
-        Tue, 29 Sep 2026 01:12:29 -0700 (PDT)
-Received: from mail-ua2-f43.google.com (mail-ua2-f43.google.com. [74.125.226.235])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5d3f2840d97sm148536e0c.14.2026.09.29.01.12.29
-        for <linux-usb@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2026 01:12:29 -0700 (PDT)
-Received: by mail-ua2-f43.google.com with SMTP id a1e0cc1a2514c-988ba23f552so343809241.3
-        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 01:12:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBx88zpUqN10i8J+xVrhIfhSB15FpRW6XHQlkt8yQhFWV2ks5+WgjJfUlRt+v3WSFM6lHBxyXHWxp14=@vger.kernel.org
-X-Received: by 2002:a05:6102:5346:b0:7a8:15b9:dd34 with SMTP id
- ada2fe7eead31-7af1c58fb71mr6318332137.2.1790669548884; Tue, 29 Sep 2026
- 01:12:28 -0700 (PDT)
+	s=arc-20240116; t=1790669971; c=relaxed/simple;
+	bh=fS4N8nPZxa8/bwe/GYUMeelNMO9vfJHdyPwNVbhmkZQ=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bM2I45AV8JhJE3QO2oOUU4tUqSSLmCZjuNWpbpyfqBaNCi2w69CYRhjF9a6SBLC39ckfIILLmiFu9BtWCF5S4RzRbNjBJAGUw34S6NlUbkNTpc0xPX9cYShcNqIV6TNjhfp1/Xk0dIZa+dh1onOimYa3WpwQ6K1LG04rmrg/p1U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KKJp5YHX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KKJp5YHX"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8A7ECC2BCF6
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:19:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790669971;
+	bh=fS4N8nPZxa8/bwe/GYUMeelNMO9vfJHdyPwNVbhmkZQ=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=KKJp5YHXQS6d3WQbKBOCFarZdmoCuYhN07DsZlcwYa6joK2ANqL2n+beW15MYoXNu
+	 q+rfKRn+UFxmeIxYwvUXRIQ5RDicEd5MVTrCwRmPpwCQCkzJbFk17Rqses8uWyrLsr
+	 +YtcBPkr4oaaF9Hs8ee21JcQoPHlJojUgANSXSXjfJj7ZjwjuXoLE7t0iaoyeXusvy
+	 WjMf55WZvvBfVr/5h0430dF9vx99wTk0VPvezZs/nYirQFIO7/yxP/3W09eYI0Xgdt
+	 1Fzq7jRpW8Rp6vGnWyn4mGlZlllk8yCltoC1tlcLubH5Qn1cJSGv80VPSQkaW42Plg
+	 ETwJ8fxAkHktA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 72625C41614; Tue, 29 Sep 2026 08:19:31 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222071] [Bisected] [Regression] xhci_hcd: Resuming from
+ hibernation fails with "Not enough host resources"
+Date: Tue, 29 Sep 2026 08:19:31 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: h.judt@gmx.at
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc attachments.created
+Message-ID: <bug-222071-208809-bt38hb3Kac@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-222071-208809@https.bugzilla.kernel.org/>
+References: <bug-222071-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260928-rzg2-sr-boards-v10-0-91752ea39cbc@solid-run.com>
-In-Reply-To: <20260928-rzg2-sr-boards-v10-0-91752ea39cbc@solid-run.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 29 Sep 2026 10:12:17 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWWoH-m972X1Emo6gis81-_TUs819gOPkUwtgnR3aQhGA@mail.gmail.com>
-X-Gm-Features: AclHuK9FhwKj6JL-kiqTsnzPxsKOECrpai_keY8LaopHP5dfC3Vjj3Wu8JulErc
-Message-ID: <CAMuHMdWWoH-m972X1Emo6gis81-_TUs819gOPkUwtgnR3aQhGA@mail.gmail.com>
-Subject: Re: [PATCH v10 00/11] arm64: dts: renesas: Add various SolidRun RZ/G2
- based boards
-To: Josua Mayer <josua@solid-run.com>
-Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
-	Linus Walleij <linusw@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
-	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	Conor Dooley <conor.dooley@microchip.com>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
 
-Hi Josua,
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222071
 
-On Mon, 28 Sept 2026 at 19:34, Josua Mayer <josua@solid-run.com> wrote:
-> Add support for a variety of SolidRun RZ/G2 based SoMs and both
-> HummingBoard IIoT and HummingBoard Ripple Evaluation boards.
+Harald Judt (h.judt@gmx.at) changed:
 
-Thanks, will queue in renesas-devel for v7.4.
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |h.judt@gmx.at
 
-Gr{oetje,eeting}s,
+--- Comment #1 from Harald Judt (h.judt@gmx.at) ---
+Created attachment 310956
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310956&action=3Dedit
+dmesg-7.1.1.bz2
 
-                        Geert
+--=20
+You may reply to this email to add a comment.
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+You are receiving this mail because:
+You are watching the assignee of the bug.=
