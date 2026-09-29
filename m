@@ -1,153 +1,126 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B824E5359;
-	Tue, 29 Sep 2026 09:35:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F08E4BF930
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 09:47:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790674518; cv=none; b=ByYQQqVcy0s4kmm+OTlK/b0qIL5h4wxIdBIbxqaoFS/afivMgzi2IxGG0sVO/oCJy2UKrZZlgjNcRxM5SvG2x+WAuFIpPEN36yfUKSP/22jDxmoF7f+1zldpwQTLlrUS+XyZ+BP7HN8NTI3hAZE8RHnjd/5juUeCJZTe6M1LszM=
+	t=1790675259; cv=none; b=bGG3rrWdaUARdmldVfkdjiqQhdl6f0PJw2RqfRldci0ngE7jDBTlCo/5EEqkTwxDLS4S2WqMSI983J8PJlrYM+NK7Q0ihD1/5vJdhDZ0uufc1iuyFXWv3RUCCalElr4S6oEbWD+io56LEc7N8quVfjtH673XXr2RCv5JgyzeUkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790674518; c=relaxed/simple;
-	bh=OanTfQ+7y69cPdAS1xdo0YU6xihNeuxRH3PAzNkmCts=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iLP9gDxiCfZGD7DG3sG4T7M/OFLZxiln23GCtSALTlc7EAPZ6Rcv2JNzeZw+oplO/2k9QDUgPYlh1P+hWHOPcaFwvy9GBxZvIDH//Idgg0uBqZdq4hdxOtFTkH+0Qqeyp3pMjTmaStYUWidRnFdj/ATWkrXIU4DXC6IcCsMnK2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=RnVlURL9; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=gySeSqr6; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=u5VoaP3N; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=MpmUsZbF; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1790675259; c=relaxed/simple;
+	bh=Mt7SZomNurAHm5m1aCwHi4vxh82+wXlBKSPbJLJjhHU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=t92tOXMekXq4EeMPwBDDf/tdz/vnWDlhOL3si9Z7mraQlRMg/rQ9KlMFasc6yUpwRQeomcrqJRo3IQOFXrWgF7PmXHFqjs4axEnlzC222h9ZRPTAPzGOsHGG5uJpFN1tZa3jxqvMV4I7N9hSWQzstJHoTfqtxPe1rNz6laSZxpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=e9GTP+Ab; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Uo2wjuWB; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="RnVlURL9";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="gySeSqr6";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="u5VoaP3N";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="MpmUsZbF"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id DF7311F390;
-	Tue, 29 Sep 2026 09:35:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790674510; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="e9GTP+Ab";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Uo2wjuWB"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1790675257;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eueLG3D+Dq0TjIAguzsLawypQVR1ipWJYgTXwD+aOsE=;
-	b=RnVlURL9AjL46WamSi1D4jgvRXtw7NJaJ9E8mD+ogdXhzR6LCS8INO+C59ZFFBw92qn0y6
-	DqKVlHojwGSYmnzMgYwz6mH4lAXMrBio3u22XDV5NlIg6Lo4uKyOaEzPq7hi0tnpD0iVDd
-	8edB7YlhvjsYfiSHNBZF1uILOeJTFOM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790674510;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eueLG3D+Dq0TjIAguzsLawypQVR1ipWJYgTXwD+aOsE=;
-	b=gySeSqr6SC/C7OVcFkeR/YYLn00A1GhNf15BRZARiiwHDouNFJJQLuwch9iaQZ4cXf89I9
-	eLGTD7LXhB2HZkCg==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=u5VoaP3N;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=MpmUsZbF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1790674505; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eueLG3D+Dq0TjIAguzsLawypQVR1ipWJYgTXwD+aOsE=;
-	b=u5VoaP3N9ra1We4XbFyccW7HtSS77KsKueTg4MWKpwIkV9ANYSYK+gYLbCmSG7mlMfW3qO
-	4xKJ+s+hqctgbzSe7WI19uXXsFYMIDNaruuGn0fY66jvO85UmTL8iDHdsUGbMXjwnRNR4i
-	q0QOj6COxB3cN0+Q/yOS6TRlP/Ib530=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1790674505;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=eueLG3D+Dq0TjIAguzsLawypQVR1ipWJYgTXwD+aOsE=;
-	b=MpmUsZbFN/FZkTqbdjy9ORJN7i50zGgs9Gpi2hh22LHy2Jblnfw5/Y1SNUwnnuKxTU6KuC
-	PsLB0KYRSxZ3a3Bg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AAC7C133F1;
-	Tue, 29 Sep 2026 09:35:05 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id b/6tH0mGu2reGQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 29 Sep 2026 09:35:05 +0000
-Date: Tue, 29 Sep 2026 11:35:01 +0200
-Message-ID: <87ecec2yey.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Xucheng Pan <panxucc@gmail.com>
-Cc: linux-sound@vger.kernel.org,
-	tiwai@suse.com,
-	perex@perex.cz,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] ALSA: usb-audio: Re-read descriptors for Xiaomi 2717:d005
-In-Reply-To: <20260923152552.943151-1-panxucc@gmail.com>
-References: <20260923152552.943151-1-panxucc@gmail.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	bh=9MAC6JZiAmxnJ/+3CjxUF3FBsOOD+FRcLr0XHqXCFJg=;
+	b=e9GTP+Ab625T7/Fikd9HOipq2B7y85H4haYRUw4T6iZrrPYGmOLykDJMpidjrwndNU0dg9
+	qVXaOVpw2LRu2LgdWJ3g+w/MdRKPSp97ZMoTWC/bl2bzp9C5TXPZqR7v9Hha65bkpsVkD5
+	J3aMHo3ymh9b/N6V9dfx0ao6uFOEuZY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-680-8DvlCDy9M3-Czo3aORSLJw-1; Tue, 29 Sep 2026 05:47:35 -0400
+X-MC-Unique: 8DvlCDy9M3-Czo3aORSLJw-1
+X-Mimecast-MFC-AGG-ID: 8DvlCDy9M3-Czo3aORSLJw_1790675255
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-49e6422198fso25970845e9.1
+        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 02:47:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1790675254; x=1791280054; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9MAC6JZiAmxnJ/+3CjxUF3FBsOOD+FRcLr0XHqXCFJg=;
+        b=Uo2wjuWBNjPY0r31kJiuelWwhiAxamODcJs9PSjNwcQbgW1KoOnB3G5FDBrOy6YfRL
+         eRA43bv+iDZ05DYuGOO4+mx8qSrianik3SKdyy/BlQvDtKvYQyYpXzkPKBr99ila+2wr
+         Ecfb3Xi0OoQDpi216ffqTUFWivHS3y/MJPFvHuc7OTExxVlH9Nr7FWMrXVmpmfo+zcsH
+         05A9QPJ0A7cASjdgYUJBpX7nad18L+EGibF3rEOKAUrfrB0usW5HEDy3bO+vuF6Ylpb6
+         2WUVvxQLfIl0rvbqPHrVKjnqxGiwKZR6XaFxponiQluWRwjBSJqvKvQ7uMrKEan2xWl7
+         Q64A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790675254; x=1791280054;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9MAC6JZiAmxnJ/+3CjxUF3FBsOOD+FRcLr0XHqXCFJg=;
+        b=QpTRsizq348nKugXkNkp05QY3PrO16w1V6x0+x3w1TWroVmpM15JCq4ZxHi8t9LA4l
+         slbymGddWNjOunXLHg6pwhzBRGWM2jIJNLAkOzfpGaUP+Ah542VILsgpU2cDsetRHtGa
+         u9BIYD7hOsOEBE7l7+WluugWKN/OfHtgVpxdTOa8k0kztq3DWp1UPm1AgNlGGeqnuacf
+         jVqpTZRM3B0xbao27JpgcW6eUnLHb5j04HrmVB4VhahEzT9uA75skpF83noYPVCXmGgA
+         xDsyC6aj4z2NdZb7+0PEYE7lQM4lFroba70hlGu/We+SAUf1H7ZJbDKoJNMHzqXR0wI9
+         zopg==
+X-Forwarded-Encrypted: i=1; AKwUvBwiTqCiWp7PsKbYdSjWsH4haI8fpBI67dhp/Z7nvzhUcUtTP0xOL9Ongmh/nra0M+LeKUfQ+WAhrOE=@vger.kernel.org
+X-Gm-Message-State: AFuF++kM35jmwfn17yUJ1ZwwyqeQycei53ywcn6GkkK7XNUmFyE2AD+8
+	y8VOmcRpbCfSRBcF7k2527fw1JEUuUFnSiHENcUHUeIrN0JkPSQqwkJ1QF4g6MyDVCzxaE+ZEE0
+	kozqgWrZs1u/g+dbBvQ4azOcqg4HFJ1m4zxb0n+pkyJO/Lju0xLTP3QrsYeAk2Q==
+X-Gm-Gg: AYBFou1iluwkMf3hD/bziF+FdOAni2YWU2QUG4yjKeDxPBf0lt6UiflDistLvyd0leW
+	kmAvZEh4KMLGIocYJgEqB88wUEIfpJsrdtQKyFVGaeY/gnNCoWPCmadVwPR/ThqH7glzP1VrySF
+	dh1zIWHAYuGvAfqLY20Aw4e3HITQwGDO7Hep/jO8C6yRTzJK49V9oap7fUdPxweTExiuo0AtDgo
+	j7s0jRbnX23g5WHc3VGNLzrEZVmEIbHSu/IO/OU5vymNBu4q6J+jRBT7pcZHXr0FanK+XKOuNAg
+	WGa+QBEtLtObSaQqqeqpFlqbkxQgCJegBYCLKVrqObYImSW4ae6f3UIN7mqqFb+jmap65w==
+X-Received: by 2002:a05:600c:8719:b0:49e:6c11:c4fc with SMTP id 5b1f17b1804b1-49fe66c8a5amr279390575e9.7.1790675254540;
+        Tue, 29 Sep 2026 02:47:34 -0700 (PDT)
+X-Received: by 2002:a05:600c:8719:b0:49e:6c11:c4fc with SMTP id 5b1f17b1804b1-49fe66c8a5amr279390185e9.7.1790675254016;
+        Tue, 29 Sep 2026 02:47:34 -0700 (PDT)
+Received: from redhat.com ([2a0d:6fc0:3fd7:5300:3d6b:52a4:a23f:9d0b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a00cf4598esm68532735e9.0.2026.09.29.02.47.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 02:47:33 -0700 (PDT)
+Date: Tue, 29 Sep 2026 05:47:30 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jason Wang <jasowangio@gmail.com>, virtualization@lists.linux.dev,
+	linux-usb@vger.kernel.org,
+	Vasilii Ianikeev <vasilii.ianikeev@oss.qualcomm.com>,
+	Aiswarya Cyriac <aiswarya.cyriac@oss.qualcomm.com>,
+	Anton Yakovlev <anton.yakovlev@oss.qualcomm.com>,
+	Trilok Soni <trilok.soni@oss.qualcomm.com>
+Subject: Re: [PATCH 0/8] virtio-usb: add dual-role virtio USB driver
+Message-ID: <20260929054346-mutt-send-email-mst@kernel.org>
+References: <20260924160907.145405-1-igor.skalkin@oss.qualcomm.com>
+ <2026092520-aerosol-brim-22d1@gregkh>
+ <1149e188-7279-4c60-bd96-f8d75d721ae0@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: DF7311F390
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_TO(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	ARC_NA(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:mid,suse.de:dkim,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1149e188-7279-4c60-bd96-f8d75d721ae0@oss.qualcomm.com>
 
-On Wed, 23 Sep 2026 17:25:52 +0200,
-Xucheng Pan wrote:
-> 
-> The Xiaomi 2717:d005 USB audio transmitter supports Sound 2 Pro and
-> Sound 2 Max speakers. This issue was reproduced with two Sound 2 Pro
-> speakers paired in stereo. After a USB replug, Linux detects the
-> transmitter and exposes a hardware volume control, but moving the volume
-> slider changes neither the audible level nor the speakers' volume LEDs.
-> Windows controls the same speakers with its in-box USB Audio driver.
-> USB captures show standard UAC2 volume SET_CUR requests on both systems.
-> 
-> Re-reading the device descriptor (18 bytes), configuration header
-> (9 bytes), and full configuration descriptor (184 bytes on the tested
-> unit) after 2717:d005 is configured restores hardware volume control.
-> The USBFS sequence recovered the device after multiple replug tests.
-> Reading only the device descriptor did not restore volume control.
-> 
-> Perform these reads when snd-usb-audio first probes 2717:d005. Use the
-> configuration header's wTotalLength for the final read. If a read fails,
-> warn and continue probing so that playback remains available.
-> 
-> Tested on 7.2.6-zen2-1-zen with the existing userspace workaround
-> disabled. After a physical USB replug, the quirk ran when 2717:d005
-> appeared, and both audible volume and the speakers' LEDs followed the
-> KDE volume slider.
-> 
-> Signed-off-by: Xucheng Pan <panxucc@gmail.com>
+On Mon, Sep 28, 2026 at 03:55:38PM +0200, Igor Skalkin wrote:
+> >>
+> >>   [RFC PATCH v2] virtio-usb: Add initial virtio-usb specification
+> >>   Igor Skalkin <igor.skalkin@oss.qualcomm.com>
+> >>   virtio-comment@lists.linux.dev
+> >>   https://lore.kernel.org/virtio-comment/20260924154007.143927-1-igor.skalkin@oss.qualcomm.com/
+> >>
+> >> This driver has been tested end-to-end against our own userspace
+> >> virtio-usb device implementation (host-side backend) in two setups:
+> > 
+> > Where is that code and why isn't it part of this submission?
+> > 
+> The backend we used for the testing described above is an internal
+> implementation that we're not releasing as part of this submission - it
+> integrates with some systems that aren't ready to be public. We
+> recognize that limits independent verification of our specific test
+> results, and we don't think that's an ideal situation.
 
-Applied to for-next branch now.  Thanks.
+Supporting vhost-user with a backend doing pass-through shouldn't be too hard.
 
+-- 
+MST
 
-Takashi
