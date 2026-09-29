@@ -1,125 +1,157 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB001B4F0A;
-	Tue, 29 Sep 2026 11:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C0951357E
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 11:28:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790680919; cv=none; b=W1itpTjoP8RL4MxFML9jGF+zMEzoho4alShnOgXKjwyOv2LoMYlOHcXQWkmhXNaZggs+UMQFsAVgrMqbHhiP9L54k4h7XgvQiX5WMxYOqyBWA4C39uiOto2ku/OdOb5uwnhDfeP8YTsuCtYPo2qK/UyNzqBTMcVOgK4vtDlKAFE=
+	t=1790681307; cv=none; b=FEF9CbKaLAIklcqhHnvTB8kXtEXktm2dTFPvHl0E2Y/f2U8pbXirjDHG9+x9/Fd51+/N24+oTfpdhMeyLnPzwlWCnfj1LH29sv7IHfQ1jRLPcTHwSIVj2034A+zwLU+1E0Oe+psnodNQs0iYciADw1yTY5HCsPI7ZLy29AV/M9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790680919; c=relaxed/simple;
-	bh=0tGRycjpiixLeY+PMc8Qd7H5Nd0F7yLxzp9vsJVm2so=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=er16aexfYAxunUHCjRUGq3e9PBScTphIalUfja9EoSQS3p3U181trxu+MIok+RKYpi3k5X9/JThrpgBgsDr50GFYqDMs1e2MYnga8sEZpI8oaQW6qfbGr6d+DsZycd7aGHF0XNIt7ElxQnwZo6PZ3RO5uwz4wQlIzpNWVP4Do0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R7ZIalgU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790681307; c=relaxed/simple;
+	bh=7x9j/mQkz+9LqO2zN4yz7ILszVlzJ5BNxaCgRcCzcXs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lv4z3lSzIl9LTUKk7JxmRta9ceFjIwH6L+HsZgBE3Ww1QH+wxGdD5bzxsqKa3TQrj55ty/SDnZ4YHTYuV8pxmZY6KOPh9DDqa+5lPzx2UZ8JWl6rEW6l5i3enG2rqWFZJcCCrBb9/NGOiVRN8JVqPdmXWXiVIxsX+yqeZli30xI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LZUbOOzg; arc=none smtp.client-ip=74.125.227.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R7ZIalgU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3D1B1F000FF;
-	Tue, 29 Sep 2026 11:21:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790680917;
-	bh=2fPL1r0q3ZFaPVm8LMil7KkezedSBA8/3rMeLvpxPeA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=R7ZIalgU2YxoignykHVl41GbwXVq+ymjE2Si4HRcFErNll2DzNwd43/xyUICNL9Gh
-	 ZKbhOo6icKbcmsuOqmHY4vcYGDVk0I9HhEjHuNVoiCF/g/yVcf+z3KLnyerzZ1MiXd
-	 W5Z9bZBV7t1tkUZVxlpq6Ci9stfsy0TAMMeCuz+nSAiebkXEgWtguADRz3DWyBpZ+H
-	 mIWJYnCrwO2dvpBgpuGcPLGHOAHxCMNlWV4hSF1En76lTAsSQsZ+wBOPbyH1ksC26r
-	 xgTJ+Vceyq3XFJSuuzXLjQ/8jCstGixi8blBDf2nxCsI5axooCKVBfsc28vfxzNygJ
-	 YWOKPhtuzPNAg==
-Date: Tue, 29 Sep 2026 12:21:22 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 09/40] docs: filesystems: update mmap_prepare docs for
- discontig kernel pgs
-Message-ID: <arudePFfTLNBMKzQ@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-9-4583d8a23bca@kernel.org>
- <DLOP8IH392ZU.2X2GPOP2NYK4X@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LZUbOOzg"
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-398cb5615deso3257074a91.3
+        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 04:28:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790681306; x=1791286106; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=3uJK2jAccBhhhLsB7fWlTzcOgHsYndkPD1RuUGHrRxs=;
+        b=LZUbOOzgsSPvc5YlY72gVXwGlZCyETCXSaZxJYP7Om3RW5V+diDU21vXPPzFqWi7/c
+         dLlrahJ+5qGHaGqt2mbE8DZpqBZpZy/3ain4IJOMljspy4AGYI+txrMDnQcfmyPQMBWR
+         Wf00lHrAaEKNbhZwNpfj+2W0iOn2xP+jrQBbI37IYsNrLEeh9ls1HVOK0cS0svAyGhMX
+         uYsXBY67dsI2mBLfAK1FRArj6aEv9Ooip8IgjTxbJc7ryZrgLA7G7bkKhv6jCvDF31t1
+         GK+y0g0CGcf2amGLlPpugmBHImpRrgab0lZSbuj6MBoywxZRRGKtoTIwHECM4HwOnnYX
+         b6cQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790681306; x=1791286106;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=3uJK2jAccBhhhLsB7fWlTzcOgHsYndkPD1RuUGHrRxs=;
+        b=UJgpUwGQMSDNGf2D/aNguwolxjvu9dJJ38OkdmMA97iVqkU7M5WmK22jdTuQnQ0mJ3
+         sR1Ysdd59ggTojsNaqF+IvKk2283803m1kYNbA2m7mLgQtT8q8JlYq5Z2N6l9J4n9Ef7
+         C9VKHWgYEa+MIi6xG/glzfUTo1cxyLtLcNAkB0ItGfbZdMj4z0T4i/sX9wyta0b0srJl
+         z/qhfYw6pU7g7rQ71XZCOZf2RvxQzuXK57o1/g5YgUOY8GAvrEIJTSsnhk8HG3aMC7zo
+         sLFA86tRttlnRKCnuIvufD3V54KDytmLYcg/Biy6Z1bta7Ix6C3lYZQj6t0yJtf+O6Ft
+         iVXA==
+X-Forwarded-Encrypted: i=1; AKwUvBwyOkpZBg6cSwVtQvSsujVmfYO1wUxP9Su5xZIyH165oNkHYV/vXd/aq3NbkouElVZIZ/4qQY+4FhA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL3gzsdteLD1h3iccLLs4dgo3F70+LO1dzRBiJ/4IBs0W4TLGO2
+	O5EYSoJngkuxHSB4XAV/NK2Q9CsrbYuQKjo9GwscdT8d2a/qXudAomoV1GEo0A8d
+X-Gm-Gg: AYBFou3/GaDW3uUM0Wzl5DNBNIvGfCEeointZpFWPqLqdSlOdwldWXMI4MwoQFCJOWy
+	DZJferTKeWfum06HXtahkz8ydimCsZ8tQI4ss4OiOvjbTa+a5w5Ya4XYxkne5oFFftjRwLkISqz
+	esWE3aPrgTOr9ZT+ZFbwP6ef0JHGm5UNu5MM0228Wx8X6d3BLgAuIgpYocETioF5zvITiouP7iq
+	RBjaX9dqBmh6WNWqxpx851VmoV5ycFkkzUV84C0XqA+cGOF2mGO6mWKsZcyQKv6qzE/kTLJD21J
+	0W1eyQPbyrKuP49aMdZFAMbW9vdbFbbRiMaMIzuvMzYefbXDuml7KdAUycr5mww/gpYGrxt/Bp/
+	EXkmRNgwlM/TRa51H89e9eC+TQXYXBR73NDB/9+bbN+frdVDT6jzcYRcKHEbLG37nlw3J07BXJ8
+	nozQWbXraKTP6JO3rBacfzadI9/oYhutpoer7pCmXiYFZB8/3wGqW5LE9bF2PosNvuxEKVaOwi2
+	aT1qng1juEWDnVAnJsO3qs=
+X-Received: by 2002:a17:90b:574d:b0:3a0:2900:f584 with SMTP id 98e67ed59e1d1-3a099230a7fmr14962078a91.46.1790681305497;
+        Tue, 29 Sep 2026 04:28:25 -0700 (PDT)
+Received: from localhost.localdomain ([216.236.36.150])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4986a1905sm5162218a91.13.2026.09.29.04.28.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Sep 2026 04:28:25 -0700 (PDT)
+From: xy521521@gmail.com
+To: mathias.nyman@intel.com
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hongyu Xie <xiehongyu1@kylinos.cn>
+Subject: [PATCH] xhci: check device notification type before forwarding wake event
+Date: Tue, 29 Sep 2026 19:28:21 +0800
+Message-Id: <20260929112821.60641-1-xy521521@gmail.com>
+X-Mailer: git-send-email 2.32.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLOP8IH392ZU.2X2GPOP2NYK4X@nvidia.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Sep 25, 2026 at 05:01:51PM -0400, Zi Yan wrote:
-> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
+From: Hongyu Xie <xiehongyu1@kylinos.cn>
 
-> >  Documentation/filesystems/mmap_prepare.rst | 81 ++++++++++++++++++++++++++++++
+The xHCI driver programs the Device Notification Control register to
+only enable the Function Wake device notification (N1), so any Device
+Notification Event TRB received is expected to be a function wake
+notification. handle_device_notification() does however not check the
+Notification Type field of the event (xHCI 1.2 section 6.4.2.7, DW0
+bits 7:4), and forwards every device notification event as a function
+wake.
 
-> > +* ``discontig_kernel_map_page()`` - Maps a single page, correctly handling
-> > +  compound pages (if the compound page is bigger than the remaining pages in the
-> > +  VMA, then only those pages that fit will be mapped). For a compound page, the
-> > +  head page must be passed.
-> > +* ``discontig_kernel_map_page_range()`` - Map an array of pages of a specified
-> > +  size. Note that if the number of pages specified exceeds the VMA size then an
-> > +  error will arise.
->
-> Why do mapping a compound page and a page range have different behaviors
-> on the bound? Either both do partial mappings or give errors when a
-> given input cannot be mapped as a whole in the VMA.
+A host controller that delivers an unexpected notification type (e.g.
+due to broken firmware or emulation) would trigger a spurious wake
+notification on the parent hub.
 
-Ack, yeah similar to Suren's point on patch 8, will clamp for both.
+Parse the notification type and drop events other than Function Wake
+with a warning, mirroring the slot ID validation in the same function.
 
---
-Cheers, Lorenzo
+DEV_NOTE_FWAKE is the DNCTRL register bit for notification type 1
+(N1), while the event TRB carries the notification type value itself,
+so add a separate DEV_NOTE_TYPE_FWAKE constant for the comparison.
+
+Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+---
+ drivers/usb/host/xhci-ring.c | 9 +++++++++
+ drivers/usb/host/xhci.h      | 5 +++++
+ 2 files changed, 14 insertions(+)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index ec278a9f9540..af5d93a4e586 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -1952,6 +1952,7 @@ static void handle_device_notification(struct xhci_hcd *xhci,
+ 		union xhci_trb *event)
+ {
+ 	u32 slot_id;
++	u32 type;
+ 	struct usb_device *udev;
+ 
+ 	slot_id = TRB_TO_SLOT_ID(le32_to_cpu(event->generic.field[3]));
+@@ -1961,6 +1962,14 @@ static void handle_device_notification(struct xhci_hcd *xhci,
+ 		return;
+ 	}
+ 
++	/* xHCI 1.2 6.4.2.7: Notification Type is DW0 bits 7:4 */
++	type = TRB_TO_DEV_NOTE_TYPE(le32_to_cpu(event->generic.field[0]));
++	if (type != DEV_NOTE_TYPE_FWAKE) {
++		xhci_warn(xhci, "Unsupported device notification type %u for slot ID %u\n",
++				type, slot_id);
++		return;
++	}
++
+ 	xhci_dbg(xhci, "Device Wake Notification event for slot ID %u\n",
+ 			slot_id);
+ 	udev = xhci->devs[slot_id]->udev;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index c7bfa7f028d3..ec4bfeb4887c 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -187,6 +187,8 @@ struct xhci_op_regs {
+  * SW does need to pay attention to function wake notifications.
+  */
+ #define	DEV_NOTE_FWAKE		BIT(1)
++/* Notification Type value carried by a Device Notification Event TRB (6.4.2.7) */
++#define	DEV_NOTE_TYPE_FWAKE	1
+ 
+ /* CRCR - Command Ring Control Register - cmd_ring bitmasks */
+ /* bit 0 - Cycle bit indicates the ownership of the command ring */
+@@ -996,6 +998,9 @@ enum xhci_ep_reset_type {
+ #define TRB_TO_PACKET_TYPE(p)		((p) & 0x1f)
+ #define TRB_TO_ROOTHUB_PORT(p)		(((p) & (0xff << 24)) >> 24)
+ 
++/* Device Notification Event TRB fields, 6.4.2.7 */
++#define TRB_TO_DEV_NOTE_TYPE(p)		(((p) & (0xf << 4)) >> 4)
++
+ enum xhci_setup_dev {
+ 	SETUP_CONTEXT_ONLY,
+ 	SETUP_CONTEXT_ADDRESS,
+-- 
+2.32.0
+
