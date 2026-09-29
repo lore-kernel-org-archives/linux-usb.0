@@ -1,101 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C715013DC;
-	Mon, 28 Sep 2026 23:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B61C1F12F8
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 01:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790636594; cv=none; b=L3SSx097HBsUjGPx/QbdlhlMAqbuAvcm9ayyC3XqIz6zFpE62Hs+2u5XKoYLtaZmjExTfAcaaMMxDnUXJYyOzUqxmIBfsWZaMaPzJ0F1C0pDk8dNNDraZFb1du9K2cf3aRHPdf0znC0xGJnuFwTQvLN1EQ3ivjBawPT00i5AX7I=
+	t=1790644196; cv=none; b=VoFINKaet3uMaZMnQmUW5mbw3OwzLxMb3w/TkBmJHaaJfA1t6i8X/GpLdu5ccNFx0EaN6J2NSHNfqQimvHUA9Zkffk17xMIBPf5Dy/GmE0vD2IyJyvJeYjrYuz5usnu3Ha+GE4u2p7k6l1BgMHqANzDJZ+SZ+isTCKAVfhOVqRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790636594; c=relaxed/simple;
-	bh=9H5CS661AYQETAysca3K50GQ+NeH9ZPYrWWZNwEGkq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NaycCyK0TVL6BB7fmWjmjAUxWCJrg8bTgIb5uD4QJw4WDcCmUWMVq1KiHrC1u1V5bo0L5w82ECauIkxIbNotFLuQf3bVKQAQ2BUmYdzfpoSg2vtbd/jFxPjuXvvae2f+JOymwiY5pAET9bs8WLqIagaRpY28qThShs364YpalJE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aePDqIKY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790644196; c=relaxed/simple;
+	bh=J04w6m736rx7ewf6/jKvl5BzfuXA+8hHFvMZDOWRIOI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=KNqwFDq4T2/s7OYz3f+nvo1TNVD2PDpkisDDOBW9iTnLb/81iEN2aSKAuRKSQ9GJTRWnQAp/FzwzZKmp3nieXYfr7AJHHDJIE4J+xlFGQM0mm75BFjUNs+TGuVGvakrCQ5dNo+sPMkxYfBCbYzmP48HUEF/GRcC3YdAwOwsV5u8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=n+cGfVeJ; arc=none smtp.client-ip=74.125.229.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aePDqIKY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 467D01F00899;
-	Mon, 28 Sep 2026 23:03:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790636592;
-	bh=KuqmdeBCx72SaUXKQSQQxu5JtyZyMYa7iPdmUqkdNWI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=aePDqIKYLLkaJCp5DjwnmNByYccW9cKLDaQdKTEd1iaMi73TCW9Ujz0G1CkjYqaNP
-	 uo9pIFDb2U110ovMPZ5MBlPw1Gt6/LkWgUpi+xB5jaTiyAgI7zhAy0hKN57+T/lJm+
-	 c/te2KkaO1AY92ii9DHGabdvgNYCaUjKwg2Us54CMJcEyl9k4OvxQQZCdaNZEEZl9j
-	 5g1eF4kGd4sLHCSOzyoP4K1777ZPlQZxuyXs+6nyRMi4wMsq011I4M11/6lZr62SDZ
-	 CABkR2uI1CU92Oz1zm+W1WCjXK0H5XKtHCRMmQE0UU6b13pH34dECVLxyuh5ApJ3X5
-	 nzIaB/dJc1aJQ==
-Date: Mon, 28 Sep 2026 23:03:10 +0000
-From: Yixun Lan <dlan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Junzhong Pan <panjunzhong@linux.spacemit.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Xu Yang <xu.yang_2@nxp.com>,
-	Peng Fan <peng.fan@nxp.com>, Peter Chen <peter.chen@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-	spacemit@lists.linux.dev, Conor Dooley <conor.dooley@microchip.com>,
-	Ze Huang <huang.ze@linux.dev>,
-	Troy Mitchell <troy.mitchell@linux.spacemit.com>
-Subject: Re: [PATCH v3 0/8] Add SpacemiT K1 USB2.0 controllers support
-Message-ID: <20260928230310-GKB2079@kernel.org>
-References: <20260927-b4-spacemit-k1-usb2-v3-0-ce7095896039@linux.spacemit.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="n+cGfVeJ"
+Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-34b6f8b80beso1577eec.2
+        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 18:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790644194; x=1791248994; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Nu8Cl9d5kdkeLBWfcAAawSaGHAduQcU752rXCWMacQA=;
+        b=n+cGfVeJQNoJ87Em/9OIrVWDmNkI10TvLfN2TqE9Va0jI9Syjfvf3xdmJukIhqNWrC
+         LzyWD4ISqf10lK4y1tVE4jTQysATQ4MNCmpLKa4gLpSLGZYmT3X9jWbOzhlPAXOeN/ci
+         OFeXW0R2sjuMU+vB6qEJ0CDpYBiklA9Crwh8gGO1uS121QbMnsNe/fMFJfVWLkDo0btt
+         CDhksV7AWDtAEOU4MBU7pKR9Vxpc/it9KTMLGSRfwecHKOXMn1wtqs4+V4y5PFxDmSN/
+         p3/esE9oVjq+JT9JK4DvqWmIg06HwSkgM0j2SMrSrPEaZK/dZSn3vtvuhQ1gvn/FY9yx
+         8oZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790644194; x=1791248994;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Nu8Cl9d5kdkeLBWfcAAawSaGHAduQcU752rXCWMacQA=;
+        b=qaBhpz1c1Er3cUug+cWqGDk6gcMBhrtwxsV1zh7d4no5dEDCsATJE2wTzevgI/tD8q
+         g9lLCPbFVVeI16NRrGjG2rl0nz9Ow4/PWZIOxTFxMPVuosoDHeT4j7lP1qWOOgTpMkGX
+         +ERVMOVyY7fuOXDn2VkL7P5dE6UaxexXk8fnl3QzLGNvcmCxzHDJlKdg8u4plR8LS8cb
+         a1rzXArE5+Yi/M4/MJrzRSQVhN7OVeAXWLScSh+jwcOc8ZI48EyJVXrPtkagSNRxtsOB
+         QSEKl0wmGIPHX7391aw0OUpXGmP/p5DulrHiwx8rSrM3E4i7UNJQ9eHH3VrHIjKNoKHv
+         7VnA==
+X-Forwarded-Encrypted: i=1; AKwUvBztV15RTHPhAWj6fn+mAYkHYxNeZVXLMGxX1nqYb2lTCvisZ4XK2oOyNSg3P8x3Hv9em+2puAd9lR8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJTOXzR6KqjE6LygtJzfn22r19cfwaLufPnXo7KEgTyrL/pnu6N
+	P1LqqD9NJyEejtpbqoAca6HMtoPKZSI0Jzurjpcau2mpBdnR2KhQNU0A
+X-Gm-Gg: AYBFou3/b4PeDbb5xMIcTBnNaqfKuNyxa6JFYsvRaGIh4iTO+B/JO1W2gCv4JYAj5xP
+	cxKvAFmg+bRTH81wPD0FOZjkuAfFEb20rM46BEhk6lZy+YwDnAyju235Tut5PyanbPJaPWoGSVz
+	wZb6POjdAcO5euvyJYG3tW3iIjXlcwA+fZTXh9QhZdfniaVsHmkWs02SEPn9ndBkwqJkPuTtM5Q
+	kISeBiS4C3nkJyz+GnVxJpgtL/YJcFo0csSrPgv5bCtuJPDuXm2x+LHCxV/QczMPjTBLrAkFhZO
+	Cvp3B+k0rdea0DOrhW/xUnMJfjq9AxbXaTG6yUxkpCHDXNh2WZK5g2efzxQEWaLhBDLdz4zEmh0
+	w/iJhOZYZF8Y/gPGpZHWMEwbyqqFa5l2BrXntqtVdtQfIoKu8/H0j3l6C8VytQNYC5bt2u0M7oH
+	4xHMuhe4XC21LUod8rjAOsb1i0zKKMyXb6eMh11oKd8Kjfot3c5d+P/2OgHfAeHFGaNNo1W6UL1
+	2JmCGeuzzgunWq3+arg60nBMy4=
+X-Received: by 2002:a05:693c:820f:b0:348:fc1d:cb22 with SMTP id 5a478bee46e88-348fc1dcd43mr4915177eec.21.1790644193904;
+        Mon, 28 Sep 2026 18:09:53 -0700 (PDT)
+Received: from Gris-Laptop ([116.169.5.123])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-347328dd123sm9591234eec.13.2026.09.28.18.09.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 18:09:52 -0700 (PDT)
+From: Gris Ge <cnfourt@gmail.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: stable@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Benson Leung <bleung@chromium.org>,
+	Andrei Kuchynski <akuchynski@chromium.org>,
+	Jameson Thies <jthies@google.com>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Hsin-Te Yuan <yuanhsinte@chromium.org>,
+	Johan Hovold <johan@kernel.org>,
+	Gris Ge <cnfourt@gmail.com>
+Subject: [PATCH v2] usb: typec: ucsi: Skip CAM query when partner has no alt modes
+Date: Tue, 29 Sep 2026 09:09:37 +0800
+Message-ID: <20260929010937.21559-1-cnfourt@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260927021649.8967-1-cnfourt@gmail.com>
+References: <20260927021649.8967-1-cnfourt@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260927-b4-spacemit-k1-usb2-v3-0-ce7095896039@linux.spacemit.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+Since Thunderbolt alternate mode support was added,
+`ucsi_altmode_update_active()` is called on every Connector Partner
+Changed event.  This made the driver send `UCSI_GET_CURRENT_CAM` to
+PPMs even when the partner had no alternate modes registered. Firmware
+that does not support the optional alternate mode details answered Not
+Supported, which produced a spurious error on every partner change:
 
-On 19:40 Sun 27 Sep     , Junzhong Pan wrote:
-> The SpacemiT K1 SoC has two USB2.0 controllers, one has Dual-Role
-> support, but the hardware has no internal OTG registers, the other is
-> Host only. These controllers are compatible with Chipidea USB2 driver
-> with some flags set and reset control support.
-> 
-> This series is based on 7.3-rc1 and has been tested on Banana Pi F3
-> development board.
-> 
-> A self-powered USB device/hub is needed to test the host function of the
-> dual-role controller on Banana Pi F3, a MINI-PCIe USB2.0 module (a
-> cellular module e.g.) is needed to test the host only controller.
-> 
-> ---
-> Changes in v3:
-> - collect tags
-> - merge the two dt-binding commits
-> - use local variables when acquiring devm managed clock/reset
-> - drop manual clk_disable_unprepare() from the remove path
-> - enable related drivers as modules in defconfig
-> - Link to v2: https://lore.kernel.org/r/20260908-b4-spacemit-k1-usb2-v2-0-f07342ffa051@linux.spacemit.com
-> 
-> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
-> 
+```
+ucsi_acpi USBC000:00: GET_CURRENT_CAM command failed
+```
 
-> ---
-> Junzhong Pan (8):
->       dt-bindings: usb: ci-hdrc-usb2: add spacemit,k1-usb2 compatible
->       usb: chipidea: usb2: use devm_clk_get_optional_enabled()
->       usb: chipidea: usb2: add optional reset support
->       usb: chipidea: usb2: add SpacemiT K1 support
->       riscv: dts: spacemit: add USB2.0 controller nodes for K1
->       riscv: dts: spacemit: enable USB2.0 controllers on BananaPi F3
->       riscv: dts: spacemit: enable USB2.0 controllers on OrangePi RV2
->       riscv: defconfig: enable ChipIdea USB controller support
-> 
-Any chance to queue these patches (1-4) for v7.4 cycle? Hope it not too late,
-and then I will handle the rest part, thanks
+Fixed by skipping the command when there is nothing to update.
 
+Fixes: da87d45b1951 ("usb: typec: ucsi: Add Thunderbolt alternate mode support")
+Cc: stable@vger.kernel.org # v7.0+
+Assisted-by: Codex:deepseek-v4.1-flash
+Signed-off-by: Gris Ge <cnfourt@gmail.com>
+---
+v2:
+  - skip the invoke of `ucsi_altmode_update_active()` in
+    `ucsi_handle_connector_change()`
+v1: https://lore.kernel.org/linux-usb/20260927021649.8967-1-cnfourt@gmail.com/
 
--- 
-Yixun Lan (dlan)
+ drivers/usb/typec/ucsi/ucsi.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+index bef3f9b71d71..c392afdc27ae 100644
+--- a/drivers/usb/typec/ucsi/ucsi.c
++++ b/drivers/usb/typec/ucsi/ucsi.c
+@@ -1519,7 +1519,8 @@ static void ucsi_handle_connector_change(struct work_struct *work)
+
+ 	if (con->partner && (change & UCSI_CONSTAT_PARTNER_CHANGE)) {
+ 		ucsi_partner_change(con);
+-		ucsi_altmode_update_active(con);
++		if (con->partner_altmode[0])
++			ucsi_altmode_update_active(con);
+
+ 		/* Complete pending data role swap */
+ 		if (!completion_done(&con->complete))
+--
+2.55.0
+
