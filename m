@@ -1,159 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs2-f38.google.com (mail-vs2-f38.google.com [74.125.227.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B253446C0
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14E20397338
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790669449; cv=none; b=ra+YKoy87DoduYZUPxvx7qRIhW5FB14JCptOFTLTa1g081/yqdCF9EzVSIvN5XV1CF1p6bMuSPWFFa0AMjOPok7CKJARw4zrAi+fwiQAnfIAWadARabxxui03BnyONyA5J0UcfVNg48CdSXhAgxBKYLVXpROobMPn3EqMEIxnAc=
+	t=1790669552; cv=none; b=V7RkXkjU3oWhpqc0+IADKHL8PJbO5dZY3Fe7Wx10WR7FhVHKr0buIuAwUusnOY95o3KOjaZOt9FCnRNAgNBbWm+xHFtkrcu+e6B/qgHDBm4pjmz5F6gaFI2lZDltaI/r9+MWYTlKPlsvpeYkDKL5+C4Qik5cQsQAn89PLhcRxxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790669449; c=relaxed/simple;
-	bh=VurJNzaYXelyd8wjX/n2Cc4ErgvUvunbOS0fR7D84AQ=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=dnq2DvSrz1jtmP3GcRY3+juALtsfqNm0cTcffG/nfMGYIb4bBhhuOXcYT1XchtN3GYj3SBxyZlm8VwlhisPeI/1jDWZAFLGzGULMDNEDcM+qdKWR6Z21XYyTLXquFzcr6A2Sx87AtWGN9JI/ZN85IFCcoPa7TJULbH/8zcRi6qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sJctP1hq; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sJctP1hq"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 335D5C2BCF6
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:10:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790669449;
-	bh=VurJNzaYXelyd8wjX/n2Cc4ErgvUvunbOS0fR7D84AQ=;
-	h=From:To:Subject:Date:From;
-	b=sJctP1hqcOM3ej+5n+iPh1XjQf4R0y7XIKtKJ7hOoXyuBNLdzfmAN7Q0ikqCxay7U
-	 YVUjgiaLFbE7sBR4c5MGIlMybPTqt4qb0gq4zSGZ5uHCrSaRGDWEP5BUis6hYP4qQh
-	 hRT3YpDE2tMuxwkAQEjayrZihzWJxBLVEkUo9ecUil44aO20tLim7z6Ts/E8cs/kiF
-	 jh6wkpol2AH+adc7ugVVXkSfWJmhI4mVBtcOokLXY9yP+ozp8H5YUKTfka1Ra7gVEU
-	 lP298pk9c6PkcqYSmxJupkpY0ZfIthfnLoMR+ixwmeMwspWvANVBdGH6F9jBW8+Y4d
-	 uRmpeaME6kzsg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 148C1C41614; Tue, 29 Sep 2026 08:10:49 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222071] New: [Bisected] [Regression] xhci_hcd: Resuming from
- hibernation fails with "Not enough host resources"
-Date: Tue, 29 Sep 2026 08:10:48 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h.judt@gmx.at
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression attachments.created
-Message-ID: <bug-222071-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	s=arc-20240116; t=1790669552; c=relaxed/simple;
+	bh=e8jTQ59tb4Ke+Zmo+wcDDbIer2Daet/lCXTrHvU+JBY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oldAniyAHhsJ6fOi5MVDAbxdjUJTE6M+46CCG5oi04aSPP8rXb8Tb6Cr2//lL922piATjMepWOl9SvlHkaa/miJgsZYlkVmPViGUr1+cI3Ck+8fYH4brsrKelZvRP+1Amp4EjKtUy8IqLRIeDk9qkDASfJQOvpCc8loLZh1aqbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=74.125.227.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs2-f38.google.com with SMTP id 71dfb90a1353d-5cda0838062so2023993e0c.1
+        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 01:12:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790669550; x=1791274350;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=wKTPnbd7pHw8WKn97YDxHbj3C025J4UMPNethHoNt9I=;
+        b=pN/KZXJTi3XZEznszts+kYzvuY6klxGdf4Ppimikx0jZMa7qHK9AemBH/EMqDRuXaa
+         iHAZv0waPtxA5Z/m48eQC4w0ujtuPPS9sRfkDpInXVYD8xxfZivpKRQkIi2jBiJaEdxv
+         khz/FHbYJr/ApIWM3fjW9BFAUc05rTZ9Zmd07wvDxbZHxWuiEEa12OxvpRWaVMjk7nzF
+         zN8W7srgOt6Wud5Zni3m4TfVomR5q7SZvKSk0wIpd7XPYi4W3L2LTBB/iydPiOskMwT6
+         rE6u7IRQDrSW+TsblpRiaK3/hqyvH1VX5+OiHcgh22X1i1lKTgeE+ryDyRZuUeHwny/J
+         J0YQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwkdmhsb0pV4qhf8F24hw4+3t9BTr7DzwEOJCG6sDzIXaIeXkVZmy5OXAFvFnSa4FW2icSvZ0gzTbw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLtwXPN1MSuASPDhyWrlO2bVGoh+JDJRz6c4ljiwrWiGcsDDI2D
+	82xFqJ/HwqD8Js49rQ456eLNA6oqKPTx7GoUxXSNUhXL0ftqHNnL46hZfkBoRKBQBEA=
+X-Gm-Gg: AYBFou0o4Ru0mbqMj4PP1/Jv3I1nERZfx2uJjD1ueJ8N5dAUYliDeu+dSv7RM79PhB6
+	OEAjfldBDzDTELjWoPW3GSkr0c4yKIBuh/mNtLt02cxxHMBQLh+5tbSH+F3h0A4RD+KZqLwtYRv
+	D4jo+PRmtxcPWfzntgWV3EUjs/tiMUthE8dUiT6ujJm5SPWygxMHTFXGTo2+6NaYIdr2H+NAXhy
+	enxC+BlcMogouoJYdYPaclE7W+lnEBtBjxStXOWjXeWqcWg5MYzlsmpn6i8pHtVOcHO3w/2prZG
+	/h2F47PKp41d8iQWQ72Ofm9rS1hcS9ZFXwUytbHBqazQ8TxrcV+/zMk3gib/E75P2j3iaKNyKAo
+	BQPC5ceHir3iq54m7oflKyPpU6xLfYywSNhHegCowQHX6oD2ngKNI8qJevq/pezoeiYVG9SuCo5
+	p5p34pH67V+wLN7jl6uvY+ofVgG1+CKSp5YfwlJcX7ZVTfLYV0JJmuAR6uyFQa6GfnVLxOeXGSC
+	mwhpHlHV01KpkyIO5zIxBl0dtJ0G9v3+zK4yg==
+X-Received: by 2002:a05:6122:2909:b0:5c8:2852:36cf with SMTP id 71dfb90a1353d-5cb090264f1mr7060123e0c.4.1790669549856;
+        Tue, 29 Sep 2026 01:12:29 -0700 (PDT)
+Received: from mail-ua2-f43.google.com (mail-ua2-f43.google.com. [74.125.226.235])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5d3f2840d97sm148536e0c.14.2026.09.29.01.12.29
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Sep 2026 01:12:29 -0700 (PDT)
+Received: by mail-ua2-f43.google.com with SMTP id a1e0cc1a2514c-988ba23f552so343809241.3
+        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 01:12:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBx88zpUqN10i8J+xVrhIfhSB15FpRW6XHQlkt8yQhFWV2ks5+WgjJfUlRt+v3WSFM6lHBxyXHWxp14=@vger.kernel.org
+X-Received: by 2002:a05:6102:5346:b0:7a8:15b9:dd34 with SMTP id
+ ada2fe7eead31-7af1c58fb71mr6318332137.2.1790669548884; Tue, 29 Sep 2026
+ 01:12:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260928-rzg2-sr-boards-v10-0-91752ea39cbc@solid-run.com>
+In-Reply-To: <20260928-rzg2-sr-boards-v10-0-91752ea39cbc@solid-run.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 29 Sep 2026 10:12:17 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdWWoH-m972X1Emo6gis81-_TUs819gOPkUwtgnR3aQhGA@mail.gmail.com>
+X-Gm-Features: AclHuK9FhwKj6JL-kiqTsnzPxsKOECrpai_keY8LaopHP5dfC3Vjj3Wu8JulErc
+Message-ID: <CAMuHMdWWoH-m972X1Emo6gis81-_TUs819gOPkUwtgnR3aQhGA@mail.gmail.com>
+Subject: Re: [PATCH v10 00/11] arm64: dts: renesas: Add various SolidRun RZ/G2
+ based boards
+To: Josua Mayer <josua@solid-run.com>
+Cc: Magnus Damm <magnus.damm@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Benjamin Bara <benjamin.bara@skidata.com>, 
+	Linus Walleij <linusw@kernel.org>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Jon Nettleton <jon@solid-run.com>, Mikhail Anikin <mikhail.anikin@solid-run.com>, 
+	Yazan Shhady <yazan.shhady@solid-run.com>, linux-renesas-soc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org, 
+	Conor Dooley <conor.dooley@microchip.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222071
+Hi Josua,
 
-            Bug ID: 222071
-           Summary: [Bisected] [Regression] xhci_hcd: Resuming from
-                    hibernation fails with "Not enough host resources"
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: h.judt@gmx.at
-        Regression: No
+On Mon, 28 Sept 2026 at 19:34, Josua Mayer <josua@solid-run.com> wrote:
+> Add support for a variety of SolidRun RZ/G2 based SoMs and both
+> HummingBoard IIoT and HummingBoard Ripple Evaluation boards.
 
-Created attachment 310955
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310955&action=3Dedit
-dmesg-7.2.6.bz2
+Thanks, will queue in renesas-devel for v7.4.
 
-Commit 2a70e5dc0301ad961b198f086a39e2479f6b8933 "usb: xhci: optimize resumi=
-ng
-from S4 (suspend-to-disk)" causes hibernate/resume cycles to fail.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?=
-id=3D2a70e5dc0301ad961b198f086a39e2479f6b8933
-Reverting it seems to make it good again.
+Gr{oetje,eeting}s,
 
-dmesg excerpt:
-usb 2-1.1.2: device descriptor read/64, error -32
-xhci_hcd 0000:00:14.0: Not enough host resources, active endpoint contexts =
-=3D 63
-usb 2-1.1.2: Busted HC?  Not enough HCD resources for old configuration.
-OOM killer enabled.
-Restarting tasks: Starting
-usb 2-1.1.2: USB disconnect, device number 5
-Restarting tasks: Done
-PM: hibernation: hibernation exit
-usb 2-1.1.2: new full-speed USB device number 6 using xhci_hcd
-usb 2-1.1.2: device descriptor read/64, error -32
-xhci_hcd 0000:00:14.0: Not enough host resources, active endpoint contexts =
-=3D 63
-usb 2-1.1.2: can't set config #1, error -12
+                        Geert
 
-I will of course attach the full logs (one from today with kernel 7.2.6 and=
- an
-older one with kernel 7.1.1).
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-Maybe something does not get cleaned up properly, because it starts happen
-after a few cycles?
-
-I will later also attach a dmesg with the commit reverted.
-
-lsusb -tv after failure:
-/:  Bus 001.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dehci-pci/2p, 480M
-    ID 1d6b:0002 Linux Foundation 2.0 root hub
-    |__ Port 001: Dev 002, If 0, Class=3DHub, Driver=3Dhub/8p, 480M
-        ID 8087:0024 Intel Corp. Integrated Rate Matching Hub
-/:  Bus 002.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
-    ID 1d6b:0002 Linux Foundation 2.0 root hub
-    |__ Port 001: Dev 007, 480M
-        ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
-/:  Bus 003.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dehci-pci/2p, 480M
-    ID 1d6b:0002 Linux Foundation 2.0 root hub
-    |__ Port 001: Dev 002, If 0, Class=3DHub, Driver=3Dhub/6p, 480M
-        ID 8087:0024 Intel Corp. Integrated Rate Matching Hub
-        |__ Port 002: Dev 003, If 0, Class=3DHuman Interface Device,
-Driver=3Dusbhid, 12M
-            ID 258a:002f=20=20
-        |__ Port 002: Dev 003, If 1, Class=3DHuman Interface Device,
-Driver=3Dusbhid, 12M
-            ID 258a:002f=20=20
-        |__ Port 004: Dev 004, If 0, Class=3DMass Storage, Driver=3Dusb-sto=
-rage,
-480M
-            ID 058f:6366 Alcor Micro Corp. Multi Flash Reader
-/:  Bus 004.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 5000M
-    ID 1d6b:0003 Linux Foundation 3.0 root hub
-/:  Bus 005.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dxhci_hcd/2p, 480M
-    ID 1d6b:0002 Linux Foundation 2.0 root hub
-/:  Bus 006.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dxhci_hcd/2p, 5000M
-    ID 1d6b:0003 Linux Foundation 3.0 root hub
-
-
-Interestingly, the Realtek Semiconductor Corp. RTS5411 Hub still gets
-recognized, but no devices.
-/:  Bus 002.Port 001: Dev 001, Class=3Droot_hub, Driver=3Dxhci_hcd/4p, 480M
-    ID 1d6b:0002 Linux Foundation 2.0 root hub
-    |__ Port 001: Dev 009, 480M
-        ID 0bda:5411 Realtek Semiconductor Corp. RTS5411 Hub
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
