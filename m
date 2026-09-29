@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D420F3EC830;
-	Tue, 29 Sep 2026 13:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEAF25218BA;
+	Tue, 29 Sep 2026 14:27:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790688817; cv=none; b=jvu9EPfB/dnKObT2R48+xKSGv//Uk60RusscRhPYrfNAjRpGSne1ShQ+CjEfUEGlY41JD0fvC5qM/eyOuPNXK8vq2CwBFhh+g/BZ+1C+2eCm1jYnl6jyl1RD+ZAo+LuK7/yL0eif/IVOQXsoP6DzDYlZcU77oDnjgGzxgTiplGQ=
+	t=1790692047; cv=none; b=h2eK24HYw0ioTVuiaiDHrED+7DGDonCT3nri4G9LZ3oWw1QWPb1ME4DupyhgNnvR5iisnYKtveWXq4EObS7490tBKRuR2Ta2VYBH2om5UknD7UbWG8EMpajapa6vUNfDKHTatID+FDnJ5FGJEYJ/bhWKPB/1fL7l7pGmIbeTITI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790688817; c=relaxed/simple;
-	bh=0L7FSZ57YdGdvGk9Es098LolE1B7AUWH0wgLSFsQpYQ=;
+	s=arc-20240116; t=1790692047; c=relaxed/simple;
+	bh=Bwk2Sbj+akQ3diAVdTcu04i0hLai1HH/u9GO5nLS0DE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qHUGQnwrxlY6QffxErmgtMchT6mtQAiyZiWMAQBKIwswQHNOXtbJuaagoAu5FD/kwYFc//nTDHCjMp+9fpIPkwj10JgTUBFOgiBVCxoZgOX5fdhIIxliqzBosxr67RAqOt8X4AQondZxaBuxZmt9C/Fb8raqpy9/fKMQS8Se/88=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=vQ/2vBR4; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=elsB5WDeDzawGvF5lLrOh3GIP4XZ52w433g5elVMZg+1ddbBEg1gHqknHsmdb/00/z2RCUyJp1UObwfl8hsJnSdfyvY0a83CVDPA1l6AVHUUrxqqsbA+S2K4/pgOAp00UE6n4hDMYLPghlXY1B6hB0cEq2FQu2eWiG3Z7LC9Lk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WwQJzShy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="vQ/2vBR4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEE991F000FF;
-	Tue, 29 Sep 2026 13:33:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790688815;
-	bh=diL6msZxc8dWd+VYNDwRHUHjTGEBT+ehpImKw+oGlZE=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WwQJzShy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DAE151F00893;
+	Tue, 29 Sep 2026 14:27:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790692042;
+	bh=DnI00DpYKUiWrAQ2VQ34nPrOmLv5QkaMmD+3SRHPxEs=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=vQ/2vBR41YiqZsCQkUd8N4iG2jHGGByUC4eAtsdITCyMEzgdtMoXejCRWq2ilRa6u
-	 MjWda8SKxpu0uwdUjWpKW8wqUK1dFPrTHX1Y3Eu2hI3YYjl6LwIMY9LMe0/hnHLeko
-	 X/LJmN07CHwZ1Uh3xXR7vkF4QjJYk+/hsSvDvxKI=
-Date: Tue, 29 Sep 2026 15:33:30 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: pip-izony <eeodqql09@gmail.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-	Randy Dunlap <rdunlap@infradead.org>, Fan Wu <fanwu01@zju.edu.cn>,
-	Johan Hovold <johan@kernel.org>, Ajay Gupta <ajayg@nvidia.com>,
-	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
-	Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	b=WwQJzShyxEh5mqIFTtW6rwAdxkfKY0g16gmXemDmquxWmpkcrOrpXGj2QWtcJJQCe
+	 6YzFYe7CaJyl9nl+R7f2G10FSdSRGBNtMvug8Dtd7TrIfXrf/kDWY7yK+2OOYUMI1y
+	 EI05UNljuH5uC+piW1ZX66Qc9LrAx+9WqQXUoJF+HwaofIlD1ayuyl92cuTx6EgNeh
+	 0cjLccpMZuL1tbPWYh/rfzGZpLVdpDcghi9z6S9CU+4UGKFJZftmC2NccKbL0d0eYy
+	 lKPJOFLdad8MFhGFv7VL6983OmWkaBU6+FSDrUb40kfnvjKSVL1qafajRa4VMC6izt
+	 2dntYiTe8ZwFw==
+Date: Tue, 29 Sep 2026 15:27:17 +0100
+From: Simon Horman <horms@kernel.org>
+To: Matvey Valigura <valigurasm@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Chas Williams <3chas3@gmail.com>,
+	Duncan Sands <duncan.sands@free.fr>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	syzbot+9ca2c9f85bd8b5e46516@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: ccg: Validate altmode index in
- GET_CURRENT_CAM response
-Message-ID: <2026092918-evolution-modulator-3a97@gregkh>
-References: <20260928053759.533956-3-eeodqql09@gmail.com>
+Subject: Re: [PATCH] usb: atm: use request_firmware_direct() for firmware
+ probing
+Message-ID: <20260929142717.GV13925@horms.kernel.org>
+References: <20260924050654.15347-1-valigurasm@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,52 +47,43 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260928053759.533956-3-eeodqql09@gmail.com>
+In-Reply-To: <20260924050654.15347-1-valigurasm@gmail.com>
 
-On Mon, Sep 28, 2026 at 01:38:01AM -0400, pip-izony wrote:
-> From: Seungjin Bae <eeodqql09@gmail.com>
+On Thu, Sep 24, 2026 at 08:06:54AM +0300, Matvey Valigura wrote:
+> When disconnecting a device while firmware is not present on the system,
+> usbatm_usb_disconnect() waits for the heavy_init thread to finish:
+>     wait_for_completion(&instance->thread_exited);
 > 
-> When the PPM reports more than one DisplayPort alternate mode for a
-> connector, ucsi_ccg_update_altmodes() merges them into a single entry
-> in uc->updated[] and sets uc->has_multiple_dp. In that case,
-> ucsi_ccg_update_get_current_cam_cmd() rewrites the response of the
-> GET_CURRENT_CAM command. The response is a single byte holding the
-> index of the currently active alternate mode, and it is provided by
-> the PPM firmware.
+> If CONFIG_FW_LOADER_USER_HELPER_FALLBACK is enabled, missing firmware
+> causes request_firmware() to fall back to sysfs/udevd. This creates a
+> circular dependency during disconnect:
+> 1. usb_disconnect() holds device_lock(&udev->dev).
+> 2. usbatm_usb_disconnect() waits for instance->thread to exit.
+> 3. instance->thread waits for request_firmware() sysfs fallback.
+> 4. udevd receives the firmware uevent and attempts to read sysfs
+>    attributes (e.g. serial), blocking on device_lock(&udev->dev).
 > 
-> The function uses this byte directly as an index into uc->orig[], and
-> then uses the linked_idx read from that entry as the translated index
-> into uc->updated[]. Both arrays have UCSI_MAX_ALTMODES entries, but
-> neither index is checked against that size.
+> Furthermore, the fallback wait uses wait_for_completion_killable_timeout(),
+> which ignores the non-fatal SIGTERM signal sent by usbatm_usb_disconnect().
+> Because speedtch and cxacru probe multiple candidate firmware files
+> sequentially, each file stalls for the 60-second fallback timeout,
+> triggering hung task timeouts (>120s) reported by syzbot.
 > 
-> If a malicious or buggy PPM reports a value of UCSI_MAX_ALTMODES or
-> larger, e.g. 0xFF, uc->orig[cam].linked_idx reads over the end of
-> uc->orig[]. The byte read from there is then used as the index for
-> writing cam into uc->updated[new_cam].active_idx, so the out-of-bounds
-> read is followed by an out-of-bounds write. This happens without any
-> userspace action, since the UCSI core issues GET_CURRENT_CAM on its own
-> when handling connector changes.
+> Switch to request_firmware_direct() to probe firmware files directly from
+> the filesystem without falling back to user-mode helper.
 > 
-> Fix this by ignoring responses whose index is out of range and leaving
-> the original value in place. The UCSI core only uses the value as an
-> index into con->port_altmode[] when it is below UCSI_MAX_ALTMODES, and
-> otherwise treats it as no active alternate mode. Also check linked_idx
-> before using it as an index, so that the write into uc->updated[] is
-> always within bounds.
-> 
-> Fixes: 170a6726d0e2 ("usb: typec: ucsi: add support for separate DP altmode devices")
+> Reported-by: syzbot+9ca2c9f85bd8b5e46516@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=9ca2c9f85bd8b5e46516
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Cc: stable@vger.kernel.org
-> Reported-by: Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>
-> Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
+> Signed-off-by: Matvey Valigura <valigurasm@gmail.com>
 > ---
-> The issue was found through code audit and was reported privately,
-> so there is no public report to link to.
-> 
->  drivers/usb/typec/ucsi/ucsi_ccg.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  drivers/usb/atm/cxacru.c   | 2 +-
+>  drivers/usb/atm/speedtch.c | 6 +++---
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 
-Did you forget an Assisted-by: tag?
+I am assuming that in practice users do not load firmware for these devices
+from user-space.
 
-thanks,
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-greg k-h
