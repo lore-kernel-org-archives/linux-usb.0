@@ -1,79 +1,52 @@
-Received: from mail-pz2-f37.google.com (mail-pz2-f37.google.com [74.125.228.37])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF70C2F7EE4
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 16:12:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84AC5427E5;
+	Tue, 29 Sep 2026 17:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790698356; cv=none; b=WaFFyDiQ2hLml6mYFxZ9D+fSOAxpGkxkExbqzUSY7NpybCh325dVSliMxK1Q770aa24Znw40NtIg36j8WgUq7yaNe0AlH66FxaTcyEakwzJvtiiIfpre7yN25XlTg95CLR5rgxVDL+DIpmrW3rXxb9mzLr442fDaGkfh2kYwdDk=
+	t=1790702231; cv=none; b=ZCcirEFGNZkMzSDfuUoJ3OV1pMHc8Ig3xMtdHzqWONWC5IqcAHVFMyF9BcwAddgdblVyGqgVU9VJAeywC8GOGr4xKFzk1wvhDgYWZR94wZEa7vBqUUlZC3AqzmvseSVUS18TNkzafCqEprYazv7dyDjxZBGF8qgXX4xsSxk0F00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790698356; c=relaxed/simple;
-	bh=0LOLrF1o0H9W9E6lsAQJ0sYu2ieVD2z9H4HDPExvv78=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=V0zqvHSEHhwcnfOrNMo6oNfC20SuL/jchA4fcOK5fin9brJKB/2ZYjzwckSN1sLRi8SJpCzN64plrhFRixXHQ2/IuZZ+AntxFJ4iMcDoI0A3GyNEFk4Le5LLUIagL/+uC0YNYOGC45V8aazDOhydSNE16F4PjDYbbieZaW9dPGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FfcvS/Ll; arc=none smtp.client-ip=74.125.228.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FfcvS/Ll"
-Received: by mail-pz2-f37.google.com with SMTP id 41be03b00d2f7-cc7cadbe09cso456924a12.1
-        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 09:12:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790698354; x=1791303154; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=SRgYI8NB5ZWXSObwPxIXtQXSAtJDMAfETTCC86XuwMA=;
-        b=FfcvS/LlOZGRP8i1Uz3J8NQeK27rRNokW10EtT3NyS9/zoJq6VgJAgy7f+9Buf89S7
-         oTOgiJmLu9aI5OY857h2ji3eZncrCBsURBC/RQrKdwgTfYGr/KR1ke6yZ/ixdMv+EPEw
-         +wwPoOLd2gM/kqKAA+vLzQYBCnkCok8sU68Jub0eCyHY8g9Q92AnTwv48Ij7fpe3HTj1
-         ipyUM8X+LRG3to48HeqdfUDg0oITIO6cFxRTUjbxJZkQC36vdyXaXFBkqriPnzyeqqor
-         9SvPFRv5BNCHrpQfcjQe4600e8HakF8i+WeoYO+eRgvcZoJyVVfCoq201IJTfE3aKbZI
-         ZiCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790698354; x=1791303154;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SRgYI8NB5ZWXSObwPxIXtQXSAtJDMAfETTCC86XuwMA=;
-        b=eQnYXTZhW5diDuKphEqm3UWkq3aw+Hu92jXWZSijfjg5uD1SrXp0PGMfsx0SGsDKnB
-         V41xChqjxEHwMYHcy3waHPxm5j5vbhb153RueVmEqWTYkRjofRm+7m1OpQ60eX7RR065
-         ommTpRFx+K7PtY0P53Ov9frgMWmMg6wRlffp3ImU7JbigTGE8xBusoJPW3rPEQizvky7
-         p8lmd4WfVMmY5Kj5Av8Tv/iRY6KgAQFh4SHkAfdq8E7PWlpe9U9wTIzAk5xqQ8zSJnBe
-         z1uKB5HMQAR+7fFc0KwnG9LCOic+NdXCaODX6OmRnPI87h43tzi3iV5Ry4I8+KssG95z
-         CB+Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxpodXLiQFqM0SzuCgGkTZGNExgSAq8BQIljPHJ11NrLh5EhMOYCvzIV3OAofS37rIjdQQnY6jcKwU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKXcDmnNHMRrM/IeZGgpgac+YHnPDpa5m5IzyMQ4JaCI1qaZDXd
-	RYCuP72/b29bHBq+3bDXS5BPKwUnsbxUt+1mYZWZxbvpTwDwoGJOKiWv
-X-Gm-Gg: AYBFou1jAwsATAzaE6ECcyIchp0eymdrqUsctYFePE5YVaEINuenLjcK3r/CZwqKTCg
-	2hLtZPPrki7ZN9T1eLM9hS3SyCxqTxJbz+9yMu9TR8PC28+4se7pAOmzd9fgacloSO5lUm6PyTe
-	UCOwztnqQTI/bmRBO3oKicLcHHn4tmMsr1Un7OFqRj7L4XhmEz2VRDAXpUTdV+qWFw6yF+7qidK
-	Zkx3Un1RX4Lo39jVZeTtBZzS/XcXSZfnyNkmhSN0XktQzML1wgbsxjsP93Kh+rOrz9Cjuxprpr/
-	Toge+lvIsqE5PsuTB3TAPcbdXYxSO0Xh/6fY0WSmwoAiXEdn76uc+K58rg+fYYDsxrCXHxeuG+U
-	YELlSjkyreqHn0YXPwqiIYhLKSslDjdioSaeXdWeCGBsFHs2mZfJmwt9DIFIuKNesahtO6UCXGu
-	Fd9kEyMXpEH8l3v226w+tzQZ9JLAw9Rixa3MNXDGyJZAavxKEVtpdq6QSfRkkUE90rf7IIoA==
-X-Received: by 2002:a17:902:e741:b0:2e2:dc0c:1615 with SMTP id d9443c01a7336-2e2dc0c1643mr65525ad.31.1790698353862;
-        Tue, 29 Sep 2026 09:12:33 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2a09:bac1:7a80:50::246:e4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e2d8cf1457sm4227315ad.15.2026.09.29.09.12.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 09:12:33 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: Ulf Hansson <ulf.hansson@oss.qualcomm.com>
-Cc: Ulf Hansson <ulfh@kernel.org>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Alex Dubov <oakad@yahoo.com>,
-	Raj Ojha <rajojha047@gmail.com>,
-	linux-mmc@vger.kernel.org,
+	s=arc-20240116; t=1790702231; c=relaxed/simple;
+	bh=/pHfoKgokia/MdRzHNMrVcLo021G7LgctLnT21f/BYM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=R3ZMmBxX036blnkwAHxMyYblginm7xEiH6hfTMisSIMq+jANnX02v5w7i9QJ5gehGAz43W+J7mpiIwzaIVSj+uX7VnXES6yem9FLP7qBluzSvkCv8GSGhdG91maKgPi+S6vrGCB2Tk5JNrIEYV9AoxRVHaJE7KSx4gVEeXbpjww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 93e4361ebc2911f19a56ed5b684f684d-20260930
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:2b340d9d-b854-44b7-b308-5ce70dc73aaa,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:916476fa9f55dfc2dc4ea2b3266bf061,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
+	,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 93e4361ebc2911f19a56ed5b684f684d-20260930
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 152541326; Wed, 30 Sep 2026 01:16:58 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: Fabricio Akio <fabricioakio@gmail.com>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+3ee5da0319ca17ef1f4e@syzkaller.appspotmail.com
-Subject: Re: [PATCH] memstick: core: reclaim the request before freeing a timed-out card
-Date: Tue, 29 Sep 2026 23:12:28 +0700
-Message-ID: <20260929161228.128616-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAPx+jO9iva6YnKba8aEuOHURiZKjh2+wvhfC97bZ22UjGsXgNw@mail.gmail.com>
-References: <20260919100408.113979-1-ngocthang2710.1999@gmail.com> <CAPx+jO-JBBLNCUrnB0UaMSPu7ajwsrEQMPJ1SfH2PccCR5VnCA@mail.gmail.com> <CAPx+jO9iva6YnKba8aEuOHURiZKjh2+wvhfC97bZ22UjGsXgNw@mail.gmail.com>
+	linux-arm-msm@vger.kernel.org,
+	huangwei@kylinos.cn
+Subject: Re: [PATCH] usb: dwc3: qcom: Check for L2 only when suspending a host with wakeup
+Date: Wed, 30 Sep 2026 01:16:53 +0800
+Message-Id: <20260929171653.3167156-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
+References: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -82,54 +55,23 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Tue, Sep 29, 2026 at 12:57 PM Ulf Hansson wrote:
-> Reviewing another patch [1] for the same issue, indicates the memstick
-> host drivers are already managing the timeout themselves. So, even if
-> your approach seems reasonable, I decided to go with the other
-> solution for now.
+Hi Fabricio,
 
-Fine with me. Raj's patch fixes the UAF in my reproducer as well.
+This matches what I'd expect from the PHY behaviour - in peripheral
+mode the device disconnects before the glue suspends, so there is no
+link left to park in L2, and the unconditional check is just log noise
+on every suspend. Restricting it to the host-with-wakeup case that
+actually relies on L2 retention looks right.
 
-One concern: it is effectively a revert of b65e630a55a4 ("memstick: Add
-timeout to prevent indefinite waiting"), which was the backstop for the
-rtsx_usb_ms remove race that 99d7ab8db9d8 ("memstick: Fix deadlock by
-moving removing flag earlier") only narrowed.
+The untested host path is low risk in a specific way: for host with
+wakeup the check runs exactly as before, so the patch only silences
+the cases where L2 is not expected. And since the runtime PM paths
+pass wakeup unconditionally, host runtime suspend still gets the
+check, which seems to be the intended behaviour.
 
-memstick_check() can still pass the host->removing check just before
-rtsx_usb_ms_drv_remove() sets eject/removing. Its next request then
-reaches rtsx_usb_ms_request(), which drops it because eject is set, so
-nobody completes mrq_complete. With an unbounded wait, memstick_check()
-never returns and memstick_remove_host() blocks in flush_workqueue()
-forever. (cancel_work_sync() in drv_remove cancelling a queued
-handle_req before it picks up the request looks like another way to
-get there.)
+Tested on real hardware in the mode that was noisy - nice.
 
-I reproduced it in QEMU with dummy_hcd + raw-gadget emulating an
-RTS5129, widening the window with a debug msleep() right after the
-host->removing check and unplugging the device during it:
-
-  INFO: task kworker/u10:3:65 blocked for more than 20 seconds.
-  Workqueue: kmemstick memstick_check
-   __wait_for_common
-   memstick_check
-
-  INFO: task kworker/1:1:33 blocked for more than 20 seconds.
-  Workqueue: usb_hub_wq hub_event
-   __flush_workqueue
-   memstick_remove_host
-   rtsx_usb_ms_drv_remove
-   platform_remove
-   ...
-   rtsx_usb_disconnect
-   usb_disconnect
-   hub_event
-
-The same test on mainline (500 ms timeout) recovers fine.
-
-Since memstick hosts are expected to always complete a request, I think
-the right follow-up is in rtsx_usb_ms: complete requests with an error
-after eject instead of dropping them. I can send that as a separate
-rtsx_usb_ms patch on top of Raj's, if that works for you.
+Reviewed-by: Huang Wei <huangwei@kylinos.cn>
 
 Thanks,
-Thang
+Huang Wei
