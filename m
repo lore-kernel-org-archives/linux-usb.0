@@ -1,329 +1,173 @@
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+Received: from mail-yx2-f4.google.com (mail-yx2-f4.google.com [74.125.224.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550F4368D4B
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 14:46:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7804511221
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 15:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790693210; cv=none; b=VXZFSSCHuVRWou7IY1akO/1aThK+9cWRRHJlGz1LQOrqx78Se94PuFgObMUJaXyVBqLE9FV9Klz7PgO/iXNLFVzRUQLHLh1Y6gSTwfP3MKcPL20BEVQZ1mLrsiRadWyD9v0A6uGY04tNgR6XHduZuFwp1hXihhRDf1jeqV9St7Y=
+	t=1790694186; cv=none; b=dd33LO89AynrigYSOuywcswYv5C3WmUKxYYLjKR81ErXaWt6p2sK9zEgI/P1zKxnQhfzrVltxpF1sfED+5OXtyMajO6mOgdWETm+KTTCCVW1siziaXoq4K4JeVufiuOt7IjHjEjzFrsROYyONNUXmwYYeVEbgJwlIhIQUxkp87o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790693210; c=relaxed/simple;
-	bh=b20H6OMD/mJhvs+PtOypDKp/Uq3Cp4/GFdIS+uB909c=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=CKxFoNfL0sfJdmll2idaLh28duowzeq2kym27+IxhvPT2D1me7sGmKdWFupT+yvu9D8fVh9pFRkR36pAuj+2awmnE9e+sqH2JWX8QklaTgbGZx0SQkdx+th9sOAdxqL9Cw7tmQs//gC5Oq46xakbztIUpHProi5NcwZqJb02DGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TImB6qVz; arc=none smtp.client-ip=74.125.228.12
+	s=arc-20240116; t=1790694186; c=relaxed/simple;
+	bh=42nYDcBAxNvHgQbbkGEcmz3UGXdz42wPE9jsdKzwvQo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JSKj5pcXgv05V5Uog6YvEcsIlegdTP/vYPcOQw6GgeaPAVIy8t6fB7f3VqKr4G9HeikRqMOVez24SL+5zuhSd+UMjouRYrGNkb7ZcjZooIOZKJLg81jb/QUbRBvPP5AWq3RAZ/A19+40BlGtnNmOpVbS+KRm4mifIzU0obFG/qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkUugni2; arc=none smtp.client-ip=74.125.224.132
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TImB6qVz"
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea4bfd1so1847007a12.0
-        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 07:46:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkUugni2"
+Received: by mail-yx2-f4.google.com with SMTP id 956f58d0204a3-66fb34fa3b6so1248898d50.0
+        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:02:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790693206; x=1791298006; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4b5KTvylDtW2+5uJtb7CKuwRyrC+2b0oF+GIiDXxI/0=;
-        b=TImB6qVzwysU7aUMstLbioWxs/i9cCjvXdPOA2gG6dahE7EPKrTt/8MUnlwf/OzzFT
-         2+P0o5JBVcVMvdirsZ3qom76jvovH2kMv4SQNZvqzVW/f4cykGyfgBR50maNQw609G3e
-         m0a7EMBJtYhCT8vFKTl6faMdkFotcGSuwQIQtHnRAfzNF1cSdJ2Dy6MVq2YVpsqMG2pq
-         PMoM81bGyOgribcSTALQVg9flEFNX2BzsPFruzxpIepK1bBQ8/FNwkPBqIAtMo9k85Xz
-         UFohlkwNFw40QWda/Go0z8Rosbxn1ldWO39mYk6coLM62tRcJRBZ1vto8rleZ4JQ2P2x
-         uOVQ==
+        d=gmail.com; s=20251104; t=1790694170; x=1791298970; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=49UzIiAo0VYsR6EXPEJbJmUgWYtE+uEvjPXao/cXtos=;
+        b=VkUugni2dtbQEFvl+TjO9L+KNki9LnrUJCSDua1akT5O7nzQuKzKGDA2qzL4X4UKF5
+         tcVQBLV/o7U0BwgC7tCcanBeFPrQHaX8nH31FSFTJb1KiY93uqlakWBtsHrzZ3vHx5gW
+         g9fQGaRt9MkJMo/SvB6/R73yukwMNcIOPLvgOWFoceDMZRwaPZL0OniJ77W2qIBtPeWH
+         KX/yZSQLlGiAv6okH3cAxwR1dhD2FKzzcqRLHyeizrKHpnO76zV3aOUOKllDg2r7VwWe
+         D0Nj6RnmRqb5R+H0/hkspJCynmP24lu7fqOg2IsI79lmEZV1r/CxzqND8uLM+TIbDgvb
+         GzLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790693206; x=1791298006;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4b5KTvylDtW2+5uJtb7CKuwRyrC+2b0oF+GIiDXxI/0=;
-        b=KCwcM3SPp/ZVy0uBDKIB3qQpcOFIdo92+rl4W7z5DAAGnsmGIeWxeU69IJigexOMDV
-         pNN370zGxLMhD/qjjEgdBECuMsh/HdZqsZnEDWLHhb55GVX6bz55f5kzxaQk+36qjvC5
-         6oj/7IPLcENzkdWCJ99Sst2zT7XPHQKFjM2Bt4bVjHw8YjMZCF7YfLalRYIllOcclvD8
-         DUYw9nxgNfA2yEQ1XVpWmfc1foNDWwtBO91yyIVVy4/9RIatEOnQ2w3pXPlCZc1Y7jZL
-         hqLDryCDk5Pw2WWQmXYpRcm4ao369WMKHI8hKZeI7FP72oiksvQGZaVzbw/ugRptBq+A
-         LI8g==
-X-Forwarded-Encrypted: i=1; AKwUvBxx9wcehmZXIHY+hzVwaQ4fd4SJtKRNnLGqqEm8kIHnxPTaz/2M2WsMo/e+nyhqy6N9iLuk8nAmqpw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lUvmWrK/WdOWJTDZfdkq/MnXYWxpZ0Mu7H1LqSmG85qf5QKe2K
-	tvJIoEPppJ9blt8kirnCjdhWSYMaFyVqGCoIcnkRDu3TjkJpTRluCguC
-X-Gm-Gg: AYBFou0tHEEgqzO6DsAqBbrxf1WpCVhnlxaY6pOJBeVtMarg6q2EUQINUov0Ywu68SM
-	anh/zEjpZJYlEA1YmGZ+vqsolHAOxSaLwfYhr7NeKPE2AaPA05K057TJsp6wLGl1MSZGJX2e1fJ
-	IhksPmdGOaeiWWIau2PqJeHvkX5XwdTyVXmcaqD8WcSF8nsazxKFHXS78NJOYYKLFd5lxtPL2nc
-	mOYqA1kg33xVc/hqw0NvKw0D+7lDT6EWqC8z72CdXs5xrAiWlxW0Dssy7WvbrRipT/YIde17Pi/
-	RrlKKoeDkOhjJB2pAIXXqjs15295389IkEBHv/kqqJGpSbTofYaQM1AELCHAjAsSJQgUvVIloHx
-	iYO2HvOCwatCKQuH7qKNIZ0h8R/ApwKGb2YW1sooDZPisI+TA9c9lJkve+FwfLWagC7xHnmUtQe
-	Qho8Xq22KaN310s003/23dPI3qx//4lJMn07BKfyt4YFtPfByln/UXV0RxiLVFHgBK/trbkgvYp
-	bP7GqrSQPF+FxD/1OZvA2ukUxtBPIGCJw==
-X-Received: by 2002:a05:6a21:6089:b0:3dd:ff70:1426 with SMTP id adf61e73a8af0-3de0e725d1emr15101045637.3.1790693206167;
-        Tue, 29 Sep 2026 07:46:46 -0700 (PDT)
-Received: from localhost.localdomain ([216.236.36.150])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc7c5afb5c9sm1282397a12.3.2026.09.29.07.46.43
+        d=1e100.net; s=20260707; t=1790694170; x=1791298970;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=49UzIiAo0VYsR6EXPEJbJmUgWYtE+uEvjPXao/cXtos=;
+        b=tmu9ETwnHv9w3rToYBcVp1Oh7V0tuT1qKluFmKysSP426tAi4kThHKFgkB73u18YVk
+         5id4TGvqgKkRcNzbPx2DL90MGUkGS/AVojEZINPzbySJe53T4ntTb4Id5bVDx+uFiTK2
+         eFBrkiUbY6kHt/H4sLjFVY7/TPZ4rG4DJnvrgycPkgInMW1gDxqkhiKYLa2dA6fAg3QZ
+         T9Z2MIZyDOepy+5WzBdFHFF9F3VObXqq+7f1DeWzyOBo28tEnrek25Fjoy/tkR+Ek3Xe
+         xKLCJ1Fh9+gi0Ezr4R0yZzjpzZrUZPs9JO66QJN3Wh7z+Ufdv81zloJ3TV/bbmPT37Iq
+         U7mw==
+X-Gm-Message-State: AFq9FYK2i39BkeWAM2Ma57dkX16HI9ueI5t2wURIOxgUG9bdsMaKfCo2
+	h0JOQooD90E8JDaTU0Crg76xqFcjbHqcecRKi0EIg9fRhZ18bdw113ZI
+X-Gm-Gg: AYBFou2tJrjG0pAx69xOuoyXpX26hHfL9NpdU+xZc8FszC/9QX4+pG79D5/25xrB+oe
+	oPQYH+n/TNUDApePKMFW0xN+uE5x2EJ1CWY3FmGB88Crhcyg/32kIrTAOLyHsfQm+MWfGaENnOU
+	1k7XDDGdrwrKcuEya5+4C1g2LAe3EYfl0+zc2xK4WziRWex177E+qibrJvsTyno0/3Xx2YiaRO7
+	f1aTey+e2RpuyzxiDiYUkzXE3XfUh+rgi1rBcxMV++mb5Rk8Nswf0LrO/RLuT2yG5evBR/sJEcv
+	WEucYYIzxBJplXPZ1MneAQW4WwnWbh17O3XVYqQEPJBk12rj6/zayQGayemkDLFU4jKScVmh3GH
+	CqTUF2n5n2L5oSdkHahReaTHc0gRWVwXPmD1+gCczUWG5ykiCCdonkNbkrVxW3GUwSivsSJg88/
+	FIQ/LGOciwSLsN1QMwh8zx5RYkFl6wp/4KEL50093vUBxInjlBqtSZwA/rxVjWKR0YxQ==
+X-Received: by 2002:a05:690e:13c9:b0:673:7f0e:a8cb with SMTP id 956f58d0204a3-6737f0eaf3fmr5413546d50.44.1790694168952;
+        Tue, 29 Sep 2026 08:02:48 -0700 (PDT)
+Received: from [192.168.18.164] ([2600:8804:5716:d800::2620])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-675b7702a45sm83523d50.17.2026.09.29.08.02.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 07:46:45 -0700 (PDT)
-From: xy521521@gmail.com
-To: stern@rowland.harvard.edu
-Cc: Hongyu Xie <xiehongyu1@kylinos.cn>,
-	gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] usb-storage: ene_ub6250: don't let the card-type probe hang forever
-Date: Tue, 29 Sep 2026 22:46:40 +0800
-Message-Id: <20260929144640.2028-1-xy521521@gmail.com>
-X-Mailer: git-send-email 2.32.0
+        Tue, 29 Sep 2026 08:02:47 -0700 (PDT)
+From: Ryan Brue <ryanbrue.dev@gmail.com>
+Date: Tue, 29 Sep 2026 10:02:39 -0500
+Subject: [PATCH RESEND] usb: mtu3: fix system suspend in gadget mode after
+ soft disconnect
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260929-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-v1-1-a0ac3b6b2b62@gmail.com>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Fei Shao <fshao@chromium.org>
+Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Ryan Brue <ryanbrue.dev@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790694166; l=3537;
+ i=ryanbrue.dev@gmail.com; s=20260906; h=from:subject:message-id;
+ bh=42nYDcBAxNvHgQbbkGEcmz3UGXdz42wPE9jsdKzwvQo=;
+ b=YbK3YF9A+aOB+Hm/xh8seZ0DcpGlIq2W0mafFoTLR2ixWJCnN6pznBz15u5t2oiwnrPpwG3qt
+ SbDI0QLbGgzCeZQpKyx1EqiIMShHI0oFXGn17wHB/0m8DdbmGIZwk4a
+X-Developer-Key: i=ryanbrue.dev@gmail.com; a=ed25519;
+ pk=KsUvVaP//v/2q+ZBuacc7cLbsyEYn+AD71Sn28oZWKo=
 
-From: Hongyu Xie <xiehongyu1@kylinos.cn>
+ssusb_gadget_suspend() removes the D+ pullup for system suspend by calling
+mtu3_dev_on_off(mtu, 0) directly. That writes the hardware SOFT_CONN bit
+but leaves mtu->softconnect alone, deliberately: ssusb_gadget_resume()
+needs it to decide whether to pull up again.
 
-ene_ub6250_probe() queries the card type with ene_get_card_type() while
-holding us->dev_mutex (the locking added by commit 445fc368c6bc
-("usb-storage: ene_ub6250: fix race between scan work and probe")).
-The query is a bulk-only transaction: CBW, 1-byte data-in and CSW, each
-transferred by usb_stor_bulk_transfer_buf(), which waits for URB
-completion with MAX_SCHEDULE_TIMEOUT.
+wait_for_ip_sleep() then asks ssusb_gadget_ip_sleep_check() whether the IP
+can sleep, and that function tests mtu->softconnect -- the gadget's intent
+rather than the state of the pin. So it answers "pulled up, the IP can
+sleep" for a device that was just disconnected, and the poll for
+SSUSB_IP_SLEEP_STS runs to its 100 ms timeout:
 
-That unbounded wait is safe only while a SCSI command is being handled,
-because the command's abort machinery (usb_stor_stop_transport() via
-US_FLIDX_ABORTING) is the only thing that can terminate it.  At probe
-time no SCSI command exists, so a device that passes enumeration but
-never services bulk transfers wedges the probe forever:
+  mtu3 11271000.usb: gadget (high-speed) pullup D-
+  mtu3 11271000.usb: ip sleep failed!!!
+  mtu3 11271000.usb: gadget (high-speed) pullup D+
+  mtu3 11271000.usb: PM: dpm_run_callback(): mtu3_suspend returns -16
+  PM: Some devices failed to suspend, or early wake event detected
 
-    hub_event:         usb_stor_msg_common() <- ene_send_scsi_cmd
-                       <- ene_ub6250_probe  (holds us->dev_mutex)
-    events_freezable:  usb_stor_scan_dwork  (blocked on us->dev_mutex)
+and the suspend fails. The rule the hardware follows is stated in that
+same function: the IP cannot sleep while D+ is not pulled up.
 
-syzbot reports the second worker as "INFO: task hung in
-usb_stor_scan_dwork"; the hub_event worker is stuck in the same wait
-but sleeps interruptibly, which the hung-task detector ignores.
+On an MT8173 tablet (Amazon Fire HD 10 2017, dr_mode = "peripheral") this
+makes system suspend impossible whenever VBUS is present, which on a board
+whose only USB port is also its charging input means whenever it is
+charging. Unbinding the UDC, which clears mtu->softconnect through
+mtu3_gadget_pullup() and so makes the check agree with the pin again, is
+enough to let the same suspend succeed with the driver still bound and the
+charger still attached:
 
-Bound the three probe-time transfers with a 30 s timeout through a new
-usb_stor_bulk_transfer_buf_timeout() helper, so a dead device fails the
-probe cleanly and the existing error path unwinds via
-usb_stor_disconnect().
+  gadget bound   (softconnect=1): suspend returns -16, "ip sleep failed!!!"
+  gadget unbound (softconnect=0): suspend completes, 20 s of 20 s
 
-Fixes: 445fc368c6bc ("usb-storage: ene_ub6250: fix race between scan work and probe")
-Reported-by: syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=30552b4cbe99d6d91306
-Cc: stable@vger.kernel.org
-Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+So record what mtu3_dev_on_off() actually wrote and test that instead.
+Runtime suspend is unaffected: it does not soft disconnect, so the pullup
+is still set and the IP-sleep poll is still performed.
+
+Fixes: e69027c25361 ("usb: mtu3: allow system suspend during active gadget connection")
+Assisted-by: LLM
+Signed-off-by: Ryan Brue <ryanbrue.dev@gmail.com>
 ---
- drivers/usb/storage/ene_ub6250.c | 55 ++++++++++++++++++++++++--------
- drivers/usb/storage/transport.c  | 31 ++++++++++++++----
- drivers/usb/storage/transport.h  |  3 ++
- 3 files changed, 69 insertions(+), 20 deletions(-)
+ drivers/usb/mtu3/mtu3.h      | 1 +
+ drivers/usb/mtu3/mtu3_core.c | 3 ++-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index 895f90c7a3fa..109336bd7e30 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -24,6 +24,13 @@
+diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
+index ba5a63669e5f..7f4fb87d8438 100644
+--- a/drivers/usb/mtu3/mtu3.h
++++ b/drivers/usb/mtu3/mtu3.h
+@@ -361,6 +361,7 @@ struct mtu3 {
+ 	unsigned is_self_powered:1;
+ 	unsigned test_mode:1;
+ 	unsigned softconnect:1;
++	unsigned pullup:1;
+ 	unsigned u1_enable:1;
+ 	unsigned u2_enable:1;
+ 	unsigned u3_capable:1;
+diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+index a40bf5bad2d5..5ce61240194f 100644
+--- a/drivers/usb/mtu3/mtu3_core.c
++++ b/drivers/usb/mtu3/mtu3_core.c
+@@ -346,6 +346,7 @@ void mtu3_dev_on_off(struct mtu3 *mtu, int is_on)
+ 	else
+ 		mtu3_hs_softconn_set(mtu, is_on);
  
- #define DRV_NAME "ums_eneub6250"
- 
-+/*
-+ * Bound for the probe-time card-type query.  It runs under us->dev_mutex
-+ * with no SCSI command in flight, so nothing else would terminate the
-+ * bulk transfer wait if the device stopped responding.
-+ */
-+#define ENE_PROBE_TIMEOUT (30 * HZ)
-+
- MODULE_DESCRIPTION("Driver for ENE UB6250 reader");
- MODULE_LICENSE("GPL");
- MODULE_IMPORT_NS("USB_STORAGE");
-@@ -487,7 +494,8 @@ static void ene_ub6250_info_destructor(void *extra)
- 	kfree(info->bbuf);
++	mtu->pullup = !!is_on;
+ 	dev_info(mtu->dev, "gadget (%s) pullup D%s\n",
+ 		usb_speed_string(mtu->speed), is_on ? "+" : "-");
  }
+@@ -1023,7 +1024,7 @@ bool ssusb_gadget_ip_sleep_check(struct ssusb_mtk *ssusb)
+ 		return true;
  
--static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
-+static int ene_send_scsi_cmd_timeout(struct us_data *us, u8 fDir, void *buf,
-+				     int use_sg, int timeout)
- {
- 	struct bulk_cb_wrap *bcb = (struct bulk_cb_wrap *) us->iobuf;
- 	struct bulk_cs_wrap *bcs = (struct bulk_cs_wrap *) us->iobuf;
-@@ -499,8 +507,9 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
+ 	/* device is started and pullup D+, ip can sleep */
+-	if (mtu->is_active && mtu->softconnect)
++	if (mtu->is_active && mtu->pullup)
+ 		return true;
  
- 	/* usb_stor_dbg(us, "transport --- ene_send_scsi_cmd\n"); */
- 	/* send cmd to out endpoint */
--	result = usb_stor_bulk_transfer_buf(us, us->send_bulk_pipe,
--					    bcb, US_BULK_CB_WRAP_LEN, NULL);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-+					    bcb, US_BULK_CB_WRAP_LEN, NULL,
-+					    timeout);
- 	if (result != USB_STOR_XFER_GOOD) {
- 		usb_stor_dbg(us, "send cmd to out endpoint fail ---\n");
- 		return USB_STOR_TRANSPORT_ERROR;
-@@ -517,6 +526,10 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
- 		/* Bulk */
- 		if (use_sg) {
- 			result = usb_stor_bulk_srb(us, pipe, us->srb);
-+		} else if (timeout) {
-+			result = usb_stor_bulk_transfer_buf_timeout(us, pipe,
-+					buf, transfer_length, &partial,
-+					timeout);
- 		} else {
- 			result = usb_stor_bulk_transfer_sg(us, pipe, buf,
- 						transfer_length, 0, &partial);
-@@ -528,20 +541,25 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
- 	}
- 
- 	/* Get CSW for device status */
--	result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe, bcs,
--					    US_BULK_CS_WRAP_LEN, &cswlen);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-+					    bcs, US_BULK_CS_WRAP_LEN, &cswlen,
-+					    timeout);
- 
- 	if (result == USB_STOR_XFER_SHORT && cswlen == 0) {
- 		usb_stor_dbg(us, "Received 0-length CSW; retrying...\n");
--		result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe,
--					    bcs, US_BULK_CS_WRAP_LEN, &cswlen);
-+		result = usb_stor_bulk_transfer_buf_timeout(us,
-+					    us->recv_bulk_pipe, bcs,
-+					    US_BULK_CS_WRAP_LEN, &cswlen,
-+					    timeout);
- 	}
- 
- 	if (result == USB_STOR_XFER_STALLED) {
- 		/* get the status again */
- 		usb_stor_dbg(us, "Attempting to get CSW (2nd try)...\n");
--		result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe,
--						bcs, US_BULK_CS_WRAP_LEN, NULL);
-+		result = usb_stor_bulk_transfer_buf_timeout(us,
-+						us->recv_bulk_pipe, bcs,
-+						US_BULK_CS_WRAP_LEN, NULL,
-+						timeout);
- 	}
- 
- 	if (result != USB_STOR_XFER_GOOD)
-@@ -567,6 +585,15 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
- 	return USB_STOR_TRANSPORT_GOOD;
- }
- 
-+/*
-+ * Unbounded variant for command-path callers: the command's abort
-+ * machinery terminates usb_stor_msg_common()'s wait if the device dies.
-+ */
-+static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
-+{
-+	return ene_send_scsi_cmd_timeout(us, fDir, buf, use_sg, 0);
-+}
-+
- static int do_scsi_request_sense(struct us_data *us, struct scsi_cmnd *srb)
- {
- 	struct ene_ub6250_info *info = (struct ene_ub6250_info *) us->extra;
-@@ -1826,7 +1853,8 @@ static int ms_scsi_write(struct us_data *us, struct scsi_cmnd *srb)
-  * ENE MS Card
-  */
- 
--static int ene_get_card_type(struct us_data *us, u16 index, void *buf)
-+static int ene_get_card_type(struct us_data *us, u16 index, void *buf,
-+			     int timeout)
- {
- 	struct bulk_cb_wrap *bcb = (struct bulk_cb_wrap *) us->iobuf;
- 	int result;
-@@ -1839,7 +1867,7 @@ static int ene_get_card_type(struct us_data *us, u16 index, void *buf)
- 	bcb->CDB[2]			= (unsigned char)(index>>8);
- 	bcb->CDB[3]			= (unsigned char)index;
- 
--	result = ene_send_scsi_cmd(us, FDIR_READ, buf, 0);
-+	result = ene_send_scsi_cmd_timeout(us, FDIR_READ, buf, 0, timeout);
- 	return result;
- }
- 
-@@ -2193,7 +2221,7 @@ static int ene_init(struct us_data *us)
- 	struct ene_ub6250_info *info = (struct ene_ub6250_info *)(us->extra);
- 	u8 *bbuf = info->bbuf;
- 
--	result = ene_get_card_type(us, REG_CARD_STATUS, bbuf);
-+	result = ene_get_card_type(us, REG_CARD_STATUS, bbuf, 0);
- 	if (result != USB_STOR_XFER_GOOD)
- 		return USB_STOR_TRANSPORT_ERROR;
- 
-@@ -2358,7 +2386,8 @@ static int ene_ub6250_probe(struct usb_interface *intf,
- 
- 	/* probe card type */
- 	mutex_lock(&us->dev_mutex);
--	result = ene_get_card_type(us, REG_CARD_STATUS, info->bbuf);
-+	result = ene_get_card_type(us, REG_CARD_STATUS, info->bbuf,
-+				   ENE_PROBE_TIMEOUT);
- 	mutex_unlock(&us->dev_mutex);
- 	if (result != USB_STOR_XFER_GOOD) {
- 		usb_stor_disconnect(intf);
-diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
-index 9a4bf86e7b6a..c586d2021b7e 100644
---- a/drivers/usb/storage/transport.c
-+++ b/drivers/usb/storage/transport.c
-@@ -378,12 +378,18 @@ static int usb_stor_intr_transfer(struct us_data *us, void *buf,
- }
- 
- /*
-- * Transfer one buffer via bulk pipe, without timeouts, but allowing early
-- * termination.  Return codes are USB_STOR_XFER_xxx.  If the bulk pipe
-- * stalls during the transfer, the halt is automatically cleared.
-+ * Transfer one buffer via bulk pipe, allowing early termination.  Return
-+ * codes are USB_STOR_XFER_xxx.  If the bulk pipe stalls during the
-+ * transfer, the halt is automatically cleared.
-+ *
-+ * A nonzero timeout bounds the wait for URB completion.  It must be used
-+ * only when no SCSI command is being handled: usb_stor_msg_common()
-+ * otherwise waits indefinitely, relying on the active command's abort
-+ * machinery to terminate the wait.
-  */
--int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
--	void *buf, unsigned int length, unsigned int *act_len)
-+int usb_stor_bulk_transfer_buf_timeout(struct us_data *us, unsigned int pipe,
-+		void *buf, unsigned int length, unsigned int *act_len,
-+		int timeout)
- {
- 	int result;
- 
-@@ -392,14 +398,25 @@ int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
- 	/* fill and submit the URB */
- 	usb_fill_bulk_urb(us->current_urb, us->pusb_dev, pipe, buf, length,
- 		      usb_stor_blocking_completion, NULL);
--	result = usb_stor_msg_common(us, 0);
-+	result = usb_stor_msg_common(us, timeout);
- 
- 	/* store the actual length of the data transferred */
- 	if (act_len)
- 		*act_len = us->current_urb->actual_length;
--	return interpret_urb_result(us, pipe, length, result, 
-+	return interpret_urb_result(us, pipe, length, result,
- 			us->current_urb->actual_length);
- }
-+EXPORT_SYMBOL_GPL(usb_stor_bulk_transfer_buf_timeout);
-+
-+/*
-+ * Same as usb_stor_bulk_transfer_buf_timeout() with an unbounded wait.
-+ */
-+int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
-+		void *buf, unsigned int length, unsigned int *act_len)
-+{
-+	return usb_stor_bulk_transfer_buf_timeout(us, pipe, buf, length,
-+			act_len, 0);
-+}
- EXPORT_SYMBOL_GPL(usb_stor_bulk_transfer_buf);
- 
- /*
-diff --git a/drivers/usb/storage/transport.h b/drivers/usb/storage/transport.h
-index 74ffd0d7e7b6..dc0442efc24d 100644
---- a/drivers/usb/storage/transport.h
-+++ b/drivers/usb/storage/transport.h
-@@ -77,6 +77,9 @@ extern int usb_stor_clear_halt(struct us_data *us, unsigned int pipe);
- extern int usb_stor_ctrl_transfer(struct us_data *us, unsigned int pipe,
- 		u8 request, u8 requesttype, u16 value, u16 index,
- 		void *data, u16 size);
-+extern int usb_stor_bulk_transfer_buf_timeout(struct us_data *us,
-+		unsigned int pipe, void *buf, unsigned int length,
-+		unsigned int *act_len, int timeout);
- extern int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
- 		void *buf, unsigned int length, unsigned int *act_len);
- extern int usb_stor_bulk_transfer_sg(struct us_data *us, unsigned int pipe,
+ 	/* ip can't sleep if not pullup D+ when support device mode */
+
+---
+base-commit: df2908090cda368b01ff43709f51890076c56157
+change-id: 20260908-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-c69c5104b25b
+
+Best regards,
+--
+Ryan Brue <ryanbrue.dev@gmail.com>
 -- 
-2.32.0
+Ryan Brue <ryanbrue.dev@gmail.com>
 
