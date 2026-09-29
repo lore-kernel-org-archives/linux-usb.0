@@ -1,428 +1,143 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF2DD3D9027
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 17:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B595550DAD
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 18:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790704242; cv=none; b=mGv2iluc77s6uEWvEUCwXH/3fJZBuK0XWPLQwDhnZiEq/TkESLRgeyphuhoIjywSCbvhlIHa7uNpJ9sE9Pd1WPmTck4MMH6VYHzOg0HZAxrys9dneVHwsqKgZM7hvy/bd/X8IG5RNJmX5lwpiL+qwzzA51zBeJ1RqQlXqZJo9RA=
+	t=1790707458; cv=none; b=npxTQ+EOT6oOqBNmH+3H2HPUDXVkoni1dTt6SYqINDDk6N62Gl9mBMrORL6MOfFh6mowS8uZ+sqr8Qtwu6ZOzorwUUQ80QAft8N94bImAMkkwx0cOFTpI7IX4daamSs2fVxuXE+GqA7XW5Z/TYZQHJ1wFJDDUFaYWaJCQbsmnYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790704242; c=relaxed/simple;
-	bh=w+lD0u9FSU16YpYBvLmPZ2JygzZ5+JD87LuSQxqckqk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TUeN7kzdXJw7+DyADrPDeb0mZ75C+AcYpNwBw2CF6ft3xxncQZeX9Fzy54CN1I37vBFNOU1ndZJfSsKbyUm+OZN8Lr2bbFA455ZMxYjrIhjNuN9JGcTBN4eEwFa0eLzVYNfdR6JG7gYzsk/IL73xceQnzGmhWc1J+Bhs5r+eqyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IZrQ9Fzp; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Q8RgABFj; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1790707458; c=relaxed/simple;
+	bh=HcMwICtPsYzSGYlIrZpeMSLd4hRv83e0EJ4ok104YuU=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=pFFDpHpM8k4Zs7b40KZfVxKYYPDzbTl7nPA6Rz4s0Cta4W4q8dMFU8IPFdlJMaU8m5CtGU+6h0xd5Cqxg1gtkcg+8aseHQ5KHK2ayyjLx1VybTzpsSFvfxdMhW2aOnWhHbHgPoVUY1Qb7jHl4EE8B+eEXL+P7yiHVMte5C5Lfac=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uciZZ+7k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IZrQ9Fzp";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Q8RgABFj"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68THfF3L3842780
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 17:50:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	KoyF9Zzd47qphYG8RQTQrYj6FBn+9xfx6cR3mcgi+UA=; b=IZrQ9FzpwogfVnHN
-	ScGnK3xJYzW6MnEe2nRQhG3EaD2R6vtZO1DDHSSK/8YALapi66SKHPZSvCi24frY
-	61zby/ucyNLMSEEUG8eWdR4WUcS649w42a7aZ82TLBQg9KYC1bwjiQZwqTuHZPgL
-	8aHrzKOiwKnGTjRMuiwdmkXio9qLAGBPdqbLPgJP9KLFnakXrvhO7LIQiHidoapT
-	cNjhjosg3IQm12C+HmN132iQILCFGJdbtpjY/eUgDM0aNcgJR7nZ/pRWUsB2sObB
-	KboTHPXpwvVjIw7T3OvJSivrZQHQxTIxQb4Y6eM45nKFUn2AGyRqTy1/NuHmT34M
-	Ri+vfg==
-Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h0b0va60h-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 17:50:39 +0000 (GMT)
-Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-1383723dfddso3471472c88.0
-        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 10:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1790704238; x=1791309038; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KoyF9Zzd47qphYG8RQTQrYj6FBn+9xfx6cR3mcgi+UA=;
-        b=Q8RgABFjNLlnC1y19c6YYJl7+8n2ltI/G3EXs4NtdSOByQ4FAs9SIEuGaWWuremrpR
-         80jjfzFdWOHHWX2bxmidJUTsu12IDuZE6bN41tE7vkIAK+KWJ4bFrpz6A3OnFz57I79z
-         QDObyNGDGKTcpnpJAwR2UrkWuoZF7+dyf7RcYA7ociGCEQdVmN60nOgPLtt/tW67g1Ew
-         CYD+sX+NcgP69A8Oc07CiOrQK9yVpfnrZhdYdcgmlAvyvDf0TI8zqvrdWWTSejZ1RF0n
-         Do0vx7ZktLqla+SKszHiNcksM+1uZGqZ7arUisyu6qxLSBICkFY2gUk4GBbeJQ6sUhW7
-         UGXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790704238; x=1791309038;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KoyF9Zzd47qphYG8RQTQrYj6FBn+9xfx6cR3mcgi+UA=;
-        b=I9TnZPFuVELpNdy0FFsxrK+ujxX6xorWoHjIo8VDCeLtYT3WxdJcA7KAe9chJGMf4s
-         tqfnfswRm2xEwqDLVoNv7/xzW9NFuzdBszYzfHf/hGUL/J/iXf/a6jBcjm2VbyAa0Ngb
-         dU4s3amvsBwB5XdrlLPBa7xxOgFqfJAi7anRbYLiG71sLgU+uvURXDmRbrXjt+vJKFkp
-         U97IMQUmf6x/VCfO3RWfBSbrLZN/sAtXqXuubbv7YlCv2p33qidh667SIOhqyVf7jqdM
-         y22qFQnmvymda6nk3k9f7KOKevzvUMyrFqTRhf70HwiffXouJCNnlXk5DkTrT0eaFM1p
-         lk7Q==
-X-Gm-Message-State: AFuF++l7m41oRLfpEqSjv9q7Jz5cKXQkiMrTLdQt2n7ENZJwcGiJYR2E
-	qc3UMUm7s4Bhier9kyrrFbsGy1ZIAMqjIp2sZVoArFKkIArawY4xQ2qXAC62+mKYXXTn5heYRMf
-	7I46QW2FrsmalrBK5YeopdJR47nPKi2EMaa8iUX93FOWZWNPr6p7Ue1OpnCYfyzc=
-X-Gm-Gg: AYBFou0Cdso+QBvSMK8NqxALYhXw0beHQKbOPGczEVlrk8PpXu+LRejH2P1P3J/e1JK
-	3LxrfEsftRfusxtNzNmGnJ12JijzLASPzY+Gbwuetq/F818a+yWQNspwZJcoBmKFLRth9adffRn
-	/UIswKbnpR2LjQdTYWF+cJ/dKb4LX/YsEZhNuJ6mDan2i6gO/9075aQzQ1XMjVbS4ouTyNT/O7+
-	21g37UyyuRFZM1xqzgxLjSFXuF0c516oj2QqlttFtFbCaSPoCeWlrpUGuJOYlldNmxZ+8ERkGSj
-	IxFuIhJ9oYU1wSZ61Ru1uCFJmrETTlBBdbn+CbCBMW7wutQQ9l6lM+lHRX7Rp13bO/G8ihJ530j
-	sUL+P7mUKXxP+iWzboOtUA7vu07UuDmmkq63vAdq68mo+rLj8f6JsNGJTYfrxyd8L2Q==
-X-Received: by 2002:a05:7022:b042:20b0:144:ed03:7c66 with SMTP id a92af1059eb24-146ce680be2mr15034186c88.20.1790704238194;
-        Tue, 29 Sep 2026 10:50:38 -0700 (PDT)
-X-Received: by 2002:a05:7022:b042:20b0:144:ed03:7c66 with SMTP id a92af1059eb24-146ce680be2mr15034144c88.20.1790704237502;
-        Tue, 29 Sep 2026 10:50:37 -0700 (PDT)
-Received: from [192.168.1.5] ([122.177.245.74])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14c6479db30sm640403c88.14.2026.09.29.10.50.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Sep 2026 10:50:36 -0700 (PDT)
-Message-ID: <810672ba-bd18-46ee-9716-37f443d4a7c1@oss.qualcomm.com>
-Date: Tue, 29 Sep 2026 23:20:32 +0530
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uciZZ+7k"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id A8AAEC4AF0B
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 18:44:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790707457;
+	bh=HcMwICtPsYzSGYlIrZpeMSLd4hRv83e0EJ4ok104YuU=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=uciZZ+7ke5kaU08Jma8+rKacFoptP480gzAxJrqPfx0CGDXM4Z3b+vUI3s2irsCp2
+	 W9wlyDyxI6z5ZUfKjr4cgXqakS0u4ppPsoBPMrcXma2njiHKrxZPIbW2864umIjikz
+	 7L0mDzfnp7lbmQyCpz8GMQ5Z66qmHghStoO7RfEHSS5TkI4broO8pLSlKbzA9P7GdJ
+	 OXYT4ocvoYJAyB6flf5Xg00ouoU2tZq/hI2yI8Vq/KCaivCh/ZdTzKlohyvu+2yvsR
+	 oqO/38ATFHP+TSj+TBCJ+zSFAidJmmvWPKUBTX7lJzIbtvEN7Q6ZlNIW93ksRnhEUq
+	 6yIbv3NQrIM6A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 8967DC41613; Tue, 29 Sep 2026 18:44:17 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222071] [Bisected] [Regression] xhci_hcd: Resuming from
+ hibernation fails with "Not enough host resources"
+Date: Tue, 29 Sep 2026 18:44:17 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: h.judt@gmx.at
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-222071-208809-BF2h3UpMOn@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-222071-208809@https.bugzilla.kernel.org/>
+References: <bug-222071-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] usb: dwc3: core: Fix RAM interface getting stuck
- during enumeration
-To: Selvarasu Ganesan <selvarasu.g@samsung.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-References: <CGME20260929051941epcas5p27a5c69151937b9105660941776cda819@epcas5p2.samsung.com>
- <20260929-ram-interface-stuck-v3-v3-1-0d1a54db233c@oss.qualcomm.com>
- <e8b9b694-0ba5-4d0f-97c9-ceeb89ae4729@samsung.com>
- <647d8c0e-9323-4b1e-9720-9e51ea8e3227@oss.qualcomm.com>
- <86aa3ea4-d453-4de2-8948-c5887e7a2142@samsung.com>
-Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <86aa3ea4-d453-4de2-8948-c5887e7a2142@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: Xxbvb4BIki101reJdLDpdy3GhSt1YVY0
-X-Proofpoint-GUID: Xxbvb4BIki101reJdLDpdy3GhSt1YVY0
-X-Authority-Analysis: v=2.4 cv=Z+55j3RA c=1 sm=1 tr=0 ts=6abbfa6f cx=c_pps
- a=JYo30EpNSr/tUYqK9jHPoA==:117 a=sNyD8o0HqZJu/sFm8jCfCw==:17
- a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=pGLkceISAAAA:8
- a=AhpSn6_gRgcaU1u8A2QA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=Fk4IpSoW4aLDllm1B1p-:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDA3MSBTYWx0ZWRfX+lqWmW0O36aO
- kPNzJAwU+D6bcc2Yq0uC9JUzhSinktTWfQEtQyUdOqHpxha96s0tu7kNUzvy3fJLQF4sl5OJ/Ta
- 3lSnEYMGR4p5RFFN5yJ82pemDvnKyiH4lmoBELjMVGS2gtNqO3BbI/eCwJL2Ze5NQCjUeaLlrV4
- V58h12B2NXnnKxyCWOo05XiDhZzCdubqpxGa2CkySYp9gsKZKez1RcGspsEbw4gQ6NaThOMdPYO
- k4NMN1CwzHs49CyXu8+KPbVLfgHrbBOEZ7wMihLZRqf8hChGPOeuFq4uSAGqKW+VjKrx/7qUl/y
- QNys58qQ0AUhyAaFKGbcugJdanWPT+Z5VynnzjZuA1woRShCmJF2l1iF3B65KcrWSmLCI44ffyL
- u0b/BsqyCvAxnHpVYL+m16Dazj4aWIw93ls9q3u1odsxDgdvhJkxRR01H6/XYTac6f+2X4n7S7U
- KClUIWB1OObqIP+RHag==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI5MDA3MSBTYWx0ZWRfX1s0lIazms2m0
- L9Rg31qjmfp0iFk22WV/2puacsh809nIH0bwDE9LUEPR7Ng6zQM1vT+YoQ43oh1/YZJONz+9yqY
- yGqmApIWF329+NnyHmVd1L4oHk9jl2c=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-29_04,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0 phishscore=0 bulkscore=0 malwarescore=0
- suspectscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609290071
 
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222071
 
+--- Comment #5 from Harald Judt (h.judt@gmx.at) ---
+Thanks for the patch, I've gave it a quick test and after 4-5 hibernate/res=
+ume
+cycles it looked good at first, but then similar symptoms. Though, the error
+message changed, so something else might still be missing?
 
-On 9/29/2026 4:32 PM, Selvarasu Ganesan wrote:
-> 
-> On 9/29/2026 2:05 PM, Krishna Kurapati wrote:
->>
->>
->> On 9/29/2026 12:15 PM, Selvarasu Ganesan wrote:
->>>
->>> On 9/29/2026 10:49 AM, Krishna Kurapati wrote:
->>>> During plug-in/plug-out test cases, it is sometimes seen that no events
->>>> are generated by the controller and all CSR register reads give "0" and
->>>> CSR_Timeout bit gets set indicating that CSR reads/writes are timing
->>>> out
->>>> or timed out.
->>> Hi Krishna,
->>>
->>> As per our discussion with synopsys we got a below feedback for CSR
->>> timeout in different issue.
->>>
->>> "Note: CSR timeout is not expected to occur during functional mode. Once
->>> timeout is reported by controller, s/w should treat it as a fatal error
->>> and should identify the root cause of issuing the parallel access during
->>> soft reset and fix it"
->>>
->>> As per our understanding, there is no recovery from CSR timeout.
->>>
->>> Are you able to recover from CSR timeout in your case even after trigger
->>> controller recovery?.
->>>
->>
->> Disabling and re-enabling gadget mode is the recommended fix. I did
->> not test this particular patch as mentioned below, but this error
->> recovery mechanism does the same thing as a soft_disconnect followed
->> by soft_connect.
-> 
-> Hi Krishna,
-> 
-> Thanks for your update.
-> 
-> We tried to recover from the CSR timeout, but it was unsuccessful. The
-> sequence below is provided for your reference.
-> 
-> It would be best to identify the root cause of why the CSR timeout is
-> occurring in your case.
-> 
-> Issue Sequence:
-> 1. Start core soft reset
-> 2. Parallel access of other registers
-> 3. End core soft reset
-> 4. Getting CSR timeout
-> 
-> 
-> Try to recovery from CSR timeout:
-> 5. Clear CSR timeout bit by RW1C same bit
-> 6. Start core soft reset
-> 7. End core softt reset
-> 8. Access other registers
-> 9. Getting CSR timeout
-> 
+Also note the Suspend Save Error, I believe I have already seen this in
+dmesg-7.1.1.
 
-Hi Selva,
+[  487.224692] Freezing remaining freezable tasks
+[  487.225435] Freezing remaining freezable tasks completed (elapsed 0.000
+seconds)
+[  490.706989] PM: hibernation: Preallocating image memory
+[  491.227735] PM: hibernation: Allocated 1677392 pages for snapshot
+[  491.227739] PM: hibernation: Allocated 6709568 kbytes in 0.52 seconds
+(12903.01 MB/s)
+[  491.227742] printk: Suspending console(s) (use no_console_suspend to deb=
+ug)
+[  491.230837] serial 00:00: disabled
+[  491.249637] xhci_hcd 0000:09:00.0: Suspend Save Error (SRE), USBSTS
+0x00000401
+[  491.620480] amdgpu 0000:03:00.0: MODE1 reset
+[  491.620485] amdgpu 0000:03:00.0: GPU mode1 reset
+[  491.620532] amdgpu 0000:03:00.0: GPU smu mode1 reset
+[  492.125327] Disabling non-boot CPUs ...
+[  492.126636] smpboot: CPU 7 is now offline
+[  492.128437] smpboot: CPU 6 is now offline
+[  492.130144] smpboot: CPU 5 is now offline
+[  492.132100] smpboot: CPU 4 is now offline
 
-  As per official issue description we got from SNPS:
+[...]
 
----
+Now the new messages:
 
-Problem Description:
+[  493.491022] xhci_hcd 0000:00:14.0: Not enough bandwidth on HS bus for ne=
+wly
+activated TT.
+[  493.491024] xhci_hcd 0000:00:14.0: Not enough bandwidth
+[  493.491027] usb 2-1.1.1: Busted HC?  Not enough HCD resources for old
+configuration.
+[  493.563490] usb 2-1.1.2: reset full-speed USB device number 5 using xhci=
+_hcd
+[  493.637648] usb 2-1.1.2: device descriptor read/64, error -32
+[  493.823352] xhci_hcd 0000:00:14.0: Not enough bandwidth on HS bus for ne=
+wly
+activated TT.
+[  493.823354] xhci_hcd 0000:00:14.0: Not enough bandwidth
+[  493.823357] usb 2-1.1.2: Busted HC?  Not enough HCD resources for old
+configuration.
+[  493.827971] OOM killer enabled.
+[  493.827973] Restarting tasks: Starting
+[  493.829006] Restarting tasks: Done
+[  493.829020] PM: hibernation: hibernation exit
+[  493.829329] usb 2-1.1.1: USB disconnect, device number 4
+[  494.005427] usb 2-1.1.1: new full-speed USB device number 6 using xhci_h=
+cd
+[  494.091135] xhci_hcd 0000:00:14.0: Not enough bandwidth on HS bus for ne=
+wly
+activated TT.
+[  494.091139] xhci_hcd 0000:00:14.0: Not enough bandwidth
+[  494.091142] usb 2-1.1.1: can't set config #1, error -12
+[  494.091830] usb 2-1.1.2: USB disconnect, device number 5
+[  494.172431] usb 2-1.1.2: new full-speed USB device number 7 using xhci_h=
+cd
+[  494.245591] usb 2-1.1.2: device descriptor read/64, error -32
+[  494.431958] xhci_hcd 0000:00:14.0: Not enough bandwidth on HS bus for ne=
+wly
+activated TT.
+[  494.431963] xhci_hcd 0000:00:14.0: Not enough bandwidth
+[  494.431967] usb 2-1.1.2: can't set config #1, error -12
+[  494.619736] ntfs: volume version 3.1, dev sdc1, cluster size 4096
 
-If a USB disconnect happens during 0-length IN 2.0 transfer or if the 
-host aborts the 0-length IN 2.0 transfer on a Transaction Error, the 
-driver application fails to access the RAM data subsequently. The read 
-to the RAM registers returns all-0. Some EndPoint commands hang without 
-completion as they need to access the RAM locations.
+--=20
+You may reply to this email to add a comment.
 
----
-
-Root cause:
-
-For normal transfers, the AXI BMU (Bus Master Unit) module reads the 
-data from the memory and issues a transmit Command Request to the MAC to 
-transmit the data to the USB Host.
-
-• Once the data is successfully transmitted to the Host, the Done (with 
-success) handshake is provided back to the BMU from the MAC.
-
-• If the data is not successfully transmitted, then a Done (with 
-failure) handshake is returned, so that the BMU can re-attempt the same 
-data again by rewinding its data pointers.– But, if the USB IN is a 
-0-length payload, then there is no need to rewind the pointers and the 
-Done (with failure) handshake is not returned for failure case. This 
-keeps the Request-Done interface busy till the next Done handshake. The 
-MAC sends the 0-length payload again when the host requests. If the 
-transmission is successful this time, the Done (with success) handshake 
-is provided back. Otherwise, it repeats the same steps again.– If the 
-cable is disconnected or if the Host aborts the transfer on 3 
-consecutive failed attempts, the Request-Done handshake is not
-complete. This keeps the interface busy.
-
-• The subsequent RAM access cannot proceed until the above pending 
-transfer is complete. This results in failure of any access to RAM 
-address locations. Many of the EndPoint commands need to access the RAM
-and they would fail to complete successfully.
-
----
-
-Workaround
-• Issue the DCTL[30] Soft Reset and re-initialize the device controller
-
---
-
-Error recovery work does the exact same thing and hence we are invoking 
-that in gadget_ep_cmd when registers read all zeroes.
-
-Regards,
-Krishna,
-
-
-> 
-> Thanks,
-> Selva
->>
->> Regards,
->> Krishna,
->>
->>>
->>>>
->>>> The issue comes up on different instnaces of enumeration on different
->>>> platforms. On SM8550, the debug log is as follows:
->>>>
->>>> Prepared a TRB on ep0out and did start transfer to get set
->>>> address request from host:
->>>>
->>>> <...>-7191    [000] D..1.    66.421006: dwc3_gadget_ep_cmd: ep0out:
->>>> cmd 'Start Transfer' [406] params 00000000 efffa000 00000000 -->
->>>> status: Successful
->>>>
->>>> <...>-7191    [000] D..1.    66.421196: dwc3_event: event (0000c040):
->>>> ep0out: Transfer Complete (sIL) [Setup Phase]
->>>>
->>>> <...>-7191    [000] D..1.    66.421197: dwc3_ctrl_req: Set
->>>> Address(Addr = 01)
->>>>
->>>> An XFER NRDY is received on ep0in for zero length status phase and
->>>> a Start Transfer was done on ep0in with 0-length packet in 2 Stage
->>>> status phase:
->>>>
->>>> <...>-7191    [000] D..1.    66.421249: dwc3_event: event (000020c2):
->>>> ep0in: Transfer Not Ready [00000000] (Not Active) [Status Phase]
->>>>
->>>> <...>-7191    [000] D..1.    66.421266: dwc3_prepare_trb: ep0in: trb
->>>> ffffffc00fcfd000 (E0:D0) buf 00000000efffa000 size 0 ctrl 00000c33
->>>> sofn 00000000 (HLcs:SC:status2)
->>>>
->>>> <...>-7191    [000] D..1.    66.421387: dwc3_gadget_ep_cmd: ep0in: cmd
->>>> 'Start Transfer' [406] params 00000000 efffa000 00000000 -->status:
->>>> Successful
->>>>
->>>> A bus reset was then received directly after 500 msec. Software never
->>>> got the cmd complete for the start transfer done in status phase. Here
->>>> the RAM interface is stuck. So host issues a bus reset as link is
->>>> idle for 500 msec:
->>>>
->>>> <...>-7191    [000] D..1.    66.935603: dwc3_event: event (00000101):
->>>> Reset [U0]
->>>>
->>>> Then software sees that it is in status phase and we issue an ENDXFER
->>>> on ep0in and it gets timedout waiting for the CMDACT to go '0':
->>>>
->>>> <...>-7191    [000] D..1.    66.958249: dwc3_gadget_ep_cmd: ep0in: cmd
->>>> 'End Transfer' [10508] params 00000000 00000000 00000000 --> status:
->>>> Timed Out
->>>>
->>>> Upon debug with Synopsys, the root cause is as follows:
->>>>
->>>> During any transfer, if the data is not successfully transmitted,
->>>> then a Done (with failure) handshake is returned, so that the BMU
->>>> can re-attempt the same data again by rewinding its data pointers.
->>>>
->>>> But, if the USB IN is a 0-length payload (which is what is happening
->>>> in this case - 2 stage status phase of set_address), then there is no
->>>> need to rewind the pointers and the Done (with failure) handshake is
->>>> not returned for failure case. This keeps the Request-Done interface
->>>> busy till the next Done handshake. The MAC sends the 0-length payload
->>>> again when the host requests. If the transmission is successful this
->>>> time, the Done (with success) handshake is provided back. Otherwise,
->>>> it repeats the same steps again.
->>>>
->>>> If the cable is disconnected or if the Host aborts the transfer on 3
->>>> consecutive failed attempts, the Request-Done handshake is not
->>>> complete. This keeps the interface busy.
->>>>
->>>> The subsequent RAM access cannot proceed until the above pending
->>>> transfer is complete. This results in failure of any access to RAM
->>>> address locations. Many of the EndPoint commands need to access the
->>>> RAM and they would fail to complete successfully.
->>>>
->>>> Furthermore when cable removal happens, this would not generate a
->>>> disconnect event and the "connected" flag remains true always blockin
->>>> suspend.
->>>>
->>>> Synopsys confirmed that the issue is present on all USB3 devices and
->>>> as a workaround, suggested to re-initialize device mode.
->>>>
->>>> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
->>>> ---
->>>> This series has only been compile tested. The issue was reproduced
->>>> easily with a certain kind of cable and CDP port of AMD based Lenovo
->>>> laptop. I don't have access to the cable currently and hence only
->>>> compile testing the fix for now. But the issue has popped up on OEM
->>>> testing as well.
->>>>
->>>> Also, didn't add locking while calling error recovery work in
->>>> gadget_ep_cmd since the caller is supposed to handle it.
->>>>
->>>> Changes to v3:
->>>> - Using error receovery mechanism from [1].
->>>>
->>>> Link to v2:
->>>> https://lore.kernel.org/all/20260806-ram-interface-code-v2-1-fe4a0de31d42@oss.qualcomm.com/
->>>>
->>>>
->>>> Changes in v2:
->>>> - Implemented gadget recovery mechanism during gadget_ep_cmd instead of
->>>> handling this issue only during disconnect.
->>>>
->>>> Link to RFC:
->>>> https://lore.kernel.org/all/20231011100214.25720-1-quic_kriskura@quicinc.com/
->>>>
->>>>
->>>> [1]:
->>>> https://lore.kernel.org/all/20260915110637.17658-1-jiazi.liu1984@gmail.com/
->>>> ---
->>>>     drivers/usb/dwc3/gadget.c | 19 +++++++++++++++++++
->>>>     1 file changed, 19 insertions(+)
->>>>
->>>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
->>>> index ee837235630a..a7c4514cf0e2 100644
->>>> --- a/drivers/usb/dwc3/gadget.c
->>>> +++ b/drivers/usb/dwc3/gadget.c
->>>> @@ -283,6 +283,8 @@ int dwc3_send_gadget_generic_command(struct dwc3
->>>> *dwc, unsigned int cmd,
->>>>         return ret;
->>>>     }
->>>>     +static void dwc3_schedule_err_recovery(struct dwc3 *dwc);
->>>
->>> Where is the function implementation for this function?. Could you
->>> please point me on what you are doing in this function?
->>>
->>>
->>> Thanks,
->>> Selva
->>>
->>>
->>>> +
->>>>     /**
->>>>      * dwc3_send_gadget_ep_cmd - issue an endpoint command
->>>>      * @dep: the endpoint to which the command is going to be issued
->>>> @@ -432,6 +434,23 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep
->>>> *dep, unsigned int cmd,
->>>>             cmd_status = -ETIMEDOUT;
->>>>         }
->>>>     +    /*
->>>> +     * STAR 5001544 - In some situations, like the cable is
->>>> +     * disconnected or if the Host aborts the transfer on 3
->>>> +     * consecutive failed attempts, the Request-Done handshake is not
->>>> +     * complete. This keeps the RAM interface busy.
->>>> +     *
->>>> +     * The subsequent RAM access cannot proceed until the pending
->>>> +     * transfer is complete. This results in failure of any access
->>>> +     * to RAM address locations. Many of the EndPoint commands need to
->>>> +     * access the RAM and they would fail to complete successfully.
->>>> +     *
->>>> +     * If the depcmd doesn't match the actual command, trigger
->>>> controller
->>>> +     * recovery.
->>>> +     */
->>>> +    if (DWC3_DEPCMD_CMD(reg) != DWC3_DEPCMD_CMD(cmd))
->>>> +        dwc3_schedule_err_recovery(dwc);
->>>> +
->>>>     skip_status:
->>>>         trace_dwc3_gadget_ep_cmd(dep, cmd, params, cmd_status);
->>>>
->>>> ---
->>>> base-commit: ab29ca7714b82485ebb31d66835ccd5364221a76
->>>> change-id: 20260929-ram-interface-stuck-v3-aaf0c4b13b98
->>>>
->>>> Best regards,
->>>> -- 
->>>> Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
->>
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
