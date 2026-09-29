@@ -1,49 +1,49 @@
 Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81E0239A802
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 06:51:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4FD389108
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 07:04:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790664701; cv=none; b=cmFRt4a0ufxR89dMd94tIOLqRHwgdfkOqjVVasFXdpJEgkHkwva3sFhflkT+bx2VZE+F5nz91Xq1DifJwt6uWTEGf0xEnCPG2NQ/pHGQBVAzgj0ArqCsTFtoke5A3ArwlpRxYZCK599U12zEbFINjTzkBeVQ6mz4M5Ezsj4ZKDc=
+	t=1790665496; cv=none; b=FYDamMAhC9+IHdsAUxp8FiswMOWDh9A0+elO5rh6s/8qxTeepfrK66vA4kIyIU/QgUAjKX/Pk3eCJ1EhyWns1ELBef6RBFMbr6bQNfVJvpzji+yZK+YluwR+fYdUt4j+gQIiNkwzZUesgoJAde3xvMJ8HHL2Ht25A/3Tb4txkn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790664701; c=relaxed/simple;
-	bh=oj0Yub+oe39leUE4pOQimQKi/Wg4oVTD4X9YKCoTNDU=;
+	s=arc-20240116; t=1790665496; c=relaxed/simple;
+	bh=auR4FlAXn/xvrxBV2oQIOKHpmv+OP3vwAWUbDjNlYfk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=fgp3bZS42JRRN3y9rs2O0uq0V8UdHWRSwwcows8sgw+ebxLlTC4xrUXYHXbu0HE2oUkJK+/+ieyXQoTCnrA76xZCXuTm51RIFdmYoORj+BoZ7Mgx8mteM3EXaWCv6XMyRRzGNnY/0ANm6aoyRTmuDB2G3Gne4kMVF21ofFhERyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=YX77loSW; arc=none smtp.client-ip=203.254.224.25
+	 Content-Type:References; b=bXdPNP9e35T9esVazpSHCK+RQUjfEimT5wl12WYwQsjUs17mw9N9hKZ58tcoCJT2xcTrYfNvdptFaW/KBenNE64ogwc29ulg9JUVxEQHDElD2v1EoTow9igOHhkiIJ/Pn7BhtCQCdlIVD3s+qmziNEYvKPvm0qYq1Nypwnysghs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=kRn6Rq8J; arc=none smtp.client-ip=203.254.224.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="YX77loSW"
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260929064607epoutp028fd77f6be9977f8a50e63d9b46915681~Zt8FTnzv00939309393epoutp02N
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 06:46:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260929064607epoutp028fd77f6be9977f8a50e63d9b46915681~Zt8FTnzv00939309393epoutp02N
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="kRn6Rq8J"
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20260929070451epoutp0205d080c490dfefa6329f83eea02552fe~ZuMba-h-13137431374epoutp022
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 07:04:51 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20260929070451epoutp0205d080c490dfefa6329f83eea02552fe~ZuMba-h-13137431374epoutp022
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1790664367;
-	bh=Eove7Yz9RcTn68TqKvHfmy8fKhAw/yKO3H/GbD/V3ps=;
+	s=mail20170921; t=1790665491;
+	bh=FjIhieDjYZodqOSE1Ty33Faspz5K1iiZS8MApjx11h8=;
 	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=YX77loSWhdqfyYa911Hg+sUaNFF2CsDBjU1cKIORu1Vb6EIHeGAJkckDhtalb6vQ1
-	 mQgPHtLCOZUIe0MQAlXduD+nrkS/AwkofhKEV1TZfsm1vBBB3DM/IS12ZR1DfWW6sp
-	 6GeILxV5hiMkfXfsxvTyy+Rk9s29nT8MdOmsx+2c=
-Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	b=kRn6Rq8Jj48F/2LYyXxpK4vjpr0kuyScHDQpYcHnkuFTSB464jqor8LwKstAQfFu9
+	 dEmE8SfBAsvu4n/c4mTcEQqDt8JvWtpEolq/eaatVzDFGacUzU4UY6wZl3wTaZJIpd
+	 5urBP13ujIHG4YZe4KCZ748Y4Xnk+/5aYK2WT3/c=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
 	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20260929064607epcas5p2a1e4e6c2bcfbf029356e14fdb28a428b~Zt8E-1NPV0471104711epcas5p2F;
-	Tue, 29 Sep 2026 06:46:07 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.86]) by
-	epsnrtp01.localdomain (Postfix) with ESMTP id 4hv7xB4xDBz6B9mK; Tue, 29 Sep
-	2026 06:46:06 +0000 (GMT)
+	20260929070450epcas5p2f095e9c2dd0da98e8f84d7381c9f7de2~ZuMa491c52805328053epcas5p2U;
+	Tue, 29 Sep 2026 07:04:50 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.93]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4hv8Ln5B8gz3hhT4; Tue, 29 Sep
+	2026 07:04:49 +0000 (GMT)
 Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
-	20260929064606epcas5p4155e448857db11ccb2258e4e08c72edc~Zt8D4NQ8N0110001100epcas5p40;
-	Tue, 29 Sep 2026 06:46:06 +0000 (GMT)
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20260929070449epcas5p396bb5866052a71e8ee8b1dd5cded1add~ZuMZthAq31186011860epcas5p3Y;
+	Tue, 29 Sep 2026 07:04:49 +0000 (GMT)
 Received: from [107.122.5.126] (unknown [107.122.5.126]) by
 	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20260929064605epsmtip1e0a5a42fb26d4cac84ca5cf60969f9cc~Zt8DIOk_s2258722587epsmtip1C;
-	Tue, 29 Sep 2026 06:46:05 +0000 (GMT)
-Message-ID: <e8b9b694-0ba5-4d0f-97c9-ceeb89ae4729@samsung.com>
-Date: Tue, 29 Sep 2026 12:15:56 +0530
+	20260929070447epsmtip1156823d524177d52680eb70a22adddeb~ZuMXqYfSS0795207952epsmtip1w;
+	Tue, 29 Sep 2026 07:04:46 +0000 (GMT)
+Message-ID: <5d7501ea-4579-44a5-9a7e-91ef1f10b2bb@samsung.com>
+Date: Tue, 29 Sep 2026 12:34:45 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -51,205 +51,287 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] usb: dwc3: core: Fix RAM interface getting stuck
- during enumeration
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>, Thinh Nguyen
-	<Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] usb: dwc3: gadget: Prevent EP resource conflicts
+ during StartTransfer
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"jh0801.jung@samsung.com" <jh0801.jung@samsung.com>, "dh10.jung@samsung.com"
+	<dh10.jung@samsung.com>, "akash.m5@samsung.com" <akash.m5@samsung.com>,
+	"hongpooh.kim@samsung.com" <hongpooh.kim@samsung.com>,
+	"eomji.oh@samsung.com" <eomji.oh@samsung.com>, "h10.kim@samsung.com"
+	<h10.kim@samsung.com>, "shijie.cai@samsung.com" <shijie.cai@samsung.com>,
+	"alim.akhtar@samsung.com" <alim.akhtar@samsung.com>,
+	"muhammed.ali@samsung.com" <muhammed.ali@samsung.com>,
+	"thiagu.r@samsung.com" <thiagu.r@samsung.com>, "pritam.sutar@samsung.com"
+	<pritam.sutar@samsung.com>, "stable@vger.kernel.org"
+	<stable@vger.kernel.org>
 Content-Language: en-US
 From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-In-Reply-To: <20260929-ram-interface-stuck-v3-v3-1-0d1a54db233c@oss.qualcomm.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20260929064606epcas5p4155e448857db11ccb2258e4e08c72edc
+In-Reply-To: <arsnMM-GvuXwBKCX@vbox>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20260929070449epcas5p396bb5866052a71e8ee8b1dd5cded1add
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-542,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20260929051941epcas5p27a5c69151937b9105660941776cda819
-References: <CGME20260929051941epcas5p27a5c69151937b9105660941776cda819@epcas5p2.samsung.com>
-	<20260929-ram-interface-stuck-v3-v3-1-0d1a54db233c@oss.qualcomm.com>
+X-CMS-RootMailID: 20260227121338epcas5p4baebb406db37f07223545b2f85751bf2
+References: <CGME20260227121338epcas5p4baebb406db37f07223545b2f85751bf2@epcas5p4.samsung.com>
+	<20260227121236.963-1-selvarasu.g@samsung.com>
+	<20260228002711.e442cuxwld4s2f66@synopsys.com>
+	<20260303003955.5lbb6xdrg7tp3zzi@synopsys.com>
+	<08273adc-d8cf-48b3-ba45-853d363af0e6@samsung.com>
+	<20260306214123.3jnlzd2tmtwggch2@synopsys.com>
+	<7f8a7341-3701-4ade-a198-cf86719da931@samsung.com> <arsnMM-GvuXwBKCX@vbox>
 
 
-On 9/29/2026 10:49 AM, Krishna Kurapati wrote:
-> During plug-in/plug-out test cases, it is sometimes seen that no events
-> are generated by the controller and all CSR register reads give "0" and
-> CSR_Timeout bit gets set indicating that CSR reads/writes are timing out
-> or timed out.
-Hi Krishna,
+On 9/29/2026 8:38 AM, Thinh Nguyen wrote:
+> On Thu, Sep 24, 2026, Selvarasu Ganesan wrote:
+>> On 3/7/2026 3:11 AM, Thinh Nguyen wrote:
+>>> On Fri, Mar 06, 2026, Selvarasu Ganesan wrote:
+>>>> On 3/3/2026 6:09 AM, Thinh Nguyen wrote:
+>>>>> On Sat, Feb 28, 2026, Thinh Nguyen wrote:
+>>>>>> On Fri, Feb 27, 2026, Selvarasu Ganesan wrote:
+>>>>>>> The below “No resource for ep” warning appears when a StartTransfer
+>>>>>>> command is issued for bulk or interrupt endpoints in
+>>>>>>> `dwc3_gadget_ep_enable` while a previous StartTransfer on the same
+>>>>>>> endpoint is still in progress. The gadget functions drivers can invoke
+>>>>>>> `usb_ep_enable` (which triggers a new StartTransfer command) before the
+>>>>>>> earlier transfer has completed. Because the previous StartTransfer is
+>>>>>>> still active, `dwc3_gadget_ep_disable` can skip the required
+>>>>>>> `EndTransfer` due to `DWC3_EP_DELAY_STOP`, leading to the endpoint
+>>>>>>> resources are busy for previous StartTransfer and warning ("No resource
+>>>>>>> for ep") from dwc3 driver.
+>>>>>>>
+>>>>>>> Additionally, a race condition exists between dwc3_gadget_ep_disable()
+>>>>>>> and dwc3_gadget_ep_queue() when manipulating dep->flags. When
+>>>>>>> dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(), the dwc->lock is
+>>>>>>> temporarily released. If dwc3_gadget_ep_queue() runs in that window, it
+>>>>>>> may set the DWC3_EP_TRANSFER_STARTED flag as part of
+>>>>>>> dwc3_send_gadget_ep_cmd(). When ep_disable resumes, it unconditionally
+>>>>>>> clears all flags except those explicitly masked, potentially clearing
+>>>>>>> DWC3_EP_TRANSFER_STARTED even though a new transfer has started. This
+>>>>>>> leads to "No resource for ep" warnings on subsequent StartTransfer
+>>>>>>> attempts.
+>>>>>>>
+>>>>>>> The underlying framework issue is that usb_ep_disable() is expected to
+>>>>>>> complete pending requests before returning, but is allowed to be called
+>>>>>>> from interrupt context where sleeping to wait for completion is not
+>>>>>>> possible.
+>>>>>>>
+>>>>>>> As temporary workarounds for this framework limitation:
+>>>>>>>
+>>>>>>> 1. In __dwc3_gadget_ep_enable(), add a check for the
+>>>>>>>       DWC3_EP_TRANSFER_STARTED flag before issuing a new StartTransfer.
+>>>>>>>       This prevents a second StartTransfer on an already busy endpoint,
+>>>>>>>       eliminating the resource conflict.
+>>>>>>>
+>>>>>>> 2. In __dwc3_gadget_ep_disable(), preserve the DWC3_EP_TRANSFER_STARTED
+>>>>>>>       flag when masking dep->flags if it is actually set, preventing the
+>>>>>>>       race with dwc3_gadget_ep_queue() from corrupting the flag state.
+>>>>>>>
+>>>>>>> These changes eliminate the "No resource for ep" warnings and potential
+>>>>>>> kernel panics caused by panic_on_warn.
+>>>>>>>
+>>>>>>> dwc3 13200000.dwc3: No resource for ep1out
+>>>>>>> WARNING: CPU: 0 PID: 700 at drivers/usb/dwc3/gadget.c:398 dwc3_send_gadget_ep_cmd+0x2f8/0x76c
+>>>>>>> Call trace:
+>>>>>>> dwc3_send_gadget_ep_cmd+0x2f8/0x76c
+>>>>>>> __dwc3_gadget_ep_enable+0x490/0x7c0
+>>>>>>> dwc3_gadget_ep_enable+0x6c/0xe4
+>>>>>>> usb_ep_enable+0x5c/0x15c
+>>>>>>> mp_eth_stop+0xd4/0x11c
+>>>>>>> __dev_close_many+0x160/0x1c8
+>>>>>>> __dev_change_flags+0xfc/0x220
+>>>>>>> dev_change_flags+0x24/0x70
+>>>>>>> devinet_ioctl+0x434/0x524
+>>>>>>> inet_ioctl+0xa8/0x224
+>>>>>>> sock_do_ioctl+0x74/0x128
+>>>>>>> sock_ioctl+0x3bc/0x468
+>>>>>>> __arm64_sys_ioctl+0xa8/0xe4
+>>>>>>> invoke_syscall+0x58/0x10c
+>>>>>>> el0_svc_common+0xa8/0xdc
+>>>>>>> do_el0_svc+0x1c/0x28
+>>>>>>> el0_svc+0x38/0x88
+>>>>>>> el0t_64_sync_handler+0x70/0xbc
+>>>>>>> el0t_64_sync+0x1a8/0x1ac
+>>>>>>>
+>>>>>>> Cc: stable@vger.kernel.org
+>>>>>>> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+>>>>>>> ---
+>>>>>>>
+>>>>>>> Note: No Fixes tag is added because this is a workaround for the
+>>>>>>> gadget framework issue where the gadget framework calls usb_ep_disable()
+>>>>>>> in interrupt context without ensuring endpoint flushing completes.
+>>>>>>> A proper fix requires refactoring the framework to make sure
+>>>>>>> usb_ep_disable is invoked in process context.
+>>>>>>>
+>>>>>>> Changes in v3:
+>>>>>>>     - Revised the commit message to detail the real gadget framework issue
+>>>>>>>       pointed out by the reviewer.
+>>>>>>>     - Merged the two fixes for the same ep wringing into one patch.
+>>>>>>> Link to v2: https://protect2.fireeye.com/v1/url?k=dd1a51eb-82a25949-dd1bdaa4-000babff88b5-867f0f86789e003a&q=1&e=b9b4dadf-c903-42b6-bd70-3d09d4ad7c04&u=https%3A%2F%2Flore.kernel.org%2Flinux-usb%2F20251117155920.643-1-selvarasu.g%40samsung.com%2F
+>>>>>>>
+>>>>>>> Changes in v2:
+>>>>>>> - Removed change-id.
+>>>>>>> - Updated commit message.
+>>>>>>> Link to v1: https://protect2.fireeye.com/v1/url?k=a7e00d4e-f85805ec-a7e18601-000babff88b5-fe0fb8c41d582e73&q=1&e=b9b4dadf-c903-42b6-bd70-3d09d4ad7c04&u=https%3A%2F%2Flore.kernel.org%2Flinux-usb%2F20251117152812.622-1-selvarasu.g%40samsung.com%2F
+>>>>>>> ---
+>>>>>>>     drivers/usb/dwc3/gadget.c | 22 ++++++++++++++++++++--
+>>>>>>>     1 file changed, 20 insertions(+), 2 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+>>>>>>> index 0a688904ce8c5..3af1bbfe3d92b 100644
+>>>>>>> --- a/drivers/usb/dwc3/gadget.c
+>>>>>>> +++ b/drivers/usb/dwc3/gadget.c
+>>>>>>> @@ -971,8 +971,9 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *dep, unsigned int action)
+>>>>>>>     	 * Issue StartTransfer here with no-op TRB so we can always rely on No
+>>>>>>>     	 * Response Update Transfer command.
+>>>>>>>     	 */
+>>>>>>> -	if (usb_endpoint_xfer_bulk(desc) ||
+>>>>>>> -			usb_endpoint_xfer_int(desc)) {
+>>>>>>> +	if ((usb_endpoint_xfer_bulk(desc) ||
+>>>>>>> +			usb_endpoint_xfer_int(desc)) &&
+>>>>>>> +			!(dep->flags & DWC3_EP_TRANSFER_STARTED)) {
+>>>>>>>     		struct dwc3_gadget_ep_cmd_params params;
+>>>>>>>     		struct dwc3_trb	*trb;
+>>>>>>>     		dma_addr_t trb_dma;
+>>>>>>> @@ -1096,6 +1097,23 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *dep)
+>>>>>>>     	 */
+>>>>>>>     	if (dep->flags & DWC3_EP_DELAY_STOP)
+>>>>>>>     		mask |= (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
+>>>>>>> +
+>>>>>>> +	/*
+>>>>>>> +	 * When dwc3_gadget_ep_disable() calls dwc3_gadget_giveback(),
+>>>>>>> +	 * the dwc->lock is temporarily released. If dwc3_gadget_ep_queue()
+>>>>>>> +	 * runs in that window it may set the DWC3_EP_TRANSFER_STARTED flag as
+>>>>>>> +	 * part of dwc3_send_gadget_ep_cmd. The original code cleared the flag
+>>>>>>> +	 * unconditionally in the mask operation, which could overwrite the
+>>>>>>> +	 * concurrent modification.
+>>>>>>> +	 *
+>>>>>>> +	 * As a workaround for the interrupt context constraint where we cannot
+>>>>>>> +	 * wait for endpoint flushing, preserve the DWC3_EP_TRANSFER_STARTED
+>>>>>>> +	 * flag if it is set, avoiding resource conflicts until the framework
+>>>>>>> +	 * is fixed to properly synchronize endpoint lifecycle management.
+>>>>>>> +	 */
+>>>>>>> +	if (dep->flags & DWC3_EP_TRANSFER_STARTED)
+>>>>>>> +		mask |= DWC3_EP_TRANSFER_STARTED;
+>>>>>>> +
+>>>>>>>     	dep->flags &= mask;
+>>>>>>>     
+>>>>>>>     	/* Clear out the ep descriptors for non-ep0 */
+>>>>>>> -- 
+>>>>>>> 2.34.1
+>>>>>>>
+>>>>>> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+>>>>>>
+>>>>> Oh wait, don't pick this patch up yet.
+>>>>>
+>>>>> This will cause a regression for UAS device. When switching alt-setting
+>>>>> interface for BOT to UASP, the device needs to issue a Start Transfer
+>>>>> command.
+>>>>>
+>>>>> This workaround won't work. Can we fix the usb_ep_disable() interface
+>>>>> and rework this instead?
+>>>>>
+>>>>> BR,
+>>>>> Thinh
+>>>> Hi Thinh,
+>>>>
+>>>> We’re trying to see how this change could cause a regression for UAS
+>>>> devices.
+>>>> Could you explain why the workaround might be a problem for UAS? Are you
+>>>> concerned that it could miss a valid StartTransfer when a previous
+>>>> transfer finishes later than expected as part of ep_disable?
+>>> In UAS, the device controller uses the first PRIME to synchronize with
+>>> the host to determine whether the Start Transfer command can initiate
+>>> the stream. After configuring an endpoint, if we issue the StartTransfer
+>>> command too late, then the device controller may not initiate the
+>>> transfer (sending ERDY), and host will not know when to start the
+>>> transfer.
+>>
+>> HI Thinh,
+>>
+>> Sorry for the delayed response. We're seeing this issue a lot in Exynos
+>> platform, so we want to get it fixed.
+>>
+>> Thanks for the explanation about UASP in last comment.
+>>
+>> We agree that for UASP, the new StartTransfer sent in ep_enable() is
+>> what makes the controller send ERDY for the host's first PRIME. The old
+>> patch skipped that StartTransfer that was wrong. If it is skipped and no
+>> request is queued right away, the controller never sends ERDY for the
+>> first PRIME and the UAS device possible hangs as you mentioned.
+>>
+>> The new patch is simpler, we won't skip it and just trigger it once the
+>> inflight end transfer is done.
+>>
+>> Please see the proposed sequence,
+>>
+>>     1. usb_ep_disable() --> EndTransfer deferred due to pending control
+>> transfer data/status stages (DWC3_EP_DELAY_STOP), old transfer still
+>> active in HW.
+>>     2. usb_ep_enable() on the same endpoint --> instead of issuing the
+>> new StartTransfer, set DWC3_EP_PENDING_START_TRANSFER (New flag) as below,
+>>
+>>     /* __dwc3_gadget_ep_enable() */
+>>     if (dep->flags & (DWC3_EP_DELAY_STOP |
+>>                       DWC3_EP_END_TRANSFER_PENDING |
+>>                       DWC3_EP_TRANSFER_STARTED))
+>>         dep->flags |= DWC3_EP_PENDING_START_TRANSFER;
+>>     else
+>>         ret = dwc3_gadget_ep_start_noop_transfer(dep);   /* unchanged path */
+>>
+>>     3. Control request finishes --> next SETUP --> existing delayed stop
+>> retry in dwc3_ep0_out_start() sends the EndTransfer for all delayed stop
+>> endpoints.
+>>     4. EndTransfer completion and trigger a previously skipped
+>> StartTransfer in ep_enable by checking DWC3_EP_PENDING_START_TRANSFER.
+>>
+>>     /* dwc3_gadget_endpoint_command_complete() */
+>>     if (dep->flags & DWC3_EP_PENDING_START_TRANSFER) {
+>>         dep->flags &= ~DWC3_EP_PENDING_START_TRANSFER;
+>>         dwc3_gadget_ep_start_noop_transfer(dep);
+>>     }
+>>
+>> So the endpoint gets the same start/stop sequence you described, only
+>> sent later, it goes out as soon as the EndTransfer finishes. So this is
+>> high possible of happens before the host's first PRIME arrives. ERDY is
+>> still sent, no UAS regression.
+>>
+>> The below testing log is for the reference. You can see the timestamp
+>> where pending start transfer triggered.
+>>
+>> [ 3273.597476]  Entry __dwc3_gadget_ep_disable
+>> [ 3273.597481]  dwc3_remove_requests ep1out skip stop transfer due to
+>> DWC3_EP_DELAY_STOP
+>> [ 3273.597510]  Entry __dwc3_gadget_ep_enable 1045 dep->name =ep1out
+>> dep->flags =e009
+>> [ 3273.597590]  dwc3_gadget_endpoint_command_complete 3857 dep->name
+>> =ep1out dep->flags =4009 --> Triggered skipped Start transfer when
+>> endpoint command completion is done.
+>>
+> Hi Selvarasu,
+>
+> I just wanted to point out that dwc3_gadget_ep_start_noop_transfer()
+> should only be needed for stream endpoints. I'll take a closer look at
+> the rest of the changes later this week.
+Hi Thinh,
 
-As per our discussion with synopsys we got a below feedback for CSR 
-timeout in different issue.
+Thanks for you feedback.
 
-"Note: CSR timeout is not expected to occur during functional mode. Once 
-timeout is reported by controller, s/w should treat it as a fatal error 
-and should identify the root cause of issuing the parallel access during 
-soft reset and fix it"
-
-As per our understanding, there is no recovery from CSR timeout.
-
-Are you able to recover from CSR timeout in your case even after trigger 
-controller recovery?.
-
-
->
-> The issue comes up on different instnaces of enumeration on different
-> platforms. On SM8550, the debug log is as follows:
->
-> Prepared a TRB on ep0out and did start transfer to get set
-> address request from host:
->
-> <...>-7191    [000] D..1.    66.421006: dwc3_gadget_ep_cmd: ep0out:
-> cmd 'Start Transfer' [406] params 00000000 efffa000 00000000 -->
-> status: Successful
->
-> <...>-7191    [000] D..1.    66.421196: dwc3_event: event (0000c040):
-> ep0out: Transfer Complete (sIL) [Setup Phase]
->
-> <...>-7191    [000] D..1.    66.421197: dwc3_ctrl_req: Set
-> Address(Addr = 01)
->
-> An XFER NRDY is received on ep0in for zero length status phase and
-> a Start Transfer was done on ep0in with 0-length packet in 2 Stage
-> status phase:
->
-> <...>-7191    [000] D..1.    66.421249: dwc3_event: event (000020c2):
-> ep0in: Transfer Not Ready [00000000] (Not Active) [Status Phase]
->
-> <...>-7191    [000] D..1.    66.421266: dwc3_prepare_trb: ep0in: trb
-> ffffffc00fcfd000 (E0:D0) buf 00000000efffa000 size 0 ctrl 00000c33
-> sofn 00000000 (HLcs:SC:status2)
->
-> <...>-7191    [000] D..1.    66.421387: dwc3_gadget_ep_cmd: ep0in: cmd
-> 'Start Transfer' [406] params 00000000 efffa000 00000000 -->status:
-> Successful
->
-> A bus reset was then received directly after 500 msec. Software never
-> got the cmd complete for the start transfer done in status phase. Here
-> the RAM interface is stuck. So host issues a bus reset as link is
-> idle for 500 msec:
->
-> <...>-7191    [000] D..1.    66.935603: dwc3_event: event (00000101):
-> Reset [U0]
->
-> Then software sees that it is in status phase and we issue an ENDXFER
-> on ep0in and it gets timedout waiting for the CMDACT to go '0':
->
-> <...>-7191    [000] D..1.    66.958249: dwc3_gadget_ep_cmd: ep0in: cmd
-> 'End Transfer' [10508] params 00000000 00000000 00000000 --> status:
-> Timed Out
->
-> Upon debug with Synopsys, the root cause is as follows:
->
-> During any transfer, if the data is not successfully transmitted,
-> then a Done (with failure) handshake is returned, so that the BMU
-> can re-attempt the same data again by rewinding its data pointers.
->
-> But, if the USB IN is a 0-length payload (which is what is happening
-> in this case - 2 stage status phase of set_address), then there is no
-> need to rewind the pointers and the Done (with failure) handshake is
-> not returned for failure case. This keeps the Request-Done interface
-> busy till the next Done handshake. The MAC sends the 0-length payload
-> again when the host requests. If the transmission is successful this
-> time, the Done (with success) handshake is provided back. Otherwise,
-> it repeats the same steps again.
->
-> If the cable is disconnected or if the Host aborts the transfer on 3
-> consecutive failed attempts, the Request-Done handshake is not
-> complete. This keeps the interface busy.
->
-> The subsequent RAM access cannot proceed until the above pending
-> transfer is complete. This results in failure of any access to RAM
-> address locations. Many of the EndPoint commands need to access the
-> RAM and they would fail to complete successfully.
->
-> Furthermore when cable removal happens, this would not generate a
-> disconnect event and the "connected" flag remains true always blockin
-> suspend.
->
-> Synopsys confirmed that the issue is present on all USB3 devices and
-> as a workaround, suggested to re-initialize device mode.
->
-> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-> ---
-> This series has only been compile tested. The issue was reproduced
-> easily with a certain kind of cable and CDP port of AMD based Lenovo
-> laptop. I don't have access to the cable currently and hence only
-> compile testing the fix for now. But the issue has popped up on OEM
-> testing as well.
->
-> Also, didn't add locking while calling error recovery work in
-> gadget_ep_cmd since the caller is supposed to handle it.
->
-> Changes to v3:
-> - Using error receovery mechanism from [1].
->
-> Link to v2:
-> https://lore.kernel.org/all/20260806-ram-interface-code-v2-1-fe4a0de31d42@oss.qualcomm.com/
->
-> Changes in v2:
-> - Implemented gadget recovery mechanism during gadget_ep_cmd instead of
-> handling this issue only during disconnect.
->
-> Link to RFC:
-> https://lore.kernel.org/all/20231011100214.25720-1-quic_kriskura@quicinc.com/
->
-> [1]: https://lore.kernel.org/all/20260915110637.17658-1-jiazi.liu1984@gmail.com/
-> ---
->   drivers/usb/dwc3/gadget.c | 19 +++++++++++++++++++
->   1 file changed, 19 insertions(+)
->
-> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> index ee837235630a..a7c4514cf0e2 100644
-> --- a/drivers/usb/dwc3/gadget.c
-> +++ b/drivers/usb/dwc3/gadget.c
-> @@ -283,6 +283,8 @@ int dwc3_send_gadget_generic_command(struct dwc3 *dwc, unsigned int cmd,
->   	return ret;
->   }
->   
-> +static void dwc3_schedule_err_recovery(struct dwc3 *dwc);
-
-Where is the function implementation for this function?. Could you 
-please point me on what you are doing in this function?
-
+Agreed, The dwc3_gadget_ep_start_noop_transfer() should only be needed 
+for stream endpoints.
 
 Thanks,
 Selva
-
-
-> +
->   /**
->    * dwc3_send_gadget_ep_cmd - issue an endpoint command
->    * @dep: the endpoint to which the command is going to be issued
-> @@ -432,6 +434,23 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned int cmd,
->   		cmd_status = -ETIMEDOUT;
->   	}
->   
-> +	/*
-> +	 * STAR 5001544 - In some situations, like the cable is
-> +	 * disconnected or if the Host aborts the transfer on 3
-> +	 * consecutive failed attempts, the Request-Done handshake is not
-> +	 * complete. This keeps the RAM interface busy.
-> +	 *
-> +	 * The subsequent RAM access cannot proceed until the pending
-> +	 * transfer is complete. This results in failure of any access
-> +	 * to RAM address locations. Many of the EndPoint commands need to
-> +	 * access the RAM and they would fail to complete successfully.
-> +	 *
-> +	 * If the depcmd doesn't match the actual command, trigger controller
-> +	 * recovery.
-> +	 */
-> +	if (DWC3_DEPCMD_CMD(reg) != DWC3_DEPCMD_CMD(cmd))
-> +		dwc3_schedule_err_recovery(dwc);
-> +
->   skip_status:
->   	trace_dwc3_gadget_ep_cmd(dep, cmd, params, cmd_status);
->   
 >
-> ---
-> base-commit: ab29ca7714b82485ebb31d66835ccd5364221a76
-> change-id: 20260929-ram-interface-stuck-v3-aaf0c4b13b98
+> Regarding the original comment about avoiding the wait for command
+> completion due to the No Response Update Transfer command does not
+> provide any meaningful performance benefit since it only applies to the
+> initial Start Transfer command.
 >
-> Best regards,
-> --
-> Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+> Thanks,
+> Thinh
