@@ -1,329 +1,292 @@
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151DE3C414F
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 03:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9470337A857
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 05:19:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790653721; cv=none; b=lHz+OvnUQ4XBeuru0EczayCujm/+OnY5qqA/gTyeuLrjfOAgej7Mk4XHlPwVnl+mLYcnH7JD+S8zyCVU9C0eAHvHjJ9PdXHqwqZzp2bLX6uaYraEfxbfH23gFLPF2qJJr5R44orh7DC/mt2kw/6Q7QnURUAWBt/wFlwvmPg+lz8=
+	t=1790659176; cv=none; b=AWS8XUwnodshR0kukSNQ5SMyE722sZx4OywhZOoMp+uvWZH6bR1FS6P6Moeg5Vluxtre4dhIbl9cmkUCEV7e9slc2S9u0OPZ9LEft+BotvUS+j4p/vDzBF308ho/7LjCPwArc+3oZruz95iIMaTJZPLPvQ8UT93+1+L7EPLF4QQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790653721; c=relaxed/simple;
-	bh=Oush5cHpP9xFtEHFwiURrJbQhScA3TYxzJEjTz3Bzg4=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=F8qxhPEbhuBl9Vhr+Nw0OiU6XHom5GeTPVuNT7T55sZhj2tEYPGut09l3KoK2Hponjm3aFvX+hJEiyxoVC9O4Xf8lM2r4YMr+eLcwUhxZewSXdFWJTSMc9wUzLlK6DeAxYITXj+AWBgzoCK14wkaZRBhB1U8vUEc2XDld4cAC/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4b37620eb73so7176457b6e.1
-        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 20:48:38 -0700 (PDT)
+	s=arc-20240116; t=1790659176; c=relaxed/simple;
+	bh=qkNSfRBuIy53rg4Nn/2TkVfGkD/nlXMY/pVq5xmNMyE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pD0QkrKuJvegYk76ufiDmH4DMrJLAhZhpXAzcQrfkOyLhuk7D5BL1/c2LXkZD580cvPQEhZWYyVxhJETthPos2cAzcVQm9/vWcS0D/nrq8AYeqgQqkra+oWt8uygD61Z5w+xGOydaysUvBbXOAJ1oMrrYMOjQSXmX1jfAQOEb4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nz2DaIkp; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jlOGU3OE; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nz2DaIkp";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jlOGU3OE"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68T47MPp3643749
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 05:19:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=84I6dwv8lrYLFqtHCg9mwt
+	ZCKKguwH+d2StAc1aezx8=; b=nz2DaIkpwgitSY08sT6npAwlQaRrbAKkQRZ6Ky
+	yPn5FOxcderKhQhgV0Y0ZI9XccSrCuEJ1AUfQfc5/SkmRIgAV31O521toQoAOYXN
+	KBv4wRE27maghjyAGsU9RjL7wF2ekoR+TM6rV9XB5ZPI9x5gIt4Ev2gn75FIYZBX
+	9zRGWZOcdfMTTENF5nNb2m4KW6jnygk7t+mtvQTJfiGt1ELqSSgOqqaF8y6nVhVk
+	ztshNRRblNBnqAzH8ty/1Tr2/oV4sdm+8Y4TAVjYOfLIJKrzx7+xZ6f97Rz11aFQ
+	pjMV7rox+8LBDnOmSdph8DLyQDVU8iPEn9MQglz4JGYw1cOg==
+Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h00s4s9ke-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 05:19:33 +0000 (GMT)
+Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-30f1b904861so5450523eec.0
+        for <linux-usb@vger.kernel.org>; Mon, 28 Sep 2026 22:19:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1790659173; x=1791263973; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=84I6dwv8lrYLFqtHCg9mwtZCKKguwH+d2StAc1aezx8=;
+        b=jlOGU3OEaKeAlIKN6bATJWpgsnD4d8DlG9Rd2P2q/1wabrzSGVann3tIL+hcBe0RvY
+         M+MRLlxm+YvllI6e/fFpEEhAh6ZighbWJJ1WWK4SHbQBQAV8235WV+U63xgFGMiOhGgK
+         V1LfL7I7tNT47QcRwe80qTd4PE8ldf1ESItSgdGaGjudcfw0FyD/sUgqBdvM3J2Z0Xvo
+         cEDq3UFsXFi/QEzIiIbTQoDs054kPmR1Y7otuChGkDbzMyPN82ZapNQdiPjhwNrAG4c4
+         VCY/Dwx8sQXOv8ytu5U2jYBGS9MEnvJ7tw9A8oaso98jgwry/9ffqjY5yLnwymNRmusg
+         aqig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790653718; x=1791258518;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vssZFQJgoUgFGRLMDEgt/1rxwFRJiQMxXieW0liGzdE=;
-        b=m29DnkP/dPfnlC80qsza47WFR1/bwxQivXeWKBvhMzRcCTLJZcYz7bFPymeyI7GVsD
-         ine+nRNkN+Z7DHTxmGeyhMV6nfCPeCdH72PGvNGNrvYyNbPRR1lBvnDUQ1YcU1Dvjx6/
-         JM8SAyJXHgm5kh/o7kxRn62tByJ0SizRZl3Q9d+ATe3BcsPfixCqyHa3CIMZy24JDCC0
-         uSRaax5eqU6D7gZY6u9MLlhi4HOxEmPtzvw0h2AKdMhSFQhOvXMMZ37tSw9h2p66h1OB
-         fO7iVr3wJ51jGYIjc7jZMyr+GYLMgpjKFK+7IWE/vj/CIqhVqafQ5g2OfcalE7jF4vAr
-         1NkQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx31FpKoZO5ID/IMKyQWaoN09xKQcjEC+Pr4Yt1VHF1Xy9g9xQ3QNKA+c9tO6+IYhWTKxX/B+OdA7k=@vger.kernel.org
-X-Gm-Message-State: AFuF++nilDsUlq89qkHr9NCMCmkNmHCQ5d1X0ZJa0X/VrLNv7fmA57Aq
-	Tadf9oA5YsXHKWc290dXAubD8kFtnrv4Q4NUTQaLoV3RA4GrDYHlhEy6KIad6lY0Zwca6y/KX4M
-	gO37cAH0t5MlWH4bBwucnM3Z3aiCYi3xHCJCuwxsyP73eEugRA13RhM0XTRk=
+        d=1e100.net; s=20260707; t=1790659173; x=1791263973;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=84I6dwv8lrYLFqtHCg9mwtZCKKguwH+d2StAc1aezx8=;
+        b=PCA2be5GuR6GLlKQn30LAd4m6bw2YX95n5VPQ+MiZv0xl28EL/DVbg7jQcvy3RKTU9
+         Bj2YxrgYLUwF/tIAi0+zzUlsj07xeSa702EzKgXDyUfmyIH+AhWd8HgDyG6uJ2BJ5o78
+         883ZCFk9203j31SYmszvk4GEkuSETe7/AWzp5K9ETqJYO5WBxPvYwCwaQJiQlOhe7vf1
+         ub0s5IXAjA7pbDvhpSWjIKBndQrMUoJbhjMmIWcGM39ZqVPF7g2ywHgdnLZUr1JxoMnD
+         /fVKRGG7Vfp0diDkFkr/CuvtMzwoDbHbMJ0EL1SDYhzljWYrEypgSNMFJhkrclGMxcWZ
+         BUrA==
+X-Gm-Message-State: AFuF++kKt69C5+Yuntrzgu3023GWv13PslQpNt7/vh2IZVhsDaEYfgnR
+	yJoWWGZKixO+5RT7jAEfEfngNFxLpRiwEUyjg8pWuC/+jZa/jDbcp/cUTUvIJx9qMI22w6a3rKc
+	wBSx2KT3rQzUyjp4zINSW2v2NI7EfhRzzb47wPnY/jMQ5cHeAN/GpSpAdPSkgQ18F01cepUo=
+X-Gm-Gg: AYBFou3seCNkYgt5W7y3UJUA7s4/t2dR9C3cWnXhrbzk1jlUwY9cHJfS5EOoJvWj0H6
+	tUUprrYRlUxVXbDz2ZEV9QgdzHOUeyX4BbE4Y1PXrxYT5+xRwmzbQ3mr9zma18Pg+XVujTJ1dEv
+	kXSKUSYzsXgP/ehBP9mqyau9KRZSHtkRdOLOOrY07/uy0jSgqKiP6EMrPIzl+qz2w3Z1plKtbFD
+	SmvqDgXAEARVed4EgZ99FyERTl/t9unWTwpFeM46ZR+zBbLgXF518J0Dqr12//NzZVZyBUOEzpi
+	mC1U0PNYAG4CwON2scSKTj+kJjbFp+nOnAu/msbykm83N7YHiT+X2PWtJzRhavffZ94vaveFqie
+	eZOXCgztzgS+Cn1uSp7jPLYYnJiD/HhxfcZ5/Bh6eY2zKAPhe7UgduLMMBKGwlrMC+vjh
+X-Received: by 2002:a05:7301:687:b0:33e:64bb:e5d1 with SMTP id 5a478bee46e88-3427265e212mr19203291eec.34.1790659172616;
+        Mon, 28 Sep 2026 22:19:32 -0700 (PDT)
+X-Received: by 2002:a05:7301:687:b0:33e:64bb:e5d1 with SMTP id 5a478bee46e88-3427265e212mr19203255eec.34.1790659171975;
+        Mon, 28 Sep 2026 22:19:31 -0700 (PDT)
+Received: from hu-kriskura-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm42688896eec.22.2026.09.28.22.19.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 22:19:31 -0700 (PDT)
+From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Date: Tue, 29 Sep 2026 10:49:25 +0530
+Subject: [PATCH v3] usb: dwc3: core: Fix RAM interface getting stuck during
+ enumeration
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1642:b0:4cb:f21b:6f96 with SMTP id
- 5614622812f47-4d73045f896mr13098741b6e.41.1790653717941; Mon, 28 Sep 2026
- 20:48:37 -0700 (PDT)
-Date: Mon, 28 Sep 2026 20:48:37 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6abb3515.c6a7fab7.e5ea7.0459.GAE@google.com>
-Subject: [syzbot] [usb?] KASAN: slab-use-after-free Write in
- usb_giveback_urb_bh (2)
-From: syzbot <syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260929-ram-interface-stuck-v3-v3-1-0d1a54db233c@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAFxKu2oC/yXMQQoCMQxA0asMWRuorYj1KuKijalGsUrSGQaGu
+ btVl2/x/wLGKmxwHBZQnsTkVTvCZgC6pXpllEs3eOf3LvqImp4otbGWRIzWRnrgFDCl4miXtyH
+ HA/T4rVxk/o1P579tzHem9r3Bun4AiZBKKHoAAAA=
+X-Change-ID: 20260929-ram-interface-stuck-v3-aaf0c4b13b98
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790659168; l=6212;
+ i=krishna.kurapati@oss.qualcomm.com; s=20260707; h=from:subject:message-id;
+ bh=qkNSfRBuIy53rg4Nn/2TkVfGkD/nlXMY/pVq5xmNMyE=;
+ b=L4WJYqCwzH/M5D/HF37YAtJYWWThk1yMow7Qr61G3w6ebJdIW0ldg0COajDsl3/tbABzIfYaL
+ J6fRm9LLad9CL3+Vk1I9ZMb+FxibcyVhdMb5aZEat2DTcHRSu4G1lCN
+X-Developer-Key: i=krishna.kurapati@oss.qualcomm.com; a=ed25519;
+ pk=6PmiuwGCdov3wRO+bdmRlRxRtmJyDKz3ED57LLPVgds=
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI5MDAyMSBTYWx0ZWRfX5Fc0XmW5D8q+
+ +CG8og3fXXMoFTWorv2KY/pjhCrHdfu09joGa/yxvVI9an2k+1ScM+CpSz4dO4HHePO6BpMgpTn
+ vUrYH7+EJhDEzslpuR1oKWYYZ9n70bg=
+X-Authority-Analysis: v=2.4 cv=ALbfqNVA c=1 sm=1 tr=0 ts=6abb4a65 cx=c_pps
+ a=Uww141gWH0fZj/3QKPojxA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=pGLkceISAAAA:8
+ a=Ps5XhnICjWHbJgl_nW8A:9 a=QEXdDO2ut3YA:10 a=PxkB5W3o20Ba91AHUih5:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI5MDAyMSBTYWx0ZWRfX3vfkC2iF880I
+ /RCzULHe/YHneQkw1Tk50h1oT5k565oBGXBd8SnW1yCeSjEvTKyYUpQE9SkSrI8BLHmb1dLOn/O
+ H0xpyS3g6J1LU8RUWzOAikQjS4hOLLBLUfpcnhyxbqPFyF1JoM40Gs5pR7gaQEhxG9Z+w4UTSkD
+ QbzuABdLJN5FEmjeyz2oB6xwnUVBc2pcW9XtSP9D5V/NLPjyDhrbM+i1xAITGyMWZPjXm4mEB7p
+ 2L0wC5Us6wAV/8PAE3XX0C/WdtQh2WYa/9YiWohPQYwrptEZRw+R+08FWgx3HNpzKFLIOwr/edn
+ 6HjbVX4Ut/zdq7AcMmBMPlDntWvj5efPhtl1gPdqtvLJXg2C8WlCURqL7SqaJw4C8ZlnmqR02Kn
+ ua+vVeNKgzZx/Pp6golAQMRLdOQFByvOzsTMOnluOJZb2IO+SYG0yoYuLWqW02RbaL+X5X7+II3
+ LyIgwP2HCs57HjaLffw==
+X-Proofpoint-GUID: 9-OaWRQy2i10gg-UcuJTidc6zT6r1oEt
+X-Proofpoint-ORIG-GUID: 9-OaWRQy2i10gg-UcuJTidc6zT6r1oEt
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-29_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 spamscore=0 clxscore=1015 suspectscore=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609290021
 
-Hello,
+During plug-in/plug-out test cases, it is sometimes seen that no events
+are generated by the controller and all CSR register reads give "0" and
+CSR_Timeout bit gets set indicating that CSR reads/writes are timing out
+or timed out.
 
-syzbot found the following issue on:
+The issue comes up on different instnaces of enumeration on different
+platforms. On SM8550, the debug log is as follows:
 
-HEAD commit:    62f4c998b297 Merge tag 'parisc-for-7.3-rc5' of git://git.k..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=157022c9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=2a820d8842c77560
-dashboard link: https://syzkaller.appspot.com/bug?extid=a5b220cacb0618384d5a
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-userspace arch: i386
+Prepared a TRB on ep0out and did start transfer to get set
+address request from host:
 
-Unfortunately, I don't have any reproducer for this issue yet.
+<...>-7191    [000] D..1.    66.421006: dwc3_gadget_ep_cmd: ep0out:
+cmd 'Start Transfer' [406] params 00000000 efffa000 00000000 -->
+status: Successful
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-62f4c998.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/8d5e9781cf8b/vmlinux-62f4c998.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/b891c8b5bf72/bzImage-62f4c998.xz
+<...>-7191    [000] D..1.    66.421196: dwc3_event: event (0000c040):
+ep0out: Transfer Complete (sIL) [Setup Phase]
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
+<...>-7191    [000] D..1.    66.421197: dwc3_ctrl_req: Set
+Address(Addr = 01)
 
-==================================================================
-BUG: KASAN: slab-use-after-free in usb_giveback_urb_bh+0x441/0x560 drivers/usb/core/hcd.c:1692
-Write of size 8 at addr ffff888022a54300 by task ksoftirqd/1/30
+An XFER NRDY is received on ep0in for zero length status phase and
+a Start Transfer was done on ep0in with 0-length packet in 2 Stage
+status phase:
 
-CPU: 1 UID: 0 PID: 30 Comm: ksoftirqd/1 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- usb_giveback_urb_bh+0x441/0x560 drivers/usb/core/hcd.c:1692
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
- process_scheduled_works kernel/workqueue.c:3479 [inline]
- bh_worker+0x6a5/0x8f0 kernel/workqueue.c:3782
- workqueue_softirq_action+0x14a/0x1b0 kernel/workqueue.c:3810
- tasklet_hi_action+0x17/0x70 kernel/softirq.c:994
- handle_softirqs+0x1e6/0x9d0 kernel/softirq.c:645
- run_ksoftirqd kernel/softirq.c:1099 [inline]
- run_ksoftirqd+0x38/0x60 kernel/softirq.c:1091
- smpboot_thread_fn+0x3d3/0xab0 kernel/smpboot.c:160
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
+<...>-7191    [000] D..1.    66.421249: dwc3_event: event (000020c2):
+ep0in: Transfer Not Ready [00000000] (Not Active) [Status Phase]
 
-Allocated by task 1:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:398 [inline]
- __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:415
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __do_kmalloc_node mm/slub.c:5414 [inline]
- __kmalloc_noprof+0x32f/0x840 mm/slub.c:5439
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- __usb_create_hcd+0x5e/0xac0 drivers/usb/core/hcd.c:2566
- vhci_hcd_probe+0xf3/0x4e0 drivers/usb/usbip/vhci_hcd.c:1378
- platform_probe+0x106/0x1d0 drivers/base/platform.c:1507
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3776
- platform_device_add+0x35a/0x800 drivers/base/platform.c:833
- platform_device_register_full+0x507/0x720 drivers/base/platform.c:970
- vhci_hcd_init+0x1a1/0x2f0 drivers/usb/usbip/vhci_hcd.c:1557
- do_one_initcall+0x11c/0x6f0 init/main.c:1362
- do_initcall_level init/main.c:1424 [inline]
- do_initcalls init/main.c:1440 [inline]
- do_basic_setup init/main.c:1460 [inline]
- kernel_init_freeable+0x6ea/0x7b0 init/main.c:1675
- kernel_init+0x21/0x1e0 init/main.c:1565
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+<...>-7191    [000] D..1.    66.421266: dwc3_prepare_trb: ep0in: trb
+ffffffc00fcfd000 (E0:D0) buf 00000000efffa000 size 0 ctrl 00000c33
+sofn 00000000 (HLcs:SC:status2)
 
-Freed by task 1:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:253 [inline]
- __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:285
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free mm/slub.c:6508 [inline]
- kfree+0x22b/0x6d0 mm/slub.c:6801
- hcd_release drivers/usb/core/hcd.c:2690 [inline]
- kref_put include/linux/kref.h:65 [inline]
- usb_put_hcd drivers/usb/core/hcd.c:2704 [inline]
- usb_put_hcd+0x149/0x1f0 drivers/usb/core/hcd.c:2701
- vhci_hcd_probe+0x342/0x4e0 drivers/usb/usbip/vhci_hcd.c:1415
- platform_probe+0x106/0x1d0 drivers/base/platform.c:1507
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3776
- platform_device_add+0x35a/0x800 drivers/base/platform.c:833
- platform_device_register_full+0x507/0x720 drivers/base/platform.c:970
- vhci_hcd_init+0x1a1/0x2f0 drivers/usb/usbip/vhci_hcd.c:1557
- do_one_initcall+0x11c/0x6f0 init/main.c:1362
- do_initcall_level init/main.c:1424 [inline]
- do_initcalls init/main.c:1440 [inline]
- do_basic_setup init/main.c:1460 [inline]
- kernel_init_freeable+0x6ea/0x7b0 init/main.c:1675
- kernel_init+0x21/0x1e0 init/main.c:1565
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+<...>-7191    [000] D..1.    66.421387: dwc3_gadget_ep_cmd: ep0in: cmd
+'Start Transfer' [406] params 00000000 efffa000 00000000 -->status:
+Successful
 
-Last potentially related work creation:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_record_aux_stack+0xa7/0xc0 mm/kasan/generic.c:556
- insert_work+0x36/0x230 kernel/workqueue.c:2272
- __queue_work+0xa60/0x1370 kernel/workqueue.c:2448
- queue_work_on+0x1a9/0x1e0 kernel/workqueue.c:2501
- queue_work include/linux/workqueue.h:700 [inline]
- usb_hcd_giveback_urb+0x330/0x4a0 drivers/usb/core/hcd.c:1758
- usb_rh_urb_dequeue drivers/usb/core/hcd.c:845 [inline]
- unlink1+0x418/0x510 drivers/usb/core/hcd.c:1580
- usb_hcd_unlink_urb+0x131/0x210 drivers/usb/core/hcd.c:1617
- usb_kill_urb drivers/usb/core/urb.c:716 [inline]
- usb_kill_urb+0x121/0x320 drivers/usb/core/urb.c:703
- hub_quiesce+0x1e9/0x320 drivers/usb/core/hub.c:1417
- hub_suspend+0x4ab/0x9e0 drivers/usb/core/hub.c:4021
- usb_suspend_interface drivers/usb/core/driver.c:1327 [inline]
- usb_suspend_both+0x288/0x950 drivers/usb/core/driver.c:1450
- usb_runtime_suspend+0x49/0x120 drivers/usb/core/driver.c:2004
- __rpm_callback+0xc8/0x620 drivers/base/power/runtime.c:406
- rpm_callback+0x11f/0x150 drivers/base/power/runtime.c:460
- rpm_suspend+0x2f4/0x1220 drivers/base/power/runtime.c:695
- __pm_runtime_suspend+0xba/0x1a0 drivers/base/power/runtime.c:1167
- pm_runtime_put_sync_autosuspend include/linux/pm_runtime.h:740 [inline]
- usb_new_device.part.0+0x1653/0x1686 drivers/usb/core/hub.c:2740
- register_root_hub+0x4e6/0x639 drivers/usb/core/hcd.c:990
- usb_add_hcd.cold+0xccd/0x1158 drivers/usb/core/hcd.c:2987
- vhci_hcd_probe+0x14b/0x4e0 drivers/usb/usbip/vhci_hcd.c:1388
- platform_probe+0x106/0x1d0 drivers/base/platform.c:1507
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
- device_initial_probe+0xaf/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x64/0x160 drivers/base/bus.c:620
- device_add+0x121d/0x1970 drivers/base/core.c:3776
- platform_device_add+0x35a/0x800 drivers/base/platform.c:833
- platform_device_register_full+0x507/0x720 drivers/base/platform.c:970
- vhci_hcd_init+0x1a1/0x2f0 drivers/usb/usbip/vhci_hcd.c:1557
- do_one_initcall+0x11c/0x6f0 init/main.c:1362
- do_initcall_level init/main.c:1424 [inline]
- do_initcalls init/main.c:1440 [inline]
- do_basic_setup init/main.c:1460 [inline]
- kernel_init_freeable+0x6ea/0x7b0 init/main.c:1675
- kernel_init+0x21/0x1e0 init/main.c:1565
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+A bus reset was then received directly after 500 msec. Software never
+got the cmd complete for the start transfer done in status phase. Here
+the RAM interface is stuck. So host issues a bus reset as link is
+idle for 500 msec:
 
-Second to last potentially related work creation:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_record_aux_stack+0xa7/0xc0 mm/kasan/generic.c:556
- insert_work+0x36/0x230 kernel/workqueue.c:2272
- __queue_work+0xa60/0x1370 kernel/workqueue.c:2448
- queue_work_on+0x1a9/0x1e0 kernel/workqueue.c:2501
- queue_work include/linux/workqueue.h:700 [inline]
- usb_hcd_giveback_urb+0x3b8/0x4a0 drivers/usb/core/hcd.c:1760
- rh_call_control drivers/usb/core/hcd.c:706 [inline]
- rh_urb_enqueue drivers/usb/core/hcd.c:817 [inline]
- usb_hcd_submit_urb+0xab7/0x2150 drivers/usb/core/hcd.c:1538
- usb_submit_urb+0x827/0x19b0 drivers/usb/core/urb.c:586
- usb_start_wait_urb+0x10e/0x580 drivers/usb/core/message.c:62
- usb_internal_control_msg drivers/usb/core/message.c:117 [inline]
- usb_control_msg+0x328/0x4b0 drivers/usb/core/message.c:167
- get_port_status drivers/usb/core/hub.c:607 [inline]
- hub_ext_port_status+0x14e/0x690 drivers/usb/core/hub.c:624
- usb_hub_port_status drivers/usb/core/hub.c:674 [inline]
- hub_activate+0x6e5/0x1c40 drivers/usb/core/hub.c:1190
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
- process_scheduled_works kernel/workqueue.c:3479 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+<...>-7191    [000] D..1.    66.935603: dwc3_event: event (00000101):
+Reset [U0]
 
-The buggy address belongs to the object at ffff888022a54000
- which belongs to the cache kmalloc-8k of size 8192
-The buggy address is located 768 bytes inside of
- freed 8192-byte region [ffff888022a54000, ffff888022a56000)
+Then software sees that it is in status phase and we issue an ENDXFER
+on ep0in and it gets timedout waiting for the CMDACT to go '0':
 
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x22a50
-head: order:3 mapcount:0 entire_mapcount:0 nr_pages_mapped:0 pincount:0
-flags: 0xfff00000000040(head|node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000040 ffff88801c043180 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000000020002 00000000f5000000 0000000000000000
-head: 00fff00000000040 ffff88801c043180 dead000000000100 dead000000000122
-head: 0000000000000000 0000000000020002 00000000f5000000 0000000000000000
-head: 00fff00000000003 fffffffffffffe01 00000000ffffffff 00000000ffffffff
-head: ffffffffffffffff 0000000000000000 00000000ffffffff 0000000000000008
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 3, migratetype Unmovable, gfp_mask 0xd20c0(__GFP_IO|__GFP_FS|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 7221018769
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
- prep_new_page mm/page_alloc.c:1879 [inline]
- get_page_from_freelist+0x110d/0x35d0 mm/page_alloc.c:3943
- __alloc_frozen_pages_noprof+0x2eb/0x3300 mm/page_alloc.c:5436
- alloc_slab_page mm/slub.c:3347 [inline]
- allocate_slab mm/slub.c:3462 [inline]
- new_slab+0xa9/0x6e0 mm/slub.c:3513
- refill_objects+0xe3/0x410 mm/slub.c:7417
- refill_sheaf mm/slub.c:2885 [inline]
- __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4774
- alloc_from_pcs mm/slub.c:4850 [inline]
- slab_alloc_node mm/slub.c:4984 [inline]
- __do_kmalloc_node mm/slub.c:5413 [inline]
- __kmalloc_noprof+0x67c/0x840 mm/slub.c:5439
- _kmalloc_noprof include/linux/slab.h:995 [inline]
- acpi_ut_initialize_buffer+0x144/0x220 drivers/acpi/acpica/utalloc.c:327
- acpi_rs_create_pci_routing_table+0x135/0xe00 drivers/acpi/acpica/rscreate.c:212
- acpi_rs_get_prt_method_data+0xc1/0x150 drivers/acpi/acpica/rsutils.c:456
- acpi_get_irq_routing_table+0xb8/0x140 drivers/acpi/acpica/rsxface.c:137
- acpi_pci_irq_find_prt_entry+0x179/0xdd0 drivers/acpi/pci_irq.c:215
- acpi_pci_irq_lookup+0x8e/0x6b0 drivers/acpi/pci_irq.c:299
- acpi_pci_irq_disable+0x1a8/0x360 drivers/acpi/pci_irq.c:499
- pcibios_disable_device arch/x86/pci/common.c:706 [inline]
- pcibios_disable_device+0x89/0xb0 arch/x86/pci/common.c:703
- do_pci_disable_device+0x9f/0x100 drivers/pci/pci.c:2203
-page_owner free stack trace missing
+<...>-7191    [000] D..1.    66.958249: dwc3_gadget_ep_cmd: ep0in: cmd
+'End Transfer' [10508] params 00000000 00000000 00000000 --> status:
+Timed Out
 
-Memory state around the buggy address:
- ffff888022a54200: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888022a54280: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->ffff888022a54300: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                   ^
- ffff888022a54380: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff888022a54400: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
+Upon debug with Synopsys, the root cause is as follows:
 
+During any transfer, if the data is not successfully transmitted,
+then a Done (with failure) handshake is returned, so that the BMU
+can re-attempt the same data again by rewinding its data pointers.
+
+But, if the USB IN is a 0-length payload (which is what is happening
+in this case - 2 stage status phase of set_address), then there is no
+need to rewind the pointers and the Done (with failure) handshake is
+not returned for failure case. This keeps the Request-Done interface
+busy till the next Done handshake. The MAC sends the 0-length payload
+again when the host requests. If the transmission is successful this
+time, the Done (with success) handshake is provided back. Otherwise,
+it repeats the same steps again.
+
+If the cable is disconnected or if the Host aborts the transfer on 3
+consecutive failed attempts, the Request-Done handshake is not
+complete. This keeps the interface busy.
+
+The subsequent RAM access cannot proceed until the above pending
+transfer is complete. This results in failure of any access to RAM
+address locations. Many of the EndPoint commands need to access the
+RAM and they would fail to complete successfully.
+
+Furthermore when cable removal happens, this would not generate a
+disconnect event and the "connected" flag remains true always blockin
+suspend.
+
+Synopsys confirmed that the issue is present on all USB3 devices and
+as a workaround, suggested to re-initialize device mode.
+
+Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+---
+This series has only been compile tested. The issue was reproduced
+easily with a certain kind of cable and CDP port of AMD based Lenovo
+laptop. I don't have access to the cable currently and hence only
+compile testing the fix for now. But the issue has popped up on OEM
+testing as well.
+
+Also, didn't add locking while calling error recovery work in
+gadget_ep_cmd since the caller is supposed to handle it.
+
+Changes to v3:
+- Using error receovery mechanism from [1].
+
+Link to v2:
+https://lore.kernel.org/all/20260806-ram-interface-code-v2-1-fe4a0de31d42@oss.qualcomm.com/
+
+Changes in v2:
+- Implemented gadget recovery mechanism during gadget_ep_cmd instead of
+handling this issue only during disconnect.
+
+Link to RFC:
+https://lore.kernel.org/all/20231011100214.25720-1-quic_kriskura@quicinc.com/
+
+[1]: https://lore.kernel.org/all/20260915110637.17658-1-jiazi.liu1984@gmail.com/
+---
+ drivers/usb/dwc3/gadget.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
+
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index ee837235630a..a7c4514cf0e2 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -283,6 +283,8 @@ int dwc3_send_gadget_generic_command(struct dwc3 *dwc, unsigned int cmd,
+ 	return ret;
+ }
+ 
++static void dwc3_schedule_err_recovery(struct dwc3 *dwc);
++
+ /**
+  * dwc3_send_gadget_ep_cmd - issue an endpoint command
+  * @dep: the endpoint to which the command is going to be issued
+@@ -432,6 +434,23 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsigned int cmd,
+ 		cmd_status = -ETIMEDOUT;
+ 	}
+ 
++	/*
++	 * STAR 5001544 - In some situations, like the cable is
++	 * disconnected or if the Host aborts the transfer on 3
++	 * consecutive failed attempts, the Request-Done handshake is not
++	 * complete. This keeps the RAM interface busy.
++	 *
++	 * The subsequent RAM access cannot proceed until the pending
++	 * transfer is complete. This results in failure of any access
++	 * to RAM address locations. Many of the EndPoint commands need to
++	 * access the RAM and they would fail to complete successfully.
++	 *
++	 * If the depcmd doesn't match the actual command, trigger controller
++	 * recovery.
++	 */
++	if (DWC3_DEPCMD_CMD(reg) != DWC3_DEPCMD_CMD(cmd))
++		dwc3_schedule_err_recovery(dwc);
++
+ skip_status:
+ 	trace_dwc3_gadget_ep_cmd(dep, cmd, params, cmd_status);
+ 
 
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+base-commit: ab29ca7714b82485ebb31d66835ccd5364221a76
+change-id: 20260929-ram-interface-stuck-v3-aaf0c4b13b98
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Best regards,
+--  
+Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
