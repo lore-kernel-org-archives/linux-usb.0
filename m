@@ -1,65 +1,65 @@
-Received: from mail-yx2-f4.google.com (mail-yx2-f4.google.com [74.125.224.132])
+Received: from mail-yx2-f42.google.com (mail-yx2-f42.google.com [74.125.224.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7804511221
-	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 15:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FA931F9B5
+	for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 15:04:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790694186; cv=none; b=dd33LO89AynrigYSOuywcswYv5C3WmUKxYYLjKR81ErXaWt6p2sK9zEgI/P1zKxnQhfzrVltxpF1sfED+5OXtyMajO6mOgdWETm+KTTCCVW1siziaXoq4K4JeVufiuOt7IjHjEjzFrsROYyONNUXmwYYeVEbgJwlIhIQUxkp87o=
+	t=1790694264; cv=none; b=ijh2SgbQfJclBMI/ssWhRrp1Yx4NAbiBIip6GVVPu9J89+bbwmOfLxI86Yj/9ZGhLQL9Y7XjJV1UGDnycBFe3gQGcGTA9ldMY/qxEnv1oyj5XfiI1dbq8qIAZH91r3EgfAMDYBF9znsm+UCGftyKF3XVUM/ZG+zXdAq3LSbFL18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790694186; c=relaxed/simple;
-	bh=42nYDcBAxNvHgQbbkGEcmz3UGXdz42wPE9jsdKzwvQo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JSKj5pcXgv05V5Uog6YvEcsIlegdTP/vYPcOQw6GgeaPAVIy8t6fB7f3VqKr4G9HeikRqMOVez24SL+5zuhSd+UMjouRYrGNkb7ZcjZooIOZKJLg81jb/QUbRBvPP5AWq3RAZ/A19+40BlGtnNmOpVbS+KRm4mifIzU0obFG/qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VkUugni2; arc=none smtp.client-ip=74.125.224.132
+	s=arc-20240116; t=1790694264; c=relaxed/simple;
+	bh=ctXSxhL8cB96oM2LlBR4kk7hbE12PJXfiPWlYJLZFo0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=YrjMZBRyKvbCDIuVWThmKJKTGfYVU2ynaAW1LZhbvaUo8Ys+1jsbJcDq3Cu1ZQfzgriNzoIFU9CWNAK+KlGIEE5OyQtgk7G8AKRh3MPpE3/XEx17I3ZamI46P55KSRYmP6pxCmGWHS0TdVUayyhZIU49FnkUPDsZQKroip9speo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dRzkyfQL; arc=none smtp.client-ip=74.125.224.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VkUugni2"
-Received: by mail-yx2-f4.google.com with SMTP id 956f58d0204a3-66fb34fa3b6so1248898d50.0
-        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:02:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dRzkyfQL"
+Received: by mail-yx2-f42.google.com with SMTP id 00721157ae682-89666ee9b3bso33408087b3.0
+        for <linux-usb@vger.kernel.org>; Tue, 29 Sep 2026 08:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790694170; x=1791298970; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790694251; x=1791299051; darn=vger.kernel.org;
         h=cc:to:message-id:content-transfer-encoding:content-type
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=49UzIiAo0VYsR6EXPEJbJmUgWYtE+uEvjPXao/cXtos=;
-        b=VkUugni2dtbQEFvl+TjO9L+KNki9LnrUJCSDua1akT5O7nzQuKzKGDA2qzL4X4UKF5
-         tcVQBLV/o7U0BwgC7tCcanBeFPrQHaX8nH31FSFTJb1KiY93uqlakWBtsHrzZ3vHx5gW
-         g9fQGaRt9MkJMo/SvB6/R73yukwMNcIOPLvgOWFoceDMZRwaPZL0OniJ77W2qIBtPeWH
-         KX/yZSQLlGiAv6okH3cAxwR1dhD2FKzzcqRLHyeizrKHpnO76zV3aOUOKllDg2r7VwWe
-         D0Nj6RnmRqb5R+H0/hkspJCynmP24lu7fqOg2IsI79lmEZV1r/CxzqND8uLM+TIbDgvb
-         GzLA==
+        bh=+edsoFX5PqL65dJFkIJ/uSxWsDbol4HH9AaqaASjRno=;
+        b=dRzkyfQLetYpbbmiXtBUtOfaMMMw5wu8Yhdh21W4oOXf7aCPZPlGxbV76gD30R7HI3
+         8I7X+cyR/zVXQuI18na54naOwGZDYwfKC2JZMPTH2TZ1+k/k4l8EleNhEfs0kd03+V2W
+         6XFt2Bky0lGQz1WqD+C8yywbwIJESihqI3U2WbRhuqjwVdXuUzyNaB/zLkuOsyuIci3O
+         m7yBd4m1EY1u+03+GsffFmqopAnuIvfvglIkFMhz0wDLKmmX3IwvBnnd/TJhmOV8UBAL
+         ZnZjDE7yhRxYsg1eSZBy22avhMer3J36whLN7q83vp6tTbAvyFijiiwtv93hKFy2qj4S
+         8tKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790694170; x=1791298970;
+        d=1e100.net; s=20260707; t=1790694251; x=1791299051;
         h=cc:to:message-id:content-transfer-encoding:content-type
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=49UzIiAo0VYsR6EXPEJbJmUgWYtE+uEvjPXao/cXtos=;
-        b=tmu9ETwnHv9w3rToYBcVp1Oh7V0tuT1qKluFmKysSP426tAi4kThHKFgkB73u18YVk
-         5id4TGvqgKkRcNzbPx2DL90MGUkGS/AVojEZINPzbySJe53T4ntTb4Id5bVDx+uFiTK2
-         eFBrkiUbY6kHt/H4sLjFVY7/TPZ4rG4DJnvrgycPkgInMW1gDxqkhiKYLa2dA6fAg3QZ
-         T9Z2MIZyDOepy+5WzBdFHFF9F3VObXqq+7f1DeWzyOBo28tEnrek25Fjoy/tkR+Ek3Xe
-         xKLCJ1Fh9+gi0Ezr4R0yZzjpzZrUZPs9JO66QJN3Wh7z+Ufdv81zloJ3TV/bbmPT37Iq
-         U7mw==
-X-Gm-Message-State: AFq9FYK2i39BkeWAM2Ma57dkX16HI9ueI5t2wURIOxgUG9bdsMaKfCo2
-	h0JOQooD90E8JDaTU0Crg76xqFcjbHqcecRKi0EIg9fRhZ18bdw113ZI
-X-Gm-Gg: AYBFou2tJrjG0pAx69xOuoyXpX26hHfL9NpdU+xZc8FszC/9QX4+pG79D5/25xrB+oe
-	oPQYH+n/TNUDApePKMFW0xN+uE5x2EJ1CWY3FmGB88Crhcyg/32kIrTAOLyHsfQm+MWfGaENnOU
-	1k7XDDGdrwrKcuEya5+4C1g2LAe3EYfl0+zc2xK4WziRWex177E+qibrJvsTyno0/3Xx2YiaRO7
-	f1aTey+e2RpuyzxiDiYUkzXE3XfUh+rgi1rBcxMV++mb5Rk8Nswf0LrO/RLuT2yG5evBR/sJEcv
-	WEucYYIzxBJplXPZ1MneAQW4WwnWbh17O3XVYqQEPJBk12rj6/zayQGayemkDLFU4jKScVmh3GH
-	CqTUF2n5n2L5oSdkHahReaTHc0gRWVwXPmD1+gCczUWG5ykiCCdonkNbkrVxW3GUwSivsSJg88/
-	FIQ/LGOciwSLsN1QMwh8zx5RYkFl6wp/4KEL50093vUBxInjlBqtSZwA/rxVjWKR0YxQ==
-X-Received: by 2002:a05:690e:13c9:b0:673:7f0e:a8cb with SMTP id 956f58d0204a3-6737f0eaf3fmr5413546d50.44.1790694168952;
-        Tue, 29 Sep 2026 08:02:48 -0700 (PDT)
+        bh=+edsoFX5PqL65dJFkIJ/uSxWsDbol4HH9AaqaASjRno=;
+        b=PV+6JWe21t5HC8JKuOI93C7aAWznc6nhy6Og3pr/ijKuvya2ql0u+0d5zbUxR8ZbRD
+         AMtCmMeO+WNJC3U9RHGCwqPHKskA5A9hgheJLrS/w/ajhwnh/TFFlx7ZwmeCGzCTvZlU
+         qxmPZlLykUmhp0ec7ne4lZVieDxXV7Ze35ZNuvsq/TAEu24zodmk4UCX9EkygOZdZ1i/
+         1bWUJmZnGU9KOhaINKqGc4BvLho8EJ0ykNWmYBp9jDwvSWMf3Nj6sdYbyu5jb1P6dEMc
+         LDhAWjG5T3bxjfD5E3mV/erf/jFhV1h+laPtWgK1+X6wvIlOJuIJ6JHsKrb0SJIZ8YM4
+         7G7g==
+X-Gm-Message-State: AFq9FYKlscdeOsBpeQl5iNOsS+d35cGC9Yqyx3HBSnnyD0Ur4Trw2ezZ
+	xYyoZ58FtqWI7FB/ue1Y2f0YdQz5S3Cyh9hBDkDmRFqzBZO7EVhaaQpk
+X-Gm-Gg: AYBFou256prT6//pb4rJjdastTw0xd/IHK1EG5h7yuBiM2hoDMtIGu8jvJuSblbzIJ/
+	TSDLGN96ThS/3KaremSZzHYrlFDrY2ZdYiAZCl8/MOjn0W3ll/JwptRKHyYooyF49qxWlbXm/YG
+	4VryRkfdMuUM5zKiQu0AnNF4ImIjK7wRLmeEF2mx2aH3PAaCnus3TjIiw8JAB1b1D3Gj3iTEg/M
+	kwDh8bDEhelY/+S/ZSnYnpovi7Px2p5m9EWlC+o+JfvP/EGqIur7vtHxIDdnArEqKtKeJA8PLSH
+	X3Rzi26rRtyv30gpAjM8T9BQjJCslt/MjSF1AvHkhUSPkzCQ6Udlevr7f0uk9Q/VpHKweJCqFlH
+	3XHedPgJ4S+6Sew0c/7amwt8bUCIVowmhdHXx4DZ8FcX5KTed/tjbrRnirf8/pseBmM9q8xC8ch
+	XPQ2yIOmx50hiLURji9ustTrA1v8KLdTm6vWah0qYV8rqihrjgegMNBY45uDCehaaE8Q==
+X-Received: by 2002:a05:690c:e3e8:b0:841:e9e4:8ab9 with SMTP id 00721157ae682-8a64949ac2dmr92204867b3.25.1790694251364;
+        Tue, 29 Sep 2026 08:04:11 -0700 (PDT)
 Received: from [192.168.18.164] ([2600:8804:5716:d800::2620])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-675b7702a45sm83523d50.17.2026.09.29.08.02.46
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ab40a699b9sm9871467b3.43.2026.09.29.08.04.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 08:02:47 -0700 (PDT)
+        Tue, 29 Sep 2026 08:04:09 -0700 (PDT)
 From: Ryan Brue <ryanbrue.dev@gmail.com>
-Date: Tue, 29 Sep 2026 10:02:39 -0500
-Subject: [PATCH RESEND] usb: mtu3: fix system suspend in gadget mode after
- soft disconnect
+Date: Tue, 29 Sep 2026 10:04:05 -0500
+Subject: [PATCH RESEND] usb: mtu3: don't run gadget completion callbacks
+ with interrupts disabled
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -68,102 +68,110 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260929-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-v1-1-a0ac3b6b2b62@gmail.com>
+Message-Id: <20260929-usb-mtu3-gadget-completion-callback-fix-v1-1-8b75b48fab96@gmail.com>
 To: Chunfeng Yun <chunfeng.yun@mediatek.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Fei Shao <fshao@chromium.org>
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org, 
- Ryan Brue <ryanbrue.dev@gmail.com>
+ stable@vger.kernel.org, Ryan Brue <ryanbrue.dev@gmail.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790694166; l=3537;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790694249; l=3859;
  i=ryanbrue.dev@gmail.com; s=20260906; h=from:subject:message-id;
- bh=42nYDcBAxNvHgQbbkGEcmz3UGXdz42wPE9jsdKzwvQo=;
- b=YbK3YF9A+aOB+Hm/xh8seZ0DcpGlIq2W0mafFoTLR2ixWJCnN6pznBz15u5t2oiwnrPpwG3qt
- SbDI0QLbGgzCeZQpKyx1EqiIMShHI0oFXGn17wHB/0m8DdbmGIZwk4a
+ bh=ctXSxhL8cB96oM2LlBR4kk7hbE12PJXfiPWlYJLZFo0=;
+ b=yw9LSE1i8GiNOL28F+XSvLaDLH7wn1idNjPtWu+r9QdBnFtrnSjo5+Rv8f6OF2gtorNSDOtWI
+ rwGwjhX4Z1JB8caumEIvOiFYMI3N524g6ZrHKXJhw00Al65rItA0TYm
 X-Developer-Key: i=ryanbrue.dev@gmail.com; a=ed25519;
  pk=KsUvVaP//v/2q+ZBuacc7cLbsyEYn+AD71Sn28oZWKo=
 
-ssusb_gadget_suspend() removes the D+ pullup for system suspend by calling
-mtu3_dev_on_off(mtu, 0) directly. That writes the hardware SOFT_CONN bit
-but leaves mtu->softconnect alone, deliberately: ssusb_gadget_resume()
-needs it to decide whether to pull up again.
+mtu3_irq() is a threaded handler, so it runs in process context, but it
+takes mtu->lock with spin_lock_irqsave(). mtu3_req_complete() then drops
+the lock with a plain spin_unlock() around
+usb_gadget_giveback_request(), which leaves hardware interrupts disabled
+across the gadget function's completion callback.
 
-wait_for_ip_sleep() then asks ssusb_gadget_ip_sleep_check() whether the IP
-can sleep, and that function tests mtu->softconnect -- the gadget's intent
-rather than the state of the pin. So it answers "pulled up, the IP can
-sleep" for a device that was just disconnected, and the poll for
-SSUSB_IP_SLEEP_STS runs to its 100 ms timeout:
+That breaks any callback that reaches netif_rx(). Since the threaded
+handler is in neither hardirq nor softirq context, netif_rx() takes its
+local_bh_disable()/local_bh_enable() path, and enabling softirqs with
+interrupts disabled is not allowed:
 
-  mtu3 11271000.usb: gadget (high-speed) pullup D-
-  mtu3 11271000.usb: ip sleep failed!!!
-  mtu3 11271000.usb: gadget (high-speed) pullup D+
-  mtu3 11271000.usb: PM: dpm_run_callback(): mtu3_suspend returns -16
-  PM: Some devices failed to suspend, or early wake event detected
+  WARNING: kernel/softirq.c:430 at __local_bh_enable_ip+0x17c/0x188
+    __local_bh_enable_ip
+    netif_rx
+    rx_complete [u_ether]
+    usb_gadget_giveback_request
+    mtu3_req_complete
+    mtu3_qmu_isr
+    mtu3_irq
+    irq_thread_fn
 
-and the suspend fails. The rule the hardware follows is stated in that
-same function: the IP cannot sleep while D+ is not pulled up.
+With CONFIG_TRACE_IRQFLAGS, __local_bh_enable_ip() ends with an
+unconditional local_irq_enable(), so the plain spin_lock() re-taking
+mtu->lock afterwards runs with interrupts on and is recorded
+SOFTIRQ-ON-W, while mtu3_gadget_queue() takes the same lock from a
+softirq (ncm's tx hrtimer), and lockdep follows up with an inconsistent
+lock state report naming mtu->lock.
 
-On an MT8173 tablet (Amazon Fire HD 10 2017, dr_mode = "peripheral") this
-makes system suspend impossible whenever VBUS is present, which on a board
-whose only USB port is also its charging input means whenever it is
-charging. Unbinding the UDC, which clears mtu->softconnect through
-mtu3_gadget_pullup() and so makes the check agree with the pin again, is
-enough to let the same suspend succeed with the driver still bound and the
-charger still attached:
+The locking was right when mtu3_irq() was a hardirq handler. It stopped
+being right when the handler became threaded without a primary handler;
+dwc3 hit the same thing the same way and fixed it in the controller
+driver, in commit 84918a89d6ef ("usb: dwc3: gadget: Let the interrupt
+handler disable bottom halves.").
 
-  gadget bound   (softconnect=1): suspend returns -16, "ip sleep failed!!!"
-  gadget unbound (softconnect=0): suspend completes, 20 s of 20 s
+mtu->lock is never taken in hardirq context: the only handler is
+threaded and has no primary handler, so disabling softirqs is enough.
+Take it with spin_lock_bh() in mtu3_irq(). The completion callback then
+runs with interrupts enabled and softirqs disabled, which is the context
+netif_rx() expects. The other sites keep spin_lock_irqsave(), which is
+strictly stronger and still correct; several of them really can be
+reached from softirq context.
 
-So record what mtu3_dev_on_off() actually wrote and test that instead.
-Runtime suspend is unaffected: it does not soft disconnect, so the pullup
-is still set and the IP-sleep poll is still performed.
+Both reports need lockdep to be seen, but the context violation is real:
+netif_rx() wants either hardirq/softirq context or interrupts enabled,
+and mtu3 gives it neither. The fallout on a PROVE_LOCKING kernel is not
+cosmetic either - copying a 21 MB file over USB ethernet hung and reset
+this board repeatedly before this change. Once interrupts have been
+left enabled while the thread holds mtu->lock, the tx hrtimer softirq on
+the same CPU spins on it forever, which is the "CPU0: lock(&mtu->lock);
+<Interrupt> lock(&mtu->lock);" scenario lockdep names. The same copy is
+reliable after it.
 
-Fixes: e69027c25361 ("usb: mtu3: allow system suspend during active gadget connection")
+Fixes: 13118959cb1a ("usb: mtu3: register mtu3_irq by threaded irq")
+Cc: stable@vger.kernel.org
 Assisted-by: LLM
 Signed-off-by: Ryan Brue <ryanbrue.dev@gmail.com>
 ---
- drivers/usb/mtu3/mtu3.h      | 1 +
- drivers/usb/mtu3/mtu3_core.c | 3 ++-
- 2 files changed, 3 insertions(+), 1 deletion(-)
+ drivers/usb/mtu3/mtu3_core.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/usb/mtu3/mtu3.h b/drivers/usb/mtu3/mtu3.h
-index ba5a63669e5f..7f4fb87d8438 100644
---- a/drivers/usb/mtu3/mtu3.h
-+++ b/drivers/usb/mtu3/mtu3.h
-@@ -361,6 +361,7 @@ struct mtu3 {
- 	unsigned is_self_powered:1;
- 	unsigned test_mode:1;
- 	unsigned softconnect:1;
-+	unsigned pullup:1;
- 	unsigned u1_enable:1;
- 	unsigned u2_enable:1;
- 	unsigned u3_capable:1;
 diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
-index a40bf5bad2d5..5ce61240194f 100644
+index a40bf5bad2d5..ed0e426645fd 100644
 --- a/drivers/usb/mtu3/mtu3_core.c
 +++ b/drivers/usb/mtu3/mtu3_core.c
-@@ -346,6 +346,7 @@ void mtu3_dev_on_off(struct mtu3 *mtu, int is_on)
- 	else
- 		mtu3_hs_softconn_set(mtu, is_on);
+@@ -790,10 +790,9 @@ static irqreturn_t mtu3_u2_common_isr(struct mtu3 *mtu)
+ static irqreturn_t mtu3_irq(int irq, void *data)
+ {
+ 	struct mtu3 *mtu = (struct mtu3 *)data;
+-	unsigned long flags;
+ 	u32 level1;
  
-+	mtu->pullup = !!is_on;
- 	dev_info(mtu->dev, "gadget (%s) pullup D%s\n",
- 		usb_speed_string(mtu->speed), is_on ? "+" : "-");
+-	spin_lock_irqsave(&mtu->lock, flags);
++	spin_lock_bh(&mtu->lock);
+ 
+ 	/* U3D_LV1ISR is RU */
+ 	level1 = mtu3_readl(mtu->mac_base, U3D_LV1ISR);
+@@ -814,7 +813,7 @@ static irqreturn_t mtu3_irq(int irq, void *data)
+ 	if (level1 & QMU_INTR)
+ 		mtu3_qmu_isr(mtu);
+ 
+-	spin_unlock_irqrestore(&mtu->lock, flags);
++	spin_unlock_bh(&mtu->lock);
+ 
+ 	return IRQ_HANDLED;
  }
-@@ -1023,7 +1024,7 @@ bool ssusb_gadget_ip_sleep_check(struct ssusb_mtk *ssusb)
- 		return true;
- 
- 	/* device is started and pullup D+, ip can sleep */
--	if (mtu->is_active && mtu->softconnect)
-+	if (mtu->is_active && mtu->pullup)
- 		return true;
- 
- 	/* ip can't sleep if not pullup D+ when support device mode */
 
 ---
 base-commit: df2908090cda368b01ff43709f51890076c56157
-change-id: 20260908-rbrue-suez-upstreaming-mtu3-fix-suspend-usb-gadget-mode-c69c5104b25b
+change-id: 20260913-usb-mtu3-gadget-completion-callback-fix-d334f7e99a17
 
 Best regards,
 --
