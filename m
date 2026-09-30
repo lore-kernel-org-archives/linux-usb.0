@@ -1,126 +1,151 @@
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from TYPPR03CU001.outbound.protection.outlook.com (mail-japaneastazon11022087.outbound.protection.outlook.com [52.101.126.87])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E90437C0FE
-	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 09:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF603D669A
+	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 10:18:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.126.87
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790761239; cv=pass; b=O9UZrXJ2yC1TRyc4r9ELBFtD3MhuAKnrAOdQqR1hOHf21oL9nwUxdHl2+fhYCXYfKLW0VrF9CMNn7qM4HnuLSK8pFPwjVdzu294ZIPCtUrQopCbqD5VzbWZkNhC7t/jBcabNA0iK4b67D7JXvaT/cbNhepXI2gOsVWxMeJjMuss=
+	t=1790763499; cv=fail; b=LZY3uxYzAMWqb5oZbGr8h0tZH5R9tr4aF8j2itBENXKDMPSCxu2cHu3Spog4Batf8urURRz7Mku6kowdOBkw1IeUXuE8HB5Bo1bSVUakpxvy9w9k+abz/PUah/0L0oXE29v/r6iuzcRnDInWY4c2MP34Md/ogzdGgf/Y00qFP9k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790761239; c=relaxed/simple;
-	bh=wFuX1r4Y7eDqGdmym8I60OlUlx3AqSTMX8iIAdniMwk=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=QHz9xKqJoBt3PGsH1i/mjCCZBnOcxJrCl+uEiFiaJFqAEvpfoTF+bdEz0BL5vaHs8rLwnJFNyXtpdy2Jja9qlJ+jXIAXCLNVJsyP6aq+y0O1yqlAITCAsrokiDjFgPZrhIt3NS0BEqrVlCNqzSrMBJS9dU387pu0esEWVAVwcqY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MSzG1He0; arc=pass smtp.client-ip=74.125.227.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790763499; c=relaxed/simple;
+	bh=2EUEPGDEsuLKJ6EP945JCGuQLD9sL5wSJuk6len8tgA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dOjS5gVCqkP36FB+RsQXk+l0J1M1qukFqxYj+oiLUeOSQLS7gMEE5Ske4mjzmjQpdnrHobaxyNl86U3EBtMcBeojuzO1ufa1MFhU+AhjRCgBb5idfRpqUiE8WAi0bph0Zpjas2KDB6PyzvTkgpGrHcPloMmwwCZsZsTBlOEQbK4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com; spf=pass smtp.mailfrom=qnap.com; dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b=djeIHpC4; arc=fail smtp.client-ip=52.101.126.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qnap.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MSzG1He0"
-Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c83397eeeeso3538258e0c.2
-        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 02:40:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790761236; cv=none;
-        d=google.com; s=arc-20260327;
-        b=OXK8T7ymCHQhGKVRXxFQe0PV4i3EB2oGiQTbWfPTaSMVFnjjlhx8bXkfbSa69rOuQ5
-         mXwmK0/jBGR5yNNSz3ttVtnICZH7X87ye4wPT78dVvqLmXojZYwdVO2b9d3sQrVWnax1
-         Gw2EJVR4G5ct7tnVCF76zYzDJrs/mUK6xn8wV33GB5nXRu1jucFkTAS4bQSpEtGdFyGc
-         vr2WchmIHXP8bzQ5NTZjLmCp55wLCd0cjcsbavvIMCH+R3OInV07Bd776vj8tODzrwvM
-         WD/sZ6DMkAgZh5Saoz5LUYg/3GXVEU0CNK6Lprt8MMC5LHJhXVCsJtDEooE2XB5MeLRX
-         9TyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
-        bh=CUX1jkSNU4dlWBksEEfOjIcGTWWCdgISW78UHeYYIhM=;
-        fh=GBf1QxRa5zW3wOZpWdkpEPEYiH0rjJSdZZuNHM7Tnts=;
-        b=PUCNCh6UwDJRdK1TblRBXRqlVG0RRNygDzxwssOGeH8WlE9vSb2WVw+po6A4gPd/7s
-         SRasICDm6EgrO+HnFMQBV8HOqci0Bi04oNpoE+p+oJYZ5bqH1BxVFoBcacYPTcGlRVyG
-         yt5O+DZAdxUFPQXMQfwqovvvM1+Ee8DeQaglicAnar4TjMLcSW2hShIH81lxGPGaCKw4
-         0keoGuZ3aBWdo2DZUcX/wp7Xm3TgTr8IHb3qSFy2qhqs3WXybgZit+iz3+ij5cpexKxV
-         wLLXR8+IPbCh39sCUnSl/N8y2CnjSE02Rcr1riTVpaj6ssuf8J/GmadphzBPNmF6O6nq
-         olNg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790761236; x=1791366036; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CUX1jkSNU4dlWBksEEfOjIcGTWWCdgISW78UHeYYIhM=;
-        b=MSzG1He0jMY7fTHn6rOXuCgCFGongt3w3MMwXkE5UlTzYxp7ZJ82+qakiTXc8TRlzn
-         onyEzrwvGPwmOGxFV07Rf24X5r1W7/DRknCmraK2b/L++HAmZy3hk+Ri0ATT3oE2w8eK
-         8dkTTX8qtvRtxKD9+UMN7dXQBPMvDOilPqm3BFb65tWvP6mJ+baMyWTe6v7+fFdgHimy
-         K9ooo1r0LtBGkw0xXFqY0Nbq5xC5zSwY6UzQqazGEdA6Jm19UPCyj+bh5SPg3LczNivz
-         sL5oQKmofIIM7aKWGUBiMYRnq17nTmxH75ybhT+m8TmaKf23Z/xswDYrf7zggTeN5jFD
-         d9PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790761236; x=1791366036;
-        h=content-type:cc:to:subject:message-id:date:mime-version:from
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=CUX1jkSNU4dlWBksEEfOjIcGTWWCdgISW78UHeYYIhM=;
-        b=l5piXB1SLX2KWqWuwHK52AzWJQSCrtfBKARWtqlKSbTq2dLEfWGGoiAxMlRN7bxnMU
-         ZsA+u2qlqacv/8+ROjeTQ866JUjlf/OZwi5yvZt8d7wE0urTTRNIKyfBRGDhYrN6C8hF
-         Rj0ncAx1S2xMA51K8h1yAmXD05u72v6e3QHzq3KT22J68CqaEQ7djKfMuK4wlJUAcuNo
-         urLmfrmYt2ls9pakX1TuXTJPu45yKKliEeoOhzUSr3Ci7rdGkkRbCXa2hYV0huNLhSKC
-         1Arp2dqifIPQ6cYf/j4+6H0AZxCQdszlrnhXpLKxs9X6SdCBwPFXBzCAg1txHgBuyJpG
-         Ukeg==
-X-Forwarded-Encrypted: i=1; AKwUvBzMOZsPY9nLMlWrpJyepTNLLTbT3hPU85JgNq7Fernq/UNPH0chEmanCXySSSiPrkhp69Mt64yObnA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLL0TwmdfR2M5iiQlSYPt7zD3kH20yhd24nR42uD2Xm6h5x2y2i
-	GSZBBvzHJ1UxlJNOYMw59+aqQneMeu8tyktEYGsCx21VI8mH/LQt2lYWa4IJJ4mx6fZ9TrmCtNl
-	HRu0w5hn9oOE7qHTDrwBPdhJo2Et3LIiboADs
-X-Gm-Gg: AYBFou2P0+nBd2oiZerkb9fAI3W7Bf9yH6cszryvVKpf2jddlejYSMFtSuqqzt8MDvh
-	gr3fMKR68V3Oo9evD5WSC8N8enPxkz8P+iOyZBH4HY1gg5nYSK23P2OVb+RshIbBEaxbeAPha5L
-	e65vpad9mDsZg746AV+nI1vzuVS1AE8dtWOhmJGa14YX9XDAG5w+jfmNxtP2DIlcVbsFaWZKWHH
-	R63JvWZXIJFCxygymWV8qAG4Zfhn5gokwZRoXU+j7PKkmRuQBE1dmb1FWpryDlTJaIIHPNfR7T7
-	xEItG2Ec8xk0j+ZdUU7qDme6RkowJEhlegCMDXAyviVT5nOskWEQ0qivrdf9ZAqUnulgKVZY34/
-	Al1fmuP7za03CjexUQDvxbB4J9jko6o0ftApwo63zB5Ya5A7x1//PhQs/2FL73BgR6z4dudI=
-X-Received: by 2002:a05:6122:1998:b0:5c6:8480:35c8 with SMTP id
- 71dfb90a1353d-5d67b7552b7mr142766e0c.8.1790761236462; Wed, 30 Sep 2026
- 02:40:36 -0700 (PDT)
-Received: from 543150747168 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 30 Sep 2026 02:40:34 -0700
-Received: from 543150747168 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 30 Sep 2026 02:40:34 -0700
-From: David Pieters <davidpieters1978@gmail.com>
+	dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b="djeIHpC4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Aqs04+uQomEOYMXWzo7a1CuoTsPbim/0RLKc93KhI1pl4F1NoMC1rHI0z0FgxH9wlun55e6TtGURqvuMcNzvhsGNwUcBc+wYxK2NpnDOZk2Btq436UZ3/buFmDLct/AjLXTYunLcMmbdrVOUstSLq2r299hO4ZPjhl998eXSVCeUIm2fPzkVIw8XuXaDKaq81eic8EN+xTixoPSa/6/OYkPZ3WqfYTe3D/T/lZdZm836HJ+mJPPsy/M1OHBh6SEOwY0GSAcrodPJIuKaUiDeoVSUVjv0C0KfP3AdFiPq+Gz5QhFuNcNZ6DiIL9llcShhIYXF3QLVoBWPV7EZsUE41w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NAvL/BuHdWH63KqmycM3WHkfC6GSAJh4Gsq494bVaQA=;
+ b=BZpNHzxY0Egur2jBr3JRdl+z3af0IXPg2B/Vi7lLsKtb/fi1INJb1zvl1Gpy06hdxbsaFMXoIgM4IYymZ5oOQeW6Ai7rM5Xw/G/iIeehmhC19flLrJ16PQqfXR5LOxCCi1pusH5NQq6nJs66XjaeEjovH9aAbhuEa5Ijtk9paFrdq9Z7fqKukvxvzLQYFfg5Wm2U8XQSdp/yFheYA8DW+1Cwk9JmzH8bWM4JLSWuvcdDLCbHlWtHtc2gv4N8sn791Uut6r9702AINCNDSvx9SwVbKTM3ZvnM4cX40KfjTl0ZJ5o+cg+NELXu96vElXGzG9QgzS9NGtPZvbDwDIIRDQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 122.147.219.42) smtp.rcpttodomain=intel.com smtp.mailfrom=qnap.com;
+ dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=qnap.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NAvL/BuHdWH63KqmycM3WHkfC6GSAJh4Gsq494bVaQA=;
+ b=djeIHpC4jpsTWmNq6nVk1yvWwEsRTKwqalxVNkI2AWDhvyqr3CvpE1eHngvX/EL+tjhbUFNCxijstsLITS0uvVKmaqZYjgJ+ab6YJZLd6HWP5cuVdRJiKdz5uJlC52LYBCBYgY3eOsQk92JBQ9GzPQmAGnE90oqJx/ENLM/S3DsgNJpUCIEXEb6UjFMe7xj4HcgQCEUReGUzytIumrpIJMiFQIBKHOmjp1ACR1HVGinX/FCgKzTMqDOrV2ckI3jz9jGH3raz4wGiDC4jFML+55Dn0pPGpuo8RmZKZa90KZGAhbLGP63kMv76NKWZ92w/7kqvKdNGw2tdqCNf9FRWBg==
+Received: from PSBPR02CA0018.apcprd02.prod.outlook.com (2603:1096:301::28) by
+ SEZPR04MB7258.apcprd04.prod.outlook.com (2603:1096:101:17a::8) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.472.15; Wed, 30 Sep 2026 10:18:12 +0000
+Received: from OSA0EPF000000C7.apcprd02.prod.outlook.com
+ (2603:1096:301:0:cafe::80) by PSBPR02CA0018.outlook.office365.com
+ (2603:1096:301::28) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.15 via Frontend Transport; Wed,
+ 30 Sep 2026 10:18:12 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
+ is 122.147.219.42) smtp.mailfrom=qnap.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=qnap.com;
+Received-SPF: Fail (protection.outlook.com: domain of qnap.com does not
+ designate 122.147.219.42 as permitted sender)
+ receiver=protection.outlook.com; client-ip=122.147.219.42;
+ helo=mail19.qnap.com;
+Received: from mail19.qnap.com (122.147.219.42) by
+ OSA0EPF000000C7.mail.protection.outlook.com (10.167.240.53) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.14
+ via Frontend Transport; Wed, 30 Sep 2026 10:18:11 +0000
+Received: from localhost (unknown [172.17.22.73])
+	by mail19.qnap.com (Postfix) with ESMTP id 89F9A202;
+	Wed, 30 Sep 2026 18:18:10 +0800 (CST)
+From: Henry Tseng <henrytseng@qnap.com>
+To: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	Henry Tseng <henrytseng@qnap.com>
+Subject: [PATCH 0/2] xhci: handshake timeout overrun and configure endpoint hang on device disconnect
+Date: Wed, 30 Sep 2026 18:17:50 +0800
+Message-ID: <20260930101752.15794-1-henrytseng@qnap.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 30 Sep 2026 02:40:34 -0700
-X-Gm-Features: AclHuK_GQfg0iT4xKk2tKp-2KAyN4MTRhJfMh3s8BkX8U4dZY7fQFIYirkLp0yE
-Message-ID: <CAJ3h-bO00mynmttgf3UxVtqM=S8Q=Tf56Ts8SEqmPEM9dc4czg@mail.gmail.com>
-Subject: [PATCH] USB: quirks: add USB_QUIRK_NO_LPM for ELECOM DEFT Pro TrackBall
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000C7:EE_|SEZPR04MB7258:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 09a8a4e2-0e73-4299-c259-08df1edc21b5
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|376014|23010399003|82310400026|1800799024|55112099003|18002099003|13003099007|6133799003|10067099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info:
+	jObe9zqqrIb3Z/exrM9X0oLJjEr0+GN0lQGShda7+RfVq37Zp1+TwyEzczeDhBCWUAK3A9fkJXgn0bUbOs12POPZebHaC+v+KLrKp5AjWW/VIjV3tPISEV8g5kIPL05HgAB1lPZjp3miRojvlXSyHaiGsagqz2jxkeDkorRsOe2n1ZWvwQlwFkF/+OkQ5+p6a+d+4t/zObA94OGDoiXQyWu7mYSktV9RL+U197UiGF9Y7CNczx9NC5YNvBIzFAJQkPHNyLgn8VjgNGaiLZK2OGeaamOIfncIq1HH3bh8aME8DUYDXWddodkUDfDP00vrhkVjJZ0M6Ikf6z7vnCX83qXUr5SkKhCG8WF3OULKQUD5+cDy7YfMlInmD4ny+YtSrZDTxiRxd/6pVRCh75YkFleZWBwWfTcZzRnaEHB1lYmSpr87HDKFNVe6No6qGRcZ60kCxk73XJez2XUkx7cCFOd9s0AbfXAqBl/SvErIxad69PrS+ROGWHTPH4QA1ekLHZcXF6rIbxCGk4XCkJaOGl505oCPvE+bmR3rA4UdegdA9YgvmRmrjfV5udlaLNp2NEZsA/LuriUBHzjlxM0etDhe8Si3IzuSYFROi6CdYdOnYfKOray+BpPte2imwLsevCnYetmX7aGqU4iWz6ybSA==
+X-Forefront-Antispam-Report:
+	CIP:122.147.219.42;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail19.qnap.com;PTR:122-147-219-42.static.sparqnet.net;CAT:NONE;SFS:(13230040)(36860700016)(376014)(23010399003)(82310400026)(1800799024)(55112099003)(18002099003)(13003099007)(6133799003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	vI2TgFaqkEhif04Tds2gfSWaU7F4poXPlZE7cUoUPBvk6DKeQd6uYE351q2UsFHF/eZk81TZUEycLsH0FIC/0Se13JgRVm5nneAW3qJEbj6KRabo1vIoVfndh1JC15x+a/iwMvtQdZUpDsXvquPSpX9UUBCPRFTta2QXKYT8z33Re/syQjIsUfxdDqCSwXqIeLjAJqig/IcxQZzV8Pxs8dQy4E28mQTQcC4m+OU9SQtREE2OV9iEF/rOyzTzacFSgWNTShIUTmVCffablDviT3+pYaJ6GaKslv/QZiMgZVqgJGTORTmOKip+SlWYI34qfXpN8SHjToI6fSM6xG07hX7xX7yrm7VlJ2ziAC67mLxpF/UEiSPbElr+EgtfOgC//zwdgEdf6koMs3Pcl30zGl+ogHUjrNffUbMDIVVMeeTnOudumgduh9mnd47Pexbj
+X-OriginatorOrg: qnap.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 10:18:11.5845
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09a8a4e2-0e73-4299-c259-08df1edc21b5
+X-MS-Exchange-CrossTenant-Id: 6eba8807-6ef0-4e31-890c-a6ecfbb98568
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=6eba8807-6ef0-4e31-890c-a6ecfbb98568;Ip=[122.147.219.42];Helo=[mail19.qnap.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	OSA0EPF000000C7.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEZPR04MB7258
 
-The 2.4GHz wireless USB receiver of the ELECOM DEFT Pro TrackBall
-(056e:0132) and its wired counterpart (056e:0131) fail to handle USB
-Link Power Management (LPM / USB 2.0 L1 sleep states) during initial
-enumeration on modern USB host controllers. When LPM negotiation occurs
-at boot, the device stalls and fails to register any input events until
-it is physically unplugged and replugged.
+This series addresses two problems found while debugging an AMD Raven
+USB 3.1 xHCI (1022:15e0) that gets declared dead when a USB storage
+enclosure is unplugged. During teardown a command fails to complete,
+aborting the command ring also fails, and the whole host is declared
+dead, taking unrelated devices on other root ports down with it:
 
-Applying USB_QUIRK_NO_LPM prevents LPM negotiation and allows the device
-to initialize properly at system boot.
+  xhci_hcd 0000:0c:00.3: Command timeout, USBSTS: 0x00000010 PCD
+  xhci_hcd 0000:0c:00.3: Abort command ring
+  xhci_hcd 0000:0c:00.3: Abort failed to stop command ring: -110
+  xhci_hcd 0000:0c:00.3: xHCI host controller not responding, assume dead
 
-Signed-off-by: David Pieters <davidpieters1978@gmail.com>
----
- drivers/usb/core/quirks.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Reproduced on mainline v7.3-rc5:
 
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index 1234567..89abcdef 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -350,6 +350,10 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* Corsair Strafe RGB */
- 	{ USB_DEVICE(0x1b1c, 0x1b20), .driver_info = USB_QUIRK_DELAY_INIT },
+  CPU:        AMD Ryzen Embedded V1500B
+  xHCI:       AMD Raven USB 3.1, 0000:0c:00.3 [1022:15e0]
+  Enclosure:  QNAP TL-D800C
 
-+	/* ELECOM DEFT Pro TrackBall (fails on USB Link Power Management) */
-+	{ USB_DEVICE(0x056e, 0x0131), .driver_info = USB_QUIRK_NO_LPM },
-+	{ USB_DEVICE(0x056e, 0x0132), .driver_info = USB_QUIRK_NO_LPM },
-+
- 	{ }  /* terminating entry must be last */
- };
+I have only seen this with this enclosure on this controller. Other USB
+devices unplug cleanly from the same host, and this enclosure unplugs
+cleanly from a Meteor Lake-P xHCI. Similar messages were reported in
+[1][2] without a resolution. I could not confirm the same command was
+involved.
+
+Patch 2 fixes the host death on disconnect. The command that never
+completed is a configure endpoint command issued during teardown of a
+device behind the disconnected root port, right before disable slot for
+the same slot. Skip it when the roothub port is gone, as
+xhci_check_bandwidth() already does when the host is being removed.
+
+Patch 1 is an independent handshake overrun noticed during the same
+debugging, and does not fix the disconnect hang on its own. The command
+abort handshake has a 5 s timeout but took 15.8 s with interrupts
+disabled. This is not specific to this controller. When forced to time
+out, a 10 s xhci_handshake() returns after 19.1 s on Alder Lake-S and
+17.2 s on Meteor Lake-P. With patch 1 applied it returns after 10 s on
+both.
+
+[1] https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1857385
+[2] https://marc.info/?l=linux-usb&m=155120372130870&w=2
+
+Henry Tseng (2):
+  xhci: make xhci_handshake() timeout wall-clock based again
+  xhci: skip configure endpoint when dropping endpoints of a
+    disconnected device
+
+ drivers/usb/host/xhci.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
 -- 
 2.43.0
+
