@@ -1,78 +1,185 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C2944DDB49;
-	Wed, 30 Sep 2026 13:13:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCB87332907;
+	Wed, 30 Sep 2026 13:19:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790774000; cv=none; b=aR6qAKDA+Cf8tXCmiP5Dfjahw3/nirEhgaK4Q3xHk7vWL+ou6ArNZpvur2WvLtwBFc+nTbEtuRcUweVPdn9EEAH/a5Y2toLUtbZeuYsipdlXbP/YxIsN0JXNre5mPX326pw5P0m3Vvc7GW6fpAKJ3Asr/2LMP7FukoyTZTAMKwo=
+	t=1790774361; cv=none; b=N/fdfqoZO7Ub/9WZqgQAjDWAxW8xB4I6P5DObRCCfgq94rXBoNkRAvE2FRf8TOz88z4rIyAqVafp69qHDp0iqF3MvTXpBGYdtmfZ3k9VmCedywmNJEP9hIvb27Yju6pg8YJ16Orx+jA4dl+DO3HUZ/8dZLmWFYgIjDpAfqpKofw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790774000; c=relaxed/simple;
-	bh=IIPbuWS7GhpGNpz5uNLZEeIlIQ0aiuT1u3+X0thxmNM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Dfu9L7kmXPJL3qgkSDjQxlqQgFRC2PpLgS8gtqsvPjSkQwbIJLOXX0elN5mURkTKpJHFOkILqBUqqSocTg87ies4uka9hnoZtrtC0fUHDyB3UZE0/og+vrpnBzqUcVujc3jiy73HhQkylTVW5pRP+4aNYCV7ANH9qn/5BSuBh08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jaFB6DwS; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790774361; c=relaxed/simple;
+	bh=SrySNSK3F4k3g04hcEoPq0RqvFMSruxoQ6q2zW8i9YU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DpOOT6K/GsDB82qeWQPI+05KZNFzyoVp2jck3kQUmVD1Q+fCWRBac2hh3dUv76nz071F/EAOEIAR3WvxedBDY1t3EixV2eCBgEAnJIFYChnBtemZLrK6HDCE7Uuw6VJYJ2vAqsWaIHbMCNq6lYqxzYao+Ta79hRhilSZ/a913Jk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V/St2z6y; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jaFB6DwS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790773989; x=1822309989;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=IIPbuWS7GhpGNpz5uNLZEeIlIQ0aiuT1u3+X0thxmNM=;
-  b=jaFB6DwSV3p7Gyk2HC4rA2eq79R2YcmD2PQjvG/8Rvx++7R5Xof7b1Q2
-   sH7+XzvMV6/fqxLp+Q2r03g1lfp0ki6iElrCDXfH4racP2C5KhC568wHf
-   Bcmo+qiToJc5vtjFBKQLXvz8oDL2+45JJGzdILOxrIKzT1d+Suu4iv2+O
-   8GYs6Jk7VqwkRj6vrqCU0rCoS2KoSZz7aYHdtCgEcX9u4CKVgEMy0xT/p
-   j9zM67EEo3pmK2+T6WwfG+5fPyJ6Uix5kHLyyweLxkngfq7qhkaSDL+Dw
-   9Yiyu4/TxuyMC2X2hVXVdRoluo/gC2xDv0qen3uHUsWgTqXIrLFVYKPB7
-   w==;
-X-CSE-ConnectionGUID: Vi7BM3/DSsGaX0Sey1R5iQ==
-X-CSE-MsgGUID: P41LcUWuTlSij78QMYfzUQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="93995471"
-X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="93995471"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 06:13:02 -0700
-X-CSE-ConnectionGUID: qg5pKsKPTVWdM3xtQZGEng==
-X-CSE-MsgGUID: IEOAYcJETKqtFp/emHjrCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="283753449"
-Received: from amilburn-desk.amilburn-desk (HELO [10.245.245.78]) ([10.245.245.78])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 06:13:00 -0700
-Message-ID: <f13481be-9692-4657-a02b-5cdf6e803133@linux.intel.com>
-Date: Wed, 30 Sep 2026 16:12:58 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V/St2z6y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 492361F000FF;
+	Wed, 30 Sep 2026 13:19:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790774345;
+	bh=1fxrPtgSbOo++AqDnaqT8s9o//ITkDjG3EHC/c5B+8w=;
+	h=From:To:Cc:Subject:Date;
+	b=V/St2z6y/tUd0Lgo4T3yGGDQzUZFKuGf/2+pspGNFMrZCDQNYroAuMec5g4qr/yMw
+	 c78FSTizSudBfno1su8RWQXYjL115/jHxFIBjuaDhDIrYw3GQTwr5UjkTJlHhmhhX7
+	 VGfmDidHU9q2PTd07fpVERplFAMfzO58WHljtUGZ9/4GpXwos5kfnLXeU/k9BVjuJb
+	 GesKKTzI70Jg7j9MpfoWZDzYSFFp+fiZH7EbKUmDf8o69D5sPYizfwcTqc2yqD7KTn
+	 h+ItmkeabE65OXdUVqNNhnhT0Af7mYnGkjJSrKEPSOeZU6ciViDU3Ku/dpzV4WSuKx
+	 Dv5nPSHME4rtg==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xBuD8-00000007afq-3b50;
+	Wed, 30 Sep 2026 15:19:02 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>
+Cc: David Lin <dtwlin@gmail.com>,
+	Alex Elder <elder@kernel.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	linux-usb@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	Chengfeng Ye <nicoyip.dev@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH v2] tty: fix saved termios reset race
+Date: Wed, 30 Sep 2026 15:18:45 +0200
+Message-ID: <20260930131845.1809256-1-johan@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: fix typos in comments
-To: Zain Aboobacker <zainaboobacker33@gmail.com>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260926162518.25301-1-zainaboobacker33@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260926162518.25301-1-zainaboobacker33@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 9/26/26 19:25, Zain Aboobacker wrote:
-> Fix various spelling mistakes in comments found by codespell.
-> 
-> Assisted-by: Claude:claude-opus-5-5 codespell
-> Signed-off-by: Zain Aboobacker <zainaboobacker33@gmail.com>
+Resetting saved termios state on device registration is needed where a
+minor number can be reused for an entirely different device and where
+the old settings may prevent the port from even being opened (e.g. when
+CLOCAL is not set).
 
-Added
+Not all TTY drivers guarantee that the minor number is no longer in use
+when registering devices however, something which can lead to a
+use-after-free when closing a TTY (and saving its termios) races with
+re-registration.
 
-Thanks
-Mathias
+Add a new TTY_DRIVER_RESET_SAVED_TERMIOS flag to request that any saved
+termios state is reset on registration and only set it for drivers that
+make sure that the minor number is no longer in use.
 
+Fixes: 93857edd9829 ("tty: reset termios state on device registration")
+Reported-by: Chengfeng Ye <nicoyip.dev@gmail.com>
+Link: https://lore.kernel.org/20260926184154.3017929-1-nicoyip.dev@gmail.com
+Cc: stable@vger.kernel.org	# 4.12
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+
+Changes in v2:
+ - use bitwise & as intended
+ - reflow a comment
+
+
+ drivers/staging/greybus/uart.c  |  3 ++-
+ drivers/tty/tty_io.c            | 18 ++++++++++--------
+ drivers/usb/class/cdc-acm.c     |  2 +-
+ drivers/usb/serial/usb-serial.c |  3 ++-
+ include/linux/tty_driver.h      |  6 ++++++
+ 5 files changed, 21 insertions(+), 11 deletions(-)
+
+diff --git a/drivers/staging/greybus/uart.c b/drivers/staging/greybus/uart.c
+index f2810b5ec824..d7df65088ef7 100644
+--- a/drivers/staging/greybus/uart.c
++++ b/drivers/staging/greybus/uart.c
+@@ -962,7 +962,8 @@ static int gb_tty_init(void)
+ 	int retval = 0;
+ 
+ 	gb_tty_driver = tty_alloc_driver(GB_NUM_MINORS, TTY_DRIVER_REAL_RAW |
+-					 TTY_DRIVER_DYNAMIC_DEV);
++					 TTY_DRIVER_DYNAMIC_DEV |
++					 TTY_DRIVER_RESET_SAVED_TERMIOS);
+ 	if (IS_ERR(gb_tty_driver)) {
+ 		pr_err("Can not allocate tty driver\n");
+ 		retval = PTR_ERR(gb_tty_driver);
+diff --git a/drivers/tty/tty_io.c b/drivers/tty/tty_io.c
+index 1c30faae9ec1..1a6c8a1bc764 100644
+--- a/drivers/tty/tty_io.c
++++ b/drivers/tty/tty_io.c
+@@ -3256,14 +3256,16 @@ struct device *tty_register_device_attr(struct tty_driver *driver,
+ 		goto err_put;
+ 
+ 	if (!(driver->flags & TTY_DRIVER_DYNAMIC_ALLOC)) {
+-		/*
+-		 * Free any saved termios data so that the termios state is
+-		 * reset when reusing a minor number.
+-		 */
+-		tp = driver->termios[index];
+-		if (tp) {
+-			driver->termios[index] = NULL;
+-			kfree(tp);
++		if (driver->flags & TTY_DRIVER_RESET_SAVED_TERMIOS) {
++			/*
++			 * Free any saved termios data so that the termios
++			 * state is reset when reusing a minor number.
++			 */
++			tp = driver->termios[index];
++			if (tp) {
++				driver->termios[index] = NULL;
++				kfree(tp);
++			}
+ 		}
+ 
+ 		retval = tty_cdev_add(driver, devt, index, 1);
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index 7edda9019d54..bf6ef1ecf2c5 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -2150,7 +2150,7 @@ static int __init acm_init(void)
+ {
+ 	int retval;
+ 	acm_tty_driver = tty_alloc_driver(ACM_TTY_MINORS, TTY_DRIVER_REAL_RAW |
+-			TTY_DRIVER_DYNAMIC_DEV);
++			TTY_DRIVER_DYNAMIC_DEV | TTY_DRIVER_RESET_SAVED_TERMIOS);
+ 	if (IS_ERR(acm_tty_driver))
+ 		return PTR_ERR(acm_tty_driver);
+ 	acm_tty_driver->driver_name = "acm",
+diff --git a/drivers/usb/serial/usb-serial.c b/drivers/usb/serial/usb-serial.c
+index f3c594f1a806..4a19621f08ba 100644
+--- a/drivers/usb/serial/usb-serial.c
++++ b/drivers/usb/serial/usb-serial.c
+@@ -1372,7 +1372,8 @@ static int __init usb_serial_init(void)
+ 	int result;
+ 
+ 	usb_serial_tty_driver = tty_alloc_driver(USB_SERIAL_TTY_MINORS,
+-			TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV);
++			TTY_DRIVER_REAL_RAW | TTY_DRIVER_DYNAMIC_DEV |
++			TTY_DRIVER_RESET_SAVED_TERMIOS);
+ 	if (IS_ERR(usb_serial_tty_driver))
+ 		return PTR_ERR(usb_serial_tty_driver);
+ 
+diff --git a/include/linux/tty_driver.h b/include/linux/tty_driver.h
+index 1f2896e56e77..62e459c5d3ae 100644
+--- a/include/linux/tty_driver.h
++++ b/include/linux/tty_driver.h
+@@ -73,6 +73,11 @@ struct serial_struct;
+  * @TTY_DRIVER_NO_WORKQUEUE:
+  *	Do not create workqueue when tty_register_driver(). Whenever set, flip
+  *	buffer workqueue can be set by tty_port_link_wq() for every port.
++ *
++ * @TTY_DRIVER_RESET_SAVED_TERMIOS
++ *	Reset any saved termios settings on device registration when reusing a
++ *	minor number. Must only be set by drivers that guarantee that the minor
++ *	number is no longer in use.
+  */
+ enum tty_driver_flag {
+ 	TTY_DRIVER_INSTALLED		= BIT(0),
+@@ -84,6 +89,7 @@ enum tty_driver_flag {
+ 	TTY_DRIVER_DYNAMIC_ALLOC	= BIT(6),
+ 	TTY_DRIVER_UNNUMBERED_NODE	= BIT(7),
+ 	TTY_DRIVER_NO_WORKQUEUE		= BIT(8),
++	TTY_DRIVER_RESET_SAVED_TERMIOS	= BIT(9),
+ };
+ 
+ enum tty_driver_type {
+-- 
+2.55.0
 
