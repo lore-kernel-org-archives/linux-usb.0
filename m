@@ -1,78 +1,103 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F3B03BED35
-	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 06:45:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B2C443B6ED;
+	Wed, 30 Sep 2026 06:55:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790750731; cv=none; b=cn5A7ECDJJhRSQEAbqTaUmobklcGjU2o3ZLjFCogz3JDzbFhkZOnwCYITYUDs9WrXBqudGgCwmjiTl4ocdnYkIxTuxwrGvOFmaEp0zYNIzT1cdwQWX9qt5/uvWeJhraETN6yAHceFWXtrodKXUJuS11tJC/Em9D4uFQRCzQ04UA=
+	t=1790751339; cv=none; b=hIuKIsiptjhzSAKZ9I0eaNxed88cD2PBHaueezWcgDVpWC8sQJn9eWGBXzGkCUJ/k+NUQPbZqr7tSIWm3GwJANbWdwLky7TV4XrlNH4PKkdOudgVEjoNgpX5ZvMtQ9A+DVKVTZ7fxD6wB8obfYXzHx/SIFR16YXWpjEVYFH1ibE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790750731; c=relaxed/simple;
-	bh=StyN/gDfnFHCo6+R6bdHF5s4w/Zhx/OiBOXtTEBfN6Y=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=uzZhfzWdZ90yhGnjwbovRw7iheG8Y2ksi2TVk66kFXqZTjUTxpVncXHBrt3j+7VJr4lKaddKda2Syq6WLlWMAwKePuneMvadiZ0ShaqKOQhrP0/YNfDVJk0eb+6g16USx5hdhIFkf4TtOIAu7o2qlMeW3Y5TFH1IRyaeRc73HME=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UDQwsTAy; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790751339; c=relaxed/simple;
+	bh=pOre7b5K8XzdnM1fildbGlPON1gKdmN7i7JeUCpheXA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fw5TBKVOyPgPa68vvRbNwvZW1M18LmOyLasmeeAF6e1XnIafsB8RtnNh6adHSuMSnU0bO42cDpqc0MBJf+5e0j7T3SsLHpYbKmh10b8bhc2sEabJ9awtesUbyVxO2Df6bYVIEnwa+NcTm7qOneYA+X8POAb/dM7HJnf++3mqFpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FPL3O/6m; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UDQwsTAy"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CCCD9C4AF12
-	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 06:45:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790750729;
-	bh=StyN/gDfnFHCo6+R6bdHF5s4w/Zhx/OiBOXtTEBfN6Y=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=UDQwsTAymim4B28WjX7Xwc+NUJgts2kjUN5C+552avMUKds6YtTU+i9DsdYiXk4z0
-	 FtgQ6IopfG/7J1/EVw1fhKdl7ZxAQG1XUb8QCfDA1Ne8/ZQtPNaoAEyBHQGs3241XZ
-	 LRrs4mHEt0dfynjPsW5oapOUaFendhvM6ms7QInHGH7yqc0V2hZv/mOBzNvelGvaFd
-	 mHmejL/k6OE2F8peTPfQSE4PzfzRiY2Z74UT6M5qsv3GtrRCQ/o5kbC7rynJiR7v5I
-	 sHeMeWEOpf9sv5+rttzNY6VUv8UIi19Hoc60Md6qxVzjUmtDGTVniy7YN2Plc27X/V
-	 auWOn/dc8IoLQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id AFC81C41612; Wed, 30 Sep 2026 06:45:29 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222071] [Bisected] [Regression] xhci_hcd: Resuming from
- hibernation fails with "Not enough host resources"
-Date: Wed, 30 Sep 2026 06:45:29 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h.judt@gmx.at
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222071-208809-6sLhhJElqA@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222071-208809@https.bugzilla.kernel.org/>
-References: <bug-222071-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FPL3O/6m"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5B01F000FF;
+	Wed, 30 Sep 2026 06:55:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790751330;
+	bh=/XAl8sbyoadHlpSpi85xT/Ou78XuJpB2zs90+HIsFbc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FPL3O/6miQ6reXKAkqsE4wwlWg29sZvoyvSKu/78DeroeXHc6luHzKzkxtUOI5+0s
+	 ZNiGOhxbbdjXu0+RZ/a7NB7h9IOr4tAZkVQ+1QLa5YiwtqePRyPM7RTXrRUPKBk7Xc
+	 fGd0Cdb98DXaR9Te2m+vzJI04soNK1bWU4CYD1ZA=
+Date: Wed, 30 Sep 2026 08:55:27 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: David Pieters <davidpieters1978@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: quirks: add USB_QUIRK_NO_LPM for ELECOM DEFT Pro
+ TrackBall
+Message-ID: <2026093013-stature-rekindle-ba2a@gregkh>
+References: <CAJ3h-bPZ4LyGyoUywhxnGx-Je3irbM67g5z2y6Sn_6oxOdtAvA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ3h-bPZ4LyGyoUywhxnGx-Je3irbM67g5z2y6Sn_6oxOdtAvA@mail.gmail.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222071
+On Wed, Sep 30, 2026 at 08:39:06AM +0200, David Pieters wrote:
+> The 2.4GHz wireless USB receiver of the ELECOM DEFT Pro TrackBall
+> (056e:0132) and its wired counterpart (056e:0131) fail to handle USB
+> Link Power Management (LPM / USB 2.0 L1 sleep states) during initial
+> enumeration on modern USB host controllers. When LPM negotiation occurs
+> at boot, the device stalls and fails to register any input events until
+> it is physically unplugged and replugged.
+> 
+> Applying USB_QUIRK_NO_LPM prevents LPM negotiation and allows the device
+> to initialize properly at system boot.
+> 
+> Signed-off-by: David Pieters <davidpieters1978@gmail.com>
+> ---
+>  drivers/usb/core/quirks.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+> index 8923a10e7b41..0f34e819b22a 100644
+> --- a/drivers/usb/core/quirks.c
+> +++ b/drivers/usb/core/quirks.c
+> @@ -350,6 +350,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+>   /* Corsair Strafe RGB */
+>   { USB_DEVICE(0x1b1c, 0x1b20), .driver_info = USB_QUIRK_DELAY_INIT },
+> 
+> + /* ELECOM DEFT Pro TrackBall (fails on USB Link Power Management) */
+> + { USB_DEVICE(0x056e, 0x0131), .driver_info = USB_QUIRK_NO_LPM },
+> + { USB_DEVICE(0x056e, 0x0132), .driver_info = USB_QUIRK_NO_LPM },
+> +
+>   { }  /* terminating entry must be last */
+>  };
+> 
+> -- 
+> 2.43.0
 
---- Comment #8 from Harald Judt (h.judt@gmx.at) ---
-Thanks for the explanation. It is indeed an old mainboard with old chipsets,
-but it still serves me well, and when I replace it it will probably have its
-place somewhere else until it dies. Is there some quirk that makes these
-controllers reset themselves like they did before that commit? Reverting the
-patch helps now, but is not very future-proof.
+Hi,
 
---=20
-You may reply to this email to add a comment.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch is malformed (tabs converted to spaces, linewrapped, etc.)
+  and can not be applied.  Please read the file,
+  Documentation/process/email-clients.rst in order to fix this.
+
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
