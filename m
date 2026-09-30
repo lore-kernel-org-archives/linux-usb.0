@@ -1,171 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C06C30C147;
-	Wed, 30 Sep 2026 09:32:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790760761; cv=none; b=Kf9Zr2uNjv45FwLGm/pDi1s5K2fOqWiFNkJULWX0rtrHJR2A2ylYuyTTb6Y6CNrBQsxkHIzSVOLDvh1Wl1jHIMaDPkjhtJGP530xZog4U5RaDZ5MftPSguEzABYKK+nl4CKzV3ZyZm2VikY0kM9frmh5EZYnmgWPqK9zzcQien8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790760761; c=relaxed/simple;
-	bh=TlzHEJQt+34xYjujqXxuq3JcjM0wYp8ZviYUagsVkog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=garWEN3pTPZ7+NgDU1WHoJtjfajbeOywY3CMAhthbp1Wn6S/ZR7JDL1COPGG16xzzNMad5wxSVwPmmJwNRV0wutckgUP6s9N+LHPXG14nlYHw3+dWd5gAqMX8XpHnmCS89rzNhvWXYrh3iR4CfWqOLZv34HFKanSM5TiA59WRWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A/WFPBAH; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E90437C0FE
+	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 09:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.227.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790761239; cv=pass; b=O9UZrXJ2yC1TRyc4r9ELBFtD3MhuAKnrAOdQqR1hOHf21oL9nwUxdHl2+fhYCXYfKLW0VrF9CMNn7qM4HnuLSK8pFPwjVdzu294ZIPCtUrQopCbqD5VzbWZkNhC7t/jBcabNA0iK4b67D7JXvaT/cbNhepXI2gOsVWxMeJjMuss=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790761239; c=relaxed/simple;
+	bh=wFuX1r4Y7eDqGdmym8I60OlUlx3AqSTMX8iIAdniMwk=;
+	h=From:MIME-Version:Date:Message-ID:Subject:To:Cc:Content-Type; b=QHz9xKqJoBt3PGsH1i/mjCCZBnOcxJrCl+uEiFiaJFqAEvpfoTF+bdEz0BL5vaHs8rLwnJFNyXtpdy2Jja9qlJ+jXIAXCLNVJsyP6aq+y0O1yqlAITCAsrokiDjFgPZrhIt3NS0BEqrVlCNqzSrMBJS9dU387pu0esEWVAVwcqY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MSzG1He0; arc=pass smtp.client-ip=74.125.227.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A/WFPBAH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD21A1F000FF;
-	Wed, 30 Sep 2026 09:32:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790760760;
-	bh=GUhUebTYwdNTDsFDAgKX2XUga1p/xniYtUmuBOcAkD0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=A/WFPBAH7Qma+9hcX287RuSKWlORpntiWFjFLaPigU8Y75ISxg3KEjLTfteawEyBe
-	 2g/cYh4OEqr71nkWwJpVQnorMprUQRkz1eix+QLOCr/CPst8lLD0ChCfFd8YGM4jfy
-	 Fksx04sLagSxxR88vp09QnJZCikrL8s15UEcYtyj8cHuNrsfav7blbRqRE5dyxX7SB
-	 IKNdTpYGGoAU9JjY6jjqMsEYQfRaLoK1HI3j102H2WUj2d2AjX7kJd1tm0yEuZtXim
-	 rxv3PmM3a58m4CHKDbt2tmNwqyH0M2+G0zuIAT/AqLpxmsAoL5566Xt1IaKFXihiLq
-	 k8Bhh/EDc3Mrg==
-Date: Wed, 30 Sep 2026 10:32:09 +0100
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-To: Zi Yan <ziy@nvidia.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
-	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
-	Paul Moore <paul@paul-moore.com>, Stephen Smalley <stephen.smalley.work@gmail.com>, 
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
-	Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, 
-	Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>, 
-	Usama Arif <usama.arif@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
-	Doug Gilbert <dgilbert@interlog.com>, "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>, 
-	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
-	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
-	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
-	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
-	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
-	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
-	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
-	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
-	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
-Subject: Re: [PATCH v3 34/40] mm: eliminate VMA_SPECIAL_FLAGS usage when
- hugetlb explicitly tested
-Message-ID: <arzXDWOaouPMGtxL@gremlin>
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-34-4583d8a23bca@kernel.org>
- <DLSAZ4ZQY8Q3.3OKOCCOQAFVCC@nvidia.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MSzG1He0"
+Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c83397eeeeso3538258e0c.2
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 02:40:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790761236; cv=none;
+        d=google.com; s=arc-20260327;
+        b=OXK8T7ymCHQhGKVRXxFQe0PV4i3EB2oGiQTbWfPTaSMVFnjjlhx8bXkfbSa69rOuQ5
+         mXwmK0/jBGR5yNNSz3ttVtnICZH7X87ye4wPT78dVvqLmXojZYwdVO2b9d3sQrVWnax1
+         Gw2EJVR4G5ct7tnVCF76zYzDJrs/mUK6xn8wV33GB5nXRu1jucFkTAS4bQSpEtGdFyGc
+         vr2WchmIHXP8bzQ5NTZjLmCp55wLCd0cjcsbavvIMCH+R3OInV07Bd776vj8tODzrwvM
+         WD/sZ6DMkAgZh5Saoz5LUYg/3GXVEU0CNK6Lprt8MMC5LHJhXVCsJtDEooE2XB5MeLRX
+         9TyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:mime-version:from:dkim-signature;
+        bh=CUX1jkSNU4dlWBksEEfOjIcGTWWCdgISW78UHeYYIhM=;
+        fh=GBf1QxRa5zW3wOZpWdkpEPEYiH0rjJSdZZuNHM7Tnts=;
+        b=PUCNCh6UwDJRdK1TblRBXRqlVG0RRNygDzxwssOGeH8WlE9vSb2WVw+po6A4gPd/7s
+         SRasICDm6EgrO+HnFMQBV8HOqci0Bi04oNpoE+p+oJYZ5bqH1BxVFoBcacYPTcGlRVyG
+         yt5O+DZAdxUFPQXMQfwqovvvM1+Ee8DeQaglicAnar4TjMLcSW2hShIH81lxGPGaCKw4
+         0keoGuZ3aBWdo2DZUcX/wp7Xm3TgTr8IHb3qSFy2qhqs3WXybgZit+iz3+ij5cpexKxV
+         wLLXR8+IPbCh39sCUnSl/N8y2CnjSE02Rcr1riTVpaj6ssuf8J/GmadphzBPNmF6O6nq
+         olNg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790761236; x=1791366036; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CUX1jkSNU4dlWBksEEfOjIcGTWWCdgISW78UHeYYIhM=;
+        b=MSzG1He0jMY7fTHn6rOXuCgCFGongt3w3MMwXkE5UlTzYxp7ZJ82+qakiTXc8TRlzn
+         onyEzrwvGPwmOGxFV07Rf24X5r1W7/DRknCmraK2b/L++HAmZy3hk+Ri0ATT3oE2w8eK
+         8dkTTX8qtvRtxKD9+UMN7dXQBPMvDOilPqm3BFb65tWvP6mJ+baMyWTe6v7+fFdgHimy
+         K9ooo1r0LtBGkw0xXFqY0Nbq5xC5zSwY6UzQqazGEdA6Jm19UPCyj+bh5SPg3LczNivz
+         sL5oQKmofIIM7aKWGUBiMYRnq17nTmxH75ybhT+m8TmaKf23Z/xswDYrf7zggTeN5jFD
+         d9PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790761236; x=1791366036;
+        h=content-type:cc:to:subject:message-id:date:mime-version:from
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=CUX1jkSNU4dlWBksEEfOjIcGTWWCdgISW78UHeYYIhM=;
+        b=l5piXB1SLX2KWqWuwHK52AzWJQSCrtfBKARWtqlKSbTq2dLEfWGGoiAxMlRN7bxnMU
+         ZsA+u2qlqacv/8+ROjeTQ866JUjlf/OZwi5yvZt8d7wE0urTTRNIKyfBRGDhYrN6C8hF
+         Rj0ncAx1S2xMA51K8h1yAmXD05u72v6e3QHzq3KT22J68CqaEQ7djKfMuK4wlJUAcuNo
+         urLmfrmYt2ls9pakX1TuXTJPu45yKKliEeoOhzUSr3Ci7rdGkkRbCXa2hYV0huNLhSKC
+         1Arp2dqifIPQ6cYf/j4+6H0AZxCQdszlrnhXpLKxs9X6SdCBwPFXBzCAg1txHgBuyJpG
+         Ukeg==
+X-Forwarded-Encrypted: i=1; AKwUvBzMOZsPY9nLMlWrpJyepTNLLTbT3hPU85JgNq7Fernq/UNPH0chEmanCXySSSiPrkhp69Mt64yObnA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLL0TwmdfR2M5iiQlSYPt7zD3kH20yhd24nR42uD2Xm6h5x2y2i
+	GSZBBvzHJ1UxlJNOYMw59+aqQneMeu8tyktEYGsCx21VI8mH/LQt2lYWa4IJJ4mx6fZ9TrmCtNl
+	HRu0w5hn9oOE7qHTDrwBPdhJo2Et3LIiboADs
+X-Gm-Gg: AYBFou2P0+nBd2oiZerkb9fAI3W7Bf9yH6cszryvVKpf2jddlejYSMFtSuqqzt8MDvh
+	gr3fMKR68V3Oo9evD5WSC8N8enPxkz8P+iOyZBH4HY1gg5nYSK23P2OVb+RshIbBEaxbeAPha5L
+	e65vpad9mDsZg746AV+nI1vzuVS1AE8dtWOhmJGa14YX9XDAG5w+jfmNxtP2DIlcVbsFaWZKWHH
+	R63JvWZXIJFCxygymWV8qAG4Zfhn5gokwZRoXU+j7PKkmRuQBE1dmb1FWpryDlTJaIIHPNfR7T7
+	xEItG2Ec8xk0j+ZdUU7qDme6RkowJEhlegCMDXAyviVT5nOskWEQ0qivrdf9ZAqUnulgKVZY34/
+	Al1fmuP7za03CjexUQDvxbB4J9jko6o0ftApwo63zB5Ya5A7x1//PhQs/2FL73BgR6z4dudI=
+X-Received: by 2002:a05:6122:1998:b0:5c6:8480:35c8 with SMTP id
+ 71dfb90a1353d-5d67b7552b7mr142766e0c.8.1790761236462; Wed, 30 Sep 2026
+ 02:40:36 -0700 (PDT)
+Received: from 543150747168 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 30 Sep 2026 02:40:34 -0700
+Received: from 543150747168 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 30 Sep 2026 02:40:34 -0700
+From: David Pieters <davidpieters1978@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DLSAZ4ZQY8Q3.3OKOCCOQAFVCC@nvidia.com>
+Date: Wed, 30 Sep 2026 02:40:34 -0700
+X-Gm-Features: AclHuK_GQfg0iT4xKk2tKp-2KAyN4MTRhJfMh3s8BkX8U4dZY7fQFIYirkLp0yE
+Message-ID: <CAJ3h-bO00mynmttgf3UxVtqM=S8Q=Tf56Ts8SEqmPEM9dc4czg@mail.gmail.com>
+Subject: [PATCH] USB: quirks: add USB_QUIRK_NO_LPM for ELECOM DEFT Pro TrackBall
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 29, 2026 at 10:42:00PM -0400, Zi Yan wrote:
-> On Thu Sep 17, 2026 at 12:22 PM EDT, Lorenzo Stoakes (ARM) wrote:
-> > It is now an invariant that VMA_IO_BIT is not set except by kernel-owned
-> > mappings, so each existing VMA_SPECIAL_FLAGS test need only test for
-> > VMA_DONTEXPAND_BIT, VMA_PFNMAP_BIT and VMA_MIXEDMAP_BIT.
-> >
-> > This is precisely a test for a kernel-owned or fixed mapping.
-> >
-> > Update a number of callsites which already explicitly handle hugetlb
-> > mappings.
-> >
-> > vma_supports_mlock() and ksm_compatible() also explicitly bail on droppable
-> > mappings - detecting kernel-owned, fixed or droppable mappings is handled
-> > by vma_is_persistent(), so in these cases use this predicate.
-> >
-> > should_skip_vma() tests for locked, kernel-owned or fixed memory (having
-> > already excluded hugetlb mappings) so simply test for those there.
-> >
-> > No functional change intended.
-> >
-> > Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-> > ---
-> >  mm/internal.h | 4 +---
-> >  mm/ksm.c      | 4 +---
-> >  mm/vmscan.c   | 3 ++-
-> >  3 files changed, 4 insertions(+), 7 deletions(-)
-> >
->
-> <snip>
->
-> > diff --git a/mm/vmscan.c b/mm/vmscan.c
-> > index 12ed3388ee41..09ff20c3df5b 100644
-> > --- a/mm/vmscan.c
-> > +++ b/mm/vmscan.c
-> > @@ -3477,7 +3477,8 @@ static int should_skip_vma(unsigned long start, unsigned long end, struct mm_wal
-> >  	if (!vma_has_recency(vma))
-> >  		return true;
-> >
-> > -	if (vma->vm_flags & (VM_LOCKED | VM_SPECIAL))
-> > +	if (vma_test(vma, VMA_LOCKED_BIT) || vma_is_kernel_owned(vma) ||
->
-> At this point, mmap_lock is held, there is no mlock WIP, so
-> VMA_LOCKED_BIT is enough.
+The 2.4GHz wireless USB receiver of the ELECOM DEFT Pro TrackBall
+(056e:0132) and its wired counterpart (056e:0131) fail to handle USB
+Link Power Management (LPM / USB 2.0 L1 sleep states) during initial
+enumeration on modern USB host controllers. When LPM negotiation occurs
+at boot, the device stalls and fails to register any input events until
+it is physically unplugged and replugged.
 
-Yes indeed :)
+Applying USB_QUIRK_NO_LPM prevents LPM negotiation and allows the device
+to initialize properly at system boot.
 
->
-> > +	    vma_is_fixed_mapping(vma))
-> >  		return true;
-> >
-> >  	if (vma == get_gate_vma(vma->vm_mm))
->
-> LGTM.
->
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
+Signed-off-by: David Pieters <davidpieters1978@gmail.com>
+---
+ drivers/usb/core/quirks.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Thanks!
+diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
+index 1234567..89abcdef 100644
+--- a/drivers/usb/core/quirks.c
++++ b/drivers/usb/core/quirks.c
+@@ -350,6 +350,10 @@ static const struct usb_device_id usb_quirk_list[] = {
+ 	/* Corsair Strafe RGB */
+ 	{ USB_DEVICE(0x1b1c, 0x1b20), .driver_info = USB_QUIRK_DELAY_INIT },
 
->
->
-> --
-> Best Regards,
-> Yan, Zi
->
++	/* ELECOM DEFT Pro TrackBall (fails on USB Link Power Management) */
++	{ USB_DEVICE(0x056e, 0x0131), .driver_info = USB_QUIRK_NO_LPM },
++	{ USB_DEVICE(0x056e, 0x0132), .driver_info = USB_QUIRK_NO_LPM },
++
+ 	{ }  /* terminating entry must be last */
+ };
 
---
-Cheers, Lorenzo
+-- 
+2.43.0
