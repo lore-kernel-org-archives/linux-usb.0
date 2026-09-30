@@ -1,113 +1,152 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFD6B3C9EE5;
-	Wed, 30 Sep 2026 19:12:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 209A251AEC0
+	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 21:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790795526; cv=none; b=iDspan/qMmdas4rH56XY83o0jmMSUJvVkBO01k+r+W8QXIEPDKrgcD4MtqiUO0AZgLDX1N3VZVI8PdfcHHCCiK40CwzUgz8tNDQGGzurUkpNRd944UobObRsxCGiTYO/NLth39TROd8wrKbhxskWs35tQUcEH8DYaw4PkusCh1s=
+	t=1790805067; cv=none; b=O2fy0G4GusI/pH6/9i5wFoJH/nq4ghPmZ8/4BojjCnDgb3UMrA3KFBqXBOJgBqAt2aOSu+LTuD7z/eeeoQW5peHH1Mc9IiU+1rQFCvaO8yNNUw/Wt0TThJLl78hYBrwje3FA4FXY24SYYKEeGh8Efxf8REjLuTCGI1FsOVn1Nz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790795526; c=relaxed/simple;
-	bh=RNB4HbdZyuHNpXfmq3aW6tpPtk4g68zZNHRgbGJOuOk=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZnbGLbkZRSLpixn7gNQZQPnlHrHS5bHORIBZ2UDLJ/SgtFJhTY0sxQpizR1TelYZdzhf53qsy3e028yfBWohV4BZzBqQy46Up+C3ANMHxxtSkscMpFZwJZOzg4vHsuACZDNUgmtLeVPRTOOKBvmUKQnKuQc1jcSP018c8dsLfxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FialyL22; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790805067; c=relaxed/simple;
+	bh=S22VfBD4pPls7UNG2NGxhpfRB45ROGORhMSqMHSQu6w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=kem2bAsACwFzRUaDfCxJQ+KyapQWmlQJRAP5Vrd+XgW+tlO2V/mJCrgXkZnn5eMhsR9HetY/dY5OG8x+1FgDvJCPpurDNedTE9uJ/7q6mtMTX6i2Xy3Oks/lwyz4LuDZ+N6pbVwWHD9QIx5bzdSuf1IZbTYi1xHYlO1mcGUtojY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Qts7upZX; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FialyL22"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2629B1F00898;
-	Wed, 30 Sep 2026 19:12:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790795524;
-	bh=R7FY6iGEbdC8VvXJOzgQl4yOzwMqqjbySG58ASrbo5I=;
-	h=From:To:Cc:Subject:Date;
-	b=FialyL22oi+89WtzIxShkpjSWZea17beeTGoOXF7txeDUI8PzK6X57l0utGwoJOoE
-	 mVvyw0p5QmSZveLiLKRFiHhq8oXOjIuYyR+akuQYN+AV59kUhkJirw0NUQdY5oz1qi
-	 OecqxTegYR7xK8pHp7ccYF9B+yupIcUgCIvNItLblCgF0om9wZqMlUR+Glkfv1ZSLS
-	 fXn0veO3IC/wVn5vpMw+puO0+G0o6xQ430jMQCVh651fbBR31wyI9Tlt9UEBZahHUx
-	 otpHlxBefAs93/VqeBVz3NwHikomXNG+MeM7jW4JwVIAL6u6hRmDA+AwlnkrMXsLPt
-	 l/G4CzaglDCFA==
-From: Imre Kaloz <kaloz@kernel.org>
-To: Bjorn Helgaas <bhelgaas@google.com>
-Cc: linux-pci@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Qts7upZX"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d8239so47456215e9.0
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 14:51:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790805064; x=1791409864; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8LP8CV7WHWqRDeEIDZ1+1JYJj+ocKrw1BORKdvPxNb8=;
+        b=Qts7upZXHfzDn7Iy13fsIBPnv9thUWdpaxbsjgvCS5XgctLBIyjXxyvi0hcj2oSZ+P
+         YD2DgPXYRxspt9bDXqkuByIjD4moULTqf7YOHHrh0NvhHIj+YabcuED2tbXoSw3CypvU
+         o/DiWuPZXeUi9q7Xuv9Gfyfvw0k2Npm6aXozgm/c4+ReWAz+rn9K86/bjXXJGq8j/kmd
+         m9S73z7np8+TQPkxxXUPzs8L8//ke1Y2Xp62bkRWye2wU0/WCi+zJHw1ag7qpAWiQo9n
+         efXrt8zMDfUth3lgcARbV3MqfNyTkUJponBpl33dQaav7jr2aPvPnSqOOpSN5/ELofEx
+         KqhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790805064; x=1791409864;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8LP8CV7WHWqRDeEIDZ1+1JYJj+ocKrw1BORKdvPxNb8=;
+        b=tqt05B/oT1/mx9oMwkMv+5BTNBN0EiPXnXUP+dEeexwABPRajxnXz3xfWqDwHSiGFz
+         Ri82O6GW8ovUBIOOLKEC0bYTxgVLJZMqTac3qbMdrMLIL3W5Aj0V+q3E1D9AKF46Qrr2
+         xQkprSGelg7OWR4belGGtzV7vycZ/3ALfkeulYrqWSCKB4pLvJbzoS+LTOHGuZZKssQq
+         iAeXA/epbkwXYBoNbQf5h2+sK/YafZqtrdSWXfqzVhKDygaUfCm46P9OjroyppVVtC0I
+         08esSNB2QQ/CFGAB/sqFF9Wolvamu8PGLRd96BRzAo/b0D1wsxFUyu3jZFxONXdwsGxo
+         2yoA==
+X-Forwarded-Encrypted: i=1; AKwUvBwt/bkvpgMJkaPn0COv/y8yYYZ5uzj1nIpUMGk1RbRYwNdUWRRI8HO17+csrdZrBYXhWZXYB3WLUv0=@vger.kernel.org
+X-Gm-Message-State: AFuF++lIOovPSeqxXGhz65VffI1qyVWN4dwaHeKs+A0r17leXIbn3Rwb
+	zoFnI2Bn9ZpFWKF079n6pkNEEE7nPo/8zMxQPVTGEYhs7h516c/W0BNk
+X-Gm-Gg: AYBFou3K5ErbqZRBP44oIagEUqwr8jnA6kdPwERN0t/V8LeL1bCUlgiul8+hO9WkRai
+	zYt4KEfP0h1t7/ffaw5EPyEzFoO9ptRAiE3SeOZGdp/i2/nbZJC2K9vYKrubOnDLiYbpR8pfCa6
+	1+Myaaqqtok+KFmCO2KVCgnPnaHN7EY2P3wxYql0mrAIzSVyAdbBeMnk0aqwoPW94+1ad/nehGA
+	mJEb87YY/Uzynf9b0p9JhhExISzp4snE9LJHt1kNp1Nd0aFPlvcNwpu989nntZXlPPNl27chgki
+	TRzqQoixCAv7QOtg7YX2YOm3vWqrc3OJQVmLIO3RVa1HW+U0oPcAWwviS68YAUUXLqZWSJqt9Ou
+	5iN5OqGv9E8e9PTH8EH/0iR2WPhGaRM++S6H3BLObhgh7dnWRpYJKdGLOgQz131DfixqrhX4Qoa
+	Frt5j2oAHuYW0OVAaRsqcf/NWX+vfR5LyJdlH+Aug66wya/GNqh+i61STyAuMWKMZ3wEYb
+X-Received: by 2002:a05:600c:638e:b0:49d:1fa8:b266 with SMTP id 5b1f17b1804b1-4a01aff908dmr42791025e9.26.1790805064167;
+        Wed, 30 Sep 2026 14:51:04 -0700 (PDT)
+Received: from metepc ([46.197.185.71])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01f979bbcsm12937155e9.5.2026.09.30.14.51.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 14:51:03 -0700 (PDT)
+From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+To: netdev@vger.kernel.org
+Cc: oneukum@suse.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
 	linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	stable@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH] PCI: Disable MSI for ULi M1575 EHCI controller
-Date: Wed, 30 Sep 2026 21:10:58 +0200
-Message-ID: <20260930191100.6127-1-kaloz@kernel.org>
-X-Mailer: git-send-email 2.47.3
+	linux-kernel@vger.kernel.org,
+	david.laight.linux@gmail.com,
+	syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com,
+	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+Subject: [PATCH net v5] usbnet: fix smp_processor_id() use in preemptible context
+Date: Thu,  1 Oct 2026 00:37:12 +0300
+Message-ID: <20260930215047.718270-1-omermetekaya0@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-With MSI, the ULi M1575 EHCI controller (10b9:5239) intermittently stops
-executing its asynchronous schedule. Control transfers time out ("device
-not accepting address", "device descriptor read/64"), the port is handed
-to the companion OHCI controller and the device ends up at full speed. On
-a configured hub the stall shows up as hub descriptor and status read
-failures. Only re-initializing the controller recovers it.
+usbnet_skb_return() and tx_complete() call this_cpu_ptr() before
+disabling preemption, which triggers a BUG when running with PREEMPT_FULL:
 
-On a Sun Ultra 45, 65 of 800 controller initializations stalled with MSI
-and none of 200 with INTx. Each initialization is an unbind and bind of
-ehci-pci on the EHCI function, with MSI or INTx selected through its
-msi_bus attribute; with this quirk, 0 of 100 cycles of the same loop
-stalled. The stall reproduces on a kernel that already contains
-commit 0b60557230ad ("usb: ehci: Prevent missed ehci interrupts with
-edge-triggered MSI").
+  BUG: using smp_processor_id() in preemptible code in tx_complete
 
-The OHCI functions (10b9:5237) keep MSI. They showed no stall, and the
-hub enumerated through them on MSI during the EHCI failures, so only the
-EHCI function is quirked.
+Fix by using get_cpu_ptr()/put_cpu_ptr() which disable preemption
+and return the per-CPU pointer atomically.
 
-The illumos EHCI driver also disables MSI on this chip, in
-ehci_register_intrs_and_init_mutex() in
-usr/src/uts/common/io/usb/hcd/ehci/ehci_util.c.
+Fixes: 43daa96b166c ("usbnet: Stop RX Q on MTU change")
+Suggested-by: David Laight <david.laight.linux@gmail.com>
+Reported-by: syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
+Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
 
-Until USB HCDs started trying MSI first in v5.9, the controller always
-used INTx. Disable MSI so it uses INTx again on this chipset.
-
-Fixes: 306c54d0edb6 ("usb: hcd: Try MSI interrupts on PCI devices")
-Cc: stable@vger.kernel.org
-Signed-off-by: Imre Kaloz <kaloz@kernel.org>
 ---
+v5: Keep _irqsave seqcount helpers, only change pointer acquisition
+    to get_cpu_ptr()/put_cpu_ptr() as suggested by David Laight.
 
-Notes:
-    lspci -nnv of the EHCI function on the Ultra 45, taken with this quirk
-    active, so MSI shows Enable-:
-    
-    0000:05:1c.3 USB controller [0c03]: ULi Electronics Inc. USB 2.0 Controller [10b9:5239] (rev 01) (prog-if 20 [EHCI])
-    	Subsystem: ULi Electronics Inc. Device [10b9:5238]
-    	Device tree node: /sys/firmware/devicetree/base/pci@1e,600000/pci@0/pci@1/pci@0/usb@1c,3
-    	Flags: bus master, 66MHz, medium devsel, latency 64, IRQ 00000006
-    	Memory at 00206000 (32-bit, non-prefetchable) [size=8K]
-    	Capabilities: [50] Power Management version 2
-    	Capabilities: [58] Debug port: BAR=1 offset=0090
-    	Capabilities: [78] MSI: Enable- Count=1/1 Maskable- 64bit-
-    	Kernel driver in use: ehci-pci
-    	Kernel modules: ehci_pci
+ drivers/net/usb/usbnet.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
- drivers/pci/quirks.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-index de9bbccda21f..9fb530a08fda 100644
---- a/drivers/pci/quirks.c
-+++ b/drivers/pci/quirks.c
-@@ -1941,6 +1941,8 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ATI, 0x4388, quirk_no_msi);
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ATI, 0x4389, quirk_no_msi);
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ATI, 0x438a, quirk_no_msi);
- DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ATI, 0x438b, quirk_no_msi);
-+/* ULi M1575 EHCI (10b9:5239): MSI stalls the async schedule */
-+DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AL, 0x5239, quirk_no_msi);
- 
- static void quirk_pcie_mch(struct pci_dev *pdev)
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index a19ecf718f36..84f97f448b2d 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -325,7 +325,7 @@ static void __usbnet_status_stop_force(struct usbnet *dev)
+  */
+ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
  {
+-	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
++	struct pcpu_sw_netstats *stats64;
+ 	unsigned long flags;
+ 	int	status;
 
-base-commit: fe2ec83746e501645709761605c2464a44fd2929
--- 
-2.47.3
+@@ -338,10 +338,12 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
+ 	if (skb->protocol == 0)
+ 		skb->protocol = eth_type_trans(skb, dev->net);
+
++	stats64 = get_cpu_ptr(dev->net->tstats);
+ 	flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+ 	u64_stats_inc(&stats64->rx_packets);
+ 	u64_stats_add(&stats64->rx_bytes, skb->len);
+ 	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
++	put_cpu_ptr(dev->net->tstats);
+
+ 	netif_dbg(dev, rx_status, dev->net, "< rx, len %zu, type 0x%x\n",
+ 		  skb->len + sizeof(struct ethhdr), skb->protocol);
+@@ -1298,13 +1300,15 @@ static void tx_complete(struct urb *urb)
+ 	struct usbnet		*dev = entry->dev;
+
+ 	if (urb->status == 0) {
+-		struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
++		struct pcpu_sw_netstats *stats64;
+ 		unsigned long flags;
+
++		stats64 = get_cpu_ptr(dev->net->tstats);
+ 		flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+ 		u64_stats_add(&stats64->tx_packets, entry->packets);
+ 		u64_stats_add(&stats64->tx_bytes, entry->length);
+ 		u64_stats_update_end_irqrestore(&stats64->syncp, flags);
++		put_cpu_ptr(dev->net->tstats);
+ 	} else {
+ 		dev->net->stats.tx_errors++;
+
+--
+2.55.0
 
