@@ -1,148 +1,142 @@
-Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
+Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08DFA44F56E
-	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 07:59:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790755164; cv=none; b=Mq5hcIWeH4yd/VtjnuM9z+wUjuFWUpiZ8Se46LCSErl8NhDvvp9aZFfvC6WJ5hLrWGrMetsOjUUH6i2GIRbcdSpvPn2OUg2RYkV7izHAOnvSoxt+iNiVwG7dd4Q3x5pvv209urar3SqF1tubYGcMMKqIqhvpFPn9g1kdnswaHfc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790755164; c=relaxed/simple;
-	bh=NI4deWyXYxlDZ5Psff3uegs1r20u4xH144iUxLKtfAw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k4Bfu2d3OH7OGyOnwC5jewQ8jpZuMl/Es2vR7sZ7s/l8LBKjHdrPYI7Oa+GB9TVwMFVroncPAXURRHBiXtyUmst+9nr8CdbmEzyLAgkcQcqpcczwJrbmXpVxhbLinB+1WzBk3SPHgzm4di0p5WbMfdAwzN44dvJBUJSAp+LOLZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X2eNdHxO; arc=none smtp.client-ip=74.125.228.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 103624534A9
+	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 08:18:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790756310; cv=pass; b=aJUEBZEENnZdTX6A58e/g1bTI0Ds6+5c1rlq6P69e5MU418kvo+FBlzidPn6EHf4Zrbx6EPuF63Wh3hTNxjRKTrpgkcI2PW+w+62jPp1aKiacNiVg9BQVHzuTp2rN+oMm8eo//hwvohOJfvewyr/1X89LC0TsaouAQIBEO64Nmw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790756310; c=relaxed/simple;
+	bh=n00yq2QVGi2lpHCc8VKCalisoOsxykR9j4BCiuuQxus=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GuB0k+1x3pDeY7SsRICIOnKAuhmNj4T2GhbJDwQ0LSuNI0329Gj5pREUM/MTFtBdoTU+toUJCZBuUEnFJkxly5qZPjuKiiDYAElQBNkHYw6wKfCx6j1RJXlfY0deDuxue1D1S0OWUp9+MqH1h4Ee3ySc6smwO3pg51WCd30TL7E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aN3YWQBF; arc=pass smtp.client-ip=74.125.224.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X2eNdHxO"
-Received: by mail-pz2-f41.google.com with SMTP id d2e1a72fcca58-8692a856865so2437448b3a.2
-        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 00:59:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aN3YWQBF"
+Received: by mail-yx2-f43.google.com with SMTP id 956f58d0204a3-67109935888so4797508d50.3
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 01:18:28 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790756308; cv=none;
+        d=google.com; s=arc-20260327;
+        b=AVGE55HxQ8x0H5kUbGmNVDy6I3+bHH4qA97atLkmhjSrCw3gyqyBREMgcw/NCoiBWh
+         M/4wYpHX9IzxQtRR/UOBsV+ZIvaNccAcoopYnlNNd1bzgzgTZ1S/t2Jv+g3pxdPG4E07
+         EU4S4CsK6+ctFJP1s9aY6yGgYtcDSMd+b6RDaIsaY8HSYbqCrVuNcTXO5YuOxlMtWwgF
+         jjl1QSxSBn9+QsMY6z8q6QYpbgashTn8geIkMboP/FK3w4h1JNBHzq71VtxtnFarlUlz
+         p0nS38KiEx+TbiZl8qRnENyvOwnA+iMIyLy22a3IpK6XMO1SSCGQTffww6xVBg/N12Vd
+         koiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=n00yq2QVGi2lpHCc8VKCalisoOsxykR9j4BCiuuQxus=;
+        fh=17uvEUNOEX0qmeBcAMmsjfsDGxWRTEAdThXkduUkUtE=;
+        b=N7q3pOsytsIa7Y5rCEo9YOMHSgdz38PgpO6YPTH4P6j5JJC2GWrIxVJEbysRrnWbk8
+         ApWvWj1UbY9C0aauoPs8/kLwDNzEj6RrV5R6fV99TykR1zdFHxtL1WzZcKX1Sn7n62gQ
+         4M8VPJ19/LbJg1mI3tDugb1fLB+6HlznmGvGsGVv7hayB55qY+0wjDYDbLUaisIMNBzd
+         /Dx6u2B2i+vj1cx2Y0fS4TG7PZ12fAN9eiyqt3xJke1i5XBOQ4B/qYG6Y/0HfpQ4pxdw
+         jIGULlXcQRTHPjSw3SbtD27r3EwuxL3txHYxkzv9ypUBECYg3Oy5DuqsaI3MA0jpSDIX
+         xBDw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790755162; x=1791359962; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vfbBhg1DcI7KV0DOQuXjyz/HcnuOmRxLvnIDKvsQamY=;
-        b=X2eNdHxOz8hAbHiEVDXnjJ94ztLEUpz6coimQq6Drda5TD9sVliEdREHaU9Vk6jg/4
-         xPZL0nJXhwbU5JtRvwiqbne1MTrX5S5PDe5xpl3+c0No1I3uanhc1AXSo4zgpfDNL3Ap
-         1XEIbQbGoiaiXaFU+u+0YHjiRFfCpEC/G6t0MJAoDQqWOg60zHGer+ZtM6UeJ8s0XCk8
-         RPIm0v+mtOuMS1Vm0smiIxYubQUWdt0nhrUP4E9mMk0S1gU+PKRVsZQ86kZHS7w7Q46z
-         CLPDlHuj1pFVT8lZpttfeNEgvbBpRklOXxloDvDgCkxpCYT/bdmavf9Mop2p13gMGprq
-         l1XQ==
+        d=gmail.com; s=20251104; t=1790756308; x=1791361108; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=n00yq2QVGi2lpHCc8VKCalisoOsxykR9j4BCiuuQxus=;
+        b=aN3YWQBFFzSNAsj2eg0q4f5LCN1vV4dpYeeGoy1SLaPIt4oEGIuQUkAiL2UY6owLSW
+         HP6nHC/HdouTBrIDQHQv4zry8n+5Y5NpqHBtLoJBT52DQoPA+5hAJ8rPyxI2VJW4EtZk
+         jGAyoN72oGmoyfCSaHITqcqEQZ6Th1ksQ+J74Amkqzf9Ds3rEyofk1UVQjfFQaGLD/BN
+         Vr4huwQOWmUGE/2HG1WaB58TBiuwG9cR1kYKOmqHhGpX79TOFo3Zr1wC/VlYOQpivnpq
+         R8xKB0p/hAmZOzVMFleusjB3rZjbah13jrfiTpfMZcPbAzDcI4iZwO5Akx9RovfMt5cl
+         vhAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790755162; x=1791359962;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vfbBhg1DcI7KV0DOQuXjyz/HcnuOmRxLvnIDKvsQamY=;
-        b=Q+A0Bfu4/HbNvyJFRJnw3h0y4XBWLWj85S/KRdxEZrpSIGCErKIHZBtL/6OumWExNT
-         /qo8UEenKXE8zLFgyf2pb3TXq+kgKn+CmCTH9r9ba7SHyWwomAnGiPaOpnIhnkPYescm
-         CRoRACkBMCtAAX1LE5ytQOtg9cji/aoFQBsgBjeuo9VfMSdVwewqXfdk+Bn/XO050ivY
-         vqHLaa7owAtxmMuil5ynU9i7AXW786Om56xxgjw/HLE0pzgPIldlGzQZVTULLhsh/FPq
-         Sxhn2UEy2tk34NwCuE2U7/cccGstYou5vuauMj4CrrYCPXLohC4R5dWHLriS1BGLF3KF
-         phMg==
-X-Gm-Message-State: AFuF++nIuU9kTBe5NhtEEd8LvPDgeKLbb+weZRyzwDUS9EbSfPo7Bp/2
-	NVX67Ssrt8tChRuVYi/rSbgQqfugOtVDCDkKguGxZzz2o1203m+Q6//TtVrOh8Jy
-X-Gm-Gg: AYBFou3kZDVKY8IVpan0D6e8MbeXpxtIC3+rxKs2b5K/OoB9ImGrkbvVL92zuG/10Yo
-	fQbg34qCNCOivoJX0TS88tiHYW0axdqBwOW32Z7LbpSlEjZigDaCwJ6CAg8Dm7QY3trdZ0i3PSa
-	t/j5raAQYdU3orKy8Dm59KvmghPDxjigPDLOj9G8zrrnlvQAFsD//yHfesfxRmbeLgN+Q748/1o
-	+hkEa8Pljly14mx9DOa3QHkFFixAu9wTiKh7Y9KiuOmnni57EgbWK8DFPDGJxFmEGwstvMmuo2B
-	l29ILO7jCUKfEC+HMZWGVhtCPfNXGImQTt4AFimYX2sshlfOabyfYfxW9defm/jjXrVjwRDfDeT
-	A7779q692eTieISpyFi1O5NPtZh48dutz+I8DMpqway9k2enAnyJhv7hW4oGi288xYcxw2oq28m
-	15Gfz5gH1dPN5C3KLx0XHA5DuB/WH/1uPgl0vjJg7YlGbb80MKRC8NGaUxsNOxSonAG0Lhmf6Ee
-	mKOr6Ei+VR+NTyDi+9HlxslTOzCoCRhIjp62JQeMcCUo9hd6eptQvPH+RTzfSVbxQyRtPnuPaou
-	95eD3JI9ng==
-X-Received: by 2002:a05:6a00:1da0:b0:874:705d:f656 with SMTP id d2e1a72fcca58-8874ba252a9mr413795b3a.36.1790755162269;
-        Wed, 30 Sep 2026 00:59:22 -0700 (PDT)
-Received: from phui-2.c.googlers.com.com (25.187.82.34.bc.googleusercontent.com. [34.82.187.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88725d684ccsm403996b3a.40.2026.09.30.00.59.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 00:59:21 -0700 (PDT)
-From: Hui Peng <benquike@gmail.com>
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	Felipe Balbi <balbi@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Hui Peng <benquike@gmail.com>
-Subject: [PATCH v4] usb: gadget: f_printer: bound PNP string copy length in printer_func_setup()
-Date: Wed, 30 Sep 2026 07:59:20 +0000
-Message-ID: <20260930075920.483189-1-benquike@gmail.com>
-X-Mailer: git-send-email 2.56.0.rc1.315.gc6ed9934b7-goog
+        d=1e100.net; s=20260707; t=1790756308; x=1791361108;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=n00yq2QVGi2lpHCc8VKCalisoOsxykR9j4BCiuuQxus=;
+        b=qiUddqXyYgZuiyvJvvslpc8kRKwQHxNZ4eABXkyP0xwhueLcPZwHFIMJ+31/cCaqkA
+         oFaLQ7ndfJafiui4JNEkcrfLqvLGdb0+zUhjlWZpWFsode/cia8LshrZ2geEO+DtufJQ
+         /4ZxlS8Y5/jdjzW/qQAsW90LU04MTzp6kejRYetKfs/wuXO3B0txU3UkHbNrW4zb3P1M
+         Gjau3mIbiSDhveOrcbqQ+j7gLXlBMomGbSp3hqJ3bhjFO7+KzWR5ijlJvhLyep/M1A+P
+         hWTH1dc11KY8bBOqbLXQaz7upb+VJ1ts7Mq4D0fgEpcMG5oHtHFA7hfstKOIW7/Yxhqv
+         D59A==
+X-Forwarded-Encrypted: i=1; AKwUvBzK3NCK2zC5UlGMOV4y3rvDYJCHisvEgfmGPXqQj1fy5MV+t+FwSrX9xsgrrOfVXC00L9stIXRnc34=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJX8/xqbHLktSllrBZymhuEtHQ/xb7Eo4tbrGHE2izQfOG0EkpG
+	gTthkm24tq7Zig5H+YP/fO+rm4wFRx/UmVkDWlJQhoeBuovZ/LaYM0wrTSw99OKJnf98ZDoOmk9
+	S/6OCANQEcR1H44TBwaUKpKqOMi1K3hc=
+X-Gm-Gg: AYBFou2UX2p/7M/ZdwUfqi9URVQ15E6IYG9fF2ZM76i3XRR6HwDBdPruRNOKBwAGRKC
+	WCYeBOBTjOBrthwaFjsdfzsn8tNkHeh1hIA5qTS4ZYraBd+cukbcgC7HGoswpLxlvlnonm0cv8w
+	U8UfVJxBDFRCi+OukgvPh76GgXDMl/2Ht4vtSLak6RpJUg7Tqosa8Qk0KTlxT66JqK7GOeJ6geN
+	eEY8lrVALgst4o9V/UbL54yBEXz4/Zd6aLitciSFlSVPOixUEo+AD9gaNF2HDJMvm9iXN3YECo+
+	CdKk1EnfZaYzDdqv41nd10/HMH+peGMWHVfXLjWRQKnBnjTXQluNFmKV+YCb8VrLpIOV3rodbYa
+	A9rvSlBO8oXEaonLj1zHSkZJ67qCG4o29vepXdbXMwQ3t
+X-Received: by 2002:a05:690e:13cf:b0:675:47ba:21a4 with SMTP id
+ 956f58d0204a3-6768349bfd4mr308769d50.47.1790756307994; Wed, 30 Sep 2026
+ 01:18:27 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260821114854.12218-1-kartikey406@gmail.com> <2026092925-licorice-strode-7905@gregkh>
+In-Reply-To: <2026092925-licorice-strode-7905@gregkh>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Wed, 30 Sep 2026 13:48:14 +0530
+X-Gm-Features: AclHuK_fQ9URWr_ZY4d0cgR4NEkNAs130gJ-YJ8xBkGvtj5OC5gTvkpWKLx5ddY
+Message-ID: <CADhLXY6t7UL9Ys65qDSBBAUzj+sQkS26xFZX3YjkFZ8ufS16wQ@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: u_audio: reject srate request for
+ unconfigured direction
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: kees@kernel.org, pavel.hofman@ivitera.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In printer_func_setup(), when processing a GET_DEVICE_ID class setup
-request, the IEEE-1284 PNP string length value = strlen(*dev->pnp_string)
-is copied into buf without checking wLength (the host's requested buffer
-size):
+On Tue, Sep 29, 2026 at 6:53=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
+>
+> On Fri, Aug 21, 2026 at 05:18:54PM +0530, Deepanshu Kartikey wrote:
+> > u_audio_get_playback_srate() unconditionally locks and reads
+> > uac->p_prm.lock/srate, but g_audio_setup() only initializes
+> > p_prm.lock when p_chmask is set. On a UAC2 instance configured
+> > without a playback direction, this results in acquiring a
+> > never spin_lock_init()'d lock when a GET_CUR sample rate
+> > request targets playback, triggering a lockdep "trying to
+> > register non-static key" warning.
+> >
+> > Reject the request with -EOPNOTSUPP when p_chmask is not set,
+> > before touching prm->lock.
+> >
+> > Fixes: eb3a1ce6f5ed ("usb: gadget: u_audio: Add capture/playback srate =
+getter")
+> > Reported-by: syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+> > Closes: http://syzkaller.appspot.com/bug?extid=3De1d0e66badecc32d45eb
+> > Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> > ---
+>
+> How was this tested?
 
-  value = strlen(*dev->pnp_string);
-  memcpy(buf + 2, *dev->pnp_string, value);
+I have not been able to test this since there is no
+repro present in syzbot.
 
-When the host issues a GET_DEVICE_ID request with wLength smaller than
-value + 2, memcpy() writes past the end of the transfer buffer, triggering
-a slab out-of-bounds heap buffer overflow in printer_func_setup():
+I verified the fix by static analysis of the call path in the report
+(afunc_setup -> in_rq_cur -> u_audio_get_playback_srate) and confirmed
+in g_audio_setup() that uac->p_prm.lock is only passed through
+spin_lock_init() inside the "if (p_chmask)" block, so it is left
+uninitialized whenever p_chmask is 0. Leading to lock splat issue.
 
-  BUG: KASAN: slab-out-of-bounds in printer_func_setup+0x280/0x450
-  Write of size 3074 at addr ffff8880024f8000 by task init/1
-  Call Trace:
-   <TASK>
-   dump_stack_lvl+0x70/0xa0
-   print_report+0x153/0x4c6
-   kasan_report+0xf1/0x120
-   __asan_memcpy+0x3c/0x60
-   printer_func_setup+0x280/0x450
+This patch is compile test only
 
-Bound the PNP string copy length using min_t(u16, wLength, strlen() + 2) in
-printer_func_setup() so memcpy() never exceeds wLength.
+> Did you forget a Assisted-by: tag?
 
-Tested in QEMU against Linux 7.3.0-rc3 with KASAN enabled by binding
-f_printer with a 3074-byte PNP string and issuing a GET_DEVICE_ID setup
-request with wLength = 64: on the unfixed kernel this triggers a KASAN
-slab-out-of-bounds write, whereas on the fixed kernel value is bounded to
-wLength and 0 KASAN faults occur.
+Sure I will add assisted by tag
 
-Fixes: b185f01a9ab7 ("usb: gadget: printer: factor out f_printer")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Hui Peng <benquike@gmail.com>
----
-Changes in v4:
-- Re-target fix strictly to bound memcpy() size against wLength in
-  GET_DEVICE_ID handling in printer_func_setup().
+thanks
 
- drivers/usb/gadget/function/f_printer.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_printer.c b/drivers/usb/gadget/function/f_printer.c
-index a27792966287..f8726e3d849f 100644
---- a/drivers/usb/gadget/function/f_printer.c
-+++ b/drivers/usb/gadget/function/f_printer.c
-@@ -1033,9 +1033,13 @@ static int printer_func_setup(struct usb_function *f,
- 			if (!*dev->pnp_string) {
- 				value = 0;
- 				break;
- 			}
--			value = strlen(*dev->pnp_string);
--			buf[0] = (value >> 8) & 0xFF;
--			buf[1] = value & 0xFF;
--			memcpy(buf + 2, *dev->pnp_string, value);
-+			value = min_t(u16, wLength, strlen(*dev->pnp_string) + 2);
-+			if (value >= 2) {
-+				u16 length = value - 2;
-+
-+				buf[0] = (length >> 8) & 0xFF;
-+				buf[1] = length & 0xFF;
-+				memcpy(buf + 2, *dev->pnp_string, length);
-+			}
- 			DBG(dev, "1284 PNP String: %x %s\n", value,
- 			    *dev->pnp_string);
- 			break;
--- 
-2.47.3
+Deepanshu
