@@ -1,219 +1,159 @@
-Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+Received: from mail-vs2-f39.google.com (mail-vs2-f39.google.com [74.125.227.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47F634F798F
-	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 14:07:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60F951E441
+	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 14:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.39
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790777293; cv=none; b=uHV+3+j+Zpppmg7SFqdEmMO4TnOQIGkjw+rXcdBqE6CgcYz+FRcDZ6nG+QTzvXOR0XCHPG1vQbJhtAxM82EQx3Ve7wtAK9rJUOA3gGJY5DoewVKsIsIr68143QkPWj8apS4i+fpSGPBxTvywyMEv7+0NM6XUOgxBQZ9rWhaYTEk=
+	t=1790777984; cv=none; b=KYYNn8Gzzv1Z6ElcSb3p2MNH0bGjW4A06fYsjO1Zd1lqdlScPXvyINMybZ5GSqkx+CnNR0hmSUG5t48SU2+y0u5ottWZrKBW15rWskrYIKOwvD77gOGJpNkWwSk3jjrIw+mMWqbQZug3zOAO2nvKnqJpNNpxY55cbejFvIwWOus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790777293; c=relaxed/simple;
-	bh=ugKqDuDWQZBm6u98nq28c/n7WFLNiK7Z+cZC9VQNwKY=;
+	s=arc-20240116; t=1790777984; c=relaxed/simple;
+	bh=yUHWtEgkE8SNdRJwGODRT7SvV8pdrTHVh0q86Pd+8t8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wdu0IIi2pr6VjDmG92Rm+sZgQukKrTPYZbu7wAldK8NPyguiFhustmocEUNCjCPWGU8PbvUF06nfAq9i9C8MFEGX/Rc9qjSEFw9z97ae61YVHcn1I9TnVyyHcJGdUn/NNVp/fcPjXhv9/TXP9qy49M8DMe38qMys33l287B1YPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DaQBQnqv; arc=none smtp.client-ip=209.85.210.178
+	 MIME-Version:Content-Type; b=E2ihGR+XJh9iJOXaUXUhtUS1tzdxWuH7dIlsVK8gzvcSIUPLsCsID5qrUMe4hUlNIlpoBy3ZE4S8hEv02NvNX/uTC2VBO+CgkilCyQ9heIGdnibukae4//U/D1XNH8On7pPMVwQtSl1QOfMqEumbmKwsLZDswv4/wkw+I/mcEtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Rz/S4dbV; arc=none smtp.client-ip=74.125.227.39
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DaQBQnqv"
-Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-86aecf49833so798650b3a.0
-        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 07:07:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Rz/S4dbV"
+Received: by mail-vs2-f39.google.com with SMTP id ada2fe7eead31-7b24ea11274so760189137.3
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 07:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790777274; x=1791382074; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=huHRNTGU5UMivKeQs9CaSmnnKBulMsdT40T8bBJxYVk=;
-        b=DaQBQnqvSJVkSIt4/TyVyzRb5XSDq00gtf3me/7iTr0wAsKxpwR7koglvxPaSfSQrd
-         5uqOEkamhRyllkEfBUTYpCVP03tuqDv7vl63I+TRkeTI99OUtl0QJYFmHi+19vMHoexq
-         UJE7dAbIFyISJ0CXJ+eAalWfr9Frsn7opHiRAonZV1mRkc60EUNY4jINCoytl0e+krgU
-         PwEVvWImjjwh952OJMP5Lv/x24CZo+RJPLs8aJhQlhwx7HAJ+irOt9duHRliGv29rzsd
-         Zu6oeBVAhniAhkaZW+IKwCtnn+5nGGCB9AneQTZPcqsoqIYI1tC6B07j1g7MPUz9+gyV
-         u8fg==
+        d=gmail.com; s=20251104; t=1790777971; x=1791382771; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=z73kz9yWTyFv6L75BByVAffIP7W5SI44w1Nri5Q0shQ=;
+        b=Rz/S4dbVqyVTUhyaZhYRKj38uBPCT5DMZ3zo17MG+jy5YANP9w/djTL0lH/D70zU5T
+         0zZLYkkXWKq0la9pYs91X5Lne+9dabNB1a8sAqPfW3UHk4X8sGS//zjaJeGwI5KCHL8a
+         EG87gIiaNj+RXvCJOoWvzFIsePiE/kJCMt4826t5PaeoWsRehnYTd5Q+EMxoYivN2qqG
+         DEKdcCphAQkslTHw+gCh20ZDTY8Uv2wR60+MZ0rA06k+yM/sh9O667F0S7z8szEoYCyj
+         H33LgmIwm3WajgKpT4bKduvmytB9SPk0GKWkHhHUT6Y/pu5+nX0GWPMLqS83A/JezsMO
+         diFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790777274; x=1791382074;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=huHRNTGU5UMivKeQs9CaSmnnKBulMsdT40T8bBJxYVk=;
-        b=WsalYVBmmJPQ5sKOyk+z4hzAjVt/9kwoFSkewdfokBec+E0PgMrkZDfxb2uKtPZ3mp
-         OlXGECVTS8OufyoejS3SgMQ0U8M7WiuVr0LxdreLNIuq2R4mHzq2IV1q5azUFT/5NEJv
-         r6Nx2WkFMJGP56TUsjJYLS2KY6rvyzmpBYa2z9R81V63Kni4IFAz2r+9tu0vjbp/tr9O
-         UVcAu7loNKD1cmqJu5fP5S3EI977Qv+gG+UISU+OikHQ35GfQ09kgTIyEGCFLMAMkXVb
-         QYHCBwoFlO5SofmHuayePcWMua41uYjGfsl8ada5nIogJNdTsNrZxAKvdMwgoN/2tQM7
-         kGEQ==
-X-Forwarded-Encrypted: i=1; AKwUvByj5yWxPKq6YgTdgE65byCuuhhX6CVIx8gaJn0FkjRNAXtTD7NqheOvMnQ1ADs8mz5X3tbGa6Ivt8A=@vger.kernel.org
-X-Gm-Message-State: AFuF++nxDcioz8Wb8vZn5uevFBW3tUnlrlzqyXwjU38gYbwcU7QLiUwZ
-	8maNwKvQnOL9aSC0WW0S1NyKCD/jOVRoOFmrgkz7EPtejqjK89NZFqj3
-X-Gm-Gg: AYBFou0BE7y4ezkFKggfstuqcQksUsgXIBHEd4bSpb3h0ZOIeZq0B37I7k6hxpRn568
-	asOTaRN3Jki72EvjyJXwdKYbwsO/1qSfoWV1hwpI7ESdREjIdHmvnxYym5guD5kJOvQsS8eccHQ
-	x9iAa/jtLwTqdnl+s+hw4vC/tY3FsiJyUfxPk4JaF/diLYLNP9aXRJ6bHyCEN6aZvy9qhPUhIj3
-	ptGvpS5eq8XbaKVtDtkJex2uXxMimkv9B5bkVI0TSkEj6dmtRlTFahg4x4o07Lk8fqh3djpDbwF
-	A/85AREfx3/gg+aoKvF1vfAjBpe4uJKQtYZwWDyXg1Q7gk5QGTyi8U+y918ewF83d7eKVdTulOh
-	EEtuH99fZxvPdfNtkgk2IoIH3W0UrEjxpaRaZx9EOprU8dM9cIA6QTRF1PC3MFyy+2cba+9KET/
-	iqhBXig88r+cyFcvsrJL9IWuNerYcHvEmEnzt9XrejA18GigiqRz0wy6X6AcwUawYQQE1ZDgfNe
-	+w=
-X-Received: by 2002:a05:6a00:22d4:b0:887:29b1:27f3 with SMTP id d2e1a72fcca58-8874e34619amr786945b3a.44.1790777273482;
-        Wed, 30 Sep 2026 07:07:53 -0700 (PDT)
-Received: from thangnn-ASUS.. ([2a09:bac5:d45e:16c8::245:115])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88726c04931sm899517b3a.55.2026.09.30.07.07.50
+        d=1e100.net; s=20260707; t=1790777971; x=1791382771;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=z73kz9yWTyFv6L75BByVAffIP7W5SI44w1Nri5Q0shQ=;
+        b=kkm/+oX79DR2XpvFs1sgAvFpwrAB9KjjLpvIEwegNCMQYbJDNnxRZLmOsub8KyOVUZ
+         Vz5H6ObDH4G5M/E//1ulnrWdKuooLRxfPvfL+gmybpVCCX0CEWCkNovl0pEIEL3O1BEf
+         4SKW2KIKrLchBQ0+IoUYgtiT4qJ2wzMhK4irYv8vvyYZKE8FdRh5CKk9M73wRcYIfnmt
+         tJubFzfMhCl350rOAA+MNvyrVCDNsVnad/RcRHGnpnjjI6E37rmTn9wadA14iUCQKfGd
+         bLNeif0tF8CQlQIhCHdCEmFdidjkaYsK3VOjbYUZZpmRxFEs5lN1iwrjPQtIRSymoUcb
+         yLKg==
+X-Forwarded-Encrypted: i=1; AKwUvBx+pg35VPmguGlJFxu4HzW9kHk9XmP7A46D9bo4Jq3YLEnhL/6yUqDkB0/EER37gw9LWtIhm6CGKag=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLLUa3K7ewTGKuA4ii6P8tWJttTtsbTK5QU3/xerHIRATFwxLUD
+	ZbZJu5yLDuhFDCQyApu+MpIoj4z37VPXPAbAwz9XOLhrFEVAgbd8WuOt
+X-Gm-Gg: AYBFou1iRdN8kFttZpLfpvIYOQ+naYYlWlIAYyF5gyTUfhBpiH9eA3G2WpxOxGLdzhe
+	ThkUPQqjf1/dR8Ll2E6TEXJDN6qUrLyIfYH5iFmCNp03PVr8yZy8wWjcxoZpC/r9R6FILTejNBi
+	RvjGFFkOSvrtof9LCUmdXI1hjWVsiq3ZA2Uo04HtzVpbS5Pd/3x6PCRR1ZryXLdfJIU3FVWzumW
+	JRKVnHmXQzMbyKqoPvuCuIXilabfDikqYX9z+ipT8HPvJJFyQIsNgT3v+AuESe+/H/LhpjA3FML
+	YpWouMDOaK6TsSmTtoo7hqbsidUmgCR1NG4LFSyj7bpR4IDq2AzPFJu3af2v0yXVRXTGCjBKzaj
+	jAWj58O4IQWz76+I4uBEz3bPoNq9tn5Fc7Qi2hJ8QpKWkqFPEf5SelQsP6X8luri07BaA74gblp
+	Te2WGIUm2/gcBqYMOWzsnXGPCx61g3Nc96bcC6avIAxGi14WsTe6SWD7ArZEJkr70sKK8jP+6eI
+	fesJjFF
+X-Received: by 2002:a05:6102:cca:b0:7b4:b196:f632 with SMTP id ada2fe7eead31-7be73c89aa8mr401228137.30.1790777970958;
+        Wed, 30 Sep 2026 07:19:30 -0700 (PDT)
+Received: from maclinux ([2803:c600:9110:8ba5:43a9:9b8b:ebdc:6411])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-988d909c4cbsm1793220241.1.2026.09.30.07.19.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 07:07:53 -0700 (PDT)
-From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
-To: Ulf Hansson <ulfh@kernel.org>
-Cc: Ulf Hansson <ulf.hansson@oss.qualcomm.com>,
-	Maxim Levitsky <maximlevitsky@gmail.com>,
-	Alex Dubov <oakad@yahoo.com>,
-	Raj Ojha <rajojha047@gmail.com>,
-	linux-mmc@vger.kernel.org,
+        Wed, 30 Sep 2026 07:19:30 -0700 (PDT)
+From: =?UTF-8?q?Francisco=20Beltr=C3=A1n=20Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] memstick: rtsx_usb_ms: complete requests after eject instead of dropping them
-Date: Wed, 30 Sep 2026 21:07:48 +0700
-Message-ID: <20260930140748.15946-1-ngocthang2710.1999@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <CAPx+jO-FBNsZFvfep-2SpqDFm3kYA=RpcF0CZx-kj0XH2juijQ@mail.gmail.com>
-References: <CAPx+jO-FBNsZFvfep-2SpqDFm3kYA=RpcF0CZx-kj0XH2juijQ@mail.gmail.com>
+Subject: [PATCH v2 1/3] usb: hcd-pci: Honour pci_save_state() failure
+Date: Wed, 30 Sep 2026 11:19:12 -0300
+Message-ID: <20260930141914.6678-2-fbeltranmillalen@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260930141914.6678-1-fbeltranmillalen@gmail.com>
+References: <20260930141914.6678-1-fbeltranmillalen@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-memstick_check() can pass its host->removing check just before
-rtsx_usb_ms_drv_remove() sets eject/removing. Its next request is then
-silently dropped: rtsx_usb_ms_request() skips schedule_work() once eject
-is set, and drv_remove's cancel_work_sync() can also cancel a queued
-handle_req before it picks the request up. Nobody completes
-card->mrq_complete.
+hcd_pci_suspend_noirq() ignores the return value of pci_save_state() and
+goes on to pci_prepare_to_sleep().
 
-Once memstick core waits for requests without a timeout ("memstick: core:
-wait for request completion before freeing card"), this hangs removal:
-memstick_check() never returns and memstick_remove_host() blocks in
-flush_workqueue():
+The next patch makes pci_save_state() fail, without marking the state as
+saved, when the config space of the device is not accessible.  For such
+a controller pci_prepare_to_sleep() does not work either:
+pci_set_low_power_state() reads the PM control register as all ones and
+marks the device D3cold.  pci_pm_suspend_noirq() then finds a device
+whose power state changed without its state being saved, and warns.
+With an earlier version of the next patch on a MacBookPro14,3, whose
+Thunderbolt xHCI controllers can be inaccessible at this point:
 
-  INFO: task kworker/u10:3:65 blocked for more than 20 seconds.
-  Workqueue: kmemstick memstick_check
-   __wait_for_common
-   memstick_check
+  xhci_hcd 0000:7d:00.0: PCI PM: State of device not saved by hcd_pci_suspend_noirq+0x0/0x180
+  WARNING: CPU: 7 PID: 96793 at drivers/pci/pci-driver.c:888 pci_pm_suspend_noirq+0x2f4/0x300
 
-  INFO: task kworker/1:1:33 blocked for more than 20 seconds.
-  Workqueue: usb_hub_wq hub_event
-   __flush_workqueue
-   memstick_remove_host
-   rtsx_usb_ms_drv_remove
+Check the return value and, if the state could not be saved, return 0
+without putting the controller into a low-power state.  The PCI core
+then handles it as it handles a driver without a suspend_noirq callback:
+it tries to save the state and to put the device into a low-power state
+itself, which fails in the same way, but without the warning, as the
+power state did not change inside the driver callback.
 
-Never drop a request. rtsx_usb_ms_request() always schedules handle_req,
-and handle_req fails requests with -ENOMEDIUM once eject is set, without
-touching the device. drv_remove flushes handle_req instead of cancelling
-it, and cancels it only after memstick_remove_host(), when no new
-request can arrive, so it cannot run on a freed host.
+Move the check that disables wakeup for a dead root hub ahead of it, so
+that it is not skipped.
 
-The host_mutex drain in drv_remove is removed: handle_req always leaves
-host->req NULL when it finishes, so the drain never had anything to do,
-and it would now race with handle_req.
+Today pci_save_state() only fails if a capability save buffer is missing
+or the VC state cannot be saved.  In that case the controller is now left
+in D0 instead of being put into a low-power state with an incomplete
+saved state.
 
-Fixes: 99451dceeb5f ("memstick: Add realtek USB memstick host driver")
-Cc: stable@vger.kernel.org
-Link: https://lore.kernel.org/all/20260924204142.607-1-rajojha047@gmail.com/
-Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Assisted-by: LLM
+Signed-off-by: Francisco Beltrán Millalén <fbeltranmillalen@gmail.com>
 ---
-This applies on top of Raj's patch:
-https://lore.kernel.org/all/20260924204142.607-1-rajojha047@gmail.com/
+v2:
+- Rewrote the commit message: the failure handled here comes from the
+  next patch, not from pci_save_state() as it is today.
+- Disable wakeup for a dead root hub before the early return.
+- Dropped Alan's Acked-by because of both changes.
 
-Tested in QEMU with dummy_hcd + raw-gadget emulating an RTS5129, with a
-debug msleep() after the host->removing check in memstick_check() and
-the device unplugged during it: with Raj's patch alone removal hangs as
-above; with this patch on top it completes, and the original UAF
-reproducer stays clean.
+ drivers/usb/core/hcd-pci.c |   15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
- drivers/memstick/host/rtsx_usb_ms.c | 31 ++++++++++-------------------
- 1 file changed, 11 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/memstick/host/rtsx_usb_ms.c b/drivers/memstick/host/rtsx_usb_ms.c
-index beadc389f15f..d5b3a96fc609 100644
---- a/drivers/memstick/host/rtsx_usb_ms.c
-+++ b/drivers/memstick/host/rtsx_usb_ms.c
-@@ -27,7 +27,6 @@ struct rtsx_usb_ms {
- 	struct memstick_host	*msh;
- 	struct memstick_request	*req;
+diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+index cd2234759..7f8a56425 100644
+--- a/drivers/usb/core/hcd-pci.c
++++ b/drivers/usb/core/hcd-pci.c
+@@ -541,8 +541,6 @@ static int hcd_pci_suspend_noirq(struct device *dev)
+ 	if (retval)
+ 		return retval;
  
--	struct mutex		host_mutex;
- 	struct work_struct	handle_req;
- 	struct delayed_work	poll_card;
+-	pci_save_state(pci_dev);
+-
+ 	/* If the root hub is dead rather than suspended, disallow remote
+ 	 * wakeup.  usb_hc_died() should ensure that both hosts are marked as
+ 	 * dying, so we only need to check the primary roothub.
+@@ -551,6 +549,19 @@ static int hcd_pci_suspend_noirq(struct device *dev)
+ 		device_set_wakeup_enable(dev, 0);
+ 	dev_dbg(dev, "wakeup: %d\n", device_may_wakeup(dev));
  
-@@ -514,6 +513,13 @@ static void rtsx_usb_ms_handle_req(struct work_struct *work)
- 	struct memstick_host *msh = host->msh;
- 	int rc;
- 
-+	/* Fail requests after eject so their waiters are released. */
-+	if (host->eject) {
-+		while (!memstick_next_req(msh, &host->req))
-+			host->req->error = -ENOMEDIUM;
-+		return;
++	/*
++	 * If the state could not be saved, most likely because the controller
++	 * is no longer accessible, putting it into a low-power state would
++	 * fail as well and leave it marked as D3cold, and the PCI core would
++	 * then warn that its state was not saved.  Leave it to the PCI core
++	 * instead, as for a driver without a suspend_noirq callback.
++	 */
++	retval = pci_save_state(pci_dev);
++	if (retval) {
++		dev_dbg(dev, "--> not suspending, state not saved\n");
++		return 0;
 +	}
 +
- 	if (!host->req) {
- 		pm_runtime_get_sync(ms_dev(host));
- 		do {
-@@ -547,8 +553,7 @@ static void rtsx_usb_ms_request(struct memstick_host *msh)
- 
- 	dev_dbg(ms_dev(host), "--> %s\n", __func__);
- 
--	if (!host->eject)
--		schedule_work(&host->handle_req);
-+	schedule_work(&host->handle_req);
- }
- 
- static int rtsx_usb_ms_set_param(struct memstick_host *msh,
-@@ -781,7 +786,6 @@ static int rtsx_usb_ms_drv_probe(struct platform_device *pdev)
- 	host->power_mode = MEMSTICK_POWER_OFF;
- 	platform_set_drvdata(pdev, host);
- 
--	mutex_init(&host->host_mutex);
- 	INIT_WORK(&host->handle_req, rtsx_usb_ms_handle_req);
- 
- 	INIT_DELAYED_WORK(&host->poll_card, rtsx_usb_ms_poll_card);
-@@ -812,27 +816,12 @@ static void rtsx_usb_ms_drv_remove(struct platform_device *pdev)
- {
- 	struct rtsx_usb_ms *host = platform_get_drvdata(pdev);
- 	struct memstick_host *msh = host->msh;
--	int err;
- 
- 	host->eject = true;
- 	msh->removing = true;
--	cancel_work_sync(&host->handle_req);
-+	flush_work(&host->handle_req);
- 	cancel_delayed_work_sync(&host->poll_card);
- 
--	mutex_lock(&host->host_mutex);
--	if (host->req) {
--		dev_dbg(ms_dev(host),
--			"%s: Controller removed during transfer\n",
--			dev_name(&msh->dev));
--		host->req->error = -ENOMEDIUM;
--		do {
--			err = memstick_next_req(msh, &host->req);
--			if (!err)
--				host->req->error = -ENOMEDIUM;
--		} while (!err);
--	}
--	mutex_unlock(&host->host_mutex);
--
- 	/* Balance possible unbalanced usage count
- 	 * e.g. unconditional module removal
+ 	/* Possibly enable remote wakeup,
+ 	 * choose the appropriate low-power state, and go to that state.
  	 */
-@@ -841,6 +830,8 @@ static void rtsx_usb_ms_drv_remove(struct platform_device *pdev)
- 
- 	pm_runtime_disable(ms_dev(host));
- 	memstick_remove_host(msh);
-+	/* No card, no new requests; wait for the last failed one to finish. */
-+	cancel_work_sync(&host->handle_req);
- 	dev_dbg(ms_dev(host),
- 		": Realtek USB Memstick controller has been removed\n");
- 	memstick_free_host(msh);
--- 
-2.43.0
-
