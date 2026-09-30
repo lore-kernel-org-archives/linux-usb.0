@@ -1,108 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mail.andi.de1.cc (mail.andi.de1.cc [178.238.236.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953E03ED109;
-	Wed, 30 Sep 2026 13:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23994D0CFA;
+	Wed, 30 Sep 2026 13:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.238.236.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790774896; cv=none; b=QD8MdOO6j9+HJnqqHqi2ue95cD3bv85ZqIHe1SNBxLpKGd4cgGOL2ETrTDKTZeFwCtWFJqUr2JP14d/a0gZI796UgMwSqslZk9KUv1EoNmuryaOFecjVKV1sX+vMAFbLscc2jFx2XhCMJ91P6BOODtbzyJ6aZ08v79+NDmdSODU=
+	t=1790775663; cv=none; b=HZU+byJWo2eHzd+uQnNbdEA1en2gbrT8E7Pj+3msFUJi0TxoO3MtJ33OGPS3W8X6ykRfEcl1fcalaVVA6ZOt13vzZNP+JXY/UIB9NDRIMPIcUBauX0hI6r9/X4/rcwta62leZzJShm/mRNa2v88q45RQIFYjySQx0VGVi/AqsIg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790774896; c=relaxed/simple;
-	bh=Eyx93yZZEASpes3D9jK0aMrtguFfHVD53LVcjzqJRvY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jw0Zj+Nvs+A744DFyL+3oQplcVzIj8krRBqG2QwaRDcdZFGk0KDscYcZGxN29V3/63kRuuyiQtdUrywBGFf6fRlWLrCA77Giu8TFaZBVY2aE3deB3cPsmiuYYSDbijdMZzgn6JSpo095WdEoL4k6JgG9UGErt3HhDDNS8fqOPtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZnqSkhnF; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790775663; c=relaxed/simple;
+	bh=lbD+X9aOAChFMYX7v/TZxQdAsIciYs51d9tPYMS6DNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=PHuF6sOaTwpjV4NOz0kFBbMx+mKc1gKfc2yyWcPohdIbu5INlITdjFAVeaz1fMWASxPLVQEvwMNuu8tsGrSlQxvRoXbi5EOhnb3Q7YjUIlCs8MYVTDblDHmC7p5OjGFczlMJFd/F19sXvKpFO9DIlwoAg2hYHf4HbSIDn9Wm2FU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info; spf=pass smtp.mailfrom=kemnade.info; dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b=eRJ1htHU; arc=none smtp.client-ip=178.238.236.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kemnade.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kemnade.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZnqSkhnF"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790774889; x=1822310889;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=Eyx93yZZEASpes3D9jK0aMrtguFfHVD53LVcjzqJRvY=;
-  b=ZnqSkhnFm7iKEiIwTOuZ7OoZGLizjMpCC4pCEwOEPnYSEQEETWTvWz+F
-   6x1tzURBk37T0SnHiXTWvbogKhmiR1pItildhTQQmG42K8Q3lC8koc/Uc
-   7h5VyC+y+PwPYRWd0loctyXlTrLcTFMlyi3ns6vOyO7Gg6XUwXIxm3iPa
-   lNdT4jtZ9BpeY0Z5RNHIRpvsRkrkrC3x3qGEcuvwTSFjzvWmWmXy5Nmi4
-   yxJYOacyxOZAIheDJKcNiYIItk/jYL1F+WpJ+fQUhDvQzHoa5mrndoQ2k
-   B1hU0Uokc8BAff2zaml8upommHpOWKj5K5RPJETKO4srpX82l2Q55DtMl
-   Q==;
-X-CSE-ConnectionGUID: lpFkNO5RQ6KKRcNFNPQNqw==
-X-CSE-MsgGUID: 6Muc2A87Sc6hKKk+uPlftg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11920"; a="91375886"
-X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="91375886"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 06:28:03 -0700
-X-CSE-ConnectionGUID: jFiYJJhETKagy+nwgU1wgQ==
-X-CSE-MsgGUID: GAUgA2d+QbGW5gaPoXbDeQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,132,1787036400"; 
-   d="scan'208";a="274307671"
-Received: from amilburn-desk.amilburn-desk (HELO [10.245.245.78]) ([10.245.245.78])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 06:27:57 -0700
-Message-ID: <57369b29-27ce-432d-aac3-b86c71a08330@linux.intel.com>
-Date: Wed, 30 Sep 2026 16:27:53 +0300
+	dkim=pass (2048-bit key) header.d=kemnade.info header.i=@kemnade.info header.b="eRJ1htHU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=kemnade.info; s=20220719; h=References:In-Reply-To:Subject:Cc:To:From:
+	Reply-To:Content-ID:Content-Description;
+	bh=Lzur3DsCWAVOwV0V2L+nANQnGi0j4W6O3LvqgITvINQ=; t=1790775657; x=1791985257; 
+	b=eRJ1htHUfE03Md1pvUt7aisXh8wRqE3CyOWdZeElvRvFhXfaomk6EPaVFxKkEk5ZlALdEIK/DE+
+	6wUMLIAPSBfe70fFptmaVROpqKQa3H/YXYhT0+PFRKsfQsoxJlLkNnLSeR6km33ls+tm/t4r/o5O+
+	g+nPR0apENIOHS/EKZEiiBeYYAiBef//6LPbCxW8NEv4BJEaFul+q0AI/i7/QAW/b9coKmldWDl+i
+	q+9cPPamfkengiMM+c02+2PvlHuMBPs1D0yJTZRzfgxUtJwgAsYjG9OHoEC039iZYt4q+8W+uZMrH
+	Ks4olwaFNUirp6hQO+olB6xd0Aa6E3Ym0KPQ==;
+Date: Wed, 30 Sep 2026 15:40:44 +0200
+From: Andreas Kemnade <andreas@kemnade.info>
+To: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
+Cc: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Johan Hovold <johan@kernel.org>, Paul Cercueil <paul@crapouillou.net>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH] usb: musb: Drop the D+ pullup during system suspend
+Message-ID: <20260930154044.3621523b@kemnade.info>
+In-Reply-To: <20260927164145.1956429-1-tien.nguyenminh@embeddedlinux.blog>
+References: <20260927164145.1956429-1-tien.nguyenminh@embeddedlinux.blog>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; aarch64-unknown-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: host: Fix companion leak in
- usb_enable_intel_xhci_ports()
-To: Wentao Liang <vulab@iscas.ac.cn>, gregkh@linuxfoundation.org
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- mathias.nyman@intel.com, sarah.a.sharp@linux.intel.com,
- stable@vger.kernel.org
-References: <20260916164840.2085101-1-vulab@iscas.ac.cn>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20260916164840.2085101-1-vulab@iscas.ac.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 9/16/26 19:48, Wentao Liang wrote:
-> usb_enable_intel_xhci_ports() iterates over the PCI devices with
-> for_each_pci_dev() to check whether an Intel EHCI companion exists and
-> breaks out of the loop as soon as one is found. for_each_pci_dev()
-> takes a reference on the device returned by pci_get_device(), and
-> breaking out of the loop leaves that reference held. The companion
-> pointer is only used to set the ehci_found flag and the reference is
-> never dropped, leaking a reference to the EHCI companion device on
-> every port switch operation.
+On Sun, 27 Sep 2026 23:41:45 +0700
+Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog> wrote:
+
+> When musb_suspend() clears DEVCTL, the host sees a disconnect. But VBUS
+> is still there, so the controller can start a new session on its own
+> and, with SOFTCONN still set, pull D+ up again while its interrupts are
+> masked. The host then fails to enumerate the gadget ("unable to
+> enumerate USB device") and gives up, and nothing at resume makes it try
+> again. On a T113-S3 board the gadget link never survived an s2idle
+> cycle.
 > 
-> Drop the reference with pci_dev_put() once the lookup is done. When no
-> companion is found the loop leaves companion set to NULL, for which
-> pci_dev_put() is a no-op.
+> Clear SOFTCONN once the context is saved; musb_restore_context() puts
+> it back on resume. This is what the FIXME asked for, as USB can't wake
+> us in time with the interrupts masked. On da8xx, which keeps the
+> session over suspend, the gadget now disconnects too.
 > 
-> Fixes: 26b76798e050 ("Intel xhci: refactor EHCI/xHCI port switching")
+> Fixes: 6fc6f4b87cb3 ("usb: musb: Disable interrupts on suspend, enable them on resume")
 > Cc: stable@vger.kernel.org
-> Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> Signed-off-by: Nguyen Minh Tien <tien.nguyenminh@embeddedlinux.blog>
 > ---
->   drivers/usb/host/pci-quirks.c | 2 ++
->   1 file changed, 2 insertions(+)
+> I found this on a T113-S3 board (sunxi, s2idle, Intel xHCI host): ssh
+> over the gadget never came back after a suspend. With the patch, all 30
+> cycles I ran re-enumerated after resume.
 > 
-> diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-> index 0404489c2f6a..bde5bc248d45 100644
-> --- a/drivers/usb/host/pci-quirks.c
-> +++ b/drivers/usb/host/pci-quirks.c
-> @@ -1076,6 +1076,8 @@ void usb_enable_intel_xhci_ports(struct pci_dev *xhci_pdev)
->   			break;
->   		}
->   	}
-> +	/* for_each_pci_dev() takes a reference on the found companion */
-> +	pci_dev_put(companion);
->   
->   	if (!ehci_found)
->   		return;
+> To check for regressions, I also tried a BeagleBone Black (AM335x,
+> dsps glue, suspend to RAM). There the link came back after every
+> resume (10 cycles without the patch, 30 with it), probably because
+> am335x_phy_suspend() powers the PHY off. 
 
-pci_dev_put() should only be called if we break out of the loop, i.e when ehci_found == true.
+Yes, other glue layers power off the phy, too. so this issue becomes
+undiscovered. I think that difference should be commented in the code
+so that everybody touching this is aware of the difference.
 
-Moving pci_dev_put() a couple lines lower, after the if (!ehci_found) check should work.
+Regards,
+Andreas
+> 
+>  drivers/usb/musb/musb_core.c | 14 ++++++++++----
+>  1 file changed, 10 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/usb/musb/musb_core.c b/drivers/usb/musb/musb_core.c
+> index 73ac25f536..272683f14d 100644
+> --- a/drivers/usb/musb/musb_core.c
+> +++ b/drivers/usb/musb/musb_core.c
+> @@ -2825,18 +2825,24 @@ static int musb_suspend(struct device *dev)
+>  
+>  	spin_lock_irqsave(&musb->lock, flags);
+>  
+> +	musb_save_context(musb);
+> +
+>  	if (is_peripheral_active(musb)) {
+> -		/* FIXME force disconnect unless we know USB will wake
+> -		 * the system up quickly enough to respond ...
+> +		/*
+> +		 * We can't answer a host with the interrupts off, so drop the
+> +		 * D+ pullup. musb_restore_context() puts back the state saved
+> +		 * above.
+>  		 */
+> +		u8 power = musb_readb(musb->mregs, MUSB_POWER);
+> +
+> +		musb_writeb(musb->mregs, MUSB_POWER,
+> +			    power & ~MUSB_POWER_SOFTCONN);
+>  	} else if (is_host_active(musb)) {
+>  		/* we know all the children are suspended; sometimes
+>  		 * they will even be wakeup-enabled.
+>  		 */
+>  	}
+>  
+> -	musb_save_context(musb);
+> -
+>  	spin_unlock_irqrestore(&musb->lock, flags);
+>  	return 0;
+>  }
+> 
+> base-commit: 165768bb70265b5c38cf0b73fafd75be235f8b14
 
-Thanks
-Mathias
