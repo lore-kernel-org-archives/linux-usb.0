@@ -1,65 +1,65 @@
-Received: from mail-ua2-f42.google.com (mail-ua2-f42.google.com [74.125.226.234])
+Received: from mail-vs2-f36.google.com (mail-vs2-f36.google.com [74.125.227.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7F04D9577
-	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 14:19:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.226.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4248151CF7E
+	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 14:19:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790777986; cv=none; b=QLIUKAvxSW4N0GSfHmiIRiGGgVlTPEsB5FQWRdrk+WwTkWr46B0o6uUUOiQ9umH4vvX+wTyjCcZhK4X2hxNeVGJA4ivwulRxLEc+eE2ntc4G2WyjkGmLISFnPewqbtW2n6H1IwVxgkH5swyfoiPgNVJhv5ES6oEg1iRIKvG3DC0=
+	t=1790777990; cv=none; b=s8CldwDcQ67l3RiE0H31zZdsVVAI5E33ZY9YxO2vW9qlB9cEszTIf719jWB1l6CKYtLnjdROuUWQ9+Zi3inpHubI55dzO8Z0V2ThZhCHTQuLAZewnH2omrLhY0YdEP+u9boM2VURjGtiVKH4lUL1gB5LkhoknVJrmr7+apDrh8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790777986; c=relaxed/simple;
-	bh=U1Hv6/gbhpsi4CJd465niF6KPgOjs6MWfvNINhsKhE0=;
+	s=arc-20240116; t=1790777990; c=relaxed/simple;
+	bh=2oInkUujHcPCh8EJktDLrE1G7/16ov/wJ8PVeHJP2EY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kxBTikqW1OryO4vA/osiOSiAYVo3ZvVdG0SiSJKS+fFOJ+rAw2+nQm4i/PS16dqlhr5hp86peFCUpjC0t3V9ivA/34r53ZuFmKXZJmFSUVOV1xi5/IBl1YTGgmvqslmxgEk9pdK/9D/39Ij+oLnu7CmVjrHB1xHUc8YlQOG8Of8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hc1hCklb; arc=none smtp.client-ip=74.125.226.234
+	 MIME-Version:Content-Type; b=OsbiC2vXTsj8/hbpP5iaD1oXXkSGcCD5ncdR4m0O3RE2/zLEJmlYh6W+xBlMrM8aztoTBbDwJGvRZ7XOeWpnzdjeCl9jNtAzCvD9Zjy3tNZl77giZDJEUXD/yGrM2lQfftpFjq3WMkIDxloa7nU5mrCgMy78ZYdVPIhMbbVLyIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WZJ3S8pP; arc=none smtp.client-ip=74.125.227.36
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hc1hCklb"
-Received: by mail-ua2-f42.google.com with SMTP id a1e0cc1a2514c-986e0b83340so3378889241.2
-        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 07:19:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WZJ3S8pP"
+Received: by mail-vs2-f36.google.com with SMTP id ada2fe7eead31-7bad9d27d58so767710137.1
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 07:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790777973; x=1791382773; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790777975; x=1791382775; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=oDyoA6fPjL0gLEUmJ0mu/HGgXQ0U83ukGEwv6gW1b4E=;
-        b=hc1hCklbNGbvVzTCNeHVUUS3MyKxCW5enS4lIjnTEGnbck1hDvRECF4oqYwwzIAuAd
-         ro+V46ncL56YoRbs6XUvPSJsJlUwe74Kn/aMEbyvJd4T+8RFvCtmi0lKtmn9pmLj77FT
-         e7X7mjuE37dgKfckbxbuy9eISFsTc6XNmReqeQjAbFW4O5p5IsxlskNrGsMBrOK3AUyy
-         4gRLCnWcWdGju3sAHUVD1t4VsDiCyzB7TeU12rlhXCxUw26a0TsD1jHq+4hZN3z9NMd3
-         ggQQkvYV18q639wncO64B6IOuopIp4s4Wu2rVFE+Zj2NAewnu32NYwltRVD8CN5+M/co
-         GT1A==
+        bh=aPD3ctKAhlH9IMFL9cYeG+/h14+GIMiWdqV4FDDyoAU=;
+        b=WZJ3S8pPFnuC2dMbajh9W5M3YNLKpForsUtngNSUsZp6/Lv5kEGCMIVZAza4DxFjzF
+         eY1MjvyT5yKaV7qtfrcurEaNOuayPm0q34iI7dLGVmzQfRg1k9lrIWzSGx2ByhIXn+mz
+         y5KrSw4A5jsywZG4UxlX57d5ToN3ZjerEsq8R6wdcrcoOgN/7s4EXoz27xjeQZGMs5/J
+         2j/kQGuMUJLHpyRk9AtwILS93qIsY/51wq1Q7t79x3AiJfd7S/WbElDLTsGRA7/2U3iI
+         TAy5ntnTvvOi+2+R/DW7QNSnkFV5DqGEYR+TaiBNBCD+RZ6nuXB7GVbznKcQD73pyKtP
+         x06A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790777973; x=1791382773;
+        d=1e100.net; s=20260707; t=1790777976; x=1791382776;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oDyoA6fPjL0gLEUmJ0mu/HGgXQ0U83ukGEwv6gW1b4E=;
-        b=Hvlw4TaF1gxw1WbDUPntBO0Po2rhtkQ59ByMlpEXtt0CZTv2OY1MyqAbocS/b+XXE8
-         wZsk6xHFyAI91gCCLfIQTNIJzBz3KfMedRPnYsxkjI8ieVJdQGNL4u5YR5wEU423Fxcv
-         d4lSdVvek1s5IUST6tc9luZ2ZdeWzQGYKoo3bMrIe+pcqyVjSk1u52oHsCoTayx3M/ez
-         oZhp0YGBvakW9su1Por3xruRIm8RLwIcJnZhzofwBdTKZrZJWm64pkJyj5LEX8uBDPw5
-         UpK0e7X1ZCNUkjGA9h/jI8HlzKpJ45CS/8g4C8dRH893Fg8C+sNY04lyhnmywgaCez1b
-         xovw==
-X-Forwarded-Encrypted: i=1; AKwUvByYAJMMvanPVzYMhLRMoaI6mbhscQCuxaXVaXhcOCgl7iZgijPqeRpFX7aYr/VLYHXIe3/hA4eZvhw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI5uS8l7hUFJy3noGzt4c6+L9QmjtXylTwrqA31fEv7PulcU7gB
-	bKmZe8CYqPlEk76yqNwMKUUrNLei/9+AkLEV1PXaTOneHKQ4NKP08JbU
-X-Gm-Gg: AYBFou0X5oTDoHyQAxRJ8omx0Fqu0diK8ut2ESD4CPc4RPXvOM+OQi8EUNB3FX9mO3p
-	mixN/v1kdgTU9shDRgA4/qznWF8z6IPBNFAOnRXsJF0kqNfwgQRL8teMnHJ6HVLdtH8BE00UNVT
-	9W+79FbYRaZ6pMbHE1LMjWaa8SEKp6OjEs7hMxzMnFQA2qEtTy+a+tBToQx3nSdjos9IPdPn8Zl
-	u4dtrR1wt+AmjMfhRrOehZDLJVUm7e04uGhRk8muVuXd+s0hKkoK3oDuBrmYj4B9YQ4+UXQHNQH
-	1MpApKdJHp1TWTCOzsIFx47c7Wotgo16JzuKr+nqktn37YX+cl/IaglVXfv+xnY9YNa9tonAJho
-	BP2HOkYm5RghD3j/lSsHlHgMPh/Nc0bevCcfm6n0ql3hyiMRBOnBl2JcA8/XvpFji5UoFh+VklV
-	7k0p24eUntNue+1bFM5POeqVIpTcmGj2xslOzcFirbS0X4adwyB5blW3mQ/M6OQV4SO1XatxEjL
-	Vxq88it
-X-Received: by 2002:a05:6102:5cc5:b0:7bd:3530:d84b with SMTP id ada2fe7eead31-7be72eab133mr356318137.6.1790777973185;
-        Wed, 30 Sep 2026 07:19:33 -0700 (PDT)
+        bh=aPD3ctKAhlH9IMFL9cYeG+/h14+GIMiWdqV4FDDyoAU=;
+        b=jJbkzNL2x0jMuLITHpR9pbYzFYybNL/7qO4yvvy3bZEir6moM+Z5Tguz0ViV8WgyIq
+         zHm8SCH7hNBu8P4eBW0+XzcqbHbeRsfTvIMwsBTPKiAlyT5c1axnWthYwboQpW+at2QV
+         qGRvClM+K15jILPwpmDNqMDp2Bi7GV9qfNREht1fxMV4dV/k7O1bRhHblS3azQY9SJWK
+         9KKBvoywFQacwbOEotjepDQRnxwbSkZF5i+Oj874yPkc97GB1MKRGX+nRVDwDhoGjjXM
+         oJdSShxWWGPUuSG6uKdRXJM/UlX4/GjTWwzLcFcNAUJOt/VQacV9iJsLYH645fx37XTC
+         b0oA==
+X-Forwarded-Encrypted: i=1; AKwUvBzw8lJOB0CHNydOzKpUFbvZPRDbxogtR5YkyAyAFBAP4ZhhrYWBSpBBSvsgHz1mW34BzrROhqrrOM0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ+lPSE1nz6ud2HDy6uMjTXcOHMeOeMz8elfPMo8GUowiI6fBU5
+	lLaVNGwjTahiiibJfazg94aAAWi9RSdgHVIWliArWWLASpfXd8thT19z
+X-Gm-Gg: AYBFou3gEEVOA+rE5yVZiOC5x4Rn5lBkdbf8t/9CoNqmrci69+cfowqwIn7h3NBabnG
+	F4wqh2iAJPfBb8F2dTyepWtxSTx1Ai2797zNLxy5vgqZBQgN20mQTqV+rIKmgjew6s9Ghxkx2SV
+	X0ylTmgnYx5lqWEPUnBev2YWW0Bi7OJK6MzByMwqYJAP7E6rGqNwNV2+zYGzRYVSQ5np+AZ4WS8
+	jMNwOltgWYk3OL7khPzokts2iP39OCgsOPZcMs6Ps3RN0qOzO09A1dvupi7DXc8s7BZYVkwzU6g
+	NadVLRQvet77Ty7gOZ+d01LvxiRAULV8bs4mQp/8Hff0whDOmx8nYhtg/DOCE1VCKny5yJoMa2S
+	HcLal2wObNPrNOinO9BXLuyckCX7KEiGFq7E5a28IJAjn9OLIH5mLFldWr9zpJ+W6BW9hzicuyL
+	XdljnactuNLNG28RO9H36ds5VY2zgtivJQjhWgnATGVl0c9JRS2B7A2SW0UT2vGyLk63ev4dUkj
+	TjouRYpYQLH4RwwktFy
+X-Received: by 2002:a05:6102:3f0f:b0:7b4:7086:876c with SMTP id ada2fe7eead31-7be7339ad07mr406198137.23.1790777975383;
+        Wed, 30 Sep 2026 07:19:35 -0700 (PDT)
 Received: from maclinux ([2803:c600:9110:8ba5:43a9:9b8b:ebdc:6411])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-988d909c4cbsm1793220241.1.2026.09.30.07.19.31
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-988d909c4cbsm1793220241.1.2026.09.30.07.19.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 07:19:32 -0700 (PDT)
+        Wed, 30 Sep 2026 07:19:35 -0700 (PDT)
 From: =?UTF-8?q?Francisco=20Beltr=C3=A1n=20Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
 To: Bjorn Helgaas <bhelgaas@google.com>,
 	linux-pci@vger.kernel.org
@@ -67,9 +67,9 @@ Cc: Alan Stern <stern@rowland.harvard.edu>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/3] PCI/PM: Do not save the config space of an inaccessible device
-Date: Wed, 30 Sep 2026 11:19:13 -0300
-Message-ID: <20260930141914.6678-3-fbeltranmillalen@gmail.com>
+Subject: [PATCH v2 3/3] PCI: Do not mistake an absent device for an active link
+Date: Wed, 30 Sep 2026 11:19:14 -0300
+Message-ID: <20260930141914.6678-4-fbeltranmillalen@gmail.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20260930141914.6678-1-fbeltranmillalen@gmail.com>
 References: <20260930141914.6678-1-fbeltranmillalen@gmail.com>
@@ -82,124 +82,90 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-pci_save_state() reads the standard header into dev->saved_config_space
-and marks it valid without checking that the device answered.  If the
-device is not accessible, every read returns all ones, the previous
-snapshot is overwritten, and pci_restore_state() writes the all-ones
-values back once the device answers again.  On a bridge that sets every
-writable bit of the Bridge Control register, Secondary Bus Reset
-included, and sets the primary, secondary and subordinate bus numbers
-to 0xff, which cuts off everything below it.
+When a bridge is no longer accessible, its Link Status register reads
+as 0xffff, which has both PCI_EXP_LNKSTA_DLLLA and PCI_EXP_LNKSTA_LT
+set.  The code that waits for the link then takes a dead link for an
+active one:
 
-On a MacBookPro14,3 this happens to the upstream bridge of a
-Thunderbolt controller that drops off the bus while the system is
-suspending: after resume the bridge answers again, but with bus numbers
-ff/ff/ff and Secondary Bus Reset asserted, and the xHCI controllers
-behind it are removed.
+  - pci_bridge_wait_for_secondary_bus(), for ports up to 5 GT/s, decides
+    that the link is up and waits PCIE_RESET_READY_POLL_MS for the device
+    below it;
 
-Commit e18d1abc3bff ("PCI: Avoid saving config space state if
-inaccessible") added pci_dev_config_accessible() and checks it before a
-reset.  Check it in pci_save_state() itself, so that system suspend,
-where the state is saved by pci_pm_suspend_noirq() or by a driver's
-suspend_noirq callback, is covered as well.  pci_dev_config_accessible()
-reads the Command and Status registers rather than the Vendor and Device
-IDs, which always read as all ones on SR-IOV VFs.
+  - pcie_wait_for_link_status(), used for faster ports and by
+    pcie_retrain_link(), reports success at once when waiting for an
+    active link, and times out after PCIE_LINK_RETRAIN_TIMEOUT_MS when
+    waiting for LT to clear.
 
-Check again after reading, as the device may become inaccessible in the
-meantime, and only then replace the previous snapshot of the header and
-set state_saved.  The capabilities are saved straight into their own
-buffers and are not covered by the second check, and both checks are
-racy, as pci_dev_config_accessible() notes.
+Treat an all-ones read as the device being gone.  All callers of
+pcie_wait_for_link_status() and pcie_retrain_link() treat any non-zero
+return as failure.
 
-If the device is not accessible, return -EIO and leave state_saved as it
-was.
+On a MacBookPro14,3 whose Thunderbolt controller does not come back from
+S3, the downstream ports of the controller are 2.5 GT/s ports that no
+longer answer.  Resume spent about 65 seconds waiting for the xHCI
+controller behind one of them ("not ready 65535ms after resume"); with
+the pci_bridge_wait_for_secondary_bus() change it gives up on that
+controller after about one second.  That machine never reaches
+pcie_wait_for_link_status() in this situation, so that part has not been
+tested.
 
 Assisted-by: LLM
 Signed-off-by: Francisco Beltrán Millalén <fbeltranmillalen@gmail.com>
 ---
 v2:
-- Use pci_dev_config_accessible() instead of reading the Vendor ID,
-  which always reads as all ones on SR-IOV VFs: v1 refused to save the
-  state of every VF.  In the v1 thread I said I would use
-  pci_device_is_present(), but for a VF that checks the PF and cannot
-  tell whether the VF itself answers.
-- Do the second check after saving the capabilities, and set
-  state_saved only if both checks pass.
-- The bus numbers are set to 0xff, not cleared.
+- Also check in pcie_wait_for_link_status() (faster ports and
+  pcie_retrain_link()); not tested.
+- Say that it is the bridge that is gone.
 
- drivers/pci/pci.c |   53 +++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 37 insertions(+), 16 deletions(-)
+ drivers/pci/pci.c |   16 +++++++++++-----
+ 1 file changed, 11 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-index b2879a6be..94de99d31 100644
+index 94de99d31..2e31d18b2 100644
 --- a/drivers/pci/pci.c
 +++ b/drivers/pci/pci.c
-@@ -1776,31 +1776,52 @@ static void pci_restore_pcix_state(struct pci_dev *dev)
-  * pci_save_state - save the PCI configuration space of a device before
-  *		    suspending
-  * @dev: PCI device that we're dealing with
-+ *
-+ * If the config space of @dev is not accessible, nothing is saved and the
-+ * previous snapshot of the standard header is kept, as writing back the
-+ * all-ones values read from such a device would corrupt it once it is
-+ * accessible again.
-+ *
-+ * Return: 0 on success, -EIO if @dev is not accessible, or another
-+ * negative errno if a capability could not be saved.
+@@ -4586,8 +4586,8 @@ static int pci_pm_reset(struct pci_dev *dev, bool probe)
+  * @use_lt: Use the LT bit if TRUE, or the DLLLA bit if FALSE.
+  * @active: Waiting for active or inactive?
+  *
+- * Return 0 if successful, or -ETIMEDOUT if status has not changed within
+- * PCIE_LINK_RETRAIN_TIMEOUT_MS milliseconds.
++ * Return 0 if successful, -ENODEV if @pdev is not accessible, or -ETIMEDOUT
++ * if status has not changed within PCIE_LINK_RETRAIN_TIMEOUT_MS milliseconds.
   */
- int pci_save_state(struct pci_dev *dev)
+ static int pcie_wait_for_link_status(struct pci_dev *pdev,
+ 				     bool use_lt, bool active)
+@@ -4602,6 +4602,9 @@ static int pcie_wait_for_link_status(struct pci_dev *pdev,
+ 	end_jiffies = jiffies + msecs_to_jiffies(PCIE_LINK_RETRAIN_TIMEOUT_MS);
+ 	do {
+ 		pcie_capability_read_word(pdev, PCI_EXP_LNKSTA, &lnksta);
++		/* All ones means @pdev is gone; it would look like an active link */
++		if (PCI_POSSIBLE_ERROR(lnksta))
++			return -ENODEV;
+ 		if ((lnksta & lnksta_mask) == lnksta_match)
+ 			return 0;
+ 		msleep(1);
+@@ -4624,8 +4627,9 @@ static int pcie_wait_for_link_status(struct pci_dev *pdev,
+  * according to @use_lt.  It is not verified whether the use of the DLLLA
+  * bit is valid.
+  *
+- * Return 0 if successful, or -ETIMEDOUT if training has not completed
+- * within PCIE_LINK_RETRAIN_TIMEOUT_MS milliseconds.
++ * Return 0 if successful, -ENODEV if @pdev is not accessible, or -ETIMEDOUT
++ * if training has not completed within PCIE_LINK_RETRAIN_TIMEOUT_MS
++ * milliseconds.
+  */
+ int pcie_retrain_link(struct pci_dev *pdev, bool use_lt)
  {
--	int i;
-+	u32 config[16];
-+	int i, ret;
-+
-+	if (!pci_dev_config_accessible(dev, "save state"))
-+		return -EIO;
-+
- 	/* XXX: 100% dword access ok here? */
- 	for (i = 0; i < 16; i++) {
--		pci_read_config_dword(dev, i * 4, &dev->saved_config_space[i]);
--		pci_dbg(dev, "save config %#04x: %#010x\n",
--			i * 4, dev->saved_config_space[i]);
-+		pci_read_config_dword(dev, i * 4, &config[i]);
-+		pci_dbg(dev, "save config %#04x: %#010x\n", i * 4, config[i]);
- 	}
--	dev->state_saved = true;
+@@ -4858,8 +4862,10 @@ int pci_bridge_wait_for_secondary_bus(struct pci_dev *dev, char *reset_type)
+ 		if (!dev->link_active_reporting)
+ 			return -ENOTTY;
  
--	i = pci_save_pcie_state(dev);
--	if (i != 0)
--		return i;
-+	ret = pci_save_pcie_state(dev);
-+	if (!ret)
-+		ret = pci_save_pcix_state(dev);
-+	if (!ret) {
-+		pci_save_dpc_state(dev);
-+		pci_save_aer_state(dev);
-+		pci_save_ptm_state(dev);
-+		pci_save_tph_state(dev);
-+		ret = pci_save_vc_state(dev);
-+	}
-+
-+	/*
-+	 * The device may have become inaccessible while it was being read.
-+	 * Keep the previous header snapshot in that case.  The capabilities
-+	 * are saved directly into their buffers, so they are not protected.
-+	 */
-+	if (!pci_dev_config_accessible(dev, "save state"))
-+		return -EIO;
++		/* All ones means @dev is gone; it would look like an active link */
+ 		pcie_capability_read_word(dev, PCI_EXP_LNKSTA, &status);
+-		if (!(status & PCI_EXP_LNKSTA_DLLLA))
++		if (PCI_POSSIBLE_ERROR(status) ||
++		    !(status & PCI_EXP_LNKSTA_DLLLA))
+ 			return -ENOTTY;
  
--	i = pci_save_pcix_state(dev);
--	if (i != 0)
--		return i;
-+	memcpy(dev->saved_config_space, config, sizeof(config));
-+	dev->state_saved = true;
- 
--	pci_save_dpc_state(dev);
--	pci_save_aer_state(dev);
--	pci_save_ptm_state(dev);
--	pci_save_tph_state(dev);
--	return pci_save_vc_state(dev);
-+	return ret;
- }
- EXPORT_SYMBOL(pci_save_state);
- 
+ 		return pci_dev_wait(child, reset_type,
