@@ -1,125 +1,162 @@
-Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl2-f40.google.com (mail-dl2-f40.google.com [74.125.229.168])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC362343897;
-	Thu,  1 Oct 2026 23:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C176F3B4E83
+	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 23:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.229.168
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790897559; cv=pass; b=hxjdnNUywckBlpkvU0Qi6jlHjMVU7BXqnPkxAi8xgvn55kDyrGUd72eAWgWjXOmsB+xwewAjswk55jPHUK1GfmfLzlDoszC7CFO9hO3n2d/lTgm+f7NU6fbs1j8CMrOD8NLBgnx+ZptrW4KI94Wr8qTnVeORpwh5/Nzjnhhva0w=
+	t=1790899108; cv=pass; b=RHHnIXyDebhtDtwtRDUy0D/mengA2khC1EEthH0dTWsrsKwnooTxFvuivpsa3t/Jv8Ml5N26mykqggIG8bmAyCqSWw5tziqgK9nrf1M/AekMMckpMh0wcdnTuW6d17pGs3bu5zw0b4bo9ECePbYzhywJx4QQZOikLkgibRY4u1k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790897559; c=relaxed/simple;
-	bh=kC7eGM7vc/pcNfhHT3ieoSvnmpZngxVz9CoOJzybcWc=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=fhzNrW9GzCyXS0Y9DkzBY2SyLeIogzddjuwQJonDjHxf6xXyY/7E8U6lYlIG7vxW75+wR6B6JVWkG3ASMaieIT4G06LxN25bxJz9GoFWplgVegmXAv8M036zeq1EOXyqCw1uYnwi6DTXP329o6gF0ZvI2loUnHtGK6/X/Q9pRY0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=Xelkg4Sz; arc=pass smtp.client-ip=165.173.180.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1790899108; c=relaxed/simple;
+	bh=AU5qx0SsPYU3uJ8KwmQ0/fUfZYMcTpVxfADD1eUqY6g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sBSngrCY8QflhVhP6/hmQ1Bk82dd8zwoc9kg/q/yejeaIfhFgF5ilJbghhj+dnrFI78bgKGFFGBMPdHa5ZL5vbWc2Al4ByyotIDuUu7vCZq2uA6HIN5I2vgnu4474Vje8grlA1QyMx7A0M7Jx1r4fKy5SwGytn7biBhEGJwcCk8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cdUMZqDM; arc=pass smtp.client-ip=74.125.229.168
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="Xelkg4Sz"
-ARC-Seal: i=1; a=rsa-sha256; t=1790897536; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=PaCJ/FxRvxuGkmAKeA/dJBQatUZRJduT+uOkwqpoMB3p8lqXYJV7yWBTp2o3ClgUb3aZXsPeY07c7ydaBC6ct4GwNsLZyWRh36lNoRZ+GRU6ZYIiDHSmreA1lspejJTrjPewgegQraQu5zoJ8rUlK5xywUmnOU54fXBbga7juKU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1790897536; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=ML/G9TCgidLNp9h/dgAreV05rTYl+PPPnPd9CLWnMJ0=; 
-	b=N/90EF549kovPAMYT/0ZyHHUVQMK1B4a3uoHaNsX7A7MhTariHvwijo3J2u/q+RbGzHoNp/5U5Ybbn6LSUsIQsjMGLvc+CZwqpsb1WchHw7GMysPTcLG7G9KjQTyCghIUn/HWxftN30cOBSP3dxwt8bbOSOrde799LusS7cLvCY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1790897536;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:To:To:Reply-To;
-	bh=ML/G9TCgidLNp9h/dgAreV05rTYl+PPPnPd9CLWnMJ0=;
-	b=Xelkg4Szjjy9XuPD6+I2m20pH8PNbsBSpWssZG4uLKlkAka7wnY6ZddJJ5j8pXMC
-	FFw1ds0Xw/bMcQPmyoJrBWFc6yyJvT8qTm9lB5v8ehHZmHYEF5CvNbHBXTQq/h0Ps/t
-	negmMTPSKUCMSXAmAiw+2DVJ54mnbbiFssDRXiUw=
-Received: by smtp.zohomail.com with SMTPS id 1790897535210114.7548273610214;
-	Thu, 1 Oct 2026 16:32:15 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cdUMZqDM"
+Received: by mail-dl2-f40.google.com with SMTP id a92af1059eb24-14e1fe551c3so1153125c88.0
+        for <linux-usb@vger.kernel.org>; Thu, 01 Oct 2026 16:58:25 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790899105; cv=none;
+        d=google.com; s=arc-20260327;
+        b=FN8DG9D0L3OnqjUb0BdGweu5/yK/e76GQbSiR6NEr4VxMrjC8IXNK0PcgOKfxRxrl2
+         lSLJ8AdRhna6gxYrfanr/1sjfRmw/qJs6STG03RwiHLUrhp5mqkQtdsE4xAf5UGy9gSo
+         d3B4OeTm/QPV248wEBU5T6r8NrpTzelTdCbWt1dA3Gm0jRDzhLFTbhPB+4RQEGGyUPRp
+         1RMV03dz3p6OJTGjIraMKEXY6/PpyrJ8G5YJTL1a36rmX5aOBwP0Bg5OvQ/WH4ouIRk6
+         vZmXaeygdYwtCQWFk6NHc0pTyI81OqBCvw9zP88YG31+LO754JVFMXVLHknWbry5JwmE
+         DR2Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=AU5qx0SsPYU3uJ8KwmQ0/fUfZYMcTpVxfADD1eUqY6g=;
+        fh=3B/L1II5O2g3rBYhVOVqzNqWKquVOu8UQwIyKWmWeTE=;
+        b=Ziea0F7A/6FnuABSLX2kjfWPRlng/PVTdkAJ2mwY9NLldrYoeZN02DTYnRzXhkGfqC
+         nJ57nWmgRLJaQB/cazDRCwnVMBEOGkJ2g/zFCZfaV8qViLDczdb3jcFqn0IgoTJKAK5U
+         0WCCfmLoKO4Xete7mcvK4BI8S+xnbRgYZfJZhvjNLyLnMSzTNkX2/c4fhDwOhbwK1Vg7
+         lXuzG5mGHKPjpSi3x9yDLWOvXsm3Ps8sP5OObs9i3WTCg1t0wEHbKmyeG9dx9dOIQx/m
+         B3h3LZehH29FmEFDFnq6DAokfqxXHzgJ0gILuVhK7/osor8Sk+P5LEGi7NSRwx30GTae
+         PPqA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790899105; x=1791503905; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AU5qx0SsPYU3uJ8KwmQ0/fUfZYMcTpVxfADD1eUqY6g=;
+        b=cdUMZqDMwQu5oJ3RKznrcUG0HfrWQ77MDKzSIVN7yLrP34fGPPx4horPviI51zytzB
+         66lHD4WLa4ozUFAae5NYIRGuYHnU65TiIF4EF/zUCR6oWSSekNHADJe9mmSQjJot5VLI
+         guWGrHYBt4WkVBwJa8bby9y/SS9Ie22FOps7y/5i21g5FCv1KDMxrPJVK9ltgjTUuCJm
+         4rlj16mZaMvL85NC9I0c1JpqQ+cJy6z/vcE7OU8jArNXM18uVEaRZ2S/BtCj6Sg5d9kk
+         PNjQq2os2caVnEWh16vrHjaE6BqUgDhHIN208I99IEIn55s3TJyYxcFw1OYcaQTKpi3/
+         3mpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790899105; x=1791503905;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=AU5qx0SsPYU3uJ8KwmQ0/fUfZYMcTpVxfADD1eUqY6g=;
+        b=flg/R0f7gB2EfeCFXAcvzj478tUEg6fQdvrQT2e0RP+7wpBF6jwKyMKH4tszWYYSXy
+         doozUGafpvsZh29Ci9cjimG3WTHAmKUaWnuk3TC/+6R2h7pTqsc+Zp2OWLp6pYy98rEv
+         UrAk2u9HUnoVjfi/om9QMSkCdCKyLVCFkAlgGPNJXBnDMVDKZ8CyOtipjFJ6nKWp1T7l
+         RcBDIqvfAIgdMiwOGYV+mIg/KHzIiRYZOZVKXQUYLFgLoDXRidSJEot2UgjlRvg7M2u2
+         yQPMgsvnfrcyqf81xPN8CH7Ixp49wzNz8m97kae4b1tj7qhArxZ8WjzpVha7vbQR2o+o
+         C7eQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwEvqXYKj0ClKLjQERaqzbZ6ZpNfosu2njqq+47aFM0m/IxNJsnUPkZfA9hnvqAZQP210KgSatdwgU=@vger.kernel.org
+X-Gm-Message-State: AFuF++nA2f1iJsnTt8JQ60pEuNFq+/rnrvPpI51mhXEYWHkBBL1X2/yn
+	DySxieJQ49Gfpvf/7kf2SiYcRbhDOc1QYjzacRRnTybX0/yZbK36CKTzJN8FnpnkD1Gvno56Rg/
+	85VlNVPbVQRpbqL4PiqRXfKW20NcmmrPVVvadXM0=
+X-Gm-Gg: AYBFou33To3EBWTUt9PFKoxSFTIkrf6zHLalXUMHC2tdt4/gqwI2t/VbWWKJsJePqXD
+	7xdLUSBNYpojy9OMBPIrqJ1j23M9mbMOK8OmzbbqJujwLljJtrkMGhtjgAHzohR6j+WUhEUJRyJ
+	fZSjEcPFyA9PKG/FpHlA/e04aVC42inWgalk3z24U95SfbudJPG2lzxExorxV+nuFoa6IwgSOMV
+	oIN+B6fj55nZp++puigQLN2FdfMh6br6Tfkezm7GYWpo0kYwh4Y2gzAsvujA5OgHk9YdlXxoi6d
+	HajaPxeiS9sLwTa9aKkG6eN7MzP9SuKPva3MXwvqDSjiDSJDiOB7xRlyLB2TSXDsfuOKgmonrOP
+	jG7h5fxfxAg/v+KnHX4OqGSq4NA==
+X-Received: by 2002:a05:7022:150a:b0:143:5722:55be with SMTP id
+ a92af1059eb24-14f5c2ef10emr1139903c88.30.1790899104864; Thu, 01 Oct 2026
+ 16:58:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3901.100.1.1.11\))
-Subject: Re: [PATCH RFC v2 1/4] rust: usb: add endpoint abstraction
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20260811-rust-usb_control_msg-v2-1-ef79c92bd898@wyliodrin.com>
-Date: Thu, 1 Oct 2026 20:31:57 -0300
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>,
- =?utf-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>,
- Tamir Duberstein <tamird@kernel.org>,
- Alexandre Courbot <acourbot@nvidia.com>,
- =?utf-8?Q?Onur_=C3=96zkan?= <work@onurozkan.dev>,
- "Rafael J. Wysocki" <rafael@kernel.org>,
- linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org,
- rust-for-linux@vger.kernel.org,
- driver-core@lists.linux.dev
+MIME-Version: 1.0
+References: <20260930-tb-dprx-fix-v1-1-da92659e491a@gmail.com> <20261001034839.GA176164@black.igk.intel.com>
+In-Reply-To: <20261001034839.GA176164@black.igk.intel.com>
+From: David Medina <b2amedina@gmail.com>
+Date: Thu, 1 Oct 2026 19:57:56 -0400
+X-Gm-Features: AclHuK98N9acfHTGaWAbQzc_UJu8LzhR1AJw-KZvb2e5NZcBn3V2zswzwxEWLcw
+Message-ID: <CAGTy6n-voghUysgDmvU5bU+zuBPyr_svGXU9m-zm+vKXHYf55A@mail.gmail.com>
+Subject: Re: [PATCH] thunderbolt: Fix domain reference leak on DPRX work cancel
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg <westeri@kernel.org>, 
+	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <0BD94D14-E5CB-4260-8B3C-AC49AF340CD4@collabora.com>
-References: <20260811-rust-usb_control_msg-v2-0-ef79c92bd898@wyliodrin.com>
- <20260811-rust-usb_control_msg-v2-1-ef79c92bd898@wyliodrin.com>
-To: Alexandru Radovici <alexandru.radovici@wyliodrin.com>
-X-Mailer: Apple Mail (2.3901.100.1.1.11)
-X-ZohoMailClient: External
 
-Hi Alexandru,
+Hi Mika,
 
-I think the typestate should go away in favor of something simpler:
+Had issues with your mail servers kicking back my message - so
+resending just in case.
 
-#[derive(Clone, Copy)]
-pub struct Endpoint(u8);  <------- private constructor
+------
 
-Drivers ask the Rust layer for their endpoints at probe time, through a
-wrapper around the C helpers, e.g. usb_find_common_endpoints()
-or similar
+Thanks =E2=80=94 I tested your fixes branch and can confirm it already
+resolves the shutdown/reboot hang.
 
-    pub fn find_bulk_endpoints(&self) -> Result<(Endpoint, Endpoint)>
+Please disregard my patch.
 
-Unlike your current &HostEndpoint, an Endpoint can be stored in the
-driver's data, since it=E2=80=99s just a u8.
+Thanks,
+David
 
-Also, perhaps the control endpoint should be its own type, i.e.:
 
-/// # Invariants
-///
-/// The wrapped [`Endpoint`] is a control endpoint of the device.
-#[derive(Clone, Copy)]
-pub struct ControlEndpoint(Endpoint);
+On Wed, Sep 30, 2026 at 11:48=E2=80=AFPM Mika Westerberg
+<mika.westerberg@linux.intel.com> wrote:
+>
+> Hi,
+>
+> On Wed, Sep 30, 2026 at 10:16:35PM -0400, David Medina via B4 Relay wrote=
+:
+> > From: David Medina <b2amedina@gmail.com>
+> >
+> > tb_dp_dprx_start() takes an additional reference to the domain with
+> > tb_domain_get() and passes it as callback_data to tb_tunnel_alloc_dp().
+> > That reference is only released by the callback, tb_dp_tunnel_active(),
+> > which tb_dp_dprx_work() invokes once the DPRX capabilities read complet=
+es
+> > or times out.
+> >
+> > If the tunnel is deactivated before the DPRX work runs to completion,
+> > tb_dp_dprx_stop() cancels the still pending work. The callback is then
+> > never called and the domain reference held in callback_data leaks. The
+> > domain's reference count never reaches zero, so tb_domain_release() nev=
+er
+> > runs and a subsequent shutdown/reboot hangs waiting for the domain to b=
+e
+> > released.
+> >
+> > Release the callback_data domain reference in tb_dp_dprx_stop() when th=
+e
+> > DPRX work is canceled, mirroring the release done by the callback.
+> >
+> > Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation=
+ asynchronously")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: David Medina <b2amedina@gmail.com>
+>
+> This should be fixed already by the patches in my fixes branch, can you
+> try?
+>
+> https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git/l=
+og/?h=3Dfixes
 
-impl Deref for ControlEndpoint {
-    type Target =3D Endpoint;
 
-    fn deref(&self) -> &Endpoint {
-        &self.0
-    }
-}
 
-impl Interface<device::Bound> {
-    pub fn control_endpoint(&self) -> ControlEndpoint {
-        // INVARIANT: Endpoint 0 is always a control endpoint.
-        ControlEndpoint(Endpoint(0))
-    }
-
-    pub fn control_message_send(&self, ep: ControlEndpoint, ...) -> =
-Result
-    pub fn control_message_receive(&self, ep: ControlEndpoint, ...) -> =
-Result
-}
-
-By the way, the alternate setting accessors and making usb::Device
-public don't have a user, not even a planned one, so I'd drop them.
-
--- Daniel
-
+--=20
+David Medina
+14901 SW 87th Ave
+Palmetto Bay, FL 33176
+786-280-0880
