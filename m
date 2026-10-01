@@ -1,128 +1,148 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B934BE430
-	for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 23:46:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658D9381B0F
+	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 01:00:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790812018; cv=none; b=OTImN6mYLiDrmsfVPSxRG+NXLO32ZMeD1TkuUz/Nz2N56azWXkqzDIap/L3I4mmSBhooeZXAMCoQfVxoNeCZXngcNUfhMua1mk1HFYgHi9Yrl8brGF7QEMgTW8qDG72kTTZvp2vXte4lp+z8KyV5HO3SSuj0FR1ESztcUmyyHIE=
+	t=1790816429; cv=none; b=PwPaI94BHABo7gbFLto3/zkQ5n6pkQmeZxCjvZSlC3yQoSLKenenhEjfpdci2nrkPlsRgWMJ8rW/CJXek4JVir/SuMxoUSBEb4dU5nG2zdIShE0XIYju9QLJWWqhfHMhOye4J7SPOUpO/bvQad8bM6RmSJ0QI0cNHjZa2xqUzAI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790812018; c=relaxed/simple;
-	bh=J04w6m736rx7ewf6/jKvl5BzfuXA+8hHFvMZDOWRIOI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=gErVIazpxuBm+yzaBz/ZaMQYxtvZ98FjXWvA4USAZ2bMlM29J5kXfdD+ChFPGHyR8VcW1HlhKg788WzstHVt9E7uChMdBqYl3lr8F2pRU8VAUCUbO7vcS5Y6wTub9TdjPqB9fLfwhfbCa4mEwvM1erdNdjHf/IM1aM9vNIeKq9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gl0GQQvK; arc=none smtp.client-ip=74.125.82.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gl0GQQvK"
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-3410209aa6aso167963eec.1
-        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 16:46:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790812015; x=1791416815; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Nu8Cl9d5kdkeLBWfcAAawSaGHAduQcU752rXCWMacQA=;
-        b=gl0GQQvKsHGa+qinYpbejun2ZIuRVObrIdiBVMMPkhDQcTlVUCljxvV65p1da5ayM1
-         gUp3lKGysnDQOLFG8TahRa3CXTeS7omggEBs4g3D0mP4VEvtEHKo8g630RxQkF5JO12h
-         qc1Pwc+rkQ0itiw3Vsy2/reUJ3zhxIiFcAVLuxv+Nkuemlj5sjNnNOtyIgfL3jfulQsU
-         X7simCfILBw3pa/Y/4G1sEpRAqmd7JO4r3vCbPM51cIjtSeMYsrP3evDtcl64WvFMIVw
-         T9Uv62qg8YnI0jJKIZU1kCcDoCntdSk5AaGyVMwJ6l+YuekyUnl1opXOwilsiRAVfTCK
-         kvYA==
+	s=arc-20240116; t=1790816429; c=relaxed/simple;
+	bh=FpRLzAKoQOj2WK4r99t/gINqZRlyhEfxA8D8qFGtIrE=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=MCwck808PnwlFzkTNXVdIbPkAlIHrhX3mn/UJglNoymCXsJ6fSh6WP2Wl04tjoo65ZM8K52Lp9vnK4qGv1/2J7ROXvkbWJ3ghQ4DBQRUtwj7O2X+uIGXVQ75huRj7ty9K1teeInNQxOELDLohUZfztd8XLeBuMcSXa3eIlAD80w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4dc57e2a3f2so9288667b6e.0
+        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 18:00:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790812015; x=1791416815;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Nu8Cl9d5kdkeLBWfcAAawSaGHAduQcU752rXCWMacQA=;
-        b=1KcqFzOfuOwO7NIYOuzGDcZooUOH4ckH5wFdDZNAaTblceA6RqhrkJyDXgh/53GQY2
-         ++KCYL9BQ6+p/Vy+f8CSGZNqcfeMOt//N6vjPfhBjVgX0eh1u0SpxWeYiucGgmeK1vkb
-         2+eaWxZ++EbRlom3f6ZnIR62S1uNeTkED/W6Sd6b1+/OQWWViYcCrxSoXQ8MMFTTxZz1
-         9fpJAXnyuNq2kIXpaqDwQPaQyXHISS3+R9v0UglkVrmXVBiDDKOZpDUEfFUJH1ru4ivc
-         V7BsXYdIjbwMqs9s9NB1IAxZA+JkmX0oB7S/OiLw+Wo4cO+JFnIpiuDn4Z1ZuDAHe95Q
-         xuMQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx2gUJbEL/fSaQu0LsUL/2S6nZ1R5U63xn8wt1aLClUQR9FOd7AqHcBCdIjk3Ux7VWCZtSOuKuc9uQ=@vger.kernel.org
-X-Gm-Message-State: AFuF++lPT2aDkG6G01v7U9tc60mPWL5yIr8J/JF6KDOQ/Y0jOeWf62qS
-	kQTkUT6o0Q+Ah41m1gyJ4EDIam/r1WHz9RFlNioZXZnyIpxQeUJv1rcn
-X-Gm-Gg: AYBFou3ZPkxsT4z3P9RnUUadJNi/57hFZLtFy/kld/ihyHsE0w79nGxQvT8tzdfEvwH
-	go3jMByao93W0Hlm98dV6qhwpj0QtusJ67p+VqEnEAPJ90iTtYf6KiANSdLUkXrizamd6bOjcDF
-	tURAGYbSiKYNJ3Bl/240dEuzQtEzaCI3zgbtWVzpJpDzs2zLUmsD2+t2CIlUKHDzjNx6M43Vrmf
-	rNvGpykrZS9lOHrTNwZek6L6IQ24QWsw0xQASXafnrnPQCelhmloepSjTrSSnDy4vsmzucSBckd
-	yur74gTQoSMHz4NZBTGtraSv+CqmvsLWCVlmYMRBXSnorp74KR/1Y2MBIXiEzo9Z0+fr/wAXA4k
-	2nOGB4tNAGwJ6GBcEqDIGlO4mJYJoJZTqeKrAe3pT5/oYNkOIUzwQj1CHzHOBl0gu7eBRop4Xoe
-	XW/amD3f3nys9dDSZnKyb6zNp013i6dwjYlzG+5vLkglbcNZjvRk0X9FTI6pR4KGavFctme64TP
-	VwbBpNEbRykNLMdShYSs/3LCjCNjnef38gUFaIoOEvUQUE=
-X-Received: by 2002:a05:7022:281:20b0:146:84fd:7b58 with SMTP id a92af1059eb24-14dd07fca11mr934446c88.9.1790812015144;
-        Wed, 30 Sep 2026 16:46:55 -0700 (PDT)
-Received: from Gris-Laptop (gia.grisge.info. [67.230.185.89])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14df359ee25sm1768367c88.5.2026.09.30.16.46.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 16:46:54 -0700 (PDT)
-From: Gris Ge <cnfourt@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Gris Ge <cnfourt@gmail.com>,
-	stable@vger.kernel.org,
-	Benson Leung <bleung@chromium.org>,
-	Andrei Kuchynski <akuchynski@chromium.org>,
-	Abel Vesa <abelvesa@kernel.org>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	Jameson Thies <jthies@google.com>,
-	Hsin-Te Yuan <yuanhsinte@chromium.org>,
-	Johan Hovold <johan@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] usb: typec: ucsi: Skip CAM query when partner has no alt modes
-Date: Thu,  1 Oct 2026 07:46:08 +0800
-Message-ID: <20260930234611.468765-2-cnfourt@gmail.com>
-X-Mailer: git-send-email 2.56.0
+        d=1e100.net; s=20260707; t=1790816424; x=1791421224;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=yoqFpuJO/gKkgQW+Vs4ZZWyR9d6Arw0t8Tm3FIXdJPI=;
+        b=BRW9Y2XIU95bJWDROF+nujWUMPzGLF5Pol4Q9efBrJhMggZB+w9+URmdgi4FcYuEZ5
+         tGbKU1gTufUXtqGLW1jTl0HM9ZTQuc8dVJ1ObWN/gswYpPFkfdkjSNv+DdXwpQ2yxpv1
+         M+Znfe5Jzc5h+7yCMW8g0wFXIedDjoXFGoV5ZfGbGnCzlKAVXyiHiCcBwaJDYfFfeIrf
+         YH7Z1B6tJSrt2Vv7s5weJ6uxIELHHoez/RwPnQTw7+bUlCyNVEIoRovfyW7dF1wzg40x
+         6DfSsNOZSSEHjOJ/dE3gfNMXDWPgias7I6kvgU6ztsc7qzhxREPiGwu1WIp9qFgbijXJ
+         RIuQ==
+X-Forwarded-Encrypted: i=1; AKwUvBynTZQsUqgW1H9MHN8bycZG+mky5EK6nsqwccFmwtShZVCNYCCBuQV3fYdprImMUZYZ0gXBEimXaT4=@vger.kernel.org
+X-Gm-Message-State: AFuF++mSF0iKftLG6HG04EvQykNniMAH5pUKfGvWH8Zzts0oYelj3Dsj
+	lVm9DKaPjG8gQuXFLM1K6jNVGiVDnglJfhYqDFMoPAxBaIojrQlr63wELjaMyeT/Fgz8DWNP+Kf
+	LUdko6ahG8Y8WRQ4yq7cjdJ3yujLq1vHEYOAwt6xHGChzwZGP1Rvy+lrHPQY=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:4444:b0:4d6:85d4:8499 with SMTP id
+ 5614622812f47-4f1b2e3534bmr3646607b6e.7.1790816424773; Wed, 30 Sep 2026
+ 18:00:24 -0700 (PDT)
+Date: Wed, 30 Sep 2026 18:00:24 -0700
+In-Reply-To: <6a68b182.4c659fcc.19cd90.0021.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6abdb0a8.b50370da.302ea9.0002.GAE@google.com>
+Subject: Re: [syzbot] [usb?] KASAN: global-out-of-bounds Read in usb_copy_descriptors
+From: syzbot <syzbot+debc5c305403f180c01c@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, paritosh.potukuchi@amd.com, 
+	paritoshpotukuchi@gmail.com, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Since Thunderbolt alternate mode support was added,
-`ucsi_altmode_update_active()` is called on every Connector Partner
-Changed event.  This made the driver send `UCSI_GET_CURRENT_CAM` to
-PPMs even when the partner had no alternate modes registered. Firmware
-that does not support the optional alternate mode details answered Not
-Supported, which produced a spurious error on every partner change:
+syzbot has found a reproducer for the following issue on:
 
-```
-ucsi_acpi USBC000:00: GET_CURRENT_CAM command failed
-```
+HEAD commit:    6c2cb8b8b843 Add linux-next specific files for 20260930
+git tree:       linux-next
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=1190e3f5580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=6f425a2650355dac
+dashboard link: https://syzkaller.appspot.com/bug?extid=debc5c305403f180c01c
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=112a43f5580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=152a43f5580000
 
-Fixed by skipping the command when there is nothing to update.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/d79eefc0c62e/disk-6c2cb8b8.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/d661335b4b7a/vmlinux-6c2cb8b8.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/e2aeb28cdc89/bzImage-6c2cb8b8.xz
 
-Fixes: da87d45b1951 ("usb: typec: ucsi: Add Thunderbolt alternate mode support")
-Cc: stable@vger.kernel.org # v7.0+
-Assisted-by: Codex:deepseek-v4.1-flash
-Signed-off-by: Gris Ge <cnfourt@gmail.com>
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+debc5c305403f180c01c@syzkaller.appspotmail.com
+
+==================================================================
+BUG: KASAN: global-out-of-bounds in usb_copy_descriptors+0x1b8/0x320 drivers/usb/gadget/config.c:94
+Read of size 128 at addr ffffffff9ad9cd80 by task syz-executor273/5627
+
+CPU: 1 UID: 0 PID: 5627 Comm: syz-executor273 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
+Call Trace:
+ <TASK>
+ dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
+ print_address_description+0x55/0x1e0 mm/kasan/report.c:378
+ print_report+0x58/0x70 mm/kasan/report.c:482
+ kasan_report+0x117/0x150 mm/kasan/report.c:595
+ check_region_inline mm/kasan/generic.c:-1 [inline]
+ kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
+ __asan_memcpy+0x29/0x70 mm/kasan/shadow.c:105
+ usb_copy_descriptors+0x1b8/0x320 drivers/usb/gadget/config.c:94
+ usb_assign_descriptors+0xcf/0x290 drivers/usb/gadget/config.c:131
+ f_audio_bind+0x1b5e/0x34b0 drivers/usb/gadget/function/f_uac1.c:1443
+ usb_add_function+0x2e1/0x9f0 drivers/usb/gadget/composite.c:333
+ configfs_composite_bind+0xde0/0x1410 drivers/usb/gadget/configfs.c:1802
+ gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
+ call_driver_probe drivers/base/dd.c:-1 [inline]
+ really_probe+0x254/0xae0 drivers/base/dd.c:706
+ __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
+ driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
+ __driver_attach+0x339/0x600 drivers/base/dd.c:1292
+ bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:386
+ bus_add_driver+0x38f/0x6e0 drivers/base/bus.c:771
+ driver_register+0x23a/0x320 drivers/base/driver.c:174
+ usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
+ gadget_dev_desc_UDC_store+0x1c9/0x2f0 drivers/usb/gadget/configfs.c:300
+ flush_write_buffer fs/configfs/file.c:207 [inline]
+ configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
+ new_sync_write fs/read_write.c:595 [inline]
+ vfs_write+0x612/0xba0 fs/read_write.c:687
+ ksys_write+0x150/0x270 fs/read_write.c:739
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc3b3d71df9
+Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff154ebbf8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
+RAX: ffffffffffffffda RBX: 0000200000000400 RCX: 00007fc3b3d71df9
+RDX: 000000000000000c RSI: 0000200000000480 RDI: 0000000000000003
+RBP: 0000200000000000 R08: 0000555581694060 R09: 0000555581694060
+R10: 0000555581694060 R11: 0000000000000246 R12: 00007fff154ebef8
+R13: 0000000000000002 R14: 00007fff154ebc30 R15: 0000200000000008
+ </TASK>
+
+The buggy address belongs to the variable:
+ ac_header_desc+0x0/0x20 f_uac1_legacy.c:-1
+
+The buggy address belongs to the physical page:
+page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1ad9c
+flags: 0xfff00000002000(reserved|node=0|zone=1|lastcpupid=0x7ff)
+raw: 00fff00000002000 ffffea00006b6708 ffffea00006b6708 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+page_owner info is not present (never set?)
+
+Memory state around the buggy address:
+ ffffffff9ad9cc80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffffffff9ad9cd00: 00 00 00 00 00 00 00 00 00 00 00 00 f9 f9 f9 f9
+>ffffffff9ad9cd80: 00 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9 00 00 f9 f9
+                      ^
+ ffffffff9ad9ce00: 00 00 f9 f9 00 00 f9 f9 00 00 f9 f9 00 00 00 00
+ ffffffff9ad9ce80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+==================================================================
+
+
 ---
-v2:
-  - skip the invoke of `ucsi_altmode_update_active()` in
-    `ucsi_handle_connector_change()`
-v1: https://lore.kernel.org/linux-usb/20260927021649.8967-1-cnfourt@gmail.com/
-
- drivers/usb/typec/ucsi/ucsi.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-index bef3f9b71d71..c392afdc27ae 100644
---- a/drivers/usb/typec/ucsi/ucsi.c
-+++ b/drivers/usb/typec/ucsi/ucsi.c
-@@ -1519,7 +1519,8 @@ static void ucsi_handle_connector_change(struct work_struct *work)
-
- 	if (con->partner && (change & UCSI_CONSTAT_PARTNER_CHANGE)) {
- 		ucsi_partner_change(con);
--		ucsi_altmode_update_active(con);
-+		if (con->partner_altmode[0])
-+			ucsi_altmode_update_active(con);
-
- 		/* Complete pending data role swap */
- 		if (!completion_done(&con->complete))
---
-2.55.0
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
