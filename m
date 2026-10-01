@@ -1,119 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3495C36E466;
-	Thu,  1 Oct 2026 18:43:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94319486430
+	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 21:39:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790880207; cv=none; b=kCBH0Vt+V7JNWu0R0pK7x1syJuNDKUSPUJjik9UC0qLGlD/R2OIaqOCG1tYFoLeXL03gWhUlh6X1KdRXR52nQZ7ZGMB4gFpc0Qls/1J9Qf7jESrfSVPOzc/ZREHZHnTWTQCrEveerwh4vWUu4xDmB91Bf0S9gBwlSdazSx+vbBE=
+	t=1790890773; cv=none; b=hs51YTJapPATMYyjVgfoW2WJDnrr2+3xJ0g0FGmpp5xwWK0NhAsHr2NvD17r1RHUx8eGg6E/WlbO8uwHfLO5GTF+UTtiYch+7X1tO5CDPiIvJBHYSdPO0jSazzg1znHuCCS0YAHeJplsvLEkiiaWNTZXRjSgWVV3ggaZTEfNjZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790880207; c=relaxed/simple;
-	bh=aQT5kr5OpIPrNRiA4Ciri1pSzFK/ArwAb1wwoAcp6gI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=baD+JNJaoD0NekzQtBD8gOPUkNbjD+dPMwi06sNo04Dt9iHJ5aSpKMoqL1zLM2MaKZqn4xcLeaECULrSLZPvrggbjalJj9hNWtlQy6Joi3h4h9svNMiqcL3Zs0NyvGymu/4PQkcV495htK7dh4MygZ9djOFCB+vPvarsFDf7i6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RGVueZdV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790890773; c=relaxed/simple;
+	bh=F4mVtLzLskwQCHUKBlnm0DTwM1QujEfRwxFNFpHwvQ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 References; b=BMfIikOMcwGBPy//TtXeHoj18mF7SzWjg+8/nFBbUeicrIGZhZtTYAUpI/TZ4k4FXxj/iyqMsj3FVMqNTGJeE1KnqyGv9k2rU48zLinrxdRE8BrAx/VIE1GJAnSnt+8JceJ/Zdhg81w9cS4Y7/NHYEmhyfkpKRWEmScLLfRbbK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=PZAvZKQy; arc=none smtp.client-ip=210.118.77.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RGVueZdV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 891C91F000FF;
-	Thu,  1 Oct 2026 18:43:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790880203;
-	bh=+ZkKXhIWFfrPTejbxGVS4sr+xXF138d3U86G2Sd+jdM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=RGVueZdVwS5NCHbj20qs/POyhViHxenDJCPkoZSRN8Zaz1GgnZ9k3jSVOS384808M
-	 c0+kKyGGMfDyVgeNifd8InH7GnTzmPiYa6IsMx1pjomLSdapw9sblXsM909HtbezZI
-	 6COvZezuz3KaI3Hcscjl+3Q5zkTT+OUbB0Nj3aytNfujdcVpvicXtgBFMVyvAbXGYK
-	 nHGQkNAbAtDeDjhB5CYdmTLuuNK2+v8pM23qNklfUVx7rO0S3vvb+Lg0Id2dnXfIYA
-	 Zb/+p5WgPTjPZ2Y/GlUvnQGSX3I4d0C037wmovuOeulMFSo7m2W4UG79KZs7OL3BAf
-	 U7CKZrUm93kqA==
-Date: Thu, 1 Oct 2026 13:43:22 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Imre Kaloz <kaloz@kernel.org>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	stable@vger.kernel.org,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH] PCI: Disable MSI for ULi M1575 EHCI controller
-Message-ID: <20261001184322.GA2711157@bhelgaas>
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="PZAvZKQy"
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20261001213927euoutp01248b86b937ceb3fa990f126d16c0db9a~ahan-A7Yl2580125801euoutp01k
+	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 21:39:27 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20261001213927euoutp01248b86b937ceb3fa990f126d16c0db9a~ahan-A7Yl2580125801euoutp01k
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1790890767;
+	bh=E4d1q0Gg2UrMR1Pqam4NxUMf5y7XXUDda2KIR5efMkc=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=PZAvZKQyOCg3M4V7jLZYXfnTS00NpW8ANGjocOmLBttUmb/9Q5jnYOBfKXsL7mBda
+	 nRAF+ijAIquXge4XweNbv6iCwmhq85w7PwIRmD/W7allbZK2whUc8iqHmNElL/Us55
+	 mwCX9+NmSA5RDAxirBNX6t3TvyAzL41z/KyTKA/Q=
+Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+	20261001213926eucas1p18003977c0313cf3395a7413d22043df6~ahanZkbg20134801348eucas1p1D;
+	Thu,  1 Oct 2026 21:39:26 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261001213926eusmtip1778ee49ef512a91412cd457181fb1683~ahanGWQKs1437614376eusmtip1u;
+	Thu,  1 Oct 2026 21:39:26 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Jiazi Liu <jiazi.liu1984@gmail.com>
+Subject: [PATCH] usb: dwc3: fix use of destroyed dwc->connect_mutex on
+ gadget exit
+Date: Thu,  1 Oct 2026 23:39:03 +0200
+Message-ID: <20261001213905.3290308-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260930191100.6127-1-kaloz@kernel.org>
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20261001213926eucas1p18003977c0313cf3395a7413d22043df6
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20261001213926eucas1p18003977c0313cf3395a7413d22043df6
+X-EPHeader: CA
+X-CMS-RootMailID: 20261001213926eucas1p18003977c0313cf3395a7413d22043df6
+References: <CGME20261001213926eucas1p18003977c0313cf3395a7413d22043df6@eucas1p1.samsung.com>
 
-On Wed, Sep 30, 2026 at 09:10:58PM +0200, Imre Kaloz wrote:
-> With MSI, the ULi M1575 EHCI controller (10b9:5239) intermittently stops
-> executing its asynchronous schedule. Control transfers time out ("device
-> not accepting address", "device descriptor read/64"), the port is handed
-> to the companion OHCI controller and the device ends up at full speed. On
-> a configured hub the stall shows up as hub descriptor and status read
-> failures. Only re-initializing the controller recovers it.
-> 
-> On a Sun Ultra 45, 65 of 800 controller initializations stalled with MSI
-> and none of 200 with INTx. Each initialization is an unbind and bind of
-> ehci-pci on the EHCI function, with MSI or INTx selected through its
-> msi_bus attribute; with this quirk, 0 of 100 cycles of the same loop
-> stalled. The stall reproduces on a kernel that already contains
-> commit 0b60557230ad ("usb: ehci: Prevent missed ehci interrupts with
-> edge-triggered MSI").
-> 
-> The OHCI functions (10b9:5237) keep MSI. They showed no stall, and the
-> hub enumerated through them on MSI during the EHCI failures, so only the
-> EHCI function is quirked.
-> 
-> The illumos EHCI driver also disables MSI on this chip, in
-> ehci_register_intrs_and_init_mutex() in
-> usr/src/uts/common/io/usb/hcd/ehci/ehci_util.c.
-> 
-> Until USB HCDs started trying MSI first in v5.9, the controller always
-> used INTx. Disable MSI so it uses INTx again on this chipset.
-> 
-> Fixes: 306c54d0edb6 ("usb: hcd: Try MSI interrupts on PCI devices")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Imre Kaloz <kaloz@kernel.org>
+dwc3_gadget_exit() destroys dwc->connect_mutex before calling
+usb_del_gadget(), which unbinds the gadget driver and ends up in
+dwc3_gadget_pullup() taking that already destroyed mutex. With
+CONFIG_DEBUG_MUTEXES this triggers the following warning on reboot:
 
-Applied to pci/misc for v7.4, thanks!
+ DEBUG_LOCKS_WARN_ON(lock->magic != lock)
+ WARNING: kernel/locking/mutex.c:625 at __mutex_lock+0x4bc/0xb88, CPU#1: systemd-shutdow/1
+ ...
+ Call trace:
+  __mutex_lock+0x4bc/0xb88 (P)
+  mutex_lock_nested+0x24/0x30
+  dwc3_gadget_pullup+0x88/0x150
+  usb_gadget_disconnect_locked+0x44/0x1f0
+  gadget_unbind_driver+0x48/0x124
+  device_remove+0x4c/0x80
+  device_release_driver_internal+0x1e0/0x23c
+  device_release_driver+0x18/0x24
+  bus_remove_device+0xe8/0x1a0
+  device_del+0x14c/0x414
+  usb_del_gadget+0x90/0xe8
+  dwc3_gadget_exit+0x40/0x9c
+  dwc3_drd_exit+0xe4/0x14c
+  dwc3_core_remove+0x140/0x17c
+  dwc3_qcom_remove+0x38/0x120
+  platform_shutdown+0x24/0x34
+  device_shutdown+0x158/0x260
+  kernel_restart+0x44/0xa4
+  __do_sys_reboot+0x118/0x24c
+  ...
 
-> ---
-> 
-> Notes:
->     lspci -nnv of the EHCI function on the Ultra 45, taken with this quirk
->     active, so MSI shows Enable-:
->     
->     0000:05:1c.3 USB controller [0c03]: ULi Electronics Inc. USB 2.0 Controller [10b9:5239] (rev 01) (prog-if 20 [EHCI])
->     	Subsystem: ULi Electronics Inc. Device [10b9:5238]
->     	Device tree node: /sys/firmware/devicetree/base/pci@1e,600000/pci@0/pci@1/pci@0/usb@1c,3
->     	Flags: bus master, 66MHz, medium devsel, latency 64, IRQ 00000006
->     	Memory at 00206000 (32-bit, non-prefetchable) [size=8K]
->     	Capabilities: [50] Power Management version 2
->     	Capabilities: [58] Debug port: BAR=1 offset=0090
->     	Capabilities: [78] MSI: Enable- Count=1/1 Maskable- 64bit-
->     	Kernel driver in use: ehci-pci
->     	Kernel modules: ehci_pci
-> 
->  drivers/pci/quirks.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/pci/quirks.c b/drivers/pci/quirks.c
-> index de9bbccda21f..9fb530a08fda 100644
-> --- a/drivers/pci/quirks.c
-> +++ b/drivers/pci/quirks.c
-> @@ -1941,6 +1941,8 @@ DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ATI, 0x4388, quirk_no_msi);
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ATI, 0x4389, quirk_no_msi);
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ATI, 0x438a, quirk_no_msi);
->  DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_ATI, 0x438b, quirk_no_msi);
-> +/* ULi M1575 EHCI (10b9:5239): MSI stalls the async schedule */
-> +DECLARE_PCI_FIXUP_FINAL(PCI_VENDOR_ID_AL, 0x5239, quirk_no_msi);
->  
->  static void quirk_pcie_mch(struct pci_dev *pdev)
->  {
-> 
-> base-commit: fe2ec83746e501645709761605c2464a44fd2929
-> -- 
-> 2.47.3
-> 
+Fix this by initializing dwc->connect_mutex together with dwc->mutex in
+dwc3_core_probe().
+
+Fixes: 1ff77cbefe5a ("usb: dwc3: gadget: fix IRQ storm on invalid event buffer count")
+Assisted-by: Claude Opus 5.5 <noreply@anthropic.com>
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+---
+ drivers/usb/dwc3/core.c   | 1 +
+ drivers/usb/dwc3/gadget.c | 2 --
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index fd5c2cd36c59..f977bc3eeb79 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -2373,6 +2373,7 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
+ 	}
+ 
+ 	mutex_init(&dwc->mutex);
++	mutex_init(&dwc->connect_mutex);
+ 
+ 	pm_runtime_get_noresume(dev);
+ 	pm_runtime_set_active(dev);
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index ee837235630a..8fd1fd9b0db3 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -4879,7 +4879,6 @@ int dwc3_gadget_init(struct dwc3 *dwc)
+ 
+ 	init_completion(&dwc->ep0_in_setup);
+ 	INIT_WORK(&dwc->err_recovery_work, dwc3_err_recovery_work);
+-	mutex_init(&dwc->connect_mutex);
+ 	dwc->gadget = kzalloc_obj(struct usb_gadget);
+ 	if (!dwc->gadget) {
+ 		ret = -ENOMEM;
+@@ -4977,7 +4976,6 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
+ 		return;
+ 
+ 	cancel_work_sync(&dwc->err_recovery_work);
+-	mutex_destroy(&dwc->connect_mutex);
+ 	dwc3_enable_susphy(dwc, true);
+ 	usb_del_gadget(dwc->gadget);
+ 	dwc3_gadget_free_endpoints(dwc);
+-- 
+2.43.0
+
