@@ -1,114 +1,194 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from forward100d.mail.yandex.net (forward100d.mail.yandex.net [51.250.60.160])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119763CCFCB
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 04:46:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCF12383C84
+	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 06:34:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.250.60.160
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790830005; cv=none; b=WPTDMysXpIBIy2K3GK5RIlkAc84S1VZjjDNO5B5O3gz58m9BMxnryi9YCUX3fulzYP9PcZAYwlQJAm6+OX9XfvfzoHdd5643hnzQG2IUbw9ubVdYBT3ZvVB9UNJrRj/cLfolIom0Ip7AjCEzSz6+53srf7HmmcvHd0BlAsvUufc=
+	t=1790836491; cv=none; b=KWx1K+sfqeDWzUKcKAHepUXi7QArSX+2JAmGgSy78mPaSuACmxIIhsI29sGUet95Uv0DjLlbPzW2+XDmXxqfDiyHeuAa9zwK8dGygmM2jmYVoxtLL7woE5NzzgMf4i1sruamYYovjpgj4swSO8vGw87mLSJibI/ht3oY3AVpNM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790830005; c=relaxed/simple;
-	bh=AnaIvH3WHmdRhjVNmulXoc+6MzWJGNzW5eiixj7lon8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ZJE3O7OUKiz6QH3IZk8nw/UsV0LPwp8X7geYvI9CU0WiSbcxo2KzJAxePV1sPcv3k841ZGOlG1IOSwVJUxcpTWLJmZBST+aMipmFNCCZ3Q7SDum4qi/8AMSi0+l1XEvDmC1LWyOXtX7rmppK3vKnpBDQGiOf2ywm12vZUobbvSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=auyFW09A; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1790836491; c=relaxed/simple;
+	bh=J3D89E8dtClsJeotM7fR3c4O4A+cK/EYwru7OpM5C/U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qI2pLcFDIUEA1Ch/7mRFujiDQFVO6JzwB8dXz7pyvJ2xJx1mYaxjENKGpQS5Gnm5RgRO51tKlRm+ERIrk60H3mRzx/neQmW1W/afbTecX8XGxGeEhthzzGfnweYSMxqPEnhHaeqLZFGScKZn3mUURIfOFZB5+vvN8pj+pAAh0ew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru; spf=pass smtp.mailfrom=yandex.ru; dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b=m1lft8JC; arc=none smtp.client-ip=51.250.60.160
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="auyFW09A"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790830003; x=1822366003;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=AnaIvH3WHmdRhjVNmulXoc+6MzWJGNzW5eiixj7lon8=;
-  b=auyFW09A4DFQDcyygyKrjFcMVWmrXY7JJOI8OYAOrrYBFhiLn0RXuRV8
-   fwkywWOGivyhoi2P3/xcH7utK+yQE47AhhNBlQcLDisdWpjCVnmgiWN6B
-   w3p7aF711kZ1aWf7VPQaI7VjC2u48M/PnCRbOHFeefTkWdR/8zI3OvT59
-   gqhglYVk8lGxCo1956YvGQJlHZSq0HxsNJXxD81Aa60n1G5ZMwLTG+2Z8
-   ePYRReEZ3BRt6QEjtZjII1QSJVs5thWqs96GMcg/L29kaakBo1h7p3r2E
-   b7Dh2uxsKI+oJeA4tw8Yp3FbOE52k81GWN1nJax93i/fD9hakXt5wXCTv
-   A==;
-X-CSE-ConnectionGUID: r+cvZcw9RySB0iXBoeircA==
-X-CSE-MsgGUID: uu1/PZbIQxS9L8Dvms2kTA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="91439434"
-X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
-   d="scan'208";a="91439434"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2026 21:46:42 -0700
-X-CSE-ConnectionGUID: uRwC7vkHRRqwckDFo58AEw==
-X-CSE-MsgGUID: ZUBlNiosSFi/Yerrh3EPmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,133,1787036400"; 
-   d="scan'208";a="276003457"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa008.fm.intel.com with ESMTP; 30 Sep 2026 21:46:40 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id A8A3699; Thu, 01 Oct 2026 06:46:39 +0200 (CEST)
-Date: Thu, 1 Oct 2026 06:46:39 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=yandex.ru header.i=@yandex.ru header.b="m1lft8JC"
+Received: from mail-nwsmtp-smtp-production-main-84.klg.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-84.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:2224:0:640:a699:0])
+	by forward100d.mail.yandex.net (postfix) with ESMTPS id 8062BC7C9B;
+	Thu, 01 Oct 2026 09:34:35 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-84.klg.yp-c.yandex.net (smtp) with ESMTPSA id XYd8JsDhumI0-NvvmBJvT;
+	Thu, 01 Oct 2026 09:34:35 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1790836475; bh=xhvBy4X4k99OWBtOIvOOnNWdJXScc5zqptHnLk68u1U=;
+	h=Message-ID:Date:Cc:Subject:To:From;
+	b=m1lft8JCMbq30OFnZteMzA0WoDnIIz7XsFQx8vlh6yVlEyyInsrtEyZirzTarX8Qb
+	 NTRGQAiYPB/8B0pQBOY7/OiioC1ou0NOU1FAbznSd5+uoiuAdugWEkzBV9e0duGmjo
+	 ehgBIxrAe0SZOP0J0gPhVF9m9rE/ZgPsZUpLqt7w=
+Authentication-Results: mail-nwsmtp-smtp-production-main-84.klg.yp-c.yandex.net; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>, Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
+Cc: Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+	Jeffin Philip <jeffinphilip14@gmail.com>,
 	linux-usb@vger.kernel.org,
-	Mika Westerberg <mika.westerberg@linux.intel.com>
-Subject: [GIT PULL] USB4/Thunderbolt fixes for v7.3-rc6
-Message-ID: <20261001044639.GD176164@black.igk.intel.com>
+	lvc-project@linuxtesting.org,
+	Dmitry Antipov <dmantipov@yandex.ru>
+Subject: [PATCH] usb: gadget: uvc: fix massive leak of configfs objects
+Date: Thu,  1 Oct 2026 09:33:33 +0300
+Message-ID: <20261001063333.488091-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Greg,
+Running on QEMU with CONFIG_USB_DUMMY_HCD=y, CONFIG_USB_G_WEBCAM=y and
+dummy_hcd.num=1 command line parameter, g_webcam driver probe error like:
 
-The following changes since commit e6df180e976fd08673214bc1305a46a8536aea9a:
+[    4.653636][    T1] g_webcam gadget.0: uvc: uvc_function_bind()
+[    4.653677][    T1] g_webcam gadget.0: uvc: Unable to allocate streaming EP
+[    4.653812][    T1] udc dummy_udc.0: failed to start g_webcam: -22
+[    4.653820][    T1] g_webcam gadget.0: probe with driver g_webcam failed with error -22
 
-  Revert "thunderbolt: xdomain: Notify peers after enumeration" (2026-09-04 08:28:47 +0200)
+produces memory leaks reported as:
 
-are available in the Git repository at:
+[   79.307997][ T4707] kmemleak: unreferenced object 0xffff888144a9d500 (size 192):
+[   79.308008][ T4707] kmemleak:   comm "swapper/0", pid 1, jiffies 4294937600
+[   79.308011][ T4707] kmemleak:   backtrace (crc d47ac4f9):
+[   79.308013][ T4707] kmemleak:     __kmalloc_cache_noprof+0x316/0x640
+[   79.308030][ T4707] kmemleak:     uvcg_config_create_children+0x114/0x280
+[   79.308037][ T4707] kmemleak:     uvcg_attach_configfs+0x33/0x60
+[   79.308041][ T4707] kmemleak:     uvc_alloc_inst+0x6f9/0xa90
+[   79.308045][ T4707] kmemleak:     usb_get_function_instance+0xe3/0x2f0
+[   79.308049][ T4707] kmemleak:     webcam_bind+0x20/0x560
+[   79.308053][ T4707] kmemleak:     composite_bind+0x1d2/0x530
+[   79.308056][ T4707] kmemleak:     gadget_bind_driver+0x2ca/0x9e0
+[   79.308061][ T4707] kmemleak:     really_probe+0x254/0xae0
+[   79.308067][ T4707] kmemleak:     __driver_probe_device+0x1d9/0x350
+[   79.308070][ T4707] kmemleak:     driver_probe_device+0x4f/0x240
+[   79.308073][ T4707] kmemleak:     __driver_attach+0x339/0x600
+[   79.308076][ T4707] kmemleak:     bus_for_each_dev+0x23b/0x2c0
+[   79.308080][ T4707] kmemleak:     bus_add_driver+0x345/0x670
+[   79.308083][ T4707] kmemleak:     driver_register+0x23a/0x320
+[   79.308086][ T4707] kmemleak:     usb_gadget_register_driver_owner+0xf9/0x270
+...
+[   79.308343][ T4707] kmemleak: unreferenced object 0xffff88814d973200 (size 192):
+[   79.308346][ T4707] kmemleak:   comm "swapper/0", pid 1, jiffies 4294937600
+[   79.308348][ T4707] kmemleak:   hex dump (first 32 bytes):
+[   79.308351][ T4707] kmemleak:     08 32 97 4d 81 88 ff ff 66 73 00 00 00 00 00 00  .2.M....fs......
+[   79.308353][ T4707] kmemleak:     00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00  ................
+[   79.308355][ T4707] kmemleak:   backtrace (crc 1443faf1):
+[   79.308357][ T4707] kmemleak:     __kmalloc_cache_noprof+0x316/0x640
+[   79.308360][ T4707] kmemleak:     uvcg_control_class_create_children+0x54/0x2e0
+[   79.308364][ T4707] kmemleak:     uvcg_config_create_children+0x20b/0x280
+[   79.308368][ T4707] kmemleak:     uvcg_config_create_children+0x20b/0x280
+[   79.308371][ T4707] kmemleak:     uvcg_attach_configfs+0x33/0x60
+[   79.308375][ T4707] kmemleak:     uvc_alloc_inst+0x6f9/0xa90
+[   79.308378][ T4707] kmemleak:     usb_get_function_instance+0xe3/0x2f0
+[   79.308382][ T4707] kmemleak:     webcam_bind+0x20/0x560
+[   79.308385][ T4707] kmemleak:     composite_bind+0x1d2/0x530
+[   79.308388][ T4707] kmemleak:     gadget_bind_driver+0x2ca/0x9e0
+[   79.308392][ T4707] kmemleak:     really_probe+0x254/0xae0
+[   79.308395][ T4707] kmemleak:     __driver_probe_device+0x1d9/0x350
+[   79.308398][ T4707] kmemleak:     driver_probe_device+0x4f/0x240
+[   79.308401][ T4707] kmemleak:     __driver_attach+0x339/0x600
+[   79.308404][ T4707] kmemleak:     bus_for_each_dev+0x23b/0x2c0
+[   79.308408][ T4707] kmemleak:     bus_add_driver+0x345/0x670
+...
+[   79.308500][ T4707] kmemleak: unreferenced object 0xffff88814d972900 (size 192):
+[   79.308502][ T4707] kmemleak:   comm "swapper/0", pid 1, jiffies 4294937600
+[   79.308504][ T4707] kmemleak:   hex dump (first 32 bytes):
+[   79.308506][ T4707] kmemleak:     08 29 97 4d 81 88 ff ff 64 65 66 61 75 6c 74 00  .).M....default.
+[   79.308508][ T4707] kmemleak:     00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00  ................
+[   79.308509][ T4707] kmemleak:   backtrace (crc f01c5b6d):
+[   79.308511][ T4707] kmemleak:     __kmalloc_cache_noprof+0x316/0x640
+[   79.308514][ T4707] kmemleak:     uvcg_color_matching_create_children+0x53/0x2b0
+[   79.308518][ T4707] kmemleak:     uvcg_config_create_children+0x20b/0x280
+[   79.308521][ T4707] kmemleak:     uvcg_config_create_children+0x20b/0x280
+[   79.308525][ T4707] kmemleak:     uvcg_attach_configfs+0x33/0x60
+[   79.308529][ T4707] kmemleak:     uvc_alloc_inst+0x6f9/0xa90
+[   79.308532][ T4707] kmemleak:     usb_get_function_instance+0xe3/0x2f0
+[   79.308536][ T4707] kmemleak:     webcam_bind+0x20/0x560
+[   79.308539][ T4707] kmemleak:     composite_bind+0x1d2/0x530
+[   79.308542][ T4707] kmemleak:     gadget_bind_driver+0x2ca/0x9e0
+[   79.308546][ T4707] kmemleak:     really_probe+0x254/0xae0
+[   79.308549][ T4707] kmemleak:     __driver_probe_device+0x1d9/0x350
+[   79.308552][ T4707] kmemleak:     driver_probe_device+0x4f/0x240
+[   79.308555][ T4707] kmemleak:     __driver_attach+0x339/0x600
+[   79.308558][ T4707] kmemleak:     bus_for_each_dev+0x23b/0x2c0
+[   79.308562][ T4707] kmemleak:     bus_add_driver+0x345/0x670
+...
+[   79.308732][ T4707] kmemleak: unreferenced object 0xffff88814d972500 (size 192):
+[   79.308734][ T4707] kmemleak:   comm "swapper/0", pid 1, jiffies 4294937600
+[   79.308736][ T4707] kmemleak:   hex dump (first 32 bytes):
+[   79.308738][ T4707] kmemleak:     08 25 97 4d 81 88 ff ff 73 73 00 00 00 00 00 00  .%.M....ss......
+[   79.308740][ T4707] kmemleak:     00 00 00 00 00 00 00 00 00 00 00 00 01 00 00 00  ................
+[   79.308742][ T4707] kmemleak:   backtrace (crc a8fa07b9):
+[   79.308743][ T4707] kmemleak:     __kmalloc_cache_noprof+0x316/0x640
+[   79.308746][ T4707] kmemleak:     uvcg_streaming_class_create_children+0x32f/0x470
+[   79.308750][ T4707] kmemleak:     uvcg_config_create_children+0x20b/0x280
+[   79.308754][ T4707] kmemleak:     uvcg_config_create_children+0x20b/0x280
+[   79.308758][ T4707] kmemleak:     uvcg_attach_configfs+0x33/0x60
+[   79.308761][ T4707] kmemleak:     uvc_alloc_inst+0x6f9/0xa90
+[   79.308765][ T4707] kmemleak:     usb_get_function_instance+0xe3/0x2f0
+[   79.308768][ T4707] kmemleak:     webcam_bind+0x20/0x560
+[   79.308771][ T4707] kmemleak:     composite_bind+0x1d2/0x530
+[   79.308775][ T4707] kmemleak:     gadget_bind_driver+0x2ca/0x9e0
+[   79.308778][ T4707] kmemleak:     really_probe+0x254/0xae0
+[   79.308781][ T4707] kmemleak:     __driver_probe_device+0x1d9/0x350
+[   79.308784][ T4707] kmemleak:     driver_probe_device+0x4f/0x240
+[   79.308787][ T4707] kmemleak:     __driver_attach+0x339/0x600
+[   79.308790][ T4707] kmemleak:     bus_for_each_dev+0x23b/0x2c0
+[   79.308794][ T4707] kmemleak:     bus_add_driver+0x345/0x670
+[   79.308808][ T4707] kmemleak: 24 new suspected memory leaks (see /sys/kernel/debug/kmemleak)
 
-  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v7.3-rc6
+All of these configfs objects are created by uvcg_attach_configfs()
+and rooted from 'func_inst.group' member of the corresponding
+'struct f_uvc_opts' object. Not sure how it was expected to work
+in 2014 (in particular, why uvc_func_item_release() should call
+usb_put_function_instance() and who was responsible for doing
+the matching call to usb_get_funcion_instance()), but fix all of
+these leaks with config_group_put() called from uvc_free_inst().
 
-for you to fetch changes up to 395e9f2967a7ac6898026e8f136c369805dc2fd9:
+Fixes: 46919a23ee87 ("usb: gadget: uvc: configfs support in uvc function")
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+ drivers/usb/gadget/function/f_uvc.c        | 1 +
+ drivers/usb/gadget/function/uvc_configfs.c | 3 ---
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-  thunderbolt: Disable CL states for the Anker Prime TB5 dock (2026-09-28 11:34:48 +0200)
+diff --git a/drivers/usb/gadget/function/f_uvc.c b/drivers/usb/gadget/function/f_uvc.c
+index d1bf3ea75197..0783cab89ad8 100644
+--- a/drivers/usb/gadget/function/f_uvc.c
++++ b/drivers/usb/gadget/function/f_uvc.c
+@@ -908,6 +908,7 @@ static void uvc_free_inst(struct usb_function_instance *f)
+ {
+ 	struct f_uvc_opts *opts = fi_to_f_uvc_opts(f);
+ 
++	config_group_put(&opts->func_inst.group);
+ 	mutex_destroy(&opts->lock);
+ 	kfree(opts);
+ }
+diff --git a/drivers/usb/gadget/function/uvc_configfs.c b/drivers/usb/gadget/function/uvc_configfs.c
+index 70a1415ea401..5c44c7946351 100644
+--- a/drivers/usb/gadget/function/uvc_configfs.c
++++ b/drivers/usb/gadget/function/uvc_configfs.c
+@@ -3634,10 +3634,7 @@ static const struct uvcg_config_group_type uvcg_streaming_grp_type = {
+ 
+ static void uvc_func_item_release(struct config_item *item)
+ {
+-	struct f_uvc_opts *opts = to_f_uvc_opts(item);
+-
+ 	uvcg_config_remove_children(to_config_group(item));
+-	usb_put_function_instance(&opts->func_inst);
+ }
+ 
+ static int uvc_func_allow_link(struct config_item *src, struct config_item *tgt)
+-- 
+2.55.0
 
-----------------------------------------------------------------
-thunderbolt: Fixes for v7.3-rc6
-
-This includes following USB4/Thunderbolt fixes:
-
-  - Fix XDomain property parser to reject oversized properties
-    responses.
-  - Revert a quirk that causes deadlock at shutdown.
-  - Fix USB4STREAM to announce FMODE_NOWAIT.
-  - Add a quirk that disables CL states for Anker Prime TB5 dock to
-    avoid link instability.
-
-All these have been in linux-next with no reported issues.
-
-----------------------------------------------------------------
-Daehyeon Ko (1):
-      thunderbolt: Reject oversized XDomain properties responses
-
-Kurt Lieber (1):
-      thunderbolt: Disable CL states for the Anker Prime TB5 dock
-
-Mario Limonciello (1):
-      Revert "thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers"
-
-Mika Westerberg (1):
-      thunderbolt: stream: Announce support for FMODE_NOWAIT
-
- drivers/thunderbolt/domain.c   | 26 +-------------------------
- drivers/thunderbolt/nhi.c      | 26 --------------------------
- drivers/thunderbolt/nhi.h      | 21 ++-------------------
- drivers/thunderbolt/nhi_regs.h |  4 ----
- drivers/thunderbolt/pci.c      | 23 -----------------------
- drivers/thunderbolt/quirks.c   |  3 +++
- drivers/thunderbolt/stream.c   |  3 +++
- drivers/thunderbolt/xdomain.c  |  4 ++++
- 8 files changed, 13 insertions(+), 97 deletions(-)
