@@ -1,84 +1,62 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD1C14825A0
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 13:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E39F5187EC;
+	Thu,  1 Oct 2026 13:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790861147; cv=none; b=j5esG8O12RAzag14ZPywA84ddIwfBT1wsqWyoIWZsnC8chs0bUcsv9DlsCnmYWTJVdSfoQsp+5Gr8DDcVSM03AYzwRBCwIAaYP4bGGvuk4N69RZcFL9pmjuvGQvt1aDB0GKiskcIxW5W8tQgsQADaritmShW3FWFn+42STzbdeA=
+	t=1790863076; cv=none; b=pUbeU3dRJkdYP6dAwtfjTRmfOOuMyorIGpXCGYQhEbuyjY1msdBbu4yfhA/H/QO+wJSmfHw5vksfgFtSVpudk6O9xgZIvX0fgiA8Sn2LMafPQji3FDN+a5OmJM4qpICaJCh1vZ5oDDl59mxjOvfJKeFgXXf8F7K7+th460bsD8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790861147; c=relaxed/simple;
-	bh=0LVudNQim/M+srpoiebwJBCy7OL31arBMW7kjOXpF9o=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Cs1HfMZI+tbOU4UB7rPGV8eO+pf2WXReVr29dLQSf3bywVTaZc6jwYHJ8e9EQ0P1x7kQqDw5qznxpCd3we2ZwCYcdIHfNddNFfOldql4YgcvNccHRuFehMS0fv2MIsZ1Grpywo+2qMq1KysStJnI9DUr0EJoxVtGKjDH7uUeZEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qvck6VsD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790863076; c=relaxed/simple;
+	bh=QWITNb2sEnPsh76qCAHF8CFydqgx3OgM09tGbSN1KdA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aJVh5gmmqqf0JH2zGUeDOFhouUb+0NAO+xQh5QtIk0uOk+TexBorcJFUTvSMa10MHlo+RCY2EA50HFRxwWSUY1uJH5cBpGVaKCzI9Oh8Y4jqTxgMlY4Owd1dWBzGCWCRGeCLUnL8AvXgBC8q8VXYwYXwcSjTyLbKYI+PwAnfMKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DUC4HvnX; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qvck6VsD"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 314CDC4AF12
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 13:25:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790861147;
-	bh=0LVudNQim/M+srpoiebwJBCy7OL31arBMW7kjOXpF9o=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=Qvck6VsD8d185bBsOfse4JKbsXFTr4CggBn9zHn7zgx5ibtVfsAzx9ST0idBkypA2
-	 yORuWBFMDv6D/QeT7l9kL0+HakcZHKBNjY87BxMv+CN9RX1TG2odYM4lTVgmBDAbAe
-	 blrxLtcP/EWavxqU/pfvIqvBcWEGxR0sxmgvR2p5ONZWNNKcFmHxKoxqGLvEUxQHb/
-	 WmpK7gDNL3yuhJdqbYfWqD/lPY9TosIFgilHiR1LOY23oHDA+BZqMoAPZHkOh6X5X3
-	 fgTGch6889VkjYC8vM+mTQgTo6q/mbyEEFEDh2l7bcKDE3Ys2UIP48ia8sfGmyZ4Ju
-	 eCPXTjOo/8Yyg==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 18E77C53BC5; Thu,  1 Oct 2026 13:25:47 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222071] [Bisected] [Regression] xhci_hcd: Resuming from
- hibernation fails with "Not enough host resources"
-Date: Thu, 01 Oct 2026 13:25:46 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: niklas.neronin@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: attachments.created
-Message-ID: <bug-222071-208809-Oe3wp5Avik@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222071-208809@https.bugzilla.kernel.org/>
-References: <bug-222071-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DUC4HvnX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 77A441F00898;
+	Thu,  1 Oct 2026 13:57:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790863069;
+	bh=If/g5eWVXEk8uWe8EjIkbefr7shLTwmjTLxNFVeJQ3s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DUC4HvnXfguUTVi3ZmRucTIqbrGTKHvwYOd3Ta2LtgH3u+GgAO4VtYRW1uR9D4d0h
+	 LsvgSxSqEgdy+XF0Nqj2BG1TUG6tHh37nnn+C+HXrmtBqyZJ6vfILG7PN78gwGj8UB
+	 3dhmNCtHaUt44NHQZ6CBMu3d5caXM0NxXTilckvKhVfOMMiLDLLwDjFL0ArLdb4LVD
+	 iHerbOm+WJZZgW93Ct7kcSe7bDpiirhZ/rm1711ne7Sujrrw89wd0L78P+cR6WbjIW
+	 PNpwOeyA2aRrQWczRi2CI8FBvhFNewf0OusdGndwmh3NJzxioDyQ71OPUHTMKfwIIW
+	 kcqSMF4IGN9fg==
+Date: Thu, 1 Oct 2026 14:57:45 +0100
+From: Simon Horman <horms@kernel.org>
+To: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+Cc: netdev@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] net: usb: asix: remove redundant PHY address
+ short-read check
+Message-ID: <20261001135745.GF13925@horms.kernel.org>
+References: <20260928192119.73351-1-xinsheng.zhu.ny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260928192119.73351-1-xinsheng.zhu.ny@gmail.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222071
+On Mon, Sep 28, 2026 at 03:21:19PM -0400, Xinsheng Zhu wrote:
+> Short-read handling was added to asix_read_cmd() by commit
+> 920a9fa27e78 ("net: asix: add proper error handling of usb read errors").
+> The helper converts short reads to -ENODATA while preserving negative
+> errors from the underlying USB read operation.
+> 
+> Remove the redundant short-read check in asix_read_phy_addr()
+> and its unreachable -EIO assignment. The existing negative-return check
+> handles both short reads and underlying USB read errors.
+> 
+> Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
 
---- Comment #11 from Niklas Neronin (niklas.neronin@gmail.com) ---
-Created attachment 310987
-  --> https://bugzilla.kernel.org/attachment.cgi?id=3D310987&action=3Dedit
-Test patch to fix S4 resume failures when using software tracked bandwidth
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Could someone with the relevant HW please give this patch a try and run a f=
-ew
-suspend/resume cycles?
-For convenience, I included the fix from Lovekesh Solanki for testing.
-
-Thanks,
-Niklas
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
