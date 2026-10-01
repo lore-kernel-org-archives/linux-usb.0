@@ -1,148 +1,124 @@
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658D9381B0F
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 01:00:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A115035A38C;
+	Thu,  1 Oct 2026 02:16:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790816429; cv=none; b=PwPaI94BHABo7gbFLto3/zkQ5n6pkQmeZxCjvZSlC3yQoSLKenenhEjfpdci2nrkPlsRgWMJ8rW/CJXek4JVir/SuMxoUSBEb4dU5nG2zdIShE0XIYju9QLJWWqhfHMhOye4J7SPOUpO/bvQad8bM6RmSJ0QI0cNHjZa2xqUzAI=
+	t=1790820995; cv=none; b=Jy90DQQQ42xF97Z+xcM36Hdr3EToYHhYEmsoa+TLGWPo3bO4X8SOpwCCaQU2FGqVTtY13roTzTYZy9vKGqkpUNBIJAO1T8INYugsS/Dyc/F8YAdY6+b0tek0Ep8vNBIX3WeootefnaiJ0iVmuNCAyagLmvhXBZ7WLaXGCfN8IMM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790816429; c=relaxed/simple;
-	bh=FpRLzAKoQOj2WK4r99t/gINqZRlyhEfxA8D8qFGtIrE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=MCwck808PnwlFzkTNXVdIbPkAlIHrhX3mn/UJglNoymCXsJ6fSh6WP2Wl04tjoo65ZM8K52Lp9vnK4qGv1/2J7ROXvkbWJ3ghQ4DBQRUtwj7O2X+uIGXVQ75huRj7ty9K1teeInNQxOELDLohUZfztd8XLeBuMcSXa3eIlAD80w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4dc57e2a3f2so9288667b6e.0
-        for <linux-usb@vger.kernel.org>; Wed, 30 Sep 2026 18:00:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790816424; x=1791421224;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=yoqFpuJO/gKkgQW+Vs4ZZWyR9d6Arw0t8Tm3FIXdJPI=;
-        b=BRW9Y2XIU95bJWDROF+nujWUMPzGLF5Pol4Q9efBrJhMggZB+w9+URmdgi4FcYuEZ5
-         tGbKU1gTufUXtqGLW1jTl0HM9ZTQuc8dVJ1ObWN/gswYpPFkfdkjSNv+DdXwpQ2yxpv1
-         M+Znfe5Jzc5h+7yCMW8g0wFXIedDjoXFGoV5ZfGbGnCzlKAVXyiHiCcBwaJDYfFfeIrf
-         YH7Z1B6tJSrt2Vv7s5weJ6uxIELHHoez/RwPnQTw7+bUlCyNVEIoRovfyW7dF1wzg40x
-         6DfSsNOZSSEHjOJ/dE3gfNMXDWPgias7I6kvgU6ztsc7qzhxREPiGwu1WIp9qFgbijXJ
-         RIuQ==
-X-Forwarded-Encrypted: i=1; AKwUvBynTZQsUqgW1H9MHN8bycZG+mky5EK6nsqwccFmwtShZVCNYCCBuQV3fYdprImMUZYZ0gXBEimXaT4=@vger.kernel.org
-X-Gm-Message-State: AFuF++mSF0iKftLG6HG04EvQykNniMAH5pUKfGvWH8Zzts0oYelj3Dsj
-	lVm9DKaPjG8gQuXFLM1K6jNVGiVDnglJfhYqDFMoPAxBaIojrQlr63wELjaMyeT/Fgz8DWNP+Kf
-	LUdko6ahG8Y8WRQ4yq7cjdJ3yujLq1vHEYOAwt6xHGChzwZGP1Rvy+lrHPQY=
+	s=arc-20240116; t=1790820995; c=relaxed/simple;
+	bh=KgHMBYu/wBnHRRfL66hCBCt8gdwfkcxVNGW+zQ7v4F8=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=iI8sA69YS2D3o3LJQ4TcsKKxwmBZLJrvaxRzaRRXGcRyWsssV5OLRIV5w1moUddZQ1pP5vUn4Uvv82bRdE4edjqyx0YPNxejD49LmXW0HVZZNQV2tRVG2JFzXPzcFTnqecNh83I7CBR8pUeDInVJuIhnNTGwowTNOG8nQbRtnsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f48PeRUH; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f48PeRUH"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 34830C4AF0B;
+	Thu,  1 Oct 2026 02:16:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790820995;
+	bh=KgHMBYu/wBnHRRfL66hCBCt8gdwfkcxVNGW+zQ7v4F8=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=f48PeRUHTkp13keQYqPIJyIk0rWMHhXpSwQaI+rQA5+dRjpXxpn8UQWnmhUTwd5qR
+	 EVX8xJcCC9O3MzxESpf8jOJhxY6gQc8hu4lZtNdRN30lwNTkRJiL7gGGaon2yMlljh
+	 T5i4erzL2bdagjnuc4cDtKW/Uvv/C3HRbbEodJhIY/hV6D+GrmFyvCsoYJvpiFVMIi
+	 VpMXyrNOtq8o1RHDSHl2JHohfIYvVabIHy/5bsql6DIdZp6i2h2QqOTK5A6Gkosd72
+	 QRiUgYir55rade4FwNKjiwRFgGB449QiQNDB9PqI3goiBmZGKUMK45Px3045s+JgK5
+	 ue9EqPXFFu30w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FE8ACA5FC4;
+	Thu,  1 Oct 2026 02:16:35 +0000 (UTC)
+From: David Medina via B4 Relay <devnull+b2amedina.gmail.com@kernel.org>
+Date: Wed, 30 Sep 2026 22:16:35 -0400
+Subject: [PATCH] thunderbolt: Fix domain reference leak on DPRX work cancel
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:4444:b0:4d6:85d4:8499 with SMTP id
- 5614622812f47-4f1b2e3534bmr3646607b6e.7.1790816424773; Wed, 30 Sep 2026
- 18:00:24 -0700 (PDT)
-Date: Wed, 30 Sep 2026 18:00:24 -0700
-In-Reply-To: <6a68b182.4c659fcc.19cd90.0021.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6abdb0a8.b50370da.302ea9.0002.GAE@google.com>
-Subject: Re: [syzbot] [usb?] KASAN: global-out-of-bounds Read in usb_copy_descriptors
-From: syzbot <syzbot+debc5c305403f180c01c@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, paritosh.potukuchi@amd.com, 
-	paritoshpotukuchi@gmail.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260930-tb-dprx-fix-v1-1-da92659e491a@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw5AMBCF4VeRWZukbnV5FbHQdjAWSItIpO+uW
+ H4nOf8NjiyTgya6wdLJjtclIIkj0FO/jIRsgiEVqRR1JnBXaDZ74cAX1loUJlNVlZcSwmOzFOa
+ v1na/3aFm0vubAO8fECnXpG8AAAA=
+X-Change-ID: 20260930-tb-dprx-fix-9c05d3b88476
+To: Andreas Noever <andreas.noever@gmail.com>, 
+ Mika Westerberg <westeri@kernel.org>, 
+ Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>, 
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ stable@vger.kernel.org, David Medina <b2amedina@gmail.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790820994; l=2131;
+ i=b2amedina@gmail.com; s=20261001; h=from:subject:message-id;
+ bh=N8/YAAUcHuskyY/Gie1TL1XIy2476JrAqEJaOFmRRrU=;
+ b=TCRFKCeg5ofWVYbk5OpAhIrcYrd5MK+qE+Z9h/7mQ9IZUVN9fq16lRw8CHqJDntHt+Df2S0yl
+ Hey3r9Xz7eGBsuuCJvSzBd6qEVbXHzakZ5ak+V1YrqXboinMlHvP7OT
+X-Developer-Key: i=b2amedina@gmail.com; a=ed25519;
+ pk=6kajg3wsf4T4/+F2W+hj7g5W4lTch1OgfXS+6o1FsFY=
+X-Endpoint-Received: by B4 Relay for b2amedina@gmail.com/20261001 with
+ auth_id=1091
+X-Original-From: David Medina <b2amedina@gmail.com>
+Reply-To: b2amedina@gmail.com
 
-syzbot has found a reproducer for the following issue on:
+From: David Medina <b2amedina@gmail.com>
 
-HEAD commit:    6c2cb8b8b843 Add linux-next specific files for 20260930
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=1190e3f5580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=6f425a2650355dac
-dashboard link: https://syzkaller.appspot.com/bug?extid=debc5c305403f180c01c
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=112a43f5580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=152a43f5580000
+tb_dp_dprx_start() takes an additional reference to the domain with
+tb_domain_get() and passes it as callback_data to tb_tunnel_alloc_dp().
+That reference is only released by the callback, tb_dp_tunnel_active(),
+which tb_dp_dprx_work() invokes once the DPRX capabilities read completes
+or times out.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d79eefc0c62e/disk-6c2cb8b8.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/d661335b4b7a/vmlinux-6c2cb8b8.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/e2aeb28cdc89/bzImage-6c2cb8b8.xz
+If the tunnel is deactivated before the DPRX work runs to completion,
+tb_dp_dprx_stop() cancels the still pending work. The callback is then
+never called and the domain reference held in callback_data leaks. The
+domain's reference count never reaches zero, so tb_domain_release() never
+runs and a subsequent shutdown/reboot hangs waiting for the domain to be
+released.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+debc5c305403f180c01c@syzkaller.appspotmail.com
+Release the callback_data domain reference in tb_dp_dprx_stop() when the
+DPRX work is canceled, mirroring the release done by the callback.
 
-==================================================================
-BUG: KASAN: global-out-of-bounds in usb_copy_descriptors+0x1b8/0x320 drivers/usb/gadget/config.c:94
-Read of size 128 at addr ffffffff9ad9cd80 by task syz-executor273/5627
+Fixes: d6d458d42e1e ("thunderbolt: Handle DisplayPort tunnel activation asynchronously")
+Cc: stable@vger.kernel.org
+Signed-off-by: David Medina <b2amedina@gmail.com>
+---
+ drivers/thunderbolt/tunnel.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
 
-CPU: 1 UID: 0 PID: 5627 Comm: syz-executor273 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- check_region_inline mm/kasan/generic.c:-1 [inline]
- kasan_check_range+0x264/0x2c0 mm/kasan/generic.c:200
- __asan_memcpy+0x29/0x70 mm/kasan/shadow.c:105
- usb_copy_descriptors+0x1b8/0x320 drivers/usb/gadget/config.c:94
- usb_assign_descriptors+0xcf/0x290 drivers/usb/gadget/config.c:131
- f_audio_bind+0x1b5e/0x34b0 drivers/usb/gadget/function/f_uac1.c:1443
- usb_add_function+0x2e1/0x9f0 drivers/usb/gadget/composite.c:333
- configfs_composite_bind+0xde0/0x1410 drivers/usb/gadget/configfs.c:1802
- gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1662
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __driver_attach+0x339/0x600 drivers/base/dd.c:1292
- bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:386
- bus_add_driver+0x38f/0x6e0 drivers/base/bus.c:771
- driver_register+0x23a/0x320 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1752
- gadget_dev_desc_UDC_store+0x1c9/0x2f0 drivers/usb/gadget/configfs.c:300
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fc3b3d71df9
-Code: c0 79 93 eb d5 48 8d 7c 1d 00 eb 99 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 d8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff154ebbf8 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: ffffffffffffffda RBX: 0000200000000400 RCX: 00007fc3b3d71df9
-RDX: 000000000000000c RSI: 0000200000000480 RDI: 0000000000000003
-RBP: 0000200000000000 R08: 0000555581694060 R09: 0000555581694060
-R10: 0000555581694060 R11: 0000000000000246 R12: 00007fff154ebef8
-R13: 0000000000000002 R14: 00007fff154ebc30 R15: 0000200000000008
- </TASK>
-
-The buggy address belongs to the variable:
- ac_header_desc+0x0/0x20 f_uac1_legacy.c:-1
-
-The buggy address belongs to the physical page:
-page: refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1ad9c
-flags: 0xfff00000002000(reserved|node=0|zone=1|lastcpupid=0x7ff)
-raw: 00fff00000002000 ffffea00006b6708 ffffea00006b6708 0000000000000000
-raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner info is not present (never set?)
-
-Memory state around the buggy address:
- ffffffff9ad9cc80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
- ffffffff9ad9cd00: 00 00 00 00 00 00 00 00 00 00 00 00 f9 f9 f9 f9
->ffffffff9ad9cd80: 00 f9 f9 f9 00 f9 f9 f9 00 f9 f9 f9 00 00 f9 f9
-                      ^
- ffffffff9ad9ce00: 00 00 f9 f9 00 00 f9 f9 00 00 f9 f9 00 00 00 00
- ffffffff9ad9ce80: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-==================================================================
-
+diff --git a/drivers/thunderbolt/tunnel.c b/drivers/thunderbolt/tunnel.c
+index 7e8284575dff..971e9a5f8c5c 100644
+--- a/drivers/thunderbolt/tunnel.c
++++ b/drivers/thunderbolt/tunnel.c
+@@ -1139,8 +1139,18 @@ static void tb_dp_dprx_stop(struct tb_tunnel *tunnel)
+ 	if (tunnel->dprx_started) {
+ 		tunnel->dprx_started = false;
+ 		tunnel->dprx_canceled = true;
+-		if (cancel_delayed_work(&tunnel->dprx_work))
++		if (cancel_delayed_work(&tunnel->dprx_work)) {
++			/*
++			 * The DPRX work was canceled before it ran to
++			 * completion, so the callback (tb_dp_tunnel_active)
++			 * never got a chance to release the domain reference
++			 * passed in callback_data. Release it here to keep the
++			 * reference balanced.
++			 */
++			if (tunnel->callback_data)
++				tb_domain_put(tunnel->callback_data);
+ 			tb_tunnel_put(tunnel);
++		}
+ 	}
+ }
+ 
 
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+base-commit: 551c722f40809618230001baccf219193e22fc5a
+change-id: 20260930-tb-dprx-fix-9c05d3b88476
+
+Best regards,
+--  
+David Medina <b2amedina@gmail.com>
+
+
