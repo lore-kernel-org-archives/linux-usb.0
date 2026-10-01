@@ -1,63 +1,63 @@
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEDA54A5EAF
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 13:02:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47569509F1C
+	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 13:02:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790859766; cv=none; b=FhXXx/gqG5Ga6zoleaJvlVDAT7tJcXFRHyUm9j9+xdacpaXp/ovIoRO7x68Sa04v4J0h5BEBImVUO+8L7RSyT7qCS+Ow5YPtmnwbYZD0wd5kwaDEnSfZLfHK5LSKmZ2/41ugvKowlkt/gM4Qaplu0zKGukJzuw1lUkEcDJZDRGU=
+	t=1790859771; cv=none; b=atxcahn3ojegUNJphBvmA3gkRoLKUKKFjA4PHZWRYSzaMOq8S7moIwWhPsh7osNlErJerqE+fPXOq3OquNOx0w9Ci7yRL9fG888wbSu2/yZ2jlk9VMh136nx7Oddsn7bMKCcB0Y3r0Bi3fmTX3lbcHLZA+6AIQwAzJUit9w0aKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790859766; c=relaxed/simple;
-	bh=hUC+pzcpmQjHzFf/Nom41aK/9H2XHKqy0HP6NNMiTzc=;
+	s=arc-20240116; t=1790859771; c=relaxed/simple;
+	bh=T2hRaWTZtnyeAyT/IqlJFITQYFUON1ACZ2n+rRMz/ss=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IyhrdpOyIRuuw14YUX18DB+SvUbYvjYPpVsZB8S0Np9iU1M9WZygWR5lXBlTqhiS9QjhDPR+Cxq7QnjCOxp3gL/TM19EYuJvVeBXeBkha5F3JZl89YkJ74exjFmzc/RgahvHYhGWNx4cFwL6JGKvNNcKONXw/iXEpJWoZh8Xw9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la; spf=pass smtp.mailfrom=lex.la; dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b=lE8mhbuI; arc=none smtp.client-ip=74.125.225.141
+	 MIME-Version; b=Dgu52y67kYXAMlPqS7mlG6L+SKG33Ws9geU1G/REAkDbtTpQ8ak5zpLTOajczRMpMoBZFeeNygTvuj3S3xHTm9KBsc0B0t4SUyvLuwBWdIhCR2whtajFaBKp3L+RAxneHx7BfKfpVsvMz6w9iY3bbZONff9DnC8ury70gGV9kC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la; spf=pass smtp.mailfrom=lex.la; dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b=TzgmVXsz; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=lex.la
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lex.la
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b="lE8mhbuI"
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a022e9cbebso4303155e9.0
-        for <linux-usb@vger.kernel.org>; Thu, 01 Oct 2026 06:02:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lex.la header.i=@lex.la header.b="TzgmVXsz"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so40082315e9.0
+        for <linux-usb@vger.kernel.org>; Thu, 01 Oct 2026 06:02:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lex.la; s=google; t=1790859763; x=1791464563; darn=vger.kernel.org;
+        d=lex.la; s=google; t=1790859767; x=1791464567; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=k20Tt364Wd6rx8/375/z8mNMayOYbaxuxBDWEyWrxyc=;
-        b=lE8mhbuIoVA2Fb1T1Y8w4mtZhAWr15cMJQqFv0jKZP608J12ImwXnoB+Yq14kVYj/k
-         qE/PI6IoZydp3FMqxMKYHTpEu34PiBbLgIOj1bOWdK69jjXVpo064hbAQoc0J6Ncd8fZ
-         8/K/tHfRPNbCDIqx+SKfalU6WvZO5KkyzZYgoeaDz6vgCcE0IDMCicV14ye1Z5LvOC25
-         FYWO69sICGgQNJCyPtqarha2EZbe9rkgr6DPvZeiIRzY4awuHDyZMfV6DFC6wSoXoK/S
-         H4uJxfFshwYPUZ+zYIn7M3vY8m7k8HqIv8WOUwyo03DbCFRVdsR8sDhQkuW9yVM1Xk6i
-         NNZA==
+        bh=PVNxhF07KcpW0FWzSzGhZUEHWjUDgCJiVaTXKv5li40=;
+        b=TzgmVXsza83/QpXqXyM5TOnzr3AXUJQM5LVB7YJGLzfVOMn4x/iQAHBCCRoeO8nPQz
+         oUtJFqPPptrULiGen5aIejS3ov23U1RxD9wh76qjhx5ROGIlamlZMZyHdQQh3HjBSFfB
+         Q+R6hwu33wiZnm1RdEemouZT2POrfRBkOIbVQ+Xfy4cULfvg+V8luNv9DR5S4scVbR17
+         OERl8239KKkw2GxZwpWmjLcnqaKj9NHWQ6veQRVzCzKBuE0sZPsIAxfbLdEm7xMHeghX
+         WJ084i7TpB6R0ZuX+cOrp+IsxCu1VVFWk/03OKdaDY5hz/OT0qy6K52Ry37NMefT62ba
+         BlgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790859763; x=1791464563;
+        d=1e100.net; s=20260707; t=1790859767; x=1791464567;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=k20Tt364Wd6rx8/375/z8mNMayOYbaxuxBDWEyWrxyc=;
-        b=iMS1S5xIZBwfRvJawmnKKOQNsd9d/kOXUAPb9bDCS9iyhjVtxwuiGi1H+50nCWeJ5Y
-         3yYU/ya/9wDsMhmyE7bzOtzmB/G7aKYplUZeRCttZFF+LVQrF+rb2hzmRG6/gedv/iBc
-         03UT8IKZKgf/3hXRmb12He9ObtdHhlJvDk9Y+wA662vfEkydeS6y21pu0mCdF6KMIB2m
-         DboiFXaISl2UXknQJALjzFc/OMwWIAtxoCbAIez7hL9kROJsU03aXrRP2p5CPZHHkORb
-         3/aeH8C3eB/HqV9DdYRLvIi7pB1Y6kkcsgdlujWXmsq9VeG3pat8IPbuhq7BJvk/WSJJ
-         gdfQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwaj7WM7AY8YzbhjSWgOqpbSs5zUEG/RhEHIYRYxpjBm1h5n/F1TGLsNyKvrZK7NUO/YhAUMkWWucs=@vger.kernel.org
-X-Gm-Message-State: AFuF++nm0vywzx2fa74dctwYyumffS4aD3pc577x7en+TPqz+OBsBcg/
-	xL7Kc5RouGb5MlWnK0UKnC89MZ7ASfLVev1CTrTa7BuIrsw19GEB4C5guNdTPbCaGAA=
-X-Gm-Gg: AYBFou02s/rfMufdEJJu9m2enQ9zDGsS5j1fOmxFCBqZ3c1ufWsfa6KeIljG/ijlAzK
-	H4ex34u/ehbqofzHwQR5Q//2kTUximAckkVU4B/Bbuo8/EFCfkU4Ss0aW+ul95158os28vAmlSM
-	HC9xKa6DKmwykDke7+U9+0pf2FqaDpYd/Hlcyq9QTQ5DiZNQkNr8CKbsMCb+PYIQbkRdGsHH6P8
-	pUXiE8C0OwE3eMg3+G6Wt5Ro1HXR5jir9eQMJ3HGjE3Em6XS3Aj691WCrq/T90l4Mrd96+vr4gD
-	oOuKv9mmAv/VxGSuaH46i9wVHkXs2zsxl07VIOCPvjuHSNZrQ2tvfmXJ/j2VC3kj8GOFtObGcg+
-	pnc+F5Y2QElHW8Py5lxQrFN7jGE6vOg4Ec5/ZKz+gBoskXpG13RrDwqhtK0BsdFHOzBi8acMXPy
-	40QxGm9ZCZCM+Av1L4p8gMLnJkOedbvHLJt+DSjr/2/wKw6w==
-X-Received: by 2002:a05:600c:c162:b0:4a0:18bc:3b94 with SMTP id 5b1f17b1804b1-4a01affb798mr72771845e9.18.1790859762695;
-        Thu, 01 Oct 2026 06:02:42 -0700 (PDT)
+        bh=PVNxhF07KcpW0FWzSzGhZUEHWjUDgCJiVaTXKv5li40=;
+        b=rXgIMy46rp+h4UaT9xTzveH8huhhA/cRUFYKTniIop4AYST2KmDWf53teHlTbgThPT
+         KuMo92IczFBdQnBxA7GIQ2ZEnsfjwW4PSXdQFA8f5M6BUesSM0P54xeY2x5+p2I1z0iE
+         LvTJHDSBquRwGOv/lftEXa5ld3eVfgj8FlF64OwqQ6Mu2KI/Pa9NM6e0OCYaSTFg7r/2
+         I3533QAbhpvgL7X8Uyr4Flx8fyJGzL0IRIcZpncnZy2XI7fvtJLR5Dl1txFjhzecP9pw
+         iIpAZOw1Fgr6sUr5IwKZ4RCrMWCTtqiJaccWBlclBaUaGdnPTNY2n7FB6/YCVFtg49O4
+         O8sA==
+X-Forwarded-Encrypted: i=1; AKwUvBwkPNESckZJjXLdJTVG4PA/KQ5RGVVbdwM56iw5ux/kMPdDEX8gp+O0P4wr6OqantWmtib6W6WbKiw=@vger.kernel.org
+X-Gm-Message-State: AFuF++kqzyPtq5GBq9TQbM84XBjV3QxUEmURnuTuSQIOeSWpq54AhR9A
+	SsGf6d4UXGpEuIyUzmouxZ0Yj6BbbbnGjnt1ASnKGQvaWzktF4WKJQrUf8KU+uwAQmY=
+X-Gm-Gg: AYBFou309XjBrKJl7QtN9SklitmkuPOYierxlcVdILhnhsZ2DgmPKMPvzvltgCQ8Yf5
+	D+zljO4ycktWoPPxw1dKsoXjNJwBXNRTZQ3KCuKk+4QLt6TaNEDKkER+vx/tyDcWHSYpIztG8fU
+	eaXhypiCQkLU2BN5mmKkGcOz/hQsKTHJUHIp/4+KHjRYqYYshjQF5oR5fwFStbvnGhuRHqKp7Or
+	7IUw+vJZZERVy+oVnWO7jwMxPu16dZZLWo9l8FDChvAc2LEV6QoigK4prGI+j+vVzhYjy/bGEdJ
+	5fZPGeJ8+bwaJaWgQAXB8BItDFBQIoA9DQaFme0kLa38gmQ0UPoJQ9D7RR0Ua9wTworpTTkakoU
+	YybuzxytUudMXbfNB5NwSm0oz2rDTnDkDBmsOtxqiQ/G4jWMpk7R4XJA7CrxHVdtrSDdfr68bFX
+	HtwWNJWrRXDAJxe4HYwCc8VVnj1jIBaTpCFT7tSu9n4X56I75ZCw==
+X-Received: by 2002:a05:600d:8648:20b0:49e:6249:268b with SMTP id 5b1f17b1804b1-4a01b12ec83mr56667755e9.32.1790859765929;
+        Thu, 01 Oct 2026 06:02:45 -0700 (PDT)
 Received: from remote-01 ([84.17.55.224])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01f913ecesm48051775e9.2.2026.10.01.06.02.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01f913ecesm48051775e9.2.2026.10.01.06.02.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 06:02:42 -0700 (PDT)
+        Thu, 01 Oct 2026 06:02:44 -0700 (PDT)
 From: Aleksei Sviridkin <f@lex.la>
 To: netdev@vger.kernel.org
 Cc: andrew@lunn.ch,
@@ -77,9 +77,9 @@ Cc: andrew@lunn.ch,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Aleksei Sviridkin <f@lex.la>
-Subject: [PATCH net v13 1/4] net: usb: lan78xx: register the PHY interrupt with the MDIO bus
-Date: Thu,  1 Oct 2026 16:02:33 +0300
-Message-ID: <20261001130236.106059-2-f@lex.la>
+Subject: [PATCH net v13 2/4] net: usb: smsc95xx: register the PHY interrupt with the MDIO bus
+Date: Thu,  1 Oct 2026 16:02:34 +0300
+Message-ID: <20261001130236.106059-3-f@lex.la>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261001130236.106059-1-f@lex.la>
 References: <20261001130236.106059-1-f@lex.la>
@@ -97,11 +97,10 @@ for the same address. That table is where phylib records what the bus
 described - phy_device_create() seeds phydev->irq from it - so the
 number lives only as long as nothing else writes that one field.
 
-Copy the number into the table entry of the PHY this driver attaches,
-and into no other. The chip has one PHY interrupt, and on 7801
-phy_mask is 0, so other PHYs on the bus keep what the bus gave them.
-The address is known only after the scan, so the write to phydev->irq
-stays.
+Copy the number into the table entry of the PHY this driver found, and
+into no other. With an external PHY phy_mask is 0, so other PHYs on the
+bus keep polling. The address is known only after the scan, so the
+write to phydev->irq stays.
 
 Found going through the drivers that keep a PHY interrupt outside the
 bus table, so that the restore on detach later in this series has a
@@ -112,32 +111,28 @@ Signed-off-by: Aleksei Sviridkin <f@lex.la>
 ---
 
 Notes:
-    v13: write only the table entry of the attached PHY, after the scan,
-    instead of every entry before registration. The driver's number again
-    wins over a devicetree PHY interrupt, as it did before this series.
-    Andrew's Reviewed-by is dropped since the code changed.
+    v13: write only the table entry of the PHY found by the scan, instead
+    of every entry before registration. Andrew's Reviewed-by is dropped
+    since the code changed.
     
-    The PHY_POLL branch is not reached: lan78xx_bind() fails earlier when
-    the interrupt mapping cannot be created.
-    
-    Compile-tested only; I have no LAN78xx device. No Fixes: tag, since
-    nothing reads the bus table back until patch 3.
+    Compile-tested only; I have no LAN95xx device. No Fixes: tag, for the
+    same reason as patch 1.
 
- drivers/net/usb/lan78xx.c | 1 +
+ drivers/net/usb/smsc95xx.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index 5655941f1478..babd34cda374 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -2897,6 +2897,7 @@ static int lan78xx_phy_init(struct lan78xx_net *dev)
- 		phydev->irq = dev->domain_data.phyirq;
- 	else
- 		phydev->irq = PHY_POLL;
-+	dev->mdiobus->irq[phydev->mdio.addr] = phydev->irq;
- 	netdev_dbg(dev->net, "phydev->irq = %d\n", phydev->irq);
+diff --git a/drivers/net/usb/smsc95xx.c b/drivers/net/usb/smsc95xx.c
+index 42e4048b574b..130a460c1f54 100644
+--- a/drivers/net/usb/smsc95xx.c
++++ b/drivers/net/usb/smsc95xx.c
+@@ -1252,6 +1252,7 @@ static int smsc95xx_bind(struct usbnet *dev, struct usb_interface *intf)
+ 		goto unregister_mdio;
+ 	}
  
- 	ret = phylink_connect_phy(dev->phylink, phydev);
++	pdata->mdiobus->irq[pdata->phydev->mdio.addr] = phy_irq;
+ 	pdata->phydev->irq = phy_irq;
+ 	pdata->phydev->is_internal = pdata->is_internal_phy;
+ 
 -- 
 2.53.0
 
