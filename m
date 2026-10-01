@@ -1,211 +1,150 @@
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB9846EC9D
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 07:18:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D3812BE053;
+	Thu,  1 Oct 2026 07:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790839125; cv=none; b=iHW3Jimq2hRMhPUMwCYAH4xdguIfcLQrARnZiUVVmtoKwfMswndR4jzN05fhMOY/DtcLXoOe1/1E8TEAx9s/gebks9WOW4vjgmd6KJnmuS8469uDRvkVmgGSW9W48xE89AD9cXtOoikbM41ZIwLWzWi5rOXexlu9EpmOkye1F3E=
+	t=1790841227; cv=none; b=qsbvu9LyXVoRUrJXG3YV+BS2ymRt5an7E5sZ+yJxcg687xpdE0eFyfloOpYFn0X8sVWMP+3ZTCntTqgTjFdX6dLeUnK85kLz/3D5h2LAF4r3aayFFTv8TptcHmHp8i8sJc8jL99jXvlYfe3w+fgIdytEx1AelpCV+21aWnqxJt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790839125; c=relaxed/simple;
-	bh=H5QqzO340Mgc1wxZ90zMB6SaYLaXTP9IfgD6kxUa5bE=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=lilRC//YoHrT5Nj6+9K+aJ0Fpx9Qi2P7AY4mhu2a9DAUkFOTbHF4NBxuchVA3ZGY0X3vuNCJFSiacBp1z568A2NEVE47GYX+FwGo7a9J+Wo2uKWTM8baoxouXrbkTqBUXet/RTsAwMg/YsIdEUJWRLTgQN2A1Q8FzqSDlGqM7Mk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4eb0b989f0eso1122041b6e.0
-        for <linux-usb@vger.kernel.org>; Thu, 01 Oct 2026 00:18:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790839120; x=1791443920;
-        h=content-type:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=H1NeBZs/BiIvSB3dUF6FDhWNaXOlWaehl+IwOREtHm8=;
-        b=VWwga2W31x7TxG28wFvL2eeMg66f+2cZLZd1S5uRY3J4tNJTZP7kkEzonF1yPls3iB
-         WK3/8EDss5CramBLrVn3LJ3ZbScyoyHcYn9/a+9pcgAjXocY1WbakB+gz5Tf56Om8ncR
-         IfhEuNllyTzr1geEH/WGDdNcUJUF6gvXZpTvFVOK9Na6sjSV6YkiOze0zWb+cDNKyZgj
-         ZNVeqx5tT/NqcpN1eM5LZsuPGhYUFEhnOKYOu5o/icXIGAEcnNe4hwCerWC1pBNQ3P9K
-         +yjwcmNARtJ7l2A3fdaGw/bX1yP3EjEGKhQdYuhT21agJADJ9myrpomDRMRDIpGdW6td
-         ZSeg==
-X-Forwarded-Encrypted: i=1; AKwUvByCWYmdDV0rKC0iSSO67cRCH8a7HTzEiZUr1Hf06QhSLxPB0QimKZmrHWVIvoQJ4zWYuhBNYGbY554=@vger.kernel.org
-X-Gm-Message-State: AFuF++ky2A9eLyfN1+NMa5lDcm1BXU7eHxEhry12e4ZieKovFMHQEckt
-	D6gtHPy6g3WIkSlMcmB0EB78TUtH7guvDAtCf2YlYViR64obvDuVQdxFvnmecV2Tt6r8W5f7ZCZ
-	9sgCFF2VK/7q3I+D44Q+VhGZAOoD40XNEXWd6fjWR7LKtLrbTKqbJdyNMEmI=
+	s=arc-20240116; t=1790841227; c=relaxed/simple;
+	bh=EVINqzp6xWaGFh5nsVvzl2MoeVgc9moWhUusgsXG0Yw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=saLBUHMcHMX7ToWgDSjGdWghZ7BcdhrAqyeMmhueONpeM6Wdpv+7HURpE0SYqKTFpJMMFG+XjeCLyvT3LPMM3JvSTLrThQYa/Pl1KgqsgTVIQgvKJQu9/Fa1ugc+wuMbKG8Yqjrn9nGIK781mClLqsZn1JsNEisL7ZxZ8kv36h4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9g2LdNA; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9g2LdNA"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 18EE5C2BCC7;
+	Thu,  1 Oct 2026 07:53:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1790841227;
+	bh=EVINqzp6xWaGFh5nsVvzl2MoeVgc9moWhUusgsXG0Yw=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=G9g2LdNAoQXMZ3fRRXTDFr3MsdjNPC8174GJX2TPExjMAFkTTmltfXiHpgQ0E5+BR
+	 f9S7hsJmHFw6RvwKvcvuZ8U2qNTZJZYyXfUkezD49RKdtO7tcwND4/Ac3pZG5UIJSv
+	 G4THtZl2t1d4/lgV8qySW30+4PAiWJFdQlL32H+wMkAPL/hJWcFja8kgg7ocu0EOJf
+	 WWQGUd1/CxDJDxCpKhZE/Dg6ef9MfDhiOzb9LIqa7HDgPACaLyVFFrbj2xfiv+vWxA
+	 Pv/d8dEa+cxtFLT7uKMptcyvE+OdWVe7bIKtI3eWPnbckDxxddKbO2M3/wKxvCq7Ys
+	 KEcFe40T3HBMQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFF9FCA5FB3;
+	Thu,  1 Oct 2026 07:53:46 +0000 (UTC)
+From: George Moussalem via B4 Relay <devnull+george.moussalem.outlook.com@kernel.org>
+Subject: [PATCH v4 0/8] Flatten USB Controller Nodes on IPQ SoCs
+Date: Thu, 01 Oct 2026 11:53:43 +0400
+Message-Id: <20261001-ipq-flatten-usb-v4-0-486a4d5ede30@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:6403:b0:4d6:9133:cfe4 with SMTP id
- 5614622812f47-4f30baf2638mr2331816b6e.41.1790839120106; Thu, 01 Oct 2026
- 00:18:40 -0700 (PDT)
-Date: Thu, 01 Oct 2026 00:18:40 -0700
-In-Reply-To: <6a6e98c8.6ce73036.24301b.001a.GAE@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6abe0950.9b478af7.e8d7a.0001.GAE@google.com>
-Subject: Re: [syzbot] [usb?] KASAN: slab-use-after-free Read in uvcg_extension_drop
-From: syzbot <syzbot+f093afc4e90b1908abdc@syzkaller.appspotmail.com>
-To: bolewara@gmail.com, devnull@kernel.org, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4XNTQ6CMBCG4auQrq3pDxRw5T2Mixam0qgU29JoC
+ He3sDGGGJfvl8wzE/LgDHh0yCbkIBpvbJ8i32Wo6WR/AWza1IgRJkjFCmyGB9Y3GQL0ePQKN2V
+ balpoXguB0tXgQJvnKp7OqTvjg3Wv9UGky/rbihQTXDRUc1oSpaA+2jHcrL3uG3tHixbZR6iJ2
+ AosCa1UFaeMKErkVuB/BJ4EyiEHokVS+Lcwz/MbYaOB3DQBAAA=
+X-Change-ID: 20260825-ipq-flatten-usb-c7d7f15f3966
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, Abel Vesa <abelvesa@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Varadarajan Narayanan <varadarajan.narayanan@oss.qualcomm.com>, 
+ Kathiravan Thirumoorthy <kathiravan.thirumoorthy@oss.qualcomm.com>, 
+ George Moussalem <george.moussalem@outlook.com>, 
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
+ Abel Vesa <abel.vesa@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790841224; l=3682;
+ i=george.moussalem@outlook.com; s=20250321; h=from:subject:message-id;
+ bh=EVINqzp6xWaGFh5nsVvzl2MoeVgc9moWhUusgsXG0Yw=;
+ b=Yg7Qas+wFoBYDf3dERIqYRgd4m/P1+mkfZzkh/GSCqNqPVx7wa90ou4Zp43A0W2r6RBcrhDsl
+ 88HeSZwQp8VBi5DIm9XW2gcewxHiK5gR1toWotwKfEH8I0761SiiPVE
+X-Developer-Key: i=george.moussalem@outlook.com; a=ed25519;
+ pk=/PuRTSI9iYiHwcc6Nrde8qF4ZDhJBlUgpHdhsIjnqIk=
+X-Endpoint-Received: by B4 Relay for george.moussalem@outlook.com/20250321
+ with auth_id=364
+X-Original-From: George Moussalem <george.moussalem@outlook.com>
+Reply-To: george.moussalem@outlook.com
 
-syzbot has found a reproducer for the following issue on:
+Flatten usb controller node and update to using latest bindings and
+flattened driver approach.
 
-HEAD commit:    551c722f4080 Merge tag 'rtc-7.3-fixes' of git://git.kernel..
-git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-console output: https://syzkaller.appspot.com/x/log.txt?x=163d6b15580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7d012d9c67977ee4
-dashboard link: https://syzkaller.appspot.com/bug?extid=f093afc4e90b1908abdc
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17d333f5580000
+In addition, set the right UTMI clock rate and override any clock
+rate inherited from the bootloader.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f093afc4e90b1908abdc@syzkaller.appspotmail.com
+I've split these patches from a larger patch set to add USB3 support on
+IPQ5018 and IPQ5332 SoCs where these patches are required to ensure new
+functionality is added to the new flattened driver and binding model.
 
-R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffddb96a9a8
-R13: 0000000000000002 R14: 00007f778c218cc0 R15: 0000000000000002
- </TASK>
-==================================================================
-BUG: KASAN: slab-use-after-free in __list_del_entry_valid_or_report+0x18a/0x1d0 lib/list_debug.c:49
-Read of size 8 at addr ffff88802274e158 by task syz-executor227/5999
+link: https://lore.kernel.org/all/20260812-ipq5018-usb3-v2-0-8f355d7ff0ef@outlook.com/
 
-CPU: 3 UID: 0 PID: 5999 Comm: syz-executor227 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x13d/0x4b0 mm/kasan/report.c:482
- kasan_report+0xdf/0x1c0 mm/kasan/report.c:595
- __list_del_entry_valid_or_report+0x18a/0x1d0 lib/list_debug.c:49
- __list_del_entry_valid include/linux/list.h:140 [inline]
- __list_del_entry include/linux/list.h:261 [inline]
- list_del include/linux/list.h:275 [inline]
- uvcg_extension_drop+0x88/0x290 drivers/usb/gadget/function/uvc_configfs.c:1260
- client_drop_item+0xa6/0x100 fs/configfs/dir.c:979
- configfs_mkdir+0x70b/0xd40 fs/configfs/dir.c:1452
- vfs_mkdir+0x364/0x850 fs/namei.c:5410
- filename_mkdirat+0x48b/0x5e0 fs/namei.c:5443
- __do_sys_mkdir fs/namei.c:5470 [inline]
- __se_sys_mkdir fs/namei.c:5467 [inline]
- __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5467
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f778c194d07
-Code: 77 01 c3 48 c7 c2 d8 ff ff ff f7 d8 64 89 02 48 c7 c0 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 b8 53 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 01 c3 48 c7 c2 d8 ff ff ff f7 d8 64 89 02 b8
-RSP: 002b:00007ffddb96a878 EFLAGS: 00000202 ORIG_RAX: 0000000000000053
-RAX: ffffffffffffffda RBX: 0000000000002710 RCX: 00007f778c194d07
-RDX: 0000000000000000 RSI: 00000000000001ff RDI: 00007f778c1f0488
-RBP: 00007f778c1f0488 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000202 R12: 00007ffddb96a9a8
-R13: 0000000000000002 R14: 00007f778c218cc0 R15: 0000000000000002
- </TASK>
+Signed-off-by: George Moussalem <george.moussalem@outlook.com>
+---
+Changes in v4:
+- Dropped patches to have the glue layer pass the reference clock rate
+  to the core as they're no longer required since Kathiravan's patches
+  updating the UTMI clock rates have been applied in next:
+  commit 0fe2995196a5 ("clk: qcom: ipq5018: add 24MHz rate for USB UTMI clock")
+  commit 33e6a4864ddc ("clk: qcom: ipq5332: add 24MHz rate for USB UTMI clock")
+- Updated the dts patches for IPQ5018 and IPQ5332 accordingly to set the
+  UTMI clock rate to 24 MHz.
+- Link to v3: https://lore.kernel.org/r/20260906-ipq-flatten-usb-v3-0-13e4e0f63123@outlook.com
 
-Allocated by task 5999:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x2f8/0x6d0 mm/slub.c:5563
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- uvcg_extension_make+0x98/0x4e0 drivers/usb/gadget/function/uvc_configfs.c:1276
- configfs_mkdir+0x7ef/0xd40 fs/configfs/dir.c:1378
- vfs_mkdir+0x364/0x850 fs/namei.c:5410
- filename_mkdirat+0x48b/0x5e0 fs/namei.c:5443
- __do_sys_mkdir fs/namei.c:5470 [inline]
- __se_sys_mkdir fs/namei.c:5467 [inline]
- __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5467
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
+Changes in v3:
+- Re-added dr_mode back to the controller node in ipq6018-cp01-c1.dts
+  after having removed it in patch 6.
+- Swap interrupts for dp_hs_phy_irq and dm_hs_phy_irq for ipq9574 as per
+  order in updated binding.
+- Only set the ref_clk_rate in the probe_data structure if the UTMI clock
+  is available.
+- Also referring to changes below in v2 (v2 wasn't reviewed yet).
+- Link to v2: https://lore.kernel.org/r/20260906-ipq-flatten-usb-v2-0-dab83120b10a@outlook.com
 
-Freed by task 5999:
- kasan_save_stack+0x30/0x50 mm/kasan/common.c:57
- kasan_save_track+0x14/0x30 mm/kasan/common.c:78
- kasan_save_free_info+0x3b/0x70 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5f/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2748 [inline]
- slab_free mm/slub.c:6508 [inline]
- kfree+0x22b/0x6d0 mm/slub.c:6801
- config_item_cleanup+0x146/0x240 fs/configfs/item.c:128
- config_item_release fs/configfs/item.c:137 [inline]
- kref_put include/linux/kref.h:65 [inline]
- config_item_put fs/configfs/item.c:149 [inline]
- config_item_put+0x93/0xb0 fs/configfs/item.c:146
- uvcg_extension_drop+0x80/0x290 drivers/usb/gadget/function/uvc_configfs.c:1259
- client_drop_item+0xa6/0x100 fs/configfs/dir.c:979
- configfs_mkdir+0x70b/0xd40 fs/configfs/dir.c:1452
- vfs_mkdir+0x364/0x850 fs/namei.c:5410
- filename_mkdirat+0x48b/0x5e0 fs/namei.c:5443
- __do_sys_mkdir fs/namei.c:5470 [inline]
- __se_sys_mkdir fs/namei.c:5467 [inline]
- __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5467
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff88802274e100
- which belongs to the cache kmalloc-192 of size 192
-The buggy address is located 88 bytes inside of
- freed 192-byte region [ffff88802274e100, ffff88802274e1c0)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x2274e
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000000 ffff88801c0423c0 dead000000000100 dead000000000122
-raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 1, tgid 1 (swapper/0), ts 8964019714
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0xfd/0x120 mm/page_alloc.c:1871
- prep_new_page mm/page_alloc.c:1879 [inline]
- get_page_from_freelist+0x110d/0x35d0 mm/page_alloc.c:3943
- __alloc_frozen_pages_noprof+0x2eb/0x3300 mm/page_alloc.c:5436
- alloc_slab_page mm/slub.c:3347 [inline]
- allocate_slab mm/slub.c:3462 [inline]
- new_slab+0xa9/0x6e0 mm/slub.c:3513
- refill_objects+0xe3/0x410 mm/slub.c:7417
- refill_sheaf mm/slub.c:2885 [inline]
- __pcs_replace_empty_main+0x35e/0x650 mm/slub.c:4774
- alloc_from_pcs mm/slub.c:4850 [inline]
- slab_alloc_node mm/slub.c:4984 [inline]
- __kmalloc_cache_noprof+0x4f4/0x6d0 mm/slub.c:5559
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- __usb_create_hcd+0x7b6/0xac0 drivers/usb/core/hcd.c:2577
- dummy_hcd_probe+0x130/0x2fa drivers/usb/gadget/udc/dummy_hcd.c:2717
- platform_probe+0x106/0x1d0 drivers/base/platform.c:1507
- call_driver_probe drivers/base/dd.c:628 [inline]
- really_probe+0x241/0xa60 drivers/base/dd.c:706
- __driver_probe_device+0x210/0x460 drivers/base/dd.c:868
- driver_probe_device+0x4a/0x140 drivers/base/dd.c:898
- __device_attach_driver+0x1df/0x320 drivers/base/dd.c:1026
- bus_for_each_drv+0x159/0x1e0 drivers/base/bus.c:500
- __device_attach+0x1e4/0x4d0 drivers/base/dd.c:1098
-page_owner free stack trace missing
-
-Memory state around the buggy address:
- ffff88802274e000: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff88802274e080: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
->ffff88802274e100: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                                                    ^
- ffff88802274e180: fb fb fb fb fb fb fb fb fc fc fc fc fc fc fc fc
- ffff88802274e200: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
+Changes in v2:
+- Dropped the "qcom,select-utmi-as-ref-clk" property from the binding
+  and DTS nodes since it is no longer needed. If the UTMI clock is
+  available, the glue layer will pass its clock rate to the core
+  unconditionally.
+- Added separate patches to move the DR mode to the relevant board DTS
+  files as per Konrad's request.
+- Picked up RB tags
+- Link to v1: https://lore.kernel.org/r/20260825-ipq-flatten-usb-v1-0-5c1f3170bbe9@outlook.com
 
 ---
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+George Moussalem (8):
+      arm64: dts: qcom: ipq5018: Flatten usb controller node
+      arm64: dts: qcom: ipq5332: Flatten usb controller node
+      arm64: dts: qcom: ipq5424: Flatten usb controller nodes
+      arm64: dts: qcom: ipq6018: move DR mode to board DTS
+      arm64: dts: qcom: ipq6018: Flatten usb controller nodes
+      arm64: dts: qcom: ipq8074: move DR mode to board DTS
+      arm64: dts: qcom: ipq8074: Flatten usb controller nodes
+      arm64: dts: qcom: ipq9574: Flatten usb controller node
+
+ arch/arm64/boot/dts/qcom/ipq5018-rdp432-c2.dts   |   6 +-
+ arch/arm64/boot/dts/qcom/ipq5018.dtsi            |  51 +++++------
+ arch/arm64/boot/dts/qcom/ipq5332-rdp468.dts      |   6 +-
+ arch/arm64/boot/dts/qcom/ipq5332.dtsi            |  57 ++++++------
+ arch/arm64/boot/dts/qcom/ipq5424-rdp466.dts      |  12 +--
+ arch/arm64/boot/dts/qcom/ipq5424.dtsi            |  86 ++++++++----------
+ arch/arm64/boot/dts/qcom/ipq6018-cp01-c1.dts     |   2 +
+ arch/arm64/boot/dts/qcom/ipq6018.dtsi            |  95 +++++++++-----------
+ arch/arm64/boot/dts/qcom/ipq8074-hk01.dts        |   4 +
+ arch/arm64/boot/dts/qcom/ipq8074.dtsi            | 110 +++++++++++------------
+ arch/arm64/boot/dts/qcom/ipq9574-rdp-common.dtsi |   6 +-
+ arch/arm64/boot/dts/qcom/ipq9574.dtsi            |  48 +++++-----
+ 12 files changed, 215 insertions(+), 268 deletions(-)
+---
+base-commit: 6c2cb8b8b843d216ab549b678a0d8831c43153e0
+change-id: 20260825-ipq-flatten-usb-c7d7f15f3966
+
+Best regards,
+-- 
+George Moussalem <george.moussalem@outlook.com>
+
+
