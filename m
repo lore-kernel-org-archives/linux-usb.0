@@ -1,131 +1,96 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7E93C5DA1;
-	Thu,  1 Oct 2026 22:26:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A436B2D1F40;
+	Thu,  1 Oct 2026 22:33:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790893589; cv=none; b=OOCNswIZyH1U+e7yrW895zadvX0cIdR62478JMXDe3UciUvtQGAfiHkncvlP1FaOxMS5wOkRd9iVuW8hCsXsAAIu6WxtvAHvUKWS1LpdyLKX7PIEH1wTMiV1q6tQ8XD3fXt7jD8u4CAvnHiNP8/IrjQMWb5pfDpSGdUfqJzFUww=
+	t=1790894040; cv=none; b=dIg7GX/p4M8QZy1YjVxPnWxOQ7Lv9NFySJFrlth3UPqgBwKCi9DYoTMnKKFj/ugnHf07C0p6p0A6R6C75kI4SWCBGyMixaFKEl8p/QK+Mdn0snjiVoZckKseKJYS178ZUib9y5NJ8bmi8r+FfUz7R6wc1Ur4i2SwjU/ZzUC83Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790893589; c=relaxed/simple;
-	bh=hGHr+2I81ejfp/DsBfCmghrWW5fjJ8hrG8YNO8L7p5c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iP/2dqgZFlwcJLJ174jquz8wvFVF80uWxi0HNS3/VwmbUxubJlsrX3Pte5976FQSXVTsrxCgpVNOtSR5j2XOWNdtrfpRu80AttecYCuOvEuYIlDKmJ7vqsMaxIN0quEzuuV2dzW2fljumByg2DBgrooFy+Y8p5nNba1xRo+Aw8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mEFyXm74; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1790894040; c=relaxed/simple;
+	bh=rn3NRkbUS8gfhirwNTFRWgIl9kORmKCukJcbc6B0Hgs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=EKSZs4x3LvCVs49PEdrG8lQRwcx0iy6yEztaaArYnkk2fS2XX11aIm1T1DN49vt8WwY21bLJvDHnJBPq/+0GehvcSVbkZXggSwisLGa3x161gRrGI9YlEvlXMsktRDaqhe+9gWMhetI/IV173KTNU+DlHP+dYQvRmNeYQjjn6FQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SnWGISAp; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mEFyXm74"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 691G5T6J2030035;
-	Thu, 1 Oct 2026 22:26:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=pp1; bh=g/sMdSj8DDi4M03l1I2UQfN4y5okDdFfRf9ky0ubX
-	PY=; b=mEFyXm742DXm6ZjTk/GW+12uO4cBlOBonNHKNgFcXKLjWMqynSy2U02TG
-	sb8a2Rlm10BFbNuIyjC4RVpfPKjgRgobilx9Oun/GpsSI0PNtEZasvwzehaOLZYH
-	K6BvgM8Rdo9oAWbTOSQm7dfJbH9bjjhYnTaICEjX7G6Hk/xkKhpdfeiy7jcdJNB5
-	Wucwu2zpYRYdrQ6FMjtBFExk/Fsvdk67ZMDhMHLZaOkXp685vq1sZi8MW0Tq4/0S
-	5SVfoAoKle3kX+mH3Xn83jKa304awG4eKHK2VRlBO7gVkmr4FwDTq/gSvEtku7KO
-	6IK8KDEpGTteXAiVwn7X6fI9LOv/w==
-Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx3fknd2c-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 01 Oct 2026 22:26:10 +0000 (GMT)
-Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 691Ja83u4073405;
-	Thu, 1 Oct 2026 22:26:09 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h0q4pht66-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 01 Oct 2026 22:26:09 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 691MQ7tO30212642
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 1 Oct 2026 22:26:07 GMT
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6AA8458055;
-	Thu,  1 Oct 2026 22:26:07 +0000 (GMT)
-Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C64D858043;
-	Thu,  1 Oct 2026 22:26:06 +0000 (GMT)
-Received: from ltcrain119-lp4.ltc.tadn.ibm.com (unknown [9.5.7.39])
-	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  1 Oct 2026 22:26:06 +0000 (GMT)
-From: wenxiong@linux.ibm.com
-To: mathias.nyman@intel.com, gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, wenxiong@us.ibm.com,
-        Wen Xiong <wenxiong@linux.ibm.com>,
-        Brian King <brking@linux.vnet.ibm.com>,
-        Samuel Mendoza-Jonas <sam@mendozajonas.com>,
-        Joel Stanley <joel@jms.id.au>
-Subject: [PATCH] xhci: Reset controller on xhci shutdown
-Date: Thu,  1 Oct 2026 18:25:27 -0400
-Message-ID: <20261001222527.11742-1-wenxiong@linux.ibm.com>
-X-Mailer: git-send-email 2.52.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SnWGISAp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790894038; x=1822430038;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=rn3NRkbUS8gfhirwNTFRWgIl9kORmKCukJcbc6B0Hgs=;
+  b=SnWGISAp9fAAmpexDkFnTMaxZXgyNeVAyWXbt3LLkLi8CfOomZw/wvr4
+   5sRt35F6zJmgBQJETJUyMuOCynYTPhuOsQ9uA7xiHyX55lBC56xDnxNIx
+   BO0VdKPMIwhZpKpvwL4w0DO5Ogu1jQjdNEuRnhe93T1A7M6UEtlfYyHqV
+   XeL4eON6huR44zDu9692CIRpGiYPp3h+eWlfEjH7QOplk7tAByI06IEGn
+   sSTPIJy1u/YwQe9vflGXR6oDzLrhm9qb8mz3G2pzq37VSHnXGbZN2EpPx
+   ScbNNa7antqcGmDwKE9c3ZdjBrTmYtqtR8H2n5w/GaJJGJX3nkwghCcpE
+   Q==;
+X-CSE-ConnectionGUID: 2+xu8MwLQsaJd5/AUHa6jg==
+X-CSE-MsgGUID: xImDsaIhQFGJ/8ZmkrK4yg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="94377381"
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="94377381"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 15:33:57 -0700
+X-CSE-ConnectionGUID: 3xOw04JjSHO60sZAwzj+LA==
+X-CSE-MsgGUID: PwAehYMKQJuJ4WTffmeSzw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,135,1787036400"; 
+   d="scan'208";a="273933416"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.244.120]) ([10.245.244.120])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 15:33:55 -0700
+Message-ID: <92d80a55-4422-4659-8f2d-e28693d6d9d7@linux.intel.com>
+Date: Fri, 2 Oct 2026 01:33:52 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/5] Add larger page size support for USB audio offload
+ path
+To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+ Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+ Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-sound@vger.kernel.org, =?UTF-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>
+References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
+ <d7ce8b23-64c0-43dd-a8c8-268224b9462c@oss.qualcomm.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <d7ce8b23-64c0-43dd-a8c8-268224b9462c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: vUfaowdiw9kcGPmzh0WlD1wzcNf8HSKD
-X-Proofpoint-GUID: vUfaowdiw9kcGPmzh0WlD1wzcNf8HSKD
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAxMDA4OCBTYWx0ZWRfX6tBzrPEjyCtd
- My3iJXOhGO0Pn2OK/uwL5OsPVzexVllL5MdmO9XKAa1qLGHclDvBO+wUtSM/846TTwrtUGk6v2f
- LI/+/2qp29v2xsaa0HweADeGlFRuQ1Y=
-X-Authority-Analysis: v=2.4 cv=Vv62kO2n c=1 sm=1 tr=0 ts=6abede02 cx=c_pps
- a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
- a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8 a=jT_9lS9cAAAA:8
- a=_TR_F_hvtShnT16lqtcA:9 a=Ec8Bv2-zM_L_lWdDgjzK:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAxMDA4OCBTYWx0ZWRfX8laPojxqdjYe
- ppIeSWaAM9eXWwZsLiIaG6AEx3ZPs1mDK+ZJigiEz/EeVVRnT+kvG1/2rCxVefmIcKBOyaesHD2
- 37YlEJ6rHjTyaCuslfAD0/aXTkag6VsVZsCS4A1RyCsOyhYUEFecl9vylMHlZ3fXlWDcUwp47BV
- gj8pV8JlMx7CSzc6I3XNzV7pnWvOrd/53PHEHu35pWnFa9P27dk5D7o64eJOkFtxkd3kjGz7TGf
- Vl0+Q2bE8sG1XgX3F0jdUtXJfWjMu0szCkKi9fva0kZWFmrF/+3I8Be9ls1t+okN9fKOidi/apm
- GqJ8lhc0HUi3sFbyGaaLRhhAVb8I47PDD43GST0ZY3dyrR0M14HDCmfwLbSVfZvDMOtdl2rNNbp
- r0+hBKBwa6pjPnvJ58Oog91Lw5AMA9LCzwsPsUyjwo5JTBQ6VkE8kXYqSK4VvOMU1tPv7IBqdBu
- yjxiTsNkOxAWWl2afiA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-01_04,2026-10-01_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 phishscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 clxscore=1011 lowpriorityscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2610010088
 
-From: Wen Xiong <wenxiong@linux.ibm.com>
+On 10/1/26 01:23, Wesley Cheng wrote:
+> 
+> Hi Mathias,
+> 
+> Just checking to see if there was anything that we needed to account for in this series?  I think there was the discussion that came up here:
+> https://lore.kernel.org/all/TYUPR06MB6217000B59003EDF233D7246D2B22@TYUPR06MB6217.apcprd06.prod.outlook.com/
 
-Fixes kexec boot. Without a hard reset, some USB chips will fail to
-initialize in a kexec booted kernel.
+Patch v4 1/5: Looks good, is useful even as a standalone patch. Can be taken immediately.
+Patch v4 2/5: Looks good, not useful as standalone patch, can be taken with rest of series.
+Patch v4 3/5: I need to revisit this and look at new dma pool lifetime vs xHC accessing those DMA addresses.
+PAtch v4 Rest:  ALSA, no opinion.
 
-Signed-off-by: Brian King <brking@linux.vnet.ibm.com>
-Signed-off-by: Samuel Mendoza-Jonas <sam@mendozajonas.com>
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Signed-off-by: Wen Xiong <wenxiong@linux.ibm.com>
----
- drivers/usb/host/xhci.c | 3 +++
- 1 file changed, 3 insertions(+)
+> 
+> But, I think your suggestion about adding the sideband check in the xhci_setup_device() would mitigate that problem.  Esp, if we don't want xHCI core to really know about sideband ops.
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a9e47e178c28..364bd61a4bd7 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -781,6 +781,9 @@ void xhci_shutdown(struct usb_hcd *hcd)
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
- 			"xhci_shutdown completed - status = %x",
- 			readl(&xhci->op_regs->status));
-+
-+	/* TI XHCI controllers do not come back after kexec without this hack */
-+	pci_reset_function_locked(to_pci_dev(hcd->self.sysdev));
- }
- EXPORT_SYMBOL_GPL(xhci_shutdown);
- 
--- 
-2.52.0
+That would be the bandaid in:
+https://lore.kernel.org/all/c6c9890f-46d8-42f1-a7e7-8a5d551fa22c@linux.intel.com/
+
+I can turn that into a proper patch.
+Lianqin also gave some preliminary positive feedback, but I'm not sure if the code was
+ever properly tested.
+
+Thanks
+Mathias
 
