@@ -1,353 +1,683 @@
-Received: from mail-pz2-f38.google.com (mail-pz2-f38.google.com [74.125.228.38])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ironport.ite.com.tw (itemail.ite.com.tw [60.251.196.230])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B291A392811
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 09:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA2B4C33DE;
+	Thu,  1 Oct 2026 10:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.251.196.230
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790846136; cv=none; b=OFlpAINOq3Su4bma9dRHo6bdwDIdXItmgKyuU86YHXMd/WqTcul1ent+iUNNzM5rOuyeCxGx8EEG+mxrCXM6aTgKqyR3B/R/dK2YkMKoQn3feMucf2GVI0TsNDnE+ElbZ/bpzLJbeJ0JXlNxZjrIbvLrcD0vQAyJOes2UDmIfaI=
+	t=1790850519; cv=none; b=fhLGNLn2CqD9Es/pYCT3W5u5e3dCQsqV7DMW/ik765TdOr/B3mhxdp99GoNUYDg2n925ssPEnxzN4ua7mw8VWaRIQNyBnqN8eV1HNYeX6wslf+VCPd/FZHjN2T6XkToiElPGov+DaJk10U3ZQE+vl0eyy/0gZvEA3Zcq1NNMDGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790846136; c=relaxed/simple;
-	bh=UQDkByNNC0KqSmVdnRRjC6l/UisWwlJtg7tDG1mnCS0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=BtgmCkRPzGj9vY8opFf8aR4UVcAQoIwH+55NDDOrnMEDZDy/qcBUJfI9HVguJZSPVjaIxI9/WCNaMdeGerWby62ChaGQo4Ap7Exc4EYKAipclM+M67sJJDDgOw21dnQ3VpIJwAOL5UAt+vyNmIySoCKbh+U6CpfAzPpvaAPp5u4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZIIxnIDJ; arc=none smtp.client-ip=74.125.228.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790850519; c=relaxed/simple;
+	bh=e7TvL/9BbCJywLrK+4Ot7ZuHRLYJl2mnHvniSwTJCio=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=VypByDkeI00Yf0y+ZcNpmgSOcNVPiN7mlWJgeNEpj5rv6qv9vghRIpXFWK2yhpV5Uvz6pHL9FdUwPemf2E7mkKW9kctebM9YQN5HSsiZ9uky0/hyR2K57lX5I+JAJBokw5IGdEP7WV6hEQ3gsOxZeYhFhi0kd0HO8spJX9hrzWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=DNUvRoQF; arc=none smtp.client-ip=60.251.196.230
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZIIxnIDJ"
-Received: by mail-pz2-f38.google.com with SMTP id 41be03b00d2f7-cc79a5bdf9fso1240607a12.1
-        for <linux-usb@vger.kernel.org>; Thu, 01 Oct 2026 02:15:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="DNUvRoQF"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790846132; x=1791450932; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=dfonLXrH2MEaXVdolAoD3jNct3GqjVUeXnc0utQ1W1I=;
-        b=ZIIxnIDJZlCOmxqrHJDJLxKu89WnR+JzpKitmnu9iaAifTDtzKiNSZeBswc5KEiGbu
-         o1t6rHL4QKv/eWWZpY9FpWesWkaHPyQM06l5KCOp1NW0cbxMtya3jZPpfvz612IKy0ba
-         eXmNU3mS1FZDeuAu90UNw7q5sy+fwfZsoAOjLzhTauWCwzMfMV9sla9Q9sPLiVw8EZCq
-         bzKz/OAO17Ii6gXgZNBluKmgzx8VeACBFqlJX51s2JPO7Kxo16dPEiKatwf1lzcyFdsw
-         Q7OkhyVmUutUih8yBTsCvl3tJ1W+N8tmv33MF0pVoVT1QxAmu7oxfxSanoa0BNqZdmHs
-         94Jw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790846132; x=1791450932;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dfonLXrH2MEaXVdolAoD3jNct3GqjVUeXnc0utQ1W1I=;
-        b=Yyx4vWAh4mxeznXneaxes2F4n74iHIUWMu11nFKuKmi/Lc0Gpzv7utuANVVcrVEPT0
-         GVGtZv5jj/ytf41M+e0b8W5yC/Wd+ciMjkT3+zIrvQRyHYqnKIc5/sF/hUDu17r4Zxbg
-         mlGhrvL8Yiz19Bkn/nFXQ0Xt4o/GDd2WqD1Awl2M8/O+jbn3lB1zRu7ADIYDDQgf9EZN
-         ocYfaTbPT9ajARQGDvtIc+KTX3De8TnPJDnYnzZ1sEi4EgeimLQ0API7Egf5YKhQe80F
-         421yAF5nhEpLJJnHJMuRH5YKZON+Hcz5UntllVMsJ0pkaMIJzZpjD87XaObnn8g8AUMb
-         ne6g==
-X-Forwarded-Encrypted: i=1; AKwUvBy8hKNWKd9nwgXY7eM+QgbiF1s9aL1hTYE+AMhRTkxZVZaxpe6Q4b160Jb4x8upgYViYmCLtxkQQDk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLa8I/MtiZdJScHincSabbE/gYuGvVR6jJ2q5zDd0wqfp7umsJX
-	FTOyHwzYmkNFNr+F08gMgnaKOlySyS7OqrkdTnycrrLgMVJnOVdIsprPLWlV8Y0BkXw=
-X-Gm-Gg: AYBFou2DpeIIT1Nbud5DErHou2BWuFR1P4RIUDPHAF0poTKGhWtIPfy0/lTT41y+mpD
-	BYCawo3yvIWXrvrQtHeT6YIx5TFtvJEKlEQUQDFYeUF8B5skKXeUNp+/gsEcAmWtly8Wm9h5xZo
-	oMKJ6WYInYAW3rFfTYarW0A6yTuL5WJAxm9Y9hxl9L+8psONhSbkEhmcS4aBu+ohNK5eJ6Jos6V
-	Ddl9j5WdZKqWdEFamlXhVbrV2WYzp07od+uTn+y2vhZABaPPzWCmbtM5T1CnqFiD5GLeqDCEY06
-	hYdJDOd5c3rsV4795sm3DlqR7+Ve+4FhHqVIhOJ7sLgnr3Tm0V3ccFGa2AmKYP3APM+u5rnf8na
-	QRKGbIdFAINQHLegwkjHgzTJeL66lSbPmKmPN2XSea6UTwGZwodgHKIFFMbtGy+9wBtdpAEwABY
-	A3sQtzwXqPhmU68INixUUPkgr6g6Q2LUEdFnU1QKr3I/LVTbP4TXT0aaKZl4HPOVy6qU5Je2jA1
-	c/P2q18lu1U44gUayhiZ6r0LotmRwr2
-X-Received: by 2002:a17:90b:3d89:b0:3a0:cca0:4a8c with SMTP id 98e67ed59e1d1-3a4f2afaec5mr1214170a91.7.1790846131520;
-        Thu, 01 Oct 2026 02:15:31 -0700 (PDT)
-Received: from localhost.localdomain ([116.128.244.171])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a4f47cbd1dsm3721626a91.16.2026.10.01.02.15.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 02:15:31 -0700 (PDT)
-From: xy521521@gmail.com
-To: stern@rowland.harvard.edu
-Cc: Hongyu Xie <xiehongyu1@kylinos.cn>,
-	gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb-storage: ene_ub6250: don't let the card-type probe hang forever
-Date: Thu,  1 Oct 2026 17:15:23 +0800
-Message-Id: <20261001091523.16934-1-xy521521@gmail.com>
-X-Mailer: git-send-email 2.32.0
-In-Reply-To: <20260929144640.2028-1-xy521521@gmail.com>
-References: <20260929144640.2028-1-xy521521@gmail.com>
+  d=ite.com.tw; s=dkim;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:to:cc;
+  bh=YKRKR5Px+KL1qhDkv/LX+z0yQHFZLr3qaONQ/sWb8eI=;
+  b=DNUvRoQFim6TOs9RogsKuagIiQiRA9vn71dj0qrhHBBDcaJWKLq5Onyf
+   BC8GbBxd0UyRA5zT4kcLC4TMfcXowt/LbG+giKsH/9+KVqX/aX90EMrHG
+   U/0FuyxyJ7VF6ioBGQW0+cMbMCwOVjQChZp6laz63D8AeyehCrllAO7hg
+   AURg23ruNvbI8fUQ/w49YXUuwRlfY9OA6GnDLJ0SX2JIWXrFj+OW9Q+h2
+   9mNd8N80fFydpFPCfr87/7C5jXp3moZyKJpFKwoZrKefR7mO4PXL+2i7b
+   Hc2QhqxCWcAx0z8vBhydcsJzv9bzC+ynLn0J9ga2EekSKX3P8auK/+5IU
+   g==;
+X-CSE-ConnectionGUID: eW+YiQRuQ+Kp7WKlLL47nQ==
+X-CSE-MsgGUID: tDUF0Y3eQiatpuvEt1RESQ==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+  by ironport.ite.com.tw with ESMTP; 01 Oct 2026 18:27:16 +0800
+Received: from jiraproxy.ite.com.tw (jira.internal.ite.com.tw [192.168.35.200])
+	by mse.ite.com.tw with ESMTP id 691ARB8F070545;
+	Thu, 1 Oct 2026 18:27:11 +0800 (+08)
+	(envelope-from ite_pd@ite.com.tw)
+Received: from [127.0.1.1] (ITE01791W10.internal.ite.com.tw [192.168.37.107])
+	by jiraproxy.ite.com.tw (Postfix) with ESMTP id 29DDD2D58;
+	Thu,  1 Oct 2026 18:27:10 +0800 (CST)
+From: Amber Kao <ite_pd@ite.com.tw>
+Date: Thu, 01 Oct 2026 18:27:51 +0800
+Subject: [PATCH] usb: typec: ucsi: itepd: Add DisplayPort alternate mode
+ support
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261001-ucsi-itepd-display-v1-1-f3de9baa2467@ite.com.tw>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/02NWw6CMBQFt0Lut01aGqh0K4aPPq56jUFsC4EQ9
+ m61Jvo5yTkzG0QMhBF0tUHAmSI9hgziUIG7muGCjHxmqHnd8k5yNrlIjBKOnnmK492szHZKcWy
+ F9MZBPo4Bz7R8pKe+cJzsDV16m76LgM8p11KZ/WK6Kikh/lOUmlotrLFHZVphlLBWzxL6fX8BC
+ IWJ/MIAAAA=
+X-Change-ID: 20260930-ucsi-itepd-display-b9770e613dac
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Amber Kao <amber.kao@ite.com.tw>, Jeson Yang <jeson.yang@ite.com.tw>,
+        Yaode Fang <Yaode.Fang@ite.com.tw>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Amber Kao <ite_pd@ite.com.tw>
+X-Mailer: b4 0.15.2
+X-MAIL:mse.ite.com.tw 691ARB8F070545
 
-From: Hongyu Xie <xiehongyu1@kylinos.cn>
+Add support for DisplayPort alternate mode on the IT885x and IT527x
+series controllers.
 
-ene_ub6250_probe() queries the card type with ene_get_card_type() while
-holding us->dev_mutex (the locking added by commit 445fc368c6bc
-("usb-storage: ene_ub6250: fix race between scan work and probe")).
-The query is a bulk-only transaction: CBW, 1-byte data-in and CSW, each
-transferred by usb_stor_bulk_transfer_buf(), which waits for URB
-completion with MAX_SCHEDULE_TIMEOUT.
+The connectors are described as child nodes of the controller in the
+device tree. For each connector, the driver gets the Type-C mux and
+retimer and allocates a DRM auxiliary HPD bridge.
 
-That unbounded wait is safe only while a SCSI command is being handled,
-because the command's abort machinery (usb_stor_stop_transport() via
-US_FLIDX_ABORTING) is the only thing that can terminate it.  At probe
-time no SCSI command exists, so a device that passes enumeration but
-never services bulk transfers wedges the probe forever:
+On a connector status change, the driver reads the current alternate
+mode from the PPM with GET_CURRENT_CAM and checks that it is
+DisplayPort with GET_ALTERNATE_MODES. The DisplayPort status and
+configuration are then read with GET_CAM_CS, and the pin assignment is
+used to configure the mux and retimer. The HPD state and HPD IRQ are
+taken from the latest Attention VDO, read with GET_ATTENTION_VDO, and
+reported through the HPD bridge.
 
-    hub_event:         usb_stor_msg_common() <- ene_send_scsi_cmd
-                       <- ene_ub6250_probe  (holds us->dev_mutex)
-    events_freezable:  usb_stor_scan_dwork  (blocked on us->dev_mutex)
+To get notified about Attention messages, enable the Attention
+notification whenever the UCSI core sends SET_NOTIFICATION_ENABLE.
+All pending vendor interrupt bits are now acknowledged instead of only
+the UCSI and VDM events, so that no event is left pending.
 
-syzbot reports the second worker as "INFO: task hung in
-usb_stor_scan_dwork"; the hub_event worker is stuck in the same wait
-but sleeps interruptibly, which the hung-task detector ignores.
+PPMs implementing UCSI versions older than 2.0 report the cable
+orientation at a vendor-specific offset in the connector status, so
+set the orientation from there.
 
-Bound the three probe-time transfers with a 30 s timeout through a new
-usb_stor_bulk_transfer_buf_timeout() helper, so a dead device fails the
-probe cleanly and the existing error path unwinds via
-usb_stor_disconnect().
-
-Fixes: 445fc368c6bc ("usb-storage: ene_ub6250: fix race between scan work and probe")
-Reported-by: syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=30552b4cbe99d6d91306
-Cc: stable@vger.kernel.org
-Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+Signed-off-by: Amber Kao <ite_pd@ite.com.tw>
 ---
+This patch adds DisplayPort alternate mode support to the ITE UCSI
+driver.
 
-Changes in v2 (formatting only, no functional change):
-- fix checkpatch --strict "alignment should match open parenthesis"
-  complaints on the newly added continuation lines
-- rename the fDir parameter of ene_send_scsi_cmd[_timeout]() to fdir
-  to silence the CamelCase check
- drivers/usb/storage/ene_ub6250.c | 59 ++++++++++++++++++++++++--------
- drivers/usb/storage/transport.c  | 32 +++++++++++++----
- drivers/usb/storage/transport.h  |  5 +++
- 3 files changed, 74 insertions(+), 22 deletions(-)
+It was previously posted as patch 2/2 of the IT527x/IT885x support
+series [1]. As requested by Heikki, it has been split out, and the
+Kconfig prompt, help text and MODULE_DESCRIPTION updates for
+IT885x/IT527x have been moved into that series.
 
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index 895f90c7a3fa..276764a66774 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -24,6 +24,13 @@
+This patch depends on the IT527x/IT885x support series v3 [2], which
+has been reviewed but not yet applied.
+
+[1] https://lore.kernel.org/r/20260918-ucsi-itepd-it527x-v2-0-7b2d9437cc72@ite.com.tw
+[2] https://lore.kernel.org/r/20260924-ucsi-itepd-it527x-v3-0-a7392aa087f5@ite.com.tw
+---
+ drivers/usb/typec/ucsi/Kconfig      |   5 +-
+ drivers/usb/typec/ucsi/ucsi_itepd.c | 427 +++++++++++++++++++++++++++++++++++-
+ 2 files changed, 423 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/usb/typec/ucsi/Kconfig b/drivers/usb/typec/ucsi/Kconfig
+index 5e32ff20ebb5..c5eaf4967e4e 100644
+--- a/drivers/usb/typec/ucsi/Kconfig
++++ b/drivers/usb/typec/ucsi/Kconfig
+@@ -107,10 +107,13 @@ config UCSI_HUAWEI_GAOKUN
+ config UCSI_ITEPD
+ 	tristate "UCSI Interface Driver for ITE IT885x and IT527x series"
+ 	depends on I2C
++	depends on DRM || !DRM
++	select DRM_AUX_HPD_BRIDGE if DRM_BRIDGE && OF
+ 	help
+ 	  This driver enables UCSI support on platforms that expose an
+ 	  ITE IT885x or IT527x series Type-C Power Delivery controller
+-	  over an I2C interface.
++	  over an I2C interface. It also supports DisplayPort alternate
++	  mode, including HPD notification through the DRM bridge.
  
- #define DRV_NAME "ums_eneub6250"
- 
-+/*
-+ * Bound for the probe-time card-type query.  It runs under us->dev_mutex
-+ * with no SCSI command in flight, so nothing else would terminate the
-+ * bulk transfer wait if the device stopped responding.
-+ */
-+#define ENE_PROBE_TIMEOUT (30 * HZ)
+ 	  To compile the driver as a module, choose M here: the module
+ 	  will be called ucsi_itepd.
+diff --git a/drivers/usb/typec/ucsi/ucsi_itepd.c b/drivers/usb/typec/ucsi/ucsi_itepd.c
+index 5b39ba286db7..25dbe59ab770 100644
+--- a/drivers/usb/typec/ucsi/ucsi_itepd.c
++++ b/drivers/usb/typec/ucsi/ucsi_itepd.c
+@@ -3,14 +3,24 @@
+  * Copyright (C) 2025-2026, ITE. All Rights Reserved
+  *
+  */
++#include <linux/auxiliary_bus.h>
++#include <linux/bitmap.h>
++#include <linux/bitops.h>
+ #include <linux/bits.h>
+ #include <linux/err.h>
+ #include <linux/i2c.h>
+ #include <linux/interrupt.h>
+ #include <linux/module.h>
+ #include <linux/mutex.h>
++#include <linux/of.h>
++#include <linux/property.h>
+ #include <linux/slab.h>
+ #include <linux/unaligned.h>
++#include <linux/usb/typec_dp.h>
++#include <linux/usb/typec_mux.h>
++#include <linux/usb/typec_retimer.h>
 +
- MODULE_DESCRIPTION("Driver for ENE UB6250 reader");
- MODULE_LICENSE("GPL");
- MODULE_IMPORT_NS("USB_STORAGE");
-@@ -487,7 +494,8 @@ static void ene_ub6250_info_destructor(void *extra)
- 	kfree(info->bbuf);
- }
++#include <drm/bridge/aux-bridge.h>
  
--static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
-+static int ene_send_scsi_cmd_timeout(struct us_data *us, u8 fdir, void *buf,
-+				     int use_sg, int timeout)
+ #include "ucsi.h"
+ 
+@@ -29,6 +39,38 @@
+ #define ITEPD_EVENT_NONE	0
+ #define ITEPD_EVENT_UCSI	1
+ #define ITEPD_EVENT_VDM		2
++#define ITEPD_EVENT_OTHER	3
++
++#define ITEPD_CONSTAT_ORIENTATION_OFFSET	86
++
++#define ITEPD_CAM_CS_INDEX(_i_)			((u64)(_i_) << 24)
++#define ITEPD_CAM_CS_LEN			10
++#define ITEPD_CAM_CS_STATUS_OFFSET		1
++#define ITEPD_CAM_CS_CONF_OFFSET		6
++
++#define ITEPD_CAM_NONE				0xff
++
++#define ITEPD_ATTENTION_VDO_LEN			11
++#define ITEPD_ATTENTION_NUM_VDOS_OFFSET		2
++#define ITEPD_ATTENTION_NUM_VDOS_MASK		GENMASK(2, 0)
++#define ITEPD_ATTENTION_VDO_OFFSET		7
++
++/* CCI connector number is 7 bits, 1-based */
++#define ITEPD_MAX_CONNECTORS			127
++
++struct itepd;
++
++struct itepd_port {
++	struct itepd *itepd;
++	unsigned int index;
++	struct typec_mux *typec_mux;
++	struct typec_retimer *typec_retimer;
++	struct auxiliary_device *bridge;
++	struct typec_mux_state state;
++	struct typec_altmode dp_alt;
++	unsigned long mode;
++	bool hpd_state;
++};
+ 
+ struct itepd {
+ 	struct i2c_client *client;
+@@ -38,6 +80,9 @@ struct itepd {
+ 	struct mutex received_lock;	/* Protects cci and msg_in */
+ 	u8 msg_in[ITEPD_MSG_IN_MAX_LEN];
+ 	u32 cci;
++
++	struct itepd_port *ports;
++	unsigned int num_ports;
+ };
+ 
+ static u8 ucsi_itepd_get_len(u32 cci)
+@@ -115,25 +160,26 @@ static int itepd_process_event(struct itepd *itepd, u32 *cci)
  {
- 	struct bulk_cb_wrap *bcb = (struct bulk_cb_wrap *) us->iobuf;
- 	struct bulk_cs_wrap *bcs = (struct bulk_cs_wrap *) us->iobuf;
-@@ -499,17 +507,18 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
+ 	u8 msg_in[ITEPD_MSG_IN_MAX_LEN] = {};
+ 	__le32 le_cci;
+-	u8 event, ack;
++	u8 raw, event, ack;
+ 	u8 len = 0;
+ 	int err = 0;
+ 	int ret;
  
- 	/* usb_stor_dbg(us, "transport --- ene_send_scsi_cmd\n"); */
- 	/* send cmd to out endpoint */
--	result = usb_stor_bulk_transfer_buf(us, us->send_bulk_pipe,
--					    bcb, US_BULK_CB_WRAP_LEN, NULL);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-+						    bcb, US_BULK_CB_WRAP_LEN,
-+						    NULL, timeout);
- 	if (result != USB_STOR_XFER_GOOD) {
- 		usb_stor_dbg(us, "send cmd to out endpoint fail ---\n");
- 		return USB_STOR_TRANSPORT_ERROR;
+ 	guard(mutex)(&itepd->event_lock);
+ 
+-	ret = itepd_read_reg(itepd, ITEPD_VENDOR_INT, &event, sizeof(event));
++	ret = itepd_read_reg(itepd, ITEPD_VENDOR_INT, &raw, sizeof(raw));
+ 	if (ret)
+ 		return ret;
+ 
+-	event &= ITEPD_ALERT_VDM_EVENT | ITEPD_ALERT_UCSI_EVENT;
+-	if (!event) {
++	if (!raw) {
+ 		mutex_lock(&itepd->received_lock);
+ 		*cci = itepd->cci;
+ 		mutex_unlock(&itepd->received_lock);
+ 		return ITEPD_EVENT_NONE;
  	}
  
- 	if (buf) {
--		unsigned int pipe = fDir;
-+		unsigned int pipe = fdir;
- 
--		if (fDir  == FDIR_READ)
-+		if (fdir == FDIR_READ)
- 			pipe = us->recv_bulk_pipe;
- 		else
- 			pipe = us->send_bulk_pipe;
-@@ -517,6 +526,10 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
- 		/* Bulk */
- 		if (use_sg) {
- 			result = usb_stor_bulk_srb(us, pipe, us->srb);
-+		} else if (timeout) {
-+			result = usb_stor_bulk_transfer_buf_timeout(us, pipe,
-+								    buf, transfer_length, &partial,
-+								    timeout);
- 		} else {
- 			result = usb_stor_bulk_transfer_sg(us, pipe, buf,
- 						transfer_length, 0, &partial);
-@@ -528,20 +541,25 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
++	event = raw & (ITEPD_ALERT_VDM_EVENT | ITEPD_ALERT_UCSI_EVENT);
++
+ 	if (event & ITEPD_ALERT_UCSI_EVENT) {
+ 		err = itepd_read_reg(itepd, ITEPD_UCSI_CCI_REG, &le_cci,
+ 				     sizeof(le_cci));
+@@ -148,7 +194,7 @@ static int itepd_process_event(struct itepd *itepd, u32 *cci)
+ 		}
  	}
  
- 	/* Get CSW for device status */
--	result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe, bcs,
--					    US_BULK_CS_WRAP_LEN, &cswlen);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-+						    bcs, US_BULK_CS_WRAP_LEN,
-+						    &cswlen, timeout);
+-	ack = event;
++	ack = raw;
+ 	ret = itepd_write_reg(itepd, ITEPD_VENDOR_WC_INT, &ack, sizeof(ack));
+ 	if (ret)
+ 		return ret;
+@@ -169,7 +215,8 @@ static int itepd_process_event(struct itepd *itepd, u32 *cci)
+ 	*cci = itepd->cci;
+ 	mutex_unlock(&itepd->received_lock);
  
- 	if (result == USB_STOR_XFER_SHORT && cswlen == 0) {
- 		usb_stor_dbg(us, "Received 0-length CSW; retrying...\n");
--		result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe,
--					    bcs, US_BULK_CS_WRAP_LEN, &cswlen);
-+		result = usb_stor_bulk_transfer_buf_timeout(us,
-+							    us->recv_bulk_pipe, bcs,
-+							    US_BULK_CS_WRAP_LEN, &cswlen,
-+							    timeout);
- 	}
- 
- 	if (result == USB_STOR_XFER_STALLED) {
- 		/* get the status again */
- 		usb_stor_dbg(us, "Attempting to get CSW (2nd try)...\n");
--		result = usb_stor_bulk_transfer_buf(us, us->recv_bulk_pipe,
--						bcs, US_BULK_CS_WRAP_LEN, NULL);
-+		result = usb_stor_bulk_transfer_buf_timeout(us,
-+							    us->recv_bulk_pipe, bcs,
-+							    US_BULK_CS_WRAP_LEN, NULL,
-+							    timeout);
- 	}
- 
- 	if (result != USB_STOR_XFER_GOOD)
-@@ -567,6 +585,15 @@ static int ene_send_scsi_cmd(struct us_data *us, u8 fDir, void *buf, int use_sg)
- 	return USB_STOR_TRANSPORT_GOOD;
+-	return ITEPD_EVENT_VDM;
++	return event & ITEPD_ALERT_VDM_EVENT ? ITEPD_EVENT_VDM :
++					       ITEPD_EVENT_OTHER;
  }
  
-+/*
-+ * Unbounded variant for command-path callers: the command's abort
-+ * machinery terminates usb_stor_msg_common()'s wait if the device dies.
-+ */
-+static int ene_send_scsi_cmd(struct us_data *us, u8 fdir, void *buf, int use_sg)
+ static int ucsi_itepd_read_version(struct ucsi *ucsi, u16 *version)
+@@ -220,18 +267,248 @@ static int ucsi_itepd_read_message_in(struct ucsi *ucsi, void *val, size_t val_l
+ static int ucsi_itepd_async_control(struct ucsi *ucsi, u64 command)
+ {
+ 	struct itepd *itepd = ucsi_get_drvdata(ucsi);
+-	__le64 le_cmd = cpu_to_le64(command);
++	__le64 le_cmd;
+ 
+-	if (UCSI_COMMAND(command) == UCSI_PPM_RESET) {
++	switch (UCSI_COMMAND(command)) {
++	case UCSI_PPM_RESET:
+ 		mutex_lock(&itepd->received_lock);
+ 		itepd->cci = 0;
+ 		mutex_unlock(&itepd->received_lock);
++		break;
++	case UCSI_SET_NOTIFICATION_ENABLE:
++		command |= UCSI_ENABLE_NTFY_ATTENTION;
++		break;
++	default:
++		break;
+ 	}
+ 
++	le_cmd = cpu_to_le64(command);
++
+ 	return itepd_write_reg(itepd, ITEPD_UCSI_CONTROL_REG, &le_cmd,
+ 			       sizeof(le_cmd));
+ }
+ 
++static void itepd_port_set_state(struct itepd_port *port, unsigned long mode,
++				 struct typec_displayport_data *dp_data)
 +{
-+	return ene_send_scsi_cmd_timeout(us, fdir, buf, use_sg, 0);
++	struct device *dev = &port->itepd->client->dev;
++	struct typec_retimer_state retimer_state = {};
++	int ret;
++
++	if (!dp_data && mode == port->mode)
++		return;
++
++	port->dp_alt.active = !!dp_data;
++
++	port->state.alt = dp_data ? &port->dp_alt : NULL;
++	port->state.mode = mode;
++	port->state.data = dp_data;
++
++	retimer_state.alt = port->state.alt;
++	retimer_state.mode = mode;
++	retimer_state.data = dp_data;
++
++	ret = typec_retimer_set(port->typec_retimer, &retimer_state);
++	if (ret)
++		dev_err(dev, "port%u: failed to set retimer to mode %lu: %d\n",
++			port->index, mode, ret);
++
++	ret = typec_mux_set(port->typec_mux, &port->state);
++	if (ret)
++		dev_err(dev, "port%u: failed to set mux to mode %lu: %d\n",
++			port->index, mode, ret);
++
++	port->mode = mode;
++
++	port->state.data = NULL;
 +}
 +
- static int do_scsi_request_sense(struct us_data *us, struct scsi_cmnd *srb)
- {
- 	struct ene_ub6250_info *info = (struct ene_ub6250_info *) us->extra;
-@@ -1826,7 +1853,8 @@ static int ms_scsi_write(struct us_data *us, struct scsi_cmnd *srb)
-  * ENE MS Card
-  */
- 
--static int ene_get_card_type(struct us_data *us, u16 index, void *buf)
-+static int ene_get_card_type(struct us_data *us, u16 index, void *buf,
-+			     int timeout)
- {
- 	struct bulk_cb_wrap *bcb = (struct bulk_cb_wrap *) us->iobuf;
- 	int result;
-@@ -1839,7 +1867,7 @@ static int ene_get_card_type(struct us_data *us, u16 index, void *buf)
- 	bcb->CDB[2]			= (unsigned char)(index>>8);
- 	bcb->CDB[3]			= (unsigned char)index;
- 
--	result = ene_send_scsi_cmd(us, FDIR_READ, buf, 0);
-+	result = ene_send_scsi_cmd_timeout(us, FDIR_READ, buf, 0, timeout);
- 	return result;
- }
- 
-@@ -2193,7 +2221,7 @@ static int ene_init(struct us_data *us)
- 	struct ene_ub6250_info *info = (struct ene_ub6250_info *)(us->extra);
- 	u8 *bbuf = info->bbuf;
- 
--	result = ene_get_card_type(us, REG_CARD_STATUS, bbuf);
-+	result = ene_get_card_type(us, REG_CARD_STATUS, bbuf, 0);
- 	if (result != USB_STOR_XFER_GOOD)
- 		return USB_STOR_TRANSPORT_ERROR;
- 
-@@ -2358,7 +2386,8 @@ static int ene_ub6250_probe(struct usb_interface *intf,
- 
- 	/* probe card type */
- 	mutex_lock(&us->dev_mutex);
--	result = ene_get_card_type(us, REG_CARD_STATUS, info->bbuf);
-+	result = ene_get_card_type(us, REG_CARD_STATUS, info->bbuf,
-+				   ENE_PROBE_TIMEOUT);
- 	mutex_unlock(&us->dev_mutex);
- 	if (result != USB_STOR_XFER_GOOD) {
- 		usb_stor_disconnect(intf);
-diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transport.c
-index 9a4bf86e7b6a..89619010d665 100644
---- a/drivers/usb/storage/transport.c
-+++ b/drivers/usb/storage/transport.c
-@@ -378,12 +378,18 @@ static int usb_stor_intr_transfer(struct us_data *us, void *buf,
- }
- 
- /*
-- * Transfer one buffer via bulk pipe, without timeouts, but allowing early
-- * termination.  Return codes are USB_STOR_XFER_xxx.  If the bulk pipe
-- * stalls during the transfer, the halt is automatically cleared.
-+ * Transfer one buffer via bulk pipe, allowing early termination.  Return
-+ * codes are USB_STOR_XFER_xxx.  If the bulk pipe stalls during the
-+ * transfer, the halt is automatically cleared.
-+ *
-+ * A nonzero timeout bounds the wait for URB completion.  It must be used
-+ * only when no SCSI command is being handled: usb_stor_msg_common()
-+ * otherwise waits indefinitely, relying on the active command's abort
-+ * machinery to terminate the wait.
-  */
--int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
--	void *buf, unsigned int length, unsigned int *act_len)
-+int usb_stor_bulk_transfer_buf_timeout(struct us_data *us, unsigned int pipe,
-+				       void *buf, unsigned int length,
-+				       unsigned int *act_len, int timeout)
- {
- 	int result;
- 
-@@ -392,14 +398,26 @@ int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
- 	/* fill and submit the URB */
- 	usb_fill_bulk_urb(us->current_urb, us->pusb_dev, pipe, buf, length,
- 		      usb_stor_blocking_completion, NULL);
--	result = usb_stor_msg_common(us, 0);
-+	result = usb_stor_msg_common(us, timeout);
- 
- 	/* store the actual length of the data transferred */
- 	if (act_len)
- 		*act_len = us->current_urb->actual_length;
--	return interpret_urb_result(us, pipe, length, result, 
-+	return interpret_urb_result(us, pipe, length, result,
- 			us->current_urb->actual_length);
- }
-+EXPORT_SYMBOL_GPL(usb_stor_bulk_transfer_buf_timeout);
-+
-+/*
-+ * Same as usb_stor_bulk_transfer_buf_timeout() with an unbounded wait.
-+ */
-+int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
-+			       void *buf, unsigned int length,
-+			       unsigned int *act_len)
++static void itepd_port_notify_hpd(struct itepd_port *port, bool hpd_state,
++				  bool hpd_irq)
 +{
-+	return usb_stor_bulk_transfer_buf_timeout(us, pipe, buf, length,
-+						  act_len, 0);
++	if (!port->bridge)
++		return;
++
++	if (hpd_state == port->hpd_state && !hpd_irq)
++		return;
++
++	port->hpd_state = hpd_state;
++
++	drm_aux_hpd_bridge_notify(&port->bridge->dev,
++				  hpd_state ? connector_status_connected :
++					      connector_status_disconnected);
 +}
- EXPORT_SYMBOL_GPL(usb_stor_bulk_transfer_buf);
++
++static void itepd_set_orientation(struct ucsi_connector *con)
++{
++	if (con->ucsi->version >= UCSI_VERSION_2_0)
++		return;
++
++	if (!UCSI_CONSTAT(con, CONNECTED)) {
++		typec_set_orientation(con->port, TYPEC_ORIENTATION_NONE);
++		return;
++	}
++
++	if (bitmap_read(con->status, ITEPD_CONSTAT_ORIENTATION_OFFSET, 1) ==
++	    UCSI_CONSTAT_ORIENTATION_REVERSE)
++		typec_set_orientation(con->port, TYPEC_ORIENTATION_REVERSE);
++	else
++		typec_set_orientation(con->port, TYPEC_ORIENTATION_NORMAL);
++}
++
++static int itepd_get_dp_cam(struct itepd *itepd, struct ucsi_connector *con)
++{
++	struct ucsi_altmode alt[2] = {};
++	u64 cmd;
++	u8 cam;
++	int ret;
++
++	cmd = UCSI_GET_CURRENT_CAM | UCSI_CONNECTOR_NUMBER(con->num);
++	ret = ucsi_send_command(itepd->ucsi, cmd, &cam, sizeof(cam));
++	if (ret < 0)
++		return ret;
++
++	if (cam == ITEPD_CAM_NONE)
++		return -ENODEV;
++
++	cmd = UCSI_GET_ALTERNATE_MODES;
++	cmd |= UCSI_GET_ALTMODE_RECIPIENT(UCSI_RECIPIENT_CON);
++	cmd |= UCSI_GET_ALTMODE_CONNECTOR_NUMBER(con->num);
++	cmd |= UCSI_GET_ALTMODE_OFFSET(cam);
++	ret = ucsi_send_command(itepd->ucsi, cmd, alt, sizeof(alt));
++	if (ret < 0) {
++		dev_dbg(&itepd->client->dev, "con%d: cannot verify CAM %u: %d\n",
++			con->num, cam, ret);
++		return cam;
++	}
++
++	if (alt[0].svid != USB_TYPEC_DP_SID)
++		return -ENODEV;
++
++	return cam;
++}
++
++static int itepd_get_attention_status(struct itepd *itepd,
++				      struct ucsi_connector *con, u32 *status)
++{
++	u8 data[ITEPD_ATTENTION_VDO_LEN] = {};
++	u64 cmd;
++	int ret;
++
++	cmd = UCSI_GET_ATTENTION_VDO | UCSI_CONNECTOR_NUMBER(con->num);
++	ret = ucsi_send_command(itepd->ucsi, cmd, data, sizeof(data));
++	if (ret < 0)
++		return ret;
++
++	if (!(data[ITEPD_ATTENTION_NUM_VDOS_OFFSET] &
++	      ITEPD_ATTENTION_NUM_VDOS_MASK))
++		return -ENODATA;
++
++	*status = get_unaligned_le32(data + ITEPD_ATTENTION_VDO_OFFSET);
++
++	return 0;
++}
++
++static void itepd_handle_dp_altmode(struct itepd *itepd,
++				    struct itepd_port *port,
++				    struct ucsi_connector *con)
++{
++	struct typec_displayport_data dp_data = {};
++	u8 data[ITEPD_CAM_CS_LEN] = {};
++	unsigned long mode;
++	u32 status;
++	u8 pin_assign;
++	u64 cmd;
++	int cam;
++	int ret;
++
++	cam = itepd_get_dp_cam(itepd, con);
++	if (cam < 0) {
++		/* Partner is in some other alternate mode, keep USB alive */
++		itepd_port_set_state(port, TYPEC_STATE_USB, NULL);
++		itepd_port_notify_hpd(port, false, false);
++		return;
++	}
++
++	cmd = UCSI_GET_CAM_CS | UCSI_CONNECTOR_NUMBER(con->num) |
++	      ITEPD_CAM_CS_INDEX(cam);
++	ret = ucsi_send_command(itepd->ucsi, cmd, data, sizeof(data));
++	if (ret < 0) {
++		dev_err(&itepd->client->dev, "con%d: GET_CAM_CS failed: %d\n",
++			con->num, ret);
++		return;
++	}
++
++	dp_data.status = get_unaligned_le32(data + ITEPD_CAM_CS_STATUS_OFFSET);
++	dp_data.conf = get_unaligned_le32(data + ITEPD_CAM_CS_CONF_OFFSET);
++
++	pin_assign = DP_CONF_GET_PIN_ASSIGN(dp_data.conf);
++	if (pin_assign &&
++	    __ffs(pin_assign) <= TYPEC_DP_STATE_E - TYPEC_STATE_MODAL)
++		mode = TYPEC_MODAL_STATE(__ffs(pin_assign));
++	else
++		mode = TYPEC_STATE_SAFE;
++
++	itepd_port_set_state(port, mode, &dp_data);
++
++	if (!itepd_get_attention_status(itepd, con, &status))
++		dp_data.status = status;
++
++	itepd_port_notify_hpd(port, !!(dp_data.status & DP_STATUS_HPD_STATE),
++			      !!(dp_data.status & DP_STATUS_IRQ_HPD));
++}
++
++static struct itepd_port *itepd_get_port(struct ucsi_connector *con)
++{
++	struct itepd *itepd = ucsi_get_drvdata(con->ucsi);
++	struct itepd_port *port;
++
++	if (con->num < 1 || con->num > itepd->num_ports)
++		return NULL;
++
++	port = &itepd->ports[con->num - 1];
++
++	/* Not described in DT */
++	if (!port->itepd)
++		return NULL;
++
++	return port;
++}
++
++static void ucsi_itepd_update_connector(struct ucsi_connector *con)
++{
++	if (!itepd_get_port(con))
++		return;
++
++	con->typec_cap.orientation_aware = true;
++}
++
++static void ucsi_itepd_connector_status(struct ucsi_connector *con)
++{
++	struct itepd *itepd = ucsi_get_drvdata(con->ucsi);
++	struct itepd_port *port;
++
++	port = itepd_get_port(con);
++	if (!port)
++		return;
++
++	itepd_set_orientation(con);
++
++	if (!UCSI_CONSTAT(con, CONNECTED)) {
++		itepd_port_set_state(port, TYPEC_STATE_SAFE, NULL);
++		itepd_port_notify_hpd(port, false, false);
++		return;
++	}
++
++	if (!UCSI_CONSTAT(con, PARTNER_FLAG_ALT_MODE)) {
++		itepd_port_set_state(port, TYPEC_STATE_USB, NULL);
++		itepd_port_notify_hpd(port, false, false);
++		return;
++	}
++
++	itepd_handle_dp_altmode(itepd, port, con);
++}
++
+ static const struct ucsi_operations ucsi_itepd_ops = {
+ 	.read_version		= ucsi_itepd_read_version,
+ 	.read_cci		= ucsi_itepd_read_cci,
+@@ -239,6 +516,8 @@ static const struct ucsi_operations ucsi_itepd_ops = {
+ 	.read_message_in	= ucsi_itepd_read_message_in,
+ 	.sync_control		= ucsi_sync_control_common,
+ 	.async_control		= ucsi_itepd_async_control,
++	.update_connector	= ucsi_itepd_update_connector,
++	.connector_status	= ucsi_itepd_connector_status,
+ };
  
- /*
-diff --git a/drivers/usb/storage/transport.h b/drivers/usb/storage/transport.h
-index 74ffd0d7e7b6..361dbd77f15e 100644
---- a/drivers/usb/storage/transport.h
-+++ b/drivers/usb/storage/transport.h
-@@ -77,6 +77,11 @@ extern int usb_stor_clear_halt(struct us_data *us, unsigned int pipe);
- extern int usb_stor_ctrl_transfer(struct us_data *us, unsigned int pipe,
- 		u8 request, u8 requesttype, u16 value, u16 index,
- 		void *data, u16 size);
-+extern int usb_stor_bulk_transfer_buf_timeout(struct us_data *us,
-+					      unsigned int pipe, void *buf,
-+					      unsigned int length,
-+					      unsigned int *act_len,
-+					      int timeout);
- extern int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int pipe,
- 		void *buf, unsigned int length, unsigned int *act_len);
- extern int usb_stor_bulk_transfer_sg(struct us_data *us, unsigned int pipe,
--- 
-2.32.0
+ static irqreturn_t itepd_irq_process(struct itepd *itepd)
+@@ -256,6 +535,9 @@ static irqreturn_t itepd_irq_process(struct itepd *itepd)
+ 	if (ret == ITEPD_EVENT_UCSI)
+ 		ucsi_notify_common(itepd->ucsi, cci);
+ 
++	if (ret == ITEPD_EVENT_VDM)
++		dev_dbg(&itepd->client->dev, "VDM event\n");
++
+ 	return IRQ_HANDLED;
+ }
+ 
+@@ -266,6 +548,127 @@ static irqreturn_t itepd_irq_thread_fn(int irq, void *data)
+ 	return itepd_irq_process(itepd);
+ }
+ 
++static void itepd_put_mux(void *data)
++{
++	typec_mux_put(data);
++}
++
++static void itepd_put_retimer(void *data)
++{
++	typec_retimer_put(data);
++}
++
++static int itepd_ports_init(struct itepd *itepd)
++{
++	struct device *dev = &itepd->client->dev;
++	struct itepd_port *port;
++	unsigned int num_ports = 0;
++	u32 reg;
++	int ret;
++
++	/* Size the port array by the highest connector number in DT */
++	device_for_each_child_node_scoped(dev, fwnode) {
++		ret = fwnode_property_read_u32(fwnode, "reg", &reg);
++		if (ret < 0)
++			return dev_err_probe(dev, ret,
++					     "%pfwP: missing reg property\n",
++					     fwnode);
++
++		if (reg >= ITEPD_MAX_CONNECTORS)
++			return dev_err_probe(dev, -EINVAL,
++					     "%pfwP: invalid reg %u\n",
++					     fwnode, reg);
++
++		num_ports = max(num_ports, reg + 1);
++	}
++
++	if (!num_ports)
++		return 0;
++
++	itepd->ports = devm_kcalloc(dev, num_ports, sizeof(*itepd->ports),
++				    GFP_KERNEL);
++	if (!itepd->ports)
++		return -ENOMEM;
++
++	itepd->num_ports = num_ports;
++
++	device_for_each_child_node_scoped(dev, fwnode) {
++		/* Already validated above */
++		fwnode_property_read_u32(fwnode, "reg", &reg);
++
++		port = &itepd->ports[reg];
++		if (port->itepd)
++			return dev_err_probe(dev, -EINVAL,
++					     "%pfwP: duplicate reg %u\n",
++					     fwnode, reg);
++
++		port->itepd = itepd;
++		port->index = reg;
++		port->mode = TYPEC_STATE_SAFE;
++		port->state.mode = TYPEC_STATE_SAFE;
++		port->dp_alt.svid = USB_TYPEC_DP_SID;
++		port->dp_alt.mode = USB_TYPEC_DP_MODE;
++
++		port->typec_mux = fwnode_typec_mux_get(fwnode);
++		if (IS_ERR(port->typec_mux))
++			return dev_err_probe(dev, PTR_ERR(port->typec_mux),
++					     "port%u: failed to get mode-switch\n",
++					     reg);
++
++		if (port->typec_mux) {
++			ret = devm_add_action_or_reset(dev, itepd_put_mux,
++						       port->typec_mux);
++			if (ret)
++				return ret;
++		}
++
++		port->typec_retimer = fwnode_typec_retimer_get(fwnode);
++		if (IS_ERR(port->typec_retimer))
++			return dev_err_probe(dev, PTR_ERR(port->typec_retimer),
++					     "port%u: failed to get retimer-switch\n",
++					     reg);
++
++		if (port->typec_retimer) {
++			ret = devm_add_action_or_reset(dev, itepd_put_retimer,
++						       port->typec_retimer);
++			if (ret)
++				return ret;
++		}
++
++		if (is_of_node(fwnode)) {
++			struct device_node *np = to_of_node(fwnode);
++
++			port->bridge = devm_drm_dp_hpd_bridge_alloc(dev, np);
++			if (IS_ERR(port->bridge))
++				return dev_err_probe(dev, PTR_ERR(port->bridge),
++						     "port%u: failed to allocate HPD bridge\n",
++						     reg);
++		}
++	}
++
++	return 0;
++}
++
++static int itepd_bridges_add(struct itepd *itepd)
++{
++	struct device *dev = &itepd->client->dev;
++	unsigned int i;
++	int ret;
++
++	for (i = 0; i < itepd->num_ports; i++) {
++		if (!itepd->ports[i].bridge)
++			continue;
++
++		ret = devm_drm_dp_hpd_bridge_add(dev, itepd->ports[i].bridge);
++		if (ret)
++			return dev_err_probe(dev, ret,
++					     "port%u: failed to add HPD bridge\n",
++					     i);
++	}
++
++	return 0;
++}
++
+ static int itepd_probe(struct i2c_client *client)
+ {
+ 	struct device *dev = &client->dev;
+@@ -286,6 +689,14 @@ static int itepd_probe(struct i2c_client *client)
+ 	mutex_init(&itepd->received_lock);
+ 	i2c_set_clientdata(client, itepd);
+ 
++	ret = itepd_ports_init(itepd);
++	if (ret)
++		return ret;
++
++	ret = itepd_bridges_add(itepd);
++	if (ret)
++		return ret;
++
+ 	itepd->ucsi = ucsi_create(dev, &ucsi_itepd_ops);
+ 	if (IS_ERR(itepd->ucsi))
+ 		return dev_err_probe(dev, PTR_ERR(itepd->ucsi),
+
+---
+base-commit: fe40296ebc69252949874d636faf805dfc065acd
+change-id: 20260930-ucsi-itepd-display-b9770e613dac
+prerequisite-change-id: 20260911-ucsi-itepd-it527x-5b87a61a71bb:v3
+prerequisite-patch-id: 988219409db7ac096bc9e81e9bcbd4634f73e9ff
+prerequisite-patch-id: 20e67d80cb6f04a8d9832850d1220d932432552b
+
+Best regards,
+--  
+Amber Kao <ite_pd@ite.com.tw>
 
