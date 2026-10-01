@@ -1,41 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6043D46982A;
-	Thu,  1 Oct 2026 11:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42B2530ACF1;
+	Thu,  1 Oct 2026 11:23:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790853616; cv=none; b=mCL+o4YWjY/E6Anr6c2LcBvts/oX8+iex/H4Z3+kQQFwJTVCre/Ptt5sQpGuI8B4Qj01YN99v5UWH9s2Ch8r3nU+iyINC5oMBfSqeMbQ2BFM1646/gUoCyCsr4smcCZDUGTmstPILokgFgMakSgjmUAh6XZgFP5lCWc3LVYtFD4=
+	t=1790853797; cv=none; b=Sd0gt+l80wRIzJsr+/LPgW5BAfxD/K//vN48XKNhh31blargv4ukZ7AlC7s1A1Z4LoOpY3XPbTymyz7u1WRbhv1LM5vvLNuv1FL1EH1qSUdBka9kRMIsR5JjoGDUEisURZaVWYJ+kfqsJtkaScUvPsxuLTKvQhhdmCNCb0yHwPc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790853616; c=relaxed/simple;
-	bh=kC/SzT5P0GDpWs7ARTKCt5H2D1WolDLs9/sRczCePFw=;
+	s=arc-20240116; t=1790853797; c=relaxed/simple;
+	bh=SgU6dvPOm4fOqJ0yjF6HKnxNhelZQesUuZqpSFA8XjQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FAzzOhv4053D0xjzdE5t//54azv1+9g1/HdDl2i69pO0aVxx1Q+BWR23Un+4HACEByovyDN6Pkj9h9qBLnlRETkZqj3lO9p7MrAbnysy0VaJC/H1kElVYVqONvkOQWefjIKtK5Yhym6IbFEVfK4S2bgUQhilIjki3Dq5NQfgjIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=jnnvfEIM; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=FA48UbPvcCIAbzgfPl4BNfOx41f//OLZEFZLpRUfL8SwY6TSvrgrwln0dCCAZ2Ak6OoIGy6yb1x96YfhprSCZUIP23zPvcXpKrixgLZ1s+y5S+l+X2XDr1VIA1Euoxd6r1zjSb6pdjRL+A8zxOvZHkCVB+9/8qJK3p4NBWUXyiY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=gsFKS/0z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="jnnvfEIM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72AE01F000FF;
-	Thu,  1 Oct 2026 11:20:14 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="gsFKS/0z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D7B91F00898;
+	Thu,  1 Oct 2026 11:23:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1790853615;
-	bh=xB6QT33ZavTbqXDTWpFlpBT4Sv9WrndP5GaMulwx55s=;
+	s=korg; t=1790853795;
+	bh=07PdP49ebLjOWH7pDQQdeJ5K7Hm9J4SwIcMKEJtTi68=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jnnvfEIMTf53wFShCOIVdFx/MoSiRrWSAdnCl+Y/gv47V7uyJxZQOyJd2tmWzYy6K
-	 9CKRXfO73OhBnkHhEn6Zb7cPjrUGxgIkAO9ww1ZIXV0bQ5hQbjHqVt02dqqIL0U+sL
-	 PbVqtnuBZV88EeMz3wM1MfssDVMp7hBXHT2HK8XY=
-Date: Thu, 1 Oct 2026 13:20:08 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: xy521521@gmail.com
-Cc: stern@rowland.harvard.edu, Hongyu Xie <xiehongyu1@kylinos.cn>,
-	linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb-storage: ene_ub6250: don't let the card-type
- probe hang forever
-Message-ID: <2026100128-crystal-islamic-b783@gregkh>
-References: <20260929144640.2028-1-xy521521@gmail.com>
- <20261001091523.16934-1-xy521521@gmail.com>
+	b=gsFKS/0z3b0jRInYrTd6E7kyviKA5NVxgvUT9UJmCCBGo9fIBS6/ZiHt6JaiL9y8O
+	 JB2SeRsc2uyqktwINJy5Q6Pb2L4zLB6G5WNvcuIfyCFYNz5651XL0tNxKOKQl5x8eH
+	 f9TJXEbyQjdHqO2ETutmYfPY4CI0MfS/cac5k5yY=
+Date: Thu, 1 Oct 2026 13:23:09 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Chen-Yu Tsai <wenst@chromium.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: [PATCH v3] usb: hub: Set proper message when
+ usb_hub_create_port_device() fails
+Message-ID: <2026100144-defraud-subarctic-b726@gregkh>
+References: <20261001110630.1476797-1-wenst@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -44,56 +41,62 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261001091523.16934-1-xy521521@gmail.com>
+In-Reply-To: <20261001110630.1476797-1-wenst@chromium.org>
 
-On Thu, Oct 01, 2026 at 05:15:23PM +0800, xy521521@gmail.com wrote:
-> From: Hongyu Xie <xiehongyu1@kylinos.cn>
+On Thu, Oct 01, 2026 at 07:06:30PM +0800, Chen-Yu Tsai wrote:
+> Right now when usb_hub_create_port_device() fails, it prints a separate
+> error message to say which port failed, but otherwise leaves 'message'
+> set to the default "out of memory", which is somewhat misleading.
 > 
-> ene_ub6250_probe() queries the card type with ene_get_card_type() while
-> holding us->dev_mutex (the locking added by commit 445fc368c6bc
-> ("usb-storage: ene_ub6250: fix race between scan work and probe")).
-> The query is a bulk-only transaction: CBW, 1-byte data-in and CSW, each
-> transferred by usb_stor_bulk_transfer_buf(), which waits for URB
-> completion with MAX_SCHEDULE_TIMEOUT.
+> Use a small buffer on the stack to put the custom formatted error message
+> in and use it as the error message.
 > 
-> That unbounded wait is safe only while a SCSI command is being handled,
-> because the command's abort machinery (usb_stor_stop_transport() via
-> US_FLIDX_ABORTING) is the only thing that can terminate it.  At probe
-> time no SCSI command exists, so a device that passes enumeration but
-> never services bulk transfers wedges the probe forever:
-> 
->     hub_event:         usb_stor_msg_common() <- ene_send_scsi_cmd
->                        <- ene_ub6250_probe  (holds us->dev_mutex)
->     events_freezable:  usb_stor_scan_dwork  (blocked on us->dev_mutex)
-> 
-> syzbot reports the second worker as "INFO: task hung in
-> usb_stor_scan_dwork"; the hub_event worker is stuck in the same wait
-> but sleeps interruptibly, which the hung-task detector ignores.
-> 
-> Bound the three probe-time transfers with a 30 s timeout through a new
-> usb_stor_bulk_transfer_buf_timeout() helper, so a dead device fails the
-> probe cleanly and the existing error path unwinds via
-> usb_stor_disconnect().
-> 
-> Fixes: 445fc368c6bc ("usb-storage: ene_ub6250: fix race between scan work and probe")
-> Reported-by: syzbot+30552b4cbe99d6d91306@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=30552b4cbe99d6d91306
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+> Assisted-by: LLM # local reviews
+> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
 > ---
+> Changes since v2:
+> - Simplify to just using a small buffer on the stack (Alan)
 > 
-> Changes in v2 (formatting only, no functional change):
-> - fix checkpatch --strict "alignment should match open parenthesis"
->   complaints on the newly added continuation lines
-> - rename the fDir parameter of ene_send_scsi_cmd[_timeout]() to fdir
->   to silence the CamelCase check
+> Changes since v1:
+> - Explicitly track and free the allocated custom error message instead
+>   of using devm_kasprintf()
+> - Link to v1:
+>   https://lore.kernel.org/all/20260728100005.413868-1-wenst@chromium.org/
+> 
+> Sorry Andy, I ended up not using your __free(kfree_const) patch. My LLM
+> was telling me that it won't work correctly if CONFIG_USB=m.
+> ---
+>  drivers/usb/core/hub.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 0e929a4c9fa1..d7f39e86b24c 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -1480,6 +1480,7 @@ static int hub_configure(struct usb_hub *hub,
+>  	unsigned int pipe;
+>  	int maxp, ret, i;
+>  	char *message = "out of memory";
+> +	char msg_buf[32] = {};
 
-Don't do coding style changes while trying to make a bugfix, as that is
-mixing up too many different things.
+Why are you initializing this?
 
-Please make this a patch series, with the bugfix first, and then if you
-want to fix up the coding style issues, that should be a follow-on
-patch.
+>  	unsigned unit_load;
+>  	unsigned full_load;
+>  	unsigned maxchild;
+> @@ -1756,8 +1757,8 @@ static int hub_configure(struct usb_hub *hub,
+>  	for (i = 0; i < maxchild; i++) {
+>  		ret = usb_hub_create_port_device(hub, i + 1);
+>  		if (ret < 0) {
+> -			dev_err(hub->intfdev,
+> -				"couldn't create port%d device.\n", i + 1);
+> +			snprintf(msg_buf, sizeof(msg_buf), "couldn't create port%d device", i + 1);
+> +			message = msg_buf;
+
+Please just do what the other errors do, set message to something else
+and leave the dev_err() here.  That way no extra stack space is needed.
+
+And how did you hit this?
 
 thanks,
 
