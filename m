@@ -1,50 +1,68 @@
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94319486430
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 21:39:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE7E93C5DA1;
+	Thu,  1 Oct 2026 22:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790890773; cv=none; b=hs51YTJapPATMYyjVgfoW2WJDnrr2+3xJ0g0FGmpp5xwWK0NhAsHr2NvD17r1RHUx8eGg6E/WlbO8uwHfLO5GTF+UTtiYch+7X1tO5CDPiIvJBHYSdPO0jSazzg1znHuCCS0YAHeJplsvLEkiiaWNTZXRjSgWVV3ggaZTEfNjZs=
+	t=1790893589; cv=none; b=OOCNswIZyH1U+e7yrW895zadvX0cIdR62478JMXDe3UciUvtQGAfiHkncvlP1FaOxMS5wOkRd9iVuW8hCsXsAAIu6WxtvAHvUKWS1LpdyLKX7PIEH1wTMiV1q6tQ8XD3fXt7jD8u4CAvnHiNP8/IrjQMWb5pfDpSGdUfqJzFUww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790890773; c=relaxed/simple;
-	bh=F4mVtLzLskwQCHUKBlnm0DTwM1QujEfRwxFNFpHwvQ8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 References; b=BMfIikOMcwGBPy//TtXeHoj18mF7SzWjg+8/nFBbUeicrIGZhZtTYAUpI/TZ4k4FXxj/iyqMsj3FVMqNTGJeE1KnqyGv9k2rU48zLinrxdRE8BrAx/VIE1GJAnSnt+8JceJ/Zdhg81w9cS4Y7/NHYEmhyfkpKRWEmScLLfRbbK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=PZAvZKQy; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1790893589; c=relaxed/simple;
+	bh=hGHr+2I81ejfp/DsBfCmghrWW5fjJ8hrG8YNO8L7p5c=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iP/2dqgZFlwcJLJ174jquz8wvFVF80uWxi0HNS3/VwmbUxubJlsrX3Pte5976FQSXVTsrxCgpVNOtSR5j2XOWNdtrfpRu80AttecYCuOvEuYIlDKmJ7vqsMaxIN0quEzuuV2dzW2fljumByg2DBgrooFy+Y8p5nNba1xRo+Aw8o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mEFyXm74; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="PZAvZKQy"
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20261001213927euoutp01248b86b937ceb3fa990f126d16c0db9a~ahan-A7Yl2580125801euoutp01k
-	for <linux-usb@vger.kernel.org>; Thu,  1 Oct 2026 21:39:27 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20261001213927euoutp01248b86b937ceb3fa990f126d16c0db9a~ahan-A7Yl2580125801euoutp01k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1790890767;
-	bh=E4d1q0Gg2UrMR1Pqam4NxUMf5y7XXUDda2KIR5efMkc=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=PZAvZKQyOCg3M4V7jLZYXfnTS00NpW8ANGjocOmLBttUmb/9Q5jnYOBfKXsL7mBda
-	 nRAF+ijAIquXge4XweNbv6iCwmhq85w7PwIRmD/W7allbZK2whUc8iqHmNElL/Us55
-	 mwCX9+NmSA5RDAxirBNX6t3TvyAzL41z/KyTKA/Q=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20261001213926eucas1p18003977c0313cf3395a7413d22043df6~ahanZkbg20134801348eucas1p1D;
-	Thu,  1 Oct 2026 21:39:26 +0000 (GMT)
-Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261001213926eusmtip1778ee49ef512a91412cd457181fb1683~ahanGWQKs1437614376eusmtip1u;
-	Thu,  1 Oct 2026 21:39:26 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Thinh Nguyen
-	<Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Jiazi Liu <jiazi.liu1984@gmail.com>
-Subject: [PATCH] usb: dwc3: fix use of destroyed dwc->connect_mutex on
- gadget exit
-Date: Thu,  1 Oct 2026 23:39:03 +0200
-Message-ID: <20261001213905.3290308-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mEFyXm74"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 691G5T6J2030035;
+	Thu, 1 Oct 2026 22:26:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=pp1; bh=g/sMdSj8DDi4M03l1I2UQfN4y5okDdFfRf9ky0ubX
+	PY=; b=mEFyXm742DXm6ZjTk/GW+12uO4cBlOBonNHKNgFcXKLjWMqynSy2U02TG
+	sb8a2Rlm10BFbNuIyjC4RVpfPKjgRgobilx9Oun/GpsSI0PNtEZasvwzehaOLZYH
+	K6BvgM8Rdo9oAWbTOSQm7dfJbH9bjjhYnTaICEjX7G6Hk/xkKhpdfeiy7jcdJNB5
+	Wucwu2zpYRYdrQ6FMjtBFExk/Fsvdk67ZMDhMHLZaOkXp685vq1sZi8MW0Tq4/0S
+	5SVfoAoKle3kX+mH3Xn83jKa304awG4eKHK2VRlBO7gVkmr4FwDTq/gSvEtku7KO
+	6IK8KDEpGTteXAiVwn7X6fI9LOv/w==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx3fknd2c-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 01 Oct 2026 22:26:10 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 691Ja83u4073405;
+	Thu, 1 Oct 2026 22:26:09 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h0q4pht66-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 01 Oct 2026 22:26:09 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (smtpav06.dal12v.mail.ibm.com [10.241.53.105])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 691MQ7tO30212642
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 1 Oct 2026 22:26:07 GMT
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6AA8458055;
+	Thu,  1 Oct 2026 22:26:07 +0000 (GMT)
+Received: from smtpav06.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C64D858043;
+	Thu,  1 Oct 2026 22:26:06 +0000 (GMT)
+Received: from ltcrain119-lp4.ltc.tadn.ibm.com (unknown [9.5.7.39])
+	by smtpav06.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  1 Oct 2026 22:26:06 +0000 (GMT)
+From: wenxiong@linux.ibm.com
+To: mathias.nyman@intel.com, gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, wenxiong@us.ibm.com,
+        Wen Xiong <wenxiong@linux.ibm.com>,
+        Brian King <brking@linux.vnet.ibm.com>,
+        Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+        Joel Stanley <joel@jms.id.au>
+Subject: [PATCH] xhci: Reset controller on xhci shutdown
+Date: Thu,  1 Oct 2026 18:25:27 -0400
+Message-ID: <20261001222527.11742-1-wenxiong@linux.ibm.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,87 +70,62 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261001213926eucas1p18003977c0313cf3395a7413d22043df6
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20261001213926eucas1p18003977c0313cf3395a7413d22043df6
-X-EPHeader: CA
-X-CMS-RootMailID: 20261001213926eucas1p18003977c0313cf3395a7413d22043df6
-References: <CGME20261001213926eucas1p18003977c0313cf3395a7413d22043df6@eucas1p1.samsung.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: vUfaowdiw9kcGPmzh0WlD1wzcNf8HSKD
+X-Proofpoint-GUID: vUfaowdiw9kcGPmzh0WlD1wzcNf8HSKD
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAxMDA4OCBTYWx0ZWRfX6tBzrPEjyCtd
+ My3iJXOhGO0Pn2OK/uwL5OsPVzexVllL5MdmO9XKAa1qLGHclDvBO+wUtSM/846TTwrtUGk6v2f
+ LI/+/2qp29v2xsaa0HweADeGlFRuQ1Y=
+X-Authority-Analysis: v=2.4 cv=Vv62kO2n c=1 sm=1 tr=0 ts=6abede02 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
+ a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8 a=jT_9lS9cAAAA:8
+ a=_TR_F_hvtShnT16lqtcA:9 a=Ec8Bv2-zM_L_lWdDgjzK:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAxMDA4OCBTYWx0ZWRfX8laPojxqdjYe
+ ppIeSWaAM9eXWwZsLiIaG6AEx3ZPs1mDK+ZJigiEz/EeVVRnT+kvG1/2rCxVefmIcKBOyaesHD2
+ 37YlEJ6rHjTyaCuslfAD0/aXTkag6VsVZsCS4A1RyCsOyhYUEFecl9vylMHlZ3fXlWDcUwp47BV
+ gj8pV8JlMx7CSzc6I3XNzV7pnWvOrd/53PHEHu35pWnFa9P27dk5D7o64eJOkFtxkd3kjGz7TGf
+ Vl0+Q2bE8sG1XgX3F0jdUtXJfWjMu0szCkKi9fva0kZWFmrF/+3I8Be9ls1t+okN9fKOidi/apm
+ GqJ8lhc0HUi3sFbyGaaLRhhAVb8I47PDD43GST0ZY3dyrR0M14HDCmfwLbSVfZvDMOtdl2rNNbp
+ r0+hBKBwa6pjPnvJ58Oog91Lw5AMA9LCzwsPsUyjwo5JTBQ6VkE8kXYqSK4VvOMU1tPv7IBqdBu
+ yjxiTsNkOxAWWl2afiA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-01_04,2026-10-01_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 spamscore=0 phishscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 clxscore=1011 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2610010088
 
-dwc3_gadget_exit() destroys dwc->connect_mutex before calling
-usb_del_gadget(), which unbinds the gadget driver and ends up in
-dwc3_gadget_pullup() taking that already destroyed mutex. With
-CONFIG_DEBUG_MUTEXES this triggers the following warning on reboot:
+From: Wen Xiong <wenxiong@linux.ibm.com>
 
- DEBUG_LOCKS_WARN_ON(lock->magic != lock)
- WARNING: kernel/locking/mutex.c:625 at __mutex_lock+0x4bc/0xb88, CPU#1: systemd-shutdow/1
- ...
- Call trace:
-  __mutex_lock+0x4bc/0xb88 (P)
-  mutex_lock_nested+0x24/0x30
-  dwc3_gadget_pullup+0x88/0x150
-  usb_gadget_disconnect_locked+0x44/0x1f0
-  gadget_unbind_driver+0x48/0x124
-  device_remove+0x4c/0x80
-  device_release_driver_internal+0x1e0/0x23c
-  device_release_driver+0x18/0x24
-  bus_remove_device+0xe8/0x1a0
-  device_del+0x14c/0x414
-  usb_del_gadget+0x90/0xe8
-  dwc3_gadget_exit+0x40/0x9c
-  dwc3_drd_exit+0xe4/0x14c
-  dwc3_core_remove+0x140/0x17c
-  dwc3_qcom_remove+0x38/0x120
-  platform_shutdown+0x24/0x34
-  device_shutdown+0x158/0x260
-  kernel_restart+0x44/0xa4
-  __do_sys_reboot+0x118/0x24c
-  ...
+Fixes kexec boot. Without a hard reset, some USB chips will fail to
+initialize in a kexec booted kernel.
 
-Fix this by initializing dwc->connect_mutex together with dwc->mutex in
-dwc3_core_probe().
-
-Fixes: 1ff77cbefe5a ("usb: dwc3: gadget: fix IRQ storm on invalid event buffer count")
-Assisted-by: Claude Opus 5.5 <noreply@anthropic.com>
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+Signed-off-by: Brian King <brking@linux.vnet.ibm.com>
+Signed-off-by: Samuel Mendoza-Jonas <sam@mendozajonas.com>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Signed-off-by: Wen Xiong <wenxiong@linux.ibm.com>
 ---
- drivers/usb/dwc3/core.c   | 1 +
- drivers/usb/dwc3/gadget.c | 2 --
- 2 files changed, 1 insertion(+), 2 deletions(-)
+ drivers/usb/host/xhci.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index fd5c2cd36c59..f977bc3eeb79 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -2373,6 +2373,7 @@ int dwc3_core_probe(const struct dwc3_probe_data *data)
- 	}
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index a9e47e178c28..364bd61a4bd7 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -781,6 +781,9 @@ void xhci_shutdown(struct usb_hcd *hcd)
+ 	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+ 			"xhci_shutdown completed - status = %x",
+ 			readl(&xhci->op_regs->status));
++
++	/* TI XHCI controllers do not come back after kexec without this hack */
++	pci_reset_function_locked(to_pci_dev(hcd->self.sysdev));
+ }
+ EXPORT_SYMBOL_GPL(xhci_shutdown);
  
- 	mutex_init(&dwc->mutex);
-+	mutex_init(&dwc->connect_mutex);
- 
- 	pm_runtime_get_noresume(dev);
- 	pm_runtime_set_active(dev);
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index ee837235630a..8fd1fd9b0db3 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -4879,7 +4879,6 @@ int dwc3_gadget_init(struct dwc3 *dwc)
- 
- 	init_completion(&dwc->ep0_in_setup);
- 	INIT_WORK(&dwc->err_recovery_work, dwc3_err_recovery_work);
--	mutex_init(&dwc->connect_mutex);
- 	dwc->gadget = kzalloc_obj(struct usb_gadget);
- 	if (!dwc->gadget) {
- 		ret = -ENOMEM;
-@@ -4977,7 +4976,6 @@ void dwc3_gadget_exit(struct dwc3 *dwc)
- 		return;
- 
- 	cancel_work_sync(&dwc->err_recovery_work);
--	mutex_destroy(&dwc->connect_mutex);
- 	dwc3_enable_susphy(dwc, true);
- 	usb_del_gadget(dwc->gadget);
- 	dwc3_gadget_free_endpoints(dwc);
 -- 
-2.43.0
+2.52.0
 
