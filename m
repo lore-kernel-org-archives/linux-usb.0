@@ -1,69 +1,70 @@
-Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD04B3233E8
-	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 19:59:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C8E445ADA
+	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 19:59:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790971171; cv=none; b=qPuA8I28j3dsWCI072o45i4hixUQHD+V+nqWMJyvuQJfANw/tPON+ZCnSs6uWKof27vyy6NdyUeegmk4SnlDMXt/uB3aa13yoiGXhGYd2REhI7ZOHSHLujLwKnoRPd7/zTu2bjsKnJxpyW94/DxzU39VG7cd6RfKIgE/r5knWiM=
+	t=1790971177; cv=none; b=TVriE/HMyhDdJ185rVoAWQGeWtp6lwfIaTGXE1B9Nr6KuW3GXM+EHqngP0spKChUNYmA5xLBhp0QeekQr4gweaVOZKTANFI5JLpygpnfShyVOTbskG9zgXuXZwIGJP8AK3fuoB9znX3K4fP8CIfBnJq0B7K56ePIGs8Ijt7MjPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790971171; c=relaxed/simple;
-	bh=hBlTehjyXtv036Ptakn2jOo9KYAnZAOOOFZRIgq3b3A=;
-	h=From:Subject:Date:To:Cc:Message-ID:MIME-Version:Content-Type; b=gAoybOVzTmR4kmfn/8K/ctfR+lmBGAxB3JYcvXiAxJRUDtXjuOb8e7Zm3RjhZDq/A+aPtU/jW1EWiX5SCQ9Wti5GgOe8Knxhm8A9DD3qTWLxv/2IOpFBbQ01nEkfOFZZUHRLWFce7si/ivGiE704E8r+GP/DQJnEc9ToCavJPdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XfYcYSFD; arc=none smtp.client-ip=209.85.216.41
+	s=arc-20240116; t=1790971177; c=relaxed/simple;
+	bh=iFri/vNIS8KeWN/eU20/ScjrVJhCF62ph+HTFCQdY9k=;
+	h=From:Subject:Date:To:Cc:Message-ID:MIME-Version:Content-Type; b=HdUKXxJvQBFdyS1lsUTgD2w7TTkOleWOw+fMLo6sgu6Tsomh6Jyl4X78cucHiSX3gXZ4kflq3klqF/jUVvu5C9/lnOgYO7s3EN9QdLzUuiLquzRu1h33AyIoty7o8jgn/tcBPEE0KkRsXHTWBsHspcHn9EkFWhpHoLWjJeaGQfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HfTLCulD; arc=none smtp.client-ip=74.125.227.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfYcYSFD"
-Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-3a4e4e4cb0aso862860a91.1
-        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 12:59:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HfTLCulD"
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a49573b8bdso237391a91.2
+        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 12:59:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790971169; x=1791575969; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1790971175; x=1791575975; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:cc
          :to:date:subject:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=LsHN1lyXJDgbA0VSgWXyR/kZrUQuuXTbNHaRDmIqguU=;
-        b=XfYcYSFDBg+jEDCze9woBzNUWkN5q4hFCF/Qy6o5XapHmjOmUN+1ff/S3tuCUfk92N
-         leu1ga7ha3H50XLNdCU8P4RvATRUksrPwuHPPWrI09g/EwsIUuibc6Er8bSBWxLqBmCJ
-         WR/jGQdLhhIE6U/+2ylOkNy0FK+dnUJ7yNH9y+w9+Bbik60MO7wi8Jt3e/dZJ63NMglD
-         gb+gJU40xSyQcXhWqXvKKmuGZGK0IXwMbAunglrx8YbjtzCRnkJVNmFCRROoXD89NnbQ
-         /uvx2Y0lIUWpgoP4KtpNRvmz+jeYHp5zgzEGC4yCcYTbE58XdYDHxL02lXXpbVkBrgFX
-         2hSg==
+        bh=+WKbEv3EoH/ne6QtLylhDgUzhwOIRTlWoTqML9fP8eU=;
+        b=HfTLCulDMfJvwLq4llkiAji8HO+00lcx2s7YC5LMWnrW4ee1KCUV3glYnThxAujSxb
+         VdwPYBRS6xIK6r8gTNQxkMC2jZfEJlSJm6E/FOLVWGcbnl37i+s/Trm4wkbGKIHQJMd0
+         R39kf40XXstxIsKzwGhov5PE167EAb3hZercMn2od1H15YwZyj+vW3AGZmxTLml239Cc
+         tjoiA/SidizBuqHYZjEvYWEx8XdCktAgbZLkQfJUbP0j/VUpN+1ilYvn3SlObDMEBDA5
+         sH1/0m2quRwjB3KNmZi3azlxtQD1RXsGmjku0dkvbqmDQtXl5xPzZQb2+9djWIl69IRb
+         dcOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790971169; x=1791575969;
+        d=1e100.net; s=20260707; t=1790971175; x=1791575975;
         h=content-transfer-encoding:content-type:mime-version:message-id:cc
          :to:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=LsHN1lyXJDgbA0VSgWXyR/kZrUQuuXTbNHaRDmIqguU=;
-        b=O1ZtwO8q71qBdpxbIzBVGtRZc8f/GYPr3XlpiVXL9ppyFExSTDjNGBo7JStbmcP4Uf
-         mntmFUSkaoF9zwnMV1B4G2gdU2ryk4G9NbZ0qHJx2RpOaqAQ2dhpk1FWJAvkG8gKd1az
-         /KiQZBzE4Bf8XfxZJXqha20sQstcYBOvXVP1+cxwyIa5UcClkt3dk8Mi3o832ruWBdSA
-         0TTCQVYRn7J6NfMaLoSTT9PzV/LlsWl8vFX9NhxWjvBozzL1PhI/4egKHVVw2NAF1SuE
-         ugjrqdQmoVjfQzHtA57Xo2JecH1ZL9uVnuaDxtlYCkBFw5MIEPIoR2ygOqh8OwSjVhsz
-         7hPA==
-X-Gm-Message-State: AFq9FYLlT6+Ch+Yf2R8Sd/howJpSRk1Qx0B/0Nw4zPWfWnX1arYIDUFn
-	TKo9xjGpRk5ZgexE/D/ddmGhGqX3aySqsZ+QuwLOVz0mUAYIIB9TQQA0
-X-Gm-Gg: AYBFou37JJ3PuSUyJAOlB+X2lFTGd9CyqYncwdwg3vZ4e7vwUGHuUpGLwDBc6B+dXer
-	u499wAFR8iNGr+01wZaasD2ucURKxVkAgmEPe/jf2ZiA6y20Ml6ezSbQ3F8raFqCOrcUuvYYL9F
-	BZ/+ag6qo08x4PS0TCOfoihK+TqSyxcLTl4nCuA3/O1qt0th+vExRqmmUJm4Ttw2hvccEk+RjpT
-	4i9SXpOB1CHLixZugclOWUjzMa1jqyMnbVp84gFCTyDaYQlc2jscmHA0SaW7r5cUgi03JRtNzVU
-	EIuca6mDQhwEgHxxSKnORhtKibO8/kCMDnFDn3vNPOwsblb6ne/3WEERtU8T2kk4sDcapoZgR2w
-	iS2GhGtKocHrJrfChuuD9suSmByjyqnGtGQZuhHXbxKWcjXKtbJYJiv8VoRV/atU42uO6zshQD9
-	eimvHddRR2dEDnGNSPNdmmBN6eXC4NLqCYah9OGw3o/0WZoOzPLo+7IU0XqcGeIBPluM/QdPJdH
-	JB7LIKjZO+ZRY9bLjbiHBQ=
-X-Received: by 2002:a17:90a:e70f:b0:3a4:b6c2:b159 with SMTP id 98e67ed59e1d1-3a7873b0ff6mr193781a91.34.1790971169113;
-        Fri, 02 Oct 2026 12:59:29 -0700 (PDT)
+        bh=+WKbEv3EoH/ne6QtLylhDgUzhwOIRTlWoTqML9fP8eU=;
+        b=yUW+GCjEavUg/0qeA6Em811X6OXUaGblDMl6aWhU6m2yAX6ukIS4aCkHRhgTNEYDh3
+         +pgtbNu2yMqucKIlm2cMQM51gG/EIDL0ZrqiatL7bHquf4z+PzIaVGfefNvPTzKBRWjU
+         0LMn3Tu9vkmorspmRotyrVotU6XI5ZV5oMbKlq4WZWChwwG4d2+CTTSuysYEBQs6FH9t
+         KCpMUQJjwwcwjkfxVzMpQesHfCU+aMGklzfba6EkiD7vtCzEeDI5Eg5gkzqxvfCiy/z9
+         QyQjZb3IQtf0ygD5zwrNG+nNJK8uVobU/zg3vAJJQTdAbNu6H0P7XlfAZlVyo5Ubxn1C
+         8Hdg==
+X-Forwarded-Encrypted: i=1; AKwUvBw9YgWhjf90l5qagjC4j0tFI2EqXhAjsThi6KTt10OuCVTpKW98hOkmY01SnWb7U+eNtOGsTV3tKMA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYItg0s1Rn/Xg5LMag8OQXnabcZeDBVI8G0hCXom4Tw+DtrZyTK1
+	Rj2FmcU+WpN7tFh309ZSF8m8ON7891bIa/gqyjSMA+TlomK1AhjVSI/5
+X-Gm-Gg: AYBFou0DX8PnwXeZ60RWPExTPqLR3oJ9aqYvzHWpw0jINNcRfmwJ1ErLkBoC+mm4ixh
+	xSF7z0dJCKJ/qPiqqkYfm580eQRdPSgSW8vU2otWjN+EQ3fuwcj7l6UEtET//cjfWBSzkd5Mbrj
+	+ZvlMB08LptVyJzZ0JsWbVYEi6yPBnwUaqrdUPhSEmWYUDYUf8Gq66moLKgSLpKPoV+J4k12dwa
+	oqFOmn1qgDxwccA4DOLRS2bOFffeVkug3NNgpiioJXcsLG1hEoA+A9+UsAHR2BVDCov2ZMKCj92
+	zgJxc9ProNLQW/sPjHUwmN8Pm13uju+EwRTAoqewxU/ohGCJb0wUvYzi3J3prBedFSeg3GwHFiM
+	H7/huviMNsXJhxOFwg07lgtj13kihGsyeSBw9EVdyEPyuoSfi6RiVpeCRJRfQWLOmdCpvhqBv0j
+	c2TLYgsmffQxNZB2y9WnVud7jBLh2M1FmEyjo23cxOlySTlWTHvdsmE/eUUK9ZRxqwTGyaN5ww/
+	wsgZ9vo6fgfnegSFbXp9Z7cjOPqqbJJKA==
+X-Received: by 2002:a17:90a:1009:b0:3a6:d851:21e5 with SMTP id 98e67ed59e1d1-3a6d851226emr2180894a91.4.1790971175199;
+        Fri, 02 Oct 2026 12:59:35 -0700 (PDT)
 Received: from SANGHOON. ([1.220.132.212])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6c8421fe4sm5419796a91.12.2026.10.02.12.59.27
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6c8421fe4sm5419796a91.12.2026.10.02.12.59.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 12:59:28 -0700 (PDT)
+        Fri, 02 Oct 2026 12:59:34 -0700 (PDT)
 From: Sang-Hoon Choi <csh0052@gmail.com>
-Subject: [PATCH] usb: common: usb-conn-gpio: manage connector ID with devres
+Subject: [PATCH] xhci: dbc: lock the minor IDR on registration failure
 Date: Fri, 02 Oct 2026 19:47:40 +0000
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, Chance Yang <chance.yang@kneron.us>,
+To: Mathias Nyman <mathias.nyman@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
  Changyul Lee <lcy8047@gmail.com>
-Message-ID: <20261003.final019.b1f833b54899139a@gmail.com>
+Message-ID: <20261003.final086.034e184ae398239b@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -73,15 +74,15 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-usb_conn_psy_register() allocates a connector ID, but usb_conn_probe()
-does not release it if a later GPIO-to-IRQ conversion or IRQ request
-fails. The failed probe therefore leaks the allocated ID.
+dbc_tty_minors is protected by dbc_tty_minors_lock when entries are
+allocated and during normal device removal. The registration error path
+removes an entry without taking that lock. Different DbC instances have
+separate event work items, so this removal can race with an IDR update
+for another instance.
 
-Manage the ID with a devm action registered before the power supply. This
-also makes the ID available only after the power supply has been
-unregistered during teardown, avoiding premature reuse of its name.
+Take the same mutex around the error-path removal.
 
-Fixes: d4e5b10c5562 ("usb: common: usb-conn-gpio: use a unique name for usb connector device")
+Fixes: e1ec140f273e ("xhci: dbgtty: use IDR to support several dbc instances.")
 Reported-by: Changyul Lee <lcy8047@gmail.com>
 Assisted-by: LLM
 Signed-off-by: Sang-Hoon Choi <csh0052@gmail.com>
@@ -90,70 +91,20 @@ Compile-tested the affected object with x86_64 allmodconfig
 and W=1 (GCC 13.3.0). Base: mainline 3b7cab693ba2bab63774bf5b988e8a61b2ef0f32.
 No hardware testing or runtime failure reproduction was performed.
 
- drivers/usb/common/usb-conn-gpio.c | 23 ++++++++++++++---------
- 1 file changed, 14 insertions(+), 9 deletions(-)
+ drivers/usb/host/xhci-dbgtty.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/common/usb-conn-gpio.c b/drivers/usb/common/usb-conn-gpio.c
-index 421c3af38e06..128ab683f110 100644
---- a/drivers/usb/common/usb-conn-gpio.c
-+++ b/drivers/usb/common/usb-conn-gpio.c
-@@ -157,6 +157,13 @@ static int usb_charger_get_property(struct power_supply *psy,
- 	return 0;
- }
- 
-+static void usb_conn_ida_free(void *data)
-+{
-+	struct usb_conn_info *info = data;
-+
-+	ida_free(&usb_conn_ida, info->conn_id);
-+}
-+
- static int usb_conn_psy_register(struct usb_conn_info *info)
- {
- 	struct device *dev = info->dev;
-@@ -164,17 +171,20 @@ static int usb_conn_psy_register(struct usb_conn_info *info)
- 	struct power_supply_config cfg = {
- 		.fwnode = dev_fwnode(dev),
- 	};
-+	int ret;
- 
- 	info->conn_id = ida_alloc(&usb_conn_ida, GFP_KERNEL);
- 	if (info->conn_id < 0)
- 		return info->conn_id;
- 
-+	ret = devm_add_action_or_reset(dev, usb_conn_ida_free, info);
-+	if (ret)
-+		return ret;
-+
- 	desc->name = devm_kasprintf(dev, GFP_KERNEL, "usb-charger-%d",
- 				    info->conn_id);
--	if (!desc->name) {
--		ida_free(&usb_conn_ida, info->conn_id);
-+	if (!desc->name)
- 		return -ENOMEM;
--	}
- 
- 	desc->properties = usb_charger_properties;
- 	desc->num_properties = ARRAY_SIZE(usb_charger_properties);
-@@ -183,10 +193,8 @@ static int usb_conn_psy_register(struct usb_conn_info *info)
- 	cfg.drv_data = info;
- 
- 	info->charger = devm_power_supply_register(dev, desc, &cfg);
--	if (IS_ERR(info->charger)) {
-+	if (IS_ERR(info->charger))
- 		dev_err(dev, "Unable to register charger %d\n", info->conn_id);
--		ida_free(&usb_conn_ida, info->conn_id);
--	}
- 
- 	return PTR_ERR_OR_ZERO(info->charger);
- }
-@@ -294,9 +302,6 @@ static void usb_conn_remove(struct platform_device *pdev)
- 
- 	cancel_delayed_work_sync(&info->dw_det);
- 
--	if (info->charger)
--		ida_free(&usb_conn_ida, info->conn_id);
--
- 	if (info->last_role == USB_ROLE_HOST && info->vbus)
- 		regulator_disable(info->vbus);
+diff --git a/drivers/usb/host/xhci-dbgtty.c b/drivers/usb/host/xhci-dbgtty.c
+index 3d51e8d82659..2249cc16800c 100644
+--- a/drivers/usb/host/xhci-dbgtty.c
++++ b/drivers/usb/host/xhci-dbgtty.c
+@@ -535,7 +535,9 @@ static int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
+ err_free_fifo:
+ 	kfifo_free(&port->port.xmit_fifo);
+ err_exit_port:
++	mutex_lock(&dbc_tty_minors_lock);
+ 	idr_remove(&dbc_tty_minors, port->minor);
++	mutex_unlock(&dbc_tty_minors_lock);
+ err_idr:
+ 	xhci_dbc_tty_exit_port(port);
  
