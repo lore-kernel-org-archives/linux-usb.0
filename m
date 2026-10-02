@@ -1,180 +1,171 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013056.outbound.protection.outlook.com [40.107.162.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB694CDDCC
-	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 18:28:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790965723; cv=none; b=YNcR2bFhlNVWhDExfFyD8P7XPMlPUWUGpr/QIyhWrhJBZl3/TyeUhnIlrRf9U7hxj812JcnwtkjQWz+wXvvnJCO22OBf1oXF03bxMBKILGjlK4dyQIs1y0ooMD4hiUljHS3ywAgbFBqZXMQ/ZrDtMKe92Inp+87/0mawP4C/Nfw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790965723; c=relaxed/simple;
-	bh=37xW3bXnNDjppoFLWCR/oa4xzrjQIHEZAETiL9CojqU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oRl80ABBOpyV3LZzC9UvnQeo9VizohPiW15mxHR5vR15pIMvUbH3z5ZeBPI8UIpoj1GI12Wi17dPIYc8IyTgU+GwmHnCnXuLQr1XtFCHTcdBKpV0eIf31/8WP6TsSFCg47+8389VTQwD0dck0aAQ8GzpCLmYEMR0sYHkVCZZX5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=QIbdlSC1; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E849A3F0AB8;
+	Fri,  2 Oct 2026 19:29:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790969345; cv=fail; b=LhVXHR5ylmIQDhWFGAoh6Th/SWiXXsWKV65W9ecZhxifI3fiWAsOZ6jo0f9qS9lwktiuj8KYfAt4rhrFXDE/VvBzGVqlz+Q1vL30WnyD5nVEhKzX/veUTVr+9oVi3Euo2zYAefkJgw7Dh3eDdR4g6BDJPSkUx9J/TQeR4oJrHPw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790969345; c=relaxed/simple;
+	bh=07Txt+2oBkV0TdJPFJBSn+TEldk9NvO94ZZsW7Qbu2I=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=FmBHEIwnitUe4DVK9oABTBeIDWg0r5rHhhkZMPyMRkzGruMjpBJ7aZDCw0hXhOY7KHIjFzA3vJONcv5iIA5BWUvR/7qUgM+MbrzzVg3Im6hkrNPIbwy6KovTj3pzWib3wSvnfCO/i1Vh/4Hd/Cc6LvZBQwi64ICz3uo7Ut2ws+U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=knZsGqPa; arc=fail smtp.client-ip=40.107.162.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="QIbdlSC1"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5332bc442ebso1757001cf.1
-        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 11:28:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1790965716; x=1791570516; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=h3hPlfvLElJBAlrqMs6yd7kZHuzl23umtFhgk5gi4Bk=;
-        b=QIbdlSC1cRQKwFgqae5NgVFC9bRdle+DKHpSLYP2vuVydNfJuennMOqTviLZVCMT2I
-         OFFdGgYuZGQXrh6eJ2fPph7Jgt05pCL3/VulnBmI3G3RPbC1xW9Ajw+i3Ok4E0pbQs1N
-         0Rmak8zHWKpkbvlm9c21PgyXvOapm4Bb+44IrNdp9SFdUAJqrr8z49zId3smxN06jiud
-         RZ0Bw95XnR/RfDRPhNwToTZqVJJVUbNvgn+2vGFJzypYobxQjDOi8E6Y2wMXch0CEvKx
-         jZ1cfJOh8ZNf1ezpi3svnsxfLtUkLXtSJtPJJJLfx1q5S7oY92+a9uF920rGCPgs73hY
-         aXpQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790965716; x=1791570516;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=h3hPlfvLElJBAlrqMs6yd7kZHuzl23umtFhgk5gi4Bk=;
-        b=J4cbCpUeL7DOze12hkI99OzulAauid22WjhZOQ0OCtlJv93htMWPnBhFK3Ha74LhHi
-         nxzZQEoO+uNWchEMEuTlKwB42q+O5tMbyc7b7YT2jJu7QEFHCjQXaH+ZjLPep2hkiDH0
-         Th80SvGbnAFSJOn6UbD5ZkSgyrSCJKR6hrzvFCIeCZNqSIdEBfhRcmF8lbUkO/QC4jpN
-         YlqNV4kmWHsVAn74cBe3c9sbblsbkjHJZ1vw8fIgZW5fX0i74heZBQxrFj93aw36OvfK
-         hFRTOcuPnYNM4vuH2X0gZVRwkjEKIt+fxbuZJ4TkKW1kw12I197W1k/AlNxYTbqWTWkk
-         bHnw==
-X-Forwarded-Encrypted: i=1; AKwUvBxl/8b0+BFFhz0q8UOc3gMUVjo+JLJ3XZ6QD7H3xZX07iFsQrhUowkU+3zVdqKt8O0+ROWFVYGiY7I=@vger.kernel.org
-X-Gm-Message-State: AFuF++lCFJ1wXt/zhndFaORLJP+g3QKPB5e5i+VQDPgLvpoXc1v3HDqv
-	GJS95E+HY8VrqwezQAxukTjQq97E9om6NcaQvkvxkYlmIfDkhB9nCCSnTncmRWZYtw==
-X-Gm-Gg: AYBFou2F0CblcuLrfxysQg/Tj9fzjTp6OE7f6WXKMkBl5Rl4Gt44pXjiEW1AH7ISFPB
-	xD4lyoSD/p1cet+qdCYbKmBjAliNSvpvYmvjxSou6BwuiZLhznhSSSneNLrdB/wX1jhwGerjW7w
-	S112wIbTuptsd/LQNY7VUpUB6LAnIkLeHyjGsTgXlwF6ilrx/QzzOCXySydpONpEs7Vu4RlC2ND
-	XJ4znW1e3sUjXQUW0DvvLB2TrTdFDCjP7Cx/fiiyzyMQomDLYArfyMqvGkbzTRcqCo7VeLX3vT9
-	y7RQIFxAUs3E2ZZ4wl8TGyjahvyt1E9d5J+a32w+MONfuz1Q9pbwR+J6XFvH2Tti6KxQLL0/Kum
-	HRTaX2uu9AG9QiUJ188rasOhvRvDXfRxpaNjagezrS57WNACmmVkFtonmp+VAMFzKqNjU0GiYyL
-	s5CyMqWUUWrwncSfViyTsEQ+uPfffKWPc3TYDV09b99/b27DnvQNBN2qsQCHai3xpwGFtKmBp7w
-	BXtFIL/UQ==
-X-Received: by 2002:ac8:6f0e:0:b0:532:af50:8d7d with SMTP id d75a77b69052e-53511e71255mr2084371cf.33.1790965715552;
-        Fri, 02 Oct 2026 11:28:35 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::1b7d])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5350d54de14sm7781361cf.20.2026.10.02.11.28.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 11:28:34 -0700 (PDT)
-Date: Fri, 2 Oct 2026 14:28:32 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
-	johan@kernel.org, linux-usb@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
-	stable@kernel.org
-Subject: Re: [PATCH] usb: core: don't set drvdata to NULL in
- usb_unbind_interface()
-Message-ID: <c47f59d7-366a-4588-9742-b6e484c1c996@rowland.harvard.edu>
-References: <20261002145455.3392703-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="knZsGqPa"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=u/UTnjOgQl0HVP0JzShfdtkzNzezVNUnqd0mb6jPeApRlRd5S4BbETAg3ECkRNN/inJJwlwXJFpvnK/ZaBqmwD9gQZy0fM7KUoGgBUvEYpcHceCGzoj9yTIVj7Dts/CWUxEEhX5rF/XKJhVdTwYQBpsem98qGWMgVYg3BTDhcTNQ+NJWiT96CeDVwEwj0VSMDy5AhG/HUAc9yYfBXak3QfUIY3n17fQtYJeuTPv+1UJg9ug3oyFqI77PMaBGgZGVTnARHAZ7ZuEf7kmGu7h7rPWiNGydw0Nl61gmEOkVS9hGm2i/zAzrf5QiabEjvOb1eK882PvKNjXESHDunzr7Hw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=wub4uH3FnIVOEJKSBbAIcWMWakkHoBlwMGanKxRl2kM=;
+ b=XMcECFOFEyreJx4be0q1aYTGrOwjSBTRJ93sj6r8THbKWRQ9gbHAWIDbTymLUCJkgBDC+0fPuXvxuLn299D4t0SuT9hRZ5YJUJvscsaa7fVaD2TrgNZFboo7TYR9FWzgG9EDzyIlHloRoJnCuvBSP7s+BR/c40UdD7ptJjsB3X5CeB+e7L8IpADqp+ME8GURUZjO1IhL+Bk8X3ch2uep4PCxNtvklu7ETePbTxYJgR9UL71t/UD66CLciwOmwnY/2ZG6u92VRccaXOQebqtqS6/2bDCXcxUIqDSXhmPr1++RZm+8T9nEW1CaJdB4Fe3kqfxW6N3E8YWZmgASyGuq3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=wub4uH3FnIVOEJKSBbAIcWMWakkHoBlwMGanKxRl2kM=;
+ b=knZsGqPac8EpQm52l0s1flKa8h7gah7h/hyqRWM55QGInZfJI16jZcY7U/QE+n8hyIBswa2SUhgd00xe2jacQQXqE6AWg95Bcz2OdY4uaMgxlkSn0nJGykNfk/XAdHRe7097o4MDVHApBwua1hY4htTZuSpe7IU3FKV+JxrUrAiXfLRftPL+6qgNO9QhTw/MgC15ZRzpjI7B75Y5QlWB0JXCPxxl8KRUSTseJ7h+lP3+Urfnizh0FUXVEHM/+2lffinw8nTWDk+9E4NciIJsJ8QmGcKHeqnMtHgalrJHinb7hgcSCy3dlBh0Zm5MvJp6YUUUSt2YTV8UBzhH89AqYw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com (2603:10a6:150:2cf::9)
+ by MI9PR04MB056237.eurprd04.prod.outlook.com (2603:10a6:290:d1::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.18; Fri, 2 Oct
+ 2026 19:28:56 +0000
+Received: from GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c]) by GV2PR04MB11799.eurprd04.prod.outlook.com
+ ([fe80::2146:83a2:5329:b7c%7]) with mapi id 15.21.0472.016; Fri, 2 Oct 2026
+ 19:28:56 +0000
+From: Frank.Li@oss.nxp.com
+To: Bin Liu <b-liu@ti.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org (open list:MUSB MULTIPOINT HIGH SPEED DUAL-ROLE CONTROLLER),
+	linux-kernel@vger.kernel.org (open list)
+Cc: vkoul@kernel.org,
+	imx@lists.linux.dev,
+	Frank Li <Frank.Li@nxp.com>
+Subject: [PATCH 1/1] usb: musb: use dmaengine_submit() instead of ->tx_submit()
+Date: Fri,  2 Oct 2026 15:28:49 -0400
+Message-ID: <20261002192850.166127-1-Frank.Li@oss.nxp.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CY5PR18CA0008.namprd18.prod.outlook.com
+ (2603:10b6:930:5::11) To GV2PR04MB11799.eurprd04.prod.outlook.com
+ (2603:10a6:150:2cf::9)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261002145455.3392703-1-dakr@kernel.org>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV2PR04MB11799:EE_|MI9PR04MB056237:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9a4ae3bb-6b34-4028-b577-08df20bb66aa
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|19092799006|23010399003|366016|18002099003|11063799006|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info:
+	af24N65cYXTOuo4EVla6SBJmU6W/DpSssOUmRSmEX8IgK1VobLl+b9C29nLzuldpX5SdkUx4StLyWmmQmbn0Mjz0oERGKIaY+74hWH1Msyuha0OaIuNm3d2//p4OQnrTtfppu7NUVpHNpCtqkjvjIT3Lkn0Ca4PWwPiUfADnNS/ldqY/4inPDWVc30Os4sSRNNZWWoYBSNbZiGMmLxvsV9z8u0MToafKrZ6Ey0OSR5fV1HdbRFqlE4JI9zBgRQd51x96YGtTFpfvH6Il1bAFT5GZhmy/szY3eagw3rZNi2J3btxJ7Bf0sNGz+ngZZ+vhfSOBz5NjTS1YxRnT9+LIjc3ykva/yOBM1KXmPFmkTzhWuX7XeUQvw3U2a4S26VJ7LoOS1pOPTZw//sOQW5OeWuW9OlKjSzOVNXXbmzXZjTZCuQAvJ7Hog7swt8hLcqAtTH8vrGNuLzdn/it8xQQ3b7CtTSutZQqGvAvzZ6s9UQboczvQQir3RnCrBuH4JbUB0IIuiBECz2kFbev6CaGBPkPh1urj1sQAE6RnUcvDmXy7w8B3QyZtCOst6VrzKRtykr97xci5af37dsCIz7tfwCANjIuUlnE6rmU+4qDTa5t5Zjtntrs33ggxSgDGQkcDQzbW7LBRvJiLr3+a+jwbiM5+hFneNG3HWfVeNkdnDf0=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR04MB11799.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(19092799006)(23010399003)(366016)(18002099003)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?kI2Q/H9Ngd+Ojv9teeB9Ws/E4xbjeuL0EJcLHppMVOt+2ogsTiBD+4CT03c9?=
+ =?us-ascii?Q?F5l+dyjWGaOjwnVg6UU6OTGnl2RXLk7MHEWrDUGDXGY9eNOO7IpaHo2o3Lzk?=
+ =?us-ascii?Q?S7EqAy5CCAAlC41sz/3G1nEdjC7CJsC7a6VjCna1yhKknqiDJNGx//peda9E?=
+ =?us-ascii?Q?0TPx6yxxntPeyl3pKhMskMsb7917s97h8DuFyd6VonL2ppSzkMuJSDZIq7WE?=
+ =?us-ascii?Q?6CDupk2HKmB6wS3QFGYOPdRgSRyN/kgzEeGxexko7CE9H8lrKhpv1AtY+Axh?=
+ =?us-ascii?Q?ztlLqc+7lPDuYBbp6355L8s4D1u1e/B9JbnmG+lNtuAfJcJ9/TXJq47gqMAI?=
+ =?us-ascii?Q?k3VuA6AGOw9oSDabb9LuXUyzARFV7BNCHkh48safIwYVDYPD4fPt6n6FdNQM?=
+ =?us-ascii?Q?phcxmILRoRocy7Q+3rEvzJNuoloJOtUZyhVnqI10Q2IFS1lBF3GDogq6wQu5?=
+ =?us-ascii?Q?6xWlcUOBZky2EJFXb4HGHrLUCd+a/B/b0wTOf/FMeFy+R0qZiLnaq5npgwzH?=
+ =?us-ascii?Q?sozx1szokAqyl1pA/Aw+oeyYFl6TaExg9y4KvtSS4TMAQMqNTKSGZMfvCL+J?=
+ =?us-ascii?Q?0kFEXMD9WhfQEInpxVYY4oMXE7joj8gel2s6YDjnx5gOHdzEdqs/e2nHuaT7?=
+ =?us-ascii?Q?gLLfnEd284Tb//9wDheUCmZSH0Ux6t71HQqwbPACuw92yi5r0YVfUoUteQ70?=
+ =?us-ascii?Q?kwe9IJ9K0/SQeAr7NxkJkLgsExhnAtQVcJUm5Xpg47UhHuXbZ05aepkATCxx?=
+ =?us-ascii?Q?Plicp9Ir7xehwvbc5Y5CW14pIxHX1TgOh+4sLy+5izwV3xo0trIUNvuQs37x?=
+ =?us-ascii?Q?7bAhEyz0HQXcgqZ3mg/LdMevZU7aiQ2efuUTdLLm5zaQAOSuzkAm0XXzGrRQ?=
+ =?us-ascii?Q?0HyqH3IfS7aHb8ZGHXoFMhlNfGoKko7ZWH1Tso0QBWSrOxetymcjerXiHwl3?=
+ =?us-ascii?Q?7m/srgOcaZw4bxf2Hwo+TCvQGmnMb0SoiVvOFlDmObKUzj5FADcvHyNDe0+Y?=
+ =?us-ascii?Q?4zb8PxIIszwyE0syDaxO3jiVtF7TRM34aV+19Ej7xfBWFVR0sZHhXMHWuU/C?=
+ =?us-ascii?Q?qtHTfHRKN4GJIS4fHWz/kunOHLJK2yz6CPBPno6PB/4sjaTGCxhw7M81WX4q?=
+ =?us-ascii?Q?Jh9yawl1MwlgnmqIidVSTYQV53onQRJ32mu4fW52fAZpJLT3EOo9fB4/u02e?=
+ =?us-ascii?Q?6YlnZFeLJW9g0Q2qQEQu6xe4MwcL/reUJqcNZSGR+vA6Kq3pqD1oqLcXsG3v?=
+ =?us-ascii?Q?ldlFggVm4VvOXGbhq55AqOsR2/x77bk6K8pJKXWLwnwR6sYxxnKqall7QUhA?=
+ =?us-ascii?Q?0qoRMLboI9C+/OHYOAd0dNSL7tCFGqbRWkaaBfnBwLcbwRY6QVosaFFtyQTV?=
+ =?us-ascii?Q?wrUyW0XdvCxNsRdFMnfOiWIEpOuTTncvkjjAqqJVH2njvcKrflkDTi/4gfKn?=
+ =?us-ascii?Q?WkUMnoeVolVTrNV/aY8LiLIxTAGaRDVZpRmXAEXFY3dWg0W7ZlxmFIycNINr?=
+ =?us-ascii?Q?2yuM8k/JhJCITej48Ra4RufkQ2nz3F7oGzSQb8j7hgP2Bv8WOtUujA7Ja00F?=
+ =?us-ascii?Q?Wul48WsXRD0KKF5wENPK16CXUlJn0IagbH2J3xC2C9RhYWnBLnZFqlczgqTv?=
+ =?us-ascii?Q?wFMA6tc+QAev+p28Sr2rpbi7xcoHg3Gjn3Bkj9KJsxRG+VsOfp7azvQ0zECF?=
+ =?us-ascii?Q?zzIJKwmFsCtQbKe2PJl8sVIVZhNgtB7VR942san6dfzorQ3gBJrTLKi0Gt82?=
+ =?us-ascii?Q?7w91wqCvz1EwNT6yAmrCOQptO/oQdpS+9mSI86JDwIog2EbhHTN3?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9a4ae3bb-6b34-4028-b577-08df20bb66aa
+X-MS-Exchange-CrossTenant-AuthSource: GV2PR04MB11799.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 19:28:56.4759
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pxfXAM9c64H2bkvIh45vwTwA2vokGdg6fz63BNcCDmK/o5WcdHNH+dl4pc7FjN4bZvnUQANtHDTR1lEB2w/CpQoGqulWs/06nJs/cC7DRytW6BIU++oI3GfHWG0FtYDW
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI9PR04MB056237
 
-On Fri, Oct 02, 2026 at 04:52:49PM +0200, Danilo Krummrich wrote:
-> usb_unbind_interface() serves as the remove() callback of struct
-> usb_driver and calls usb_set_intfdata(intf, NULL) to clear the bus
-> device private data pointer.
-> 
-> However, the driver core code already sets the bus device private data
-> pointer to NULL in device_unbind_cleanup() *after* devres_release_all(),
-> which makes the call redundant.
-> 
-> In addition, it can create unexpected NULL pointer dereference scenarios
-> when drivers use managed APIs.
-> 
-> 	int probe(struct usb_interface *intf,
-> 		  const struct usb_device_id *id)
-> 	{
-> 		struct data *data;
-> 		int ret;
-> 
-> 		data = devm_kzalloc(&intf->dev, sizeof(*data), GFP_KERNEL);
-> 		if (!data)
-> 			return -ENOMEM;
-> 
-> 		ret = devm_device_add_group(&intf->dev, &foo_attr_group);
-> 		if (ret)
-> 			return ret;
-> 
-> 		...
-> 	}
-> 
-> 	ssize_t foo_value_show(struct device *dev, struct device_attribute *attr,
-> 			       char *buf)
-> 	{
-> 		struct usb_interface *intf = to_usb_interface(dev);
-> 		struct data *data = usb_get_intfdata(intf);
-> 
-> 		/* Potential NULL pointer dereference */
-> 		return sysfs_emit(buf, "%u\n", data->value);
-> 	}
-> 
-> Nothing prevents usb_unbind_interface() to race with foo_value_show()
-> and set usb_set_intfdata(intf, NULL).
-> 
-> Besides that, the Rust driver core code manages a driver's bus device
-> private data and destroys it in device_unbind_cleanup().
-> 
-> If usb_unbind_interface() sets the pointer to NULL prematurely, the Rust
-> driver core code sees NULL, and hence skips the destructor of the bus
-> device private data, which leaks all its resources.
+From: Frank Li <Frank.Li@nxp.com>
 
-Aren't there a few interface drivers that explicitly set the intfdata 
-value to NULL in their own ->remove() routines?  If you haven't checked 
-for that, you might want to.
+Replace direct dma_async_tx_descriptor->tx_submit() calls with the
+proper dmaengine_submit() API wrapper in musb_cppi41 and ux500_dma.
 
-> Thus, drop usb_set_intfdata(intf, NULL) from usb_unbind_interface() and
-> move it to usb_driver_release_interface(), which manually calls the
-> remove() callback of struct usb_driver, and hence can't rely on the
-> driver core.
-> 
-> Cc: stable@kernel.org
-> Fixes: a995fe1a3aa7 ("rust: driver: drop device private data post unbind")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-> ---
+Assisted-by: LLM
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+ drivers/usb/musb/musb_cppi41.c | 4 ++--
+ drivers/usb/musb/ux500_dma.c   | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-Makes sense,  IIRC, that line was added mostly as a convenience for 
-drivers, anyway.
+diff --git a/drivers/usb/musb/musb_cppi41.c b/drivers/usb/musb/musb_cppi41.c
+index 28e958fcc862c..37a009a4bd500 100644
+--- a/drivers/usb/musb/musb_cppi41.c
++++ b/drivers/usb/musb/musb_cppi41.c
+@@ -169,7 +169,7 @@ static void cppi41_trans_done(struct cppi41_dma_channel *cppi41_channel)
+ 
+ 		dma_desc->callback_result = cppi41_dma_callback;
+ 		dma_desc->callback_param = &cppi41_channel->channel;
+-		cppi41_channel->cookie = dma_desc->tx_submit(dma_desc);
++		cppi41_channel->cookie = dmaengine_submit(dma_desc);
+ 		trace_musb_cppi41_cont(cppi41_channel);
+ 		dma_async_issue_pending(dc);
+ 
+@@ -469,7 +469,7 @@ static bool cppi41_configure_channel(struct dma_channel *channel,
+ 
+ 	dma_desc->callback_result = cppi41_dma_callback;
+ 	dma_desc->callback_param = channel;
+-	cppi41_channel->cookie = dma_desc->tx_submit(dma_desc);
++	cppi41_channel->cookie = dmaengine_submit(dma_desc);
+ 	cppi41_channel->channel.rx_packet_done = false;
+ 
+ 	trace_musb_cppi41_config(cppi41_channel);
+diff --git a/drivers/usb/musb/ux500_dma.c b/drivers/usb/musb/ux500_dma.c
+index bbb4978c0cd5f..7b62527ea3f74 100644
+--- a/drivers/usb/musb/ux500_dma.c
++++ b/drivers/usb/musb/ux500_dma.c
+@@ -118,7 +118,7 @@ static bool ux500_configure_channel(struct dma_channel *channel,
+ 
+ 	dma_desc->callback = ux500_dma_callback;
+ 	dma_desc->callback_param = channel;
+-	ux500_channel->cookie = dma_desc->tx_submit(dma_desc);
++	ux500_channel->cookie = dmaengine_submit(dma_desc);
+ 
+ 	dma_async_issue_pending(dma_chan);
+ 
+-- 
+2.43.0
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-
-Alan Stern
-
->  drivers/usb/core/driver.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> index 7f33fe5ba03b..412174270fbf 100644
-> --- a/drivers/usb/core/driver.c
-> +++ b/drivers/usb/core/driver.c
-> @@ -497,7 +497,6 @@ static int usb_unbind_interface(struct device *dev)
->  	} else {
->  		intf->needs_altsetting0 = 1;
->  	}
-> -	usb_set_intfdata(intf, NULL);
->  
->  	intf->condition = USB_INTERFACE_UNBOUND;
->  	intf->needs_remote_wakeup = 0;
-> @@ -644,6 +643,7 @@ void usb_driver_release_interface(struct usb_driver *driver,
->  	} else {
->  		device_lock(dev);
->  		usb_unbind_interface(dev);
-> +		dev_set_drvdata(dev, NULL);
->  		dev->driver = NULL;
->  		device_unlock(dev);
->  	}
-> 
-> base-commit: ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
-> -- 
-> 2.56.0
