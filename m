@@ -1,127 +1,85 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E568445AC8
-	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 08:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B270B34A78F
+	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 08:47:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790930643; cv=none; b=JwzbfmTf8YZQGEDidvfep7AcWZ9rX/R+cQwCeDdSW1YBTsSASL63TwIr67gEZwDn0xHxRyqWiDCdRc+VbADYmp4RhWX16EhttbsXMADGb1bamfoeif9N4gXiBRHD00QrPDE5Q/LoB/CJja5QUOTxkyXrc6t0DL/oYZ0UQ2ldFoE=
+	t=1790930857; cv=none; b=MPJYM8wFACe80KCnaBGainmdD2kESBDIL5+Oj3kJh/Z+ZuzJGwlHnF9Jtm1mEJAavVSM1uPqh1X/uj5Vh5/F0y91+ReiIdEbpAqkOGgqzPlTgo9TxLfsPEqStDpF2+oT3nlg2qUDZTNpi9jGBWfOS8I2obEABc+1VetgAvYQWHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790930643; c=relaxed/simple;
-	bh=VkyfvI4JFYrHbohS/9ZHexkHJcpRb70LNq8ohC/ZJd8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DBaFxoFitM4fGbDZGxemm/dh24fqgQXUBpYHcnw/WiPTTk3nlImQd9cj7ALXqWihg/9lN/oEFodeOMYNok2btVwDbIRqXl9aSTS/d5k0dWhgtZKZr/Btpz+CeqAYIIvCbzlvWyihMhbmRuULEZMa/bQZoRqoWHM41H0NbAisojM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cJMgg6z1; arc=none smtp.client-ip=74.125.225.140
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1790930857; c=relaxed/simple;
+	bh=CfVVsEKQiKUKIdQcsrMCIp1srl6qWTN/O3a/DTTNycc=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eumrpjxjoLNxm4Pk9AEt6GnkKNRXc7oSwKuQdRKVaUC/XxcY0LJG6IPaHa0CpiGIa7JRStqIMTFFM23QUbJ7j0k3QVRZbUj8hUs+WMdJFfTCNPF7A4eLifAJwAN7Cn84eHQqhZalV6ukuZ9PCo4HGQtXSQlkNC9Hx+swlYaQ5Fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKQZ18ZI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cJMgg6z1"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-4a01ff8c098so10855485e9.3
-        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 01:44:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790930640; x=1791535440; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6dhi0KckrbogHHoZX7wC0NbCcVaNRSNuFfvNHe9W2GM=;
-        b=cJMgg6z11PTs1OBryr/rjuGqZpLyP7YtWohyCOP3Buecw5gv3TocVhEGosUGJoYkBC
-         z8NJbsInfV8leY04lT4i4bTu0+SpaW6qHNJz526RhnjxShbUUHCj0i5aVHm9HTBZ0xoz
-         FBCD7Qg91ua7YIqFh2p2MDAcrIcapfdQG/7Qn9zkeappQ8qVqafSeM0LHd58NvysTg8w
-         dGBmcI136PQnyJ//drwfreIbu/wAcpEu6zZZcWiP/8UHxUFdPFS4tCNRvbC6xP+W2jkP
-         b3lUtkKzYtqXmR1CiU42Lr62cevbmTmFQKydhpubO09gf4opqq3B8GFpxWeJYkZFLrNz
-         KDMg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790930640; x=1791535440;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6dhi0KckrbogHHoZX7wC0NbCcVaNRSNuFfvNHe9W2GM=;
-        b=XJ9JlcUUcb2JMXG8U2yrRVdyZUZDvwMD1mh7KRDM+9CELZET5qpOZ2W9qexphUjZfZ
-         VGdmzixEQBNJWd2Uv5nUvwnviNWidAMj/HIE54n5Cc4nF1TeF6TJaCXZZtb5IT86xuxo
-         vUVUNBruGUBKu8WuT0ylyOTcFOqQR81as3LF1yZPwAkIvtgK2iPX2WM7OSFzP5r83Une
-         7wrjnXq9trOoq1meQjDGSQkaFHsU9Z0yllNnCPUN2c9p6QpCi28iw/tMnIUwOwoQWmns
-         iuTxdsDGaDIoY8/wAWjLwHZ7kMs8uZYqmQC09Nbgc9mdPGX8mfWXUQOcHM9Jiu6TonFl
-         4RDQ==
-X-Gm-Message-State: AFuF++nHTprRq5zo68gTuhqgdexQWmORwKvCTO29WbM/0TK5jWi94y0c
-	zTEmPAorIII0R1F6N0IA8vUAjnP/PdZCwrQqybBX5pntgX7Gi6mCSN8V
-X-Gm-Gg: AYBFou1XWEL9FjhYH9dX8S3ZWU9pDvElRTvF2HFgo5nl6L17PtlgpF2zXH9QwDdL+OW
-	WwQeONn3pRrOaAcnrBCXns/BhLmTK0fpFAA3ee7FWRu/lZf34zYSRSj9iyJDRODd4sizE5zfYYU
-	hzE8HKIT+DNUgPuxbVlz5DlO9R/E4wuUj71ciLW0+n9r9Y6y5nuDxJGR6NenJr6oEBk5jZo2cFg
-	bXPa0CisqDUZepy60xDPZBDJc+ntct1xZ29YjAjXHOrAz0iG9P+3m3ONC0r9Y1Tlni3R25vv/sC
-	Zhxa6C5pVopg7VXbM+vr1cbbw5e7hAb1xzTcvpYy8M09rWOexu6vmZzt8muYPItQZWLk+M3+N3e
-	7K85cyn64nzm4xRde1Qj7iYG3HVm4FbcRiZ11xYb59hvash2lY5+7BCOYR4ERo+/bFQgMt8g/mj
-	cxLPP8OEOcU+LFP0K9xjDa1jdUqBKMSd/+h9QQwdeEgDhsOY6Ip1ZgrJ9Ej6STYt5hxnr6WFliJ
-	gqjv71uv2crmxwdkpkV
-X-Received: by 2002:a05:600c:3501:b0:49f:fd40:80fa with SMTP id 5b1f17b1804b1-4a0276b78f7mr35135585e9.34.1790930639550;
-        Fri, 02 Oct 2026 01:43:59 -0700 (PDT)
-Received: from foxbook (bfj133.neoplus.adsl.tpnet.pl. [83.28.47.133])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0394e6c5asm43917315e9.2.2026.10.02.01.43.58
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 02 Oct 2026 01:43:59 -0700 (PDT)
-Date: Fri, 2 Oct 2026 10:43:55 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Dane Linssen <linssendane@gmail.com>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, Mathias Nyman
- <mathias.nyman@intel.com>, Alan Stern <stern@rowland.harvard.edu>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org
-Subject: Re: r8152: RX stops until rebind after -EPROTO on the bulk-in
- endpoint
-Message-ID: <20261002104355.698eaf00.michal.pecio@gmail.com>
-In-Reply-To: <CAM6_QD-CbYSsmic5LhpMi-aMXuC_VaniELBzaBeWO8SWm4UONA@mail.gmail.com>
-References: <CAM6_QD_PoTdwdM7DvzzgHRs-G5EvQu-c5oNGve=GuKV4wFYAvQ@mail.gmail.com>
-	<CAM6_QD_xAyTFVvYKvCrrZmS+fV5DBBje9V=VdkDMMSpt2ussRg@mail.gmail.com>
-	<20260928120343.49e02c07.michal.pecio@gmail.com>
-	<CAM6_QD-CbYSsmic5LhpMi-aMXuC_VaniELBzaBeWO8SWm4UONA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKQZ18ZI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002891F008A1
+	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 08:47:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790930850;
+	bh=CfVVsEKQiKUKIdQcsrMCIp1srl6qWTN/O3a/DTTNycc=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc;
+	b=iKQZ18ZIyT/fVEtc72YDH/BHrYxahKwYj5Nv/ogMFYNMWwydRxf+bEJo0eAIlouLz
+	 vv+AHCWcroFzoGrDwNdvmcrbzBWRYlZ4O1J+kEPxlwMaLW7hrKauTn6H+FNkhPaPcq
+	 pj6Fpgk1IjY5UggfTXjvLK4vVpZFXoi8NerZU45PA4CbQlnM/gWkdqwxi/NIL0ZH4v
+	 BJlZLYmsxbHML7QZHOHXEmjHrx7hcEpauRz6gvNKTXuXRYTgLM2n558pL5NA+QkQ5Z
+	 na1N5MhNIhvEdUO0OQNlP8WVKGR5BBdiPVNf6Szl0sdoJ1HIPTxvcJDYR3oPDMYD/x
+	 35SAKJDoNsszA==
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f15b78so6667255e87.2
+        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 01:47:29 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvByt39xBS8VqBDtnqmNUNzoZdrL7abPWLyndRrLxsV5ZuhSFglYxKWf5sNgZMjKTqHtHiZ0pDclzwc8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJJOrAF0xBX43Q6bXK/04cQv6VHQ9RY+p6c8aksbO9MwIS5T0le
+	RLRPNhpXdIaRD34xPR11yRiYYLYoGXJJwXcf8lPkE7RlZrOG3Jnb3QrTLWjX2kgTGF8jLmIbsnI
+	DBsM4N6N5G4tbz0DE+ItUnrAj2NsTZzX/zRLH+NfVYg==
+X-Received: by 2002:ac2:4301:0:b0:5b8:ea1f:1212 with SMTP id
+ 2adb3069b0e04-5bb9bb034cdmr497464e87.29.1790930848716; Fri, 02 Oct 2026
+ 01:47:28 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 2 Oct 2026 11:47:26 +0300
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Fri, 2 Oct 2026 11:47:26 +0300
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260917-nord-usb-dwc3-dt-v2-1-8f88aa30c434@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260917-nord-usb-dwc3-dt-v2-1-8f88aa30c434@oss.qualcomm.com>
+Date: Fri, 2 Oct 2026 11:47:26 +0300
+X-Gmail-Original-Message-ID: <CAMRc=Mf=Uw549oV0sAdkEKn0YWGbGs3WJDvwT9QT68Wof_M1jw@mail.gmail.com>
+X-Gm-Features: AclHuK9ZnIv7V1GnuyGLwFWZPuYOe9gSpC1LVPzxGkpqRg2LumFl06AulgiqkeU
+Message-ID: <CAMRc=Mf=Uw549oV0sAdkEKn0YWGbGs3WJDvwT9QT68Wof_M1jw@mail.gmail.com>
+Subject: Re: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Document the Nord
+ DWC3 controller
+To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Wesley Cheng <quic_wcheng@quicinc.com>, Shawn Guo <shengchao.guo@oss.qualcomm.com>, 
+	brgl@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 28 Sep 2026 14:48:05 +0200, Dane Linssen wrote:
-> Andrew:
-> As far as I can tell it isn't a regression. The adapter is new
-> (2026-09-17) and has only run 7.2.5 and 7.2.6, which don't differ in
-> r8152 or xhci. e765ab012f73 ("usb: xhci: Improve Soft Retries after
-> short transfers", v7.1) should make it rarer, not more common.
+On Thu, 17 Sep 2026 19:07:00 +0200, Bartosz Golaszewski
+<bartosz.golaszewski@oss.qualcomm.com> said:
+> Add a compatible for the DWC3 USB controller found on the Qualcomm Nord
+> SoC.
+>
+> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> Link: https://lore.kernel.org/r/20260901103300.60803-1-shengchao.guo@oss.qualcomm.com
+> Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+> ---
+> Changes in v2:
+> - Fix the interrupt constraints for Nord: we also require hs_phy_irq
+> - Link to v1: https://lore.kernel.org/all/20260901103300.60803-1-shengchao.guo@oss.qualcomm.com/
+> ---
 
-IDK if it's a regression or not, but the symptoms seem consistent
-with a know problem which exists since forever.
+Greg: could you please queue this for v7.4?
 
-> Michal:
-> > Out of curiosity, what's your xHCI chip?  
-> 
-> Intel Sunrise Point-LP, 8086:9d2f (i5-8250U), so not ASMedia. The
-> other host with the same adapter, which hasn't stalled, has an Intel
-> Comet Lake-LP, 8086:02ed.
-
-OK, thanks.
-
-> > As a bandaid, you could try increasing MAX_SOFT_RETRY or this:
-> > https://lore.kernel.org/linux-usb/20260905101837.4b7849c5.michal.pecio@gmail.com/  
-> 
-> Thank you. Would you like me to try this to gather more data? If not,
-> I already have a userspace watchdog that rebinds r8152 when the LAN is
-> unreachable and the bulk-in endpoint shows virt_state 0x40.
-
-You could try it. We may consider increasing retries in mainline if
-this turns out to solve real world problems. Though so far, in the only
-reported case of 3 retries not working, 10 retries over a span of 100ms
-weren't helping either...
-
-> I only enabled it after the two stalls I reported. In the 19 hours
-> since, including 71 minutes above 5k rx packets/s (peak about 29k),
-> there hasn't been a single "Transfer error" message, and no stall. So
-> nothing random so far. The next stall will show whether it's a burst.
-
-Any results yet?
-
-Regards,
-Michal
+Thanks,
+Bartosz
