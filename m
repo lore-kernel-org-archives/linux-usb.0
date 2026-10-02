@@ -1,42 +1,45 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCEF8472F73
-	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 09:14:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1047847252A;
+	Fri,  2 Oct 2026 09:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790932491; cv=none; b=Fn3cRmKWnockF0gtOGKn24r3cL3IPIx7w4uZWiem0S9MhSD6+Wtm1J6IiwjOmYkqfgqSKO5EVCgUXwoqH5SrAiX2Om+27iIH4lFhngsZhP92SUz5QDWLodfH3cikgYm6YkCGyM83xE4CWZcQcjdfQuM+mAN13PMzw2NpDtdeABo=
+	t=1790933291; cv=none; b=qArIDdDd4uy/QwUdIBqejLj4Uv0o1H2lMNsni5O1EGYW5olJLHRNNBVjjOPFLqWqzyYY6OeXpBhME2M8blwV2E9CqFMf0RJCUWnZPLgDnh9KSayh3R6zRkJzoSLRI3Mov6MeyYIL83GrVqRQ0KWWnvGlfEjF0m91kPx2Q3hkGFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790932491; c=relaxed/simple;
-	bh=HcW33jkZUcdY9LRvAujGSedfeC6LfXiwho99A2N22U0=;
+	s=arc-20240116; t=1790933291; c=relaxed/simple;
+	bh=GhZLFjWh7++VbgqwiZXUPUiSt5lrvUXbGyf0Uee2g/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J5cHgqDM6OCqZUlvXvRPAFEEf7UWn9NEFiW7eOIqtH/OeMyg6NGecylTbzTdm0iNW+Sc3imU1BIizyZsE4HLUupLqOIoHNHLOUrIXsTMNy2B5VKlRwYmz+DPyPiInsHZmg3NwlHi2Fw2cd6NUeDE8uh2nCRHAQ0tvmZ2nYo//7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i5ndShQ2; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=FtgXIfCqX3PJfw4vUZHuRq0L9GPbotfU7My7z1XhmWzgnTaZ+ER1SAm56sDWU27ucBP/HOFHLStKhPLqDuNZE5k5IlTf3P5jckAXMTVvH5p4sUlA676GlMN9BQxKj23qtypPm5tqrbP9ARh9AzlkTqWzVT7jlQ8FMhB6wVayVw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=dHN++6fZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i5ndShQ2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6BC21F0089A;
-	Fri,  2 Oct 2026 09:14:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790932489;
-	bh=o6SSFaPy107rMtmTgpgekLEHJOfvs9NS9z3awxWryAs=;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="dHN++6fZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEE851F00893;
+	Fri,  2 Oct 2026 09:28:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1790933289;
+	bh=MdAeds9Rn5ejHFbGOvaWtfpF3b+9skQtlDhRS0wmEHE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=i5ndShQ2pQFwDu3QFiirqcNg0lrH7IlCWp1oFKEv3DP+tOHh+U91LdfmkXbvEaiuP
-	 waVCWCPrfCCvhUBjW4mfIFfc7e5Jurjo4P6pAReum2ntMvIzehnN/s8eCvPNA0mXTm
-	 gJGv1sZibYKXUqPpnw83DQK6T0qBVBhHNF7M9bzSlIKADwQAwFpYs2ixzsVC/YCXGk
-	 a00Jz+IaLn0ynoBKfqJzyM/DwBBok3V1b2aPkHSWfkyWFgD1kBK+0qbLT8tzp5BiX1
-	 luzidIEbfcAuXl0DRyrEiAw+Klo1lDnN9/WRTOWygunkdKeqvZ0yKgCACZBZJLkl9N
-	 cEqXx69n4+MBg==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xCZLr-00000008qGM-1n9W;
-	Fri, 02 Oct 2026 11:14:47 +0200
-Date: Fri, 2 Oct 2026 11:14:47 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Reinhard Speyerer <rspmn@arcor.de>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: option: add Rolling Wireless RN947R
-Message-ID: <ar92B_dWPdv_wJBY@hovoldconsulting.com>
-References: <arZvlM3mT-pQPHaJ@arcor.de>
+	b=dHN++6fZVpKjXzePoFtLfLd3/MqlUFPLOW1U1e8dt93RSSSgW1q2neMOPMS3mJaHi
+	 pBxoCtzdiDrUe6/lYaZcqjdoEfVUlCUFLCPOmw7rJMglfJFsNmglOaoQkDsQnnQD3c
+	 KRW3OOvNq/x6Z8GWn6YcqU+LxZF4rtj9e9CYv9R8=
+Date: Fri, 2 Oct 2026 11:28:02 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Bartosz Golaszewski <brgl@kernel.org>
+Cc: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>,
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Wesley Cheng <quic_wcheng@quicinc.com>,
+	Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Subject: Re: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Document the Nord
+ DWC3 controller
+Message-ID: <2026100256-enquirer-glorify-c80a@gregkh>
+References: <20260917-nord-usb-dwc3-dt-v2-1-8f88aa30c434@oss.qualcomm.com>
+ <CAMRc=Mf=Uw549oV0sAdkEKn0YWGbGs3WJDvwT9QT68Wof_M1jw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -45,17 +48,26 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <arZvlM3mT-pQPHaJ@arcor.de>
+In-Reply-To: <CAMRc=Mf=Uw549oV0sAdkEKn0YWGbGs3WJDvwT9QT68Wof_M1jw@mail.gmail.com>
 
-On Fri, Sep 25, 2026 at 02:56:52PM +0200, Reinhard Speyerer wrote:
-> Add Rolling Wireless RN947R 0x9300 compositions:
+On Fri, Oct 02, 2026 at 11:47:26AM +0300, Bartosz Golaszewski wrote:
+> On Thu, 17 Sep 2026 19:07:00 +0200, Bartosz Golaszewski
+> <bartosz.golaszewski@oss.qualcomm.com> said:
+> > Add a compatible for the DWC3 USB controller found on the Qualcomm Nord
+> > SoC.
+> >
+> > Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+> > Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+> > Link: https://lore.kernel.org/r/20260901103300.60803-1-shengchao.guo@oss.qualcomm.com
+> > Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+> > ---
+> > Changes in v2:
+> > - Fix the interrupt constraints for Nord: we also require hs_phy_irq
+> > - Link to v1: https://lore.kernel.org/all/20260901103300.60803-1-shengchao.guo@oss.qualcomm.com/
+> > ---
 > 
-> Standard mode: DIAG + ADB + NMEA + MODEM + RMNET + QDSS + ADPL
+> Greg: could you please queue this for v7.4?
 
-> QDL mode:
+Sure, now applied, thanks.
 
-> Signed-off-by: Reinhard Speyerer <rspmn@arcor.de>
-
-Applied, thanks.
-
-Johan
+greg k-h
