@@ -1,339 +1,264 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10BA6361DD0;
-	Fri,  2 Oct 2026 21:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790976015; cv=none; b=I43vSK3yJK7COGxKWYdAH+L2CEUfZ8Luxb+aGHwkAg/hWPnEHrgYKkHNff4n2n6heQtW4Y1FJaL5qYjai61PdaXu23sJ4EGijC/G5b8lKQS3GGX73uKiCDGl2jt2JE6KqbFfUU5Ik73ChVJesPOl/p4MieYlTiaqwqnFsbMrSUw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790976015; c=relaxed/simple;
-	bh=gjMR6beaf47rqyf+59d7Z+WV3uMtl8LTVKm2Znj0X8k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ldTebf29bx22htGtlC227/pPXGekURP5BT/9g0M3R2u14lXv8uQfOfT8AqRybWPdDGSygfec8FDlJJvwFUybdByXctiwCo61RPqju2Sn/GD7J082bxXLEDADUPyaTUxebC9agD6GTxqAWgib2K/InYsR4aDy4dRD27ORZybC2Z8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cpvjpYU4; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AB8B361DD0;
+	Fri,  2 Oct 2026 21:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.158.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1790976482; cv=fail; b=ClYnxypa1sJnFIvdXrJvauqXxMChbWalbN1RpbqI52LSXnHFAUBB0yJmYSCy+eXoV/UzkxWxlNL3OR4woqk3223nk5K5mJoO7TzviRTg0C805dCcqUByEBJOv07cSntolk7BBWHXtmjktvmfImTfCido81LV8v1lCiQG/rGp5C4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1790976482; c=relaxed/simple;
+	bh=j701RY+CvWEKj+Th79nHfwi4EKPNGYRhfGOZPAyS6CI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=QInvhBSO3Oof+StUcp2PVaaKFYlOzWswtr85MEg8C5K8yoiYcT6UBZwYEGE3RtXh7E+NG+nr1WIJujThfJKwW51zpWQEJREhPlXClHRjeBajCowUi7A1SQsZ8X8tWvMuQRU1ILdG2s4D6bXr5QOWBy6SlYkq3MbhfnSgsvGtw4U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com; spf=pass smtp.mailfrom=synopsys.com; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=EQMB6QSn; dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=Hw6ArkxF; dkim=fail (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b=TxgV+qka reason="signature verification failed"; arc=fail smtp.client-ip=148.163.158.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cpvjpYU4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDB781F000FF;
-	Fri,  2 Oct 2026 21:19:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790976013;
-	bh=6ArV7W8I0LsjTzEAaR1K9jy25JeP2SRH+A96kVSZ90A=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=cpvjpYU4u7Gff3gvv+3rEhR5eck+vcIRcWyb1Q+dHkN+MSeRORuVtha97iRPXHZ4O
-	 yTDf1hshmkL2uTTLhiDAtOgt3yqg0tyP1YkMh0cjJG2sPfJmCAYYaO3A8NPCrBCetX
-	 kqA9sl0eq3V1GTT9pUwiQSB6aOj923fkGHl2U4UFSSQ1td0kLJkaMLyiFlav0GFQSi
-	 Otf2qD0/FwFUyC1d6asohtioQF6OYgL36unFXzH67FlHCcr1DrF13KgliXj0YG8Gjs
-	 ad70ETZiFPkGz7LnrN7cr9ICaDAtQarsVZuTam8h5Kar59rQHHdHn6vvxNCqptSlwa
-	 63ZT6YTJ6FBvw==
-Message-ID: <83bf4650-7339-4fc9-89a6-378a327f4f6e@kernel.org>
-Date: Fri, 2 Oct 2026 23:19:32 +0200
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="EQMB6QSn";
+	dkim=pass (2048-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="Hw6ArkxF";
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=synopsys.com header.i=@synopsys.com header.b="TxgV+qka"
+Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
+	by mx0b-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 692L8XHs710613;
+	Fri, 2 Oct 2026 14:27:48 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
+	cc:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	pfptdkimsnps; bh=j701RY+CvWEKj+Th79nHfwi4EKPNGYRhfGOZPAyS6CI=; b=
+	EQMB6QSnwPiKI2Bl+5CNd3Q7Vf/rde44qfDaLinEZx8DfyHCYOrnllIP6Ia5U983
+	0gZPGEiOrNRMppRx3ZMw6vTH0Ea2UJC1VQRw16Ua4r/2Cg5/vo3n2MlBYtZbfL6Q
+	tMu2qO15tmUUKewP22A4+C/LAjzjG5//DiiFqjPBmGaHBvlJMxtfF/X/pvNmuVz0
+	6ddSnZjmIPN1XAojRyvVSC9+1qBw8TNU8eIpc/3mrHi+XXwp2dW6AGXt0z9dP5Md
+	ivbi8Db7m/Z15xZlymT83jiWPEEa2fjk3D0TWMrr20DKmwR00Vqv0/z0lnFdN6AP
+	xTFHwCb5hXUIhXnbvcMicA==
+Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
+	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 4h28qymuck-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 02 Oct 2026 14:27:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
+	t=1790976467; bh=j701RY+CvWEKj+Th79nHfwi4EKPNGYRhfGOZPAyS6CI=;
+	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
+	b=Hw6ArkxFAy7sF+fBDFDyFctnf6zR/FKP22QMxmwjiHfpSLVGE8srNzqLuZFJo1+jg
+	 9EPy2sWhLF+IesIDbyMaSBCN0qdvdBAyMWReSTWyZG0ullSSLRPic/JrzBzVF6TIaW
+	 5lzUrL0ErmqFalqcgmz1oJeg1UoWXMs9ggs6i7NbAjvrvkySbkXOYih2d4r5QV4Pte
+	 gCM39DnfsE5XXVbCR8v0KK9kw1IwdZiUmvEsS97SVN7B7TWjdXbOeMXak/k8N858pS
+	 2Ea/TQtPKV8075t23u6NzGDjpDrcPGjUZnYA7eGmn7w2uhSXkDY7nBuApKWu2EnM7f
+	 emknbMNtbkD+Q==
+Received: from mailhost.synopsys.com (sv2-mailhost2.synopsys.com [10.205.2.134])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 5D559404F0;
+	Fri,  2 Oct 2026 21:27:45 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (sv2-o365relay1.synopsys.com [10.202.1.137])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
+	 client-signature RSA-PSS (2048 bits))
+	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
+	by mailhost.synopsys.com (Postfix) with ESMTPS id DE634A08EC;
+	Fri,  2 Oct 2026 21:27:44 +0000 (UTC)
+Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
+Authentication-Results: o365relay-in.synopsys.com;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=TxgV+qka;
+	dkim-atps=neutral
+Received: from SJ0PR08CU001.outbound.protection.outlook.com (mail-sj0pr08cu00103.outbound.protection.outlook.com [40.93.1.75])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
+	(Client CN "mail.protection.outlook.com", Issuer "DigiCert SHA2 Secure Server CA" (not verified))
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 51EF140235;
+	Fri,  2 Oct 2026 21:27:43 +0000 (UTC)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k7a48EVVnEhnoDmc9YXX4K3ofU6gzLxOP6ty+mp7o5PDBfX0562SwKd5u5g2k/3CFmCIAMnTxQCrn3wqNE1OLqzqRAUh+MPec4/mCgQRcq0ozIRB8Kl1aFrL1NAevSRgFdyZ1Ae0Mr8nOyANQ2kulzgDjcIJgc4yA3EuARhtXKRc4TvjMRgNm1TPrCVeCSuq0kq+DNpCk1xgLq4vF8yyDubrJ4CWV/17G0MEYCoTl3Mx0TpQfxVdt7PH0SLooqucmSvtYnThXF56yPq9OjZ6BQUpFNSKEEJqdQmylE2prgJBPVUWqkm3x2BGLHp+1tlXNHMXwV/RAEhKza2vFf5O3Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j701RY+CvWEKj+Th79nHfwi4EKPNGYRhfGOZPAyS6CI=;
+ b=C7kI9KQONO9ajo7Qdb6GiUbli6g49Wct8QepjtlZCXbLuAY6gzQxYlFgnHIcJnd3IPxLlyBjh/zv6BlX8HHpsMQMGIhaojT3KoItthfxKuEXWe1VubKznOLLPPGU5D0y4JUJ37RUn1lEIWom/ZbgIBnuMcNjgGvaI0Zp7LvSW4Rjwvo6gVbMaVFL1yXP/a2rMq0LZsZs3zcM06oN9puFXguJ3mz/Zi7RpXaG2PrOD/lK2vkrM5VAxmGfYkt85p/PWADw6xoJzIdIqafCIT7S7Rx3LpGQg2JVn7c0/2OrTLBiAufFmCe6HDRPkwvG9UT7AbyUgv8vNohF92xMOnySGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
+ dkim=pass header.d=synopsys.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j701RY+CvWEKj+Th79nHfwi4EKPNGYRhfGOZPAyS6CI=;
+ b=TxgV+qka3wFbIlLKHdol1euEdI9Rroxj155kRS86SQBR8oiqtj7DO4qfPvYR4HdBgbo8AIgcCHM16OGwroBSqqVdjjU764i0oPD5UwRyKC8qe7OFMgILeavi9wXiw3T7IsFZKnEAxHDZ8XnsWayhXiXzIG/pFWDQGr5D2xuEGHk=
+Received: from PH0PR12MB7486.namprd12.prod.outlook.com (2603:10b6:510:1e9::6)
+ by DM6PR12MB4482.namprd12.prod.outlook.com (2603:10b6:5:2a8::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.18; Fri, 2 Oct
+ 2026 21:27:39 +0000
+Received: from PH0PR12MB7486.namprd12.prod.outlook.com
+ ([fe80::7df9:b25e:9216:f109]) by PH0PR12MB7486.namprd12.prod.outlook.com
+ ([fe80::7df9:b25e:9216:f109%6]) with mapi id 15.21.0472.016; Fri, 2 Oct 2026
+ 21:27:39 +0000
+X-SNPS-Relay: synopsys.com
+From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+CC: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+        "michal.simek@amd.com" <michal.simek@amd.com>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v3 0/3] usb: dwc3: xilinx: error path and teardown fixes
+Thread-Topic: [PATCH v3 0/3] usb: dwc3: xilinx: error path and teardown fixes
+Thread-Index: AQHdT0EPhBhDwEnqjU+ZcFqJhC2z1LbqyvYA
+Date: Fri, 2 Oct 2026 21:27:39 +0000
+Message-ID: <asAhNsmiBunddm-W@vbox>
+References: <20260928120015.3152461-1-radhey.shyam.pandey@amd.com>
+In-Reply-To: <20260928120015.3152461-1-radhey.shyam.pandey@amd.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=synopsys.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR12MB7486:EE_|DM6PR12MB4482:EE_
+x-ms-office365-filtering-correlation-id: 02c67e97-3117-495b-49af-08df20cbfc62
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|38070700021|11063799006|5023799004|56012099006|22082099003|18002099003|6133799003|10067099003|4133799003;
+x-microsoft-antispam-message-info:
+ OM7L6vl0YkRb4Q6JJZiIBoMz+6DlR3CKocmmYV4Qj78moQdeqi+H8Qa0QXa8kdWvVn+QQaS9Wk+UMeLtUKrj11QQxaGKQIqhMXvxlp3Cu9y+Lja/AZUqWN4bEtidwhd1DSw4fmPcU1+pwyE0/Sd+E8bUua+8uspSoxvTovFpzxjedrYa7bfKT+RyP/D0NBXoQB4PRJeYz0Z66pc6cUi8ulz/hIpNiiFtaIk7bLDKUA5HypgJfRpga3cB38pCMKeb3p0sgyUScvh3BCZFgKqVnmXRXogWkPpwb3bfFBOIaQfto3nemLwPIrp4Ys00P9xh+P9GAyTBmAZEq+Zjsz6vus59Do3QSxiyQD/E1qqjiZv89Y80YuiZpjJ0ESejEE8gk+CrzC9+EQu+xT4wWXO9kCnRjbVHXUWRKXo8VDGJiEueGgPU8O8hnd7NlTa4ZyIckduqguGrdgdhWMB400YtF9sxKwSaloB4ygwcnd2r7iKY4z7aAi1MrtlJpzogAT4ff5cYo9OiirEVBAIUYia7ubMWktuy2ICcbXrku/gE57vbo+ko3H4uKONz8MXxGBuMc6bs7ArK/Hq869LIxc6WtOjKfT8Tb/TMQRuxHDmrYxd5KxNqU2BjaZbOhRdZMOsEEJy+rclfDsk5+72KiDV/UsGa1g1LbHbdmVlL//N7DilKPUEtb0vBi4E60bxSF9YshBrAvM1Apb+sMoIdLyvXFeyFZLDGcetjbgin+mu/FRM=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(38070700021)(11063799006)(5023799004)(56012099006)(22082099003)(18002099003)(6133799003)(10067099003)(4133799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?V1RXVldpZXFWbUMxT2ZLbHc0c3F3VTBnMWJSZmJkNVNWUTg5U1pNSDlNbTFi?=
+ =?utf-8?B?eERSOU5zejVUUklwbDkxTDE4UU1GOEliaGJMRGVUMUM2M2xjTXdqaFoyWGRP?=
+ =?utf-8?B?M1lYUUlnRWZXRnF2SHRGU3FIakQ0amlFaDdublRuYUdtdzluN1FLV2ZnMktl?=
+ =?utf-8?B?ZHh5UldraFMwME51cGl4SCt3UU9TQ3BPZEhPaHpJUytwSWxldTNERFExS1d2?=
+ =?utf-8?B?T2xvZjlTODdpSFBlNnhlWUJESGlDcnR0WmR4ZjRDTU5nZUp0ejR3bnpaaExS?=
+ =?utf-8?B?WERiUDF6bm9wUDlxbTE4Y0x6RXpHUGxXZ3J1LzlOK3NRY0Z2NGp4OERWZHdV?=
+ =?utf-8?B?cDdwM0xGdWxucVZiZGk5UDNJM0ZFc1JrRlYxR2hSVjdha01ZZmZPYm5jYy9P?=
+ =?utf-8?B?QlVCa3VKcEkySkx4V1NuTXlJb1hyVHh2MldMRi9PY0N5YmpHTXUvZHFWSlZ2?=
+ =?utf-8?B?TTV1RGxRRk81RTRYUWd3ZWc0Rkg1eGZ6SVczVjJJMTJZMW8vTmdwdGtBZXJV?=
+ =?utf-8?B?Ri9kMVJmRCtORWsxSEJ5U0pUQjR1MTJjUGxhRzUyRGV3S1ZGY1ppdzFwQWpx?=
+ =?utf-8?B?aGErcDB3ZHBMV1cvQ0VYZnBQUTVtb3ArTHdaejl3T0lJK0VyVzJpRWR2bW5p?=
+ =?utf-8?B?MUljZ3dFbGxGRisxRGhpdldDWnRRUXRyenJ4VmI5eWhEc2RrU0NoSDRlblFl?=
+ =?utf-8?B?WXh6dCtqMU41UlVFN3ZwR0hqUXpNTVZrNjVaZ3dyZGdXcGt3MUI3dlI0NnVq?=
+ =?utf-8?B?dHNVZE1YL3VEWm1aMXIyaWVKL2g5dTlEdWQyMWlSWWk1WVFsZko0bytaQjBU?=
+ =?utf-8?B?S25LT2tlOHc3NUtGZWdDTHZYWTRiWU9HY0oyNERPT2Z1ZHRmOHArUHBFYWlX?=
+ =?utf-8?B?d1hyQS9WS1o4YXNlR3E2azRpVWhTMUk5WWcrM0Mvd2dHeEpsZ3RQNkxyZXFN?=
+ =?utf-8?B?dENiMndBamxON3JMYUFCT3FvK3BFWUdyTkVyR1RENk9lWXFPVlRZZTgyRGFC?=
+ =?utf-8?B?MktRRXBSVnFpL1phTjVRUUJXdW44NlFKODlnUm1yT1RZU3dPNFVXQUkzN2ZQ?=
+ =?utf-8?B?R1BCNEFZblJESENScHFBeWJCcTBOTjN0allTNVR0ZldoSnp0LzJyOFpUeU9Y?=
+ =?utf-8?B?dzZZcExEK3g4bjhHS2w1K1htSjBGcE80U2ZXZ3VWVkdzN0xqd21KRm9RVTRn?=
+ =?utf-8?B?NVhaT2V1T200U3RXR2hRL1VpQ25Idk9yc2tJSkdRS1d2d1JvM29mU1pIVDRL?=
+ =?utf-8?B?TzJhVFNXVkJxbUxlRjFvVzVCZGRnK2dCTG5Fd3YrL1lFMzg0aFpqckJ6RWQ2?=
+ =?utf-8?B?OSs0enZ5UVI2aFBpMTlTZmZwK29rMW5kNFlXZ0tiS3JlZzNvNWd2REdBZ2x0?=
+ =?utf-8?B?TXVYWmo1cU9GODdzNVF1OGd5T05NNEtyR0VGY2ZUZFJuaFlhWEViMHJiQ05U?=
+ =?utf-8?B?TlpuWm5oeDVhT25KNG5tYXlQd2xOUnpOOTFEWXR1Q1k1OS8vWUxBWjdrOW9L?=
+ =?utf-8?B?YVEwOFg3TTl6RkpsWmpGd0gvRGhxaGQrL1FCM3VjT0l6VGNMY1ZSTEgrL2dN?=
+ =?utf-8?B?Z0Vjdkt1YldtWG91dFArODRyMFJKM25wV2FUMXZCaWp1akVHbVlHNzRPWlN5?=
+ =?utf-8?B?SnYzWDMvWDNSc2F3V2dQUEFnZ2RQYldJOENoUXU4ZVIyci9DRjFENVdJNk1S?=
+ =?utf-8?B?eW43a3ExdjhuRXFPM0g2NTl3L3V5U2lJQ1gyaCtuVXlwWUdSYnRlYm5nWnJO?=
+ =?utf-8?B?aC9mNE1oR3g5VGNJbXRHMGJ2eHc4Um9pLzVoTTM2UkVUdVVyL0tGdXdtb1Qr?=
+ =?utf-8?B?MWM0UDBGNjhkMmhZbzBaTzlSVnRlei9wN0RJcnVRT1cvd0o3dHVGNGxob2Zz?=
+ =?utf-8?B?TGpTZ3grb2R1YVB6S3J3aEpjZ2tLNUxZTy9sMkdDMGNROXZEWGNSKzVlMldO?=
+ =?utf-8?B?aG9hRElWYnp5VjBzd3B5RTBJWjR2Y2tmT0UrNjlKdVd4REJvU2dZSkdkWW1Q?=
+ =?utf-8?B?TW4walR3RHo2NXRpZ1VSRDhOOWxTMG1PdVJxSUFvdm5ua2dnUVJDeUFaQWdB?=
+ =?utf-8?B?dWI0Vm1ON1NRUWxjU2l5bUxMUWswUWR1bzBwbG1rRjd0d0NLZUxYZlgwbzVq?=
+ =?utf-8?B?TzJNNlN2c05aaUpvSkx5b1FCYTViTWJ5NEpEa1N1L2RLWjBkK1R4WldUb0pK?=
+ =?utf-8?B?Wmt1M1hrbkEwcWg4dExlTCtUTjc4TWViQStLRzFvR2QwTndQRzQ1d3dsR1A0?=
+ =?utf-8?B?UGt4UjhVVVdpRzNSNnVQK29wZ09FSS93MkVQbG9haWRudUIzaUx3RkxINGh2?=
+ =?utf-8?B?VWovRjVnamZreFgxT2Q0bmlncW44TVFQRVJZRll4RnBjYmpjcWVVUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4672754C2396C2418851036A02A57F2E@namprd12.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 15/40] mm/vma: add vma[_flags]_is_kernel_owned()
- predicates
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>,
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>,
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>,
- Paul Moore <paul@paul-moore.com>,
- Stephen Smalley <stephen.smalley.work@gmail.com>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>,
- Baolin Wang <baolin.wang@linux.alibaba.com>,
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>,
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>,
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>,
- "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>, Jaya Kumar <jayalk@intworks.biz>,
- Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>,
- Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>,
- Peter Xu <peterx@redhat.com>, Masami Hiramatsu <mhiramat@kernel.org>,
- Oleg Nesterov <oleg@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>,
- Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>,
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin
- <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>,
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Janosch Frank <frankja@linux.ibm.com>,
- Claudio Imbrenda <imbrenda@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
- "David S. Miller" <davem@davemloft.net>,
- Andreas Larsson <andreas@gaisler.com>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>,
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>,
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>,
- Ying Huang <ying.huang@linux.alibaba.com>,
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>,
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>,
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>,
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>,
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>,
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>,
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>,
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>,
- Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org,
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org,
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org,
- fuse-devel@lists.linux.dev
-References: <20260917-b4-mmap-prepare-vma-flag-sanify-v3-0-4583d8a23bca@kernel.org>
- <20260917-b4-mmap-prepare-vma-flag-sanify-v3-15-4583d8a23bca@kernel.org>
- <0623ee06-00e5-421e-a24a-ed605abb559b@kernel.org> <ar_CYfkR5Pfb7J9b@gremlin>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <ar_CYfkR5Pfb7J9b@gremlin>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Exchange-RoutingPolicyChecked:
+	O/zy+zVZeG0Ra3c/rEILo9JIxvzd/NWjx+xWoP6hvUzR2dZiB0Yny1+GTn6HgsAdTlYjIwp4kLceUAfrIM1aTo4eb8HBhAfWNSHH+kYTo0+eEXWAydTtJ0gsWu2hMdq+IHDPQ9CiG9Cvv3hbCIUX7kE0OLhDEhODuZWXF/NQbj1dkq8ddg5a7eFZjLVklHOtM3ddShLFJJilSYWeZn/V41ajpDHsnvZkyo1ZGffEoSUjd34pmZdF4nYDt/v2UxOeurAOBLwtC8vvE5uDgMumAC3HH0BmsbAHqeixr2GuEeOYs19zzP9qFOUjGt/jgXye0osvGR5L2PCxP5WrYt9ANg==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	ruCI2kxUKJAfshtlmXOCHjOKNzZQ9ftxkWOzrtLLNTtuZdTMEmk969JsiVOyMDRE9VIQ7rTv+SAyaSPq1HwRIDn/ovFmJAv5BMbXLB0lMNIcRzMKU2WZloq0U4bEAzJX7famIbqkoqQjoGJG4sMb3oTRFawA92qKBl63LXEo0C4nXmpl5olM0OHJs9HabAi5XCl0frY8nRs7ZqlrtBpcapDkmWrck7N3F++pLJg7XN6hSpAnEbGUWrvMOCP14ar0vGo6CR3T5CTIKx2qGLvMiYo+5juX1WXHS5EZKy0iyIXD0xyq1GZeJcYBUXLDARV/+r3yLSiYWGz25CitoNFWfqMICsVG+TKAxyzrdcuuiyKnbB1ulF0eiIJL5A9VjtLJ1JpODTH1g4QGW3cff5AL3rC+KHzAkuPx9+0txavcRS8eSZ/ZJOsLQIVtWfOE0NWRLok6G0BeeeRNh7co/q7ybyZuu8zrGm6fe4PeA1WyZDJG9pnSRh/1e6O5ffSmuPZKSSrnTGjSKVyZ7rzhh/vAaKfpwsqS5dimZPmowuh/wz+b51JdZhfuBZe/ASTnPBFCd8GJhVJXEMMKWsnicht2qga/r9AKBSA7qJ7NJUy3R6HJAzbtS2C6DEgNGz/pguZSutmobbXv2qk1WfBsPZaytQ==
+X-OriginatorOrg: synopsys.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02c67e97-3117-495b-49af-08df20cbfc62
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Oct 2026 21:27:39.4332
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: xtwhCzcXMCb1MSMEGGR4XQL6mh+8uBbwCLD5wxcL99c5JigtNvy5MfNCdh0CgAzlZnyYogrnspSJrsw3Mxnp7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4482
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAyMDA4NSBTYWx0ZWRfX3KTFwrOfmjtZ
+ hCwwTId71E/+a4IWVf+nKuJ+UvkEHlcz8T9PuKi4rvW68bCQdshXhPNvYtZh+L1oqUgH9i0zqSu
+ 3dS7LZutnYRwQOUK6ht3DGp6pdLSVsI=
+X-Proofpoint-ORIG-GUID: _UuXiNRVK10ZtBL2oz6mkqAD0IYadVGT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAyMDA4NSBTYWx0ZWRfXyAwD8Qb0YKfw
+ jKe7d1+xGIU4otYp4bLGQVpVW5x//3LjuGe0YgYXjQIrMzkHBg9uU3uqNBxK/TcJJRYRgZaNv9P
+ SIddTLUdLRVBUJQOtRvVGsoOpNolAIT8CLP0Hm6KaYoJsSPGEV3s+eq/y2MEzK6ZdtRoBkFWn83
+ dghGaXRT5GWQDyaS9ycmXRB0EeUwRnPzszGzOPx158gTkvDT0ZdlknGJRG5RxDt7KjUaVlusU/n
+ HPcC3lmGwAANtghVvsRc8BnSAfVBbn4lFVdPdL6ifKjiwZC8CWJ4xudal0C51eT5sjoTcpc3h+B
+ MgXb9anY+Cam8g7hxI6lJ9z0mc1qgCFTbEepYpku7GE12P1hXo1e1hg5Oby9Uvx74XD5kC6FRMG
+ ZV6tkEtUu+qdL1mvUxOZkXEdPsQ/MQNNDKdYatG59KYmulJTcornsdkE5O2pVylGCiRRFWOoyRn
+ 2PMhMJwkboVhhp8WVWA==
+X-Authority-Analysis: v=2.4 cv=Vrm2kO2n c=1 sm=1 tr=0 ts=6ac021d4 cx=c_pps
+ a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=qPHU084jO2kA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=jSPayVjLy6xbsuKauFBc:22
+ a=VwQbUJbxAAAA:8 a=zd2uoN0lAAAA:8 a=Lc_GExvxsZFfizQ3bgEA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: _UuXiNRVK10ZtBL2oz6mkqAD0IYadVGT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-02_06,2026-10-02_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
+ policy=outbound_active_cloned score=0 spamscore=0 phishscore=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
+ suspectscore=0 malwarescore=0 adultscore=0 bulkscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2609040000 definitions=main-2610020085
 
->> Of course I have to bitch about the naming :)
-> 
-> Yup :)
-> 
->>
->> Intuitively: kernel owned vs ... user owned?
->>
->> No, it's kernel owned vs core-mm owned.
-> 
-> I would say somebody who does:
-> 
-> 	ptr = malloc(4096);
-> 
-> Would think of that memory as 'owned' by them in the sense that they
-> control the lifetime, they established its attributes, etc.
-> 
-> So indeed, vs. user-owned.
-
-Right, I read "contents of the VMA are owned by the kernel rather than the core
-mm?" and that confused me, because the opposite of the kernel is to me not core-mm.
-
-Maybe it would be clearer to focus on the opposite direction, then we wouldn't
-have to find a word to describe "not core-mm".
-
-> 
->>
->> Which implies core-mm is not part of the kernel?
->>
->> Yes, this is confusing. ;)
-> 
-> I think what you're missing here is what _creates_ or _establishes_ the mapping.
-> 
-> Intuitively, if I do:
-> 
-> 	ptr = kmalloc(GFP_KERNEL);
-> 
-> I, whether I am in the core kernel, or a driver, or whatever own it in any
-> meaningful sense of the word.
-> 
-> I think the issue here is you're confusing this with other things like the
-> rmap and refcounting, etc.
-
-I think it all weirdly interacts.
-
-In !vma_is_kernel_owned(), would we only expect ordinary folios
-(anon/pagecache/hugetlb/dax, maybe shared zero folio)?
-
-That's my best guess looking at
-
-	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
-				  VMA_IO_BIT);
-
-So one option would be to focus instead on that aspect (folios that are managed
-by core-mm vs. random other stuff not managed by core-mm). But thinking about
-it, I'd prefer if we can leave the "folio" bits out, because COW mappings also
-map (some) folios. See below.
-
-> 
-> 
->>
->> I assume you're coming from "map_kernel_pages*", but that's rather "kernel
->> memory" and not "kernel owned".
->>
->> Usually we say "driver owned" when not talking about pagecache/anon. Or user vs.
->> kernel memory.
-> 
-> I think it would only add confusion:
-> 
-> VDSO/VVAR, perf ring buffers, shmem mapped via PFN map, uprobes, etc. are
-> all in this category and I doubt people would consider those driver-owned.
-
-Agreed. They are all special things and won't be folios in the future. (shmem
-mapped through PFN tells us to ignore its folio background and treat it just as
-some PFN range).
-
-> 
->>
->> So is it really all about "is this (excluding CoW) no ordinary user memory that
->> we would track through the rmap" ?
-> 
-> VMA_MIXEDMAP_BIT mappings can be refcounted and rmapped so that's not a
-> correct description.
-> 
-> The distinction is - who put them there and who's allowed to change them
-> and who owns the lifecycle.
-
-Lol, I asked AI for better names and it told me "vma_is_special_mapping()".
-Thanks, I guess.
-
-I assume for the reverse, we really just want to say "just an ordinary core-mm
-vma that you would get from a simple mmap() as long as no weird non-mm drivers
-or subsystems are involved. Core MM fully manages this thing.".
-
-* vma_is_mm_managed()
-* vma_is_mm_controlled()
-
-
->>> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
->>> ---
->>>  include/linux/mm.h              | 56 ++++++++++++++++++++++++++++++++++++++++-
->>>  tools/testing/vma/include/dup.h | 29 ++++++++++++++++++++-
->>>  2 files changed, 83 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/include/linux/mm.h b/include/linux/mm.h
->>> index 2a92193ac6a5..cab29d6e15c1 100644
->>> --- a/include/linux/mm.h
->>> +++ b/include/linux/mm.h
->>> @@ -1612,6 +1612,44 @@ static inline bool vma_is_shared_maywrite(const struct vm_area_struct *vma)
->>>  	return is_shared_maywrite(&vma->flags);
->>>  }
->>>
->>> +/**
->>> + * vma_flags_is_kernel_owned() - Do the specified VMA flags indicate that the
->>> + * contents of the VMA are owned by the kernel rather than the core mm?
->>> + * @flags: The VMA flags to test.
->>> + *
->>> + * A kernel-owned mapping is one whose contents are established and controlled
->>> + * by the kernel, typically a driver, rather than by the core mm's fault and
->>> + * rmap machinery.
->>> + *
->>> + * The mapping may be memory-mapped I/O, kernel-allocated pages or ordinary
->>> + * pages the owner has chosen to map itself (shmem via a PFN map, for instance).
->>> + *
->>> + * In all cases the core mm must not populate, reclaim, migrate, copy-on-write
->>> + * or merge it of its own accord.
->>> + *
->>> + * Pages mapped this way are not necessarily reference counted or map counted.
->>> + *
->>> + * Returns: true if the flags indicate a kernel-owned mapping.
->>> + */
->>> +static inline bool vma_flags_is_kernel_owned(const vma_flags_t *flags)
->>> +{
->>> +	return vma_flags_test_any(flags, VMA_PFNMAP_BIT, VMA_MIXEDMAP_BIT,
->>> +				  VMA_IO_BIT);
->>
->> I thought we have cases where we drivers insert pages and neither set
->> VMA_PFNMAP_BIT nor VMA_MIXEDMAP_BIT.
-> 
-> There were 4 - defio, cmt_speech, uprobes and the bpf arena, and I fixed
-> all of them :)
-
-Great, that helps to identify these things. I didn't look at all patches yet,
-but we should definitely document that.
-
-> 
-> Other than the DAX-only case below of course.
-
-Right, as DAX uses real folios.
-
->>
->> I assume vmf_insert_page_mkwrite() is fine because it is DAX doing it (should we
->> limit this interface to DAX?).
-> 
-> That is a DAX-only thing and DAX is precisely a case that should not be
-> kernel-owned (and isn't!)
-> 
-> This series actually fixes the FUSE case too, restricting this interface to
-> DAX only seems like a sensible follow up as well.
-> 
-> I could also add a patch to this series to do that too if you wanted?
-
-We can do a follow up. Not giving others the chance to abuse these interfaces
-would be great.
-
--- 
-Cheers,
-
-David
+T24gTW9uLCBTZXAgMjgsIDIwMjYsIFJhZGhleSBTaHlhbSBQYW5kZXkgd3JvdGU6DQo+IGR3YzMt
+eGlsaW54IGRvZXMgbm90IHJlbGVhc2Ugd2hhdCBpdCBhY3F1aXJlczogc3lzdGVtIHN1c3BlbmQg
+ZXhpdHMgdGhlDQo+IFVTQjMgUEhZIHdpdGhvdXQgcG93ZXJpbmcgaXQgb2ZmLCB0aGUgWnlucU1Q
+IGluaXQgZXJyb3IgcGF0aHMgbGVhdmUgdGhlDQo+IGNvcmUgcmVzZXRzIGRlYXNzZXJ0ZWQsIGFu
+ZCBuZWl0aGVyIHByb2JlIGZhaWx1cmUgbm9yIHJlbW92ZSB1bmRvZXMgdGhlDQo+IHJlc2V0IGFu
+ZCBQSFkgc3RhdGUgYXQgYWxsLiAgVGhlc2UgdGhyZWUgcGF0Y2hlcyBmaXggZWFjaCBpbiB0dXJu
+Lg0KPiANCj4gQ2hhbmdlcyBpbiB2MzoNCj4gVGhlIHVzYl9yZXNldHNfcmVsZWFzZWQgZmxhZyBh
+bmQgdGhlIHBsdGZtX2V4aXQgcG9pbnRlciBhcmUgZ29uZS4gIFRoZQ0KPiB0ZWFyZG93biBpcyBu
+b3cgYSBkZXZtX2FkZF9hY3Rpb25fb3JfcmVzZXQoKSBhY3Rpb24sIGd1YXJkZWQgb24gdXNiMy1w
+aHkNCj4gc28gaXQgb25seSB1bmRvZXMgdGhlIHJlc2V0IGN5Y2xlIGluaXQgcGVyZm9ybWVkLCBh
+bmQgaW52b2tlZCBleHBsaWNpdGx5DQo+IGJlZm9yZSB0aGUgY2xvY2tzIGFyZSBnYXRlZCBvbiBi
+b3RoIHRoZSBwcm9iZSBlcnJvciBwYXRoIGFuZCByZW1vdmUsIHNvDQo+IC5zaHV0ZG93biBnZXRz
+IGl0IHRvby4NCj4gDQo+IENoYW5nZXMgaW4gdjI6DQo+IFNwbGl0IG91dCBvZiBhIGZpdmUgcGF0
+Y2ggc2VyaWVzIHNvIHRoZSBmaXhlcyBjYW4gYmUgc2VudCBhbmQgYmFja3BvcnRlZA0KPiBvbiB0
+aGVpciBvd24sIGFuZCByZW9yZGVyZWQgYWhlYWQgb2YgdGhlIHBsYXRmb3JtLWRhdGEgY2xlYW51
+cHMuICBQYXRjaA0KPiAzIHdhcyByZXdvcmtlZCBzbyBpdCBubyBsb25nZXIgZGVwZW5kcyBvbiB0
+aGF0IGNsZWFudXAsIGFuZCBhbGwgdGhyZWUNCj4gYXJlIHRhZ2dlZCBmb3Igc3RhYmxlLg0KPiAN
+Cj4gQWxsIHRocmVlIGFyZSB0YWdnZWQgZm9yIHN0YWJsZS4NCj4gVGVzdGVkIG9uIFpDVTEwMjog
+dW5iaW5kIGFuZCByZWJpbmQgY3ljbGUgY2xlYW5seSB3aXRoIHRoZSBkZXZpY2UNCj4gcmUtZW51
+bWVyYXRpbmcgYXQgU3VwZXJTcGVlZCwgYW5kIHJlYm9vdCBpcyBjbGVhbi4NCj4gDQo+IExpbmsg
+dG8gdjE6DQo+IGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczovL2xvcmUua2VybmVs
+Lm9yZy9hbGwvMjAyNjA4MTAxNzQ3MTMuMjMyNTI5Mi0xLXJhZGhleS5zaHlhbS5wYW5kZXlAYW1k
+LmNvbS9fXzshIUE0RjJSOUdfcGchZDRkSDRSWUJSS1lZeFJPLTNNR21ISlo4NlVYTjRKWUd1c3ht
+aFg0akRQTFg2SDVXNjJpTEppTGFjcHRuNVJwNHhSRUgtVnoxSks2eXlMWGM2WGZ1b2I0ZGs3Z29y
+dyQgDQo+IExpbmsgdG8gdjI6DQo+IGh0dHBzOi8vdXJsZGVmZW5zZS5jb20vdjMvX19odHRwczov
+L2xvcmUua2VybmVsLm9yZy9hbGwvMjAyNjA5MjIxODIxMjUuMTEwNjctMS1yYWRoZXkuc2h5YW0u
+cGFuZGV5QGFtZC5jb20vX187ISFBNEYyUjlHX3BnIWQ0ZEg0UllCUktZWXhSTy0zTUdtSEpaODZV
+WE40SllHdXN4bWhYNGpEUExYNkg1VzYyaUxKaUxhY3B0bjVScDR4UkVILVZ6MUpLNnl5TFhjNlhm
+dW9iN29TUHA3S3ckIA0KPiANCj4gUmFkaGV5IFNoeWFtIFBhbmRleSAoMyk6DQo+ICAgdXNiOiBk
+d2MzOiB4aWxpbng6IGZpeCBzeXN0ZW0gc3VzcGVuZCBhbmQgcmVzdW1lIFBIWSBoYW5kbGluZw0K
+PiAgIHVzYjogZHdjMzogeGlsaW54OiByZS1hc3NlcnQgcmVzZXRzIG9uIFp5bnFNUCBpbml0IGVy
+cm9yIHBhdGhzDQo+ICAgdXNiOiBkd2MzOiB4aWxpbng6IHVud2luZCBaeW5xTVAgcGxhdGZvcm0g
+aW5pdCBvbiBwcm9iZSBmYWlsdXJlIGFuZA0KPiAgICAgcmVtb3ZlDQo+IA0KPiAgZHJpdmVycy91
+c2IvZHdjMy9kd2MzLXhpbGlueC5jIHwgMTIzICsrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
+LS0tLQ0KPiAgMSBmaWxlIGNoYW5nZWQsIDEwMCBpbnNlcnRpb25zKCspLCAyMyBkZWxldGlvbnMo
+LSkNCj4gDQo+IA0KPiBiYXNlLWNvbW1pdDogYWJjMzZjYmRhMjlkOGYxOWNmM2E1ODBjZDg2Y2E5
+ZTg2NTE4NmE0MQ0KPiAtLSANCj4gMi40NC40DQo+IA0KDQpJIG1pc3NlZCBzZWVpbmcgdGhlIHYz
+IG9mIHRoaXMgc2VyaWVzLiBMb29raW5nIHRocm91Z2ggdGhlIGNoYW5nZXMgbm93Lg0KDQpUaGFu
+a3MsDQpUaGluaA==
