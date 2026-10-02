@@ -1,107 +1,98 @@
-Received: from sendmail.purelymail.com (sendmail.purelymail.com [34.202.193.197])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4752D0C92
-	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 14:55:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.202.193.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87E5B2D0C92;
+	Fri,  2 Oct 2026 14:56:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790952938; cv=none; b=ilNzLaX7QEOe7FzBUn7Y5ON3f1WZGDI7V9pALgb6FbHd6VqC+VHSxsBkX3ORgRxj4K8t+1CDMfBK78p5btVqaBWQ9rJRClW7trnHGrud0cQXIgTAi4eLIjvlFsG2ikTPEyhsngOLUR4jLpSUSSzsWL8LpgT0Ji17xH8kUS0eKck=
+	t=1790952991; cv=none; b=IFfGxhB0DzDJmodYMnwJf603aPI1UX/8WWViAixkTMwMqJpCHpjbB7GaaUSvzyTw75W6Qf475SZFzZW2Z2DlQ+VHqIjTqIhR0sjreassYI2HCbIQ+3bXp3IShGNGCRYCVYCMkNO8VOsa5F1uIBKxpGzR+YAZf5ID+oSRe1YWL/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790952938; c=relaxed/simple;
-	bh=vL/NAW4pI59cTO2nOfUaBkDeGt8grGQZ57Ks3hj6950=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=toZ7E3rZniS2ZjGEoglbbthVoXqJd6ra2tvOrrQWc9ZIbd6yP20LQwz4kHVqF18pQLGGRdfr8eidIT26Yb2Gua33EksBJyl2ikVeJlJ+OBwYSY2W7R8qM4+Oc/UzqUsnunC6XeJ8LeRieB4gn9ZGJheFQSSsERfGxaoV+HIa5R4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com; spf=pass smtp.mailfrom=korsgaard.com; dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b=Tx9x/W0E; arc=none smtp.client-ip=34.202.193.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=korsgaard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=korsgaard.com
+	s=arc-20240116; t=1790952991; c=relaxed/simple;
+	bh=YACqoRRD/66CKvHTvNeAFase+iU5cFN8XjwLNq5/zV8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rm4qCyS+hYesDy6MXucDV+bmwyEM1O/0bdBshlVy56M278VQwGC6FKWLea2mA+k56Iiz1Y3qtVkNRcEJs61fMkEMZ82IuLMytHcPAYJcCbFFApDwFILs2pDHus0N7W+kOytsN1w3lqSTxnYFETFYWUkvkTpbfAsX3i3w8vJWBnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fM+tQXUe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purelymail.com header.i=@purelymail.com header.b="Tx9x/W0E"
-DKIM-Signature: a=rsa-sha256; b=Tx9x/W0Ef/V8PJllx8oSJRi1Thykxg/0uSCj159+UMQP8FJSGPpWJyxHoZcgwpgnVnFzb67WWxy74iXguH+fd3m0ynIP7myDimbUFWuexpUZCKWeXHk/pMPmSEA+I5/5Fsrhs/+/GULMGru45HqZt8nwKRn6C7s0l+sutVvPxM5kHMYV22lfpVZ2I5z/uQnrPz2Oede0AaFCibImnZgPaodfrgMjtc6w+6Y2YMIEk0oAYNhpQC9ihtxnf/DvKd7+1lwVaxtNH716pkXNXIL12oumdsUbPM1KvDdDTbVzhneNPNad53VpMzGIrXPPPh3XD+9pNB42f4WN+AkUFPcuiw==; s=purelymail1; d=purelymail.com; v=1; bh=vL/NAW4pI59cTO2nOfUaBkDeGt8grGQZ57Ks3hj6950=; h=Feedback-ID:Received:Received:From:To:Subject:Date;
-Feedback-ID: 21632:4007:null:purelymail
-X-Pm-Original-To: linux-usb@vger.kernel.org
-Authentication-Results: purelymail.com; auth=pass
-Received: by smtp.purelymail.com (Purelymail SMTP) with ESMTPSA id -1831802679;
-          (version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384);
-          Fri, 02 Oct 2026 14:55:09 +0000 (UTC)
-Received: from peko by dell.be.48ers.dk with local (Exim 4.98.2)
-	(envelope-from <peter@korsgaard.com>)
-	id 1xCefE-00000009Cqd-0WvU;
-	Fri, 02 Oct 2026 16:55:08 +0200
-From: Peter Korsgaard <peter@korsgaard.com>
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,  Peter Korsgaard
- <jacmet@sunsite.dk>,  Arnd Bergmann <arnd@arndb.de>,
-  linux-usb@vger.kernel.org,  linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: c67x00: fix uninitialized data access
-In-Reply-To: <20261002124558.3495203-1-arnd@kernel.org> (Arnd Bergmann's
-	message of "Fri, 2 Oct 2026 14:45:46 +0200")
-References: <20261002124558.3495203-1-arnd@kernel.org>
-Date: Fri, 02 Oct 2026 16:55:08 +0200
-Message-ID: <871pa8rw37.fsf@dell.be.48ers.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fM+tQXUe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4380E1F000FF;
+	Fri,  2 Oct 2026 14:56:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1790952990;
+	bh=tBvVq/p+7C7hTdIJh3LESmoF+EeGUiLsF68CeaDW2QU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=fM+tQXUekLCVS0caURrlTRbW6sUI2pZw/UW5QlgZ1bQMBWXzRzusHxepO8o+W32zi
+	 qUId1MI+B/mlKyqEOine7A2sUxadSJep9tUqGcJ6kjSKcbepaMagCvDFTANrb9tp8+
+	 VvKYRKO5umrsmHeIvp6/Va4Z+gS2DQYl5wneNgbf2gEuuIsrhlGswtox59jduPjfMA
+	 rO+LstbIBigwjcRNVx4iMATJWQJFfgyAK4f+DLy+bPmnVia8qR/WJ1olJ+90+WcBKt
+	 Tj5loN7pM7k8jPCOFmTANC7nd59ijd8QHaZtwzurPxHln9nKrdMjWPtl9ebM7YP5BD
+	 K4OURa/F0xy0Q==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xCegW-00000009k8A-1OaJ;
+	Fri, 02 Oct 2026 16:56:28 +0200
+Date: Fri, 2 Oct 2026 16:56:28 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Alban Bedel <alban.bedel@lht.dlh.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: Support attaching serdev devices
+Message-ID: <ar_GHJpNwit_wxkQ@hovoldconsulting.com>
+References: <20260917081103.1917665-1-alban.bedel@lht.dlh.de>
+ <2026091739-spousal-linked-2a36@gregkh>
+ <20260917153736.600061de@OMT-CWNXR4TFW5-LHT>
+ <2026091756-unmolded-fructose-a018@gregkh>
+ <20260917172152.1b1cb540@OMT-CWNXR4TFW5-LHT>
+ <aq1RJuZw9MLKIMbl@hovoldconsulting.com>
+ <20260921173712.5b41e1ea@OMT-CWNXR4TFW5-LHT>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260921173712.5b41e1ea@OMT-CWNXR4TFW5-LHT>
 
->>>>> "Arnd" == Arnd Bergmann <arnd@kernel.org> writes:
+On Mon, Sep 21, 2026 at 05:37:12PM +0200, Alban Bedel wrote:
+> On Fri, 18 Sep 2026 16:56:38 +0200
+> Johan Hovold <johan@kernel.org> wrote:
+> 
+> > On Thu, Sep 17, 2026 at 05:21:52PM +0200, Alban Bedel wrote:
+> > > On Thu, 17 Sep 2026 15:08:11 +0100
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:  
+> > 
+> > > > Please read the archives for why we don't want to do this unless/until
+> > > > serdev is "fixed" to properly handle dynamic device removals.  
+> > > 
+> > > All I could find is the "USB-Serial serdev support" thread from last
+> > > year which sadly doesn't provides much details. Like Marco Felsch back
+> > > then I tested disabling/enabling the USB port and didn't have any
+> > > issue, the serdev device get removed and added back just fine. In my
+> > > case the serdev driver provides an I2C bus, all devices on it get
+> > > removed and added back again as well and work just fine.
+> > > 
+> > > I really fail to see an issue in pratice, would you care to explain
+> > > what I'm missing here?  
+> > 
+> > Serial drivers use hangups when tearing down their ports. Serdev does
+> > not support that so the port is shut down underneath the serdev client
+> > while still in use, which can lead to all sorts of issues.
+> 
+> Hangup from modem status are ignored because serdev set C_CLOCAL.
 
- > From: Arnd Bergmann <arnd@arndb.de>
- > Randconfig builds for s390 using gcc-10.5 revealed that the
- > c67x00_ll_husb_init_host_port() writes bogus data into the
- > registers:
+I know since I added that in commit cda64188ca91 ("serdev: ttyport:
+ignore carrier detect to avoid hangups") for this reason.
 
- > drivers/usb/c67x00/c67x00-ll-hpi.c: In function 'c67x00_ll_husb_init_host_port':
- > drivers/usb/c67x00/c67x00-ll-hpi.c:288:3: error: '*(u16 *)((char *)&data+-452)' is used uninitialized in this function [-Werror=uninitialized]
- >   288 |   hpi_write_word(dev, COMM_R(i), data->regs[i]);
- >       |   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> So
+> that only leave the hangup sent when the USB device is disconnected.
+> But in this case, right after the hangup, the tty port device is
+> removed, which in turn remove the serdev device. At this point there no
+> way to comunicate with the tty anymore anyway, so I don't see what
+> signaling the hangup to the serdev device right before it get removed
+> would add.
 
- > I have not seen this error before, but the compiler is clearly correct
- > and the bug has been in the driver since it was added in 2008.
- > This particular build has CONFIG_INIT_STACK_NONE=y and CONFIG_UBSAN=y,
- > but I don't think that alone is sufficient to find the bug.
+You still have a window where the serdev driver is bound to a port after
+its port has been torn down.
 
- > Change this to write zeroes instead, which may still not be what
- > is intended but at least avoids the undefined behavior and the
- > warning about it.
-
-Sorry, I don't have access to the documentation anymore :/
-
-
- > Fixes: e9b29ffc519b ("USB: add Cypress c67x00 OTG controller HCD driver")
- > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-
-Acked-by: Peter Korsgaard <peter@korsgaard.com>
-
-I wonder if we have any users anymore? I have myself not have access to
-any platforms with this cypress controller for the last 10+ years or so,
-so maybe the driver should just be dropped?
-
-
-> ---
- >  drivers/usb/c67x00/c67x00-ll-hpi.c | 2 +-
- >  1 file changed, 1 insertion(+), 1 deletion(-)
-
- > diff --git a/drivers/usb/c67x00/c67x00-ll-hpi.c b/drivers/usb/c67x00/c67x00-ll-hpi.c
- > index 7a214a3a6cc7..3825552dc024 100644
- > --- a/drivers/usb/c67x00/c67x00-ll-hpi.c
- > +++ b/drivers/usb/c67x00/c67x00-ll-hpi.c
- > @@ -306,7 +306,7 @@ void c67x00_ll_set_husb_eot(struct c67x00_device *dev, u16 value)
- >  static inline void c67x00_ll_husb_sie_init(struct c67x00_sie *sie)
- >  {
- >  	struct c67x00_device *dev = sie->dev;
- > -	struct c67x00_lcp_int_data data;
- > +	struct c67x00_lcp_int_data data = {};
- >  	int rc;
- 
- >  	rc = c67x00_comm_exec_int(dev, HUSB_SIE_INIT_INT(sie->sie_num), &data);
- > -- 
-
- > 2.53.0
-
-
--- 
-Bye, Peter Korsgaard
+Johan
