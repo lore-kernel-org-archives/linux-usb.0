@@ -1,132 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8738F51597E;
-	Fri,  2 Oct 2026 17:42:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CB694CDDCC
+	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 18:28:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790962934; cv=none; b=Nvmdw0h8p6gRZvNGCsZaeqPIlHLV52f8IxjwokKeP/iZUG1vzbbPGK/3Q41dbbaHZ0iDTeF8PHzMyrOBR4xR7OvJR9zP+qDTLEWfYWjhOirMHPoXhG0A3OyJBPKWQhInMo1SdikwMDYMbeU/P0iIwy/0LCpq8wPhbPAvYd+77JQ=
+	t=1790965723; cv=none; b=YNcR2bFhlNVWhDExfFyD8P7XPMlPUWUGpr/QIyhWrhJBZl3/TyeUhnIlrRf9U7hxj812JcnwtkjQWz+wXvvnJCO22OBf1oXF03bxMBKILGjlK4dyQIs1y0ooMD4hiUljHS3ywAgbFBqZXMQ/ZrDtMKe92Inp+87/0mawP4C/Nfw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790962934; c=relaxed/simple;
-	bh=ySmUfiueg+zy+uHJkj/4+LaFw5QbXcW3U8cDZXq6jEk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=K1WPWdJ4JKXd82JMJOJWsgbvp08YoT1YjYNhjtdCByfjwgxXd1+og61x7IzYCf5N7ltc826b/pQCki5p7zsmzNJUq2WIsmw/twvfnLYE0up6ZI4TIm+Epnv//uw0OYKc9V/CPnOznOHDSM37z1/w4J7GryuGmzQCS8xINuxeX/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P0z+MKzi; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1790965723; c=relaxed/simple;
+	bh=37xW3bXnNDjppoFLWCR/oa4xzrjQIHEZAETiL9CojqU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oRl80ABBOpyV3LZzC9UvnQeo9VizohPiW15mxHR5vR15pIMvUbH3z5ZeBPI8UIpoj1GI12Wi17dPIYc8IyTgU+GwmHnCnXuLQr1XtFCHTcdBKpV0eIf31/8WP6TsSFCg47+8389VTQwD0dck0aAQ8GzpCLmYEMR0sYHkVCZZX5c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=QIbdlSC1; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P0z+MKzi"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 652D1C2BCF4;
-	Fri,  2 Oct 2026 17:42:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1790962933;
-	bh=ySmUfiueg+zy+uHJkj/4+LaFw5QbXcW3U8cDZXq6jEk=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=P0z+MKziFDI+fli0LhckeQt6diJVIU9cYzj/iHn6no/XHndj1JMuOxLNfVrwQbAUq
-	 WtCsqBqiTLge5RI+hEb4CDdNGtCIqmH8ht9q7RfrieSMcoty/dok6n+EABfeWMk0Nl
-	 TTD0TQbwptIaKFaEtcTNBvR5v3xD9hULAtsKGzOjJtvBs1N/k5MCE36UW5WVLECn5k
-	 HxeJ1Z3tt0TBougGmi7WktKFbUFullW+MK8f35gw/3ykpeT79D1wpGIOtk4VouwQiT
-	 DxiEbtof/V9sYrg4ck6R8ftVuUWraHNahztyAu/O8ZWIKsbPtExHYjuhOjbIYzAY7U
-	 dsmBUPcqaRv1Q==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5122DCA5FC4;
-	Fri,  2 Oct 2026 17:42:13 +0000 (UTC)
-From: Ali Resool Tuama via B4 Relay <devnull+aliresool567.gmail.com@kernel.org>
-Date: Fri, 02 Oct 2026 20:42:12 +0300
-Subject: [PATCH v2] USB: quirks: add USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE for
- GameSir G7 SE
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="QIbdlSC1"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5332bc442ebso1757001cf.1
+        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 11:28:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1790965716; x=1791570516; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=h3hPlfvLElJBAlrqMs6yd7kZHuzl23umtFhgk5gi4Bk=;
+        b=QIbdlSC1cRQKwFgqae5NgVFC9bRdle+DKHpSLYP2vuVydNfJuennMOqTviLZVCMT2I
+         OFFdGgYuZGQXrh6eJ2fPph7Jgt05pCL3/VulnBmI3G3RPbC1xW9Ajw+i3Ok4E0pbQs1N
+         0Rmak8zHWKpkbvlm9c21PgyXvOapm4Bb+44IrNdp9SFdUAJqrr8z49zId3smxN06jiud
+         RZ0Bw95XnR/RfDRPhNwToTZqVJJVUbNvgn+2vGFJzypYobxQjDOi8E6Y2wMXch0CEvKx
+         jZ1cfJOh8ZNf1ezpi3svnsxfLtUkLXtSJtPJJJLfx1q5S7oY92+a9uF920rGCPgs73hY
+         aXpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790965716; x=1791570516;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=h3hPlfvLElJBAlrqMs6yd7kZHuzl23umtFhgk5gi4Bk=;
+        b=J4cbCpUeL7DOze12hkI99OzulAauid22WjhZOQ0OCtlJv93htMWPnBhFK3Ha74LhHi
+         nxzZQEoO+uNWchEMEuTlKwB42q+O5tMbyc7b7YT2jJu7QEFHCjQXaH+ZjLPep2hkiDH0
+         Th80SvGbnAFSJOn6UbD5ZkSgyrSCJKR6hrzvFCIeCZNqSIdEBfhRcmF8lbUkO/QC4jpN
+         YlqNV4kmWHsVAn74cBe3c9sbblsbkjHJZ1vw8fIgZW5fX0i74heZBQxrFj93aw36OvfK
+         hFRTOcuPnYNM4vuH2X0gZVRwkjEKIt+fxbuZJ4TkKW1kw12I197W1k/AlNxYTbqWTWkk
+         bHnw==
+X-Forwarded-Encrypted: i=1; AKwUvBxl/8b0+BFFhz0q8UOc3gMUVjo+JLJ3XZ6QD7H3xZX07iFsQrhUowkU+3zVdqKt8O0+ROWFVYGiY7I=@vger.kernel.org
+X-Gm-Message-State: AFuF++lCFJ1wXt/zhndFaORLJP+g3QKPB5e5i+VQDPgLvpoXc1v3HDqv
+	GJS95E+HY8VrqwezQAxukTjQq97E9om6NcaQvkvxkYlmIfDkhB9nCCSnTncmRWZYtw==
+X-Gm-Gg: AYBFou2F0CblcuLrfxysQg/Tj9fzjTp6OE7f6WXKMkBl5Rl4Gt44pXjiEW1AH7ISFPB
+	xD4lyoSD/p1cet+qdCYbKmBjAliNSvpvYmvjxSou6BwuiZLhznhSSSneNLrdB/wX1jhwGerjW7w
+	S112wIbTuptsd/LQNY7VUpUB6LAnIkLeHyjGsTgXlwF6ilrx/QzzOCXySydpONpEs7Vu4RlC2ND
+	XJ4znW1e3sUjXQUW0DvvLB2TrTdFDCjP7Cx/fiiyzyMQomDLYArfyMqvGkbzTRcqCo7VeLX3vT9
+	y7RQIFxAUs3E2ZZ4wl8TGyjahvyt1E9d5J+a32w+MONfuz1Q9pbwR+J6XFvH2Tti6KxQLL0/Kum
+	HRTaX2uu9AG9QiUJ188rasOhvRvDXfRxpaNjagezrS57WNACmmVkFtonmp+VAMFzKqNjU0GiYyL
+	s5CyMqWUUWrwncSfViyTsEQ+uPfffKWPc3TYDV09b99/b27DnvQNBN2qsQCHai3xpwGFtKmBp7w
+	BXtFIL/UQ==
+X-Received: by 2002:ac8:6f0e:0:b0:532:af50:8d7d with SMTP id d75a77b69052e-53511e71255mr2084371cf.33.1790965715552;
+        Fri, 02 Oct 2026 11:28:35 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::1b7d])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5350d54de14sm7781361cf.20.2026.10.02.11.28.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2026 11:28:34 -0700 (PDT)
+Date: Fri, 2 Oct 2026 14:28:32 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
+	johan@kernel.org, linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org,
+	stable@kernel.org
+Subject: Re: [PATCH] usb: core: don't set drvdata to NULL in
+ usb_unbind_interface()
+Message-ID: <c47f59d7-366a-4588-9742-b6e484c1c996@rowland.harvard.edu>
+References: <20261002145455.3392703-1-dakr@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261002-master-v2-1-24b05d8792b5@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/2WNwQ7CIBAFf6XZs5hCUxBP/ofpAXDbrpFioDaah
- n+X1qPHSebNWyFhJExwrlaIuFCiMBUQhwrcaKYBGd0Kg6iFrLVQzJs0Y2RKa6ta2zQ1SijyM2J
- P7z107X6cXvaObt7WmzFSmkP87E8L37y/6MIZZ1r2/akVmlvRXgZv6HF0wUOXc/4CMf+HZ64AA
- AA=
-X-Change-ID: 20260927-master-799b75b330e6
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- stable@vger.kernel.org, Ali Resool Tuama <aliresool567@gmail.com>
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1790962931; l=2770;
- i=aliresool567@gmail.com; s=20260927; h=from:subject:message-id;
- bh=9ZSSjiM2avTu7kQAcgRfCkpowkxycBnoAQrsblaGhXc=;
- b=k4ZzvnKVBJx+wQg4up7zVG4XrzjB7zf8daV7By0ZeG++iAwrbvWyOA5SianTEDJbYPDJh0VMx
- QroLNjUkNBaDQJCMe30Qo4yDmZJFmklciKHLCtlNWrb+OnaMAhA0Uwj
-X-Developer-Key: i=aliresool567@gmail.com; a=ed25519;
- pk=s/zyZoG6z3JyJokqs9ZIcSAb8PgriZ1QW+mgffBV90w=
-X-Endpoint-Received: by B4 Relay for aliresool567@gmail.com/20260927 with
- auth_id=1071
-X-Original-From: Ali Resool Tuama <aliresool567@gmail.com>
-Reply-To: aliresool567@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261002145455.3392703-1-dakr@kernel.org>
 
-From: Ali Resool Tuama <aliresool567@gmail.com>
+On Fri, Oct 02, 2026 at 04:52:49PM +0200, Danilo Krummrich wrote:
+> usb_unbind_interface() serves as the remove() callback of struct
+> usb_driver and calls usb_set_intfdata(intf, NULL) to clear the bus
+> device private data pointer.
+> 
+> However, the driver core code already sets the bus device private data
+> pointer to NULL in device_unbind_cleanup() *after* devres_release_all(),
+> which makes the call redundant.
+> 
+> In addition, it can create unexpected NULL pointer dereference scenarios
+> when drivers use managed APIs.
+> 
+> 	int probe(struct usb_interface *intf,
+> 		  const struct usb_device_id *id)
+> 	{
+> 		struct data *data;
+> 		int ret;
+> 
+> 		data = devm_kzalloc(&intf->dev, sizeof(*data), GFP_KERNEL);
+> 		if (!data)
+> 			return -ENOMEM;
+> 
+> 		ret = devm_device_add_group(&intf->dev, &foo_attr_group);
+> 		if (ret)
+> 			return ret;
+> 
+> 		...
+> 	}
+> 
+> 	ssize_t foo_value_show(struct device *dev, struct device_attribute *attr,
+> 			       char *buf)
+> 	{
+> 		struct usb_interface *intf = to_usb_interface(dev);
+> 		struct data *data = usb_get_intfdata(intf);
+> 
+> 		/* Potential NULL pointer dereference */
+> 		return sysfs_emit(buf, "%u\n", data->value);
+> 	}
+> 
+> Nothing prevents usb_unbind_interface() to race with foo_value_show()
+> and set usb_set_intfdata(intf, NULL).
+> 
+> Besides that, the Rust driver core code manages a driver's bus device
+> private data and destroys it in device_unbind_cleanup().
+> 
+> If usb_unbind_interface() sets the pointer to NULL prematurely, the Rust
+> driver core code sees NULL, and hence skips the destructor of the bus
+> device private data, which leaks all its resources.
 
-The GameSir G7 SE wired controller first enumerates as 3537:10a0 and
-then re-enumerates in a mode it picks from how the host enumerated it.
+Aren't there a few interface drivers that explicitly set the intfdata 
+value to NULL in their own ->remove() routines?  If you haven't checked 
+for that, you might want to.
 
-When the configuration descriptor is fetched the Linux way, 9 bytes
-followed by the full 80, the controller disconnects about 1 ms after
-its string descriptors have been read, before SET_CONFIGURATION, and
-comes back as 3537:1082, a generic HID gamepad without force feedback.
+> Thus, drop usb_set_intfdata(intf, NULL) from usb_unbind_interface() and
+> move it to usb_driver_release_interface(), which manually calls the
+> remove() callback of struct usb_driver, and hence can't rely on the
+> driver core.
+> 
+> Cc: stable@kernel.org
+> Fixes: a995fe1a3aa7 ("rust: driver: drop device private data post unbind")
+> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+> ---
 
-When the configuration descriptor is fetched in one 255-byte request,
-as Windows does, it comes back as 3537:1010 in Xbox One (GIP) mode,
-which xpad already supports, including rumble.
+Makes sense,  IIRC, that line was added mostly as a convenience for 
+drivers, anyway.
 
-Skipping the device qualifier requests (USB_QUIRK_DEVICE_QUALIFIER)
-makes no difference; the configuration descriptor request size alone
-decides the mode. Add USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE for the 10a0
-identity, as is already done for the ShanWan Wireless Gamepad.
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-Cc: stable@vger.kernel.org
-Assisted-by: claude-opus-5-5
-Signed-off-by: Ali Resool Tuama <aliresool567@gmail.com>
----
-Tested on 7.2.7 (x86_64, xHCI) by setting usbcore.quirks=3537:10a0:r at
-runtime. With it, the controller settles as 3537:1010 on every plug-in,
-is bound by xpad as "GameSir G7 SE", and rumble works through xpad's
-force feedback. Without it, it settles as 3537:1082 every time. The
-patch itself is against v7.3-rc5.
+Alan Stern
 
-usbmon of the 3537:10a0 enumeration without the quirk: GET_DESCRIPTOR
-(CONFIGURATION) with wLength 9, then 80, then string descriptors 0, 2,
-1 and 3. The port reports a disconnect about 1 ms after the serial
-number string, and the SET_CONFIGURATION that follows fails with
--EPROTO. With the quirk, the only difference is a single wLength 255
-configuration request, after which the device re-enumerates as
-3537:1010.
----
-Changes in v2:
-- Use my full real name in From: and Signed-off-by:
-- Link to v1: https://patch.msgid.link/20260927-master-v1-1-96ff85291b25@gmail.com
----
- drivers/usb/core/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index b5b577f..a4bcbe9 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -612,6 +612,9 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* ezcap401 - BOS descriptor fetch hangs at SuperSpeed Plus */
- 	{ USB_DEVICE(0x32ed, 0x0401), .driver_info = USB_QUIRK_NO_BOS },
- 
-+	/* GameSir G7 SE */
-+	{ USB_DEVICE(0x3537, 0x10a0), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
-+
- 	/* DELL USB GEN2 */
- 	{ USB_DEVICE(0x413c, 0xb062), .driver_info = USB_QUIRK_NO_LPM | USB_QUIRK_RESET_RESUME },
- 
-
----
-base-commit: fd179f8a05be3ccae366b9b96e176b51fbe54aab
-change-id: 20260927-master-799b75b330e6
-
-Best regards,
---  
-Ali Resool Tuama <aliresool567@gmail.com>
-
-
+>  drivers/usb/core/driver.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+> index 7f33fe5ba03b..412174270fbf 100644
+> --- a/drivers/usb/core/driver.c
+> +++ b/drivers/usb/core/driver.c
+> @@ -497,7 +497,6 @@ static int usb_unbind_interface(struct device *dev)
+>  	} else {
+>  		intf->needs_altsetting0 = 1;
+>  	}
+> -	usb_set_intfdata(intf, NULL);
+>  
+>  	intf->condition = USB_INTERFACE_UNBOUND;
+>  	intf->needs_remote_wakeup = 0;
+> @@ -644,6 +643,7 @@ void usb_driver_release_interface(struct usb_driver *driver,
+>  	} else {
+>  		device_lock(dev);
+>  		usb_unbind_interface(dev);
+> +		dev_set_drvdata(dev, NULL);
+>  		dev->driver = NULL;
+>  		device_unlock(dev);
+>  	}
+> 
+> base-commit: ce1e0223d8ad4211275c82a17ed6d43ab81e13d9
+> -- 
+> 2.56.0
