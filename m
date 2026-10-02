@@ -1,120 +1,105 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f33.google.com (mail-wr2-f33.google.com [74.125.225.97])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF041463B9E;
-	Fri,  2 Oct 2026 14:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C12D433F8BE
+	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 14:18:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.97
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790950151; cv=none; b=jJaV7E2+2Zg8I7mT0iXnbyoSyipgkpW0TaCbUJHuFtNV9NNSAhQm2Uww301qhV2vDMfUD9P05IFic3CSFAcutNOn3cj8A+RKBVqmgj+x7E8lD0Zfp6+pDxKTeOGF06vgvgb687//ZSRCvDLNZ8/Z1aoVo4VIwuSW1qgOL6q5UnM=
+	t=1790950716; cv=none; b=EKUrjWvJsKzLHDnGNctmdQO9TpdPDZUPumQk7L6uZ/uePhErlFM5E2jITjxfBJBIEvIOgfRt18SIOD3PxMCgxNVUVY3r7dMmbNHdyB7ts80zzhs6lcnYYLPwa+rQ1Rshhw7ZXXjGESTcrafL/V54OtVrw18IR+1lrbXvzbD6jnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790950151; c=relaxed/simple;
-	bh=VW6pcePcRlI72M5Vfcqm9dIYw63uj7dH9+daT8hg/Sk=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=NP9RWuDuVgmWuhu9nZHW1fH5HRJTkriC88ooC2T2CfiUdU/Znp1pVhGDTtgqFIwkIGDDc7Yzuou+XRia8zJsLNeDa/Hu4Gl0YyrY5qEuAaeWNmIIKpD0gLPOPJxGlSyy0R1juLnXldip4Men1WohLqE0Tzyh0Tu6DpvBTufItoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=VJn4YHzZ; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1790950716; c=relaxed/simple;
+	bh=mVrY1h4VM0WjmBdXQxbCJ0p4pbr64cOHAzGY03MhcDE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=INypjMUvP2cjaB38UQr9V8dd6f/XhKI3+LU8XEgfl9Yg1MV6t02aEnSnyCglAiAMWdZ4hCSlqUzRQeDRXwjo+Yj5kfsHMf5GYjlDv/Y/HzbBcEa/q9MJoghISr2ySkpfPKNTp8DafgEnetlXPQNUnsl0h4Ahq0c9frigrgppRLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q6YZesFD; arc=none smtp.client-ip=74.125.225.97
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="VJn4YHzZ"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 692DZVIK3589626;
-	Fri, 2 Oct 2026 14:08:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=+Qeduu
-	Uw5LpHQ345ca40vnpPjWJATrD5A7Na+tqld8Q=; b=VJn4YHzZKVd5f5N3xCRPuW
-	S978Ud8JNG8ViXLTRo5DIqeuNICywF9zhy9XLM0+5KdUnFYKH8tRTjXT1TjGJ85U
-	JC5ItCf4zJS/JDm8f0+SWDG26DzFcmU8fQtVrzlaxChkPOQ5Jl8PzwDKLXSBH+SV
-	Xjgwc7ttDoL6Trk/7xlMhr2XOUGLDfS0wXX0Sv9fsjYGGewbZD9KKVgNaliAbBGU
-	fiQqTAidvrHKqxTt2ya3o9vM66J9sY8r8imVOfneOnxKayWBHkSIL0xLpuI5h1q8
-	RMyG32WFKv9WjOkskIonMYqZRVktzCW1saRMdUOnDu8eNA4UObRazXkYKioY2z4A
-	==
-Received: from ppma12.dal12v.mail.ibm.com (dc.9e.1632.ip4.static.sl-reverse.com [50.22.158.220])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4gx4fer83g-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 02 Oct 2026 14:08:58 +0000 (GMT)
-Received: from pps.filterd (ppma12.dal12v.mail.ibm.com [127.0.0.1])
-	by ppma12.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 692DHiFb2576808;
-	Fri, 2 Oct 2026 14:08:57 GMT
-Received: from smtprelay04.wdc07v.mail.ibm.com ([172.16.1.71])
-	by ppma12.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h1xk133xp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 Oct 2026 14:08:57 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (smtpav06.wdc07v.mail.ibm.com [10.39.53.233])
-	by smtprelay04.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 692E8v7O64422324
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 2 Oct 2026 14:08:57 GMT
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id F393C5804E;
-	Fri,  2 Oct 2026 14:08:56 +0000 (GMT)
-Received: from smtpav06.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 252955803F;
-	Fri,  2 Oct 2026 14:08:56 +0000 (GMT)
-Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
-	by smtpav06.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  2 Oct 2026 14:08:56 +0000 (GMT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q6YZesFD"
+Received: by mail-wr2-f33.google.com with SMTP id ffacd0b85a97d-48b104f6aa3so942176f8f.0
+        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 07:18:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790950713; x=1791555513; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oTJy/ywZsqawpC6LBguje6pTwsPWoUHyJE3z7+IKeVI=;
+        b=q6YZesFDi5uMMqqbXWa8QDGczU9asq1NfZ31hoJ0lni0yjpmGYbXuq/rerDQ3b3osL
+         H8HveP23Kpu9GxvwycevHrPr27hqZSJ47MjS+8RlopyKrX9ipfsD2kClT3Ni6uFSK3iE
+         QuYVl7lycZiik+dLIXll9mx9R+xISVo52LMwy5tjrO2gN68JFLuma24IY2vUPGrHEjy2
+         7uvrbzbfFA4Au12PgdRAzldKbBPe/8THy/9guSsoPUL+HJBnk4nWAeKr/bOLrcj8zfY8
+         kqk8B3a0qBhmDcY1mdJgnNUT3qslkq4VD9pSl/izsfwed5as+7YgpW0Qyk9dIhAonNYI
+         OY+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790950713; x=1791555513;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oTJy/ywZsqawpC6LBguje6pTwsPWoUHyJE3z7+IKeVI=;
+        b=TT+kTKvUFQBK8xuScUcIQxIJG2728n5p+SSp7m0JnxocYr6jZTWo8RnYBjaPChRkT9
+         Sc8vN6IdWUXjH3zrg69rLM/7M1jNG6mrk5kJg6VKIW6hDlPAetrwyz/MDxL/2dBBOYL0
+         WPi7bRVrOegxWR12yx6w9jKPizZB5zG/yteYGJ9POUbDeXt0qUJ/6NHCCBAIpT956fyI
+         Pu+bxlfN3X0OrrMfD1NBC5kSOuRRpEjbzV6LRYjBr4MItAJG0xDkAcep4raWxcAbZK0z
+         D5KQzOyag2lR48PZYGiaJzkXIDyotVxqJx4K0w2Iylf/7vbwZEtVBtUxwfPcTEpKI/nY
+         VcPA==
+X-Forwarded-Encrypted: i=1; AKwUvBwhSozSD2VB0U4rzt/OmS0VLfEb8jpPGAf2NnC788rf4VmzoSA2lDecVFUKGJOx9UpCLTImqunx1Po=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKxDmWBfLpwTOIUO/4/GaNtPbvh2r+IQNv/ZHOCed90MoQ2+QNH
+	oGM0Q4xhLPlwUGXYMycJz/UZIrYkaGLN+GRo6GtHf/LmnoJbCOcxI4Q1
+X-Gm-Gg: AYBFou27SkosFu+akUMUOottsBqYWk0kbBTvOz+UjN8q6LFd2y/Ea7/BQLxvXGnjlye
+	38Ifv2Apjw+Abx9UEIx4x5LV79C9bdhNT7zA718KX4kySVELlaB2b0Fsyf1wlZxvq/9knvcisgr
+	winsCU7CID0fikzusLybV0fJ5Cr57IP5D+KByCMnWIvYz8ARx2eSoYRUezA/bCWHNgTXfTKNsEm
+	tYbubW3YsDjaQ73lWu7QMmZ5Kft9HpK1s512mNearLPfWqfbQXEzUPNgaSUL2KqTFAJB1tEgNIH
+	An6ON3AGK+rPxVKMe/gM4+fyoxwEkyUH36FKbs4MKj54ozz0OQNpaMXOl2KUFTb5FPzD8dzyNXH
+	3Ay0u2QDPS+qhSfKZ5VfOvsXb1my2l3DmfIxd3uCjVEEZZLSUyhfUgbkGpRvOC1aOYugYKCDBBN
+	m33XmHTn2W1XEB+xlCHmzXevcMLi7AMVD01m+9bnDLoLNUlufVDfHLhLCb2ajghivCMPmH9FXYc
+	CfF6IHdgQ==
+X-Received: by 2002:a05:6000:40ca:b0:48b:ef1:3101 with SMTP id ffacd0b85a97d-48b12754490mr4958512f8f.19.1790950712668;
+        Fri, 02 Oct 2026 07:18:32 -0700 (PDT)
+Received: from foxbook (bfj133.neoplus.adsl.tpnet.pl. [83.28.47.133])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b380fada5sm5684961f8f.24.2026.10.02.07.18.31
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 02 Oct 2026 07:18:32 -0700 (PDT)
+Date: Fri, 2 Oct 2026 16:18:28 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Wen Xiong <wenxiong@linux.ibm.com>
+Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, wenxiong@us.ibm.com, Brian King
+ <brking@linux.vnet.ibm.com>, Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+ Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH] xhci: Reset controller on xhci shutdown
+Message-ID: <20261002161828.365ff859.michal.pecio@gmail.com>
+In-Reply-To: <561d22493c3d078b26f547dd8f6f6f46@linux.ibm.com>
+References: <20261001222527.11742-1-wenxiong@linux.ibm.com>
+	<20261002102931.3cb06009.michal.pecio@gmail.com>
+	<561d22493c3d078b26f547dd8f6f6f46@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 02 Oct 2026 09:08:55 -0500
-From: Wen Xiong <wenxiong@linux.ibm.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        stable@vger.kernel.org, wenxiong@us.ibm.com,
-        Brian King
- <brking@linux.vnet.ibm.com>,
-        Samuel Mendoza-Jonas <sam@mendozajonas.com>,
-        Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH] xhci: Reset controller on xhci shutdown
-In-Reply-To: <b43b9d21-4134-4e4c-89d8-f867207b125e@linux.intel.com>
-References: <20261001222527.11742-1-wenxiong@linux.ibm.com>
- <b43b9d21-4134-4e4c-89d8-f867207b125e@linux.intel.com>
-Message-ID: <3d04f9132ddedae73ba96de428801db9@linux.ibm.com>
-X-Sender: wenxiong@linux.ibm.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=FYWiV5+6 c=1 sm=1 tr=0 ts=6abfbafa cx=c_pps
- a=bLidbwmWQ0KltjZqbj+ezA==:117 a=bLidbwmWQ0KltjZqbj+ezA==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=V8glGbnc2Ofi9Qvn3v5h:22 a=mhd8ySKZzU042aZgE0sA:9
- a=CjuIK1q_8ugA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAyMDA1NiBTYWx0ZWRfX5vYlPEVZQhee
- /AdJo/f1/RdD8rTdhbYNX43/9Wj7wLrcw/OpfX4Zp+TZ0UNApBeeu91Jyr5wcequAhhzCv84bZN
- ZGU5PxCknDF/Rxgol8h39Vg6QlwldJA=
-X-Proofpoint-ORIG-GUID: bcqIDO5gLkyh2AHD24Z9cq_bR_kemMDU
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAyMDA1NiBTYWx0ZWRfX08T693Zm07bi
- sowIbHHLpfKzeHu8zvfILU5JkR8CiNIJs7+p/SZmNdjmbWNhRirsWHaKJNLmo8H6qfzIe7m1H9w
- HdqvJxMxzuulJHAokiRVMV04+UvwSZMpdF7y9miDqMIH7dKNTEU9AE+Igi86vTuCpSp15uLwVeN
- SfmQVoT0HbbSqf/lTqNlU7teNvJKpyvM8L5e2MCKibHs3USXHiY+TAEqjNp2OR+zTP2jz99mx1Z
- CrQH1vkFavWRChJgXJSsfn1u50qzbyunQY5YWKF5BLlifecR639ntW/rsJ17FaGb1re+Q3ZDY6d
- rfEHKHDgHUoOXLnfC88xhddxd93x2geDZX+aULaxH5+Wp/vnJCf619R0jHxDxQ7+++jCZkO+qGw
- l/Z5fkOaY2KtiVWezCPFzf7luuMXjoMJNm+mi2Boa74YicwfGNC3JNivkUOo8J2AvNuKoO7OX/z
- 3c0Ky9GEWtgSSyKo6Jg==
-X-Proofpoint-GUID: bcqIDO5gLkyh2AHD24Z9cq_bR_kemMDU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-02_04,2026-10-01_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1011 impostorscore=0 spamscore=0 phishscore=0
- priorityscore=1501 malwarescore=0 bulkscore=0 lowpriorityscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2610020056
 
+On Fri, 02 Oct 2026 09:05:36 -0500, Wen Xiong wrote:
+> On 2026-10-02 03:29, Michal Pecio wrote:
+> > What exactly happens after kexec?
+> > Why a PCI reset in particular?
+> > Are we sure it's not a bug elsewhere?
+> >   
+> After executing a kexec boots on a bare metal machine, the USB 
+> controller disappeared.
 
-> Should be added to xhci-pci.c: xhci_pci_shutdown() instead.
-> 
-> Probably also limited to that specific TI xHC controller
-> 
-Hi Mathias,
+Sure, but what does it mean exactly?
+Not even showing up in lspci output?
 
-I will try that.
+Is this our problem and not PCI subsystem's?
+Are we sure it's not a bug elsewhere?
 
-Thanks,
-Wendy
+(Last time somebody reported issues with kexec,
+it turned out to be an obscure Intel IOMMU bug).
+
+Regards,
+Michal
