@@ -1,85 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B270B34A78F
-	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 08:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBF73BED55;
+	Fri,  2 Oct 2026 08:49:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790930857; cv=none; b=MPJYM8wFACe80KCnaBGainmdD2kESBDIL5+Oj3kJh/Z+ZuzJGwlHnF9Jtm1mEJAavVSM1uPqh1X/uj5Vh5/F0y91+ReiIdEbpAqkOGgqzPlTgo9TxLfsPEqStDpF2+oT3nlg2qUDZTNpi9jGBWfOS8I2obEABc+1VetgAvYQWHE=
+	t=1790930974; cv=none; b=WRduyv6y+4ZqgsC1PJceh6QcnDIGnIc8z7ReVmiYwdBSCRZQMtZvLQslCvzf0/mqr8NJRKtgpLP3axBtqCtPOjeVBwGSlPZr/gZneLtuEan8hqeXAwGrNb6JM6rFM1wzzhp+76G+b7zkGquZzmEgsCK+/DIwZk6l6kJtxGFMI18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790930857; c=relaxed/simple;
-	bh=CfVVsEKQiKUKIdQcsrMCIp1srl6qWTN/O3a/DTTNycc=;
-	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=eumrpjxjoLNxm4Pk9AEt6GnkKNRXc7oSwKuQdRKVaUC/XxcY0LJG6IPaHa0CpiGIa7JRStqIMTFFM23QUbJ7j0k3QVRZbUj8hUs+WMdJFfTCNPF7A4eLifAJwAN7Cn84eHQqhZalV6ukuZ9PCo4HGQtXSQlkNC9Hx+swlYaQ5Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iKQZ18ZI; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1790930974; c=relaxed/simple;
+	bh=YN0wOfl6bDY8nqUj5Q/9V9fQKfz4SuIc2QBNbMndnaU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qgs/y03T6IypxSQ58DrSzyvkuE1c2UnbOkwuBb5j+750aAucl6e7g5xkYAJ6sN14ou5g9m4VgGHTPwNXn8n38/4E43C0L5HS/5lWdRcKoo6r+kOM538oGcYahlNGPWaQE2F7K9L0XAM3EcDblHBOJnaep8iEfBBS4WYEnIVOKus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewr6WtPx; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iKQZ18ZI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002891F008A1
-	for <linux-usb@vger.kernel.org>; Fri,  2 Oct 2026 08:47:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1790930850;
-	bh=CfVVsEKQiKUKIdQcsrMCIp1srl6qWTN/O3a/DTTNycc=;
-	h=From:In-Reply-To:References:Date:Subject:To:Cc;
-	b=iKQZ18ZIyT/fVEtc72YDH/BHrYxahKwYj5Nv/ogMFYNMWwydRxf+bEJo0eAIlouLz
-	 vv+AHCWcroFzoGrDwNdvmcrbzBWRYlZ4O1J+kEPxlwMaLW7hrKauTn6H+FNkhPaPcq
-	 pj6Fpgk1IjY5UggfTXjvLK4vVpZFXoi8NerZU45PA4CbQlnM/gWkdqwxi/NIL0ZH4v
-	 BJlZLYmsxbHML7QZHOHXEmjHrx7hcEpauRz6gvNKTXuXRYTgLM2n558pL5NA+QkQ5Z
-	 na1N5MhNIhvEdUO0OQNlP8WVKGR5BBdiPVNf6Szl0sdoJ1HIPTxvcJDYR3oPDMYD/x
-	 35SAKJDoNsszA==
-Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b5e4f15b78so6667255e87.2
-        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 01:47:29 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvByt39xBS8VqBDtnqmNUNzoZdrL7abPWLyndRrLxsV5ZuhSFglYxKWf5sNgZMjKTqHtHiZ0pDclzwc8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJJOrAF0xBX43Q6bXK/04cQv6VHQ9RY+p6c8aksbO9MwIS5T0le
-	RLRPNhpXdIaRD34xPR11yRiYYLYoGXJJwXcf8lPkE7RlZrOG3Jnb3QrTLWjX2kgTGF8jLmIbsnI
-	DBsM4N6N5G4tbz0DE+ItUnrAj2NsTZzX/zRLH+NfVYg==
-X-Received: by 2002:ac2:4301:0:b0:5b8:ea1f:1212 with SMTP id
- 2adb3069b0e04-5bb9bb034cdmr497464e87.29.1790930848716; Fri, 02 Oct 2026
- 01:47:28 -0700 (PDT)
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 2 Oct 2026 11:47:26 +0300
-Received: from 969154062570 named unknown by gmailapi.google.com with
- HTTPREST; Fri, 2 Oct 2026 11:47:26 +0300
-From: Bartosz Golaszewski <brgl@kernel.org>
-In-Reply-To: <20260917-nord-usb-dwc3-dt-v2-1-8f88aa30c434@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewr6WtPx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1790930971; x=1822466971;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=YN0wOfl6bDY8nqUj5Q/9V9fQKfz4SuIc2QBNbMndnaU=;
+  b=ewr6WtPxd1KcfTkOjEaFKJyKc75/Y9ggUa++rwzPuGuLMr3O1e/yacA1
+   VKr5tDSI4xVYOR2ZIA3Ycav/DngT2j0am5uNJgSb+8oa81mVzE4zEHLwD
+   qfYWzEim4TYvdnC3zjvfndlX7ou3RRBKdL7oHL/O265n8uzck6EGZlUdh
+   8Wap/KlXI/k3oAnxiXUniRw8YrFmzbPieF7qOcswHhvsZ/7e+9C6UNEwK
+   +AOGQHQQSUtQjT9vGaO1R3JH8YLKBXieZCydptiwlph1nkdjBYzDxtRZV
+   0hWYRdsBhbd7ETibOzjinoQm2PEuuuEdi0ImuOxy67bSWi8uKe5TquVMF
+   Q==;
+X-CSE-ConnectionGUID: 36XcxpI7QJy8kA/qQnaUjA==
+X-CSE-MsgGUID: VCaKetnRQFCxYkZgEKvXUQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11922"; a="102219845"
+X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
+   d="scan'208";a="102219845"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2026 01:49:30 -0700
+X-CSE-ConnectionGUID: EzkXN5aeRSCVrzI5i6k/hQ==
+X-CSE-MsgGUID: jPdD+Ty8Tqyt/zWixcl59g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,136,1787036400"; 
+   d="scan'208";a="276262414"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa009.jf.intel.com with ESMTP; 02 Oct 2026 01:49:22 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id F042199; Fri, 02 Oct 2026 10:49:20 +0200 (CEST)
+Date: Fri, 2 Oct 2026 10:49:20 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Petr Pavlu <petr.pavlu@suse.com>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>,
+	H Hartley Sweeten <hsweeten@visionengravers.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Rudolf Marek <r.marek@assembler.cz>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Chris Snook <chris.snook@gmail.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Marek =?utf-8?B?QmVow7pu?= <kabel@kernel.org>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Duncan Sands <duncan.sands@free.fr>,
+	Chas Williams <3chas3@gmail.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
+	linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-atm-general@lists.sourceforge.net,
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] drivers: Replace __MODULE_STRING() with
+ __stringify()
+Message-ID: <20261002084920.GF176164@black.igk.intel.com>
+References: <20261002-module-string-v2-0-fc7438acaf4d@suse.com>
+ <20261002-module-string-v2-2-fc7438acaf4d@suse.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260917-nord-usb-dwc3-dt-v2-1-8f88aa30c434@oss.qualcomm.com>
-Date: Fri, 2 Oct 2026 11:47:26 +0300
-X-Gmail-Original-Message-ID: <CAMRc=Mf=Uw549oV0sAdkEKn0YWGbGs3WJDvwT9QT68Wof_M1jw@mail.gmail.com>
-X-Gm-Features: AclHuK9ZnIv7V1GnuyGLwFWZPuYOe9gSpC1LVPzxGkpqRg2LumFl06AulgiqkeU
-Message-ID: <CAMRc=Mf=Uw549oV0sAdkEKn0YWGbGs3WJDvwT9QT68Wof_M1jw@mail.gmail.com>
-Subject: Re: [PATCH v2] dt-bindings: usb: qcom,snps-dwc3: Document the Nord
- DWC3 controller
-To: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Wesley Cheng <quic_wcheng@quicinc.com>, Shawn Guo <shengchao.guo@oss.qualcomm.com>, 
-	brgl@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261002-module-string-v2-2-fc7438acaf4d@suse.com>
 
-On Thu, 17 Sep 2026 19:07:00 +0200, Bartosz Golaszewski
-<bartosz.golaszewski@oss.qualcomm.com> said:
-> Add a compatible for the DWC3 USB controller found on the Qualcomm Nord
-> SoC.
->
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
-> Link: https://lore.kernel.org/r/20260901103300.60803-1-shengchao.guo@oss.qualcomm.com
-> Signed-off-by: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-> ---
-> Changes in v2:
-> - Fix the interrupt constraints for Nord: we also require hs_phy_irq
-> - Link to v1: https://lore.kernel.org/all/20260901103300.60803-1-shengchao.guo@oss.qualcomm.com/
-> ---
+Hi,
 
-Greg: could you please queue this for v7.4?
+On Fri, Oct 02, 2026 at 10:31:02AM +0200, Petr Pavlu wrote:
+>  drivers/thunderbolt/tb.c                              |  3 ++-
+>  drivers/thunderbolt/tunnel.c                          |  5 +++--
 
-Thanks,
-Bartosz
+For Thunderbolt,
+
+Acked-by: Mika Westerberg <westeri@kernel.org>
