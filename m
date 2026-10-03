@@ -1,130 +1,155 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B6C313277
-	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 03:49:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A70131A807
+	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 04:22:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1790999354; cv=none; b=Gv9M5OlIkmCWkgBpMdwzVnWGrCbj1GB4LzGvsYpvh+NQwvvjG2IPEFWAfyO/PovWtE9318+u8meZ6Pi6PViNdZCqBGon9dP4uiWcaCABNLuCCD2z3LQPO9E9t8gMYJmjZl7DXd+GDNC9swoFyzFPWdVJtDCYrftA5bvFZy0BTnM=
+	t=1791001353; cv=none; b=jFC9KOxhe6jP8t2o+F6jZLeUqdnZVgjNSOML9SV53r64BVhGGBMD2S6kVH0p/59xOE6ZUYdCL9rue7SdLT34vNgXXLBNj8USJK0SRf/IwcYaXHrxJxjkO7UdjCuCyrr4JNz+3ZUmu6T30aRKoaZSRFeihE5A0Y0sYidv7nS4itE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1790999354; c=relaxed/simple;
-	bh=RiFd/x4ob4XGPmjfMU8mx5CYpJ1plwMS3Baxsk/pST0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j91tsiTt3819Us3J/ZyKksp5asy+LIZO6nbPE38UdwCwG8QrqwNpUnJqGg5/vQPfDkXBUMXv8QLan6Iok/vcrZgpANcDnEEM/drbStekenfuoJrrUctxFoHvqCvibc2Uy3+Gf5uOx89yrbaDZsS9GKfe/sqKQNOF/4vP37SfsVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMalJ4SS; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791001353; c=relaxed/simple;
+	bh=DD4FDKqDe5MLZbpoPD6Fuf26hrheV72HpMXR6Lc65pY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lzt89loWcywBbPsePae8ww/DBKFF6CiZO/EE1TzBtvGHLZZOeaUa223ETtmZ15UC5wL0l2ZdpF+rT97QIhnp4lKujGH+5bcNdvnZVbmK/SkvfGeepIxEe78fJ7EoIv26reRk9YYJdJbJzTw9P5gWhpC/PCb0N21wEfWetnU6YCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=m+4TwNA2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IhgAoW0Q; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMalJ4SS"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5338c1197easo1156211cf.0
-        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 20:49:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="m+4TwNA2";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IhgAoW0Q"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6933PT9M145475
+	for <linux-usb@vger.kernel.org>; Sat, 3 Oct 2026 04:22:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=GPPhG3McnxH7twP/0eHwBUr1
+	k8vDDtjVagOk1VrRcHA=; b=m+4TwNA2GEIgrj8jjh8dcCFH/XtltGie2mlLI3ob
+	uGTL0u4z7w6PehJZenTVf61k0Em0a4eYPjy1qcQNTE9Mt+oVEnU2Knxp+b35uidY
+	W2bS67Mmdv6ZIe66W4ZU/z+iHOdVf9CXdomkbuBRuG+bvInlhR7lRHcXhK2PX45p
+	xWSXAl7m61SUJOyDy5L8bPllGlZu2NuzsW5xD3nAviZWj67oyAHMwbLihnALHedz
+	M//JTsYqYXTXTOtxiWFjHhr+r2KE/9z2xxmNWV3az/AVL1VRHN0cvtqAjrSfjXtn
+	JYwZIDfHt3VeakJCQ8ZI/QS6+i2lEXBHvjL+sIZdToGKrQ==
+Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h2sssg2nu-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 04:22:31 +0000 (GMT)
+Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-139b62317d0so42191c88.0
+        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 21:22:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790999351; x=1791604151; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zBUh/Tqq/D2AVY5T0bHA/kdjx2FRaXb1oddCR7mF7Q8=;
-        b=nMalJ4SSStLa1aDatdDLaWTFuE8wIoBwYKEcYLStAh/t5ptzKJdaOa/3svkbBdIklS
-         c5u3Q0kqVSa0hpakYiXKBtAnBGSnvAl0AfnzN1lHONKcRTRp6G8TI0WCHMZJFkZSOSmL
-         EaDTzER5iGjirBzni0WzV5piHykpN1aqWaW5rIrxWk2esSQxkP1mUkjk3OccM9dA8uEn
-         nD1qFOMP4A7COSeIleSH9fvw7QyjYi05Fll5xb+yrtyXAv/TcOJzYbJJ8Uuyslr/AeOs
-         PVOADm1kP7/zfjEO6DXTIZy3yLDoVWRd5nb1zbKILKdM8OgMpIzp8HYgNkLLB32A0LO9
-         CH4w==
+        d=oss.qualcomm.com; s=google; t=1791001350; x=1791606150; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GPPhG3McnxH7twP/0eHwBUr1k8vDDtjVagOk1VrRcHA=;
+        b=IhgAoW0Q/b/y93aAJjkuOV1enN38UYYuKz2T3EXuits7nfJExBS3ZirmkTiGFYy8Az
+         /d1vSnjj+p/BkDNyRs34l/+flklhmc79eOrQZvk9hPYfEjhZP/hsM3n4gaDIPExK1qts
+         dK/CBGCwjdHlXXvjBfljfB82wIkSyoimlDFGseneamIxlriSQg2ulWpX/JIDIv0VdXM8
+         FzVtGHFRx6RCRO3Mi3PxUsOpr7udcQHbntWEywfpKYIn/XerE0ttbehgtWI80ZJ/aN7i
+         y7GGNLRsqsLbKiIw46xK8VG3lOjLuRVm/zFochLDqCHQhsW2aBLScX6bRelrj/4xQBsu
+         /kBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790999351; x=1791604151;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=zBUh/Tqq/D2AVY5T0bHA/kdjx2FRaXb1oddCR7mF7Q8=;
-        b=IzcImLh7h+gOMJPnGbgbXNd6Ao0B7LJ2PVUpaOUB2oi2NoIhznQHpQZKnsGINqy5ST
-         bRGzqjSqNXfbRQyvFE1AjT1/KRGe1pZsskhVPRgXnoxOcS/YSYMx6bOyuiPsrhkqve4L
-         gCJwxnCStAtucvJCbkEPdLfJMkNp0K1MICnuZooOUu9zhrbRleGKJrdhiFH44k7H55kC
-         Y0eUj/TJpzOzozTGFcMdA+whTiJJvvljeO9Z6Poc1Y8c2mxji00wZwCGEem63Skv/44F
-         btcLwxh8ca8/c82HcacC47OG6Mr7eSTdScZppV4qfAfZNB8aIzPFI/qOjDr7ddTWZvjN
-         psEw==
-X-Gm-Message-State: AFuF++nTegsGcjpo7xA5LahGWswihi+JEDtfP0OMx2L37sMLlCZK3Sue
-	RVcNYMytYB+l5tV5vywMzLp8pan2M4X9Dr1ZKu1sKGHcRhAJScNampI=
-X-Gm-Gg: AYBFou3rdiL9y2gY7e7ruMa48p1GPz5DUvdK2k8a5dQBHVhz36No/zmu80voYF41Bfq
-	DFJ9J4RihPAvhPAZGQAyuKq5eMRQOQntwfrKP5SDLm8yp84rpyViX/FkafwRSsF51xqxOP6KcOu
-	wtmxOLXENrIZX9o0jTg+VkuQTM3feJqoqblwzhWsjvEAHy5ySo2Kzneyt0OwMr6XnZhCAStmEca
-	A8jAnm7CCSWL+GKFLiCoSliWkXC/6LHuTbPQAU0M5VjlRx9OefX7m7Vfh8zFD7pcoKZd9F2ut85
-	/rXpO5tG0JBHXFTBOtf+s61fSC4BieAZ4QyvSC1Sy5ZDI/O/gOVua+ioqcTzTZM4FsYqJsmfMFI
-	ILCX7kWDY5XUAHX7yKspl6dHHg+vX3l1HxT2ZceN/CctIXBDuBXY7BOoIg4IF2Tk4LxyRj0RqZV
-	jBuRswQaXE/YMDAopF+Sqyvxb8cwd08jPngtp2F0NA9jtlkgViRc+Hqk8XcHhaDO6tmvR0YavM4
-	zxVtakrbROsyf6xy4h/tEgAxtwq6DH88jvoVCp9hFwH7ecx9NdA15fHme9YfQLNo3yDDFOijX4X
-	+E6Zi03hMgFd1sotpaCjYGerac0MVQ==
-X-Received: by 2002:a05:622a:1481:b0:533:42e0:a1ee with SMTP id d75a77b69052e-53511e79842mr24892281cf.37.1790999350628;
-        Fri, 02 Oct 2026 20:49:10 -0700 (PDT)
-Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5339883034csm43209541cf.3.2026.10.02.20.49.09
+        d=1e100.net; s=20260707; t=1791001350; x=1791606150;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GPPhG3McnxH7twP/0eHwBUr1k8vDDtjVagOk1VrRcHA=;
+        b=1kxgf/6bI+FgtMa8Su5XaZvtB9DVEusJcTxm3pmkN25oi2zzJvqEFUYcte/T7kHk84
+         VzkSMrdVcbE4zlseoYS/y7Phos+OpjHRkp3mhggfSrnuHfZzfDx5TkpTFyZe0l0pFvBY
+         HkzIec/LmVx5xDkIB+ibKwd0cRrz5yvSFTGqrrU6bW6vYOJFIbZnKe4mO1BsxO09B0EN
+         KCsR9fWMD++7wnrqv6d4JyfML6c7SWtkbZB3oV5ERfvFkiDx+yizQP005vE+Oh+1g/as
+         VpvTccvddwdySSCM3tjDr4e6QW5hEpT4/16O5KMmID2eLvLERRKrUl57/eXGOv9+uskV
+         i8hQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw/4L1nrZhZI1V3Ntj4YjUby+yOwER80lL00q+eI54MW40s/hjMne1zIR6XItEuUioBq3rOvdN4Gss=@vger.kernel.org
+X-Gm-Message-State: AFuF++nEckPKBG7zKL32NhQ8uOEbGj6DhK+vPtFaNWeMXLuV82/jsF/P
+	VfJQ5sRzHRXfwRRNCLQ4FB/HBxZ+XzWno2Ok9bD6u5GQQ0wEkj9HJaSp3O17TuCC3uUg0CLhjNX
+	yjoQGrgns5OfLwEH1A+8DAUZdsB7C9N9lcOzAcUNU4uYSfVjy/aTO10IgHO5IlxGyQYzvEis=
+X-Gm-Gg: AYBFou1cFixXmUtGPjUaKz53fGSH171QGhvsiBeVQi3B4Hsl+NK5+D2oVmNTlZvZjb5
+	L3Wc7zbwms+aFazYnTDmkUxDvoO9li7Gw6/JiE/bn9nUI9vB3sTl0GXU4GuCy+76EOtfv9ouFgN
+	E36dYldO4K8iRaaiU0EHzOz5Jn477RpAn3NjA82wuNHByXfSDyYNm/fjKQHFJBnFNd3TB9L9vl1
+	7n3wmZHEyz3uBhaI+5C0hEtNpZtEbtvVn6TzYpc6/bYDvO/q56UETS+gJ9GaGpfQxKDLRXcwnqd
+	h7aDXC4wL7V+ybN3AJFuGl5VueC9Yk6cOMRJpzf53YCxl81ELlmFIwtvij7DSYmrabvCtBV+VLC
+	+IUDsZAF+MgqrMueg2Dp0HGG3SXxwEn7p3JxFMV4fcA==
+X-Received: by 2002:a05:701b:280e:b0:14d:523b:ce86 with SMTP id a92af1059eb24-14f5bffb067mr251786c88.20.1791001350545;
+        Fri, 02 Oct 2026 21:22:30 -0700 (PDT)
+X-Received: by 2002:a05:701b:280e:b0:14d:523b:ce86 with SMTP id a92af1059eb24-14f5bffb067mr251748c88.20.1791001349894;
+        Fri, 02 Oct 2026 21:22:29 -0700 (PDT)
+Received: from QCOM-aGQu4IUr3Y (i-global052.qualcomm.com. [199.106.103.52])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-151fa74fa1csm2061919c88.1.2026.10.02.21.22.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 20:49:09 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
+        Fri, 02 Oct 2026 21:22:29 -0700 (PDT)
+Date: Sat, 3 Oct 2026 12:22:23 +0800
+From: Shawn Guo <shengchao.guo@oss.qualcomm.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>
-Subject: [PATCH] usb: gadget: m66592-udc: Free the IRQ before unmapping registers
-Date: Fri,  2 Oct 2026 23:49:08 -0400
-Message-ID: <20261003034908.619696-1-mhun512@gmail.com>
-X-Mailer: git-send-email 2.53.0
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bartosz Golaszewski <brgl@kernel.org>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] usb: typec: Add onsemi FUSB15201 support
+Message-ID: <asCC_0bS8nkFMyB4@QCOM-aGQu4IUr3Y>
+References: <20260916135918.1017527-1-shengchao.guo@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260916135918.1017527-1-shengchao.guo@oss.qualcomm.com>
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAzMDAxNyBTYWx0ZWRfX+m1s3UL9bFP6
+ BJkxNpLForzJ8N7IiOy/svF34zy4I6yCzvdhYdrKm6xdYIs8ZCkJqssGXVMmc7blCnzfnXgRqI+
+ N2UnIbB2LxkeAC/af1wce1zvEAH5vQA=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAzMDAxNyBTYWx0ZWRfX9Hb0X9vijs1N
+ jR18Eu9+1+5C6si/zcValozkgQsRAAYMNxUVpqCpyxhLE+53WpTugMC4Yfvehz8jUQvCJgP+q6S
+ NlrKq5nQaKRq26CDkeBCBW/UozBp4u5xKRRYY83bGNdnS4MGvoB4r2S1y66ut4H9cvsl6uKb/4J
+ Mv9E1oO2Ks30SfMKSajQoQCaldMVozXjbwCinJxmBY+zrtxGD2efA5hMiWIb1PuTtESBNuKdGDb
+ wXEYLxJrPN9xXBkqTXTl/GsajdG5gEgA2KRKLPc/F0avMel3Ne5lg2kj9rZs+4YbdubvHQDCkrt
+ 3sd1Eo8w1q+k3TmodishE6z/sHn3qPmmRQf7/lyiu/5Uc9/AbNW3487q9Hcw74B+3vlD7XudJVN
+ OflzjN/SeoCuYtdXSCVwRqDoNw0Ar+B8rqzvTr0YoZKzwmXxyBzMGIrmB8BVHnuO40a/9vztNAP
+ Evy2aO1Ml3ARkdNe8qA==
+X-Proofpoint-GUID: QHxmwLZ9nLFuDlTW60K_1KMDE735WsVb
+X-Authority-Analysis: v=2.4 cv=HqjjiETS c=1 sm=1 tr=0 ts=6ac08307 cx=c_pps
+ a=JYo30EpNSr/tUYqK9jHPoA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Z1MyDP9Hqjn3o93XXZQA:9 a=CjuIK1q_8ugA:10
+ a=Fk4IpSoW4aLDllm1B1p-:22
+X-Proofpoint-ORIG-GUID: QHxmwLZ9nLFuDlTW60K_1KMDE735WsVb
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-02_07,2026-10-02_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 phishscore=0 bulkscore=0 adultscore=0
+ impostorscore=0 suspectscore=0 spamscore=0 malwarescore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610030017
 
-m66592_remove() unmaps the controller registers before removing its shared
-IRQ handler. Another device on the same IRQ can invoke m66592_irq() in
-that interval, and the handler reads and writes registers even when the
-controller has no enabled interrupt pending. CONFIG_DEBUG_SHIRQ can also
-invoke the handler from free_irq() after the mapping has gone away.
+On Wed, Sep 16, 2026 at 09:59:16PM +0800, Shawn Guo wrote:
+> The series adds a driver/binding for onsemi FUSB15201 which can be found
+> on Qualcomm Nord reference design boards as a dual-port USB Type-C
+> controller.
+> 
+> Changes for v3:
+> - Address Heikki's review comments (Thanks Heikki!)
+> - Link to v2: https://lore.kernel.org/all/20260911073414.16711-1-shengchao.guo@oss.qualcomm.com/
+> 
+> Changes for v2:
+> - Drop include of <linux/mod_devicetable.h>
+> - Link to v1: https://lore.kernel.org/all/20260902045938.184221-1-shengchao.guo@oss.qualcomm.com/
+> 
+> Shawn Guo (2):
+>   dt-bindings: usb: Add onsemi FUSB15201 Type-C and PD controller
+>   usb: typec: Add onsemi FUSB15201 driver
 
-Shut down the sampling timer and mask the controller interrupt sources
-before unregistering the gadget. The timer can enable interrupts and
-invoke the gadget driver's disconnect callback, while gadget teardown
-clears the driver pointer and disables the controller's internal clocks.
-Then free the IRQ before unmapping the registers so the handler finishes
-while its MMIO mapping and private data are still valid.
+Hi Greg,
 
-This issue was identified during our ongoing static-analysis research
-while reviewing kernel code.
+How does this look to you? Would you consider to queue it up for 7.4
+merge window?
 
-Fixes: 4cf2503c6801 ("USB: m66592-udc: peripheral controller driver for M66592")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
- drivers/usb/gadget/udc/m66592-udc.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/m66592-udc.c b/drivers/usb/gadget/udc/m66592-udc.c
-index d77c11c4eb38..773cd00fbf1d 100644
---- a/drivers/usb/gadget/udc/m66592-udc.c
-+++ b/drivers/usb/gadget/udc/m66592-udc.c
-@@ -1515,12 +1515,16 @@ static const struct usb_gadget_ops m66592_gadget_ops = {
- static void m66592_remove(struct platform_device *pdev)
- {
- 	struct m66592		*m66592 = platform_get_drvdata(pdev);
--
--	usb_del_gadget_udc(&m66592->gadget);
-+	unsigned long flags;
- 
- 	timer_shutdown_sync(&m66592->timer);
--	iounmap(m66592->reg);
-+	spin_lock_irqsave(&m66592->lock, flags);
-+	m66592_write(m66592, 0, M66592_INTENB0);
-+	spin_unlock_irqrestore(&m66592->lock, flags);
-+
-+	usb_del_gadget_udc(&m66592->gadget);
- 	free_irq(platform_get_irq(pdev, 0), m66592);
-+	iounmap(m66592->reg);
- 	m66592_free_request(&m66592->ep[0].ep, m66592->ep0_req);
- 	if (m66592->pdata->on_chip) {
- 		clk_disable(m66592->clk);
--- 
-2.53.0
-
+Shawn
