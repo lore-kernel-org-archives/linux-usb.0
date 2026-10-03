@@ -1,66 +1,66 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B98248F839
-	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 19:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C305A48F854
+	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 19:42:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791056542; cv=none; b=Tf3WW1CPjPuijN0peZLK+hfOa618i0N2zPqYcrVF3NhIXoJPeAzR5IhA5vSOEHC879M6oOSpnke8wIB2YzMwR9fkfJ8AwlTbKA5XexQgqDTR5+JDmKFf00neB4wy4BCtVATK02aFaY4xUFNime8rbfO00Vun5+TcGyhwocLceeQ=
+	t=1791056542; cv=none; b=OLFTd4UqGqEOb6wEcDtjOiZ3wzs81kP9dT72BjUPIVmFLH47RdTBEOTQ5okjeos1+shZo3L09h22usgYXfHFIV30dPmOfaFWHPnuxlLQrvzkbE3gjGMQXE55TWpEVVs/tdMl4dhiQL0uK6CaJbdgO+e0s6MB5RR86V6aRvyllR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791056542; c=relaxed/simple;
-	bh=xXXZ6NWLJJESwv2K8aL+6XMcWN6EQkW3JGTvSg3+MDQ=;
+	bh=2Qj7btnzi+IJSFQJJn9EDpXg7JEj/bl6DgUQWMJl4/Y=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PjsAAWc2uvSgK7qrN26kUMGJjhbSxeY9WRAsRpLYry5zvceyWbBbpFpwinumoKtD/HbA6FVn1/4MFS0rm6m7r6KxhsXPSogce47Xo6G7/9OFJI3DWyXax8x+k0GX/UeCkC64BrC+Doxrcplg5xUgUx8M2PW0uDbk3L4aSh9DoJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WElnyy2N; arc=none smtp.client-ip=209.85.128.47
+	 MIME-Version:Content-Type; b=mLJL5pV88j2OrlwSIIr2ELWyhzBKgcn0MkvXuqq0dcrebh+R9gb0hhUzOCk6pCOHkzO5qaoJNFz37HhOqtY22ay/P8MfT4MNurGEqnJdJGxkNPbw0tATQnxZBDg4O7voqfQlJoZAo2XwS7L8JdupzIB6Qh4n2oF4vywySxp9ChQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ivzpW+QS; arc=none smtp.client-ip=74.125.225.140
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WElnyy2N"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a1635f7c89so7100165e9.2
-        for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 12:42:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ivzpW+QS"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49fff6f0f87so6974665e9.3
+        for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 12:42:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1791056533; x=1791661333; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=kB9tQNM9jVA0zwBEF2raZG5TXDEsEQ5Rdtidet5PxWE=;
-        b=WElnyy2NdaBB1E42DIy6HgA1kBwaShpkKsDX+uND/r651e2wm09obD4bzLjIUKRXQV
-         fpbrdjOniSGYxtupY4gHhHxE6YnA004nnmqCjuXsjsxhPt2ZaDxExRK+pBJWNnigObT5
-         tx8vDo4LV0NR9AJBPacetKnnyFG89yjpR7DVnDEcysZjsPe3jJbqqvVpPHgXwADZB8na
-         zZ8GLDBcGutfBYx6E+0vf+cwnFmGgHj93fMshw7HN7g+NG9EHoBXRF0X9JfuqrsKWPmt
-         eQMrkQOKOFBuFC+62peZdLr+xrCN0NLNw00pVAKwmEHBOcElIf0x7w5yCcQnvtjUqQC3
-         cG7Q==
+        bh=2YbFzkqvppwDWsZ6FW7JZFh/rw+x2rXst6pTt72Rmek=;
+        b=ivzpW+QSmAnxvE+30ttPtRspqSG9XIEhLDjhgzXhy+Cu2EN2b/D2melQ0gq5trVwmz
+         Oeru8Ece51GsApKmWL6HbmmWhBZcpC+Chxj3K5RxMsy2x8tG79cVHxQA2GuC/tQcUwpt
+         wowAmSkbhvwCrguBCrE4GrBAIs4tk/Sra+ZHFvYV6HVDOVjN7tZ68tThpScItjKSREwA
+         hwkkJjlt3fc2wgbGQDucaSz+136f1/WXIbwuIhs5pyyRIFebs9W2oQrbduMdHY9KRdlp
+         1mpyyRB+HyBzZmrxvE6KrXs7deavPibvkTtQoJah8KZk3PXTxvK+BsPTSUUNcvTDkjCr
+         nscQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1791056533; x=1791661333;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=kB9tQNM9jVA0zwBEF2raZG5TXDEsEQ5Rdtidet5PxWE=;
-        b=A9fNL7pXvQZln8fXtiKUQ25KC0kYtfCInM57r4WfFSH43twONJR4P1HMxz6rOBbtpq
-         UTeDa4Ix218jx4s/XP7459Z+4yChcqzuHaysG8eBsmdQV2kziWBLeAANkzANRYELRH+C
-         eqaTSjzaDa2eFm6Oy47WPp4xVnokeg0YbD3cNwpcKq9syflkzPAo4O6xYC9dmWarOu40
-         1FrEjsbb/UqKRrC5gkBgIJnKbjvbM/XNOl3X9cnT6kx8CBcllfV1kU9+McPygKvfabH2
-         Zbmr/3TlNLzzR9Az9Pf0CAcPTlfLybHdM9+JPf8dU72oiDkZ2cbzgHkG4+6Gh7uLIjgl
-         2YDQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy1pYOXwHY5oqzjoSviK67+L4uWcJxgLfD6zgPDaQNkRrLfBNs0D15DpV332FxvrgRJQBSmLEnGb1I=@vger.kernel.org
-X-Gm-Message-State: AFuF++l0q8WeSfm4N4JrH6utaRqdAVlI3dxfUkDPLe31k0NEq0R0+0MS
-	AMzeonXmXp34uA3IoXFbKNSxHFrP/+5IIyVtLOFW+AukCe1hiPbbQkYT
-X-Gm-Gg: AYBFou0OQPZnFji/3PCERQPKg9p/AQYDaT+/8CtNml/iBRDBKM8HUcYcDkn05hsI/F4
-	gYglQxCle7j0kleD/vzdbt6hEBRtkAhE99gEV8nUfqrLMhNR0cKcXCbnp8im/R5VvLe1UYcTRTG
-	phaS+XNgka3vY6tksUHEJM0CUE0GYTOmfppUUqosNNopOi7gdvyhyclMugpi4MoTB6sKPm8EEWU
-	h1gaz/5YWbk4k3KFtZk2qf1N4mhKMupmdRRmKc8/rLbCT+/uMvTw5JxvEn7x4PHdFxKq7viGdZR
-	wvDJLZQXoU5H1HZvXaSLrXzOwQEUG7kvqFK9CtxT1Nv5wn4fjrRP9a83JsO1dKlRf2aAQM5wgkD
-	8a85+Jiu+MfDiMmL2TQRNrGEx6cteLZM355JIu8VYa9+tgdBWb/JlbtRYurmwjAW4ZE8BDwfxLt
-	Uls7s1momgNwG4PBnYE1mzOeM+mmdkSBzghX7Rnp/BSSLEwtoJrLedTaPzEl+dbpHUcrA2TZlxq
-	nK8ei9XMT6anU0nGYW3M6svXaAlUwGPuY/RiA76HPJkyqsp6dIAZlAdJHyuUrz748MCRczFdp3+
-	YqmLz4boQmxv0tgCGwRuB99E
-X-Received: by 2002:a05:600c:3509:b0:4a1:69c0:a1f7 with SMTP id 5b1f17b1804b1-4a169c0a338mr37718025e9.34.1791056533488;
-        Sat, 03 Oct 2026 12:42:13 -0700 (PDT)
+        bh=2YbFzkqvppwDWsZ6FW7JZFh/rw+x2rXst6pTt72Rmek=;
+        b=sARl+/fT2t+lUsvv7DEYftpXX8AIpMuaF9/kR3KglFFhIPpH8lrFyq7iQO6jnXHV4i
+         +T2ngZEtgZhAyjIIXLrZ+8o1mytLmVUluusI7GFO9ywJ1gMgaWd4olyi+uuNlmE+nrZa
+         G1OmX9pJTOaRZEa0melvGTHDzJRmoYz5vVCUap+dLn90ZO0ZwsL+Rkkfzx/3/3smkoW+
+         aemlJi8Ywl+EjcflANlFV+GGjq7crlsxyPSO1RWKiLbKBp1zn/Cwkow9ZAc96pkvwFOR
+         e8kr9vLuwxbKYFJv2n0mNczUCbm/wX0ItT4+yhcXKfebqQVNspBNTUsUlCbbGi+kIOkT
+         qNlg==
+X-Forwarded-Encrypted: i=1; AKwUvBygC0SUEgnK/Ys5A334HkJG3bDynwBjrODHj8J74OjvxXaULYcpgzX+YHUT14k0U28NL4gHNd7lxiA=@vger.kernel.org
+X-Gm-Message-State: AFuF++mWK2A4yVVcdGEwDBHh1v7Vm8oXzuUgqjRJEmR12jae6t0y7PAC
+	hbDzcylb6hhUEzkbiGNbaqKgRifP9S8GZ/Hh0ncLd1b6LFsux5stxvLz
+X-Gm-Gg: AYBFou2N+yxK7UOe/M50EPfOOpvtOUjBc3fSchoRcZD18y4AoBbZLkTEgCWAfWbDV2P
+	2wA21iNBePRrcxGEc5pHGU/jtY0zNjLAxNQH/8HSznuHaDRoNYr9ZUdvwZf+a6dEJaI7vD6ncpC
+	0jsGc2Re6VjeelLVF9xghKdwFK5jfckmFbm+nxS9i9rdNYUqgvCFJtydBRsJCRxwOPR86vlWJ+j
+	sbrSVoE5DyaNKDJiZSYLAjf4dOdizmb4RWxDC+wqou2KNT7C1JeoPp5lpQkhqkIsvAlWomN7v5o
+	vMv27JsBHQOKVfJ8NJ6fLIYjjNQ6SGvlTJYSJRkpFkqf6PLKix+97aGLCSO6iuPlnzi1JTCwN11
+	aTIGJSQcovuxuOEgGbfQAxD0x0XsqPEwRrp6dGSpfvM19XuOq2VeBIb+UWDNDRke69fK2jcA7ZQ
+	QShWKvX0tRHxrczvKjFkR9cFTP3QNGMCkt59uan5c0NIJypxhEHufyQCvTdDaPyYefUGeRs4K7Q
+	IpeozLz4YBLoDI8H/X6EFX6aTQI+u2rupSchaH3tFdnqJsBqkE+DOHrhDy8+xxgwH3Zkq6B/tfX
+	lK3/ODfaWLNu3PkGD3bMLp8R
+X-Received: by 2002:a05:600c:4e13:b0:49c:d019:70c5 with SMTP id 5b1f17b1804b1-4a0274565e1mr123541285e9.0.1791056532740;
+        Sat, 03 Oct 2026 12:42:12 -0700 (PDT)
 Received: from cachyos.home (2a01cb0c82caf900a186612f304bfea5.ipv6.abo.wanadoo.fr. [2a01:cb0c:82ca:f900:a186:612f:304b:fea5])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a162e867e8sm161520495e9.15.2026.10.03.12.42.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 12:42:13 -0700 (PDT)
+        Sat, 03 Oct 2026 12:42:12 -0700 (PDT)
 From: =?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
 To: linux-sound@vger.kernel.org
 Cc: tiwai@suse.com,
@@ -73,9 +73,9 @@ Cc: tiwai@suse.com,
 	rdunlap@infradead.org,
 	linux-doc@vger.kernel.org,
 	=?UTF-8?q?Isma=C3=AFl=20Bahloul?= <i.bahloul01@gmail.com>
-Subject: [RFC PATCH v6 8/8] Documentation: sound: add the Babyface Pro proprietary-mode design doc
-Date: Sat,  3 Oct 2026 21:41:37 +0200
-Message-ID: <20261003194137.86176-9-i.bahloul01@gmail.com>
+Subject: [RFC PATCH v6 7/8] ALSA: usb: babyfacepro: add the hardware DSP EQ
+Date: Sat,  3 Oct 2026 21:41:36 +0200
+Message-ID: <20261003194137.86176-8-i.bahloul01@gmail.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261003194137.86176-1-i.bahloul01@gmail.com>
 References: <20261003194137.86176-1-i.bahloul01@gmail.com>
@@ -88,234 +88,796 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-A big-picture companion to the patch series, for human reviewers:
-why the proprietary mode needs a standalone driver instead of a
-snd-usb-audio quirk, the vendor protocol's write-only/no-readback
-shape and what that forces onto the driver, the stream session
-model, why the mixer state has to be cached and replayed, and why
-the driver has to emulate TotalMix's own role for the front panel.
+Add the 4-strip (AN1-AN4) 3-band + low-cut parametric EQ: the
+fixed-point (Q27, CORDIC) biquad coefficient math, the 64-byte blocks
+uploaded on bulk endpoint 0x0A of interface 1, and 15 controls per
+strip.
 
-Requested by Takashi Iwai's v4 review: documentation for reviewers,
-not restating what the code comments already say inline.
+The coefficients depend on the sample rate, so hw_params re-uploads
+them on a rate change.  The DSP is not part of the register state the
+cold init clears, so resume and a re-probe re-upload them as well, and
+the EQ parameters are saved with the rest of the mixer state.  The Q
+controls start at 1.0, and a band with no gain or no Q uploads the
+identity.
+
+The three checkpatch CHECK notes on this code (BIT() vs (1 << 27),
+'ang' twice) are known false positives: BIT() returns unsigned long,
+wrong for this file's signed Q27 math, and 'ang' is the CORDIC angle.
 
 Signed-off-by: Ismaïl Bahloul <i.bahloul01@gmail.com>
 ---
- Documentation/sound/cards/babyface-pro.rst | 193 +++++++++++++++++++++
- Documentation/sound/cards/index.rst        |   1 +
- 2 files changed, 194 insertions(+)
- create mode 100644 Documentation/sound/cards/babyface-pro.rst
+ sound/usb/babyfacepro/babyfacepro-ctl.c | 598 +++++++++++++++++++++++-
+ sound/usb/babyfacepro/babyfacepro.c     |  33 ++
+ sound/usb/babyfacepro/babyfacepro.h     |  29 +-
+ 3 files changed, 658 insertions(+), 2 deletions(-)
 
-diff --git a/Documentation/sound/cards/babyface-pro.rst b/Documentation/sound/cards/babyface-pro.rst
-new file mode 100644
-index 000000000..f75b80886
---- /dev/null
-+++ b/Documentation/sound/cards/babyface-pro.rst
-@@ -0,0 +1,193 @@
-+.. SPDX-License-Identifier: GPL-2.0
+diff --git a/sound/usb/babyfacepro/babyfacepro-ctl.c b/sound/usb/babyfacepro/babyfacepro-ctl.c
+index 183647e25..0c04972e4 100644
+--- a/sound/usb/babyfacepro/babyfacepro-ctl.c
++++ b/sound/usb/babyfacepro/babyfacepro-ctl.c
+@@ -4,7 +4,8 @@
+  *
+  * ALSA control surface: the hardware mixer (output masters and mutes,
+  * the crosspoint matrix, preamps, routing flags, varispeed pitch),
+- * and the front-panel poll and controls.
++ * the front-panel poll and controls, and the hardware DSP EQ
++ * (3-band + low cut).
+  *
+  * See babyfacepro.h for the shared device state and register map,
+  * and babyfacepro.c for the core driver (protocol, PCM streaming,
+@@ -3331,3 +3332,598 @@ int babyface_create_panel(struct snd_usb_babyface *chip)
+ 	return 0;
+ }
+ 
++#define BF_EQ_Q27		(1 << 27)
++#define BF_EQ_LC_OFF		0x04000000
++#define BF_EQ_BLOCK_LEN		64
 +
-+=================================================
-+RME Babyface Pro / Pro FS (snd-usb-babyface-pro)
-+=================================================
++/* atan(2^-i) x 2^27 (CORDIC). */
++static const s64 bf_atan_tab[28] = {
++	0x6487ED5, 0x3B58CE1, 0x1F5B760, 0xFEADD5,
++	0x7FD56F, 0x3FFAAB, 0x1FFF55, 0xFFFEB,
++	0x7FFFD, 0x40000, 0x20000, 0x10000,
++	0x8000, 0x4000, 0x2000, 0x1000,
++	0x800, 0x400, 0x200, 0x100,
++	0x80, 0x40, 0x20, 0x10,
++	0x8, 0x4, 0x2, 0x1,
++};
 +
-+This document describes the design of the ``snd-usb-babyface-pro``
-+driver - what problem the driver solves, why it is a standalone
-+driver instead of a snd-usb-audio quirk, and the four design
-+decisions (protocol shape, stream model, mixer-state persistence,
-+front-panel emulation) that shape most of the code.
++/* ---- fixed-point helpers (Q27 in/out, s64 intermediates) ---- */
 +
-+Two USB personalities, one device
-+==================================
++/* sin/cos of an angle in [0, pi/2] (Q27).  Simultaneous CORDIC, 28
++ * iterations (~1e-8 residual).  eq_selftest.c verifies the whole
++ * pipeline against the double-precision reference.
++ */
++static void bf_sincos(s64 ang, s64 *sn, s64 *cs)
++{
++	s64 x = 0x4DBA76D;	/* 1/1.64676 x 2^27 (CORDIC gain) */
++	s64 y = 0;
++	s64 z = ang;
++	int i;
 +
-+The RME Babyface Pro and Babyface Pro FS present two different USB
-+configurations depending on a physical/firmware switch: a
-+class-compliant one, already handled by ``snd-usb-audio``, and a
-+proprietary one (USB ID ``2a39:3fc0``) that this driver covers.  The
-+two hardware models share the same USB ID, ``bcdDevice`` and
-+``iProduct`` string shape; nothing in the descriptors tells them
-+apart, and the driver runs unmodified on both.
++	for (i = 0; i < 28; i++) {
++		s64 d = z >= 0 ? 1 : -1;
++		s64 nx = x - d * (y >> i);
++		s64 ny = y + d * (x >> i);
 +
-+In proprietary mode, interface 5 carries the PCM stream on two
-+INTERRUPT endpoints (``0x01`` OUT, ``0x82`` IN) instead of the
-+isochronous endpoints the USB Audio Class specifies.  Isochronous
-+transfers are rejected there with ``-EINVAL``.  ``snd-usb-audio`` has
-+no interrupt-PCM transport, so this mode cannot be a quirk on top of
-+it; the driver is standalone, modelled on ``snd-usb-caiaq`` (another
-+interrupt-streaming RME/NI-style device).
++		x = nx;
++		y = ny;
++		z -= d * bf_atan_tab[i];
++	}
++	*cs = x;
++	*sn = y;
++}
 +
-+Why interrupt endpoints and not isochronous is a hardware/firmware
-+choice on RME's side, not something this driver can change - the
-+class-compliant mode already exists on the same device for users who
-+want a fully standard, quirk-free path with a subset of the
-+functionality (no mixer, no front panel).  This driver is for users
-+who want the full mixer, routing matrix, and hardware DSP EQ that
-+only the proprietary mode exposes.
++/* 2^u for u in Q27, u in [-2, 2] (gain-amplitude range). */
++static s64 bf_exp2(s64 u)
++{
++	s64 n = u >> 27;
++	s64 r = u - (n << 27);
++	s64 rl = (r * 0x58B90C0 + (1 << 26)) >> 27;	/* r.ln2 */
++	s64 e = BF_EQ_Q27;
++	s64 term = BF_EQ_Q27;
++	int k;
 +
-+The vendor protocol: writes only, no readback
-+==============================================
++	for (k = 1; k <= 10; k++) {
++		term = div_s64((term * rl + (1 << 26)) >> 27, k);
++		e += term;
++	}
++	return n >= 0 ? e << n : e >> -n;
++}
 +
-+Every mixer and clock function is one of a handful of USB vendor
-+control requests (``bmRequestType 0x40``, i.e. host-to-device,
-+vendor, device-recipient), each identified by its request number and
-+a 16-bit value/index pair - there is no larger command structure.
-+The commonly used ones are:
++/* The 5 stored words (c0..c3 + shared c4) for one band.
++ * type: 1 bell, 2 low shelf, 3 high shelf.  freq_hz, fs in Hz;
++ * q100 = Q x 100; gain_x10 = dB x 10.  fs is the stream rate.
++ */
++void bf_eq_band_words(s32 *w, int type, s32 freq_hz, s32 q100,
++		      s32 gain_x10, s32 fs)
++{
++	s64 f = freq_hz;
++	s64 w0, c, s, alpha, A, sq;
++	s64 b0, b1, b2, a0, a1, a2;
++	s64 pi = 0x1921FB54;	/* pi, Q27 */
++	s64 hpi = 0xC90FDAA;	/* pi/2, Q27 */
++	s64 t;
++	int both = 0, cflip = 0;
 +
-+======  ========================================
-+0x10    settings word, rate family, stream trigger
-+0x12    16-bit crosspoint and output-master writes
-+0x14    stream session arm
-+0x16    cold-init register clear
-+0x17    front-panel + preamp state (read and write)
-+0x1a    8-bit gain / output-master writes
-+0x1b    varispeed (DDS quad)
-+0x1d    stream session start
-+======  ========================================
++	if (gain_x10 == 0 || q100 <= 0) {
++		/* Inactive band: identity words (also guards the alpha
++		 * division below against the default Q=0 the controls start
++		 * with - a user setting gain before Q used to hit a kernel
++		 * divide-by-zero oops).
++		 */
++		w[0] = 0;
++		w[1] = 0;
++		w[2] = 0;
++		w[3] = 0;
++		/* w[4] is the shared scale bf_eq_update_strip() reads when the
++		 * band has a type and a gain but no Q yet (Q defaults to 0).
++		 * Leaving it unwritten uploaded a garbage shared scale.
++		 */
++		w[4] = BF_EQ_Q27;
++		return;
++	}
 +
-+The full register map, decoded from Windows USB captures and
-+cross-checked against hardware, lives in the driver's own development
-+repository (not shipped in-tree) - the constants and the comments
-+next to each vendor write in the source are the authoritative
-+in-tree reference.
++	/* w0 = 2.pi.f/fs (Q27), reduced to [0, pi/2]. */
++	w0 = div_s64(f * BF_EQ_Q27, fs);
++	w0 = (w0 * 0x3243F6A9) >> 27;	/* x 2.pi */
++	t = w0;
++	if (t > pi) {
++		t -= pi;
++		both = 1;
++	}
++	if (t > hpi) {
++		t = pi - t;
++		cflip = 1;
++	}
++	bf_sincos(t, &s, &c);
++	if (both) {
++		s = -s;
++		c = -c;
++	}
++	if (cflip)
++		c = -c;
 +
-+The one property that shapes the rest of the driver: **almost nothing
-+here can be read back**.  The 0x17 request returns the front-panel
-+and preamp state, but the crosspoint matrix, the output masters, the
-+routing flags and the clock all have to be tracked host-side - the
-+device will accept a write blindly and never confirm what it actually
-+holds.  Two consequences follow directly from this:
++	alpha = div64_s64(s * 100 + q100, 2 * (s64)q100);	/* sin(w0)/(2Q) */
++	/* A = 10^(g/40), sqrt(A): g = gain_x10/10 dB */
++	A = bf_exp2((s64)gain_x10 * 0x11021E);
++	sq = bf_exp2((s64)gain_x10 * 0x8810F);
 +
-+* The ``struct snd_usb_babyface`` device state (see
-+  ``babyfacepro.h``) is not a cache in the usual sense of "avoid a
-+  slow read" - it is the *only* record of what the hardware should
-+  currently hold.  Every mixer control's ``.get`` callback reads this
-+  state directly; none of them ever talks to the device.
++	if (type == 1) {
++		s64 ta = (alpha * A + (1 << 26)) >> 27;
 +
-+* A full reset of the device's registers - which the cold init at
-+  probe and at resume does - has to be followed by replaying the
-+  *entire* cached state back, in the right order, or the card comes
-+  back silent or at the wrong levels.  This is what
-+  ``babyface_restore_state()`` and ``bf_state_apply_flags()`` do (see
-+  "Mixer-state persistence" below).
++		b0 = BF_EQ_Q27 + ta;
++		b1 = -2 * c;
++		b2 = BF_EQ_Q27 - ta;
++		a0 = BF_EQ_Q27 + div64_s64(alpha * BF_EQ_Q27 + A / 2, A);
++		a1 = -2 * c;
++		a2 = BF_EQ_Q27 - div64_s64(alpha * BF_EQ_Q27 + A / 2, A);
++	} else {
++		s64 ap1 = A + BF_EQ_Q27;
++		s64 am1 = A - BF_EQ_Q27;
++		s64 cp0 = (am1 * c + (1 << 26)) >> 27;	/* (A-1).c */
++		s64 cp1 = (ap1 * c + (1 << 26)) >> 27;	/* (A+1).c */
++		s64 ab = (2 * sq * alpha + (1 << 26)) >> 27;
 +
-+The stream model
-+================
++		if (type == 2) {	/* low shelf */
++			b0 = (A * (ap1 - cp0 + ab) + (1 << 26)) >> 27;
++			b1 = (2 * A * (am1 - cp1) + (1 << 26)) >> 27;
++			b2 = (A * (ap1 - cp0 - ab) + (1 << 26)) >> 27;
++			a0 = ap1 + cp0 + ab;
++			a1 = -2 * (am1 + cp1);
++			a2 = ap1 + cp0 - ab;
++		} else {		/* high shelf */
++			b0 = (A * (ap1 + cp0 + ab) + (1 << 26)) >> 27;
++			b1 = (-2 * A * (am1 + cp1) + (1 << 26)) >> 27;
++			b2 = (A * (ap1 + cp0 - ab) + (1 << 26)) >> 27;
++			a0 = ap1 - cp0 + ab;
++			a1 = -2 * (am1 - cp1);
++			a2 = ap1 - cp0 - ab;
++		}
++	}
 +
-+Playback and capture share one physical stream: the device only
-+advances it while both interrupt endpoints have a pending URB, so the
-+IN and OUT URBs are always submitted as a pair, and both directions run
-+at one sample rate.  The driver runs one stream *session* for both
-+substreams:
++	w[0] = (s32)div64_s64(a1 * BF_EQ_Q27 + a0 / 2, a0);
++	w[1] = (s32)div64_s64(a2 * BF_EQ_Q27 + a0 / 2, a0);
++	w[2] = (s32)div64_s64(b1 * BF_EQ_Q27 + b0 / 2, b0);
++	w[3] = (s32)div64_s64(b2 * BF_EQ_Q27 + b0 / 2, b0);
++	w[4] = (s32)div64_s64(b0 * BF_EQ_Q27 + a0 / 2, a0);
++}
 +
-+* ``hw_params`` counts a substream as a user of the session;
-+* ``prepare`` starts the session if it is not running - the rate write,
-+  the session trigger pair, the IN/OUT URBs, then the arm - which is
-+  what the RME Windows driver sends at a stream start;
-+* trigger START/STOP only decides whether the URB handlers move that
-+  substream's audio.  The URBs keep running either way, carrying
-+  silence while nothing plays, so an xrun restart does not restart the
-+  session;
-+* ``hw_free`` drops the user, and the last one stops the session.
++/* ---- low cut ---- */
 +
-+The device keeps its mixer registers between sessions, so a session
-+start writes no mixer state.  A session triggered within about 15 ms of
-+the previous one stopping comes up with the outputs silent, so a
-+session start waits until 50 ms have passed since the last stop.
++/* Slope byte: 2^n-1 (n poles) -> 6/12/18/24 dB per oct; 0 = off. */
++static u8 bf_eq_lc_slope_byte(s32 slope_db)
++{
++	switch (slope_db) {
++	case 6:  return 0x01;
++	case 12: return 0x03;
++	case 18: return 0x07;
++	case 24: return 0x0F;
++	}
++	return 0;
++}
 +
-+Both directions share one clock, so while another application has the
-+other direction set up, the rate belongs to it: ``open()`` offers that
-+rate alone, and the sound server resamples, rather than the device
-+changing rate under a running stream - as with RME's own drivers, which
-+grey the sample rate out while a stream runs.  The application that
-+holds both directions may change the rate or the buffer size itself, as
-+a DAW does from its settings; the direction it left running then stops
-+with an xrun and is set up again.
++/* The 0x38 low-cut frequency word: round(K.f'.(11656)/(11656+f')) with
++ * K = 11508, f' = f x slope-compensation factor (cap_eq9 fit, 0.003%;
++ * the slope factor keeps the composite -3 dB point constant).
++ */
++static u32 bf_eq_lc_freq_raw(s32 freq_hz, s32 slope_db)
++{
++	s64 f, word;
 +
-+The size of the URBs follows the period the application asks for, so
-+the latency follows the application's buffer instead of a fixed queue:
-+``hw_params`` splits the period into the fewest URBs of at most
-+``frames_per_urb`` frames, each a whole number of the device's IN
-+packets, and keeps two periods' worth in flight (at most ``nurbs``).
-+The URB handlers copy to and from the ring the core allocates and take
-+the application's position from the shared control page, so the ring can
-+also be mapped by the application, which JACK requires.
-+``runtime->delay`` reports the audio queued in the URBs plus the fixed
-+delay of the converters and of the device, per speed, so that an
-+application that uses ALSA directly can line up what it records.
++	if (freq_hz <= 0)
++		return BF_EQ_LC_OFF;
++	f = freq_hz;
++	switch (slope_db) {
++	case 6:
++		f = f * 15267 / 10000;
++		break;
 +
-+URB completions run in interrupt context; the work that needs to sleep
-+(stopping the session after repeated URB errors) runs from
-+``stream_work``.
++	case 18:
++		f = f * 8061 / 10000;
++		break;
 +
-+Mixer-state persistence across re-probes
-+==========================================
++	case 24:
++		f = f * 6977 / 10000;
++		break;
++	}
++	word = (11508 * f * 11656 + (11656 + f) / 2) / (11656 + f);
++	return (u32)word;
++}
 +
-+A userspace client can claim the proprietary interface directly via
-+``usbfs`` (``USBDEVFS_DISCONNECT_CLAIM``) - both PipeWire grabbing the
-+device for a sink and the project's own TuxMix userspace daemon do
-+this via libusb.  That detaches the kernel driver and the ALSA card
-+disappears for the duration; when the client releases the interface,
-+the driver re-probes.  The device keeps its register contents across
-+this detach, but the cold init the probe runs clears them - so the
-+driver saves the in-memory mixer state at ``disconnect()`` and
-+restores it at the next ``probe()``, keyed by the device's USB serial
-+number (or its sysfs path, if it has no serial) so the same physical
-+unit gets its state back across the cycle.  The same state is also
-+what a system-suspend resume replays, since the device loses its
-+registers across a suspend the same way.
++/* ---- block build + bulk write ---- */
 +
-+Front-panel emulation: the driver plays TotalMix's role
-+==========================================================
++static void bf_eq_build_block(u8 *b, int ch, u8 slope,
++			      const s32 bands[3][4], s32 shared, u32 lc)
++{
++	int slot, k;
 +
-+The front panel (IN/OUT/SET/MIX/SELECT/DIM buttons, the rotary
-+wheel) has no on-device intelligence of its own for turning a wheel
-+click into a mixer change - on Windows/Mac, RME's TotalMix
-+application polls the same 0x17 status register this driver polls,
-+decodes button/wheel deltas, and performs the resulting mixer writes
-+itself.  Standalone (no host software) mode exists on the hardware,
-+but the proprietary USB mode this driver targets always has a host
-+attached, so this driver has to do what TotalMix does: poll 0x17 on
-+a delayed work item (``panel_poll_ms`` module parameter, default
-+20 ms to match TotalMix's own ~50 Hz), decode the button flash and
-+signed wheel delta, and apply the resulting change (an output level
-+step, a preamp gain step, a monitoring level step, a phantom toggle)
-+exactly like the corresponding ALSA control's ``.put`` would.  A DIM
-+press is only counted, for a mixer application to act on.  The
-+front-panel ALSA
-+controls this driver exposes are the read side of this: a way for
-+userspace (WirePlumber, TuxMix) to observe what the physical panel is
-+doing, not a way to drive the hardware.
++	memset(b, 0, BF_EQ_BLOCK_LEN);
++	b[0] = ch;
++	b[1] = slope;
++	b[2] = ch;
++	b[3] = 0x80;	/* EQ engine active */
++	for (slot = 0; slot < 3; slot++) {
++		for (k = 0; k < 4; k++) {
++			put_unaligned_le32((u32)bands[slot][k],
++					   b + 0x04 + slot * 0x10 + 4 * k);
++		}
++	}
++	put_unaligned_le32((u32)shared, b + 0x34);
++	put_unaligned_le32(lc, b + 0x38);
++}
 +
-+Some panel state - which channel SELECT currently has chosen, for
-+instance - is not part of the 0x17 readback at all and exists only on
-+the device's own internal state machine, which the driver cannot
-+read.  The unit keeps one such selection for each IN pair, across IN
-+switches and even across a power cycle; its LEDs stay dark until the
-+next SELECT press, which only shows the selection again, and later
-+presses step it.  The driver follows the presses and exposes the
-+selection of each pair as a "Front Panel Selection" control (index 0
-+is Ch 1/2), so that alsactl keeps it across boots like any other
-+mixer setting.  It cannot know what the unit holds before it has been
-+told once, so a pair starts out unknown, and SET and the wheel then do
-+nothing instead of acting on a channel that may not be the lit one;
-+setting the control to what the LEDs show for the pair tells it.  A
-+re-probe, which does not change the unit, keeps what the driver had,
-+and the older values alsactl restores shortly after probe are ignored
-+for a pair the driver already knows.  The stored values can be wrong
-+only if the selection was changed while the driver was not running
-+(the unit used on its own, or with another host).  The relevant code
-+comments (``babyface_panel_start()``, the ``panel_select_armed``
-+handling in ``bf_panel_tick()``) explain the details.
-diff --git a/Documentation/sound/cards/index.rst b/Documentation/sound/cards/index.rst
-index e68bbb13c..31051b7a4 100644
---- a/Documentation/sound/cards/index.rst
-+++ b/Documentation/sound/cards/index.rst
-@@ -12,6 +12,7 @@ Card-Specific Information
-    emu10k1-jack
-    via82xx-mixer
-    audiophile-usb
-+   babyface-pro
-    mixart
-    bt87x
-    maya44
++/* Upload one 64-byte block on bulk OUT ep 0x0A (interface 1). */
++static int bf_eq_upload(struct snd_usb_babyface *chip, const u8 *block)
++{
++	u8 *buf;
++	int ret, len;
++
++	/* usb_bulk_msg DMA-maps the buffer: it must not be on the stack
++	 * (usb_hcd_map_urb_for_dma returns -EAGAIN for stack buffers).
++	 */
++	buf = kmemdup(block, BF_EQ_BLOCK_LEN, GFP_KERNEL);
++	if (!buf)
++		return -ENOMEM;
++	ret = usb_bulk_msg(chip->dev, usb_sndbulkpipe(chip->dev, 0x0a),
++			   buf, BF_EQ_BLOCK_LEN, &len, 1000);
++	kfree(buf);
++	if (ret < 0)
++		dev_err(&chip->dev->dev, "EQ bulk upload failed: %d\n", ret);
++	return ret;
++}
++
++/* Write the L+R block pair for one strip (channel base = strip x 2). */
++static int bf_eq_write_strip(struct snd_usb_babyface *chip, int strip)
++{
++	struct bf_eq_channel *e = &chip->eq[strip];
++	u8 b[BF_EQ_BLOCK_LEN];
++	s32 identity[3][4] = { { 0 }, { 0 }, { 0 } };
++	s32 shared = e->on ? e->shared : BF_EQ_Q27;
++	u32 lc = e->on ? e->lc_raw : BF_EQ_LC_OFF;
++	/* The header slope byte (b[1]) is only valid while the low cut is
++	 * engaged: a stale slope with 0x38 = off made the device apply a
++	 * garbage-frequency cut (ear-verified: "low cut off" left only
++	 * highs).  cap_eq7: byte1 = 0x00 + 0x38 = 0x04000000 when off.
++	 */
++	u8 slope = (e->on && e->lc_hz > 0) ? e->slope : 0;
++	int ch, ret;
++
++	for (ch = 0; ch < 2; ch++) {
++		bf_eq_build_block(b, strip * 2 + ch, slope,
++				  e->on ? e->words : identity, shared, lc);
++		ret = bf_eq_upload(chip, b);
++		if (ret < 0)
++			return ret;
++	}
++	return 0;
++}
++
++/* Recompute one strip's words + low cut from its params, re-upload.
++ * Lock-free by convention: every caller must already hold chip->mutex
++ * (bf_eq_put() and bf_eq_reupload() do) - asserting it here catches a
++ * future caller that forgets, instead of a silent self-deadlock.
++ */
++static void bf_eq_update_strip(struct snd_usb_babyface *chip, int strip)
++{
++	struct bf_eq_channel *e = &chip->eq[strip];
++	s32 fs = chip->rate ? chip->rate : 48000;
++	s32 last_c4 = BF_EQ_Q27;
++	int band, i;
++
++	lockdep_assert_held(&chip->mutex);
++
++	for (band = 0; band < 3; band++) {
++		s32 w[5];
++
++		bf_eq_band_words(w, e->band_type[band], e->band_freq[band],
++				 e->band_q[band], e->band_gain[band], fs);
++		for (i = 0; i < 4; i++)
++			e->words[band][i] = w[i];
++		if (e->band_type[band] && e->band_gain[band])
++			last_c4 = w[4];	/* shared scale: the last band */
++	}
++	e->shared = last_c4;
++	e->lc_raw = bf_eq_lc_freq_raw(e->lc_hz, e->slope_db);
++	e->slope = bf_eq_lc_slope_byte(e->slope_db);
++	bf_eq_write_strip(chip, strip);
++}
++
++/* Recompute + re-upload all four strips (rate change). Caller must
++ * hold chip->mutex - bf_eq_update_strip()/bf_eq_write_strip() are
++ * lock-free by convention (see bf_eq_put()) and the only caller,
++ * babyface_pcm_hw_params(), already holds the lock across the rate
++ * change; locking here too self-deadlocked it (hung-task: "blocked
++ * on a mutex likely owned by" itself, hit via regress.sh's rate
++ * sweep).
++ */
++void bf_eq_reupload(struct snd_usb_babyface *chip)
++{
++	int strip;
++
++	for (strip = 0; strip < 4; strip++)
++		bf_eq_update_strip(chip, strip);
++}
++
++/* ---- ALSA controls (4 strips x 19 controls) ---- */
++
++#define EQ_STRIP(pv)	((pv) >> 8)
++#define EQ_PARAM(pv)	((pv) & 0xff)
++/* params: 0 enable, 1-3 type, 4-6 freq, 7-9 q, 10-12 gain, 13 lc freq, 14 lc slope */
++
++static const char *const bf_eq_type_texts[] = {
++	"Off", "Bell", "Low Shelf", "High Shelf", NULL
++};
++
++static const char *const bf_eq_slope_texts[] = {
++	"6 dB/oct", "12 dB/oct", "18 dB/oct", "24 dB/oct", NULL
++};
++
++static int bf_eq_info(struct snd_kcontrol *kctl,
++		      struct snd_ctl_elem_info *uinfo)
++{
++	int param = EQ_PARAM(kctl->private_value);
++
++	if (param == 0) {
++		uinfo->type = SNDRV_CTL_ELEM_TYPE_BOOLEAN;
++		uinfo->count = 1;
++		return 0;
++	}
++	if (param == 1 || param == 2 || param == 3)
++		return snd_ctl_enum_info(uinfo, 1, 4, bf_eq_type_texts);
++	if (param == 14)
++		return snd_ctl_enum_info(uinfo, 1, 4, bf_eq_slope_texts);
++
++	uinfo->type = SNDRV_CTL_ELEM_TYPE_INTEGER;
++	uinfo->count = 1;
++	uinfo->value.integer.min = (param == 10 || param == 11 ||
++				    param == 12) ? -240 :
++				   (param == 7 || param == 8 ||
++				    param == 9) ? 5 : 0;
++	uinfo->value.integer.max = (param == 7 || param == 8 ||
++				    param == 9) ? 1000 :
++				   (param == 10 || param == 11 ||
++				    param == 12) ? 240 : 20000;
++	uinfo->value.integer.step = 1;
++	return 0;
++}
++
++static int bf_eq_get(struct snd_kcontrol *kctl,
++		     struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
++	struct bf_eq_channel *e = &chip->eq[EQ_STRIP(kctl->private_value)];
++	int param = EQ_PARAM(kctl->private_value);
++	int band = (param - 1) % 3;
++	s32 *v = NULL;
++
++	switch (param) {
++	case 0:
++		break;
++
++	case 1:
++	case 2:
++	case 3:
++		v = &e->band_type[band];
++		break;
++
++	case 4:
++	case 5:
++	case 6:
++		v = &e->band_freq[band];
++		break;
++
++	case 7:
++	case 8:
++	case 9:
++		v = &e->band_q[band];
++		break;
++
++	case 10:
++	case 11:
++	case 12:
++		v = &e->band_gain[band];
++		break;
++
++	case 13:
++		v = &e->lc_hz;
++		break;
++
++	case 14:
++		v = &e->slope_db;
++		break;
++	}
++	if (param == 0) {
++		ucontrol->value.integer.value[0] = e->on;
++	} else if (param == 14) {
++		/* Inverse of put's index->dB map: slope_db stores the raw
++		 * 6/12/18/24 dB/oct value, but an ENUMERATED control's .get
++		 * must return the enum item index (0-3), same as .put
++		 * receives - returning the raw dB value here (the bug this
++		 * replaces) fed back an out-of-range index to every ALSA
++		 * consumer (confirmed via amixer: writing index 1 read back
++		 * as value 12, not 1).
++		 */
++		s32 slope = v ? *v : 6;
++
++		ucontrol->value.enumerated.item[0] =
++			slope >= 24 ? 3 : slope >= 18 ? 2 : slope >= 12 ? 1 : 0;
++	} else if (param == 1 || param == 2 || param == 3) {
++		/* ENUMERATED band type: use the enumerated union member. */
++		ucontrol->value.enumerated.item[0] = v ? *v : 0;
++	} else {
++		ucontrol->value.integer.value[0] = v ? *v : 0;
++	}
++	return 0;
++}
++
++static int bf_eq_put(struct snd_kcontrol *kctl,
++		     struct snd_ctl_elem_value *ucontrol)
++{
++	struct snd_usb_babyface *chip = snd_kcontrol_chip(kctl);
++	int strip = EQ_STRIP(kctl->private_value);
++	int param = EQ_PARAM(kctl->private_value);
++	struct bf_eq_channel *e = &chip->eq[strip];
++	int band = (param - 1) % 3;
++	s32 nv;
++	s32 *v = NULL;
++	int ret = 0;
++
++	/* Read from the union member matching the control type: ENUMERATED
++	 * params (band type 1-3, slope 14) use .enumerated.item, everything
++	 * else (BOOL 0, INTEGER) uses .integer.value.
++	 */
++	if (param == 1 || param == 2 || param == 3 || param == 14)
++		nv = (s32)ucontrol->value.enumerated.item[0];
++	else
++		nv = (s32)ucontrol->value.integer.value[0];
++
++	/* Validate against the bounds bf_eq_info() declares.  The ALSA core
++	 * only checks these when CONFIG_SND_CTL_INPUT_VALIDATION is set, so
++	 * an out-of-range value here could otherwise reach the Q27
++	 * coefficient math (bf_eq_band_words/bf_exp2) and shift by >= width
++	 * (undefined behaviour).
++	 */
++	switch (param) {
++	case 0:
++		if (nv < 0 || nv > 1)
++			return -EINVAL;
++		break;
++	case 1:
++	case 2:
++	case 3:
++	case 14:
++		if (nv < 0 || nv > 3)
++			return -EINVAL;
++		break;
++	case 4:
++	case 5:
++	case 6:
++	case 13:
++		if (nv < 0 || nv > 20000)
++			return -EINVAL;
++		break;
++	case 7:
++	case 8:
++	case 9:
++		if (nv < 5 || nv > 1000)
++			return -EINVAL;
++		break;
++	case 10:
++	case 11:
++	case 12:
++		if (nv < -240 || nv > 240)
++			return -EINVAL;
++		break;
++	}
++
++	switch (param) {
++	case 0:
++		v = NULL;
++		break;
++
++	case 1:
++	case 2:
++	case 3:
++		v = &e->band_type[band];
++		break;
++
++	case 4:
++	case 5:
++	case 6:
++		v = &e->band_freq[band];
++		break;
++
++	case 7:
++	case 8:
++	case 9:
++		v = &e->band_q[band];
++		break;
++
++	case 10:
++	case 11:
++	case 12:
++		v = &e->band_gain[band];
++		break;
++
++	case 13:
++		v = &e->lc_hz;
++		break;
++
++	case 14:
++		v = &e->slope_db;
++		break;
++	}
++	if (param == 14)	/* slope enum items are 6/12/18/24 */
++		nv = nv == 0 ? 6 : nv == 1 ? 12 : nv == 2 ? 18 : 24;
++
++	mutex_lock(&chip->mutex);
++	if (param == 0) {
++		if (e->on != !!nv) {
++			e->on = !!nv;
++			bf_eq_update_strip(chip, strip);
++			ret = 1;
++		}
++	} else if (v && *v != nv) {
++		*v = nv;
++		bf_eq_update_strip(chip, strip);
++		ret = 1;
++	}
++	mutex_unlock(&chip->mutex);
++	return ret;
++}
++
++/* The Q controls declare 5..1000 (Q x 100) and bf_eq_put() rejects
++ * anything below 5, so a zeroed band_q would read back out of range -
++ * alsactl then fails to restore it (EINVAL) - and could reach the
++ * coefficient math.  Seed the neutral Q 1.0 on every strip at probe,
++ * before any saved state is applied so a restore still overrides it.
++ */
++void bf_eq_defaults(struct snd_usb_babyface *chip)
++{
++	int strip, band;
++
++	for (strip = 0; strip < 4; strip++)
++		for (band = 0; band < 3; band++)
++			chip->eq[strip].band_q[band] = 100;
++}
++
++int babyface_create_eq(struct snd_usb_babyface *chip)
++{
++	static const char *const names[4] = { "AN1", "AN2", "AN3", "AN4" };
++	static const char *const params[] = {
++		"EQ Enable",
++		"EQ Band 1 Type", "EQ Band 2 Type", "EQ Band 3 Type",
++		"EQ Band 1 Freq", "EQ Band 2 Freq", "EQ Band 3 Freq",
++		"EQ Band 1 Q", "EQ Band 2 Q", "EQ Band 3 Q",
++		"EQ Band 1 Gain", "EQ Band 2 Gain", "EQ Band 3 Gain",
++		"EQ Low Cut Freq", "EQ Low Cut Slope",
++	};
++	int strip, i, err;
++
++	for (strip = 0; strip < 4; strip++) {
++		for (i = 0; i < 15; i++) {
++			struct snd_kcontrol *kctl;
++			char name[64];
++
++			snprintf(name, sizeof(name), "%s %s", names[strip],
++				 params[i]);
++			kctl = snd_ctl_new1(&(struct snd_kcontrol_new){
++				.iface = SNDRV_CTL_ELEM_IFACE_MIXER,
++				.name = "EQ",
++				.index = 0,
++				.info = bf_eq_info,
++				.get = bf_eq_get,
++				.put = bf_eq_put,
++				.private_value = (strip << 8) | i,
++			}, chip);
++			if (!kctl)
++				return -ENOMEM;
++			strscpy(kctl->id.name, name, sizeof(kctl->id.name));
++			err = snd_ctl_add(chip->card, kctl);
++			if (err < 0)
++				return err;
++		}
++	}
++	return 0;
++}
++
+diff --git a/sound/usb/babyfacepro/babyfacepro.c b/sound/usb/babyfacepro/babyfacepro.c
+index 18b8ac08d..fb2eba392 100644
+--- a/sound/usb/babyfacepro/babyfacepro.c
++++ b/sound/usb/babyfacepro/babyfacepro.c
+@@ -537,6 +537,7 @@ void bf_state_save(struct snd_usb_babyface *chip)
+ 	s->width = chip->width;
+ 	s->fx_send = chip->fx_send;
+ 	s->dim = chip->dim;
++	memcpy(s->eq, chip->eq, sizeof(s->eq));
+ 	memcpy(s->panel_sel, chip->panel_sel, sizeof(s->panel_sel));
+ 	mutex_unlock(&bf_saved_mutex);
+ }
+@@ -575,6 +576,7 @@ int bf_state_restore(struct snd_usb_babyface *chip)
+ 		chip->width = s->width;
+ 		chip->fx_send = s->fx_send;
+ 		chip->dim = s->dim;
++		memcpy(chip->eq, s->eq, sizeof(chip->eq));
+ 		memcpy(chip->panel_sel, s->panel_sel, sizeof(chip->panel_sel));
+ 		ret = 1;
+ 		break;
+@@ -587,6 +589,12 @@ int bf_state_restore(struct snd_usb_babyface *chip)
+ 	ret = babyface_restore_state(chip);
+ 	if (ret == 0)
+ 		ret = bf_state_apply_flags(chip);
++	if (ret == 0)
++		/* The DSP is not part of the register state the cold init
++		 * clears; re-upload the restored coefficients so a usbfs
++		 * detach/re-probe keeps the EQ too.
++		 */
++		bf_eq_reupload(chip);
+ 	mutex_unlock(&chip->mutex);
+ 	return ret ? ret : 1;
+ }
+@@ -1367,6 +1375,8 @@ static int babyface_pcm_hw_params(struct snd_pcm_substream *subs,
+ 		new_rate = true;
+ 		chip->alt = r->alt;
+ 		chip->frame_bytes = r->frame_bytes;
++		/* The DSP EQ coefficients depend on fs: re-upload. */
++		bf_eq_reupload(chip);
+ 		dev_dbg(&chip->dev->dev, "rate %u Hz (alt %u)\n",
+ 			chip->rate, chip->alt);
+ 	}
+@@ -1763,6 +1773,8 @@ static int babyface_probe(struct usb_interface *intf,
+ 	else
+ 		chip->preamp = st[0];
+ 
++	bf_eq_defaults(chip);
++
+ 	/* Restore the mixer state saved at the last disconnect (if any);
+ 	 * the device keeps its registers across a usbfs detach, but the
+ 	 * cold init above cleared them, so push the user's settings back.
+@@ -1871,6 +1883,20 @@ static int babyface_probe(struct usb_interface *intf,
+ 		goto error;
+ 	}
+ 
++	/* The DSP coefficient stream (EQ, bulk ep 0x0A) lives on interface
++	 * 1, which has a single altsetting (alt 0) already active in the
++	 * default configuration - the endpoint is scheduled, no
++	 * SET_INTERFACE or interface claim is needed (the earlier
++	 * -EAGAIN was the on-stack transfer buffer, and SET_INTERFACE on
++	 * interface 1 wedged the iface-5 audio stream - playback URBs
++	 * never completed).
++	 */
++	err = babyface_create_eq(chip);
++	if (err < 0) {
++		dev_err(&intf->dev, "EQ control creation failed: %d\n", err);
++		goto error;
++	}
++
+ 	err = snd_card_register(chip->card);
+ 	if (err < 0) {
+ 		dev_err(&intf->dev, "snd_card_register failed: %d\n", err);
+@@ -1998,6 +2024,13 @@ static int babyface_resume(struct usb_interface *intf)
+ 	if (err < 0)
+ 		goto out;
+ 	err = bf_state_apply_flags(chip);
++	if (err < 0)
++		goto out;
++	/* The device lost its DSP across the suspend; the bulk EQ uploads
++	 * are not part of the register state re-applied above, so re-send
++	 * them.
++	 */
++	bf_eq_reupload(chip);
+ out:
+ 	mutex_unlock(&chip->mutex);
+ 	if (!err)
+diff --git a/sound/usb/babyfacepro/babyfacepro.h b/sound/usb/babyfacepro/babyfacepro.h
+index 1959bdf2e..ba036df5e 100644
+--- a/sound/usb/babyfacepro/babyfacepro.h
++++ b/sound/usb/babyfacepro/babyfacepro.h
+@@ -14,7 +14,7 @@
+  * babyfacepro.c holds the card lifecycle, the PCM stream and the
+  * mixer-state persistence across re-probes and resume;
+  * babyfacepro-ctl.c holds the ALSA control surface - the hardware
+- * mixer and the front panel.
++ * mixer, the front panel and the DSP EQ.
+  *
+  * The protocol (vendor requests + 14x32-bit frame layout) was
+  * reverse-engineered from Windows captures and validated on hardware -
+@@ -296,6 +296,24 @@ extern const u8 bf_xpoint_block[6];
+  */
+ #define BF_SRC_PB1			8
+ 
++/* One analog-input strip of the DSP EQ (babyfacepro-ctl.c).  A named type
++ * rather than one nested in the chip, so it can also be saved with the rest
++ * of the mixer state (struct bf_saved).
++ */
++struct bf_eq_channel {
++	bool on;		/* EQ engaged (else identity blocks) */
++	s32 slope_db;		/* low-cut slope 6/12/18/24 (0 = off) */
++	s32 lc_hz;		/* low-cut freq, 0 = off */
++	u32 lc_raw;		/* cached 0x38 word */
++	u8 slope;		/* cached slope byte (2^n - 1) */
++	s32 band_type[3];	/* 0 off, 1 bell, 2 low shelf, 3 high shelf */
++	s32 band_freq[3];	/* Hz */
++	s32 band_q[3];		/* Q x 100 */
++	s32 band_gain[3];	/* dB x 10 */
++	s32 words[3][4];	/* cached c0..c3 */
++	s32 shared;		/* cached c4 (shared by the slots) */
++};
++
+ struct snd_usb_babyface {
+ 	struct snd_card *card;
+ 	struct usb_device *dev;
+@@ -458,6 +476,9 @@ struct snd_usb_babyface {
+ 	struct snd_kcontrol *panel_select_kctl[3]; /* per IN pair, likewise */
+ 	struct snd_kcontrol *dim_press_kctl;
+ 	u32 dim_press_count;		/* front-panel DIM presses, wraps */
++
++	/* DSP EQ (babyfacepro-ctl.c) - 4 analog-input strips, params kept in state */
++	struct bf_eq_channel eq[4];
+ };
+ 
+ /* The mixer state cached across interface re-probes/resume (see
+@@ -485,6 +506,7 @@ struct bf_saved {
+ 	int width;
+ 	u16 fx_send;
+ 	bool dim;
++	struct bf_eq_channel eq[4];
+ 	s8 panel_sel[3];
+ };
+ 
+@@ -545,6 +567,11 @@ int babyface_create_panel(struct snd_usb_babyface *chip);
+ void babyface_panel_start(struct snd_usb_babyface *chip);
+ void babyface_panel_stop(struct snd_usb_babyface *chip);
+ void babyface_panel_work(struct work_struct *work);
++void bf_eq_band_words(s32 *w, int type, s32 freq_hz, s32 q100,
++		      s32 gain_x10, s32 fs);
++void bf_eq_reupload(struct snd_usb_babyface *chip);
++void bf_eq_defaults(struct snd_usb_babyface *chip);
++int babyface_create_eq(struct snd_usb_babyface *chip);
+ 
+ /* Master gain-law helpers (babyfacepro-ctl.c). */
+ int bf_master_half_db(u16 vol16);	/* 16-bit master -> dBx2 */
 -- 
 2.56.0
 
