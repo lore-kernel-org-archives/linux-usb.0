@@ -1,97 +1,63 @@
-Received: from mail-wr2-f10.google.com (mail-wr2-f10.google.com [74.125.225.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E879334D4F9
-	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 16:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6537D43C07E;
+	Sat,  3 Oct 2026 16:24:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791044336; cv=none; b=pyaMaDYQmXvhf979RSraLTaFVazP2Ij5ewWi9dD90UVVkuhQoBipjnE6dy5uvbaeiDlzgJqHc7rURj0zvB86Kp+8M4X3MIOKLzLIk4AWAURI0bP1kv/1zaFpilTE9tHv33q8Mx3zCOm4se33FRRCyD5+hErDC+RwgmVvCpaIR+E=
+	t=1791044694; cv=none; b=RrBig0RfAQOPLAguvTlc3L7XciKxECUWpaPnyql27LbB79hYIJRPd1vyW06yy8eeitUUGoI9JoqJdAV7lfxGt0xyQWlgQX2Uv0pWGefqUomK7+aGMxEYiWeP32RENzWNFFCvwDr1RanyaqruosmlasJUD8s8HL1/iu7YVDEJyk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791044336; c=relaxed/simple;
-	bh=ZXWJjg4/vO8kimwyxG1j1azonR+0Mw1QdQt+X2SFpjc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FE9FuP0ormpyjBwT0lLrU7IkJI+KdYbH098pNirr6PEy/e5uYEIL8QF5bJA/AiUJAMWsfNfHSe0CKxSR3sNBpkxEIfzEGvjKDQEpCzgw5cRA6n1UGBqpelb5K8nGkD/bcqbJ03yDwgyE5yWzugub2CRO8SYSNCJ/SDtKV+dVCIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHVP+bN+; arc=none smtp.client-ip=74.125.225.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791044694; c=relaxed/simple;
+	bh=JuYkT8Emc2oEARxEj8bg+JzMp+iyFYK7FM4qg6lr8xs=;
+	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=lVGAEygK1Hu/stTtn3f4Z//1JrvgDOP0DUswSQkEHa1EzayR1FhbvflQnPNQ4Mpz3gs3LNoVArjeflt1yVTbdXmNURdYPT9hDh0Axy7NmLdBzU04prKDgac36tSQCOv6JLUCCq1Jid8luHX+chNAZu4jqOu8/04DBpN2UuHunkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSfsnJ2r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHVP+bN+"
-Received: by mail-wr2-f10.google.com with SMTP id ffacd0b85a97d-48afe63da73so222483f8f.0
-        for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 09:18:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791044333; x=1791649133; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ofOK5rX/Ol1Dp2wHU6Wg1KvPujaWtQi2ID69h0RWSjQ=;
-        b=gHVP+bN+lRuIDS+JAEd53x0Z1bkiDGK7IT9PwPoeMcUC9b5eoabZhUNAcBI5IfbolW
-         B5lXPDxlh3mqTKkyrg+OPc2dFAEE81PRJP9m2WuwJOZmXhFE2ObrowBKynPOrPzDjr/S
-         69jf4UB7W3ZSB/uLOmwvfl36egxu623tTXqTBm9Xeal4GOwZ2p8xFi8DWEygja+5LTw8
-         fNY2rN8S52liEOl0Q2S2zn5i9ZStP85SOzEWIbbs3xLzE2NtorFrtxfiQ/E8u40dC3A8
-         yu77AwTNV0ro3Xj/YajBX/Wk+Dgi++RME1ZaBdImzfbR+9n+z8YxdKpFhCxlV1UVSYSk
-         cjTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791044333; x=1791649133;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ofOK5rX/Ol1Dp2wHU6Wg1KvPujaWtQi2ID69h0RWSjQ=;
-        b=a0JqDH70CXp+cbyVk32mYua3NIkn3o/GaJlwDu7L7PIKQBu9GsJBhjfh52VNCeHV5n
-         /w0sZA5zs3VUAcGByGVY0mnRGmGHlQni3lUkG62Fr8fzKkYExcFxiwsJYY6+aCkR1egI
-         +zaNKfUUBFUVK8HZsNIIIJYEQ+LM8/4HxH+iNMbcyab7Nyl9CmkZADE4XU7P9HYi9BiW
-         f2I/efIULWhz6Q2+I4wm1fu+sY3Q48jQr1KQ+e7UE3WTTRKjlsw1jSIMCsUgMpdQz99H
-         sBgjhlkvQ1J/cezaIuyfhEwxjYhcgdMANO/6yiaxXl1uCZq7/6cm35dbni9yFEJknN1Q
-         Y+qg==
-X-Forwarded-Encrypted: i=1; AKwUvBw4mVfov39gdwsVEEo8bXhHGXEqa0FlsvynL0wxgEIW22sRs3QeiXVPVJq0J5toH7Rb3ZxCsIhlQek=@vger.kernel.org
-X-Gm-Message-State: AFuF++nJ8VfghMLTAYQacSPyK6/JkYrLnafEdc+7s7Sh7TuAKdr5FUKL
-	MpGtd3pWO6YK/GN0o8GQ9QTkDqy4tj8FMfxt6Eli0Y+m6ahTXI/mDwS3f1w7dJNO
-X-Gm-Gg: AYBFou1yoPrv+BYowDcJI0yrCsca1otlQNh0grVwBPwyuXLe10RTAQa6R7SzNMrJcK/
-	nubFOIkozBkCiZxGtHreQSxWxPsIYx5JOEA0uEg6JFJ7cJ/vne+OujRd4O889u6KWBu/wfzKMxS
-	q//F53ukKVS0vf4PNo1PnU0/Ya240FNq3EKOvJbwrwSSAj5YD6jKRrRyMdRgaxdM2pKdj+ewbQe
-	jJrJWS7gwrMd/AdyRnxsvFXM9n6fZmtehuNWTMBiW2Jy3HDx6aQcq0G2OD6dq8sGZH096MGofSu
-	nAKGxY5/nujxluUTUPxl2uAh0hsg/psv1reWuIWGgzuywntpHFUf2VgK68Qvt1scz+CG8iaOdsa
-	IkSL1uiPc64N1YO+f13XYZJ78IE9gWbgz8+hJhBbgiedHJxHxC755ZsdNNbmM2vfS2NuvY7DS38
-	c53oQLSqd+kbSubM6AM3AyP0qxaw3/SYfC50MMw+KpTiIL4E3nER57eb/hIcUyRdm7uSJbhOFcl
-	rJ1/qbhVfnh468=
-X-Received: by 2002:a05:600c:530d:b0:4a0:1e37:ae41 with SMTP id 5b1f17b1804b1-4a0275a22b1mr95334765e9.24.1791044333017;
-        Sat, 03 Oct 2026 09:18:53 -0700 (PDT)
-Received: from serhat-ubuntu.home ([212.253.192.148])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a03fef5950sm117972475e9.2.2026.10.03.09.18.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 09:18:52 -0700 (PDT)
-From: Serhat Kumral <serhatkumral1@gmail.com>
-To: gregkh@linuxfoundation.org
-Cc: hansg@kernel.org,
-	israel.a.cepeda.lopez@intel.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	sakari.ailus@linux.intel.com,
-	serhatkumral1@gmail.com
-Subject: Re: [PATCH] usb: misc: usbio: Handle negative error code from usb_control_msg()
-Date: Sat,  3 Oct 2026 19:18:24 +0300
-Message-ID: <20261003161824.22338-1-serhatkumral1@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <2026100327-doornail-jaws-c582@gregkh>
-References: <2026100327-doornail-jaws-c582@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSfsnJ2r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 457501F0089B;
+	Sat,  3 Oct 2026 16:24:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791044692;
+	bh=oGd7D8hJeP6o9k/vcien6VEvBa/8Lsxlnteb9/+YRxw=;
+	h=Subject:From:In-Reply-To:References:Date:To:Cc;
+	b=ZSfsnJ2rrwlFWxF1phxNenBGIPm2VG3FXs7Ql6X/PJ01+Bk3QbclMj9ars5OprVM4
+	 InHXiVecxjQX+/q0CQRiy5i+ljtR0EdLr/fD/wDNYL1QERU50Qks8YmNwTv5coeYdo
+	 i9pL9BAHeAliSXqslkYl2Fv/+CE9JDoQOkElBhLmLy0fX5dgFqnx+YwvcdSwntuw7X
+	 CFzi8RhKTcxv/AdLvQfy0OLZDn/pQbJNEX7NXMDr59aC2ntqkmv2F2wVGL3Cj9AOmF
+	 gL3mleDIrydtw6FYAxhg5OgpBePV+g10BW4E9iETG+c00pMUhMQ/Hd/EkNt4snR7db
+	 f/74o1IPyuq2g==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3A2883924475;
+	Sat,  3 Oct 2026 16:24:52 +0000 (UTC)
+Subject: Re: [GIT PULL] USB driver fixes for 7.3-rc6
+From: pr-tracker-bot@kernel.org
+In-Reply-To: <asDo8cZTIkqu5jfo@kroah.com>
+References: <asDo8cZTIkqu5jfo@kroah.com>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <asDo8cZTIkqu5jfo@kroah.com>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.3-rc6
+X-PR-Tracked-Commit-Id: a93862fa670a9c99fd9a24fb2ef69e4f948d9bd5
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 903e23eda5af2a5491e698838645f84a8f90379b
+Message-Id: <179104469082.131116.17315097982313728465.pr-tracker-bot@kernel.org>
+Date: Sat, 03 Oct 2026 16:24:50 +0000
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 03, 2026 at 17:13:45 +0200, Greg KH wrote: 
-> Ick, really?  There's no compiler check for this type of thing?
+The pull request you sent on Sat, 3 Oct 2026 13:37:21 +0200:
 
-> This whole function needs to be rewritten to use the "modern" control
-> message functions.  I gave it a go once, but it quickly got messy as
-> this is an abused function and it really should be massivly cleaned up.
+> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.3-rc6
 
-> Do you have the hardware for this to test changes?
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/903e23eda5af2a5491e698838645f84a8f90379b
 
-Unfortunately I don't have the hardware. I relied on static analysis
-and tried to keep things quite simple
+Thank you!
 
-thanks,
-Serhat
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
