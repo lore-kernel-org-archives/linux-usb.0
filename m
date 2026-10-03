@@ -1,245 +1,146 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E189479874;
-	Sat,  3 Oct 2026 16:33:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9206448E0D2
+	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 16:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791045230; cv=none; b=tuyk7zWXDe++wUdS3pR7KHDPCvbvt/qHZwEi/d88ESZ685M02wBBMnc+QArbEB9P+9jdqYi9GPdsvLWKGCybjLzs5fqcf9xsDINSufHh+g9BOx0cV4awGx9eMVqBpwkVs1wS7sKtfdqaY+A8KnUcsd77ErbIzgwjK4e/kA0vXg8=
+	t=1791045234; cv=none; b=FcWRV63ls66ayToe6ExTso1+gH0WBPusSMGOJpxeVAW7iUOX/r/7cjCY0QDn6hAKOuKulgY6R8B03qHTsaxyN7pnwNYD+dIwDC6X3UZ0beY3y+L+8d6Iz7ZDjv3Aq7+FqpookHCPbKbkLo+/wEYL56Vdc0MpR9Y4rVOas4tgvuk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791045230; c=relaxed/simple;
-	bh=EYqw+AtDKpEde3pCckMQkm9HGGlkplYL0cvv0S5EwV8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=h4jGNr6ZYTVyVQq0OZ2cLFK7XaVIHpK2dnRKOCvJvB1uGcHZjR36956KeNnVf0Z32D/uPoadBnaOoPjAfES9mdjoSm/5godXZJ7fyIJzHRuLcrGCRgK91V/ez095yWZy99bldr1c4g2yhnk/6v2uX1vV0vr3TepRG6pmT/m3f5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lj/hShN6; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791045234; c=relaxed/simple;
+	bh=2kKQc2rfSM+xOjPv6svGgL686DTrbMP0bq+CObNRFBw=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=QAYjsLUWFzEcqGbtURABtU+BjVtEF/GmIsXyEicw0A6jVwNVGIcfkAuwBmFNiq5Jo/xVEJdc7tqqGsB8quUacO0Ixzy9AJPCHgOEPGt8FoxU7SxoxawgKniqI6HMrozLekc19WAxn2byK33bwy4EKXXNSKYvwajtlqq2Gp0ivGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ubox0kH2; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lj/hShN6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 599321F0089B;
-	Sat,  3 Oct 2026 16:33:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791045229;
-	bh=XQQXLmuz/mYy2m0DRCE2BDh2jZAsmGDyji4q3SA7eeo=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=lj/hShN6gWOgXwQvHUbPEZgal2QtUCby7VPIwvt8lsCsiSGg+6Y87bl7qHM4PLWS3
-	 CkEtqmEUsf/wuEqs0DXVuf9zQYTCQGLhW2aq9eiBaA/PUwHcFmAiTVMrPjArzj8sej
-	 b4F4A9M/J41uV89M1wFOSxQ/EVUowujaDYlaxEF2yC1aAT0fXj0GHwcbrTsGOGfcBt
-	 Po2M7eN18pd73K+NaB5b2gOZkRTYAQ7OPpI+f9TJjPU11eAxhFrq6XgRpv+Ju6SpzF
-	 dOiscdHTgGNFG+Zs7OyfVPYzTGeY17pTNcQ/vjcnLmCHbFThLGFq2cLvvsjfRhvee8
-	 Rjoitwzl+ARyA==
-From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Date: Sat, 03 Oct 2026 17:32:33 +0100
-Subject: [PATCH v4 02/38] mm/vma: introduce and use vma_[flags_]can_merge()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ubox0kH2"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 4395DC4AF14
+	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 16:33:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1791045234;
+	bh=2kKQc2rfSM+xOjPv6svGgL686DTrbMP0bq+CObNRFBw=;
+	h=From:To:Subject:Date:From;
+	b=Ubox0kH2ylMYMqWq0OG5UZ4K7xcG4WxUzl/XNiqXSg9fSJXMMCi0qR2+nGhaJ86mB
+	 Rm9STCSwzpw3KosZL+uiZEnZKD1JtiNGqcDr4WZQ0JYIN9q77gs/BrlLI440d6vruK
+	 3K2wA0D2OtnF72IzZyEa6SLgubA99Jggue4PembrUVYxvm9PP63ko/drGX4XNoPp0j
+	 7h6PRYkqaY8U6nSEOAvQ7E3IeHPBjUA65qOP1AbYnoRhLO/OcjfqnGrOLVQXzg0tHe
+	 E0ALS5breT/x4bxUmzAao+zq4f47D8wHEOnGWGRW52H/jTnTVqibuoNmpx0zgu1P/Q
+	 zKM2i2IoawATQ==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 1E9A3C41612; Sat,  3 Oct 2026 16:33:54 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: =?UTF-8?B?W0J1ZyAyMjIwOTFdIE5ldzogUmVncmVzc2lvbiA3LjEuMTDihpI3?=
+ =?UTF-8?B?LjIueDogcG93ZXJvZmYgaGFuZ3MgYWZ0ZXIgTGVub3ZvIFVTQjQgZG9jayAo?=
+ =?UTF-8?B?NDBCRikgY29ubmVjdGVkIGR1cmluZyBzZXNzaW9uOyBzdGF0ZSBwZXJzaXN0?=
+ =?UTF-8?B?cyBhZnRlciB1bnBsdWc=?=
+Date: Sat, 03 Oct 2026 16:33:53 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: abadragan@gmail.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression
+Message-ID: <bug-222091-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-2-a1f052500fd7@kernel.org>
-References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
-In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
- "Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
- Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
- David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, 
- Jason Gunthorpe <jgg@ziepe.ca>, Leon Romanovsky <leon@kernel.org>, 
- Paul Moore <paul@paul-moore.com>, 
- Stephen Smalley <stephen.smalley.work@gmail.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
- Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
- Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
- Baolin Wang <baolin.wang@linux.alibaba.com>, 
- Nico Pache <nico.pache@linux.dev>, Ryan Roberts <ryan.roberts@arm.com>, 
- Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
- Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
- Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
- "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>, 
- "Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, 
- Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
- John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
- Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
- Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
- Arnaldo Carvalho de Melo <acme@kernel.org>, 
- Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
- Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
- "Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, 
- Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
- Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
- "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, 
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Christian Borntraeger <borntraeger@linux.ibm.com>, 
- Janosch Frank <frankja@linux.ibm.com>, 
- Claudio Imbrenda <imbrenda@linux.ibm.com>, 
- Alexander Gordeev <agordeev@linux.ibm.com>, 
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>, 
- Heiko Carstens <hca@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>, 
- "David S. Miller" <davem@davemloft.net>, 
- Andreas Larsson <andreas@gaisler.com>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, 
- Matthew Brost <matthew.brost@intel.com>, 
- Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
- Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
- Ying Huang <ying.huang@linux.alibaba.com>, 
- Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, 
- Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
- Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
- Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
- Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
- Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
- Wei Xu <weixugc@google.com>, Chengming Zhou <chengming.zhou@linux.dev>, 
- Michal Hocko <mhocko@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
- Xu Xin <xu.xin@linux.dev>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org, 
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
- linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
- linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
- kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
- linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
- fuse-devel@lists.linux.dev, "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3865; i=ljs@kernel.org;
- h=from:subject:message-id; bh=EYqw+AtDKpEde3pCckMQkm9HGGlkplYL0cvv0S5EwV8=;
- b=owGbwMvMwCV2fu7ZrsZH9SKMp9WSGLIO6qnt2PymfU7KPoPUxFu1eSfCNNjFXu/pvKD68nt+0
- +a6nW0KHaUsDGJcDLJiiizPv4jvDxIJm9d5wd8NZg4rE8gQBi5OAZjInQmMDDNLfpn/ftzAfVjS
- KKJW7tXOLY0/ix9U62meqtx4tL76/BSGP5yzD0b2Fy78P3tpRsfZ93mnvvlahNzojrbasVf7Ytd
- CSVYA
-X-Developer-Key: i=ljs@kernel.org; a=openpgp;
- fpr=E7F417BF5214569E89D04F46CF9DCD8A81E27F14
 
-Replace the open-coded VMA_SPECIAL_FLAGS check in the VMA merge logic with
-two new functions vma_flags_can_merge() and vma_can_merge() and update the
-merge logic to use the former.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222091
 
-This abstracts the check and expresses it in terms of the desired behaviour
-rather than an arbitrary and confusing VMA flag.
+            Bug ID: 222091
+           Summary: Regression 7.1.10=E2=86=927.2.x: poweroff hangs after L=
+enovo
+                    USB4 dock (40BF) connected during session; state
+                    persists after unplug
+           Product: Drivers
+           Version: 2.5
+          Hardware: Intel
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: abadragan@gmail.com
+        Regression: No
 
-This also lays the groundwork for making further improvements in VMA flag
-usage.
+[Filed under Drivers/USB because there is no Thunderbolt component; this is=
+ a
+drivers/thunderbolt (NHI) regression. Downstream report: see Red Hat Bugzil=
+la,
+Fedora component "kernel" -- URL to be added in a follow-up comment.]
 
-Also update the userland VMA tests to reflect the change.
+REGRESSION: System fails to power off once a Lenovo ThinkPad USB4 Dock 5000
+(40BF) has been connected during the session. Userspace shutdown completes
+cleanly (journal shows poweroff.target reached, filesystems synced, journald
+stopped), then the machine hangs at the firmware splash screen and requires=
+ a
+hard power-off. The state is LATCHED: unplugging the dock afterwards does n=
+ot
+help; only sessions where the dock was never connected power off normally.
 
-No functional change intended.
+BISECTION (all verified on this machine):
+  6.19.10-300.fc44  GOOD  (install-era kernel)
+  6.19.12-300.fc44  GOOD
+  7.1.10-200.fc44   GOOD  (also verified on a parallel Bluefin install with
+                           identical kernel config and cmdline)
+  7.2.5-200.fc44    BAD   (first 7.x kernel this machine booted; install
+                           jumped 6.19.10 -> 7.2.5)
+  7.2.7-200.fc44    BAD
+  7.2.8-200.fc44    BAD
 
-Reviewed-by: Gregory Price (Meta) <gourry@gourry.net>
-Reviewed-by: Zi Yan <ziy@nvidia.com>
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
----
- include/linux/mm.h              | 21 +++++++++++++++++++++
- mm/vma.c                        | 19 +++++++++++--------
- tools/testing/vma/include/dup.h |  5 +++++
- 3 files changed, 37 insertions(+), 8 deletions(-)
+ADDITIONAL FINDING: "modprobe -r thunderbolt" while docked deadlocks
+permanently (process in D state). The dock router (thunderbolt 0-3) and
+retimer (0-0:3.1) disconnect, then the NHI teardown blocks:
 
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 969594074fd2..68250ece4219 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -1612,6 +1612,27 @@ static inline bool vma_is_shared_maywrite(const struct vm_area_struct *vma)
- 	return is_shared_maywrite(&vma->flags);
- }
- 
-+/**
-+ * vma_flags_can_merge() - Do the specified VMA flags permit the VMA to be
-+ * merged with another?
-+ * @flags: The VMA flags to test.
-+ * Returns: true if the flags permit merging, false otherwise.
-+ */
-+static inline bool vma_flags_can_merge(const vma_flags_t *flags)
-+{
-+	return !vma_flags_test_any_mask(flags, VMA_SPECIAL_FLAGS);
-+}
-+
-+/**
-+ * vma_can_merge() - Do @vma's flags permit it to be merged with another VMA?
-+ * @vma: The VMA to test.
-+ * Returns: true if the flags permit merging, otherwise false.
-+ */
-+static inline bool vma_can_merge(const struct vm_area_struct *vma)
-+{
-+	return vma_flags_can_merge(&vma->flags);
-+}
-+
- /**
-  * vma_kernel_pagesize - Default page size granularity for this VMA.
-  * @vma: The user mapping.
-diff --git a/mm/vma.c b/mm/vma.c
-index c27aea6d58d9..8f8c554d5c07 100644
---- a/mm/vma.c
-+++ b/mm/vma.c
-@@ -924,13 +924,14 @@ static __must_check struct vm_area_struct *vma_merge_existing_range(
- 
- 	vmg->state = VMA_MERGE_NOMERGE;
- 
-+	if (!vma_flags_can_merge(&vmg->vma_flags))
-+		return NULL;
- 	/*
--	 * If a special mapping or if the range being modified is neither at the
--	 * furthermost left or right side of the VMA, then we have no chance of
--	 * merging and should abort.
-+	 * If the range being modified is neither at the furthermost left or
-+	 * right side of the VMA, then we have no chance of merging and should
-+	 * abort.
- 	 */
--	if (vma_flags_test_any_mask(&vmg->vma_flags, VMA_SPECIAL_FLAGS) ||
--	    (!left_side && !right_side))
-+	if (!left_side && !right_side)
- 		return NULL;
- 
- 	if (left_side)
-@@ -1152,9 +1153,11 @@ struct vm_area_struct *vma_merge_new_range(struct vma_merge_struct *vmg)
- 
- 	vmg->state = VMA_MERGE_NOMERGE;
- 
--	/* Special VMAs are unmergeable, also if no prev/next. */
--	if (vma_flags_test_any_mask(&vmg->vma_flags, VMA_SPECIAL_FLAGS) ||
--	    (!prev && !next))
-+	if (!vma_flags_can_merge(&vmg->vma_flags))
-+		return NULL;
-+
-+	/* VMAs with no prev/next are unmergeable. */
-+	if (!prev && !next)
- 		return NULL;
- 
- 	can_merge_left = can_vma_merge_left(vmg);
-diff --git a/tools/testing/vma/include/dup.h b/tools/testing/vma/include/dup.h
-index 16c09dac59d9..2fd422789717 100644
---- a/tools/testing/vma/include/dup.h
-+++ b/tools/testing/vma/include/dup.h
-@@ -1647,3 +1647,8 @@ static inline bool file_is_dev_zero(const struct file *file)
- {
- 	return file && file->f_op == &zero_fops;
- }
-+
-+static inline bool vma_flags_can_merge(const vma_flags_t *flags)
-+{
-+	return !vma_flags_test_any_mask(flags, VMA_SPECIAL_FLAGS);
-+}
+  [<0>] nhi_pci_remove+0x53/0x60 [thunderbolt]
+  [<0>] pci_device_remove+0x4a/0xb0
+  [<0>] device_release_driver_internal+0x19e/0x200
+  [<0>] driver_detach+0x48/0x90
+  [<0>] bus_remove_driver+0x78/0x110
+  [<0>] pci_unregister_driver+0x36/0xe0
+  [<0>] nhi_unload+0x10/0x540 [thunderbolt]
 
--- 
-2.55.0
+However, blacklisting the thunderbolt module entirely does NOT fix the
+poweroff hang, and neither does blacklisting ucsi_acpi -- suggesting the
+latched state is below these drivers (ACPI power resources / EC interaction=
+).
+The BIOS exposes \_SB_.PC00.TBT0/TBT1 power resources and hands USB4 _OSC
+control to the OS at boot; ACPI tables also show pre-existing
+AE_ALREADY_EXISTS errors (\_SB.BGNV, \_SB.PC00.PTMA, ...).
 
+HARDWARE:
+  Laptop: PC Specialist FusionVI 14 (Clevo/Kapok 1558:2680), Insyde BIOS
+          1.07.03dTPCS (2024-10-24), Intel Core Ultra 200V (Lunar Lake)
+  TB4 controller: Intel [8086:a833], driver thunderbolt
+  Dock: Lenovo ThinkPad USB4 Dock 5000 (40BF), "Lenovo Dock - USB4 Router"
+        (17ef:118d), Intel retimer (8086:0d9c), dock DMC fw 1.2.04 (latest)
+
+REPRODUCER: boot 7.2.x on this hardware, attach dock at any point, then
+poweroff (or "modprobe -r thunderbolt" for the unload deadlock).
+
+WORKAROUND: pin kernel to 7.1.10-200.fc44.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
