@@ -1,155 +1,259 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A70131A807
-	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 04:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21693101A9;
+	Sat,  3 Oct 2026 07:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791001353; cv=none; b=jFC9KOxhe6jP8t2o+F6jZLeUqdnZVgjNSOML9SV53r64BVhGGBMD2S6kVH0p/59xOE6ZUYdCL9rue7SdLT34vNgXXLBNj8USJK0SRf/IwcYaXHrxJxjkO7UdjCuCyrr4JNz+3ZUmu6T30aRKoaZSRFeihE5A0Y0sYidv7nS4itE=
+	t=1791012548; cv=none; b=W9HhOociyc4OokEU8QposdqcJYbuQAQ7C4D3kVMoi/K7H63FeH0aJC0DnBPF1emNq/i1Sgwifj/hi/6U49rhmt4+bswqMpQOTEg21mxi7LL4O0x223tsX8whc+LUwZXWPjbZLC3ICJ9dYqazAxVsHQBlwnI9lonqZmU0urXL5Lo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791001353; c=relaxed/simple;
-	bh=DD4FDKqDe5MLZbpoPD6Fuf26hrheV72HpMXR6Lc65pY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lzt89loWcywBbPsePae8ww/DBKFF6CiZO/EE1TzBtvGHLZZOeaUa223ETtmZ15UC5wL0l2ZdpF+rT97QIhnp4lKujGH+5bcNdvnZVbmK/SkvfGeepIxEe78fJ7EoIv26reRk9YYJdJbJzTw9P5gWhpC/PCb0N21wEfWetnU6YCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=m+4TwNA2; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IhgAoW0Q; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1791012548; c=relaxed/simple;
+	bh=QAZxF42yFxmxRaWTu65PnAdmxN8G5AG9D1ZBmDsgVno=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=KeVe0Pf24Yg6OMe37jEbNrFQwHt5JKLd8eP0USewTkNks/FXEtnOPXm4QSNq+wdmj2RM2YFjh9f8SooQPn1Wf3MnvqJU7uCllgmcW097EKfKhT8uIyLeptoq1X7SQSJcLme3iTr7Z2/XUErwY1Lm0w49q9ZWVO2pKdEjmmXTxBY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=c1KKXtPj; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="m+4TwNA2";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IhgAoW0Q"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6933PT9M145475
-	for <linux-usb@vger.kernel.org>; Sat, 3 Oct 2026 04:22:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=GPPhG3McnxH7twP/0eHwBUr1
-	k8vDDtjVagOk1VrRcHA=; b=m+4TwNA2GEIgrj8jjh8dcCFH/XtltGie2mlLI3ob
-	uGTL0u4z7w6PehJZenTVf61k0Em0a4eYPjy1qcQNTE9Mt+oVEnU2Knxp+b35uidY
-	W2bS67Mmdv6ZIe66W4ZU/z+iHOdVf9CXdomkbuBRuG+bvInlhR7lRHcXhK2PX45p
-	xWSXAl7m61SUJOyDy5L8bPllGlZu2NuzsW5xD3nAviZWj67oyAHMwbLihnALHedz
-	M//JTsYqYXTXTOtxiWFjHhr+r2KE/9z2xxmNWV3az/AVL1VRHN0cvtqAjrSfjXtn
-	JYwZIDfHt3VeakJCQ8ZI/QS6+i2lEXBHvjL+sIZdToGKrQ==
-Received: from mail-dl1-f71.google.com (mail-dl1-f71.google.com [74.125.82.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h2sssg2nu-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 04:22:31 +0000 (GMT)
-Received: by mail-dl1-f71.google.com with SMTP id a92af1059eb24-139b62317d0so42191c88.0
-        for <linux-usb@vger.kernel.org>; Fri, 02 Oct 2026 21:22:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791001350; x=1791606150; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GPPhG3McnxH7twP/0eHwBUr1k8vDDtjVagOk1VrRcHA=;
-        b=IhgAoW0Q/b/y93aAJjkuOV1enN38UYYuKz2T3EXuits7nfJExBS3ZirmkTiGFYy8Az
-         /d1vSnjj+p/BkDNyRs34l/+flklhmc79eOrQZvk9hPYfEjhZP/hsM3n4gaDIPExK1qts
-         dK/CBGCwjdHlXXvjBfljfB82wIkSyoimlDFGseneamIxlriSQg2ulWpX/JIDIv0VdXM8
-         FzVtGHFRx6RCRO3Mi3PxUsOpr7udcQHbntWEywfpKYIn/XerE0ttbehgtWI80ZJ/aN7i
-         y7GGNLRsqsLbKiIw46xK8VG3lOjLuRVm/zFochLDqCHQhsW2aBLScX6bRelrj/4xQBsu
-         /kBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791001350; x=1791606150;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GPPhG3McnxH7twP/0eHwBUr1k8vDDtjVagOk1VrRcHA=;
-        b=1kxgf/6bI+FgtMa8Su5XaZvtB9DVEusJcTxm3pmkN25oi2zzJvqEFUYcte/T7kHk84
-         VzkSMrdVcbE4zlseoYS/y7Phos+OpjHRkp3mhggfSrnuHfZzfDx5TkpTFyZe0l0pFvBY
-         HkzIec/LmVx5xDkIB+ibKwd0cRrz5yvSFTGqrrU6bW6vYOJFIbZnKe4mO1BsxO09B0EN
-         KCsR9fWMD++7wnrqv6d4JyfML6c7SWtkbZB3oV5ERfvFkiDx+yizQP005vE+Oh+1g/as
-         VpvTccvddwdySSCM3tjDr4e6QW5hEpT4/16O5KMmID2eLvLERRKrUl57/eXGOv9+uskV
-         i8hQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw/4L1nrZhZI1V3Ntj4YjUby+yOwER80lL00q+eI54MW40s/hjMne1zIR6XItEuUioBq3rOvdN4Gss=@vger.kernel.org
-X-Gm-Message-State: AFuF++nEckPKBG7zKL32NhQ8uOEbGj6DhK+vPtFaNWeMXLuV82/jsF/P
-	VfJQ5sRzHRXfwRRNCLQ4FB/HBxZ+XzWno2Ok9bD6u5GQQ0wEkj9HJaSp3O17TuCC3uUg0CLhjNX
-	yjoQGrgns5OfLwEH1A+8DAUZdsB7C9N9lcOzAcUNU4uYSfVjy/aTO10IgHO5IlxGyQYzvEis=
-X-Gm-Gg: AYBFou1cFixXmUtGPjUaKz53fGSH171QGhvsiBeVQi3B4Hsl+NK5+D2oVmNTlZvZjb5
-	L3Wc7zbwms+aFazYnTDmkUxDvoO9li7Gw6/JiE/bn9nUI9vB3sTl0GXU4GuCy+76EOtfv9ouFgN
-	E36dYldO4K8iRaaiU0EHzOz5Jn477RpAn3NjA82wuNHByXfSDyYNm/fjKQHFJBnFNd3TB9L9vl1
-	7n3wmZHEyz3uBhaI+5C0hEtNpZtEbtvVn6TzYpc6/bYDvO/q56UETS+gJ9GaGpfQxKDLRXcwnqd
-	h7aDXC4wL7V+ybN3AJFuGl5VueC9Yk6cOMRJpzf53YCxl81ELlmFIwtvij7DSYmrabvCtBV+VLC
-	+IUDsZAF+MgqrMueg2Dp0HGG3SXxwEn7p3JxFMV4fcA==
-X-Received: by 2002:a05:701b:280e:b0:14d:523b:ce86 with SMTP id a92af1059eb24-14f5bffb067mr251786c88.20.1791001350545;
-        Fri, 02 Oct 2026 21:22:30 -0700 (PDT)
-X-Received: by 2002:a05:701b:280e:b0:14d:523b:ce86 with SMTP id a92af1059eb24-14f5bffb067mr251748c88.20.1791001349894;
-        Fri, 02 Oct 2026 21:22:29 -0700 (PDT)
-Received: from QCOM-aGQu4IUr3Y (i-global052.qualcomm.com. [199.106.103.52])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-151fa74fa1csm2061919c88.1.2026.10.02.21.22.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2026 21:22:29 -0700 (PDT)
-Date: Sat, 3 Oct 2026 12:22:23 +0800
-From: Shawn Guo <shengchao.guo@oss.qualcomm.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bartosz Golaszewski <brgl@kernel.org>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
-        linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] usb: typec: Add onsemi FUSB15201 support
-Message-ID: <asCC_0bS8nkFMyB4@QCOM-aGQu4IUr3Y>
-References: <20260916135918.1017527-1-shengchao.guo@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="c1KKXtPj"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=SmIBZmUqEdRbscojyJFi/SOpB/iGb5DMUUhqbSfuGUs=; t=1791012545;
+	x=1791617345; b=c1KKXtPjLIjkT6QXQcYB4j9VsuOJ7+XRUrac1ftimNrrVT0L/ScYCvohzCA2E
+	0430+JAYVAs+MzI/5Z32VfbCRSFP4wYWIuF2mKHE84oaH6cQmNk8k7CgJ6YHH/NmiKD1pDUIs/tU2
+	Rwvcf75h5wYzBTmjVMyLRtR6MLrZPDUQWAWldAFQcwq52OMb+Tpx/gsgAuYMQu6ZLByOjy8BdUIzh
+	hq0NAeWvgWjWc68DX47FHVS2bYjemJfyJkPWg5LO5/fRmQRSnsVU20wKuCMX0byjqyzU3WVWQKJeV
+	qmXha8PxP4T6NKYsi7TlZbrjS51alBZeuq/etSCTIY9zHDAEfQ==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.100)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1xCuB5-00000002odj-35O6; Sat, 03 Oct 2026 09:29:03 +0200
+Received: from p5dc55206.dip0.t-ipconnect.de ([93.197.82.6] helo=[192.168.178.61])
+          by inpost2.zedat.fu-berlin.de (Exim 4.100)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1xCuB5-00000002Azq-27tA; Sat, 03 Oct 2026 09:29:03 +0200
+Message-ID: <c8361e4bdc00b73025c989fa56913776ebeda829.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH] usb: r8a66597-hcd: fix buffer overflow on odd-length
+ FIFO reads
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Karl Mehltretter <kmehltretter@gmail.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-sh@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Sat, 03 Oct 2026 09:29:02 +0200
+In-Reply-To: <20261002213225.27834-1-kmehltretter@gmail.com>
+References: <20261002213225.27834-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.60.2 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260916135918.1017527-1-shengchao.guo@oss.qualcomm.com>
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDAzMDAxNyBTYWx0ZWRfX+m1s3UL9bFP6
- BJkxNpLForzJ8N7IiOy/svF34zy4I6yCzvdhYdrKm6xdYIs8ZCkJqssGXVMmc7blCnzfnXgRqI+
- N2UnIbB2LxkeAC/af1wce1zvEAH5vQA=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDAzMDAxNyBTYWx0ZWRfX9Hb0X9vijs1N
- jR18Eu9+1+5C6si/zcValozkgQsRAAYMNxUVpqCpyxhLE+53WpTugMC4Yfvehz8jUQvCJgP+q6S
- NlrKq5nQaKRq26CDkeBCBW/UozBp4u5xKRRYY83bGNdnS4MGvoB4r2S1y66ut4H9cvsl6uKb/4J
- Mv9E1oO2Ks30SfMKSajQoQCaldMVozXjbwCinJxmBY+zrtxGD2efA5hMiWIb1PuTtESBNuKdGDb
- wXEYLxJrPN9xXBkqTXTl/GsajdG5gEgA2KRKLPc/F0avMel3Ne5lg2kj9rZs+4YbdubvHQDCkrt
- 3sd1Eo8w1q+k3TmodishE6z/sHn3qPmmRQf7/lyiu/5Uc9/AbNW3487q9Hcw74B+3vlD7XudJVN
- OflzjN/SeoCuYtdXSCVwRqDoNw0Ar+B8rqzvTr0YoZKzwmXxyBzMGIrmB8BVHnuO40a/9vztNAP
- Evy2aO1Ml3ARkdNe8qA==
-X-Proofpoint-GUID: QHxmwLZ9nLFuDlTW60K_1KMDE735WsVb
-X-Authority-Analysis: v=2.4 cv=HqjjiETS c=1 sm=1 tr=0 ts=6ac08307 cx=c_pps
- a=JYo30EpNSr/tUYqK9jHPoA==:117 a=b9+bayejhc3NMeqCNyeLQQ==:17
- a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=Z1MyDP9Hqjn3o93XXZQA:9 a=CjuIK1q_8ugA:10
- a=Fk4IpSoW4aLDllm1B1p-:22
-X-Proofpoint-ORIG-GUID: QHxmwLZ9nLFuDlTW60K_1KMDE735WsVb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-02_07,2026-10-02_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 phishscore=0 bulkscore=0 adultscore=0
- impostorscore=0 suspectscore=0 spamscore=0 malwarescore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610030017
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
 
-On Wed, Sep 16, 2026 at 09:59:16PM +0800, Shawn Guo wrote:
-> The series adds a driver/binding for onsemi FUSB15201 which can be found
-> on Qualcomm Nord reference design boards as a dual-port USB Type-C
-> controller.
-> 
-> Changes for v3:
-> - Address Heikki's review comments (Thanks Heikki!)
-> - Link to v2: https://lore.kernel.org/all/20260911073414.16711-1-shengchao.guo@oss.qualcomm.com/
-> 
-> Changes for v2:
-> - Drop include of <linux/mod_devicetable.h>
-> - Link to v1: https://lore.kernel.org/all/20260902045938.184221-1-shengchao.guo@oss.qualcomm.com/
-> 
-> Shawn Guo (2):
->   dt-bindings: usb: Add onsemi FUSB15201 Type-C and PD controller
->   usb: typec: Add onsemi FUSB15201 driver
+Hi,
 
-Hi Greg,
+On Fri, 2026-10-02 at 23:32 +0200, Karl Mehltretter wrote:
+> For an external R8A66597 (pdata->on_chip is false), the driver accesses
+> the FIFO 16 bits at a time. It rounds an odd byte count up to the next
+> word and passes that word count to ioread16_rep(), which stores both byte=
+s
+> of every word in the caller's buffer. The final word therefore writes one
+> byte beyond an odd-length read, past the end of the buffer when the read
+> fills it.
+>=20
+> This is visible while enumerating a USB device on an SH7785LCR. The USB
+> core allocates nine bytes for the configuration descriptor header, and
+> the controller driver stores ten bytes in it. SLUB reports the first
+> redzone byte changing from 0xcc to 0x09 in usb_get_configuration().
+> Odd-sized HID report descriptors trigger the same overwrite.
+>=20
+> Section 2.8.5 of the R8A66597 datasheet requires software to discard the
+> excess byte after a 16-bit FIFO read when DTLN is odd. Read the trailing
+> byte through a temporary word and copy only that byte.
+>=20
+> Fixes: 5d3043586db4 ("USB: r8a66597-hcd: host controller driver for R8A66=
+597")
+> Cc: stable@vger.kernel.org
+> Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Link: https://lore.kernel.org/all/3bd32eaf159db61ed1d423e1d52a869b3689c68=
+2.camel@physik.fu-berlin.de/
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> ---
+>=20
+> Reproduced with 32-bit and 29-bit SH7785LCR kernels against a local
+> R8A66597 QEMU model. Before this patch, slub_debug=3DFZPU reports overflo=
+ws
+> for the 9-byte configuration header and the 63-byte HID report descriptor=
+.
+> An A/B test of this patch with the 32-bit kernel enumerates the keyboard
+> and removes both reports.
+> Testing the fix on real hardware is welcome.
+>=20
+>  drivers/usb/host/r8a66597.h | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/usb/host/r8a66597.h b/drivers/usb/host/r8a66597.h
+> --- a/drivers/usb/host/r8a66597.h
+> +++ b/drivers/usb/host/r8a66597.h
+> @@ -178,8 +178,15 @@ static inline void r8a66597_read_fifo(struct r8a6659=
+7 *r8a66597,
+>  			       len & 0x03);
+>  		}
+>  	} else {
+> -		len =3D (len + 1) / 2;
+> -		ioread16_rep(fifoaddr, buf, len);
+> +		count =3D len / 2;
+> +		ioread16_rep(fifoaddr, buf, count);
+> +
+> +		if (len & 0x00000001) {
+> +			u16 tmp;
+> +
+> +			ioread16_rep(fifoaddr, &tmp, 1);
+> +			memcpy((unsigned char *)buf + count * 2, &tmp, 1);
+> +		}
+>  	}
+>  }
+> =20
 
-How does this look to you? Would you consider to queue it up for 7.4
-merge window?
+Without the patch, the following memory leaks are reported:
 
-Shawn
+[    9.676000] [kmalloc Redzone overwritten] 0x820c4229-0x820c4229 @offset=
+=3D553. First byte 0x9 instead of 0xcc
+[    9.676000] =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
+[    9.676000] BUG kmalloc-32 (Not tainted): Object corrupt
+[    9.676000] ------------------------------------------------------------=
+-----------------
+[    9.676000]=20
+[    9.676000] Allocated in usb_get_configuration+0x12c/0x11d8 age=3D51 cpu=
+=3D0 pid=3D10
+[    9.676000]  _raw_spin_lock_irqsave+0x20/0x38
+[    9.676000]  ___slab_alloc+0x21e/0x44c
+[    9.676000]  _raw_spin_unlock_irqrestore+0xe/0x44
+[    9.676000]  __alloc_object+0xaa/0x19c
+[    9.676000]  memset+0x0/0x8c
+[    9.676000]  __kmalloc_noprof+0xb0/0x1c0
+[    9.676000]  memset+0x0/0x8c
+[    9.676000]  _kzalloc_noprof.constprop.0+0xc/0x1c
+[    9.676000]  usb_get_configuration+0x12c/0x11d8
+[    9.676000]  usb_get_configuration+0x12c/0x11d8
+[    9.676000]  _kzalloc_noprof.constprop.0+0x0/0x1c
+[    9.676000]  set_next_task_fair+0x190/0x350
+[    9.676000]  __schedule+0x5aa/0x6bc
+[    9.676000]  _raw_spin_lock_irqsave+0x20/0x38
+[    9.676000]  _raw_spin_unlock_irqrestore+0xe/0x44
+[    9.676000]  __try_to_del_timer_sync+0x4a/0x88
+[    9.676000] Slab 0x9ff41880 objects=3D32 used=3D6 fp=3D0x820c4320 flags=
+=3D0x40000200(workingset|section=3D16|zone=3D0)
+[    9.676000] Object 0x820c4220 @offset=3D544 fp=3D0x820c42a0
+[    9.676000]=20
+[    9.676000] Redzone  820c4200: cc cc cc cc cc cc cc cc cc cc cc cc cc cc=
+ cc cc  ................
+[    9.676000] Redzone  820c4210: cc cc cc cc cc cc cc cc cc cc cc cc cc cc=
+ cc cc  ................
+[    9.676000] Object   820c4220: 09 02 20 00 01 01 00 80 fa 09 cc cc cc cc=
+ cc cc  .. .............
+[    9.676000] Object   820c4230: cc cc cc cc cc cc cc cc cc cc cc cc cc cc=
+ cc cc  ................
+[    9.676000] Redzone  820c4240: cc cc cc cc                              =
+        ....
+[    9.676000] Padding  820c4274: 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a 5a      =
+        ZZZZZZZZZZZZ
+[    9.676000] Disabling lock debugging due to kernel taint
+[    9.676000] ------------[ cut here ]------------
+[    9.676000] WARNING: mm/slub.c:1257 at object_err+0x46/0x158, CPU#0: kwo=
+rker/0:1/10
+[    9.676000] Modules linked in:
+[    9.676000]=20
+[    9.676000] CPU: 0 UID: 0 PID: 10 Comm: kworker/0:1 Tainted: G    B     =
+          7.3.0-rc5-00340-ge767a4ea70a3 #6 PREEMPT=20
+[    9.676000] Tainted: [B]=3DBAD_PAGE
+[    9.676000] Workqueue: usb_hub_wq hub_event
+[    9.676000] PC is at object_err+0x46/0x158
+[    9.676000] PR is at object_err+0x46/0x158
+[    9.676000] PC  : 80004e3a SP  : 810cdc20 SR  : 400081f1 TEA : c00d0008
+[    9.676000] R0  : 00000020 R1  : 8074959c R2  : 00000000 R3  : 00000020
+[    9.676000] R4  : 00000001 R5  : ff623224 R6  : 00000000 R7  : 00000000
+[    9.676000] R8  : 810023e0 R9  : 820c4220 R10 : 00000054 R11 : 80004d48
+[    9.676000] R12 : 0000808f R13 : 80004bd4 R14 : 810cdc20
+[    9.676000] MACH: 00000043 MACL: 0002bfa8 GBR : 2958a4c0 PR  : 80004e3a
+[    9.676000]=20
+[    9.676000] Call trace:
+[    9.676000]  [<800ff726>] check_bytes_and_report+0xa2/0xfc
+[    9.676000]  [<800ff826>] check_object+0xa6/0x204
+[    9.676000]  [<800ff684>] check_bytes_and_report+0x0/0xfc
+[    9.676000]  [<80100276>] free_to_partial_list+0x9a/0x2b8
+[    9.676000]  [<800788ce>] __timer_delete_sync+0x2a/0x50
+[    9.676000]  [<80078804>] __try_to_del_timer_sync+0x0/0x88
+[    9.676000]  [<80078900>] timer_delete_sync+0xc/0x18
+[    9.676000]  [<801004de>] __slab_free+0x4a/0x19c
+[    9.676000]  [<80009264>] _dev_notice+0x0/0x5c
+[    9.676000]  [<8032b626>] usb_get_configuration+0x1a2/0x11d8
+[    9.676000]  [<80112d6c>] delete_object_full+0x40/0x68
+[    9.676000]  [<80101c4a>] kfree+0x112/0x1a4
+[    9.676000]  [<80009264>] _dev_notice+0x0/0x5c
+[    9.676000]  [<8032b626>] usb_get_configuration+0x1a2/0x11d8
+[    9.676000]  [<8032b626>] usb_get_configuration+0x1a2/0x11d8
+[    9.676000]  [<8032b626>] usb_get_configuration+0x1a2/0x11d8
+[    9.676000]  [<80009264>] _dev_notice+0x0/0x5c
+[    9.676000]  [<80044eb4>] set_next_task_fair+0x190/0x350
+[    9.676000]  [<800788ce>] __timer_delete_sync+0x2a/0x50
+[    9.676000]  [<80078804>] __try_to_del_timer_sync+0x0/0x88
+[    9.676000]  [<80078900>] timer_delete_sync+0xc/0x18
+[    9.676000]  [<804931f0>] schedule_timeout+0x98/0xe4
+[    9.676000]  [<80323952>] usb_new_device+0x46/0x2ac
+[    9.676000]  [<80493294>] schedule_timeout_uninterruptible+0x14/0x20
+[    9.676000]  [<803249d0>] hub_event+0xbf0/0xdf4
+[    9.676000]  [<8025667c>] _find_next_zero_bit+0x0/0x6c
+[    9.676000]  [<80323470>] hub_init_func3+0x10/0x20
+[    9.676000]  [<8002f078>] process_scheduled_works+0x148/0x25c
+[    9.676000]  [<8003062c>] wq_worker_sleeping+0x14/0x88
+[    9.676000]  [<8002ccbe>] assign_work+0x6c/0x82
+[    9.676000]  [<8002f34c>] worker_thread+0xe4/0x1a8
+[    9.676000]  [<80493e18>] _raw_spin_lock_irq+0x0/0x34
+[    9.676000]  [<8002cc52>] assign_work+0x0/0x82
+[    9.676000]  [<8003615c>] kthread+0xdc/0x114
+[    9.676000]  [<8002f268>] worker_thread+0x0/0x1a8
+[    9.676000]  [<8001d45c>] do_exit+0x0/0x798
+[    9.676000]  [<80010200>] ret_from_kernel_thread+0xc/0x14
+[    9.676000]  [<8003f0b8>] schedule_tail+0x0/0x78
+[    9.676000]  [<80036080>] kthread+0x0/0x114
+[    9.676000]=20
+[    9.676000] ---[ end trace 0000000000000000 ]---
+[    9.676000] FIX kmalloc-32: Restoring kmalloc Redzone 0x820c4229-0x820c4=
+229=3D0xcc
+[    9.676000] FIX kmalloc-32: Object at 0x820c4220 not freed
+[   10.596000] kmemleak: Kernel memory leak detector initialized (mem pool =
+available: 15907)
+[   10.608000] kmemleak: Automatic memory scanning thread started
+
+With the patch applied, there are no memory leaks reported during boot:
+
+[   10.236000] kmemleak: Kernel memory leak detector initialized (mem pool =
+available: 15907)
+[   10.244000] kmemleak: Automatic memory scanning thread started
+
+Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+
+Adrian
+
+--=20
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
