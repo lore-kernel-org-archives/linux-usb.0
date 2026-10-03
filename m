@@ -1,82 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr2-f10.google.com (mail-wr2-f10.google.com [74.125.225.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93F453537E5;
-	Sat,  3 Oct 2026 15:13:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E879334D4F9
+	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 16:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791040434; cv=none; b=bVtvnKpPT24Q7OVfy3a2KQLzvrLs62aN3aGNoBqjSEMhpHlvF3zLMQBHoPzYoeHNaJXfKl3VRDGoMseHqz3vGj4C4gdM5w8UY+57sMqL7L8RewlayKqurkhY5yCr3QXfNR5/zLZVPaSjgcdcrfe5iNf90wJ+YEaDYacBYaW43ys=
+	t=1791044336; cv=none; b=pyaMaDYQmXvhf979RSraLTaFVazP2Ij5ewWi9dD90UVVkuhQoBipjnE6dy5uvbaeiDlzgJqHc7rURj0zvB86Kp+8M4X3MIOKLzLIk4AWAURI0bP1kv/1zaFpilTE9tHv33q8Mx3zCOm4se33FRRCyD5+hErDC+RwgmVvCpaIR+E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791040434; c=relaxed/simple;
-	bh=T4c0f2Aipfl7sX7wzYNclnQN3TPbfQMxswmBwf5ak8Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EXGBOU7Xtk5yC6ZyZ9ge7E4bFYrkr+QVg/3vz6wGgNDX+yDO5XoAUwTYWDQTbHMjSgNJLPK45cnPGNXNvBgl8sLha5sv8lKe+mW6Z08e+ifiw/YeutMHaLk/DW1ga0Fi25f0RGC74kdwgc9uW7jHzRKTbpNB3W0YCE81XPqIHXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=otJ1qha+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791044336; c=relaxed/simple;
+	bh=ZXWJjg4/vO8kimwyxG1j1azonR+0Mw1QdQt+X2SFpjc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FE9FuP0ormpyjBwT0lLrU7IkJI+KdYbH098pNirr6PEy/e5uYEIL8QF5bJA/AiUJAMWsfNfHSe0CKxSR3sNBpkxEIfzEGvjKDQEpCzgw5cRA6n1UGBqpelb5K8nGkD/bcqbJ03yDwgyE5yWzugub2CRO8SYSNCJ/SDtKV+dVCIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHVP+bN+; arc=none smtp.client-ip=74.125.225.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="otJ1qha+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90C3A1F0089B;
-	Sat,  3 Oct 2026 15:13:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791040433;
-	bh=S3eqM3iYPPLtATK1bqUv+2f1WGtjWo/CKk/4dtlGBnE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=otJ1qha+e/xT6DaP9TdNjO3Omut/RmOylvJ3AdZtqvh81W6u+qcwtDU6ic2ncsHmb
-	 UI8qLMYLYbzIRpBLjqqSITgLSrOPYXGwjCBqdNunlNgmB3uc9peJ5LM0/IiGXd1aiu
-	 wMxnIbTNO0jwuqQvQPdmVvf/gM9iicW7f1f9kf54=
-Date: Sat, 3 Oct 2026 17:13:45 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Serhat Kumral <serhatkumral1@gmail.com>
-Cc: israel.a.cepeda.lopez@intel.com, hansg@kernel.org,
-	sakari.ailus@linux.intel.com, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: misc: usbio: Handle negative error code from
- usb_control_msg()
-Message-ID: <2026100327-doornail-jaws-c582@gregkh>
-References: <20261003142838.19019-1-serhatkumral1@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHVP+bN+"
+Received: by mail-wr2-f10.google.com with SMTP id ffacd0b85a97d-48afe63da73so222483f8f.0
+        for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 09:18:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791044333; x=1791649133; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ofOK5rX/Ol1Dp2wHU6Wg1KvPujaWtQi2ID69h0RWSjQ=;
+        b=gHVP+bN+lRuIDS+JAEd53x0Z1bkiDGK7IT9PwPoeMcUC9b5eoabZhUNAcBI5IfbolW
+         B5lXPDxlh3mqTKkyrg+OPc2dFAEE81PRJP9m2WuwJOZmXhFE2ObrowBKynPOrPzDjr/S
+         69jf4UB7W3ZSB/uLOmwvfl36egxu623tTXqTBm9Xeal4GOwZ2p8xFi8DWEygja+5LTw8
+         fNY2rN8S52liEOl0Q2S2zn5i9ZStP85SOzEWIbbs3xLzE2NtorFrtxfiQ/E8u40dC3A8
+         yu77AwTNV0ro3Xj/YajBX/Wk+Dgi++RME1ZaBdImzfbR+9n+z8YxdKpFhCxlV1UVSYSk
+         cjTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791044333; x=1791649133;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ofOK5rX/Ol1Dp2wHU6Wg1KvPujaWtQi2ID69h0RWSjQ=;
+        b=a0JqDH70CXp+cbyVk32mYua3NIkn3o/GaJlwDu7L7PIKQBu9GsJBhjfh52VNCeHV5n
+         /w0sZA5zs3VUAcGByGVY0mnRGmGHlQni3lUkG62Fr8fzKkYExcFxiwsJYY6+aCkR1egI
+         +zaNKfUUBFUVK8HZsNIIIJYEQ+LM8/4HxH+iNMbcyab7Nyl9CmkZADE4XU7P9HYi9BiW
+         f2I/efIULWhz6Q2+I4wm1fu+sY3Q48jQr1KQ+e7UE3WTTRKjlsw1jSIMCsUgMpdQz99H
+         sBgjhlkvQ1J/cezaIuyfhEwxjYhcgdMANO/6yiaxXl1uCZq7/6cm35dbni9yFEJknN1Q
+         Y+qg==
+X-Forwarded-Encrypted: i=1; AKwUvBw4mVfov39gdwsVEEo8bXhHGXEqa0FlsvynL0wxgEIW22sRs3QeiXVPVJq0J5toH7Rb3ZxCsIhlQek=@vger.kernel.org
+X-Gm-Message-State: AFuF++nJ8VfghMLTAYQacSPyK6/JkYrLnafEdc+7s7Sh7TuAKdr5FUKL
+	MpGtd3pWO6YK/GN0o8GQ9QTkDqy4tj8FMfxt6Eli0Y+m6ahTXI/mDwS3f1w7dJNO
+X-Gm-Gg: AYBFou1yoPrv+BYowDcJI0yrCsca1otlQNh0grVwBPwyuXLe10RTAQa6R7SzNMrJcK/
+	nubFOIkozBkCiZxGtHreQSxWxPsIYx5JOEA0uEg6JFJ7cJ/vne+OujRd4O889u6KWBu/wfzKMxS
+	q//F53ukKVS0vf4PNo1PnU0/Ya240FNq3EKOvJbwrwSSAj5YD6jKRrRyMdRgaxdM2pKdj+ewbQe
+	jJrJWS7gwrMd/AdyRnxsvFXM9n6fZmtehuNWTMBiW2Jy3HDx6aQcq0G2OD6dq8sGZH096MGofSu
+	nAKGxY5/nujxluUTUPxl2uAh0hsg/psv1reWuIWGgzuywntpHFUf2VgK68Qvt1scz+CG8iaOdsa
+	IkSL1uiPc64N1YO+f13XYZJ78IE9gWbgz8+hJhBbgiedHJxHxC755ZsdNNbmM2vfS2NuvY7DS38
+	c53oQLSqd+kbSubM6AM3AyP0qxaw3/SYfC50MMw+KpTiIL4E3nER57eb/hIcUyRdm7uSJbhOFcl
+	rJ1/qbhVfnh468=
+X-Received: by 2002:a05:600c:530d:b0:4a0:1e37:ae41 with SMTP id 5b1f17b1804b1-4a0275a22b1mr95334765e9.24.1791044333017;
+        Sat, 03 Oct 2026 09:18:53 -0700 (PDT)
+Received: from serhat-ubuntu.home ([212.253.192.148])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a03fef5950sm117972475e9.2.2026.10.03.09.18.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Oct 2026 09:18:52 -0700 (PDT)
+From: Serhat Kumral <serhatkumral1@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: hansg@kernel.org,
+	israel.a.cepeda.lopez@intel.com,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	sakari.ailus@linux.intel.com,
+	serhatkumral1@gmail.com
+Subject: Re: [PATCH] usb: misc: usbio: Handle negative error code from usb_control_msg()
+Date: Sat,  3 Oct 2026 19:18:24 +0300
+Message-ID: <20261003161824.22338-1-serhatkumral1@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <2026100327-doornail-jaws-c582@gregkh>
+References: <2026100327-doornail-jaws-c582@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261003142838.19019-1-serhatkumral1@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 03, 2026 at 05:28:38PM +0300, Serhat Kumral wrote:
-> The sizeof(*cpkt) is unsigned, so comparing "ret < sizeof(*cpkt)" promotes
-> "ret" to unsigned and negative error codes from usb_control_msg() are
-> not caught. Cast the sizeof to int so the error handling works.
-> 
-> Fixes: 121a0f839dbb ("usb: misc: Add Intel USBIO bridge driver")
-> Assisted-by: LLM
-> Signed-off-by: Serhat Kumral <serhatkumral1@gmail.com>
-> ---
-> found by smatch:
-> - drivers/usb/misc/usbio.c:187 usbio_ctrl_msg() warn: error code type promoted to positive: 'ret'
-> 
->  drivers/usb/misc/usbio.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/misc/usbio.c b/drivers/usb/misc/usbio.c
-> index fe093e7760d5..3f73f7c3d68a 100644
-> --- a/drivers/usb/misc/usbio.c
-> +++ b/drivers/usb/misc/usbio.c
-> @@ -184,7 +184,7 @@ static int usbio_ctrl_msg(struct usbio_device *usbio, u8 type, u8 cmd,
->  	dev_dbg(usbio->dev, "control in %d hdr %*phN data %*phN\n", ret,
->  		(int)sizeof(*cpkt), cpkt, (int)cpkt->len, cpkt->data);
->  
-> -	if (ret < sizeof(*cpkt)) {
-> +	if (ret < (int)sizeof(*cpkt)) {
+On Sat, Oct 03, 2026 at 17:13:45 +0200, Greg KH wrote: 
+> Ick, really?  There's no compiler check for this type of thing?
 
-Ick, really?  There's no compiler check for this type of thing?
+> This whole function needs to be rewritten to use the "modern" control
+> message functions.  I gave it a go once, but it quickly got messy as
+> this is an abused function and it really should be massivly cleaned up.
 
-This whole function needs to be rewritten to use the "modern" control
-message functions.  I gave it a go once, but it quickly got messy as
-this is an abused function and it really should be massivly cleaned up.
+> Do you have the hardware for this to test changes?
 
-Do you have the hardware for this to test changes?
+Unfortunately I don't have the hardware. I relied on static analysis
+and tried to keep things quite simple
 
 thanks,
-
-greg k-h
+Serhat
