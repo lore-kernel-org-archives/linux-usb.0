@@ -1,189 +1,193 @@
-Received: from mail-qk2-f41.google.com (mail-qk2-f41.google.com [74.125.230.233])
+Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27A9A344D91
-	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 21:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.230.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8240B230BE9
+	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 22:32:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791064622; cv=none; b=tPvE+I+CvbHIGNisxa6DTWQRZskQ7TS0WaNpWy3/tQsp3jgM/7QVGh9GoTS0CFBNQm6xq0ry4PLqAkRw7P3fIyeQiBULDSmG7azvHZX+N1EiEI0Wlc5xrd4NSXIQ8OKfvsscwGOJSJ9gYrZ70riuRcuY37+4rvH81dnNMRT5wlI=
+	t=1791066763; cv=none; b=ljidBUAvvE6o5lcsn4MtyACpuoRE7VHGiiapfxTTip5+kIN+2UPJdGUtXbaaizzGmLUk7bxhaOEvMAqYvNtC/kBElDC3xJgdcuFDxfbsIZL2A6dZMOYCdjgDtqm75jzUgYlvQvqBoUbrojRblxg97BvU5C/v+NvgT2ybt16LQXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791064622; c=relaxed/simple;
-	bh=ajVkJJB8cpL6eX6uqehc4WMezW30JEBdSPUbjc0htwI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JDd5A0EcVLKFq/QnDgnWu8rTStAkTo5Vn551e+Pd+JCDSXGa5ca69ldeK15YGrKM8VAQZyd7wdIW9NXWHhm3QJFCwIQMqRMmJ9/6lwTE8e5oISthBBUAp1RTzs7mV9BKYXyYnvWD1VpfegnDbnqfl1pD9EgVUvnr7rOszD0PlwI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f2wkTlra; arc=none smtp.client-ip=74.125.230.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f2wkTlra"
-Received: by mail-qk2-f41.google.com with SMTP id af79cd13be357-93e49d7dc66so40049785a.1
-        for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 14:57:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791064620; x=1791669420; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=nnvam6GPa9oWys6wFkXRnROr1XxM0G1Xp9Ziz6grcVA=;
-        b=f2wkTlraiLUvL3OXMOEZbs5S4MbVSUWUB/1/wk3OsSm7sTGG0TUEjDuwtibt4oVi1c
-         WtESCrJ79bk5ojq0/zPlc65QBBO3IHOwXpybyq6/VQ8Hr5rpjjRgKm+nEUKhBnOLfJpt
-         zab5+fq5jsUyIKaSh9rnx7D5VD/nxIW1EEpb2ClZOb2IFEfDWJvuvmm80s2xGRE7cI+m
-         nxPP5lcf+c0uWjo87yO8YUCUDCQ7GVfFKG58bpkMlGm9mv4rv//E0V+8C3qE74h69BZh
-         v0y7gMMo7wSzGIy8sgz2kvdC93NtFwu6DC3fh/Ji4Y+P8Gf5ORUjb7l63QCF20GuZKwS
-         H+jQ==
+	s=arc-20240116; t=1791066763; c=relaxed/simple;
+	bh=kYAS1SAFpKbtRtSdmaWDScbkXShICNqGScgD/G30FYc=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
+	 Content-Type; b=or+mYl4S7fTTgBrIEB0TwWNS7FGQP8pIHxSPUoIj/JLSun6WQPUAA3j9SWR/VfUXsTFcNxDW03hyR202JyDastQXBtU4bB5VY6e+yf/nz2oq+Z+pYbyYbhZ5fGZOavatGg5jFcP+Hf30HNj+2qausOiPkCw1FRX/CLGU87riXtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b28dbf4197so1257205b6e.2
+        for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 15:32:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791064620; x=1791669420;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nnvam6GPa9oWys6wFkXRnROr1XxM0G1Xp9Ziz6grcVA=;
-        b=TCnDv6J1/2eI4Ye5IgF2snO+JuEtz23H6RnsA/qP+2S9TUsAARjBBpbRN7+PC+zJwj
-         jBjXTXoTFn8wU5I3lQNnDUSpRDxtbm2bfknpBNCrAATz2RuvNjMiWHhozss3rVPysMQP
-         Ev6pEnsd0aJSeWi+6LJoLidxRq6PJtkI+qW49DmnbVEiD50pIV2Oqcbge7e2D65yy1tD
-         FavjrM+rOzyZZLNUPHFKI7D/iWgUdkyXUz+TqOaiIaI0bdVWDL6dGlHdFKgYEkY1ZYM0
-         JcCLHRKn8TEodiM+QB2fED73sPYk6Xv9zzopbxS8UurR6jFjEypH3lWA8Bt+1ks0inYU
-         ffMQ==
-X-Forwarded-Encrypted: i=1; AKwUvBy6k38Um4QV1T23ugOUEQPyrm6YFrfFfcUT5QZ08Pa+a6K5Flm5hj+J1l3Q0NTtG5VVODTeDeMkJyk=@vger.kernel.org
-X-Gm-Message-State: AFuF++nQUtc+r3UsXud9C0l8f1r84Qebap3qBfdlUVpnwsB8f9/l4d9A
-	9MZ+0DpKuIGlD2cvbWMqxs9XTI5brOLMeADzJMzWmjuTHioK2Upx45i1
-X-Gm-Gg: AYBFou0PT+bR9cAuxugvqLs+PLD5n5a9g3S1RuzM9CTj83meAuScSWSdj/dMd/ijRVi
-	1kcltjMvP8LaPsYiwKyrSrO0ybsxEjfvNE1AZ72mKIX64EwoUQ+FG+OKlNH+CGudj6XGiSCAkww
-	q7Lr2jBq3QFBBpyEdy/Uodp47G0nDVzW9sSrJg6/++ka5EAVw5fZsLMaDIRFjVg7h47OrPFqQhI
-	bJm7ESPsu1Wp7wYRTgn2rhc9/pptiQoN1GI1mI9Gmfz6t67ncZRShJWb4VlwKDMFXV1kYL1E+Xp
-	q72yCcz07xMvZRNTluYITdzLZQ1I4y0S5DlLxC5G1d94lT2ej5m9oSeZ2k69cSZSDUYVYsFlcwk
-	ayleGLG8ddyAR9D7f1bhZ+hsNbtdQad3FsAYp6D+ez5bffgCyOBzYmyMLSGUTFdszOWdckyfvy1
-	/qhthtA6Z7mj7YhLzCufj/8GtYVPQVRx9tTeXidNXqpFSr2lzVmCmqXVUJmprX87BTB6BDiIHky
-	2DkFU7K+jLxKom2FQBPQ26djA14DJVFjss7kfEJA/iVm6gO
-X-Received: by 2002:a05:620a:261c:b0:93c:3b14:7282 with SMTP id af79cd13be357-93cf19d92d0mr1265505585a.66.1791064619904;
-        Sat, 03 Oct 2026 14:56:59 -0700 (PDT)
-Received: from mango-teamkim.. ([129.170.192.163])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93cca2d361bsm541429885a.45.2026.10.03.14.56.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2026 14:56:59 -0700 (PDT)
-From: pip-izony <eeodqql09@gmail.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Pooja Katiyar <pooja.katiyar@intel.com>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	Johan Hovold <johan@kernel.org>,
-	Ajay Gupta <ajayg@nvidia.com>,
-	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
-	Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Seungjin Bae <eeodqql09@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb: typec: ucsi: ccg: Validate altmode index in GET_CURRENT_CAM response
-Date: Sat,  3 Oct 2026 17:55:20 -0400
-Message-ID: <20261003215520.611083-2-eeodqql09@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <2026092918-evolution-modulator-3a97@gregkh>
-References: <2026092918-evolution-modulator-3a97@gregkh>
+        d=1e100.net; s=20260707; t=1791066760; x=1791671560;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=YAl53z6N85rOaeoBVC9MHe71PN0SO7CNNCdZhUkGpyI=;
+        b=00KbMkn5XJw+t9tJGRJnHz/cgI4gJO+P3Q0Vpf138CdhAZ2H4RQ9KtS3ZV1GeJuqrp
+         b/9VQDICG5XuwEJHIKgficIer7+sjwU7/rb23f2ANDnR5jGcqjCMrY3iVNu7BvwOoRuC
+         8MWGVxW1hlV/QlNZTZK0uhXB/y/QeRRVLIY7yPVvYhbZ3ZctPzQwshxVEaqF8pdc5Th1
+         gbYyoW+qp3hKUSG6AcpBDFiXQrUZ2yU5c/yjStCB9Yoo2It9XcL3G9l0c7UpBSKQtPSE
+         47ot5orT9Ek7m/ovA3scXRxPCqreyRo8Ra0iwU/Nq+pd8lnaStz+wxBdV+Iry+D3ySac
+         cAyg==
+X-Forwarded-Encrypted: i=1; AKwUvBzLdDT9XgfYzMtZLFOWMz0IufouYPa/efuqqgVIZnfov9fobliRXVyCTHW287+XgmXIoQmLjdnK3Mo=@vger.kernel.org
+X-Gm-Message-State: AFuF++kNuTwUA8T8cSd5sgmyvj8MLgyc8AxjfuDn5lEjmYmZFKQqx+lS
+	lToS9wZjpNXeItZ7GEPssGhINHzASGCm37u7sQUpsWNhkuAp6gDFI8KmY0nMUMjWYbkgxqZvLaf
+	pTDwGCEdjz+kbiU5hPQzfHzqdVneyJQeQQW0FP7VI2q/+QU9BXC1sOGNzwPc=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a05:6808:1919:b0:4ea:18f:64a5 with SMTP id
+ 5614622812f47-4f6797bf6bdmr4658126b6e.12.1791066760456; Sat, 03 Oct 2026
+ 15:32:40 -0700 (PDT)
+Date: Sat, 03 Oct 2026 15:32:40 -0700
+In-Reply-To: <6ab15335.3179f8cd.1e36b2.0023.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ac18288.34119e79.2f92f3.0019.GAE@google.com>
+Subject: Re: [syzbot] [usb?] INFO: task hung in usbdev_ioctl (8)
+From: syzbot <syzbot+109061940215dd4b011e@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, ngocthang2710.1999@gmail.com, 
+	syzkaller-bugs@googlegroups.com, thomas@winischhofer.net
+Content-Type: text/plain; charset="UTF-8"
 
-From: Seungjin Bae <eeodqql09@gmail.com>
+syzbot has found a reproducer for the following issue on:
 
-When the PPM reports more than one DisplayPort alternate mode for a
-connector, ucsi_ccg_update_altmodes() merges them into a single entry
-in uc->updated[] and sets uc->has_multiple_dp. In that case,
-ucsi_ccg_update_get_current_cam_cmd() rewrites the response of the
-GET_CURRENT_CAM command. The response is a single byte holding the
-index of the currently active alternate mode, and it is provided by
-the PPM firmware.
+HEAD commit:    e767a4ea70a3 Merge tag 'probes-fixes-v7.3-rc5' of git://gi..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=14ec47f5580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=929e4854a828f434
+dashboard link: https://syzkaller.appspot.com/bug?extid=109061940215dd4b011e
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13887b15580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=173b6ec9580000
 
-The function uses this byte directly as an index into uc->orig[], and
-then uses the linked_idx read from that entry as the translated index
-into uc->updated[]. Both arrays have UCSI_MAX_ALTMODES entries, but
-neither index is checked against that size.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/81cfd5e345ad/disk-e767a4ea.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/85805ef56b80/vmlinux-e767a4ea.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/acfff43ad99e/bzImage-e767a4ea.xz
 
-If a malicious or buggy PPM reports a value of UCSI_MAX_ALTMODES or
-larger, e.g. 0xFF, uc->orig[cam].linked_idx reads over the end of
-uc->orig[]. The byte read from there is then used as the index for
-writing cam into uc->updated[new_cam].active_idx, so the out-of-bounds
-read is followed by an out-of-bounds write. This happens without any
-userspace action, since the UCSI core issues GET_CURRENT_CAM on its own
-when handling connector changes.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+109061940215dd4b011e@syzkaller.appspotmail.com
 
-Fix this by rejecting responses whose index is out of range, printing an
-error and returning -EPROTO, so that the caller cannot accept this.
-Also check linked_idx before using it as an index, so that the write into
-uc->updated[] is always within bounds.
+INFO: task syz-executor345:5644 blocked for more than 143 seconds.
+      Not tainted syzkaller #0
+"echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+task:syz-executor345 state:D stack:26368 pid:5644  tgid:5644  ppid:5643   task_flags:0x400040 flags:0x00080802
+Call Trace:
+ <TASK>
+ context_switch kernel/sched/core.c:5533 [inline]
+ __schedule+0x1259/0x6920 kernel/sched/core.c:7284
+ __schedule_loop kernel/sched/core.c:7361 [inline]
+ schedule+0xdd/0x2c0 kernel/sched/core.c:7376
+ schedule_preempt_disabled+0x13/0x30 kernel/sched/core.c:7433
+ __mutex_lock_common kernel/locking/mutex.c:726 [inline]
+ __mutex_lock+0xccb/0x1bd0 kernel/locking/mutex.c:821
+ device_lock include/linux/device.h:1104 [inline]
+ usbdev_do_ioctl drivers/usb/core/devio.c:2613 [inline]
+ usbdev_ioctl+0x1a7/0x3a90 drivers/usb/core/devio.c:2829
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:597 [inline]
+ __se_sys_ioctl fs/ioctl.c:583 [inline]
+ __x64_sys_ioctl+0x18e/0x210 fs/ioctl.c:583
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fc92deb6c49
+RSP: 002b:00007ffe79a51768 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fc92deb6c49
+RDX: 9999999999999999 RSI: 000000004004550c RDI: 0000000000000003
+RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000006
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffe79a518d8
+R13: 431bde82d7b634db R14: 00007fc92df49c40 R15: 0000000000000002
+ </TASK>
 
-The response is now only processed when the command completed without
-an error. ucsi_sync_control_common() only reads the response when the
-CCI reports command completion, so otherwise the buffer is not filled
-and must not be mistaken for an invalid index.
+Showing all locks held in the system:
+locks held by kworker/u8:1/13: 2, on CPU#0:
+ #0: ffff88801c094140 ((wq_completion)events_unbound){+.+.}-{0:0}, at: process_one_work+0x1466/0x1b10 kernel/workqueue.c:3371
+ #1: ffffc90000127d08 ((work_completion)(&(&kfence_timer)->work)){+.+.}-{0:0}, at: process_one_work+0xa2c/0x1b10 kernel/workqueue.c:3372
+locks held by kworker/1:0/25: 5, on CPU#1:
+ #0: ffff888023ec4540 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work+0x1466/0x1b10 kernel/workqueue.c:3371
+ #1: ffffc900001f7d08 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work+0xa2c/0x1b10 kernel/workqueue.c:3372
+ #2: ffff88802c2911d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
+ #2: ffff88802c2911d8 (&dev->mutex){....}-{4:4}, at: hub_event+0x1bb/0x4420 drivers/usb/core/hub.c:5912
+ #3: ffff888023eda1d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
+ #3: ffff888023eda1d8 (&dev->mutex){....}-{4:4}, at: __device_attach+0x7e/0x4d0 drivers/base/dd.c:1073
+ #4: ffff888023e911a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
+ #4: ffff888023e911a0 (&dev->mutex){....}-{4:4}, at: __device_attach+0x7e/0x4d0 drivers/base/dd.c:1073
+locks held by khungtaskd/32: 1, last CPU#1:
+ #0: ffffffff8edec5a0 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #0: ffffffff8edec5a0 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #0: ffffffff8edec5a0 (rcu_read_lock){....}-{1:3}, at: debug_show_all_locks+0x3d/0x184 kernel/locking/lockdep.c:6871
+locks held by getty/5366: 2, on CPU#1:
+ #0: ffff88802e0360a0 (&tty->ldisc_sem){++++}-{0:0}, at: tty_ldisc_ref_wait+0x24/0x80 drivers/tty/tty_ldisc.c:243
+ #1: ffffc900032262e8 (&ldata->atomic_read_lock){+.+.}-{4:4}, at: n_tty_read+0x419/0x14e0 drivers/tty/n_tty.c:2211
+locks held by syz-executor345/5644: 1, on CPU#0:
+ #0: ffff88802c2911d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1104 [inline]
+ #0: ffff88802c2911d8 (&dev->mutex){....}-{4:4}, at: usbdev_do_ioctl drivers/usb/core/devio.c:2613 [inline]
+ #0: ffff88802c2911d8 (&dev->mutex){....}-{4:4}, at: usbdev_ioctl+0x1a7/0x3a90 drivers/usb/core/devio.c:2829
+locks held by udevd/5646: 4, on CPU#1:
+ #0: ffff888036dccab8 (&p->lock){+.+.}-{4:4}, at: seq_read_iter+0xe1/0x1270 fs/seq_file.c:183
+ #1: ffff88807aa3ec80 (&of->mutex#2){+.+.}-{4:4}, at: kernfs_seq_start+0x4f/0x2a0 fs/kernfs/file.c:165
+ #2: ffff888036458788 (kn->active#27){.+.+}-{0:0}, at: kernfs_get_active_of fs/kernfs/file.c:73 [inline]
+ #2: ffff888036458788 (kn->active#27){.+.+}-{0:0}, at: kernfs_seq_start+0xbc/0x2a0 fs/kernfs/file.c:166
+ #3: ffff888023eda1d8 (&dev->mutex){....}-{4:4}, at: device_lock_interruptible include/linux/device.h:1109 [inline]
+ #3: ffff888023eda1d8 (&dev->mutex){....}-{4:4}, at: manufacturer_show+0x26/0xa0 drivers/usb/core/sysfs.c:142
 
-This bug was found with a Python script that traces where firmware input
-is used.
+=============================================
 
-Fixes: 170a6726d0e2 ("usb: typec: ucsi: add support for separate DP altmode devices")
-Cc: stable@vger.kernel.org
-Reported-by: Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>
-Assisted-by: LLM
-Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
+NMI backtrace for cpu 1
+CPU: 1 UID: 0 PID: 32 Comm: khungtaskd Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ nmi_cpu_backtrace.cold+0x12d/0x151 lib/nmi_backtrace.c:123
+ nmi_trigger_cpumask_backtrace+0x21f/0x2a0 lib/nmi_backtrace.c:66
+ trigger_all_cpu_backtrace include/linux/nmi.h:164 [inline]
+ __sys_info lib/sys_info.c:157 [inline]
+ sys_info+0x141/0x190 lib/sys_info.c:165
+ check_hung_uninterruptible_tasks kernel/hung_task.c:353 [inline]
+ watchdog+0xcb1/0x1030 kernel/hung_task.c:561
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+Sending NMI from CPU 1 to CPUs 0:
+NMI backtrace for cpu 0
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
+RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
+Code: 17 93 02 c3 cc cc cc cc 0f 1f 00 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d 73 f8 18 00 fb f4 <e9> 0c 50 03 00 66 2e 0f 1f 84 00 00 00 00 00 66 90 90 90 90 90 90
+RSP: 0018:ffffffff8ea07cf0 EFLAGS: 00000246
+RAX: 00000000000c970f RBX: ffffffff8ea91580 RCX: ffffffff8bd2c215
+RDX: 0000000000000001 RSI: ffffffff8e38edcf RDI: ffffffff8c623a80
+RBP: fffffbfff1d522b0 R08: 0000000000000001 R09: ffffed10170867bd
+R10: ffff8880b8433deb R11: 0000000000000001 R12: 0000000000000000
+R13: 0000000000000000 R14: 1ffffffff1d40fa2 R15: dffffc0000000000
+FS:  0000000000000000(0000) GS:ffff888123b4e000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 000055cf112b4168 CR3: 000000000eb96000 CR4: 00000000003526f0
+Call Trace:
+ <TASK>
+ arch_safe_halt arch/x86/include/asm/paravirt.h:62 [inline]
+ default_idle+0x9/0x10 arch/x86/kernel/process.c:768
+ default_idle_call+0x6c/0xb0 kernel/sched/idle.c:122
+ cpuidle_idle_call kernel/sched/idle.c:199 [inline]
+ do_idle+0x3ae/0x5b0 kernel/sched/idle.c:355
+ cpu_startup_entry+0x4f/0x60 kernel/sched/idle.c:454
+ rest_init+0x2d3/0x2e0 init/main.c:732
+ start_kernel+0x48e/0x490 init/main.c:1190
+ x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+ x86_64_start_kernel+0x12b/0x130 arch/x86/kernel/head64.c:291
+ common_startup_64+0x13e/0x158
+ </TASK>
+
+
 ---
- v1 -> v2: Print an error and return a failure instead of ignoring the
- response, as suggested by Heikki. Only process the response when the
- command completed without an error.
-
- drivers/usb/typec/ucsi/ucsi_ccg.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
-index 91c2958a708c..80e3e84b418d 100644
---- a/drivers/usb/typec/ucsi/ucsi_ccg.c
-+++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
-@@ -384,14 +384,28 @@ static int ucsi_ccg_init(struct ucsi_ccg *uc)
- 	return -ETIMEDOUT;
- }
- 
--static void ucsi_ccg_update_get_current_cam_cmd(struct ucsi_ccg *uc, u8 *data)
-+static int ucsi_ccg_update_get_current_cam_cmd(struct ucsi_ccg *uc, u8 *data)
- {
- 	u8 cam, new_cam;
- 
- 	cam = data[0];
-+	if (cam >= UCSI_MAX_ALTMODES) {
-+		dev_err(uc->dev, "PPM returned invalid alternate mode index %u\n",
-+			cam);
-+		return -EPROTO;
-+	}
-+
- 	new_cam = uc->orig[cam].linked_idx;
-+	if (new_cam >= UCSI_MAX_ALTMODES) {
-+		dev_err(uc->dev, "invalid linked alternate mode index %u for %u\n",
-+			new_cam, cam);
-+		return -EPROTO;
-+	}
-+
- 	uc->updated[new_cam].active_idx = cam;
- 	data[0] = new_cam;
-+
-+	return 0;
- }
- 
- static bool ucsi_ccg_update_altmodes(struct ucsi *ucsi,
-@@ -636,8 +650,10 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
- 
- 	switch (UCSI_COMMAND(command)) {
- 	case UCSI_GET_CURRENT_CAM:
--		if (uc->has_multiple_dp)
--			ucsi_ccg_update_get_current_cam_cmd(uc, (u8 *)data);
-+		if (!ret && uc->has_multiple_dp &&
-+		    (*cci & UCSI_CCI_COMMAND_COMPLETE) &&
-+		    !(*cci & UCSI_CCI_ERROR))
-+			ret = ucsi_ccg_update_get_current_cam_cmd(uc, (u8 *)data);
- 		break;
- 	case UCSI_GET_ALTERNATE_MODES:
- 		if (UCSI_ALTMODE_RECIPIENT(command) == UCSI_RECIPIENT_SOP) {
--- 
-2.43.0
-
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
