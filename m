@@ -1,37 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 801E43F5BC3
-	for <linux-usb@vger.kernel.org>; Sat,  3 Oct 2026 10:21:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3723783AE;
+	Sat,  3 Oct 2026 11:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791022891; cv=none; b=r2Sjaqp5DfkTFOaewde03bEt6F3Z7/JmSancdnODf7n3raELWfKCUKjl/NpfAc3DG4yPUoFGdzlSYn6aGkeQIXL9/sDGDSIJZB3852EwJsEnEZa+FWnlzfx73cd4Iep13T91PK89tCSknhg2lVBVx3IU2VqUgjA6tIvFdbcTEBA=
+	t=1791027446; cv=none; b=Wum2M6xPwdJl7Dw5j7uR9GGvT7hHirgqB3yghXpfvmmKHzpoyGcuKyr9d1XUGfmuV1nRgL26YnM0insuEwmZTfGDsgqJLTiCedaEjfPbc8cjLovXvVhaeHDSft2o7p1jCRxzymKQAYolOz+ur9YyyuG/Z7VLyyCj6Zjh2evIqOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791022891; c=relaxed/simple;
-	bh=HUAifVwvhjFSZH+qHWrpvA4a0PkwgedCTTmYFd8Jp+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K6q4BCQhlc2k+qpyHlAROirujJNmgjh1GlOX1fLCJqvaRp3g+RQWVkvdCteTqIuCwuuu23XEs+tTCpdvdH6E/iUnUF8P/h8pda/RLtZ7h+/3/iMi/EW1KupmNXgxWpl992dBsDTMxaoJd9ovhEopS6CvKVqStyraHNDzJyRLzsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=J4ds8uEE; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791027446; c=relaxed/simple;
+	bh=fVaroThSD633dRfKOhbiu9YJs4xPvrbCl6ADa4ViO4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=aiLAbFTf8ah0JY9FAR60L83s9FL232WGOSzTXzWjVd58XHPw/NuAy5jJUBJGTkiJzerni1Mmmvkk2PqPohb7LzN8A7H1MfRYoWoFPImYyY45DKb/LQ7ejxilpdCHsLfPtiy+bg2iY9eo7RN8bqlAAVFEvtoWILwveCKJagApx+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KspxxLBo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="J4ds8uEE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C6091F0089C;
-	Sat,  3 Oct 2026 10:21:29 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KspxxLBo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD8DC1F0089B;
+	Sat,  3 Oct 2026 11:37:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791022890;
-	bh=zeS5KH5NXrMumhRZYtaFzDJVeacircig2X0eJ480vQ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=J4ds8uEEYciC6vCk1iC7qyl/reWgzfb+DmSOXKp+amx44SeWt323QG7WDTnmkBHvQ
-	 +FexxGCxqRZ7MIxXIKhlZTcbZZvVTPCoB2Dj0W3u7yz6obwcnIbuTfkNdmoVOu78q1
-	 bQ9MPwyuEc0qlsTnR/jj54TF77zSg3IWVK4tfakg=
-Date: Sat, 3 Oct 2026 12:21:27 +0200
+	s=korg; t=1791027444;
+	bh=eARKefJCmBEcUluMJgktEHkNXpDUyklGsDfmDVQVSlQ=;
+	h=Date:From:To:Cc:Subject;
+	b=KspxxLBos5t4pdKDAQqN51KTyMyWSkE6nhZkpZv3zlYVvuwx0lmsgaTZd7Fg7oFlk
+	 Eqz8FkTnSm6aLtpvJjAlO0gu1/M3EPRnbzs00ByaQcePH7OsgUVX+LNSSsEzlykSvP
+	 zqvJK5hb2Q+j/lszt6gvtFUp6DxhAHowjfS7oF58=
+Date: Sat, 3 Oct 2026 13:37:21 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: Thomas Hornik <thomas.hornik@protonmail.ch>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"mathias.nyman@linux.intel.com" <mathias.nyman@linux.intel.com>
-Subject: Re: Razer Basilisk V3 (1532:0099) cold-boot enumeration fails with
- -EPROTO on AMD Matisse xHCI
-Message-ID: <2026100336-paternity-cortex-3692@gregkh>
-References: <HHq_OCxl9RI-5ZzRAxURVsf30En7t418EeJNcfCR9WFSf5EFK2WKxDHfzCTo1_8ifuH60WiBNe9env2XOLmaFdlePVioseIIWrP2-du5Mss=@protonmail.ch>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org
+Subject: [GIT PULL] USB driver fixes for 7.3-rc6
+Message-ID: <asDo8cZTIkqu5jfo@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,64 +39,235 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <HHq_OCxl9RI-5ZzRAxURVsf30En7t418EeJNcfCR9WFSf5EFK2WKxDHfzCTo1_8ifuH60WiBNe9env2XOLmaFdlePVioseIIWrP2-du5Mss=@protonmail.ch>
 
-On Sat, Oct 03, 2026 at 10:13:56AM +0000, Thomas Hornik wrote:
-> Dear Linux-USB team,
-> 
-> A Razer Basilisk V3 (mouse) fails to enumerate on some cold boots. The failure follows the device across ports and across two AMD Matisse xHCI controllers. Other full-speed devices on the same root hub enumerate during the same boot. A later connect of this device enumerates on the first try.
-> 
-> Hardware:
-> ASUS ROG STRIX X570-E GAMING, BIOS 5044 (2026-01-04)
-> Legacy USB support and xHCI hand-off are enabled
-> CPU: AMD Ryzen 7 5800X3D
-> The xHCI is the X570 chipset, 1022:149c rev 00
-> AMD Matisse xHCI [1022:149c]. 0000:06:00.1 subsystem 1043:8808, buses 1 (USB2) and 2 (USB3)
-> 0000:0d:00.3 subsystem 1043:87c0, buses 5 (USB2) and 6 (USB3)
-> hcc params 0x0278ffe5, HCI version 0x110, quirks 0x10 (XHCI_SPURIOUS_SUCCESS only; no Matisse-specific quirk). Device, once enumerated: 1532:0099, bcdDevice 2.00, USB 2.00, full-speed, bMaxPacketSize0 64, 1 configuration, 4 HID interfaces, bus-powered, remote wakeup, 500 mA, quirks 0x0.
-> 
-> Kernels: Ubuntu 24.04 HWE 7.0.0-31, 7.0.0-34 and 7.0.0-38 (all 7.0.14). The signature is the same on all three.
+The following changes since commit df2908090cda368b01ff43709f51890076c56157:
 
-That's a vendor kernel, nothing we can do about them, can you test
-kernels we release (i.e. from kernel.org)?
+  Linux 7.3-rc2 (2026-09-06 15:07:20 -0700)
 
-> Over 33 boots from 2026-09-18 to 2026-10-02 the device failed on 8 and enumerated on the first try at about t=1.0s on the other 25. Failures were on usb5-port1, usb5-port2 and usb5-port3 (0000:0d:00.3) and on usb1-port1 (0000:06:00.1). On the failing boot below, usb1-3 (Kingston HyperX Alloy Origins, 0951:16e5, also full-speed and 500 mA) enumerated at t=3.13s, an EPOS dongle at t=3.57s, and a Genesys hub at t=3.91s. A Logitech Unifying receiver on the sibling controller 0000:06:00.3 started at the same t=0.68s and succeeded.
-> 
-> xhci_hcd owns the controller before the failure. On two boots the device never appeared for the rest of the session, one of them about two hours. On two boots a later connect on the same port succeeded (t=44s and t=74s). The log has no disconnect line, because the device never enumerated, so that later connect cannot be separated from a replug. I do not have a usbmon trace of a failed boot yet.
-> 
-> Log from 7.0.0-38-generic, monotonic, 2026-10-02:
-> 
-> [    0.440060] xhci_hcd 0000:06:00.1: hcc params 0x0278ffe5 hci version 0x110 quirks 0x0000000000000010
-> [    0.446076] usb: port power management may be unreliable
-> [    0.683470] usb 1-1: new full-speed USB device number 2 using xhci_hcd
-> [    0.805501] usb 1-1: device descriptor read/64, error -71
-> [    1.035503] usb 1-1: device descriptor read/64, error -71
-> [    1.250606] usb 1-1: new full-speed USB device number 3 using xhci_hcd
-> [    1.370316] usb 1-1: device descriptor read/64, error -71
-> [    1.593663] usb 1-1: device descriptor read/64, error -71
-> [    1.698701] usb usb1-port1: attempt power cycle
-> [    2.077621] usb 1-1: new full-speed USB device number 4 using xhci_hcd
-> [    2.077718] usb 1-1: Device not responding to setup address.
-> [    2.282692] usb 1-1: Device not responding to setup address.
-> [    2.490609] usb 1-1: device not accepting address 4, error -71
-> [    2.490673] usb 1-1: WARN: invalid context state for evaluate context command.
-> [    2.602611] usb 1-1: new full-speed USB device number 5 using xhci_hcd
-> [    2.602705] usb 1-1: Device not responding to setup address.
-> [    2.810696] usb 1-1: Device not responding to setup address.
-> [    3.018608] usb 1-1: device not accepting address 5, error -71
-> [    3.018674] usb 1-1: WARN: invalid context state for evaluate context command.
-> [    3.018720] usb usb1-port1: unable to enumerate USB device
-> [   44.019328] usb 1-1: new full-speed USB device number 9 using xhci_hcd
-> [   44.161779] usb 1-1: New USB device found, idVendor=1532, idProduct=0099, bcdDevice= 2.00
-> [   44.161789] usb 1-1: Product: Razer Basilisk V3
-> 
-> The descriptor reads return -EPROTO in about 120 ms. initial_descriptor_timeout is 5000 ms, so the host has completed the control transfer with a transaction error. "Device not responding to setup address." comes from xhci_setup_device() on COMP_USB_TRANSACTION_ERROR. The WARN is xhci_evaluate_context_result() on COMP_CONTEXT_STATE_ERROR: Evaluate Context ran while the slot was not in Default, Addressed, or Configured. That warning is on the Address Device failure path. The first failure is the GET_DESCRIPTOR about two seconds earlier. hub_port_connect() then gives up and calls hub_port_disable().
-> 
-> usb_detect_quirks() runs only after a device descriptor has been read, and these attempts never get one. An entry for 1532:0099 cannot change the failing transfers. v7.0 drivers/usb/core/quirks.c has 1532:0116 and 1532:0e05, and no 1532:0099.
+are available in the Git repository at:
 
-So if you add a quirk for this device like the other entries here, does
-it work properly for you?
+  git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.3-rc6
 
-thanks,
+for you to fetch changes up to a93862fa670a9c99fd9a24fb2ef69e4f948d9bd5:
 
-greg k-h
+  Merge tag 'thunderbolt-for-v7.3-rc6' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-linus (2026-10-01 13:26:31 +0200)
+
+----------------------------------------------------------------
+USB/Thunderbolt fixes for 7.3-rc6
+
+Here is a big set of USB and Thunderbolt driver fixes for 7.3-rc6.
+They were delayed on my side due to conference travel, not the fault of
+the submitters at all.  Included in here are:
+  - lots of small thunderbolt fixes for reported issues due to more
+    testing and devices and a few reverts as well based on that work
+  - more usb-serial device ids added
+  - usb-serial and cdc-acm driver hangup and other fixes
+  - dwc3 driver fixes for reported problems
+  - lots of usb gadget driver fixes as people again fuzz these drivers
+    and send in fixes, which is nice to finally see
+  - typec driver fixes for reported problems
+  - octeon-hcd driver fixes for reported problems
+  - more usb-storage quirks added
+  - other small USB driver bugs resolved for reported problems
+
+All of these have been in linux-next without any reported issues
+
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+----------------------------------------------------------------
+Alan Stern (1):
+      USB: gadget: dummy-hcd: Fix wait for outstanding request completions
+
+Amit Sunil Dhamne (1):
+      usb: typec: tcpm: recover after failure to start the frs ams
+
+Carlo Szelinsky (1):
+      USB: serial: option: add Quectel EG060W
+
+Daehyeon Ko (1):
+      thunderbolt: Reject oversized XDomain properties responses
+
+Fan Wu (3):
+      usb: typec: ucsi: glink: fix use-after-free of ucsi on remove
+      usb: cdns3: fix use-after-free in cdns3_gadget_exit()
+      usb: gadget: aspeed-vhub: cancel wake work on device removal
+
+Fedor Pchelkin (1):
+      thunderbolt: Fix NULL dereference in tb_remove_work()
+
+Greg Kroah-Hartman (5):
+      Merge tag 'thunderbolt-for-v7.3-rc3' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-linus
+      Merge tag 'usb-serial-7.3-rc3' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
+      Merge tag 'usb-serial-7.3-rc4' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/johan/usb-serial into usb-linus
+      Revert "usb: dwc3: gadget: fix IRQ storm on invalid event buffer count"
+      Merge tag 'thunderbolt-for-v7.3-rc6' of ssh://gitolite.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt into usb-linus
+
+Hui Peng (1):
+      usb: core: clear both ep_in and ep_out for non-ep0 control endpoints
+
+Ian Lin (2):
+      USB: serial: option: add Compal EXM-G1x support
+      USB: serial: option: add Compal EXC-T1 support
+
+Igor Paunovic (1):
+      usb: typec: tcpm: fix use-after-free of the kthread worker on port unregister
+
+Jameson Thies (1):
+      usb: typec: ucsi: displayport: Current CAM OOB index fixup
+
+Jiazi Liu (2):
+      usb: dwc3: gadget: fix IRQ storm on invalid event buffer count
+      usb: dwc3: gadget: fix IRQ storm on invalid event buffer count
+
+Jie Deng (1):
+      usb: cdns3: Fix NULL pointer dereference in cdns3_pci_probe
+
+Johan Hovold (8):
+      USB: serial: fix port tear down use-after-free
+      USB: serial: fix dynamic id driver deregistration race
+      USB: serial: fix driver deregistration order
+      USB: serial: use iterator for driver deregistration
+      USB: serial: fix ioctl hangup race
+      USB: cdc-acm: fix racy TIOCMIWAIT implementation
+      USB: serial: ssu100: fix baud rate overflow
+      USB: serial: quatech2: fix baud rate overflow
+
+Jérémy Carrat (1):
+      USB: serial: cp210x: add Corsair AX1500i Power Supply
+
+Kurt Lieber (1):
+      thunderbolt: Disable CL states for the Anker Prime TB5 dock
+
+Linkai Gong (1):
+      usb: typec: anx7411 - stop the IRQ before destroying the workqueue
+
+Liu Chao (1):
+      usb: gadget: f_uac1_legacy: validate bRequest index in generic_{set,get}_cmd
+
+Lovekesh Solanki (1):
+      usb: hub: use shorter 120ms post resume hold for SS root hubs
+
+Marek Maslanka (1):
+      usb: typec: port-mapper: Only match USB4 port if host interface is available
+
+Marian Rotariu (1):
+      usb: typec: tipd: don't send GAID when probe fails in APP mode
+
+Mario Limonciello (1):
+      Revert "thunderbolt: Add quirk to reset host interface on DMA path teardown for AMD USB4 routers"
+
+Mika Westerberg (4):
+      thunderbolt: Fix KASAN reported use-after-free when request is canceled
+      thunderbolt: Use separate lock class for each ring
+      Revert "thunderbolt: xdomain: Notify peers after enumeration"
+      thunderbolt: stream: Announce support for FMODE_NOWAIT
+
+Myeonghun Pak (5):
+      usb: chipidea: tegra: disable runtime PM on resume failure
+      usb: ohci-da8xx: disable controller wakeup on cleanup
+      usb: ohci-s3c2410: disable controller wakeup on removal
+      usb: ohci-spear: disable controller wakeup on removal
+      usb: ohci-st: disable controller wakeup on removal
+
+Orgad Shaneh (3):
+      usb: octeon-hcd: fix the FIFO-flush timeout computation
+      usb: octeon-hcd: fail the probe when the USB core does not respond
+      usb: octeon-hcd: sleep on an hrtimer for far-off periodic transfers
+
+Pannarat Wiriyaarritham (1):
+      usb: typec: ucsi: acpi: Assume UCSI 1.2 on Acer Nitro ANV15-41
+
+Prashanth K (1):
+      usb: typec: ucsi: Get the connector fwnode based on reg value
+
+Radhey Shyam Pandey (3):
+      usb: dwc3: am62: Fix runtime PM usage count leak on probe error path
+      usb: typec: tipd: fix uninitialized typec_partner_desc in tps6598x_connect()
+      usb: typec: tipd: fix uninitialized typec_partner_desc in cd321x_update_work()
+
+Runyu Xiao (1):
+      USB: dwc2: shut down wakeup timer before freeing HCD state
+
+Sebastian Sjoholm (1):
+      USB: serial: option: add Quectel RG660QB
+
+Sven Peter (6):
+      thunderbolt: Hold a router reference for each allocated HopID
+      thunderbolt: Make the DP tunnel activation callback mandatory
+      thunderbolt: Fix domain reference leak when DPRX read is canceled
+      thunderbolt: Don't access a DP tunnel after its DPRX read was canceled
+      thunderbolt: Mark discovered tunnels as active
+      thunderbolt: Tear down inactive DP tunnels when the domain is stopped
+
+Syed Labeeq Sajid Bukhari (1):
+      usb: storage: sierra_ms: reject short SWoC info transfers
+
+Takashi Iwai (1):
+      usb: gadget: midi2: Fix the jack descriptor array sizes
+
+Yuchao Zhang (2):
+      usb: gadget: f_fs: Fix NULL pointer dereference in FUNCTIONFS_ENDPOINT_DESC
+      USB: cdc-acm: skip URB restart in port_shutdown if disconnected
+
+Zhao Dongdong (1):
+      USB: serial: option: add support for SIMCom SIM8260C
+
+ drivers/thunderbolt/ctl.c                   |  63 +++++++-------
+ drivers/thunderbolt/domain.c                |  26 +-----
+ drivers/thunderbolt/nhi.c                   |  31 ++-----
+ drivers/thunderbolt/nhi.h                   |  21 +----
+ drivers/thunderbolt/nhi_regs.h              |   4 -
+ drivers/thunderbolt/pci.c                   |  23 -----
+ drivers/thunderbolt/quirks.c                |   3 +
+ drivers/thunderbolt/stream.c                |   3 +
+ drivers/thunderbolt/switch.c                |   9 +-
+ drivers/thunderbolt/tb.c                    |  37 +++++---
+ drivers/thunderbolt/test.c                  |  58 ++++++++++---
+ drivers/thunderbolt/tunnel.c                |  73 ++++++++++------
+ drivers/thunderbolt/tunnel.h                |   8 +-
+ drivers/thunderbolt/xdomain.c               |   5 +-
+ drivers/usb/cdns3/cdns3-gadget.c            |   4 +
+ drivers/usb/cdns3/cdns3-pci-wrap.c          |   5 ++
+ drivers/usb/chipidea/ci_hdrc_tegra.c        |   4 +-
+ drivers/usb/class/cdc-acm.c                 |  39 +++++----
+ drivers/usb/class/cdc-acm.h                 |   1 -
+ drivers/usb/core/hub.c                      |   7 +-
+ drivers/usb/core/message.c                  |   8 +-
+ drivers/usb/dwc2/hcd.c                      |   3 +-
+ drivers/usb/dwc3/core.h                     |  19 +++++
+ drivers/usb/dwc3/dwc3-am62.c                |   1 +
+ drivers/usb/dwc3/ep0.c                      |   9 ++
+ drivers/usb/dwc3/gadget.c                   | 108 +++++++++++++++++++++++-
+ drivers/usb/gadget/function/f_fs.c          |  15 +++-
+ drivers/usb/gadget/function/f_midi2.c       |   4 +-
+ drivers/usb/gadget/function/f_uac1_legacy.c |   6 ++
+ drivers/usb/gadget/udc/aspeed-vhub/core.c   |   4 +
+ drivers/usb/gadget/udc/aspeed-vhub/dev.c    |   2 +-
+ drivers/usb/gadget/udc/aspeed-vhub/hub.c    |   5 +-
+ drivers/usb/gadget/udc/aspeed-vhub/vhub.h   |   1 +
+ drivers/usb/gadget/udc/dummy_hcd.c          |   4 +
+ drivers/usb/host/octeon-hcd.c               |  54 ++++++++++--
+ drivers/usb/host/ohci-da8xx.c               |   2 +
+ drivers/usb/host/ohci-s3c2410.c             |   1 +
+ drivers/usb/host/ohci-spear.c               |   1 +
+ drivers/usb/host/ohci-st.c                  |   1 +
+ drivers/usb/serial/bus.c                    |   6 +-
+ drivers/usb/serial/cp210x.c                 |   1 +
+ drivers/usb/serial/generic.c                |  10 ++-
+ drivers/usb/serial/option.c                 |  14 ++++
+ drivers/usb/serial/quatech2.c               |  19 ++++-
+ drivers/usb/serial/ssu100.c                 |  18 +++-
+ drivers/usb/serial/usb-serial.c             | 126 ++++++++++++++++++++++------
+ drivers/usb/serial/xr_serial.c              |  10 +--
+ drivers/usb/storage/sierra_ms.c             |   7 ++
+ drivers/usb/typec/anx7411.c                 |   5 +-
+ drivers/usb/typec/port-mapper.c             |  21 ++++-
+ drivers/usb/typec/tcpm/tcpm.c               |   6 +-
+ drivers/usb/typec/tipd/core.c               |  11 +--
+ drivers/usb/typec/ucsi/displayport.c        |   9 +-
+ drivers/usb/typec/ucsi/ucsi.c               |  17 +++-
+ drivers/usb/typec/ucsi/ucsi_acpi.c          |  34 ++++++++
+ drivers/usb/typec/ucsi/ucsi_glink.c         |  15 +++-
+ include/linux/thunderbolt.h                 |   3 +
+ include/linux/usb/serial.h                  |   1 +
+ 58 files changed, 726 insertions(+), 279 deletions(-)
