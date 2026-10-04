@@ -1,140 +1,161 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pz2-f41.google.com (mail-pz2-f41.google.com [74.125.228.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A3512F585;
-	Sun,  4 Oct 2026 04:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECD7933B966
+	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 05:26:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791089147; cv=none; b=qT8vceONtHpVAeaoIciTb2GL94vrLBRRY+BbjWkWTzfnO3WXKwYUExyPGYf+Op6L1ZkLKTAIv8UtOGYrxRJrYM2s6q+y2tI9QFHHiRyjRqbOGF/8D/CXwEWKY8Nho6rZ7Pq2bLJcVsS/OP50HtOiCaVbuK8P7c88aJ39vaphjWI=
+	t=1791091589; cv=none; b=oC0tRJ6vE3ZEj0wE81UDus5/l3eizpqvrXxn/Mt9zPMRb+LFOoI5McnK+blw6ufXIU+SxjLQ5Lsdobvn1MGK1h5E9fvXbo5sg1oDfzQBKWdLKZ7gmpOOX6+fgyuhP5NV7M6DN8RhFQ9whrcM+IYzVV/mHGCXBC4RrAADWzauIJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791089147; c=relaxed/simple;
-	bh=Y8hTEDXvb6yCaNb8FTRRoDawRaRSofceknZzXqrMGTA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RU5xyvTnTq+OUjbpFLKSFRVuFbw+8sTfPlgYt+AtTHAUmC8HPT7D5kMgCf81BIRf9XQ1bB5JKTYcg8iTinpY1zrfmuCucgf34QFztbVbFWnjuCvXVlSV1Q6cJ1YU4C42qNF86PkHfvbrGlInGSboIggehyL6HV6y6Vgf2euOHPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YkLEpaDa; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1791091589; c=relaxed/simple;
+	bh=eZ2p6zXDNQHbt4Zn0SxItyBiCh80mtsGPEzghGsZle4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pGPrkbO6t6OrcdGLyDR6vGZUg4U56AXe0cWFvSo6Aeufay4Pdv4i05UzwtWES1BKHSkDjR224C+l/AobrE6Wo4tH/wMEpUr139+8AwWmXCOuiEtWAwqqnDoWUu/jucsz3JSssqCaKRSttQZbZT4ZskmwUO8rETvIVtj9x9L4O3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FIb3lKV7; arc=none smtp.client-ip=74.125.228.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YkLEpaDa"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791089145; x=1822625145;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Y8hTEDXvb6yCaNb8FTRRoDawRaRSofceknZzXqrMGTA=;
-  b=YkLEpaDaTEWItIIBLbJAqrU/II64e53/s4Kys3wWZzuaTe7pAwzI7nVa
-   NnPQeyqQfN8hzc3SOcnvNJNkC5Tmm9Mi2GBpVI50BPqJlWgaLm5mRSKmK
-   f0zNq5PG+H48GOKg48tPEC6DkIPacDlqlEYm2Yaxc77aOZ5li4MvOT97K
-   0GDPQa+Qb/gwE+zX/5Fa+HnebsF6qP2LwEENFF94VDJKxfvdl/e3EVJc/
-   shalXu5DTmhO7vzSKRBNSeKLOP0Jd64GFKTj+fNiGDrCRpU93eFM+FVE8
-   wN72ytqsnMGjHKOU0N3HUQ+F1TREtQX1uxpdgqAqWgobZoT0NR/pu6bFb
-   Q==;
-X-CSE-ConnectionGUID: cXv0FhtXQW63PFlH37mV2g==
-X-CSE-MsgGUID: YYD7E3r6RgGsjJbxL+Gd+g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="90652949"
-X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="90652949"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2026 21:45:44 -0700
-X-CSE-ConnectionGUID: Pwwv5itGSjGiIJRsw2CMiQ==
-X-CSE-MsgGUID: ImmaXyUUTtCsMqscUS5IuQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,138,1787036400"; 
-   d="scan'208";a="314548899"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa001.jf.intel.com with ESMTP; 03 Oct 2026 21:45:42 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 84DC199; Sun, 04 Oct 2026 06:45:41 +0200 (CEST)
-Date: Sun, 4 Oct 2026 06:45:41 +0200
-From: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>
-To: Golden Stickwood <Stickwood_Jr@hotmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Sanath S <sanath.s@amd.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH] thunderbolt: Preserve pre-boot PCIe tunnels for active
- storage devices
-Message-ID: <20261004044541.GH176164@black.igk.intel.com>
-References: <BN8PR19MB275472A84381924206F01AE0FD882@BN8PR19MB2754.namprd19.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FIb3lKV7"
+Received: by mail-pz2-f41.google.com with SMTP id d2e1a72fcca58-8631d0023daso186235b3a.2
+        for <linux-usb@vger.kernel.org>; Sat, 03 Oct 2026 22:26:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791091587; x=1791696387; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=yrSoyR0XDRjfdCWPMbPLnbv5pHqYkj4I5sTbgAVqzyc=;
+        b=FIb3lKV7MByZxb4XzPygVdbnbUKGURPvWz0CLQVjEykLKvFNWY2UPJgmFBG/tWzx7s
+         aCjLtD6dUtezPsSUHtkHE5aKMQLneLezmvYNC31zMSjya8dhVerODNC7D3t1DZ+HGYuE
+         UDLa3vvGdBIX/fRKnfyiiNJDSOERacE6rHT/q5byCefBcWAJ1tqblkXM0BxBveStojm0
+         fqt7k+EmIKlYBaSq816ZS7mx3/LMHxeHZa3jIlahppKrNzrzrOjlsDFpKndCNPsCF69w
+         HI44TLkMhhAqO/y5kX/6875Udz3cZiIaEQLuEgokNhrmjROkpr4ymE1qGuS9NjQlrf1G
+         ZNiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791091587; x=1791696387;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=yrSoyR0XDRjfdCWPMbPLnbv5pHqYkj4I5sTbgAVqzyc=;
+        b=Yg6/+2emwYbktOBwmq0aiYhnU84NAABWQJ7qe/JTMzYlnbGt5QStJ/ySJNCTbhGETk
+         vUACJE77LWD2ElUo0YqM9QIsXluxtaqCfEG+ebTbZCEjNzrzkKNc3Vq2JlyoBcthhWLk
+         JQl6xD5wlMHhLIG63J4CkWBP0FAqaBT3FR2MBcouzpwEOB25K1d7pYzw3nU4wchMT5ex
+         VRKb3gfUgkIkgTsmNXE1tjJn9YnRX4IsQQ5wxs5hlY06O8t/+VdmGH66Wrtb8RtOpg38
+         5BoU8XKVxeFKh2ZE9+UpXnho/nMYtCNX4MO/w9OXNUGond2XyHAd08DnmKOeT/Pvm4BZ
+         0Lig==
+X-Forwarded-Encrypted: i=1; AKwUvBxS7gaaIE+YjLm2+ckwdpeJNwC1Swh1KJIJY38naiOGKrrRN2vZ2KIqXEZFVVzkZN5Jeqd7JA9V65Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++ktHcEjiomN0gfXUhOTJvqINYEicnjXqUqBoBxYzca8HnDCd/HY
+	BjvWvHcoIh6mho7iHMw/O73pHY8ksZXHKHDawOlSX7o7j8kafl3Jg8qE
+X-Gm-Gg: AYBFou2bI/6UxssqvWc9B85Sl4OB50TiCTVDl8KPBCsm9iScFEIU5RakidYguQYAget
+	wDlmsOSnqgAZQE2BZoT5fRWGjJSf8DHpj4EvXIBoCsVJQ8ZsVr8N4JBXFyOaH5M+lOuVE32LwtO
+	Fx4W0XbIjS8EF0aS8WrkWy8CUHnXsoxwbNLuSBkm8Fw0sXfs18KwNw9jQmqdMcedXf3C3BtS7dv
+	07iizBOBvg+HWUZaVtpQlO1I7o9l/1DBn7I0Phs3beRJrKZ+ePHtUwx7kWMhyKkl3G2B3E96Fg3
+	De3o/kqSM8TwryWbq6FWr6+0rlo6KAkxOhAqprHnCI1+B1apxzl9gdmu7oXp2b6ax9Lbf3FR2uO
+	Rwys148gZrcj53I2ig7JkZxDkfFhYuSktg5TN44dCoOutPs1qs0DzjQzI9ky7a9qk7KbRiMRr/M
+	mUU7kM0g6k9t+viwj3DT0zZdmloUZSwkmfRdCnAZhr5ZI0aozQYvPx5fQ6Nx7odM6TFpaLz2Tk1
+	IqB64DDiEuaVlESb5XCInpJs4/vW3fhMHTCH1TDQEJvOXRkCQIRkhjusnr8JW63DJvovu6snqEp
+	w7AsvM6XGLw7E7GBcb/9yuS5
+X-Received: by 2002:a05:6a00:4f86:b0:881:e266:c3e1 with SMTP id d2e1a72fcca58-88af56e732cmr7763772b3a.48.1791091587013;
+        Sat, 03 Oct 2026 22:26:27 -0700 (PDT)
+Received: from Inspiron5409 (61-228-84-245.dynamic-ip.hinet.net. [61.228.84.245])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88b0968d44asm2226260b3a.5.2026.10.03.22.26.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 03 Oct 2026 22:26:26 -0700 (PDT)
+From: Jianhui Xu <neuromoments@gmail.com>
+To: mail@birger-koblitz.de
+Cc: andrew+netdev@lunn.ch,
+	andrew@lunn.ch,
+	chenhuacai@kernel.org,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	hkallweit1@gmail.com,
+	kernel@xen0n.name,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux@armlinux.org.uk,
+	loongarch@lists.linux.dev,
+	nb@tipi-net.de,
+	netdev@vger.kernel.org,
+	neuromoments@gmail.com,
+	pabeni@redhat.com
+Subject: Re: [PATCH v15 0/13] ax88179_178a: Add support for AX88179A-based chips
+Date: Sun,  4 Oct 2026 13:26:19 +0800
+Message-ID: <20261004052619.112885-1-neuromoments@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261002-ax88179a-v15-0-131d9286fcd7@birger-koblitz.de>
+References: <20261002-ax88179a-v15-0-131d9286fcd7@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <BN8PR19MB275472A84381924206F01AE0FD882@BN8PR19MB2754.namprd19.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Birger,
 
-On Sat, Oct 03, 2026 at 06:45:14PM +0000, Golden Stickwood wrote:
-> In Linux 6.8+, commits 0fc70886569c ("thunderbolt: Reset USB4 v2 host
-> router") and 59a54c5f3dbd ("thunderbolt: Reset topology created by the boot
-> firmware") enabled default host router resetting (host_reset = true).
-> 
-> On systems where the UEFI firmware created a PCIe tunnel to an external
-> storage device (such as an NVMe drive hosting the root filesystem),
-> issuing nhi_reset() in nhi_probe() on USB4 v2 or calling tb_switch_reset()
-> in tb_start() on USB4 v1 abruptly tears down the physical PCIe tunnel while
-> the kernel or initramfs is booting. This leaves downstream NVMe devices
-> inaccessible (-ENODEV), triggers pciehp removal races, and results in a
-> kernel panic or dracut boot timeout.
+I tested the 13-patch v15 series on an AX88179B adapter (USB 0b95:1790,
+bcdDevice 0x0200) on the declared net-next base
+071876fd50482a68603a9460d80dd6dd58827ee1.
 
-If you have the TB driver as part of the initramfs it should load and
-recreate tunnels before the rootfs is mounted. You need to make sure there
-is something in the initscripts that actually enables PCIe tunnel though.
+Builds, cold DHCP, 1000/100/10 Mbit/s link changes, EEE, pause settings,
+EEPROM reads, autonegotiation restart, module reload, USB reattach, MII
+ioctl reads, and repeated 100/1000 Mbit/s transitions all passed. The build
+only showed the pre-existing unused mask warning in
+asix_ax88772D_get_features(). Deep-S3 resume also passed with both wol
+d and wol g; resume was triggered with QEMU system_wakeup, not a magic
+packet. The guest later hit an init-exit panic during poweroff, which
+appears separate and has not been investigated further.
 
-> The Thunderbolt driver already contains infrastructure to handle boot
-> devices: tb_discover_tunnels() traverses existing PCIe tunnels, marks
-> the upstream switches as sw->boot = true, and tb_scan_finalize_switch()
-> authorizes them. However, unconditional host_reset and discover = false
-> short-circuits this entire mechanism.
-> 
-> Fix this regression cleanly by:
-> 1. Adding nhi_has_active_storage() in drivers/thunderbolt/nhi.c to walk
->    sibling PCIe bridges using pci_walk_bus() and specifically verify the
->    presence of PCI_BASE_CLASS_STORAGE devices (e.g. NVMe SSDs) before
->    issuing REG_RESET_HRR.
-> 2. In tb_start(), checking if the host router has an active PCIe downstream
->    adapter enabled by firmware before resetting. If active PCIe boot tunnels
->    or downstream storage devices are present, keep discover = true, skip
->    destructive resets, and allow tb_discover_tunnels() to adopt and
->    authorize the boot device.
-> 
-> Hardware Verification & Telemetry:
-> - Platform A: Intel Core Ultra 9 275HX (Arrow Lake-HX) with Meteor Lake-P
->   Thunderbolt 4 NHI [8086:7ec2] + ASMedia ASM2464PD (PCIe Gen 4 x4) +
->   WD_BLACK SN7100 2TB NVMe SSD. Confirmed zero AER errors, zero IOMMU
->   page faults, and Host Memory Buffer (HMB) 64 MiB cleanly established.
-> - Platform B: AMD Hawk Point USB4 Host Router [1022:1502] (ASUS Zenbook 14
->   UM3406HA, Launchpad LP #2159575). Boot succeeds cleanly without link drop.
-> - Platform C: Intel Core Ultra (Dell Latitude 5550, Launchpad LP #2078573).
-> 
+However, I did find a reproducible RX VLAN filtering failure. With
+rx-vlan-filter enabled, ip link add for VLAN 123 or 124 returned
+success, but no VLAN interface was created. With the feature disabled,
+VLAN creation worked normally.
 
-You are misisng Assisted-by: LLM, no?
+The first read in ax88179a_vlan_rx_add_vid() returns the byte count on
+success, so:
 
-> Fixes: 0fc70886569c ("thunderbolt: Reset USB4 v2 host router")
-> Fixes: 59a54c5f3dbd ("thunderbolt: Reset topology created by the boot firmware")
-> Link: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2167764
-> Cc: stable@vger.kernel.org # 6.8+
-> Signed-off-by: StickwoodJr <stickwood_jr@hotmail.com>
-> ---
->  drivers/thunderbolt/nhi.c | 54 ++++++++++++++++++++++++++++++++++++++-
->  drivers/thunderbolt/tb.c  | 24 ++++++++++++++++++++--
->  2 files changed, 75 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-> index 8b9f71c48012..d3c907a014e2 100644
-> --- a/drivers/thunderbolt/nhi.c
-> +++ b/drivers/thunderbolt/nhi.c
-> @@ -17,6 +17,7 @@
->  #include <linux/interrupt.h>
->  #include <linux/iommu.h>
->  #include <linux/module.h>
-> +#include <linux/pci.h>
+if (ret)
+    return ret;
 
-There is no way TB driver is going to call PCI functions or look what is
-behind the PCIe tunnels.
+returns 1 before the VLAN bitmap is programmed.
+
+The patch below fixes both issues and worked correctly when applied
+directly on top of v15.
+
+Because unmodified v15 has this VLAN failure, please do not carry my
+previous Tested-by for v15.
+
+Thanks,
+Jianhui
+
+Signed-off-by: Jianhui Xu <neuromoments@gmail.com>
+---
+ drivers/net/usb/ax88179a_devices.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179a_devices.c
+index 16b441fea..f2140e2bb 100644
+--- a/drivers/net/usb/ax88179a_devices.c
++++ b/drivers/net/usb/ax88179a_devices.c
+@@ -422,7 +422,7 @@ static int ax88179a_vlan_rx_add_vid(struct net_device *net, __be16 proto, u16 vi
+ 	u8 reg8;
+ 
+ 	ret = ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL, 1, 1, &reg8);
+-	if (ret)
++	if (ret < 0)
+ 		return ret;
+ 	vlan_ctrl = reg8;
+ 
+@@ -438,7 +438,7 @@ static int ax88179a_vlan_rx_add_vid(struct net_device *net, __be16 proto, u16 vi
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0, 2, 2, &reg16);
++	ret = ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0, 2, 2, &reg16);
+ 	if (ret < 0)
+ 		return ret;
+ 	reg16 |= (1 << (vid % 16));
+-- 
+2.56.0
+
