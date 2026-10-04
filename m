@@ -1,181 +1,158 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFD174A92CD;
-	Sun,  4 Oct 2026 21:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C0A3E2AD1
+	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 22:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791147661; cv=none; b=AIBkm1ZVW2Fh8FRIRrY9rJNnKHnEF1sg/Aj2xRPwoD/QtA7MsX5R7tb80A5KkI+/2ONIy2ugxdd8sfY01qp/BSt2jVCAyyJpF4DelhFFBZkmemP2tgxucYYNRs/e7HIEgRmdmZahuQabuQ0zi/GVjsUay93hUvoXxjwKV8HL7sU=
+	t=1791151207; cv=none; b=ZZNCFRXLbelV6P9mhyk5fIQJog3q3YE3EVJ9feFnk1HJd9PoE+tH9vQNfdqbr/zHsfYA2oRmiA25v0AGcQ7nmf25/ccwXcTPHqDhMvo2ICWrqDTifnbxvBobXfbixLXGQpa7I/YvEps07xltIJeIuJ7XLgWUbAIjRCxIAPEbr58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791147661; c=relaxed/simple;
-	bh=NHdlZAk4SSTWPHwTKUIqNnlBuJ28JKxIPaWWMniUZCg=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=O+K89wlhoT3rhHE6fpq2tb639LAejXW8tJJKA75gN4v8T1XGCAI+Uv0UYzveDCmkywE+zHdSv3nhWiWFdbPaUTTuoGbB64tQQiGFlAarFgxroE6edLdQFM6cMx/xmcSMHpn7eJFv6mUi+Yp56pe0sEvHm2hX0+eAcJtoMvPFaI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RCi825HV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791151207; c=relaxed/simple;
+	bh=A49zyjjnqqb50pG4MqWzNRlRKAi9xTHYpw2ixK1+k84=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gRlBNnPKTU0NFIw6PEB4w3ZsbW1yu4txfjfajeDNtp11Nnq7DVdSCz+D7ta+Jj1suwGDKnKI6pOrdYPtYAmDRfNtAxx4/WhoOtF0rIXI9bgrw4eNiuoUHegj5gvuYek4gHZSQnv061fcjneU/gPMzCkWZdwEpUqn7e49BpxH1Bc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RsNSgBPe; arc=none smtp.client-ip=74.125.225.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RCi825HV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF42B1F00893;
-	Sun,  4 Oct 2026 21:00:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791147653;
-	bh=GTX2JEXjMONxgG6Zb71pboutBtnb2i8m9AdwUMuDpp0=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=RCi825HVyaOCGFtndxrfd0lbAFi22UsCLPkwOJxgrn7vyRxnUGIXTkNhdD4l7AdpZ
-	 VBRPq0JFFCptVcDcN1mlgK5zN0zeisUaaVjZyy205nmTbhjoNlmMJD7i8Qp/ykBZOg
-	 5dceiHpv3lzjgka4rYLwCbMFaUlab+TjJB7eyaKLFpSthxPV+OVbpeEDxggqoztIPf
-	 7gAwxHkRe4cXT+24LNODfNAAMiqLhUMvCcVjwnjqKw8G76mPCKELTwJqmj0ba5eta9
-	 bqgpDo0RPdV7Tk4ZCY/52XQuZH57KNKOt1Bg6tez0vQIALpcrwHEawBjKaddpKQYqH
-	 /xAkZYA8M6nzg==
-Subject:
- Re: [PATCH net v5] usbnet: fix smp_processor_id() use in preemptible context
-From: netdev-bot+sashiko@kernel.org
-To: omermetekaya0@gmail.com
-Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- david.laight.linux@gmail.com,
- syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
-Date: Sun, 04 Oct 2026 21:00:52 +0000
-Message-ID: <179114765252.434549.11117691651073714185@kernel.org>
-In-Reply-To: <20260930215047.718270-1-omermetekaya0@gmail.com>
-References: <20260930215047.718270-1-omermetekaya0@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RsNSgBPe"
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d8239so10328235e9.0
+        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 15:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791151204; x=1791756004; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=v9ZMcU4NSbtXZ2T+rqlz7vA0bY14DXoiCQpMM48epr0=;
+        b=RsNSgBPeuAwryu6cQEQFTvpMvhmclslYU+UDPuOLsR94lwv0GFEFC21qRMaIunzVd/
+         wKJK0CBl4/WbBWpmfJuE1anC1jtMuzHSeXUmjXmJv9fgOsAwbqgzHS5fUOLCzgzw5Gfd
+         v6Wxoy7XmmGDdfvShzCLKflCAixNZjnHjHhlZXjWVhJgVzF3C1i+mtWUYNYujkd1UQxI
+         3Pbmpm6t5klfqL1cpYFMQ2iKK24I0lPH3wXukZfuNHYTJ5tpzCa/ioYWQMpeudL7MeWM
+         l4Iz0dnV1Akbnts1PEIhpH9SxZZb3LmxCn72dWBbFy2jzf0K0ZNABDLCO1gz60AG4Bak
+         q3Ow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791151204; x=1791756004;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=v9ZMcU4NSbtXZ2T+rqlz7vA0bY14DXoiCQpMM48epr0=;
+        b=R52iOyJ/rVi3Dq68Q7cdXj6dK06QNfougDqsyvV09d8/p+8P0Hc4SdMtQgtvfCanKt
+         VU4D/LTs7nBJB/kFJRNK2rLiRFfy2mQEc3bK59AOyaHQ4REx2jDc8cNmE2k6YbhSkVP+
+         32DS/k5io8motx5GRGSSIJ+PJqfx9CAc7s/qiQPdkMEZaLVs+QGg2A+d5S1N7drdv8NP
+         xFiX4EbB3j/8ossZ1boAVBIx17cvbf8c/2vw0ED5AzuA/YLY0J0ARhinuWLkRmzQ0h9F
+         6RO9h79A/AxTIi1h1o47wibeVQW5Qm4psRfMF+yPsqOEiI+uFzPNewnJY+3F+/iBq4DK
+         y7iw==
+X-Forwarded-Encrypted: i=1; AKwUvByHl5jQsU40wh/10YA1aKCc7qswwZnYpTMk7ygFu6Lk/tTXRAx0MO05qYgT5/13q4fA2qgkIZOpi1I=@vger.kernel.org
+X-Gm-Message-State: AFuF++lSG32k5g052Lj5azk96d/8lEg7YhrywbduyHXWUI1YyZADLRyo
+	/zIMNGIVMGqPEpcohtpCbThjTdkmQi0XOGwnLjlpOcoMMIJnZN5sTluM
+X-Gm-Gg: AYBFou3u471P1By+fo/yAepX0iMe7qyK9zj9MCieggYEPwrrgU89NiEXpYaERFVZZW+
+	MDBH6SV1xQc8kVA3mgtaFYUkT3st9F5IHpBnzlYsk75MLtypiXEfTXBEedeZ90Q8yiPoMmRUpk8
+	08a4uqtZl5vImyjHPnOTcAP+Y2n5FVhwtz9W2QigEPdCqFWB8LX3QsjG/CrGTgNMJCneb0SqnsE
+	LQyx2xWbS3rxmgJS58LWh49LHEFqwLByDvY1msZ0ZBIVdTUJLlZLcz4XV1TGRZq2y/c7S4mMT3Y
+	spqts1z7FXgZN05lxVZ5Hde8+OE8bKDxGZhtxAd6EaB04KqGkVsS1c0ddsEJXXQLj+2f1/iIuD/
+	rTW5EtBLzxtZ/IKEfwvnOOrmxRpBsBIhTi0tC4ADXp79luj/z7lyeJl+/gh8TeIGgFlJMU9sRiI
+	v/QvEfAjM6Mkpl7BfBZkPnupYrawcaQNUlgAB/waUkCcongQUpdCFxwF150IHSIMDD+0R90ADuj
+	ylKjsY=
+X-Received: by 2002:a05:600c:3b1d:b0:4a1:7033:5b55 with SMTP id 5b1f17b1804b1-4a170335d02mr45106945e9.21.1791151204108;
+        Sun, 04 Oct 2026 15:00:04 -0700 (PDT)
+Received: from metepc ([46.197.185.71])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0a6e894a4sm256671015e9.5.2026.10.04.15.00.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 15:00:03 -0700 (PDT)
+From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+To: netdev@vger.kernel.org
+Cc: oneukum@suse.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	david.laight.linux@gmail.com,
+	syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com,
+	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
+Subject: [PATCH net v6] usbnet: fix smp_processor_id() use in preemptible context
+Date: Mon,  5 Oct 2026 00:59:25 +0300
+Message-ID: <20261004215937.302247-1-omermetekaya0@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+tx_complete() calls this_cpu_ptr() before disabling preemption, which
+triggers a BUG when running with CONFIG_DEBUG_PREEMPT:
 
-Critical: 0 · High: 0 · Medium: 1 (1) · Low: 0
+  BUG: using smp_processor_id() in preemptible code in tx_complete
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Fix by using get_cpu_ptr()/put_cpu_ptr() which disable preemption and
+return the per-CPU pointer atomically. The usbnet_skb_return() hunk
+is a hardening change: that path runs in softirq context so no warning
+fires there, but the same fix is applied for consistency.
 
-- [Medium] The commit message is wrong about the usbnet_skb_return()
-  hunk, and the Fixes tag is wrong for both hunks.
+Fixes: ed194d136769 ("usb: core: remove local_irq_save() around ->complete() handler")
+Suggested-by: David Laight <david.laight.linux@gmail.com>
+Reported-by: syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
+Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
 
-Pre-existing issues:
-- [Medium] This problem wasn't introduced by this patch, but the
-  EVENT_RX_PAUSED check-then-queue in usbnet_skb_return() is not atomic…
+---
+v6: Fix commit message and Fixes tag as pointed out by Sashiko:
+    - BUG is in tx_complete(), not usbnet_skb_return()
+    - usbnet_skb_return() hunk is hardening, not a fix
+    - CONFIG_DEBUG_PREEMPT, not PREEMPT_FULL
+    - Fixes tag updated to ed194d136769
+---
+ drivers/net/usb/usbnet.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+index a19ecf718f36..84f97f448b2d 100644
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -325,7 +325,7 @@ static void __usbnet_status_stop_force(struct usbnet *dev)
+  */
+ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
+ {
+-	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
++	struct pcpu_sw_netstats *stats64;
+ 	unsigned long flags;
+ 	int	status;
+
+@@ -338,10 +338,12 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
+ 	if (skb->protocol == 0)
+ 		skb->protocol = eth_type_trans(skb, dev->net);
+
++	stats64 = get_cpu_ptr(dev->net->tstats);
+ 	flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+ 	u64_stats_inc(&stats64->rx_packets);
+ 	u64_stats_add(&stats64->rx_bytes, skb->len);
+ 	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
++	put_cpu_ptr(dev->net->tstats);
+
+ 	netif_dbg(dev, rx_status, dev->net, "< rx, len %zu, type 0x%x\n",
+ 		  skb->len + sizeof(struct ethhdr), skb->protocol);
+@@ -1298,13 +1300,15 @@ static void tx_complete(struct urb *urb)
+ 	struct usbnet		*dev = entry->dev;
+
+ 	if (urb->status == 0) {
+-		struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
++		struct pcpu_sw_netstats *stats64;
+ 		unsigned long flags;
+
++		stats64 = get_cpu_ptr(dev->net->tstats);
+ 		flags = u64_stats_update_begin_irqsave(&stats64->syncp);
+ 		u64_stats_add(&stats64->tx_packets, entry->packets);
+ 		u64_stats_add(&stats64->tx_bytes, entry->length);
+ 		u64_stats_update_end_irqrestore(&stats64->syncp, flags);
++		put_cpu_ptr(dev->net->tstats);
+ 	} else {
+ 		dev->net->stats.tx_errors++;
 
 --
+2.55.0
 
-usbnet: fix smp_processor_id() use in preemptible context
-
-This patch replaces this_cpu_ptr() with get_cpu_ptr()/put_cpu_ptr() for
-the per-CPU tstats updates in usbnet_skb_return() and tx_complete(). With
-this change, preemption is disabled before the per-CPU pointer is taken.
-The existing _irqsave seqcount helpers are kept.
-
-Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
-
-> usbnet_skb_return() and tx_complete() call this_cpu_ptr() before
-> disabling preemption, which triggers a BUG when running with PREEMPT_FULL:
->
->   BUG: using smp_processor_id() in preemptible code in tx_complete
-
-[Severity: Medium]
-Is this description still accurate for usbnet_skb_return()?
-
-Commit 327cd4b68b43 ("usbnet: Fix using smp_processor_id() in preemptible
-code warnings") already put local_bh_disable()/local_bh_enable() around
-the drain loop in usbnet_resume_rx():
-
-drivers/net/usb/usbnet.c:usbnet_resume_rx() {
-    ...
-	local_bh_disable();
-	clear_bit(EVENT_RX_PAUSED, &dev->flags);
-
-	while ((skb = skb_dequeue(&dev->rxq_pause)) != NULL) {
-		usbnet_skb_return(dev, skb);
-    ...
-}
-
-Every other caller of usbnet_skb_return() is a minidriver rx_fixup
-callback or rx_process(), and all of them are reached from usbnet_bh().
-usbnet_bh() only runs from the dev->delay timer and from usbnet_bh_work
-on system_bh_wq. Both of those are softirq context.
-
-In the current tree, is the usbnet_skb_return() hunk hardening rather
-than a fix for a live warning? The quoted splat is also in tx_complete(),
-not in usbnet_skb_return().
-
-The reference to PREEMPT_FULL also looks inaccurate. The warning comes
-from check_preemption_disabled() under CONFIG_DEBUG_PREEMPT. The splat
-quoted in 327cd4b68b43 was on a PREEMPT(voluntary) kernel.
-
-> Fixes: 43daa96b166c ("usbnet: Stop RX Q on MTU change")
-
-Is this the right Fixes tag? 43daa96b166c is from 2016, before usbnet
-used this_cpu_ptr() anywhere. 327cd4b68b43 already uses the same tag for
-the usbnet_resume_rx() path.
-
-The per-CPU pointer in tx_complete() came from c8b5d129ee29 ("net:
-usbnet: support 64bit stats"). The completion handler only became
-preemptible after ed194d136769 ("usb: core: remove local_irq_save()
-around ->complete() handler").
-
-Would one of those be a more accurate Fixes target for the tx_complete()
-hunk?
-
-> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-> index a19ecf718f36a..84f97f448b2da 100644
-> --- a/drivers/net/usb/usbnet.c
-> +++ b/drivers/net/usb/usbnet.c
-> @@ -325,7 +325,7 @@ static void __usbnet_status_stop_force(struct usbnet *dev)
->   */
->  void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
->  {
-> -	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
-> +	struct pcpu_sw_netstats *stats64;
->  	unsigned long flags;
->  	int	status;
->  
-
-[Severity: Medium]
-This isn't a bug introduced by this patch, but can the EVENT_RX_PAUSED
-check at the top of usbnet_skb_return() race with usbnet_resume_rx()?
-
-usbnet_skb_return() does:
-
-	if (test_bit(EVENT_RX_PAUSED, &dev->flags)) {
-		skb_queue_tail(&dev->rxq_pause, skb);
-		return;
-	}
-
-usbnet_change_mtu() calls usbnet_pause_rx(), usbnet_unlink_rx_urbs() and
-usbnet_resume_rx() in process context. Meanwhile usbnet_bh() on another
-CPU can still be handling rx skbs that completed earlier:
-
-CPU0 (usbnet_bh)                    CPU1 (usbnet_change_mtu)
-rx_process()
-  usbnet_skb_return()
-    test_bit(EVENT_RX_PAUSED) true
-                                    usbnet_resume_rx()
-                                      clear_bit(EVENT_RX_PAUSED)
-                                      skb_dequeue(&dev->rxq_pause) == NULL
-                                      queue_work()
-                                      local_bh_enable()
-    skb_queue_tail(&dev->rxq_pause, skb)
-
-The local_bh_disable() on CPU1 does not exclude CPU0. The rxq_pause
-spinlock protects the list, but not the flag.
-
-usbnet_bh() only drains dev->done. Would this skb then sit in rxq_pause
-until the next MTU-driven resume, or until usbnet_purge_paused_rxq()
-frees it at usbnet_stop()? The packet would be delayed and reordered, or
-dropped.
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260930215047.718270-1-omermetekaya0%40gmail.com
