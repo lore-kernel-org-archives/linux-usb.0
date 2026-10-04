@@ -1,117 +1,125 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FC7F3B8405;
-	Sun,  4 Oct 2026 05:46:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A2E3A1B5;
+	Sun,  4 Oct 2026 06:09:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791092771; cv=none; b=KiMgFsia2+mWWCtc/g46v3NqJ2YYl7RpiiqRVjPbf9X4iuTXvuRYaG7zMdJKsN3jjPHiesJDdh2wCxTXieJQAlKGknMNhrHcP8vc0Pa5jR94zO+MGnQ61lLZudqenshtjTq872aiwirNf9aL5aXghcs+O2XDjeO6HilF7iGuXCg=
+	t=1791094164; cv=none; b=iIBrZ1+eABnHt+FTv1E2be0bf1w7NdkBYkfHdd/aDT81uRZiPT/9lCpEx79gpwPukm8MaDv4iKeNfqzG1GHMUJuJDGnFfz6t7T+fGGrAO5DrVE/qasj8+XzRtLU+bWLqvAONGqhjfd1nSSNRucKt0lrMyxvZtPw8ng1+GX/Bui0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791092771; c=relaxed/simple;
-	bh=sUBnTza7zDxpSZ4E33Ix18dGR98eAVVfMJGyZ+uHNiE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eJMQ8kF54bdmYlYVGTSwpXY91dDbcpxxhR2hbR+3na92/iQ7USJ5sFX1PXsRExuZUv7nx0xIGEK1/xYoQZYasIkO6pDxdb1MChrGGIGl9F1cn87z23cnyBqEPwWa5PUrjVi+ZV297O0+PUO6m/PmeEa7bA8e2CsEBcnhgn/OJgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=qVQahIys; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=JENAANXH; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1791094164; c=relaxed/simple;
+	bh=O6a5GD560vAX33Ar+emmCzvLoVAprIoEHkr06ZJgLlg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cjbp1OPYWx35TjCR4jlFTH3E2Xnr6ewTC6EqlQoNuKHnsP5KJRRFG7piDT7vfYJSUIrX8HaxWXzivtDVfGAWEQQ21pokhdN3TueBRnYjA5SuUylkI0BeYLtUT2ogvf/HV7UjMA1t3UuhODl1BSYj/nQ2iMVCNCPvabCJoYNrHCs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JFNRDWk7; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="qVQahIys";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="JENAANXH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791092768;
-	bh=sUBnTza7zDxpSZ4E33Ix18dGR98eAVVfMJGyZ+uHNiE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qVQahIyshU1J/yMkEtUrBR2p/ZA2NblhgaDIvmnv2yIewCG6TKLggAvBCFnhpUIjS
-	 aEzWa1z+6/hkRteNuV/kEC6ZSVIFVdwlGMAQMz8d8+cm2Id/EJ3NEllQpGYrdY0vPq
-	 p7szVWtXCqCg0+61IvvdIaEP11mnfT1L9IyC4XT7D1FpyvzrQ7SiQoPSQNxqPwkGt2
-	 kpI4LIex2SRjPiXwHDc+YIE3456EnKmtF+zWnQvDXRiP4rzYITcA8Y8oAwuiGLU7vo
-	 g2izH4sLFb8kG2UHONK7KbqxMohBkbhNgQmjipGiSvTAXi1WKu/bnk0SekyCD3UyZe
-	 2NDfLF2Ipmd3A==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id ABD0E4834C; Sun,  4 Oct 2026 05:46:08 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791092767;
-	bh=sUBnTza7zDxpSZ4E33Ix18dGR98eAVVfMJGyZ+uHNiE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=JENAANXH1OmIUFpB0vlgJpO23Chef3B0sHmxozXNvxZ9NajlGdmPb9o3dJRzOBGuy
-	 P/BMvFpb+DcOjPYEwmcwqLDNv+fC6RjtvAso3isTdAHM+A43WOMCuKDPKtuewVBHOW
-	 yIWci3BEWpUzp0IlUJsfzviUfl2ZXDBxX4c6/qJot/PwA9cUAcH5nKY8zrsOU0F5B6
-	 t1zAG8sydHuOwVwueHz78tdz3ZJVmObCGu57R+kfF2IPKib4yN7EqLct2qHHpAsnOq
-	 s4dt2iHAit7l1fIk+dhs/ub/TshVbbZKRAO1LnStjyKYjZjtpr03zEfP5/OKNQGm2Z
-	 9QgN6uGQMVnfg==
-Received: from [192.168.2.51] (p5dd1ef42.dip0.t-ipconnect.de [93.209.239.66])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 939CA481F5;
-	Sun,  4 Oct 2026 05:46:07 +0000 (UTC)
-Message-ID: <238071cc-9ee5-4aa1-8915-31fc83b82068@birger-koblitz.de>
-Date: Sun, 4 Oct 2026 07:46:07 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JFNRDWk7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64EA31F000FF;
+	Sun,  4 Oct 2026 06:09:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791094162;
+	bh=EVbh1l7mNCsDih/vczI2UHe85J45dzFKTW/M+SXfY6Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JFNRDWk7ypo/9FZnK+elI1DWPVSqaDp42sZt9lLyE3G8lpQgmoIVuP/z2s8L7/lwR
+	 DmgHezusB3m5SZuSkWJWNVqIbsWumbq9s10C0GiwV351UFoKnhNJpOnr1glWSBbcOR
+	 j820s/QftF5OLlK+OylzNRCfZOAla5NhMIVqEYUA=
+Date: Sun, 4 Oct 2026 08:09:20 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Golden Stickwood <Stickwood_Jr@hotmail.com>
+Cc: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>,
+	Bjorn Helgaas <bhelgaas@google.com>, Sanath S <sanath.s@amd.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: Re: [PATCH] thunderbolt: Preserve pre-boot PCIe tunnels for active
+ storage devices
+Message-ID: <2026100403-twice-paparazzi-7a07@gregkh>
+References: <BN8PR19MB275472A84381924206F01AE0FD882@BN8PR19MB2754.namprd19.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 0/13] ax88179_178a: Add support for AX88179A-based
- chips
-To: Jianhui Xu <neuromoments@gmail.com>
-Cc: andrew+netdev@lunn.ch, andrew@lunn.ch, chenhuacai@kernel.org,
- davem@davemloft.net, edumazet@kernel.org, hkallweit1@gmail.com,
- kernel@xen0n.name, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, linux@armlinux.org.uk, loongarch@lists.linux.dev,
- nb@tipi-net.de, netdev@vger.kernel.org, pabeni@redhat.com
-References: <20261002-ax88179a-v15-0-131d9286fcd7@birger-koblitz.de>
- <20261004052619.112885-1-neuromoments@gmail.com>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <20261004052619.112885-1-neuromoments@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN8PR19MB275472A84381924206F01AE0FD882@BN8PR19MB2754.namprd19.prod.outlook.com>
 
-Hi Jianhui,
+On Sat, Oct 03, 2026 at 06:45:14PM +0000, Golden Stickwood wrote:
+> In Linux 6.8+, commits 0fc70886569c ("thunderbolt: Reset USB4 v2 host
+> router") and 59a54c5f3dbd ("thunderbolt: Reset topology created by the boot
+> firmware") enabled default host router resetting (host_reset = true).
+> 
+> On systems where the UEFI firmware created a PCIe tunnel to an external
+> storage device (such as an NVMe drive hosting the root filesystem),
+> issuing nhi_reset() in nhi_probe() on USB4 v2 or calling tb_switch_reset()
+> in tb_start() on USB4 v1 abruptly tears down the physical PCIe tunnel while
+> the kernel or initramfs is booting. This leaves downstream NVMe devices
+> inaccessible (-ENODEV), triggers pciehp removal races, and results in a
+> kernel panic or dracut boot timeout.
+> 
+> The Thunderbolt driver already contains infrastructure to handle boot
+> devices: tb_discover_tunnels() traverses existing PCIe tunnels, marks
+> the upstream switches as sw->boot = true, and tb_scan_finalize_switch()
+> authorizes them. However, unconditional host_reset and discover = false
+> short-circuits this entire mechanism.
+> 
+> Fix this regression cleanly by:
+> 1. Adding nhi_has_active_storage() in drivers/thunderbolt/nhi.c to walk
+>    sibling PCIe bridges using pci_walk_bus() and specifically verify the
+>    presence of PCI_BASE_CLASS_STORAGE devices (e.g. NVMe SSDs) before
+>    issuing REG_RESET_HRR.
+> 2. In tb_start(), checking if the host router has an active PCIe downstream
+>    adapter enabled by firmware before resetting. If active PCIe boot tunnels
+>    or downstream storage devices are present, keep discover = true, skip
+>    destructive resets, and allow tb_discover_tunnels() to adopt and
+>    authorize the boot device.
+> 
+> Hardware Verification & Telemetry:
+> - Platform A: Intel Core Ultra 9 275HX (Arrow Lake-HX) with Meteor Lake-P
+>   Thunderbolt 4 NHI [8086:7ec2] + ASMedia ASM2464PD (PCIe Gen 4 x4) +
+>   WD_BLACK SN7100 2TB NVMe SSD. Confirmed zero AER errors, zero IOMMU
+>   page faults, and Host Memory Buffer (HMB) 64 MiB cleanly established.
+> - Platform B: AMD Hawk Point USB4 Host Router [1022:1502] (ASUS Zenbook 14
+>   UM3406HA, Launchpad LP #2159575). Boot succeeds cleanly without link drop.
+> - Platform C: Intel Core Ultra (Dell Latitude 5550, Launchpad LP #2078573).
+> 
+> Fixes: 0fc70886569c ("thunderbolt: Reset USB4 v2 host router")
+> Fixes: 59a54c5f3dbd ("thunderbolt: Reset topology created by the boot firmware")
+> Link: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2167764
+> Cc: stable@vger.kernel.org # 6.8+
+> Signed-off-by: StickwoodJr <stickwood_jr@hotmail.com>
+> ---
+>  drivers/thunderbolt/nhi.c | 54 ++++++++++++++++++++++++++++++++++++++-
+>  drivers/thunderbolt/tb.c  | 24 ++++++++++++++++++++--
+>  2 files changed, 75 insertions(+), 3 deletions(-)
+> 
 
-On 04/10/2026 7:26 am, Jianhui Xu wrote:
-> Hi Birger,
-> 
-> I tested the 13-patch v15 series on an AX88179B adapter (USB 0b95:1790,
-> bcdDevice 0x0200) on the declared net-next base
-> 071876fd50482a68603a9460d80dd6dd58827ee1.
-> 
-> Builds, cold DHCP, 1000/100/10 Mbit/s link changes, EEE, pause settings,
-> EEPROM reads, autonegotiation restart, module reload, USB reattach, MII
-> ioctl reads, and repeated 100/1000 Mbit/s transitions all passed. The build
-> only showed the pre-existing unused mask warning in
-> asix_ax88772D_get_features(). Deep-S3 resume also passed with both wol
-> d and wol g; resume was triggered with QEMU system_wakeup, not a magic
-> packet. The guest later hit an init-exit panic during poweroff, which
-> appears separate and has not been investigated further.
-> 
-> However, I did find a reproducible RX VLAN filtering failure. With
-> rx-vlan-filter enabled, ip link add for VLAN 123 or 124 returned
-> success, but no VLAN interface was created. With the feature disabled,
-> VLAN creation worked normally.
-> 
-> The first read in ax88179a_vlan_rx_add_vid() returns the byte count on
-> success, so:
-> 
-> if (ret)
->      return ret;
-> 
-> returns 1 before the VLAN bitmap is programmed.
-> 
-> The patch below fixes both issues and worked correctly when applied
-> directly on top of v15.
-> 
-> Because unmodified v15 has this VLAN failure, please do not carry my
-> previous Tested-by for v15.
-> 
+Hi,
 
-Thanks so much again for your thorough testing, I know how much work 
-this is!
-I added your fix and re-sent as v16 without any other changes. Since you 
-tested exactly that version successfully, I hope it is OK to keep the 
-tested-by for the v16 version.
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
-Best,
-   Birger
+You are receiving this message because of the following common error(s)
+as indicated below:
 
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
