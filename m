@@ -1,122 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBC942317C;
-	Sun,  4 Oct 2026 10:30:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9C24248C6
+	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 10:51:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.229.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791109812; cv=none; b=bg+BNLuH9RsYjj6wqtTlXsjrKG0ZjJGEABB/ir2L11230ShgJwxkpW7NGXQLoJFFtI1M7zYFUnaiTDPyVQ3A/nFvmltDR5enDJ6qO4a407dGrFTbR4VZiIgC5n2dbyLxN3cgG4auot6V00zlLeBthgo/e4+38SOPuPxAFtYUKrY=
+	t=1791111092; cv=none; b=mrOm5t8VNdii3iSRlfQmSOQRo4Fy/w0KmKZq7IHP5t8/CTAZmOJjQuEznqjX0yed1kYBbixT2wqVtOSkFO+rFm+CovtChXvuXTppcLs7TNUGQlCgG6L/wyvfhRZOwQlj6w79y9Xw+6cUh5tJDyozZO4mN6Lv/6Aj3IFNgmCISH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791109812; c=relaxed/simple;
-	bh=wJaNWkVld6Ks8AC26u+wJzWqIBrvt36+SuQFJrZuVzc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qLlx2UuHSuPS7S7kZ64CodjW8kTQD6lEOBi/ZMHDDFlhEE0aooH/KzqeepuaG9B93oEqSWO7AUxKAlDxtBxd7xzV++ZSwkjPnYEk1mrMjkUilRLgfFLiM53/syrteH18hVz0CGrRJHBrtPhTpijvxgDK6cmpaKyMQZBQ1SnXe+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zzxv8ih4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791111092; c=relaxed/simple;
+	bh=4MRxwd7MzrAqfyJ7mimlrfGaFAcX/tkMDz0Yg+CsHtE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=LetkmKTrpO2L9tMzklB2vHbbj6nGT8pgHDQ70ma4378E8SkzAcC7gApw1qIzbFLccUxjlUMlC0phWgsrv51F6oPVBK9fpL0f/C2e1bt4s/io720vpJ33MD2m97IC9ZS6I2SgmwYwVBBz8su7VEmg0e4snAI/ihWtSyyN+sLSpPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OVA34rGy; arc=none smtp.client-ip=74.125.229.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zzxv8ih4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD59C1F000FF;
-	Sun,  4 Oct 2026 10:30:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791109810;
-	bh=I2x892nKWbX8P8xN3nv9dt1weX4c1HjNkPJ2oEbT0ck=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Zzxv8ih49AvX+SnbrJm3ZaygtWBEkeztBB5ijB3CngcGNuvEwqaPAJD2oKPCdk7Tr
-	 tuP97N05/lhf53cvr4AIGlzcRA6FG67St1LIn8czDMnk8FMNsQyBQvACPS49xflCbN
-	 CoYssiDSI5KhqwQKcuADy8AnS1UAK0tEGerGNxrtJ3f53DkEw/PXZ8c4fT66cFmaMj
-	 riUjGZhxehxqPY3eNbgtNf0N1TOR18q0dBxGryg8RkoujnMn2YAfLIy1spKVx39Crb
-	 AvDeqaRr+0EhFqQek9SPltcoefP5H2o/MM+gQ8Qm8DLqfDefqee75ASE4RW/qkXw3Z
-	 v7Ji38FCPQwCw==
-Received: from johan by theta with local (Exim 4.100.1)
-	(envelope-from <johan@kernel.org>)
-	id 1xDJTj-000000005Zr-13gx;
-	Sun, 04 Oct 2026 12:29:59 +0200
-Date: Sun, 4 Oct 2026 12:29:59 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: gregkh@linuxfoundation.org, rafael.j.wysocki@intel.com,
-	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
-	linux-kernel@vger.kernel.org, stable@kernel.org
-Subject: Re: [PATCH] usb: core: don't set drvdata to NULL in
- usb_unbind_interface()
-Message-ID: <asIqp3h0xMdX-rYm@hovoldconsulting.com>
-References: <20261002145455.3392703-1-dakr@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OVA34rGy"
+Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-35129e4607cso148316eec.1
+        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 03:51:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791111087; x=1791715887; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=OU10JUkOnCjExkP9pLJslSiL15VSpV7uAw3VaBnuTMo=;
+        b=OVA34rGyoQxPo0wRv2zEemiSYWkKsDXwZStVOByBQRpu1DQU+Ux1wXdGhPRfPWJ2ht
+         ouzg/l9fDoy4wZ4euP5p8lSaoWg9rG9fZaKYtejcMe2sLNInHQTJRfxfmQZMe1qawkEv
+         rk+ljgwDABA0aWwMOyjO7W2/GmSrlrEnlMsehl8voU4xsbmKVz9gk/Ogj6oGfr8ii6sS
+         l3qesCpMjIJp2mX/KknTTgJj92xvPMlxpmMvI3gaZdf5nWW0UYLAXpFpOv2tT9v3D2Li
+         xbUQ3aLXlQsME980CGogDR3xWSx3k1tqD8k2m/VTgDE0NLGWeD4a92JNkkElYfXQZNzC
+         HlPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791111087; x=1791715887;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OU10JUkOnCjExkP9pLJslSiL15VSpV7uAw3VaBnuTMo=;
+        b=Mj/sQ2j9IiBU6WVD5pS6T44wWOpBH3/iEpvC9QGpfKSfzaYPv9OnWcj2vRQDb9JIYQ
+         8+TR/lYPYtd7Q1sP+YqRcISbLlYSNLXOxq8frkg0ChuHrgpDUfrw+zfjb7HR4PsXW2JA
+         AbLpQenbDRyfPiovfwnKGhSq59JK8pG87V1ALiD+oHLQukQyvlf2Zp0TpqhSfN6vBs1f
+         z3tIiYJghsH0CgmxMlq9fytHGrxIeOw8mJo886JaT8FREcfiEIDspblNfXGk3NV9khv8
+         m4bnE1riJG25ynNqeGWftgHgsIjXFTihIvLJCK37R8t/9qM04y4bDWBlNRuBmnLtF4hA
+         M8EQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwP0hfqlBSlSy26u6ZsiBBauQTlssPQdcDT48m5dxDeIyB2ijddqSpxW18sJ7l/5TLC+QpbHPfZSx8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIiQcYPqpG1FWF1+5uYaM7U8Nm1Ywlk29CHFWdmydrp/c2bBk/L
+	wYb50X6E1dubdWcFBU+OgZDui3ghNJEQVBpOH2M+CYzVAe9+hKlIDPT+
+X-Gm-Gg: AYBFou26co0qqjfYn/niCBr601kTWjpD5DBLazf7GWPDuygaXXkAjItNn1p4PD/ektX
+	25OV2XEqZisoR/e/lheFiewtIaUjWR+zo2z30A+zd0zT8fX7m173gi2A897X9DXNCUraJg4RrUQ
+	uoa4SWDcYjslMAfj2c6hKO8NMcxnx87zagqeg65Arv1iEZG1e/DeRxb28jM26RLWlkJcCopAzki
+	RQcfwTTp5n9QCcPTMEIURS3GhEjpRUJsGBiIoWRduAnEGsr3OcdqA4/t6kvQjTa5HG2avO8FZOg
+	x9OOq5OMGRtrA5r1U0j8ffw5xaxcsWF1GO5opzEmUxM2sYBwGy6xViwm0d5Nfw1jdiioYe4buJc
+	+wLQnO60fBaPrLTbfCfUsf9J+ZwKicEaIe4FGf2h9/2KroLhtYTEZHvTlwrzjldMxow2VpqtlMP
+	Xz7Infy9EsRNnsZGPR22UXCDwW6pVhj+kXvmu+IbQEDxZdLCLecHt1YEIbPPgF0oaku2Lj4K5nG
+	6FQu1AnbwCd2ZTBgG3aCqBijrGHtxv/Zpl8uH0m2KktqSE=
+X-Received: by 2002:a05:7300:e5c2:b0:341:3ca2:de2d with SMTP id 5a478bee46e88-34f15077edfmr9383419eec.6.1791111087081;
+        Sun, 04 Oct 2026 03:51:27 -0700 (PDT)
+Received: from Anshuman ([123.63.59.156])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-35127161474sm3815965eec.13.2026.10.04.03.50.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 03:51:26 -0700 (PDT)
+From: Anshuman <anshumantewari123@gmail.com>
+To: kees@kernel.org
+Cc: Frank.Li@kernel.org,
+	James.Bottomley@HansenPartnership.com,
+	airlied@gmail.com,
+	akpm@linux-foundation.org,
+	andriy.shevchenko@linux.intel.com,
+	anton.ivanov@cambridgegreys.com,
+	apparmor@lists.ubuntu.com,
+	atomlin@atomlin.com,
+	benjamin.berg@intel.com,
+	bhelgaas@google.com,
+	bp@alien8.de,
+	bvanassche@acm.org,
+	corey@minyard.net,
+	da.gomez@kernel.org,
+	daniel.lezcano@kernel.org,
+	dave.hansen@linux.intel.com,
+	david.e.box@linux.intel.com,
+	dmaengine@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	dvyukov@google.com,
+	elver@google.com,
+	eperezma@redhat.com,
+	georgia.garcia@canonical.com,
+	glider@google.com,
+	gor@linux.ibm.com,
+	gregkh@linuxfoundation.org,
+	hansg@kernel.org,
+	hare@suse.de,
+	hca@linux.ibm.com,
+	hpa@zytor.com,
+	ilpo.jarvinen@linux.intel.com,
+	intel-gfx@lists.freedesktop.org,
+	jani.nikula@linux.intel.com,
+	jasowang@redhat.com,
+	jbaron@akamai.com,
+	jgg@ziepe.ca,
+	jim.cromie@gmail.com,
+	jirislaby@kernel.org,
+	jmorris@namei.org,
+	johannes@sipsolutions.net,
+	john.johansen@canonical.com,
+	joonas.lahtinen@linux.intel.com,
+	kasan-dev@googlegroups.com,
+	kvm@vger.kernel.org,
+	laurent.pinchart@ideasonboard.com,
+	lenb@kernel.org,
+	leon@kernel.org,
+	linux-acpi@vger.kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-modules@vger.kernel.org,
+	linux-pci@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-serial@vger.kernel.org,
+	linux-um@lists.infradead.org,
+	linux-usb@vger.kernel.org,
+	linuxppc-dev@lists.ozlabs.org,
+	lukasz.luba@arm.com,
+	macro@orcam.me.uk,
+	martin.petersen@oracle.com,
+	mcgrof@kernel.org,
+	mchehab@kernel.org,
+	mingo@redhat.com,
+	mst@redhat.com,
+	netdev@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	paul@paul-moore.com,
+	pbonzini@redhat.com,
+	pengpeng@iscas.ac.cn,
+	peterz@infradead.org,
+	petr.pavlu@suse.com,
+	qemu-devel@nongnu.org,
+	rafael@kernel.org,
+	richard@nod.at,
+	rodrigo.vivi@intel.com,
+	rui.zhang@intel.com,
+	samitolvanen@google.com,
+	seanjc@google.com,
+	serge@hallyn.com,
+	simona@ffwll.ch,
+	somlo@cmu.edu,
+	srinivas.pandruvada@linux.intel.com,
+	stable@vger.kernel.org,
+	stern@rowland.harvard.edu,
+	tglx@kernel.org,
+	tiwei.btw@antgroup.com,
+	tursulin@ursulin.net,
+	usb-storage@lists.one-eyed-alien.net,
+	virtualization@lists.linux.dev,
+	vkoul@kernel.org,
+	x86@kernel.org,
+	xuanzhuo@linux.alibaba.com
+Subject: Re: [PATCH 01/11] params: bound array element output to the caller's page buffer
+Date: Sun,  4 Oct 2026 16:17:41 +0530
+Message-ID: <20261004104741.51238-1-anshumantewari123@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260521133326.2465264-1-kees@kernel.org>
+References: <20260521133326.2465264-1-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261002145455.3392703-1-dakr@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 02, 2026 at 04:52:49PM +0200, Danilo Krummrich wrote:
-> usb_unbind_interface() serves as the remove() callback of struct
-> usb_driver and calls usb_set_intfdata(intf, NULL) to clear the bus
-> device private data pointer.
-> 
-> However, the driver core code already sets the bus device private data
-> pointer to NULL in device_unbind_cleanup() *after* devres_release_all(),
-> which makes the call redundant.
-> 
-> In addition, it can create unexpected NULL pointer dereference scenarios
-> when drivers use managed APIs.
-> 
-> 	int probe(struct usb_interface *intf,
-> 		  const struct usb_device_id *id)
-> 	{
-> 		struct data *data;
-> 		int ret;
-> 
-> 		data = devm_kzalloc(&intf->dev, sizeof(*data), GFP_KERNEL);
-> 		if (!data)
-> 			return -ENOMEM;
-> 
-> 		ret = devm_device_add_group(&intf->dev, &foo_attr_group);
-> 		if (ret)
-> 			return ret;
-> 
-> 		...
-> 	}
-> 
-> 	ssize_t foo_value_show(struct device *dev, struct device_attribute *attr,
-> 			       char *buf)
-> 	{
-> 		struct usb_interface *intf = to_usb_interface(dev);
-> 		struct data *data = usb_get_intfdata(intf);
-> 
-> 		/* Potential NULL pointer dereference */
-> 		return sysfs_emit(buf, "%u\n", data->value);
-> 	}
-> 
-> Nothing prevents usb_unbind_interface() to race with foo_value_show()
-> and set usb_set_intfdata(intf, NULL).
+On Thu, May 21, 2026 at 06:33:14AM -0700, Kees Cook wrote:
+> ret = min(ret, (int)(PAGE_SIZE - 1 - off));
+> if (!ret)
+> 	break;
 
-Fortunately, we don't seem to have any USB drivers that use these devres
-interfaces. (There is one recent USB HID driver, but it uses static
-driver data (!) and clears the driver data pointer itself on unbind...).
+One question about the truncation behavior here: when an element does
+not fully fit in the remaining buffer, this min() can cause only part
+of that element to be copied. For example, if the remaining space is
+4 bytes and the next element produces "123456789\n", the resulting
+output could contain only "1234".
 
-> Besides that, the Rust driver core code manages a driver's bus device
-> private data and destroys it in device_unbind_cleanup().
-> 
-> If usb_unbind_interface() sets the pointer to NULL prematurely, the Rust
-> driver core code sees NULL, and hence skips the destructor of the bus
-> device private data, which leaks all its resources.
-> 
-> Thus, drop usb_set_intfdata(intf, NULL) from usb_unbind_interface() and
-> move it to usb_driver_release_interface(), which manually calls the
-> remove() callback of struct usb_driver, and hence can't rely on the
-> driver core.
+This leaves the reader with no way to distinguish a genuinely short
+value from one that was truncated due to the PAGE_SIZE limit, while
+the array otherwise still looks like a normal comma-separated list.
 
-I believe you need to drop the usb_set_intfdata() in the
-usb_probe_interface() error path as well.
-
-> Cc: stable@kernel.org
-> Fixes: a995fe1a3aa7 ("rust: driver: drop device private data post unbind")
-> Signed-off-by: Danilo Krummrich <dakr@kernel.org>
-
-With the above fixed you can add my:
-
-Reviewed-by: Johan Hovold <johan@kernel.org>
-
-Johan
+Is this partial-element truncation intentional for this patch, or is
+the expectation that it gets handled as part of the later seq_buf
+conversion? Would it be preferable to avoid copying an element unless
+it fits completely, and leave the larger-buffer case to be addressed
+later in the series?
