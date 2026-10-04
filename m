@@ -1,142 +1,104 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F822F60CC;
-	Sun,  4 Oct 2026 15:53:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9507D3D0C18
+	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 16:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791129208; cv=none; b=lZtaWB6Zp+bxYuxflqrnOEnlJTLbZQnmpgKbCld7sfRsuJal8pj+fKRgArvKJ1/6/6dhOy0VpLgB1f17kv3+zO7AszEm7daDx8CDv9kGzNiEhPaReUsyHK0EvfLQgMVn8fstg0u1recrqeem1UuJC/1P9D5AP8T4XJXGZNKxB/0=
+	t=1791132740; cv=none; b=chstZrYSzsdM6PDk5cgOfgAJ1U+Ffeonc01y8NfSL84TTCXQ6hm2XhiCxmal8Rd2T8LRM8SsqYY1C56Bl2Fxh4dWHWsR1gsJhf9feVOdlkksqrgKBIGfS8EEnMfvqJxlTOE9HpYzS0BeMlMD25jeRwL1aK+1E6BnHUInOcN/vZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791129208; c=relaxed/simple;
-	bh=lv1tuIGYGldphto25KVS1nVNoKz+O4guecPc91FwUq8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZEFsKoHi/v1bpIfBOxmS4xBOQWaaX32buCc/0o2URskMXEZP3ElC+3YQfcvf8gT6YjnCqNQD7uoCFkrpNbu7L6hzh0j5+I7GSbB2nRCE0I51T8bABvpulAiYH6abK5DiC10ZbtlUC80lKtnMXbBXzIXwG1pn+yLLg+FMdidBPqY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/rhd/M+; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1791132740; c=relaxed/simple;
+	bh=v+M6jZZkpPcV65ZunZ7LyGs21aPM4qlR+wPHbDyhJRA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YDsPe2ARwL/FeGO0ZRiDSn4VzLlKNfIAv6RDiyyo3vBy+gSdokOtRn67RcLgcBwPh2N/r0CbIZOLbn5Cvxd/RzZ3DGRQXnYSMYrHOpAINTSphuiaZFwkh5z1kHw6Qfi8qSnhxtgNF3W8KNtuIxD+d7I8Z8RsI4rEdWoujscs2B0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=K/8PimF9; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/rhd/M+"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791129205; x=1822665205;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=lv1tuIGYGldphto25KVS1nVNoKz+O4guecPc91FwUq8=;
-  b=a/rhd/M+HNhyj7UGj4+jyBY4CpPsxLeTN/XKLSYpdSLMpdr4d5kugj1l
-   fAf1zNW7MuI6RXVHwyAgcg0b/f94pzOw/SJkytwwlHiPFJZGw9HeA2QS7
-   bPS1jf14N+9K3nyDWUiai0W53NeiWNJ1VegNe0CBBtFa2MZhTV2onlM9X
-   88MA1CdmjbOX2D9VSEW9/RG4PoVCtP81+ypn3CV8yCfuG7akvcA9QSqKv
-   4maMcLKifI1kDfWEorJxl7JzA3N4hPTQACblGq9rofCKi7nOGTzW/zAne
-   F1hhrg3vXH9iXspA3JydVGtZ0OHTa0A0YMgtw6WH2LpPozWq2LixruGPK
-   Q==;
-X-CSE-ConnectionGUID: R/5P0wIPTKeHbxZGDXb/Tw==
-X-CSE-MsgGUID: hPVCoSMdS0+TN9Te4Q+JGQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="95627949"
-X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="95627949"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 08:53:23 -0700
-X-CSE-ConnectionGUID: oEBoJPlCQ2G9hBPfsJYkmw==
-X-CSE-MsgGUID: tlqqacLyQbeHvEGJeU3+Tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="314637099"
-Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
-  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2026 08:53:19 -0700
-Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xDOWa-00000000UqT-0uUY;
-	Sun, 04 Oct 2026 15:53:16 +0000
-Date: Sun, 4 Oct 2026 23:52:18 +0800
-From: kernel test robot <lkp@intel.com>
-To: Birger Koblitz <mail@birger-koblitz.de>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>, Eric Dumazet <edumazet@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev, Jianhui Xu <neuromoments@gmail.com>,
-	Birger Koblitz <mail@birger-koblitz.de>
-Subject: Re: [PATCH net-next v16 13/13] ax88796b: Add support for AX88772D,
- AX88179A and AX88279
-Message-ID: <202610042301.MlmvbRpS-lkp@intel.com>
-References: <20261004-ax88179a-v16-13-2a9ae4e68f7b@birger-koblitz.de>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="K/8PimF9"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48b06bb6e40so755585f8f.0
+        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 09:52:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791132735; x=1791737535; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=uWLAU/sbLj4UO8gIVZOge/N/7MAezvztdN1AgRtXNUg=;
+        b=K/8PimF9FwoLvW9WqIiGJP4GMxTwD1xLltHZWrAfNRIWFb3IcYuPT1DwV/A2uuk2WV
+         +itZ3oPLVDIT9BixPyQQX1f1EDA267huN/+CbmeEkl0mTAD39CJ11wJLRQuSoG7CAyYk
+         Qd6/eHOV8Ys7SVz2LGG/+1+qgCL4Br2YqcJcMIr7Cn3OTYhwUKldsfhKDbSdqs79w1Bt
+         xIwmaBLPrwVclr5ZU5O6Z4/r2+GpvMFZoY76tqa8u9VCN2PvTUq6yLTtxBjf1XMXNrL1
+         vNDbBrAFDa8H0KKEdr4oCY5rBwNKu6YBT2Op/BqwLClTIblLYPYFsT+zR1hbAIHQPK8j
+         jwMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791132735; x=1791737535;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=uWLAU/sbLj4UO8gIVZOge/N/7MAezvztdN1AgRtXNUg=;
+        b=OO2hqm0EOF3kWe/CMU/Mps6c7GERU9KQrXpHB1Q69Dog4JKFsed2nKpU5Ah5Ygxz8M
+         i/kCGs9RYrp+aRohrkh14xx0ptFRq2slrOJzBe2VZN6FYqA0/3XHUqm0rqGQC90Z0Tul
+         ESBHI/gxXDebWxu8zgVnDs5jF+m2Oq6Do/uoaiF9eDHXIDozi5xUMq+0tkPTfiIfIP45
+         Hma7k0U9AHDzCpgzMzLG/aWDIHIOLxEycWsee+YFo/B6Nrvdo24A3pf+A88Vkevamrdu
+         WvshBPHvr9R5NX+xAWy1S9ow3rOT3180A7wHqHEzvYEyaCWdLjEeTnt7+q/55b25Gjj8
+         DIYQ==
+X-Gm-Message-State: AFq9FYJ07ycQC9axRWCwLtpql9267o4Z8et7GY99BJ2lcmzyvIEjINM5
+	q2sICetP5trk3Ej6kQNPnHQ+/vE4Lf1ssDOLckYPI/ZJ+fSnAzYzN1Pm
+X-Gm-Gg: AYBFou3XTutFFwJ0Dc1JlYg8Ex4C4bNRC3/FrhjWsWcENyVkdhLYI0gtLqnyN6lh/57
+	b0F48vA75d/KzL3UPN3olpE3W4csA6HB02MqdWNAQXNIvLKcD2WnuPb4MIqqKI918FiDmDznvWR
+	QZecymMW/jK/PotrdO+KeWwoJPiDyRDXLrpP/xcZdrvF0J6NfMkTmzDpyVYnEefHvnUqGLYBvky
+	kwoJ7dhnBETxaNrrPI2gs8F1cxnQ5HEKXlkYY7xSH2VptDQqVQcO/X3JUDg596gBExxHlBH6j6V
+	lWUtZxSABvoyojymClXzPc4QOp7ly9Lgjz5YhAP+wFDjUgxEHJEn77BJB3tKQNH0HnJtuZDUU6q
+	1Lg3Qbl/4cg6YLjuoR1htA47K3cS9J2D/gy8MgghH5wsus1xRh34iq2d7EugoPzHrZalUuN9W/r
+	CAPIy7boF8h1JFYtK1sraTCBWYPgUnRCQVkoF9r8O8uS6DpsI2TUaCLs1vEo1nEMxMYLU4ZH/TE
+	5Ev6mRe5KiRbONqpK7DvsF2+LsflQ==
+X-Received: by 2002:a5d:5f86:0:b0:486:e835:ab88 with SMTP id ffacd0b85a97d-48c47fc5cb6mr8242586f8f.13.1791132734865;
+        Sun, 04 Oct 2026 09:52:14 -0700 (PDT)
+Received: from xeon ([188.163.112.76])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b382f8c4asm20902213f8f.37.2026.10.04.09.52.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 09:52:14 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Jordan Viknar <jordanviknar@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v1 0/2] usb: tegra: separate schema and adjust OTG logic
+Date: Sun,  4 Oct 2026 19:52:02 +0300
+Message-ID: <20261004165204.205660-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261004-ax88179a-v16-13-2a9ae4e68f7b@birger-koblitz.de>
+Content-Transfer-Encoding: 8bit
 
-Hi Birger,
+Separate Tegra specific USB controller props into a dedicated schema.
+Adjust USB OTG mode behavior with extcon use.
 
-kernel test robot noticed the following build warnings:
+Jordan Viknar (1):
+  usb: phy: tegra: Disable internal USB sensing if extcon is used
 
-[auto build test WARNING on 071876fd50482a68603a9460d80dd6dd58827ee1]
+Svyatoslav Ryhel (1):
+  dt-bindings: usb: Move Tegra-specific Chipidea USB properties into a
+    dedicated schema
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Birger-Koblitz/phylink-Add-phylink_mac_interrupt/20261004-073905
-base:   071876fd50482a68603a9460d80dd6dd58827ee1
-patch link:    https://lore.kernel.org/r/20261004-ax88179a-v16-13-2a9ae4e68f7b%40birger-koblitz.de
-patch subject: [PATCH net-next v16 13/13] ax88796b: Add support for AX88772D, AX88179A and AX88279
-config: m68k-defconfig (https://download.01.org/0day-ci/archive/20261004/202610042301.MlmvbRpS-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 16.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610042301.MlmvbRpS-lkp@intel.com/reproduce)
+ .../bindings/usb/chipidea,usb2-tegra.yaml     | 88 +++++++++++++++++++
+ .../devicetree/bindings/usb/ci-hdrc-usb2.yaml | 22 -----
+ drivers/usb/phy/phy-tegra-usb.c               | 55 ++++++++++++
+ include/linux/usb/tegra_usb_phy.h             |  1 +
+ 4 files changed, 144 insertions(+), 22 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/chipidea,usb2-tegra.yaml
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610042301.MlmvbRpS-lkp@intel.com/
+-- 
+2.53.0
 
-All warnings (new ones prefixed by >>):
-
-   In file included from include/linux/kasan-checks.h:5,
-                    from include/asm-generic/rwonce.h:26,
-                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
-                    from include/linux/compiler.h:369,
-                    from include/linux/array_size.h:5,
-                    from include/linux/kernel.h:16,
-                    from drivers/net/phy/ax88796b.c:6:
-   drivers/net/phy/ax88796b.c: In function 'asix_ax88772D_get_features':
->> drivers/net/phy/ax88796b.c:217:42: warning: unused variable 'mask' [-Wunused-variable]
-     217 |         __ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
-         |                                          ^~~~
-   include/linux/types.h:10:23: note: in definition of macro 'DECLARE_BITMAP'
-      10 |         unsigned long name[BITS_TO_LONGS(bits)]
-         |                       ^~~~
-   drivers/net/phy/ax88796b.c:217:9: note: in expansion of macro '__ETHTOOL_DECLARE_LINK_MODE_MASK'
-     217 |         __ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
-         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/mask +217 drivers/net/phy/ax88796b.c
-
-   213	
-   214	static int asix_ax88772D_get_features(struct phy_device *phydev)
-   215	{
-   216		int ret;
- > 217		__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
-   218	
-   219		/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
-   220		phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
-   221	
-   222		ret = genphy_read_abilities(phydev);
-   223		if (ret < 0)
-   224			return ret;
-   225	
-   226		/* AX88772D does not support reported 1000baseT mode */
-   227		linkmode_clear_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, phydev->supported);
-   228	
-   229		return 0;
-   230	}
-   231	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
