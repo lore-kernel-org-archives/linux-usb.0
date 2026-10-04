@@ -1,172 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5035F3955F0;
-	Sun,  4 Oct 2026 12:02:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791115381; cv=none; b=t5toPQ5jUUR7PcR2yU84pW6/lmm3BSx3Sesnh6X3XYGMWetV3mbtPxScUnsX7+VIa+Q/xVJ8mbad3ik7ALUqQtqItVyzbgMp0HT/slITjKP+RqcYhjeJNyiJujn2ha9hj4G+EGlMiUhCetbgxzy5RGgSUVCD3yVGr+PtsafNTss=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791115381; c=relaxed/simple;
-	bh=M2PNrZAv5Hh7h3SGcB3Pw+HlvWLVJVPhm3PZ4ZB7DR8=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA002FC00D;
+	Sun,  4 Oct 2026 12:53:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791118429; cv=pass; b=tN8HNm7ZOM5n5L5AsZAzghXiRkZKDRl9GMhAcXG+GD+GnjTksep8xWZyJS9rF68nSF3GsLM8mN0yo/UF3JqG1PWwGvy6VnShpAlhnYXvyHL5I6Ad8sAjB6+gpZwK8MpyQSY4coGGCgY3P9OcITe7/1M4tzg4enuK0669sWWHLEY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791118429; c=relaxed/simple;
+	bh=AD4c5oq4C24bBa6YGd2lDMYrxjTCbQDGGDzJLs+YSIw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WtxlLJ+9mKSgccoiHs5Xj7cBWreRacPEjupUQlNnnr/5rUu7m6eQmSa76gwXKF2nMJ2NSLHA6ptUpqNbwSr34ld0W4D+WaAda1gwwUfk6U+ss/xClid2KrAkg2fQXdML58y+nYlykNqk1hDq21vAX3lh/UcdYDqSaobLkak9eLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YgRpr6kH; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=TDA+gdO43RKIjnPHiB3vUj6iZYpowmYHqUZFT3gLCzOSfhC7aFWLWGIUWiwSbB84stOQ27mCmXIQVRLataHy/IgDC0AzCTo8RWP0dUbfZ0E2JcM+rl/FxYz52JBjiZZR8pr2ADRHxELO4N6Nbxzuo7jnUDZQ0g4rAPpsL7L5YL0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=LhlWsWuN; arc=pass smtp.client-ip=165.173.182.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YgRpr6kH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791115379; x=1822651379;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M2PNrZAv5Hh7h3SGcB3Pw+HlvWLVJVPhm3PZ4ZB7DR8=;
-  b=YgRpr6kH5JgD9DWkOcxcWUqppFRRU0e3vFRfNN3R7IFlnVrK+fk2Rx45
-   yxPY7ERu69uNAvNJySgMznoiYR3ZvYvWb8Bdv0n6ckhEhJEmvn6w+dyW4
-   +mPbtQtuAQEiMiPIyYb61a78vcjpJ8XZh7aITMHNIYUaOHZum1qhNipBC
-   vYv4Lcg7Y2rwa6yOvsBH6gES0RgJ5iRIBM6ifv1FeC1xhAa+rWGdKxm1N
-   oRWIbrm5aMuJ0R8psEeMigd6DoUs5bn6NclIzSqnr1faxIM1oGRwViFfT
-   vlekUNSH4Wa4Yggf8pVF5+68IU7GDwso6Ua8HdXVvMWBYVb3/0jJ48NCk
-   w==;
-X-CSE-ConnectionGUID: A4QB57bRTT+xtJ5TroN8cw==
-X-CSE-MsgGUID: CdMAebFVR4Cpmbm/+qfMLw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11924"; a="90577554"
-X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="90577554"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 05:02:59 -0700
-X-CSE-ConnectionGUID: gsp/PxVMRSitNJaaMwt2mQ==
-X-CSE-MsgGUID: SmQ7VjQHRUisVFzZDlpa9w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
-   d="scan'208";a="272995443"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa009.fm.intel.com with ESMTP; 04 Oct 2026 05:02:57 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id EBA9399; Sun, 04 Oct 2026 14:02:55 +0200 (CEST)
-Date: Sun, 4 Oct 2026 14:02:55 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Jonathan Gopel <jgopel@gmail.com>
-Cc: andreas.noever@gmail.com, westeri@kernel.org, YehezkelShB@gmail.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] thunderbolt: Do not RPM complete unrelated subtrees on
- unplug
-Message-ID: <20261004120255.GI176164@black.igk.intel.com>
-References: <20261004022604.359663-1-jgopel@gmail.com>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="LhlWsWuN"
+ARC-Seal: i=1; a=rsa-sha256; t=1791118408; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=ERdHo3cHKccOXgbrq8b29QDOmGsQZIGiBis4jkL77Qx8UdRQMBfHlcNfSBS3cvCxoEduYJzELzh/dsQjxEVkdf7tuOJlAikSIqen9Uc6TTfDpfY6KL/EUCO7kV5TOGmmWsfS+OYG239Kb161mPp0JhFlDFXaNkHPQIRueXCeD2g=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1791118408; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=bgDESfLrXKLmUyRoB+jOHoxIwRj5hwAQyXCFLNMDOaw=; 
+	b=BXb+XQbo8mfOEN2KNkURN75mCY7JDE2I8ckalYq3up5otZwNMvysJ3h9ZJtQ5daH3U+OHzk2S+VYXW8ok6VNcvjjiJ+YN748u4H91mAEPPwjxZOgpObKX8lhKYOX33BNdDcZEYLzcNC8okGJBr3vZQda9S6/rIxsy7gvFjLwMwc=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791118408;
+	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=bgDESfLrXKLmUyRoB+jOHoxIwRj5hwAQyXCFLNMDOaw=;
+	b=LhlWsWuNz8iImIBP5PZJ7pN2Sjr03aA/vSWjOVJW+ydfVhsJshIfdrJL+P4aIEsX
+	qg6O2BDs8Qb4TRGiykr3anHHOL6KSAhgXJ8521bM+bO4UA2IeMurmPbb7h2pMaL0FrI
+	mHKpUMRMDWq2Eoc44L0JuKe0cM9JzpzmYmbBFTYs=
+Received: by smtp.zohomail.com with SMTPS id 1791118407425681.0566603227451;
+	Sun, 4 Oct 2026 05:53:27 -0700 (PDT)
+Received: by venus (Postfix, from userid 1000)
+	id AA4F4180950; Sun, 04 Oct 2026 14:44:11 +0200 (CEST)
+Date: Sun, 4 Oct 2026 14:44:11 +0200
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Vinod Koul <vkoul@kernel.org>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
+	Igor Paunovic <royalnet026@gmail.com>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	linux-phy@lists.infradead.org, kernel@collabora.com
+Subject: Re: [PATCH v16 1/6] phy: core: add notifier infrastructure
+Message-ID: <asJGziv0N3qtXo6_@venus>
+References: <20260924-b4-rockchip-dwc3-rockchip-glue-v16-0-126a2e9133c3@collabora.com>
+ <20260924-b4-rockchip-dwc3-rockchip-glue-v16-1-126a2e9133c3@collabora.com>
+ <asDFBIVf06-VaWdx@parshuram>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tscrktrwpqpmy56x"
 Content-Disposition: inline
-In-Reply-To: <20261004022604.359663-1-jgopel@gmail.com>
+In-Reply-To: <asDFBIVf06-VaWdx@parshuram>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/291.108.66
+X-ZohoMailClient: External
 
-Hi,
 
-On Sat, Oct 03, 2026 at 08:26:04PM -0600, Jonathan Gopel wrote:
-> When a Thunderbolt device is unplugged, that switch and every switch
-> subsequent to it on the bus device list is `complete()`d, not just its
-> child devices. In the case of multiple domains, it may cause, eg, an
-> attempt to `complete()` the uninitialized domain 1 root switch RPM
-> completion on unplug of a switch from domain 0 (though ordering is not
-> guaranteed numerically sorted).
+--tscrktrwpqpmy56x
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v16 1/6] phy: core: add notifier infrastructure
+MIME-Version: 1.0
 
-Good catch!
+Hello Vinod,
 
-> I initially noticed this issue on a Dell XPS9720 when the system would
-> seem to sporadically not wake after unplugging a Thunderbolt dock. I
-> tried multiple kernel versions including v7.2.7 and v7.3-rc4 to see if
-> that resolved the issue, but the issue persisted. Eventually I found
-> that I could consistently generate a kernel Oops reporting a page fault
-> at 0xffff_ffff_ffff_fff8 on unplug from one side of the laptop and went
-> bug hunting. I became suspicious of the `bus_for_each_dev()` walk that I
-> ultimately ended up changing. To confirm this issue, I did an eBPF trace
-> of `bus_for_each_dev()`, `complete_rpm()`, and `complete()` while
-> unplugging in a variety of situations and found that an unplug from
-> domain 0 tries to `complete_rpm()` domain 1's switch, whose RPM
-> completion is not initialized and thus is holding a null wait-list
-> pointer, triggering the page fault.
-> 
-> Here are the key sections of that eBPF trace. Note that HEAD denotes the
-> completion's own wait-list HEAD:
-> 
-> ```
-> RESCAN_ENTER domain=0
-> 
-> COMPLETE rescan_domain=0 target=0-1 target_domain=0
->          route=0x1 parent=0-0 unplugged=1
-> COMPLETION done=0 head=HEAD next=HEAD prev=HEAD
-> 
-> BUS_WALK domain=0 start=0-1 callback=complete_rpm
-> CALLBACK_ENTER rescan_domain=0 dev=1-0 parent=domain1 is_switch=1
-> 
-> COMPLETE rescan_domain=0 target=1-0 target_domain=1
->          route=0x0 parent=domain1 unplugged=0
-> COMPLETION done=0 head=HEAD next=0 prev=0
-> 
->         complete+5
->         complete_rpm+43
->         bus_for_each_dev+133
->         icm_free_unplugged_children+250
->         icm_rescan_work+42
-> ```
-> 
-> To fix this, I have reused some of the adjacent logic to recursively
-> walk and `complete()` only the unplugged switch and its descendants.
-> 
-> I only have a single system with multiple Thunderbolt domains - the Dell
-> XPS9720. I am consistently able to reproduce the Oops on that system.
-> Since running with this patch, I have not seen the Oops reoccur. I have
-> also tested it on a Thinkpad X1-Gen12, and that system boots and runs
-> well with it, but it only has a single Thunderbolt domain, so it does
-> not exercise the multi-domain failure case.
+On Sat, Oct 03, 2026 at 11:04:13AM +0200, Vinod Koul wrote:
+> On 24-09-26, 19:25, Sebastian Reichel wrote:
+> > Some PHY devices with multiple ports (e.g. USB3 and DP) require a reset
+> > if the configuration changes or cable orientation changes. This is a
+> > problem, as the consumer device will run into undefined behavior.
+> >=20
+> > With the new PHY notifier API introduced in this patch, the consumer
+> > driver can hook into reset events coming from a PHY device to handle the
+> > PHY going down gracefully.
+> >=20
+> > Note that this uses -ENOSYS instead of the more sensible -ENOTSUP for
+> > the stub functions when GENERIC_PHY is disabled to stay consistent with
+> > the existing ones.
+>=20
+> I dont think this series has the usage of this.
+>=20
+> I think I am still not convinced why a phy should notify as I dont feel
+> we have any mechanism to notifying. Checking status and letting people
+> know if not really a notification mechanism... Maybe add a status call
+> instead?
 
-This looks like LLM was involved and if that's the case then please add
-Assisted-by: LLM.
+This series contains the infrastructure and the consumer of the PHY
+reset notification (dwc3 rockchip glue driver). The producer/sender
+of the PHY reset notification is the first patch in the USBDP part 3
+series. I grouped the patches like this, so that this series has PHY
+patches followed by USB patches instead of PHY - USB - PHY. Patches
+must be applied in the exact order (i.e. first the patches added the
+PHY reset notifier infrastructure, then the DWC3 notification
+consumer and then the USBDP notification producer).
 
-> 
-> Signed-off-by: Jonathan Gopel <jgopel@gmail.com>
-> ---
->  drivers/thunderbolt/icm.c | 16 +++++++++-------
->  1 file changed, 9 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
-> index 669807f0eaf8..d6801d8b669b 100644
-> --- a/drivers/thunderbolt/icm.c
-> +++ b/drivers/thunderbolt/icm.c
-> @@ -2068,13 +2068,16 @@ static void icm_unplug_children(struct tb_switch *sw)
->  	}
->  }
->  
-> -static int complete_rpm(struct device *dev, void *data)
-> +static void complete_rpm(struct tb_switch *sw)
->  {
-> -	struct tb_switch *sw = tb_to_switch(dev);
-> +	struct tb_port *port;
+The broader picture solved by this is (pre-existing race condition
+issue in USBDP):
 
-So instead of this, just check that sw->tb matches what you pass in..
+1. USBDP PHY provides critical resources to DWC3 USB controller
+2. USBDP PHY needs to reset to reconfigure (e.g. enable/disable DP side),
+   which means the resource is temporarily not available
+3. DWC3 accesses its registers during the reset -> SError, because PHY is o=
+ff
 
->  
-> -	if (sw)
-> -		complete(&sw->rpm_complete);
-> -	return 0;
-> +	complete(&sw->rpm_complete);
-> +
-> +	tb_switch_for_each_port(sw, port) {
-> +		if (tb_port_has_remote(port))
-> +			complete_rpm(port->remote->sw);
-> +	}
->  }
->  
->  static void remove_unplugged_switch(struct tb_switch *sw)
-> @@ -2088,8 +2091,7 @@ static void remove_unplugged_switch(struct tb_switch *sw)
->  	 * tb_switch_remove() calls pm_runtime_get_sync() that then waits
->  	 * for it.
->  	 */
-> -	complete_rpm(&sw->dev, NULL);
-> -	bus_for_each_dev(&tb_bus_type, &sw->dev, NULL, complete_rpm);
+This series combined with the first patch of USBDP part 3 changes
+things, so that it works like this:
 
-.. here pass sw->tb 
+1. USBDP PHY provides critical resources to DWC3 USB controller
+2. USBDP PHY needs to reset to reconfigure (e.g. enable/disable DP side),
+   which means the resource is temporarily not available
+3. USBDP PHY driver sends pre-reset notification
+4. DWC3 goes into a safe mode after receiving the pre-reset notifiaction
+5. USBDP PHY does the reset
+6. USBDP PHY reset finishes, USBDP PHY driver sends post-reset nofication
+7. DWC3 returns to normal mode after receiving the post-reset notification
+
+This avoids running into the SError.
+
+Greetings,
+
+-- Sebastian
+
+--tscrktrwpqpmy56x
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmrCShcACgkQ2O7X88g7
++pqKZQ/5AZjgJZAP0K7j3fjtoZWVfKvHdK5zDgEney3DOH3py7hJca0N2aruS7Ei
+b798piV1K9OKQHjBrBXdIRq9PbLP+iRfwiYmrNEaWbfPa+Gt8jUd0plVPFKZsb2e
+SIFgHA+ghthCj7o6RnwkkjB776aE1g+iAfqcJ74FJ023E2V6iFUasqkfukGiSeK9
+2QmzIwlJw6P+BIQw9YTAaEhbmzqHkWsO3gL7ACpNtd6fCigECCx1Brl2im0O53v/
+17gjBhQIQ4/wosGxPndKsqQaDhK92y4ZSNPf/rMfvR4UWt4Q0W0g2VT+blOXQ5Iu
+eppv8irdrM9VEhHr9LK/ZjkZaSqwJNe9w29lsfmSV3gFKnW4kiBhDF66ii3RvWfl
+lBPvlJvdZSB8+vpf/0Bjv3hedBnqlf4Wuhhv+j+PDqJUv54cWJN9c6scMvNezOT2
+H08JLoO48Ou6mrazNWQQISDlH/7hTWQ9F8+AhNXqrCnbxtxmiVJvgxDPYpe2kiTo
+aTDiIhg2z94VD2h/CmgiN5lwrKynXDzCC+eiDWZzHDUx13IabkIqgJeiLUMBkG3S
+RBwjLIm+MjmFCV2lQIyCIUJ70iCiue04CSR+h1HrloFZmXMEpmXkvUdWPLP4PiVC
+MaJaHzBopWFhSxD3c3yuweo4ywxFe9jp3Y4iK4Jmn9cVC+0OwHI=
+=lRt1
+-----END PGP SIGNATURE-----
+
+--tscrktrwpqpmy56x--
