@@ -1,78 +1,89 @@
-Received: from mail-pj2-f41.google.com (mail-pj2-f41.google.com [74.125.227.169])
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F71A240611
-	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 09:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.227.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCD6416115
+	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 09:34:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791106487; cv=none; b=dpKbznWi5v9n29Ehs7LrXK+AKNdOj07Ko31h5sPTch6aVP3Xi9Rz8fqgtzZXfvLpqrkqIutcKbzthXquDXsBZ19fW1z4r8M0rClqC0a6OeqtJ1tvNp+KH2FBiCiji2cz7ZvrJoVtz6gQoZoqpJ0kqGRNg2Fd7jBPuG6vvmYw09U=
+	t=1791106497; cv=none; b=P6+cJV8HBdG2PghMn/MIaoQenmTxn25/Wrt6gZK1xSuioWO+HzpIJ5zz6ppsA99Fs1KPy+abyhYPIrv3adO1tP3/Sias8hTHOElvKBktNjoz2t6wVV6oAik+eUTAD523oteUiOGD0R8EWEJicn9Vnm4W/FkVhYskSm8b0YSNyOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791106487; c=relaxed/simple;
-	bh=b4ATKoJIx0zDFM+Q2MfhNTQ29nzp8qB2UeEM5HCTfP0=;
+	s=arc-20240116; t=1791106497; c=relaxed/simple;
+	bh=WGiqPu03Hx9bYtodW4R+dJT8EyhvwKq/2ya9h1+2Mt4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QV93nVCU8wt/MPWy1zPyPOhIwsu52CRRBm9UxjfwVZHxTEoOOdd15vng6+PeGzfaiJ/1PC9uAXwiS2OWf+1LXXmaGMEVtn4evAMvEHSK3zv5obGK2nnDHzFo8F5Doese14tLMUm+b67ArDrzHaEVrBlEVVQsfqw7nny+eIapL0E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iRdeRkFC; arc=none smtp.client-ip=74.125.227.169
+	 MIME-Version; b=aY19L7pWt0vN21Ajn2bC64mgCkxm3BcaYecZ+jI1zpvUDv+Hg37bX5lLyCn7naAVW8mCotuObyu0W4lCiA28LJ/1oYocHnOE3GGQyHm4vCueR+2bzeqZWLpUEEJ47r7hYpwqUBoeTOnLCp5B72tx0jtEWW5+cf64d3GoLHUgcFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nd3XCK01; arc=none smtp.client-ip=209.85.210.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iRdeRkFC"
-Received: by mail-pj2-f41.google.com with SMTP id 98e67ed59e1d1-3a6f8525bfbso426378a91.0
-        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 02:34:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nd3XCK01"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-86aecf49833so101508b3a.0
+        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 02:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791106485; x=1791711285; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791106492; x=1791711292; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=V/KrJhVqT2lKVywgTy6x2VTximTEnfp3La/wIY4/WjE=;
-        b=iRdeRkFC90q4lcXxyf0PoZc0GtDR75362ES2uuLs7nos/Q0kui9XxwPGVwEgXw5CFa
-         L+H3n8lvCEBU0cLYKKkZstDDzrRVshokoLhqarWm6hH0CqAEtdvgi5ZYcTGg8d2A1htb
-         ik4M65RUb1krR/07Vgl0Yaw2+UdnQz4SVjaWNni+3Sl5ztvdUpxvMrNRIQlFeGPibjz3
-         /WelTxKbS5sn+BXiZ1Auk4jX3qVtqZpINokCLC39Dd9c1gYbdUA0ZvDlTXfuciA6qUQi
-         SgOb0YgkFCZNJ4ZEYB4cdeOVOI5ELbQsoyr+h7BOq6bJ/Xg0f3nBmzaJ6Aray3XET1Vr
-         Z87w==
+        bh=xMFsAlTkgLQleDkb6BgHggPAQsd5lT/CEjafnTCRCdw=;
+        b=nd3XCK01dCMPey50rbwtI+hfsRKQWrAmJLFbL+YCGlh9J4LvT1xLjAefoNbN81Yhjs
+         5kyxhh+GS8gOijFjCa1/HyAtWT+fnf6lb7VveTGyTT1CkAsHzmX6fCowEuK1a89BPoaX
+         aTA9o3yFwdWTlIttPZZ2XM/IOsSrvYRlVRbO+vcxjXH2rHqhZ2q1sL25f5U+iRyfLtoe
+         ZLsyQ/PSy/MS0deM2orWCsuNhJTa1yMDhkzCzOIIpiJoSdcsAzbR2zhj6FABW5XOKmd9
+         Mr/gFTSKPMMDd11rHm3V/K37qBZBy0i3xD6BKVuEvUYwwg9/NJUHMrk99sjI/pXdLdI8
+         7uVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791106485; x=1791711285;
+        d=1e100.net; s=20260707; t=1791106492; x=1791711292;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V/KrJhVqT2lKVywgTy6x2VTximTEnfp3La/wIY4/WjE=;
-        b=eTERM+aH0XHW8Njprpb+RheTD4vi9AxIFeowCzl6UR6giS3QC5fel6Ws8CPynL/xoM
-         jqDDuHeN/8bh6hkMNZhHIgqdIa7Fw5D0U0/jA6mFFqjPWKoA1jnjw6NBc6/7gcrgXkAm
-         7iXDKvoAaOiTWBJEsSgZ3ltX9Bd1KDjYVEBobNRWq8d85r6dThd6fj0DILW9SkCBwRjs
-         zGK669T7JlPZFkC8gc+TEzGnWSN7VbZg6FrDOodq+OMYJkEQ1hceDgXmccEsLS/3AQuj
-         OXBfZ9z1hPnttlfP/R/x2CVShiS1mNYbxtUg9rOHTmL5u68cmQC4mWB7iGwUYbLN3BB7
-         jKSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwOwMApYXX3PqOtoaPulMckyZ74sNRkOrHu3CcLM6hFPIbursYNvVfWp5eF/TdwkXlw51LPxJaL3LI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKgUrikaQzXpVgdNwFsm6T2GiZh9lqaMPOp2RuKwrG8KjDyCYjN
-	k1w0Zj1U9yOLWLhw/TDLHGx6lGsVmAcs+as2bFYjgvYRO0uYazlMOlat
-X-Gm-Gg: AYBFou0ExAwVicRe1EsGpK3gYLQ4R8Htlunznr8Uqu7HWwe22cmOjWooILnP6UhINOF
-	60AAkI7FpxnN2ragRzJBy6X2ZWNV5H9dkHsWVBSB+HR7tqKHco3FZSYYyw9WLBMwYtq77K19rxu
-	lmWD8A7fao/FS6GaKmJNbYPHWsGsPQaSFQqxWJSN7uolSDl8leIaV70HrsBnfvUWZ6YPi10HcNK
-	rpHWnka6cqq3cRGrU0fqQFqcs4J2Q2iT9W9UgeJu9clec5Lf760bI1+6RQMR7Siucx3LYBDo4H0
-	X7H13NreZq7tFppRVcbD6uD+y7EdnwGV7i/EvH+Ngf6k9kdIxWI0Om8rL8DFouaIpIE6VqugICs
-	0kssBhOUbQ6qv2gV3Wxgu37/9D978ZbFyesICX+r6h/wuomnIbFgr183YcnGC2JtD1dpTV+zmyt
-	DJLxeAsvFBslYG6AW6wLgAgisJYLiZnTRniegr89G0wCoXN1OSYHs3vw9GmImJgxCqyOSpPu6OC
-	nCv/3GZ4TvA5+/l7pc+zu4v
-X-Received: by 2002:a17:90b:134c:b0:3a4:b6c2:b154 with SMTP id 98e67ed59e1d1-3a6ceab2503mr3388577a91.16.1791106485361;
-        Sun, 04 Oct 2026 02:34:45 -0700 (PDT)
+        bh=xMFsAlTkgLQleDkb6BgHggPAQsd5lT/CEjafnTCRCdw=;
+        b=o7DHfKl0k3alDCJqYUHvWSeiwa1pxGmmEKgn+sphqqj3eFD9hlNWvf/eAcDPE3/+oI
+         ATF26QFdPKVhpphRl5WZnbBvTYouKL9nlT8KRD5r2isueM9LZqjtCKBygQWrlUkefdVD
+         BzXvgf1vb6byR7+6EdgxbO0t/PQBqg9aRS55uun5VIywmK2tnFeE1PTz9Honm2Fkm9AC
+         KP1WLuSDKJ2GO9UMvnftg2paqdugGxSoyK6Ee0iYV0zsSwNHKmPc7z5rb2NSfvOI3etR
+         XZrwjeE2915Pw31dm0Nrdxpx0OWEEWQI/GOKmJtIYuKpca+qjFP0L4H010QBDiuxu+xo
+         fgCg==
+X-Forwarded-Encrypted: i=1; AKwUvBw8y6+OX4YGOt2Mbm9GeQdW2gXgYn2efIAADD55hJoey7ij6p57IDR8plcH0Kw552fYcNzbGP5iq4U=@vger.kernel.org
+X-Gm-Message-State: AFuF++l9SSsH0O/igdqopbm4i9aE7lAM7DcSqJB6CkYxdosVz3mfpJ8s
+	9mfgllQghaJz3ruKfB221uslNqmakRPyfm7m5HhckpOPl0ED58A2cz21
+X-Gm-Gg: AYBFou0QN58U9urdQbgeekYC4KtfLi5EPWjg3O/wV/iYioIwLI2k7KTBm+4fvb/GVDG
+	GS1KMaFP/cTycUQkt7m5MkT6TZ/psUsupiMvT0pePA9YuxgY51eViMDbGpz12qwWE/kbfd7xR8U
+	cAfVwlC3LoCmuB/PuP+KFvItK1/Q3vsFcnWPoTntW+Jx9071TBkKMUI7f3d8+m2uUUafWP6WUUX
+	2TfaVKM2/fq4KYFPJUhI9hLuTD842g7m+zzn2DYvt4oEtO8BNSWo3EEbtqASuH+GNkYWWpit5rq
+	J82dmqP55A3i2SHU+ArjYFA/cmMk2d7mLKgTiZh/yW902xbGtnz6HYv7E5McNtZvz2OVPGldNU5
+	kfUm18AUF8WT6y3twzbTNXSlv9jcUym8irQDH+xQgcFrnJqwZmibrl1JJGhilM0J07uNHaOCEMP
+	jrh7cKpmxiV7xhHG99pbdlURrm0ShyMjH/H22A5VsntuJOtZvoBjDsvPcmNASHFGPQ4ix7vKkRf
+	ON+R4VAZJwltg==
+X-Received: by 2002:a05:6a00:2d92:b0:882:4cdd:140e with SMTP id d2e1a72fcca58-887fd634a7fmr6960101b3a.15.1791106491984;
+        Sun, 04 Oct 2026 02:34:51 -0700 (PDT)
 Received: from DESKTOP-NM9EKIA ([125.134.240.130])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a78e4262f0sm6589919a91.4.2026.10.04.02.34.42
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-88d62aaf2f8sm620337b3a.10.2026.10.04.02.34.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2026 02:34:43 -0700 (PDT)
+        Sun, 04 Oct 2026 02:34:51 -0700 (PDT)
 From: Joonhoe Kim <26rote@gmail.com>
-To: Fabricio Akio <fabricioakio@gmail.com>
+To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 Cc: Joonhoe Kim <26rote@gmail.com>,
+	Vinod Koul <vkoul@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
+	linux-phy@lists.infradead.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH] usb: dwc3: qcom: Check for L2 only when suspending a host with wakeup
-Date: Sun,  4 Oct 2026 18:34:43 +0900
-Message-ID: <20261004093444.74223-1-26rote@gmail.com>
+	linux-arm-msm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v8 0/5] Modify interrupt handling for eUSB2 Phy targets
+Date: Sun,  4 Oct 2026 18:34:49 +0900
+Message-ID: <20261004093449.74244-1-26rote@gmail.com>
 X-Mailer: git-send-email 2.55.0.windows.5
-In-Reply-To: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
-References: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
+In-Reply-To: <20260913-eusb2-interrupt-v8-v8-0-0f505b9c394b@oss.qualcomm.com>
+References: <20260913-eusb2-interrupt-v8-v8-0-0f505b9c394b@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,17 +92,21 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 28, 2026 at 03:16:28PM -0300, Fabricio Akio wrote:
-> Host mode is untested, since this board runs the controller in
-> peripheral mode.
+On Sun, Sep 13, 2026 at 08:10:43PM +0530, Krishna Kurapati wrote:
+> Changes pushed on top of usb-next branch. And v8 is only compile tested.
 
-I tried the host side on a Lenovo Legion Tab Y700 Gen 5 (SM8850,
-dwc3-qcom), v7.3-rc4 plus board patches, s2idle with an RTC wakeup:
+I ran v8 on a Lenovo Legion Tab Y700 Gen 5 (Kaanapali, M31 eUSB2 PHY),
+v7.3-rc4 plus board patches. Host mode, wakeup enabled, s2idle:
 
- - host with wakeup disabled (USB 2.0 hub, USB 3 flash drive behind
-   it): "HS-PHY not in L2" on every suspend before, none with the
-   patch; the devices are still there after resume
- - host with wakeup enabled: no message, the port does reach L2
- - peripheral (connected to a PC): no message
+ - hub with a FS keyboard behind it: no early wakeup in 10 RTC-timed
+   cycles, and a key press wakes the system (dm_hs_phy_irq). Without
+   the series it woke up right after entering suspend (dp_hs_phy_irq).
+ - FS keyboard directly on the port: a key press wakes the system.
+ - unplugging the hub during suspend wakes the system.
+ - wakeup disabled: no change from before.
+ - low speed: not tested, I have no LS device.
 
-Tested-by: Joonhoe Kim <26rote@gmail.com>
+Only the m31 and dwc3-qcom parts were exercised; the snps-eusb2 change
+was only built.
+
+Tested-by: Joonhoe Kim <26rote@gmail.com> # Lenovo Legion Tab Y700 Gen 5 (Kaanapali, M31 eUSB2 PHY)
