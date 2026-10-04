@@ -1,300 +1,176 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-oo2-f35.google.com (mail-oo2-f35.google.com [74.125.231.163])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A185646D2AA
-	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 17:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791134056; cv=pass; b=fqq8IUYypu+IOxKfX7k5v4j1Eja8meRLw3uKkg4gvy1W8vO1QiikTYqMOJ6oBVqI6kMCyKhAz6WZqw5UVg9YPaoEdQQ4mLlHVLL0wdSkVMb39hY91BpUtrNxrSV7fBOjhsB9YWZuQJIVYF4f+/I2NWyL1t0I4FZ7Bpb6jYxGyOo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791134056; c=relaxed/simple;
-	bh=DPQmWisOarX73EV4DX8xr1LZtE2t1IZvvp+wtV1goOg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gDW+s7i99HpghQUAJAVwkd20c3NsIwc8EMMSbox7rc8ynHQ5N5ywvWX6QPXxcPIMK3X47sR50JamlJnfNayELje6mKrc9DWyueeaPGBOL/TW1TCQ0fSpLZcQdLzbPFUyDDdIVw/ZkuKfXeYXP2cLKEOHxLkHDsH/AmMsNppn3Z0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ZfM0PfdC; arc=pass smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 875EB46EC60
+	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 17:14:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.231.163
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791134069; cv=none; b=nJlnWI8xiRI5BYd4xRrE137v/JGjic8ArSrjC400yv7YbDYm58ppoKeWsBjPXhLHxd1CPH7bngwAYx39+skNNoiQPBelU8dVzhY/bIchlU5UdbcLNWNgo3rb13pc9daaBQCtWd4yl2UGgoV39NfqEiFm0t1ssCuzdiqX7J5neOE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791134069; c=relaxed/simple;
+	bh=vfsZLTdTVidlI53hMyq/CeT6SvqlKRmwRggX6mTnL78=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=rnRq8puI/SGT39vKBV6tfzIFyg7MVlXc1kqUeDxbaQlnYI3HodB2rhScSe3dj5Dvn/2p1dPn4DU3WsJVft8ABQewIPJTuJMe7hTiO6jD62gr4oOXnsINNs0IxVM6Z32lrtAmAQ/uY859k9441OvcFzXNlxmf1f43rdxFh/mjG7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mUXWfurg; arc=none smtp.client-ip=74.125.231.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ZfM0PfdC"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5337fa12431so180051cf.1
-        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 10:14:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791134051; cv=none;
-        d=google.com; s=arc-20260327;
-        b=cVJ2YwkHuA1AOA441qZkIKyC9KqoDJX/4mMzBSKw/qZQa59NRgS7yEygjiOkDqgjtz
-         b5y5ISU8k2ghf5QNdrAaK4NAmBe4IzIjiq5gk8vmlMwuVQ/+IukvUeWJ2qzIizC3ORzL
-         ngixZ5T34ouEVLTDc1/Rj5/1y7QxTtPL+UeXFMtWM03U+w7+jRqh5fmIwfrXmuGRrxPw
-         MQpQWjkKE6OPHCuqD72wRuIGnUpj+pkFBsaXCsbN429Ll0k8val2Yuf/dx/afBPP1amK
-         5+XDSlk5WkhDyDOlRwXmYIBRc8o3zY71I0mEzLt8FWO80gAWRsiHHdbJFMzW63EeK/Az
-         owEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
-        fh=sbZ1NUnI5bcHRVCzV6aBVpMdKCF5lK5QLzQVE9ktHuY=;
-        b=sYciHHntAapSzFSImCANV5VVfZ0w10YkrsSxnd+nNpOmk9TNiYolJJF+QGng2xdTEk
-         43SQVndQIwucr2alukgwjzK2BlZ/OfphTJ6kpY/XsnHAmhaHaqqAG87wDcG1NGJR3QA0
-         vR3VDGYV0XjssYYWkWCfgCpCgUsdgAvGYyxjpyvSGZUQq4fc8YI+RDQyNiV46dcu1uP4
-         kiIkafD+q3MO0rvV7UefO7vvKrE9yFv+ekVhDQp76xa1TAfLbjW5+EMJG1rgK5TfGJrG
-         6JtjgKlSMAfQzjRKXXlXqgnD03PstCpeE7/tucRkvdcLTeEfWT5lGG7pl9pmVKpWb1JV
-         zkgg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mUXWfurg"
+Received: by mail-oo2-f35.google.com with SMTP id 006d021491bc7-6dd4abbdd97so383052eaf.1
+        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 10:14:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791134051; x=1791738851; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
-        b=ZfM0PfdCG6H44xOr3YlYxlWsbWe96HV3PNCQY5sPyElCBZVf+BxgvzNI88RLpJJyz8
-         Cy+ygj496VOBma1ceboQuwkeweq79Nd0djZaIfHLbNjskIOh8ejk0SkutUNTrE0vnzwO
-         sT7GwQnvX7Dk4IIEmOBKYRxolAbWEwAyi0CIQpUsLNhPsxgl4nu6sX+IKjmK7KaOMLrh
-         LNb7DMdXDOZqcqx1gbhk81oef9Nbk4m9ZBPrte8o6M9IAA/KgUBK4hgU5PgJ1wqOxVgD
-         ciebZjreurPkCRPkA19W7odS8TPrImTSYx0XwAtAW/7ISf6RgC2wGcR8eNAukSGafNYy
-         BE7Q==
+        d=gmail.com; s=20251104; t=1791134064; x=1791738864; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GCGb25zEU2Mob3oRjLf8cEiLXGHHAlkDlqIrIRbuytQ=;
+        b=mUXWfurg5wPgglP6W5eCKRhyFOx0teS2EDT6XuIAqHJE/Uj4NMQVIBeUv1Pkc404/8
+         3pWI7ez76fpB2IszT62+L1fIPoWyNRswc6PDoKHc1A6Gsdlx2QckYOJGggfd5X2dryaC
+         5kQBLEIaCnB2gQQkwrGcGsdkRvX4XtyjFIglIJpkCQkEK8nrnWBudB81U7hSWQYY+Mnt
+         wM/T94SVvj4sUVpbu8DEL+TSvZIZvZ06DfQUQ1is+EQhMmUELPtjyYQr3KecqnZHm3W1
+         zHVW+zPNOX9mu/shT/3BkZVvgtYk5JXLkrzZdKK3X5KT8hgiVLs+1h/ySh4W4x7wJZDu
+         5E1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791134051; x=1791738851;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oK+gurncHWXSmmPtPu9hgAMG8GgRdX+XUQo4lUX1RzQ=;
-        b=rW3OxnK2lE4thDSyRNA+dITkPUBIkRxZp2boglM7BinWHWA4mGqzTie3NT6B1zAIvg
-         XJGjiFuaieGFiUmWeDSlJfwz+6EBGwdVo7ALLqh5W4IlgyAEw4Ay5jLzvZAOf+j/zE72
-         Fe6oXIQHBqup1Pdd8bK6hLVaEIzY2nMpEE8hdEX+iia+Nj19/zfpZrKbm2VXLq6/dR08
-         JWDrIe7ImW7iJdq9tbm06cOQrE5A2Vs2GFW97CpNC8EPC9pmxIy+2GiFeGT27OioHeK4
-         zy/I5tgPua/r40oxCKmVpPiV1SUtn8+vs4HoiOJc26YLKI2kgUzoHEmrHDy0vR13RCIk
-         OkuA==
-X-Forwarded-Encrypted: i=1; AKwUvBwsie7W/6SxNpDyKbqeiyBv3R0+WmFvlho3J9R4vZ9ALxSP6axw+8zjIZychWxg8p0qMyUCgmr+CqU=@vger.kernel.org
-X-Gm-Message-State: AFuF++mUEsiRyObF5hWSUGh+WY+3NrGK7t8dbq4ZFzOj5pqMfcsDF3eY
-	BBpnQ0UP50tB1ffs5vylYsvmjjSxFedAa4QvGDMa83B9iGhLZH2kx/qLUwG4YkIgDzG7etVvmiF
-	2Rk1O3BapfW+M706ghTEhEQNvhC5ug+lBAhkEx8Mz
-X-Gm-Gg: AYBFou1tinHqEYrYh4JNbjSMP9xfvxvkxVHjtsqR4rvGIMz4V232v1o2iPcpR6jnhRj
-	1oPXh1uwbuHiR3+dH2KA1npbxRu6f2MtPg6+60oclfe0NqttMGZL0owCobxXzAUB8czjf6i5P60
-	9YfQ7fXBVvCl4tfP0HRen9B8SE8Km5k7aLpU7MQzNuQv+Oaa3+OGunTHNLJ+JmCHIo49Cg3Hea5
-	Mrd8JIG8g2XEp77SlAHNmFcl7Wkj3VlR9mPSw414noXSzbiMkdqJReBNFDkG/qd8/bNrP+p3W/R
-	LqEB0wb3C6NnMoKAhGnzXoAzLk03C2u0JxngQDybt3H0lxFN1q+jpZ1T
-X-Received: by 2002:ac8:574c:0:b0:531:475:4ce6 with SMTP id
- d75a77b69052e-535131b2b85mr16314281cf.9.1791134050552; Sun, 04 Oct 2026
- 10:14:10 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1791134064; x=1791738864;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GCGb25zEU2Mob3oRjLf8cEiLXGHHAlkDlqIrIRbuytQ=;
+        b=Nctqzym6WrqaUwYLLEHsExdSFfI37AL5KhhQ7woQTER9vHiMC6g9vNevACHlwJTMmL
+         5ZA6QiOtFpdwuTuEjrV8pWxHlJAOX0ypwVpTrRe6yGTvbGZZno8hSFsMTWHR0ZFqw28J
+         HCEpKeknHHpppWWCjTr/lRC+FQJoB5Kk/t69WVYOcXA7/D7hAlBJyw3WSMQHenbuZs+x
+         wkGMrbC2ff9UAzauZMCsaf/C6gBPjYQDLILnFvBfF8UD/RIxeP5wV6E43JGeGpmuWSFo
+         jjWNF2A7o/wtbYy96QVsGb3uCXpbZC0+16AAAI57Ri3g5UuLlbRKui0+/PYZcpBOsBLe
+         WQsg==
+X-Forwarded-Encrypted: i=1; AKwUvByMBcmrq+badGLkkssd8leMwSymHIzqZZU5cQVpNNThJx3SZRsNNBRQ/kDCPB5mbXrzo+KDmpa0poQ=@vger.kernel.org
+X-Gm-Message-State: AFuF++kbIuf4vTcUBVAreVy1jdlknSX7KQSuQ1Ll/UFOQ86GSBcViEMU
+	ziH8CaJ8lt4G3jjMO4GDAjywfx0oi8ZcE4foayYskifW/uqT5T3EJ4U+
+X-Gm-Gg: AYBFou1WMGWIOWTFEXD58Qos7+z7bACMkjmheO2DlEruyOgoxN7mJXQ6t0LfUprKFI7
+	tcPDMLRdfe0x61orS/jBFYEddsWw+7Amt87cYCDWXORvI3PnoTvuvhFhhwWIObmg2LHezVMQgvi
+	aVDYOTf7OBd1JwXpz5WvaZaT5zINvlBANSCB2MEkIk2zXhKVwByKH6fy7Sko5diVknKcAD69Brl
+	kUnxSXdGufePo4f/ilQ/ChElnVEgRvMEFvUO/qeiTA3hVFuaLlZXs5s5mvWKdWdPYl7dIs63KMM
+	CiTTZXNwxG1I0yxzACz9GEzrxx11Nz2sVI4/d+gpcL98LLGq43kdIO0HciUfT1hNp+F4M5v9Ft0
+	3AUXSrZeohwqzhClTEkmhXFjKdT/EtR4e8YPahNrPRiX+9k4wrBKt2dZ0OYH1CihC4Bj4kE1DZI
+	qpkUp6oiZACHLH7VEkMcTH9T9OJLub7W8w8WhSUi13/Udeu+GQ2LiAe7a9EgYpn9VtZqRfwrgXM
+	mGorxRpLnjMFbgzCyaQzX6gIv5aIckcmAgSVILJ3pS9XqdKsaG/dZT5Mm7zT6ifZ/zrnmxD8bkF
+	OZUEw5dP42ENOwZzEdBzbJHXT55p8bVqHmaIfiJVc+Drn7FDu96Od3j4/jvg3LGss6S9tYTebto
+	=
+X-Received: by 2002:a05:6820:2009:b0:6e1:9b50:eb05 with SMTP id 006d021491bc7-6e19b50ef5dmr2320612eaf.46.1791134064255;
+        Sun, 04 Oct 2026 10:14:24 -0700 (PDT)
+Received: from XPS-17-9720-nixos (174-16-208-129.hlrn.qwest.net. [174.16.208.129])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6df3a1cfa53sm9173230eaf.5.2026.10.04.10.14.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 10:14:23 -0700 (PDT)
+From: Jonathan Gopel <jgopel@gmail.com>
+To: mika.westerberg@linux.intel.com
+Cc: andreas.noever@gmail.com,
+	westeri@kernel.org,
+	YehezkelShB@gmail.com,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jonathan Gopel <jgopel@gmail.com>
+Subject: [PATCH v2] thunderbolt: Do not RPM complete unrelated subtrees on unplug
+Date: Sun,  4 Oct 2026 11:13:50 -0600
+Message-ID: <20261004171404.448474-1-jgopel@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261004120255.GI176164@black.igk.intel.com>
+References: <20261004120255.GI176164@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
- <20261003-b4-mmap-prepare-vma-flag-sanify-v4-8-a1f052500fd7@kernel.org>
-In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-8-a1f052500fd7@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 4 Oct 2026 10:13:59 -0700
-X-Gm-Features: AclHuK_YbQsPp6UkU1wteVM53NVi6nuDg9G6v9WzIHWTTGIprDqvC1DHCMGs6A8
-Message-ID: <CAJuCfpHPcgvpR+=CtNVJeFkTn4EkF=hSPH3ZvvpkZQqHS5kzug@mail.gmail.com>
-Subject: Re: [PATCH v4 08/38] docs: filesystems: update mmap_prepare docs for
- discontig kernel pgs
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 3, 2026 at 6:35=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> Describe the newly introduced discontiguous kernel page mapping mechanism=
-,
-> detailing how to use it sensibly and how the API looks.
->
-> Explicitly detail the various discontiguous actions available and how to
-> use them.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+When a Thunderbolt device is unplugged, that switch and every switch
+subsequent to it on the bus device list is `complete()`d, not just its
+child devices. In the case of multiple domains, it may cause, eg, an
+attempt to `complete()` the uninitialized domain 1 root switch RPM
+completion on unplug of a switch from domain 0 (though ordering is not
+guaranteed numerically sorted).
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+I initially noticed this issue on a Dell XPS9720 when the system would
+seem to sporadically not wake after unplugging a Thunderbolt dock. I
+tried multiple kernel versions including v7.2.7 and v7.3-rc4 to see if
+that resolved the issue, but the issue persisted. Eventually I found
+that I could consistently generate a kernel Oops reporting a page fault
+at 0xffff_ffff_ffff_fff8 on unplug from one side of the laptop and went
+bug hunting. I became suspicious of the `bus_for_each_dev()` walk that I
+ultimately ended up changing. To confirm this issue, I did an eBPF trace
+of `bus_for_each_dev()`, `complete_rpm()`, and `complete()` while
+unplugging in a variety of situations and found that an unplug from
+domain 0 tries to `complete_rpm()` domain 1's switch, whose RPM
+completion is not initialized and thus is holding a null wait-list
+pointer, triggering the page fault.
 
+Here are the key sections of that eBPF trace. Note that HEAD denotes the
+completion's own wait-list HEAD:
 
-> ---
->  Documentation/filesystems/mmap_prepare.rst | 81 ++++++++++++++++++++++++=
-++++++
->  1 file changed, 81 insertions(+)
->
-> diff --git a/Documentation/filesystems/mmap_prepare.rst b/Documentation/f=
-ilesystems/mmap_prepare.rst
-> index 82c99c95ad85..ddb4434d919a 100644
-> --- a/Documentation/filesystems/mmap_prepare.rst
-> +++ b/Documentation/filesystems/mmap_prepare.rst
-> @@ -164,5 +164,86 @@ pointer. These are:
->    sufficient entries in the page array to cover the entire range of the
->    described VMA.
->
-> +* mmap_action_map_discontig_kernel_pages() - Maps a discontiguous range =
-of
-> +  `struct page` pointers over the VMA. They must span from the start of =
-the VMA,
-> +  but may terminate prior to the end (leaving the remainder unmapped).
-> +
->  **NOTE:** The ``action`` field should never normally be manipulated dire=
-ctly,
->  rather you ought to use one of these helpers.
-> +
-> +Discontiguous Actions
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +Some actions can be performed across discontiguous ranges.
-> +
-> +Map kernel pages
-> +----------------
-> +
-> +To map kernel pages discontiguously, you must provide hooks using ``stru=
-ct
-> +discontig_kernel_page_ops``:
-> +
-> +.. code-block:: C
-> +
-> +    struct discontig_kernel_page_ops {
-> +        int (*init)(void *vm_private_data, void **private);
-> +        int (*get)(struct discontig_kernel_page_state *state);
-> +    };
-> +
-> +The ``init`` hook is optional and allows state to be established before =
-the
-> +operation starts, for instance taking a reference count. Nothing is invo=
-ked
-> +after the operation, so ``init`` must not leave locks held, and state th=
-at must
-> +be released once the mapping goes away should be released in
-> +``vm_ops->close``.
-> +
-> +The ``init`` hook, if provided, is invoked prior to the operation starti=
-ng. It
-> +may update what is pointed to by ``vm_private_data`` and/or ``private``.=
- If an
-> +error is returned, then the operation is aborted. The ``private`` field =
-can be
-> +reassigned.
-> +
-> +**NOTE:** The operation may sleep between invocations of ``get``, so loc=
-ks
-> +needed to stabilise state must be taken and released within each hook.
-> +
-> +The ``get`` handler is the key means through which the operation is
-> +executed. The current state of the operation is provided through ``struc=
-t
-> +discontig_kernel_page_state``:
-> +
-> +.. code-block:: C
-> +
-> +    struct discontig_kernel_page_state {
-> +        /* Map state. */
-> +        unsigned long start;            /* Start address of VMA. */
-> +        unsigned long end;              /* End address of VMA. */
-> +        unsigned long addr;             /* The current address to be map=
-ped. */
-> +        pgoff_t pgoff;                  /* The current pgoff to be mappe=
-d. */
-> +        unsigned long nr_pages_mapped;  /* The number of pages mapped. *=
-/
-> +        unsigned long nr_pages_remain;  /* The number of pages remaining=
-. */
-> +
-> +        /* User-defined state. */
-> +        void *vm_private_data;          /* VMA private data. */
-> +        void *private;                  /* Mapping private data. */
-> +
-> +        /* Users should not touch these, use discontig_kernel_map_*() he=
-lpers. */
-> +        ... internal fields ...
-> +    };
-> +
-> +With ``private`` being an additional user-controllable state variable,
-> +initialised via ``mmap_action_map_discontig_kernel_pages()``, and
-> +``vm_private_data`` being equal to the ``desc->private_data`` field set =
-in
-> +the ``mmap_prepare()`` hook.
-> +
-> +In the ``get`` hook, the user must choose how to map kernel pages:
-> +
-> +* ``discontig_kernel_map_abort()`` - Call this to abort the operation, w=
-hatever
-> +  has been mapped so far will be retained, the rest of the mapping will =
-SIGBUS
-> +  if accessed.
-> +* ``discontig_kernel_map_page()`` - Maps a single page, correctly handli=
-ng
-> +  compound pages (if the compound page is bigger than the remaining page=
-s in the
-> +  VMA, then only those pages that fit will be mapped). For a compound pa=
-ge, the
-> +  head page must be passed.
-> +* ``discontig_kernel_map_page_range()`` - Map an array of pages of a spe=
-cified
-> +  size. As with a compound page, if more pages are specified than remain=
- in
-> +  the VMA then only those that fit will be mapped.
-> +
-> +If an error arises after ``init`` succeeded, the core unmaps the VMA, in=
-voking
-> +``vm_ops->close`` if set, which is therefore the place to release any st=
-ate
-> +that ``init`` established.
->
-> --
-> 2.55.0
->
+```
+RESCAN_ENTER domain=0
+
+COMPLETE rescan_domain=0 target=0-1 target_domain=0
+         route=0x1 parent=0-0 unplugged=1
+COMPLETION done=0 head=HEAD next=HEAD prev=HEAD
+
+BUS_WALK domain=0 start=0-1 callback=complete_rpm
+CALLBACK_ENTER rescan_domain=0 dev=1-0 parent=domain1 is_switch=1
+
+COMPLETE rescan_domain=0 target=1-0 target_domain=1
+         route=0x0 parent=domain1 unplugged=0
+COMPLETION done=0 head=HEAD next=0 prev=0
+
+        complete+5
+        complete_rpm+43
+        bus_for_each_dev+133
+        icm_free_unplugged_children+250
+        icm_rescan_work+42
+```
+
+This patch gates the `complete()` on an additional condition - that the
+Thunderbolt domain matches the domain of the device that was unplugged.
+
+I only have a single system with multiple Thunderbolt domains - the Dell
+XPS9720. I am consistently able to reproduce the Oops on that system.
+Since running with this patch, I have not seen the Oops reoccur. I have
+also tested it on a Thinkpad X1-Gen12, and that system boots and runs
+well with it, but it only has a single Thunderbolt domain, so it does
+not exercise the multi-domain failure case.
+
+Assisted by: LLM
+Signed-off-by: Jonathan Gopel <jgopel@gmail.com>
+---
+ drivers/thunderbolt/icm.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/thunderbolt/icm.c b/drivers/thunderbolt/icm.c
+index 669807f0eaf8..c1e6b2ea63cb 100644
+--- a/drivers/thunderbolt/icm.c
++++ b/drivers/thunderbolt/icm.c
+@@ -2071,9 +2071,9 @@ static void icm_unplug_children(struct tb_switch *sw)
+ static int complete_rpm(struct device *dev, void *data)
+ {
+ 	struct tb_switch *sw = tb_to_switch(dev);
+-
+-	if (sw)
++	if (sw && sw->tb == (struct tb *)data) {
+ 		complete(&sw->rpm_complete);
++	}
+ 	return 0;
+ }
+ 
+@@ -2088,8 +2088,8 @@ static void remove_unplugged_switch(struct tb_switch *sw)
+ 	 * tb_switch_remove() calls pm_runtime_get_sync() that then waits
+ 	 * for it.
+ 	 */
+-	complete_rpm(&sw->dev, NULL);
+-	bus_for_each_dev(&tb_bus_type, &sw->dev, NULL, complete_rpm);
++	complete_rpm(&sw->dev, sw->tb);
++	bus_for_each_dev(&tb_bus_type, &sw->dev, sw->tb, complete_rpm);
+ 	tb_switch_remove(sw);
+ 
+ 	pm_runtime_mark_last_busy(parent);
+-- 
+2.55.0
+
