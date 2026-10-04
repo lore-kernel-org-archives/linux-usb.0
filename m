@@ -1,63 +1,63 @@
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C0A3E2AD1
-	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 22:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.140
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 561C52E975E
+	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 22:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791151207; cv=none; b=ZZNCFRXLbelV6P9mhyk5fIQJog3q3YE3EVJ9feFnk1HJd9PoE+tH9vQNfdqbr/zHsfYA2oRmiA25v0AGcQ7nmf25/ccwXcTPHqDhMvo2ICWrqDTifnbxvBobXfbixLXGQpa7I/YvEps07xltIJeIuJ7XLgWUbAIjRCxIAPEbr58=
+	t=1791153550; cv=none; b=cNFw19iKPC0tMuKIOmTTkM7jTMOJKhvgalCpX1iJCr33vJL9ss5eghWYC54zb/hcZEaOHrxckgSXOINVUfn9iSjr+AHDZfRS15xU4wBsgLO6SVfXNlOoKYiiO/7o6MYAc8AB5gYwlJ56+90TrVR/X8SoIV8Iv5ee9IHxMPfbMXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791151207; c=relaxed/simple;
-	bh=A49zyjjnqqb50pG4MqWzNRlRKAi9xTHYpw2ixK1+k84=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=gRlBNnPKTU0NFIw6PEB4w3ZsbW1yu4txfjfajeDNtp11Nnq7DVdSCz+D7ta+Jj1suwGDKnKI6pOrdYPtYAmDRfNtAxx4/WhoOtF0rIXI9bgrw4eNiuoUHegj5gvuYek4gHZSQnv061fcjneU/gPMzCkWZdwEpUqn7e49BpxH1Bc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RsNSgBPe; arc=none smtp.client-ip=74.125.225.140
+	s=arc-20240116; t=1791153550; c=relaxed/simple;
+	bh=kpfoFP85QxskQMWdeJTmn1cMu6N17HV/5+t0UmRxMyw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XEGJZXyZmqm/hzPJCft3XBE9KtRTFwQa2+DIJP7snWEY1uiVwZHYd0bZhp7lzfOP9XQNBw+gfrp4T5BiEbWN1ODxZBcSxdjosgzG6Wa6z9e97I8yVKbB9GTw04YAbMHxjoLW67WPcvGT6h5XIZbulgp9XrHHRUs/V9OciUbjFbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bThpFflN; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RsNSgBPe"
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d8239so10328235e9.0
-        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 15:00:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bThpFflN"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48b0ef9c76eso944211f8f.0
+        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 15:39:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791151204; x=1791756004; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791153547; x=1791758347; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=v9ZMcU4NSbtXZ2T+rqlz7vA0bY14DXoiCQpMM48epr0=;
-        b=RsNSgBPeuAwryu6cQEQFTvpMvhmclslYU+UDPuOLsR94lwv0GFEFC21qRMaIunzVd/
-         wKJK0CBl4/WbBWpmfJuE1anC1jtMuzHSeXUmjXmJv9fgOsAwbqgzHS5fUOLCzgzw5Gfd
-         v6Wxoy7XmmGDdfvShzCLKflCAixNZjnHjHhlZXjWVhJgVzF3C1i+mtWUYNYujkd1UQxI
-         3Pbmpm6t5klfqL1cpYFMQ2iKK24I0lPH3wXukZfuNHYTJ5tpzCa/ioYWQMpeudL7MeWM
-         l4Iz0dnV1Akbnts1PEIhpH9SxZZb3LmxCn72dWBbFy2jzf0K0ZNABDLCO1gz60AG4Bak
-         q3Ow==
+        bh=FCS9VK4fVIFomf4fJxIO0n4SeDZ0WR6fIeRqcF0W94c=;
+        b=bThpFflN/QNVriZxgcZsBD/dXosCo9iDrB44FDnmAfJZAOxZ/ueNph+KJ3SQAVKyef
+         k1d+qBLIV1iX8PCykD+LFjoIxSklEuI8CuFC7XusQt81y7ST/YhopJtl0U4p7DsM4wLl
+         SOCNNCnEh1xWn89LFwmk5YDgFVrIRId17PUZ1WOT95/3jM2jJ+RinwTadEiODDbuFUSt
+         9fkk3vsjI4o2dNlQCBtbimQOWK3QeVSkP/B7FMyVUrJQTtaYvamIuynwSTcckcirtGVv
+         w+mArk7GalQ/ssiy/IMVA5vRoqOr7IIzh306lnHs9vT/CfIGqZzO7aeOMBEMZIm40qFc
+         qIqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791151204; x=1791756004;
+        d=1e100.net; s=20260707; t=1791153547; x=1791758347;
         h=content-transfer-encoding:content-type:mime-version:message-id:date
          :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=v9ZMcU4NSbtXZ2T+rqlz7vA0bY14DXoiCQpMM48epr0=;
-        b=R52iOyJ/rVi3Dq68Q7cdXj6dK06QNfougDqsyvV09d8/p+8P0Hc4SdMtQgtvfCanKt
-         VU4D/LTs7nBJB/kFJRNK2rLiRFfy2mQEc3bK59AOyaHQ4REx2jDc8cNmE2k6YbhSkVP+
-         32DS/k5io8motx5GRGSSIJ+PJqfx9CAc7s/qiQPdkMEZaLVs+QGg2A+d5S1N7drdv8NP
-         xFiX4EbB3j/8ossZ1boAVBIx17cvbf8c/2vw0ED5AzuA/YLY0J0ARhinuWLkRmzQ0h9F
-         6RO9h79A/AxTIi1h1o47wibeVQW5Qm4psRfMF+yPsqOEiI+uFzPNewnJY+3F+/iBq4DK
-         y7iw==
-X-Forwarded-Encrypted: i=1; AKwUvByHl5jQsU40wh/10YA1aKCc7qswwZnYpTMk7ygFu6Lk/tTXRAx0MO05qYgT5/13q4fA2qgkIZOpi1I=@vger.kernel.org
-X-Gm-Message-State: AFuF++lSG32k5g052Lj5azk96d/8lEg7YhrywbduyHXWUI1YyZADLRyo
-	/zIMNGIVMGqPEpcohtpCbThjTdkmQi0XOGwnLjlpOcoMMIJnZN5sTluM
-X-Gm-Gg: AYBFou3u471P1By+fo/yAepX0iMe7qyK9zj9MCieggYEPwrrgU89NiEXpYaERFVZZW+
-	MDBH6SV1xQc8kVA3mgtaFYUkT3st9F5IHpBnzlYsk75MLtypiXEfTXBEedeZ90Q8yiPoMmRUpk8
-	08a4uqtZl5vImyjHPnOTcAP+Y2n5FVhwtz9W2QigEPdCqFWB8LX3QsjG/CrGTgNMJCneb0SqnsE
-	LQyx2xWbS3rxmgJS58LWh49LHEFqwLByDvY1msZ0ZBIVdTUJLlZLcz4XV1TGRZq2y/c7S4mMT3Y
-	spqts1z7FXgZN05lxVZ5Hde8+OE8bKDxGZhtxAd6EaB04KqGkVsS1c0ddsEJXXQLj+2f1/iIuD/
-	rTW5EtBLzxtZ/IKEfwvnOOrmxRpBsBIhTi0tC4ADXp79luj/z7lyeJl+/gh8TeIGgFlJMU9sRiI
-	v/QvEfAjM6Mkpl7BfBZkPnupYrawcaQNUlgAB/waUkCcongQUpdCFxwF150IHSIMDD+0R90ADuj
-	ylKjsY=
-X-Received: by 2002:a05:600c:3b1d:b0:4a1:7033:5b55 with SMTP id 5b1f17b1804b1-4a170335d02mr45106945e9.21.1791151204108;
-        Sun, 04 Oct 2026 15:00:04 -0700 (PDT)
+        bh=FCS9VK4fVIFomf4fJxIO0n4SeDZ0WR6fIeRqcF0W94c=;
+        b=s/p1OM1tOh9VHWaQTpfY4HDR/QJtkcyEaGq0KD76IcM5FPz1HJdcSbQpGreAS4+rbb
+         VqyHT8mHYluMgC4amq/LAJ7VvTeIUKM2npk4mCxhpevOJ0UxO6OBkkqSwO5GKzL25nut
+         CXhu89ySSCUocnqgG6NkiJGvT7OysZwhIOj0625SRD+8NM0GJOXNPyrGs9am6m12V7DZ
+         77zODXkiQz/Ng0Vexn6P2VTwuc0Ausbji4BqDEsdQ+SWwaec2wn71XYJyjtsKmoiItxp
+         vU6NUpSJuuZ538A2rAIlchJ/vKTGLahtCh7fDRPyfBawWEp6GymUbclXwbsFQEf1sjZj
+         8iTg==
+X-Forwarded-Encrypted: i=1; AKwUvByexmEpfnPC9tpPKrpTI6CNOswc2dUyocv+fsMqgHzo4ebWpcUzlk+xJCtAwtnysDfucwLndi7NDJ8=@vger.kernel.org
+X-Gm-Message-State: AFuF++laj+1LRk5ZDcBjvpKKHV9dtJIQ84HYKez2GoYuqR7HOBKcGKiI
+	LgdGfjg2+IYG1v8NoS9Y0JWIOoEz54Nbx0ysocCouiqxk4tIkBZ2nTjb
+X-Gm-Gg: AYBFou27Rsz96Yr7uubKY5G0zDCWnNaCeUSDELnrP0zg2pN4qZEePZz7p3hCQaELKuy
+	BU3HwjJvkJgjH/Vi2uAfo8t2Jb+gq52E/FqXdZ/KLA40TxqxfLw9Egp88amwdKKr9cXAQKo3oce
+	jw+OvF86P7xGypeSOX3b97ywyalkd+JPKjWsDFpQEedk9BEbb9uoIxMfFeZi34v+FFZLG4bCjie
+	LqizNaj4uJmY8hQMH6+kdQtfIfYNHLSDE2fV3AdViSvU1O2gibvpGMipcxW+WNRkPlBG1tavLzM
+	SztlwX9AowMrNbYxUugmLKIYd2Rcb46rZpC0RW0qfa8pXxGvz1rkaGCVExpr6SOWz8lTTgRsv99
+	4Ge7FKcq4smml5jWwPV5PXXYulLVfFwYxcGUxgSpEtaG3shgzMgHOgW9ICJ4M34sHrqWt5WeULS
+	LHJFnTo/0wtzeVBBwMpo0TKKiqFdBIBMlsdg9At/bHvEs/MHigFn4yQisexb23vMVup9rUlk/fc
+	sL3E/g=
+X-Received: by 2002:a05:600c:154f:b0:4a1:714d:eed with SMTP id 5b1f17b1804b1-4a1714d1071mr31807835e9.14.1791153547399;
+        Sun, 04 Oct 2026 15:39:07 -0700 (PDT)
 Received: from metepc ([46.197.185.71])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0a6e894a4sm256671015e9.5.2026.10.04.15.00.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1698f7910sm97775755e9.3.2026.10.04.15.39.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2026 15:00:03 -0700 (PDT)
+        Sun, 04 Oct 2026 15:39:06 -0700 (PDT)
 From: =?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
 To: netdev@vger.kernel.org
 Cc: oneukum@suse.com,
@@ -68,12 +68,11 @@ Cc: oneukum@suse.com,
 	pabeni@redhat.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	david.laight.linux@gmail.com,
 	syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com,
 	=?UTF-8?q?=C3=96mer=20Mete=20Kaya?= <omermetekaya0@gmail.com>
-Subject: [PATCH net v6] usbnet: fix smp_processor_id() use in preemptible context
-Date: Mon,  5 Oct 2026 00:59:25 +0300
-Message-ID: <20261004215937.302247-1-omermetekaya0@gmail.com>
+Subject: [PATCH net] usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_return()
+Date: Mon,  5 Oct 2026 01:37:24 +0300
+Message-ID: <20261004223852.312487-1-omermetekaya0@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -84,75 +83,50 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-tx_complete() calls this_cpu_ptr() before disabling preemption, which
-triggers a BUG when running with CONFIG_DEBUG_PREEMPT:
+usbnet_resume_rx() uses local_bh_disable() to synchronize with
+usbnet_skb_return(), but local_bh_disable() only affects the local CPU.
+On SMP, usbnet_skb_return() on CPU0 can pass the test_bit() check while
+CPU1 runs usbnet_resume_rx(), clears the flag and drains the queue,
+leaving the skb stranded in rxq_pause until the next MTU change or
+device stop.
 
-  BUG: using smp_processor_id() in preemptible code in tx_complete
+Fix with a double-check pattern under rxq_pause.lock: normal RX avoids
+the lock via an unlocked test_bit() fast path; on the slow path the lock
+is taken and the flag rechecked before enqueuing. Move clear_bit() in
+usbnet_resume_rx() under the same lock to make the flag and queue
+transitions atomic.
 
-Fix by using get_cpu_ptr()/put_cpu_ptr() which disable preemption and
-return the per-CPU pointer atomically. The usbnet_skb_return() hunk
-is a hardening change: that path runs in softirq context so no warning
-fires there, but the same fix is applied for consistency.
-
-Fixes: ed194d136769 ("usb: core: remove local_irq_save() around ->complete() handler")
-Suggested-by: David Laight <david.laight.linux@gmail.com>
-Reported-by: syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=04cd90bb99c6ef81a65d
+Fixes: 43daa96b166c ("usbnet: Stop RX Q on MTU change")
 Signed-off-by: Ömer Mete Kaya <omermetekaya0@gmail.com>
-
 ---
-v6: Fix commit message and Fixes tag as pointed out by Sashiko:
-    - BUG is in tx_complete(), not usbnet_skb_return()
-    - usbnet_skb_return() hunk is hardening, not a fix
-    - CONFIG_DEBUG_PREEMPT, not PREEMPT_FULL
-    - Fixes tag updated to ed194d136769
----
- drivers/net/usb/usbnet.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/net/usb/usbnet.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-index a19ecf718f36..84f97f448b2d 100644
+index 0288d89e1d13..5eba2cef8bac 100644
 --- a/drivers/net/usb/usbnet.c
 +++ b/drivers/net/usb/usbnet.c
-@@ -325,7 +325,7 @@ static void __usbnet_status_stop_force(struct usbnet *dev)
-  */
- void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
- {
--	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
-+	struct pcpu_sw_netstats *stats64;
+@@ -329,13 +329,15 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
  	unsigned long flags;
  	int	status;
 
-@@ -338,10 +338,12 @@ void usbnet_skb_return(struct usbnet *dev, struct sk_buff *skb)
+-	spin_lock_bh(&dev->rxq_pause.lock);
+-	if (test_bit(EVENT_RX_PAUSED, &dev->flags)) {
+-		__skb_queue_tail(&dev->rxq_pause, skb);
++	if (unlikely(test_bit(EVENT_RX_PAUSED, &dev->flags))) {
++		spin_lock_bh(&dev->rxq_pause.lock);
++		if (test_bit(EVENT_RX_PAUSED, &dev->flags)) {
++			__skb_queue_tail(&dev->rxq_pause, skb);
++			spin_unlock_bh(&dev->rxq_pause.lock);
++			return;
++		}
+ 		spin_unlock_bh(&dev->rxq_pause.lock);
+-		return;
+ 	}
+-	spin_unlock_bh(&dev->rxq_pause.lock);
+
+ 	/* only update if unset to allow minidriver rx_fixup override */
  	if (skb->protocol == 0)
- 		skb->protocol = eth_type_trans(skb, dev->net);
-
-+	stats64 = get_cpu_ptr(dev->net->tstats);
- 	flags = u64_stats_update_begin_irqsave(&stats64->syncp);
- 	u64_stats_inc(&stats64->rx_packets);
- 	u64_stats_add(&stats64->rx_bytes, skb->len);
- 	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
-+	put_cpu_ptr(dev->net->tstats);
-
- 	netif_dbg(dev, rx_status, dev->net, "< rx, len %zu, type 0x%x\n",
- 		  skb->len + sizeof(struct ethhdr), skb->protocol);
-@@ -1298,13 +1300,15 @@ static void tx_complete(struct urb *urb)
- 	struct usbnet		*dev = entry->dev;
-
- 	if (urb->status == 0) {
--		struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
-+		struct pcpu_sw_netstats *stats64;
- 		unsigned long flags;
-
-+		stats64 = get_cpu_ptr(dev->net->tstats);
- 		flags = u64_stats_update_begin_irqsave(&stats64->syncp);
- 		u64_stats_add(&stats64->tx_packets, entry->packets);
- 		u64_stats_add(&stats64->tx_bytes, entry->length);
- 		u64_stats_update_end_irqrestore(&stats64->syncp, flags);
-+		put_cpu_ptr(dev->net->tstats);
- 	} else {
- 		dev->net->stats.tx_errors++;
-
 --
 2.55.0
 
