@@ -1,156 +1,142 @@
-Received: from sender5-op-o11.zoho.com (sender5-op-o11.zoho.com [165.173.182.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA002FC00D;
-	Sun,  4 Oct 2026 12:53:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791118429; cv=pass; b=tN8HNm7ZOM5n5L5AsZAzghXiRkZKDRl9GMhAcXG+GD+GnjTksep8xWZyJS9rF68nSF3GsLM8mN0yo/UF3JqG1PWwGvy6VnShpAlhnYXvyHL5I6Ad8sAjB6+gpZwK8MpyQSY4coGGCgY3P9OcITe7/1M4tzg4enuK0669sWWHLEY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791118429; c=relaxed/simple;
-	bh=AD4c5oq4C24bBa6YGd2lDMYrxjTCbQDGGDzJLs+YSIw=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70F822F60CC;
+	Sun,  4 Oct 2026 15:53:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791129208; cv=none; b=lZtaWB6Zp+bxYuxflqrnOEnlJTLbZQnmpgKbCld7sfRsuJal8pj+fKRgArvKJ1/6/6dhOy0VpLgB1f17kv3+zO7AszEm7daDx8CDv9kGzNiEhPaReUsyHK0EvfLQgMVn8fstg0u1recrqeem1UuJC/1P9D5AP8T4XJXGZNKxB/0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791129208; c=relaxed/simple;
+	bh=lv1tuIGYGldphto25KVS1nVNoKz+O4guecPc91FwUq8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TDA+gdO43RKIjnPHiB3vUj6iZYpowmYHqUZFT3gLCzOSfhC7aFWLWGIUWiwSbB84stOQ27mCmXIQVRLataHy/IgDC0AzCTo8RWP0dUbfZ0E2JcM+rl/FxYz52JBjiZZR8pr2ADRHxELO4N6Nbxzuo7jnUDZQ0g4rAPpsL7L5YL0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=LhlWsWuN; arc=pass smtp.client-ip=165.173.182.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZEFsKoHi/v1bpIfBOxmS4xBOQWaaX32buCc/0o2URskMXEZP3ElC+3YQfcvf8gT6YjnCqNQD7uoCFkrpNbu7L6hzh0j5+I7GSbB2nRCE0I51T8bABvpulAiYH6abK5DiC10ZbtlUC80lKtnMXbBXzIXwG1pn+yLLg+FMdidBPqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=a/rhd/M+; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="LhlWsWuN"
-ARC-Seal: i=1; a=rsa-sha256; t=1791118408; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ERdHo3cHKccOXgbrq8b29QDOmGsQZIGiBis4jkL77Qx8UdRQMBfHlcNfSBS3cvCxoEduYJzELzh/dsQjxEVkdf7tuOJlAikSIqen9Uc6TTfDpfY6KL/EUCO7kV5TOGmmWsfS+OYG239Kb161mPp0JhFlDFXaNkHPQIRueXCeD2g=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791118408; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=bgDESfLrXKLmUyRoB+jOHoxIwRj5hwAQyXCFLNMDOaw=; 
-	b=BXb+XQbo8mfOEN2KNkURN75mCY7JDE2I8ckalYq3up5otZwNMvysJ3h9ZJtQ5daH3U+OHzk2S+VYXW8ok6VNcvjjiJ+YN748u4H91mAEPPwjxZOgpObKX8lhKYOX33BNdDcZEYLzcNC8okGJBr3vZQda9S6/rIxsy7gvFjLwMwc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791118408;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=bgDESfLrXKLmUyRoB+jOHoxIwRj5hwAQyXCFLNMDOaw=;
-	b=LhlWsWuNz8iImIBP5PZJ7pN2Sjr03aA/vSWjOVJW+ydfVhsJshIfdrJL+P4aIEsX
-	qg6O2BDs8Qb4TRGiykr3anHHOL6KSAhgXJ8521bM+bO4UA2IeMurmPbb7h2pMaL0FrI
-	mHKpUMRMDWq2Eoc44L0JuKe0cM9JzpzmYmbBFTYs=
-Received: by smtp.zohomail.com with SMTPS id 1791118407425681.0566603227451;
-	Sun, 4 Oct 2026 05:53:27 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id AA4F4180950; Sun, 04 Oct 2026 14:44:11 +0200 (CEST)
-Date: Sun, 4 Oct 2026 14:44:11 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Manivannan Sadhasivam <mani@kernel.org>, 
-	Igor Paunovic <royalnet026@gmail.com>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
-	linux-phy@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH v16 1/6] phy: core: add notifier infrastructure
-Message-ID: <asJGziv0N3qtXo6_@venus>
-References: <20260924-b4-rockchip-dwc3-rockchip-glue-v16-0-126a2e9133c3@collabora.com>
- <20260924-b4-rockchip-dwc3-rockchip-glue-v16-1-126a2e9133c3@collabora.com>
- <asDFBIVf06-VaWdx@parshuram>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="a/rhd/M+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791129205; x=1822665205;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lv1tuIGYGldphto25KVS1nVNoKz+O4guecPc91FwUq8=;
+  b=a/rhd/M+HNhyj7UGj4+jyBY4CpPsxLeTN/XKLSYpdSLMpdr4d5kugj1l
+   fAf1zNW7MuI6RXVHwyAgcg0b/f94pzOw/SJkytwwlHiPFJZGw9HeA2QS7
+   bPS1jf14N+9K3nyDWUiai0W53NeiWNJ1VegNe0CBBtFa2MZhTV2onlM9X
+   88MA1CdmjbOX2D9VSEW9/RG4PoVCtP81+ypn3CV8yCfuG7akvcA9QSqKv
+   4maMcLKifI1kDfWEorJxl7JzA3N4hPTQACblGq9rofCKi7nOGTzW/zAne
+   F1hhrg3vXH9iXspA3JydVGtZ0OHTa0A0YMgtw6WH2LpPozWq2LixruGPK
+   Q==;
+X-CSE-ConnectionGUID: R/5P0wIPTKeHbxZGDXb/Tw==
+X-CSE-MsgGUID: hPVCoSMdS0+TN9Te4Q+JGQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="95627949"
+X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
+   d="scan'208";a="95627949"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 08:53:23 -0700
+X-CSE-ConnectionGUID: oEBoJPlCQ2G9hBPfsJYkmw==
+X-CSE-MsgGUID: tlqqacLyQbeHvEGJeU3+Tw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,139,1787036400"; 
+   d="scan'208";a="314637099"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 04 Oct 2026 08:53:19 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xDOWa-00000000UqT-0uUY;
+	Sun, 04 Oct 2026 15:53:16 +0000
+Date: Sun, 4 Oct 2026 23:52:18 +0800
+From: kernel test robot <lkp@intel.com>
+To: Birger Koblitz <mail@birger-koblitz.de>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, Eric Dumazet <edumazet@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	loongarch@lists.linux.dev, Jianhui Xu <neuromoments@gmail.com>,
+	Birger Koblitz <mail@birger-koblitz.de>
+Subject: Re: [PATCH net-next v16 13/13] ax88796b: Add support for AX88772D,
+ AX88179A and AX88279
+Message-ID: <202610042301.MlmvbRpS-lkp@intel.com>
+References: <20261004-ax88179a-v16-13-2a9ae4e68f7b@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tscrktrwpqpmy56x"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <asDFBIVf06-VaWdx@parshuram>
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/291.108.66
-X-ZohoMailClient: External
+In-Reply-To: <20261004-ax88179a-v16-13-2a9ae4e68f7b@birger-koblitz.de>
+
+Hi Birger,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 071876fd50482a68603a9460d80dd6dd58827ee1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Birger-Koblitz/phylink-Add-phylink_mac_interrupt/20261004-073905
+base:   071876fd50482a68603a9460d80dd6dd58827ee1
+patch link:    https://lore.kernel.org/r/20261004-ax88179a-v16-13-2a9ae4e68f7b%40birger-koblitz.de
+patch subject: [PATCH net-next v16 13/13] ax88796b: Add support for AX88772D, AX88179A and AX88279
+config: m68k-defconfig (https://download.01.org/0day-ci/archive/20261004/202610042301.MlmvbRpS-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 16.1.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261004/202610042301.MlmvbRpS-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610042301.MlmvbRpS-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/linux/kasan-checks.h:5,
+                    from include/asm-generic/rwonce.h:26,
+                    from ./arch/m68k/include/generated/asm/rwonce.h:1,
+                    from include/linux/compiler.h:369,
+                    from include/linux/array_size.h:5,
+                    from include/linux/kernel.h:16,
+                    from drivers/net/phy/ax88796b.c:6:
+   drivers/net/phy/ax88796b.c: In function 'asix_ax88772D_get_features':
+>> drivers/net/phy/ax88796b.c:217:42: warning: unused variable 'mask' [-Wunused-variable]
+     217 |         __ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
+         |                                          ^~~~
+   include/linux/types.h:10:23: note: in definition of macro 'DECLARE_BITMAP'
+      10 |         unsigned long name[BITS_TO_LONGS(bits)]
+         |                       ^~~~
+   drivers/net/phy/ax88796b.c:217:9: note: in expansion of macro '__ETHTOOL_DECLARE_LINK_MODE_MASK'
+     217 |         __ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
+         |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
---tscrktrwpqpmy56x
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v16 1/6] phy: core: add notifier infrastructure
-MIME-Version: 1.0
+vim +/mask +217 drivers/net/phy/ax88796b.c
 
-Hello Vinod,
+   213	
+   214	static int asix_ax88772D_get_features(struct phy_device *phydev)
+   215	{
+   216		int ret;
+ > 217		__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) = {};
+   218	
+   219		/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
+   220		phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
+   221	
+   222		ret = genphy_read_abilities(phydev);
+   223		if (ret < 0)
+   224			return ret;
+   225	
+   226		/* AX88772D does not support reported 1000baseT mode */
+   227		linkmode_clear_bit(ETHTOOL_LINK_MODE_1000baseT_Full_BIT, phydev->supported);
+   228	
+   229		return 0;
+   230	}
+   231	
 
-On Sat, Oct 03, 2026 at 11:04:13AM +0200, Vinod Koul wrote:
-> On 24-09-26, 19:25, Sebastian Reichel wrote:
-> > Some PHY devices with multiple ports (e.g. USB3 and DP) require a reset
-> > if the configuration changes or cable orientation changes. This is a
-> > problem, as the consumer device will run into undefined behavior.
-> >=20
-> > With the new PHY notifier API introduced in this patch, the consumer
-> > driver can hook into reset events coming from a PHY device to handle the
-> > PHY going down gracefully.
-> >=20
-> > Note that this uses -ENOSYS instead of the more sensible -ENOTSUP for
-> > the stub functions when GENERIC_PHY is disabled to stay consistent with
-> > the existing ones.
->=20
-> I dont think this series has the usage of this.
->=20
-> I think I am still not convinced why a phy should notify as I dont feel
-> we have any mechanism to notifying. Checking status and letting people
-> know if not really a notification mechanism... Maybe add a status call
-> instead?
-
-This series contains the infrastructure and the consumer of the PHY
-reset notification (dwc3 rockchip glue driver). The producer/sender
-of the PHY reset notification is the first patch in the USBDP part 3
-series. I grouped the patches like this, so that this series has PHY
-patches followed by USB patches instead of PHY - USB - PHY. Patches
-must be applied in the exact order (i.e. first the patches added the
-PHY reset notifier infrastructure, then the DWC3 notification
-consumer and then the USBDP notification producer).
-
-The broader picture solved by this is (pre-existing race condition
-issue in USBDP):
-
-1. USBDP PHY provides critical resources to DWC3 USB controller
-2. USBDP PHY needs to reset to reconfigure (e.g. enable/disable DP side),
-   which means the resource is temporarily not available
-3. DWC3 accesses its registers during the reset -> SError, because PHY is o=
-ff
-
-This series combined with the first patch of USBDP part 3 changes
-things, so that it works like this:
-
-1. USBDP PHY provides critical resources to DWC3 USB controller
-2. USBDP PHY needs to reset to reconfigure (e.g. enable/disable DP side),
-   which means the resource is temporarily not available
-3. USBDP PHY driver sends pre-reset notification
-4. DWC3 goes into a safe mode after receiving the pre-reset notifiaction
-5. USBDP PHY does the reset
-6. USBDP PHY reset finishes, USBDP PHY driver sends post-reset nofication
-7. DWC3 returns to normal mode after receiving the post-reset notification
-
-This avoids running into the SError.
-
-Greetings,
-
--- Sebastian
-
---tscrktrwpqpmy56x
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmrCShcACgkQ2O7X88g7
-+pqKZQ/5AZjgJZAP0K7j3fjtoZWVfKvHdK5zDgEney3DOH3py7hJca0N2aruS7Ei
-b798piV1K9OKQHjBrBXdIRq9PbLP+iRfwiYmrNEaWbfPa+Gt8jUd0plVPFKZsb2e
-SIFgHA+ghthCj7o6RnwkkjB776aE1g+iAfqcJ74FJ023E2V6iFUasqkfukGiSeK9
-2QmzIwlJw6P+BIQw9YTAaEhbmzqHkWsO3gL7ACpNtd6fCigECCx1Brl2im0O53v/
-17gjBhQIQ4/wosGxPndKsqQaDhK92y4ZSNPf/rMfvR4UWt4Q0W0g2VT+blOXQ5Iu
-eppv8irdrM9VEhHr9LK/ZjkZaSqwJNe9w29lsfmSV3gFKnW4kiBhDF66ii3RvWfl
-lBPvlJvdZSB8+vpf/0Bjv3hedBnqlf4Wuhhv+j+PDqJUv54cWJN9c6scMvNezOT2
-H08JLoO48Ou6mrazNWQQISDlH/7hTWQ9F8+AhNXqrCnbxtxmiVJvgxDPYpe2kiTo
-aTDiIhg2z94VD2h/CmgiN5lwrKynXDzCC+eiDWZzHDUx13IabkIqgJeiLUMBkG3S
-RBwjLIm+MjmFCV2lQIyCIUJ70iCiue04CSR+h1HrloFZmXMEpmXkvUdWPLP4PiVC
-MaJaHzBopWFhSxD3c3yuweo4ywxFe9jp3Y4iK4Jmn9cVC+0OwHI=
-=lRt1
------END PGP SIGNATURE-----
-
---tscrktrwpqpmy56x--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
