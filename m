@@ -1,231 +1,236 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A27F480DC4
-	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 18:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.180
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791139165; cv=pass; b=SPAcX0/U+A7SXwujd4SFrrphkndAIVbBiniG1FVU3Ffeb93KZQt22cpDqGpAY6wvNo+OqB/pZYGRk/9S7GYREV+SnyDkFhP7v01AnSegQ0OLElQ1feeLamOyC9/7/vOE2mtbowMwJRmyt6uqOnFP9HuS8KH3Pg0H5Hph7N43y3s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791139165; c=relaxed/simple;
-	bh=Q5SKncuQynV4x7Bps+RIZqUEFmiH2TTHOAAQrnnR074=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YOPg2BTanazrpyHS+YNTFVDjWjoGJig70hFk8mUANdkWE3k/n9cj9DzTKM1C/BnU3rJ87eK+LovHW3bBUrI7yWmHvnekdoBA5u+zKp6LPbMieJ+NIGzA0pJoXKa0AaoSOG5xteJCPmlmp/Nse9UyK4wgcDFcEAMxYJPBn/u0Gd0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l0iHyxjb; arc=pass smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6EAA480DDA;
+	Sun,  4 Oct 2026 20:12:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791144757; cv=none; b=bKfsSZWsvggdRyNFdauGQMGBdSDlg5JZ9RmsHhy3eEHwWbLByi9V0z3lTDpguFxGk3f9VckC5gThh45phtBu4GwrFZ6UPyiVJfNF8+2UeQy5fz3wlDf+nuxkVFdG/6R2WK+js2plGNnv+Ofd1W09+9C5MyN7VIA5MlenILuDLf4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791144757; c=relaxed/simple;
+	bh=6i3i7WsSNX6ARj4QoJw0wpV9iavfas580CAV2v7AKKY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZmlyVL3PmcohwljyX6OvJjGy5dcbZR49+6gOJt4NfqUCFB6N1KqonhoASFNgGL13EZFu6d8sEWRROmTf3+NdZ+Ad73uSRg3g3RT0V03rwl4pP8U2/cJqP6OeU8HZ3dPA6uDb+KlNp3+7GZA6PY6RGmnGz7JSGlOPILUJbSBweck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ep8BLexM; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l0iHyxjb"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-5337fa12431so187091cf.1
-        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 11:39:21 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791139161; cv=none;
-        d=google.com; s=arc-20260327;
-        b=KXXZPhIfWrXPxHo6Qdta5Qlnc04eBs/bZh24TDR3TweCXSL7XF+GH1jdASjYFHMLSs
-         SadietCJh8cioPIFz579NesFDhG9AfCbgqD1S+7VF7loPHWrYjFZ3qVxjh0AoTr0dSAb
-         JcK5+yxj9O0tl4PcIY8HayQ+pBwoR7p/waKS3+/orVZ/GGoif2V2NnT4ayqAmNA5ucEK
-         e7vM6b0si222U11hI3/DTFGKG+g8TxqP6tl2XwOKTizdjKNu5i73aavzGM5yRyPTcAFb
-         d0U/3Myb/xldTGpfI4iRaWE8ejJTMqCUWqH+3hJ3/VHj2y+oiiaEJblx3wZz4rLQZBJr
-         NhCg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZSC0w1neootLkbih9TUxoXkKPCkBI7t1n5ZaTzyKsnU=;
-        fh=FqjmZMgS6zMGHQanGlF/XFPjlF0aQBINuufMTQhAkyU=;
-        b=HZbLjn15GHUlF4Kp1Oe8P/j7kn6KuSuF0kMNhN7F2ye3yW9HkFsQJc+mRqOvMhLU/d
-         WqsaM+T6Dp0JE8AcpdJeeu2cLmkrmmWN6G6yFBIlH5+OwTU8+FM3O26wXEMNaW86v1Ai
-         q70kjRy/LLYzV7+08+OwAvIgKO7nmQoTNJ5vTY2k3Z5k95ihyiPce92SnhHet0XmNkD1
-         BBLAsqslkgQQJINx93PZMramZSIsmFu9HYGoDSIAoHaYXV7LPV6uBwMaSOKoZ2bZtt4f
-         O6I9EEz8crFqf9lWr5fce3DEhDz0HQKLr+Z9/O45jprxUeyS9R5t6GVX6zlIOUmJVVLx
-         0ZwA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791139161; x=1791743961; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ZSC0w1neootLkbih9TUxoXkKPCkBI7t1n5ZaTzyKsnU=;
-        b=l0iHyxjbrFA0mj0qSWG3UEuOwCfeu39THooR7JdjvlpS5iPbcpbOGXWgFlwrHqiq17
-         g6OREDzEJg1B4R9e3NlLt/FQGfnUhJDJq9ugUkIwHD8Ouc6I0KCAE+AjFJ5im2Q3teHM
-         xpabytF01LqRy3edoNlhxz/KOOwY/glawDCIRDkU1ItyqnPxe60feD3VqcauD0MIeU4s
-         Cvv/OfjgN/b+SrE6g8xki0vgbqOIO/2Zkxe+N05IzJfOVKCkkH4F7eFCLA6UNgq7uegJ
-         Iz6k97ECHJF0Ws6uFXO0NrKMD645vu6jOd91RLmcYxQ0T3ig64z73JKnKEdXvgZ6oM2B
-         rqAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791139161; x=1791743961;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ZSC0w1neootLkbih9TUxoXkKPCkBI7t1n5ZaTzyKsnU=;
-        b=Wv1rEpm5g450dCApS/ycz+9HwJkX3nuMLdiPSiP7mBAqnq4GDC4LvJyNu0LZz6Ku4O
-         UmdcO1Ef3TPLY1knkmCUdp6N9lvvBeXyt7aNrUAruM3BWsJng7IqMTEQxJLHHh1nfdba
-         nwQTa69HTMcuga2+OtmWipLOmJ3/psWEQGWcxiBIIgdgcWByfPqBZsejiijLJlhEeKSi
-         c13npcKKD7xZrUW7JwfNDoEb97igtRtK/MARCY6pGtmMNaaGntJ+IPN639qdnetmJ+eR
-         zXKqqCjN69kla8SuGvFrhSvI89pEnkK7wen11Wclo2leHcwUbF6tQtfivtaHgxWQBr14
-         C9Iw==
-X-Forwarded-Encrypted: i=1; AKwUvByW6R6YWwJGHJ0gxVGkJkvqlNlp53SozLEM3QCI7M9+p6raYk0lwRjQcXQzpXiBYwLvjQpHDb1tvWE=@vger.kernel.org
-X-Gm-Message-State: AFuF++mmFM5XFnOaT2B07fbcSz7vNW8LgT/Q8EV3L5fayqIa4ZBX4Tru
-	qlqofxh8YeP0NrwskB5YYjZXpsdBXATNUQVIJ8bkrA8BAEi/VU2aTV4LyMojBIL15Us/6Eb5vLT
-	Ajp7J/Tn91/s89AM1/jzGQD/wR+rz7hHcylEwgin2
-X-Gm-Gg: AYBFou0oB6qOdAm+LnXsgPniPIyMKsQ1dcLRX9MNn6voEabtfqdj11YGboM6UkSP7dP
-	muBmypj2gMDY53q8qcHZ9vf6sZHTb90+tsENP9Luu9mf5BUzOShfwBwggbPPCdsI0FkYiwEN72k
-	DqLAvJRkRBD047pJGcKTOfcHrTBOm9z9GdDm7LF9OVZd0P5mqGdM5pOxNnvZdAEAdDWv4cyujdE
-	Ixlz+slUDk21ZjXK8UFdiFMw3CwSEwhrM4+UEn0NgFFQz/nQweI2redetXSbiLcMfXxfFqoQju5
-	+k03iObuJhBGMHe2BjigRFa0HMivoi81tbNdidZy9/Zexa7cWz+QJ0RE
-X-Received: by 2002:a05:622a:a16:b0:531:282:6560 with SMTP id
- d75a77b69052e-5351322e1b3mr19806961cf.15.1791139160071; Sun, 04 Oct 2026
- 11:39:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ep8BLexM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791144756; x=1822680756;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=6i3i7WsSNX6ARj4QoJw0wpV9iavfas580CAV2v7AKKY=;
+  b=Ep8BLexMG0MLTFZAikPnrJYuErrJXXAKB0M85z7kyLGGz5wdoor2njc7
+   QxCCxRb/qTVMImuIpZ5YYBvLmmww2AmMTQrsShZUuEBNtbuveZXAUFwnY
+   XT5+w4lD9Smys48ZeLYY/pjYtJO1H0cJnF/B16XjVmR1hpqGdOb6IwEbe
+   4D+vV1LOPyXXl6VQf20K0aQHg3bGy0z3mc5FCofdS4X6oJe0Wh2AiUyCj
+   sMgrjy2ud0lObiTb8F7E3KTi1CZXNp6gkI9BIdP21VDqoBN4H/IeLOCaO
+   /8QAK8ODl7SYDEa2vXWjerVKVLyPyia1Wv773dMx3alAf9HB+ezCOMadI
+   g==;
+X-CSE-ConnectionGUID: G2PN/LHmSJChbc2i2PCjMw==
+X-CSE-MsgGUID: oPgHj6edSz25pqKmZfCXjA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11925"; a="94697104"
+X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
+   d="scan'208";a="94697104"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2026 13:12:36 -0700
+X-CSE-ConnectionGUID: DRFD465VTQu+1j2b7Swpcg==
+X-CSE-MsgGUID: 5q0Xphp/S2ionY8l3AbMXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,141,1787036400"; 
+   d="scan'208";a="304614437"
+Received: from lkp-server01.sh.intel.com (HELO 462990a40a85) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 04 Oct 2026 13:12:31 -0700
+Received: from kbuild by 462990a40a85 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xDSZQ-00000000V2X-2RJA;
+	Sun, 04 Oct 2026 20:12:28 +0000
+Date: Mon, 5 Oct 2026 04:12:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Birger Koblitz <mail@birger-koblitz.de>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Huacai Chen <chenhuacai@kernel.org>,
+	WANG Xuerui <kernel@xen0n.name>, Eric Dumazet <edumazet@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, loongarch@lists.linux.dev,
+	Jianhui Xu <neuromoments@gmail.com>,
+	Birger Koblitz <mail@birger-koblitz.de>
+Subject: Re: [PATCH net-next v16 04/13] ax88179_178a: Add HW support for
+ AX179A-based chips
+Message-ID: <202610050430.ZlYvvYse-lkp@intel.com>
+References: <20261004-ax88179a-v16-4-2a9ae4e68f7b@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
- <20261003-b4-mmap-prepare-vma-flag-sanify-v4-21-a1f052500fd7@kernel.org>
-In-Reply-To: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-21-a1f052500fd7@kernel.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Sun, 4 Oct 2026 20:39:04 +0200
-X-Gm-Features: AclHuK-BFFMO7RL_23L1uoIyefqTPzoxo4liaojYggefG4PLZrnFo0OrrSwhSqQ
-Message-ID: <CAJuCfpGtyaqwi__OXcB=iy2+LUVzFnLo-Q=Rdxz728_EHdTaWA@mail.gmail.com>
-Subject: Re: [PATCH v4 21/38] uprobes: remove VM_IO, set VM_MIXEDMAP for
- mapped kernel pages
-To: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, "Liam R. Howlett" <liam@infradead.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
-	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
-	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
-	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, 
-	Takashi Iwai <tiwai@suse.com>, Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
-	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
-	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
-	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, 
-	"Martin K. Petersen" <mkp@kernel.org>, Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, 
-	Sebastian Reichel <sre@kernel.org>, John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, Namhyung Kim <namhyung@kernel.org>, 
-	Mark Rutland <mark.rutland@arm.com>, Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
-	Juri Lelli <juri.lelli@redhat.com>, Vincent Guittot <vincent.guittot@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
-	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, Muchun Song <muchun.song@linux.dev>, 
-	Oscar Salvador <osalvador@suse.de>, "Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Madhavan Srinivasan <maddy@linux.ibm.com>, 
-	Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
-	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
-	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
-	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
-	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, 
-	Byungchul Park <byungchul@sk.com>, Gregory Price <gourry@gourry.net>, 
-	Ying Huang <ying.huang@linux.alibaba.com>, Alistair Popple <apopple@nvidia.com>, 
-	Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, 
-	Baoquan He <baoquan.he@linux.dev>, Youngjun Park <youngjun.park@lge.com>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Qi Zheng <qi.zheng@linux.dev>, 
-	Shakeel Butt <shakeel.butt@linux.dev>, Axel Rasmussen <axelrasmussen@google.com>, 
-	Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
-	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, 
-	selinux@vger.kernel.org, linux-sound@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, 
-	fuse-devel@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261004-ax88179a-v16-4-2a9ae4e68f7b@birger-koblitz.de>
 
-On Sat, Oct 3, 2026 at 6:40=E2=80=AFPM Lorenzo Stoakes (ARM) <ljs@kernel.or=
-g> wrote:
->
-> These are not MMIO pages so VMA_IO_BIT is an inappropriate flag to set.
->
-> Instead, set them VMA_MIXEDMAP_BIT as they are kernel mappings and this i=
-s
-> the appropriate flag to set for those.
->
-> This provides the semantics required - no VMA merging is permitted, but
-> does not prevent GUP.
->
-> However this has no meaningful impact as these are refcounted and thus ca=
-n
-> be GUPed.
->
-> A previous commit already prevented __mm_populate() from being invoked on
-> XOL areas, which VMA_IO_BIT was previously relied upon to do, so that is =
-no
-> longer required.
->
-> Both VMAs set a VMA name, so always_dump_vma() returns true before
-> vma_dump_size() reaches its VMA_IO_BIT check, and thus there is no change
-> in core dump behaviour.
->
-> Change this for both the core xol_add_vma() function and the x86-specific
-> get_uprobe_trampoline() function.
->
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+Hi Birger,
 
-Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 071876fd50482a68603a9460d80dd6dd58827ee1]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Birger-Koblitz/phylink-Add-phylink_mac_interrupt/20261004-073905
+base:   071876fd50482a68603a9460d80dd6dd58827ee1
+patch link:    https://lore.kernel.org/r/20261004-ax88179a-v16-4-2a9ae4e68f7b%40birger-koblitz.de
+patch subject: [PATCH net-next v16 04/13] ax88179_178a: Add HW support for AX179A-based chips
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20261005/202610050430.ZlYvvYse-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 5f609f950d2e80addf5566623013db68394334db)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261005/202610050430.ZlYvvYse-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610050430.ZlYvvYse-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/net/usb/ax88179a_devices.c:694:2: error: incompatible integer to pointer conversion passing 'u64' (aka 'unsigned long long') to parameter of type '__u64 *' (aka 'unsigned long long *'); take the address with & [-Wint-conversion]
+     694 |         le64_to_cpus(rx_hdr);
+         |         ^~~~~~~~~~~~~~~~~~~~
+   include/linux/byteorder/generic.h:111:22: note: expanded from macro 'le64_to_cpus'
+     111 | #define le64_to_cpus __le64_to_cpus
+         |                      ^
+   include/uapi/linux/byteorder/big_endian.h:94:37: note: expanded from macro '__le64_to_cpus'
+      94 | #define __le64_to_cpus(x) __swab64s((x))
+         |                                     ^~~
+   include/uapi/linux/swab.h:265:46: note: passing argument to parameter 'p' here
+     265 | static __always_inline void __swab64s(__u64 *p)
+         |                                              ^
+   1 error generated.
 
 
-> ---
->  arch/x86/kernel/uprobes.c | 2 +-
->  kernel/events/uprobes.c   | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/arch/x86/kernel/uprobes.c b/arch/x86/kernel/uprobes.c
-> index 65a2de82ecd2..0f60c0d076b6 100644
-> --- a/arch/x86/kernel/uprobes.c
-> +++ b/arch/x86/kernel/uprobes.c
-> @@ -715,7 +715,7 @@ static struct vm_area_struct *get_uprobe_trampoline(s=
-truct mm_struct *mm, unsign
->
->         *new_mapping =3D true;
->         return _install_special_mapping(mm, vaddr, PAGE_SIZE,
-> -                               VM_READ|VM_EXEC|VM_MAYEXEC|VM_MAYREAD|VM_=
-IO,
-> +                               VM_READ|VM_EXEC|VM_MAYEXEC|VM_MAYREAD|VM_=
-MIXEDMAP,
->                                 &tramp_mapping);
->  }
->
-> diff --git a/kernel/events/uprobes.c b/kernel/events/uprobes.c
-> index 7709ea882477..b89cc5cee002 100644
-> --- a/kernel/events/uprobes.c
-> +++ b/kernel/events/uprobes.c
-> @@ -1726,8 +1726,8 @@ static int xol_add_vma(struct mm_struct *mm, struct=
- xol_area *area)
->         }
->
->         vma =3D _install_special_mapping(mm, area->vaddr, PAGE_SIZE,
-> -                               VM_EXEC|VM_MAYEXEC|VM_DONTCOPY|VM_IO|
-> -                               VM_SEALED_SYSMAP,
-> +                               VM_EXEC|VM_MAYEXEC|VM_DONTCOPY|
-> +                               VM_MIXEDMAP|VM_SEALED_SYSMAP,
->                                 &xol_mapping);
->         if (IS_ERR(vma)) {
->                 ret =3D PTR_ERR(vma);
->
-> --
-> 2.55.0
->
+vim +694 drivers/net/usb/ax88179a_devices.c
+
+   655	
+   656	static int ax88179a_rx_fixup(struct usbnet *dev, struct sk_buff *skb)
+   657	{
+   658		struct ax88179_data *ax179_data = dev->driver_priv;
+   659		struct sk_buff *ax_skb;
+   660		u32 hdr_off, pkt_end;
+   661		u64 *pkt_desc_ptr;
+   662		u16 vlan_tag;
+   663		u16 pkt_cnt;
+   664		u64 rx_hdr;
+   665	
+   666		/* SKB contents for AX179A-based chips:
+   667		 *   <packet 1>
+   668		 *   ...
+   669		 *   <packet N>
+   670		 *   <per-packet metadata entry 1>
+   671		 *   ...
+   672		 *   <per-packet metadata entry N>
+   673		 *   <rx_hdr>
+   674		 *
+   675		 * where:
+   676		 *   <packet N> contains pkt_len data bytes and padding:
+   677		 *		2 bytes of IP alignment (optional, depends on AX_RX_CTL_IPE flag)
+   678		 *		packet data received
+   679		 *		optional padding to 8-bytes boundary
+   680		 *   <per-packet metadata entry N> contains 8 bytes:
+   681		 *		pkt_len and fields AX_RXHDR_*
+   682		 *   <rx-hdr>	contains 8 bytes:
+   683		 *		pkt_cnt and hdr_off (offset of <per-packet metadata entry 1>)
+   684		 *
+   685		 * pkt_cnt is number of entries in the per-packet metadata array.
+   686		 */
+   687	
+   688		if (!skb || skb->len < sizeof(rx_hdr))
+   689			goto err;
+   690	
+   691		/* RX Descriptor Header */
+   692		skb_trim(skb, skb->len - sizeof(rx_hdr));
+   693		rx_hdr = *(u64 *)skb_tail_pointer(skb);
+ > 694		le64_to_cpus(rx_hdr);
+   695	
+   696		/* Check these packets */
+   697		hdr_off = FIELD_GET(AX179A_RX_DH_DESC_OFFSET, rx_hdr);
+   698		pkt_cnt = rx_hdr & AX179A_RX_DH_PKT_CNT_MASK;
+   699	
+   700		/* Consistency check header position */
+   701		if (hdr_off != skb->len - (pkt_cnt * sizeof(rx_hdr)))
+   702			goto err;
+   703	
+   704		/* Make sure that the bounds of the metadata array are inside the SKB
+   705		 * (and in front of the counter at the end).
+   706		 */
+   707		if (pkt_cnt * 8 + hdr_off > skb->len)
+   708			goto err;
+   709	
+   710		/* Packets must not overlap the metadata array */
+   711		skb_trim(skb, hdr_off);
+   712	
+   713		if (!pkt_cnt)
+   714			goto err;
+   715	
+   716		/* Get the first RX packet descriptor */
+   717		pkt_desc_ptr = (u64 *)(skb->data + hdr_off);
+   718	
+   719		pkt_end = 0;
+   720		while (pkt_cnt--) {
+   721			u64 pkt_desc = le64_to_cpu(*pkt_desc_ptr);
+   722			u32 pkt_len_plus_padd;
+   723			u32 pkt_len;
+   724	
+   725			pkt_len = FIELD_GET(AX179A_RX_PD_LEN, pkt_desc);
+   726			pkt_len -= (ax179_data->ip_align ? 2 : 0);
+   727			pkt_len_plus_padd = ((pkt_len + 7 + (ax179_data->ip_align ? 2 : 0)) & 0x7FFF8);
+   728	
+   729			pkt_end += pkt_len_plus_padd;
+   730			if (pkt_end > hdr_off || (pkt_cnt == 0 && pkt_end != hdr_off))
+   731				goto err;
+   732	
+   733			if (pkt_desc & AX179A_RX_PD_DROP || !(pkt_desc & AX179A_RX_PD_RX_OK) ||
+   734			    pkt_len > (dev->hard_mtu + AX179A_RX_HW_PAD) || pkt_len < 2 + ETH_HLEN) {
+   735				skb_pull(skb, pkt_len_plus_padd);
+   736	
+   737				/* Next RX Packet Descriptor */
+   738				pkt_desc_ptr++;
+   739				continue;
+   740			}
+   741	
+   742			ax_skb = netdev_alloc_skb_ip_align(dev->net, pkt_len);
+   743			if (!ax_skb)
+   744				goto err;
+   745	
+   746			skb_put(ax_skb, pkt_len);
+   747			memcpy(ax_skb->data, skb->data + (ax179_data->ip_align ? AX179A_RX_HW_PAD : 0),
+   748			       pkt_len);
+   749	
+   750			if (ax179_data->rx_checksum)
+   751				ax88179a_rx_checksum(ax_skb, pkt_desc);
+   752	
+   753			if (pkt_desc & AX179A_RX_PD_VLAN) {
+   754				vlan_tag = pkt_desc >> AX179A_RX_PD_VLAN_SHIFT;
+   755				__vlan_hwaccel_put_tag(ax_skb, htons(ETH_P_8021Q), vlan_tag);
+   756			}
+   757	
+   758			usbnet_skb_return(dev, ax_skb);
+   759			skb_pull(skb, pkt_len_plus_padd);
+   760	
+   761			/* Next RX Packet Header */
+   762			pkt_desc_ptr++;
+   763		}
+   764	
+   765		return 1;
+   766	
+   767	err:
+   768		return 0;
+   769	}
+   770	
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
