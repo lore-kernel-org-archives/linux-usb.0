@@ -1,125 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A2E3A1B5;
-	Sun,  4 Oct 2026 06:09:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 084D9233149
+	for <linux-usb@vger.kernel.org>; Sun,  4 Oct 2026 09:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791094164; cv=none; b=iIBrZ1+eABnHt+FTv1E2be0bf1w7NdkBYkfHdd/aDT81uRZiPT/9lCpEx79gpwPukm8MaDv4iKeNfqzG1GHMUJuJDGnFfz6t7T+fGGrAO5DrVE/qasj8+XzRtLU+bWLqvAONGqhjfd1nSSNRucKt0lrMyxvZtPw8ng1+GX/Bui0=
+	t=1791106296; cv=none; b=rbYI8uqWYy2mkpKS2lwkNaiusM+xocaWMvvY6Ai3zFT3SinZL19XVLVufZMH0eBIqTFBLR9wJ+gwwk0eMl2J1WUviC0c3Q8vDJOil9DMZ5KqeQh+OB507rtZuUcV0A++JSKDldby3LrpvniWPR05TdxBzr8mzoEn9AUd2bxbN+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791094164; c=relaxed/simple;
-	bh=O6a5GD560vAX33Ar+emmCzvLoVAprIoEHkr06ZJgLlg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cjbp1OPYWx35TjCR4jlFTH3E2Xnr6ewTC6EqlQoNuKHnsP5KJRRFG7piDT7vfYJSUIrX8HaxWXzivtDVfGAWEQQ21pokhdN3TueBRnYjA5SuUylkI0BeYLtUT2ogvf/HV7UjMA1t3UuhODl1BSYj/nQ2iMVCNCPvabCJoYNrHCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JFNRDWk7; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791106296; c=relaxed/simple;
+	bh=b4ATKoJIx0zDFM+Q2MfhNTQ29nzp8qB2UeEM5HCTfP0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=TCtmckCWL5tHPgxoGHBtpsvN5BHpHj5LDOQa9fnSYY/l2EyMYUj8ZKvoP3Ugtclg5/8sQPTnwaVjKDlNxLZjTFTC9WUVacfUbvMW4TZie1qsWgvb/JzxTo8pnLUHIJAlza18m4D99Hk9K3+e5Lo5VJ0y4j1s8XN4keZHrWkA+nM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UUuYRfBN; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JFNRDWk7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64EA31F000FF;
-	Sun,  4 Oct 2026 06:09:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791094162;
-	bh=EVbh1l7mNCsDih/vczI2UHe85J45dzFKTW/M+SXfY6Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JFNRDWk7ypo/9FZnK+elI1DWPVSqaDp42sZt9lLyE3G8lpQgmoIVuP/z2s8L7/lwR
-	 DmgHezusB3m5SZuSkWJWNVqIbsWumbq9s10C0GiwV351UFoKnhNJpOnr1glWSBbcOR
-	 j820s/QftF5OLlK+OylzNRCfZOAla5NhMIVqEYUA=
-Date: Sun, 4 Oct 2026 08:09:20 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Golden Stickwood <Stickwood_Jr@hotmail.com>
-Cc: "mika.westerberg@linux.intel.com" <mika.westerberg@linux.intel.com>,
-	Bjorn Helgaas <bhelgaas@google.com>, Sanath S <sanath.s@amd.com>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH] thunderbolt: Preserve pre-boot PCIe tunnels for active
- storage devices
-Message-ID: <2026100403-twice-paparazzi-7a07@gregkh>
-References: <BN8PR19MB275472A84381924206F01AE0FD882@BN8PR19MB2754.namprd19.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UUuYRfBN"
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc502d509c0so197214a12.2
+        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 02:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791106294; x=1791711094; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=V/KrJhVqT2lKVywgTy6x2VTximTEnfp3La/wIY4/WjE=;
+        b=UUuYRfBN0gzIEAZJayiWhdApmPzGtB+g6TMQmhdoHFTkgzgFOBkIOOQnQWDQuZJpFW
+         w2voewsFt0kW8lH+hVTRqbkjj+E0LxwvXFxOBkXY8PQ9duhIj/HbXSTkCW8G2lXqLfBN
+         fbLBUqaIU7M8ElgR70L84u/hnr5cOIHB/KXGrAaH7+gWY8EZl+4zdlPCcGZf+ULHztHu
+         mMUc2vHwIXgNf7nV3Dp8sPuH4NGDb8oIa5jOel0o28Hnej8J5Gy5c9uA1EetrerWys+v
+         nGjlFiLUNybRltilOBkvZZ2jo3+FjG7fOttp2X8Dk1R7FFT+ndrgOob7HCVX64NxYmxU
+         lOig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791106294; x=1791711094;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=V/KrJhVqT2lKVywgTy6x2VTximTEnfp3La/wIY4/WjE=;
+        b=kqTg3jkoKi6+bwLu3+mrsS7s6w+8Oa8/jLYOKkwg04bn0gOqCeN3x++PRPi0DZFwiA
+         ZWkOhdzqhoaPvh3dy6vv93Ejb08ZEUAgZX/+Suuqnz8mCKEOJrE40E8A351en2yl/iI6
+         hwzbIxjSpse0YItD66B8WPF8kSWrowbRwFRSTM8yuGmODpIaMN60bRlugvu1sz6Sc6KM
+         wM9bGr+XwVLHGJem/dJ1yvuTLHL8EyW7zQFsFoTBtydE71QVJMpTmE0g5SBZNYP+YY/k
+         n98Zc9JTx9HjIADPN2cmstr7KnnKV82oPO8A68V3OqDNao9Y2KFB/GnRk+6e+KxJPobb
+         CblA==
+X-Forwarded-Encrypted: i=1; AKwUvBwRoDYl0Lm6OQkGNd3HlRUl6dKt5qhRHunRNw4XcYPYGoeBT9HekhHiL2a201Tjh+HZ6TcCYvBAibc=@vger.kernel.org
+X-Gm-Message-State: AFuF++n8rWVFnNLJHdFacDnqXd58Dsvc+0y/K68PFakLjUM7Igt2Jq5Z
+	Rwl2t+Wbd0xK9uOx+GZCsbcNVZjFYZlaEG+clKsYFWBgPbPMN5yyAn2D
+X-Gm-Gg: AYBFou0eTsdbitQF/jZwBy8c33//b4iDG4Uh7cSywAnO3eD5RJ5SrGJKZyo+ioPNp//
+	i3NMkOzOjDrwc8OLWqJumUtm8Q8ihAmlZBCVgdat4pWMpni8+kO5z+3IySFCuPUY7yLNqc8Fo5O
+	B51SzNINZVRP3lcrc3dttXoNR+2JiYvg8jaMX3kLkdYRa6yk6xJwK+U5UhdI6ZrLifn9UcjMe6x
+	yNwFhJPdmPgz4E/gAvpqZSWn2GV9PBL84vyNczq2YtPc2ZzbD61H3EL/1Rz+l+EyoQUOJVgzl7g
+	8TGn8odGzLb7xRUBIl+Tr6Ltejj+eCQ6GyRwTggjygSdkV1nZnMN4jluTEGEAVLrIaQCg06hgqg
+	M+xFYCX6b7NMlo92FcqJPjyn0oO2FMw56UyimsNg1LqbDbQoikl3uJOiMYouW1tn9El73xeN1IL
+	SQ+Imp0RfpPiRFGpw9E61Vw1c+M2u0EDFRhF1qqoknwkls6aqhMNkD7HCT5320ijMTV4umKNkjE
+	45Yq1PbC8b7yo71Rzxt4bOc
+X-Received: by 2002:a05:6a20:9c15:b0:3dd:a009:3186 with SMTP id adf61e73a8af0-3e0d6cddee7mr3901067637.46.1791106294105;
+        Sun, 04 Oct 2026 02:31:34 -0700 (PDT)
+Received: from DESKTOP-NM9EKIA ([125.134.240.130])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc9f737a231sm2758121a12.18.2026.10.04.02.31.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2026 02:31:32 -0700 (PDT)
+From: Joonhoe Kim <26rote@gmail.com>
+To: Fabricio Akio <fabricioakio@gmail.com>
+Cc: Joonhoe Kim <26rote@gmail.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH] usb: dwc3: qcom: Check for L2 only when suspending a host with wakeup
+Date: Sun,  4 Oct 2026 18:31:32 +0900
+Message-ID: <20261004093132.74059-1-26rote@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.5
+In-Reply-To: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
+References: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BN8PR19MB275472A84381924206F01AE0FD882@BN8PR19MB2754.namprd19.prod.outlook.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 03, 2026 at 06:45:14PM +0000, Golden Stickwood wrote:
-> In Linux 6.8+, commits 0fc70886569c ("thunderbolt: Reset USB4 v2 host
-> router") and 59a54c5f3dbd ("thunderbolt: Reset topology created by the boot
-> firmware") enabled default host router resetting (host_reset = true).
-> 
-> On systems where the UEFI firmware created a PCIe tunnel to an external
-> storage device (such as an NVMe drive hosting the root filesystem),
-> issuing nhi_reset() in nhi_probe() on USB4 v2 or calling tb_switch_reset()
-> in tb_start() on USB4 v1 abruptly tears down the physical PCIe tunnel while
-> the kernel or initramfs is booting. This leaves downstream NVMe devices
-> inaccessible (-ENODEV), triggers pciehp removal races, and results in a
-> kernel panic or dracut boot timeout.
-> 
-> The Thunderbolt driver already contains infrastructure to handle boot
-> devices: tb_discover_tunnels() traverses existing PCIe tunnels, marks
-> the upstream switches as sw->boot = true, and tb_scan_finalize_switch()
-> authorizes them. However, unconditional host_reset and discover = false
-> short-circuits this entire mechanism.
-> 
-> Fix this regression cleanly by:
-> 1. Adding nhi_has_active_storage() in drivers/thunderbolt/nhi.c to walk
->    sibling PCIe bridges using pci_walk_bus() and specifically verify the
->    presence of PCI_BASE_CLASS_STORAGE devices (e.g. NVMe SSDs) before
->    issuing REG_RESET_HRR.
-> 2. In tb_start(), checking if the host router has an active PCIe downstream
->    adapter enabled by firmware before resetting. If active PCIe boot tunnels
->    or downstream storage devices are present, keep discover = true, skip
->    destructive resets, and allow tb_discover_tunnels() to adopt and
->    authorize the boot device.
-> 
-> Hardware Verification & Telemetry:
-> - Platform A: Intel Core Ultra 9 275HX (Arrow Lake-HX) with Meteor Lake-P
->   Thunderbolt 4 NHI [8086:7ec2] + ASMedia ASM2464PD (PCIe Gen 4 x4) +
->   WD_BLACK SN7100 2TB NVMe SSD. Confirmed zero AER errors, zero IOMMU
->   page faults, and Host Memory Buffer (HMB) 64 MiB cleanly established.
-> - Platform B: AMD Hawk Point USB4 Host Router [1022:1502] (ASUS Zenbook 14
->   UM3406HA, Launchpad LP #2159575). Boot succeeds cleanly without link drop.
-> - Platform C: Intel Core Ultra (Dell Latitude 5550, Launchpad LP #2078573).
-> 
-> Fixes: 0fc70886569c ("thunderbolt: Reset USB4 v2 host router")
-> Fixes: 59a54c5f3dbd ("thunderbolt: Reset topology created by the boot firmware")
-> Link: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/2167764
-> Cc: stable@vger.kernel.org # 6.8+
-> Signed-off-by: StickwoodJr <stickwood_jr@hotmail.com>
-> ---
->  drivers/thunderbolt/nhi.c | 54 ++++++++++++++++++++++++++++++++++++++-
->  drivers/thunderbolt/tb.c  | 24 ++++++++++++++++++++--
->  2 files changed, 75 insertions(+), 3 deletions(-)
-> 
+On Mon, Sep 28, 2026 at 03:16:28PM -0300, Fabricio Akio wrote:
+> Host mode is untested, since this board runs the controller in
+> peripheral mode.
 
-Hi,
+I tried the host side on a Lenovo Legion Tab Y700 Gen 5 (SM8850,
+dwc3-qcom), v7.3-rc4 plus board patches, s2idle with an RTC wakeup:
 
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
+ - host with wakeup disabled (USB 2.0 hub, USB 3 flash drive behind
+   it): "HS-PHY not in L2" on every suspend before, none with the
+   patch; the devices are still there after resume
+ - host with wakeup enabled: no message, the port does reach L2
+ - peripheral (connected to a PC): no message
 
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
-
-thanks,
-
-greg k-h's patch email bot
+Tested-by: Joonhoe Kim <26rote@gmail.com>
