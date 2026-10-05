@@ -1,107 +1,98 @@
-Received: from mail-wr2-f33.google.com (mail-wr2-f33.google.com [74.125.225.97])
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389484AD4C8
-	for <linux-usb@vger.kernel.org>; Mon,  5 Oct 2026 20:21:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.225.97
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D07E0394EBA
+	for <linux-usb@vger.kernel.org>; Mon,  5 Oct 2026 20:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791231694; cv=none; b=F+h+IO0xE+8TeC09a7oyATyJWvFMpBUK9TsetX7TJSAi5UCcLLn6i1vlGHsv9vQ8CsLBlybayoaA2/lxPssCn+dCuVPpHeS30+S6Iw3chKUl9Mkjp0HHsXbEzPHR6qMqm+807By2/OytGAbH9PlqYjGQtepGi2Jh1B/kEwIRrjs=
+	t=1791232424; cv=none; b=D+T/iG6KXoR9rcPQMZ8ZTNPilCGHChXuXlE1VzOHTkb9DiK3NpDkMYSSAkfBr27NI9oamzqoVZcfaFmzvZnj0kNdUjHJIrfW5sFib5xygO9m5IKyfd63BdJmo5PAMMvhDixWI8gPbxEe8+MM075DS8wNgNRLbMzi1mZMvZmnupc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791231694; c=relaxed/simple;
-	bh=PUcIwL3sxWUwjUkEHic7gqrYUOt1jLTq7TaXf5gQV1g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ptShEAiPcqzvFel0oZ4AEqj03A/2OnNbRlEyWlp94DpICPHAQNee2H7FV/N5w2iDknkrSq3tNqI8qNBxFN3m3EDHohp/GqzUM8bdnS0fANQ1xlF6vXzR3XEOcJSZaj/a35spLWI63oFD1QiN6Yt6tvw3984VVjJ3GjxB+BwZZy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H1z4OWK3; arc=none smtp.client-ip=74.125.225.97
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H1z4OWK3"
-Received: by mail-wr2-f33.google.com with SMTP id ffacd0b85a97d-48c54d65743so1385467f8f.1
-        for <linux-usb@vger.kernel.org>; Mon, 05 Oct 2026 13:21:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791231690; x=1791836490; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/oCVDgOpACssiVJGI1HFqtgCbfd9PUTK46z2UhBdQ0c=;
-        b=H1z4OWK3EBJF0tGgoc80OzzvXkSXH7Wjh/+NIdl65GWZHT0B8QPkWl9GnUAW+JqT8U
-         LKMDKRUvXG2ytTjDV+m0DxwKYP9fyAneEc8i8atmhZchqTwD5C+jQyHomNkQGDz+MLK9
-         a10N/DHxK4f3c48jw7/tjHjZnZfskCqaK9tEX/Gqg9CJihl7POJiyGWcJh0dCX+a/Q2F
-         4KlGEouQf5XHN25mTX6zB67uvLwPZyZWeH+RErM5JMl5WkIM2rbSF+jzE4BO/KcZg2bk
-         22EtbO41HbWaLJKYW/BGQ8mhkX++hj9vW1yyLawIlrdvegBKIoZTBB4dMUjGtvvDFsrM
-         h7lw==
+	s=arc-20240116; t=1791232424; c=relaxed/simple;
+	bh=oa3kk4KTEaDRoze+xs/Mi1MlNz15pd6kjVnXAdFXQAQ=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Tsu4keFV+IAlI4GhDPanRQAroNMQUbqI5/SH5wqhK5XD+V6PxVM+vb6js8HDfsJFAYNiOOIfsXY+S15EFXxoG+7nZGiA36rAcCYJiuX5ZfScWDw8c8V3pYnvlPyN1WdPD6UNvoSBq1de4KSSmU88dMb03LEdJtoHnTRRyfE90T8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4a45b3f0bdfso3292452b6e.1
+        for <linux-usb@vger.kernel.org>; Mon, 05 Oct 2026 13:33:39 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791231690; x=1791836490;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1791232417; x=1791837217;
+        h=content-type:to:from:subject:message-id:date:mime-version
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=/oCVDgOpACssiVJGI1HFqtgCbfd9PUTK46z2UhBdQ0c=;
-        b=Ce76HUzFyLXptwC97O6eHTCgTKGpnjAtCcC1b/Xu8goqtB8M8Kf8QW24sSDXQTM28U
-         z0W9c36sucmwi6Am1yEP5PXIC1XLqyF5bIn2uOnRpOv/Y3GwYdZ9UbQSIyHgMU9dqt2w
-         LJo1C+/dzK+SN8LPa3ay6Z6EPUGqvNcUpOWywIdvKCj8uG7eglcloW0ygSrSyFun9F+5
-         Mo1RVoJOhiF2wrHiiSlF6ECDYNxNc9q/hEsSaQRhWCT04pc+c8SOLNmDz2U+yvdmJeQm
-         ApXwe1LLFSRrTYExOGiz5dKBVs+wfd2SlHLm6sJ1iGIRNh2FFBpCG43GZIdGofv8e6eQ
-         OVag==
-X-Forwarded-Encrypted: i=1; AKwUvBzOkZiHm9cvWwBVVvvMLroJ+u/dboksNlj3sm3HM0r0jsEBzRTFpzmQEABqgX8Pd+qSwP34oTrzrZY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK8ucdntFV2PEUzl0LPHU9OjnUVAQcepOTr/DjtRTZ43ZfthDTB
-	6iQFIdO9pEy0dK+F4tx6WkNu0J9g78h5DZgtlX9/SQ5n7dlJRw2jKe7bVVar5RAe
-X-Gm-Gg: AYBFou2OA8K+c9O9FI3esR2P+CtCnDrsNHQObogXZ3LCo4OIKAAZZalQsqgsolOS8Rh
-	G1Swga9VuI2x7uPMsDXooHZFxDMilU+lwZOWVUgkuLNZsxztzbUtOIpPFmHy84q3AF4MZ6KfOIy
-	iMDk66cAd9h8EdpU4Z8LZYlfF2vfnnV+8VDFxx6snskpGJO3X3Gaevh2i9LGrJT9yGh+jEl8dgk
-	IFvHlllAO46+MHT/z4W0JOw+Xe2lCbXBo/ZDNdE4l+cIQWhriC+GEhXNR6XBUboni44WIvuBnMr
-	qY1g4tSvUghqvLjg70i1skymyjflIOFpKikVkHc54GxKYpo8NTvT1eH1o+JLYQRvgtwhWRz2kXf
-	vKaip4t+vJADgYvMPA/stGrv8NDaSpSiU0Qy8VY+rlYL8O+mfDE4zMJ4fsIEjwRwjnpiXuIguia
-	k9YJzwKx+1DZjTeNcPbmre6ij0qo29z05N25CWSKlngYHeovTRUs/MQr9lrmLGqPfZPyA9NR8hL
-	FFEdLCJ/Gffpw7MxoURuAppuDFS4Y1+QTOJhLUXU9+QU28rJ45E56ZNvA9T7xvykKxVv2ibJgzC
-	az9pO2WYs/VE8nMIpdi1WhezBH3dHbf55opHCRDdzQRBiMXHTMdSNuwtXMMOczSNFGjIJHzO6AU
-	=
-X-Received: by 2002:a05:6000:186c:b0:48b:910:3598 with SMTP id ffacd0b85a97d-48b12712e23mr24557006f8f.22.1791231690251;
-        Mon, 05 Oct 2026 13:21:30 -0700 (PDT)
-Received: from unknown748F3CBA5068 (dynamic-2a02-3100-b305-2001-39fa-3d24-821a-4eae.310.pool.telefonica.de. [2a02:3100:b305:2001:39fa:3d24:821a:4eae])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c63550d1esm5541308f8f.18.2026.10.05.13.21.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2026 13:21:29 -0700 (PDT)
-Date: Mon, 5 Oct 2026 22:21:27 +0200
-From: Karl Mehltretter <kmehltretter@gmail.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, linux-usb@vger.kernel.org, linux-sh@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: r8a66597-hcd: fix buffer overflow on odd-length
- FIFO reads
-Message-ID: <asQGIQndPhFVaTNX@gmail.com>
-References: <20261002213225.27834-1-kmehltretter@gmail.com>
- <CAMuHMdWEYkBra+3G_+-TfT23BAWPxG5o2KHqGRuHcdp8x0Vskg@mail.gmail.com>
- <asMl-yIKQoAbpwzA@gmail.com>
- <CAMuHMdUqcwZ_YPRB3BZW+=iBHAreDVquWahFn01Z9yoF=yzj4Q@mail.gmail.com>
+        bh=UudK6LacjO/O8vH7bYAzLel4l6J+dKtxJHj0zP5o4vc=;
+        b=NW26LDLfm51zzp6gnfiSfvv8ju3t31HutjJesv/hTg3Frqh/9blEzCorBa5BBSCGsj
+         wqgGNrjL6672/J9nihu0K6PBncd+IE3PgwHXw3Lz8IkXWZX47UEMF1+jjGhTeD1sAe4T
+         dro25fYhjxeG7ZDl6rTsEum6SWsrc2K65rxNQSKUHC1jfNOOLhUx7j/iPHItlAoy/DDj
+         lMePrWVuyExj0MNi16D0mf65P6nsa/VPg9B5W711Lvd8I6cXKtVkCG93bHXYjk3FgoIk
+         sXccfcGMVVvuXalK0QYFKshLb3In/3azKF2gH+13wndDmGd29K/It2V/jhrTLnXf95Q7
+         jrjg==
+X-Forwarded-Encrypted: i=1; AKwUvBy028T4fW7FRN/+gGOgheiOQdF+Cwt1wgwahc2+v9pzGo4K3rWyqs1YdSFxBBaJLieXnMYRFRAdqqE=@vger.kernel.org
+X-Gm-Message-State: AFuF++k47ZC5jJ0TXYX7zW+Hd/LBqYvFLGffyD+krwYNadyeZK+Hri4M
+	eKeK6wqR23sNgAyGJICsDRTQwTZxi0WRNW3oUSKs1TkROmLPoeR3qiMo9EHTkQ//jVuVSA86wXO
+	+HLdcgl0/KxodpCahXLD3eZEKg3+cxvuJnb8KbjUBd2U3vBtId3tYFdCeu3w=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUqcwZ_YPRB3BZW+=iBHAreDVquWahFn01Z9yoF=yzj4Q@mail.gmail.com>
+X-Received: by 2002:a05:6808:10d0:b0:4b9:e65b:8c36 with SMTP id
+ 5614622812f47-4f67aa155f4mr9280693b6e.36.1791232417564; Mon, 05 Oct 2026
+ 13:33:37 -0700 (PDT)
+Date: Mon, 05 Oct 2026 13:33:37 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ac409a1.ae2c267a.265a6c.0008.GAE@google.com>
+Subject: [syzbot] Monthly usb report (Oct 2026)
+From: syzbot <syzbot+list6ad4d3ed88bfd4c0876a@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Oct 05, 2026 at 03:57:42PM +0100, Geert Uytterhoeven wrote:
-> > The words before the last one are read with ioread16_rep(), so reading
-> > the last word the same way puts its first FIFO byte first in memory on
-> > every architecture.
-> 
-> Hmm, the version in drivers/usb/gadget/udc/r8a66597-udc.h does use
-> a single ioread16() or ioread32().
-> 
+Hello usb maintainers/developers,
 
-That version takes the low byte of the ioread16() value, which is the
-first FIFO byte only when readw() swaps on big endian. On sh it does not
-swap without SWAP_IO_SPACE. The boards with an external R8A66597 are all
-little endian, so nobody hits that.
+This is a 31-day syzbot report for the usb subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/usb
 
-ata_sff_data_xfer() also uses ioread16_rep() with a count of 1 for its
-trailing byte, and i3c_readl_fifo() uses readsl() that way since
-d6ddd9beb1a5 ("i3c: fix big-endian FIFO transfers").
+During the period, 8 new issues were detected and 3 were fixed.
+In total, 115 issues are still open and 460 have already been fixed.
+There are also 45 low-priority issues.
 
-Thanks,
-Karl
+Some of the still happening issues:
+
+Ref  Crashes Repro Title
+<1>  7662    Yes   WARNING in usb_free_urb
+                   https://syzkaller.appspot.com/bug?extid=b466336413a1fba398a5
+<2>  3850    Yes   INFO: trying to register non-static key in __vb2_queue_cancel
+                   https://syzkaller.appspot.com/bug?extid=2302c5dc59995fbb8089
+<3>  2498    Yes   WARNING in usb_ep_enable
+                   https://syzkaller.appspot.com/bug?extid=7b70c4a6021fd49c4151
+<4>  1840    Yes   WARNING in enable_work
+                   https://syzkaller.appspot.com/bug?extid=7053fbd8757fecbbe492
+<5>  1815    Yes   WARNING in as102_dvb_dmx_start_feed
+                   https://syzkaller.appspot.com/bug?extid=3825a6102073c418fe41
+<6>  1061    Yes   INFO: task hung in hub_event (3)
+                   https://syzkaller.appspot.com/bug?extid=a7edecbf389d11a369d4
+<7>  771     Yes   WARNING: ODEBUG bug in corsair_remove
+                   https://syzkaller.appspot.com/bug?extid=0a031a76585d1c7e737d
+<8>  449     Yes   INFO: task hung in get_bMaxPacketSize0
+                   https://syzkaller.appspot.com/bug?extid=f7ac46d91cf13b4591a4
+<9>  380     No    KASAN: slab-use-after-free Read in __usb_hcd_giveback_urb (2)
+                   https://syzkaller.appspot.com/bug?extid=7f5e98b052c766f47f68
+<10> 307     Yes   WARNING in ttusb_dec_send_command
+                   https://syzkaller.appspot.com/bug?extid=ac9880be0b0b1a5f54d6
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
+
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
+
+You may send multiple commands in a single email message.
