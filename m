@@ -1,46 +1,45 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011022.outbound.protection.outlook.com [40.93.194.22])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010046.outbound.protection.outlook.com [52.101.85.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56CDC47CC61;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9626C48643C;
 	Mon,  5 Oct 2026 13:44:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.22
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791207868; cv=fail; b=D7/0cZtQNZyCIBQCPb/fRMW8+DEwcjDPath+/DXY2LRGMBhL8RI3I1iWPBisxi7YYoP4fYVAF9s2a/WBJoVRFHd2MVTBYGgrDJlbGVECIsqrlFRjJTF0niRR39CGSsbqrDconbm90voKJkrV21JDPiWdsYQb+wIyBz0Y4CSxmRQ=
+	t=1791207868; cv=fail; b=BavVaQFJ/m3rBhXrFeoPx465FVseZXG3bNbZpxsl9dUsPYQ5ICCxYHHirHYMW+krOs67DV2RU+4uCznExCeFNLBbZZSNM2WL4I+CsYiI49htWi35HLCPQzMC/wDp/KhPEHlziSrNxsr3SWC30fWWk3ujA7LI1TyTqVWKWe4JiJ0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791207868; c=relaxed/simple;
-	bh=BlREDCqR14QsKISFytfxc1fA3j8PhBZRzoIQXCWTIyg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NbEscU5q090IwRr7aDxmf5j5Lz/BJcC916RecKbczYitXRN0wNcWpeOJyop3Ykt5ByUNu4p4tpJyMA5xwXxr9P9ku1kzr5rIUiX6seE7Vba6MwSOfs7C1Vgx39ok7cuxGEhT+bc0f4H90D0aVbuZEFX8ujhWiQSFfUBBMdN4g+k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=H6lGrBDN; arc=fail smtp.client-ip=40.93.194.22
+	bh=Uj+1LJ/7Y+Bq/8Gmrt/8iA9fBuuKfQYOZI9npBzStcY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=N5c7EcX8JEoA/QONngMsCoiJ5yr7lAabSEUY6U0+mElYRTZZzS418HQXWtRhA9LuupCjvXNYdePQ1ane3XbXeSm1f9t3qh8DJzPshFx5UCneck0XQQpJFqzB5Ij7cIHiHsW3EpYTfnUOOSxawCXGgCt1IFNR9He3fW09ZtUcyVc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LrjMNIe2; arc=fail smtp.client-ip=52.101.85.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="H6lGrBDN"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LrjMNIe2"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RHWNRen6aubCZpszkHu2wLVlTBhOrs2eKsweYO+WN5LNgzCgRacdGShfPeMZVSac6CWMe2C58b0UGW3kBY9yErxu3N0pCiVQ5vPsK34n7qQrARL96bChT6h5inmsk5OEuIk+Iz+MffCF1CJ/nYl8LzCUuuwAD5KgcujtNUFemAg/1qNWfG5S6S5RU7pzksy9nqFiTg5u/ZVk2k/3+XuEVorlysZp2SexXHmY30fZtJKM8CEtsGX6BUZya1KlZ86sgMkizLvNb5UdUf//qgcYiiHfDXKfNwOdXp2YsWtj/iWgQnVQIV8/lYvWLudqzZ0cmazetZnoHctCGDfahDGQtw==
+ b=dAe0vcnO0VQg2iddT/zg/PPiMfLopWLl8Q6Vs3RciclfVLeXTa5BU+k+nkChqcyFG3c/YMoaP8CSVkCNTEWIX5fjqGgBxgf0NyxAbhDXxcQ8//GxzdWkcLkvjC91SEAMv7D380r/SCE+cmDdeM5f1J7wglzv07lz11o+a0cwZ80+RRJvDWkq7ws/XWtojTWw2DKSdjBYXAiXfVWa7QY/S+UBChWd7OIypr9QRzC18EKZdt0K3kDpZe/zpuuOhHImWZLbFysqLtE5uTDq9CR/+X9CpR+6Jt9m038auKvF6RCkcd8ABfdeU3rfYUHzrxnHThGPMxaq5jRbo7P1wbZ5jg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gzWcP1wbqNxtsxOX2WMFgN0s6Ln91H14TkeX+D8SkZM=;
- b=cxruvAD0lB6BwjC9UdM1j88lOjDvM96Vjk+YV01BlnnSngQo8hz//KdIALAZ/RQexARQ//ujFydAhILbYHCYz6O2Kes3FIT4qWayohLOir7L3OdRI/nHnt1tDgFAZ6JJs65W+rJOiI/VVeviinZ15BsNE9Ke79y6bOBEuH5aFAmPQGX+ebXyfGSDPP29aMSUKNXkRnQ6fmEmqSAjhEq6dhKQ17LDVv265TF4sBcx19Lm1YewsiJmIDF1tQgT5zsJk/8vsNr8HKmNUKCmHQF4KxDtcPJCyCllW8uYehqJtbLoQ2hDLz9Yugnp7igU8UCKMjbNqAvs/yIavyazUyzp1w==
+ bh=Vm80yVD/UFjB25axty0aZZuyU9eYSSzSgwMXnWmWAEI=;
+ b=DaYmefvK0yWaisqzgMLfDA+nrOSu4SOfK8sTDO2jx49eIVAds4YjysbERezXgma8mnt/byko9SlNOHLupRP56dVEl366LZhr0RnFBgnnEYctQr0BHLE2026HaEO9FBvrdDXKLgSxjfzQ2wQEoDKq2FGR/m7pj/YM6ApBioHxX98ZSg8dShASZwXA678BU2KYaXz6sKlw3rutV+70rCvAudstVDrvGLhHn1K8vmuWQseRv22Z4OAcKoYj9f1n5rUqmGTkWR/QX9Y1yPa1xV0+F2UxWnQ42/yiJFc90yxejxJ09CiafbNO2q3RZ+KAIYEInBnp9SCaELIN0VsRglBUWA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gzWcP1wbqNxtsxOX2WMFgN0s6Ln91H14TkeX+D8SkZM=;
- b=H6lGrBDNCA1nhajQTyUu/qW5B6j973Yckvw0NEcP/ZK7oL+1G3/od8o6RuWt59hU6NOjnhc5dwX80zVnOSQxGLIj65MQ+hH7+2yrml04i/aDgJAi5FqOo5R4rhXxlYVqqRWCXMJBoXKIOVIC0rhlDBVNZf7EDvOThwOTF83fOv4=
-Received: from DM6PR04CA0013.namprd04.prod.outlook.com (2603:10b6:5:334::18)
- by LV8PR12MB9207.namprd12.prod.outlook.com (2603:10b6:408:187::15) with
+ bh=Vm80yVD/UFjB25axty0aZZuyU9eYSSzSgwMXnWmWAEI=;
+ b=LrjMNIe2ODyQmWiO4s2JJCb6gR0CQyyxPfUAWCdOt/XFK2dD1a90iBrFJbwc7MiQZgDvhl726QlVM1hb/S2/R+dM6rZfCLbFFhN6HxE7TzKOHxiqC7pQJSdOwAMSXCUXK2laldf7BX28pQfMJbTOnAYIy0CnHavH9ItwuJBufiM=
+Received: from CH0PR04CA0055.namprd04.prod.outlook.com (2603:10b6:610:77::30)
+ by PH7PR12MB7116.namprd12.prod.outlook.com (2603:10b6:510:1ef::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
- 2026 13:44:21 +0000
-Received: from DM2PEPF00003FC9.namprd04.prod.outlook.com
- (2603:10b6:5:334:cafe::3) by DM6PR04CA0013.outlook.office365.com
- (2603:10b6:5:334::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Mon, 5 Oct
+ 2026 13:44:11 +0000
+Received: from DM2PEPF00003FC2.namprd04.prod.outlook.com
+ (2603:10b6:610:77:cafe::65) by CH0PR04CA0055.outlook.office365.com
+ (2603:10b6:610:77::30) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20 via Frontend Transport; Mon, 5
- Oct 2026 13:44:21 +0000
+ Oct 2026 13:44:11 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
  is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +47,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- DM2PEPF00003FC9.mail.protection.outlook.com (10.167.23.27) with Microsoft
+ DM2PEPF00003FC2.mail.protection.outlook.com (10.167.23.20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.472.14 via Frontend Transport; Mon, 5 Oct 2026 13:44:20 +0000
+ 15.21.496.14 via Frontend Transport; Mon, 5 Oct 2026 13:44:11 +0000
 Received: from airavat.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Mon, 5 Oct
- 2026 08:44:15 -0500
+ 2026 08:44:03 -0500
 From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
 To: Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg
 	<westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, "Jonathan
@@ -63,14 +62,11 @@ To: Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg
  Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
 CC: <linux-usb@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Mario
  Limonciello" <Mario.Limonciello@amd.com>, Sanath S <Sanath.S@amd.com>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Mika Westerberg
-	<mika.westerberg@linux.intel.com>
-Subject: [PATCH 3/3] thunderbolt: Add quirk to reset host interface for AMD USB4 routers
-Date: Mon, 5 Oct 2026 19:13:41 +0530
-Message-ID: <26ea33592937dcd93d06c901443a9b938cc24caf.1790854235.git.Basavaraj.Natikar@amd.com>
+	Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Subject: [PATCH 0/3] thunderbolt: Reset affected AMD host interfaces before DMA HopID reuse
+Date: Mon, 5 Oct 2026 19:13:38 +0530
+Message-ID: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
-References: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -83,104 +79,68 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM2PEPF00003FC9:EE_|LV8PR12MB9207:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f819bff-4604-4bfd-cd43-08df22e6c26a
+X-MS-TrafficTypeDiagnostic: DM2PEPF00003FC2:EE_|PH7PR12MB7116:EE_
+X-MS-Office365-Filtering-Correlation-Id: b7db4a6b-1e80-4697-1878-08df22e6bcbf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|82310400026|376014|7416014|23010399003|11063799006|56012099006|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|7416014|82310400026|1800799024|23010399003|376014|36860700016|10067099003|56012099006|18002099003|11063799006;
 X-Microsoft-Antispam-Message-Info:
-	svjUrFPIQ6RteWmiZe9wOstfGsOtT99ROA3AHYjObltILDHJvFzM2zowiOTvEbEtWIamCgL8S+Cpw9Sk4lYMgjwhzQHmhTRtdhDj8TREaM8pjvwniSxAdTo+qqSv8+FkbEp7Xlp8MQoCe1hK6DqeWAx+5lkptIZWC6ZHLW/Ym/96L0DvUg/kn2n2V1+3VyGOd8skInwoWoEnWdc5cXb35+NP/6sgLtCq1uloVUH6+GNTUOAzUle8m955n1AGkD5wThLVInr2KFYqXccO1FmiY5OP7+EH4qfe6JRO2voXrnDOUvzIYUTZ1iNhVGilimI2WBgRVhU1ZUm8Mzd6mAkMI7SssFtchGIvBclLmHKlXeTQ792DFjHJ2bTTdc3quZY2Fb7lkp6lNvkALak4BbyZPOYX7Qh4oZN4c+zi4W4c79chTzPrUZl0jOIUkUzma1e/urpqGl3qsLkwPGSD8rrHl3oCWJBSllVhnDOSWEpr7l+bwzArTR4zQOvsHNyBDWm5jxSbBMPueRkuyaojWAbVDi8GgeA0Hu2LZ5aENzt8Sbjf8GfJ8g6r3x6TLgMyb12RCrK3+Nz7R0Smh5NQLEYB9Pa4LjcxhtyJsVkx2qfQF637teSB/x3vSdsLOVhTLpv/7jwG3iz+Jj+7XzMDCf02texbuXkqrihB057XK922uCpSv2RQAumDl2X2epQJytfLjk0vGmXkO77c2k6EyPxtkQ==
+	zP281Td4U/3gCMy+PL7YE9X9Xqerc0/7KhwxQywTW0/fwbDINVOblv3iTw10dm2p7KfNvfOvRgdkB65mHi93VaMwgeR1bxksIfqGcEoDXr4n3zLj3F2dAnNbN09Vet1hOqcZr5qbzwK94FeEk/PllYjLu77siEef6xr77pvInp58moA3UrLtSHE8AnUaIo0DKB13F6XtZsQoxQWYr05+abJ7HBYqp1PjCDjRYttH9sC6sDAHDrHWEevupLpVIXNqP0sbyVygdY1h4WVLA6JYClqDa997mZ6DZvAlK+DH/3lGCQyCRpfoVKE5VRwuaptO1hIdATRU9cqyLuW+6KnQ37TLVB8boybdcf96lj78YF5yb+WqD2yZetCjyu5UfqivNFGiYkQEM4p2ZbG70r/Udn4Jf60EWwN7pufODv8ITW1SvaL/4fpyaBSmDS7qx+O8W9UszIF/4HW3sbKY6sDGxrHg98N/kiOgqBhQmU4LR87AVxK2NMGDJeW+1NxTnvubatZu21mIi76iuX4rKER9YLCtL5kBYEDOYC1qSOe4YK2jzMhnc9SASyt1jp2tV2J5R70Wa615KlH2wfURw5UFRMJx3oKNnw14pYHWW7h1eGCT/QQtKcJ7Hj9MM8ON887urQtMoWKKRPJTa6+vw+tnCFYnJoD9fOm1G1L9dT1s5beL0ut5oltKh1rhsztB5pFd+CYEArdOpDYenFprwrq1QQ==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(82310400026)(376014)(7416014)(23010399003)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(1800799024)(23010399003)(376014)(36860700016)(10067099003)(56012099006)(18002099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	vKAXtzckYDI3aQCc+dS0xjXkg9n52RrQiCf9ZsK8MWiuKO0bzxuk+vFL/rxcgaWyZuvZuzsgnauMzdIjv0u7clCBWriQSb4QdARgjR9lgURzwbVvFn4iTWtJNk/kSuAACubdibg8p+X9MRL0MJkc6O49xYc0u77x016M4oqhc0127jfrXrNStC2YhnmckJxXRanPtFR4QxoLkLikWAkPOzzWymSIrbUyEb4VbABI5CmR8I5Xio7ABEuPicXNpOPz8h2nl1d8WJlZmKDTkOAbXRdBwrdZetTP31ThGjNNWWt8T3RuXvvJEgnqIre8zVbkg+iFVPAL5tLSOZCduvvsOZjmHc28jynULmq1i1vFM7msTRIKw7N/Y5h3Q6UJgwJOZGo4HpG0J1dY7Uc6xbatbTFRuLBXEIlUMqSTASWfeu3eWr2iRCLWHATl9/erqlx/
+	ZWMYWc116+mbRMrCDfoGJjHxxPCe+XP8/8MchQEC1Kw+ZRWN71VriHUfZwFQ8ODD7r85hl7XIv58oZOKPiHs36fknY0K4q5aWGxeEqDcqchjiZlMj1Fks1ailsCnw30qZWA6EezQgJSjLosBmWLktc6BgdnoPfks7uvMsLhsmbfv2NC76DBDo6iRoUFrM37bLWhZrEgMeutL3wLaO1C5SiBZSxBzQ/nr84cEKPHnBb+jypYt7qkFggGr3t7xTYNtZ8px1CIYnrBVq5ti5/M3bgtZz55cs824RdqlaBJA9pbHStCD4B1RXaXt00D6QK40rQdpQWUpMK7wq3YIARu/VHAVY18uZKmNxDkzVLBF3lTIZeMl2l81inaUXiig6zd4U2ra0BQD3GctI0phb0R/Yag6bq+qNBpySNfbDUx9wrAkTNgpodt6pIt1Q0V7JwBB
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 13:44:20.8812
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 13:44:11.3612
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f819bff-4604-4bfd-cd43-08df22e6c26a
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7db4a6b-1e80-4697-1878-08df22e6bcbf
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	DM2PEPF00003FC9.namprd04.prod.outlook.com
+	DM2PEPF00003FC2.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9207
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7116
 
-Affected AMD USB4 host routers hang a TX ring when a DMA HopID is
-programmed again after the DMA paths are torn down without an intervening
-host interface reset.
+Some AMD USB4 host routers hang a TX ring when a DMA HopID is reused after
+a DMA path is torn down without a host interface reset in between. Resetting
+on every teardown clears the state but also disrupts other active DMA
+tunnels on the same host interface.
 
-Hence, set QUIRK_RESET_DMA_ON_REUSE for these routers so a used DMA HopID
-is not reprogrammed until the host interface has been reset. The reset
-waits for all DMA rings to stop, leaving unrelated active tunnels
-undisturbed.
+Track the TX and RX DMA HopIDs programmed since the last reset and prefer
+unused HopIDs when allocating rings. Check reuse at tb_ring_start() as well,
+since networking retains its rings across reconnect, and return -EAGAIN
+instead of reprogramming a HopID that still needs a reset. Run the reset
+from a per-NHI work item once all DMA rings are idle, serialized with the
+connection manager and with the control channel stopped only over the reset.
+Enable it only for the affected AMD routers via QUIRK_RESET_DMA_ON_REUSE,
+and only on v1 host interfaces.
 
-Suggested-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Co-developed-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
----
+On -EAGAIN networking retries login asynchronously; stream and DMA-test
+users retry the operation. An active tunnel is left running even if it
+blocks another tunnel from starting until it stops.
 
- drivers/thunderbolt/nhi.h | 12 ++++++++++++
- drivers/thunderbolt/pci.c | 21 +++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+Basavaraj Natikar (3):
+  thunderbolt: Allow tb_ring_start() to fail
+  thunderbolt: Reset the host interface before reusing a DMA HopID
+  thunderbolt: Add quirk to reset host interface for AMD USB4 routers
 
-diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
-index 13cb94cae658..70d6ee0e960a 100644
---- a/drivers/thunderbolt/nhi.h
-+++ b/drivers/thunderbolt/nhi.h
-@@ -118,6 +118,18 @@ struct tb_nhi_ops {
- #define PCI_DEVICE_ID_INTEL_PTL_P_NHI0			0xe433
- #define PCI_DEVICE_ID_INTEL_PTL_P_NHI1			0xe434
+ Documentation/admin-guide/thunderbolt.rst |   6 +
+ drivers/net/thunderbolt/main.c            | 120 +++++++----
+ drivers/thunderbolt/ctl.c                 |  36 +++-
+ drivers/thunderbolt/ctl.h                 |   1 +
+ drivers/thunderbolt/dma_test.c            |  32 ++-
+ drivers/thunderbolt/domain.c              |  66 +++++-
+ drivers/thunderbolt/nhi.c                 | 249 ++++++++++++++++++++--
+ drivers/thunderbolt/nhi.h                 |  13 ++
+ drivers/thunderbolt/nhi_regs.h            |   4 +
+ drivers/thunderbolt/pci.c                 |  21 ++
+ drivers/thunderbolt/stream.c              | 175 +++++++++------
+ include/linux/thunderbolt.h               |  22 +-
+ 12 files changed, 612 insertions(+), 133 deletions(-)
 
-+#define PCI_DEVICE_ID_AMD_1AH_M60H_NHI0			0x1120
-+#define PCI_DEVICE_ID_AMD_1AH_M60H_NHI1			0x1121
-+#define PCI_DEVICE_ID_AMD_1AH_M68H_NHI0			0x113b
-+#define PCI_DEVICE_ID_AMD_1AH_M68H_NHI1			0x113c
-+#define PCI_DEVICE_ID_AMD_1AH_M80H_NHI0			0x1155
-+#define PCI_DEVICE_ID_AMD_1AH_M80H_NHI1			0x1158
-+#define PCI_DEVICE_ID_AMD_1AH_M80H_NHI2			0x1159
-+#define PCI_DEVICE_ID_AMD_1AH_M24H_NHI0			0x151c
-+#define PCI_DEVICE_ID_AMD_1AH_M24H_NHI1			0x151d
-+#define PCI_DEVICE_ID_AMD_1AH_M70H_NHI0			0x158d
-+#define PCI_DEVICE_ID_AMD_1AH_M70H_NHI1			0x158e
-+
- #define PCI_CLASS_SERIAL_USB_USB4			0x0c0340
-
- /* Host interface quirks */
-diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
-index 4408229d8ac7..b26f5b39e923 100644
---- a/drivers/thunderbolt/pci.c
-+++ b/drivers/thunderbolt/pci.c
-@@ -63,6 +63,27 @@ static void nhi_pci_check_quirks(struct tb_nhi_pci *nhi_pci)
- 			nhi->quirks |= QUIRK_E2E;
- 			break;
- 		}
-+	} else if (pdev->vendor == PCI_VENDOR_ID_AMD) {
-+		switch (pdev->device) {
-+		case PCI_DEVICE_ID_AMD_1AH_M60H_NHI0:
-+		case PCI_DEVICE_ID_AMD_1AH_M60H_NHI1:
-+		case PCI_DEVICE_ID_AMD_1AH_M68H_NHI0:
-+		case PCI_DEVICE_ID_AMD_1AH_M68H_NHI1:
-+		case PCI_DEVICE_ID_AMD_1AH_M80H_NHI0:
-+		case PCI_DEVICE_ID_AMD_1AH_M80H_NHI1:
-+		case PCI_DEVICE_ID_AMD_1AH_M80H_NHI2:
-+		case PCI_DEVICE_ID_AMD_1AH_M24H_NHI0:
-+		case PCI_DEVICE_ID_AMD_1AH_M24H_NHI1:
-+		case PCI_DEVICE_ID_AMD_1AH_M70H_NHI0:
-+		case PCI_DEVICE_ID_AMD_1AH_M70H_NHI1:
-+			/*
-+			 * These hosts may hang the Tx ring if its HopID is
-+			 * programmed again without a host interface reset
-+			 * in between.
-+			 */
-+			nhi->quirks |= QUIRK_RESET_DMA_ON_REUSE;
-+			break;
-+		}
- 	}
- }
 
 -- 
 2.34.1
