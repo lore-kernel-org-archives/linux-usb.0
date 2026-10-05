@@ -1,175 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx2-f0.google.com (mail-yx2-f0.google.com [74.125.224.128])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62F32D249B;
-	Mon,  5 Oct 2026 15:52:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A1D4CDA39
+	for <linux-usb@vger.kernel.org>; Mon,  5 Oct 2026 15:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.128
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791215522; cv=none; b=hAy3L6+GuKJplnv+P3MCwjQtMtNEoN1SqddCCWKNBNlfHKengUnEbf1HhtNuEGu5DUTCspgj+26Y01eDYlOEmELGUYmg9r6CqDIu/WxyCwZ20IZlDSdtiWVvmTbJvMi+xR6uHNRCwy+P5pIve8s3BYr+WVQVUpYIIPgOldquzCI=
+	t=1791215971; cv=none; b=eqaya8fGSb9zFbtn8SQrD2RB/Y+72lcfLD/v0k6Q8ruRvggToDnpFDkp2jnRCTJdZPyj8cnibLZXQb8h8B0UqQ1vZW4aDMlV/CLhmsd39cclexkPxLHYeInVGNmT9TaGdaU9g6iVssUX8iel6B1nn8EsI5fF+GWOtpXOKGAJkK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791215522; c=relaxed/simple;
-	bh=R8UYqtxMk66AWUb8jaZ/8sG4L9L0nHD4I1C7nSYILIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ol7ePvHt+pk+uxppYLCsBoempsSrj0RYWCm+Ck5zIKTT7iy4pH1ad2Ce9zgMdZpeczX2zK0tUxTGC3mq7mOmMTLm2sjbONbmB8Savhd+ZU+QfLNrxL4yg+mIe0Mdumm8lWny25m/H3qHko3IlYorFE5Go+UfWZ2zPus57M1JAqw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JW4Da7Vm; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791215971; c=relaxed/simple;
+	bh=c3qxAorHfh38vflfMPUBH0Ur8Gz0Oqq0Sn71Zrw4KYI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WvZmlZ+ADpX/QImAphn4OpHrlvNzOz9vEYW5K42YfjXGPoi5OMGD6IF07ImqhSJOPEvZnurOcJSML64lOZ18DQ6LCgEp8rIQYrqJVj4NwxTNYCFFCquwU+pisng+ckkboSTGQYLhBEyrFw4hMGMjyF8XfK7GpSlMlaH5mM5Uyqg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MDWMIqrP; arc=none smtp.client-ip=74.125.224.128
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JW4Da7Vm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DE2A1F000FF;
-	Mon,  5 Oct 2026 15:52:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791215520;
-	bh=46ZVVigjyvvAf7dNbGOfKkj9CKPHjaCvDzpMNiRjm98=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To;
-	b=JW4Da7VmLg5UlNJuwwbIPkoXPZG/rObH/E7LS2VKa03p4WdEbCdiagTdNmApWu7bM
-	 l/W9xN4LA4ajCb1HbFzA7Cj3hcUP4CFZvaXaV2s1EhLZlQkmeicpmRlkhtR6/Ml7Y1
-	 Yqz6yMwHgze5wtsGBt7yzRLywVPJ+HRPc3Mhm1wyJZNDZKkcWWs2bl/Hqm0RiS8zQ0
-	 sC5iytUf2VMxZWfZspJI1iIFwqLICZdhSTUIBRQow5TYfkuneF5gx/BVAUmQkytmVd
-	 jtW2zP34W4AOqsdbWkvPIpmC6ByqG+wqamIfY16+jjx+6hJugIKDWX6iVdOwFsMQxy
-	 U1a8sWhEsaoFQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id BBC62CE0ACB; Mon,  5 Oct 2026 08:51:59 -0700 (PDT)
-Date: Mon, 5 Oct 2026 08:51:59 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Vladimir Murzin <vladimir.murzin@arm.com>
-Cc: linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-	chunfeng.yun@mediatek.com, gregkh@linuxfoundation.org,
-	rostedt@goodmis.org, mark.rutland@arm.com
-Subject: Re: [PATCH] usb: mtu3: Fix double dereference in TP_printk
-Message-ID: <2cec51ab-cb71-4635-b14c-ee38c84f3c9d@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260922103756.104846-1-vladimir.murzin@arm.com>
- <845ef1a3-8d85-4007-aa2c-05e59e79afcd@arm.com>
- <315259c9-d7b9-44bc-8896-ecb9429a6eb5@paulmck-laptop>
- <b138ae28-bd90-414c-9e57-c493877c9bad@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MDWMIqrP"
+Received: by mail-yx2-f0.google.com with SMTP id 00721157ae682-8ae7b865b4bso6466367b3.0
+        for <linux-usb@vger.kernel.org>; Mon, 05 Oct 2026 08:59:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791215968; x=1791820768; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ee5rySe2ispQ9mLUw+vla1nzkwDJ4O9A8IBEsYRC2hk=;
+        b=MDWMIqrP33x78/GSVamq/u6qrR1gspN1BSGu15mQgrgvleWyfyJzpuD30+UjywurMU
+         KZzWX/8eIaLnCFAEctNMmi30L1uKhmnIVVNOw1NFUGMfjXu5y7KoZL+T6zFPE6EadCXu
+         oHQq++I8LA5g2SfHc2vojxFeNne5hmZKNMV6BVLquAn28EzCNsiAoo14A+wcjSsWf7C3
+         9vae331YSZZ2mq8XzoA04J256uju/B0w6yIB/QGUQax9wYu7kPKki0kGfUenG9DTedKQ
+         qX+8+lPy4aQx9Le1tTSJt4Z2QAaFzT8hS5It9DxPRoMOVNvSF41BYEH1mRgmRod85uOt
+         d3lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791215968; x=1791820768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ee5rySe2ispQ9mLUw+vla1nzkwDJ4O9A8IBEsYRC2hk=;
+        b=JgT1giDZ4c+RqqzK33+dcXlKdfAnnF9Y5ymK4sI4rI8fjDQ2HaIWylZKAnHUUt17Qy
+         31pkvqh1AXXysBxG0lPnXSks+PEkmQjoOrv8uTQXKZ/EryjGJeb1C2dJLEQSTt6sNvkz
+         DddWkX3bO7rCO8gx48rW+hcX+JCrF4DRRG2ENiOE3WO+WJHHXL/EpqPbqeES7tg1CR/x
+         dsozckDFzwFVLVBS+26beQlF8CDhSS5QkcnDI0aNW6U7/PWXpS5s+4SF2IiYq4gIaMu/
+         5db5PifZogcep0IDPXkDVlChj1lnV6/XR2b1TvCH5t745i4BCcIDX1j8hRb1/oUlUoSI
+         xisw==
+X-Gm-Message-State: AFq9FYLP2yQvDiaZzWRx4ACGDxQkZiq3jXEj24jKKPREFKqz8wVaVIwU
+	TgR3yLOXsJBHjzkTvPJg6l7IPLZO2nnlKYRPXGeZ1EJ2VbHolbIWIb1u7IWWaPdyT7F4Hg==
+X-Gm-Gg: AYBFou2RhXzbyoqAMplOuXrDIbhFlfhkOAxJX29FykGMfR2S+nMuwezB3T+Z6FDPp+D
+	XvLkAiY6fv9Cd/0B2OTFuw8nb528QpKvZ71e1QfV1T676OTULZIWS3NXxJIUhCpdQyl7S5z9Odf
+	/GxIGIwU6XfJj+cI2TJgfOsnJdInnE40JHuF+SV3it7mBCwPvJQiO76cwouQr4biydHWREPk/9w
+	1BSPrgaS4B4gkVAT5O+UzD7xzyCA+xubhfG07RwpGiCSVFsHff6dtnpyYc0FMoXy1WHzUwocXhF
+	9BS7p7/1SQzO0mUHoVzlNh8l6BUuEo1VK5VtfNsiwnVcLLa4kDpnOBc17eFTyBVyl4+sHNpS14C
+	pxw305aZH0jkZ1wd91+KwcdXAsGDKq9tB+ChXS7ijAPbH/nzxtpFRmr7EN6OL+8Ueo9LCYt6tR+
+	z14kIm1QiGH9F6DlM2rBZ/bxr364CAMiAJXWoVaBjxiTcfJwZnCSKAlH/6lJcweHYYWrfF9nj9j
+	1kqwxRHNyT6a29Z2j/PQ1l1vzv+t8jjzb5IvsOfxc+4SPOu6szw
+X-Received: by 2002:a05:690c:113:b0:8ac:42c5:a7b7 with SMTP id 00721157ae682-8ae39bd9f85mr47899477b3.39.1791215968309;
+        Mon, 05 Oct 2026 08:59:28 -0700 (PDT)
+Received: from Xinshengs-MBP.attlocal.net ([2600:1702:7d20:7d20:edd1:61d6:442f:e3ff])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae8a2d41easm33779167b3.45.2026.10.05.08.59.27
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 05 Oct 2026 08:59:28 -0700 (PDT)
+From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+To: netdev@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	rfiler@sierrawireless.com,
+	epasheva@sierrawireless.com
+Subject: [PATCH net] net: usb: sierra_net: reject short firmware attribute reads
+Date: Mon,  5 Oct 2026 11:59:20 -0400
+Message-ID: <20261005155920.27735-1-xinsheng.zhu.ny@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b138ae28-bd90-414c-9e57-c493877c9bad@arm.com>
+Content-Transfer-Encoding: 8bit
 
-On Mon, Oct 05, 2026 at 01:07:18PM +0100, Vladimir Murzin wrote:
-> Hi All,
-> 
-> On 9/28/26 19:21, Paul E. McKenney wrote:
-> > On Mon, Sep 28, 2026 at 02:11:42PM +0100, Vladimir Murzin wrote:
-> >> Hi All,
-> >>
-> >> Gentle ping... spat is still present in v7.3-rc5
-> > If no one else wants to push it, I can do so.  I gotta admit that the
-> > resulting test failures when I forget to apply it are a bit annoying.  ;-)
-> > 
-> > 							Thanx, Paul
-> > 
-> 
-> FYI, splat is still present in v7.3-rc6 :(
+sierra_net_get_fw_attr() only checks usbnet_read_cmd() for negative
+return values before converting attrdata and storing it in *datap.
+A zero-length or one-byte response leaves attrdata wholly or partially
+uninitialized.
 
-OK, I was thinking in terms of pushing it into the upcoming merge window,
-but I could be persuaded to see if Linus will take it this week.  I have
-one other commit I need to push anyway.
+Although sierra_net_bind() rejects responses of unexpected length, its
+dev_dbg() call uses fwattr before that check. When the debug message is
+enabled, the incomplete value may therefore be used in the debug output.
 
-							Thanx, Paul
+Require the return value to equal sizeof(attrdata) before accessing the
+buffer. Return -EIO for short reads, retaining the existing handling of
+negative errors and leaving the output parameter untouched on failure.
 
-> Thanks
-> Vladimir
-> 
-> >> Cheers
-> >> Vladimir
-> >>
-> >> On 9/22/26 11:37, Vladimir Murzin wrote:
-> >>> Paul reported kernel splat:
-> >>>
-> >>> [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-> >>> [    0.000000] ------------[ cut here ]------------
-> >>> [    0.000000] Event mtu3_gadget_ep_set_halt has double dereference in TP_printk: &REC->gpd_ring->dma
-> >>> [    0.000000] WARNING: kernel/trace/trace_events.c:420 at test_double_dereference+0x144/0x14c, CPU#0: swapper/0/0
-> >>> [    0.000000] Modules linked in:
-> >>> [    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.3.0-rc1 #15247 PREEMPT
-> >>> [    0.000000] Hardware name: linux,dummy-virt (DT)
-> >>> [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> >>> [    0.000000] pc : test_double_dereference+0x144/0x14c
-> >>> [    0.000000] lr : test_double_dereference+0x144/0x14c
-> >>> [    0.000000] sp : ffffc80aa7633bf0
-> >>> [    0.000000] x29: ffffc80aa7633bf0 x28: ffffc80aa7c0f047 x27: 000508b58019388f
-> >>> [    0.000000] x26: 0000000000000003 x25: 0000000000000007 x24: ffffc80aa5fceff8
-> >>> [    0.000000] x23: ffffc80aa7c0f05a x22: ffffc80aa64edfe8 x21: ffffc80aa7c0fce8
-> >>> [    0.000000] x20: ffffc80aa7c0f047 x19: 0000000000000013 x18: 0000000000000001
-> >>> [    0.000000] x17: 6572656420656c62 x16: 756f642073616820 x15: 746c61685f746573
-> >>> [    0.000000] x14: 0000000000000000 x13: ffff000139d90000 x12: 0000000000000045
-> >>> [    0.000000] x11: 00000000000000cf x10: ffff00013f546428 x9 : ffff000139d90000
-> >>> [    0.000000] x8 : 3fffffffffffc000 x7 : 0000000000000001 x6 : 0000000000000001
-> >>> [    0.000000] x5 : ffff00013f4e6440 x4 : 0000000000000000 x3 : 0000000000000000
-> >>> [    0.000000] x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffc80aa764a700
-> >>> [    0.000000] Call trace:
-> >>> [    0.000000]  test_double_dereference+0x144/0x14c (P)
-> >>> [    0.000000]  trace_event_raw_init+0x37c/0x5d8
-> >>> [    0.000000]  event_init+0x34/0xc0
-> >>> [    0.000000]  trace_event_init+0xec/0x588
-> >>> [    0.000000]  trace_init+0x24/0x6e0
-> >>> [    0.000000]  start_kernel+0x4a0/0x8ec
-> >>> [    0.000000]  __primary_switched+0x88/0x90
-> >>> [    0.000000] irq event stamp: 0
-> >>> [    0.000000] hardirqs last  enabled at (0): [<0000000000000000>] 0x0
-> >>> [    0.000000] hardirqs last disabled at (0): [<0000000000000000>] 0x0
-> >>> [    0.000000] softirqs last  enabled at (0): [<0000000000000000>] 0x0
-> >>> [    0.000000] softirqs last disabled at (0): [<0000000000000000>] 0x0
-> >>> [    0.000000] ---[ end trace 0000000000000000 ]---
-> >>> [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_disable has double dereference in TP_printk: &REC->gpd_ring->dma
-> >>> [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_enable has double dereference in TP_printk: &REC->gpd_ring->dma
-> >>>
-> >>> Which also observed by Mark and myself.
-> >>>
-> >>> The splat it result of new check introduced by b5cc230af5e5 ("tracing:
-> >>> Warn when an event dereferences a pointer in TP_printk()") which
-> >>> correctly catches issue with %pad dereferencing the address saved in
-> >>> the ring buffer. TP_fast_assign() logic gets executed when the
-> >>> tracepoint is triggered, however the TP_printk() is executed when the
-> >>> user reads the trace buffer which could be seconds, minutes, hours,
-> >>> days, even months later and nothing guarantee that __entry->gpd_ring
-> >>> pointer will still be pointing to what it was when it was recorded.
-> >>>
-> >>> Fix the issue by capturing immediate value of gpd_ring.dma when trace
-> >>> point is triggered.
-> >>>
-> >>> Reported-by: Paul E. McKenney <paulmck@kernel.org>
-> >>> Tested-by: Mark Rutland <mark.rutland@arm.com>
-> >>> Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-> >>> Signed-off-by: Vladimir Murzin <vladimir.murzin@arm.com>
-> >>> ---
-> >>>  drivers/usb/mtu3/mtu3_trace.h | 4 +++-
-> >>>  1 file changed, 3 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/usb/mtu3/mtu3_trace.h b/drivers/usb/mtu3/mtu3_trace.h
-> >>> index 89870175d635..9aaa167d69c1 100644
-> >>> --- a/drivers/usb/mtu3/mtu3_trace.h
-> >>> +++ b/drivers/usb/mtu3/mtu3_trace.h
-> >>> @@ -224,6 +224,7 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
-> >>>  		__field(unsigned int, flags)
-> >>>  		__field(unsigned int, direction)
-> >>>  		__field(struct mtu3_gpd_ring *, gpd_ring)
-> >>> +		__field(dma_addr_t, gpd_ring_dma)
-> >>>  	),
-> >>>  	TP_fast_assign(
-> >>>  		__assign_str(name);
-> >>> @@ -235,12 +236,13 @@ DECLARE_EVENT_CLASS(mtu3_log_ep,
-> >>>  		__entry->flags = mep->flags;
-> >>>  		__entry->direction = mep->is_in;
-> >>>  		__entry->gpd_ring = &mep->gpd_ring;
-> >>> +		__entry->gpd_ring_dma = mep->gpd_ring.dma
-> >>>  	),
-> >>>  	TP_printk("%s: type %s maxp %d slot %d mult %d burst %d ring %p/%pad flags %c:%c%c%c:%c",
-> >>>  		__get_str(name), usb_ep_type_string(__entry->type),
-> >>>  		__entry->maxp, __entry->slot,
-> >>>  		__entry->mult, __entry->maxburst,
-> >>> -		__entry->gpd_ring, &__entry->gpd_ring->dma,
-> >>> +		__entry->gpd_ring, &__entry->gpd_ring_dma,
-> >>>  		__entry->flags & MTU3_EP_ENABLED ? 'E' : 'e',
-> >>>  		__entry->flags & MTU3_EP_STALL ? 'S' : 's',
-> >>>  		__entry->flags & MTU3_EP_WEDGE ? 'W' : 'w',
-> >>> -- 2.34.1
-> >>>
-> 
+Found by manual code inspection with LLM assistance. The issue has not
+been reproduced at runtime.
+
+Fixes: eb4fd8cd355c ("net/usb: add sierra_net.c driver")
+Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+---
+ drivers/net/usb/sierra_net.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/net/usb/sierra_net.c b/drivers/net/usb/sierra_net.c
+index 4d3ed642b3e7..95668a5ccd5f 100644
+--- a/drivers/net/usb/sierra_net.c
++++ b/drivers/net/usb/sierra_net.c
+@@ -637,7 +637,7 @@ static int sierra_net_get_fw_attr(struct usbnet *dev, u16 *datap)
+ 				sizeof(attrdata)	/* __u16 size */
+ 				);
+ 
+-	if (result < 0)
++	if (result != sizeof(attrdata))
+ 		return -EIO;
+ 
+ 	*datap = le16_to_cpu(attrdata);
+
+base-commit: 8b4e7209c842d8cb9516f1f5ef0a88aa2d8831a6
+-- 
+2.54.0 (Apple Git-157)
+
