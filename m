@@ -1,149 +1,168 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010053.outbound.protection.outlook.com [52.101.56.53])
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013007.outbound.protection.outlook.com [40.93.196.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5D694854E6;
-	Mon,  5 Oct 2026 16:48:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C28E54C33D8;
+	Mon,  5 Oct 2026 16:50:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.7
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791218901; cv=fail; b=XcAVOtSTvk5cXCMd5+cRZUk7j36NWljro28WyNMhqjJVKLwAmg7yvn1GZulpSnloDEmKC2c6aeW4eHsJf8+v8wM4oVqFhLW3lYb1RRqr/t04CQ1GkCULtsu4lorwrMcfR4OvQYHrUA8IrUld2phwV3f/WyfE1DHkMZoQiA+FaMQ=
+	t=1791219064; cv=fail; b=BqCOPIacz9SyZTg/HIElzZznp6W88EzvDs3R9tO0cnOt08GYcwXmBSFiXOtawTZ1MNFBdbsFTOiLm68+ZeDS/GNVdCEsCvImy0SZ2NnPxkWIxoNupMtwm26i2pooiz66Ld6Vb1P7UGlQyyU4hUquab4Cqd4cN7h7YNKdVhxsH+k=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791218901; c=relaxed/simple;
-	bh=lvzDOr1iflrueADH0jT6IQwBNBbkZp63RdK4bn5jbJc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V4hp3h8VLCRxHF8+Yt5u1SZ0W3SU6RWUd7VdxHfypapqZ790K3XTebeJj/oEmflJ2dlnTK9dzIFAov9YuFiyr/nprsfDb39DceyDaKW0hRT5HNvrZeFKqfU9lgCM3T4clltRQDdaoPXgnPwrJ9nc13lIYWwvvcURN0NUvP2xMwQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=LI3SwaQZ; arc=fail smtp.client-ip=52.101.56.53
+	s=arc-20240116; t=1791219064; c=relaxed/simple;
+	bh=klMcg9B20Ox15l5HCuc0nXKSkmI3LHYliL0S6foxG7A=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=r1RL+8hCvDsECUNyrzosnOHANFv2yIIQ5BFLonglODviO7YfY8Yx8VbHM6MZ+CSapMZcj7QHfUQRAQJNh3lEPGObK8XVqPqw3q5nA5XIboS3wLEX0NOUeeJNnH1EAknLSPGi1+k2NLUx7onAQVGjsytYSg8qYF3XrBprka0rHu8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=eVLsFep0; arc=fail smtp.client-ip=40.93.196.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="LI3SwaQZ"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="eVLsFep0"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=upqdku9DDUIdFaUQpZUAcEz2Hsmm6VqAQ9D4/3fil6fLmlTK6hOmZ3qDaYk5HpGEyfoziJoNmgP2DC8r+ICdKCioo292CJ2whMHevSi/qM3ZVBVGKOgWUoYQqtliEu5zjtBR4hw3wFpSTHL/AkzloeWgihN+BP1qormK5dpXyERK1qyNo6K6ZEGk1neap2EZbfCKN0py/tRB78qRjLXdqsuykLiVU8o4SRibwXmjGsL/tmGue6VqCdfc6WyIkyiNQSAF/aCqYZ4pe5AlnZ9PGRvjOBpAVKRjmYIVmdH8m1EscDuvzrSBPGEkYZZ0Dg8heLp8s58mHW7LLlf06pK8Aw==
+ b=uHVtJCg9uTzNLSgshdGNDOLPloH1UgnH5WKMjb8bJYBVI9sLNdgZeus5x6D7Ai9d997Qk7xnvpdTXeCaXgmxJ6lKKuQBSSK3jOBxhLby70mPAtF1tk5pXmMAOwJqwkVUKOhWqEIKeOJKoSGSz83rd8HPp8UzuGqluOVFYvE8acLhJIv8Dj2B2JV/Kl/5oOSUPn2msj1yZ4x6KrJP3nH+AV1SMlkmev/OMGnRt6J3sdwBPyoj51S3kisopniEZbge7P8wOllY7kYTb+rb4LR1+C0z/J343on9+rb0KbFjcp51RNT1JmY4YNtOz4qzdcJ3jvsrw8jfbGXyCflNlCXcDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kHF7e5EOsc+Ir/sK+sZHExr15+qMNs7hk2/FCZTUOkU=;
- b=hRoExlGOKZyF+5a98bN4nhVIv9pbzYkQAeKckzYnk1s1r82vZAvt5zaNWoVHvEtAcZIchS6i+izrhhxeQkRXIbJYhIhKdSRaN0ADwbQTfkq3ts5e2fYRKQAWbMcn4giDqB4rt+Zy+7CnZxtqz1Ohnnb7cGX5+wZlGSpzAStap21KV+yc1LDYemtJmW8kaDTaWzNyO+Crv3gRMhY0IEYuA7hs5jGP8sBhnvtqr6Ew+CVdjXoPbxPjvQnCI7lVY5t0vGOFc1xuVnpAGEXUQRBkqapgZcVkJZFKj/LBbwPvkXUU078kKrEN8uVsP6KQzAK9yO+SEs6jwty0Az3BkJcQfQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
+ bh=UlOzOv6W/QLtU1IupRu6E8N7ux/KYq+FY94KWCaJTd8=;
+ b=GYpfaAovJoxfgxZ7rmVfr44pL780V1erFsnatyGra5OaRG+g6snl4rbcv9dxuID0PSWr0PWgc0RE2k1rfjTosLcZbOwZo67XQn8j0YRJZafNnV+VwHNhMx3jinPrM+yBVBVe8zYa5wcZczl/swsBrO82w5TjQmERSLghYbEdESkexCv3GuBn39YOdjt+zhgAcTosDvNokB7o5oq7Ech90uN2MKB5TDxHl9mshyPb4DiGbFPZIWhucEqOJ0omwXbQ4IH6jf2oSixvHXWp5PCqFMtA/sagcIPkRpZHR8pgcef4Vlp4DpycH5xOESbeWqwy6x2WQyg8bhwD/2VZOgvF8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kHF7e5EOsc+Ir/sK+sZHExr15+qMNs7hk2/FCZTUOkU=;
- b=LI3SwaQZT7b1No7d4htfxKD1kIMEmKyAwg02QSTh11kK4808gK40MjU7tA69XphxFdQwdVORlPyWUL9zCP0Q2OIcGoDZ/U/PI2T5+C3ZgTBDNlDUW1r4jFiZJvf+o8dEmThx/1ylqfbIq0pL75SQqtxZ4Vab8Ym02o06DYsymwg=
-Received: from CH0PR08CA0003.namprd08.prod.outlook.com (2603:10b6:610:33::8)
- by SJ0PR12MB6735.namprd12.prod.outlook.com (2603:10b6:a03:479::8) with
+ bh=UlOzOv6W/QLtU1IupRu6E8N7ux/KYq+FY94KWCaJTd8=;
+ b=eVLsFep0yBtZPQWXsS5+aAhSuEwtsM+aEOSVSUAMaQ+7Qb14NrB/2C2eJleVaiJ4P3nWYlwv7y2FmjuFth64z8q94+Qj30GjRgGNBMPAzU8UMCZSYWKLxa0ZcK+A3lRjGgF1tffvED8/TWpIdbGn0caSkMW00yYXR5LrslP/Qpc=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS0PR12MB6559.namprd12.prod.outlook.com (2603:10b6:8:d1::6) by
+ SAVPR12MB999145.namprd12.prod.outlook.com (2603:10b6:806:4e5::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Mon, 5 Oct
- 2026 16:48:14 +0000
-Received: from CH01EPF000BE943.namprd02.prod.outlook.com (2603:10b6:610:33::4)
- by CH0PR08CA0003.outlook.office365.com (2603:10b6:610:33::8) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.20
- via Frontend Transport; Mon, 5 Oct 2026 16:48:13 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- CH01EPF000BE943.mail.protection.outlook.com (10.167.244.135) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.472.14 via Frontend Transport; Mon, 5 Oct 2026 16:48:13 +0000
-Received: from airavat.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.49; Mon, 5 Oct
- 2026 11:48:00 -0500
-From: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-To: Andreas Noever <andreas.noever@gmail.com>, Mika Westerberg
-	<westeri@kernel.org>, Yehezkel Bernat <YehezkelShB@gmail.com>, "Jonathan
- Corbet" <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, "David S .
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, "Jakub
- Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-CC: <linux-usb@vger.kernel.org>, <linux-doc@vger.kernel.org>, "Mario
- Limonciello" <Mario.Limonciello@amd.com>, Sanath S <Sanath.S@amd.com>,
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Mika Westerberg
-	<mika.westerberg@linux.intel.com>
-Subject: [PATCH -next v2 3/3] thunderbolt: Add quirk to reset host interface for AMD USB4 routers
-Date: Mon, 5 Oct 2026 22:17:18 +0530
-Message-ID: <20261005164718.4166200-4-Basavaraj.Natikar@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20261005164718.4166200-1-Basavaraj.Natikar@amd.com>
-References: <20261005164718.4166200-1-Basavaraj.Natikar@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.20; Mon, 5 Oct
+ 2026 16:50:50 +0000
+Received: from DS0PR12MB6559.namprd12.prod.outlook.com
+ ([fe80::3f99:f532:cf6b:ea46]) by DS0PR12MB6559.namprd12.prod.outlook.com
+ ([fe80::3f99:f532:cf6b:ea46%4]) with mapi id 15.21.0451.022; Mon, 5 Oct 2026
+ 16:50:49 +0000
+Message-ID: <19b787d8-fac9-4925-b17b-f66d5ab8e940@amd.com>
+Date: Mon, 5 Oct 2026 22:20:40 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] thunderbolt: Reset the host interface before reusing
+ a DMA HopID
+To: Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+ Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
+ <YehezkelShB@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+ Mario Limonciello <Mario.Limonciello@amd.com>, Sanath S <Sanath.S@amd.com>
+References: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
+ <a7e066c3da8e1a92fb018008861775b33909ab0a.1790854235.git.Basavaraj.Natikar@amd.com>
+ <20261005143535.GM176164@black.igk.intel.com>
+Content-Language: en-US
+From: Basavaraj Natikar <bnatikar@amd.com>
+In-Reply-To: <20261005143535.GM176164@black.igk.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0023.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:25::28) To DS0PR12MB6559.namprd12.prod.outlook.com
+ (2603:10b6:8:d1::6)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH01EPF000BE943:EE_|SJ0PR12MB6735:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad4c112f-9168-4cf6-75fe-08df23007281
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6559:EE_|SAVPR12MB999145:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2236d1b2-e3d7-4f94-0e08-08df2300cf48
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|1800799024|36860700016|23010399003|376014|10067099003|11063799006|56012099006|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|23010399003|11063799006|56012099006|4143699003|10067099003|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info:
-	7ICRSVMLwMv65XgksEiNkHWbU3VT8C3zZMNWMEIjRCwHGwvArndyC2bT6F3gOyWrAn6NOWwZX20NFOGGgqYCjqGX97LVMmSD7oOwV8sWkMS/PMbJp5uSf42qFZFxS5egSmaBRYpmKZqPADPTUKdS/QEsLBh/8+LhNSdJ9eBTlrzbhZtUIeHhk687UO8hvKD/Z4bjQ/nqLWel8Zju+W3ZtyXe9uwlaC78Mog+Kmb2gKmOyHRG0f+fEfqBsZR+NfAoTngZ8N3RtCuJOF2BnXPVGLaKotFuDOBgLzCyXZBz+x3t+IKDRkR9DO36IADfXKiWjrwCOzvpttAtIFC6cnag7qebCChR3AFO8jJK9nCQDRUWK3RVVctyr9/0Cqu/Wq3IIe2+S8X7repXK1zGzfapsYYHMQZOl0myGlKzuuuuL6yVaq9zS1dpucIR5og3s6bkPMt3Vfh2B9MEtHG8yGAEhiNxEb/q3ECDG0hyTyMYOANXgDFoEy/EUcBxdDeh7sgBBc0QJVkzCdfwGF0lM+vtMgI07h+rtNsUZ0I7VOiIt0Cy3oRaKFLGvFmMgYxJYyXNWW6lM5MzYoOET8RDURzePrIKdTwaR/DiNPAvBdEsfoqG8NhekQm4Ex+k3CcjwFtBEDSdk8nqLpPIGoDVYCdBnCeLpy8CgUfGHcdOjRngy2BGjHLmXtD3GMh4hqdYkJ5fIHO1851IeggNppzDddgXig==
+	1vj9R6lriCnLUbpdt/zH4oBraP8y8VBF9SK529aj9iF1eUf0E3hTw1Vyn3PHMwXvsnhijPS9qX5W93tRB+DYV9PP3j9GfThLavveFwH0R7b7GgEmTWYpGtQIG4EM/cc8UUh5jYpyt2MxgfXxXlwSHC1JTwWnPDc4kJzzq493J4HIbWraIjupPZRJGULl7Lbck+BLRkks0ssRpWaQ5CvTszCo0MWmxB6NKzE2VEOOnS0dp1fB9b/SGBQ+lQgPVFhS72aQtpwgBLL/XOG8mfhbjfEWaAjV7mzPXuBSIhQjw+eXQWPMYzss7YtuKIWVBjLDpvQofPKi+DYUAaJNCcvgBWL3ofkAbpGQIXIxpjg6U+9xkatHz0d2kp37NGzDYVtqWaRgVgf4+erxOW8/g/aCVPrBswiHYano4lCzzKZkbaT/V2tkSkUf20rAtzEmhMISQ0cwZfR0HhVDr1F7NkLSUk9vGA6XNzhcBa4V79+G+FPv4hyUQlQ70i3CHC/Lwfo+uXN3F+9Q1dluaMy6VXct38NvC1gZUHh53bVRjCoZdlITKRoKf1KGsBc3Whyb5h2aNOmvw/6ee6aJNDFyfcK+8zSXOyWv6fVH8XjFnD5zoM0ShDEiwEbya3e8BgJhMF5bvbJAwbCHJRvXVgtP0/INd2x99fNysj1KxpjgrhSQmO0=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(1800799024)(36860700016)(23010399003)(376014)(10067099003)(11063799006)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6559.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(23010399003)(11063799006)(56012099006)(4143699003)(10067099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	dhbmsoCD/is2nmriVRgQPPLAS6MRuNm8TPukTznyD1mrI5NhJPPbZwZbcLKXCoYKXODpMncYHzEwe31sIU6REXzSpryfrzBXXqnRNSEUSagmZafW2ciNlvWoONJoCp3pOv4y7Oe6PNChc/+9PBNQtmB1ChGvHkEol7ZFtULzzv5cY4Knc8OghNsX4drKOf4fkKW22ErZxo2i8BeqblXl4UnXoRV+nbCDPYJ5tmnEZLvpoaYPnCg3TXaunc85T+BZvcjEJStQXR2lueUxjz8bsvJij37le0qo0/KX3R3j7msaP9ti0vunrjuxeTd8b6wnWJeX2CZvhSmawQ0lQnhLE6bn8u56s5iklLbtvSGZ0weTwcXy6STeZ36Gz6vxRxiTAxwgb5cs8fIQ2UcWt7sWjpxuIyR383+S63OBioVJ6IoqBKfnzzif+SFXToKkIlPe
+	=?utf-8?B?ekhzZkRGMFBTMVIxR2xwT3NWOThNNWRWNnoxdEFPVFQ0WVh3eUd5dXJ3cndm?=
+ =?utf-8?B?OEZ5YVNmVEEyTExoNEd2UGRma3pabDFYdDZJYmpsa3JYR1ZCaWFDbkQrV3F1?=
+ =?utf-8?B?RXEwQmsvcjZrUDlYU2l1RkJ6eFNuYzZSYWg2UWtZdTRTdzlUL1lUclIraTRx?=
+ =?utf-8?B?ZlgwYVp2TXRKcHJiaGtGZ1Q5dGdxdXNCWVBEZENPSHgwMVlYMmIrOHFTK3lI?=
+ =?utf-8?B?dUpMUktJQi9kVnBKdjFhaHhqa0pRUDhpc0wxWWVlK3BVUHRwZlFOcTlnVnZC?=
+ =?utf-8?B?RlI2SVdKM0FSVy80WCtXemg3ZEZpWlRJVW5lSGpEUit3bFRnRS9EcnpTc3F4?=
+ =?utf-8?B?MEZZQ2lCYzFpZE5HenlpcHJXMXMzc1IyQ1RHT2plcTFrVElqbk1panhSOFA2?=
+ =?utf-8?B?SWdJTUdYZjBKV3ljblBNWG5Bd2lqT0czQkltc3BsSStEeHM0V2cvTDRzTVBL?=
+ =?utf-8?B?RU9GaEg5SzNhc21GRHZpNFVlQkNESnc5L3NaVlVBb3dYbXJQTWxxWE5PaHNi?=
+ =?utf-8?B?WWpqYzlNQk56eHdYTEtNZC9wanJxeSt0dE9iWkNMZmIwZGFFQ0JjK2dGZEN5?=
+ =?utf-8?B?NHVlcXdDRmxlWEJPZWtZYmRWSXhsV01rd1RJSEN3SncvbVZxK3R5QTRydFAy?=
+ =?utf-8?B?ZHVWd0dmRnF2dHlrYlNOSmMxM0F2VUFZNnhuZkR5cnZmQ0RXM2F0b2RvbTFJ?=
+ =?utf-8?B?aFhaSHNKcUNPTnJ0bElmYVQzcG8xak5OQ0RIRGFKVks5VzZQbGUxcGdjNEV4?=
+ =?utf-8?B?V1dJZU4xSHZGa0FLaHRsL2RPWWk4aVVVVjBieEZtc3YzNEJ6UUpyRStmSzJh?=
+ =?utf-8?B?cHRYWWFydk93NFdhL2pVbzdocGcybVJkczNkSG1oRXl0a1hRbk9tL2JSbTBl?=
+ =?utf-8?B?NFFyZnhWVnBqQzdIbmY5R2M5WExWRUFlQVNJY21BWGFqZVNtdjAwYk5wR3px?=
+ =?utf-8?B?QzZjL0lWd2FKREZJZzZ1Y0dKMEhiWFlPSEhhZXZoVk9CRk11WE9qM3BSdmxz?=
+ =?utf-8?B?dFlpanhYd1JUdTF1R2crRjcxMUJBRHZpN0RuRlo5TkQvOVFqTS9VeGd0S2k1?=
+ =?utf-8?B?V3UyNXBxSWk1Vy9MaFVmTUtVVUdpVEc0bUpNYnZpWHJqdE9Jb21uN1VQY0Zk?=
+ =?utf-8?B?OVBRdm96QkJ1dVk2d3Q3bFQrZnV0aGMwaTRJelhzeHJkK0hveEIwTE1QZ01D?=
+ =?utf-8?B?am9OVFdzZW9JWHBLVXg0dmNmSnpoNWRzNFRUTjNpTjJmM1Iwa3dGL0Y3dHVl?=
+ =?utf-8?B?enlkR1d0LzRZWHowYTA0Z1lid2FqUW5GN1FLTk1iT0JQeVM2eWFsbEZ1T2sz?=
+ =?utf-8?B?WFVFb3ZxOUFOOEhYNUVsTmZLWmZzYTBGcHJaNUlncWRQK3pnU2dWTEdraGln?=
+ =?utf-8?B?ckJHZW1BV3RneVdQd3BIWlNpWFN1SlJKWExCL0hsdVZJQkxsbTFybkl0QkVx?=
+ =?utf-8?B?Nmx5UUowakppS3NwMW9nWmJkK2VRS1Qvem11eG5ic2M0anI0ZnFvV0JVQ1Ix?=
+ =?utf-8?B?dURwbzRMdFpZamNleTUwcDFhQ0wvSWpob21sY1U1ZmduaktjdmtlanpDLzdC?=
+ =?utf-8?B?WEtOZERzNm1oYjd4ejQ0Tzd5clorRS9GcmVUSitQNVZHcDNEQzFabUN1RkdE?=
+ =?utf-8?B?YWM4c1JkWHNKUXZvdUUvV3dCS0xLbTFpSEF2azVhNExRbmIrU2VTZkF0NGM4?=
+ =?utf-8?B?RU5YYmtUN01FdzV3NW5tTVRWVzUvZVk1dE55bEp6c25pWWFJZ1Q3V1BzSUtp?=
+ =?utf-8?B?aXozYlE2V3NhQjhrTklqS0N1TUVEMnhuZUx6K0taUnI1aWJ0T01tV2hnamEx?=
+ =?utf-8?B?MWpmSzd4RWtBQWZWT2xMOENzeEpjZ2Z6VStFc3BmaHdjYWpLc3NTd1NxYUg1?=
+ =?utf-8?B?Zitxa3E2cC9Vbk16TEI1cWRuc1VrUWpBdXBkQW9JWUd3RlRRRzh5TER5ZVVD?=
+ =?utf-8?B?Uzhxa21NN1FXNFJHcHYwNndwcUxmdk5BL0JVMExob3hRYkNISXVYR1NJMFZq?=
+ =?utf-8?B?bVo3ZHpZdjFiSXB6Q0kxalA2U2cyUEt4dWU5eFFBVEhMVHlmT2JKSXhqelQx?=
+ =?utf-8?B?eTlyUXZRSFo1aHZYbkgyUC9EZjFBZWpwU0xnNUdsK0J0MndCbWkxRkpHdFJ4?=
+ =?utf-8?B?WkVmcDFscjVPd2hCcDdMWG1KY2VJdFZoQlhLczVnUll0THM1MUhEUlF5eTVr?=
+ =?utf-8?B?Wkl4cU95Y001aVJuQjZqZUE2MWhIaklzdE1RV1laVWtyNTEvZnFTSmhNQ1FP?=
+ =?utf-8?B?SGlWcmxhd2tiTmpVMzNocnFNcGtrRG5GVWE3MStrUU5YOWVkZXJmTXBVaWVt?=
+ =?utf-8?B?NDNmVHdscldsTkxqS003WHdqQTl6SW9FbXhRT2MwWWRFRFZ5NHpTQT09?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 16:48:13.7378
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2236d1b2-e3d7-4f94-0e08-08df2300cf48
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6559.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 16:50:49.8399
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad4c112f-9168-4cf6-75fe-08df23007281
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH01EPF000BE943.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6735
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rzlbdid09Jvngsc6JACX8yAn6zvdz9v7NJUUzBNncPx79Bn2h8bjrgHXETKMEjnvTl/3qev6MLVE1V8aFRTlkg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SAVPR12MB999145
 
-Affected AMD USB4 host routers hang a TX ring when a DMA HopID is
-programmed again after the DMA paths are torn down without an intervening
-host interface reset.
+Hi Mika,
 
-Hence, set QUIRK_RESET_DMA_ON_REUSE for these routers so a used DMA HopID
-is not reprogrammed until the host interface has been reset. The reset
-waits for all DMA rings to stop, leaving unrelated active tunnels
-undisturbed.
 
-Suggested-by: Mika Westerberg <mika.westerberg@linux.intel.com>
-Co-developed-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Sanath S <Sanath.S@amd.com>
-Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
----
- drivers/thunderbolt/pci.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+On 10/5/2026 8:05 PM, Mika Westerberg wrote:
+> Hi,
+>
+> On Mon, Oct 05, 2026 at 07:13:40PM +0530, Basavaraj Natikar wrote:
+>> +++ b/drivers/thunderbolt/nhi.c
+>> @@ -17,6 +17,7 @@
+>>   #include <linux/iommu.h>
+>>   #include <linux/lockdep.h>
+>>   #include <linux/module.h>
+>> +#include <linux/pci.h>
+> I haven't looked at the code at all yet but this one is no-go. We are
+> trying to make the NHI code generic that can work with any interconnect,
+> like the controllers on ARM based SoCs (aka platform bus) and that's why we
+> have pci.c for the PCIe based NHIs.
 
-diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
-index e40d4d6af071..b60b0d136821 100644
---- a/drivers/thunderbolt/pci.c
-+++ b/drivers/thunderbolt/pci.c
-@@ -77,11 +77,11 @@ static void nhi_pci_check_quirks(struct tb_nhi_pci *nhi_pci)
- 		case PCI_DEVICE_ID_AMD_1AH_M70H_NHI0:
- 		case PCI_DEVICE_ID_AMD_1AH_M70H_NHI1:
- 			/*
--			 * These AMD hosts may hang the Tx ring when the
--			 * DMA paths are torn down so they need the host
--			 * interface reset after each teardown.
-+			 * These hosts may hang the Tx ring if its HopID is
-+			 * programmed again without a host interface reset
-+			 * in between.
- 			 */
--			nhi->quirks |= QUIRK_RESET_DMA_ON_TEARDOWN;
-+			nhi->quirks |= QUIRK_RESET_DMA_ON_REUSE;
- 			break;
- 		}
- 	}
--- 
-2.34.1
+I rebased the series onto thunderbolt/next
+a93a8e3200002f0c345fec4c340390e9a60aabc7. The reworked v2 removes
+the PCI-specific dependency from generic nhi.c and uses the existing
+reset_interface operation instead.
+
+
+Thanks,
+--
+Basavaraj
+
 
