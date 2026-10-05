@@ -1,124 +1,141 @@
-Received: from smtp-outgoing-1803.laposte.net (smtp-outgoing-1803.laposte.net [160.92.124.104])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BF048380C
-	for <linux-usb@vger.kernel.org>; Mon,  5 Oct 2026 13:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.92.124.104
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D82E344780F;
+	Mon,  5 Oct 2026 13:26:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791206464; cv=none; b=kkslS+1MJkFMWBrhVRemdKz2IHgly4oeILjhzq53DOkDOH6PIsglFuo8rf+1plYAMn16jGVCbibGvn9zQ85+khzYfyf3LuGA3nqF+bCLavWWxfiyUjIwRiF04+3UoD/+FMzey1aokEFFwa7JpZh9NKuoHa6dlsJFdUtlTZBkAPY=
+	t=1791206833; cv=none; b=h2Sx+qYhEs+G9IWHqXuCPaCPHi6wfcSuUt89GyOYGl+IkLTq/1nvbuY7cxW2Mpyi1s5Pncv8Ieh6JcJma1WBcnTsR1jlz3R1GyWPtiiBkfX+FLDgjg90ML4GR8tFapzEyNE4otO2dgD5NLE6DzjbjifZnvIUsN+gYVEl/wb2Bng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791206464; c=relaxed/simple;
-	bh=mKSZKMuL4Yjx+hBwcc91D5xCsNIkW/TINPNYcNOWD3g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Vlz7ijccdfDAki8w+D4xuM2Nb/RZK/I1eJHfI5JxdKbT5inwemLBWwku/pALtcA3w6cLkk3EaBZPXb9UXXTMRGm37DQhp8410s1MbWjQogbnBzrBTMvl4am6Ow1WZIyoHQd2UyLj74tuDRkeeYvVqb1ODNDED6FpQJtOPKRcjLc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=laposte.net; spf=pass smtp.mailfrom=laposte.net; dkim=pass (2048-bit key) header.d=laposte.net header.i=@laposte.net header.b=cJRGoNUz; arc=none smtp.client-ip=160.92.124.104
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=laposte.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=laposte.net
+	s=arc-20240116; t=1791206833; c=relaxed/simple;
+	bh=cOQRX7zlYK29AazHSlnsUCFvh5fQjnyuPjUrCAziMeY=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qkMX1n+UnnLnBh/dl2FKCPT+ULbGx71QhQ+ARhdqTDnDBScpL+TQyyaLPCwbyQyIDGZlthBmDSXRCJHFgrMXLLRlpKkKF8Syu9A2y0AFMtQRgnUsi6eanUQ3jHERBtSLhG4iFwWBx1CMtVVjddnCPZfLhowxyNy1vwHIS82VMxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MatDQ2TZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=laposte.net header.i=@laposte.net header.b="cJRGoNUz"
-X-mail-filterd: {"version":"1.9.7","queueID":"4hz0Ph5Hf6z16Hmh","contextId":
- "6dc183b0-45fd-4196-86cc-3a57a4eb010c"}
-Received: from outgoing-mail.laposte.net (localhost.localdomain [127.0.0.1])
-	by mlpnf0105.laposte.net (SMTP Server) with ESMTP id 4hz0Ph5Hf6z16Hmh;
-	Mon,  5 Oct 2026 15:20:40 +0200 (CEST)
-X-mail-filterd: {"version":"1.9.7","queueID":"4hz0Ph1YJXz16Hmd","contextId":
- "54a855dc-25b4-4cb1-9e26-1a4ba3db4ec8"}
-X-lpn-mailing: LEGIT
-X-lpn-spamrating: 36
-X-lpn-spamlevel: not-spam
-Received: from [10.199.42.99] (unknown [147.161.232.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mlpnf0105.laposte.net (SMTP Server) with ESMTPSA id 4hz0Ph1YJXz16Hmd;
-	Mon,  5 Oct 2026 15:20:40 +0200 (CEST)
-Message-ID: <e416c2c7-4a10-4061-bbb9-cb1aa5958798@laposte.net>
-Date: Mon, 5 Oct 2026 15:20:31 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MatDQ2TZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 121071F000FF;
+	Mon,  5 Oct 2026 13:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791206798;
+	bh=tagE5Gg1FsrS7WWoiusWHMWvZZqHJEgLVoBN0QGwgR0=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=MatDQ2TZQ3oBTlwLl4wRmWtXYSHAPKfWoCutznQnaLm/4B0TbOiNkvrXGSZMuqIxL
+	 oqedWYwl9/j1Xlkb178ruCKbbwthUw4Y7fd/EKjaQ44JtM0C8mgR2y8cHmNZu31VXb
+	 mVeKr5h8J+ksZhn56QilKDLm0pbL+7KFC+ukaLtokeyEssc18R89A6PK9iEG2GSBFt
+	 dAQqdaEY2EO+7313QH/R01ZXZycFXWKtcskxM7RqntLkKdihjxG65w76LSnfIRJqgm
+	 VVgtu3oeOp7Tu2cwhuPsSmE4tgyl9UCRxu01GhGduUvw1wBG9qZCkzmYiF+cGDzFY7
+	 jCcQkZEjNJgRQ==
+Subject: Re: [PATCH net v13 3/4] net: phy: take the interrupt back from the
+ bus on detach
+From: netdev-bot+sashiko@kernel.org
+To: f@lex.la
+Cc: netdev@vger.kernel.org, andrew@lunn.ch, andrew+netdev@lunn.ch,
+ hkallweit1@gmail.com, linux@armlinux.org.uk, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com, horms@kernel.org,
+ olteanv@gmail.com, Thangaraj.S@microchip.com, UNGLinuxDriver@microchip.com,
+ steve.glendinning@shawell.net, f.fainelli@gmail.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 05 Oct 2026 13:26:37 +0000
+Message-ID: <179120679761.434549.12466957475136887665@kernel.org>
+In-Reply-To: <20261001130236.106059-4-f@lex.la>
+References: <20261001130236.106059-4-f@lex.la>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: [PATCH v2] usb: typec: displayport: defer instead of failing when the
- port is not DFP
-To: linux-usb@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- linux-kernel@vger.kernel.org
-References: <20261005125645.17899-1-jean-francois.bobier@laposte.net>
-Content-Language: fr
-From: Jean-Francois Bobier <jean-francois.bobier@laposte.net>
-In-Reply-To: <20261005125645.17899-1-jean-francois.bobier@laposte.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=laposte.net; s=lpn-wlmd; t=1791206443; bh=mKSZKMuL4Yjx+hBwcc91D5xCsNIkW/TINPNYcNOWD3g=; h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:Content-Language:From:In-Reply-To:Content-Type:Content-Transfer-Encoding; b=cJRGoNUzVQrLoKi5y3SobRygMDR0SPNgvWjaDQ7qdQ0+uLg6R6MYHpmK8/wOZciASGwLKos8/f4ksvbFqtiPI6pMrAPTp2jehrD8zhqIlJV8yQdY7XM1VrxNSNHnBMM2Wrxw/9Y1oGJUbD9O7QfWDkSD+YQrJXMoa9WzsGlW08dcFwXJknRAAQ9n/UUqMSblthNmoebgctw2yZoIBe1x4vsYGAfTqyR+j5tkQXhAdHWO6VolIy+zlveSsa++Tyf5NnBCol+8KlJdrxygmG0t6ArW5o3gmn2eoUKccL21scVvFlaKhZqFHIO07TwzID6qLo+3pBgkvug1nopf6qJf4A==;
 
-dp_altmode_probe() rejects a port that is not yet TYPEC_HOST with
--EPROTO. That is a permanent failure: the altmode device stays bound to
-nothing and the driver core never retries it.
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-The role is not stable at that point. With a dock, the partner's
-alternate modes are registered while the port is still UFP and the
-data-role swap happens afterwards, so whether DisplayPort comes up at
-all depends on the altmode happening to be registered a second time
-after the swap. On the OnePlus 8T this made DP-over-USB-C work on some
-attaches and not others, with "dp_altmode: probe ... failed with error
--71" as the only clue.
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
-Return -EPROBE_DEFER so the core retries once the role settles, and
-release the plug altmode reference obtained earlier in the function
-before doing so -- the very next check in this same function already
-follows that convention on its own early-return path. The leak existed
-on the original -EPROTO path too, but turning a one-shot terminal
-failure into a retried EPROBE_DEFER means it would otherwise repeat on
-every deferred probe attempt instead of happening once.
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-Signed-off-by: Jean-Francois Bobier <jean-francois.bobier@laposte.net>
----
-Changes in v2:
-- Release the plug altmode reference before the new -EPROBE_DEFER
-   return, matching the convention the next check in the same function
-   already follows. Not present in v1; found while re-checking usb-next
-   for related in-flight work after v1 was sent, which turned up a
-   since-stalled June 2026 patch proposing the same cleanup on the
-   original -EPROTO path (https://ratatoskr.run/lkml/2026/06/17182803/t).
-   That patch hasn't landed, so this isn't a duplicate, but credit for
-   spotting the leak belongs there, not here.
+- [Medium] In this commit only, the interrupt restore lives only in
+  phy_detach() (drivers/net/phy/phy_device.c:1969).
 
-  drivers/usb/typec/altmodes/displayport.c | 18 +++++++++++++++---
-  1 file changed, 15 insertions(+), 3 deletions(-)
+--
 
-diff --git a/drivers/usb/typec/altmodes/displayport.c 
-b/drivers/usb/typec/altmodes/displayport.c
-index 51c92dd88..91d72789e 100644
---- a/drivers/usb/typec/altmodes/displayport.c
-+++ b/drivers/usb/typec/altmodes/displayport.c
-@@ -766,9 +766,21 @@ int dp_altmode_probe(struct typec_altmode *alt)
-  	struct dp_altmode *dp;
-  	u32 cap = DP_CAP_CAPABILITY(alt->vdo);
+net: phy: take the interrupt back from the bus on detach
 
--	/* Port can only be DFP_U. */
--	if (typec_altmode_get_data_role(alt) != TYPEC_HOST)
--		return -EPROTO;
-+	/*
-+	 * Port can only be DFP_U.
-+	 *
-+	 * Defer rather than reject: on a dock the partner registers its
-+	 * altmodes while the port is still UFP, so a hard -EPROTO here drops
-+	 * the DisplayPort altmode permanently and nothing retries it --
-+	 * binding then depends on the altmode happening to be re-registered
-+	 * after the data-role swap. -EPROBE_DEFER makes the driver core retry
-+	 * once the role settles, which is deterministic and stops logging a
-+	 * failure for an ordinary ordering race.
-+	 */
-+	if (typec_altmode_get_data_role(alt) != TYPEC_HOST) {
-+		typec_altmode_put_plug(plug);
-+		return -EPROBE_DEFER;
-+	}
+This commit makes phy_detach() restore phydev->irq from the bus table
+(mdio.bus->irq[]) when the generic driver was bound by
+phy_attach_direct(). It undoes the PHY_POLL substitution done by
+phy_probe() for genphy, so that a real driver bound later can use the
+interrupt.
 
-  	/* Make sure we have compatible pin configurations */
-  	if (!(DP_CAP_PIN_ASSIGN_DFP_D(port->vdo) &
+> diff --git a/drivers/net/phy/phy_device.c b/drivers/net/phy/phy_device.c
+> index 94b2e85e00a37..a9c71a2861186 100644
+> --- a/drivers/net/phy/phy_device.c
+> +++ b/drivers/net/phy/phy_device.c
+> @@ -1965,6 +1965,8 @@ void phy_detach(struct phy_device *phydev)
+>  	 * real driver could be loaded
+>  	 */
+>  	if (phydev->is_genphy_driven) {
+> +		/* The release below lets phy_probe() write this field. */
+> +		phydev->irq = phydev->mdio.bus->irq[phydev->mdio.addr];
+
+[Severity: Medium]
+This patch only restores the irq in phy_detach(). Is there a second way
+out of the genphy bind cycle that still leaves phydev->irq at PHY_POLL?
+
+In phy_attach_direct(), the generic probe and bind failures go straight
+to error_module_put. That path never reaches the error label that calls
+phy_detach():
+
+drivers/net/phy/phy_device.c:phy_attach_direct() {
+    ...
+	if (phydev->is_genphy_driven) {
+		err = d->driver->probe(d);
+		if (err >= 0)
+			err = device_bind_driver(d);
+
+		if (err)
+			goto error_module_put;
+	}
+    ...
+error_module_put:
+	module_put(d->driver->owner);
+	phydev->is_genphy_driven = 0;
+	d->driver = NULL;
+    ...
+}
+
+phy_probe() overwrites the irq before any of its steps that can fail:
+
+drivers/net/phy/phy_device.c:phy_probe() {
+    ...
+	if (!phy_drv_supports_irq(phydrv) && phy_interrupt_is_valid(phydev))
+		phydev->irq = PHY_POLL;
+    ...
+}
+
+The later steps include get_features, genphy_read_abilities() and
+genphy_c45_pma_read_abilities() (all MDIO reads), phy_setup_ports() and
+genphy_c45_read_eee_adv(). If one of them fails, or device_bind_driver()
+fails, error_module_put clears is_genphy_driven and d->driver but does
+not touch phydev->irq. A real driver that binds later would then still
+poll, which is the symptom the commit message describes.
+
+The last patch of this series, "net: phy: restore the interrupt when the
+generic bind cycle fails", appears to close this gap. It saves
+phydev->irq at the start of phy_attach_direct() and restores it under
+error_module_put. At this commit on its own, though, the restore covers
+only the phy_detach() path.
+
+>  		device_release_driver(&phydev->mdio.dev);
+>  		phydev->is_genphy_driven = 0;
+>  	}
+
 -- 
-2.55.0
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261001130236.106059-1-f%40lex.la
