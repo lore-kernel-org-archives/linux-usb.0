@@ -1,156 +1,202 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF13C3806AD;
-	Mon,  5 Oct 2026 08:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAFF82D8379;
+	Mon,  5 Oct 2026 09:57:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791189904; cv=none; b=NzaC2bKiQZK47vKM6h+PUrpDZ2wsd+Zci/LxqSTxmDerJz5SED1ZCZ/3yI8a04fPrTUpE6Xr16eaH3iO8sR7pVMOCE2Ez8IeNUlyojZXfzoHK8Yui4inPUDx2IXkm8UELpyxhud/ditHpiy/yLtMihD/MEjteqGt9Mo9XzNOxRM=
+	t=1791194246; cv=none; b=rPeF8GgWcAOvGbhOh4zfDxq3lN1ZyCgScLuvVuP+Xk3wDY60U1VHNZZ+4zWf4UkTc6iEJQjJ9wpe+DChNX6wXBS8yDC9PwSxf4eTaSlWmIGxv3Vjx5fZCvH23QG/mMTPc9z9KAHh89PMewyDhmTVqvarEQqkEbKbaAhjh2iyQAQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791189904; c=relaxed/simple;
-	bh=v7fBogfEa4SyyyvCAt2cXY9omS2YlKzUV5YfX5OoCdk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e6fWI9mfpDxAWoq50M3cawHhNrYqb3+JXz9SCzlHZLUP4Ikun+aodClidtEreScN28KFlJSzmLIM2BhuxNicEOuiNUoe8lp02IpgpkvI7ik7z9bYQhBJ5brGkiApe7rsDmZEPRITs5MkcnrLW1UmGbSSwRZjRx7F+ArnttAE0dQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ATksT9qc; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791194246; c=relaxed/simple;
+	bh=pPTieTvEgtxDVou/g2rq/vQXz2Uc+SsajH/wGXJEpyo=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=eur22FzVELDoq5LSxZaB1DkNL2OzSSnPB1yHG0h4frfANUIuC/uNbWRf1QQ8OCrMqA27UQiThFyTToK/HjiilvE5HL4nFaxi6CU7wSAQMY1ZftXPTcePYSQArEj7tzvuHqt+tToTIXITgmaVfiwCO/82LecOVID5gxwcjl8ELAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XiQFJ0Bm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ATksT9qc"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C75C71F000FF;
-	Mon,  5 Oct 2026 08:45:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XiQFJ0Bm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E21241F00898;
+	Mon,  5 Oct 2026 09:57:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791189902;
-	bh=yu0jeX6WAJv4JtgUQ7WdlwZ7yT+kLcw/DK3wWTM8lF4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ATksT9qcj606k9JWregl4eW5+phJ39KeCgq22MOa38VA5rhOTUdfYGpS/NXMkVrr1
-	 NbwsUxVMQSQ1Yl1F2UkTYY1r+io9jqfAHQw6uQjuVrUSCS13AQsjp7VsRfENZaQEb1
-	 XjNaieHCRvp5OQwuHxuUdowfrsO3MotjvwBmVk22w9zWwsVOwmIurTFdteBjZCR3K3
-	 6i8bCwta0V5GhFYRHVWxljx1H1SzNvv41FCEklW1JaaZjC3YjZp2VhJhiWTQ68J4d9
-	 4hUL0Ng/BVdUarII1B9Qms10p2M9CnmmHwqsYwTXJMhyHsRTRY/6lb6bDWKSuEUA90
-	 9Ny2sKzI5vzVA==
-Date: Mon, 5 Oct 2026 10:44:59 +0200
-From: Vinod Koul <vkoul@kernel.org>
-To: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-Subject: Re: [PATCH v8 2/5] include: linux: phy: Add phy attribute "type" and
- associated helpers
-Message-ID: <asNji2_GUda8x245@parshuram>
-References: <20260913-eusb2-interrupt-v8-v8-0-0f505b9c394b@oss.qualcomm.com>
- <20260913-eusb2-interrupt-v8-v8-2-0f505b9c394b@oss.qualcomm.com>
+	s=k20260515; t=1791194241;
+	bh=ujHBDJVNz78vZ7dajK+ArwV45XyWD1dmWWG/JkYh18Q=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=XiQFJ0Bm5bY8CUwG+qSNp+uW6l8nlwTTAcZoL0l6LIknqGYe5Y7CcgT/5PFfKgYyo
+	 hQxrKZIbVuvHtVu35bqg07kxYE1Y9bmt5BJaOLevGeXgyltu78t9BCIVeFntV+eMYx
+	 ZpHmLNfDQlIYVZVOaZXwbWVDlF5av2bRmCxaOR0C9+6qx577Ixc/MKi2Ba1o4++Gm1
+	 JHpPTo6obmxuj5sp6vk+fglWttPrBUW5bU1FxxWZYo9ug8E+saHJ9zBmbz1cqdSJs+
+	 u48HpKTgf2JP/MTse2S70FGIJ3S++IZkeEms9/XYdQA56IPCmrnxyHj17QIAMp7S2R
+	 I5CPBqogqd2Ww==
+Subject: Re: [PATCH net-next v5 2/9] r8152: split RTL_VER_17 into QFN68 and
+ QFN100 package variants
+From: netdev-bot+sashiko@kernel.org
+To: hsu.chih.kai@realtek.com
+Cc: davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
+ nic_swsd@realtek.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ edumazet@google.com, bjorn@mork.no, pabeni@redhat.com, andrew+netdev@lunn.ch
+Date: Mon, 05 Oct 2026 09:57:20 +0000
+Message-ID: <179119424050.434549.6174729043039044928@kernel.org>
+In-Reply-To: <20261001091144.28191-3-nic_swsd@realtek.com>
+References: <20261001091144.28191-3-nic_swsd@realtek.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260913-eusb2-interrupt-v8-v8-2-0f505b9c394b@oss.qualcomm.com>
 
-On 13-09-26, 20:10, Krishna Kurapati wrote:
-> In cases like USB High-speed phys which can be either USB2 or EUSB2, it is
-> required to know the type of phy (rather than the operating mode) because
-> DP and DM interrupt lines need to be configured differently for each of
-> them.
+Thank you for your contribution! Sashiko AI review found 2 potential
+issue(s) to consider.
 
-Does the controller care? In preceding patch you defined the EUSB2 in dt
-type, so this describes the hardware. So phy knows it is usb or eusb...
-> 
-> Add support to cache the PHY_TYPE and add the following helpers:
-> 
-> - phy_set_type() for the phy drivers (like m31_eusb2 or snps-eusb2) to
-> declare what type of PHY they are (in this case PHY_TYPE_EUSB2).
-> 
-> - phy_get_type() for the consumers (like USB controllers) to query the
-> type of phy connected to them.
+Critical: 0 · High: 0 · Medium: 2 (1) · Low: 0
 
-I am not convinced that this is the way to go... Driver already knows
-the type and should use it...
-we alreayd have mode, i am inclined to not say yes to adding type here
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
-> 
-> Reviewed-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-> ---
->  include/linux/phy/phy.h | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
-> index ea47975e288a..038c2b58bbe1 100644
-> --- a/include/linux/phy/phy.h
-> +++ b/include/linux/phy/phy.h
-> @@ -21,6 +21,8 @@
->  #include <linux/phy/phy-lvds.h>
->  #include <linux/phy/phy-mipi-dphy.h>
->  
-> +#include <dt-bindings/phy/phy.h>
-> +
->  struct phy;
->  
->  enum phy_mode {
-> @@ -152,11 +154,13 @@ struct phy_ops {
->   * @bus_width: Data path width implemented by PHY
->   * @max_link_rate: Maximum link rate supported by PHY (units to be decided by producer and consumer)
->   * @mode: PHY mode
-> + * @type: PHY type
->   */
->  struct phy_attrs {
->  	u32			bus_width;
->  	u32			max_link_rate;
->  	enum phy_mode		mode;
-> +	int			type;
->  };
->  
->  /**
-> @@ -262,6 +266,20 @@ static inline enum phy_mode phy_get_mode(struct phy *phy)
->  {
->  	return phy->attrs.mode;
->  }
-> +
-> +static inline int phy_get_type(struct phy *phy)
-> +{
-> +	if (phy)
-> +		return phy->attrs.type;
-> +
-> +	return PHY_NONE;
-> +}
-> +
-> +static inline void phy_set_type(struct phy *phy, int type)
-> +{
-> +	phy->attrs.type = type;
-> +}
-> +
->  int phy_reset(struct phy *phy);
->  int phy_calibrate(struct phy *phy);
->  int phy_notify_connect(struct phy *phy, int port);
-> @@ -393,6 +411,15 @@ static inline enum phy_mode phy_get_mode(struct phy *phy)
->  	return PHY_MODE_INVALID;
+- [Medium] The commit message says the split is needed because QFN68 and
+  QFN100 "need different firmware and a package-specific u2phy backup-…
+- [Medium] In __rtl_get_pkg_det() (drivers/net/usb/r8152.c), the retry
+  loop `for (i = 0, ret = 0; i < 3 && ret != 4; i++) ret =…
+
+Pre-existing issues:
+- [Medium] This problem wasn't introduced by this patch, but in
+  __rtl_get_hw_ver() (drivers/net/usb/r8152.c) the buffer `tmp` is…
+
+--
+
+r8152: split RTL_VER_17 into QFN68 and QFN100 package variants
+
+This commit splits RTL_VER_17 into RTL_VER_17_QFN68 and RTL_VER_17_QFN100.
+The package is detected by a new __rtl_get_pkg_det() helper that reads
+PLA_PKG_DET. Every RTL_VER_17 switch case now handles both variants, and
+r8159_init() gains a u2phy backup restore write that only applies to QFN68.
+
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 4d8f0815d79d1..30af6ed3a638f 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+
+[ ... ]
+
+> @@ -10172,7 +10194,8 @@ static int rtl_fw_init(struct r8152 *tp)
+>  	case RTL_VER_16:
+>  		rtl_fw->fw_name		= FIRMWARE_8157_1;
+>  		break;
+> -	case RTL_VER_17:
+> +	case RTL_VER_17_QFN68:
+> +	case RTL_VER_17_QFN100:
+>  		rtl_fw->fw_name		= FIRMWARE_8159_1;
+
+[Severity: Medium]
+The commit message says the two packages "need different firmware and a
+package-specific u2phy backup-restore patch". However, rtl_fw_init() still
+gives both RTL_VER_17_QFN68 and RTL_VER_17_QFN100 the same firmware,
+FIRMWARE_8159_1 ("rtl_nic/rtl8159-1.fw").
+
+The driver still has only one 8159 firmware define and one
+MODULE_FIRMWARE(FIRMWARE_8159_1). The later patches in the series, up to
+"r8152: enable UPS for RTL8157 and RTL8159 QFN68", do not change this
+either.
+
+Is per-package firmware selection missing from this patch? Or should the
+commit message drop the claim about different firmware?
+
+>  		break;
+>  	default:
+> @@ -10182,9 +10205,38 @@ static int rtl_fw_init(struct r8152 *tp)
+>  	return 0;
 >  }
 >  
-> +static inline int phy_get_type(struct phy *phy)
+> +static u32 __rtl_get_pkg_det(struct usb_device *udev)
 > +{
-> +	return PHY_NONE;
+> +	u32 pkg_det = 0;
+> +	__le32 *tmp;
+> +	int ret, i;
+> +
+> +	tmp = kmalloc_obj(*tmp);
+> +	if (!tmp)
+> +		return 0;
+> +
+> +	for (i = 0, ret = 0; i < 3 && ret != 4; i++)
+> +		ret = usb_control_msg(udev, usb_rcvctrlpipe(udev, 0),
+> +				      RTL8152_REQ_GET_REGS, RTL8152_REQT_READ,
+> +				      PLA_PKG_DET, MCU_TYPE_PLA, tmp,
+> +				      sizeof(*tmp), USB_CTRL_GET_TIMEOUT);
+> +
+> +	if (ret == sizeof(*tmp)) {
+> +		if (i != 0)
+> +			dev_warn(&udev->dev,
+> +				 "Needed %d retries to read package\n", i);
+
+[Severity: Medium]
+Won't this warning fire on every successful read? The loop increments i
+after the iteration that succeeds. If the first usb_control_msg() returns
+4, i is already 1 when the loop exits, so the i != 0 check is always true.
+
+The printed count is also one too high: 1 for a first-try success, 3 for a
+success on the third attempt.
+
+The version read loop in __rtl_get_hw_ver() avoids this by breaking out on
+success:
+
+	for (i = 0; i < 3; i++) {
+		ret = usb_control_msg(...);
+		if (ret > 0) {
+			ocp_data = (__le32_to_cpu(*tmp) >> 16) & VERSION_MASK;
+			break;
+		}
+	}
+
+	if (i != 0 && ret > 0)
+		dev_warn(&udev->dev, "Needed %d retries to read version\n", i);
+
+__rtl_get_hw_ver() runs from both the cfgselector and the probe paths, so
+the false warning can appear more than once per RTL8159 plug-in. The code
+is still the same at the end of the series.
+
+> +
+> +		pkg_det = __le32_to_cpu(*tmp) & PKG_MASK;
+> +	}
+> +
+> +	kfree(tmp);
+> +	return pkg_det;
 > +}
 > +
-> +static inline void phy_set_type(struct phy *phy, int type)
-> +{
-> +}
-> +
->  static inline int phy_reset(struct phy *phy)
+>  static u8 __rtl_get_hw_ver(struct usb_device *udev)
 >  {
->  	if (!phy)
-> 
-> -- 
-> 2.34.1
+>  	u32 ocp_data = 0;
+> +	u32 pkg_det = 0;
+>  	__le32 *tmp;
+>  	u8 version;
+>  	int ret;
+
+[Severity: Medium]
+This isn't a bug introduced by this patch, but the PLA_TCR0 read in
+__rtl_get_hw_ver() accepts a reply of any positive length:
+
+	tmp = kmalloc_obj(*tmp);
+	...
+		if (ret > 0) {
+			ocp_data = (__le32_to_cpu(*tmp) >> 16) & VERSION_MASK;
+			break;
+		}
+
+kmalloc_obj() does not zero the buffer. If a faulty or malicious device
+sends only 1 to 3 bytes, can the upper bytes of *tmp still hold leftover
+heap data that then gets decoded as the chip version?
+
+That could misidentify the chip, or leak uninitialized heap bytes to dmesg
+through the "Unknown version 0x%04x" message.
+
+The new __rtl_get_pkg_det() helper already requires
+ret == sizeof(*tmp). Would the same check make sense here?
+
+[ ... ]
 
 -- 
-~Vinod
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261001091144.28191-1-nic_swsd%40realtek.com
