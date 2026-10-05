@@ -1,38 +1,38 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8D837CD45;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A70937C90F;
 	Mon,  5 Oct 2026 07:57:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791187048; cv=none; b=FbggsUFi9V9XNPnEEEywm3WqPOUtqGMfwNcqxKunJnuFeE0K5JZiZRS7jhH9UUkwMe2PlqTUlYvl0A6ruynF7JDqiqS4CQ0qZwHk1Xcc6J4BA8out9i85Xw0jcv2UHLPzSaMGS/kOJVsBLoU9opEdZAvNmNxq47G7eCQbEl4MWg=
+	t=1791187048; cv=none; b=RKTsXT53qxgughp0s1e0zDgzHhhj/FyhNjp7gC/UtiZTjH7Nz+eo5q/nORoGOaVa+NJivgjK8biwHU8O+VLDXpGD6YR/rZl0M22Liep2SQmbfi7GUKqHFXSwhdAEzTVnVNep0EmWuvCrHrUx6KKbIiY52j7Pi7aVQpJ3hJJCXZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791187048; c=relaxed/simple;
-	bh=AvcGgC+GFlmCENz7F+A+CDEBw/FpT6Q4ChWnPwgDAbk=;
+	bh=FAQ8n3PGF/42A7LPCVEPREYfeRmK3GVQTiDb9OmWKb8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ifAtSe36fDKhizrLbrdo4fZn8dnkF1pcuyZhVEN1QnHdUWvB4jzItLKqnAxjBp+QqJTApG+X+HuO9OnsY9j3ID5dkCBjVf/m8JLnDXxLd14JAcgVVsYuLf0f8L/RmScZqsC3VnVYmTjPnQg/9Hix3Uk+DOrBmOT2yMmWifu9/yg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kWfW8t8N; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=b5hVB0K8IbQebVpmc0Yi95SPjxtzv3S8orIcP5aIcsTguoAfNzpuq92p+NZorvb0ygcyttKUauloPLMjsjLADoIxcdUy5RcbNdiR35x/rQVdgY9+FJ+FyOuEyR12RbErEzV+eNYCXHtMdSHaOXg9iBU08EFlzPGIWvu5iZb0S34=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tcn3TpZq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kWfW8t8N"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F2EB8C4AF0B;
-	Mon,  5 Oct 2026 07:57:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tcn3TpZq"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 04EE8C4AF60;
+	Mon,  5 Oct 2026 07:57:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1791187048;
-	bh=AvcGgC+GFlmCENz7F+A+CDEBw/FpT6Q4ChWnPwgDAbk=;
+	bh=FAQ8n3PGF/42A7LPCVEPREYfeRmK3GVQTiDb9OmWKb8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=kWfW8t8NLD5Lf/O5HujbuAI6Wm2Xg5Tvrqt+dVeEBQfALTEWH2xN7xniMSTOagsRI
-	 f/Mc//euHMbAcR+UHLyN+SVlwnomwiU0+jcvIaNj/bQ+7RY50PkEYRwJ4T2M6oHteN
-	 Tu+E4UqETU12tJVY/LFBjdqYmx2Rz+WFV7wh6MovQmOOsaUCE+LJdgL4qR5HCmKVPN
-	 ajqvYQ/HFWgY2N8tOFZPmxCXqx7HyuubWC030nv0C/jxFBeFeOG65nf/VxdZZVySNm
-	 Mq9gn2vpUjPiIMzz7Mc/kTJ6VdpHotGFBt4cQ1bGyv8pnzTz+ksSUKbqcCwyGZYCo7
-	 QfaOFXdaSstlA==
+	b=tcn3TpZq3jhTWZ4nmt9BzZVzEbRcP+T3fr+1LIP/8d5Waln6S4/R0lhSxOIfOWHUd
+	 zBno1cAtRvwEkimhou2HvGGQBLfc727ocdnmfJkQTFDTUuqcnJvZ+RuKwPUme4D7Zk
+	 fmCt+YIJMBQTjKa9k4iiclz+HdJYGfMBS47ArZTtYDUlPInjABUyY1Zi3OtqQ2tsKN
+	 S5ybHCy1wzdLY7fa4y1IjJOct2ibpAq9M2XOKx3rF4ddBqN19PRuJluXrDbAssQojO
+	 GXfvDUPC22Vjuwi+oeXZ4szletrvg2lIA4HmXfTwWUpSS27bxYCml5K+hxvjrUB4e5
+	 J5R9qGCrZznpQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDAB3CA5FCE;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBF09CA5FFD;
 	Mon,  5 Oct 2026 07:57:27 +0000 (UTC)
 From: Pawel Laszczak via B4 Relay <devnull+pawell.cadence.com@kernel.org>
-Date: Mon, 05 Oct 2026 10:18:24 +0200
-Subject: [PATCH v3 1/3] usb: xhci: Add support for eUSB2v2 1024-byte bulk
- packet size
+Date: Mon, 05 Oct 2026 10:18:25 +0200
+Subject: [PATCH v3 2/3] usb: gadget: composite: Support eUSB2v2 bulk MPS
+ update
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,7 +41,7 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261005-eusb2v2-packet-size-v3-1-fde610a3c47a@cadence.com>
+Message-Id: <20261005-eusb2v2-packet-size-v3-2-fde610a3c47a@cadence.com>
 References: <20261005-eusb2v2-packet-size-v3-0-fde610a3c47a@cadence.com>
 In-Reply-To: <20261005-eusb2v2-packet-size-v3-0-fde610a3c47a@cadence.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
@@ -49,11 +49,11 @@ To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Pawel Laszczak <pawell@cadence.com>
 X-Mailer: b4 0.15.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791188311; l=9975;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791188311; l=4850;
  i=pawell@cadence.com; h=from:subject:message-id;
- bh=IXZn+ij0F4HPijV0olzKbqxWAy2jcZw2vTM4ZJjwT1M=;
- b=6NEtHtXVQFhjBBkSBGNoIaupNP/XN4RYpdVziewNg9+IOggmJWSf2M1ELmvcsr01sCD4R0DqL
- WlDNVDUV6aPAVseJlMrrMvTGHWJfCtYCLJhXJ0YibykY8a5MHyEYQ8W
+ bh=zMlRfIGeiVArfKEGBytmUlu/A6QFWPNjhtTKXEPQGZI=;
+ b=LrlAcBxM8hxtKmxiL4h7gKeb58UjALg1CrbqtsIQyay8KlDymTGCtkDaPYy+P3mo/7WbkPrw2
+ TTyqNs42sAqBXVtSNtLUr00Vu2phMYz8ur1Sbr3HDVMl2Q6S8B8oGwI
 X-Developer-Key: i=pawell@cadence.com; a=ed25519;
  pk=EUPBvLO9CDg7j6defeDl2iqi+z5Ivqu4Z46aiqe7dYc=
 X-Endpoint-Received: by B4 Relay for pawell@cadence.com/default with
@@ -63,276 +63,128 @@ Reply-To: pawell@cadence.com
 
 From: Pawel Laszczak <pawell@cadence.com>
 
-The eUSB2 v2 specification (bcdUSB 0x0230) introduces support for
-1024-byte maximum packet sizes for Bulk endpoints in High-Speed mode.
-However, an eUSB2v2 peripheral will revert its internal maximum packet
-size back to 512 bytes after events like a bus reset, disconnect, or
-deconfiguration.
+Add support for eUSB2v2 1024-byte Bulk MPS negotiation to the Gadget
+Composite framework.
 
-To support 1024-byte bulk transfers on capable hosts, add a new
-is_eusb2v2 flag to the usb_bus structure, populated via the HCCPARAMS2
-E2V2C capability bit in the xHCI driver.
+If 'gadget->is_eusb2v2' is set, force bcdUSB to 0x0230 and bMaxPacketSize0
+to 64 bytes. Handle the USB_DEVICE_BULK_MAX_PACKET_UPDATE Feature Selector
+request by activating the new 'eusb2v2_mps_active' gadget flag.
 
-When an eUSB2v2 host configures an eUSB2v2 device, issue a specific
-SET_FEATURE (USB_DEVICE_BULK_MAX_PACKET_UPDATE) request during device
-configuration to switch the peripheral to 1024-byte packet mode, and
-allow the xHCI endpoint initialization to accept up to 1024 bytes for
-HS bulk endpoints.
+This flag allows the UDC (USB Device Controller) driver to dynamically
+configure its hardware endpoints for 1024-byte packet mode, while the
+Composite framework continues to report 512 bytes in the Configuration
+Descriptor, ensuring strict compliance with eUSB2v2 specification
+section 5.2. The flag is cleared upon device reset or disconnect.
 
 Signed-off-by: Pawel Laszczak <pawell@cadence.com>
 ---
 Changes in v3:
-- Add check for bulk endpoint existence before sending
-  BULK_MAX_PACKET_UPDATE. This avoids sending the request to devices that
-  only use isochronous endpoints, as they do not support it.
-- Do not overwrite ep->desc.wMaxPacketSize to 1024. According to eUSB2v2
-  spec section 5.2, the endpoint descriptor must always report 512 bytes
-  regardless of the current operating mode.
-- Rely on the eusb2v2_mps_active flag in xhci_usb_endpoint_maxp() and
-  xhci-mem.c to dynamically return 1024 for HS bulk endpoints when the 1KB
-  mode is active.
+- composite.c: Do not overwrite ep->desc.wMaxPacketSize to 1024, as the eUSB2v2
+  spec section 5.2 mandates that the endpoint descriptor always reports 512 bytes
+  to the host. Instead, introduce gadget->eusb2v2_mps_active flag.
+- gadget.h: Add eusb2v2_mps_active to struct usb_gadget.
 
 Changes in v2:
-- Removed change in config.c: per eUSB2v2 spec section 5.2, conformant
-  devices always report wMaxPacketSize=512 in their descriptor regardless
-  of operating mode, so the warning suppression was unnecessary.
-- xhci-mem.c: simplified HS bulk clamp
-- xhci.c: moved is_eusb2v2 assignment into xhci_hcd_init_usb2_data()
-- eusb_update_max_packet(): changed from void to int; returns error on
-  SET_FEATURE failure.
-- Added eusb2v2_mps_active flag to struct usb_device to track whether
-  SET_FEATURE(BULK_MAX_PACKET_UPDATE) succeeded.
-- Added hub.c: usb_reset_and_verify_device() now re-issues SET_FEATURE
-  after bus reset to restore 1KB mode. Failure triggers re-enumeration
-  to prevent a driver from operating with inconsistent MPS state.
+- composite.c: CLEAR_FEATURE(BULK_MAX_PACKET_UPDATE) is not defined in the
+  eUSB2v2 spec; stall it instead of incorrectly setting 1024-byte mode.
+- restore MPS in __composite_disconnect
 ---
- drivers/usb/core/hub.c      | 16 ++++++++++
- drivers/usb/core/message.c  | 74 +++++++++++++++++++++++++++++++++++++++++++++
- drivers/usb/core/usb.h      |  2 ++
- drivers/usb/host/xhci-mem.c | 15 +++++++--
- drivers/usb/host/xhci.c     | 10 ++++++
- include/linux/usb.h         |  7 +++++
- 6 files changed, 121 insertions(+), 3 deletions(-)
+ drivers/usb/gadget/composite.c | 28 +++++++++++++++++++++-------
+ include/linux/usb/gadget.h     |  4 ++++
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-index 24960ba9caa9..34cfc44c5df8 100644
---- a/drivers/usb/core/hub.c
-+++ b/drivers/usb/core/hub.c
-@@ -6252,6 +6252,22 @@ static int usb_reset_and_verify_device(struct usb_device *udev)
- 		mutex_unlock(hcd->bandwidth_mutex);
- 		goto re_enumerate;
- 	}
-+
-+	/*
-+	 * Restore eUSB2v2 1KB bulk mode after reset (device reverts to 512
-+	 * after any bus reset per eUSB2v2 spec section 5.2).
-+	 * Only retry if the initial SET_FEATURE had succeeded.
-+	 */
-+	if (udev->eusb2v2_mps_active) {
-+		ret = eusb_update_max_packet(udev, udev->actconfig);
-+		if (ret < 0) {
-+			dev_err(&udev->dev,
-+				"eUSB2v2: failed to restore 1KB mode after reset (%d)\n", ret);
-+			mutex_unlock(hcd->bandwidth_mutex);
-+			goto re_enumerate;
-+		}
-+	}
-+
- 	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
- 			USB_REQ_SET_CONFIGURATION, 0,
- 			udev->actconfig->desc.bConfigurationValue, 0,
-diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-index 75e2bfd744a9..c8540d738a3e 100644
---- a/drivers/usb/core/message.c
-+++ b/drivers/usb/core/message.c
-@@ -2007,6 +2007,71 @@ int usb_set_wireless_status(struct usb_interface *iface,
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index dc3664374596..9678ed4e4aee 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -924,7 +924,6 @@ static void device_qual(struct usb_composite_dev *cdev)
  }
- EXPORT_SYMBOL_GPL(usb_set_wireless_status);
  
-+/*
-+ * eusb_update_max_packet - enable 1024-byte bulk mode for eUSB2v2 device
-+ * @udev: target device
-+ * @cp: configuration to be checked and enabled
-+ *
-+ * Per eUSB2v2 spec section 5.2, an eUSB2v2 peripheral will revert the
-+ * maximum packet size to 512 for bulk endpoints after bus reset, disconnect,
-+ * or deconfiguration.
-+ * This function sends the BULK_MAX_PACKET_UPDATE request to restore the
-+ * 1024-byte mode. It is valid only if the configuration has bulk endpoints.
-+ */
-+int eusb_update_max_packet(struct usb_device *udev, struct usb_host_config *cp)
-+{
-+	struct usb_host_config *config = cp ? cp : udev->actconfig;
-+	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
-+	struct usb_interface_cache *intfc;
-+	struct usb_host_interface *alt;
-+	struct usb_host_endpoint *ep;
-+	bool has_bulk = false;
-+	int i, j, a;
-+	int ret;
-+
-+	if (le16_to_cpu(udev->descriptor.bcdUSB) != 0x0230 ||
-+	    !hcd->self.is_eusb2v2)
-+		return 0;
-+
-+	if (!config)
-+		return 0;
-+
-+	for (i = 0; i < config->desc.bNumInterfaces; i++) {
-+		intfc = config->intf_cache[i];
-+
-+		if (!intfc)
-+			continue;
-+
-+		for (a = 0; a < intfc->num_altsetting; a++) {
-+			alt = &intfc->altsetting[a];
-+
-+			for (j = 0; j < alt->desc.bNumEndpoints; j++) {
-+				ep = &alt->endpoint[j];
-+
-+				if (usb_endpoint_xfer_bulk(&ep->desc)) {
-+					has_bulk = true;
-+					goto found_bulk;
-+				}
-+			}
-+		}
-+	}
-+
-+	if (!has_bulk)
-+		return 0;
-+
-+found_bulk:
-+	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-+			      USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
-+			      USB_DEVICE_BULK_MAX_PACKET_UPDATE, 0, NULL, 0,
-+			      USB_CTRL_SET_TIMEOUT);
-+	if (ret < 0) {
-+		dev_warn(&udev->dev, "eUSB2v2 1KB update failed: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
- /*
-  * usb_set_configuration - Makes a particular device setting be current
-  * @dev: the device whose configuration is being updated
-@@ -2123,6 +2188,15 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
- 	if (dev->state != USB_STATE_ADDRESS)
- 		usb_disable_device(dev, 1);	/* Skip ep0 */
- 
-+	ret = eusb_update_max_packet(dev, cp);
-+	if (ret < 0)
-+		dev->eusb2v2_mps_active = 0;
-+	else if (cp && le16_to_cpu(dev->descriptor.bcdUSB) == 0x0230 &&
-+		 hcd->self.is_eusb2v2)
-+		dev->eusb2v2_mps_active = 1;
-+	else
-+		dev->eusb2v2_mps_active = 0;
-+
- 	/* Get rid of pending async Set-Config requests for this device */
- 	cancel_async_set_config(dev);
- 
-diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-index a9b37aeb515b..c51e4261085c 100644
---- a/drivers/usb/core/usb.h
-+++ b/drivers/usb/core/usb.h
-@@ -89,6 +89,8 @@ extern int usb_major_init(void);
- extern void usb_major_cleanup(void);
- extern int usb_device_supports_lpm(struct usb_device *udev);
- extern int usb_port_disable(struct usb_device *udev);
-+int eusb_update_max_packet(struct usb_device *udev,
-+			   struct usb_host_config *cp);
- 
- #ifdef	CONFIG_PM
- 
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 997fe90f54e5..37a5f9e9bd6d 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1479,10 +1479,19 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
- 	/* Allow 3 retries for everything but isoc, set CErr = 3 */
- 	if (!usb_endpoint_xfer_isoc(&ep->desc))
- 		err_count = 3;
--	/* HS bulk max packet should be 512, FS bulk supports 8, 16, 32 or 64 */
-+
-+	/*
-+	 * HS bulk max packet should be 512 (or 1024 for eUSB2v2),
-+	 * FS bulk supports 8, 16, 32 or 64.
-+	 */
- 	if (usb_endpoint_xfer_bulk(&ep->desc)) {
--		if (udev->speed == USB_SPEED_HIGH)
--			max_packet = 512;
-+		if (udev->speed == USB_SPEED_HIGH) {
-+			if (udev->eusb2v2_mps_active)
-+				max_packet = 1024;
-+			else
-+				max_packet = 512;
-+		}
-+
- 		if (udev->speed == USB_SPEED_FULL) {
- 			max_packet = rounddown_pow_of_two(max_packet);
- 			max_packet = clamp_val(max_packet, 8, 64);
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a54f5b57f205..b4a3bdf88fb4 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -2951,6 +2951,12 @@ int xhci_usb_endpoint_maxp(struct usb_device *udev,
+ /*-------------------------------------------------------------------------*/
+-
+ static void reset_config(struct usb_composite_dev *cdev)
  {
- 	if (usb_endpoint_is_hs_isoc_double(udev, host_ep))
- 		return le16_to_cpu(host_ep->eusb2_isoc_ep_comp.wMaxPacketSize);
-+
-+	if (udev->eusb2v2_mps_active &&
-+	    udev->speed == USB_SPEED_HIGH &&
-+	    usb_endpoint_xfer_bulk(&host_ep->desc))
-+		return 1024;
-+
- 	return usb_endpoint_maxp(&host_ep->desc);
- }
+ 	struct usb_function		*f;
+@@ -971,8 +970,10 @@ static int set_config(struct usb_composite_dev *cdev,
+ 		if (result < 0)
+ 			goto done;
+ 	} else { /* Zero configuration value - need to reset the config */
+-		if (cdev->config)
++		if (cdev->config) {
+ 			reset_config(cdev);
++			cdev->gadget->eusb2v2_mps_active = 0;
++		}
+ 		result = 0;
+ 	}
  
-@@ -5371,6 +5377,10 @@ static void xhci_hcd_init_usb2_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
- 	xhci->usb2_rhub.hcd = hcd;
- 	hcd->speed = HCD_USB2;
- 	hcd->self.root_hub->speed = USB_SPEED_HIGH;
+@@ -1807,7 +1808,11 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 				count_configs(cdev, USB_DT_DEVICE);
+ 			cdev->desc.bMaxPacketSize0 =
+ 				cdev->gadget->ep0->maxpacket;
+-			if (gadget_is_superspeed(gadget)) {
 +
-+	if (xhci->hcc_params2 & HCC2_E2V2C)
-+		hcd->self.is_eusb2v2 = 1;
-+
- 	/*
- 	 * USB 2.0 roothub under xHCI has an integrated TT,
- 	 * (rate matching hub) as opposed to having an OHCI/UHCI
-diff --git a/include/linux/usb.h b/include/linux/usb.h
-index 25a203ac7a7e..57fb4c552740 100644
---- a/include/linux/usb.h
-+++ b/include/linux/usb.h
-@@ -464,6 +464,10 @@ struct usb_bus {
- 					 * the ep queue on a short transfer
- 					 * with the URB_SHORT_NOT_OK flag set.
- 					 */
-+	unsigned is_eusb2v2:1;		/*
-+					 * true when HC controller supports
-+					 * eusb2v2
-+					 */
- 	unsigned no_sg_constraint:1;	/* no sg constraint */
- 	unsigned sg_tablesize;		/* 0 or largest number of sg list entries */
- 
-@@ -625,6 +629,8 @@ struct usb3_lpm_parameters {
-  * @usb2_hw_lpm_allowed: Userspace allows USB 2.0 LPM to be enabled
-  * @usb3_lpm_u1_enabled: USB3 hardware U1 LPM enabled
-  * @usb3_lpm_u2_enabled: USB3 hardware U2 LPM enabled
-+ * @eusb2v2_mps_active: 1024-byte bulk mode is active and must be restored
-+ *	 after bus reset.
-  * @string_langid: language ID for strings
-  * @product: iProduct string, if present (static)
-  * @manufacturer: iManufacturer string, if present (static)
-@@ -708,6 +714,7 @@ struct usb_device {
- 	unsigned usb2_hw_lpm_allowed:1;
- 	unsigned usb3_lpm_u1_enabled:1;
- 	unsigned usb3_lpm_u2_enabled:1;
-+	unsigned eusb2v2_mps_active:1;
- 	int string_langid;
- 
- 	/* static strings from the device */
++			if (gadget->is_eusb2v2) {
++				cdev->desc.bcdUSB = cpu_to_le16(0x0230);
++				cdev->desc.bMaxPacketSize0 = 64;
++			} else if (gadget_is_superspeed(gadget)) {
+ 				if (gadget->speed >= USB_SPEED_SUPER) {
+ 					cdev->desc.bcdUSB = cpu_to_le16(0x0320);
+ 					cdev->desc.bMaxPacketSize0 = 9;
+@@ -2005,12 +2010,20 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 	 */
+ 	case USB_REQ_CLEAR_FEATURE:
+ 	case USB_REQ_SET_FEATURE:
+-		if (!gadget_is_superspeed(gadget))
+-			goto unknown;
+-		if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_INTERFACE))
+-			goto unknown;
+ 		switch (w_value) {
++		case USB_DEVICE_BULK_MAX_PACKET_UPDATE:
++			if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_DEVICE))
++				goto unknown;
++			if (ctrl->bRequest != USB_REQ_SET_FEATURE)
++				goto unknown;
++			gadget->eusb2v2_mps_active = 1;
++			value = 0;
++			break;
+ 		case USB_INTRF_FUNC_SUSPEND:
++			if (!gadget_is_superspeed(gadget))
++				goto unknown;
++			if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_INTERFACE))
++				goto unknown;
+ 			if (!cdev->config || intf >= MAX_CONFIG_INTERFACES)
+ 				break;
+ 			f = cdev->config->interface[intf];
+@@ -2293,6 +2306,7 @@ static void __composite_disconnect(struct usb_gadget *gadget)
+ 	 * disconnect callbacks?
+ 	 */
+ 	spin_lock_irqsave(&cdev->lock, flags);
++	cdev->gadget->eusb2v2_mps_active = 0;
+ 	cdev->suspended = 0;
+ 	if (cdev->config)
+ 		reset_config(cdev);
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index 8285b19a25e0..5f691f80fd68 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -420,6 +420,8 @@ struct usb_gadget_ops {
+  * @wakeup_armed: True if gadget is armed by the host for remote wakeup.
+  * @irq: the interrupt number for device controller.
+  * @id_number: a unique ID number for ensuring that gadget names are distinct
++ * @is_eusb2v2: True if controller is Embedded usb2.
++ * @eusb2v2_mps_active: 1024-byte bulk mode is active.
+  *
+  * Gadgets have a mostly-portable "gadget driver" implementing device
+  * functions, handling all usb configurations and interfaces.  Gadget
+@@ -483,6 +485,8 @@ struct usb_gadget {
+ 	unsigned			lpm_capable:1;
+ 	unsigned			wakeup_capable:1;
+ 	unsigned			wakeup_armed:1;
++	unsigned			is_eusb2v2:1;
++	unsigned			eusb2v2_mps_active:1;
+ 	int				irq;
+ 	int				id_number;
+ };
 
 -- 
 2.43.0
