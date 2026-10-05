@@ -1,162 +1,129 @@
-Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013033.outbound.protection.outlook.com [40.107.44.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFEE9277818
-	for <linux-usb@vger.kernel.org>; Mon,  5 Oct 2026 05:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.70
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791177454; cv=none; b=uXCxLneOkWUS1M3ITbmVXBz8b0l1N1lRgUJm/LkJ7IbvknY4o7urcG5PLh5+GuB8w9sIa32mCChZnbRNchHDbFkDJeMiQDTrZNl7+6e5/t929cWuCCzJYwp4DowQpagSuQJGieH5nyZ54EhNRTAVZmFcx/nVSb40CWHg2g2K4l0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791177454; c=relaxed/simple;
-	bh=O43mM4fr02Xx/jsKGSTF4uneqSaUTIh4j9o8SiMa14E=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=oCyf7uTSyz5PRNICDYar2B5yrJcfjrT1N6huVonZRn71kHYi2gnX81wJXSa63j1sVNBxzjivZENpJ/D8rO+XsKphStRQd78J6CcNYwxWZR3t3L1GzB7G9Y0Hr6pypDM5UiHA3v2az3bhW9GU7p+T+6aDES+MpWaJ6di+TY7iS5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-82315dbce25so1248062a34.2
-        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 22:17:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791177451; x=1791782251;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GPgY2QqAXkpTT8ue2JQI/5i8AHyd2xVyfOf3038fJ9Y=;
-        b=T299/fWXU9UATGv8SZGzQHyaQZM5a4iNZnOqmp6MfsfLeTNzeIZ5Hq0M3hYKGgGnYQ
-         LDO9w1xVyFdMqgMqGIoJfVKI9kRPncx880aXNKjiuMtghByY5IAEXSWqKG+6P15SR/H0
-         +JJyr0H6d1FqP4NURHdWlFps3UkjxoCn29VYk7AFW+DSCTNV2qEbdUTPsAk4Hwo9Vujc
-         5OQ2K8eXd6Hs7VmK8PLBm8WYUhlPa+uFAKlWy93F8BdRVE2jYYDnph/FLQl5YYiSth0R
-         5rVMTEO9FG7Cbbk7hjyNOEX0Lyt2aGbaOirymxbD+hiRgmHxRorK6dXKG2qC40VYGHq0
-         4awg==
-X-Forwarded-Encrypted: i=1; AKwUvBycDcRxzjJQgU9/Ts9Q+zXl7cUU2qg91ojT4W2MV+GVlyYuSwHnZmwwgBOQ0Wgj7jC8N12Jie3aC4Q=@vger.kernel.org
-X-Gm-Message-State: AFuF++mPPI4VFFQUg3lPuwK3gw/jVH4MAEoCvbhwSi35wB6R0KXnEgiC
-	oJBsRpxg3VfziqJI6zzoCOCpaepzaj4YEGcQAe6/sirZUbhs5VZggCQGVUYgQYONr6weixhhnHa
-	aIdDfJ/gPpkb4uObIyV87oBexxaxGnhO82syGfSerlGXm5Z3p56znr6DsN3s=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A7782F28FF;
+	Mon,  5 Oct 2026 05:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.33
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791179050; cv=fail; b=D2+hR/bGE5pJjTAiiTiKbX60jcAn94pdRr5VKsQuOUrePkSiuOFS0vvD0qDWjWeFKQNfWn4I9/ZQO00gCU593tH0Lwcqd6ClRf7+zXo6ohR4qLlIS3g4CzkXDeu5JswzvN0MkUQwzMXzIslzIj5Kz5WmRp88jYDqhW6IihauK/8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791179050; c=relaxed/simple;
+	bh=x2hw6U7+OYKnT7+nU5X1dO+ZSqbZhQKCsGJZdZmhX3M=;
+	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=jS6ZzolwZuUZF2aqAR6c5P3SX7S92eR+upezTrvPd08x082XYpt9tbkB7RUiN63XSxBTnW6eqImmQYXvvH6OQKmWftpgjhvrkWciga1MtXZNyJ9/ka8n0Tba1pRXw0ztAZMfpZtAoopBQ/MytMRRRChEiYQZRDvlRK7pu7dIU+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=moxa.com; spf=pass smtp.mailfrom=moxa.com; dkim=pass (1024-bit key) header.d=moxa.com header.i=@moxa.com header.b=hy0q+XO8; arc=fail smtp.client-ip=40.107.44.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=moxa.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=moxa.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=moxa.com header.i=@moxa.com header.b="hy0q+XO8"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VzKV85vkW724uv7wKt3oUCq/ePoHKV2RkwUfcaDcZEZLSof3FgmI4NDSAOMR+32bfIhodIEqcam/4UGrUOsXMoS7Kgj46gNohA04bh+Uo3SmEvqfj8HhsHqQlH9bHMrsorHp6Qq0w/+KIY2NrFq3DiaF1bOzhd6EffNJc25SOx7ninqrgJ27M3W869BvcQM44eizbmHeNQ7vWRxcZr1Ar6yIej3BztjUJ0YRJso80M+W/45mVRelQOQXvnDrc3Jy+kHPm3cIUgSp2a4IseGjPFaCwhJxGPbPY5sl6zL31t5L+IOXyDRCQUuHnrsWz3cMKXZojhenhytIGqXMr+dZYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x2hw6U7+OYKnT7+nU5X1dO+ZSqbZhQKCsGJZdZmhX3M=;
+ b=LJBfY7OwvaeJDgh1jQmpGNHDU1oHT45DYptgW5JRSsYJu4gCQtDW/5EKsrq9rQ6lBt9RBAWM+E5SGrwkO9LE26alRd4QNPJxVFMJq+6Gmxpco9Ew2Al6L0npFv+Hebo+Gr8oeT9V8Rgt1iveMlxC2w0eYGDJ+fAiCm+I/qM3m+1+yhdqLWiLV5MHs9BcGMQP6d1rE3ZetljIbNYdWOds18IKdq5n5HkI89evqSiIpsCDemQgK5SzyNnrIbPnjskERcgQConFCKYY+GVYVOtQfGZ8mMubMqaxppLOOTHGGVnAIrV0V5I6b296qBZf4oE7/Um4mIIg5f+XW2NCPP/rRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=moxa.com; dmarc=pass action=none header.from=moxa.com;
+ dkim=pass header.d=moxa.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=moxa.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x2hw6U7+OYKnT7+nU5X1dO+ZSqbZhQKCsGJZdZmhX3M=;
+ b=hy0q+XO8DyzUFeeqm44iRN5hsOUdjm0gTcRO7ieMHwZ9fJlcC8pbgmabYJuFAc3TiZB0nHXWk669cS6omSo/M/I4+5KdBY9tJmgDyYLWld3ge6TDHXPjoNhouEIi4FmZvNlMVWYNaK+Ba7Dyh0TtA6FZ3/DBzaJdKg202uOKc1M=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=moxa.com;
+Received: from PUZPR01MB5405.apcprd01.prod.exchangelabs.com
+ (2603:1096:301:115::14) by SEYPR01MB5598.apcprd01.prod.exchangelabs.com
+ (2603:1096:101:139::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.18; Mon, 5 Oct
+ 2026 05:44:05 +0000
+Received: from PUZPR01MB5405.apcprd01.prod.exchangelabs.com
+ ([fe80::ae38:e821:cf7d:3717]) by PUZPR01MB5405.apcprd01.prod.exchangelabs.com
+ ([fe80::ae38:e821:cf7d:3717%4]) with mapi id 15.21.0451.022; Mon, 5 Oct 2026
+ 05:44:05 +0000
+Date: Mon, 5 Oct 2026 13:43:04 +0800
+From: Crescent Hsieh <crescentcy.hsieh@moxa.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com,
+	EddieSY.Lin@moxa.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/6] USB: serial: mxuport: add MUX50U support and
+ updates
+Message-ID: <asM46PTPs_8C3q4v@moxa-ThinkCentre-M90t>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqKpM7QaTyKzmqSe@hovoldconsulting.com>
+X-ClientProxiedBy: TP0P295CA0055.TWNP295.PROD.OUTLOOK.COM
+ (2603:1096:910:3::11) To PUZPR01MB5405.apcprd01.prod.exchangelabs.com
+ (2603:1096:301:115::14)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1924:b0:4f9:6348:cd3b with SMTP id
- 5614622812f47-4f96348dac1mr1348428b6e.41.1791177451757; Sun, 04 Oct 2026
- 22:17:31 -0700 (PDT)
-Date: Sun, 04 Oct 2026 22:17:31 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ac332eb.598348e0.18b15.0000.GAE@google.com>
-Subject: [syzbot] [media?] [usb?] WARNING in smsusb_term_device (2)
-From: syzbot <syzbot+d627b1495de0e851be32@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PUZPR01MB5405:EE_|SEYPR01MB5598:EE_
+X-MS-Office365-Filtering-Correlation-Id: e5d11664-b94c-45f1-86c7-08df22a3aa6b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|23010399003|366016|1800799024|38350700014|10067099003|56012099006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	iZLiD+nHcCdd/ctL58khjoB9bsCerzkUD3WxTSrkAfMKzkhONTl+BrnWj1KM+R3LKY0Hr0j3QAs4B5N23Scee4H5CyYxkIjdTrQJKt6yBfseTofiHN1RTD7dYsCaKQfU68I4zLW3wMSva+/s5Yg0286dWfBejYGkvvVyEGHgZgn/3lmtt0lXjPDYdb77ACMBd/kSC6TkKVuGj4pqbP6lYWWwLeEDUGvpLN6IgnYPbuTX8a9lMnTqSHdub9DL6P2ZGZdLsh6TMdtfhThpQrW/r6j+znlBvSAt8e+UwTV9+dhrOM52u6bRsB0g+Ag7gJCFHhHcTz1rHnWePfGuiXow7i/VLxeej0Vy2YvhUiHto4GUULEV5Tp/pBtC/qisbFrXOhDfmSo9E6j0qie8thFfGp5AjOQdGjwwnz2pkUVndvvLTvHFNJDpqqHoglShimON8QxJ+pLf4VyDGpWXXBlDZkCloXY4kMblE/DqV5GDL0hucDGVfMjerD+oMCj8DcHSSwpAcYfw/+E7IzVkzoaWG1RgllsllSWs/oKAIiiJAaCaugPsQVkkssDe4toYq4w6uYtaYECwO5A+GfTs3JaFTZEjZSXzuEq1FCRgOjnd92tCU3C7fW6QeMQCuTrCf/kd2nt6gIxwn9Rg4D4UFJxyJB6cyF79nwxsdwp5+hpj6SDj1lmfZ1fWC/cjYhQ6VPJ2ujTRgDXKe3AYX0/ZlEbCUfTGQ11t2p3gL7f0IixeCLQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR01MB5405.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(23010399003)(366016)(1800799024)(38350700014)(10067099003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?/1xJ0SH9c8WZR1qi/bf/qrNeg55FbYJ7YFRXHxP4R6dhgH2ItOqRERiHoyJu?=
+ =?us-ascii?Q?NEdTPLOCia4fuhELIkCW2KzJ3QWSwAK81sGaCTBKQ/zbX7msKvs/9vPHEON9?=
+ =?us-ascii?Q?bO01gQekBYcKjG2/TEWYorSR3xDVDTdiTs3xAfPEiotPNEolQB8v32mnfUFF?=
+ =?us-ascii?Q?QDx0DqlDJ244bjOwTlcfTTDELYXj1ccvtONRu1KXAcN5P6iQVLckilkd+Do2?=
+ =?us-ascii?Q?toTzPj7TJyAvbJqit9b5nPI+1dAbF+Ja27n8hp3JqYoy0u23WqXMU+VsvE9X?=
+ =?us-ascii?Q?uPJTIMRHItwaBR6moMGArj8+0czhWSzAr20o/esVuukFl8gpJJxkWd27xBab?=
+ =?us-ascii?Q?haBhvcTrRmGWj3S+N304VAuYli+NDyPtPp0Hg7x2tnrDChw2B8FsJGBR7Iq2?=
+ =?us-ascii?Q?OwdDwdGKETh0rkL4KyW5VfmFlzixBh+5fzYaRsIYU9Cqu1ugAhXeXpHvuMFE?=
+ =?us-ascii?Q?fswpEZQFcBf+11q2Ig/lDYYeEXikxLg/wH0qyh5Y9JAw6sMjrzC6z3ipMZpA?=
+ =?us-ascii?Q?ZJYpfyKSx767wPG7sz+DNkwXL0RGOvTnDlvZbArHqHmZ928OJzdd0Xh9j2lJ?=
+ =?us-ascii?Q?Xn/YmMcgQCEBv1xi5g0E8f/6rNCtHpUmXJ4TQ9mxlyAPIi0kEr9lWQBhKKwm?=
+ =?us-ascii?Q?cP1IcRsrW4gc1vwpQtBNet/oeMSoFY7js7vzzfM34R2haFKj31AZmj/6r6DL?=
+ =?us-ascii?Q?qOftWz9HG+M1flYznAJTWzfHVJV/O+8p+rHZO7AqyX/Dvu8Cy3+KhpMNp/e0?=
+ =?us-ascii?Q?G0MUiMnSrwv7yBNoSWsIT3TvntQnuocHSMNyGvflc//b8G3rPwvp8K75CO7i?=
+ =?us-ascii?Q?Bnm7gCXz1V0kQCf99zN/T2BxCnsY5J6nPystYOSxYB8Ld2jx5ylxw4osMA1T?=
+ =?us-ascii?Q?nc9AueYztDSqo1iaGGdF4nJZVJb+ykTlNTIDUqnI1ZPhMC93rE50qJzxOT09?=
+ =?us-ascii?Q?Jq6hmiWpj7fL6E/hmYGp4vP6b3hH4lj0CwNU6nOPbhal/vIGtlxzIfhfKuW6?=
+ =?us-ascii?Q?gglVDoj4vcTs/v35/ehbjpRCVh3PQTPKsuOK7RixgAx77/p1OPKQLg+56Bh3?=
+ =?us-ascii?Q?85rU7vk4IppNcjd5uh7ARSuKpGeQugu3FV9zfhzRm2vxcTWYBHzoasGOgNxw?=
+ =?us-ascii?Q?NapFWhHIPohKarQx5gCtizdMV36tdFenGb8PrMMJiSPNELmwNoHv1f0NJV6S?=
+ =?us-ascii?Q?Fjr8C9mwu7Hedny1PDwSAd8OfG17HmvRgnNbmvttwCHDJddAq3t6jYpjlpeW?=
+ =?us-ascii?Q?b3L2AP5o4MyLgWj/N4Z/9uXZOQDQGSTgtJInbiErKDfrE8by/pNGcp033OXA?=
+ =?us-ascii?Q?sFdjwcdalqI1WTnxTMIB4843sLTUJm6XV8eLlb+xtVw/tDZt+zgh2X4TGmXx?=
+ =?us-ascii?Q?4VBFL21mnwJX2iwi85zWEF0jo3xqQVSz0yb7qC2LgW6gNN1hUp0BNUIHeEGm?=
+ =?us-ascii?Q?8TpsVqKXQaJy3XSlafpMDG8Pi0Viwfgh5atPR/Xxf/7nsRLMyUwlK0WrUXQR?=
+ =?us-ascii?Q?1qMppPbqKSlFZv2PWzWqtmopJCiLVqwwskMmvsdOQzRWaG96ewVvSy9ZwtiY?=
+ =?us-ascii?Q?ZevEvVZhP6Ocv9YavEWsbhYtV3BW+fPvyUsOai1BMcwgpVT1uEEfS5CX0zgI?=
+ =?us-ascii?Q?4pkLtCLY6fJtvBZrznY++l94J9qu9z7nYbOL7Y6FoESLAsQ91d2qf0AEEhmV?=
+ =?us-ascii?Q?hF8HoGV1i0SGWYW9eu1TpLqQFKLie+t7ynIkRXbdzCGlHzZrx27TV6HezfZU?=
+ =?us-ascii?Q?5jIZ6xaeaJoM5qq5sAVR3ipQ+QQnDuc=3D?=
+X-OriginatorOrg: moxa.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e5d11664-b94c-45f1-86c7-08df22a3aa6b
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR01MB5405.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Oct 2026 05:44:05.1768
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5571c7d4-286b-47f6-9dd5-0aa688773c8e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cN0cG3smvCSwYEfij9cDTgqbqmKcpuHINwQV8kpxzedV75e/fAzNbDS4NiMnnko8sfNLLnRjCg9vmaaI4kl9DTH8Q0z37Zc/Bz1tohJ9bUI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR01MB5598
 
-Hello,
+Hi Johan,
 
-syzbot found the following issue on:
+Just a gentle follow-up on this series, which was posted nearly two
+months ago. I understand that it is still in your queue. Please let me
+know if there is anything I can do to help with the review.
 
-HEAD commit:    6addb4f38557 Merge tag 'edac_urgent_for_v7.3_rc6' of git:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=154b0f25580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=341a98f91c13ec9
-dashboard link: https://syzkaller.appspot.com/bug?extid=d627b1495de0e851be32
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=134b0f25580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=10cb27f5580000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/70aa10806ffb/disk-6addb4f3.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/053f6eeab8df/vmlinux-6addb4f3.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/9427f05ec282/bzImage-6addb4f3.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+d627b1495de0e851be32@syzkaller.appspotmail.com
-
-smsusb:smsusb_init_device: smscore_start_device(...) failed
-------------[ cut here ]------------
-data & WORK_STRUCT_PWQ
-WARNING: kernel/workqueue.c:4425 at __flush_work+0xc8f/0xd70 kernel/workqueue.c:4425, CPU#1: kworker/1:4/5659
-Modules linked in:
-CPU: 1 UID: 0 PID: 5659 Comm: kworker/1:4 Not tainted syzkaller #0 PREEMPT_{RT,(full)} 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:__flush_work+0xc8f/0xd70 kernel/workqueue.c:4425
-Code: 38 00 90 0f 0b 90 31 c0 49 bd f8 f8 f8 f8 f8 f8 f8 f8 e9 2d ff ff ff e8 7f 24 38 00 4d 89 f4 e9 ee fa ff ff e8 72 24 38 00 90 <0f> 0b 90 e9 23 fd ff ff e8 a4 60 ca 09 e8 5f 24 38 00 48 c7 c7 80
-RSP: 0018:ffffc900051ce960 EFLAGS: 00010293
-RAX: ffffffff818eb3be RBX: ffff88813fe4a005 RCX: ffff88803a410000
-RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: ffffc900051ceb18 R08: 0000000000000000 R09: 0000000000000000
-R10: dffffc0000000000 R11: fffffbfff1f64590 R12: dffffc0000000000
-R13: f8f8f8f8f8f8f8f8 R14: 1ffff92000a39d34 R15: ffffc900051cea08
-FS:  0000000000000000(0000) GS:ffff888125cc2000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f0e9993643c CR3: 0000000045a10000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __cancel_work_sync+0xbf/0x110 kernel/workqueue.c:4568
- smsusb_stop_streaming drivers/media/usb/siano/smsusb.c:183 [inline]
- smsusb_term_device+0xdd/0x3d0 drivers/media/usb/siano/smsusb.c:345
- smsusb_init_device drivers/media/usb/siano/smsusb.c:497 [inline]
- smsusb_probe+0x1aba/0x2280 drivers/media/usb/siano/smsusb.c:575
- usb_probe_interface+0x788/0xe50 drivers/usb/core/driver.c:399
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3776
- usb_set_configuration+0x1bb5/0x2260 drivers/usb/core/message.c:2274
- usb_generic_driver_probe+0x8d/0x150 drivers/usb/core/generic.c:250
- usb_probe_device+0x1c3/0x3b0 drivers/usb/core/driver.c:293
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __device_attach_driver+0x270/0x410 drivers/base/dd.c:1026
- bus_for_each_drv+0x25b/0x2f0 drivers/base/bus.c:500
- __device_attach+0x2c7/0x450 drivers/base/dd.c:1098
- device_initial_probe+0xa1/0xd0 drivers/base/dd.c:1153
- bus_probe_device+0x12d/0x220 drivers/base/bus.c:620
- device_add+0x7d7/0xb80 drivers/base/core.c:3776
- usb_new_device+0x99a/0x1680 drivers/usb/core/hub.c:2713
- hub_port_connect drivers/usb/core/hub.c:5585 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5725 [inline]
- port_event drivers/usb/core/hub.c:5889 [inline]
- hub_event+0x28cf/0x4cf0 drivers/usb/core/hub.c:5971
- process_one_work kernel/workqueue.c:3396 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3479
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3560
- kthread+0x38b/0x470 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+--
+Thanks,
+Crescent Hsieh
