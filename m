@@ -1,74 +1,76 @@
-Received: from mail-yx2-f10.google.com (mail-yx2-f10.google.com [74.125.224.138])
+Received: from mail-ej2-f41.google.com (mail-ej2-f41.google.com [74.125.228.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6E43290DB
-	for <linux-usb@vger.kernel.org>; Mon,  5 Oct 2026 06:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8C1379EE6
+	for <linux-usb@vger.kernel.org>; Mon,  5 Oct 2026 07:52:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.228.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791180035; cv=none; b=AhnpdsvohQVAmJ1BIWkX7HuPudlnmg70nvzoSxDH6RJAfVW7reR9xB+GQY84ZfFlMy3ztKGRDFM8k4uZbac1OJJCF0cEjcOVlLhDTo8qVcUpaK3vA9qvEkKNImmbH0HsQOPgofy7Sfe2u2t72K64+zbfHQEg2EPm8G5ZXsrcEHI=
+	t=1791186762; cv=none; b=pDE2cNE94+e7zn9DifNYjPA2vgFGeofm1Z9YaiAQictLe5YL0FJwGoKOyC0WJpcuS/8tfnI9eRgwQEo3mQg0exzcFzpog+X/PUIC1zwwDUxstgeExwtOccmu/Xng82EGAkQR3fu7QJfc1qShYKHNeaTpxvWNWEkrsLQsm1qzAB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791180035; c=relaxed/simple;
-	bh=ZsHnozCFRe8N55w99HabQxN8D2KdU1j/ypL3jxREuRY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CsAav1K3//+lIublTRnJlpnb2lG+kSyqPVh7ihdytGVcYAOb6rnyyLF+enRI+FEaXtUhfgk+y22KyG4tVxTcF5eu8+iMRan6fikaiWnthWveb5+XFP79lTwwKXG+jFodWMRrsNIF8ZAe1h8AOoT5sMbKx3K7c72kDx44jzcYte0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gRYULtAt; arc=none smtp.client-ip=74.125.224.138
+	s=arc-20240116; t=1791186762; c=relaxed/simple;
+	bh=82r4qovijQ1dYl4fpF5dysLdPQXbMGcexIEnsSETYVA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Znj9s120KyzGWJBH9dgrX+oAYcqgHhHtYPPG45yYiEhO9pEQ+BQ6dSplhh6AYHteAZhPxvtYndF5QinHau9AX1zldOiKVkxGp4+h8/PU9rz1fefKHiGdZh0JPesnMvahIFVNC2yStseJAFG/enprupW8s2kj4vUfgCCkDHcp95k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CelSwl3R; arc=none smtp.client-ip=74.125.228.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gRYULtAt"
-Received: by mail-yx2-f10.google.com with SMTP id 956f58d0204a3-66c711552cbso589903d50.1
-        for <linux-usb@vger.kernel.org>; Sun, 04 Oct 2026 23:00:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CelSwl3R"
+Received: by mail-ej2-f41.google.com with SMTP id a640c23a62f3a-c2e3453dd0dso255148266b.0
+        for <linux-usb@vger.kernel.org>; Mon, 05 Oct 2026 00:52:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791180031; x=1791784831; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791186759; x=1791791559; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SUcUukBNYZdbFMBXRaDby96SHcIwSALeSewClcQZ668=;
-        b=gRYULtAtKBBOgGWAUJrpuqkvShG5GGPH+lwl9LqyUW9LL/567VtLTRj3cC16sAQlpe
-         1y+o53sdU9IkQSnQpdf6BUekiZVQB0313pKBHkMcGCbJTbH0lxN3KU08swiory2tgc06
-         XeJ/Jv/FbrGWkgtKWpPuQHzLm/W0DG3AdTKZErPxaujZaT7XaYrD6DG1B5gRi81OINT1
-         Zs6w47QjWG/T88Dvqauzvx0GQJHy+YSdkm/ubS37p+J5mCM6yZK0yJV0i8HyiUpK5d7+
-         RHftWIBYS/aY/okIrhc+lMbezq6/ThqXUpWJY47JU4MsKE8Mqpex+l1iL7zttfVyi9zg
-         P7ww==
+        bh=Hkbmmu29f4ESmjhS/R6fVuQiC+U9d5xHF0gJ/jLHU0E=;
+        b=CelSwl3RTr8JSTz99vh2oPK3bQgXmhmwggJLgEX2LDuOAtB+rgsW4E1jjgCzwkp7oK
+         5JQaMJcpkvSPxwZzWWTqqfWqTxwqTcf0cVC6aqWG2YV59psGQonjjZwWTn3vMkiqAHsn
+         e1Te0XEyVb3AZpJ22AovJzkgxQHnfe0jyW882MY6xEXBdnTICOfOV2qZYlN3KTJp5bGs
+         ZjhgXtmRGgBz9TvCPWn40PSobRl/HmZNp0c67u8jkcaSiEPG4jQEfSnjjAUZY8fMUAO9
+         22VZZR/KW7NTFRQkK0LO2V/PgDtuSX9C9koMoGqEN/2G5MdeXu0E5VweHVliFa56jnxA
+         eBIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791180031; x=1791784831;
+        d=1e100.net; s=20260707; t=1791186759; x=1791791559;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SUcUukBNYZdbFMBXRaDby96SHcIwSALeSewClcQZ668=;
-        b=ldd1VvpfO/fiMz/VMnYQqiAlyldwJY65N9qUY38k19NCaeMrMI3QzBroAUmuC8+l3D
-         kFpG7VnJ7lcD7ZZ048plFHvxgHAscfS0bWYqMxOXL2ODGY4EOSckzMLLrBFL9GtlbqwK
-         Rm+dKywntog6oVka+EJbgURLBb1UPobt5OicPsLvO+iZYNVPjL2Zr8jgH7j06wrZyHGp
-         l6Wk/C1pIzhVyZBcL6r4qZJbWJSxFkNnwmxplAJRnjRsZ0hVLIfDgVdL4JUsv8/8Ae92
-         7S/Jyfau+hXlgeOM8MDDU6oTCh2CZo2F/gHaDg6+M0U/1ANDvZ+PsZE/RdSJKLoH+Zow
-         V66w==
-X-Gm-Message-State: AFq9FYJB93+X0ZJw9apUb/6d+AsZLQjRKOBbbqeTwgQuvcfpXZQF6xq+
-	DAfOoWzM60sNaf7uBfOuBaNXyhFJu98FQ3zbQDji3EH6tVYCj+ntM+iT
-X-Gm-Gg: AYBFou1fJBH6wYizjb7jSWM2f41YmlkP8eTrxLcd2gZ24J/qMfAh8CYx69hs2fqW9HA
-	N6TyQ9vrvH2h392e7io0vUqZrlYZNXQkTVP24EBvL+DN2Vl7jlRTCSteiup/PzpzKh4eQ9AfQAl
-	KKBbWJrr6qNwdq3guyqiYkX9rBsidH+pzvrhDkmPC5Iq47GP00UHCKEBS3aUc2LaD8//MopFfm8
-	eJq9rMhKq8LvlK4e7whcs4r8l12BXqhw1AX69UghdU5ncattJF3xpM23N0jilZCYKTqdfLuCITA
-	6WCp22YOySUI4rO2e1Zb3a3vivPzTUdQiwuYA4LzG0kaFgkxqm8EYo2Dzox4f5oRQSBihrjaoJd
-	W+Nig4z6s/CutUT6Fqt51+gcmhTDofn44eZGLYBXG3zzSIz+sa5YBVm5nrknT57YOhl+WiUl26M
-	B6EJhFGH/zu1c608N7CceNKZ0e+ocHOGR3rJQbbbjPZBQ0vPSpTpFutnhmdFRY+JymLzhmd9LJ+
-	Mv5UIfp0pp14933dCul25R5m0lZSRFqFzBrryAuoVEzmuxrSRsC
-X-Received: by 2002:a05:690e:4090:b0:677:c85f:2abe with SMTP id 956f58d0204a3-677c85f396dmr1858797d50.7.1791180030581;
-        Sun, 04 Oct 2026 23:00:30 -0700 (PDT)
-Received: from Xinshengs-MBP.attlocal.net ([2600:1702:7d20:7d20:edd1:61d6:442f:e3ff])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-8ae33fe81fdsm35786777b3.47.2026.10.04.23.00.29
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 04 Oct 2026 23:00:30 -0700 (PDT)
-From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+        bh=Hkbmmu29f4ESmjhS/R6fVuQiC+U9d5xHF0gJ/jLHU0E=;
+        b=18BSMwSV7RUaigozDSa1Zmnz7vWqDw+gNHWFXt36bBkFPqDCOx0Kr6OMb0zdsttsCe
+         DQXakkFpt484sHV9wC5dsyHDauts0JelgNomY6dvQF1khGTxrNSFbBHDz9gnsn4Yjlf2
+         ZTZWBrvMpTJLdZJEyBbBkOXTmveeU1O+9DlosQLjSVj4BsnLw8iPD1vsTJWk/YA6yhpk
+         U3e5OQsAVqAvbaQTuzoGYrkypfYk3Is1AOCLrdoNcqagR06zfDohC8X+HIMUtG3RymFR
+         tQxaQQ5QeAPRBmcbeBcxpE6Y4NIxeywzVlSD/NtAcyVEB7wOD0OxqOxh0siTBgJQITiq
+         REYw==
+X-Forwarded-Encrypted: i=1; AKwUvBxpeWBxMOGTmbTOZM0F1yigcytfI06YCtxqD/vFVniiV4wuROnOopOpnHCxhQ5Z7ME8oYdVbPPTC0Q=@vger.kernel.org
+X-Gm-Message-State: AFuF++naEI3i6pguljCeq8ExDG6/ve1NkzRl4ta0KTotYH2tlOGEWtDf
+	WZXdscId7x6OIQrzxJpB+H/3gnJWNQ3xa+QA0eFTlVksQxgsAsZhokaI
+X-Gm-Gg: AYBFou1t3bpNPSrG1K8td4QLIe0Hgmkf7naagC5EFam003xZlwrmh6jlbNCiJLXhsSm
+	jUn1DbwHCRBsHnklK+1PoNuj8wPwvKaV5rXBI5Mf1sA+7yXv78rhzk8iJpuco2x6GAyOtb+fDsw
+	maiKYGM3Lo6Rzy+KjhAeB1MKarFF/UyjIK/+QM/BdayW0pFQNoJ9wkAbQRvBO1YO9Qyvxi/rOAZ
+	OBQLAa/4+hDiOUM7Kn+oY4LQw/bCQGfPBeouXyfPzepxmOH2WgOAL9yQym2tKzV+fPMlYgfDB8Z
+	CgekWwAaOd2MeN7BTy6m45igdYJUVOzztkLjS8LlIDz0KDmlTiTGo0g/g2Cbs5hlNTGnXi8mX8N
+	z3Ia5p7Q0LaL5kUyO9r5faTHc5VlGtuXeZmzDSaI4M3lHgRGqAo3IMt9yF/d3jvOoamzmQWETgs
+	mtmJbctXnbWkq71zq+ZR0ftRgNnkaGh/wXbIDJmSbCyuub6oUHJnydFARQkUhiIOu2wAk3eNOcB
+	kg8nbJySwQ/39b+Qlnw
+X-Received: by 2002:a17:907:398f:b0:c29:f199:5fa7 with SMTP id a640c23a62f3a-c2e4af87abemr808224266b.44.1791186759326;
+        Mon, 05 Oct 2026 00:52:39 -0700 (PDT)
+Received: from gentoo (m-37-0-164-22.cust.tele2.lt. [37.0.164.22])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c3157ec8c0esm21330266b.44.2026.10.05.00.52.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 05 Oct 2026 00:52:39 -0700 (PDT)
+From: Rokas Juras <asrokasjuras@gmail.com>
 To: netdev@vger.kernel.org
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	andrew+netdev@lunn.ch,
+Cc: andrew+netdev@lunn.ch,
 	davem@davemloft.net,
 	edumazet@kernel.org,
 	kuba@kernel.org,
-	pabeni@redhat.com
-Subject: [PATCH net] net: usb: r8153_ecm: reject short register reads
-Date: Mon,  5 Oct 2026 01:59:43 -0400
-Message-ID: <20261005055943.35180-1-xinsheng.zhu.ny@gmail.com>
-X-Mailer: git-send-email 2.54.0
+	pabeni@redhat.com,
+	gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net] rndis_host: enable RX aggregation for OnePlus Nord CE 2
+Date: Mon,  5 Oct 2026 10:48:52 +0300
+Message-ID: <20261005074852.76818-1-asrokasjuras@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,59 +79,94 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-pla_read_word() and pla_write_word() read four bytes into an
-uninitialized stack variable, but only check usbnet_read_cmd() for
-negative return values. The helper can also return a non-negative
-length smaller than requested, leaving part or all of tmp
-uninitialized.
+USB tethering on the OnePlus Nord CE 2 (IV2201, USB ID 22d9:2766)
+running Android 13 has download speeds of approximately 2mbps
+with the default 2048-byte receive limit.
 
-pla_read_word() may then derive the register value from uninitialized
-bytes. pla_write_word() may include uninitialized bytes in the buffer
-sent to the device during its read-modify-write operation.
+The phone's published RNDIS code only enables packet batching
+when the computer reports a receive limit above 2048 bytes.
+Testing shows that increasing this limit to 2560 bytes
+restores normal speeds.
 
-Require the return value to equal sizeof(tmp) before using the buffer.
-Return -ENODATA for short reads while preserving negative errors from
-usbnet_read_cmd().
+Add a quirk for USB device 22d9:2766 to use and advertise a
+receive buffer of at least 16 KiB. This fits the phone code's default
+batch of ten packets at a 1500-byte MTU.
 
-Found by manual code inspection with LLM assistance. The issue has not
-been reproduced at runtime.
+Tested on 7.3.0-rc5 with the affected phone, including reconnecting
+USB tethering. Download speeds with the change exceed 100mpbs.
 
-Fixes: c1aedf015ebd ("net/usb/r8153_ecm: support ECM mode for RTL8153")
-Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+Fixes: 7e99eeddb35c ("rndis_host: support WM6 devices as modems")
+Link: https://github.com/OnePlusOSS/android_kernel_oneplus_mt6877/blob/3c1e3d432d0c35afa7fded974b50fa6617219e0f/drivers/usb/gadget/function/f_rndis.c#L538-L551
+Link: https://github.com/OnePlusOSS/android_kernel_oneplus_mt6877/blob/3c1e3d432d0c35afa7fded974b50fa6617219e0f/drivers/usb/gadget/function/u_ether.c#L869-L874
+Assisted-by: LLM
+Signed-off-by: Rokas Juras <asrokasjuras@gmail.com>
 ---
- drivers/net/usb/r8153_ecm.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/net/usb/rndis_host.c   | 21 +++++++++++++++++++++
+ include/linux/usb/rndis_host.h |  5 +++--
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/usb/r8153_ecm.c b/drivers/net/usb/r8153_ecm.c
-index 8d860dacdf49..0988a3444c55 100644
---- a/drivers/net/usb/r8153_ecm.c
-+++ b/drivers/net/usb/r8153_ecm.c
-@@ -23,8 +23,10 @@ static int pla_read_word(struct usbnet *dev, u16 index)
+diff --git a/drivers/net/usb/rndis_host.c b/drivers/net/usb/rndis_host.c
+index 37d4865f5..b001bc834 100644
+--- a/drivers/net/usb/rndis_host.c
++++ b/drivers/net/usb/rndis_host.c
+@@ -345,6 +345,11 @@ generic_rndis_bind(struct usbnet *dev, struct usb_interface *intf, int flags)
  
- 	ret = usbnet_read_cmd(dev, RTL8152_REQ_GET_REGS, RTL8152_REQT_READ, index,
- 			      MCU_TYPE_PLA | byen, &tmp, sizeof(tmp));
--	if (ret < 0)
-+	if (ret != sizeof(tmp)) {
-+		ret = ret < 0 ? ret : -ENODATA;
- 		goto out;
-+	}
+ 	dev->rx_urb_size = dev->hard_mtu + (dev->maxpacket + 1);
+ 	dev->rx_urb_size &= ~(dev->maxpacket - 1);
++
++	/* some devices require a receive limit above 2048 for RX aggregation */
++	if (dev->driver_info->data & RNDIS_DRIVER_DATA_RX_AGGREGATION)
++		dev->rx_urb_size = max_t(size_t, dev->rx_urb_size, 16 * 1024);
++
+ 	u.init->max_transfer_size = cpu_to_le32(dev->rx_urb_size);
  
- 	ret = __le32_to_cpu(tmp);
- 	ret >>= (shift * 8);
-@@ -55,8 +57,10 @@ static int pla_write_word(struct usbnet *dev, u16 index, u32 data)
- 	ret = usbnet_read_cmd(dev, RTL8152_REQ_GET_REGS, RTL8152_REQT_READ, index,
- 			      MCU_TYPE_PLA | byen, &tmp, sizeof(tmp));
+ 	net->netdev_ops = &rndis_netdev_ops;
+@@ -612,6 +617,17 @@ static const struct driver_info	rndis_info = {
+ 	.tx_fixup =	rndis_tx_fixup,
+ };
  
--	if (ret < 0)
-+	if (ret != sizeof(tmp)) {
-+		ret = ret < 0 ? ret : -ENODATA;
- 		goto out;
-+	}
++static const struct driver_info	rndis_rx_aggregation_info = {
++	.description =	"RNDIS device",
++	.flags =	FLAG_ETHER | FLAG_POINTTOPOINT | FLAG_FRAMING_RN | FLAG_NO_SETINT,
++	.data =		RNDIS_DRIVER_DATA_RX_AGGREGATION,
++	.bind =		rndis_bind,
++	.unbind =	rndis_unbind,
++	.status =	rndis_status,
++	.rx_fixup =	rndis_rx_fixup,
++	.tx_fixup =	rndis_tx_fixup,
++};
++
+ static const struct driver_info	rndis_poll_status_info = {
+ 	.description =	"RNDIS device (poll status before control)",
+ 	.flags =	FLAG_ETHER | FLAG_POINTTOPOINT | FLAG_FRAMING_RN | FLAG_NO_SETINT,
+@@ -649,6 +665,11 @@ static const struct driver_info	rndis_info_lowpower = {
  
- 	data |= __le32_to_cpu(tmp) & ~mask;
- 	tmp = __cpu_to_le32(data);
-
-base-commit: 6dc989ea46b96ce170840174b4a38c4a387fb005
+ static const struct usb_device_id	products [] = {
+ {
++	/* OnePlus Nord CE 2 */
++	USB_DEVICE_AND_INTERFACE_INFO(0x22d9, 0x2766,
++				      USB_CLASS_WIRELESS_CONTROLLER, 1, 3),
++	.driver_info = (unsigned long)&rndis_rx_aggregation_info,
++}, {
+ 	/* 2Wire HomePortal 1000SW */
+ 	USB_DEVICE_AND_INTERFACE_INFO(0x1630, 0x0042,
+ 				      USB_CLASS_COMM, 2 /* ACM */, 0x0ff),
+diff --git a/include/linux/usb/rndis_host.h b/include/linux/usb/rndis_host.h
+index 489cfb1d0..3eaf57a9b 100644
+--- a/include/linux/usb/rndis_host.h
++++ b/include/linux/usb/rndis_host.h
+@@ -182,8 +182,9 @@ struct rndis_keepalive_c {	/* IN (optionally OUT) */
+ #define FLAG_RNDIS_PHYM_WIRELESS	0x0002
+ 
+ /* Flags for driver_info::data */
+-#define RNDIS_DRIVER_DATA_POLL_STATUS	1	/* poll status before control */
+-#define RNDIS_DRIVER_DATA_DST_MAC_FIXUP	2	/* device ignores configured MAC address */
++#define RNDIS_DRIVER_DATA_POLL_STATUS		1	/* poll status before control */
++#define RNDIS_DRIVER_DATA_DST_MAC_FIXUP		2	/* device ignores configured MAC address */
++#define RNDIS_DRIVER_DATA_RX_AGGREGATION	4	/* needs RX limit > 2048 */
+ 
+ extern void rndis_status(struct usbnet *dev, struct urb *urb);
+ extern int
 -- 
-2.54.0 (Apple Git-157)
+2.55.0
 
