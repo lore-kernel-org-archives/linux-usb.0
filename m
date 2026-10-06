@@ -1,344 +1,411 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011068.outbound.protection.outlook.com [52.101.57.68])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 010623EB0F3;
-	Tue,  6 Oct 2026 17:12:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791306748; cv=fail; b=eJTTPfTBEeUYSL3ibPlfv6zy9ZlS/tD7H19+GNODnJZ8MaX9reVaEdhxWPKqZ7Mk0/A5JhWaLv+Cf+rJTDSCrzUzTgF7o9CmU2ndP/HjGX1oEhHwUi5M82qp0Q3QFxV9qq1nSGANWpvzduUULrctfh3KLCc6Ml7CZcnPMIaDKcc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791306748; c=relaxed/simple;
-	bh=ErVB2fvEvoGFAH7ShufLHCUZGZOm/+pa1MoRl+74YRI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=anDBUYNp8dStQNWtEnjyXJn0tlCtW/MQhWBCSR4+/211hxgCFSi9AHWkoVEjr6qQB6UjBbBb3vQRl3G90D3QqxUr4ymgZF02eK3yqPyaUtOtbtPlf2JPdurpYhPi5ISGlcj1SbGk7JD5HnnA2cta1k2CLot5pkEFL06ZTok9l9c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Sy4EqrXn; arc=fail smtp.client-ip=52.101.57.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB1304A0152
+	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 17:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791307388; cv=none; b=AX21zdC5vuL94dECe4UWcw/sYTnsfl0uscwl5PWaqFn1Xn3X5Rwf/olIHjYv01IdzJJebvwUCVkPZQAmbU3htJ2y/T21PJojiyXF2go/C72oJ1pCpl+A1FOcgBznB3GcAM3fj0ZatMCo263k6S1RJdhh62p4JqRW6zKNARnuHnQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791307388; c=relaxed/simple;
+	bh=wu6fdnjbK9k7Pi0YENtdvnMtzrIT712VDbV+fC/IWRo=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=k7KVPG4laBjkXC9nFVpeBfXDGMHVy663DPgeFumARzNAYsbrH+nMHeBsPqCW5Zx4R72anH8fd5oMB8NYFsnBtNZ7ECIMOcQgS4/x95W2Y4p6fuxFz6MOFvHIfhi02pd/BUmNHJoUca4SOUPdvtq7Ampp6KSq5mzd0nZIxCFQaQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XJ2cj31b; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kI9TAYX0; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Sy4EqrXn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EW3wmmYyPsbpuZrHdiN3AXAyJvyUoHqNsa+M9TDYwolwnTaY+einlJWs9aG3+biUjzr6Hdb0m4HXYbqbGsixltdWs+C9bOkc9Lb9nK9D7EcgjsF6AoRYMHKNzfLPdyQreAmiXSmrJ4xMveyU6ccxCdSjjl7udG6mnsRnx53Um/Qhbz3qg8ZoLcximlhJURojSaGFR+1Pgfv3KEXK6HLn1Em7yoXPH0kH/M3/0c8VT6/e0QKVyv+YVdHZtK1FxhImOPoG77JVv6UpP2EHtuMWkbDD9Nb1XnzXuARDjUq341NHzmKgiwpRvIdg8Mw3j7qSJ0551M9DBy33Pb+TIFaVSA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=b3bBnww56Ou54jU8xWPw0O6fIlpXPW4Vwqk+dZ3/MLM=;
- b=lknzaOCqINC/837BJ29HZRQ5ocqYJoeIn3NvlwskSxGSGxrJ9fTdhAuTlGPQHM1+u/sor313pRin7PjeB5lYnT/cK3eub2GbqxoWvXjwq18oZ77LC1/6eKI6kwhUENZiUoqyP64T6coXjICLWJDGHkA3qnjqXmr9S4/2bEPPpAsFRq4hcXaj7edQiJ/DdsSE8U01u1ElNv1cLGIJOmg5VOIbzNanMO8/JXnKYFM7F7sJQf0s9pReEt//VTigehUwVCdN0LHDYarfYN/0NGIoTefEmWW6pXmfCujIky40g6WQhmaSO+fIwK+MLB68yBYQ94hihxDkadstX7jQ9QyKcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=b3bBnww56Ou54jU8xWPw0O6fIlpXPW4Vwqk+dZ3/MLM=;
- b=Sy4EqrXnALGmVK4Vfz7OBTls5zh/qd1QgFEaURTFXO3dNGdCEhDjhsFI87Gn2+JuWn019mVV1O2YvyzIPQmEHWpGFWEGRcD/PQftzIJQhQCwiVFLLvCbMVRF5ERejYaoLj65PSzI3OTlq9fNCVJKA/hXfjAR3n6zcUTCh34xwjs=
-Received: from DS7PR12MB9550.namprd12.prod.outlook.com (2603:10b6:8:24e::16)
- by IA0PPF6483BC7EA.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bcf) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.15; Tue, 6 Oct
- 2026 17:12:23 +0000
-Received: from DS7PR12MB9550.namprd12.prod.outlook.com
- ([fe80::e465:1aca:4c9a:6fb5]) by DS7PR12MB9550.namprd12.prod.outlook.com
- ([fe80::e465:1aca:4c9a:6fb5%2]) with mapi id 15.21.0472.016; Tue, 6 Oct 2026
- 17:12:23 +0000
-From: "Kovacs, Alexander" <Alexander.Kovacs@amd.com>
-To: Freeman Z <SHD-ISAC@outlook.com>, "Limonciello, Mario"
-	<Mario.Limonciello@amd.com>, Mika Westerberg
-	<mika.westerberg@linux.intel.com>
-CC: "linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"bhelgaas@google.com" <bhelgaas@google.com>, "westeri@kernel.org"
-	<westeri@kernel.org>, "andreas.noever@gmail.com" <andreas.noever@gmail.com>,
-	"YehezkelShB@gmail.com" <yehezkelshb@gmail.com>, "rafael@kernel.org"
-	<rafael@kernel.org>, "linux-pm@vger.kernel.org" <linux-pm@vger.kernel.org>,
-	"S, Sanath" <Sanath.S@amd.com>, "Natikar, Basavaraj"
-	<Basavaraj.Natikar@amd.com>, "Martinez, Juan" <Juan.Martinez@amd.com>,
-	"Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>
-Subject: RE: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents
- JHL9480 downstream enumeration
-Thread-Topic: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents
- JHL9480 downstream enumeration
-Thread-Index:
- AQHdSd1c593zF2yuc0efXEtk9KFFoLbazowAgAA18BCAAAG7AIABCdYAgACB41CAAMQiAIABc02AgABGIACAAB+1gIAABT6AgAAnFgCAABFJAIAAA0aAgAAG3ACACVy6oIAAPdKAgAYEaGCAABWugIAAFm+AgAADFoCAAWNLMIAABEOAgAAgUoCAAAeDEA==
-Date: Tue, 6 Oct 2026 17:12:23 +0000
-Message-ID:
- <DS7PR12MB95503B5244149768A62590099C952@DS7PR12MB9550.namprd12.prod.outlook.com>
-References: <f8b929da-b4ae-48ae-9667-3eb93aa0a4bd@amd.com>
- <20260925115041.GX106095@black.igk.intel.com>
- <5d065dcb-a4b9-4e9d-aeee-8a9bd1d875d7@amd.com>
- <TYCPR01MB10927F1B586DACDC97FFB606A96802@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <7822cb02-f32b-4f02-ba65-4b90ebc42ce8@amd.com>
- <TYCPR01MB109279CDE9AAF47B40FD1770996802@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <DS7PR12MB9550D1A8CB397E8C7FF0C7D69C8A2@DS7PR12MB9550.namprd12.prod.outlook.com>
- <TYCPR01MB109276162440B6A8CC34DEC73968A2@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <BL4PR12MB953383C9C73C9715FB9C5A339C962@BL4PR12MB9533.namprd12.prod.outlook.com>
- <TYCPR01MB1092779F2FA9CE76D5A76E4C396962@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <BL4PR12MB9533056AD6DE8C89370D6F6E9C962@BL4PR12MB9533.namprd12.prod.outlook.com>
- <TYCPR01MB10927C563CDDD5216CDFCD4D696962@TYCPR01MB10927.jpnprd01.prod.outlook.com>
- <DS7PR12MB9550E85CCAED9C8C0D19DCA79C952@DS7PR12MB9550.namprd12.prod.outlook.com>
- <051b667e-eaa9-4ad8-86ce-1a326a612284@amd.com>
- <TYCPR01MB109273BCB71161ABE3AD85A8696952@TYCPR01MB10927.jpnprd01.prod.outlook.com>
-In-Reply-To:
- <TYCPR01MB109273BCB71161ABE3AD85A8696952@TYCPR01MB10927.jpnprd01.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
- MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Enabled=True;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_SiteId=3dd8961f-e488-4e60-8e11-a82d994e183d;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_SetDate=2026-10-06T16:59:54.0000000Z;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Name=AMD
- General
- v26;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_ContentBits=3;MSIP_Label_198e8dea-a4f3-4850-b16a-fd6d2b1302b4_Method=Standard
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS7PR12MB9550:EE_|IA0PPF6483BC7EA:EE_
-x-ms-office365-filtering-correlation-id: 38b61d0b-4759-44bf-8ab9-08df23ccfcce
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|7416014|23010399003|38070700021|4143699003|11063799006|5023799004|3023799007|10067099003|56012099006|260925022911599003|260925021311599003|260925021911599003|18002099003|22082099003|6133799003;
-x-microsoft-antispam-message-info:
- M53nrG3IoUTRShohSW6DyjUPWzKxAEwiY+WXYaryzQSlLR/9R0gQ8hx3QVvlmEcUWHq3ej8efKYulkQlSy0WG3WkBoCGcbSkFSitNtXHvPAE5dRsAJMccDlpjijCYenYTsQ5bd6BmnhzRAKkIUsmV8nz1IM1ldQQjFyAlFCOA9NrhHKxKEOw77Cg6b5SrCcEWyZTy4eLcm27se3MOfqyuMDsz0MxXeAYAFY+7TmbQQ2q6MXn/nQC0hFjAZei+Ij/ySVt+FeXP5N7NhM44c3/4Rof7DW5wuQfgBWQ+jqMvLBMFfUi7yQ5eKZN2UKFp8bA02xFEHvyZ4gLLAciSWZLyLik0T2Tf3oOIV1ZR7nyFUL+fTaZSFLcB1ETLV+zoTAdAYvfYrJD8FqPkY+YhQ6pdofr5CdaoLp+4G8U3RBgADhgixQw+iNlS6wzJ+dMUh16Lwd+5zFA//KdiqYluvwdK2LFIgXMgGHK5pOdGkXNmij0ylJBPy56UYSXVk0tH2uAavCBbkZBVVdF8lpjefSHsO32gq07kwUOrB6gw25ll0tKd9B/T+RsZThb/tdGNl3mup3tUuzzGEZrzGmgSrHAVJxV4xX4nI0L84ratQix8T9P5WMZnHAEl1cuVuuKes6t89doArINblILwdv2Kk27JBsIy9dDBTPFlaLVJaty/rt9RXQSAvmJjz+R9kTpAzt6m6udXgR+6CO1N/wlvt0QmQdJ06MCyJWgjg1+lGb7cKA=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9550.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(23010399003)(38070700021)(4143699003)(11063799006)(5023799004)(3023799007)(10067099003)(56012099006)(260925022911599003)(260925021311599003)(260925021911599003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?zf76dbtKDaUWrMtVLfHhyClQRg/aLiV9UyteswPiKk+dMZ4pqpC94FyLsJZU?=
- =?us-ascii?Q?xmQh7Jthapt05JnkuXy0AnMRuaxScJQs7Ykft37UnTN5Rulz8+pYihS0gwYt?=
- =?us-ascii?Q?sqIQJXSpoMNi9DCMihyhG6N0lwhNd+au1s6IedbZ7DXofAY4aHYIwSHNcpmr?=
- =?us-ascii?Q?NonrF1fUC4J5KXoTm5NiuW86c992vZCemSkh9dm1qafKV+OZ3y12W9lcd5N9?=
- =?us-ascii?Q?LjHOO2TwCmrdXNSBWbwbaRjzpXqtF1NBegnyaIRoXLc6HnO0DUUYXuuTWQd0?=
- =?us-ascii?Q?WrT2cm/puAWNetM/b52toF65cX9twJ1p9nHORkAPipzNTr9lnjv32t2v3Cnk?=
- =?us-ascii?Q?xHKpvHfrzubFo4PD66mX7s+9pyAHRSaTsa7HPekOkGOGTiyxuhBEjdoOUgzw?=
- =?us-ascii?Q?aD0h7C9EvCTj/49fLg+xB/RgHBBqtOIf6JpNg+Cle7PLMP6/4ENJurhGFfwM?=
- =?us-ascii?Q?oJP4b58wjRO3POj6yp8T/ilDh7+5/EsXW5ma7bTQdQiD2Z56g/dsgmD5X6ze?=
- =?us-ascii?Q?nVjsUMH1x7b5dMdipHl94O7TIltKB3Nlm4NZbomZGMRDiXTRoU8a4Lti45o7?=
- =?us-ascii?Q?6GH6maWeiIqZw8sLQNIC1+tBxjobdRhY0iGzcrwNb8CAHoPvicyi7Gz/Yp9o?=
- =?us-ascii?Q?umKJEYsU2Brl7u5M0LNP+tds/ejk54eMkAut1jMdWGQ9NPpj5RSWEX6I2M5q?=
- =?us-ascii?Q?3JIPqU6K0645cERiJiQGvqWGTWFJUzyojTqAzgwWw/avDwFBMA4DfRDlkOxp?=
- =?us-ascii?Q?RqQWe52AoFEBUjYF9JQnC7MqruAFxCJdYPk1jofGDsvzvBkNnBCRcTFV2lCs?=
- =?us-ascii?Q?2j7gTd0Djndbwczr0JTaY9T6MPIbF8ickeyKakEuL9M2ds/UIxbBrUsDZaZt?=
- =?us-ascii?Q?AadVtWbE8seUe/G0AxXmWijlNw85SEx6KkZdhrLwb9/2IBTw8NAcmtbmbzPE?=
- =?us-ascii?Q?h1W1/Itv98NZCWKivBjg37+WbigWzaJnPIk0mVjrBcxvOkCoLCIF+CK64SrY?=
- =?us-ascii?Q?IXjt11foyag2BFNZUCXlKl132px2dbUle1BvGiu8T9t4JyXIXPj30AHAxrK5?=
- =?us-ascii?Q?rf137hPglqGP/2cMbBRPaNja5YGupm0jyBrVOkAqAq/U5iBekqtbxNePfxb9?=
- =?us-ascii?Q?kZaHAlZPpvxr04vzLumPKjWP521T4o9r985okrhdcsShIMGXqUoL4ZbGGhBu?=
- =?us-ascii?Q?G4QxCFKiWI8RObC7t5l9qVildV4QD7E2A/gQEFE85guzPLAsk0qC5jEs+X0F?=
- =?us-ascii?Q?geCGf4vVfftsZdzcUgyRTKeUthkl1AlbneBZ+yT2u5Jlel2Rxjv9rd5tH/w4?=
- =?us-ascii?Q?naG98LC0n5Qc1vPFnBjcY9CghgwjwLSwICb9jQ5cOXohtTxehHRTS+RPTyH8?=
- =?us-ascii?Q?tgJb5icCRj3++8OG378EwV7xXgKteQ3tQytOGSa++Wgi9wukbGvK7VuKb2nL?=
- =?us-ascii?Q?0EWJXJZXOEqBm0JBqlO2tbAt2SnQPb289IS2u68IEs8DfLPYYNjHB1uRyWs9?=
- =?us-ascii?Q?eMtwe57d+CU0uGuuKU6ubctlM8HqFsghXtpuY2sVYPZXv7JLkcSEJyhL9c9Y?=
- =?us-ascii?Q?MgAPVeMdhqTicNhtRg6xabFe6xWuY986TUiTQw5Cnz1/OQ1dd3K8s9MsDv/N?=
- =?us-ascii?Q?rPpRUNoWQIEIw5UBltbasag6Qw0Yq2J/jqvHHPkOoJHdWcCXkiClsAx/M7Td?=
- =?us-ascii?Q?psVTESNEQ7hJ/N5bn78BKUqSDrJLti1y+ykRr+FWhvQ8nQe/?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XJ2cj31b";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kI9TAYX0"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 696HChCH454642
+	for <linux-usb@vger.kernel.org>; Tue, 6 Oct 2026 17:23:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=n9VnUuNRyTG
+	HYfH/xsFiU180Yv9tzt71MWo6T9NkaZE=; b=XJ2cj31bkZHCZop/Pfrht/u8F9H
+	v3yxCF2i4Js4O7qteoxzgc2wI0GQdBb8gKUjeHoawAu3zDKXfW5498h74pAbxvzh
+	d4CuppTvP8W0y0IkQvNLcesA5r/OFAc+Krd8nf+mdvD3uFzxJxHXaw+Ox3VGa3PV
+	VYcW1Q1cQV7+nQdiC1cVUpl++BvTrGx2cXhNBb8/zWHSEjgYMWavbd80GSLsIk42
+	glX9FU9mADt1G2nl7XG7VB7fXfXgpC8k3djaj/aU9OVqga65MNoBEc3fPM9tU09G
+	wqXxOBHzxMoCg2XeXx+MHxxAmwLemUYLvekBrx9llLSUm5noKZLm3IVXGIw==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h53asgp71-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Tue, 06 Oct 2026 17:23:05 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-2d55d8cd938so45395415ad.1
+        for <linux-usb@vger.kernel.org>; Tue, 06 Oct 2026 10:23:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791307380; x=1791912180; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=n9VnUuNRyTGHYfH/xsFiU180Yv9tzt71MWo6T9NkaZE=;
+        b=kI9TAYX0PIjWzaUXKHAZI9N7Lub/AHrK+5nFtSYgsmMqzCAlLzB0TWOFBfAcYuuRXZ
+         9nbE3mFsXGlg33DIS6R+NEoS31Q7FKs1cP7wsxqUCOgC7YMCFVn1G/3zZn4f4ItdRmlC
+         TUvw7G71LKdPOTZZDs4rbklNlzM/jx+cryty2TN7u3+A0jkKIEYbtbjIbBc1EkcSId1L
+         WNC1iCLPkrkawnzFT8ef2nOgfWM+hd61AStAZ5yVh7Wa7rnBHXrbBY026TzdJUq0FX/i
+         c77uKIJ1KIh+NeAERVmP/xn87z/hgHRHZi4o7Kb8nfqlcu3Rtv7QMl6+iZphAfYHrRb1
+         LNFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791307380; x=1791912180;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=n9VnUuNRyTGHYfH/xsFiU180Yv9tzt71MWo6T9NkaZE=;
+        b=QN1Dmvn6BbqU0KLsNHJ0PIdItociljXhXopIK4v7piKRlhXtHQSk0fx4SOYEzosqsN
+         IYGUn2eJhMvVupvfkXBpLeGv5OweCi8D7s5LDkB7H2cZ2JoGUB8d+Se2o6rhsnEct+6P
+         y8tx1spgNfpAY9yyy/zBfRyzM74EaABqum/fXovfLKyFZ5U2ODT7uEexK8jcCVSxNnk1
+         QWsx56OGNKqI2Ylh4pJ6+uQgWkJRdIom5ggpdrbjLeRXxC3U1X3iBYgMJF0Rh1WXi0Ou
+         vtAxXcVcNJUM8OJ4zRwnlmd6KF9DDV5y4/xfu6ihpWtl9qPmW4C4xX0EUXz1RGa8EX3s
+         yuEw==
+X-Forwarded-Encrypted: i=1; AKwUvBwL7cwQSClEYEzHdVjFC/ocjYe/2ICEBET2tjl8aRWH3qbuVgYzgHOkKpk/n8GFcPRE/MNNgfGJkBU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJzfAqe1UgyMTg0xRJfEekUaXqRX4oTlrSgY+1LwRR9taqaSGKG
+	W+m5dxAE364Pn6cjocyygwQHiln+mMMtRcdcJ+rMuaKUysB3c/BdVA/8NxfqwFnXx4MwpVhDhfH
+	BPybvd2mJpCzfC5IrVeNfaChjh/gS4rJZ6tS+7kqmQ1XyYTICRWujvMuxMyxSfgo9aOhjS24=
+X-Gm-Gg: AYBFou1v7tlIPBXX59Hz9nHCWWzFVjtSgZ0Tq8tBUTVT5Yzq+qEQZT+F3MW3+mM7FZH
+	Jf0UI9Pun6ZrWwDZxQIAv/j30dXZrCTqhw3TwShvbCzVesPuUaAuXwWMjMCCiRw9iK1w8wiyjsD
+	AT3/AvQm7kmU/VEiLqBz9QI//C82XlcquB/nDMH+losPee8K6Me4gSL3yIdH63XGfu9DXGS7ykm
+	9sAf4eku6nV20bWb/Z+m0muOFsx1wiKYtoAn+aG94+zxCu9M+KbE09h09XJQH0XJQ2ELdNNthNK
+	jGXrmFNYKAgqWQymDxG9qdCC6nYnxqCSjzKHAVCHihgoiCwGdXL8/tlf/cBfRl/NbfAv3L5bzGH
+	DYHJd89Lch689xEC1ML6obFUPvpw0jQB2
+X-Received: by 2002:a17:903:19c3:b0:2dd:ad74:ac7f with SMTP id d9443c01a7336-2e6003c02fdmr911145ad.26.1791307379660;
+        Tue, 06 Oct 2026 10:22:59 -0700 (PDT)
+X-Received: by 2002:a17:903:19c3:b0:2dd:ad74:ac7f with SMTP id d9443c01a7336-2e6003c02fdmr910895ad.26.1791307379090;
+        Tue, 06 Oct 2026 10:22:59 -0700 (PDT)
+Received: from hu-faisalh-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e5ff5dcc90sm1114485ad.23.2026.10.06.10.22.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2026 10:22:58 -0700 (PDT)
+From: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Felipe Balbi <balbi@ti.com>, linux-usb@vger.kernel.org,
+        linux-kernel@vger.kernel.org, faisal.hassan@oss.qualcomm.com
+Subject: [PATCH v2] usb: dwc3: gadget: linearize SG requests that exceed the TRB cache
+Date: Tue,  6 Oct 2026 22:52:54 +0530
+Message-Id: <20261006172254.1058992-1-faisal.hassan@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20261004031445.1450196-1-faisal.hassan@oss.qualcomm.com>
+References: <20261004031445.1450196-1-faisal.hassan@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9550.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 38b61d0b-4759-44bf-8ab9-08df23ccfcce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2026 17:12:23.1192
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: p5AoCV5SWFvRs+JsxxXCmP9cH98F2T2FTFN9JBPuGRftw1GIj70p5ft5wmSc1zVm
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF6483BC7EA
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: Fta4Sz4a74Ww1D5Cnm9KKRP6sv9yU8dT
+X-Proofpoint-GUID: Fta4Sz4a74Ww1D5Cnm9KKRP6sv9yU8dT
+X-Authority-Analysis: v=2.4 cv=Xt5vqlF9 c=1 sm=1 tr=0 ts=6ac52e79 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=3n27Y_Pxg6K5dMmys6IA:9 a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA2MDA2OSBTYWx0ZWRfX2kEuuiHLA8Ky
+ FZreIGQ/z14QoCvozNu3EFmvI1y/8zlmCTl4Zi414EIbJYTNhhfuuvi13XoJIGlhFRt3bqHhD6r
+ KGWP0LFDEChViQPA9WNM45EMWIlTebcOvVqLc3F/9y6DHrpKk/5UUBYTRBGQG3xLCFZbES5kn+L
+ N05EaFnm4N14GdCvn4uIKIcjJEd0JBLzd2zElJccywBZH0grVAa0glDAgWJld1H3GwuACqpW6eb
+ kWhzBqyKl059i5cY3DsgkZUx/20xROeWhPfy6fny3tWurZoEUtARuy/WkKivt0DupssZbG/RTvs
+ iSe55Mr5I4zy/1okqYFvOhIM+vVCNoO+x0QCSAvNd0HINsAgMVvkbIPesuP9Dp91ZtOb/byzqbD
+ pNxWGMNoJS6IsIJ5dRwFg3iLJru7J1T0nSbt8M/qw29b+e1qW/RpX93KJpGXAwcvWs6/XsbdfTO
+ M++raAUq+SkkXyDo6kA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA2MDA2OSBTYWx0ZWRfX4Pop4QXqnJJO
+ jdlmut0mF0bAJV7lpQcWc0OUVazcxdMIPNj3SwvfwW17BMmvqzMyrdEklU2uauVlYsPAEuy1Lr/
+ 4uzSgQY3D9P5AIrVCqyOI2VhPopCeDM=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-06_05,2026-10-06_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 adultscore=0 malwarescore=0 clxscore=1015 phishscore=0
+ impostorscore=0 suspectscore=0 spamscore=0 bulkscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610060069
 
-AMD General
+The controller prefetches the TRBs of a transfer into an internal cache
+that holds DWC_USB3_CACHE_TRBS_PER_TRANSFER entries. Databook 4.2.3.3
+requires that the number of chained TRBs needed to construct a single
+packet never exceeds (DWC_USB3_CACHE_TRBS_PER_TRANSFER - 1), where the
+-1 accounts for the one Link TRB that may be part of the chain when a
+transfer wraps the TRB ring. The cache never holds more than 15 TRBs
+however the core was configured, so the usable budget is
+min(GHWPARAMS4[5:0] - 1, 15) data TRBs per packet.
 
-Freeman,
+Each scatter-gather entry of a request is queued as one TRB, so a gadget
+function driver that hands down an IN request whose entries are smaller
+than MaxPacketSize can exceed that budget with no way of knowing it. On
+a SuperSpeed bulk IN endpoint, a 1024-byte request scattered across 16
+pages of 64 bytes needs 16 chained TRBs for its single packet, one more
+than the controller can cache: the controller never assembles the
+packet, the endpoint keeps responding NRDY and the request never
+completes. The same request runs fine at High-Speed, where the 512-byte
+MaxPacketSize splits it into two packets of 8 TRBs each.
 
-Great, thanks for the confirmation...
+Walk the scatter-gather list of IN requests when they are queued,
+counting the TRBs each packet would be built from, and copy the request
+into a single contiguous buffer when a packet would exceed the budget.
+Doing it at queue time lets a failed allocation or a scatter-gather list
+shorter than the request length be returned to the function driver from
+usb_ep_queue(), instead of leaving a request on the pending list that can
+never be started. The original usb_request fields are restored on
+completion, so function drivers stay independent of the controller
+limitation.
 
-Can you try:
+The host side already applies the equivalent workaround unconditionally
+for every dwc3 instance through XHCI_SG_TRB_CACHE_SIZE_QUIRK. A request
+that trips this check cannot be transferred at all, so applying the
+workaround unconditionally can only turn a stalled endpoint into one
+extra copy. That copy is a GFP_ATOMIC allocation of the request length,
+which reaches order-4 for a 64 KiB request, but it is only reached by
+requests that would otherwise never complete.
 
-get the 00:04.1 into a suspended state
-Run:
-sudo watch -n1 cat /sys/firmware/acpi/interrupts/gpe10
-Perform hotplug of dock
-  If gpe10 does not increment when the dock is plugged into the suspended p=
-ort, that's proof the wake never fired - and it's likely the GPE-0x10 _E10 =
-path. If it does tick but nothing enumerates, the miss is likely downstream=
- (native/pciehp
-  side).
+Fixes: eeb720fb21d6 ("usb: dwc3: gadget: add support for SG lists")
+Cc: stable@vger.kernel.org
+Signed-off-by: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+---
+Changes in v2:
+- Linearize at queue time in __dwc3_gadget_ep_queue() rather than in
+  dwc3_prepare_trbs(), so an allocation failure or a scatter-gather list
+  shorter than the request length is returned from usb_ep_queue()
+  instead of leaving the request stuck on the pending list.
+- Unmap a linearized request on giveback even if it never got a TRB,
+  so the bounce buffer is not freed while still DMA-mapped.
+- Add __GFP_NOWARN to the bounce buffer allocation, the failure is
+  reported to the caller.
+- Link to v1: https://lore.kernel.org/all/20261004031445.1450196-1-faisal.hassan@oss.qualcomm.com/
 
-Replied or Forwarded By:
-Alex Kovacs
-845-625-4422
-akovacs@amd.com
+ drivers/usb/dwc3/core.h   |  15 +++++
+ drivers/usb/dwc3/gadget.c | 133 +++++++++++++++++++++++++++++++++++++-
+ 2 files changed, 147 insertions(+), 1 deletion(-)
 
------Original Message-----
-From: Freeman Z <SHD-ISAC@outlook.com>
-Sent: Tuesday, October 6, 2026 11:33 AM
-To: Limonciello, Mario <Mario.Limonciello@amd.com>; Kovacs, Alexander <Alex=
-ander.Kovacs@amd.com>; Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-pci@vger.kernel.org; linux-usb@vger.kernel.org; bhelgaas@google.c=
-om; westeri@kernel.org; andreas.noever@gmail.com; YehezkelShB@gmail.com; ra=
-fael@kernel.org; linux-pm@vger.kernel.org; S, Sanath <Sanath.S@amd.com>; Na=
-tikar, Basavaraj <Basavaraj.Natikar@amd.com>; Martinez, Juan <Juan.Martinez=
-@amd.com>; Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-Subject: Re: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents=
- JHL9480 downstream enumeration
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index 608daeb7ef10..af71abaac8ed 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -386,6 +386,7 @@
+ #define DWC3_GHWPARAMS3_FSPHY_IFC_ENA		1
+ 
+ /* Global HWPARAMS4 Register */
++#define DWC3_GHWPARAMS4_CACHE_TRBS_PER_TRANSFER(n)	((n) & GENMASK(5, 0))
+ #define DWC3_GHWPARAMS4_HIBER_SCRATCHBUFS(n)	(((n) & (0x0f << 13)) >> 13)
+ #define DWC3_MAX_HIBER_SCRATCHBUFS		15
+ 
+@@ -714,6 +715,7 @@ struct dwc3_event_buffer {
+ #define DWC3_EP_DIRECTION_RX	false
+ 
+ #define DWC3_TRB_NUM		256
++#define DWC3_TRB_CACHE_MAX	15
+ 
+ /**
+  * struct dwc3_ep - device side endpoint representation
+@@ -951,8 +953,15 @@ struct dwc3_hwparams {
+  * @trb: pointer to struct dwc3_trb
+  * @trb_dma: DMA address of @trb
+  * @num_trbs: number of TRBs used by this request
++ * @sg_trb_cache_buf: temporary linear buffer the scatter-gather list is
++ *			copied into when it exceeds the TRB cache budget
++ * @sg_trb_cache_sg: scatter-gather list replaced by @sg_trb_cache_buf
++ * @sg_trb_cache_num_sgs: number of entries in @sg_trb_cache_sg
++ * @sg_trb_cache_orig_buf: request buffer replaced by @sg_trb_cache_buf
+  * @direction: IN or OUT direction flag
+  * @mapped: true when request has been dma-mapped
++ * @sg_trb_cache_bounced: true while this request is queued through
++ *			@sg_trb_cache_buf instead of its scatter-gather list
+  */
+ struct dwc3_request {
+ 	struct usb_request	request;
+@@ -978,8 +987,14 @@ struct dwc3_request {
+ 
+ 	unsigned int		num_trbs;
+ 
++	void			*sg_trb_cache_buf;
++	struct scatterlist	*sg_trb_cache_sg;
++	unsigned int		sg_trb_cache_num_sgs;
++	void			*sg_trb_cache_orig_buf;
++
+ 	unsigned int		direction:1;
+ 	unsigned int		mapped:1;
++	unsigned int		sg_trb_cache_bounced:1;
+ };
+ 
+ /*
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index f245e66cd13d..7417d3c32dbf 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -190,6 +190,22 @@ static void dwc3_ep_inc_deq(struct dwc3_ep *dep)
+ 	dwc3_ep_inc_trb(&dep->trb_dequeue);
+ }
+ 
++static void dwc3_gadget_restore_sg_trb_cache_buf(struct dwc3_request *req)
++{
++	if (!req->sg_trb_cache_bounced)
++		return;
++
++	req->request.buf = req->sg_trb_cache_orig_buf;
++	req->request.sg = req->sg_trb_cache_sg;
++	req->request.num_sgs = req->sg_trb_cache_num_sgs;
++	kfree(req->sg_trb_cache_buf);
++	req->sg_trb_cache_buf = NULL;
++	req->sg_trb_cache_sg = NULL;
++	req->sg_trb_cache_num_sgs = 0;
++	req->sg_trb_cache_orig_buf = NULL;
++	req->sg_trb_cache_bounced = false;
++}
++
+ static void dwc3_gadget_del_and_unmap_request(struct dwc3_ep *dep,
+ 		struct dwc3_request *req, int status)
+ {
+@@ -202,10 +218,16 @@ static void dwc3_gadget_del_and_unmap_request(struct dwc3_ep *dep,
+ 	if (req->request.status == -EINPROGRESS)
+ 		req->request.status = status;
+ 
+-	if (req->trb)
++	/*
++	 * A linearized request may have been mapped without getting a TRB, so
++	 * unmap it before its buffer is freed.
++	 */
++	if (req->trb || req->sg_trb_cache_bounced)
+ 		usb_gadget_unmap_request_by_dev(dwc->sysdev,
+ 				&req->request, req->direction);
+ 
++	dwc3_gadget_restore_sg_trb_cache_buf(req);
++
+ 	req->trb = NULL;
+ 	trace_dwc3_gadget_giveback(req);
+ 
+@@ -1474,6 +1496,110 @@ static int dwc3_prepare_last_sg(struct dwc3_ep *dep,
+ 	return num_trbs;
+ }
+ 
++/*
++ * Each scatter-gather entry is queued as one TRB, so an IN request backed by
++ * entries smaller than MaxPacketSize can need more chained TRBs to construct a
++ * single packet than the controller is able to cache. Databook 4.2.3.3 limits
++ * the chained TRBs a single packet may be built from to
++ * (DWC_USB3_CACHE_TRBS_PER_TRANSFER - 1), where the -1 accounts for the single
++ * Link TRB the controller walks as part of the chain when a transfer wraps the
++ * TRB ring. The cache itself never holds more than DWC3_TRB_CACHE_MAX TRBs, so
++ * clamp the limit for cores built with a larger parameter.
++ *
++ * Walk the scatter-gather list counting the TRBs each packet would be built
++ * from, and report the requests that exceed that budget.
++ */
++static bool dwc3_gadget_sg_trb_cache_limit(struct dwc3_ep *dep,
++		struct dwc3_request *req)
++{
++	struct dwc3 *dwc = dep->dwc;
++	struct scatterlist *sg;
++	unsigned int cache_depth;
++	unsigned int max_trbs;
++	unsigned int maxp;
++	unsigned int fill = 0;
++	unsigned int trbs = 0;
++	int i;
++
++	if (!req->direction || !req->request.num_sgs)
++		return false;
++
++	if (req->request.sg_was_mapped || req->request.length == 0)
++		return false;
++
++	cache_depth = DWC3_GHWPARAMS4_CACHE_TRBS_PER_TRANSFER(dwc->hwparams.hwparams4);
++	if (cache_depth < 2)
++		return false;
++
++	max_trbs = min_t(unsigned int, cache_depth - 1, DWC3_TRB_CACHE_MAX);
++
++	/*
++	 * A list no longer than the budget cannot exceed it, whatever the
++	 * individual entry sizes are.
++	 */
++	if (req->request.num_sgs <= max_trbs)
++		return false;
++
++	maxp = usb_endpoint_maxp(dep->endpoint.desc);
++
++	for_each_sg(req->request.sg, sg, req->request.num_sgs, i) {
++		unsigned int len = sg->length;
++
++		trbs++;
++
++		while (fill + len >= maxp) {
++			len -= maxp - fill;
++			if (trbs > max_trbs)
++				return true;
++
++			fill = 0;
++			trbs = len ? 1 : 0;
++		}
++
++		fill += len;
++	}
++
++	/* The transfer may end with a short packet. */
++	return fill && trbs > max_trbs;
++}
++
++static int dwc3_gadget_linearize_sg_request(struct dwc3_ep *dep,
++		struct dwc3_request *req)
++{
++	void *buf;
++	size_t copied;
++
++	if (!dwc3_gadget_sg_trb_cache_limit(dep, req))
++		return 0;
++
++	buf = kmalloc(req->request.length, GFP_ATOMIC | __GFP_NOWARN);
++	if (!buf)
++		return -ENOMEM;
++
++	copied = sg_pcopy_to_buffer(req->request.sg, req->request.num_sgs,
++			buf, req->request.length, 0);
++	if (copied != req->request.length) {
++		kfree(buf);
++		return -EINVAL;
++	}
++
++	dev_dbg(dep->dwc->dev,
++		"%s: linearize SG request len=%u num_sgs=%u exceeding TRB cache\n",
++		dep->name, req->request.length, req->request.num_sgs);
++
++	req->sg_trb_cache_buf = buf;
++	req->sg_trb_cache_sg = req->request.sg;
++	req->sg_trb_cache_num_sgs = req->request.num_sgs;
++	req->sg_trb_cache_orig_buf = req->request.buf;
++	req->sg_trb_cache_bounced = true;
++
++	req->request.buf = buf;
++	req->request.sg = NULL;
++	req->request.num_sgs = 0;
++
++	return 0;
++}
++
+ static int dwc3_prepare_trbs_sg(struct dwc3_ep *dep,
+ 		struct dwc3_request *req)
+ {
+@@ -1985,6 +2111,7 @@ static int __dwc3_gadget_start_isoc(struct dwc3_ep *dep)
+ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
+ {
+ 	struct dwc3		*dwc = dep->dwc;
++	int			ret;
+ 
+ 	if (!dep->endpoint.desc || !dwc->pullups_connected || !dwc->connected) {
+ 		dev_dbg(dwc->dev, "%s: can't queue to disabled endpoint\n",
+@@ -2001,6 +2128,10 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep, struct dwc3_request *req)
+ 				dep->name, &req->request))
+ 		return -EINVAL;
+ 
++	ret = dwc3_gadget_linearize_sg_request(dep, req);
++	if (ret)
++		return ret;
++
+ 	pm_runtime_get(dwc->dev);
+ 
+ 	req->request.actual	= 0;
 
-Caution: This message originated from an External Source. Use proper cautio=
-n when opening attachments, clicking links, or responding.
+base-commit: 639df5d23876a548b86fe6526bed8b97edf64d96
+-- 
+2.34.1
 
-
-Hi Alex,
-
-Thanks for checking the tables, and Mario, thanks for the explanation of th=
-e _DSD -> XDSD rename.
-
-That is consistent with the suggestion that the XDSD rename may be an inten=
-tional way to keep an unused reference-code path disabled. This GV302XV exp=
-oses only the 00:04.1 / NHI1 USB4 path, so the NHI0 XDSD issue appears like=
-ly to be separate from the enumeration failure.
-
-Since you haven't been able to reproduce the failure, these are the conditi=
-ons that seem to matter on my system:
-
-  1. Cold boot with the dock disconnected.
-
-  2. 00:04.1 power/control =3D auto, with both 00:04.1 and the NHI
-     (6b:00.6) runtime-suspended in D3cold before the dock is plugged in.
-
-  3. No PCI config-space access to the root port before the hot-plug.
-     A config-space access wakes 00:04.1; both the targeted 4-byte config
-     read in this capture and plain lspci in earlier tests caused
-     enumeration to proceed normally.
-
-I captured a failing hot-plug under these conditions using:
-
-  kernel: 7.2.9-1-cachyos
-  BIOS:   319
-
-The capture includes runtime-PM and PCI hotplug/link tracepoints, pciehp / =
-ACPI device-PM / Thunderbolt dynamic debug, and ACPI GPE and /proc/interrup=
-ts snapshots before the plug, after the plug, and after recovery.
-
-A redacted archive is attached.
-
-SHA256:
-  4d4d7f64aeb4a2bbd8e68cf221de2002ad427d3456fc8354c06f3d3760dad065
-
-The relevant timeline from kernel.log is:
-
-  98.774
-    First observable hot-plug effect. The NHI begins resuming from
-    D3cold. IRQ 38 (00:08.3, PCIe PME / bwctrl) increased by one
-    between the snapshots, which is consistent with a PME wake through
-    the bridge hosting the NHI.
-
-  101.015 - 101.017
-    Thunderbolt PCIe Down and Up tunnel paths are activated.
-
-  101.017 - 135.664
-    00:04.1 remains suspended / D3cold.
-    The NHI remains active / D0.
-    09:00.0 remains absent.
-
-    No runtime-PM activity is recorded for 00:04.1.
-    IRQ 35 (00:04.1 PME/AER/pciehp) remains at zero.
-    None of the counted ACPI GPEs change.
-
-  135.664
-    The script performs only a 4-byte read from:
-
-      /sys/bus/pci/devices/0000:00:04.1/config
-
-  135.668
-    GP12 transitions from D3cold to D0.
-
-  135.681
-    pciehp reports:
-
-      Card present
-      Link Up
-
-    Its first link check after resume reports:
-
-      lnk_status =3D 0x3011
-
-    This has DLL Link Active set and no Link Training bit set.
-
-  135.808
-    09:00.0 [8086:5786] begins enumerating.
-
-A full lspci scan was not needed.
-
-So the PCIe tunnel is established while 00:04.1 remains in D3cold, and a ta=
-rgeted config-space read of 00:04.1 alone resumes the port. pciehp then imm=
-ediately finds an active link and enumerates the downstream hierarchy.
-
-No wake of 00:04.1 was observed during the hot-plug window.
-
-The kernel also logs:
-
-  Wakeup disabled by ACPI
-
-for 00:04.1 on resume, so GP12 is ACPI wake-capable via _PRW.
-
-There are two observations I cannot explain yet:
-
-  1. sci_not increased from 6 to 7 while gpe10, gpe_all, and sci
-     remained unchanged. The snapshots do not timestamp that increment,
-     so it cannot yet be tied to the dock insertion.
-
-  2. The final Root Status of 00:04.1, read after recovery, shows:
-
-       PME ReqID 0021, PMEStatus+ PMEPending+
-
-     0021 decodes to 00:04.1.
-
-     IRQ 35 was zero in all three interrupt snapshots. Since Root Status
-     was read only after recovery, I do not know when these PME bits
-     became set.
-
-Best regards,
-Freeman
-
-________________________________________
-From: Mario Limonciello <mario.limonciello@amd.com>
-Sent: Tuesday, October 6, 2026 22:37
-To: Kovacs, Alexander <Alexander.Kovacs@amd.com>; Freeman Z <SHD-ISAC@outlo=
-ok.com>; Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-pci@vger.kernel.org <linux-pci@vger.kernel.org>; linux-usb@vger.k=
-ernel.org <linux-usb@vger.kernel.org>; bhelgaas@google.com <bhelgaas@google=
-.com>; westeri@kernel.org <westeri@kernel.org>; andreas.noever@gmail.com <a=
-ndreas.noever@gmail.com>; YehezkelShB@gmail.com <yehezkelshb@gmail.com>; ra=
-fael@kernel.org <rafael@kernel.org>; linux-pm@vger.kernel.org <linux-pm@vge=
-r.kernel.org>; S, Sanath <Sanath.S@amd.com>; Natikar, Basavaraj <Basavaraj.=
-Natikar@amd.com>; Martinez, Juan <Juan.Martinez@amd.com>; Chia-Lin Kao (Ace=
-Lan) <acelan.kao@canonical.com>
-Subject: Re: [BUG] PCI/USB4: AMD Phoenix 1022:14ef runtime suspend prevents=
- JHL9480 downstream enumeration
-
-On 10/6/26 09:33, Kovacs, Alexander wrote:
-> AMD General
->
-> Freeman,
->
-> Ok, regarding the 00:03.1 device, I am seeing that it is misnamed in the =
-tables.
->
-> BIOS Bug Report: Thunderbolt/USB4 tunnel port `_DSD` misnamed `XDSD`
-> (00:03.1 / NHI0 path)
->
-> But that more than like does not have any bearing on the root dock enumer=
-ation issue...
->
-> I am unable to create a case where I can replicate your fail on my test s=
-ystem yet.
->
-_DSD -> XDSD is a strategy I've seen employed when someone wants to pick up=
- reference code but has a difference in their design (for example they don'=
-t have a retimer connected to the second USB4 router and disabled the IP.
-
-I don't know for sure; but my guess this is a strategy to avoid technical d=
-ebt and mistakes when merging future reference code versions.
