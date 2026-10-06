@@ -1,70 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91AD3EE1F8;
-	Tue,  6 Oct 2026 12:15:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F58A3B961F
+	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 12:20:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791288934; cv=none; b=VLKFd8t8xbag1OT+vHFORyWdJv81W3vCTRfWpe7HihghzpwxmQUwGiJEw0bt4tUpv9BWLbJsTkkg4GbUroo8Zeq1ALrAuMndoag8jbB8HbMWIStLNqT4rnD3PJT+Y23vNM3QyyUgFR3/d+miJeeR3H/FrBz1w3CRoCDQ3OJ3/UA=
+	t=1791289249; cv=none; b=HgSRmtfM6G2tQeY5+1HeVseTrwuUqy1P0tRc0WrIuSQ8O9MBFXMWU82GULlzf5L5qBJEjCy4cykpHC13wKrMfQMxI5EjZbzf3CXiHoyiwJjFdyT2SFR2VtbHfn+SzE9AEQKcddArjVqlMrSNTGa8BTIaI3tWDeODb2Ewd5Wgq1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791288934; c=relaxed/simple;
-	bh=gp7PRv3WjAiMJrp0DvXpRvTv3mwC8R3NiezXzUE7FxE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bYM8pOHUuAYu3kScYlREWItwyD6wrljKNs8hXk6nkySg1ENkdl7pindAcy9gx9yWguQR8Q9a0x13kUq1r865pCexPfHGFc0CQUfnJXg+ylUwn+2prWpFklwjyss8pFGCnCLmaZjopVef80E7eSbjrkTzOsxIn5tNa3O6X/zvzUk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKwWjlTd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791289249; c=relaxed/simple;
+	bh=vdUmccOSaqIY1zySst89RaBYA4d81D+Sz2IJwFkeFZ0=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=AS169WcL2lCxFdhE3Ox1M1yg/4aPqOwHrTS3DqmCphNqQ5RruT6DepZQICIKm3NmzrA9XdZFFot8r1JFeys3v7ocSwoGHarzghdtTeTaVc1XVKfLVYryv8G6yTW5k5z93o3iwQ0m0+vZraH64+oZazoNhx86NMnRKETAvFSOK/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QTBaFCNa; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKwWjlTd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E97631F00893;
-	Tue,  6 Oct 2026 12:15:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791288932;
-	bh=Z9zRtXHe/J1k/4/9wAeq1n+PwAt+ioXmV3zyjSNrjDw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=RKwWjlTdvYZONbkV6HxvycXq0CozaTw+PCB4h42smsV+z/mzRdcAHQqIRw6yMl1fu
-	 NOdwOwvWWKs70Rkz2PZd9xSH8jJyVk7un/XDM+Iit2XSwKuRFDS/3Udz4MdqTnulKq
-	 t6ebxczqj1/B8jLFB5Q3mFsuWVvcDyXzQxSGyyGpqsHKDHjeJwfffEEQdeHenx7XI2
-	 bkz4llAlFTqfwgsNNA58kHP4vmGKuZXRlwwRCTYLgwJsCQ3uPJI0fIjh4M/nPvb8Dx
-	 H6vt8MPE/eIvLSI+xMX2MVJ02eBalT9dRk2HLgaRTc3vOwGiA1RS4MKlIBlm42Yi7C
-	 tQm2WtAFBpB3w==
-From: netdev-bot+sinfo@kernel.org
-To: =?utf-8?q?=C3=96mer?= Mete Kaya <omermetekaya0@gmail.com>
-Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: 
- Re: [PATCH net v2] usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_return()
-Date: Tue, 06 Oct 2026 12:15:31 +0000
-Message-ID: <179128893145.2231598.9489740412744373622@kernel.org>
-In-Reply-To: <20261006120825.342164-1-omermetekaya0@gmail.com>
-References: <20261006120825.342164-1-omermetekaya0@gmail.com>
-Auto-Submitted: auto-generated
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QTBaFCNa"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791289247; x=1822825247;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=vdUmccOSaqIY1zySst89RaBYA4d81D+Sz2IJwFkeFZ0=;
+  b=QTBaFCNa1zPWzlccY3z+/I/Up1N2TL5gcrXmRSnw5gNTJVQiFMxj4Q52
+   Z16lkjXjT5Ldc3OK8D1Bsm/hFgOd4tE7Q7wDDSI6eXNx6Hh3mU4i1IJBw
+   mMrJ1nJFKZiq7JEEXQm7qCmz+0+y++q6os35Py4mrZVFQFDPsnqBvJ1/R
+   1dVPIvRQGIq3prjWUtygjaoaT62oXWRkVlElvvqOMhIflgVj/ni0g/WA1
+   Jq2XsB11c1VUar18QIgv9/04Qkkbmt18cEEfne0pzFPFskv8mrx6wrMiu
+   kLTwP7/mqeCNXB+sLQPoPkEhN9tMZLvbgc0HYhSispIruxs9vCRjmTUqa
+   Q==;
+X-CSE-ConnectionGUID: DTY9vb0fR0OGLz8Yl/brwA==
+X-CSE-MsgGUID: N0Zu40DTQ02C4XS+kcT7og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="117493861"
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="117493861"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 05:20:46 -0700
+X-CSE-ConnectionGUID: H1+y6Cx/TuOBv3jnF8lSzQ==
+X-CSE-MsgGUID: AyjKrwxrSr6u1pWMvjAfbA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="276256858"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa008.jf.intel.com with ESMTP; 06 Oct 2026 05:20:45 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id AA0EA99; Tue, 06 Oct 2026 14:20:43 +0200 (CEST)
+Date: Tue, 6 Oct 2026 14:20:43 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Lukas Wunner <lukas@wunner.de>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <mika.westerberg@linux.intel.com>
+Subject: [GIT PULL] USB4/Thunderbolt changes for v7.4 merge window
+Message-ID: <20261006122043.GQ176164@black.igk.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Hi!
+Hi Greg,
 
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
+[I'm sending this one early due to an upcoming vacation.]
 
- - How the issue was discovered, e.g. hit in production, hit during
-   development, syzbot report, manual code inspection, LLM or static
-   analysis tool scan.
+The following changes since commit cee9395acd8043be0644b25c34bfa86623f2b935:
 
- - Whether the issue was actually triggered, or is only theoretical
-   (e.g. found by code inspection). If it was triggered please include
-   the symptoms, like the stack trace or error messages.
+  Linux 7.3-rc1 (2026-08-30 13:34:40 -0700)
 
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account. If the series needs another revision for
-other reasons, please include the information in the commit messages
-then.
+are available in the Git repository at:
 
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
+  git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v7.4-rc1
+
+for you to fetch changes up to a93a8e3200002f0c345fec4c340390e9a60aabc7:
+
+  thunderbolt: stream: Make read return framing error to the userspace (2026-09-24 06:46:06 +0200)
+
+----------------------------------------------------------------
+thunderbolt: Changes for v7.4 merge window
+
+This includes following USB4/Thunderbolt changes for the v7.4 merge
+window:
+
+  - Add quirk for ASMedia controller.
+  - Add device links for Apple machines with Intel Ice Lake and Titan
+    Ridge controllers.
+  - Thunderbolt networking improvements.
+  - USB4STREAM improvements.
+  - Add support for extended error counters.
+  - Minor fixes and cleanups.
+
+All these have been in linux-next with no reported issues.
+
+----------------------------------------------------------------
+Anurag (3):
+      thunderbolt: Make software margining error counter configurable
+      thunderbolt: Fix sideband register access in usb4_port_sw_margin_errors()
+      thunderbolt: Extract per-lane extended error counters in software margining
+
+Atharva Tiwari (3):
+      thunderbolt: Move tb_apple_add_links() to pci.c
+      thunderbolt: Add device links for Apple machines with Titan Ridge
+      thunderbolt: Add device links for Apple systems with Ice Lake
+
+Fan Ye (1):
+      thunderbolt: Stop waiting on a path pending bit that never clears
+
+Haotian Zhang (1):
+      thunderbolt: dma_test: Tear down DMA paths before stopping the rings
+
+Hemanth Selam (1):
+      thunderbolt: Fix typo "forwared" in comment
+
+Mika Westerberg (12):
+      thunderbolt: Allow batching of descriptors
+      net: thunderbolt: Update ring indices only after all frames are queued
+      thunderbolt: Do not WARN about already disabled interrupt on polled rings
+      thunderbolt: Clean up ring interrupt register indexing
+      thunderbolt: Use shadow copy for ring interrupt mask
+      thunderbolt: stream: Use polling with RX ring
+      thunderbolt: Write descriptors in tb_ring_poll()
+      thunderbolt: Add tb_ring_poll_pending()
+      thunderbolt: stream: Do not hold the lock while busy polling
+      thunderbolt: stream: Check the Rx ring before task starts sleeping
+      thunderbolt: stream: Improve CLOSE handling on write side
+      thunderbolt: stream: Make read return framing error to the userspace
+
+Pengpeng Hou (1):
+      thunderbolt: Require complete DROM entry headers
+
+Rene Sapiens (2):
+      thunderbolt: Define number of dwords for hardware margining results
+      thunderbolt: Add extended error counter support for software lane margining
+
+ drivers/net/thunderbolt/main.c |   6 +-
+ drivers/thunderbolt/debugfs.c  | 126 ++++++++++++++----
+ drivers/thunderbolt/dma_test.c |  10 +-
+ drivers/thunderbolt/eeprom.c   |  23 +++-
+ drivers/thunderbolt/nhi.c      | 222 +++++++++++++++++++++++---------
+ drivers/thunderbolt/nhi.h      |   2 +
+ drivers/thunderbolt/path.c     |   2 +-
+ drivers/thunderbolt/pci.c      | 113 ++++++++++++++++
+ drivers/thunderbolt/quirks.c   |  18 +++
+ drivers/thunderbolt/sb_regs.h  |   2 +
+ drivers/thunderbolt/stream.c   | 285 +++++++++++++++++++++++++++++++----------
+ drivers/thunderbolt/switch.c   |   4 +
+ drivers/thunderbolt/tb.c       |  78 -----------
+ drivers/thunderbolt/tb.h       |   5 +-
+ drivers/thunderbolt/usb4.c     |  10 +-
+ include/linux/thunderbolt.h    |  47 ++++++-
+ 16 files changed, 702 insertions(+), 251 deletions(-)
