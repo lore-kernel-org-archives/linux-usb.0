@@ -1,65 +1,70 @@
 Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E45326ED3C;
-	Tue,  6 Oct 2026 08:29:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7648F39D6FA;
+	Tue,  6 Oct 2026 09:19:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791275348; cv=none; b=GXnIrmkT/8Fy/oHmjjIn5sbMSrM5LYWOt/zP1H+hpHktC4GPtjlDOa3Etyw9HtY2vaHTRWfGuciIKS9wRRVSIp7DQHkD3FD67XlfE0B3xa0e9NFM+BUvi/RU5IjWF2IWQxPnWnriJb7K1xPE6ASjT9WWP8ij/V0/5IwPsCsZL0M=
+	t=1791278363; cv=none; b=eP2xMyFWnG7FX6Bc7I8vh5CxzKojGC+t68KmHNivORCWCVzYxdBEnRTBjLz9d9fEvfj6frCJfynGtmDWGXqtb/I6F53da/1x740ROyCKVSa2SutQSv8zikSMVSkOSy9gU9pR085FwkK4ml6lSGRGWhazWnY3GSWK7cK6Cp6sPbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791275348; c=relaxed/simple;
-	bh=4E90XbME5YYrCHUynb8Gq04uOMIs5TinNGnJqDgIEo0=;
+	s=arc-20240116; t=1791278363; c=relaxed/simple;
+	bh=O6Fs3kbyDnaoWbsau3W7qu/dEYjB4vE3IXvSrvfZ7EQ=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=VWGXi5gyJFxVdbzx09oWRga0uOrNGXeRDZoL0TEvn+usH1MemIssxlQ4c9Ys85xqcgJRVQhQ9WT/je+4OcSJrGxpNiKVbK65ZL2zPD9TmTcP5PWutHEoICAVGIubQyg5DBb7gh2dyw9wmfdMu2G7SMt2ZCAKKgbmzuaKoYHI3dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=WrTuxpWN; arc=none smtp.client-ip=211.75.126.72
+	 Content-Type:MIME-Version; b=l5te2sjRcqtx+dkf6FeLt5HxkECSXlKmd7Pe0dpmgWGBALVOLXEW4NbfORKOkDqdbTGAq5PICeReG+fMbVXtZR6pOSQG5XwUWZHt3kn2aa9n0S8ro8h/6zC0RmJ1gYglYSFdxl1IAJ91gw+q4uJaoKWnB2qDo4gb90wxzjHlqos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=EzRZ9Kkb; arc=none smtp.client-ip=211.75.126.72
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="WrTuxpWN"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6968SRylC2756064, This message is accepted by code: ctloc85258
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="EzRZ9Kkb"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 6969If3pA2775051, This message is accepted by code: ctloc85258
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1791275308; bh=YTvTHDWQ0MPVFXdmQKE3U9s9hkDXT5kOh2ihQfR5+pc=;
+	t=1791278321; bh=O6Fs3kbyDnaoWbsau3W7qu/dEYjB4vE3IXvSrvfZ7EQ=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
 	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=WrTuxpWN3KxPc7nwUDcwojj1fJkMhfbBAWUaLKrXmrWN7MUHX4XLozxILBBzO7FDv
-	 kobnoxH6cj6qzJENJh9djb0FNTmTSVdXFQ00kmXu4szYSL+quSDwGcmHBbX9bNOlNP
-	 rCcpy8f+gbJYL/4dOiE51T+xHf36/tLX6DSy+LdAS+erhVqJ7j++EBJ14jqOhDo0ek
-	 Wf4TbgQtbbqIzNzJeUqJFIbytVDbWQNiQDa436I5XyONGvfRYA+yCipJBIjrRMNDgr
-	 Qhc0BoIAi8suGpgqdHUrLLwjV7k1d5daGz7zAhRs+CD+UrbT9lpTESraE9qdJWi/PC
-	 /XEWRU4YorAEg==
+	b=EzRZ9KkbwOKDh5t2X2Y8Ne9Pf2E24QRO6pMglHR0vtBnwMVPyoMvUYZiyJO96tOQu
+	 L1Ke7BZOYdeNa6h/MxFH/HfAtf+hNq8ZFby8aZZ0FE0NzPW2KjUozgqhvEk0hI3Q+a
+	 PfKM9EOYTj0BHyWDNcAUaueQphWbUz2hizHHNgXgOTkrI7/pzO1PCsFV2LqPEfV0KP
+	 AiwaBkYrzTFjP0nY16WyJrW3phxcefAwvHQE/Ct8WY9FnAzJHYYsueEyBfbgAwNVBJ
+	 lSDQvYEitS3fEbA90cOTv6nZip1vxm1nJCw3KW/p1SJMsO9KI2/30eQz5rpNOKxICs
+	 dGaoWV8I/ZMIw==
 Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6968SRylC2756064
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 6969If3pA2775051
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 6 Oct 2026 16:28:28 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+	Tue, 6 Oct 2026 17:18:41 +0800
+Received: from RTKEXHMBS01.realtek.com.tw (172.21.6.40) by
  RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Tue, 6 Oct 2026 16:28:21 +0800
-Received: from RTKEXHMBS03.realtek.com.tw ([::1]) by
- RTKEXHMBS03.realtek.com.tw ([fe80::f36f:a844:4916:93f2%9]) with mapi id
- 15.02.2562.049; Tue, 6 Oct 2026 16:28:21 +0800
-From: Hayes Wang <hayeswang@realtek.com>
-To: Linmao Li <lilinmao@kylinos.cn>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-CC: Chih Kai Hsu <hsu.chih.kai@realtek.com>, nic_swsd <nic_swsd@realtek.com>,
-	Birger Koblitz <mail@birger-koblitz.de>, Xiangqian Zhang
-	<zhangxiangqian@kylinos.cn>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "stable@vger.kernel.org"
-	<stable@vger.kernel.org>
-Subject: RE: [PATCH net v2] r8152: Use BMSR to detect the link state
-Thread-Topic: [PATCH net v2] r8152: Use BMSR to detect the link state
-Thread-Index: AQHdVLexra3FlE5swkqMdmzmTHCGJ7bwLnWg
-Date: Tue, 6 Oct 2026 08:28:21 +0000
-Message-ID: <fd3bff0e63304681b9e5f35f2f57e50e@realtek.com>
-References: <20261005105249.1281648-1-lilinmao@kylinos.cn>
-In-Reply-To: <20261005105249.1281648-1-lilinmao@kylinos.cn>
+ 15.2.2562.49; Tue, 6 Oct 2026 17:18:42 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS01.realtek.com.tw (172.21.6.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 6 Oct 2026 17:18:41 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::b3cc:c263:b82d:e87c%10]) with mapi id
+ 15.02.2562.049; Tue, 6 Oct 2026 17:18:41 +0800
+From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+To: "netdev-bot+sashiko@kernel.org" <netdev-bot+sashiko@kernel.org>
+CC: "davem@davemloft.net" <davem@davemloft.net>, "kuba@kernel.org"
+	<kuba@kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	nic_swsd <nic_swsd@realtek.com>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
+	<linux-usb@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>,
+	"bjorn@mork.no" <bjorn@mork.no>, "pabeni@redhat.com" <pabeni@redhat.com>,
+	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>
+Subject: RE: [PATCH net-next v5 1/9] r8152: split r8156_init per chip and add
+ missing init writes
+Thread-Topic: [PATCH net-next v5 1/9] r8152: split r8156_init per chip and add
+ missing init writes
+Thread-Index: AQHdUYTjx30WLQVKjk+ynPGj3AiBTrbuNquAgAIL5tA=
+Date: Tue, 6 Oct 2026 09:18:41 +0000
+Message-ID: <aa4a0fe95052494b9544bdeec8babf9b@realtek.com>
+References: <20261001091144.28191-2-nic_swsd@realtek.com>
+ <179119423934.434549.8623262119068946046@kernel.org>
+In-Reply-To: <179119423934.434549.8623262119068946046@kernel.org>
 Accept-Language: zh-TW, en-US
 Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -67,101 +72,94 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Linmao Li <lilinmao@kylinos.cn>
-> Sent: Monday, October 5, 2026 6:53 PM
-[...]
-> r8152 detects carrier from PLA_PHYSTATUS without reading BMSR, so
-> BMSR_LSTATUS can still be latched low when the carrier comes up.
-> Since commit f6f2e946aa4d ("net: mii: Fix the Speed display when the netw=
-ork
-> cable is not connected"), the first speed query after link up can then re=
-port
-> SPEED_UNKNOWN, leaving NetworkManager at 0 Mb/s until the next carrier
-> change.
->=20
-> Use BMSR_LSTATUS in set_carrier() and rtl8152_runtime_resume(), so the
-> driver consumes the latched link down itself. If the first read still rep=
-orts link
-> down, the next link-up notification triggers another read and brings the =
-carrier
-> up.
->=20
-> Tested on an RTL8153B with a 6.6-based kernel. In 5 rebinds and 6 cable
-> replugs, the first read returned LSTATUS=3D0, a second link-up notificati=
-on came
-> about 32 ms later, the second read returned
-> LSTATUS=3D1 and the carrier went up; NetworkManager reported 1000 Mb/s.
-> Runtime suspend/resume with the link up did not change the carrier.
-
-I think this patch may introduce a new issue.
-
-Our newer ICs do not generate periodic link-status notifications. They gene=
-rate a
-notification only when the link status changes. Therefore, with your patch,=
- BMSR
-will not be read a second time until the next link-status change.
-
-Best Regards,
-Hayes
-
-> Fixes: f6f2e946aa4d ("net: mii: Fix the Speed display when the network ca=
-ble is
-> not connected")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Linmao Li <lilinmao@kylinos.cn>
-> ---
-> v2:
-> - Fix it in r8152 instead of mii.c, detecting the link from BMSR as
->   suggested by Andrew Lunn.
-> - Also use BMSR in rtl8152_runtime_resume().
-> v1:
-> https://lore.kernel.org/netdev/20260930113842.2640928-1-lilinmao@kylinos.=
-c
-> n/
->=20
-> Only tested on an RTL8153B, with a 6.6-based kernel; the changed lines ar=
-e the
-> same in net/main. I could not check whether BMSR_LSTATUS is reliable on t=
-he
-> 2.5G/5G/10G chips handled by this driver.
-> I could not reproduce a link drop that recovers while the device is runti=
-me
-> suspended, so that case is only covered by code inspection.
->=20
-> r8152_mdio_read() cannot fail today. The pending RTL8157/RTL8159 series
-> makes it return errors, so these two callers will need error handling onc=
-e that
-> is merged.
->=20
->  drivers/net/usb/r8152.c | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c index
-> f61686433031..e3947eb796c5 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
-> @@ -6979,11 +6979,8 @@ static void set_carrier(struct r8152 *tp)  {
->         struct net_device *netdev =3D tp->netdev;
->         struct napi_struct *napi =3D &tp->napi;
-> -       u16 speed;
-> -
-> -       speed =3D rtl8152_get_speed(tp);
->=20
-> -       if (speed & LINK_STATUS) {
-> +       if (r8152_mdio_read(tp, MII_BMSR) & BMSR_LSTATUS) {
->                 if (!netif_carrier_ok(netdev)) {
->                         tp->rtl_ops.enable(tp);
->                         netif_stop_queue(netdev); @@ -8653,7 +8650,7
-> @@ static int rtl8152_runtime_resume(struct r8152 *tp)
->                 set_bit(WORK_ENABLE, &tp->flags);
->=20
->                 if (netif_carrier_ok(netdev)) {
-> -                       if (rtl8152_get_speed(tp) & LINK_STATUS) {
-> +                       if (r8152_mdio_read(tp, MII_BMSR) &
-> + BMSR_LSTATUS) {
->                                 rtl_start_rx(tp);
->                         } else {
->                                 netif_carrier_off(netdev);
-> --
-> 2.25.1
-
+PiBUaGFuayB5b3UgZm9yIHlvdXIgY29udHJpYnV0aW9uISBTYXNoaWtvIEFJIHJldmlldyBmb3Vu
+ZCAxIHBvdGVudGlhbA0KPiBpc3N1ZShzKSB0byBjb25zaWRlci4NCj4gDQo+IENyaXRpY2FsOiAw
+IMK3IEhpZ2g6IDAgwrcgTWVkaXVtOiAxIMK3IExvdzogMA0KPiANCj4gSWYgeW91IGJlbGlldmUg
+bm9uZSBvZiB0aGUgaXNzdWVzIGFyZSBsZWdpdGltYXRlLCBwbGVhc2UgcmVwbHkgdG8gZWFjaCBp
+c3N1ZSBvZg0KPiBNZWRpdW0gc2V2ZXJpdHkgb3IgaGlnaGVyIGFuZCBleHBsYWluIHdoeSB0aGUg
+QUkgaXMgd3JvbmcuDQo+IElmIGFueSBvZiB0aGVtIGFyZSBsZWdpdGltYXRlIGFuZCB5b3UgcGxh
+biB0byByZXNwaW4sIHBsZWFzZSBsZXQgcGF0Y2h3b3JrDQo+IGtub3cgYnkgaW5jbHVkaW5nICJw
+dy1ib3Q6IGNyIiBhcyBhIHNlcGFyYXRlIGxpbmUgYXQgdGhlIGVuZCBvZiB5b3VyIHJlcGx5IChv
+bmUNCj4gc3VjaCByZXBseSBwZXIgc2VyaWVzIGlzIGVub3VnaCkuDQo+IA0KPiAtIFtNZWRpdW1d
+IFRoaXMgcGF0Y2ggaXMgcHJlc2VudGVkIGFzIHNwbGl0dGluZyByODE1Nl9pbml0KCkgcGVyIGNo
+aXAsDQo+ICAgYnV0IGl0IGFsc28gY2hhbmdlcyBoYXJkd2FyZSBiZWhhdmlvdXIgZm9yIGFsbCBm
+b3VyIGNoaXAgZmFtaWxpZXMsIGFuZOKApg0KPiANCj4gLS0NCj4gDQo+IHI4MTUyOiBzcGxpdCBy
+ODE1Nl9pbml0IHBlciBjaGlwIGFuZCBhZGQgbWlzc2luZyBpbml0IHdyaXRlcw0KPiANCj4gVGhp
+cyBjb21taXQgc3BsaXRzIHRoZSBzaGFyZWQgcjgxNTZfaW5pdCgpIGludG8gc2VwYXJhdGUgaW5p
+dCBmdW5jdGlvbnMgZm9yDQo+IFJUTDgxNTYsIFJUTDgxNTZCLCBSVEw4MTU3IGFuZCBSVEw4MTU5
+LiBJdCBhbHNvIG1vdmVzIHRoZQ0KPiBBVVRPTE9BRF9ET05FIHBvbGxpbmcgaW50byBhIG5ldyB3
+YWl0X2F1dG9sb2FkX2RvbmUoKSBoZWxwZXIuIFdoaWxlDQo+IHNwbGl0dGluZywgaXQgYWRkcyBz
+ZXZlcmFsIG5ldyByZWdpc3RlciB3cml0ZXMgdG8gdGhlIHBlci1jaGlwIGluaXQgcGF0aHMsIGlu
+Y2x1ZGluZw0KPiBjbGVhcmluZyBSWF9FTkRfVFJBTlNGRVJfRU4gb24gUlRMODE1Ny4NCj4gDQo+
+ID4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jIGIvZHJpdmVycy9uZXQvdXNi
+L3I4MTUyLmMgaW5kZXgNCj4gPiBhZjNkN2RjYjJmMTQxLi40ZDhmMDgxNWQ3OWQxIDEwMDY0NA0K
+PiA+IC0tLSBhL2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jDQo+ID4gKysrIGIvZHJpdmVycy9uZXQv
+dXNiL3I4MTUyLmMNCj4gDQo+IFsgLi4uIF0NCj4gDQo+ID4gQEAgLTg0MjEsNzMgKzg0NDQsMjYx
+IEBAIHN0YXRpYyB2b2lkIHI4MTU2X2luaXQoc3RydWN0IHI4MTUyICp0cCkNCj4gDQo+IFsgLi4u
+IF0NCj4gDQo+ID4gICAgICAgc2V0X2JpdChHUkVFTl9FVEhFUk5FVCwgJnRwLT5mbGFncyk7DQo+
+ID4NCj4gPiAtICAgICAvKiBSWCBhZ2dyZWdhdGlvbiAvIDE2IGJ5dGVzIFJYIGRlc2NyaXB0b3IN
+Cj4gPiAtICAgICAgKiBCSVQoMTEpIGlzIHNwZWNpZmljIHRvIFJUTDgxNTksIHdpdGggdW5rbm93
+biBtZWFuaW5nDQo+ID4gLSAgICAgICovDQo+ID4gLSAgICAgaWYgKHRwLT52ZXJzaW9uID09IFJU
+TF9WRVJfMTcpDQo+ID4gLSAgICAgICAgICAgICBvY3Bfd29yZF9jbHJfYml0cyh0cCwgTUNVX1RZ
+UEVfVVNCLCBVU0JfVVNCX0NUUkwsDQo+ID4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICBSWF9BR0dfRElTQUJMRSB8IFJYX0RFU0NfMTZCIHwNCj4gQklUKDExKSk7DQo+ID4gLSAgICAg
+ZWxzZSBpZiAodHAtPnZlcnNpb24gPT0gUlRMX1ZFUl8xNikNCj4gPiAtICAgICAgICAgICAgIG9j
+cF93b3JkX2Nscl9iaXRzKHRwLCBNQ1VfVFlQRV9VU0IsIFVTQl9VU0JfQ1RSTCwNCj4gUlhfQUdH
+X0RJU0FCTEUgfCBSWF9ERVNDXzE2Qik7DQo+ID4gKyAgICAgb2NwX3dvcmRfY2xyX2JpdHModHAs
+IE1DVV9UWVBFX1VTQiwgVVNCX1VTQl9DVFJMLA0KPiA+ICsgICAgICAgICAgICAgICAgICAgICAg
+IFJYX0FHR19ESVNBQkxFIHwgUlhfWkVST19FTik7DQo+IA0KPiBbIC4uLiBdDQo+IA0KPiA+ICtz
+dGF0aWMgdm9pZCByODE1N19pbml0KHN0cnVjdCByODE1MiAqdHApIHsNCj4gDQo+IFsgLi4uIF0N
+Cj4gDQo+ID4gKyAgICAgLyogUlggYWdncmVnYXRpb24gLyAxNiBieXRlcyBSWCBkZXNjcmlwdG9y
+IC8gQnVsayBJbiBFbmQgdHJhbnNmZXIgKi8NCj4gPiArICAgICBvY3Bfd29yZF9jbHJfYml0cyh0
+cCwgTUNVX1RZUEVfVVNCLCBVU0JfVVNCX0NUUkwsDQo+ID4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgUlhfQUdHX0RJU0FCTEUgfCBSWF9ERVNDXzE2QiB8DQo+ID4gKyBSWF9FTkRfVFJBTlNGRVJf
+RU4pOw0KPiANCj4gW1NldmVyaXR5OiBNZWRpdW1dDQo+IElzIHRoaXMgYSBmdW5jdGlvbmFsIGZp
+eCBmb3IgUlRMODE1NyB0aGF0IHNob3VsZCBnbyBpbiBhcyBpdHMgb3duIHBhdGNoIHdpdGggYQ0K
+PiBGaXhlczogdGFnPw0KPiANCj4gQmVmb3JlIHRoaXMgcGF0Y2gsIHRoZSBSVExfVkVSXzE2IGJy
+YW5jaCBpbiByODE1Nl9pbml0KCkgY2xlYXJlZCBvbmx5DQo+IFJYX0FHR19ESVNBQkxFIHwgUlhf
+REVTQ18xNkIuIEJJVCgxMSkgd2FzIGNsZWFyZWQgb25seSBmb3IgUlRMX1ZFUl8xNywNCj4gYW5k
+IHRoZSBjb21tZW50IHNhaWQgaXRzIG1lYW5pbmcgd2FzIHVua25vd24uIHI4MTU3X2luaXQoKSBu
+b3cgY2xlYXJzDQo+IFJYX0VORF9UUkFOU0ZFUl9FTiBhcyB3ZWxsLg0KPiANCj4gVGhlIGNvbW1p
+dCBtZXNzYWdlIHNheXMgdGhhdCB3aGlsZSB0aGlzIGJpdCBpcyBzZXQsICJCdWxrLWluIHRyYW5z
+ZmVycyBhcmUNCj4gc3VzcGVuZGVkIiwgYW5kIHRoYXQgInRoZSBkcml2ZXIgbXVzdCBtYW51YWxs
+eSBjbGVhciBpdCB0byByZXN1bWUgQnVsay1pbg0KPiB0cmFuc2ZlcnMiLg0KPiANCj4gVGhhdCBz
+b3VuZHMgbGlrZSBhbiBSWCBzdGFsbCBvbiBSVEw4MTU3IHRoYXQgZ29lcyBiYWNrIHRvIGNvbW1p
+dA0KPiBmZDNjN2QwODBkZjUgKCJyODE1MjogQWRkIHN1cHBvcnQgZm9yIHRoZSBSVEw4MTU3IGhh
+cmR3YXJlIikuIFRoaXMgZml4IGhhcw0KPiBubyBGaXhlczogdGFnIGFuZCBpcyBwYXJ0IG9mIGEg
+cmVmYWN0b3IgdG91Y2hpbmcgYWJvdXQgNDkwIGxpbmVzLCBzbyBpdCBzZWVtcw0KPiB1bmxpa2Vs
+eSB0byByZWFjaCBuZXQgb3Igc3RhYmxlLg0KPiANCj4gTGF0ZXIgcGF0Y2hlcyBpbiB0aGlzIHNl
+cmllcyBkbyBjYXJyeSBGaXhlczogdGFnczogInI4MTUyOiBmaXggdXAgYW5kIGRvd24NCj4gcmVn
+aXN0ZXIgc2V0dGluZ3MgZm9yIFJUTDgxNTYvODE1NkIvODE1Ny84MTU5IiBhbmQgInI4MTUyOiBh
+ZGQNCj4gcnRsODE1N191bmxvYWQgYW5kIHJ0bDgxNTdfY2hhbmdlX210dSIuDQo+IA0KPiBDb3Vs
+ZCB0aGlzIGNoYW5nZSBiZSBzZW50IGFzIGEgc21hbGwgc3RhbmRhbG9uZSBmaXggYWhlYWQgb2Yg
+dGhlIHNwbGl0Pw0KDQpUaGUgaGFyZHdhcmUgdXNlcyB0aGlzIGJpdCB0byBwcmVzZXJ2ZSBwYWNr
+ZXQgaW50ZWdyaXR5IGFjcm9zcyBydW50aW1lDQpzdXNwZW5kL3Jlc3VtZSwgYW5kIGl0IGlzIG5v
+dCBzZWxmLWNsZWFyaW5nLiBIb3dldmVyLCB0aGUgZHJpdmVyIGRvZXNuJ3QNCnVzZSB0aGlzIGJp
+dCBub3c7IHRoaXMgaXMgYSBkZWZlbnNpdmUgY2xlYXJpbmcuDQoNCj4gDQo+IFRoZSBvdGhlciBu
+ZXcgaGFyZHdhcmUgd3JpdGVzIHJhaXNlIHRoZSBzYW1lIHF1ZXN0aW9uLiBUaGUgY29tbWl0IG1l
+c3NhZ2UNCj4gbGlzdHMgdGhlbSwgYnV0IGl0IGRvZXNuJ3Qgc2F5IHdoYXQgcHJvYmxlbSBvciBz
+eW1wdG9tIGVhY2ggb25lDQo+IGZpeGVzOg0KPiANCj4gICAgIFBSRUJPT1RfT1BUSU9OIGFuZCBS
+TVRfV0FLRV9FTiwgY2xlYXJlZCBpbiBhbGwgZm91ciBpbml0IGZ1bmN0aW9ucw0KPiAgICAgcjgx
+NTZiX3UycGh5X2JhY2t1cCgpIHdyaXRpbmcgMHhkM2NlLzB4ZDNkMC8weGQzZDQvMHhkM2Q4LzB4
+ZDNkYw0KPiAgICAgMHhjZjA0IGludGVycnVwdCBtaXRpZ2F0aW9uIGRpc2FibGUgaW4gcjgxNTdf
+aW5pdCgpL3I4MTU5X2luaXQoKQ0KPiAgICAgMHhjZDA2IEJJVCgxMSkgaW4gcjgxNTdfaW5pdCgp
+L3I4MTU5X2luaXQoKQ0KPiAgICAgMHhiOWE2IEJJVCgwKSBhbmQgMHhiOWEyID0gMHgwNDQ4IGlu
+IHI4MTU5X2luaXQoKQ0KPiANCj4gQ291bGQgdGhlc2UgYmUgc3BsaXQgb3V0LCBvciBoYXZlIHRo
+ZWlyIHB1cnBvc2UgZXhwbGFpbmVkPyBJZiBvbmUgb2YgdGhlbQ0KPiBjYXVzZXMgYSByZWdyZXNz
+aW9uLCBhIGJpc2VjdCB3b3VsZCBsYW5kIG9uIHRoaXMgbGFyZ2UgbWl4ZWQgY29tbWl0Lg0KPiAN
+Cj4gcjgxNTZiX2luaXQoKSBhbHNvIG1vdmVzIHRoZSBBVVRPX1NQRUVEVVAgY2xlYXIuIEl0IHVz
+ZWQgdG8gYmUgcGFydCBvZiB0aGUNCj4gVVNCX0ZXX0NUUkwgcmVhZC1tb2RpZnktd3JpdGUgdGhh
+dCByYW4gYWZ0ZXIgdXNiX2VuYWJsZV9scG0oKSBhbmQgdGhlDQo+IGZsb3cgY29udHJvbCBzZXR1
+cDoNCj4gDQo+ICAgICBvY3BfZGF0YSA9IG9jcF9yZWFkX3dvcmQodHAsIE1DVV9UWVBFX1VTQiwg
+VVNCX0ZXX0NUUkwpOw0KPiAgICAgLi4uDQo+ICAgICBvY3BfZGF0YSAmPSB+QVVUT19TUEVFRFVQ
+Ow0KPiAgICAgb2NwX3dyaXRlX3dvcmQodHAsIE1DVV9UWVBFX1VTQiwgVVNCX0ZXX0NUUkwsIG9j
+cF9kYXRhKTsNCj4gDQo+IE5vdyBpdCBydW5zIHJpZ2h0IGFmdGVyIHI4MTUzX3UycDNlbigpOg0K
+PiANCj4gICAgIHI4MTUzX3UycDNlbih0cCwgZmFsc2UpOw0KPiANCj4gICAgIC8qIERpc2FibGUg
+QXV0byBTcGVlZCB1cCAqLw0KPiAgICAgb2NwX3dvcmRfY2xyX2JpdHModHAsIE1DVV9UWVBFX1VT
+QiwgVVNCX0ZXX0NUUkwsIEFVVE9fU1BFRURVUCk7DQo+IA0KPiBUaGF0IGlzIGJlZm9yZSB0aGUg
+TVNDIHRpbWVyLCByODE1NmJfdTJwaHlfYmFja3VwKCksIHBvd2VyLWN1dCwgVVBTIGFuZA0KPiBM
+UE0gc2V0dXAuIElzIHRoaXMgcmVvcmRlcmluZyBpbnRlbmRlZCBmb3IgUlRMODE1NkI/IFRoZSBj
+b21taXQgbWVzc2FnZQ0KPiBkb2Vzbid0IG1lbnRpb24gaXQuDQoNCldpbGwgZml4Lg0KDQo+IA0K
+PiAtLQ0KPiBTYXNoaWtvIEFJIHJldmlldyDCtw0KPiBodHRwczovL25ldGRldi1haS5ib3RzLmxp
+bnV4LmRldi9zYXNoaWtvLyMvcGF0Y2hzZXQvMjAyNjEwMDEwOTExNDQuMjgxOTEtDQo+IDEtbmlj
+X3N3c2QlNDByZWFsdGVrLmNvbQ0KDQpCZXN0IFJlZ2FyZHMsDQpDaGloLUthaQ0K
