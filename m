@@ -1,113 +1,93 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5DD3DD52F
-	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 10:55:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A1082E737E;
+	Tue,  6 Oct 2026 11:01:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791284154; cv=none; b=feriL/9fkoL/vdiQFDG5d9mr3b0x2iU8KCNxEGRz/iM07Tcvj8mRRuPtCFDR7Ous1rPrciNwJCg0ZohPOvw95XFzkcA2qXuNlbEjAqrKOnkbJ6ZxQ7YY1SI/Eg+DYhH2RWYKWJA69WNhxrjAjy8mJFwvFVzCpwrvM7D0Qspmwzw=
+	t=1791284477; cv=none; b=Gb0ommcBILubQixgcyWFBSxXxUTtpb0nHU6DaZuUgMscLmOr+ikI+Zm9igB6X2WgqwkkYm9QBpAZLanAMdNQwBRVjZN7iO8MrAmdDNtEf0rzvup+G9dmbudmrP7xKdtGsiKuWwqrtLfCfv3d9IWLHY8XtFKmKR8NV9YEP22ar3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791284154; c=relaxed/simple;
-	bh=nYyVkBCg2CwXLA8eIMxYsFqjNvwtRaOOTx15eoWoIP0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FMiuyOUr1gwNi883hYn2LYRhmDdrrDtDPBLwHoe0wBFxsxSr7/oqy0JHYDQZmgaIE+PNXu59aTMV88hwy0xTP3j2qpID9hUXv0Z/fAsjdKkMqru/XA1zm0ThwrbBbKiFt/y1MhnB13aURW2t5hCw49SbgNUhjmYjm7EntVOR1r0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EFYkD5Dl; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791284477; c=relaxed/simple;
+	bh=Wy1xkXhxTU+WKZ1GVuZmF/3N3CBqTGwfB3+4nEXevhg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rPOw8LCBGoydNi3PYOhZWCCiU8hAwyNwdZa9Q/C98VBmDQsqEqGOjiJyDbFsIz5w8zMAup7oKufHOce0Cz1BlxyHT8W3/v1Ye/PXbEI216WP8gjft4CaJhn0d1QQS25aM2AzbqzpfuTm3UU5flu37zRyRd0NLLAJGPqln7eRm1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oK0ifYDl; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EFYkD5Dl"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48c14a06c95so418265f8f.1
-        for <linux-usb@vger.kernel.org>; Tue, 06 Oct 2026 03:55:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791284151; x=1791888951; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=mNd4IDSXzGuSC+ps0NxiYBeNqXRgn5dUDXtsfXpigLA=;
-        b=EFYkD5Dl0RKb8UGPv6PXl2ia1ndpg1Zbmrpu8MKYwii4zvSjnDNfdbRYV8mdzHkKpR
-         +gvUlufAhONVTaBw2NJtFuD2TYiUrc8Ecj7MUXOtpwYJHUi9AcGYhEId5+ZTZWOf+pmr
-         dZPi/LGt8a/6srfs1XJrM64BttBh48XeKQi44Xg2tSLTtskxVry5IZPZnFhqwLWELgkL
-         QrZeoXdoiDTdPXmikwNiKXfq6OLXOXDEy74SusV/1hy09E2cB6kZ+bAg/mLrfWF3er6e
-         DF2/77N3d4y1hTSkUfFZ60FX1Nz8v5Dn7Zg/LSPfSeTohs6+unq5ZcUn8MHybdu2CWJa
-         yQhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791284151; x=1791888951;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=mNd4IDSXzGuSC+ps0NxiYBeNqXRgn5dUDXtsfXpigLA=;
-        b=fJbAtSiqbrXmhYP8qT72yeoHBxPb/cn+fBwhmXXysV1htWmq9n+Ri80qpFudiq/hLJ
-         N9HKKhjKF2DN7k3skEh8uogFDBk5aHi7BrnO6DYELxvkZkRIqVdhp5ZwPvjhK5j+N9iz
-         PQO299BlcP7Q6vquAlIBaq9uunBRQW6rFaP/oyoyMLUITOMHopzpBor1n+diSuin6lrp
-         CrBc1WmgkC6ALwxUbD+nrQkNK4SxR5hmYHeaPJn1I1mDAb5sSOVAiVqm6y+wSKWjSAIb
-         w/E3qKvwULaoTrA8736U1CcClxHJ57cZlKYwlEAfj3d8Ci4BkhGLYJNQ+8zClemc99xZ
-         pw0Q==
-X-Forwarded-Encrypted: i=1; AKwUvBxkEj0W8MQXl1V9HEvY6zaToaoAOcCqlRMJ+D4QooELIiOKddbd9yPLSof/kxxTaB49aA1bxv2xbWA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLNRkuMkAeAVJZHxECyXbs/v4cJ1xw0CSdnot9VMQa3IAP7N18J
-	W5ZAZSUQNhDH/I9Ysac8KSdXDFDp6FELiuch3HR1rg4CM+lHMlE7zaKI
-X-Gm-Gg: AYBFou1IyjExAR15KkNity5vXRHPZnsqn3a7LhsV/dX258imIVTste8jtM7QsctZq5C
-	s2XBd+hEak8zTLYMWyxMxqCzk4ukeP8GYlHsxdMFOA2pui5zrnIi8O7fXhnOg4Qb85gKxYsi1H+
-	BtN8LrMVTdtSVovSL2fGP+WB/FkhxvUklPSLysESXoO8vfPcEOiCUkKCCvHZj7ysf73bpzeemOn
-	Ds7NY2n7Ey8FtdhUc9rHQzhnOZKjypv0p80EvnbXP3LiYrehISUwY7cLRwGmkARCNi6lFtRWjpS
-	iZWHxRkfVrMWmo7B4SVtIIt8YODs3ZqxakrUc3z8GxH+3OzYvCt/L5zA5Tb/eE2suULWZxtUsok
-	zhn33O9NlOJ5QQfMjrDQkZr8EUZ8nionUL5SOr5J1w5qQXTvR/KdLq1uE6L/lkykZlARw5ZJHo/
-	jcC4SfgCsj7adWYJuZRUxhy3eCLeI7AuyGqyowdUCNfpeY5zMQ7JYNv2yRfzId30y+lk/tAwKlQ
-	RmJpqR0sbVFP45iZ+Fy
-X-Received: by 2002:a5d:5c05:0:b0:487:21be:dcc6 with SMTP id ffacd0b85a97d-48c6d1b8771mr2274850f8f.21.1791284151274;
-        Tue, 06 Oct 2026 03:55:51 -0700 (PDT)
-Received: from foxbook (bfj133.neoplus.adsl.tpnet.pl. [83.28.47.133])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c6cd717f8sm2620092f8f.48.2026.10.06.03.55.50
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Tue, 06 Oct 2026 03:55:50 -0700 (PDT)
-Date: Tue, 6 Oct 2026 12:55:46 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Wen Xiong <wenxiong@linux.ibm.com>
-Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, wenxiong@us.ibm.com, Brian King
- <brking@linux.vnet.ibm.com>, Samuel Mendoza-Jonas <sam@mendozajonas.com>,
- Joel Stanley <joel@jms.id.au>
-Subject: Re: [PATCH] xhci: Reset controller on xhci shutdown
-Message-ID: <20261006125546.10471489.michal.pecio@gmail.com>
-In-Reply-To: <55a53022d1c6f671a3ed549d8cf7cd1a@linux.ibm.com>
-References: <20261001222527.11742-1-wenxiong@linux.ibm.com>
-	<20261002102931.3cb06009.michal.pecio@gmail.com>
-	<561d22493c3d078b26f547dd8f6f6f46@linux.ibm.com>
-	<20261002161828.365ff859.michal.pecio@gmail.com>
-	<55a53022d1c6f671a3ed549d8cf7cd1a@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oK0ifYDl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791284476; x=1822820476;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Wy1xkXhxTU+WKZ1GVuZmF/3N3CBqTGwfB3+4nEXevhg=;
+  b=oK0ifYDl8tWakOU+A2lo5E14wJDyC3WRNTt12H3gFt4WLkF+5Q4s7+o/
+   0SnyZ3zL0oOWlwNNqRqBRRFpapPen8zuox098pdziGr6wF6IPluFRw0Uo
+   CLXOUBhmTybYK77eOmpHQeFM8Ww/cwv4P6dhEQcNVSD5LAIXRFfoj3fhW
+   0OY4tJhhxyF4FX1cPisimKd8Z/vngQW2CMk7kUOSzDEmfMpvSFQuljiMU
+   EvZW0gATkobaNuSxBDvJ7z2nmvBP+nnj041rvmqEGZgrgVh1LDlFbjmcI
+   ceAZCSVtIvmBmNXCbkwkR8ccKyzSrfFD9yUMvQzDJb1xyffn8Oj/gfIK3
+   A==;
+X-CSE-ConnectionGUID: JdPdG37eQoS/Vpaa2uVv7A==
+X-CSE-MsgGUID: 2+M3UOMMRiW8OOXuWwDySQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="28273"
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="28273"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Oct 2026 04:01:15 -0700
+X-CSE-ConnectionGUID: oNHqWV7wRN6ZxiV45KNihw==
+X-CSE-MsgGUID: JHZQnhpzTvKT1ViAq2njVg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="1189089"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa012.fm.intel.com with ESMTP; 06 Oct 2026 04:01:13 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 54F6899; Tue, 06 Oct 2026 13:01:12 +0200 (CEST)
+Date: Tue, 6 Oct 2026 13:01:12 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: hans@kilurion.com
+Cc: Mika Westerberg <westeri@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] thunderbolt: Keep Meteor Lake host routers powered in DP
+ redrive mode
+Message-ID: <20261006110112.GP176164@black.igk.intel.com>
+References: <20261006-tb-mtl-redrive-v1-1-5ec921114c37@kilurion.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261006-tb-mtl-redrive-v1-1-5ec921114c37@kilurion.com>
 
-On Mon, 05 Oct 2026 08:01:46 -0500, Wen Xiong wrote:
-> When executing "kexec -e", saw the error:
-> xhci_hcd 0005:01:00.0: Host halt failed. -110
+Hi,
 
-That's interesting, because we call xhci_halt() in xhci_shutdown().
-So the xHC should already be halted before the new kernel boots and
-then xhci_halt() should succeed immediately.
+On Tue, Oct 06, 2026 at 10:06:43AM +0200, Hans van Essen via B4 Relay wrote:
+> From: Hans van Essen <hans@kilurion.com>
+> 
+> When a DisplayPort Alt Mode (non-Thunderbolt) dock is connected to the
+> USB4 port of an Arrow Lake-H system with the integrated Meteor Lake-P
+> host router (8086:7ec2), the USB functions of the dock work but the DP
+> AUX transfers time out and no monitor is detected. It only works if the
+> port was used with a Thunderbolt dock before and the system was not
+> powered off in between; suspend and warm reboot keep it working.
+> 
+> The Barlow Ridge host routers already have QUIRK_KEEP_POWER_IN_DP_REDRIVE
+> so that the host router does not enter runtime suspend while the USB4
+> port is in DP redrive mode. Apply the same quirk to the integrated
+> Meteor Lake host routers. With this the driver logs "enter redrive mode,
+> keeping powered" when the dock is plugged in and the monitors come up
+> after a cold boot.
 
-It seems unlikely that anything restarts the xHC (or is there a FW
-involved?), so either this TI chip reacts badly to trying to halt
-it again or the first halt (befor kexec) already fails, or perhaps
-something is broken outside xhci_hcd.
+Yes, Barlow Ridge needs it but it's a special case. ARL should not need
+this - its all routed internally so something else is wrong here.
 
-Are you able to capture the original kernel's dmesg (through serial,
-netconsole, etc) and see if the same "Host halt failed" is there?
-
-And if you enable dynamic debug before kexec,
-
-  echo 'module xhci_hcd +p' >/proc/dynamic_debug/control
-
-what's printed by the debug message at the end of xhci_shutdown()?
-
-Do you also get errors from quirk_usb_handoff_xhci() by any chance?
-
-Regards,
-Michal
+Can you share full dmesg when this issue happens? Please add
+thunderbolt.dydnbg=+p too although this really has nothing to do with TB if
+the port is in redrive mode.
