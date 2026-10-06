@@ -1,62 +1,140 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09286455194
-	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 16:47:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAAA39EF1C
+	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 16:49:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791305275; cv=none; b=qDc8o3jj6FdCRjbpu/KN/K9xtDz1sqf7+/M0o6+L/7U5MS1Fk0nndCn5Aeo5x7CAPZRlIhP6w8NYMngW5k/fwefHLlkkBVdwE3yekQ3JdnH0Piqv3tW73ZbFv4NEJ7bsfPJrFUj7VRh+sOnIVs5BTWsP6Tt/TV7ftEJ/R2lDzbk=
+	t=1791305396; cv=none; b=gElxS5NQSN2AdrsGxrEP2YRE/zzwz+QDgTMRGOYyF6SC0LA9dvO9vvk2kLFF/pmlwmrgFIrNJNKYTXqzDggOvHxlW3rS4l7FkKUP0lengRT4fFKdUHJLQ3v2OfdUYqY3UxChhsKv6PNXrwVnQCN6x59vjCgm9aX3UemUhkQwGPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791305275; c=relaxed/simple;
-	bh=CqBd9jrCficHPPuxInPpsClamiopxK98AzX7qGhyOiI=;
+	s=arc-20240116; t=1791305396; c=relaxed/simple;
+	bh=hY33spk6jA7xdlVYYhCalSX7H0xaMpc10/p0lRTVKO8=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=Ml65kSUZf7prjmh+MCpgaF0d0bOdBu3S4X7H70hxHpcr1QLFd2niCIgelUZEZMeThLG0Y4G7lbDR3CouaveXI/RBF/a0GPQAj9A3G7FBIHiyvw/jPhEAy9QdeuakWEUlR9LKa+hAwSyFfko0KD6ySuNcjctlo7jiz6H1Wdl/99E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fHrFXZMl; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=R506FMqBJthaKMUKzOKxPZ8ngMtoHwITTSLrQMcMOMdfjKP13611S6zy3Ec0Mm1CSkBc4A+mJZvDDm6y6xMhuabHbLaBFgj7RKOoD+dY4x7Dxe4a36NkUCgKvLwiudl9ufk4MWiLFK75lQM1H+g/5txeivkDFGBKb1oLJbSpaQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zvuxa4lm; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fHrFXZMl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 967121F0089B;
-	Tue,  6 Oct 2026 16:47:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zvuxa4lm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E6971F0089C;
+	Tue,  6 Oct 2026 16:49:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791305273;
-	bh=CqBd9jrCficHPPuxInPpsClamiopxK98AzX7qGhyOiI=;
+	s=k20260515; t=1791305395;
+	bh=+ud7ESQn5CTQD6GUcq7JzdZhbDPWYA4+MPQZXWHhXm8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fHrFXZMlEXK9KjQsyB9U88hY+CW2+XrLRpFx9DOVDf5/yrJq+CmNTPwHwKeJFiK2/
-	 Ltgf0npUGSw9UrUaVhkmtvkjAhEdBDd0sZG4UYyQ7bpACrubLDyeL8BVMBhIrgq/nQ
-	 toFaObC3tKx5vsbDDV+k9RAiIeGcfYEdsuN+9jymlSYMX5lXbOU2cg85c7NMrAGWLl
-	 i9QDsgz0JtuVL0Wwzs2lYtSa8TzDZZh6ZkW5L4YO8y3ayXjvKzvAgWekY0cpc/QRd/
-	 /5kYod/BiKwW11W6oV+EzfG3t7KkIenmuiV9ove9R5WhVUE7jtTV1zC9gtkax155yn
-	 IFe2ZicdYajMA==
-Message-ID: <sashiko-outbox-162269@kernel.org>
+	b=Zvuxa4lm0v4uvzHlhrG2sYtX7/x/TnZftaxziOcVTXXleblJIkmgPTd4PjF8uzw4M
+	 GpUcp/BKYuGkOxZPUf3XEoBxDlttkkwDIzUznhqtCNiaYn9ZKuSofre10pg0Z+GMFa
+	 JfrzAly8VrnQkBJlw+rUMfQtvtSKB0wVzYbFEXwLTDob2TnTCqYz6YhkvA0q9ek4Mt
+	 pR8JM2EAnDbk1BxZwkiDn6JqVxrcUlWqzB39NN5kNq5dLCOwbMfoA83oqalNL3LONL
+	 G25SI06q/4OEixTwePBp38zKfaASEuZJM1gM6x+yFACmZapAIwIeUcJBGItaKseQSr
+	 88w8pwYATswyA==
+Message-ID: <sashiko-outbox-162270@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 5/5] usb: xhci: remove unused structs
+Subject: Re: [PATCH 3/3] thunderbolt: Add quirk to reset host interface for
+ AMD USB4 routers
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Niklas Neronin" <niklas.neronin@linux.intel.com>
+To: "Basavaraj Natikar" <Basavaraj.Natikar@amd.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261006152427.3735383-6-niklas.neronin@linux.intel.com>
-References: <20261006152427.3735383-1-niklas.neronin@linux.intel.com>
- <20261006152427.3735383-6-niklas.neronin@linux.intel.com>
+In-Reply-To: <26ea33592937dcd93d06c901443a9b938cc24caf.1790854235.git.Basavaraj.Natikar@amd.com>
+References: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
+ <26ea33592937dcd93d06c901443a9b938cc24caf.1790854235.git.Basavaraj.Natikar@amd.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Oct 2026 16:47:53 +0000
+Date: Tue, 06 Oct 2026 16:49:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> Neither structure has any remaining users in the xHCI driver, so
-> remove them as dead code.
->=20
-> Last time 'xhci_cd' was used [1] in 2014.
-> Last time 'dev_info' was used [2] in 2013.
->=20
-> Link: https://git.kernel.org/torvalds/c/c311e391a7ef [1]
-> Link: https://git.kernel.org/torvalds/c/de68bab4fa96 [2]
-> Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] thunderbolt: NULL pointer dereference in nhi_reset_work() due to l=
+ate dev_set_drvdata()
+--
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+commit 9823327103fd3f6d1af1a55c73b76fed9264dad0
+Author: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+
+thunderbolt: Add quirk to reset host interface for AMD USB4 routers
+
+This commit adds a quirk for AMD USB4 routers to reset the host interface
+before reprogramming a reused DMA HopID, preventing TX ring hangs. The reset
+operation waits for DMA rings to stop while leaving other tunnels intact.
+
+> diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+> index 4408229d8ac7b..b26f5b39e923b 100644
+> --- a/drivers/thunderbolt/pci.c
+> +++ b/drivers/thunderbolt/pci.c
+[ ... ]
+> @@ -63,6 +63,27 @@ static void nhi_pci_check_quirks(struct tb_nhi_pci *nh=
+i_pci)
+>  			nhi->quirks |=3D QUIRK_E2E;
+>  			break;
+>  		}
+> +	} else if (pdev->vendor =3D=3D PCI_VENDOR_ID_AMD) {
+> +		switch (pdev->device) {
+[ ... ]
+> +		case PCI_DEVICE_ID_AMD_1AH_M70H_NHI0:
+> +		case PCI_DEVICE_ID_AMD_1AH_M70H_NHI1:
+> +			/*
+> +			 * These hosts may hang the Tx ring if its HopID is
+> +			 * programmed again without a host interface reset
+> +			 * in between.
+> +			 */
+> +			nhi->quirks |=3D QUIRK_RESET_DMA_ON_REUSE;
+
+[Severity: High]
+Does adding this quirk expose a race condition during probe that leads to a
+NULL pointer dereference in nhi_reset_work()?
+
+When QUIRK_RESET_DMA_ON_REUSE is set, it seems nhi_reset_work() can be queu=
+ed
+when a DMA ring stops. However, looking at the initialization sequence in
+nhi_probe(), drvdata is set very late:
+
+drivers/thunderbolt/nhi.c:nhi_probe() {
+	...
+	res =3D tb_domain_add(tb, host_reset);
+	if (res) {
+		...
+	}
+	dev_set_drvdata(dev, tb);
+	...
+}
+
+During tb_domain_add(), event processing is started and the lock is dropped
+before returning:
+
+drivers/thunderbolt/domain.c:tb_domain_add() {
+	...
+	/* This starts event processing */
+	mutex_unlock(&tb->lock);
+
+	device_init_wakeup(&tb->dev, true);
+	...
+}
+
+Because tb_domain_add() allows asynchronous events (like DMA ring start/stop
+operations) to execute before returning to nhi_probe(), nhi_reset_work() can
+be scheduled while drvdata is still NULL. If this happens, it leads to a cr=
+ash
+when trying to acquire the lock:
+
+drivers/thunderbolt/nhi.c:nhi_reset_work() {
+	struct tb *tb =3D dev_get_drvdata(nhi->dev);
+
+	/* The connection manager must be blocked over the reset */
+	guard(mutex)(&tb->lock);
+	...
+}
+
+Can we ensure drvdata is set before enabling event processing, or otherwise
+prevent the reset work from running before tb_domain_add() finishes?
+
+> +			break;
+> +		}
+>  	}
+>  }
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261006152427.3735=
-383-1-niklas.neronin@linux.intel.com?part=3D5
-
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1790854235.gi=
+t.Basavaraj.Natikar@amd.com?part=3D3
