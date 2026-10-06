@@ -1,192 +1,637 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7701C35F5ED;
-	Tue,  6 Oct 2026 03:05:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF95430D3F8;
+	Tue,  6 Oct 2026 04:27:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791255938; cv=none; b=K7pboLXEmoNlnwvZnDiPjkmtJoQDaKuFQTsMYdU1EzAJlaiB8cthVmK1TJT0PJQKqKi+uT3b4eFXUD07kMGmRenpB6mEaxKBKsl3GEqkbtx6wbKaWBL6LIxDE2zxz/v1V3/+jAmls75BLSCeUYttPz6w5Jt+JPkdR903F8rh/uM=
+	t=1791260856; cv=none; b=rRsBh72hKAHhjxpogsRmefNOqc1gGOro/aUyV2u0s4rPt/2ksH8jSASranRhF95X1cj2C5u77X32AyOqa9SNObRPYQbMm1PgqDuzS1zjk5SL578yVgQLuO/laOtgm+zdv/2KAq+iXjUIhpRCiliE2SHrxkI384LFrVKI2WE6WnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791255938; c=relaxed/simple;
-	bh=n1YY4Ck2NNxTF6Dv0Dg+v2Ep1MCGfRSCuwmTVbpO6QU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=AoMUbdK/6MsiQfipmZzmPFvxH9bSs+I5eRgSa1b5Tz/qBannIldWCy553sGfLp0QiV/cdfbHFEfwk5bRLefjzSG5a2oH3/qMON76R5tvP5dG4E9LCczkRPb1DYoouwwQx3Ugp38ncTXAGqQDrRQDbBSozkcSQpCgymKtLdRwB+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=sXiDxu+G; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=K82fz3cB; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1791260856; c=relaxed/simple;
+	bh=r7GD4mHSfhboy9Iq8wIl7yQVgek/fC5TJPcD++YcRgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TBnNJlm9KUQMC9majZh6nX5VevW3N8yqS4abfFeCW+zr5O/ZbEt7yhmjAxCIf9QEewhOyRyOjrzRGzYksd2U64xnJBTE2qycSXd0Cl+2t6Up4laRtOa2sFSkG5LUHolj7pUBf5op9hlQndAgJe3jBSgWYBxJiA4bVSsIZClQOnU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mZl4qwiw; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="sXiDxu+G";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="K82fz3cB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791255932;
-	bh=n1YY4Ck2NNxTF6Dv0Dg+v2Ep1MCGfRSCuwmTVbpO6QU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=sXiDxu+GWXP66p9uX29FdS79QySQ3aMQnaRUY7xubCnVxStg5SF9ADJulFmF46hzQ
-	 lIeuTvzKtBX3lImcOiKcAnjxT3Vuao2+zphRZITCSMj8/F1XNDv+cK2OGaGqAftzMa
-	 1xszE1EblNbPLbUdLo/kUlVwRTzIa5EbuPWWlQJwNGg51XQ7scPCaaf2bPVxtK8mQW
-	 31+Jj2AN8YUkymO13Tuw94VDqrtuSmtZxl3D61z+HhJbul2hgJd5f5mFoVBqjMGwCd
-	 DqW6WcTfYCThl6eOgPc75Y8oio3FmklEo0kJUzAu9e89dJ5c6Q3O6teUevsLcyOWmw
-	 EIWLTqGykqamw==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 7BB14485AE; Tue,  6 Oct 2026 03:05:32 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791255915;
-	bh=n1YY4Ck2NNxTF6Dv0Dg+v2Ep1MCGfRSCuwmTVbpO6QU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=K82fz3cB0C1YDrMLl/lNrlgAeLhgetULkjg4u1fW9P+C8PFbWiDXLF163vCZbYcgf
-	 mIULCyJnyyp0kyKbUhhXvDBieUWTG9XE4V6n3d7TMnrRiCb1AfAghhVKUKMJeclHno
-	 q+MTy/kRq9fEFRb7gSI4Ksp6c4dwYOnmdhJhtCjsAb/xbjZK3+Nwjn7kCSL8yMP8kI
-	 oln53ZFMnSRcAedsGiHPoanTagxcSHSW83N/SFVKougndRQwj4hSaOvuYKVJd42J9p
-	 ryjk5M4GHl+IynyLu+aEU91kYmkfbzdTV+ekZNxybxqMaqAHlxifXvpnjW7Cu1tKBX
-	 46aj6ICLRnDnw==
-Received: from AMDDesktop.lan (p4fd5971b.dip0.t-ipconnect.de [79.213.151.27])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 7E1AA485C1;
-	Tue,  6 Oct 2026 03:05:15 +0000 (UTC)
-From: Birger Koblitz <mail@birger-koblitz.de>
-Date: Tue, 06 Oct 2026 05:05:17 +0200
-Subject: [PATCH net-next v17 11/13] ax88179_178a: Update driver name and
- information
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mZl4qwiw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791260854; x=1822796854;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=r7GD4mHSfhboy9Iq8wIl7yQVgek/fC5TJPcD++YcRgU=;
+  b=mZl4qwiw0Ns76J8CHd7Mtoxb2Se5WucYtzLxWivTA/oiRBy77otf6cc3
+   71K9sUrHsBoLvyj9pMl3WlDBXt3DcCbV/28JB/335IGUrTmFVTR86Gl8C
+   QDEndHiloFQMIbY8pvNVH0QXq6HkTOOxQAP0wd6AeCl9IxO4/QAD4TWdO
+   ocRRAvkE/VGmQN6Euh40FM6rqxnnHv9e33T/MpujtwLpGNOr5tKGmt38a
+   QJBtzi8J0pgCDgdqzQFwuw4ECAYi8HInjYsdSOCd8QAkJscbzYrAbbzx3
+   ERCUnuDtdxndafHsIpkkA5GlocGVabFlymropGM7AEoN3lPiMDcRe10+w
+   w==;
+X-CSE-ConnectionGUID: jF80RH8oQXWdZHMOA+XPhQ==
+X-CSE-MsgGUID: wNL7a/TJSYiWH5C8Ez1+Rw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="91001766"
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="91001766"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 21:27:32 -0700
+X-CSE-ConnectionGUID: Q+AwUjZfTWaCkXAcn/U4NA==
+X-CSE-MsgGUID: j45cEulCSGaGpWuld0mCuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
+   d="scan'208";a="284940190"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa003.fm.intel.com with ESMTP; 05 Oct 2026 21:27:28 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 5F85A99; Tue, 06 Oct 2026 06:27:27 +0200 (CEST)
+Date: Tue, 6 Oct 2026 06:27:27 +0200
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
+	Mario Limonciello <Mario.Limonciello@amd.com>,
+	Sanath S <Sanath.S@amd.com>
+Subject: Re: [PATCH 1/3] thunderbolt: Allow tb_ring_start() to fail
+Message-ID: <20261006042727.GN176164@black.igk.intel.com>
+References: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
+ <13c3bccc590ec4a87bb718da0de40a3d041846d8.1790854235.git.Basavaraj.Natikar@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261006-ax88179a-v17-11-252814fe35ea@birger-koblitz.de>
-References: <20261006-ax88179a-v17-0-252814fe35ea@birger-koblitz.de>
-In-Reply-To: <20261006-ax88179a-v17-0-252814fe35ea@birger-koblitz.de>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>, 
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>, 
- Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, 
- Eric Dumazet <edumazet@kernel.org>, Eric Dumazet <edumazet@kernel.org>
-Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, 
- Jianhui Xu <neuromoments@gmail.com>, 
- Birger Koblitz <mail@birger-koblitz.de>, Nicolai Buchwitz <nb@tipi-net.de>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <13c3bccc590ec4a87bb718da0de40a3d041846d8.1790854235.git.Basavaraj.Natikar@amd.com>
 
-Add additionally supported devices to Kconfig description, add
-further requirements such as PHYLINK.
+Hi,
 
-Update driver name in usb_driver and update MODULE_DESCRIPTION
-to include the additionally supported chips.
+On Mon, Oct 05, 2026 at 07:13:39PM +0530, Basavaraj Natikar wrote:
+> tb_ring_start() returns void, so its callers cannot tell when a ring fails
+> to start and keep building an unusable tunnel. On some host interfaces a
+> DMA HopID also cannot be reprogrammed until the host interface has been
+> reset.
+> 
+> Hence, let tb_ring_start() return an error and unwind the callers on
+> failure: stop an already started TX ring when its RX peer fails to start,
+> and disable the DMA paths enabled before the rings were started.
+> 
+> A stream can also stay open after a failed resume. Therefore, free the
+> partial allocations, clear the ring pointers, and let the subsequent I/O
+> and close return without touching the freed rings. Check readiness under
+> the device mutex and use a wake token so a wakeup is not lost across the
+> unlocked sleep.
+> 
+> Co-developed-by: Sanath S <Sanath.S@amd.com>
+> Signed-off-by: Sanath S <Sanath.S@amd.com>
+> Signed-off-by: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
+> ---
+> 
+>  drivers/net/thunderbolt/main.c |  14 ++-
+>  drivers/thunderbolt/ctl.c      |  23 ++++-
+>  drivers/thunderbolt/dma_test.c |  32 +++++-
+>  drivers/thunderbolt/nhi.c      |  12 ++-
+>  drivers/thunderbolt/stream.c   | 175 +++++++++++++++++++++------------
+>  include/linux/thunderbolt.h    |   2 +-
+>  6 files changed, 181 insertions(+), 77 deletions(-)
 
-Change Kconfig symbol name from USB_NET_AX88179_178A to USB_NET_AX88179
-and update loongson32_defconfig/loongson64_defconfig to use that
-symbol.
+This is pretty invasive change. How well did you test this?
 
-Signed-off-by: Birger Koblitz <mail@birger-koblitz.de>
-Reviewed-by: Andrew Lunn <andrew@lunn.ch>
-Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
----
- arch/loongarch/configs/loongson32_defconfig |  2 +-
- arch/loongarch/configs/loongson64_defconfig |  2 +-
- drivers/net/usb/Kconfig                     | 10 +++++++---
- drivers/net/usb/Makefile                    |  2 +-
- drivers/net/usb/ax88179_178a.c              |  8 ++++----
- 5 files changed, 14 insertions(+), 10 deletions(-)
+I would have been hoping we can avoid touching the service drivers
+completely.
 
-diff --git a/arch/loongarch/configs/loongson32_defconfig b/arch/loongarch/configs/loongson32_defconfig
-index dbef879935f322e6167b4ed878ad4cb20048c6db..a039b8e8d242073c16ea281cf8734068a1a9b29f 100644
---- a/arch/loongarch/configs/loongson32_defconfig
-+++ b/arch/loongarch/configs/loongson32_defconfig
-@@ -641,7 +641,7 @@ CONFIG_USB_RTL8150=m
- CONFIG_USB_RTL8152=m
- CONFIG_USB_USBNET=m
- # CONFIG_USB_NET_AX8817X is not set
--# CONFIG_USB_NET_AX88179_178A is not set
-+# CONFIG_USB_NET_AX88179 is not set
- CONFIG_USB_NET_CDC_EEM=m
- CONFIG_USB_NET_HUAWEI_CDC_NCM=m
- CONFIG_USB_NET_CDC_MBIM=m
-diff --git a/arch/loongarch/configs/loongson64_defconfig b/arch/loongarch/configs/loongson64_defconfig
-index 4f8bb77b8a1e6e30bcbd6e96d7e38b5054630ea0..b30415c03fa185cae77e81ded929c743ef22ee40 100644
---- a/arch/loongarch/configs/loongson64_defconfig
-+++ b/arch/loongarch/configs/loongson64_defconfig
-@@ -657,7 +657,7 @@ CONFIG_USB_RTL8150=m
- CONFIG_USB_RTL8152=m
- CONFIG_USB_USBNET=m
- # CONFIG_USB_NET_AX8817X is not set
--# CONFIG_USB_NET_AX88179_178A is not set
-+# CONFIG_USB_NET_AX88179 is not set
- CONFIG_USB_NET_CDC_EEM=m
- CONFIG_USB_NET_HUAWEI_CDC_NCM=m
- CONFIG_USB_NET_CDC_MBIM=m
-diff --git a/drivers/net/usb/Kconfig b/drivers/net/usb/Kconfig
-index 115990b0d9537aea2776544c9768b034f32aa7a4..27862e380bdb4a54d184fa8618e4c9b348354e84 100644
---- a/drivers/net/usb/Kconfig
-+++ b/drivers/net/usb/Kconfig
-@@ -195,11 +195,12 @@ config USB_NET_AX8817X
- 	  This driver creates an interface named "ethX", where X depends on
- 	  what other networking devices you have in use.
- 
--config USB_NET_AX88179_178A
--	tristate "ASIX AX88179/178A USB 3.0/2.0 to Gigabit Ethernet"
-+config USB_NET_AX88179
-+	tristate "ASIX AX88179/179A/178A USB 2.0/3.0 to 100M/1G/2.5GbE Adapters"
- 	depends on USB_USBNET
--	select CRC32
- 	select PHYLINK
-+	select AX88796B_PHY
-+	select CRC32
- 	default y
- 	help
- 	  This option adds support for ASIX AX88179 based USB 3.0/2.0
-@@ -207,6 +208,9 @@ config USB_NET_AX88179_178A
- 
- 	  This driver should work with at least the following devices:
- 	    * ASIX AX88179
-+	    * ASIX AX88179A/B
-+	    * ASIX AX88279
-+	    * ASIX AX88772D/E
- 	    * ASIX AX88178A
- 	    * Sitcomm LN-032
- 
-diff --git a/drivers/net/usb/Makefile b/drivers/net/usb/Makefile
-index 2ecead0181eaf8d66fb6f5dbd6f2905b22b6eb57..4026f19ecb826a6465de38f1d9bb0e4c0af80421 100644
---- a/drivers/net/usb/Makefile
-+++ b/drivers/net/usb/Makefile
-@@ -12,7 +12,7 @@ obj-$(CONFIG_USB_HSO)		+= hso.o
- obj-$(CONFIG_USB_LAN78XX)	+= lan78xx.o
- obj-$(CONFIG_USB_NET_AX8817X)	+= asix.o
- asix-y := asix_devices.o asix_common.o ax88172a.o
--obj-$(CONFIG_USB_NET_AX88179_178A)      += ax88179.o
-+obj-$(CONFIG_USB_NET_AX88179)      += ax88179.o
- ax88179-y := ax88179_178a.o ax88179a_devices.o ax88179_lib.o
- obj-$(CONFIG_USB_NET_CDCETHER)	+= cdc_ether.o
- obj-$(CONFIG_USB_NET_CDC_EEM)	+= cdc_eem.o
-diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
-index 245ccf6896033922adcef79bd395b347918f57e3..8b52994e2a604101b61ec9cc0d698a0ecb520a14 100644
---- a/drivers/net/usb/ax88179_178a.c
-+++ b/drivers/net/usb/ax88179_178a.c
-@@ -1354,8 +1354,8 @@ static const struct usb_device_id products[] = {
- };
- MODULE_DEVICE_TABLE(usb, products);
- 
--static struct usb_driver ax88179_178a_driver = {
--	.name =		"ax88179_178a",
-+static struct usb_driver ax88179_driver = {
-+	.name =		"ax88179",
- 	.id_table =	products,
- 	.probe =	usbnet_probe,
- 	.suspend =	ax88179_suspend_wrapper,
-@@ -1366,8 +1366,8 @@ static struct usb_driver ax88179_178a_driver = {
- 	.disable_hub_initiated_lpm = 1,
- };
- 
--module_usb_driver(ax88179_178a_driver);
-+module_usb_driver(ax88179_driver);
- 
--MODULE_DESCRIPTION("ASIX AX88179/178A based USB 3.0/2.0 Gigabit Ethernet Devices");
-+MODULE_DESCRIPTION("ASIX AX88179/179A/178A/279 based USB 3.0/2.0 100M/1G/2.5GbE Controllers");
- MODULE_LICENSE("GPL");
- MODULE_ALIAS("ax88179_178a");
+> diff --git a/drivers/net/thunderbolt/main.c b/drivers/net/thunderbolt/main.c
+> index cf51b9c39f4e..93ccccc5cf8b 100644
+> --- a/drivers/net/thunderbolt/main.c
+> +++ b/drivers/net/thunderbolt/main.c
+> @@ -669,8 +669,16 @@ static void tbnet_connected_work(struct work_struct *work)
+>  	 * the Rx ring before any incoming packets are allowed to
+>  	 * arrive.
+>  	 */
+> -	tb_ring_start(net->tx_ring.ring);
+> -	tb_ring_start(net->rx_ring.ring);
+> +	ret = tb_ring_start(net->tx_ring.ring);
+> +	if (ret) {
+> +		netdev_dbg(net->dev, "failed to start Tx ring, ret=%d\n", ret);
 
--- 
-2.47.3
+the ret= is not consistent wit the rest of the driver and should this be
+_warn() instead? 
 
+> +		goto err_release_hopid;
+> +	}
+> +	ret = tb_ring_start(net->rx_ring.ring);
+> +	if (ret) {
+> +		netdev_dbg(net->dev, "failed to start Rx ring, ret=%d\n", ret);
+> +		goto err_stop_tx;
+> +	}
+> 
+>  	ret = tbnet_alloc_rx_buffers(net, TBNET_RING_SIZE);
+>  	if (ret)
+> @@ -701,7 +709,9 @@ static void tbnet_connected_work(struct work_struct *work)
+>  	tbnet_free_buffers(&net->rx_ring);
+>  err_stop_rings:
+>  	tb_ring_stop(net->rx_ring.ring);
+> +err_stop_tx:
+>  	tb_ring_stop(net->tx_ring.ring);
+> +err_release_hopid:
+>  	tb_xdomain_release_in_hopid(net->xd, net->remote_transmit_path);
+>  	tbnet_connect_failed(net);
+>  }
+> diff --git a/drivers/thunderbolt/ctl.c b/drivers/thunderbolt/ctl.c
+> index 965988b18608..94b29430ffe4 100644
+> --- a/drivers/thunderbolt/ctl.c
+> +++ b/drivers/thunderbolt/ctl.c
+> @@ -728,10 +728,27 @@ void tb_ctl_free(struct tb_ctl *ctl)
+>   */
+>  void tb_ctl_start(struct tb_ctl *ctl)
+>  {
+> -	int i;
+> +	int i, ret;
+>  	tb_ctl_dbg(ctl, "control channel starting...\n");
+> -	tb_ring_start(ctl->tx); /* is used to ack hotplug packets, start first */
+> -	tb_ring_start(ctl->rx);
+> +
+> +	/*
+> +	 * TX is used to ack hotplug packets so start it first. -ENODEV
+> +	 * means the host controller itself is already gone (expected on
+> +	 * an unplug-during-suspend resume), so do not warn about that.
+
+What?
+
+> +	 */
+> +	ret = tb_ring_start(ctl->tx);
+> +	if (ret) {
+> +		if (ret != -ENODEV)
+> +			tb_ctl_WARN(ctl, "failed to start TX ring\n");
+> +		return;
+> +	}
+> +	ret = tb_ring_start(ctl->rx);
+> +	if (ret) {
+> +		if (ret != -ENODEV)
+> +			tb_ctl_WARN(ctl, "failed to start RX ring\n");
+> +		tb_ring_stop(ctl->tx);
+> +		return;
+> +	}
+>  	for (i = 0; i < TB_CTL_RX_PKG_COUNT; i++)
+>  		tb_ctl_rx_submit(ctl->rx_packets[i]);
+> 
+> diff --git a/drivers/thunderbolt/dma_test.c b/drivers/thunderbolt/dma_test.c
+> index bcecb0edcb81..e9c01bcfedf9 100644
+> --- a/drivers/thunderbolt/dma_test.c
+> +++ b/drivers/thunderbolt/dma_test.c
+> @@ -203,12 +203,36 @@ static int dma_test_start_rings(struct dma_test *dt)
+>  		return ret;
+>  	}
+> 
+> -	if (dt->tx_ring)
+> -		tb_ring_start(dt->tx_ring);
+> -	if (dt->rx_ring)
+> -		tb_ring_start(dt->rx_ring);
+> +	if (dt->tx_ring) {
+> +		ret = tb_ring_start(dt->tx_ring);
+> +		if (ret)
+> +			goto err_disable_paths;
+> +	}
+> +	if (dt->rx_ring) {
+> +		ret = tb_ring_start(dt->rx_ring);
+> +		if (ret)
+> +			goto err_stop_tx;
+> +	}
+> 
+>  	return 0;
+> +
+> +err_stop_tx:
+> +	tb_xdomain_disable_paths(dt->xd, dt->tx_hopid,
+> +				 dt->tx_ring ? dt->tx_ring->hop : -1,
+> +				 dt->rx_hopid,
+> +				 dt->rx_ring ? dt->rx_ring->hop : -1);
+> +	if (dt->tx_ring)
+> +		tb_ring_stop(dt->tx_ring);
+> +	goto err_free;
+
+This is way too fragile :-(
+
+> +err_disable_paths:
+> +	tb_xdomain_disable_paths(dt->xd, dt->tx_hopid,
+> +				 dt->tx_ring ? dt->tx_ring->hop : -1,
+> +				 dt->rx_hopid,
+> +				 dt->rx_ring ? dt->rx_ring->hop : -1);
+> +err_free:
+> +	dma_test_free_rings(dt);
+> +
+> +	return ret;
+>  }
+> 
+>  static void dma_test_stop_rings(struct dma_test *dt)
+> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+> index e99a3fcc4a29..1960fa30e13a 100644
+> --- a/drivers/thunderbolt/nhi.c
+> +++ b/drivers/thunderbolt/nhi.c
+> @@ -741,18 +741,24 @@ EXPORT_SYMBOL_GPL(tb_ring_alloc_rx);
+>   * @ring: Ring to start
+>   *
+>   * Must not be invoked in parallel with tb_ring_stop().
+> + *
+> + * Returns %0 on success and negative errno in case of failure.
+>   */
+> -void tb_ring_start(struct tb_ring *ring)
+> +int tb_ring_start(struct tb_ring *ring)
+>  {
+>  	u16 frame_size;
+> +	int ret = 0;
+>  	u32 flags;
+> 
+>  	spin_lock_irq(&ring->nhi->lock);
+>  	spin_lock(&ring->lock);
+> -	if (ring->nhi->going_away)
+> +	if (ring->nhi->going_away) {
+> +		ret = -ENODEV;
+>  		goto err;
+> +	}
+>  	if (ring->running) {
+>  		dev_WARN(ring->nhi->dev, "ring already started\n");
+> +		ret = -EBUSY;
+>  		goto err;
+>  	}
+>  	dev_dbg(ring->nhi->dev, "starting %s %d\n",
+> @@ -810,6 +816,8 @@ void tb_ring_start(struct tb_ring *ring)
+>  err:
+>  	spin_unlock(&ring->lock);
+>  	spin_unlock_irq(&ring->nhi->lock);
+> +
+> +	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(tb_ring_start);
+> 
+> diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
+> index 4f9a57b77bfa..48b7e3f01312 100644
+> --- a/drivers/thunderbolt/stream.c
+> +++ b/drivers/thunderbolt/stream.c
+> @@ -259,6 +259,9 @@ static void tbstream_ring_free(struct tbstream_ring *ring)
+>  	enum dma_data_direction dir;
+>  	int i;
+> 
+> +	if (!ring->frames)
+> +		return;
+> +
+>  	if (ring->ring->is_tx)
+>  		dir = DMA_TO_DEVICE;
+>  	else
+> @@ -279,6 +282,7 @@ static void tbstream_ring_free(struct tbstream_ring *ring)
+>  	ring->prod = 0;
+>  	ring->cons = 0;
+>  	kfree(ring->frames);
+> +	ring->frames = NULL;
+>  }
+> 
+>  static inline bool tbstream_ring_available(const struct tbstream_ring *ring)
+> @@ -575,6 +579,9 @@ static int tbstream_dev_send_close(struct tbstream_dev *sdev)
+>  	struct tbstream_frame *sf;
+>  	ktime_t timeout;
+> 
+> +	if (!sdev->tx_ring.ring)
+> +		return -ESHUTDOWN;
+> +
+>  	/*
+>  	 * Wait for the ring to have available slots before we send the
+>  	 * CLOSE packet.
+> @@ -645,7 +652,7 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
+> 
+>  	ret = tbstream_dev_alloc_tx_buffers(sdev);
+>  	if (ret)
+> -		goto err_free_tx;
+> +		goto err_free_tx_buffers;
+> 
+>  	e2e_tx_hop = ring->hop;
+>  	sof_mask = BIT(TBSTREAM_FRAME_START);
+> @@ -672,8 +679,12 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
+> 
+>  	sdev->rx_pending = false;
+> 
+> -	tb_ring_start(sdev->tx_ring.ring);
+> -	tb_ring_start(sdev->rx_ring.ring);
+> +	ret = tb_ring_start(sdev->tx_ring.ring);
+> +	if (ret)
+> +		goto err_disable_paths;
+> +	ret = tb_ring_start(sdev->rx_ring.ring);
+> +	if (ret)
+> +		goto err_stop_tx;
+> 
+>  	ret = tbstream_dev_alloc_rx_buffers(sdev);
+>  	if (ret)
+> @@ -682,13 +693,20 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
+> 
+>  err_stop:
+>  	tb_ring_stop(sdev->rx_ring.ring);
+> +	tbstream_ring_free(&sdev->rx_ring);
+> +err_stop_tx:
+>  	tb_ring_stop(sdev->tx_ring.ring);
+> +err_disable_paths:
+> +	tb_xdomain_disable_paths(xd, sdev->out_hopid, sdev->tx_ring.ring->hop,
+> +				 sdev->in_hopid, sdev->rx_ring.ring->hop);
+>  err_free_rx:
+>  	tb_ring_free(sdev->rx_ring.ring);
+> +	sdev->rx_ring.ring = NULL;
+>  err_free_tx_buffers:
+>  	tbstream_ring_free(&sdev->tx_ring);
+> -err_free_tx:
+>  	tb_ring_free(sdev->tx_ring.ring);
+> +	sdev->tx_ring.ring = NULL;
+> +	wake_up_interruptible(&sdev->wait);
+> 
+>  	return ret;
+>  }
+> @@ -708,6 +726,10 @@ static void tbstream_dev_stop(struct tbstream_dev *sdev)
+>  {
+>  	struct tb_xdomain *xd;
+> 
+> +	/* Starting may have failed and freed the rings already */
+> +	if (!sdev->tx_ring.ring)
+> +		return;
+> +
+>  	if (sdev->busy_poll) {
+>  		/*
+>  		 * When busy polling we must advance the ring ourselves
+> @@ -742,6 +764,7 @@ static void tbstream_dev_stop(struct tbstream_dev *sdev)
+>  	tbstream_ring_free(&sdev->tx_ring);
+>  	tb_ring_free(sdev->tx_ring.ring);
+>  	sdev->tx_ring.ring = NULL;
+> +	wake_up_interruptible(&sdev->wait);
+>  }
+> 
+>  /* Use only with read_iter/write_iter() to handle nowait */
+> @@ -757,29 +780,6 @@ static int tbstream_dev_lock(struct tbstream_dev *sdev, bool nowait)
+>  	return 0;
+>  }
+> 
+> -/* Must not be called with @sdev->lock held */
+> -static int tbstream_dev_busy_poll_wait(struct tbstream_dev *sdev,
+> -				       struct tbstream_ring *ring)
+> -{
+> -	for (;;) {
+> -		if (signal_pending(current))
+> -			return -ERESTARTSYS;
+> -		if (tb_ring_poll_pending(ring->ring))
+> -			return 0;
+> -		/*
+> -		 * For TX ring we need to check the RX side too because
+> -		 * it might have received CLOSE packet.
+> -		 */
+> -		if (ring == &sdev->tx_ring &&
+> -		    tb_ring_poll_pending(sdev->rx_ring.ring))
+> -			return 0;
+> -		if (tbstream_dev_valid(sdev) != 0 ||
+> -		    tbstream_dev_closed(sdev) || tbstream_dev_removed(sdev))
+> -			return 0;
+> -		cond_resched();
+> -	}
+> -}
+> -
+>  static bool
+>  tbstream_dev_has_event(struct tbstream_dev *sdev, struct tbstream_ring *ring)
+>  {
+> @@ -796,6 +796,52 @@ tbstream_dev_has_event(struct tbstream_dev *sdev, struct tbstream_ring *ring)
+>  	return tb_ring_poll_pending(sdev->rx_ring.ring);
+>  }
+> 
+> +static bool tbstream_dev_ready(struct tbstream_dev *sdev,
+> +			       struct tbstream_ring *ring)
+> +{
+> +	lockdep_assert_held(&sdev->lock);
+> +
+> +	/* Starting may have failed and freed the rings already */
+> +	if (!sdev->tx_ring.ring)
+> +		return true;
+> +
+> +	return tbstream_dev_has_event(sdev, ring) ||
+> +	       tbstream_dev_close_received(sdev) ||
+> +	       tb_ring_poll_pending(ring->ring);
+> +}
+> +
+> +/* Must not be called with @sdev->lock held. */
+> +static int tbstream_dev_wait(struct tbstream_dev *sdev,
+> +			     struct tbstream_ring *ring)
+> +{
+> +	DEFINE_WAIT_FUNC(wait, woken_wake_function);
+
+woken_wake_function?
+
+> +	int ret = 0;
+> +
+> +	add_wait_queue(&sdev->wait, &wait);
+> +	for (;;) {
+> +		bool ready;
+> +
+> +		ret = mutex_lock_interruptible(&sdev->lock);
+> +		if (ret)
+> +			break;
+> +		ready = tbstream_dev_ready(sdev, ring);
+> +		mutex_unlock(&sdev->lock);
+> +		if (ready)
+> +			break;
+> +		if (signal_pending(current)) {
+> +			ret = -ERESTARTSYS;
+> +			break;
+> +		}
+> +		if (sdev->busy_poll)
+> +			cond_resched();
+> +		else
+> +			/* The wake token bridges the unlocked check-to-sleep gap. */
+> +			wait_woken(&wait, TASK_INTERRUPTIBLE, MAX_SCHEDULE_TIMEOUT);
+> +	}
+> +	remove_wait_queue(&sdev->wait, &wait);
+
+This is also really complex to just handle the error in tb_ring_start(). I
+wonder what scenarios were actually tested?
+
+> +	return ret;
+> +}
+> +
+>  static ssize_t
+>  tbstream_dev_fops_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+>  {
+> @@ -814,6 +860,11 @@ tbstream_dev_fops_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+>  		return ret;
+> 
+>  	for (;;) {
+> +		if (!sdev->tx_ring.ring) {
+> +			mutex_unlock(&sdev->lock);
+> +			return -ESHUTDOWN;
+
+Now the ring went away behind the reader?
+
+I don't think this is a good approach to be honest.
+
+> +		}
+> +
+>  		/* Advance RX completions */
+>  		tbstream_dev_advance_rx(sdev);
+> 
+> @@ -838,16 +889,9 @@ tbstream_dev_fops_read_iter(struct kiocb *kiocb, struct iov_iter *to)
+>  		if (nowait)
+>  			return -EAGAIN;
+> 
+> -		if (sdev->busy_poll) {
+> -			ret = tbstream_dev_busy_poll_wait(sdev, &sdev->rx_ring);
+> -			if (ret)
+> -				return ret;
+> -		} else {
+> -			ret = wait_event_interruptible(sdev->wait,
+> -				tbstream_dev_has_event(sdev, &sdev->rx_ring));
+> -			if (ret)
+> -				return ret;
+> -		}
+> +		ret = tbstream_dev_wait(sdev, &sdev->rx_ring);
+> +		if (ret)
+> +			return ret;
+> 
+>  		ret = tbstream_dev_lock(sdev, nowait);
+>  		if (ret)
+> @@ -957,6 +1001,11 @@ tbstream_dev_fops_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+>  		return ret;
+> 
+>  	for (;;) {
+> +		if (!sdev->tx_ring.ring) {
+> +			mutex_unlock(&sdev->lock);
+> +			return -ESHUTDOWN;
+> +		}
+> +
+>  		/* Advance TX (and RX) completions */
+>  		tbstream_dev_advance_both(sdev);
+> 
+> @@ -984,17 +1033,9 @@ tbstream_dev_fops_write_iter(struct kiocb *kiocb, struct iov_iter *from)
+>  		if (nowait)
+>  			return -EAGAIN;
+> 
+> -		if (sdev->busy_poll) {
+> -			ret = tbstream_dev_busy_poll_wait(sdev, &sdev->tx_ring);
+> -			if (ret)
+> -				return ret;
+> -		} else {
+> -			ret = wait_event_interruptible(sdev->wait,
+> -				tbstream_dev_has_event(sdev, &sdev->tx_ring) ||
+> -				tbstream_dev_close_received(sdev));
+> -			if (ret)
+> -				return ret;
+> -		}
+> +		ret = tbstream_dev_wait(sdev, &sdev->tx_ring);
+> +		if (ret)
+> +			return ret;
+> 
+>  		ret = tbstream_dev_lock(sdev, nowait);
+>  		if (ret)
+> @@ -1041,7 +1082,7 @@ tbstream_dev_fops_poll(struct file *file, struct poll_table_struct *wait)
+> 
+>  	poll_wait(file, &sdev->wait, wait);
+>  	guard(mutex)(&sdev->lock);
+> -	if (tbstream_dev_valid(sdev) != 0)
+> +	if (tbstream_dev_valid(sdev) != 0 || !sdev->tx_ring.ring)
+>  		return EPOLLHUP | EPOLLERR;
+> 
+>  	/*
+> @@ -1105,6 +1146,11 @@ static int tbstream_dev_fops_open(struct inode *inode, struct file *file)
+>  		}
+>  	}
+> 
+> +	if (sdev->users && !sdev->tx_ring.ring) {
+> +		ret = -ESHUTDOWN;
+> +		goto err_unlock;
+> +	}
+> +
+>  	/* Only on first open we allocate rings and enable paths */
+>  	if (!sdev->users++) {
+>  		ret = tbstream_dev_start(sdev);
+> @@ -1136,7 +1182,7 @@ static int tbstream_dev_fops_release(struct inode *inode, struct file *file)
+>  	struct tbstream_dev *sdev = to_tbstream_dev(file->private_data);
+> 
+>  	mutex_lock(&sdev->lock);
+> -	if (--sdev->users == 0) {
+> +	if (--sdev->users == 0 && sdev->tx_ring.ring) {
+>  		/*
+>  		 * Advance now in case there is CLOSE waiting in the RX
+>  		 * ring.
+> @@ -1884,14 +1930,14 @@ static int __maybe_unused tbstream_suspend(struct device *dev)
+>  	if (!sg)
+>  		return 0;
+> 
+> +	mutex_lock(&sg->lock);
+>  	list_for_each_entry_reverse(sdev, &sg->dev_list, list) {
+> -		tbstream_dev_get(sdev);
+> -		/* Stop the stream (if it was open) */
+> +		mutex_lock(&sdev->lock);
+>  		if (sdev->users)
+>  			tbstream_dev_stop(sdev);
+> -		tbstream_dev_put(sdev);
+> +		mutex_unlock(&sdev->lock);
+
+What's this?
+
+>  	}
+> -
+> +	mutex_unlock(&sg->lock);
+>  	config_group_put(&sg->group);
+>  	return 0;
+>  }
+> @@ -1902,28 +1948,27 @@ static int __maybe_unused tbstream_resume(struct device *dev)
+>  	struct tbstream *stream = tb_service_get_drvdata(svc);
+>  	struct tbstream_group *sg;
+>  	struct tbstream_dev *sdev;
+> +	int ret = 0;
+> 
+>  	sg = tbstream_group_find(stream);
+>  	if (!sg)
+>  		return 0;
+> 
+> +	mutex_lock(&sg->lock);
+>  	list_for_each_entry(sdev, &sg->dev_list, list) {
+> -		tbstream_dev_get(sdev);
+> +		mutex_lock(&sdev->lock);
+>  		if (sdev->users) {
+> -			int ret;
+> +			int err = tbstream_dev_start(sdev);
+> 
+> -			ret = tbstream_dev_start(sdev);
+> -			if (ret) {
+> -				tbstream_dev_put(sdev);
+> -				config_group_put(&sg->group);
+> -				return ret;
+> -			}
+> +			if (err && !ret)
+> +				ret = err;
+>  		}
+> -		tbstream_dev_put(sdev);
+> +		mutex_unlock(&sdev->lock);
+> +		wake_up_interruptible(&sdev->wait);
+>  	}
+> -
+> +	mutex_unlock(&sg->lock);
+>  	config_group_put(&sg->group);
+> -	return 0;
+> +	return ret;
+>  }
+> 
+>  static const struct dev_pm_ops tbstream_pm_ops = {
+> diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+> index 57502da29080..5fce1b67c376 100644
+> --- a/include/linux/thunderbolt.h
+> +++ b/include/linux/thunderbolt.h
+> @@ -672,7 +672,7 @@ struct tb_ring *tb_ring_alloc_rx(struct tb_nhi *nhi, int hop, int size,
+>  				 unsigned int flags, int e2e_tx_hop,
+>  				 u16 sof_mask, u16 eof_mask,
+>  				 void (*start_poll)(void *), void *poll_data);
+> -void tb_ring_start(struct tb_ring *ring);
+> +int tb_ring_start(struct tb_ring *ring);
+>  bool tb_ring_flush(struct tb_ring *ring, unsigned int timeout_msec);
+>  void tb_ring_stop(struct tb_ring *ring);
+>  void tb_ring_free(struct tb_ring *ring);
+> -- 
+> 2.34.1
