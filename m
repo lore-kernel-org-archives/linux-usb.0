@@ -1,77 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C3A286D70
-	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 20:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 491B61AC44D
+	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 21:02:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791319772; cv=none; b=Cl61vW1i8YcR3KvFzZKikFnQ7Ca4HWX4Cop4bFu4eRtheDH0BCafAAISfo7UJGwx/HqQOMXAg23Cm4aLNFuZ5Z922r369551dUeSKI8Xz+AvTiMSI0r2rLhp4B7xlgM8pwfnywfotCTMPzxlnEtUk0SRdPGbtEF5spgJsRJpbzk=
+	t=1791320535; cv=none; b=E1a0Zhm0/rw/LXw7A9bjUUqa6jHpjMh9B88b2mz2f0CQEJdS/wqSRzY4jIH9PZa/wjbuWIG30bvXz9oFfccn0CBPnFNaWQVqDptJHozR+H0GI481FHYWc+KlLMX4HdhXvYYSHMMMPyrlSkj919BUPMcAHZE1lsT3zA6HpUtdqyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791319772; c=relaxed/simple;
-	bh=9LcsOL93U7bn7xJkkpOyClrZ8PfPsyk8kjO+S6GUBbU=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=I2UD9R06OiFFAK4qQ6O4PODPLXFCdWTnaS+k0RON0EZsc611cETuInon+dx4NrVhKha3dbZhSpKPzUk+IZjCqoA2pfC6FTMwUmwGW/iq2U/G9NTAzn1fWR3oDENVk0nZXRXc08KAMgMWxg0/kFMzIbweghoAxLWK3Zy9BrTURW8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJJn1+EL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791320535; c=relaxed/simple;
+	bh=pGyRwKFmLnbcM54/t/JDHpa7KiSLJgn/itGyfWxhCvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IKAeC96OI5fHMz49GUp6HwrWLSCRqfrEKJSfl7SFuaCY+LXb4x7K2SPY/9SvjJbVuzh+8FuIps7+jD3kh9pZ0pLLvKsofGAjjMmzhi7ixJtfFdjHg0TfFZ3o8C9SS+C1z370qQWaTE1VBujucNuRvWoqmFZkbxvmBhsbuY53Rig=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RPuBSWuI; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJJn1+EL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80D911F0089B;
-	Tue,  6 Oct 2026 20:49:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791319770;
-	bh=KklsX3Z6spYja1ghjgVLHDRR/doEve/AczgqkEWXOJw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iJJn1+EL+DyjzJHoacJmmG8oFymDYoq6YoX+eLJupTJwbl10i5vYGckQNEYR50kI/
-	 3aeR3s5S4I1JupEawyzZGCgBPzqH8R7ks+8ReV9/3REwUyFW2WWYfdDFDY2HAMs6Db
-	 BPK8Eu9cmJjhvKGfDC6msB0i0HdjZ16OUoHm2Tkpx6gpA5rXKRJ1XzeNtvNXAnPIzC
-	 CFNOy7kMeO6uJ3XajU4W9MvEk5JAn4F5bwDzVkYWhMK1LjJmPQwREu3gBbng+nQUy4
-	 vTLsP6bO1VyrxGydBtAnhHtPk2XYPafYmU1Dy9V5ni8BtwYgasZlQrRqbcKSLF7A5l
-	 aZzCPryOf/0fQ==
-Message-ID: <sashiko-outbox-162442@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_fs: fix use-after-free of ffs_dev in
- ffs_free_inst()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Palla Raghunath" <raghunathpalla.0209@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261006204202.59604-1-raghunathpalla.0209@gmail.com>
-References: <20261006204202.59604-1-raghunathpalla.0209@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 06 Oct 2026 20:49:30 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RPuBSWuI"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a16c1608faso14163585e9.0
+        for <linux-usb@vger.kernel.org>; Tue, 06 Oct 2026 14:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791320532; x=1791925332; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=x+uep9KgNlXh8pG1NuwCjHy8uUzWOdIDPN9eEDl5s/g=;
+        b=RPuBSWuI0MZ2/gYx2elY5hggHK9DrUn0ol1A+mFT2uuV0x4r2XXUCEH47Ttei2VUN5
+         vp5hQ/qLlOuP5pLyWcCG2YJCHK0UsSswn7A99u/BSGdAATpQz0LgDQzDP+30KgYty2av
+         6NVEcejTNYqQLAFTedF5k21W3a6Df83uKRKSsTEsh7T+G3EbJVPgS5rNhAHLrUmiDtA/
+         r3QnqbW8IMCw0ZBEX0qMqJ7Z1D4Bp9wGr9L8CDJG2znF0jrZiQ1vSYFEtj2zAA4IJKLb
+         2BbFQOGb6NZXEioRqXBgR/OumMwoLEt1e9sd8rdwvZvq1Ual0R++ZHzODR9oL9ax5ilx
+         bjpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791320532; x=1791925332;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=x+uep9KgNlXh8pG1NuwCjHy8uUzWOdIDPN9eEDl5s/g=;
+        b=RUJmuuczSJx50xymmX82zZ8IlLWyzvtoz1m2KwfGrW8Qpifft2tapS7T3NccwitMg0
+         asuDt9LMmQw3fi+UC2A/dQR+d3HdcLdAWMTvbtq1VJv1tz2qDtVZTzyNEAAxJnvMW60D
+         X3uq83BJPamwzObogJiCQf6qWUST5O6+O35zd/g7dRdxm4W+DcPgKLe2Mu0WmFf6tVwf
+         Dg67TzPpAHuTXmnJTAIig3URuqQ9mLz/e2dr6Wxm68Lfuj4aJS3I2QTnHiVffAjt+rbp
+         M58yAgmbAx3UMxrcSWh4zBv2R94w6wTdcKKVMGK0yBUrI/mo59tLGIySfZhSRrX1OKZ3
+         DPbw==
+X-Forwarded-Encrypted: i=1; AKwUvBzvkE8eRfDKeg7I4PhoWKnuICfLRcuSjchddSLCntWlZ9xNKVXqwgM4SvHcY48gYXmI4RXz5nHVTxo=@vger.kernel.org
+X-Gm-Message-State: AFuF++l7/Ub2xxla45Fqjy8roCElxs87VffMyc+x7saR674QNjUCKo9Q
+	JgvCbBgZhUnrWxlouda6NQAQcPtBUJrxE13Lay7nI/p795HKeW+6nkHe
+X-Gm-Gg: AYBFou37ib4n/8AJnhASP5mFRE6+9/WAEn+etN0TH6BpaUiskyTSCuZo5TthBULV0Nd
+	rridQKmPTSXBcbGM30G7sCs2HSKMgoEJziFalOFcBx784XjPJfCr+jBswZKdbxwAm+TjAfTq+gN
+	oOWjS48T85ReSl8i9JfGzZ+GedEBnlmCWpFr92R85l36D27ECIO/tmYByF38z+xpug2fPqo32fO
+	C1K8haypcVKjbjbo/GTxdOq1qxTqSQH/F7XpPsy/445IzGjFXHcqnBlBCrAO34beqP9njxi5Cbv
+	wlOELbCXK7crebMG90Yn9OSOoIxcYsWg9QJv+J1dsKVzVj2qEkaTLhLY7PkTXJNf1ztPOpIPe86
+	AEsELzPABvMP0rbEpZrLZsL3NlH7Ym9aNzEdEhiB+6uohxYrmYB4jBug9EWSvr3SQTY2hMzzypI
+	qRFhBXos9ELnremkpskE6982OQpvDSKQEY1Xsn2IGzWlI1Ko4uW7yPlYjXpKkGjFn0FL4s46FOU
+	ukk+L2jaEWE7lS9y/lo
+X-Received: by 2002:a05:600c:154c:b0:4a1:6282:1cf3 with SMTP id 5b1f17b1804b1-4a18043b284mr1142585e9.9.1791320532197;
+        Tue, 06 Oct 2026 14:02:12 -0700 (PDT)
+Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a180310c9fsm1692655e9.4.2026.10.06.14.02.11
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 06 Oct 2026 14:02:11 -0700 (PDT)
+Date: Tue, 6 Oct 2026 23:02:07 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Niklas Neronin <niklas.neronin@linux.intel.com>
+Cc: mathias.nyman@linux.intel.com, linux-usb@vger.kernel.org
+Subject: Re: [PATCH 2/5] usb: xhci: correct num_active_eps accounting on
+ allocation failure
+Message-ID: <20261006230207.0faaac31.michal.pecio@gmail.com>
+In-Reply-To: <20261006183301.7a1875c3.michal.pecio@gmail.com>
+References: <20261006152427.3735383-1-niklas.neronin@linux.intel.com>
+	<20261006152427.3735383-3-niklas.neronin@linux.intel.com>
+	<20261006183301.7a1875c3.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> When a function instance is removed through configfs, ffs_free_inst()
-> first calls ffs_release_dev(), which takes ffs_dev_lock, detaches the
-> dev from its mount and drops the lock again. Only then does it retake
-> the lock and free the dev with _ffs_free_dev().
->=20
-> Between those two steps the dev is still on the ffs_devices list. If
-> someone mounts functionfs with the same instance name right then,
-> ffs_acquire_dev() finds the dev, marks it mounted and points the new
-> ffs_data at it. The dev is freed a moment later, and when that mount
-> is torn down, ffs_closed() writes to freed memory. syzbot hit this:
->=20
->   BUG: KASAN: slab-use-after-free in ffs_closed drivers/usb/gadget/functi=
-on/f_fs.c:4427 [inline]
->   BUG: KASAN: slab-use-after-free in ffs_data_clear+0x543/0x5b0 drivers/u=
-sb/gadget/function/f_fs.c:2305
->   Write of size 1 at addr ffff8880237b1e4a by task syz-executor/11910
->   Call Trace:
-> [ ... ]
-> Fixes: ecfbd7b9054b ("usb: gadget: f_fs: Fix setting of device and driver=
- data cross-references")
-> Cc: stable@vger.kernel.org
-> Reported-by: syzbot+6227549bd2c8a1ec8ba0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D6227549bd2c8a1ec8ba0
-> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
+On Tue, 6 Oct 2026 18:33:01 +0200, Michal Pecio wrote:
+> On Tue,  6 Oct 2026 17:24:24 +0200, Niklas Neronin wrote:
+> > Some host controllers have a global endpoint limit across all slots,
+> > tracked by 'xhci->num_active_eps' when XHCI_EP_LIMIT_QUIRK is set.
+> > 
+> > During device allocation, EP0 resources are reserved before
+> > xhci_alloc_virt_device() is called, and 'num_active_eps' is
+> > incremented accordingly. If xhci_alloc_virt_device() subsequently
+> > fails, the slot is disabled but the reserved endpoint resource is
+> > not released, leaving 'num_active_eps' permanently increased.
+> > 
+> > Decreasing 'num_active_eps' happens in
+> > xhci_handle_cmd_disable_slot(), which is called upon a Disable Slot
+> > completion command.  
+> 
+> Why is 'num_active_eps' not decremented if the slot is disabled and
+> Disable Slot completion handler is supposed to decrement it?
+> 
+> Does this bug really exist? Can you reproduce it by forcing the quirk
+> with module parameter and simulating vdev allocation failure here?
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+Never mind, the bug is real and reproducible. Still, commit message
+could include a few words of explanation to prevent such questions.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261006204202.5960=
-4-1-raghunathpalla.0209@gmail.com?part=3D1
+I think it would be cleaner to fix this by allocating vdev before
+ep0 reservation, because allocation is easier to undo:
 
+1. we have a helper for this, no need to dig in xhci members manually
+2. we are the only user of this slot_id, so locking is not required
+
+Downside: larger diff. But less code in the end.
+
+And there is another bug: disable_slot uses udev->slot_id, which is
+uninitialized in this path. Should use the local slot_id variable.
+
+So overall,
+
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index e5b39be04b92..9beb8b4b485f 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -4308,27 +4308,29 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
+ 
+ 	xhci_free_command(xhci, command);
+ 
++	/* Use GFP_NOIO, since this function can be called from
++	 * xhci_discover_or_reset_device(), which may be called as part of
++	 * mass storage driver error handling.
++	 */
++	if (!xhci_alloc_virt_device(xhci, slot_id, udev, GFP_NOIO)) {
++		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
++		goto disable_slot;
++	}
++	vdev = xhci->devs[slot_id];
++
+ 	if ((xhci->quirks & XHCI_EP_LIMIT_QUIRK)) {
+ 		spin_lock_irqsave(&xhci->lock, flags);
+ 		ret = xhci_reserve_host_control_ep_resources(xhci);
++		spin_unlock_irqrestore(&xhci->lock, flags);
+ 		if (ret) {
+-			spin_unlock_irqrestore(&xhci->lock, flags);
+ 			xhci_warn(xhci, "Not enough host resources, "
+ 					"active endpoint contexts = %u\n",
+ 					xhci->num_active_eps);
++			xhci_free_virt_device(xhci, vdev, slot_id);
++			/* without vdev disable slot won't free ep0 resources */
+ 			goto disable_slot;
+ 		}
+-		spin_unlock_irqrestore(&xhci->lock, flags);
+ 	}
+-	/* Use GFP_NOIO, since this function can be called from
+-	 * xhci_discover_or_reset_device(), which may be called as part of
+-	 * mass storage driver error handling.
+-	 */
+-	if (!xhci_alloc_virt_device(xhci, slot_id, udev, GFP_NOIO)) {
+-		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
+-		goto disable_slot;
+-	}
+-	vdev = xhci->devs[slot_id];
+ 	slot_ctx = xhci_get_slot_ctx(xhci, vdev->out_ctx);
+ 	trace_xhci_alloc_dev(slot_ctx);
+ 
+@@ -4348,7 +4350,7 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
+ 	return 1;
+ 
+ disable_slot:
+-	xhci_disable_and_free_slot(xhci, udev->slot_id);
++	xhci_disable_slot(xhci, slot_id);
+ 
+ 	return 0;
+ }
