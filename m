@@ -1,60 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97AAF26AC3
-	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 12:14:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E91AD3EE1F8;
+	Tue,  6 Oct 2026 12:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791288857; cv=none; b=MDjn7Aj2jh2l0GJJUnCYCuC8m88DMX6NyG465OkfPWeC0xD6X+i8ejBnEsvCEFV9E8Qc+XN7Nv5vHxoE58rXANNA813FqPUm3K9pZJ19O2iwvdeSfandwaS5tEioNi7BhG0rgz0fYRaPMy0Al0HwuCUKzLv8aXH876CuCaZ0+c0=
+	t=1791288934; cv=none; b=VLKFd8t8xbag1OT+vHFORyWdJv81W3vCTRfWpe7HihghzpwxmQUwGiJEw0bt4tUpv9BWLbJsTkkg4GbUroo8Zeq1ALrAuMndoag8jbB8HbMWIStLNqT4rnD3PJT+Y23vNM3QyyUgFR3/d+miJeeR3H/FrBz1w3CRoCDQ3OJ3/UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791288857; c=relaxed/simple;
-	bh=iPeWLVNf8+xqWPgg6CC43/RRXTyv8y1Mq/JPI3ms2Dk=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EOcwkCB+r9gDL47FBXmZcrq7z3p8a5a9YvAEYFzQBBiBgaeL2T3btrGipWoq/aInQla3j7DIYyyNp2kmLJhUoJejCMgkUn89jy07kV8xlSC1wk9EKA2RgJoK+1wbMd8bmA6qvbAwv6iAkyEuSkDBOh4JMnXgTIwZRFSpftYH48A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lBmdY0px; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791288934; c=relaxed/simple;
+	bh=gp7PRv3WjAiMJrp0DvXpRvTv3mwC8R3NiezXzUE7FxE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=bYM8pOHUuAYu3kScYlREWItwyD6wrljKNs8hXk6nkySg1ENkdl7pindAcy9gx9yWguQR8Q9a0x13kUq1r865pCexPfHGFc0CQUfnJXg+ylUwn+2prWpFklwjyss8pFGCnCLmaZjopVef80E7eSbjrkTzOsxIn5tNa3O6X/zvzUk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RKwWjlTd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lBmdY0px"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 12382C4AF13
-	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 12:14:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791288857;
-	bh=iPeWLVNf8+xqWPgg6CC43/RRXTyv8y1Mq/JPI3ms2Dk=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=lBmdY0px58D4R0AJl/Ojot3hU276NxPaRDChf/Y6Sm6wlnisSX/TDKHpNYJXS9vCj
-	 sOuz6BE9MJ1Y6FMrspVPxNhs5sx0LB2zO3mTOkcVyvZTDfy9yQVQcULMCq/VIhKJJ1
-	 1X09h9X7b5Go5ZTLDKa/8k4XU7hcG3LTkG/4E//Hx3vg5nVcjAEuDeP4sVenjZdl9I
-	 +hYMiJz+SCK2pcpDJXfvI0zN0Hr3iKfqlTHmm4v2DENO7erCxx2JZ4b/lri/6LW9qt
-	 QKRjtERh9SWMx5E3SBmm4eWzL3yfdyj/rm81LTahMWLRiR+TcM4PkNBXrCMFGdElx4
-	 qbK3aZ9s/YZqw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id E93F5C53BBF; Tue,  6 Oct 2026 12:14:16 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222071] [Bisected] [Regression] xhci_hcd: Resuming from
- hibernation fails with "Not enough host resources"
-Date: Tue, 06 Oct 2026 12:14:16 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: h.judt@gmx.at
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222071-208809-ujG83z9z74@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222071-208809@https.bugzilla.kernel.org/>
-References: <bug-222071-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RKwWjlTd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E97631F00893;
+	Tue,  6 Oct 2026 12:15:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791288932;
+	bh=Z9zRtXHe/J1k/4/9wAeq1n+PwAt+ioXmV3zyjSNrjDw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=RKwWjlTdvYZONbkV6HxvycXq0CozaTw+PCB4h42smsV+z/mzRdcAHQqIRw6yMl1fu
+	 NOdwOwvWWKs70Rkz2PZd9xSH8jJyVk7un/XDM+Iit2XSwKuRFDS/3Udz4MdqTnulKq
+	 t6ebxczqj1/B8jLFB5Q3mFsuWVvcDyXzQxSGyyGpqsHKDHjeJwfffEEQdeHenx7XI2
+	 bkz4llAlFTqfwgsNNA58kHP4vmGKuZXRlwwRCTYLgwJsCQ3uPJI0fIjh4M/nPvb8Dx
+	 H6vt8MPE/eIvLSI+xMX2MVJ02eBalT9dRk2HLgaRTc3vOwGiA1RS4MKlIBlm42Yi7C
+	 tQm2WtAFBpB3w==
+From: netdev-bot+sinfo@kernel.org
+To: =?utf-8?q?=C3=96mer?= Mete Kaya <omermetekaya0@gmail.com>
+Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: 
+ Re: [PATCH net v2] usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_return()
+Date: Tue, 06 Oct 2026 12:15:31 +0000
+Message-ID: <179128893145.2231598.9489740412744373622@kernel.org>
+In-Reply-To: <20261006120825.342164-1-omermetekaya0@gmail.com>
+References: <20261006120825.342164-1-omermetekaya0@gmail.com>
 Auto-Submitted: auto-generated
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -62,15 +47,24 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222071
+Hi!
 
---- Comment #14 from Harald Judt (h.judt@gmx.at) ---
-Successfully tested 8 hibernate/resume cycles with v2 of the patch on
-linux-stable-7.2.9. Additionally I did some tests with an USB stick and a
-bluetooth adapter and all seems fine.
+This is an automated message. This series looks like a fix, but its
+commit messages seem to be missing some information:
 
---=20
-You may reply to this email to add a comment.
+ - How the issue was discovered, e.g. hit in production, hit during
+   development, syzbot report, manual code inspection, LLM or static
+   analysis tool scan.
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+ - Whether the issue was actually triggered, or is only theoretical
+   (e.g. found by code inspection). If it was triggered please include
+   the symptoms, like the stack trace or error messages.
+
+Please do not repost the series just to address the above. Instead,
+reply to this email with the missing information, so that reviewers
+can take it into account. If the series needs another revision for
+other reasons, please include the information in the commit messages
+then.
+
+The evaluation is done by an LLM so it may be wrong, if you think
+that is the case please reply and explain.
