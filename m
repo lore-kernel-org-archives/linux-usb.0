@@ -1,115 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CE634DCCD;
-	Tue,  6 Oct 2026 04:33:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A26902367B8
+	for <linux-usb@vger.kernel.org>; Tue,  6 Oct 2026 05:03:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791261193; cv=none; b=bu+NM3tKHC0QqBXKBjdzhgwU8YUyrnbqOheGIoEgz/BEO9ZEPUX85gP2eYwgFm5lQ/EOCRYR9L4EhfCDedgaJ7Lgu0cWyNQ8Vg5h3MjkCtJ+mjiiguMyGTa0LHlsU1n9SsIzgO1ZgqgCbUGqTP3r9TWiNTl4Tw2gPCPfZc+mHI8=
+	t=1791262998; cv=none; b=C0vvj8Xu6tPSL+ZhZ0ObkzC7Mb1S161dtfqEIsqd8zfgvjuqGoIZKN0abNZ2HGDHPfVnKD2iGQfejNDyhZ738I/GMNbDtifbH+9DKG9e6GZv+YrwxRVoofLs1aN/EWnB9SUfjUuC4/BUaYI1Xk/jb1MBlAUG/3SKQOAGaMy+fAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791261193; c=relaxed/simple;
-	bh=WVsN+7SSp9FfdoXFdy3oTjn7RcpiPKQRQVdQqofc8nw=;
+	s=arc-20240116; t=1791262998; c=relaxed/simple;
+	bh=lBmjY0i7001K3L8T8ZZrhYv9yw6huomZoev+FXftu7U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=grjPro2NVhPXQy0FORdwN04XRtA7znk/HALxINwsmMHlQsE9pH8QE+/Frnz1hTxsUoDW3HSxpOdSA67GKxA11n+f5cSvjyLE+fF78+2Zz3o5Wr4aTToNWUr+bmbO8sQDtfxFyEa0YbKe5VpeWNnnSWkhp23HSnd1hTaBFRzYQEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TPqeK0Iw; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Xp58srRBM+f5jNMM3J2InBZDZviYyrFYqRoEzn4GdrmVzW/jdzj+8bQMAWWzHRCRDrWaQwt0M+0LH3yIBLwEwAmVhohCE8bD5gTm43+Vp7otR2vjr+zcvCi/4TmZ056K11lB0rvHK3CQVf3ke8c/7v9c6Pr02yWLKUIdznqilAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EVtHorSu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TPqeK0Iw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791261192; x=1822797192;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=WVsN+7SSp9FfdoXFdy3oTjn7RcpiPKQRQVdQqofc8nw=;
-  b=TPqeK0IwuyGoZTc3GdXvwiGS3t0IZQY9Pjp41VaTC7XFJle3sw0tiWIj
-   elfiF/rb/GA/EsEWJ/4y8yoLDDx8dXJ6AW2/l1qLIN4BBLgCbue7/g/sG
-   UuqzK3AjIkZilWGId9+qqVzcHEatnu5MYJlD+x45X0V2x8FAAq8UIzvSw
-   SCDur74gBKh4YfAxUeQmr4tAlnwOnYZ47H1QNa22haVrKFib3OaoDuRJ2
-   ATdpvN47I+n9qhDwn4a0Gx3wAdffJ/5LfLrYjXbX0GnC7DEvrLvziPCBR
-   wSDOQmPtpjfL9DnqbYK6B6QLr7ijCDY8C44240GrHmbNZ3w0uGQ/QQeA5
-   g==;
-X-CSE-ConnectionGUID: QV9fP8SWS+OgtVHSa3mdlA==
-X-CSE-MsgGUID: tm9/eW//SiOtqthkFiLJ1g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11926"; a="95759710"
-X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="95759710"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2026 21:33:10 -0700
-X-CSE-ConnectionGUID: m3Hmn6xRQIGw6ThfjNoB4Q==
-X-CSE-MsgGUID: jOw54ywBSciH9b6TtHTQ8g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,143,1787036400"; 
-   d="scan'208";a="306533935"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by orviesa002.jf.intel.com with ESMTP; 05 Oct 2026 21:33:07 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1001)
-	id 8C10C99; Tue, 06 Oct 2026 06:33:06 +0200 (CEST)
-Date: Tue, 6 Oct 2026 06:33:06 +0200
-From: Mika Westerberg <mika.westerberg@linux.intel.com>
-To: Basavaraj Natikar <Basavaraj.Natikar@amd.com>
-Cc: Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	linux-usb@vger.kernel.org, linux-doc@vger.kernel.org,
-	Mario Limonciello <Mario.Limonciello@amd.com>,
-	Sanath S <Sanath.S@amd.com>
-Subject: Re: [PATCH 2/3] thunderbolt: Reset the host interface before reusing
- a DMA HopID
-Message-ID: <20261006043306.GO176164@black.igk.intel.com>
-References: <cover.1790854235.git.Basavaraj.Natikar@amd.com>
- <a7e066c3da8e1a92fb018008861775b33909ab0a.1790854235.git.Basavaraj.Natikar@amd.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EVtHorSu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADC931F000FF;
+	Tue,  6 Oct 2026 05:03:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791262997;
+	bh=3pUjN8J7ZIF8B1i4sZdZtxykmfQ2LfACbU8tSMR3ZZU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=EVtHorSuiSQoxQh8TS8CCHNm31bWFwfDNlGUz3n9l3P4giLDkZIlt65m4wcQSbkLv
+	 fL8+pTQmbSkmVbrGmqzMGu7KFdP28fkQf00Gb90q6nuwzFSBrzeb6bJ8JXqOnsNFrA
+	 +1U3KFTy7Eub4Vnjb1Vj/+oOyk61WROyFCAwTpJk=
+Date: Tue, 6 Oct 2026 07:03:14 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	Roman Gushchin <roman.gushchin@linux.dev>
+Subject: Re: Thoughts on Sashiko reviews for linux-usb
+Message-ID: <2026100647-stilt-mongrel-b368@gregkh>
+References: <asRCTFE6gFlHBIu6@vbox>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <a7e066c3da8e1a92fb018008861775b33909ab0a.1790854235.git.Basavaraj.Natikar@amd.com>
+In-Reply-To: <asRCTFE6gFlHBIu6@vbox>
 
-Hi,
+On Tue, Oct 06, 2026 at 12:45:15AM +0000, Thinh Nguyen wrote:
+> Hi all,
+> 
+> I'd like to get your thoughts on having Sashiko send review results to
+> linux-usb for patches posted to the list.
+> 
+> I started looking into this after receiving a reference to a Sashiko
+> review for a dwc3 patch that I wasn't Cc'd on, which required me to
+> track down the review separately to understand the feedback.
+> 
+> Sashiko is currently configured per mailing list, so any change would
+> apply to all patches sent to linux-usb rather than a specific subsystem.
+> 
+> Would anyone object to enabling Sashiko reviews on linux-usb?
 
-On Mon, Oct 05, 2026 at 07:13:40PM +0530, Basavaraj Natikar wrote:
-> Reusing a DMA HopID without an intervening host interface reset can hang
-> the TX ring on some host routers. Resetting on every DMA tunnel teardown
-> clears the state but, as the reset affects all rings, also disturbs
-> unrelated active tunnels.
-> 
-> Hence, track the DMA HopIDs programmed since the last reset, prefer unused
-> HopIDs when allocating rings, and check for reuse at tb_ring_start() too,
-> since networking retains its rings across reconnect. Return -EAGAIN instead
-> of programming a HopID that still needs a reset.
-> 
-> Run the reset from a work item once all DMA rings are idle: serialize it
-> with the connection manager, stop the control channel around it, and block
-> DMA rings from starting during the reset. Fence the work across domain
-> removal and PM transitions, preserve live DMA rings across freeze/thaw, and
-> restore the interrupt-mask shadow under the NHI lock after the reset.
-> 
-> On -EAGAIN, retry the networking login asynchronously and block the work
-> producers before teardown cancels the workers. Keep peer disconnection
-> separate from administrative shutdown so it cannot reopen the login gate,
-> while stream and DMA-test callers unwind immediately and return the error
-> to userspace.
-> 
-> Enable this only for reset-capable host interfaces marked with
-> QUIRK_RESET_DMA_ON_REUSE. A competing DMA tunnel must stop before its dirty
-> HopID can be reused, and retrying does not interrupt that tunnel.
-> 
-> Suggested-by: Mika Westerberg <mika.westerberg@linux.intel.com>
+Not at all, want to submit the pull request to the repo to add it, or do
+you need/want me to?
 
-Yeah, I'm not really sure I suggested this :(
+thanks,
 
-My idea was to done it so that it is nicely contained inside nhi.c without
-distracting the service drivers. What you are doing is complete opposite of
-that.
-
-Given the complexity I would then rather just take the previous quirk with
-the deadlock fixed.
+greg k-h
