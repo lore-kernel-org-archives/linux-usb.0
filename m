@@ -1,78 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AFBF42123F
-	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 07:47:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63A0641D124
+	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 07:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791359272; cv=none; b=FcZf7qh9jJVCG6Iz6C5h5tau4Z5yNaNLIdIGOtb0OWCI+bWO+V/AwFH+1KW1CLfkVq5rlvzacB0Jb1cqsFK8xSrqoLht0AWUIF/M/RSUJ3BD61P+SKgtm5ZAarzeSNpjUKkWR9NNke4ud1dcqsEVh/7s/3hwkWbOD/oRXMH68B4=
+	t=1791359401; cv=none; b=JtRLutNdEVkkKLGS2RI5nKRqj3ZPO2QTAeqiscKWK29eIF73tA7LwbKSFlyHOeFCeYdQcZIqKkWPN2zfcRmtgNlL2iiL/kAQhOdiH6DQZjbVggQpFE5akjYM8OPRAYJnO6l1rN/fJeL/9h7GpZVvKc5tmc+Sxaj3975Ew2wsb9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791359272; c=relaxed/simple;
-	bh=qFK1Ododzp0PyIZDaLk285u1wpxObUO6DAyGJRMkq6o=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EAPyLQ4jYsiXlmTsq78Qx46qPceckSbdMEHuynVhVbdQx3JtZs70q2wJiEYgps7/W54ubqBI6xW7ESEcJ5KfPQicuZLOnO3rKPLreSRwqyVAcVUlDBOLvkcozGSwjsCTMWXNn+MpSrEZK9z8Flwwmc3FuG7fHQb4vPO+Q2UjmoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=COaTbIK4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791359401; c=relaxed/simple;
+	bh=nMaITITM8ppS1s1piPMkzPT3Nw8ZBXddmh/VXOpIvRI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=lY/QX8TgBn3GwDz7OoHiBzFMzWGNRkKbgngBygtTqwbquSsWmS3tD3AGN9jdggN2cXZNyziIrENF7Z/hO7K6gfHLuRw9AkzsvTVm2aV+eLd6t8PeAqTNCl42REUMlW3wlydvTP/5o3CTh9/RvtwX/copmxRzD/tHi+xJd8pQxh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hlsml1Wc; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="COaTbIK4"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 022E3C2BCB9
-	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 07:47:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791359272;
-	bh=qFK1Ododzp0PyIZDaLk285u1wpxObUO6DAyGJRMkq6o=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=COaTbIK4icINpydkd40+CNvH0NFRkGxiCNWOQmMxje8wfp4Xq5LdS+Dfe+wh2vhw9
-	 K/hlgUrn0lWv1VLf51Q3SqptjRsmL3I6HpmoSyJmO6D95ikiT22E3lWyO06eisd16f
-	 OMVboeG102bE77SCrFK278xjf2OfJ8/9yXPL3CcO/rUbVMFF4peCWQNB51efSe9AT1
-	 FBM90SPQUhU57CoerUry3XLw0xhLzcvfMy7k1yilX84/kcCGpqwJPpXtjHTygyNcOg
-	 zJO/gw+/CaOXPKL6bjyNwnrvv81NPVHfAGqXraEE6ldE6h0agcUhbISBHJI7N2thdb
-	 D+OLQM6SJxwAQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id E28E0C4160E; Wed,  7 Oct 2026 07:47:51 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: =?UTF-8?B?W0J1ZyAyMjIwOTFdIFJlZ3Jlc3Npb24gNy4xLjEw4oaSNy4yLng6?=
- =?UTF-8?B?IHBvd2Vyb2ZmIGhhbmdzIGFmdGVyIExlbm92byBVU0I0IGRvY2sgKDQwQkYp?=
- =?UTF-8?B?IGNvbm5lY3RlZCBkdXJpbmcgc2Vzc2lvbjsgc3RhdGUgcGVyc2lzdHMgYWZ0?=
- =?UTF-8?B?ZXIgdW5wbHVn?=
-Date: Wed, 07 Oct 2026 07:47:51 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222091-208809-QQqbyDt0dh@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222091-208809@https.bugzilla.kernel.org/>
-References: <bug-222091-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hlsml1Wc"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a16bc2278aso11122425e9.1
+        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 00:49:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791359397; x=1791964197; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pn+g5D+MnrIlDOIrmHAvBk6Qq6SEotSMsbaOoZY07lA=;
+        b=Hlsml1Wc97MVgKuls+kXldEXEOiWVnyQQe6bbTlrOF1gogrq0eCTW1kMX8A+RgCO7W
+         x1/OCQVaCvrRP8OVDOnOwbW8t1Ku+ARO8onTGGnZTa2+DSnuda+OgfrqxhiiwouCVPhm
+         n5xJ+wUfgaAij7g3sy2fdQPhV6SRQn+O4DeHpWlatoU7PaQN6XopsY56d9qV1YFy4/R/
+         6qtb8OG42tlKCSfFL/GQTFVkwdAQ7/G3tb1qEXKtRZI+mFoXDcfc/uPaAuaHmRiy4wLr
+         t108IDW8SMtqpaboPGMc5uLEJbJX3oMC+QdEKsl8cC888RuxjBckGbVwKOTIMyzDpZHd
+         mejw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791359397; x=1791964197;
+        h=content-transfer-encoding:content-type:mime-version:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=pn+g5D+MnrIlDOIrmHAvBk6Qq6SEotSMsbaOoZY07lA=;
+        b=C0XGmVwEkKyK+tbWQi1XMvhsqljyZ2oOGwoTWqr2JToK00kIi/CgZjehqeTO0XLE71
+         LaUhuqFwJ2hTB4zUUBXrSKrIeCOUBoVKxfiPc4P1ZvpcbyyjXMzZrxXLJEBtFjPr3rnH
+         ypuOC2WgC3SB0CywL3UH0G2MNZ3Jl6oCkgRpm+jVbYHBZ630yi48c1mdggNGLESEQNE/
+         xOD7ziuo4OEl9F3KCNsO31JNEVPWhsc1MpCx1K0ksY8zbMjrOAtJTCoPszuRLri08Eha
+         3Lpum4KE0ExWPzV4utYFtMN/ZvDvkWSGboI2Ip8kx6W0CPkRdULvuVGFtkE8bXR1sCP7
+         sfew==
+X-Gm-Message-State: AFuF++l/xsmLLu/lj+WEMLj5rE5b15x3XC01Bq97USMZY8tHU3QpK9gy
+	fWVmjZBBQFVWLYxDjRtnxqEdY6LT5LtKsWW6aZGwm/8JjFHM4uzGlbAJQ0HIjruu
+X-Gm-Gg: AYBFou35s6fZv5XDOSThTRZTgQYBF/ilMYhSdcbqj7NAu50m9/ZhuHrJ1/FmpI93hBu
+	wCLPWwopQaf3R2qcsuhF6QyJDpvRA78TBthw01GK4ymJd2P4vQgQI41552UOzVOpDPFZC9gTSB/
+	M87gDVZGibpjakwJ7nf7nC7nOYYLnc8/YplUceDA3xfUOfXNKdoCmU/QWqHKs6D+zBTLq3hLbOY
+	J+LMTMScBGl/OMsT/cZ+eKamu84ZGsAJYHb/UEH4aYkApS8QteyQT5Uje1m55mx3PvBhYKq9VIv
+	nCyq4RrJ/gm6LhdRDsESrkXfqHMb9/WhGH0WX6sdx3h88aNZC3cH8zGf/EfL8Hr19t0DxUCBeo5
+	MJactgpeZkV79nhWa9s4BiGMpepLO8Ra+iUN9gj6DKJlkyvpnRN68IETo5/j4seyBMR+2Taywo0
+	b5lIjBZEE/HZhE8EitPxzz/T463mBgRqy6JDXG5PV9cfjq1yLoH2r4Xk0AQXJef68t2a6sLXz7V
+	PVl9uxwwQ==
+X-Received: by 2002:a05:600c:19c7:b0:4a1:70f0:ac2 with SMTP id 5b1f17b1804b1-4a180648d69mr19173665e9.24.1791359397104;
+        Wed, 07 Oct 2026 00:49:57 -0700 (PDT)
+Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71c0b65fsm3760272f8f.16.2026.10.07.00.49.56
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 07 Oct 2026 00:49:56 -0700 (PDT)
+Date: Wed, 7 Oct 2026 09:49:52 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v2 0/2] xhci: Sort out the TD skipping business
+Message-ID: <20261007094952.28bfa51e.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222091
+Hi Mathias,
 
---- Comment #3 from Artem S. Tashkinov (aros@gmx.com) ---
-Guesses aren't really accepted here.
+I see that you have picked this series for 7.4:
+https://lore.kernel.org/linux-usb/20260804120110.01bda0e2.michal.pecio@gmail.com/
 
-Fetch 7.2.9, revert the patch, confirm everything's working fine.
+There is unfortunately a small bug in "Shorten the TD skipping loop":
+old_trb_comp_code is assigned before being used by the !trb_in_td()
+block, which means that we use the *current* trb_comp_code instead.
 
---=20
-You may reply to this email to add a comment.
+ 	ep_ring->old_trb_comp_code = trb_comp_code;
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+ 	if (ring_xrun_event)
+ 		return 0;
+ 
++	/* Handle events not referencing the current TD */
++	if (!trb_in_td(td, ep_trb_dma)) {
+[...]
++		if (xhci_spurious_success_tx_event(xhci, ep_ring))
+			// ^-- uses old_trb_comp_code
+
+This causes false warnings when running UVC with non-power-of-2 alt
+setting on HCs like VIA, which generate Success after a mid-TD Short
+Packet. So this will surely bother users with such workloads.
+
+It happened because I tried to resuse existing ring_xrun_event check
+and remove an identical check from the !trb_in_td() block, so I placed
+the block after this check.
+
+Revised patch places it before the old_trb_comp_code assignment and
+retains a duplicate ring_xrun_event check in the moved code, I'm not
+trying to be clever anymore. Patch 2/2 is a necessary rebase.
+
+It is also a pre-existing bug that in some cases the function bails out
+without updating old_trb_comp_code, even though we know that the prior
+TD cannot generate more events (e.g. we are handling ring underrun).
+But that's a separate issue that causes missing warnings in rare cases
+rather than false warnings in common cases.
+
+Regards,
+Michal
