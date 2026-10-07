@@ -1,161 +1,181 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A6247255E;
-	Wed,  7 Oct 2026 09:13:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03614388885
+	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 09:28:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791364426; cv=none; b=N3S2rzTLhlPANvQSPRIP58HVrFatYTHTxro2r5GoTHUR+el/RC8uwX/XV2XIXkwUXaXleAFpPkVVmUMhpqXDDkpI1gTmIVCDF8pITuI54qFxGaYggY41rbSzUy640GCqmM5mt3701prZ5TuVYtlhgNWEVwF18AcTK0XITfQjoZs=
+	t=1791365341; cv=none; b=H928SHyPoGPwSu+JUInjhgR1p9E89ujPbZcQFrQOLdukzW4aQr4Obt4TtlU1cks0OBGJnJ82QpvK82ZvTaglknkGh690U73Vveb+iqcZioVF5g8TXLKnqip4IfQAUA+Duh/uzr7/SMSSixYY0PhrffJZZL632jMXavuXIUUHrnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791364426; c=relaxed/simple;
-	bh=7sAbJvsLuyHmk5yDXP6O77myg7KkYaLkTd7mstcqVe0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=W8z0idgx7jS+8n+ZOKgOtlgQOAtiwu1eV+psWrmb51gbT1xLTLlyV+BvWLAakjh4vRypnLe3v3NiJEKv5rOgGcwlq5ix5DYMygc6Z6+qXZJkqkxM7ZFv5rvQTWJS33Y47cgdzM8nTOYMzOLPRGFNaOv1uhKt/XFyC0uiC2sYR9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=KKxeomNg; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+	s=arc-20240116; t=1791365341; c=relaxed/simple;
+	bh=Cyhd8R/qzhAM0ja6F/U9hHo2j7T1FYIkGddsfzrSOGg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=S2tz/a9DBXUjZbbkAqfQryAyCRYCVTHUTXUm1T9DCBGfp5rqKTDT9kS5hUzwpyLMI9402sQ1e2At2nDdJRCplETA8TisI+f3xSU+Q6mg1TkWIhcuwpmoLCv1WKX8tfYfiN3Llx07xU2l/T2dPopXwypwMN83ZHl+sLwWDeA8b7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dj0t3Na2; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="KKxeomNg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=mqisTjwH67781oBTs466IKVYCcBQB6inr38VPw9lLfI=; t=1791364380;
-	x=1791969180; b=KKxeomNgyfsd3R9f0UNQrsFS/AYeQG9nDkswzS9k/PTjqxgVgqaiF4lRvcRP7
-	TthHFtPWWkXIVHgpvBt74ZkTx8krD1ewpRqvPF63wZTItKVd0x4EN7Tp2HfIiCP3pz9w7wJlOQkXc
-	YZZRw0JECi1Vx+KM6JmE2Fu5FKvZxEwwfhYJa1BzbXhZgme5wOhCtjSandpDWIrk39hOnHkiS/xin
-	jBf7OyikE5NF3OslYItlvcnkaeLcWfLQQoHIgG8CyUz117ZAaGSqPZs4c8MxbQdIaJjGUS7QSKgF8
-	5Gdr7xZyP9vgZaZt8xzPZTU5wHbKzCbrk4JOg403kzByA5LgJw==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.100)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1xENhf-00000000BtO-1tlx; Wed, 07 Oct 2026 11:12:47 +0200
-Received: from p5b13a90a.dip0.t-ipconnect.de ([91.19.169.10] helo=[192.168.178.61])
-          by inpost2.zedat.fu-berlin.de (Exim 4.100)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1xENhf-00000000jHB-0wOo; Wed, 07 Oct 2026 11:12:47 +0200
-Message-ID: <2b0a2d9afa8e2dbd1d6e8ea8f88a4627816ae2d6.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v2] usb: r8a66597-hcd: fix buffer overflow on odd-length
- FIFO reads
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Karl Mehltretter <kmehltretter@gmail.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-usb@vger.kernel.org, 
-	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Wed, 07 Oct 2026 11:12:46 +0200
-In-Reply-To: <20261005212823.55737-1-kmehltretter@gmail.com>
-References: <20261005212823.55737-1-kmehltretter@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dj0t3Na2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791365325; x=1822901325;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=Cyhd8R/qzhAM0ja6F/U9hHo2j7T1FYIkGddsfzrSOGg=;
+  b=dj0t3Na2OUijIQOrPlZBKaH/AqDyWr4mOfudkLusuFBAv6iIRWnwT+6d
+   RUazd0UMCvO3VXzfCEFYAXpiq1ofG4GMOelBdXDQWzCPoZ6MqF90tJFGZ
+   pH+tIKJ17jmqUuxM5FbS/wQwwu+MMPQKak4g/ay79j5P4ctxR0vUhPw0Z
+   tUFJlPpu28uAnvHS/k1g6n0M4NhjE34HAxm6TeTeG7HtAZ+PtXwzpr1iK
+   O0wApt9qTUjHBODxtcnaO88hEATcJQyAOVqNAowqes6O2oGidLiAtbl9R
+   p/6/cxZN1OWZ4qDANXd868lO3tz+gxakHku2U2w4ElmsNX4TknzA0jBeY
+   A==;
+X-CSE-ConnectionGUID: Po/pyZRWQc+jGOTSDoujGQ==
+X-CSE-MsgGUID: 41iE4jxBTXKIv/FG2LJTiw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="121209"
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="121209"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 02:28:44 -0700
+X-CSE-ConnectionGUID: DWEDqjbMRz2qlhP4c8Nf0A==
+X-CSE-MsgGUID: +ETgHZjxSKiy+wowz48eig==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
+   d="scan'208";a="282205917"
+Received: from nneronin-mobl1.ger.corp.intel.com (HELO [10.246.22.148]) ([10.246.22.148])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 02:28:42 -0700
+Message-ID: <36ec399c-46ad-46db-aeaa-c12354261dc1@linux.intel.com>
+Date: Wed, 7 Oct 2026 12:28:34 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/5] usb: xhci: correct num_active_eps accounting on
+ allocation failure
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: mathias.nyman@linux.intel.com, linux-usb@vger.kernel.org
+References: <20261006152427.3735383-1-niklas.neronin@linux.intel.com>
+ <20261006152427.3735383-3-niklas.neronin@linux.intel.com>
+ <20261006183301.7a1875c3.michal.pecio@gmail.com>
+ <20261006230207.0faaac31.michal.pecio@gmail.com>
+Content-Language: en-US
+From: "Neronin, Niklas" <niklas.neronin@linux.intel.com>
+In-Reply-To: <20261006230207.0faaac31.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Karl,
 
-On Mon, 2026-10-05 at 23:28 +0200, Karl Mehltretter wrote:
-> An external R8A66597 (pdata->on_chip is not set) is read through a 16-bit
-> FIFO port. r8a66597_read_fifo() rounds the byte count up to whole words
-> and passes that word count to ioread16_rep(), which stores two bytes for
-> every word. For an odd byte count the last word puts one byte more into
-> the buffer than packet_read() asked for. When the data ends at the end of
-> the URB's transfer buffer, that byte is written behind the buffer.
->=20
-> Enumerating a device is enough to trigger it. The USB core reads the
-> configuration descriptor header into a 9-byte kmalloc() buffer and the
-> driver stores 10 bytes. An SH7785LCR board booted with slub_debug=3DFZPU
-> reports:
->=20
->   [kmalloc Redzone overwritten] 0x820c4229-0x820c4229 @offset=3D553. Firs=
-t byte 0x9 instead of 0xcc
->   BUG kmalloc-32 (Not tainted): Object corrupt
->   Allocated in usb_get_configuration+0x12c/0x11d8 age=3D51 cpu=3D0 pid=3D=
-10
->   Object   820c4220: 09 02 20 00 01 01 00 80 fa 09 cc cc cc cc cc cc
->=20
-> Odd-sized HID report descriptors are overrun in the same way. Without
-> slab debugging the byte ends up in the unused tail of a kmalloc() object.
-> A transfer buffer that is embedded in a larger object has the byte after
-> it overwritten.
->=20
-> Section 2.8.5 of the R8A66597 datasheet tells software to discard the
-> excess byte of the last 16-bit FIFO read when DTLN is odd. Read only the
-> whole words into the buffer. Read the last word into a temporary and
-> store only its first byte. Use ioread16_rep() for that word as well, so
-> that the byte is taken in the same byte order as the words before it.
->=20
-> Fixes: 5d3043586db4 ("USB: r8a66597-hcd: host controller driver for R8A66=
-597")
-> Cc: stable@vger.kernel.org
-> Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-> Closes: https://lore.kernel.org/linux-sh/3bd32eaf159db61ed1d423e1d52a869b=
-3689c682.camel@physik.fu-berlin.de/
-> Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-> Assisted-by: LLM
 
-I was wondering: Would it maybe be better if you disclosed what LLM you use=
-d?
-I have seen that many others have done so and I'm not sure if it's actually
-prepared to have the model disclosed.
+On 07/10/2026 0.02, Michal Pecio wrote:
+> On Tue, 6 Oct 2026 18:33:01 +0200, Michal Pecio wrote:
+>> On Tue,  6 Oct 2026 17:24:24 +0200, Niklas Neronin wrote:
+>>> Some host controllers have a global endpoint limit across all slots,
+>>> tracked by 'xhci->num_active_eps' when XHCI_EP_LIMIT_QUIRK is set.
+>>>
+>>> During device allocation, EP0 resources are reserved before
+>>> xhci_alloc_virt_device() is called, and 'num_active_eps' is
+>>> incremented accordingly. If xhci_alloc_virt_device() subsequently
+>>> fails, the slot is disabled but the reserved endpoint resource is
+>>> not released, leaving 'num_active_eps' permanently increased.
+>>>
+>>> Decreasing 'num_active_eps' happens in
+>>> xhci_handle_cmd_disable_slot(), which is called upon a Disable Slot
+>>> completion command.  
+>>
+>> Why is 'num_active_eps' not decremented if the slot is disabled and
+>> Disable Slot completion handler is supposed to decrement it?
+>>
+>> Does this bug really exist? Can you reproduce it by forcing the quirk
+>> with module parameter and simulating vdev allocation failure here?
+> 
+> Never mind, the bug is real and reproducible. Still, commit message
+> could include a few words of explanation to prevent such questions.
+> 
+> I think it would be cleaner to fix this by allocating vdev before
+> ep0 reservation, because allocation is easier to undo:
 
-Adrian
+That's a good point. I found this while working on a separate series
+that splits 'vdev' allocation and slot enabling. That series was not
+ready for this merge window, so I decided to submit only the simpler
+fixes first to keep the future series smaller and less cluttered.
+As you suggested, that series moves 'vdev' allocation before EP
+reservation.
 
-> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
-> ---
->=20
-> v2:
-> - Simplify the handling of the last byte as suggested by Geert: no count
->   variable, len & 1, and a plain byte store instead of a 1-byte memcpy().
-> - Reword the commit message and add the SLUB report from Adrian's board.
-> - Add Adrian's Tested-by. It was given for v1. The FIFO accesses are the
->   same in v2, only the copy of the last byte changed.
->=20
-> v1: https://lore.kernel.org/r/20261002213225.27834-1-kmehltretter@gmail.c=
-om/
->=20
-> Adrian tested v1 on an SH7785LCR board. I tested v2 on a custom QEMU
-> model of the board with 32-bit and 29-bit kernels and slub_debug=3DFZPU.
-> Both report the overflow without the patch and not with it.
->=20
->  drivers/usb/host/r8a66597.h | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/usb/host/r8a66597.h b/drivers/usb/host/r8a66597.h
-> --- a/drivers/usb/host/r8a66597.h
-> +++ b/drivers/usb/host/r8a66597.h
-> @@ -179,8 +179,15 @@ static inline void r8a66597_read_fifo(struct r8a6659=
-7 *r8a66597,
->  			       len & 0x03);
+> 
+> 1. we have a helper for this, no need to dig in xhci members manually
+> 2. we are the only user of this slot_id, so locking is not required
+> 
+> Downside: larger diff. But less code in the end.
+> 
+> And there is another bug: disable_slot uses udev->slot_id, which is
+> uninitialized in this path. Should use the local slot_id variable.
+
+Good catch. I found the same issue but apparently forgot to include the
+fix in this patch set.
+
+Probably best if this patch is not added to this merge window,
+instead I'll re-submit it with all the virtual device changes.
+
+Thanks,
+Niklas
+
+> 
+> So overall,
+> 
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index e5b39be04b92..9beb8b4b485f 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -4308,27 +4308,29 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
+>  
+>  	xhci_free_command(xhci, command);
+>  
+> +	/* Use GFP_NOIO, since this function can be called from
+> +	 * xhci_discover_or_reset_device(), which may be called as part of
+> +	 * mass storage driver error handling.
+> +	 */
+> +	if (!xhci_alloc_virt_device(xhci, slot_id, udev, GFP_NOIO)) {
+> +		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
+> +		goto disable_slot;
+> +	}
+> +	vdev = xhci->devs[slot_id];
+> +
+>  	if ((xhci->quirks & XHCI_EP_LIMIT_QUIRK)) {
+>  		spin_lock_irqsave(&xhci->lock, flags);
+>  		ret = xhci_reserve_host_control_ep_resources(xhci);
+> +		spin_unlock_irqrestore(&xhci->lock, flags);
+>  		if (ret) {
+> -			spin_unlock_irqrestore(&xhci->lock, flags);
+>  			xhci_warn(xhci, "Not enough host resources, "
+>  					"active endpoint contexts = %u\n",
+>  					xhci->num_active_eps);
+> +			xhci_free_virt_device(xhci, vdev, slot_id);
+> +			/* without vdev disable slot won't free ep0 resources */
+>  			goto disable_slot;
 >  		}
->  	} else {
-> -		len =3D (len + 1) / 2;
-> -		ioread16_rep(fifoaddr, buf, len);
-> +		ioread16_rep(fifoaddr, buf, len / 2);
-> +
-> +		if (len & 1) {
-> +			u16 tmp;
-> +
-> +			/* Keep the byte order of the string read above. */
-> +			ioread16_rep(fifoaddr, &tmp, 1);
-> +			((u8 *)buf)[len - 1] =3D *(u8 *)&tmp;
-> +		}
+> -		spin_unlock_irqrestore(&xhci->lock, flags);
 >  	}
+> -	/* Use GFP_NOIO, since this function can be called from
+> -	 * xhci_discover_or_reset_device(), which may be called as part of
+> -	 * mass storage driver error handling.
+> -	 */
+> -	if (!xhci_alloc_virt_device(xhci, slot_id, udev, GFP_NOIO)) {
+> -		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
+> -		goto disable_slot;
+> -	}
+> -	vdev = xhci->devs[slot_id];
+>  	slot_ctx = xhci_get_slot_ctx(xhci, vdev->out_ctx);
+>  	trace_xhci_alloc_dev(slot_ctx);
+>  
+> @@ -4348,7 +4350,7 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
+>  	return 1;
+>  
+>  disable_slot:
+> -	xhci_disable_and_free_slot(xhci, udev->slot_id);
+> +	xhci_disable_slot(xhci, slot_id);
+>  
+>  	return 0;
 >  }
-> =20
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
