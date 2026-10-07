@@ -1,183 +1,313 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1421F3EA66;
-	Wed,  7 Oct 2026 04:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7085A3F20ED
+	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 05:44:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791346582; cv=none; b=OqRIMWwTodPEmL1/IDg10Rqip3I4w3R1mrw3+zr+ccdiTFqn2GXNepWhtZZtU/IldcqPpJe/0usvs1sV/87a8w/HwBJX9hSArJ0fYOclpaO8rJoQzwZQxHFwGL9NSZdpmDxZ1RjRrtTl5dwYVdYsMj6l2wR97bBdy9Pfra5JW+c=
+	t=1791351881; cv=none; b=qxSTBpWiTKmvhbRIEESkBHLWpaCeYcQB0NXNYC4fp0kcvbeYh6kvSsAFxcfuKzF7LYvlR7AXq0jDqfbQvAir9+Tvoy/9sjhWp5b014AmopJuSM0I2pndQnfmYOOoTqgfNzV1XaZaSQekhpcXK/Q4mVHEbR+UvhtPFpLO2Hz1jM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791346582; c=relaxed/simple;
-	bh=/vyd/FQLF6/bsjJPkbsGohKU2hqKKx1TlXPt6tpTKgc=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=jAg88ZITV/S3xLLPIPNsH4y8NJv8fTotulWW5Fz4NkYIVtY6ltstiy/DQDTrcq0ea9zw2NRO/HVbIdLAWpKAFKEHAMi2YlrTsezIsBeaD3Yr3HD1229pfaDi7Fl1l4lZ3T5XHFp2Rg5DBdUDfOYfoAuDt9HEk+036YYtn64XvgA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ot9cGFfN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791351881; c=relaxed/simple;
+	bh=ynjoLLi/n3KHDvPRST29+7ahVSC3TrfwzXl6tLKusn4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=l+qJTTlyThd3ya1zImiheqgEsYB4pu5PMPL2kq/+CTXpP3v6yvayGhOTdv0uwl7B8R9q4y44QzwjVfqj7hgdkhouAHi0nHMFRA73OPM78GPz9zUZz0mSKWz9RaX2aoaHmdvtnMvGzv/CCkhEXBSktHh5UUUmtyoIrHu9YmwvTBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P5JoKDh7; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ot9cGFfN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF6CF1F0089B;
-	Wed,  7 Oct 2026 04:16:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791346580;
-	bh=DK2RY7seVzGda+su9QWy1XsAt86ArzDgwrkeksorEhQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=ot9cGFfN02SxuwdxRsXTp0fwvHp5ysnrL0exlrMZngMlBHW0zYR1kFhnnwnazLnCL
-	 iNL1KtYdfbb6eeL+GmI2+tUaEoarLGPECFGR8NibMEP9Ql6d2u+XekVrTDptlAZux4
-	 FxaFfpbFRbWHU0/eL/0LNC5ACOvpLe+83sM/dKQ+DDJ09S8QxfxjLdJl6K2QiDrnVG
-	 xKHtDLuit4fLC+dINlbDToatEfErHRj6PememGXGL9usR7CFvqgugDskp2hZdRfI7l
-	 4LRB/0f6bKSSgUH1MVOrMop0HyiR+DmcpGxOUDHA61IMa4DHSekx2JFc3Ao9OshjeK
-	 qYkMIj9nBX/dw==
-Subject:
- Re: [PATCH net] net: usb: cdc_ncm: reject short GET_NTB_PARAMETERS responses
-From: netdev-bot+sashiko@kernel.org
-To: xinsheng.zhu.ny@gmail.com
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, oliver@neukum.org, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com
-Date: Wed, 07 Oct 2026 04:16:19 +0000
-Message-ID: <179134657946.434549.14071341559835135672@kernel.org>
-In-Reply-To: <20261005041525.49111-1-xinsheng.zhu.ny@gmail.com>
-References: <20261005041525.49111-1-xinsheng.zhu.ny@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P5JoKDh7"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49ff680331aso36668995e9.3
+        for <linux-usb@vger.kernel.org>; Tue, 06 Oct 2026 22:44:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791351878; x=1791956678; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Dm9oz8PbVLbTHr6sUh2Zmk88hMu2YoF1bMSolTgGPRo=;
+        b=P5JoKDh7EBaOp2EyL3T1jBlCMcsAfzyZAcWxZV1tCF48Hik3o6VXsQs/k59rdTGL9J
+         BzrwMAzKkGR5sKoEWuO79WMkWObmaXF/I5MUV4K8Qwp8FP/thRaZfopof5DJxZMzCdWK
+         r0W+2Qv4npUO3DZV0nVpII+VIPvRoH0jS/PuxYDI4csg4BQGZsGI888PADi3QwYYmV0w
+         CRbcBXg5CK07GA2133R5LY2CE/vqJoJE1KL5LFlgopocou3Diw06S7VFR+K4qjLidiXO
+         qBCfb7/We2U39DgmxKOm9n4PiAXSZT6V6fv9clPr5TYVAMz9cBuElnnz9zkzyMmzL2iF
+         0Jxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791351878; x=1791956678;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Dm9oz8PbVLbTHr6sUh2Zmk88hMu2YoF1bMSolTgGPRo=;
+        b=I7BTXdCBmQJDneDncOGJrEchlnJB2Dw3ep3zLtWdKEzRCKlYWV4WK9xaHFDtxLPQlB
+         Pjn4cs6jIdcVftc0ExqL4qRtvT+HO/eY4h0jAPDs4GNlUimDhCP4nvrw1+Jtl451JPxW
+         4kVZ8AGIvfT4FWURaRvgwb4CqAqOVCEeOvdCij5cAcUDB9avnCW9bqUMXQuTCdDAuvrC
+         3qKai9HKtEGx0Ct6LyniEPw1ed9ygYuGqfMbzWmmM378FK/VbUzHkYuxBM5SRW1Ppr/j
+         O4lnlilVpMS/1FyC4IZjmJTMz9EBameqayJjbDzqu7IJ7u4lVqFYU7dRXYH00mImv+sj
+         3Hvg==
+X-Forwarded-Encrypted: i=1; AKwUvByZTetucVQNf/FOTxAvQ7QhoXyZxx5whx0F3WGgPjCT0aG9HpE4wjb7M9tI2sVymVAaQZ5gLUOQXCo=@vger.kernel.org
+X-Gm-Message-State: AFuF++ll/O8IFJveiBGbZbK9QwUHT9b+N8giPeZYFzT1cQRB1HYK4s5p
+	XX2EMSoTm50lhomR6FZfAV6tXIQE/3BwbasKhU96o3zyYp8y0POwlcru
+X-Gm-Gg: AYBFou3NaYCs8WZCcPb2DJL9v/9a9K+6bZ3fuq+jKmTgRU3Om2+LDM6/m73Ym9leucI
+	z8RvUsW1YwcJkh/6bUaNwzjY+99zfcAV8M7NNnV9eazp52+YyBz7GximUuSr8/A16N7on/2XknW
+	3iV+8UleGI9gzAe/NdmxME2ORxJxhUT0zMaSG8WQLkUueQUVfBDLvTKmU1v/FX1kUA54cvxMZqB
+	m/k0Co0X2yw1ypMgWSET0tD2izw8mjcj6KiltzBeU691YiP74dRG4tThFLtctQGKhzrNdlOCSeb
+	b80xo+2B+8lNQ/3uBiRyoT7MxkFryOL90/kNG6Kd0ZBS6wJmb2L5t3UoA298IcqBNf5BjI3qN/b
+	7iTJAp44aNSnfbRciONRxmUXWtnsiYLJHyJpXEh07LTXOPVHL1xkugyt+meoUTmmVup4UJDqyho
+	cwsiFEU2etwB3gVuYtxZC6VbONIe1F/wdwwVPofmyzTfnvFLxHXkJqbtPCHf28e90Tk9N7RAU3A
+	Q3Aigv5gSNFBNBzFsHKTFTBGh8NGRXMQf0qEM8THYxyVoIzkbmFwtQTWMR2JFVLb9+OvDvns4BK
+	QLLOvwvdCdVQZKU07gcWGoHUeUIBact8Cc6m2c02pucpM9a4/YyLFEg30cLII5x0dfOUZ+U2f7/
+	5pndMpDjPm5DiMX9tew==
+X-Received: by 2002:a05:600c:5252:b0:4a0:4a8:d444 with SMTP id 5b1f17b1804b1-4a1806878c3mr10840485e9.33.1791351877434;
+        Tue, 06 Oct 2026 22:44:37 -0700 (PDT)
+Received: from localhost.localdomain (dynamic-2a02-3100-a1e1-2201-60f4-32e0-4d59-5772.310.pool.telefonica.de. [2a02:3100:a1e1:2201:60f4:32e0:4d59:5772])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a178a17ac9sm121780835e9.1.2026.10.06.22.44.36
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 06 Oct 2026 22:44:37 -0700 (PDT)
+From: Karl Mehltretter <kmehltretter@gmail.com>
+To: Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: Karl Mehltretter <kmehltretter@gmail.com>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Florian Echtler <floe@butterbrot.org>,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFT PATCH] Input: sur40 - fix DMA handling in video capture
+Date: Wed,  7 Oct 2026 07:44:30 +0200
+Message-Id: <20261007054430.40155-1-kmehltretter@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 3 potential
-issue(s) to consider.
+Video capture has failed since commit 6eb0233ec2d0 ("usb: don't
+inherity DMA properties for USB devices"). sur40 gives the USB
+interface device to vb2_dma_sg, but the interface no longer has a DMA
+mask. The mapping fails, leaving no entries for usb_sg_init().
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 2
+Using the host controller device with vb2_dma_sg would give
+usb_sg_init() an already DMA-mapped scatterlist. The USB core maps that
+list for the host controller itself. Mapping it twice overwrites the DMA
+addresses, and vb2 later unmaps addresses it does not own.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Imported dma-bufs cannot supply the CPU-side scatterlist that
+usb_sg_init() needs. Importers may use only the DMA fields of the
+attachment table. DMABUF_DEBUG makes this misuse deterministic by
+clearing its page and length fields.
 
-- [High] In cdc_ncm_init() (drivers/net/usb/cdc_ncm.c:527-529), the new
-  check `if (err != sizeof(ctx->ncm_parm)) { dev_err(...); return err;…
-- [Low] The patch makes any GET_NTB_PARAMETERS response shorter than 28
-  bytes fatal to bind (cdc_ncm_bind_common() -> error2 -> -ENODEV).
-- [Low] The commit message describes a defect: cdc_ncm_init() only
-  checked `err < 0`, so initialization continued with an incomplete…
+Use vb2_vmalloc for capture buffers. Receive each frame into a
+driver-owned, page-backed scatterlist, then copy it through the vb2
+mapping. Synchronize CPU writes to imported dma-bufs with
+dma_buf_begin_cpu_access() and dma_buf_end_cpu_access().
 
---
+Verified with a custom QEMU model and raw-gadget emulation. Not tested
+on real hardware.
 
-net: usb: cdc_ncm: reject short GET_NTB_PARAMETERS responses
+Fixes: 6eb0233ec2d0 ("usb: don't inherity DMA properties for USB devices")
+Assisted-by: LLM
+Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+---
+RFT because I do not have SUR40 hardware. Testing on a Microsoft Surface
+2.0 / Samsung SUR40 would be appreciated.
 
-This patch changes the GET_NTB_PARAMETERS check in cdc_ncm_init() from
-err < 0 to an exact-length comparison against sizeof(ctx->ncm_parm). The
-goal is to reject short responses instead of continuing initialization
-with zero-filled NTB parameters.
+The current RFT passed an x86-64 W=1 build of sur40.o with
+DMABUF_DEBUG=y. Runtime testing used v7.3-rc4-70-gfe2ec83746e5 on QEMU
+TCG with KASAN, DMA_API_DEBUG and DMABUF_DEBUG:
 
-> Require the return value to equal sizeof(ctx->ncm_parm), consistent with
-> the existing exact-length check for GET_MAX_DATAGRAM_SIZE in
-> cdc_ncm_set_dgram_size().
->
-> Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+- a custom SUR40 model behind qemu-xhci and Intel IOMMU strict mode;
+- raw-gadget on dummy_hcd.
 
-[Severity: Low]
-This isn't a bug, but this fixes the unchecked response length in
-cdc_ncm_init(). Should it carry a Fixes: tag pointing at the commit that
-added the err < 0 check, so stable backporters can follow it?
+Each setup captured 300 MMAP frames and 300 udmabuf frames. Every frame
+contained the expected sequence data. The xHCI/IOMMU run produced no
+DMA-API report. The dummy_hcd run reported udmabuf's separate maximum
+segment-size issue, which also reproduces through DMA_BUF_IOCTL_SYNC
+without sur40.
 
-> diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-> index 35db38cb3e4a2..66f40f0d9c273 100644
-> --- a/drivers/net/usb/cdc_ncm.c
-> +++ b/drivers/net/usb/cdc_ncm.c
-> @@ -524,7 +524,7 @@ static int cdc_ncm_init(struct usbnet *dev)
->  			      |USB_RECIP_INTERFACE,
->  			      0, iface_no, &ctx->ncm_parm,
->  			      sizeof(ctx->ncm_parm));
-> -	if (err < 0) {
-> +	if (err != sizeof(ctx->ncm_parm)) {
+Nguyen Ngoc Thang's pending disconnect fixes move resource cleanup to a
+v4l2 release callback:
 
-[Severity: Low]
-With this check, any response shorter than sizeof(ctx->ncm_parm) now makes
-bind fail. There is no fallback, and the wLength the device reports is not
-used.
+https://lore.kernel.org/r/20260920113949.12726-1-ngocthang2710.1999@gmail.com/
 
-Before this patch, short responses were accepted. The zero-filled fields
-were then sanitized by cdc_ncm_fix_modulus(), by
-cdc_ncm_check_rx_max()/cdc_ncm_check_tx_max(), and by the
-tx_max_datagrams == 0 default.
+If that series lands first, the sgl_free() added here must move to the
+release callback as well.
 
-The commit message calls this "consistent with the existing exact-length
-check for GET_MAX_DATAGRAM_SIZE in cdc_ncm_set_dgram_size()". That check
-is not fatal, though:
+ drivers/input/touchscreen/Kconfig |  5 ++-
+ drivers/input/touchscreen/sur40.c | 68 ++++++++++++++++++++++++++-----
+ 2 files changed, 61 insertions(+), 12 deletions(-)
 
-	if (err != sizeof(max_datagram_size)) {
-		dev_dbg(&dev->intf->dev, "GET_MAX_DATAGRAM_SIZE failed\n");
-		goto out;
-	}
+diff --git a/drivers/input/touchscreen/Kconfig b/drivers/input/touchscreen/Kconfig
+index 9b9ae8ac3f7f..e433db3d340f 100644
+--- a/drivers/input/touchscreen/Kconfig
++++ b/drivers/input/touchscreen/Kconfig
+@@ -1276,9 +1276,10 @@ config TOUCHSCREEN_SUN4I
+ 
+ config TOUCHSCREEN_SUR40
+ 	tristate "Samsung SUR40 (Surface 2.0/PixelSense) touchscreen"
+-	depends on USB && MEDIA_USB_SUPPORT && HAS_DMA
++	depends on USB && MEDIA_USB_SUPPORT
+ 	depends on VIDEO_DEV
+-	select VIDEOBUF2_DMA_SG
++	select SGL_ALLOC
++	select VIDEOBUF2_VMALLOC
+ 	help
+ 	  Say Y here if you want support for the Samsung SUR40 touchscreen
+ 	  (also known as Microsoft Surface 2.0 or Microsoft PixelSense).
+diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
+index 09d8c5f8d09f..72e3f0fa1f4c 100644
+--- a/drivers/input/touchscreen/sur40.c
++++ b/drivers/input/touchscreen/sur40.c
+@@ -20,6 +20,7 @@
+ #include <linux/kernel.h>
+ #include <linux/errno.h>
+ #include <linux/delay.h>
++#include <linux/dma-buf.h>
+ #include <linux/init.h>
+ #include <linux/slab.h>
+ #include <linux/module.h>
+@@ -36,7 +37,7 @@
+ #include <media/v4l2-ioctl.h>
+ #include <media/v4l2-ctrls.h>
+ #include <media/videobuf2-v4l2.h>
+-#include <media/videobuf2-dma-sg.h>
++#include <media/videobuf2-vmalloc.h>
+ 
+ /* read 512 bytes from endpoint 0x86 -> get header + blobs */
+ struct sur40_header {
+@@ -221,6 +222,8 @@ struct sur40_state {
+ 
+ 	struct sur40_data *bulk_in_buffer;
+ 	size_t bulk_in_size;
++	struct scatterlist *video_sgl;
++	unsigned int video_nents;
+ 	u8 bulk_in_epaddr;
+ 	u8 vsvideo;
+ 
+@@ -531,8 +534,10 @@ static void sur40_process_video(struct sur40_state *sur40)
+ 	struct sur40_image_header *img = (void *)(sur40->bulk_in_buffer);
+ 	struct sur40_buffer *new_buf;
+ 	struct usb_sg_request sgr;
+-	struct sg_table *sgt;
++	unsigned int size = sur40->pix_fmt.sizeimage;
++	struct dma_buf *dbuf = NULL;
+ 	int result, bulk_read;
++	void *vaddr;
+ 
+ 	if (!vb2_start_streaming_called(&sur40->queue))
+ 		return;
+@@ -579,11 +584,17 @@ static void sur40_process_video(struct sur40_state *sur40)
+ 
+ 	dev_dbg(sur40->dev, "header acquired\n");
+ 
+-	sgt = vb2_dma_sg_plane_desc(&new_buf->vb.vb2_buf, 0);
++	vaddr = vb2_plane_vaddr(&new_buf->vb.vb2_buf, 0);
++	if (!vaddr)
++		goto err_poll;
+ 
++	/*
++	 * vb2_plane_vaddr() may return a vmalloc or vmap address. Receive
++	 * into page-backed memory so the USB core can map it for DMA.
++	 */
+ 	result = usb_sg_init(&sgr, sur40->usbdev,
+ 		usb_rcvbulkpipe(sur40->usbdev, VIDEO_ENDPOINT), 0,
+-		sgt->sgl, sgt->nents, sur40->pix_fmt.sizeimage, 0);
++		sur40->video_sgl, sur40->video_nents, size, 0);
+ 	if (result < 0) {
+ 		dev_err(sur40->dev, "error %d in usb_sg_init\n", result);
+ 		goto err_poll;
+@@ -595,6 +606,39 @@ static void sur40_process_video(struct sur40_state *sur40)
+ 		goto err_poll;
+ 	}
+ 
++	if (sgr.bytes != size) {
++		dev_err(sur40->dev, "short image (%zu of %u bytes)\n",
++			sgr.bytes, size);
++		goto err_poll;
++	}
++
++	/*
++	 * vb2_vmalloc does not synchronize CPU access to imported dma-bufs,
++	 * so bracket the copy into one here.
++	 */
++	if (new_buf->vb.vb2_buf.memory == VB2_MEMORY_DMABUF)
++		dbuf = new_buf->vb.vb2_buf.planes[0].dbuf;
++
++	if (dbuf) {
++		result = dma_buf_begin_cpu_access(dbuf, DMA_TO_DEVICE);
++		if (result) {
++			dev_err(sur40->dev, "error %d in begin_cpu_access\n",
++				result);
++			goto err_poll;
++		}
++	}
++
++	sg_copy_to_buffer(sur40->video_sgl, sur40->video_nents, vaddr, size);
++
++	if (dbuf) {
++		result = dma_buf_end_cpu_access(dbuf, DMA_TO_DEVICE);
++		if (result) {
++			dev_err(sur40->dev, "error %d in end_cpu_access\n",
++				result);
++			goto err_poll;
++		}
++	}
++
+ 	dev_dbg(sur40->dev, "image acquired\n");
+ 
+ 	/* return error if streaming was stopped in the meantime */
+@@ -725,6 +769,13 @@ static int sur40_probe(struct usb_interface *interface,
+ 		goto err_free_input;
+ 	}
+ 
++	sur40->video_sgl = sgl_alloc(sur40_pix_format[0].sizeimage, GFP_KERNEL,
++				     &sur40->video_nents);
++	if (!sur40->video_sgl) {
++		error = -ENOMEM;
++		goto err_free_buffer;
++	}
++
+ 	/* register the video master device */
+ 	snprintf(sur40->v4l2.name, sizeof(sur40->v4l2.name), "%s", DRIVER_LONG);
+ 	error = v4l2_device_register(sur40->dev, &sur40->v4l2);
+@@ -811,6 +862,7 @@ static int sur40_probe(struct usb_interface *interface,
+ err_unreg_v4l2:
+ 	v4l2_device_unregister(&sur40->v4l2);
+ err_free_buffer:
++	sgl_free(sur40->video_sgl);
+ 	kfree(sur40->bulk_in_buffer);
+ err_free_input:
+ 	input_free_device(input);
+@@ -831,6 +883,7 @@ static void sur40_disconnect(struct usb_interface *interface)
+ 	video_unregister_device(&sur40->vdev);
+ 	v4l2_device_unregister(&sur40->v4l2);
+ 
++	sgl_free(sur40->video_sgl);
+ 	kfree(sur40->bulk_in_buffer);
+ 	kfree(sur40);
+ 
+@@ -1114,15 +1167,10 @@ static const struct vb2_ops sur40_queue_ops = {
+ 
+ static const struct vb2_queue sur40_queue = {
+ 	.type = V4L2_BUF_TYPE_VIDEO_CAPTURE,
+-	/*
+-	 * VB2_USERPTR in currently not enabled: passing a user pointer to
+-	 * dma-sg will result in segment sizes that are not a multiple of
+-	 * 512 bytes, which is required by the host controller.
+-	*/
+ 	.io_modes = VB2_MMAP | VB2_READ | VB2_DMABUF,
+ 	.buf_struct_size = sizeof(struct sur40_buffer),
+ 	.ops = &sur40_queue_ops,
+-	.mem_ops = &vb2_dma_sg_memops,
++	.mem_ops = &vb2_vmalloc_memops,
+ 	.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC,
+ 	.min_queued_buffers = 3,
+ };
 
-No device that sends a short response has been identified. That makes
-this a compatibility question, not confirmed breakage. Is it intended that
-these responses now cause a probe failure for cdc_ncm, cdc_mbim and
-huawei_cdc_ncm, which all share this bind path?
-
->  		dev_err(&dev->intf->dev, "failed GET_NTB_PARAMETERS\n");
->  		return err; /* GET_NTB_PARAMETERS is required */
-                        ^^^
-
-[Severity: High]
-What happens when the device ends the GET_NTB_PARAMETERS data stage with
-a zero-length packet? usbnet_read_cmd() then returns 0. Does this branch
-log "failed GET_NTB_PARAMETERS" and still return 0, which the caller reads
-as success?
-
-__usbnet_read_cmd() passes the usb_control_msg() length through unchanged:
-
-drivers/net/usb/usbnet.c:__usbnet_read_cmd() {
-    ...
-	err = usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
-			      cmd, reqtype, value, index, buf, size,
-			      USB_CTRL_GET_TIMEOUT);
-	if (err > 0 && err <= size) {
-    ...
-	return err;
-}
-
-cdc_ncm_bind_common() only treats a non-zero return as a failure:
-
-	if (cdc_ncm_init(dev))
-		goto error2;
-
-So bind would continue, but the rest of cdc_ncm_init() never runs.
-SET_CRC_MODE and SET_NTB_FORMAT are never sent. ctx->is_ndp16,
-ctx->tx_max_datagrams, ctx->max_ndp_size and ctx->timer_interval all keep
-their zero values from the kzalloc.
-
-With ctx->tx_max_datagrams == 0, this loop in cdc_ncm_fill_tx_frame()
-never runs:
-
-	for (n = ctx->tx_curr_frame_num; n < ctx->tx_max_datagrams; n++) {
-
-Each incoming skb then goes to the "free up any dangling skb" block, gets
-freed and is counted in tx_dropped.
-
-On the RX side, is_ndp16 is 0, so cdc_ncm_rx_fixup() calls
-cdc_ncm_rx_verify_nth32(). The device was never sent SET_NTB_FORMAT, so it
-is still using its default NTB16 format.
-
-With CDC_NCM_FLAG_NDP_TO_END set, kzalloc(ctx->max_ndp_size) with a size
-of 0 returns ZERO_SIZE_PTR. That passes the NULL check in
-cdc_ncm_bind_common(), so the problem is not caught there either.
-
-Before this patch, a zero-length response went through the full
-initialization with sanitized defaults. Isn't this a regression for the
-zero-length case? Short reads of 1 to 27 bytes do fail bind, but only
-because the positive byte count is non-zero.
-
-Should this branch return a negative errno for short reads? For example:
-
-	return err < 0 ? err : -EIO;
-
->  	}
-
+base-commit: 2c3418fffa9d037b2038a6db48be63f9e2291806
 -- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261005041525.49111-1-xinsheng.zhu.ny%40gmail.com
+2.53.0
