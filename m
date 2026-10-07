@@ -1,50 +1,50 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03614388885
-	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 09:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E6E39769B;
+	Wed,  7 Oct 2026 09:32:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791365341; cv=none; b=H928SHyPoGPwSu+JUInjhgR1p9E89ujPbZcQFrQOLdukzW4aQr4Obt4TtlU1cks0OBGJnJ82QpvK82ZvTaglknkGh690U73Vveb+iqcZioVF5g8TXLKnqip4IfQAUA+Duh/uzr7/SMSSixYY0PhrffJZZL632jMXavuXIUUHrnA=
+	t=1791365546; cv=none; b=FbNJLoGzSHObkFf+k7xYDcdPFrpZtwjbYQNL2HtsETSNtR7FSFuGnE4FVekxnzS8n6PKSjm+E35gVfOIxi9WbNhztAIU/zwSerYxQYt73I7rfEtPHtEpIXeFbgKySpFKs9vUyqqbOP4G4AO32M4tUxMHVXbIlJ5pQDhjp4iU69w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791365341; c=relaxed/simple;
-	bh=Cyhd8R/qzhAM0ja6F/U9hHo2j7T1FYIkGddsfzrSOGg=;
+	s=arc-20240116; t=1791365546; c=relaxed/simple;
+	bh=IpM1zGibozvpFlc4oaLqfJnLOB5JbWAq+EH2+IcKVsY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S2tz/a9DBXUjZbbkAqfQryAyCRYCVTHUTXUm1T9DCBGfp5rqKTDT9kS5hUzwpyLMI9402sQ1e2At2nDdJRCplETA8TisI+f3xSU+Q6mg1TkWIhcuwpmoLCv1WKX8tfYfiN3Llx07xU2l/T2dPopXwypwMN83ZHl+sLwWDeA8b7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dj0t3Na2; arc=none smtp.client-ip=198.175.65.18
+	 In-Reply-To:Content-Type; b=QhZ/RuZGnmjhcWaevNtHkaE3O75mEl0/8MeLkdzIS5FUYJGXSbpmdqop3DTRgJ65Yy+dAlbqx1UN2j8LHpc4ItwofP0bCEJPZTmS6OFUD4ywhbWfUkVwjUuRAf/mWYX8xQbYj4RmktOVkpRdNWNwt4S1bgyVsx4/W4DHqPF6BOg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mYPgEc24; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dj0t3Na2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mYPgEc24"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791365325; x=1822901325;
+  t=1791365528; x=1822901528;
   h=message-id:date:mime-version:subject:to:cc:references:
    from:in-reply-to:content-transfer-encoding;
-  bh=Cyhd8R/qzhAM0ja6F/U9hHo2j7T1FYIkGddsfzrSOGg=;
-  b=dj0t3Na2OUijIQOrPlZBKaH/AqDyWr4mOfudkLusuFBAv6iIRWnwT+6d
-   RUazd0UMCvO3VXzfCEFYAXpiq1ofG4GMOelBdXDQWzCPoZ6MqF90tJFGZ
-   pH+tIKJ17jmqUuxM5FbS/wQwwu+MMPQKak4g/ay79j5P4ctxR0vUhPw0Z
-   tUFJlPpu28uAnvHS/k1g6n0M4NhjE34HAxm6TeTeG7HtAZ+PtXwzpr1iK
-   O0wApt9qTUjHBODxtcnaO88hEATcJQyAOVqNAowqes6O2oGidLiAtbl9R
-   p/6/cxZN1OWZ4qDANXd868lO3tz+gxakHku2U2w4ElmsNX4TknzA0jBeY
+  bh=IpM1zGibozvpFlc4oaLqfJnLOB5JbWAq+EH2+IcKVsY=;
+  b=mYPgEc24zN7GWJqM60p/By2X3tw07QG2JMaq5L0IOPugcfr+MH++rHpo
+   eTJmr3LXsMyow+1J9Gfju3VwLkF7q8qPeyAKhXLWBm0xOSE63PDCC7X4k
+   TJF3IoTWdS/xdAKKD415zO6YuGThBNYGXl55Zjek/kf6uPLXwP46RSLP+
+   NIKnYDCCWNMqrtHS+feySnIV/as/C/ms+AZcJHQio//YSUMlNuhzNc3w3
+   SwvEgCxtEVklnenJFqWR0MT1g800aNAPjM1bVG66JgZbUvhXRHkWjhlKZ
+   /w6wt+/adfxzK/3rwOiH0funIXZMHlHAufpSPAFgIrBM5I4MK0nkneDBn
    A==;
-X-CSE-ConnectionGUID: Po/pyZRWQc+jGOTSDoujGQ==
-X-CSE-MsgGUID: 41iE4jxBTXKIv/FG2LJTiw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="121209"
+X-CSE-ConnectionGUID: CB/5bWCYR9+s0N1bgRRpYQ==
+X-CSE-MsgGUID: 8XomDi09Q2aqZxlO3/xNQA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11927"; a="3366"
 X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="121209"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 02:28:44 -0700
-X-CSE-ConnectionGUID: DWEDqjbMRz2qlhP4c8Nf0A==
-X-CSE-MsgGUID: +ETgHZjxSKiy+wowz48eig==
+   d="scan'208";a="3366"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 02:32:08 -0700
+X-CSE-ConnectionGUID: zi1LJdwdQxej/xC8Oqm+zQ==
+X-CSE-MsgGUID: 6dHLgHdZRiqC8lmVo0ieIg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,144,1787036400"; 
-   d="scan'208";a="282205917"
-Received: from nneronin-mobl1.ger.corp.intel.com (HELO [10.246.22.148]) ([10.246.22.148])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 02:28:42 -0700
-Message-ID: <36ec399c-46ad-46db-aeaa-c12354261dc1@linux.intel.com>
-Date: Wed, 7 Oct 2026 12:28:34 +0300
+   d="scan'208";a="285486637"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO [10.245.244.221]) ([10.245.244.221])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2026 02:32:06 -0700
+Message-ID: <59def1ff-18aa-4a6f-a97c-22a56aef49a1@linux.intel.com>
+Date: Wed, 7 Oct 2026 12:31:58 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,130 +52,28 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] usb: xhci: correct num_active_eps accounting on
- allocation failure
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: mathias.nyman@linux.intel.com, linux-usb@vger.kernel.org
-References: <20261006152427.3735383-1-niklas.neronin@linux.intel.com>
- <20261006152427.3735383-3-niklas.neronin@linux.intel.com>
- <20261006183301.7a1875c3.michal.pecio@gmail.com>
- <20261006230207.0faaac31.michal.pecio@gmail.com>
+Subject: Re: [PATCH RESEND v2] usb: xhci-pci: Add TUSB73x0 definitions
+To: Fabio Estevam <festevam@gmail.com>, gregkh@linuxfoundation.org
+Cc: mathias.nyman@intel.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20261005141141.385414-1-festevam@gmail.com>
 Content-Language: en-US
-From: "Neronin, Niklas" <niklas.neronin@linux.intel.com>
-In-Reply-To: <20261006230207.0faaac31.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20261005141141.385414-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-
-
-On 07/10/2026 0.02, Michal Pecio wrote:
-> On Tue, 6 Oct 2026 18:33:01 +0200, Michal Pecio wrote:
->> On Tue,  6 Oct 2026 17:24:24 +0200, Niklas Neronin wrote:
->>> Some host controllers have a global endpoint limit across all slots,
->>> tracked by 'xhci->num_active_eps' when XHCI_EP_LIMIT_QUIRK is set.
->>>
->>> During device allocation, EP0 resources are reserved before
->>> xhci_alloc_virt_device() is called, and 'num_active_eps' is
->>> incremented accordingly. If xhci_alloc_virt_device() subsequently
->>> fails, the slot is disabled but the reserved endpoint resource is
->>> not released, leaving 'num_active_eps' permanently increased.
->>>
->>> Decreasing 'num_active_eps' happens in
->>> xhci_handle_cmd_disable_slot(), which is called upon a Disable Slot
->>> completion command.  
->>
->> Why is 'num_active_eps' not decremented if the slot is disabled and
->> Disable Slot completion handler is supposed to decrement it?
->>
->> Does this bug really exist? Can you reproduce it by forcing the quirk
->> with module parameter and simulating vdev allocation failure here?
+On 10/5/26 17:11, Fabio Estevam wrote:
+> Instead of hard-coding the TUSB73X0 PCI ID, USB_CTRL register address
+> and the PWRON_POLARITY, introduce definitions for them to make the code
+> easier to read.
 > 
-> Never mind, the bug is real and reproducible. Still, commit message
-> could include a few words of explanation to prevent such questions.
+> No functional change.
 > 
-> I think it would be cleaner to fix this by allocating vdev before
-> ep0 reservation, because allocation is easier to undo:
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
 
-That's a good point. I found this while working on a separate series
-that splits 'vdev' allocation and slot enabling. That series was not
-ready for this merge window, so I decided to submit only the simpler
-fixes first to keep the future series smaller and less cluttered.
-As you suggested, that series moves 'vdev' allocation before EP
-reservation.
+Thanks, added
 
-> 
-> 1. we have a helper for this, no need to dig in xhci members manually
-> 2. we are the only user of this slot_id, so locking is not required
-> 
-> Downside: larger diff. But less code in the end.
-> 
-> And there is another bug: disable_slot uses udev->slot_id, which is
-> uninitialized in this path. Should use the local slot_id variable.
+-Mathias
 
-Good catch. I found the same issue but apparently forgot to include the
-fix in this patch set.
-
-Probably best if this patch is not added to this merge window,
-instead I'll re-submit it with all the virtual device changes.
-
-Thanks,
-Niklas
-
-> 
-> So overall,
-> 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index e5b39be04b92..9beb8b4b485f 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -4308,27 +4308,29 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
->  
->  	xhci_free_command(xhci, command);
->  
-> +	/* Use GFP_NOIO, since this function can be called from
-> +	 * xhci_discover_or_reset_device(), which may be called as part of
-> +	 * mass storage driver error handling.
-> +	 */
-> +	if (!xhci_alloc_virt_device(xhci, slot_id, udev, GFP_NOIO)) {
-> +		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
-> +		goto disable_slot;
-> +	}
-> +	vdev = xhci->devs[slot_id];
-> +
->  	if ((xhci->quirks & XHCI_EP_LIMIT_QUIRK)) {
->  		spin_lock_irqsave(&xhci->lock, flags);
->  		ret = xhci_reserve_host_control_ep_resources(xhci);
-> +		spin_unlock_irqrestore(&xhci->lock, flags);
->  		if (ret) {
-> -			spin_unlock_irqrestore(&xhci->lock, flags);
->  			xhci_warn(xhci, "Not enough host resources, "
->  					"active endpoint contexts = %u\n",
->  					xhci->num_active_eps);
-> +			xhci_free_virt_device(xhci, vdev, slot_id);
-> +			/* without vdev disable slot won't free ep0 resources */
->  			goto disable_slot;
->  		}
-> -		spin_unlock_irqrestore(&xhci->lock, flags);
->  	}
-> -	/* Use GFP_NOIO, since this function can be called from
-> -	 * xhci_discover_or_reset_device(), which may be called as part of
-> -	 * mass storage driver error handling.
-> -	 */
-> -	if (!xhci_alloc_virt_device(xhci, slot_id, udev, GFP_NOIO)) {
-> -		xhci_warn(xhci, "Could not allocate xHCI USB device data structures\n");
-> -		goto disable_slot;
-> -	}
-> -	vdev = xhci->devs[slot_id];
->  	slot_ctx = xhci_get_slot_ctx(xhci, vdev->out_ctx);
->  	trace_xhci_alloc_dev(slot_ctx);
->  
-> @@ -4348,7 +4350,7 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
->  	return 1;
->  
->  disable_slot:
-> -	xhci_disable_and_free_slot(xhci, udev->slot_id);
-> +	xhci_disable_slot(xhci, slot_id);
->  
->  	return 0;
->  }
 
