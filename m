@@ -1,179 +1,125 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB3884963A2
-	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 12:00:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43EFF4322E6
+	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 12:08:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791374441; cv=none; b=FOcojghoAxbSOYHWoTaY9fWxseA3MR1jnGlr65SP7M7k30ZAxCmRgrHaj8lmbsr7sjRYbH++lJZnevIZ4dohfYDzKU3fYWfVd4za/5krhGoNGyfihK5+ASUTGzLBy+l4+66/YaH8b6n47M3REQcr/qYIKcm8M8NZc5hEk/4iovs=
+	t=1791374934; cv=none; b=spsdkHJvOtPYUrCZP3VtXLhMv0b+RfSlhnKxbhA2pMIJ32F8/hgC0WDWSyVggqHGiKww9yaswjI8ik+f8Kgi3AcQ/K4fwb9DqnpV6wxmmlR1bP3baqfoH1WbEO9WVu6WgI2bhOF/KlPlankhk5/2h1DJgiWTB54EAQOoSPXkhs4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791374441; c=relaxed/simple;
-	bh=+1ZIUDEH1UMPylr8k3iwVs3/zYxLWFNlciH52DbTlUc=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=YCn01TVafGQY5cPU575vSsO4Vas9WOFOjMs1onfXVEfYh2DH45TCehPwMjMy/fEKM4SMVdYgssYWnv63BUZX6JDHSXfOTNQL+SbKQlC1EcVDZRkTMaz5/A8u6FKbITkiMti6cj1SsEjaB8sUE61BYgbrwAukZ9yshrH23D4S7BQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4f4612a1a5cso2621038b6e.0
-        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 05:00:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791374430; x=1791979230;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cPL7LsU0XdV5dZnyY11Ue59c/gkO7XrdWcOIpHOg7mM=;
-        b=ehyUbU35nXFTKiAvPu5hBv26McGaqRoKVFJHgaP/OSAtzjxGkd6GjgfZmGYnGsJMoM
-         2AcyVq9Cr/4IGnNWELIdlvILjQi/x0SmSLbRCEkhCUTAJ0z5IH+jCMYqGyg9hyaqvZTj
-         b+hxtHZX0Syg0rUu01Q02YaeI+MJOedy0mx1s66duay4gkbe/BsyOttlvYZY2u5/ET2C
-         YJjb3hJ8qj5GMcXOKYWffg7KIe9QYrQQjObGK0U/2Rdsje/3m5MJvplSyOpUFfPv79kW
-         EzYUCTs86JYXxFeXVmCyQL2eE8/GZqgpXmwCeet4A8nQo/LX5RNhI1d36d89X4jv91cH
-         GVDw==
-X-Forwarded-Encrypted: i=1; AKwUvBzAeiZuaYVv6i079h8Cf4PlMvM97Cwv77fcC2wGms+125swRBlDUSkYfd5FF+H/jFfVjcoxhX/myNw=@vger.kernel.org
-X-Gm-Message-State: AFuF++lJGezojRCmLTg5vx61EsvGa+jMkXnicsrmYsw66WCHMN/BdxEM
-	y4DKBeC7sX2tHMulQa/k9tfdi3QFTZokA6LQBPujzeCxrmKCZiDR+yZPA8yh9AU2ap6bljlGaU8
-	x7vVCk/XAkLL4PUBvLz71KYNruFwxYweCJJXsYZr+Eb8QAhQk71evKEKqBKo=
+	s=arc-20240116; t=1791374934; c=relaxed/simple;
+	bh=xhTcIDDMmwTiZsfdgGhr9KBnYcOGCHEpbGAxAtvJFNc=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=ojDdQ1heJd4IoXg07rY0LpV+JCvhbx316LrJ8JljW6H3DmBKRkBMsD5PvdUAecSfXN7yfuKVBv7N3L7Dig4LnuqcAfW6/nAKidmZ7I9eXHbx6JXCDbNxtmUUhLC8pZlJg1fMpiNSCmEX8s4ExSBsbDunEY9CcRUSXf2GfzSCo3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V8lAQHK3; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V8lAQHK3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D01FE1F0089B;
+	Wed,  7 Oct 2026 12:08:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791374926;
+	bh=KvQsRGoCcF6GMA+G6e/v7yZPfArCoKQyf2wGI3BNEoU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=V8lAQHK3u3ttJfzGNPhMiQpN1DZAM+ucCaZ0UxgT+y2+WwGzzQyYFACyDjN2p37/N
+	 AuetotNvAVgqByF1HVx7+Wau8TI/h8lC5GneyaP9aAYBtNGvxS1AfxTag8jWeQQvFg
+	 kWYp6VkPTJLnEq+Hz4Ow5f37pyA0jdnFgkuTDjNl2sp1WLIr7WOA7S20fv5i5b1lKH
+	 q+eGC8qybvhw/gQwXb8O+ImCEF42GYXmfR/eoSu5zrJ1saURL3d5l9xo3OliOrcEB2
+	 gzsiCyc+dlVC5dc5v1gY9hi3w1BxNBhhMsC9//HwJ8pjNqyE1tf30nOTe8lAX3ZYN2
+	 j60o9zdmiyrhg==
+Message-ID: <sashiko-outbox-162975@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v2] usbnet: fix EVENT_RX_PAUSED race in
+ usbnet_skb_return()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?w5ZtZXIgTWV0ZSBLYXlh?= <omermetekaya0@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261006120825.342164-1-omermetekaya0@gmail.com>
+References: <20261006120825.342164-1-omermetekaya0@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 07 Oct 2026 12:08:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1493:b0:4d6:9133:cfe2 with SMTP id
- 5614622812f47-4faaf252cc0mr4967039b6e.39.1791374429738; Wed, 07 Oct 2026
- 05:00:29 -0700 (PDT)
-Date: Wed, 07 Oct 2026 05:00:29 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ac6345d.d03902a3.74d6f.0006.GAE@google.com>
-Subject: [syzbot] [usb?] BUG: unable to handle kernel paging request in usb_driver_release_interface
-From: syzbot <syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com>
-To: dakr@kernel.org, driver-core@lists.linux.dev, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, rafael@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usbnet: missing BH disable in usbnet_resume_rx() corrupts per-CPU =
+stats
+--
 
-syzbot found the following issue on:
+commit 36ab26ed669164df5f63bb5c4faccea95151ecd0
+Author: =C3=96mer Mete Kaya <omermetekaya0@gmail.com>
 
-HEAD commit:    602042bf29f6 Merge tag 'wq-for-7.3-rc6-fixes' of git://git..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=155ae00d580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=929e4854a828f434
-dashboard link: https://syzkaller.appspot.com/bug?extid=863936f50214e843ae0c
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=10bd6715580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=14ae21c9580000
+usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_return()
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-602042bf.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c804d2e9b640/vmlinux-602042bf.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d6cd162ae59e/bzImage-602042bf.xz
+This patch fixes a race condition where usbnet_skb_return() could pass the
+EVENT_RX_PAUSED check while usbnet_resume_rx() clears the flag and drains t=
+he
+queue. The fix implements a double-check pattern under the rxq_pause.lock on
+the slow path to prevent skbs from being stranded.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
+> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+> index a19ecf718f36a..dc340ea248c6b 100644
+> --- a/drivers/net/usb/usbnet.c
+> +++ b/drivers/net/usb/usbnet.c
+[ ... ]
+> @@ -699,8 +704,9 @@ void usbnet_resume_rx(struct usbnet *dev)
+>  	struct sk_buff *skb;
+>  	int num =3D 0;
+> =20
+> -	local_bh_disable();
+> +	spin_lock_bh(&dev->rxq_pause.lock);
+>  	clear_bit(EVENT_RX_PAUSED, &dev->flags);
+> +	spin_unlock_bh(&dev->rxq_pause.lock);
+> =20
+>  	while ((skb =3D skb_dequeue(&dev->rxq_pause)) !=3D NULL) {
+>  		usbnet_skb_return(dev, skb);
+> @@ -708,7 +714,6 @@ void usbnet_resume_rx(struct usbnet *dev)
+>  	}
+> =20
+>  	queue_work(system_bh_wq, &dev->bh_work);
+> -	local_bh_enable();
 
-wwan wwan1: port wwan1mbim0 disconnected
-Oops: general protection fault, probably for non-canonical address 0xdffffc000000000b: 0000 [#1] SMP KASAN NOPTI
-KASAN: null-ptr-deref in range [0x0000000000000058-0x000000000000005f]
-CPU: 0 UID: 0 PID: 9 Comm: kworker/0:0 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-Workqueue: usb_hub_wq hub_event
-RIP: 0010:klist_put+0x4d/0x1d0 lib/klist.c:212
-Code: c1 ea 03 80 3c 02 00 0f 85 74 01 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 23 49 83 e4 fe 49 8d 7c 24 58 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 43 01 00 00 4c 89 e7 4d 8b 74 24 58 e8 cc ef 0c
-RSP: 0018:ffffc900000c7450 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: ffff888035673c80 RCX: 0000000000000000
-RDX: 000000000000000b RSI: ffffffff8bc8e645 RDI: 0000000000000058
-RBP: 0000000000000001 R08: 0000000000000000 R09: fffffbfff224ec84
-R10: ffffffff91276423 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000001 R14: ffffffff912763e0 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880d5b4e000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007ffcc2839000 CR3: 000000003938c000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- klist_del lib/klist.c:230 [inline]
- klist_remove+0x14c/0x2e0 lib/klist.c:249
- __device_release_driver drivers/base/dd.c:1357 [inline]
- device_release_driver_internal+0x4fb/0x620 drivers/base/dd.c:1372
- usb_driver_release_interface+0x10e/0x190 drivers/usb/core/driver.c:643
- cdc_ncm_unbind+0x2ac/0x350 drivers/net/usb/cdc_ncm.c:1019
- usbnet_disconnect+0x1e2/0x300 drivers/net/usb/usbnet.c:1692
- usb_unbind_interface+0x1dd/0x9e0 drivers/usb/core/driver.c:461
- device_remove drivers/base/dd.c:618 [inline]
- device_remove+0x12a/0x180 drivers/base/dd.c:610
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x44e/0x620 drivers/base/dd.c:1372
- bus_remove_device+0x2bc/0x560 drivers/base/bus.c:664
- device_del+0x376/0x9b0 drivers/base/core.c:3965
- usb_disable_device+0x367/0x810 drivers/usb/core/message.c:1484
- usb_disconnect+0x2e2/0x9a0 drivers/usb/core/hub.c:2355
- hub_port_connect drivers/usb/core/hub.c:5425 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5725 [inline]
- port_event drivers/usb/core/hub.c:5889 [inline]
- hub_event+0x1bb1/0x4420 drivers/usb/core/hub.c:5971
- process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
- process_scheduled_works kernel/workqueue.c:3479 [inline]
- worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
- kthread+0x373/0x450 kernel/kthread.c:436
- ret_from_fork+0x730/0xd60 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:klist_put+0x4d/0x1d0 lib/klist.c:212
-Code: c1 ea 03 80 3c 02 00 0f 85 74 01 00 00 48 b8 00 00 00 00 00 fc ff df 4c 8b 23 49 83 e4 fe 49 8d 7c 24 58 48 89 fa 48 c1 ea 03 <80> 3c 02 00 0f 85 43 01 00 00 4c 89 e7 4d 8b 74 24 58 e8 cc ef 0c
-RSP: 0018:ffffc900000c7450 EFLAGS: 00010202
-RAX: dffffc0000000000 RBX: ffff888035673c80 RCX: 0000000000000000
-RDX: 000000000000000b RSI: ffffffff8bc8e645 RDI: 0000000000000058
-RBP: 0000000000000001 R08: 0000000000000000 R09: fffffbfff224ec84
-R10: ffffffff91276423 R11: 0000000000000000 R12: 0000000000000000
-R13: 0000000000000001 R14: ffffffff912763e0 R15: dffffc0000000000
-FS:  0000000000000000(0000) GS:ffff8880d5b4e000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055557a2d0a28 CR3: 000000002c457000 CR4: 0000000000352ef0
-----------------
-Code disassembly (best guess):
-   0:	c1 ea 03             	shr    $0x3,%edx
-   3:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
-   7:	0f 85 74 01 00 00    	jne    0x181
-   d:	48 b8 00 00 00 00 00 	movabs $0xdffffc0000000000,%rax
-  14:	fc ff df
-  17:	4c 8b 23             	mov    (%rbx),%r12
-  1a:	49 83 e4 fe          	and    $0xfffffffffffffffe,%r12
-  1e:	49 8d 7c 24 58       	lea    0x58(%r12),%rdi
-  23:	48 89 fa             	mov    %rdi,%rdx
-  26:	48 c1 ea 03          	shr    $0x3,%rdx
-* 2a:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1) <-- trapping instruction
-  2e:	0f 85 43 01 00 00    	jne    0x177
-  34:	4c 89 e7             	mov    %r12,%rdi
-  37:	4d 8b 74 24 58       	mov    0x58(%r12),%r14
-  3c:	e8                   	.byte 0xe8
-  3d:	cc                   	int3
-  3e:	ef                   	out    %eax,(%dx)
-  3f:	0c                   	.byte 0xc
+[Severity: High]
+Does removing local_bh_disable() cause usbnet_skb_return() to execute with
+preemption enabled here?
 
+usbnet_resume_rx() is invoked by usbnet_change_mtu() during an MTU change,
+which runs in process context with preemption enabled (holding the RTNL loc=
+k).
+By removing the local_bh_disable() wrapper, usbnet_skb_return() is now call=
+ed
+with preemption enabled.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+This leads to issues inside usbnet_skb_return(), such as evaluating a per-C=
+PU
+pointer in preemptible context, which triggers a kernel warning:
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+	struct pcpu_sw_netstats *stats64 =3D this_cpu_ptr(dev->net->tstats);
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+Additionally, on 64-bit systems, u64_stats_update_begin_irqsave() is a no-op
+regarding preemption/interrupts. Without BH disabled, the update lacks mutu=
+al
+exclusion against the network softirq on the same CPU, causing data races a=
+nd
+lost statistic increments:
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+	flags =3D u64_stats_update_begin_irqsave(&stats64->syncp);
+	u64_stats_inc(&stats64->rx_packets);
+	u64_stats_add(&stats64->rx_bytes, skb->len);
+	u64_stats_update_end_irqrestore(&stats64->syncp, flags);
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+On 32-bit systems, if the thread migrates to another CPU after this_cpu_ptr=
+()
+but before taking the IRQ lock, it will concurrently modify a different CPU=
+'s
+stats while that CPU processes softirqs. This race can corrupt the syncp
+seqcount, causing stat readers (like ndo_get_stats64) to spin infinitely and
+lock up the system.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261006120825.3421=
+64-1-omermetekaya0@gmail.com?part=3D1
