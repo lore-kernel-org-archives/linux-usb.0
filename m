@@ -1,382 +1,173 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427074756B5
-	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 10:30:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73916475320
+	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 10:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791369080; cv=none; b=i46Zvj0pIWRtLDSZ9GCvLzgQyH+9PJ5+KMzBK2ZO+0y/U7e9+uRQmD5F7culDihUyc+StzPTf1XgYg543anviI3IRiUbN9ZqYHGTFdGq5knxf6OpZ9eY2A2TRb2WiGcDMWsPDvkX1gHaTJzuzwzI3s6v/otk/cu5qTArnbw6GRg=
+	t=1791369876; cv=none; b=F4MDuGsmhrvYCTXbjKPGFYYZPSwnw/lxw+2nRUiEFLQXp/MHNpVkV0fN0lRpz6kB6tNhFzzRQjEeW+FQO3ccOWCuydWAr/G0JXAehMRpj9XiH/cD8LP0T6zPcRjnI8XWW2jRL39t1uIZWOV7T/DYK1lWR9xgKAD7pqADqJ2JnkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791369080; c=relaxed/simple;
-	bh=2Oq02Ag73IJI0zUdhs1Jy1pcp6ZoUz6Wdrk6BSI/8cE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oizapmDl3iEUeE2Iu8+kZlLKxZlUs3OfjbQtXbEw86tMWCcQCzEjHbh6rThrs58VXYSPvLKVls79OZlT9125OKC4N4R86Uq1l53dBel6j0PuMHRMqsx2YVB9cFlPoaP6JM2MOQORRzd6jbSuXKXiyfTvDD1P8bO3EGUeYNUrBBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KU3OMcRU; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791369876; c=relaxed/simple;
+	bh=eKox8evQuuqmlMoftMlCpCcWaOJ7gtEXdoiFAv7AlSo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ExIffK3paw5pMEitN+y1rQn3OfYRuaC3gs0o7KMszvBX0dbRzSVRrdL/WpTklixT2/gjcHv5lY1NF8kPekb9vkWpvvHF15iyfwMPSBVmtuTM8AelrE4DXMFlpl3ZKurij6u131PCUpvjpKuitnjP5L695jDu6S8VTkwSRFTRAcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=MF6cfFdE; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dC+5n22S; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KU3OMcRU"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a061a13884so14356765e9.3
-        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 03:30:58 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="MF6cfFdE";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dC+5n22S"
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6977jWmJ2481340
+	for <linux-usb@vger.kernel.org>; Wed, 7 Oct 2026 10:44:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	37Vc/NsNY9W2/CoPj7zYbbW2QO5iD2sTtuJnT5u5AiU=; b=MF6cfFdEdHHNKFgD
+	ZgKaNuOLVTAYvrGxYag1R+N6qQLqVl9tIVLAL62OKRzZihLVXllR5K6S/sihyMDR
+	eY9fq5KrM/7BA2RqFV+rs+8IMVnR2sl5q0MBNNGohRJOaJgQoFZU/MzHMRvr/b/Q
+	Sli05XiINqSaMVynwvdzNNRMLfdD70wXxTI7u1YI2r2itP4bz88onwKVQ5SCdci1
+	SAJRko4zuupUdd7mRRUFGJpcVuym/rld1Kb27MFnNZHEh5d5cgxLfSPPhaMGDFrq
+	e3pLIgzobxuk1jVhQcjvExPbp5i0uVLNW+suDrKTLPF2bhTmieGNYdUILbQ7jM+3
+	Th7VPA==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h5c6u1q74-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 10:44:06 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3a6d95d6e08so3055260a91.1
+        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 03:44:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791369056; x=1791973856; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uFa4YN23QMemWPIiuLjcyNrHGM9W5a/ufggnVVFeA1U=;
-        b=KU3OMcRUMj4HnX0aStplTGOedoPUkfBiY9FBYyXtRovXwW+oTWguYs5lozWNruP5cx
-         DIfpv82WfDlvHMDXmSZa2mVNoqN2oDR+khocbLwErZOqO/7+QICaybNmYojA6pRdRP4C
-         cdTqaIV13w/I8t+YX60VzAB07hAy1r2Ikn/nvFpuQ6cmExRXze6T4yo4lOSNAU0/1pQV
-         bfNG2GUlquxjaahlvV8vNMAuQp2RMm5Tu1Y4c+NSpAQ7eezR48dLEQ6o07BrhgjZ22/A
-         6NKja63gsZfsiq/rTvaJxWRrTJw3uuFUq96WSR8q8eMvP2FyADTSNoMbMRgqTtbdco52
-         LtvQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791369056; x=1791973856;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=oss.qualcomm.com; s=google; t=1791369846; x=1791974646; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=uFa4YN23QMemWPIiuLjcyNrHGM9W5a/ufggnVVFeA1U=;
-        b=ijkjr5La4gCdis6rRaoF+iYcoowa8Dr1mFNQFX6CEzMwamXnwZGtHNNB29ueQT63jo
-         2rt9HlaYPTjw0lOEl/6NynkgjfUE9aG6jur7TJZHCzK6poVZWAcdcl0HmJ2/aZJMvxcV
-         azzgJeC1GPUVcAgO4Yn7qEwD9cExNNW+Hio6QVQGUTwM+DunQ7WCTfR4n4hH83IiCU73
-         3FTndG+AFTCOEYsp9iDlvihb+B0/gsyr08ta7uPi1iyGfn/Mw/D77HMOhvjlVV7CBHpF
-         XubrrRw7NIGBfQFdiL2o8rC3v0pzJrVKDek/KBxHEt6Jewo3vFXY3grVUW9VZ4sGn8VG
-         X8Zg==
-X-Forwarded-Encrypted: i=1; AKwUvBzAIIsNfrSDE0ITckR2YEqj2rX07g0WMfG/YYKoxagKOWPMZvS4YX1QwnJKfU2q0C8+uQGPVy/L4FI=@vger.kernel.org
-X-Gm-Message-State: AFuF++luW8Ip2bUAUa+Bu42CJYgUpvykWYxGeQmzG9onf1M5sD4TKu1b
-	IyP+zNCNVHEdSf/6JjinmaQYsZdNSoiM3od8N0fdzQsoIh0LxIcDcRsgDJOrJJQ3
-X-Gm-Gg: AYBFou0SW19+kMktnYfA5ht2chL3l2mKXukLXXHoIdipWpudc1VFIMEFQ3bQzt3//Jh
-	VwTZVfZS8+z1LizHFbgVBWRVWsaGdRESd2cZsjXZFRlxR7CY5wOu3sFUaDjxfTTOqwQE8O+MLQ+
-	19xASB2wY8zjU+Rvmv3CDpSRT6K3sCQOCgYhf8DMTbA6KDwadjuTeqVYaPxLezZbpeBjTvKBcbv
-	Z60sSte/D5rUHx26vppjLyliMDDLg+RSJeIJymX2kNW2m48SRW6/bkjClxjl2eyMSk29F7tcUyQ
-	pTtZyC8jIb5q9zo9gBJ1XhmCIGoBLUCNXYzuje6h7woVMZcpWTJMDyqzMvBiXIR1AxaLor1XLCv
-	Jfg0Qogz4EWMUUXWjQFZ+LeRIvD0UBpq51LbXdkqOfP8Oq2OjAX+FW/gke3miMDx0zQkk5rUEMZ
-	Q3sH25QtN/pTcFaDBJ6Q8U7j817IR9fkdp1TEg/TZpJAW7z4AvywytmPTD2ufcmFVGn92dofYou
-	DJ0xd6oDxk=
-X-Received: by 2002:a05:600c:1d23:b0:49f:fe7e:dc61 with SMTP id 5b1f17b1804b1-4a18008560fmr28212025e9.0.1791369055537;
-        Wed, 07 Oct 2026 03:30:55 -0700 (PDT)
-Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17f493761sm91946455e9.2.2026.10.07.03.30.54
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 07 Oct 2026 03:30:55 -0700 (PDT)
-Date: Wed, 7 Oct 2026 12:30:47 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Pawel Laszczak via B4 Relay <devnull+pawell.cadence.com@kernel.org>
-Cc: pawell@cadence.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] usb: xhci: Add support for eUSB2v2 1024-byte
- bulk packet size
-Message-ID: <20261007123047.697f6b5a.michal.pecio@gmail.com>
-In-Reply-To: <20261005-eusb2v2-packet-size-v3-1-fde610a3c47a@cadence.com>
-References: <20261005-eusb2v2-packet-size-v3-0-fde610a3c47a@cadence.com>
-	<20261005-eusb2v2-packet-size-v3-1-fde610a3c47a@cadence.com>
+        bh=37Vc/NsNY9W2/CoPj7zYbbW2QO5iD2sTtuJnT5u5AiU=;
+        b=dC+5n22Ski5TTlqbqhbZiriDgyBW5fLaHzqQ8FXUxmdxxuCs9PUTBKf+SIp0/MoTQa
+         SuRpeqX029v0y2RW+ONO/136BOOtWyGvPCTVua1EZ3TlH5QYZizp248A5S7AKPCqJ9ni
+         VrwCZ10nkfrTnLlSSD4Qlucyleq5pE8fiEK1b6iBdo/vKFXc84TN5nNa7gJiHw/twjYO
+         QGmz2gp3jz7nvx5XOPPXhys5ZpECCf29dPvdnLtRiDVuNi5L1kr8CjpFDk1yALUYf5oG
+         9Df2OdfX4WnAYjRtXWkj2FX5cdIk/nPy5ZVpOIFkuNtmOggKmmXid6cFnBy+8ocu2OPM
+         76Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791369846; x=1791974646;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=37Vc/NsNY9W2/CoPj7zYbbW2QO5iD2sTtuJnT5u5AiU=;
+        b=uRuNKDFnyAws+Dpx1q2o9VINV/E7+4XE0aZGlA9FnznlSLr1z6wvTHXwshWCbc2Xyv
+         39Wn4RVNOhh6YYcS0SBRvBBfptKDbrghSgPBqpC8VDEmue/Lx5yc5ZgHZsy4Y92qNfIr
+         nZoixvbVerU4JDg6LMOkhT3EeZm3uNjNuAxE52tyGUSP1PTRbsdJKuf77EF3p7+7I3xW
+         1BKiOwtemms2iYgv4eNoZ+ShgkOywu/j7SsZKr3R4W18hBTt0E4SpCci9ViUWvygHXU+
+         rzjWZSAv5vD+n7Hu6B56F9s4T1BfsxapX3WDVb5IhkfT+mxDixE/rmT3TyB6Anzdvmv5
+         h1qg==
+X-Forwarded-Encrypted: i=1; AKwUvBwK14yGtxg+1lqZURn19Y3M3TUsTYdox0jrriLCThcapCb7t1QTpHiY9fbA5MZmaipSTAasPsv1X2E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIh5nMtrhxeDY75VASWalhwj6WzIzaWV6G8ndhBPA+JG7pH2EhJ
+	oM+bgQSFJDHDaRjwIIP1HjhNDVxY9NTLGikY4Xtay+ZHZpCkTkduX6r31XDvCFxZ90k3oz15VRU
+	BsR/dCDrSMdD1kzWIVvUQWlm1szWTJDTIQVXBqXRJPbRi1W3RZh5np+eBSxoQJ7o=
+X-Gm-Gg: AYBFou0tLCRboPItaNWKF0vuBoWV5vE46O5zg8Zu70SC2SqDy9Mfph4LqR9Pr9ERXhA
+	1OZv4rjYw7Gl5twpYhNeIhz19tYT+LcK3Yn9SYRIusOYLMaL1Dyuq7ToaVXx5infi5dUMadkbVz
+	auyLoNUitQW7YcDwpDbpJUg/lyEGja7v4GO2YfoCi6b5NXdb0pM752yNIwyiUmLeZ/lIjF4CszU
+	AS+XB2TyrRxq8ngAadVrhxGm7kGplQ+TWXz3+Axa3qZENOVxY+X5P2c8PcLpMlPR7a2OHnpxzcy
+	CWRKXx+yN3wuthjhs/AAYVCMmcbR/Ea8d5lCZxpoHAEz5JZHMYkiBCGFjZAb6/eGCfG9Qu8m3zJ
+	IhFW5RE3q7P45PTPbsGsqKzJ2gd20yURP0+P4Eg3kXW2oxCRyynTaktqaL29dywd796m840Qx4w
+	h+Mt1PB3ivL6Z4bA4dC0392u9fYNI=
+X-Received: by 2002:a17:90b:4b08:b0:39e:4c7f:7304 with SMTP id 98e67ed59e1d1-3a8a19b1e33mr1567177a91.27.1791369846056;
+        Wed, 07 Oct 2026 03:44:06 -0700 (PDT)
+X-Received: by 2002:a17:90b:4b08:b0:39e:4c7f:7304 with SMTP id 98e67ed59e1d1-3a8a19b1e33mr1567149a91.27.1791369845562;
+        Wed, 07 Oct 2026 03:44:05 -0700 (PDT)
+Received: from [10.79.117.106] (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a853e66560sm9393796a91.6.2026.10.07.03.44.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 07 Oct 2026 03:44:05 -0700 (PDT)
+Message-ID: <4318b36a-8fee-4207-a232-0581e2b2c69b@oss.qualcomm.com>
+Date: Wed, 7 Oct 2026 16:14:00 +0530
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 0/8] Improve Qualcomm EUD driver and platform support
+To: Elson Serrao <elson.serrao@oss.qualcomm.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Rob Herring <robh@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260929213513.2401005-1-elson.serrao@oss.qualcomm.com>
+Content-Language: en-US
+From: Gopikrishna Garmidi <gopikrishna.garmidi@oss.qualcomm.com>
+In-Reply-To: <20260929213513.2401005-1-elson.serrao@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA3MDA0MiBTYWx0ZWRfXyl2Pbg1ddi6M
+ hWKy0CIPx2fIdJQDo9q3qunWlweDOcYTqSKx8MFRoCr3GIffa36mxg0+IoYIr+SGcwrhgdDqHXC
+ 4n7lutHNCNmS/KyNIaTb82fq9HAHHoc=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA3MDA0MiBTYWx0ZWRfXwcLuxYvuQy6h
+ 2nViGru6Fyqt5xsDMerpyfrf+y4KxWlP3w7dLal3sYRQeODu/EH6DffXXP1XVeO6IsiZQ27L9hm
+ 56dS4KLqggiMquAMUy2yQF9lWcDKeyyyIDPdDhCOzjZZy8IgTW9Bw3Edz6jtDGgopRg6uHqbq5v
+ z8/QGooA+Fmy9mT01OyjRFt+jN6R+ZafNtFAWhI5lj0uwrYi3TNd/yxkNjcUyTKm5X6AjuBFPXV
+ hSIL/Mwc3Y2JYK7T/KMT6uCqNbqZ81soxldnP8UF/Ym/dSHdrr/22hOtLeiUGzx4AjGkGDrb5/1
+ ZEbTCPYA+rH2ZgjPBoKQQawj21dts1XUumU80TjKlFZDfvu/3s4/WuMZ+4R8UrDkJsKMgJw6LK1
+ XteevsDu5oGqTIbQEQc2sMV75tSgPBp6tCu0/gDM29QJntAGxA+tRP9g94hA/sJy43Exg/BUKYu
+ hB6O87jA89YL3HXBXIQ==
+X-Proofpoint-ORIG-GUID: aBubitFWrIV7T5YH9k56MvAIJiCVdF07
+X-Authority-Analysis: v=2.4 cv=T5EZ3PKQ c=1 sm=1 tr=0 ts=6ac62276 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=Ou0eQOY4+eZoSc0qltEV5Q==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=IB2eJBZJimwe791p62gA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=uKXjsCUrEbL0IQVhDsJ9:22
+X-Proofpoint-GUID: aBubitFWrIV7T5YH9k56MvAIJiCVdF07
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-07_03,2026-10-06_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 priorityscore=1501 impostorscore=0 malwarescore=0
+ clxscore=1011 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2610070042
 
-On Mon, 05 Oct 2026 10:18:24 +0200, Pawel Laszczak via B4 Relay wrote:
-> From: Pawel Laszczak <pawell@cadence.com>
+
+
+On 9/30/2026 3:05 AM, Elson Serrao wrote:
+> The Embedded USB Debugger (EUD) is a High-Speed USB on-chip hub that
+> provides debug and trace capabilities on Qualcomm platforms. The current
+> EUD driver, however, lacks essential hardware resources such as PHY
+> references and support for multi-port configurations. This series
+> addresses those gaps and introduces the necessary device tree updates
+> to enable testing and validation of the enhanced functionality.
 > 
-> The eUSB2 v2 specification (bcdUSB 0x0230) introduces support for
-> 1024-byte maximum packet sizes for Bulk endpoints in High-Speed mode.
-> However, an eUSB2v2 peripheral will revert its internal maximum packet
-> size back to 512 bytes after events like a bus reset, disconnect, or
-> deconfiguration.
-> 
-> To support 1024-byte bulk transfers on capable hosts, add a new
-> is_eusb2v2 flag to the usb_bus structure, populated via the HCCPARAMS2
-> E2V2C capability bit in the xHCI driver.
-> 
-> When an eUSB2v2 host configures an eUSB2v2 device, issue a specific
-> SET_FEATURE (USB_DEVICE_BULK_MAX_PACKET_UPDATE) request during device
-> configuration to switch the peripheral to 1024-byte packet mode, and
-> allow the xHCI endpoint initialization to accept up to 1024 bytes for
-> HS bulk endpoints.
-> 
-> Signed-off-by: Pawel Laszczak <pawell@cadence.com>
-> ---
-> Changes in v3:
-> - Add check for bulk endpoint existence before sending
->   BULK_MAX_PACKET_UPDATE. This avoids sending the request to devices that
->   only use isochronous endpoints, as they do not support it.
-> - Do not overwrite ep->desc.wMaxPacketSize to 1024. According to eUSB2v2
->   spec section 5.2, the endpoint descriptor must always report 512 bytes
->   regardless of the current operating mode.
-> - Rely on the eusb2v2_mps_active flag in xhci_usb_endpoint_maxp() and
->   xhci-mem.c to dynamically return 1024 for HS bulk endpoints when the 1KB
->   mode is active.
-> 
-> Changes in v2:
-> - Removed change in config.c: per eUSB2v2 spec section 5.2, conformant
->   devices always report wMaxPacketSize=512 in their descriptor regardless
->   of operating mode, so the warning suppression was unnecessary.
-> - xhci-mem.c: simplified HS bulk clamp
-> - xhci.c: moved is_eusb2v2 assignment into xhci_hcd_init_usb2_data()
-> - eusb_update_max_packet(): changed from void to int; returns error on
->   SET_FEATURE failure.
-> - Added eusb2v2_mps_active flag to struct usb_device to track whether
->   SET_FEATURE(BULK_MAX_PACKET_UPDATE) succeeded.
-> - Added hub.c: usb_reset_and_verify_device() now re-issues SET_FEATURE
->   after bus reset to restore 1KB mode. Failure triggers re-enumeration
->   to prevent a driver from operating with inconsistent MPS state.
-> ---
->  drivers/usb/core/hub.c      | 16 ++++++++++
->  drivers/usb/core/message.c  | 74 +++++++++++++++++++++++++++++++++++++++++++++
->  drivers/usb/core/usb.h      |  2 ++
->  drivers/usb/host/xhci-mem.c | 15 +++++++--
->  drivers/usb/host/xhci.c     | 10 ++++++
->  include/linux/usb.h         |  7 +++++
->  6 files changed, 121 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 24960ba9caa9..34cfc44c5df8 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -6252,6 +6252,22 @@ static int usb_reset_and_verify_device(struct usb_device *udev)
->  		mutex_unlock(hcd->bandwidth_mutex);
->  		goto re_enumerate;
->  	}
-> +
-> +	/*
-> +	 * Restore eUSB2v2 1KB bulk mode after reset (device reverts to 512
-> +	 * after any bus reset per eUSB2v2 spec section 5.2).
-> +	 * Only retry if the initial SET_FEATURE had succeeded.
-> +	 */
-> +	if (udev->eusb2v2_mps_active) {
-> +		ret = eusb_update_max_packet(udev, udev->actconfig);
-> +		if (ret < 0) {
-> +			dev_err(&udev->dev,
-> +				"eUSB2v2: failed to restore 1KB mode after reset (%d)\n", ret);
-
-This seems redundant because the function already logs errors.
-Or maybe the function shouldn't log them, if we want different
-messages for different call sites?
-
-> +			mutex_unlock(hcd->bandwidth_mutex);
-> +			goto re_enumerate;
-> +		}
-> +	}
-> +
->  	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
->  			USB_REQ_SET_CONFIGURATION, 0,
->  			udev->actconfig->desc.bConfigurationValue, 0,
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index 75e2bfd744a9..c8540d738a3e 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -2007,6 +2007,71 @@ int usb_set_wireless_status(struct usb_interface *iface,
->  }
->  EXPORT_SYMBOL_GPL(usb_set_wireless_status);
->  
-> +/*
-> + * eusb_update_max_packet - enable 1024-byte bulk mode for eUSB2v2 device
-> + * @udev: target device
-> + * @cp: configuration to be checked and enabled
-> + *
-> + * Per eUSB2v2 spec section 5.2, an eUSB2v2 peripheral will revert the
-> + * maximum packet size to 512 for bulk endpoints after bus reset, disconnect,
-> + * or deconfiguration.
-> + * This function sends the BULK_MAX_PACKET_UPDATE request to restore the
-> + * 1024-byte mode. It is valid only if the configuration has bulk endpoints.
-> + */
-> +int eusb_update_max_packet(struct usb_device *udev, struct usb_host_config *cp)
-> +{
-> +	struct usb_host_config *config = cp ? cp : udev->actconfig;
-> +	struct usb_hcd *hcd = bus_to_hcd(udev->bus);
-> +	struct usb_interface_cache *intfc;
-> +	struct usb_host_interface *alt;
-> +	struct usb_host_endpoint *ep;
-> +	bool has_bulk = false;
-> +	int i, j, a;
-> +	int ret;
-> +
-> +	if (le16_to_cpu(udev->descriptor.bcdUSB) != 0x0230 ||
-> +	    !hcd->self.is_eusb2v2)
-> +		return 0;
-> +
-> +	if (!config)
-> +		return 0;
-> +
-> +	for (i = 0; i < config->desc.bNumInterfaces; i++) {
-> +		intfc = config->intf_cache[i];
-> +
-> +		if (!intfc)
-> +			continue;
-> +
-> +		for (a = 0; a < intfc->num_altsetting; a++) {
-> +			alt = &intfc->altsetting[a];
-> +
-> +			for (j = 0; j < alt->desc.bNumEndpoints; j++) {
-> +				ep = &alt->endpoint[j];
-> +
-> +				if (usb_endpoint_xfer_bulk(&ep->desc)) {
-> +					has_bulk = true;
-> +					goto found_bulk;
-> +				}
-> +			}
-> +		}
-> +	}
-> +
-> +	if (!has_bulk)
-> +		return 0;
-
-Control flow ensures that has_bulk is false here and true below.
-The variable is redundant.
-
-> +found_bulk:
-> +	ret = usb_control_msg(udev, usb_sndctrlpipe(udev, 0),
-> +			      USB_REQ_SET_FEATURE, USB_RECIP_DEVICE,
-> +			      USB_DEVICE_BULK_MAX_PACKET_UPDATE, 0, NULL, 0,
-> +			      USB_CTRL_SET_TIMEOUT);
-> +	if (ret < 0) {
-> +		dev_warn(&udev->dev, "eUSB2v2 1KB update failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  /*
->   * usb_set_configuration - Makes a particular device setting be current
->   * @dev: the device whose configuration is being updated
-> @@ -2123,6 +2188,15 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
->  	if (dev->state != USB_STATE_ADDRESS)
->  		usb_disable_device(dev, 1);	/* Skip ep0 */
->  
-> +	ret = eusb_update_max_packet(dev, cp);
-> +	if (ret < 0)
-> +		dev->eusb2v2_mps_active = 0;
-> +	else if (cp && le16_to_cpu(dev->descriptor.bcdUSB) == 0x0230 &&
-> +		 hcd->self.is_eusb2v2)
-
-Hmm, this code could be simpler if the function returned errors on
-unsupported devices or host controllers. Would that cause problems
-with anything?
-
-> +		dev->eusb2v2_mps_active = 1;
-> +	else
-> +		dev->eusb2v2_mps_active = 0;
-> +
->  	/* Get rid of pending async Set-Config requests for this device */
->  	cancel_async_set_config(dev);
->  
-> diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-> index a9b37aeb515b..c51e4261085c 100644
-> --- a/drivers/usb/core/usb.h
-> +++ b/drivers/usb/core/usb.h
-> @@ -89,6 +89,8 @@ extern int usb_major_init(void);
->  extern void usb_major_cleanup(void);
->  extern int usb_device_supports_lpm(struct usb_device *udev);
->  extern int usb_port_disable(struct usb_device *udev);
-> +int eusb_update_max_packet(struct usb_device *udev,
-> +			   struct usb_host_config *cp);
->  
->  #ifdef	CONFIG_PM
->  
-> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-> index 997fe90f54e5..37a5f9e9bd6d 100644
-> --- a/drivers/usb/host/xhci-mem.c
-> +++ b/drivers/usb/host/xhci-mem.c
-> @@ -1479,10 +1479,19 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
->  	/* Allow 3 retries for everything but isoc, set CErr = 3 */
->  	if (!usb_endpoint_xfer_isoc(&ep->desc))
->  		err_count = 3;
-> -	/* HS bulk max packet should be 512, FS bulk supports 8, 16, 32 or 64 */
-> +
-> +	/*
-> +	 * HS bulk max packet should be 512 (or 1024 for eUSB2v2),
-> +	 * FS bulk supports 8, 16, 32 or 64.
-> +	 */
->  	if (usb_endpoint_xfer_bulk(&ep->desc)) {
-> -		if (udev->speed == USB_SPEED_HIGH)
-> -			max_packet = 512;
-> +		if (udev->speed == USB_SPEED_HIGH) {
-> +			if (udev->eusb2v2_mps_active)
-> +				max_packet = 1024;
-> +			else
-> +				max_packet = 512;
-> +		}
-> +
->  		if (udev->speed == USB_SPEED_FULL) {
->  			max_packet = rounddown_pow_of_two(max_packet);
->  			max_packet = clamp_val(max_packet, 8, 64);
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index a54f5b57f205..b4a3bdf88fb4 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -2951,6 +2951,12 @@ int xhci_usb_endpoint_maxp(struct usb_device *udev,
->  {
->  	if (usb_endpoint_is_hs_isoc_double(udev, host_ep))
->  		return le16_to_cpu(host_ep->eusb2_isoc_ep_comp.wMaxPacketSize);
-> +
-> +	if (udev->eusb2v2_mps_active &&
-> +	    udev->speed == USB_SPEED_HIGH &&
-> +	    usb_endpoint_xfer_bulk(&host_ep->desc))
-> +		return 1024;
-
-Is the check for USB_SPEED_HIGH necessary?
-Is eusb2v2_mps_active supposed to be set at other speeds?
-
-One tricky edge case is a high-speed device failing to restore
-high-speed signaling after reset, but at a quick glance this seems
-to result in hub_port_init() error and abort of the reset flow.
-
-> +
->  	return usb_endpoint_maxp(&host_ep->desc);
->  }
->  
-> @@ -5371,6 +5377,10 @@ static void xhci_hcd_init_usb2_data(struct xhci_hcd *xhci, struct usb_hcd *hcd)
->  	xhci->usb2_rhub.hcd = hcd;
->  	hcd->speed = HCD_USB2;
->  	hcd->self.root_hub->speed = USB_SPEED_HIGH;
-> +
-> +	if (xhci->hcc_params2 & HCC2_E2V2C)
-> +		hcd->self.is_eusb2v2 = 1;
-> +
->  	/*
->  	 * USB 2.0 roothub under xHCI has an integrated TT,
->  	 * (rate matching hub) as opposed to having an OHCI/UHCI
-> diff --git a/include/linux/usb.h b/include/linux/usb.h
-> index 25a203ac7a7e..57fb4c552740 100644
-> --- a/include/linux/usb.h
-> +++ b/include/linux/usb.h
-> @@ -464,6 +464,10 @@ struct usb_bus {
->  					 * the ep queue on a short transfer
->  					 * with the URB_SHORT_NOT_OK flag set.
->  					 */
-> +	unsigned is_eusb2v2:1;		/*
-> +					 * true when HC controller supports
-> +					 * eusb2v2
-> +					 */
->  	unsigned no_sg_constraint:1;	/* no sg constraint */
->  	unsigned sg_tablesize;		/* 0 or largest number of sg list entries */
->  
-> @@ -625,6 +629,8 @@ struct usb3_lpm_parameters {
->   * @usb2_hw_lpm_allowed: Userspace allows USB 2.0 LPM to be enabled
->   * @usb3_lpm_u1_enabled: USB3 hardware U1 LPM enabled
->   * @usb3_lpm_u2_enabled: USB3 hardware U2 LPM enabled
-> + * @eusb2v2_mps_active: 1024-byte bulk mode is active and must be restored
-> + *	 after bus reset.
->   * @string_langid: language ID for strings
->   * @product: iProduct string, if present (static)
->   * @manufacturer: iManufacturer string, if present (static)
-> @@ -708,6 +714,7 @@ struct usb_device {
->  	unsigned usb2_hw_lpm_allowed:1;
->  	unsigned usb3_lpm_u1_enabled:1;
->  	unsigned usb3_lpm_u2_enabled:1;
-> +	unsigned eusb2v2_mps_active:1;
->  	int string_langid;
->  
->  	/* static strings from the device */
-> 
-> -- 
-> 2.43.0
+> Below is a high-level block diagram showing the EUD and its connections.
 > 
 > 
+> 			              EUD Block
+>   	                   +------------------------------+
+> 			   |                              |
+> [Conn-0]-->[USB2PHY-0]---->|-------- Path 0 --------------|-->[USBCtrl-0]
+> 			   |                              |
+> [Conn-1]-->[USB2PHY-1]---->|-------- Path 1 --------------|-->[USBCtrl-1]
+> 			   |                              |
+> 			   |      +------------------+    |
+> 			   |      |  EUD Debug Hub   |    |
+> 			   |      +------------------+    |
+> 			   +------------------------------+
+> 
+> The series has been validated on the Qualcomm Dragonwing Q6 platform
+> (RB3 Gen2 board), confirming successful OpenOCD connectivity to the EUD
+> interface. For detailed usage instructions, refer to Qualcomm’s Linux
+> kernel debugging guide:
+> https://docs.qualcomm.com/bundle/publicresource/topics/80-70020-12/debugging_linux_kernel.html#debug-using-openocd
+> 
+> 
+Tested patches 2-7 on Glymur-CRD, EUD port selection and role switching
+work as expected. Patch 8 (Kodiak DT) not tested.
+
+Tested-by: Gopikrishna Garmidi <gopikrishna.garmidi@oss.qualcomm.com>
+
