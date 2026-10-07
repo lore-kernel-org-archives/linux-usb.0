@@ -1,152 +1,154 @@
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7BE448B89
-	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 17:55:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0039D3FF886
+	for <linux-usb@vger.kernel.org>; Wed,  7 Oct 2026 19:11:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791395713; cv=none; b=BZcUfMy56Gdh/FKVglIBu6W3XZe6L6XrCq8mIJDMcaTc6dctkHcfU/a+AgUmreTq6yAoIUkjNpSlUaEnsV2KL2EzKhLxVhCxyGpymKHAJpMIO5v5QsWkcD36mZP1Tkq4ifOQFRFGM1F/JY6L+8Kj7YFscJz0M1roWgEU2WOqHkg=
+	t=1791400304; cv=none; b=PrGmWNZRv8SIrlb3jTgc6F5uWPiZFEtQoDjeCACWIrx9EUITdXTWH2OeQITwcZWXVSFtpIP45zrsp6oxw9tTW1LirgehLxu9hkIbP1GZU0ZYRLLQUOzYQzLoAZMN0BjhR5cjWAiVkLKyZNgzikdxx4S+vR6hXu7iiAEBnE92yfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791395713; c=relaxed/simple;
-	bh=ke688EiZv7Hz5A3yoyZYE6WoFX7dc/lqhTa8W6a13dU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=C29NFB7CQiOMzcj83yIvqIBQD+J2/WwzV8ykZpfKY4r84RopYLenmWOLSlhz4GoCFXQLetiRmewSpq+mdBjo6lenVQN6DUx7vEyZL221npwKrYF8Fo3YJqC7agK8fHQhWuasUrKuXCG2W366LYeLWTvj24dXMJML1fHhOs7UthI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=en7MgX5J; arc=none smtp.client-ip=209.85.222.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1791400304; c=relaxed/simple;
+	bh=c6/wsWEgIoAqhhn5+zQ/eb4VCbi0Mkt3bYBr7jxLGpU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EkIUAL8EuPQlo1GLV+Goqz0SoT7PIThPSgOEs/Lr1PStCfID2OI7Yledf6za5ygmPNImkyq/j18O8I3ga3tm3ZUrCcCZUeD+IHSbJ8lX61XZvQYiKOCo46r7oredLk4yZDPcsrztcDmaWWEKfF3XArQQ49brUQtsh8kZw7m9rpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EIKs55Ts; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="en7MgX5J"
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-93e76469b93so232094385a.0
-        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 10:55:11 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EIKs55Ts"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a1635f7c89so44309055e9.2
+        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 12:11:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1791395711; x=1792000511; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=UngZ8k3YNt3VJyCBdJrwK5aCUhaIZau8MCEL0x/UbHY=;
-        b=en7MgX5JdzfWnY4lbrbnRDKoNvkk5EScS8Zlw89NuHjP4ePEayP9LogDgY4VrsGUVp
-         q5LLdyePhpgKRo62Qwgz9iDEdrDsjJnIU9NGOkBevsamWzf3r31r7fRaa866ta+eMGX2
-         QUJLhTYGpzEqUkW535/KGBjclJJf698ZCRCmUKRf+ZiSriRRtP+EuPzePhvbTf+8+oaK
-         RZkHCdH6qoRI3lM8wUezHP6wIQHK0VolROAKgTEqmNvDDEaPSdLmpYiK40ec13rXECJh
-         lFRbkk/ILKsYxsCKOa4JIiMVRggUc7C7LJyZV7DXf+N3ebqkhh1d1UGmLHqliG3hTahM
-         4+9w==
+        d=gmail.com; s=20251104; t=1791400301; x=1792005101; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=x17halSewF1CqvQRuX6zQF0SoDUJ4edQrK0pXUMAalU=;
+        b=EIKs55TsSHMsE7RwTFgu56z6qZfezDZZujNk7qm6LGVx7G0XElWHlUFx35hov8vAiJ
+         msu7MA5fPZhGhXA15+uJAD1LWM/qIQpb+/n6VQn39opvhczeaxASY3/iK0RROu8Y2Okn
+         TGZgYTAaKLxCgAbB0qP+7MIbVrs06Ne5gI4ZFZMAnKk9pNCa4pUAnMZDMy8zy3ysf0dw
+         ezEETbA87U463gjP7Q5pLH1z5R7Rj8DId+0FYc+aw/Z887nA+bP4W84b28259/kcpXHP
+         965Yttk9Nqi/BBQt/xD3QGE5C1XR2moPQZQZOof9zdT7PwivE3Oh2PENIfyFm1gQVA/Z
+         o6Hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791395711; x=1792000511;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=UngZ8k3YNt3VJyCBdJrwK5aCUhaIZau8MCEL0x/UbHY=;
-        b=BjC5dVaVUOaADQdLhAJw1uXbyZLap2QQsy7Pd6jUydS820+fA5JGZkKBjUZFF0qSaw
-         lyA2bT7uslTk4Wezj+xevScieK5gJjcMfeP72zBNhpahWuOnmJDr/Qy8Lp1RxzC7eYqL
-         5RUp6P1AxJ4dQeC5g58GNPlazzwuTh5ibd+YLsrIZh1BGDTrKhY9sM37Ud0f++Sd2nfs
-         47ycHG1OT58pzSb0i/hHu9RpvZjavQgbR4KurpeYKwT6nyWM0pb3C1ycLDMNNcPkd7k7
-         Ydu7IYCg0q4Qe65+mLFoODwrgPMce0931vorVyboWerB8XAtFL+EbtHoeuUc0Yejs6ZA
-         o1vw==
-X-Gm-Message-State: AFuF++m8YBsOS9jeIrTmsnJowdubJB9Kos2yYu4GEa2RjvGs/J3YqEJY
-	w3AWGgID4Nw77shLNzs7xvLQOB9BTA19oO1kkz6g/zQthPFx78Q3rTdBXcRrmNQyCg==
-X-Gm-Gg: AYBFou1hrb3f34ZbN9L8Ou1DkWH2oHWdz+zAXDZxf5dfM12q1VxlNHabAVkoRU4zELM
-	c5QaAVc2hR5YqGCGgdPqBYDldBc5CmNIs2MfhHPzPEyVbWPYW3qLDopj2ipVXszT5FSDHZIWXEw
-	muhCGK0aWWpDHxm1bi2pwxEJQGD5zDr3SNzEWrmQgC432AJmkLtEWatBc5atZimwvHD1Soxb8ir
-	cMUs8TaIqc4BsdGJaIftzYw4B0m9owGdS59DSPsuihj1TiwLbtcgX6lM/XhjWXw/CtiG2QyPwtd
-	9xjAH+fxSLYJkK77+v1bJ/Yq9wA0Vd3eaKOzo8wZBBt+jetsj3SHr5jBGAejAcjspZ5dkwZMbk4
-	zG/RpxK4JTTJt/6VN2oeFT0SXdyb7tVUyDMC9ywUBYlURJNXKpIYxrplP9Syvl8xskjrWDU0dnh
-	V7sI673IlO9CkqReBikDxcszJQyrcWbieYto3jKdNTVKFc8zGi6TlNHwDvvd7J3+W7pD5HTWVY+
-	xCaR6aSAUnyR2UPQXH7kLnalUYTD9ktrYWj3Hi4bg==
-X-Received: by 2002:a05:620a:4081:b0:93c:66da:ee08 with SMTP id af79cd13be357-93e9b76c7bamr579983785a.14.1791395710620;
-        Wed, 07 Oct 2026 10:55:10 -0700 (PDT)
-Received: from rowland.harvard.edu ([2607:fb60:1011:2006:2008:aeb7:73d7:d8ff])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93e99160036sm274186885a.25.2026.10.07.10.55.09
+        d=1e100.net; s=20260707; t=1791400301; x=1792005101;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=x17halSewF1CqvQRuX6zQF0SoDUJ4edQrK0pXUMAalU=;
+        b=hEuHs6dywWtQAcQNYRMBJDC4hBjUtwSmMCR7AcAx6/sVHECkzd0UeCgHlN/EBybsNz
+         v50w4/g0WYf7lumvj4I2VcP2fysqdnA4skorlm7SuNDNQL+isHfEVlecUuOHxzVCB63L
+         HtNLIbQtVthu1D75Vy+Vt/aZfuJ5NJ06jARTwczaXVXirE1FhIfm8UHdG3i+9VEcjleG
+         mZCH60oAegfSBgEM02n/++p+rGbu3PZeCUwq9pTN/0m1FAlAmc4TI7sWnu7MjcEB6bGL
+         GdiVPeiiEQ4oj3ELOO3hFlATmnakogPgHfIEHunDMLaoP/ODZb4xWtANQHfZfWiBCp6t
+         wIkg==
+X-Gm-Message-State: AFuF++kQZQ6SUhsytJlSPSMVeFhLM/6myuD0bLRK+6bzFgypYLI/cIAj
+	oa/zKUzvyrCauhrgA45DF81aS+VpXHaKOs9HtIsV98Wio9kq7RezBH/Drt3qE6BkBj0=
+X-Gm-Gg: AYBFou0AAlQKAjZLgjzWhnEPKJHofuhpsT2yDuGyw0faC6BXSR4xYSxEawqBhszAdgP
+	JXYw4/o4/rAwCNmyONNl6JwcLaqs95JDg5PLw9xx4Nzxmr4knitza8RBHMAsT/by9EEIyEiXoRp
+	YlsYDDjqOxlQPgblk4/vfKGKZDJ799F7wiJlMIuB01DaTvjGqkh0dM8fwLZX8NIumfY+Ifqggjz
+	M2dPm9VheLY0gqWvfGFzixqQGrcBLmb6YnMKyHwZevVDAu6g7U25rBGtlygewj1DIOZQeW072dS
+	Q1hufN7p7aEZTMG39rII/aGY3zETWtysOQaGzTboXXxhvXk2sVEB4cMkCdN31NVcOTOmxz7zf3X
+	JBVgUaJftdYxueqkv0/8vhysrPF0951RR5UrAFx0ltQGcye66xmQ7PEZKnYW5cWkFALL163Mb86
+	YetQUQiS+UAy3vB0o8u+h94GGNgCnTl9NmSKGpPA3lXwJg5n0VbDxrGj70ZNv9gRwHdkrn0C2qi
+	f/RJITjww==
+X-Received: by 2002:a05:600c:3b89:b0:4a0:159b:d2a9 with SMTP id 5b1f17b1804b1-4a18043cc39mr74788595e9.24.1791400301158;
+        Wed, 07 Oct 2026 12:11:41 -0700 (PDT)
+Received: from unicorn.lan.internal ([2a0d:3341:b894:4600:81be:9245:330e:d4a3])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a17f48ab77sm92276425e9.1.2026.10.07.12.11.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2026 10:55:09 -0700 (PDT)
-Date: Wed, 7 Oct 2026 13:55:07 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Giuseppe Piscitelli <ooonea@gmail.com>
-Cc: linux-usb@vger.kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-api@vger.kernel.org
-Subject: Re: [RFC PATCH] USB: core: emit a device-level modalias
-Message-ID: <afcecb34-0024-460f-bc21-a7f2b1754d23@rowland.harvard.edu>
-References: <20261007161721.60593-1-ooonea@gmail.com>
+        Wed, 07 Oct 2026 12:11:40 -0700 (PDT)
+From: Giuseppe Piscitelli <ooonea@gmail.com>
+To: linux-usb@vger.kernel.org
+Cc: stern@rowland.harvard.edu,
+	gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org,
+	linux-api@vger.kernel.org
+Subject: [RFC PATCH v2] USB: core: emit a device-level modalias
+Date: Wed,  7 Oct 2026 21:11:30 +0200
+Message-ID: <20261007191130.8652-1-ooonea@gmail.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <afcecb34-0024-460f-bc21-a7f2b1754d23@rowland.harvard.edu>
+References: <afcecb34-0024-460f-bc21-a7f2b1754d23@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007161721.60593-1-ooonea@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Oct 07, 2026 at 06:17:21PM +0200, Giuseppe Piscitelli wrote:
-> USB device drivers can load from interface modaliases after a userspace
-> client has already configured the device. Loading apple-mfi-fastcharge
-> then reprobes the generic binding and interrupts usbmuxd transfers.
+On the first insertion of an iPhone (05ac:12a8) after boot, an already
+running usbmuxd can select USB configuration 4 before the charging driver
+apple-mfi-fastcharge loads. usbmuxd is a userspace daemon that uses libusb
+to communicate with Apple devices; apple-mfi-fastcharge is a USB device
+driver that enables their higher charging current.
 
-This description is very confusing for anyone who doesn't already know 
-what you're talking about.  Are you referring to some particular type of 
-device?  If not, why mention apple-mfi-fastcharge and usbmuxd?  If yes, 
-you should say what type of device and why apple-mfi-fastcharge and 
-usbmuxd would get loaded in the first place.
+USB device uevents have no MODALIAS. The charging module instead loads
+from an interface uevent. Its registration reprobes the device, unbinds
+the generic driver and calls usb_set_configuration(udev, -1), tearing down
+the interfaces and interrupting usbmuxd's transfers.
 
-> Emit a modalias on the device event, with unknown interface fields left
-> as wildcards.
+Emit a modalias in the USB device uevent, using wildcards for interface
+fields because no particular interface is described by this event. This
+allows udev's kmod builtin to load matching device drivers while handling
+the device add event, before broadcasting that event to libudev listeners.
+libusb's udev hotplug backend listens for this broadcast, so usbmuxd sees
+the arrival after the charging module has finished loading and reprobed
+the device, rather than before a later interface event loads it.
 
-Why?  What does this accomplish?  How does it prevent 
-apple-mfi-fastcharge from interrupting usbmuxd transfers?
+A slow udev worker delays both module loading and the broadcast; it does
+not reverse this ordering. This addresses hotplug through the udev
+backend, not clients reading raw kernel events or scanning devices before
+udev has finished, and does not synchronize later manual module loading.
 
->  The existing udev module loader can load matching modules
-> before consumers receive the processed device event.
+Signed-off-by: Giuseppe Piscitelli <ooonea@gmail.com>
+Assisted-by: OpenAI Codex
+---
+v2:
+- Explain the iPhone, charging driver and usbmuxd interaction.
+- Describe synchronous module loading before the libudev broadcast,
+  including the ordering when udev runs slowly and its scope limits.
+- No code changes.
 
-Why do you say "_existing_ udev module loader"?  Are you trying to 
-reassure people who might think there was a _nonexistent_ udev module 
-loader?
+v1: https://lore.kernel.org/linux-usb/20261007161721.60593-1-ooonea@gmail.com/
 
-What processed device event?  Is this the uevent added by the patch or 
-is it something else?  In what way does it get "processed"?
+Tested on x86_64 with Linux 7.2.9 and an iPhone (05ac:12a8): first
+insertion after boot without module preload loads the charging driver,
+keeps configuration 4 and works with iLoader. Tracing the earlier udev
+builtin experiment showed driver registration before usbmuxd selected
+configuration 4. No delayed-udev runtime test has been performed.
+The usb-next function passes 18 source-extracted cases; a full usb-next
+kernel has not been built. OpenAI Codex assisted with diagnosis, the
+patch, the test harness and this description.
 
-Sure, the udev module loader _can_ load matching modules before 
-consumers receive the processed device event.  But udev might run slowly 
-and not get around to loading matching modules until later.  What will 
-happen then?
+ drivers/usb/core/driver.c | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-Alan Stern
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 3c3bbaf89..29d1acba9 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -954,6 +954,17 @@ static int usb_uevent(const struct device *dev, struct kobj_uevent_env *env)
+ 			   usb_dev->descriptor.bDeviceProtocol))
+ 		return -ENOMEM;
+ 
++	if (is_usb_device(dev) &&
++	    add_uevent_var(env,
++			   "MODALIAS=usb:v%04Xp%04Xd%04Xdc%02Xdsc%02Xdp%02Xic*isc*ip*in*",
++			   le16_to_cpu(usb_dev->descriptor.idVendor),
++			   le16_to_cpu(usb_dev->descriptor.idProduct),
++			   le16_to_cpu(usb_dev->descriptor.bcdDevice),
++			   usb_dev->descriptor.bDeviceClass,
++			   usb_dev->descriptor.bDeviceSubClass,
++			   usb_dev->descriptor.bDeviceProtocol))
++		return -ENOMEM;
++
+ 	return 0;
+ }
+ 
 
->  Keep interface
-> modaliases and the driver teardown paths unchanged.
-> 
-> Signed-off-by: Giuseppe Piscitelli <ooonea@gmail.com>
-> Assisted-by: OpenAI Codex
-> ---
-> Tested on x86_64 with Linux 7.2.9 and an iPhone (05ac:12a8). With no
-> Apple module preload, the first insertion after boot loads the module,
-> keeps configuration 4 and works with iLoader without restarting usbmuxd.
-> The current usb_uevent function also passes 18 source-extracted cases.
-> 
->  drivers/usb/core/driver.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> index 3c3bbaf89..29d1acba9 100644
-> --- a/drivers/usb/core/driver.c
-> +++ b/drivers/usb/core/driver.c
-> @@ -954,6 +954,17 @@ static int usb_uevent(const struct device *dev, struct kobj_uevent_env *env)
->  			   usb_dev->descriptor.bDeviceProtocol))
->  		return -ENOMEM;
->  
-> +	if (is_usb_device(dev) &&
-> +	    add_uevent_var(env,
-> +			   "MODALIAS=usb:v%04Xp%04Xd%04Xdc%02Xdsc%02Xdp%02Xic*isc*ip*in*",
-> +			   le16_to_cpu(usb_dev->descriptor.idVendor),
-> +			   le16_to_cpu(usb_dev->descriptor.idProduct),
-> +			   le16_to_cpu(usb_dev->descriptor.bcdDevice),
-> +			   usb_dev->descriptor.bDeviceClass,
-> +			   usb_dev->descriptor.bDeviceSubClass,
-> +			   usb_dev->descriptor.bDeviceProtocol))
-> +		return -ENOMEM;
-> +
->  	return 0;
->  }
->  
-> 
-> base-commit: 42bcac323cc3b16566fed8c5b250318ad02a0de0
-> 
+base-commit: 42bcac323cc3b16566fed8c5b250318ad02a0de0
+-- 
+2.54.0
+
