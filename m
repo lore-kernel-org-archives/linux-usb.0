@@ -1,96 +1,108 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C2B4391845
-	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 09:13:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FCDC483BE5
+	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 10:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791450831; cv=none; b=HXSm/oYK+T8JIRu3i0IfUYRFkCu9iNTKj2rBowYNs1tEuISYUm/yQJaMMGh81h4aaZoBNc5OTTawpSzyTF5cPPdZYRguZgD8j2VOPIuKWDtVqjwC+yS/roVkwidhHPRqyUCzpG0IYkGpnNRkvzZcM1Fu+YUUVuQUHAxxAXkMXeQ=
+	t=1791453836; cv=none; b=qZTFERTCamXL3m+/Ox4QpwmQOqQr45AAyHWrHMvNc54lq4Oa/f3kKr9eD9SedAwMhNtH2uC6peHF3SWBdtzE1NgdXAZOtFdBEBdAr0KloNhsHiCueDzDNSiBYEbOfQpTKNCm3tXZ0ra7clO29Bk2BsTNhiR6+nigby7BEQilKWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791450831; c=relaxed/simple;
-	bh=39cqcfQrjXbQVDrgutl9jq4/S0DIYddiCi2CSgqmwlI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VooTaQB1sZ9nT/JR0YiGZK6vvyLuIb9SMTLBAob7etDIV2HQhVy0Oa2s8M394RFAhDOfAO8e0+cT7IdVA3v3r+/tm/hujZPC+OPIkq8higV2wvpKW3iPEXuv1i4vuCmJy2FqvGqnWWongiEXlEWEiKOzqWo2LSYxWcgpEsPAcPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=paO2nzTa; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791453836; c=relaxed/simple;
+	bh=ae3MaH7Biys5wkddsi6q0kW8q0fS0FqQ8F6IANcIReI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=GJhAgTzMPHYoZNwSHGh++xmfkoamKXhTfsu3xnTPITPWlt0oXdcLi418Nv3isTBxNEzqwZSuotdlZCeG+g7G23LesACjVaLX/KfPaCNqbpz7W1KODB/Xc0A0KjK1k1ToAS7zSvoQ79itNBkhwJ0HOWCNPgkvKKahPmOmyH9e7uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=B1XfRFn4; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="paO2nzTa"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a1688d7769so31509585e9.0
-        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 02:13:50 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="B1XfRFn4"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48c4649b3aaso1835352f8f.2
+        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 03:03:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791450829; x=1792055629; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=uzVTLgexepr35s9JnNBJGDrwFh8PcTC+Xh/4HykqRdM=;
-        b=paO2nzTaRB426qrjmQ7LAeIVEXeDXABL/7wawUWw7lP8E1ucF6oB1bUvElmBihNLNV
-         1nMwyCdVk67bGQAT4l9HmSX4RUoUyhSceQacb12LDpLC4nAK1YRaHcyqJ7IQQFJh57oM
-         Es5TJSMXuzQ5H7rkyQ0oKFU1Zo5e0PPGSJthfC0rGsnZsG1nvp2XiI5Q7X9HzEQqSWGq
-         eT3FYtqBwZlaDXsINfHS7clZ20MqQh+SKPHa76BIz2ItPUbmjobNueQspsaEkVWj1Be2
-         BuibP4aGbVLyiU0Qf4Pq3eRZUk3DwlepspS4C66lYLEnPfSYz0jnZ0T4Zw+fAQdJm87j
-         E8rg==
+        d=linuxfoundation.org; s=google; t=1791453832; x=1792058632; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=lqTwlrRugZYsrL6sw16yPAZnlnhctXnnF/BVAgoHKZ8=;
+        b=B1XfRFn4vOCkwN05LdTK3lNqEkmu46x3bYrrFYg63iPf5vzba+CRucq1cfhdOd/9yl
+         7sw9ZcLB6SHix/xLLtNF8AYRmvTp4omhL2ANBIklKEnlG3sAOLyPV7zaG7q6b9E6fE1c
+         1iHf7W4xrZVB0X63gTAZc9plfZcdL2Hq0aTE0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791450829; x=1792055629;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uzVTLgexepr35s9JnNBJGDrwFh8PcTC+Xh/4HykqRdM=;
-        b=MHgy9vxsgrQQc2uG2lbzKamjLXM/h2gwUxtuVSq0F1OnWt/JousohtuB5hB855U3HH
-         HCNDMb9vlzvRvGyawGC9HS6PhyFf9NnA5/LNRKykDdx3QJ8I1I+rqPRncvE+1tlkk3jN
-         gHxa9D9PV/1128f0Hx7HOvplqUL4k6cDVmb1bmwvYdb+kVieFGl3eVEF20Q3g8giQxLD
-         hOPjj5svRoPeBRrOIfdo12i+Sz717CyAh0P5wwmVh6ZFmJFtZjgT3vx3jZu0B76DA+yX
-         BiKTWtdjXZd02Kl6NYbnB4DCM2mJD9P9djPl6FhzTivDqmVBeWbzA5D0jHsao09Vqf2P
-         7OsQ==
-X-Forwarded-Encrypted: i=1; AKwUvBz6rdmZM4gXaMJrn3uMH5Im8viuIjnnJZN8YjOqSXxXLk4gFcKG47vEPp/EDC+9qxABvlt2iebQy8c=@vger.kernel.org
-X-Gm-Message-State: AFuF++nyAQ3Y2Vlv/HKnvUCmK0WQ4h7Zm7L4Pct1XC0xCrMuUUv/Lejj
-	H6Qr0PEYsMubI5XNk91b+eNH7inJFepSeWYJnjPQ2VzxQ/4POEIdaQZDFNjssGSU
-X-Gm-Gg: AYBFou3XgGDyPTkvNwucKEY49FNpxC1lG8Vta1piFmwmBWh1PiVf9dbLk1uKphVE9rL
-	lO2/TDc2Bho1oWm/nIPzKmFvNiAdle7UlDaVtNhX5jcz2vDfnJ5/ck9ci3aCHd2K7X5pdJj+DAG
-	O7/MMfpAjztlxAyHJAdgME7wm0cZOFkKEpxn/SJ+tMYXMRnu7pY6af4iFyFPaoWgxHJ5uZWNrT5
-	jNY1VcImI5wbY/s1oVYbv1MwRHTXtveVgaT0x2CSeKGl3zLzkAYJ754mXlxmRek8w/qIzIkmgfY
-	jDmDbLg3fRb8OrPMvqZnJwfJxkW5hqhV7uA1xhG0jyUNy8zPT10m90syaw7No2cy89S3BtGZpHk
-	Eax54SN8BRHFqWE38rdPyAUp5DrBE48fsEuLZKQm3N7K9nRl5xAMGfQTv6+cU72ELrCZFEn5tp3
-	gbjeYAaqj3eA1S/RgbnszEveliE06uq4YawX2xzfBBmTWyXojmFZmu0v0t45deBwKZlrGpUI8/V
-	xl9eF3+eQ==
-X-Received: by 2002:a05:600c:8211:b0:4a1:6f78:842f with SMTP id 5b1f17b1804b1-4a18041acfbmr82397975e9.11.1791450828710;
-        Thu, 08 Oct 2026 02:13:48 -0700 (PDT)
-Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a181aeaea2sm108319475e9.5.2026.10.08.02.13.47
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 08 Oct 2026 02:13:47 -0700 (PDT)
-Date: Thu, 8 Oct 2026 11:13:44 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Henry Tseng <henrytseng@qnap.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 0/2] xhci: handshake timeout overrun and configure
- endpoint hang on device disconnect
-Message-ID: <20261008111344.47d179ab.michal.pecio@gmail.com>
-In-Reply-To: <20261008110642.56567a92.michal.pecio@gmail.com>
-References: <20260930101752.15794-1-henrytseng@qnap.com>
-	<20261002113012.271ceead.michal.pecio@gmail.com>
-	<179136673328.386669.9410030239460428155@qnap.com>
-	<20261008110642.56567a92.michal.pecio@gmail.com>
+        d=1e100.net; s=20260707; t=1791453832; x=1792058632;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=lqTwlrRugZYsrL6sw16yPAZnlnhctXnnF/BVAgoHKZ8=;
+        b=WJ2GJ51a78gEo9RwuLfa1oc9fBIzYT/4vqRZjujey7X8J7QH5qMJKQ8NQsrfwzepTG
+         xCnRCfbUL5vQMJtYd/SL+EXKXyPnVHo1HLLWiYbdlr684uBMt8PKJW9VbZlcnX7sFOTZ
+         M5GTmZH0QEWsG/hsQNHtwBQJnE2kh1pXqO9Q3PlUM3lRK2RdUyMV4/xZSmBeUMrH3kVV
+         qlMd3jhfhxqozEzlX0nItK9WmglZkct31DKyHsaJ9CPGB/qHpeQ+ALXFSlxktWZnw7lw
+         H9EVRgP5RNJxCv5Ma+JyzUZAmUpj9KJS/ByuM2wZVZC0kNxUb/HEIxB3Z77CMuexG+17
+         QIeg==
+X-Forwarded-Encrypted: i=1; AKwUvBz1EgjDQAl03LouI+kTGCBy0aajfr09Jsz+cz1uYgAVikmVMXx4HrTM0eORBcUu3oAC6hmY1/mjhsI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKdvGWx1Acomb54ZxbecBy0SuuWbhz/U6d59WtZwBMiFgPjnYXu
+	cBEOpTs85gFrzDtBOkvjfPPJMJlr89UHq6LXllKP4c1piJEbA9c1rG6QfSPWjXum+q0=
+X-Gm-Gg: AYBFou3B60bAV1uItiHKNI8UfdpZ2xYG+76NwS1o49oYwLy+ixjxPTThQC+n0C6FXV/
+	+U8gCrF+drT5lVf1JpApAveH6AsIPkjbsqa4u6zkYT2kh/x8c5kzESZ4scDArREuvEfcy2w2cdU
+	e/72RimECRRJ/6sWeQtrmJWTah3ty6BmfJC/XwwV1DEjWUpVKgZgCxytlG5dt5wRvClKcxbrz00
+	R6kBtZ7ebAjp7MRi4XR1tY20rZLkRlGNhRbtzO+YImi4lnhuwEWFlnbBDjY3FUN8x0FQJz9L3Gz
+	4gsGO5Knv6Jp5d/tjVHgbz/T3u9viz7I2VJPFpatFf4z02me5V9KPrQ6W5+zDvZWA0aWgMA3Pgc
+	a2gFTvkYBuz2KMFh+5LZCx8FwSfPHHvFE6POT93IvgUD2mNtzozxf7LcCqEzpqkZ2gceLzgVOF9
+	w4fwEjSkpzmBMXVaZY3RtMWpH72esw8q1gl94ukLhfotlEdxSS4y9KPtquFrtNH0rjs5fL127+N
+	HDBeLN6fnl8bklBP8x8FyiUM9s6Cpk=
+X-Received: by 2002:a05:6000:18a8:b0:48c:77e3:6c8e with SMTP id ffacd0b85a97d-48c77e36d57mr7002555f8f.49.1791453831451;
+        Thu, 08 Oct 2026 03:03:51 -0700 (PDT)
+Received: from [192.168.145.89] (90-182-211-1.rcp.o2.cz. [90.182.211.1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c71d1ffe4sm8450807f8f.35.2026.10.08.03.03.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Oct 2026 03:03:50 -0700 (PDT)
+Message-ID: <334b9688-093f-4181-a3eb-eca2d1c8755a@linuxfoundation.org>
+Date: Thu, 8 Oct 2026 04:03:49 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: usbip: stub_rx: remove outdated comment
+To: Oliver Neukum <oneukum@suse.com>, valentina.manea.m@gmail.com,
+ shuah@kernel.org, i@zenithal.me, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20261005125842.197848-1-oneukum@suse.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20261005125842.197848-1-oneukum@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Thu, 8 Oct 2026 11:06:42 +0200, Michal Pecio wrote:
-> What happens if deconfigure manually before disconnection:
+On 10/5/26 06:58, Oliver Neukum wrote:
+> After removal of the BUG() statement the error exit can be reached
+> and logs a report. Remove a comment saying otherwise.
 > 
->   echo 0 > /sys/bus/usb/devices/4-6/bConfigurationValue
+> Fixes: 635f545a7e8be ("usbip: fix stub_rx: get_pipe() to validate endpoint number")
+> Signed-off-by: Oliver Neukum <oneukum@suse.com>
+> ---
+>   drivers/usb/usbip/stub_rx.c | 1 -
+>   1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/usb/usbip/stub_rx.c b/drivers/usb/usbip/stub_rx.c
+> index 1e9ae578810d..0ccc05b76c5a 100644
+> --- a/drivers/usb/usbip/stub_rx.c
+> +++ b/drivers/usb/usbip/stub_rx.c
+> @@ -391,7 +391,6 @@ static int get_pipe(struct stub_device *sdev, struct usbip_header *pdu)
+>   	}
+>   
+>   err_ret:
+> -	/* NOT REACHED */
+>   	dev_err(&sdev->udev->dev, "CMD_SUBMIT: invalid epnum %d\n", epnum);
+>   	return -1;
+>   }
 
-Sorry, I pasted this from my own terminal. Of course, it needs to be:
+Looks good to me.
 
-  echo 0 > /sys/bus/usb/devices/2-1.3/bConfigurationValue
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-This assumes that device names stay the same. They will stay the same
-if you connect the same devices to the same ports as before. If unsure,
-see 'dmesg' and 'lsusb -t'.
+thanks,
+-- Shuah
