@@ -1,146 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA1AB490BF4;
-	Thu,  8 Oct 2026 12:10:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9265A29B766;
+	Thu,  8 Oct 2026 12:17:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791461405; cv=none; b=UnOJQX8pR6QYiwTKNBSCsmrTE9isg1R2G/uG/h8QjGnlvZTSJu1nUbDF4Af93SlJUxRi26qPfM5bPSN1WVtDBNtW/yJurKQkwsaomdfMgw3ISEySXVWsdGlBzY0wRVznxTnR9YgB/+LuPkaeOkXEqYq1l69tlIwPtEfbHB2djuI=
+	t=1791461867; cv=none; b=HZ/WUhYol0SXMHN+Q0hrykteYZqmvrxBn8ptwZwub2IkzqJ8DjnKcKpXX93x9j5gOshp/qcXGu/Wx44S7mL0V1+/9t2HYnbFjq6cG4DhK5YLOGzwOuK7HDLZmS4swZcUZaxbtJDtp0i+jMrkDMhYW3UWThgvEIwXduCKtnfpaYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791461405; c=relaxed/simple;
-	bh=fm8hnLQ87j/HniBBSzjsIxMOM+8ZC5AwUf9bCYp/fx0=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UQu+Jhu9rrmBWDl0V27e+sz6qS+siRtBQNx+zaCgK3MdSSKiJuYQvFR2qaqFvTx7Y1Z/WLcTcH9w+UNbJRCPY2UNB0nkMG/QQtk3X+YP7fIzkoLFxMpaqnnxHhoqKekAT+iQXorS0/4aFj/Az+bTT+L2RxFUvm/HY7x+04W0NYo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ywa+2Zv4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791461867; c=relaxed/simple;
+	bh=79n3TeG5j1UaX+/AdwzOmfmxhX0AYmK8L5GixoO3mkk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GQ32NvBrPHfmMPCvcyel+akCX1W/5Tf3K2/w2PfSJ/Dk7T2FPPWd9PwtkBEQiJwcYpue+X+5XiTO9ZTgjZOKhlNhBF1V/EHs1gDO4R1lwrWgQaG4pHQQTsDyfiVQiaFflmGeP0zuaDpYuFlQPViheOIvTHFqzHZx1aOFXQP2iGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=w22IQ2ls; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Dypgcyqi; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ywa+2Zv4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6B971F000FF;
-	Thu,  8 Oct 2026 12:10:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791461404;
-	bh=hHfA58dTjNt9k2vhbq/4fIySxGEknhamS/nxV/UVryA=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=Ywa+2Zv47v4FFXNSq7h4iRZADiC9Rl8CpqshiS871g7OPaPNIRt1C/EMMszZBtAOa
-	 cLypixVxo83zvRt2G7bbq2gLh6LYvbhVIVMkAQ57ok2p4RXpLmWI2n8GTFcLp1fPZT
-	 i6ej8coSHksSen6e3gvCnh5GxWBLrtJBAHHbtfHi0Dh/EvASo/+ACF7CPw6FV68Oi7
-	 onLPR3oTDxKzF9G53gIjLW38FyVAVugMBQ5JjpTiCR6w0LpmYsV7Lq33k15p2QGPAM
-	 QuPbKA0/H41Ykb8uAHACcEf6FJj99qMM1A3o7g8rKFWl9VdPPJKOdhTpk6WOlMoIQg
-	 nBCUrKnzYVIvg==
-Subject:
- Re: [PATCH net v2] usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_return()
-From: netdev-bot+sashiko@kernel.org
-To: omermetekaya0@gmail.com
-Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 08 Oct 2026 12:10:03 +0000
-Message-ID: <179146140323.434549.4025996988733762970@kernel.org>
-In-Reply-To: <20261006120825.342164-1-omermetekaya0@gmail.com>
-References: <20261006120825.342164-1-omermetekaya0@gmail.com>
-X-sashiko-severity: High
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="w22IQ2ls";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Dypgcyqi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1791461857;
+	bh=79n3TeG5j1UaX+/AdwzOmfmxhX0AYmK8L5GixoO3mkk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=w22IQ2lsmqV/biPF4yc+R7xauEioyxmGtjNVsrepEhDwX0zTjq5hNUefPlJBf49cw
+	 SrCFs9wsfRpsZ6naQbkSJwMleJjIcKoP9plQ+9S+lz8Hz0ktqIfrQA2P4v3At8t+Xk
+	 XoVeUw0TEpk/RIA/3776ov7rQBVbVpmI/VWqTt9ZmFAT/7xIoeYZgi5MSlYekGcuTR
+	 dWilCaM9fC0djqApSWuM7SoauR5Nzpzzt+tJ2k1lZdmsedz2dggrpHl1Vx/I213SOd
+	 +TXFjkGWlF4GUrIJiReYUzYtjCTkxs/o1iPLgHXDf9aVgA/9ZbjypLyEcmt0NSD1S6
+	 vxxmxBU62DnDg==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id C83374728A; Thu,  8 Oct 2026 12:17:37 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1791461856;
+	bh=79n3TeG5j1UaX+/AdwzOmfmxhX0AYmK8L5GixoO3mkk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Dypgcyqi6UHesM2Of79Iw7jHOhsEwqO+kqOapKJd0X5PI99KUlF5bsmUX1Gu3QRJs
+	 pfId/gnLu8eoPwHwgr7wAk2oXCmN49qFrghEpsPTECpeqMHgvAF/3FELfzw76vL0qE
+	 Jakn+3aPQlxnXLeUd/n0yCpmcZcKl3jxoq3ti395nNCHPsNG5Bo19VcbrkYNBlXCOY
+	 wmUhoLVs2bDK969WGd4RIVj6QGMqYnHyAc+dDsQ0efWD/ksIP9l9YQBY2XsMUDXxMl
+	 ClwicoSb1xrkv/SOehlkKrRXzkjHoO174/3IAuSrTtMrbEen2X76O+fwJvJoFSG7C+
+	 OdDfT3JNHmD9Q==
+Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 87E1E47182;
+	Thu,  8 Oct 2026 12:17:36 +0000 (UTC)
+Message-ID: <633a0f2b-67b3-4896-8464-6a4d0c05498f@birger-koblitz.de>
+Date: Thu, 8 Oct 2026 14:17:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v6 01/10] r8152: split r8156_init per chip and
+ factor out wait_autoload_done
+To: Chih Kai Hsu <hsu.chih.kai@realtek.com>, davem@davemloft.net,
+ kuba@kernel.org
+Cc: netdev@vger.kernel.org, nic_swsd@realtek.com,
+ linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+ edumazet@google.com, bjorn@mork.no, pabeni@redhat.com, andrew+netdev@lunn.ch
+References: <20261008081556.47901-1-nic_swsd@realtek.com>
+ <20261008081556.47901-2-nic_swsd@realtek.com>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <20261008081556.47901-2-nic_swsd@realtek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
+Hi Chih Kai,
 
-Critical: 0 · High: 1 · Medium: 0 · Low: 0
+On 08/10/2026 10:15 am, Chih Kai Hsu wrote:
+> RTL8156, RTL8156B, RTL8157 and RTL8159 shared a single r8156_init(),
+> gated by a dense set of tp->version range checks. That made the init
+> sequence hard to follow.
+> 
+> Split r8156_init() into one function per chip family:
+> - r8156_init  (VER_10/11)
+> - r8156b_init (VER_12/13/15)
+> - r8157_init  (VER_16)
+> - r8159_init  (VER_17)
+I have a hard time to understand why you want to separate out one init 
+function into 4 different ones, for each chip one. Especially, if, as 
+you say no functional changes are intended, which might justify the 
+re-factoring in this manner. By multiplying the functions, it will 
+become more difficult to maintain the code: if an issue is found in the 
+init-sequence, it may now be necessary to fix it 4-times and future 
+developments touching the init-sequence will also need to be replicated 
+multiple times. In total, there would afterwards be 8(!) different init
+sequences including the other ones for the RTL8152 and different 
+versions of the RTL8153. The same pattern repeats with _up(), _down() 
+and other configuration functions.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Would it not make more sense to try to further combine the init 
+sequences or try to disentangle the code by establishing common library 
+routines put into a _lib.c file and possibly different .c files for the 
+different generations of the chips? For example, it appears that the 
+rtl8157/9 belong to one generation of chips, based on the rtl8156 
+design. On the other hand, rtl8152/3 appear to be a different generation 
+with various family members. That would allow to build a basis for 
+future development like to rely on using phylink to handle the PHYs 
+integrated in the chips, which all appear to be already supported by the 
+Realtek-PHY driver.
 
-- [High] This patch brings back the syzbot 'BUG: using smp_processor_id()
-  in preemptible code' bug that commit 327cd4b68b43 ('usbnet: Fix using…
-
---
-
-usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_return()
-
-This patch targets a race between usbnet_skb_return() and
-usbnet_resume_rx(). It moves clear_bit() in usbnet_resume_rx() under
-rxq_pause.lock, and usbnet_skb_return() now takes that lock to recheck
-EVENT_RX_PAUSED on the slow path. As part of this, the
-local_bh_disable()/local_bh_enable() pair in usbnet_resume_rx() is
-replaced by a spin_lock_bh() section that covers only clear_bit().
-
-> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
-> index a19ecf718f36a..dc340ea248c6b 100644
-> --- a/drivers/net/usb/usbnet.c
-> +++ b/drivers/net/usb/usbnet.c
-
-[ ... ]
-
-> @@ -699,8 +704,9 @@ void usbnet_resume_rx(struct usbnet *dev)
->  	struct sk_buff *skb;
->  	int num = 0;
->  
-> -	local_bh_disable();
-> +	spin_lock_bh(&dev->rxq_pause.lock);
->  	clear_bit(EVENT_RX_PAUSED, &dev->flags);
-> +	spin_unlock_bh(&dev->rxq_pause.lock);
->  
->  	while ((skb = skb_dequeue(&dev->rxq_pause)) != NULL) {
->  		usbnet_skb_return(dev, skb);
-> @@ -708,7 +714,6 @@ void usbnet_resume_rx(struct usbnet *dev)
->  	}
->  
->  	queue_work(system_bh_wq, &dev->bh_work);
-> -	local_bh_enable();
-
-[Severity: High]
-Does this bring back the syzbot warning that was fixed by commit
-327cd4b68b43 ("usbnet: Fix using smp_processor_id() in preemptible code
-warnings")?
-
-That commit added the local_bh_disable()/local_bh_enable() pair around
-the drain loop and queue_work(). With this patch, BHs come back on right
-after clear_bit(). The drain loop then runs in preemptible process
-context when it is reached from the MTU change path:
-
-dev_ioctl()
-  dev_set_mtu()
-    usbnet_change_mtu()
-      usbnet_resume_rx()
-        usbnet_skb_return()
-
-usbnet_skb_return() starts with:
-
-	struct pcpu_sw_netstats *stats64 = this_cpu_ptr(dev->net->tstats);
-
-With CONFIG_DEBUG_PREEMPT, this should produce the same "BUG: using
-smp_processor_id() in preemptible" splat that 327cd4b68b43 quotes.
-
-Without debug options, the task could migrate after this_cpu_ptr(). It
-would then update another CPU's pcpu_sw_netstats while that CPU's own BH
-RX path (usbnet_bh()->rx_process()->usbnet_skb_return()) writes the same
-counters. Can RX stats updates be lost this way?
-
-On 64-bit, u64_stats_inc() and u64_stats_add() are local64 operations
-and are not safe across CPUs. On 32-bit, two writers on one syncp could
-corrupt the seqcount. Readers in dev_fetch_sw_netstats() could then keep
-retrying.
-
-The commit message doesn't mention that the BH protection around the
-drain loop is removed. The patch also carries Fixes: 43daa96b166c, so it
-could bring this back into stable trees that already have 327cd4b68b43.
-
-Could the local_bh_disable()/local_bh_enable() pair stay around the
-whole drain loop and queue_work()? Inside that region, rxq_pause.lock
-could then be taken with spin_lock()/spin_unlock() just around
-clear_bit().
-
->  
->  	netif_dbg(dev, rx_status, dev->net,
->  		  "paused rx queue disabled, %d skbs requeued\n", num);
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261006120825.342164-1-omermetekaya0%40gmail.com
+[...]
+> 
+> No functional change intended.
+> 
+> Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+Best,
+   Birger
