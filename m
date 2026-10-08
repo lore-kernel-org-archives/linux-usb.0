@@ -1,198 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC74143F0B9;
-	Thu,  8 Oct 2026 22:58:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 092FA3BFE4C
+	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 23:08:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791500308; cv=none; b=RG72O1GhOXPArDjr45pzjaKzEO7pvFkZ08pVc73usHa47S9AN7bg/qo5zx0nW9ZH/5rsRT8Fg4Hk9iC8V8jA6OPl+qYW0tcbGmagTi2fCTgzyx0Bx4c95WhhWDNcy4GpPgnZ2UM+mypagXkWEKF6JUr0Lkkv6ioinxRKdo0GDMs=
+	t=1791500931; cv=none; b=sjP6vRZWoWCzVEnZVdLDXKPiA2apL1Kq5bLhbo27deGzsG9uVlts3aX0VVUm3pXElakgl3KTrfSBCy9Deo07vJMH7g/Bq/kD+NhKN7CMlDxpE9smOY2mcX+kHvqJ3jZe1uRuNm4m61a9reVupOZfWuzcyvbXBMTZQ0Po8Mk3O2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791500308; c=relaxed/simple;
-	bh=6ledDbc1icilumrn67YZWHjzbO7jiGjL9Pj7pGrbcPo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To; b=BfpmGH1+2vOA736JpfikYdhssYoYwWHpQ4DwPrWvweYCbhKrKOtOQ8JK1/w1UHkZKHxtaWpCJjwiqbORj+Io1a6dHNY8vEUNs4aJwh4nj4to3O0W4KkwBMGTqvAjrrdI1yQfqGonb6DgjyjUZrD2Qvaxq5MJBDyFVutbVX2OJnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FruiToyY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791500931; c=relaxed/simple;
+	bh=V0/16htqebB/8TM85S/qozxMSwXr5jIDRFTSzbN3uG8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iY9QE62ccy4Vtls1x1smKs0MJpExDSbK76VWwqIPOLJMJ/tKazXyNqtHWG3WFLsjgN4BqCnF+q+XWf/RWpGjoaKZvy0xTkgYzD788ZJCTMRyB3c85+If5o4zbFQ9n3PmmgEQzn5C+eQFHBCLCeIx98BRdRwu1qq+HEFhaPN1AEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LiC5cvmw; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FruiToyY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10F651F000FF;
-	Thu,  8 Oct 2026 22:58:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791500307;
-	bh=6qFEzIPBySpVPhDEQgfALvqJAxbUkX21t+O7OuW7n9g=;
-	h=Date:From:To:Cc:Subject:In-Reply-To;
-	b=FruiToyYmvanYv5jz0I4XZ7bEgfjpl2JMb/0viK6RMrm3xNjzBG1c4z5aO8SIr0lq
-	 8tkFJNjZN1cOj6+kEgDiRIQ9PRtGnHKAeZi9FH095RYZEQlRmsxrVpWUPSSMOS2cFg
-	 yezNTJoOc8wUwRPuBnU9q3idXT9l+Z9e4wgRnz7oiE/R5RZk4IWdCC14dMIX/Y+SpF
-	 f8tna4qUxgMwO6qh8iGu38wUos4/pVz5SV8VKIcS730gP8tMWtTfTCCocd2ot/NB/i
-	 yDmqP7NyZ2mm6yBZLncMhNjWgh5uS7q/Pxf3o+DK9zIVy/sszTpPX5Fn8gkYmwyowZ
-	 Riqb3pKU1Y1YA==
-Date: Thu, 8 Oct 2026 17:58:25 -0500
-From: Bjorn Helgaas <helgaas@kernel.org>
-To: Francisco =?utf-8?B?QmVsdHLDoW4gTWlsbGFsw6lu?= <fbeltranmillalen@gmail.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Lukas Wunner <lukas@wunner.de>, Farhan Ali <alifm@linux.ibm.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>
-Subject: Re: [PATCH v2 2/3] PCI/PM: Do not save the config space of an
- inaccessible device
-Message-ID: <20261008225825.GA936610@bhelgaas>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LiC5cvmw"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a02753c04fso20083975e9.3
+        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 16:08:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791500927; x=1792105727; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=H0IFuL9k0j9ydZbshhVfJaOod4wFMCM2kpIm/qPno78=;
+        b=LiC5cvmwXhm/lk4pVirajN401Y3bhim6/QXfpdyGFjUsQC38DtMOXAqBEmnRIGydE/
+         kPB9BP1iARb9LKbfnHsbgHDc07zAUFiZZhe7Z9P2x/KuryAVG5YEwR9nS8RDjFCoJmSZ
+         /RtOWG9MiizgtBggsOh4SSzu9DrKJ9HMq7DX11TuEc6YUBr4CZzmwF3dIpKGNMZIOEnj
+         JCAV2/iAb2RdDXpgSFXghfJoTO0fn2bZwHuU5N68umFPiI+gBEIaOEYWt2wEmVKsENop
+         SQc4l0x5HFH/zfntjcoqABNYHJMXAi7dn84XW+W2gXkE7pvlnmH1Akix/QRsBWO6ejZP
+         lbYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791500927; x=1792105727;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=H0IFuL9k0j9ydZbshhVfJaOod4wFMCM2kpIm/qPno78=;
+        b=Jr03XYMfW10Uhc4v7G9iGYngLCdp+GRvfu1/hikIZjfp35L5vTMYeH6w+pXSs6xio2
+         CJmyn685nswDZJ52kB2NXh8FQFB/h6hQKgQyP33u2JJo3IM2b7U+rWfeHj4/5Si5o7bM
+         PU4VM/jYok56dw9VELMUpapHhdMO3DQFq4bPxFOMyHhnRl5z0aZJF8PyL3wDNcn8xIK6
+         hktBU9rjMIi+M8AOu01sz7rGW7Q2gIjCgM7JhgMIXw4/+UeRMaKzj9WvzBCfuI7e+WIc
+         hpHn8dlXkzHgf3+WV1bp2c+XYQoj+fAPOkqo7diyWNnT2bDY/cdKG+qeuABf4yYppDsx
+         Xb9w==
+X-Forwarded-Encrypted: i=1; AKwUvBxWrVnWF0j0byHjc5cVpS8oXxxI9P39V94ul3Q3aYyAGNNualqyjaxzG34sYVFIHNzodvSH/Zzw4wM=@vger.kernel.org
+X-Gm-Message-State: AFuF++liN2wQX+n/VL8KlYYQEuivKcYu3G5g0rY6jFonS4fhabV5HSaq
+	E7cMUy3oJfK+DSCuwBIj5pqEHzT86opxB0gtOSMUOGc11OmVV9tRH//sx22+5kiL
+X-Gm-Gg: AYBFou0JgIXhte27KzfqBue6ZMnF9PVc4B/lIXcFDE3Ys9xeo0V4LcPtVnq+yQ2uxgN
+	qjapdizugVNDkl7+sgLqOibCYt5wAiMLlQNIQUNXJUMybqtyylmHTXoy0gt37vsfNFZiezCJUoW
+	ITBjp8fRusbflvy7qSuQX4Q6XcCvNaZ3qX6cZDgloXMlIhevv1yrIjnR4udpFBgLnhlQTwBTUgB
+	+ovDeEcK0tvRUBW+wt94IKHLgrVoLwI8D8G/o+c5T9q/DtFj1zCt2Tmoe0KpIZeuCt42iZqkT8X
+	th68RaIbSDtuvB5HujMAu5dwjHWoF38odBgj+fT069ghwXbQFVSdh3Ei4X5Yz47+22zW1CiqMqP
+	icSDR8WT8e91mNnZUACipLiHUyk2npiuJd+VViPYaFfDPzmUX47Tyj4Ra2ac7UkcYHIvTglfyqV
+	JoaZ0GTgBJW8zaviJlJUozXGp0vzBd3iJO56i1+XFfqxSKELVcG1t4IWMXXbW6qFvCCxL5C6SLv
+	kr/LOOqlqUbbgNFDaLXXRR6+T28DckA6TPCsC/1SZKJfTXYFJ+HFVAPh+C3D/LOf5855r0V42Ov
+	gXW2rhCY63AWyMoTvucCy92K0kveux0Y1pn/yF8ioODfYO+tvDlnM8HqSaUJuOQSr5PPU8DT/h0
+	yxGTQvOAmqUriTn2c7g60WWA4WDZVpN4ASOl0B3BDE9dwWEv/2QI1uGOaZuzKtjQ1Y4kro7tZVs
+	Q8yyUrvFBMkCiG1Gom8qRLm9jRRQ==
+X-Received: by 2002:a05:600c:4ecc:b0:49e:7a10:1b71 with SMTP id 5b1f17b1804b1-4a1802e95d7mr127375585e9.11.1791500927140;
+        Thu, 08 Oct 2026 16:08:47 -0700 (PDT)
+Received: from localhost.localdomain ([2a0d:e487:415e:bf71:e574:69b7:f11e:4204])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bead84esm14244115e9.13.2026.10.08.16.08.46
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 08 Oct 2026 16:08:46 -0700 (PDT)
+From: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
+To: alsa-devel@alsa-project.org
+Cc: tiwai@suse.com,
+	perex@perex.cz,
+	linux-usb@vger.kernel.org,
+	Olivier Kaloudoff <olivier.kaloudoff@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] ALSA: usb-audio: Add mic resolution quirk for Logitech Webcam C200
+Date: Fri,  9 Oct 2026 01:08:44 +0200
+Message-ID: <20261008230844.11246-1-olivier.kaloudoff@gmail.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260930141914.6678-3-fbeltranmillalen@gmail.com>
 
-[+cc Lukas, Farhan, Andreas, Mika, Yehezkel]
+The C200 (046d:0802) reports a mic capture volume range of
+1536..7680 with a resolution of 1 (6144 steps), triggering
+"Warning! Unlikely big volume step count (=6144), linear volume or
+wrong cval->res?" at probe and exposing a uselessly fine-grained
+mixer control.  This is the same firmware behavior as the other
+UVC-era Logitech webcams already carrying QUIRK_FLAG_MIC_RES_384
+(C500, C600, C210, C270, C310, C510, C525, ...), so apply the same
+quirk: CTL_MSG_DELAY_1M (which the Logitech VENDOR_FLG would provide
+if the device-specific entry did not short-circuit the lookup) plus
+MIC_RES_384.
 
-On Wed, Sep 30, 2026 at 11:19:13AM -0300, Francisco Beltrán Millalén wrote:
-> pci_save_state() reads the standard header into dev->saved_config_space
-> and marks it valid without checking that the device answered.  If the
-> device is not accessible, every read returns all ones, the previous
-> snapshot is overwritten, and pci_restore_state() writes the all-ones
-> values back once the device answers again.  On a bridge that sets every
-> writable bit of the Bridge Control register, Secondary Bus Reset
-> included, and sets the primary, secondary and subordinate bus numbers
-> to 0xff, which cuts off everything below it.
-> 
-> On a MacBookPro14,3 this happens to the upstream bridge of a
-> Thunderbolt controller that drops off the bus while the system is
-> suspending: after resume the bridge answers again, but with bus numbers
-> ff/ff/ff and Secondary Bus Reset asserted, and the xHCI controllers
-> behind it are removed.
+Verified on real hardware: with the quirk the warning disappears and
+the driver logs "set resolution quirk: cval->res = 384".
 
-Apparently this is a reproducible issue on MacBookPro14,3.  That makes
-me a little hesitant because we're not actually dealing with the fact
-that the Thunderbolt controller isn't responsive during suspend.
+Signed-off-by: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
+Cc: stable@vger.kernel.org
+---
+ sound/usb/quirks.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-It seems worthwhile to me to skip pci_save_state() if the device isn't
-accessible, but I don't think it's a real solution to whatever is
-going on with Thunderbolt, and I don't think we should mention it here
-as though it is.
+diff --git a/sound/usb/quirks.c b/sound/usb/quirks.c
+index c5870901a..16cb57f2c 100644
+--- a/sound/usb/quirks.c
++++ b/sound/usb/quirks.c
+@@ -2249,6 +2249,8 @@ static const struct usb_audio_quirk_flags_table quirk_flags_table[] = {
+ 		   QUIRK_FLAG_DISABLE_AUTOSUSPEND),
+ 	DEVICE_FLG(0x045e, 0x070f, /* MS LifeChat LX-3000 Headset */
+ 		   QUIRK_FLAG_MIXER_PLAYBACK_MIN_MUTE),
++	DEVICE_FLG(0x046d, 0x0802, /* Logitech Webcam C200 */
++		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
+ 	DEVICE_FLG(0x046d, 0x0807, /* Logitech Webcam C500 */
+ 		   QUIRK_FLAG_CTL_MSG_DELAY_1M | QUIRK_FLAG_MIC_RES_384),
+ 	DEVICE_FLG(0x046d, 0x0808, /* Logitech Webcam C600 */
+-- 
+2.47.3
 
-> Commit e18d1abc3bff ("PCI: Avoid saving config space state if
-> inaccessible") added pci_dev_config_accessible() and checks it before a
-> reset.  Check it in pci_save_state() itself, so that system suspend,
-> where the state is saved by pci_pm_suspend_noirq() or by a driver's
-> suspend_noirq callback, is covered as well.  pci_dev_config_accessible()
-> reads the Command and Status registers rather than the Vendor and Device
-> IDs, which always read as all ones on SR-IOV VFs.
-> 
-> Check again after reading, as the device may become inaccessible in the
-> meantime, and only then replace the previous snapshot of the header and
-> set state_saved.  The capabilities are saved straight into their own
-> buffers and are not covered by the second check, and both checks are
-> racy, as pci_dev_config_accessible() notes.
-> 
-> If the device is not accessible, return -EIO and leave state_saved as it
-> was.
-> 
-> Assisted-by: LLM
-> Signed-off-by: Francisco Beltrán Millalén <fbeltranmillalen@gmail.com>
-> ---
-> v2:
-> - Use pci_dev_config_accessible() instead of reading the Vendor ID,
->   which always reads as all ones on SR-IOV VFs: v1 refused to save the
->   state of every VF.  In the v1 thread I said I would use
->   pci_device_is_present(), but for a VF that checks the PF and cannot
->   tell whether the VF itself answers.
-> - Do the second check after saving the capabilities, and set
->   state_saved only if both checks pass.
-> - The bus numbers are set to 0xff, not cleared.
-> 
->  drivers/pci/pci.c |   53 +++++++++++++++++++++++++++++++++++++----------------
->  1 file changed, 37 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/pci/pci.c b/drivers/pci/pci.c
-> index b2879a6be..94de99d31 100644
-> --- a/drivers/pci/pci.c
-> +++ b/drivers/pci/pci.c
-> @@ -1776,31 +1776,52 @@ static void pci_restore_pcix_state(struct pci_dev *dev)
->   * pci_save_state - save the PCI configuration space of a device before
->   *		    suspending
->   * @dev: PCI device that we're dealing with
-> + *
-> + * If the config space of @dev is not accessible, nothing is saved and the
-> + * previous snapshot of the standard header is kept, as writing back the
-> + * all-ones values read from such a device would corrupt it once it is
-> + * accessible again.
-> + *
-> + * Return: 0 on success, -EIO if @dev is not accessible, or another
-> + * negative errno if a capability could not be saved.
->   */
->  int pci_save_state(struct pci_dev *dev)
->  {
-> -	int i;
-> +	u32 config[16];
-> +	int i, ret;
-> +
-> +	if (!pci_dev_config_accessible(dev, "save state"))
-> +		return -EIO;
-
-Maybe we should remove the check in pci_dev_save_and_disable() and
-make it check the return value of pci_save_state()?  I don't think
-checking twice adds anything.
-
->  	/* XXX: 100% dword access ok here? */
->  	for (i = 0; i < 16; i++) {
-> -		pci_read_config_dword(dev, i * 4, &dev->saved_config_space[i]);
-> -		pci_dbg(dev, "save config %#04x: %#010x\n",
-> -			i * 4, dev->saved_config_space[i]);
-> +		pci_read_config_dword(dev, i * 4, &config[i]);
-> +		pci_dbg(dev, "save config %#04x: %#010x\n", i * 4, config[i]);
->  	}
-> -	dev->state_saved = true;
->  
-> -	i = pci_save_pcie_state(dev);
-> -	if (i != 0)
-> -		return i;
-> +	ret = pci_save_pcie_state(dev);
-> +	if (!ret)
-> +		ret = pci_save_pcix_state(dev);
-> +	if (!ret) {
-> +		pci_save_dpc_state(dev);
-> +		pci_save_aer_state(dev);
-> +		pci_save_ptm_state(dev);
-> +		pci_save_tph_state(dev);
-> +		ret = pci_save_vc_state(dev);
-> +	}
-> +
-> +	/*
-> +	 * The device may have become inaccessible while it was being read.
-> +	 * Keep the previous header snapshot in that case.  The capabilities
-> +	 * are saved directly into their buffers, so they are not protected.
-> +	 */
-> +	if (!pci_dev_config_accessible(dev, "save state"))
-> +		return -EIO;
-
-I bet we get 99% of the usefulness here by just adding the first
-accessibility check above.
-
-This second check only helps if the device becomes inaccessible during
-the tiny window while we're saving its state, and I'm not sure that
-the extra complexity here and being able to restore a valid config
-header with junk in the capabilities is really a benefit.
-
-> -	i = pci_save_pcix_state(dev);
-> -	if (i != 0)
-> -		return i;
-> +	memcpy(dev->saved_config_space, config, sizeof(config));
-> +	dev->state_saved = true;
->  
-> -	pci_save_dpc_state(dev);
-> -	pci_save_aer_state(dev);
-> -	pci_save_ptm_state(dev);
-> -	pci_save_tph_state(dev);
-> -	return pci_save_vc_state(dev);
-> +	return ret;
->  }
->  EXPORT_SYMBOL(pci_save_state);
->  
