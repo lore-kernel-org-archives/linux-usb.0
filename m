@@ -1,99 +1,148 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013065.outbound.protection.outlook.com [52.101.72.65])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39B64A8422
-	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 13:32:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791466325; cv=none; b=TzEdO1Jj8jZ09NLI46bGVbftFrZDztAS4E2WFaxoxDf2gn18zKwL1d7AIaWy78V0yOugZR15HM+o3MdBsjemPVbFrD/dtOz7Q2yk0cDiozkUi0AqqSavlK2sSyAdQp+DucLpfpnSbWGW8d/CH0ZWDszLHl2uU9B414NrOBIO1PA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791466325; c=relaxed/simple;
-	bh=Q4bWILpty64faa4Itg++N7wqOYZAwlwGZPLJbsqOCU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hu/nKv/eRer814mpwm2xhoshSHaGsbW7Uz3g837Sb4xOgITOb7usP4r9lQuluIEBlvfHkcSreAssJLOpyb4lre4QdnryJDTzarR6QQQ34/bh09ljp6U3XkFCua8/VmI7MD9xaTEwj1XxyWLEY7wYpKCJPQJW0EujyF1FH9VgrhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LuJOTTFZ; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC08049EC5D;
+	Thu,  8 Oct 2026 13:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791466466; cv=fail; b=ns9T9DV5slThruaqevMCmibsYDB+ZNpeetuMdbIe6gLU7sgDXB4yotHwdyU3eJO+1EH2wz5P2LJoUKLDMbXTRkZKDVP4XrJQOcMS/WZwJFHCZ+/TCKL1beSOlDmjtlFB5q+sMbvw4pwRa3wCyYKrZt9A0LXioNVNoDldAWR9+bA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791466466; c=relaxed/simple;
+	bh=Ukys5sWHHYchOcg2YWrzWk+W3ULoB4XAHNBvbabJzgk=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=rOMgW7M0SxzAz7HikM774tYeE19jY2C4urGEJCdki5UN0cdKr3PzxC2yMKgLp+dLJHefRiuXcB1RaUf4WFEWmb6lUQAYuXLVxcdbqgeEP6XGwosYwFJAokssFp0XlPVnMqif1qKXtSVPZGMf0GDgaj1wsOU4qwEwJZyA/JekLl8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=MVbJidax; arc=fail smtp.client-ip=52.101.72.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LuJOTTFZ"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a16af2a232so25995955e9.1
-        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 06:32:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1791466322; x=1792071122; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EF0ORxL9xRoD8kTXGFBu2omdDiiROF2S9Nk6IzMT2Xs=;
-        b=LuJOTTFZsqidX0nbStyM9iRdRhHlv4YXvTfjxkPt8Zwo6ETbE1LapW9svivhat3xcT
-         t00q5dxRW6+ASmrDz5mAWfF1yerAgDFIaJrup8JXKdlVkusLvVaFlhoT1dUPjK07wIHq
-         lSO1O4WebEUDdfpFJVShYsqMIJQmPhft3rvAjsRpIchXHZ+zn6auWlZz4XHPVODsXFXP
-         hV7zm7QYrOyQFo4UsRsJbba/njnEEhstIIjtu0CaqsxiA08kvGLvoVZ/nJymmHFiGHYZ
-         juOvm+COeUlFuZdWUVeReMvdJynLJc5xI0+EL92EwrwEu/biry/LcGU9jgcJWnq/IpzW
-         dbRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791466322; x=1792071122;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EF0ORxL9xRoD8kTXGFBu2omdDiiROF2S9Nk6IzMT2Xs=;
-        b=nTpQ57Z1tkjWyvvSzWSDjmYaCF65mBm8mByl1P45lITAnqIz37PnpcO/Tx+Vokq62k
-         Sc8MnZXZtpSQdU5XP0tLg6F02RDTUV1bk9tLlr4zg1l/4ZvkujeXupl+XRqFsYoYXUie
-         7gpAJbFzS7NntbqIM6BZ0wNBxBMcJq3twSDarlRqhyTwWcR+GmVgLHbh7jWfZqxkNLnq
-         Me1Y3/NwX3ZCQx9Iphc5ThdLxZMbBxyaVY7NlVrCWAW4ox8x+MEiC3C73O/eEU8Mur0g
-         /4/3P47apXdEO7Pk7rZPmxEaUBUCYd1nswAEOXS5I37GAW0zutmOY+SYqAMe3tgQFXmG
-         xLrQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw1wsNMJnmwn5pdvbymm0g2j/O1KdZXpuYDqOrVrOrFjfP5DO6lF62JZG23kh/cLR7QGBpOMtcnTns=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK7ChsH8EK6dZpOWLb9dyiqvjdYS23c35QUE2SJ3rSE7moeAgxa
-	bU2mJ83thLFjk3F46k65RMF7qcKfuWilOVbsyyu3M1uEAA7nBqrZ2X+XTFqok9ZHA34=
-X-Gm-Gg: AYBFou0YBXyx0eWU5gWaHLKJzZ+u8ImLHH/VHTKW6Cb/4c1osM1PswiwAi3Z6dFv9Ko
-	GLirbRVSE99kwX5OmA0HOPSOJfhuylNF+kShPq8aBlhsN7Slj4k3AMr4zLm1GwN+KRctTusnUY9
-	Sy6xSBLrBkFKKfeOOLXNu4qxFt0yfYGYQEM5y+nxAdb1womElmm79weCcS1zx0aIjskDxzSrK/p
-	ODAdhqqeQ06ULNX7b8y+TrHmQwycKwNKW/unaSQ3SUKvLqpD9JAC8/jeilcB9l+GE2VSI/oUFn2
-	lEuxPz1Sh4rYHDT4bvY41j37lXTnRnTru+e9VvypPc5N+TQg42u9iq7W9nHOpYxcmf9RNWsRt6v
-	LmcsZ2/7m1/eXiODfsIzPnDMcBEl0ZO8FN49QiQlS62AV32jbsCy97XGz7AzSzD8B67tjSClKTx
-	6G0J4U/T2SPntumqONugMIYUc9kfkrEM4nMUx8XCJzxklPWcvoKKIp2VLp0/I8hp9R233jzlhf3
-	vFUGelqJ0n66ry4HWfuHJTsOB+jB4raLqmCyO3ibA==
-X-Received: by 2002:adf:e19b:0:b0:48b:ff5:d297 with SMTP id ffacd0b85a97d-48c727823c4mr10620890f8f.25.1791466322023;
-        Thu, 08 Oct 2026 06:32:02 -0700 (PDT)
-Received: from ?IPV6:2001:a61:13be:f901:8903:c5f1:e7c8:72f0? ([2001:a61:13be:f901:8903:c5f1:e7c8:72f0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48c75b53fb7sm8309301f8f.58.2026.10.08.06.32.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Oct 2026 06:32:01 -0700 (PDT)
-Message-ID: <c2fd2fb5-0fe9-4788-bcd0-bf7d09c1b5d4@suse.com>
-Date: Thu, 8 Oct 2026 15:32:00 +0200
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="MVbJidax"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Gmg8F8pwouM0qCynftreJecd/OBkrncf5Jqe8J855GDSGOZsaQ+coAoShWNClVB1VI5NxYWHlUla6MTrdPIkKAx7dfHijUuGh30FsOhEV6F8csxIFL920Ew3vhwtx0Kbo5qtI/KXluTd9+pkrsNRZGdKaRdTh7jZziw9HWAApD41V+m/70Iiaed0UdO/ggjAq6bdhYIKEx9Qz3rOyErwZHf584IYqiHa+KKvVE1fpjCLp86mcoieIG2o2cWAWOqpMULpyOy72wlmjDWIG9+q7gB4IJB9XqCnAPcziCT9APC8WtprIdnYocNYRsLoQh3wzZpGYcfQftUZYiZvTT08tw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/YxnJPdSMNYaIKDX49PPcrmhGyQ2/xT1cgIuG2YZRMo=;
+ b=baITeHouxAqNTropSVu147GxntaM/5lvihQ0eLf4dO6ah7aw3SGAYZ7l3b0nXAmayvV1A3hAi4H3g3O6NYCj2SOD+k5XatZxXUI0uINhCKo9R2/2Gdn9mkM0Nwo5sr/02fLMQIkmqvj46CPR6sQ/QXmb5VcDtzLrahQsYN81BXIRM6210DeidsbDoapB6CVh27054j7hptXFnedAUpb02F2SSNESrgTY57LQ5UTSQT9+UTegwoDNW0beUXCSXPzmhgSyPr484g7vmX7GQjoScXO+yrbAiF9VNIanWtOwnRtLvpl6O2XPB/53OSRfpdtPWlBCVnIrnton1sN9d5kjuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 164.130.1.60) smtp.rcpttodomain=linuxfoundation.org
+ smtp.mailfrom=foss.st.com; dmarc=fail (p=none sp=none pct=100) action=none
+ header.from=foss.st.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/YxnJPdSMNYaIKDX49PPcrmhGyQ2/xT1cgIuG2YZRMo=;
+ b=MVbJidax2fH5NAKmrdsqR/7SFjdO4Y+aHcR3tKTRsqRUrSRU2Y8NfcXaLiceB7WjSzYhyiQI/cObEJo2OJjFqfZsMwIZSdJO8Sj5r9x3zPYtD3y6Lnad2zuyTXcepXP3/S90khwUgee0mBrwnfs9/uIIdIEZs4+5OcLmAH3QMQnK35RQ4HVI/usDL97Q7jKpe9lwGX1+r/YhRwkYxAYVwjivCMURLUoYqUztVQzFfbLK27lQyZlFDYz/kaJSV0PKH56i5ttgJFW1azZoWbb0w2z/esAQNp4Meh/tAoLMkmE0p7L8RDxS1Eu4AfxDSjSpc0Yn2xczi5B8QYIZLw9p2w==
+Received: from OS6P279CA0060.NORP279.PROD.OUTLOOK.COM (2603:10a6:e10:31::19)
+ by BESPR10MB756850.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:b10:12e::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.496.15; Thu, 8 Oct
+ 2026 13:34:20 +0000
+Received: from WA1PEPF00009B38.eurprd05.prod.outlook.com
+ (2603:10a6:e10:31:cafe::31) by OS6P279CA0060.outlook.office365.com
+ (2603:10a6:e10:31::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.21 via Frontend Transport; Thu, 8
+ Oct 2026 13:34:20 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
+ is 164.130.1.60) smtp.mailfrom=foss.st.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=none header.from=foss.st.com;
+Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
+ designate 164.130.1.60 as permitted sender) receiver=protection.outlook.com;
+ client-ip=164.130.1.60; helo=smtpO365.st.com;
+Received: from smtpO365.st.com (164.130.1.60) by
+ WA1PEPF00009B38.mail.protection.outlook.com (10.167.242.37) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.496.14 via Frontend Transport; Thu, 8 Oct 2026 13:34:19 +0000
+Received: from STKDAG1NODE2.st.com (10.75.128.133) by smtpO365.st.com
+ (10.250.44.72) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 8 Oct
+ 2026 15:40:24 +0200
+Received: from localhost (10.48.86.251) by STKDAG1NODE2.st.com (10.75.128.133)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Thu, 8 Oct
+ 2026 15:34:18 +0200
+From: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+Subject: [PATCH 0/5] usb: dwc2: fix low power issues found on stm32mp1
+Date: Thu, 8 Oct 2026 15:33:16 +0200
+Message-ID: <20261008-dwc2-low-power-fixes-stm32-v1-0-5b303df762e6@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] usb: uas: implement .change_queue_depth to allow
- per-device queue depth override
-To: Luca Cecchi <luca.cecchi.info@gmail.com>, linux-usb@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org, oneukum@suse.com
-References: <20261008112645.1820678-1-luca.cecchi.info@gmail.com>
- <20261008122604.1862534-1-luca.cecchi.info@gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261008122604.1862534-1-luca.cecchi.info@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJybx2oC/yXMUQ6CMBCE4auQfXaTdglovIrxAcqoa5SSLloSw
+ t2t+vhlMv9KhqQwOlYrJbzVNI4FfldRuHXjFaxDMYmT1ju35yEH4UfMPMWMxBddYGzzsxZ2waN
+ Be+ilESqBKeE3l//p/Le9+jvC/C3Stn0A9FvL034AAAA=
+X-Change-ID: 20261007-dwc2-low-power-fixes-stm32-0c1e5e68b252
+To: Minas Harutyunyan <hminas@synopsys.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Douglas Anderson <dianders@chromium.org>,
+	Stefan Wahren <wahrenst@gmx.net>, Artur Petrosyan
+	<Arthur.Petrosyan@synopsys.com>, Amelie Delaunay <amelie.delaunay@st.com>,
+	Fabrice Gasnier <fabrice.gasnier@st.com>, Felipe Balbi
+	<felipe.balbi@linux.intel.com>, Jisheng Zhang <jszhang@kernel.org>, "Felipe
+ Balbi" <balbi@kernel.org>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-stm32@st-md-mailman.stormreply.com>, Minas Harutyunyan
+	<Minas.Harutyunyan@synopsys.com>, Fabrice Gasnier
+	<fabrice.gasnier@foss.st.com>, <stable@vger.kernel.org>
+X-Mailer: b4 0.16.0
+X-ClientProxiedBy: STKCAS1NODE1.st.com (10.75.128.134) To STKDAG1NODE2.st.com
+ (10.75.128.133)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: WA1PEPF00009B38:EE_|BESPR10MB756850:EE_
+X-MS-Office365-Filtering-Correlation-Id: a18f0bda-584a-4b51-7f1e-08df2540db53
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|23010399003|7416014|82310400026|1800799024|36860700016|376014|18002099003|10067099003|921020|11063799006|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	cyOEnuCwotVKw+6CH4yrNuvorK6t4WfUG/JijfzPZtzIYPXozvGCmRG6VG9ALt2NokfqfOEXmy4KHOyUEL/0UIsXMsBfUv7vVQZo7AiFiDpkPR2lCXQk4P20kWgQKlEEdmT3QqCw4ewe01yLiU/PwRDLyG3iY20+YPKWztocIQEnUw/3Kd0SBgCLB2/XdOO0Lk0L/cGFMziLsVlLtBz0+ZFJY/XkyI/gdB7PV+zICEo0LsvhPM2rxucTz33dFCp0KxPWMzvc73sO5xj+dVXsGYILKL+Qn61HMaCT3RMuii8chsBaSyce01OGeunYu8QvUSteielQpT6abgIKirPabyuE1hJ5xIp+A8sgMItG5PGdXE29Nl/jUXR1K74NLJ/uFmSLIB1Kqt9rAQPbEZBI7YmTMfkzfhDqY55iyFPu18Npc9T0SCf7ncf43+WceRhf5P9eVjjLibeIKq/9q6JuN0idnz9kPA/DV97WUF0SqSa7p6pw7FOPRZxPOiWAZ4uvV8QMKm6brXtmWZn3etpOFPlrjmLMhveVoRY2Pwsmuba45DFg+VqQh8wMAHRxHHvSGqXXx56y2cewcPyoDGMys6lzvfAMZMo06HRivcaHoxRQGiLbOi7d93lEeeO8JblTR35YIu3ZesseJ0V+uQIJWvjh2V/jSgh5UyTpGmcvitpG7cN8/nBdum1mo/GZy7NfCouPcXH24WseivNT9QbxXi+rebVGkng1ZFOlHFZsMREx3/7NZTxVdJmBhzj0/O8Z
+X-Forefront-Antispam-Report:
+	CIP:164.130.1.60;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(7416014)(82310400026)(1800799024)(36860700016)(376014)(18002099003)(10067099003)(921020)(11063799006)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	S4jAysf0i7zOr8r7202i5BoPjNCa+RQxP6easYMPyc3CjsPKSpr0BOviLUuYtuF4AvlAQeyTRrPIqvucfQhBkQw9I5nfdFvG/pPsO2X3BE+VcfiHcGaPr28mF6EIllSaBaHW7h49rUmhfUfCgsTKhgbvM+S3VB0EXdIs2aocVbomydqeGlHSu/BS60TOxRr7JzPqyP6nmL7Ho1OXv4wf53tc/vi7G/CugwzOqsXY9LWwADv+nSX1ht/gXKaUXnE9ooGJv/LIh5OOkg/+H/vMIMY3YD48fFKxYSe5Hx+D72/97EhK/o4eX3n+I2DLpiVQKyqoaopgJNJKGDmQjzDa5vCXm7JX0zxf5srylluNnxxe1m8cuqRfk4W0EDcx7IAssCMfS2BSwmTu5FPpkRmf8BgS8QslDOR28ilhZxKt4duRAEvUazRisqjYokR4Bc17
+X-OriginatorOrg: foss.st.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Oct 2026 13:34:19.6648
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a18f0bda-584a-4b51-7f1e-08df2540db53
+X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.60];Helo=[smtpO365.st.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	WA1PEPF00009B38.eurprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BESPR10MB756850
 
-On 08.10.26 14:26, Luca Cecchi wrote:
+This series addresses several hang, bad_irq or re-initialisation issues
+found on stm32mp1 when going to system low power (stop mode):
+- First two fixes can be reproduced on stm32mp13 DK board, stm32mp15 DK
+  and EVAL boards.
+- Subsequent fixes can be reproduced on stm32mp15 EVAL board that uses
+  an external Vbus regulator and stm32 dedicated detection logic.
 
-> 
-> v2: guard against devinfo->qdepth holding a negative error code left
->      over from a failed uas_configure_endpoints() call in
+Signed-off-by: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
+---
+Fabrice Gasnier (5):
+      usb: dwc2: fix recovery after PM domain off
+      usb: dwc2: fix a possible interrupt storm on stm32mp1
+      usb: dwc2: hcd: fix possible successive vbus supply enables
+      usb: dwc2: hcd: don't disable/enable external vbus by system suspend/resume
+      usb: dwc2: platform: fix stm32mp15 detection logic power management
 
-Sorry, overlapping mails.
-Please drop this part. Sashiko was too nice about this issue.
-It is a general bug. qdepth must never be negative. It is
-a general issue. I've submitted a patch. Your patch
-just hit the issue.
+ drivers/usb/dwc2/core.c      |   1 -
+ drivers/usb/dwc2/core.h      |   2 -
+ drivers/usb/dwc2/core_intr.c |   6 +-
+ drivers/usb/dwc2/hcd.c       |  11 +--
+ drivers/usb/dwc2/platform.c  | 222 +++++++++++++++++++++----------------------
+ 5 files changed, 118 insertions(+), 124 deletions(-)
+---
+base-commit: 1a5dad490a3f8533ae955be59ac5d26a3dfb6166
+change-id: 20261007-dwc2-low-power-fixes-stm32-0c1e5e68b252
 
-	Sorry
-		Oliver
+Best regards,
+--  
+Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
