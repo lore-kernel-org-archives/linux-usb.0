@@ -1,139 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00C23357739
-	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 17:27:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD6DA37207D;
+	Thu,  8 Oct 2026 18:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791480449; cv=none; b=RDwXq8ADpORx8N2iQJRV3znttAj+QlqQMHZtUbbp9hhFqjyK6zM4Myt0eB3sKjrwQHI+783ZLM44gCBfidczjzebpyfy+LDdwqGHK+zT506pUHug8mo7khhl6LbIDdtKow/SJtF56GDmfRAE+QSy56QNrgNdNncUypYQ/MtwtBw=
+	t=1791482593; cv=none; b=Sk7ZJ43EOj//Ru9oaBhwUjWAj+OwwmjB7NiXnT/hEoTGZMNk+aZeHwoD2hU8z0hSrviP6GY0pWYKszPyT96ie1Yj05PGXUUarLFjttr4pUtUeP8HHRxG7gyEUkIET1ABpf6/kpH9zNxk/YSns78zW/HLso2m2rwBwXC3a4Vyce8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791480449; c=relaxed/simple;
-	bh=rV5nNBtN5bk+iNlra4C8UC5FExmaFteZ7Ti0B1EZtdE=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EadqfJY80gwDw9KHzU9AZvi4ViQexRJq6OgvXMYgJHUroUddLqmDpX+TSk/stuNnBCY2ltno2SOdJ0G/5PhlTgktDmLNuYRq4KXA8giLTQWBCKDirxgInQyZSP5DMSu+9Kdv5QlXy1lUDqjCI4a5aiMoickD/m84FYt5cZ1b9ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mkN4B9WZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791482593; c=relaxed/simple;
+	bh=Zzl70P+RGux/UwfMrnelaaTuxjCeRO/kek2Z5ohISAc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TiXrIs998b+/nKn/XWBW8yMEUmn4igCI76Pfvk6O65ifbhrHSsxc6Tpab+4r7r6WhfUnPQE+5Px6CZGQsHC1Zw4WVvK4Y+foEJInnD0TCrVzOtlTcMjc5a0VNroLKjbHcOsdBp5p1i9PsRquGal+aQOexwo5vzCfdQM9xVYOfSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XKdoaXPr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mkN4B9WZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 77595C2BD00
-	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 17:27:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791480448;
-	bh=rV5nNBtN5bk+iNlra4C8UC5FExmaFteZ7Ti0B1EZtdE=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=mkN4B9WZpaBQVZoafeKjlFJtS98Du4HB6kFM+2QQYuoLgcMnMtX3EDiCcB2UhrE7u
-	 0DHZwbjV3Rh3EtnJ83t4HwB/VrEYJOtUeURU7WBP9P49L/liRrKnFINbEd3w5kowuo
-	 0fCkQS4qaPtLTlk0K3vN58mfmB9EAZzhLez0oieU4QcEcCiquoQ+Y1izYBT0qs/fWG
-	 yNxlUWdJZvEc61o/yOePN6EnCc0kk4LOx7dfrQYQrnuNfHmjJFPydXQrtVYaAuqxFd
-	 vWvCpGoI4oR0KIn2NL02Qhpiqahj+Z5GhtHH1aFt3POcQmAoAIijCar0dsXSSuZuzc
-	 PUj00vInxM+iw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 666A5C53BC5; Thu,  8 Oct 2026 17:27:28 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 221103] xhci_hcd: System lockup under CPU load during usbfs
- polling of USB devices on AMD platforms
-Date: Thu, 08 Oct 2026 17:27:27 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: langosz@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-221103-208809-VBci6fptDG@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-221103-208809@https.bugzilla.kernel.org/>
-References: <bug-221103-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XKdoaXPr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17C091F000FF;
+	Thu,  8 Oct 2026 18:03:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791482592;
+	bh=Zzl70P+RGux/UwfMrnelaaTuxjCeRO/kek2Z5ohISAc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=XKdoaXPrfG2co/uUU69wo21lDZVEJhQZCAoKg53vKPqSyV6sWhKCJQi4iAdvcKcLQ
+	 7wSg2g7ZbWoa2ZQk/NH7P2P7dwt0SYKTHVWzUmnaI3Pp9bDb4bvTwmeg7r0azaPn7I
+	 KVVT1hZwZC7HTC0E32JkH4uFXE8Q2F7P3cw8v1A88zuTyGjo1zTDEw7YYMMECmSUSd
+	 LNvpo/TEmBCyXitmF7e53lVJUp+LMeXQ5Bs2ra0uv7ShBSvl04wT1dDNvGJdwqvgso
+	 0hrAj96s10Quq62osYXJIuBE6Ceac2gPU+bhCGNEfMz+O6z8//0UtNPCLSFPBfV1mo
+	 mKWkPj5CH7XSw==
+Date: Thu, 8 Oct 2026 11:03:11 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: =?UTF-8?B?w5ZtZXI=?= Mete Kaya <omermetekaya0@gmail.com>
+Cc: netdev-bot+sinfo@kernel.org, netdev@vger.kernel.org, oneukum@suse.com,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com,
+ pabeni@redhat.com, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3] usbnet: fix EVENT_RX_PAUSED race in
+ usbnet_skb_return()
+Message-ID: <20261008110311.6c93f25d@kernel.org>
+In-Reply-To: <6cf2ac60-a9e6-4a2d-a7a5-7535441485a3@gmail.com>
+References: <20261007220311.113827-1-omermetekaya0@gmail.com>
+	<179141094859.2527009.4935200551311639225@kernel.org>
+	<20261008084012.53e34d5f@kernel.org>
+	<6cf2ac60-a9e6-4a2d-a7a5-7535441485a3@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D221103
+On Thu, 8 Oct 2026 18:47:07 +0300 =C3=96mer Mete Kaya wrote:
+> On 10/8/26 18:40, Jakub Kicinski wrote:
+> > Hi, please answer these questions, and try to include the answers in
+> > the commit msg of future submissions. =20
+>=20
+> Hi, I couldnt add reported-by tag when it comes from sashiko,
+> should I include the answers under the "---" for future submissions?
 
-langosz@gmail.com changed:
+In the main body is better, this is very useful info for risk / benefit
+analysis for backporters.
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |langosz@gmail.com
+Single sentence like this seems suitable here:
 
---- Comment #42 from langosz@gmail.com ---
-New affected system: ASUS ProArt B850-CREATOR WIFI NEO + Ryzen 7 9700X =E2=
-=80=94 total
-freeze from adb legacy USB backend polling, no Android device connected
-
-I can confirm this bug on my system. Symptoms are identical to the ones
-described here: complete freeze (keyboard dead including SysRq, mouse dead,=
- no
-SSH response, display frozen), only a hard reset recovers, and zero kernel =
-logs
-=E2=80=94 no panic, no soft lockup message, nothing. I had kernel.softlocku=
-p_panic=3D1,
-kernel.watchdog_thresh=3D5, and hung_task_panic=3D1 enabled with kdump inst=
-alled
-and verified working; the NMI watchdog stayed completely silent and no vmco=
-re
-was ever produced, so this is a hard halt below what the kernel can report.
-
-System:
-
-Motherboard: ASUS ProArt B850-CREATOR WIFI NEO (BIOS 1103, 2026-09-18; also
-reproduced on BIOS 0239)
-CPU: AMD Ryzen 7 9700X (Raphael/Mendocino iGPU driving the display)
-GPU: 2=C3=97 Radeon RX 9060 XT (Navi 44, headless compute via ROCm/llama.cp=
-p)
-RAM: 32 GB DDR5-6000 (EXPO enabled)
-OS: Ubuntu 26.04.1 LTS, kernel 7.0.0-38-generic (also reproduced on 7.0.0-34
-and 7.0.0-14)
-Trigger: a resident adb server from android-tools-adb (platform-tools
-34.0.5-debian, legacy NATIVE USB backend that polls /dev/bus/usb every seco=
-nd).
-Important: no Android device was connected during any of the freezes =E2=80=
-=94 the adb
-server was simply running in the background after I had used adb devices/adb
-logcat, so polling of the root hubs alone was sufficient. The load condition
-was sustained CPU/PCIe/memory load from local LLM inference (llama.cpp,
-HIP/ROCm backend, both 9060 XTs active). Freezes happened randomly over sev=
-eral
-days, always while that workload was running.
-
-USB topology (matches the xHCI superspeed root hub pattern from comment #59=
-):
-three 1d6b:0003 Linux Foundation 3.0 root hubs (Bus 2/4/6) plus 2.0 hubs;
-attached devices are an IMC Bluetooth radio, an ASUS AURA LED controller
-(0b05:19af), a keyboard and a mouse =E2=80=94 nothing unusual.
-
-Ruled out on my side: BIOS update 0239 =E2=86=92 1103 (AGESA 1.3.0.1d) did =
-not help;
-kernel downgrade to 7.0.0-14 and upgrade to 7.0.0-38 did not help; disabling
-EXPO (running at JEDEC speed) did not help =E2=80=94 freezes continued, and=
- I have
-since re-enabled EXPO with the adb workaround in place and the system remai=
-ns
-stable, so memory speed is not a factor; temperatures normal (37=E2=80=9343=
- =C2=B0C); no
-MCE/EDAC errors, no PCIe AER errors ever logged.
-
-Workaround: setting ADB_LIBUSB=3D1 system-wide (forces the libusb backend) =
-=E2=80=94 no
-freezes for days since, with the same inference workload running, adb
-available, and EXPO re-enabled.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Discovered by Sashiko, not triggered, not tested on real HW.
