@@ -1,142 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EDA92EA749
-	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 13:53:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACDEC3C3F68
+	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 13:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791467615; cv=none; b=EcowTTR63NN+L3jSj7BudADUU5Xa2Dygtzn1revjIkwXyIFXouxDE8tG5lx5R2L5OgesnvHKi1MVJUHw0VP3rFImEPfxbvcaa5mBOpCkxE17udZJr19bT752iS+/yH8VN2sCfFL801vops7j64FC/TB3FgLpSTthipaEBGpC74I=
+	t=1791467767; cv=none; b=O/2dXtBdBpiFImh0ce9lDUPKXsqe8Mqqu9ghVa2ZEw8fgVZSwJAByl61hAS0hA6/fs2RqFsPhEZpHPBZHGiv7sBGg1UAKlgO/Xjs4hwxOOsczr9mHkLSCVubuBc3slmM7h4sG1OB/1SHOl2aenAQ+zDyDEOj46u5Mmz1ILs08q8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791467615; c=relaxed/simple;
-	bh=GIDC0ERfeEzij6GS39WLsG+Ikwe05ghZ1HJFoBxj4/U=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=lXsj1PswY3jMZCRjltpckBn0HStHt0N5HmjNe4Rxj/Y+nhUz/cm5C3H0Qgo4lM+o9nawgaGcwRk4FmnQKW5O/8yvbpcrs16N2b4zuQX/lzXtVuYo50lU1YPPPdBLzlds+7KgZbYoeP2RBeNvadz0MAEvK0KCh0sdqax8FKdsT+I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DzOJkWs8; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791467767; c=relaxed/simple;
+	bh=uWtLnTFh6qTHf5DLMoR8B9T86+1W025loHESsMmsiZA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K7H7tO2wGKV9eR5SDeg1g9nhhoqI/EJ0lIeC7XGHgla+lJn6U/jGW7zpZyiC7dWppA9VckecJOJfvL6Ou1T9GgEIkYwb9JujR1+uPCqg6LUlmPcX9/dOGZT6AFz/9AqtJCPVoYRbi78NnXl2dhWVbVmi3ziob3GRsGowfeQED90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lgA786KC; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DzOJkWs8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 030CE1F000FF;
-	Thu,  8 Oct 2026 13:53:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791467614;
-	bh=Xxe65q75JRT8ua25YA2ZqQYSHD75sNLL3N0IfWFJ26I=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=DzOJkWs8mBks6TpYSI7z+UH8n9jxzRex8JJ7GLCEQDjCnbMdjt8M2Pdg1Z3qUbS1Q
-	 h091sYsfk7c+0KzvesDHpnR3TxKUjYU+58VFBmmjHgiDdvs9OJ/yU3oHO2Fpmd05Qe
-	 CC0fuSwV/gB68pQ/V/mZQXfKzG+2tTVmQBf+iG/ULWnq9v4o2xO+659rmbjsB+OdDh
-	 laqHh8pwZMvwBZqGGS/YuGiT57iDGk/ZVu9ePe8Mine1DMDEKwllKpMelR7BZSg8K8
-	 QmamHOJwDVxX8466JBEUyIzOgWoG2eah69OhlF7Vz/KBeH4FCwjlOpniIBXrSF4rbz
-	 pS6/jYpPVtjEQ==
-Message-ID: <sashiko-outbox-164252@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/5] usb: dwc2: fix recovery after PM domain off
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261008-dwc2-low-power-fixes-stm32-v1-1-5b303df762e6@foss.st.com>
-References: <20261008-dwc2-low-power-fixes-stm32-v1-0-5b303df762e6@foss.st.com>
- <20261008-dwc2-low-power-fixes-stm32-v1-1-5b303df762e6@foss.st.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 08 Oct 2026 13:53:33 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lgA786KC"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a16bc2278aso22439895e9.1
+        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 06:56:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791467765; x=1792072565; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=VTZ7Ce3DSMwtlL3baMAmWojuDL2Dz507rHvu3QqzBVs=;
+        b=lgA786KCLR9bnqh1vS4vStcSzLFg6pH6rXryf2C+Ot87aKb5U73417nbocOIDf2icQ
+         zvNtoEMT+ps7QJSBTq0DpUM8CCyJiKTH6NnQDgDDx3tZzWBf1kUgw3a2n9fiZA+7wrxq
+         hb9hJMpuXe2ChCEoTUvElBmDNvfkKUv6BPWGm7dQO8oF69Oy8FC1Kwp3N/Y+vGCs31k9
+         hQ/e8CQcUuL4iHC5kqzqacxg+gKqw5g3OIpJCEfYfTwHr8SqdkhFrbZNz9vylJZsSMnd
+         xbFpWwgT7846wf525xFt8VtSB0xYp7vPDyPWyMC44K8G9o35p9ymO/xdQ5a/pP6m/now
+         eH4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791467765; x=1792072565;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=VTZ7Ce3DSMwtlL3baMAmWojuDL2Dz507rHvu3QqzBVs=;
+        b=SsrAQ9EfYuZzs0SNKpKrzIF/GTN0WyuFIs4nVp49a8lfvI/Ptqol8iq4b/QPKkW5wu
+         dTmqkh0YPdIBAeeWFzEJ86wJqjM0KZXODF9tJ4NVXdYq1ZEuPc2Ht2kZI4lj9odfshlG
+         XoMhm5iPOKCjoOmTxy7dEucURJhigLihWAko+vORu6SDKF4tBaeechZKtPMmL//DoJkq
+         p48MIUrTZMEdnQQqXFNBid6FDk1g1IZ+xUc7wO/tYWn4VprPCN485BhQRF58wsZPAy19
+         AC8b8szyNTRVjOzcuB4YCmQGFAWu5X1khbARE+Om2/ismS9eaZLulpPBX5NphXr3YLJK
+         CoIw==
+X-Forwarded-Encrypted: i=1; AKwUvBzIjiANW1x5m6hQtIXevxcjfNSVpVmcRC/qao6q7ci2d4ePIzuPWNpNEVwC04OG6ngyKnifdbTyipY=@vger.kernel.org
+X-Gm-Message-State: AFuF++nNqkppz5VepsyGNw/hE6aoe/z9/UmAcOaMC++k9ag4N5RRwwrO
+	3hx21RfNGtIdA5HPP+gCfYoTU1icMqf+TX+irwEVxRVUZhgwLyX2lAOv
+X-Gm-Gg: AYBFou0rehIfLnpM/8A4LmyBAeDZTS29QaUWydRu/q6hRWwpOZ7DFb3KgEooBQ3+Ke7
+	EErtRY0zIbpWgoj1WFpn2YciBbdQ7f9cR7Snqgq7kIG4FrQM8PvbhQsyP9eSBatTq9IXJBgnZNR
+	Y+6TI8INhV/Hc/Lw0egp5zwYI8/BfDynmWghzD9a++fOVHGFxEqGapd/BzYbIo0MIOhoeCXfDEK
+	HMV0OmlCD+15P13xQq+vu2onFq4tBxFAjuKD+V0Xpa0uVFEb/FOcVtPhUF3tnM2n/7SKdi7qCw+
+	1CbhSpTjC9a2jyYUuRXcucT2XKFdoB0tJGqdC6JcbaVrYNoca9HxYKX5rcqgA0YY+l68uuwANB6
+	6MQtHis4pkDn/hHp1uBUQVuMDOOdNxKThI3CVnwAdgn+E0PWYKOT1izRP8ZpjjVhfDmlohNro5J
+	5Yp/N101IGcOAoJfmamcLhv8fTWGCb+JC2o9mr055ngoTI+n6T32tpdqHMBaFLnD1UzopT9Hff2
+	m1c348C
+X-Received: by 2002:a05:600c:3f12:b0:4a1:6811:8d with SMTP id 5b1f17b1804b1-4a180310ad3mr101294365e9.11.1791467764620;
+        Thu, 08 Oct 2026 06:56:04 -0700 (PDT)
+Received: from [192.168.18.21] ([46.197.185.71])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1842a51afsm78302835e9.1.2026.10.08.06.56.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Oct 2026 06:56:03 -0700 (PDT)
+Message-ID: <241da2cf-3437-4c66-80c6-487c0c5070bd@gmail.com>
+Date: Thu, 8 Oct 2026 16:56:00 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net] usbnet: fix EVENT_RX_PAUSED race in
+ usbnet_skb_return()
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+References: <20261004223852.312487-1-omermetekaya0@gmail.com>
+ <20261007194914.2958b69d@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?=C3=96mer_Mete_Kaya?= <omermetekaya0@gmail.com>
+In-Reply-To: <20261007194914.2958b69d@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] usb: dwc2: gadget state lost on system resume with clock gating
-- [Medium] usb: dwc2: missing resource cleanup on dwc2_core_init failure
---
 
-commit 0a7c02abb23c7f52b48654e1d1781cd4041fb820
-Author: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
-Subject: usb: dwc2: fix recovery after PM domain off
 
-This commit modifies the PM suspend and resume recovery mechanism for dwc2
-to prevent freezes when reading registers during clock gating. It removes
-the manual backup of critical registers during suspend and moves the core
-re-initialization logic to dwc2_resume().
+On 10/8/26 05:49, Jakub Kicinski wrote:
+> On Mon,  5 Oct 2026 01:37:24 +0300 Ömer Mete Kaya wrote:
+>> Subject: [PATCH net] usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_return()
+> 
+> the patch reportedly doesn't apply to net
 
-> diff --git a/drivers/usb/dwc2/platform.c b/drivers/usb/dwc2/platform.c
-> index ef0d730770347..643d67ce28ea2 100644
-> --- a/drivers/usb/dwc2/platform.c
-> +++ b/drivers/usb/dwc2/platform.c
-> @@ -692,14 +692,6 @@ static int __maybe_unused dwc2_suspend(struct device=
- *dev)
->  		regulator_disable(dwc2->usb33d);
->  	}
-> =20
-> -	if (is_device_mode)
-> -		ret =3D dwc2_gadget_backup_critical_registers(dwc2);
-> -	else
-> -		ret =3D dwc2_host_backup_critical_registers(dwc2);
-> -
-> -	if (ret)
-> -		return ret;
-> -
->  	if (dwc2->ll_hw_enabled &&
->  	    (is_device_mode || dwc2_host_can_poweroff_phy(dwc2))) {
->  		ret =3D __dwc2_lowlevel_hw_disable(dwc2);
+This version is old and superseded, please see the v3:
+https://lore.kernel.org/all/20261007220311.113827-1-omermetekaya0@gmail.com/
 
-[ ... ]
-
-> @@ -786,6 +748,22 @@ static int __maybe_unused dwc2_resume(struct device =
-*dev)
->  		dwc2_drd_resume(dwc2);
->  	}
-> =20
-> +	/*
-> +	 * During suspend it's possible that the power domain for the
-> +	 * DWC2 controller is disabled and all register values get lost.
-> +	 * In case the GUSBCFG register is not initialized, it's clear the
-> +	 * registers must be restored. So invoke here the necessary init
-> +	 * as done by dwc2_hcd_init() during probe.
-> +	 */
-> +	if (!(dwc2_readl(dwc2, GUSBCFG) & GUSBCFG_TOUTCAL_MASK)) {
-> +		if (dwc2->dr_mode !=3D USB_DR_MODE_PERIPHERAL) {
-
-[Severity: High]
-Does this leave the USB gadget permanently unresponsive if the USB bus was
-suspended by the host prior to system suspend?
-
-Since the manual backup of critical gadget registers was removed from
-dwc2_suspend(), the platform cuts power to the controller and wipes all
-hardware registers during suspend. On system resume, this check explicitly
-skips dwc2_core_init() for pure peripheral mode (USB_DR_MODE_PERIPHERAL).
-
-Subsequently, dwc2_hsotg_resume() is called, which can return early:
-
-drivers/usb/dwc2/gadget.c:dwc2_hsotg_resume() {
-	...
-	if (hsotg->lx_state =3D=3D DWC2_L2)
-		return 0;
-	...
-}
-
-Will this cause the device core and endpoints to remain completely
-uninitialized since they are never restored or re-initialized?
-
-> +			ret =3D dwc2_core_init(dwc2, true);
-> +			if (ret)
-> +				return ret;
-
-[Severity: Medium]
-Does this error path leak hardware resources?
-
-Earlier in dwc2_resume(), __dwc2_lowlevel_hw_enable() is called to enable
-clocks and regulators. If dwc2_core_init() fails and returns directly here,
-does it bypass the required __dwc2_lowlevel_hw_disable() cleanup?
-
-> +			dwc2_enable_global_interrupts(dwc2);
-> +		}
-> +	}
-> +
->  	if (dwc2_is_device_mode(dwc2))
->  		ret =3D dwc2_hsotg_resume(dwc2);
->
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261008-dwc2-low-p=
-ower-fixes-stm32-v1-0-5b303df762e6@foss.st.com?part=3D1
+Sashiko did apply this version:
+https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261007220311.113827-1-omermetekaya0%40gmail.com
