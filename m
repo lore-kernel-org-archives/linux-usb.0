@@ -1,195 +1,144 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BB292BB17
-	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 00:06:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 604C716F288
+	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 00:34:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791417982; cv=none; b=iBSJ8WiF00tHPGEWB98QYd/VEjcvoP4GmqRK1s9dZCY6IRmmWMpANcR6FWplwXaePKVy5mKlk5Z/SdtS6blQDGUZqLFExshZ5bMN8j5u3KHoUTuNE1QFq9qKPdjxS0iOxuEZ4INIe8bh9qW95OwxUuwtWNdAvH5Wa3Zs1aDfAl0=
+	t=1791419679; cv=none; b=lM2lt3tuuLq64ORJpTb1H4Oe8oCVnkdw5PYQj+4oOyMylDWntdd2rVQVyb3qVJJumaL2ZY6BTGcd4Lxvh7ZWXAtN19cUxK6FzkWq7ngz963mT8tWsJLJ1Yu4902rDTAG8bdEBBAltm4ASoS48dBW71rawkDFHkHvlEh1teS3y3w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791417982; c=relaxed/simple;
-	bh=DrtkP/EDagrCAnx7kdKO3J0H5Jc/7HTMUHnMRinMpkY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WVpC+s0rHamUmhTF4PcfTiTHFRaOffSumFhWIHf4t61VZvfIqXbryq8hbNCGijg/UCTbtsk5KtFTUnYGLtL37vKGcIWUCVllrAonhgtE0M/HSz/7UrPoKbzsB096F06zvaTIp8lu9+G5VdqNYrLFOSuBbnsoMMgLO+te2F2JLdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ASlTytu8; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VrucklLg; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1791419679; c=relaxed/simple;
+	bh=tOx1nEU5HsywsGyX3YhjHOQTmaL0UfLjuC7MsW973WE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F8Z/4gWmj0bmsw74rtyt3xmbc3pfIzXrK9gkyb7vhczLEA57ijQeXk0BN9f7Iuau2KYDF4RLWtbXMgNu3spSf8UVyFMFYx46qWrFFvOZHDlbDFfULyYLwZ8rqF2cKBEvgun7WoqfMLUjITsx/S3EiqeyLSVVblthuNRrvw6RnYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pl2z1t/4; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ASlTytu8";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VrucklLg"
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 697LurTo853304
-	for <linux-usb@vger.kernel.org>; Thu, 8 Oct 2026 00:06:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	bU4cMr00O4p75b80sWk4BP8jsdrjwNx6YLTtrRbn8zo=; b=ASlTytu8WlkXf2of
-	YgWAqcSCSbV1PuOb7N4hqNfzUMplLfR8y4H/jDnGTu3WzMsSVQaCgPVGpWzVB7aI
-	1PIARi5dAyOOQCjHtDqtjFGaAqrhPqgJkVxuD9hqWtT96yyOtgitBBU75/+7U7nW
-	cKc/X94VTNBKq1ZD1pNUQoYyXFwwmq5PtqYLGK/J0ghMPGrS71gcNt1bWk/mC/Ru
-	QsLcGSwaK+y3LZXifqM8MfhziA6ztf6ESJuCTJoKxV4nyCZ27hDRDfN8acHMkRAE
-	TOXKmVjZnEYOGTsqlAUsKQzXF+55H3RKSeXoyGNV93KseSTQqkPxgQAlg985MqWd
-	wWaL5Q==
-Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h5xe3gd0h-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 00:06:20 +0000 (GMT)
-Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-149e8e8ad71so1683135c88.1
-        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 17:06:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pl2z1t/4"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2e608cd460eso8662855ad.3
+        for <linux-usb@vger.kernel.org>; Wed, 07 Oct 2026 17:34:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791417979; x=1792022779; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bU4cMr00O4p75b80sWk4BP8jsdrjwNx6YLTtrRbn8zo=;
-        b=VrucklLgGgQv+ZVHDCUg+B12B9Mf1pNBQlzYiJpoDXwB2Zkfk2NoK+JF1frAgevMBv
-         kRuOEGzp/Ak3Me7rgxXPeqtpQJSMZrzWOLeOu0fmszC2gxLvyB6PdC2CBe2Bmbvn8wl7
-         reNW7WLvXAJO0uqA4oS8PBgdqOlHjNrSWZrZJQo3cnN+qIkjnFAZw9iEKYqyOoABkw40
-         0pU/GwQCGZMrMlEFRzz6zUnWntvgQ89d9kYm6X+3Vi84WumBkifm+a40oVES0Ogf+nzn
-         7/BFBK3I2CxBdaBADCgxZMwWaUK6CCeM5uCOjyAQP2BaAjBUOUm4Q2zdDA2TjuzFkZe8
-         zkXA==
+        d=gmail.com; s=20251104; t=1791419677; x=1792024477; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=98AWZAZuc9VdjoCVD8NZ7AG4j/XWa1qw2xn1gi50RyQ=;
+        b=Pl2z1t/4fUGUTa+d7hF5yScMeqhP99nDiz8Byw2yeAFXafK48N2T2ERKDOifUcgRg9
+         /lMwif6TLjCpWe//GMcrw7qWn4TvwN62ClcKEVwa6vmBg7MqCJMtDc7MeqRMyHdZ8pOa
+         RiBWIHy4GxMGncvKxlsSi2ealIf6H/g09nlA79/Ev3gxIAv1l2g0MWumkG4ye7yZ8H8b
+         oHdQlevdobargCwXFaAU9y8rb3bBPOf+xtSLKw3qShcYzDgzV/fxTmHkHoz0DIjROUPy
+         Prit7J8w8huisIK6QLyeLu1aBwYr5/cZjYLyeGydSXE4DvBKKlfQiDdfgm5GkM+xMuHY
+         dQJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791417979; x=1792022779;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1791419677; x=1792024477;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=bU4cMr00O4p75b80sWk4BP8jsdrjwNx6YLTtrRbn8zo=;
-        b=im49dgP+IwXPvK8b/5+tbzyfuFN2GQupK7J3zuXeqlreEHfISBh+DtbS62Oj7WNMao
-         gSbT2QuY/qWRGa/+ExeBF6igynBNpWiLvLhKAemMsto7QB7rNCYZ8Lfi/s4UTBAjYD/0
-         iml06mhgErouRrZR0e/t0Jd2FPeAFr9r35S4jUGetPp6WWjbNKeOuqZZbYIjrDGynYSr
-         F8xyZZI1PF18zITBlgGUohnvgh6BL8R+kvOPFImvCIiO4Z0YSjbEs8G8gcwK1x36seya
-         65q5TBXhKurorwAzkFkXbeIA5jbmkCkD5I1oLnXJ9srP4PxkFxX2kLIGFiN0iJ52D7AS
-         vjxQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx8xclV15jQVu6tCdeWdIzdNojx4n0y+aIUeaO9JuU/vPxQY9wwy95sn2uxEIcUa0pwA3tqUZDsTTw=@vger.kernel.org
-X-Gm-Message-State: AFuF++l3dE3KvG85RrrqiwnhtEdaYXWYlTGK16lgKU+IjaKhDbp7YNbh
-	VbhXSa1wjozF/X2MgX89MN1omM54fbZK6r3k+ISd+n0hgpP5g9w0fjhMgFijY99y8z0SBbpeR7N
-	agIg1uug4jeJYRX1xzr/MAxZlKHJfmcvuKSX3r6sh7w/bVuaIAuchcViniGPWq18=
-X-Gm-Gg: AYBFou2pOII4dYu0tCKQv0LIKSneum+RBRa2cy6XQtSY84vneoHn2U8X3us4724eTwQ
-	U9u1QaX196TjE+0M/tJTfnsUSdK6c7sw1mCB9bIlDIuRXDxaD7Tuds6jAitcKl+ewnpKpcWvdcw
-	E2kOIGTXvvkSAgH9CDYtOOocB6fi4DcR4eM1XA+H6Mm3wP3paYH3IjJfGmkj4Q+nb6CHRkgkFaP
-	xDjXIQkgL7HUYb7L9byBUE28FxEc8DC844ULraC5slndOLC073FUIhSkn37xjImBY+7haqThPtM
-	5JYPlbMlazpNviCZ2RyXQLHSCgtoz3V89j2SRBic9U1T10m5xNlr7Z4jMrK7fWRKY1s22DYx/8o
-	SdIKD2eLn/TRrzS/HeLJJw5U+bBElqA==
-X-Received: by 2002:a05:7022:4381:b0:149:1feb:6da4 with SMTP id a92af1059eb24-16206f07244mr6679670c88.32.1791417978852;
-        Wed, 07 Oct 2026 17:06:18 -0700 (PDT)
-X-Received: by 2002:a05:7022:4381:b0:149:1feb:6da4 with SMTP id a92af1059eb24-16206f07244mr6679616c88.32.1791417978106;
-        Wed, 07 Oct 2026 17:06:18 -0700 (PDT)
-Received: from [192.168.1.133] ([172.88.17.160])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-16166216f39sm11898472c88.6.2026.10.07.17.06.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 07 Oct 2026 17:06:16 -0700 (PDT)
-Message-ID: <0f4b331a-0c5c-41ca-ba8c-d3a4cb89900b@oss.qualcomm.com>
-Date: Wed, 7 Oct 2026 17:06:15 -0700
+        bh=98AWZAZuc9VdjoCVD8NZ7AG4j/XWa1qw2xn1gi50RyQ=;
+        b=0IMP/U/XSJ/GakLlIK8CMCMJfPE1pxGK5ngRkrk2pH6/n0Oh5EurfUrKoeSYqAijxy
+         cZGLRy5iaY1y3wCM+C9EUPqM9zouRk/Dy09jmfiqn62rUFmRTmi8Pw6duy1FZr0CT0r9
+         sTkorrXvly955T/D8ZzXT9fVkJmI+Z6dl94YZvYzDSyPSVZNPYmJi5rzkllfOLS4Gwo5
+         0XYmDDwmqtqqz/Hw6U0E+ecAulOf9G76oAqkiW7sXzluGRPxYg3ABX1E3mec8QfzTMv1
+         m4zgMHfS09wB7xa5Swe+fIrydb82FxTHPI4M18pYL0HgGPZv7MQtKLOOYLBx1kH4L5B9
+         mFQg==
+X-Gm-Message-State: AFq9FYLaWTkcIkZ3aUk83uWwciSXE1pljaH0uNxxhalUZ2zuiB8ML19j
+	5nl+hFyKctTxfgcJcyhMWMeSJP+qNfdX/6tv++Q3sd6jIx3fKqavrQB7
+X-Gm-Gg: AYBFou2qUIFANNw1koAvisJlU1zGTAZJqCpXQNSIhCOzyN22djearlmHDMwtuwjhAQY
+	TbIvk4ugS/qmrndKtyjzI9Utf0XRZOsZaZmujJK0d9ADbJCxQ53rOC0hvNjWC0i0oWX5AKaWSKi
+	J4XyYiTJVHdK8M9EEJ40o2/NlZ17bBXjqQ9V01BB0NwgObgABFYhBxyEp2qpqHzkN1A/paLA8eu
+	0sdc4hwEgSNDNmdALLGkjZRU6kzhzqYiFx9g+uzrAlGPeEhZrkGX5CQxKLSQrYanjq1cpmRMsaU
+	VB4bjoeb75McJulbY2C1NaL+zEnehfbg4OzQNVl7IYfFE47LLkRDoLsaF5MOL7kq5aXzurC6kDw
+	GpPUWipBxkw+tKfbKAR/iTkiJSHtayzWvYIC6EtqqsBtYOX9A8fTXwiZ0KSZBngUwJyfoGyxt1y
+	kgpPPBA2BswQtuJlk2cghZl4dZ6dcIZm5gTimTGgzIDHEI83Zhrw+svMlAJ4n7E3JMpKVdvoSO
+X-Received: by 2002:a17:902:d54c:b0:2dd:ad73:5b68 with SMTP id d9443c01a7336-2e60036c99cmr32985705ad.24.1791419677195;
+        Wed, 07 Oct 2026 17:34:37 -0700 (PDT)
+Received: from thangnn-ASUS.. ([2a09:bac5:d45a:2646::3d0:58])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e60482d33esm17883235ad.52.2026.10.07.17.34.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2026 17:34:36 -0700 (PDT)
+From: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+Subject: [PATCH] USB: core: don't release an unbound claimed interface via the driver core
+Date: Thu,  8 Oct 2026 07:34:31 +0700
+Message-ID: <20261008003431.145352-1-ngocthang2710.1999@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 1/1] usb: dwc3: Clear SUSPHY before issuing core soft
- reset
-To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20261002000741.450793-1-elson.serrao@oss.qualcomm.com>
- <20261002000741.450793-2-elson.serrao@oss.qualcomm.com>
- <ar7-H4Q9U3sNou0Q@vbox>
-Content-Language: en-US
-From: Elson Serrao <elson.serrao@oss.qualcomm.com>
-In-Reply-To: <ar7-H4Q9U3sNou0Q@vbox>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=NchzRGD4 c=1 sm=1 tr=0 ts=6ac6de7c cx=c_pps
- a=kVLUcbK0zfr7ocalXnG1qA==:117 a=p3NwzfejtmCMKWTc25r7/Q==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
- a=EUspDBNiAAAA:8 a=XizZcgsUtJyPTJarKMYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=vr4QvYf-bLy2KjpDp97w:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA4MDAwMCBTYWx0ZWRfX9FrS5eS84CDR
- DJjfg82my18g2KoCavCjr+PxIVYNe5gFt/2Xoax/Gu/TGvs8ymVmZZsoys7IzBH/uQAWqkxq55s
- xhhd9ia4ieDFL9hTyD/qvpzqX0FJYts=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA4MDAwMCBTYWx0ZWRfX1Bt3hURvgpyh
- 5g7PO62c2S1z9KYpB4DrHCsjn9JvOSchFproYsxcBvcZz+4q/JY0sCtz6UW5UBS4HVNBzkGVQ59
- VcC/YhGWt86L94DnC1go3wr2fHtIKsmlC2beHodkkXPMM7EjFF2rhgIRxvcZk7li7T1PQtyCGBT
- Qu7ids29pot9/8+NdaohAfMDqbRHpP2aMeM05ddXYEzvrRDbfTqfaoeC3lHpbBN7RrYpyToQfbg
- tsqloav3rAxZg4HqhqNBWjNg35+1vauVd0GytkSq/q7Bqt4xKGQg+JkVeof7qL60shO1FE14/bM
- ngOWcyPrhsvkTAKQcsDVy5LTcsKxvdgzUAn2J82UUasOataYM0GQI+VW9TbE0Lx4pg7Ij2v8S8V
- 9DRk1pk7eLLr9sBfOsLrlXJdrd0LnH/QhtOat5V1MvRSOOzNLqxKHCw2guuwkJlrVWQi2M3Rhp0
- R5l6AQT8c7a1qWNQqVQ==
-X-Proofpoint-ORIG-GUID: 3YXpPFPkLPUX-YpwbUJEHg0odR5YpgBs
-X-Proofpoint-GUID: 3YXpPFPkLPUX-YpwbUJEHg0odR5YpgBs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-07_07,2026-10-06_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 bulkscore=0 priorityscore=1501 spamscore=0
- malwarescore=0 adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610020000 definitions=main-2610080000
 
+usb_driver_claim_interface() sets dev->driver on an interface and only
+calls device_bind_driver() if the interface is already registered.
+Otherwise the later device_add() is expected to bind it, but with
+bus drivers_autoprobe disabled bus_probe_device() skips the attach, so
+the interface ends up with dev->driver set while it was never added to
+the driver's klist.
 
+usb_driver_release_interface() then sees a registered device and calls
+device_release_driver(), which does klist_remove() on a node that is
+not attached and dereferences a NULL klist:
 
-On 10/1/2026 5:48 PM, Thinh Nguyen wrote:
-> On Thu, Oct 01, 2026, Elson Serrao wrote:
->> The controller clears DCTL.CSFTRST only after all required logic has
->> been reset and all PHY clocks are active. If SUSPHY remains set, the PHY
->> may not be fully active during the reset sequence, causing the core soft
->> reset to fail to complete.
->>  
->> Clear SUSPHY before asserting DCTL.CSFTRST to ensure the PHY remains
->> active while the reset is in progress.
->>
->> Fixes: cc5bfc4e16fc ("usb: dwc3: Set SUSPENDENABLE soon after phy init")
->> Signed-off-by: Elson Serrao <elson.serrao@oss.qualcomm.com>
->> ---
->>  drivers/usb/dwc3/core.c | 7 +++++++
->>  1 file changed, 7 insertions(+)
->>
->> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
->> index fd5c2cd36c59..282a853c364e 100644
->> --- a/drivers/usb/dwc3/core.c
->> +++ b/drivers/usb/dwc3/core.c
->> @@ -332,6 +332,13 @@ int dwc3_core_soft_reset(struct dwc3 *dwc)
->>  	if (dwc->current_dr_role == DWC3_GCTL_PRTCAP_HOST)
->>  		return 0;
->>  
->> +	/*
->> +	 * The core clears DCTL.CSFTRST only after all necessary logic is
->> +	 * reset and all PHY clocks are active/running. Clear SUSPHY before
->> +	 * issuing the reset so that the PHY is active.
->> +	 */
->> +	dwc3_enable_susphy(dwc, false);
->> +
->>  	reg = dwc3_readl(dwc, DWC3_DCTL);
->>  	reg |= DWC3_DCTL_CSFTRST;
->>  	reg &= ~DWC3_DCTL_RUN_STOP;
->> -- 
->> 2.34.1
->>
-> 
-> Most platforms require SUSPHY to be set before soft reset. Can you
-> handle this via a pre_soft_reset() glue_ops for the affected platform
-> instead?
-> 
-Hi Thinh,
- 
-Thank you for the feedback and suggestion. I will explore that
-approach further and evaluate whether a pre_soft_reset() glue_ops
-hook can be used.
- 
-One point I'm still trying to understand is that the programming guide
-states that DCTL.CSFTRST is cleared only after all PHY clocks are
-active/running. Based on that description, suspending the PHY during
-the core soft reset sequence seems somewhat counterintuitive, as reset
-completion appears to depend on an active PHY clock.
- 
-Am I missing something in how SUSPHY is expected to interact with the
-PHY clocking requirements during core soft reset?
- 
-Thanks,
-Elson
+  KASAN: null-ptr-deref in range [0x58-0x5f]
+  RIP: klist_put+0x4d/0x1d0
+   klist_remove+0x14c/0x2e0
+   device_release_driver_internal+0x4fb/0x620
+   usb_driver_release_interface+0x10e/0x190
+   cdc_ncm_unbind+0x2ac/0x350
+   usbnet_disconnect+0x1e2/0x300
+   usb_unbind_interface+0x1dd/0x9e0
+
+Decide on device_is_bound() instead of device_is_registered(): only go
+through the driver core if it really bound the interface, otherwise use
+the same direct unbind as for an unregistered interface.
+
+Reported-by: syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=863936f50214e843ae0c
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>
+---
+Root cause: cdc_ncm claims its data interface from probe of the control
+interface, before the data interface is registered, so only dev->driver
+is set and the bind is left to device_add().  With drivers_autoprobe=0
+that bind never happens, so release goes through device_release_driver()
+on an interface that was never put on the driver's klist.
+
+Tested with the syzbot C reproducer in QEMU (KASAN, dummy_hcd) on
+111dc5487a4e: the baseline oopses in klist_put() in 2 of 6 runs (the
+reproducer is racy), the patched kernel in 0 of 10.  A temporary
+pr_info confirmed the new path is taken in a run that would otherwise
+crash.  The Fixes tag points at the start of git history, as the code
+predates it.
+
+ drivers/usb/core/driver.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 7f33fe5ba03b..c7922875dd59 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -636,10 +636,11 @@ void usb_driver_release_interface(struct usb_driver *driver,
+ 		return;
+ 	iface->condition = USB_INTERFACE_UNBINDING;
+ 
+-	/* Release via the driver core only if the interface
+-	 * has already been registered
++	/* Release via the driver core only if the interface has been
++	 * bound by it.  A claimed interface is not bound if it was
++	 * registered with drivers_autoprobe disabled.
+ 	 */
+-	if (device_is_registered(dev)) {
++	if (device_is_bound(dev)) {
+ 		device_release_driver(dev);
+ 	} else {
+ 		device_lock(dev);
+-- 
+2.43.0
 
