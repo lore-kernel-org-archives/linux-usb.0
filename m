@@ -1,50 +1,50 @@
 Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F74356775
-	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 03:35:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A034021FF23
+	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 03:36:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791430507; cv=none; b=S74yUnF/RV+loUD4466AULu2/NRNfgIJBQW/GWNaNR76yfVw/caOQSqgHNAxjZv5pGwgMHD0EuBVadAvgBH4U8aMpDPyy46cWijuBO6E4sgPah35vR7mYFJEbL9ZeP6ZzzN9pg1NEk6ID5ZZ4zQ3MYLlt790hYXqaOuX5vmquiA=
+	t=1791430620; cv=none; b=cSAmnGtwkpQJLawTLpDbHeffsyvK/L+yy2tq5wZHJ0LK9XF9gVJxbrH0kdmIhVnR4a3RucnTRnI21HX/8zfyp405niYNFHATHh+lQsG7saa/21CkRjLUPVRTU0b4WvnbRfENZcxJIr2zyYZDBIJXs3zWLFF7cmgJ2iwjsjEmMRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791430507; c=relaxed/simple;
-	bh=knFSd9gxXbU4LbNqy4lxRD7FjLr6llnrePtlywKFiKc=;
+	s=arc-20240116; t=1791430620; c=relaxed/simple;
+	bh=Bu17OUBPm+ubQGdXqLA8OX3TRoauzbCDXFnc0a0nkRE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WmpnEfHsb9tMG0S4VMKUpN89lAdRsn2zSeXsUuQ2TtOgbAhvmG9Q0akCo7BH3h9ZvvoI+vVW83cWF3ykubA0u1GH471UhdKXy89Lh6BxXPvSKqGqWjlfsdr7Yi54pojl/L/Joz0/vsYKTi8BjTkZfBVEU0jXKPCJWk7tDYX8yu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=ldRFdztd; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Um3mNYRj; arc=none smtp.client-ip=23.88.97.239
+	 In-Reply-To:Content-Type; b=Y7E1UOpxkqsxXTm2y57zVDnP9NxDRjX9vayWoLzrcngi8tTwusXNIIHQdTVDW3cMdy8DdrdseJttBvK0QJVWrMQVhzWyyG7yc2Y5hSAnlm++e0L3jF46CwbJjr2fvxFa0b9eH2mIXmFH7RDxXsFi5+aZq5oZkO8lpYns7d0jRNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=CK+Mw5yy; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=oxrv9/yZ; arc=none smtp.client-ip=23.88.97.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="ldRFdztd";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Um3mNYRj"
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="CK+Mw5yy";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="oxrv9/yZ"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791430504;
-	bh=knFSd9gxXbU4LbNqy4lxRD7FjLr6llnrePtlywKFiKc=;
+	s=default; t=1791430618;
+	bh=Bu17OUBPm+ubQGdXqLA8OX3TRoauzbCDXFnc0a0nkRE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ldRFdztd9v2fHgN7Eb4aRqk6HMlQhG/jmmDhPzqaBteHw/4ghqdE6rez7Ty8JLQ//
-	 N8B0FBejZLvnWghpojkVVl4WlxvXd6ukNYxArSoBtEc053G32+AwwjSfEk7UB9sfXM
-	 v8iCbsMDNSByakajSwPGhgXxc7TnstMZNST45PA00U56rC/fBm1trdJ4ffrKtvaah6
-	 0kymGDUM/ccttpF5aqVVyXE/w0YsmlxXzzTtoL5niYMRGZ5BefKfnL+epYPSj2/AKx
-	 IjOYFnUJp1IiNfsMhj1+xzkJz6CMG0G4aM2irIPfJYPlAoYgt++BRIy5OfrhsmZMsv
-	 vdAqI4dGCKlng==
+	b=CK+Mw5yyS9ux2S6X5eROq45h13N0OqthQTijbDwp9Ro72fAoRXNI73kHK4j0nw1Ma
+	 mLMm8z7q0UN7DFGiTaP19PJTdDQkxdKg1uvlv5n73clJMMz8bF8J4DESnK9N8fqJeR
+	 LvbZOwzF5FomUijgvQqQnnCLbx9Ul8Zt9TjoGlYgcg7oIXmZZa3om+0s/SnmYvCjj5
+	 Agfngclx5gY7rJKRdOcS/hvTCk3JiLdOzSfg3P+DxjGkVuXGm7sg5GJOtLyB1TBlQX
+	 YgnfSaMYAyoYtsBkB1fGOrMEhBdJJc1tEhReG5Rg/Px3yCCWTop4C7FW7S6T3R+kEO
+	 +QkDgEcCT4Whw==
 Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 23A5B470CF; Thu,  8 Oct 2026 03:35:04 +0000 (UTC)
+	id 0E7D4470D0; Thu,  8 Oct 2026 03:36:58 +0000 (UTC)
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791430500;
-	bh=knFSd9gxXbU4LbNqy4lxRD7FjLr6llnrePtlywKFiKc=;
+	s=default; t=1791430617;
+	bh=Bu17OUBPm+ubQGdXqLA8OX3TRoauzbCDXFnc0a0nkRE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Um3mNYRjT5A2LIeaO6PvymEP8Abxv96MBHjwEmdvY3zWJFCo8SlleP9jw6K++su37
-	 lrw+QkU7HlUiZ+lUKt0HAOFpGmMoNKGi2eOUXItAJ/NEPaRbf895W2Kmwmnb5KtQUm
-	 4XQAlSJ7HBlBwdFEo/+K5TwGrsf4XC+JOc0sBvP2ZHXVAjlHML75Y4/JaJyrpdnHt1
-	 G905r2ViZlLCUheXsZstGYC0yg373f6ddAGRG0gi76QxFeW/ykovYkaFKOxJ+fKErc
-	 c+o0K5HSkOscWmkollkCkmtUOzjOLJ3mFYH4KDSidVGm23OOBmbmDr+ZF08g8mJUlv
-	 V4Oy6cV0+A2EQ==
+	b=oxrv9/yZ5oMaXhuYLJnwU9KEw66ouB/dta5vJSBcch4gZs+e5MDDX/BJnb21R05bt
+	 fn9+y73/e7GToIOqxzd3uTGbIbNx0qxptegoqQx1pTZDVx9CLntJt2NP8+BiQHavyt
+	 3wen7W57m227YZb9eKnO77BLPd9gxn2t69WI/hf6ogiEDsN/eCjiczYj+OURiFi7AU
+	 opMVGsviOHTZC9Hj20n2YDq4nNEChn1+eJQt41ZogrO+BN85yhbhtXAUOZANSDOz4C
+	 VOck5/blhknNxuISUUPZWFmNsWhrlnisAlsCU7tC2pwC0p0vmjX52TNbIGy1B6mIkO
+	 dodNdBiXqWQnw==
 Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id A6BC041186;
-	Thu,  8 Oct 2026 03:35:00 +0000 (UTC)
-Message-ID: <1dea7a29-90c8-4c32-9576-4fc08f3be6e5@birger-koblitz.de>
-Date: Thu, 8 Oct 2026 05:34:55 +0200
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 53CAB41186;
+	Thu,  8 Oct 2026 03:36:57 +0000 (UTC)
+Message-ID: <ddda58cb-f91d-4faa-b4c9-bb59e83256a6@birger-koblitz.de>
+Date: Thu, 8 Oct 2026 05:36:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,104 +52,103 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v17 01/13] phylink: Add phylink_mac_interrupt
+Subject: Re: [PATCH net-next v17 02/13] phylib: Add support for PHYs with
+ broken forced mode
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-usb@vger.kernel.org
 References: <20261006-ax88179a-v17-0-252814fe35ea@birger-koblitz.de>
- <20261006-ax88179a-v17-1-252814fe35ea@birger-koblitz.de>
- <sashiko-outbox-162605@kernel.org>
+ <20261006-ax88179a-v17-2-252814fe35ea@birger-koblitz.de>
+ <sashiko-outbox-162611@kernel.org>
 From: Birger Koblitz <mail@birger-koblitz.de>
 Content-Language: en-US
-In-Reply-To: <sashiko-outbox-162605@kernel.org>
+In-Reply-To: <sashiko-outbox-162611@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 07/10/2026 5:05 am, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] phylink: Use-After-Free in phylink_mac_interrupt() on SFP unplug
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] phylib: NULL pointer dereference in phy_ethtool_ksettings_set()
+> - [Medium] phylib: Userspace can bypass PHY_BROKEN_FORCED via SIOCSMIIREG
 > --
 > 
-> commit 30d7b430d60b3d4dc2e6d650aaf0ceaacfbadbce
+> commit ba73f96bed1d2e99a191c06a9e1fb6f1fd49beef
 > Author: Birger Koblitz <mail@birger-koblitz.de>
 > 
-> phylink: Add phylink_mac_interrupt
+>      phylib: Add support for PHYs with broken forced mode
+>      
+>      Add support for PHYs which only supported auto-negotiated
+>      speed modes. This prevents a kernel warning and stack-trace within the
+>      phy_state_machine when PHYs return -EOPNOTSUPP from config_aneg()
+>      because they do not support forced modes.
 > 
-> This commit adds the phylink_mac_interrupt() function to phylink, allowing
-> MAC drivers to pass link-change interrupts directly to phylib instead of
-> relying on polling.
-> 
->> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
->> index a7d086cdc9b25..a3ca7993eb7e0 100644
->> --- a/drivers/net/phy/phylink.c
->> +++ b/drivers/net/phy/phylink.c
-> 
-> [ ... ]
-> 
->> @@ -1612,6 +1612,26 @@ static bool phylink_link_is_up(struct phylink *pl)
->>   	return pl->netdev ? netif_carrier_ok(pl->netdev) : pl->old_link_state;
->>   }
+>> diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+>> index fce9bc7be3304..b83f938fe7c3b 100644
+>> --- a/drivers/net/phy/phy.c
+>> +++ b/drivers/net/phy/phy.c
+>> @@ -1190,6 +1190,10 @@ int phy_ethtool_ksettings_set(struct phy_device *phydev,
+>>   	      duplex != DUPLEX_FULL)))
+>>   		return -EINVAL;
 >>   
->> +/**
->> + * phylink_mac_interrupt() - wrapper for phy_mac_interrupt()
->> + * @pl: a pointer to a &struct phylink returned from phylink_create()
->> + *
->> + * Passes a link-change interrupt received by the MAC to phylib.
->> + * This function may be called in interrupt context, and therefore cannot take
->> + * a mutex. However, it is safe to assume that the reference to phy does not
->> + * disappear during the call, as only an SFP module may be unplugged to make a
->> + * PHY disappear. SFP modules however do not support interrupts.
->> + */
->> +void phylink_mac_interrupt(struct phylink *pl)
->> +{
->> +	struct phy_device *phy;
+>> +	if (autoneg == AUTONEG_DISABLE &&
+>> +	    (phydev->drv->flags & PHY_BROKEN_FORCED))
+>> +		return -EOPNOTSUPP;
 >> +
->> +	phy = pl->phydev;
->> +	if (phy)
->> +		phy_mac_interrupt(phy);
 > 
 > [Severity: High]
-> Can this sequence lead to a use-after-free if an SFP module is unplugged
-> concurrently?
+> Can this unconditionally dereference phydev->drv when it might be NULL?
 > 
-> The docstring mentions that SFP modules do not support interrupts, but if a
-> MAC driver detects a Loss of Signal and calls phylink_mac_interrupt(),
-> couldn't the SFP subsystem concurrently detect the unplug and trigger
-> phylink_disconnect_phy()?
+> If a PHY driver is unbound (e.g., via sysfs), phy_remove() sets
+> phydev->drv = NULL but does not detach the PHY from the net_device. A
+> subsequent call to ethtool -s ethX autoneg off reaches
+> phy_ethtool_ksettings_set(). The newly added check accesses phydev->drv
+> without verifying it is non-NULL, which can cause a kernel oops, allowing
+> a privileged user to crash the system instead of receiving a graceful error.
 > 
-> If that happens, phylink_disconnect_phy() takes phydev_mutex, clears
-> pl->phydev, and calls phy_disconnect() which drops the object reference and
-> frees the phy_device.
-> 
-> Since pl->phydev is read locklessly here, is it possible for
-> phylink_mac_interrupt() to read a non-NULL pointer, but hand it to
-> phy_mac_interrupt() after it has been freed?
-> 
-> CPU1 (SFP unplug)                 CPU2 (MAC Interrupt)
-> phylink_disconnect_phy()
->    mutex_lock(&pl->phydev_mutex)
->    phy = pl->phydev
->    pl->phydev = NULL
->    phy_disconnect(phy)
->                                    phy = pl->phydev; (Reads old pointer)
->      phy_detach()
->        phy_device_free()
->                                    if (phy)
->                                      phy_mac_interrupt(phy)
->                                        phy_trigger_machine(phy)
->                                          mod_delayed_work(...)
-> 
-> This could then cause list corruption when phy_trigger_machine() queues work
-> on the freed phydev->state_queue.
-> 
->> +}
->> +EXPORT_SYMBOL_GPL(phylink_mac_interrupt);
-> 
+> Later in the same function, _phy_start_aneg() correctly checks for
+> !phydev->drv.
 
-The AI is wrong here, because SFP unplug is not the MAC's problem, see 
-the detailed answer Andrew has given already.
+Will fix and change to
+         if (autoneg == AUTONEG_DISABLE && phydev->drv &&
+             (phydev->drv->flags & PHY_BROKEN_FORCED))
+                 return -EOPNOTSUPP;
+
+
+> 
+> [Severity: Medium]
+> Does this fix fully prevent userspace from bypassing the check?
+> 
+> While this patch aims to prevent a WARN(1) and stack trace in
+> phy_state_machine() by blocking AUTONEG_DISABLE via ethtool for PHYs with
+> PHY_BROKEN_FORCED, userspace can still bypass this via the SIOCSMIIREG
+> ioctl.
+> 
+> By writing to MII_BMCR and clearing the BMCR_ANENABLE bit, phy_mii_ioctl()
+> intercepts it to unconditionally set phydev->autoneg = AUTONEG_DISABLE
+> without checking the new PHY_BROKEN_FORCED flag:
+> 
+> drivers/net/phy/phy.c:phy_mii_ioctl() {
+>      ...
+> 					phydev->autoneg = AUTONEG_DISABLE;
+> 					if (val & BMCR_FULLDPLX)
+>      ...
+> }
+> 
+> When phy_state_machine() subsequently runs and calls _phy_start_aneg(), the
+> driver will return -EOPNOTSUPP, and phy_error_precise() will trigger the
+> exact same WARN(1) the patch intended to fix.
+> 
+>>   	mutex_lock(&phydev->lock);
+>>   	phydev->autoneg = autoneg;
+>>
+> 
+Will fix and add further check in phy_mii_ioctl() for PHY_BROKEN_FORCED:
+if ((val & (BMCR_RESET | BMCR_ANENABLE)) == 0) {
+         if (phydev->drv &&
+             (phydev->drv->flags & PHY_BROKEN_FORCED))
+                  return -EOPNOTSUPP;
+         if (phydev->autoneg == AUTONEG_ENABLE)
+                  change_autoneg = true;
 
 Birger
-
-
 
 
