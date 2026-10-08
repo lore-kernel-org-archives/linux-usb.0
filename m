@@ -1,67 +1,82 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from ironport.ite.com.tw (unknown [219.87.157.213])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3D713B637E;
-	Thu,  8 Oct 2026 08:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6733409635;
+	Thu,  8 Oct 2026 08:47:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=219.87.157.213
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791447593; cv=none; b=ARMQG84AiOg6ujdZ1E4Th5UdkI7hS7IRfqZu6Ky/cIiMtqKTEdJQt9yAqwpelcNSZMAU0A9qHHHAm1pFXYpxZUbWStZ+ZCsLw3+C6f4qaswJ72/pFMhZ7ZPn4QgmqlJ/BJQbJIgKCMwSdHEMjNH+tO42qNsb7TT8cttnsAy5/aQ=
+	t=1791449251; cv=none; b=aJRFIkLFqU9UeSuj8vTY+qGEuQLWnMW8/zl6RGq8PSuGUnwnI5NHXr1Y5uiFL8/mbiH0PwnH7q2RotfmORLs0X6i9OlLBzCREFg2+G62Gx+jZO4ExcwU/AhtnWbh7+M2TR6DBMoLcqRH0I7ydJcp/Atepo3QyQdJcmYfAv5WBLg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791447593; c=relaxed/simple;
-	bh=T80pmibn7aSi6N9hDzJvCBDoLXDCN4HDH9fhrQVJ60g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MPykw4MdyO60A6LcAA7s/jMuwsQXcdIZg1t6oeLkfzmmNSs9HKmkCV7rE0wuDN00apuQob9PId7tocnLcvV0tF2CGEXMvjtrefV3P2UVln2Sv3bRCRG4uPzTbFjsXYBdabwNgImtGNvoL/f2+asPaLnLN3Q2xYz2TeA+/UG9G48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i99qalnN; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791449251; c=relaxed/simple;
+	bh=stoxDGWoH6yUw3sx/BrMLTUT6/QvJj1QWQ9EY0GIJJQ=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZyD0lnd3Tu5W4xivZcU9SWLvdrrfoIUdnS5vVqrL8qNwbPos++at7hyFTDi56eOp+t7Bfi/W/G+KZTea4dIEUgm+Uq8tRGd21Ms1rIRf71dCk7umlh8tlQLVN2oGq/NAQ6hx0T7ucLunNS16A+4U6sB9C2z4qDxg5BL4RxR2Xo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw; spf=pass smtp.mailfrom=ite.com.tw; dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b=QDh78vGV; arc=none smtp.client-ip=219.87.157.213
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ite.com.tw
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ite.com.tw
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i99qalnN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F6FB1F000FF;
-	Thu,  8 Oct 2026 08:19:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791447592;
-	bh=ZCAoLYZlSrLohEk+mBrzJi43HvKosm2TxiN/tMhp9/s=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=i99qalnNu1vDUlYenDAfjMkyj6hUz7KwTSNeII8EXcOPSkAsbHI1uvzI+xRjocABN
-	 LQWzAMa/PqeWWpDLM5gRsIOQhiNEusmtnbBQYL9mzvU4LQkFGvNMOZ1x9UemzNn1gT
-	 1RHimFcDTqdAYx6oH3DcFi8dJaC1uKH7WpYFDGWubH/MkIpuoqcQ+9yLO8ZiPc0/za
-	 G2h7fpffdRGUUBJQEU7mLT58EOWM9kWInZD1u95gEi5V5O+OrEasi4f5luHtY4SfQT
-	 11qSTy/5Iuhr9Xh0h5hoiSKUwQo6Q1tgheAy8Nq9q7heD+DW/VuoP4knspt2GgK3bB
-	 pE7S9w/XUqI8g==
-From: netdev-bot+sinfo@kernel.org
-To: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-Cc: davem@davemloft.net, kuba@kernel.org, netdev@vger.kernel.org,
- nic_swsd@realtek.com, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
- edumazet@google.com, bjorn@mork.no, pabeni@redhat.com, andrew+netdev@lunn.ch,
- mail@birger-koblitz.de
-Subject: 
- Re: [PATCH net-next v6 0/10] r8152: refactor and extend RTL8157/8159 support
-Date: Thu, 08 Oct 2026 08:19:51 +0000
-Message-ID: <179144759170.2527009.1294478643756602720@kernel.org>
-In-Reply-To: <20261008081556.47901-1-nic_swsd@realtek.com>
-References: <20261008081556.47901-1-nic_swsd@realtek.com>
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=ite.com.tw header.i=@ite.com.tw header.b="QDh78vGV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=ite.com.tw; s=dkim;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=stoxDGWoH6yUw3sx/BrMLTUT6/QvJj1QWQ9EY0GIJJQ=;
+  b=QDh78vGVJ5PQlKz9MRjuAY2+y/O1ucvvt/VFWeTofJAlE9R2TIV0BE/r
+   udQHknZ3gbL2oP2Y2wXkEvssrKds6qPi+4TehxeICGwI+8mSnvyNjGi+E
+   oCPr7trfcZvanvTkPxFtTPxm58ryOVRmVdFw4rb/y4YISq6DnB9zafnOP
+   O9bC1ZAAaCpj9XoT5kslI1USNeER23kJKFKJgIYFjlnWYCRA3Fc88+0C9
+   xJdjbYLJIC63WDrB0ffzJd9aJKgmk5n8MxYqZzn85XwgwqdTax73PnGzp
+   1vX8um3qD76Q78bk5giaLwLmyguqQ/DERsSgXholMrLBx1bQMY1Omk5KK
+   g==;
+X-CSE-ConnectionGUID: iJakxy4MSHCN2gukJZvFPw==
+X-CSE-MsgGUID: SENVgCivTZa8a0/1oljTFQ==
+Received: from unknown (HELO mse.ite.com.tw) ([192.168.35.30])
+  by ironport.ite.com.tw with ESMTP; 08 Oct 2026 16:47:18 +0800
+Received: from hscmail1.internal.ite.com.tw (HSCMAIL1.internal.ite.com.tw [192.168.35.58])
+	by mse.ite.com.tw with ESMTP id 6988lECE013055;
+	Thu, 8 Oct 2026 16:47:14 +0800 (+08)
+	(envelope-from amber.kao@ite.com.tw)
+Received: from HSCMAIL1.internal.ite.com.tw (192.168.35.58) by
+ HSCMAIL1.internal.ite.com.tw (192.168.35.58) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.46; Thu, 8 Oct 2026 16:47:06 +0800
+Received: from HSCMAIL1.internal.ite.com.tw ([fe80::d4ad:7d1f:bb56:79ee]) by
+ HSCMAIL1.internal.ite.com.tw ([fe80::d4ad:7d1f:bb56:79ee%6]) with mapi id
+ 15.02.2562.046; Thu, 8 Oct 2026 16:47:06 +0800
+From: <amber.kao@ite.com.tw>
+To: <ite_pd@ite.com.tw>, <heikki.krogerus@linux.intel.com>,
+        <gregkh@linuxfoundation.org>, <jeson.yang@ite.com.tw>,
+        <Yaode.Fang@ite.com.tw>
+CC: <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <ite_pd@ite.com.tw>
+Subject: RE: [PATCH] usb: typec: ucsi: itepd: Add DisplayPort alternate mode
+ support
+Thread-Topic: [PATCH] usb: typec: ucsi: itepd: Add DisplayPort alternate mode
+ support
+Thread-Index: AQHdUY9uhn56xvoHAU2tkm6QNnbJUbbzX7MQ
+Date: Thu, 8 Oct 2026 08:47:06 +0000
+Message-ID: <4fdd2c07a92046d7bb9bbf51619c7400@ite.com.tw>
+References: <20261001-ucsi-itepd-display-v1-1-f3de9baa2467@ite.com.tw>
+In-Reply-To: <20261001-ucsi-itepd-display-v1-1-f3de9baa2467@ite.com.tw>
+Accept-Language: en-US
+Content-Language: zh-TW
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-tm-snts-smtp: 46B5359048491D65BF1848AC3F3976B601A3F2BDD659CD49642A7686CD6BE8C92002:8
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MAIL:mse.ite.com.tw 6988lECE013055
 
-Hi!
-
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
-
- - Whether the issue was actually triggered, or is only theoretical
-   (e.g. found by code inspection). If it was triggered please include
-   the symptoms, like the stack trace or error messages.
-
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account. If the series needs another revision for
-other reasons, please include the information in the commit messages
-then.
-
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
+SGkgSGVpa2tpLA0KDQpHZW50bGUgcGluZyBvbiB0aGlzIHBhdGNoLg0KDQpJdCBkZXBlbmRzIG9u
+IHRoZSBJVDUyN3gvSVQ4ODV4IHN1cHBvcnQgc2VyaWVzIHYzIFsxXSwgd2hpY2ggaGFzIG5vdA0K
+YmVlbiBhcHBsaWVkIHlldC4gUGxlYXNlIGxldCBtZSBrbm93IGlmIHlvdSB3b3VsZCBwcmVmZXIg
+dGhhdCBJIHdhaXQNCmZvciB0aGF0IHNlcmllcyB0byBsYW5kIGZpcnN0LCBvciBpZiB0aGVyZSBp
+cyBhbnl0aGluZyBJIHNob3VsZA0KY2hhbmdlLg0KDQpbMV0gaHR0cHM6Ly9sb3JlLmtlcm5lbC5v
+cmcvci8yMDI2MDkyNC11Y3NpLWl0ZXBkLWl0NTI3eC12My0wLWE3MzkyYWEwODdmNUBpdGUuY29t
+LnR3DQoNClRoYW5rcywNCkFtYmVyDQo=
