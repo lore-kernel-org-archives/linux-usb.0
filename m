@@ -1,114 +1,102 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC27E368282;
-	Thu,  8 Oct 2026 06:28:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCE1734F46F
+	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 07:01:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791440892; cv=none; b=Rwzl6iR9cyOiyabUGKrmEsQ81CUq252iwsh+isg2GwQaIiBDeK8L6p35T3Yr7Y9q5iYz5noIrV8hgHiGMhBvLmFeDAtCfQM0hP1dfwkna2lYxLjdjlmLqJwkxsK0S4OMVNGGLbGVk0jBvYRiTU27KywRtL4YjmvPpqqc4CvdVLM=
+	t=1791442899; cv=none; b=arEETEl2wEy74cjwWSpUfltj0FOyOao7hyUqOtvAsiHpQNW5RkNXPBXKjDYNlzbsAipYHtQCxvV2OlnBkie1OQup0NlAxrDjDUA4yEZmf3sMYVKZl+ZK+SjKZnaliFRw78+z/zDdy4j9Mw3ggbC8CqKICKmwKeT+tByqIco0wSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791440892; c=relaxed/simple;
-	bh=zTYaorVqpDZVRSBHQpiGDpd/RYncOIrYwqk7xiRWPVk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=O3q9HyholeaXK1qIu6WHRlETQISFIOTE3SB0TrSBFZyGYrGPa/DBLzSdSltnj/Kafoo1dyhlm80kT/WQQbLRt2zQm8RMx8hOQY7vjowOAYrhuck1SgP29Bkpf03XkAs7JPhWihRxZXmbyd89uSbAl+1JAdkhgGOu9/jquIbTlSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=nfbFYvOc; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+	s=arc-20240116; t=1791442899; c=relaxed/simple;
+	bh=NS/2gV4q1JC5+Bo7a0gN2KIcSVwFk2ZnpBgd81br4TI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PRvir5TxaIAlBPyDpG9qgt/WNlV6b032+J8FJxEEod72ELsG+qUMEDvz7VafmcCgpHVtn+4C9W+lFLNJujrtqyiieVny60gkc+X/eTBSkBV9hEkA9SQBNU32qDSvHgsqBpF9S2+tbzcPu4/rlYrwKRr4u+iYFX3gk96x1LyCnhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KjIFL5/W; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="nfbFYvOc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=Co9AgbxhkiI6mzNZ6AS0VQicZ94aXmFCEL1DZWFMKo0=; t=1791440889;
-	x=1792045689; b=nfbFYvOc3uKeuNTSC8wN3LEHv/leAixFCna3gFMxKjS9p2IEmXoUiqRUxS5W8
-	X8IzWZdKIvco/cR/7ETXWIX4fGH/0qnWUs2pIt/y5gkBtVk6VpnF/vRtJ5rBiA4BAbnEAS68lpU8q
-	/Fyb+1KSyo8H41gVR+rYxPWyKPfx7jsU0korILcjS9u90yMIPK0wV5GY3PabaY6H9e0Z+2D2qbMcD
-	8USmQ94309/Q1aBSB5GJN6tZbLdJMps4jjSHNdUrHcpMalW0BuO2f3P1SAC+XenGZV6UfF/Z8Pwer
-	Wya1VemfkD4f9wayq0JcEOTveX+jUTN28hXHodThn86XPfINjw==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.100)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1xEhbq-00000001pou-2avf; Thu, 08 Oct 2026 08:28:06 +0200
-Received: from p5b13a90a.dip0.t-ipconnect.de ([91.19.169.10] helo=[192.168.178.61])
-          by inpost2.zedat.fu-berlin.de (Exim 4.100)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1xEhbq-00000000yTs-1a90; Thu, 08 Oct 2026 08:28:06 +0200
-Message-ID: <45b1d55a0c46934c96c7ed85e30a706d7270d9ac.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH v2] usb: r8a66597-hcd: fix buffer overflow on odd-length
- FIFO reads
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Karl Mehltretter <kmehltretter@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Geert Uytterhoeven	
- <geert@linux-m68k.org>, linux-usb@vger.kernel.org,
- linux-sh@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Thu, 08 Oct 2026 08:28:05 +0200
-In-Reply-To: <asczg8KoUgHPxh5n@gmail.com>
-References: <20261005212823.55737-1-kmehltretter@gmail.com>
-	 <2b0a2d9afa8e2dbd1d6e8ea8f88a4627816ae2d6.camel@physik.fu-berlin.de>
-	 <asczg8KoUgHPxh5n@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KjIFL5/W"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a1698ea378so22209285e9.2
+        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 00:01:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1791442895; x=1792047695; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=O/s15n5WAnK08EqMHI7ayGz+kJuyxmk3uPN6wuJwReY=;
+        b=KjIFL5/WvcgYO22IJfQBDQOOPC+S1wQfQtIJ1VY9MaLhw7ExXyWRmWfoETaB5215Oa
+         OXEZbeQ5GqTroTfy2aoXIfgHvD0UEFmhbKyBMPj26o3XQuFDE4hmmTRRMF1+X6A0AWiC
+         pJmLGH2f5A6cN3KdEHQtoCnZnL81O7S87k2jo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791442895; x=1792047695;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=O/s15n5WAnK08EqMHI7ayGz+kJuyxmk3uPN6wuJwReY=;
+        b=tEOaJxP/wPUN462QAc3yNVL2YdQGrlEG+6z6nQTNR5bD228wIQZjGNSTJq2ti7wbo3
+         sEcfQv+pxMh6Psc4IOxXL+ta8ALmlNFxg4X6i2/sGI34olSAqj9lRjOU7mdgXWzePlTf
+         fl4B8TPxyg3VxnNh+yLJHD3FoC93D81qkDOhAmIyrrePcjpIxcXR59bORAlt1rMWh0B3
+         sTJ5PDyu3wzKtIM0RTXmR3cF6kIAH30IzlchzYFORsd1j3jHdRBYKeMYc7ybtTJ14wyi
+         d0novxqVTf+EOj5MxfC/gpIlM8EUTMpHYBvwAT1AMCAYsktv9r3duMfKMknUvTqf4MWV
+         A5ug==
+X-Gm-Message-State: AFuF++lGFKS0teycjxsVCXm6VZXzIQwhbjzJgzLXDkhHI2Zce3xsJdvw
+	A9vz5hGIZh+GhJQEdGUkWz309sJXK5PLFdwvzYk46uLtLo3CmQg5DBvao8I45g1T4Uo=
+X-Gm-Gg: AYBFou2FLzqwd35d0w2oz/zwLjNlDT7dc9sAviCgLpyXk3RPlaB7Alu36vLgjtyrS0A
+	tZCP5a1tygr/ZmOyAwh8C7Sc2HO0cAjiwNF1idUP+PG8QlBXU9qCbb95nDUhDXYzlvCGCtiefW/
+	dzw2gfmlU5FX9V309nM6ig9R8lIkmtoA350ctbBmRlZ6K+I517+LzQVg+Ctp1HmXAN/LNuyg6vM
+	5youshgev5jcVzLpdJ95+iGgNbFe2w8Mdb27pRqByNHzeq6elD9u1dyvF7YUKlNsro7adRYgHgf
+	LvmoswMiy3LZJY5f7MFOBG6yy0Ry724200p9zAp7B/23ijkE04ZfQVlYHFfi9kVGv3T3nh11gax
+	fT2yJ90BjsfLO7MVdzNRN2vdR1OEWikU7pLbGXprX/xiJSTP9xuPJFy8GarArdXszFgkU0BpAVh
+	YrtQ8lul+MsBw0jwUcdu+DYBYEegv4F4dW2dIV/L05BhKCgVuz/bH9bdem/lanRZnilOyL3GfZp
+	9Jt6ILJwl4iN56ntSLDh1u+IqNnJIKmEba2dph3iA==
+X-Received: by 2002:a05:600c:64c9:b0:4a0:25d5:e853 with SMTP id 5b1f17b1804b1-4a180648c64mr75296735e9.35.1791442894841;
+        Thu, 08 Oct 2026 00:01:34 -0700 (PDT)
+Received: from [192.168.145.89] (90-182-211-1.rcp.o2.cz. [90.182.211.1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1842abdb9sm46171005e9.6.2026.10.08.00.01.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 08 Oct 2026 00:01:34 -0700 (PDT)
+Message-ID: <52230f29-47ec-46a4-bd4b-5725af6654c1@linuxfoundation.org>
+Date: Thu, 8 Oct 2026 01:01:31 -0600
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usbip: vudc: snapshot endpoint state under lock
+To: Sung Byeongchan <tjdqudcks0424@naver.com>,
+ Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan
+ <shuah@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20261007063054.26374-1-tjdqudcks0424@naver.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20261007063054.26374-1-tjdqudcks0424@naver.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Karl,
+On 10/7/26 00:30, Sung Byeongchan wrote:
+> v_recv_cmd_submit() finds an endpoint and records its type while holding
+> udc->lock, but then drops the lock and rereads both ep->type and ep->desc.
+> The VUDC timer drops this lock around gadget setup callbacks, and
+> endpoint disable clears ep->desc under the lock.  A USB/IP host can
+> therefore race an ISO CMD_SUBMIT with endpoint disable and make
+> usb_endpoint_maxp() dereference NULL.
+> 
+> Copy the endpoint type and derived isochronous maximum packet size while
+> the lock still protects the descriptor.  Use the snapshots for
+> validation, URB allocation, and pipe setup after unlocking.
+> 
+> This was found by source review with AI assistance.  The production VUDC
+> and UAC2 fixture panicked in two independent boots without a diagnostic
+> kernel change.  The fixed kernel completed 5,257 race attempts without
+> an oops or panic and preserved the normal and serialized controls.
 
-On Thu, 2026-10-08 at 08:18 +0200, Karl Mehltretter wrote:
-> On Wed, Oct 07, 2026 at 11:12:46AM +0100, John Paul Adrian Glaubitz wrote=
-:
-> > > Fixes: 5d3043586db4 ("USB: r8a66597-hcd: host controller driver for R=
-8A66597")
-> > > Cc: stable@vger.kernel.org
-> > > Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-> > > Closes: https://lore.kernel.org/linux-sh/3bd32eaf159db61ed1d423e1d52a=
-869b3689c682.camel@physik.fu-berlin.de/
-> > > Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-> > > Assisted-by: LLM
-> >=20
-> > I was wondering: Would it maybe be better if you disclosed what LLM you=
- used?
-> > I have seen that many others have done so and I'm not sure if it's actu=
-ally
-> > prepared to have the model disclosed.
-> >=20
->=20
-> The generic Assisted-by: LLM format is fairly new. Christian Brauner
-> proposed simplifying the attribution in July [1], and it is now the
-> documented format [2]. I expect we may see more patches using it as
-> people adopt the change.
->=20
-> I prefer the generic Assisted-by: LLM tag. It acknowledges the
-> assistance without advertising a particular vendor.=20
->=20
-> A model name alone also leaves out the harness and settings, and I
-> sometimes use different models for implementation and review. Tracking
-> and listing all of that would make the attribution rather cumbersome.
->=20
-> [1] https://lore.kernel.org/r/20260701-work-coding-assistants-v1-1-a20a94=
-d1d606@kernel.org/
-> [2] https://docs.kernel.org/process/coding-assistants.html#attribution
+This change is incorrect to fix the problem you are describing. Can you
+elaborate on how your testing method and environment in more detail?
 
-Thanks a lot for the pointer! I will read this thread and unless I find
-anything speaking against the proposal, I'll adopt it and continue with
-the reviews.
-
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+thanks,
+-- Shuah
