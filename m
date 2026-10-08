@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C96A130CD85;
-	Thu,  8 Oct 2026 02:49:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C861DA57;
+	Thu,  8 Oct 2026 03:00:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791427756; cv=none; b=Lu4BVX8t9N62wem66rSjTf09ZQ2UgIAzXTFlLF1PU0Pg8AYPpbeyKqwLqr/qAYqkHVr5l+NFGrBb5Mwf83Ve3dnuIhbfSZmYpsLa2CFXOPd7KQgdzOw5B/ud3mn1pksXhOTv+pkGOHjJvX5CVVUAfs0abmIUYb7NvPh0EC89V5k=
+	t=1791428451; cv=none; b=ooeSONoIbu9QbYqWXo/u2kTNaJ99yix+CpxDqUdKXE7GklLbVjhTf1GgHqU82uou1RVWxCr30TRweGrO5+LgLws+6sQQxGVGWG0ZgWJ9G1VZ9dKWZ2Qyb6CnFQkQolg3c6LQtKVgg9dpopIAlpwOGwwZoLkARuiQjAuByRKLCjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791427756; c=relaxed/simple;
-	bh=xbzZ/NFC1OvkLHeN7fUyGLmoCylpThxe6u9HvcmkbHk=;
+	s=arc-20240116; t=1791428451; c=relaxed/simple;
+	bh=MLHG6/E9+FPE7FKFRrYce0KiCbeJqQiYOIBWFMlp6dA=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=BP8I7MKNwX7XDyuvhqtzaFOQDBwzZQ2P41azGhGvmjaRBlWiEnpQCx5Lb2Jk1ov8cueOJCnBiJU4NG5nYSUpLab3e/v36m47wxzdoxLygy8H5F3Zdd2ViSO7jE9z2tFFYJV9MigmwFeLNbI5AkzbasAuY8TrOIA7rf98N7NUxCk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dN2ND420; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=mxh/6uByT8nGVVaUsUy1i3WJVt4oPVvIHMzMD84WGzvdK3QidHADxzj92cqAqHN5GZzVGIJxO1f2Wq0NtFMkLKae+MqUNLMZpqEsehPM4Oc2o5MtZfvRKjUk0I1sx1912y6m5k7CBnHq5I8zzWT7NRCXONxLLyxC3CO72mO4bx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=basoi69h; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dN2ND420"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 390EF1F000FF;
-	Thu,  8 Oct 2026 02:49:15 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="basoi69h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB2D61F000FF;
+	Thu,  8 Oct 2026 03:00:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791427755;
-	bh=Uhp1y0+YbMVfF4ieX00zrWaPdfF+gZRxEutiIRRmM3Q=;
+	s=k20260515; t=1791428450;
+	bh=50+POZDEVfVpcAPhaP8rz8Dn7fXCA2QJ9qoksTKwMjg=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=dN2ND420YziVX+jYzRihYrRJ0u3Aj/5Uu/SRLP0AgSCL05K9Uz8crEhH5X/q42UAq
-	 jvK1ZaWVW2I1W4kNqakSTxJSjbPGrH7xJA3kycodCE/r2Avy3BC7v87hUQtosjkcPs
-	 SS2Wo0TejG9pXJiZ6zj0zhsSWRWKPJquSNkhAGEngoF5Tg87bnwCnxKDG1XQB1PCb4
-	 1p9ORMOaPA4eYjke0gWFPA7/xawbDHMuerkuEIRXn8NRr7i/P9mrOL+17G82d2okb6
-	 MQFW25Ei/Jcwu5yfI9JxHADY4NO5lzEEiMvLQKRJUCsr0zRiEiEp+Cc8LXIIiZbWzp
-	 mQhu8QCIN7IAQ==
-Date: Wed, 7 Oct 2026 19:49:14 -0700
+	b=basoi69hO6t+oVGsi/ibwJoMDmzEmR6Jjzi4gE4UfAd9exBXrup0+CAieaZTvCd2y
+	 IcYHStU3NXo0J5iAhsmqRsT0l88nYyuoclZ/QskbtV1jwf6K30qaqwN/yu5v9Wlrqi
+	 XrmCv1MSer97MObJZU+KHSA4399PfDtGoRAv6TuzWkefQPm+mjuWPZC/F8HB55/ik1
+	 6iwSIrEw2BvkjecEnxbv8cLD8MuSReBJvc2o/uMkRP+949bGL2NDJb7LFwHz/TfuI7
+	 L4V+Cos+RJS3SvSQghjwkbPCYPj0ecaO2EpmyVJsJozvvKvV8ke5GjC5+gbiQv+zYT
+	 30EDjFmtSgx0Q==
+Date: Wed, 7 Oct 2026 20:00:49 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: =?UTF-8?B?w5ZtZXI=?= Mete Kaya <omermetekaya0@gmail.com>
-Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+To: =?UTF-8?B?w5ZtZXI=?= Mete Kaya <omermetekaya0@gmail.com>,
+ oneukum@suse.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: netdev@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, david.laight.linux@gmail.com,
  syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
-Subject: Re: [PATCH net] usbnet: fix EVENT_RX_PAUSED race in
- usbnet_skb_return()
-Message-ID: <20261007194914.2958b69d@kernel.org>
-In-Reply-To: <20261004223852.312487-1-omermetekaya0@gmail.com>
-References: <20261004223852.312487-1-omermetekaya0@gmail.com>
+Subject: Re: [PATCH net v6] usbnet: fix smp_processor_id() use in
+ preemptible context
+Message-ID: <20261007200049.079aeb75@kernel.org>
+In-Reply-To: <20261004215937.302247-1-omermetekaya0@gmail.com>
+References: <20261004215937.302247-1-omermetekaya0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,10 +48,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Mon,  5 Oct 2026 01:37:24 +0300 =C3=96mer Mete Kaya wrote:
-> Subject: [PATCH net] usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_retur=
-n()
+On Mon,  5 Oct 2026 00:59:25 +0300 =C3=96mer Mete Kaya wrote:
+> tx_complete() calls this_cpu_ptr() before disabling preemption, which
+> triggers a BUG when running with CONFIG_DEBUG_PREEMPT:
+>=20
+>   BUG: using smp_processor_id() in preemptible code in tx_complete
+>=20
+> Fix by using get_cpu_ptr()/put_cpu_ptr() which disable preemption and
+> return the per-CPU pointer atomically. The usbnet_skb_return() hunk
+> is a hardening change: that path runs in softirq context so no warning
+> fires there, but the same fix is applied for consistency.
 
-the patch reportedly doesn't apply to net
---=20
-pw-bot: cr
+This looks odd, how did we miss this for 8 years.
+
+Greg is probably busy, but would be good to get a confirmation
+from either him or some other USB expert that the callbacks
+can indeed be called in process context.
+
+FWIW stack trace from syzbot
+
+ <TASK>
+ check_preemption_disabled+0xd8/0xe0 lib/smp_processor_id.c:47
+ tx_complete+0x237/0x770 drivers/net/usb/usbnet.c:1301
+ __usb_hcd_giveback_urb+0x38d/0x610 drivers/usb/core/hcd.c:1657
+ usb_hcd_giveback_urb+0x3ca/0x4a0 drivers/usb/core/hcd.c:1741
+ vhci_recv_ret_submit drivers/usb/usbip/vhci_rx.c:107 [inline]
+ vhci_rx_pdu drivers/usb/usbip/vhci_rx.c:242 [inline]
+ vhci_rx_loop+0x60e/0xa60 drivers/usb/usbip/vhci_rx.c:265
+ kthread+0x370/0x450 kernel/kthread.c:436
+ ret_from_fork+0x72b/0xd50 arch/x86/kernel/process.c:158
