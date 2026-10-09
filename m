@@ -1,154 +1,104 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AAC3A5431
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 03:51:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60233A382B
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 03:51:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791517909; cv=none; b=mnxjvW18yswniuNN9nCT5U44IEBJXanvZI04k/hmXsar1mvBQzTkB4m1PU8htjReRgKSLfQ9OKX1m8KoM3Wx0q0UWJR2GUJtZTZ1wwq/ZVbWEaE9EX2umOow8xE+6gIGvgEq+GnNBvPdItRdFVfIxjjukAYzDcY4TGMuuD5ykO4=
+	t=1791517909; cv=none; b=GLt12nCzg2gE9ilt8liHDPXndxhBfkM3U+E8BbR+Ze7JXNpAdJrHGHmVWkzc3E9JOTppZvUz0MxjdqjQrPX7ooJhw9YPCxj/uT6UGvXQxXpxt3samQoI1HEeXO+xLPXLWISpABSx9asE1wrYC2RWPrZpbwBwxScZ8sISCHsyxaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791517909; c=relaxed/simple;
-	bh=LDM+5ZEtBCa0/6lFqPIwLAZPY3iKhJhuvqC9pvhVTKI=;
+	bh=A4IxazqWpbLbej4MDpq3AimFijQqPWSlupcAT/yeFp8=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=O6TQA4yGs5TajHqCF4VDwdOqNp75a8gVzBiJbe+rOKFIpipwMcgX7ugB8TkYdist3fWXx0O0EFnjxfAvxVogqwS9C/SNOX1K7mtV1AMbKECJaPzquS6oMlZU0XeRPvqkkUUCTrcDEOis1XP8dlC7YymdGKiWQKkxDBHIz9KNNfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YihR8/wW; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=ORsg706Y6EpDkdYKva6HWd622QRX6MSz5OxRIgS7bwSoLZbIb0uH2VXVwo+Ymbt5gxGkplC76edFFafFwQLiNblJb2SoN8fqWy40qJCDuTBGp7TtOzzaLkJG2l6xNfEGQXS6rSh61jG4dq2JnVk3fmre6z1lrKuhDMoO5ZH7760=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XsBVfrhy; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YihR8/wW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9381F000FF;
-	Fri,  9 Oct 2026 03:51:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XsBVfrhy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 554F41F0089B;
+	Fri,  9 Oct 2026 03:51:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791517904;
-	bh=+lM+i0ikQOo9OGTNz8RbIviX/2EJpCCNJ7DMKnfG5uA=;
+	s=k20260515; t=1791517903;
+	bh=6TnyHXSLmlUS6nE7RcJTFUmZPe2NIYwM10kk2BKyG/g=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YihR8/wWDspV2rxB+zUuyreqsciT3UyBFVQ2o6H9esTprNh1NXbW6NopRR+RsyFdF
-	 6aS7Jy/iy9cx4HIpX8Nqlc+U2u+4qz1HH0DGE6kPvPciPLP7sAQ7b4BuVZJXsQ36zJ
-	 g1Kel2aT88QnVIdxuhGXYqqEhIIxMGSUY+Fy9r5NG7rJ6zEbkZ7thh42yOLWIy85Iw
-	 pLnjoIYg0Xwx6iwMXnNZimmumuWqy3HQDZLWIf4UhnlbBaPh8Vyn27VtlyMjCA+wsk
-	 pNHvIC17SfSPSZzmKdSYLcEkJn0B/D5mLttfyOGRdAIIFqgb2bDkEmTlYEgBB+ahgU
-	 PKZh0U5lu2LKQ==
-Message-ID: <sashiko-outbox-164798@kernel.org>
+	b=XsBVfrhyw48+tfvd/RzhvHa3OzNFCnhM4ypORO4jugFnxaoe6N+bKQ6rpUZgU1eCm
+	 ZsEFUrj0lL5p0fuaBp0M91bxBZS0FfLANB0vDIhGvGccE9a3gOtpFs6Q87V8L3Q7Be
+	 GxBbkQNlcEjclaFZWGXG/RWuI9WxAxZCXkkyZSQ12kPZ50KDI0hAmNYinoaEj4Sl9B
+	 S2KrWGTLA2s7QynMOQojk8uHklMCsq69MPCbk4OPPLAypXKnj4nGXJSq4pTPRi8G2p
+	 KUiGmzhkYTw05w4eGkc92oAxaf96eE3c+Bt+SrTSUpO8NBOirHIi8SADXWEt9tW7p1
+	 xu/9b57wZbDvQ==
+Message-ID: <sashiko-outbox-164796@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v18 02/13] phylib: Add support for PHYs with
- broken forced mode
+Subject: Re: [PATCH net-next v18 08/13] ax88179_178a: Add AX179A/AX279
+ multicast configuration
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261008-ax88179a-v18-2-6fa1d4c40422@birger-koblitz.de>
+In-Reply-To: <20261008-ax88179a-v18-8-6fa1d4c40422@birger-koblitz.de>
 References: <20261008-ax88179a-v18-0-6fa1d4c40422@birger-koblitz.de>
- <20261008-ax88179a-v18-2-6fa1d4c40422@birger-koblitz.de>
+ <20261008-ax88179a-v18-8-6fa1d4c40422@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2026 03:51:44 +0000
+Date: Fri, 09 Oct 2026 03:51:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] phy: TOCTOU race allowing NULL pointer dereference in phy_mii_ioct=
-l and phy_ethtool_ksettings_set
-- [Medium] net: phy: data race modifying bitfields in phy_mii_ioctl
-- [Medium] net: phy: SIOCSMIIREG C45 writes misinterpret MMDs as C22 regist=
-ers
+- [High] net: ax88179_set_multicast() data race on data->rxctl
 --
 
-commit 38a1dbebb552f1b80a0aa4bb3db03459a68b3811
+commit 547e4ec41af3f2201955124dd2564e630771c80f
 Author: Birger Koblitz <mail@birger-koblitz.de>
 
-phylib: Add support for PHYs with broken forced mode
+ax88179_178a: Add AX179A/AX279 multicast configuration
 
-This adds support for PHYs which only support auto-negotiated speed modes,
-preventing a kernel warning and stack-trace when PHYs return -EOPNOTSUPP
-from config_aneg() for forced modes.
+This commit adds support for conditionally setting the AX_RX_CTL_IPE flag
+in AX_RX_CTL based on ip_align. It also ensures AX_RX_CTL_DROPCRCERR is
+set to match the initial configuration in ax88179_reset().
 
-> diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
-> index fce9bc7be3304..079c53516f424 100644
-> --- a/drivers/net/phy/phy.c
-> +++ b/drivers/net/phy/phy.c
-> @@ -354,6 +354,9 @@ int phy_mii_ioctl(struct phy_device *phydev, struct i=
-freq *ifr, int cmd)
->  			switch (devad) {
->  			case MII_BMCR:
-
-[Severity: Medium]
-Does this switch statement evaluate Clause 45 MMDs against Clause 22
-register macros?
-
-In phy_mii_ioctl(), devad contains the MMD for C45 writes:
-
-	case SIOCSMIIREG:
-		if (mdio_phy_id_is_c45(mii_data->phy_id)) {
-			prtad =3D mdio_phy_id_prtad(mii_data->phy_id);
-			devad =3D mdio_phy_id_devad(mii_data->phy_id);
-
-If a user issues an SIOCSMIIREG ioctl targeting a Clause 45 PHY and
-writes to MMD 4 (PHY XS), devad will be 4. Doesn't this hit the
-MII_ADVERTISE case below, incorrectly corrupting phydev->advertising?
-
-Additionally, will the newly added logic here improperly intercept C45 writ=
-es
-to MMD 0?
-
->  				if ((val & (BMCR_RESET | BMCR_ANENABLE)) =3D=3D 0) {
-> +					if (phydev->drv &&
-> +					    (phydev->drv->flags & PHY_BROKEN_FORCED))
-
-[Severity: High]
-Can the compiler double-fetch phydev->drv here without locks, risking a NULL
-pointer dereference?
-
-If an asynchronous driver unbind occurs via sysfs:
-
-echo <phy_id> > /sys/bus/mdio_bus/drivers/<drv>/unbind
-
-This calls phy_remove(), which clears phydev->drv to NULL without acquiring
-phydev->lock. Could the second fetch of phydev->drv in the condition above
-yield NULL, leading to a kernel panic when dereferencing flags?
-
-> +						return -EOPNOTSUPP;
->  					if (phydev->autoneg =3D=3D AUTONEG_ENABLE)
->  						change_autoneg =3D true;
->  					phydev->autoneg =3D AUTONEG_DISABLE;
-
-[Severity: Medium]
-Is it safe to modify phydev->autoneg and phydev->duplex locklessly here?
-
-These fields are part of a bitfield block in struct phy_device:
-
-	unsigned autoneg:1;
-	unsigned link:1;
-	unsigned autoneg_complete:1;
-
-phy_state_machine() modifies adjacent bitfields (like link and
-autoneg_complete) asynchronously while holding phydev->lock. Because they
-share the same memory word, could this lockless assignment in phy_mii_ioctl=
-()
-cause a read-modify-write race that silently overwrites the state machine's
-updates?
-
-[ ... ]
-> @@ -1190,6 +1193,10 @@ int phy_ethtool_ksettings_set(struct phy_device *p=
-hydev,
->  	      duplex !=3D DUPLEX_FULL)))
->  		return -EINVAL;
-> =20
-> +	if (autoneg =3D=3D AUTONEG_DISABLE && phydev->drv &&
-> +	    (phydev->drv->flags & PHY_BROKEN_FORCED))
-
-[Severity: High]
-Similar to the check in phy_mii_ioctl(), can the compiler double-fetch
-phydev->drv here before phydev->lock is taken?
-
-If phy_remove() clears phydev->drv concurrently, could the second load yield
-NULL and cause a dereference crash?
-
-> +		return -EOPNOTSUPP;
+> diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
+> index 0efc2eb95e4b3..ea19700c8230f 100644
+> --- a/drivers/net/usb/ax88179_lib.c
+> +++ b/drivers/net/usb/ax88179_lib.c
+> @@ -321,10 +321,14 @@ int ax88179_set_eeprom(struct net_device *net, stru=
+ct ethtool_eeprom *eeprom, u8
+>  void ax88179_set_multicast(struct net_device *net)
+>  {
+>  	struct usbnet *dev =3D netdev_priv(net);
+> -	struct ax88179_data *data =3D dev->driver_priv;
+>  	u8 *m_filter =3D ((u8 *)dev->data);
+> +	struct ax88179_data *data;
 > +
->  	mutex_lock(&phydev->lock);
->  	phydev->autoneg =3D autoneg;
+> +	data =3D dev->driver_priv;
+> =20
+> -	data->rxctl =3D (AX_RX_CTL_START | AX_RX_CTL_AB | AX_RX_CTL_IPE);
+> +	data->rxctl =3D (AX_RX_CTL_START | AX_RX_CTL_AB | AX_RX_CTL_DROPCRCERR);
+> +	if (data->ip_align)
+> +		data->rxctl |=3D AX_RX_CTL_IPE;
+
+[Severity: High]
+Does this non-atomic modification of data->rxctl introduce a data race?
+
+It appears data->rxctl is updated here without lock synchronization. If
+ax88179a_mac_link_up() is executing concurrently, could it fetch an
+intermediate torn state?
+
+For example, a concurrent reader might observe the state like this:
+
+ax88179a_mac_link_up()
+   ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2, READ_ONCE(ax179_data=
+->rxctl));
+
+Could this result in corrupting the hardware register by committing a
+partially updated rxctl state to the device?
+
+> =20
+>  	if (net->flags & IFF_PROMISC) {
+>  		data->rxctl |=3D AX_RX_CTL_PRO;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261008-ax88179a-v=
-18-0-6fa1d4c40422@birger-koblitz.de?part=3D2
+18-0-6fa1d4c40422@birger-koblitz.de?part=3D8
