@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D425939B944
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 03:51:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51AAC3A5431
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 03:51:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791517905; cv=none; b=QO0IZuzqlutnC2qsAVMbsrZ3fITacz9WoE6vvDpLBAJBHGysfowPl0cGM+X+kubuqy8xP414okY7/IvBlS5lSs/Ys3NoyTSzV3+dHsIGQk2hDCuKeS+rE37UkswBC826JWTtUIuvrm2tZBn8Ex7auheKbPGLtpURN6AyibOTU+Q=
+	t=1791517909; cv=none; b=mnxjvW18yswniuNN9nCT5U44IEBJXanvZI04k/hmXsar1mvBQzTkB4m1PU8htjReRgKSLfQ9OKX1m8KoM3Wx0q0UWJR2GUJtZTZ1wwq/ZVbWEaE9EX2umOow8xE+6gIGvgEq+GnNBvPdItRdFVfIxjjukAYzDcY4TGMuuD5ykO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791517905; c=relaxed/simple;
-	bh=MtqTngQqVr91DzZkcNwevLZvmFlRPfHgmhd2L3K7SNc=;
+	s=arc-20240116; t=1791517909; c=relaxed/simple;
+	bh=LDM+5ZEtBCa0/6lFqPIwLAZPY3iKhJhuvqC9pvhVTKI=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=LXyLc/m812abeFACotZRJ/UROJZfjBKsyWb6Ng3FJyqujaMKb3AH0khr25K/9okjUdO5XaoddmlVhqfRmc9rPGL9ap3n3HAcn748rWBQSdBy1d/ySR0dphDnHsjLlQ5/4E8xRxJOoeIj4brYR8KHVVWmDZcSIL1dwFAD9ZJAYlg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ga+d2oWl; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=O6TQA4yGs5TajHqCF4VDwdOqNp75a8gVzBiJbe+rOKFIpipwMcgX7ugB8TkYdist3fWXx0O0EFnjxfAvxVogqwS9C/SNOX1K7mtV1AMbKECJaPzquS6oMlZU0XeRPvqkkUUCTrcDEOis1XP8dlC7YymdGKiWQKkxDBHIz9KNNfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YihR8/wW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ga+d2oWl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BCB21F00898;
-	Fri,  9 Oct 2026 03:51:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YihR8/wW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A9381F000FF;
+	Fri,  9 Oct 2026 03:51:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791517901;
-	bh=9Ixy8ZRqBUj1GngaI3Pys2VnvKQT1PgiAw+NC/l1qT8=;
+	s=k20260515; t=1791517904;
+	bh=+lM+i0ikQOo9OGTNz8RbIviX/2EJpCCNJ7DMKnfG5uA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ga+d2oWl7sYONF4mH9ssS74WUCN5p0wBkAXvo34UTWtIYPAa6fvjCaYIUZuuK4Uj8
-	 u3rX1Lf28NJUgEtxQzQknvl49GHdIL3/BQhK0u52Ah34HuIwGNwmOPZ8Wazk5RP8D+
-	 6Qk72gXNjeK/ihxZepCSmk88SQ6/WFBF+hbXFzcf75yVI6eVwMES3tmHoZuq7wFuTR
-	 bEMO/Ha+1Rrx5Injq/Zjf5n/8V6PJSAthUxJB+SbLApy2d+1EbDZRqmVstCEkH9c3H
-	 KdJqYbbmKPdYd31NNGkrWXb7npqrg6k1R3CkfLOMv8DptZ1KaKxHm0BNXe4hhuxFit
-	 cw13bPNdO1Mzg==
-Message-ID: <sashiko-outbox-164793@kernel.org>
+	b=YihR8/wWDspV2rxB+zUuyreqsciT3UyBFVQ2o6H9esTprNh1NXbW6NopRR+RsyFdF
+	 6aS7Jy/iy9cx4HIpX8Nqlc+U2u+4qz1HH0DGE6kPvPciPLP7sAQ7b4BuVZJXsQ36zJ
+	 g1Kel2aT88QnVIdxuhGXYqqEhIIxMGSUY+Fy9r5NG7rJ6zEbkZ7thh42yOLWIy85Iw
+	 pLnjoIYg0Xwx6iwMXnNZimmumuWqy3HQDZLWIf4UhnlbBaPh8Vyn27VtlyMjCA+wsk
+	 pNHvIC17SfSPSZzmKdSYLcEkJn0B/D5mLttfyOGRdAIIFqgb2bDkEmTlYEgBB+ahgU
+	 PKZh0U5lu2LKQ==
+Message-ID: <sashiko-outbox-164798@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v18 07/13] ax88179_178a: Add VLAN offload
- support for AX88179A
+Subject: Re: [PATCH net-next v18 02/13] phylib: Add support for PHYs with
+ broken forced mode
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261008-ax88179a-v18-7-6fa1d4c40422@birger-koblitz.de>
+In-Reply-To: <20261008-ax88179a-v18-2-6fa1d4c40422@birger-koblitz.de>
 References: <20261008-ax88179a-v18-0-6fa1d4c40422@birger-koblitz.de>
- <20261008-ax88179a-v18-7-6fa1d4c40422@birger-koblitz.de>
+ <20261008-ax88179a-v18-2-6fa1d4c40422@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2026 03:51:40 +0000
+Date: Fri, 09 Oct 2026 03:51:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,111 +47,108 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [High] net: usb: ax88179a: missing WE command in VLAN filter table init l=
-oop
-- [Medium] net: usb: ax88179a: ignored USB write errors in VLAN filter init
-- [Medium] net: usb: ax88179a: uninitialized stack memory use on short USB =
-read
+- [High] phy: TOCTOU race allowing NULL pointer dereference in phy_mii_ioct=
+l and phy_ethtool_ksettings_set
+- [Medium] net: phy: data race modifying bitfields in phy_mii_ioctl
+- [Medium] net: phy: SIOCSMIIREG C45 writes misinterpret MMDs as C22 regist=
+ers
 --
 
-commit 86960e6590c9a326bcedbb3ba8fde9f53c488e20
+commit 38a1dbebb552f1b80a0aa4bb3db03459a68b3811
 Author: Birger Koblitz <mail@birger-koblitz.de>
 
-    ax88179_178a: Add VLAN offload support for AX88179A
-   =20
-    The AX88179A-based chips support VLAN offload. Add configuration
-    support in netdev_ops. Features supported are:
-    NETIF_F_HW_VLAN_CTAG_TX, NETIF_F_HW_VLAN_CTAG_RX
-    and NETIF_F_HW_VLAN_CTAG_FILTER.
+phylib: Add support for PHYs with broken forced mode
 
-> diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179=
-a_devices.c
-> index c41d9c2dc737a..bdc67cbc17287 100644
-> --- a/drivers/net/usb/ax88179a_devices.c
-> +++ b/drivers/net/usb/ax88179a_devices.c
-> @@ -258,6 +258,88 @@ static const struct ethtool_ops ax88179a_ethtool_ops=
- =3D {
->  	.get_ts_info		=3D ethtool_op_get_ts_info,
->  };
-> =20
-> +static int ax88179a_vlan_rx_kill_vid(struct net_device *net, __be16 prot=
-o, u16 vid)
-> +{
-> +	struct usbnet *dev =3D netdev_priv(net);
-> +	u8 vlan_ctrl;
-> +	int ret =3D 0;
-> +	u16 reg16;
-> +	u8 reg8;
-> +
-> +	ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL, =
-1, 1, &reg8);
-> +	if (ret < 0)
-> +		return ret;
+This adds support for PHYs which only support auto-negotiated speed modes,
+preventing a kernel warning and stack-trace when PHYs return -EOPNOTSUPP
+from config_aneg() for forced modes.
+
+> diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+> index fce9bc7be3304..079c53516f424 100644
+> --- a/drivers/net/phy/phy.c
+> +++ b/drivers/net/phy/phy.c
+> @@ -354,6 +354,9 @@ int phy_mii_ioctl(struct phy_device *phydev, struct i=
+freq *ifr, int cmd)
+>  			switch (devad) {
+>  			case MII_BMCR:
 
 [Severity: Medium]
-If a malicious or buggy USB device responds to the read request with a
-zero-length packet, ax88179_read_cmd() will return 0 and skip copying data,
-leaving reg8 uninitialized.
+Does this switch statement evaluate Clause 45 MMDs against Clause 22
+register macros?
 
-Since the error check only verifies if ret < 0, does this allow uninitializ=
-ed
-stack memory to be used for hardware control and eventually written back to
-the MAC? This also applies to the reads in ax88179a_vlan_rx_add_vid() and
-ax88179a_set_features().
+In phy_mii_ioctl(), devad contains the MMD for C45 writes:
 
-[ ... ]
-> +static int ax88179a_set_features(struct net_device *net, netdev_features=
-_t features)
-> +{
-> +	struct usbnet *dev =3D netdev_priv(net);
-> +	netdev_features_t changed;
-> +	int ret;
-> +	u8 tmp;
-> +
-> +	changed =3D net->features ^ features;
-> +
-> +	ret =3D ax88179_set_features(net, features);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (changed & NETIF_F_HW_VLAN_CTAG_FILTER) {
-> +		if (features & NETIF_F_HW_VLAN_CTAG_FILTER) {
-> +			for (int i =3D 0; i < 256; i++) {
-> +				/* Address */
-> +				tmp =3D i;
-> +				ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_ADDRESS,
-> +						  1, 1, &tmp);
-> +				/* Data */
-> +				ax88179_write_u16(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0,
-> +						  2, 0);
-> +			}
+	case SIOCSMIIREG:
+		if (mdio_phy_id_is_c45(mii_data->phy_id)) {
+			prtad =3D mdio_phy_id_prtad(mii_data->phy_id);
+			devad =3D mdio_phy_id_devad(mii_data->phy_id);
 
-[Severity: Medium]
-These ax88179_write_cmd() and ax88179_write_u16() calls lack error checking.
-Could this prevent an early abort on device disconnect or hardware failure,
-resulting in the thread blocking through 512 failing USB control transfers?
+If a user issues an SIOCSMIIREG ioctl targeting a Clause 45 PHY and
+writes to MMD 4 (PHY XS), devad will be 4. Doesn't this hit the
+MII_ADVERTISE case below, incorrectly corrupting phydev->advertising?
+
+Additionally, will the newly added logic here improperly intercept C45 writ=
+es
+to MMD 0?
+
+>  				if ((val & (BMCR_RESET | BMCR_ANENABLE)) =3D=3D 0) {
+> +					if (phydev->drv &&
+> +					    (phydev->drv->flags & PHY_BROKEN_FORCED))
 
 [Severity: High]
-Does this loop fail to actually initialize the hardware filter table for the
-first 255 entries?
+Can the compiler double-fetch phydev->drv here without locks, risking a NULL
+pointer dereference?
 
-The write enable command (AX_VLAN_CONTROL_WE) is only sent once after the
-loop finishes, which suggests that only the last address (255) is written
-to the SRAM while the first 255 entries are ignored. Should the WE trigger =
-be
-included inside the loop?
+If an asynchronous driver unbind occurs via sysfs:
 
-> +			ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC,
-> +					       AX88179A_VLAN_ID_CONTROL, 1, 1, &tmp);
-> +			if (ret < 0)
-> +				return ret;
-> +			tmp |=3D AX_VLAN_CONTROL_VFE | AX_VLAN_CONTROL_WE;
-> +			ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC,
-> +						AX88179A_VLAN_ID_CONTROL, 1, 1, &tmp);
-> +			if (ret < 0)
-> +				return ret;
-> +		} else {
+echo <phy_id> > /sys/bus/mdio_bus/drivers/<drv>/unbind
+
+This calls phy_remove(), which clears phydev->drv to NULL without acquiring
+phydev->lock. Could the second fetch of phydev->drv in the condition above
+yield NULL, leading to a kernel panic when dereferencing flags?
+
+> +						return -EOPNOTSUPP;
+>  					if (phydev->autoneg =3D=3D AUTONEG_ENABLE)
+>  						change_autoneg =3D true;
+>  					phydev->autoneg =3D AUTONEG_DISABLE;
+
+[Severity: Medium]
+Is it safe to modify phydev->autoneg and phydev->duplex locklessly here?
+
+These fields are part of a bitfield block in struct phy_device:
+
+	unsigned autoneg:1;
+	unsigned link:1;
+	unsigned autoneg_complete:1;
+
+phy_state_machine() modifies adjacent bitfields (like link and
+autoneg_complete) asynchronously while holding phydev->lock. Because they
+share the same memory word, could this lockless assignment in phy_mii_ioctl=
+()
+cause a read-modify-write race that silently overwrites the state machine's
+updates?
+
+[ ... ]
+> @@ -1190,6 +1193,10 @@ int phy_ethtool_ksettings_set(struct phy_device *p=
+hydev,
+>  	      duplex !=3D DUPLEX_FULL)))
+>  		return -EINVAL;
+> =20
+> +	if (autoneg =3D=3D AUTONEG_DISABLE && phydev->drv &&
+> +	    (phydev->drv->flags & PHY_BROKEN_FORCED))
+
+[Severity: High]
+Similar to the check in phy_mii_ioctl(), can the compiler double-fetch
+phydev->drv here before phydev->lock is taken?
+
+If phy_remove() clears phydev->drv concurrently, could the second load yield
+NULL and cause a dereference crash?
+
+> +		return -EOPNOTSUPP;
+> +
+>  	mutex_lock(&phydev->lock);
+>  	phydev->autoneg =3D autoneg;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261008-ax88179a-v=
-18-0-6fa1d4c40422@birger-koblitz.de?part=3D7
+18-0-6fa1d4c40422@birger-koblitz.de?part=3D2
