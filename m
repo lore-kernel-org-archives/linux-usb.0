@@ -1,105 +1,195 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D0924676D;
-	Fri,  9 Oct 2026 06:07:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84440443C07;
+	Fri,  9 Oct 2026 06:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791526046; cv=none; b=bDgx52QceDCbeGlehUjtt2R0e2aVlzu3QEq172f8IwAj2x0zSK2kHbOi6evGmJ+tHqqvbn17083J7JZw5OCM88em77cJ1r3d3T6PuRzKFGLGLhaXF4hczMUkF2zIc+PX+iMaBvEd7qlR2y2ELYstu4u7Rs1cnBpt/xtrCTgcQ8M=
+	t=1791527280; cv=none; b=TeIIvU0m1/xMBkTM3tg8WCMxChG2Te/9sA7JKZ6tXj9ktAhSufQD4LvqQdf/nnhrIXkrXD0OoFcTZbkxq+9dMG7wgkeFIerzw6t2TXc8O/U1Z60V31fwirxa6lxZAjVnVv5Y612y8gyJW0Oc755CEOkhb0n+8JmO5ttwSKFcfF0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791526046; c=relaxed/simple;
-	bh=AD40QHPRM/uPwoHpI96Dy5bfJgcMMuQjmBqpRU26B8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u7rZxG/DGP6LeHukjTI4XSE6XrbokaAMdnyzN/p5IZQf8WuZ8Ml/3a7A8oDHYctSnaZyBWFXV7FmMRLVd3EmRjckZ0P7cxlNQ9JzI0vBE6qXxqbIwstMqXiLFgVNe5NcUDWCCaPAN/gQ3XNorSRVMQIrRGfR7x8j04Zf+kvkZfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lsWXZLHG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791527280; c=relaxed/simple;
+	bh=XNLd1vcL6wwc+SbqMZ7RnBacqhTEzwNv63BGEqZEVO4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=eoK4a+nCRAkxo2L7gRsCC6puDUVsH6iZ9wP45Fo6bP7cA9ejKQy4sSTX/QymMSI/CEKqXA7Y5hO3pRGqmOtnyL2yJjXJnYVUTQIzSeR/uP50Z0S9gpPdMF7LgVL2Cv/5IiMn1ZzaQRXASUb9jfTSRW208Czp7MGwCwq9vOvRv2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CL58kaCB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lsWXZLHG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0956F1F000FF;
-	Fri,  9 Oct 2026 06:07:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791526044;
-	bh=nu+dGy6K2wM7mg9NfbX2EmyZWS9ACuR8SVMuMJ67eCY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lsWXZLHGKW2d2+Z35HBZLV1PotEui8iEuqNVncbT4hdRK1ZrvjZk3AB0esw0+hC9/
-	 StuOHgd0s59rQ+fGwUAmDrR0hKC3Ea23kQjIps1TJWCABjchlEFMzH092WkcZwODfk
-	 wZ8t6B6oT8TuylWzF10VbSixCoZt7+E1JI3h6rqhg+zLBnTe8NE2gkUfPR9KJbygDk
-	 UursROFQKY3C9aunlrWwN61gjCnzmzjgvbYzpMtiMBR7L6F9gnMXysFNnZAfcxEWB2
-	 LG/jpYeqPejrrBKeAZCSOY2PZXGejFmW8f9+VvyyV1svJs2JOvWY+BWuSrGPmKp8Hm
-	 mHXSZABNCu9fQ==
-Date: Fri, 9 Oct 2026 08:07:22 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Haotian Zhang <vulab@iscas.ac.cn>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	David Mosberger-Tang <davidm@egauge.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH] usb: host: max3421-hcd: stop SPI thread before freeing
- its DMA buffers
-Message-ID: <20261009-durable-adaptable-bumblebee-a032da@quoll>
-References: <20261009044431.3115704-1-vulab@iscas.ac.cn>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CL58kaCB"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 288F6C2BCFC;
+	Fri,  9 Oct 2026 06:28:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1791527280;
+	bh=XNLd1vcL6wwc+SbqMZ7RnBacqhTEzwNv63BGEqZEVO4=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=CL58kaCBD9sLLzn4VZuuc3o6Zb0nrDsrx2GSog7/bJQB5HUVF0GwBf08ouYQB2LBr
+	 a1eu7nrzkB4V8zJITeEf9P+5BXBwpUJwaJDbY7kfIrr1vrCB5WrKHKNdzo7AXEPfJs
+	 GVZzD+yRNhKNh3xJDympW2HzwTqINROdq8LPm/idfuMItd9rPza4WLBaBDZHdgKNFp
+	 XMNR88xVzDhiB80N6reyszAo85+qnwe8LvoTjVN0EM2auMSFgYdEagGMwKbuMcSGRV
+	 vAKkMRWlRA1B+2WR7jwfPX/LuAuUdlK8IleMrscC4N4qw5AcAQ+msPuQ/TizHPj1KG
+	 MeQkF6C9M3jow==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CAF9CA601A;
+	Fri,  9 Oct 2026 06:28:00 +0000 (UTC)
+From: Pawel Laszczak via B4 Relay <devnull+pawell.cadence.com@kernel.org>
+Date: Fri, 09 Oct 2026 08:49:12 +0200
+Subject: [PATCH v4 2/3] usb: gadget: composite: Support eUSB2v2 bulk MPS
+ update
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261009044431.3115704-1-vulab@iscas.ac.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261009-eusb2v2-packet-size-v4-2-a505ee17b460@cadence.com>
+References: <20261009-eusb2v2-packet-size-v4-0-a505ee17b460@cadence.com>
+In-Reply-To: <20261009-eusb2v2-packet-size-v4-0-a505ee17b460@cadence.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Pawel Laszczak <pawell@cadence.com>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791528555; l=4883;
+ i=pawell@cadence.com; h=from:subject:message-id;
+ bh=54cj7P6eptXeBoLGqTGuJw6KSL4sbxsCE9t2Xo8Db4g=;
+ b=F/srVaYib37iB43oeIbCzjak/KX76JpiAsOa5sTswh1HbVMbRQ2wBj4bgUXXItzD7oxaixyCn
+ ER4wuA1tgFcAIDWT1ILaod0w6yVnuiQMOsszvUPg6IC9di/49Lqrn/A
+X-Developer-Key: i=pawell@cadence.com; a=ed25519;
+ pk=EUPBvLO9CDg7j6defeDl2iqi+z5Ivqu4Z46aiqe7dYc=
+X-Endpoint-Received: by B4 Relay for pawell@cadence.com/default with
+ auth_id=707
+X-Original-From: Pawel Laszczak <pawell@cadence.com>
+Reply-To: pawell@cadence.com
 
+From: Pawel Laszczak <pawell@cadence.com>
 
-On Fri, 09 Oct 2026 12:44:31 +0800, Haotian Zhang wrote:
-> In max3421_probe(), the error path frees the kmalloc'd tx and rx buffers
-> with kfree() before calling kthread_stop() on max3421_hcd->spi_thread.
-> The SPI thread entry point max3421_spi_thread() immediately starts using
-> those buffers through spi_rd8()/spi_wr8(), so when usb_add_hcd() or
-> request_irq() fails and the thread is still running, it can access the
-> freed buffers, giving a use-after-free.
-> 
-> Stop the SPI thread first and only free the tx/rx buffers afterwards.
-> 
-> Fixes: 05dfa5c9bc37 ("usb: host: max3421-hcd: fix "spi_rd8" uses dynamic stack allocation warning")
-> Assisted-by: DeepSeek-V4.1-Flash
-> Signed-off-by: Haotian Zhang <vulab@iscas.ac.cn>
-> ---
->  drivers/usb/host/max3421-hcd.c | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
-> 
+Add support for eUSB2v2 1024-byte Bulk MPS negotiation to the Gadget
+Composite framework.
 
+If 'gadget->is_eusb2v2' is set, force bcdUSB to 0x0230 and bMaxPacketSize0
+to 64 bytes. Handle the USB_DEVICE_BULK_MAX_PACKET_UPDATE Feature Selector
+request by activating the new 'eusb2v2_mps_active' gadget flag.
 
+This flag allows the UDC (USB Device Controller) driver to dynamically
+configure its hardware endpoints for 1024-byte packet mode, while the
+Composite framework continues to report 512 bytes in the Configuration
+Descriptor, ensuring strict compliance with eUSB2v2 specification
+section 5.2. The flag is cleared upon device reset or disconnect.
 
-Multiple things here:
-1. Your team ignored completely previous feedback.
+Signed-off-by: Pawel Laszczak <pawell@cadence.com>
+---
+Changes in v4:
+- No changes.
 
-2. You use multiple identities with this email, thus I actually doubt we speak
-   with actual person.
+Changes in v3:
+- composite.c: Do not overwrite ep->desc.wMaxPacketSize to 1024, as the eUSB2v2
+  spec section 5.2 mandates that the endpoint descriptor always reports 512 bytes
+  to the host. Instead, introduce gadget->eusb2v2_mps_active flag.
+- gadget.h: Add eusb2v2_mps_active to struct usb_gadget.
 
-3. Finally, same feedback:
-You sent multiple independent patches, to multiple independent
-subsystems. The amount of these patches clearly suggest this was
-AI generated and most likely not tested.
+Changes in v2:
+- composite.c: CLEAR_FEATURE(BULK_MAX_PACKET_UPDATE) is not defined in the
+  eUSB2v2 spec; stall it instead of incorrectly setting 1024-byte mode.
+- restore MPS in __composite_disconnect
+---
+ drivers/usb/gadget/composite.c | 28 +++++++++++++++++++++-------
+ include/linux/usb/gadget.h     |  4 ++++
+ 2 files changed, 25 insertions(+), 7 deletions(-)
 
-More importantly, you sent all this work without properly organizing
-relevant patches into patchsets. This makes reviewing difficult
-and might cause multiple reviewers to address the same issue.
-Replying to the entire set is impossible and requires handling each
-patch independently, instead of applying or discarding the set.
-Maintainers also won't see the bigger picture of your work. Quite
-worrying.
+diff --git a/drivers/usb/gadget/composite.c b/drivers/usb/gadget/composite.c
+index dc3664374596..9678ed4e4aee 100644
+--- a/drivers/usb/gadget/composite.c
++++ b/drivers/usb/gadget/composite.c
+@@ -924,7 +924,6 @@ static void device_qual(struct usb_composite_dev *cdev)
+ }
+ 
+ /*-------------------------------------------------------------------------*/
+-
+ static void reset_config(struct usb_composite_dev *cdev)
+ {
+ 	struct usb_function		*f;
+@@ -971,8 +970,10 @@ static int set_config(struct usb_composite_dev *cdev,
+ 		if (result < 0)
+ 			goto done;
+ 	} else { /* Zero configuration value - need to reset the config */
+-		if (cdev->config)
++		if (cdev->config) {
+ 			reset_config(cdev);
++			cdev->gadget->eusb2v2_mps_active = 0;
++		}
+ 		result = 0;
+ 	}
+ 
+@@ -1807,7 +1808,11 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 				count_configs(cdev, USB_DT_DEVICE);
+ 			cdev->desc.bMaxPacketSize0 =
+ 				cdev->gadget->ep0->maxpacket;
+-			if (gadget_is_superspeed(gadget)) {
++
++			if (gadget->is_eusb2v2) {
++				cdev->desc.bcdUSB = cpu_to_le16(0x0230);
++				cdev->desc.bMaxPacketSize0 = 64;
++			} else if (gadget_is_superspeed(gadget)) {
+ 				if (gadget->speed >= USB_SPEED_SUPER) {
+ 					cdev->desc.bcdUSB = cpu_to_le16(0x0320);
+ 					cdev->desc.bMaxPacketSize0 = 9;
+@@ -2005,12 +2010,20 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
+ 	 */
+ 	case USB_REQ_CLEAR_FEATURE:
+ 	case USB_REQ_SET_FEATURE:
+-		if (!gadget_is_superspeed(gadget))
+-			goto unknown;
+-		if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_INTERFACE))
+-			goto unknown;
+ 		switch (w_value) {
++		case USB_DEVICE_BULK_MAX_PACKET_UPDATE:
++			if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_DEVICE))
++				goto unknown;
++			if (ctrl->bRequest != USB_REQ_SET_FEATURE)
++				goto unknown;
++			gadget->eusb2v2_mps_active = 1;
++			value = 0;
++			break;
+ 		case USB_INTRF_FUNC_SUSPEND:
++			if (!gadget_is_superspeed(gadget))
++				goto unknown;
++			if (ctrl->bRequestType != (USB_DIR_OUT | USB_RECIP_INTERFACE))
++				goto unknown;
+ 			if (!cdev->config || intf >= MAX_CONFIG_INTERFACES)
+ 				break;
+ 			f = cdev->config->interface[intf];
+@@ -2293,6 +2306,7 @@ static void __composite_disconnect(struct usb_gadget *gadget)
+ 	 * disconnect callbacks?
+ 	 */
+ 	spin_lock_irqsave(&cdev->lock, flags);
++	cdev->gadget->eusb2v2_mps_active = 0;
+ 	cdev->suspended = 0;
+ 	if (cdev->config)
+ 		reset_config(cdev);
+diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
+index 8285b19a25e0..5f691f80fd68 100644
+--- a/include/linux/usb/gadget.h
++++ b/include/linux/usb/gadget.h
+@@ -420,6 +420,8 @@ struct usb_gadget_ops {
+  * @wakeup_armed: True if gadget is armed by the host for remote wakeup.
+  * @irq: the interrupt number for device controller.
+  * @id_number: a unique ID number for ensuring that gadget names are distinct
++ * @is_eusb2v2: True if controller is Embedded usb2.
++ * @eusb2v2_mps_active: 1024-byte bulk mode is active.
+  *
+  * Gadgets have a mostly-portable "gadget driver" implementing device
+  * functions, handling all usb configurations and interfaces.  Gadget
+@@ -483,6 +485,8 @@ struct usb_gadget {
+ 	unsigned			lpm_capable:1;
+ 	unsigned			wakeup_capable:1;
+ 	unsigned			wakeup_armed:1;
++	unsigned			is_eusb2v2:1;
++	unsigned			eusb2v2_mps_active:1;
+ 	int				irq;
+ 	int				id_number;
+ };
 
-This is on the verge of hostile patch: bomb us with so many
-contributions, we won't be able to handle them in efficient manner,
-like responding ONCE to ask you to slow down.  Considering all this
-is untested and LLM generated, I have even more doubts whether this
-should be considered for review.
-
-Please read kernel documentation BEFORE posting more work. It will
-explain you how to identify subsystems, how to organize your work per
-subsystem (so a patchset grouping multiple patches with a short cover
-letter), how to document usage of LLM and how what you should not do
-if this was posted in a good faith.
-
-Best regards,
-Krzysztof
-
-
+-- 
+2.43.0
 
 
