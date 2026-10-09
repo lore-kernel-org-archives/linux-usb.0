@@ -1,109 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF15347FC0
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 10:16:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27ED149EC5D;
+	Fri,  9 Oct 2026 10:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791540976; cv=none; b=lD+xZkE32X+NkbsnNJnj1UAdrk5dfBsHyDJJeUEnXn8tG7+Qn+N1lBUqbqYlnEwTRWPqm+V7JPvOYZz7HFVyEyk5FE/w5GLzP0yqHHlwJHbqxUPmaae8QwB2fAMMctUNBv8vLX7fky2evqPJyNeM5CIV9j2fDVhydoACyfyhm1k=
+	t=1791542122; cv=none; b=HRHmTLs121HUymaUBa3iS9nPtRDr2YoBgtOWubIW+taIlAvHL8YQxzvjxq7JMDFxaxn5CJ3AoSKiYlOjqM7TgEIVQDStmxMDtT19zN72pN9l6hA/EQ9c3mLXgg2+PE7+qoJBAgg2JcfSRKqmJU9aTUPRDduGO++hcWNfvwX8mSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791540976; c=relaxed/simple;
-	bh=Qg6fki4tP2VSVJw0dDdnvFfg1DlEPQDilPWKNOTxVrU=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=LD/LgCljaFF/vviHczGoWUk0MuupZuG5aPc7NlGQ8LQpKGbPcp/9uG1xCgGhvFBMTK+/1dF7xV/aHBXlSWQQFx0V9XsYrLqDFAe9zUxOh0mpBiYN/HpDpzq3i65wGDk94PIrWCGKjdXyk8BhoiRAnEJ51FUp12zhWfU+SgCjJPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CRdQGCdG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791542122; c=relaxed/simple;
+	bh=MdDd40xdrLHiIdxTsGMSfQgOcKsmowKhQAg2xWrd3YE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d/HQepdyLld547FoWND7ZALMGKK+z3UuCo9O5mcfvuF6ZN0p+C7gr4QikOYT5ud2DjR9Ya3gaD8CcVO6xrKXOlk5XkIZDoY7ODaFyjYpAfeKBBslDIKOizKMj9WJPz3NDkf9UFXRD4uOccirOnTxf6QvSmRiB74kGVe6o/XaV4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gtaMZMIi; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CRdQGCdG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CD8D11F000FF;
-	Fri,  9 Oct 2026 10:16:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791540975;
-	bh=QBoeMUUtIJ/Tb9pAhw/JmROVS2DBSdk2qJKUV0pfe7U=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=CRdQGCdGaOSKtF/80jyXbAWa0Sjq4vhH7qgRy/nqIIAPmdAE0rNvd41S9HzI0vhtd
-	 A8sSiN/o9DuSAGDJhrrnlPkl7CL7+wl8bgjnct4LkzF1gOyprY/ZUAHxr6ckbkRp0g
-	 +TZGceRMRkI8xdXxAPEYM9Hc3f1LplclzFTYdAPbp/iXNdajjSOHXG9et2rCQTURcG
-	 BnArkSulFZmr/v3aBkk1/3tQ7+Ni+OpcvCKXxAR86Z0Dkcc28RbVjCNIjd1IV1nfhr
-	 Tmjpr8sf953JBNi/+hnhsQrkFd23ozZ1bIM7Fg/43FcFqmkLXd3XXiup0dixKbqNg5
-	 BO9RaWNpZp/Vw==
-Message-ID: <sashiko-outbox-165215@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 10/14] usb: xhci: Don't set the skip flag on non-isoc
- endpoints
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathias Nyman" <mathias.nyman@linux.intel.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261009095834.561578-11-mathias.nyman@linux.intel.com>
-References: <20261009095834.561578-1-mathias.nyman@linux.intel.com>
- <20261009095834.561578-11-mathias.nyman@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2026 10:16:14 +0000
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gtaMZMIi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791542119; x=1823078119;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MdDd40xdrLHiIdxTsGMSfQgOcKsmowKhQAg2xWrd3YE=;
+  b=gtaMZMIi3we3JbpQQdyOY5kDWPAftT/FnhfLp6212nj6pV/gJcx74ckL
+   fgrFbI0QMem0oUj5OCldMjzFAkb3P+LyVvBdkJn84MkxGZPQWoK1VU9LM
+   VYgITGrYEkqkVnpejev0uXHGApXnkKcQwMh0PtuOSwD8YgcuWwFbuMKHy
+   WLDQRDDUqrTj9AcjMM6ZF2mcJgbjEmCy1GSNKQSp6ggGUcdtbcgoAc6sJ
+   CiaA/k6eaMibX/nBaetIOr/2dDmdu3U2JaM3mzoCmTfqkj5Rj9xMJvHrP
+   Ze6xyl1r60Dt9/xkBKRUXYJ5CHw+4/Yo8MHX3JBmErX1s+rQl0idZ55W6
+   w==;
+X-CSE-ConnectionGUID: jR5e6h61RTiTYR13C42K/Q==
+X-CSE-MsgGUID: 3I8MS9RtT+G71OnXMLkK/w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="226350"
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="226350"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 03:35:18 -0700
+X-CSE-ConnectionGUID: Foae2iWPT5KceI19Zc9wqQ==
+X-CSE-MsgGUID: F6X5ZtNWRK6CM62SdzeM9A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="605296"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by fmviesa009.fm.intel.com with ESMTP; 09 Oct 2026 03:35:11 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xF7wR-000000005dY-2o3F;
+	Fri, 09 Oct 2026 10:35:07 +0000
+Date: Fri, 9 Oct 2026 18:35:01 +0800
+From: kernel test robot <lkp@intel.com>
+To: Karl Mehltretter <kmehltretter@gmail.com>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	linux-input@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	Karl Mehltretter <kmehltretter@gmail.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Florian Echtler <floe@butterbrot.org>,
+	Nguyen Ngoc Thang <ngocthang2710.1999@gmail.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFT PATCH] Input: sur40 - fix DMA handling in video capture
+Message-ID: <202610091847.RMZt5Cy1-lkp@intel.com>
+References: <20261007054430.40155-1-kmehltretter@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261007054430.40155-1-kmehltretter@gmail.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] usb: xhci: invalid completion of URB with -EINPROGRESS on COMP_MIS=
-SED_SERVICE_ERROR
+Hi Karl,
+
+kernel test robot noticed the following build errors:
+
+[auto build test ERROR on 2c3418fffa9d037b2038a6db48be63f9e2291806]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Karl-Mehltretter/Input-sur40-fix-DMA-handling-in-video-capture/20261007-074430
+base:   2c3418fffa9d037b2038a6db48be63f9e2291806
+patch link:    https://lore.kernel.org/r/20261007054430.40155-1-kmehltretter%40gmail.com
+patch subject: [RFT PATCH] Input: sur40 - fix DMA handling in video capture
+config: arm-randconfig-1003-20261009 (https://download.01.org/0day-ci/archive/20261009/202610091847.RMZt5Cy1-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 15.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261009/202610091847.RMZt5Cy1-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610091847.RMZt5Cy1-lkp@intel.com/
+
+All errors (new ones prefixed by >>, old ones prefixed by <<):
+
+>> ERROR: modpost: drivers/input/touchscreen/sur40.ko: module uses symbol 'dma_buf_begin_cpu_access' from namespace 'DMA_BUF', but does not import it.
+>> ERROR: modpost: drivers/input/touchscreen/sur40.ko: module uses symbol 'dma_buf_end_cpu_access' from namespace 'DMA_BUF', but does not import it.
+
 --
-
-commit dfab6709cb637a348bd004519bdfe39df717cdc4
-Author: Michal Pecio <michal.pecio@gmail.com>
-
-usb: xhci: Don't set the skip flag on non-isoc endpoints
-
-These events are unique to isochronous endpoints, ignore them otherwise.
-Update debug messages to reflect new policies. We could also log invalid
-events as errors, but it seems nobody has ever had problems with that,
-so don't bother.
-
-> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-> index 8b915a1d5b256..2dd11732bb87c 100644
-> --- a/drivers/usb/host/xhci-ring.c
-> +++ b/drivers/usb/host/xhci-ring.c
-> @@ -2778,16 +2778,18 @@ static int handle_tx_event(struct xhci_hcd *xhci,
->  		 * Set skip flag of the ep_ring; Complete the missed tds as
->  		 * short transfer when process the ep_ring next time.
->  		 */
-> -		ep->skip =3D true;
-> +		if (ep_ring->type =3D=3D TYPE_ISOC)
-> +			ep->skip =3D true;
->  		xhci_dbg(xhci,
-> -			 "Miss service interval error for slot %u ep %u, set skip flag%s\n",
-> -			 slot_id, ep_index, ep_trb_dma ? ", skip now" : "");
-> +			 "Missed Service Error for slot %u ep %u, skip %d, try now %d\n",
-> +			 slot_id, ep_index, ep->skip, !!ep_trb_dma);
->  		break;
-
-[Severity: High]
-In handle_tx_event() in drivers/usb/host/xhci-ring.c, for non-isochronous
-endpoints, does using break instead of return 0 here cause the event to
-improperly fall through into the rest of the handler?
-
-If the event's DMA matches the current TD, it appears it is passed to
-process_bulk_intr_td() or process_ctrl_td(). Since those functions do not
-handle this completion code, does the URB's status remain initialized to
--EINPROGRESS, completing the URB with an illegal status code?
-
-Additionally, if the event DMA does not match the current TD, does the code
-fall back to the debug_finding_td error path, fatally shutting down the host
-controller with -ESHUTDOWN?
-
->  	case COMP_NO_PING_RESPONSE_ERROR:
-> -		ep->skip =3D true;
-> +		if (ep_ring->type =3D=3D TYPE_ISOC)
-> +			ep->skip =3D true;
->  		xhci_dbg(xhci,
-> -			 "No Ping response error for slot %u ep %u, Skip one Isoc TD\n",
-> -			 slot_id, ep_index);
-> +			 "No Ping response error for slot %u ep %u, skip %d\n",
-> +			 slot_id, ep_index, ep->skip);
->  		return 0;
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261009095834.5615=
-78-1-mathias.nyman@linux.intel.com?part=3D10
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
