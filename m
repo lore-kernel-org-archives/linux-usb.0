@@ -1,270 +1,149 @@
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5613922E3F0
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 02:07:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C541C1B808;
+	Fri,  9 Oct 2026 02:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791511660; cv=none; b=C41kntcfH3dXCRb0ZkGBakg/1gdIe9H+J++wSsqlqw7hfdNh0hIJBYfXRbCnvmPbgxUk9vYptxjFAE1rIax1f9JL8Ws3F1B+6xWWkgXUnaEX+040Il0l15KxPH2NXi2s5dyo71d9vYf2BAyHv3KxAyLeeKh8uR4oVulhn2NgEWo=
+	t=1791512066; cv=none; b=oKW+racMhzTgbybUNceu50uq8+xOOpv0tR2ZAfSc0KUBFTZGe+PZJ7nS5ci5KhidHl9GCblVtMc7m1ojFOduKiyXtXDDH3Icqm0wdWd6/zJweUGMLQZHiSiKPSSfqPtegwfDxIqG1115jFgraHkxnzL+CjNGYCum1/4GwUY2iyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791511660; c=relaxed/simple;
-	bh=ZAOqnswg2rkuR0i1i2W4xenzfuTSHt3eTCoR93DscBE=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=Yo8WY721w0T6gIhINQRNoMbA0cvaQ7RpmS7MPAhikkQfY6EJtdvudzsfyhdNFp5rQNUYgCePGdvmO50Rk7AMwebu9qfbOd7V65p6WcSkg26nkZdCOKLKLilf1/v8fhpS7ifdMi3cUeomt1dBIl4elTrawSqWAIs3z6BNlDJvG5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-4b597558c4cso9620042b6e.1
-        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 19:07:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791511657; x=1792116457;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1qYt+vG48IlGBzSCcHqzAFgeG84ds5Yd6CbKOVQRobY=;
-        b=MMzFnmAOMG/OYwRLAL7bIht48XakAL05Mfl/D2oNcPfhtcLWDyjrRjAYdxmzLfYepX
-         iS4+hl5u82TYwMuQPkLC/NzxHCJlc9GJQd1CHyvXF1uj42GweXEnlGN1zeN4hJBZeC2b
-         Ge+wAFX0IJSI2bTUNFlmp5EcH0QNBvqWqyo/QqQQ17FxLibRmm0pBDXCm0J2TEqqrQSj
-         kwdY1ETMvTscOtqTQUk71D1uCwBPVe45AKCKPIg7NS4/ECLLlCEs2zoG3uZQMRN1iDU/
-         bOm+5tvX1dbOFxrxMLtPN+3zpGme4kRKe2/0Ejda9WwKrA5Uea82Jk9tGaKLRPPMzdp1
-         ifxw==
-X-Forwarded-Encrypted: i=1; AKwUvBwP8DfNp96sk2FIQxjCTZj0rJNUYcS/tlKKh/JjeCgLybxZBck3RYiJmSwvOkrLtpLlDyaxGaf9doo=@vger.kernel.org
-X-Gm-Message-State: AFuF++mBsRd+3K571u0NNK7+63bySeLTHN7vOHYlLY3g3f9OEBw0/66/
-	L6k8fFvjTE92/QkdN30xbK13OaVUS0p6+SG6WO41budPpSkSfQY+xxz52vTOly8GigE1YzFY0iE
-	wrpw/33C5E+V4N7h2oRMSQ6qKVffn7+KPczDtpOJlzyK5hWnUwZTOAFMyC28=
+	s=arc-20240116; t=1791512066; c=relaxed/simple;
+	bh=XjYMJefxXIo3gGyZdbK27YJ+okAMpEelayGP13vzO/U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K5Hf1utg8Nd85mV+emhnCFWwQ8sPTqA2VZ9rWaxc2ImvCY3JUwuyl0SNgTMXCKgw5IU2wlSJuFKj8wwfgOfz+/tgzDaxH8K/pO1abtRTTZZ+Sc3zuEKBVPm08DniNQTpH0FKJ1r/ngigt4xwkHGuRpCbjBHWiSkCRGwFaXwIdos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A8g/i35F; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A8g/i35F"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 084A71F00893;
+	Fri,  9 Oct 2026 02:14:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791512065;
+	bh=9G5OUQT2UcbTq7GSmFBBz/ZFJx0o7ze/5N1vD4295TA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=A8g/i35FU6xtuf2sQgGMZXq/m777NIiX+7+Bjpqv3Ebcs1hW6y15kY7BhUVjQk5js
+	 2Ary1d/LHl7lloNAOQ3BRfeGPtrV6N+ArTm+fd9r0anQh1yF2gSPJUYxSz+3udENhh
+	 8U/d/KKvxjMt/1+wM0b5paKw7gnc07E42PPNrVcVOmtNbJqo8G1yQ+RE0qEVTcQPKU
+	 FK8y72JxsHMEi53EB4+F58Xz5JxRsRLKA7LNjLyRsIrw6EjxLQvRTxbC/mibS2wbju
+	 PJp58A9PN5XfsGsw99KDBKsn+4g6bzu0DWobxkdDWTXuseEfxBRI47OPyhFc5gE9W8
+	 hEBDh/dqHMHDA==
+Date: Thu, 8 Oct 2026 19:14:23 -0700
+From: "Peter Chen (Qualcomm)" <peter.chen@kernel.org>
+To: Palla Raghunath <raghunathpalla.0209@gmail.com>
+Cc: linux-kernel@vger.kernel.org, Shuah Khan <shuah@kernel.org>,
+	Brigham Campbell <me@brighamcampbell.com>,
+	linux-kernel-mentees@lists.linux.dev,
+	syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+	Grzegorz Jaszczyk <grzegorz.jaszczyk@linaro.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: phy: don't overwrite a device_type the bus already
+ set
+Message-ID: <ashN_7U0r_aXJOP6@hu-petche-lv.qualcomm.com>
+References: <20260924194236.168010-1-raghunathpalla.0209@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:30a8:b0:4f5:d3bf:edf3 with SMTP id
- 5614622812f47-50c563489c1mr342565b6e.59.1791511657364; Thu, 08 Oct 2026
- 19:07:37 -0700 (PDT)
-Date: Thu, 08 Oct 2026 19:07:37 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ac84c69.70ed5d86.2ac85.0025.GAE@google.com>
-Subject: [syzbot] [usb?] KASAN: slab-use-after-free Read in printer_func_unbind
-From: syzbot <syzbot+ffc483dc87891d3c107b@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260924194236.168010-1-raghunathpalla.0209@gmail.com>
 
-Hello,
+On 26-09-24 20:42:33, Palla Raghunath wrote:
+> usb_add_phy_dev() replaces the device_type of whatever device the PHY
+> driver passed in:
+> 
+> 	x->dev->type = &usb_phy_dev_type;
+> 
+> That device isn't ours.  PHY drivers point x->dev at the device they are
+> bound to, and its bus has usually set a device_type up already.
+> 
+> i2c is where this hurts.  An i2c client keeps its release callback on
+> the device_type, and leaves dev->release NULL:
+> 
+> 	const struct device_type i2c_client_type = {
+> 		.groups  = i2c_dev_groups,
+> 		.uevent  = i2c_device_uevent,
+> 		.release = i2c_client_dev_release,
+> 	};
+> 
+> usb_phy_dev_type has no ->release, so once it has replaced
+> i2c_client_type there is nothing left to free the client with, and
+> usb_remove_phy() doesn't put the old type back either.  Removing the
+> client then hits the warning in device_release():
+> 
+>   Device '0-002c' does not have a release() function, it is broken
+>   WARNING: drivers/base/core.c:2642 at device_release+0x1de/0x280
+>   Workqueue: usb_hub_wq hub_event
+>   Call Trace:
+>    kobject_put+0x162/0x260
+>    device_unregister+0x27/0x30
+>    i2c_deregister_clients+0x27d/0x410
+>    i2c_del_adapter+0xe9/0x230
+>    i2c_tiny_usb_disconnect+0x3f/0x90
+>    usb_unbind_interface+0x1e5/0x9c0
+>    device_remove+0x125/0x170
+>    device_release_driver_internal+0x4e2/0x6b0
+>    bus_remove_device+0x2f5/0x470
+> 
+> syzbot gets there with a fake i2c-tiny-usb adapter: instantiate an
+> isp1301 on the new bus through its new_device attribute, then unplug the
+> USB device.
+> 
+> Only i2c is affected.  phy-isp1301.c is the one i2c driver among the
+> twelve callers of usb_add_phy_dev(); the others pass a platform device
+> or a struct phy, and both leave ->type NULL and keep their release on
+> dev->release or dev->class->dev_release, so device_release() still finds
+> one for them.
+> 
+> So only take the device_type if nothing else has.  Callers that rely on
+> the uevent handler still get it, their ->type being NULL, and the i2c
+> client keeps the release it cannot do without.
+> 
+> Tested on x86_64 with the syzbot reproducer: before the change the first
+> isp1301 instantiation panics on unplug, after it 292 instantiate/unplug
+> cycles pass without a splat.
+> 
+> Reported-by: syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3fb7629cfd12d04beeab
+> Fixes: a8534cb092d7 ("usb: phy: introduce usb_phy device type with its own uevent handler")
+> Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
 
-syzbot found the following issue on:
+Add Cc: stable@vger.kernel.org, otherwise:
 
-HEAD commit:    f0406245cb98 Add linux-next specific files for 20261002
-git tree:       linux-next
-console output: https://syzkaller.appspot.com/x/log.txt?x=1142b7f5580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=dfd189b706ddeebe
-dashboard link: https://syzkaller.appspot.com/bug?extid=ffc483dc87891d3c107b
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+Reviewed-by: Peter Chen <peter.chen@kernel.org>
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Peter
+> ---
+>  drivers/usb/phy/phy.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
+> index 5a9b9353f343..ded18c7fe32f 100644
+> --- a/drivers/usb/phy/phy.c
+> +++ b/drivers/usb/phy/phy.c
+> @@ -705,7 +705,13 @@ int usb_add_phy_dev(struct usb_phy *x)
+>  	if (ret)
+>  		return ret;
+>  
+> -	x->dev->type = &usb_phy_dev_type;
+> +	/*
+> +	 * Don't clobber a device_type the bus already set.  x->dev is the
+> +	 * PHY driver's own device, and for an i2c client the release
+> +	 * callback lives on the type.
+> +	 */
+> +	if (!x->dev->type)
+> +		x->dev->type = &usb_phy_dev_type;
+>  
+>  	ATOMIC_INIT_NOTIFIER_HEAD(&x->notifier);
+>  
+> -- 
+> 2.34.1
+> 
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/3727ac4f2c2d/disk-f0406245.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/fb9b2c85f6d9/vmlinux-f0406245.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/738723ef945a/bzImage-f0406245.xz
+-- 
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ffc483dc87891d3c107b@syzkaller.appspotmail.com
-
-==================================================================
-BUG: KASAN: slab-use-after-free in printer_req_free drivers/usb/gadget/function/f_printer.c:258 [inline]
-BUG: KASAN: slab-use-after-free in printer_func_unbind+0x2e6/0x6d0 drivers/usb/gadget/function/f_printer.c:1466
-Read of size 8 at addr ffff8880742abb18 by task syz.1.167/6184
-
-CPU: 1 UID: 0 PID: 6184 Comm: syz.1.167 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_address_description+0x55/0x1e0 mm/kasan/report.c:378
- print_report+0x58/0x70 mm/kasan/report.c:482
- kasan_report+0x117/0x150 mm/kasan/report.c:595
- printer_req_free drivers/usb/gadget/function/f_printer.c:258 [inline]
- printer_func_unbind+0x2e6/0x6d0 drivers/usb/gadget/function/f_printer.c:1466
- purge_configs_funcs+0x248/0x3d0 drivers/usb/gadget/configfs.c:1600
- configfs_composite_unbind+0xa4/0x1c0 drivers/usb/gadget/configfs.c:1846
- gadget_unbind_driver+0x1cb/0x410 drivers/usb/gadget/udc/core.c:1725
- device_remove drivers/base/dd.c:616 [inline]
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
- driver_detach+0x1f3/0x2d0 drivers/base/dd.c:1435
- bus_remove_driver+0x226/0x320 drivers/base/bus.c:840
- usb_gadget_unregister_driver+0x4e/0x70 drivers/usb/gadget/udc/core.c:1785
- unregister_gadget drivers/usb/gadget/configfs.c:263 [inline]
- config_usb_cfg_unlink+0x84/0x260 drivers/usb/gadget/configfs.c:502
- configfs_unlink+0x44f/0x6b0 fs/configfs/symlink.c:258
- vfs_unlink+0x27b/0x6d0 fs/namei.c:5662
- filename_unlinkat+0x3cd/0x610 fs/namei.c:5732
- __do_sys_unlinkat fs/namei.c:5761 [inline]
- __se_sys_unlinkat+0x83/0x1a0 fs/namei.c:5753
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f796539e159
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f79635b4028 EFLAGS: 00000246 ORIG_RAX: 0000000000000107
-RAX: ffffffffffffffda RBX: 00007f7965626180 RCX: 00007f796539e159
-RDX: 0000000000000000 RSI: 0000200000000440 RDI: ffffffffffffff9c
-RBP: 00007f796543506b R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f7965626218 R14: 00007f7965626180 R15: 00007ffc6fa5e9f8
- </TASK>
-
-Allocated by task 5932:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- poison_kmalloc_redzone mm/kasan/common.c:409 [inline]
- __kasan_kmalloc+0x93/0xb0 mm/kasan/common.c:426
- kasan_kmalloc include/linux/kasan.h:263 [inline]
- __kmalloc_cache_noprof+0x31c/0x600 mm/slub.c:5680
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- dummy_alloc_request+0x7f/0x130 drivers/usb/gadget/udc/dummy_hcd.c:695
- usb_ep_alloc_request+0x67/0x280 drivers/usb/gadget/udc/core.c:198
- printer_req_alloc drivers/usb/gadget/function/f_printer.c:240 [inline]
- printer_func_bind+0x55c/0xbc0 drivers/usb/gadget/function/f_printer.c:1150
- usb_add_function+0x2e1/0x9f0 drivers/usb/gadget/composite.c:333
- configfs_composite_bind+0xde0/0x1410 drivers/usb/gadget/configfs.c:1802
- gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1663
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
- __driver_attach+0x339/0x600 drivers/base/dd.c:1292
- bus_for_each_dev+0x23b/0x2c0 drivers/base/bus.c:386
- bus_add_driver+0x38f/0x6e0 drivers/base/bus.c:771
- driver_register+0x23a/0x320 drivers/base/driver.c:174
- usb_gadget_register_driver_owner+0xf9/0x270 drivers/usb/gadget/udc/core.c:1753
- gadget_dev_desc_UDC_store+0x1c9/0x2f0 drivers/usb/gadget/configfs.c:300
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 6168:
- kasan_save_stack mm/kasan/common.c:57 [inline]
- kasan_save_track+0x3e/0x80 mm/kasan/common.c:78
- kasan_save_free_info+0x40/0x50 mm/kasan/generic.c:584
- poison_slab_object mm/kasan/common.c:264 [inline]
- __kasan_slab_free+0x5c/0x80 mm/kasan/common.c:296
- kasan_slab_free include/linux/kasan.h:235 [inline]
- slab_free_hook mm/slub.c:2780 [inline]
- slab_free mm/slub.c:6630 [inline]
- kfree+0x1c5/0x650 mm/slub.c:6923
- printer_req_free drivers/usb/gadget/function/f_printer.c:259 [inline]
- printer_func_unbind+0x2fa/0x6d0 drivers/usb/gadget/function/f_printer.c:1466
- purge_configs_funcs+0x248/0x3d0 drivers/usb/gadget/configfs.c:1600
- configfs_composite_unbind+0xa4/0x1c0 drivers/usb/gadget/configfs.c:1846
- gadget_unbind_driver+0x1cb/0x410 drivers/usb/gadget/udc/core.c:1725
- device_remove drivers/base/dd.c:616 [inline]
- __device_release_driver drivers/base/dd.c:1349 [inline]
- device_release_driver_internal+0x48b/0x880 drivers/base/dd.c:1372
- driver_detach+0x1f3/0x2d0 drivers/base/dd.c:1435
- bus_remove_driver+0x226/0x320 drivers/base/bus.c:840
- usb_gadget_unregister_driver+0x4e/0x70 drivers/usb/gadget/udc/core.c:1785
- unregister_gadget drivers/usb/gadget/configfs.c:263 [inline]
- gadget_dev_desc_UDC_store+0x17a/0x2f0 drivers/usb/gadget/configfs.c:290
- flush_write_buffer fs/configfs/file.c:207 [inline]
- configfs_write_iter+0x337/0x430 fs/configfs/file.c:229
- new_sync_write fs/read_write.c:595 [inline]
- vfs_write+0x612/0xba0 fs/read_write.c:687
- ksys_write+0x150/0x270 fs/read_write.c:739
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff8880742abb00
- which belongs to the cache kmalloc-128 of size 128
-The buggy address is located 24 bytes inside of
- freed 128-byte region [ffff8880742abb00, ffff8880742abb80)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x742ab
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000000 ffff88813ff24a00 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000000100010 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0xd2cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP|__GFP_NOMEMALLOC), pid 5932, tgid 5931 (syz.0.63), ts 80748630940
- set_page_owner include/linux/page_owner.h:33 [inline]
- post_alloc_hook+0x1f9/0x250 mm/page_alloc.c:1854
- prep_new_page mm/page_alloc.c:1862 [inline]
- get_page_from_freelist+0x220f/0x2280 mm/page_alloc.c:3933
- __alloc_frozen_pages_noprof+0x1fc/0x400 mm/page_alloc.c:5471
- alloc_slab_page mm/slub.c:3384 [inline]
- allocate_slab+0x7d/0x5e0 mm/slub.c:3499
- new_slab mm/slub.c:3550 [inline]
- refill_objects+0x2d5/0x350 mm/slub.c:7539
- refill_sheaf mm/slub.c:2917 [inline]
- __pcs_replace_empty_main+0x2c8/0x6c0 mm/slub.c:4811
- alloc_from_pcs mm/slub.c:4887 [inline]
- slab_alloc_node mm/slub.c:5021 [inline]
- __kmalloc_cache_noprof+0x396/0x600 mm/slub.c:5676
- _kmalloc_noprof include/linux/slab.h:991 [inline]
- _kzalloc_noprof include/linux/slab.h:1312 [inline]
- dummy_alloc_request+0x7f/0x130 drivers/usb/gadget/udc/dummy_hcd.c:695
- usb_ep_alloc_request+0x67/0x280 drivers/usb/gadget/udc/core.c:198
- printer_req_alloc drivers/usb/gadget/function/f_printer.c:240 [inline]
- printer_func_bind+0x265/0xbc0 drivers/usb/gadget/function/f_printer.c:1143
- usb_add_function+0x2e1/0x9f0 drivers/usb/gadget/composite.c:333
- configfs_composite_bind+0xde0/0x1410 drivers/usb/gadget/configfs.c:1802
- gadget_bind_driver+0x2ca/0x9e0 drivers/usb/gadget/udc/core.c:1663
- call_driver_probe drivers/base/dd.c:-1 [inline]
- really_probe+0x254/0xae0 drivers/base/dd.c:706
- __driver_probe_device+0x1e8/0x360 drivers/base/dd.c:868
- driver_probe_device+0x4f/0x240 drivers/base/dd.c:898
-page last free pid 16 tgid 16 ts 80343580851 stack trace:
- reset_page_owner include/linux/page_owner.h:26 [inline]
- __free_pages_prepare mm/page_alloc.c:1401 [inline]
- __free_frozen_pages+0xc97/0xd90 mm/page_alloc.c:2952
- rcu_do_batch kernel/rcu/tree.c:2650 [inline]
- rcu_core+0x926/0x1260 kernel/rcu/tree.c:2919
- handle_softirqs+0x223/0x840 kernel/softirq.c:645
- __do_softirq kernel/softirq.c:679 [inline]
- invoke_softirq kernel/softirq.c:519 [inline]
- __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-
-Memory state around the buggy address:
- ffff8880742aba00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
- ffff8880742aba80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
->ffff8880742abb00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-                            ^
- ffff8880742abb80: fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc fc
- ffff8880742abc00: fa fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks,
+Peter Chen
