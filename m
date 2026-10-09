@@ -1,81 +1,73 @@
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429C7328B5E
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 02:51:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8478233926
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 03:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791514266; cv=none; b=VIKGYJgNOEZPvENp4ZoIfaYPoD9HGZcLAW3sNF15rTxwLvuI+bkFh+TdkzwB3e0cT5uFmYDfIo6ICVyunWuwaIgO8oXKXqu5ZwQ7LVHvV580BLDIAlJ7aftBbspYCuUumcthjFU1Ze4edVMCxN5HH62BG4LajGkqPRu/yRd+Erc=
+	t=1791514977; cv=none; b=qBnC9mF7Bj4LYitBDdcRO6TQsA7qG6cfHHn94G8KFIdJBS/7PLZ7N+WkFjD+rC/ABndUEid8J5Yad50gA7fD18zYr/JlLpH67PcmhbV8gmpLQ5j8L3XMoxhUWr7EFx3wCHe9G+BIsDtSh0bmmJf52URu23u4uiAL0y0S+YRceWc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791514266; c=relaxed/simple;
-	bh=NGhGyWBd5XtgeNmO5aOxgvDdwmO9txqX+TtFYdrDA5c=;
+	s=arc-20240116; t=1791514977; c=relaxed/simple;
+	bh=Fib6vVoBWiy7h5sMkWAnzSSnR8shSih0PzJBxLPwTr8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=i/MKcf+TIUr4LUCMYW2rZF3pT4pnFevEiVoohiSURJ7ufbWYkXEozFRw/CZB/4mEWVHleAzWQKxsbbVaDXoxSkzt2j82MyJEHJBOQ+PABXNfUUO7oQ131l3QFH+53764EXRT+ibF4WCG0ucyp/13sXeL6pk7lGkBdWf4qTEKK7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Sp/06fK/; arc=none smtp.client-ip=209.85.222.43
+	 MIME-Version; b=FmOSp7ct71VayMIyYUYkS/qioUJ65UHvf4VUEHtuSa+dQA8+fLXN5qXMVZyg6C2TEjk1ZorQ7Muhg34jIjKQZq1pOl9INJJFERjtNouB+7lXvJJnCpw4CkJQCSRpq67b0qddw8WpNX56hBJAo87dC/ko/ZliOLxY/Ec4+VTKjkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gFHiXpgZ; arc=none smtp.client-ip=209.85.221.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sp/06fK/"
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-98b2f32e67fso774641241.2
-        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 19:51:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gFHiXpgZ"
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5c8386a01b0so1861296e0c.0
+        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 20:02:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791514264; x=1792119064; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791514974; x=1792119774; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=TI154vCGJt6eYFa0Z4ivT78Q0lANyQelPlGETBwLtck=;
-        b=Sp/06fK/yQb/TssSvQhld6MRlgM+ofnWfDWbX+c5dk9tHasQf/Zwi3C4LobOg6N9QU
-         o+Wtx7sNqCaNtMlZasAPwqrr/MIfj5yv91VHyD7gjRHy3U44do3TiNNdjOEXZF4Tey5b
-         GMuRV0oy1seZgIaPbhsF34LLsxeW8kdAbgYmv8Nav0kkwTDks6U5SWPlr1Q08k7viiPK
-         V5iSKQP2ZxHorPJl71+F308NBzwoRWhPBqVFGAbrukKK1AYoMLSJcYtxxR/c2lBEvCvq
-         rIPXlN19d+IzGiD2PZfzI7GKPE7N7aN8HnmTbVqCFXIdyzPFP0LgzHTQEOX2+KWVKnSp
-         oF+A==
+        bh=PGg/C2FOmOXK3waNV4NEmvvojzhvyFQgBWsW1DGVkpg=;
+        b=gFHiXpgZ2SuZ2Sn3/GAKwFuS31YYuoDw318HA0qbzTbEXer8wiBO8P0VrMI6h/nBe0
+         4mIL8DCI5+SNc3i0Dsd9aVGcEX+eBsj6W4zJvt54hiEGLXV3iD8c5RhDhZaIZPxQfQvU
+         gq3hLu7RAcH/57Ts+u5nukBXwHDdMERz7PZa2vCcF/+N+SfKHx5H2uSJZ+1N2YW4FHsv
+         wdNv0jGh7U8Piaa/2TRnNZ+0UwBfrd65BZKcDie3UmbXMVUIwI/6C90esUQagbxhCqPp
+         0RvtMC+7TcgX86sb7PIMeTRbovw32aW2F+qWleFT6qMWUz8PRZ8dFbFQ//FLs3YpNB4o
+         2lBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791514264; x=1792119064;
+        d=1e100.net; s=20260707; t=1791514974; x=1792119774;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TI154vCGJt6eYFa0Z4ivT78Q0lANyQelPlGETBwLtck=;
-        b=knWKrG55oD31SCj5+gZ1i99gxr6dMQSzO42meLUg+t6o3CW+N2rLmhnaqljaiuS0Cm
-         rAVkZhOl5a0QcW29CHLIz5he2MqMMjpKVsVzLG1lNJ2mpm+uBVSqGnR9JX9/2oEC3aQZ
-         n5omOTTDwSIjEwlUM71uVXUJRn3jqlGVH7THU9U/MZ0WgkavibBsyqGEKiFeqCmM6kHM
-         AxL++lOgHc2drzFUpaoqqvneLm4wa8pV/pcIeVZsyKgIbe064ZjHJVlwDUBq9D6NLrRd
-         9Ka29OSmkMjlKHujtZVf2IynoEIxusqx3iYGOnhpMZ5Qofh9VeGlEfOmzSkEDXutCaTb
-         h5+w==
-X-Forwarded-Encrypted: i=1; AKwUvBwQM5MEIuiSstoNBv3hPZa6YItSv+HZMjrd8i1WYA65RiwNSOwv+t7icNFg1g/Rh3d1/8/+i97VMXQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLXeu2kAmjCx1TS3Ps4GEzXX3f5NOHt8KrTFCal2YOx2QR0P9hz
-	kLXWQUQnzhU59ZxMxB95bS3dcke+UkFkWBuACCWQmz6diAnae+h6wXG4
-X-Gm-Gg: AYBFou0zqry+Nmiax17sSvy37R70zToLifKjmj8va8C2p4K2mYgG60NRW2Pv2/GyknR
-	u9B2DGaBqP7XgSc+QmYEN5Kc7dnNd/vgl0CRYpB5k2/7qu2PXVDDDYRncYdgaC2c+Nwwftf2rNw
-	CNTMu+yuEXxxisTTK74q7xDZdWiCRa8fdc+MqkxtjGAExh1bhtsLXU3nk6IWMOhPpotmyyxyxRA
-	wIepVm3miCO7cHR/fNgCZHe6+vfp//IXMLj7knUsgNOnl3+WWnw+3amYGy2SQfDIv6ad9sLLLYi
-	vybPFXUJ/fYpCi0gbqdjgsUnpMzLoi0tP2YUOBR8/jwwj4WmQJB8gZWYl3gfxDZNaNwGQFAZsXW
-	lxp2AvtQ/vWdfjT29Y/HJ51PhVoR3gTrb4p0Rk30Ob97PdsCRW53pO0DkFT92Cs5dxn6ibKHt/2
-	IQX+2yayz3twKaWMn8+6Xtq2bABN+4jxr+alM04zEla1AMXvk4sM3QtLYj7ShjQrtgxqf2UIZhN
-	GYe/NEB
-X-Received: by 2002:a05:6102:6b09:b0:779:5049:87b2 with SMTP id ada2fe7eead31-7cb361f5f1emr208448137.0.1791514263916;
-        Thu, 08 Oct 2026 19:51:03 -0700 (PDT)
-Received: from maclinux ([2803:c600:9110:8ba5:1c75:eeaa:b22f:20dc])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7cb354a9565sm688041137.12.2026.10.08.19.51.00
+        bh=PGg/C2FOmOXK3waNV4NEmvvojzhvyFQgBWsW1DGVkpg=;
+        b=Yl6/XVj1K/gcQemTds7akyr4PGCHTky6k1O/Rsdr03C33rdDVlQEQPPar0kHZkHzRU
+         rnCDk3IdJhtsq99lEIWPY/c4+dnuvzBxfJ2NjB5nDltvqnZcs2giNgssogSN9jG+OIjW
+         vw7c6kYEGObwcelhb8RW05H7vLEowFEoYAHYFqIRe9KRiFsC6XvwkhRYqXGSQdrFwk5z
+         V1KsubC69KaqBqm54hSKNe1hzfUu6PP4Gm4gS5v1kOPKpdtwF3rIpqnNnV1ev+kv2cF1
+         Ox0JSTEgL/gRRtk4+Rb/oDXuwVVzcZYD6l6Coe5hsUYWXs/V+Tlw49JFtFyC2ifl3Wt8
+         2XAg==
+X-Forwarded-Encrypted: i=1; AKwUvBwVpEuajzSXjiOSN/8Lk+zfEc1XzDUJMFutkLULbIYgJws6tidVrNdz1mnq/PSaBgzMUptklVxHAdU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLHQXKhgCiGrrsyYn1zel1puUyQCJIyS4aIozU+nVikiTkXmqnA
+	uoA3LoFIVItvy3Ag+DcRvWCTNMcyUX+qygnTv4m+8vJ+5ekUBdFgD3i0LKFq0DEOpNRpHQ==
+X-Gm-Gg: AYBFou3rp+MOzWlBi7mvOd2zuSdjA03iX7va1ZCsSqxLIcFML+evayGPg2atDRcqD1U
+	GH7Yn6CQMXBLKmz16T6yPWNnWN2sDY+Wg0F5bLP7nlb0e3brooS9B+e3Pcc5YbTnySbZ3J8jRa1
+	W3DiVIpisVzRrIp7P5LA4b6Jy+vaJFU0Se6xqwqby5AY0EF4PJd8wClNT0Wvx8JMDBH4ry6KO6+
+	ByjhdmrTobZirllv4vjoOffIhenM/TyIx3rmcFqbeoWVwV78kKA3qI9vzg9Nvfoz/4T+zFfz515
+	Sv+roD753/YCJRplVijGO0y3vz6bypJvnaqbLRJ3dQBymzhKLJkaxFkjPjonIf5WAq7LElomeEM
+	AzLiUaW/M/C9ULXfNV/fucqIJYFfYBcPrQh/yEN+TWqffa0DsZ+oqdmGBk58VoKsc2itBTlmV3a
+	8QivGLcAFrWV9wozZ3xTDZOPOD6dENEVQMg+wmcBSkjnYtCQCQ9vCVwCYx8PEpOZs=
+X-Received: by 2002:a05:6122:4f9d:b0:5e1:c1c8:9ff9 with SMTP id 71dfb90a1353d-5e91f28cd89mr189593e0c.2.1791514974562;
+        Thu, 08 Oct 2026 20:02:54 -0700 (PDT)
+Received: from beelink.. ([187.13.210.57])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5e91c841a45sm794987e0c.2.2026.10.08.20.02.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2026 19:51:03 -0700 (PDT)
-From: =?UTF-8?q?Francisco=20Beltr=C3=A1n=20Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
-To: helgaas@kernel.org
-Cc: bhelgaas@google.com,
-	linux-pci@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	andreas.noever@gmail.com,
-	westeri@kernel.org,
-	YehezkelShB@gmail.com,
-	lukas@wunner.de,
-	linux-usb@vger.kernel.org,
-	d@rrell.co
-Subject: Re: [PATCH] PCI: Extend Apple Thunderbolt power quirk to Alpine Ridge
-Date: Thu,  8 Oct 2026 23:50:47 -0300
-Message-ID: <20261009025047.16129-1-fbeltranmillalen@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261008231744.GA938694@bhelgaas>
-References: <20261008231744.GA938694@bhelgaas>
+        Thu, 08 Oct 2026 20:02:54 -0700 (PDT)
+From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: composite: pass the validated interface index
+Date: Fri,  9 Oct 2026 00:02:44 -0300
+Message-ID: <20261009030246.3057189-1-qwe.aldo@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260915040947.2829612-1-qwe.aldo@gmail.com>
+References: <20260915040947.2829612-1-qwe.aldo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -84,68 +76,18 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Bjorn,
+Hi Greg,
 
-Thanks for looking at this one as well, and for copying the Thunderbolt
-folks.
+Friendly ping on these five USB gadget patches, all sent September 15:
 
-On Thu, Oct 08, 2026 at 06:17:44PM -0500, Bjorn Helgaas wrote:
-> Thanks for all this detail.  I think it's too much for a commit log,
-> but it would be good to have it after the "---" where it's in the
-> email but not the git commit.  This is easily accessible via the
-> "Link: https://patch.msgid.link/" tag that we add when applying.
+  - usb: gadget: composite: pass the validated interface index
+  - usb: gadget: configfs: zero-terminate Unicode property data
+  - usb: gadget: f_printer: use the active RX list in soft reset
+  - usb: gadget: ncm: validate NDP length against the NTB
+  - [v2] usb: gadget: ncm: validate the NDP chain before parsing
+    (v2 incorporates the cyclic chain example from prior review)
 
-I'll move most of it below the "---" in v2 and keep the commit message
-to the problem and the fix.
+Let me know if any of them need changes.
 
-> Wrap these to fit in 80 columns like the rest of the file.  Ideally 75
-> or so; that allows minor changes and typo fixes without overflowing.
-
-I'll fix that in v2 too.
-
-Before v2, though, I found something this week that changes the patch,
-so I'd ask you not to apply this version.
-
-The quirk works today partly by accident.  On resume, the firmware of
-these Macs tries to write to the Thunderbolt controller through the
-PCIe2CIO mailbox of its upstream bridge, and on Linux those accesses
-currently go to the wrong device: ACPICA works out the PCI address of
-the bridge's config region while the bridge's bus numbers are still
-reset, and caches 00:00.0.  Each access then times out, which is where
-most of the ~16 s noirq resume that Darrell reported comes from.  There
-are two pull requests for this in ACPICA:
-
-  https://github.com/open-acpica/acpica/pull/1235
-  https://github.com/open-acpica/acpica/pull/1236
-
-With that fixed, resume drops to about 4 s, but the firmware's writes
-now succeed, and one of them sets bit 26 of dword 0x3c of the
-controller's switch config space (VSC_CS_20 in the plug events
-capability).  With that bit set, SXFP() really cuts power to the
-controller, and on resume Linux does not bring it back.  With the
-ACPICA change and this patch, and a USB disk attached, the controller
-with the disk was lost in 3 of 3 suspend cycles, in two of them
-together with the other controller, and resume took about 35 s.
-Clearing the bit through the same mailbox before SXFP() runs fixes it:
-15 of 15 cycles resumed in about 4 s with the disk still there.
-Without the ACPICA change the firmware's write never lands, which is
-why this version works as posted and in Darrell's tests.
-
-I also checked whether the ACPICA change makes the quirk unnecessary.
-It doesn't: in my test without the quirk, with the disk attached, the
-link to that controller still did not come up after resume (LnkSta x0),
-as described in the commit message.
-
-So v2 would clear that bit before calling SXFP(), so that the quirk
-keeps working once the ACPICA change lands.
-
-Mika, I only know what this bit does from measuring it: with it set,
-dropping the controller's power pin turns the NHI off; with it clear,
-the NHI stays up.  Do you know what bit 26 of VSC_CS_20 is on Alpine
-Ridge, and whether it is fine for the OS to clear it before cutting
-power this way?  If it has a name, I'd like to use it in v2 instead of
-a magic number.  And if you think this belongs in the thunderbolt
-driver rather than in a PCI quirk, I'm happy to move it there.
-
-Thanks again,
-Francisco
+Thanks,
+Aldo
