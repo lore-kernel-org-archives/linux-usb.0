@@ -1,75 +1,75 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF6348EC95
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 08:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C0E35200C
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 08:12:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791533028; cv=none; b=AkUIk+nj6fopbsrH0sx23MXjofnDKETbxP1DU+DninZz7wgrN7EBT5iwJ/974cch1eAuX1wsc7H0thPyYBVYT0u+Z8nJ2MLProVnjTDiZRQzQxf3cRf/5RtFsksy221BG7EQE9ijlahfMNL382OZX6h7VBUtisI6D2Sv2qsfG28=
+	t=1791533554; cv=none; b=K6SDtAWhognBrC/eKlkk//eXupQZANRmlihmIyfughvsjO5F4+WtwQxMy/lvCz/471qrgeZwSkSrK5Rqu69XAbmmM1gkWyp/VQEktfQ9C2aTY+rUt53qHe3PVJlSHwGtEkWKjD4bHEQgF02MBfI9SONaPF5ZwTO1ORND7caqk5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791533028; c=relaxed/simple;
-	bh=CKsVH6FxVy4xe9Vh0w5FELINCftLWDP2FtvIcLaKg6E=;
+	s=arc-20240116; t=1791533554; c=relaxed/simple;
+	bh=aFPXM7UhFm/SVZQTxJ63xQjfNm/bYys45ib/RN1PAKw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e8E0epX5skFiYjo1pfgfZBCQ17v3zUXCtlSy+AbVSLzaEywH02vJeLNjkULQZ5H2zWopmvJIngQ2UUgtBPDIcbawB+vu5BUsdja5mTM17VwGsomq5UQT+Shdmx++y5mnzUEKYC6rEPrfnk6u3S58x8DWMi7otoCJv1nMRmQVsJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=f5WsIb0M; arc=none smtp.client-ip=209.85.128.51
+	 MIME-Version; b=LST1A5eqe5HMC3H6FHJ61Fr369ChasSgNBMaVvCHw5Is8ZN9qkXipc1kD+4YaNGTumv1giaIYKEnVUCJRlbss4IVEuQH3IbQppI/sogzVA/mvHuiR9JumZJXmrc6fAZq+e9geQxJ7IuaiKC4rUtsAv6efVYn2w5oG5A3+RCuPWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TfSh7grO; arc=none smtp.client-ip=209.85.221.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="f5WsIb0M"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4956869750eso22372115e9.2
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 01:03:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TfSh7grO"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48b03f23305so4988461f8f.1
+        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 01:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791533024; x=1792137824; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791533548; x=1792138348; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Zr4i+WQHCtEiANwCBZ8Op31qDGK5B8rsjAoBDBx3JIM=;
-        b=f5WsIb0MF4MBr3Yd6c5ur5W67EdRLNUtuEfFQJHmu2ESVNJYH+Qz+QEn/l9Q2LquAC
-         Pw/rpNiGpKuig6hEP5Mz3Hhn6DrW4wLhBQ4oEILdggZQMwD78ITYipTjSLtFN2A831Ea
-         6U9wnV0Jl2unHu6RxlqshyK4Uwgt95qsnroZysBYrxeVmOBEiIiEPDPFXfYfP2tC4W39
-         9KCCF2Viu9J2sPZ24uB9OOGp3IKWka7LlmozgvRAmFPs/mZa7oAp9raQPcAQ1B2PyQrZ
-         7M6bOXNWG6f3YjEhoZvELFnMa3x0IiTxs/XKD4PXNU/1LhNe5KpLWsvkYfSdZAHdDiSD
-         ZcjA==
+        bh=cFpoGNw4wxXbDG3Mm1/vSzmzrhyH7cgrIzeltqcj+/A=;
+        b=TfSh7grOJ+/IDYgbtTm5eOkFU0jVEZRgMZxfuGLrFSDb3+WyWvXH/f/TT5D7U4Oq+O
+         /62hM/bVqyOv6v0L72401Nb8obuwqRFy/H48gC1NF/DAJT1KAM/q/Zp+cF+fJ0GZaJ6k
+         vA3apW4ZonLn4uJNkFoVtlMuyeD/nJvq2CvymR3LSVP59QP839oUhQYoT9THWc3FZgYG
+         EqL9mM9er1sB6GAp6qggtFypvquI97TvxrpjJ3o6OAgZjc6/bfDpAgXXe712O9t7Tytp
+         mzO21tBW/JoEbIrxnIot2so5nA/WbRq4eUlEF+UjtX4u/K4ySFVhVt/h9dPcZsxxbCmf
+         TFZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791533024; x=1792137824;
+        d=1e100.net; s=20260707; t=1791533548; x=1792138348;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Zr4i+WQHCtEiANwCBZ8Op31qDGK5B8rsjAoBDBx3JIM=;
-        b=z/ZWhBs3PN86mO+jpSLcxFEZpUo0K2hgZ/SzniNEcQPBNZ+XAcGiLaUsBv47OGgQNL
-         4OhN+6Ia+5x3M+marTZl+1iYeZeQb10SFinnw0jcKU4tu1zkMVrViGs3AaJmrLyB8O/l
-         yRjNoZL/ZyEVGVwDeJMeLRPfN1QIJGUanYTbCfXWksUlzgyi4rPH2aPAjgA2UyAWdzN7
-         tOKolRiyfjlCQkuOVMKy0VcZ1X7eEB0aPblrnbfA/V0qotmT8EAcGSyhKbzrlalSeDPf
-         6lAyNIXohZeXx38tmfVWxwyDNG9FB/o7P2sTKCDDSURGlMbV69V51236Jy7Q60WFpJty
-         0IyA==
-X-Gm-Message-State: AFuF++nPKS/V/BZkSW8h6Lza9gQ2s4Ni/+KCJ2tcup3kcthMGT0mjbv/
-	5VNHGI5tS7Cf7pGCCbKmOzN7ync5kCaQAqCZPlBN4UlPi/9Jmj+LYEjS
-X-Gm-Gg: AYBFou3IkLppAY4JStYUPGCQFDhM7zIbLcXoge9q0Wk6B0sPSUVBfJnYcF402ZhUyR/
-	5HvP9K1rcXBLHDy5UYJhXhhO76tqaN2DSyBVC+uJtEmm68qy7H7nrbpOHjTf+DQQ2emllDjR+RJ
-	oPXBELeBnA7+M62sji6Y4gZkEVNWg1yP7w7TsTpw8uZT33/fMOIgDpnYmGKcvY+EMDQaRjuugpx
-	Q63u3cjstJsOw6CuwekZplDrbmozvbwAkrJWpI3hGS+HhZXWrTecZZfeU9o1RJZCQLnr6c9c2At
-	kBFhjsJFUnm8Wdyv+XE+T/2vAojSFCkL1GoQR4NY3vPrGWyQpfd73/YcHi8B5aWL3MnJ34cFYsu
-	3+rvfBxFSssi4oI5BzJbSLjqrGsow9s7jRv7+LxvzwnEHaJ/WR00/MR9yR58s7hmsPIguSHzQlm
-	a9P3PWCdsqn+ll7hWmEJEPbzzv0z9TIfzb5qcsoZj5TVOpHb29TARrG4FYTAXEgA0o5LBusfUvx
-	FhpXEdMaBzYQl64Gu79OwtgxUSVYK6lpIEAHaPQIhN7ebXk8/Gy3nMjDfw=
-X-Received: by 2002:a05:600d:82c7:b0:4a0:1b14:e845 with SMTP id 5b1f17b1804b1-4a18e446875mr19023195e9.2.1791533023905;
-        Fri, 09 Oct 2026 01:03:43 -0700 (PDT)
+        bh=cFpoGNw4wxXbDG3Mm1/vSzmzrhyH7cgrIzeltqcj+/A=;
+        b=P9f0FHdZxJcKXh9+YcctQrcmwhKiPsRx8aUc6ByEEjNftgtBv2O0UDhyUC8FTFacxZ
+         ZY8AXJEABgEJL8zUEyccNXrHfgvRk3qufh3WpUtGrJl6q7lCwBCe11lWzMABY5uId1yi
+         FYMPmdP0YWbEKbTI9UiH+p7vZvuPKz24uDC9NWJ2vKhEAcWqjyqY6d1nAbanqe6kNPCB
+         HyKLUFkGDJg4Np2fAX2wNKNnMsP9JTdNmuHLveqQrrEnPPaOXGkb4P9agkdH3W6YGm3B
+         1e/M2K2PKWrw+7HDLcwSYqBxfTHDQxFOinPDsFSXI4EHv2Nezrq+YazE+xeKhCf1Q5mm
+         3uTw==
+X-Gm-Message-State: AFq9FYIKFLLKx6c5e98pPzOGx025eZ6JEvn21X3SnMGNGwNd8lLNB6V3
+	ozWgFcYgOjvcXzXqY1COZNRPx9jbyY10iFgsWQGv5YYXtPYCC3Nq3QklXOwYfalV
+X-Gm-Gg: AYBFou1n05s9iiH59GbfWDO5wKpEIIgcCL3tsBJ9/l2Nl1yEx8/5hSO0iizRelTXLev
+	zZ1JUSDuqlsaMPOAbjoHJ14hncxfRB4e/wpszgb7LkMjsADeQTSeGVcMi2bsOPp0PaKXdbYT+24
+	EgNhLq0brToaTkWoFL6IBl/ypKd4R3YRtcX2atKiFQNeKkPo/I6Vs/UuNvIXk7TXUZQuAtYq8MQ
+	lGiswTO0ho1n1Gqa/5zBf2rorolR3Rj6NkgTYuYX7sN2idMyvvswvLYRv682MqeCA8rwJ8+lkYA
+	aUfmVYUxFxq2/802jo9Gklyb2mIgwJSXax3kqwMszBYL0bNYMV37z0bsxcsDx5NTeXs1UQeY7rS
+	VVwfoWuJqx33x4C9PikVEX6z3trx8fWEUysjM38ka8Zy3WrQGxZBVXDdRA5DpUGc2gE0u486tiH
+	CcKLAw0CENdKlguuHh2+VuDHcnfXRtA6mR/+LW8Ctgd933DaGJauCYs7NlQAHsy4QmWeTSbvfzi
+	4YwjTlCLNJTqFZnceH3QnqodMBbZRKzbsywGtYttynU33MQraMCOKl/HFY=
+X-Received: by 2002:a05:6000:288a:b0:48a:f11e:6d57 with SMTP id ffacd0b85a97d-48dbaadb3a5mr1880526f8f.19.1791533547850;
+        Fri, 09 Oct 2026 01:12:27 -0700 (PDT)
 Received: from darkstar.tail74c586.ts.net (mob-31-158-7-150.net.vodafone.it. [31.158.7.150])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18eb4485dsm53411465e9.2.2026.10.09.01.03.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db93d6069sm2405577f8f.0.2026.10.09.01.12.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 01:03:43 -0700 (PDT)
+        Fri, 09 Oct 2026 01:12:27 -0700 (PDT)
 From: Luca Cecchi <luca.cecchi.info@gmail.com>
-To: oneukum@suse.com
-Cc: linux-usb@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
+To: linux-usb@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org,
+	oneukum@suse.com,
 	stern@rowland.harvard.edu,
 	Luca Cecchi <luca.cecchi.info@gmail.com>
-Subject: Re: [PATCH v2 1/2] usb: uas: implement .change_queue_depth to allow per-device queue depth override
-Date: Fri,  9 Oct 2026 10:03:41 +0200
-Message-ID: <20261009080341.295646-1-luca.cecchi.info@gmail.com>
+Subject: [PATCH v3 1/2] usb: uas: implement .change_queue_depth to allow per-device queue depth override
+Date: Fri,  9 Oct 2026 10:12:24 +0200
+Message-ID: <20261009081225.304319-1-luca.cecchi.info@gmail.com>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261008201920.40700-1-luca.cecchi.info@gmail.com>
-References: <20261008112645.1820678-1-luca.cecchi.info@gmail.com> <20261008122604.1862534-1-luca.cecchi.info@gmail.com> <07d145c7-08a2-44ee-ac00-46535e0ca9e9@rowland.harvard.edu> <20261008201920.40700-1-luca.cecchi.info@gmail.com>
+In-Reply-To: <20261009080341.295646-1-luca.cecchi.info@gmail.com>
+References: <20261009080341.295646-1-luca.cecchi.info@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,29 +78,95 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Oliver, Alan,
+uas_host_template does not implement .change_queue_depth. Because of
+that, the standard sysfs queue_depth attribute stays read-only for
+every UAS device, not just mine: scsi_sysfs.c:sdev_store_queue_depth()
+requires sht->change_queue_depth to be non-NULL before it allows a
+write.
 
-Follow-up to yesterday's note. Good news: the test drive wasn't dying after all -
-turned out to be heat/stress from several hours of back-to-back testing the day
-before. After letting it rest, it's back to behaving exactly like it did during
-our original Oct 4 testing.
+uas_probe() already defaults can_queue to qdepth - 2, with a comment
+acknowledging that "some bridge firmwares" need extra margin. That
+margin isn't enough for every bridge. Right now the only way to work
+around a bridge that needs more headroom is the IGNORE_UAS quirk,
+which disables UAS entirely and falls back to BOT/usb-storage - a
+large performance cost for a queue-depth problem.
 
-Re-validated v3 on bare metal today, same Lexar ES3, same exact load test as
-Oct 4 (24 sync writers, randwrite, 64KiB, direct=1, 360s each run):
+This patch wires up .change_queue_depth so affected users can lower
+the depth for just their device (e.g. via a udev rule matching
+idVendor/idProduct), without disabling UAS altogether. Default
+behaviour (qdepth - 2) is unchanged unless userspace asks for less.
 
-- Confirmed the quirk applies on its own at probe time (queue_depth=24) even
-  with the udev rule disabled, so it's not just masking a udev race.
-- Two repeat runs of the original test: 840-843 MB/s, zero
-  uas_eh_abort_handler/uas_eh_host_reset_handler events (matches the original
-  822-823 MB/s baseline).
-- Same test run concurrently with a second USB flash drive under load on the
-  same controller: no effect on the Lexar's throughput or stability.
-- Unplugged/replugged the Lexar mid-load: in-flight commands were cleaned up
-  correctly (uas_zap_pending, no hang), device re-enumerated as SuperSpeed,
-  uas re-bound, and the quirk re-applied queue_depth=24 on the new probe
-  without any help from udev.
-- Mixed read/write load (70/30): 614 MB/s read + 263 MB/s write, zero events.
+Tested against a Lexar ES3 external SSD enclosure (VID:PID 21c4:0003)
+that locks up under sustained heavy concurrent random writes at the
+default queue depth. Capping the depth to 24 via this interface
+eliminated the lockup across 6 consecutive test runs, including a
+continuous 1-hour soak test (1.36TB written, ~822MB/s, no
+uas_eh_abort_handler events).
 
-Will send v3 shortly.
+v2: guarded against devinfo->qdepth holding a negative error code
+    left over from a failed uas_configure_endpoints() call in
+    uas_post_reset()/uas_reset_resume() (found by Sashiko AI review)
 
-Luca
+v3: dropped that guard per Oliver's direct reply - qdepth going
+    negative is a general bug independent of this patch, which he is
+    fixing separately at the source. This patch just happened to hit
+    the symptom; it carries no workaround for it anymore.
+
+    Trimmed the comment above uas_change_queue_depth() per Alan
+    Stern's feedback - it described the pre-patch state rather than
+    the code itself, which won't be true after this is merged.
+
+    Also switched devinfo's lookup to sdev->hostdata (same pattern
+    already used by uas_sdev_configure() and the other scsi_device-
+    level callbacks in this file) instead of casting
+    sdev->host->hostdata, which was pushing the line past 80 columns.
+
+    Re-validated on bare metal with the same Lexar ES3 unit: two
+    6-minute runs of the original load test (24 sync writers,
+    randwrite, 64KiB, direct=1) at 840-843MB/s with zero
+    uas_eh_abort_handler/uas_eh_host_reset_handler events, plus a
+    mixed 70/30 read/write run (614MB/s read + 263MB/s write, zero
+    events) and a run concurrent with a second USB flash drive on the
+    same controller (no effect on throughput or stability).
+
+Signed-off-by: Luca Cecchi <luca.cecchi.info@gmail.com>
+---
+ drivers/usb/storage/uas.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 2651629..1b65e03 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -910,6 +910,20 @@ static int uas_sdev_configure(struct scsi_device *sdev,
+ 	return 0;
+ }
+ 
++/*
++ * Implementing .change_queue_depth allows users to lower the per-device
++ * queue depth via sysfs.
++ */
++static int uas_change_queue_depth(struct scsi_device *sdev, int depth)
++{
++	struct uas_dev_info *devinfo = sdev->hostdata;
++	int max_depth = devinfo->qdepth - 2;
++
++	if (depth > max_depth)
++		depth = max_depth;
++	return scsi_change_queue_depth(sdev, depth);
++}
++
+ static const struct scsi_host_template uas_host_template = {
+ 	.module = THIS_MODULE,
+ 	.name = "uas",
+@@ -917,6 +931,7 @@ static const struct scsi_host_template uas_host_template = {
+ 	.target_alloc = uas_target_alloc,
+ 	.sdev_init = uas_sdev_init,
+ 	.sdev_configure = uas_sdev_configure,
++	.change_queue_depth = uas_change_queue_depth,
+ 	.eh_abort_handler = uas_eh_abort_handler,
+ 	.eh_host_reset_handler = uas_eh_host_reset_handler,
+ 	.this_id = -1,
+-- 
+2.55.0
+
