@@ -1,43 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86FE44CC26C
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 11:23:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A92743C045;
+	Fri,  9 Oct 2026 11:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791545001; cv=none; b=ikBfBanfCdjYgBk+TqyWBDNgt/W8WAVzSTuW8FnWzYANHCbSCfaccWLbNm07FMl+fGANaznTZB9AcMagFiCMYCHUUGhOSMpRIR24IIFMEA1DXH2mVE59TYnHWjpv4JYDHKAn2yKjxv6nx5bxTzrTBvs3wnV33Nm1X5dOKu1gwCQ=
+	t=1791545277; cv=none; b=hlhfCYcyuBTJmP+IYngxv5+aIZDhVDL2ddbRzu6nOlg7QzIH/bjqVKtZuxbPYXP7goiHBLEczb1276GpLtyWJ8QDMpgv4JFF2yUQ1nxK+Ke1u0csqdp+CYWPrb/ynKDlljrY/fQ+JocJH3r8lLT4/7NsTJhccxhGmxww2GHy924=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791545001; c=relaxed/simple;
-	bh=lI8Uvy3dlPBAkNFMpdOtBIS83cT+krO+RKbFhJ0kuA8=;
+	s=arc-20240116; t=1791545277; c=relaxed/simple;
+	bh=W7FrgUXuit3xNSlwmEY5cCVuhtGjhoUnEK6xYtNjwsg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oERxEj2jDfuLhKEkT6vWfX2z3+AEr2mjkfJ9fw0bwVYPfgYXa8sM9VDpAYvNhS7W7tFaN4nsHQXGy2xu0eway7++tiD5JGhlogmSZ27CHX24rIDyut5L4duEBYp07HkFCVlk97d7CgSCwXaPq1SybHXcs/OVF7ldOp1kN3bWz9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=eQKroPYq; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=gCHZuV69vpJxyh6Zh5AtPy7K7t6P078YJv3cg//bh30+G1a6zII7OHDbOB/e1G0tSwny2sUH+cklw6Z72hHr02X+REybP9mdVRq2fjUlW3lxNCTYGI+wfeyIQ/VlNJeLU2nSnZzbSYbq4QMZ1JPyWXN9FG5Hg4Zh5mQEpFxnvP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UkUzQj92; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="eQKroPYq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 143C71F000FF;
-	Fri,  9 Oct 2026 11:23:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791544993;
-	bh=n13pBVK+G/5Aoi0dUhNaNs576EPNIdAMeQDrQz/Xeqc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=eQKroPYqRD9Xfja6Oqdbjv7RDQqyhiZ67H3nojf9lI6p7t16Pz++EmygdiNpv4Ru7
-	 IcszVPw4XZ/hsr/pzdTaZ0/ZCUaK4YvJHIbYT+NObHS/eveWhE/nvnmJShpEha75qC
-	 /9ize2mn/YCsZgA9JrNOFi+O1rVufG4NPb/ntO4Y=
-Date: Fri, 9 Oct 2026 13:23:09 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, Sang-Hoon Choi <csh0052@gmail.com>,
-	Changyul Lee <lcy8047@gmail.com>,
-	Mathias Nyman <mathias.nyman@intel.com>
-Subject: Re: [PATCH 06/14] xhci: dbc: lock the minor IDR on registration
- failure
-Message-ID: <2026100955-unclothed-subplot-626b@gregkh>
-References: <20261009095834.561578-1-mathias.nyman@linux.intel.com>
- <20261009095834.561578-7-mathias.nyman@linux.intel.com>
- <sashiko-outbox-165207@kernel.org>
- <2026100949-scuttle-cradling-0371@gregkh>
- <2026100958-simple-evasion-4048@gregkh>
- <85fc10ab-d718-4a94-bf46-fb60ac2dfbbe@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UkUzQj92"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791545269; x=1823081269;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W7FrgUXuit3xNSlwmEY5cCVuhtGjhoUnEK6xYtNjwsg=;
+  b=UkUzQj92pUySAtvoxmnQqXQdvK7mDaEFrEkFBXD58i9J5I/jGZ+jPFFV
+   qD/grtPcvOIiBVMC2Xw222GEcdcqdx0FW+Wknf1sYZT2kNNaR36SvKxWI
+   CzRu0leWZAH5IOAgl3bZC6tg04w+GB8AA47HbdnvpIYFs3tZ+4GTMHDgX
+   cRYmUceHBwpYh85qIcrI5h2d2qbIK5YVQhAsGQ9VD5Xs/Dk3t1w7VCVzZ
+   M6GahyK8g0AXZ3zQ9XpBZ1P+2jWXTZeqX9x9rQ86EewIP0/P0HDk+JPnH
+   RN3kJCtm6nwKynCYGjoO4r9trWFUuRxFr3sHUVeWaWd3qWyyEwRMmQeUt
+   w==;
+X-CSE-ConnectionGUID: TeguN8GqRvOkzq+hOZ5ZZw==
+X-CSE-MsgGUID: kQaCJkMNQWmztqBnNcYuIQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="222839"
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="222839"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 04:27:48 -0700
+X-CSE-ConnectionGUID: K2HeL7nuQi6fkh8TGAbNhg==
+X-CSE-MsgGUID: PLf86bseRxS9J824ARgThA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="253807"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa008.jf.intel.com with ESMTP; 09 Oct 2026 04:27:45 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 919A299; Fri, 09 Oct 2026 13:27:43 +0200 (CEST)
+Date: Fri, 9 Oct 2026 13:27:43 +0200
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: pip-izony <eeodqql09@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Pooja Katiyar <pooja.katiyar@intel.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Randy Dunlap <rdunlap@infradead.org>, Fan Wu <fanwu01@zju.edu.cn>,
+	Johan Hovold <johan@kernel.org>, Ajay Gupta <ajayg@nvidia.com>,
+	Kyungtae Kim <Kyungtae.Kim@dartmouth.edu>,
+	Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: ucsi: ccg: Validate altmode index in
+ GET_CURRENT_CAM response
+Message-ID: <asjPr8RBDnQp9v2V@black.igk.intel.com>
+References: <2026092918-evolution-modulator-3a97@gregkh>
+ <20261003215520.611083-2-eeodqql09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,67 +70,113 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <85fc10ab-d718-4a94-bf46-fb60ac2dfbbe@linux.intel.com>
+In-Reply-To: <20261003215520.611083-2-eeodqql09@gmail.com>
 
-On Fri, Oct 09, 2026 at 02:16:44PM +0300, Mathias Nyman wrote:
-> On 10/9/26 13:52, Greg KH wrote:
-> > Resending with the proper people in cc...
-> > 
-> > On Fri, Oct 09, 2026 at 12:51:41PM +0200, Greg KH wrote:
-> > > On Fri, Oct 09, 2026 at 10:13:10AM +0000, sashiko-bot@kernel.org wrote:
-> > > > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> > > > - [High] usb: xhci: dbc: UAF due to premature IDR exposure and missing TTY hangup on error path
-> > > > --
-> > > > 
-> > > > commit 99c18a1b8449e8389ccac896ceadcc979dbd6a57
-> > > > Author: Sang-Hoon Choi <csh0052@gmail.com>
-> > > > 
-> > > > xhci: dbc: lock the minor IDR on registration failure
-> > > > 
-> > > > This commit fixes a race condition during DbC TTY registration failure
-> > > > by adding mutex protection around the removal of the minor IDR entry.
-> > > > 
-> > > > > diff --git a/drivers/usb/host/xhci-dbgtty.c b/drivers/usb/host/xhci-dbgtty.c
-> > > > > index 3d51e8d82659d..2249cc16800cc 100644
-> > > > > --- a/drivers/usb/host/xhci-dbgtty.c
-> > > > > +++ b/drivers/usb/host/xhci-dbgtty.c
-> > > > > @@ -535,7 +535,9 @@ static int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
-> > > > >   err_free_fifo:
-> > > > >   	kfifo_free(&port->port.xmit_fifo);
-> > > > >   err_exit_port:
-> > > > > +	mutex_lock(&dbc_tty_minors_lock);
-> > > > >   	idr_remove(&dbc_tty_minors, port->minor);
-> > > > > +	mutex_unlock(&dbc_tty_minors_lock);
-> > > > >   err_idr:
-> > > > >   	xhci_dbc_tty_exit_port(port);
-> > > > 
-> > > > [Severity: High]
-> > > > Does this error path leave concurrent TTY sessions pointing to freed memory?
-> > > > 
-> > > > Earlier in xhci_dbc_tty_register_device(), the port is added to the globally
-> > > > visible dbc_tty_minors IDR before internal structures are fully allocated:
-> > > > 
-> > > > 	mutex_lock(&dbc_tty_minors_lock);
-> > > > 	port->minor = idr_alloc(&dbc_tty_minors, port, 0, 64, GFP_KERNEL);
-> > > > 	mutex_unlock(&dbc_tty_minors_lock);
-> > > > 
-> > > > A concurrent open() on the device node routes to dbc_tty_install(), which
-> > > > retrieves the port and installs the TTY without verifying port->registered:
-> > > 
-> > > I don't think we need to worry about "concurrent open()" for this as
-> > > that's not a real use case that I know of and this _should_ be root only
-> > > accessable, right?
-> > > 
-> > > Or can normal users open this device node?
-> > > 
-> No risk of concurrent open as the tty device node is not yet created in this error
-> path.
+On Sat, Oct 03, 2026 at 05:55:20PM -0400, pip-izony wrote:
+> From: Seungjin Bae <eeodqql09@gmail.com>
 > 
-> This error path is taken if tty_port_register_device() fails, of some other failure
-> before it
+> When the PPM reports more than one DisplayPort alternate mode for a
+> connector, ucsi_ccg_update_altmodes() merges them into a single entry
+> in uc->updated[] and sets uc->has_multiple_dp. In that case,
+> ucsi_ccg_update_get_current_cam_cmd() rewrites the response of the
+> GET_CURRENT_CAM command. The response is a single byte holding the
+> index of the currently active alternate mode, and it is provided by
+> the PPM firmware.
+> 
+> The function uses this byte directly as an index into uc->orig[], and
+> then uses the linked_idx read from that entry as the translated index
+> into uc->updated[]. Both arrays have UCSI_MAX_ALTMODES entries, but
+> neither index is checked against that size.
+> 
+> If a malicious or buggy PPM reports a value of UCSI_MAX_ALTMODES or
+> larger, e.g. 0xFF, uc->orig[cam].linked_idx reads over the end of
+> uc->orig[]. The byte read from there is then used as the index for
+> writing cam into uc->updated[new_cam].active_idx, so the out-of-bounds
+> read is followed by an out-of-bounds write. This happens without any
+> userspace action, since the UCSI core issues GET_CURRENT_CAM on its own
+> when handling connector changes.
+> 
+> Fix this by rejecting responses whose index is out of range, printing an
+> error and returning -EPROTO, so that the caller cannot accept this.
+> Also check linked_idx before using it as an index, so that the write into
+> uc->updated[] is always within bounds.
+> 
+> The response is now only processed when the command completed without
+> an error. ucsi_sync_control_common() only reads the response when the
+> CCI reports command completion, so otherwise the buffer is not filled
+> and must not be mistaken for an invalid index.
+> 
+> This bug was found with a Python script that traces where firmware input
+> is used.
+> 
+> Fixes: 170a6726d0e2 ("usb: typec: ucsi: add support for separate DP altmode devices")
+> Cc: stable@vger.kernel.org
+> Reported-by: Nathan Rebello <nathan.c.rebello.27@dartmouth.edu>
+> Assisted-by: LLM
+> Signed-off-by: Seungjin Bae <eeodqql09@gmail.com>
 
-Ah, yeah, no need to worry about this "issue" then.
+As a personal request, next time please send the revised patches as
+new threads instead of as replies to the previous version.
 
-thanks,
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-greg k-h
+> ---
+>  v1 -> v2: Print an error and return a failure instead of ignoring the
+>  response, as suggested by Heikki. Only process the response when the
+>  command completed without an error.
+> 
+>  drivers/usb/typec/ucsi/ucsi_ccg.c | 22 +++++++++++++++++++---
+>  1 file changed, 19 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi_ccg.c b/drivers/usb/typec/ucsi/ucsi_ccg.c
+> index 91c2958a708c..80e3e84b418d 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_ccg.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_ccg.c
+> @@ -384,14 +384,28 @@ static int ucsi_ccg_init(struct ucsi_ccg *uc)
+>  	return -ETIMEDOUT;
+>  }
+>  
+> -static void ucsi_ccg_update_get_current_cam_cmd(struct ucsi_ccg *uc, u8 *data)
+> +static int ucsi_ccg_update_get_current_cam_cmd(struct ucsi_ccg *uc, u8 *data)
+>  {
+>  	u8 cam, new_cam;
+>  
+>  	cam = data[0];
+> +	if (cam >= UCSI_MAX_ALTMODES) {
+> +		dev_err(uc->dev, "PPM returned invalid alternate mode index %u\n",
+> +			cam);
+> +		return -EPROTO;
+> +	}
+> +
+>  	new_cam = uc->orig[cam].linked_idx;
+> +	if (new_cam >= UCSI_MAX_ALTMODES) {
+> +		dev_err(uc->dev, "invalid linked alternate mode index %u for %u\n",
+> +			new_cam, cam);
+> +		return -EPROTO;
+> +	}
+> +
+>  	uc->updated[new_cam].active_idx = cam;
+>  	data[0] = new_cam;
+> +
+> +	return 0;
+>  }
+>  
+>  static bool ucsi_ccg_update_altmodes(struct ucsi *ucsi,
+> @@ -636,8 +650,10 @@ static int ucsi_ccg_sync_control(struct ucsi *ucsi, u64 command, u32 *cci,
+>  
+>  	switch (UCSI_COMMAND(command)) {
+>  	case UCSI_GET_CURRENT_CAM:
+> -		if (uc->has_multiple_dp)
+> -			ucsi_ccg_update_get_current_cam_cmd(uc, (u8 *)data);
+> +		if (!ret && uc->has_multiple_dp &&
+> +		    (*cci & UCSI_CCI_COMMAND_COMPLETE) &&
+> +		    !(*cci & UCSI_CCI_ERROR))
+> +			ret = ucsi_ccg_update_get_current_cam_cmd(uc, (u8 *)data);
+>  		break;
+>  	case UCSI_GET_ALTERNATE_MODES:
+>  		if (UCSI_ALTMODE_RECIPIENT(command) == UCSI_RECIPIENT_SOP) {
+> -- 
+> 2.43.0
+
+-- 
+heikki
