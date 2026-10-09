@@ -1,56 +1,57 @@
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79E884E77FC
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 15:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB3444DEC0E
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 15:16:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791559001; cv=none; b=PA0RQN+7KzxbJqBXLY9m81Ia/V/UzAAUzWhWYkfdrkiM4S4zkmzalpm/VU47yDJivMQxU6SUtudjub4/hbnnJ0uykGJ/JFGFfVWSWmmZ0SGbLMM45sUhDStyKxLirSGcGu0/mx/ucONSYEYb88ukUM2r9hKBiuz5UAYPhtxa8io=
+	t=1791559003; cv=none; b=BAz+z4w1qz7EIKk3xKyeLp+V6c+1eifJ+EOPWPLQzWZv2yCSuDtNO/Y2/Ycu0GJameLHJlpa6X8urY17a2hS6+FhM2nKAMhv2Vu9CmQk/moL5zfpTdySr1jHCczMGSJ4wSodod5IdeOyjEayzQ5tnDbzc/0Wqk/RN5Xvtb7OwZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791559001; c=relaxed/simple;
-	bh=bTQYOzECEXl/6peO5eFpe6JzQyctZlzlDhGreUiMYTA=;
+	s=arc-20240116; t=1791559003; c=relaxed/simple;
+	bh=m09aL//Y3gYDcQGnFg2Fn4Wl9JMgoCVrS/itjeSyeY8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QhkQu82LRfgvty0cir2DhJFVNenYIpgv3RuuMP8+mCXYae1PHQb0bCY+C+q3EN0I6I7VzYYSdF41M5EvFXVBYr934FlzEJDnHgfAQpIDDCNkwtlm1H/DRCRr3nbC37KMQYfjDHnko8bDXdqeOfJz5eaxTR94VzVk4hhG8Ae/W1A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Dyt26aN6; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version; b=kTzV2oAaoKohkwFSt0zueVS3dGQCFGKf61rgi2Q4VJPn7S9EtjGTZOnfkKptJQBSx2cIkTlnf9rl+KhXy8btNDpXSBNszROFLjFyI1BbVV7+eo0t13M/5GuUaLdZZcZX7NwU+iUAf+ho4Y6pcX6+GkelMUSAMkGdLx3gK3QJbMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MQ5d+mkc; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Dyt26aN6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MQ5d+mkc"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791559000; x=1823095000;
+  t=1791559001; x=1823095001;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=bTQYOzECEXl/6peO5eFpe6JzQyctZlzlDhGreUiMYTA=;
-  b=Dyt26aN6drP7PEPkJhhIySy64Jz0VznRDp1FtNusywTrGvM9a/RrlbFe
-   6Q3UCmPyq4Vkr1ilnzQZ+w8CT62R4uBP5s25oJHBL4RWuHChsw4jeS/eZ
-   rVlYx4HpazY2QVwKUk9VgdK3lNTvWWyeXYbI9RpUAjbaCWkkoVQrO70VQ
-   3s1ddJc5mL71JyC3iHilEQJHDzBDSoelqxq4wRgegX+xYKPrRBFdvwiWj
-   oGPaNRLmkr1+NFhb+zqE9cszAtJkF6dtPsCT762Nwy0vyLW5P9DxdS8+T
-   bUSrEKpyWxUAmg2D6rOwu1+7eo2Rfwpd17QEi9FYdcwOS+epsWL2KsJ/v
-   A==;
-X-CSE-ConnectionGUID: BdCro1LSTC+5gnaDIi/bkQ==
-X-CSE-MsgGUID: jgxlMBY+RFCaYIk6RImJ2Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="351674"
+  bh=m09aL//Y3gYDcQGnFg2Fn4Wl9JMgoCVrS/itjeSyeY8=;
+  b=MQ5d+mkcRpKcwAu2M+jNrrWEeLn+UwqHXZ79J9ZqsivMQEls6SlSyKIc
+   nfxLeTjNDOFMgDirUIfFAcqSvX6vUpF/sd0H0E16GB6QGO4lOEDdr4Yd9
+   9xNOkUnZBb1FXWgvSM194V3Z34WBXp1BizkeBzukwjq+e3v5kTENxD2i9
+   5+s1LnUjd0+vhr9qkZQYlVWXL27+WAUTEXbgtvZf4aCJpxbO2uGNiyd+5
+   cKfAXQ53sXdTnLdZSv78dpiTy0iVdz1q+Itb9VqoFcq3fN5A/QLUvlIiL
+   DtfiRL9ymE5WhBOB+DjMJcpJRz0kfpBabI2D5DXkI8ChO4GdJOgcSpXAh
+   w==;
+X-CSE-ConnectionGUID: /voMEzjuTqSBAn3fl8W3dA==
+X-CSE-MsgGUID: 3wf8Ke6uR36cEyWVykDaCQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="351678"
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="351674"
+   d="scan'208";a="351678"
 Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 08:16:39 -0700
-X-CSE-ConnectionGUID: 8CboBrGUQKy3Z4VYoYMs/A==
-X-CSE-MsgGUID: lv6kaXiATC2TB+tKabMyxw==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 08:16:41 -0700
+X-CSE-ConnectionGUID: 5lR1OV1hTr2pRf3LnT+olg==
+X-CSE-MsgGUID: nCigMMBCTW6WyuiZmn9h8Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="650040"
+   d="scan'208";a="650043"
 Received: from ettammin-mobl2.ger.corp.intel.com (HELO mnyman-desk.intel.com) ([10.245.244.17])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 08:16:38 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 08:16:40 -0700
 From: Mathias Nyman <mathias.nyman@linux.intel.com>
 To: <gregkh@linuxfoundation.org>
 Cc: <linux-usb@vger.kernel.org>,
-	Hongyu Xie <xiehongyu1@kylinos.cn>,
+	Sang-Hoon Choi <csh0052@gmail.com>,
+	Changyul Lee <lcy8047@gmail.com>,
 	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH v2 04/11] xhci: check device notification type before forwarding wake event
-Date: Fri,  9 Oct 2026 18:16:17 +0300
-Message-ID: <20261009151624.618967-5-mathias.nyman@linux.intel.com>
+Subject: [PATCH v2 05/11] xhci: dbc: lock the minor IDR on registration failure
+Date: Fri,  9 Oct 2026 18:16:18 +0300
+Message-ID: <20261009151624.618967-6-mathias.nyman@linux.intel.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20261009151624.618967-1-mathias.nyman@linux.intel.com>
 References: <20261009151624.618967-1-mathias.nyman@linux.intel.com>
@@ -62,86 +63,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Hongyu Xie <xiehongyu1@kylinos.cn>
+From: Sang-Hoon Choi <csh0052@gmail.com>
 
-The xHCI driver programs the Device Notification Control register to
-only enable the Function Wake device notification (N1), so any Device
-Notification Event TRB received is expected to be a function wake
-notification. handle_device_notification() does however not check the
-Notification Type field of the event (xHCI 1.2 section 6.4.2.7, DW0
-bits 7:4), and forwards every device notification event as a function
-wake.
+dbc_tty_minors is protected by dbc_tty_minors_lock when entries are
+allocated and during normal device removal. The registration error path
+removes an entry without taking that lock. Different DbC instances have
+separate event work items, so this removal can race with an IDR update
+for another instance.
 
-A host controller that delivers an unexpected notification type (e.g.
-due to broken firmware or emulation) would trigger a spurious wake
-notification on the parent hub.
+Take the same mutex around the error-path removal.
 
-Parse the notification type and drop events other than Function Wake
-with a warning, mirroring the slot ID validation in the same function.
-
-DEV_NOTE_FWAKE is the DNCTRL register bit for notification type 1
-(N1), while the event TRB carries the notification type value itself,
-so add a separate DEV_NOTE_TYPE_FWAKE constant for the comparison.
-
-[mn:] reduce warning to a debug message
-
-Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+Fixes: e1ec140f273e ("xhci: dbgtty: use IDR to support several dbc instances.")
+Reported-by: Changyul Lee <lcy8047@gmail.com>
+Assisted-by: LLM
+Signed-off-by: Sang-Hoon Choi <csh0052@gmail.com>
 Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 ---
- drivers/usb/host/xhci-ring.c | 9 +++++++++
- drivers/usb/host/xhci.h      | 5 +++++
- 2 files changed, 14 insertions(+)
+ drivers/usb/host/xhci-dbgtty.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index cbce9f8f07fa..7f480db2983e 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -1954,6 +1954,7 @@ static void handle_device_notification(struct xhci_hcd *xhci,
- 		union xhci_trb *event)
- {
- 	u32 slot_id;
-+	u32 type;
- 	struct usb_device *udev;
+diff --git a/drivers/usb/host/xhci-dbgtty.c b/drivers/usb/host/xhci-dbgtty.c
+index 3d51e8d82659..2249cc16800c 100644
+--- a/drivers/usb/host/xhci-dbgtty.c
++++ b/drivers/usb/host/xhci-dbgtty.c
+@@ -535,7 +535,9 @@ static int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
+ err_free_fifo:
+ 	kfifo_free(&port->port.xmit_fifo);
+ err_exit_port:
++	mutex_lock(&dbc_tty_minors_lock);
+ 	idr_remove(&dbc_tty_minors, port->minor);
++	mutex_unlock(&dbc_tty_minors_lock);
+ err_idr:
+ 	xhci_dbc_tty_exit_port(port);
  
- 	slot_id = TRB_TO_SLOT_ID(le32_to_cpu(event->generic.field[3]));
-@@ -1963,6 +1964,14 @@ static void handle_device_notification(struct xhci_hcd *xhci,
- 		return;
- 	}
- 
-+	/* xHCI 1.2 6.4.2.7: Notification Type is DW0 bits 7:4 */
-+	type = TRB_TO_DEV_NOTE_TYPE(le32_to_cpu(event->generic.field[0]));
-+	if (type != DEV_NOTE_TYPE_FWAKE) {
-+		xhci_dbg(xhci, "Unsupported device notification type %u for slot ID %u\n",
-+				type, slot_id);
-+		return;
-+	}
-+
- 	xhci_dbg(xhci, "Device Wake Notification event for slot ID %u\n",
- 			slot_id);
- 	udev = xhci->devs[slot_id]->udev;
-diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
-index c7bfa7f028d3..ec4bfeb4887c 100644
---- a/drivers/usb/host/xhci.h
-+++ b/drivers/usb/host/xhci.h
-@@ -187,6 +187,8 @@ struct xhci_op_regs {
-  * SW does need to pay attention to function wake notifications.
-  */
- #define	DEV_NOTE_FWAKE		BIT(1)
-+/* Notification Type value carried by a Device Notification Event TRB (6.4.2.7) */
-+#define	DEV_NOTE_TYPE_FWAKE	1
- 
- /* CRCR - Command Ring Control Register - cmd_ring bitmasks */
- /* bit 0 - Cycle bit indicates the ownership of the command ring */
-@@ -996,6 +998,9 @@ enum xhci_ep_reset_type {
- #define TRB_TO_PACKET_TYPE(p)		((p) & 0x1f)
- #define TRB_TO_ROOTHUB_PORT(p)		(((p) & (0xff << 24)) >> 24)
- 
-+/* Device Notification Event TRB fields, 6.4.2.7 */
-+#define TRB_TO_DEV_NOTE_TYPE(p)		(((p) & (0xf << 4)) >> 4)
-+
- enum xhci_setup_dev {
- 	SETUP_CONTEXT_ONLY,
- 	SETUP_CONTEXT_ADDRESS,
 -- 
 2.43.0
 
