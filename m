@@ -1,174 +1,179 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A32B31E85E
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 06:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A91C84570CD
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 06:41:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791527939; cv=none; b=jSlWOn6VGloO3vHOjs9BracJlC9VLZR3NGpUtVRX9y224+jw1YrcO6ajGt5lQPHB7YY92/SbzXVTa9hI9x+oSptukW3dd1PGrWYnNbxFDnIxtA0QnkMecEbwS0+guP0mgBwYforKfFDn2+WTIVOGxU11r2I22jh06k4bjRBuFbQ=
+	t=1791528092; cv=none; b=XH5lqeugaMOq1H5RCLXuDOg6KnTVy136Oec/3sFWPlQ1QyZHb+oI1RXmjYRwS2zqMPMe/JUk1fCHzXjA+pqmwOFgqtkLSkTaAdCoOPbFURsd3WRO3ZDcqfdypXqS3l7gDfTbzRjkS2/hPrEFH/NiWFNxeG3PUabygGwlWBl+75Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791527939; c=relaxed/simple;
-	bh=vMGPGjHW+PYAShzvSUFNBi1doGx0Y8yNIjoUIdZiygE=;
+	s=arc-20240116; t=1791528092; c=relaxed/simple;
+	bh=mhamxOoXmHgMw0jSubpKQaxojkw4rguQ84ffb1TcIQ4=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=kZkSeBtuCdUObnogyVgizD6qC2pYPT7Comyrf2B6N6Cl8tcVZWayqdQF3Ayrw9WuDJ+HfywNvsLn9HVHJE27F0SoNk9+DvPsAdqd6T1cTab9UH5PgBcesCpxSCbLzDS6S24PvtMn7tiNc66b+vDt2BjH7Xuv3BnYfMZdnsSdb4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mxfo8nZO; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=RNgllIh+SyT3pDVwJ365rvxRrBK2dZrVRxnu0w4Wmm55WuHZsxDM3v3nWA6gUonH4pYC+52AUplOIoPSadeeADL0dUfp4ebFLKe99AVbl4bfelHu2No89qQx4H3ZPjh38trSwfbo2D26BUnVdbVaigr4brJa0Kr7jFgM8ow8ppQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fWrBCy6q; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mxfo8nZO"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D38871F000FF;
-	Fri,  9 Oct 2026 06:38:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fWrBCy6q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48E351F000FF;
+	Fri,  9 Oct 2026 06:41:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791527938;
-	bh=EF2bPqMv7DlOtEo0WMG7GjYGuQ4gFT9AWV6ao+8BTfg=;
+	s=k20260515; t=1791528090;
+	bh=bRaFojak+oKcHOOUiQ9jQdz1rRXuQ/+WQ0B1EZxCeIw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mxfo8nZOMe9MhR42YnyL7x75bOumNozm2lGWN8qjNdGOtmfNcCXoQvA+t3DkpvEC0
-	 nx9QfxQwpCyhlMYDdsFW5Vt4FN8nDr12naOaR/nfEXTL5ZgElvi21dnkOeoXS3RwWK
-	 RI2jaubd1QF6ZrIcWYzT3oFZHqpvvVfzlV+uyxMJqZKBS0+3MuEXxT6Cx7OyhhTTWy
-	 manRZSTJRUZu8Nv+o7+TtOgHMM9xiNfgd+B3AsDnSbRHvGjyvbc753bMYWZB3tgdRa
-	 uE5uqEsxqoOhl1HEr6VI9AXfETK/r+JXr6otEwZy7hmoWt0/FBNq7p8qAZ7y4MBt6X
-	 I1yBMAc4++OtA==
-Message-ID: <sashiko-outbox-164954@kernel.org>
+	b=fWrBCy6q/aJpxW9X5qLhiCq4Ck5bHw9Rdc0Xldp1XtUPT1cM5i0ttDEg12mT8xg74
+	 3+usl6qWi/kE7D+7vIrlvdGCm4g1zn/lT3cgkd7nqPmk+xdV6RbZsr7JAdUJq+TMo5
+	 n8Tmso2B1/qUIiy+fd8QKE7qxld+dgx5aP11kHpdZjY8M+H8Jn0nnHCmzyMNGAWya2
+	 xukUL0gf3Ok1mkxpAQ2wFElbQuX1igaL+F+e48j5dRyg42lR0hKPa5U9DIa+IxRroI
+	 yT4/h54ngcGH0jxtDl6+8eRwpTll1qlywvQ9MncMpWzUvI7NYtnxF5m3YoaFAVt7V7
+	 sUsWLuGq8irJQ==
+Message-ID: <sashiko-outbox-164956@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 1/3] usb: xhci: Add support for eUSB2v2 1024-byte
- bulk packet size
+Subject: Re: [PATCH v4 3/3] usb: cdns3: cdnsp: Enable eUSB2v2 1KB bulk
+ packet capability
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Pawel Laszczak" <pawell@cadence.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261009-eusb2v2-packet-size-v4-1-a505ee17b460@cadence.com>
+In-Reply-To: <20261009-eusb2v2-packet-size-v4-3-a505ee17b460@cadence.com>
 References: <20261009-eusb2v2-packet-size-v4-0-a505ee17b460@cadence.com>
- <20261009-eusb2v2-packet-size-v4-1-a505ee17b460@cadence.com>
+ <20261009-eusb2v2-packet-size-v4-3-a505ee17b460@cadence.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2026 06:38:57 +0000
+Date: Fri, 09 Oct 2026 06:41:29 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] usb: xhci: eUSB2v2 1KB mode erroneously enabled for Full-Speed dev=
-ices
-- [High] usb: class drivers under-allocate RX buffers due to unmodified wMa=
-xPacketSize
-- [Medium] usb: xhci: incorrect URB_ZERO_PACKET evaluation for 1KB bulk OUT=
- endpoints
+- [High] usb: cdns3: TRB logic uses incorrect 512-byte maxp for 1024-byte e=
+USB2v2 endpoints
+- [High] usb: cdns3: Missing hardware capability check for eUSB2v2 MPS upda=
+te
 --
 
-commit 54ae7d8065840029212e7f3efbe68ad6defca543
+commit 5efa1eec93f4abee65d86f70cca3c1177b04dfda
 Author: Pawel Laszczak <pawell@cadence.com>
-Subject: usb: xhci: Add support for eUSB2v2 1024-byte bulk packet size
 
-This commit introduces support for 1024-byte maximum packet sizes for Bulk
-endpoints in High-Speed mode on eUSB2v2 capable hosts. It introduces an
-is_eusb2v2 flag and issues a SET_FEATURE request to switch compatible
-peripherals to 1024-byte packet mode.
+usb: cdns3: cdnsp: Enable eUSB2v2 1KB bulk packet capability
 
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index 0cd6dd2b6334b..311b8fd3bf44f 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-[ ... ]
-> @@ -2013,6 +2013,69 @@ int usb_set_wireless_status(struct usb_interface *=
-iface,
->  }
->  EXPORT_SYMBOL_GPL(usb_set_wireless_status);
-> =20
-> +/*
-> + * eusb_update_max_packet - enable 1024-byte bulk mode for eUSB2v2 device
-> + * @udev: target device
-> + * @cp: configuration to be checked and enabled
-> + *
-> + * Per eUSB2v2 spec section 5.2, an eUSB2v2 peripheral will revert the
-> + * maximum packet size to 512 for bulk endpoints after bus reset, discon=
-nect,
-> + * or deconfiguration.
-> + * This function sends the BULK_MAX_PACKET_UPDATE request to restore the
-> + * 1024-byte mode. It is valid only if the configuration has bulk endpoi=
-nts.
-> + */
-> +int eusb_update_max_packet(struct usb_device *udev, struct usb_host_conf=
-ig *cp)
-> +{
-> +	struct usb_host_config *config =3D cp ? cp : udev->actconfig;
-> +	struct usb_hcd *hcd =3D bus_to_hcd(udev->bus);
-> +	struct usb_interface_cache *intfc;
-> +	struct usb_host_interface *alt;
-> +	struct usb_host_endpoint *ep;
-> +	int i, j, a;
-> +	int ret;
-> +
-> +	udev->eusb2v2_mps_active =3D 0;
-> +
-> +	if (le16_to_cpu(udev->descriptor.bcdUSB) !=3D 0x0230 ||
-> +	    !hcd->self.is_eusb2v2)
-> +		return -EOPNOTSUPP;
+This commit implements peripheral-side changes in the Cadence (cdnsp) driver
+to support eUSB2v2 1024-byte Bulk MaxPacketSize. It checks for eUSB2v2
+capability in the HCCPARAMS2 register, delegates bulk max packet update
+requests to the composite layer, and dynamically configures the hardware
+endpoint for a 1024-byte packet size when the feature is active.
+
+> diff --git a/drivers/usb/cdns3/cdnsp-ep0.c b/drivers/usb/cdns3/cdnsp-ep0.c
+> index 5cd9b898ce971..090d20b307ee2 100644
+> --- a/drivers/usb/cdns3/cdnsp-ep0.c
+> +++ b/drivers/usb/cdns3/cdnsp-ep0.c
+> @@ -253,6 +253,8 @@ static int cdnsp_ep0_handle_feature_device(struct cdn=
+sp_device *pdev,
+>  		 */
+>  		cdnsp_enter_test_mode(pdev);
+>  		break;
+> +	case USB_DEVICE_BULK_MAX_PACKET_UPDATE:
+> +		return cdnsp_ep0_delegate_req(pdev, ctrl);
 
 [Severity: High]
-Does this need to check udev->speed =3D=3D USB_SPEED_HIGH? If an eUSB2v2-co=
-mpliant
-device is connected but enumerates at Full-Speed, eusb_update_max_packet()
-could send the feature request and set udev->eusb2v2_mps_active to 1.
+Does this code need to verify that the controller is actually eUSB2v2 capab=
+le
+(pdev->gadget.is_eusb2v2) before delegating the request?
 
-If this happens, xhci_usb_endpoint_maxp() will unconditionally return 1024 =
-for
-the Full-Speed bulk endpoint, leading to a conflict in xhci_endpoint_init()
-where the hardware endpoint context is clamped to 64 bytes:
+The composite gadget framework unconditionally sets gadget->eusb2v2_mps_act=
+ive =3D 1
+when it receives USB_DEVICE_BULK_MAX_PACKET_UPDATE without checking
+gadget->is_eusb2v2:
 
-drivers/usb/host/xhci-mem.c:xhci_endpoint_init() {
-		if (udev->speed =3D=3D USB_SPEED_FULL) {
-			max_packet =3D rounddown_pow_of_two(max_packet);
-			max_packet =3D clamp_val(max_packet, 8, 64);
-		}
+drivers/usb/gadget/composite.c:composite_setup() {
+    ...
+        case USB_DEVICE_BULK_MAX_PACKET_UPDATE:
+            if (ctrl->bRequestType !=3D (USB_DIR_OUT | USB_RECIP_DEVICE))
+                goto unknown;
+            if (ctrl->bRequest !=3D USB_REQ_SET_FEATURE)
+                goto unknown;
+            gadget->eusb2v2_mps_active =3D 1;
+    ...
 }
 
-Can this discrepancy between the 64-byte hardware context and the 1024-byte
-TRBs generated by software lead to malformed TRBs and transfer failures?
+If a malicious or improperly configured USB host sends this request to a
+non-eUSB2v2 capable device, this delegation allows the flag to be set, lead=
+ing
+to cdnsp_endpoint_init() configuring a 1024-byte maximum packet size on
+unsupported hardware.
 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index a9e47e178c280..8e630d323c6fb 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
+>  	default:
+>  		return -EINVAL;
+>  	}
+
 [ ... ]
-> @@ -2949,6 +2949,11 @@ int xhci_usb_endpoint_maxp(struct usb_device *udev,
->  {
->  	if (usb_endpoint_is_hs_isoc_double(udev, host_ep))
->  		return le16_to_cpu(host_ep->eusb2_isoc_ep_comp.wMaxPacketSize);
-> +
-> +	if (udev->eusb2v2_mps_active &&
-> +	    usb_endpoint_xfer_bulk(&host_ep->desc))
-> +		return 1024;
-> +
->  	return usb_endpoint_maxp(&host_ep->desc);
->  }
+
+> diff --git a/drivers/usb/cdns3/cdnsp-mem.c b/drivers/usb/cdns3/cdnsp-mem.c
+> index 419309c8439e3..a499887ed5618 100644
+> --- a/drivers/usb/cdns3/cdnsp-mem.c
+> +++ b/drivers/usb/cdns3/cdnsp-mem.c
+> @@ -976,8 +976,13 @@ int cdnsp_endpoint_init(struct cdnsp_device *pdev,
+>  	if (!usb_endpoint_xfer_isoc(pep->endpoint.desc))
+>  		err_count =3D 3;
+>  	if (usb_endpoint_xfer_bulk(pep->endpoint.desc) &&
+> -	    pdev->gadget.speed =3D=3D USB_SPEED_HIGH)
+> -		max_packet =3D 512;
+> +	    pdev->gadget.speed =3D=3D USB_SPEED_HIGH) {
+> +		if (pdev->gadget.eusb2v2_mps_active)
+> +			max_packet =3D 1024;
 
 [Severity: High]
-By dynamically overriding the packet size to 1024 bytes here for xHCI, while
-leaving ep->desc.wMaxPacketSize as 512 bytes, could this cause higher-level
-USB class drivers to under-allocate their transfer buffers?
+Does the TRB generation logic in drivers/usb/cdns3/cdnsp-ring.c need to be
+updated to handle the 1024-byte max packet size?
 
-Class drivers (like CDC NCM) rely entirely on usb_endpoint_maxp(&ep->desc) =
-to
-determine the size of incoming packets and pre-allocate their buffers. If t=
-hey
-allocate 512 bytes based on the unmodified descriptor, an incoming 1024-byte
-packet could overflow the buffer and abort the transfer.
+While the hardware endpoint context is correctly programmed to 1024 bytes h=
+ere,
+functions in cdnsp-ring.c still rely on usb_endpoint_maxp(ep->desc), which
+evaluates to 512 bytes.
 
-[Severity: Medium]
-Additionally, does leaving the descriptor at 512 bytes cause an incorrect
-URB_ZERO_PACKET evaluation for Bulk OUT transfers?
+For example, calculating ZLP boundaries:
 
-In xhci_urb_enqueue(), the need for a Zero-Length Packet is evaluated as:
+drivers/usb/cdns3/cdnsp-ring.c:cdnsp_queue_bulk_tx() {
+    ...
+    if (preq->request.zero && preq->request.length &&
+        IS_ALIGNED(full_len, usb_endpoint_maxp(pep->endpoint.desc))) {
+        need_zero_pkt =3D true;
+        num_trbs++;
+    }
+    ...
+}
 
-    !(urb->transfer_buffer_length % usb_endpoint_maxp(&urb->ep->desc))
+Calculating bounce buffer alignment:
 
-Since usb_endpoint_maxp() reads the unadjusted descriptor value of 512, an =
-OUT
-transfer length that is a multiple of 512 but not 1024 (e.g., 1536 bytes)
-might incorrectly satisfy this condition and append an unnecessary Zero-Len=
-gth
-Packet, violating the bulk protocol.
+drivers/usb/cdns3/cdnsp-ring.c:cdnsp_align_td() {
+    ...
+    max_pkt =3D usb_endpoint_maxp(preq->pep->endpoint.desc);
+    unalign =3D (enqd_len + *trb_buff_len) % max_pkt;
+    ...
+}
+
+Calculating TRB TD size:
+
+drivers/usb/cdns3/cdnsp-ring.c:cdnsp_td_remainder() {
+    ...
+    maxp =3D usb_endpoint_maxp(preq->pep->endpoint.desc);
+    total_packet_count =3D DIV_ROUND_UP(td_total_len, maxp);
+    ...
+}
+
+This causes the driver to incorrectly calculate ZLP boundaries on 512-byte
+boundaries instead of 1024, fragment TRBs into 512-byte bounce buffers, and
+provide wrong TRB_TD_SIZE metrics to the hardware scheduler.
+
+> +		else
+> +			max_packet =3D 512;
+> +	}
+> +
+>  	/* Controller spec indicates that ctrl ep avg TRB Length should be 8. */
+>  	if (usb_endpoint_xfer_control(pep->endpoint.desc))
+>  		avg_trb_len =3D 8;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261009-eusb2v2-pa=
-cket-size-v4-0-a505ee17b460@cadence.com?part=3D1
+cket-size-v4-0-a505ee17b460@cadence.com?part=3D3
