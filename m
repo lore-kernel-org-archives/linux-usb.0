@@ -1,86 +1,86 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1E3A4DE732;
-	Fri,  9 Oct 2026 12:34:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF4C44C648;
+	Fri,  9 Oct 2026 12:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791549255; cv=none; b=clROX5HFAHVbLRo4CRIFw3VHostw+EoGOWudh2tR35ge+tEP43oTXuJeyC937OzpNSFk8aTMWAb1W0KkFUBnyaFvbWY11NCBLhINYFqRdV9DL30UQxC6UcKUyiBAxt8e2ko56xLj2w6NCnp+Ty5D9NmoLdC0aMs/LVrCRHM2OHU=
+	t=1791549671; cv=none; b=nLnw9EA/tHaADje8ihlTjfbRbMd4S6jMT7mRfGytdSb0qgG59C0n8TY+PB390KGOZii0MB6lYXC3EHKwDEphxfXB2wWEOMyjMWWLIokzbBCokazcq3NJLk3AL30Escbqh1tmqs8dYotPq9k/ZMmFw90Eb7lizLKbkzR+69Mx1wI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791549255; c=relaxed/simple;
-	bh=f4A0lM8jFg7mEUGM5hNXUYT7e2wOXndrALIGBoHvbgs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=azQKK4UZouThHo+/ya+rdfa0ATea8H/pSfQtk4JwlbduVZB6ygwzgp7LSAYwVd2HV6QV1EhvC4R9EUiiMxY9LjVHRKcvp1IvnYCjX9ayOyRt4UOxkfbD/HBuC4T+oRaxLErajB46Dle97tNCm2vDbHnk3PK90QHJTpitB6IROj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BF3ODmiX; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791549671; c=relaxed/simple;
+	bh=UHVrq+I+KSBEzMAH/uApO9fqsh4KPkEjTlaFZB3w9g8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yx4+iRLw2or4Pcvcgf9iaDvb3W8JFMW5iL7GvfHIzpdPViypcp4MmapvHXBlhScdjQIvFGmmkHASYDhdQDjdIxKGixKi6aJZRtzOAix6f4KlFVIEF7KF8GaM7wC66qzhKML1bMHorDFNg1iyLxif3UTjD/Jk0zDp0T94HIdBPSE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PBUDQDYI; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BF3ODmiX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D9551F000FF;
-	Fri,  9 Oct 2026 12:34:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PBUDQDYI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 30F1F1F00893;
+	Fri,  9 Oct 2026 12:41:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791549249;
-	bh=F3N4AREHVW72/gOFd3n7FAXhLVCZ7MZgfWmss94xEbs=;
-	h=From:To:Cc:Subject:Date;
-	b=BF3ODmiXV98TtGz96HQO/R/2UgoCwVGx23wEjWFG+1qlxYZch5ULE2EmEdjUbaHdk
-	 7yEMai2NEHvVMlfQYyxzm8H5CIns6qq8kfZ3g20t8brRqnUPmwFhb8xIC7VSPA4Pbt
-	 JmH1xHyEnQewVaJ5Gh87ohyUyyPdDPq81bJ5m7yTurYT4XvkivZRjtGKKuvdKVaMZV
-	 G3CpCiI/QQ4KZRDFF6O09oKmvqEHoT0sxu96hnhOTH/jCtMMqwonXegiFBCFYqDcfg
-	 uvjusJEqw1i9uADDv6CH/giQsLQKiPHWvdANAhl9ce7pFfrn78QapGTZMRPoZpYQ6d
-	 u0PayJNb80TLg==
+	s=k20260515; t=1791549662;
+	bh=Psgr4KXFcCz+KML8rnciIALqUxR0nVRxU2EGq3dHPxI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=PBUDQDYI9DZ9QuVtpi02ucFDiTS/4syhaJgXXj5FOhbqP5/XgzzpC7281Brap8vgK
+	 Z3oox3lSpkuuhGycvBNgwNhsG17a8+lD4PmmnmRcjy2Y9MOGSml+z55/8vf1H14U7m
+	 40+DAo4KG4vftW9W4mkM/Tp8539Ftm33gMvCvzQb/P3WgwJFFNwyhom36V9Cve3Waq
+	 yg7p/g39aqQz0KG8fZxo8oyi/d0/i6q13zFoGGCK8AAXmhWplDtMr+eiZWSuShHpl0
+	 gfr0H3j9r0mxtX81KJSK0bFWq6iGUEpZYjPSbnHIXEg7NHVjONFILuMtjqofQW+rqD
+	 aP9Xjv8BteIhA==
 Received: from johan by xi.lan with local (Exim 4.99.5)
 	(envelope-from <johan@kernel.org>)
-	id 1xF9nb-00000001wzR-2lhc;
-	Fri, 09 Oct 2026 14:34:07 +0200
+	id 1xF9uF-00000001x62-3tga;
+	Fri, 09 Oct 2026 14:40:59 +0200
+Date: Fri, 9 Oct 2026 14:40:59 +0200
 From: Johan Hovold <johan@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org,
-	Oliver Neukum <oliver@neukum.org>
-Subject: [PATCH] USB: serial: sierra: fix urb leak on write completion
-Date: Fri,  9 Oct 2026 14:33:59 +0200
-Message-ID: <20261009123359.465071-1-johan@kernel.org>
-X-Mailer: git-send-email 2.55.0
+To: Wentao Liang <vulab@iscas.ac.cn>
+Cc: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, oliver@neukum.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: sierra: Fix urb leak in sierra_submit_delayed_urbs()
+Message-ID: <asjg2_2pB0dOflW_@hovoldconsulting.com>
+References: <20260916165352.2085480-1-vulab@iscas.ac.cn>
+ <aqusRqksylvOi1UK@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aqusRqksylvOi1UK@hovoldconsulting.com>
 
-Make sure to drop the reference taken by usb_anchor_urb() also on
-successful submission of delayed write URBs during runtime resume to
-prevent them from leaking on completion.
+On Thu, Sep 17, 2026 at 11:00:54AM +0200, Johan Hovold wrote:
+> On Wed, Sep 16, 2026 at 04:53:52PM +0000, Wentao Liang wrote:
+> > sierra_submit_delayed_urbs() takes a reference to each delayed urb
+> > with usb_get_from_anchor() before submitting it. The submit failure
+> > path releases the reference with usb_free_urb(), but on the success
+> > path the reference is never dropped: the urb is only anchored in the
+> > active list and the USB core unanchors it on completion, leaving the
+> > reference returned by usb_get_from_anchor() dangling so the urb
+> > object is never freed.
+> > 
+> > Drop the reference with usb_put_urb() after a successful submission,
+> > matching the reference handling in sierra_write() and the sierra_close()
+> > drain loop. Skip the rest of the loop body with continue on the error
+> > path, which already frees the urb.
+> > 
+> > Fixes: e6929a9020ac ("USB: support for autosuspend in sierra while online")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+> 
+> This looks correct, but as Greg already asked you elsewhere, did you
+> forget to add an Assisted-by tag here as well? How was this issue found
+> and fixed?
+> 
+> Also, you need to start replying to feedback. According to the list
+> archives you have haven't replied to any of the four mails commenting on
+> your patches that I've sent you so far.
 
-Fixes: e6929a9020ac ("USB: support for autosuspend in sierra while online")
-Reported-by: Wentao Liang <vulab@iscas.ac.cn>
-Link: https://lore.kernel.org/20260916165352.2085480-1-vulab@iscas.ac.cn
-Cc: stable@vger.kernel.org	# 2.6.32
-Cc: Oliver Neukum <oliver@neukum.org>
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/sierra.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+You still haven't replied to anything I've ever sent you so I'm gonna
+start treating you like a bot.
 
-diff --git a/drivers/usb/serial/sierra.c b/drivers/usb/serial/sierra.c
-index 6e443aacae07..f2cc7f364d20 100644
---- a/drivers/usb/serial/sierra.c
-+++ b/drivers/usb/serial/sierra.c
-@@ -972,12 +972,13 @@ static int sierra_submit_delayed_urbs(struct usb_serial_port *port)
- 			intfdata->in_flight--;
- 			usb_unanchor_urb(urb);
- 			kfree(urb->transfer_buffer);
--			usb_free_urb(urb);
- 
- 			spin_lock(&portdata->lock);
- 			portdata->outstanding_urbs--;
- 			spin_unlock(&portdata->lock);
- 		}
-+
-+		usb_put_urb(urb);
- 	}
- 
- 	if (ec)
--- 
-2.55.0
+I've fixed up the USB serial and cdc-acm leaks you reported and given
+you credit for reporting them.
 
+Johan
