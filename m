@@ -1,81 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AD34F649C;
-	Fri,  9 Oct 2026 18:26:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949554F4D14
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 18:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791570415; cv=none; b=J7gKtD9ebb2aTSGBQGieHbIF/kn5WY2IK86FS6GiRGST1hiLBLqxIIiDuFVYAtPxMZVrcXmRzkgKebmjwDj0ZSR70SaWNDbaf8V9aqcFRbqyesQSwNBrIUrAzc+fXba/NYfmOSEm0gzbCD9ZTUvr8GWGDCZgHgE9X5F2FKv7+AI=
+	t=1791570537; cv=none; b=qO1JlUY9bp3kxcMWE+fdVBOatNhE+EO65/CNlLI8jInQMg3HgCGSF1uCdMCQxu/6a4Mg+DF/56RwKCT0FX+LgM35SR4sIPd0lvLVFesHSNtMLNu2xAg13khZGaLdTNeLahmi+Avo5CFHL1NYWkTIm+NjilskpCmnM3Dn92eJ3RU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791570415; c=relaxed/simple;
-	bh=n9GMDy/R1UgfttvwZhvfhmFdvjuuPlOAsVdTKlAlOWM=;
+	s=arc-20240116; t=1791570537; c=relaxed/simple;
+	bh=8ABuPA2A0pBhwpHQ7+FiGwsQwJn/xLQ6yDEqOhjPXJI=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=K5Pvd7XxAp71WSo/OURlhMKO/3AmfX6JNdPUzgN4CqTHO5XAhQl6ZZoFZ1XWNe/y9lmZK/bE1oLEpFQOtVjfQ2fNgQ5xqmGIqqQcByS15oCaZdk4QPjk3p1O3KR7DfHlS1FgiI7yclcz3cFbv+eLT9fecQwwhO9qqrmd9q/jhyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C+NmX9+V; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=KOIc2pnBsQFM0BJxHPBdj5dX2VyKERyz4ql/2z91eavTyZ0nhQRAuF5/MAg49gOdKa75P5WSfnLY+dc8hGOlCE92p0wD0qkTImKcZvy40w7ehx3qsi2D2d/3BXhVUwQKJtAGTpSpWhtlSqnyE7v7mnugY3/256jnHo0Cyw5gMAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OdTxbY2c; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C+NmX9+V"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 032611F00898;
-	Fri,  9 Oct 2026 18:26:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OdTxbY2c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 011A21F008A0;
+	Fri,  9 Oct 2026 18:28:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791570413;
-	bh=n9GMDy/R1UgfttvwZhvfhmFdvjuuPlOAsVdTKlAlOWM=;
+	s=k20260515; t=1791570535;
+	bh=D2hxWBdJDLeIcAu6bVsTwfpuhpuJ7O01togEajKrH3I=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=C+NmX9+VHEvaJrcf+awbOATPxFbMv5CSoC2ic9OVqfD8wDE3DwmfihLbI9kLu7RTX
-	 NMMa59/VofRuvBSCOotI+pOcSis7QC5xtHvdKGhQz5gKKDPlT4rD04Qd6M58WopCXZ
-	 tNsO4qe3MR33XMhbfgYshQq0xXEHtSmDTDYijFSM8+U1E7heFDR5NlCWDwi6H9gUKm
-	 MiP+rimIHakYedE8y7dgk7bmtfTlvdjwJQ1qvXxCsZaBOaJY6Y6VY3bO9exBG/CruD
-	 pjwvA2OFF7AGgowbSv81ytcljfGCqpXLBhgwYs/XS8UJj3EOjcCoQwMwV5LQQgNg6a
-	 kLRnoaszO1XDg==
-Message-ID: <sashiko-outbox-165945@kernel.org>
+	b=OdTxbY2c9sEwfbjKm3u73bJYXk6Y3YrnoUHnlKsHheEsPpr3Nc+UQSasMMFD6zQY9
+	 Yzaf7HwsQ6Vf6ptjbiR2lGFDP+4376CU87xE+hjlNk8Xm4aESuMUoH4etXYzSy9fmm
+	 v9mEWp/ycyEuNbQcXRTir+vUrBFXY/1YKygSEi/P/O5Fom22RNKHO10s9Cut1/bAI3
+	 eFAd/g9vMkkC6m/6vDEip4YSFEHYu9N5HPYrfMLS0lkUDcGba8zY3dlKLSzyZMXoCv
+	 1hO+w0d5c2XGaIMP3y9Y8gR3FwEEyCC7+SOOqEsB6OdJXRy/TQH15z2zl9cy0Roz1x
+	 Uke0QtMkyOlrA==
+Message-ID: <sashiko-outbox-165946@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v5 14/38] mm/vma: add vma[_flags]_is_mm_managed()
- predicates
+Subject: Re: [PATCH v2] driver core: complete deferred binds when
+ drivers_autoprobe is off
 Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
-Cc: linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, bpf@vger.kernel.org, kvm@vger.kernel.org, "Heiko
- Carstens" <hca@linux.ibm.com>, linux-s390@vger.kernel.org, "Christian
- Borntraeger" <borntraeger@linux.ibm.com>, linux-usb@vger.kernel.org, "Oliver
- Upton" <oupton@kernel.org>, "Marc Zyngier" <maz@kernel.org>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, linux-rdma@vger.kernel.org, kvmarm@lists.linux.dev, linux-scsi@vger.kernel.org, "Vasily
- Gorbik" <gor@linux.ibm.com>, selinux@vger.kernel.org, dri-devel@lists.freedesktop.org
-In-Reply-To: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-14-923b70125b1e@kernel.org>
-References: <20261009-b4-mmap-prepare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org>
- <20261009-b4-mmap-prepare-vma-flag-sanify-v5-14-923b70125b1e@kernel.org>
+To: mosafer <mohsafer@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261009182239.283329-1-mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
+References: <DM06HWVAFSOW.2F050J0BT27TK@kernel.org>
+ <20261009182239.283329-1-mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2026 18:26:51 +0000
+Date: Fri, 09 Oct 2026 18:28:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> Rather than referring to VMA flags with uncertain meaning, add a new
-> predicate that explicitly describes what absence of the VMA_PFNMAP_BIT and
-> VMA_MIXEDMAP_BIT flags means, and then refer to that function for
-> determining VMA mergeability.
+> From: Mohammad Mosafer <mohsafer@gmail.com>
 >=20
-> If neither of these flags are set, that means the contents of the mapping
-> are managed by core mm.
+> device_add() registers a device and then runs the bus's initial probe
+> via bus_probe_device() -> device_initial_probe().  With
+> drivers_autoprobe disabled for the bus, device_initial_probe() skipped
+> __device_attach() entirely.
 >=20
-> Otherwise they are instead owned by some other kernel component, usually a
-> driver: the memory may be MMIO, kernel-allocated pages or even ordinary
-> pages the driver maps itself, but core mm must not populate, reclaim,
-> migrate, copy-on-write or merge the range itself.
+> That is correct for automatic *matching* against the bus's driver list,
+> but __device_attach() also doubles as "complete a bind that a driver
+> already initiated": when dev->driver has been pre-assigned outside the
+> normal match/probe path, it finishes the bind by calling
+> device_bind_driver() under the device lock, bypassing probe().
 >=20
-> We initially also treat VMA_IO_BIT as implying a mapping is not mm-manage=
-d,
-> as by implication it cannot be. (mlock() also sets VMA_IO_BIT transiently
+> With autoprobe off, that second duty was skipped too.  USB depends on
+> it: usb_driver_claim_interface() pre-sets dev->driver on an interface
 > [ ... ]
-> No functional change intended.
->=20
-> Reviewed-by: Zi Yan <ziy@nvidia.com>
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> Reported-by: syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D863936f50214e843ae0c
+> Fixes: b8c5cec23d5c ("Driver core: udev triggered device-<>driver binding=
+")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Mohammad Mosafer <mohsafer@gmail.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261009-b4-mmap-pr=
-epare-vma-flag-sanify-v5-0-923b70125b1e@kernel.org?part=3D14
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261009182239.2833=
+29-1-mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us?part=3D1
 
