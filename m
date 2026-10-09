@@ -1,107 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634D0478E38;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC4DC47ACDE;
 	Fri,  9 Oct 2026 07:36:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791531383; cv=none; b=rAkSxRKViksJVX1kfHgBD0SPis5URi3V213sr1KbHJpeG2CnRkeoanOllgLGOq3606V40lS39deyNXinvwMsrAfPL3Goam1aAVJKR/VAvTHhrnAq9WaDghMohbQEFBJaaO7u+rB16ZGf7Hak/Tjjv89C+ykdGwMkeWZgLp8j4gw=
+	t=1791531383; cv=none; b=eUwMxELyhp2CMVFpzndvrb7tP/j3NGR35DqkFdQQ4b6uedjo4Hcgc66JywoWpbNqjfL2N6R2NOSZXUVR5nLvTho3ciVRXSRw0llCVZzrBuE63JmWbF93d4wWsxDbXSQ8aYuN9Q7PPJFb8FcQvGqbvwoamp4Jr7rBIvqE5LPNvDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791531383; c=relaxed/simple;
-	bh=Y5GqP6sq+0qwv5rhOAYO0yKLRsgBzFuyw72QgvQ79RM=;
+	bh=ZI3A18/6p+FuaD/mbU4cj5JQzA3uU216YToorTl2Cas=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=kbmEZATskpP+cjYgJ7WNpfvNufPyg07rlhlDWMypvQ9P3gGSl3NJ578XU8bSZ8lIGfyb1x1GA9JYJxdgfXnySD/Y6zLLVNKG5d4PNLEIxX3fpKMV1s/r7YcXqfnlLsbW55W7UZrR68m9z+rBy01inOY6QfvRV4nhnEeY/iShZL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=abQHJh6Y; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=EroZn17YKHhik8/OOhtLGo8DFoltEI/UEgT6VVJmtTRDrSEXRT9jltbYjRF10WDfzL+qjaWKXQJebD25SDEKudmYxxhXhKNvcOOws+2gykQRCrnChC8G489Y0W+OCI27LQLFejMYOplDY1bQhhtjHhryZqZLABFqiHWzhGQppXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e71tWJS/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="abQHJh6Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CA691F000FF;
-	Fri,  9 Oct 2026 07:36:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e71tWJS/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A68F1F00893;
+	Fri,  9 Oct 2026 07:36:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1791531382;
-	bh=Kw8bznOlpVSvSsHbjC8DY/6stkYjOzrWxWMBKXU/JiA=;
+	bh=ZI3A18/6p+FuaD/mbU4cj5JQzA3uU216YToorTl2Cas=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=abQHJh6YvjHHXnKNu6MMmSPRz7lEHqcipOqvqpmb0q0JHeRka+zjH8BJAtN/xWIrE
-	 qLCkUsh2OTQHmNNSmQzPNAINhOeNldaP8ZKlWa3AODaNSyBqPFJzkoJza+INYTXKWl
-	 XUjZhwZXqkZYxftU1x/wIJw761LK/PNuVpcZq4WGuDhM0ZSWyZluBcOkqA6Fh80H2h
-	 Y+wKrNqGUB7+uFuQlubqTUEgTp7vblkZCOCl9wtwMjZTwPLiclKpONku5zI119FNsl
-	 2FFP2pEJxsXqXW3JP9Gh6Cr01zThWE1N1YoC+UwwtcLEs4oUVw1rd5ksAJjt3bCGop
-	 hQvP2CsQVlqOw==
-Message-ID: <sashiko-outbox-165013@kernel.org>
+	b=e71tWJS/W66m6KDrJKKSDWU06ph6NnpLHV1+BWfrxa8j3tjGYDTCREn15QQdYwTH5
+	 wtcJpB2CR+QWyYbwHTsfSxHPXH9E9EzYQ4DHZcvkLNCwrlrHNTCB7iTL1XcvioudQF
+	 Fp+baQOv/DTqHFI2j48cUR5i3KuhiwhvdUjoztjkNHsie1L5ZR5/pSTzz2PSawLlpl
+	 RjHbhIMRoDj5BfBvD3MAfkrgiRKbcjLnfpTiX5GhA+EtZFRTdsa+dYdjqhJI8KtXz7
+	 wC1lw1g3gRhfgKcBWHR8je43rXooJdudk73YdpyqJu0Y3DaFGwsSSP6d06UBDagWh4
+	 GVgOhrzv6/1dw==
+Message-ID: <sashiko-outbox-165014@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/8] usb: chipidea: usb2: use
- devm_clk_get_optional_enabled()
+Subject: Re: [PATCH v4 1/8] dt-bindings: usb: ci-hdrc-usb2: add
+ spacemit,k1-usb2 compatible
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Junzhong Pan" <panjunzhong@linux.spacemit.com>
-Cc: devicetree@vger.kernel.org, linux-usb@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org
-In-Reply-To: <20261009-b4-spacemit-k1-usb2-v4-2-2d98e5324d9a@linux.spacemit.com>
+Cc: devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org, linux-usb@vger.kernel.org
+In-Reply-To: <20261009-b4-spacemit-k1-usb2-v4-1-2d98e5324d9a@linux.spacemit.com>
 References: <20261009-b4-spacemit-k1-usb2-v4-0-2d98e5324d9a@linux.spacemit.com>
- <20261009-b4-spacemit-k1-usb2-v4-2-2d98e5324d9a@linux.spacemit.com>
+ <20261009-b4-spacemit-k1-usb2-v4-1-2d98e5324d9a@linux.spacemit.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2026 07:36:21 +0000
+Date: Fri, 09 Oct 2026 07:36:22 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] usb: chipidea: redundant struct and memory allocation for ci_hdrc_u=
-sb2_priv
---
+> The USB2.0 controller on the SpacemiT K1 SoC is dual-role capable but
+> has no internal OTG registers, this requires flags which disable
+> related features set in platform data. Add a compatible string to match
+> the platform data.
+>=20
+> Chipidea USB2 Controller on SpacemiT K1 requires 1 clock and 1 reset to
+> work, add constraints for it.
+>=20
+> Reviewed-by: Yixun Lan <dlan@kernel.org>
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
 
-commit a1804027a297ffe7216fa43c74cdb463efa0f512
-Author: Junzhong Pan <panjunzhong@linux.spacemit.com>
-
-usb: chipidea: usb2: use devm_clk_get_optional_enabled()
-
-Convert devm_clk_get_optional() and clk_prepare_enable() into a single
-call devm_clk_get_optional_enabled().
-
-> diff --git a/drivers/usb/chipidea/ci_hdrc_usb2.c b/drivers/usb/chipidea/c=
-i_hdrc_usb2.c
-> index 8ffa1e95d8e86..9cef902f36b37 100644
-> --- a/drivers/usb/chipidea/ci_hdrc_usb2.c
-> +++ b/drivers/usb/chipidea/ci_hdrc_usb2.c
-> @@ -20,7 +20,6 @@
-> =20
->  struct ci_hdrc_usb2_priv {
->  	struct platform_device	*ci_pdev;
-> -	struct clk		*clk;
->  };
-
-[Severity: Low]
-Does this code still need a wrapper struct now that it only contains a
-single pointer?
-
-[ ... ]
-
-> @@ -70,15 +70,10 @@ static int ci_hdrc_usb2_probe(struct platform_device =
-*pdev)
->  	if (!priv)
->  		return -ENOMEM;
-> =20
-> -	priv->clk =3D devm_clk_get_optional(dev, NULL);
-> -	if (IS_ERR(priv->clk))
-> -		return PTR_ERR(priv->clk);
-> -
-> -	ret =3D clk_prepare_enable(priv->clk);
-> -	if (ret) {
-> -		dev_err(dev, "failed to enable the clock: %d\n", ret);
-> -		return ret;
-> -	}
-> +	clk =3D devm_clk_get_optional_enabled(dev, NULL);
-> +	if (IS_ERR(clk))
-> +		return dev_err_probe(dev, PTR_ERR(clk),
-> +				     "failed to get or enable the clock\n");
-
-[Severity: Low]
-Could this devm_kzalloc() for the priv struct be eliminated? Since the clk
-pointer was removed from ci_hdrc_usb2_priv, the single ci_pdev pointer
-could be stored directly using platform_set_drvdata() in
-ci_hdrc_usb2_probe(), avoiding the unnecessary heap allocation.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261009-b4-spacemi=
-t-k1-usb2-v4-0-2d98e5324d9a@linux.spacemit.com?part=3D2
+t-k1-usb2-v4-0-2d98e5324d9a@linux.spacemit.com?part=3D1
+
