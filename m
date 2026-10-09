@@ -1,122 +1,143 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+Received: from smtpbgeu1.qq.com (smtpbgeu1.qq.com [52.59.177.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5DB3D5253;
-	Fri,  9 Oct 2026 07:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5D247140C;
+	Fri,  9 Oct 2026 07:31:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.59.177.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791530313; cv=none; b=nSZ6n9m2NUeCWRVN9RW+GEa8hMh08/Grn74JbSUoOnCx1RmkJegEnFAySM1531md/3rNiQkxbg5RuY3zPoO7wVofWycZoTaclSGXgSvgB55tz6ZO4svAL6dc9ko7Dz1u4Ck0g+5yhsF0VNvlsQ26GIcYKw4p1eD8LM7+Ux0IcyU=
+	t=1791531099; cv=none; b=aAP6XkV9LBhBKmI5WMpt0RDLz3Be8yBYeF3ASvAdLHq96fOVG88Nz1B4y4ug9zpetnthjEjoXNo91H5tyP6GlLal0AlkdQj0xqpA20c/3t+0Bz2xYhabP0YqbtVXtLEs1+ZO+PlpGS2MVwVWX7pdBqhGM8xxR7vwAcLkfKjGMP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791530313; c=relaxed/simple;
-	bh=vIFFea0aaR5xqeEyw5iHuU2tPuyRuNzODNYqzV7MLyg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IuV38gHNwCxNPdmU9RkeeNfKMasEbLHb5WzIfbTO6Z51MYip+52Jqs4BlQ1LM+7NftYHu8MdEYjQoE9hcSo7Eop+bSFU6qLnjdroUKyl45Hy7mCcXiNrtzC1RyjuA7njNRRff8Y723k1Inek1Wtmn4naUeUeNUUXWSDu4KwVvy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 97d0a1bac3b111f19a56ed5b684f684d-20261009
-X-CID-CACHE: Type:Local,Time:202610091516+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:121b21a9-dffc-4080-b835-a6d43dc6e083,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:6ead2c12ab8a5df136f25aa15dcb250b,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|865|898|915,TC:nil,Content:0|15|52
-	|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
-	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 97d0a1bac3b111f19a56ed5b684f684d-20261009
-X-User: lilinmao@kylinos.cn
-Received: from [192.168.1.101] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lilinmao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 1712129514; Fri, 09 Oct 2026 15:18:14 +0800
-Message-ID: <b56624e0-d1e4-4b52-9d3d-de923c471a58@kylinos.cn>
-Date: Fri, 9 Oct 2026 15:18:10 +0800
+	s=arc-20240116; t=1791531099; c=relaxed/simple;
+	bh=vJgNan3VXHrPIUL1xi2lNNcRCVH0/pu/PtlpRHIGzOA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=C9uovxH/SGefXrDagDQ85Xef7tX3+dp03i7gtIE+qXh3avD5drxtxcsXvZBhXN9d8sMdaSD3xi7AQqTNYqYomC4WTfIbyUOfzih6wR7b1Z2gav7/QbeP7P2xqh+v0XxWS6RoHAjiIrrWtZbSyM3ua9ehO1SMq84yDGvUHr0IOYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com; spf=none smtp.mailfrom=linux.spacemit.com; dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b=XNUQsiFy; arc=none smtp.client-ip=52.59.177.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.spacemit.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.spacemit.com header.i=@linux.spacemit.com header.b="XNUQsiFy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.spacemit.com;
+	s=mxsw2412; t=1791531038;
+	bh=WyrNoNNu/NB86HpPrgRxwPVRhvTuGwuFy/4c8+oY+lk=;
+	h=From:Date:Subject:MIME-Version:Message-Id:To;
+	b=XNUQsiFybJfb8GOUgjS0GOc+WwgD5NzSD2lA8ObZAH8f3zQMgPlx8AA8rY1wl+GSw
+	 ocpmgbzvnR+Y11tKJE0gPwbEEJDnJIOEzkQirz56d3z3+1m8HCaOYRyjcVn1jjBMXu
+	 iEGYfOC6BhQCd0kS2Nj6cNxec0CFHKaIjVvq9fwA=
+X-QQ-mid: esmtpgz13t1791531030te91ea3d4
+X-QQ-Originating-IP: GG4F2ullY74Zcb31mcORZE2+mBiBAStiIiUm9OvXucQ=
+Received: from LT-PANJUNZHONG.dc.com ( [120.237.158.181])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 09 Oct 2026 15:30:28 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 18415433431050836106
+EX-QQ-RecipientCnt: 20
+From: Junzhong Pan <panjunzhong@linux.spacemit.com>
+Date: Fri, 09 Oct 2026 15:30:24 +0800
+Subject: [PATCH v4 1/8] dt-bindings: usb: ci-hdrc-usb2: add
+ spacemit,k1-usb2 compatible
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] r8152: Use BMSR to detect the link state
-To: Birger Koblitz <mail@birger-koblitz.de>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: Chih Kai Hsu <hsu.chih.kai@realtek.com>, nic_swsd@realtek.com,
- Xiangqian Zhang <zhangxiangqian@kylinos.cn>, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20261005105249.1281648-1-lilinmao@kylinos.cn>
- <ee122a12-eae8-40a6-bad9-086228ae76f2@birger-koblitz.de>
-From: Linmao Li <lilinmao@kylinos.cn>
-In-Reply-To: <ee122a12-eae8-40a6-bad9-086228ae76f2@birger-koblitz.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261009-b4-spacemit-k1-usb2-v4-1-2d98e5324d9a@linux.spacemit.com>
+References: <20261009-b4-spacemit-k1-usb2-v4-0-2d98e5324d9a@linux.spacemit.com>
+In-Reply-To: <20261009-b4-spacemit-k1-usb2-v4-0-2d98e5324d9a@linux.spacemit.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Yixun Lan <dlan@kernel.org>, 
+ Xu Yang <xu.yang_2@nxp.com>, Peng Fan <peng.fan@nxp.com>, 
+ Peter Chen <peter.chen@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+ Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, 
+ Albert Ou <aou@eecs.berkeley.edu>, Alexandre Ghiti <alex@ghiti.fr>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, 
+ spacemit@lists.linux.dev, Junzhong Pan <panjunzhong@linux.spacemit.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791531025; l=1574;
+ i=panjunzhong@linux.spacemit.com; s=20260306; h=from:subject:message-id;
+ bh=vJgNan3VXHrPIUL1xi2lNNcRCVH0/pu/PtlpRHIGzOA=;
+ b=+OeOzx25lSmWLBlsntQ3Q20ZIemLbGeUyRoRTeLDri726JgjOjbjWGJ3bZMviwvhrFS2AiFOO
+ 1lQjxbCoGCqDGVZQQGnLZQ44Ppx17V3MZDMG0U4QI9PwRvH0xHMtiBd
+X-Developer-Key: i=panjunzhong@linux.spacemit.com; a=ed25519;
+ pk=bY08BOg2T9H93/jG8fEE/tVmdXoQQMp9M2rtzPFoyJg=
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtpgz:linux.spacemit.com:qybglogicsvrgz:qybglogicsvrgz5b-2
+X-QQ-XMAILINFO: Njm7hxZIEajZJSZcEk86J/60G5hi0Yq+EbXRDxVp1Ar7+Jexr3VR6JaD
+	Pdfyr1ocHCaUD6+FmvF6eaFYlAFFLLiq2SZSBhe9fX15YdtqrdwY+AvEfaTkB3cl9gQgihA
+	9aaas1v2yy3we6od3zJteVVzF84E+BrUlzTMAt0DeAZWof+s3y0ycKPfQ3blC6jbOtx/c4t
+	GyXMULxwwWknGxzm8U6ya4ehb7/n7YPYi9HrrsoTH8q+CMRZehczuKHPBk/SB5aHQhc4S2U
+	BXqYDrXpOrDwmgUVeiuQ7VPz1foADgVN7IU8A1Xo+4/u5SNZzB1ABZT6ZEryda/oQmgnHu/
+	2Mcjk0UNskvy0jW7dWSgLQCJ/4SIuhlmjmIpLIRbsBx4vN1BdPXKhTJ4YYyqz+IZtLqfMMz
+	MWsazHhDPxm6XsAwSROZaUqzIxlfP1LwFWGsL7uPNFMoa60JtQw8EI9t2vHtOLQbZpY888P
+	+nn6e8ftBCrrWjp2T4FZkRS9gdNucbF0ZpPSrI95xFJGmoMOkfH+YGdqnR5CAVp17uDLyTG
+	xtNtSb6LTK14QMaeRA42HqsfGl+fduaZx9kXc/LswvqOhRsOYLSt0wknS9ygQw0uQutFjZe
+	Boj09CGaU2aBsmapocNP8/fXJQBaco65/NfpHxUwBmcznSLZZQHw/dCb+HH0HGvtSgHUXKY
+	yhvtwtbr8T8iQZEg7rNxovQisDmfQXSTEXpw1s8gGhzqj8II/Qr4dd6O75w8o2TgYSSYSgR
+	ybIkruR+slr/gg8nl2a4Ndesr+rsRTF3463TFcNOOEhdoA7wajgJS+ySUqa+1p6JeoXTxEH
+	3tNWTh1xXMy4AxuQhUtLas4PY/0GYq5q96GUUKL71qrelfuhgiT6pIqoFnLAf7YKJRWvlig
+	rr86aYDqPiEjEl98k+S62imV/cLEmxVDS7b3Y1F2XOCTenReuR7dSGY/ioN0+af5B8DffDy
+	yiufB2HxdesamE8fkAFZFSY13t5rzctudGDXC1+O9rUiPKys37sMRH/icZ60sNbU7CbDVo3
+	9fcmNTzevIvPDr4KKGpV/fK5olcrw87N4wIdxdtATrRj6qsKxYIFEatQnKEWlibx0zlkNhB
+	JjciRsoK7P6hLAY1/F8JtCodGqF6B7OMo+XWFo+9l87FRVJYDEWuGo7z69y58N6/SeMRSbo
+	WTAXP+oTuhUGICI5iQdqQuofzqOdvh8Bc5dB
+X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+X-QQ-RECHKSPAM: 0
 
+The USB2.0 controller on the SpacemiT K1 SoC is dual-role capable but
+has no internal OTG registers, this requires flags which disable
+related features set in platform data. Add a compatible string to match
+the platform data.
 
-在 2026/10/6 2:32, Birger Koblitz 写道:
-> Hi Linmao,
->
-> On 05/10/2026 12:52 pm, Linmao Li wrote:
->> r8152 detects carrier from PLA_PHYSTATUS without reading BMSR, so
->> BMSR_LSTATUS can still be latched low when the carrier comes up.
->> Since commit f6f2e946aa4d ("net: mii: Fix the Speed display when the
->> network cable is not connected"), the first speed query after link up
->> can then report SPEED_UNKNOWN, leaving NetworkManager at 0 Mb/s until
->> the next carrier change.
->>
->> Use BMSR_LSTATUS in set_carrier() and rtl8152_runtime_resume(), so the
->> driver consumes the latched link down itself. If the first read still
->> reports link down, the next link-up notification triggers another read
->> and brings the carrier up.
->>
->> Tested on an RTL8153B with a 6.6-based kernel. In 5 rebinds and 6 cable
->> replugs, the first read returned LSTATUS=0, a second link-up
->> notification came about 32 ms later, the second read returned
->> LSTATUS=1 and the carrier went up; NetworkManager reported 1000 Mb/s.
->> Runtime suspend/resume with the link up did not change the carrier.
->
-> I have been trying to reproduce the issue with the following adapter:
-> driver: r8152
-> version: 7.1.8+deb13-amd64
-> firmware-version: rtl8153a-4 v2 02/07/20
->
-> But I am not able to do so. Both after a link-up after a plugin event 
-> and after a system resume, ethtool always reports that the correct 
-> link speed and state. Could you explain, what you actually do, 
-> exactly? Or is the wrong link information only there for 32ms and I am 
-> just too slow?
->
-> Birger
-Hi Birger,
+Chipidea USB2 Controller on SpacemiT K1 requires 1 clock and 1 reset to
+work, add constraints for it.
 
-Thanks for testing. Only the first BMSR read after link up returns the
-latched value, so ethtool shows the problem only if nothing else reads
-the PHY first. On my systems NetworkManager reads it right after
-carrier up, so a later ethtool reports 1000Mb/s while NetworkManager
-keeps the unknown speed it read.
+Reviewed-by: Yixun Lan <dlan@kernel.org>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Junzhong Pan <panjunzhong@linux.spacemit.com>
+---
+ Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-With an RTL8153B on v7.3-rc6, stopping NetworkManager was enough for
-ethtool alone to show it after 3 of 3 USB rebinds:
+diff --git a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
+index 620b564914d4..5c2b7eb1a6ff 100644
+--- a/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
++++ b/Documentation/devicetree/bindings/usb/ci-hdrc-usb2.yaml
+@@ -25,6 +25,7 @@ properties:
+           - nvidia,tegra124-udc
+           - nxp,s32g2-usb
+           - qcom,ci-hdrc
++          - spacemit,k1-usb2
+       - items:
+           - enum:
+               - nvidia,tegra114-ehci
+@@ -113,6 +114,20 @@ allOf:
+           maxItems: 2
+         clock-names:
+           maxItems: 2
++  - if:
++      properties:
++        compatible:
++          contains:
++            const: spacemit,k1-usb2
++    then:
++      properties:
++        clocks:
++          maxItems: 1
++        resets:
++          minItems: 1
++      required:
++        - clocks
++        - resets
+ 
+ unevaluatedProperties: false
+ 
 
-   # systemctl stop NetworkManager
-   # (rebind the device, bring the interface up, wait for carrier)
-   # ethtool <iface> | grep Speed
-           Speed: Unknown!
-   # ethtool <iface> | grep Speed
-           Speed: 1000Mb/s
+-- 
+2.34.1
 
-I got the same result with cable replugs on a 6.6-based kernel. The
-latch does not time out: the first ethtool still reported Unknown 3 s
-after carrier up. On the 6.6-based system, the network service of a
-Chromium-based browser also read the PHY first, so other tools may
-need to be stopped too. I have not checked your setup and have not
-tested an RTL8153A.
-
-Thanks,
-Linmao
