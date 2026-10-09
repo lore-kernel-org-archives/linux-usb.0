@@ -1,78 +1,73 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BD13AE706
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 08:17:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6703CC32E
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 08:17:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791533841; cv=none; b=J5P2Z//LptOGYJzFAb6H57DmoeSlG0P8FdoIXZ3fWatF8B43HXKglP1Dq4ZXuObiKmfw0fIPQ5W1r8jRSFrxN5a820whJJf/e7hYZ9evcOsIUpv4yNek3i+iG8mkCjZ8AYYFy+WmqMIY+diNf+lJtnGzeDvPWowLlDVPOgVptBw=
+	t=1791533842; cv=none; b=PIAvKOU3mtsqU4KejPrnREIZAZe+U0fOLWCSVY72/WtnzLsBKoJHvxzCBbO1Hriux+Dpeci6UNaOKVkCCuhRT4SrZLUWc4xZuOEhbKx6vbxzSsv4TplmRA1melb9kGbhUy3zD6yHEVpqPmNaZZ2LgObxl8ON/WjGn4FPVzVYeKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791533841; c=relaxed/simple;
-	bh=GY2gk9O/iXgDC/t0RJDCka19fSt9Juzd5+I/QLzu5f8=;
+	s=arc-20240116; t=1791533842; c=relaxed/simple;
+	bh=/KR3zfeciMLvzdrcubbd7ZMBK264d8wfJH8IVWdYv3U=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=TNG7ugBPU+tRgaNmSmyU2u/Esqcq2YV/quNh2VASZka4lPW5NUPdKmjJTKZwIizN6a1ggSm7Xc5wJu98YNBteQtHjEja7VrPADqOgaDysF7rIdwPklbuS4zSHowXiv52KnPa4PLezBRRF8Z24v2rdZ1Mv8jsE4nRAOg9DMAgQGs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mKN+wUJk; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=FgMM0lxsbUeQIjH8Lbeg/Oqv5oogbBaIa9pDEvGze68Tzvd1WhqQX00qqmeEM41+kUduASypw/eGkTEIWdkgmfgWVw3JRJRzhoTT3frbfOJIN8v5MWvIRHn1g6EuOxQt5Rrj1/f8jHOSr1g7bsQwaHvv1VAw5mU3334T1fAJ0QA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nIxo8666; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mKN+wUJk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C0A21F00898;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nIxo8666"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C97831F000FF;
 	Fri,  9 Oct 2026 08:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791533840;
-	bh=GY2gk9O/iXgDC/t0RJDCka19fSt9Juzd5+I/QLzu5f8=;
+	s=k20260515; t=1791533841;
+	bh=/KR3zfeciMLvzdrcubbd7ZMBK264d8wfJH8IVWdYv3U=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mKN+wUJkdY4gfMLIZik/lIqNIZl1tqdumsU9B9v2TnDMeq0lDtfUYvHkzE9AJEcGb
-	 +3o42USc/ER8ERDvDMjjdmKj8N1L0sSBtNdAYxziBj5RNf3xyiNHjw9mS64Ids6iSf
-	 ihi8Rknj7qw9ugoJDpiOH/mhJmVKkaohcQFS6jEevczRFj6HMno5WMMUqYb4zxQsI3
-	 CjTEjmvN404065Ln40fPffj6YGNck7xaRo3sQTXOt9URfOw8iG1D1Pt7Ju2b/+uKOc
-	 Uz3dOdDhff6kYAAc64c66f0som8YKtpDit/MW/yv/nSyMOZR6xNz/xLcEsvb00svBg
-	 53vN07k2lBJTw==
-Message-ID: <sashiko-outbox-165063@kernel.org>
+	b=nIxo8666NqljrFKG7sY9o7rEvuJD1qcN174lrXGdnkev27WKVMK7CqP33XJQeE61J
+	 0jtmJf2l2YsO8stRDz0qVOhFikjk0CMLeJe9mo89ljIxxmJENjuiV0C/vT2dWYJt0F
+	 F6VFiw7U6s3By9txFzQDlNoq0BQE4cgt0JaC590AHqzMAyz9BbJReyY+6DefRp3A8m
+	 qkNyIPSPlY4stiyS8PD27Jfz4ZoWObePecQ2OSq63eCq4pLhkndp9YPRnRGPvm80sz
+	 2US3Nx+N9ugFkVjf7jOsgGg8JtTZIkwiiNnA/+yC2N+pujzgyVOpLcoa5iPEwr2Z1L
+	 jGv+PsIVvJWkA==
+Message-ID: <sashiko-outbox-165064@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v6 04/10] r8152: split rtl8156_enable/up/down
- into per-chip-family functions
+Subject: Re: [PATCH net-next v6 07/10] r8152: add rtl8157_unload and
+ rtl8157_change_mtu
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261008081556.47901-5-nic_swsd@realtek.com>
+In-Reply-To: <20261008081556.47901-8-nic_swsd@realtek.com>
 References: <20261008081556.47901-1-nic_swsd@realtek.com>
- <20261008081556.47901-5-nic_swsd@realtek.com>
+ <20261008081556.47901-8-nic_swsd@realtek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2026 08:17:19 +0000
+Date: Fri, 09 Oct 2026 08:17:20 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> rtl8156_enable(), rtl8156_up() and rtl8156_down() had accumulated
-> tp->version range checks to cover RTL8156, RTL8156B, and
-> RTL8157/RTL8159, including an early bail-out in rtl8156_enable()
-> that skipped most of the function body for RTL8157/RTL8159. The
-> result hides which settings belong to which chip, so chip-specific
-> register differences cannot be reviewed, and cannot be added without
-> touching the other families.
+> RTL8157 and RTL8159 used rtl8153_unload() and rtl8156_change_mtu(),
+> which program power-cut and MTPS the way earlier chips require. Per
+> the datasheet, RTL8157/RTL8159 need r8157_power_cut_en() (already
+> used by r8157_init()/r8159_init()) instead of r8153_power_cut_en(),
+> and an MTPS scaled from the configured MTU (10K-16K, max_pkt_size /
+> 64 capped at 0xff) instead of a fixed MTPS_JUMBO.
 >=20
-> Give each family its own ops callback: rtl8156b_enable() for
-> VER_12/13/15, and rtl8157_enable()/rtl8157_up()/rtl8157_down() for
-> VER_16/17. rtl8156_enable() keeps serving RTL8156 (VER_10/11) and
-> rtl8156_up()/rtl8156_down() keep serving RTL8156 and RTL8156B
-> (VER_10/11/12/13/15).
+> Add rtl8157_unload(), used only by RTL8157/RTL8159: calls
+> r8157_power_cut_en(tp, false), then the Interrupt Mitigation disable
+> that rtl8153_unload() used to gate on "tp->version >=3D RTL_VER_16"
+> unconditionally, since this function now only runs for those
+> versions.
 >=20
-> Each extracted function reproduces what its chips already did, with
-> the guards that were true for them inlined and the ones that were
-> false dropped as unreachable. The one judgement call is
-> r8156_fc_parameter(): its "tp->version < RTL_VER_12" guard becomes
-> unreachable in rtl8156b_enable(), so the call is dropped rather than
-> carried over as dead code.
+> Add rtl8157_change_mtu(), also RTL8157/RTL8159-only, and wire it up
+> via ops->change_mtu in place of rtl8156_change_mtu().
 >=20
-> No functional change intended.
->=20
+> Fixes: fd3c7d080df5 ("r8152: Add support for the RTL8157 hardware")
+> Fixes: ad2a55b63b41 ("r8152: Add support for the RTL8159 chip")
 > Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261008081556.4790=
-1-1-nic_swsd@realtek.com?part=3D4
+1-1-nic_swsd@realtek.com?part=3D7
 
