@@ -1,216 +1,78 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32CBF4854E5
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 08:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43A6B31BCAE
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 08:17:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791533557; cv=none; b=NXiyHa+e+83Odj9ZwhTOo8pL6q8RRy/bULES3b5zJ/VHHKtJ6vpLDmBl3TzzO6Lu8fQ1YiY0iZ1wKebnthAeYZ85IpJ/U8RhLtGnCjAnDYgVPicIufqJAP8eYI2FDtwULnYBL01W4u+tTN8CEc+v7CTnGoC2eLOvd++H3c1xFgk=
+	t=1791533840; cv=none; b=PSkq2bbSnLZBqXSf5a7IHpGVjr8Bv4CYoEmDM6rLV+5h1T6WqjKgy+6p6bkVXtB1wRXPY0bYqew0lfRqyZDJX4La5BM8BHwddtsLupTIltyJo80XmbuyLz69g6Guft9ilUlguCRDWCyCO6j12xIYPtSuVYVY+N190x0e97m1AoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791533557; c=relaxed/simple;
-	bh=4F+TSlbYkXT2ClJWEr5D0vOHM76ADdsVyCS4YgVNFb8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=CVTyN6PJvVYMxkGrla4/1qF7ubxObgEdTU5/Ybcjk1zMSvFnaAQvS7M/dU3XI84JuHScDCCN+Yj6FlhjP8Wq90cs14AaZQlmPUCDiRqkIJMfwBlgj2ePTBvpyMBV6l7qbGZt8RBZFEDUIntv2dnscspo/gMnZhqesYiywDwK4jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g0PvZoR6; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791533840; c=relaxed/simple;
+	bh=6wgWE2BkcxaHtc/A69uTVoqrl4PrvEO/nsURf8x/Q24=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=JXsInWanEU4izhlWVuspWeQOrFaZ2Lu0Wf9MbUHE22tnLJEcKL4CnnrzMnNWHEHAAdRRPRXEDoUN8lbymGkqKrmDr7K676k9U3cd5YWqhYgjENyN12/1FvPVZ9bMyAB+aqnWjEtPVfC3/CosgEbx8SnZxm8sVJRqyLu5m1MY15Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lifjwEm9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g0PvZoR6"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a0286c981dso54965255e9.2
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 01:12:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791533549; x=1792138349; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=trUwtHSfgnebdrDRGmzA04LycFSBQ2s2lc/J18OXkXY=;
-        b=g0PvZoR6o1yy/4AXGpoOwM/K3T/gEoYOmuoPpYiFiTluh2eTrmOHaii9k6WS9R9/lL
-         rcwiVfowp9DLzC8MqsgNXgJBfB7n5zLSVzfCkRb0RDjk4jUO2sa7iyeI9BEuvCpv8J+q
-         rEczli8uMOUsmw51JU5kvLppOTNdk6zGFxp3aji2E5eaZMwFqcPLiLtOKavMUe9KJxSG
-         d7qEYO6oimt45VLQ0I0ruf0MfnZowAqKrwPrHN5JCn8pU4zpGGr0qH3Y25SYqfWT0Kqm
-         rsa7AFeZj/t3xq/+YGyDnsdHhdDgrBTY+pvTi2gi0pYM32IgfuXgwxGbpkV4KaJ7XSgL
-         4QPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791533549; x=1792138349;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=trUwtHSfgnebdrDRGmzA04LycFSBQ2s2lc/J18OXkXY=;
-        b=1DbHK9JxJ+uXnN8DguRbbWAQHC/eDArCH89qFbvZWqidAS7A5QqORpwk1hjKfJ2YBv
-         NkF3IQoGXfwRgSz530OEZE7qpZNRrQdbTMpr9wGq1eVbka4KxGc0rtfuePrRWd8hmHVG
-         wZyxYWTMM7pGtvUB3VHoqAtb9X4rOp0ayKUxXolFR5ihE1fy4Qec2xz878XBidClsdzG
-         Ge4kvkVKxq96mil0SOqFsCcBHfMCFCeuLZFQdrYXE2PhuMM4E+/IpNrLWNzu/hcQdCKd
-         Onaqu9M3QwL0dnjItEknWatK7e8Xl1cO+Ymzs5NrSNTekyeHaQHNLcCx++5MA8yZYQt/
-         hgtw==
-X-Gm-Message-State: AFuF++nBajqBc+Tp58GQM5kXwPqxMss5ulbfZ4URzv+RU6ohZlRkrQBD
-	bgujHn2vFhp4siDmVowLfMD+sPpkWoJcVUyYz4zHAaYm12qppyjl1rbycwPizyof
-X-Gm-Gg: AYBFou1PnFpe/2I5DCgKQ5ZyB53C4T888WSVRNC/3xmlK3iuU2zt6J2vjhIwv2iAObF
-	5xoPv5f1omOhys1gA9pdzo/zA3TB1UtPT68oR0JJdz4mFycReZNe6tdmTqtKEWUUSqvqGbn4+ps
-	hE5tWA0iBetY1F9V9cyXH4gTJWFxGF/40STMyhrUmAYPzAf3oDmyq5d8BBNV0j0q//4pHVAg5u8
-	thQnE9Hu1c6XrXi1cqJo//FRqTGO8EhQuo9zzPop0G0/68LmgpvOihbJbJ3/oXwlnxXMQvTlueq
-	mqEqPjcDQD5ZLYsa0PD7gD8xTUEQXGd9s1EYEIVnoI3seHE2/5OKA54BJAP4wACpVAFeTtzT35F
-	/q6Cb5vzz1IX+L8N5ca9dfvfdNdYDXzzccTqsBwNvtURfD2XtB9uQ/yGclWARXnkUGRtgY1byYG
-	irgUVyd5875VPVjxZxs5p/IX/ZnkDD6WK3d1ocDR4sBE9eWIlUDPPSu28fgdaYcie4VnuoD+Fm0
-	svDDOScb8shaXApd2XtNLHk2Fp4slNNq3h65S07FG/pCwWqhxA1mY3opqYhwq4kOV1K6Q==
-X-Received: by 2002:a05:600c:8b65:b0:4a1:742e:3 with SMTP id 5b1f17b1804b1-4a18e4ca244mr18440125e9.27.1791533548960;
-        Fri, 09 Oct 2026 01:12:28 -0700 (PDT)
-Received: from darkstar.tail74c586.ts.net (mob-31-158-7-150.net.vodafone.it. [31.158.7.150])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db93d6069sm2405577f8f.0.2026.10.09.01.12.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 01:12:28 -0700 (PDT)
-From: Luca Cecchi <luca.cecchi.info@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org,
-	oneukum@suse.com,
-	stern@rowland.harvard.edu,
-	Luca Cecchi <luca.cecchi.info@gmail.com>
-Subject: [PATCH v3 2/2] usb: uas: add US_FL_QDEPTH_075 quirk to cap queue depth at probe time
-Date: Fri,  9 Oct 2026 10:12:25 +0200
-Message-ID: <20261009081225.304319-2-luca.cecchi.info@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261009081225.304319-1-luca.cecchi.info@gmail.com>
-References: <20261009080341.295646-1-luca.cecchi.info@gmail.com>
- <20261009081225.304319-1-luca.cecchi.info@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lifjwEm9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D965B1F000FF;
+	Fri,  9 Oct 2026 08:17:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791533839;
+	bh=DxITaySOHWIl6Rlz3ODOcF5hpiY2d1v6+D6Cqjygxqc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=lifjwEm9DfeiAYqNz4lYT32w9dfAKOqeUoC7iPpLe7BdgmUbSGIA9eyjZTl5RlvPv
+	 Xn5GYJbYLWJtOXw1+8W5kXgg0JFPT0j5n8KaUDik+jI/tniCA6451kZw00q34IdS+e
+	 IKMJlyRnbp4oUmgdIHkOGYNDahgSrHan3ahRkAt3FYG4uyihM1jJqj33rGKe+G0wJG
+	 RoNIE8Sr2D7ayd0EFhi9N53/YWJ7pH0hfvH9+LYwOWyvIzuQvyV+Ipfg7SsPS9JrUI
+	 ZlAN36rvo6yg8yqIb08hocxiQnaAgMncIaqnRKrkzdqMj6jINIG5WDUBl2kKDT49nH
+	 HXD01XIAN+o3A==
+Message-ID: <sashiko-outbox-165061@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v6 02/10] r8152: add new init writes for
+ RTL8156B/8157/8159
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261008081556.47901-3-nic_swsd@realtek.com>
+References: <20261008081556.47901-1-nic_swsd@realtek.com>
+ <20261008081556.47901-3-nic_swsd@realtek.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 09 Oct 2026 08:17:18 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The previous patch in this series ("usb: uas: implement
-.change_queue_depth to allow per-device queue depth override") lets
-userspace lower a device's queue depth via the standard sysfs
-attribute, but only after udev has had a chance to act. That still
-leaves a window between probe and udev's write where the device runs
-at the full default depth.
+> Bring the per-chip init functions in line with the vendor init
+> sequence by adding writes the shared r8156_init() never performed.
+>=20
+> - Clear PREBOOT_OPTION and RMT_WAKE_EN in all four init functions.
+>=20
+> - Add r8156b_u2phy_backup() for RTL8156B.
+>=20
+> - Clear AUTO_SPEEDUP in r8157_init() and r8159_init().
+>=20
+> - Disable interrupt mitigation (0xcf04) in r8157_init() and
+>   r8159_init().
+>=20
+> - Clear the Warm RST / Bus RST event flag (0xcd06 BIT(11)) in
+>   r8157_init() and r8159_init().
+>=20
+> - Clear the FW u1u2 patch option (0xb9a6 BIT(0)) and enable the u3phy
+>   patch backup (0xb9a2) in r8159_init() only.
+>=20
+> - Clear RX_END_TRANSFER_EN (0xd406 BIT(11)) in r8157_init().
+>   While it is set, incoming packets are buffered in the RX FIFO and
+>   Bulk-in transfers are suspended. The bit is zero by default and
+>   isn't used now. Clear it unconditionally for safety.
+>=20
+> Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
-This adds US_FL_QDEPTH_075: it caps can_queue to 3/4 of the device's
-reported maximum directly in uas_probe(), closing that window for
-devices that need it. Applied here to the Lexar ES3 enclosure
-(21c4:0003) from the previous patch.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-v3: Sashiko AI review found two real issues in v2 (first version of
-    this patch, sent alongside v2 of patch 1), both fixed:
-
-    - [High] US_FL_QDEPTH_075 is bit 32 (0x100000000ULL - all 32 bits
-      below it are already allocated upstream). UNUSUAL_DEV()'s
-      driver_info field is kernel_ulong_t, i.e. a 32-bit unsigned
-      long on 32-bit arches - storing this flag there would silently
-      truncate to 0 at compile time, disabling the quirk on 32-bit
-      kernels with no warning. Confirmed by checking
-      include/linux/mod_devicetable.h's usb_device_id definition.
-
-      Fix: dropped the UNUSUAL_DEV() table entry for the Lexar device
-      entirely. uas-detect.h's uas_use_uas_driver() already has
-      precedent for exactly this situation - the ASMedia/Seagate/
-      HIKSEMI checks there match idVendor/idProduct directly and OR
-      the flag into a local u64 variable, never touching driver_info.
-      Added the Lexar check the same way. devinfo->flags itself is a
-      plain u64 with no 32-bit-platform narrowing anywhere in that
-      path, so this sidesteps the truncation entirely.
-
-    - [Medium] the 3/4 cap in uas_probe() unconditionally overwrote
-      can_queue, which could raise it instead of capping it for
-      devices with a small qdepth (e.g. qdepth=4: the existing
-      default is qdepth-2=2, but (4*3)/4=3 is larger, defeating the
-      point of a cap). Fixed with min_t() against the existing
-      qdepth-2 value - this quirk may now only lower can_queue, never
-      raise it.
-
-    Re-validated on bare metal with the same Lexar ES3 unit after the
-    drive turned out to have been thermally stressed from several
-    hours of back-to-back testing (confirmed by reproducing the same
-    command-timeout/reset behaviour on Windows with a completely
-    different driver stack, UASPStor - ruling out the driver/patch as
-    the cause). After letting the drive rest:
-
-    - Confirmed the quirk applies on its own at probe time
-      (queue_depth=24) even with the udev rule from the previous
-      patch disabled, so it isn't just masking a udev race.
-    - Two 6-minute runs of the original load test (24 sync writers,
-      randwrite, 64KiB, direct=1): 840-843MB/s, zero
-      uas_eh_abort_handler/uas_eh_host_reset_handler events.
-    - Same test run concurrently with a second USB flash drive under
-      load on the same controller: no effect on throughput or
-      stability.
-    - Unplugged/replugged the drive mid-load: in-flight commands were
-      cleaned up correctly (uas_zap_pending, no hang), the device
-      re-enumerated as SuperSpeed, uas re-bound, and the quirk
-      re-applied queue_depth=24 on the new probe without any help
-      from udev.
-    - Mixed 70/30 read/write load: 614MB/s read + 263MB/s write, zero
-      events.
-
-Signed-off-by: Luca Cecchi <luca.cecchi.info@gmail.com>
----
- drivers/usb/storage/uas-detect.h | 13 +++++++++++++
- drivers/usb/storage/uas.c        | 13 +++++++++++++
- include/linux/usb_usual.h        |  2 ++
- 3 files changed, 28 insertions(+)
-
-diff --git a/drivers/usb/storage/uas-detect.h b/drivers/usb/storage/uas-detect.h
-index 4d3b49e..5dd52d6 100644
---- a/drivers/usb/storage/uas-detect.h
-+++ b/drivers/usb/storage/uas-detect.h
-@@ -129,6 +129,19 @@ static int uas_use_uas_driver(struct usb_interface *intf,
- 			(udev->product && !strcmp(udev->product, "MD202")))
- 		flags |= US_FL_IGNORE_UAS;
- 
-+	/*
-+	 * This Lexar ES3 enclosure locks up under sustained deep command
-+	 * queueing. US_FL_QDEPTH_075 doesn't fit in the UNUSUAL_DEV()
-+	 * table's driver_info (kernel_ulong_t, only 32 bits on 32-bit
-+	 * arches - this flag is bit 32), so it's set here instead,
-+	 * same as the ASMedia/Seagate/HIKSEMI cases above.
-+	 *
-+	 * Reported-by: Luca Cecchi <luca.cecchi.info@gmail.com>
-+	 */
-+	if (le16_to_cpu(udev->descriptor.idVendor) == 0x21c4 &&
-+			le16_to_cpu(udev->descriptor.idProduct) == 0x0003)
-+		flags |= US_FL_QDEPTH_075;
-+
- 	usb_stor_adjust_quirks(udev, &flags);
- 
- 	if (flags & US_FL_IGNORE_UAS) {
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 1b65e03..4cdf7f8 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -1067,6 +1067,19 @@ static int uas_probe(struct usb_interface *intf, const struct usb_device_id *id)
- 	 */
- 	shost->can_queue = devinfo->qdepth - 2;
- 
-+	/*
-+	 * Some bridge chips lock up under sustained deep command queueing
-+	 * even within the margin above. For those, US_FL_QDEPTH_075 caps
-+	 * the depth to 3/4 of the device's reported maximum at probe time,
-+	 * closing the window a udev-triggered .change_queue_depth write
-+	 * would otherwise leave open between probe and udev acting. Take
-+	 * the min with the existing margin above - this must only ever
-+	 * lower can_queue, never raise it back up for low-qdepth devices.
-+	 */
-+	if (devinfo->flags & US_FL_QDEPTH_075)
-+		shost->can_queue = min_t(int, shost->can_queue,
-+					 (devinfo->qdepth * 3) / 4);
-+
- 	usb_set_intfdata(intf, shost);
- 	result = scsi_add_host(shost, &intf->dev);
- 	if (result)
-diff --git a/include/linux/usb_usual.h b/include/linux/usb_usual.h
-index 712363c..b436c34 100644
---- a/include/linux/usb_usual.h
-+++ b/include/linux/usb_usual.h
-@@ -88,6 +88,8 @@
- 		/* Cannot handle WRITE_SAME */			\
- 	US_FLAG(SENSE_AFTER_SYNC, 0x80000000)			\
- 		/* Do REQUEST_SENSE after SYNCHRONIZE_CACHE */	\
-+	US_FLAG(QDEPTH_075,	0x100000000ULL)			\
-+		/* Cap UAS queue depth to 3/4 of device max at probe time */
- 
- #define US_FLAG(name, value)	US_FL_##name = value ,
- enum { US_DO_ALL_FLAGS };
--- 
-2.55.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261008081556.4790=
+1-1-nic_swsd@realtek.com?part=3D2
 
