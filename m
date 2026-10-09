@@ -1,123 +1,80 @@
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25EF83CB2FD
-	for <linux-usb@vger.kernel.org>; Thu,  8 Oct 2026 23:57:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791503858; cv=pass; b=iW5yTkMoScg48dk/P1B7j9lVFNClUoKjQqc5H7+84smyRc9+pH7NQ7uSU1YV+i0EWVnEJtTwg9AJk8wipl1Z0Ya6XT1b9AMv7uA5rMa3puZmh7/+0AuGXi6VC/Jaabiu/wN/EwZ7k/fBqX+G1GqcG3kaDXXdejfoldw3SxZl2OQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791503858; c=relaxed/simple;
-	bh=3n/tPueCPJNh8Cjq4ztDuce9BKsfPerDfH+SbmGQw/Q=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=U4Upmsm/C4Ik9A8Z+XHcZbh0OX3qw8ee3BikVBZ2UrWlfWNEEmKloS13Q/wbJ6+9ojAYkFkdNhr8Fs56tMJUHe8dz9GgQK3WpDpde4BPIis3ynq+/7aej5oc/ncjyWxm2dUraUBSVKWdHdYylGtivIxd2+nI4kBOWgGOWgAh2VE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SDEXEjY2; arc=pass smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1582494827;
+	Fri,  9 Oct 2026 00:00:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791504008; cv=none; b=tZBTbR6zAR0kreVVyIEHF+mIUFn3AXaAqUzJJ4hqkNHTE6dnzOSVf9koA+8QkMeiMPjsVkSDZwugvqWT4pUZzYPoC0mutLArQ+NPCnQcckGf9+xj5DWaO55ohPgud8OIMilE7mtUFZgdXfRg1tlT4ltRZ3P490qsHVgVAUn1qXg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791504008; c=relaxed/simple;
+	bh=YvqnESQnZp0zT05Cgyaf2DA/xtvgT7CfncX0itzo4+Q=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=alJ+ExVh1C5fY6C6qfeDTxnRHr/norhjJDZgeGXMUzDy0uXL8pks3QIx7YqQR9sPT/qg9cTcOArRo/JyOlRHZ93+dX5PjL/K4SQ6q6pe4xUq4X3M2MjtxQVf9qUgqh+rOsoauIM2quc0H/9x/pn6fkRom3QTcu8wS2nzmXbfXeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RCFu78rA; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SDEXEjY2"
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6afbc363efeso7324746a12.3
-        for <linux-usb@vger.kernel.org>; Thu, 08 Oct 2026 16:57:36 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791503855; cv=none;
-        d=google.com; s=arc-20260327;
-        b=A5U++fcQ6VG1w8UdSuOZUa6p1FmLigvAa77BuBK6NrZghTp+vxN+IzdtzKjpC0DVBO
-         RKJZLJgIqhSTtsf400J4g3LXgFcxMgo+nknHOiN0Rflj/d6uEplmLwvQjElwRXHpWiie
-         DK3QQ8e9CKHL9KoBQT6+D61B3302cQlxGC7z/eEKf/XHTn9QnSLI/WKc+YXKdHTHIBuz
-         uTNYWCOr8H0yBuESnkrIETus/J4qLwrFJLqWcxaHIQ20Osy7BS3yVVw+IY8VXNuXumTM
-         /L69SoR287ebiai3vHmfedT0/7WxwF91c+K9hSY/qdtGFTu/fdxCS6tN03RfmQ5Rt603
-         y8wg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=3n/tPueCPJNh8Cjq4ztDuce9BKsfPerDfH+SbmGQw/Q=;
-        fh=VimqKRrJCN9rdcfuq5onff2+63396vNbthBTDDSyxg0=;
-        b=ipUFnZYeY9FEp66l/4S5LrD0wh1b8H13FHB4VyzglqI+VSVqW/0QSB34JTk8OqgL1m
-         mu4qEw0zCHrNyeerX683YE5VmDjGQMy2XEV0cbmK+4j0JzuOowM1s1yO9i74Z5kPND+o
-         wPtBTDM+4MXtWaRWCRXRm8CrwXmoYQBK/b2bQhpJb+kION8BO3rOsvN7qoWSXwpVlHgM
-         WD3UCQ0ShVyz0WISPxXn3b7qgsgcWgArhQElV3HvNbRXAeBxWUsFBxa+pYSwGowKjOmT
-         HOOWvptwTD6P6mD+9DD+pMVYbF8BaP0ZlZfsLZzj5xf9MelGENPagSsIBTGXG0I3aYJr
-         skYA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791503855; x=1792108655; darn=vger.kernel.org;
-        h=content-type:to:subject:message-id:date:from:mime-version:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=3n/tPueCPJNh8Cjq4ztDuce9BKsfPerDfH+SbmGQw/Q=;
-        b=SDEXEjY2aXuq8BSkm5zi/wJ4PtHjuk4CPwk24R6CY62NLjdGLsgBv4kcXmyekcj2mC
-         a5aLctLKnJdI4E+FkNVH68OBGzhV39nlQKGDfuUlMya02RPZzAxePh/3kXF/4oz3XuSr
-         44ZzkicyLPmeVx7Ql51niPeh/S6eAD4IQEJwUhfgCQT1HnepyYcYoZ44+k4tzdJ5qGFv
-         Qzd41M+OKP7iqQGh+PQlluHSzP3OyMu/eBuDdJyqJGPUcg3VjczwjRlh/TFCkQb6M0jX
-         EHXrqSHg7Lr8qAfvcMDq5zsyjS9CYb5Wkrc01BI5JJ9ihWThS2YJBuEz0Ew1+yvPaOoX
-         H2wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791503855; x=1792108655;
-        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3n/tPueCPJNh8Cjq4ztDuce9BKsfPerDfH+SbmGQw/Q=;
-        b=YDtkAIZ9+L1eIyGD5GAUsLZuPzib9wFORENllTrDkp8REA0SlbZU+K31bZgAHXPrFy
-         uEROCgcaOBN+5WgWWn3rotnIJGjrh8JmMY8ppD8WbJLx+Zk1Ls0akye05cRCPEUjQ7co
-         RPrA21jINoUofS8HYgEuunIiUGlKSF0BD2jnMkAl5XkL6VCIYGoeEtuLnLiyMpR82F9/
-         0F5wyhl3t9FeSG5HQk0iR/t0IfNug+8DxRkvYaZxmIWWZZT+SVv5dLVRdqjoO08cNFD9
-         Wz7yiL2ayjspFoO2K2kUSVgAeVfVxuYusMRxB++qycZOd78s+4+uovmAF3lbbcqcOF9Q
-         QRjA==
-X-Gm-Message-State: AFq9FYJn2qX0cbdeqLaCoI/VMm1ULbUahTtncDCPLm/00XiDRtGq59Me
-	O7p1aSUyGxakDTfY4nf0iE1ITuCaoIHKP10yaFx2dfHNzJHtu6jjGT1rkR12oTlICk7yU+9SdwQ
-	w7l2/9b7+xACFZuUOc4ui3kRZvHX8aijxm58=
-X-Gm-Gg: AYBFou2X8ScdcsrTSXO9XN91FcxB+zfOGmzbQVVXVmN7uwmcJ/9A0kv6hdY8iDRk7Ex
-	ZwuHCFkm8K+aNGC02vioGLoypcdLe2E+6zpe5FL6epahKy6S7Aj4XQI0BCuGS6zZlOxIpl3q8hl
-	qDAMUjQL6NGBvpPTQaCRxgtV+QxjH1S1ZBg0c6+Ue+myQPivtv8nJt6kEKxihPkwiRpbEz1E466
-	CR+I2tX7Xgd5kecuzmYlDLNvcfTZJHwFYhImm+lQGVxJ7zxSg83r+Wp/feYJDnVvrJMPxU+7oWN
-	+cueQ/dPIkN29ifvEfscZjhQp9GHCXbmKSz4qshch8korAsb7q8xay9BqDJP0DsNOA==
-X-Received: by 2002:a05:6402:5107:b0:6aa:f14f:5571 with SMTP id
- 4fb4d7f45d1cf-6b17c4f029amr14296a12.45.1791503855044; Thu, 08 Oct 2026
- 16:57:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RCFu78rA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 836071F000FF;
+	Fri,  9 Oct 2026 00:00:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791504007;
+	bh=+IyQ828IGEywIAqnUI//pAfQALlm2qhiGWwrh5Y9DDQ=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=RCFu78rA8pcx1es0cJQNQb8yLuEeG2KHRyALydceKAxDdKmN1eS2TcZMOzNnN+Yt2
+	 F2Hsy7K/GB0acAVynoytVEJ7gz12exuzbwBd3dy+TKVfSkBKNf9XDNwJBdEz2ACbVu
+	 wmVG+IDP8Qr2acvYxfEOZZY5mn4tDV8c90e9knBDqIb2cpknSyg0ea5sg0K/jafxhU
+	 Cud8/pM1XwjQZkQmZq+bIS7TnOGSgn0LLMnh47j5bKp0ULwE1SewhXdHfcLN+JBGvI
+	 7JP7Nzc+ToaF7/y9osPHjwQWk841J6+n7m/PBK1JckAFQoCdCScKEEM+DfLXvhXjkd
+	 muV89TOOMXhSg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 774BE380AA60;
+	Fri,  9 Oct 2026 00:00:07 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Karoly Negyesi <chx1975@gmail.com>
-Date: Thu, 8 Oct 2026 16:57:23 -0700
-X-Gm-Features: AclHuK9wambkTwH5RVlA2_kjzEtADIj_7SXBHFTCWdJLBE_Qh5YErnsIddNZYGY
-Message-ID: <CAOfzkkyv44DkobQ7D8Pf=4-dKW16aCJwViVWfHTA9v2phxRHZQ@mail.gmail.com>
-Subject: Thunderbolt networking doesn't come back after re-dock
-To: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] rndis_host: enable RX aggregation for OnePlus Nord CE
+ 2
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179150400601.486235.366656655922837646.git-patchwork-notify@kernel.org>
+Date: Fri, 09 Oct 2026 00:00:06 +0000
+References: <20261005074852.76818-1-asrokasjuras@gmail.com>
+In-Reply-To: <20261005074852.76818-1-asrokasjuras@gmail.com>
+To: Rokas Juras <asrokasjuras@gmail.com>
+Cc: netdev@vger.kernel.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-Hello,
+Hello:
 
-I have a ThinkPad P14s G5 on CachyOS, a Plugable USB4-HUB3A and a
-Macbook M4 connected to a downstream port for Thunderbolt networking.
-This works until I undock and dock again. Then I need to unplug the
-Mac and plug it again. Then it works again. (I also have some plain
-USB hubs chained but hopefully this doesn't change anything.)
+This patch was applied to netdev/net-next.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-Here's what journalctl says: https://termbin.com/xhiwp Linux is 7.2.6.
-The docking starts at 11:15:11 and finishes at 11:15:14, I unplug the
-Mac at 11:16:58 and replug at 11:17:04. I would say the interesting
-part if any is the undocking at the beginning because during docking I
-see all of the following coming back without errors:
+On Mon,  5 Oct 2026 10:48:52 +0300 you wrote:
+> USB tethering on the OnePlus Nord CE 2 (IV2201, USB ID 22d9:2766)
+> running Android 13 has download speeds of approximately 2mbps
+> with the default 2048-byte receive limit.
+> 
+> The phone's published RNDIS code only enables packet batching
+> when the computer reports a receive limit above 2048 bytes.
+> Testing shows that increasing this limit to 2560 bytes
+> restores normal speeds.
+> 
+> [...]
 
-1. the PCIe hierarchy,
-2. the USB4 hub,
-3. the retimer,
-4. the USB Mac,
+Here is the summary with links:
+  - [net] rndis_host: enable RX aggregation for OnePlus Nord CE 2
+    https://git.kernel.org/netdev/net-next/c/f688218baa71
 
-Only the MacBook Thunderbolt router is missing. Only error-looking
-messages I can find is "pcieport 0000:00:07.2: ASPM: current common
-clock configuration is inconsistent, reconfiguring" and "pci
-0000:51:04.0: bridge configuration invalid ([bus 00-00]),
-reconfiguring" but as far as my knowledge about USB4 goes, Thunderbolt
-networking is not PCI related.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-enp0s20f0u1u3 and enp0s20f0u1u3i2 are Apple Ethernet adapters using
-cdc_ncm. The real, missing interface is thunderbolt0.
 
-This is a reproducible failure. I would be happy to cooperate in any
-way to help fixing this except perhaps coding it, been a few decades
-since I wrote any C :)
-
-Thanks
-
-Karoly Negyesi
