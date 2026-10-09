@@ -1,80 +1,241 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2689A312831
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 13:51:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 405C92C0F6D
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 14:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791553916; cv=none; b=bEHOyKtb0GFpxGQQWbsz1NddbPLYkWC9+mwlcTxss33C2zpKTSFG6e0R8E3fzc6yi16czrYRPucqfrdJxItWJLs+LOSRYQk19cZLSO8Xe1ucOlax+jE1wiCh0/GdO5oiwgSSAFqndrjm24p7a+MIXfCZPCnInXKay7iqPZyOWRo=
+	t=1791557566; cv=none; b=oml7TRRdI3Q+2CJ+doVrinCPRq6g9BwIVbXNHTgC2reBxwPaooSTshVi1w5c7yWiwKy7/WD8itsEB+UpuII1XXzQ5/ccWI4SNlGTEBUd3/9neWVOohqD6Bk/b0r9YgvcG6nHKwZ5ni/RO/5vFNpVfcQliCufJsqUyJw46iOcao0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791553916; c=relaxed/simple;
-	bh=49V4zcK+HTpc2iGBGWm1M2sqyf6gQVX0ZRk8D66h4TA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tZAZJe5WdqLDBShEWk+IDy48BfWEnunTbN7iJKLvxHZwBJKVprDh5F91A/p5KBnH2y/39vSj6vf40o0ySIEz8JFd8nWMtOyZ3bZZ2VLyWePcGq/1u9v4cszT7SCGwWGUYfh+2Zfb8mgeLFPIGTZE0/XBkGrqnLkGVV5tDecswtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=OQYeaw3w; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791557566; c=relaxed/simple;
+	bh=j/W0rjMStjXwrznsrjwLG2IWM+mP8O7kgmoVpAqOLYg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Y1Wx/ToJq0J/i1MCHA8vU2aOyTNYzPwU/hRLF4KzMxLEzvW0QiywMohaQNRcujnJTpexKXsEP9kgFEHDF4CyNWXhDYBQ1bXTCk8tPhwC/xRtIqof0tbd7YSLyzxqRmWT/Qju+ttTLm3Bv4Wr1Ire4vYyUXZ7G/SDCr3wJEdUvNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AsmJQNfK; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="OQYeaw3w"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADA491F000FF;
-	Fri,  9 Oct 2026 13:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791553914;
-	bh=rkurvKRzgnka3UMfw49oKp1a8mIe0zhby1y//fJ8MxY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OQYeaw3wl9XaA/yfBXF4PBShVnp6c7SiwRuyBU/K424YVybZ+Ql1r77zpxZaKh1dR
-	 QIWjr+4U9YXYdxTXYj5335aVH5ek6oG2CBUX2vuLat+0xr1RXBNgH7yz0SWV2Giu9C
-	 3SZzEptVgEaQNxS+MWtQMmG7P/NSoVVTWiIaHp+I=
-Date: Fri, 9 Oct 2026 15:51:48 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>
-Subject: Re: [GIT PULL] USB4/Thunderbolt fix for v7.3-rc7
-Message-ID: <2026100936-flagstick-semicolon-e1c3@gregkh>
-References: <20261007115859.GR176164@black.igk.intel.com>
- <2026100738-duct-antitoxic-1605@gregkh>
- <20261007131318.GS176164@black.igk.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AsmJQNfK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791557564; x=1823093564;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=j/W0rjMStjXwrznsrjwLG2IWM+mP8O7kgmoVpAqOLYg=;
+  b=AsmJQNfKB0lqunvNJlRJZRjmYC137ymACr0Epeutaf9vwdVgb07uSpTI
+   tip58JE/fccdqrYG/DeZXxVyn9vlGOrmHh8MOBGagewaZmGeZXNG/d/2g
+   3wuf/ml9xKIuCmfLQ5lctlAWF/BbvcBcMRO+ajrGSjNOJDpXz10Vn2Wyc
+   px/JsiEuT3DyDRxRqnINbKlpkuBp3WYcMmUaxTMS/B2viu6VhJBWPe7Ah
+   GU/WQzfwafFqAoLb3EFEPdH8xda6CXzce8viO0yKhfrgfVF2Dp24aghp7
+   jg5DdJjtc5KZdnXsG8hSiFRZjLhpjkApCEhvnn3x4DN2IyaIAJWcZfoU/
+   g==;
+X-CSE-ConnectionGUID: l8pVbqV1QcWeJDiUsCXYnQ==
+X-CSE-MsgGUID: UlfSDHHVQOaEH30Kj/dBhQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11930"; a="263597"
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="263597"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 07:52:43 -0700
+X-CSE-ConnectionGUID: Qe6ZRDtxSHCTqViaRVuDnQ==
+X-CSE-MsgGUID: 6Vt01TD9QnuHGjRf0IPSoA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="263218"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.244.17]) ([10.245.244.17])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 07:52:42 -0700
+Message-ID: <b74c1110-6c36-4863-a40c-5a515e3ed107@linux.intel.com>
+Date: Fri, 9 Oct 2026 17:52:39 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261007131318.GS176164@black.igk.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 01/14] early: usb: xhci-dbc: Handle out of bounds
+ xhci-xdbc capability
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-usb@vger.kernel.org, Umang Jain <uajain@igalia.com>,
+ Greg KH <gregkh@linuxfoundation.org>
+References: <20261009095834.561578-1-mathias.nyman@linux.intel.com>
+ <20261009095834.561578-2-mathias.nyman@linux.intel.com>
+ <sashiko-outbox-165202@kernel.org>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <sashiko-outbox-165202@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 07, 2026 at 03:13:18PM +0200, Mika Westerberg wrote:
-> On Wed, Oct 07, 2026 at 02:58:06PM +0200, Greg Kroah-Hartman wrote:
-> > On Wed, Oct 07, 2026 at 01:58:59PM +0200, Mika Westerberg wrote:
-> > > Hi Greg,
-> > > 
-> > > The following changes since commit 395e9f2967a7ac6898026e8f136c369805dc2fd9:
-> > > 
-> > >   thunderbolt: Disable CL states for the Anker Prime TB5 dock (2026-09-28 11:34:48 +0200)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >   git://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git tags/thunderbolt-for-v7.3-rc7
-> > > 
-> > > for you to fetch changes up to 96a8479804e3f7af43e639e9df39f562f1a75fd5:
-> > > 
-> > >   thunderbolt: Do not RPM complete unrelated subtrees on unplug (2026-10-05 13:31:20 +0200)
-> > > 
-> > > ----------------------------------------------------------------
-> > > thunderbolt: Fix for v7.3-rc7
-> > > 
-> > > This incluces a single fix to make the runtime PM completion complete
-> > > devices that are actually part of the domain. Needed for firmware
-> > > connection manager based systems.
-> > > 
-> > > This has been in linux-next for few days with no reported issues.
-> > 
-> > Is this a regression or a "new" bugfix?
+On 10/9/26 13:11, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 6 potential issue(s) to consider:
+> - [High] usb: xhci-dbc: OOB MMIO read during capability traversal via truncated early_ioremap
+> - [High] usb: xhci-dbc: strictly requiring optional LEGACY capability breaks valid hardware
+> - [High] usb: xhci-dbc: missing bounds check allows OOB access to LEGACY capability registers
+> - [High] usb: xhci-dbc: lockless unmap on ioremap failure causes UAF with active console
+> - [Medium] usb: xhci-dbc: off-by-one check incorrectly rejects capabilities ending at fixmap boundary
+> - [Medium] usb: xhci-dbc: missing offset=0 check processes base registers as capability
+> --
 > 
-> It's a new bugfix. It can go to next too if you think it is too late for
-> the -rc.
+> commit c5569785c857fd1c3eacf9d2844609e296560040
+> Author: Umang Jain <uajain@igalia.com>
+> 
+> early: usb: xhci-dbc: Handle out of bounds xhci-xdbc capability
+> 
+> This commit handles the case where the PCIe memory IO size exceeds the
+> fixed boot time mappings dictated by NR_FIX_BTMAPS. It ensures that the
+> xHCI debug capability can still be queried by mapping the base address
+> up to the fixmap size and querying capabilities within that range. It also
+> introduces xhci_base_length to track the early_ioremap() mapped size.
+> 
+>> diff --git a/drivers/usb/early/xhci-dbc.c b/drivers/usb/early/xhci-dbc.c
+>> index 41118bba91978..f2ed8e52cc56c 100644
+>> --- a/drivers/usb/early/xhci-dbc.c
+>> +++ b/drivers/usb/early/xhci-dbc.c
+> 
+> [ ... ]
+> 
+>> @@ -85,7 +98,59 @@ static void __iomem * __init xdbc_map_pci_mmio(u32 bus, u32 dev, u32 func)
+>>   
+>>   	xdbc.xhci_start = val64;
+>>   	xdbc.xhci_length = sz64;
+>> -	base = early_ioremap(val64, sz64);
+>> +
+>> +	fixmap_size = NR_FIX_BTMAPS << PAGE_SHIFT;
+>> +	if (sz64 < fixmap_size) {
+>> +		xdbc.xhci_base_length = sz64;
+>> +		return early_ioremap(val64, sz64);
+>> +	}
+>> +
+>> +	/*
+>> +	 * Base address size is greater than fixed size boot time mappings
+>> +	 * hence, map maximum allowed fixmap size from base address and
+>> +	 * determine if the required extended capabilities lies within the
+>> +	 * fixmap.
+>> +	 */
+>> +	base = early_ioremap(val64, fixmap_size);
+>> +	if (!base)
+>> +		return NULL;
+>> +
+>> +	offset = xhci_find_next_ext_cap(base, 0, 0);
+>> +
+>> +	while (offset < fixmap_size) {
+>> +		val = readl(base + offset);
+> 
+> [Severity: Medium]
+> If xhci_find_next_ext_cap() returns 0 (indicating no capabilities found),
+> doesn't this loop unconditionally enter because 0 < fixmap_size?
+> 
+> Inside the loop, readl(base + 0) would read the base xHCI Capability
+> Registers rather than an extended capability header. XHCI_EXT_CAPS_ID(val)
+> could then mistakenly extract the CAPLENGTH byte, potentially misinterpreting
+> it as an extended capability ID like XDBC_CAP_FLAG_LEGACY.
+> 
+> Should there be an explicit check for offset == 0 before entering the loop?
 
-Yeah, it's a bit late, I've taken this for -rc1, thanks.
+will fix, but not a real world issue as all xHC hosts have extended capabilities.
+without extended capabilities host won't have any ports.
 
-greg k-h
+> 
+>> +		switch (XHCI_EXT_CAPS_ID(val)) {
+>> +		case XHCI_EXT_CAPS_DEBUG:
+>> +			if (offset + XDBC_MAPPING_SIZE < fixmap_size)
+> 
+> [Severity: Medium]
+> If the 64-byte DEBUG capability struct ends exactly at the fixmap_size
+> boundary (offset + XDBC_MAPPING_SIZE == fixmap_size), it is fully mapped
+> and safe to access.
+> 
+> Does the strict less-than operator here incorrectly reject a perfectly valid
+> capability that ends exactly at the boundary?
+> 
+
+will fix, this just rejects a border case that could work.
+
+>> +				cap_flags |= XDBC_CAP_FLAG_DEBUG;
+>> +			break;
+>> +		case XHCI_EXT_CAPS_PROTOCOL:
+>> +			cap_flags |= XDBC_CAP_FLAG_PROTOCOL;
+>> +			break;
+>> +		case XHCI_EXT_CAPS_LEGACY:
+>> +			cap_flags |= XDBC_CAP_FLAG_LEGACY;
+>> +			break;
+> 
+> [Severity: High]
+> This accepts the LEGACY capability without ensuring its extended registers
+> fit within the mapped fixmap region.
+> 
+> If the LEGACY capability header is located at fixmap_size - 4, the while
+> condition (offset < fixmap_size) is satisfied, and the header is read.
+> However, later in xdbc_bios_handoff(), the code accesses the control register
+> at offset + XHCI_LEGACY_CONTROL_OFFSET (offset + 4).
+> 
+> Will this result in an out-of-bounds MMIO read when offset + 4 equals
+> fixmap_size?
+> 
+
+will fix, size of legacy capability is 8 bytes. Odd and extremely unlucky
+if these 8 bytes would cross the NR_FIX_BTMAPS << PAGE_SHIFT limit.
+
+>> +		}
+>> +
+>> +		if ((cap_flags & XDBC_CAP_FLAG_DEBUG) &&
+>> +		    (cap_flags & XDBC_CAP_FLAG_PROTOCOL) &&
+>> +		    (cap_flags & XDBC_CAP_FLAG_LEGACY)) {
+>> +			found_all_caps = true;
+>> +			break;
+>> +		}
+> 
+> [Severity: High]
+> According to Section 7.1 of the xHCI specification, the "USB Legacy Support
+> Capability" is strictly optional.
+> 
+> By requiring XDBC_CAP_FLAG_LEGACY to be present here, does this patch
+> introduce a regression that breaks DbC initialization on valid, compliant
+> hardware that safely omits it?
+
+Not an issue. No regression.
+
+This patch adds early dbc support for more hosts. Doesn't remove support.
+
+> 
+>> +
+>> +		offset = xhci_find_next_ext_cap(base, offset, 0);
+> 
+> [Severity: High]
+> Does this blindly request the next offset without verifying bounds beforehand?
+> 
+> Inside xhci_find_next_ext_cap(), the helper computes the offset to the next
+> capability and immediately dereferences it:
+> 
+> xhci_find_next_ext_cap():
+>      do {
+>          ...
+>          next = XHCI_EXT_CAPS_NEXT(val);
+>          offset += next << 2;
+>      } while (next);  // loops back to readl(base + offset)
+> 
+> If the computed offset exceeds fixmap_size, readl() will access unmapped
+> MMIO memory and cause a kernel page fault BEFORE xhci_find_next_ext_cap()
+> returns.
+> 
+> The offset < fixmap_size check at the top of the loop is too late to prevent
+> this out-of-bounds access.
+
+True, this was actually a good find.
+
+xhci_find_next_ext_cap(base, offset, 0) does unnecessarily read the next
+capability even if we don't care about the content (the capability id)
+
+xhci_find_next_cap() was never designed to work with a limit size mmio map
+of this PCI device.
+
+Could be somewhat easily fixed in xhci_find_next_ext_cap(), but I don't want
+to touch it at this stage without properly testing.
+It's used everywhere, and risk of regression is high.
+
+I'll drop this until properly fixed.
+
+Thanks
+Mathias
+
+
