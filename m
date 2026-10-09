@@ -1,79 +1,65 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DBE14908CC
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 15:23:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A3B9223702
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 15:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791559413; cv=none; b=OhD7uxldQTRDihjbhy7/E74kJl4+MmX5k2NEVNqRyC5+6AdBUQ3pCy4ybOOR88m08x6j/J0XwOaIWLpqDAqXxzF0lE7acYIuE29/OrebDUkbqhe/qWSQDMp6VGbkYd1CsaLSstceFDCCw1oyl9o9BldfebaW9XmRwVYCCzQsJe4=
+	t=1791559434; cv=none; b=s74mtUppTgB7pBNvebErk6F7BQnOH8nnNqntS1U4hEgXYk7P4VBjqphUzIz52WlFCiUt7untlY5AmSgaHVRNgXhkGmoKJBuVIyw3f0OCcLfTwLrw9Y7kSVIH+4FMD9hyawUHc10A3u1OVgVSMCRa1QdYX5V9Zsv3ojLdMUQRGww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791559413; c=relaxed/simple;
-	bh=IrbpdKwnfHw+hIkXOcyrHf52n9nEgjOaSFZRBK7kKFQ=;
+	s=arc-20240116; t=1791559434; c=relaxed/simple;
+	bh=bbK4jk72unsoTYSzBO19lW+MT7RaGU1vLR4uoxw4bco=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=CFLWfE8Vvle7IZ7Uumcu7XD+hcGHrD1anN4Ej803VV/Nm/iGmPJOxOltAtQynWmChAilPSt/lTIGhjf7RoBGjsRfchl8SLCi55LNMTc1O3VWFTfEc1vtJYeJBOFCUFGyiUZ0mlpV3JnxcCLUD0n8dgpBPdBXJG+BzUQhtbyodG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aCCNTnJg; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=YtLPmlEgdbWE/XtE9NJi7kEGhEo0+ls2fA2z7wKi7mMZp9w3/wHozE8m+4mMsdhBbWI5my6E1RX2jBHgFoRlVDarJqh/84UP27WxSnKm4ZWaNvB1l2H+Ffg2bZNLqZJXDruNhCZWRnqyCWGyxkf6p2sxAjodBj/FLoL7CkZOa68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QCsGKV5+; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCCNTnJg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF0851F000FF;
-	Fri,  9 Oct 2026 15:23:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QCsGKV5+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79E2B1F000FF;
+	Fri,  9 Oct 2026 15:23:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791559412;
-	bh=IrbpdKwnfHw+hIkXOcyrHf52n9nEgjOaSFZRBK7kKFQ=;
+	s=k20260515; t=1791559432;
+	bh=bbK4jk72unsoTYSzBO19lW+MT7RaGU1vLR4uoxw4bco=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aCCNTnJgQE7z1LN2bMGSQwInGkfpMaHmx1/+F8UBDOs/3e7/U5ZwnEjqgewMjaP7F
-	 M+poEu5qpZT/22UMi0InFn2oJ8RvT6pIJL9hV8xwzyBliOWEPgwT1topnQneppbC2o
-	 OMKPb+gPNETtfttPL3Z8OolCUCafu1ufgNajWDlAMmxeFnE66VG6njLmcNxsZ+9aIR
-	 +ovXkAscnD4AQGP28/MKadQB48cCL+47kOTOLoLq3XzRvkzBE+9ugDk5GlkovO2fQN
-	 wOhIS0xvV68JJB/UxgMNDSLGT3014UFd5kc6KAAr2F4lXFvh1Xkigalow7SwBCKEXF
-	 8+U+v09+8ZQKw==
-Message-ID: <sashiko-outbox-165762@kernel.org>
+	b=QCsGKV5+dSZyomjsC3Yd+4goztq/iNpdi4gia9BWvI6S1CWK3Ex7Miew/ZyAXZFmB
+	 CsMlYpE7N5SLzR2euiniwo4bEc7y2SYlD3YvlQ1UNMExfpvbt6uM8Ontt6+Uabz6j2
+	 DgrhxiLwyOrwMgt36fGVH0w7nr+yc6ZpVRfGZ1lS8giWMCrQl4H5wGYCaHbLsnHJF5
+	 R4anKmliieO/AMGruCaBOnyiOo721e04xtzDTvajM9GZSAOxlM9q0Y844huBpbZOvJ
+	 1BV92Vn2HdyKDQ2XRxojpROYCnZJ3dMcvlydLiKcM8dEz9AAsLiPX7RrGftSsWkEQH
+	 2KAsDZOGdolRg==
+Message-ID: <sashiko-outbox-165763@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 04/11] xhci: check device notification type before
- forwarding wake event
+Subject: Re: [PATCH v2 07/11] usb: xhci: Don't set the skip flag on non-isoc
+ endpoints
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Mathias Nyman" <mathias.nyman@linux.intel.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261009151624.618967-5-mathias.nyman@linux.intel.com>
+In-Reply-To: <20261009151624.618967-8-mathias.nyman@linux.intel.com>
 References: <20261009151624.618967-1-mathias.nyman@linux.intel.com>
- <20261009151624.618967-5-mathias.nyman@linux.intel.com>
+ <20261009151624.618967-8-mathias.nyman@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 09 Oct 2026 15:23:31 +0000
+Date: Fri, 09 Oct 2026 15:23:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> From: Hongyu Xie <xiehongyu1@kylinos.cn>
+> From: Michal Pecio <michal.pecio@gmail.com>
 >=20
-> The xHCI driver programs the Device Notification Control register to
-> only enable the Function Wake device notification (N1), so any Device
-> Notification Event TRB received is expected to be a function wake
-> notification. handle_device_notification() does however not check the
-> Notification Type field of the event (xHCI 1.2 section 6.4.2.7, DW0
-> bits 7:4), and forwards every device notification event as a function
-> wake.
+> These events are unique to isochronous endpoints, ignore them otherwise.
+> Update debug messages to reflect new policies. We could also log invalid
+> events as errors, but it seems nobody has ever had problems with that,
+> so don't bother.
 >=20
-> A host controller that delivers an unexpected notification type (e.g.
-> due to broken firmware or emulation) would trigger a spurious wake
-> notification on the parent hub.
+> This allows dropping the isoc check when skipping TDs.
 >=20
-> Parse the notification type and drop events other than Function Wake
-> with a warning, mirroring the slot ID validation in the same function.
->=20
-> DEV_NOTE_FWAKE is the DNCTRL register bit for notification type 1
-> (N1), while the event TRB carries the notification type value itself,
-> so add a separate DEV_NOTE_TYPE_FWAKE constant for the comparison.
->=20
-> [mn:] reduce warning to a debug message
->=20
-> Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 > Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261009151624.6189=
-67-1-mathias.nyman@linux.intel.com?part=3D4
+67-1-mathias.nyman@linux.intel.com?part=3D7
 
