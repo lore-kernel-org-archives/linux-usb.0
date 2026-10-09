@@ -1,99 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEDDB4C2240
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 10:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E55BF4CC627
+	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 11:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791543157; cv=none; b=eqcnlIWQPXD5JWKi+tgPvXxFffB6Y+w4O8yWAY5+B08eRI8ykaqqwklveaNJuBrEay7pLoLZp2iQjnwbzJXwQ/CEJcXAaNWvA6z/x+dXsxhsFr4R6fqJ46qGgtWcKGqH8EPb2S1GaFvISkcbYrE+mLxVsQy58Ger/nBT6RtuaxY=
+	t=1791543637; cv=none; b=UmASRseSSH8QajG1NADqWyVHw+wehmFzMwZqhD3OvAdyacScr6y4nD27B4XJkKq2/PMVMsq2rrHQhwAfynju3W6xEJupPYAE5cCz6Q6Rqo7uzjrGP0NtD/Y70tJ3XXnF+DLL3a4OV5FjxVjgQK/gaxmn+yF/SIFbTAjS9QndOfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791543157; c=relaxed/simple;
-	bh=LMcD7qUndBbw0fNST1F+Pr/+tOF7VikM/D2rrubPiq0=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E8UghSNO4gkR1zm4phSIE2B3vTtxRF1t1GW9biS7VJeAZCG8+NZFAs/xX36ltT3PdwwIK2AM7gjZxE/1iH7QcIHqBK8GorVgzpYiXaQMdp9T7sHkqLOchVjVjUi7ioPORXIjW/i7PPiLKLl25SF8f2bjnJmGjqG4lfmxsmDnHtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=W+/5o+cC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791543637; c=relaxed/simple;
+	bh=STzg7n2odK3s0/NTD+fIEkDOhVuXZlSCdF3kVC6VpOo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HHG1moHA/D3H1qR+ZX8wLlZzyoCxUHx+M43CP/CQgst/EiSeW7LZpkvagC6zG/bR4TTTGRu8xDCvyxfu/4WCm66uYokbhvorAfoLA+JLKTO74nS3PnQ5ywgA+dUu+56fBVVJpN3LzXE7Q+NH9dwi+Qr/mZ5Bzbtbj2Xhlw2Dcow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WbKm67Uu; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="W+/5o+cC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB0AD1F000FF;
-	Fri,  9 Oct 2026 10:52:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791543148;
-	bh=eQ9FnWaEJjxO/pRLFt1KtBxdg91Ll1XOqZXLklpOKec=;
-	h=Date:From:To:Subject:References:In-Reply-To;
-	b=W+/5o+cCdxh2iq4u8bZtTvTBSiKuO/dy2f0ClaCxg6R4SUFK8BWURpV/JVvMSFqyP
-	 A4g4Po7ZxabYK6E+0iKlk13XhthxtDDio790MEu5bLlB7NsUvb+KxVq4Yh97XTRwgq
-	 c+FmFUQ7NPrcNihJRizH/J3FaCSVorq7Rgk7aoq8=
-Date: Fri, 9 Oct 2026 12:52:23 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: linux-usb@vger.kernel.org, Sang-Hoon Choi <csh0052@gmail.com>,
-	Changyul Lee <lcy8047@gmail.com>,
-	Mathias Nyman <mathias.nyman@intel.com>
-Subject: Re: [PATCH 06/14] xhci: dbc: lock the minor IDR on registration
- failure
-Message-ID: <2026100958-simple-evasion-4048@gregkh>
-References: <20261009095834.561578-1-mathias.nyman@linux.intel.com>
- <20261009095834.561578-7-mathias.nyman@linux.intel.com>
- <sashiko-outbox-165207@kernel.org>
- <2026100949-scuttle-cradling-0371@gregkh>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WbKm67Uu"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1791543625; x=1823079625;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=STzg7n2odK3s0/NTD+fIEkDOhVuXZlSCdF3kVC6VpOo=;
+  b=WbKm67Uug0yxtU7xnyNPPRylrM9py5IIttFCX/sPzSuVuUtb1yqVpvG1
+   ixeX7+lCa7t+RwPi468GvSsSgTr9zNprJp4GPqx2r5X6N0mQJyKlhICZ6
+   zUdcHvKM64HirkJW1UztQi+QzM/7ftD/HIIFdWWK/zpZMaRow1b5YWpsB
+   FQUIjZUfU724hs5ymV0NLQNKN9J1UeuWBMJ9hlOH1N1y9Ewz3NkeCWhi8
+   ehLm89Zx1O+9ZIekUuQDoHD53eoXWWKdUzw9/ncZ/4CS1ClDyb5aO/up/
+   oUIGefA1zPx46WG4VYEVUBHkVC6SvoplA5cybn94dBzL8QBF3OJneNyIP
+   g==;
+X-CSE-ConnectionGUID: DUDos3O1SLeM9KBFst1G2g==
+X-CSE-MsgGUID: G7gHtWiRRvSpCZehOwYygw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="342136"
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="342136"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 04:00:24 -0700
+X-CSE-ConnectionGUID: qYD61thxRmiEqhwakoUGiw==
+X-CSE-MsgGUID: IRcfOiLtQViBUhmsoHdQ5g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
+   d="scan'208";a="648027"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO [10.245.244.17]) ([10.245.244.17])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 04:00:23 -0700
+Message-ID: <b07fb226-d2df-4fe8-9a09-dccd61375ca0@linux.intel.com>
+Date: Fri, 9 Oct 2026 14:00:21 +0300
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026100949-scuttle-cradling-0371@gregkh>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 00/14] xhci features and fixes for usb-next
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+References: <20261009095834.561578-1-mathias.nyman@linux.intel.com>
+ <2026100935-recreate-finer-714b@gregkh>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <2026100935-recreate-finer-714b@gregkh>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Resending with the proper people in cc...
+On 10/9/26 13:50, Greg KH wrote:
+> On Fri, Oct 09, 2026 at 12:58:20PM +0300, Mathias Nyman wrote:
+>> Hi Greg
+>>
+>> xhci improvements and non-urgent fixes for usb-next.
+>>
+>> One series by Michal to improve transfer event handling, otherwise
+>> smaller scattered patches for dbc, early dbc, sideband and generic
+>> xhci cleanups.
+> 
+> You you want me to take all the ones here that were "clean" from the
+> sashiko review, and ignore the ones that were not, or do you want me to
+> take them all now and those issues (if they are real, at least one I
+> noticed is not), will be worried about later?
+> 
 
-On Fri, Oct 09, 2026 at 12:51:41PM +0200, Greg KH wrote:
-> On Fri, Oct 09, 2026 at 10:13:10AM +0000, sashiko-bot@kernel.org wrote:
-> > Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> > - [High] usb: xhci: dbc: UAF due to premature IDR exposure and missing TTY hangup on error path
-> > --
-> > 
-> > commit 99c18a1b8449e8389ccac896ceadcc979dbd6a57
-> > Author: Sang-Hoon Choi <csh0052@gmail.com>
-> > 
-> > xhci: dbc: lock the minor IDR on registration failure
-> > 
-> > This commit fixes a race condition during DbC TTY registration failure
-> > by adding mutex protection around the removal of the minor IDR entry.
-> > 
-> > > diff --git a/drivers/usb/host/xhci-dbgtty.c b/drivers/usb/host/xhci-dbgtty.c
-> > > index 3d51e8d82659d..2249cc16800cc 100644
-> > > --- a/drivers/usb/host/xhci-dbgtty.c
-> > > +++ b/drivers/usb/host/xhci-dbgtty.c
-> > > @@ -535,7 +535,9 @@ static int xhci_dbc_tty_register_device(struct xhci_dbc *dbc)
-> > >  err_free_fifo:
-> > >  	kfifo_free(&port->port.xmit_fifo);
-> > >  err_exit_port:
-> > > +	mutex_lock(&dbc_tty_minors_lock);
-> > >  	idr_remove(&dbc_tty_minors, port->minor);
-> > > +	mutex_unlock(&dbc_tty_minors_lock);
-> > >  err_idr:
-> > >  	xhci_dbc_tty_exit_port(port);
-> > 
-> > [Severity: High]
-> > Does this error path leave concurrent TTY sessions pointing to freed memory?
-> > 
-> > Earlier in xhci_dbc_tty_register_device(), the port is added to the globally
-> > visible dbc_tty_minors IDR before internal structures are fully allocated:
-> > 
-> > 	mutex_lock(&dbc_tty_minors_lock);
-> > 	port->minor = idr_alloc(&dbc_tty_minors, port, 0, 64, GFP_KERNEL);
-> > 	mutex_unlock(&dbc_tty_minors_lock);
-> > 
-> > A concurrent open() on the device node routes to dbc_tty_install(), which
-> > retrieves the port and installs the TTY without verifying port->registered:
-> 
-> I don't think we need to worry about "concurrent open()" for this as
-> that's not a real use case that I know of and this _should_ be root only
-> accessable, right?
-> 
-> Or can normal users open this device node?
-> 
-> thanks,
-> 
-> greg k-h
+Let me take a closer look, I'll send a new series today.
+
+Some could be dropped, cleanup up, and submitted later, like [PATCH 1/14]
+
+Others like [PATCH 10/14] is mid series, and don't want to blindly drop it
+without checking if sashiko issue is valid
+
+Thanks
+Mathias
