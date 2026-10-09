@@ -1,133 +1,128 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C203337702B
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 15:48:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7532A2D8378;
+	Fri,  9 Oct 2026 16:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791560935; cv=none; b=QYeDttvsxhUPb8iiPqe40xXs2SJvrST4mbMFt9ozVKkAfWTtGfRpmg/h2sUMxIqhPmdG1k/A6AyZrpUv4UY4RwwgiDoJjSIKZgvJj8h7DV7D9Rbp0NDP4BlJAxRps/sOtcxbRqOX2dPjdLiQVnG72xdxmddWZtWaJftH2bDN/9U=
+	t=1791564992; cv=none; b=elEOgTtEHsPhwjmcjbQep2msLS/L+KTzU4uVeWecuz+Tk7AQU+E93GTQoGXA2kxAzKKaXIRA/afUyQlA/o9NrXFYpDsz3lesUcs/X9hNHR+XQ+RQyY3WwIXHDpoI3OsgutVqDFWaZ6SDVXBQTlTHW4RFvGYejBq0bDnkL+12WJM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791560935; c=relaxed/simple;
-	bh=s9N4SJWPym+C4tYVnt9KaGPrfIXadQwubQeB0Il//RM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NqX7G0EnHU0iBPMIzwsL1n3krMswDk2LMYeGul/d9wabTh2q++AeMyWdMFRtyPh4WrvlH/Q5RUV4EhXA7Jsh7spjgxDXKtg6ZgzscbJUW/APPUu8H8DR5uv7xUf7AQVCAOtn6GlNoG/bqER3Qj58SWuCXdBMvs6Ef6rUOj/x4Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V4jxqPJS; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791564992; c=relaxed/simple;
+	bh=Gsc13vUDcqHhR9WqLn+uEOJ3bL2AXkQlfX0gpVkBRts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MkvG/1pLRqmKNPgkDjWOd+M2g2fz3TDtk49oOlUHUdVn96aty4ScJ6PblUBstN+NcMwmtEoa0RfWT9hpXFio6RF0m7tWe5JTU1O2J0NJII8pn0waq0LXE0axgTItNb+SkByVBBnslwEb28h/8Nenj6UzPP8um5c4a0lx/WhTP7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUsl9XnU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V4jxqPJS"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso68230495e9.3
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 08:48:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791560932; x=1792165732; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JXF2z4vyGmmSKHlETLZ0cQ9sneHBE6Aoyzr8KR9FOqU=;
-        b=V4jxqPJSWbrOhz0wgaQndEPsVaNdMlz9J+iO1dariQy6pKN86MUnBcpMQaF72ZpNz3
-         WnM45VD6wcvv9mnj3a0+vIGCOPMswww2yabn2Ewz+2gb7gwJ8SF8KF4+fkvEqvMlJMcz
-         ouvOOkfRXVHqQOFHJN8tjuBdJGQYTAr0v7IF7qFSsVezfVEIapl2vVmk5hJYRjvfqJIS
-         0mZop9T+ofwRm6bCBSQL6MiV5rm5Zi/zNknpuEHIRHrHN2p5pHemBTgUm2b4QItuY8Dq
-         mWaKxIH32GewjWJIko5RYzw01uvzTBZmpDOua4ut5Kb9zlIx/Xl2ZaUXNvB9zg5uSKN0
-         qODA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791560932; x=1792165732;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JXF2z4vyGmmSKHlETLZ0cQ9sneHBE6Aoyzr8KR9FOqU=;
-        b=LKRmdhsYRNcD9ds6oXibQYTnbtIqPBSYIgBJglP6NLFmw0IzpDiBwFJkMFfAlVZQ9s
-         IirvyOpIqA740jXwNTujKzUuhSrikP2Qvv8sdfyFKNfvtrFGcGyRw4IPKRVop+1KGQ1w
-         /AuhUvROI7Qe/9JfJYrhyKs0FQUpsLzsr6TJqrnDPU6hlVb7Fe6PZMFBh2MwQ1iYXSaX
-         GtMS6s/swFjO/ffq4Rl+aJ7iyecBCwFpvkdAinhKpOeFdUMLBnSt/Ba+NNY3x0XMmpJq
-         +8gzb+g/OSGfTatmL6lS8uNwizloP6b/yUxlXR1iVkEPzTVQnV31aRZYpbV47AFLyAKc
-         5KPg==
-X-Gm-Message-State: AFuF++lSFCJR1NyW0+khqbZ9tp/XZSDwlqXXmqzS4dYDujfblcFc7Rvw
-	IaL1jhr1O1clDb/5CTcAF6CbTwGHnNj/TOmktbnVjg0D3QLHH0iLD4Aw
-X-Gm-Gg: AYBFou2WypKDYrop6Nv5vl62kK+IwWJgyQtTptT+TmZmnAHnJft0JYKHWH93N9O4tzf
-	cplnbHtSTCFXfD4Lab9URhBd8G2QwIyW9Gwx2tUw4q5bnYZ2IuPu+kR8pYmFlK6ezhOru1n3wo5
-	8og1A/9BWWvn2XbBGtaw+0CoC7NCmtdNXk8EMngnGAO0Dg/zaESpSRYsJtRZbd4YxHMdCK9u1xI
-	jG2fxRszFLhKyToiWHC80tr0NPm20XPPeIo5LP1EzaEbtuM2ymR5JoodVlZfQtu3UQ5i2HCHCaG
-	JhqJxfwNKEjQwBrxkUO7v7AvedjXQWiGe0eHdyUBpBUGhl2Wc2lNgkhK0M7ttoHI6YxyYNan9Q7
-	qYNKfmavdJwiLqXZsbgb+B0tjeWCPkxF4a0BIgVGH5B3t7AcxIYGxQzkZlhQVG9iyYHFdftGa/W
-	ym8Hr2eO8iRQmDDKSav2DdNVM0NU/85l3WD1jsJgqgWjbcw3647miOV6hIPonDsT2HURmzvIIVj
-	ipyJUjFRFZIITmX+nU=
-X-Received: by 2002:a05:600c:3e8f:b0:4a0:263c:704f with SMTP id 5b1f17b1804b1-4a18e4a3fbdmr46298095e9.16.1791560931844;
-        Fri, 09 Oct 2026 08:48:51 -0700 (PDT)
-Received: from [192.168.18.21] ([46.197.185.71])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bf2343asm120627275e9.9.2026.10.09.08.48.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Oct 2026 08:48:51 -0700 (PDT)
-Message-ID: <cc9f0c2d-7f41-477b-a1dc-9d5a7146af71@gmail.com>
-Date: Fri, 9 Oct 2026 18:48:50 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUsl9XnU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA2421F000FF;
+	Fri,  9 Oct 2026 16:56:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791564991;
+	bh=fE0OAfD+VvZZQlsp7SZETT3KsGTWZ99jT3uHHIgYDkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=RUsl9XnUQdex4hYDI/nvqZumtgOTjlWiX0N56fVGal9ZXTElbzreII28hFeRkApJB
+	 NHo6FTkv1s0R1SKHMxFh2yoyGgEj94FI2YTZ5R2m7lwDx9O3N5/dtVzHCZ7rRFHg+b
+	 AtSEfYi+n++t5xP6H8VImwwnXKYhoLn2R1W0Koa99MOWI+o8HHqK2kIurxPlAU0Yri
+	 ygANXuDjupNkgl+uor72EiN8FZ3fmo02D0/KSu5wQ2x84hwaNSlHgKIyyR/PugD/c9
+	 1rQuaM8k2AyO9mDtnEOKbWctVlZ0WY0IhSQdg1dl1SdQIKXtdsg79DgnHAMkLcGLF5
+	 UTDY8ujTUNlMg==
+Date: Fri, 9 Oct 2026 17:56:08 +0100
+From: "Lorenzo Stoakes (ARM)" <ljs@kernel.org>
+To: Suren Baghdasaryan <surenb@google.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	"Liam R. Howlett" <liam@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, 
+	Jann Horn <jannh@google.com>, Pedro Falcato <pfalcato@suse.de>, 
+	David Hildenbrand <david@kernel.org>, Mike Rapoport <rppt@kernel.org>, Michal Hocko <mhocko@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>, Jason Gunthorpe <jgg@ziepe.ca>, 
+	Leon Romanovsky <leon@kernel.org>, Paul Moore <paul@paul-moore.com>, 
+	Stephen Smalley <stephen.smalley.work@gmail.com>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>, 
+	Kumar Kartikeya Dwivedi <memxor@gmail.com>, Zi Yan <ziy@nvidia.com>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Nico Pache <nico.pache@linux.dev>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>, 
+	Lance Yang <lance.yang@linux.dev>, Usama Arif <usama.arif@linux.dev>, 
+	Kiryl Shutsemau <kas@kernel.org>, Doug Gilbert <dgilbert@interlog.com>, 
+	"James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>, "Martin K. Petersen" <mkp@kernel.org>, 
+	Simona Vetter <simona@ffwll.ch>, Helge Deller <deller@gmx.de>, Sebastian Reichel <sre@kernel.org>, 
+	John Hubbard <jhubbard@nvidia.com>, Peter Xu <peterx@redhat.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Oleg Nesterov <oleg@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, Arnaldo Carvalho de Melo <acme@kernel.org>, 
+	Namhyung Kim <namhyung@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+	Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, Juri Lelli <juri.lelli@redhat.com>, 
+	Vincent Guittot <vincent.guittot@linaro.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Will Deacon <will@kernel.org>, 
+	"Aneesh Kumar K.V" <aneesh.kumar@kernel.org>, Nick Piggin <npiggin@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Muchun Song <muchun.song@linux.dev>, Oscar Salvador <osalvador@suse.de>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Marc Zyngier <maz@kernel.org>, 
+	Oliver Upton <oupton@kernel.org>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Madhavan Srinivasan <maddy@linux.ibm.com>, Anup Patel <anup@brainfault.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Christian Borntraeger <borntraeger@linux.ibm.com>, Janosch Frank <frankja@linux.ibm.com>, 
+	Claudio Imbrenda <imbrenda@linux.ibm.com>, Alexander Gordeev <agordeev@linux.ibm.com>, 
+	Gerald Schaefer <gerald.schaefer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>, 
+	Vasily Gorbik <gor@linux.ibm.com>, "David S. Miller" <davem@davemloft.net>, 
+	Andreas Larsson <andreas@gaisler.com>, Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Matthew Brost <matthew.brost@intel.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Rakie Kim <rakie.kim@sk.com>, Byungchul Park <byungchul@sk.com>, 
+	Gregory Price <gourry@gourry.net>, Ying Huang <ying.huang@linux.alibaba.com>, 
+	Alistair Popple <apopple@nvidia.com>, Chris Li <chrisl@kernel.org>, Kairui Song <kasong@tencent.com>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham <nphamcs@gmail.com>, Baoquan He <baoquan.he@linux.dev>, 
+	Youngjun Park <youngjun.park@lge.com>, Johannes Weiner <hannes@cmpxchg.org>, 
+	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+	Chengming Zhou <chengming.zhou@linux.dev>, Michal Hocko <mhocko@kernel.org>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Xu Xin <xu.xin@linux.dev>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-usb@vger.kernel.org, 
+	linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-sound@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-scsi@vger.kernel.org, linux-fbdev@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linuxppc-dev@lists.ozlabs.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	linux-s390@vger.kernel.org, sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev
+Subject: Re: [PATCH v4 07/38] mm: add mmap action for discontiguous kernel
+ page mapping
+Message-ID: <askajMD6aWnRZzwK@gremlin>
+References: <20261003-b4-mmap-prepare-vma-flag-sanify-v4-0-a1f052500fd7@kernel.org>
+ <20261003-b4-mmap-prepare-vma-flag-sanify-v4-7-a1f052500fd7@kernel.org>
+ <CAJuCfpGj2Q092+zB=Z-d1iAOD6n1_HXVZQAL+YM6x_CeUEMpcw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v3] usbnet: fix EVENT_RX_PAUSED race in
- usbnet_skb_return()
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-usb@vger.kernel.org
-References: <20261007220311.113827-1-omermetekaya0@gmail.com>
- <sashiko-outbox-164620@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?=C3=96mer_Mete_Kaya?= <omermetekaya0@gmail.com>
-In-Reply-To: <sashiko-outbox-164620@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJuCfpGj2Q092+zB=Z-d1iAOD6n1_HXVZQAL+YM6x_CeUEMpcw@mail.gmail.com>
 
+On Sun, Oct 04, 2026 at 10:11:18AM -0700, Suren Baghdasaryan wrote:
+> On Sat, Oct 3, 2026 at 6:35 PM Lorenzo Stoakes (ARM) <ljs@kernel.org> wrote:
 
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index 448342883e9d..45b21bb04a18 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
 
-On 10/9/26 01:03, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] net: out-of-order packet delivery during RX resume
-> --
-> 
-> commit 7148b0b2b0b945f31b2120d7f4cbc269acf91635
-> Author: Ömer Mete Kaya <omermetekaya0@gmail.com>
-> 
-> usbnet: fix EVENT_RX_PAUSED race in usbnet_skb_return()
-> 
-> This commit addresses a race condition in usbnet_skb_return() by protecting
-> the EVENT_RX_PAUSED flag check and enqueue operations with a double-check
-> pattern under the rxq_pause lock. It also protects the clear_bit() operation
-> in usbnet_resume_rx() under the same lock.
-> 
->> diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
->> index a19ecf718f36a..d1ec3ba1e10e6 100644
->> --- a/drivers/net/usb/usbnet.c
->> +++ b/drivers/net/usb/usbnet.c
-> [ ... ]
->> @@ -700,15 +705,16 @@ void usbnet_resume_rx(struct usbnet *dev)
->>  	int num = 0;
->>  
->>  	local_bh_disable();
->> +	spin_lock(&dev->rxq_pause.lock);
->>  	clear_bit(EVENT_RX_PAUSED, &dev->flags);
->> -
->> +	spin_unlock(&dev->rxq_pause.lock);
-> 
-> [Severity: Medium]
-> If a new packet arrives concurrently on another CPU via usbnet_skb_return(),
-> could it observe EVENT_RX_PAUSED as false here?
-> 
-> If so, it would bypass the pause queue and immediately deliver the new SKB
-> to the network stack via netif_rx().
-> 
->>  	while ((skb = skb_dequeue(&dev->rxq_pause)) != NULL) {
->>  		usbnet_skb_return(dev, skb);
->>  		num++;
->>  	}
-> 
-> This seems like it would cause the newly arrived packet to be delivered before
-> the older packets in the rxq_pause queue are fully drained by this while loop,
-> leading to out-of-order delivery which can degrade TCP performance.
-> 
-The out-of-order delivery window between clear_bit() and the drain loop
-is a pre-existing issue in the original code, not introduced by this
-patch.
+> > +static void __map_kernel_pages_prepare(struct vm_area_desc *desc)
+> > +{
+> > +       if (vma_desc_test(desc, VMA_MIXEDMAP_BIT))
+> > +               return;
+> > +
+> > +       VM_WARN_ON_ONCE(mmap_read_trylock(desc->mm));
+>
+> Sorry I missed this before and it is pre-existing code but is this a
+> weird way of asserting that mmap_lock is write-locked? If so, why not
+> just use mmap_assert_write_locked()?
+
+Ah yeah, this weirdness is duplicated from the existing code. Will fix up on
+resin!
+
+--
+Cheers, Lorenzo
