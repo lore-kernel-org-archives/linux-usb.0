@@ -1,113 +1,146 @@
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5FCD3101D0;
-	Fri,  9 Oct 2026 08:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 892B93D567F;
+	Fri,  9 Oct 2026 08:29:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791534527; cv=none; b=vBsXqJw5Fn8gjzmu2QHHM/UE8t829aWXdjeq+9vcTBESCnC+zh7cnVp/OHd80nrC6iU2gIWL1Hg8oF99vKQyoe8mem5Q6ncO0nlYje91HldpT6gJ2LruF9fGmYoAitsR08R62aBgxaBztH5PscGsSUuJ0D98vGZmsuOSEmm4s34=
+	t=1791534597; cv=none; b=KDbhnk1qefUJxVzeODDea3momLVUMAd2wbEqQ56aDw9wKfIezZIyp1q2Rms7N6MvcSMlHD+iGyPjE3u93vDA6FUxO+tfb3OFJY3OXiem9Sf2kiCC3F1lv+VNjhc910u4UuyxRf4PXNerSVXW5qrIMaFtpWf3OeWQxmn9Lcs3fn8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791534527; c=relaxed/simple;
-	bh=ZGMjphjVRG+EqkKY2GbeiSMoAegjQTgc+qG7pej+Yds=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=ahl9u3nxId/M6AMTzB9dMa55ZBash1WsvBMJJACrr2oqZelcIVx+cJCYwD7g4Xl5+3VMIgGXxRn1vp7NqwT2CUNaItHB92zp5857iDwIuyDKlEklryG5KrlN7ezGw9Sz5nIzSnZOiqfv8mTvKwnNNU3be0WXJnQPb1LE69JdMJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=GU8rHtvz; arc=none smtp.client-ip=194.13.80.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	s=arc-20240116; t=1791534597; c=relaxed/simple;
+	bh=vnUHtpQk5yUM7X3ebgfXeNTNuOSXt7+dmcJH7/YyOGs=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=kKvqJVE04Q3odR6J5/rU+0h2+XrIh5yZxbH1EbVQPHhw/7UqweSuNZlp/nje0cPTr98Kba3MlETblxVO/u8/o2WoaO3b8wzYKFsjEpBn0oELm+1Znt48oWOvpP4MfQG53t1IkzEoXBzWXECTuW7tDJd6dbPij6gygQYGbXTKkKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcfmMht9; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="GU8rHtvz"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3FFEEA1551;
-	Fri,  9 Oct 2026 10:28:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1791534513; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=HQbvHG9dS6Fz273yiv0iGKMQDZdhvY99dKZijkTdQdE=;
-	b=GU8rHtvzBPZb+mxT4QKfqAHxlxmrtxZDw4fH6wYEN7QpgALC9hLkjtigEDwUvDHkXmaPhE
-	FbiIXwS3Lm2oweabliX9wL7h0R0OiSAPRt5smELMkp69bpGjGS4qErVswRkTEaFdPJt3sP
-	JTJwORh9PlwEDyHM2B6MHxZkHKuxr37cZeXng9lHBN360ZwUju7Tcko0dLcy1XB27uUTAg
-	CvSyAcXFwmcRj6hc3EEoSyX/DLa1plxz2axwVV7boU8hoqKoED6Ovar/+n7lXW8sVsWrE+
-	8JP0Sg0fE0nDTaPL6FuJxcN1T3HAg2dg1DuIK2KxSwn3Jc4f25t9pg7HVmDkXA==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcfmMht9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C32A91F00893;
+	Fri,  9 Oct 2026 08:29:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791534595;
+	bh=tI0jJfrrjm8WzTe4f9Y2xQh89gGIW2xEi2bJEKO8HnM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=lcfmMht9oLziLWXHYyP6nXW9oPKdWhqJiWd2++VWMw6HvDb4wC9I8bemM/ejTYBxX
+	 L6EWIAWj0LxrKRcgaG7iNFiblFIJIcMLW7gEUYn7FyS6T4k8fI+6XCeRzHYEvR42qP
+	 hh83zOfLijGqIqisxJxh1MK77OORmYFtdQ7G3BIREDcJUuQrf66q4IJTRR/5Y9ZPaT
+	 iy2T/GsobVs7N9wj5SPk43HW/3qcoCTM/EnQ7uIC1LTtLrjsxXXeirtN8J7zV82nE+
+	 blQkBsRDyba3/5aZpzhMlhABxH5a7zxEKR/X5PdamUK9E7vfuRDdiyBHQbocNxnBOS
+	 iaL+kAedZsirA==
+Message-ID: <sashiko-outbox-165090@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 1/2] usb: uas: implement .change_queue_depth to allow
+ per-device queue depth override
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Luca Cecchi" <luca.cecchi.info@gmail.com>
+Cc: linux-scsi@vger.kernel.org, linux-usb@vger.kernel.org
+In-Reply-To: <20261009081225.304319-1-luca.cecchi.info@gmail.com>
+References: <20261009080341.295646-1-luca.cecchi.info@gmail.com>
+ <20261009081225.304319-1-luca.cecchi.info@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 09 Oct 2026 08:29:55 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Date: Fri, 09 Oct 2026 10:28:31 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: Stefano Munari <stefanomunari.sm@gmail.com>, netdev@vger.kernel.org,
- Thangaraj Samynathan <Thangaraj.S@microchip.com>,
- UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>, "David S.
- Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub
- Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Nisar Sayed
- <Nisar.Sayed@microchip.com>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net] net: usb: lan78xx: reject invalid EEPROM write
- requests
-In-Reply-To: <cc1a471e-ba76-4fe5-a982-0cbe1775c915@lunn.ch>
-References: <20261009005702.164936-1-stefanomunari.sm@gmail.com>
- <cc1a471e-ba76-4fe5-a982-0cbe1775c915@lunn.ch>
-Message-ID: <4fbcbf4e3caf264ee5abef2275e02cfb@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-On 9.10.2026 03:27, Andrew Lunn wrote:
-> On Fri, Oct 09, 2026 at 02:57:02AM +0200, Stefano Munari wrote:
->> The runtime PM handling removed the -EINVAL return for invalid
->> EEPROM/OTP write requests. These requests now return zero from a
->> successful usb_autopm_get_interface() call, even though no data is
->> written.
->> 
->> Set ret to -EINVAL for invalid requests while preserving the runtime
->> PM reference release.
->> 
->> Fixes: 8a7ffeb795f8 ("lan78xx: Fix for eeprom read/write when device 
->> auto suspend")
->> Signed-off-by: Stefano Munari <stefanomunari.sm@gmail.com>
->> ---
->> Tested on a Raspberry Pi 3 Model B+ with the onboard Ethernet
->> controller, using raspberrypi/linux commit bba53a117a4a on the
->> rpi-6.6.y branch as the baseline.
->> 
->>   ethtool -E eth0 magic 0 offset 0 length 1 value 0
->> 
->> The command succeeds without the patch and reports "Invalid argument"
->> with the patch applied.
->> ---
->>  drivers/net/usb/lan78xx.c | 2 ++
->>  1 file changed, 2 insertions(+)
->> 
->> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
->> index 5655941f1478..7ac263454d45 100644
->> --- a/drivers/net/usb/lan78xx.c
->> +++ b/drivers/net/usb/lan78xx.c
->> @@ -1719,6 +1719,8 @@ static int lan78xx_ethtool_set_eeprom(struct 
->> net_device *netdev,
->>  		 (ee->len == 512) &&
->>  		 (data[0] == OTP_INDICATOR_1))
->>  		ret = lan78xx_write_raw_otp(dev, ee->offset, ee->len, data);
->> +	else
->> +		ret = -EINVAL;
-> 
-> It might be the nested if's without {} which caused the broken patch?
-> 
-> Maybe add some brackets to make it clearer?
-> 
->       Andrew
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [High] usb: uas: unsigned underflow in block queue depth via negative qde=
+pth
+- [High] usb: uas: negative qdepth corrupts block layer queue depth via sys=
+fs
+- [Medium] locking: data race on devinfo->qdepth between sysfs uas_change_q=
+ueue_depth and uas_configure_endpoints
+--
 
-8a7ffeb795f8 dropped the final return -EINVAL when it converted the
-returns to ret = ..., braces wouldn't have caught that. Fine with
-adding them for a v2 though.
+commit 4c7e73054e14e754e6e1a2516899bccc20bf7379
+Author: Luca Cecchi <luca.cecchi.info@gmail.com>
 
-In either case:
+    usb: uas: implement .change_queue_depth to allow per-device queue depth=
+ override
 
-Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
-Tested-by: Nicolai Buchwitz <nb@tipi-net.de> # Raspberry Pi 3B+ 
-(LAN7515)
+This commit implements the .change_queue_depth callback for the UAS driver.
+This allows users to dynamically lower the per-device queue depth via sysfs
+to work around bridge firmware lockups without having to disable UAS
+entirely.
 
-Thanks,
-Nicolai
+> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+> index 8655edbd66b16..0a9ae15be2bd6 100644
+> --- a/drivers/usb/storage/uas.c
+> +++ b/drivers/usb/storage/uas.c
+
+[ ... ]
+
+> @@ -910,6 +910,20 @@ static int uas_sdev_configure(struct scsi_device *sd=
+ev,
+>  	return 0;
+>  }
+> =20
+> +/*
+> + * Implementing .change_queue_depth allows users to lower the per-device
+> + * queue depth via sysfs.
+> + */
+> +static int uas_change_queue_depth(struct scsi_device *sdev, int depth)
+> +{
+> +	struct uas_dev_info *devinfo =3D sdev->hostdata;
+> +	int max_depth =3D devinfo->qdepth - 2;
+
+[Severity: Medium]
+Could this read of devinfo->qdepth race with a concurrent USB bus reset?
+
+If a user writes to the queue_depth sysfs attribute while a reset
+(like uas_post_reset() or uas_reset_resume()) is occurring,
+uas_configure_endpoints() can write to devinfo->qdepth before any locks
+are acquired by the reset caller:
+
+drivers/usb/storage/uas.c:uas_configure_endpoints() {
+    ...
+    devinfo->qdepth =3D usb_alloc_streams(devinfo->intf, eps + 1,
+                                        3, MAX_CMNDS, GFP_NOIO);
+    ...
+}
+
+Because uas_change_queue_depth() reads devinfo->qdepth without holding
+shost->host_lock or devinfo->lock, can this lack of mutual exclusion lead
+to an inconsistent observation of the queue depth?
+
+[Severity: High]
+Does this code expose the block layer to queue depth underflows?
+
+If uas_configure_endpoints() fails during a USB reset, it can return a
+negative error code (such as -ENOMEM or -22) which is assigned directly to
+devinfo->qdepth.
+
+If this happens, sdev->host->can_queue still retains its positive probe-time
+value, so sysfs writes to queue_depth still pass validation in
+sdev_store_queue_depth().
+
+When this happens, max_depth is calculated as a negative value (e.g. -24).
+
+> +
+> +	if (depth > max_depth)
+> +		depth =3D max_depth;
+> +	return scsi_change_queue_depth(sdev, depth);
+
+The requested depth is then capped to this negative max_depth and passed to
+scsi_change_queue_depth() in drivers/scsi/scsi.c.
+
+scsi_change_queue_depth() forwards this negative value to
+blk_set_queue_depth(..., unsigned int depth) in block/blk-settings.c, where
+it will implicitly cast to a massive unsigned integer.
+
+Can this heavily corrupt the block layer's queue limits and lead to tag
+exhaustion or memory corruption? Even if the underlying negative qdepth is
+a separate issue, does wiring up change_queue_depth expose this previously
+unreachable vulnerability to sysfs?
+
+> +}
+> +
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261009081225.3043=
+19-1-luca.cecchi.info@gmail.com?part=3D1
