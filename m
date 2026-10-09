@@ -1,87 +1,60 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9D63CE4B6
-	for <linux-usb@vger.kernel.org>; Fri,  9 Oct 2026 17:00:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 114FD382F1A;
+	Fri,  9 Oct 2026 17:08:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791565215; cv=none; b=lMv5Bh1S5lnGWqsfWaI2XknSr3+WiE4FX9l2O8R1iugEW4mn5eDFiyCeQtsW4YHBbtSg36ZUAPx7/45l4kut7c3RRQTM27do5CN4eVIgECTOk7GaP2ZrD1vsZBH8NGPZQLb0CHxbUo2mCo46ra+o4PzL04SOmOujlVx7hC5fkq0=
+	t=1791565705; cv=none; b=DRZKHSyd5phLCP33eGXJKCb+TgQM6K1UeKrS3iS2BRi/a2unzj+8AxEapFCg2aV8lvU+CtfV1f5jMWpFl9Ckijcis1HQo0xnDVpERUHlFcqqR6J89Z63BvIXP3fUISm5LcSKc7d+MKeeJFLbn1cX8JatbneJCfWApSFofsYsRfk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791565215; c=relaxed/simple;
-	bh=/SFRWd4s6/zDXRWcNQtbzjimLl77s3aTX/GJXWKcwpM=;
+	s=arc-20240116; t=1791565705; c=relaxed/simple;
+	bh=6YzTNOLTT1Te9JhJDtNggsuthcxl1b3q6N63kjISzg4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ozxpyZ8zIppef0OO4HZEOliLBUrbwOxoAuvI2Xj/xFJDU/UV+PBrH8NYGWdot7Qca3Ph9fsQAaRHEnia6OrMpAda0AwjsqBgx1BDBu9qbWWoxsVPKHcu7s7WQ+Vq2QugvZ05cAwnJE7K71dclrnOUQHoFSczOzmTper52KCEbZQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=DRdR7Sx9; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=C7LTIbh9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=NdYNXTIpfHmn2oP9Gc7RmQkung+by11yK4ozVL06HOPVj+GIz9lgfA/wkzXYfoTGi02ntplb8Nsu3G7oAXekOIFj4IGfC97yt6Q01JZ5eksUqm6rXLWsH7uxGyF8BH9zy3aqPHV7RHnPadBpa+VSMKnn0/Sz65Ml7z1W4J7HYBA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=obtGyV1j; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="DRdR7Sx9";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="C7LTIbh9"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 699GbMrS2343935
-	for <linux-usb@vger.kernel.org>; Fri, 9 Oct 2026 17:00:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xsMlwv29UHJ/iYsm6gVY/2H7g6IrA01pTEowYzyQ57E=; b=DRdR7Sx94OAR5rKQ
-	GpSjlI3Et0TCCMsP/se5dpCAJnMz9quWray0E0ed0GMKSPyH3sdiMHPw52vGvrNN
-	K2idutEA4pSTiUDjOw4gJlrfu085cjCzHZnKUqWy/L9M15fF0yMEBf3SPuHb69Tb
-	/qRchcrGQowVYP2AaGPRakqGMveRXEE3t9MBxOMMwZl90VVVyE9eNBdAdQk7zsoM
-	gye+n5p9+877nlqHwNnj4HuxkjzfyF1lHXPZZ+KvcMymLvdhPf8h0HbhCrnE5N+k
-	v1RIVU+CUW9hUA6Wcfmi/Szea7zLZuKc9MWZCKV8mIrRpudOx1AhNGrJqHjWUgk8
-	d6KvIQ==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h6yk7h824-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 17:00:06 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-cc1eb205d31so7310936a12.2
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 10:00:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791565206; x=1792170006; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=xsMlwv29UHJ/iYsm6gVY/2H7g6IrA01pTEowYzyQ57E=;
-        b=C7LTIbh9NcWFZM++BzubNLI2ADh056fbzz/50GUbzXZ/5rjXWIzHjdgD+goZBd37r7
-         fJWRzexN6436P3ydHli/+abk3tjArm6BZnJU89FWqAIBIj61M8aP4r4n1bVzL0YGmXNF
-         THfE6zK6sc/bIr2IvXQBAoitXSUYI7BMwnxMWEO/GCafP7o6RDzr7a14LGyKxPC/QRNM
-         tR0j0pYZFHtVCLvaz1B7YTdq6MdTpwm/ZeAbxZUpDfx1lfJ+JZA/kWNGf5jS+3cL91Oh
-         Mo57wHsxIy0yXCUI9nL+RW/WidEWlC9Mptf/G7GB2+QDKIjN7+13GZiVUgqxJNW/r8h0
-         2IyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791565206; x=1792170006;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xsMlwv29UHJ/iYsm6gVY/2H7g6IrA01pTEowYzyQ57E=;
-        b=Vlr2pFzRkGXDjke9cSrhKr31qBdIVwcv2bwdnZYVbFKc5aO+fR+RoEW3i+QehIMe11
-         +gPl/6+G8fFH2i28BIevBiki13IomrAUpTuVBkIhzwogljSYHZLLRibD+5D8RWyWJb7s
-         2zOLT3+hE+yYCELdhtYPqkEPIEsCYGbEkm9IMgdX3gmMHUxT2Tu84zwhbvFEtxUKLmay
-         qoaOfc+6JSxywAE915/Ty3xEldYyF/12G8Oofsccs+8u06PjRCxlQyXOr1OgZdpRJVuz
-         YY3r/x7M+s6yj9xwUuAmliuUwziKQhCg7X1mO49EjoECdLafSEI+2jsN8+WB3wjEXEk3
-         iG0A==
-X-Forwarded-Encrypted: i=1; AKwUvByHaSIanfQKEsqSH2+AM9Hq/lnx2Dws8zbFVZckwHJiCIopsT9t6IVJove6DBoQtWS/zij+lQ3ZIZk=@vger.kernel.org
-X-Gm-Message-State: AFuF++lJk9JLyRc355i0hTgpJQk1WqFOXmab2rGEb+ex5aY8rVQmUvkg
-	RjHEKeVZtAoNzJQrXvfVC8OiBtJvgt5vSs95G3vSIn8b1Dhy14t0fso5vtFnFPDapxS6tsMZHjB
-	0HZjocfcghaYKtWsb3OhtCVX6iV6Hckb4hNfv4c0fpqDDZ9C0GCLPH6lKFiqi0nZ9lOYzxOM=
-X-Gm-Gg: AYBFou3qOcVI0V+503gdWdn4PLA088ynU7ofwDdM3CGpU/2ic7mp2976R5UnpKOnidq
-	whihwkhhwIU/BEN6CpL0L1YE2dav5ZNG8LBMYVaRrZLh9v8TLwRvTvD6xQCj3JlaGA7evB8VWzK
-	fIovxhY/xAwUix+2waYss1OiY5U0szchv57fyNXUKJmHoIGwRD9SQLDjDlLHew/yuCoFGNwwxL8
-	0lNJz2lK/amE8nr4LsdfP4StLXmmGsDTgG5BOlDEYW8EL+ZUgwMIQhO4HI5px+nOE1G38eyiidZ
-	v4CYuamUOE4ZhfxaJUgs2n7wV8mVJdXwDQ36t/Ij0Q558Y+BhjU5Fj60fT5jmTCpEhSiYhaJUMH
-	xslS6BeRCCnr6iZYHCy3vaEfmzcU698kJft0zSg85LsSWW5l15jWYr0FXQXOiirV+9Nu+
-X-Received: by 2002:a05:6a20:3d06:b0:3e0:b9ec:7c64 with SMTP id adf61e73a8af0-3e16bd85989mr2590054637.18.1791565205666;
-        Fri, 09 Oct 2026 10:00:05 -0700 (PDT)
-X-Received: by 2002:a05:6a20:3d06:b0:3e0:b9ec:7c64 with SMTP id adf61e73a8af0-3e16bd85989mr2589960637.18.1791565203736;
-        Fri, 09 Oct 2026 10:00:03 -0700 (PDT)
-Received: from [192.168.0.106] ([49.205.100.237])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd3da0596f9sm1395220a12.31.2026.10.09.09.59.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 Oct 2026 10:00:03 -0700 (PDT)
-Message-ID: <3a3cf540-816f-41a3-b31d-2902e7f4cf01@oss.qualcomm.com>
-Date: Fri, 9 Oct 2026 22:29:56 +0530
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="obtGyV1j"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 699H6xiv636456;
+	Fri, 9 Oct 2026 17:08:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=wXIsN+
+	s46Yidwn8rxJkjnKxRl2Vxbvm8hA0IJ2zcWRQ=; b=obtGyV1j76gcby9omZ9iv9
+	dBIYr4z+Yq91nzkFJpa3KnHQOD4hZOUJlBly0uggh/dZoQF0dkGzhdmwae6cMcIS
+	PAAFQVbe7yFLJ/c5ow+G8NTvR022CQCiqKdbvW+JoWeBbjuZsh236o09OS+uVrD8
+	xQYKNvqRFRDpoF/FJoG8M/k1BY18p/9nWgP2A4/YxbjwlcqMSfq47Loh642vmnLV
+	Y4tiwDyLiPbdP8cOZfvfrWiWEpmlJzA8y8601WH9FXOnhbPmpQIRq1+PZl9I5Tqp
+	S6VCsx+7xOdQSnDThORaTQnQZSQwq1ybokt2BsCgl0QzWNg5pvREYIeyRxMm6e2A
+	==
+Received: from ppma11.dal12v.mail.ibm.com (db.9e.1632.ip4.static.sl-reverse.com [50.22.158.219])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4h5xjvm0up-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 09 Oct 2026 17:08:19 +0000 (GMT)
+Received: from pps.filterd (ppma11.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma11.dal12v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 699H8Fst1204260;
+	Fri, 9 Oct 2026 17:08:19 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
+	by ppma11.dal12v.mail.ibm.com (PPS) with ESMTPS id 4h6x1y9egx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 09 Oct 2026 17:08:19 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (smtpav05.wdc07v.mail.ibm.com [10.39.53.232])
+	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 699H8IT824904234
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 9 Oct 2026 17:08:18 GMT
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 47CF35805D;
+	Fri,  9 Oct 2026 17:08:18 +0000 (GMT)
+Received: from smtpav05.wdc07v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1B61158043;
+	Fri,  9 Oct 2026 17:08:17 +0000 (GMT)
+Received: from [9.61.241.153] (unknown [9.61.241.153])
+	by smtpav05.wdc07v.mail.ibm.com (Postfix) with ESMTP;
+	Fri,  9 Oct 2026 17:08:16 +0000 (GMT)
+Message-ID: <7ed02ff5-d7f8-42e4-bca9-b3d3ce7b6795@linux.ibm.com>
+Date: Fri, 9 Oct 2026 10:08:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -89,166 +62,92 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 2/5] include: linux: phy: Add phy attribute "type" and
- associated helpers
-To: Vinod Koul <vkoul@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
-        Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+Subject: Re: [PATCH v2 2/3] PCI/PM: Do not save the config space of an
+ inaccessible device
+To: Bjorn Helgaas <helgaas@kernel.org>,
+        =?UTF-8?Q?Francisco_Beltr=C3=A1n_Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, linux-pci@vger.kernel.org,
+        Alan Stern <stern@rowland.harvard.edu>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-phy@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org,
-        Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
-References: <20260913-eusb2-interrupt-v8-v8-0-0f505b9c394b@oss.qualcomm.com>
- <20260913-eusb2-interrupt-v8-v8-2-0f505b9c394b@oss.qualcomm.com>
- <asNji2_GUda8x245@parshuram>
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Wunner <lukas@wunner.de>,
+        Andreas Noever <andreas.noever@gmail.com>,
+        Mika Westerberg <westeri@kernel.org>,
+        Yehezkel Bernat <YehezkelShB@gmail.com>
+References: <20261008225825.GA936610@bhelgaas>
 Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <asNji2_GUda8x245@parshuram>
+From: Farhan Ali <alifm@linux.ibm.com>
+In-Reply-To: <20261008225825.GA936610@bhelgaas>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=D63SufRj c=1 sm=1 tr=0 ts=6ac91d96 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=jBUYxde0W5cEf5DRjetLAw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
- a=jIQo8A4GAAAA:8 a=EUspDBNiAAAA:8 a=a43HgpfhDiYDw8gHJIcA:9 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-GUID: -aF92c1i8foeYojtfnPPtm8k3yY6BTqV
-X-Proofpoint-ORIG-GUID: -aF92c1i8foeYojtfnPPtm8k3yY6BTqV
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfX94wbEB60J/DC
- aBUs27K/b79bisVVOdDdKUKmqE8yR+KcXwpLJMCPaJQR8rt06k3MPXCLi4fwB/v3dRNSjoZTQAU
- yqABBpT2b8us5eMcmV5MibG1ZUcYSXNf2EiuEGDO5cid1zICD3OF+oJEILWod1n4/bmPG4jqtRu
- V9Kl47VNLTu98fgmQ6UodSxFlW0wZIun72Iw6EEUGMadx9/Rc1JOBEhGdZo15Bs0aDR4XKYy104
- cv/JcwiBK1D1mki+0jG0tAyNJhbtaWj/954eYSKdGYXpvjaVS86SQeLEsNeZlRiNB7b2mqlmbm3
- dfbK1lr2ryL9r1dtMYDxD2W3RwRDZHGDwVib/1kfyMslG4lJJFUdIRHxmNXBPdM8bBsXUG6JN/9
- ATgKWzmRi4WPpmEo3SmBkUJeQIcL6JEis3jBXV1LswOc16oS2TzZ2VVSDQOeHZJOn/+Yn9cG3cX
- h+XmUr1Y6SmItCgwKdw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDA2NyBTYWx0ZWRfX7pyGSMy+3V/J
- iXpMKPpx2YiByht0A+Zhk+h/LTmzd6rKyQ+DJ1vqlPVMjnWtWaphT0x6vVYrgmJtyMYjm0JXF2F
- IRSKj9bLOB0ew4moIwzUDwox0dW1Zpg=
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-GUID: 4ZH1ueigKIh6mBxxAAiJQcABL3lcmDGH
+X-Proofpoint-ORIG-GUID: U-Ctq-YPjyfDCPUwRMooOgyuISM7Qvli
+X-Authority-Analysis: v=2.4 cv=H8NOUOYi c=1 sm=1 tr=0 ts=6ac91f84 cx=c_pps
+ a=aDMHemPKRhS1OARIsFnwRA==:117 a=aDMHemPKRhS1OARIsFnwRA==:17
+ a=522apck9F_D-Mxne:21 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22
+ a=VwQbUJbxAAAA:8 a=K2jGQ8kdn3RRRsgUj50A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDA5MDA2OCBTYWx0ZWRfX+zU5PmotcETz
+ z52aRkY5DLV5YppuNg6KpH9GpeZFH2wh29oMmHpRlRWH3jdl30aQQW1X+n4sSLzDvxaJs8Hd/q3
+ w5GiEcK+RRGAZcl9QLDgGOv1GXMOl7XRSNvHZGX3jSnyGHrhds6Gg5w7rgd1OyPMWodvb8Locr4
+ sGLJ4XLpMYw72Z8KdKKTnJ5gyNn9835ZLo6AUkX5p3sgXC6kjOFaG0SL1uN7Nc9IvXe2euujppy
+ ZiVC0BjbhgcDgsPM7XOljXOEEKK5tmWceg+7uKvGOkX6G6Mik0AIzXPbkjctTNK8VBeucOR0JTC
+ x4K79P3M/QIGXcuNgCNl6vxUMoVJ8e9I1xpQGDeGAsY2BJMjRbOhjah9JdObNfKKVkHtu+ysaHR
+ aq3VoEla3Zras3BqFXLeFJQj7XqF8T5mpHv2Pgdg2YD5O5XF6ZF+dNdX7GpEi+dhE7UmCsLSJv0
+ CnEz69s1Ff9QYGNBGRA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDA5MDA2OCBTYWx0ZWRfXysn1JeKRxtgv
+ 7b1m6IBE5yqSjuuT+hICG6HDN25qvDx1Y0X/R9H0yAEvflwZqODjcs5WAcoxK8oCpADMbQZosSI
+ KyNli6v9xIUWeXHrbDCBae3XbnwS64A=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-09_04,2026-10-09_01,2025-10-01_01
+ definitions=2026-10-09_05,2026-10-09_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 phishscore=0 malwarescore=0 bulkscore=0
- priorityscore=1501 clxscore=1015 impostorscore=0 spamscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 phishscore=0 lowpriorityscore=0 impostorscore=0
+ clxscore=1011 spamscore=0 priorityscore=1501 malwarescore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610020000 definitions=main-2610090067
+ reason=mlx scancount=1 engine=8.22.0-2610020000 definitions=main-2610090068
 
+Hi Bjorn,
 
+Thanks for cc'ing me.
 
-On 10/5/2026 2:14 PM, Vinod Koul wrote:
-> On 13-09-26, 20:10, Krishna Kurapati wrote:
->> In cases like USB High-speed phys which can be either USB2 or EUSB2, it is
->> required to know the type of phy (rather than the operating mode) because
->> DP and DM interrupt lines need to be configured differently for each of
->> them.
-> 
-> Does the controller care? In preceding patch you defined the EUSB2 in dt
-> type, so this describes the hardware. So phy knows it is usb or eusb...
+On 10/8/2026 3:58 PM, Bjorn Helgaas wrote:
+> [+cc Lukas, Farhan, Andreas, Mika, Yehezkel]
+>
+> On Wed, Sep 30, 2026 at 11:19:13AM -0300, Francisco Beltrán Millalén wrote:
+>> pci_save_state() reads the standard header into dev->saved_config_space
+>> and marks it valid without checking that the device answered.  If the
+>> device is not accessible, every read returns all ones, the previous
+>> snapshot is overwritten, and pci_restore_state() writes the all-ones
+>> values back once the device answers again.  On a bridge that sets every
+>> writable bit of the Bridge Control register, Secondary Bus Reset
+>> included, and sets the primary, secondary and subordinate bus numbers
+>> to 0xff, which cuts off everything below it.
 >>
+>> On a MacBookPro14,3 this happens to the upstream bridge of a
+>> Thunderbolt controller that drops off the bus while the system is
+>> suspending: after resume the bridge answers again, but with bus numbers
+>> ff/ff/ff and Secondary Bus Reset asserted, and the xHCI controllers
+>> behind it are removed.
+> Apparently this is a reproducible issue on MacBookPro14,3.  That makes
+> me a little hesitant because we're not actually dealing with the fact
+> that the Thunderbolt controller isn't responsive during suspend.
+>
+> It seems worthwhile to me to skip pci_save_state() if the device isn't
+> accessible, but I don't think it's a real solution to whatever is
+> going on with Thunderbolt, and I don't think we should mention it here
+> as though it is.
 
-Controller is agnostic of whether the phy is usb2 or eusb2. Phy does now 
-its type, but it needs to communicate the same to controller.
+When I had initially looked into this, I had proposed adding the 
+accessibility check in pci_save_state() as well [1]. Though Lukas had 
+some valid concerns around the additional overhead from adding it in 
+pci_save_state(). But maybe its worth re-visiting again?
 
->> Add support to cache the PHY_TYPE and add the following helpers:
->>
->> - phy_set_type() for the phy drivers (like m31_eusb2 or snps-eusb2) to
->> declare what type of PHY they are (in this case PHY_TYPE_EUSB2).
->>
->> - phy_get_type() for the consumers (like USB controllers) to query the
->> type of phy connected to them.
-> 
-> I am not convinced that this is the way to go... Driver already knows
-> the type and should use it...
-> we alreayd have mode, i am inclined to not say yes to adding type here
-> 
+Thanks
 
-"Mode" attribute describes the current operating scenario of the phy 
-(device mode, host mode, high speed, super speed etc.,). But it doesn't 
-describe the type of hardware and hence a new attribute.
+Farhan
 
-Regards,
-Krishna,
-
->>
->> Reviewed-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
->> Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
->> Signed-off-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
->> ---
->>   include/linux/phy/phy.h | 27 +++++++++++++++++++++++++++
->>   1 file changed, 27 insertions(+)
->>
->> diff --git a/include/linux/phy/phy.h b/include/linux/phy/phy.h
->> index ea47975e288a..038c2b58bbe1 100644
->> --- a/include/linux/phy/phy.h
->> +++ b/include/linux/phy/phy.h
->> @@ -21,6 +21,8 @@
->>   #include <linux/phy/phy-lvds.h>
->>   #include <linux/phy/phy-mipi-dphy.h>
->>   
->> +#include <dt-bindings/phy/phy.h>
->> +
->>   struct phy;
->>   
->>   enum phy_mode {
->> @@ -152,11 +154,13 @@ struct phy_ops {
->>    * @bus_width: Data path width implemented by PHY
->>    * @max_link_rate: Maximum link rate supported by PHY (units to be decided by producer and consumer)
->>    * @mode: PHY mode
->> + * @type: PHY type
->>    */
->>   struct phy_attrs {
->>   	u32			bus_width;
->>   	u32			max_link_rate;
->>   	enum phy_mode		mode;
->> +	int			type;
->>   };
->>   
->>   /**
->> @@ -262,6 +266,20 @@ static inline enum phy_mode phy_get_mode(struct phy *phy)
->>   {
->>   	return phy->attrs.mode;
->>   }
->> +
->> +static inline int phy_get_type(struct phy *phy)
->> +{
->> +	if (phy)
->> +		return phy->attrs.type;
->> +
->> +	return PHY_NONE;
->> +}
->> +
->> +static inline void phy_set_type(struct phy *phy, int type)
->> +{
->> +	phy->attrs.type = type;
->> +}
->> +
->>   int phy_reset(struct phy *phy);
->>   int phy_calibrate(struct phy *phy);
->>   int phy_notify_connect(struct phy *phy, int port);
->> @@ -393,6 +411,15 @@ static inline enum phy_mode phy_get_mode(struct phy *phy)
->>   	return PHY_MODE_INVALID;
->>   }
->>   
->> +static inline int phy_get_type(struct phy *phy)
->> +{
->> +	return PHY_NONE;
->> +}
->> +
->> +static inline void phy_set_type(struct phy *phy, int type)
->> +{
->> +}
->> +
->>   static inline int phy_reset(struct phy *phy)
->>   {
->>   	if (!phy)
->>
->> -- 
->> 2.34.1
-> 
+[1] https://lore.kernel.org/all/aOQX6ZTMvekd6gWy@wunner.de/
 
