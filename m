@@ -1,60 +1,61 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26C944CEE55;
-	Fri,  9 Oct 2026 11:35:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5C54C4F6C;
+	Fri,  9 Oct 2026 11:39:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791545766; cv=none; b=GpvlQgKwbD97fFzoj9Z+FzH1GpBGAo84G+WDNamdPf2X3BQQHr+oBl47rYiAD7LWUujYTZheJCN6Joj+0hvxZddTqqdhna6qHiMc8fAhT05y7R5hJ9DiuBUup83EgKEhESBpasYKQn7ZU/v3TMd4VmajnZdFG2WF1Wd7RkIyUlY=
+	t=1791545967; cv=none; b=o7blJc4DrrKeD87tTa3Dq2E97/f2xIpQw2/5rdloAQz7bFqid9f3npa9ocsLDTLXZbm69e1aVBzsDcws4dbBEc3LykFk4/bltqG/DQ22pyHKF5elsYfRCMIgg5Esba2RXeR2Atzu0rjrTMdXLb7zVSMfiogxoH4Efoxq1gygbJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791545766; c=relaxed/simple;
-	bh=fm1ZXvPtr+gMm2HM6zjBQLAeTxwW+QbhZ/anVQUB/nM=;
+	s=arc-20240116; t=1791545967; c=relaxed/simple;
+	bh=XyQqzU+8QNIzammOFbpxePpG8apNsTjBiyIoesrfVXk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=slBcCQqmAIAYIE314LXTpPvcsMAaaTlkVsGRubD3WpRvBZFusz4rb4t8k+r1WkRjdDiGt8ujWCDcUOPHt7wHrOWIB0eR7iMxMn94Anez8sdccGbbeb+q48ywtU4kiMi171FAhy86UbBoKHYRLTPvW3pFotJaFO+TDlJjKiKhnrA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I2D2fX0s; arc=none smtp.client-ip=198.175.65.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=jDqLHiEAaeMW9up3cBylYjaZEQ5Qyun5aTA0mceHwoLCVLQTszHuN6myKcRFOW25orSTvkh5FrO9gAW7e5C0BfkJipGa4gOkVLa4mrouY6UQgAJEKhjSG5N/il6ZX4PknvkVFxKG64pTFhh+SfiqXPbxzkjajYaHA7XtJf5dqnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FbNRdt0T; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I2D2fX0s"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FbNRdt0T"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791545757; x=1823081757;
+  t=1791545959; x=1823081959;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=fm1ZXvPtr+gMm2HM6zjBQLAeTxwW+QbhZ/anVQUB/nM=;
-  b=I2D2fX0scJ2wJy7bMYHxxnnmgSCBQGZsgS9ynOFXlu1N6BObgn++XBrk
-   9d/TO3t1Evc4RPeY9oVgo9z4GoZsJEZrfx3dMU4Ji5Eh55+vUyFXx5Tw3
-   +vHF2AUdKEN227CqfezB+bmWT7lha7GudJHeayirtkM9Rpw6u8i6Q7umJ
-   Big/l4Jo28FZD2Bv2Usmm6DSc/PHm32buElBedjuBxWbzXE+eK01xkRPz
-   v1iMqM4otbPgKd1VQU8Wr4VatBbcvuVmxP6pFT2nazteE1qzZ5Rpv+mdu
-   89MFaa2h4rM+UsKR3cyeRcnMsRyKFxk9ZldABZwt66CMJMvyhvGu0l+Xs
-   g==;
-X-CSE-ConnectionGUID: Q0ZF+I3HSWGf7HcQA04Cgg==
-X-CSE-MsgGUID: VI/XAdWoQ5mbx/YvRxnBmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="229923"
+  bh=XyQqzU+8QNIzammOFbpxePpG8apNsTjBiyIoesrfVXk=;
+  b=FbNRdt0TNIF6MObGf+mbFHUJ2IXKIp4XegVIhi3MJ+GMBRjv4eB6XBgX
+   +lIXQoPPoq7CNJZXG1RLtpptlulRTYOAj4TLObohj32ylj9nARy/RzRpk
+   V0HnUaBHPGrd9OdT/Sorlzcr11xJ86Mg8RtaH0HltzVorhqwnMHXyU8bP
+   QrBi+2ZD5g+ZkS/Ey0evKzpVj9ZzTK1CzCgZYjFdUuQ7ZRQ6ZzMZWnPgq
+   Yr34V8vJODV/cABMDDiIilez40ugu2PDXynzpNQ18El3Uo0z4pWJwBRuF
+   A5fG4JVLsnKMcoPYIPvXVSdwddlKZm0y7lab6bleXLClX/6y3k//Phz6f
+   w==;
+X-CSE-ConnectionGUID: WNpAb+W3RVGEZsd4wCOXkw==
+X-CSE-MsgGUID: 3mFTu6w4SI+hNOH4oIwFvA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11929"; a="248516"
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="229923"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 04:35:56 -0700
-X-CSE-ConnectionGUID: ra5t7a/xRqe7FxnCHSq/1g==
-X-CSE-MsgGUID: u24BpNR7TKa8MhwWhU3jKg==
+   d="scan'208";a="248516"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2026 04:39:19 -0700
+X-CSE-ConnectionGUID: b3P3XatKScOT2h+7qSLvEw==
+X-CSE-MsgGUID: g+aG3UHTSXuM8KDdDgwQnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,148,1787036400"; 
-   d="scan'208";a="753915"
+   d="scan'208";a="306851"
 Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Oct 2026 04:35:55 -0700
+  by orviesa006.jf.intel.com with ESMTP; 09 Oct 2026 04:39:18 -0700
 Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id EAD7F99; Fri, 09 Oct 2026 13:35:53 +0200 (CEST)
-Date: Fri, 9 Oct 2026 13:35:53 +0200
+	id 04D0699; Fri, 09 Oct 2026 13:39:16 +0200 (CEST)
+Date: Fri, 9 Oct 2026 13:39:15 +0200
 From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Uttkarsh Aggarwal <uttkarsh.aggarwal@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans de Goede <hdegoede@redhat.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: typec: ucsi: Set ucsi->connector before enabling
- notifications
-Message-ID: <asjRmXRRIShLTdFc@black.igk.intel.com>
-References: <20260929092939.1806907-1-uttkarsh.aggarwal@oss.qualcomm.com>
+To: Jean-Francois Bobier <jean-francois.bobier@laposte.net>
+Cc: linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: displayport: defer instead of failing
+ when the port is not DFP
+Message-ID: <asjSY8kEVlo1biOa@black.igk.intel.com>
+References: <20261005125645.17899-1-jean-francois.bobier@laposte.net>
+ <e416c2c7-4a10-4061-bbb9-cb1aa5958798@laposte.net>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -63,79 +64,79 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260929092939.1806907-1-uttkarsh.aggarwal@oss.qualcomm.com>
+In-Reply-To: <e416c2c7-4a10-4061-bbb9-cb1aa5958798@laposte.net>
 
-On Tue, Sep 29, 2026 at 02:59:39PM +0530, Uttkarsh Aggarwal wrote:
-> In ucsi_init(), ucsi->connector is assigned only after the
-> UCSI_SET_NOTIFICATION_ENABLE command completes. But once that command
-> is sent, the PPM is free to raise a connector change notification at
-> any time, which is handled through:
+On Mon, Oct 05, 2026 at 03:20:31PM +0200, Jean-Francois Bobier wrote:
+> dp_altmode_probe() rejects a port that is not yet TYPEC_HOST with
+> -EPROTO. That is a permanent failure: the altmode device stays bound to
+> nothing and the driver core never retries it.
 > 
->     ucsi_notify_common() -> ucsi_connector_change()
+> The role is not stable at that point. With a dock, the partner's
+> alternate modes are registered while the port is still UFP and the
+> data-role swap happens afterwards, so whether DisplayPort comes up at
+> all depends on the altmode happening to be registered a second time
+> after the swap. On the OnePlus 8T this made DP-over-USB-C work on some
+> attaches and not others, with "dp_altmode: probe ... failed with error
+> -71" as the only clue.
 > 
-> ucsi_connector_change() indexes into ucsi->connector to get the
-> connector and schedule its work item. If this notification arrives
-> before ucsi_init() reaches the "ucsi->connector = connector;" line,
-> ucsi->connector is still NULL and the driver crashes dereferencing it.
+> Return -EPROBE_DEFER so the core retries once the role settles, and
+> release the plug altmode reference obtained earlier in the function
+> before doing so -- the very next check in this same function already
+> follows that convention on its own early-return path. The leak existed
+> on the original -EPROTO path too, but turning a one-shot terminal
+> failure into a retried EPROBE_DEFER means it would otherwise repeat on
+> every deferred probe attempt instead of happening once.
 > 
-> Fix this by setting ucsi->connector right after the connectors are
-> registered, before notifications are enabled, so it is always valid
-> by the time a connector change event can be delivered. Also clear
-> ucsi->connector in the err_unregister path so it isn't left pointing
-> at freed memory if a later step in ucsi_init() fails.
-> 
-> Fixes: 0482c34ec6f8 ("usb: ucsi: Fix ucsi->connector race")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Uttkarsh Aggarwal <uttkarsh.aggarwal@oss.qualcomm.com>
+> Signed-off-by: Jean-Francois Bobier <jean-francois.bobier@laposte.net>
 
-Reviewed-by: Heikki Krogerus <heikki.krogeurs@linuc.intel.com>
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
 > ---
 > Changes in v2:
->  - Add Fixes tag pointing to 0482c34ec6f8 ("usb: ucsi: Fix ucsi->connector race").
->  - Add Cc: stable@vger.kernel.org.
->  - Link to v1: https://lore.kernel.org/all/20260923060434.2599545-1-uttkarsh.aggarwal@oss.qualcomm.com/
+> - Release the plug altmode reference before the new -EPROBE_DEFER
+>   return, matching the convention the next check in the same function
+>   already follows. Not present in v1; found while re-checking usb-next
+>   for related in-flight work after v1 was sent, which turned up a
+>   since-stalled June 2026 patch proposing the same cleanup on the
+>   original -EPROTO path (https://ratatoskr.run/lkml/2026/06/17182803/t).
+>   That patch hasn't landed, so this isn't a duplicate, but credit for
+>   spotting the leak belongs there, not here.
 > 
->  drivers/usb/typec/ucsi/ucsi.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  drivers/usb/typec/altmodes/displayport.c | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
 > 
-> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
-> index bef3f9b71d71..8f7b73a9f4f4 100644
-> --- a/drivers/usb/typec/ucsi/ucsi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi.c
-> @@ -2122,6 +2122,14 @@ static int ucsi_init(struct ucsi *ucsi)
->  			goto err_unregister;
->  	}
->  
+> diff --git a/drivers/usb/typec/altmodes/displayport.c
+> b/drivers/usb/typec/altmodes/displayport.c
+> index 51c92dd88..91d72789e 100644
+> --- a/drivers/usb/typec/altmodes/displayport.c
+> +++ b/drivers/usb/typec/altmodes/displayport.c
+> @@ -766,9 +766,21 @@ int dp_altmode_probe(struct typec_altmode *alt)
+>  	struct dp_altmode *dp;
+>  	u32 cap = DP_CAP_CAPABILITY(alt->vdo);
+> 
+> -	/* Port can only be DFP_U. */
+> -	if (typec_altmode_get_data_role(alt) != TYPEC_HOST)
+> -		return -EPROTO;
 > +	/*
-> +	 * Set ucsi->connector before enabling notifications. A connector
-> +	 * change event can be handled as soon as the notifications are
-> +	 * enabled below, and ucsi_connector_change() indexes into
-> +	 * ucsi->connector, so it must not be NULL at that point.
+> +	 * Port can only be DFP_U.
+> +	 *
+> +	 * Defer rather than reject: on a dock the partner registers its
+> +	 * altmodes while the port is still UFP, so a hard -EPROTO here drops
+> +	 * the DisplayPort altmode permanently and nothing retries it --
+> +	 * binding then depends on the altmode happening to be re-registered
+> +	 * after the data-role swap. -EPROBE_DEFER makes the driver core retry
+> +	 * once the role settles, which is deterministic and stops logging a
+> +	 * failure for an ordinary ordering race.
 > +	 */
-> +	ucsi->connector = connector;
-> +
->  	/* Enable all supported notifications */
->  	ntfy = ucsi_get_supported_notifications(ucsi);
->  	command = UCSI_SET_NOTIFICATION_ENABLE | ntfy;
-> @@ -2129,7 +2137,6 @@ static int ucsi_init(struct ucsi *ucsi)
->  	if (ret < 0)
->  		goto err_unregister;
->  
-> -	ucsi->connector = connector;
->  	ucsi->ntfy = ntfy;
->  
->  	mutex_lock(&ucsi->ppm_lock);
-> @@ -2143,6 +2150,7 @@ static int ucsi_init(struct ucsi *ucsi)
->  	return 0;
->  
->  err_unregister:
-> +	ucsi->connector = NULL;
->  	for (con = connector; con->port; con++)
->  		ucsi_unregister_port(con);
->  	for (i = 0; i < ucsi->cap.num_connectors; i++)
+> +	if (typec_altmode_get_data_role(alt) != TYPEC_HOST) {
+> +		typec_altmode_put_plug(plug);
+> +		return -EPROBE_DEFER;
+> +	}
+> 
+>  	/* Make sure we have compatible pin configurations */
+>  	if (!(DP_CAP_PIN_ASSIGN_DFP_D(port->vdo) &
 > -- 
-> 2.34.1
+> 2.55.0
 
 -- 
 heikki
