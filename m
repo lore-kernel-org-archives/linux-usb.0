@@ -1,67 +1,92 @@
-Received: from sender5-op-o15.zoho.com (sender5-op-o15.zoho.com [165.173.182.15])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3D191D9663;
-	Sat, 10 Oct 2026 07:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791616742; cv=pass; b=MlmqBOGV37iiO39C7NZD/V7qx0Phs2wxMxk8UMJRxZYdzEEpnMbUYNGmkr5/kFYlYPx22tVuzkqx5ZnTuBjN1oSxjIrsTFFeTZue0Ir28hpypLK/kfkMRmaPIWGgXZEmlzwFYmDyYiagVilBgKrUlJ/OucUelf99zuu1uNejAB4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791616742; c=relaxed/simple;
-	bh=qAYxJHoNHJkITegv/B665pWxcd74b1noLZ2nKAjT7J4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JkdbHpgWxTDz1waTaeT16zdklH0215vpZGRi1pFRN8oetbk0nC6qzqxyDP4zDRuSpGOr9cVOzz5iJ9YwA7JbW6zSivANjvdf6GTa4bDrCz0Q/lF3/EQLWlyp8I7A92SFFKujWNLFAg/UdWgzZK6q+2i2IyUkj1xqtHTC70WiCtw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io; spf=pass smtp.mailfrom=yiyuzhou.io; dkim=fail (0-bit key) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.b=J5f8pbfE reason="key not found in DNS"; arc=pass smtp.client-ip=165.173.182.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C8323630B0;
+	Sat, 10 Oct 2026 07:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791618148; cv=none; b=c4DNrdvD3MQ330KiYzFehG2JV2ROwzOYiCDDZZ1FP230+v9NbmxRBKaKxec3zzr9UJsUMFgIKq61NDrF/ErGzBBm/zTMP12C/g925JkRD8uvPjlfngETy5QUOdl+bI5ZUEvrzGcGndHNlXTEYexuvB+GJkju6cQVPP6w9Egb4mE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791618148; c=relaxed/simple;
+	bh=HyPzLRrcfBl0mgmNZFfi4VrIJ6h/dbpeSnbAwwMj8IA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bGSp6Lh+su2zr8OID8U6VuhZKGZo0IqvFC25xDXgfGklHZyKanPs5iGPNpdWQUHssnzgLj6Z8HV6zWb2Esr5q8nhxn4y4CAtFOsEVczstAJ2V/bcphrmKw+UboOXcq2wAAeSbXcM4CJy9xVfWWBarrzgX/simPsFpOduozRgcgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=IY064Okc; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=EFRD9wLJ; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.b="J5f8pbfE"
-ARC-Seal: i=1; a=rsa-sha256; t=1791616733; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=TxgPa9B+hv35NqcFPn8udT5z8MqA4in9Mq7KsQICuLFS7Kr2aYDo0vrVJ7vbRM9hRymg7/OOJOSdDM7QpzROjKR51uoiCRF6kdtbFIvDWAjfOLaACFnA4LcAepuOjnI7tc9mIrOGXRhsKWmPezg3W28Etv9tJxoEpc1m80kKO+Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791616733; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=YKbZiLQtePaGvvY6MJw4YtcUObVh47GbkOMTA4dxO7M=; 
-	b=ENQkxaA0K8shDmCQwbvrCAlmGZ5MnsGI/A5/ucaQxNbIYhv4NDOzsThCknyZ8J3VkxmhXo+ftYq+2yIE/5+MEU4Q9XqgskPobWyyaNvzmIjTqeThu35HBhM42bkpwGkY8Zl2XAgxHoYTz95qkkiAMxpV5mRPBMSL3a7IB7lZf0A=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=yiyuzhou.io;
-	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
-	dmarc=pass header.from=<yiyu@yiyuzhou.io>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791616733;
-	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=YKbZiLQtePaGvvY6MJw4YtcUObVh47GbkOMTA4dxO7M=;
-	b=J5f8pbfENS7mSY8ZXqjSltb1d21V3cZfNX7SwWIr06LXwIeoZSA35dbGll8MZOkU
-	GYN9vmbFqgshT0pE8k4odxRgTCTUFajcXDfWoZTXLJ/Y75oJ6ijt5ug+CVPnXUxsOBL
-	NDbdeLvmKBmIqKpvegbISW9xO7lexHOpsEptugHU=
-Received: by smtp.zohomail.com with SMTPS id 179161673164423.24026925948715;
-	Sat, 10 Oct 2026 00:18:51 -0700 (PDT)
-From: Yiyu Zhou <yiyu@yiyuzhou.io>
-To: mathias.nyman@intel.com,
-	gregkh@linuxfoundation.org
-Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	michal.pecio@gmail.com,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH] xhci: give back halted TD when skipping endpoint reset after disconnect
-Date: Sat, 10 Oct 2026 00:17:39 -0700
-Message-ID: <20261010071811.20483-1-yiyu@yiyuzhou.io>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261010064407.11030-1-yiyu@yiyuzhou.io>
-References: <20261010064407.11030-1-yiyu@yiyuzhou.io>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="IY064Okc";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="EFRD9wLJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1791618144;
+	bh=HyPzLRrcfBl0mgmNZFfi4VrIJ6h/dbpeSnbAwwMj8IA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=IY064Okcd6oNl1Fd5CEy+Ib8faOHVjBIq2liOAAbVv634wfGqs20ayyYLZgJtR/LQ
+	 BKQggsKa+wh8uTZWTnPNfUdKCl3VF0+kOYnw7rS6WSG+4AEugJvcKeEq+XA0SGL8ar
+	 kXt2x1aHD3gbGZuaRfVFVMaQ5uI9LBe9gPSZhSGP5c2hVk/qYbG8DTNSXhfrNZY8FH
+	 t21+CShhRqqhl1BWX6qNjYbeAp7JoaCkf+4RB34JabFr9NzFdSSUNVIykqwA9ReWlE
+	 X+rJs8Og49TiHrYQPt10J5UDseSxOmBYsLML/aVdIxy3Vgzfw/GiNibtTlWggAoXGR
+	 d9kimNOIJyMOA==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 65E7147553; Sat, 10 Oct 2026 07:42:24 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1791618142;
+	bh=HyPzLRrcfBl0mgmNZFfi4VrIJ6h/dbpeSnbAwwMj8IA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EFRD9wLJqcM9O01zWVwavk9+j8Znt8KrFOWxcpNjF7m51NG6E42HPH4jVPkW/9JIx
+	 irrUWZEKkbX7oZfm7/M/RTRUJyn3MLG9aYAwcAcp4RhBBe6T8UFvaUd83pU+4GrR9f
+	 O8AFar8kfQAP5NXuNxDYIRE/d353a7KwjA6w6iSkwDpP736KfBUrxAfsqu/ROOO1Yd
+	 tXMikRvaH9T68v5CEuPx+mQpxwZJ/YVNN7z4HqRxPzQBwU54ts+q4Q9fRR69t6Suji
+	 MKmIOrszKHWRZTrchSEMVRx1rR7tZdH9RN+Xqw+fNQ+OjWMiKbXALlxVl8nPVqBKSZ
+	 XhcmvvDXyYYyg==
+Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id C398F4752E;
+	Sat, 10 Oct 2026 07:42:21 +0000 (UTC)
+Message-ID: <ec24f075-e38d-44cc-91d2-16ff6305405c@birger-koblitz.de>
+Date: Sat, 10 Oct 2026 09:42:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v19 0/13] ax88179_178a: Add support for AX88179A-based
+ chips
+To: Jianhui Xu <neuromoments@gmail.com>
+Cc: andrew+netdev@lunn.ch, andrew@lunn.ch, chenhuacai@kernel.org,
+ davem@davemloft.net, edumazet@kernel.org, hkallweit1@gmail.com,
+ kernel@xen0n.name, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux@armlinux.org.uk, loongarch@lists.linux.dev,
+ nb@tipi-net.de, netdev@vger.kernel.org, pabeni@redhat.com
+References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
+ <20261010062047.399148-1-neuromoments@gmail.com>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <20261010062047.399148-1-neuromoments@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-This fixes a regression introduced in v7.3-rc1.  Up to v7.2.1 the
-keyboard recovered from the same hotplug in well under a second, and
-reverting 042aad8d0db6 and 7e0ef4332ed9 on top of v7.3-rc5 also fixed
-it.  It would be good to get this into 7.3.
+Hi Jianhui,
 
-#regzbot introduced: 042aad8d0db6
+thanks again for your persistent testing efforts!
+
+Cheers,
+   Birger
+
+On 10/10/2026 8:20 am, Jianhui Xu wrote:
+> Hi Birger,
+> 
+> I tested the v19 series on my AX88179B adapter, rerunning all the
+> previously described tests.
+> 
+> The previously observed VLAN-filter failure did not reproduce, and no
+> carrier or RX failures were observed in the test. No confirmed driver
+> regressions were found in the tested scenarios.
+> 
+> Tested-by: Jianhui Xu <neuromoments@gmail.com>
+> 
+> Thanks,
+> Jianhui
+
