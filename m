@@ -1,151 +1,179 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16F639CCFD
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 06:36:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791614187; cv=none; b=W4+3G5zxB0i+jHpZPn79x90CB1WOAjXeH9pz3b5bvrxiKeyGVh71FXe7R3iSU+uaX2qMurILOc6jzm/YmfGZ807wv9TuIMKAA/87pEc8vnjUGoYiYWHaBhcSxQYjUjMg9yRFuSw5LX42lbo0uQkpHeVqc+MR1nLc3MP8ZknUXpo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791614187; c=relaxed/simple;
-	bh=ZnJxfnu9UopKxXTa0U94zGzQEzcjgXN+qKv+FV9kVl4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sQkcAuLwRm2ozHEcRofx6g3C8US+f8M/ZYSpsxrZ4DdCF+PQW2+74rrBudIaCpUdJ6GcvRuBp5Va3ZP4IA74HYvcw+gGD5WpH+65I3Eywn92+DICbopZgIbaHFnLwmodz2gYMFbDu0KQPD6e91iK1SR/Zd1AyAIqYK5cINhmo40=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpEFoM0Y; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C561EB5CE;
+	Sat, 10 Oct 2026 06:46:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791614766; cv=pass; b=ty+gwWJkIXyvis1CSS+jT5alrrTMkABc5ZUXftF0DnnFqV5mZf/NjrF7g/mW4Gh0D9zwkcsYDH7DAPgW1faEjkfHHo3lj5otg0EpH6/lWz9x/rFGJSCeTAITpxBZtQNkYWGAf9hVJsW+mxVuFHCl0Q9KKzokjMf7pbg/jcIe9+I=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791614766; c=relaxed/simple;
+	bh=OvD1Qd4VBybxFDyfjCwOUVwBhaJQmRZAwpCTbLZOD0g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ELjbvTtQronKN7bD/lraEBUNos1B6ibOdboQqiiYFS60kCE1+GRoSNfZM9Nok0BGbs6Gcr0KugKF837VrzuR0O8cRB4FEPQ7M7+xk5J3bbMLMYxuZTLp4YjJrmzR+Kb1y5DJ4MvLE+RY9HLoFX4WxueOhqZ7xg3EolikBPY/wRU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io; spf=pass smtp.mailfrom=yiyuzhou.io; dkim=fail (0-bit key) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.b=c/HimdH/ reason="key not found in DNS"; arc=pass smtp.client-ip=165.173.180.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpEFoM0Y"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a16bc2278aso3073815e9.1
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 23:36:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791614184; x=1792218984; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=hSqVSM4fJlvTDpFrnKpXbQXJn7V7EVNmkAGYR+oqhh0=;
-        b=gpEFoM0Y7e4nVf9sTR5OFUmyK5T448lHzkX+nsJnvlzO6kb1Kw6M1QT+d94g/nrKBs
-         6oIVll31HfJB80U+Ic9JjSLi1UF7Nxd1glaZyu+1ke5mftXaKH9NKpZ7mNgPNXzathzK
-         eXg6DWVwvoaDlzUBK6RTCfUQJOjhPqUaMfcsM8Nq61aOqQiFKOwp75ITYiwykqrA+JBb
-         lDe6WcObBbLpT3S6qH95ldck+GxObzezKBgKsTue13t2wjgfZFzMZnV7iwNwFl8nrBTa
-         /5c+I9Ih3vzAMpNqdxE6DdW88WyU0BytCuTxnhQ0EI/eTqOZWL18mv2Ak+lndajO8sRP
-         Hfsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791614184; x=1792218984;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hSqVSM4fJlvTDpFrnKpXbQXJn7V7EVNmkAGYR+oqhh0=;
-        b=LPpxHAzVKm3u5+ev/S0XAHxuV6r1tsdS54vUw0a3i5z0yhXtm0DQrf5v6Z5En/Dg85
-         O9gFJzJYBpxXiuWc2MjEwjfkiqt6WEIw6QVxfSsXBQQ4tfmisvP9WosKq146G7CUarEg
-         jur4oiFH4yG2A3bWMvo3DEduPFLEnEPP6XgAsz2s9vGG423JB5nmNoTKdzzv4YxqvhuC
-         jkVcuN6RPiSsHrDKGo5upXQroDsZvYjH+Xp+UNgph+6GePrYqKS8OaFdCzkxeXAH7vvZ
-         zjv03NzeEXiENEaAbK4k6AiL3E7nzXg9fd1teHpoYtfMu96dhPBE+2jX8dh0VlH8CSJD
-         6uSg==
-X-Forwarded-Encrypted: i=1; AKwUvBxwApCP2nW9VI0xFOp/eRh7F1pVmItUH4mP/jSMuMof0GrXw/Ed35SLAu5iAa3Rh5C/qeLG4ZMVmec=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLwd6vhTfdLSQCM9818EJgcsSUGM6tYMTv9lSNJLqVC7AE9k5+q
-	w1BgeCdgvpwEcMDR1I9CKBJ7+8n5ChjeQtjynf5Mxfjl2v6h/kV1VuSA
-X-Gm-Gg: AYBFou07PXaHncrxnbfXap8LTDCPfaVk4qpYVnYszvfGPVv4/IRMmChJ8a0EXgLD+29
-	uNaH+ZXEOr5dRk+bOIb5Jbcdnr3UMEuR4AuyvtUwvxYYNEIXViuwJortKOR2Kz/4v19AcZGJ82M
-	UD4fB5lrXDQy6Upa+1/S5AOpttJcMkz9ZHLYecz/MM7746xv5N3pCUsfhFMeTakqhaC2NqIz+RN
-	Qa+9TkyClV5XPtxHqgc+Ka6uTm27+PVXLvZoK0YRbp5QGEoUutQTNnui2alrDfDq7SE8qKsc5Jq
-	llGHHspRsDBsySME7PrDMQuscj5oxRFh3G6fUjUvOn7na99VTNgqHDCUW9aR660K8FSfPSgHK6n
-	v5IjeUg1esB9AbT3D6E+ArysLbtubakkC2i2fktoHzcPKouMcD7hSJ5ALbXCYaifjVeG4y9xTV6
-	y8Fk1qZYwHuN5fyz/0uEtJzQhJLVj9Bh+z0iOLTEG6OEg79b5wpECGuwNaP3UNJsfwUqkNr6dTb
-	pNfeABLDA==
-X-Received: by 2002:a05:600c:4688:b0:49f:f963:7093 with SMTP id 5b1f17b1804b1-4a18e4ce84cmr84106665e9.23.1791614183932;
-        Fri, 09 Oct 2026 23:36:23 -0700 (PDT)
-Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9ac6a91sm6661246f8f.41.2026.10.09.23.36.23
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 09 Oct 2026 23:36:23 -0700 (PDT)
-Date: Sat, 10 Oct 2026 08:36:18 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: "Mathias Nyman" <mathias.nyman@linux.intel.com>,
- <gregkh@linuxfoundation.org>
-Cc: sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 02/11] usb: xhci: Unlock for command abort polling
-Message-ID: <20261010083618.24da3062.michal.pecio@gmail.com>
-In-Reply-To: <sashiko-outbox-165772@kernel.org>
-References: <20261009151624.618967-1-mathias.nyman@linux.intel.com>
-	<20261009151624.618967-3-mathias.nyman@linux.intel.com>
-	<sashiko-outbox-165772@kernel.org>
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.b="c/HimdH/"
+ARC-Seal: i=1; a=rsa-sha256; t=1791614759; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=myG2gzBY6IUhpd8aTnUij6ayM8yf+lrwLRuEZ+VBBIgXAIcxkqxIhaBB1YizcyAnxymq7VHoGB4JFc4Aof6qSIhkf9RUTsTst14OKghDY2KvAPVhFzBmJ9rSwNDjo9jV4Tg2gqD8yd1p7CJkJuBtIOiAMNStnTHh35X2FbW3kDg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1791614759; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=f00TvRKVl4NKwyYaLv7u/2ca7xd44H3r4On2kzjvgYg=; 
+	b=Vaz4xfu5cCWQ2xdK4KEPxwvlnzVAJRigXD1nlDZZRWUZBukEflGa/aOAwlyJlUGTwbzHMybNG1N15NNO9rX3DRTyrPxbbe2y4CL7bLi9Ms34fIrFnVfNNj+i0JyfrjDGFIffmdF5qBP61QZFrecODtQX+ygMKg3zzmA1pjmCs2k=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=yiyuzhou.io;
+	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
+	dmarc=pass header.from=<yiyu@yiyuzhou.io>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791614759;
+	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=f00TvRKVl4NKwyYaLv7u/2ca7xd44H3r4On2kzjvgYg=;
+	b=c/HimdH/d7a+6Tq5gtQqXQ6ShMa+EkVue4H2O+9R3qhoPK/0OHrpUrusTjyvb5jQ
+	MHtGFwGJwFCeTDFKzXU40zORRPGCUL++vL1p59tu/PAKaFrKflfz0Am1oNKN8NI6T+S
+	q1nrrk4eIe40R883bSBA0+ijCeA6WjbgkAUTeO30=
+Received: by smtp.zohomail.com with SMTPS id 1791614758969308.89419048164314;
+	Fri, 9 Oct 2026 23:45:58 -0700 (PDT)
+From: Yiyu Zhou <yiyu@yiyuzhou.io>
+To: mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	michal.pecio@gmail.com,
+	Yiyu Zhou <yiyu@yiyuzhou.io>
+Subject: [PATCH] xhci: give back halted TD when skipping endpoint reset after disconnect
+Date: Fri,  9 Oct 2026 23:42:19 -0700
+Message-ID: <20261010064407.11030-1-yiyu@yiyuzhou.io>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Fri, 09 Oct 2026 15:27:25 +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [Medium] usb: xhci: 5-second udelay() busy-wait in sleepable command timeout path
-> --
-> 
-> commit 8ece4a222044715c34357d2e1240af7af9feef1a
-> Author: Michal Pecio <michal.pecio@gmail.com>
-> 
-> usb: xhci: Unlock for command abort polling
-> 
-> This commit drops the xhci->lock earlier during xhci_abort_cmd_ring() to
-> prevent stalling other CPUs while polling for the command ring to stop.
-> It subsequently waits for the command ring stop completion event.
-> 
-> Link: https://lore.kernel.org/linux-usb/16f65081-5a3c-4c30-9811-9017796a3373@fonseca.com.pt/
-> 
-> > diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-> > --- a/drivers/usb/host/xhci-ring.c
-> > +++ b/drivers/usb/host/xhci-ring.c  
-> [ ... ]
-> > @@ -521,25 +521,27 @@ static int xhci_abort_cmd_ring(struct xhci_hcd *xhci, unsigned long flags)
-> >  	 * In the future we should distinguish between -ENODEV and -ETIMEDOUT
-> >  	 * and try to recover a -ETIMEDOUT with a host controller reset.
-> >  	 */
-> > +	spin_unlock_irqrestore(&xhci->lock, flags);
-> >  	ret = xhci_handshake(&xhci->op_regs->cmd_ring,
-> >  			CMD_RING_RUNNING, 0, 5 * 1000 * 1000);  
-> 
-> [Severity: Medium]
-> The patch drops xhci->lock here to avoid stalling other CPUs, but
-> xhci_handshake() unconditionally uses readl_poll_timeout_atomic():
-> 
-> int xhci_handshake(void __iomem *ptr, u32 mask, u32 done, u64 timeout_us)
-> {
->         ...
->         ret = readl_poll_timeout_atomic(ptr, result,
->                                         (result & mask) == done ||
->                                         result == U32_MAX,
->                                         1, timeout_us);
-> 
-> Since the context allows sleeping (the lock is dropped, and we call
-> wait_for_completion_timeout() right after), does this code burn 100% of
-> a CPU core in a busy-wait for up to 5 seconds if the hardware fails?
+Commit 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub
+disconnect") makes xhci_handle_halted_endpoint() return early when the
+root port is disconnected, and commit 7e0ef4332ed9 ("xhci: avoid xHC
+endpoint changes after disconnect or link error.") also sets
+EP_DROP_PENDING there, which keeps the doorbell from being rung until
+the device is reset.
 
-Does it not? :)
-Still an improvement over the status quo.
+The callers rely on xhci_handle_halted_endpoint() to take over the
+halted TD.  For example, finish_td() returns right after calling it,
+expecting the TD to be given back once the Reset Endpoint command
+completes.  With the early return, nobody gives the TD back.  Its URB
+stays pending until the submitter times out and unlinks it.  Every URB
+queued on the endpoint afterwards never starts, because the doorbell is
+blocked, and also has to time out.
 
-> Could this use a non-atomic polling macro like readl_poll_timeout()
-> with an appropriate usleep_range to yield the CPU instead?
+Devices that disconnect and reconnect themselves during enumeration hit
+this.  A PFU HHKB Professional HYBRID Type-S keyboard (04fe:0021) drops
+off the bus about 300 ms after its first enumeration, while usbhid is
+still probing its third interface.  The probe runs in hub_wq, so the
+disconnect is not handled until the probe returns.  On a root port the
+HID descriptor request and its four retries in hid_get_class_descriptor()
+each wait for the full 5 second USB_CTRL_GET_TIMEOUT:
 
-Maybe, but other callers still haven't been fixed to stop being atomic.
+  [57685.006036] usb 3-2: new full-speed USB device number 24 using xhci_hcd
+  ...
+  [57685.291304] hid-generic 0003:04FE:0021.0017: input,hidraw1: USB HID v1.11 Keyboard [PFU Limited HHKB-Hybrid] on usb-0000:00:14.0-2/input1
+  [57711.221083] usbhid 3-2:1.2: can't add hid device: -110
+  [57711.221613] usbhid 3-2:1.2: probe with driver usbhid failed with error -110
+  [57711.221842] usb 3-2: USB disconnect, device number 24
 
-My plan was to omit xhci_handshake() in this case and instead increase
-the timeout for subsequent completion wait to 5 seconds, but I realized
-that this slows down abort processing on HCs that fail to generate the
-event we are wating for.
+The re-enumeration that follows can stall the same way, leaving the
+keyboard dead until reboot.  Behind an external hub, where the root
+port stays connected, the same keyboard recovers in about 300 ms, as it
+did on the root port before these commits.
 
-Mathias, do you know what was the buggy HW mentioned in 3425aa03f484d?
-Was it really a bug in HW and not SW, maybe it was Intel HW that you
-still have access to? None of my HCs exhibit such behavior.
+Keep skipping Reset Endpoint on a disconnected or inactive port, but
+give the halted TD back right away, with -EPROTO if no error status was
+set yet.  The endpoint is not restarted until the device is reset or
+dropped, so the ring dequeue pointer can stay where it is, as
+xhci_invalidate_cancelled_tds() already assumes for cancelled TDs on
+such endpoints.  Also refuse new URBs on an endpoint with
+EP_DROP_PENDING set, like xhci_urb_enqueue() already does for an
+inactive link, so they fail right away instead of timing out.
 
-If it's important, I could split the completion wait into stages, poll
-USBSTS in between and stop waiting if CRR stays clear for 2 seconds.
+Fixes: 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disconnect")
+Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
+Assisted-by: LLM
+Signed-off-by: Yiyu Zhou <yiyu@yiyuzhou.io>
+---
+Tested on v7.3-rc6 on a System76 Galago Pro (Intel 8086:51ed xHCI)
+with the keyboard plugged directly into a root port, including twice
+right after resume from suspend.  On every hotplug the keyboard still
+dropped off during the probe of its third interface, and it was
+re-enumerated with all three interfaces bound about 0.3 s later.
+Before this patch, the same sequence hung usbhid for 26 s, and often
+left the keyboard dead until reboot.
 
-Still, I consider all of that outside the scope of *this* patch.
+ drivers/usb/host/xhci-ring.c | 24 ++++++++++++++++++++----
+ drivers/usb/host/xhci.c      |  5 +++++
+ 2 files changed, 25 insertions(+), 4 deletions(-)
 
-Regards,
-Michal
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index ec278a9f9540..82190380831d 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -979,6 +979,24 @@ static int xhci_reset_halted_ep(struct xhci_hcd *xhci, unsigned int slot_id,
+ 	return ret;
+ }
+ 
++/*
++ * Mark the endpoint to be dropped instead of reset, and give back the halted
++ * TD now, as nobody else will.  The endpoint is not restarted before device
++ * reset or drop, so there is no need to move the ring dequeue past the TD.
++ */
++static int xhci_drop_halted_endpoint(struct xhci_hcd *xhci,
++				     struct xhci_virt_ep *ep,
++				     struct xhci_td *td)
++{
++	ep->ep_state |= EP_DROP_PENDING;
++
++	if (td)
++		xhci_td_cleanup(xhci, td, xhci_urb_to_transfer_ring(xhci, td->urb),
++				td->status ?: -EPROTO);
++
++	return -ENODEV;
++}
++
+ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
+ 				struct xhci_virt_ep *ep,
+ 				struct xhci_td *td,
+@@ -993,10 +1011,8 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
+ 	 * Can cause host hang.
+ 	 * Device will be reset to recover an inactive link, so don't do anything
+ 	 */
+-	if (rhub_port->link_inactive || !rhub_port->connected) {
+-		ep->ep_state |= EP_DROP_PENDING;
+-		return -ENODEV;
+-	}
++	if (rhub_port->link_inactive || !rhub_port->connected)
++		return xhci_drop_halted_endpoint(xhci, ep, td);
+ 
+ 	/* add td to cancelled list and let reset ep handler take care of it */
+ 	if (reset_type == EP_HARD_RESET) {
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index a9e47e178c28..491a541b57b0 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1691,6 +1691,11 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 		ret = -EINVAL;
+ 		goto free_priv;
+ 	}
++	if (*ep_state & EP_DROP_PENDING) {
++		xhci_dbg(xhci, "Can't queue urb, ep halted after disconnect or link error\n");
++		ret = -ENODEV;
++		goto free_priv;
++	}
+ 
+ 	switch (usb_endpoint_type(&urb->ep->desc)) {
+ 
+-- 
+2.55.0
+
