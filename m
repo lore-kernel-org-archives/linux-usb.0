@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0B4A37F738;
-	Sat, 10 Oct 2026 01:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9A6253B42;
+	Sat, 10 Oct 2026 01:43:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791596443; cv=none; b=lG1yf7wAIEnjjcrMd7dxmB4ehV4fU4UuUxCqbE4GZUi/U0QO9z6ZRWWMf+KsDUY4u/dAg1VBM+PVhIfNRLHU/QlwAr3mKQ0aPryMG0/Hj19FywF/WRq1KqDTz9kT5knpwKYO5nNt93gi8h/BUB8f/zdzrO2yuKO4PS+qQCoqMZY=
+	t=1791596614; cv=none; b=kE6OwoKkBja/lsOIN0f/hhzi0XuI/dhe//zX7vYvVSJ0ehDOorBYg5hX124ZfU78zJ8Ll3cwDIjDoHzQUx1hMLPD+S2+3w6VWDdAXU83ree29d6wLeNORUk/IFJXmWkVmIU08pY5YhuPrhJDUU82zsWhgRqKLilOIO/XCsFSmBE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791596443; c=relaxed/simple;
-	bh=P+dc3o0BWUvg4dbbYs44Nz1N8y3UxiJsmhiXKdk7FAw=;
+	s=arc-20240116; t=1791596614; c=relaxed/simple;
+	bh=Hu6EF8MuZZAgTTrI3yng71js/yaasmDRDqHWDDNyWyI=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=MYu4FL9jgUS/XsvKx/2/Zm2Jn8ej/t/ATwodLlCsNdqZPKIh4iMkTi1OX7MxY9qNX/dH+UyK+oRFZFCk+vzs3TPZ6wpRCuT1EStarIMimlBoQCqgK793XgL9QJEQGEt16vnp8N52M05lT23Da66NuKGdngVLRy1/IuP0ObRxAZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W0W+i5HX; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=robB3osHuHRdBMd1xqQvtMRob672hLloKKldPqVqC5dnrjhDVxcRJdwfVNr/ARR/ImhTmJeDxYVvHT9/Vh2MMPhQ62bnu+mc+T31ZBwtmXL3oTsczCpraHWuMQuHPQhCbSN7KdImU4C2KEERBWHQtUQWhstutlcH5G2qI1TxFbc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nwp7oagQ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W0W+i5HX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BFA711F000FF;
-	Sat, 10 Oct 2026 01:40:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nwp7oagQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17E221F00893;
+	Sat, 10 Oct 2026 01:43:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791596442;
-	bh=6NPOt1shkcS4iVwEgyzjbYmgsmSNvyNIr2DozCp971c=;
+	s=k20260515; t=1791596613;
+	bh=Hu6EF8MuZZAgTTrI3yng71js/yaasmDRDqHWDDNyWyI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=W0W+i5HXfNA9ZVtYo8CjV431qeU3FU8KcmgPrU5OqzgQ6Pwc2H1VA/fIhgnLsWRSX
-	 IBxeF0K7KapC8ePj5PULpQwm4Hhlh+6Ojx1N9K4rlZAcMfFyJOfm9jdw1QPElMCluY
-	 xpaTOFF1BRCFcgKGbpfQKQi0sSZP0coGG+bMo7mfv54sGmC9KnomRO9TbEOnn5ZqqV
-	 B7+2QyEAIssvaca6BnzUREjga9+6iur/Fwxphvonz/DY4bEiO4ciXrt2FXZxBi3GQB
-	 zeCULnzoXsjCUXACl7/im3yKs4or4cMFTlnmDcTzbZGcVT/qS5IuuH45MEnAx4nZBJ
-	 yqCO2bfZEDzSg==
-Message-ID: <sashiko-outbox-166207@kernel.org>
+	b=nwp7oagQBfndZj5l4KgsQx3uiE/Xn/Fqo+n4hTmsjywlPhI/7SLz9b16oT9HkPZUe
+	 43n+sFsNEGbCWi8MJRrsnJMvhfwoGgK4AXe/AwJACJJ3lTG4DKWLhIKpLslqxjEFbn
+	 78JG9/n3JCPCPav7E/W2akbv3vqQZc71//cXGS4So2OT1q4TVE2SD8rJLp9Ow1423e
+	 GlLU9YdKyab7P6rSX7ImuxUkASs3Tbo5mzjPKFglg5XvvgVzuw5pB3wgBa3s7nqcK2
+	 K63DoQK4kegluufMI8zT/r6/eVQEzDXuKUbwkABDXTEv2LzXkJnxk69M0vygWtZrsO
+	 ABG6AckvOHsOw==
+Message-ID: <sashiko-outbox-166208@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: connector: Add time property for
- tSenderResponse
+Subject: Re: [PATCH v2 2/2] usb: typec: tcpm: Allow configuring
+ tSenderResponse via fwnode
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Amit Sunil Dhamne" <amitsd@google.com>
-Cc: linux-usb@vger.kernel.org, robh@kernel.org, devicetree@vger.kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261010-tcpm-sender-response-time-v2-1-67ea364a21d7@google.com>
+Cc: devicetree@vger.kernel.org, linux-usb@vger.kernel.org, conor+dt@kernel.org, robh@kernel.org
+In-Reply-To: <20261010-tcpm-sender-response-time-v2-2-67ea364a21d7@google.com>
 References: <20261010-tcpm-sender-response-time-v2-0-67ea364a21d7@google.com>
- <20261010-tcpm-sender-response-time-v2-1-67ea364a21d7@google.com>
+ <20261010-tcpm-sender-response-time-v2-2-67ea364a21d7@google.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 10 Oct 2026 01:40:41 +0000
+Date: Sat, 10 Oct 2026 01:43:32 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,25 +47,13 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 > From: Amit Sunil Dhamne <amitsd@google.com>
 >=20
-> Add the sender-response-time-ms property to allow platforms to specify
-> the tSenderResponse timer value, i.e. the max time a port waits for the
-> port partner to respond to a message that requires a response.
+> The USB PD specification defines a range of values for tSenderResponse.
+> TCPM currently uses a fixed, relaxed value of 60 ms
+> (PD_T_SENDER_RESPONSE), which may not suit all platforms.
 >=20
-> As per the PD specifications, the tSenderResponse values are:
->=20
-> +--------+----------+----------+
-> | Spec   | Min (ms) | Max (ms) |
-> +--------+----------+----------+
-> | PD 2.0 | 24       | 30       |
-> | PD 3.2 | 27       | 33       |
-> +--------+----------+----------+
->=20
-> Set the minimum value to 24 ms (the lowest minimum across the PD
-> specifications). Both the default and maximum values are intentionally
-> relaxed to 60 ms to maintain interoperability with slower port partners,
-> while allowing platforms to configure stricter spec-compliant timeouts.
->=20
-> Also update the max33359 example to showcase the new property.
+> Allow platforms to specify their own tSenderResponse deadline through
+> the "sender-response-time-ms" fwnode property. Platforms that do not
+> set the property keep the existing 60 ms default.
 >=20
 > Assisted-by: LLM
 > Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
@@ -74,5 +62,5 @@ Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261010-tcpm-sende=
-r-response-time-v2-0-67ea364a21d7@google.com?part=3D1
+r-response-time-v2-0-67ea364a21d7@google.com?part=3D2
 
