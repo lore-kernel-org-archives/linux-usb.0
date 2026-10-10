@@ -1,101 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448B645DF47
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 12:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC78353A8E
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 13:49:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791637085; cv=none; b=bY4xM+b57xEFwGSoHrR7NDUly6PE5qyu0pJyYBAjKkITutwI6mPqy494m/HkSoHVGFB0clYxpsdTScokuv8z3Kcy1WMNUsY4qTvZu1nx/uEUL6v8+YeW/qgCoEKtoaM/llr4X8+9swxc1pR29rLhyq8YbGuIKdsbspDqKyNHQBI=
+	t=1791640146; cv=none; b=fwCNy5mwuD6SlQhHh7bq4+FSFYO094CJfAtRMAm+0IQe3lascwi92lFAX56MAK016MI/Le2tyoaxmG4Notl4X5uNgJSEBTfjCOfYwkNWQUa+jbFV872wImS1x4UivLocjyXUckq4VOGYtGHZ7/xdzU8VM7z89WXo5N86yFOM7U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791637085; c=relaxed/simple;
-	bh=dvZlOax+q0x2TEypui2vn2/1Do/DhJWxz5vO2wdFqAQ=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MxfLeg78hv7w6uHmhCTA26l54M98BZAMs6QKPq3UJEk8W9newdBau/4isY4u0SeQ1RLqAm0QtDiN//5nmcaUeN2xe8Zx4LAs+GJHkGTNhR/3Sa7BbYAhdMFsZ463WfeQZfN4uaI5zTSBHkDkeeJfIoVtEpOUkAdC7VnZ66srPU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rRPMXS6S; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791640146; c=relaxed/simple;
+	bh=MgS3AEUVPRpcN55hZd5xfi5t4pjX0Iurq2Q5bJVcUnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WUO9bBL3ZTtqufbtIPbjdNKVZoos/jHihZQxsgR6m8u38+yDdcVquZxDrwELb/vnIYu5NITSobaq6Dme5WKpNBjBZgf4yqzJFIyL2ocXeNpkyFPhqLDL5aIaJTLi90XFZIpnr9RJUDPSDNbrHpwoHlhgdOx11N6IWg4qt2HiCyw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=m1f1URTA; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rRPMXS6S"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BBABBC2BCF7
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 12:58:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791637084;
-	bh=dvZlOax+q0x2TEypui2vn2/1Do/DhJWxz5vO2wdFqAQ=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=rRPMXS6Sjgd29Onmk6z8jAEp+XpzPHLh/LgnqHnxVkJzEe1spfHc+IDzWGds8nHSI
-	 pcFLzSpioNc75+JzHMyedXodyJH2SVWRWBr6P4L28/DoteC/W4tfnpahL2Mo1qTgst
-	 JIDDq0Oe69vzUTU1kxMBav8lPibDG1r4l+ktSjyczD3VVGiGfPtk6F74BKz/po/5Ui
-	 zjfTHWWvKuv+utURT+bfAZ0MwEbb8+ycaFOVuIVsuHslTk8rOH8mTWljhQTBlS/ofb
-	 LCR0+wBI7ZNRMEfFaifjXXTuXqLczj5SuZYWTrQ1hmeF7IKw8fZuL2Bq/TKkcZIsGS
-	 CuIwkw6ndmM5w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 95357C3279F; Sat, 10 Oct 2026 12:58:04 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222021] Not charging via USB C after Kernel update
- "underpowered" Dell XPS + workaround
-Date: Sat, 10 Oct 2026 12:58:04 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: splint.em85@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222021-208809-B0JHxJAaBt@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222021-208809@https.bugzilla.kernel.org/>
-References: <bug-222021-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="m1f1URTA"
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-917b78dfe30so12030026d6.0
+        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 06:49:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1791640143; x=1792244943; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Tdm1TxznS8Z9AVlEqsfQUaZdl9GVN7DC6/4QW7CmuQs=;
+        b=m1f1URTAivH9y1fDuVJ8sC35Wg5m+2cLuagzCWkwO5PyQl78pi2SMbsjN8Fr5WdbE1
+         +bAukqhbMIvekXkFgSa248EQ+EM2+pfGczcTu6LxrsH3jhMofKPTkKcG31xK3ea2nb9v
+         +X0RdMPa1mobf5PiX3ioa+MEgY8GidF6hkduBXUlPl4kZqX+GdWMa5dHd9hf3L7IUA6T
+         tSYY79drDY6MOmYvYiJUyM19N/0LEP6svMO8GjupTs5Bj2Gl2KgqAzDtqT5fCR5Dmg3Y
+         dotqseM6N9Qdam9oH9jFHaaQ3PAZNpEysqMG2BRoC61qdhtcWuTKFJd8nNBcrf1x1hCY
+         QYgA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791640143; x=1792244943;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Tdm1TxznS8Z9AVlEqsfQUaZdl9GVN7DC6/4QW7CmuQs=;
+        b=AWFpjPYy0ecGjZgfeL/AKLzxNXo6XnFljdsRwflPuO4WdLNO5CQbJKEmqJfIoTaqqP
+         GD+6VSj04ZVCu9cW0zjGUQqRBA8dSxZn6Gue5iHj4eRWaHTWy03MtfUMQyOVrReINq8q
+         Lq8QxkhBjvgcobNmouaagfKDFCnbhZIcuvo/ZGqXvae+8hGX7o0C4BHUAd3jDYgN5R0o
+         mrqCKrTc7TQzDKBa1jFWkMqqUBEdwbbwVVwHLj5dhha5vAhQX7du2uWWPegDFqX4ZiPW
+         X5KOpiv0w1z3K+YnAYsiYKPC6jA1ju7XcTkaZT0LJN7EnqSLe9Aji7gMLp8inrPICM+U
+         yuCg==
+X-Forwarded-Encrypted: i=1; AKwUvBxWHBQ21bPrpATid7NJ1e46t09RGyOSRGgpb1My58htby42q7loZS4j6Y5+TKi4xXiXAJ84MbYDnoM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLDB0xJnNTvGX2PIBPRmoKuqs+NG8c5b6DU+/AXG8soDOCxR4hF
+	oxyNyj4ZPMfu7UfyOzENM59TF2WcBbIVaTjGcL6IBlBbv3x0ZkZGt8MBtqEFDAQkZXBRLeEN2Fi
+	AEdM9Sg==
+X-Gm-Gg: AYBFou28BnlZ7gGQi75MgDegvb8KwzekUG5nSGo0r0gACpRxB1kz4GoKs1Q9vUnqlVV
+	TbK/hxIvUBdjz15ye3ioVzsQTo/0AJNIn90yrTAkEnV+cTnfCHREvAzPEG33UnQdmonmeswXIQt
+	6pEsbClx5AGuI1NLRr9QLk5XYoXjima8AHMSm0n8OQCbOiNGoKXMQbpX7NRt18q0nfPEicRgwQm
+	cVv06oLQsIEPfwbA96/eBTjYb3cdqoY5CkpijOkSKRzWxRKQs4R8r5IfEgjIRaIqUuW/ISD+fFW
+	/+Mi/vlGqUNinvjeA1fBRHHYAeqxzb0PPKOePb/D+IvHpPguL1lwUbSC6z17HG9GQgdZruTPHB3
+	oM/YN1mOAKC/CwgahEyXVsPSIaDyc2O8AjZZpRM9SINx0b80sDiLtjUlcL36QQ+Os39kytkNrP5
+	VhY+hMEWtWUYx7IoYE/S+V4UNM2f6nAte+BbD2XtmEgFrWxHZs+hVbWKXEJu6yMLnkmxwBmsU=
+X-Received: by 2002:a05:6214:2f90:b0:914:4eff:e88e with SMTP id 6a1803df08f44-91b55574847mr79043426d6.41.1791640142564;
+        Sat, 10 Oct 2026 06:49:02 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::1b7d])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b5501859fsm45217386d6.16.2026.10.10.06.49.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 06:49:02 -0700 (PDT)
+Date: Sat, 10 Oct 2026 09:48:59 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: syzbot <syzbot+25a1d2907885b2182275@syzkaller.appspotmail.com>
+Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (3)
+Message-ID: <f10557f6-fe56-4f3e-b138-c1624465a15e@rowland.harvard.edu>
+References: <6ac9cbd8.a150a118.27e199.0025.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6ac9cbd8.a150a118.27e199.0025.GAE@google.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222021
+On Fri, Oct 09, 2026 at 10:23:36PM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    5926a7da8789 Merge 7.3-rc6 into usb-next
+> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+> console output: https://syzkaller.appspot.com/x/log.txt?x=11fc7ff5580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=7f0127eb11110629
+> dashboard link: https://syzkaller.appspot.com/bug?extid=25a1d2907885b2182275
+> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=124fc715580000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=174ed835580000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/0667b4f9388e/disk-5926a7da.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/0a1f8551bcab/vmlinux-5926a7da.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/03e51d6db4ed/bzImage-5926a7da.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+25a1d2907885b2182275@syzkaller.appspotmail.com
+> 
+> usb 4-1: config 0 interface 0 has no altsetting 0
+> usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+> usb 4-1: config 0 descriptor??
+> ------------[ cut here ]------------
+> UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:80:21
+> shift exponent 32 is too large for 32-bit type 'int'
+> CPU: 1 UID: 0 PID: 780 Comm: kworker/1:2 Not tainted syzkaller #0 PREEMPT(lazy) 
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
+> Workqueue: usb_hub_wq hub_event
+> Call Trace:
+>  <TASK>
+>  __dump_stack lib/dump_stack.c:94 [inline]
+>  dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+>  ubsan_epilogue+0xa/0x30 lib/ubsan.c:233
+>  __ubsan_handle_shift_out_of_bounds+0x279/0x2a0 lib/ubsan.c:494
+>  s32ton.part.0.cold+0x1b/0x26 drivers/hid/hid-core.c:80
+>  s32ton drivers/hid/hid-core.c:71 [inline]
 
---- Comment #7 from SpliNter (splint.em85@gmail.com) ---
-Tested 7.3.0-rc6 with the patch.
-Kernel: Arch linux-mainline 7.3rc6-2 with the patch added, default config
-(uname: 7.3.0-rc6-2-mainline-dirty).
+Converting a signed 32-bit integer to a signed 32-bit integer should be 
+a no-op.
 
-Summary: charging works on plug-in with and without the patch (as it already
-did on 7.2.9). The remaining symptoms (UCSI error, status flapping) are not
-changed by the patch.
+Alan Stern
 
-- AC plugged in while running (~352 s uptime): "ucsi_acpi USBC000:00: unkno=
-wn
-error 0" + "UCSI_GET_PDOS failed (-5)" appears twice (352.38 s and 352.87 s=
-).
-Unpatched 7.3.0-rc6 had it once at the same event (396.2 s).
-- No UCSI error at boot this time (unpatched: one at 9.2 s). This is a sing=
-le
-boot, so I would not read much into it.
-- udevadm monitor --subsystem-match=3Dpower_supply: identical to the unpatc=
-hed
-run: 4 changes of ucsi-source-psy-USBC000:003 within ~6 s, 1x AC, 2x BAT0.
-- The desktop battery status flaps on plug-in: "plugged in but discharging"=
- ->
-"not charging" -> "charging" (3 states).
-BAT0 ends up as "Charging", so the battery does charge, which fixes my issu=
-e.
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git 5926a7da8789
 
-Unpatched 7.3.0-rc6 and 7.2.9 behave the same.
-
-Thank you for the effort.
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+Index: usb-devel/drivers/hid/hid-core.c
+===================================================================
+--- usb-devel.orig/drivers/hid/hid-core.c
++++ usb-devel/drivers/hid/hid-core.c
+@@ -71,8 +71,8 @@ static u32 s32ton(__s32 value, unsigned
+ 	if (!value || !n)
+ 		return 0;
+ 
+-	if (n > 32)
+-		n = 32;
++	if (n >= 32)
++		return (u32) value;
+ 
+ 	a = value >> (n - 1);
+ 	if (a && a != -1)
