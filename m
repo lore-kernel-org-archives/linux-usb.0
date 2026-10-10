@@ -1,142 +1,149 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC78353A8E
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 13:49:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60070175A68;
+	Sat, 10 Oct 2026 13:51:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791640146; cv=none; b=fwCNy5mwuD6SlQhHh7bq4+FSFYO094CJfAtRMAm+0IQe3lascwi92lFAX56MAK016MI/Le2tyoaxmG4Notl4X5uNgJSEBTfjCOfYwkNWQUa+jbFV872wImS1x4UivLocjyXUckq4VOGYtGHZ7/xdzU8VM7z89WXo5N86yFOM7U8=
+	t=1791640298; cv=none; b=hV+6aIfFFVkgGBFh7j+Rfr6NMkMPrdtd+UOzXUxLCYHwaAIBjJ6slwYg+vndIxQ9LN/RO0LvsHkTNskopyJE9sb5oj9oTvw88U+AZ+kPT1BCRJaAOgnDnTQWMh+eb2XGCJhx8rNyrTxxuExrOQr9XICZJ5omeTEbHnsNI2Zh5zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791640146; c=relaxed/simple;
-	bh=MgS3AEUVPRpcN55hZd5xfi5t4pjX0Iurq2Q5bJVcUnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WUO9bBL3ZTtqufbtIPbjdNKVZoos/jHihZQxsgR6m8u38+yDdcVquZxDrwELb/vnIYu5NITSobaq6Dme5WKpNBjBZgf4yqzJFIyL2ocXeNpkyFPhqLDL5aIaJTLi90XFZIpnr9RJUDPSDNbrHpwoHlhgdOx11N6IWg4qt2HiCyw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=m1f1URTA; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1791640298; c=relaxed/simple;
+	bh=/8xOBfv50ZCgRFvLLq0CQyKWWIawm/YT8f0qjYIzl7g=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j7OGxZm3hxTowZjz2cuMFijWATulgJjH4KNzYzbH/d0iQz4HksB6LxOGttbGzjoevvjg5YKpCjMbsi1eV7LeCuIH3Wugpp4zwyjzyHX9y41YwJ/P+NiTmL5QxH5PVYd5htAnehzATfuyYHmbXWIoy4NRUbR5XLS+rU/EafS4S0o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kRo5Ob4B; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="m1f1URTA"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-917b78dfe30so12030026d6.0
-        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 06:49:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1791640143; x=1792244943; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Tdm1TxznS8Z9AVlEqsfQUaZdl9GVN7DC6/4QW7CmuQs=;
-        b=m1f1URTAivH9y1fDuVJ8sC35Wg5m+2cLuagzCWkwO5PyQl78pi2SMbsjN8Fr5WdbE1
-         +bAukqhbMIvekXkFgSa248EQ+EM2+pfGczcTu6LxrsH3jhMofKPTkKcG31xK3ea2nb9v
-         +X0RdMPa1mobf5PiX3ioa+MEgY8GidF6hkduBXUlPl4kZqX+GdWMa5dHd9hf3L7IUA6T
-         tSYY79drDY6MOmYvYiJUyM19N/0LEP6svMO8GjupTs5Bj2Gl2KgqAzDtqT5fCR5Dmg3Y
-         dotqseM6N9Qdam9oH9jFHaaQ3PAZNpEysqMG2BRoC61qdhtcWuTKFJd8nNBcrf1x1hCY
-         QYgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791640143; x=1792244943;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Tdm1TxznS8Z9AVlEqsfQUaZdl9GVN7DC6/4QW7CmuQs=;
-        b=AWFpjPYy0ecGjZgfeL/AKLzxNXo6XnFljdsRwflPuO4WdLNO5CQbJKEmqJfIoTaqqP
-         GD+6VSj04ZVCu9cW0zjGUQqRBA8dSxZn6Gue5iHj4eRWaHTWy03MtfUMQyOVrReINq8q
-         Lq8QxkhBjvgcobNmouaagfKDFCnbhZIcuvo/ZGqXvae+8hGX7o0C4BHUAd3jDYgN5R0o
-         mrqCKrTc7TQzDKBa1jFWkMqqUBEdwbbwVVwHLj5dhha5vAhQX7du2uWWPegDFqX4ZiPW
-         X5KOpiv0w1z3K+YnAYsiYKPC6jA1ju7XcTkaZT0LJN7EnqSLe9Aji7gMLp8inrPICM+U
-         yuCg==
-X-Forwarded-Encrypted: i=1; AKwUvBxWHBQ21bPrpATid7NJ1e46t09RGyOSRGgpb1My58htby42q7loZS4j6Y5+TKi4xXiXAJ84MbYDnoM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLDB0xJnNTvGX2PIBPRmoKuqs+NG8c5b6DU+/AXG8soDOCxR4hF
-	oxyNyj4ZPMfu7UfyOzENM59TF2WcBbIVaTjGcL6IBlBbv3x0ZkZGt8MBtqEFDAQkZXBRLeEN2Fi
-	AEdM9Sg==
-X-Gm-Gg: AYBFou28BnlZ7gGQi75MgDegvb8KwzekUG5nSGo0r0gACpRxB1kz4GoKs1Q9vUnqlVV
-	TbK/hxIvUBdjz15ye3ioVzsQTo/0AJNIn90yrTAkEnV+cTnfCHREvAzPEG33UnQdmonmeswXIQt
-	6pEsbClx5AGuI1NLRr9QLk5XYoXjima8AHMSm0n8OQCbOiNGoKXMQbpX7NRt18q0nfPEicRgwQm
-	cVv06oLQsIEPfwbA96/eBTjYb3cdqoY5CkpijOkSKRzWxRKQs4R8r5IfEgjIRaIqUuW/ISD+fFW
-	/+Mi/vlGqUNinvjeA1fBRHHYAeqxzb0PPKOePb/D+IvHpPguL1lwUbSC6z17HG9GQgdZruTPHB3
-	oM/YN1mOAKC/CwgahEyXVsPSIaDyc2O8AjZZpRM9SINx0b80sDiLtjUlcL36QQ+Os39kytkNrP5
-	VhY+hMEWtWUYx7IoYE/S+V4UNM2f6nAte+BbD2XtmEgFrWxHZs+hVbWKXEJu6yMLnkmxwBmsU=
-X-Received: by 2002:a05:6214:2f90:b0:914:4eff:e88e with SMTP id 6a1803df08f44-91b55574847mr79043426d6.41.1791640142564;
-        Sat, 10 Oct 2026 06:49:02 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::1b7d])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b5501859fsm45217386d6.16.2026.10.10.06.49.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2026 06:49:02 -0700 (PDT)
-Date: Sat, 10 Oct 2026 09:48:59 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: syzbot <syzbot+25a1d2907885b2182275@syzkaller.appspotmail.com>
-Cc: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [input?] [usb?] UBSAN: shift-out-of-bounds in s32ton (3)
-Message-ID: <f10557f6-fe56-4f3e-b138-c1624465a15e@rowland.harvard.edu>
-References: <6ac9cbd8.a150a118.27e199.0025.GAE@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kRo5Ob4B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2C5A1F000FF;
+	Sat, 10 Oct 2026 13:51:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791640297;
+	bh=Pj7KYE7fxTCpyiECJyNzSduvP1jBgXaEvy3veVvPADw=;
+	h=From:To:Cc:Subject:Date;
+	b=kRo5Ob4BqzumekJzh5jcNWCEd8eePWVsPklv2HuT1Q4j+nTFwsi02vtvhReesnJUy
+	 mwJDdJg7jJTKFhLjy6pi45Is2hXammPBpRGvLyGRIr66f1pztRfo/JiJdydqXZ/QMz
+	 ubKNZ/M9tLSezj3brWTKyP0VBq4ozlnU7g75whJqf/oDM4AuQ/gZU0+3Pd+5ZQ29Y0
+	 D4nMwt3boRoX1Z13pmc3iURGYwKF4toWbHiNYIRZI+wUwhzaZGQsOkMhkr4B9KRZgS
+	 njxGdZkZPj9sA1NHv4mWg0F2DAFbUOgTJz2yXdAFbfIU/c++1F17Ny4RkZCR4oTy00
+	 PVpVhUXymGMvw==
+From: Danilo Krummrich <dakr@kernel.org>
+To: gregkh@linuxfoundation.org,
+	rafael.j.wysocki@intel.com,
+	dakr@kernel.org,
+	johan@kernel.org
+Cc: linux-usb@vger.kernel.org,
+	driver-core@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	stable@kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: [PATCH v2] usb: core: don't set drvdata to NULL in usb_unbind_interface()
+Date: Sat, 10 Oct 2026 15:50:49 +0200
+Message-ID: <20261010135131.286498-1-dakr@kernel.org>
+X-Mailer: git-send-email 2.56.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6ac9cbd8.a150a118.27e199.0025.GAE@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 09, 2026 at 10:23:36PM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    5926a7da8789 Merge 7.3-rc6 into usb-next
-> git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-> console output: https://syzkaller.appspot.com/x/log.txt?x=11fc7ff5580000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=7f0127eb11110629
-> dashboard link: https://syzkaller.appspot.com/bug?extid=25a1d2907885b2182275
-> compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
-> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=124fc715580000
-> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=174ed835580000
-> 
-> Downloadable assets:
-> disk image: https://storage.googleapis.com/syzbot-assets/0667b4f9388e/disk-5926a7da.raw.xz
-> vmlinux: https://storage.googleapis.com/syzbot-assets/0a1f8551bcab/vmlinux-5926a7da.xz
-> kernel image: https://storage.googleapis.com/syzbot-assets/03e51d6db4ed/bzImage-5926a7da.xz
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+25a1d2907885b2182275@syzkaller.appspotmail.com
-> 
-> usb 4-1: config 0 interface 0 has no altsetting 0
-> usb 4-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-> usb 4-1: config 0 descriptor??
-> ------------[ cut here ]------------
-> UBSAN: shift-out-of-bounds in drivers/hid/hid-core.c:80:21
-> shift exponent 32 is too large for 32-bit type 'int'
-> CPU: 1 UID: 0 PID: 780 Comm: kworker/1:2 Not tainted syzkaller #0 PREEMPT(lazy) 
-> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
-> Workqueue: usb_hub_wq hub_event
-> Call Trace:
->  <TASK>
->  __dump_stack lib/dump_stack.c:94 [inline]
->  dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
->  ubsan_epilogue+0xa/0x30 lib/ubsan.c:233
->  __ubsan_handle_shift_out_of_bounds+0x279/0x2a0 lib/ubsan.c:494
->  s32ton.part.0.cold+0x1b/0x26 drivers/hid/hid-core.c:80
->  s32ton drivers/hid/hid-core.c:71 [inline]
+usb_unbind_interface() serves as the remove() callback of struct
+usb_driver and calls usb_set_intfdata(intf, NULL) to clear the bus
+device private data pointer.
 
-Converting a signed 32-bit integer to a signed 32-bit integer should be 
-a no-op.
+However, the driver core code already sets the bus device private data
+pointer to NULL in device_unbind_cleanup() *after* devres_release_all(),
+which makes the call redundant.
 
-Alan Stern
+In addition, it can create unexpected NULL pointer dereference scenarios
+when drivers use managed APIs.
 
-#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git 5926a7da8789
+	int probe(struct usb_interface *intf,
+		  const struct usb_device_id *id)
+	{
+		struct data *data;
+		int ret;
 
-Index: usb-devel/drivers/hid/hid-core.c
-===================================================================
---- usb-devel.orig/drivers/hid/hid-core.c
-+++ usb-devel/drivers/hid/hid-core.c
-@@ -71,8 +71,8 @@ static u32 s32ton(__s32 value, unsigned
- 	if (!value || !n)
- 		return 0;
+		data = devm_kzalloc(&intf->dev, sizeof(*data), GFP_KERNEL);
+		if (!data)
+			return -ENOMEM;
+
+		ret = devm_device_add_group(&intf->dev, &foo_attr_group);
+		if (ret)
+			return ret;
+
+		...
+	}
+
+	ssize_t foo_value_show(struct device *dev, struct device_attribute *attr,
+			       char *buf)
+	{
+		struct usb_interface *intf = to_usb_interface(dev);
+		struct data *data = usb_get_intfdata(intf);
+
+		/* Potential NULL pointer dereference */
+		return sysfs_emit(buf, "%u\n", data->value);
+	}
+
+Nothing prevents usb_unbind_interface() to race with foo_value_show()
+and set usb_set_intfdata(intf, NULL).
+
+The same applies to the unwind path of usb_probe_interface(), which also
+calls usb_set_intfdata(intf, NULL).
+
+Besides that, the Rust driver core code manages a driver's bus device
+private data and destroys it in device_unbind_cleanup().
+
+If usb_unbind_interface() sets the pointer to NULL prematurely, the Rust
+driver core code sees NULL, and hence skips the destructor of the bus
+device private data, which leaks all its resources.
+
+Thus, drop usb_set_intfdata(intf, NULL) from usb_probe_interface() and
+usb_unbind_interface(), and move it to usb_driver_release_interface(),
+which manually calls the remove() callback of struct usb_driver and
+hence can't rely on the driver core.
+
+Cc: stable@kernel.org
+Fixes: a995fe1a3aa7 ("rust: driver: drop device private data post unbind")
+Reviewed-by: Johan Hovold <johan@kernel.org>
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Signed-off-by: Danilo Krummrich <dakr@kernel.org>
+---
+v2: Also consider the unwind path of usb_probe_interface().
+---
+ drivers/usb/core/driver.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
+index 7f33fe5ba03b..9c5a10dc0542 100644
+--- a/drivers/usb/core/driver.c
++++ b/drivers/usb/core/driver.c
+@@ -410,7 +410,6 @@ static int usb_probe_interface(struct device *dev)
+ 	return error;
  
--	if (n > 32)
--		n = 32;
-+	if (n >= 32)
-+		return (u32) value;
+  err:
+-	usb_set_intfdata(intf, NULL);
+ 	intf->needs_remote_wakeup = 0;
+ 	intf->condition = USB_INTERFACE_UNBOUND;
  
- 	a = value >> (n - 1);
- 	if (a && a != -1)
+@@ -497,7 +496,6 @@ static int usb_unbind_interface(struct device *dev)
+ 	} else {
+ 		intf->needs_altsetting0 = 1;
+ 	}
+-	usb_set_intfdata(intf, NULL);
+ 
+ 	intf->condition = USB_INTERFACE_UNBOUND;
+ 	intf->needs_remote_wakeup = 0;
+@@ -644,6 +642,7 @@ void usb_driver_release_interface(struct usb_driver *driver,
+ 	} else {
+ 		device_lock(dev);
+ 		usb_unbind_interface(dev);
++		dev_set_drvdata(dev, NULL);
+ 		dev->driver = NULL;
+ 		device_unlock(dev);
+ 	}
+
+base-commit: 3857c2fe5449541e24afc5efdb0f81a8a8f9a3a0
+-- 
+2.56.0
+
