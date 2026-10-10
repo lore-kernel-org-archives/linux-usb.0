@@ -1,139 +1,76 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61993793CE
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 07:00:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7146A37189C
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 07:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791615659; cv=none; b=lbH58LXce1838oMvGERWLliKUW9/4x+nGb7QX9qEwydAyWAeZUmhVRbwTwFc+7FQJlSe7VYsUUn4+D/vBREWPC6u2e2bNesmAEq3RJPhzdqLWkvw72n2VCpuec1IdGB8fMpHcL5ptk8CiX72peMV52ZHDd1SkClT2wRHYW6Jp5k=
+	t=1791615983; cv=none; b=VfavHfR+nR/bIgnlw/PoDhg5CVAuBfQQ9ox9EI+fV4rWphEZMKztsmqP0MmRI14f5/K/Xg1gLPBsJFiJF8urqRWquXzYXY+ewb8CX+FH0YFU3mg3ReUVMJ70xtvX93lzVZsUHRpg7dpNGGE3I0+ikhmnCZj9tUcnlUqoVMxh+pw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791615659; c=relaxed/simple;
-	bh=F/o+CB+c764IJjLKKJ/Vq/hAsz/74K7FVfCJHTirPPI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=I6ibJ12poWMfOb5mqn47cVn19EyvQWc6tBhOw9WGoWrx5So85fOJByx7rqTT7wPQwFokaDQiZcxyZleNOKvdPSPbQAJbiV9SWS4hFN66PjhNSLwZpmzQY5HRAMWLqjp13L21F+8SonbUb10gMGYyhnYppks64p+0XOb9vnku55I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cD+zYDZs; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791615983; c=relaxed/simple;
+	bh=ncFcDbiZB2oxKqIxBiDnPJJuxJrA0Ww3T8DxD6Flj8Y=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=U0mABSWNcwf0hzPf/cITQG9EskRIa60nqa92ZzBInXJ/JilN74EW3j0bxfZtkgNyTJy0Ik/DWGltAdBTqSpdY3kHxX+UIyDmZcSWiP66GbF9Eclgfaygj+rSK1jcXCD135vcZkDw2yTjctogsFXLPAnjQlgHYk6vYko0UY6NxYk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W0YVFcUn; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cD+zYDZs"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-9178aabd30dso5457476d6.1
-        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 00:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791615657; x=1792220457; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rBFXJ6vukRDHY7fGAWooctn5jSYzAGKP6c4NuLaCWJM=;
-        b=cD+zYDZsEqV+yqW6aJGFK5e8H2qGSBuLbnPZAizUChJpB7jSWV9hWQNr6dsDOTWh62
-         jkJ9wnlkW2jfnAJo4zipaHKD7NBhVHB/j1JgM/lHnfOG30LmDJubhQUA7QQLwu5sRfg3
-         tmbfnnZ2RB77HkFmqCUqLrEHSnenORv4PRR/8pgfcLID1Tzo+iJNTJGwDxP1iaj8cGFB
-         V0SsnYgNwp9MDh6OHMEl7SJ3+fnvwEe+iljH8E9Kh/yVU/RGUFOmoF0D4PCICbjYQPvk
-         5EcIiDf972lOiIdmH0FpSby3tbIwDILlQKFUMm1m9wqZzhBqvBiH3WjuvKdPCfpHasHU
-         Mv1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791615657; x=1792220457;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rBFXJ6vukRDHY7fGAWooctn5jSYzAGKP6c4NuLaCWJM=;
-        b=Tq/OskKwlObXkkORRIpuCSD2+kpv0JklAvNtnP7bV0+rDUfLpUCfWKBqglBUUb4AX9
-         QIIiqHHEl5Mid428QQVYRxQroZ8Gf6olcSmHbhfE++0m1QW6tLEk2ZBYeALZ819M61q4
-         gtfsosuVGQLnGUad3QdwSeI1fawXewDMfnw0nJyJBin/hhjuUBFoB/ReBdGS9dXs+sxV
-         7roRmgSSHKJqr6M4d8J3nPJtgYUrvqyweRxQ+floNyWldG2oJa809/6TyldsU/QQM8eh
-         kZMS8LE9/QzemL0EC/w3sFGmwYgS38Zmff1FOFrtpUn0PvPj6EUyG6Tl9hlIqCqSAWjC
-         UjJA==
-X-Forwarded-Encrypted: i=1; AKwUvByO6ohfwqgvZibWYk5Ll//1LXk3Y60/7juRVdxD4/hiNT2D6zqpzFAFW6rKe5/XYVcAt3ySH48ooPg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLcG4quNOaDJ/Kn7hze0K2v8gl6/z+WnIJgS+weRU/fekdJxB+P
-	mJ0Sc7m+PnHaH7bJyLj2gqEvPKtNOnQbNyB0glSqZSiMCUNDlvcM/NMb+VQpya0q
-X-Gm-Gg: AYBFou2fkU2WKncZJ2XZ8IoBgb6t0uYXFoREt9GxDfmXTWaUGl8EnLF02KohT/Sf1Xt
-	AA4gIBfnS1gfBt5KPOOuZhxr5aTKwrwAx+bH8iGpSlsGeeYu2RgkepkXjX66HgCuGPZmIEyx350
-	qyfodKUcfU4dKUOPHj4W26+/FQD1VBMcatNkVx4Orv5/b5d6Dd6LIXqRSDmwov+Y2if2Wvxh+1w
-	61ISPT3Who3aKUwev3TRYDPrRteVb4aXgbQnkAn5FTgJx4QjZIYo+Q26V/lrgTaVEfDqiygKUKS
-	9f3NQHZDAz5A5sjo2HoWVhLHJlVlRuHvICYGWCyISvah2K1MNM1c+y+JORFb280g7pgV8UZcU96
-	ojewtm2tN7cwPWP9LNZaNVWHC5UWq+moSSYCUMSsY8Kuri1XCtntCvt6hRXbJvyUXA4sFJMKdfZ
-	CapDjJl+km+XvTX21JR8SxZUKB67x4JEINSfceGvUjGiBhHbKmQv3rt2DqvAU9OL/m9CY/qviyA
-	IunhZL0pN3PbS2/ZDAQwp19gtet0gzNDYAvmm55paixSfKiKuP+0fSKMneElWzLMx6vlX2RAZ+t
-	x38nDGYcwceg05QvX737h/Hxuhxokimc5Iubu0nRMZNOmdlKvWj+VMDDbIJwD+rJCb7X8iLYcMU
-	sgnXzhNgD0+0x37vcflVzd+Wu59L+DaYAu6GFVpDFUgtgFOSxK2QFw+QfShie5MtlXFnC5h4iCn
-	7Zy3TMt8k7LJSbji5dZIPAG09uwBl0
-X-Received: by 2002:ad4:5aee:0:b0:917:9ce0:b6d6 with SMTP id 6a1803df08f44-91b557bf438mr70044036d6.42.1791615657428;
-        Sat, 10 Oct 2026 00:00:57 -0700 (PDT)
-Received: from node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us ([128.105.144.50])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b55082d87sm38108606d6.29.2026.10.10.00.00.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2026 00:00:55 -0700 (PDT)
-From: mosafer <mohsafer@gmail.com>
-X-Google-Original-From: mosafer <mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
-To: stern@rowland.harvard.edu
-Cc: dakr@kernel.org,
-	driver-core@lists.linux.dev,
-	gregkh@linuxfoundation.org,
-	khiemtranzo532001@gmail.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	mohsafer@gmail.com,
-	rafael@kernel.org,
-	stable@vger.kernel.org,
-	syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] driver core: complete deferred binds when drivers_autoprobe is off
-Date: Sat, 10 Oct 2026 02:00:39 -0500
-Message-Id: <20261010070039.288392-1-mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <0cc7fb74-aa32-427e-a931-dcbac7ffdcf9@rowland.harvard.edu>
-References: <0cc7fb74-aa32-427e-a931-dcbac7ffdcf9@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W0YVFcUn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C81D81F000FF;
+	Sat, 10 Oct 2026 07:06:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791615982;
+	bh=MoJwVO2DPYk4URI6T/Gr9CMZkpRcaCe6BKSqzPUp0Dc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=W0YVFcUn2YQWVAWi88RXg9/6zDWHAZ48aPe6J0s0cMjXkuhEfWvQQOia9c5a1rPBt
+	 x+tvtDn0gEseuIGF1hFMdMnFMJlIIpNHKMBjMmYuxTdIzZClf8OWJ+JFXIqHrw0Mdr
+	 TqMpLHDgTlOnLzAtRbIzVJcMXvNGtRtj2/041+qLfeyRvHe/VW/83irMFLQrVeyt02
+	 WaJtO7BsMwhownpWHdzDKrPhZ/Id0zcYdlrG6vPxGvTWQ+WZgKvl+oW75NRwTfBxsR
+	 1I2NtZvICutxNj5Kk1VrhFBC1En+JQ4D2BxzGJ/hdf+7Ib5os5H2AXwR5oJYdoiAvs
+	 my2f8OpCl21Qg==
+Message-ID: <sashiko-outbox-166292@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] xhci: give back halted TD when skipping endpoint reset
+ after disconnect
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Yiyu Zhou" <yiyu@yiyuzhou.io>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261010064407.11030-1-yiyu@yiyuzhou.io>
+References: <20261010064407.11030-1-yiyu@yiyuzhou.io>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 10 Oct 2026 07:06:21 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 09, 2026 at 09:49:49PM -0400, Alan Stern wrote:
-> IMO, we do not want the system to limp along forever with the device in 
-> this "half-bound" state.  Claiming an interface should cause the driver 
-> core to create a real binding at some point in the near future.
-> 
-> This should happen even without automatic probing.  For example, if both 
-> interfaces are unbound and the user writes one of them to the driver's 
-> "bind" sysfs attribute, both interfaces should end up bound to the 
-> driver after only a short delay.
+> Commit 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub
+> disconnect") makes xhci_handle_halted_endpoint() return early when the
+> root port is disconnected, and commit 7e0ef4332ed9 ("xhci: avoid xHC
+> endpoint changes after disconnect or link error.") also sets
+> EP_DROP_PENDING there, which keeps the doorbell from being rung until
+> the device is reset.
+>=20
+> The callers rely on xhci_handle_halted_endpoint() to take over the
+> halted TD.  For example, finish_td() returns right after calling it,
+> expecting the TD to be given back once the Reset Endpoint command
+> completes.  With the early return, nobody gives the TD back.  Its URB
+> stays pending until the submitter times out and unlinks it.  Every URB
+> queued on the endpoint afterwards never starts, because the doorbell is
+> blocked, and also has to time out.
+>=20
+> [ ... ]
+>=20
+> Fixes: 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disco=
+nnect")
+> Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect o=
+r link error.")
+> Assisted-by: LLM
+> Signed-off-by: Yiyu Zhou <yiyu@yiyuzhou.io>
 
-Agreed --- that invariant is exactly what this patch restores.
-drivers_autoprobe is meant to suppress automatic *matching* against the
-bus's driver list; it should not cancel a bind that a driver already
-initiated by claiming the interface.  With the patch,
-usb_driver_claim_interface()'s promise ("let the future device_add()
-bind it") is kept at device_add() time regardless of the knob: the
-deferred bind completes through device_bind_driver() under the device
-lock, so the interface ends up really bound, not half-bound.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-To your example: when the claimed interface is already registered,
-usb_driver_claim_interface() binds it immediately --- it checks
-device_is_registered() and calls device_bind_driver() inline --- so
-the manual "bind" attribute case works today and is unaffected by this
-patch.  The one case where the invariant was broken, and the case the
-patch fixes, is a claim made while the sibling interface is not yet
-registered and the autoprobe knob happens to be off at its
-device_add(): the core silently dropped the promised completion, and
-the interface stayed registered with dev->driver set but never bound.
-That state is beyond repair from userspace too: writing the interface
-to the driver's "bind" attribute cannot complete it --- with
-dev->driver pre-assigned, __driver_probe_device() returns -EBUSY (or
-the attribute path rejects the device if it does not match the
-driver's id table), so interface teardown was the only way out --- and
-it oopsed.
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261010064407.1103=
+0-1-yiyu@yiyuzhou.io?part=3D1
 
-The patch keeps the knob's meaning for devices with no claiming
-driver: bus-wide matching is still skipped when autoprobe is off (the
-check now sits inside __device_attach(), evaluated under the device
-lock, per the review-bot finding on v1).  On the reproducer that means
-the previously-crashing window now ends with a completed bind instead
-of an oops, while matching stays suppressed for all the other devices
-registered while the knob is off.
-
-If you would rather the same invariant be implemented with a
-different mechanism, say the word and I will respin.
-
-Thanks for taking a look,
-Mohammad Mosafer
