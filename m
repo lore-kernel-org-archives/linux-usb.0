@@ -1,51 +1,86 @@
-Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0C561EB5CE;
-	Sat, 10 Oct 2026 06:46:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.180.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791614766; cv=pass; b=ty+gwWJkIXyvis1CSS+jT5alrrTMkABc5ZUXftF0DnnFqV5mZf/NjrF7g/mW4Gh0D9zwkcsYDH7DAPgW1faEjkfHHo3lj5otg0EpH6/lWz9x/rFGJSCeTAITpxBZtQNkYWGAf9hVJsW+mxVuFHCl0Q9KKzokjMf7pbg/jcIe9+I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791614766; c=relaxed/simple;
-	bh=OvD1Qd4VBybxFDyfjCwOUVwBhaJQmRZAwpCTbLZOD0g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ELjbvTtQronKN7bD/lraEBUNos1B6ibOdboQqiiYFS60kCE1+GRoSNfZM9Nok0BGbs6Gcr0KugKF837VrzuR0O8cRB4FEPQ7M7+xk5J3bbMLMYxuZTLp4YjJrmzR+Kb1y5DJ4MvLE+RY9HLoFX4WxueOhqZ7xg3EolikBPY/wRU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io; spf=pass smtp.mailfrom=yiyuzhou.io; dkim=fail (0-bit key) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.b=c/HimdH/ reason="key not found in DNS"; arc=pass smtp.client-ip=165.173.180.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61993793CE
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 07:00:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791615659; cv=none; b=lbH58LXce1838oMvGERWLliKUW9/4x+nGb7QX9qEwydAyWAeZUmhVRbwTwFc+7FQJlSe7VYsUUn4+D/vBREWPC6u2e2bNesmAEq3RJPhzdqLWkvw72n2VCpuec1IdGB8fMpHcL5ptk8CiX72peMV52ZHDd1SkClT2wRHYW6Jp5k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791615659; c=relaxed/simple;
+	bh=F/o+CB+c764IJjLKKJ/Vq/hAsz/74K7FVfCJHTirPPI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=I6ibJ12poWMfOb5mqn47cVn19EyvQWc6tBhOw9WGoWrx5So85fOJByx7rqTT7wPQwFokaDQiZcxyZleNOKvdPSPbQAJbiV9SWS4hFN66PjhNSLwZpmzQY5HRAMWLqjp13L21F+8SonbUb10gMGYyhnYppks64p+0XOb9vnku55I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cD+zYDZs; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.b="c/HimdH/"
-ARC-Seal: i=1; a=rsa-sha256; t=1791614759; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=myG2gzBY6IUhpd8aTnUij6ayM8yf+lrwLRuEZ+VBBIgXAIcxkqxIhaBB1YizcyAnxymq7VHoGB4JFc4Aof6qSIhkf9RUTsTst14OKghDY2KvAPVhFzBmJ9rSwNDjo9jV4Tg2gqD8yd1p7CJkJuBtIOiAMNStnTHh35X2FbW3kDg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791614759; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=f00TvRKVl4NKwyYaLv7u/2ca7xd44H3r4On2kzjvgYg=; 
-	b=Vaz4xfu5cCWQ2xdK4KEPxwvlnzVAJRigXD1nlDZZRWUZBukEflGa/aOAwlyJlUGTwbzHMybNG1N15NNO9rX3DRTyrPxbbe2y4CL7bLi9Ms34fIrFnVfNNj+i0JyfrjDGFIffmdF5qBP61QZFrecODtQX+ygMKg3zzmA1pjmCs2k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=yiyuzhou.io;
-	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
-	dmarc=pass header.from=<yiyu@yiyuzhou.io>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791614759;
-	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=f00TvRKVl4NKwyYaLv7u/2ca7xd44H3r4On2kzjvgYg=;
-	b=c/HimdH/d7a+6Tq5gtQqXQ6ShMa+EkVue4H2O+9R3qhoPK/0OHrpUrusTjyvb5jQ
-	MHtGFwGJwFCeTDFKzXU40zORRPGCUL++vL1p59tu/PAKaFrKflfz0Am1oNKN8NI6T+S
-	q1nrrk4eIe40R883bSBA0+ijCeA6WjbgkAUTeO30=
-Received: by smtp.zohomail.com with SMTPS id 1791614758969308.89419048164314;
-	Fri, 9 Oct 2026 23:45:58 -0700 (PDT)
-From: Yiyu Zhou <yiyu@yiyuzhou.io>
-To: mathias.nyman@intel.com,
-	gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cD+zYDZs"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-9178aabd30dso5457476d6.1
+        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 00:00:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791615657; x=1792220457; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rBFXJ6vukRDHY7fGAWooctn5jSYzAGKP6c4NuLaCWJM=;
+        b=cD+zYDZsEqV+yqW6aJGFK5e8H2qGSBuLbnPZAizUChJpB7jSWV9hWQNr6dsDOTWh62
+         jkJ9wnlkW2jfnAJo4zipaHKD7NBhVHB/j1JgM/lHnfOG30LmDJubhQUA7QQLwu5sRfg3
+         tmbfnnZ2RB77HkFmqCUqLrEHSnenORv4PRR/8pgfcLID1Tzo+iJNTJGwDxP1iaj8cGFB
+         V0SsnYgNwp9MDh6OHMEl7SJ3+fnvwEe+iljH8E9Kh/yVU/RGUFOmoF0D4PCICbjYQPvk
+         5EcIiDf972lOiIdmH0FpSby3tbIwDILlQKFUMm1m9wqZzhBqvBiH3WjuvKdPCfpHasHU
+         Mv1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791615657; x=1792220457;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=rBFXJ6vukRDHY7fGAWooctn5jSYzAGKP6c4NuLaCWJM=;
+        b=Tq/OskKwlObXkkORRIpuCSD2+kpv0JklAvNtnP7bV0+rDUfLpUCfWKBqglBUUb4AX9
+         QIIiqHHEl5Mid428QQVYRxQroZ8Gf6olcSmHbhfE++0m1QW6tLEk2ZBYeALZ819M61q4
+         gtfsosuVGQLnGUad3QdwSeI1fawXewDMfnw0nJyJBin/hhjuUBFoB/ReBdGS9dXs+sxV
+         7roRmgSSHKJqr6M4d8J3nPJtgYUrvqyweRxQ+floNyWldG2oJa809/6TyldsU/QQM8eh
+         kZMS8LE9/QzemL0EC/w3sFGmwYgS38Zmff1FOFrtpUn0PvPj6EUyG6Tl9hlIqCqSAWjC
+         UjJA==
+X-Forwarded-Encrypted: i=1; AKwUvByO6ohfwqgvZibWYk5Ll//1LXk3Y60/7juRVdxD4/hiNT2D6zqpzFAFW6rKe5/XYVcAt3ySH48ooPg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLcG4quNOaDJ/Kn7hze0K2v8gl6/z+WnIJgS+weRU/fekdJxB+P
+	mJ0Sc7m+PnHaH7bJyLj2gqEvPKtNOnQbNyB0glSqZSiMCUNDlvcM/NMb+VQpya0q
+X-Gm-Gg: AYBFou2fkU2WKncZJ2XZ8IoBgb6t0uYXFoREt9GxDfmXTWaUGl8EnLF02KohT/Sf1Xt
+	AA4gIBfnS1gfBt5KPOOuZhxr5aTKwrwAx+bH8iGpSlsGeeYu2RgkepkXjX66HgCuGPZmIEyx350
+	qyfodKUcfU4dKUOPHj4W26+/FQD1VBMcatNkVx4Orv5/b5d6Dd6LIXqRSDmwov+Y2if2Wvxh+1w
+	61ISPT3Who3aKUwev3TRYDPrRteVb4aXgbQnkAn5FTgJx4QjZIYo+Q26V/lrgTaVEfDqiygKUKS
+	9f3NQHZDAz5A5sjo2HoWVhLHJlVlRuHvICYGWCyISvah2K1MNM1c+y+JORFb280g7pgV8UZcU96
+	ojewtm2tN7cwPWP9LNZaNVWHC5UWq+moSSYCUMSsY8Kuri1XCtntCvt6hRXbJvyUXA4sFJMKdfZ
+	CapDjJl+km+XvTX21JR8SxZUKB67x4JEINSfceGvUjGiBhHbKmQv3rt2DqvAU9OL/m9CY/qviyA
+	IunhZL0pN3PbS2/ZDAQwp19gtet0gzNDYAvmm55paixSfKiKuP+0fSKMneElWzLMx6vlX2RAZ+t
+	x38nDGYcwceg05QvX737h/Hxuhxokimc5Iubu0nRMZNOmdlKvWj+VMDDbIJwD+rJCb7X8iLYcMU
+	sgnXzhNgD0+0x37vcflVzd+Wu59L+DaYAu6GFVpDFUgtgFOSxK2QFw+QfShie5MtlXFnC5h4iCn
+	7Zy3TMt8k7LJSbji5dZIPAG09uwBl0
+X-Received: by 2002:ad4:5aee:0:b0:917:9ce0:b6d6 with SMTP id 6a1803df08f44-91b557bf438mr70044036d6.42.1791615657428;
+        Sat, 10 Oct 2026 00:00:57 -0700 (PDT)
+Received: from node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us ([128.105.144.50])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b55082d87sm38108606d6.29.2026.10.10.00.00.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 00:00:55 -0700 (PDT)
+From: mosafer <mohsafer@gmail.com>
+X-Google-Original-From: mosafer <mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
+To: stern@rowland.harvard.edu
+Cc: dakr@kernel.org,
+	driver-core@lists.linux.dev,
+	gregkh@linuxfoundation.org,
+	khiemtranzo532001@gmail.com,
 	linux-kernel@vger.kernel.org,
-	michal.pecio@gmail.com,
-	Yiyu Zhou <yiyu@yiyuzhou.io>
-Subject: [PATCH] xhci: give back halted TD when skipping endpoint reset after disconnect
-Date: Fri,  9 Oct 2026 23:42:19 -0700
-Message-ID: <20261010064407.11030-1-yiyu@yiyuzhou.io>
-X-Mailer: git-send-email 2.55.0
+	linux-usb@vger.kernel.org,
+	mohsafer@gmail.com,
+	rafael@kernel.org,
+	stable@vger.kernel.org,
+	syzbot+863936f50214e843ae0c@syzkaller.appspotmail.com
+Subject: Re: [PATCH v2] driver core: complete deferred binds when drivers_autoprobe is off
+Date: Sat, 10 Oct 2026 02:00:39 -0500
+Message-Id: <20261010070039.288392-1-mosafer@node0.quickhttpnode15.cloudfaas-pg0.wisc.cloudlab.us>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <0cc7fb74-aa32-427e-a931-dcbac7ffdcf9@rowland.harvard.edu>
+References: <0cc7fb74-aa32-427e-a931-dcbac7ffdcf9@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -53,127 +88,52 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-Commit 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub
-disconnect") makes xhci_handle_halted_endpoint() return early when the
-root port is disconnected, and commit 7e0ef4332ed9 ("xhci: avoid xHC
-endpoint changes after disconnect or link error.") also sets
-EP_DROP_PENDING there, which keeps the doorbell from being rung until
-the device is reset.
+On Fri, Oct 09, 2026 at 09:49:49PM -0400, Alan Stern wrote:
+> IMO, we do not want the system to limp along forever with the device in 
+> this "half-bound" state.  Claiming an interface should cause the driver 
+> core to create a real binding at some point in the near future.
+> 
+> This should happen even without automatic probing.  For example, if both 
+> interfaces are unbound and the user writes one of them to the driver's 
+> "bind" sysfs attribute, both interfaces should end up bound to the 
+> driver after only a short delay.
 
-The callers rely on xhci_handle_halted_endpoint() to take over the
-halted TD.  For example, finish_td() returns right after calling it,
-expecting the TD to be given back once the Reset Endpoint command
-completes.  With the early return, nobody gives the TD back.  Its URB
-stays pending until the submitter times out and unlinks it.  Every URB
-queued on the endpoint afterwards never starts, because the doorbell is
-blocked, and also has to time out.
+Agreed --- that invariant is exactly what this patch restores.
+drivers_autoprobe is meant to suppress automatic *matching* against the
+bus's driver list; it should not cancel a bind that a driver already
+initiated by claiming the interface.  With the patch,
+usb_driver_claim_interface()'s promise ("let the future device_add()
+bind it") is kept at device_add() time regardless of the knob: the
+deferred bind completes through device_bind_driver() under the device
+lock, so the interface ends up really bound, not half-bound.
 
-Devices that disconnect and reconnect themselves during enumeration hit
-this.  A PFU HHKB Professional HYBRID Type-S keyboard (04fe:0021) drops
-off the bus about 300 ms after its first enumeration, while usbhid is
-still probing its third interface.  The probe runs in hub_wq, so the
-disconnect is not handled until the probe returns.  On a root port the
-HID descriptor request and its four retries in hid_get_class_descriptor()
-each wait for the full 5 second USB_CTRL_GET_TIMEOUT:
+To your example: when the claimed interface is already registered,
+usb_driver_claim_interface() binds it immediately --- it checks
+device_is_registered() and calls device_bind_driver() inline --- so
+the manual "bind" attribute case works today and is unaffected by this
+patch.  The one case where the invariant was broken, and the case the
+patch fixes, is a claim made while the sibling interface is not yet
+registered and the autoprobe knob happens to be off at its
+device_add(): the core silently dropped the promised completion, and
+the interface stayed registered with dev->driver set but never bound.
+That state is beyond repair from userspace too: writing the interface
+to the driver's "bind" attribute cannot complete it --- with
+dev->driver pre-assigned, __driver_probe_device() returns -EBUSY (or
+the attribute path rejects the device if it does not match the
+driver's id table), so interface teardown was the only way out --- and
+it oopsed.
 
-  [57685.006036] usb 3-2: new full-speed USB device number 24 using xhci_hcd
-  ...
-  [57685.291304] hid-generic 0003:04FE:0021.0017: input,hidraw1: USB HID v1.11 Keyboard [PFU Limited HHKB-Hybrid] on usb-0000:00:14.0-2/input1
-  [57711.221083] usbhid 3-2:1.2: can't add hid device: -110
-  [57711.221613] usbhid 3-2:1.2: probe with driver usbhid failed with error -110
-  [57711.221842] usb 3-2: USB disconnect, device number 24
+The patch keeps the knob's meaning for devices with no claiming
+driver: bus-wide matching is still skipped when autoprobe is off (the
+check now sits inside __device_attach(), evaluated under the device
+lock, per the review-bot finding on v1).  On the reproducer that means
+the previously-crashing window now ends with a completed bind instead
+of an oops, while matching stays suppressed for all the other devices
+registered while the knob is off.
 
-The re-enumeration that follows can stall the same way, leaving the
-keyboard dead until reboot.  Behind an external hub, where the root
-port stays connected, the same keyboard recovers in about 300 ms, as it
-did on the root port before these commits.
+If you would rather the same invariant be implemented with a
+different mechanism, say the word and I will respin.
 
-Keep skipping Reset Endpoint on a disconnected or inactive port, but
-give the halted TD back right away, with -EPROTO if no error status was
-set yet.  The endpoint is not restarted until the device is reset or
-dropped, so the ring dequeue pointer can stay where it is, as
-xhci_invalidate_cancelled_tds() already assumes for cancelled TDs on
-such endpoints.  Also refuse new URBs on an endpoint with
-EP_DROP_PENDING set, like xhci_urb_enqueue() already does for an
-inactive link, so they fail right away instead of timing out.
-
-Fixes: 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disconnect")
-Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
-Assisted-by: LLM
-Signed-off-by: Yiyu Zhou <yiyu@yiyuzhou.io>
----
-Tested on v7.3-rc6 on a System76 Galago Pro (Intel 8086:51ed xHCI)
-with the keyboard plugged directly into a root port, including twice
-right after resume from suspend.  On every hotplug the keyboard still
-dropped off during the probe of its third interface, and it was
-re-enumerated with all three interfaces bound about 0.3 s later.
-Before this patch, the same sequence hung usbhid for 26 s, and often
-left the keyboard dead until reboot.
-
- drivers/usb/host/xhci-ring.c | 24 ++++++++++++++++++++----
- drivers/usb/host/xhci.c      |  5 +++++
- 2 files changed, 25 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index ec278a9f9540..82190380831d 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -979,6 +979,24 @@ static int xhci_reset_halted_ep(struct xhci_hcd *xhci, unsigned int slot_id,
- 	return ret;
- }
- 
-+/*
-+ * Mark the endpoint to be dropped instead of reset, and give back the halted
-+ * TD now, as nobody else will.  The endpoint is not restarted before device
-+ * reset or drop, so there is no need to move the ring dequeue past the TD.
-+ */
-+static int xhci_drop_halted_endpoint(struct xhci_hcd *xhci,
-+				     struct xhci_virt_ep *ep,
-+				     struct xhci_td *td)
-+{
-+	ep->ep_state |= EP_DROP_PENDING;
-+
-+	if (td)
-+		xhci_td_cleanup(xhci, td, xhci_urb_to_transfer_ring(xhci, td->urb),
-+				td->status ?: -EPROTO);
-+
-+	return -ENODEV;
-+}
-+
- static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
- 				struct xhci_virt_ep *ep,
- 				struct xhci_td *td,
-@@ -993,10 +1011,8 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
- 	 * Can cause host hang.
- 	 * Device will be reset to recover an inactive link, so don't do anything
- 	 */
--	if (rhub_port->link_inactive || !rhub_port->connected) {
--		ep->ep_state |= EP_DROP_PENDING;
--		return -ENODEV;
--	}
-+	if (rhub_port->link_inactive || !rhub_port->connected)
-+		return xhci_drop_halted_endpoint(xhci, ep, td);
- 
- 	/* add td to cancelled list and let reset ep handler take care of it */
- 	if (reset_type == EP_HARD_RESET) {
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index a9e47e178c28..491a541b57b0 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1691,6 +1691,11 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 		ret = -EINVAL;
- 		goto free_priv;
- 	}
-+	if (*ep_state & EP_DROP_PENDING) {
-+		xhci_dbg(xhci, "Can't queue urb, ep halted after disconnect or link error\n");
-+		ret = -ENODEV;
-+		goto free_priv;
-+	}
- 
- 	switch (usb_endpoint_type(&urb->ep->desc)) {
- 
--- 
-2.55.0
-
+Thanks for taking a look,
+Mohammad Mosafer
