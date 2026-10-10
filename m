@@ -1,50 +1,50 @@
 Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 706DE26FD97
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 04:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A95F0340A57
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 04:53:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791607907; cv=none; b=orEK+pPqbz81VTEnOYgWxKeNWkqu7nJGqhj2oWOlLpVxdPzIZAW6vzfQUIL4irz/AzmRYStsbjFz2LpMTQid3O0tKrxpV3FNqZilHvVY23lPiM9dZs1OEuivHRe0jG7Mg6OanJkfiHajUnTs43l8APE4+rEAP42jhOzvf9hid3c=
+	t=1791607990; cv=none; b=fN1uqfGUVSpa1+AZoSMAnl3X311TZbFF42r+QhK5UX2UmYf6t1FwIGbCiuF9Vf2q6Ei1Xu0XnDgOjG6J/XdESmO9ow7qQtSTu4nO82GiaRCcVH/zoIopLhAHlQrLHSLzVubv3zqm6xfRP7atE2wb0CzzTjnMPYvOHwrsJr4cxVo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791607907; c=relaxed/simple;
-	bh=I9D2o5/J8f5MiuN1yuwZK48q24OAo6Xsh6dLIFRJL94=;
+	s=arc-20240116; t=1791607990; c=relaxed/simple;
+	bh=o1HyR/qlUL1/GuYR91KepsRgfRHpN4bSVh6aLQP3iYI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sEh4QeuL20oKC9M8nPKpaGxsyZlyLX+qvsyPkWDuDE+OgeP8/dKVZrytY61jbUtkM1pzLzCUNHhw1/RV9d6scY0/0RnqefK1Uk6p66xjynxmNZGuO1faH9JPTe9cjdPdZYSnxhy7NvjK1a32V1OZcOK9mzX87dkR4N405qpGsZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Ap+uzJBv; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Ap+uzJBv; arc=none smtp.client-ip=23.88.97.239
+	 In-Reply-To:Content-Type; b=rmBNzxqZeGj81Gd3cgg2HeN3k+vQ0RfBeeCfF81oYvOf5oUC4IhvWVlnRLhLp/V/cFqeqyCp8dwC7PzwS2aLFLz5sqrB+wo3UgVO+lge2FH1wMGT5UT/0mNcMDlKoh81MDEH6aFGLyTfZogNfCjUJN3DEi6lQby3NBCQQD8Pxpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Eks2CeTt; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=WHJ3wzfT; arc=none smtp.client-ip=23.88.97.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Ap+uzJBv";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Ap+uzJBv"
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Eks2CeTt";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="WHJ3wzfT"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791607904;
-	bh=I9D2o5/J8f5MiuN1yuwZK48q24OAo6Xsh6dLIFRJL94=;
+	s=default; t=1791607988;
+	bh=o1HyR/qlUL1/GuYR91KepsRgfRHpN4bSVh6aLQP3iYI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ap+uzJBvHLbZJdUWj5+yhoOoVFVjRLGjhlKwl+7zxswd+LeYJ5s64YwFGzI0qYPYG
-	 yuWBWRhoeZA5aB9uYUKdTLZ7N6syVM9QzjUFB7qiVPZsDuXyR+mnKRiLgB6m3/rxLA
-	 dnHuwTctmeUw6Uym3CjxehOsP7TTZOPrJYeGe3O/XxkXdEpM3+G5/uBiD5IOyomf+L
-	 QbWkCBYOB0vRzB3H1pYjz90vMokn0Fc59kV/YzUmMbZ7KPM2fxYy0ERQaR/Rn2MmdQ
-	 P7Vgqz7ntOA/y7O0v+KSgUlx4l+BFaFyrqavS/geQKdBADZcNs3BFZinbYSLjyMuXr
-	 Gy9FlDj7J+WtQ==
+	b=Eks2CeTtxaPfpuCMTtdgDj0r7a4dQawKl1qJhrZ6SWoPotf7D2o6NIcuZbaR0rfLE
+	 GQ+1AowG5rHNxrwM5ZQmbeSH0qHVqk8Td+xD2WsSqLa/M2fnzNNKKpv/lTsEQogQ67
+	 V+7IZDdp0so49uz1TXRGsKM1TW5PQa3O5AxkzqVcmy5enm0W7VstFQTWnY32ltpube
+	 XR5rqGxNRbRYy3xX5VaM7XGS9ArSwNZMy1zPMFdt2WqXIw5mvG+Ywo/BmHnMtg5eDu
+	 nfGMeXD3E2a1G/yGSMu8pDdVlr75ntCSVEIfZEldjZZed5Y0UBWcZ5Cr/O7Tnirv+6
+	 DhNZfmUMTfILg==
 Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id A7C114752E; Sat, 10 Oct 2026 04:51:44 +0000 (UTC)
+	id 2F03A47535; Sat, 10 Oct 2026 04:53:08 +0000 (UTC)
 X-Spam-Level: 
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791607904;
-	bh=I9D2o5/J8f5MiuN1yuwZK48q24OAo6Xsh6dLIFRJL94=;
+	s=default; t=1791607987;
+	bh=o1HyR/qlUL1/GuYR91KepsRgfRHpN4bSVh6aLQP3iYI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ap+uzJBvHLbZJdUWj5+yhoOoVFVjRLGjhlKwl+7zxswd+LeYJ5s64YwFGzI0qYPYG
-	 yuWBWRhoeZA5aB9uYUKdTLZ7N6syVM9QzjUFB7qiVPZsDuXyR+mnKRiLgB6m3/rxLA
-	 dnHuwTctmeUw6Uym3CjxehOsP7TTZOPrJYeGe3O/XxkXdEpM3+G5/uBiD5IOyomf+L
-	 QbWkCBYOB0vRzB3H1pYjz90vMokn0Fc59kV/YzUmMbZ7KPM2fxYy0ERQaR/Rn2MmdQ
-	 P7Vgqz7ntOA/y7O0v+KSgUlx4l+BFaFyrqavS/geQKdBADZcNs3BFZinbYSLjyMuXr
-	 Gy9FlDj7J+WtQ==
+	b=WHJ3wzfTLlzHN9hsf0UZpaD+F1q3HvqorUb5W1e4TTOewbq69Xa+ej1sHoiiZPdzx
+	 VDx8b5419F4eWG2aBy60fK/c22ndtjlyCOvlS5p/lM97OQQMMZyjp7Qcu+elX6+Xtl
+	 EUjZ1b3L+Be1MidJL+BTURr5ns3wYQdXihvFJmr2BZfsHPoYN4Cpm8UTzEWWzYhb8b
+	 Z6mspVV7AEFKt9IL7Z6dEUOhArnJ4eF/rYEQ4UHjECUVNWFxMYDTH5xoToTzDlXcD2
+	 oHU1jtebJfOOweaEGgS14uQ16AgIYqEopZQwq/csuCGATmRAK9+bSi14avM8yyB8bV
+	 xcm0W2ocilB4w==
 Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 0C14C4751E;
-	Sat, 10 Oct 2026 04:51:44 +0000 (UTC)
-Message-ID: <75ff0737-bab7-4f59-87a1-515c246c9d6f@birger-koblitz.de>
-Date: Sat, 10 Oct 2026 06:51:43 +0200
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 3D7854751E;
+	Sat, 10 Oct 2026 04:53:07 +0000 (UTC)
+Message-ID: <5c9a28f8-2fc7-4178-bdb2-7322aa89c783@birger-koblitz.de>
+Date: Sat, 10 Oct 2026 06:53:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,166 +52,147 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v18 09/13] ax88179_178a: Add Suspend/resume
- support for AX88179A/772D/279
+Subject: Re: [PATCH net-next v18 13/13] ax88796b: Add support for AX88772D,
+ AX88179A and AX88279
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-usb@vger.kernel.org
 References: <20261008-ax88179a-v18-0-6fa1d4c40422@birger-koblitz.de>
- <20261008-ax88179a-v18-9-6fa1d4c40422@birger-koblitz.de>
- <sashiko-outbox-164800@kernel.org>
+ <20261008-ax88179a-v18-13-6fa1d4c40422@birger-koblitz.de>
+ <sashiko-outbox-164803@kernel.org>
 From: Birger Koblitz <mail@birger-koblitz.de>
 Content-Language: en-US
-In-Reply-To: <sashiko-outbox-164800@kernel.org>
+In-Reply-To: <sashiko-outbox-164803@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 09/10/2026 5:51 am, sashiko-bot@kernel.org wrote:
 > Thank you for your contribution! Sashiko AI review found 3 potential issue(s) to consider:
-> - [High] net: ax88179a_reset() clobbers user-configured MAC address during resume
-> - [Medium] net: ax88179a_resume() skips phylink_resume() on hardware read error
-> - [Medium] ax88179_178a: ignores usbnet_suspend() return value in suspend
+> - [High] net: phy: ax88796b: missing 10M half-duplex cleanup causing mismatch
+> - [Medium] net: phy: ax88796b: missing aneg restart when changing only 2.5G advertisement
+> - [Low] net: phy: asix: Dead code in asix_ax88772D_get_features()
 > --
 > 
-> commit d715e3f0710659f4025065a805e16bf7832459fd
+> commit 86e7d1e2ad82ba6062c7e69eccd21649d9c81f47
 > Author: Birger Koblitz <mail@birger-koblitz.de>
+> Subject: ax88796b: Add support for AX88772D, AX88179A and AX88279
 > 
-> ax88179_178a: Add Suspend/resume support for AX88179A/772D/279
+> This commit adds driver support for 100MBit, 1GBit, and 2.5 GBit PHYs
+> found in ASIX USB-Ethernet controllers.
 > 
-> The suspend and resume functions are called via the usb_driver structure,
-> for which the driver has only a single instance. Add wrapper functions
-> for the different implementations for the AX88179 and AX179A architecutres
-> in ax88179_lib which calls the 2 implementations in ax88179_178a and
-> ax88179a_devices, respectively.
+>> diff --git a/drivers/net/phy/ax88796b.c b/drivers/net/phy/ax88796b.c
+>> index f20ddf6491499..99abb0af3296d 100644
+>> --- a/drivers/net/phy/ax88796b.c
+>> +++ b/drivers/net/phy/ax88796b.c
 > 
->> diff --git a/drivers/net/usb/ax88179_178a.c b/drivers/net/usb/ax88179_178a.c
->> index 071b03b4f145c..ef0856627d08b 100644
->> --- a/drivers/net/usb/ax88179_178a.c
->> +++ b/drivers/net/usb/ax88179_178a.c
 > [ ... ]
->> @@ -1356,9 +1359,9 @@ static struct usb_driver ax88179_178a_driver = {
->>   	.name =		"ax88179_178a",
->>   	.id_table =	products,
->>   	.probe =	usbnet_probe,
->> -	.suspend =	ax88179_suspend,
->> -	.resume =	ax88179_resume,
->> -	.reset_resume =	ax88179_resume,
->> +	.suspend =	ax88179_suspend_wrapper,
 > 
-> [Severity: Medium]
-> If usbnet_suspend() aborts an autosuspend (e.g. because of an active TX
-> queue, returning -EBUSY), ax88179_suspend() ignores the error and continues
-> to force the MAC and PHY into low-power mode (AX_MEDIUM_RECEIVE_EN disabled,
-> AX_RX_CTL_STOP, etc.).
-> 
-> This stalls the active network stack because the hardware is stopped but the
-> USB core reports success to the PM core. The patch refactors this into
-> ax88179_suspend_wrapper without fixing the underlying bug.
-> 
-> Does this need to be fixed to properly handle usbnet_suspend() return values
-> in ax88179_suspend() to avoid hardware stalling?
-> 
-
-ax88179_suspend() is pre-existing code that is merely wrapped. Will not 
-fix and anyway could not test because of lack of relevant AX88179-based HW.
-
-
->> +	.resume =	ax88179_resume_wrapper,
->> +	.reset_resume =	ax88179_resume_wrapper,
->>   	.disconnect =	ax88179_disconnect,
->>   	.supports_autosuspend = 1,
->>   	.disable_hub_initiated_lpm = 1,
-> [ ... ]
->> diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179a_devices.c
->> index e86cbe3e4400f..e9913a7c70390 100644
->> --- a/drivers/net/usb/ax88179a_devices.c
->> +++ b/drivers/net/usb/ax88179a_devices.c
-> [ ... ]
->> @@ -135,6 +194,47 @@ static int ax88179a_auto_detach(struct usbnet *dev)
+>> @@ -83,6 +96,107 @@ static int asix_ax88772a_read_status(struct phy_device *phydev)
 >>   	return 0;
 >>   }
 >>   
->> +static int ax88179a_resume(struct usb_interface *intf)
+>> +static int asix_ax88279_read_status(struct phy_device *phydev)
 >> +{
->> +	struct usbnet *dev = usb_get_intfdata(intf);
->> +	struct ax88179_data *ax179_data;
->> +	u8 reg8 = 0;
+> 
+> [ ... ]
+> 
+>> +static int asix_ax88279_config_aneg(struct phy_device *phydev)
+>> +{
+>> +	bool adv_2500;
 >> +	int ret;
 >> +
->> +	ax179_data = dev->driver_priv;
->> +	ax88179_set_pm_mode(dev, true);
+>> +	if (phydev->autoneg == AUTONEG_DISABLE) {
+>> +		phydev_warn(phydev, "Disabling autoneg is not supported\n");
+>> +		return -EOPNOTSUPP;
+>> +	}
 >> +
->> +	ret = ax88179_read_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, &reg8);
+>> +	adv_2500 = linkmode_test_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->advertising);
+>> +	ret = phy_modify(phydev, MII_ADVERTISE, AX_ADVERTISE_2500,
+>> +			 adv_2500 ? AX_ADVERTISE_2500 : 0);
 >> +	if (ret < 0)
->> +		goto err_out;
+>> +		return ret;
+>> +
+>> +	return genphy_config_aneg(phydev);
 > 
 > [Severity: Medium]
-> In ax88179a_resume(), if reading the PHY power state fails (ret < 0),
-> execution jumps directly to the err_out label.
+> Will this fail to restart auto-negotiation if a user only changes the
+> 2.5G advertisement?
 > 
-> This bypasses the if (netif_running(dev->net)) { phylink_resume(...) } block.
+> Because phy_modify() returns 0 on success, the changed state of the
+> AX_ADVERTISE_2500 bit is lost. When the rest of the configuration is delegated
+> to genphy_config_aneg(), it internally evaluates standard advertisement bits
+> using a mask that excludes this custom 2.5G bit. If no standard changes are
+> detected, genphy_config_aneg() returns without restarting hardware
+> auto-negotiation, and the link partner won't be notified of the new 2.5G
+> advertisement.
 > 
-> Because phylink_suspend() was previously called during ax88179a_suspend(),
-> bypassing the resume call leaves the phylink state machine permanently
-> suspended. Even if the hardware error was transient, link state updates will
-> no longer be processed, resulting in a dead network interface that cannot
-> recover.
-> 
-> Can this be modified so phylink_resume() runs even on hardware error, or is
-> there another way to prevent the state from becoming stuck?
-Will modify to include phylink_resume() in error-exit path.
+> Could we check if the register was actually modified, perhaps by using
+> phy_modify_changed(), and manually trigger a restart or pass the changed state
+> to __genphy_config_aneg()?
+Thanks for the suggestion! Wil fix as suggested.
+
 
 > 
+>> +}
 >> +
->> +	if (!(reg8 & AX_PHY_POWER)) {
->> +		reg8 = AX_PHY_POWER;
->> +		ax88179_write_cmd(dev, AX88179A_PHY_POWER, 0, 0, 1, &reg8);
->> +		msleep(250);
->> +	}
->> +	ax88179_write_cmd(dev, AX_FW_MODE, AX_FW_MODE_179A, 0, 0, NULL);
+>> +static int asix_ax88279_get_features(struct phy_device *phydev)
+>> +{
+>> +	int ret;
 >> +
->> +	/* Now, that AX_FW_MODE_179A is enabled, the PHY needs a power-cycle.
->> +	 * PHY-power is re-enabled in ax88179a_reset()
->> +	 */
->> +	ax88179_write_u8(dev, AX88179A_PHY_POWER, 0, 0, 0);
->> +	msleep(250);
+>> +	/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
+>> +	phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
 >> +
->> +	ax88179a_reset(dev);
+>> +	linkmode_set_bit_array(phy_basic_ports_array, ARRAY_SIZE(phy_basic_ports_array),
+>> +			       phydev->supported);
+>> +
+>> +	ret = genphy_c45_pma_read_abilities(phydev);
+>> +	if (ret < 0)
+>> +		return ret;
+>> +
+>> +	/* AX88279 does not support reported 100baseT-half duplex mode */
+>> +	linkmode_clear_bit(ETHTOOL_LINK_MODE_100baseT_Half_BIT, phydev->supported);
 > 
 > [Severity: High]
-> Does this clobber a user-configured MAC address?
+> Does this code also need to clear the 10M half-duplex capability?
 > 
-> During resume, ax88179a_resume() unconditionally calls ax88179a_reset().
-> ax88179a_reset() calls ax88179_get_mac_addr(dev), which reads the default MAC
-> address from the hardware EEPROM or DTB and writes it into dev->net->dev_addr.
-> It then copies this value into dev->net->perm_addr.
+> The read status function unconditionally forces phydev->duplex to DUPLEX_FULL,
+> indicating the device only supports full duplex. However,
+> genphy_c45_pma_read_abilities() populates both 10baseT_Full_BIT and
+> 10baseT_Half_BIT. Since the 10M half-duplex bit isn't cleared here along
+> with the 100M one, the PHY might still advertise 10M half-duplex capability.
 > 
-> If the user had previously configured a custom MAC address, this custom
-> address is permanently overwritten by the hardware default on every
-> suspend/resume cycle. Furthermore, modifying perm_addr outside of device
-> probe violates the invariant that it holds the permanent unalterable
-> hardware address.
-> 
-> Should the resume path instead restore the existing dev_addr to the device
-> registers without calling ax88179_get_mac_addr()?
-> 
+> If it negotiates 10M half-duplex with a link partner, could this lead to a
+> duplex mismatch between the MAC (forced to full) and the link partner?
+No, because the AX88279 does not support 10M mode. This was already
+discussed in previous emails. Will not change.
 
-Will fix by excluding setting MAC-address in resume path in
-ax88179a_reset(). I have verified that the mac configuration in the 
-device is not cleared when doing suspend-resume.
-
+> 
 >> +
->> +	if (netif_running(dev->net)) {
->> +		rtnl_lock();
->> +		phylink_resume(ax179_data->phylink);
->> +		rtnl_unlock();
->> +	}
->> +
->> +err_out:
->> +	ax88179_set_pm_mode(dev, false);
->> +
->> +	return usbnet_resume(intf);
+>> +	return 0;
 >> +}
 > 
+> [ ... ]
+> 
+>> +static int asix_ax88772D_get_features(struct phy_device *phydev)
+>> +{
+>> +	int ret;
+>> +
+>> +	/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilities */
+>> +	phydev->c45_ids.mmds_present |= MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
+> 
+> [Severity: Low]
+> Is the assignment to mmds_present needed here?
+> 
+> It seems this might be dead code, as genphy_read_abilities() and its helpers
+> like genphy_c45_read_eee_abilities() do not appear to check the mmds_present
+> mask to determine capabilities.
+> 
+>> +
+>> +	ret = genphy_read_abilities(phydev);
+>> +	if (ret < 0)
+>> +		return ret;
+> 
+The code is needed as the mmds previously read are incorrect. This was
+tested, and it does not work without.
 
 Birger
 
