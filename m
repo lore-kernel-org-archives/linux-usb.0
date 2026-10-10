@@ -1,144 +1,107 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 375DB3DB339
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 06:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F2C3DDAE6
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 06:20:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791612980; cv=none; b=YksEU6ZS1mjHtZeSC/xZEdLBvLVvnee5oKWet0uiQGa9I6R05ts6PlWVJ+zrAorVVNJMSciGKSl2RI7h8BXw9Q0uxAV+xg8j72dqbBTtGqgSNOLy451bhfWnF/MeWG24HbDuHB799c9iTYQU+DiMgRafE7laI3Bx0PguEaXqPts=
+	t=1791613257; cv=none; b=qQRTI2ejaCE5eBUaBJsb3B4Z6pwxBoB0E/EkqDtEVkFCvlA+MXPdYnE1DUk4vJ/eUOse+00djxMX8TOAbEVLXbSXEgrPYeRYIIi/gvYLwODxQnP00VjT5ShDvuwwlWMgvG7Fz5/5UcUz5MbJuNGuvtkQTO6BY7ZfZ3TpkH4pDQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791612980; c=relaxed/simple;
-	bh=sAHBXblxtfvymj/r9WkO2Egl5vhjNGPwFcUu/Cwy5wY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=eJ5czwc5Oi+duqQQVtI4UmeVo5ocdD4DCeLYWzOg/v0/jqLUDvJ98+1h3DZrd7auPuo454IVUnNwcLXff7SRNStfsp95bfJv63fAtdR7d+kZ8Bp2+y9yxU3egAs9JIiMVIb3Lh4TSLeksv0L/07REhrRlDknre7l40Qa+sx5128=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YqZavRTC; arc=none smtp.client-ip=209.85.128.41
+	s=arc-20240116; t=1791613257; c=relaxed/simple;
+	bh=tF57zidWZwWz8hIOotoZx9jwOMzu5EtZU1vKiJE6pKY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=avuICXgdLIFgbhX85yuIvxmJPoYHv773Don2UcbBHbC1SYumuHwa9S4A5qAhuLitwpPMEdhj5kTNtVnhwsIcK03FQk9DZVn6kulQujuzhQ+yU/+ki68mJW3/2YJJcrfOkyHpDPPn3sTq0tY1Z38zczNAQ8tIkOtv3JQsIGczUlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ip0UGn9w; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YqZavRTC"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a171b677d2so2933105e9.0
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 23:16:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ip0UGn9w"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cd5d2dafeccso98199a12.2
+        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 23:20:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791612977; x=1792217777; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=2Ai7DttukfcLAD0XsmKyzCj4bzA5dXPXWlklqadis4Y=;
-        b=YqZavRTC8q6JM0zNcnvpONfW2ie/nIYptMZI9zEjjaqwEO7UsphQiwIqps2R9E1H2Z
-         ZTmzWxg9x9BcZbYJF15jQUCAzVpPukU6Cp5Ny+zPvw6zVCsR2i01gn+a0hDm1cqhDgh9
-         kMBuZaBTJ7b1dxVBYuWN808sSBN4X6Dz45DrKqN35U3YXWgNSD7kStZcLTDsLjIJS7Y1
-         PepzC6EVCUA2UUCub5BrlvfyprFVEQ/BgSDtsLKzsj484h+ebusa2n1z76igm5xB4Ve7
-         ivFBMhoQpglspoJe42s5YX+viL/V/Wzggdozmp/aWdUFci4BlGYO2ykVBTEhL1zjMxxG
-         xkrw==
+        d=gmail.com; s=20251104; t=1791613256; x=1792218056; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tF57zidWZwWz8hIOotoZx9jwOMzu5EtZU1vKiJE6pKY=;
+        b=ip0UGn9wZfNJ0oel9b9UB18IJILq2ODa5gcehD9jE4ZEYAdW5Cf+HKemijYyuOjhuw
+         wbf5T1snBXusb7qSdM4+jxAZgztX4vBVd6pRmLKFZzQMuN73p8cNN+NWAMGp9XNoH+2d
+         oCkx6sG1yvVafLgl/eAbFFQWBl+lXDARS8rw3dSMlTESZjgXTghAru7q3ooXnVCkGv4l
+         traJZMzH/BipOYHBSH2SNY7EX00e2dimvoLU7op4ejaRBPZoOalpxY6v0FUSiPxIAdT7
+         f5FMr9Z9RRYKPJBQSaHWRyqO65zkqgszvNQdZKS6tdHvIfh8hmJJQwBi4z4MY5QWHycU
+         pQCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791612977; x=1792217777;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2Ai7DttukfcLAD0XsmKyzCj4bzA5dXPXWlklqadis4Y=;
-        b=W2E3rEHeqFuHcreYnZTFRq4O419TO/y1AThMQenobwwejhxh9TDfhWEd6LGMuvmbW5
-         28y7RwNWDJ2icasBAx8+ZJS0UNHtbiuKTzfz/OluG2fBFT2Jd5Zb4IQqgYJ7RNR39SnT
-         NUZeUsbDih/ZsM4xy7iei6UQ2wqsymfP7rZEsm09XgtRXqs29peszRLTYUtPhln6Nkz+
-         e3d2XWdDORwf9L6WCcVdom0sT3mMpSxEwvNQZMiizV6rLq3F3UbigFGRESBr8w6Wor5y
-         EbiB2VxTx6nchRo1J8CQGo0znn39jsaXrtPxAajtFMcjECoqVnux4xgu1AqTwONFQZDZ
-         ZEOQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxhYTpiOxfONFAGMhxQPS0OlfPQL0LVnd0UWYvBBnKdNwttcUmEqX8urlsktv62ogw9xgK0jHpSfFw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKopLojO+MgB9nxvv8pCNmCwYXoWIElU8ohI4qOAqnyeiNLbHmh
-	bq0UrFU8tBhBid+Z4/Wi8sO7i53dtFp9nMb16IaxIwP7h2QLLUxOfdN1FG6dRtUU
-X-Gm-Gg: AYBFou0DcUtDpiwxoZUT2jO7N9tey2pfJFPxNzzGijUCjsJ6wYmWbDmn+eaM/4Es1w/
-	ktvVykOjkXw4S8gkk9YUrp6GUYtrJJhONPKFI07d6C6iZbdQ/AKpnvqr0ua06AF1bmFHOerX8km
-	ELURUgNqAi2RPLwxUcyPk5cJQZ92/e5KpHT8sxQt4UIKV47HISU+QxjA5pbwFCrwj9Xk7juL9C7
-	/oJoH6U1V9REwKHmg/5WA7T/Bby2ct36sGqGgFc7dtg1fHJKEQejR7nMyIyWNd7tcMtknmnCwRy
-	+gb+UeAhm8xkzqsLejXlrCTTYYTyoEq1iJf5ldwVH9MCROWPppNghojsAe8Jf3Dau1ZaQFnGRo7
-	jyXCx0zOJku6RsMmn+nhhAK5aP66qyIsC+uGllOiVwQQHZc5xdt+gqdQ0GdQcL12VHq1PNFlQXJ
-	hxusUX7g864N43dzT1SJjAA937jsCwpTk2LUO5a8im3ohNRqeeFr3laryLv0v8jMNgL1+PDIopK
-	D4OYWA40w==
-X-Received: by 2002:a05:600c:3510:b0:4a1:7703:e549 with SMTP id 5b1f17b1804b1-4a18e4c3fe4mr87840465e9.26.1791612977178;
-        Fri, 09 Oct 2026 23:16:17 -0700 (PDT)
-Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bf214a1sm122983085e9.7.2026.10.09.23.16.15
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 09 Oct 2026 23:16:15 -0700 (PDT)
-Date: Sat, 10 Oct 2026 08:16:10 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: sashiko-bot@kernel.org
-Cc: sashiko-reviews@lists.linux.dev, "Mathias Nyman"
- <mathias.nyman@linux.intel.com>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2 09/11] usb: xhci: Rework and improve the TD matching
- and skipping logic
-Message-ID: <20261010081610.7e5b47e6.michal.pecio@gmail.com>
-In-Reply-To: <sashiko-outbox-165778@kernel.org>
-References: <20261009151624.618967-1-mathias.nyman@linux.intel.com>
-	<20261009151624.618967-10-mathias.nyman@linux.intel.com>
-	<sashiko-outbox-165778@kernel.org>
+        d=1e100.net; s=20260707; t=1791613256; x=1792218056;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tF57zidWZwWz8hIOotoZx9jwOMzu5EtZU1vKiJE6pKY=;
+        b=B4ybILWtxiufXc8l2aOKtl3clFbvvaYLN+8MWottNRHzfpVdbk3kmzHcJGimFwZ+l/
+         P+Afme/UPVpPzKcc+iLNgKfmVvHnMcnVcwwmRCtYq9gPjrRx6JmtByRaZ773RV+C9W2u
+         1F8hkCiLRy/P7k/UpM1wPm2cWrsylY6V5fy00wqFsAErG3xbyHLZV1p45Tpf1eSS3mNg
+         PqUJ3OOb8QIPcAXnST/YapOmr7o+uILK9IeW+o1R7EjvqMoZ/ziVNgn2F9gRsSYBudTr
+         Wi5UsUiqAV+fpF20SdBieQ4nzuU0VHPEoP1J1edELG0pNTR84h2ocYWDdAzU1ba7sxFq
+         9AiQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwQ3p7nIdIjyZuU1JdsdOnEuuAsY9zYUqKY+DEANnNl/NVAWDXGwEELw/PVSD5YSqA9naPlp+5Wj6o=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKJMPWwq1SNMl+uWxDXpw2xP8/3KC5jWC8q60FPE17harGNxJYE
+	ZbSnGPh2b213WPWrCDz/ID+PZcEyBXqdttTSd1hPMauUXOGFNW85HpYd
+X-Gm-Gg: AYBFou0Gc2iUyAuEr43sDS2870CT0LuPRJPW/bbOHq7pv2Rc4Vl0Qnj5C7iQbZFX9T1
+	gGzFnUPdWY6VyyhQLFrzULfR4swx60juMhBQsXeLBCoO1SB4NCmJypid6scN+AwQpxzncdMEq2I
+	EKyApS9HpWdwi7sO5py4mAej68jhhYYaAM0brYBfxjpRAIrRg56lJXmpNxkZVRn2Wq1MhJ8UpIr
+	a3pa/q1MgUfIB2hX4McA2kLij+FqYjpTwQTY9+uAvjgCQz+mxm0/2TjmZRgXKHawAfedeUAisym
+	w1j57xRK3UVJBYONb1p9/c0dW9eaRPVWPXBnEsS2rpB0gF0g6KdVHPQwxvJsd5z756mifZD+iBn
+	aj5h5yLKyOKcKBflfVuAxwu2YJ4LE0RYNv1AqYx7rUmB3R2Mzmy2FcNbMO7GYsTcDYqSeDTTtY9
+	j+G7+Ne6PueKKvH7FpO0FfCEY6oqt+UQs7Ump7XvpDyo+GeWa5WSMLVZ086zq3sJfsd3o/qr6kH
+	2Xyrc5lBp7bcuXAUHqMfY9QCthuC4KARR4kA7tW/hG5wl0Si+W1FNXYO0HO9Yp0/gCmR8kh7Pdk
+	8eP6oB9T5kMWcm5UUA7Y00Y=
+X-Received: by 2002:a17:90b:4a90:b0:3a0:d79d:b6bf with SMTP id 98e67ed59e1d1-3ab3a90e590mr2805853a91.20.1791613256121;
+        Fri, 09 Oct 2026 23:20:56 -0700 (PDT)
+Received: from Inspiron5409 (61-228-80-139.dynamic-ip.hinet.net. [61.228.80.139])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab38ddac6dsm6418243a91.7.2026.10.09.23.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2026 23:20:55 -0700 (PDT)
+From: Jianhui Xu <neuromoments@gmail.com>
+To: mail@birger-koblitz.de
+Cc: andrew+netdev@lunn.ch,
+	andrew@lunn.ch,
+	chenhuacai@kernel.org,
+	davem@davemloft.net,
+	edumazet@kernel.org,
+	hkallweit1@gmail.com,
+	kernel@xen0n.name,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux@armlinux.org.uk,
+	loongarch@lists.linux.dev,
+	nb@tipi-net.de,
+	netdev@vger.kernel.org,
+	neuromoments@gmail.com,
+	pabeni@redhat.com
+Subject: Re: [PATCH v19 0/13] ax88179_178a: Add support for AX88179A-based chips
+Date: Sat, 10 Oct 2026 14:20:47 +0800
+Message-ID: <20261010062047.399148-1-neuromoments@gmail.com>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
+References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 09 Oct 2026 15:34:20 +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] usb: xhci: handle_tx_event() halts >1.0 hosts on bogus MSE pointers
-> --
-> 
-> commit cc3554d902e447131e844c7826abc9b1b4f75f82
-> Author: Michal Pecio <michal.pecio@gmail.com>
-> 
->     usb: xhci: Rework and improve the TD matching and skipping logic
->     
->     Matching events with TDs and giving back missed TDs is carried out
->     by a complicated loop. Replace it with a simpler linear logic:
->     
->     0. Having verified that 'td_list' isn't empty,
->     1. Scan it to find the matching TD and count missed TDs,
->     2. Perform necessary adjustments for corner cases,
->     3. Give back missed TDs, if applicable, using a short and tidy loop,
->     4. Check if the event refers to the expected TD and proceed as usual.
-> 
-> > diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-> > index 7597ef8105c65..243b1fd2b2f68 100644
-> > --- a/drivers/usb/host/xhci-ring.c
-> > +++ b/drivers/usb/host/xhci-ring.c  
-> [ ... ]
-> > @@ -2858,66 +2861,50 @@ static int handle_tx_event(struct xhci_hcd *xhci,  
-> [ ... ]
-> > +	td = find_td_by_dma(ep_ring, &missed_tds, ep_trb_dma);
-> >  
-> > -			xhci_dbg(xhci,
-> > -				 "Found td. Clear skip flag for slot %u ep %u.\n",
-> > -				 slot_id, ep_index);
-> > +	if (ep->skip) {
-> > +		if (!td) {
-> > +			/*
-> > +			 * xHCI 1.0 allowed MSE events to have zero TRB pointers. Some old chips
-> > +			 * also generate bogus non-zero pointers. We know, don't bother warning.
-> > +			 * Missed TDs will be given back by the next event with a valid pointer.
-> > +			 */
-> > +			if (trb_comp_code == COMP_MISSED_SERVICE_ERROR &&
-> > +			    xhci->hci_version <= 0x100)
-> > +				return 0;  
-> 
-> [Severity: High]
-> Does this code inadvertently halt hosts > 1.0 on bogus MSE pointers?
->
-> By restricting the leniency for bogus Missed Service Error (MSE)
-> pointers strictly to xHCI 1.0, controllers > 1.0 that generate a
-> bogus pointer for MSE will fall through and hit the "HC is busted"
-> block below.
+Hi Birger,
 
-Nothing actually gets halted, only warnings are logged, as for any
-out-of-spec event that isn't known and dealt with. Specifically, MSE
-are being logged since 2025, as we began to process them more.
+I tested the v19 series on my AX88179B adapter, rerunning all the
+previously described tests.
 
-One HW bug has been reported since then, in old Intel chipsets, not
-sure how many PCI IDs are affected. Hence no warnings on xHCI 1.0.
-Otherwise, I prefer to keep logging anomalies because it helps with
-discovering SW bugs and properly attributing HW bugs to xHCI layer.
+The previously observed VLAN-filter failure did not reproduce, and no
+carrier or RX failures were observed in the test. No confirmed driver
+regressions were found in the tested scenarios.
 
-Regards,
-Michal
+Tested-by: Jianhui Xu <neuromoments@gmail.com>
+
+Thanks,
+Jianhui
