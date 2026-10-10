@@ -1,78 +1,77 @@
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA3632B113
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 14:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 176DB2931ED
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 17:16:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791642445; cv=none; b=eTbALq5sW4fX7bfC+zMKke8NHLVLPGAlx3e091Tn/3Q5fKHVxyWnj6b93c3WE19zI2sPHqnDDU79rF5YGGpRRFs5MXJV2uKDFh5Gjz9P4TAWbPiDp2LvR+rbq6iMXecM1slvMkvv5SIYd+VRqx1HtsXN4VmpznQEBH1d/c5EAaE=
+	t=1791652600; cv=none; b=DJjbYCRdfM4p2rUTENm6ej7KeUUA5IGJHk3y0I4BrjQEX9u+0FO+4YEcrunX9MKsYD2SeA5YsCY9+ulAH1Tf4MhqcST2vCrRhprZwmDSIAiqR0GvggXHe/11fcndxsXEa6Isl0yQBdG7ZkOMQL4GJ5iC7WlSutG4orQyVSJ47aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791642445; c=relaxed/simple;
-	bh=grRLkJN+Ko2Iz6fCDMiPUA58aC5KdZux8G0S6xruiL4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=nxpLRt3+Y6O3KFUmfwuBF7SxKTcmptnrxgPMT8UqSEwY+Y0buWFK79+Yfp+QrI7oqxunlmrWae9Wxn3gUdwl6/33P7rlD78rMhFbbO569P9sTyydAk/HX5yenpoKDiCSAKq2/F2UQpWgN4bIzKkR+VdXGgJF22ebT1Mwe69qNrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bj0UsI06; arc=none smtp.client-ip=209.85.221.177
+	s=arc-20240116; t=1791652600; c=relaxed/simple;
+	bh=qRQkoWyjxcoe8Yub8BihDAFoDQy3l0rzwTJat1+awQ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uy5S9BCxzFZHWLoL6gDYsEb4BoJbvmvmxO8Jqaa0FjIiqZTyX3TTqVVU9mUKCICFO94rFL527VejaETBo5hzWTvyf0Yb1075GX26NiH44uscEN7WXEbi4E16fV/DbCzC6x7BxvooZ+JDjEmXBoQUzdlGECxVQ3Rk9lwYEjPTRIk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NILsnqIG; arc=none smtp.client-ip=74.125.82.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bj0UsI06"
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5dedc4e5cf4so556843e0c.1
-        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 07:27:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NILsnqIG"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-15354aa70e8so935943c88.1
+        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 10:16:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791642442; x=1792247242; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=grRLkJN+Ko2Iz6fCDMiPUA58aC5KdZux8G0S6xruiL4=;
-        b=Bj0UsI06z7aUcJA5nA09p3p0HYcZaakQ81zaETq0RVrBVSaC8d6c9UynDdmkUgon7t
-         GjGWSfOhdofYP16sIroNbuoFJUtx4NWM/RNxfXYVzfn9+3bJPDBMDzLycTmxTy+u9nUP
-         zHig3c8e604G23R8iGfhr0T4hnuc5HYipd1SupWbwutgaMgpRqcgGQAOx/gsF2mfhTX/
-         /cks0RxV6lxv+/4iPFWkLhXmEkt1sjZiQ+XeBaeDR2mj7p10KPs9DD+TTBhwDMytFeZq
-         wsA2MTXqXupqdVMdYNBCXuMkjVBCpUasrw7lMcVMRN77JlZYBTgXv0xvcYJUy1CX0Lzb
-         0tfw==
+        d=gmail.com; s=20251104; t=1791652598; x=1792257398; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=GK3+R5MVAxUhsJSrVfq+GrGUfD5s5v+zFwmql3xSieA=;
+        b=NILsnqIG6vlNxnu3GTrGXHl3xGccTuzKQuc4SP4NXr4EzvqLCD5UXguMk4m4n3pKcK
+         PRu2RfTTdeEZRtxJ5dkFYleCQh5Q2AZ0NPxNP0LgySMwOqmigSnEyUDZaMHrdBsSxNOX
+         iwucYZzhpWnO/lnqJ+uQS/pUFwGsu8dq/6F2xJuL8eG1R7SdrGAINWYv8Pqn64tPMYYK
+         qVmf8GznPyazOZmLfXeOl7wSnbx8cg/F6628rlcQG2Xu1QZjyjTO0GBx+llwUywrD3f2
+         M2fGSMl3ZV2EyWQGPAsIIuD4CSv81bB09ZzKuhJdX/rkPZPK4dNfAdBk/otACmYytE9J
+         3Uvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791642442; x=1792247242;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=grRLkJN+Ko2Iz6fCDMiPUA58aC5KdZux8G0S6xruiL4=;
-        b=ZGQyffcoeAcQAJGzCUKDhBafW8z5mbmJYH6i739+ButI0MXl/IPzeMQAUESVHCR3zx
-         qKWzoyIQtrbRvvQfoaTfoS9GcDHSncVBRPB/2Hz9B79fgPDlo8J3SdPK0AMzhKX5W0Zr
-         wwdomm/xiGBu55gjlWelL2C9FXW1sLnnUX/1HExMOTGwlwRJJKcehGY3pRaUhkW934Ee
-         UvoQS5LdzV2FnmyrXQRskGz1kFrkPlmSJL15CnZnBr2TtxLxFznLRao5qs4rYH2ylIg3
-         U4dhUQx/D0FJEIFJFzCKs2+2A6pnbOiwMQvGDmlvP30Axq5M1k+pycB53zEKxbzl3wHk
-         Q/Ew==
-X-Forwarded-Encrypted: i=1; AKwUvBwNJMjVp7J6gnUVBgRr5zHiEWoBvE4ZxTxt53zlSDFnZUeRmeWZJ3EnjqYywd17k5338jtGkLzDz2k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK3iXBtXVR4knfBk/KZK1scRAM85RY8pg93zzn+eoRi3F6e+VCG
-	jwI06Nb9h8CZnyFJvNbRXHbOOGwGaqrTCI6yS+6Nz47FfHHGq3Q5/czVbMn6BEUxEr4eyVLs
-X-Gm-Gg: AYBFou3aCIOR7iEw8khYZd4xG9tou01RL19JUS7oxbXHi7uWSGun9Rdq/DNJPoAx/GY
-	EyL/bxxdv+QeuRH2r1DMwOCZz2diyu5TmF3DpzLAUQxJG8PzNlmZaLA530ovO+mJbevLbE1iTKm
-	zN3AC/WdccPuTcTtutOKMEJXYNRaPt3xnZtn1LAkxSlPRnLfP6KY3ZqtFVUg0CM1/Ol6dmpcBwv
-	+VWHj21JJ2UhY/SV6I8vQ+2R9Tby8i5LGbm1s321HvE7pXvBJCWZsEPJV9nVrCdfsSPYp9AjKe+
-	rxoKVs2KNDoxc9h4aEZzUs/zVjq23G3pGDDhQjGCD6gqFqa8TW4MxtIcuqhSPmCmmDnMHPk54U4
-	hBDqGUGEuMGNxlalbcCLQat5LI0pRp5BqzeDKvM2OIac20TMGgrFZ1gD/MsVTZQv8T9oNScKpU5
-	Aqm9WBUV1KIJ6FYA9PFewIPpvL1h+nzMHeUF7N6GoMxCNuBxnSjTM1fbqep0yR+E4=
-X-Received: by 2002:a05:6102:9d6:b0:7a0:eb10:79b5 with SMTP id ada2fe7eead31-7cb37231b47mr1812789137.10.1791642442468;
-        Sat, 10 Oct 2026 07:27:22 -0700 (PDT)
-Received: from beelink.. ([187.13.210.57])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7cb3411becasm3854339137.0.2026.10.10.07.27.20
+        d=1e100.net; s=20260707; t=1791652598; x=1792257398;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=GK3+R5MVAxUhsJSrVfq+GrGUfD5s5v+zFwmql3xSieA=;
+        b=i96QFwNEgv6rZzq0cuj0EPlH3y8l6gIeLvsaLUa45FQLMtYy/ZA+Yk4h2+CXk0fjHq
+         PGVrOHr02SlVrXeOmiR4h+A+sRblUBlwg0xrCAcPmrVKd9KwLquIEqhPvpBxSxHxfXOj
+         PjfjZ5EJWQZ7ycIAk/ASdFFCZb+5PXh5oLyLHheToAIZzxWcoQM1lCrzV/uV/THsiit1
+         P6uWxkxIkCskHQjSAvW2YNCfYJRi5K20sRVUDtmE83D301140XZeL8IPRKQt4myylq9w
+         /DoBtaomg4ZCGuPxrF7VVgvNxKHDni5Lv8pzCxrg/S8WlPMtNlJ2AUr/TTM3wCSaySiP
+         PRDg==
+X-Forwarded-Encrypted: i=1; AKwUvBz3sXOowdaCLQdVAaOdp4gGzmvFxd3AgV9FjSJa7yJW/IiggF2lS/GXhu/NIUDkLhxJAwBIze0GrME=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI1VuTQtZZhk72fzFxdN51HlduQatcoS1B91RjUGiitQxqcmtxW
+	ojGzxYah9MHsVyKH9gar/SXiwTWccXM1xWXw8uEs8keG+3RKWzjfkgyX
+X-Gm-Gg: AYBFou0oUWhg4hSp/uopro0Tooeke0OPKjWNjMKaXvjCV0zfPlUZ+vOvfXfmF+hZjKV
+	pinYBd19hoTRD2vDwnDADort07VJ7tpKaLAgMyUQiZvO4zSAHF/zSfke9K9XGy5eO27Htji0M1n
+	Cx0hN491+ZsGDVaZ5MHZ118C9ioRcPbu+ES6Z073NIstPhlbIQR3W7Mi4czTBkUft60YIXx4TYi
+	wJMeVY9yLv8gDOk1fnvOr+48sDR4KkfpokTFB4FFGY2sER+IeYURKfFfEOZ7knSxbprjJTx+69U
+	wuNfa24hs1Rd0Zuhibc7754PlNwO6fMwLN9a9nQ9bppwItoRwIuuusvmjt+/qFWjSSiBP9uJU6U
+	KuHBEIvVDP0pa2vyqo41IQhISSrD6jRpKKlqLrtVJ5zvtjOTV3fwJI/+drDtbKGFvi/1iBJfOnI
+	ehC36fX1qa2B2ola4tVj8qnROb3TzGDnsmd4Ej+NVctph41Y8vuJwygo5bMo97t499H1J0XjdP8
+	OdvVcmNTDhFieXwQG/pDmEvvi/Gror3dnWqWUZQkKltD2CHLsNw77mTZ/1Zdm6IjGTQM1EssZL1
+	3YR3bHsVGeZ6Mr8mWgDBlVDj+o3FN2JHMqAPQMo6QiWD+3x1zeX4M+xOu4vo9HidPgyJqyZ9vfP
+	jsTsEpid8gxDV10Eg5q9UeLL+YxRN6YGyB8krNjgDFOi41H7yL9OvZclAkLvO0McATqs/vH9hcG
+	7LLs0WR080Xu0W+7C0+ooBlE52j2F1my01vDFC
+X-Received: by 2002:a05:7022:b0d4:b0:143:2984:6518 with SMTP id a92af1059eb24-16a612bc1e8mr7592771c88.39.1791652598002;
+        Sat, 10 Oct 2026 10:16:38 -0700 (PDT)
+Received: from localhost.localdomain (2001-b011-c00c-b850-f47a-b651-03fd-a578.dynamic-ip6.hinet.net. [2001:b011:c00c:b850:f47a:b651:3fd:a578])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a567aef5sm15344795c88.19.2026.10.10.10.16.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 10 Oct 2026 07:27:22 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: Kuen-Han Tsai <khtsai@google.com>
-Cc: Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Faqiang Zhu <faqiang.zhu@nxp.com>,
+        Sat, 10 Oct 2026 10:16:37 -0700 (PDT)
+From: Ting-Han Hou <ue081723@gmail.com>
+To: Johan Hovold <johan@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	Ting-Han Hou <ue081723@gmail.com>,
+	syzbot+e69c25cf38a53d0cf64c@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: Re: [PATCH 2/2] usb: gadget: u_ether: Protect dev->gadget access with dev->lock
-Date: Sat, 10 Oct 2026 11:27:07 -0300
-Message-ID: <20261010142713.2667481-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260923-u-ether-gadget-npe-v1-2-ff466c55ecc0@google.com>
-References: <20260923-u-ether-gadget-npe-v1-2-ff466c55ecc0@google.com>
+Subject: [PATCH] USB: serial: keyspan: fix control urb double submission
+Date: Sun, 11 Oct 2026 01:16:19 +0800
+Message-ID: <20261010171619.1709-1-ue081723@gmail.com>
+X-Mailer: git-send-email 2.52.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,34 +80,238 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 23, 2026 at 03:58:36PM +0800, Kuen-Han Tsai wrote:
-> Extend dev->lock to protect dev->gadget across gether_set_gadget(),
-> gether_detach_gadget(), eth_get_drvinfo(), and rx_submit().
+The control urbs used to send port configuration messages can be
+submitted concurrently from several contexts: open(), close(),
+dtr_rts(), set_termios() and break_ctl() run in process context under
+per-port or per-tty locks, while the outcont and glocont completion
+handlers resubmit when a resend has been requested. For the USA-49 and
+USA-67 message formats the control urb is also shared by all ports of
+the device.
 
-Confirmed against mainline. The race is real: eth_get_drvinfo() runs from
-ethtool independently of unbind, so its NULL check and the
-dev->gadget->name / dev_name(&dev->gadget->dev) dereferences could race
-gether_detach_gadget() clearing dev->gadget. Holding dev->lock across the
-check and both dereferences, while gether_set_gadget() and
-gether_detach_gadget() now update dev->gadget under the same lock, closes
-it.
+The send_setup() helpers check whether the urb is busy by comparing its
+status with -EINPROGRESS without any locking, so two callers can both
+find the urb idle and submit it. The second submission adds the urb to
+the endpoint urb list a second time, which corrupts the list and can
+lead to the host controller driver spinning forever with interrupts
+disabled when the endpoint is later flushed on disconnect:
 
-The rest holds up too. In rx_submit() the cached g is both read and
-dereferenced (g->quirk_ep_out_aligned_size) inside the dev->lock section,
-and it is only reached when dev->port_usb != NULL; since gether_disconnect()
-nulls dev->port_usb and drains all I/O before any gether_detach_gadget(), a
-non-NULL port_usb there implies a live gadget, so g is valid. Clearing
-dev->gadget before device_move() in gether_detach_gadget() is fine --
-nothing between the two reads dev->gadget and device_move() does not touch
-it. No lock inversion either: the sole rtnl section is unrelated and never
-nested under dev->lock, and the guarded regions only do strscpy/pointer
-work, so nothing sleeps under the lock.
+  list_add double add: new=ffff88800ce63818, prev=ffff88800ce63818, next=ffff88800be7c078.
+  WARNING: lib/list_debug.c:35 at __list_add_valid_or_report+0x157/0x200
+  Call Trace:
+   <IRQ>
+   usb_hcd_link_urb_to_ep+0x1c6/0x330
+   dummy_urb_enqueue+0x21c/0x750
+   usb_hcd_submit_urb+0x228/0x1c00
+   keyspan_usa67_send_setup.isra.0+0x531/0x710
+   __usb_hcd_giveback_urb+0x241/0x400
+   dummy_timer+0x1402/0x3470
 
-One note, not blocking: the struct comment now says the lock is held while
-accessing gadget, but gether_connect() and gether_register_netdev() still
-read dev->gadget unlocked. Those run on the set_alt()/setup path, which the
-composite core serializes against unbind (gether_detach_gadget() is only
-reached from the *_unbind callbacks), so they are safe -- the comment just
-reads a touch broader than what is actually enforced.
+The urb->hcpriv check in usb_submit_urb() only catches a resubmission
+after the urb has been queued and does not prevent this.
 
-Reviewed-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+Serialise control message submission using a spinlock so that the busy
+check and the submission are atomic with respect to other callers.
+
+This was found while testing the reproducer for syzbot report
+5fabc1ae99ff40690d84 (a keyspan_close() use-after-free) under QEMU,
+which emulates a USA-28XG using raw-gadget and dummy_hcd. syzbot has
+also reported the same corruption from keyspan_usa49_send_setup().
+
+Tested under QEMU with that reproducer and DEBUG_LIST, KASAN and lockdep
+enabled: the list corruption was hit in 4 out of 38 20-minute runs
+without this patch and in none out of 36 runs with it. As the race is
+hard to hit, this is an indication rather than proof. Only the USA-67
+path is exercised by the reproducer; the other message formats have the
+same pattern but have not been tested.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Reported-by: syzbot+e69c25cf38a53d0cf64c@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?extid=e69c25cf38a53d0cf64c
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Ting-Han Hou <ue081723@gmail.com>
+---
+ drivers/usb/serial/keyspan.c | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/serial/keyspan.c b/drivers/usb/serial/keyspan.c
+index 4d3746c7a94e..84a428fc102a 100644
+--- a/drivers/usb/serial/keyspan.c
++++ b/drivers/usb/serial/keyspan.c
+@@ -537,7 +537,7 @@ struct keyspan_serial_private {
+ 	struct urb	*indat_urb;
+ 	char		*indat_buf;
+ 
+-	/* XXX this one probably will need a lock */
++	spinlock_t	ctrl_lock;	/* serialises control urb submission */
+ 	struct urb	*glocont_urb;
+ 	char		*glocont_buf;
+ 	char		*ctrl_buf;	/* for EP0 control message */
+@@ -2036,6 +2036,7 @@ static int keyspan_usa26_send_setup(struct usb_serial *serial,
+ 	struct keyspan_port_private 		*p_priv;
+ 	const struct keyspan_device_details	*d_details;
+ 	struct urb				*this_urb;
++	unsigned long				flags;
+ 	int 					device_port, err;
+ 
+ 	dev_dbg(&port->dev, "%s reset=%d\n", __func__, reset_port);
+@@ -2056,11 +2057,14 @@ static int keyspan_usa26_send_setup(struct usb_serial *serial,
+ 	dev_dbg(&port->dev, "%s - endpoint %x\n",
+ 			__func__, usb_pipeendpoint(this_urb->pipe));
+ 
++	spin_lock_irqsave(&s_priv->ctrl_lock, flags);
++
+ 	/* Save reset port val for resend.
+ 	   Don't overwrite resend for open/close condition. */
+ 	if ((reset_port + 1) > p_priv->resend_cont)
+ 		p_priv->resend_cont = reset_port + 1;
+ 	if (this_urb->status == -EINPROGRESS) {
++		spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 		/*  dev_dbg(&port->dev, "%s - already writing\n", __func__); */
+ 		mdelay(5);
+ 		return -1;
+@@ -2169,6 +2173,7 @@ static int keyspan_usa26_send_setup(struct usb_serial *serial,
+ 	this_urb->transfer_buffer_length = sizeof(msg);
+ 
+ 	err = usb_submit_urb(this_urb, GFP_ATOMIC);
++	spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 	if (err != 0)
+ 		dev_dbg(&port->dev, "%s - usb_submit_urb(setup) failed (%d)\n", __func__, err);
+ 	return 0;
+@@ -2183,6 +2188,7 @@ static int keyspan_usa28_send_setup(struct usb_serial *serial,
+ 	struct keyspan_port_private 		*p_priv;
+ 	const struct keyspan_device_details	*d_details;
+ 	struct urb				*this_urb;
++	unsigned long				flags;
+ 	int 					device_port, err;
+ 
+ 	s_priv = usb_get_serial_data(serial);
+@@ -2197,11 +2203,14 @@ static int keyspan_usa28_send_setup(struct usb_serial *serial,
+ 		return -1;
+ 	}
+ 
++	spin_lock_irqsave(&s_priv->ctrl_lock, flags);
++
+ 	/* Save reset port val for resend.
+ 	   Don't overwrite resend for open/close condition. */
+ 	if ((reset_port + 1) > p_priv->resend_cont)
+ 		p_priv->resend_cont = reset_port + 1;
+ 	if (this_urb->status == -EINPROGRESS) {
++		spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 		dev_dbg(&port->dev, "%s already writing\n", __func__);
+ 		mdelay(5);
+ 		return -1;
+@@ -2287,6 +2296,7 @@ static int keyspan_usa28_send_setup(struct usb_serial *serial,
+ 	this_urb->transfer_buffer_length = sizeof(msg);
+ 
+ 	err = usb_submit_urb(this_urb, GFP_ATOMIC);
++	spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 	if (err != 0)
+ 		dev_dbg(&port->dev, "%s - usb_submit_urb(setup) failed\n", __func__);
+ 
+@@ -2303,6 +2313,7 @@ static int keyspan_usa49_send_setup(struct usb_serial *serial,
+ 	struct keyspan_port_private 		*p_priv;
+ 	const struct keyspan_device_details	*d_details;
+ 	struct urb				*this_urb;
++	unsigned long				flags;
+ 	int 					err, device_port;
+ 
+ 	s_priv = usb_get_serial_data(serial);
+@@ -2323,12 +2334,15 @@ static int keyspan_usa49_send_setup(struct usb_serial *serial,
+ 	dev_dbg(&port->dev, "%s - endpoint %x (%d)\n",
+ 		__func__, usb_pipeendpoint(this_urb->pipe), device_port);
+ 
++	spin_lock_irqsave(&s_priv->ctrl_lock, flags);
++
+ 	/* Save reset port val for resend.
+ 	   Don't overwrite resend for open/close condition. */
+ 	if ((reset_port + 1) > p_priv->resend_cont)
+ 		p_priv->resend_cont = reset_port + 1;
+ 
+ 	if (this_urb->status == -EINPROGRESS) {
++		spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 		/*  dev_dbg(&port->dev, "%s - already writing\n", __func__); */
+ 		mdelay(5);
+ 		return -1;
+@@ -2464,6 +2478,7 @@ static int keyspan_usa49_send_setup(struct usb_serial *serial,
+ 		this_urb->transfer_buffer_length = sizeof(msg);
+ 	}
+ 	err = usb_submit_urb(this_urb, GFP_ATOMIC);
++	spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 	if (err != 0)
+ 		dev_dbg(&port->dev, "%s - usb_submit_urb(setup) failed (%d)\n", __func__, err);
+ 
+@@ -2479,6 +2494,7 @@ static int keyspan_usa90_send_setup(struct usb_serial *serial,
+ 	struct keyspan_port_private 		*p_priv;
+ 	const struct keyspan_device_details	*d_details;
+ 	struct urb				*this_urb;
++	unsigned long				flags;
+ 	int 					err;
+ 	u8						prescaler;
+ 
+@@ -2493,11 +2509,14 @@ static int keyspan_usa90_send_setup(struct usb_serial *serial,
+ 		return -1;
+ 	}
+ 
++	spin_lock_irqsave(&s_priv->ctrl_lock, flags);
++
+ 	/* Save reset port val for resend.
+ 	   Don't overwrite resend for open/close condition. */
+ 	if ((reset_port + 1) > p_priv->resend_cont)
+ 		p_priv->resend_cont = reset_port + 1;
+ 	if (this_urb->status == -EINPROGRESS) {
++		spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 		dev_dbg(&port->dev, "%s already writing\n", __func__);
+ 		mdelay(5);
+ 		return -1;
+@@ -2595,6 +2614,7 @@ static int keyspan_usa90_send_setup(struct usb_serial *serial,
+ 	this_urb->transfer_buffer_length = sizeof(msg);
+ 
+ 	err = usb_submit_urb(this_urb, GFP_ATOMIC);
++	spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 	if (err != 0)
+ 		dev_dbg(&port->dev, "%s - usb_submit_urb(setup) failed (%d)\n", __func__, err);
+ 	return 0;
+@@ -2609,6 +2629,7 @@ static int keyspan_usa67_send_setup(struct usb_serial *serial,
+ 	struct keyspan_port_private 		*p_priv;
+ 	const struct keyspan_device_details	*d_details;
+ 	struct urb				*this_urb;
++	unsigned long				flags;
+ 	int 					err, device_port;
+ 
+ 	s_priv = usb_get_serial_data(serial);
+@@ -2626,11 +2647,14 @@ static int keyspan_usa67_send_setup(struct usb_serial *serial,
+ 		return -1;
+ 	}
+ 
++	spin_lock_irqsave(&s_priv->ctrl_lock, flags);
++
+ 	/* Save reset port val for resend.
+ 	   Don't overwrite resend for open/close condition. */
+ 	if ((reset_port + 1) > p_priv->resend_cont)
+ 		p_priv->resend_cont = reset_port + 1;
+ 	if (this_urb->status == -EINPROGRESS) {
++		spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 		/*  dev_dbg(&port->dev, "%s - already writing\n", __func__); */
+ 		mdelay(5);
+ 		return -1;
+@@ -2738,6 +2762,7 @@ static int keyspan_usa67_send_setup(struct usb_serial *serial,
+ 	this_urb->transfer_buffer_length = sizeof(msg);
+ 
+ 	err = usb_submit_urb(this_urb, GFP_ATOMIC);
++	spin_unlock_irqrestore(&s_priv->ctrl_lock, flags);
+ 	if (err != 0)
+ 		dev_dbg(&port->dev, "%s - usb_submit_urb(setup) failed (%d)\n", __func__, err);
+ 	return 0;
+@@ -2795,6 +2820,8 @@ static int keyspan_startup(struct usb_serial *serial)
+ 	if (!s_priv)
+ 		return -ENOMEM;
+ 
++	spin_lock_init(&s_priv->ctrl_lock);
++
+ 	s_priv->instat_buf = kzalloc(INSTAT_BUFLEN, GFP_KERNEL);
+ 	if (!s_priv->instat_buf)
+ 		goto err_instat_buf;
+-- 
+2.53.0
+
