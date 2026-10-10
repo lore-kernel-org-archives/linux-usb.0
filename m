@@ -1,107 +1,151 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F2C3DDAE6
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 06:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16F639CCFD
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 06:36:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791613257; cv=none; b=qQRTI2ejaCE5eBUaBJsb3B4Z6pwxBoB0E/EkqDtEVkFCvlA+MXPdYnE1DUk4vJ/eUOse+00djxMX8TOAbEVLXbSXEgrPYeRYIIi/gvYLwODxQnP00VjT5ShDvuwwlWMgvG7Fz5/5UcUz5MbJuNGuvtkQTO6BY7ZfZ3TpkH4pDQQ=
+	t=1791614187; cv=none; b=W4+3G5zxB0i+jHpZPn79x90CB1WOAjXeH9pz3b5bvrxiKeyGVh71FXe7R3iSU+uaX2qMurILOc6jzm/YmfGZ807wv9TuIMKAA/87pEc8vnjUGoYiYWHaBhcSxQYjUjMg9yRFuSw5LX42lbo0uQkpHeVqc+MR1nLc3MP8ZknUXpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791613257; c=relaxed/simple;
-	bh=tF57zidWZwWz8hIOotoZx9jwOMzu5EtZU1vKiJE6pKY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=avuICXgdLIFgbhX85yuIvxmJPoYHv773Don2UcbBHbC1SYumuHwa9S4A5qAhuLitwpPMEdhj5kTNtVnhwsIcK03FQk9DZVn6kulQujuzhQ+yU/+ki68mJW3/2YJJcrfOkyHpDPPn3sTq0tY1Z38zczNAQ8tIkOtv3JQsIGczUlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ip0UGn9w; arc=none smtp.client-ip=209.85.215.169
+	s=arc-20240116; t=1791614187; c=relaxed/simple;
+	bh=ZnJxfnu9UopKxXTa0U94zGzQEzcjgXN+qKv+FV9kVl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sQkcAuLwRm2ozHEcRofx6g3C8US+f8M/ZYSpsxrZ4DdCF+PQW2+74rrBudIaCpUdJ6GcvRuBp5Va3ZP4IA74HYvcw+gGD5WpH+65I3Eywn92+DICbopZgIbaHFnLwmodz2gYMFbDu0KQPD6e91iK1SR/Zd1AyAIqYK5cINhmo40=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gpEFoM0Y; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ip0UGn9w"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-cd5d2dafeccso98199a12.2
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 23:20:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gpEFoM0Y"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a16bc2278aso3073815e9.1
+        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 23:36:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791613256; x=1792218056; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=tF57zidWZwWz8hIOotoZx9jwOMzu5EtZU1vKiJE6pKY=;
-        b=ip0UGn9wZfNJ0oel9b9UB18IJILq2ODa5gcehD9jE4ZEYAdW5Cf+HKemijYyuOjhuw
-         wbf5T1snBXusb7qSdM4+jxAZgztX4vBVd6pRmLKFZzQMuN73p8cNN+NWAMGp9XNoH+2d
-         oCkx6sG1yvVafLgl/eAbFFQWBl+lXDARS8rw3dSMlTESZjgXTghAru7q3ooXnVCkGv4l
-         traJZMzH/BipOYHBSH2SNY7EX00e2dimvoLU7op4ejaRBPZoOalpxY6v0FUSiPxIAdT7
-         f5FMr9Z9RRYKPJBQSaHWRyqO65zkqgszvNQdZKS6tdHvIfh8hmJJQwBi4z4MY5QWHycU
-         pQCQ==
+        d=gmail.com; s=20251104; t=1791614184; x=1792218984; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=hSqVSM4fJlvTDpFrnKpXbQXJn7V7EVNmkAGYR+oqhh0=;
+        b=gpEFoM0Y7e4nVf9sTR5OFUmyK5T448lHzkX+nsJnvlzO6kb1Kw6M1QT+d94g/nrKBs
+         6oIVll31HfJB80U+Ic9JjSLi1UF7Nxd1glaZyu+1ke5mftXaKH9NKpZ7mNgPNXzathzK
+         eXg6DWVwvoaDlzUBK6RTCfUQJOjhPqUaMfcsM8Nq61aOqQiFKOwp75ITYiwykqrA+JBb
+         lDe6WcObBbLpT3S6qH95ldck+GxObzezKBgKsTue13t2wjgfZFzMZnV7iwNwFl8nrBTa
+         /5c+I9Ih3vzAMpNqdxE6DdW88WyU0BytCuTxnhQ0EI/eTqOZWL18mv2Ak+lndajO8sRP
+         Hfsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791613256; x=1792218056;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=tF57zidWZwWz8hIOotoZx9jwOMzu5EtZU1vKiJE6pKY=;
-        b=B4ybILWtxiufXc8l2aOKtl3clFbvvaYLN+8MWottNRHzfpVdbk3kmzHcJGimFwZ+l/
-         P+Afme/UPVpPzKcc+iLNgKfmVvHnMcnVcwwmRCtYq9gPjrRx6JmtByRaZ773RV+C9W2u
-         1F8hkCiLRy/P7k/UpM1wPm2cWrsylY6V5fy00wqFsAErG3xbyHLZV1p45Tpf1eSS3mNg
-         PqUJ3OOb8QIPcAXnST/YapOmr7o+uILK9IeW+o1R7EjvqMoZ/ziVNgn2F9gRsSYBudTr
-         Wi5UsUiqAV+fpF20SdBieQ4nzuU0VHPEoP1J1edELG0pNTR84h2ocYWDdAzU1ba7sxFq
-         9AiQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwQ3p7nIdIjyZuU1JdsdOnEuuAsY9zYUqKY+DEANnNl/NVAWDXGwEELw/PVSD5YSqA9naPlp+5Wj6o=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKJMPWwq1SNMl+uWxDXpw2xP8/3KC5jWC8q60FPE17harGNxJYE
-	ZbSnGPh2b213WPWrCDz/ID+PZcEyBXqdttTSd1hPMauUXOGFNW85HpYd
-X-Gm-Gg: AYBFou0Gc2iUyAuEr43sDS2870CT0LuPRJPW/bbOHq7pv2Rc4Vl0Qnj5C7iQbZFX9T1
-	gGzFnUPdWY6VyyhQLFrzULfR4swx60juMhBQsXeLBCoO1SB4NCmJypid6scN+AwQpxzncdMEq2I
-	EKyApS9HpWdwi7sO5py4mAej68jhhYYaAM0brYBfxjpRAIrRg56lJXmpNxkZVRn2Wq1MhJ8UpIr
-	a3pa/q1MgUfIB2hX4McA2kLij+FqYjpTwQTY9+uAvjgCQz+mxm0/2TjmZRgXKHawAfedeUAisym
-	w1j57xRK3UVJBYONb1p9/c0dW9eaRPVWPXBnEsS2rpB0gF0g6KdVHPQwxvJsd5z756mifZD+iBn
-	aj5h5yLKyOKcKBflfVuAxwu2YJ4LE0RYNv1AqYx7rUmB3R2Mzmy2FcNbMO7GYsTcDYqSeDTTtY9
-	j+G7+Ne6PueKKvH7FpO0FfCEY6oqt+UQs7Ump7XvpDyo+GeWa5WSMLVZ086zq3sJfsd3o/qr6kH
-	2Xyrc5lBp7bcuXAUHqMfY9QCthuC4KARR4kA7tW/hG5wl0Si+W1FNXYO0HO9Yp0/gCmR8kh7Pdk
-	8eP6oB9T5kMWcm5UUA7Y00Y=
-X-Received: by 2002:a17:90b:4a90:b0:3a0:d79d:b6bf with SMTP id 98e67ed59e1d1-3ab3a90e590mr2805853a91.20.1791613256121;
-        Fri, 09 Oct 2026 23:20:56 -0700 (PDT)
-Received: from Inspiron5409 (61-228-80-139.dynamic-ip.hinet.net. [61.228.80.139])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab38ddac6dsm6418243a91.7.2026.10.09.23.20.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 23:20:55 -0700 (PDT)
-From: Jianhui Xu <neuromoments@gmail.com>
-To: mail@birger-koblitz.de
-Cc: andrew+netdev@lunn.ch,
-	andrew@lunn.ch,
-	chenhuacai@kernel.org,
-	davem@davemloft.net,
-	edumazet@kernel.org,
-	hkallweit1@gmail.com,
-	kernel@xen0n.name,
-	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux@armlinux.org.uk,
-	loongarch@lists.linux.dev,
-	nb@tipi-net.de,
-	netdev@vger.kernel.org,
-	neuromoments@gmail.com,
-	pabeni@redhat.com
-Subject: Re: [PATCH v19 0/13] ax88179_178a: Add support for AX88179A-based chips
-Date: Sat, 10 Oct 2026 14:20:47 +0800
-Message-ID: <20261010062047.399148-1-neuromoments@gmail.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
-References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
+        d=1e100.net; s=20260707; t=1791614184; x=1792218984;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hSqVSM4fJlvTDpFrnKpXbQXJn7V7EVNmkAGYR+oqhh0=;
+        b=LPpxHAzVKm3u5+ev/S0XAHxuV6r1tsdS54vUw0a3i5z0yhXtm0DQrf5v6Z5En/Dg85
+         O9gFJzJYBpxXiuWc2MjEwjfkiqt6WEIw6QVxfSsXBQQ4tfmisvP9WosKq146G7CUarEg
+         jur4oiFH4yG2A3bWMvo3DEduPFLEnEPP6XgAsz2s9vGG423JB5nmNoTKdzzv4YxqvhuC
+         jkVcuN6RPiSsHrDKGo5upXQroDsZvYjH+Xp+UNgph+6GePrYqKS8OaFdCzkxeXAH7vvZ
+         zjv03NzeEXiENEaAbK4k6AiL3E7nzXg9fd1teHpoYtfMu96dhPBE+2jX8dh0VlH8CSJD
+         6uSg==
+X-Forwarded-Encrypted: i=1; AKwUvBxwApCP2nW9VI0xFOp/eRh7F1pVmItUH4mP/jSMuMof0GrXw/Ed35SLAu5iAa3Rh5C/qeLG4ZMVmec=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLwd6vhTfdLSQCM9818EJgcsSUGM6tYMTv9lSNJLqVC7AE9k5+q
+	w1BgeCdgvpwEcMDR1I9CKBJ7+8n5ChjeQtjynf5Mxfjl2v6h/kV1VuSA
+X-Gm-Gg: AYBFou07PXaHncrxnbfXap8LTDCPfaVk4qpYVnYszvfGPVv4/IRMmChJ8a0EXgLD+29
+	uNaH+ZXEOr5dRk+bOIb5Jbcdnr3UMEuR4AuyvtUwvxYYNEIXViuwJortKOR2Kz/4v19AcZGJ82M
+	UD4fB5lrXDQy6Upa+1/S5AOpttJcMkz9ZHLYecz/MM7746xv5N3pCUsfhFMeTakqhaC2NqIz+RN
+	Qa+9TkyClV5XPtxHqgc+Ka6uTm27+PVXLvZoK0YRbp5QGEoUutQTNnui2alrDfDq7SE8qKsc5Jq
+	llGHHspRsDBsySME7PrDMQuscj5oxRFh3G6fUjUvOn7na99VTNgqHDCUW9aR660K8FSfPSgHK6n
+	v5IjeUg1esB9AbT3D6E+ArysLbtubakkC2i2fktoHzcPKouMcD7hSJ5ALbXCYaifjVeG4y9xTV6
+	y8Fk1qZYwHuN5fyz/0uEtJzQhJLVj9Bh+z0iOLTEG6OEg79b5wpECGuwNaP3UNJsfwUqkNr6dTb
+	pNfeABLDA==
+X-Received: by 2002:a05:600c:4688:b0:49f:f963:7093 with SMTP id 5b1f17b1804b1-4a18e4ce84cmr84106665e9.23.1791614183932;
+        Fri, 09 Oct 2026 23:36:23 -0700 (PDT)
+Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db9ac6a91sm6661246f8f.41.2026.10.09.23.36.23
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Fri, 09 Oct 2026 23:36:23 -0700 (PDT)
+Date: Sat, 10 Oct 2026 08:36:18 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: "Mathias Nyman" <mathias.nyman@linux.intel.com>,
+ <gregkh@linuxfoundation.org>
+Cc: sashiko-bot@kernel.org, sashiko-reviews@lists.linux.dev,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH v2 02/11] usb: xhci: Unlock for command abort polling
+Message-ID: <20261010083618.24da3062.michal.pecio@gmail.com>
+In-Reply-To: <sashiko-outbox-165772@kernel.org>
+References: <20261009151624.618967-1-mathias.nyman@linux.intel.com>
+	<20261009151624.618967-3-mathias.nyman@linux.intel.com>
+	<sashiko-outbox-165772@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Birger,
+On Fri, 09 Oct 2026 15:27:25 +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [Medium] usb: xhci: 5-second udelay() busy-wait in sleepable command timeout path
+> --
+> 
+> commit 8ece4a222044715c34357d2e1240af7af9feef1a
+> Author: Michal Pecio <michal.pecio@gmail.com>
+> 
+> usb: xhci: Unlock for command abort polling
+> 
+> This commit drops the xhci->lock earlier during xhci_abort_cmd_ring() to
+> prevent stalling other CPUs while polling for the command ring to stop.
+> It subsequently waits for the command ring stop completion event.
+> 
+> Link: https://lore.kernel.org/linux-usb/16f65081-5a3c-4c30-9811-9017796a3373@fonseca.com.pt/
+> 
+> > diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> > --- a/drivers/usb/host/xhci-ring.c
+> > +++ b/drivers/usb/host/xhci-ring.c  
+> [ ... ]
+> > @@ -521,25 +521,27 @@ static int xhci_abort_cmd_ring(struct xhci_hcd *xhci, unsigned long flags)
+> >  	 * In the future we should distinguish between -ENODEV and -ETIMEDOUT
+> >  	 * and try to recover a -ETIMEDOUT with a host controller reset.
+> >  	 */
+> > +	spin_unlock_irqrestore(&xhci->lock, flags);
+> >  	ret = xhci_handshake(&xhci->op_regs->cmd_ring,
+> >  			CMD_RING_RUNNING, 0, 5 * 1000 * 1000);  
+> 
+> [Severity: Medium]
+> The patch drops xhci->lock here to avoid stalling other CPUs, but
+> xhci_handshake() unconditionally uses readl_poll_timeout_atomic():
+> 
+> int xhci_handshake(void __iomem *ptr, u32 mask, u32 done, u64 timeout_us)
+> {
+>         ...
+>         ret = readl_poll_timeout_atomic(ptr, result,
+>                                         (result & mask) == done ||
+>                                         result == U32_MAX,
+>                                         1, timeout_us);
+> 
+> Since the context allows sleeping (the lock is dropped, and we call
+> wait_for_completion_timeout() right after), does this code burn 100% of
+> a CPU core in a busy-wait for up to 5 seconds if the hardware fails?
 
-I tested the v19 series on my AX88179B adapter, rerunning all the
-previously described tests.
+Does it not? :)
+Still an improvement over the status quo.
 
-The previously observed VLAN-filter failure did not reproduce, and no
-carrier or RX failures were observed in the test. No confirmed driver
-regressions were found in the tested scenarios.
+> Could this use a non-atomic polling macro like readl_poll_timeout()
+> with an appropriate usleep_range to yield the CPU instead?
 
-Tested-by: Jianhui Xu <neuromoments@gmail.com>
+Maybe, but other callers still haven't been fixed to stop being atomic.
 
-Thanks,
-Jianhui
+My plan was to omit xhci_handshake() in this case and instead increase
+the timeout for subsequent completion wait to 5 seconds, but I realized
+that this slows down abort processing on HCs that fail to generate the
+event we are wating for.
+
+Mathias, do you know what was the buggy HW mentioned in 3425aa03f484d?
+Was it really a bug in HW and not SW, maybe it was Intel HW that you
+still have access to? None of my HCs exhibit such behavior.
+
+If it's important, I could split the completion wait into stages, poll
+USBSTS in between and stop waiting if CRR stays clear for 2 seconds.
+
+Still, I consider all of that outside the scope of *this* patch.
+
+Regards,
+Michal
