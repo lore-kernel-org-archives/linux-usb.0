@@ -1,78 +1,47 @@
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3194A37DABC
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 02:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F88322D785;
+	Sat, 10 Oct 2026 03:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791599350; cv=none; b=ksWt+4Cj+zHEkHvS2u393B6zmQMxoZuqV+wlKqwXRL+gcEq7C1bfxHJYVgplZEdoEE4xxqdwO6le/l+TQntdnVE4iJhL7DWovjQS2vPZZ290NHMUZVhJMknE0G1eJkL2C32/hIQhCkIOhZGGS1W/bm5elfbYbJ+x4XYGDOE04hM=
+	t=1791602751; cv=none; b=OnGvt4Wgpupimt+1hJxopWbasg86zohVUA4bAqK8gK4k8EH/oqo3B3iAmMEIenVNW1dG5trR709hN7K5mkQDIIowHGu7mkSJDAR4kC/Dr22EjNFyW3SprjJU2dcOmJk/z4Ic/2P/4lg3xq9ZmaenJriKRmbRj53LptwiCFOwDVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791599350; c=relaxed/simple;
-	bh=Jcy2MJFiM2JTjAV8HXPccmB5E7MpEkzAs8cy45JZFKw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qUvGh7LsyoLkE2BNFard6w9W8xNP4FMNFEu8SmXqSKbitrieyLLlMI+kaSh4sgtio0VlQKOjEffgYcgrFg9EKD8zFRTCCIyuquxDPbuQ0DELmch64PSL71Bu6OkVsfnpjvetNHK3Ij+9MsplLB8ygKmYfd1YjpR6FOWl/vym2Qk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BjHXDMJ3; arc=none smtp.client-ip=209.85.221.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BjHXDMJ3"
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-5e9239c772cso258178e0c.2
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 19:29:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791599347; x=1792204147; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Jcy2MJFiM2JTjAV8HXPccmB5E7MpEkzAs8cy45JZFKw=;
-        b=BjHXDMJ3g128oxC2PX22D1kwaYSevb98UW8qD8tXWQoRUr9ndaAZxR0isPDsiy10Ch
-         kmJZra21j50UKDor/jCPlDed8jSxnhxUMV3eCmXjjVlNGRpkOrM9hM7Ons9EzvO5dRjq
-         XI+voSZ9xkgVDZVKrz/qZA8ynWK2cbvQKDIXApT14zYjkoghQUMwj0OszFAQN4sf7Vfd
-         ghO50dODh2qK01RiMQNXTAyFHcCYaNsHAVA9Q7IdFPpfUdijpNOa0Aaxk6pjNRMisnO7
-         N9mGAbU7cV48O5qiD2NOiXe+10IoZyeZufnJpXVP7j/5CNq2T016otnxU3uk8r2aKN5H
-         EqZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791599348; x=1792204148;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Jcy2MJFiM2JTjAV8HXPccmB5E7MpEkzAs8cy45JZFKw=;
-        b=Bnq7Ep5dWJ7J2Aegun/wJSsoeK1jv5/wTYU2AAw92LMYOvD5VKnDuB/kE5pBT7Guwj
-         lEDgMmmaDrxFMF+hFs1844dhO/XTOm15JnqhjGc8cZYbxzCmfCryXpCIEv7wNkn7CI9W
-         NLB/DReuRpcZbQTEY/1Ra7HbO6p+tQfCUxeDH8ffEIISPl1653lth8qGkFZFDz0zRS1W
-         tRV1uA48+rgPNMwwMYcqE/pGxhKqKQ4rAJ/q34ZUV86o2NOl71LLpZCXo1Sc7+yHFptY
-         w8AuxCSTTjXseCASc/436sDES9IOswGIr3bdaQFiqwbWW/yKsq3OcD5dtFGleLdWfvag
-         6kdg==
-X-Forwarded-Encrypted: i=1; AKwUvBzk5PrLJ+QtePE0aw34LqODL2kC+I/ARjNKCPzBwzarmme9+hL4QqsSn4OeyDQ4IVwy1FKPJpPZ1dw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLqG9M3vCwJuGUu2So2Rjgo3X4qMULZBXV9nC7cm/U0Hh5oKNnh
-	28/5wdyqzROPRC/mz9+gm15aVV8sVPDfq5T+4+8MXPyUJ+8SaZY6dn0m
-X-Gm-Gg: AYBFou0HAVYO9KLG1CSCIX3+ZQxzlMFQ6b1pdNTFcIBC/2Tm/mOxI0io2JLmU86lKLT
-	h4Ud1COqOVAjKw4SN/fOUD42w/ZWT20ddVrt3O38thgAk8a544bThF3b2gLqTjYJf1Ht16B6Ngn
-	bcR4ED29MPo0AkindqeYPKgMx6s7uE/a5De/6Jdu44kX2Ykz6aSybsVZKRQrMki/qfx/7wiL8jk
-	MlCFkBm4LIaKlv0+Ajvyo6sECs/wmlp4M8vh4Qt1h3BzMyKrWe8fpy3lRhHdpMSM0hjcaSp0DJe
-	QzIBnpoFgnoDDf7rXLnh2FPEeKeY/mj1HgXnJ8zM+aW52d6xVpG1OShogcu9l6cLP3bk9iW15sz
-	/U1Ux+F+hSYC/QAJgWL3b9MTvM0nRqKL2fUvijXGMQyoTyXkX+CVZfG9byKwCW2MG7mFrYVLKpH
-	CGDkBTkxOWaMQ54mmz+P8E43IuWZi/n7CYC3n27xu0RVYyZiKCCymGJnTwZeM7O+E=
-X-Received: by 2002:a05:6102:50ac:b0:7b3:4199:2de2 with SMTP id ada2fe7eead31-7cb378f67b3mr1454780137.35.1791599347617;
-        Fri, 09 Oct 2026 19:29:07 -0700 (PDT)
-Received: from beelink.. ([187.13.210.57])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5e91cbf5d1fsm3021672e0c.14.2026.10.09.19.29.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 19:29:07 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: Paritosh Potukuchi <paritoshpotukuchi@gmail.com>
-Cc: Aldo Ariel Panzardo <qwe.aldo@gmail.com>,
-	linux-usb@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	s=arc-20240116; t=1791602751; c=relaxed/simple;
+	bh=HrGGaPk5vp1UuC4fkskhVxdsl59AtLEfPgSM3rIAhdQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Jg9Q1uHAdzNlfRAZvOvbdPczZxKQZ6s0FLfBUOgJB/7Uvuex+U3Z49IO3VPk4Qku7aeMqLtEC6yGKg5LLtBvd3zZwXlDJll/7bB0BQ1OSOe8NS4Qv651jCDium+knbmqDYxYU3qwfioF2u3O0JBhJ49rAm5720oWqlDcpOkI+R0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 41903f50c45a11f19a56ed5b684f684d-20261010
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:a8cda5dd-8f2f-4b56-a2f2-c4ac2c4fea6a,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:3838abe37e352a973a1cc4bb182de6c6,BulkI
+	D:nil,BulkQuantity:0,SF:102|136|850|865|898,TC:nil,Content:0|15|50|99,EDM:
+	5|-100,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 41903f50c45a11f19a56ed5b684f684d-20261010
+X-User: dengjie03@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <dengjie03@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 160459551; Sat, 10 Oct 2026 11:25:35 +0800
+From: Jie Deng <dengjie03@kylinos.cn>
+To: mathias.nyman@intel.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	syzbot+debc5c305403f180c01c@syzkaller.appspotmail.com,
-	Paritosh Potukuchi <paritosh.potukuchi@amd.com>
-Subject: Re: [PATCH] usb: gadget: f_uac1: fix ac_header_desc in descriptor lists
-Date: Fri,  9 Oct 2026 23:28:56 -0300
-Message-ID: <20261010022858.3270406-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261001075808.2156188-1-paritoshpotukuchi@gmail.com>
-References: <20261001075808.2156188-1-paritoshpotukuchi@gmail.com>
+	Jie Deng <dengjie03@kylinos.cn>
+Subject: [PATCH] usb: xhci: Add XHCI_TT_SOFT_RETRY quirk for transaction errors on TT devices
+Date: Sat, 10 Oct 2026 11:25:18 +0800
+Message-Id: <20261010032518.2040608-1-dengjie03@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -81,30 +50,88 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 01, 2026 at 07:58:08AM +0000, Paritosh Potukuchi wrote:
-> Store ac_header_desc instead of &ac_header_desc in both
-> f_audio_desc and f_audio_ss_desc.
+Low-speed devices behind a high-speed hub on some xHCI controllers stop
+working after repeated lsusb -v: a transient USB transaction error on a
+bulk/interrupt endpoint is followed by a hard reset recovery where every
+command completes successfully (Reset EP with TSP=0 and Set TR Deq both
+return COMP_SUCCESS), but the first new split transaction issued after
+the restart fails again.  After two such cycles the hub reports a port
+connection change and the device drops off.
 
-This doesn't build. f_audio_desc[] and f_audio_ss_desc[] are file-scope
-arrays, so their initializers must be constant expressions.
-&ac_header_desc is an address constant and is fine; ac_header_desc reads
-the value of a mutable pointer, which is not a constant expression, so
-both changed entries fail with "initializer element is not constant".
+The affected silicon does not honor the xHCI spec (4.6.8) requirement
+that a Reset Endpoint command with TSP=0 "reset any USB2 split
+transaction state associated with the endpoint": the stale split state
+survives the reset, so the next split transaction carries the old
+transaction's identity and can never match the hub TT state, cleared
+or not.  The soft reset path (TSP=1), which per the spec maintains the
+split transaction state and retries the last transaction on the next
+doorbell, recovers these transient errors on the first retry.
 
-It also touches the array that isn't the problem. f_audio_desc[] (FS/HS)
-is rebuilt entry by entry in afunc_bind() after the descriptor is
-allocated, so its static initializer never reaches the core. The entry
-that does reach the core unchanged is in f_audio_ss_desc[] (SS/SSP),
-which is never rebuilt -- that is where &ac_header_desc is handed to
-usb_copy_descriptors() and the pointer variable itself gets read as a
-descriptor header.
+Add a XHCI_TT_SOFT_RETRY quirk: when set, bulk/interrupt endpoints
+behind a TT hub may use the existing soft retry machinery to retry a
+USB Transaction Error (completion code 4) in place instead of going
+through the hard reset path.  Platforms without the quirk keep the
+exact previous behavior.  Isochronous and control endpoints never
+enter this function, and the existing MAX_SOFT_RETRY bound still falls
+back to the hard reset path for persistent errors.  The quirk is meant
+to be set by platform code for controllers with this silicon bug; no
+in-tree platform code sets it yet.
 
-So the fix belongs at run time rather than in the static initializer:
-the f_audio_ss_desc[] AC-header slot needs to be set from ac_header_desc
-after build_ac_header_desc() succeeds and before
-usb_assign_descriptors(), the same way f_audio_desc[] is already built.
-(Putting ac_header_desc in the static initializer would capture NULL
-anyway, since it is only allocated in afunc_bind().)
+On the affected controller every error reports comp code 4 (USB
+Transaction Error), tt_info 0x301 and err_count 1, i.e. each in-place
+retry succeeds immediately and the fallback is never taken.
 
-Thanks,
-Aldo
+Signed-off-by: Jie Deng <dengjie03@kylinos.cn>
+---
+ drivers/usb/host/xhci-ring.c | 14 +++++++++++++-
+ drivers/usb/host/xhci.h      |  7 +++++++
+ 2 files changed, 20 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index ec278a9f9540..46ac1a52f6ed 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -2540,9 +2540,21 @@ static void process_bulk_intr_td(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
+ 		td->urb->actual_length = sum_trb_lengths(td, ep_trb);
+ 		goto finish_td;
+ 	case COMP_USB_TRANSACTION_ERROR:
++		/*
++		 * Devices behind a TT hub normally skip the soft retry: retrying
++		 * a split transaction usually requires clearing the hub TT buffer
++		 * first, so the hard reset path handles the error.  Controllers
++		 * that cannot properly reset the split transaction state with a
++		 * hard reset (XHCI_TT_SOFT_RETRY) recover these transient errors
++		 * by retrying the same transaction in place instead.  The soft
++		 * reset preserves the transfer state and the retry completes,
++		 * while the hard reset path abandons the split, the first new
++		 * split fails again and the low-speed link eventually collapses.
++		 */
+ 		if (xhci->quirks & XHCI_NO_SOFT_RETRY ||
+ 		    (ep->err_count++ > MAX_SOFT_RETRY) ||
+-		    le32_to_cpu(slot_ctx->tt_info) & TT_SLOT)
++		    (le32_to_cpu(slot_ctx->tt_info) & TT_SLOT &&
++		     !(xhci->quirks & XHCI_TT_SOFT_RETRY)))
+ 			break;
+ 
+ 		td->status = 0;
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index c7bfa7f028d3..df4702c5e8a4 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -1647,6 +1647,13 @@ struct xhci_hcd {
+ #define XHCI_CDNS_SCTX_QUIRK	BIT_ULL(48)
+ #define XHCI_ETRON_HOST	BIT_ULL(49)
+ #define XHCI_LIMIT_ENDPOINT_INTERVAL_9 BIT_ULL(50)
++/*
++ * Controller cannot reset the USB2 split transaction state with a Reset
++ * Endpoint command (TSP=0) as required by xHCI spec 4.6.8.  Recover
++ * transaction errors on devices behind a TT hub by soft retry (TSP=1)
++ * instead of the hard reset path.
++ */
++#define XHCI_TT_SOFT_RETRY	BIT_ULL(51)
+ 
+ 	unsigned int		num_active_eps;
+ 	unsigned int		limit_active_eps;
+-- 
+2.25.1
+
