@@ -1,82 +1,82 @@
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22F13BCD0D
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 05:33:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DBA54119E4
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 05:33:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791610416; cv=none; b=AEfyBVy3/j6cqZ7p7IRGe/SSZ3/WLBxBbOmaJULiVIoK7AFTkfobuJhTsYiQM+aJ5Dp/mPmGgB+ma4k+7UZ4IrbvpRt9lrFeMZFt+Dd4oKzvEDr4KZUvc1F3yhCJ2u+Smwdt8In5jM+2z97KM1d5u3mf9kCBisqIwfCaVst6kKI=
+	t=1791610422; cv=none; b=NnlY0h934VDJX0Lv95E+J1/aUhMMXTuVzmk3I8kfZIG7LXAL9bjeESJ9rh+A0gUD3+OL8vWCM+nZm+QCcJjgwJWMqcGje0tGUbs5ZYdA13jJLEKMBjlLpGdU8L2XUZNc7y5fQ8BITloopql/5Ru2p8WwnerHjCPzI81MQQ+TdTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791610416; c=relaxed/simple;
-	bh=mKjBkoicB4lsITmUvx/elieS4iigdeZqxoKhvRZox9s=;
+	s=arc-20240116; t=1791610422; c=relaxed/simple;
+	bh=kogPWcb2tCkfq09Kcpjybypxv5BNMASpBIbZXmQnNoY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=dnPEWS798JiuqbZdcbrChFEnujWPbzCdKorYp/PUfWTsWIjVdUJkYjEfZHg3/vKWhvx3Q6GE5Ri1rzrW2Bw0d2RQPfHC9NS9KgdAOkoHk7mA8iLjILp/UUUay3ZiWuAlahgnuO1gveq7cF0eL9CojibeSfdJIN/W9IwQGIWMmSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ig9NbE/L; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hpIlcqMk; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version; b=da5Wf7Hps+O9RRH894KQ2aHgdlfpbPK9I56HXoBlHagiy7qO4bAtXrRndl67VlyYErXlf9HZ+P3g90JSSioCLoq/Y+loGiBYoaFoz05np7tvlW0uCfIevm9CU1DSorU71BNCmSObb9/vxgiGvWIwG7grQOHDLXSA0YYR8wsuAxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=i3+IMr9A; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=jATO2QRK; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ig9NbE/L";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hpIlcqMk"
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69A2eWhZ529178
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 05:33:33 GMT
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="i3+IMr9A";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="jATO2QRK"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69A4BhRB3207090
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 05:33:39 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=s2r1O1AAKXF
-	38pJJeX6hQa8Gey3z8SLxPhW3IGwND8w=; b=ig9NbE/L/ryY7V2ADfO5eGd1e1o
-	DWUEtRF7mIYNDDZfdKVOHoRVXqdJ3SRaYk/RFbeT80nYH15TLH5Y6B7hNufOs138
-	oLZmno38nt5mx5M40PqFGlcwzZcYwzT0bUbM891bl9t0zcyNe7snvK7TRWTcqrkA
-	84CmcRoY+ghoMJWMn2AYLOeJhF/z9WWl1Y/LJrskN8nP8OgRMNVQM0wseo13eiEl
-	iQ7USCn27DD8rKWB3qGfFBAvcWx9/ICtIm0Xh4JWDLnGCzDuIhb5ui056XxHMTMN
-	m2K1YEFfylzOtt2U/H4gTBkL0rbmGt/RtOR03NuEpNsYmKe/1zXGUVxGNhg==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h7b2f8kpy-1
+	:mime-version:references:subject:to; s=qcppdkim1; bh=kTSeVsyIytz
+	nuZGRKd7e7D9ceiU4zKtidC3tGELBVoM=; b=i3+IMr9A9VFvHmRBHbC36H6ncqH
+	2R/ZiWBoEKMePI+78DrQKlTzhY2Ufdq2CjSlOlV98x76HGmvfJlaFm1oPaSr/lr6
+	NLLBDOit0GeOV5HEPYjQDIOO+vYcZ9D7ydZpUd7yZ4p7vNlAtEq7GtORolkYDUKw
+	wMxLVqFd1wkoevwRZ5zM2icYlpfhkKU7gT6xkZmiQXgZyD1sPbLns7R6N+Py8MKC
+	ach1TZWxAIjBGPyR440eiXMNE7Nm7Bgh6Jzrrdv0GzFDzuxzt1T53jBqIFjB7v9z
+	JRFUSxjq8c90M9vHaDVbsrkumjbfEgHVtqsmrw8Y69p29vkcuJjA4C/26ww==
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h7e4e84xq-1
 	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 05:33:33 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-88f2b158139so293502b3a.0
-        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 22:33:33 -0700 (PDT)
+	for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 05:33:39 +0000 (GMT)
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-892ccb01fbfso291508b3a.1
+        for <linux-usb@vger.kernel.org>; Fri, 09 Oct 2026 22:33:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1791610412; x=1792215212; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1791610419; x=1792215219; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=s2r1O1AAKXF38pJJeX6hQa8Gey3z8SLxPhW3IGwND8w=;
-        b=hpIlcqMkWZByEEG60V9YxQA4WFu4cvWSwk8DgNoIPJl9ZPVUW4k82uTHNppT8tuyHe
-         tO0gHdsbXQJE7TdO9dU/OfA4QZIRJr+e0QYgO21dnN14WdxP6KxJWj6+AgwSTxWeaowV
-         2KpSFW+5ijD7KBTTvxkNG00lVD3i8TI3OygCii62qJCZWFAbRF0MsaE5Ema4087uOy7u
-         dZMnlR7qatlK8jw2zL+gnO4RUJq+88hAd/uFVQGx2FnJU7Gy+mobVH+LJXDytmtgyuq3
-         emVKal5Pnfep/Bv30Q0SZYxdr1tHuobu1DeE+HO0cyc7dzDN7OZTkfW0nyzkZ/M1TT3f
-         +Y1A==
+        bh=kTSeVsyIytznuZGRKd7e7D9ceiU4zKtidC3tGELBVoM=;
+        b=jATO2QRKgiww3qlxzgP6ckGGS08sEDUTT38eGqpIx7MO8CrX/beQ+S/6tIEQwHl6nQ
+         8LTfWe64lE45RiRGTJdlrBlM0BMmHCqKa9tzfpm/M6cACGhtfrK0c19KjmOC93Yx0DHB
+         MREkYpi3v3bRusHq3JdymKI5WZe280MprHLQH2ysRjr/Li2YrryahG7RvzokTwpzAaCk
+         Q1c2z7cBFGUZtQh3b19wxU8ZtEz7apSAX6VVDRqjrPx+6bdCf6T+8la+dLX+oCi7bA4q
+         NY9JmLRedK3v0JxQ8Pw+HGO4NGtF9/VPb+FhEk5JfY30BgYNOkpLFmYL5KJl7SyVkwTa
+         5XgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791610412; x=1792215212;
+        d=1e100.net; s=20260707; t=1791610419; x=1792215219;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=s2r1O1AAKXF38pJJeX6hQa8Gey3z8SLxPhW3IGwND8w=;
-        b=yxlyNZeOy16asj0rbIlrLe4DpGb/FlidrgzYWBkxU39mFQ4hURawnyD/jHdyCTQaou
-         CH+6knvz8rhKm/qkPu072eCaJqGNuiY6Z9zIx4MhDcNxSBW48sbX4tiNi8f++bq6xIs7
-         iYgwuNSuS54xHo3d+utzjpZEQ9nBNY18yHfWPqEL62fTumtTHkLoXL1JbTTvMIvc6neu
-         SMrXgMxpz/LPzt4qfBYrKQyIlGk8zRJ1w9esljdNAOhsAQURZ2m2JsDI5/MI6C8rXWGO
-         Ehm/hHYigI4hCsZOluwbFJAo+HEPqrxM9hW3tbydkjwwBuZGjwpVRZMU0iRD7pYm9zke
-         qA8A==
-X-Forwarded-Encrypted: i=1; AKwUvBxj+hB6hiuI7CnmqO8ahzJBbO/45AR0TpDI6L9ilxi4WH9WnabCTLACB6lwYaZ9ep4Yzuac2+aPhNw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIDrQuzkxV/v7yxfrogpFyOjBSlMqHl87FEW1n4/NK1UiSciCXU
-	iU+gxTi+2wGl6V0GqtcXk/JiapFTJ+CQmLazhOSDMVlnQcWZbyyemd4j0B7C6IioibKMjKXeTkv
-	taee5SikLU1KFCjmyjx5kctr0OBag2MhItXktK5DyT6UySUnQk4lVvGOnV3KqBB8=
-X-Gm-Gg: AYBFou2Er8skGxlB6XHr9prxPQDsnjTuBVDpmb/1Jxni+wJnvWsOxUf0auiCjI9ib/F
-	VhdYjPMW+UDAD3cSZzusfR3Qwv6W++vE7Q1r/wy55SbRw3YNFoMpSD0mOByyLxP6hYhOvefXHjj
-	mw1SrXMDFuvS/kJDyNY/NXDkFjMOaEAuboVgLoQjtYF0dp+gt4OLo5OMhO6BUFma15ZM1Ux68W+
-	YhAcOX9jkWRimJ/TXmGvZwBn0zOgmu75pWL7Z/tmLoc2dgEkDSDtCbldm2gTEyHgPk36Kme7Mo/
-	FE/UvAN3MhKapHJDji6yLuNoQpcUeI1KBmAgxtRfL++Z9lDWdtQwa1fc5gPiahjOzoRqzoUd9mE
-	Zzzg/n2yIxhqVWguQszaCIzmugo9r7/w=
-X-Received: by 2002:aa7:9311:0:b0:878:38af:1970 with SMTP id d2e1a72fcca58-897c8c82152mr3343481b3a.60.1791610412330;
-        Fri, 09 Oct 2026 22:33:32 -0700 (PDT)
-X-Received: by 2002:aa7:9311:0:b0:878:38af:1970 with SMTP id d2e1a72fcca58-897c8c82152mr3343456b3a.60.1791610411803;
-        Fri, 09 Oct 2026 22:33:31 -0700 (PDT)
+        bh=kTSeVsyIytznuZGRKd7e7D9ceiU4zKtidC3tGELBVoM=;
+        b=Q/E9PRXAn4xDWxC/7AKznSJFu0J/rHHfIWInnKDnXs6JXK2lH7y9JijriFKBk5NcXn
+         5czGp10tZLOyMknqnPFKdn/v0yVi2Big2WnhVSjBduD4WZ7mfvtu2ngx84yBOEErmoTG
+         yzZhJU4KAFN9nmtwRHAXjr++p6eBesAK8j6eHFFXChoxBjY4frD+paOM4cu1wHhfonNQ
+         LARITQxNwkrXeWWxzxOOeYDOjjJONyji519PlXz+1DQNLGcGl5HAzSy0ZIqBAWo/yk1L
+         60YFhh9QRLYKQslB+KPLKqx6+Fs5uGprx798Uuea/oNKZbf5GgV/H17xSMbJjYm3cIqe
+         R1Sg==
+X-Forwarded-Encrypted: i=1; AKwUvByX6+qCnlzUljiKqaS9i0HsApGotHu4eLZrQXY8+4wL1Fcrv03fh9Ss3GvMCs1cXupdZh/jSCuYNYc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLRBNNeAta+1abt+eutU/4x55ktZ+PMcyxgqGPClYdKUfIfVzAV
+	X7ujYlblFa/2LnMcXHrJ61bVhrpMkPsvaIV0ACpHwQUCKH6BaO98o/+cqDhnlNzP+l12JKda47V
+	MHuf4b2p9aEuwif+EXq9P+H40+kHddP2+PMNv+Fmz2vUm1wMVkpHVja50rcz6bLw=
+X-Gm-Gg: AYBFou2MYwLflncwj4c+w9Exy2S7D17sWow0UCVXXaYbMqDkUnZlb8xf3rBzi0BVeHx
+	2YgDWnmzMl122xIdFqcDY+Hsypq+U2Xqpwl7J5nbWO1PR3yXDW41q+v77XCGZ2Br9KtEQIe2+nc
+	X8iwWhjFirjE54T/YL6od1+FnuR0Y70CQ9nNeVU+az/rykQ2T4kMxCV7N1wKxbFQRqmpMqR1zKd
+	0S0GOa163mJ4c5MKuDMsSMOpyDG5QxImEML8pkrVNspBLNMVyvaguDn6xqQw3xZoTVddgZNtaX/
+	ArNkBR9+5BqU0rfrL8zYrPRMEI/2dJAf4OA77vspJcd0hKAExfbpr17GFE2ro+NHZvuaYU8tQGw
+	h21vHhBf4xOzAmZ+ucn1tm+QEU0sQqIk=
+X-Received: by 2002:a05:6a00:3e12:b0:886:77eb:38fb with SMTP id d2e1a72fcca58-897c6e1b5f0mr3409414b3a.25.1791610418450;
+        Fri, 09 Oct 2026 22:33:38 -0700 (PDT)
+X-Received: by 2002:a05:6a00:3e12:b0:886:77eb:38fb with SMTP id d2e1a72fcca58-897c6e1b5f0mr3409400b3a.25.1791610417944;
+        Fri, 09 Oct 2026 22:33:37 -0700 (PDT)
 Received: from hu-faisalh-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89928fd8469sm174028b3a.61.2026.10.09.22.33.26
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89928fd8469sm174028b3a.61.2026.10.09.22.33.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2026 22:33:31 -0700 (PDT)
+        Fri, 09 Oct 2026 22:33:37 -0700 (PDT)
 From: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
 To: Thinh.Nguyen@synopsys.com, gregkh@linuxfoundation.org,
         mathias.nyman@intel.com, robh@kernel.org, krzk+dt@kernel.org,
@@ -87,9 +87,9 @@ Cc: sriram.dash@oss.qualcomm.com, jack.pham@oss.qualcomm.com,
         linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Faisal Hassan <faisal.hassan@oss.qualcomm.com>
-Subject: [PATCH v3 5/7] usb: dwc3: qcom: Support broken suspend for SA8255P
-Date: Sat, 10 Oct 2026 11:02:44 +0530
-Message-Id: <20261010053246.2991984-6-faisal.hassan@oss.qualcomm.com>
+Subject: [PATCH v3 6/7] usb: dwc3: qcom: Support firmware-managed resource states for power management
+Date: Sat, 10 Oct 2026 11:02:45 +0530
+Message-Id: <20261010053246.2991984-7-faisal.hassan@oss.qualcomm.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20261010053246.2991984-1-faisal.hassan@oss.qualcomm.com>
 References: <20261010053246.2991984-1-faisal.hassan@oss.qualcomm.com>
@@ -100,359 +100,453 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEwMDAyMSBTYWx0ZWRfX1RJVw8pYpD04
- hQY+rRtPCSz+wSRUw4SLJHzA9Rys6IZt3UCA3X9ZqBLpdYC+UHVzNdEzBye7PTc9++RrG0JFy1L
- sFoZ3pUfJGmRe+UTohQ5+UOinYytsoY=
-X-Proofpoint-GUID: SVi6Czst26SaHUWXDLvmnEODBnXANi-d
-X-Authority-Analysis: v=2.4 cv=NddzRGD4 c=1 sm=1 tr=0 ts=6ac9ce2d cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEwMDAyMSBTYWx0ZWRfXykK4mzY6ahqG
+ YvstFmo+p8d9k+ibPyegCzad2npI9NGZG7vnvCsVJEmIEQOtmY4QtyX3tRmso25PNiAnBXgrD/k
+ rtUgGa7s4O5I+686/uLFyTLxhQXSSgDNTOaKf1t0C53Elz6oeUz0SRPCxQaK0FoS8wmXQdcdGoc
+ Yd8yNOUKvP9lK/czfJ5STZqPe1xEmV6Nq06cuU6qbuAE1AD5xUwW5G4LpXii1YhOBOfqxxgZtkT
+ xh/kwMwdVxlz12xKtIVeXaIk4tUkwtgcE5+dz4tE3c9CzOiSiwsLUAwWcOJuFu7/yrxPREpBZ6U
+ woFImWlIZJZ1sd/na5FDAUfKIkDuy7G8c3tEL3SuHWacizjiToK2bhIMQiHKaEzaKR/NDMZS63U
+ PiTyNjd3H2KX2ONUy2jPCt9DRhngfYOyDI3Ach5yRUrDlkRsBTOYomXnoDJ5e3S49BSx3g1Aa95
+ i+y2QMVz7ESFTlPcDPQ==
+X-Proofpoint-ORIG-GUID: Kz4T7OMPV7NBmQzg9hscnoKn3-2w4uWX
+X-Proofpoint-GUID: Kz4T7OMPV7NBmQzg9hscnoKn3-2w4uWX
+X-Authority-Analysis: v=2.4 cv=W5utxhWk c=1 sm=1 tr=0 ts=6ac9ce33 cx=c_pps
+ a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=EUspDBNiAAAA:8
- a=Hs89NwRFLGOCp7u7dokA:9 a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEwMDAyMSBTYWx0ZWRfX5WdioVdk4iQt
- fQDUdZXWDGx2bJvC2NJwc0AOCsh6/o/kqSyb/RQmzkSIzO1K0GgFRnOBY7YzpLrn5PgtOm8PMGG
- 3H/ww6dxC9zyR9B5ELbvHREzTjLDqcnFpd1dVbwzabgudL0hrbLbRqWioeS3N7zICQdRlmJeza2
- PfeWoIo0MfJc5pFnzsDWlU0w9s055LFOCenUylxHnHFwwvePkqZPSANWrk9dTLYJzsQhPTjIuc1
- O9XlRRsJvKsNGTTmyLe/Hr2Mc7Gwm3T5SCU8qnihzdXRf+Vp5AD+o9bEpOhb/uZ+kcyP9KoGbto
- iLxPF/suhB+6JxSZFRMhyxUGIih/F/KPt3xhnJo9wzEQotB3Ul8kNTHFDpjHIL2i2S4zM271vZh
- LYTlStwDzjOeiXffTpAvH1wMH0SsXcotNf/1Eafn8A4rgCxhdzo0IoKDuxZAJ5mxhIKYGJcl2QH
- mq9e5nD4ozwe7hhw4bg==
-X-Proofpoint-ORIG-GUID: SVi6Czst26SaHUWXDLvmnEODBnXANi-d
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
+ a=Rglj1UawH0vecOVH_24A:9 a=zc0IvFSfCIW2DFIPzwfm:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEwMDAyMSBTYWx0ZWRfX/z2pW6XdGHBu
+ vZg1Uo7hjnTIhvbZ3YH2sY5YW8Nx98lwWRRCE36j9fYvht0VDRX9hVoHnGmksMz7qJywunNvi3j
+ SjeL3QLnE+psNmOZd3N81FbEceNvX/U=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-10_01,2026-10-09_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 phishscore=0 impostorscore=0 malwarescore=0 clxscore=1015
- priorityscore=1501 suspectscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
+ clxscore=1015 adultscore=0 phishscore=0 malwarescore=0 impostorscore=0
+ bulkscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0 priorityscore=1501
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610100021
 
-During APPS Suspend, the clock controller unit disables all clocks
-to the CPU and subsystems, causing the controller to enter the
-Power-On Reset (POR) state. This results in the loss of
-Qscratch programming.
+Add support for firmware-managed resource handling in the Qualcomm
+DWC3 USB controller driver. On platforms such as SA8255P, controller
+resources are abstracted and managed collectively by firmware, and are
+exposed to Linux through SCMI-backed power domains.
 
-Upon APPS Resume, the USB controller does not have the proper
-PIPE_UTMI_CLK_SEL or VBUS_VALID. Hence, if only the High-Speed
-PHY is used for a controller capable of SuperSpeed operations,
-the controller will assume it should use the USB3 PHY and not
-the HS PHY as configured before APPS Suspend. This behavior
-disrupts the normal operation of the USB controller. Similarly,
-if the controller was operating in device mode prior to
-APPS suspend, and VBUS_VALID signal is not set after APPS resume,
-this will cause the PHYs to transition into the suspend state.
-This behavior disrupts the normal operation of the USB controller.
+On SA8255P, resources such as clocks, regulators, resets, TLMM and
+interconnects are controlled by firmware. The driver communicates with
+firmware through two power domains:
 
-Address the issues by ensuring that the PIPE_UTMI_CLK_SEL and
-VBUS_VALID are handled properly after the system resumes from
-APPS Suspend. This is crucial for maintaining the correct
-operational state of the USB controller and preventing
-unintended suspensions of the PHYs.
+  - "power": controls power supply (GDSC) to the USB controller
+  - "bus": controls clocks and interconnects used for data transfer.
+    Register accesses through the controller require the "power"
+    domain to be enabled.
 
-Also, as the controller is starting from POR state, make
-sure the controller Reset is performed.
+The two domains are voted on and off directly from the PM callbacks
+through dwc3_qcom_domains_get() and dwc3_qcom_domains_put(). Runtime
+PM usage counting keeps each domain enabled for as long as it is
+required; the driver does not attempt to track or infer any aggregate
+device power state, nor does it assume what state firmware or the
+bootloader left the domains in before probe.
 
-Because the controller is reset on every system resume, the
-Qscratch restore is done whether or not wakeup was enabled, and
-dwc3 core is told via needs_full_reinit to fully re-initialize the
-core on system resume even in host mode with wakeup enabled. Wakeup
-on this platform comes from the PHY interrupts routed through PDC,
-not from the controller staying powered. VBUS_VALID is only forced
-outside host mode, matching what probe does.
+Runtime suspend/resume vote only the "bus" domain, since the "power"
+domain must remain enabled for hardware accesses that can occur while
+runtime suspended. System suspend/resume vote both domains.
 
-The XHCI controller is reset by the same event, so also set the
-xhci_reset_on_resume dwc3 property. dwc3 passes it on to the xhci-plat
-device as xhci-reset-on-resume-quirk, which makes xhci-plat set
-XHCI_RESET_ON_RESUME.
+If system suspend is entered while the device is already runtime
+suspended, only the "power" vote is still held, so system suspend
+drops just that one. System resume then votes both domains back on,
+which keeps the votes balanced across the cycle.
 
-Also make the .prepare callback return 0 on these platforms. A
-runtime-suspended device in device mode would otherwise be left in
-place across system sleep (direct_complete), skipping the system
-resume callback and with it the reset and Qscratch restore.
+The domains are attached with PD_FLAG_NO_DEV_LINK because runtime
+suspend and system suspend require different supplier states. Runtime
+suspend releases only the "bus" domain while retaining the "power"
+domain, whereas system suspend releases both domains. Ordinary
+device-links would couple both suppliers to the same consumer runtime
+PM state and therefore cannot express the required policy. The driver
+consequently manages the runtime PM references for the attached domains
+explicitly.
 
+These votes are taken during probe, remove, suspend and resume,
+enabling coordinated management of grouped resources according to the
+controller's operational requirements.
+
+Enable firmware-managed resource handling for the
+"qcom,sa8255p-dwc3" compatible while maintaining backward
+compatibility with existing platforms that use direct resource
+control.
+
+pm_runtime_put_sync() drops the domain usage count even when it
+returns an error, so failures to vote a domain off are only reported.
+Failing suspend on them would leave the driver thinking the votes are
+still held and unbalance the next resume/suspend pair.
+
+While here, assert the controller reset in dwc3_qcom_remove() and on
+the probe error-unwind path once the controller is powered down. These
+paths are shared by every qcom,snps-dwc3 platform, not only the
+firmware-managed ones added here. That is safe for existing platforms,
+because remove() already fully powers the controller down and a probe
+failure already leaves it unclocked.
+
+Co-developed-by: Shazad Hussain <shazad.hussain@oss.qualcomm.com>
+Signed-off-by: Shazad Hussain <shazad.hussain@oss.qualcomm.com>
 Co-developed-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
 Signed-off-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
 Signed-off-by: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
 ---
- drivers/usb/dwc3/core.c      |   3 +
- drivers/usb/dwc3/core.h      |   3 +
- drivers/usb/dwc3/dwc3-qcom.c | 107 ++++++++++++++++++++++++++++-------
- drivers/usb/dwc3/glue.h      |   2 +
- drivers/usb/dwc3/host.c      |   5 +-
- 5 files changed, 98 insertions(+), 22 deletions(-)
+ drivers/usb/dwc3/dwc3-qcom.c | 252 +++++++++++++++++++++++++++++++----
+ 1 file changed, 228 insertions(+), 24 deletions(-)
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index d9f4e4109abb..d782d5ef9c57 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -1697,6 +1697,9 @@ static void dwc3_get_software_properties(struct dwc3 *dwc,
- 	if (properties->skip_phy_init)
- 		dwc->skip_phy_init = true;
- 
-+	if (properties->xhci_reset_on_resume)
-+		dwc->xhci_reset_on_resume = true;
-+
- 	dwc->gsbuscfg0_reqinfo = DWC3_GSBUSCFG0_REQINFO_UNSPECIFIED;
- 
- 	if (properties->gsbuscfg0_reqinfo !=
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 1c8d441ea9f8..3cbe4eeb0a5a 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1177,6 +1177,7 @@ struct dwc3_glue_ops {
-  *	3	- Reserved
-  * @dis_metastability_quirk: set to disable metastability quirk.
-  * @dis_split_quirk: set to disable split boundary.
-+ * @xhci_reset_on_resume: set to reset the xHCI host controller on system resume.
-  * @enable_usb2_transceiver_delay: Set to insert a delay before the
-  *			assertion of the TxValid signal during a HS Chirp.
-  * @sys_wakeup: set if the device may do system wakeup.
-@@ -1433,6 +1434,8 @@ struct dwc3 {
- 	unsigned		dis_metastability_quirk:1;
- 
- 	unsigned		dis_split_quirk:1;
-+	unsigned		xhci_reset_on_resume:1;
-+
- 	unsigned		enable_usb2_transceiver_delay:1;
- 	unsigned		async_callbacks:1;
- 	unsigned		sys_wakeup:1;
 diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-index 508b1ee7cd0f..3860ab83c28c 100644
+index 3860ab83c28c..0896a323bdda 100644
 --- a/drivers/usb/dwc3/dwc3-qcom.c
 +++ b/drivers/usb/dwc3/dwc3-qcom.c
-@@ -68,6 +68,10 @@ struct dwc3_qcom_port {
- 	enum usb_device_speed	usb2_speed;
+@@ -13,6 +13,7 @@
+ #include <linux/kernel.h>
+ #include <linux/interconnect.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_domain.h>
+ #include <linux/phy/phy.h>
+ #include <linux/usb/of.h>
+ #include <linux/reset.h>
+@@ -70,6 +71,7 @@ struct dwc3_qcom_port {
+ 
+ struct dwc3_qcom_priv_data {
+ 	bool broken_suspend;
++	bool fw_managed;
  };
  
-+struct dwc3_qcom_priv_data {
-+	bool broken_suspend;
-+};
-+
  struct dwc3_qcom {
- 	struct device		*dev;
- 	void __iomem		*qscratch_base;
-@@ -86,6 +90,13 @@ struct dwc3_qcom {
- 	struct icc_path		*icc_path_apps;
+@@ -93,14 +95,142 @@ struct dwc3_qcom {
  
- 	enum usb_role		current_role;
+ 	bool			broken_suspend;
+ 	bool			ignore_pipe_clk;
 +
-+	bool			broken_suspend;
-+	bool			ignore_pipe_clk;
-+};
-+
-+static const struct dwc3_qcom_priv_data sa8255p_dwc3_qcom_priv_data = {
-+	.broken_suspend		= true,
++	bool			fw_managed;
++	struct dev_pm_domain_list *pd_list;
+ };
+ 
+ static const struct dwc3_qcom_priv_data sa8255p_dwc3_qcom_priv_data = {
+ 	.broken_suspend		= true,
++	.fw_managed		= true,
  };
  
  #define to_dwc3_qcom(d) container_of((d), struct dwc3_qcom, dwc)
-@@ -346,6 +357,23 @@ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
- 	qcom->wakeup_irqs_armed = true;
- }
  
-+static void dwc3_qcom_select_utmi_clk(struct dwc3_qcom *qcom)
++/*
++ * Firmware-managed resource handling
++ *
++ * On platforms where clocks, interconnects, resets and the GDSC for the USB
++ * controller are owned and sequenced by firmware, access to those resources
++ * is exposed to Linux as two power domains:
++ * - pd_list->pd_devs[0] ("power"): the GDSC supplying the controller
++ * - pd_list->pd_devs[1] ("bus"): the clocks and interconnects used for data
++ *   transfer, which additionally require "power" to be on for register
++ *   accesses to succeed
++ *
++ * The two domains are voted on/off directly from each PM callback that needs
++ * them; there's no attempt to track or name an aggregate device power state,
++ * since the actual state lives in firmware and is queried by voting through
++ * runtime PM, not by mirroring it in the driver.
++ */
++
++/**
++ * dwc3_qcom_domain_detach() - Detach power domains
++ * @qcom: Pointer to the dwc3_qcom structure
++ *
++ * Detaches all power domains.
++ */
++static void dwc3_qcom_domain_detach(struct dwc3_qcom *qcom)
 +{
-+	/* Configure dwc3 to use UTMI clock as PIPE clock not present */
-+	dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-+			  PIPE_UTMI_CLK_DIS);
-+
-+	usleep_range(100, 1000);
-+
-+	dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-+			  PIPE_UTMI_CLK_SEL | PIPE3_PHYSTATUS_SW);
-+
-+	usleep_range(100, 1000);
-+
-+	dwc3_qcom_clrbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-+			  PIPE_UTMI_CLK_DIS);
++	if (qcom->pd_list)
++		dev_pm_domain_detach_list(qcom->pd_list);
 +}
 +
- static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, pm_message_t msg)
++/**
++ * dwc3_qcom_domain_attach() - Attach power domains
++ * @qcom: Pointer to the dwc3_qcom structure
++ *
++ * Attaches power domains for firmware managed resource handling.
++ * Returns 0 on success, negative error code on failure.
++ */
++static int dwc3_qcom_domain_attach(struct dwc3_qcom *qcom)
++{
++	struct dev_pm_domain_attach_data pd_data = {
++		.pd_flags	= PD_FLAG_NO_DEV_LINK,
++		.pd_names	= (const char*[]) { "power", "bus" },
++		.num_pd_names	= 2,
++	};
++	struct device *dev = qcom->dev;
++	int ret;
++
++	ret = dev_pm_domain_attach_list(dev, &pd_data, &qcom->pd_list);
++	if (ret != pd_data.num_pd_names) {
++		dev_err(dev, "domain attach failed (%d)\n", ret);
++		return ret < 0 ? ret : -ENODEV;
++	}
++
++	return 0;
++}
++
++/**
++ * dwc3_qcom_domains_get() - Vote the firmware-managed domains on
++ * @qcom: Pointer to the dwc3_qcom structure
++ * @bus_only: If true, leave the power domain untouched and only vote bus
++ *
++ * Votes runtime PM "on" for the domains this call is responsible for. Each
++ * call has exactly one matching dwc3_qcom_domains_put() call with the same
++ * @bus_only value on the corresponding disable path; runtime PM's own usage
++ * counting is what keeps power on for as long as bus needs it, without the
++ * driver tracking or assuming any prior domain state itself.
++ * Returns 0 on success, negative error code on failure.
++ */
++static int dwc3_qcom_domains_get(struct dwc3_qcom *qcom, bool bus_only)
++{
++	struct device *power_dev = qcom->pd_list->pd_devs[0];
++	struct device *bus_dev = qcom->pd_list->pd_devs[1];
++	int ret;
++
++	if (!bus_only) {
++		ret = pm_runtime_resume_and_get(power_dev);
++		if (ret) {
++			dev_err(qcom->dev, "failed to enable power domain: %d\n", ret);
++			return ret;
++		}
++	}
++
++	ret = pm_runtime_resume_and_get(bus_dev);
++	if (ret) {
++		dev_err(qcom->dev, "failed to enable bus domain: %d\n", ret);
++		if (!bus_only)
++			pm_runtime_put_sync(power_dev);
++		return ret;
++	}
++
++	return 0;
++}
++
++/**
++ * dwc3_qcom_domains_put() - Vote the firmware-managed domains off
++ * @qcom: Pointer to the dwc3_qcom structure
++ * @bus_only: If true, leave the power domain untouched and only vote bus
++ *
++ * Releases the votes taken by the matching dwc3_qcom_domains_get() call.
++ * Bus is released before power since bus register accesses require power
++ * to still be on.
++ *
++ * pm_runtime_put_sync() drops the usage count even when it returns an error,
++ * so the votes are released regardless and errors are only reported. Treating
++ * them as failures would make callers believe the votes are still held and
++ * unbalance the next dwc3_qcom_domains_get()/put() pair.
++ */
++static void dwc3_qcom_domains_put(struct dwc3_qcom *qcom, bool bus_only)
++{
++	struct device *power_dev = qcom->pd_list->pd_devs[0];
++	struct device *bus_dev = qcom->pd_list->pd_devs[1];
++	int ret;
++
++	ret = pm_runtime_put_sync(bus_dev);
++	if (ret < 0)
++		dev_warn(qcom->dev, "failed to disable bus domain: %d\n", ret);
++
++	if (bus_only)
++		return;
++
++	ret = pm_runtime_put_sync(power_dev);
++	if (ret < 0)
++		dev_warn(qcom->dev, "failed to disable power domain: %d\n", ret);
++}
++
+ static inline void dwc3_qcom_setbits(void __iomem *base, u32 offset, u32 val)
  {
- 	u32 val;
-@@ -398,6 +426,28 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom, pm_message_t msg)
- 	if (!qcom->is_suspended)
- 		return 0;
+ 	u32 reg;
+@@ -380,8 +510,20 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, pm_message_t msg)
+ 	int i, ret;
+ 	bool wakeup;
  
-+	if (qcom->broken_suspend && !PMSG_IS_AUTO(msg)) {
+-	if (qcom->is_suspended)
++	if (qcom->is_suspended) {
 +		/*
-+		 * Only system suspend fully powers off the controller and
-+		 * puts it into POR state. Runtime suspend does not, so skip
-+		 * the reset on runtime resume to avoid needlessly clobbering
-+		 * state that was never lost.
++		 * Runtime suspend dropped only the bus domain. System suspend
++		 * must drop the power domain too, so that system resume, which
++		 * votes both domains back on, stays balanced. The usage count
++		 * is dropped even if this fails, so don't fail the suspend.
 +		 */
-+		ret = reset_control_assert(qcom->resets);
-+		if (ret) {
-+			dev_err(qcom->dev, "failed to assert resets, err=%d\n", ret);
-+			return ret;
++		if (qcom->fw_managed && !PMSG_IS_AUTO(msg)) {
++			ret = pm_runtime_put_sync(qcom->pd_list->pd_devs[0]);
++			if (ret < 0)
++				dev_warn(qcom->dev, "failed to disable power domain: %d\n", ret);
 +		}
-+
-+		usleep_range(10, 1000);
-+
-+		ret = reset_control_deassert(qcom->resets);
-+		if (ret) {
-+			dev_err(qcom->dev, "failed to deassert resets, err=%d\n", ret);
-+			return ret;
-+		}
+ 		return 0;
 +	}
-+
+ 
  	/*
- 	 * Wakeup interrupts may have been armed by an earlier runtime suspend
- 	 * even if wakeup is now disabled, so always disarm them. On failure
-@@ -421,6 +471,18 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom, pm_message_t msg)
- 				  PWR_EVNT_LPM_IN_L2_MASK | PWR_EVNT_LPM_OUT_L2_MASK);
+ 	 * For runtime suspend, always enable wakeup.
+@@ -397,11 +539,17 @@ static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, pm_message_t msg)
+ 		if (!(val & PWR_EVNT_LPM_IN_L2_MASK))
+ 			dev_err(qcom->dev, "port-%d HS-PHY not in L2\n", i + 1);
  	}
+-	clk_bulk_disable_unprepare(qcom->num_clocks, qcom->clks);
  
-+	/*
-+	 * The reset above returned Qscratch to its POR defaults regardless of
-+	 * wakeup, so restore the configuration done at probe time.
-+	 */
-+	if (qcom->broken_suspend && !PMSG_IS_AUTO(msg)) {
-+		if (qcom->ignore_pipe_clk)
-+			dwc3_qcom_select_utmi_clk(qcom);
-+		/* Make sure vbus valid is set for PHYs after PM resume */
-+		if (!dwc3_qcom_is_host(qcom))
-+			dwc3_qcom_vbus_override_enable(qcom, true);
-+	}
+-	ret = dwc3_qcom_interconnect_disable(qcom);
+-	if (ret)
+-		dev_warn(qcom->dev, "failed to disable interconnect: %d\n", ret);
++	if (!qcom->fw_managed) {
++		clk_bulk_disable_unprepare(qcom->num_clocks, qcom->clks);
 +
- 	qcom->is_suspended = false;
++		ret = dwc3_qcom_interconnect_disable(qcom);
++		if (ret)
++			dev_warn(qcom->dev, "failed to disable interconnect: %d\n", ret);
++	} else {
++		/* Runtime suspend keeps power voted on; system suspend drops both. */
++		dwc3_qcom_domains_put(qcom, PMSG_IS_AUTO(msg));
++	}
  
- 	return 0;
-@@ -445,23 +507,6 @@ static irqreturn_t qcom_dwc3_resume_irq(int irq, void *data)
- 	return IRQ_HANDLED;
- }
+ 	/*
+ 	 * The role is stable during suspend as role switching is done from a
+@@ -456,13 +604,22 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom, pm_message_t msg)
+ 	 */
+ 	dwc3_qcom_disable_interrupts(qcom);
  
--static void dwc3_qcom_select_utmi_clk(struct dwc3_qcom *qcom)
--{
--	/* Configure dwc3 to use UTMI clock as PIPE clock not present */
--	dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
--			  PIPE_UTMI_CLK_DIS);
--
--	usleep_range(100, 1000);
--
--	dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
--			  PIPE_UTMI_CLK_SEL | PIPE3_PHYSTATUS_SW);
--
--	usleep_range(100, 1000);
--
--	dwc3_qcom_clrbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
--			  PIPE_UTMI_CLK_DIS);
--}
--
- static int dwc3_qcom_request_irq(struct dwc3_qcom *qcom, int irq,
- 				 const char *name)
- {
-@@ -640,8 +685,8 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	struct dwc3_qcom	*qcom;
- 	struct resource		res;
- 	struct resource		*r;
-+	const struct dwc3_qcom_priv_data *priv_data;
- 	int			ret;
--	bool			ignore_pipe_clk;
- 	bool			wakeup_source;
+-	ret = clk_bulk_prepare_enable(qcom->num_clocks, qcom->clks);
+-	if (ret < 0)
+-		return ret;
++	if (!qcom->fw_managed) {
++		ret = clk_bulk_prepare_enable(qcom->num_clocks, qcom->clks);
++		if (ret < 0)
++			return ret;
  
- 	qcom = devm_kzalloc(&pdev->dev, sizeof(*qcom), GFP_KERNEL);
-@@ -650,6 +695,10 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+-	ret = dwc3_qcom_interconnect_enable(qcom);
+-	if (ret)
+-		dev_warn(qcom->dev, "failed to enable interconnect: %d\n", ret);
++		ret = dwc3_qcom_interconnect_enable(qcom);
++		if (ret)
++			dev_warn(qcom->dev, "failed to enable interconnect: %d\n", ret);
++	} else {
++		/* Runtime resume re-votes bus only; system resume votes both. */
++		ret = dwc3_qcom_domains_get(qcom, PMSG_IS_AUTO(msg));
++		if (ret) {
++			dev_err(qcom->dev, "failed to enable power domains: %d\n", ret);
++			return ret;
++		}
++	}
  
- 	qcom->dev = &pdev->dev;
+ 	/* Clear existing events from PHY related to L2 in/out */
+ 	for (i = 0; i < qcom->num_ports; i++) {
+@@ -699,16 +856,21 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 	if (priv_data)
+ 		qcom->broken_suspend = priv_data->broken_suspend;
  
-+	priv_data = of_device_get_match_data(dev);
-+	if (priv_data)
-+		qcom->broken_suspend = priv_data->broken_suspend;
++	if (priv_data && priv_data->fw_managed)
++		qcom->fw_managed = priv_data->fw_managed;
 +
  	qcom->resets = devm_reset_control_array_get_optional_exclusive(dev);
  	if (IS_ERR(qcom->resets)) {
  		return dev_err_probe(&pdev->dev, PTR_ERR(qcom->resets),
-@@ -704,9 +753,9 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	 * Disable pipe_clk requirement if specified. Used when dwc3
- 	 * operates without SSPHY and only HS/FS/LS modes are supported.
- 	 */
--	ignore_pipe_clk = device_property_read_bool(dev,
--				"qcom,select-utmi-as-pipe-clk");
--	if (ignore_pipe_clk)
-+	qcom->ignore_pipe_clk = device_property_read_bool(dev,
-+							  "qcom,select-utmi-as-pipe-clk");
-+	if (qcom->ignore_pipe_clk)
- 		dwc3_qcom_select_utmi_clk(qcom);
+ 				     "failed to get resets\n");
+ 	}
  
- 	qcom->mode = usb_get_dr_mode(dev);
-@@ -732,6 +781,9 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
- 	probe_data.ignore_clocks_and_resets = true;
- 	probe_data.properties = DWC3_DEFAULT_PROPERTIES;
- 	probe_data.properties.skip_phy_init = true;
-+	/* Controller is reset on system resume, even with wakeup enabled */
-+	probe_data.properties.needs_full_reinit = qcom->broken_suspend;
-+	probe_data.properties.xhci_reset_on_resume = qcom->broken_suspend;
- 	ret = dwc3_core_probe(&probe_data);
- 	if (ret)  {
- 		ret = dev_err_probe(dev, ret, "failed to register DWC3 Core\n");
-@@ -820,6 +872,15 @@ static void dwc3_qcom_complete(struct device *dev)
- static int dwc3_qcom_prepare(struct device *dev)
- {
- 	struct dwc3 *dwc = dev_get_drvdata(dev);
-+	struct dwc3_qcom *qcom = to_dwc3_qcom(dwc);
+-	ret = devm_clk_bulk_get_all(&pdev->dev, &qcom->clks);
+-	if (ret < 0)
+-		return dev_err_probe(dev, ret, "failed to get clocks\n");
+-	qcom->num_clocks = ret;
++	if (!qcom->fw_managed) {
++		ret = devm_clk_bulk_get_all(&pdev->dev, &qcom->clks);
++		if (ret < 0)
++			return dev_err_probe(dev, ret, "failed to get clocks\n");
++		qcom->num_clocks = ret;
++	}
+ 
+ 	ret = reset_control_assert(qcom->resets);
+ 	if (ret) {
+@@ -724,9 +886,33 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	ret = clk_bulk_prepare_enable(qcom->num_clocks, qcom->clks);
+-	if (ret < 0)
+-		return ret;
++	if (!qcom->fw_managed) {
++		ret = clk_bulk_prepare_enable(qcom->num_clocks, qcom->clks);
++		if (ret < 0) {
++			reset_control_assert(qcom->resets);
++			return ret;
++		}
++	} else {
++		ret = dwc3_qcom_domain_attach(qcom);
++		if (ret) {
++			dev_err(dev, "Failed to attach domains (%d).\n", ret);
++			reset_control_assert(qcom->resets);
++			return ret;
++		}
 +
-+	/*
-+	 * The controller loses power across system suspend, so the system
-+	 * resume callback must always run to reset and reprogram it. Don't
-+	 * let the PM core leave a runtime-suspended device as-is.
-+	 */
-+	if (qcom->broken_suspend)
-+		return 0;
++		/*
++		 * pm_runtime_resume_and_get() is correct here regardless of
++		 * whatever state firmware or the bootloader left the domains
++		 * in beforehand.
++		 */
++		ret = dwc3_qcom_domains_get(qcom, false /* bus_only */);
++		if (ret) {
++			dev_err(dev, "Failed to enable power domains (%d)\n", ret);
++			dwc3_qcom_domain_detach(qcom);
++			reset_control_assert(qcom->resets);
++			return ret;
++		}
++	}
  
- 	return dwc3_pm_prepare(dwc);
+ 	r = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+ 	if (!r) {
+@@ -790,9 +976,11 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ 		goto clk_disable;
+ 	}
+ 
+-	ret = dwc3_qcom_interconnect_init(qcom);
+-	if (ret)
+-		goto remove_core;
++	if (!qcom->fw_managed) {
++		ret = dwc3_qcom_interconnect_init(qcom);
++		if (ret)
++			goto remove_core;
++	}
+ 
+ 	wakeup_source = of_property_read_bool(dev->of_node, "wakeup-source");
+ 	device_init_wakeup(&pdev->dev, wakeup_source);
+@@ -804,7 +992,14 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
+ remove_core:
+ 	dwc3_core_remove(&qcom->dwc);
+ clk_disable:
+-	clk_bulk_disable_unprepare(qcom->num_clocks, qcom->clks);
++	if (!qcom->fw_managed) {
++		clk_bulk_disable_unprepare(qcom->num_clocks, qcom->clks);
++	} else {
++		dwc3_qcom_domains_put(qcom, false /* bus_only */);
++		dwc3_qcom_domain_detach(qcom);
++	}
++
++	reset_control_assert(qcom->resets);
+ 
+ 	return ret;
  }
-@@ -864,6 +925,10 @@ static const struct dev_pm_ops dwc3_qcom_dev_pm_ops = {
- };
+@@ -817,9 +1012,18 @@ static void dwc3_qcom_remove(struct platform_device *pdev)
+ 	if (pm_runtime_resume_and_get(qcom->dev) < 0)
+ 		return;
  
- static const struct of_device_id dwc3_qcom_of_match[] = {
-+	{
-+		.compatible	= "qcom,sa8255p-dwc3",
-+		.data		= &sa8255p_dwc3_qcom_priv_data,
-+	},
- 	{ .compatible = "qcom,snps-dwc3" },
- 	{ }
- };
-diff --git a/drivers/usb/dwc3/glue.h b/drivers/usb/dwc3/glue.h
-index 72c5593e657a..028a4f8a4fac 100644
---- a/drivers/usb/dwc3/glue.h
-+++ b/drivers/usb/dwc3/glue.h
-@@ -15,11 +15,13 @@
-  * @needs_full_reinit: indicate the controller may not remain power during system
-  *			pm and need full initialization
-  * @skip_phy_init: skip xHCI PHY initialization on host init
-+ * @xhci_reset_on_resume: reset the xHCI host controller on system resume
-  */
- struct dwc3_properties {
- 	u32 gsbuscfg0_reqinfo;
- 	unsigned needs_full_reinit:1;
- 	unsigned skip_phy_init:1;
-+	unsigned xhci_reset_on_resume:1;
- };
- 
- #define DWC3_DEFAULT_PROPERTIES ((struct dwc3_properties){		\
-diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-index 3fb8be8be590..a9c81def13c2 100644
---- a/drivers/usb/dwc3/host.c
-+++ b/drivers/usb/dwc3/host.c
-@@ -130,7 +130,7 @@ static int dwc3_host_get_irq(struct dwc3 *dwc)
- 
- int dwc3_host_init(struct dwc3 *dwc)
- {
--	struct property_entry	props[7];
-+	struct property_entry	props[9];
- 	struct platform_device	*xhci;
- 	int			ret, irq;
- 	int			prop_idx = 0;
-@@ -177,6 +177,9 @@ int dwc3_host_init(struct dwc3 *dwc)
- 	if (dwc->skip_phy_init)
- 		props[prop_idx++] = PROPERTY_ENTRY_BOOL("xhci-skip-phy-init-quirk");
- 
-+	if (dwc->xhci_reset_on_resume)
-+		props[prop_idx++] = PROPERTY_ENTRY_BOOL("xhci-reset-on-resume-quirk");
++	/* Also disables runtime PM and marks the device suspended. */
+ 	dwc3_core_remove(&qcom->dwc);
+-	clk_bulk_disable_unprepare(qcom->num_clocks, qcom->clks);
+-	dwc3_qcom_interconnect_exit(qcom);
 +
- 	/**
- 	 * WORKAROUND: dwc3 revisions <=3.00a have a limitation
- 	 * where Port Disable command doesn't work.
++	if (!qcom->fw_managed) {
++		clk_bulk_disable_unprepare(qcom->num_clocks, qcom->clks);
++		dwc3_qcom_interconnect_exit(qcom);
++	} else {
++		dwc3_qcom_domains_put(qcom, false /* bus_only */);
++		dwc3_qcom_domain_detach(qcom);
++	}
++
++	reset_control_assert(qcom->resets);
+ 
+ 	pm_runtime_put_noidle(qcom->dev);
+ }
 -- 
 2.34.1
 
