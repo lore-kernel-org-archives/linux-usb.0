@@ -1,124 +1,143 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9127F3C8700
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:54:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46BCB3C9456
+	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:55:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791694500; cv=none; b=RirXndo38f7MK5MooS1BsPw99ztjQDr04tiYBGqh4nci2F/opLFlKJf2Vvmfk+T4ChYGRSAztVDpCSMvv/JTCh2dVeOjiSIja4gYSMWthyx1/YuX0bpuBhLO/dDpaVLFyKeJG4FsAsjYpLT4/u0Cr/ON/LxXuFhTxOxGx7YdM/8=
+	t=1791694501; cv=none; b=GApfT5ogftsm4Snqhek3DQIVHo4Y1fROeIUeIWuDPg/wzx24DGMZuhWRu+StF3KDBlIaTkBv307yh26jydtR2CC6Op2P5f/qiZdemoMiuYoye1yc3PTVsIQEK2c3r6l3GQ28AAbN/5KvQ1f74RqpxdmWUDRrs+rhbMMaiHUi1sI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791694500; c=relaxed/simple;
-	bh=INvnWRm+wawdA5IL/Rp2vrWmiz6/Okej2ltvkFlzNCM=;
+	s=arc-20240116; t=1791694501; c=relaxed/simple;
+	bh=p/sEa0mVxDFB3A/RxMUgwM7CKr0xSC+SCov5g/yoZcs=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=DTJzpHcWzNH/3MXR8bi06dk5igX/Hj4FRA98bSvkacndazwhBzvbC3/Kkm2OCi2hauTEKduZT7iMwwQuzd4CynJun9MiCDfFzgLlBBFVZ6LpjpTcc2Kakx3UXpccc8HfTCTnG6ZTBxwIhh3CoPHpEN/h7xkO8lwz1BsOhuhxIqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pq94zfFy; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=qS9V31Y+eMeTp+KLiX5Q6PDHWooNji55Tc9C98PZjMFRruDce7kZSoMgczQnOxsGbmX5LiaRpdv833U8TlXhX1BwsmrB4VaSomhcuGjlMLZ5ipq8yhcYz434EdkO93zMb0Qxf/Uxg4xnrbXkBzBkm6toCPZhaW0YpG3fLfd7WPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LxWCmu0r; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pq94zfFy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E7A61F0089B;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LxWCmu0r"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051B31F0089C;
 	Sun, 11 Oct 2026 04:54:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791694499;
-	bh=AESlE4N7BPn3dURp9DeSW7AKRbhx7yi6s1p8caILDXs=;
+	s=k20260515; t=1791694500;
+	bh=BcWO9Le3Wdz5/Z06KPZ9c16ZN8Jj8DTSAsYjnJ57czo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Pq94zfFypYg/rePWiRXDb3J6WBUCq4At6mZoTvHXlBtlP3d0zJYSuIrtPPkxBl73l
-	 VpBLmUohcaeRB2PFgEgJLMYikSnTDsMAlh8iYf72q6yNZB3IMGtbtVgmeAS6ff3XZs
-	 /CzsiWgLg1kzPzUPleT5EI2mw2D7LeFS1cu4nk1hucg8MP0znvzhu26MmlCX2zfQr6
-	 B5dNbfFqTCS8j5i6Ec5p3hWMq1WO9jIo+PS4tzxXRS6uiOH6c6DS9gVMNb6/jnzzy8
-	 wQ1gROoaS7F68NI6tVQB5Dulnbjm0Thfz/JK9H7VOVnVwLq8JexhOop4gPTt1E+QPr
-	 gkDyhhlfYyHDQ==
-Message-ID: <sashiko-outbox-167017@kernel.org>
+	b=LxWCmu0rJ30c5dhsKq5WWzBZghtWADIx8myGw74+ACVV9mWTKpQXd6u4HD2e2hcpA
+	 iGrK/wlZMdWKD/UqvhU2pZgPLzaoYZEtHIGbGjAMDcMG4puuukRtzLFymPKq0/8uhd
+	 A0sRwrmSoHJoGPK7sPeQOoVz90NSJyOqFDnjB9YDvnvYYn4x+9LDl33tr0yLm6KPNo
+	 X8+uD9MbopAA/f/zqgZovDoaFIzI+q++L/PphBoImbE+SJeXcLDWkih2duyfeB7SAA
+	 FTzc7tYBOLboMSPnGn7dbWtTnD630GB6kpgtj0WKx1A6XcF4kbL/M65pSkZFJbqTWj
+	 M5nxDk+UIFQdQ==
+Message-ID: <sashiko-outbox-167018@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v19 08/13] ax88179_178a: Add AX179A/AX279
- multicast configuration
+Subject: Re: [PATCH net-next v19 03/13] ax88179_178a: Split driver into
+ library and device specific code
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261010-ax88179a-v19-8-7475173cfb56@birger-koblitz.de>
+In-Reply-To: <20261010-ax88179a-v19-3-7475173cfb56@birger-koblitz.de>
 References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
- <20261010-ax88179a-v19-8-7475173cfb56@birger-koblitz.de>
+ <20261010-ax88179a-v19-3-7475173cfb56@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 11 Oct 2026 04:54:58 +0000
+Date: Sun, 11 Oct 2026 04:54:59 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] net: ax88179: TOCTOU race in AX_RX_CTL hardware update
+- [Medium] net: incomplete locking of AX_MEDIUM_STATUS_MODE via medium_stat=
+us_mutex
+- [Medium] net: state inconsistency in ax88179_change_mtu() on hardware err=
+or
 --
 
-commit 81a7ae4b83e41763b94eb2bd27f7e79602b4f8d5
+commit 8bce779356427c710a868a77c78e34ccdbc5fe82
 Author: Birger Koblitz <mail@birger-koblitz.de>
+ax88179_178a: Split driver into library and device specific code
 
-ax88179_178a: Add AX179A/AX279 multicast configuration
-
-Add support for conditionally setting the ip_alignement flag
-AX_RX_CTL_IPE in AX_RX_CTL and make sure that AX_RX_CTL_DROPCRCERR
-is also set to be consistent with the initial configuration in
-ax88179_reset()
+This commit splits the ax88179_178a module code into common library
+code and device-specific code. It also introduces medium_status_mutex
+to protect concurrent access to hardware registers in ax88179_change_mtu().
 
 > diff --git a/drivers/net/usb/ax88179_lib.c b/drivers/net/usb/ax88179_lib.c
-> index a314db4c97666..b4b00c8b4b623 100644
-> --- a/drivers/net/usb/ax88179_lib.c
+> new file mode 100644
+> index 0000000000000..063427ff55e42
+> --- /dev/null
 > +++ b/drivers/net/usb/ax88179_lib.c
 [ ... ]
-> @@ -351,9 +356,10 @@ void ax88179_set_multicast(struct net_device *net)
->  					AX_MCAST_FLTSIZE, AX_MCAST_FLTSIZE,
->  					m_filter);
-> =20
-> -		data->rxctl |=3D AX_RX_CTL_AM;
-> +		rxctl |=3D AX_RX_CTL_AM;
->  	}
-> =20
-> +	WRITE_ONCE(data->rxctl, rxctl);
->  	ax88179_write_cmd_async(dev, AX_ACCESS_MAC, AX_RX_CTL,
->  				2, 2, &data->rxctl);
->  }
+> +int ax88179_change_mtu(struct net_device *net, int new_mtu)
+> +{
+> +	struct usbnet *dev =3D netdev_priv(net);
+> +	struct ax88179_data *data;
+> +	u16 tmp16;
+> +	int err;
+> +
+> +	data =3D dev->driver_priv;
+> +	mutex_lock(&data->medium_status_mutex);
 
-[Severity: High]
-Is it possible for this asynchronous USB write to race with the synchronous
-hardware update in ax88179a_mac_link_up()?
+[Severity: Medium]
+While this mutex protects AX_MEDIUM_STATUS_MODE here, are there other
+functions that modify this register concurrently without acquiring the mute=
+x?
 
-Since ndo_set_rx_mode (which calls ax88179_set_multicast) holds
-netif_addr_lock_bh() while the phylink state machine runs in a workqueue
-without this lock, these two functions can execute concurrently.
+For example, it appears ax88179_link_reset() in ax88179_178a.c modifies
+AX_MEDIUM_STATUS_MODE asynchronously without acquiring medium_status_mutex =
+or
+rtnl_lock:
 
-This asynchronous write is queued without holding medium_status_mutex.
+	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
+			  2, 2, &mode);
 
-Meanwhile, ax88179a_mac_link_up() reads data->rxctl, acquires
-medium_status_mutex, and executes a synchronous USB write:
+Can this lead to data races and hardware state corruption when a PHY link
+event triggers asynchronously?
 
-    ax88179_write_u16(dev, AX_ACCESS_MAC, AX_RX_CTL, 2,
-                      READ_ONCE(ax179_data->rxctl));
-    mutex_unlock(&ax179_data->medium_status_mutex);
+> +	WRITE_ONCE(net->mtu, new_mtu);
+> +	dev->hard_mtu =3D net->mtu + net->hard_header_len;
+> +	if (net->mtu > 1500) {
+> +		err =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
+> +				       2, 2, &tmp16);
+> +		if (err < 0)
+> +			goto err_out;
 
-If ax88179a_mac_link_up() reads data->rxctl before it is updated here, but
-its synchronous USB URB is submitted after this asynchronous URB, will the
-USB controller write the new value then immediately overwrite it with the
-old value?
+[Severity: Medium]
+If the hardware command fails, we jump to err_out, but the software state
+(net->mtu and dev->hard_mtu) has already been updated. Will this leave the
+networking stack out of sync with the hardware MTU?
 
-Could this leave the hardware state out of sync with the software shadow
-state, causing the device to silently drop multicast or promiscuous
-configuration?
+Would it be safer to store the old MTU values and restore them on the error
+path, or defer updating the software state until the hardware commands
+succeed?
 
-> diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179=
-a_devices.c
-> index 4207d2cc2b865..a6b0a3f47118c 100644
-> --- a/drivers/net/usb/ax88179a_devices.c
-> +++ b/drivers/net/usb/ax88179a_devices.c
-> @@ -678,6 +678,7 @@ static const struct net_device_ops ax88179a_netdev_op=
-s =3D {
->  	.ndo_set_mac_address	=3D ax88179_set_mac_addr,
->  	.ndo_validate_addr	=3D eth_validate_addr,
->  	.ndo_eth_ioctl		=3D ax88179a_mii_ioctl,
-> +	.ndo_set_rx_mode	=3D ax88179_set_multicast,
->  	.ndo_set_features	=3D ax88179a_set_features,
->  	.ndo_vlan_rx_add_vid	=3D ax88179a_vlan_rx_add_vid,
->  	.ndo_vlan_rx_kill_vid	=3D ax88179a_vlan_rx_kill_vid,
+> +		tmp16 |=3D AX_MEDIUM_JUMBO_EN;
+> +		err =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
+> +					2, 2, &tmp16);
+> +		if (err < 0)
+> +			goto err_out;
+> +	} else {
+> +		err =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
+> +				       2, 2, &tmp16);
+> +		if (err < 0)
+> +			goto err_out;
+> +		tmp16 &=3D ~AX_MEDIUM_JUMBO_EN;
+> +		err =3D ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE,
+> +					2, 2, &tmp16);
+> +		if (err < 0)
+> +			goto err_out;
+> +	}
+> +	mutex_unlock(&data->medium_status_mutex);
+> +
+> +	/* max qlen depend on hard_mtu and rx_urb_size */
+> +	usbnet_update_max_qlen(dev);
+> +
+> +	return 0;
+> +
+> +err_out:
+> +	mutex_unlock(&data->medium_status_mutex);
+> +	return err;
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261010-ax88179a-v=
-19-0-7475173cfb56@birger-koblitz.de?part=3D8
+19-0-7475173cfb56@birger-koblitz.de?part=3D3
