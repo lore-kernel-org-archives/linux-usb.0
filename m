@@ -1,135 +1,92 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC6B3DBD49
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 06:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B8A3B47D0
+	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 06:56:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791700341; cv=none; b=HZSlvGoEdaj5++eYqFpgLgZO/DHt4e9zi35ddK29gqGf3jAznevkpLHVUTT1OFqI4IzpGvenmnHUEYLMxqGbPzxNyI+QYYcNNhWlIaaIBiFNwoNdUJYzBzUygYhxstl1N+vwR9JhsMzivMDCdvI+d89pC8n6PHy8cEvXN2ngw90=
+	t=1791701816; cv=none; b=bcbVLJML59bpNQlwRWMeKPQGmBEEF/k+lupmtA67Xr3m4wHoVPNNRtKR3o1JernmO3hdQL0k6ySIBK1uuMkvg+0vBsW+CBYzKtHQOLVTLho1n4NPrGqJebC0pobeKThaV4+H2cAI54Yjv3hNb7Fhs4kLM0hFHF/fNxENlidBqH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791700341; c=relaxed/simple;
-	bh=+1EKumLLM0yydrlYEykW9gU3C+PSS2ko0hjEWumo2ps=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i/+gIvseqi8SugZ26lIl/AuwBAA4CdWmXe15+pjRSGCWP0h7qJRqpEUELOv3eaVKvV37LzitbSBBVq/gsQ0zI6emP4U1haejajh9EkI8Ya1ao7KNU9C83w6bvuxjvlsEDfrlbkbCXPBCbKJ2lovSobA5YAk7lSMvwyk5xvU6svA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lPEDi0fm; arc=none smtp.client-ip=209.85.221.52
+	s=arc-20240116; t=1791701816; c=relaxed/simple;
+	bh=fDE4sjBCf6KBhIN7FPxf9GKlujuXFpeef/dfWosmNns=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DOXxXeiwhIzIS61xQHeUxGhbbpcqTyqoI5ir0N3PiiG83UKRJZlSnEu4pe9KNW9DrbofsssLIuk2CvYp/ch7moxFmVfE/Oc7bU3lAcnA+rV4OdY9qvperF5F91YnGD3zSrwoylZrENzwnncYxXIJSLkBXAS+r07fNHnLwmtXW5A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cBk9K/Wf; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lPEDi0fm"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-486e8faff03so369831f8f.1
-        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 23:32:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cBk9K/Wf"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso6001635e9.0
+        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 23:56:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791700339; x=1792305139; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KHnv3RyK6B3mY8+dpKdxgwL8T80d95Zy3h96qwK+OUY=;
-        b=lPEDi0fmBg4tcRhhpmmP2WyFme9JwgkjoXg+UZTrtNtagxW6PqJrf+qEr23Jk3dJU+
-         mGWY4OCXVOfVenjEDZ+Vl4ioCxeNEoFUtR1jTFeRdHS4z9SIkI1vVSe3R/ScOQm+fWVG
-         gQbvFg+jmN7YdDzncNxU3d/ILkVyfDnVTi8hurOdHgqWfny+89DPVdoecFsK5EMB7Nb1
-         GzzOKVwDB/hun7qlIw1bu+UOSpuIo7IHwZug0d39P2AR8BO+hxOa/9cvqZFdubpspDgB
-         BxVmnk8iYvGxqmPDd0D7lUJYODUDF6VOZLql0ukGyrZfAWLqXVmpszHzuJJ8+qB96Z94
-         NL/Q==
+        d=gmail.com; s=20251104; t=1791701814; x=1792306614; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fDE4sjBCf6KBhIN7FPxf9GKlujuXFpeef/dfWosmNns=;
+        b=cBk9K/WfUDTDljxiQKjOwDao+XllpcUQuVHUSpW/ya71y00FVbBsCghS6ADRkKpluF
+         yx+zz1fZmfeXLOa4g/KohzfUD/SAmZSgjH9Mg1aW3dutUKiKfdZyGxnUmWESdhDMPVD2
+         6FjNxSwNtpKToWcR/LGq8AlPnqxR5/Ypwlh/c3wb7XnJIEBL7ntDh5k3qh4PQhGcADl4
+         j/1aaqxDqaRyZ+DOj62rCmg0pe+gmhPd9rlCzMnylhL8YQQNlysMu42ITrjxj0qDjzRk
+         PibUhqlC+F6U1ysE83cjHJDQjx4dTFeNHanIyW5Ic5OuUDvaBvvHki1RBGk3RVOZKjuT
+         5uMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791700339; x=1792305139;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KHnv3RyK6B3mY8+dpKdxgwL8T80d95Zy3h96qwK+OUY=;
-        b=Wbb4H5NXQijL7LHLXWWDRjo942xuwYmtYol6RX4INnEjp9L5GFWDW8fWitBjyiScTM
-         Dbt35MT9A2cdX4xR9Mdv1ds53wG9+2W0Cfb3R6ocuMSFfznNkDOYSY2EVmPHYpF4pXj0
-         ROp6BDrdl/wmvx+9nEw3J7lHchXqwpB0LJEpu0bQq7/2UyOIHa+LHGXzRtSYEFVgsFKV
-         oQALiXoaGkR+hmi20+tued3dTipPdJ4dibW1EXbHiuvQEaLsVGBrn1FDXsCUHHkD3Dsm
-         1CQFXh4tMo7rfWO3laU0K+PafDziELSHv/giAyKsnDNFOApICqcrpubgA/Wq8utAV1Cs
-         AVHg==
-X-Forwarded-Encrypted: i=1; AKwUvBwbUIw2TnVqzJ/ju0DreCmu1G1bTWbRUzkjgsQX1NiPnJt4Dp3ROTIE42OGqgCrWbwExlMmA8cl8PY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJlmC8p69zDH/DHPQq1nOMfydES762fTt82Hp3vTiLP3J/rhjnC
-	sfc1yqEWIGMfV3LF8nzNOxz6jHSyMPjxvQUcYIGvXOdhz4fPl3BF4W0m
-X-Gm-Gg: AYBFou3QGNvEikGmyyeA5O33bGuy/syF+qn5zOv39bzpnK30lLRkoTVsvvCTYtBv1q+
-	AkesRaXRKSEL/VD8SmdFTO6bBw4H2nWNpeUNVss7Q86vpob3IQOsW0SR9gjbX5zk3wde01K6WN9
-	ksJJt1PxWAYziRxOztLu60oK04DQ46X/ayyKn1Lbz/e5e95lA6l+lkG2Wjy/O6bs/4MPDo9Pi1H
-	Q+4pmzGgj6eRwJ1AfwG+WpF7Qjs6n4h04qVVNg3gAZElVahRm/o14mDNq2MBryuElxsyT9RE4h2
-	u4Hr4MthoCawK2af0YpWWWynY6z4r+92WknaKVOsGOt8/aiffzP/T5l9nq/W5mPTs1sWyFJLMlG
-	K4Cb4YFZcPQJanCGRFw4Ukt1wWlfdA7PHWwA50jNiMcOtOvqtNnSrlB93kFlhmoOD5BDW/RNn/1
-	k60hpYiE13B1lks1rG9bu36ano7hz8JtVQz2cLmugu3M6O6Q4x2ACjP+UZRz8dYl2FGm2qWEUrT
-	bqM6noTVg==
-X-Received: by 2002:a05:600c:3f0c:b0:4a0:1723:2d8e with SMTP id 5b1f17b1804b1-4a18e44691emr129270315e9.2.1791700338567;
-        Sat, 10 Oct 2026 23:32:18 -0700 (PDT)
-Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a197c465b4sm58340845e9.3.2026.10.10.23.32.17
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sat, 10 Oct 2026 23:32:18 -0700 (PDT)
-Date: Sun, 11 Oct 2026 08:32:13 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
- bhelgaas@google.com, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, Babu Moger
- <babu.moger@oracle.com>, Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v3] usb: xhci-pci: Add TUSB73x0 definitions
-Message-ID: <20261011083213.1486acaa.michal.pecio@gmail.com>
-In-Reply-To: <20261009125154.266435-1-festevam@gmail.com>
-References: <20261009125154.266435-1-festevam@gmail.com>
+        d=1e100.net; s=20260707; t=1791701814; x=1792306614;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fDE4sjBCf6KBhIN7FPxf9GKlujuXFpeef/dfWosmNns=;
+        b=gVcc1sQDnQ1qJkJnfgzDXuV6/wjBLjjJWyPdes3M77smi3ZorCoURV14ZsqH+ir8vC
+         LOgppazauhMGfA4HOU1DukwjLArXd0ohn0p5vt47O8QMb/YCfTszmBZWivSkMtOnFysm
+         oGBPozarN/7ZAHB2jpRLUHxopDZbXjaH7s+3DlMegRuAcmw7QWKO3HI/VANa8feqjesS
+         dZXiYzfuLG4NKdtj4toYyykaJamLYbfXnhtKxdN9MTPn1Blsiwzk8JFNGHBlCfvNdqiU
+         QNnjjKXzy4yltlD70hT5fAaKokBEBlEjAzU48b/WazIb+bENvkoS8F1ZW0R8nvvzUSQu
+         AKIw==
+X-Gm-Message-State: AFq9FYLw6n/rOTZC1Ju6nSKr134feRYiEbOEIq1fO0ZPAio9ElTkoIyz
+	nrY4iGgfIj68R+8NP6oFGh+/aBz1vvJvA9TRNrk0QVkvse7VtrcGinp+I+h4hmnJio4=
+X-Gm-Gg: AYBFou3mkFPMvM8wYVFCa3j5vg7wgAnaIQPTmdj8dYD0yX2tCyupJeeBH5VP56IUsEt
+	ivrWFXVMhfvW+IrjW8q+XuDhvGUZ8R6XG4EfD0yWIPU2EVjJwlHIffMCJz1R03am9jI53q3Ddrn
+	wXwHKyXSNbA2oMNycmb7LvaT94UklQhle6+mM1klXPjhA7SQZhEPI9lCwV5aijaclyWdalVnkoG
+	6vmi5lbPNrWUJaotH1IP7Cv6uhgF+DkFGYCCUuoBj2MToyKu8oRNUoNO3eZOHqE6mE7wVw3adWr
+	A0zgenn4Ey3X7E4pxQNgKR8QRSSEdk99EDr6SDMTto80imAG3WVuCRa0huQUvD2B0KfV+xAlecc
+	ig3vBp29Cit4Fw+WGQ/d+K3En7yuiMrvRyPJkJxpv4o0vL59SJZuzuQXmqupRBrVZS/X0YWkQq2
+	2qhTCOM2jTTWVSJzQiKZabw2LKsMjsgU/i8T/UOmgp4gf6W6aRWC/TEgXRkZ5YiazB35bZqzA65
+	K/1RovmxOQI5W79XvD1Iy8E4PCj+he2YBOm73E9zwWISgB2tzERd1HShd4wsGiU3f81lN1uqhhx
+	79IuF2YAYx8EWT0e
+X-Received: by 2002:a05:600c:524d:b0:4a1:702f:c736 with SMTP id 5b1f17b1804b1-4a18e446461mr123133175e9.3.1791701813668;
+        Sat, 10 Oct 2026 23:56:53 -0700 (PDT)
+Received: from center.jhjvjihww5qejoy14qwv1cc4td.frax.internal.cloudapp.net ([131.189.143.225])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18c1e33d2sm257500135e9.0.2026.10.10.23.56.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2026 23:56:53 -0700 (PDT)
+From: Orgad Shaneh <orgads@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: octeon-hcd: keep SOF interrupts while a periodic pipe is due
+Date: Sun, 11 Oct 2026 06:56:51 +0000
+Message-ID: <20261011065652.2374071-1-orgads@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260915081724.25637-1-orgads@gmail.com>
+References: <20260915081724.25637-1-orgads@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri,  9 Oct 2026 09:51:54 -0300, Fabio Estevam wrote:
-> Instead of hard-coding the TUSB73X0 PCI ID, USB_CTRL register address
-> and the PWRON_POLARITY, introduce definitions for them to make the code
-> easier to read.
-> 
-> No functional change.
-> 
-> Signed-off-by: Fabio Estevam <festevam@gmail.com>
-> ---
-> Changes since v2:
-> - Move the TUSB73x0 PCI device ID to the shared PCI ID header and use it
->   in pci-quirks.c too, as suggested by Sashiko.
-> 
-> Changes since v1:
-> - None. Only sent it as a standalone patch instead of part
->   of a series.
-> 
->  drivers/usb/host/pci-quirks.c | 3 ++-
->  drivers/usb/host/xhci-pci.c   | 9 +++++++--
->  include/linux/pci_ids.h       | 1 +
->  3 files changed, 10 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
-> index ba158d63bb8b..f670e7aab984 100644
-> --- a/drivers/usb/host/pci-quirks.c
-> +++ b/drivers/usb/host/pci-quirks.c
-> @@ -1189,7 +1189,8 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
->  	val = readl(base + ext_cap_offset);
->  
->  	/* Auto handoff never worked for these devices. Force it and continue */
-> -	if ((pdev->vendor == PCI_VENDOR_ID_TI && pdev->device == 0x8241) ||
-> +	if ((pdev->vendor == PCI_VENDOR_ID_TI &&
-> +	     pdev->device == PCI_DEVICE_ID_TI_TUSB73X0) ||
+Hi Greg,
 
-You mentioned working with TUSB7340 before. Was there any board
-firmware involved which made use of this chip before the OS?
+A gentle ping on this one. It fixes aebbc7d63407 ("usb: octeon-hcd: sleep
+on an hrtimer for far-off periodic transfers"), which came in with the
+usb-7.3-rc6 pull, so 7.3 will ship with the regression unless this is
+picked up: a periodic pipe that is due but could not be started can wait
+up to a second for the next SOF.
 
-I'm looking for someone who can tell whether this line should be
-touched at all or deleted. It was added by c289d0eff3d5a, which
-is very suspicious - it mentions "cards" (like in "PCIe expansion
-cards") and adds two IDs in one go. I feel it could be a BIOS bug
-affecting all cards and no problem with those chips.
+If it looks fine, could it go to Linus through usb-linus? If you would
+like anything changed, I will respin.
 
-[Adding the author in case he remembers what happened there.]
-
-For example, can a PCIe card raise SMI interrupts? AFAIK it can't.
-But if a BIOS thinks otherwise, and enables "SMI on OS ownership
-request", it will never learn about our request, so the handoff
-times out and falls into the "forced" branch. Or the BIOS may not
-rely on this but poll the card, and then "forget" about polling.
-
-Regards,
-Michal
+Thanks,
+Orgad
