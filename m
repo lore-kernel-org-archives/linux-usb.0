@@ -1,77 +1,139 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E7342050;
-	Sun, 11 Oct 2026 05:14:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59A81C5D5E;
+	Sun, 11 Oct 2026 05:33:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791695687; cv=none; b=gJp3bi93Xf7roEkc6wy+W/cwyC7c4uvegiDQVys0Hj0CmuTw2iFsVrSG2m9pGA+ubB7cfzojOfjArkvXuasHR2MuKSA7twYad2fMGRsyogPIOo0GarLZ909goJZuX9bJkgc0yuFFeGaT3uJE89mex/JhwIBhKr1XSkjOyKN1CXw=
+	t=1791696782; cv=none; b=bfncJNmS/ddJaJpyi5zaItKz02JR7o5faAsJkXUvoeQbWMQGG4fzdDqGXq4Kva8Ua5UVpUPXLEHk69pfCls8kFUYgtAK28IiUUyJ8o3Ecadt++O8uzAvQ/cLGU0jcXCIBeCpOhtCYtD6GHNgjlVmR1yyYeqGLB6D56r8RMSdZKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791695687; c=relaxed/simple;
-	bh=bsPc9QZnewzUoPnsbu1Wtsbg1fjQ9+m8MYzYIbtWTpQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FuxUIWPm2pUEs671vtY0bbVubix439Bi/lErGnVUE7OBcaUFApfNWnl5Q/ALiRpWUSLWUH/SPVmt7ufekZMUX3gaw66Gv62ZdxKs7nWKkb9n/huxNF/93rWnJhpCPyEmzO9aHtbOSLoTKy8n9TOXFl6jpqecdVyybB46pHvTtWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mQdeUDEr; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791696782; c=relaxed/simple;
+	bh=W9RvR/XI0sTjGWT17IQav5iU/yf/psweZkbaR2ucR2Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=klRBK9FQIis8A1ZaIIumaBWM1iop1xFrJyOvmNbko4mC8UIGq6k6pYWl+iLahnFeTZ3xwzKC2wtkiObNJnddj2Cb3fU9kLhRdc0C2ColGD+3Aqo/tB5tIisf+36ffrXtrkxO4w0UEUcRK5WrS2XI5HpUY9xWZkSZKNZ7rqx1i+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=OlB2BMiD; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Ga7Qtsmd; arc=none smtp.client-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mQdeUDEr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ACD31F0089B;
-	Sun, 11 Oct 2026 05:14:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791695685;
-	bh=TzoMVDcB05PDAodT4NS5etr03uij9sNOO9aVLbmXwmQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=mQdeUDEreLJAcMywzBFLqzRPs6754S1vf6art6JIe7F4rd6F+PcWm+gbTM/1zg4Yx
-	 ztqQU6deTdXhDSTBB5iapelEUhla7cvfn19lhj8Dp8BODJz4mHLDHVE8DvCYhfDyVY
-	 ZClxDTpKdzbwilGyMB6fUF9NREMeJKmtPEMhiRMc=
-Date: Sun, 11 Oct 2026 07:14:39 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-Cc: Kuen-Han Tsai <khtsai@google.com>,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Faqiang Zhu <faqiang.zhu@nxp.com>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 1/2] usb: gadget: u_ether: Fix NULL pointer deref in
- debug logging
-Message-ID: <2026101116-shortlist-trend-5e9d@gregkh>
-References: <20260923-u-ether-gadget-npe-v1-1-ff466c55ecc0@google.com>
- <20261010142650.2664739-1-qwe.aldo@gmail.com>
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="OlB2BMiD";
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Ga7Qtsmd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1791696773;
+	bh=W9RvR/XI0sTjGWT17IQav5iU/yf/psweZkbaR2ucR2Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=OlB2BMiDCpFHfsjkWBTYCxlSmXfgKEB/QvA6ldTtloG6ITzsG4PdSYb/ntAifog41
+	 iB9EtQW8ykOqjFbWlEmi8SqKuA9ZY0zlOmS3SMwq4Az+7TFQtx38ogyTjhzbwMPV2u
+	 ivmqjN1s3MfcNk7tPIcv04dCRnhQEOEKWAeYk+cUxTk2x++6/XFAKaNjfLG3nnaJCn
+	 xAw71VM4+7n6Qyn3WWrvyejZbx7iqs8jFiCD+v/jIrdwV98aQngmKquZaaiXH+aAa8
+	 u+F6EbB6XOl9bK789kQfOd5063qvXZ8fVNU/N/a3SwcKgu/P9t7OLOn4AKNX2VN/mV
+	 9nmai7Rnud+Cw==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 957AE481C9; Sun, 11 Oct 2026 05:32:53 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1791696772;
+	bh=W9RvR/XI0sTjGWT17IQav5iU/yf/psweZkbaR2ucR2Q=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ga7QtsmdWUYCDqTN6I/h3UkDL7pR6xvZGksXybZcmUehD0bZh0zc6U7t9hjVEiLTe
+	 1TIJs81q8I56AusbvjsA/NKz7J5NFRpNYSY/kf59uaGw7yq0AOBlI7E3XGOK7Iz74s
+	 OtsqXbrBPT7p+Oz3TWW4H7Pgm6gbpeDrzXQXS57gVFLPpxJqrHB8+qF3Vy/GbISI0A
+	 KMv4zrAogGFS/nIzheBZ5lzv9w5xb3nuY/aTnHCnzrz9CSplElaH6wxiFgL0M3si0Z
+	 5VXsA7egyt6IZCXwpukM0ARqWv222BWbjVQVsJSFZkP4cSVP9pE5hSOzMh1AjV8mMe
+	 U7XmFvE3bQwpg==
+Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 8F36B475D3;
+	Sun, 11 Oct 2026 05:32:52 +0000 (UTC)
+Message-ID: <acada24c-903e-49ea-be04-879fedbfa08b@birger-koblitz.de>
+Date: Sun, 11 Oct 2026 07:32:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261010142650.2664739-1-qwe.aldo@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v19 01/13] phylink: Add phylink_mac_interrupt
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-usb@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>,
+ Eric Dumazet <edumazet@kernel.org>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>,
+ Jakub Kicinski <kuba@kernel.org>
+References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
+ <20261010-ax88179a-v19-1-7475173cfb56@birger-koblitz.de>
+ <sashiko-outbox-167008@kernel.org>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <sashiko-outbox-167008@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 10, 2026 at 11:26:29AM -0300, Aldo Ariel Panzardo wrote:
-> On Wed, Sep 23, 2026 at 03:58:35PM +0800, Kuen-Han Tsai wrote:
-> > Replace the composite.h logging macros in u_ether.c with the standard
-> > netdev_*() helpers. Because dev->net remains valid for the entire
-> > lifetime of struct eth_dev and netdev_printk() natively handles
-> > unparented network devices [...]
+On 11/10/2026 6:54 am, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
+> - [High] phylink: UAF and TOCTOU in phylink_mac_interrupt due to lockless phydev access
+> --
 > 
-> Confirmed against mainline. The DBG()/VDBG()/ERROR()/INFO() macros in
-> <linux/usb/composite.h> expand to dev_*(&(d)->gadget->dev, ...), so each
-> use in u_ether.c dereferences dev->gadget; once unbind clears it, logging
-> on the surviving net_device faults, as in the eth_stop() path you show.
+> commit 667c3fb1a09bf0994b40559aee9027d3f9775442
+> Author: Birger Koblitz <mail@birger-koblitz.de>
 > 
-> The conversion is complete and safe. u_ether.c has 26 such macro uses (18
-> DBG, 3 VDBG, 1 ERROR, 4 INFO; no WARNING), and the patch converts all 26
-> one-to-one to the matching netdev_*(dev->net, ...). dev->net is the
-> net_device whose private area holds the eth_dev (netdev_priv); it is set
-> at creation and freed together with it via free_netdev(), so it is valid
-> wherever dev is. The remaining &g->dev logging in the setup paths uses
-> the local gadget argument, and the dev->gadget->dev access in
-> eth_get_drvinfo() is not a logging macro and is outside this change's
-> scope, so nothing is left logging through a stale dev->gadget.
+> phylink: Add phylink_mac_interrupt
 > 
-> Reviewed-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+> Adds the phylink_mac_interrupt() function to phylink, passing link-change
+> interrupts received by the MAC to phylib.
 > 
+>> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+>> index a7d086cdc9b25..a3ca7993eb7e0 100644
+>> --- a/drivers/net/phy/phylink.c
+>> +++ b/drivers/net/phy/phylink.c
+> [ ... ]
+>> @@ -1612,6 +1612,26 @@ static bool phylink_link_is_up(struct phylink *pl)
+>>   	return pl->netdev ? netif_carrier_ok(pl->netdev) : pl->old_link_state;
+>>   }
+>>   
+>> +/**
+>> + * phylink_mac_interrupt() - wrapper for phy_mac_interrupt()
+>> + * @pl: a pointer to a &struct phylink returned from phylink_create()
+>> + *
+>> + * Passes a link-change interrupt received by the MAC to phylib.
+>> + * This function may be called in interrupt context, and therefore cannot take
+>> + * a mutex. However, it is safe to assume that the reference to phy does not
+>> + * disappear during the call, as only an SFP module may be unplugged to make a
+>> + * PHY disappear. SFP modules however do not support interrupts.
+>> + */
+>> +void phylink_mac_interrupt(struct phylink *pl)
+>> +{
+>> +	struct phy_device *phy;
+>> +
+>> +	phy = pl->phydev;
+>> +	if (phy)
+>> +		phy_mac_interrupt(phy);
+> 
+> [Severity: High]
+> The function comment notes that SFP modules do not support interrupts. However,
+> when an SFP module is physically unplugged, the electrical link drops. Could
+> this link drop trigger the MAC interrupt being handled here?
 
-What wrote the above text, it seems like this is just a llm output?
+The way this code-review is done by whoever handles the AI is absolutely 
+not OK. The same patch was considered to be free of errors in the 
+previous round. Now something is brought up that has been discussed ad 
+nauseam before, including an analysis by Andrew, and found correct.
+The minimum I expect is that emails relating to the patches are being 
+looked at and also understood!
 
-thanks,
+Additionally, the AI spits out vast amounts of issues in code-paths for 
+older hardware. Issues that I do not intend to fix, because I simply do 
+not have that hardware to test. Still, reviewing these "issues" takes 
+large amounts of time and even when I complain, the same or similar 
+issues are raised again in the next round.
 
-greg k-h
+The "issues" raised by the AI have become more and more absurd and 
+trying to fix them does not really improve code quality, because of 
+possible introduction of new issues and regressions.
+
+I am not going to look further through this AI review as the benefit to 
+effort ratio seems tiny. The code has been tested in-depth. It has been 
+reviewed by several humans. Unless a human steps in and tells me that 
+something really needs to be fixed, at this point it is as good as it gets.
+
+Birger
+
