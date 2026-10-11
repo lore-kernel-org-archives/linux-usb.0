@@ -1,173 +1,124 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655853DDB09
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 17:48:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 520952673AA
+	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 18:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791740938; cv=none; b=U7BNtZncc2bmmOrZ+1tekPkdNok6Q/5PRcVtPbUCmcuw8SutIJWhMzk3JfxnDLI/97e+HWlci0Bc0QjqKEEkQalR9lFett6XUabgIJsrGt88d/iohaRXzQv+TKpek3e9IB8ohW/YxWYNFz/RXDXUpUcttglk2SHgzbqsRRacQW0=
+	t=1791741827; cv=none; b=qjklVUQFU7EuF2EhnnEHlr+xbSRujwGNGTUbZMHoy62HPvWcz/OOTOpebN/1je7Ui4rnaEa+wYcE9ZGd8TtyoOSuiCrgC/yOqWIa6DdkntIS7qVPmBlw8LHowVnwknh3zhMXkR/TfkzapW8/oGSB7pDMDK8YHl90GHQfMiqXkTs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791740938; c=relaxed/simple;
-	bh=+ac6ZuafHdUeOx4kM7JtsJyMiC3/HL6rFzc5v99ZtBw=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OWDUWK+ojnnDXO2RIJE9gmhIQy2vBi5roJ6494Ll4/IhhkPXLa+8KfNyA3N4UobCPuXXorwetgD4xANbKd0yZovkKJUtdJCPI7gbd2wFY2crO8bYo5x16jn3jyce86ZSqNBNsfPQcarsGe9MExysh5aHviX+F8nsqYdGy8esaLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X0VH55xm; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791741827; c=relaxed/simple;
+	bh=YmenppURcFgoiZ0pphyQQ0kdrzW3s/E1UdDWUQeh7rg=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=OQw/y0v86SvJFoycF+F+kXlJ8Bf6Nx8b//i1frVE0hEegd8rBhvJGOlQd83jUYPmqqlenbhBz5hcJ3xIY3RuTS85p0RZWgMeYpOtidH+DhBHozdSbtVxq5CaozqX+VYDJpHb7+os7+H1vMkctJqQBYYTG57q/cMzBe8wZiceceE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EKVlc4zD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X0VH55xm"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a02667ccebso7643935e9.0
-        for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 10:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791740936; x=1792345736; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lnKvaxco2zJAP8jwsjWRlSJGBk6Z5phho18+IObWBjI=;
-        b=X0VH55xmP9wMFZil60cPVPSGFM5qoJyg0Fw10RpYMY5PQSPl1yW3zJ4DybLPVBiaZS
-         oXX98p7997j0NKlywcpTZcPFJ0B+iw9Nwynk7ifDNu2SH9T576kJM5TYl5dKU5xmplUN
-         q3BXc1OWzZTnHpKt+TB9mf6196usZjwIHnKhaw8YebMT4JK/0LD4GsWJrAuEDczTwXy3
-         t2rgqBFSZhkaEKRsI4an8TJC9GGh7j8xzcZmCYoBAvw+8IC5ElB6io7K2EKriFnhcyV5
-         Ccn1KmL5D0t5S5mR2smfNIxt7x32DfLP+CA+7ryge44nRDUxdvuzUYxo1piEzmUx52pa
-         R86g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791740936; x=1792345736;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lnKvaxco2zJAP8jwsjWRlSJGBk6Z5phho18+IObWBjI=;
-        b=Lq34wYAfpnPcZmr756/LzY+UIwVgNLDTEzu1DBpjtIqDdOHEloBjc86Y6cOjr6YmYH
-         97JXa7Te0hNXpIBk7QO7gnF8cz28/RFp0Wj6ePpit+RVNGs+naPiWG63Ca7v1V6QatFM
-         VADCVzAppaNoPHgbZbY3Xb4ZF81RllJh4Y+U4kjaIW+kHi2sSMxmobhx8GqFw0+sozkm
-         sUSwc9jVLYwnGjSDp0aFHY0zgkIgVxFIDkPbiRCeq7njy2LQ6nz1ufdBffz+NvolipPJ
-         zeLlzJKQou+zE/RhHjjtdGCj/SExC0FDWiXsp4xujCHIFEhCrM7xPMI3DvTagDZlBwVL
-         k/MA==
-X-Forwarded-Encrypted: i=1; AKwUvBxTMZTkVm93oougokw57W6b9/u8+aW3iakxdEndbXHPZyjwXlhi9RpHiWQgDw+74mRfpYyJYB3VtWM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLk6qp4Rtm/r8SR8cTw4kkUHwt68t0HBvTi3KPeYENpHbcEiu3k
-	zVlD9em2Fq5Gh2Vybo5RaxwUZlM4yShvmIGkgLKFS//Pxb/jtXyQg+Xb
-X-Gm-Gg: AYBFou3vqCJd+KHGO52XbkE4zp7rkngI/poYw0mFP1MP2rvpiDNLabXV+LZDb12PLhf
-	wMf4+hTzFyTofFHYA3M0XtCM+dtdSnFInap6UgbCIE09oUuW6MQsG9T3iLexxGZDx1+8Chr4yqC
-	/7u6WAXAgqYF8UFac+k3shLyIsH6PaJ/sKu0/KmNxrVMNEA+W0BxN++GelPAmzKw9dSo2TKT6mC
-	ecGrXLokOXFvF/FEdF2QTKIQ1Mod1X/8TgAijJQ93ikB9yOnj5oeHXU543DC7rwCRHe7KsZzC2w
-	I0JLHTXrDL/GenccZiPeq3qRdOJAz282VyCiLMnfw7rCgT7/tpw67sfD9Ph4FYj/h5wd25NTOSR
-	p18tzFshGwa4EwxMIxioLqoSTAPHS/OaAEI6qg6jbNaCcPiofrDZ5Wc5hjrG9+069hqmeCQVI0X
-	nOJurkpVOhGs6UTYesJmtGQsTD3N5zPtOzjRK1mhkQ3ZqdKFuhkXJY6Lbva13KmVUE/9q1JSwXh
-	jE3+uiY0V4OURS6KTWch6XtmvjWbPe70qdIVfk+HDqfwQCCF3qZwXrhu4R3r2X/Aw8=
-X-Received: by 2002:a05:600c:3e8f:b0:4a0:1c0e:b057 with SMTP id 5b1f17b1804b1-4a18e44653cmr141326245e9.4.1791740935316;
-        Sun, 11 Oct 2026 10:48:55 -0700 (PDT)
-Received: from Raghu007.. (sgyl-44-b2-v4wan-174108-cust110.vm6.cable.virginm.net. [80.1.81.111])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19471edd5sm249995755e9.11.2026.10.11.10.48.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 11 Oct 2026 10:48:54 -0700 (PDT)
-From: Palla Raghunath <raghunathpalla.0209@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Peter Chen <peter.chen@kernel.org>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Shuah Khan <shuah@kernel.org>,
-	Brigham Campbell <me@brighamcampbell.com>,
-	linux-kernel-mentees@lists.linux.dev,
-	raghunathpalla.0209@gmail.com,
-	syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb: phy: don't overwrite a device_type the bus already set
-Date: Sun, 11 Oct 2026 18:48:53 +0100
-Message-Id: <20261011174853.59234-1-raghunathpalla.0209@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EKVlc4zD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A28251F0089B;
+	Sun, 11 Oct 2026 18:03:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791741825;
+	bh=LNFBn3m/8L8rOVs6Y4wZwY73jWQs7GJf0OyMO10RdtU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=EKVlc4zD/2RhZE0/jCh8W9KCjbvRIhvNNJsRMqk0eG+ZvhGJweTnwdmfMx5V6H5tJ
+	 K5lgMs33LD1Vq7sI7u5s4YiiPccytu5RklYh6ZqKKBRJ29Jto/vQeXZZljgEMT+Ug0
+	 R17XiQmWKlapfUcceu2rTfvrJWtUejKlgKWnhonvm91QCTNZdVyImpGhQgnR9yUuKp
+	 np0UDh4whRuOl7dAZ/eRcaMUxSIcJSu56eNhhwjUrbIBnq7NDIMPFIRR2grZ8bs1FO
+	 umwp4qlvpA6OOAmejv30OhiJIZL2/ZzPpiJKY3cbjuc5QYs83Ys2nAPfx6X5SFptHS
+	 A0+Q8pvYjqRiw==
+Message-ID: <sashiko-outbox-167368@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: phy: don't overwrite a device_type the bus
+ already set
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Palla Raghunath" <raghunathpalla.0209@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261011174853.59234-1-raghunathpalla.0209@gmail.com>
+References: <20261011174853.59234-1-raghunathpalla.0209@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 11 Oct 2026 18:03:45 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-usb_add_phy_dev() replaces the device_type of whatever device the PHY
-driver passed in:
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] usb: phy: mutated device_type suppresses unbind/remove uevents
+--
 
-	x->dev->type = &usb_phy_dev_type;
+commit 3154a296e918fd840b2f1b31a53c7b6b47a5a85e
+Author: Palla Raghunath <raghunathpalla.0209@gmail.com>
 
-That device isn't ours.  PHY drivers point x->dev at the device they are
-bound to, and its bus has usually set a device_type up already.
+usb: phy: don't overwrite a device_type the bus already set
 
-i2c is where this hurts.  An i2c client keeps its release callback on
-the device_type, and leaves dev->release NULL:
+usb_add_phy_dev() replaces the device_type of whatever device the PHY driver
+passed in. This hurts i2c clients as they keep their release callback on the
+device_type. Only take the device_type if nothing else has been set.
 
-	const struct device_type i2c_client_type = {
-		.groups  = i2c_dev_groups,
-		.uevent  = i2c_device_uevent,
-		.release = i2c_client_dev_release,
-	};
+> diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
+> index 5a9b9353f343d..ded18c7fe32ff 100644
+> --- a/drivers/usb/phy/phy.c
+> +++ b/drivers/usb/phy/phy.c
+> @@ -705,7 +705,13 @@ int usb_add_phy_dev(struct usb_phy *x)
+>  	if (ret)
+>  		return ret;
+> =20
+> -	x->dev->type =3D &usb_phy_dev_type;
+> +	/*
+> +	 * Don't clobber a device_type the bus already set.  x->dev is the
+> +	 * PHY driver's own device, and for an i2c client the release
+> +	 * callback lives on the type.
+> +	 */
+> +	if (!x->dev->type)
+> +		x->dev->type =3D &usb_phy_dev_type;
 
-usb_phy_dev_type has no ->release, so once it has replaced
-i2c_client_type there is nothing left to free the client with, and
-usb_remove_phy() doesn't put the old type back either.  Removing the
-client then hits the warning in device_release():
+[Severity: Medium]
+Will mutating the device type here suppress teardown uevents for platform
+devices?
 
-  Device '0-002c' does not have a release() function, it is broken
-  WARNING: drivers/base/core.c:2642 at device_release+0x1de/0x280
-  Workqueue: usb_hub_wq hub_event
-  Call Trace:
-   kobject_put+0x162/0x260
-   device_unregister+0x27/0x30
-   i2c_deregister_clients+0x27d/0x410
-   i2c_del_adapter+0xe9/0x230
-   i2c_tiny_usb_disconnect+0x3f/0x90
-   usb_unbind_interface+0x1e5/0x9c0
-   device_remove+0x125/0x170
-   device_release_driver_internal+0x4e2/0x6b0
-   bus_remove_device+0x2f5/0x470
+When a platform device driver unbinds, it first removes the PHY and then the
+driver core emits uevents:
 
-syzbot gets there with a fake i2c-tiny-usb adapter: instantiate an
-isp1301 on the new bus through its new_device attribute, then unplug the
-USB device.
+driver_remove()
+  usb_remove_phy(x)
+    list_del(&x->head);
 
-Only i2c is affected.  phy-isp1301.c is the one i2c driver among the
-twelve callers of usb_add_phy_dev(); the others pass a platform device
-or a struct phy, and both leave ->type NULL and keep their release on
-dev->release or dev->class->dev_release, so device_release() still finds
-one for them.
+device_unbind() / device_remove()
+  kobject_uevent_env()
+    dev_uevent()
+      usb_phy_uevent()
 
-So only take the device_type if nothing else has.  Callers that rely on
-the uevent handler still get it, their ->type being NULL, and the i2c
-client keeps the release it cannot do without.
+Because usb_remove_phy() does not restore x->dev->type when it deletes the
+PHY from phy_list, __device_to_usb_phy() will return NULL during the
+teardown uevents.
 
-Tested on x86_64 with the syzbot reproducer: before the change the first
-isp1301 instantiation panics on unplug, after it 292 instantiate/unplug
-cycles pass without a splat.
+usb_phy_uevent() then returns -ENODEV:
 
-Reported-by: syzbot+3fb7629cfd12d04beeab@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=3fb7629cfd12d04beeab
-Fixes: a8534cb092d7 ("usb: phy: introduce usb_phy device type with its own uevent handler")
-Cc: stable@vger.kernel.org
-Reviewed-by: Peter Chen <peter.chen@kernel.org>
-Signed-off-by: Palla Raghunath <raghunathpalla.0209@gmail.com>
----
-v2:
-- Add Cc: stable, as Peter asked, and his Reviewed-by
-- v1: https://lore.kernel.org/all/20260924194236.168010-1-raghunathpalla.0209@gmail.com/
+drivers/usb/phy/phy.c:usb_phy_uevent() {
+	...
+	spin_lock_irqsave(&phy_lock, flags);
+	usb_phy =3D __device_to_usb_phy(dev);
+	spin_unlock_irqrestore(&phy_lock, flags);
 
- drivers/usb/phy/phy.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+	if (!usb_phy)
+		return -ENODEV;
+	...
+}
 
-diff --git a/drivers/usb/phy/phy.c b/drivers/usb/phy/phy.c
-index 5a9b9353f343..ded18c7fe32f 100644
---- a/drivers/usb/phy/phy.c
-+++ b/drivers/usb/phy/phy.c
-@@ -705,7 +705,13 @@ int usb_add_phy_dev(struct usb_phy *x)
- 	if (ret)
- 		return ret;
- 
--	x->dev->type = &usb_phy_dev_type;
-+	/*
-+	 * Don't clobber a device_type the bus already set.  x->dev is the
-+	 * PHY driver's own device, and for an i2c client the release
-+	 * callback lives on the type.
-+	 */
-+	if (!x->dev->type)
-+		x->dev->type = &usb_phy_dev_type;
- 
- 	ATOMIC_INIT_NOTIFIER_HEAD(&x->notifier);
- 
--- 
-2.34.1
+Does this -ENODEV return abort the kobject_uevent() emission entirely,
+silently dropping the unbind and remove uevents?
 
+Could this regression cause userspace tools like udev to miss device teardo=
+wn
+events?
+
+> =20
+>  	ATOMIC_INIT_NOTIFIER_HEAD(&x->notifier);
+>
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261011174853.5923=
+4-1-raghunathpalla.0209@gmail.com?part=3D1
