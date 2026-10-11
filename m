@@ -1,152 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF47B3CB907
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:55:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70E7342050;
+	Sun, 11 Oct 2026 05:14:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791694502; cv=none; b=oPJ02fstNqKF+9AMuIMmGeyz+MDIuZgUGaiKB9jxd0OAUvPRFS6YS0W30BrzdvGDS90ywFoOcu61mLNIShKDF/9zGDaaqS4izFxogPul70s0Ds7+QF2abE42OltYzgm9eLyMIRYyG2nN7b8b+5hjQ8Tr483qgm5IAdXLpvzds5U=
+	t=1791695687; cv=none; b=gJp3bi93Xf7roEkc6wy+W/cwyC7c4uvegiDQVys0Hj0CmuTw2iFsVrSG2m9pGA+ubB7cfzojOfjArkvXuasHR2MuKSA7twYad2fMGRsyogPIOo0GarLZ909goJZuX9bJkgc0yuFFeGaT3uJE89mex/JhwIBhKr1XSkjOyKN1CXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791694502; c=relaxed/simple;
-	bh=9V/AouXy8QohMawrLZCZTPgDOVXAtQyfELdL5/V+SzY=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=i1ds9etEwKzGPmQxZFU4kUxu24gfvI1lBRyoKgqnHkrP3Q1QS67YjSgfaJq1rRtIWWdNbjS0OOjmAbYdh2RvQQPH7S+yZG0Uj1AJsNPTN/0kusyer9udC6OKNI7Wxsqi2YuwBIyjCnwASOyBPMUMpZaV8QMvUEVVYjFBXziI4BA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+wOD2PG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791695687; c=relaxed/simple;
+	bh=bsPc9QZnewzUoPnsbu1Wtsbg1fjQ9+m8MYzYIbtWTpQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FuxUIWPm2pUEs671vtY0bbVubix439Bi/lErGnVUE7OBcaUFApfNWnl5Q/ALiRpWUSLWUH/SPVmt7ufekZMUX3gaw66Gv62ZdxKs7nWKkb9n/huxNF/93rWnJhpCPyEmzO9aHtbOSLoTKy8n9TOXFl6jpqecdVyybB46pHvTtWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=mQdeUDEr; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+wOD2PG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E7EF1F0089C;
-	Sun, 11 Oct 2026 04:55:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791694501;
-	bh=vz32h6+Abvt07dPYhDLQmJMCeDoRwoAIPIJShNXCKYk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=U+wOD2PGgMm4MWbZ9d+tMKEewhBn9sGVbrnP8efCGNH17eX7bgL9bG2C2/AzUVJpL
-	 draqnFR+3TuEA7fMs3HzZbfqO44eA0ccMxH1I27qbSQCJvgwPa+K+t73jEnUcgIKOn
-	 5Gnqt+kguW5vyOdxPsLsrU+r/7LqcJHbkgxvupTAZPrD5gWgs7BaKT96r83Ee5T7/e
-	 qVki7SA9HFeMuny5yn9AanhYZU2032qtrtK+CNCF/fMhtGRQPAPjTIvo17bC2jNTUg
-	 WiW7aYass9omnCDw1+uh8ATRpfs5cpIkmCHU/DnoGRQJwtWCoZ1ODE7oXecGDlKtOv
-	 g3Bj29dMUTQjg==
-Message-ID: <sashiko-outbox-167020@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v19 13/13] ax88796b: Add support for AX88772D,
- AX88179A and AX88279
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Birger Koblitz" <mail@birger-koblitz.de>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261010-ax88179a-v19-13-7475173cfb56@birger-koblitz.de>
-References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
- <20261010-ax88179a-v19-13-7475173cfb56@birger-koblitz.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 11 Oct 2026 04:55:01 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="mQdeUDEr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5ACD31F0089B;
+	Sun, 11 Oct 2026 05:14:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791695685;
+	bh=TzoMVDcB05PDAodT4NS5etr03uij9sNOO9aVLbmXwmQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=mQdeUDEreLJAcMywzBFLqzRPs6754S1vf6art6JIe7F4rd6F+PcWm+gbTM/1zg4Yx
+	 ztqQU6deTdXhDSTBB5iapelEUhla7cvfn19lhj8Dp8BODJz4mHLDHVE8DvCYhfDyVY
+	 ZClxDTpKdzbwilGyMB6fUF9NREMeJKmtPEMhiRMc=
+Date: Sun, 11 Oct 2026 07:14:39 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+Cc: Kuen-Han Tsai <khtsai@google.com>,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Faqiang Zhu <faqiang.zhu@nxp.com>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 1/2] usb: gadget: u_ether: Fix NULL pointer deref in
+ debug logging
+Message-ID: <2026101116-shortlist-trend-5e9d@gregkh>
+References: <20260923-u-ether-gadget-npe-v1-1-ff466c55ecc0@google.com>
+ <20261010142650.2664739-1-qwe.aldo@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261010142650.2664739-1-qwe.aldo@gmail.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] net/phy: ax88279 leaves 10baseT_Half_BIT in supported modes desp=
-ite being full-duplex only
---
+On Sat, Oct 10, 2026 at 11:26:29AM -0300, Aldo Ariel Panzardo wrote:
+> On Wed, Sep 23, 2026 at 03:58:35PM +0800, Kuen-Han Tsai wrote:
+> > Replace the composite.h logging macros in u_ether.c with the standard
+> > netdev_*() helpers. Because dev->net remains valid for the entire
+> > lifetime of struct eth_dev and netdev_printk() natively handles
+> > unparented network devices [...]
+> 
+> Confirmed against mainline. The DBG()/VDBG()/ERROR()/INFO() macros in
+> <linux/usb/composite.h> expand to dev_*(&(d)->gadget->dev, ...), so each
+> use in u_ether.c dereferences dev->gadget; once unbind clears it, logging
+> on the surviving net_device faults, as in the eth_stop() path you show.
+> 
+> The conversion is complete and safe. u_ether.c has 26 such macro uses (18
+> DBG, 3 VDBG, 1 ERROR, 4 INFO; no WARNING), and the patch converts all 26
+> one-to-one to the matching netdev_*(dev->net, ...). dev->net is the
+> net_device whose private area holds the eth_dev (netdev_priv); it is set
+> at creation and freed together with it via free_netdev(), so it is valid
+> wherever dev is. The remaining &g->dev logging in the setup paths uses
+> the local gadget argument, and the dev->gadget->dev access in
+> eth_get_drvinfo() is not a logging macro and is outside this change's
+> scope, so nothing is left logging through a stale dev->gadget.
+> 
+> Reviewed-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+> 
 
-commit fca1c63dd8d205ab9ae6d1280f70589e1b085eb0
-Author: Birger Koblitz <mail@birger-koblitz.de>
+What wrote the above text, it seems like this is just a llm output?
 
-ax88796b: Add support for AX88772D, AX88179A and AX88279
+thanks,
 
-The AX88772D, AX88179A and AX88279 are 100MBit, 1GBit and respectively
-2.5 GBit PHYs that are found in ASIX USB-Ethernet controllers of the
-same name.
-
-> diff --git a/drivers/net/phy/ax88796b.c b/drivers/net/phy/ax88796b.c
-> index f20ddf6491499..0df44e0e236ab 100644
-> --- a/drivers/net/phy/ax88796b.c
-> +++ b/drivers/net/phy/ax88796b.c
-
-[ ... ]
-
-> @@ -83,6 +96,107 @@ static int asix_ax88772a_read_status(struct phy_devic=
-e *phydev)
->  	return 0;
->  }
-> =20
-> +static int asix_ax88279_read_status(struct phy_device *phydev)
-> +{
-
-[ ... ]
-
-> +	/* MDIO_AN_10GBT_STAT_LP2_5G is broken, but we can deduce that
-> +	 * the link-partner advertised 2500M if remotely AN succceded
-> +	 * for link speed > 1000M and we locally have a link speed of
-> +	 * 2500M
-> +	 */
-> +	linkmode_clear_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT, phydev->lp_adv=
-ertising);
-> +	val =3D phy_read_mmd(phydev, MDIO_MMD_AN, MDIO_AN_10GBT_STAT);
-> +	if (val >=3D 0 && val & MDIO_AN_10GBT_STAT_REMOK) {
-> +		linkmode_mod_bit(ETHTOOL_LINK_MODE_2500baseT_Full_BIT,
-> +				 phydev->lp_advertising,
-> +				 phydev->speed =3D=3D SPEED_2500);
-> +	}
-> +	/* Only supports full duplex */
-> +	phydev->duplex =3D DUPLEX_FULL;
-
-[Severity: Medium]
-Since the driver unconditionally forces the MAC to full-duplex here, could
-this cause a duplex mismatch if 10M half-duplex is negotiated?
-
-In asix_ax88279_get_features() below, genphy_c45_pma_read_abilities()
-evaluates extended abilities and will set ETHTOOL_LINK_MODE_10baseT_Half_BIT
-if 10Mbps is supported. If a peer supports only half-duplex (or
-auto-negotiation otherwise selects it), the link will come up in half-duplex
-on the wire while the driver unconditionally reports DUPLEX_FULL, leading to
-late collisions and packet loss.
-
-> +
-> +	/* PHY switches interface between 2.5GBit and slower modes */
-> +	if (phydev->speed =3D=3D SPEED_2500)
-> +		phydev->interface =3D PHY_INTERFACE_MODE_2500BASEX;
-> +	else
-> +		phydev->interface =3D PHY_INTERFACE_MODE_SGMII;
-> +
-> +	return 0;
-> +}
-
-[ ... ]
-
-> +static int asix_ax88279_get_features(struct phy_device *phydev)
-> +{
-> +	int ret;
-> +
-> +	/* MDIO_DEVS1/2 empty, so set mmds_present bits to allow reading abilit=
-ies */
-> +	phydev->c45_ids.mmds_present |=3D MDIO_DEVS_PMAPMD | MDIO_DEVS_AN;
-> +
-> +	linkmode_set_bit_array(phy_basic_ports_array, ARRAY_SIZE(phy_basic_port=
-s_array),
-> +			       phydev->supported);
-> +
-> +	ret =3D genphy_c45_pma_read_abilities(phydev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	/* AX88279 does not support reported 100baseT-half duplex mode */
-> +	linkmode_clear_bit(ETHTOOL_LINK_MODE_100baseT_Half_BIT, phydev->support=
-ed);
-
-[Severity: Medium]
-Does this code also need to clear ETHTOOL_LINK_MODE_10baseT_Half_BIT?
-
-The driver manually clears 100baseT-Half due to a lack of support, but
-appears to leave 10baseT-Half enabled in the supported modes despite the PHY
-being full-duplex only.
-
-> +
-> +	return 0;
-> +}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261010-ax88179a-v=
-19-0-7475173cfb56@birger-koblitz.de?part=3D13
+greg k-h
