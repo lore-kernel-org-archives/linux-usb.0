@@ -1,290 +1,133 @@
-Received: from mail-oo2-f0.google.com (mail-oo2-f0.google.com [74.125.231.128])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 410A8255F52
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.128
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791692253; cv=pass; b=jGTwybxs/ISIeQZBXbv44Q9rlUmOut9OFyXLPhW2Z7sSMgIgielNLm7EicCLuT0jWKaYiw2cBukNGcPQMvD/LuBI/2Q0f2rqpkZ0GAOzSpHUvnjiUSR1T+CjQfrXpb2NFS9ip8hcrxU4seN459sECCQi21gPpAs4/ifLa7NaeeY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791692253; c=relaxed/simple;
-	bh=EojC/6mtzUWJ7avmaSpCmXay/upr0JmdGGgyCBDDGzY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P2Vl0HOlHFjL2UNOnCGE92lSmsUGtldoV0/crDkiSHWPNXZnh9Ln90Q6U1YkqC1vL0AGunjUU4B2UaQODnPWQi3vSjsBzZfMSOs/tzDKfpq8vyCfT2TBRlw22eqTtEsdsJvdHrHbIaD9eUjnB1B6Ji5IysO1+fK8o75dqLy8FmA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=acqmmXTL; arc=pass smtp.client-ip=74.125.231.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0613257459
+	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:54:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791694494; cv=none; b=cwtsOBN1tBJa7OnpqTiwYBBib99ZihChXT0PythSDReNZCyJkNyznOVVBW8C4O/XxvxZul4L1twVH0JX7EYZb+bjfax4trJZebFuiF/Y9nCvq6pyRW8qWJOb5SIsp5M0jx15FrAA+bYdfeq46+cXuC7FBWUMrW7j+quZHIrgyD8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791694494; c=relaxed/simple;
+	bh=SlsJVpFLL3RTy8NY/yyfWw+A+egV801Y3NWRiEBVDRw=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=aUGYwgm20MaMh61uGGvI1GNAQ/JzNEOuZqCoH/nAx/jvNLI5pkaiYmjN/fwgWXJbRCEhVDU7a2dnBQfv6K+rBCwz+QF5DoXH5Xh28eexgcg7IlJdKr6T17XfDylmG5GsOaD4x6GRcPb1FKCN0LqHiaVnGRNNfycMgPctYd5Lv7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KXosw2cZ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="acqmmXTL"
-Received: by mail-oo2-f0.google.com with SMTP id 46e09a7af769-824040a3379so398700a34.0
-        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 21:17:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791692251; cv=none;
-        d=google.com; s=arc-20260327;
-        b=bvHU+GYSbcOZtI1wwIPrVjKc29XajQu1q88zv5J1AGE8UQhNdWm5fIiqeat7ylcn5+
-         GRi8CCPZuu4R3eBDgpzPhzeUv6oevdIftYb1oeVmX6JuvpA65xNFMwK9vyi7zLg4BC4k
-         N+//MIP4Z+CJ2Zq2kPwglmixoXuz/VGda+QSpaW/4Bu1lVqmblpIN7mkSpWLSnGtRkfw
-         72hMiGJ9ieWqW/eoRtszpnYA2CZR3KBILQS7V/vvxsWuoHWkQHG3xwKbwXarLQQ5HYvn
-         MKr8vs96s9dD/88BlT3pKNjqP+4fMy97Cp2sSA8BfP8XlHi+/gUJWqi0QoLEmKc0UhM6
-         Tudg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ze3tU5ClgmV//hWYQFqIt/MG2FODlVRCQlPbo8m5k9w=;
-        fh=XohAqvjpbQ96+bC2S4MpwajbMiAmd7HAHmnQHuRursA=;
-        b=VAhTTEFIpPE4R/YbMbqnicqOJIz7emyey4MGFyhZd38dNcvebbFkWnmTjwQN0dyh5m
-         fgLESHxWUqxFyrOVHRDNPDO43RfuPty2C9GsRKYqQ8+ZmRdvto9BCWbK6a5EoyJyA19f
-         BF9GrT99i+rpZPkK3NKWmeEPC53BPxHLLH6CsesIfEiAH2evPGXkwn4C18r9JC/OfC+z
-         cyDkmIIQuTMcYbZo8doklxqNemLjtbVJcbjd+94I38pl0snJV5GR4WxsXNAlco7MN/qL
-         uIkeHojMouW//nHO5EyuX/bhKnniM4uiXV+ogPxf+MwvvqsplxnGOwHkceqOF/cq6yRC
-         c1KQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791692251; x=1792297051; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=ze3tU5ClgmV//hWYQFqIt/MG2FODlVRCQlPbo8m5k9w=;
-        b=acqmmXTLH3/JqLul4xg0YhnqrVxyfR3hxgvuPybOeTz/MIUiN972T+nMdl+nhNsiiZ
-         gvAHayn/EDi5xIoaRVVuIcMNda+TXC9UMymbknO+5KlK9Dg1n4Ix7EZeb+OrwClrjnw5
-         ELkGj3gVIPRiJv4h5eChhfSbpOiKnT7Ei1l/5/ovHXZzXdLecQXJXuyZGXUpVvoYC/XW
-         pAQ6j4JkRHG8A3QXwEp6L2TmagY8cMV/d2cHFeUL1QfLJgVBDPipiPrd1orkQKiBKQDL
-         8A8wAHFnu0Qz0C8xMnWMCA2UyPG3KIwR3ikjXCmS/+BpPCLddzYu0/wA0BirwanIMDQ6
-         V9gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791692251; x=1792297051;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ze3tU5ClgmV//hWYQFqIt/MG2FODlVRCQlPbo8m5k9w=;
-        b=nISpFFxRUL0ssKOp86/zV7vJRuobtNGedEKqZrOJfFakXXOfKbB9fZ5Sz1ityZuE6j
-         iJ6rPMq1W912mrHoQbn7SsMYgDB01Y/n612oBVGb9zlXAA2HMpQL9UsmXwWxljSOnrBL
-         gfE0kR+AQEWkX8oaGHwUs5tbExccat9vcti8ocCqWDZIZPNoRnNden5cISJFaxXWGN/J
-         ycv+9wfsiX7WyLTCZHeFl9+aE2iGIhrrJvI+FhqJAZNhZ4T5DEqhvkvmZhvJJU76xMtw
-         PnnnuMYOHRkzY8qtdKzsebIRaTsWcv5Q0noaOVzXwZNphjfW3pYpMdeoNqcJzW77CO+s
-         6zEw==
-X-Forwarded-Encrypted: i=1; AKwUvBxvGwUejWtvbp8KcTFbkPq8vLj591F9Q8BNZuyWsFRLoHEILNvE0SrZ77cr/Jvu7YORxbrdgl6aJsM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJAL3uws74Mzy0c+xbtQJ8GkyFVkLaPNpXjyQEX3ldkRxAfTmz6
-	ePbHFeJElNGtaiVL1OggKBHyXOcq3/S9bc4BmqIwcTbUdUJuGAFfEmZuYn0H7eO3eXWPz3tsjWi
-	3FBe09tpVuLjcXXakFuMJJrC3NXlT/bY=
-X-Gm-Gg: AYBFou3eoncga6Wvlm/ZVsDcBkDgL+evF5ZS7c6K8zekY5H5afXbchHhhY7+MX/WGjE
-	UVtnAAUYbvBzV02Ny/xdoxxdQTQMEFAD2CYxi7tB+Nunb5dmkPRwE1r8iXQRhz7PclataRYLUE1
-	KXJJKyZNHlwgpC/zL6BAnHAL8cdhPkjjzScDCs2TjQEJp1+K/uBIfcAVchJbxwfBntIgWyNWbwV
-	Kbr+kaYRoW2Z1I7bQNnN7us14PgdT+AzMmo2CsWv92epuSlUgDFLFMwTFFOQek4OinhvvjrkXzL
-	lvYbHY3YHNaRR92+Ur21vu5I0vcGqhOxOZomELr2YMs+hhXh0+Rc7CrUGlOUcA6hIl+lCb8SFrR
-	6ePdzcoGLqUjREwT1i8rXTFc=
-X-Received: by 2002:a05:6808:1908:b0:4b9:a88b:8884 with SMTP id
- 5614622812f47-50c50f2e1f2mr6409320b6e.26.1791692250833; Sat, 10 Oct 2026
- 21:17:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KXosw2cZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 065AE1F0089B;
+	Sun, 11 Oct 2026 04:54:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791694493;
+	bh=vWOpBSCS1udYQ3hy2zw12wSExyc/yQfZqPU6W8OPAfg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=KXosw2cZOgvujbCmLVexvIQ88MgXKGnJpvYALKyTblILlUtb19ZIFF8yOFBdFYdym
+	 2sxZYSqFdTy0lZmaU0AnQJ1rua/6sDrm0TheRqYvIpYvTbTTFi9kkWFBlJ1O7hDTTZ
+	 uE4LmqZMqKXXpaZt2ofmA5ZBoJrqsG/U0DvoUL+OPtgHoWpRThYBXn1xvfJhtqUNJd
+	 PSqU8PjfXgSQbjoh5re6Bu465Raleng+tWMoOr7O/Iimf0R/5QCsgT+pKxT6/XiNVM
+	 Zop10xdjREeQ0nkGEuJczZsL9W95GGKxY0xgVUdRLvSjz5ddDgmwW5NZ/rtohss7nH
+	 lWzq9Jb4pxnYg==
+Message-ID: <sashiko-outbox-167008@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v19 01/13] phylink: Add phylink_mac_interrupt
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Birger Koblitz" <mail@birger-koblitz.de>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261010-ax88179a-v19-1-7475173cfb56@birger-koblitz.de>
+References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
+ <20261010-ax88179a-v19-1-7475173cfb56@birger-koblitz.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 11 Oct 2026 04:54:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20261005041525.49111-1-xinsheng.zhu.ny@gmail.com> <179134657946.434549.14071341559835135672@kernel.org>
-In-Reply-To: <179134657946.434549.14071341559835135672@kernel.org>
-From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
-Date: Sun, 11 Oct 2026 00:17:18 -0400
-X-Gm-Features: AclHuK8R4vcLcP0LXZ-tOoywSVJ8FWjq2V0QOjKOAR5xzmbA-pdI0ZnoHItcWRs
-Message-ID: <CAFGKm+zjOtU8WGpcqqb6_XnFd3vmPw2RszPig9PJzbq3Uqh_Lw@mail.gmail.com>
-Subject: Re: [PATCH net] net: usb: cdc_ncm: reject short GET_NTB_PARAMETERS responses
-To: netdev-bot+sashiko@kernel.org
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, oliver@neukum.org, andrew+netdev@lunn.ch, 
-	davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Thanks for the review.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] phylink: UAF and TOCTOU in phylink_mac_interrupt due to lockless p=
+hydev access
+--
 
-> Should this branch return a negative errno for short reads? For example:
->
->         return err < 0 ? err : -EIO;
+commit 667c3fb1a09bf0994b40559aee9027d3f9775442
+Author: Birger Koblitz <mail@birger-koblitz.de>
 
-Yes. I changed the condition without adjusting the return value and
-overlooked the zero-length case.
+phylink: Add phylink_mac_interrupt
 
-When usbnet_read_cmd() returns 0, the new branch returns 0 before the
-remaining initialization has run. cdc_ncm_bind_common() then treats that
-as success. This is a regression introduced by v1.
+Adds the phylink_mac_interrupt() function to phylink, passing link-change
+interrupts received by the MAC to phylib.
 
-I will fix this in v2 by preserving negative errors and returning -EIO
-for short responses, including zero-length responses:
+> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
+> index a7d086cdc9b25..a3ca7993eb7e0 100644
+> --- a/drivers/net/phy/phylink.c
+> +++ b/drivers/net/phy/phylink.c
+[ ... ]
+> @@ -1612,6 +1612,26 @@ static bool phylink_link_is_up(struct phylink *pl)
+>  	return pl->netdev ? netif_carrier_ok(pl->netdev) : pl->old_link_state;
+>  }
+> =20
+> +/**
+> + * phylink_mac_interrupt() - wrapper for phy_mac_interrupt()
+> + * @pl: a pointer to a &struct phylink returned from phylink_create()
+> + *
+> + * Passes a link-change interrupt received by the MAC to phylib.
+> + * This function may be called in interrupt context, and therefore canno=
+t take
+> + * a mutex. However, it is safe to assume that the reference to phy does=
+ not
+> + * disappear during the call, as only an SFP module may be unplugged to =
+make a
+> + * PHY disappear. SFP modules however do not support interrupts.
+> + */
+> +void phylink_mac_interrupt(struct phylink *pl)
+> +{
+> +	struct phy_device *phy;
+> +
+> +	phy =3D pl->phydev;
+> +	if (phy)
+> +		phy_mac_interrupt(phy);
 
-        if (err !=3D sizeof(ctx->ncm_parm)) {
-                dev_err(&dev->intf->dev, "failed GET_NTB_PARAMETERS\n");
-                return err < 0 ? err : -EIO; /* GET_NTB_PARAMETERS is
-required */
-        }
+[Severity: High]
+The function comment notes that SFP modules do not support interrupts. Howe=
+ver,
+when an SFP module is physically unplugged, the electrical link drops. Could
+this link drop trigger the MAC interrupt being handled here?
 
-> Is it intended that these responses now cause a probe failure for
-> cdc_ncm, cdc_mbim and huawei_cdc_ncm, which all share this bind path?
+If so, can this race with the concurrent SFP unplug worker and cause a
+use-after-free?
 
-Rejecting incomplete GET_NTB_PARAMETERS responses here was the intent,
-to avoid continuing initialization with parameters that the device did
-not provide.
+The SFP unplug worker concurrently clears the pointer without RCU
+synchronization:
 
-> Should it carry a Fixes: tag?
+drivers/net/phy/phylink.c:phylink_disconnect_phy() {
+    ...
+    pl->phydev =3D NULL;
+    ...
+}
 
-Yes. I will add the missing tag in v2:
+And then immediately frees the PHY device:
 
-Fixes: 36c35416a94f ("cdc_ncm: fix endianness problem.")
+drivers/net/phy/sfp.c:sfp_sm_phy_detach() {
+    ...
+    phy_device_free(sfp->mod_phy);
+    ...
+}
 
-Thanks,
-Xinsheng
+Because phylink_mac_interrupt() reads pl->phydev locklessly and without an
+RCU read-side critical section, is it possible for the interrupt to fetch t=
+he
+pointer right before the worker frees it?
 
-pw-bot: cr
+Additionally, does the lack of READ_ONCE() here allow the compiler to reload
+pl->phydev after the if (phy) check, potentially causing a time-of-check to
+time-of-use NULL pointer dereference?
 
-On Wed, Oct 7, 2026 at 12:16=E2=80=AFAM <netdev-bot+sashiko@kernel.org> wro=
-te:
->
-> Thank you for your contribution! Sashiko AI review found 3 potential
-> issue(s) to consider.
->
-> Critical: 0 =C2=B7 High: 1 =C2=B7 Medium: 0 =C2=B7 Low: 2
->
-> If you believe none of the issues are legitimate, please reply to each
-> issue of Medium severity or higher and explain why the AI is wrong.
-> If any of them are legitimate and you plan to respin, please let patchwor=
-k
-> know by including "pw-bot: cr" as a separate line at the end of your repl=
-y
-> (one such reply per series is enough).
->
-> - [High] In cdc_ncm_init() (drivers/net/usb/cdc_ncm.c:527-529), the new
->   check `if (err !=3D sizeof(ctx->ncm_parm)) { dev_err(...); return err;=
-=E2=80=A6
-> - [Low] The patch makes any GET_NTB_PARAMETERS response shorter than 28
->   bytes fatal to bind (cdc_ncm_bind_common() -> error2 -> -ENODEV).
-> - [Low] The commit message describes a defect: cdc_ncm_init() only
->   checked `err < 0`, so initialization continued with an incomplete=E2=80=
-=A6
->
-> --
->
-> net: usb: cdc_ncm: reject short GET_NTB_PARAMETERS responses
->
-> This patch changes the GET_NTB_PARAMETERS check in cdc_ncm_init() from
-> err < 0 to an exact-length comparison against sizeof(ctx->ncm_parm). The
-> goal is to reject short responses instead of continuing initialization
-> with zero-filled NTB parameters.
->
-> > Require the return value to equal sizeof(ctx->ncm_parm), consistent wit=
-h
-> > the existing exact-length check for GET_MAX_DATAGRAM_SIZE in
-> > cdc_ncm_set_dgram_size().
-> >
-> > Signed-off-by: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
->
-> [Severity: Low]
-> This isn't a bug, but this fixes the unchecked response length in
-> cdc_ncm_init(). Should it carry a Fixes: tag pointing at the commit that
-> added the err < 0 check, so stable backporters can follow it?
->
-> > diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-> > index 35db38cb3e4a2..66f40f0d9c273 100644
-> > --- a/drivers/net/usb/cdc_ncm.c
-> > +++ b/drivers/net/usb/cdc_ncm.c
-> > @@ -524,7 +524,7 @@ static int cdc_ncm_init(struct usbnet *dev)
-> >                             |USB_RECIP_INTERFACE,
-> >                             0, iface_no, &ctx->ncm_parm,
-> >                             sizeof(ctx->ncm_parm));
-> > -     if (err < 0) {
-> > +     if (err !=3D sizeof(ctx->ncm_parm)) {
->
-> [Severity: Low]
-> With this check, any response shorter than sizeof(ctx->ncm_parm) now make=
-s
-> bind fail. There is no fallback, and the wLength the device reports is no=
-t
-> used.
->
-> Before this patch, short responses were accepted. The zero-filled fields
-> were then sanitized by cdc_ncm_fix_modulus(), by
-> cdc_ncm_check_rx_max()/cdc_ncm_check_tx_max(), and by the
-> tx_max_datagrams =3D=3D 0 default.
->
-> The commit message calls this "consistent with the existing exact-length
-> check for GET_MAX_DATAGRAM_SIZE in cdc_ncm_set_dgram_size()". That check
-> is not fatal, though:
->
->         if (err !=3D sizeof(max_datagram_size)) {
->                 dev_dbg(&dev->intf->dev, "GET_MAX_DATAGRAM_SIZE failed\n"=
-);
->                 goto out;
->         }
->
-> No device that sends a short response has been identified. That makes
-> this a compatibility question, not confirmed breakage. Is it intended tha=
-t
-> these responses now cause a probe failure for cdc_ncm, cdc_mbim and
-> huawei_cdc_ncm, which all share this bind path?
->
-> >               dev_err(&dev->intf->dev, "failed GET_NTB_PARAMETERS\n");
-> >               return err; /* GET_NTB_PARAMETERS is required */
->                         ^^^
->
-> [Severity: High]
-> What happens when the device ends the GET_NTB_PARAMETERS data stage with
-> a zero-length packet? usbnet_read_cmd() then returns 0. Does this branch
-> log "failed GET_NTB_PARAMETERS" and still return 0, which the caller read=
-s
-> as success?
->
-> __usbnet_read_cmd() passes the usb_control_msg() length through unchanged=
-:
->
-> drivers/net/usb/usbnet.c:__usbnet_read_cmd() {
->     ...
->         err =3D usb_control_msg(dev->udev, usb_rcvctrlpipe(dev->udev, 0),
->                               cmd, reqtype, value, index, buf, size,
->                               USB_CTRL_GET_TIMEOUT);
->         if (err > 0 && err <=3D size) {
->     ...
->         return err;
-> }
->
-> cdc_ncm_bind_common() only treats a non-zero return as a failure:
->
->         if (cdc_ncm_init(dev))
->                 goto error2;
->
-> So bind would continue, but the rest of cdc_ncm_init() never runs.
-> SET_CRC_MODE and SET_NTB_FORMAT are never sent. ctx->is_ndp16,
-> ctx->tx_max_datagrams, ctx->max_ndp_size and ctx->timer_interval all keep
-> their zero values from the kzalloc.
->
-> With ctx->tx_max_datagrams =3D=3D 0, this loop in cdc_ncm_fill_tx_frame()
-> never runs:
->
->         for (n =3D ctx->tx_curr_frame_num; n < ctx->tx_max_datagrams; n++=
-) {
->
-> Each incoming skb then goes to the "free up any dangling skb" block, gets
-> freed and is counted in tx_dropped.
->
-> On the RX side, is_ndp16 is 0, so cdc_ncm_rx_fixup() calls
-> cdc_ncm_rx_verify_nth32(). The device was never sent SET_NTB_FORMAT, so i=
-t
-> is still using its default NTB16 format.
->
-> With CDC_NCM_FLAG_NDP_TO_END set, kzalloc(ctx->max_ndp_size) with a size
-> of 0 returns ZERO_SIZE_PTR. That passes the NULL check in
-> cdc_ncm_bind_common(), so the problem is not caught there either.
->
-> Before this patch, a zero-length response went through the full
-> initialization with sanitized defaults. Isn't this a regression for the
-> zero-length case? Short reads of 1 to 27 bytes do fail bind, but only
-> because the positive byte count is non-zero.
->
-> Should this branch return a negative errno for short reads? For example:
->
->         return err < 0 ? err : -EIO;
->
-> >       }
->
-> --
-> Sashiko AI review =C2=B7 https://netdev-ai.bots.linux.dev/sashiko/#/patch=
-set/20261005041525.49111-1-xinsheng.zhu.ny%40gmail.com
+> +}
+> +EXPORT_SYMBOL_GPL(phylink_mac_interrupt);
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261010-ax88179a-v=
+19-0-7475173cfb56@birger-koblitz.de?part=3D1
