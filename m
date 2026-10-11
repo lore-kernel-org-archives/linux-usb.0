@@ -1,139 +1,135 @@
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59A81C5D5E;
-	Sun, 11 Oct 2026 05:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=23.88.97.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EC6B3DBD49
+	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 06:32:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791696782; cv=none; b=bfncJNmS/ddJaJpyi5zaItKz02JR7o5faAsJkXUvoeQbWMQGG4fzdDqGXq4Kva8Ua5UVpUPXLEHk69pfCls8kFUYgtAK28IiUUyJ8o3Ecadt++O8uzAvQ/cLGU0jcXCIBeCpOhtCYtD6GHNgjlVmR1yyYeqGLB6D56r8RMSdZKU=
+	t=1791700341; cv=none; b=HZSlvGoEdaj5++eYqFpgLgZO/DHt4e9zi35ddK29gqGf3jAznevkpLHVUTT1OFqI4IzpGvenmnHUEYLMxqGbPzxNyI+QYYcNNhWlIaaIBiFNwoNdUJYzBzUygYhxstl1N+vwR9JhsMzivMDCdvI+d89pC8n6PHy8cEvXN2ngw90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791696782; c=relaxed/simple;
-	bh=W9RvR/XI0sTjGWT17IQav5iU/yf/psweZkbaR2ucR2Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=klRBK9FQIis8A1ZaIIumaBWM1iop1xFrJyOvmNbko4mC8UIGq6k6pYWl+iLahnFeTZ3xwzKC2wtkiObNJnddj2Cb3fU9kLhRdc0C2ColGD+3Aqo/tB5tIisf+36ffrXtrkxO4w0UEUcRK5WrS2XI5HpUY9xWZkSZKNZ7rqx1i+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de; spf=pass smtp.mailfrom=birger-koblitz.de; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=OlB2BMiD; dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b=Ga7Qtsmd; arc=none smtp.client-ip=23.88.97.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	s=arc-20240116; t=1791700341; c=relaxed/simple;
+	bh=+1EKumLLM0yydrlYEykW9gU3C+PSS2ko0hjEWumo2ps=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=i/+gIvseqi8SugZ26lIl/AuwBAA4CdWmXe15+pjRSGCWP0h7qJRqpEUELOv3eaVKvV37LzitbSBBVq/gsQ0zI6emP4U1haejajh9EkI8Ya1ao7KNU9C83w6bvuxjvlsEDfrlbkbCXPBCbKJ2lovSobA5YAk7lSMvwyk5xvU6svA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lPEDi0fm; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="OlB2BMiD";
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.b="Ga7Qtsmd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791696773;
-	bh=W9RvR/XI0sTjGWT17IQav5iU/yf/psweZkbaR2ucR2Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OlB2BMiDCpFHfsjkWBTYCxlSmXfgKEB/QvA6ldTtloG6ITzsG4PdSYb/ntAifog41
-	 iB9EtQW8ykOqjFbWlEmi8SqKuA9ZY0zlOmS3SMwq4Az+7TFQtx38ogyTjhzbwMPV2u
-	 ivmqjN1s3MfcNk7tPIcv04dCRnhQEOEKWAeYk+cUxTk2x++6/XFAKaNjfLG3nnaJCn
-	 xAw71VM4+7n6Qyn3WWrvyejZbx7iqs8jFiCD+v/jIrdwV98aQngmKquZaaiXH+aAa8
-	 u+F6EbB6XOl9bK789kQfOd5063qvXZ8fVNU/N/a3SwcKgu/P9t7OLOn4AKNX2VN/mV
-	 9nmai7Rnud+Cw==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 957AE481C9; Sun, 11 Oct 2026 05:32:53 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1791696772;
-	bh=W9RvR/XI0sTjGWT17IQav5iU/yf/psweZkbaR2ucR2Q=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ga7QtsmdWUYCDqTN6I/h3UkDL7pR6xvZGksXybZcmUehD0bZh0zc6U7t9hjVEiLTe
-	 1TIJs81q8I56AusbvjsA/NKz7J5NFRpNYSY/kf59uaGw7yq0AOBlI7E3XGOK7Iz74s
-	 OtsqXbrBPT7p+Oz3TWW4H7Pgm6gbpeDrzXQXS57gVFLPpxJqrHB8+qF3Vy/GbISI0A
-	 KMv4zrAogGFS/nIzheBZ5lzv9w5xb3nuY/aTnHCnzrz9CSplElaH6wxiFgL0M3si0Z
-	 5VXsA7egyt6IZCXwpukM0ARqWv222BWbjVQVsJSFZkP4cSVP9pE5hSOzMh1AjV8mMe
-	 U7XmFvE3bQwpg==
-Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 8F36B475D3;
-	Sun, 11 Oct 2026 05:32:52 +0000 (UTC)
-Message-ID: <acada24c-903e-49ea-be04-879fedbfa08b@birger-koblitz.de>
-Date: Sun, 11 Oct 2026 07:32:52 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lPEDi0fm"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-486e8faff03so369831f8f.1
+        for <linux-usb@vger.kernel.org>; Sat, 10 Oct 2026 23:32:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791700339; x=1792305139; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=KHnv3RyK6B3mY8+dpKdxgwL8T80d95Zy3h96qwK+OUY=;
+        b=lPEDi0fmBg4tcRhhpmmP2WyFme9JwgkjoXg+UZTrtNtagxW6PqJrf+qEr23Jk3dJU+
+         mGWY4OCXVOfVenjEDZ+Vl4ioCxeNEoFUtR1jTFeRdHS4z9SIkI1vVSe3R/ScOQm+fWVG
+         gQbvFg+jmN7YdDzncNxU3d/ILkVyfDnVTi8hurOdHgqWfny+89DPVdoecFsK5EMB7Nb1
+         GzzOKVwDB/hun7qlIw1bu+UOSpuIo7IHwZug0d39P2AR8BO+hxOa/9cvqZFdubpspDgB
+         BxVmnk8iYvGxqmPDd0D7lUJYODUDF6VOZLql0ukGyrZfAWLqXVmpszHzuJJ8+qB96Z94
+         NL/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791700339; x=1792305139;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=KHnv3RyK6B3mY8+dpKdxgwL8T80d95Zy3h96qwK+OUY=;
+        b=Wbb4H5NXQijL7LHLXWWDRjo942xuwYmtYol6RX4INnEjp9L5GFWDW8fWitBjyiScTM
+         Dbt35MT9A2cdX4xR9Mdv1ds53wG9+2W0Cfb3R6ocuMSFfznNkDOYSY2EVmPHYpF4pXj0
+         ROp6BDrdl/wmvx+9nEw3J7lHchXqwpB0LJEpu0bQq7/2UyOIHa+LHGXzRtSYEFVgsFKV
+         oQALiXoaGkR+hmi20+tued3dTipPdJ4dibW1EXbHiuvQEaLsVGBrn1FDXsCUHHkD3Dsm
+         1CQFXh4tMo7rfWO3laU0K+PafDziELSHv/giAyKsnDNFOApICqcrpubgA/Wq8utAV1Cs
+         AVHg==
+X-Forwarded-Encrypted: i=1; AKwUvBwbUIw2TnVqzJ/ju0DreCmu1G1bTWbRUzkjgsQX1NiPnJt4Dp3ROTIE42OGqgCrWbwExlMmA8cl8PY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJlmC8p69zDH/DHPQq1nOMfydES762fTt82Hp3vTiLP3J/rhjnC
+	sfc1yqEWIGMfV3LF8nzNOxz6jHSyMPjxvQUcYIGvXOdhz4fPl3BF4W0m
+X-Gm-Gg: AYBFou3QGNvEikGmyyeA5O33bGuy/syF+qn5zOv39bzpnK30lLRkoTVsvvCTYtBv1q+
+	AkesRaXRKSEL/VD8SmdFTO6bBw4H2nWNpeUNVss7Q86vpob3IQOsW0SR9gjbX5zk3wde01K6WN9
+	ksJJt1PxWAYziRxOztLu60oK04DQ46X/ayyKn1Lbz/e5e95lA6l+lkG2Wjy/O6bs/4MPDo9Pi1H
+	Q+4pmzGgj6eRwJ1AfwG+WpF7Qjs6n4h04qVVNg3gAZElVahRm/o14mDNq2MBryuElxsyT9RE4h2
+	u4Hr4MthoCawK2af0YpWWWynY6z4r+92WknaKVOsGOt8/aiffzP/T5l9nq/W5mPTs1sWyFJLMlG
+	K4Cb4YFZcPQJanCGRFw4Ukt1wWlfdA7PHWwA50jNiMcOtOvqtNnSrlB93kFlhmoOD5BDW/RNn/1
+	k60hpYiE13B1lks1rG9bu36ano7hz8JtVQz2cLmugu3M6O6Q4x2ACjP+UZRz8dYl2FGm2qWEUrT
+	bqM6noTVg==
+X-Received: by 2002:a05:600c:3f0c:b0:4a0:1723:2d8e with SMTP id 5b1f17b1804b1-4a18e44691emr129270315e9.2.1791700338567;
+        Sat, 10 Oct 2026 23:32:18 -0700 (PDT)
+Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a197c465b4sm58340845e9.3.2026.10.10.23.32.17
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 10 Oct 2026 23:32:18 -0700 (PDT)
+Date: Sun, 11 Oct 2026 08:32:13 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Fabio Estevam <festevam@gmail.com>
+Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+ bhelgaas@google.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org, Babu Moger
+ <babu.moger@oracle.com>, Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH v3] usb: xhci-pci: Add TUSB73x0 definitions
+Message-ID: <20261011083213.1486acaa.michal.pecio@gmail.com>
+In-Reply-To: <20261009125154.266435-1-festevam@gmail.com>
+References: <20261009125154.266435-1-festevam@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v19 01/13] phylink: Add phylink_mac_interrupt
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-usb@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>,
- Eric Dumazet <edumazet@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>,
- Jakub Kicinski <kuba@kernel.org>
-References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
- <20261010-ax88179a-v19-1-7475173cfb56@birger-koblitz.de>
- <sashiko-outbox-167008@kernel.org>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <sashiko-outbox-167008@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 11/10/2026 6:54 am, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] phylink: UAF and TOCTOU in phylink_mac_interrupt due to lockless phydev access
-> --
+On Fri,  9 Oct 2026 09:51:54 -0300, Fabio Estevam wrote:
+> Instead of hard-coding the TUSB73X0 PCI ID, USB_CTRL register address
+> and the PWRON_POLARITY, introduce definitions for them to make the code
+> easier to read.
 > 
-> commit 667c3fb1a09bf0994b40559aee9027d3f9775442
-> Author: Birger Koblitz <mail@birger-koblitz.de>
+> No functional change.
 > 
-> phylink: Add phylink_mac_interrupt
+> Signed-off-by: Fabio Estevam <festevam@gmail.com>
+> ---
+> Changes since v2:
+> - Move the TUSB73x0 PCI device ID to the shared PCI ID header and use it
+>   in pci-quirks.c too, as suggested by Sashiko.
 > 
-> Adds the phylink_mac_interrupt() function to phylink, passing link-change
-> interrupts received by the MAC to phylib.
+> Changes since v1:
+> - None. Only sent it as a standalone patch instead of part
+>   of a series.
 > 
->> diff --git a/drivers/net/phy/phylink.c b/drivers/net/phy/phylink.c
->> index a7d086cdc9b25..a3ca7993eb7e0 100644
->> --- a/drivers/net/phy/phylink.c
->> +++ b/drivers/net/phy/phylink.c
-> [ ... ]
->> @@ -1612,6 +1612,26 @@ static bool phylink_link_is_up(struct phylink *pl)
->>   	return pl->netdev ? netif_carrier_ok(pl->netdev) : pl->old_link_state;
->>   }
->>   
->> +/**
->> + * phylink_mac_interrupt() - wrapper for phy_mac_interrupt()
->> + * @pl: a pointer to a &struct phylink returned from phylink_create()
->> + *
->> + * Passes a link-change interrupt received by the MAC to phylib.
->> + * This function may be called in interrupt context, and therefore cannot take
->> + * a mutex. However, it is safe to assume that the reference to phy does not
->> + * disappear during the call, as only an SFP module may be unplugged to make a
->> + * PHY disappear. SFP modules however do not support interrupts.
->> + */
->> +void phylink_mac_interrupt(struct phylink *pl)
->> +{
->> +	struct phy_device *phy;
->> +
->> +	phy = pl->phydev;
->> +	if (phy)
->> +		phy_mac_interrupt(phy);
+>  drivers/usb/host/pci-quirks.c | 3 ++-
+>  drivers/usb/host/xhci-pci.c   | 9 +++++++--
+>  include/linux/pci_ids.h       | 1 +
+>  3 files changed, 10 insertions(+), 3 deletions(-)
 > 
-> [Severity: High]
-> The function comment notes that SFP modules do not support interrupts. However,
-> when an SFP module is physically unplugged, the electrical link drops. Could
-> this link drop trigger the MAC interrupt being handled here?
+> diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+> index ba158d63bb8b..f670e7aab984 100644
+> --- a/drivers/usb/host/pci-quirks.c
+> +++ b/drivers/usb/host/pci-quirks.c
+> @@ -1189,7 +1189,8 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+>  	val = readl(base + ext_cap_offset);
+>  
+>  	/* Auto handoff never worked for these devices. Force it and continue */
+> -	if ((pdev->vendor == PCI_VENDOR_ID_TI && pdev->device == 0x8241) ||
+> +	if ((pdev->vendor == PCI_VENDOR_ID_TI &&
+> +	     pdev->device == PCI_DEVICE_ID_TI_TUSB73X0) ||
 
-The way this code-review is done by whoever handles the AI is absolutely 
-not OK. The same patch was considered to be free of errors in the 
-previous round. Now something is brought up that has been discussed ad 
-nauseam before, including an analysis by Andrew, and found correct.
-The minimum I expect is that emails relating to the patches are being 
-looked at and also understood!
+You mentioned working with TUSB7340 before. Was there any board
+firmware involved which made use of this chip before the OS?
 
-Additionally, the AI spits out vast amounts of issues in code-paths for 
-older hardware. Issues that I do not intend to fix, because I simply do 
-not have that hardware to test. Still, reviewing these "issues" takes 
-large amounts of time and even when I complain, the same or similar 
-issues are raised again in the next round.
+I'm looking for someone who can tell whether this line should be
+touched at all or deleted. It was added by c289d0eff3d5a, which
+is very suspicious - it mentions "cards" (like in "PCIe expansion
+cards") and adds two IDs in one go. I feel it could be a BIOS bug
+affecting all cards and no problem with those chips.
 
-The "issues" raised by the AI have become more and more absurd and 
-trying to fix them does not really improve code quality, because of 
-possible introduction of new issues and regressions.
+[Adding the author in case he remembers what happened there.]
 
-I am not going to look further through this AI review as the benefit to 
-effort ratio seems tiny. The code has been tested in-depth. It has been 
-reviewed by several humans. Unless a human steps in and tells me that 
-something really needs to be fixed, at this point it is as good as it gets.
+For example, can a PCIe card raise SMI interrupts? AFAIK it can't.
+But if a BIOS thinks otherwise, and enables "SMI on OS ownership
+request", it will never learn about our request, so the handoff
+times out and falls into the "forced" branch. Or the BIOS may not
+rely on this but poll the card, and then "forget" about polling.
 
-Birger
-
+Regards,
+Michal
