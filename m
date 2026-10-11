@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD0C633BBCD
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:54:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 831BA3C8700
+	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791694497; cv=none; b=J/+Llz1ZwV0vcBycgQjPGKJWAWxCBLIi1lAfI1wgeJ/ReGEZE4R1bH9rqkq66gUuvV8pk5T9tJsnE84mEM4KJCMo+8+fUgAWjRgCiP9U0KeYwzg5e/eRqjYFiSarKySTXTU1Nw1hevytW0JMCsOX2fZ8yeRUJec6SpYaxBBk8Ao=
+	t=1791694498; cv=none; b=Zds0oprw73CpBf2bMj30XI7jCxpCKQhwu3ZjBjkv0gV/y+RIXOalKBz3eGzFthzH1f0NzC2VlLZvnGkipTVYcbNLj3jkZuXNaFTnixwRPyudpoRzLcyFjIlixTJPlMnLNuMLol9+athI1GdVBrbs4PmPp2QnNHDpVss5pRHKrLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791694497; c=relaxed/simple;
-	bh=VUEYnU7xVnlUZi6FDiKLRq3XGNJhwX06wDMoZCxbq80=;
+	s=arc-20240116; t=1791694498; c=relaxed/simple;
+	bh=rE+w2/QbDZ/FaRvmsOPRJySPK55fLIFgykpLJfdfIQk=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=O5K7lEpnSxxMdt6x899iaxDdh5/vOCc9D2yjoZjRHQLl5zIQpCPJYtKMWi2DlYN0SywiRvi7rpRkkLYC1u71ruea7IiE2zA7mmtZZlvEReGvRhbQ1menTP5qqMzRz8V26bD27u5IjbLl/cnBA4+XmxGFQK3POAVWSNPukAIXIsM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1nbf1dl; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=Jltzl4dAwpPcvi31oth4EnaIMPFMij/vdJ7c5UIpqYCzSm+mMJsNcN4/xTDLky8n06QQM0yFNFHOI/aZ/6W2onMWyezY6jCbeDT8T32PQF4F2txocGTlCELxRZTB4ThFSbonEqsSxkZwtZIrTui8oMYg3HdE2sMxfU+mQSlbJ+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MAu7KYQc; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R1nbf1dl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8535B1F0089D;
-	Sun, 11 Oct 2026 04:54:56 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MAu7KYQc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41CE51F0089B;
+	Sun, 11 Oct 2026 04:54:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791694496;
-	bh=XsLk3HA8CmCGs0VifvFzLmnTkr91B5l2WTVor17bYVI=;
+	s=k20260515; t=1791694497;
+	bh=8fRz8aDVr4MXitPk52JA5rQ8hUeG0ZmSYk0d/nvJUJY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=R1nbf1dlmOhJ99cOg2LENd+jUVJ25NLH8axps5ghcp2iMJz74lWAV2zbGw8i8XEIn
-	 0/D2ykIcvx3x8u8Nwd/+Zh9YQObPVDloQJKqTCnNsZT7TKvs8zJdicdFiDbWA/5OX8
-	 m+lubfNYzX7Arsl2ix78HituHkhu3mYiZSZP79J9cmL87nAqPaftQ6u4nZ989Druly
-	 T7Jpl1LbBhQQVNr7NVozYkfBJ2Ub7EqoX1bjpeL88TBAT5JHuUPiU3eiKD9JiA25sN
-	 JAiZkPUsaA6hCif9B7+pDHJKbKkwu3o5yw9Ct/XXkMa7snGYKEfh8cMPxMMRGnh1yt
-	 ByrHTgFPvM8nw==
-Message-ID: <sashiko-outbox-167013@kernel.org>
+	b=MAu7KYQct/3YBoxHwfnocHAxL8Rkt3E1L6Q+1Ascj5QenPJcH07E8+xC/prz8DbS/
+	 C3o2I+zx+L2Sg4PhRihIYWkVTF0YhfL9+LKrTTgcVItwvI7qkC5Mqnb13Jku0MkPEg
+	 rXweToeWn90xnACOuqW7qk8OHt6mtUplojvyU9PfhKTv3USB8wXULzfivSJW0XNoEN
+	 Ofw51m+A/7BKKmTYP8vJ2O6q/VQ0ngargvccEU31ArgKhVsEPwiTbFGPOuTMJBJ0yQ
+	 GVp7Ch7IOlSU4N0FSk4fdoZzxDg8yrybhSZB80fOqLcKemYdVEXRihwEfS21kMRunX
+	 pkyNQXFgEMfSA==
+Message-ID: <sashiko-outbox-167014@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v19 09/13] ax88179_178a: Add Suspend/resume
- support for AX88179A/772D/279
+Subject: Re: [PATCH net-next v19 02/13] phylib: Add support for PHYs with
+ broken forced mode
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261010-ax88179a-v19-9-7475173cfb56@birger-koblitz.de>
+In-Reply-To: <20261010-ax88179a-v19-2-7475173cfb56@birger-koblitz.de>
 References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
- <20261010-ax88179a-v19-9-7475173cfb56@birger-koblitz.de>
+ <20261010-ax88179a-v19-2-7475173cfb56@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Sun, 11 Oct 2026 04:54:56 +0000
@@ -45,142 +45,77 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] net: Missing MAC address hardware restore during device resume
-- [Medium] net: Unchecked read from hardware registers clobbers state on su=
-spend
-- [Medium] net: usb: ax88179_178a: dropped error code in ax88179a_resume()
-- [Medium] net: ax88179_178a: unaligned memory access in ax88179a_reset()
+- [High] phy: C45 MDIO writes falsely trigger C22 register handlers corrupt=
+ing state
+- [High] phylib: NULL pointer deref due to TOCTOU race on phydev->drv
 --
 
-commit 899b3b4428f2b801666bb023701af9a492e4e1b0
+commit f3ec63e34d550025dac6b66482995851d8d99969
 Author: Birger Koblitz <mail@birger-koblitz.de>
-Subject: ax88179_178a: Add Suspend/resume support for AX88179A/772D/279
 
-The suspend and resume functions are called via the usb_driver structure,
-for which the driver has only a single instance. Add wrapper functions
-for the different implementations for the AX88179 and AX179A architecutres
-in ax88179_lib which calls the 2 implementations in ax88179_178a and
-ax88179a_devices, respectively.
+phylib: Add support for PHYs with broken forced mode
 
-> diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179=
-a_devices.c
-> index a6b0a3f47118c..01d6a35f68b2c 100644
-> --- a/drivers/net/usb/ax88179a_devices.c
-> +++ b/drivers/net/usb/ax88179a_devices.c
+This commit adds support for PHYs which only support auto-negotiated speed
+modes. This prevents a kernel warning and stack-trace within the
+phy_state_machine when PHYs return -EOPNOTSUPP from config_aneg() because
+they do not support forced modes.
+
+> diff --git a/drivers/net/phy/phy.c b/drivers/net/phy/phy.c
+> --- a/drivers/net/phy/phy.c
+> +++ b/drivers/net/phy/phy.c
+
 [ ... ]
-> @@ -126,6 +128,63 @@ static void ax88179a_status(struct usbnet *dev, stru=
-ct urb *urb)
->  	phylink_mac_interrupt(data->phylink);
->  }
-> =20
-> +static int ax88179a_suspend(struct usb_interface *intf, pm_message_t mes=
-sage)
-> +{
-[ ... ]
-> +	/* Enable WoL */
-> +	if (priv->wolopts) {
-> +		ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD, 1, 1, &tmp8);
-> +		tmp8 &=3D ~(AX_MONITOR_MODE_RWLC | AX_MONITOR_MODE_RWMP);
 
-[Severity: Medium]
-What happens if ax88179_read_cmd() fails due to a transient USB error?
-
-It appears tmp8 could be zeroed out by the failure, which would cause the
-subsequent bitwise operations and ax88179_write_cmd() to clear all other
-configured bits in the AX_MONITOR_MOD register, potentially corrupting the
-device state.
-
-> +		if (priv->wolopts & WAKE_PHY)
-> +			tmp8 |=3D AX_MONITOR_MODE_RWLC;
-> +		if (priv->wolopts & WAKE_MAGIC)
-> +			tmp8 |=3D AX_MONITOR_MODE_RWMP;
-> +
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD, 1, 1, &tmp8);
-> +
-> +		ax88179_read_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, &tmp=
-16);
-> +		tmp16 |=3D AX_MEDIUM_RECEIVE_EN;
-
-[Severity: Medium]
-Similarly, could an unchecked failure of ax88179_read_cmd() here result in
-tmp16 being written back as just AX_MEDIUM_RECEIVE_EN, unintentionally
-clearing other bits in AX_MEDIUM_STATUS_MODE?
-
-> +		ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, &tm=
-p16);
-> +
-[ ... ]
-> +static int ax88179a_resume(struct usb_interface *intf)
-> +{
-[ ... ]
-> +	ax88179_write_u8(dev, AX88179A_PHY_POWER, 0, 0, 0);
-> +	msleep(250);
-> +
-> +	ax88179a_reset(dev);
-
-[Severity: Medium]
-Could this new call to ax88179a_reset() during resume trigger unaligned
-memory accesses?
-
-Looking at ax88179a_reset(), the driver casts a 1-byte aligned u8 array to a
-u16 pointer:
-
-	u8 buf[5];
-	tmp16 =3D (u16 *)buf;
-	*tmp16 =3D AX_MEDIUM_RECEIVE_EN | ...
-
-Is there a risk this could cause alignment faults on architectures that do
-not support unaligned accesses natively?
-
-> +
-> +err_out:
-> +	if (netif_running(dev->net)) {
-> +		rtnl_lock();
-> +		phylink_resume(ax179_data->phylink);
-> +		rtnl_unlock();
-> +	}
-> +
-> +	ax88179_set_pm_mode(dev, false);
-> +
-> +	return usbnet_resume(intf);
-
-[Severity: Medium]
-If the hardware initialization fails (for example, if ax88179_read_cmd fails
-and jumps to err_out), the error code in ret seems to be discarded here
-because this function always returns the result of usbnet_resume(intf), whi=
-ch
-is 0.
-
-Should we return ret to properly inform the PM core of the failure?
-
-> +}
-[ ... ]
-> @@ -1055,9 +1166,13 @@ static int ax88179a_reset(struct usbnet *dev)
->  	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_SWP_CTRL, 1, 0);
->  	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_TX_HDR_CKSUM, 1, 0);
-> =20
-> -	/* Read MAC address from DTB or asix chip */
-> -	ax88179_get_mac_addr(dev);
-> -	memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
-> +	/* Read MAC address from DTB or asix chip, except when called
-> +	 * from resume context.
-> +	 */
-> +	if (!ax179_data->in_pm) {
-> +		ax88179_get_mac_addr(dev);
-> +		memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
-> +	}
+> @@ -354,6 +354,9 @@ int phy_mii_ioctl(struct phy_device *phydev, struct i=
+freq *ifr, int cmd)
+>  			switch (devad) {
+>  			case MII_BMCR:
+>  				if ((val & (BMCR_RESET | BMCR_ANENABLE)) =3D=3D 0) {
+> +					if (phydev->drv &&
+> +					    (phydev->drv->flags & PHY_BROKEN_FORCED))
+> +						return -EOPNOTSUPP;
 
 [Severity: High]
-Does skipping ax88179_get_mac_addr() during resume prevent the hardware MAC
-address from being restored?
+Can this unlocked check on phydev->drv lead to a NULL pointer dereference?
 
-After a reset_resume, hardware state is lost. If ax88179_get_mac_addr() is
-skipped because in_pm is true, it seems the software dev_addr is never
-programmed back into the hardware AX_NODE_ID registers, leaving the hardware
-filter with its EEPROM default MAC.
+If a concurrent sysfs unbind calls phy_remove() and sets phydev->drv =3D NU=
+LL
+without holding rtnl_lock or phydev->lock, the compiler might fetch
+phydev->drv to verify it is non-NULL, and then fetch it again to read flags.
+This double-fetch could result in a NULL pointer dereference if the pointer
+is cleared between the two operations.
+
+Also, for C45 accesses in phy_mii_ioctl(), devad holds the MMD address but
+is matched against C22 register definitions like MII_BMCR (which is 0).=20
+
+Does adding this early return mean a C45 write to MMD 0 (with zeroed reset
+and anenable bits) will now incorrectly hit this C22 handler and fail with
+-EOPNOTSUPP?
+
+[ ... ]
+
+> @@ -1190,6 +1193,10 @@ int phy_ethtool_ksettings_set(struct phy_device *p=
+hydev,
+>  	      duplex !=3D DUPLEX_FULL)))
+>  		return -EINVAL;
+> =20
+> +	if (autoneg =3D=3D AUTONEG_DISABLE && phydev->drv &&
+> +	    (phydev->drv->flags & PHY_BROKEN_FORCED))
+> +		return -EOPNOTSUPP;
+
+[Severity: High]
+Does this present the same time-of-check to time-of-use race as above?
+
+A sysfs unbind could set phydev->drv to NULL between the NULL check and the
+flags dereference, since ethtool operations and unbind operations do not
+share a common lock here.
+
+> +
+>  	mutex_lock(&phydev->lock);
+>  	phydev->autoneg =3D autoneg;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261010-ax88179a-v=
-19-0-7475173cfb56@birger-koblitz.de?part=3D9
+19-0-7475173cfb56@birger-koblitz.de?part=3D2
