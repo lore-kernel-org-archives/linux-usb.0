@@ -1,70 +1,153 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54CFA369D5E
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 07:27:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 885DA175D53
+	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 07:33:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791703671; cv=none; b=M40bQkVCtRflquGzwTB3/eIy0WHLrlDiVhqRO/m34nOG+jANsxb2afmpPYxsccnIvVXqloXiXGOkcMc3umI1gF/slw5gZ6WEo/cINEoaFYlrQU5u7nDfA5J9ltfBcxEiVVwMBunQe4qdLvPqGHPpIhZ2ZoEGBvR8wBqBlNctDKQ=
+	t=1791704009; cv=none; b=aKAPZfyyItttWzqNw1qknZDJmeOBLrumewiqKahfxr/lFHnbs3GbwCLYnA6Jl5OoGQE5NnrIv2Tov4VP1ePJ6cliMU7K/4ATOnbkhRJsYx/nZjgQMBs5xY4fu9KGRCKgBCfP3+Dxz89ctz/BEHp6qRzV6Mnf+toaAbuacfBe2bo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791703671; c=relaxed/simple;
-	bh=XU4F5JdUyXU/OHxofTCDM3sUc4q0gQ6tEMC1hg3M/5U=;
+	s=arc-20240116; t=1791704009; c=relaxed/simple;
+	bh=CheoF9/AdgVekbXhWoqk2b/EU1tctIhyTUoj6jnOFYI=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=pksnOdNGm+Vp745cjDwx6KCSpFa+Y5FyHD2BXFaiBBYHfZGt0VihZH81gymUgna6/qXa5YhqYufjGN2TmVicIUPrag35t9OMpyUaqvIrjuMGTJWG+RekdI9ZgZTPZUB86seDg1obyyPis7ww/hg6Vww9jMEuUUwGe2h6ht6UyFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SZED1wJV; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=q33V8lC7sZc8fAQGq6CjfzDpDlkizj4Z9OZhZfZPBQoNraPQQjwFUVxcVbGrSMtfFepoA4/Eqogr5L2YQ37NvmzWbkY5Nm3FG9lieay3oWbk71BmSowm86q4WfO0IsN0A9QM8ojO0aurFeodR0m//YCafnNKNeAcfD4anbUKUb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jhu9+dB/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SZED1wJV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCE971F0089B;
-	Sun, 11 Oct 2026 07:27:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jhu9+dB/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E328C1F0089B;
+	Sun, 11 Oct 2026 07:33:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791703669;
-	bh=XU4F5JdUyXU/OHxofTCDM3sUc4q0gQ6tEMC1hg3M/5U=;
+	s=k20260515; t=1791704008;
+	bh=Kcy7UoKw8xIqIZGE/j72rix8LozPp2g9ZA4MoZTQWoE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SZED1wJVPl8hdLUTbGyTOmV8HtTo5u3O6OA6EbNrC1OkkQYtcZi5Aa8vcXxwRBw+o
-	 s0fqyB4IVDSqjOVcXbEizS1rHqJSrXS3bXUG4/qa5iQej/Y1nnEU1SAYljucaXEH3u
-	 Ym0Ulm/Dtq91Ok9PAucGL641SgTN8BTPv4faYaVs9WhWKcxHiy4uTHs8Piv3OpG8/u
-	 zWvMJpvfXfGvIbUBVeqY9EEAx/hIZfUzWJzjRHtAniTPzGueZd4dZaEDfB1MzB2F9F
-	 8X2FCpk5MG1tu7nT4C6XbNOd13SdBz1czNJXBuBN9G6sk45BZFgtiD2/aPKZqNQk7p
-	 Dkau1NiStoEYw==
-Message-ID: <sashiko-outbox-167104@kernel.org>
+	b=jhu9+dB/eC7A8eUWyvYfjvnahhv0e7uR1L5F7Vn5iPXcipL5eO/rI04SmWp/9H0+h
+	 IObkBv4sBzFn2yiBVObWIRSzY+iYtMUO2iv54VKH3o/xdoXJI4qKfqNPRc91KVFH4X
+	 cMC1YrWBNNk3cyuS6RdmEf/mE/RuduOKyFVl7eSF/o7WYR3CvdIyQI0p3Ax813Z5rv
+	 2Zsc7cYBZUWUspDAj9nKDKObsbW2Vo6gXmgAFgHLZb1L/xlcNMSANvARELWgXItQrj
+	 QD6NUBn++ZYVev5+TNYnbDLviVAaR2oKndgLGfbeJKzCOe64Wa9m1pA0ldpRgn0WU2
+	 UBhHYnTsBEceQ==
+Message-ID: <sashiko-outbox-167106@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH RESEND] usb: octeon-hcd: release the USB block when
- initialization fails
+Subject: Re: [PATCH RESEND] usb: octeon-hcd: keep SOF interrupts while a
+ periodic pipe is due
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Orgad Shaneh" <orgads@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261011072238.2381564-1-orgads@gmail.com>
-References: <20261011072238.2381564-1-orgads@gmail.com>
+In-Reply-To: <20261011072236.2381546-1-orgads@gmail.com>
+References: <20261011072236.2381546-1-orgads@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 11 Oct 2026 07:27:49 +0000
+Date: Sun, 11 Oct 2026 07:33:27 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> cvmx_usb_initialize() gets as far as selecting the reference clock,
-> enabling USBN_CLK_CTL and taking the PHY out of reset (steps 2b-2e)
-> before anything can go wrong, and its only caller frees the HCD and
-> returns without touching the hardware. Both of its error returns
-> therefore leave the USB block clocked and out of reset on a failed
-> probe.
->=20
-> Release it on the way out with cvmx_usb_shutdown(), which is the undo
-> the retry path a few lines above already uses. It cannot refuse with
-> -EBUSY here: the pipe lists it checks are initialised by
-> octeon_usb_probe() before cvmx_usb_initialize() is called, and no pipe
-> can have been opened yet.
->=20
-> Fixes: 22bce6d2b3fd ("usb: octeon-hcd: fail the probe when the USB core d=
-oes not respond")
-> Assisted-by: LLM
-> Signed-off-by: Orgad Shaneh <orgads@gmail.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] usb: octeon-hcd: periodic pipe starvation due to bypassed due_now =
+evaluation
+- [High] usb: octeon-hcd: control/bulk split transfers stall with SOF disab=
+led
+--
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+commit ba5443b476ec252047a7c43f65661c3131a5d94c
+Author: Orgad Shaneh <orgads@gmail.com>
+
+usb: octeon-hcd: keep SOF interrupts while a periodic pipe is due
+
+This commit modifies cvmx_usb_schedule() to track when a periodic pipe is
+due but not yet started, setting a due_now flag. This flag is used to keep
+SOF interrupts enabled instead of sleeping on an hrtimer, ensuring due pipes
+are retried promptly.
+
+Link: https://lore.kernel.org/all/20260915081724.25637-1-orgads@gmail.com/
+
+> diff --git a/drivers/usb/host/octeon-hcd.c b/drivers/usb/host/octeon-hcd.c
+> index 256e459ff6d8d..197e04317a264 100644
+> --- a/drivers/usb/host/octeon-hcd.c
+> +++ b/drivers/usb/host/octeon-hcd.c
+> @@ -1964,12 +1965,23 @@ static void cvmx_usb_schedule(struct octeon_hcd *=
+usb, int is_sof)
+>  	 */
+>  	need_sof =3D 0;
+>  	min_due =3D ~0ull;
+> +	due_now =3D false;
+>  	for (ttype =3D CVMX_USB_TRANSFER_CONTROL;
+>  	     ttype <=3D CVMX_USB_TRANSFER_INTERRUPT; ttype++) {
+>  		list_for_each_entry(pipe, &usb->active_pipes[ttype], node) {
+> -			if (pipe->next_tx_frame > usb->frame_number &&
+> -			    pipe->next_tx_frame < min_due)
+> +			if (pipe->next_tx_frame <=3D usb->frame_number) {
+> +				/*
+> +				 * A periodic pipe that is due but was not
+> +				 * started - no idle channel, or its split
+> +				 * window is closed - is only retried from a
+> +				 * SOF, so do not sleep past it.
+> +				 */
+> +				if (ttype =3D=3D CVMX_USB_TRANSFER_ISOCHRONOUS ||
+> +				    ttype =3D=3D CVMX_USB_TRANSFER_INTERRUPT)
+> +					due_now =3D true;
+
+[Severity: High]
+Can this explicit exclusion of control and bulk pipes cause SPLIT COMPLETE
+transactions to stall indefinitely if SOF interrupts are disabled?
+
+If a low/full-speed device is connected via a high-speed hub using split
+transactions, a control or bulk transfer initiates a START SPLIT and
+completes with an ACK. The hardware channel is disabled and the transaction
+advances to CVMX_USB_STAGE_NON_CONTROL_SPLIT_COMPLETE, but its
+next_tx_frame is not advanced.
+
+The pipe must wait until usb->frame_number reaches split_sc_frame:
+
+cvmx_usb_find_ready_pipe() {
+    ...
+    ((pipe->split_sc_frame =3D=3D -1) ||
+     ((((int)current_frame - pipe->split_sc_frame) & 0x7f) < 0x40)) &&
+    ...
+}
+
+Since control and bulk pipes skip setting due_now and their next_tx_frame
+remains in the past (so they don't update min_due), need_sof will be 0 if
+no other periodic pipes are active. Does this mean usb->frame_number stops
+updating, permanently stalling the pipe until an unrelated interrupt fires?
+
+> +			} else if (pipe->next_tx_frame < min_due) {
+>  				min_due =3D pipe->next_tx_frame;
+> +			}
+>  		}
+>  	}
+>  	if (min_due !=3D ~0ull) {
+
+[Severity: High]
+Will the due_now flag be completely ignored if there are only due pipes
+and no future periodic deadlines exist?
+
+In the loop above, if a pipe is due (pipe->next_tx_frame <=3D usb->frame_nu=
+mber),
+due_now is set to true but min_due is not updated.
+
+If there are no other active periodic pipes with a future deadline, min_due
+remains ~0ull. The code then completely bypasses this entire if
+(min_due !=3D ~0ull) block.
+
+As a result, need_sof remains 0 and the timer is not armed. Since periodic
+pipes are only retried when is_sof is true, does this result in a permanent
+starvation of the unstarted due periodic pipes?
+
+> @@ -1983,7 +1995,7 @@ static void cvmx_usb_schedule(struct octeon_hcd *us=
+b, int is_sof)
+>  		 * a few frames. Stay well below the 16383-frame wrap of
+>  		 * HFNUM. One (micro)frame is 125us in high-speed mode.
+>  		 */
+> -		if (delta <=3D 4 || delta > 8000)
+> +		if (due_now || delta <=3D 4 || delta > 8000)
+>  			need_sof =3D 1;
+>  		else
+>  			hrtimer_start(&usb->sof_timer,
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261011072238.2381=
-564-1-orgads@gmail.com?part=3D1
-
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261011072236.2381=
+546-1-orgads@gmail.com?part=3D1
