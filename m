@@ -1,41 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED595311C35
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:54:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F1E33BBCD
+	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 04:54:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791694495; cv=none; b=pJTY5HAEBbstRfzm7HYtmWlPrxlRsmkCGarXKSWofMv8uPFCL7QiKi8xUzTxluAIaGmOhQfyhPGJt6yMsyqS6LBVoSWEW7ydhWZnVS4mz6JPWGBLnfFPfgveeYJISo5k3HGjCb2S5djyEJE8NJXx5qUynfolb9X1jjkbeiZJL1Y=
+	t=1791694495; cv=none; b=RXTp2Wfs2X0vVBqFQe812SvCzNxWcl7JQNDYFCKQaVPuRr5w3Vbld7epsi7ntEV45eCeELFMBNd/QskvbVEgsJcnjkpGgpjsZlOfdzssxoQ/8BVtNgA1Pg37gxZ+oW/IYI+ug8hBL/QPMd3IqjkjJx/XSb7RXpWskVNLqz8salE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1791694495; c=relaxed/simple;
-	bh=7gBSGWLGD9ST0/Hmtf0pN+e531s4d/FYIeLOfOhJVG8=;
+	bh=p8h3fg9RlkYYoJU0VWIXcQk7Omgjcr3Sa6DjUBzi6OE=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=dlaF9keWYVersBz9z/VGCEgkA909dRoTvnZmjiNgCLaq4D6JJQ1TFAtDxRjCFa/pQ6UWZjN2y6VWpm0t1f5PlBSKAdhq1s13xbMzrXHjunvC+Qzhsl3LmpVrFRo8XyLRKCyW3xzDJnBNCzhgPQoW7ee5H5+73dAr9xk+rkhIYak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UhVpgw+k; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=k5LDvchkH7qa6wFSOlFyX0rwOESci3OJe2ODv9SmAWrofyU2ATDQbezWZZSK36cKlNxZarWAPBOzI6VK5sClAxtOK1t6P/njFDUL10seJqOWrmqQfW60cQ1Ai/4nvn0JfhQnRDwC+3PinKZkQ/CB/bHXImzEvxZI2ju5ENjq610=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jlzfx7As; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UhVpgw+k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ABB8A1F0089C;
-	Sun, 11 Oct 2026 04:54:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jlzfx7As"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 675051F0089D;
+	Sun, 11 Oct 2026 04:54:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791694493;
-	bh=72YGL0vVYC3Mo7WgVtoBm3weRRA8EpRtulfL7GZWrws=;
+	s=k20260515; t=1791694494;
+	bh=69AAXy6J2mPXPS6ebCx+4NMpfQsTnWfZ5oNViRDAaeQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UhVpgw+kzCeIakz8bhyV9KJgtNAc2MzR6FbxqCGX4VB11hYxW8v52xWiypSJzg2jL
-	 wWv9ROC2xewpoXsjQ9jXe0sebb7cR66K6XuzEyGkYO3M5iNbGSLO+LLStjzMIIAXGv
-	 sJyb8eGVup+AYHuzQ9XmoZdkWEI6w9lWznRSjTbaw3UCHFcLyAfIM2SnZ+EYczeK/f
-	 ufjVO6SNke41BCoa99PDH7TNQChj4Hn+lrEXHh0LsgAM3LaxddhDwkScTpFLgM/ump
-	 N1l5hJKYMQQFOBjq6nYymjjurao2Cu5enGUvqpv6X5sT386VFgmN3R58fZq3PPsKE0
-	 jcZiUh8JIrQrA==
-Message-ID: <sashiko-outbox-167009@kernel.org>
+	b=Jlzfx7AstbLBXz9EX6Sn9knCBrH6t1+Wq7Pw+qTueEoDTLzjnswwHwk9v1r/ZFBlT
+	 44JWd6eow3Lek6D/yARE2+NTGi201ABnefKcZhhMqWFPbGCMWR1XiGYVoS9jofLEdo
+	 VREa1dEYTSl/NeAQFxdIjnkluAe1yy6ml2S5KxqkudHYRBiGiD5/TLt6klUKLcZ16M
+	 snmE2uChmUhVJswoDqFE+za9lWFtnOwpIOGtN6Q3KYDAxmS25kYwqRbYW39w9S3zh3
+	 gfipqJJcl9HVvtR/LBPY4/6IPwhE04sLvY/riC50rqb6g1YJ6I+fZQ7w3XwjEqTrXV
+	 zKxYQ5JHTGcMQ==
+Message-ID: <sashiko-outbox-167010@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v19 07/13] ax88179_178a: Add VLAN offload
- support for AX88179A
+Subject: Re: [PATCH net-next v19 04/13] ax88179_178a: Add HW support for
+ AX179A-based chips
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Birger Koblitz" <mail@birger-koblitz.de>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261010-ax88179a-v19-7-7475173cfb56@birger-koblitz.de>
+In-Reply-To: <20261010-ax88179a-v19-4-7475173cfb56@birger-koblitz.de>
 References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
- <20261010-ax88179a-v19-7-7475173cfb56@birger-koblitz.de>
+ <20261010-ax88179a-v19-4-7475173cfb56@birger-koblitz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 Date: Sun, 11 Oct 2026 04:54:53 +0000
@@ -45,185 +45,90 @@ List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [High] net/usb: ax88179a: missing hardware VLAN filter restore on resume/=
-reset
-- [Medium] ax88179a: TOCTOU race in TX VLAN offload drops tags on ethtool t=
-oggle
-- [Medium] usbnet: uninitialized stack variable on short read in ax88179_re=
-ad_cmd callers
-- [Medium] net: ax88179_178a: missing error checks in VLAN filter init loop=
- causes syslog flood
+- [Medium] net: ax88179a: perm_addr overwritten by dev_addr on interface up
+- [Low] net/usb: unaligned memory access via cast of u8 buf[5]
 --
 
-commit 72ebe9676fd7ac72cac32f21e8967a26afd4c569
+commit 8f7d8eac10e2d0c51938d5773370c574a2391e9a
 Author: Birger Koblitz <mail@birger-koblitz.de>
 
-    ax88179_178a: Add VLAN offload support for AX88179A
-   =20
-    The AX88179A-based chips support VLAN offload. Add configuration
-    support in netdev_ops. Features supported are:
-    NETIF_F_HW_VLAN_CTAG_TX, NETIF_F_HW_VLAN_CTAG_RX
-    and NETIF_F_HW_VLAN_CTAG_FILTER.
+ax88179_178a: Add HW support for AX179A-based chips
+
+This commit adds bindings and hardware support for AX179A-based USB-Ethernet
+controllers. It introduces a vendor mode switch for CDC-NCM fallback, adds
+new device entries, and provides hardware-specific initialization sequences
+via ax88179a_devices.c.
 
 > diff --git a/drivers/net/usb/ax88179a_devices.c b/drivers/net/usb/ax88179=
 a_devices.c
-> index 272e923656832..4207d2cc2b865 100644
-> --- a/drivers/net/usb/ax88179a_devices.c
+> new file mode 100644
+> --- /dev/null
 > +++ b/drivers/net/usb/ax88179a_devices.c
 [ ... ]
-> @@ -258,6 +258,88 @@ static const struct ethtool_ops ax88179a_ethtool_ops=
- =3D {
-[ ... ]
-> +static int ax88179a_vlan_rx_add_vid(struct net_device *net, __be16 proto=
-, u16 vid)
+> +static int ax88179a_reset(struct usbnet *dev)
 > +{
-> +	struct usbnet *dev =3D netdev_priv(net);
-> +	u8 vlan_ctrl;
-> +	int ret =3D 0;
-> +	u16 reg16;
-> +	u8 reg8;
+> +	struct ax88179_data *ax179_data =3D dev->driver_priv;
+> +	u16 *tmp16;
+> +	u8 buf[5];
+> +	u16 rxctl;
+> +	u8 *tmp;
 > +
-> +	ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL, =
-1, 1, &reg8);
-
-[Severity: Medium]
-If a USB device returns a 0-byte short read, usb_control_msg() returns 0.
-Does ax88179_read_cmd() propagate this 0 here, allowing the error check to
-pass?
-
-If so, reg8 would remain uninitialized. Because the 1-byte read path direct=
-ly
-uses the caller's buffer without explicitly zero-initializing it, this
-uninitialized variable is then modified and written back to the USB device.
-Can this result in device state corruption and a potential 1-byte kernel st=
-ack
-memory leak to the USB device?
-
-> +	if (ret < 0)
-> +		return ret;
+> +	tmp16 =3D (u16 *)buf;
+> +	tmp =3D (u8 *)buf;
 [ ... ]
-> @@ -517,6 +599,75 @@ static int ax88179a_mii_ioctl(struct net_device *net=
-, struct ifreq *rq, int cmd)
-[ ... ]
-> +static int ax88179a_set_features(struct net_device *net, netdev_features=
-_t features)
-> +{
-[ ... ]
-> +	if (changed & NETIF_F_HW_VLAN_CTAG_FILTER) {
-> +		if (features & NETIF_F_HW_VLAN_CTAG_FILTER) {
-> +			u8 vlan_state =3D 0;
+> +	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_ARC_CTRL, 1, 0);
+> +	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_SWP_CTRL, 1, 0);
+> +	ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_MAC_TX_HDR_CKSUM, 1, 0);
 > +
-> +			ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC,
-> +					       AX88179A_VLAN_ID_CONTROL, 1, 1, &vlan_state);
-> +			if (ret < 0)
-> +				return ret;
+> +	/* Read MAC address from DTB or asix chip */
+> +	ax88179_get_mac_addr(dev);
+> +	memcpy(dev->net->perm_addr, dev->net->dev_addr, ETH_ALEN);
+
+[Severity: Medium]
+Is it safe to unconditionally overwrite the permanent MAC address during an
+interface reset?
+
+During routine interface resets (e.g., bringing the interface up via
+usbnet_open()), the usbnet framework calls the driver's .reset callback,
+which points to ax88179a_reset().
+
+If a user changes the MAC address while the interface is down, that custom
+address is correctly written to the hardware. However, when the interface
+comes back up, ax88179_get_mac_addr() reads that temporary custom MAC back
+from the hardware and copies it into dev->net->perm_addr.
+
+Does this permanently clobber the immutable perm_addr with the user's
+temporary MAC address and break tools like ethtool -P?
+
+[ ... ]
+> +	if (ax179_data->chip_version < AX_VERSION_AX88179A)
+> +		*tmp =3D AX_MONITOR_MODE_PMETYPE | AX_MONITOR_MODE_PMEPOL | AX_MONITOR=
+_MODE_RWMP;
+> +	else
+> +		*tmp =3D AX_MONITOR_MODE_RWMP;
+> +	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MONITOR_MOD, 1, 1, tmp);
 > +
-> +			for (int i =3D 0; i < 256; i++) {
-> +				/* Address */
-> +				tmp =3D i;
-> +				ax88179_write_cmd(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_ADDRESS,
-> +						  1, 1, &tmp);
-> +				/* Data */
-> +				ax88179_write_u16(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_DATA0,
-> +						  2, 0);
-> +				/* Write-Execute */
-> +				ax88179_write_u8(dev, AX_ACCESS_MAC, AX88179A_VLAN_ID_CONTROL,
-> +						 1, vlan_state | AX_VLAN_CONTROL_WE);
-> +			}
+> +	/* Configure default medium type =3D> giga */
+> +	*tmp16 =3D AX_MEDIUM_RECEIVE_EN | AX_MEDIUM_TXFLOW_CTRLEN |
+> +		 AX_MEDIUM_RXFLOW_CTRLEN | AX_MEDIUM_FULL_DUPLEX;
+> +	if (!ax179_data->is_ax88772d)
+> +		*tmp16 |=3D AX_MEDIUM_GIGAMODE;
+> +	ax88179_write_cmd(dev, AX_ACCESS_MAC, AX_MEDIUM_STATUS_MODE, 2, 2, tmp1=
+6);
 
-[Severity: Medium]
-Since this loop iterates 256 times issuing 3 USB control writes each without
-checking for errors, what happens if the device experiences transient USB
-errors (like -ETIMEDOUT or -EPIPE)?
+[Severity: Low]
+Does assigning to *tmp16 cause an unaligned memory access here?
 
-__ax88179_write_cmd() will log netdev_warn() for every failed write.
-Could this spam the kernel log with up to 768 warnings, significantly delay=
-ing
-execution while holding the RTNL lock, and leaving the device's hardware VL=
-AN
-filters in an inconsistent state?
+The stack buffer u8 buf[5] has a natural alignment of 1 byte. Casting it to
+u16 *tmp16 and directly assigning a 16-bit value violates C standard
+aliasing and alignment rules. On architectures lacking hardware support for
+unaligned accesses, this causes alignment faults.
 
-> +			vlan_state |=3D AX_VLAN_CONTROL_VFE;
-> +			ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC,
-> +						AX88179A_VLAN_ID_CONTROL, 1, 1, &vlan_state);
-> +			if (ret < 0)
-> +				return ret;
-> +		} else {
-> +			ret =3D ax88179_read_cmd(dev, AX_ACCESS_MAC,
-> +					       AX88179A_VLAN_ID_CONTROL, 1, 1, &tmp);
-
-[Severity: Medium]
-Similar to the issue in ax88179a_vlan_rx_add_vid(), if ax88179_read_cmd()
-returns 0 due to a 0-byte short read, does tmp remain uninitialized here
-before being modified and written back to the device?
-
-> +			if (ret < 0)
-> +				return ret;
-> +			tmp &=3D ~AX_VLAN_CONTROL_VFE;
-> +			ret =3D ax88179_write_cmd(dev, AX_ACCESS_MAC,
-> +						AX88179A_VLAN_ID_CONTROL, 1, 1, &tmp);
-> +			if (ret < 0)
-> +				return ret;
-> +		}
-> +	}
-[ ... ]
-> @@ -612,9 +766,11 @@ static int ax88179a_bind(struct usbnet *dev, struct =
-usb_interface *intf)
-[ ... ]
->  	dev->net->features |=3D NETIF_F_SG | NETIF_F_IP_CSUM |
-> -			      NETIF_F_IPV6_CSUM | NETIF_F_RXCSUM | NETIF_F_TSO;
-> +			      NETIF_F_IPV6_CSUM | NETIF_F_RXCSUM | NETIF_F_TSO |
-> +			      NETIF_F_HW_VLAN_CTAG_TX;
-
-[Severity: Medium]
-By enabling NETIF_F_HW_VLAN_CTAG_TX, this activates the TX offload path.
-Is there a race condition against ethtool toggles in ax88179a_tx_fixup()?
-
-If the network stack creates an skb with an out-of-band VLAN tag because
-NETIF_F_HW_VLAN_CTAG_TX is enabled, and an admin concurrently disables the
-feature via ethtool:
-
-ax88179a_tx_fixup() does:
-    if ((dev->net->features & NETIF_F_HW_VLAN_CTAG_TX) &&
-        (vlan_get_tag(skb, &tci) >=3D 0)) {
-        tx_desc |=3D AX179A_TX_DESC_VLAN;
-
-Could it directly read dev->net->features, see it as disabled, and ignore t=
-he
-tag? This would result in packets with out-of-band VLAN tags losing their t=
-ags
-and being transmitted as untagged, potentially leaking into the native VLAN.
-
-Should the driver unconditionally check skb_vlan_tag_present(skb) in the TX
-path instead of checking device features?
-
-> =20
->  	dev->net->hw_features |=3D dev->net->features;
-> +	dev->net->hw_features |=3D NETIF_F_HW_VLAN_CTAG_RX | NETIF_F_HW_VLAN_CT=
-AG_FILTER;
-
-[Severity: High]
-Does enabling NETIF_F_HW_VLAN_CTAG_FILTER here require restoring the hardwa=
-re
-VLAN filter table during resume and reset operations?
-
-When the device is resumed from suspend (in ax88179a_resume()), or when a M=
-AC
-reset is issued (e.g., from usbnet's tx_timeout), the hardware VLAN filter
-table is wiped since power was lost or the MAC state was reset.
-
-ax88179a_reset() re-enables the AX_VLAN_CONTROL_VFE bit based on
-dev->net->features, but does not appear to restore the previously configured
-active VLAN IDs by calling vlan_get_rx_ctag_filter_info(dev->net) or replay=
-ing
-a cached shadow table.
-
-Will the hardware silently drop all incoming VLAN packets because the VLAN
-filter is enabled but the hardware table is empty, breaking all VLAN
-connectivity after a suspend/resume cycle?
+Since this patch introduces the ax88179_write_u16() helper, could that be
+used instead to avoid the unaligned cast entirely?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261010-ax88179a-v=
-19-0-7475173cfb56@birger-koblitz.de?part=3D7
+19-0-7475173cfb56@birger-koblitz.de?part=3D4
