@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7134BB295;
-	Mon, 12 Oct 2026 17:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50514A6CE5;
+	Mon, 12 Oct 2026 17:43:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791826896; cv=none; b=Y/Y+/5XYBhzlU2z6boLhO8lM2zebsf4SAw5M/J38+yNDEINVu4kaM+JEDmEebHkeAhMp5fpfFxOYcsNxJzMBolFGL5jIzjCaeJUnF3jltRH/d4hg1TrszI41F/HR1fRoMa0snz6AL7jB/ov3jHf+nRTyTVlylLb5mVeVRdNGxog=
+	t=1791827023; cv=none; b=D9dVggi3aaBbE3CQmRA0Gtv61Vx3ve+AIVs6bsmS0MWEl9ZftaKKNgJzb/esVmJrglN3y6BAfayF8u6bUw7HZA2QQ2f8wbHWtaOoDxS8F8ePEM4Z2GVweIEzEWaexuheDUM8bLHyUGyh4Xh8dJVeKvDNTgrIFK4jgwRzerEzHbA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791826896; c=relaxed/simple;
-	bh=6ZQkV22c0I8aCjWiJN8hyG/fsHHYJaZzW2z97+4dxAs=;
+	s=arc-20240116; t=1791827023; c=relaxed/simple;
+	bh=w4U2mjQrgrV2jinDY0uFmNpCmvJFibVAQ5YCWasR28M=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=V0eIcP/+5WcErQ2lsTwLAKf5EnEe0pAgdaPDZdxpNlnHqa8LxuTxcyAD1HDEWaSmO/DT+lAdeXnq8PGCbHs1b0Vfm2LhMixRv+XHBDFvSUoEyH1Nolw+CNGu3GjW/r8Kbuh+TBXI7REXCbf70kbokMPgM1LHt31w3qgFc0O46M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mqi1GWAe; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=GE53md1GwNyEEjN/5YF55dPRSV/yFle7CXHFOEcEL4N/eBc3ZJ8TKy7BeQTTNxQgQ6HodusVCRlHI0tVT6hGyBzyDgtbWBxfAd2Vvv324lgw4066L2+ItqSBCtKgZeTPgANfRQVtq35dmN/rV/HUWmgnzHz4yDqbwtjQKsBg+Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c00C3BT3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mqi1GWAe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01B8E1F0089B;
-	Mon, 12 Oct 2026 17:41:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c00C3BT3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FACF1F0089B;
+	Mon, 12 Oct 2026 17:43:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791826895;
-	bh=zXDPG2DDOH7T1QYpn0RbI8OHS7BHDVSn8tLt4xZMpqw=;
+	s=k20260515; t=1791827022;
+	bh=UDm18gR+jo6D+mQhGXenWu+V9QGjyv3Ut2UJKTZT7e4=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mqi1GWAes25xIDC9buHG78yF4VgKtW9AJ5elI2OfJc9iP3fL7tCf6JnAkafQFp6qR
-	 glxCjXrXnurSx+YWGSCKlm9pYhyGgjJ13iDN31bF6U8m9fmReoH55ho6/NAXFBxYID
-	 +LjKilhUa6EEihvfHFLzPSGwDA2H/WypOQ/I/IxivFRvFR6wtUts8+QJyTsVyQQQn4
-	 L5PvlkaCFDFiveJh+cmiTGbFC1qZbvrVSoCYS5N8BprQW6xJKOefEp4iKp7gPjee6s
-	 sbP/otQszojEBg0zJztMANgOIzKAmfe/5onkcWrxQQFla2tjaHlvdalDyVOQwOlWsm
-	 AprlGYSV///ug==
-Message-ID: <sashiko-outbox-168478@kernel.org>
+	b=c00C3BT3dU6T2WY5EWm3r6ahbNsFzZT02Xvyg3PPXF+PLIPr0k9xNajl9wyEz0Q/g
+	 RG2BHVryvZjGPRahNDxOc8MX8UHhWQd+VRHpF3EIZQHOXsoJO/472G6iAnQlxoPO3n
+	 mxeitWRJzrAgYplUCN4VF3vkH8ZrJ2PU/X8ZqISvnEOkH2kHXV04didfoLAnx0vP5w
+	 BU3jrZ2+r8W7Jcqput8NGyFrPJ9NwiUwOoC8K1XoXnsQ4KXwkuRUR687myiihV5T8y
+	 bAftfYMjuxR42rfUMTGWlU0t7EJHYD5AF8+09eMowaOEzj/McF3K5zM4+8khZ+83zz
+	 6wRrkKW3aPRUQ==
+Message-ID: <sashiko-outbox-168484@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 02/11] dt-bindings: i2c: Add NVIDIA LSTP I2C
+Subject: Re: [PATCH 01/11] dt-bindings: gpio: Add NVIDIA LSTP GPIO
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Adrian Ambrozewicz" <aambrozewicz@nvidia.com>
-Cc: conor+dt@kernel.org, linux-usb@vger.kernel.org, robh@kernel.org, devicetree@vger.kernel.org
-In-Reply-To: <20261012-lstp-usb-adapter-v1-2-aambrozewicz@nvidia.com>
+Cc: robh@kernel.org, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261012-lstp-usb-adapter-v1-1-aambrozewicz@nvidia.com>
 References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <20261012-lstp-usb-adapter-v1-2-aambrozewicz@nvidia.com>
+ <20261012-lstp-usb-adapter-v1-1-aambrozewicz@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Oct 2026 17:41:34 +0000
+Date: Mon, 12 Oct 2026 17:43:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,57 +46,74 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Low] dt-bindings: incomplete schema validation allows unsupported clock-=
-frequency property
+- [Medium] dt-bindings: missing interrupt-controller in required list
 --
 
-commit 16ee132f4b8daa2cd636b3b3437f38ceb664442e
+commit aeb4a4fc6444001bea560a7fa11534922cb0e28e
 Author: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
 
-dt-bindings: i2c: Add NVIDIA LSTP I2C
+dt-bindings: gpio: Add NVIDIA LSTP GPIO
+   =20
+Add the binding for a GPIO channel of an NVIDIA LSTP USB adapter. The
+node is a child of the adapter's USB device or interface node, matched
+to a channel the device reports by reg and compatible.
 
-This commit adds a device tree binding for the I2C controller channel on an
-NVIDIA LSTP USB device. It includes configurations for the compatible strin=
-g,
-register ID, and a custom property for arbitration retries. The documentati=
-on
-notes that the device sets the bus speed, so clock-frequency is unsupported.
-
-> diff --git a/Documentation/devicetree/bindings/i2c/nvidia,lstp-i2c.yaml b=
-/Documentation/devicetree/bindings/i2c/nvidia,lstp-i2c.yaml
+> diff --git a/Documentation/devicetree/bindings/gpio/nvidia,lstp-gpio.yaml=
+ b/Documentation/devicetree/bindings/gpio/nvidia,lstp-gpio.yaml
 > new file mode 100644
-> index 0000000000000..eacabed52cd1c
+> index 0000000000000..4ca5081e509d5
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/i2c/nvidia,lstp-i2c.yaml
-> @@ -0,0 +1,71 @@
+> +++ b/Documentation/devicetree/bindings/gpio/nvidia,lstp-gpio.yaml
+
 [ ... ]
-> +description: |
-> +  I2C controller channel on an NVIDIA LSTP USB device.
-> +
-> +  Peripherals on the bus are described as child nodes.  An i2c alias
-> +  gives the bus a fixed number.
-> +
-> +  The bus speed is set by the device.  The LSTP protocol has no way to
-> +  change it, so clock-frequency is not supported and is ignored.
-> +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: nvidia,lstp-i2c
 
-[Severity: Low]
-Since this schema inherits from /schemas/i2c/i2c-controller.yaml# which
-evaluates and permits the standard clock-frequency property, should
-clock-frequency: false be explicitly defined in this properties block?
+> +dependentRequired:
+> +  interrupt-controller: ["#interrupt-cells"]
+> +  "#interrupt-cells": [interrupt-controller]
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - gpio-controller
+> +  - "#gpio-cells"
 
-Because the property is evaluated by the $ref, the unevaluatedProperties:
-false directive at the bottom of the schema does not reject it. Device
-trees that incorrectly specify clock-frequency for this controller will
-silently pass schema validation, despite the binding's documentation stating
-it is not supported.
+[Severity: Medium]
+The documentation states this hardware is also an interrupt controller, but
+this required list omits the interrupt-controller and #interrupt-cells
+properties.
+
+Should interrupt-controller and #interrupt-cells be moved from
+dependentRequired into this unconditional required list? Subsystem rules
+mandate that core hardware provider capabilities like an interrupt controll=
+er
+must be globally required with appropriate constraints. Placing them in
+dependentRequired treats them as optional rather than globally required.
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    /* Minimal: let firmware define pin count and names */
+> +    interface {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        gpio@3 {
+> +            compatible =3D "nvidia,lstp-gpio";
+> +            reg =3D <3>;
+> +            gpio-controller;
+> +            #gpio-cells =3D <2>;
+> +        };
+> +    };
+
+[Severity: Medium]
+Does this example omit the interrupt provider capabilities?
+
+Subsystem rules require that all examples include all required properties.
+If the interrupt-controller properties are made globally required, examples
+1, 2, and 4 will also need to be updated to include them.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012-lstp-usb-a=
-dapter-v1-0-aambrozewicz@nvidia.com?part=3D2
+dapter-v1-0-aambrozewicz@nvidia.com?part=3D1
