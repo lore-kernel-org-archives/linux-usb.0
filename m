@@ -1,156 +1,72 @@
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCB633FE33
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 07:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC6D431A56;
+	Mon, 12 Oct 2026 08:10:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791791287; cv=none; b=WK2C0tapSITbEzctNd6+qKl4PqBLygjFRphvYJq2UZm50x8W5k+msXc7SWDKPq+hRzzACeYoXKSAPj2rCKHAXbirQWgEglenvhgmChjHuIOV1sQq4WRdhruwZC1QJHyk/TkvjA9AL+PaxQGNyvvrq6eOn/mvV1oYQOpHg6S6j88=
+	t=1791792625; cv=none; b=eW+4ngdsKqvkTcYp3Ur9adJg7oLq/XasquH+o5zjQjD5eueEB/Yey/uHGME3JyJ/qAB150JF3tnM/RB94xvJjo3Jdd7wdMm7J2u7D7bJg6Mtx15DtGKXMu8gsowtl2WMzdvBjD5t0I8CYzkMiy1h1+laQbuxvsH26AEGBsFA27A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791791287; c=relaxed/simple;
-	bh=zEzFs4aKk6Xfzf60TDLNG6YlxcIStOAudSHifCTjPCg=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=VANaLGo+4EEJm9Naz9nRrlYGQ1pGPjadK9PH81zexZbCNbbmwV79tIp+UwMxgjimDFi+pdydAWP1eJfO9fmSSBqTtR26o6zDpHDvWevzZy5ObbnKq7CiWmWuaivi2PMQNCEh3CsCJ32Dy4YQiWzKTjk/UMMAiJ7THzhwmClOFIM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Hj8vjdrg; arc=none smtp.client-ip=203.254.224.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1791792625; c=relaxed/simple;
+	bh=+VVo/JGBJ90aJN5ZdrAr9+J3UW3a8r4MnFeZa9+hYts=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BJzUltFAUCfuaJTLsvcDys9tZwke/qdRnNWIExLWt5IpdIkBatcJbmGmwv53xBUyJgvDjUsn3vxRm+pEYdzb4OdJjXhVNBc+C0P2KEAzNTU6KOPgUIFVuOWWbAb5rfu6unRqXxncgce36j7cRxE7VjtCMfsbAP/AYUts3/gRIRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dh36JnY3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Hj8vjdrg"
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261012074802epoutp01e9e8f406910e488bac9bcdfb0bf2062c~duK2tPxW01502115021epoutp01P
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 07:48:02 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261012074802epoutp01e9e8f406910e488bac9bcdfb0bf2062c~duK2tPxW01502115021epoutp01P
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1791791282;
-	bh=EZiJpBCaQS/Y7CL4+MDT0WahFVz2znoxPYi7A/ivAn0=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=Hj8vjdrg+Yja/8/9iEiAk0RdM/Z/qwfCviEnZ+dnJvVHRzhouO7oXSj3f/f4hE7IG
-	 9IA6Iet4sbk2XZTbHScMhiHlyt1LcXDYv523B+CKYHar6gX+9olI4AL0x/Vp4tJkM2
-	 hvJ4ebLwxI065kcpgpi/YuyGnrbPWwTTxIqc2Kk8=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
-	20261012074802epcas2p3606261995aa73d05264f1c9327f03d88~duK2XaKBh1902219022epcas2p3E;
-	Mon, 12 Oct 2026 07:48:02 +0000 (GMT)
-Received: from epcpadp2new (unknown [182.195.40.142]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4j38hf36cYz6B9m6; Mon, 12 Oct
-	2026 07:48:02 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-	20261012060557epcas2p4ce5468f159a857c5caf2c81b59cc3f60~dsxt4ZQiS1397113971epcas2p4u;
-	Mon, 12 Oct 2026 06:05:57 +0000 (GMT)
-Received: from ubuntu.dsn.sec.samsung.com (unknown [12.81.221.204]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261012060557epsmtip24e1a01eb464b1c55e1f4e9f4e11a4113~dsxt0255q0647806478epsmtip2M;
-	Mon, 12 Oct 2026 06:05:57 +0000 (GMT)
-From: Daehwan Jung <dh10.jung@samsung.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
-	linux-kernel@vger.kernel.org (open list), prashanth.k@oss.qualcomm.com,
-	selvarasu.g@samsung.com, cpgsproxy1@samsung.com, Daehwan Jung
-	<dh10.jung@samsung.com>
-Subject: [PATCH v4] usb: gadget: u_serial: fix stale req->dep warn on
- disconnect/reconnect
-Date: Mon, 12 Oct 2026 15:01:53 +0900
-Message-Id: <1860250540.01791791282424.JavaMail.epsvc@epcpadp2new>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dh36JnY3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16ADF1F0089B;
+	Mon, 12 Oct 2026 08:10:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791792624;
+	bh=QevQ6Tupp6Y5Q71lWFERf3zC8gS1eFojsFS0KOuxiFs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=dh36JnY3MrEljugYPHQ4jd4BIPja9n9k7ZVGK3AWn07KWrVB8fQM8wuvZWx32u3wE
+	 +8goqAUnr/WuEsLk03lJ/U+/ip7dx2lKlGAMGapQ6c6wvIFu8/Kgg9dBqE3Q1JWujE
+	 ZhSRokkDQ88G2LYd9tynhE8kPeexazdpEdpaxq+6Kci36AIOHLhwlDLLBz3qONQg7s
+	 Gtyzct177n25BDDyCKYWsRR1hfW8bfZHTMHQ/vjFFr7c/u0UeiFCTVIx0bYMDrjhAZ
+	 YjYKiaNqECpTwJR8Pgy3X/J5Xh5JvNqYyZX/+56C6Qmj1erbDlZuQQ9UPacl//Bnfr
+	 Yfnyq0TB+Tzyw==
+Date: Mon, 12 Oct 2026 13:40:13 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Christian Marangi <ansuelsmth@gmail.com>, Andy Gross <agross@codeaurora.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH 05/10] phy: qcom-ipq806x-usb: fix the SS PHY
+ TEST_POWERDOWN bit
+Message-ID: <asyVtSA2MRJkwxXC@debian>
+References: <20260810-msm8974-usb3-v1-0-1a47e1185524@oss.qualcomm.com>
+ <20260810-msm8974-usb3-v1-5-1a47e1185524@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20261012060557epcas2p4ce5468f159a857c5caf2c81b59cc3f60
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-X-Hop-Count: 3
-X-CMS-RootMailID: 20261012060557epcas2p4ce5468f159a857c5caf2c81b59cc3f60
-References: <CGME20261012060557epcas2p4ce5468f159a857c5caf2c81b59cc3f60@epcas2p4.samsung.com>
+In-Reply-To: <20260810-msm8974-usb3-v1-5-1a47e1185524@oss.qualcomm.com>
 
-When DWC3_EP_DELAY_STOP defers ENDXFER, giveback of -ESHUTDOWN requests
-arrives after gserial_disconnect(). These stale requests then accumulate
-in read_pool via gs_rx_push(). After gadget exit frees the old endpoint,
-req->dep becomes a dangling pointer. On the next gserial_connect(),
-gs_start_rx() queues these stale requests onto a new endpoint, triggering:
+On Mon, Aug 10, 2026 at 02:42:35PM +0300, Dmitry Baryshkov wrote:
+> The SS PHY exit sequence tries to put the PHY into retention via the
+> TEST_POWERDOWN bit of SS_PHY_CTRL, but defines that bit as BIT(27). In
+> the DWC3 QSCRATCH SS_PHY_CTRL register TEST_POWERDOWN is bit 26 (see
+> the downstream phy-msm-ssusb driver for the same IP generation), so the
+> sequence pokes an unrelated bit and the PHY is never powered down.
+> 
+> Fixes: ef19b117b834 ("phy: qualcomm: add qcom ipq806x dwc usb phy driver")
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-  WARNING: CPU: 0 at drivers/usb/dwc3/gadget.c:1990
-  request 00000000e6e350a5 belongs to ''
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-  Call trace:
-   dwc3_gadget_ep_queue+0x158/0x1e8
-   usb_ep_queue+0x60/0xe8
-   gs_start_rx+0xa4/0x128
-   gs_start_io+0x128/0x254
-   gserial_connect+0xb4/0x14c
-   acm_set_alt+0xa0/0x114
-   set_config+0x22c/0x384
-   composite_setup+0x37c/0xc7c
-   configfs_composite_setup+0x5c/0x88
-   dwc3_ep0_interrupt+0x6c8/0xbcc
-   dwc3_thread_interrupt+0xa0/0x1284
-   irq_thread_fn+0x48/0xa8
-   irq_thread+0x150/0x31c
-   kthread+0x150/0x27c
-   ret_from_fork+0x10/0x20
+- Mani
 
-Fix by freeing the request in gs_read_complete() when the port has
-already been disconnected (port->port_usb is NULL), so that stale
-requests never enter read_pool.
-
-Fixes: 937ef73d5075 ("USB: serial gadget: rx path data loss fixes")
-Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
----
-Changes in v4:
-- Check port->port_usb instead of req->status == -ESHUTDOWN to detect
-  completions after gserial_disconnect()
-- Drop the read_started decrement, gserial_disconnect() already resets it
-- Rephrase the code comment in terms of u_serial
-Link to v3: https://lore.kernel.org/all/20260727051335.1745955-1-dh10.jung@samsung.com/
-
-Changes in v3:
-- Add missing version tag in subject
-Link to v2: https://lore.kernel.org/linux-usb/20260727042632.1726391-1-dh10.jung@samsung.com/
-
-Changes in v2:
-- Correct the name of author
-- Modify commit subject (panic -> warn)
-Link to v1: https://lore.kernel.org/all/20260721013509.2327242-1-dh10.jung@samsung.com/
----
- drivers/usb/gadget/function/u_serial.c | 17 ++++++++++++++---
- 1 file changed, 14 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
-index cdd1dfc666c4f..917fe0a714972 100644
---- a/drivers/usb/gadget/function/u_serial.c
-+++ b/drivers/usb/gadget/function/u_serial.c
-@@ -459,10 +459,21 @@ static void gs_read_complete(struct usb_ep *ep, struct usb_request *req)
- {
- 	struct gs_port	*port = ep->driver_data;
- 
--	/* Queue all received data until the tty layer is ready for it. */
- 	spin_lock(&port->port_lock);
--	list_add_tail(&req->list, &port->read_queue);
--	schedule_delayed_work(&port->push, 0);
-+	if (!port->port_usb) {
-+		/*
-+		 * The port was disconnected: gserial_disconnect() has already
-+		 * freed read_pool/read_queue and reset the request counters.
-+		 * Free this request now instead of queueing it, otherwise
-+		 * gs_rx_push() would return it to read_pool and the next
-+		 * gserial_connect() would submit it on the new OUT endpoint.
-+		 */
-+		gs_free_req(ep, req);
-+	} else {
-+		/* Queue all received data until the tty layer is ready for it. */
-+		list_add_tail(&req->list, &port->read_queue);
-+		schedule_delayed_work(&port->push, 0);
-+	}
- 	spin_unlock(&port->port_lock);
- }
- 
 -- 
-2.34.1
-
-
+மணிவண்ணன் சதாசிவம்
