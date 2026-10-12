@@ -1,67 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00881E1A17
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 02:15:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FB1126BE1;
+	Mon, 12 Oct 2026 03:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791771318; cv=none; b=TYa+d52ajMM1VluEZi9YDC6mpkJE0oWDLPyVberTWXGP8cdacFfo2MOovWd16utwJEqYIM7FDPBpmRvqA27qkmGW6oVhLKKxs4W+SNaYXD2E76qAarbOrAVTnDBO5pex5fdaM5BRPxT7e6YzDJrgHmnK4l6WyQmBdayS7ihDawI=
+	t=1791774981; cv=none; b=jYx1Zixd3jFzFP0mYMXzRRiFLZDpqdflXxQQyd6C+W5pfCcCHGaY2YHLgOcOQWf+UACA3Z3BMRr7IyAmRVRR9/veeg03YwqIStK4k2RwByJ5m6fmLGPUHA0vvSGDAFo7gdIpap14kWyB+srA60eSW0bZMIPvYEIP/qbCMnkSH6c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791771318; c=relaxed/simple;
-	bh=hnwEEi5+jv5GvVp0EAD1gdpc/M2QZN5F5Off+kp65xo=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=IeNqHZMDHV9MVJzLax0gGWBLqDuQKsaJQ8nsNtJ2EvfmiWsQKwzOw1WzIIzc+4xW8y3bTWE26JEt5V9es40zT9eFNnL5Or+6+M2HxyTtdz9XtwuVdcMNnoWeoep6Z9tVjq0hFg9J+STPIkWtrSys8WKWpjAdj27f3bZIOJrQc7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n9qB1+zJ; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n9qB1+zJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 718A91F0089B;
-	Mon, 12 Oct 2026 02:15:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791771317;
-	bh=wZAoQAYDJMLXknMP7/0pHOVPL2ub4n/FlHwaDTbut1Y=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=n9qB1+zJJhsbtOCMDWuUHbROvrTKL3CyOjO6IT5XPOLsg5i+EXx7imvrmJshqEZ4S
-	 95W0PJN7M+/A56yWsOztIXJCwLZ0S6nAvIh49/IkO7RVCHGqOU7YLbag8cAEl/NQFU
-	 im8r+EkkkFpof3jo2Tpkt5v3yhFK4NBvoZOWwbzhatLfvB5yHwsVWo8j28QufgtMAs
-	 TE/eo66n1I2V81+muMU9vK2y7HFNGfz1d2+Cic7c7Unlz/zwsCnGwetqfSq9sx0wXG
-	 2xKNws840SFy2PYqPZTkjH1Pfm10SvoPgvYn+7+emGa2ajMxfdW/m/R01cM96QVOb6
-	 0AhxyCEBL2fLg==
-Message-ID: <sashiko-outbox-167553@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: host: octeon-hcd: fix kernel-doc comments
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Zhijian Han" <hanzhijian1991@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261012021320.3047735-1-hanzhijian1991@gmail.com>
-References: <20261011133931.GA12345@kroah.com>
- <20261012021320.3047735-1-hanzhijian1991@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Oct 2026 02:15:16 +0000
+	s=arc-20240116; t=1791774981; c=relaxed/simple;
+	bh=3p5WTVA2pOH2YHLPjmO3MjRmdIDi+rOuQxWLhvQ1IQY=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=gjmnoEkqyX+9zE3KwuleB76erBnfgkAG3/5ghLXy4NO15Kw3f3wglWcJa0vQ6nCvBAs2q3xpHnG0au/5kfb/k+69pl375cd/OEohYnHcQgUb5c0X8PFttKvr6vjrA0dhmkLjXENITafDQ0v1v9bkNPkgh7oGpIqM/TN7vzVAlYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 44dd2ebac5eb11f19a56ed5b684f684d-20261012
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:23d6faa1-bfdb-414e-8e12-f268d10a601c,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:de48f01b6d707df912f49ff6c23cc641,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
+	,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 44dd2ebac5eb11f19a56ed5b684f684d-20261012
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 49622387; Mon, 12 Oct 2026 11:16:08 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: Bertrand Jacquin <bertrand@jacquin.bzh>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Venkat Jayaraman <venkat.jayaraman@intel.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	huangwei@kylinos.cn
+Subject: Re: [PATCH] usb: typec: ucsi: Fix NULL pointer dereference in power level debugfs
+Date: Mon, 12 Oct 2026 11:16:05 +0800
+Message-Id: <20261012031606.2858685-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261010120357.4937-1-bertrand@jacquin.bzh>
+References: <20261010120357.4937-1-bertrand@jacquin.bzh>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> The file has 31 comments that start with "/**" but are not valid
-> kernel-doc comments because they lack the "function_name() -" summary
-> line.  scripts/kernel-doc reports "isn't a kernel-doc comment" for each
-> of them, and they are silently dropped from the generated kernel
-> documentation.
->=20
-> Add the missing function and enum name lines, and document the values
-> of enum cvmx_usb_stage, so all these comments become valid kernel-doc
-> and are included in the generated documentation.
->=20
-> Found by running scripts/kernel-doc -none on the file.
->=20
-> Assisted-by: LLM scripts/kernel-doc
-> Signed-off-by: Zhijian Han <hanzhijian1991@gmail.com>
+Hi Bertrand,
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+I checked this over. The window is real - ucsi_register() creates the
+debugfs entries right away while ucsi->connector is only assigned at
+the end of ucsi_init(), so on the PPM-init-failed path those three
+files stay reachable with a NULL connector.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012021320.3047=
-735-1-hanzhijian1991@gmail.com?part=3D1
+I also grepped debugfs.c for other ucsi->connector dereferences - the
+three show functions the patch guards are the only ones (ucsi_resp
+and the command interface go through ucsi->debugfs), so the fix is
+complete.
 
+One thing I'd note in favour of guarding rather than moving
+ucsi_debugfs_register() after connector assignment: the command and
+response files are exactly what you want available when the PPM is
+misbehaving, so keeping the early registration and just making the
+power-level reads fail cleanly looks like the better shape to me.
+
+Reviewed-by: Huang Wei <huangwei@kylinos.cn>
+
+Thanks,
+Huang Wei
