@@ -1,67 +1,495 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482482D7386
-	for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 23:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A018C25F99F
+	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 02:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791762847; cv=none; b=BHNL5f0TLCiwN75+JN5hETQ9kJHyQjFVUrNTuviPJg7fXdzHxARnW7RkcMZydKaljkAKrnl4l2WBbxvkwr1tw+Bp3w92Ig7+r+HvqQ34XBKXILdu8Cncjk2pxoWGs+/IeEpKj0ezb+NJeF1FQpW1+tOHscBm466E+2iAB03Mdps=
+	t=1791771217; cv=none; b=MGwNDOcT0LeWD+fTAFt8hH14cmuiKYOylMJ3Iv/bxWrt6rnMhQ/D+7Nx8reaaZ9E+nVIk0+ZBJbtaEprZL5dULX0yiQYanrNMa08GCkIy7vqjkMy5wzIk7oL00X9zGxBitFVfK4/EiA8AxValiyhg++q/ZiU0Mbcg2LDPLIT1ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791762847; c=relaxed/simple;
-	bh=e2ww5c2nj1hAXrW8ls3lcn4dTAnncCt51KsG4vl9fr8=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=knTvANiUMEV2P4GEVFDu5Pyypt3Vu7fVXnLmnb8lyaGiRveh6zRtEBN2mrM8JKsoaz84CLi/rRP51KQGkfp+v11FLTqwr+28DVh2lykGOdHPcuENjT3xu2HATp3VyhVczuaTiQ/oapjiKMDUq7LslMf0Ot26NVeH3nlYE/8r23Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P/LxiZGG; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791771217; c=relaxed/simple;
+	bh=ahq+e9skKdY0g3kYWgKoS8r9WsNxNIbkj2z/vRFvSzs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Qkax9MtsIepsArKlx435aBf8aB+By3Vp+2eLY5b+YNbvu5AQ9uR4nRJIKfIqLGdyLi3iD1FifQrzsfXucQg1eJ2RPCq3sDYVgosW1NEt2dB1CdeXiqScEoPPLt+OQNdwbj5i4D6rpgkuBRWEv5IQumnUD73NMMjq+kDvP5o9CtU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EAwVpZf3; arc=none smtp.client-ip=209.85.216.52
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P/LxiZGG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8894E1F0089B;
-	Sun, 11 Oct 2026 23:54:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791762845;
-	bh=MogwDh66f1UWvJJsI0hCnoIRiVako581WZoozfJKzxA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=P/LxiZGGbdiOzH3GehYPQFYUJyrirYUvz+DVOJfAoGZ7oLHNig1Zy1HcxGUmXmmBT
-	 4W9consQhE5HHuP8baOxpxeghodrNcbeKt9LujxSQ12anm2CTBensdzLmfernHqd/E
-	 NLYYMw5nCwNWyJeNx6LJVy7PL9qH0XUvN91JGJIRtbESOm71BT/XIEBb7sKSW8DH20
-	 56tw5i1WA+aCT4MGW2n0AQgk7GoSK7GGfVCoDt8bNKQka9DMXbNul7INnNMKn13Vr+
-	 nJpL2u1blC6cwqErW1RNpRlddwI5Oqpxht+g0zVnlj9dWPJ/VjjYfzibD4K9W5p0HE
-	 9dwuMLY0kiXqw==
-Message-ID: <sashiko-outbox-167523@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] tools: usb: ffs-test: read the descriptor counts
- with unaligned accesses
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sasha Levin" <sashal@kernel.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261011234707.2475490-1-sashal@kernel.org>
-References: <lx+m4kkf9bvbpe7f+l7y+7tc@mina86.com>
- <20261011234707.2475490-1-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 11 Oct 2026 23:54:05 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EAwVpZf3"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3a4cdc9025bso582466a91.0
+        for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 19:13:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791771214; x=1792376014; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=r51QjOdjyHDS4ydy0g2u1yWXhQuhvDWqYc0+ObYdvlY=;
+        b=EAwVpZf3LCjfr75ptJdl8Fb6M/TxzvJz7bvrBUhdH/B3n4pe333L1c0X/enHLg+Yby
+         tB2DXnaLgRsLT2xsAqyQBdiFzag4WnL77JO4YAeLY+Z+E4vwBZNmgC9bE9S0CUh/wDb4
+         cMOM5rbiwLmG+OjaD5FTuDl7IjYNj+VtSY8dC8Fp84YXklkZUC5ybCG8nkCWnfvE5XnM
+         HuxJyDk0mHLaieJlALtfBPSPkZ2FmvX22x41bzPO1Fu8Il5Aq1hWXmEYG0Kw9/BAiAfd
+         6AWkt67YBtJUG1oF1ubFNPwGns3Z6d6zIZPhC0ADCWG78VBMdjXwSakvp4t8gduODBP+
+         jjOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791771214; x=1792376014;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=r51QjOdjyHDS4ydy0g2u1yWXhQuhvDWqYc0+ObYdvlY=;
+        b=chClJPnv7dSQpHeMiLM7QX/UWHwQlHb7Pg2LWzw6pSEKkf8fpavwC8GnzQ88oK5LL/
+         Ni83UI5Hflm+VH6Thxj54WiW+HMtnBBVc8BEzc2t1ebEM8gYXO/pjfw9jV0y7gjmJz66
+         I4/SMZ3oemVPLYlIbDDZqvyiAeu5wGJUzMZjfBECP1qRWqEtB+xmPPO5LBmMteNTUkqt
+         s+IPV3mGY7kQxXilhaFJtaWm182qSSeUjFtkziJAw2UKDk7HxAUbBM7yBMS/QLAov7PL
+         kVgivcAwrn5X9RzHxOWb2BhyUCMp2XMnJxh7whSrjYKN5YmOMKrR3ylkh0nQ8qfNvDcQ
+         5uBg==
+X-Gm-Message-State: AFq9FYJz/GlvnMGk1yIB3HsPoLc3AXI58GsmBCUHBSyjYCmxvmi5ZG49
+	zD/7UYMT7zmT8mzwEZ5LVwFAr/+KXKRZqcffP4PYyVWWl0OG0zppFDRk6iy2/w==
+X-Gm-Gg: AYBFou37DO0CQ48rHMkFeVwfC3y/yGF1Y0/68RKhU3ZrzCd8Jyh+KSiBb3vFCf91RKs
+	vLmrkLkzyFZ46i2QaoO9D1ffwbPgS7ViozJBylsOuEAol6mJmAdXtTweWa1a6WQ/dvJnM/GIX+f
+	bT/tn+t+4lTtAAeZV2eOfeRj2ihfE7HZfowGTh4qvA+h9gY/D2JSKgcspl3JEH5q4iHujzqou+n
+	pgdkP5m4tEA71MxHlCehrYBuMWCn57nrQa01aw2//Sg7M6EloRYON0WsxFzJE36VN7snGQLj5sW
+	J/ZAuT1r6f1F5nIs/y/rhZ2vXJ2FCaav9NvOi84niyGu2AcyHJ2jyvKKkaAx/TI5GKqSEU14A49
+	EYekZ4Dq0kzaxxkc5TSjOGE6fQ5SropEV3A41NTjw8ScvQJWQv08L/Ic5XQRozb2bAfP/iESqrC
+	oKxOFHfVn0hGFo3h0vHEUXYcO3tY71pz/6TYXtDBnkioGkxaSztr4gcO4K/LCbmEkbRGGfVycpe
+	hcCI+zmInm/KN7h68w+TXei2t80qUotC++pMS5FtViT1boqAK2SRJgKeUez5tY=
+X-Received: by 2002:a17:90b:2b48:b0:3a0:4146:295b with SMTP id 98e67ed59e1d1-3ab3a90e8c1mr5707211a91.17.1791771213579;
+        Sun, 11 Oct 2026 19:13:33 -0700 (PDT)
+Received: from hanzj-mi.. (ec2-99-79-140-187.ca-central-1.compute.amazonaws.com. [99.79.140.187])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab37139b59sm14401085a91.13.2026.10.11.19.13.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 11 Oct 2026 19:13:33 -0700 (PDT)
+From: Zhijian Han <hanzhijian1991@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Zhijian Han <hanzhijian1991@gmail.com>
+Subject: [PATCH v2] usb: host: octeon-hcd: fix kernel-doc comments
+Date: Mon, 12 Oct 2026 10:13:20 +0800
+Message-ID: <20261012021320.3047735-1-hanzhijian1991@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261011133931.GA12345@kroah.com>
+References: <20261011133931.GA12345@kroah.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> descs_to_legacy() reads the descriptor counts through a __le32 pointer
-> taken from a member of a packed struct, which may be unaligned:
->=20
->   ffs-test.c:235:40: warning: taking address of packed member of 'struct =
-<anonymous>' may result in an unaligned pointer value [-Waddress-of-packed-=
-member]
->=20
-> Walk the counts with a byte pointer and get_unaligned_le32().
->=20
-> Fixes: b9a4274699c69 ("tools: ffs-test: add compatibility code for old ke=
-rnels")
-> Assisted-by: LLM
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+The file has 31 comments that start with "/**" but are not valid
+kernel-doc comments because they lack the "function_name() -" summary
+line.  scripts/kernel-doc reports "isn't a kernel-doc comment" for each
+of them, and they are silently dropped from the generated kernel
+documentation.
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+Add the missing function and enum name lines, and document the values
+of enum cvmx_usb_stage, so all these comments become valid kernel-doc
+and are included in the generated documentation.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261011234707.2475=
-490-1-sashal@kernel.org?part=3D1
+Found by running scripts/kernel-doc -none on the file.
+
+Assisted-by: LLM scripts/kernel-doc
+Signed-off-by: Zhijian Han <hanzhijian1991@gmail.com>
+---
+ drivers/usb/host/octeon-hcd.c | 175 +++++++++++++++++++++-------------
+ 1 file changed, 110 insertions(+), 65 deletions(-)
+
+diff --git a/drivers/usb/host/octeon-hcd.c b/drivers/usb/host/octeon-hcd.c
+index 34ce771fa..2e222af0f 100644
+--- a/drivers/usb/host/octeon-hcd.c
++++ b/drivers/usb/host/octeon-hcd.c
+@@ -233,12 +233,23 @@ enum cvmx_usb_pipe_flags {
+ #define MAX_TRANSFER_PACKETS	((1 << 10) - 1)
+ 
+ /**
+- * Logical transactions may take numerous low level
+- * transactions, especially when splits are concerned. This
+- * enum represents all of the possible stages a transaction can
+- * be in. Note that split completes are always even. This is so
+- * the NAK handler can backup to the previous low level
+- * transaction with a simple clearing of bit 0.
++ * enum cvmx_usb_stage - Transaction stages
++ *
++ * Logical transactions may take numerous low level transactions, especially
++ * when splits are concerned. This enum represents all of the possible stages
++ * a transaction can be in. Note that split completes are always even. This
++ * is so the NAK handler can backup to the previous low level transaction
++ * with a simple clearing of bit 0.
++ *
++ * @CVMX_USB_STAGE_NON_CONTROL: Non-control transaction stage
++ * @CVMX_USB_STAGE_NON_CONTROL_SPLIT_COMPLETE: Non-control transaction stage,
++ *     split complete
++ * @CVMX_USB_STAGE_SETUP: Setup stage
++ * @CVMX_USB_STAGE_SETUP_SPLIT_COMPLETE: Setup stage, split complete
++ * @CVMX_USB_STAGE_DATA: Data stage
++ * @CVMX_USB_STAGE_DATA_SPLIT_COMPLETE: Data stage, split complete
++ * @CVMX_USB_STAGE_STATUS: Status stage
++ * @CVMX_USB_STAGE_STATUS_SPLIT_COMPLETE: Status stage, split complete
+  */
+ enum cvmx_usb_stage {
+ 	CVMX_USB_STAGE_NON_CONTROL,
+@@ -512,9 +523,10 @@ static void octeon_unmap_urb_for_dma(struct usb_hcd *hcd, struct urb *urb)
+ }
+ 
+ /**
+- * Read a USB 32bit CSR. It performs the necessary address swizzle
+- * for 32bit CSRs and logs the value in a readable format if
+- * debugging is on.
++ * cvmx_usb_read_csr32() - Read a USB 32bit CSR.
++ *
++ * It performs the necessary address swizzle for 32bit CSRs and logs the
++ * value in a readable format if debugging is on.
+  *
+  * @usb:     USB block this access is for
+  * @address: 64bit address to read
+@@ -527,9 +539,10 @@ static inline u32 cvmx_usb_read_csr32(struct octeon_hcd *usb, u64 address)
+ }
+ 
+ /**
+- * Write a USB 32bit CSR. It performs the necessary address
+- * swizzle for 32bit CSRs and logs the value in a readable format
+- * if debugging is on.
++ * cvmx_usb_write_csr32() - Write a USB 32bit CSR.
++ *
++ * It performs the necessary address swizzle for 32bit CSRs and logs the
++ * value in a readable format if debugging is on.
+  *
+  * @usb:     USB block this access is for
+  * @address: 64bit address to write
+@@ -543,8 +556,10 @@ static inline void cvmx_usb_write_csr32(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Return non zero if this pipe connects to a non HIGH speed
+- * device through a high speed hub.
++ * cvmx_usb_pipe_needs_split() - Check if a pipe needs split transactions
++ *
++ * Return non zero if this pipe connects to a non HIGH speed device through a
++ * high speed hub.
+  *
+  * @usb:    USB block this access is for
+  * @pipe:   Pipe to check
+@@ -559,6 +574,8 @@ static inline int cvmx_usb_pipe_needs_split(struct octeon_hcd *usb,
+ }
+ 
+ /**
++ * cvmx_usb_get_data_pid() - Get the correct PID for a pipe
++ *
+  * Trivial utility function to return the correct PID for a pipe
+  *
+  * @pipe:   pipe to check
+@@ -647,9 +664,10 @@ static void cvmx_fifo_setup(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Shutdown a USB port after a call to cvmx_usb_initialize().
+- * The port should be disabled with all pipes closed when this
+- * function is called.
++ * cvmx_usb_shutdown() - Shutdown a USB port
++ *
++ * Shutdown a USB port after a call to cvmx_usb_initialize(). The port should
++ * be disabled with all pipes closed when this function is called.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  *
+@@ -679,9 +697,10 @@ static int cvmx_usb_shutdown(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Initialize a USB port for use. This must be called before any
+- * other access to the Octeon USB port is made. The port starts
+- * off in the disabled state.
++ * cvmx_usb_initialize() - Initialize a USB port for use.
++ *
++ * This must be called before any other access to the Octeon USB port is
++ * made. The port starts off in the disabled state.
+  *
+  * @dev:	 Pointer to struct device for logging purposes.
+  * @usb:	 Pointer to struct octeon_hcd.
+@@ -950,8 +969,9 @@ static int cvmx_usb_initialize(struct device *dev,
+ }
+ 
+ /**
+- * Reset a USB port. After this call succeeds, the USB port is
+- * online and servicing requests.
++ * cvmx_usb_reset_port() - Reset a USB port.
++ *
++ * After this call succeeds, the USB port is online and servicing requests.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  */
+@@ -983,9 +1003,10 @@ static void cvmx_usb_reset_port(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Disable a USB port. After this call the USB port will not
+- * generate data transfers and will not generate events.
+- * Transactions in process will fail and call their
++ * cvmx_usb_disable() - Disable a USB port.
++ *
++ * After this call the USB port will not generate data transfers and will not
++ * generate events. Transactions in process will fail and call their
+  * associated callbacks.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+@@ -1001,11 +1022,12 @@ static int cvmx_usb_disable(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Get the current state of the USB port. Use this call to
+- * determine if the usb port has anything connected, is enabled,
+- * or has some sort of error condition. The return value of this
+- * call has "changed" bits to signal of the value of some fields
+- * have changed between calls.
++ * cvmx_usb_get_status() - Get the current state of the USB port.
++ *
++ * Use this call to determine if the usb port has anything connected, is
++ * enabled, or has some sort of error condition. The return value of this
++ * call has "changed" bits to signal of the value of some fields have changed
++ * between calls.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  *
+@@ -1031,9 +1053,10 @@ static struct cvmx_usb_port_status cvmx_usb_get_status(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Open a virtual pipe between the host and a USB device. A pipe
+- * must be opened before data can be transferred between a device
+- * and Octeon.
++ * cvmx_usb_open_pipe() - Open a virtual pipe between the host and a USB device.
++ *
++ * A pipe must be opened before data can be transferred between a device and
++ * Octeon.
+  *
+  * @usb:	     USB device state populated by cvmx_usb_initialize().
+  * @device_addr:
+@@ -1144,9 +1167,10 @@ static struct cvmx_usb_pipe *cvmx_usb_open_pipe(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Poll the RX FIFOs and remove data as needed. This function is only used
+- * in non DMA mode. It is very important that this function be called quickly
+- * enough to prevent FIFO overflow.
++ * cvmx_usb_poll_rx_fifo() - Poll the RX FIFOs and remove data as needed.
++ *
++ * This function is only used in non DMA mode. It is very important that this
++ * function be called quickly enough to prevent FIFO overflow.
+  *
+  * @usb:	USB device state populated by cvmx_usb_initialize().
+  */
+@@ -1190,8 +1214,9 @@ static void cvmx_usb_poll_rx_fifo(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Fill the TX hardware fifo with data out of the software
+- * fifos
++ * cvmx_usb_fill_tx_hw() - Fill the TX hardware FIFO
++ *
++ * Fill the TX hardware fifo with data out of the software fifos
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+  * @fifo:	    Software fifo to use
+@@ -1250,7 +1275,7 @@ static int cvmx_usb_fill_tx_hw(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Check the hardware FIFOs and fill them as needed
++ * cvmx_usb_poll_tx_fifo() - Check the hardware FIFOs and fill them as needed
+  *
+  * @usb:	USB device state populated by cvmx_usb_initialize().
+  */
+@@ -1286,7 +1311,7 @@ static void cvmx_usb_poll_tx_fifo(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Fill the TX FIFO with an outgoing packet
++ * cvmx_usb_fill_tx_fifo() - Fill the TX FIFO with an outgoing packet
+  *
+  * @usb:	  USB device state populated by cvmx_usb_initialize().
+  * @channel:	  Channel number to get packet from
+@@ -1338,8 +1363,10 @@ static void cvmx_usb_fill_tx_fifo(struct octeon_hcd *usb, int channel)
+ }
+ 
+ /**
+- * Perform channel specific setup for Control transactions. All
+- * the generic stuff will already have been done in cvmx_usb_start_channel().
++ * cvmx_usb_start_channel_control() - Setup a control transaction channel
++ *
++ * Perform channel specific setup for Control transactions. All the generic
++ * stuff will already have been done in cvmx_usb_start_channel().
+  *
+  * @usb:	  USB device state populated by cvmx_usb_initialize().
+  * @channel:	  Channel to setup
+@@ -1487,6 +1514,8 @@ static void cvmx_usb_start_channel_control(struct octeon_hcd *usb,
+ }
+ 
+ /**
++ * cvmx_usb_start_channel() - Start a channel
++ *
+  * Start a channel to perform the pipe's head transaction
+  *
+  * @usb:	  USB device state populated by cvmx_usb_initialize().
+@@ -1831,7 +1860,10 @@ static void cvmx_usb_start_channel(struct octeon_hcd *usb, int channel,
+ }
+ 
+ /**
++ * cvmx_usb_find_ready_pipe() - Find a pipe ready to be scheduled
++ *
+  * Find a pipe that is ready to be scheduled to hardware.
++ *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @xfer_type:	 Transfer type
+  *
+@@ -1889,8 +1921,9 @@ static struct cvmx_usb_pipe *cvmx_usb_next_pipe(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Called whenever a pipe might need to be scheduled to the
+- * hardware.
++ * cvmx_usb_schedule() - Schedule a pipe
++ *
++ * Called whenever a pipe might need to be scheduled to the hardware.
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @is_sof:	 True if this schedule was called on a SOF interrupt.
+@@ -2043,8 +2076,9 @@ static void octeon_usb_urb_complete_callback(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Signal the completion of a transaction and free it. The
+- * transaction will be removed from the pipe transaction list.
++ * cvmx_usb_complete() - Signal the completion of a transaction and free it.
++ *
++ * The transaction will be removed from the pipe transaction list.
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @pipe:	 Pipe the transaction is on
+@@ -2100,8 +2134,9 @@ static void cvmx_usb_complete(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Submit a usb transaction to a pipe. Called for all types
+- * of transactions.
++ * cvmx_usb_submit_transaction() - Submit a usb transaction to a pipe.
++ *
++ * Called for all types of transactions.
+  *
+  * @usb:
+  * @pipe:	    Which pipe to submit to.
+@@ -2174,7 +2209,7 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_transaction(
+ }
+ 
+ /**
+- * Call to submit a USB Bulk transfer to a pipe.
++ * cvmx_usb_submit_bulk() - Call to submit a USB Bulk transfer to a pipe.
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+  * @pipe:	    Handle to the pipe for the transfer.
+@@ -2198,6 +2233,8 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_bulk(
+ }
+ 
+ /**
++ * cvmx_usb_submit_interrupt() - Submit an interrupt transfer
++ *
+  * Call to submit a USB Interrupt transfer to a pipe.
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+@@ -2223,7 +2260,7 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_interrupt(
+ }
+ 
+ /**
+- * Call to submit a USB Control transfer to a pipe.
++ * cvmx_usb_submit_control() - Call to submit a USB Control transfer to a pipe.
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+  * @pipe:	    Handle to the pipe for the transfer.
+@@ -2254,6 +2291,8 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_control(
+ }
+ 
+ /**
++ * cvmx_usb_submit_isochronous() - Submit an isochronous transfer
++ *
+  * Call to submit a USB Isochronous transfer to a pipe.
+  *
+  * @usb:	    USB device state populated by cvmx_usb_initialize().
+@@ -2281,11 +2320,12 @@ static struct cvmx_usb_transaction *cvmx_usb_submit_isochronous(
+ }
+ 
+ /**
+- * Cancel one outstanding request in a pipe. Canceling a request
+- * can fail if the transaction has already completed before cancel
+- * is called. Even after a successful cancel call, it may take
+- * a frame or two for the cvmx_usb_poll() function to call the
+- * associated callback.
++ * cvmx_usb_cancel() - Cancel one outstanding request in a pipe.
++ *
++ * Canceling a request can fail if the transaction has already completed
++ * before cancel is called. Even after a successful cancel call, it may take
++ * a frame or two for the cvmx_usb_poll() function to call the associated
++ * callback.
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @pipe:	 Pipe to cancel requests in.
+@@ -2330,8 +2370,9 @@ static int cvmx_usb_cancel(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Cancel all outstanding requests in a pipe. Logically all this
+- * does is call cvmx_usb_cancel() in a loop.
++ * cvmx_usb_cancel_all() - Cancel all outstanding requests in a pipe.
++ *
++ * Logically all this does is call cvmx_usb_cancel() in a loop.
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @pipe:	 Pipe to cancel requests in.
+@@ -2354,7 +2395,7 @@ static int cvmx_usb_cancel_all(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Close a pipe created with cvmx_usb_open_pipe().
++ * cvmx_usb_close_pipe() - Close a pipe created with cvmx_usb_open_pipe().
+  *
+  * @usb:	 USB device state populated by cvmx_usb_initialize().
+  * @pipe:	 Pipe to close.
+@@ -2376,8 +2417,10 @@ static int cvmx_usb_close_pipe(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Get the current USB protocol level frame number. The frame
+- * number is always in the range of 0-0x7ff.
++ * cvmx_usb_get_frame_number() - Get the current frame number
++ *
++ * Get the current USB protocol level frame number. The frame number is
++ * always in the range of 0-0x7ff.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  *
+@@ -2585,7 +2628,7 @@ static void cvmx_usb_transfer_isoc(struct octeon_hcd *usb,
+ }
+ 
+ /**
+- * Poll a channel for status
++ * cvmx_usb_poll_channel() - Poll a channel for status
+  *
+  * @usb:     USB device
+  * @channel: Channel to poll
+@@ -2927,10 +2970,12 @@ static void octeon_usb_port_callback(struct octeon_hcd *usb)
+ }
+ 
+ /**
+- * Poll the USB block for status and call all needed callback
+- * handlers. This function is meant to be called in the interrupt
+- * handler for the USB controller. It can also be called
+- * periodically in a loop for non-interrupt based operation.
++ * cvmx_usb_poll() - Poll the USB block
++ *
++ * Poll the USB block for status and call all needed callback handlers. This
++ * function is meant to be called in the interrupt handler for the USB
++ * controller. It can also be called periodically in a loop for non-interrupt
++ * based operation.
+  *
+  * @usb: USB device state populated by cvmx_usb_initialize().
+  *
+-- 
+2.43.0
 
