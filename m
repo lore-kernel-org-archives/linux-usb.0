@@ -1,43 +1,45 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F313489FB8;
-	Mon, 12 Oct 2026 12:54:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A93A404BE3;
+	Mon, 12 Oct 2026 12:58:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791809679; cv=none; b=B8pxHyz6LbTzq/kzIkfq63yAYX7skEGb29ACkNbY6WUA4moaunc3Jowgf8I0Gt+2cLIaYkqEQ9zD/dHP+t3AISY5Wq061FtraKrwYNpC2XJqcQ1ngBcvZDoDJ5wmnNV+WR2ToYdo1nM2DJCkbcxz5RWqt0cvm1zgxonrLAQHKBo=
+	t=1791809938; cv=none; b=etN5V+5SQ1cyXh9IRWBOSIG4F64ENB5USjH1N3eYscLU/cm12P5MgT6Yx2EoH2f1IfO3wa0fCozVpJ96mOf1mhTdtiSplGvDE/Ssa5tOtEEB9GxxmtQdzkeRYoo+xmFDiQ4kQGV5jZtdsMxoS5vwLCyfhbYB2tRuwywMYkJI3i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791809679; c=relaxed/simple;
-	bh=Iy4G3KkQgN/NGCU7Ua1uYFQsnWkG6B5FBxm3LSnuLN8=;
+	s=arc-20240116; t=1791809938; c=relaxed/simple;
+	bh=qin85BibcWwdgs+nY2xiaiEYJ2+uws3+DNC5ZdVJOAE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rgw1TqZYio7qFTQB4wotpcsCGg8y/chBL25g/TnQCDkQDexJCRApkvKcF1qCvHrDQN3HyBk2JjRlvD6pKzgA6IZNWrBlNml/zoTfZaSJ3jpHZNgUHXzI5u8+Hss9FmlL3dIzLZyYSVSLvvvqyYIDGrUlF3HBCFUGbIb8NIAsoxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=zv1e6mS4; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=sY25MIuc3uOsbz2V0S2GWuVztDrI4oyzz/VtfKV3AbK7Km2h2uBvqc0LipassVv+OT7fY4x0mS8j8B+qlPMSFw6nsqijrbzEn8tVzc3lBDWVNPEi6ZhA1jZlp/XbXbs3Y0aL4N9m+mAOVmEHUY/a7L5CAqmp0qyjP6o0JPpUhF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=tj/M0iIh; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="zv1e6mS4"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="tj/M0iIh"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=i4wR7/o0Lt0vZN0c0TRid1OYZdhYCCTPqOaf2Deqb7Y=; b=zv1e6mS4qjWBRiRy79gJIJEaGc
-	8j4u2HyLfOKbOkvHlB4SCxfZnSMpiv4KRAvOjfkMeXWrXkIXTnYgbIAY/tgGQM2H/1ixGEuaWwGyu
-	4Rz9hoy4V5GRaROzC7OETOqjo4++eiW0nX6myZdcTBSD7uugIOqtW3VjcHGhXCE14/BI=;
+	bh=WSN36eYvKDf/95wB4rGwHHwtlLBvopUuhPlbum0P/zw=; b=tj/M0iIh/Xruqt1qxZJofswqCq
+	g25G17pzS1uod+kg4wJ3Lt7rXcLMl7Xb+LXPNUQi2f1AJ6yfQxmhJPPZTeysvIU/cRtG6h7JH7eeX
+	ocOa1PPNLSTaBeVCLppFHXVpCPKdKt1xwJEDn16vGVS2j2RSLrT/oQQkgr7qI+yBHmjk=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1xGFY1-00AKBV-BK; Mon, 12 Oct 2026 14:54:33 +0200
-Date: Mon, 12 Oct 2026 14:54:33 +0200
+	id 1xGFcD-00AKE2-Ho; Mon, 12 Oct 2026 14:58:53 +0200
+Date: Mon, 12 Oct 2026 14:58:53 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
-Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
-	pabeni@redhat.com, oliver@neukum.org, giuseppe@southpole.se
-Subject: Re: [PATCH net v2] net: usb: cdc_ncm: reject short
- GET_NTB_PARAMETERS responses
-Message-ID: <66ef60eb-524d-46ea-b6c8-0543bb2c0c63@lunn.ch>
-References: <20261011035150.53315-1-xinsheng.zhu.ny@gmail.com>
+Cc: netdev-bot+sashiko@kernel.org, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	oliver@neukum.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+	edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com
+Subject: Re: [PATCH net] net: usb: cdc_ncm: reject short GET_NTB_PARAMETERS
+ responses
+Message-ID: <f84dc8e1-8dd3-4850-b87a-b526e66943b5@lunn.ch>
+References: <20261005041525.49111-1-xinsheng.zhu.ny@gmail.com>
+ <179134657946.434549.14071341559835135672@kernel.org>
+ <CAFGKm+zjOtU8WGpcqqb6_XnFd3vmPw2RszPig9PJzbq3Uqh_Lw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,28 +48,15 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261011035150.53315-1-xinsheng.zhu.ny@gmail.com>
+In-Reply-To: <CAFGKm+zjOtU8WGpcqqb6_XnFd3vmPw2RszPig9PJzbq3Uqh_Lw@mail.gmail.com>
 
-On Sat, Oct 10, 2026 at 11:51:50PM -0400, Xinsheng Zhu wrote:
-> usbnet_read_cmd() returns the actual transfer length, but cdc_ncm_init()
-> only checks for negative errors when reading the NTB parameters. A short
-> response therefore leaves the missing bytes zero-filled, and
-> initialization continues with parameters that were not supplied by the
-> device.
-> 
-> CDC NCM 1.1, section 7.2.1, Table 7-3 defines a 28-byte NTB
-> parameter structure. Require GET_NTB_PARAMETERS to return the
-> complete structure before continuing initialization.
-> 
-> Return -EIO for short responses, including zero-length responses, and
-> preserve negative errors from usbnet_read_cmd(). This ensures that a
-> zero-byte response cannot be reported as successful initialization when
-> rejecting an incomplete response.
-> 
-> The issue is theoretical and was found by manual inspection of
-> usbnet_read_cmd() callers with LLM assistance.
+> Fixes: 36c35416a94f ("cdc_ncm: fix endianness problem.")
 
-If this is theoretical, please drop the Fixes tag and post to
-net-next.
+What has endinesses got to do with message length? A truncated wrong
+endian message is just as bad as a truncated correct endian message.
 
-	Andrew
+If you want a fixes tag, please make sure it is actually correct, go
+back in the history and find the real place the issue was introduced,
+not the last time the code was touched.
+
+    Andrew
