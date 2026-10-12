@@ -1,111 +1,68 @@
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEF64AD7DB
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 17:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22C6D4BD78D
+	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 17:28:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791825382; cv=none; b=TjgpY7npUQ4o5hIxmdMeX7E6gQp/70+0ij6qt5KxtfwUI5jGtdhPOKZ6xJp07SQM6BhdL+ZvxXZlbWo+HnoBVIi2aSF3ig+rysNnivJdAFU5wKIsTT7Ojwb21Y88hmkOoIjHqqIpYVNl7tEMhJYsV6mkZsItlrxS+CIjVQdCG/k=
+	t=1791826100; cv=none; b=TDB1gV6bFpdZPUs1HGsskBFlIBwiOQcKuCbU9GGXbZFxJkbW3/32Eu4R8mxIrDmn0cmC2dw5fdXOLtlnXLkui1cQrQsvvEJFvtjM41RiogrWBXIo/FyfeDMZoC12bgR3uHc+5+JUB/1ljkz1BuZrbUzhjtGBihlJlG4A2TlGeeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791825382; c=relaxed/simple;
-	bh=H40N0r6C1OEILBCNLk3itAeNjnm/Po1zfEGjkOl/OUE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=mFT3pE4asutfpPv7WMI3WpIesgFRulUqM5NDkPSKrjJPuUQE3KU0NiP73R5vv1UtRxLCcSsY+aZkU9wlvNZxvmjalkMQq2nDhGZ99anmV9bb9B+JKRv8Grx9DjAKWw4TVkwOE/ZPGlXTZ9PgtJmVA4+cVVFdfRLVPIN3O4ggGwk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--sanglardf.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Gi9LxSyr; arc=none smtp.client-ip=74.125.82.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sanglardf.bounces.google.com
+	s=arc-20240116; t=1791826100; c=relaxed/simple;
+	bh=OPUmrK8e4h1KRBA1vWMaF/XyoyGc8zLR0RJaK+04Bvk=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=aw80b5uGpwdcUkAtJRXYFmqMEsLPZgqFp5/BtcH8vZA26sVA6LM1NaO9LhN5N++iYMW0C6/dCytKT/G0HQ2FhYPx9Fid/FGiAJ4y1e4RZg5FZuHrJZLfcXS6ge5zPilKe+nAp9b1sc6CxAfSRwlfEcV1ab/qoCZpdwHHYxhnn+0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eZpE2a+1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Gi9LxSyr"
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-35a0c25def6so2633140eec.0
-        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 10:16:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791825375; x=1792430175; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wR+OjSeqwxehKyGZb64WkIJcGP6xZXyCsJaiiPvzYn8=;
-        b=Gi9LxSyr6vBDxlzZFLPZkdnlOZwhmHsKb54yBkI1/w9I8/wXVZLC7tydfR2LLQ5R0H
-         xrl8j83vEvJG4v31dbYapNiQgBOLtNrJk3ojXaj11goOEfKVZiopqErqxAsgVcJjQQTO
-         BSIli9bXIVxP1HTG652f4M5/WfAQV02xLcNTXIt0YdkODTMO3cu29b0VK4SZGgjFfus5
-         vbr0mHc93BT/L1qn/+jAxJ1Jaocpv+nX5NiZR63pO2tO6mVev/4zfx+/uDJlVpzo5Gnd
-         RItpN3Em/e8T0U+e92GQ3gNwER4yLuL5nRGeffe/I24b7WSkqr0hzmgCoOzoU+JTBmbv
-         ZHGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791825375; x=1792430175;
-        h=content-type:cc:to:from:subject:message-id:references:mime-version
-         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wR+OjSeqwxehKyGZb64WkIJcGP6xZXyCsJaiiPvzYn8=;
-        b=ECRuVyLqWFeeHdImCwxXvInZq+BBqp/92jsRHZ8z0WQB5sBTDDCytv+ko3+kLR02Tq
-         R9+Ppwitt95jOSF4uvunvd5B68llYn0k8BbSK+P5YAIiAhNAa8/+Nvmw9fjuFKfTrq9t
-         guB92zpR7ohiXS+5zyptdmcBJmGAC/ayUshlgtOcsLoS2ChaalHL6mFVZjQczOhY+Ktt
-         Z5wloNL3uWCDGY0hb85d/NUE59Oj+ugVFsXhwEntcumRMficWg7Hnw1uY33jozBLB1he
-         fDK2QDaWHUyLO4hMGz0GPA4osm2VxaPV31m6k4GGNBJJLC5ikrb24o8uvbxGlrmdI3cX
-         6xKw==
-X-Gm-Message-State: AFq9FYIfhkytaASnE46pR3UyYJ+S9OOsVphbDTKrGIs+YHBUTMpZ5BXV
-	BTHfaAeBYQiAo+y3yx3H0WMsV3ne1E1boUtdS3i9zqTpHwvGcKKtyUitT/8yaKVE8C51y2T+pkj
-	zrxwZ6lG45kDf4W0zVw==
-X-Received: from dli3-n1.prod.google.com ([2002:a05:7022:283:10b0:14e:8121:6eda])
- (user=sanglardf job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:701b:2089:20b0:14a:d8fe:33a4 with SMTP id a92af1059eb24-16a60de40ffmr15751261c88.38.1791825374949;
- Mon, 12 Oct 2026 10:16:14 -0700 (PDT)
-Date: Mon, 12 Oct 2026 10:16:09 -0700
-In-Reply-To: <b7c2f7d1-40fd-4d83-8ced-5fc27e3be051@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eZpE2a+1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6159A1F0089B;
+	Mon, 12 Oct 2026 17:28:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791826091;
+	bh=OPUmrK8e4h1KRBA1vWMaF/XyoyGc8zLR0RJaK+04Bvk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=eZpE2a+1U+jXFBt5wzTc+8aB8igdbIPZY+91sTvgspJZVydXnTPmeVgfc54sWh3UF
+	 /HHNtdwsAkDvm/SnUhJbBBOy5C2prPDGEUtkBQCa1fJlBXBI5d4mD3dOW7VutoSBBF
+	 Y7BW3AHYdzbEctp2hTbbT0eOvvRzRzRXRQrnBpu1Ob5CYTiKNg/uvMNzuAlCoWqhqc
+	 C+Ff7htRuENgLG6+8x7PynPc105oN6Gqn+sN8+MFo6chbUiHN6XFiFf6b1by3Nmish
+	 TMDkzM0+wS1g+3pY2hkx/SGmAdqVjSO2D4Yx4BkSls2FgKXGQsKwlVHsEDFbPp1S4Z
+	 NJ0OhkMFNiA3A==
+Message-ID: <sashiko-outbox-168454@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: core: Emit KOBJ_CHANGE on unbound interface
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Fabien Sanglard" <sanglardf@google.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261012171609.88273-1-sanglardf@google.com>
+References: <b7c2f7d1-40fd-4d83-8ced-5fc27e3be051@rowland.harvard.edu>
+ <20261012171609.88273-1-sanglardf@google.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 12 Oct 2026 17:28:10 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <b7c2f7d1-40fd-4d83-8ced-5fc27e3be051@rowland.harvard.edu>
-X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261012171609.88273-1-sanglardf@google.com>
-Subject: [PATCH] usb: core: Emit KOBJ_CHANGE on unbound interface
-From: Fabien Sanglard <sanglardf@google.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Fabien Sanglard <sanglardf@google.com>
-Content-Type: text/plain; charset="UTF-8"
 
-When an interface driver is forcibly unbound before a device reset,
-usb_rebind_intf() attempts to re-attach a driver once the reset
-completes in-place. Normal kernel drivers rebind and emit UNBIND
-followed by BIND. However, usbfs only binds on explicit userspace
-requests (e.g., USBDEVFS_CLAIMINTERFACE), so device_attach() returns 0
-and no uevent is emitted.
+> When an interface driver is forcibly unbound before a device reset,
+> usb_rebind_intf() attempts to re-attach a driver once the reset
+> completes in-place. Normal kernel drivers rebind and emit UNBIND
+> followed by BIND. However, usbfs only binds on explicit userspace
+> requests (e.g., USBDEVFS_CLAIMINTERFACE), so device_attach() returns 0
+> and no uevent is emitted.
+>=20
+> As a result, userspace clients like adb only see UNBIND and must poll
+> /dev/bus/usb to detect when the interface is ready again. Emit a
+> KOBJ_CHANGE uevent when device_attach() finds no matching driver so
+> userspace is notified that the interface can be reclaimed.
+>=20
+> Link: https://lore.kernel.org/linux-usb/CAA92w6k-LA4tVXyX1mFNOR3e+_mC43F_=
+BXqhXeWqQyFx2D4_Mg@mail.gmail.com/
+> Signed-off-by: Fabien Sanglard <sanglardf@google.com>
 
-As a result, userspace clients like adb only see UNBIND and must poll
-/dev/bus/usb to detect when the interface is ready again. Emit a
-KOBJ_CHANGE uevent when device_attach() finds no matching driver so
-userspace is notified that the interface can be reclaimed.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-Link: https://lore.kernel.org/linux-usb/CAA92w6k-LA4tVXyX1mFNOR3e+_mC43F_BXqhXeWqQyFx2D4_Mg@mail.gmail.com/
-Signed-off-by: Fabien Sanglard <sanglardf@google.com>
----
- drivers/usb/core/driver.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-index 7f33fe5ba03b..25057423fda0 100644
---- a/drivers/usb/core/driver.c
-+++ b/drivers/usb/core/driver.c
-@@ -1182,8 +1182,15 @@ static void usb_rebind_intf(struct usb_interface *intf)
- 	if (!intf->dev.power.is_prepared) {
- 		intf->needs_binding = 0;
- 		rc = device_attach(&intf->dev);
--		if (rc < 0 && rc != -EPROBE_DEFER)
-+		if (rc < 0 && rc != -EPROBE_DEFER) {
- 			dev_warn(&intf->dev, "rebind failed: %d\n", rc);
-+		} else if (rc == 0) {
-+			/*
-+			 * Emit a KOBJ_CHANGE uevent to notify userspace
-+			 * that the interface could not be rebound.
-+			 */
-+			kobject_uevent(&intf->dev.kobj, KOBJ_CHANGE);
-+		}
- 	}
- }
- 
--- 
-2.55.0.1082.g2b9226bbc0-goog
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012171609.8827=
+3-1-sanglardf@google.com?part=3D1
 
