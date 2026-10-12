@@ -1,102 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D343C8C7D
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 08:18:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1C8142589C;
+	Mon, 12 Oct 2026 08:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791793125; cv=none; b=WEiLT0GsCR5Sz6EVFNcPZAOCzDbYblAXo6H+7mXQm+6dJfqdOrTZJg2Rs+C6LXP4Yf4w/vs1FoA7xo59OeN9rKEpMd8CN0256F6CWVf0OuzfyRjvb9WyM5tPqgWVtsR9Y8TAz26VaNkEJLgx4594QzWIsX9lX4ElrjI/sRW2XHc=
+	t=1791793192; cv=none; b=tLDorjhurvCN8gp8e/k8Zipu4HmQOTW+2XPqaS6QSe2xhOaWNtFYX3ghMX6FZgugsDT76TJF1fPSzBQLFzGOg+6wTmC60sTDI/2gTfnfYv29QnSoV7hp4MJ4k8kAm4kx0huvqjfL+CZxtBYb6zDNWJ7H7jxwvEZVaykgc6bVkqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791793125; c=relaxed/simple;
-	bh=yike59V+agJoiLPILFt1AE0YoxYZrBD19SifNJUvQnI=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kvJ9DT1QAbUr4pg2MXMEXvuiTuxnEGY1AEs4KMOW8vU0++u30dndpx0XAVDnOL56zDvcJ2dr5+BXjp9DyF5iLf5FcSrfyzBh0S6N/Ks1NUN7tW4eBRdE6A4UIQfPyK6ftHXr6x62Qf0yNG+IlL1bAqPIuPkfjkGrp6GzIuhMHi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSDbLd2I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791793192; c=relaxed/simple;
+	bh=gmzjOOSF7twJel4VeHM/+0xsEa2hrSgbS2bdTCWg1Sc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PryTCsA5gCmgFRLARvhT0MseUppuwPuelEkYfAKGBIjLz9xqKumtKYnhqTaKNUSk8OBDqi4oLt1qmX9fNdsuzPqa5oxPRc1nYIbgZM7djuZ936T4WgsBZhF257SYW1+4hl346UXihlh1sN2nDndPKbv4Tjq4LsukfaTUqLYargU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IovvEw23; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSDbLd2I"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BAD80C2BCC7
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 08:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791793124;
-	bh=yike59V+agJoiLPILFt1AE0YoxYZrBD19SifNJUvQnI=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=iSDbLd2IFPW5a79ajd1R6yOkqdnSYnqZYZDdk32LLHEdANeJeytsK2zGIA6vyvMva
-	 Cfuf8QQ+tLEFBxmZVu/BKZrvQdNoBp72EvOyt34oRQxgcL5fAW7PbGhBQ1izRnUKTA
-	 sHMAMK0N6OCRFm1a4ZMKZVprrhvUZs/gpHDg2LrTYMeIE59CAWuCWprA9BcMR+zNeU
-	 oqzASUcIa+NH6fbQVtZ259eZe3WRGzF82idsYm5aLyNZlOGu57zn1dEg5/S+glNf0J
-	 e/sT8jvKXG7s8r5BaGGNxhN1LC/i0W+HtPQfQtEEPZxuUCkbJGCF/tLpxd7HF1OAYC
-	 ycHIW7Aqsf3vQ==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 9E326C41612; Mon, 12 Oct 2026 08:18:44 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
- breaks functionality of Owon VDS1022
-Date: Mon, 12 Oct 2026 08:18:44 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: daway320@163.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-220193-208809-Z5NTBUa2dg@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
-References: <bug-220193-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IovvEw23"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 785E41F0089B;
+	Mon, 12 Oct 2026 08:19:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791793191;
+	bh=Pt8dgJWek7/0/LhAmTZzYWHs1dc5eBB3jyEzUfzCwPw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=IovvEw23o4JOxMRvlwPv5HJ/Hb2AlhEMasVk4bqSR24fsLDUuhRyAPI0AgbmBJMPc
+	 +qAz7NmiPAtyG0ZsfnDymrKSQh4ehZhJabtS3NNn3aACrcYSFQBo4ZvKb0yxsQjHxF
+	 LOLbsY+g2AVfDu2ZklCRbNp8KzHtSNehYfV+DkAda1sjGWqvkHAM4TMLF71ekvTvRR
+	 qIuYNlm9CfvFJJndbVYYaA57HqvVdCSlbiKb/OeUD3nTgzkh305qZ8cqtBTKvLtW5K
+	 dq2H5dgG/nogXHksvD+yNTlejovr9RGqWVfMYiZg6F1qEyzU1qMfQSPh/pFp5KH5zG
+	 CfEgrdE714Ehw==
+Date: Mon, 12 Oct 2026 13:49:41 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Wesley Cheng <quic_wcheng@quicinc.com>, 
+	Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Christian Marangi <ansuelsmth@gmail.com>, Andy Gross <agross@codeaurora.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
+	linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-phy@lists.infradead.org
+Subject: Re: [PATCH 06/10] phy: qcom-ipq806x-usb: fix the PHY_PARAM_CTRL1
+ field masks
+Message-ID: <asyYFw2UACD1XRzD@debian>
+References: <20260810-msm8974-usb3-v1-0-1a47e1185524@oss.qualcomm.com>
+ <20260810-msm8974-usb3-v1-6-1a47e1185524@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260810-msm8974-usb3-v1-6-1a47e1185524@oss.qualcomm.com>
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
+On Mon, Aug 10, 2026 at 02:42:36PM +0300, Dmitry Baryshkov wrote:
+> Each of the PHY_PARAM_CTRL1 field masks extends one bit below its
+> documented field: TX_FULL_SWING [26:20] is coded as GENMASK(26, 19),
+> TX_DEEMPH_6DB [19:14] as GENMASK(19, 13), TX_DEEMPH_3_5DB [13:8] as
+> GENMASK(13, 7) and LOS_BIAS [7:3] as GENMASK(7, 2). Also, the field
+> described as LOS_BIAS in reality is called LOS_LEVEL. FIELD_PREP against
+> these masks places every value one bit short of its field, so the
+> programmed swing/de-emphasis/LOS parameters land shifted and the
+> neighbouring fields are corrupted; the masked write-readback in the SS
+> PHY init reports 'write: ... to QSCRATCH: 4 FAILED'.
+> 
+> Align the masks with the documented field positions.
+> 
+> Fixes: ef19b117b834 ("phy: qualcomm: add qcom ipq806x dwc usb phy driver")
+> Assisted-by: Claude:claude-fable-5
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-Wei Huang (daway320@163.com) changed:
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |daway320@163.com
+- Mani
 
---- Comment #5 from Wei Huang (daway320@163.com) ---
-Hi leStoppe,
-
-Friendly follow-up on the request from August - no pressure at all if you've
-been busy.
-
-To recap: the patch fixing the VDS1022 regression is ready and was reviewed=
- by
-the USB serial maintainer, but he asked for a few details about the device
-before it can be finalized. The one thing that would really help is the out=
-put
-of:
-    lsusb -v -d 5345:1234
-run with the VDS1022 plugged in (needs root; if it prints nothing, a plain
-"lsusb -v" also works). If you can also mention which application you use to
-talk to the scope (a libusb-based one?), that would settle the remaining re=
-view
-question.
-
-If you no longer have access to the device, just say so and I'll note it on=
- the
-mailing list - no problem either way.
-
-Thanks a lot!
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+மணிவண்ணன் சதாசிவம்
