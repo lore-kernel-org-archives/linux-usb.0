@@ -1,119 +1,168 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C50514A6CE5;
-	Mon, 12 Oct 2026 17:43:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DED834388F
+	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 17:45:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791827023; cv=none; b=D9dVggi3aaBbE3CQmRA0Gtv61Vx3ve+AIVs6bsmS0MWEl9ZftaKKNgJzb/esVmJrglN3y6BAfayF8u6bUw7HZA2QQ2f8wbHWtaOoDxS8F8ePEM4Z2GVweIEzEWaexuheDUM8bLHyUGyh4Xh8dJVeKvDNTgrIFK4jgwRzerEzHbA=
+	t=1791827145; cv=none; b=lhrtF9TFvTpSlVkOrn61x3CPJCU9XCCh8yQYDQYmmeVP/oJv+5/5lORYB4fsQTO83BtwhG7btkdFplrz1AYkG6p0cRzc6eRhJREuWWgJh+o9FOGNxrUhji4vo/TfYLTSA8AwXlTeE1RYcoUI9ipKLEabTteFRYrcsNB1FHCgPTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791827023; c=relaxed/simple;
-	bh=w4U2mjQrgrV2jinDY0uFmNpCmvJFibVAQ5YCWasR28M=;
+	s=arc-20240116; t=1791827145; c=relaxed/simple;
+	bh=CouVGNvWofLivm0/4heGf6MMeQ81HfIwnzO8d3j48BI=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=GE53md1GwNyEEjN/5YF55dPRSV/yFle7CXHFOEcEL4N/eBc3ZJ8TKy7BeQTTNxQgQ6HodusVCRlHI0tVT6hGyBzyDgtbWBxfAd2Vvv324lgw4066L2+ItqSBCtKgZeTPgANfRQVtq35dmN/rV/HUWmgnzHz4yDqbwtjQKsBg+Do=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c00C3BT3; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=U1Gs70q/QHWBDF7EmGPAsty+lkf1lv9sAyYClYsWQxu60cnrfw+FRtnfWbIDeslWk34OmNWey2CrLUpIli1Shk2SdU+fTcuYKCv5317uzmJg1SP1d8sJKFF+NovomLXYcvzzn86NmKQpi1DVzxclgTRLIqxBhzYZbrLX9MxjJgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dnhys+M/; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c00C3BT3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FACF1F0089B;
-	Mon, 12 Oct 2026 17:43:42 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dnhys+M/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B92851F0089B;
+	Mon, 12 Oct 2026 17:45:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791827022;
-	bh=UDm18gR+jo6D+mQhGXenWu+V9QGjyv3Ut2UJKTZT7e4=;
+	s=k20260515; t=1791827143;
+	bh=m5z6xcneRtT/WelvKztfcPRcHR+SyKmXUlHlzF8yr6k=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=c00C3BT3dU6T2WY5EWm3r6ahbNsFzZT02Xvyg3PPXF+PLIPr0k9xNajl9wyEz0Q/g
-	 RG2BHVryvZjGPRahNDxOc8MX8UHhWQd+VRHpF3EIZQHOXsoJO/472G6iAnQlxoPO3n
-	 mxeitWRJzrAgYplUCN4VF3vkH8ZrJ2PU/X8ZqISvnEOkH2kHXV04didfoLAnx0vP5w
-	 BU3jrZ2+r8W7Jcqput8NGyFrPJ9NwiUwOoC8K1XoXnsQ4KXwkuRUR687myiihV5T8y
-	 bAftfYMjuxR42rfUMTGWlU0t7EJHYD5AF8+09eMowaOEzj/McF3K5zM4+8khZ+83zz
-	 6wRrkKW3aPRUQ==
-Message-ID: <sashiko-outbox-168484@kernel.org>
+	b=Dnhys+M/I2SHRy/3+Zy9EdBYFuyeeSAoLJ+mDTQYhFZteMv650LKKYtm9tNabaYEL
+	 XW/WwGrx+n4oDJy2TOCT2DUwbIHTJRDVNQjaH1jwm56Tgygf/uhoErzrb27cEaH/f8
+	 2O1lvHKesYVD6xSiebO6qy4eS/nxSMm6oAGFY2HGH+XpeHWPpYaHaylK+cNcVvbiHO
+	 v3zKMEGD/EdQGTqlD3F/IJ7Fo+mjjpNxv3yfSet3hUdYiV/XRsKbCk3+5NfkupTYWh
+	 6HQWTkGqG8Iz5yhVDHj0ROQBkjmbqUkt6B1ajaf9r2OS1XblzEUUy37KpnVOrXbCQe
+	 c/GoZJS44p0FA==
+Message-ID: <sashiko-outbox-168486@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 01/11] dt-bindings: gpio: Add NVIDIA LSTP GPIO
+Subject: Re: [PATCH 09/11] spi: Add NVIDIA LSTP SPI driver
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Adrian Ambrozewicz" <aambrozewicz@nvidia.com>
-Cc: robh@kernel.org, linux-gpio@vger.kernel.org, devicetree@vger.kernel.org, linux-usb@vger.kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261012-lstp-usb-adapter-v1-1-aambrozewicz@nvidia.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261012-lstp-usb-adapter-v1-9-aambrozewicz@nvidia.com>
 References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <20261012-lstp-usb-adapter-v1-1-aambrozewicz@nvidia.com>
+ <20261012-lstp-usb-adapter-v1-9-aambrozewicz@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 12 Oct 2026 17:43:41 +0000
+Date: Mon, 12 Oct 2026 17:45:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Medium] dt-bindings: missing interrupt-controller in required list
+- [High] spi: lstp: missing set_cs causes CS assertion leak and bus content=
+ion
+- [Medium] spi: lstp: xfer->delay executes after chip select deassertion
 --
 
-commit aeb4a4fc6444001bea560a7fa11534922cb0e28e
+commit b315e8ac97c56dc30f3204c3748b56ba5483565f
 Author: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
 
-dt-bindings: gpio: Add NVIDIA LSTP GPIO
-   =20
-Add the binding for a GPIO channel of an NVIDIA LSTP USB adapter. The
-node is a child of the adapter's USB device or interface node, matched
-to a channel the device reports by reg and compatible.
+spi: Add NVIDIA LSTP SPI driver
 
-> diff --git a/Documentation/devicetree/bindings/gpio/nvidia,lstp-gpio.yaml=
- b/Documentation/devicetree/bindings/gpio/nvidia,lstp-gpio.yaml
+Add a driver for the SPI controller channels of NVIDIA LSTP USB adapters.
+Each channel is registered as an SPI host controller, and devices behind it
+can be created via device tree, ACPI, or userspace. The firmware reports
+chip selects and bus speed.
+
+> diff --git a/drivers/spi/spi-lstp.c b/drivers/spi/spi-lstp.c
 > new file mode 100644
-> index 0000000000000..4ca5081e509d5
+> index 0000000000000..7aa908e6c398e
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/gpio/nvidia,lstp-gpio.yaml
+> +++ b/drivers/spi/spi-lstp.c
 
 [ ... ]
 
-> +dependentRequired:
-> +  interrupt-controller: ["#interrupt-cells"]
-> +  "#interrupt-cells": [interrupt-controller]
+> +static int lstp_spi_transfer_one_message(struct spi_controller *ctrl, st=
+ruct spi_message *mesg)
+> +{
+> +	struct lstp_channel *ch =3D spi_controller_get_devdata(ctrl);
+> +	struct spi_transfer *xfer;
+> +	u8 chip_select =3D spi_get_chipselect(mesg->spi, 0);
+> +	int ret =3D 0;
+> +	bool cs_active =3D false;
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - gpio-controller
-> +  - "#gpio-cells"
+> +	if (chip_select >=3D ctrl->num_chipselect) {
+> +		dev_err_ratelimited(ch->dev, "%s: ch_%d: Invalid chip select %u (max %=
+u)\n",
+> +				    __func__, ch->ch_id, chip_select, ctrl->num_chipselect - 1);
+> +		ret =3D -EINVAL;
+> +		goto finalize;
+> +	}
+> +
+> +	u8 cs_bits =3D lstp_spi_cs_map[chip_select];
+> +
+> +	list_for_each_entry(xfer, &mesg->transfers, transfer_list) {
+> +		u8 cs_flags =3D 0;
+> +		bool is_last =3D list_is_last(&xfer->transfer_list, &mesg->transfers);
+> +		bool no_data =3D !xfer->tx_buf && !xfer->rx_buf;
+> +
+> +		if (!cs_active) {
+> +			cs_flags |=3D LSTP_SPI_CMD_CS_ASSERT;
+> +			cs_active =3D true;
+> +		}
+> +
+> +		if ((is_last && !xfer->cs_change) || (!is_last && xfer->cs_change)) {
+> +			cs_flags |=3D LSTP_SPI_CMD_CS_DEASSERT;
+> +			cs_active =3D false;
+> +		}
+> +
+> +		/* A data transfer fuses delay and CS edge into one command; CS-only w=
+aits first. */
+> +		if (no_data)
+> +			spi_transfer_delay_exec(xfer);
+> +
+> +		ret =3D lstp_spi_do_transfer(ch, xfer, cs_bits, cs_flags);
+> +		if (ret)
+> +			break;
+
+[Severity: High]
+Does this approach to managing chip select state lead to bus contention?
+
+Since lstp_spi_probe() intentionally omits the ctrl->set_cs callback, the c=
+ore
+SPI subsystem cannot forcibly deassert the chip select on bus idle or when
+switching devices.
+
+If lstp_spi_do_transfer() fails mid-message, the loop breaks early without
+appending the LSTP_SPI_CMD_CS_DEASSERT flag, permanently leaking the assert=
+ed
+CS state to the hardware.
+
+Additionally, if a message intentionally ends with xfer->cs_change =3D 1 to=
+ hold
+CS active across messages, the next message targeting a different SPI device
+will start with a local cs_active =3D false. The driver will assert the new
+chip select, but the old one is never deasserted, leaving the hardware with
+multiple active CS lines.
+
+> +
+> +		mesg->actual_length +=3D xfer->len;
+> +
+> +		if (!is_last && xfer->cs_change)
+> +			spi_transfer_cs_change_delay_exec(mesg, xfer);
+> +
+> +		if (!no_data)
+> +			spi_transfer_delay_exec(xfer);
 
 [Severity: Medium]
-The documentation states this hardware is also an interrupt controller, but
-this required list omits the interrupt-controller and #interrupt-cells
-properties.
+Does the execution of spi_transfer_delay_exec() happen too late?
 
-Should interrupt-controller and #interrupt-cells be moved from
-dependentRequired into this unconditional required list? Subsystem rules
-mandate that core hardware provider capabilities like an interrupt controll=
-er
-must be globally required with appropriate constraints. Placing them in
-dependentRequired treats them as optional rather than globally required.
+The driver bundles the DEASSERT flag into the data transfer command, meaning
+the hardware drops the chip select immediately after clocking the data.
 
+However, the host CPU executes spi_transfer_delay_exec() after
+lstp_spi_do_transfer() returns, meaning the delay occurs after the hardware
+has already completed the command and dropped the chip select.
+
+Can this violate timing constraints for SPI peripherals that require a spec=
+ific
+pre-deassertion hold time after the final bit is clocked out?
+
+> +	}
 > +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    /* Minimal: let firmware define pin count and names */
-> +    interface {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        gpio@3 {
-> +            compatible =3D "nvidia,lstp-gpio";
-> +            reg =3D <3>;
-> +            gpio-controller;
-> +            #gpio-cells =3D <2>;
-> +        };
-> +    };
-
-[Severity: Medium]
-Does this example omit the interrupt provider capabilities?
-
-Subsystem rules require that all examples include all required properties.
-If the interrupt-controller properties are made globally required, examples
-1, 2, and 4 will also need to be updated to include them.
+> +finalize:
+> +	mesg->status =3D ret;
+> +	spi_finalize_current_message(ctrl);
+> +	return ret;
+> +}
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012-lstp-usb-a=
-dapter-v1-0-aambrozewicz@nvidia.com?part=3D1
+dapter-v1-0-aambrozewicz@nvidia.com?part=3D9
