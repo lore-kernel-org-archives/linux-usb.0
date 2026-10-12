@@ -1,126 +1,156 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E80AF433BD4;
-	Mon, 12 Oct 2026 07:16:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BCB633FE33
+	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 07:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791789406; cv=none; b=JyjdtLkUaA3Qs8CB1f+RVr+op9lcHRBwsr22yEjub2XzmrMoayAwyk82y3lRoI/VB7Gq3xrh3Gr1vdt+mEYaMXYxLL5/QlT63JmwwLbh2G+X4TSAKh87vHAADW3F8+5jVI5PdX/OVUI/DnPhmrVLywmjHFsehzOOVTp2cjGg7HQ=
+	t=1791791287; cv=none; b=WK2C0tapSITbEzctNd6+qKl4PqBLygjFRphvYJq2UZm50x8W5k+msXc7SWDKPq+hRzzACeYoXKSAPj2rCKHAXbirQWgEglenvhgmChjHuIOV1sQq4WRdhruwZC1QJHyk/TkvjA9AL+PaxQGNyvvrq6eOn/mvV1oYQOpHg6S6j88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791789406; c=relaxed/simple;
-	bh=zg26uMNz8Rod70GTBPQkyNHcw/orcT7Ofvka2N0cUcc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rQ0qeAomt1hhgOxiMFL0HII8i8KS0+ioQ2VN6kugVzg0plW0yFtPjoBImcFMppOmY15kQjkd/kM4NbLROjOoQK44pdpNN2oCVReoOsyidLx6a4npq7EBZxrJRUKDgN9RJkps7WdZ3cb8k25bQSJXfV4fjzM2XkLrMov1C96OTB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=dw/eFeLi; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1791791287; c=relaxed/simple;
+	bh=zEzFs4aKk6Xfzf60TDLNG6YlxcIStOAudSHifCTjPCg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 References; b=VANaLGo+4EEJm9Naz9nRrlYGQ1pGPjadK9PH81zexZbCNbbmwV79tIp+UwMxgjimDFi+pdydAWP1eJfO9fmSSBqTtR26o6zDpHDvWevzZy5ObbnKq7CiWmWuaivi2PMQNCEh3CsCJ32Dy4YQiWzKTjk/UMMAiJ7THzhwmClOFIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=Hj8vjdrg; arc=none smtp.client-ip=203.254.224.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="dw/eFeLi"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 69C7G8nhC3614875, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1791789368; bh=zg26uMNz8Rod70GTBPQkyNHcw/orcT7Ofvka2N0cUcc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=dw/eFeLiOAmeSmIsASeNoi0W8/wTTq1CWZ0sFsdDitIr8Jkaaz3Dv5eo/wZNAqBUk
-	 nqBkFNhk6Qe0bffj1FweN8jsd503v5CLQl/WNYsxWbDmDIc6iieREm2UemhupPooF2
-	 Y4x7YCLhfnphfXmiZtMqyPYQODCqCipmsqAIOpigYFI3FAUvYWfLm+EeKhL76Y0b6N
-	 4nefZqwwcqGB28vVpR5n24O2Bu/D+pXsNkXZNcrqsrnVQ7T+azm2r+4alGY00GrhFV
-	 BX2aUoiWzs+Xgvv2JwK9GpIwvxwzxHLzq21Y0fRfnKGFZqE7bMrLWdk6PAZI+Mg9TQ
-	 +9ruhObL/NqSw==
-Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 69C7G8nhC3614875
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 12 Oct 2026 15:16:08 +0800
-Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
- RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Mon, 12 Oct 2026 15:16:15 +0800
-Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
- RTKEXHMBS06.realtek.com.tw ([fe80::b3cc:c263:b82d:e87c%10]) with mapi id
- 15.02.2562.049; Mon, 12 Oct 2026 15:16:15 +0800
-From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-To: Birger Koblitz <mail@birger-koblitz.de>, "davem@davemloft.net"
-	<davem@davemloft.net>, "kuba@kernel.org" <kuba@kernel.org>
-CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>, nic_swsd
-	<nic_swsd@realtek.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "edumazet@google.com" <edumazet@google.com>,
-	"bjorn@mork.no" <bjorn@mork.no>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	"andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>
-Subject: RE: [PATCH net-next v6 01/10] r8152: split r8156_init per chip and
- factor out wait_autoload_done
-Thread-Topic: [PATCH net-next v6 01/10] r8152: split r8156_init per chip and
- factor out wait_autoload_done
-Thread-Index: AQHdVv1AdBx9zD4lckuTWpQnvZF0MLbzCemAgAZd6BA=
-Date: Mon, 12 Oct 2026 07:16:15 +0000
-Message-ID: <52a5180dfe614973b22696d30338dc7a@realtek.com>
-References: <20261008081556.47901-1-nic_swsd@realtek.com>
- <20261008081556.47901-2-nic_swsd@realtek.com>
- <633a0f2b-67b3-4896-8464-6a4d0c05498f@birger-koblitz.de>
-In-Reply-To: <633a0f2b-67b3-4896-8464-6a4d0c05498f@birger-koblitz.de>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Hj8vjdrg"
+Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261012074802epoutp01e9e8f406910e488bac9bcdfb0bf2062c~duK2tPxW01502115021epoutp01P
+	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 07:48:02 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261012074802epoutp01e9e8f406910e488bac9bcdfb0bf2062c~duK2tPxW01502115021epoutp01P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1791791282;
+	bh=EZiJpBCaQS/Y7CL4+MDT0WahFVz2znoxPYi7A/ivAn0=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=Hj8vjdrg+Yja/8/9iEiAk0RdM/Z/qwfCviEnZ+dnJvVHRzhouO7oXSj3f/f4hE7IG
+	 9IA6Iet4sbk2XZTbHScMhiHlyt1LcXDYv523B+CKYHar6gX+9olI4AL0x/Vp4tJkM2
+	 hvJ4ebLwxI065kcpgpi/YuyGnrbPWwTTxIqc2Kk8=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas2p3.samsung.com (KnoxPortal) with ESMTPS id
+	20261012074802epcas2p3606261995aa73d05264f1c9327f03d88~duK2XaKBh1902219022epcas2p3E;
+	Mon, 12 Oct 2026 07:48:02 +0000 (GMT)
+Received: from epcpadp2new (unknown [182.195.40.142]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4j38hf36cYz6B9m6; Mon, 12 Oct
+	2026 07:48:02 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
+	20261012060557epcas2p4ce5468f159a857c5caf2c81b59cc3f60~dsxt4ZQiS1397113971epcas2p4u;
+	Mon, 12 Oct 2026 06:05:57 +0000 (GMT)
+Received: from ubuntu.dsn.sec.samsung.com (unknown [12.81.221.204]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261012060557epsmtip24e1a01eb464b1c55e1f4e9f4e11a4113~dsxt0255q0647806478epsmtip2M;
+	Mon, 12 Oct 2026 06:05:57 +0000 (GMT)
+From: Daehwan Jung <dh10.jung@samsung.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org (open list:USB SUBSYSTEM),
+	linux-kernel@vger.kernel.org (open list), prashanth.k@oss.qualcomm.com,
+	selvarasu.g@samsung.com, cpgsproxy1@samsung.com, Daehwan Jung
+	<dh10.jung@samsung.com>
+Subject: [PATCH v4] usb: gadget: u_serial: fix stale req->dep warn on
+ disconnect/reconnect
+Date: Mon, 12 Oct 2026 15:01:53 +0900
+Message-Id: <1860250540.01791791282424.JavaMail.epsvc@epcpadp2new>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20261012060557epcas2p4ce5468f159a857c5caf2c81b59cc3f60
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+X-Hop-Count: 3
+X-CMS-RootMailID: 20261012060557epcas2p4ce5468f159a857c5caf2c81b59cc3f60
+References: <CGME20261012060557epcas2p4ce5468f159a857c5caf2c81b59cc3f60@epcas2p4.samsung.com>
 
-SGkgQmlyZ2VyLA0KVGhhbmtzIGZvciB0aGUgcmV2aWV3Lg0KDQpPbiBUaHVyc2RheSwgT2N0b2Jl
-ciA4LCAyMDI2LCA4OjE4IFBNLCBCaXJnZXIgd3JvdGU6DQo+IEhpIENoaWggS2FpLA0KPiANCj4g
-T24gMDgvMTAvMjAyNiAxMDoxNSBhbSwgQ2hpaCBLYWkgSHN1IHdyb3RlOg0KPiA+IFJUTDgxNTYs
-IFJUTDgxNTZCLCBSVEw4MTU3IGFuZCBSVEw4MTU5IHNoYXJlZCBhIHNpbmdsZSByODE1Nl9pbml0
-KCksDQo+ID4gZ2F0ZWQgYnkgYSBkZW5zZSBzZXQgb2YgdHAtPnZlcnNpb24gcmFuZ2UgY2hlY2tz
-LiBUaGF0IG1hZGUgdGhlIGluaXQNCj4gPiBzZXF1ZW5jZSBoYXJkIHRvIGZvbGxvdy4NCj4gPg0K
-PiA+IFNwbGl0IHI4MTU2X2luaXQoKSBpbnRvIG9uZSBmdW5jdGlvbiBwZXIgY2hpcCBmYW1pbHk6
-DQo+ID4gLSByODE1Nl9pbml0ICAoVkVSXzEwLzExKQ0KPiA+IC0gcjgxNTZiX2luaXQgKFZFUl8x
-Mi8xMy8xNSkNCj4gPiAtIHI4MTU3X2luaXQgIChWRVJfMTYpDQo+ID4gLSByODE1OV9pbml0ICAo
-VkVSXzE3KQ0KPiBJIGhhdmUgYSBoYXJkIHRpbWUgdG8gdW5kZXJzdGFuZCB3aHkgeW91IHdhbnQg
-dG8gc2VwYXJhdGUgb3V0IG9uZSBpbml0DQo+IGZ1bmN0aW9uIGludG8gNCBkaWZmZXJlbnQgb25l
-cywgZm9yIGVhY2ggY2hpcCBvbmUuIEVzcGVjaWFsbHksIGlmLCBhcyB5b3Ugc2F5IG5vDQo+IGZ1
-bmN0aW9uYWwgY2hhbmdlcyBhcmUgaW50ZW5kZWQsIHdoaWNoIG1pZ2h0IGp1c3RpZnkgdGhlIHJl
-LWZhY3RvcmluZyBpbiB0aGlzDQo+IG1hbm5lci4gQnkgbXVsdGlwbHlpbmcgdGhlIGZ1bmN0aW9u
-cywgaXQgd2lsbCBiZWNvbWUgbW9yZSBkaWZmaWN1bHQgdG8gbWFpbnRhaW4NCj4gdGhlIGNvZGU6
-IGlmIGFuIGlzc3VlIGlzIGZvdW5kIGluIHRoZSBpbml0LXNlcXVlbmNlLCBpdCBtYXkgbm93IGJl
-IG5lY2Vzc2FyeSB0bw0KPiBmaXggaXQgNC10aW1lcyBhbmQgZnV0dXJlIGRldmVsb3BtZW50cyB0
-b3VjaGluZyB0aGUgaW5pdC1zZXF1ZW5jZSB3aWxsIGFsc28NCj4gbmVlZCB0byBiZSByZXBsaWNh
-dGVkIG11bHRpcGxlIHRpbWVzLiBJbiB0b3RhbCwgdGhlcmUgd291bGQgYWZ0ZXJ3YXJkcyBiZSA4
-KCEpDQo+IGRpZmZlcmVudCBpbml0IHNlcXVlbmNlcyBpbmNsdWRpbmcgdGhlIG90aGVyIG9uZXMg
-Zm9yIHRoZSBSVEw4MTUyIGFuZCBkaWZmZXJlbnQNCj4gdmVyc2lvbnMgb2YgdGhlIFJUTDgxNTMu
-IFRoZSBzYW1lIHBhdHRlcm4gcmVwZWF0cyB3aXRoIF91cCgpLCBfZG93bigpIGFuZA0KPiBvdGhl
-ciBjb25maWd1cmF0aW9uIGZ1bmN0aW9ucy4NCg0KVGhlIHNwbGl0IGlzIG1lYW50IHRvIG1ha2Ug
-ZWFjaCBmdW5jdGlvbiByZWFkYWJsZSBvbiBpdHMgb3duLiBJbiBhIHNpbmdsZSBzaGFyZWQgZnVu
-Y3Rpb24sIGV2ZXJ5IGNoaXAgZGlmZmVyZW5jZSBpcyBhIHRwLT52ZXJzaW9uIHJhbmdlIGNoZWNr
-LCBhbmQgdGhlIGZ1bmN0aW9uIGlzIGhhcmQgdG8gZm9sbG93LiBZb3VyIGNvbmNlcm4gaXMgdmFs
-aWQ6IGlmIGEgZml4IG5lZWRzIHRvIGJlIGFwcGxpZWQgdG8gdGhlIGZvdXIgY2hpcHMsIGl0IHdp
-bGwgbmVlZCB0byBiZSBhcHBsaWVkIGZvdXIgdGltZXMuIEJ1dCBpZiBhIGNoaXAgZ2V0cyBjaGlw
-LXNwZWNpZmljIGZpeGVzLCB0aGUgaW5pdCBvciBvdGhlciBmdW5jdGlvbnMgd2lsbCBiZSBtb3Jl
-IGNvbXBsZXggd2l0aCBzZXZlcmFsIHRwLT52ZXJzaW9uIGNoZWNrcy4gT24gdGhlIG90aGVyIGhh
-bmQsIHVzaW5nIGEgc2luZ2xlIHNoYXJlZCBmdW5jdGlvbiB3aWxsIG1ha2UgdGhlIGZ1bmN0aW9u
-IHZlcnkgY29tcGxleCB3aGVuIG5ldyBJQ3MgYXJlIGFkZGVkLg0KDQo+IA0KPiBXb3VsZCBpdCBu
-b3QgbWFrZSBtb3JlIHNlbnNlIHRvIHRyeSB0byBmdXJ0aGVyIGNvbWJpbmUgdGhlIGluaXQgc2Vx
-dWVuY2VzIG9yDQo+IHRyeSB0byBkaXNlbnRhbmdsZSB0aGUgY29kZSBieSBlc3RhYmxpc2hpbmcg
-Y29tbW9uIGxpYnJhcnkgcm91dGluZXMgcHV0IGludG8gYQ0KPiBfbGliLmMgZmlsZSBhbmQgcG9z
-c2libHkgZGlmZmVyZW50IC5jIGZpbGVzIGZvciB0aGUgZGlmZmVyZW50IGdlbmVyYXRpb25zIG9m
-IHRoZSBjaGlwcz8NCj4gRm9yIGV4YW1wbGUsIGl0IGFwcGVhcnMgdGhhdCB0aGUNCj4gcnRsODE1
-Ny85IGJlbG9uZyB0byBvbmUgZ2VuZXJhdGlvbiBvZiBjaGlwcywgYmFzZWQgb24gdGhlIHJ0bDgx
-NTYgZGVzaWduLiBPbg0KPiB0aGUgb3RoZXIgaGFuZCwgcnRsODE1Mi8zIGFwcGVhciB0byBiZSBh
-IGRpZmZlcmVudCBnZW5lcmF0aW9uIHdpdGggdmFyaW91cw0KPiBmYW1pbHkgbWVtYmVycy4gVGhh
-dCB3b3VsZCBhbGxvdyB0byBidWlsZCBhIGJhc2lzIGZvciBmdXR1cmUgZGV2ZWxvcG1lbnQgbGlr
-ZQ0KPiB0byByZWx5IG9uIHVzaW5nIHBoeWxpbmsgdG8gaGFuZGxlIHRoZSBQSFlzIGludGVncmF0
-ZWQgaW4gdGhlIGNoaXBzLCB3aGljaCBhbGwNCj4gYXBwZWFyIHRvIGJlIGFscmVhZHkgc3VwcG9y
-dGVkIGJ5IHRoZSBSZWFsdGVrLVBIWSBkcml2ZXIuDQoNCkkgYWdyZWUgdGhhdCBjaGlwcyB3aXRo
-IHRoZSBzYW1lIGdlbmVyYXRpb24gb3IgdmVyeSBzaW1pbGFyIHNlcXVlbmNlcyBzaG91bGQgYmUg
-Y29tYmluZWQuDQoNCkkgcHJlZmVyIHRvIGNvbWJpbmUgdGhlIGNhbGxiYWNrcywgaW5jbHVkaW5n
-IGluaXQsIHVwLCBkb3duLCBhbmQgZW5hYmxlLiANCi0gRm9yIGluaXQsIEkgY2FuIG1lcmdlIHI4
-MTU2Yl9pbml0IGludG8gcjgxNTZfaW5pdCBhbmQgcjgxNTlfaW5pdCBpbnRvIHI4MTU3X2luaXQu
-IA0KLSBGb3IgdXAvZG93biwgSSBjYW4gbW92ZSB0aGUgc2VxdWVuY2Ugc2hhcmVkIGJ5IHJ0bDgx
-NTZfdXAvcnRsODE1N191cCBhbmQgYnkgdGhlIGRvd24gZnVuY3Rpb25zIGludG8gY29tbW9uIGhl
-bHBlcnMsIGFzIHJ0bDgxNTJiLzMgZG8gd2l0aCBleGl0X29vYi9lbnRlcl9vb2IuIA0KLSBGb3Ig
-ZW5hYmxlLCBJIGNhbiBjb21iaW5lIHJ0bDgxNTZfZW5hYmxlIGFuZCBydGw4MTU2Yl9lbmFibGUu
-DQoNCj4gDQo+IFsuLi5dDQo+ID4NCj4gPiBObyBmdW5jdGlvbmFsIGNoYW5nZSBpbnRlbmRlZC4N
-Cj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IENoaWggS2FpIEhzdSA8aHN1LmNoaWgua2FpQHJlYWx0
-ZWsuY29tPg0KPiBCZXN0LA0KPiAgICBCaXJnZXINCkJlc3QsDQpDaGloLUthaQ0K
+When DWC3_EP_DELAY_STOP defers ENDXFER, giveback of -ESHUTDOWN requests
+arrives after gserial_disconnect(). These stale requests then accumulate
+in read_pool via gs_rx_push(). After gadget exit frees the old endpoint,
+req->dep becomes a dangling pointer. On the next gserial_connect(),
+gs_start_rx() queues these stale requests onto a new endpoint, triggering:
+
+  WARNING: CPU: 0 at drivers/usb/dwc3/gadget.c:1990
+  request 00000000e6e350a5 belongs to ''
+
+  Call trace:
+   dwc3_gadget_ep_queue+0x158/0x1e8
+   usb_ep_queue+0x60/0xe8
+   gs_start_rx+0xa4/0x128
+   gs_start_io+0x128/0x254
+   gserial_connect+0xb4/0x14c
+   acm_set_alt+0xa0/0x114
+   set_config+0x22c/0x384
+   composite_setup+0x37c/0xc7c
+   configfs_composite_setup+0x5c/0x88
+   dwc3_ep0_interrupt+0x6c8/0xbcc
+   dwc3_thread_interrupt+0xa0/0x1284
+   irq_thread_fn+0x48/0xa8
+   irq_thread+0x150/0x31c
+   kthread+0x150/0x27c
+   ret_from_fork+0x10/0x20
+
+Fix by freeing the request in gs_read_complete() when the port has
+already been disconnected (port->port_usb is NULL), so that stale
+requests never enter read_pool.
+
+Fixes: 937ef73d5075 ("USB: serial gadget: rx path data loss fixes")
+Signed-off-by: Daehwan Jung <dh10.jung@samsung.com>
+---
+Changes in v4:
+- Check port->port_usb instead of req->status == -ESHUTDOWN to detect
+  completions after gserial_disconnect()
+- Drop the read_started decrement, gserial_disconnect() already resets it
+- Rephrase the code comment in terms of u_serial
+Link to v3: https://lore.kernel.org/all/20260727051335.1745955-1-dh10.jung@samsung.com/
+
+Changes in v3:
+- Add missing version tag in subject
+Link to v2: https://lore.kernel.org/linux-usb/20260727042632.1726391-1-dh10.jung@samsung.com/
+
+Changes in v2:
+- Correct the name of author
+- Modify commit subject (panic -> warn)
+Link to v1: https://lore.kernel.org/all/20260721013509.2327242-1-dh10.jung@samsung.com/
+---
+ drivers/usb/gadget/function/u_serial.c | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index cdd1dfc666c4f..917fe0a714972 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -459,10 +459,21 @@ static void gs_read_complete(struct usb_ep *ep, struct usb_request *req)
+ {
+ 	struct gs_port	*port = ep->driver_data;
+ 
+-	/* Queue all received data until the tty layer is ready for it. */
+ 	spin_lock(&port->port_lock);
+-	list_add_tail(&req->list, &port->read_queue);
+-	schedule_delayed_work(&port->push, 0);
++	if (!port->port_usb) {
++		/*
++		 * The port was disconnected: gserial_disconnect() has already
++		 * freed read_pool/read_queue and reset the request counters.
++		 * Free this request now instead of queueing it, otherwise
++		 * gs_rx_push() would return it to read_pool and the next
++		 * gserial_connect() would submit it on the new OUT endpoint.
++		 */
++		gs_free_req(ep, req);
++	} else {
++		/* Queue all received data until the tty layer is ready for it. */
++		list_add_tail(&req->list, &port->read_queue);
++		schedule_delayed_work(&port->push, 0);
++	}
+ 	spin_unlock(&port->port_lock);
+ }
+ 
+-- 
+2.34.1
+
+
