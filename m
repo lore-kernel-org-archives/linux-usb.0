@@ -1,47 +1,43 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13BE3CF1E7;
-	Mon, 12 Oct 2026 12:50:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F313489FB8;
+	Mon, 12 Oct 2026 12:54:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791809405; cv=none; b=ZX4036yMILGtq3nb4GUM1kPqKscpOGp485BsVLhFWP41eX+uWY/vuEmKtoM+ciox0qAphHueJr+UFPwiXZygvgyHdLo68jjpatbJ9NLecgkFOEoLDfq2P46l08zWUHcZz7ANbxtliYf068ArHuydjbBOXM79gqcGUqAs5c/pvgc=
+	t=1791809679; cv=none; b=B8pxHyz6LbTzq/kzIkfq63yAYX7skEGb29ACkNbY6WUA4moaunc3Jowgf8I0Gt+2cLIaYkqEQ9zD/dHP+t3AISY5Wq061FtraKrwYNpC2XJqcQ1ngBcvZDoDJ5wmnNV+WR2ToYdo1nM2DJCkbcxz5RWqt0cvm1zgxonrLAQHKBo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791809405; c=relaxed/simple;
-	bh=BnJGsHy+Nyu+Z0ldnQD7hMN9gYlR5W/4ZwuCOIzhZB4=;
+	s=arc-20240116; t=1791809679; c=relaxed/simple;
+	bh=Iy4G3KkQgN/NGCU7Ua1uYFQsnWkG6B5FBxm3LSnuLN8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U6ATwmeOVMgkSOxGoxuwEhBWUoi9j5bzLeOc7ZQgP2b7gzbBd+gzY+oMZaeT/KpB+wSEZlgjCFig/P8F3w9S91/iqJ1QWtmprfsI2aeNbqGEtxfGbdPIbUzC/cdHh/+9mOeB4lMS/K80Cbzbt4Kfcw/ri7xWDgUIt1zUOCIFlOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZUEZ5DWh; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=rgw1TqZYio7qFTQB4wotpcsCGg8y/chBL25g/TnQCDkQDexJCRApkvKcF1qCvHrDQN3HyBk2JjRlvD6pKzgA6IZNWrBlNml/zoTfZaSJ3jpHZNgUHXzI5u8+Hss9FmlL3dIzLZyYSVSLvvvqyYIDGrUlF3HBCFUGbIb8NIAsoxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=zv1e6mS4; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZUEZ5DWh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71EA01F0089B;
-	Mon, 12 Oct 2026 12:50:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791809404;
-	bh=usrK00+yIeppSNB/bkICt3pKdfB0YN2fANbR2z8ZIE4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZUEZ5DWhtYGWHk61zrtuRpow95NxuaaWnJ23UEnieef5qJzrIXU6qKzPmE5GawfS4
-	 FJqrWzUODbkraE7CcPbT/xUzv6Z8vt3abdQY4JpOOXegSW0Z98+/wceYODxmsUn81g
-	 Th5MdX1UnmbAU0W/eMysHq2vhHftuBHOiJHB9de0zg1qyRVWFVXWWR+lvq9S3AGeff
-	 vEPAObstNeV+mtAxXSWwQOnWSdiz5SHwLmAG0ftuJ39YTl0LEiI9ZMFDz+K5XtUezS
-	 Km8K5Lh/OMKbMXVrkQRaaYGWO8xVisVyindfxYIqjRcFZmf8n/wr7ZgJOEM8KELzJq
-	 zdzIvf12j8a+A==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xGFTe-00000004Ce4-0tHk;
-	Mon, 12 Oct 2026 14:50:02 +0200
-Date: Mon, 12 Oct 2026 14:50:02 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Mario Peter <mario.peter@leica-geosystems.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Alan Stern <stern@rowland.harvard.edu>, driver-core@lists.linux.dev,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] driver core: Take parent lock in async device attach
-Message-ID: <aszXeki0LK1LYL6P@hovoldconsulting.com>
-References: <20261007131514.1260696-1-mario.peter@leica-geosystems.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="zv1e6mS4"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=i4wR7/o0Lt0vZN0c0TRid1OYZdhYCCTPqOaf2Deqb7Y=; b=zv1e6mS4qjWBRiRy79gJIJEaGc
+	8j4u2HyLfOKbOkvHlB4SCxfZnSMpiv4KRAvOjfkMeXWrXkIXTnYgbIAY/tgGQM2H/1ixGEuaWwGyu
+	4Rz9hoy4V5GRaROzC7OETOqjo4++eiW0nX6myZdcTBSD7uugIOqtW3VjcHGhXCE14/BI=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xGFY1-00AKBV-BK; Mon, 12 Oct 2026 14:54:33 +0200
+Date: Mon, 12 Oct 2026 14:54:33 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@kernel.org, kuba@kernel.org,
+	pabeni@redhat.com, oliver@neukum.org, giuseppe@southpole.se
+Subject: Re: [PATCH net v2] net: usb: cdc_ncm: reject short
+ GET_NTB_PARAMETERS responses
+Message-ID: <66ef60eb-524d-46ea-b6c8-0543bb2c0c63@lunn.ch>
+References: <20261011035150.53315-1-xinsheng.zhu.ny@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -50,49 +46,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261007131514.1260696-1-mario.peter@leica-geosystems.com>
+In-Reply-To: <20261011035150.53315-1-xinsheng.zhu.ny@gmail.com>
 
-On Wed, Oct 07, 2026 at 01:15:14PM +0000, Mario Peter wrote:
-> On buses with need_parent_lock set (only USB), probe() must run with the
-> parent device locked. A synchronous attach after device_add() gets this
-> from the caller, e.g. usb_set_configuration() holds the udev lock while
-> adding interfaces. __device_attach_async_helper() runs the probe from an
-> async worker instead, where that lock isn't held, and only takes
-> device_lock(dev).
-
-> Take the parent lock in __device_attach_async_helper() as well, like
-> __driver_attach_async_helper() does, and move
-> __device_driver_lock/unlock() up for that. With this the warning was
-> gone in 300 boots on the board and in 6000 iterations in QEMU.
+On Sat, Oct 10, 2026 at 11:51:50PM -0400, Xinsheng Zhu wrote:
+> usbnet_read_cmd() returns the actual transfer length, but cdc_ncm_init()
+> only checks for negative errors when reading the NTB parameters. A short
+> response therefore leaves the missing bytes zero-filled, and
+> initialization continues with parameters that were not supplied by the
+> device.
 > 
-> Fixes: 765230b5f084 ("driver-core: add asynchronous probing support for drivers")
-> Assisted-by: LLM
-> Signed-off-by: Mario Peter <mario.peter@leica-geosystems.com>
-> ---
-> v2:
-> - Describe the race in more detail
-> - Keep the multi-TT detail, but say why the hub has to be multi-TT
->   for this symptom
-> - Reproduce and test on v7.3-rc6 in QEMU
+> CDC NCM 1.1, section 7.2.1, Table 7-3 defines a 28-byte NTB
+> parameter structure. Require GET_NTB_PARAMETERS to return the
+> complete structure before continuing initialization.
 > 
-> In the same QEMU setup, a debug-only device_lock_assert(&udev->dev) in
-> usb_probe_interface() fired on every async probe of a hub interface
-> without this patch (52 of 52) and never with it (0 of 102). The hub
-> emulator and the test scripts are small, I can post them if that helps.
+> Return -EIO for short responses, including zero-length responses, and
+> preserve negative errors from usbnet_read_cmd(). This ensures that a
+> zero-byte response cannot be reported as successful initialization when
+> rejecting an incomplete response.
+> 
+> The issue is theoretical and was found by manual inspection of
+> usbnet_read_cmd() callers with LLM assistance.
 
-Thanks for fixing this, USB interfaces should indeed always be probed
-with the parent lock held:
+If this is theoretical, please drop the Fixes tag and post to
+net-next.
 
-Reviewed-by: Johan Hovold <johan@kernel.org>
-
-I believe we want this in stable too:
-
-Cc: stable@vger.kernel.org
-
-> Not covered: deferred_probe_work_func() also re-probes via
-> __device_attach() without the parent lock.
-
-Thanks for reporting this as well. I've started preparing a patch to
-address it.
-
-Johan
+	Andrew
