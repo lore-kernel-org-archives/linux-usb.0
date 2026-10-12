@@ -1,101 +1,58 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D56388885
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 09:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D94479895
+	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 09:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791798556; cv=none; b=scihwaxXZH/VPSGqMkD39L4rJUQ+C4e5pRiIIuRIm03Z87J9KENtpibw/VjaQtVhkUg6o6TSleCM6yGA3Uzpe/VbGP+TUMKkhXe5HC6B2vNqs7de/tOAFrHsiCMwZOh0mSFNRZazhJoYCkDXe+gHAUptFGwjZkVtOWntGZ60zh8=
+	t=1791798739; cv=none; b=GanQ/SuIfyf8mBlcVtFQVlPekRHB1QmmQVDTRkCZFy5g5Lmpf6gQrJ+jrZmPgmCpqNk9s24JkBJXQkTM0JPz2LFHKT1+ean52OFbLJ1Kw+u9kZfl7JK9xcRdBCPak9hBQT9P5ivSkTg6xz3ZMn4zDRi4agarb8fUOZefHZg/Gdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791798556; c=relaxed/simple;
-	bh=FVTaWR/ga76Scj9mFZDHQ+jLYrcJNLvhqU/P0N7ZXp8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=VHtAML91gOg6VTFwngf6OmDnuAPUiO10kOSQMhJGCoGlAJGklOYeksEhOiEH9miAc/XqDInOQ5VKnHkAqnSClJmdvEWT1JABZ5tymkQd137cPea3aX47qDIaZTHP8Sw90yN2B5nxXkBEl6ojlb3DKBKj494NPZ9quFLHtyr1uMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=DhkAwnb9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=oIqRODAK; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1791798739; c=relaxed/simple;
+	bh=wAYDzzOr3TGwoX6Deb9sqoCUq9rBomeY/J4lGQbSTBE=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=L+pIuQ5x+lhDZZ7Rvwp5mlIni9kwc/TAeccroY1bz70FlDM9qcwjXcTTCy2SQY5kRfNjFfgJiYyvcfzQqIaS9RJc6L5CkFmapXFHQywhcQzJAUAEKuFj1me5OPPO/KT2v6zIcmC9b5SO1t3eupb+Uy48Vg47EVxrbLTTNoYHa94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EPrRCQpj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="DhkAwnb9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="oIqRODAK"
-Date: Mon, 12 Oct 2026 11:49:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1791798552;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=mYmQSvWxf6U3eatPaHkMSWv2Cua8aDYBNZWET07Aa88=;
-	b=DhkAwnb93ddepst8aI48GWmH0JU9oYAgUlufj5TotVvkYoyDCwb66A4Dp5+9A2zZpEmpPp
-	IT/BO3KUANWkC72lq7k+YvAhV4hc1ioBROXlR11TUmOtYdNFfMfaPrgwrYdSO/r4SbK7MM
-	PqHoJexbwcfoPMGzZyFvxtnKvd9rAZqwiVtKCcxPkexHKEmDnONIE6AmeFXNTPjhNDh6Kl
-	zOhaYjS3SQSzUBh0mtKOrZ7fYCo4MTopNMygel/aSF7A5Jdef7a8U9VmroHG3N/5nBM6RA
-	T/Rpv8NKCvOyB/e9e0gpcu6Xbs/oGQB81v29T3r1+zTSr8wWx/5jaIr1+zEtSQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1791798552;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=mYmQSvWxf6U3eatPaHkMSWv2Cua8aDYBNZWET07Aa88=;
-	b=oIqRODAKEExoygjXho6DbWjZ3xTYcLI6zOGCqpi84UMY9FHe4I6Pj4f1j5liBFu666ZX1Z
-	pWlc+pJATBys+aAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: linux-usb@vger.kernel.org
-Cc: syzbot <syzbot+de553c19cb054f174a35@syzkaller.appspotmail.com>,
-	gregkh@linuxfoundation.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Felipe Balbi <felipe.balbi@linux.intel.com>
-Subject: [PATCH REPOST] usb: udc: Make tracing aware that
- usb_ep_alloc_request() can return NULL
-Message-ID: <20261012094911.wHPc_9lJ@linutronix.de>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EPrRCQpj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 45E361F0089B;
+	Mon, 12 Oct 2026 09:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791798732;
+	bh=wAYDzzOr3TGwoX6Deb9sqoCUq9rBomeY/J4lGQbSTBE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=EPrRCQpjLTwm01Kjdy8D2m3kSKa0W6BJhO0QXMWekIk+2XmAYfJdEbNwpn78txYzv
+	 DkA93rP6fjgFDS2sKE5H+/yLl8aWZBqtn0LPQlwLiApsD9vnss7cZX77+xvI6e25LX
+	 ZWRy+ppCBdjUmzGMugNH4JOTEdJbPhI5A/2In7Jg8XSghSjI6Yso3S48gle1HA1uWm
+	 cLdMddti0FDgpMPmvI9iMZfDtrgSv79YNWHFGpeF7pqkzHBx4gdZG839YFItydkFgc
+	 2NS2ic1ozIS71Cm006IGTs4GUcX0Sr5VfjTxNQSgEu7tIqu74N0dolbmsSNopSjjH5
+	 6gAnaqjNpT4Yw==
+Message-ID: <sashiko-outbox-167909@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/1] USB: cdc-acm: add control line state quirk for
+ Telit QCX216 modems
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Daniele Palmas" <dnlplm@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261012092730.332531-1-dnlplm@gmail.com>
+References: <20261012092730.332531-1-dnlplm@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 12 Oct 2026 09:52:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 
-The alloc_request callback of the EP can return NULL if it was not able
-to allocate a request. This NULL pointer will then be dereferenced by
-tracing in order to show details about it.
+> Add control line state quirk for the diagnostic port of the compositions
+> exposed by Telit QCX216-based modems, since the control line state
+> requests prevent the modem from sending the diagnostic data.
+>=20
+> Signed-off-by: Daniele Palmas <dnlplm@gmail.com>
 
-Let tracing check the req pointer and if NULL just write 0.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-Fixes: 5e42d710a108c ("usb: gadget: add tracepoints to the gadget API")
-Reported-by: syzbot+de553c19cb054f174a35@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/6aab0160.e91c2013.3bdb06.0005.GAE@google.com/
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- drivers/usb/gadget/udc/trace.h | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/trace.h b/drivers/usb/gadget/udc/trace.h
-index fa3e6ddf0a128..05533eb1bae0c 100644
---- a/drivers/usb/gadget/udc/trace.h
-+++ b/drivers/usb/gadget/udc/trace.h
-@@ -239,15 +239,15 @@ DECLARE_EVENT_CLASS(udc_log_req,
- 	),
- 	TP_fast_assign(
- 		__assign_str(name);
--		__entry->length = req->length;
--		__entry->actual = req->actual;
--		__entry->num_sgs = req->num_sgs;
--		__entry->num_mapped_sgs = req->num_mapped_sgs;
--		__entry->stream_id = req->stream_id;
--		__entry->no_interrupt = req->no_interrupt;
--		__entry->zero = req->zero;
--		__entry->short_not_ok = req->short_not_ok;
--		__entry->status = req->status;
-+		__entry->length = req ? req->length : 0;
-+		__entry->actual = req ? req->actual : 0;
-+		__entry->num_sgs = req ? req->num_sgs : 0;
-+		__entry->num_mapped_sgs = req ? req->num_mapped_sgs : 0;
-+		__entry->stream_id = req ? req->stream_id : 0;
-+		__entry->no_interrupt = req ? req->no_interrupt : 0;
-+		__entry->zero = req ? req->zero : 0;
-+		__entry->short_not_ok = req ? req->short_not_ok : 0;
-+		__entry->status = req ? req->status : 0;
- 		__entry->ret = ret;
- 		__entry->req = req;
- 	),
--- 
-2.55.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012092730.3325=
+31-1-dnlplm@gmail.com?part=3D1
 
