@@ -1,122 +1,187 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-oo2-f11.google.com (mail-oo2-f11.google.com [74.125.231.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1951A724C
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 04:43:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE745282F0E
+	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 04:55:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.231.139
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791780183; cv=pass; b=Egd7wgu7Hbt6+O2M0JgkKbmxVMRU3d9TkdqxqV/oHdSYR2DBwVqPS3mWYtFaBv6wFVkG4NcI10EOczUjhFVujV1CkmKHEe0YePeYVcfDb/77ilyfAGyOcfh2eU5kfORno59MgFEo7yPOZmcy4IqTUVWsmAjlRhsfnXKAJ3VHZ3Q=
+	t=1791780910; cv=pass; b=kvDTXTj7RZX0rYiKBNwc1jPfuWepioQgJZOxKftcYkGxNETbpvchaSTPStVI/dgI+xIL1J8pUQg/z0Oz9iBpkee523EYS2ZbDQRzC6colgnCjHeTpTf7aLxGN+bHNfs7pxvbnxo8Jf/vfNo6+gvWdp+mS12wYIPflhJdo4F3xUc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791780183; c=relaxed/simple;
-	bh=A7ZOGiXP/y0XuuVq0GGeW4XlrYot3iLolJO+gBxOVkc=;
+	s=arc-20240116; t=1791780910; c=relaxed/simple;
+	bh=9vx/VYo+6G8iZ3jiBXE658v2YHNsnAQSc4/dQn2+zkA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cUpB042vUHSu2LOKOgS7Q3dWP5t/1Ea67Lt7ofI/JoGZwN0M/8xkPZIjAqLeNzhVd7f6mWdrctFzs8fkY/zN+Tph2dNceJ8lpooqLGyEaNHDTpqJs5a3yI2RCciPPl+d5FpuaUfPWsknRdpthpZ9jvpPi0RLpMZMaILa9wgYuHY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lRrwWi7F; arc=pass smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=tfY05iL/oiiymjbtKjxU9tnaguvQ1LnY3AVHhF2Gl90c2A9pZ2y9Zw6P0x27Sw8FgLptylpm1XwfEtTfHi0+zg4FpX7C6E3s1A5yD2L60Llr+M5TD8foYIpZ1/snyQ8fZBpVAZMQ5fFisnV8xyI4vp8YJMsB2oB+mtiivFj/PjM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UfyRlPnM; arc=pass smtp.client-ip=74.125.231.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lRrwWi7F"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-5337c7b9937so239511cf.0
-        for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 21:43:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791780181; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UfyRlPnM"
+Received: by mail-oo2-f11.google.com with SMTP id 46e09a7af769-828c0b569f6so692831a34.0
+        for <linux-usb@vger.kernel.org>; Sun, 11 Oct 2026 21:55:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791780908; cv=none;
         d=google.com; s=arc-20260327;
-        b=br20dU1LIdtuKqlFg4fDXq6j1pfX9zGu8EL03oP7Kk3W87XyBKRpWfp2hD89emaoHI
-         jpZNaJ9jxgIKO5YwAhh7a6u8LTArNaH/VeGwF8wwFhx0TNGsKNeIOsSmDNbuMjSB8hIs
-         30OvswgcKchIwGLffhyVvDJGZjI08ATR12/HertJ6o7NMebz34dCjrEinIlffPm8IOrG
-         YkiitdT+izq5iOtAAcwi1uBeZWHnLJdY/pySh1RvHxgOKoca4IH0WNtAEpmoZUDPbYE/
-         bcEj/0V40w8VCiKz/pRLAuKbqow5UM/YafuCSvGRxc3rRv9MgRHV+8IKGyYPUxkYLdX7
-         u7MA==
+        b=NQ3/I9mvN88FptAop/HxtU+bdebDY7MjXO6NKMrd64rYx344c6f4e7EUVMUp2amyIp
+         MCtKqk2TXcPwbYLPZgazUjLh1jk1BnoG7ZCH9vqAMhRSinASHIhViMUif08TFNSYokMk
+         fYbLbjldHaQMGkjflWAdy/Kl4QyTKoSO8YYJe5SphdfSC/KOAWgq0WMBBO+XwVx0I3Pb
+         lofj5PZHvi0IoNJuLPaS3+2f8EX2kq4Lmv9eaiC3W/xUwJwdhGMP9yaEMY7+ATxm6IrX
+         F1BveCqiA+QqXeywEWcfWA97lQ6Rs1WY01aOUZuho2t2Gb+753RzRmT2xTuZnXHSzlUD
+         Sd/g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=A7ZOGiXP/y0XuuVq0GGeW4XlrYot3iLolJO+gBxOVkc=;
-        fh=4RvfP8dNPa+hk0oGQlHaAQhtqWZ4HLFfKq6tpV/PW2U=;
-        b=AnWxcbdsAxMkGX13oqEsYrjwJLhrhs7vnXuafQ4SKsICThEf8Uxm6E7bz15ME2CLLB
-         qda73tZQyF661Rzexaf2eAw8Lqo0XRohKnx17CjWAIgryKUiD0Xma1vjWEfel/VQUqb+
-         rvs7YvZR2oTBOVBtC145xjg+MiPGE5ug7bXP5vkYHtIM4L18NF7mwMx+xm0NgOpbThlM
-         rh2GPYvGwt+udr6Jtbs53yww2wAfZ/jKfSrMbWZK0Rg3f0ecwUPufxteqoCPiZD/wtgm
-         1R5R3WPyP9pMl7H4pVFl5RXnwQNofafE5WeKB7NBTE4wUV1UqP1o7e4exf8RjsKwG5j+
-         wEhg==;
+        bh=aqvyDxeOl1wvCDEtRUYDI2YTDHjt1RCV2NsQZH4A4Cs=;
+        fh=/XafWwXInU6xSAMitUKTVJtcnn7zkW/jx5Qszu7SSug=;
+        b=E2rnEgVCKnx8bRS8Tw1I9N2q09V4krN0qxrlf2DOlcNW1g3pHpyCBmZF5koWABFrqu
+         FYG+7kAVdhxtt91gh++NVTaSBrbVM+Y713RKOcYU41fvP7Ksk8ymt+N3CtmLWSaFePIT
+         CCttQL/2sKnV35Bv3sV8RY8Bt/WaV/d4IJZpYiLqlTDbaQgcpgY2CJXcVmLf9AETKvq+
+         i7OTgUAe2K9boVOy8Vd7E80PCwo6D9u1p3fHjmKW79ZzJhGbSe29VSQQJrPUq6QXtUBW
+         L+nyzL/Aaj49nOC6WvCzzy+0JDXoO6TXFSUsl5zoaYJVdhxcTGNB92nnQ2AV2W7ULPDY
+         7ytw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791780181; x=1792384981; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791780908; x=1792385708; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=A7ZOGiXP/y0XuuVq0GGeW4XlrYot3iLolJO+gBxOVkc=;
-        b=lRrwWi7FcFUPHlfDXo5k7ZZ7zaKBuPGdktkUPvK2xQT1blRNakIK98soxv+hzvAjal
-         mz+htGRZD2NIdcy6tBBo5ck7iDn+Vrw4YyXtFOfEb89sJKPNmpHWgRJBTHZoT8oUw1D1
-         XQfmBrTl5N/5Jzmq3XsjQREf77vlJGoN6OZeiJFryOsFJ22py2ofsuoZpQCwoJ/VdSYm
-         qsdG3dn4gKuRDAZdetFgcNnu6+R4lIAW9JZ6bHab8zYmg7DYSJvLQzfaYQXPaqlHUBNg
-         Z5BK5sJJyVSyqmVmS7+QoAcxvup0m1LFnRj/7PrmnJ5lFyDiRkM9EV69wLURAJlrIVkv
-         x7pQ==
+        bh=aqvyDxeOl1wvCDEtRUYDI2YTDHjt1RCV2NsQZH4A4Cs=;
+        b=UfyRlPnM2xGiZmtZfX7avGIh7edxc87BMmyi3fUj8DJ/8WjLMn5XICpBNZrDgrqaco
+         4jlbk0XtnFmbrKKedJviOIXml+m/CRsb4gIzUAndl9gWZHhkZmO2V7tpQMOzQM9C47il
+         mHoS1Fjqzo/2QnezLngkGcreAXi6uMJOkKouG5xXgXtUmMwvxn0TJunMzXnRDk7MNzZf
+         wLdvhcd3Ji1mHNNI4kSJKFIjChOSFKJF2wzEp/I0DrrZd5agizj0o6hBaBsxsbwm0pk7
+         1CDzphU9dMD5UGGNliGphLjFgLFmEN/cAM3YlcQGcE/CUSEOaSvK6WJMd44Dxt1oGwDg
+         T8rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791780181; x=1792384981;
+        d=1e100.net; s=20260707; t=1791780908; x=1792385708;
         h=content-transfer-encoding:content-type:cc:to:subject:message-id
          :date:from:in-reply-to:references:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=A7ZOGiXP/y0XuuVq0GGeW4XlrYot3iLolJO+gBxOVkc=;
-        b=iEwyeqHzX5vm7VHB4S/TyXMr/gV1IDRZCMUcGDLQjJaEKd1l84OIR1/tc1Fn1uiYrY
-         GQhJiCldqnqYixXoCedjUY0o7PvYJOlZYQ09HMupI2iadZ/BZ4Ekqa2edcT1J8mWpHcN
-         2ObWavmWXW/FPO81C2f56EOsRDXhC5mw4AD88YbenA75vSxj4q5scnvrCWHTMMzMvcGA
-         OI5diBrrRGpYJNETz7vJs9Lz06ULlZqTAq8MufV6xi8XTzjBIXMMQN02C9W92VLT6/xO
-         x118nt8Tge18mEitwwWPuSuIqPcGrS8Z5uDAXM0rnmPHsaL3O5U/UyfoFEoWgoTA8Rmy
-         23Cg==
-X-Forwarded-Encrypted: i=1; AKwUvByTaYAxy3nqr3uYmEw7ELUyQzeb2IWzTHjI+IR4Ikvom+EvRZdbcwBKpap81QyKgFqEfz6jGio5OFo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJHelFGjNfoJYvgDV+rHGy/k+F6PfndhQYMEYEbKOu8HUqt8sc1
-	8qDYpixCjIGhc0/bvshokza7c5DmKp4jfe4T9LUnJhdQUn7KcnvzM3rAFqJl5Lifgl7PoDD/SLp
-	2Bc6DzbcNnZdiJrGhJDIHdI6FkAzyY+zOWnIWf5eJUDRLRoG2Ei8H3AAP2SI=
-X-Gm-Gg: AYBFou1ozJm1ekLzgSuJi3usToE4YQqGv+ppGn2DeaAZExQLNG4T0RC1V/eXWG4IOrc
-	eoIC1T+iHxu23xUZgyD8YaFmk74u6xerUk+/6aEasZTLZjd5E3MypldxB66bv4grGJ0mGP3nP6u
-	oqaO3S2raNgBZAUY/5aA//eBtoumZbn9JVsyEgU8OPTRuopCrpAG8rRB2A1lx7pCbD2dzQxjTre
-	Rzw3trSmVT+LH+NeBF7OLyZVlsfP1SqHWvPd+c9EfWSyupy0jI7xaaCNeIcjcHY+Wxux05Ti7OS
-	Y7KhYpN/9yOjTex48jIWrtTPngyvcXMwtcBrLOdBYpjGgweW1Eq0uQqn0YNLeFZxlwoe8TMpNOT
-	KFcYjEiiSmw==
-X-Received: by 2002:ac8:5a0f:0:b0:50f:af60:3496 with SMTP id
- d75a77b69052e-535b2d9b1e9mr21987221cf.1.1791780180731; Sun, 11 Oct 2026
- 21:43:00 -0700 (PDT)
+        bh=aqvyDxeOl1wvCDEtRUYDI2YTDHjt1RCV2NsQZH4A4Cs=;
+        b=Oj3gC6vrb6NTf+k8YtiXX9PhzVDia4FV+pqcyr3vgdTz/grrsOHNzii332g2BCWZ7Q
+         DbFq6TxWd3Z6QjxdWJP2RwGtcbh979axFsv6AdKt5wcOi6Hk84B7AdIvnOuWXpsGZSGm
+         w19y0I1WfEZ6O9nyLQ1MUOt7q6qhXtaqDPtx6MlRN7YSe1dNpOWlLDI/fFJ+z+860sud
+         Z85yh2wvIfIvg8y4ETpU2dIpjNyLNnp4A0BaSbeaYs8zynqYK4iJYv93KfZzAK8PJPRD
+         EAsuCcYQuW5Z959jOoGcdZ+EIwgiEjXpzkpKobSo1Y4zvyNhr/lAxNJlvGPNVGVLedrY
+         Bx4Q==
+X-Gm-Message-State: AFq9FYIt8ZoObELQNckrbWVygKmvQnm7MM0FBX02Yz26W1jaQAvWXoH6
+	BrKIsFx222uFxwsF7+TwA2cirA0kPbxuqRri7WaBfbS8g63J/Y7mYbn4BpfbGXKqvnO5+z3mWs9
+	C8k2PMUwUhfOY6Ybo30/CTKZV6wdzwuX7TTvhDQCIeQ==
+X-Gm-Gg: AYBFou1Zyzwf8dE4nAeHU3tapW9UktYD2AykBkzL4wGEHOrlJTZFP+3zG89VItc+q13
+	yRLAwapXwE0rJ9zmpFpWtYo3r0O0bYxgFspE+bo0C2VKKEBRsPBTWvqMbqGJFPfbWK12l4OlACn
+	IQIC8z4+80XXENW3jthRlK/v58rJE1+O3wu47NxIGmjkalN7MPiET37X4EYKxT3AJS7WH+jx75Z
+	GpGhKiPdeaBsggWuj9TyE9zVafQhmfG/K4cPEicFL8BdG3eL89n+nk1baLib7byO/GTdNFseurS
+	YxQ2WyfV0N/1+p0OW7fmQ6ofts510hSBjvrVgsGf1kRsSTHjxetTpwiimffxWUaG+WhgVvywZeX
+	uT+A2FYa+pDmUUQ==
+X-Received: by 2002:a05:6808:308b:b0:4e8:e664:f268 with SMTP id
+ 5614622812f47-50c52f1b32bmr8648086b6e.25.1791780907663; Sun, 11 Oct 2026
+ 21:55:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260923-u-ether-gadget-npe-v1-0-ff466c55ecc0@google.com> <20260923-u-ether-gadget-npe-v1-1-ff466c55ecc0@google.com>
-In-Reply-To: <20260923-u-ether-gadget-npe-v1-1-ff466c55ecc0@google.com>
-From: Kuen-Han Tsai <khtsai@google.com>
-Date: Mon, 12 Oct 2026 12:42:34 +0800
-X-Gm-Features: AclHuK9p36YBKHu5O0EITzYbC1tM5lufGULED7e72-TUQxSBC9jxELhTwbNAaGM
-Message-ID: <CAKzKK0rNQ2sM8unChj7Ya76ogNoPCNQNx1X8vu1Dkg2FwRfv4Q@mail.gmail.com>
-Subject: Re: [PATCH 1/2] usb: gadget: u_ether: Fix NULL pointer deref in debug logging
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>, Faqiang Zhu <faqiang.zhu@nxp.com>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
+References: <20261011035150.53315-1-xinsheng.zhu.ny@gmail.com> <sashiko-outbox-167584@kernel.org>
+In-Reply-To: <sashiko-outbox-167584@kernel.org>
+From: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+Date: Mon, 12 Oct 2026 00:54:55 -0400
+X-Gm-Features: AclHuK9wQ_vVEXntxeqyIN1mfTO85kGFLtSXc3BvcstRXkNZqeUsWwxQu9E5AfQ
+Message-ID: <CAFGKm+xW=UW66mQim2oLywHvv+pNdppAg-4qB9ZhhLKqAta8Ew@mail.gmail.com>
+Subject: Re: [PATCH net v2] net: usb: cdc_ncm: reject short GET_NTB_PARAMETERS responses
+To: sashiko-reviews@lists.linux.dev
+Cc: linux-usb@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 23, 2026 at 3:59=E2=80=AFPM Kuen-Han Tsai <khtsai@google.com> w=
-rote:
+Thanks for the review.
+
+> Pre-errata devices typically return a 26-byte structure
+> instead of the full 28-byte structure.
+
+The NTB parameter structure was already 28 bytes before the CDC
+NCM 1.0 Errata. Issue K of CDC NCM 1.0 Errata [1] repurposed the
+existing two-byte reserved field at offset 26 as wNtbOutMaxDatagrams;
+it did not extend the structure from 26 to 28 bytes.
+
+The driver comment says that "devices prior to NCM Errata shall set
+this field to zero", not omit it from the response. A complete 28-byte
+response with the last two bytes set to zero still passes the new length
+check to avoid short read and uses the existing tx_max_datagrams
+fallback later.
+
+The patch does reject an actual 26-byte response, so compatibility
+would be a concern if devices previously supported by the driver
+return exactly that length of 26 bytes. However, the quoted
+comment does not establish that such a response is the pre-errata
+format.
+
+This response was assisted by LLM.
+
+[1] CDC NCM 1.0 Errata, Issue K:
+https://www.usb.org/sites/default/files/NCM10_012011.zip
+
+Thanks,
+Xinsheng
+
+On Sun, Oct 11, 2026 at 11:51=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
 >
-> Reported-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-> Closes: https://lore.kernel.org/all/89e19e6e-7ee7-4bb0-abd6-60971b7fd601@=
-gmail.com/
-> Fixes: ec35c1969650 ("usb: gadget: f_ncm: Fix net_device lifecycle with d=
-evice_move")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Kuen-Han Tsai <khtsai@google.com>
-
-Hi Greg,
-
-I missed adding Suggested-by for Ivaylo, who already mentioned
-switching to netdev_dbg() in the original report thread:
-
-Suggested-by: Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-
-Could you add this when applying, or would you prefer a v2?
-
-Regards,
-Kuen-Han
+> Thank you for your contribution! Sashiko AI review found 1 potential issu=
+e(s) to consider:
+> - [High] usbnet: cdc_ncm: strict 28-byte length check breaks pre-errata 2=
+6-byte hardware
+> --
+>
+> commit 21684fc876b53044a42f2941b653d84cd5d8ed14
+> Author: Xinsheng Zhu <xinsheng.zhu.ny@gmail.com>
+> net: usb: cdc_ncm: reject short GET_NTB_PARAMETERS responses
+>
+> This patch updates the initialization sequence to strictly validate the
+> length of the GET_NTB_PARAMETERS response. Instead of only checking for
+> negative errors, it requires the response to exactly match the 28-byte
+> size of the ncm_parm structure to avoid using zero-filled parameters.
+>
+> Link: https://lore.kernel.org/netdev/20261005041525.49111-1-xinsheng.zhu.=
+ny@gmail.com/
+>
+> > diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+> > --- a/drivers/net/usb/cdc_ncm.c
+> > +++ b/drivers/net/usb/cdc_ncm.c
+> > @@ -524,9 +524,9 @@ static int cdc_ncm_init(struct usbnet *dev)
+> >                             |USB_RECIP_INTERFACE,
+> >                             0, iface_no, &ctx->ncm_parm,
+> >                             sizeof(ctx->ncm_parm));
+> > -     if (err < 0) {
+> > +     if (err !=3D sizeof(ctx->ncm_parm)) {
+>
+> [Severity: High]
+> Could this exact length check unconditionally fail on pre-errata CDC NCM =
+1.0
+> devices?
+>
+> According to the driver's fallback logic further down in cdc_ncm_init(),
+> "devices prior to NCM Errata shall set this field to zero" when referring=
+ to
+> wNtbOutMaxDatagrams. Pre-errata devices typically return a 26-byte struct=
+ure
+> instead of the full 28-byte structure.
+>
+> Previously, with the leniency of checking if err is negative, a 26-byte r=
+ead
+> would succeed and the kzalloc-backed ctx would safely leave the trailing
+> missing fields as zero. By requiring exactly 28 bytes, does this patch
+> unintentionally reject valid 26-byte responses from legacy hardware with =
+-EIO,
+> preventing probe entirely on those devices?
+>
+> >               dev_err(&dev->intf->dev, "failed GET_NTB_PARAMETERS\n");
+> > -             return err; /* GET_NTB_PARAMETERS is required */
+> > +             return err < 0 ? err : -EIO; /* GET_NTB_PARAMETERS is req=
+uired */
+> >       }
+> >
+> >       /* set CRC Mode */
+>
+> --
+> Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261011035150.53=
+315-1-xinsheng.zhu.ny@gmail.com?part=3D1
