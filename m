@@ -1,65 +1,65 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE2044C51C
-	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 09:55:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24C047CC71
+	for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 09:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791798922; cv=none; b=eVVkN/of4kIwbHRk5QzQ/V4o3Kk74IJhSsYbEgeremKjF0qBYnc90nceato/k1zwcnN2egH5k5+D/h+8BuMvqJtSfAGhPjVGpjWBfEo3aHFiWD6EK+UZjtr4pX60+uo4b0WOdudSrIbIKxb+dnSVcyl0fKQdFExDT6DnrHmfr2E=
+	t=1791798927; cv=none; b=chmA0R6NrFAq0XaqjE8KYio3QQRweI2ODRxzSMAHjliTv64qd9okP0FngtGXGhJmF2wo0yQs69J+RkZetC1r/zoiLh518YXSapfSuoyzIRoT3muDvcHuxaJNO181P5VLv5ce7zSw6ubnx5wQ/Ri0GjpmywhvbZuhVqZiqL6gZPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791798922; c=relaxed/simple;
-	bh=sLZ8j+4e09ehCDAv46JbKrWsd4lbBbirQ0NIo/TsacA=;
+	s=arc-20240116; t=1791798927; c=relaxed/simple;
+	bh=BnrYo/A6G2OaUvK9kvg2KfCzfxVlIgzJGfpX6upOnUk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GRH5fYlz/bfuWEGp+Ug73ovAdrbkx3X0toORF7VmVxKSZEna9yhCOs2aOUwdt4jNsSmS3PE35KGgOF/OGGzkFsrigNo4FI+yr8KRIH6jMSjPdBYcKhWL48JXgUnB/zw4MfdyUC3xwtc8c2cyHVD/pPRB/zyg2aF2FyyDzVXxO+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=LnhHlmkW; arc=none smtp.client-ip=209.85.221.54
+	 MIME-Version:Content-Type; b=tsnsrNOqHFjZi3OuG0y+nuwzt7aZq+H3POq7lqcdNp1BXnmiSXVkI+gdZbp02Kuhz37SjVyZKTE/62QNUZGXy/2ZqrnzpGw6nTo7A2vSQVkQch9SVgz856sHzBUBk0HyjqYlRi8jnhROAv3Ni5RJXrPy7amwAHszYmUErbazrmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=OCErpna2; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="LnhHlmkW"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48b0d19cf7eso2522962f8f.1
-        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 02:55:16 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="OCErpna2"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48af27fe287so1436101f8f.0
+        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 02:55:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1791798915; x=1792403715; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1791798917; x=1792403717; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=QX8lSFW7S3WysnbG31BxJSIjyuhVgxUvAyesKtj3CLs=;
-        b=LnhHlmkW+o0fkb9PwZonZuPyO2hQNLnTXP+JFZPMme2tecwBmwdbUsq1eSifJPIjbG
-         wxtpjMZP02izprMuo6f24uM2viR1udoJ+Tos1NS7uqQsnd62D+OawFg2jBLRPn37BROe
-         +1vm3BzOp9N8Ksx11So/b3xX6wFkKL3He6RV8lmZPP5q8d5O7JkSPPG+QCSyniL9HhvM
-         s0r8JAHWyXdUG7rd+/B9B6791pf+6uWROtO6d5Rte4AW+iY4AXGnxTbNDzc2HSMFa1Dy
-         YzMi5MpY2figisnWA5CDACsAzYSvvb5N+TaRSKcVUilsjg8LEnhLgoFlGlHiufBg6Etx
-         plkg==
+        bh=YT1SExoYLuIMwneaSCPvUsBJ4hnC+2ocE7ZXG4QBttQ=;
+        b=OCErpna2ECroNC3rlatBilK0R68Ons075WiIqwHU2rgk8R0PvF+wRB68DlPzgFh4wu
+         7fvA+Dbr1kVuw/3FkIfYOl8h2claD6YsU7iOSK9pju6WbpjpAWX19gfetwA2tW7F0NPW
+         mxpQ47LeJjjR+flJ8W2JBSVe1RBuZaAsh8ErYMqzgYkMme2WuuQv64OtZF3E1iSaAMNS
+         IC3h7vE5d7ji2K9cFsqdD/bwa6pvpmgQQqu0zJ5gBoaOyN+pKLRx6zyRs+/VPC48UuPD
+         eWfIwq5w+x+bg+lKK20uv0gxcCoXa5D92Ub7ivWHuH8mW2IPMoFToUFpJYPiEfh0ZUxN
+         rkCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791798915; x=1792403715;
+        d=1e100.net; s=20260707; t=1791798917; x=1792403717;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QX8lSFW7S3WysnbG31BxJSIjyuhVgxUvAyesKtj3CLs=;
-        b=b6X5Zhr6xhHnZdiVGUF6scn8IZiejvHJ3GKIbF+WK39HkO7JZ5zPoq08xa7lPMJvVF
-         walbgyZJisevbfQsTexJc0czEdC7aztBfIqoAxUYpWkFzHFbW0PFO0iqtWk5KPBMU8nF
-         ZdQYbzCMz+amd8kQTH8vReQf4BV0+9D8EOTQAKIBjklq7NyrbheMjOsSMEUlLGssgL18
-         CS/eYhR1pZbOf+v/xsAmtl7oD6I4a3g63RZSERjAqhaRPz6aFvXOgHfwNfVAxcJHYb+C
-         BwBj79+UTCPu7Wh5oh99Cdudq1RcrXrTjGcV/IgzIw/v75fJPFWs2xyjxho8WEJaOere
-         IMFQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzyCu0iEJlVSGPY4EvvfPll7c59/CexT22kOwWjSJMPRTfMYerdPcH38QZP94SQkL2ftBNCXcVmq6o=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLE9HHpPuHWiYgIOGCed9CW22ho9R5MxARPvuXCEjQgtvqZn3oX
-	K1M0qs1UkWeFvEnSkpUDTms1Ub0FqcfXsfqRl5kj8VooMu6Md8iddEh3LgHHeuNK1RY=
-X-Gm-Gg: AYBFou28NiQ6uHBO6ONfX3ciy1AAX0ndFXiJnN7ekxXEptFZMRwXUDqPEBY+2BzlWJO
-	cWhWKlcbq30227JWd9Ag8iyblPnkxjppF/yXdjmlqgs6hzDDOioP0X/Y8eUIvreTBaMdE2QjOno
-	IIJXDazc8TxqIjoTRaCjURT/j9ckx1x1H+R54upAckPqtmruJxKTFELpgVHVDryF10CkiBUYS66
-	O9Ya89sYM4xvS9dT0Uh5Y+d3BDd8KNqe1Wgzn/iH6gk2hAdqDdWv/XjTubNsgo61r2SIT+Yi4FQ
-	eWq/K4DNWYtPn2I1l9GnGieM6eWSP7wEWG2Yu0EpF5CMGFzjiozM27+jNcbx7Xxcnsx9PGeSZiJ
-	uRxTv5kpC1Q75GsYTwfkMJdnFCRBaZm3eqc0z3uxNT3ks8zLTx/c9H/+UhOotB6hlnRc7iiiWyy
-	TLOTOco8T6+WnTX67uVUBkU2f6vg8Cfstnd98XleIuQ38zhYWmzx4ec8PanAbdt+9mShnzqnD51
-	b04LhCMvyuhcAQZse/Tyg==
-X-Received: by 2002:a5d:588b:0:b0:48d:deb0:f1a7 with SMTP id ffacd0b85a97d-48ddeb0f1c5mr222734f8f.10.1791798914652;
-        Mon, 12 Oct 2026 02:55:14 -0700 (PDT)
+        bh=YT1SExoYLuIMwneaSCPvUsBJ4hnC+2ocE7ZXG4QBttQ=;
+        b=cAkRrQlw6lozQFjq+Bj0be/vHhBn12FDoCq6Y17+KQnHHwC/KI7srhZNXV1WnDOtip
+         LqP8uyMJNaG4FG8NnYTCTEUkNfitRW+KintHLrcvPWhVv2hgrMzxTxTbWkNYM1XgfCq9
+         36wwij8E6gBJ03w0folWkjLFXF1P6a3M1inwyv4fUfOQqq8zGt/zfaakI1ISE5hZviwW
+         Ob6kWT3HzwrWeB/16S+ztBFvQD2Ps3M4WN8gQ4F5GpBpZ3jqpnIP8/ZHmI4Xmay+1eyR
+         l70u+046yz8bZWXBlHVIdZUQln48JcSgPbHHINfWLYKVgWTJLIz/pMywMTNhhmbQBeg3
+         YbBA==
+X-Forwarded-Encrypted: i=1; AKwUvBwNtBS7fNLXcvHtFKd8w37E/tCyrD1DqNHp9u8lPx6yYSw6aCRD9ZEzF8oygusOoi3Z3cbO7DuOMuA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLniLnAoWxy1/HR3KQh8iehSIVpsogFiIqAOkOVlC22RVhkmoIo
+	JgosbRbqeSS3CqYyc72kJNPIRpDOhtytbQabIR+tFOHFbPmt9/VgN5FDkzBEuwF8WMI=
+X-Gm-Gg: AYBFou0bKjUlKjI+eUYUh1XsydAfYW41ooTT9wkuMxVFOGfm7HYFVgSMTEiHfExXp9f
+	Rp0lqvJuTaqFhwo2HyOzMTqEffl2wHzhnHs2KlDVnKxfOXUGFvOY6y7p0Yl5nKDXEmTvDij07Gi
+	yUqL1Wx9BYueY94E9Xo7iGLV8h7pu8VUvPWwT2K4+U41TrFEJnSORr8+Fwn9FtS2ZPtXkPbwaOo
+	rN9iRE7wSzkDLzg9Ir9gP2AKouuh1qmaQeGbvZ4rVt46RFB1DhuHtmZEtGehvJRB1lX47DnExF9
+	qVLc1ka7QJpiU6MTDzL4zntfLKEd1MXfVTTZYcP18UVbE1D2TWB2vruHWRtbVeiAG5kbzNfUyU4
+	4zrK86fXKGhQg/Auwn9GFoAknFKWk+YI8CflvMIRV2vRvkS+COeQLzCcvdhYivJQe/oOIuGHKrV
+	BWqw4qm+1WTs9YYfoVu59GfoHu0WZ+3VXsMoOhTGJUSaZs0wGco6NqiIOQqoMnZB9wV11zdi5AO
+	Lu4Jgxk3Xa2IVK5Gumfsg==
+X-Received: by 2002:a05:6000:2505:b0:487:27f9:840 with SMTP id ffacd0b85a97d-48dbace65bcmr17485319f8f.53.1791798916694;
+        Mon, 12 Oct 2026 02:55:16 -0700 (PDT)
 Received: from localhost.localdomain ([2a00:6d43:105:c401:e307:1a37:2e76:ce91])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db98c2800sm18539103f8f.26.2026.10.12.02.55.12
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48db98c2800sm18539103f8f.26.2026.10.12.02.55.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 02:55:12 -0700 (PDT)
+        Mon, 12 Oct 2026 02:55:15 -0700 (PDT)
 From: Marco Crivellari <marco.crivellari@suse.com>
 To: linux-kernel@vger.kernel.org,
 	netdev@vger.kernel.org
@@ -74,11 +74,11 @@ Cc: Tejun Heo <tj@kernel.org>,
 	Eric Dumazet <edumazet@google.com>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
-	Petko Manolov <petkan@nucleusys.com>,
+	Ethan Nelson-Moore <enelsonmoore@gmail.com>,
 	linux-usb@vger.kernel.org
-Subject: [PATCH net-next v4 5/6] net: usb: pegasus: Move long delayed work on system_dfl_long_wq
-Date: Mon, 12 Oct 2026 11:54:44 +0200
-Message-ID: <20261012095452.135828-6-marco.crivellari@suse.com>
+Subject: [PATCH net-next v4 6/6] net: usb: r8152: Move long delayed work on system_dfl_long_wq
+Date: Mon, 12 Oct 2026 11:54:45 +0200
+Message-ID: <20261012095452.135828-7-marco.crivellari@suse.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261012095452.135828-1-marco.crivellari@suse.com>
 References: <20261012095452.135828-1-marco.crivellari@suse.com>
@@ -112,48 +112,45 @@ obvious reason that justify the use of a per-cpu workqueue. So change
 system_long_wq with system_dfl_long_wq so that the work may benefit from
 scheduler task placement.
 
-Cc: Petko Manolov <petkan@nucleusys.com>
+Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 Cc: linux-usb@vger.kernel.org
 Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
 ---
- drivers/net/usb/pegasus.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/net/usb/r8152.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
-index aba1a640fc26..ed3f8d555c2a 100644
---- a/drivers/net/usb/pegasus.c
-+++ b/drivers/net/usb/pegasus.c
-@@ -1118,8 +1118,9 @@ static void check_carrier(struct work_struct *work)
- 	pegasus_t *pegasus = container_of(work, pegasus_t, carrier_check.work);
- 	set_carrier(pegasus->net);
- 	if (!(pegasus->flags & PEGASUS_UNPLUG)) {
--		queue_delayed_work(system_long_wq, &pegasus->carrier_check,
--			CARRIER_CHECK_DELAY);
-+		queue_delayed_work(system_dfl_long_wq,
-+				   &pegasus->carrier_check,
-+				   CARRIER_CHECK_DELAY);
- 	}
- }
+diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+index f61686433031..f6af66f294db 100644
+--- a/drivers/net/usb/r8152.c
++++ b/drivers/net/usb/r8152.c
+@@ -7072,7 +7072,8 @@ static void rtl_hw_phy_work_func_t(struct work_struct *work)
  
-@@ -1223,7 +1224,7 @@ static int pegasus_probe(struct usb_interface *intf,
- 	res = register_netdev(net);
- 	if (res)
- 		goto out3;
--	queue_delayed_work(system_long_wq, &pegasus->carrier_check,
-+	queue_delayed_work(system_dfl_long_wq, &pegasus->carrier_check,
- 			   CARRIER_CHECK_DELAY);
- 	dev_info(&intf->dev, "%s, %s, %pM\n", net->name,
- 		 info ? info->name : "(unknown)", net->dev_addr);
-@@ -1288,7 +1289,7 @@ static int pegasus_resume(struct usb_interface *intf)
- 		pegasus->intr_urb->actual_length = 0;
- 		intr_callback(pegasus->intr_urb);
+ 		/* Delay execution in case request_firmware() is not ready yet.
+ 		 */
+-		queue_delayed_work(system_long_wq, &tp->hw_phy_work, HZ * 10);
++		queue_delayed_work(system_dfl_long_wq, &tp->hw_phy_work,
++				   HZ * 10);
+ 		goto ignore_once;
  	}
--	queue_delayed_work(system_long_wq, &pegasus->carrier_check,
-+	queue_delayed_work(system_dfl_long_wq, &pegasus->carrier_check,
- 				CARRIER_CHECK_DELAY);
- 	return 0;
+ 
+@@ -8840,7 +8841,7 @@ static int rtl8152_reset_resume(struct usb_interface *intf)
+ 	clear_bit(SELECTIVE_SUSPEND, &tp->flags);
+ 	rtl_reset_ocp_base(tp);
+ 	tp->rtl_ops.init(tp);
+-	queue_delayed_work(system_long_wq, &tp->hw_phy_work, 0);
++	queue_delayed_work(system_dfl_long_wq, &tp->hw_phy_work, 0);
+ 	set_ethernet_addr(tp, true);
+ 	return rtl8152_resume(intf);
  }
+@@ -10295,7 +10296,7 @@ static int rtl8152_probe_once(struct usb_interface *intf,
+ 	/* Retry in case request_firmware() is not ready yet. */
+ 	tp->rtl_fw.retry = true;
+ #endif
+-	queue_delayed_work(system_long_wq, &tp->hw_phy_work, 0);
++	queue_delayed_work(system_dfl_long_wq, &tp->hw_phy_work, 0);
+ 	set_ethernet_addr(tp, false);
+ 
+ 	usb_set_intfdata(intf, tp);
 -- 
 2.55.0
 
