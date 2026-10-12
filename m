@@ -1,102 +1,142 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4C6C3C8732;
-	Mon, 12 Oct 2026 19:49:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A228B3A1E81;
+	Mon, 12 Oct 2026 20:14:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791834548; cv=none; b=fmCRu0F/lyn7MtWpPiCxogasC3Pgo4HjSK2kOe391zCxmpVPKJck0IbnffJaUoII0Gu+IBN8hURfiHjE7/HK7wHFlWUP71nYwFoBlWCGZ1GVCf+vNRs0KZpurEhhYck9Rxkj2kDNGiJUdMZZ5FFcQyWnXsn1xLOX4wMkGf3PITw=
+	t=1791836059; cv=none; b=TTpgSckUktBNkxt7xzRRSc9He877y2OwL+dISgJ5jzjhZtz3Gafg5FHQmlpi7yx8shzKQClm2BfM4hvKNtXNfhXmgG5DdCZUNvLAHPAMCiVGs37mksu2QlLuPspSeqVyXfnvuEG7UgGCrBTb+fcDybxNvzToand9CQsJNFcERAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791834548; c=relaxed/simple;
-	bh=kHCl1KPcs4JQ2lBe65lP91LIfLvSSdqz1yDPqOeS0Bk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gFW5uHRH1YMs05v6ipgwu2YOQ3TfynTVh+g5+fLgYJNTzQOzNNmGcWXBjx/WiXGSt0Mo4TM/UErpMGxe8zkPjVsn0/joy9QET++Kok2ISWKqwRErUkzodsT/37SOsvtBz1mTOJLJuanNFU53UUGkfdV/pbHJx85WTcAgovWoav0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=IaM+Y5hR; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=mfcIhzl6; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1791836059; c=relaxed/simple;
+	bh=0ubl3b4gyKHyyY0uxzU4GVbA/+mKwZXPGHZ9enbgJCw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hh871kDMxPdMsszGN1B7tVL2Axj5InQ+OyZ72yFqQH/ABApo6MxHRREq1Mb6Bt91N6JCccACcrlDVgMLGwlajXZgkmJozF7QaxpluAwfyt7ADV8uUnRtxNfdEdTA5k0rBZMEO8kWONCEj9afLbiPwTwYOQcl63UAON3/mv1di1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gWLvD38t; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="IaM+Y5hR";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="mfcIhzl6"
-Date: Mon, 12 Oct 2026 21:49:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1791834544;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uv9gnh2e/1G7nlYzg1SvfKojobbnrAlhAiOC70Px+YM=;
-	b=IaM+Y5hRxY8aCbq+XhWRYSEr4DrcUfNfVC024vDvpymLBsJlLPi5gmaVwWNBeSvSZXUJoa
-	uwQ5QFP/bSNs6N/HCSUhdMKGF63vVkz8vJIfgvzBebEdK6McjHcKSBcbcqhgy7i6eiUnyr
-	9OwVDKrPB7r357j8/hTrZe5NAz0QcNrEXZvU/QJDycw6EaXI40wPruh9d+hXMpG+ovGKtJ
-	H4jwIzqSd4PqC+pw7wWl/ewVEFEkYPMWCKdlvt+jKDmPsjU8DlyNh6cFzYeV9FXhkh1bxZ
-	mfUFluKA+L9hsEnSKXJHhNUD9qPzfPVFV7YAiU76W/tXzVt4N7M4DS+RefJ2QA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1791834544;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uv9gnh2e/1G7nlYzg1SvfKojobbnrAlhAiOC70Px+YM=;
-	b=mfcIhzl6EBwnnPqeZZJ4+MftIUKGV+r07W+lgz31kbx/Jo9KpsXJDCxpMMeBSzDWlamXq/
-	6eRi0xpxBHBRuvCQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Jakub Kicinski <kuba@kernel.org>,
-	=?utf-8?B?w5ZtZXI=?= Mete Kaya <omermetekaya0@gmail.com>,
-	oneukum@suse.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	david.laight.linux@gmail.com,
-	syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v6] usbnet: fix smp_processor_id() use in preemptible
- context
-Message-ID: <20261012194902.aEq58Q6b@linutronix.de>
-References: <20261004215937.302247-1-omermetekaya0@gmail.com>
- <20261007200049.079aeb75@kernel.org>
- <7c4a2f1c-f16d-479b-a11f-cef962d5e2c7@rowland.harvard.edu>
- <20261008094338.301a75fa@kernel.org>
- <06a81ea1-b17d-40bd-82d9-922de946b86f@rowland.harvard.edu>
- <2026100910-petition-embattled-94cb@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gWLvD38t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC9391F0089B;
+	Mon, 12 Oct 2026 20:14:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791836057;
+	bh=eMitiKVqtOfJ40YRWpuaSF/A31VpOYBzdInjrnSO/6I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=gWLvD38tG9JYZ8GWLh27FQZFJ+hEvb9XOGEzu9zDZRNbftgS4rKHu9Cc9T63WzV5B
+	 R8fY5Q8hcckzOMnPL9JZEJ14P9DkQVbmYJzleSENznrE7uyRqPqzNs7mj98/rfw+sW
+	 UM3qQV6H+4HxTse0pupI6t+4+PwaqBcM/G2//t2WWl2JY2boK/Y+MHab3i5h0zmDy6
+	 O3GpAegcapK8McXdl5lXXMa4apilagfaZS8PA4jxHYIiJPBORP51O2E9MQD+Z/bjkT
+	 Y5LS4CiCuIce9DNApzxtFdFpcngdhPrnA6hWE8eb/fc0az4hvca6hQ4VL0fHWZkGgL
+	 4sHk7F1wZDgdA==
+Message-ID: <7d64e267-8ca6-4130-bd4a-d80fb4224f72@kernel.org>
+Date: Mon, 12 Oct 2026 15:14:14 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2026100910-petition-embattled-94cb@gregkh>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5] usb: pci-quirks: always assert xHCI OS ownership
+Content-Language: en-US
+To: Rishabh Jain <rishabh.jain1198@gmail.com>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20260902052631.75c6068b.michal.pecio@gmail.com>
+ <178832755831.50581.1058201741431375556@gmail.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <178832755831.50581.1058201741431375556@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2026-10-09 13:31:17 [+0200], Greg Kroah-Hartman wrote:
-> > As far as I am aware, there aren't really any guarantees on the 
-> > context of a USB URB-completion callback.  The kerneldoc for struct urb 
-> > in include/linux/usb.h says "The completion callback is made 
-> > in_interrupt()", but that is most definitely out of date.
+On 9/2/26 00:39, Rishabh Jain wrote:
+> The xHCI ownership protocol requires the OS driver to assert the HC OS
+> Owned semaphore before using the host controller, then wait for HC BIOS
+> Owned to clear if firmware owns it.
 > 
-> I don't think so, I think some platforms still have those callbacks in
-> irq context, unless we changed to threaded irq handlers everywhere?  I
-> could have missed that, but we should still write the callbacks to
-> assume that and then we should be fine even if we aren't in irq context,
-> right?
-
-The HCD invokes the completion callback usually in IRQ context. I think
-the VHCI is an exception here.
-For the forced-threaded mode we disable BH before the IRQ handler is
-invoked. I think even dummy_hcd invokes them from the timer if my memory
-is right.
-
-> > Drivers shouldn't rely on any particular context guarantees.  Not even 
-> > whether local irqs are enabled/disabled.
+> quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
+> is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
+> while both ownership semaphores remain clear.
 > 
-> Agreed.
-
-I would suggest to make VHCI invoke the completion callback with BH
-disabled. usbnet's tx_complete() does also defer_bh() which schedules a
-BH worker via queue_work(). While this works without disabling BH it
-leads to waking ksoftirqd and an additional context switch which we
-could avoid by dealing with it directly.
-
-> thanks,
+> The timeout fallback also clears BIOS Owned using the original register
+> value, which can clear OS Owned at the same time.
 > 
-> greg k-h
+> On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
+> resume to terminate Controller Restore State with USBSTS 0x401. Linux
+> then reset the host controller, both root hubs and the USB Bluetooth
+> adapter.
+> 
+> The controller entered resume ready and halted with USBSTS 0x1.
+> Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
+> device contexts and command, event and transfer rings were verified not
+> to cause the restore error.
+> 
+> Across four S3 cycles, asserting only HC OS Owned changed USBLEGSUP from
+> 0x00000801 to 0x01000801 and eliminated the restore failure. Testing
+> included the unmodified 7.1.8-ogc1.1.fc44.x86_64 distribution kernel
+> using a test module that set the HC OS Owned semaphore. The same test
+> was repeated after review with the same result. Clearing USBLEGCTLSTS
+> was independently verified to be unnecessary.
+> 
+> Always assert OS Owned for controllers using the standard xHCI handoff,
+> and leave the existing TI/Renesas forced handoff unchanged. Keep OS
+> Owned asserted after the standard handoff, including when forcing BIOS
+> Owned clear after a timeout, to prevent firmware from reclaiming the
+> controller during subsequent suspends.
+> 
+> Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
+> ---
 
-Sebastian
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+
+> I kept val unchanged for the error log, restored the original handshake
+> formatting, and explicitly preserve OS Owned when forcing BIOS Owned
+> clear after a timeout. Documented timeout issue in commit message.
+> 
+> I repeated the same S3 test on the unmodified
+> 7.1.8-ogc1.1.fc44.x86_64 distribution kernel using the test module, with
+> the same successful result.
+> 
+> Changes in v5:
+> - Preserve the original ownership value for error logging.
+> - Restore the original handshake formatting.
+> - Explicitly retain OS Owned in the timeout fallback.
+> 
+>   drivers/usb/host/pci-quirks.c | 13 ++++++++-----
+>   1 file changed, 8 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
+> index 0404489c2f6a..2b12a35e6f10 100644
+> --- a/drivers/usb/host/pci-quirks.c
+> +++ b/drivers/usb/host/pci-quirks.c
+> @@ -1193,10 +1193,11 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+>   			 && pdev->device == 0x0014)) {
+>   		val = (val | XHCI_HC_OS_OWNED) & ~XHCI_HC_BIOS_OWNED;
+>   		writel(val, base + ext_cap_offset);
+> -	}
+> -
+> -	/* If the BIOS owns the HC, signal that the OS wants it, and wait */
+> -	if (val & XHCI_HC_BIOS_OWNED) {
+> +	} else {
+> +		/*
+> +		 * Perform the standard handoff and leave OS ownership set to
+> +		 * keep the BIOS at bay during subsequent suspends.
+> +		 */
+>   		writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
+>   
+>   		/* Wait for 1 second with 10 microsecond polling interval */
+> @@ -1208,7 +1209,9 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
+>   			dev_warn(&pdev->dev,
+>   				 "xHCI BIOS handoff failed (BIOS bug ?) %08x\n",
+>   				 val);
+> -			writel(val & ~XHCI_HC_BIOS_OWNED, base + ext_cap_offset);
+> +			writel((val | XHCI_HC_OS_OWNED) &
+> +			       ~XHCI_HC_BIOS_OWNED,
+> +			       base + ext_cap_offset);
+>   		}
+>   	}
+>   
+
