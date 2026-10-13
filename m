@@ -1,160 +1,160 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018124A64F9
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 21:15:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34583D4137
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 21:25:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791926148; cv=none; b=tsPnRPyzS626c5Be0rx5/eEZCg2KP7jT2bGNET7JQ/OIuDlpqMfC1oUBc1YdEsoemioGJluFzwO+O9VR+aLVJTOHKOSyaWdfnM38sBdp1+tNYjDa3fCBYIwC9mol0rP5sNyRwZ5QEVqUbAXluPg45QKdCevKHGXKXV2ebnbjfzk=
+	t=1791926716; cv=none; b=VCWcgRUESDgF1Y0WKCacVbwla4uU5DUw/G5f9EdUnEFqoedXdSs6k0m0tRzMeqor7ahxjUp23CJIrUKnDhg4PLIoKytJGX0hcAmjLWO/1LR/pcDvHyLUnpmkiDzD/wBFEOBuKZg8prK4uX3sHR+JTJUeWO3E79aivueedgnyKho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791926148; c=relaxed/simple;
-	bh=xFu+DWrWAIP8IRuXhvMH98pEDfL804P+Xa42NDESeY4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WWvmYc+d2YSKcd9Nli4tZsgejsS0CUKJbjalm26RO29qziih8YRhofYbax+NuZfATcWBf6pa8NpkMv/1wEL5tap90zep+2Ha4ySNcKbtMHlbnTixom6QgLMR2NTaD/0mRp+2UdGjjzlLi8PsuWapnAnShOrv8+vrLkvKGF9ZmAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ujpjsjPi; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1791926716; c=relaxed/simple;
+	bh=aH8eFs4okB74zTwi9QU6AWy5tkbVovGm8jg+grpS26o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LXt0euaDJc8c2G7W9FD1ZbjFt0C2jCf/gRr9xcmSAhf57DC38aEn+GJ0YpEH/p+JnI4PBQvnlb/e36GjrwAkQJG1zmlO9x4R7b4yxxOFZxBHbclPuZzvWDLRQigF9XD1bPhtNkI10YRs6CpGNTC4NlFUs7zNIeYKzUv9Tt1sk+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gCMX+K2G; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ujpjsjPi"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2d8fd7a3f38so181875ad.1
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 14:15:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gCMX+K2G"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a1880e1bf1so3104695e9.1
+        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 14:25:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1791926145; x=1792530945; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5F1AD5b8BeP2FbndJLBF3CG/uQ7xv9zWoUU7VhQeeU0=;
-        b=ujpjsjPiXpROAm6iHR9ULXZqdUHqjdT/XTh2DSGe1uKC6xmhCEF4/+6xUMDBuZ7SKF
-         4uVe/efsgU6LPfr9rrEBKz3F2jA55XBIPlicHYSt1CrVsPK/TpKN2x3JdIw6Bnck7Orf
-         ZHBvEe4v7gmF+E2qq8jd8VNI+AvNM6NsP1VDJPMsEzy/H9aNHWqq4J4Sw7NI8QPVeK9/
-         aHCaiVAZ+h6c/t2YOhSF+ymv5hB4Z6hDbJKTj/0dVtqbxByXfpEg/kRHoH+cHjNXblX/
-         kJCT7Zac4jnVQYqqA/3ngHO/0pqthmwbLoX3UtzoJfLj/ZR6cMBvwxfrvA6ZJsQAYvYo
-         +xHw==
+        d=gmail.com; s=20251104; t=1791926710; x=1792531510; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9bFo6t7SK13AR5cV2462yCbw9SAQMOU3jnzNDJAtDAE=;
+        b=gCMX+K2Gi6pQ83GcMDnrnfouu+qRX9WSo8d6j75/qJ/WnigR4WoXdN7shkCMT6ImFG
+         DujGwT0jBS4ExxR5/6ML7hARxJxAY/yUxFT30Rkg0DZScH9rPOI/miNB7iaoRZYubKGN
+         DOsU4LtqplRgKNg1sXS3Uax0/uzxbG16DAodYUFE/VvMdohWyK2pVzSL8xosFVska1d/
+         AFadBmxneLg0Pr9hHM7/FJzDUSr7pAxPOM9m9+P0pj6/mVVYG4nYHUA+yoq571QwbBID
+         Q3tXHJ/5ell2cu7KtXH7UYLgNmsi8XIRL3JtiCbkPWwf6FOowYvHYUcpmhwBvctq8Thk
+         MnZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791926145; x=1792530945;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5F1AD5b8BeP2FbndJLBF3CG/uQ7xv9zWoUU7VhQeeU0=;
-        b=0PPUFF1xtdcDOfxpi2NgL0DhJtr8FZES2xYwcHXVP3x74mzw1aXmIhRfB7JSl5lFU4
-         e3L/l5HJJsr9p9aXGoBYEfhSIy7M+/MpBI/7mBKaR8yH+zlpgnbVSNQ2vruc7ju1c90J
-         M1w/BUUc3WWw1lIggRWfX5I8KFehvw6jVRiKGiBLvqRVz/tPDbsL+d0feCC3QulsJN5k
-         HGi/pKv84jMYUD34Cdwh/rB8dUMAGYSaT8sVDyhOscdrYAGATXybWhn6Dq6wIGZaO2Lz
-         mlyzyrIUUNYHEgMLzlwzdhBpDgIT0u2/Qe3uy2Azh41SgZe+r9UZ36GfHTKbM7g4LhEA
-         9hvA==
-X-Gm-Message-State: AFq9FYKgP2pfKJ0Uaqb/FrMUvjT3rrvmDXHkCOzojNm/WLhvE5yCuQ4q
-	zDJL05bAy2lBNkbvaH+mH39O6V+qvGpUSkLqHrSZy9lhOCYClP6oAk+os5sOmDlomw==
-X-Gm-Gg: AYBFou1cB22sVDNqXce+WOQbjGKGg0BnB3WfMflZWdMXlYHI1qZxYNQC0k8uofOLiEU
-	vyA/SzHinLe5aRRLVQ7+djjX7T3hnel+u6QTsf20Um7k7ZY71QKK1uhjd1+Mn89Pom8eius6sdN
-	jxnAcuIvmT1SXFND0jadwWXTVuy5bv2ujaPQCyHcB5NrKgxBYzAB5mk2XjrKPHCyGe8SA0JFr55
-	Lt9IU/n8huYaBEBc24r/p1hCD3duoVB/yLWWyDSzWU9gcirTBxKWva3vWmJAsXKCd35XZQWuBPt
-	jNQdBjbgRC/XU3FMgMV3cuqy4eJ2LVp/CHombdIHEl2BUmRZIYLBiJfxM8aCoAXS2CA827AsY29
-	Il0ivREkVR2E+0t8XsNbKnncTPzuYoPKbfQkPGqgbNgbBKeGCxI4SV2UUevjtW1j2DKaRYwv1cI
-	PnvRp+eujqPggQisBJr5HPR/jMWDnhq+mt016CK8RaQBVVa/PsTWpSU+lE8nAiNPo9q85Nxvtb/
-	eaf8wQTDANV0YJX22phkQZ5ZHSnxydp1TA9S6KYPw==
-X-Received: by 2002:a17:903:370b:b0:2c9:b404:b55 with SMTP id d9443c01a7336-2e87bc78496mr12346225ad.6.1791926144407;
-        Tue, 13 Oct 2026 14:15:44 -0700 (PDT)
-Received: from [172.18.208.19] (86.70.105.34.bc.googleusercontent.com. [34.105.70.86])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-89d8050da10sm308421b3a.53.2026.10.13.14.15.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 14:15:43 -0700 (PDT)
-Message-ID: <ebf20112-a767-4eb6-a6cd-4d2f724bd19f@google.com>
-Date: Tue, 13 Oct 2026 14:15:36 -0700
+        d=1e100.net; s=20260707; t=1791926710; x=1792531510;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9bFo6t7SK13AR5cV2462yCbw9SAQMOU3jnzNDJAtDAE=;
+        b=LHASyfO2oomB2JOTs+7XtTCsAR8RH81wXwAbL26WpoNlFlor+q6I1h4NrL2EbyqxZW
+         Ee4haQUgdoK5hIRfZLX4ZrnYRQnrQbTza6wIBvvbCUEDggfVMlUyYNuDSFuNHNgkcd/M
+         2zhhVYZkW2N3eB/ZqwOVxWporT8nibV3c1GuDfmT48Qhic4zQ2VNcljkyYx6MbmzxbyX
+         mV8rwwJyU4pmQscegTQIrDiKsLcBb2PnG59fd3NCZT7xjAnTO8uGjMpfnq8Y0c9ee1Ns
+         vSyiPKSYlNCK7xW1549sMYhsKKP1oYUSMXA1FLoEmnBiNviiv+a6rnuct3SuBMo1iAcL
+         +WAw==
+X-Gm-Message-State: AFq9FYKM7QZfUi6WZeOt5rnhCYZlFWxWE7srXbXDpQpKQyUxwKBEwPVW
+	WRA2ekE7NbUea1i5nYOK4ckbaElS1Ecnjr0bXA990dNg7zUHOop8CfGF
+X-Gm-Gg: AYBFou0P8q46fhRrHDlcqpgsR2PF5iMyv66ssii/YN7c6pykqnPpsyhudApGdeOU95+
+	mKVIJYDzxO1kG/vG3ovs+xCKKTbhvVvcQ8b7xQ5WlT3V1qBTsTI4PSfTWsB4m9XFjtXD40FfBSN
+	0dVXjFDhXAAstS1d/12TdW5UwvdRszjOZMb0GMnwdWhgkKOBL9qrC+x1HcP5zZyIK2ywmejI3XC
+	SSjza7Fd/Ieo+Tn0mmimMTjgvqU5MJSWH44Z90FpmKV4PvLPUwKbc+CsY/izaC3Yjcqflr/PrEe
+	pFP6EZdtR/PE+J7x70c45RBE9Q68pLtqWCspB0bPuPHir4mD9AuP5p2EQHSQbUdYV9brpyqWXV1
+	Nit7KQelxesqon126+tACrAdRtiv+Yymhdul5+SLMcyLfwL3Ot/HI4YBmyJUVin+JQyrslVvVLv
+	ZejhZUDkV7rO0iObmjs48h10TWTwj6TMwcE5q4Xxy8/FPPwKatgi6grS+i5hXOZRWJ6mdIOY54D
+	nXmCZnx2m0fy64G5lBS
+X-Received: by 2002:a05:600c:4e47:b0:4a1:813f:2a65 with SMTP id 5b1f17b1804b1-4a18e4b1a6fmr241305015e9.15.1791926710418;
+        Tue, 13 Oct 2026 14:25:10 -0700 (PDT)
+Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a195002123sm409441305e9.1.2026.10.13.14.25.09
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 13 Oct 2026 14:25:10 -0700 (PDT)
+Date: Tue, 13 Oct 2026 23:25:06 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Dane Linssen <linssendane@gmail.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, Mathias Nyman
+ <mathias.nyman@intel.com>, Alan Stern <stern@rowland.harvard.edu>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org, Hayes Wang
+ <hayeswang@realtek.com>, Chih Kai Hsu <hsu.chih.kai@realtek.com>
+Subject: Re: r8152: RX stops until rebind after -EPROTO on the bulk-in
+ endpoint
+Message-ID: <20261013232506.1b4dc340.michal.pecio@gmail.com>
+In-Reply-To: <CAM6_QD_z7eT+N6HieHyZhPmXqPxKqeSYKX8OK--M+rN2VAsO_Q@mail.gmail.com>
+References: <CAM6_QD_PoTdwdM7DvzzgHRs-G5EvQu-c5oNGve=GuKV4wFYAvQ@mail.gmail.com>
+	<CAM6_QD_xAyTFVvYKvCrrZmS+fV5DBBje9V=VdkDMMSpt2ussRg@mail.gmail.com>
+	<20260928120343.49e02c07.michal.pecio@gmail.com>
+	<CAM6_QD-CbYSsmic5LhpMi-aMXuC_VaniELBzaBeWO8SWm4UONA@mail.gmail.com>
+	<20261002104355.698eaf00.michal.pecio@gmail.com>
+	<CAM6_QD_z7eT+N6HieHyZhPmXqPxKqeSYKX8OK--M+rN2VAsO_Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: gadget: uvc: reserve frame interval headroom for the
- zero length backlog
-To: Daehwan Jung <dh10.jung@samsung.com>
-Cc: "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>, selvarasu.g@samsung.com,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, jchowdhary@google.com
-References: <CGME20261012034422epcas2p486b38818b542d2fff5b5fed58863ec6e@epcas2p4.samsung.com>
- <20261012034018.3193146-1-dh10.jung@samsung.com>
-Content-Language: en-US
-From: Avichal Rakesh <arakesh@google.com>
-In-Reply-To: <20261012034018.3193146-1-dh10.jung@samsung.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+[Adding Realtek people who contributed to r8152 before]
 
-On 10/11/26 8:40 PM, Daehwan Jung wrote:
-> uvc_video_prep_requests() spreads a frame over every service interval of
-> the negotiated frame interval:
+On Fri, 9 Oct 2026 14:23:57 +0200, Dane Linssen wrote:
+> > You could try it. We may consider increasing retries in mainline if
+> > this turns out to solve real world problems. Though so far, in the
+> > only reported case of 3 retries not working, 10 retries over a span
+> > of 100ms weren't helping either...  
 > 
-> 	nreq = DIV_ROUND_UP(video->interval, interval_duration);
-> 
-> and uvc_buffer_prepare() then splits every buffer into exactly
-> reqs_per_frame requests - only the request size varies, never the count.
-> So transmitting one frame always occupies nreq service intervals, 100% of
-> the frame interval, with nothing left over.
-> 
-> That budget cannot be met. While no video buffer is available,
-> uvcg_video_hw_submit() deliberately keeps a backlog of zero length
-> requests queued to the endpoint:
-> 
-> 	if (list_empty(&video->req_free) ||
-> 	    (atomic_read(&video->queued) > UVCG_REQ_MAX_ZERO_COUNT)) {
-> 
-> Up to UVCG_REQ_MAX_ZERO_COUNT + 1 of them are in flight whenever the
-> encoder is late, each occupying a service interval that carries no
-> payload, and the ring is FIFO so they all drain before the next frame's
-> payload moves. The frame period is therefore reqs_per_frame plus that
-> backlog, always longer than the frame interval the host asked for. The
-> UVCG_REQ_MAX_ZERO_COUNT compensation already in this function only sizes
-> the request pool; it buys the backlog no time.
-> 
-> At 60fps over SuperSpeed with bInterval 1 the backlog is 33 of the 133
-> intervals a frame interval has - 4.125ms, a quarter of the budget. The
-> waste is a fixed count, so it hurts in inverse proportion to the frame
-> interval: 24.8% at 60fps down to 6.2% at 15fps.
-> 
-> Reserve it. Measured on a SuperSpeed gadget (isoc IN, wMaxPacketSize
-> 1024, bMaxBurst 2, bInterval 1) running the Android DeviceAsWebcam
-> service, as reported by the CTS Verifier "Camera - Webcam" test, next to
-> the rate the microframe accounting predicts:
-> 
->    target   predicted  measured  |  predicted  measured
->              (before)  (before)  |   (after)    (after)
->      60        47.9       46     |    59.7        56
->      30        26.7       26     |    30.0        28
->      24        21.8       22     |    24.5        22
->      15        14.1       13     |    16.0        13
+> Thanks, I'd like to try it. It needs some setup here first (signed
+> modules), so it may take a while before I can report back.
 
-We recently fixed this exact issue in Android's DeviceAsWebcam client. 
-In our case, DeviceAsWebcam was only queuing a frame when the previous 
-one was returned.
+Looking at the log below I'm not sure if it will help. 15 ms is quite
+a long time and my gut feeling is that a temporary link disruption
+would be unlikely to last so long and not affect TX, unless TX is idle
+through all that time. Do you still have those usbmon logs, were other
+endpoints active in the 15 ms preceding the first -71 status?
 
-With the changes to uvc_video_prep_requests(), a frame stays queued for 
-one frame interval, and subsequent ioctl/scheduling delays meant that 
-the gadget driver had to insert empty requests between two frames 
-bringing down the effective FPS.
+Absence of errors at other times suggests that this is not a case of
+barely functional cable causing high rate of USB packet loss.
 
-Our fix was to maintain two queued buffers to UVC Gadget Driver ensuring 
-that the UVC gadget driver has a frame ready to send immediately after 
-one is complete. This prevents insertion of zero length requests between 
-two consecutive frames (fixing the FPS degradation you see) and gives 
-DeviceAsWebcam a little bit of breathing room for ioctl and scheduling 
-delays.
+The other possibility is that a HW bug gets the endpoint in some bogus
+state and only resetting the endpoint or whole device can fix it. Maybe
+resetting the RX endpoint would suffice, and the driver schedules some
+work on -EPROTO where usb_clear_halt() could be inserted.
 
-It is not clear if you are working with Android or not. If not, it is 
-well worth checking if you have the same issue as us instead of adding 
-an arbitrary headroom here. The numbers you report are extremely similar 
-to what we were seeing.
+Question remains, how to get the chip to abort the botched transfer
+and start a new transfer into a new URB cleanly? Is it enough to keep
+submitting URBs and eventually things will resynchronize? The driver
+seems to believe so, but does this really work? It will need to.
 
-If this was motivated from Android's DeviceAsWebcam, take a look at
-https://android-review.googlesource.com/c/platform/packages/services/DeviceAsWebcam/+/4353888
-and the comments in that change.
+> > Any results yet?  
+> 
+> Yes: three more stalls on the same host in 11 days (09-30, 10-04,
+> 10-06), all with virt_state 0x40, each recovered by the watchdog's
+> rebind in about 30 s. Dynamic debug was on for the last two. Both
+> start with a single burst, and in the 11 days there wasn't one
+> "Transfer error" on ep 2 outside the stalls. 10-04:
+> 
+>   22:36:09.251 Transfer error for slot 4 ep 2 on endpoint
+>   22:36:09.252 Soft-reset ep 2, slot 4
+>   22:36:09.255 Transfer error for slot 4 ep 2 on endpoint
+>   22:36:09.255 Soft-reset ep 2, slot 4
+>   22:36:09.258 Transfer error for slot 4 ep 2 on endpoint
+>   22:36:09.259 Soft-reset ep 2, slot 4
+>   22:36:09.262 Transfer error for slot 4 ep 2 on endpoint
+>   22:36:09.262 Soft-reset ep 2, slot 4
+>   22:36:09.265 Transfer error for slot 4 ep 2 on endpoint
+>   22:36:09.266 Hard-reset ep 2, slot 4
+> 
+> From there it's Transfer error + Hard-reset pairs at about 275/s
+> until the rebind 40 s later. 10-06 is the same: four soft retries
+> about 3.5 ms apart, the hard reset at +15 ms, then the same loop.
+> So here all the retries are spent within 15 ms.
 
-The change itself has been abandoned but it has context on the 
-underlying issue, fix, and where to find the fix until it makes its way 
-to AOSP.
+After "hard reset" it's a 97% chance of endpoint sequence state being
+out of sync. On USB3, resubmitting without usb_clear_halt() is futile.
 
-Best Regards,
-Avi
+Notice how baf33d7a7564 ("r8152: avoid to resubmit rx immediately")
+only talks about disconnection and not recovering from these errors.
+I suspect no one has seen such recovery, at least on USB3. Easily
+recoverable errors don't reach drivers due to retries in HW and SW.
+
+> usbmon, 2 s from each of the three stalls: every bulk-in (0x81)
+> completion is -71 (571, 553 and 551 of them), none succeed, and
+> bulk-out and the interrupt endpoint complete normally.
+> 
+> The other host with the same adapter logged no transfer errors at
+> all in the same 11 days.
+> 
+> Dane
