@@ -1,84 +1,124 @@
-Received: from sender5-op-o15.zoho.com (sender5-op-o15.zoho.com [165.173.182.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DE89346E58
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 19:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=165.173.182.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791919850; cv=pass; b=k9rkZR+2fLVHw6elX1cNIWPOtQ6htqpPSdhqqWCTUhZ7XIY8AGMBcVlOZJuTvocN24Y+0K1k2eqySmDsy1Hij8piIhaxiAMQmPRqYqTVD14v1kDMCdzUBlUfZdNA8EIcDbCA7jH8K49MfU8wTmBoSKOv5ortogE+75Br1QE22t8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791919850; c=relaxed/simple;
-	bh=VHJDeE/xiYLLJMsXP9ehvKKGvrpJ0QiernYxGm7v34M=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=VljESc4fqVahM/gZmjGwLiH2tcxhq//dpxTrDHNlcvzmwKycKJt0rPhDoWw2nvEFiTGoMxRBvmtsn1O3NGhXVVh0bFit4PkQ4Pin+d0ua/I28tnyXADv2nJ6VOBDlgxLujZ9SvLqcsmoDazaM/ebzTHOaaDbUjtR2oLFww9lt2U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io; spf=pass smtp.mailfrom=yiyuzhou.io; dkim=fail (0-bit key) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.b=QxFZLUL9 reason="key not found in DNS"; arc=pass smtp.client-ip=165.173.182.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A004A542EEF;
+	Tue, 13 Oct 2026 19:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791920969; cv=none; b=tnNHwRsiBCydC4BxriQhz4GVCjcSibkVrE1BwI7yB5SE5zsHDNovYaW4D6Lyd3xLeuJLNYbve/0m8rJsTXYtX60DjbwBYsPLAGbvBTD5WpKo6GasLsIAUxdzm/cPPqyYWP1IQcs30zpAERh6um4h+wbwNHDnMkZebispxxBSEY0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791920969; c=relaxed/simple;
+	bh=ldwO3cFm64bnrynDvOBlQj8COmsGNqU+riOvCs2Dhm8=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=dP7dZFDWT8dfcdM95yrnbIO1377WotIl0scmQ61UEZ+t7qMIL8X9WcDJnSUFrrZiuzqArxLDiCfbrNjNhvz6BP0ZdTi/PpguWq9jZUYKEu8MYN5EHjqDQbXr5PB9AP4kUvJP0m1n1/v1paR1EJoF5lQ9gtoPzGoD09KYNOcc0sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Yd5yQsQe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.b="QxFZLUL9"
-ARC-Seal: i=1; a=rsa-sha256; t=1791919842; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=mtFFaOYYXS66svnJV2b0zJnTncPXHcypHS6h3GxkI4e+EZj5kubhTwP4tYZx+5yXrzb8Wbm2VgTdrHucau3799L3CQ+E150Hzx4IPktUhhgYkWcZS1DEmV6NvjZmRTa8GqomOinkZwykdRvAbd1QCJ4KZwzzb0OSCjb6nqnOJdQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1791919842; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=vEWGKweXaxp9UAp/GPiX9vZOgNgNRvicpkf5lD2FIgA=; 
-	b=gOKDh3rlbKm9FvUHbzndhj3jOhqy071iH0K2mAikVOikBdXAS1v9bVFpJrjrDKfJl8ji/mzQOyjsfP8Dtdkx+le+zn+XKI5HKD76trpAE6RrSPtD93Z6lG/GMk6EMCj4PyFLXf0eAGiQisj5tnaZwz1AbsS3pyA8YZhovJ2CkcA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=yiyuzhou.io;
-	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
-	dmarc=pass header.from=<yiyu@yiyuzhou.io>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1791919842;
-	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=vEWGKweXaxp9UAp/GPiX9vZOgNgNRvicpkf5lD2FIgA=;
-	b=QxFZLUL9zoA98C8LHviRcqcchaSxfabKGSh7ZUF4Dq3J8Dlx3yB7Nev0YGpXA9I/
-	JcOJ2t6chOvCkJzIen4ixePLToETx926377t2/ONk6H8p/Aj/JXjhNij3kHbS766tEr
-	harh3nA2V9A2Q81tEDkjWPQigZMh4BZW3tJHuJ/Q=
-Received: by smtp.zohomail.com with SMTPS id 1791919840215816.831791075335;
-	Tue, 13 Oct 2026 12:30:40 -0700 (PDT)
-From: Yiyu Zhou <yiyu@yiyuzhou.io>
-To: sashiko-reviews@lists.linux.dev
-Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
-	mathias.nyman@intel.com,
-	michal.pecio@gmail.com,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2] xhci: give back all TDs when skipping endpoint reset after disconnect
-Date: Tue, 13 Oct 2026 12:29:34 -0700
-Message-ID: <20261013192948.1326642-1-yiyu@yiyuzhou.io>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <sashiko-outbox-169215@kernel.org>
-References: <330c34fd-1d1c-44e8-b949-ad2f5fb51f00@linux.intel.com> <20261013073825.17962-1-yiyu@yiyuzhou.io> <sashiko-outbox-169215@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Yd5yQsQe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 431CE1F000FF;
+	Tue, 13 Oct 2026 19:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791920967;
+	bh=gSwdcBHqW0LbgQKT6nKt95Qv/QKLGxf35n8p5/QHy1g=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Yd5yQsQePlyWQ/7DLdU6gH+StuyrPQD/dKoim7jIAFNeoMUy3B7UL9iJ3AQNFMk9R
+	 w/PDX3tvsPkuGZDSwA7BXuCgV5kgKR/ws+ak53JxTGzPV908Xte+SAQMscXAzWBvGa
+	 t60g1PLpyOhbcS6O6G9pSKexEk1CvckJECT4sMCGZjsrDcPVgPZKB208rKYdWL/MXe
+	 SpBzZSyfLEYrYOOyx52CXlkgdJ+Vh2KF+6Z9mZe+f96pkhBqUiRPwWule9auoGCYvR
+	 1sr7n5atIA6NUr5bIuEDLyANGMGNPeRZbKbMCPzE7sg56p8sFAioFBqQGdv0G3tgMW
+	 VCqZBhWZh/sgw==
+Message-ID: <sashiko-outbox-170428@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 24/39] mm/mlock: eliminate weird VMA_IO_BIT abuse and
+ simplify
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-s390@vger.kernel.org, "Oliver
+ Upton" <oupton@kernel.org>, "Marc Zyngier" <maz@kernel.org>, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
+In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-24-1aa3c9b139f9@kernel.org>
+References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
+ <20261013-b4-mmap-prepare-vma-flag-sanify-v6-24-1aa3c9b139f9@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Oct 2026 19:49:25 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
 
-On Tue, 13 Oct 2026 07:56:11 +0000, sashiko-bot@kernel.org wrote:
-> Can this newly added call to xhci_kill_endpoint_urbs() leak bounce buffer
-> DMA mappings?
-[...]
-> TDs that were unlinked by xhci_invalidate_cancelled_tds() are removed from
-> ring->td_list but remain on ep->cancelled_td_list. If the device disconnects
-> before they are processed by xhci_giveback_invalidated_tds(), this new call
-> to xhci_kill_endpoint_urbs() will process them.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] mm: TOCTOU race in try_to_migrate_one leaves folio pinned in mlock =
+batch
+--
 
-I do not believe this can occur from the new call site.  All callers
-of xhci_invalidate_cancelled_tds() give back TD_CLEARED TDs
-immediately, so unlinked TDs remain on cancelled_td_list only while a
-Set TR Deq command is pending.  During that window the endpoint is
-stopped, SET_DEQ_PENDING blocks the doorbell, and xhci_urb_dequeue()
-queues no Stop Endpoint command, so xhci_handle_halted_endpoint() is
-not reached.  Any cancelled TD the new call encounters is therefore
-still on td_list, where xhci_kill_ring_urbs() unmaps its bounce buffer.
+commit cc15ce19ca95992151b61de2cedb165e4684ba4f
+Author: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-The missing unmap in the cancelled_td_list loop predates this patch;
-previously, xhci_kill_endpoint_urbs() was only called from
-xhci_hc_died().  Mathias, I can fix it in a separate patch if you
-prefer.
+mm/mlock: eliminate weird VMA_IO_BIT abuse and simplify
 
-Regards,
-Yiyu
+This commit simplifies mlock VMA flag handling by eliminating the use of
+VMA_IO_BIT during mlock operations. It relies on VMA_LOCKONFAULT_BIT to mark
+walks and updates mlock and unmap code paths to test appropriate VMA lock
+flags instead.
+
+> diff --git a/mm/rmap.c b/mm/rmap.c
+> index 5332c52909be1..b4a4b3929044c 100644
+> --- a/mm/rmap.c
+> +++ b/mm/rmap.c
+
+[ ... ]
+
+> @@ -2395,7 +2397,7 @@ static bool try_to_unmap_one(struct folio *folio, s=
+truct vm_area_struct *vma,
+>  		}
+>  finish_unmap:
+>  		folio_remove_rmap_ptes(folio, page, nr_pages, vma);
+> -		if (vma->vm_flags & VM_LOCKED)
+> +		if (vma_test_any_mask(vma, VMA_LOCKED_MASK))
+>  			mlock_drain_local();
+
+[Severity: Low]
+Can this double-check of VMA_LOCKED_MASK lead to a TOCTOU race?
+
+folio_remove_rmap_ptes() calls munlock_vma_folio() internally, which checks
+vma_test_any_mask(vma, VMA_LOCKED_MASK) to decide whether to queue the folio
+in the local CPU's mlock batch.
+
+Immediately after, try_to_unmap_one() re-evaluates the same mask to decide
+whether to call mlock_drain_local(). A concurrent munlock() can clear the
+VMA's locked flags exactly between these two checks.
+
+If this happens, the folio is queued in the batch, but the local drain is
+skipped. The local batch retains a reference to the folio, which permanently
+pins it and can force best-effort migration like compaction to fail for this
+page in a tight loop.
+
+>  		folio_put_refs(folio, nr_pages);
+
+[ ... ]
+
+> @@ -2770,7 +2772,7 @@ static bool try_to_migrate_one(struct folio *folio,=
+ struct vm_area_struct *vma,
+>  			hugetlb_remove_rmap(folio);
+>  		else
+>  			folio_remove_rmap_pte(folio, subpage, vma);
+> -		if (vma->vm_flags & VM_LOCKED)
+> +		if (vma_test_any_mask(vma, VMA_LOCKED_MASK))
+>  			mlock_drain_local();
+
+[Severity: Low]
+Does this path suffer from the same TOCTOU vulnerability?
+
+Like the unmap path above, if the VMA flags are cleared concurrently between
+folio_remove_rmap_pte() and the check for mlock_drain_local(), the folio
+could remain pinned in the local mlock batch.
+
+>  		folio_put(folio);
+>  	}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
+epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D24
