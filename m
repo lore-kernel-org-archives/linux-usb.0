@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF7B494801;
-	Tue, 13 Oct 2026 06:11:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8880497384;
+	Tue, 13 Oct 2026 06:11:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791871878; cv=none; b=FLYG3xbeKRpFUVZxfmtAv5nIl+9In0JzdmtZM33d3LybqsJ1/245WhDsKMexTl3WSj12GQ0t/PVgE6pZ0U/pFsYihjicZdDQDwvF6zOR2BguFC389OaGE1pG1CdKgs691xa9lC8krog4x3Tdhe7mcrJ/uqhJjeipcUu5YPQs7Ac=
+	t=1791871891; cv=none; b=GNydG3Bd1ha8WluazgK4kquzMURvmArFiHp/0lxHb2WMn6oWU1qJVx5LY54sETq4P7+L6euvIAfA+XqO3mXKXimBuiZffPPOOTd48E0hPM4BQS2RwaD2+vJr4q/fXgOSW5ELMOW1JRO4fdBGd1h5n4nY+ZjaURXX4vLelVjLzow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791871878; c=relaxed/simple;
-	bh=6P/KMeGkNJRqtPOx3PtlRJJ0A6uRzmT744jflR6cPIU=;
+	s=arc-20240116; t=1791871891; c=relaxed/simple;
+	bh=1uJssuIx+fJPv46TRohcdFm+x29PPaeHtDJ++Ee5/E0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iIhJUISgnoyoapp6E5t5Jnh4M6fd0qOYP8Od3pzN0Krj9TP/VMAFdcZCbYu9Y+NveFBj3pMPs7RJIA68slsz8uXsShncBgwX2rw3m8epdVI8qFBCU9E8C+LUrOWIOoC/8aR0aVOHAI4TfOR/ilgYOl/VDCH6um5vqt2VBoCPmO4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GAvkk0Lf; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=a5BhPuWLkFNF7sB/mm0r2Jlsxh10I5eDTQpNQ/VvBA/0dq+ebxlOf1RYAauF39+2byF1lPKcaaTLkGupGj5O7mKV85oyJmJEMXkhi+1yIes/YBBWOUrR/syFdjsGsijR0vk9P4SS8JgoTprWZTckiF6gVTYEFy1h/mop9VKL3Og=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cgMR6Wq4; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GAvkk0Lf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E6341F000FF;
-	Tue, 13 Oct 2026 06:11:10 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cgMR6Wq4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4BCD31F00898;
+	Tue, 13 Oct 2026 06:11:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791871875;
-	bh=YgKgrdCbYrKNqKmmilqEA/C7pkoF4WC+apj6WJz3DtI=;
+	s=k20260515; t=1791871888;
+	bh=RyDYjZkFiyjGza0mTZubRFZRXHB6qfDlNws3iq8P+6w=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=GAvkk0LfD+4vBLjJ9DyaVv/bBbS9L6KW4OQ9qrhzXQXbEUWZvChCzurFrJg3F99x6
-	 7zhaQvZRNLGURdhd9UyJAMGicZ+78WALgeA5f6IpvGOJqCo2VGRBibvmIUoSbuJJAD
-	 p4UPaAl6t86Y1CJUOZcsiMC7TaFDmRU0z8H6qi6nyRcNct3qqlE54EJ5Mn/Oz2r/Me
-	 djkER95TAbZpa7lv+5CXysAk2Ir4kSKYlipi+h2nqtbW5MeJqNfwk3mGuvySjEOcgE
-	 n4VjmeUXfqtH/TfJk0tVBkGX7P9qeWFeoCTyvQJ9+8opDIHi38/zfinbgRwT7p90ue
-	 uP9c9+THGjNdA==
-Message-ID: <58cbdffa-7574-4daa-851b-dbb50012f158@kernel.org>
-Date: Tue, 13 Oct 2026 08:11:09 +0200
+	b=cgMR6Wq4mGmYaTY7BDNHGPXgYtVjRiGmYt+wS/ZSTHkX4ppNbXDdiCqtnO9RLc+dw
+	 Dy9Mjx94mojmFpxuhoEx+a55bA/oMfe9JcjSFOjAvZEYea1JGOsTmuWf0pP/H2VcqD
+	 jDLQhq8OMq0m70TR3ujgph80MQkOySL5utED1SrE1W5BTN7f5wi6s2ARjTiKafgwMv
+	 dxNMc8BzbUI5jcRgw5F3NbP7rrdtfUxxnyQgg5OCEqrap2sUUtetG9BRBoSfjjRCis
+	 q8mcNjxfL3r1OcDH+oEu+eXA3lqTZ+9ZNpZIxUw80US1slAWnGiMAQOsc40axwvnXI
+	 rv/+Jt8AcvVaw==
+Message-ID: <0de13e2d-db34-4ad7-aca7-2a42d64f8e7f@kernel.org>
+Date: Tue, 13 Oct 2026 08:11:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,15 +35,15 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/11] dt-bindings: i2c: Add NVIDIA LSTP I2C
+Subject: Re: [PATCH 03/11] dt-bindings: spi: Add NVIDIA LSTP SPI
 To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Mark Brown <broonie@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
 Cc: Donald Shannon <donalds@nvidia.com>, linux-usb@vger.kernel.org,
- linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-spi@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <20261012-lstp-usb-adapter-v1-2-aambrozewicz@nvidia.com>
+ <20261012-lstp-usb-adapter-v1-3-aambrozewicz@nvidia.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -89,114 +89,33 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  K9bCVaboTA2T77QYkRcRJYSsO1alGX0ome/hMLD1daXlkrNUp1HWa3K4iytLRXjCSIorWiGs
  n+q3krnpXu3TFkA8qtOFZMdnIiFuiq1yLT8hptsV5xh1TA2nsVvSYiaCr3q4s4BKjS/KrLDb
  qoxzw8ISjdUp4pA85vb6YLCmb39NgidD+7PmAr65lBNveIFynTgsja1rRQ4=
-In-Reply-To: <20261012-lstp-usb-adapter-v1-2-aambrozewicz@nvidia.com>
+In-Reply-To: <20261012-lstp-usb-adapter-v1-3-aambrozewicz@nvidia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/10/2026 19:36, Adrian Ambrozewicz wrote:
-> Add the binding for an I2C controller channel of an NVIDIA LSTP USB
-> adapter. Peripherals on the bus are child nodes, as for any I2C
-> controller. The device sets the bus speed and the protocol cannot
-> change it, so clock-frequency is not supported.
-> 
-> nvidia,retries sets how many times the host re-issues a transfer that
-> failed on arbitration loss or a busy bus (default 3). The generic I2C
-> controller schema has no property for this. A device that reports its
-> own arbitration retries handles both cases itself, and the property is
-> ignored for it.
+> Add the binding for an SPI controller channel of an NVIDIA LSTP USB
+> adapter. Peripherals on the bus are child nodes, as for any SPI
+> controller. The firmware reports the number of chip selects and the bus
+> speed; only chip selects 0 and 1 can be addressed.
 > 
 > Signed-off-by: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
 > ---
->  .../bindings/i2c/nvidia,lstp-i2c.yaml         | 71 +++++++++++++++++++
+>  .../bindings/spi/nvidia,lstp-spi.yaml         | 68 +++++++++++++++++++
 >  MAINTAINERS                                   |  1 +
->  2 files changed, 72 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/i2c/nvidia,lstp-i2c.yaml
+>  2 files changed, 69 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/spi/nvidia,lstp-spi.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/i2c/nvidia,lstp-i2c.yaml b/Documentation/devicetree/bindings/i2c/nvidia,lstp-i2c.yaml
+> diff --git a/Documentation/devicetree/bindings/spi/nvidia,lstp-spi.yaml b/Documentation/devicetree/bindings/spi/nvidia,lstp-spi.yaml
 > new file mode 100644
-> index 000000000000..eacabed52cd1
+> index 000000000000..5a96faab9106
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/i2c/nvidia,lstp-i2c.yaml
-> @@ -0,0 +1,71 @@
+> +++ b/Documentation/devicetree/bindings/spi/nvidia,lstp-spi.yaml
+> @@ -0,0 +1,68 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 
-We do not use that tag. Drop it everywhere.
+All comments apply here as well.
 
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/i2c/nvidia,lstp-i2c.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NVIDIA LSTP I2C Channel
-> +
-> +maintainers:
-> +  - Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-> +  - Donald Shannon <donalds@nvidia.com>
-> +
-> +description: |
-> +  I2C controller channel on an NVIDIA LSTP USB device.
-
-Say something useful.
-
-> +
-> +  Peripherals on the bus are described as child nodes.  An i2c alias
-> +  gives the bus a fixed number.
-
-What are you describing here?
-
-> +
-> +  The bus speed is set by the device.  The LSTP protocol has no way to
-> +  change it, so clock-frequency is not supported and is ignored.
-> +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-controller.yaml#
-> +
-> +properties:
-> +  compatible:
-> +    const: nvidia,lstp-i2c
-> +
-> +  reg:
-> +    description: Channel ID reported by the device firmware.
-> +    maxItems: 1
-> +
-> +  nvidia,retries:
-
-You described the desired Linux feature or behavior, not the actual
-hardware. The bindings are about the latter, so instead you need to
-rephrase the property and its description to match actual hardware
-capabilities/features/configuration etc.
-
-> +    description: |
-> +      Number of times the host re-issues a transfer that fails on
-> +      arbitration loss or a busy bus before giving up.
-> +
-> +      Ignored when the channel config reports non-zero bus arbitration
-> +      retries.  Such a device is expected to retry both arbitration loss and
-> +      a busy bus itself before reporting failure, so the host adds no
-> +      attempts on top.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    maximum: 255
-> +    default: 3
-> +
-> +required:
-> +  - compatible
-> +  - reg
-
-Incomplete, where are any resources? If you do not have any, then this
-should be folded into the parent node.
-
-> +
-> +unevaluatedProperties: false
-> +
-> +examples:
-> +  - |
-> +    interface {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-
-Why do you need that wrapping node and what is "interface"?
-
-> +
 Best regards,
 Krzysztof
