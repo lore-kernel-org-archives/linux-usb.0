@@ -1,299 +1,225 @@
-Received: from relay11.grserver.gr (relay11.grserver.gr [78.46.171.57])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB21E56328A
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 22:36:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.46.171.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7071D51EDFD
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 22:53:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791930981; cv=none; b=Ir+sSK5CCXCQtH6WxBJyBtYgOd36TFZIUUUVnMCq6caJHWRHqN9OVKh7Y9Gwb4vv05Y/cMiX/tTllYoQTbswpgvtLJGHmG1xGDG9JCs7lQNjEWDYZIphAy1QfmXjKakbAFiSSmhsTBiX6WWmcXns4vsuGhew2DANy7x3lFAka5I=
+	t=1791932026; cv=none; b=b5Gljxoel7EdSE2xP7AWxfQ2/9IhztiwWu3Zgw875CnCwdvRFOiqBZVpdlznAUroHWOFpILp9G3LvKRViagfSsMAkQwrokI87F0CVP4vMG2gdpPqP4nrc3K8J/3gugv8Oha/fJVH72z1yvUcx4kR2thsCmg3dZlRJ5G6fGcRb4w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791930981; c=relaxed/simple;
-	bh=MxW/p9SoaEWXyK/ASzLf3lihmJ+Hxe4/oV/+cjH4Vbg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=q+FEZ6cbRwLV3YP8M+dyVyoqpzbSy2JIydYd7QW95hF2fq5AaA9AQEKIKGoitRvMx4BmfZO07MU35aYtuPvf0Y3PfsY5bgeTbCFjgZLogIPt6M8KfLFA9fkxErGbnXB+XQcEjhSy4DwHAtzxvaLIZPz1u7pIoyXRtuTpgPxZgSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=MkRqDmb5; arc=none smtp.client-ip=78.46.171.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1791932026; c=relaxed/simple;
+	bh=Hma4RgGfGLBQ6xS6PrwLKiMepbWaHJcnLCXe3/fphVI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oWNe8nHyxIpVBaBhwdpi/1qhbza+FVZG1v4drw6kAgtOJt1ai5NoGJbQ47fG3M9sNpjwXw0KmYhftUEBgxdBewQUJ5b9m7Jg7uPZ5Sdto9OtRQgOl2MnBBnWgoTji17dQhWVTbZC2XOyZlVdgLvmNmG/Ps4i5URgPoKT1ur36Ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hanxJlA7; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=eMGjBzm+; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="MkRqDmb5"
-Received: from relay11 (localhost.localdomain [127.0.0.1])
-	by relay11.grserver.gr (Proxmox) with ESMTP id 6B524BCA2C
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 01:36:11 +0300 (EEST)
-Received: from linux3247.grserver.gr (linux3247.grserver.gr [213.158.90.240])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by relay11.grserver.gr (Proxmox) with ESMTPS id 5E28ABC73F
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 01:36:10 +0300 (EEST)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
-	by linux3247.grserver.gr (Postfix) with ESMTPSA id B9A2E1FDAF9
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 01:36:09 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1791930970;
-	bh=SYCWzrGSScC3HWN5RckZZWD1Lre/uOiFxeWF9xM/pjY=;
-	h=Received:From:Subject:To;
-	b=MkRqDmb50KWOpYdnDWVQhmthPneRB+BXMydW4Lk1cUwT7/Ss6uy3Go8SWJqCQIdwa
-	 HPS+Wq8q7+yGMHp3Vo7LcNvpPndCsJzCZhu05pVctLwccldHfKldrHS4lPm2tE2Dwn
-	 uUa09oOJCEzjj0Ppr8CxM2Cg2MxjLqec0xsbZtYPtnkY6nizFwzbxdC35nmGTk9Z4k
-	 WbXXjEQnkmtSU66aR43L7XuN5yJ9f5yqOQ68qeydRgnjxDNQ7dGXPfDcS73Ttqlew0
-	 yex8fciRbU8tOQF3F0nzLXhTHkPC2Wr9gkDYMSZ9tY/UpFxfMbH7O8uliG5N/tigLT
-	 MVk3HaGfgY4Vw==
-Authentication-Results: linux3247.grserver.gr;
-        spf=pass (sender IP is 209.85.210.172) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-pf1-f172.google.com
-Received-SPF: pass (linux3247.grserver.gr: connection is authenticated)
-Received: by mail-pf1-f172.google.com with SMTP id
- d2e1a72fcca58-88b7d853b11so2246920b3a.1
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 15:36:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1;
- AKwUvBxKyXO51tIR79cw0ygKE3OpIC64Uz3FYvAFxWU7Lijno0ZNZluVf2tZaFvHBbuwYx4MnPWVKepAnoA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIEUM7+KtJ/6KHPCJb7/64XcDq53IK8uoh1YLRK3pwLCFZQoovt
-	AnVH3BQ9bQdOOM8E5FRFVE4bIqW79jxLw6IZSXJRaapeqyVHr/Cp3WSkoJ5AMQPumrLig1666IP
-	QcTqXcr+bLzEE5K0hxkhprGFIOLrO6r8=
-X-Received: by 2002:a05:6a00:9284:b0:890:e1ff:3bac with SMTP id
- d2e1a72fcca58-897c3ef925emr10844320b3a.8.1791930968155; Tue, 13 Oct 2026
- 15:36:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hanxJlA7";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="eMGjBzm+"
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69DK6ue4806986
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 22:53:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Mxil4QV5DyDElpqiZcf+YLh/SA5GndGsyqbFML9jByc=; b=hanxJlA7ybvXdLjW
+	ory3JIVy1+bYco3lvVZAq424rBW/vsjBBcCXebpjoGdEZxjaRCUfWVenXN/XMG+B
+	azFCGNbr4Is3zrvEyEWHOrqa0bcLG93BafwJ+/lgkkoxIaHUlnWoBilEgNt0/10h
+	AJv7VO86K+0A8b6LghHfif29HMsyxCEq3pv5XqlUDO+3ia0zXEYwcWBY/KGDP+Y5
+	cE2pLUm/vmb0qoVaBVUw1wr/LCMyq8dLSJ5DJGiP49CBje9KVl+M0dAsUFoHkDeb
+	KiypA6l4089UvKUdVK4DU+YxYERD0Z7Yyf9rn2J7PigiD3pRrqVDKajW7MLdJO2m
+	mlibgw==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h9ud68j1d-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 22:53:42 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-359b81ad4e8so547448eec.0
+        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 15:53:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791932022; x=1792536822; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Mxil4QV5DyDElpqiZcf+YLh/SA5GndGsyqbFML9jByc=;
+        b=eMGjBzm+pX+NcJfWGI4u4Xz9Yh6MZDYNsfo1LoUNLsEhRG31GMLDTeqCAHczq/GmGj
+         qdmvlWm4YYC2pKzzMA0tr2SpDNVsVU5uV3PSroKF8wW+SldLA3d/hTr6xmfov9U7C0P7
+         6hoTFLPNGL85BGdMu9+dotHBsvF9SJGwKp1lRVT4JBFMRDRLH5P/T028l8ki0I+SL+yQ
+         2WI71523nDDhs2Z+Mmj4CzvcJ4Yz45jm9HSiiEkKX/CficQ21cU0Grr8+4B4lf1QiB2q
+         c2ZkxkrG15OLKJMMjE6Wj3kiikqv9ffotcpaUWm6jVE8kMMYa/KHCyRQDm/TADEm8C7O
+         0tMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791932022; x=1792536822;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Mxil4QV5DyDElpqiZcf+YLh/SA5GndGsyqbFML9jByc=;
+        b=pA64dmwy/XwRtMk/8IWFJvyjfCzsWtmwlwHuYa8l/kccEuu+CojWO1F0F+BQOXkc3/
+         oo+GqBTLVAWSXpVW7peu9HEuueBM45j8ej5EZR+qUVRS71Zidq79SuS5lxBTMf6ZNdcK
+         B2dltG88cb8nYoCQ91xNBuIB3sW2p+90q6Uv9XYdBHqefChyqAzzjjtigXmY9DPqsHBb
+         UXvr6VoN/nQOK1ogmqJlFGo+dcVV2KOlVTQPGfnqFYK+Rqoj4kep14Q5owWNC8RcqJO7
+         kBWXVYFNp1nRmTEmqW2rI2Z4hsdVARnpkJdbID86YShpsH5m46oH1jqQDVk0A055efWg
+         VYUA==
+X-Forwarded-Encrypted: i=1; AKwUvBzBVwdokyC+RpBQHc/KHywnZjsCuD1W3evVB5rAo04YQaOY/E4LtebyuJPKzEtJljqKZ/LSICzn0Lk=@vger.kernel.org
+X-Gm-Message-State: AFq9FYISF0r51yYuj0B84jOgnMzLT9v3F3MOfJwbHwxlODJ/6McTl3Zv
+	X/TlbXbBfrHqvNNecgFiEF6KYXBemqCbotYpn5g5wnw73aIVBajVl/0kfqF4CW1Zov7uDgrkWNA
+	xfSMXRXS0NbRHp/AQcUVIhFOPQWoFJ2VxFT4Wa2omG2bgydtSxs5JZG/q0ywVeCE=
+X-Gm-Gg: AYBFou3o1i43lFXEtxBAmAmZhaTRoLWox2vY19i6VYMlX7CKh1oiYmaZTQfPHvqj4t8
+	8sbs/BFMnjF6IYYa+25Mq8yP1JGF1SQuyKAf4iDqjimO3k5D104d8kcVY/zjoNQCpSwmWG0Nxud
+	Sg8VqhzS27dcr24aK2nG5lqkLpY+08gcH4zjsjS+xs0+rC49SkCY28BTXxqk7W+kiey/EHUNdHt
+	3qj1X51gvmAK4hm8XRoDoMM9ePCUJ5sZpsS5F8vdud6nS/svc9Oz2dYwK4jq5/7tq8lsClApeqR
+	8AmUQAvZFK26hasWJALsgDwAfGwp05gWSXRgeioHQKuPlr0PnUumfRZMG7bqADx3ZyP/V5S/M08
+	JBuiT/dBfbmCbihjtWDuRQIeP2SQbH055a74jNC7XU96OxA==
+X-Received: by 2002:a05:7022:b054:10b0:17c:2de6:9795 with SMTP id a92af1059eb24-17c2de69af9mr2483438c88.9.1791932021423;
+        Tue, 13 Oct 2026 15:53:41 -0700 (PDT)
+X-Received: by 2002:a05:7022:b054:10b0:17c:2de6:9795 with SMTP id a92af1059eb24-17c2de69af9mr2483410c88.9.1791932020833;
+        Tue, 13 Oct 2026 15:53:40 -0700 (PDT)
+Received: from [10.73.199.44] (pat_11.qualcomm.com. [192.35.156.11])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-169a567bd18sm40439563c88.21.2026.10.13.15.53.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 15:53:40 -0700 (PDT)
+Message-ID: <5cd85c1b-4bb7-4f30-930d-6c6451f09395@oss.qualcomm.com>
+Date: Tue, 13 Oct 2026 15:53:39 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260828104159.62399-1-yaseen@ghoul.dev>
- <20260828104159.62399-2-yaseen@ghoul.dev>
- <fe51a4ac-540f-4d14-ba76-b69b0eb17164@leemhuis.info>
- <CAGwozwEdQ+EEjfzHM_DAtoygsch=BXR8VWd1yHeKA-BaS=hCUA@mail.gmail.com>
- <e097faae-6184-4498-9c64-c5736f3b3ac8@ghoul.dev>
-In-Reply-To: <e097faae-6184-4498-9c64-c5736f3b3ac8@ghoul.dev>
-From: Antheas Kapenekakis <lkml@antheas.dev>
-Date: Wed, 14 Oct 2026 00:35:56 +0200
-X-Gmail-Original-Message-ID: 
- <CAGwozwHsWtA2eAmgPMpbmtuxkfVJc0Qby6t0ws16U_Ya=1ZwRA@mail.gmail.com>
-X-Gm-Features: AclHuK_sMJcqGS3LYiw3hdkqgDIznHqojWzKhqkbW_2uYXllk6j4qxTPkcRvlUM
-Message-ID: 
- <CAGwozwHsWtA2eAmgPMpbmtuxkfVJc0Qby6t0ws16U_Ya=1ZwRA@mail.gmail.com>
-Subject: Re: [PATCH v2] HID: usbhid: skip interrupt IN polling for devices
- with no input reports
-To: Ahmed Yaseen <yaseen@ghoul.dev>
-Cc: Thorsten Leemhuis <regressions@leemhuis.info>,
- Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>,
- Denis Benato <denis.benato@linux.dev>,
-	=?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
- Alan Stern <stern@rowland.harvard.edu>,
-	Kerim Kabirov <the.privat33r+linux@pm.me>, GameBurrow <gameburrow@pm.me>,
-	regressions@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-PPP-Message-ID: 
- <179193096998.1333741.14343213178430208467@linux3247.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 1.4.6 at linux3247.grserver.gr
-X-Virus-Status: Clean
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/5] usb: xhci: sideband: allocate sideband ring
+ segments from a dedicated pool
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
+ <20260909-16k_offload_v1_b4-v4-3-f24a86617597@oss.qualcomm.com>
+ <68b34f04-f7e2-4468-8a18-ac97decb987d@linux.intel.com>
+ <82e0b9c7-3b3f-4dce-a72e-64989b08ef98@oss.qualcomm.com>
+ <20261013111110.423dd0ff.michal.pecio@gmail.com>
+Content-Language: en-US
+From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+In-Reply-To: <20261013111110.423dd0ff.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: c8prxxX9XCMtnIjmLueDnLI9T8KakEHd
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDEzMDA5MSBTYWx0ZWRfX3F9OgKZuL5ko
+ VRsDGocI/tr+hapsYl/yqJHVOI+WjO0Z5VoyO/h8+Iir8Wi3MRdXlQsakKUQbh+e/9Kba4He7mJ
+ K4soVv7/qsIaeXld1XXzxCFLmrgE/3Q=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDEzMDA5MSBTYWx0ZWRfX72r8se2wTvbV
+ UOAeifgoUfXlV75fB7ilXO9bz+YYnlCoZgkszU1rxBZsk0derQ2TBFg9NB/AA9zF9LkpNG6QEK5
+ i51pVfwVhWyNUHO7zB4A4VIelJw4veMYtHzDTmwVqCGj1hhP2l2Sff1zTHkEqAKCGG4CfF5Erl7
+ roAZ3OnEincPbSAy7O857C2Kq5oW9ocM1se2ySCvrlK83hDMNN3yoJ0Ln8bIT5fDnabm4wcUopK
+ SsgktQMarLQodfhZ+iNkzUmnNI8NFt5lEy+KRUSIB6eL3rTdG3l4YW6NHUlcimsZLqNRRro/LZT
+ x5tvF/zU8lHkiX2M67M1TQW252HKqX7SbvgcW2NQFgkpIxPpm/gmorRihQUwNIUUuOPhs+JlgND
+ /Dn+wpNr09U1YIhS8a2NUe72vdIfxC0nib4IKeG8B9kJJZyqI750kDXWDmCzHd+F9jh9eWl6id8
+ ZkOGrXCFYKeJySe8UyQ==
+X-Authority-Analysis: v=2.4 cv=fJ6sTpae c=1 sm=1 tr=0 ts=6aceb676 cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
+ a=csWOSXdzfb-gPp_ViFkA:9 a=QEXdDO2ut3YA:10 a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-GUID: c8prxxX9XCMtnIjmLueDnLI9T8KakEHd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 spamscore=0 lowpriorityscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 impostorscore=0 phishscore=0 bulkscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610130091
 
-On Wed, 14 Oct 2026 at 00:29, Ahmed Yaseen <yaseen@ghoul.dev> wrote:
->
-> On 10/13/26 18:11, Antheas Kapenekakis wrote:
-> > On Tue, 13 Oct 2026 at 14:55, Thorsten Leemhuis
-> > <regressions@leemhuis.info> wrote:
-> >>
-> >> On 8/28/26 12:42, Ahmed Yaseen wrote:
-> >>> usbhid starts polling a device's interrupt IN endpoint on open
-> >>> (usbhid_open() -> hid_start_in()). If the report descriptor declares =
-no
-> >>> input reports there is nothing to read there, so the poll is useless,
-> >>> and on some composite devices it is also harmful.
-> >>>
-> >>> The ASUS ROG N-Key keyboards expose a second, input-less interface us=
-ed
-> >>> only for RGB control via feature reports. Opening its hidraw node (an=
-y
-> >>> hidraw reader does, including SDL/Steam Input or a plain cat) starts =
-the
-> >>> pointless IN poll and keypress reports on the keyboard interface get
-> >>> dropped for as long as the node stays open: a lost key-down drops a
-> >>> letter, a lost key-up leaves the key stuck. usbmon shows the dropped
-> >>> reports never reach the URB layer.
-> >>>
-> >>> The useless poll itself is long-standing; commit 4ac74ea68f64 ("HID:
-> >>> asus: early return for ROG devices") is what exposes it on these
-> >>> devices by keeping the input-less interface alive instead of ejecting
-> >>> it, so its hidraw node can be opened and the poll started.
-> >>
-> >> Hmmm, what's the status here? Ahmed, is this still needed, or was this
-> >> fixed in some other way? From the the outside it looks a lot like this
-> >> regression fix feel through the cracks, but would be good to get into
-> >> 7.4-rc1 to finally fix the dropped keypress reports.
->
-> Hi Thorsten,
->
-> Yes, this patch is still very much needed upstream. The current status of=
- this patch is as follows:
->
-> On upstream kernel, this is still waiting to be merged.
-> On the OGC Kernel this has been available since 7.1.3 (since July 21)
-> On Nobara kernel and G14 kernel, this has been available since 7.1.4 (sin=
-ce around mid July)
-> On CachyOS kernel some users have opened an issue and a PR on the CachyOS=
- kernel repo and kernel patches repos respectively.
->
-> The issue itself is still present in upstream kernel and I'm still waitin=
-g for a response from the maintainers. I hope this can be merged upstream A=
-SAP.
->
-> It is still a major issue and I have recently encountered users who had s=
-witched away from Linux to other operating systems for this reason as well.=
- Reports of this issue still come to us in varying ways and we ask these us=
-ers to use one of the kernels with fixes installed. In the case of Fedora a=
-nd Arch users, this would mean the OGC kernel, Nobara, or G14 kernel. For D=
-ebian-based distros, the issue is not yet present as the patch that made th=
-is issue become visible is not yet available there. However, when the patch=
- 4ac74ea68f64 ("HID: asus: early return for ROG devices") is available in a=
-n LTS kernel, all users of Debian-based distributions will get this regress=
-ion as well, so I believe some urgency is also required here.
->
-> Best Regards,
-> Yaseen
-> >
-> > Hi Thorsen,
-> > there haven't been widespread issues with stuck keys on Asus recently,
-> > except one regression with the fan key that merged recently.
->
-> Hi Antheas,
->
-> As explained above, we do still get these reports. We have users in the (=
-previously ASUS now OGC) discord server, cachyos forum, bazzite repo issues=
-, reddit, etc that do report these issues and multiple commenters who claim=
- they have the same issue.
->
-> Some of these issues that I found at the time of writing it are linked in=
- the cover letter of this patchset. Other users reported this in the discor=
-d server later, and many users write it off as a one-off issue or a bug wit=
-h a certain game and those who hit the issue repeatedly either report to us=
-, roll back kernel, or even switch to an alternative like Windows. Kerim an=
-d GameBurrow who helped with my testing for example, were users who were ab=
-le to reliably recreate the issue in certain games. The reproduction cases =
-in the patch description (e.g. running cat on the hidraw node) came from th=
-em and trigger it consistently.
->
-> >
-> > This fix targets hid core, so merging it could cause regressions on
-> > other devices.
->
-> This fix has not caused any regressions so far, and I do not see a scenar=
-io where it would. The patch only affects devices with 0 input reports. Add=
-itionally, we have the patch on so many widely used kernels and has been pr=
-esent in them for the last 3 months, along with multiple users who added th=
-is patch manually with my guidance. The fix itself is to simply not poll an=
-y devices that have no input reports to provide. The reason why other devic=
-es are unaffected is explained in the patch description and my additional p=
-roof is the hundreds of users that use the Nobara kernel, G14 kernel, and t=
-he OGC kernel collectively.
->
-> >
-> > Denis can comment on whether he fixed the regression that primarily
-> > lies in the software he maintains separately. I am not sure SDL causes
-> > this issue
->
-> As one of the maintainers of asusctl myself, I believe I can comment on t=
-his as well. There was an issue in asusctl previously that opened the hidra=
-w, and it was patched by Denis months ago. However this did not fix the iss=
-ue that polling the hidraw by other means (Steam/Proton and even a simple c=
-at does this) still triggered the bug. That is what my patch fixes.
->
-> I would like to also highlight that this is originally a logical issue in=
- the kernel that should not have been there in the first place, and if a de=
-vice regresses because of this fix, it is a device that needs quirking and =
-not the other way around. That said, even for malformed input reports which=
- you have described in your v1 response, they would still be unaffected as =
-we only skip when there are 0 reports. The quirk HID_QUIRK_ALWAYS_POLL exis=
-ts exactly for this reason, and anything without that quirk and no input re=
-ports has no business being polled.
->
-> If the maintainers still prefer it, I would be happy to have this as a qu=
-irk for only the ASUS keyboard device instead. I have explained all my reas=
-oning for this approach in the cover letter and as mentioned, no regression=
-s have been reported so far.
->
-> Best Regards,
-> Yaseen
->
-> >
-> > Best,
-> > Antheas
-> >
-> >> Ciao, Thorsten
-> >>> Skip the poll in usbhid_open() when the device has no input reports.
-> >>> Feature reports and hidraw output keep working over the control and O=
-UT
-> >>> endpoints, so the interface is otherwise unaffected.
-> >>>
-> >>> Fixes: 4ac74ea68f64 ("HID: asus: early return for ROG devices")
-> >>> Link: https://discuss.cachyos.org/t/keyboard-input-issues-on-asus-rog=
--strix-16-2025-with-cachyos-during-gaming/30823
-> >>> Link: https://github.com/ublue-os/bazzite/issues/4590
-> >>> Cc: stable@vger.kernel.org
-> >>> Tested-by: Kerim Kabirov <the.privat33r+linux@pm.me>
-> >>> Tested-by: GameBurrow <gameburrow@pm.me>
-> >>> Signed-off-by: Ahmed Yaseen <yaseen@ghoul.dev>
-> >>> Reviewed-by: Denis Benato <denis.benato@linux.dev>
-> >>> ---
-> >>>  drivers/hid/usbhid/hid-core.c | 9 ++++++++-
-> >>>  1 file changed, 8 insertions(+), 1 deletion(-)
-> >>>
-> >>> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-c=
-ore.c
-> >>> index 96b0181cf819..d7cf2b56e117 100644
-> >>> --- a/drivers/hid/usbhid/hid-core.c
-> >>> +++ b/drivers/hid/usbhid/hid-core.c
-> >>> @@ -688,7 +688,14 @@ static int usbhid_open(struct hid_device *hid)
-> >>>
-> >>>       set_bit(HID_OPENED, &usbhid->iofl);
-> >>>
-> >>> -     if (hid->quirks & HID_QUIRK_ALWAYS_POLL) {
-> >>> +     /*
-> >>> +      * ALWAYS_POLL devices are already polled from usbhid_start(), =
-and a
-> >>> +      * device with no input reports has nothing to send on the inte=
-rrupt
-> >>> +      * IN endpoint. In some cases polling is harmful: on the ASUS R=
-OG
-> >>> +      * N-Key keyboards it makes the sibling interface drop keypress=
-es.
-> >>> +      */
-> >>> +     if ((hid->quirks & HID_QUIRK_ALWAYS_POLL) ||
-> >>> +         list_empty(&hid->report_enum[HID_INPUT_REPORT].report_list)=
-) {
 
-Ok, I remember our conversation a few months ago.
 
-The hid descriptor should not affect device behavior.
+On 10/13/2026 2:11 AM, Michal Pecio wrote:
+> On Mon, 12 Oct 2026 18:01:50 -0700, Wesley Cheng wrote:
+>> On 10/5/2026 4:03 AM, Mathias Nyman wrote:
+>>> xhci is the one allocating the ring when adding an endpoint, and
+>>> telling xHC hardware to write to that ring. It seems more
+>>> approriate that xhci should be the one freeing the ring after it
+>>> told xHC hardware to drop the endpoint, and there no longer is a
+>>> risk on hardware accessing it.
+>>
+>> Hi Mathias,
+>>
+>> Sorry for the late response.  Was out last week.
+>>
+>> Specifically in the disconnect path (while audio offload is active),
+>> when we utilize the usb_set_interface() path, it'll return early due
+>> to the iface->unregistering check.  This would lead to the
+>> drop_endpoint not to be called, and rely on the xhci_free_dev() to
+>> handle the transfer ring cleanup.  This wouldn't work in the offload
+>> situation, because qc_audio_offload is the only entity managing the
+>> DMA pool, and that would be freed during the .disconnect callback,
+>> which happens BEFORE xhci_free_dev().
+>>
+>> Would you be more inclined to prefer a solution where we can defer
+>> the DMA pool free'ing to the xHCI core during xhci_free_dev, or maybe
+>> adding another sideband notifier (sb->notify_client) enum to tell the
+>> client driver that it can release the pool?
+> 
+> I'm not Mathias but my opinion is the same as always: none of these
+> problems would exist if the sideband client allocated and freed all
+> transfer/event ring memory, and xhci-sideband only owned a mapping.
+> 
+> The mapping would be freed by xhci_sideband_unregister() or similar
+> calls, which should ensure that the xHC stops using the rings, and
+> memory would only be freed by the client driver after unregistering
+> the sideband and stopping the coprocessor. Nothing is ever UAF or
+> leaked, and ensuring this is *easy*. And if xhci-hcd randomly wants
+> to get rid of some endpoint, it simply stops using the mapping and
+> lets the sideband client clean it up two milliseconds later.
+> 
 
-Just because a hid descriptor does not have input reports, you should
-not change the kernel's functionality.
+Hi Michal
 
-During development, it can be the case a hid device has a partial hid
-descriptor. hidraw does not look at or care about the hid protocol of
-a device. This is what hiddev is for.
+Your feedback is always welcomed.
 
-As it stands this is a heuristic
+I guess my intention was to see if we could leverage the existing memory 
+operations within xHCI as much as we could.  The only concern I would have 
+with having the client own all the memory operations/allocations is that we 
+would need to carefully maintain the transitional phases between offloaded 
+and non-offloaded scenarios to be handled properly.  At least in the audio 
+offload case, we're only offloading data to the DSP when audio is active, 
+which can be for a short duration, and we have proper checks and locking 
+already within the xHCI mem/core layers.
 
-If the kernel has a bug with how it handles polling on devices without
-input reports, you need to find the underlying issue and fix that. if
-not, you should quirk hid-asus by appending HID_QUIRK_ALWAYS_POLL if
-dev->tp. You never responded to my comment so at least by my side I
-considered the problem resolved.
+> One thing I'm not entirely sure about is how we could create this
+> mapping. Using bare iommu_map() creates a hard dependency on IOMMU.
+> Documentation/core-api/dma-attributes.rst mentions possibility of
+> using generic dma_map_() helpers on multiple devices, so maybe this
+> can work, but I haven't seen existing examples of such use.
+> 
+> And there seems to be one more potential problem case, which hasn't
+> been mentioned in this thread AFAIK: if xHC resume failes, xhci-hcd
+> frees its private data and tell USB core to reset-resume devices.
+> Looks like another opportunity for UAF.
+> 
 
-Antheas
+Since I did take a look at the other issue that probably reminded you of 
+this, without getting on to a tangent subject, it really broke down to two 
+scenarios:
+1.  reset_resume during bus resume
+2.  usb_device_reset for recovery
 
-> >>>               res =3D 0;
-> >>>               goto Done;
-> >>>       }
-> >>>
-> >>> base-commit: 8d3ae59288f1e7d58d76558a6ee96d533bc5019f
->
->
->
+In both situations there are requirements that when those happen/trigger, 
+technically, the bus should be completely idle.  For #1, since we're coming 
+from a bus suspend transition, there should be no pending URBs in flight, 
+so if reset_resume happened, xfer rings aren't being utilized.  For #2, 
+there were some changes that weren't properly handling the pre and post 
+reset callbacks, leading to problems in that situation.  I think that 
+series showed us that there are corner cases where referencing vdev could 
+potentially be unreliable.  I'm going to assume this has no relationship to 
+the client driver owning memory, please correct me if I'm wrong. :)
+
+Thanks
+Wesley Cheng
+
 
