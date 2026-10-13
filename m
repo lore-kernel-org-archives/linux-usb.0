@@ -1,112 +1,124 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04A11E9919
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 14:24:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C865013CF
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 14:28:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791901467; cv=none; b=SgHlevhLvreCbWfpxiwvmAFbA96E7sgfgo6aOJo9o4j7VChO/683Z5tKnvstVjZ682Dk+mqOvDUfm9rRZo3jwlJWbtvYcLHi7rMOGWdxt/4ylJkKc3OqywyTV+9ZAFQqrq3ZmLONsLw94WGJFIuE7rOKa4sVbFZcqWJEyrbZKI0=
+	t=1791901732; cv=none; b=RxWyuwjQy1K/nr1FkajmTgZlYP8mvtkRqfVnWI/r4ieB3iY78Lg2jOx3l5DmMVTsV6X7QSphBPzKqVvkq6Tw+tfGhF9SfbD257JygFpGaqT0d+YrWKBYeJ16UnYU5avUKPR/UgxhtHOKaQ6jwUnggRUGoLJEmV3HgOKfUZoRSyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791901467; c=relaxed/simple;
-	bh=Nzbs4dMaX86fNTu274xkeOit1fQKxU++1pnky0glSII=;
+	s=arc-20240116; t=1791901732; c=relaxed/simple;
+	bh=6H07UqpB34xzJkqx7O1zQ6NFdgAkEw6hBZ9Tg69ZM14=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=dtetKhhBysoTfqvw4NqEMxWLIOOET/bz7xAEvR1YE2N+dL0tovObA4mcCncQ3WfLn7dUd0WiOMmkXgrlc+UfQDNVzSMVAbNvbYcuE5/r/6vdHekbW1i93emiDA+9uyvDRtNqbPPIt6eF/1ADWnpU0BuWv8qTyUClbS1eddO6qVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G2NXP5Pf; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=TckeA5wUt9QAqMHDdCUsBYx9k5xflIxMYvOhZWN3F+8aBpxbaWwWu6gB/3Vjgn94VPkWoYTa8YssOOqJLihUYvaHiYZi0cc89tdInhqvNE/6axeoAAGe+iNUu/oaZmLxdt5nWaGruFeYJEt3PYtq+8sBLtdamzQe3eHOdehvAvE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ak8BgZCu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G2NXP5Pf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60C4D1F000FF;
-	Tue, 13 Oct 2026 14:24:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ak8BgZCu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37B251F000FF;
+	Tue, 13 Oct 2026 14:28:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791901466;
-	bh=nWWOep2Bf3ffzQXCRkU1BghbxLysoDbK1wB/R5psk/U=;
+	s=k20260515; t=1791901731;
+	bh=HSM6o2I1wf2j+RPXU/6EeukipRAw0BFc7DJaav9VyV0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=G2NXP5PfnuNXTZ2h24+oONPSyJ1bQnIiIeAycTilZeQkAhnUh13vba/Fo2bzLx+9R
-	 wcOdendgKNtmSCjPnGspEsD99d3tXUP3NIE6TT71A0BDsGv9nMymxKs7vd6Ocd/7wF
-	 XktCPP5QddpbWnsPCNfamwnn2wWhb3vEVgvu12CWPCfBfRVANlQD4nn++x4B1KUoX+
-	 dig+nv4E3MjMVUCY/mnZ7pv5syYI3xCD5twzV+SCUwixk4ZqQmxLsIDN9aycWA3071
-	 PBzQ2x0iEN0s2/CQ7gPA8TBykvRjulClORWR9qzuIyiHFS+E+aSwZ8GLR4xxwBhtuz
-	 LinIlfGT1Wz8g==
-Message-ID: <sashiko-outbox-169900@kernel.org>
+	b=ak8BgZCu4qDDO5573eDw4GFVqHcc776CQBMLjVX0VywYAoIGLnwP4+5EjcJdcudS7
+	 ctRQpyw1icVrXWZif7E/nS2330CjpEZV8MaDQZDtawa7z1FzCZRrycO4JEsqXm2J99
+	 gjHcovvQXE9P49bIef1ky4DBT5Y7TC7WddCXGyIEOGAJxUgFie2bYNG7XBeU9qQU5L
+	 lWBIOpaYotFgX2T9pQh34al/wtW7Xt60P3eb3GnlZIp27SBotgUfxzpKdmBjuUr9Xt
+	 tNSSSzWUt0p30gxt5hLcFLso5j0Kh3CAJhQDODQBKBO9c62M6lPzQZ4T2fzBfpDww9
+	 0pi2+MeWOkirw==
+Message-ID: <sashiko-outbox-169908@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] driver core: take parent lock on deferred probe
+Subject: Re: [PATCH v2 4/5] usb: dwc2: hcd: don't disable/enable external
+ vbus by system suspend/resume
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Johan Hovold" <johan@kernel.org>
+To: "Fabrice Gasnier" <fabrice.gasnier@foss.st.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261013140615.1226992-1-johan@kernel.org>
-References: <20261013140615.1226992-1-johan@kernel.org>
+In-Reply-To: <20261013-dwc2-low-power-fixes-stm32-v2-4-79865a4f1b63@foss.st.com>
+References: <20261013-dwc2-low-power-fixes-stm32-v2-0-79865a4f1b63@foss.st.com>
+ <20261013-dwc2-low-power-fixes-stm32-v2-4-79865a4f1b63@foss.st.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 14:24:25 +0000
+Date: Tue, 13 Oct 2026 14:28:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] driver core: unbalanced parent lock in deferred probe due to TOCTO=
-U on dev->parent
-- [High] driver core: Use-After-Free of dev->parent in deferred probe
+- [Medium] usb: dwc2: state desync leaves VBUS regulator permanently off
 --
 
-commit fa3fc53326d3b088884e2e7e5dc50b5162e40379
-Author: Johan Hovold <johan@kernel.org>
+commit 4667cf4d4bc9dadbb9a896c9a4811136f2ba1208
+Author: Fabrice Gasnier <fabrice.gasnier@foss.st.com>
 
-driver core: take parent lock on deferred probe
+usb: dwc2: hcd: don't disable/enable external vbus by system suspend/resume
 
-This commit adds a new helper bus_probe_device_deferred() to take
-the parent device lock during deferred probe. It modifies the deferred
-probe worker to use this helper instead of bus_probe_device().
+This commit removes the disable and enable calls for the external vbus in
+the bus suspend and resume routines. It aims to avoid an unbalanced regulat=
+or
+enable count that occurs when registers are lost during system suspend.
 
-Link: https://lore.kernel.org/20261007131514.1260696-1-mario.peter@leica-ge=
-osystems.com
+> diff --git a/drivers/usb/dwc2/hcd.c b/drivers/usb/dwc2/hcd.c
+> index c966c08cd7d82..263713ebd4801 100644
+> --- a/drivers/usb/dwc2/hcd.c
+> +++ b/drivers/usb/dwc2/hcd.c
 
-> diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-> index 18f12c6f910a0..ebd069d98d255 100644
-> --- a/drivers/base/bus.c
-> +++ b/drivers/base/bus.c
 [ ... ]
-> @@ -630,6 +624,26 @@ void bus_probe_device(struct device *dev)
-[ ... ]
-> +void bus_probe_device_deferred(struct device *dev)
-> +{
-> +	if (dev->parent && dev->bus->need_parent_lock)
-> +		device_lock(dev->parent);
 
-[Severity: High]
-Does this code risk a use-after-free of the parent device?
+> @@ -4500,10 +4496,7 @@ static int _dwc2_hcd_resume(struct usb_hcd *hcd)
+>  		spin_lock_irqsave(&hsotg->lock, flags);
+>  	}
+> =20
+> -	/* Enable external vbus supply after resuming the port. */
+>  	spin_unlock_irqrestore(&hsotg->lock, flags);
+> -	dwc2_vbus_supply_init(hsotg);
+> -
 
-When called from deferred_probe_work_func(), the worker thread has only
-taken a reference via get_device(dev) and dropped the deferred_probe_mutex.
+[Severity: Medium]
+Will this leave the physical regulator permanently off if the port power wa=
+s=20
+cleared before system suspend?
 
-If device_del(dev) runs concurrently, it can drop the device's reference to
-its parent via put_device(parent). If that was the last reference, the pare=
-nt
-object could be freed immediately.
+If the port is powered off by the hub driver before suspend, the external
+regulator count is 0 and HPRT0_PWR is 0. During system resume, if controller
+registers are lost, _dwc2_hcd_resume() unconditionally sets HPRT0_PWR to 1
+further down in this function:
 
-Because we only pinned the device itself and not the parent, could this read
-of dev->parent and the subsequent device_lock() access freed memory?
+    dwc2_writel(hsotg, HPRT0_PWR | HPRT0_CONNDET |
+                    HPRT0_ENACHG, HPRT0);
 
-> +	__bus_probe_device(dev);
-> +	if (dev->parent && dev->bus->need_parent_lock)
-> +		device_unlock(dev->parent);
+By removing the dwc2_vbus_supply_init() call here, the physical regulator
+remains off, but the HPRT0_PWR bit is forced to 1, causing a state desync.
 
-[Severity: High]
-Is it possible for dev->parent to change during the execution of
-__bus_probe_device(dev)?
+When the hub driver later tries to power on the port in dwc2_hcd_hub_contro=
+l(),
+it checks the current state:
 
-If a concurrent thread executes device_move() on the device while we are
-probing, dev->parent could be updated. This happens because device_move()
-updates dev->parent while only holding device_pm_lock(), which is not held
-here.
+    case USB_PORT_FEAT_POWER:
+        ...
+        hprt0 =3D dwc2_read_hprt0(hsotg);
+        pwr =3D hprt0 & HPRT0_PWR;
+        hprt0 |=3D HPRT0_PWR;
+        dwc2_writel(hsotg, hprt0, HPRT0);
+        if (!pwr)
+            dwc2_vbus_supply_init(hsotg);
+        break;
 
-This would result in evaluating dev->parent a second time and potentially
-calling device_unlock() on the new parent instead of the one that was
-originally locked, causing a lock imbalance.
+Since HPRT0_PWR is already 1, the check for !pwr evaluates to false, and the
+external regulator is silently skipped.
 
-> +}
+Does this lock the port in an permanently unpowered state where it is unable
+to detect or enumerate devices? Could this be avoided by only setting HPRT0=
+_PWR
+during resume if the regulator is also being enabled, or by restoring the
+exact prior port power state instead of unconditionally setting it?
+
+>  	/* Wait for controller to correctly update D+/D- level */
+>  	usleep_range(3000, 5000);
+>  	spin_lock_irqsave(&hsotg->lock, flags);
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013140615.1226=
-992-1-johan@kernel.org?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-dwc2-low-p=
+ower-fixes-stm32-v2-0-79865a4f1b63@foss.st.com?part=3D4
