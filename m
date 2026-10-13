@@ -1,135 +1,136 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A194F7CAE;
-	Mon, 12 Oct 2026 21:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17ED036F8EB
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 00:59:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791840333; cv=none; b=djlwk174gtZmnVGe8ajbPCShUzpU8vAWRR9q4yxvOtbzdfyIJ/6i+GjBjwhXaTUegsWiKN49HJMbaEiD87hqSitFm5d+VmXGOd8q74jP2saOsP3bHGr4LJ6+pZs/6I0qaSfWcSnQTqS09Y/WGjAW0cMEjNsWqCGZFKhx833ZFnA=
+	t=1791853161; cv=none; b=q942pWmjtKYLBi190MqCGyg1XEfvAq/Y6WSub5Lde9GJZw07gC2XELnnhcMYBbj5Kz67Ni4wWOyVWlTR/oo0qugl68aVNkvNK4VJYGZxQ44DHdsseIgcmT1MHYkAlZv5QPPKl6lOcHbuqAEDvO1qALXzLe0VJwxIicO22ju4BuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791840333; c=relaxed/simple;
-	bh=fvjje0IIW6MOjzpPa7bXnEazhGyVa6KL4EdFPoxyr1M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KjVY5rMupFVzNEuye0zi8Qu6EJIT5P0VHyq0zBl2nPl14WLDmqIJ43j/8H0p/gGQJuevguOpu2f6ITx4oF1zO85tagKuEAJ3dJMtqZCKaTFWElubYsuJSHxYOCOrf5mRZ32iweRnBDma3DdPfVQwfK5jtJYVouC5k8h06DM2/5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3MORn/rI; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=17yHSlhA; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1791853161; c=relaxed/simple;
+	bh=7D0ueLF5U0UC1KdmFom1A5HOnKTONJlWgvjZkLkoPEY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=j5OztLL3NIGZYHIP1cYFm5WrEGSsYgF4HIoTIy6/DkutB7exjF35hE8GCMd0yZxWc6Bav6WZ3QwFUtXZnmKehhxtVkKmHX4n/Z8EipI9iR03Ls+qKNEKPyMonP1H/kzL/kgSruvVBmbS750L1VvRcRWUirQcrYaEMIQ/IOKgBPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=isslab.korea.ac.kr; spf=none smtp.mailfrom=isslab.korea.ac.kr; dkim=pass (2048-bit key) header.d=isslab-korea-ac-kr.20251104.gappssmtp.com header.i=@isslab-korea-ac-kr.20251104.gappssmtp.com header.b=jYv90Qb3; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=isslab.korea.ac.kr
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=isslab.korea.ac.kr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3MORn/rI";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="17yHSlhA"
-Date: Mon, 12 Oct 2026 23:25:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1791840329;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iAiScCw3xT8qTEUpGk6BjUljTycDujh4sIDNa9F0P6Y=;
-	b=3MORn/rIhXC6vXHl+Ic4CJZNg4nCzhRynPtsaXuNdTdZQyU7/8gOg7C00CPcz+KYO5IWn+
-	bBouNB2iVrq2lI3yjbDrJ4Mj1Cr/0zZz8uKtOC4AxfYduH5k0wQGUGiHtFrCZv24rjsPY7
-	RNolF2ITKJyBEjiF+oJXYBlGFeakqjkmWM356qJrl8bCLLpR5NX8aFOOOCN09N8S0FsbG5
-	+mPS7xcGwAw8rxaA4QmkqhJkP9oUmQq3pnUJcPv5sr8//jhj32YrkD7f15BPSn/xJUmlen
-	aGQGUDU4lOcapu4NFcVIvLwHqEu9/5A250b6OiwimsH/so/suZ6iEUZOaJGmhw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1791840329;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iAiScCw3xT8qTEUpGk6BjUljTycDujh4sIDNa9F0P6Y=;
-	b=17yHSlhAgmgweZpYB2yF8SSxvq0aiaHhIdD0JuRpHX7jKQo8h/igxWvs4KjIw8Ym9+gFMu
-	hLLYGAapiJUxyiAQ==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	=?utf-8?B?w5ZtZXI=?= Mete Kaya <omermetekaya0@gmail.com>,
-	oneukum@suse.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	david.laight.linux@gmail.com,
-	syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
-Subject: Re: [PATCH net v6] usbnet: fix smp_processor_id() use in preemptible
- context
-Message-ID: <20261012212527.5sFqlGYu@linutronix.de>
-References: <20261004215937.302247-1-omermetekaya0@gmail.com>
- <20261007200049.079aeb75@kernel.org>
- <7c4a2f1c-f16d-479b-a11f-cef962d5e2c7@rowland.harvard.edu>
- <20261008094338.301a75fa@kernel.org>
- <06a81ea1-b17d-40bd-82d9-922de946b86f@rowland.harvard.edu>
- <2026100910-petition-embattled-94cb@gregkh>
- <20261012194902.aEq58Q6b@linutronix.de>
- <8545800a-a37f-482a-9b06-cbdd70312b7a@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=isslab-korea-ac-kr.20251104.gappssmtp.com header.i=@isslab-korea-ac-kr.20251104.gappssmtp.com header.b="jYv90Qb3"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2e4af975346so14062705ad.0
+        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 17:59:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1791853157; x=1792457957; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KD/O0ovUlmAuZHc6X9wXGWv7XROc25F1YO2O1JLs2oM=;
+        b=jYv90Qb3V8IYczVtrMAn0qtBmM0TuNKlRGrB2CJQYO6A5aTycKQVnHCNCojteZElFK
+         ccpx9tLMDiNFuha3hGDHEBhEB7+fO2FLwbnh80d+ROil2ja6VqAmefFq8eAhaeKMxiJg
+         TB515+dhw0YEeKK7jc31aKOr24HPlq8QbYFURTZrOCXuDdCT8IPjWvmc+x/nKpWfSaWv
+         i3w2c6yoAfLPJJeiQzIY1l7PHpVqDc2+xpy9WrfSQ8T4iKVB4lLQUKijxy4jc2Efiey3
+         mSFUFSj+4R6s/X/eDXbNRV8b3RIT2iX3KT3kgP9FPgH7CGV2WYkNQByK3ffbaiST0g0o
+         N4lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791853157; x=1792457957;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KD/O0ovUlmAuZHc6X9wXGWv7XROc25F1YO2O1JLs2oM=;
+        b=gbxRXy9CpoJtaKgwrFGoMxUxdbg9JCTAMuklU5GMcoumay1Za2/K81NiJ66lfdGF1j
+         JO+BwRXdIpOJn1L8Ij7q5aYq0thG3iP+kexcBwkvbBI/WFhdfr1YcCtj9HJmBuPp/qRD
+         CPmbIrGpQzO+tU4gJPL+/FYG+eBr351N1ANxJWWG7SjkffzGhky3LDIQZlm9RCSP8t80
+         7+IAI/d6ywhKaNVvOeAWCMucu+RbI2ZWQmNl+TW0pYVovW3dLmFFKDrls1+JmRAUfF6e
+         kVI/TPJiEEQtJeeRxm9GeBKhK1+tudzK3knL2uIbqQiysDnmpEaJX7ZuhyOydCWnpUT3
+         DA7Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzfmv/2HP9vTBTsXbO+LEsfxz4RzP3M6309pQDl5yF2OiUDeCHBxy1FcqSGyjXACTsyDR6Zq6Z4zlA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLWZkvcO/TbLvNsJtgnmWXaBEGZ8ArbcOCw6ihbts1Nfw5e//6r
+	ANBZt+ObsrU8hzGZGY/HRH3XChmrFf8TBlPR6JnMmCkSFgF1D8WlpiPZ6/Pm/SapiT4=
+X-Gm-Gg: AYBFou0uaY6oK3KHsolwWfObnB4+OVu9tzDKSCNtW2NZzUwY+BpIAb8zcAJtNaJaVFV
+	grr8RFkwWWBuXGWKUdNj+WOUu3t6VSPB7wr+W71RXCwADdgu1nD8Sb7K6s1SxevMfsIMYrHw+L2
+	OoPTat+nDpFIw7KDOd5QTViSzY+iUbw0ou+LsWooovI7ljn8+ytRkbcSSq9etYcafRylr9JlSE9
+	vKs2dOPhUc8lg2g92NRQbpEaLYSW6Mkh179jB6QNP9586OI13MdkSyeUpZ2Or0rdupBhcCVHdEP
+	BxZj42na4kiXvHFmSR6n4rZmySt/1g7gZ8ROkd7H1TCyIT3/d9/MngAnY6ARovllvoUoK7DKY29
+	WU/2eYkNubd2IC71/pxKc+gwjGGNxyiOcbCBxSU8k6Zay9YoUP1Z9NQHiZKm6w8TOx6A9035sPr
+	egp3nX0qEFz2S0QnvWklUQm3OqDQzpJNPZglQGtCwdtD6SxZBwT8zH00SrFRrla7fcEnBwsZZ6P
+	jW8Pg==
+X-Received: by 2002:a17:902:e888:b0:2e8:4078:84e5 with SMTP id d9443c01a7336-2e842cd449fmr90537535ad.20.1791853157038;
+        Mon, 12 Oct 2026 17:59:17 -0700 (PDT)
+Received: from yhlee-960QFG.. ([125.131.91.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e8422e1643sm49225935ad.70.2026.10.12.17.59.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 17:59:16 -0700 (PDT)
+From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+To: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	target-devel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v2] usb: gadget: f_tcm: reject a short write data-out transfer
+Date: Tue, 13 Oct 2026 09:58:54 +0900
+Message-ID: <20261013005854.2470384-1-yhlee@isslab.korea.ac.kr>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <8545800a-a37f-482a-9b06-cbdd70312b7a@rowland.harvard.edu>
+Content-Transfer-Encoding: 8bit
 
-On 2026-10-12 16:26:28 [-0400], Alan Stern wrote:
-> On Mon, Oct 12, 2026 at 09:49:02PM +0200, Sebastian Andrzej Siewior wrote:
-> > On 2026-10-09 13:31:17 [+0200], Greg Kroah-Hartman wrote:
-> > > > As far as I am aware, there aren't really any guarantees on the=20
-> > > > context of a USB URB-completion callback.  The kerneldoc for struct=
- urb=20
-> > > > in include/linux/usb.h says "The completion callback is made=20
-> > > > in_interrupt()", but that is most definitely out of date.
-> > >=20
-> > > I don't think so, I think some platforms still have those callbacks in
-> > > irq context, unless we changed to threaded irq handlers everywhere?  I
-> > > could have missed that, but we should still write the callbacks to
-> > > assume that and then we should be fine even if we aren't in irq conte=
-xt,
-> > > right?
-> >=20
-> > The HCD invokes the completion callback usually in IRQ context. I think
-> > the VHCI is an exception here.
-> > For the forced-threaded mode we disable BH before the IRQ handler is
-> > invoked. I think even dummy_hcd invokes them from the timer if my memory
-> > is right.
-> >=20
-> > > > Drivers shouldn't rely on any particular context guarantees.  Not e=
-ven=20
-> > > > whether local irqs are enabled/disabled.
-> > >=20
-> > > Agreed.
-> >=20
-> > I would suggest to make VHCI invoke the completion callback with BH
-> > disabled. usbnet's tx_complete() does also defer_bh() which schedules a
-> > BH worker via queue_work(). While this works without disabling BH it
-> > leads to waking ksoftirqd and an additional context switch which we
-> > could avoid by dealing with it directly.
->=20
-> Today you fix VHCI, tomorrow some other virtual HCD will cause problems.
+usbg_data_write_cmpl() commits the WRITE buffer to the backend as soon as
+the OUT request completes successfully, looking only at req->status and
+never at req->actual.  A host that declares an 8192-byte WRITE but ends the
+data-out after 4096 bytes still reaches target_execute_cmd() with the full
+length.
 
-We don't have other virtual HCDs, do we?
-The other driver is drivers/net/mctp/mctp-usb.c.
-mctp_usb_out_complete() -> =E2=80=A6 -> mctp_usblib_tx_stats_update() does
-get_cpu_ptr() for stats. But mctp_usb_in_complete() has=20
-mctp_usblib_rx_complete() -> mctp_usblib_rx_stats_single_drop() and
-mctp_usblib_rx() which do just this_cpu_ptr(). Plus the queue wakes &
-netif_rx() which wake ksoftirqd.
+The buffer is not zeroed (transport_generic_new_cmd() leaves zero_flag
+clear for a data CDB), so the bytes that never arrived keep the previous
+page contents, which the backend writes to the device for the host to read
+back. The target core refuses a WRITE whose declared length is wrong, but
+it does not see a data phase that simply falls short.
 
-That makes two drivers from a quick grep. But I guess it is just
-networking for the per-CPU stats.
+Fail the command when the data-out is short.  The OUT data phase is over at
+this point, so clear cmd->data_len too: otherwise the BOT status phase
+treats it as outstanding WRITE data and queues another OUT request to drain
+a host that has already stopped, wedging the bulk pipe.  Rate-limit the
+failure message, which a host can now trigger at will.
 
-> Should we document any requirements that all HCDs will have to follow=20
-> and that all completion handlers can rely on?
+There is no oops; poisoning the buffer and ending an 8192-byte write at
+4096 bytes leaves 4096 stale bytes committed before the change, and after
+it the command is aborted with nothing committed.
 
-It used to complete in IRQ context. Then you added the possibility to
-complete BH for those HCDs marked as such (except for the RH). I think
-it was always reasonable to assume that it is either IRQ-context
-(force-threaded or not for !HCD_BH) or BH (for HCD_BH). It makes hardly
-a difference, BH is always off and networking uses to rely on it.
-So yes, documenting would make sense.
+Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP + BOT")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+---
+v2: on a short data-out also clear cmd->data_len so the BOT status phase
+    does not queue an OUT drain for a host that already stopped (would
+    wedge the bulk pipe, reported by Sashiko); rate-limit the failure log.
 
-Do you want to document it yourself and have me do the VHCI bits?
+ drivers/usb/gadget/function/f_tcm.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-> Alan Stern
+diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+index 9e6d4f39900a2..cbe64f934724e 100644
+--- a/drivers/usb/gadget/function/f_tcm.c
++++ b/drivers/usb/gadget/function/f_tcm.c
+@@ -1090,8 +1090,14 @@ static void usbg_data_write_cmpl(struct usb_ep *ep, struct usb_request *req)
+ 		return;
+ 	}
+ 
+-	if (req->status) {
+-		pr_err("%s() state %d transfer failed\n", __func__, cmd->state);
++	/* a short data-out left the buffer unwritten; don't commit stale data */
++	if (req->status || req->actual != req->length) {
++		struct usb_gadget *gadget = fuas_to_gadget(cmd->fu);
++
++		/* the OUT data phase is over; nothing left for the status phase to drain */
++		cmd->data_len = 0;
++		dev_err_ratelimited(&gadget->dev, "%s() state %d transfer failed\n",
++				    __func__, cmd->state);
+ 		goto cleanup;
+ 	}
+ 
+-- 
+2.43.0
 
-Sebastian
