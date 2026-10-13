@@ -1,80 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE73F476CF1;
-	Tue, 13 Oct 2026 17:33:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D73450391D;
+	Tue, 13 Oct 2026 17:43:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791912792; cv=none; b=qxaMkHteg0kaz2Sq0AJwicMtVi48rS9vfH8KN0ojXRHIn44y7SMTZHlo+Ebuerq4ygkPqmhvhWM1b7wrJLHxlWHEYr8aRFzfBmInOkeuMsH8PHpHpH8kyXzPh3z/flq8UWLCz85ZIjgy475ucmdv1G7lWs0Zr5PkwXhWwPrtqcc=
+	t=1791913393; cv=none; b=iSrjjb0DTXsVFD4GwWKVLrmkaybabBkFOWoGL3YCqGgHy5JxNahxt7D9lZWXZYay2khA4zv4xDJAphxC38+Pe/Aw0QKVR+Rv5RfrTWQBcW8Mi3seTIBcCO1W+Z0usXFrxl6et1dXglLd0djT5VWQKFwVvaIuhQZdLiX4hhHf4WU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791912792; c=relaxed/simple;
-	bh=JxBEmlqmo0SFZ6BrL4KxJFrWSAGDjEPKXHuQE8sFSxw=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=fAKYhTL9qEDHBil1trPwNX4Y8l9FzFvlPJuAgVCl/xmj293lzSH7XwLARBkwuY6fTnq0YGYk6RHmGPQhEq3kY/24RaLIAolaP8Cet2R4pBbvXmdKqeqKBi+AOS6j/5Zn9toCLnavglgnAt3iOAc40YPheuMl5lIm+K9KY+vIvR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Se9AUxO5; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791913393; c=relaxed/simple;
+	bh=XhvOeBweAajn+nJxQPZ2n8mQcmuHxvvpFb9p4pI8FUI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=Uwm7J4E9pDYgXm7r4bShVYgi6NZVVrBdVFTJSgyOlsZtV6jGRVECni/xOf/AXqKKLOvg69UBbb2A4KAgL1j3F9BpHJVfeUMRqGwTiJwbxPTmwGem2/T6tdc6aAyul4dW/KFcCBW53X9PZFkWWA64qIey10UXnqhcGGC0zOY15j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YADWSCZR; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Se9AUxO5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 473631F000FF;
-	Tue, 13 Oct 2026 17:33:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YADWSCZR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB631F000FF;
+	Tue, 13 Oct 2026 17:43:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791912791;
-	bh=JxBEmlqmo0SFZ6BrL4KxJFrWSAGDjEPKXHuQE8sFSxw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Se9AUxO5eY6Vv+WVzaPupe+gs++Esq3HeCYTZTp5Zh97WqhllkG/1eR34yjkEfdHR
-	 jfzQa6D5croh4Mk68Q1Su4Ge3iWwoJar9L++6wq3Sq/Zv8Cpv1gFtTOEJIfEhopIS7
-	 /H6CV+kd3yKmORsTigmX2N9smqc5KBdSezimu4p13JWfghKdHODFPbtQVMoA0Nijxo
-	 +BRD98zuaLmEBjPTqplOlx9YpoF303OKuYyw3/ftPvtw1dxBehbaappWYOmnrxX825
-	 m7YbJh5hdtI5UbDDDzL1j9SH45raE8bHyS6tnnKmEk3d2aDIPGR9ow0JsbZKnIw40d
-	 B7Dw3z8sKzz6Q==
-Message-ID: <sashiko-outbox-170235@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 13/39] ALSA: pcm: use vm_insert_page() to map PCM
- status page
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-s390@vger.kernel.org, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-13-1aa3c9b139f9@kernel.org>
-References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
- <20261013-b4-mmap-prepare-vma-flag-sanify-v6-13-1aa3c9b139f9@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 17:33:10 +0000
+	s=k20260515; t=1791913391;
+	bh=S66NLj+K+sBEkMppYnR/cBn73roEhByUF4f2CziJQcw=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=YADWSCZRso0VJa9kqCVmm5xxSJpVG0ysIKUeQhNyELcVNd/ZYGiZArtykP40ZkPQS
+	 gUQ1jw+Ks2NyvSO5AKif+SHUu1edCs89J9EI8Bqp1fnAKSnxspg3RawVPbqINNy4/p
+	 IFfGX36M1nNgKPRDMbuKcdEkyuyr4idp8OukoM23fjNAT+6wKaYRWmKbgGwBylAbq/
+	 lWymGQUGdVJD1x00bnb9vgUTk/RaYAn0RuMC/1eZ2xV88K/6MW/MUtYCdAShOrB0Lp
+	 LQuMEDvBnlPV0L+HhO9cVz0XeB0ph9777wwJVQYkl0fIZV2ZujIxQTXh2huQNhWZI8
+	 JOj06qEy3568w==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 13 Oct 2026 19:43:08 +0200
+Message-Id: <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
+Subject: Re: [PATCH] driver core: take parent lock on deferred probe
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Alan
+ Stern" <stern@rowland.harvard.edu>, <driver-core@lists.linux.dev>,
+ <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Mario Peter"
+ <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
+To: "Johan Hovold" <johan@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20261013140615.1226992-1-johan@kernel.org>
+In-Reply-To: <20261013140615.1226992-1-johan@kernel.org>
 
-> There's no need to keep a fault handler around for this, instead map on
-> mmap.
->=20
-> While we're here, rename area to vma to be consistent.
->=20
-> This correctly makes the mapping a mixed map mapping.
->=20
-> This works towards establishing the invariant that only PFN mapped or mix=
-ed
-> map mappings may clear the VM_MAYWRITE flag. The status page mapping clea=
-rs
-> VM_MAYWRITE, so it must not be mm-managed; the control page mapping remai=
-ns
-> writable and is left fault-based.
->=20
-> The assumption is made that the struct pcm_mmap_status structure is at mo=
-st
-> a page in size, which is asserted as a build bug.
->=20
-> This is safe to assume, as the size of the structure is 56 bytes at most.
->=20
-> Acked-by: Takashi Iwai <tiwai@suse.de>
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+On Tue Oct 13, 2026 at 4:06 PM CEST, Johan Hovold wrote:
+> +void bus_probe_device_deferred(struct device *dev)
+> +{
+> +	if (dev->parent && dev->bus->need_parent_lock)
+> +		device_lock(dev->parent);
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+This looks like it has the same potential UAF as the other patch.  It's qui=
+te
+unfortunate we need the whole need_parent_lock thing just for USB.  IIUC th=
+e
+main reason USB needs this is because interface devices share resources of =
+USB
+devices and we need to keep the locking order to avoid inversions, right?  =
+Is
+there more to this from the USB side of things?
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
-epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D13
+I think we can probably do something like this
 
+	struct device *parent =3D NULL;
+
+	scoped_guard(device, dev) {
+		if (dev->p->dead)
+			return;
+=09
+		if (dev->bus->need_parent_lock)
+			parent =3D get_device(dev->parent);
+	}
+
+to avoid the problem, but it's still a bit ugly.
+
+> +	__bus_probe_device(dev);
+> +	if (dev->parent && dev->bus->need_parent_lock)
+> +		device_unlock(dev->parent);
+> +}
