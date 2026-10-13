@@ -1,75 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C762E558203;
-	Tue, 13 Oct 2026 20:50:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DA43859E9;
+	Tue, 13 Oct 2026 20:57:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791924617; cv=none; b=X83XDiZGg6rAotvcYMsQu4dPOIWAGUx0Yj6nuEa80riaPleF4snJ0ZAfW4/ze/G7FkDz8jRcebZGkcoLG9pyBjx+zATQm4j6QulmP2cv4DEoJ/ZpMFRi7uqNvTXIuqvbfXlzjjIRnFAHHSyTAximrRSKCL1w/Z6V4ryKj1I1YrI=
+	t=1791925024; cv=none; b=pGU05kxBK+44lATe1oGzB0r4pSSZ33r7eFXgvnaKCKIUfp//L7xtecEsQZQdbfVT2rDDsfE6JucD8h9hiwE7DELCNygIDO5TQu8cGZCwEqSFTAGy31cpk/nSDRxlj0UK14dcp81EL3SgnQGeFblXfFEnsKrbgu2SdX0XbYBMIiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791924617; c=relaxed/simple;
-	bh=46iadmMBynpiFNDGNr9uRc/wisQwT12baHH7CdskpOM=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=J/JizWhn/9djBIIRps7jk432X1a29gBGoYabGLMujfYc1MeWu98GneUixxLbZmL17+dlxXy0lxMAr7Z3TUhheN/XVHZLNn3noPfpV/v3V1JAKFwcQU00q9pah+Oh4YuA3SuFMFC1peLUcehdQz530pE5ez0XD+5ps3hsvSUpw2Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LiJDthA+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791925024; c=relaxed/simple;
+	bh=zFW41uXxIm89Xo0kS85JmVYU3Rr6/II4shy7lQulyOk=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Ey3auCRcD1SFwzI7+M3U9s9ITElH7MMu1Xk8fJUZVNoKpkO9CI7c6QwFBI2Q+ALrDL65M6NidPEoWd45nS39T5OBX8dwmILPlSBOWGIpKdlBeU1Kt1KK8SOh8truc+kctJZE4fYICwMAtbMchm1dkLfPxQKsqZRX23fACs/4ttk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ltZXKPXT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LiJDthA+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C4401F00893;
-	Tue, 13 Oct 2026 20:50:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791924615;
-	bh=46iadmMBynpiFNDGNr9uRc/wisQwT12baHH7CdskpOM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LiJDthA+DXIyYaMSx6pLGAdi3n5sZbMF28klJpoQ7V4wVRM6L6hmNUOieDpxsk+XK
-	 5hRrVk/PzT6kyWE5TXa3GTxL4OPpJN1iEqcW+CMPMyscveFPyLhdePQkZPOWloYV4S
-	 39HkLzGomSd+ERd+BrEDFY6+yp+Fl/li5EHB7CWp5Zi8G9FIc4MAbmc4QvgxmBC5tW
-	 MXqBwPJiA8789Fx6YkMcbdJL2szZhAsTIdyjgH0Hn0xOJeW/5EzMquSXP4oD0BMT9U
-	 6xCsDJUKi9v/gaiN6mYyQZCA/EtKWwgHph3ZQcY8krEr7H8jiVjNV/kewDtTuk/XlJ
-	 u+p3mMCzb/zoA==
-Message-ID: <sashiko-outbox-170488@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 32/39] mm/uffd: use predicates for userfaultfd checks
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-s390@vger.kernel.org, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-32-1aa3c9b139f9@kernel.org>
-References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
- <20261013-b4-mmap-prepare-vma-flag-sanify-v6-32-1aa3c9b139f9@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 20:50:14 +0000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ltZXKPXT"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 71F82C2BCF4;
+	Tue, 13 Oct 2026 20:57:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1791925023;
+	bh=zFW41uXxIm89Xo0kS85JmVYU3Rr6/II4shy7lQulyOk=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=ltZXKPXTSoonxdTvTQ8DF6WAF/4eMHgemYrrJt9E2yup8bUg8wbrLMlazufYqaCwt
+	 j4Ll5qD4OJ5Bux1o8vMzd+bE/m1wVwzDczrhb/9+igr37003T9zUv3Nw4i5V1tIWcS
+	 jVuUYtQ7rHP55099EPYPwRYPsi24kOuHKgTRVfRoAtTLpwO7Cz1O5XgnPBkpZqpiuo
+	 zFymsH5XbOezp9WePkgL28Mr9LIGXKLCFAnWN5Lzn5xMxjgkryRsItd4cfMRO3sE8P
+	 C5U7eztWHVT1iFejrrEOBdy7dbUBBAauP+S/Jdy+VIRcJG6ItRDJWpvCMoY27MEg+/
+	 L7pgpyo3QJAuw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D9D0CC6B12;
+	Tue, 13 Oct 2026 20:57:03 +0000 (UTC)
+From: Brian Ellis via B4 Relay <devnull+brianellis.gotenna.com@kernel.org>
+Date: Tue, 13 Oct 2026 14:57:03 -0600
+Subject: [PATCH v4] usb: gadget: u_serial: fix NULL deref in gs_close()
+ after failed open
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261013-u_serial-gs-close-null-v4-1-9ea038501994@gotenna.com>
+X-B4-Tracking: v=1; b=H4sIAB6bzmoC/4XN0Q6CIBQG4FdpXEcTRIWueo/WGsJB2QwaqKs53
+ z30ytZc5+7/t/87E4oQLER0PkwowGij9S4Fdjwg1UrXALY6ZUQzWmaCZHi4LwvZ4SZi1fkI2A1
+ dhyXPJMvLdMBRGj8DGPta4est5dbG3of3+mckS/uXHAkmWMgCOOM10aa+NL4H5+RJ+Qda0JFuI
+ FrtQjRBtQZtisqAKM0vlG8hvgvlCVIl51rkNVNMfEPzPH8AmhFavlABAAA=
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Kuen-Han Tsai <khtsai@google.com>, 
+ Prashanth K <prashanth.k@oss.qualcomm.com>, 
+ Syed Tayyab Farooq <syedtayyabfarooq08@gmail.com>, 
+ Krystian Kaniewski <krystianmkaniewski@gmail.com>, 
+ syzbot+782b2f1063e38ba8fa6e@syzkaller.appspotmail.com, 
+ stable@vger.kernel.org, Brian Ellis <brianellis@gotenna.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791925022; l=4895;
+ i=brianellis@gotenna.com; s=20260910; h=from:subject:message-id;
+ bh=w9DTZeMtZkRd3FXGUqJ8HyiRNMOLz1JAQ9tb8EK17uE=;
+ b=iESdUBqYiTWAx0NzwAsbRuSLsYWTQYTCqqki4XjUH+QXlOWIeGwwgDPXXjga/pYuWuM3SSmew
+ IcjUACmyrhODZ6Wf9l8c3qHqa68PQOIS+k5ZgHK3mXsoX8rv3nvrfZv
+X-Developer-Key: i=brianellis@gotenna.com; a=ed25519;
+ pk=JciDR8ctfMqvKeRCDP8VPwNLUDULxCAqDum6H+/ByBY=
+X-Endpoint-Received: by B4 Relay for brianellis@gotenna.com/20260910 with
+ auth_id=1022
+X-Original-From: Brian Ellis <brianellis@gotenna.com>
+Reply-To: brianellis@gotenna.com
 
-> Rather than directly checking VMA flags, use the newly introduced
-> vma_is_mm_managed() and vma_is_mm_backed() helpers in userfaultfd
-> when assessing VMA suitability for userfaultfd and UFFDIO_MOVE.
->=20
-> The droppable check is kept explicit, as userfaultfd cannot function
-> correctly with droppable mappings.
->=20
-> Update vma_move_compatible() so it's expressed in terms of VMA
-> characteristics rather than arbitrary flags.
->=20
-> Additionally, update the use of the deprecated VMA flag API when checking
-> VMA_SHADOW_STACK_BIT.
->=20
-> A VMA_IO_BIT check is no longer required but that is fine as a hard
-> invariant has been established that mm-managed mappings may not set
-> VMA_IO_BIT so the check is now redundant.
->=20
-> Acked-by: Zi Yan <ziy@nvidia.com>
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+From: Brian Ellis <brianellis@gotenna.com>
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+gs_close() opens with
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
-epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D32
+	struct gs_port *port = tty->driver_data;
+	...
+	spin_lock_irq(&port->port_lock);
+
+and never checks port.  gs_open() assigns tty->driver_data only on the
+port.count 0 -> 1 edge, so any failure earlier in gs_open() leaves it NULL,
+and tty_open() calls tty_release(), and hence ->close(), when ->open()
+fails.
+
+syzbot hit exactly this on arm64.  Fault injection failed the kfifo_alloc()
+of the write buffer in gs_open():
+
+   __kfifo_alloc_node+0x10c/0x208 lib/kfifo.c:44
+   gs_open+0x144/0x514 drivers/usb/gadget/function/u_serial.c:636
+   tty_open+0x404/0x89c drivers/tty/tty_io.c:2137
+
+and the tty core's close of the failed open then took port_lock through
+the NULL port:
+
+  BUG: unable to handle kernel paging request in gs_close
+  KASAN: null-ptr-deref in range [0x00000000000003a0-0x00000000000003a7]
+  Call trace:
+   spin_lock_irq include/linux/spinlock.h:372 [inline]
+   gs_close+0xac/0x65c drivers/usb/gadget/function/u_serial.c:698
+   tty_release+0x2c4/0xffc drivers/tty/tty_io.c:1745
+   tty_open+0x46c/0x89c drivers/tty/tty_io.c:2146
+
+Return early instead.  There is nothing to release when the open never got
+far enough to claim the port.
+
+Unlike the check reverted by commit f6c7bc4a6823 ("Revert "usb: gadget:
+u_serial: Add null pointer check in gs_start_io""), this is not hiding a
+race: the tty core calls ->close() for an ->open() that failed by design,
+so driver_data is legitimately unset on that path.
+
+Fixes: c1dca562be8a ("usb gadget: split out serial core")
+Reported-by: syzbot+782b2f1063e38ba8fa6e@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=782b2f1063e38ba8fa6e
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Brian Ellis <brianellis@gotenna.com>
+---
+Found by reading the code while working on a downstream 6.6-based gadget
+kernel, where gserial_free_line() clearing ports[n].port makes the same
+path reachable, and matched to the syzbot report afterwards.  It has not
+been hit here, and syzbot has no reproducer for it.
+
+Compile-tested against usb-linus with allmodconfig (CONFIG_USB_U_SERIAL=m).
+Not boot-tested on mainline, and the failed-open path has not been
+exercised.
+
+Two lifetime reworks posted for a different syzbot report in this driver
+(fe63e4d633540f230624) add the same check as part of larger changes:
+
+  https://lore.kernel.org/r/20260910105359.12915-1-syedtayyabfarooq08@gmail.com
+  https://lore.kernel.org/r/6941beb7-8cae-4cc5-ba07-e1c8a8753fe1@mail.kernel.org
+
+This is the minimal fix, aimed at stable.  If either of those lands first,
+this one is redundant.
+---
+Changes in v4:
+- Reported-by:/Closes: now use the ID from syzbot's public report; v3
+  used the ID from its moderation stage.
+- Quote the trace from the public report, including the injected
+  kfifo_alloc() failure in gs_open().  v3 misread the shadow index 0x74 as
+  the offset (it is 0x3a0) and quoted a "Write" line not in the report.
+- Correct v3's notes: syzbot has no reproducer, and this was found by
+  reading the code, not hit downstream.
+- Mention the two overlapping lifetime reworks.
+- Add Assisted-by: LLM.
+- Link to v3: https://lore.kernel.org/r/20260928-u_serial-gs-close-null-v3-1-c688d93b4c49@gotenna.com
+
+Changes in v3:
+- Restore the Reported-by:/Closes: syzbot tags and the KASAN trace. They were
+  dropped from v1 and v2 in error when the commit message was rewritten. The
+  report is still open, and without Closes: syzbot cannot associate this fix
+  with it.
+- Say why this differs from the check reverted in f6c7bc4a6823, since that
+  revert's reasoning is the obvious objection here.
+- Link to v2: https://lore.kernel.org/r/20260927-u_serial-gs-close-null-v2-1-bdedf57fe96f@gotenna.com
+
+Changes in v2:
+- Remove the comment above the check, rather than reword it as Prashanth
+  suggested. The commit message already explains the path that leaves
+  tty->driver_data NULL, so the comment only restated it. Happy to add a
+  reworded one instead if that is preferred.
+- Link to v1: https://lore.kernel.org/r/20260910-u_serial-gs-close-null-v1-1-9a5e848b1dfb@gotenna.com
+---
+ drivers/usb/gadget/function/u_serial.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index cdd1dfc66..892d2673e 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -695,6 +695,9 @@ static void gs_close(struct tty_struct *tty, struct file *file)
+ 	struct gs_port *port = tty->driver_data;
+ 	struct gserial	*gser;
+ 
++	if (!port)
++		return;
++
+ 	spin_lock_irq(&port->port_lock);
+ 
+ 	if (port->port.count != 1) {
+
+---
+base-commit: be4219dd98608736e13e0b790ef742b76a13254d
+change-id: 20260910-u_serial-gs-close-null-a80a436666e8
+
+Best regards,
+-- 
+Brian Ellis <brianellis@gotenna.com>
+
 
