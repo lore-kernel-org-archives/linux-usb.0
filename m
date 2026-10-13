@@ -1,180 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1D73D9524
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 02:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1566B472074;
+	Tue, 13 Oct 2026 02:36:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791858064; cv=none; b=jf/Xx9byAstOSALnfRYovGTDhu/V/RA0D+o3x2sa5nvea3QOkChBDysNKtksrD3cdvRenAK28vRwXU8iIcY/EmzN5o6EabJJWLrp69pXlqkHKICZGExIJ3AIbU47f/73I1+Npz1zXF8XC7oYRkQ0t0Q+4kgjAgLFmNyIFyhbiTw=
+	t=1791858996; cv=none; b=mG4vS3o0Cpek0WQXQfjzBmnDAZeoKu21+8eWftzX/7LStJtNbYjtSSwN926VRhIq1sAe8X4PD7PT3/Fg+vTyIqf9GH21usHtMQT84ad5Luqw4vbOhhet+KYYmvTww8uWK+2xw6PFHcnn/wP4EGX2o4JZOcMRgwarKI3bvaYZK9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791858064; c=relaxed/simple;
-	bh=/6toUVWtYHRfRT7IKbkcIOblJbhjRMXwxT+uiopr8EE=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=g/ISyHmncAo4Fr+Xg+EL7gf7McMK6qAmdmHrN5BQjFN3+kFA/OtiDn59YyiFLX/bd8GohoQc+3WKGcfV4BnxF3E7pKiN5c6JRtJAwmBiXijlvuaVXxD9kijk6jkeujU8hLYq0hvOvrdizDQFquPrjDVnBa3g1KQ+/jYLoQgEPv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gP/6pQmD; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gP/6pQmD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF5C31F000FF;
-	Tue, 13 Oct 2026 02:21:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791858063;
-	bh=rse1LcKpeV03xgy+b2IhcX2rYpmA1fwKL7AsiW6iE8M=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gP/6pQmDYLtYoSBEXloRW3kiO12F+t1C1OueJRJTzE/086ZCSHUAYoJsy15Iq6zPi
-	 N5XZx0N+4ghwHukEt87B5Tbe2FwICes7zOO8OCyFldOpp3eDWY8Gh47ZaWdGSGoHE2
-	 pwg6qNB19otsObV8aWfm4W6RJWDw+JFw6iBSqgZXqyxlW2FVsrOGvrX9MK8nTUiYAx
-	 mFUtNAfLqzgYzefd95RlRh/CZTDIYfs0QwRS+oyE9lTU7eUfXzn9YT8DkBa8gc9HeD
-	 WpuNOjqgTI/9fCloW05UGEI8119DbFT742CZLBnQ+HmIb/UkY32t6xcYHRnwtgbPQe
-	 Z6KEG3yDCukwQ==
-Message-ID: <sashiko-outbox-168860@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: cdns3: Fix PCI device reference leak in
- cdns3_pci_probe()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ma Ke" <make_ruc2021@163.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261013020827.4099844-1-make_ruc2021@163.com>
-References: <20261013020827.4099844-1-make_ruc2021@163.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 02:21:02 +0000
+	s=arc-20240116; t=1791858996; c=relaxed/simple;
+	bh=3kQcr4RJrMQs8PmG12XJIlM6t2rTn7kBgxGTi8l+NQc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JpD+AV9XJQ9+uesDowkTQQGKM9cDWcaH5WnwXkyVmBnqo3WOp8Ru4NmcsYsfFFQ2aP9FuuvF1JB+B5JzE2pmXCif3igyTQALcCTi0Y6DPsf8itw/0k96PYycmYVxHDK4OLX7GN6M0Q8f28TVgjVBUVvIPUIMfuzIuFN3dtPYNB4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: e1d5f5b2c6ae11f19a56ed5b684f684d-20261013
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:2ff5db69-0338-421d-847e-741d6290ae67,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:f6862183627acf49100bff84daa64240,BulkI
+	D:nil,BulkQuantity:0,SF:80|81|82|83|102|865|898|915,TC:nil,Content:0|15|52
+	|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
+	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: e1d5f5b2c6ae11f19a56ed5b684f684d-20261013
+X-User: lilinmao@kylinos.cn
+Received: from [192.168.1.101] [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lilinmao@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
+	with ESMTP id 208549267; Tue, 13 Oct 2026 10:36:24 +0800
+Message-ID: <c32ac5e1-ecbe-4857-b36f-cd0cb1f54f90@kylinos.cn>
+Date: Tue, 13 Oct 2026 10:36:20 +0800
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net v2] r8152: Use BMSR to detect the link state
+To: Andrew Lunn <andrew@lunn.ch>, Hayes Wang <hayeswang@realtek.com>
+Cc: Hayes Wang <hayeswang@realtek.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Chih Kai Hsu <hsu.chih.kai@realtek.com>,
+ nic_swsd <nic_swsd@realtek.com>, Birger Koblitz <mail@birger-koblitz.de>,
+ Xiangqian Zhang <zhangxiangqian@kylinos.cn>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <20261005105249.1281648-1-lilinmao@kylinos.cn>
+ <fd3bff0e63304681b9e5f35f2f57e50e@realtek.com>
+ <7a8d21bd-3484-4120-abd6-f7290f919b7d@lunn.ch>
+ <2bd3886a-da6e-4703-bd7a-9baa32bfd2f4@kylinos.cn>
+ <591ca604-b296-4469-94b5-957d9ba45ae4@lunn.ch>
+From: Linmao Li <lilinmao@kylinos.cn>
+In-Reply-To: <591ca604-b296-4469-94b5-957d9ba45ae4@lunn.ch>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
-- [High] usb: cdns3: TOCTOU race in probe corrupts shared wrap state
-- [High] pci: UAF of MMIO resources on partial unbind of compound device
-- [Medium] usb: cdns3: PCI device reference leak on pcim_enable_device() fa=
-ilure
-- [Medium] pci: memory leak of cdns3_wrap on concurrent unbind due to devre=
-s timing
---
 
-commit 8da98a756feb810e31a39db878f286ba953f3a5d
-Author: Ma Ke <make_ruc2021@163.com>
-Date:   Tue Oct 13 02:08:27 2026 +0000
+在 2026/10/9 20:22, Andrew Lunn 写道:
+>> Hi Hayes, Andrew,
+>>
+>> Thanks. Since the newer ICs notify only when the link status changes,
+>> the driver cannot rely on another link up notification after the link
+>> has settled, so v2 can leave the carrier off when the first read
+>> returns the latched link down.
+>>
+>> Before sending v3, which approach would you prefer? Both fixed the
+>> problem in my tests on an RTL8153B with v7.3-rc6:
+>>
+>> a) Keep carrier detection on PLA_PHYSTATUS and read BMSR once before
+>>     carrier on, only to clear the latch. This is the option I asked
+>>     about on v1.
+>>
+>> b) Detect carrier from BMSR and read it again when the first read
+>>     returns link down, as genphy_update_link() does in interrupt mode.
+>>
+>> Neither depends on another notification. Neither reports a short link
+>> drop that recovers before the link work runs: with a) a later speed
+>> query still sees the latched link down, with b) the latch is cleared.
+>>
+>> Hayes, for b): is BMSR_LSTATUS reliable as the carrier source on all
+>> chips supported by r8152?
+> Ideally we want a list of devices which correctly do notification on
+> every change of link state, and which are broken.
+>
+> For those that work, read the BMSR once and report the down, and then
+> later on the second event, report the up.
+>
+> For those devices which are broken, double read the BMSR.  The danger
+> is, somebody who quickly unplugs and replugs the cable is not going to
+> get the down notification. The dhcp client will not restart, so the
+> old IP address will be used, for the next hour to day, and the network
+> is broken.
+>
+>      Andrew
+Hi Andrew,
 
-    usb: cdns3: Fix PCI device reference leak in cdns3_pci_probe()
+Thanks. In tests on my RTL8153B, down and up notifications were about
+3.1 s apart after a quick cable replug, and about 3.4 s apart after
+ethtool -r. A double read should still report down if the link work
+runs during that interval, but I have not verified this directly.
+These results do not cover shorter link interruptions or other chips.
 
-This commit addresses a reference leak of the sibling PCI function in
-cdns3_pci_probe() and cdns3_pci_remove() by ensuring pci_dev_put() is
-called. It also tracks the allocation of the shared cdns3_wrap structure
-to avoid freeing a dangling pointer when the second function fails probe.
+Since this fixes a regression for net and stable, would you accept a)
+there, keeping PLA_PHYSTATUS and reading BMSR once before an off-to-on
+carrier transition, and moving carrier detection to BMSR with per-chip
+handling as a follow-up for net-next, once the chip behaviour is known?
 
-> diff --git a/drivers/usb/cdns3/cdns3-pci-wrap.c b/drivers/usb/cdns3/cdns3=
--pci-wrap.c
-> index fd06a3d8e638f..31089eb9ca29f 100644
-> --- a/drivers/usb/cdns3/cdns3-pci-wrap.c
-> +++ b/drivers/usb/cdns3/cdns3-pci-wrap.c
-> @@ -72,6 +72,7 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
->  	struct cdns3_wrap *wrap;
->  	struct resource *res;
->  	struct pci_dev *func;
-> +	bool own_wrap;
->  	int err;
+Hayes, to build that list: which ICs notify only on link changes? And
+on any of them, does reading BMSR, which clears the latched link down,
+trigger another notification? The single read depends on that. Birger
+tested v2 on an RTL8157 and an RTL8153A without problems, so it would
+also help to know how the RTL8157 notifies.
 
-[Severity: Medium]
-Does this code still leak the func reference if pcim_enable_device() fails?
-
-Earlier in cdns3_pci_probe(), before the changes in this patch take effect,
-we have this code:
-
-	func =3D cdns3_get_second_fun(pdev);
-	if (unlikely(!func))
-		return -EINVAL;
-
-	err =3D pcim_enable_device(pdev);
-	if (err) {
-		dev_err(&pdev->dev, "Enabling PCI device has failed %d\n", err);
-		return err;
-	}
-
-If pcim_enable_device() fails here, we return immediately without dropping
-the func reference acquired by cdns3_get_second_fun(). Should this error pa=
-th
-be routed to the new put_pci label as well?
-
-[ ... ]
-
-> @@ -99,12 +100,17 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
->  		if (!wrap) {
->  			dev_err(&pdev->dev,
->  				"second function not initialized, retrying\n");
-> -			return -EPROBE_DEFER;
-> +			err =3D -EPROBE_DEFER;
-> +			goto put_pci;
->  		}
-
-[Severity: High]
-Can a Time-of-Check to Time-of-Use race happen here during concurrent probe?
-
-If both function 0 and function 1 are probed concurrently (e.g., via sysfs
-or async boot probing):
-
-1. CPU0 enables device 0.
-
-2. CPU1 enables device 1, sees device 0 is enabled, but wrap is NULL because
-   CPU0 hasn't set drvdata yet. CPU1 defers and keeps device 1 enabled.
-
-3. CPU0 sees device 1 enabled, assumes wrap is initialized, and registers a
-   platform device with incomplete resources.
-
-4. CPU1 retries later, gets the wrap structure from CPU0, and proceeds to
-   register a second platform device.
-
-This second platform device registration overwrites wrap->plat_dev and
-wrap->devfn. Since the remove method relies on wrap->devfn to unregister the
-platform device, does this permanently leak the first platform device?
-
-[ ... ]
-
-> @@ -184,8 +193,10 @@ static void cdns3_pci_remove(struct pci_dev *pdev)
->  	if (wrap->devfn =3D=3D pdev->devfn)
->  		platform_device_unregister(wrap->plat_dev);
-
-[Severity: High]
-Does this leave the platform device accessing disabled MMIO resources on a
-partial unbind?
-
-The driver registers a single platform device for both functions, assigning=
- it
-the resources (BARs) of both. If the function that was probed first is unbo=
-und
-via sysfs, wrap->devfn !=3D pdev->devfn (since only the second probed funct=
-ion
-records its devfn). The unregister is skipped.
-
-When cdns3_pci_remove() completes, pcim_release() will disable the unbound
-function's memory decoding. The platform device remains registered and its
-driver will continue accessing disabled MMIO regions. Can this lead to mast=
-er
-aborts or system hangs?
-
-> -	if (!pci_is_enabled(func))
-> +	if (!func || !pci_is_enabled(func))
->  		kfree(wrap);
-
-[Severity: Medium]
-Will this skip freeing the shared cdns3_wrap on concurrent unbind?
-
-If both functions are unbound concurrently via sysfs, they will both enter
-cdns3_pci_remove() at the same time. Since device enablement is managed by
-devres (via pcim_enable_device), devres_release_all() only decrements
-enable_cnt after the remove function returns.
-
-When both threads check pci_is_enabled(func) for their sibling, both will s=
-ee
-it as true (because neither sibling's devres cleanup has run yet). Both will
-skip the kfree(wrap) call, permanently leaking the structure.
-
-> +
-> +	pci_dev_put(func);
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013020827.4099=
-844-1-make_ruc2021@163.com?part=3D1
+Thanks,
+Linmao
