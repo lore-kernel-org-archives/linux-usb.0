@@ -1,146 +1,121 @@
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4D3D3822B4;
-	Tue, 13 Oct 2026 08:05:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F70D3BC664
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 08:14:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791878720; cv=none; b=C3JpmjkL2SGxfCvQ+9NX4uZcdRsAP20l+08w/mdsjS5oKO3MjHILKVefXmvBpsP9nYlFvdJne9OTVA0sSkUUCUVjGm+H8KKQ/ibIIQankjFUJ1slqbHzo0HtP1iRZBwFr5D2ZI0E/19MJd/UqiTqR+RsW8+LUpaqBAdJzUtc2I8=
+	t=1791879248; cv=none; b=BM33IdXYwhLb+/jBxYm6l82ltGK4SD1CaHj8/9f2e7bqIuOmUBvSoYMAjmp3t6euDa0plQ7QZdZMq5gH7U8rsmudJQJNdDC99UXzIOsBxubrRgQWgW0OH2PGRkd0+OaYeKWOJHzZWnpiYU4li0botKBXYULrvP6aHmwjpBhpyB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791878720; c=relaxed/simple;
-	bh=joNvyENe9xeZ777E6zBFc0KzN8ZGZ8enwnURym1z9Hk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=u/gv8OW+RRrfxeykiFGMF/H54wW8crN64UVG8eURGSK4kIE/Qpo3MugJ0ucFdP4mVPw4eWmOP4VpVw9QBu6NZOExE69Qu9O2aTS4NpetXv4sP9iTdoC9LT3OeuAvN9a0OCS9TPgTSz5sTfbcxFPpHtVKpLHPS+V5vi6cEgfto/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=RQ8mVNZ4; arc=none smtp.client-ip=211.75.126.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	s=arc-20240116; t=1791879248; c=relaxed/simple;
+	bh=WwRtsX+o3Yc1BZpZy6ImBzyNEsrrxZVX7aPBj0iBNNw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u+k5U913lyeg8wXJVfh2xXP8KnsgQeCmMR2dl57x5mna8BoqJrTOfjgrPpX7gJKStsSKPKwYWX+hff9YgfrfdKVgkrxKC2mXjD/+zXRVoRaZB8iCcZQR+MCyi0qT401CNCvshRJYZWKmCqNVkJ2JJ+dHHEf8ZdRZ2u3UZfaOz2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=ImBbR5sT; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="RQ8mVNZ4"
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 69D84c2sA361824, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1791878679; bh=n9dFj47xMLdOEJNEmjJraLFd8FemMFSBfxTHXKF84p4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=RQ8mVNZ49HQA7YIR/dKfjRlpjIrkQz1dguTXW5xGCUeaf9yMByOwJAaUyDhkOXB/e
-	 dV9ffTxJCh4LLq0A7YDAhUQfAo0AUWCZSvvgulWV0wj7Hg15iG3pWinp5rN+H355uD
-	 uJQ0SsfvQkIfuJ8p7nbupwXuOvStpIM5Ckng42xxMNctdkcfnvXEf2vTeU5RFjW7Lg
-	 bhAqd9TXKL2pD2LyQKlmtetNkwF7xng5jrkQU3fdHbmiDAppMLNJ/orJHsIyoHi2cB
-	 ecB4BDsJQ+xb9tOyfzbZ2lehd9sDuiXCLN6Md7MB1Y3grnwlInUx4LsGb1V2Zxec8+
-	 t0kyJp57SNEmA==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 69D84c2sA361824
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 13 Oct 2026 16:04:39 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Tue, 13 Oct 2026 16:04:06 +0800
-Received: from RTKEXHMBS03.realtek.com.tw ([::1]) by
- RTKEXHMBS03.realtek.com.tw ([fe80::f36f:a844:4916:93f2%9]) with mapi id
- 15.02.2562.049; Tue, 13 Oct 2026 16:04:06 +0800
-From: Hayes Wang <hayeswang@realtek.com>
-To: Andrew Lunn <andrew@lunn.ch>, Linmao Li <lilinmao@kylinos.cn>
-CC: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski
-	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Chih Kai Hsu
-	<hsu.chih.kai@realtek.com>, nic_swsd <nic_swsd@realtek.com>, Birger Koblitz
-	<mail@birger-koblitz.de>, Xiangqian Zhang <zhangxiangqian@kylinos.cn>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH net v2] r8152: Use BMSR to detect the link state
-Thread-Topic: [PATCH net v2] r8152: Use BMSR to detect the link state
-Thread-Index: AQHdVLexra3FlE5swkqMdmzmTHCGJ7bwLnWg///8UICABCHSAIAAVXKAgAaA7TA=
-Date: Tue, 13 Oct 2026 08:04:06 +0000
-Message-ID: <16d9caec96e8449d88ac456e8512f08b@realtek.com>
-References: <20261005105249.1281648-1-lilinmao@kylinos.cn>
- <fd3bff0e63304681b9e5f35f2f57e50e@realtek.com>
- <7a8d21bd-3484-4120-abd6-f7290f919b7d@lunn.ch>
- <2bd3886a-da6e-4703-bd7a-9baa32bfd2f4@kylinos.cn>
- <591ca604-b296-4469-94b5-957d9ba45ae4@lunn.ch>
-In-Reply-To: <591ca604-b296-4469-94b5-957d9ba45ae4@lunn.ch>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="ImBbR5sT"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a16aaf2067so31901705e9.0
+        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 01:14:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1791879245; x=1792484045; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qE8viVfc7wSzykdGhKjE2C5YJHAozDefAUnUohB6XA4=;
+        b=ImBbR5sTwRM4cizz08l5eBbwMoNWIKi8p3hYox+xpo2rKz4P7vWuh8n5yyCaJIOHP8
+         pe5lPuhmVc7uSK759NRRnpRAiijkIjed8Au8i6P/kl1OnPsPfoXYQUfb8Fsn15f1q/na
+         mvM48HMTWxn/WQnZMuYn3TTrpdQQy771sq0B+DNLZkrk/7mzs8c3rkWC46rikUigJOdl
+         Vco9M+pNyRurGfmYqmztAZbxokRThCXdUnV3CS1f2pdVsLBSbwz7/xcXaAWihiGbEDyu
+         3hAVJOGpgRtfnz3Is/3wuJG27d+/64Bgu/vSvIZX/PH+J29jgAsxKq+OUqrFSO1O9298
+         7Wuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791879245; x=1792484045;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qE8viVfc7wSzykdGhKjE2C5YJHAozDefAUnUohB6XA4=;
+        b=UCEn/yDvpWxyOjaT95jMFUFhJRRlakwvNuaG0Z8K1a5hoCKdrFNoiJEal27P4tapWL
+         wH719k+ckB3lBDqFFL9lrq2F6Ae2FXa66gsHu1XKcrTEWGFvWtqkKnTNebXJcPEkIdrq
+         EGxejhwBKlG+Zyf4GeXdD6EXlIjUvFTHcKULeYuuos0n61bbm1839PBX+p8mq7bDYsbV
+         Saen8osnBTKBIps+HKtFNWah3/XirsPhKCX50WB4qnBWjk6OuecgUuhu7WMVtGkmGVRd
+         GraU/dhd4Dw85GiI+V9oByPWHPKOCdpiVKWnsD861hpGeWIB/yVs98Hl7NvIarFfJQif
+         HFzg==
+X-Forwarded-Encrypted: i=1; AKwUvBwH8S0u9NkfD2cum8croQmMLnr1bc/pUGsQm7kojxaVQ8E8CP15tuJLoQ5R5JmTn800IDzRwHZjq7A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYImhB7nVqDZNSHzp+uohWTM996NlSeu/6iTVfh4z3cSHroubOrK
+	XS09gVDn+2s1hJQw58X8coyQ99IB3UWnVvm7XZ7Kxjb2kHruOUJdgDQx+HnvGTImg1NiQR/oNFe
+	M3cECpAs=
+X-Gm-Gg: AYBFou1UpYyPhSJcOra9+IExMtkKTwpScSa/ulfYGIqt10qRCyF6XYPLRfzCICYcWa5
+	7xBYa03QDILskHSK6IW5L6dsg3GwA2t6HPs7aSMmu+W7jNW2ob+N9gmyHg/lsxCDhXaX4HEjLbo
+	eblfTyg792Li6DVOrRv5qYC66DzW1nmEVmOvweA0JKFUMPz+jRd93EHDy9pCmfcXpUJprJmi2qQ
+	UVc4vtkMIANJRavNvXenpRcPXJ32TKulAmyvqvxbmxhQ9nZstts+lQJx2B4JrszWRJGO0xu/esU
+	O1963VU7z1QGMclGyNzLU4nd1ir9HsPhVrCB09PXyjo0j8ZruWaAzPWDPAWhpypRov870W2PovP
+	l3dzBzIlP2hOFVXQlFvWLo9Nv65l7InpshE9BphqEXGn9a6wnrsFTYNFl4D0WqlcXkW2Ur4Vx/O
+	jLZzne6h6RPUrdwtdf2SkwTPjeb7vTDmxZEZ3MepUNZ6kwKPgXWUtEvg+fHcZ5iPpTJTPZas4ry
+	hRRzS6xfcSHHvv5Jx2mdC55kk1d51Z91uMEoAGO
+X-Received: by 2002:a05:600c:8106:b0:4a0:c02:938c with SMTP id 5b1f17b1804b1-4a18e4d683dmr203452395e9.25.1791879244612;
+        Tue, 13 Oct 2026 01:14:04 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13f5:2701:b3a3:b9f5:f3dd:ee85? ([2001:a61:13f5:2701:b3a3:b9f5:f3dd:ee85])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1972eaed8sm233812305e9.1.2026.10.13.01.14.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2026 01:14:03 -0700 (PDT)
+Message-ID: <2207cca2-89e7-4694-b903-aca15cec1edd@suse.com>
+Date: Tue, 13 Oct 2026 10:14:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [usb-storage] [PATCH v5 1/2] scsi: sd: mark disk dead on surprise
+ host removal to avoid I/O hang
+To: =?UTF-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>,
+ "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+ "Martin K. Petersen" <mkp@kernel.org>, Bart Van Assche <bvanassche@acm.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Alan Stern <stern@rowland.harvard.edu>
+Cc: Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+ Hannes Reinecke <hare@suse.de>, Mike Christie <michael.christie@oracle.com>,
+ Damien Le Moal <dlemoal@kernel.org>, John Garry <john.g.garry@oracle.com>,
+ Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
+ "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+ "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "usb-storage@lists.one-eyed-alien.net"
+ <usb-storage@lists.one-eyed-alien.net>,
+ "stable@vger.kernel.org" <stable@vger.kernel.org>
+References: <TYUPR06MB6217DD31B1B3CD09E431CC12D2922@TYUPR06MB6217.apcprd06.prod.outlook.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <TYUPR06MB6217DD31B1B3CD09E431CC12D2922@TYUPR06MB6217.apcprd06.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Andrew Lunn <andrew@lunn.ch>
-> Sent: Friday, October 9, 2026 8:22 PM
-> To: Linmao Li <lilinmao@kylinos.cn>
-> Cc: Hayes Wang <hayeswang@realtek.com>; Andrew Lunn
-> <andrew+netdev@lunn.ch>; David S . Miller <davem@davemloft.net>; Eric
-> Dumazet <edumazet@kernel.org>; Jakub Kicinski <kuba@kernel.org>; Paolo
-> Abeni <pabeni@redhat.com>; Chih Kai Hsu <hsu.chih.kai@realtek.com>;
-> nic_swsd <nic_swsd@realtek.com>; Birger Koblitz <mail@birger-koblitz.de>;
-> Xiangqian Zhang <zhangxiangqian@kylinos.cn>; linux-usb@vger.kernel.org;
-> netdev@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.=
-org
-> Subject: Re: [PATCH net v2] r8152: Use BMSR to detect the link state
->=20
->=20
-> External mail : This email originated from outside the organization. Do n=
-ot
-> reply, click links, or open attachments unless you recognize the sender a=
-nd
-> know the content is safe.
->=20
->=20
->=20
-> > Hi Hayes, Andrew,
-> >
-> > Thanks. Since the newer ICs notify only when the link status changes,
-> > the driver cannot rely on another link up notification after the link
-> > has settled, so v2 can leave the carrier off when the first read
-> > returns the latched link down.
-> >
-> > Before sending v3, which approach would you prefer? Both fixed the
-> > problem in my tests on an RTL8153B with v7.3-rc6:
-> >
-> > a) Keep carrier detection on PLA_PHYSTATUS and read BMSR once before
-> >    carrier on, only to clear the latch. This is the option I asked
-> >    about on v1.
-> >
-> > b) Detect carrier from BMSR and read it again when the first read
-> >    returns link down, as genphy_update_link() does in interrupt mode.
-> >
-> > Neither depends on another notification. Neither reports a short link
-> > drop that recovers before the link work runs: with a) a later speed
-> > query still sees the latched link down, with b) the latch is cleared.
-> >
-> > Hayes, for b): is BMSR_LSTATUS reliable as the carrier source on all
-> > chips supported by r8152?
->=20
-> Ideally we want a list of devices which correctly do notification on ever=
-y
-> change of link state, and which are broken.
+On 09.10.26 13:29, '胡连勤' via USB Mass Storage on Linux wrote:
+> index a1b21ea14e54..98f861fb7e80 100644
+> --- a/drivers/scsi/sd.c
+> +++ b/drivers/scsi/sd.c
+> @@ -4272,6 +4272,10 @@ static void sd_remove(struct scsi_device *sdp)
+>   
+>   	scsi_autopm_get_device(sdkp->device);
 
-I think all of our ICs have the same situation.
+Here you resume the device
 
-> For those that work, read the BMSR once and report the down, and then lat=
-er
-> on the second event, report the up.
->=20
-> For those devices which are broken, double read the BMSR.  The danger is,
-> somebody who quickly unplugs and replugs the cable is not going to get th=
-e
-> down notification. The dhcp client will not restart, so the old IP addres=
-s will be
-> used, for the next hour to day, and the network is broken.
+> +	/* Device is gone; avoid sync_filesystem() hang in del_gendisk(). */
+> +	if (sdkp->device->host->surprise_removal)
+> +		blk_mark_disk_dead(sdkp->disk);
 
-Could this actually happen?=20
-I think it would take several seconds for the link to go down and then come=
- back up.
-Wouldn't this issue occur only if the link transitions from up to down and =
-back up before the driver processes the link-down event?
+Here you check whether it exists.
 
+That seems a bit inverted. What is the point of resuming a device
+that has gone away?
 
-Best Regards,
-Hayes
+	Regards
+		Oliver
+
 
