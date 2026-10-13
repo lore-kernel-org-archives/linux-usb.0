@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABBFB494801;
-	Tue, 13 Oct 2026 06:13:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD8B368D76;
+	Tue, 13 Oct 2026 06:17:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791872004; cv=none; b=Fin/HsCnqW0u2URuZYc/rOWljpnEaTarBbvl8qp1JeFxAuMrDpyXezR5nVhymPmtOz0BFE+Dyek/vClssdCcHPZWlM/i1Kp2QTY4Ke/KAjqbMw16INBmUBCdoRkxNZ+KTt/XUkNjzkL2unuNxOz2l7CL+90ftyy0wKd1k8k8Pdc=
+	t=1791872245; cv=none; b=jTKatukTFb+7e/3UkMc7Cy/s72BwtjHcCuG2d17BXnlW/+7R/uVdNRhsCp38m+blVoygjVPChMvpFtMMTsNb9mDGrf8xlwlgWQ2UNiGCae1+ZbpjyAbxRScj8tkwek7CoH2V+5Y4JPpHa2tnq9Ra4LRp8uyeC3KLufke6KdVaH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791872004; c=relaxed/simple;
-	bh=uCfDu7NGVDS/BJcOCzDXY18dfkRzCnjRUgoQirT3was=;
+	s=arc-20240116; t=1791872245; c=relaxed/simple;
+	bh=Vf3FU73MDeXyxLR/ik4FOhtPsFq37Vh5wTW91uS0KX4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ik40fFbqajIaQYMnnJyZxf7FbGTyLroKJgDnHlz2IBd3GuZA2cWhuB/6tjXREWWNftbG6eKqy5Oi9iOkgx+bVQCp5xISUfr75HoOPxrtcCY8BbCoePu4QeZ6+atWdkKoTc/pNexAsodGnlcKe34hkL4BF3GVnNnOgaJXFQeiLTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VL4Lvvo0; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=q00fKtoilfWgRG2UAYmJQPf58zIpyvYvUkc5TlIimrh9jUEeL9s3aZFBCSh1s2m/evk27oYUTiZ9UMOEV3to9tHRF8bQmNRXFpS6QQtKwHdOJUp3RtRjyOnYyfpn25icCN1X6fSWZdUyNUWGOKfExronoR1DDjjrA9MJb8VSq4A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iwLCp0CE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VL4Lvvo0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0CB421F000FF;
-	Tue, 13 Oct 2026 06:13:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iwLCp0CE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 050AC1F000FF;
+	Tue, 13 Oct 2026 06:17:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791872002;
-	bh=VAjJS8y/pwKMxfnMR6HNsywNq05ihnTtIJYUO0nsExg=;
+	s=k20260515; t=1791872243;
+	bh=QJthSZiY5C3cktIPbjSXYbkS4fAkuoxetUfS+Wnqjxg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=VL4Lvvo09cynrt6fzqpM7YovtfU6yGr0oCjv3yJCv2D6cPfMA1XW0OqSEN61iAmeN
-	 DyYQjEn96WlKOPOd4NEfQCgwYY6jjyCv+Q8LqHhZp9XPwDl+P6w1LATOcj3WcRAsYo
-	 XujztSqk/D7aYkjrWqBce/k2xosvWpKZ36rG86XUYTk+iIfv7lTuzPjiFwt6hswciW
-	 SMsqTh8gD+6Vrm8psGWg6iMJUkwjePrfjksSXXDUFbqeV9oH0CPj3iUIwiwqAY62mV
-	 KVveEwYQxL51CGVWMpuPbY2KSTVI7a1uqN2lSMuhBE+ga7lkqnkhNBHe2Zqnp78A3Z
-	 vtkeNfngzXHyg==
-Message-ID: <c83d3a5e-d782-4086-8604-e5d214355b7c@kernel.org>
-Date: Tue, 13 Oct 2026 08:13:17 +0200
+	b=iwLCp0CEI2oytxC5qi+gCKTF6GGl2uJ2mqVG36rnFAWQkZE731FMmFmSVuhiTubZZ
+	 PveLLQ6bjMUyM8DeDTFs1080UqNKv8V+7BFz2jc5bJ6Z1yXTz7pTD1H5zYoFdhE2iE
+	 SWGWwHP4hph9EyUaFUyjl0Dtkj1f0NCCTMSx3aOSp1DhH3V6c8JnRVnZpdWIp3h4Kl
+	 MyViIcg2+PlQkYB1ctCwjEzQml2n35zQi0o6nTsvTWnJTHzM920u5wg35DLgbeieMz
+	 j85lkuWjchmD8BrEU+m/qhm3Kz+sEGoTHn21A2Nrymo5gHkuZk6bRNKSRQnhO8/TY9
+	 NBg2NDw5rXwjg==
+Message-ID: <9b0436bf-3430-460c-b03b-f943eaca9685@kernel.org>
+Date: Tue, 13 Oct 2026 08:17:18 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -94,70 +94,51 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 12/10/2026 19:36, Adrian Ambrozewicz wrote:
-> Add the binding for the NVIDIA LSTP USB adapter. The device multiplexes
-> SPI, I2C, GPIO, IPMI and UART channels over the bulk endpoints of one
-> interface and reports its channels itself, so it needs no device tree
-> to work. A node describes what the device cannot report: peripherals on
-> its buses, GPIO line names and hogs, and LEDs.
-> 
-> Channel nodes go under the device node or under the interface node, as
-> usb-device.yaml lays out for the device's descriptors. The GPIO, I2C
-> and SPI channels reference their own schemas. The IPMI and UART channel
-> nodes are defined here and carry only compatible, reg and status; they
-> exist for status = "disabled", which keeps a channel the firmware
-> reports from being used.
-> 
-> Signed-off-by: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-> ---
->  .../devicetree/bindings/usb/nvidia,lstp.yaml  | 280 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 281 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/usb/nvidia,lstp.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/usb/nvidia,lstp.yaml b/Documentation/devicetree/bindings/usb/nvidia,lstp.yaml
-> new file mode 100644
-> index 000000000000..62b21051ab20
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/usb/nvidia,lstp.yaml
-> @@ -0,0 +1,280 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# SPDX-FileCopyrightText: Copyright (c) 2026 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/usb/nvidia,lstp.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NVIDIA LSTP USB Multi-Function Device
-> +
-> +maintainers:
-> +  - Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-> +  - Donald Shannon <donalds@nvidia.com>
-> +
-> +description: |
-> +  The NVIDIA LSTP (Low-Speed Transport Protocol) device is a USB device
-> +  that exposes function channels (SPI, I2C, GPIO, IPMI, UART) over one USB
-> +  interface.  Channel traffic is multiplexed over the bulk endpoints of
-> +  that interface.
-> +
-> +  The device reports its channels, their types and their IDs itself, so
-> +  it needs no device tree to work.  A node adds only what the device
-> +  cannot report: peripherals on its SPI and I2C buses, GPIO line names
-> +  and hogs, and LEDs.  As for any USB device, a node is matched to the
-> +  device by position alone, each level by the port number in reg, so a
-> +  node suits only an LSTP device hard-wired on the board.
-> +
-> +  Each channel node is matched to a firmware-reported channel by reg (the
-> +  channel ID) and compatible (the channel type).  A channel without a node
-> +  is still usable.  A channel whose node has status = "disabled" is not
-> +  used at all.
-> +
-> +  Where the channel nodes go follows the rules for USB device and
-> +  interface nodes in usb-device.yaml, which depend on the device's
-> +  descriptors and not on its compatible:
+> +  - $ref: /schemas/usb/usb-device.yaml#
+> +  - $ref: "#/$defs/channels"
+> +  - if:
+> +      properties:
+> +        "#address-cells":
+> +          const: 1
+> +    then:
+> +      patternProperties:
+> +        "^interface@": false
+> +    else:
+> +      patternProperties:
+> +        "^(spi|i2c|gpio|serial|ipmi)@": false
 
-You again explain bindings. Description explains hardware, not repeats
-schema.
+No, compatible, not presence of properties defines whether device has
+SPI or not.
 
+Also, allOf is placed after required, see other schemas or example-schema.
+
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - usb955,cf11
+> +      - usb424,4940
+> +      - usb174c,2214
+> +
+> +  reg:
+> +    description: Port number on the parent hub or host controller.
+> +    maxItems: 1
+> +
+> +  "#address-cells":
+> +    enum: [1, 2]
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^interface@[0-9a-f]{1,2}(,[0-9a-f]{1,2})?$":
+> +    type: object
+
+Your example is either incomplete or this is unnecessary. Assuming your
+example is complete, then you have one interface, thus this node is
+pointless. What's more, your top level compatible EXACTLY defines all
+this, thus none of your properties are needed as they are implied by the
+top-level compatible.
 
 Best regards,
 Krzysztof
