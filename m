@@ -1,91 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E87FD3B6360;
-	Tue, 13 Oct 2026 06:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C66C64B0CA8;
+	Tue, 13 Oct 2026 06:36:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791872964; cv=none; b=n40yFQV4iuHkZJSlmTH2EW9N4EwqWRpP6i1S2BaNeILZ7v5sJySdw+Wu+s5HYp/tGGuRrFJdj/dI/R6qx9CNTqL6g75uVUUCLAGZjp1UcaFC0JOi8LvVL9sY0W21Kx4ZjgpZkdGzsdjJe5NbBGY6Q4kZyJjJEQcCoowvUbQ+kq0=
+	t=1791873416; cv=none; b=oi/iWEqb48Ke0aUztHmD+UqsY5pA8BYjfMkwdUBPOr/lP5jk2y68scpGwbyljeM28x3EpI8VwhCD2Ynr6QVOuB54mAldOSrJIX9psghSo4f876Xx3giW+7MfS6Em8QmGYGwSZpMLeLMSnPcoa1nf2xn3OlDUYpY6vL0MdeEGa4E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791872964; c=relaxed/simple;
-	bh=pSklaDpuPyvg7r7DuDox4q6/NqbyS3V9BDvwqb03vl8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M91Qfma+9EcrhQ1KkHW8ae191X+9nybW/uCyOE73zDaLN/YMuMtq/MH533wS5dWPWTZ5bgoNFF6ew+FbUMJy9PV9uB6zVT0dlnbhY1XJPZkhqjZskMvkzlO7yfHgRAWssagkTgxqe7Vc/Ir1WUf0IPX4IVFqA6nQXWets490Om8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bksPQPnC; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791873416; c=relaxed/simple;
+	bh=Ly9EdeXXamLh3MkicmeXlKp/vmlrtDdAup32UCF9W1M=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=k9LTWydOS6LENmJEAHk+eEG/bV+kAbGCQttSPNh9YlryLDGkKSFbLqFDSmgl68oOzaSyXgLa0HjreisK5uHribuP33tox1AFrcGUGegWHts/khTLc5GWGF/ZjsWEXqKehVWI816yapidYOjK5SsNi3t/xLIGj8mbw5picEHgPIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RYD7GdRj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bksPQPnC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23931F000FF;
-	Tue, 13 Oct 2026 06:29:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791872962;
-	bh=g7n2HMC09iJPFYJPuys2gP09JJ8k40tak6JFw4u/lQ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bksPQPnCqM1mp1Hz13PezHpcDTCIVLTjIswmiUXgE7z90t7bUN4ddT6Ql+xzl0y+U
-	 cgNRm1MfYjZ4bw6xKUntcbdm4T1XV1N9UbDkdgyI9gEWA7NP+hiYgGOGzY/+zIxI4Y
-	 Yw8ULgrkb/Om/b7uQhIsiXMiGqDFPtVgOKsT6TTE=
-Date: Tue, 13 Oct 2026 08:29:27 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: "NG, ADRIAN HO YIN" <adrian.ho.yin.ng@altera.com>
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v7 0/2] usb: dwc3: add Altera Agilex5 DWC3 support
-Message-ID: <2026101347-sway-occupancy-52e0@gregkh>
-References: <cover.1788886615.git.adrian.ho.yin.ng@altera.com>
- <cover.1789114385.git.adrian.ho.yin.ng@altera.com>
- <6d259ee3-a737-4074-9066-3b01e3673e1c@altera.com>
- <aq2x-bwWluxr8oMh@vbox>
- <97d2287d-17ea-42f0-aa62-69473431fea7@altera.com>
- <2026101350-tipped-connector-6c05@gregkh>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RYD7GdRj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB171F000FF;
+	Tue, 13 Oct 2026 06:36:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791873414;
+	bh=fgOBiUXLecxWWJLIYUvuCgItMZPC9eaaEzSaUhhR1TE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=RYD7GdRjFbMam04KFFeDAOoOZGSfD3Bf3O9COnZvtjB6vMICP4vWSy2L0ieW6YFeW
+	 hztLHuEUOxq1veJOuBYlYWelqboLz23pX7OzlIlQy621HWoYziGRvs+Nu+9jO8RZCK
+	 qaSMfIeSnUvOvrTJQ8n+t7Iixru4f8PpYydrBTiBZjNCutbgq8MLRxgGGaVV0Dn8hu
+	 aV1MDQlAh0vtPiImARsREPz0reYMUHq+yaYdhQwLRHkmqedSYsI0VfkH2zUmxdyIIj
+	 AW7dlXVVGkoHSSuJFkHgawdQa4LcD3HWcrmOQSEINpERatFD/wdH7YQTirgkdTHDuV
+	 WipX43WDUPb5A==
+Message-ID: <sashiko-outbox-169111@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 1/2] usb: gadget: f_tcm: queue the BOT status
+ requests with GFP_ATOMIC
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Yehyeong Lee" <yhlee@isslab.korea.ac.kr>, linux-usb@vger.kernel.org
+Cc: target-devel@vger.kernel.org
+In-Reply-To: <20261013062129.2568405-2-yhlee@isslab.korea.ac.kr>
+References: <20261013062129.2568405-1-yhlee@isslab.korea.ac.kr>
+ <20261013062129.2568405-2-yhlee@isslab.korea.ac.kr>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Oct 2026 06:36:53 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026101350-tipped-connector-6c05@gregkh>
 
-On Tue, Oct 13, 2026 at 08:12:23AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Oct 13, 2026 at 01:53:55PM +0800, NG, ADRIAN HO YIN wrote:
-> > 
-> > On 9/19/2026 6:03 AM, Thinh Nguyen wrote:
-> > > On Sat, Sep 19, 2026, Ng, Adrian Ho Yin wrote:
-> > > > On 9/11/2026 5:04 PM, adrian.ho.yin.ng@altera.com wrote:
-> > > > > From: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
-> > > > > 
-> > > > > Agilex5 integrates a Synopsys DesignWare USB3 controller that is probed
-> > > > > through dwc3-generic-plat. This series adds:
-> > > > > 
-> > > > > 1. dt-bindings for compatible "altr,agilex5-dwc3"
-> > > > > 2. matching entry in dwc3-generic-plat
-> > > > > 
-> > > > > arm64 DTS enablement is posted separately.
-> > > > > 
-> > > > Hi All,
-> > > > 
-> > > > Gentle reminder for this patchset.
-> > > > The device tree patch has been applied by the DT maintainer.
-> > > > https://urldefense.com/v3/__https://lore.kernel.org/all/02d94760-6e5e-40cf-9354-63b9bca5d682@kernel.org/__;!!A4F2R9G_pg!fOoRba7F0n_QcIeLW1hJWdqm-cZ-1LeU5F9IMVQONnR-eK5J5_SUcboibLdpMDbyKiobonza5DWeJd63mx8kk5_kzayZsEM$
-> > > > 
-> > > This series has already been reviewed and approved, and the
-> > > corresponding Acked-by and Reviewed-by tags are included.
-> > > 
-> > > It's just waiting for Greg to pick it up.
-> > 
-> > Hi Greg,
-> > 
-> > Gentle ping for this patchset.
-> 
-> My queue is huge right now for usb, 1829 patches/messages to
-> review/process to be exact.  To make things go faster, please provide
-> reviews of other patches so that it's not just me doing all the work
-> here.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: f_tcm: command leak and session hang on usb_ep_queue failure
+--
 
-And after processing my morning emails, it's 1897 messages to review.  I
-think I need more coffee...
+commit 02e0e86fc156823b4bb7eaf20b01ef508e2fded8
+Author: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
 
+usb: gadget: f_tcm: queue the BOT status requests with GFP_ATOMIC
+
+This commit changes the allocation flags used when queuing BOT status reque=
+sts
+in the f_tcm USB gadget function. Since the completion callbacks are execut=
+ed
+with interrupts disabled, GFP_KERNEL is replaced with GFP_ATOMIC to prevent
+sleeping in an atomic context.
+
+> diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/fun=
+ction/f_tcm.c
+> index 9e6d4f39900a2..12e2b20e33b92 100644
+> --- a/drivers/usb/gadget/function/f_tcm.c
+> +++ b/drivers/usb/gadget/function/f_tcm.c
+> @@ -139,7 +139,7 @@ static void bot_send_bad_status(struct usbg_cmd *cmd)
+>  		req->complete =3D bot_err_compl;
+>  		req->context =3D cmd;
+>  		req->buf =3D fu->cmd[0].buf;
+> -		usb_ep_queue(ep, req, GFP_KERNEL);
+> +		usb_ep_queue(ep, req, GFP_ATOMIC);
+
+[Severity: High]
+In bot_send_bad_status(), if usb_ep_queue() fails, do the target core comma=
+nd
+(usbg_cmd) and dynamically allocated buffers (such as cmd->data_buf) leak h=
+ere?
+The return value is completely ignored, which means the completion callback
+is never invoked to free them.
+
+Since the target core expects all commands to complete before session teard=
+own,
+could this cause target_wait_for_sess_cmds() to loop forever waiting for
+completion, resulting in a permanent kernel hang? A faulty or untrusted USB=
+ host
+can trigger this by resetting the bus or disconnecting at the exact moment
+usb_ep_queue() attempts to queue the status request.
+
+>  	} else {
+>  		bot_enqueue_sense_code(fu, cmd);
+>  	}
+> @@ -167,7 +167,7 @@ static int bot_send_status(struct usbg_cmd *cmd, bool=
+ moved_data)
+>  		csw->Status =3D US_BULK_STAT_OK;
+>  		fu->bot_status.req->context =3D cmd;
+> =20
+> -		ret =3D usb_ep_queue(fu->ep_in, fu->bot_status.req, GFP_KERNEL);
+> +		ret =3D usb_ep_queue(fu->ep_in, fu->bot_status.req, GFP_ATOMIC);
+>  		if (ret)
+>  			pr_err("%s(%d) ERR: %d\n", __func__, __LINE__, ret);
+
+[Severity: High]
+Similarly in bot_send_status(), the return value of usb_ep_queue() is check=
+ed
+but only logged. If the queue fails, does this lead to the same command leak
+and session hang because the status completion handler is never called to f=
+ree
+the command?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013062129.2568=
+405-1-yhlee@isslab.korea.ac.kr?part=3D1
