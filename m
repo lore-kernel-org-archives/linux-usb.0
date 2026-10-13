@@ -1,167 +1,178 @@
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBAA44A40A;
-	Tue, 13 Oct 2026 02:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F22D44E65B
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 02:09:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791857353; cv=none; b=Z05obiKuXKAgGMDPVLG+TT0/0PLqiomVAWgiRQN/GIs1ej+6qz9oPPR/MMKFV/X2/qFh4hrotgt5NMScGNVOcwefn2R/Mqi9n0jNBbGVbFh/wOyHX93BKshEV0wsZWwX987v/Z4L+Me2LlvxbqjtsAyr5Pt2c1kCTdOlZUMN054=
+	t=1791857371; cv=none; b=FANVJSQCKUBtBPg2pyEMlGy0M6OhfVd/Zx/XSqRusDspMK1QR/tgQ/8d4wzo560Z1fDu/8g3k4QBG0CuZpsH79488UO8oowibl4NTJKQPtVp/Y38ClBYcrTphCb6M8dQ4u+VhHdpM+/JjBfqVqbEnaLPCjKWJ+oismC7XUz8YT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791857353; c=relaxed/simple;
-	bh=i0MS4qgu9PObpyuQPeggxh/NmzNRKVcLRLyQV5MC8FU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FhD7KxnmJCc5vtcUCaTuHL2qcq5CLTf7bIba5NS7V3FCehtAWtGQFxMcRAqhvp0DCDS+sDYDNW/fvw8VwsXxUOXiMoc9o364jP2pf239aAWEfTM+txIfHzPs57oRqjPo1oXwd4tH0HTAq+xm3l6kbTzuCQrtq+gzpCrw5rgDl8s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=onqYbyY5; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1791857371; c=relaxed/simple;
+	bh=IRWt4VDPiyUkbB43dYlWSBojmDaohCHTINhsRG/H+EE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qB4Zx/3UUh/FCt/DZJ3G9ojOvb26tIVYGhbr45VeETj+MSyo3F3DdBhoB29gRWV9yPCw0/5uH38wAIl+OwhjZAtuyMK/UqD25HQIxnTpVavxH+rJnEGsRmuVVFU+gPRW+0RbjszOUU27iSLCEXixH5OFmXGPt6USHg37oXSwHKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=mftG+3yO; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="onqYbyY5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=G2
-	IJGoUUfLa2xG5P9/wT00uiOud9f9XwAM3xSFZ6TMU=; b=onqYbyY5uf6rW+Zjy8
-	pZGfoTc0nJ/4V6uPxuodj/Z0xY14aFSZshyNGssifQVU0XdJkeklWFMsulzK5J0m
-	3kttwJs/EkD5/AjbhB4Cr9MSjMsrsIc2lTSTXQdMwsj1SrVZ5ZMishRxfN4HTRI+
-	tJRBVGe4F+9QEb0HjqGoXGItE=
-Received: from ubuntu.. (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgDHKsWcks1qZMCpDw--.41545S4;
-	Tue, 13 Oct 2026 10:08:35 +0800 (CST)
-From: Ma Ke <make_ruc2021@163.com>
-To: peter.chen@kernel.org,
-	pawell@cadence.com,
-	rogerq@kernel.org,
-	gregkh@linuxfoundation.org,
-	felipe.balbi@linux.intel.com
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	akpm@linux-foundation.org,
-	Ma Ke <make_ruc2021@163.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v3] usb: cdns3: Fix PCI device reference leak in cdns3_pci_probe()
-Date: Tue, 13 Oct 2026 10:08:27 +0800
-Message-ID: <20261013020827.4099844-1-make_ruc2021@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="mftG+3yO"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-917bab38b14so34835136d6.3
+        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 19:09:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1791857369; x=1792462169; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RsCbY8Ip5NFwQBaKeE02VHsTQ9AsJiBilAhhemXl7vU=;
+        b=mftG+3yO8z6fMtTp9JbqbRIbK3TuYZP6LL970+gZKBMk5Bx/iAp04UlMxS8MukubMC
+         WLDOhiudoLqIBHMuL0rlpqKlne41xzmxsVcSDl0ShnJyC++sIOeXFdZAWhbShkCsuqR0
+         SNDPvP9oXnKSNPwsVJcqLUabS3HTAMfBHcZGqqXlfbZKYD0UPAg3YBlpQ+2kJuuW8296
+         lrIfPtYP1ddCFd3lDNa90gOr5FLluOpH8nb8DIESNKAq+k4nvjgJHVto5LihF0GPP2yr
+         2mgTxoZO0m2DKieNRoc+YCDj/OlW6Iypgan0Kh49kKqt6Fu2Ojz+M7WecB7YghSBzWa7
+         OOiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791857369; x=1792462169;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :content-type:mime-version:references:message-id:subject:cc:to:from
+         :date:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=RsCbY8Ip5NFwQBaKeE02VHsTQ9AsJiBilAhhemXl7vU=;
+        b=fE42M0dXxUaHaRW7XpK6AlIr1hlZ9QprtqGMS3JPbmH48Rn58IhMI0XX+XydgAOeX+
+         lGzyNW93KOS0eIwF8wOLIKZgUQEHF+m4NQyGCwc20LsbwsV+NRh8Cku1Lzc2FwwxZYZ3
+         5jUqn0fKQU6cokVGHmAXODU7qFaLTdtaGRZi2NQx2A4LW1mgUEVIsIj+TQfgk1FNEheP
+         pO2axHSRRqnR1nEyLsUS7JIvPFDcGricn9x8bX7Pz9X78MDQ+Tnq9DdlyDvH+yXRNGfc
+         yIIvDyRlnfUmmoT3SEZNR9iY9MPAV/LEz9e1WFabtxS5u1uWs+y7rfC9a0ouQorBZhB1
+         Ge8Q==
+X-Forwarded-Encrypted: i=1; AKwUvBxJ4y9LgJIiHF1Gr1MQoIJNgf6BtWgB+w3jfu3Adul2vB6TAzNB2BAj3Zf504mXRom77gpV4jhj5TM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIVGTUTSABFk0Hy9mFKga4uZkDYPhaVZrTmMCl9sdF7mJNgs6tX
+	ne9Nqcb+IXWmWJnkbVK4o6ABkYx2gOQKp2mBsxrjkXzH1zp8XrGu3eBl4NQlrdRUxw==
+X-Gm-Gg: AYBFou2efKIWzPKxEgMKgqg3PDQZE3sBjHp8mkQ+q9akAHDQAjSjByP2yJdIjqOOxe1
+	SL67jmz7b6AGJlE1wviUxeoMV8Ra4TBx4PVHwi/Wf/Q271MN3jGtBghPTHpeUZ1KEHtVABGh9Kq
+	deQW2WMzJUC1U6Cw4oEL2KBgNEH3nhWWW6OHSvTfX2d6Vp7KfAR0z8Au42PpQhEVqUCK2BDDlKi
+	C9Ih/5oJRfrLA3X8mZ8wMw2yGMEgjbtuXE6efObWay7kjHmBOZYtJcjKZUOdtFyvN9hWZCRFsYl
+	sThR4k2zH6oTbkdd3kLWeuiFiPBHejJMV7g1DmxxqnusGaoyI26nwU4OYFjjjcg2DqzJXBG2XOF
+	7RLpmEInqcYLxKgXc9AClKqYgusXeFLastNdjh1QTBkYSXm2RdXGJA1lr/07ge0Jzg9Y3vyngyP
+	xFU7rrEbMg3tiyaBS9uW1E2aq6IAtMh7qvk8KPC8SnzSzRIKdAQJ+YR9Z2df8i3alFIZX21NY=
+X-Received: by 2002:a05:620a:6e86:10b0:93e:c12c:4412 with SMTP id af79cd13be357-93ec12c49fdmr1181926485a.78.1791857369089;
+        Mon, 12 Oct 2026 19:09:29 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::4791])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93ef50295a7sm131650285a.23.2026.10.12.19.09.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 19:09:28 -0700 (PDT)
+Date: Mon, 12 Oct 2026 22:09:25 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	=?iso-8859-1?Q?=D6mer?= Mete Kaya <omermetekaya0@gmail.com>,
+	oneukum@suse.com, netdev@vger.kernel.org, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	david.laight.linux@gmail.com,
+	syzbot+04cd90bb99c6ef81a65d@syzkaller.appspotmail.com
+Subject: Re: [PATCH net v6] usbnet: fix smp_processor_id() use in preemptible
+ context
+Message-ID: <41af30de-4725-4913-9ad8-54d1dea2d4b8@rowland.harvard.edu>
+References: <20261004215937.302247-1-omermetekaya0@gmail.com>
+ <20261007200049.079aeb75@kernel.org>
+ <7c4a2f1c-f16d-479b-a11f-cef962d5e2c7@rowland.harvard.edu>
+ <20261008094338.301a75fa@kernel.org>
+ <06a81ea1-b17d-40bd-82d9-922de946b86f@rowland.harvard.edu>
+ <2026100910-petition-embattled-94cb@gregkh>
+ <20261012194902.aEq58Q6b@linutronix.de>
+ <8545800a-a37f-482a-9b06-cbdd70312b7a@rowland.harvard.edu>
+ <20261012212527.5sFqlGYu@linutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgDHKsWcks1qZMCpDw--.41545S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWryDZF1kCw15urWDJF1xAFb_yoW5Kr4xpF
-	Z3WF4rCrWkJFy3trs8Xr48uaySkr4Sk34xKw1Ik347Zw45Ar1xtFWFvFyjgF4DCrWkXa40
-	qw1jqw4q9F4jva7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piJGYdUUUUU=
-X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbC9gPa5WrNkqOTEQAA3e
+In-Reply-To: <20261012212527.5sFqlGYu@linutronix.de>
 
-cdns3_get_second_fun() looks up the second PCI function with
-pci_get_device(), which returns the device with a reference held, and
-hands it back to its callers. Neither cdns3_pci_probe() nor
-cdns3_pci_remove() ever drops that reference, so the second function's
-pci_dev can never be released.
+On Mon, Oct 12, 2026 at 11:25:27PM +0200, Sebastian Andrzej Siewior wrote:
+> On 2026-10-12 16:26:28 [-0400], Alan Stern wrote:
+> > On Mon, Oct 12, 2026 at 09:49:02PM +0200, Sebastian Andrzej Siewior wrote:
+> > > On 2026-10-09 13:31:17 [+0200], Greg Kroah-Hartman wrote:
+> > > > > As far as I am aware, there aren't really any guarantees on the 
+> > > > > context of a USB URB-completion callback.  The kerneldoc for struct urb 
+> > > > > in include/linux/usb.h says "The completion callback is made 
+> > > > > in_interrupt()", but that is most definitely out of date.
+> > > > 
+> > > > I don't think so, I think some platforms still have those callbacks in
+> > > > irq context, unless we changed to threaded irq handlers everywhere?  I
+> > > > could have missed that, but we should still write the callbacks to
+> > > > assume that and then we should be fine even if we aren't in irq context,
+> > > > right?
+> > > 
+> > > The HCD invokes the completion callback usually in IRQ context. I think
+> > > the VHCI is an exception here.
+> > > For the forced-threaded mode we disable BH before the IRQ handler is
+> > > invoked. I think even dummy_hcd invokes them from the timer if my memory
+> > > is right.
+> > > 
+> > > > > Drivers shouldn't rely on any particular context guarantees.  Not even 
+> > > > > whether local irqs are enabled/disabled.
+> > > > 
+> > > > Agreed.
+> > > 
+> > > I would suggest to make VHCI invoke the completion callback with BH
+> > > disabled. usbnet's tx_complete() does also defer_bh() which schedules a
+> > > BH worker via queue_work(). While this works without disabling BH it
+> > > leads to waking ksoftirqd and an additional context switch which we
+> > > could avoid by dealing with it directly.
+> > 
+> > Today you fix VHCI, tomorrow some other virtual HCD will cause problems.
+> 
+> We don't have other virtual HCDs, do we?
 
-Route the error paths of cdns3_pci_probe() through a put_pci label and
-drop the reference there.
+Well, we've got dummy-hcd.  And just recently there was an RFC post with 
+a virtio USB HCD implementation.  It wouldn't be surprising to encounter 
+other ones.
 
-cdns3_pci_remove() needs the reference dropped too, and it is missing
-a NULL check while at it. cdns3_get_second_fun() can return NULL, and
-pci_is_enabled() reads pci_dev->enable_cnt without checking its
-argument.
+Also, don't forget, URBs can complete in several different ways.  
+There's normal completion, explicit unlinking, unlinking because the 
+device was unplugged, unlinking because the device or HC is going into 
+suspend, and so on.  And there's a difference between URBs sent to 
+root hubs as opposed to devices actually on the bus.  Not to mention 
+that in some cases completions may occur synchronously with submission 
+or unlinking, even though they usually are asynchronous.
 
-The same error path also frees the wrong object. When the second
-function has already been probed, wrap is its drvdata, obtained with
-pci_get_drvdata(), and it is shared. The second function keeps
-pointing at it, and cdns3_pci_remove() dereferences it when that
-function goes away.  Freeing it here leaves that function with a
-dangling drvdata.
+> The other driver is drivers/net/mctp/mctp-usb.c.
+> mctp_usb_out_complete() -> … -> mctp_usblib_tx_stats_update() does
+> get_cpu_ptr() for stats. But mctp_usb_in_complete() has 
+> mctp_usblib_rx_complete() -> mctp_usblib_rx_stats_single_drop() and
+> mctp_usblib_rx() which do just this_cpu_ptr(). Plus the queue wakes &
+> netif_rx() which wake ksoftirqd.
+> 
+> That makes two drivers from a quick grep. But I guess it is just
+> networking for the per-CPU stats.
+> 
+> > Should we document any requirements that all HCDs will have to follow 
+> > and that all completion handlers can rely on?
+> 
+> It used to complete in IRQ context. Then you added the possibility to
+> complete BH for those HCDs marked as such (except for the RH). I think
+> it was always reasonable to assume that it is either IRQ-context
+> (force-threaded or not for !HCD_BH) or BH (for HCD_BH). It makes hardly
+> a difference, BH is always off and networking uses to rely on it.
+> So yes, documenting would make sense.
+> 
+> Do you want to document it yourself and have me do the VHCI bits?
 
-Both branches that assign wrap are guarded by the same
-pci_is_enabled() test as the registration block that can fail, so the
-wrap freed there is always the one taken from the sibling function.
-Track whether wrap was allocated here and only free it in that case.
+At the moment, the only thing I think we can actually guarantee is that 
+completion handlers will be called with local interrupts disabled.  No 
+commitments about process context vs. interrupt context vs. BH context 
+or anything else.
 
-Found by code review.
+Of course, in special cases you might know more about how a particular 
+HCD works.  But except for platform-specific settings, it's hard to be 
+certain that your driver will always be used with that one particular 
+HCD.
 
-Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Ma Ke <make_ruc2021@163.com>
----
-Changes in v3:
-- Do not free a wrap that was taken from the second function's drvdata.
-  The free in that error path can only ever run on the shared object, so
-  it left the sibling function with a dangling drvdata. Reported by
-  Sashiko. cdnsp-pci.c has the same construct.
-- Keep the rest of v2.
-Changes in v2:
-- rebase on current mainline. cdns3_pci_probe() gained a -EPROBE_DEFER
-  path in e5052f2c5c73 that returns after the reference has been taken, 
-  so it has to drop it too.
----
- drivers/usb/cdns3/cdns3-pci-wrap.c | 23 +++++++++++++++++------
- 1 file changed, 17 insertions(+), 6 deletions(-)
+If this is okay with you, I can write a documentation patch.
 
-diff --git a/drivers/usb/cdns3/cdns3-pci-wrap.c b/drivers/usb/cdns3/cdns3-pci-wrap.c
-index fd06a3d8e638..31089eb9ca29 100644
---- a/drivers/usb/cdns3/cdns3-pci-wrap.c
-+++ b/drivers/usb/cdns3/cdns3-pci-wrap.c
-@@ -72,6 +72,7 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
- 	struct cdns3_wrap *wrap;
- 	struct resource *res;
- 	struct pci_dev *func;
-+	bool own_wrap;
- 	int err;
- 
- 	/*
-@@ -99,12 +100,17 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
- 		if (!wrap) {
- 			dev_err(&pdev->dev,
- 				"second function not initialized, retrying\n");
--			return -EPROBE_DEFER;
-+			err = -EPROBE_DEFER;
-+			goto put_pci;
- 		}
-+		own_wrap = false;
- 	} else {
- 		wrap = kzalloc_obj(*wrap);
--		if (!wrap)
--			return -ENOMEM;
-+		if (!wrap) {
-+			err = -ENOMEM;
-+			goto put_pci;
-+		}
-+		own_wrap = true;
- 	}
- 
- 	res = wrap->dev_res;
-@@ -164,12 +170,15 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
- 		wrap->plat_dev = platform_device_register_full(&plat_info);
- 		if (IS_ERR(wrap->plat_dev)) {
- 			err = PTR_ERR(wrap->plat_dev);
--			kfree(wrap);
--			return err;
-+			if (own_wrap)
-+				kfree(wrap);
-+			goto put_pci;
- 		}
- 	}
- 
- 	pci_set_drvdata(pdev, wrap);
-+put_pci:
-+	pci_dev_put(func);
- 	return err;
- }
- 
-@@ -184,8 +193,10 @@ static void cdns3_pci_remove(struct pci_dev *pdev)
- 	if (wrap->devfn == pdev->devfn)
- 		platform_device_unregister(wrap->plat_dev);
- 
--	if (!pci_is_enabled(func))
-+	if (!func || !pci_is_enabled(func))
- 		kfree(wrap);
-+
-+	pci_dev_put(func);
- }
- 
- static const struct pci_device_id cdns3_pci_ids[] = {
--- 
-2.43.0
-
+Alan Stern
