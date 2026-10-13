@@ -1,126 +1,145 @@
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE0447ACF4;
-	Tue, 13 Oct 2026 02:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C0B3A6B66
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 02:55:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791859116; cv=none; b=pDnst835cX4REQrJy6GlJ81K7McOHHn6Vr/LYmDdoZ5KODbzYPywZqt2d3/b+oPZWgcF8Doi6KcOY/dMxH1+Kt+MVcSNRmKwSNDQL2RrYLsDkTbXve3opNu911l5ZT2ukbWtc2Fx3yNowcLqq3eckF3qyAud+wyh3qk6vs8yjhw=
+	t=1791860149; cv=none; b=eC5ZckAF/BnjeqcLZjCYuVJU5Bg8PZIltD93lluksNBkPixaH/FOT3QLdPeqQKT7TDGJUO/4DXt4BeeLPtQCHEhTp+41q/fJQuUaDaAOF9IQm+KuYo4sv8LU+ZBV+sKapYAexz+G1QLkh9n/kEBdjXmZk21AIrILndsEtqmEdcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791859116; c=relaxed/simple;
-	bh=I3coorphk9JkdHrAoSg2U+w+wpGHjRGOgo1vR8YJqP8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QMYDPhXHov6ISJJmn7g/GmiSpiaZzzZvqkiAArE7je6MeTG/axjBYOwMD81IaJrU8dkGIhTNN13wYqlug9qSTU+G9uYIdqgaTeAWZdZq0UVxig1RmGadTIzQsie5urraUUvMnrqT73pU3V29rCsesrSKzzWzMvRP79p/7xLHmvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2ac00dbcc6af11f19a56ed5b684f684d-20261013
-X-CID-CACHE: Type:Local,Time:202610131036+08,HitQuantity:1
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:e9b0ed25-595d-416b-b600-acb5362e38f8,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:f6862183627acf49100bff84daa64240,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|865|898|915,TC:nil,Content:0|15|52
-	|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
-	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2ac00dbcc6af11f19a56ed5b684f684d-20261013
-X-User: lilinmao@kylinos.cn
-Received: from [192.168.1.101] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lilinmao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 112571573; Tue, 13 Oct 2026 10:38:26 +0800
-Message-ID: <e7ba57f2-092e-4801-9659-7e7533f031c4@kylinos.cn>
-Date: Tue, 13 Oct 2026 10:38:22 +0800
+	s=arc-20240116; t=1791860149; c=relaxed/simple;
+	bh=XWT+evDyeLy1CvG7qT+s2Eh+cCd6BaPGI+i6dJwrKE0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=sZehl9zTaVnyPpdEBT8L8GgaBIEn3SYayFo/r6ZEBOOG6jxptV/BSJtj9CslXkNhCyoZ6810gjB+8JuzBb29plZ2fAx2pAxLvX3tLw1va1DPGG63YiljX03bI9CTICuGEPz1JBLut0wls8IloN74SR+nNSKlU5u4iDVZuDGYp+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iy+WwoXp; arc=none smtp.client-ip=74.125.82.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iy+WwoXp"
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-35b2c599f43so1068925eec.0
+        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 19:55:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791860147; x=1792464947; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=G+I02+8xmB4l0yP/lItNCeO/Dv9gNUrktx08qk23Etg=;
+        b=Iy+WwoXpXAC/uzfsauF9qxYWE07+4/I3NEhJdPYwFZ0mivcp8GjIb3l8h6Pf0s32i9
+         dC9KXGEcOAte8cZdhvcS4DVDaCc8Bqh3Ah7BTM3reWZVa6lHvCb5vpjffHYBKKDxs37m
+         Y96ktS2Rbw6ZH0Qnn17POQAomvq8TUM77ipFkCuoIkxtONJBs0J82BtsWtMoEd88G5Zt
+         gtB1pa2xiL9Fh33CCfIIwQs0+spMkFK+DHxI+PuD8uSEXZwIf5HGSWc9BqmXD94d+he5
+         0typtZ83ZhN4J0TrEZIt3NLofBMDCb5izmM/+SZMLa8zfw5r3HAS66HJlsiaTqBKtT0k
+         pVqQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791860147; x=1792464947;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=G+I02+8xmB4l0yP/lItNCeO/Dv9gNUrktx08qk23Etg=;
+        b=tca0EZw5NGKWN+0ILA8/3s4Df6ccPAKTM0PJ4sdqCPY2emcHy1R6Qc8HycR8ew7LbS
+         v1TttrAtdD/GmBqNkipAY9mumbgweO6yl2H2ZIN/Mg0LQPrmCCd1s+FZfRN/J+Rdfssl
+         g+X+VHZZrb1zYkMRWy1UCCfVDh9bxbAitVvtUMqHEbJTIxH9PyE50vTx0Bim8fk4x0ry
+         h60qAe1vP96UKAfBCmUMMfHzVe5H4bNYZVwWnqcKnWFSIA+/An0Kib/42D0YIivzuk/t
+         nyxT/Qe01AmRZrpz4lVoKB5T5vl7eGsKifNRG09YfqID9M0e12OFV+cE/lpq4vkEuZki
+         zwdg==
+X-Gm-Message-State: AFq9FYIZC22+U5m4kdXOzGZVZxXb5MvU4daeau3NfN5L8fo6XZ2dV8Sw
+	YVtjyQuFRMs4xNLwiXUc28cOTmqd1B1Gvt2zRCzrfK+OyC3OuDYQsOwvjrIkaZh3
+X-Gm-Gg: AYBFou2bA2Gz3xf0dTiAkjOO+SfahFSb+VfrIIA38iynLaYO83HeD+ArdKcd8cVj3bH
+	KO0JbtG959h0dq6J++AlpDsCISjLheIrACaq9LXQC+vay+GZfZA/OWZ9crGGg9J142h2g+MPiBA
+	QNTbZ+A83kLkF9mRgL04kFHMF4vRq7/+SGNsqCxrTLX441X9JCoTOLkcyIfWlwSiT+9hr9C01jI
+	xiPYjOGzUJIj9Fd9cYZEvxyKWqtP/MPeRAvWwVIg6++jdOUWTLoL1U3TpuOiwrh0cElfuCe9reH
+	SvZWQK7Tb04fLuM18zNNrsU0mKZVtVhhw7+XIXn38jSVjExm1uEpmd4QhXjItY53LkUMeV4riPf
+	YycxtdQw5OtdoINnkesJ0ZDMANsZHXFd9qepkx+5Mt/btU76JWwy35DsvUdn7C3lNFrVSyirX8E
+	/l7gjy7K55ETs8bcZjmR1smzprKqDFGlJgUuaUcay1HPjuBzmeD9QP+fFk5WSY2X4Q6DI2pbT8m
+	JFu1tIEmnrC
+X-Received: by 2002:a05:7300:cf8e:b0:35a:7020:c08a with SMTP id 5a478bee46e88-35a7020c1a4mr6837443eec.19.1791860147092;
+        Mon, 12 Oct 2026 19:55:47 -0700 (PDT)
+Received: from [127.0.1.1] ([2404:f801:8028:3:8056:897e:dae3:8e2e])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537ca1b556sm50889219eec.9.2026.10.12.19.55.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 19:55:45 -0700 (PDT)
+From: Subasri S <subasris1210@gmail.com>
+Subject: [PATCH RESEND v2 0/3] usb: Use %pe to print error pointers
+Date: Tue, 13 Oct 2026 08:25:36 +0530
+Message-Id: <20261013-usb-ptr_err_patchset-v2-0-f83351b3fc3d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] r8152: Use BMSR to detect the link state
-To: Birger Koblitz <mail@birger-koblitz.de>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>
-Cc: Chih Kai Hsu <hsu.chih.kai@realtek.com>, nic_swsd@realtek.com,
- Xiangqian Zhang <zhangxiangqian@kylinos.cn>, linux-usb@vger.kernel.org,
- netdev@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20261005105249.1281648-1-lilinmao@kylinos.cn>
- <ee122a12-eae8-40a6-bad9-086228ae76f2@birger-koblitz.de>
- <b56624e0-d1e4-4b52-9d3d-de923c471a58@kylinos.cn>
- <6030ce9b-1e93-4d11-b9f3-6101fec2229e@birger-koblitz.de>
-From: Linmao Li <lilinmao@kylinos.cn>
-In-Reply-To: <6030ce9b-1e93-4d11-b9f3-6101fec2229e@birger-koblitz.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKidzWoC/3XNvQrCMBQF4FeRzEaS2Dapk4NdHXQUKW160wbsD
+ 0kMSum7G4Kgg47nHu53ZmTBaLBot5qRAa+tHocQ2HqFZFcNLWDdhIwYYRnhVOC7rfHkTAnGlFP
+ lZGfBYS7ThqYJrwE4Cq+TAaUfkb2gU3Eujgd0DfdOWzeaZ1zzNLZvOP8Ne4oJFqniikGiQNX7t
+ q/0bSPHPoKefRBB6B+EBYRmuQCWC0lh+40sy/ICqbdDxgUBAAA=
+To: Peter Chen <peter.chen@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, Duncan Sands <duncan.sands@free.fr>, 
+ Chas Williams <3chas3@gmail.com>, Minas Harutyunyan <hminas@synopsys.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Badhri Jagan Sridharan <badhri@google.com>
+Cc: linux-usb@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ linux-atm-general@lists.sourceforge.net, netdev@vger.kernel.org, 
+ Subasri S <subasris1210@gmail.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1791860140; l=1843;
+ i=subasris1210@gmail.com; s=20260709; h=from:subject:message-id;
+ bh=XWT+evDyeLy1CvG7qT+s2Eh+cCd6BaPGI+i6dJwrKE0=;
+ b=MhN1j7+LP8ppCCOHXnmgYWPKdz5mt77RZ7osZR4EN6zzSE9SJMTr1kD+E6OTFGbXdSbofOb+q
+ WiSxEwFtLiADqfdVqQXgrT9ibTp9FO9LlutWOlhGP1xqlWhXy308EXI
+X-Developer-Key: i=subasris1210@gmail.com; a=ed25519;
+ pk=6C4wavGFy/OsR8yQQKNWuDXoYPHp2L3sfgNfyzTruTk=
 
+Replace PTR_ERR() in format strings with 
+%pe format specifier across the USB subsystem. %pe prints 
+symbolic error names (e.g., -ENOMEM) instead of 
+raw numbers (e.g., -12), making error logs more readable. 
+These patches fix coccinelle reported warning: "Consider 
+using %pe to print PTR_ERR()" in usb subsystem.
 
-在 2026/10/13 0:13, Birger Koblitz 写道:
-> Hi Linmao,
->
-> On 09/10/2026 9:18 am, Linmao Li wrote:
->
->> Hi Birger,
->>
->> Thanks for testing. Only the first BMSR read after link up returns the
->> latched value, so ethtool shows the problem only if nothing else reads
->> the PHY first. On my systems NetworkManager reads it right after
->> carrier up, so a later ethtool reports 1000Mb/s while NetworkManager
->> keeps the unknown speed it read.
->>
->> With an RTL8153B on v7.3-rc6, stopping NetworkManager was enough for
->> ethtool alone to show it after 3 of 3 USB rebinds:
->>
->>    # systemctl stop NetworkManager
->>    # (rebind the device, bring the interface up, wait for carrier)
->>    # ethtool <iface> | grep Speed
->>            Speed: Unknown!
->>    # ethtool <iface> | grep Speed
->>            Speed: 1000Mb/s
->>
->> I got the same result with cable replugs on a 6.6-based kernel. The
->> latch does not time out: the first ethtool still reported Unknown 3 s
->> after carrier up. On the 6.6-based system, the network service of a
->> Chromium-based browser also read the PHY first, so other tools may
->> need to be stopped too. I have not checked your setup and have not
->> tested an RTL8153A.
->
-> Thanks for the explanation. I re-did the test and confirm that the fix 
-> works. I tested on:
->
-> RTL8157 (5GBit device, 2.5GBit link)
-> driver: r8152
-> version: 7.1.8+deb13-amd64
-> firmware-version: rtl8157-1 v1 2026/01/01
->
-> RTL8153A (1GBit device, 1GBit link)
-> driver: r8152
-> version: 7.1.8+deb13-amd64
-> firmware-version: rtl8153a-4 v2 02/07/20
->
-> both worked flawlessly. I tested
-> - plug/unplug during normal operation
-> - link-changes by peer in normal operation
-> - plug or unplug during suspend, then resume
->
-> Tested-by: Birger Koblitz <mail@birger-koblitz.de>
->
-> Birger
-Hi Birger,
+The patches are grouped by subsystem:
+  1/3 - chipidea
+  2/3 - miscellaneous USB drivers
+  3/3 - typec
 
-Thanks a lot for testing both devices. Just to be sure, was it the v2
-patch as posted, without other changes? The RTL8157 result is
-interesting given Hayes's comment about the newer ICs.
+All patches are compile-tested on x86_64. Please let me know if 
+any more testing is needed for any patch. 
 
-The next version will probably change the approach, so I will only
-keep your Tested-by if the code stays the same, and would be glad if
-you could test it again.
+Signed-off-by: Subasri S <subasris1210@gmail.com>
+---
+Changes in v2:
+- Remove "This patch" phrasing from the commit message body.
+- Trim redundant Coccinelle warning outputs in the commit log to keep only one.
+- Clean up multi-line dev_err() statements into single lines.
+- Link to v1: https://lore.kernel.org/r/20260719-usb-ptr_err_patchset-v1-0-85f7f2e4fefb@gmail.com
 
-Thanks,
-Linmao
+---
+Subasri S (3):
+      usb: chipidea: Use %pe to print error pointers
+      usb: misc: Use %pe to print error pointers
+      usb: typec: Use %pe to print error pointers
+
+ drivers/usb/atm/usbatm.c               |  4 ++--
+ drivers/usb/chipidea/ci_hdrc_imx.c     | 12 ++++++------
+ drivers/usb/chipidea/core.c            |  4 ++--
+ drivers/usb/core/hub.c                 |  3 +--
+ drivers/usb/dwc2/pci.c                 |  3 +--
+ drivers/usb/gadget/function/u_serial.c |  4 ++--
+ drivers/usb/misc/usb3503.c             |  3 +--
+ drivers/usb/typec/mux/pi3usb30532.c    |  6 ++----
+ drivers/usb/typec/tcpm/tcpm.c          |  2 +-
+ drivers/usb/typec/wusb3801.c           |  4 ++--
+ 10 files changed, 20 insertions(+), 25 deletions(-)
+---
+base-commit: a13c140cc289c0b7b3770bce5b3ad42ab35074aa
+change-id: 20260718-usb-ptr_err_patchset-7c5d1547bee7
+
+Best regards,
+-- 
+Subasri S <subasris1210@gmail.com>
+
