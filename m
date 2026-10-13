@@ -1,147 +1,144 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1BD46EC7C;
-	Tue, 13 Oct 2026 02:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B0846E01A
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 02:14:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791857658; cv=none; b=QlWjd/Ge7E5BcM8cvJFiXeHi7hf3716OYSXEcOKpaLM0BjiLU65/hIKlO1PYWNCO3Eo4kerNPJGvPtaiUIN7xdCCVVhor/KO705EVEJifEWafbsZ31dKy731T+7LxxoBsP1LIFYbtG+zFbTqE8VmSqrZoxKMyVLNpt3E4ep1AmQ=
+	t=1791857683; cv=none; b=DnnMRqspqzleMd9z5Kd7Su6T+e+T8yrT1noSQcDD9XBWrIsB2exwwtTqZg7QdR7WrQqH5nz4yIcc3z5r0Mqw7cflVcJtXghE6Ik/zL/771IyPl1EnlFtzd+uvXlTvg4BxGqxp1WpPCPdtIn127roX2AQrtwsFWQbB7+roUXOqlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791857658; c=relaxed/simple;
-	bh=dHOopfR12PALJSYZGECRqDg12/KSjc6+ruHCgUt0OfI=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=ld3OVGycpcSIYQ6peZCXFSvQbWy848olV8iWRO+8AKTT3VOlhxKxmPPlBo8pSGH96v6kwvJPU8/ffcsRn28WY1YH1E6Q/FjFgVn/dTygVvG9l4SJrhGCmIAUGDiQ6Hce0I6dFj5vOFACWzFZpUY5H9UHPU4SOi/3W5Vk0HBhqms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SfBLdmq4; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791857683; c=relaxed/simple;
+	bh=v/bJiyrCf7+4kPlZEa6UJaQDMIa5G6pQEje23xqcEHY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=p9avcTdMBFO/Dc/EGSDW4zZVLDJ1SETs+cX2KJp8ZwyHkLLvtGv7nNixIbohUYt1rqeF13aObcmAcO+C2vofgpUl9INqjljkzFmPi76EJAB5PgINqkZI5TCG0TtAOr8TAPaYT1a88gVknheq3cQHZkBYVZutZN/D+6TAkEybGZk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mina86.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pqaShCAd; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mina86.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SfBLdmq4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8843F1F00893;
-	Tue, 13 Oct 2026 02:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791857656;
-	bh=qvLf9e3JixLDEVVAIWNucUQP+rrmPMqzoO4de35dQFI=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=SfBLdmq4OzPdMYfPudVp2SUYALLI7Eqmz7hzEM7Q7kEchvcQsscP5uKRI19HrJMN7
-	 Q+f50EdkXQLTXsLKei8dQsqr83jj6kdat2hzijrEFZE0Cpy1HFWkYM1cw+36Bm2ASa
-	 KQq0n7pf6wk6be4z0qGGEoxr5zpywukFXh8ja5IOWg1WW9oJPWUvag7hd1j2oi+MUs
-	 Fjsu9vlSXLPPzkcMQPU0YLB2nbP92jV60A+qOFDHTQcx7r1a3HfPIOKji6JpNzrvYT
-	 qd6ukCN03ObYVasJ+p40AMcxgA88I33x/Bdme/nhCU95hYtNjBgad7GZNFIqcuOltw
-	 08q/V8Ne4sURw==
-Message-ID: <sashiko-outbox-168852@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: gadget: f_tcm: reject a short write data-out
- transfer
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yehyeong Lee" <yhlee@isslab.korea.ac.kr>, linux-usb@vger.kernel.org
-Cc: target-devel@vger.kernel.org
-In-Reply-To: <20261013015416.2503787-1-yhlee@isslab.korea.ac.kr>
-References: <20261013015416.2503787-1-yhlee@isslab.korea.ac.kr>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 02:14:16 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pqaShCAd"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c29c6a3930bso304850966b.3
+        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 19:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791857678; x=1792462478; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=M3jJRpzLKl64v1Zv2perxTA72cfcB4N9Q2Y5ebHZPD4=;
+        b=pqaShCAd4v/Aq5Mec0SF9yR/ysueEVDp4VNrPo5Ooqg6pljsuVqLJ+BVDAIk/8OdOI
+         IeZfo3lhd6dYwiBRhyReTDYVbyXLfE/GkvYnARZ5MPgh35JBbthzhEdIXG//JnpJtZyB
+         kUkl0qb2LTEGS3KIlyx5QOMxe26QB4sOsvK4B5ThBM9s61LdjeC1gGLEwFZMbHNVR4JU
+         q13siTnwGqHfIyuwieEyjWav+xNxfEm/N70Q802EDOgQAUORHz76TXMYy9fOAq6zvlSk
+         rBTOvWKPuFsBF4CjD0SrprP/6jIPW2o2l5NVgfYB/PIn6uq2YWTbQ5fl7sO+NSjyDuDj
+         gUvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791857678; x=1792462478;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :references:in-reply-to:subject:cc:to:from:sender:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=M3jJRpzLKl64v1Zv2perxTA72cfcB4N9Q2Y5ebHZPD4=;
+        b=zW0VX8m0UoxNzOJQiqwkf4atOIclG/0GQjLeQK8NTCB81U+o6yUobl30eid0AGNxKy
+         erGSi6GmWDRVx/BUjTjNz5rJjaaGMRAaxEhimWlfjm3/Pea9PnAFZxP6QYcDPqmB6vDz
+         ynuwolVwlqY34uJoAxew8J/QSrml7XeaHWOUyuPlsQkJceNBG8HSyKkUs/oiWbCi06g0
+         ZRjlkTjy4cM1eWM96szjeRcCyRoUdrvFAAsjn1Ujwftaj7fnBLV6jGPoSywFTBCuYJhn
+         tw7f2QxJR3tBS5SXAWgtYYFOu/tHhVZwDf2CbgYthE5XntWorHkGRawP7dIgsdXRTlZ8
+         L2GA==
+X-Gm-Message-State: AFq9FYKytmJoB844L42u0kSuLEP0wl1fB6Ajs+Ty32sPW9gO0fppMdUI
+	OKcOJM45ZjG5WAut915unbrS4yJG0A+loqwpRgwjSbwDpA2RqxN6kz3p
+X-Gm-Gg: AYBFou0kKBSrvRDDk25//ERO1L0FZuxeVdXM9Hjek1USUIhhekfpHSNjVfhGHTcQk/q
+	GJeDdLcIVzpHxDWt2WZ+x2RFRGem8hYk4lLtYOADrPRsKZmoIeHn38SCPeIfzY8Wu0dK/nfraEV
+	I/FkhohZxf9RL5dOQWx4c49sowOdNh/8dQ5Hc8D/am/H414DzVIrKMv87+nc8DieChXjgaUmMTg
+	pl5IWIQ2a10PiXmH9ziesxOfGw4KOGoVEmd9a1X/CtCrsD9vlHFgN8UoiuxXugMj6eZPEOFv1IL
+	t529T1S/bAPU4LnDnNCU3R+Md+UpYiMT0Daq2dJCffK+L21wZGzzZ7suqxZwVgVfT+gAtpBCl+a
+	4WJgB3lhE8jtqZMf/lpUPtEBnyXknKB0gNqaZCJwKEWCF9RQe3UeUd7Q/m2548wRwuRQYrO+M2N
+	G6olJSMhql59Qbf1pfHvwzWgHkcAdAHZJ1oFiWbnc3jVsx9pU2Vg28vuXPl/dHYOzsoGn7clE2N
+	xiJa+7kiIyWiZtN3KwZ36nE4w==
+X-Received: by 2002:a17:907:3f1f:b0:c29:3a1b:ec8e with SMTP id a640c23a62f3a-c31a9a04dfcmr1039475066b.3.1791857678022;
+        Mon, 12 Oct 2026 19:14:38 -0700 (PDT)
+Received: from erwin (109241130011.warszawa.vectranet.pl. [109.241.130.11])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c31a9a38050sm526822166b.24.2026.10.12.19.14.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2026 19:14:37 -0700 (PDT)
+Sender: =?UTF-8?Q?Micha=C5=82_Nazarewicz?= <mnazarewicz@gmail.com>
+From: =?utf-8?Q?Micha=C5=82?= Nazarewicz <mina86@mina86.com>
+To: Sasha Levin <sashal@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Sasha Levin
+ <sashal@kernel.org>
+Subject: Re: [PATCH v2] tools: usb: ffs-test: read the descriptor counts
+ with unaligned accesses
+In-Reply-To: <20261011234707.2475490-1-sashal@kernel.org>
+References: <lx+m4kkf9bvbpe7f+l7y+7tc@mina86.com>
+ <20261011234707.2475490-1-sashal@kernel.org>
+Date: Tue, 13 Oct 2026 04:14:36 +0200
+Message-ID: <10ibi+um8lcsadwjotc6p04h@mina86.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] usb: gadget: f_tcm: UAF in usbg_data_write_cmpl due to early kref =
-put
-- [Medium] usb: gadget: f_tcm: incorrect CSW residue on short OUT transfers
---
+On Sun, Oct 11 2026, Sasha Levin wrote:
+> descs_to_legacy() reads the descriptor counts through a __le32 pointer
+> taken from a member of a packed struct, which may be unaligned:
+>
+>   ffs-test.c:235:40: warning: taking address of packed member of 'struct =
+<anonymous>' may result in an unaligned pointer value [-Waddress-of-packed-=
+member]
+>
+> Walk the counts with a byte pointer and get_unaligned_le32().
+>
+> Fixes: b9a4274699c69 ("tools: ffs-test: add compatibility code for old ke=
+rnels")
+> Assisted-by: LLM
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-commit f48535188baaf66bf383bdd7132a79b493a45251
-Author: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+Acked-by: Micha=C5=82 Nazarewicz <mina86@mina86.com>
 
-usb: gadget: f_tcm: reject a short write data-out transfer
-
-This commit updates usbg_data_write_cmpl() to reject short data-out
-transfers by verifying that req->actual matches req->length. It also
-unconditionally clears cmd->data_len to prevent trailing OUT requests
-from wedging the bulk pipe.
-
-Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP +=
- BOT")
-Cc: stable@vger.kernel.org
-
-> diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/fun=
-ction/f_tcm.c
-> index 9e6d4f39900a2..cf6a394c4196b 100644
-> --- a/drivers/usb/gadget/function/f_tcm.c
-> +++ b/drivers/usb/gadget/function/f_tcm.c
-> @@ -1090,8 +1090,15 @@ static void usbg_data_write_cmpl(struct usb_ep *ep=
-, struct usb_request *req)
->  		return;
->  	}
-> =20
-> -	if (req->status) {
-> -		pr_err("%s() state %d transfer failed\n", __func__, cmd->state);
-> +	/* the OUT data phase is over; nothing left for the status phase to dra=
-in */
-> +	cmd->data_len =3D 0;
-
-[Severity: Medium]
-Will clearing cmd->data_len here cause an incorrect BOT CSW residue to be
-reported on short OUT transfers?
-
-Looking at bot_send_bad_status(), it uses cmd->data_len to populate the CSW
-residue field:
-
-csw->Residue =3D cpu_to_le32(cmd->data_len);
-
-If a short transfer occurs and usbg_data_write_cmpl() sets cmd->data_len to=
- 0,
-the device might incorrectly report a CSW residue of 0, hiding the fact that
-data was dropped.
-
-This appears to violate the USB Mass Storage BOT specification, which requi=
-res
-reporting the exact difference between expected and actual data length for =
-short
-transfers.
-
-> +
-> +	/* a short data-out left the buffer unwritten; don't commit stale data =
-*/
-> +	if (req->status || req->actual !=3D req->length) {
-> +		struct usb_gadget *gadget =3D fuas_to_gadget(cmd->fu);
-> +
-> +		dev_err_ratelimited(&gadget->dev, "%s() state %d transfer failed\n",
-> +				    __func__, cmd->state);
->  		goto cleanup;
-
-[Severity: High]
-Can jumping to the cleanup block lead to a use-after-free or a double-put of
-the se_cmd?
-
-The cleanup block unconditionally drops the fabric reference and then
-immediately accesses se_cmd:
-
-cleanup:
-	target_put_sess_cmd(se_cmd);
-	...
-	transport_send_check_condition_and_sense(se_cmd,
-			TCM_CHECK_CONDITION_ABORT_CMD, 0);
-
-Calling transport_send_check_condition_and_sense() after dropping the refer=
-ence
-via target_put_sess_cmd() appears to be a use-after-free.
-
-Furthermore, if this error path is reached because the target core aborted =
-the
-command (which completes the USB request with an error like -ECONNRESET), t=
-he
-target core will have already forcefully dropped both the ACK reference and=
- the
-execution reference via target_handle_abort().
-
-When the dequeued request enters usbg_data_write_cmpl(), calling
-target_put_sess_cmd() again could cause a double-put underflow and
-dereference the freed se_cmd.
-
->  	}
+> ---
+> Changes in v2:
+> - Take the byte pointer from in->counts instead of computing it from
+>   descriptors_v2 (Micha=C5=82 Nazarewicz)
+> - Link to v1: https://lore.kernel.org/r/20261011223445.2328181-1-sashal@k=
+ernel.org
+>
+>  tools/usb/ffs-test.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/tools/usb/ffs-test.c b/tools/usb/ffs-test.c
+> index 22b938fbdfb77..4453d810e9412 100644
+> --- a/tools/usb/ffs-test.c
+> +++ b/tools/usb/ffs-test.c
+> @@ -232,7 +232,7 @@ static size_t descs_to_legacy(void **legacy, const vo=
+id *descriptors_v2)
+>  			const struct usb_functionfs_descs_head_v2 header;
+>  			const __le32 counts[];
+>  		} __attribute__((packed)) *const in =3D descriptors_v2;
+> -		const __le32 *counts =3D in->counts;
+> +		const unsigned char *counts =3D (const void *)in->counts;
+>  		__u32 flags;
+>=20=20
+>  		if (le32_to_cpu(in->header.magic) !=3D
+> @@ -252,9 +252,9 @@ static size_t descs_to_legacy(void **legacy, const vo=
+id *descriptors_v2)
+>  				break;			\
+>  			if (length < 4)			\
+>  				return 0;		\
+> -			ret =3D le32_to_cpu(*counts);	\
+> +			ret =3D get_unaligned_le32(counts); \
+>  			length -=3D 4;			\
+> -			++counts;			\
+> +			counts +=3D 4;			\
+>  		} while (0)
+>=20=20
+>  		GET_NEXT_COUNT_IF_FLAG(fs_count, FUNCTIONFS_HAS_FS_DESC);
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013015416.2503=
-787-1-yhlee@isslab.korea.ac.kr?part=3D1
+Best regards
+=E3=83=9F=E3=83=8F=E3=82=A6 =E2=80=9C=F0=9D=93=B6=F0=9D=93=B2=F0=9D=93=B7=
+=F0=9D=93=AA86=E2=80=9D =E3=83=8A=E3=82=B6=E3=83=AC=E3=83=B4=E3=82=A3=E3=83=
+=84
+=C2=ABIf at first you don=E2=80=99t succeed, give up skydiving=C2=BB
