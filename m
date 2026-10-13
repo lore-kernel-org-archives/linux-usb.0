@@ -1,203 +1,100 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9042F503BDF
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 13:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829D6501F55
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 13:27:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791897645; cv=none; b=j+mpGeWowJUAQOyAw6sTOWsvjfHkYh4ZudI6mvelHJ1PznKQAeYEh1Dp6Ldu8HIxdL32TANuZhai3XGJujN/H6LBhXzeA28wnYaxnlQzhAzaPQiK39yBDz5Biv4XU7fOow0spJO0pQThKaH1mNiNvpZllFDIFrTUHpIdtvybNMQ=
+	t=1791898035; cv=none; b=Zh3hjzbgSbO0oCmHSr5tx8unJ2l1G/twDYcwZW71Ccf7F9AeDaECMikvFSBbbj0oeqlRObeB0Nm2MBH02+uo50plzWjnaXtbihIBCWIYRNnVlgmI6nUU8gEs++L6hJC3q2fM0CI7ZJCYWNtP6ZSeqWw0kAdmL7Kis3X74PIL7Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791897645; c=relaxed/simple;
-	bh=1b7RjkHu1NHryYwqfJSYjFf+f+PvPogAP5ONubhaPv8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=sD3Me+ubPBkzbaGIQ3qbeAZpRAJ67sv1tRT+P5pbmi2+agy+dvCR04jhEEjG2SCnw00eAK87QJgdaAb/IdXMSM9DG5/NCtzkoKniJmFV2oj4K7H+NEdXKJds2GtqOITxyg55S17tqHuujuQuy3wCgRsbZCVWxiRhgeHhkSXdrfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dK3JLAhe; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791898035; c=relaxed/simple;
+	bh=v8wO0SGrAK6UjohaFggDJaEhkJajy+N5rUn6n2HBnNg=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=d5ic8kG0Lo30VSuEqYX49R8NB5/NgISI+0hlwRXOJapFJPndpbQHsGhu9gVo74fc1M70Gq8jBM5jv6Q7yDcReG72n2MqOTei7sxOPZAoSQkXylfo2dE1w9tnLacvA98wMJR7Pr6jpdHhzabp6Ka5CCLt79dIZE+MEXYhKL8eS14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mp8kwIGb; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dK3JLAhe"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc1d57602e8so1109583a12.3
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 06:20:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791897644; x=1792502444; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=oucrOI+RjDzXO+WWFDlUFwxllDCPTfTMpJAlcrSAe9s=;
-        b=dK3JLAhe3FbYnUYWkcAYJfGuA8qqXpZnayFFL1ZwCK3vdjbr85qXQv8s/CkuC9Qc+h
-         fI2VxjLfyannDI0NJ4IFB7WcZwdD8iBFAnZsszju8E1ZMvwZOpIJQ2oDyWUV3R9X/zSK
-         E5lHu1Eo6rC37v9p6CfQFqPjJYtjztKA06zakg9J3r29f6KGSo73V5x0ijhaHRZtqcsr
-         E1Gvr477N7P+JxBEWpD99VnrkJvejHmRZu6/4Fy3U9w+uGAgKUYzgMjXED0aIjookZS5
-         OWRcaakCJF08NXnj1+HSH1YWEswnvqhfVwFfNncOgc4yBgzl6um+PKLYwiRItYnYIgm2
-         BUxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791897644; x=1792502444;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oucrOI+RjDzXO+WWFDlUFwxllDCPTfTMpJAlcrSAe9s=;
-        b=yK4+gy3DvcpC+qH8u4xZj2LPRHy048FF8gxQ4paMi94wTtOffOXIYYHJEm28AaulOS
-         MlTW6Air9A9kIAojfNVQmXtUBKriUYTLWzmI9FLqxmIrIciWESAHODXQzkdIPh9bSTh4
-         Ho7zM8SU8OKSpt/E3UqXQdhFQndDGq//4FfrXFWIgaHoR2vD4KtqH2iFdWf3P7Seoiq8
-         XxSUeNs9l1ntqRxYpG+7vgQCz6TCAzXtiTMvIN1dsiku7V38Y9u+EkGlsz/nQQ/Vw+Py
-         en3dvXsYaqRCfxJ/FLLcDIKg087+aZIKkXYV3kjNtSMyV2+pqNmQ7ZxvOL5uN8Hw/U93
-         eEzg==
-X-Forwarded-Encrypted: i=1; AKwUvByvni2qw/ZFjPS+vF7cjHCAlGYQdXr3cb2d9kvzd2qjzRgslr9TIB1NXgN65Wgx67SAp9QViHl/1Xg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKp5UdsmjyH/E07sOH5RKVz1+dPHdz7viD4pIUQvY7y16fG6Z++
-	dvEzs+3pbPHO4AcNNRRbcNS6pXuSA95683JSZ/+2UnGTWwuqU3LAPXCN
-X-Gm-Gg: AYBFou3bn5tj61krEk9H4kirXR1UAm6/uIs+Qnxai6W+TBCB7kwCFqvv3tmKp4usYs8
-	OTXUvKZNdixHTtaGAgiV0e9awdc3ly3sukMN0jnfdMDzNd5yhNr4vvATwDbWHFxwXVXDil+nWeC
-	Ai9MfjOq+khkRnuKvbAjVFLtXuWAJLJpiZzfQdqvGxs2Dr+TQ09VZ4EugsvPOJB6k5CvkFdHZte
-	VICGLnYAFgh1xHR7yCrg4KX21fliUY08liWruEuL5vEct6BOTuFmvGu1cTTydPW4vYTBZDl3MxB
-	59zQR+cIAEcCz0FesaTl3HV2qFBNYt7Qa2tcSGz85AjvWxKioG7+STYOOJOK7ULlSoT+yYfttn1
-	4dlmf/jZSDI+xLc0yzXPhmWyfL9Qq+k0fC4cinhpezaRJWR2sPd/tQWyo3pHSMF968af9CT3NwT
-	RKHhQgJArDxzVkTmU01EpqbhqZP4IQBh+ZuYYPNqKRX0ll1aiGneJx6qoz6nw2hQsp1PIkbXfrT
-	VvSegNOhOGTYnitNAslT4yiWnHQm8o=
-X-Received: by 2002:a05:6a21:a02:b0:3e0:eae8:7525 with SMTP id adf61e73a8af0-3e16bf147bfmr10340143637.64.1791897643702;
-        Tue, 13 Oct 2026 06:20:43 -0700 (PDT)
-Received: from LAPTOP-GHDOQM75.localdomain ([112.151.126.126])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-896c3cca5a6sm4938316b3a.31.2026.10.13.06.20.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 06:20:43 -0700 (PDT)
-From: Lee Yongjun <jun85566@gmail.com>
-To: stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org
-Cc: digidietze@draisberghof.de,
-	xiehongyu1@kylinos.cn,
-	linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	syzbot+7317196294d50d6e55c3@syzkaller.appspotmail.com,
-	Lee Yongjun <jun85566@gmail.com>
-Subject: [PATCH] usb-storage: option_ms: bound probe-time bulk transfers
-Date: Tue, 13 Oct 2026 22:20:33 +0900
-Message-ID: <20261013132033.4352-1-jun85566@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mp8kwIGb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48A7A1F000FF;
+	Tue, 13 Oct 2026 13:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791898034;
+	bh=G+F9or7fa5XclwvoM3dYQVMRnf9POr4gcofffluIcEA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Mp8kwIGb/PeG62RP6YPCXopgStH3N3BoC/8Tf27b/7iKVxpJlmQZMdD01sw8a+aQO
+	 iloUmWotNuN/KziAIY8wg5O/vFLh+R2zJ6LjBIDUJ81W1vbVV3uenYhKeGfCo56NeC
+	 1ID+GMBGqdn4z0hOfc2TfweBBxGOvKwPSjx+tNOM4rIEL/ViHMBhKEEnERSLKeXfqv
+	 48y98Pg73bcL7hHMe+mRbdktvh3orYLHLp4lzpE79VLoraF1xZYH4pewEVEiNHTRTU
+	 gK1YactPWQX/aUtdWE5pNh83BDJ5h2kdfJd/7Z3mF8jHqk85U6Dkcv6cDadLpl2UAD
+	 iHZYtdtCmFrxA==
+Message-ID: <sashiko-outbox-169811@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb-storage: option_ms: bound probe-time bulk transfers
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Lee Yongjun" <jun85566@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261013132033.4352-1-jun85566@gmail.com>
+References: <20261013132033.4352-1-jun85566@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Oct 2026 13:27:13 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The Option device initialization path issues bulk transfers
-without a timeout. If a device does not complete a transfer,
-the USB hub worker can remain blocked while holding the device
-mutex, causing usb_device_read() to hang.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb-storage: build failure due to missing usb_stor_bulk_transfer_b=
+uf_timeout() dependency
+--
 
-Use the timeout-aware bulk transfer helper for the transfers
-in option_inquiry() and option_rezero(). This bounds the wait
-for each probe-time transfer to 30 seconds.
+commit 3551a3904408bdea1ed0fe7ef3aadc1aebde4e98
+Author: Lee Yongjun <jun85566@gmail.com>
 
-Tested with the syzbot C reproducer under QEMU/KVM. The
-patched kernel repeatedly completed USB device initialization
-attempts after approximately 30 seconds without triggering
-the previously observed hung-task warning.
+usb-storage: option_ms: bound probe-time bulk transfers
 
-This patch depends on Hongyu Xie's pending v3 series:
-https://lore.kernel.org/r/20261001123135.38831-1-xy521521@gmail.com/
+This commit replaces bulk transfers in the option_ms initialization path wi=
+th
+timeout-aware equivalents to prevent the USB hub worker from hanging
+indefinitely if a device stops responding. A 30-second timeout is introduced
+for transfers in option_inquiry() and option_rezero().
 
-Fixes: 32ebbe7b6ad4 ("USB: usb-storage: add filter to "option_ms" to leave unrecognized devices alone")
-Reported-by: syzbot+7317196294d50d6e55c3@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=7317196294d50d6e55c3
-Assisted-by: LLM
+Link: https://lore.kernel.org/r/20261001123135.38831-1-xy521521@gmail.com/
+Link: https://syzkaller.appspot.com/bug?extid=3D7317196294d50d6e55c3
 
-Signed-off-by: Lee Yongjun <jun85566@gmail.com>
----
- drivers/usb/storage/option_ms.c | 38 +++++++++++++++++----------------
- 1 file changed, 20 insertions(+), 18 deletions(-)
+> diff --git a/drivers/usb/storage/option_ms.c b/drivers/usb/storage/option=
+_ms.c
+> index 7c0b05a365543..1f3d984d69326 100644
+> --- a/drivers/usb/storage/option_ms.c
+> +++ b/drivers/usb/storage/option_ms.c
 
-diff --git a/drivers/usb/storage/option_ms.c b/drivers/usb/storage/option_ms.c
-index 7c0b05a36554..1f3d984d6932 100644
---- a/drivers/usb/storage/option_ms.c
-+++ b/drivers/usb/storage/option_ms.c
-@@ -10,6 +10,7 @@
- #include <linux/usb.h>
- #include <linux/slab.h>
- #include <linux/module.h>
-+#include <linux/jiffies.h>
- 
- #include "usb.h"
- #include "transport.h"
-@@ -18,6 +19,7 @@
- 
- #define ZCD_FORCE_MODEM			0x01
- #define ZCD_ALLOW_MS 			0x02
-+#define OPTION_MS_PROBE_TIMEOUT		(30 * HZ)
- 
- static unsigned int option_zero_cd = ZCD_FORCE_MODEM;
- module_param(option_zero_cd, uint, S_IRUGO | S_IWUSR);
-@@ -44,9 +46,9 @@ static int option_rezero(struct us_data *us)
- 		return USB_STOR_TRANSPORT_ERROR;
- 
- 	memcpy(buffer, rezero_msg, sizeof(rezero_msg));
--	result = usb_stor_bulk_transfer_buf(us,
--			us->send_bulk_pipe,
--			buffer, sizeof(rezero_msg), NULL);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-+						    buffer, sizeof(rezero_msg), NULL,
-+						    OPTION_MS_PROBE_TIMEOUT);
- 	if (result != USB_STOR_XFER_GOOD) {
- 		result = USB_STOR_XFER_ERROR;
- 		goto out;
-@@ -56,14 +58,14 @@ static int option_rezero(struct us_data *us)
- 	 * Some of the devices need to be asked for a response, but we don't
- 	 * care what that response is.
- 	 */
--	usb_stor_bulk_transfer_buf(us,
--			us->recv_bulk_pipe,
--			buffer, RESPONSE_LEN, NULL);
-+	usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-+					   buffer, RESPONSE_LEN, NULL,
-+					   OPTION_MS_PROBE_TIMEOUT);
- 
- 	/* Read the CSW */
--	usb_stor_bulk_transfer_buf(us,
--			us->recv_bulk_pipe,
--			buffer, 13, NULL);
-+	usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-+					   buffer, 13, NULL,
-+					   OPTION_MS_PROBE_TIMEOUT);
- 
- 	result = USB_STOR_XFER_GOOD;
- 
-@@ -90,17 +92,17 @@ static int option_inquiry(struct us_data *us)
- 		return USB_STOR_TRANSPORT_ERROR;
- 
- 	memcpy(buffer, inquiry_msg, sizeof(inquiry_msg));
--	result = usb_stor_bulk_transfer_buf(us,
--			us->send_bulk_pipe,
--			buffer, sizeof(inquiry_msg), NULL);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-+						    buffer, sizeof(inquiry_msg), NULL,
-+						    OPTION_MS_PROBE_TIMEOUT);
- 	if (result != USB_STOR_XFER_GOOD) {
- 		result = USB_STOR_XFER_ERROR;
- 		goto out;
- 	}
- 
--	result = usb_stor_bulk_transfer_buf(us,
--			us->recv_bulk_pipe,
--			buffer, 0x24, NULL);
-+	result = usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-+						    buffer, 0x24, NULL,
-+						    OPTION_MS_PROBE_TIMEOUT);
- 	if (result != USB_STOR_XFER_GOOD) {
- 		result = USB_STOR_XFER_ERROR;
- 		goto out;
-@@ -112,9 +114,9 @@ static int option_inquiry(struct us_data *us)
- 		result = memcmp(buffer+8, "ZCOPTION", 8);
- 
- 	/* Read the CSW */
--	usb_stor_bulk_transfer_buf(us,
--			us->recv_bulk_pipe,
--			buffer, 13, NULL);
-+	usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-+					   buffer, 13, NULL,
-+					   OPTION_MS_PROBE_TIMEOUT);
- 
- out:
- 	kfree(buffer);
--- 
-2.43.0
+[ ... ]
 
+> @@ -44,9 +46,9 @@ static int option_rezero(struct us_data *us)
+>  		return USB_STOR_TRANSPORT_ERROR;
+> =20
+>  	memcpy(buffer, rezero_msg, sizeof(rezero_msg));
+> -	result =3D usb_stor_bulk_transfer_buf(us,
+> -			us->send_bulk_pipe,
+> -			buffer, sizeof(rezero_msg), NULL);
+> +	result =3D usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
+> +						    buffer, sizeof(rezero_msg), NULL,
+> +						    OPTION_MS_PROBE_TIMEOUT);
+
+[Severity: High]
+Does this cause a build failure? The new helper function
+usb_stor_bulk_transfer_buf_timeout() does not appear to be defined or
+declared anywhere in the current tree.
+
+The commit message notes a dependency on a pending v3 series, but without
+that series applied, compiling drivers/usb/storage/option_ms.c results in
+an implicit function declaration and subsequent linker failure when the
+usb-storage driver is enabled.=20
+
+Should this patch be held back from the tree until its dependencies are=20
+merged?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013132033.4352=
+-1-jun85566@gmail.com?part=3D1
