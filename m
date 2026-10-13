@@ -1,80 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8570B511E99;
-	Tue, 13 Oct 2026 21:01:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A9B3FF1A5
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 21:06:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791925290; cv=none; b=Mbo5I8w20XIUICh/5xlay94odRaJkOusO8q33ua22RW1CsUZy1g9iYPgjDWio4YXUummkw2virNqiAJ62XuK7YtlM21qlt2dj19nJguxUxkvvnwj9TGMnIGJDfnuYMD+XdbgNycgeYUur+fArnpKBKZpEng8S6c72rG6hEOIsEM=
+	t=1791925569; cv=none; b=O4e1RP1XZ4wK7p2y7+2lOo26jLeAapRrElbCq6UcVLs7tf8Btusul28u2u8a2/rbM2jS0zb8GSzjxNme1vn4AMObh3TH1aWTt1HM7gdfUjMD24Sb7ghvWX2y6wYp2Wwo5lTLomhe9ET68/WYWDkgfZEjHxmHcXNMc0aEAwC+SPs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791925290; c=relaxed/simple;
-	bh=sZBpQpUadceoBMH/ZvndmIicfOcoKzSaD702QVr/ELg=;
+	s=arc-20240116; t=1791925569; c=relaxed/simple;
+	bh=tAlFboJB0himKHW2N0je2a13o4I5c4aDcY7McF1XYf4=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=gAUOOxXzDszn4FFauV/Vq/rA0hwtvsa63BhnK91zylhBonWeKqK+TM5k89rKBKYFQhMU7Jow478Q86B+v1ydfs1HvHCKrrwXKWcu/yj8SJDgJi3VWwHJfayM5ioRJhP/C5AeB6pYLyLTgryMezKqheaiEYm/L9Jr1PWnZRDD8k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I5iyKOEG; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=iL6y5rLGJYF6gGi8QA6rYeU0wsHZiX+nZLTKtiW8u7b9BB2yvK/9VLkIa2++vQJA8wsc/kS6iVOPHVXdTRffU7zyGsXQbzNeWgg0/pvnEqYZg2vVJylbzwB+9AmfLXFHz8/1ak7Z2tvazsC6b8FTSRob0+u9Vr1+RnffErD+M3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LEwcaCen; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I5iyKOEG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B3AC1F000FF;
-	Tue, 13 Oct 2026 21:01:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LEwcaCen"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D2611F000FF;
+	Tue, 13 Oct 2026 21:06:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791925289;
-	bh=sZBpQpUadceoBMH/ZvndmIicfOcoKzSaD702QVr/ELg=;
+	s=k20260515; t=1791925567;
+	bh=VFI47QvU/M8Q8WlYX7pN2lxiN7uBw8MWyAsGO8nNMsw=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=I5iyKOEGDVO1a6Vo0mVKxSPizNMG81SiH8SYBx0pmjMVzO3El1dqQAabweqHcyfZB
-	 hl3uPuOGx5XVdBOsABwAn+r9u1ypBHUh2lepFtUKppIg6taJmaT96teJRo70st8I3t
-	 h9G1L6EaCJ5DrXL9BscLwdljlCJ/O7s3B1uVodPrvWKPzll397ce5v9ACJgfOCYg69
-	 /PGAzIHJEbA8fQ4VQjgbvR/5Oj1EWdQnYpaZkfKge2NDFxfwa1Wz+Fj1rqwolYgX7/
-	 aNCqAnOlDYctuOP33BKm7QjQeGNj/WUdknx4AeZVUaMVxOevxx2MwX1cIe9vZsriee
-	 oXsXoigbrc80Q==
-Message-ID: <sashiko-outbox-170502@kernel.org>
+	b=LEwcaCenGvuwZ4sQAnQdjvqicBTEyydYxcyNy9cQzMCiSd8BEVOtpWPA4e7GFOuOE
+	 kteBIRMp1JD2G8Kw4eNEk/gxfvcR2X7kU7y7I3nXk7QO8fe2advNqgP8zQ+7MnIqrD
+	 xrGa4qCWYeEOSodd4jGyzNDQF1b6sf+LnjsuyEckzn81FHCX5LIG5EDIMr2AXH0Z3T
+	 xNm69DrBDkPKj+iP1kNP5TGOaecqBkrme+9ozXN4QDBTdEgk3womKhOzZN6I15tJkr
+	 Isy6s+xSX7m8fEEhvp/5JLuO51s8qhat24U1hKRFYKrKcOjW+l9wxVfTddDP1BXLjH
+	 mUJx+6AvHza1g==
+Message-ID: <sashiko-outbox-170509@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 33/39] mm/madvise: use predicates for madvise(...,
- MADV_DOFORK)
+Subject: Re: [PATCH v4] usb: gadget: u_serial: fix NULL deref in gs_close()
+ after failed open
 Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-s390@vger.kernel.org, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-33-1aa3c9b139f9@kernel.org>
-References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
- <20261013-b4-mmap-prepare-vma-flag-sanify-v6-33-1aa3c9b139f9@kernel.org>
+To: "Brian Ellis" <brianellis@gotenna.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261013-u_serial-gs-close-null-v4-1-9ea038501994@gotenna.com>
+References: <20261013-u_serial-gs-close-null-v4-1-9ea038501994@gotenna.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 21:01:28 +0000
+Date: Tue, 13 Oct 2026 21:06:07 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> Make it clear what we're blocking in MADV_DOFORK. Previously we simply
-> disallowed VM_SPECIAL i.e. mappings not managed by core mm, fixed mappings
-> and VMA_IO_BIT.
+> From: Brian Ellis <brianellis@gotenna.com>
 >=20
-> Now the invariant is established that mm-managed mappings may not set
-> VMA_IO_BIT, the VMA_IO_BIT check is redundant.
+> gs_close() opens with
 >=20
-> The rest is equivalent to testing for a fixed or non-mm-managed mapping,
-> i.e. a mapping which is not mm-backed, or hugetlb, which is specifically
-> excluded.
+> 	struct gs_port *port =3D tty->driver_data;
+> 	...
+> 	spin_lock_irq(&port->port_lock);
 >=20
-> This was established by commit 0b2758f48f22 ("Require (reasonably) normal
-> mappings for MADV_DOFORK") containing my hands-down favourite call out of
-> all time.
+> and never checks port.  gs_open() assigns tty->driver_data only on the
+> port.count 0 -> 1 edge, so any failure earlier in gs_open() leaves it NUL=
+L,
+> and tty_open() calls tty_release(), and hence ->close(), when ->open()
+> fails.
 >=20
-> Express the same thing using the predicates - only mm-backed mappings may
-> have their copy-on-fork behaviour changed, retaining the eternal exception
-> to all rules, hugetlb.
->=20
-> No functional change intended.
->=20
-> Acked-by: Zi Yan <ziy@nvidia.com>
-> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+> syzbot hit exactly this on arm64.  Fault injection failed the kfifo_alloc=
+()
+> of the write buffer in gs_open():
+> [ ... ]
+> Reported-by: syzbot+782b2f1063e38ba8fa6e@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D782b2f1063e38ba8fa6e
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Brian Ellis <brianellis@gotenna.com>
 
 Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
-epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D33
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-u_serial-g=
+s-close-null-v4-1-9ea038501994@gotenna.com?part=3D1
 
