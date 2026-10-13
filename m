@@ -1,83 +1,79 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D73450391D;
-	Tue, 13 Oct 2026 17:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F19519928;
+	Tue, 13 Oct 2026 17:47:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791913393; cv=none; b=iSrjjb0DTXsVFD4GwWKVLrmkaybabBkFOWoGL3YCqGgHy5JxNahxt7D9lZWXZYay2khA4zv4xDJAphxC38+Pe/Aw0QKVR+Rv5RfrTWQBcW8Mi3seTIBcCO1W+Z0usXFrxl6et1dXglLd0djT5VWQKFwVvaIuhQZdLiX4hhHf4WU=
+	t=1791913656; cv=none; b=VoNLsEk6jE9kX27hnjulGLD6Ve51/9B7rVDVfnzXNZsZ94V3XFUB4STINrAEgemr9LtYCUxacrKtab1/Y853ExQG4BJfScMD0Bg0m8EFT2272E4ts5o8Pl5SuNgWm0Ax+IlyNA8zzmIYzEmeOj6N2N5wgZcoGoM5JVUckuamaRc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791913393; c=relaxed/simple;
-	bh=XhvOeBweAajn+nJxQPZ2n8mQcmuHxvvpFb9p4pI8FUI=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=Uwm7J4E9pDYgXm7r4bShVYgi6NZVVrBdVFTJSgyOlsZtV6jGRVECni/xOf/AXqKKLOvg69UBbb2A4KAgL1j3F9BpHJVfeUMRqGwTiJwbxPTmwGem2/T6tdc6aAyul4dW/KFcCBW53X9PZFkWWA64qIey10UXnqhcGGC0zOY15j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YADWSCZR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791913656; c=relaxed/simple;
+	bh=iJt3VazH5xjJdC/oMoQ7EHqj4rdFTDEwNF1LLiGpjmw=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=HSi62BUuGZrXY3QZsuWBQzNzZzFhEVqJcROLybfjyBdcYWsAVfwh8FiBKQOQKm/0iCP1gDrsHoFM/9fRdUcOedfgtXZ275zz1XExCLyAM9edcLU5KjZ/4Fqz3nyWa11fcVBvc9FcD+fUWoktXX/D0KhaqP7nPMJmmEZoOe2sueo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/BOf8mB; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YADWSCZR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB631F000FF;
-	Tue, 13 Oct 2026 17:43:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/BOf8mB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDED91F000FF;
+	Tue, 13 Oct 2026 17:47:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791913391;
-	bh=S66NLj+K+sBEkMppYnR/cBn73roEhByUF4f2CziJQcw=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=YADWSCZRso0VJa9kqCVmm5xxSJpVG0ysIKUeQhNyELcVNd/ZYGiZArtykP40ZkPQS
-	 gUQ1jw+Ks2NyvSO5AKif+SHUu1edCs89J9EI8Bqp1fnAKSnxspg3RawVPbqINNy4/p
-	 IFfGX36M1nNgKPRDMbuKcdEkyuyr4idp8OukoM23fjNAT+6wKaYRWmKbgGwBylAbq/
-	 lWymGQUGdVJD1x00bnb9vgUTk/RaYAn0RuMC/1eZ2xV88K/6MW/MUtYCdAShOrB0Lp
-	 LQuMEDvBnlPV0L+HhO9cVz0XeB0ph9777wwJVQYkl0fIZV2ZujIxQTXh2huQNhWZI8
-	 JOj06qEy3568w==
+	s=k20260515; t=1791913654;
+	bh=iJt3VazH5xjJdC/oMoQ7EHqj4rdFTDEwNF1LLiGpjmw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=I/BOf8mB5U0qunvapwogcv8DEPaiLtag4vW1dnb/6Dmob0KguRTRpkguIWrK9lILt
+	 h4sgkCZBU9P7yecIJrMx8fLoPWWOuZ2AhdnquCVt4im4V52GknBV5yPoFF3at947eG
+	 zIVqnJKqj1jElfmnnddf849prQ3Y9FteaQYHnzh6AqtYMiFRp7cjKGPJ9jDio9GQIM
+	 6m4XfPWTnwM4xnk7xbs7WZVrFum3kRYPi65Dz4Br5a/a6iCQNHPvCr2wJUIwtipFcX
+	 3uK43suTHdnfrGz0R5Mf2uiSSsXRpRLlGe1ZOx5fhApIVHHYkRkQshwCDW2DJdq0zK
+	 Ll3Dpare4rZ6A==
+Message-ID: <sashiko-outbox-170263@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 14/39] bpf: arena: mark arena_map_mmap() mappings
+ VM_MIXEDMAP
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-s390@vger.kernel.org, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
+In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-14-1aa3c9b139f9@kernel.org>
+References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
+ <20261013-b4-mmap-prepare-vma-flag-sanify-v6-14-1aa3c9b139f9@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Oct 2026 17:47:33 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Oct 2026 19:43:08 +0200
-Message-Id: <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
-Subject: Re: [PATCH] driver core: take parent lock on deferred probe
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Alan
- Stern" <stern@rowland.harvard.edu>, <driver-core@lists.linux.dev>,
- <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>, "Mario Peter"
- <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
-To: "Johan Hovold" <johan@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20261013140615.1226992-1-johan@kernel.org>
-In-Reply-To: <20261013140615.1226992-1-johan@kernel.org>
 
-On Tue Oct 13, 2026 at 4:06 PM CEST, Johan Hovold wrote:
-> +void bus_probe_device_deferred(struct device *dev)
-> +{
-> +	if (dev->parent && dev->bus->need_parent_lock)
-> +		device_lock(dev->parent);
+> The bpf_map->ops->map_mmap callback invoked by bpf_map_mmap() can be set =
+to
+> one of ringbuf_map_mmap_kern(), ringbuf_map_mmap_user(), array_map_mmap()
+> or arena_map_mmap().
+>=20
+> It is convention in mm to mark mappings whose pages the kernel manages
+> itself with VM_MIXEDMAP, so core mm knows not to treat them as ordinary
+> page cache or anonymous memory.
+>=20
+> The map_mmap callbacks ringbuf_map_mmap_kern() and ringbuf_map_mmap_user()
+> use remap_vmalloc_range(), which ultimately invokes vm_insert_page() and =
+so
+> marks the ranges VM_MIXEDMAP, and array_map_mmap() sets VM_MIXEDMAP
+> explicitly.
+>=20
+> However, the exception to this is arena_map_mmap(), which doesn't set the
+> flag.
+> [ ... ]
+>=20
+> Reviewed-by: Emil Tsalapatis <emil@etsalapatis.com>
+> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-This looks like it has the same potential UAF as the other patch.  It's qui=
-te
-unfortunate we need the whole need_parent_lock thing just for USB.  IIUC th=
-e
-main reason USB needs this is because interface devices share resources of =
-USB
-devices and we need to keep the locking order to avoid inversions, right?  =
-Is
-there more to this from the USB side of things?
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-I think we can probably do something like this
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
+epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D14
 
-	struct device *parent =3D NULL;
-
-	scoped_guard(device, dev) {
-		if (dev->p->dead)
-			return;
-=09
-		if (dev->bus->need_parent_lock)
-			parent =3D get_device(dev->parent);
-	}
-
-to avoid the problem, but it's still a bit ugly.
-
-> +	__bus_probe_device(dev);
-> +	if (dev->parent && dev->bus->need_parent_lock)
-> +		device_unlock(dev->parent);
-> +}
