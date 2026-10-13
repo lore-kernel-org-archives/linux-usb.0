@@ -1,66 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED7B50B428;
-	Tue, 13 Oct 2026 16:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2CA0514745;
+	Tue, 13 Oct 2026 16:18:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791908049; cv=none; b=FNKKC7ih36JsSNUKuwcDQNCErmt6M5BfGtA0nka3MNOVERKS6RvjPKypMw5JGjSpcG2pON95S0qGYJ+5bV7FGKs3xsQp464DcmIE4hmZCagZlcmkKRSzPCkQAmknxF5+kSm9PRu4zjb/Fp0ip3+PFO6U2XKk3MIK5P8+oC7khh4=
+	t=1791908315; cv=none; b=dsqEl/1m5WtBFMBvgUK1j5VKXkRAbIWBbHmVBCu1Do3elTCEWQfv2qCR1KuHZrCFw1qN+qQC/YLxaXo00QLJVBpfSYMT/9UrsyiIj01Y6kGGAvPQtNfq9ZiGniptlq1IXabcPzo0bm9IzH4F434gqSbZSDl1+wybdQn9afP2Pgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791908049; c=relaxed/simple;
-	bh=BGFgv5ezPQ438hvNwVGqqiJw9QZGaCdPAGBWGwT235U=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=DuEKhJ85MRrgT362lsVCPaqsskDn3iF4wAthmCtq/DUsDzhLwQai2x4N8etlnjWMISs+bXdXcOiDJ+aEzINaAiP23/kOTxjBc6Bgf4+lUJz6FyZQE9Tb0ORcMseeLO5sXmuJWaxSTldhpf6mf3+l97Gor01vFnqhqPSjY8deC0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A0rkx26C; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791908315; c=relaxed/simple;
+	bh=XQup88UT6PiSJu0+YoHe5gxZVVWGjSYaQQ4hNIxMu0Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dz/0eTiW9u1dj5vgTEBY+7hfoN4UVOpE/1rH2+H1TEaRX7CACrXSN5EW8HyTlwV9FMHkCvOkk4EZXtLehUEutklKtD6S+0dI02VUeElcV/W7voWdR2b/qPmhJF7CNoF2953+lROAhVd2h14KzwPIJXhOxyvpc8vqZpLQ8QHsjC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KvRliqgW; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A0rkx26C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7132A1F000FF;
-	Tue, 13 Oct 2026 16:14:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791908048;
-	bh=BGFgv5ezPQ438hvNwVGqqiJw9QZGaCdPAGBWGwT235U=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=A0rkx26COOi3et2UA5FmQNHyhlgWT7DrwMbS+1lJRTcUrPHPdLgIRtniZk0dw7Z8M
-	 IaSoSxcktNODfIXr+smPInpaEknsQ2637Q1QSGkvfmuaspjh2JZplg3gYK1iFT4ig6
-	 cmOpL5Su6FVJ8pICeBUKu8PWwZJJZznXtwDmAd7pvmD1yC9Q0YC2liieoTzrDwhS+9
-	 ZbCFOhSKB9SptNzg7/PJxiI1n7OvTXwk39UX0Yj2Gd8KjEyqdwzZVTX+e0U+PBhFoq
-	 5l1BuXpmSBwzLZ0x93cGp2xNbHKn/e1tfeXpBnRTcWW7CJn0Asp2YkTsXMCoVbQB4g
-	 8nkb4CkH3vG9Q==
-Message-ID: <sashiko-outbox-170100@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 07/39] mm: assert mmap lock held, use new flags API
- in vm_insert_page[s]
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-s390@vger.kernel.org, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-7-1aa3c9b139f9@kernel.org>
-References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
- <20261013-b4-mmap-prepare-vma-flag-sanify-v6-7-1aa3c9b139f9@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 16:14:07 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KvRliqgW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D02651F000FF;
+	Tue, 13 Oct 2026 16:18:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1791908313;
+	bh=yWHKi7MVqdfx/DpOMOOAPC5vE5HK0iieymazQG6LzPE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=KvRliqgWpzcklCisFLZ0oY+SdYu5MXgOjNiAGzftmNkniBRkRPXP413aXeD6+x3us
+	 fJDpYtAWMlk0Rf5/PdzsQPr0ghPGQbahsghKehOqzALs1c3Noa7oEWbzP/sgsgBy+1
+	 YL1ER6PowNUKY11ZHF2hiakZYzNJ/d8lRANj1Jyc=
+Date: Tue, 13 Oct 2026 18:18:37 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Lee Yongjun <jun85566@gmail.com>
+Cc: stern@rowland.harvard.edu, digidietze@draisberghof.de,
+	xiehongyu1@kylinos.cn, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	syzbot+7317196294d50d6e55c3@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb-storage: option_ms: bound probe-time bulk transfers
+Message-ID: <2026101310-crier-december-be03@gregkh>
+References: <20261013132033.4352-1-jun85566@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261013132033.4352-1-jun85566@gmail.com>
 
-> The existing logic asserts that an mmap write lock is held, bizarrely, by
-> asserting that an mmap_read_trylock() fails (which is not the same thing).
->=20
-> Assert the mmap write lock here and switch to using the new VMA flags API
-> while here.
->=20
-> Note that the vma_start_write() is explicitly broken out from
-> vm_flags_set() here in order to use vma_set_flags() safely.
->=20
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+On Tue, Oct 13, 2026 at 10:20:33PM +0900, Lee Yongjun wrote:
+> The Option device initialization path issues bulk transfers
+> without a timeout. If a device does not complete a transfer,
+> the USB hub worker can remain blocked while holding the device
+> mutex, causing usb_device_read() to hang.
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+So a broken device?
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
-epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D7
+> Use the timeout-aware bulk transfer helper for the transfers
+> in option_inquiry() and option_rezero(). This bounds the wait
+> for each probe-time transfer to 30 seconds.
 
+That feels very long, are you sure that works well?
+
+> Tested with the syzbot C reproducer under QEMU/KVM. The
+> patched kernel repeatedly completed USB device initialization
+> attempts after approximately 30 seconds without triggering
+> the previously observed hung-task warning.
+> 
+> This patch depends on Hongyu Xie's pending v3 series:
+> https://lore.kernel.org/r/20261001123135.38831-1-xy521521@gmail.com/
+
+This should go below the --- line and is why sashiko is confused.
+
+> Fixes: 32ebbe7b6ad4 ("USB: usb-storage: add filter to "option_ms" to leave unrecognized devices alone")
+> Reported-by: syzbot+7317196294d50d6e55c3@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=7317196294d50d6e55c3
+> Assisted-by: LLM
+> 
+> Signed-off-by: Lee Yongjun <jun85566@gmail.com>
+
+No blank line above here is needed.
+
+thanks,
+
+greg k-h
