@@ -1,117 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF36B472F75
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 09:59:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+Received: from ustc.edu.cn (smtp.ustc.edu.cn [202.38.64.46])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6D703D565A;
+	Tue, 13 Oct 2026 10:29:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.38.64.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791885600; cv=none; b=NCcA4AzxpYevL94TErqvZJw+9M1oP+IGiezoQeG4BRexQGp8LHnDlcXXBHplAeLAxlGYhDvTc9NkAfzwTMY+QE2O3nRYRg5ppMFqkbYQhscT4OXOxDLakRtSBD6j7clJ5c2wMO2/xE7dbVNU4vEbI2v4iEPXCCrCSqtmFcGzykI=
+	t=1791887383; cv=none; b=ZgMeyqerbGdf4iWfjDdTbhKp6m+uYEay31SPTZ8PCwzobsxPd+o+jZUcG+NqG1fzclFFvCFbdvUEd9SxhLSZ9Hz7RISQW3S92NqNnma4h7v+PKLeoS5EA1Y/mN4W7N9gdgIu4PmXxPGy0gJiC6gKEtIvFjWSY/qL4OMZA3JAv5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791885600; c=relaxed/simple;
-	bh=qW6lM5IKkUw1NxhIQ2IPyVFTfvL5Fu/okL4TTVeTLE4=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=jVcY2H0QpZHKSzoj48eW8KxpURmGWjSRY8T7BmBWsDn8YECI+uxC3oBRTH3PUZynqbilDLrrWi+AtQAikOu8bhNf2SWy+z4NOWuChFoo02IBuupyi2P8Mt+CBE1dQ2VEGxJeylfKGXn2HbFmfWQ2c8lcjVttncUW5wlXBv+farY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F9/6xYdU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791887383; c=relaxed/simple;
+	bh=KV2fhQ+VsW72SdSqkuBQ+5P9KRTk6Q9FJ/4848ulqT8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=lJpOuddlXqKMAY4rCbFJhw+ozVrzdH8bmmQi4nhYAx8j3U3tT87DV8kjWmMUruJOJ5X9+ZxAvmh99NWluDN/8HSZYqA3p93WXQv2i1lh23hOagTCtmdRCh/bxWVyA9TCndEHDiTn9Goc2Zilt7HYLdap+ZlmKLt79nOUQUxHsJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn; spf=pass smtp.mailfrom=mail.ustc.edu.cn; dkim=pass (1024-bit key) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.b=LwuvA/M1; arc=none smtp.client-ip=202.38.64.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ustc.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F9/6xYdU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D1D11F000FF;
-	Tue, 13 Oct 2026 09:59:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791885598;
-	bh=tIK4MpegQHuX+fpnrc13BFGQ9/9DcJrc7sKxUxOYNu4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=F9/6xYdUsdbDatV/MQLIdVpfqWz55T9VTebjcI94qMSrgEp1iTAjU8rHcY/F2H/TG
-	 qmyXlvOTWEY6S880tyBaQJa4YqHPxGdBgAXmBxaSWzeUAj4FIxrKWN2akKLi8oKtXa
-	 m0wbiZekThiMzI5qh4yrua9AvLlhkXEcN0S6VdhXiLwCRkGlbzlA5rNx/UAAJMqISH
-	 Jjd2XJ6fQA7LNEmJCHKrIckTfMDYCDZQ7L1KZj5iK4KL7lXBMhSaRT2+9E3womPtgs
-	 SU/ZmwhycdBYKnGS9v4h17jff0btHG+aqTbt4JUeTis72xSZqU7jqMg6Innmxfh1DG
-	 Hjw1M8DXFKhLQ==
-Message-ID: <sashiko-outbox-169423@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v4 5/6] net: usb: pegasus: Move long delayed
- work on system_dfl_long_wq
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Marco Crivellari" <marco.crivellari@suse.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261012095452.135828-6-marco.crivellari@suse.com>
-References: <20261012095452.135828-1-marco.crivellari@suse.com>
- <20261012095452.135828-6-marco.crivellari@suse.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 09:59:58 +0000
+	dkim=pass (1024-bit key) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.b="LwuvA/M1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=NYLS86OtLvumaJVUFdq6GXyQjyeMreAbgB
+	Xg1Vwdfis=; b=LwuvA/M1bvhywh7WWRc+SM0juq6H63vdR34y+RFrUi4EGID7KZ
+	yGOz9ddyB+wElS+93H8oRPMwDBJRsIELQjhYdgScMtzdp/ElMpqUi2BDAM6EefHm
+	1/7lflM0U7TstnBdWdPOVZxDCvazTynPKOIOzDU+gXLKGpPwJMoQTWAXs=
+Received: from 5700g-x8664.ustc.edu.cn (unknown [114.214.192.228])
+	by mailimap2024 (Coremail) with SMTP id 3pYKCgAXEikHCM5q2w3hAQ--.890S3;
+	Tue, 13 Oct 2026 18:29:28 +0800 (CST)
+From: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	linux-usb@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xu Qianhui <xiaqinghuan@mail.ustc.edu.cn>
+Subject: [PATCH 1/3] dt-bindings: usb: snps,dwc3: document usb-psy-name
+Date: Tue, 13 Oct 2026 18:29:25 +0800
+Message-ID: <20261013102927.1141696-2-xiaqinghuan@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261013102927.1141696-1-xiaqinghuan@mail.ustc.edu.cn>
+References: <20261013102927.1141696-1-xiaqinghuan@mail.ustc.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:3pYKCgAXEikHCM5q2w3hAQ--.890S3
+X-Coremail-Antispam: 1UD129KBjvJXoW7urW7tFyUXrW3tw1DZF45trb_yoW8Xw1xpa
+	92krWUtF4ftw1fuws7t3WUCw17WFyDGrW3Gr40qw17t3s8ZayFkrWakwn8Xr1UArn7AFWY
+	9ayFkF98W3W2kr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUm014x267AKxVW5JVWrJwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87I2jVAFwI0_Jr4l82xGYIkIc2
+	x26xkF7I0E14v26r1I6r4UM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0
+	Y4vE2Ix0cI8IcVAFwI0_Ar0_tr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJw
+	A2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAS
+	0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2
+	IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Gr0_Cr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0
+	Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8vx2IErcIFxwACI402YVCY1x02628vn2kIc2
+	xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWU
+	JVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVj
+	vjDU0xZFpf9x0JUs2-5UUUUU=
+X-CM-SenderInfo: 50ld1x5qjk3t3q6ptxnoox23vfohv3gofq/1tbiARETB2rNcIlM4gAWsi
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] usbnet: pegasus: missing locking around multi-step MII USB control=
- messages
---
+From: Xu Qianhui <xiaqinghuan@mail.ustc.edu.cn>
 
-commit b4ecccdd796761b12d0bedd35e1c982cb24bc36a
-Author: Marco Crivellari <marco.crivellari@suse.com>
+The dwc3 driver looks up "usb-psy-name" to find the power supply which
+accepts the input current limit requested by the gadget after USB
+configuration, and while the bus is suspended or resumed
+(dwc3_vbus_draw_work()), but the property is not described by any
+binding:
 
-net: usb: pegasus: Move long delayed work on system_dfl_long_wq
+  $ git grep -n usb-psy-name -- Documentation/
+  (no match)
 
-This patch shifts the delayed work for carrier checks from the per-CPU
-system_long_wq to the unbound system_dfl_long_wq. This allows the scheduler
-to optimize task placement for long running tasks.
+As a result, any DTS using it fails dtbs_check.  The property is read
+from the DWC3 device node, which for the single-node flavours (e.g.
+qcom,snps-dwc3.yaml) is the node that $refs this file, so document it
+here.
 
-Cc: Petko Manolov <petkan@nucleusys.com>
-Cc: linux-usb@vger.kernel.org
-Signed-off-by: Marco Crivellari <marco.crivellari@suse.com>
-Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Signed-off-by: Xu Qianhui <xiaqinghuan@mail.ustc.edu.cn>
+---
+ .../devicetree/bindings/usb/snps,dwc3-common.yaml          | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-> diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
-> index aba1a640fc268..ed3f8d555c2a0 100644
-> --- a/drivers/net/usb/pegasus.c
-> +++ b/drivers/net/usb/pegasus.c
-> @@ -1118,8 +1118,9 @@ static void check_carrier(struct work_struct *work)
->  	pegasus_t *pegasus =3D container_of(work, pegasus_t, carrier_check.work=
-);
->  	set_carrier(pegasus->net);
->  	if (!(pegasus->flags & PEGASUS_UNPLUG)) {
-> -		queue_delayed_work(system_long_wq, &pegasus->carrier_check,
-> -			CARRIER_CHECK_DELAY);
-> +		queue_delayed_work(system_dfl_long_wq,
-> +				   &pegasus->carrier_check,
-> +				   CARRIER_CHECK_DELAY);
->  	}
->  }
+diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+index 6c0b8b6538..6609a709c1 100644
+--- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
++++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+@@ -51,6 +51,13 @@ properties:
+       - items:
+           pattern: "^usb(2-([0-9]|1[0-4])|3-[0-3])$"
+ 
++  usb-psy-name:
++    description:
++      Name of the USB power supply accepting the input current limit
++      requested by the gadget after USB configuration, and during bus
++      suspend and resume.
++    $ref: /schemas/types.yaml#/definitions/string
++
+   snps,usb2-lpm-disable:
+     description: Indicate if we don't want to enable USB2 HW LPM for host
+       mode.
 
-[Severity: High]
-Does this code risk data corruption in the PHY registers?
-
-The delayed work check_carrier() runs asynchronously in a workqueue and cal=
-ls
-set_carrier(), which performs multi-step USB control transfers without hold=
-ing
-rtnl_lock() or any internal driver lock.
-
-Concurrently, userspace ethtool operations or ioctls (which do hold rtnl_lo=
-ck)
-can read or write PHY registers.
-
-Since the operations interleave on the USB bus without serialization, concu=
-rrent
-execution could overlap the hardware address and control commands, corrupti=
-ng
-the PHY state:
-
-drivers/net/usb/pegasus.c:__mii_op() {
-    ...
-    set_register(p, PhyCtrl, 0);
-    set_registers(p, PhyAddr, sizeof(data), data);
-    set_register(p, PhyCtrl, (indx | cmd));
-    ...
-}
-
-Would it be possible to add locking around these MII hardware accesses to
-prevent interleaving when called concurrently?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261012095452.1358=
-28-1-marco.crivellari@suse.com?part=3D5
