@@ -1,144 +1,180 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B0846E01A
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 02:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1D73D9524
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 02:21:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791857683; cv=none; b=DnnMRqspqzleMd9z5Kd7Su6T+e+T8yrT1noSQcDD9XBWrIsB2exwwtTqZg7QdR7WrQqH5nz4yIcc3z5r0Mqw7cflVcJtXghE6Ik/zL/771IyPl1EnlFtzd+uvXlTvg4BxGqxp1WpPCPdtIn127roX2AQrtwsFWQbB7+roUXOqlw=
+	t=1791858064; cv=none; b=jf/Xx9byAstOSALnfRYovGTDhu/V/RA0D+o3x2sa5nvea3QOkChBDysNKtksrD3cdvRenAK28vRwXU8iIcY/EmzN5o6EabJJWLrp69pXlqkHKICZGExIJ3AIbU47f/73I1+Npz1zXF8XC7oYRkQ0t0Q+4kgjAgLFmNyIFyhbiTw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791857683; c=relaxed/simple;
-	bh=v/bJiyrCf7+4kPlZEa6UJaQDMIa5G6pQEje23xqcEHY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=p9avcTdMBFO/Dc/EGSDW4zZVLDJ1SETs+cX2KJp8ZwyHkLLvtGv7nNixIbohUYt1rqeF13aObcmAcO+C2vofgpUl9INqjljkzFmPi76EJAB5PgINqkZI5TCG0TtAOr8TAPaYT1a88gVknheq3cQHZkBYVZutZN/D+6TAkEybGZk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mina86.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pqaShCAd; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=mina86.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791858064; c=relaxed/simple;
+	bh=/6toUVWtYHRfRT7IKbkcIOblJbhjRMXwxT+uiopr8EE=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=g/ISyHmncAo4Fr+Xg+EL7gf7McMK6qAmdmHrN5BQjFN3+kFA/OtiDn59YyiFLX/bd8GohoQc+3WKGcfV4BnxF3E7pKiN5c6JRtJAwmBiXijlvuaVXxD9kijk6jkeujU8hLYq0hvOvrdizDQFquPrjDVnBa3g1KQ+/jYLoQgEPv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gP/6pQmD; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pqaShCAd"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c29c6a3930bso304850966b.3
-        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 19:14:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791857678; x=1792462478; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=M3jJRpzLKl64v1Zv2perxTA72cfcB4N9Q2Y5ebHZPD4=;
-        b=pqaShCAd4v/Aq5Mec0SF9yR/ysueEVDp4VNrPo5Ooqg6pljsuVqLJ+BVDAIk/8OdOI
-         IeZfo3lhd6dYwiBRhyReTDYVbyXLfE/GkvYnARZ5MPgh35JBbthzhEdIXG//JnpJtZyB
-         kUkl0qb2LTEGS3KIlyx5QOMxe26QB4sOsvK4B5ThBM9s61LdjeC1gGLEwFZMbHNVR4JU
-         q13siTnwGqHfIyuwieEyjWav+xNxfEm/N70Q802EDOgQAUORHz76TXMYy9fOAq6zvlSk
-         rBTOvWKPuFsBF4CjD0SrprP/6jIPW2o2l5NVgfYB/PIn6uq2YWTbQ5fl7sO+NSjyDuDj
-         gUvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791857678; x=1792462478;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :references:in-reply-to:subject:cc:to:from:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=M3jJRpzLKl64v1Zv2perxTA72cfcB4N9Q2Y5ebHZPD4=;
-        b=zW0VX8m0UoxNzOJQiqwkf4atOIclG/0GQjLeQK8NTCB81U+o6yUobl30eid0AGNxKy
-         erGSi6GmWDRVx/BUjTjNz5rJjaaGMRAaxEhimWlfjm3/Pea9PnAFZxP6QYcDPqmB6vDz
-         ynuwolVwlqY34uJoAxew8J/QSrml7XeaHWOUyuPlsQkJceNBG8HSyKkUs/oiWbCi06g0
-         ZRjlkTjy4cM1eWM96szjeRcCyRoUdrvFAAsjn1Ujwftaj7fnBLV6jGPoSywFTBCuYJhn
-         tw7f2QxJR3tBS5SXAWgtYYFOu/tHhVZwDf2CbgYthE5XntWorHkGRawP7dIgsdXRTlZ8
-         L2GA==
-X-Gm-Message-State: AFq9FYKytmJoB844L42u0kSuLEP0wl1fB6Ajs+Ty32sPW9gO0fppMdUI
-	OKcOJM45ZjG5WAut915unbrS4yJG0A+loqwpRgwjSbwDpA2RqxN6kz3p
-X-Gm-Gg: AYBFou0kKBSrvRDDk25//ERO1L0FZuxeVdXM9Hjek1USUIhhekfpHSNjVfhGHTcQk/q
-	GJeDdLcIVzpHxDWt2WZ+x2RFRGem8hYk4lLtYOADrPRsKZmoIeHn38SCPeIfzY8Wu0dK/nfraEV
-	I/FkhohZxf9RL5dOQWx4c49sowOdNh/8dQ5Hc8D/am/H414DzVIrKMv87+nc8DieChXjgaUmMTg
-	pl5IWIQ2a10PiXmH9ziesxOfGw4KOGoVEmd9a1X/CtCrsD9vlHFgN8UoiuxXugMj6eZPEOFv1IL
-	t529T1S/bAPU4LnDnNCU3R+Md+UpYiMT0Daq2dJCffK+L21wZGzzZ7suqxZwVgVfT+gAtpBCl+a
-	4WJgB3lhE8jtqZMf/lpUPtEBnyXknKB0gNqaZCJwKEWCF9RQe3UeUd7Q/m2548wRwuRQYrO+M2N
-	G6olJSMhql59Qbf1pfHvwzWgHkcAdAHZJ1oFiWbnc3jVsx9pU2Vg28vuXPl/dHYOzsoGn7clE2N
-	xiJa+7kiIyWiZtN3KwZ36nE4w==
-X-Received: by 2002:a17:907:3f1f:b0:c29:3a1b:ec8e with SMTP id a640c23a62f3a-c31a9a04dfcmr1039475066b.3.1791857678022;
-        Mon, 12 Oct 2026 19:14:38 -0700 (PDT)
-Received: from erwin (109241130011.warszawa.vectranet.pl. [109.241.130.11])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c31a9a38050sm526822166b.24.2026.10.12.19.14.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 19:14:37 -0700 (PDT)
-Sender: =?UTF-8?Q?Micha=C5=82_Nazarewicz?= <mnazarewicz@gmail.com>
-From: =?utf-8?Q?Micha=C5=82?= Nazarewicz <mina86@mina86.com>
-To: Sasha Levin <sashal@kernel.org>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, Sasha Levin
- <sashal@kernel.org>
-Subject: Re: [PATCH v2] tools: usb: ffs-test: read the descriptor counts
- with unaligned accesses
-In-Reply-To: <20261011234707.2475490-1-sashal@kernel.org>
-References: <lx+m4kkf9bvbpe7f+l7y+7tc@mina86.com>
- <20261011234707.2475490-1-sashal@kernel.org>
-Date: Tue, 13 Oct 2026 04:14:36 +0200
-Message-ID: <10ibi+um8lcsadwjotc6p04h@mina86.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gP/6pQmD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF5C31F000FF;
+	Tue, 13 Oct 2026 02:21:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791858063;
+	bh=rse1LcKpeV03xgy+b2IhcX2rYpmA1fwKL7AsiW6iE8M=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=gP/6pQmDYLtYoSBEXloRW3kiO12F+t1C1OueJRJTzE/086ZCSHUAYoJsy15Iq6zPi
+	 N5XZx0N+4ghwHukEt87B5Tbe2FwICes7zOO8OCyFldOpp3eDWY8Gh47ZaWdGSGoHE2
+	 pwg6qNB19otsObV8aWfm4W6RJWDw+JFw6iBSqgZXqyxlW2FVsrOGvrX9MK8nTUiYAx
+	 mFUtNAfLqzgYzefd95RlRh/CZTDIYfs0QwRS+oyE9lTU7eUfXzn9YT8DkBa8gc9HeD
+	 WpuNOjqgTI/9fCloW05UGEI8119DbFT742CZLBnQ+HmIb/UkY32t6xcYHRnwtgbPQe
+	 Z6KEG3yDCukwQ==
+Message-ID: <sashiko-outbox-168860@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3] usb: cdns3: Fix PCI device reference leak in
+ cdns3_pci_probe()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ma Ke" <make_ruc2021@163.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261013020827.4099844-1-make_ruc2021@163.com>
+References: <20261013020827.4099844-1-make_ruc2021@163.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Oct 2026 02:21:02 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On Sun, Oct 11 2026, Sasha Levin wrote:
-> descs_to_legacy() reads the descriptor counts through a __le32 pointer
-> taken from a member of a packed struct, which may be unaligned:
->
->   ffs-test.c:235:40: warning: taking address of packed member of 'struct =
-<anonymous>' may result in an unaligned pointer value [-Waddress-of-packed-=
-member]
->
-> Walk the counts with a byte pointer and get_unaligned_le32().
->
-> Fixes: b9a4274699c69 ("tools: ffs-test: add compatibility code for old ke=
-rnels")
-> Assisted-by: LLM
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+s) to consider:
+- [High] usb: cdns3: TOCTOU race in probe corrupts shared wrap state
+- [High] pci: UAF of MMIO resources on partial unbind of compound device
+- [Medium] usb: cdns3: PCI device reference leak on pcim_enable_device() fa=
+ilure
+- [Medium] pci: memory leak of cdns3_wrap on concurrent unbind due to devre=
+s timing
+--
 
-Acked-by: Micha=C5=82 Nazarewicz <mina86@mina86.com>
+commit 8da98a756feb810e31a39db878f286ba953f3a5d
+Author: Ma Ke <make_ruc2021@163.com>
+Date:   Tue Oct 13 02:08:27 2026 +0000
 
-> ---
-> Changes in v2:
-> - Take the byte pointer from in->counts instead of computing it from
->   descriptors_v2 (Micha=C5=82 Nazarewicz)
-> - Link to v1: https://lore.kernel.org/r/20261011223445.2328181-1-sashal@k=
-ernel.org
->
->  tools/usb/ffs-test.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/tools/usb/ffs-test.c b/tools/usb/ffs-test.c
-> index 22b938fbdfb77..4453d810e9412 100644
-> --- a/tools/usb/ffs-test.c
-> +++ b/tools/usb/ffs-test.c
-> @@ -232,7 +232,7 @@ static size_t descs_to_legacy(void **legacy, const vo=
-id *descriptors_v2)
->  			const struct usb_functionfs_descs_head_v2 header;
->  			const __le32 counts[];
->  		} __attribute__((packed)) *const in =3D descriptors_v2;
-> -		const __le32 *counts =3D in->counts;
-> +		const unsigned char *counts =3D (const void *)in->counts;
->  		__u32 flags;
->=20=20
->  		if (le32_to_cpu(in->header.magic) !=3D
-> @@ -252,9 +252,9 @@ static size_t descs_to_legacy(void **legacy, const vo=
-id *descriptors_v2)
->  				break;			\
->  			if (length < 4)			\
->  				return 0;		\
-> -			ret =3D le32_to_cpu(*counts);	\
-> +			ret =3D get_unaligned_le32(counts); \
->  			length -=3D 4;			\
-> -			++counts;			\
-> +			counts +=3D 4;			\
->  		} while (0)
->=20=20
->  		GET_NEXT_COUNT_IF_FLAG(fs_count, FUNCTIONFS_HAS_FS_DESC);
+    usb: cdns3: Fix PCI device reference leak in cdns3_pci_probe()
+
+This commit addresses a reference leak of the sibling PCI function in
+cdns3_pci_probe() and cdns3_pci_remove() by ensuring pci_dev_put() is
+called. It also tracks the allocation of the shared cdns3_wrap structure
+to avoid freeing a dangling pointer when the second function fails probe.
+
+> diff --git a/drivers/usb/cdns3/cdns3-pci-wrap.c b/drivers/usb/cdns3/cdns3=
+-pci-wrap.c
+> index fd06a3d8e638f..31089eb9ca29f 100644
+> --- a/drivers/usb/cdns3/cdns3-pci-wrap.c
+> +++ b/drivers/usb/cdns3/cdns3-pci-wrap.c
+> @@ -72,6 +72,7 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
+>  	struct cdns3_wrap *wrap;
+>  	struct resource *res;
+>  	struct pci_dev *func;
+> +	bool own_wrap;
+>  	int err;
+
+[Severity: Medium]
+Does this code still leak the func reference if pcim_enable_device() fails?
+
+Earlier in cdns3_pci_probe(), before the changes in this patch take effect,
+we have this code:
+
+	func =3D cdns3_get_second_fun(pdev);
+	if (unlikely(!func))
+		return -EINVAL;
+
+	err =3D pcim_enable_device(pdev);
+	if (err) {
+		dev_err(&pdev->dev, "Enabling PCI device has failed %d\n", err);
+		return err;
+	}
+
+If pcim_enable_device() fails here, we return immediately without dropping
+the func reference acquired by cdns3_get_second_fun(). Should this error pa=
+th
+be routed to the new put_pci label as well?
+
+[ ... ]
+
+> @@ -99,12 +100,17 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
+>  		if (!wrap) {
+>  			dev_err(&pdev->dev,
+>  				"second function not initialized, retrying\n");
+> -			return -EPROBE_DEFER;
+> +			err =3D -EPROBE_DEFER;
+> +			goto put_pci;
+>  		}
+
+[Severity: High]
+Can a Time-of-Check to Time-of-Use race happen here during concurrent probe?
+
+If both function 0 and function 1 are probed concurrently (e.g., via sysfs
+or async boot probing):
+
+1. CPU0 enables device 0.
+
+2. CPU1 enables device 1, sees device 0 is enabled, but wrap is NULL because
+   CPU0 hasn't set drvdata yet. CPU1 defers and keeps device 1 enabled.
+
+3. CPU0 sees device 1 enabled, assumes wrap is initialized, and registers a
+   platform device with incomplete resources.
+
+4. CPU1 retries later, gets the wrap structure from CPU0, and proceeds to
+   register a second platform device.
+
+This second platform device registration overwrites wrap->plat_dev and
+wrap->devfn. Since the remove method relies on wrap->devfn to unregister the
+platform device, does this permanently leak the first platform device?
+
+[ ... ]
+
+> @@ -184,8 +193,10 @@ static void cdns3_pci_remove(struct pci_dev *pdev)
+>  	if (wrap->devfn =3D=3D pdev->devfn)
+>  		platform_device_unregister(wrap->plat_dev);
+
+[Severity: High]
+Does this leave the platform device accessing disabled MMIO resources on a
+partial unbind?
+
+The driver registers a single platform device for both functions, assigning=
+ it
+the resources (BARs) of both. If the function that was probed first is unbo=
+und
+via sysfs, wrap->devfn !=3D pdev->devfn (since only the second probed funct=
+ion
+records its devfn). The unregister is skipped.
+
+When cdns3_pci_remove() completes, pcim_release() will disable the unbound
+function's memory decoding. The platform device remains registered and its
+driver will continue accessing disabled MMIO regions. Can this lead to mast=
+er
+aborts or system hangs?
+
+> -	if (!pci_is_enabled(func))
+> +	if (!func || !pci_is_enabled(func))
+>  		kfree(wrap);
+
+[Severity: Medium]
+Will this skip freeing the shared cdns3_wrap on concurrent unbind?
+
+If both functions are unbound concurrently via sysfs, they will both enter
+cdns3_pci_remove() at the same time. Since device enablement is managed by
+devres (via pcim_enable_device), devres_release_all() only decrements
+enable_cnt after the remove function returns.
+
+When both threads check pci_is_enabled(func) for their sibling, both will s=
+ee
+it as true (because neither sibling's devres cleanup has run yet). Both will
+skip the kfree(wrap) call, permanently leaking the structure.
+
+> +
+> +	pci_dev_put(func);
+>  }
 
 --=20
-Best regards
-=E3=83=9F=E3=83=8F=E3=82=A6 =E2=80=9C=F0=9D=93=B6=F0=9D=93=B2=F0=9D=93=B7=
-=F0=9D=93=AA86=E2=80=9D =E3=83=8A=E3=82=B6=E3=83=AC=E3=83=B4=E3=82=A3=E3=83=
-=84
-=C2=ABIf at first you don=E2=80=99t succeed, give up skydiving=C2=BB
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013020827.4099=
+844-1-make_ruc2021@163.com?part=3D1
