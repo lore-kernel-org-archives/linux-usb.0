@@ -1,114 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C74BE51B167;
-	Tue, 13 Oct 2026 17:04:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D7AB5208C0;
+	Tue, 13 Oct 2026 17:07:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791911088; cv=none; b=Q7/V90y4LM4BlrCeCSwy5/xw4nvHVOO2CVaonduf3HbYSGzisSCgORRlXxbTQLCXPsDChWV6Kvw3ToPSzsp32StG/ObYBJHxLIXFbG3lVWcMgJjUXU4tphTSzsMIg7KyFWxgiBsRT/ozvOsWF6/poLdH5LHQSmHq8pJm2nZMDdU=
+	t=1791911279; cv=none; b=makb3jPrsBbTVxuqalT2JvBOzpcfisVsbmmKDfA5MMsZ7uQMNP3MOsqmfLArrPWF1YtgR5vUtmZ1VZpUY2ORPRf8R/GYptvT3pUr02sq6R/plaRw6CUr8j5yvuWcktKdbhWeEg3G2ByJrqWor6ZVgqrSokS9Dv/eCUjB+L9YAxc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791911088; c=relaxed/simple;
-	bh=9dNcM9X5XKBcssjruktIrFoEkKYg65GWxWsBlvWUxao=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=iutp1eTAaLxKVFdQtQwCp/MMF1b3oEMQf2MhKV9B0ngHVu/R/tWcVhSkE2TgTE29iAi64miwPQK8FHv70oKNbLIYBcCEy+NW0e1mOnm9KgnGwU6kMtnd7qck3TtztujvqwAtva1h7LDL3AcF+cyGzEzCd/LU2X9FB6WpW6vrGmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MHhpxNma; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791911279; c=relaxed/simple;
+	bh=2Yf2kuxeF3w3l7ajLNK6Pb5smbheplgY6qKYsuxMY0k=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=dfEQnXiB+glQhZrRlx6TF1/vATplzoCJ8XSnUEkaFxzyLABvqpTH/Y52pI9Ok+BEXcKhw7fuJ+XOuhn3mXtS9dAT31GnHHpkbwVMEh2zOk0ow2mSl4CV6ONpaWgBU9sqI+NPJDj/gnTylrWcqAVLkJ8P4ejXqeZ5LcTd9OASfik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=flPUt9hX; arc=none smtp.client-ip=130.133.4.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MHhpxNma"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1B671F000FF;
-	Tue, 13 Oct 2026 17:04:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791911087;
-	bh=trYYkzD1fUs2CPyc6avA9Aj89H9HqMjaP7lJEkleLw0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=MHhpxNma2+XUsPMVZHnq8rTIQWBMavytXojW7y5vd4gUuugEqYGxdRuV8qU3XwwYP
-	 AZIcUXMjujc/YsJgY2YU2XxNRApLORzKbQf/yHrrteWGOgGShuuyE6iQIMpclWNS3w
-	 iBu8BkqypB5Qp8HrYKusRxuaM9ENB7F1tMjDaVI9D9tXByX9d20zvGote51RlW3ZIi
-	 puL/us9LlgbOPGp9XUjcvtSCKVw6sfSHlid6LvnpsM8NjjNsDZn5IcPWGiXUKAclZ6
-	 WZeLj0Pe2LX9+pKUcFKBE9SkSrg/kSXHF+dOQAhq42r5Jv3UV3/GL4QA4TIm7aopsI
-	 8Ju3bft2ogs+g==
-Message-ID: <sashiko-outbox-170187@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 11/39] infiniband: update hfi1 to use
- remap_vmalloc_range()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org, dri-devel@lists.freedesktop.org, linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, kvmarm@lists.linux.dev, kvm@vger.kernel.org, linux-s390@vger.kernel.org, "Oliver
- Upton" <oupton@kernel.org>, "Marc Zyngier" <maz@kernel.org>, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-11-1aa3c9b139f9@kernel.org>
-References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
- <20261013-b4-mmap-prepare-vma-flag-sanify-v6-11-1aa3c9b139f9@kernel.org>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="flPUt9hX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
+	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
+	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
+	References; bh=9HsSGoCb0zC7j7noIiWw0sISs0KaEMj1mlqkuxUg4h8=; t=1791911277;
+	x=1792516077; b=flPUt9hXvtFcaCsyUwFU0pkwsDtCX17U3V4lCMBkQli1ab9H9DNqoixbCW54j
+	clgy6Z6t0348zrRSkknZWho+jMWf7XZgBYbigx3M9wrNc42ZyVb/oTi6GtjZthGA0GQAqDeUsUImq
+	DBzahYoUjvOGw65Fr8sCRlWG0wvZrspXlqHlMru0GxfJJiqEcjcOJGoCs6wsy7+EFffd4UpOrEZnJ
+	6TTWd/N3AwCZ3S1cEBB45J3YJVxgVwFpCpQU39CW1Tq2Rc42oQ1JpgbxLGV9RhT/LPm4eAMKWYr6h
+	JTpf6YHVvimYu3aH2LDghRnqChf4TTGGN5np4jh4aX3UU0mLWA==;
+Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
+          by outpost.zedat.fu-berlin.de (Exim 4.100)
+          with esmtps (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@zedat.fu-berlin.de>)
+          id 1xGfyl-00000000r3y-29c9; Tue, 13 Oct 2026 19:07:55 +0200
+Received: from p5b13a90a.dip0.t-ipconnect.de ([91.19.169.10] helo=[192.168.178.61])
+          by inpost2.zedat.fu-berlin.de (Exim 4.100)
+          with esmtpsa (TLS1.3)
+          tls TLS_AES_256_GCM_SHA384
+          (envelope-from <glaubitz@physik.fu-berlin.de>)
+          id 1xGfyl-00000000I3b-1DA6; Tue, 13 Oct 2026 19:07:55 +0200
+Message-ID: <a7affa82f2d658dc7bc0d5478ed21cd4e9faedbe.camel@physik.fu-berlin.de>
+Subject: Re: [PATCH v2] usb: r8a66597-hcd: fix buffer overflow on odd-length
+ FIFO reads
+From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+To: Karl Mehltretter <kmehltretter@gmail.com>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>, linux-usb@vger.kernel.org, 
+	linux-sh@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 13 Oct 2026 19:07:54 +0200
+In-Reply-To: <20261005212823.55737-1-kmehltretter@gmail.com>
+References: <20261005212823.55737-1-kmehltretter@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 17:04:45 +0000
+User-Agent: Evolution 3.60.2 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-Original-Sender: glaubitz@physik.fu-berlin.de
+X-ZEDAT-Hint: PO
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] mm: VM_WARN_ON_ONCE triggered by vm_flags_reset() in mmap hook
---
+Hi Greg,
 
-commit a356d47e4beede9d3e032c777130976d06dd5dd8
-Author: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-
-    infiniband: update hfi1 to use remap_vmalloc_range()
-   =20
-    In cases which map chip memory from vmalloc()'d ranges, the hfi1 infini=
-band
-    drivers currently installs a fault handler, and then smuggles the kernel
-    virtual address of this range in vma->vm_pgoff.
-
-> diff --git a/drivers/infiniband/hw/hfi1/file_ops.c b/drivers/infiniband/h=
-w/hfi1/file_ops.c
-> index dc548e6802e24..b02d1f1dbb27b 100644
-> --- a/drivers/infiniband/hw/hfi1/file_ops.c
-> +++ b/drivers/infiniband/hw/hfi1/file_ops.c
-[ ... ]
-> @@ -422,7 +418,7 @@ static int hfi1_file_mmap(struct file *fp, struct vm_=
-area_struct *vma)
->  			ret =3D -EPERM;
->  			goto done;
+On Mon, 2026-10-05 at 23:28 +0200, Karl Mehltretter wrote:
+> An external R8A66597 (pdata->on_chip is not set) is read through a 16-bit
+> FIFO port. r8a66597_read_fifo() rounds the byte count up to whole words
+> and passes that word count to ioread16_rep(), which stores two bytes for
+> every word. For an odd byte count the last word puts one byte more into
+> the buffer than packet_read() asked for. When the data ends at the end of
+> the URB's transfer buffer, that byte is written behind the buffer.
+>=20
+> Enumerating a device is enough to trigger it. The USB core reads the
+> configuration descriptor header into a 9-byte kmalloc() buffer and the
+> driver stores 10 bytes. An SH7785LCR board booted with slub_debug=3DFZPU
+> reports:
+>=20
+>   [kmalloc Redzone overwritten] 0x820c4229-0x820c4229 @offset=3D553. Firs=
+t byte 0x9 instead of 0xcc
+>   BUG kmalloc-32 (Not tainted): Object corrupt
+>   Allocated in usb_get_configuration+0x12c/0x11d8 age=3D51 cpu=3D0 pid=3D=
+10
+>   Object   820c4220: 09 02 20 00 01 01 00 80 fa 09 cc cc cc cc cc cc
+>=20
+> Odd-sized HID report descriptors are overrun in the same way. Without
+> slab debugging the byte ends up in the unused tail of a kmalloc() object.
+> A transfer buffer that is embedded in a larger object has the byte after
+> it overwritten.
+>=20
+> Section 2.8.5 of the R8A66597 datasheet tells software to discard the
+> excess byte of the last 16-bit FIFO read when DTLN is odd. Read only the
+> whole words into the buffer. Read the last word into a temporary and
+> store only its first byte. Use ioread16_rep() for that word as well, so
+> that the byte is taken in the same byte order as the words before it.
+>=20
+> Fixes: 5d3043586db4 ("USB: r8a66597-hcd: host controller driver for R8A66=
+597")
+> Cc: stable@vger.kernel.org
+> Reported-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Closes: https://lore.kernel.org/linux-sh/3bd32eaf159db61ed1d423e1d52a869b=
+3689c682.camel@physik.fu-berlin.de/
+> Tested-by: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+> Assisted-by: LLM
+> Signed-off-by: Karl Mehltretter <kmehltretter@gmail.com>
+> ---
+>=20
+> v2:
+> - Simplify the handling of the last byte as suggested by Geert: no count
+>   variable, len & 1, and a plain byte store instead of a 1-byte memcpy().
+> - Reword the commit message and add the SLUB report from Adrian's board.
+> - Add Adrian's Tested-by. It was given for v1. The FIFO accesses are the
+>   same in v2, only the copy of the last byte changed.
+>=20
+> v1: https://lore.kernel.org/r/20261002213225.27834-1-kmehltretter@gmail.c=
+om/
+>=20
+> Adrian tested v1 on an SH7785LCR board. I tested v2 on a custom QEMU
+> model of the board with 32-bit and 29-bit kernels and slub_debug=3DFZPU.
+> Both report the overflow without the patch and not with it.
+>=20
+>  drivers/usb/host/r8a66597.h | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/usb/host/r8a66597.h b/drivers/usb/host/r8a66597.h
+> --- a/drivers/usb/host/r8a66597.h
+> +++ b/drivers/usb/host/r8a66597.h
+> @@ -179,8 +179,15 @@ static inline void r8a66597_read_fifo(struct r8a6659=
+7 *r8a66597,
+>  			       len & 0x03);
 >  		}
-> -		vm_flags_clear(vma, VM_MAYWRITE);
-> +		vm_flags_mod(vma, VM_DONTEXPAND, VM_MAYWRITE);
->  		/*
->  		 * Mmap multiple separate allocations into a single vma.  From
->  		 * here, dma_mmap_coherent() calls dma_direct_mmap(), which
-[ ... ]
-> @@ -559,12 +546,10 @@ static int hfi1_file_mmap(struct file *fp, struct v=
-m_area_struct *vma)
+>  	} else {
+> -		len =3D (len + 1) / 2;
+> -		ioread16_rep(fifoaddr, buf, len);
+> +		ioread16_rep(fifoaddr, buf, len / 2);
+> +
+> +		if (len & 1) {
+> +			u16 tmp;
+> +
+> +			/* Keep the byte order of the string read above. */
+> +			ioread16_rep(fifoaddr, &tmp, 1);
+> +			((u8 *)buf)[len - 1] =3D *(u8 *)&tmp;
+> +		}
 >  	}
+>  }
 > =20
->  	vm_flags_reset(vma, flags);
-> -	mmap_cdbg(ctxt, subctxt, type, mapio, vmf, memaddr, memvirt, memdma,=20
-> +	mmap_cdbg(ctxt, subctxt, type, mapio, is_vmalloc, memaddr, memvirt, mem=
-dma,
->  		  memlen, vma);
-> -	if (vmf) {
-> -		vma->vm_pgoff =3D PFN_DOWN(memaddr);
-> -		vma->vm_ops =3D &vm_ops;
-> -		ret =3D 0;
-> +	if (is_vmalloc) {
-> +		ret =3D remap_vmalloc_range(vma, memvirt, 0);
 
-[Severity: Medium]
-Will this trigger a lockdep warning due to the VMA not being write-locked?
+Are you going to pick this up through your tree or shall I pick this up thr=
+ough
+the sh-linux tree?
 
-In hfi1_file_mmap(), modifying the VMA flags using vm_flags_reset() (and
-the newly introduced vm_flags_mod() earlier in this function) enforces=20
-write-lock assertions via vma_assert_write_locked().=20
-
-Because the VMA is not yet inserted into the tree and is not write-locked=20
-during the mmap callback, its vm_lock_seq is uninitialized (UINT_MAX) and=20
-will not match the mm lock sequence. This triggers a VM_WARN_ON_ONCE_VMA.
-
-Should vm_flags_init() be used instead?
+Thanks,
+Adrian
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
-epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D11
+ .''`.  John Paul Adrian Glaubitz
+: :' :  Debian Developer
+`. `'   Physicist
+  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
