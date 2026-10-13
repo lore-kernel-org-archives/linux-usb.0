@@ -1,100 +1,219 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A46A3EC816
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 09:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BD131618B;
+	Tue, 13 Oct 2026 09:57:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791884104; cv=none; b=gxRqQC8y+Nv9ykFOIc4WtHH5TW9hyP6wQBEYcwPdrBrGNF8rushI7543OY2+P7bIEHRrHr541GFh8ldPzLY1h5iZX1QFFFfEiOOksV0l1qq9Fi5nrQIgLmO+jIzSd6/oZXYtfF7QYIMjw0V/dNnRoaU2/vrF7twSWBxit2MNgoo=
+	t=1791885433; cv=none; b=dUnvKGCpYfpw7fz2Q9A71ttpW2vG5/4rXLx4tJ3NlG0d112i+BnjbgsFzQrqQ1rKnY79b2OIGoz8Y+jah+wXqJ6MtmUfGkH0VUZGmgUG6Sp6xnu7BKETTXWX4n3VNeG4o1Zr2UZ+grcJ+s91fy5sF8wIjxgvJRGz9afZuc3n+ps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791884104; c=relaxed/simple;
-	bh=WTd6RDcQSe4g1DBW5bmql3wwxey6/81WlmMPeti+8qw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ur4Rj7c4ipwEWkqKWW2gM5ElVMXbAQqMhv+xiKbl/R/E4CR1CbSap/OMJnhnGPlqMWZ3/wIp7PGIcSkMd45YWhcPzUAMKAH5KK3SmyV2HRqYBDemqybOKQMnJ30vFjEWofsFKAw5/jG9gQslBX/U9tzOjuybDuFASrrijyUFpNw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=cQbhz5NP; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1791885433; c=relaxed/simple;
+	bh=t2Qo3ECCQqCJBwajFAp+fsRQ3I/abKrecMp8TwIjkMA=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ti2oKinJiYo5e35vLR+2xU+IrzOMNcKOCxh9ydljenZkG836PwbzbLo8RQICJB1tgCH0lhOAXBpI2tL44SqsHQ0HdrYPR/DNBsO9iAy2u5zRvYGK/MTNONyGu4nQ6uPpcalv2xAfL/v8wpLpotvix2DRLYGKdTdmEsHldp0CNM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=efp4fUSq; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="cQbhz5NP"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a16af2a232so21812595e9.1
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 02:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1791884102; x=1792488902; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u7oKHBU8P6VVCJPEp5uLiJNA6l4tFvXP4QYcJqDIB14=;
-        b=cQbhz5NPJJUlZinEE9hb1rfy7fGObYKSZVWXxxTL/zc0w5fYEV7Odn+xXKSfMQaQNf
-         uv1Y3szrfbz52Py/uyEN1kkeRqR/dDn3NYmy20pJeBdkYoSsYoDfPn4tMcpszwA6SbAV
-         GqrDjMs8KGfm5QHDYseOL9H0a5hAv5//AD6Vuy8S75AUZWufS+hXjmBTS0kBoVAODlnP
-         Oi6KO1HSL8YcKL4cr4k3wdsDwhxISTnS1SpA08NRFee0iB35jZQtJgf5NdNnGJjuY4gU
-         ZxGHRnthluZThfAqO1b3BiU6BLiifJwjL3T3aIkZzJaTxIhB2uQ+805LjdM1vwCm3xD2
-         OkJw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791884102; x=1792488902;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=u7oKHBU8P6VVCJPEp5uLiJNA6l4tFvXP4QYcJqDIB14=;
-        b=gNYFzQmLS9pd6OnlRkviMdnaemYTuGan56tbj6qw05mRyqwzlhfotsNb1Dvr28A8as
-         cLwEnJYCKW+//nN/1ToNeYrA1476nbDSWv1vQ+wYmjgeLUFL5CcpcEuZ/DyoLoupqxA1
-         AHi0ljXt938Dp869gQbcDaPjYSBH/WiUslNrHx0sQmHZvrwEIp9YljlHajAaCG6Ddmyi
-         zjK3/w2T60S6EVbctlMkIrhEJ2VxnWlxLwCdpW+bbqcLgCZ73h4UGHtBKy6b4dWWLBHj
-         ae9wXGxTTuqrk684RrWRyblAfzFx7p+9tY/EDf0qGU0nXuJv34jdIu05jto8RQ/cYKY2
-         DEEQ==
-X-Gm-Message-State: AFq9FYLqutPDsNvbr0q4X4/gs4AKqzpWBYq9EPuH2qc7riDX7hNnOXR0
-	rN/2yfVmQYxUtBqDYMqCEKfW+MH5nzAcraUJR164gzNl7Cl8x2EWC4uEcNMJ+vM95wI=
-X-Gm-Gg: AYBFou3n6TEta4QCgh7V5tuhX2NTuz+mc0+fVU62eqyvhUvJco4xSdwyXeDpbSHSf9w
-	5xJTR/FxG2NifwXAtVGcbIUeKswpeuUOYPe+uuXMXHz9K0TPHO+eXLuSdZKsIAyOTTR1ubXaeIE
-	Tb7SqGGNZiGF+48AlqgY67h4hg8lkNCWLvIT2aGT5mOM7oGstHEA+enyzWFy8b9XE8vUTmHx2v3
-	4i4QKa7COxwH3CB27R+rTwr3x51pX11HFpjShGSQGc2hzDa0m+U6tNKRJdqQeyax5jzX8E3dnj6
-	bVjVdUNR6Qq/+N3K96DtsDF23xSIfhk/LoNHT8oXXN90Fk1AVZeletkKPuMISG9xYTzZTdwgYCj
-	+Ekb6Px8rkohEEoEpAf1EY2OYPEzhi6jkfBCtq6vZBECDi+TinHftwQvMKiHDReSMEGWfo6Kjwq
-	1z6cJoGTgzUXoy+Uj2S+V8KPVIbZWUyrb1ojdMf73KTfxzJxcPNptp0JcTgSjSPhVX0O0EGWX7l
-	GT2fWKl0EiiNXJxFvLnlA1brPLlopuxB3DyDWmG
-X-Received: by 2002:a05:600c:a088:b0:4a0:333:253a with SMTP id 5b1f17b1804b1-4a18e49c331mr234770065e9.14.1791884101673;
-        Tue, 13 Oct 2026 02:35:01 -0700 (PDT)
-Received: from ?IPV6:2001:a61:13f5:2701:b3a3:b9f5:f3dd:ee85? ([2001:a61:13f5:2701:b3a3:b9f5:f3dd:ee85])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0ab5262sm4167670f8f.22.2026.10.13.02.34.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2026 02:35:00 -0700 (PDT)
-Message-ID: <b819ff38-6916-40e0-b2f3-1b19876971bd@suse.com>
-Date: Tue, 13 Oct 2026 11:34:59 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="efp4fUSq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 083031F000FF;
+	Tue, 13 Oct 2026 09:57:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791885431;
+	bh=if0uNjh4h/CYQ+sEFDBGtCC3viO1OAf/zhF4iUSK9rg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=efp4fUSqhgtGoB0kgxmQ54Pvr2rFZOAGNAmKFtinrGIrgfpDzCt8y3N/CUapywHg8
+	 8JHSJ4QYkpMBwaULtaBS2XXFyE4CY93Kp/z3782b5kV1vru62Fg5PmXMTDpryLhOyX
+	 gjyqu7jo6eXW2o2zI9NZTB7EEl8NBOk6lpiYal4j6yjKo7qpi2jxA+KZjzWqrpj8zK
+	 amAHpae9KXSRSPNyZyxEM9fO+e7tgwnFaJrDgCsOgRzNJGn222ICe35QHrBMwZy7QS
+	 dJkvRbnbzDAPmijhov0jMe4XclMl2cMPsepHj/b4tJvRa0HsnZMy99asAQPdTOD6gj
+	 ubspBao8/3ePw==
+Subject: Re: [PATCH net-next v4 1/6] ibmvnic: Move long delayed work on
+ system_dfl_long_wq
+From: netdev-bot+sashiko@kernel.org
+To: marco.crivellari@suse.com
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, tj@kernel.org,
+ jiangshanlai@gmail.com, frederic@kernel.org, bigeasy@linutronix.de,
+ mhocko@suse.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+ enelsonmoore@gmail.com, linux-usb@vger.kernel.org
+Date: Tue, 13 Oct 2026 09:57:10 +0000
+Message-ID: <179188543058.434549.5512079399970642953@kernel.org>
+In-Reply-To: <20261012095452.135828-2-marco.crivellari@suse.com>
+References: <20261012095452.135828-2-marco.crivellari@suse.com>
+X-sashiko-severity: Low
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: core: Emit KOBJ_CHANGE on unbound interface
-To: Fabien Sanglard <sanglardf@google.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <b7c2f7d1-40fd-4d83-8ced-5fc27e3be051@rowland.harvard.edu>
- <20261012171609.88273-1-sanglardf@google.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261012171609.88273-1-sanglardf@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 12.10.26 19:16, Fabien Sanglard wrote:
+Thank you for your contribution! Sashiko AI review found more severe
+issue(s) in other patches of this series. This mail is only an FYI, in case
+you want to address the nit picks below when you respin.
 
-> As a result, userspace clients like adb only see UNBIND and must poll
-> /dev/bus/usb to detect when the interface is ready again. Emit a
-> KOBJ_CHANGE uevent when device_attach() finds no matching driver so
-> userspace is notified that the interface can be reclaimed.
+Low priority / nit picks for your consideration:
 
-Hi,
+- [Low] The commit message does not match all of the diff.
 
-why do you want to limit this to that specific case?
-Why not not always tell user space tat a device has
-been reset?
+Pre-existing issues:
+- [High] This problem wasn't introduced by this patch, but the patch
+  edits a call inside the affected critical section.
+- [High] This problem wasn't introduced by this patch, but
+  ibmvnic_reset() can call ibmvnic_close(), which may sleep, from atomic…
+- [Medium] This problem wasn't introduced by this patch, but device
+  removal can leak queued reset requests.
 
-	Regards
-		Oliver
+--
 
+ibmvnic: Move long delayed work on system_dfl_long_wq
+
+This commit moves the ibmvnic reset work items from the per-cpu
+system_long_wq to the unbound system_dfl_long_wq. It converts the two
+queue_delayed_work() calls in __ibmvnic_reset() and the queue_work() call
+in ibmvnic_reset().
+
+> diff --git a/drivers/net/ethernet/ibm/ibmvnic.c b/drivers/net/ethernet/ibm/ibmvnic.c
+> index 5a510eed335ea..d4c284c8ef437 100644
+> --- a/drivers/net/ethernet/ibm/ibmvnic.c
+> +++ b/drivers/net/ethernet/ibm/ibmvnic.c
+
+[ ... ]
+
+> @@ -3267,7 +3267,7 @@ static void __ibmvnic_reset(struct work_struct *work)
+>  	spin_lock(&adapter->rwi_lock);
+>  	if (!list_empty(&adapter->rwi_list)) {
+>  		if (test_and_set_bit_lock(0, &adapter->resetting)) {
+> -			queue_delayed_work(system_long_wq,
+> +			queue_delayed_work(system_dfl_long_wq,
+>  					   &adapter->ibmvnic_delayed_reset,
+>  					   IBMVNIC_RESET_DELAY);
+>  		} else {
+
+[Severity: High]
+This isn't a bug introduced by this patch, but can this plain spin_lock()
+on adapter->rwi_lock deadlock against softirq users of the same lock?
+
+__ibmvnic_reset() runs as a work item in process context with BH enabled.
+ibmvnic_reset() takes the same lock from softirq context:
+
+ibmvnic_tasklet()
+  spin_lock_irqsave(&queue->lock, flags);
+  ibmvnic_handle_crq()
+    ibmvnic_reset(adapter, VNIC_RESET_MOBILITY);
+      spin_lock_irqsave(&adapter->rwi_lock, flags);
+
+The CRQ_INIT and fatal XPORT events in ibmvnic_handle_crq() reach
+ibmvnic_reset() the same way. So does the tx watchdog path,
+dev_watchdog()->ibmvnic_tx_timeout()->ibmvnic_reset().
+
+Suppose a CRQ interrupt arrives on the worker's CPU while this section
+holds rwi_lock. The tasklet can then run on irq_exit and spin forever in
+ibmvnic_reset(), with IRQs disabled and crq.lock held.
+
+Would this need spin_lock_bh(), or spin_lock_irqsave() like the other
+users? Lockdep should report this as inconsistent {IN-SOFTIRQ-W} ->
+{SOFTIRQ-ON-W} usage.
+
+The plain spin_lock() in ibmvnic_remove() looks fine, because it is nested
+inside spin_lock_irqsave(&adapter->state_lock, flags).
+
+The plain spin_lock() here appears to date back to commit fd98693cb072
+("ibmvnic: Allow queueing resets during probe").
+
+[ ... ]
+
+> @@ -3454,7 +3454,7 @@ static int ibmvnic_reset(struct ibmvnic_adapter *adapter,
+>  	list_add_tail(&rwi->list, &adapter->rwi_list);
+
+[Severity: Medium]
+This is a pre-existing issue, but can the struct ibmvnic_rwi entries added
+to adapter->rwi_list here leak when the device is removed?
+
+ibmvnic_remove() sets adapter->state = VNIC_REMOVING and then does:
+
+	flush_work(&adapter->ibmvnic_reset);
+	flush_delayed_work(&adapter->ibmvnic_delayed_reset);
+	...
+	free_netdev(netdev);
+
+__ibmvnic_reset() returns early without touching the list:
+
+	if (adapter->state == VNIC_REMOVING)
+		return;
+
+If the worker is already inside its loop, it frees only the current rwi
+and breaks out.
+
+ibmvnic_remove() never calls flush_reset_queue(). Are the remaining
+entries lost when free_netdev() frees the adapter? The probe failure path
+does call flush_reset_queue() before free_netdev().
+
+>  	netdev_dbg(adapter->netdev, "Scheduling reset (reason %s)\n",
+>  		   reset_reason_to_string(reason));
+> -	queue_work(system_long_wq, &adapter->ibmvnic_reset);
+> +	queue_work(system_dfl_long_wq, &adapter->ibmvnic_reset);
+
+[Severity: Low]
+This isn't a bug, but the commit message doesn't seem to cover this hunk:
+
+  ibmvnic: Move long delayed work on system_dfl_long_wq
+
+  Currently the code enqueue work items using {queue|mod}_delayed_work(),
+  using system_long_wq.
+
+  The function(s) end up calling __queue_delayed_work(), which set a global
+  timer that could fire anywhere, enqueuing the work where the timer fired.
+
+ibmvnic doesn't call mod_delayed_work(). Also, this call site is a plain
+queue_work() of ibmvnic_reset, not delayed work, so the timer argument
+doesn't apply to it.
+
+Every reset request (CRQ events, tx timeout, change-param, sysfs failover)
+goes through this call. Before, it ran on the CPU that submitted it. Now
+it runs on an unbound pool.
+
+Could the commit message also mention this conversion?
+
+>  
+>  	ret = 0;
+>  err:
+
+[Severity: High]
+This is a pre-existing issue, but can ibmvnic_reset() sleep in atomic
+context on the ENOMEM path just below?
+
+	rwi = kzalloc_obj(*rwi, GFP_ATOMIC);
+	if (!rwi) {
+		ret = ENOMEM;
+		goto err;
+	}
+	...
+err:
+	/* ibmvnic_close() below can block, so drop the lock first */
+	spin_unlock_irqrestore(&adapter->rwi_lock, flags);
+
+	if (ret == ENOMEM)
+		ibmvnic_close(netdev);
+
+For most callers, dropping rwi_lock does not leave atomic context.
+ibmvnic_tasklet() holds adapter->crq.lock with spin_lock_irqsave() around
+ibmvnic_handle_crq(). ibmvnic_tx_timeout() runs from the dev_watchdog
+timer.
+
+When failover_pending is false, the close path can block:
+
+ibmvnic_close()
+  __ibmvnic_close()
+    set_link_state()
+      wait_for_completion_timeout(&adapter->init_done, timeout);
+  ibmvnic_cleanup()
+    synchronize_rcu();
+
+Wouldn't this trigger "scheduling while atomic"? Also, init_done is
+completed by CRQ processing in that same tasklet, which is the context
+blocked here.
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261012095452.135828-1-marco.crivellari%40suse.com
