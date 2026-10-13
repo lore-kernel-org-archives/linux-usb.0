@@ -1,225 +1,218 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2100.outbound.protection.partner.outlook.cn [139.219.146.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24E04E433E;
-	Tue, 13 Oct 2026 11:02:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791889379; cv=none; b=Sqjz2B+iKqUe/c0AtPfeEdbsXaqia0CekIkLGgiyyKTxJXcijooKZRGPm2wYzZr7djd00gZK8zlYq6uJn1fxfyKo43SBa2XSLUjbdO2yVgykVvXfkaqPY1+IKcYkj8MEu7YFkcYG7zIAoPeDvomjuLlVs65tFLkvE/ukYwcaIKw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791889379; c=relaxed/simple;
-	bh=khZy8G+ddVaAT3HvhrjDcU+keeqnhSYGZ9XC9Lp0t9U=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=eXC4cqXTgkl2vPRp2c8w2OCUPgwVNweEcTHsDCYwlSO1c3udIVOVGqkLc8VA5CvG8fr4c6a2RLY4DkDhGR7rAmPTDGxzeYx4mGc2emriKfSDXicY+ksKHvhcWb4Bole1qdpcNRKDySeBFUOj19lSfrgagG6lp+AoH4WjkaDpyHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WG+enJqi; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WG+enJqi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 420DC1F000FF;
-	Tue, 13 Oct 2026 11:02:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791889376;
-	bh=idGREc6NDyEeeJGqLze0dq+b6mawm4228d+0QxdBOf8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=WG+enJqiyobqPxyYJnuqgByU/T+/5k7QwwtBWEOl/GuMxpnyWHJoKgSQ0EJVsncV9
-	 pJannoJlLrpGtslmB8aPg8WzTBnMsnkl63uaLQLzJf1xOtqS2awJRF0SxAbrmXaR9g
-	 srmPyLJo48mf9lJrzzSgv4tlV6ZDNDFDdrM7hk0e7WOSadUT4W1iL9NLLFrEQQ0v9d
-	 uyfGLLBuB2FO6RRmVDVkWvBpUX2BGATd4VNOytjs2HTrn03fJMbcS1QuCZR7bOFS2n
-	 FLPYXgJQWJcTnlbg0Ux6rWcG0S8C5mDZz3R7ZwnPT9xkKEJqHrjtsq8H+Aq37Cn482
-	 2i9Hne4jmXqjg==
-Message-ID: <sashiko-outbox-169577@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/3] usb: dwc3: support two connectors sharing one HS
- data bus
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Qianhui Xu" <xiaqinghuan@mail.ustc.edu.cn>, linux-usb@vger.kernel.org
-Cc: devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261013102927.1141696-4-xiaqinghuan@mail.ustc.edu.cn>
-References: <20261013102927.1141696-1-xiaqinghuan@mail.ustc.edu.cn>
- <20261013102927.1141696-4-xiaqinghuan@mail.ustc.edu.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 11:02:55 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46F2221FB6;
+	Tue, 13 Oct 2026 11:06:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.100
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791889575; cv=fail; b=hR7K7VTa+7c7DW/fKc5r4yu9xkwYcyh+U8F6s5pcEcO6Lc6cFG7o7hYtiE0LfcgPHazbg09Spwa/1kB3aQb5JT8JDKUR6MqagSgHcAcYZDHJMy4womiISI3yKI2md0490l6x6aSaf6Quygeyjj7xJKixzY91CQr3Kcv2JvsRQKw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791889575; c=relaxed/simple;
+	bh=UAOEMbBFVrgChjRls+1g1CobLfaFS/TUjDn5z189bJI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=eIf9MD7DMssvum1++2ZDvJK1la8DRiw/lcq8wipHX4Rx0vZPi/QuA7v0QD1NOLnuOlAtWyd9tu0FVJIPlkPPDJXA5eFmZdd+Mnmoo19xcrE3D+/JLwymXmfCmu81F0knOt7CwXVtmlclKsvjgKEcKHQQBvGem+3jNNxoeaBW2/E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=V2+R/BKC7WW8GX8qed+IuAal+Cbwh9OZ0mAZCqOCHr/rSiw+79bETESibiQshviOQ6IkspoMtdKe/f/cUZ7QBFGrm4sOLOwobPxE7c6PBSoqELBo2sckpIcKyRuweBe7vAJaF060oQd3xk6UPvGwm7UV2QxxxNHVulAgQgMs9DUXpQVYpXLjxYeKFdWIRfLgAtRYHB1f6lLHMObzLVaFWOj+1l4doY8MwEp2dJQ8U/e68i/mbO5YLBSwoGosMvAmmFfIj2HAY8ujYXAwT9Kdb15HuQMlkWwKy0woik76C+03JduuZi6iYMLYnVUvPXHwWddPdMhEKtAUOnHsOXK7jg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UAOEMbBFVrgChjRls+1g1CobLfaFS/TUjDn5z189bJI=;
+ b=BbLcLpLa/iardqrbpSPKD2pSeKmxbvAsN2kuQbMdg1OVFELCWfo1oQYWSTnaIhCWHKJGeDebWM3vBaLVlUCs0XCaShW+1EyDQdTltAVp3m9ZUMDh5jQpwatHgdJ+004DBtllHLpd/OKX2svaC8G0zYAuZZM2ckDO1AKzQwMSeFHUCdXvUYm4hXWLf3bykNqJ66sV1n0GXG2IFaVMaSaHwvrWQkQW9QFaZTy8N+S8qx7okkFVdYwqlfTUAb3GSPRNwQ5MH72VCrrrqon0nShus13mit+xvlLJ2nhzxkV/eDQ0rprFBaL+F2oUCce8Sr3Ld05HPrwhkon87R919xSQvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Received: from ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:e::7) by ZQ0PR01MB1270.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:18::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Tue, 13 Oct
+ 2026 10:31:59 +0000
+Received: from ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
+ ([fe80::d777:e23a:d111:5fa1]) by
+ ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn ([fe80::d777:e23a:d111:5fa1%5])
+ with mapi id 15.21.0522.011; Tue, 13 Oct 2026 10:31:59 +0000
+From: Minda Chen <minda.chen@starfivetech.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring
+	<robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor@kernel.org>, "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v1 3/3] usb: dwc3-generic: Add Starfive JHB100 USB 2.0
+ device controller and adapter
+Thread-Topic: [PATCH v1 3/3] usb: dwc3-generic: Add Starfive JHB100 USB 2.0
+ device controller and adapter
+Thread-Index: AQHdRzzkgvO67e5OnU6oYBR99q6/0LbpkfUAgBHbt4A=
+Date: Tue, 13 Oct 2026 10:31:59 +0000
+Message-ID:
+ <ZQ0PR01MB111111EA88128E4DA7DCA6D6E69E2@ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn>
+References: <20260918071103.24482-1-minda.chen@starfivetech.com>
+ <20260918071103.24482-4-minda.chen@starfivetech.com> <ar8BQsbISdiZw48k@vbox>
+In-Reply-To: <ar8BQsbISdiZw48k@vbox>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: ZQ0PR01MB1111:EE_|ZQ0PR01MB1270:EE_
+x-ms-office365-filtering-correlation-id: a18f544f-55d8-4251-e6db-08df29153677
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|23010399003|6133799003|10067099003|18002099003|22082099003|3023799007|38070700021|4143699003|261009223027099003|56012099006;
+x-microsoft-antispam-message-info:
+ IFjIN5aJLXjLupaO+yxW8vozFU3wvuwf4rWPzZDvWRa7QiforV6IfJfi/S6hrdJTJVGFME6ufbU3N/W6AfS36uWsS+YLiIzp4v3yZXsDRxDqpnwE2SfG0RZzEAAmVYvEodQwVh2tuoAiPNmrjPTJAbLnitz6HFIneVinE7AZPlzKicYVGXUvkkznMUrQ7J7d1O0byz0UHQn8+9j90xOBOkERr6v762Ofl5lOM2FCwxB6hrw8UErioQ85e9eWTEFJ6cxjZKUod41s0mumzZ3EA3Si0ZhkE1KpbXH0Yx0Gg3b8LL10jy5jkrsircjj2qecyeWF8BwAxV8ESYf/tiuiIUiOOYzAbAWbkusw1lVJxpqzNP6vV95dXn3n8ioY0xbNwV3wIs7xnKHi327usOzgjIkTCPyNlSDFEIZpI+KTS8lwczd/fbOxP+vtZbn6jJLAOxSPJgxIMjSxZRdQSQmKX6FGqAd1Gxz5ruCQc+28tjki164kXCGQVV42GdK+77O7Lsl0f7+9o54ChK93jLyrNIBIW5tlt3/2Cd03S3dXeetS/GJcEwR/ntaf2xXVA0W7
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(23010399003)(6133799003)(10067099003)(18002099003)(22082099003)(3023799007)(38070700021)(4143699003)(261009223027099003)(56012099006);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?OUpwb1BaMkJmcTZ4TUpOOGRpMDlIdGtTU1hKQ0tsT0NMbUNESWs4MTNWeWx2?=
+ =?utf-8?B?T1dZclk3RlMzSWZIZjlVUUI4bWtMRWYrZWN0cTRvQzVMcWJJbHpFZTFneXpL?=
+ =?utf-8?B?c0FONHhxbkl0QlhoMlB0U3NQQS9BVlg3RVNZUC9mRlgwdWFjenI0ZWFjc29w?=
+ =?utf-8?B?Rktwd3IydVVIQXBhdjVZclhpYXdSWVVwV3RCaU50T09rSGtZUGJadHMveGVK?=
+ =?utf-8?B?Q0FEcmJ1VWxkdHdrUjJ5d0ZCKzRML1pVclN0RHprbGhhWStiSTBkQkdMUnlP?=
+ =?utf-8?B?MGViZWg3amRKb2VOK1hDY1BzUUE4RVRrWi9xV2NKRTdOTFR3bkpQcXhSWjhD?=
+ =?utf-8?B?cjdlaGhtV3ZzL2hVSWJmY0szTDdac2taZEZNRDVsbytKUk02SkZuMWNldU50?=
+ =?utf-8?B?QzBaakd4Y2tST0Fic2w0VUgwVWRMVVdQMkg4MzVvbC93NXlGZUNXQjAxL01m?=
+ =?utf-8?B?cGN3bXhVekxwSFg4eXVhdFRaNGtpY3NHNHM5UmRhY2dZODNkUGxaRk9SWDVO?=
+ =?utf-8?B?dmxMS2Fwci9JWHJXb0thUEc1aUFYVnBtNUlQRG9nVDQvZmsxWEpMb29lRVE3?=
+ =?utf-8?B?QnVPcVMzbzdtNFVSUkw4Vmp4bzBYWSs4cytkRGY4NzQzTlMxSmZ1WW9jelBi?=
+ =?utf-8?B?K1QxZEg1Y0dwYURjUHhDZ3JaMFpEcyszZE01WGI2SE5QdjNlYjRFN1BuZm9u?=
+ =?utf-8?B?WWt0aFJGQ0Npd2ExZFdGRUNxWDhUaW9FQzRpL3llK2g4b3Z4WWJPQ3lkTlo2?=
+ =?utf-8?B?dVA1ejQwcjVQTjhEVVFRV1FLQ2tFcWJwR1FkbmZBNzgzZHVaNjhSU2xwTWFK?=
+ =?utf-8?B?cHJDeEZrN1dzaU9zekFDRWJ6RG1WM0laUFpKNTZJRWJ4SjRMMzBBWUhoZFhW?=
+ =?utf-8?B?emczdkV0MkRLbE9EVW1PQkh3QS84Qk5zYlBtUTg2QjlRVk1Qd0VWeitDNnE3?=
+ =?utf-8?B?NXpOVVNLZ1JBRzIzOHh4TklRYWoxalhQOUY0NUkzZ3VPL3crQ3pYZ05obkl3?=
+ =?utf-8?B?Uk5uTHdJL0hLakNpZSt1ZkUwN2xXeldpVC9EZWF0UWQ2TEFlVy9sQ0ROV3Rz?=
+ =?utf-8?B?M1hVRTFjU1l6VWRwa2JkR2VETnc0MHEzTzRSM1BjWU1iM1h4Wm9CYTJuNXRj?=
+ =?utf-8?B?RjJHVnB1UjVsd3JUWkljWlllL3hHcXNkNXdtQllFSFRESHEreGtLZFFlaGpO?=
+ =?utf-8?B?S3d2SFk2dXNraGtGZHNOeTd3ZVJzN2szRUNSRnpwMnZSK3h6SC82Q2E2aXBE?=
+ =?utf-8?B?V1NkaXpWeGpNcHVnWW1CMWlaMEVheUFMSTRaS0o0RDFmUDQ5NG5yQktxaXZ6?=
+ =?utf-8?B?KzdiTVByVEx4ejlRcm5HVUZ5VC9ueDhmYVdrbXQ0WnllMVNuUkE0SFNzeUtD?=
+ =?utf-8?B?ZGZRU01sQk5aUUVyVHdoSktFVjBzZmtXWWVBVEpjaSsyeDJsYzJSSU93WG12?=
+ =?utf-8?B?ZnNEZm5LV1hLQ29UaWFFK2lhL2lNNlZkNVVnUUZ5QXF3TDRCV0hNaGNhOGkv?=
+ =?utf-8?B?RTlKRWRzRCtaTXBIMUF2K3hzcitydnRzeG9FVy9wMXBZUUJJZ09CZi91Uk1u?=
+ =?utf-8?B?K3RWT3FLcWEwc0xiVjl3ZGM2d1k5QmxOTkJad3NIVWV4ZHpYRGlZN3VaMWt6?=
+ =?utf-8?B?N2VZZEdOY1ZrVXFySTRtaWxsYWcxRlBUSVFDZXVFVFBtcFEzMVpZNEV5NXZo?=
+ =?utf-8?B?ZVMxV296SnRocjRPcmpIOXpBb0ZGamtjNTJ0cHd6QnZ6bStzWWNFTlRoaW5E?=
+ =?utf-8?B?ZnUveEtiODBRTXVMMys5RWh3bWpSbjNxaHczKy8xRnVEMU4ydk8xSVNsQm1q?=
+ =?utf-8?B?TTFKMzB2dnY4RWlYckJOb0NUREgySzdtZUt5cE5jL1A5cFAzTnd2UnhxNEVl?=
+ =?utf-8?B?K1FoenBqZHh0Mi80Ui84dzBPelZHeWpsd1ZiVXhoZzRiWEl5bitqc2hZcFVQ?=
+ =?utf-8?B?Q255UmdyY2hzYWZGQ3drQXVJSUxqYXN2SFd1Q2xIaHI1RkVKd3B6NHNjeGhI?=
+ =?utf-8?B?ejFMY0o5aVYvSVExaFRpK3NmSDdZaEVPQjhRL1NqaC80a3BORjIvcjM2eGV2?=
+ =?utf-8?B?S29Samt1bW13TTlWeWd1ek1HQ3lrd3B4cDVPcWNHdk45Y3c5WmVDdGM0MVBX?=
+ =?utf-8?B?TURBUzFKRUdsTy9SRWVWZEg3eDd4dFhVRU9mNnk0QzF1bENQU2NJS3U1dlpl?=
+ =?utf-8?B?Y2FoQ3pCZXdlQ1dYSFV3WWRPdUQ1S2RyNElIOU45aklnc3RMdXJOaWQzL3R3?=
+ =?utf-8?B?Vmp1cEFZdnhuenFMdUtzWlZwM1BPQ20yS3JtdkFGNGpqdmxXQjZTWitIck51?=
+ =?utf-8?B?cXBtSE5uOXdvNms1N1paUWhtbHB1eFFHTWNSZWlBdFR2eUZTNGhRZz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1111.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-Network-Message-Id: a18f544f-55d8-4251-e6db-08df29153677
+X-MS-Exchange-CrossTenant-originalarrivaltime: 13 Oct 2026 10:31:59.4524
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JTh9GLtjeQ85N+IuTa+CS2Wg1JoxTOUsEFDDt8PflhxQpBuihZzK7vMiFZuYSnj6nRf7GpuMDiy5/Q+WZ1SIswlNo+/rnHy/PSlNzt4Y1BM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1270
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
-- [High] pm: Unbalanced pm_runtime_put_autosuspend on error path in __dwc3_=
-set_mode
-- [High] usb: dwc3: Double-free/UAF of gadget/host resources on GPIO failur=
-e in __dwc3_set_mode
-- [High] usb: dwc3: deadlock during suspend due to flush_work() on freezabl=
-e wq
-- [Medium] usb: dwc3: Role selection logic implements static priority, cont=
-radicting "oldest wins" design
---
-
-commit e9f771770a6e130d4f1859d1ec3e53526b8f1f97
-Author: Xu Qianhui <xiaqinghuan@mail.ustc.edu.cn>
-Subject: usb: dwc3: support two connectors sharing one HS data bus
-
-This commit introduces support for a single DWC3 controller to drive two
-receptacles by muxing the High Speed data lines. It registers one USB role
-switch per connector and serializes requests using a mutex, intending to
-grant the role to the oldest connector.
-
-> diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-> index fd5c2cd36c595..76e9e5d1808f0 100644
-> --- a/drivers/usb/dwc3/core.c
-> +++ b/drivers/usb/dwc3/core.c
-> @@ -174,8 +178,15 @@ static void __dwc3_set_mode(struct work_struct *work)
->  	mutex_lock(&dwc->mutex);
->  	spin_lock_irqsave(&dwc->lock, flags);
->  	desired_dr_role =3D dwc->desired_dr_role;
-> +	if (mux) {
-> +		mux_port =3D mux->desired_port;
-> +		mux_role =3D mux->desired_role;
-> +	}
->  	spin_unlock_irqrestore(&dwc->lock, flags);
-> =20
-> +	if (mux && READ_ONCE(mux->error))
-> +		goto out;
-
-[Severity: High]
-If this early error check evaluates to true, it jumps to the out label
-before pm_runtime_get_sync() is called. The out label then unconditionally
-calls pm_runtime_put_autosuspend().=20
-
-Does this drop a Runtime PM reference that was never acquired, potentially
-underflowing the usage count and powering down hardware that is still
-actively in use?
-
-> +
->  	pm_runtime_get_sync(dwc->dev);
-> =20
->  	if (dwc->current_dr_role =3D=3D DWC3_GCTL_PRTCAP_OTG)
-
-[ ... ]
-
-> @@ -233,6 +245,22 @@ static void __dwc3_set_mode(struct work_struct *work)
->  		dwc3_writel(dwc, DWC3_GCTL, reg);
->  	}
-> =20
-> +	/*
-> +	 * The previous host/gadget has been torn down above, so it is safe to
-> +	 * move the shared HS data path to the requesting connector.
-> +	 */
-> +	if (mux && mux_port !=3D mux->active_port) {
-> +		ret =3D gpiod_direction_output(mux->select, mux_port);
-> +		if (ret) {
-> +			WRITE_ONCE(mux->error, ret);
-> +			goto out;
-
-[Severity: High]
-When gpiod_direction_output() fails, this jumps to the out label after
-tearing down the current role, but before dwc3_set_prtcap() is called to
-update dwc->current_dr_role.
-
-During subsequent role switches or driver removal, will dwc->current_dr_role
-still evaluate to the old role? If so, this could cause dwc3_gadget_exit()
-or dwc3_host_exit() to execute a second time, resulting in a double-free of
-setup buffers or a use-after-free on device structures.
-
-> +		}
-> +
-> +		spin_lock_irqsave(&dwc->lock, flags);
-
-[ ... ]
-
-> diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-> index f3e37d383627a..4bf0497e902a7 100644
-> --- a/drivers/usb/dwc3/drd.c
-> +++ b/drivers/usb/dwc3/drd.c
-> @@ -501,10 +502,178 @@ static enum usb_role dwc3_usb_role_switch_get(stru=
-ct usb_role_switch *sw)
->  	return role;
->  }
-> =20
-> +static int dwc3_mux_role_set(struct usb_role_switch *sw, enum usb_role r=
-ole)
-> +{
-> +	struct dwc3_role_port *port =3D usb_role_switch_get_drvdata(sw);
-> +	struct dwc3 *dwc =3D port->dwc;
-> +	struct dwc3_role_mux *mux =3D dwc->role_mux;
-> +	enum usb_role selected_role;
-> +	unsigned long flags;
-> +	int selected, ret;
-> +	u32 mode;
-> +
-> +	if (role < USB_ROLE_NONE || role > USB_ROLE_DEVICE)
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&mux->lock);
-> +	if (mux->stopping) {
-> +		ret =3D -ESHUTDOWN;
-> +		goto out;
-> +	}
-> +	if (READ_ONCE(mux->error)) {
-> +		ret =3D READ_ONCE(mux->error);
-> +		goto out;
-> +	}
-> +
-> +	port->role =3D role;
-> +	if (mux->ports[0].role !=3D USB_ROLE_NONE)
-> +		selected =3D 0;
-> +	else if (mux->ports[1].role !=3D USB_ROLE_NONE)
-> +		selected =3D 1;
-
-[Severity: Medium]
-The commit message states that "requests from the two switches are
-serialised by a mutex, the oldest connector holding a role wins".
-
-However, this static conditional structure seems to prioritize port 0.
-If port 1 is the oldest connector actively holding a role, and port 0
-subsequently requests a role, won't this check evaluate port 0 first?
-Setting selected =3D 0 here appears to abruptly preempt port 1 and give
-the role to the newer connector, breaking the intended arbitration logic.
-
-> +	else
-> +		selected =3D mux->desired_port;
-> +	selected_role =3D mux->ports[selected].role;
-> +	if (selected =3D=3D mux->desired_port && selected_role =3D=3D mux->desi=
-red_role) {
-> +		ret =3D 0;
-> +		goto out;
-> +	}
-> +
-> +	if (selected_role =3D=3D USB_ROLE_HOST ||
-> +	    (selected_role =3D=3D USB_ROLE_NONE &&
-> +	     dwc->role_switch_default_mode =3D=3D USB_DR_MODE_HOST))
-> +		mode =3D DWC3_GCTL_PRTCAP_HOST;
-> +	else
-> +		mode =3D DWC3_GCTL_PRTCAP_DEVICE;
-> +
-> +	spin_lock_irqsave(&dwc->lock, flags);
-> +	mux->desired_port =3D selected;
-> +	mux->desired_role =3D selected_role;
-> +	dwc->desired_dr_role =3D mode;
-> +	spin_unlock_irqrestore(&dwc->lock, flags);
-> +	queue_work(system_freezable_wq, &dwc->drd_work);
-> +	flush_work(&dwc->drd_work);
-
-[Severity: High]
-This code queues drd_work on system_freezable_wq and synchronously blocks
-on it using flush_work().
-
-Since role switch events can be triggered from non-freezable contexts
-(such as ucsi_handle_connector_change running on a non-freezable workqueue),
-what happens if a role switch occurs during system suspend after freezable
-workqueues have been frozen?
-
-Could flush_work() block indefinitely since drd_work cannot run, leading to
-a complete system suspend deadlock?
-
-> +	ret =3D READ_ONCE(mux->error);
-> +out:
-> +	mutex_unlock(&mux->lock);
-> +	return ret;
-> +}
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013102927.1141=
-696-1-xiaqinghuan@mail.ustc.edu.cn?part=3D3
+DQoNCj4gDQo+IChzb3JyeSBmb3IgdGhlIGRlbGF5KQ0KPiANCj4gT24gRnJpLCBTZXAgMTgsIDIw
+MjYsIE1pbmRhIENoZW4gd3JvdGU6DQo+ID4gQWRkIFBIWSBvciBQSFkgYWRhcHRlciBpb21lbSBm
+aWVsZCBpbiBzdHJ1Y3QgZHdjM19nZXJuZXJpYyBmb3INCj4gPiBkd2MzIGdlbmVyaWMgcGxhdGZv
+cm0gdG8gYWRkIFBIWS9QSFkgYWRhcHRlciBzZXR0aW5nLg0KPiA+DQo+ID4gQWxzbyBBZGQgU3Rh
+cmZpdmUgSkhCMTAwIFVTQiAyLjAgZGV2aWNlIGNvbnRyb2xsZXIgZ2VuZXJpYyBpbml0DQo+ID4g
+ZnVuY3Rpb24gdG8gcmVtYXAgUEhZIGFkYXB0ZXIgaW8gbWVtb3J5IHJlZ2lvbiBhbmQgYWRkIGFk
+YXB0ZXINCj4gPiBwcmUtcnVuL3N0b3AgZnVuY3Rpb24uDQo+ID4NCj4gPiBKSEIxMDAgQk1DIHNv
+YyBjb250YWlucyBTeW5vcHN5cyBkd2MzIG11bHRpLXBvcnQgaG9zdCBjb250cm9sbGVyLg0KPiA+
+IEFuZCBleHBvcnQgaXRzIHhoY2kgY29udHJvbGxlciB0byBob3N0IHNlcnZlciB0aHJvdWdoIFBD
+SWUuIHhoY2kNCj4gPiBjb250YWlucyA4IHBvcnRzIGFuZCBlYWNoIGNvbm5lY3Qgd2l0aCBvbmUg
+ZHdjMyBkZXZpY2UgY29udHJvbGxlcg0KPiA+IHRocm91Z2ggYW4gUEhZIGFkYXB0ZXIuIFNlcnZl
+ciBob3N0IFVTQiBzdWJzeXN0ZW0gaW5jbHVkZXMgb25lDQo+ID4gbXVsdGktcG9ydCBkd2MzIFVT
+QiBob3N0LCBtdWx0aXBsZSBkd2MzIGRldmljZSBjb250cm9sbGVycyBhbmQgdGhlaXINCj4gPiBh
+ZGFwdGVycy4NCj4gPg0KPiA+IFdoaWxlIFVTQiBhZGFwdGVyIDIuMCBlbmFibGUgYml0IGlzIHNl
+dCwgdGhlIGNvbm5lY3Qgc3RhdHVzIGJpdCBvZg0KPiA+IHhoY2kgcG9ydCBzdGF0IHJlZ2lzdGVy
+IHdpbGwgYmUgYXNzZXJ0ZWQuIElmIHRoZSB1c2IgZW51bWVyYXRpb24gaXMNCj4gPiBub3QgcmVh
+ZHkgZm9yIFVTQiBnYWRnZXQsIFRoZSB4aGNpIHdpbGwgZmFpbCB3aXRoIGVudW1lcmF0ZSB1c2Ig
+ZGV2aWNlLg0KPiA+IFNvIFRoZSBKSEIxMDAgVVNCIGRldmljZSBjb250cm9sbGVyIGFkYXB0ZXIg
+cmVxdWlyZSB0byBzZXQvY2xlYXIgVVNCDQo+ID4gMi4wIHBvcnQgZW5hYmxlIHdoaWxlIHVzYiBn
+YWRnZXQgc3RhcnQvc3RvcCB1c2IgZGV2aWNlIGVudW1lcmF0aW9uLg0KPiA+IFRoaXMgY2FuIGJl
+IHRyZWF0ZWQgYXMgYSBoYXJkd2FyZSBxdWlyay4NCj4gPg0KPiA+IFNpZ25lZC1vZmYtYnk6IE1p
+bmRhIENoZW4gPG1pbmRhLmNoZW5Ac3RhcmZpdmV0ZWNoLmNvbT4NCj4gPiAtLS0NCj4gPiAgZHJp
+dmVycy91c2IvZHdjMy9kd2MzLWdlbmVyaWMtcGxhdC5jIHwgNDcNCj4gPiArKysrKysrKysrKysr
+KysrKysrKysrKysrKystDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCA0NiBpbnNlcnRpb25zKCspLCAx
+IGRlbGV0aW9uKC0pDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvZHdjMy9kd2Mz
+LWdlbmVyaWMtcGxhdC5jDQo+ID4gYi9kcml2ZXJzL3VzYi9kd2MzL2R3YzMtZ2VuZXJpYy1wbGF0
+LmMNCj4gPiBpbmRleCBjYTY5YWMwZWIwN2MuLmUzMzk0MjA1YTUxOSAxMDA2NDQNCj4gPiAtLS0g
+YS9kcml2ZXJzL3VzYi9kd2MzL2R3YzMtZ2VuZXJpYy1wbGF0LmMNCj4gPiArKysgYi9kcml2ZXJz
+L3VzYi9kd2MzL2R3YzMtZ2VuZXJpYy1wbGF0LmMNCj4gPiBAQCAtMjIsMTIgKzIyLDE1IEBADQo+
+ID4gICNkZWZpbmUgRUlDNzcwMF9IU1BfQVhJX0xQX1hNX0NTWVNSRVEJQklUKDApDQo+ID4gICNk
+ZWZpbmUgRUlDNzcwMF9IU1BfQVhJX0xQX1hTX0NTWVNSRVEJQklUKDE2KQ0KPiA+DQo+ID4gKyNk
+ZWZpbmUgSkhCMTAwX0FEQVBURVJfUE9SVF9FTgkJQklUKDIwKQ0KPiA+ICsNCj4gPiAgc3RydWN0
+IGR3YzNfZ2VuZXJpYyB7DQo+ID4gIAlzdHJ1Y3QgZGV2aWNlCQkqZGV2Ow0KPiA+ICAJc3RydWN0
+IGR3YzMJCWR3YzsNCj4gPiAgCXN0cnVjdCBjbGtfYnVsa19kYXRhCSpjbGtzOw0KPiA+ICAJaW50
+CQkJbnVtX2Nsb2NrczsNCj4gPiAgCXN0cnVjdCByZXNldF9jb250cm9sCSpyZXNldHM7DQo+ID4g
+Kwl2b2lkIF9faW9tZW0JCSpwaHlfcmVnczsgLyogUEhZIG9yIFBIWSBhZGFwdGVyIHJlZ3MgKi8N
+Cj4gDQo+IFRoZSBuYW1lIHNob3VsZCBiZSBnZW5lcmljLiBDYW4gd2UganVzdCB1c2UgInJlZ3Mi
+IGFuZCBkcm9wIHRoZSBjb21tZW50Pw0KPiANCj4gPiAgfTsNCj4gPg0KPiA+ICBzdHJ1Y3QgZHdj
+M19nZW5lcmljX2NvbmZpZyB7DQo+ID4gQEAgLTQyLDYgKzQ1LDQzIEBAIHN0YXRpYyB2b2lkIGR3
+YzNfZ2VuZXJpY19yZXNldF9jb250cm9sX2Fzc2VydCh2b2lkDQo+ICpkYXRhKQ0KPiA+ICAJcmVz
+ZXRfY29udHJvbF9hc3NlcnQoZGF0YSk7DQo+ID4gIH0NCj4gPg0KPiA+ICtzdGF0aWMgdm9pZCBk
+d2MzX2poYjEwMF9wcmVfcnVuX3N0b3Aoc3RydWN0IGR3YzMgKmR3YzMsIGJvb2wgc3RhcnQpDQo+
+IA0KPiBDYW4gd2Uga2VlcCB0aGUgZHdjIHBhcmFtZXRlciBuYW1lIGNvbnNpc3RlbnQgd2l0aCB0
+aGUgcmVzdCBvZiB0aGUgZHdjMyBjb2RlLg0KPiANCj4gPiArew0KPiA+ICsJc3RydWN0IGR3YzNf
+Z2VuZXJpYyAqZGF0YSA9IHRvX2R3YzNfZ2VuZXJpYyhkd2MzKTsNCj4gPiArCXUzMgl2YWw7DQo+
+ID4gKw0KPiA+ICsJaWYgKHN0YXJ0KSB7DQo+ID4gKwkJdmFsID0gcmVhZGwoZGF0YS0+cGh5X3Jl
+Z3MpOw0KPiA+ICsJCXZhbCB8PSBKSEIxMDBfQURBUFRFUl9QT1JUX0VOOw0KPiA+ICsJCXdyaXRl
+bCh2YWwsIGRhdGEtPnBoeV9yZWdzKTsNCj4gPiArCX0gZWxzZSB7DQo+ID4gKwkJdmFsID0gcmVh
+ZGwoZGF0YS0+cGh5X3JlZ3MpOw0KPiA+ICsJCXZhbCAmPSB+SkhCMTAwX0FEQVBURVJfUE9SVF9F
+TjsNCj4gPiArCQl3cml0ZWwodmFsLCBkYXRhLT5waHlfcmVncyk7DQo+ID4gKwl9DQo+IA0KPiBN
+aW5vciBuaXQsIHNpbXBsaWZ5IHRvIHRoaXM6DQo+IAl2YWwgPSByZWFkbChkYXRhLT5waHlfcmVn
+cyk7DQo+IAlpZiAoc3RhcnQpDQo+IAkJdmFsIHw9IEpIQjEwMF9BREFQVEVSX1BPUlRfRU47DQo+
+IAllbHNlDQo+IAkJdmFsICY9IH5KSEIxMDBfQURBUFRFUl9QT1JUX0VOOw0KPiANCj4gCXdyaXRl
+bCh2YWwsIGRhdGEtPnBoeV9yZWdzKTsNCj4gDQo+ID4gK30NCj4gPiArDQo+ID4gK3N0cnVjdCBk
+d2MzX2dsdWVfb3BzIGpoYjEwMF9nbHVlX29wcyA9IHsNCj4gDQo+IFNob3VsZCB0aGlzIGJlIHN0
+YXRpYz8NCj4gDQo+IHN0YXRpYyBzdHJ1Y3QgZHdjM19nbHVlX29wcyBqaGIxMDBfZ2x1ZV9vcHMN
+Cj4gDQo+ID4gKwkucHJlX3J1bl9zdG9wID0gZHdjM19qaGIxMDBfcHJlX3J1bl9zdG9wLCB9Ow0K
+PiA+ICsNCj4gPiArc3RhdGljIGludCBkd2MzX2poYjEwMF9pbml0KHN0cnVjdCBkd2MzX2dlbmVy
+aWMgKmR3YzNnKSB7DQo+ID4gKwlzdHJ1Y3QgcGxhdGZvcm1fZGV2aWNlICpwZGV2ID0gdG9fcGxh
+dGZvcm1fZGV2aWNlKGR3YzNnLT5kZXYpOw0KPiA+ICsNCj4gPiArCWR3YzNnLT5waHlfcmVncyA9
+IGRldm1fcGxhdGZvcm1faW9yZW1hcF9yZXNvdXJjZV9ieW5hbWUocGRldiwNCj4gImFkYXB0ZXIi
+KTsNCj4gPiArCWlmIChJU19FUlIoZHdjM2ctPnBoeV9yZWdzKSkgew0KPiANCj4gV2hhdCBpZiB0
+aGlzIGZhaWxzIGZvciByZWFzb25zIG90aGVyIHRoYW4gcmVzb3VyY2Ugbm90IGZvdW5kPyBQbGVh
+c2UgcHJvcGVybHkNCj4gY2hlY2sgZm9yIGVycm9yIGNvZGUuDQo+IA0KPiA+ICsJCWR3YzNnLT5w
+aHlfcmVncyA9IE5VTEw7DQo+ID4gKwkJLyogR2VuZXJpYyBibWMgVVNCIHdpdGggUEhZKi8NCj4g
+DQo+IEZpeCB0aGUgY29tbWVudCBtaXNzaW5nIHNwYWNlLg0KPiANCj4gPiArCQlyZXR1cm4gMDsN
+Cj4gPiArCX0NCj4gPiArDQo+ID4gKwkvKiB1c2IgZGV2aWNlIGNvbnRyb2xsZXIgd2l0aCBhZGFw
+dGVyICovDQo+ID4gKwlkd2MzZy0+ZHdjLmdsdWVfb3BzID0gJmpoYjEwMF9nbHVlX29wczsNCj4g
+PiArDQo+ID4gKwlyZXR1cm4gMDsNCj4gPiArfQ0KPiA+ICsNCj4gPiAgc3RhdGljIGludCBkd2Mz
+X2VpYzc3MDBfaW5pdChzdHJ1Y3QgZHdjM19nZW5lcmljICpkd2MzZykgIHsNCj4gPiAgCXN0cnVj
+dCBkZXZpY2UgKmRldiA9IGR3YzNnLT5kZXY7DQo+ID4gQEAgLTIzMSwxMiArMjcxLDE3IEBAIHN0
+YXRpYyBjb25zdCBzdHJ1Y3QgZHdjM19nZW5lcmljX2NvbmZpZw0KPiBlaWM3NzAwX2R3YzMgPSAg
+ew0KPiA+ICAJLnByb3BlcnRpZXMgPSBEV0MzX0RFRkFVTFRfUFJPUEVSVElFUywgIH07DQo+ID4N
+Cj4gPiArc3RhdGljIGNvbnN0IHN0cnVjdCBkd2MzX2dlbmVyaWNfY29uZmlnIGpoYjEwMF9kd2Mz
+ID0gIHsNCj4gPiArCS5pbml0ID0gZHdjM19qaGIxMDBfaW5pdCwNCj4gPiArCS5wcm9wZXJ0aWVz
+ID0gRFdDM19ERUZBVUxUX1BST1BFUlRJRVMsIH07DQo+ID4gKw0KPiA+ICBzdGF0aWMgY29uc3Qg
+c3RydWN0IG9mX2RldmljZV9pZCBkd2MzX2dlbmVyaWNfb2ZfbWF0Y2hbXSA9IHsNCj4gPiAgCXsg
+LmNvbXBhdGlibGUgPSAic3BhY2VtaXQsazEtZHdjMyIsICZzcGFjZW1pdF9rMV9kd2MzfSwNCj4g
+PiAgCXsgLmNvbXBhdGlibGUgPSAic3BhY2VtaXQsazMtZHdjMyIsIH0sDQo+ID4gIAl7IC5jb21w
+YXRpYmxlID0gImZzbCxsczEwMjhhLWR3YzMiLCAmZnNsX2xzMTAyOF9kd2MzfSwNCj4gPiAgCXsg
+LmNvbXBhdGlibGUgPSAiZXN3aW4sZWljNzcwMC1kd2MzIiwgJmVpYzc3MDBfZHdjM30sDQo+ID4g
+LQl7IC5jb21wYXRpYmxlID0gInN0YXJmaXZlLGpoYjEwMC1kd2MzIiwgfSwNCj4gPiArCXsgLmNv
+bXBhdGlibGUgPSAic3RhcmZpdmUsamhiMTAwLWR3YzMiLCAmamhiMTAwX2R3YzN9LA0KPiA+ICAJ
+eyAvKiBzZW50aW5lbCAqLyB9DQo+ID4gIH07DQo+ID4gIE1PRFVMRV9ERVZJQ0VfVEFCTEUob2Ys
+IGR3YzNfZ2VuZXJpY19vZl9tYXRjaCk7DQo+ID4gLS0NCj4gPiAyLjE3LjENCj4gPg0KPiANCj4g
+VGhlIHJlc3QgbG9va3MgZ29vZCB0byBtZS4NCj4gDQo+IFRoYW5rcywNCj4gVGhpbmgNCg0KVGhh
+bmtzIGZvciByZXZpZXchIEkgd2lsbCBmb2xsb3cgdGhlIGNvbW1lbnRzIHRvIG1vZGlmeSBhbmQg
+c2VudCB2MiENCg==
