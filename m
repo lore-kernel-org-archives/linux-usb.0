@@ -1,199 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011049.outbound.protection.outlook.com [52.101.57.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8505338642C;
-	Tue, 13 Oct 2026 05:49:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791870593; cv=none; b=PoJBTqGH1tnwN7rdY7ylhhv7ABedgFmHY80gUG4FVcE2JfZm1FsjNm/uaIKcQIAoUDnX5hQbU1WHdxJgxt7CMWlhikCKNu1gw/R3i7FpCyBJnQLwlaKXxR93Wli8tRaCrNev+dHGF2sFC2GdwS/BPf0MKW8Xj6qmrON44a2y4R4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791870593; c=relaxed/simple;
-	bh=wuRY5p+5BrzZUH6eJDHauD3cZJW0aNAJikIfR7tCCd8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RrkvXfyME6Q1vzejdYD7CqqovtK1MeM5FZm07NRXSMv7HahhHWrHg5ibNxtyjOPM+BUEvcFNhGxq2HSbstkx1r6PoI+Rw3MZCKpCcNbOSzgRVTSykszKe41qwilM25QLLnYPIkCKgZDJU0J63Flq/WEq5si/fu7XwMgLytoTeVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kOM7OoZN; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D6A63B7753;
+	Tue, 13 Oct 2026 05:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791870845; cv=fail; b=BivfJMv421tYDRGM9p+I4bKHXZDvcwcvNnxrsB21MKZCnbRhE9lhuCbi5+yb1RvGieWgezt/lMd2TEe063uNEh/+T1DVuODLQz6w1nc9dqfrx45IWAHGBMa+g7m6YyweU8N3wN3TSWNU+P4M8pCRU78XEI+NHebT4dqcvtIoik8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791870845; c=relaxed/simple;
+	bh=nJyx1dMv3tzvaQ+wS0Yreuo/ywasz7YyxBwbM8GfBMQ=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=kKw8EQN4ByUGpCTFhLStY2uKkX5y0jQXLwCQFfaHjhMjAylD8k/NAAxMBl6hI8YNwDhH+jWYCD68lg1bp7+I+aXGq2ZtTec2NaE5bHqJG5UmzEtJsi6tVpqWv8Wm5Ok9aNjFuSo3H29H2wCXkmlGkhw1iCKu293hmkZD4zB/c2k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com; spf=pass smtp.mailfrom=altera.com; dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b=qGYDenjR; arc=fail smtp.client-ip=52.101.57.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=altera.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altera.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kOM7OoZN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A9FE1F000FF;
-	Tue, 13 Oct 2026 05:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791870592;
-	bh=11l6/oERXgMW/KfZBlSq4z+sWH/hdPWsPSIDxfpMm/I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=kOM7OoZNkeQoeZUBmGA9S1uzERXrskTIHg0Dlh4HAYCrI3BAKKGjCcjiWIl1RCJyC
-	 BZiJOvFz0c8t5bh6t6eUnpw/VLARFyplhuj51o5LaxqqWt/oWzTXah++nRmhWS6Cs9
-	 Jyc9GHqTJ7d+JBOTWytsy+x+HvT3gNTq4Zyr9fLa3RpCIqYsrwI5BjYuH0ULwuBDiL
-	 agitrCz3TUWqpmVJiLzg9wjtqUJnjgA84Hdd8vo6Jkmn5Hfo6S/Vd2vVjIaFcRa4UJ
-	 bCEc3W0/65OPvP76z0CcDL4uR/WI0ELdUaxL9yncxwDv+GqCoccRPiDPSdZdAS4LN/
-	 Bsw1R7pYzLzgg==
-Message-ID: <558332ed-b93e-4f0d-abb0-942ca63b0cd6@kernel.org>
-Date: Tue, 13 Oct 2026 07:49:47 +0200
+	dkim=pass (2048-bit key) header.d=altera.com header.i=@altera.com header.b="qGYDenjR"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yYC5IanJIInUq1V387pvdXVlKsDciJC/h9gLD3/wCDJzPFhxufBBCb+dR8qcp1sQifo2Bsh7+3HsVr3Q8WwRT7AtJKqyT+DGGQRqV9A95/Ck2UFRUXlFdKQfLMypURPiWHYHGEb8lpF2MjQg4/BBbRy3cZM39mqS55g6N8wydnAMBmLOHi5Vyju1OVzm1uxBp0QFoxEeUmHqtYhcoDNGI1SirwBvfVOEl1Z4knIhFAgM2L8TTUlZBSMLFY/uLIVFYW0J2EJUDrXMnJNFt25TfpFxMXKGKTFucESx4qSMPx3GQZgoLlX8RrhlfoyBMrPpSThwbh71XOA4PkQrSEYxWA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=nJyx1dMv3tzvaQ+wS0Yreuo/ywasz7YyxBwbM8GfBMQ=;
+ b=goxdl73WdFaOtYwRtUGl4AdSfoe/ILGxEbzVL4EWRoZudCeMBXCIRTTLWcIyexBJsctiovvpS20OfqDZ8tMu2joxhNpdtsHPf4WVxKqRnlaoM+qIuLN/oyACzPYzOHjowD6cQKRjiziq3QusAvAuF164Dyl6BV7+vV5bazkIq0/WJV+/KoetaQNM9EoU/Dchy9uNPqe2BxJZUGwQslRnEjBGFnq8yzWvU1VC2nc8tnaauy3gPyO/rSvIDnIAHQ/VWc+gxssyVEckMuN10S3KTD67YHeolYv7HQBwO9LDx77ElkvD42lDUBC1G30mAiTj/t083Tt77Y4Pm1KLLAMhcA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=altera.com; dmarc=pass action=none header.from=altera.com;
+ dkim=pass header.d=altera.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=altera.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nJyx1dMv3tzvaQ+wS0Yreuo/ywasz7YyxBwbM8GfBMQ=;
+ b=qGYDenjRZyYSyPKkyYM/vGww98sUEFPKup/K3HHndSX0kjidKmB+zfY/O8GHM4PcjuOE45ceRLdAjWwfBA6M2xQaBDQLQs/u3KFormPlPpRT2njTmCSvLqKOQTZzXUbKTiJr2cxGScrx5E6/4CfWVVwf6wMJZBVmB9/35YLXPvyau7Hc48utiDgNO1br2L6wNcFqANnAAhVqxyXPMB2ayDCzA9zxWPWeUoekjYBIjm9eeZN2InJVsTn63o5HNjFe1oYS0mhph41V9Q5T5xSck2yV5UBA9Q0gN0EmdD/8KyrhxII1T6VncH9QbUY7feMu6qGMBnRPe7dN7/zIGLDeJw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=altera.com;
+Received: from SJ0PR03MB6581.namprd03.prod.outlook.com (2603:10b6:a03:393::12)
+ by DS2PR03MB440844.namprd03.prod.outlook.com (2603:10b6:8:3c5::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.12; Tue, 13 Oct
+ 2026 05:54:01 +0000
+Received: from SJ0PR03MB6581.namprd03.prod.outlook.com
+ ([fe80::e335:b86:cf59:8b80]) by SJ0PR03MB6581.namprd03.prod.outlook.com
+ ([fe80::e335:b86:cf59:8b80%5]) with mapi id 15.21.0496.021; Tue, 13 Oct 2026
+ 05:54:01 +0000
+Message-ID: <97d2287d-17ea-42f0-aa62-69473431fea7@altera.com>
+Date: Tue, 13 Oct 2026 13:53:55 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 0/2] usb: dwc3: add Altera Agilex5 DWC3 support
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, "linux-usb@vger.kernel.org"
+ <linux-usb@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+References: <cover.1788886615.git.adrian.ho.yin.ng@altera.com>
+ <cover.1789114385.git.adrian.ho.yin.ng@altera.com>
+ <6d259ee3-a737-4074-9066-3b01e3673e1c@altera.com> <aq2x-bwWluxr8oMh@vbox>
+Content-Language: en-US
+From: "NG, ADRIAN HO YIN" <adrian.ho.yin.ng@altera.com>
+In-Reply-To: <aq2x-bwWluxr8oMh@vbox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR06CA0015.apcprd06.prod.outlook.com
+ (2603:1096:4:186::7) To SJ0PR03MB6581.namprd03.prod.outlook.com
+ (2603:10b6:a03:393::12)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 10/11] tty: Add NVIDIA LSTP UART driver
-To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Donald Shannon <donalds@nvidia.com>, Nathan Chancellor
- <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- linux-kernel@vger.kernel.org, linux-serial@vger.kernel.org,
- linux-usb@vger.kernel.org, llvm@lists.linux.dev,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Johan Hovold <johan@kernel.org>, Oliver Neukum <oneukum@suse.com>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <20261012-lstp-usb-adapter-v1-10-aambrozewicz@nvidia.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20261012-lstp-usb-adapter-v1-10-aambrozewicz@nvidia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ0PR03MB6581:EE_|DS2PR03MB440844:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1ce19f4-0c4a-408f-940a-08df28ee6140
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|10067099003|55112099003|22082099003|18002099003|11063799006|4143699003|261009223027099003|56012099006;
+X-Microsoft-Antispam-Message-Info:
+	Eb+TQMcS0Csl40D/4mULHAjGH204CoFtIVPzBoZ8lR8PLkmN980aNHLU5VuvdOKAWopkFmV8cdF1uPHwo1ORP4Gp8JvACk/03C3OAtGh2bMDnIPi2zuEvesFG2jb3Vs1MmYCdj+txsP/G0Yv2FJnHDoZRcsD2/49SbG4NAJjEeg/o53oUK1KM70vhxyYG9xj+2ouSKzgO9GGNzN4GZcVSoFEkPgj2gjT+3/ilGdRFLdBssGAwCkuaXCdsAqRqifdi7oxUos8PLFoWVhy68jWYYfbQRTOsbjbE/IW5/lSx+uJFcSd0mWkAjxTqxkDw8Kfh3LOyiKmSNWkk15lSk0rZN/0S19PQGAyGXNuaYqvIqpHSkQrR0da994AjY1dbMT+CSPjLJg5AI4uF8snBU3r3E9EWULZSsxxFqpt59/c7TBJYQgaTUvQsVRIilZC+2m157+bX6zBB0eZ41pMm0F2tPjmP5d4tyTarUbBvGL+FNJbQNp6q0RubQp+U4dfsZzrO491bRTsiicy732AjgnRjooHKhLDjfqFhbGZ767MTe0sJhipNJFmeLJRsZWlFZhTvT1U7jvm//YYA0JDmtWixyTJ+95Gm7B0KNzNH/qk7TiU6nBK22SNXAC5kwu4bfLY
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR03MB6581.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(10067099003)(55112099003)(22082099003)(18002099003)(11063799006)(4143699003)(261009223027099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?VEhVcCsrcnNKT3F3MWdMSldMOExFTGdxVnk4ZzZBMzdCSUhhYjluNWdSMkZS?=
+ =?utf-8?B?RWZtK1UxZWxGWXAxaGZJeHcxVzFPUmwxc25la1djaHMra1lSQ3lWL3dXVk16?=
+ =?utf-8?B?amR2Z01nckFyaEFaNzRsMVI5NFRBTDlEamxQcFFLTnN5TXdvcHdXSytCWWcw?=
+ =?utf-8?B?TzVFWnVrMmlRZ3FremZBalcwVmdRSlF1MDA0VkhzSzl4dXBiTFR1NURtMUQr?=
+ =?utf-8?B?cTBtQ3RjYTZEaC9nNHB1NkpIZW00cWQxK2xWMW9RTFBRaTViNXI2UU9jQmdO?=
+ =?utf-8?B?L3FRSXQ5NDlyMVFOakJPaVdicSs3V0JYM0FhTGVCdXJGY1ZHOVJpYzdML0lB?=
+ =?utf-8?B?MW9KdnFRSjZVeEg2NVFJQTlja0phdkppOUlZRkE1SEZ4NG1pNUZJdXJ6eEtB?=
+ =?utf-8?B?d1FVc3VRcnVvL0tnWDlGLzdMWWk4aTNBSUFsSlVKRVR3SDIwdTh1QUhhY1Q4?=
+ =?utf-8?B?NG9xTU5pZkhLdy9teVFkOE1RNUFlTFFhRGgyVUR6b0hmRFlvMTlTWTRUTHpV?=
+ =?utf-8?B?VUFuckZpTm9scUdYczN0UFRhY2dYT2hibnAxN1Rsemh4dkVESzBhMU1XQW9q?=
+ =?utf-8?B?c3ovbERQb1FQbFZ5OXNITGtzOGR4RTZzMEZNQjhyNXhuWlJ3bS8rdnYwWHlR?=
+ =?utf-8?B?Rm5OUmVMN0xPZTN6cnFYUnZ1RWp6MDZxbEtld1VMd2N2T3BTT1dlSkN1dSs3?=
+ =?utf-8?B?NUtaYUJnYmhCdDNlbUJSbVpUUFJiRWFnRTNYM2VoMHhCeTExeVB1M1plVXhS?=
+ =?utf-8?B?ZkoydC9XTDZrb1NYVmh0TmxVaGk5UHJjb3NqVTVnWjFOOVJMQmYvQk9JYWNw?=
+ =?utf-8?B?alNqdkNzL3AreUlLTEhtOE9YeWdJdllrc0ErVFpTT1ZhcmFKbUtqS21lbWtl?=
+ =?utf-8?B?N3FqcmIvYkZkSkpQYnp6Y1BQWGdoelBDcUwyNmhWZjcwWURGQ3MwU2UvaTJK?=
+ =?utf-8?B?QStUUGFxK1JhSHV5ejdpVy93MCtyOW5xVE8yRDhDU2tBSThsVXNiRmR5RmFT?=
+ =?utf-8?B?blJmays3VUNyZklxYVFRTU43cEJSTnJsbWFlQXRhdmswUmg1QTA3MEpRVEFW?=
+ =?utf-8?B?K3FOWWFXMW1uZ3R3N0xIcmtWVDFFVC9aWENnTG5zZm9wSlR4bnk0aW5ZRmlL?=
+ =?utf-8?B?STU4TXRaOHpPbm51Snc2YVgveDVDaEJ2Y09NV2tYU2FBdmgzaHE4Y0hZUURt?=
+ =?utf-8?B?V2RSbVlRd3BLWXMzMFBuUDVVNjVrdEM4aW1sZ3FHdGVTTFZmV1pKMjBoNkxp?=
+ =?utf-8?B?UzRBMnNjVGRGOU9HVytnVUNZUFFjMUFwMlZBTUdtUVdTbEhKNkh1MnlrN1kx?=
+ =?utf-8?B?OHhjSWllRk5nQVVySEtOU29IaE5VbUhiWDRGNXZJcTIrVGVpRzhxL1prMzVD?=
+ =?utf-8?B?c0gyaC9zdWlySDh3SlBzb3V3VHg4K2x2WnEwdUpuSy9oY3pURi9BcnBoTkhO?=
+ =?utf-8?B?aVRwNkpaM2hVbGdKZ3grVXowYlBDQXNiTjg4QlVZdmNJRDNkUHY2Z05KUXZU?=
+ =?utf-8?B?ZWdFQlR3aXBqcU5qTmhEdEVIYXV6blZXWmJuZUFqejJUUDluNVZvSnJGU2F4?=
+ =?utf-8?B?ZjlnM3E0ZXk4a0cxQXIvQlZlQ2RnSTRHRHhBWnVIQVdPMWl5YVR4NVlXQlpn?=
+ =?utf-8?B?T1h6dmpTMXNrMWFYNXlTczBDaEExRmdPczZoNmlqQk5jc1NVWnBPbUJuNmNV?=
+ =?utf-8?B?ZGxvYVNSeE80dy8zMVp0MWt1bXhVOFY5bktCY09mYSs4OHo4Sk9pamZSYUpo?=
+ =?utf-8?B?aXROaEMrclh3aytmRUtTbkRvVkdVMC9yV1A2dVJuUlA2Skp2MnpYcjRQV3VJ?=
+ =?utf-8?B?MCsxVXhHMG9Uc3RTSFhza2k0V0ZYaExXbEd1M0dSWFdZQjZQOHFGZTZFdmVz?=
+ =?utf-8?B?T1Jla3pJblc2aXpvTklqSWxHZWdFdEczdHRnaTBmMFJ1dmUzUnR6amJvVm4r?=
+ =?utf-8?B?bDRRSGgrblJENGVnQmlsNCs0dWhRMVZXYUNGTHZYTUUxSXFjUmtzR3dhWEhz?=
+ =?utf-8?B?OE1uMWtId3dQeXR6cUJYcHZGSjZ3b0JBRGwrbW5uVHBtMDZNNWk2aHFqRGJy?=
+ =?utf-8?B?TzhtYUptek41SS9JTnRCaEJ0TzN6RDNRbDB3aEhFaVV0dGNiOFVjQmh0dkFp?=
+ =?utf-8?B?ZkJuMmk3Rk9UYTd1eGR5RW9iQWgvWktLcGVMNjB3SitrUkRjV00wZGFsRE51?=
+ =?utf-8?B?TnNRMWZjM28rVU9kQzlkQkFpR29SWlNQVE5zdVhsYXQyNFpNWFhTNmZYenFY?=
+ =?utf-8?B?WE5TamR5eGk3clI4UEdTUWkrZ1p1RUFDVlV2RStqVmFEOG4rYjBGUGRKWGJT?=
+ =?utf-8?B?c21HQlM5cjliSDExekxTTXRjdUZ1dW5OQWh3YkJnWGNEZkdyOGJLM1h4bmhh?=
+ =?utf-8?Q?xBfO1EVG7kmAoMYg=3D?=
+X-OriginatorOrg: altera.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1ce19f4-0c4a-408f-940a-08df28ee6140
+X-MS-Exchange-CrossTenant-AuthSource: SJ0PR03MB6581.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2026 05:54:01.2649
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fbd72e03-d4a5-4110-adce-614d51f2077a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6QEiILyQYA9Dldu8tSDBsUXREgWs0WDyZDP331kkkSxih/dEyLUUe0qxTbB9/OaK6Q8JwTs1vpWPP9pn2Opxla4Zhqt+sjdmblK1uNYSSrQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR03MB440844
 
-Hi,
 
-On 12. 10. 26, 19:36, Adrian Ambrozewicz wrote:
-> --- /dev/null
-> +++ b/drivers/tty/lstp_tty.c
-> @@ -0,0 +1,829 @@
-...
-> +/* clang-format off */
-> +static speed_t lstp_baud_to_speed(u32 baud)
+On 9/19/2026 6:03 AM, Thinh Nguyen wrote:
+> On Sat, Sep 19, 2026, Ng, Adrian Ho Yin wrote:
+>> On 9/11/2026 5:04 PM, adrian.ho.yin.ng@altera.com wrote:
+>>> From: Adrian Ng Ho Yin <adrian.ho.yin.ng@altera.com>
+>>>
+>>> Agilex5 integrates a Synopsys DesignWare USB3 controller that is probed
+>>> through dwc3-generic-plat. This series adds:
+>>>
+>>> 1. dt-bindings for compatible "altr,agilex5-dwc3"
+>>> 2. matching entry in dwc3-generic-plat
+>>>
+>>> arm64 DTS enablement is posted separately.
+>>>
+>> Hi All,
+>>
+>> Gentle reminder for this patchset.
+>> The device tree patch has been applied by the DT maintainer.
+>> https://urldefense.com/v3/__https://lore.kernel.org/all/02d94760-6e5e-40cf-9354-63b9bca5d682@kernel.org/__;!!A4F2R9G_pg!fOoRba7F0n_QcIeLW1hJWdqm-cZ-1LeU5F9IMVQONnR-eK5J5_SUcboibLdpMDbyKiobonza5DWeJd63mx8kk5_kzayZsEM$
+>>
+> This series has already been reviewed and approved, and the
+> corresponding Acked-by and Reviewed-by tags are included.
+>
+> It's just waiting for Greg to pick it up.
 
-Maybe implement this in drivers/tty/tty_baudrate.c on the top of 
-baud_table + baud_bits?
+Hi Greg,
 
-> +{
-> +	static const struct {
-> +		u32     baud;
-> +		speed_t speed;
-> +	} map[] = {
-> +		{      50, B50      }, {      75, B75      }, {     110, B110     },
-> +		{     134, B134     }, {     150, B150     }, {     200, B200     },
-> +		{     300, B300     }, {     600, B600     }, {    1200, B1200    },
-> +		{    1800, B1800    }, {    2400, B2400    }, {    4800, B4800    },
-> +		{    9600, B9600    }, {   19200, B19200   }, {   38400, B38400   },
-> +		{   57600, B57600   }, {  115200, B115200  }, {  230400, B230400  },
-> +		{  460800, B460800  }, {  500000, B500000  }, {  576000, B576000  },
-> +		{  921600, B921600  }, { 1000000, B1000000 }, { 1152000, B1152000 },
-> +		{ 1500000, B1500000 }, { 2000000, B2000000 }, { 2500000, B2500000 },
-> +		{ 3000000, B3000000 }, { 3500000, B3500000 }, { 4000000, B4000000 },
-> +	};
-> +
-> +	for (size_t i = 0; i < ARRAY_SIZE(map); i++)
-> +		if (map[i].baud == baud)
-> +			return map[i].speed;
-> +
-> +	return B0;
-> +}
-...
-> +static int lstp_uart_start(struct lstp_channel *ch)
-> +{
-> +	struct lstp_uart_ctx *ctx = ch->priv;
-> +
-> +	/*
-> +	 * Mark registered before publishing: tty_port_register_device() adds
-> +	 * the cdev and emits the uevent that sends udev straight to open(),
-> +	 * and lstp_tty_install() refuses a minor that is not marked. No node
-> +	 * exists at this index yet, so nothing can reach the map early.
-> +	 */
-> +	scoped_guard(mutex, &lstp_minors_lock)
-> +		ctx->registered = true;
-> +
-> +	struct device *tty_dev =
-> +		tty_port_register_device(&ctx->port, lstp_tty_driver, ctx->minor, ch->dev);
-> +
-> +	if (IS_ERR(tty_dev)) {
-> +		dev_err(ch->dev, "%s: ch_%d: Could not register TTY (%pe)\n", __func__, ch->ch_id,
-> +			tty_dev);
-> +		scoped_guard(mutex, &lstp_minors_lock)
-> +			ctx->registered = false;
-> +		return PTR_ERR(tty_dev);
-> +	}
-> +
-> +	/* Nothing below may fail: really_probe() skips .remove() when .probe() errors. */
-> +	dev_info(ch->dev, "%s: ch_%d: Started as %s\n", __func__, ch->ch_id, ch->display_name);
+Gentle ping for this patchset.
 
-We usually print nothing in case everything went well.
+Thank You
+Adrian
 
-> +	return 0;
-> +}
-...
-> +static void lstp_uart_stop(struct lstp_channel *ch)
-> +{
-> +	struct lstp_uart_ctx *ctx = ch->priv;
-> +
-> +	/*
-> +	 * Clear @registered before sampling @port->tty, not after:
-> +	 * tty_port_open() publishes the tty before it calls .activate(), so an
-> +	 * open can go live between a sample and a later clear and never be
-> +	 * hung up here.
-> +	 */
-> +	scoped_guard(mutex, &lstp_minors_lock)
-> +		ctx->registered = false;
-> +
-> +	struct tty_struct *tty = tty_port_tty_get(&ctx->port);
-> +
-> +	if (tty) {
-> +		/*
-> +		 * Synchronous: fds move to hung_up_tty_fops and lstp_port_shutdown()
-> +		 * cancels write_work, so no write is submitted after this returns.
-> +		 */
-> +		tty_vhangup(tty);
-> +		tty_kref_put(tty);
-
-tty_port_tty_vhangup()?
-
-> +	}
-> +
-> +	tty_unregister_device(lstp_tty_driver, ctx->minor);
-> +}
-thanks,
--- 
-js
-suse labs
+>
+> BR,
+> Thinh
