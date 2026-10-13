@@ -1,130 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5A2A518148;
-	Tue, 13 Oct 2026 21:01:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8570B511E99;
+	Tue, 13 Oct 2026 21:01:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791925281; cv=none; b=HoGsBJlOHyW/R6puQ6d9MSvfKUAgBuDGqqZhxi/L1NP//g0C4ANCX4J50y2SoR6CZA+p40+uPPlFGHcZpQJBPKEDtMmoSZt9qALkAUoOHL+P+XhQzZ9mCLvW9kh1U7ARL6JtgChhLx/44Jy+GPEC/01FR78NXRuMGbvfSHE5U0o=
+	t=1791925290; cv=none; b=Mbo5I8w20XIUICh/5xlay94odRaJkOusO8q33ua22RW1CsUZy1g9iYPgjDWio4YXUummkw2virNqiAJ62XuK7YtlM21qlt2dj19nJguxUxkvvnwj9TGMnIGJDfnuYMD+XdbgNycgeYUur+fArnpKBKZpEng8S6c72rG6hEOIsEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791925281; c=relaxed/simple;
-	bh=Z5QE8bDGwjv5rpz0E6KvjEKBlO2PL0gMiX6i/nSwbI4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
-	 References:In-Reply-To; b=NvuYQY73552/cGD2sb6pLktiy6ISF2rdgIm3RbTtgS24SvtoOy/C3ltWit+4Ph/4XeStx1fb8UODbrH2dQpgv36DqEai1Oh7DelKXpLdsIjmt29aooBT17yk0mJWkL4YvE2VMizR3xDp9Qtd5cw7RCKIYE6sovPiW4ogkbUloiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bkgxwb8k; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791925290; c=relaxed/simple;
+	bh=sZBpQpUadceoBMH/ZvndmIicfOcoKzSaD702QVr/ELg=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=gAUOOxXzDszn4FFauV/Vq/rA0hwtvsa63BhnK91zylhBonWeKqK+TM5k89rKBKYFQhMU7Jow478Q86B+v1ydfs1HvHCKrrwXKWcu/yj8SJDgJi3VWwHJfayM5ioRJhP/C5AeB6pYLyLTgryMezKqheaiEYm/L9Jr1PWnZRDD8k0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I5iyKOEG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bkgxwb8k"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46E7D1F000FF;
-	Tue, 13 Oct 2026 21:01:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I5iyKOEG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B3AC1F000FF;
+	Tue, 13 Oct 2026 21:01:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791925280;
-	bh=Pi/onS5WtRQMlO8FS9+xnweQOK38nFxgcItu9oVclZc=;
-	h=Date:To:From:Subject:Cc:References:In-Reply-To;
-	b=Bkgxwb8kRgeWfVfeeZcRxvKNQNPflLWum9CcF1B566WzH3xACQW7zpJyShAF3K2dH
-	 XWcpqSD2QWZ0fkbe169FnGbQDOg01JCGEM4A883eRARN8SXTyq51ngI8P/hU4SkpRq
-	 oo/SWcbKMuGsyWO8evcVYbeYzfkRmv3Q/o3yGc2+ox8xBdN33R8eUddVcS9d8PCPbY
-	 c7YulMljG+lESEAcAZU8iSMQXQxD3m5/kLgV6vcMC3z8RfjjUmbb2DHzgi7Nq9O6dP
-	 +dnEA9LuTuZkXr2bwVFiOVQX1q6A6iYDlxiZ46FIItWb9lNWrpmzJz5eYuIiPJkxx/
-	 XZjVg/KX3E+lw==
+	s=k20260515; t=1791925289;
+	bh=sZBpQpUadceoBMH/ZvndmIicfOcoKzSaD702QVr/ELg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=I5iyKOEGDVO1a6Vo0mVKxSPizNMG81SiH8SYBx0pmjMVzO3El1dqQAabweqHcyfZB
+	 hl3uPuOGx5XVdBOsABwAn+r9u1ypBHUh2lepFtUKppIg6taJmaT96teJRo70st8I3t
+	 h9G1L6EaCJ5DrXL9BscLwdljlCJ/O7s3B1uVodPrvWKPzll397ce5v9ACJgfOCYg69
+	 /PGAzIHJEbA8fQ4VQjgbvR/5Oj1EWdQnYpaZkfKge2NDFxfwa1Wz+Fj1rqwolYgX7/
+	 aNCqAnOlDYctuOP33BKm7QjQeGNj/WUdknx4AeZVUaMVxOevxx2MwX1cIe9vZsriee
+	 oXsXoigbrc80Q==
+Message-ID: <sashiko-outbox-170502@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 33/39] mm/madvise: use predicates for madvise(...,
+ MADV_DOFORK)
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
+Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-s390@vger.kernel.org, "Heiko
+ Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
+ Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
+In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-33-1aa3c9b139f9@kernel.org>
+References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
+ <20261013-b4-mmap-prepare-vma-flag-sanify-v6-33-1aa3c9b139f9@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 13 Oct 2026 21:01:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 13 Oct 2026 23:01:16 +0200
-Message-Id: <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
-To: "Alan Stern" <stern@rowland.harvard.edu>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] driver core: take parent lock on deferred probe
-Cc: "Johan Hovold" <johan@kernel.org>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Mario Peter"
- <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
-References: <20261013140615.1226992-1-johan@kernel.org>
- <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
- <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
-In-Reply-To: <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
 
-On Tue Oct 13, 2026 at 9:11 PM CEST, Alan Stern wrote:
-> On Tue, Oct 13, 2026 at 07:43:08PM +0200, Danilo Krummrich wrote:
->> On Tue Oct 13, 2026 at 4:06 PM CEST, Johan Hovold wrote:
->> > +void bus_probe_device_deferred(struct device *dev)
->> > +{
->> > +	if (dev->parent && dev->bus->need_parent_lock)
->> > +		device_lock(dev->parent);
->>=20
->> This looks like it has the same potential UAF as the other patch.  It's =
-quite
->> unfortunate we need the whole need_parent_lock thing just for USB.  IIUC=
- the
->> main reason USB needs this is because interface devices share resources =
-of USB
->> devices and we need to keep the locking order to avoid inversions, right=
-?  Is
->> there more to this from the USB side of things?
->
-> That's pretty much it.
->
->> I think we can probably do something like this
->>=20
->> 	struct device *parent =3D NULL;
->>=20
->> 	scoped_guard(device, dev) {
->> 		if (dev->p->dead)
->> 			return;
->> =09
->> 		if (dev->bus->need_parent_lock)
->> 			parent =3D get_device(dev->parent);
->> 	}
->>=20
->> to avoid the problem, but it's still a bit ugly.
->>=20
->> > +	__bus_probe_device(dev);
->> > +	if (dev->parent && dev->bus->need_parent_lock)
->> > +		device_unlock(dev->parent);
->> > +}
->
-> Wouldn't it be simpler just to make each USB interface take a reference=
-=20
-> to its parent device?  And likewise for USB devices, if needed?
+> Make it clear what we're blocking in MADV_DOFORK. Previously we simply
+> disallowed VM_SPECIAL i.e. mappings not managed by core mm, fixed mappings
+> and VMA_IO_BIT.
+>=20
+> Now the invariant is established that mm-managed mappings may not set
+> VMA_IO_BIT, the VMA_IO_BIT check is redundant.
+>=20
+> The rest is equivalent to testing for a fixed or non-mm-managed mapping,
+> i.e. a mapping which is not mm-backed, or hugetlb, which is specifically
+> excluded.
+>=20
+> This was established by commit 0b2758f48f22 ("Require (reasonably) normal
+> mappings for MADV_DOFORK") containing my hands-down favourite call out of
+> all time.
+>=20
+> Express the same thing using the predicates - only mm-backed mappings may
+> have their copy-on-fork behaviour changed, retaining the eternal exception
+> to all rules, hugetlb.
+>=20
+> No functional change intended.
+>=20
+> Acked-by: Zi Yan <ziy@nvidia.com>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
 
-The driver core already holds a reference count of the parent between
-device_add() and device_del(), which is where a "parent" is technically def=
-ined.
-But the deferred retry can extend beyond device_del().
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-USB interfaces already take an additional reference to their USB device in
-usb_set_configuration() and drop it in usb_release_interface(), so they sho=
-uld
-already be protected against this particular UAF.
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
+epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D33
 
-The issue concerns a USB device and its parent hub's USB device.  (This mak=
-es me
-wonder whether probing a USB device actually requires the parent USB HUB
-device's lock to be held, or whether this is just a consequence of sharing =
-the
-same usb_bus_type?)
-
-In theory a USB device could also keep a reference count to its parent, but=
- then
-the driver core code would rely on an implementation detail of its users; I=
-'d
-prefer not to make driver core's access to dev->parent depend on references
-maintained by individual subsystems.
-
-I'd even go a step further any say that if subsystems try to keep this poin=
-ter
-valid beyond what's guaranteed by the driver core, they should do this with=
- a
-separate bus specific pointer.  The reason is that otherwise the lifetime a=
-nd
-ownership definition of this pointer does not depend on API contracts, but =
-on
-individual implementation details, which is a very common source for all ki=
-nds
-of bugs.
