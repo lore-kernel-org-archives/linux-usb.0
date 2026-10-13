@@ -1,73 +1,43 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32062425873
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 01:54:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BBAA44A40A;
+	Tue, 13 Oct 2026 02:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791856476; cv=none; b=HEsLQ2CoKzKfxeZsd9ilRTuvO6sVx0aoq4R379hL8lUmj6Q4KcOE+Rr8UPsrbv9BVoxbOmNTT3QI30x8G5UiQi96nSHZcb/Olld5r96ieB5aUXmIRH9UaUSNEy6b1MGX0PGOj647xq0AD8VMYhT6zNNTh7KqeyY7EzW3EOr9MNY=
+	t=1791857353; cv=none; b=Z05obiKuXKAgGMDPVLG+TT0/0PLqiomVAWgiRQN/GIs1ej+6qz9oPPR/MMKFV/X2/qFh4hrotgt5NMScGNVOcwefn2R/Mqi9n0jNBbGVbFh/wOyHX93BKshEV0wsZWwX987v/Z4L+Me2LlvxbqjtsAyr5Pt2c1kCTdOlZUMN054=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791856476; c=relaxed/simple;
-	bh=/69Sv47VBWsaTNMZuDaTDKZqe8kA0nRBFTZSsIuq/gc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F2UMSPm4NszY2/jYIa7M/CVXGIKbwhq+SSBAe5sIXt5hhBuJElIpA58op6WB/JqN8PFeGSATT6znEkpS7L1+2ElcGyENds6xo12Cwi3P2OauXrS9KlQdH7AK+KfANauCXzmfuOiTUiZm1XXKHqIw+KcOsFWev70Uk3TEhrZZlAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=isslab.korea.ac.kr; spf=none smtp.mailfrom=isslab.korea.ac.kr; dkim=pass (2048-bit key) header.d=isslab-korea-ac-kr.20251104.gappssmtp.com header.i=@isslab-korea-ac-kr.20251104.gappssmtp.com header.b=GB6y6bhz; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=isslab.korea.ac.kr
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=isslab.korea.ac.kr
+	s=arc-20240116; t=1791857353; c=relaxed/simple;
+	bh=i0MS4qgu9PObpyuQPeggxh/NmzNRKVcLRLyQV5MC8FU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FhD7KxnmJCc5vtcUCaTuHL2qcq5CLTf7bIba5NS7V3FCehtAWtGQFxMcRAqhvp0DCDS+sDYDNW/fvw8VwsXxUOXiMoc9o364jP2pf239aAWEfTM+txIfHzPs57oRqjPo1oXwd4tH0HTAq+xm3l6kbTzuCQrtq+gzpCrw5rgDl8s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=onqYbyY5; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=isslab-korea-ac-kr.20251104.gappssmtp.com header.i=@isslab-korea-ac-kr.20251104.gappssmtp.com header.b="GB6y6bhz"
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-cc4dbda1e5dso736854a12.2
-        for <linux-usb@vger.kernel.org>; Mon, 12 Oct 2026 18:54:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=isslab-korea-ac-kr.20251104.gappssmtp.com; s=20251104; t=1791856474; x=1792461274; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xjxQ0USZRooNIDC4VoMJ18fwWCMaS8NDpeUyYcJZJ7I=;
-        b=GB6y6bhzq2hhHjLR25ibg0iTq6/TETz0n78zH1WRy0Q4EzgcSqksFCNV+NtmQUTW+j
-         L2bz/w9BfFpNmOi2E+80GGM0XKkNjDLBmhoJfDaVRZwCnZ2BnaghCUtKLMrM+Qo0owCQ
-         NkyBGh7l+0WwTiuvZ8kcFLaEOASTiRTeaXr2cM6NhuXG0+vb4MOW3rV5PQpEfhzwbTsU
-         4PWrwXtS7iGjJQp8Jdz5om8/lBblFaI/HbfP9Ls0z0LSJ3celNLMfPN8S+agx39VMVqW
-         9N8wYZdpk1uOu5oF9W1fq77LgaI619JkLagzUTGhkKXOBsaa45uDgvK1fAV4I3Yj/YHt
-         LpzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791856474; x=1792461274;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xjxQ0USZRooNIDC4VoMJ18fwWCMaS8NDpeUyYcJZJ7I=;
-        b=UjtEc76h74x7mtUayRfMt6OhNTU1eiOebGFbBmPidzSfCCQtT1Wcm5g4Njeh8HctEU
-         ioddT+SA+EYLIekAoDeqRgYviAsNnSQqEc6ly9Gv2tE5fLe+PguFpL+HmxDLhwNhtNyp
-         ong6cMq9vwMlJtKHAN6RsZgtewGYrA+IRa2BGbbuVrBovtFLUnNpRYR1G35Uj/W2XaY9
-         BvohuziyhdOqSdgrtTyumabT26v5mRg2QYa5zfTtOFCVO+ygOOJaBUeevfgFWEbdGRaN
-         2mtti/qeDPKuDIP3U7vP0VYirsnSVVxVETFrbtX2x7kOlJmIul8LIEDNetb5G/Ib+t66
-         x3fg==
-X-Forwarded-Encrypted: i=1; AKwUvBxiYw5MfTx/nEo2dtWfBO0+crCoaHtvLtWoPNI53wW95i+Y1dVD26qpFGNgRFEKk6KfGodECDTvNds=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJWrf0jLQdwolxzx6TAs1OrIO9GxygYlnSBvUiJK+xk/Kg4IN6b
-	Kq7wFfm8c0Y89hGHNvS/oIRf9S2woPFhmS2JlnCNn28CRLSOsdtVPpeMD7juvg2MiDk=
-X-Gm-Gg: AYBFou1pbclScaPyBlwMc/fMBHI2wu3cqkOVzz7jgpz4NIgOhkzFEQdCUiHR4iN6Tfk
-	2iPFoYtC1Syit1ajzAcjtV3hWwFHs2ejv3vyoPOMvsmjdjvHXkVgt97JUUaG6dGGk/rWrdIbLhM
-	vDeY2plRq9GFzSBFoWaLifA0bvnUZaqPa2GK4eTxmOOPoV0SHyDL2XtRR+9bM6Fuxl7NSWEnzgh
-	XAy9ycqQ9UsPzUHt0m3MxI1f5uT+kZifZtwq3QhKRjSBFNrkh+yR/uk8ZuTDqryAkzYApA+FjbV
-	7uedzUdvUk7aRbCSmGCmk0x4D75uFtwvFH5q2FMi9zBNWDVWxfM55ECiVYymxuO2htlWLzniPdQ
-	vS7o423W0iOV+MHiNSSFbGiWG3O4iuFUxKeHwDkm7wrmApvwd0dcvvBBilr0/hfv/9tfaO76Gpw
-	MtT9T1cW3L4M4p/sU6VhzGerrC5ySlJxxxSgyzjjB2TowkrVVSOnc+e6lfW7/z8t7xPjsA+Dw4t
-	09Qsw==
-X-Received: by 2002:a17:90b:1d49:b0:3a8:5d57:a5eb with SMTP id 98e67ed59e1d1-3ab3ab5a60dmr7458025a91.15.1791856474526;
-        Mon, 12 Oct 2026 18:54:34 -0700 (PDT)
-Received: from yhlee-960QFG.. ([125.131.91.97])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ab3781d581sm19057755a91.1.2026.10.12.18.54.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 Oct 2026 18:54:34 -0700 (PDT)
-From: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
-To: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org
-Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	target-devel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="onqYbyY5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=G2
+	IJGoUUfLa2xG5P9/wT00uiOud9f9XwAM3xSFZ6TMU=; b=onqYbyY5uf6rW+Zjy8
+	pZGfoTc0nJ/4V6uPxuodj/Z0xY14aFSZshyNGssifQVU0XdJkeklWFMsulzK5J0m
+	3kttwJs/EkD5/AjbhB4Cr9MSjMsrsIc2lTSTXQdMwsj1SrVZ5ZMishRxfN4HTRI+
+	tJRBVGe4F+9QEb0HjqGoXGItE=
+Received: from ubuntu.. (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgDHKsWcks1qZMCpDw--.41545S4;
+	Tue, 13 Oct 2026 10:08:35 +0800 (CST)
+From: Ma Ke <make_ruc2021@163.com>
+To: peter.chen@kernel.org,
+	pawell@cadence.com,
+	rogerq@kernel.org,
+	gregkh@linuxfoundation.org,
+	felipe.balbi@linux.intel.com
+Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make_ruc2021@163.com>,
 	stable@vger.kernel.org
-Subject: [PATCH v3] usb: gadget: f_tcm: reject a short write data-out transfer
-Date: Tue, 13 Oct 2026 10:54:16 +0900
-Message-ID: <20261013015416.2503787-1-yhlee@isslab.korea.ac.kr>
+Subject: [PATCH v3] usb: cdns3: Fix PCI device reference leak in cdns3_pci_probe()
+Date: Tue, 13 Oct 2026 10:08:27 +0800
+Message-ID: <20261013020827.4099844-1-make_ruc2021@163.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -76,65 +46,122 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PSgvCgDHKsWcks1qZMCpDw--.41545S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWryDZF1kCw15urWDJF1xAFb_yoW5Kr4xpF
+	Z3WF4rCrWkJFy3trs8Xr48uaySkr4Sk34xKw1Ik347Zw45Ar1xtFWFvFyjgF4DCrWkXa40
+	qw1jqw4q9F4jva7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piJGYdUUUUU=
+X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbC9gPa5WrNkqOTEQAA3e
 
-usbg_data_write_cmpl() commits the WRITE buffer to the backend as soon as
-the OUT request completes successfully, looking only at req->status and
-never at req->actual.  A host that declares an 8192-byte WRITE but ends the
-data-out after 4096 bytes still reaches target_execute_cmd() with the full
-length.
+cdns3_get_second_fun() looks up the second PCI function with
+pci_get_device(), which returns the device with a reference held, and
+hands it back to its callers. Neither cdns3_pci_probe() nor
+cdns3_pci_remove() ever drops that reference, so the second function's
+pci_dev can never be released.
 
-The buffer is not zeroed (transport_generic_new_cmd() leaves zero_flag
-clear for a data CDB), so the bytes that never arrived keep the previous
-page contents, which the backend writes to the device for the host to read
-back. The target core refuses a WRITE whose declared length is wrong, but
-it does not see a data phase that simply falls short.
+Route the error paths of cdns3_pci_probe() through a put_pci label and
+drop the reference there.
 
-Fail the command when the data-out is short.  The OUT data phase is over
-once this completion runs, so clear cmd->data_len unconditionally here:
-otherwise a later BOT CHECK CONDITION - from the short write, or from any
-WRITE that finishes its data phase and then fails in the backend - takes it
-as outstanding data and queues an OUT request to drain a host that has
-already stopped, wedging the bulk pipe.  Rate-limit the failure message,
-which a host can now trigger at will.
+cdns3_pci_remove() needs the reference dropped too, and it is missing
+a NULL check while at it. cdns3_get_second_fun() can return NULL, and
+pci_is_enabled() reads pci_dev->enable_cnt without checking its
+argument.
 
-There is no oops; poisoning the buffer and ending an 8192-byte write at
-4096 bytes leaves 4096 stale bytes committed before the change, and after
-it the command is aborted with nothing committed.
+The same error path also frees the wrong object. When the second
+function has already been probed, wrap is its drvdata, obtained with
+pci_get_drvdata(), and it is shared. The second function keeps
+pointing at it, and cdns3_pci_remove() dereferences it when that
+function goes away.  Freeing it here leaves that function with a
+dangling drvdata.
 
-Fixes: c52661d60f63 ("usb-gadget: Initial merge of target module for UASP + BOT")
+Both branches that assign wrap are guarded by the same
+pci_is_enabled() test as the registration block that can fail, so the
+wrap freed there is always the one taken from the sibling function.
+Track whether wrap was allocated here and only free it in that case.
+
+Found by code review.
+
+Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
 Cc: stable@vger.kernel.org
-Signed-off-by: Yehyeong Lee <yhlee@isslab.korea.ac.kr>
+Signed-off-by: Ma Ke <make_ruc2021@163.com>
 ---
-v3: clear cmd->data_len unconditionally once the data phase is over, not
-    only on the short-write path, so a WRITE that finishes its data phase
-    and then fails in the backend does not wedge the bulk pipe either.
-v2: fail short data-out and clear cmd->data_len; rate-limit the message.
+Changes in v3:
+- Do not free a wrap that was taken from the second function's drvdata.
+  The free in that error path can only ever run on the shared object, so
+  it left the sibling function with a dangling drvdata. Reported by
+  Sashiko. cdnsp-pci.c has the same construct.
+- Keep the rest of v2.
+Changes in v2:
+- rebase on current mainline. cdns3_pci_probe() gained a -EPROBE_DEFER
+  path in e5052f2c5c73 that returns after the reference has been taken, 
+  so it has to drop it too.
+---
+ drivers/usb/cdns3/cdns3-pci-wrap.c | 23 +++++++++++++++++------
+ 1 file changed, 17 insertions(+), 6 deletions(-)
 
- drivers/usb/gadget/function/f_tcm.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
-index 9e6d4f39900a2..cf6a394c4196b 100644
---- a/drivers/usb/gadget/function/f_tcm.c
-+++ b/drivers/usb/gadget/function/f_tcm.c
-@@ -1090,8 +1090,15 @@ static void usbg_data_write_cmpl(struct usb_ep *ep, struct usb_request *req)
- 		return;
+diff --git a/drivers/usb/cdns3/cdns3-pci-wrap.c b/drivers/usb/cdns3/cdns3-pci-wrap.c
+index fd06a3d8e638..31089eb9ca29 100644
+--- a/drivers/usb/cdns3/cdns3-pci-wrap.c
++++ b/drivers/usb/cdns3/cdns3-pci-wrap.c
+@@ -72,6 +72,7 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
+ 	struct cdns3_wrap *wrap;
+ 	struct resource *res;
+ 	struct pci_dev *func;
++	bool own_wrap;
+ 	int err;
+ 
+ 	/*
+@@ -99,12 +100,17 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
+ 		if (!wrap) {
+ 			dev_err(&pdev->dev,
+ 				"second function not initialized, retrying\n");
+-			return -EPROBE_DEFER;
++			err = -EPROBE_DEFER;
++			goto put_pci;
+ 		}
++		own_wrap = false;
+ 	} else {
+ 		wrap = kzalloc_obj(*wrap);
+-		if (!wrap)
+-			return -ENOMEM;
++		if (!wrap) {
++			err = -ENOMEM;
++			goto put_pci;
++		}
++		own_wrap = true;
  	}
  
--	if (req->status) {
--		pr_err("%s() state %d transfer failed\n", __func__, cmd->state);
-+	/* the OUT data phase is over; nothing left for the status phase to drain */
-+	cmd->data_len = 0;
-+
-+	/* a short data-out left the buffer unwritten; don't commit stale data */
-+	if (req->status || req->actual != req->length) {
-+		struct usb_gadget *gadget = fuas_to_gadget(cmd->fu);
-+
-+		dev_err_ratelimited(&gadget->dev, "%s() state %d transfer failed\n",
-+				    __func__, cmd->state);
- 		goto cleanup;
+ 	res = wrap->dev_res;
+@@ -164,12 +170,15 @@ static int cdns3_pci_probe(struct pci_dev *pdev,
+ 		wrap->plat_dev = platform_device_register_full(&plat_info);
+ 		if (IS_ERR(wrap->plat_dev)) {
+ 			err = PTR_ERR(wrap->plat_dev);
+-			kfree(wrap);
+-			return err;
++			if (own_wrap)
++				kfree(wrap);
++			goto put_pci;
+ 		}
  	}
  
+ 	pci_set_drvdata(pdev, wrap);
++put_pci:
++	pci_dev_put(func);
+ 	return err;
+ }
+ 
+@@ -184,8 +193,10 @@ static void cdns3_pci_remove(struct pci_dev *pdev)
+ 	if (wrap->devfn == pdev->devfn)
+ 		platform_device_unregister(wrap->plat_dev);
+ 
+-	if (!pci_is_enabled(func))
++	if (!func || !pci_is_enabled(func))
+ 		kfree(wrap);
++
++	pci_dev_put(func);
+ }
+ 
+ static const struct pci_device_id cdns3_pci_ids[] = {
 -- 
 2.43.0
 
