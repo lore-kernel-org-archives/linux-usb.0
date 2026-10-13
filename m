@@ -1,78 +1,136 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FED513560;
-	Tue, 13 Oct 2026 16:44:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791909843; cv=none; b=h4f4ryn/omrmOAeekzH02niaCupZtg3yaYULCbEVdXU9WApjzYy1vtEbvUYIW4rR1Bpmm+rvskG13ziwHh+mQxCv1qxsxJKHKS2ITGD53LehNZyRUqx0XkX0Lhniv7nfkBFifDfYim+jETVG0wg4sNOIFdVCFNxJkRzpXS4jNVQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791909843; c=relaxed/simple;
-	bh=6868E+xww7aXQUGRqUd13HGIKoj7XO93CAl9j9FYit8=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=tmPacu0orNs5I7pCWxLCLafvn3cl2TQwoyXrD8QWz5nyPQYHTc0R+X9VjsC8L20azb/2Rhs8vzxYk5eTIyscqDdcgzQO7yK70ObuOBg67RCBzx+oXTKk4qajwzSlyPmNXnMPkoH9ABrlLQjcwOQ8iQNEwpmn0yZM9ER1VzVk9sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMEEUTky; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C2851DDED
+	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 16:48:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791910117; cv=pass; b=ueFzJ04SGHOtFjtq/r+2cqQ8nn0iV9KP2C3//iBcHrz07+geAN7i1LEhG0lqG17G9zVcFwc38tZ0bGYi+KeGyDPNBtDs0lhki5neg6qKNwWnDwrWblAjDTtEUI2Y7pPrMCBb01e66c5aOWF77lfWDupRK0YJy9n6/Bd3wdhwcJU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791910117; c=relaxed/simple;
+	bh=oNTVqVeErgSHUZj7WSVylb4NA02UV267PrLj1Ev9+JA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ukRpKrbixjtK2USH5flj5HBA+g5CK6LoGN5F7LoMLGohk2/XTxm4EryVsBKm2DZRmB7PEdXsMhID2kQcM89FhKXtvPJFOGIBhlvdUYbqmmhQQoqAMjRdRW+YjtCnOADHpy4nyoVpV4KmDUI0SZNgqkF20a9PkvIHHan183LqM6I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SoX6Uq/n; arc=pass smtp.client-ip=209.85.167.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMEEUTky"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF6FE1F000FF;
-	Tue, 13 Oct 2026 16:44:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791909842;
-	bh=6868E+xww7aXQUGRqUd13HGIKoj7XO93CAl9j9FYit8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gMEEUTky8N+xuOFvGjBM0tLaOvsmO+W54yaBxEngBBLpb2UTxy/+G2B+wKDDgZRGl
-	 TB9jEQAnWywuVCdhW68Z3Ubb/uDPsbYEPLOy/4aGvVkfNU00bIlewEyH9XGQVgaQDD
-	 pMB2Q+l3DV/kXEaAVpS5INb8eUdX7lW8aH4DPe1SwROl2Rmb2yR6pvbxR8xS3dosrR
-	 0uEU8ibxytsWHTy82JZ7rwxGTNodWuWIouxCHDkkMsWi16xa1qwoNqcuow17TfouqO
-	 +oarUV62hircFCGlugS8HeiNOAb/NHwuVUfuEdYt91FnsJTREyYcO7sXuRfN92QlzO
-	 1LEgzfdUPIrFg==
-Message-ID: <sashiko-outbox-170144@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 10/39] drivers/usb/mon: update to use mmap_prepare +
- map kernel pages
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?TG9yZW56byBTdG9ha2VzIChBUk0p?= <ljs@kernel.org>
-Cc: linux-usb@vger.kernel.org, linux-rdma@vger.kernel.org, selinux@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-s390@vger.kernel.org, "Heiko
- Carstens" <hca@linux.ibm.com>, "Vasily Gorbik" <gor@linux.ibm.com>, "Alexander
- Gordeev" <agordeev@linux.ibm.com>, "Christian Borntraeger" <borntraeger@linux.ibm.com>
-In-Reply-To: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-10-1aa3c9b139f9@kernel.org>
-References: <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
- <20261013-b4-mmap-prepare-vma-flag-sanify-v6-10-1aa3c9b139f9@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 13 Oct 2026 16:44:00 +0000
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SoX6Uq/n"
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-5bcbb378fc9so22515e87.0
+        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 09:48:35 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791910113; cv=none;
+        d=google.com; s=arc-20260327;
+        b=F6DSSQ/n+2ipexoWhBJfOjXG50w94HUFmCYl+R3w9itSC/PwmsQpsyhFYgnK6g5mOC
+         tWJ1JDfQWomsVfl6WbxxvhrQyStiW6oNPJZCqQtw8iTH+WZxvhA7hFj4v3xcENGbAfwe
+         OCnfpIt8UmE0LB0xSCFtPSeQwmHKdBtkZ5n8JFoX6U9XPBqp6RBkbiP0zB86GYx8CKP9
+         iLL4ZC2QR6k7SHbmFxrdP6AQSeX91dUQW2t/0JmhXSINW5s1z21grmxPWnuWm7mN5y/e
+         HBE9aXSqcShzDvY6dafJKW/XSKfXS0x/0uf5i3QPVwqC+JSJc0ILB0clegoDemKqcXwt
+         bMLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Srdy0h2xVrgJc+qNyo08IpLYsropKiqDQUfCZ0IZtLs=;
+        fh=+LNrkieYa12G7ERmU3LNBaS0yFjQDPVKKIEx2I4RKoc=;
+        b=aRA7kUl0Gz1U7WEJV/xciCLWWBM8YcBjdDTsVN1YG3CUHFaj8RsclneNE0TaPybspo
+         ignL23ZkHP8U4LkaE+qd133SX2r1+2ijbKEOh3zQKxOhRbyPTmdjaKpXdvd9xT8vemtc
+         mKMqL8g1mEs1+okbNR9B0ks0F97m29npB3NJOraNhC24ikAJd1/WkkgAvqSqWzZmrTdf
+         wnKxo/AqPTn3DTdKuV0HgGkzJ4AfrFkHyWydVH2TjbYoWHbZ73yrsABa8we2kz8DTFBd
+         uYMsvs44KtoAovQVIPgJJR9IeLeecrLagmpVo0mqbsVSUAikSlMSx+dH69AL7akxozKq
+         07vQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1791910113; x=1792514913; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Srdy0h2xVrgJc+qNyo08IpLYsropKiqDQUfCZ0IZtLs=;
+        b=SoX6Uq/n1FNhma9qtPeekrjzVla8vSVsrhNziO9Qtbu/p1YHiCL4uf7mVk5EUU8qNE
+         aDlftxZdWlOTZ4DD7knj2bKd4jk6UuCRSXs85hjCedWzKVBIspsHbqFCMEtRKu2XfwYA
+         TEXHlXqBZ8HRVGqLrSH5oKvxBAKCEoovGWFu2RBePLxhTgzn3Uj4JlMN/GMwaU6D/RUn
+         /lq/5NAK55C8trAnmPsOpSrQHSid+uTw3zfager8dJbu/KIp4IX+ZSbYO5/v8Kx+6tE2
+         vr+4QuPFgZow79Eoo7Gy9/GaxFO7mcZ1h89n8n+WazM8frkcP7vH7HP+pypb7QdNuTeV
+         bO7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791910113; x=1792514913;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Srdy0h2xVrgJc+qNyo08IpLYsropKiqDQUfCZ0IZtLs=;
+        b=L9b8ct59F3gOs/sOUeB9MiVBrv7Au8Nz0VEAmk/iThxvzN2pClAOqBg7GYVLSNtTm3
+         yg5AGVAjcxjxGnAociFTJ/cx/5gL1FttgRgdKz+3aTqsT+EPO7xW6AjJMdWjdDEmdLfq
+         N+vf8e01TfjrpI2c3FmEv/kpX9YlZp9lkuUyA3mUGH/z6Lg2T8tASlDx1BW1fkCMvIs8
+         7N3fnykX0Ceoc8t3VZEUG6O8cbTSb08ENDNqWAxD7Us7s/+Ee+r5XulpSFRnHmmtUcnb
+         N/AA41zGqBfWCb4hLs4sNEkxtIHAD4io61bpvFj/+AEMXSHFlnsEIRL5tZc5hoPz62my
+         N90g==
+X-Forwarded-Encrypted: i=1; AKwUvBx5MmhAolHkPyscjMc7waBbc5DMrS1HSm7agRamEXGqg7/dF6RXvzk43oPWOEApxj5/LyGS0zK6JxY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKzrWpcvL6Z3S4ojm87z5qfCTl8buHKF60Vx9m87wjprS+PDxA1
+	S1ZIgCVfg3/RjKM/iSXEhfDSnSV4tjFPz/5LwZ0+WOInOsCg07GznJFAAK1KCW/lRKf7scmbWM8
+	MmMLvy+krFj17J4F3njuHRX8H759aAM8EehduXNRj
+X-Gm-Gg: AYBFou1LQ1k9xv3i/IKbzQ3e0jBbDdZeJUQy3nXVUeizlTzCIvc5CHlOfPCjUtgAbTp
+	oFJO/BKt66lO3GqCiWbTy9Zw5P4+iWh2Z3aJHOCB6sOIwhgwyagY8Njxxm0jFjls9FMC7r3tWcc
+	v3cIHeaEkZrH7pZ0L4TB0TPX3hBWZfrfQC+oCV7D23eO786jaC4WQSmRhA3XJDCb0fLVc5k4NbO
+	DziZ2poVhC9ICu8/0T9Z6Fy2v9t1XLM1OHw3lwNb3P/9LQkdmtQKPojJD4IK9PXBgtBRlzexHNP
+	PB7Vy10M9S9C3b89OwG/DTRkiWeK/MTmCuytVA6iZ+RxJG+Amd5TJv79NoMoWO/c9HXhYUd+Tfx
+	oAa7CWDifw8dpi4LvGRHga/n448Z2NxinbkfxpGvVXQ==
+X-Received: by 2002:ac2:4c50:0:b0:5bc:fbf6:2352 with SMTP id
+ 2adb3069b0e04-5bcfbf62537mr260722e87.9.1791910112814; Tue, 13 Oct 2026
+ 09:48:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <b7c2f7d1-40fd-4d83-8ced-5fc27e3be051@rowland.harvard.edu>
+ <20261012171609.88273-1-sanglardf@google.com> <b819ff38-6916-40e0-b2f3-1b19876971bd@suse.com>
+In-Reply-To: <b819ff38-6916-40e0-b2f3-1b19876971bd@suse.com>
+From: Fabien Sanglard <sanglardf@google.com>
+Date: Tue, 13 Oct 2026 09:48:21 -0700
+X-Gm-Features: AclHuK9FA7yWhRGCICaPBsKXGhTVaayndv9XDXdeDu_su-lMXIp0-gBcubArVJQ
+Message-ID: <CAA92w6=OhNYXF_kQFV4tPKa19xdWRkdQbFXaqhdxfqW4N9zMVg@mail.gmail.com>
+Subject: Re: [PATCH] usb: core: Emit KOBJ_CHANGE on unbound interface
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, 
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> Replace the deprecated .mmap hook with its replacement .mmap_prepare. As
-> part of this change, additionally take the approach of mapping pages upon
-> mmap rather than providing a fault handler.
->=20
-> The page span cannot be mutated when an mmap mapping is in place, so this
-> is safe to do in advance (the MON_IOCT_RING_SIZE ioctl operation exits
-> -EBUSY if it's attempted, gated by the rp->mmap_active reference count).
->=20
-> Utilise the newly introduced mmap_action_map_discontig_kernel_pages() to =
-do
-> this, which allows for iteration over pages in mon_bin_discontig_get().
->=20
-> mon_bin_discontig_init() increments the rp->mmap_active reference count to
-> stabilise page spans. Should an error arise the core unmaps the VMA and
-> mon_bin_vma_close() drops the reference again.
->=20
-> [ ... ]
-> access raises SIGBUS, as with other pre-populated kernel mappings.
->=20
-> Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Reviewed-by: Suren Baghdasaryan <surenb@google.com>
-> Signed-off-by: Lorenzo Stoakes (ARM) <ljs@kernel.org>
+My original patch focuses on fixing the silent failure for usbfs
+drivers (like ADB). Since other drivers survive a reset without issues
+from a user space perspective, I wanted to avoid being disruptive to
+unaffected systems.
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+That said, unifying the behavior upon reset would be elegant. My main
+concern is whether some existing udev rules or netlink listeners in
+user space might break if we generalize this behavior and start
+emitting unexpected CHANGE events for interfaces that successfully
+rebound (which already emit UNBIND -> BIND).
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261013-b4-mmap-pr=
-epare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org?part=3D10
+But it might be worth "trying". I am unsure what the kernel team
+philosophy is in this regard. If you all agree, we could trigger the
+KOBJ_CHANGE event unconditionally inside rebind_marked_interfaces()
+instead of conditionally inside usb_rebind_intf().
 
+Fab
+
+On Tue, Oct 13, 2026 at 2:35=E2=80=AFAM Oliver Neukum <oneukum@suse.com> wr=
+ote:
+>
+> On 12.10.26 19:16, Fabien Sanglard wrote:
+>
+> > As a result, userspace clients like adb only see UNBIND and must poll
+> > /dev/bus/usb to detect when the interface is ready again. Emit a
+> > KOBJ_CHANGE uevent when device_attach() finds no matching driver so
+> > userspace is notified that the interface can be reclaimed.
+>
+> Hi,
+>
+> why do you want to limit this to that specific case?
+> Why not not always tell user space tat a device has
+> been reset?
+>
+>         Regards
+>                 Oliver
+>
