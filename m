@@ -1,163 +1,264 @@
-Received: from 011.lax.mailroute.net (011.lax.mailroute.net [199.89.1.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 533D5486406;
-	Wed, 14 Oct 2026 19:50:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=199.89.1.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89C8148B37B;
+	Wed, 14 Oct 2026 20:19:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792007426; cv=none; b=qsqopM0I2KySsW882PHqnyfBKLBMJaI2pRWph5W2/kBuOdX8jIgDWgibXr02Dl1Bcst60LfxeNPFKBlDvsFyF3GD+EYmaGylFcS0WAdjtQesgkBmPVDquOhM7uyQyj22ogxLJlvlRbCxWKz59QsI/cCDuBbh5PTvsi78U5pf3kg=
+	t=1792009192; cv=none; b=WA0NswVGXpkUWjETiWUW16dE3g59DDoDri4sFloKodwo/pVXpyM/JSI/IwtIJptcXfYvaRWHdnAHunRLMEfDi2uro1dUhTOzaCEQpSulPvOQJ9vHOlgGej8VtE1m+MJSdrRlDBwm0fNkhesAW0OdnaakszqD21ZJ9Z6NRUZ2CeE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792007426; c=relaxed/simple;
-	bh=canbLA2SOamUFjLIrAaPoD6hNIYt9r51hATImDQ12Rw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IQSTQX0pp3aERxTDnHsEjxZybg/JxrynqCI94BmeNOx7Ahvgd69cW/+pS6ecpujON/zXfb9lgWDGJR5CZApGj1/f/BBuG2MqYS0LoBrA2aq8+ctVbDe2AMzTt5IAU2m+TpPlsImN00oM7dVoZ4REbL9CE7qHyXCEIz2WdJIiD1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org; spf=pass smtp.mailfrom=acm.org; dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b=dmh0ZPmP; arc=none smtp.client-ip=199.89.1.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=acm.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=acm.org
+	s=arc-20240116; t=1792009192; c=relaxed/simple;
+	bh=P0WBF/wz9WotxVezDgWS5cfXyWEipNWeQpFa9vHQgso=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArnWYJZkKZE5pW+ovamf7UV57zi+7NEOtCB716i1bmfWedaLhwGbynlzHNbZ1tL3IN9TSAegH8MEAf0DxPN6pUNI/MLSlXA09Wqz8tgNkVXmX1d3DiTlgaRF3NS6qy7rNj2eqOgHDY1OiZ6VbAs0hvHHFzPnp2AHlzV9HAvMc/s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GGyil6e3; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=acm.org header.i=@acm.org header.b="dmh0ZPmP"
-Received: from localhost (localhost [127.0.0.1])
-	by 011.lax.mailroute.net (Postfix) with ESMTP id 4j4hd54sFvz1XM5kD;
-	Wed, 14 Oct 2026 19:50:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=acm.org; h=
-	content-transfer-encoding:content-type:content-type:in-reply-to
-	:from:from:content-language:references:subject:subject
-	:user-agent:mime-version:date:date:message-id:received:received;
-	 s=mr01; t=1792007407; x=1794599408; bh=r7wqfoGl36He6xJQoAE153P3
-	E0igpkKOLHPD1TGIFZo=; b=dmh0ZPmPEyCtxcmc1uYgaryLOFeCFrUO23VzjlMZ
-	7ndZQa6UVUc4n63kAwZKMKK32mhNOrMartWIYDCaOgHfme5Qioo59Wb90ywb33yn
-	oqTq5C3tCB/fTlE5N9r+MxIJ5U7FvLBx+nb+5V6YFLTnqfxMU6nxhP3Z0iunFZcw
-	/EmbhQhoSA7tv+rlRFz4GPNur4i5eNbrAVWKRhR5pAWi9ftsfBCfQ8NqR0ApajwC
-	rQY0tnk8d2klgribKiXINRzCxBBxmKJCQy4iL3PMkNk6xdIAdIZosT2tXfGeppy7
-	AsfPyl0MCPjtFCdRjWfSWuFtsK5Aw0sHrzalR8A6L0+MGQ==
-X-Virus-Scanned: by MailRoute
-Received: from 011.lax.mailroute.net ([127.0.0.1])
- by localhost (011.lax [127.0.0.1]) (mroute_mailscanner, port 10029) with LMTP
- id fmm9AwGlRFjq; Wed, 14 Oct 2026 19:50:07 +0000 (UTC)
-Received: from [100.80.231.125] (unknown [104.135.182.41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bvanassche@acm.org)
-	by 011.lax.mailroute.net (Postfix) with ESMTPSA id 4j4hct0kxZz1XM4Tl;
-	Wed, 14 Oct 2026 19:50:06 +0000 (UTC)
-Message-ID: <889a01a1-cae0-4038-b0ad-2ad29231152b@acm.org>
-Date: Wed, 14 Oct 2026 12:50:05 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GGyil6e3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792009188; x=1823545188;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=P0WBF/wz9WotxVezDgWS5cfXyWEipNWeQpFa9vHQgso=;
+  b=GGyil6e3wIGD2o+FvAoBn08k8L7d8eIeKgFN9Br+0ZlaeNSKGCSi0DcB
+   /5LrFixiaWXRdy22WuSVaTqGUV5mKQJKAA4tCagdSjeEO1fqJxbZ9+b7s
+   wbY1FldJbavMPbwa8eNUV5UOD/S49WR28OJDk4HRc7unHNFHj52/qAnhx
+   MtBzH80PojrmEo8NYFXhLQX/V09RTL69ls36lNpMeyzVxCjhWSTCi5YSG
+   73S080uHDG30QaWS4bsXkiWjIYz+11KhKhvXHzI8rBrhoWC3qeT7DajZn
+   IiM7ZUQrJabSZYEJuSx6Pb9+62NvBuusrtihGyImj6i2GKLwmrRzvrkjX
+   Q==;
+X-CSE-ConnectionGUID: 6P22c+GHQZymWXKDelua8Q==
+X-CSE-MsgGUID: j0vLWFTqR16lq4dvgb82Hw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="667726"
+X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
+   d="scan'208";a="667726"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 13:19:48 -0700
+X-CSE-ConnectionGUID: ZrDByyW5QbWg2CSQyYO0mA==
+X-CSE-MsgGUID: BInblgMUQQqssqBcMnc3Jw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
+   d="scan'208";a="1483915"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa001.jf.intel.com with ESMTP; 14 Oct 2026 13:19:45 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xH5Ru-00000000FAF-2qQ2;
+	Wed, 14 Oct 2026 20:19:42 +0000
+Date: Thu, 15 Oct 2026 04:19:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-usb@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Xu Qianhui <xiaqinghuan@mail.ustc.edu.cn>
+Subject: Re: [PATCH 3/3] usb: dwc3: support two connectors sharing one HS
+ data bus
+Message-ID: <202610150418.XE8EkA7P-lkp@intel.com>
+References: <20261013102927.1141696-4-xiaqinghuan@mail.ustc.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?B?UmU6IOetlOWkjTog562U5aSNOiBbUEFUQ0ggdjUgMS8yXSBzY3NpOiBz?=
- =?UTF-8?Q?d=3A_mark_disk_dead_on_surprise_host_removal_to_avoid_I/O_hang?=
-To: =?UTF-8?B?6IOh6L+e5Yuk?= <hulianqin@vivo.com>,
- Christoph Hellwig <hch@lst.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
- "Martin K. Petersen" <mkp@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>, Jens Axboe <axboe@kernel.dk>,
- Hannes Reinecke <hare@suse.de>, Mike Christie <michael.christie@oracle.com>,
- Damien Le Moal <dlemoal@kernel.org>, John Garry <john.g.garry@oracle.com>,
- Shin'ichiro Kawasaki <shinichiro.kawasaki@wdc.com>,
- "linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "usb-storage@lists.one-eyed-alien.net"
- <usb-storage@lists.one-eyed-alien.net>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <TYUPR06MB6217DD31B1B3CD09E431CC12D2922@TYUPR06MB6217.apcprd06.prod.outlook.com>
- <20261012144923.GA10852@lst.de>
- <TYUPR06MB62172FD04314EFE34D8091EAD29E2@TYUPR06MB6217.apcprd06.prod.outlook.com>
- <9c28fbe7-089f-4d72-86be-5805bfebb213@acm.org>
- <TYUPR06MB62173975C70E0BBCE434475ED29D2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-Content-Language: en-US
-From: Bart Van Assche <bvanassche@acm.org>
-In-Reply-To: <TYUPR06MB62173975C70E0BBCE434475ED29D2@TYUPR06MB6217.apcprd06.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261013102927.1141696-4-xiaqinghuan@mail.ustc.edu.cn>
 
-On 10/13/26 7:20 PM, =E8=83=A1=E8=BF=9E=E5=8B=A4 wrote:
-> Given these, I went with SHOST_SURPRISE_REMOVAL as a more targeted
-> approach. If you think SDEV_OFFLINE is viable, I'd be happy to explore
-> it further.
+Hi Qianhui,
 
-Has something like the entirely untested patch below been considered?
-With this approach no new state variables are required.
+kernel test robot noticed the following build warnings:
 
-Thanks,
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on usb/usb-next usb/usb-linus linus/master v7.3-rc7 next-20261012]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Bart.
+url:    https://github.com/intel-lab-lkp/linux/commits/Qianhui-Xu/dt-bindings-usb-snps-dwc3-document-usb-psy-name/20261013-182925
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+patch link:    https://lore.kernel.org/r/20261013102927.1141696-4-xiaqinghuan%40mail.ustc.edu.cn
+patch subject: [PATCH 3/3] usb: dwc3: support two connectors sharing one HS data bus
+config: arm-defconfig (https://download.01.org/0day-ci/archive/20261015/202610150418.XE8EkA7P-lkp@intel.com/config)
+compiler: clang version 24.0.0git (https://github.com/llvm/llvm-project 6719b9e31d6a93099612c474eec76d9f41d0275a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261015/202610150418.XE8EkA7P-lkp@intel.com/reproduce)
 
-Subject: [PATCH] scsi: sd: Mark the disk dead if runtime resume fails in=20
-sd_remove()
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202610150418.XE8EkA7P-lkp@intel.com/
 
-If a SCSI disk is unplugged while runtime suspended, its request queue
-is still in the pm-only state when sd_remove() is called. The runtime
-resume attempted by scsi_autopm_get_device() fails because the parent
-device, e.g. a USB device in the USB_STATE_NOTATTACHED state, cannot be
-resumed. Hence, sdev_runtime_resume() is not called and the pm-only
-state is not cleared. Next, del_gendisk() calls
-blk_report_disk_dead(disk, false), which calls sync_filesystem(). Any
-bio submitted by the filesystem waits forever in __bio_queue_enter()
-because the queue will never leave the pm-only state and because
-GD_DEAD has not yet been set:
+All warnings (new ones prefixed by >>):
 
-  __bio_queue_enter+0xb8/0x174
-  blk_mq_submit_bio+0x640/0x7e4
-  [ ... ]
-  exfat_sync_fs+0xa4/0xe0
-  sync_filesystem+0xa8/0xdc
-  fs_bdev_mark_dead+0x30/0x88
-  bdev_mark_dead+0x54/0xc4
-  blk_report_disk_dead+0x8c/0xd4
-  del_gendisk+0xa0/0x2f8
-  sd_remove+0x30/0x60
-  [ ... ]
-  scsi_remove_host+0x88/0x18c
-  usb_stor_disconnect+0x68/0xf4
+>> drivers/usb/dwc3/core.c:171:16: warning: variable 'mux_role' set but not used [-Wunused-but-set-variable]
+     171 |         enum usb_role mux_role = USB_ROLE_NONE;
+         |                       ^
+   1 warning generated.
 
-Fix this hang by calling blk_mark_disk_dead() if runtime resume fails.
-This sets GD_DEAD, tells the filesystem that the disk has been removed
-without attempting to sync it, and wakes up any bios that are waiting
-in __bio_queue_enter(). Syncing the filesystem is not possible anyway
-if runtime resume failed, so no data is lost that could otherwise have
-been written. If runtime resume succeeds, behavior is not changed. Make
-this change in sd_remove() instead of in a SCSI LLD such that it works
-for all SCSI transports.
 
-Reported-by: Lianqin Hu <hulianqin@vivo.com>
-Closes:=20
-https://lore.kernel.org/all/TYUPR06MB6217DD31B1B3CD09E431CC12D2922@TYUPR0=
-6MB6217.apcprd06.prod.outlook.com/
-Fixes: 6f8191fdf41d ("block: simplify disk shutdown")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bart Van Assche <bvanassche@acm.org>
----
-  drivers/scsi/sd.c | 10 +++++++++-
-  1 file changed, 9 insertions(+), 1 deletion(-)
+vim +/mux_role +171 drivers/usb/dwc3/core.c
 
-diff --git a/drivers/scsi/sd.c b/drivers/scsi/sd.c
-index a1b21ea14e54..208b915f25a2 100644
---- a/drivers/scsi/sd.c
-+++ b/drivers/scsi/sd.c
-@@ -4270,7 +4270,15 @@ static void sd_remove(struct scsi_device *sdp)
-  	struct device *dev =3D &sdp->sdev_gendev;
-  	struct scsi_disk *sdkp =3D dev_get_drvdata(dev);
+   165	
+   166	static void __dwc3_set_mode(struct work_struct *work)
+   167	{
+   168		struct dwc3 *dwc = work_to_dwc(work);
+   169		unsigned long flags;
+   170		struct dwc3_role_mux *mux = dwc->role_mux;
+ > 171		enum usb_role mux_role = USB_ROLE_NONE;
+   172		int mux_port = 0;
+   173		int ret;
+   174		u32 reg;
+   175		u32 desired_dr_role;
+   176		int i;
+   177	
+   178		mutex_lock(&dwc->mutex);
+   179		spin_lock_irqsave(&dwc->lock, flags);
+   180		desired_dr_role = dwc->desired_dr_role;
+   181		if (mux) {
+   182			mux_port = mux->desired_port;
+   183			mux_role = mux->desired_role;
+   184		}
+   185		spin_unlock_irqrestore(&dwc->lock, flags);
+   186	
+   187		if (mux && READ_ONCE(mux->error))
+   188			goto out;
+   189	
+   190		pm_runtime_get_sync(dwc->dev);
+   191	
+   192		if (dwc->current_dr_role == DWC3_GCTL_PRTCAP_OTG)
+   193			dwc3_otg_update(dwc, 0);
+   194	
+   195		if (!desired_dr_role)
+   196			goto out;
+   197	
+   198		if (desired_dr_role == dwc->current_dr_role &&
+   199		    (!mux || mux_port == mux->active_port))
+   200			goto out;
+   201	
+   202		if (desired_dr_role == DWC3_GCTL_PRTCAP_OTG && dwc->edev)
+   203			goto out;
+   204	
+   205		switch (dwc->current_dr_role) {
+   206		case DWC3_GCTL_PRTCAP_HOST:
+   207			dwc3_host_exit(dwc);
+   208			break;
+   209		case DWC3_GCTL_PRTCAP_DEVICE:
+   210			dwc3_gadget_exit(dwc);
+   211			dwc3_event_buffers_cleanup(dwc);
+   212			break;
+   213		case DWC3_GCTL_PRTCAP_OTG:
+   214			dwc3_otg_exit(dwc);
+   215			spin_lock_irqsave(&dwc->lock, flags);
+   216			dwc->desired_otg_role = DWC3_OTG_ROLE_IDLE;
+   217			spin_unlock_irqrestore(&dwc->lock, flags);
+   218			dwc3_otg_update(dwc, 1);
+   219			break;
+   220		default:
+   221			break;
+   222		}
+   223	
+   224		/*
+   225		 * When current_dr_role is not set, there's no role switching.
+   226		 * Only perform GCTL.CoreSoftReset when there's DRD role switching.
+   227		 */
+   228		if (dwc->current_dr_role && ((DWC3_IP_IS(DWC3) ||
+   229				DWC3_VER_IS_PRIOR(DWC31, 190A)) &&
+   230				desired_dr_role != DWC3_GCTL_PRTCAP_OTG)) {
+   231			reg = dwc3_readl(dwc, DWC3_GCTL);
+   232			reg |= DWC3_GCTL_CORESOFTRESET;
+   233			dwc3_writel(dwc, DWC3_GCTL, reg);
+   234	
+   235			/*
+   236			 * Wait for internal clocks to synchronized. DWC_usb31 and
+   237			 * DWC_usb32 may need at least 50ms (less for DWC_usb3). To
+   238			 * keep it consistent across different IPs, let's wait up to
+   239			 * 100ms before clearing GCTL.CORESOFTRESET.
+   240			 */
+   241			msleep(100);
+   242	
+   243			reg = dwc3_readl(dwc, DWC3_GCTL);
+   244			reg &= ~DWC3_GCTL_CORESOFTRESET;
+   245			dwc3_writel(dwc, DWC3_GCTL, reg);
+   246		}
+   247	
+   248		/*
+   249		 * The previous host/gadget has been torn down above, so it is safe to
+   250		 * move the shared HS data path to the requesting connector.
+   251		 */
+   252		if (mux && mux_port != mux->active_port) {
+   253			ret = gpiod_direction_output(mux->select, mux_port);
+   254			if (ret) {
+   255				WRITE_ONCE(mux->error, ret);
+   256				goto out;
+   257			}
+   258	
+   259			spin_lock_irqsave(&dwc->lock, flags);
+   260			mux->active_port = mux_port;
+   261			spin_unlock_irqrestore(&dwc->lock, flags);
+   262		}
+   263	
+   264		spin_lock_irqsave(&dwc->lock, flags);
+   265	
+   266		dwc3_set_prtcap(dwc, desired_dr_role, false);
+   267	
+   268		spin_unlock_irqrestore(&dwc->lock, flags);
+   269	
+   270		switch (desired_dr_role) {
+   271		case DWC3_GCTL_PRTCAP_HOST:
+   272			ret = dwc3_host_init(dwc);
+   273			if (ret) {
+   274				dev_err(dwc->dev, "failed to initialize host\n");
+   275			} else {
+   276				if (dwc->usb2_phy)
+   277					otg_set_vbus(dwc->usb2_phy->otg, true);
+   278	
+   279				for (i = 0; i < dwc->num_usb2_ports; i++)
+   280					phy_set_mode(dwc->usb2_generic_phy[i], PHY_MODE_USB_HOST);
+   281				for (i = 0; i < dwc->num_usb3_ports; i++)
+   282					phy_set_mode(dwc->usb3_generic_phy[i], PHY_MODE_USB_HOST);
+   283	
+   284				if (dwc->dis_split_quirk) {
+   285					reg = dwc3_readl(dwc, DWC3_GUCTL3);
+   286					reg |= DWC3_GUCTL3_SPLITDISABLE;
+   287					dwc3_writel(dwc, DWC3_GUCTL3, reg);
+   288				}
+   289			}
+   290			break;
+   291		case DWC3_GCTL_PRTCAP_DEVICE:
+   292			dwc3_core_soft_reset(dwc);
+   293	
+   294			dwc3_event_buffers_setup(dwc);
+   295	
+   296			if (dwc->usb2_phy)
+   297				otg_set_vbus(dwc->usb2_phy->otg, false);
+   298			phy_set_mode(dwc->usb2_generic_phy[0], PHY_MODE_USB_DEVICE);
+   299			phy_set_mode(dwc->usb3_generic_phy[0], PHY_MODE_USB_DEVICE);
+   300	
+   301			ret = dwc3_gadget_init(dwc);
+   302			if (ret)
+   303				dev_err(dwc->dev, "failed to initialize peripheral\n");
+   304			break;
+   305		case DWC3_GCTL_PRTCAP_OTG:
+   306			dwc3_otg_init(dwc);
+   307			dwc3_otg_update(dwc, 0);
+   308			break;
+   309		default:
+   310			break;
+   311		}
+   312	
+   313	out:
+   314		pm_runtime_put_autosuspend(dwc->dev);
+   315		mutex_unlock(&dwc->mutex);
+   316	}
+   317	
 
--	scsi_autopm_get_device(sdkp->device);
-+	/*
-+	 * If runtime resume fails, e.g. because the device was unplugged
-+	 * while runtime suspended, the request queue stays in the pm-only
-+	 * state and any I/O submitted by del_gendisk(), e.g. from
-+	 * sync_filesystem(), would wait forever in __bio_queue_enter().
-+	 * Prevent this by marking the disk dead.
-+	 */
-+	if (scsi_autopm_get_device(sdkp->device) < 0)
-+		blk_mark_disk_dead(sdkp->disk);
-
-  	device_del(&sdkp->disk_dev);
-  	del_gendisk(sdkp->disk);
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
