@@ -1,171 +1,115 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 819D44F68C8;
-	Wed, 14 Oct 2026 11:06:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3C94D7948
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 11:07:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791975999; cv=none; b=kOlFaYL+p6neSU4qKjrQg0TE3pxTmhbZ2t8ouP6yF97P+FYxTdjf5Y0AHvy/cNV3cA2Qyy1kkenDdJmwJ/v6XFvjr5p3C5T4xEK3SVAZba4EDVrqdsgaGZLL9656YVJZ2E3MBgI6tIRFQyPOJvrp2vU2LR4l9zlqZbQeARnUz60=
+	t=1791976079; cv=none; b=eIex6B00vQxp6cBPY8IbxnnL7Gps/L2GhkNFGndgN0NBRJeOv1fJQ4oqJWDcAeiwAfYrW20UX0MPz3utkQejgdvOywOqcxvok94HmMmdJdbvMpDv0AyRYZ1AbZDcATOCAD0uGOi7wqVEWuOn5N3wHkc194dqeI8C8qHnUxdg9aA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791975999; c=relaxed/simple;
-	bh=TTfxrsLm6/Jgz3DFS4QxmFqhD1DUEjCRl/gBNIf14VI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=k8PMk0uX7SsTrNYKjwZhWHhne0sD17kV2XeqrGIIKbeJkVH4OEeBGo61hmE5IeHcD0tIi6shth4hyBfHkraEBKZW9tGNtWUg+jUcbS2VD0OPrOCu9Rv7WHGo69r0gyiYXqKqwOqI2jDdT1EMSOxXfrq6/sCwBcc2w7SE5i8g4ug=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WJUGl/6R; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1791976079; c=relaxed/simple;
+	bh=GvqRNnYqco6yUJpUNGYstfZncNY30nQ+nMAnIMzcfCE=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=CJVbdpcwdAR2sUIkNrFMYnbOSSDODIqP3/Kc7KYT9i2wfWgckD8ji6swLP/+NBMUBE2CJzUzv4x9Cvw86MH6Y+juhwPeTrmKTRLtWb6zzDwvoZ6Yx5XStZ9aJM8zlvcbB6k4cJTAYEoM74oH/Fr3WoKuXPlgsMSoAjQN9dZaia8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOkbXt0a; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WJUGl/6R"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id BC4FAC2BCF5;
-	Wed, 14 Oct 2026 11:06:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1791975998;
-	bh=TTfxrsLm6/Jgz3DFS4QxmFqhD1DUEjCRl/gBNIf14VI=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=WJUGl/6RF/iuXvwdAmAuWbAvrp/uCTvL7vmdchmRbV6ZMpmSP8cSfKFWK3rNzzqlR
-	 rMtFpiYXeglAbZY/PNIo1pNyobiA8jDMkZFq2sNHv2z+c4y1orfbxgNlnvzWlPnmZn
-	 d+P0WUjdcGrOvkVbOuanx+UJs5vXQ6zDDeBDBlO3x3C2n0eLiDE2j6CMZYKLOuYFYa
-	 cR5aH2iC1g9tF3SwmpF3intTe7eVuMEE70+wEe8C1S3GY4tiyrBH0xzaSY5iwi+dZP
-	 aU+12e3yI2lZ2iMVXtNqbB5xc7fgZLS0nOvNVXDbHDvJjbhlpUVPuohyJD6fdkGW5A
-	 wsPWlsTpIe5/g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A76ADCC6B1D;
-	Wed, 14 Oct 2026 11:06:38 +0000 (UTC)
-From: Nicholas Velten via B4 Relay <devnull+nicholasfvelten.gmail.com@kernel.org>
-Date: Wed, 14 Oct 2026 08:06:38 -0300
-Subject: [PATCH] usb: gadget: u_ether: refuse to re-register a failed
- net_device
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOkbXt0a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E63FF1F000FF;
+	Wed, 14 Oct 2026 11:07:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791976078;
+	bh=xia5ImPowvEv6Sligyzz/D7pbOs2ngd91Y04wh7Hrx0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=oOkbXt0ayuqqtN3Bg5ghCUezc6o1/Upauy/HirSjV+Zf+lc33RKMf87h2EpxwSASk
+	 2o7Ino5R9CpiO1Xn2vZfglyAxfIMDwTsfK8GhvNMDODtU2p1mgbG6CWLqIvJIOYfk0
+	 EC08t/MCAoJIHfwUpN7DA1MlRjeYHjMQU+1yuu/nRm8POeXttXlyC5MGTgwflJmCxX
+	 Jg7JftWOZ+uhIuSOBbd8aVjkgm3X06fsDYxGcTtO02fr9f35A/BSbpAjXXh6TPITIA
+	 h9Qq/qpnqZCOlwJ9qeWl00Qi8gdzdZTgMFPJJf1XQQKzlY4FZ+KZvcnUIBN8WRTakY
+	 Ov+ZfaTYgPorg==
+Message-ID: <sashiko-outbox-171174@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: dwc3: host: Mark dwc->xhci as null if xhci probe
+ fails
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Prashanth K" <prashanth.k@oss.qualcomm.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261014105711.1708244-1-prashanth.k@oss.qualcomm.com>
+References: <20261014105711.1708244-1-prashanth.k@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 14 Oct 2026 11:07:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261014-fix-gadget-netdev-reregister-v1-1-0fb91999da06@gmail.com>
-X-B4-Tracking: v=1; b=H4sIAD1iz2oC/yXMQQrCMBBG4auUWTuQlKroVcRFmvyJ4yLKTCxC6
- d2Nuvzg8VYyqMDoPKykWMTkUTv8bqB4C7WAJXXT6MaDd37iLG8uIRU0rmgJCysURaxB+biPeXI
- nFzJm6ounove//eX6t73mO2L7PmnbPufLXnKAAAAA
-X-Change-ID: 20261014-fix-gadget-netdev-reregister-75cf4090afeb
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
- syzbot+85ede281798faf736677@syzkaller.appspotmail.com, 
- Nicholas Velten <nicholasfvelten@gmail.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1791975997; l=4551;
- i=nicholasfvelten@gmail.com; s=20261014; h=from:subject:message-id;
- bh=R8N/U9EpeodrPP2C8W4xyv5oFcDyRUldfgErXBf/7RE=;
- b=9ZXSnZvhgl4VAmjVXgi0COCcRCK6RUR7/fd0U2D9qtiM2mdmlvSsMVRN4HbiIJp0g3DxStTd8
- 7pMKyTgEQm9D731n6qgT6gqe+EN9/T3Z7dov6GndfdCu2MdQELCXtdu
-X-Developer-Key: i=nicholasfvelten@gmail.com; a=ed25519;
- pk=WVTZgm6yXQ+XrhULAObg4lwcHPhhxAXrAY+YY6svXzg=
-X-Endpoint-Received: by B4 Relay for nicholasfvelten@gmail.com/20261014
- with auth_id=1173
-X-Original-From: Nicholas Velten <nicholasfvelten@gmail.com>
-Reply-To: nicholasfvelten@gmail.com
 
-From: Nicholas Velten <nicholasfvelten@gmail.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: dwc3: NULL pointer offset dereference in dwc3_host_exit() dur=
+ing role switch
+--
 
-When register_netdevice() fails in or after netdev_register_kobject(),
-it returns an error but leaves the net_device in NETREG_UNREGISTERED.
-Such a device can never be registered again; the only valid thing to do
-with it is free_netdev().
+commit 24753f0ba9a09a8a782231f3b06d19d819bc300c
+Author: Prashanth K <prashanth.k@oss.qualcomm.com>
 
-The configfs Ethernet functions (ECM, EEM, NCM, RNDIS and subset)
-allocate their net_device once per function instance and register it
-from the bind callback, retrying on every bind for as long as the device
-is not registered (formerly tracked by a "bound" flag, now by
-device_is_registered()). After a failed registration the next bind
-therefore calls register_netdev() on an NETREG_UNREGISTERED device and
-hits the BUG_ON() at the top of register_netdevice():
+usb: dwc3: host: Mark dwc->xhci as null if xhci probe fails
 
-  kernel BUG at net/core/dev.c:11440!
-  Oops: invalid opcode: 0000 [#1] SMP KASAN NOPTI
-  RIP: 0010:register_netdevice+0xc21/0x1d00
-  Call Trace:
-   register_netdev
-   gether_register_netdev
-   ncm_bind
-   usb_add_function
-   configfs_composite_bind
-   gadget_bind_driver
-   ...
-   gadget_dev_desc_UDC_store
+Currently dwc->xhci is not cleared when xhci_plat_probe fails, leading to a
+use-after-free or null pointer dereference later. This commit sets the
+pointer to NULL in the error path of dwc3_host_init() to prevent this issue.
 
-syzbot hits this by binding a gadget from a memory cgroup with a tiny
-limit, which makes the memcg-accounted allocations in
-netdev_register_kobject() fail. That is why its bisection lands on
-commit 425b9c7f51c9 ("memcg: accounting for objects allocated for new
-netdevice"): that commit made the failure reachable that way, while the
-retry itself is much older.
+> diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+> index c5674161b2b08..b01cf49454c2e 100644
+> --- a/drivers/usb/dwc3/host.c
+> +++ b/drivers/usb/dwc3/host.c
+> @@ -219,6 +219,7 @@ int dwc3_host_init(struct dwc3 *dwc)
+>  	return 0;
+>  err:
+>  	platform_device_put(xhci);
+> +	dwc->xhci =3D NULL;
 
-Refuse to register a net_device that is not NETREG_UNINITIALIZED in
-gether_register_netdev(), which all of these functions use, so that the
-bind fails with -EINVAL instead of crashing. The function instance has
-to be recreated to get a usable net_device again.
+[Severity: High]
+Could this lead to an invalid pointer dereference during subsequent role
+switches?
 
-Reproduced with fail-nth fault injection on the allocations of the
-write() to the gadget's UDC attribute, binding again without injection
-after each failed bind, using a fresh function instance per iteration:
-without this change NCM, ECM and RNDIS hit the BUG_ON() at the 16th
-injected allocation; with it, 400 iterations for NCM and 300 each for
-ECM, EEM, RNDIS and subset complete with no BUG or KASAN report.
+In drivers/usb/dwc3/core.c:__dwc3_set_mode(), the role is updated to host m=
+ode
+before dwc3_host_init() is called, and is never reverted on failure:
 
-Fixes: 40d133d7f542 ("usb: gadget: f_ncm: convert to new function interface with backward compatibility")
-Reported-by: syzbot+85ede281798faf736677@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=85ede281798faf736677
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: Nicholas Velten <nicholasfvelten@gmail.com>
----
-The syzbot C reproducer did not reach the gadget bind in my virtme-ng
-guest (its sandbox setup appears to fail there), so I reproduced with a
-small fail-nth program instead. I can post it if useful.
+__dwc3_set_mode() {
+    ...
+    dwc3_set_prtcap(dwc, mode);
+    dwc->current_dr_role =3D mode;
+    ...
+    ret =3D dwc3_host_init(dwc);
+    ...
+}
 
-Not tested: architectures other than x86_64, and the legacy (non-configfs)
-gadgets that also call gether_register_netdev() (g_ether, g_multi,
-g_ffs); they register once from their bind path and should be unaffected.
+If dwc3_host_init() fails, the role remains set to host mode, and dwc->xhci
+is now explicitly NULL. When the system later attempts to switch roles (e.g=
+.,
+back to device mode), __dwc3_set_mode() evaluates dwc->current_dr_role and
+invokes dwc3_host_exit(dwc).=20
 
-f_phonet has the same retry pattern but a different outcome:
-gphonet_register_netdev() calls free_netdev() on failure while
-phonet_opts->net still points at the device and phonet_opts->bound stays
-false, so the next bind uses a freed net_device. I left it out of this
-patch to keep it to one change and because f_phonet is being changed by
-"usb: gadget: f_phonet: fix use-after-free in pn_bind" (v3, not yet
-applied); I can send a separate fix on top of that if wanted.
+Inside dwc3_host_exit(), if dwc->sys_wakeup is true, it unconditionally
+evaluates the address of dev inside xhci:
 
-Also touching gether_register_netdev(), without conflict:
-"usb: gadget: u_ether: Fix NULL pointer deref in debug logging".
----
- drivers/usb/gadget/function/u_ether.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+dwc3_host_exit() {
+    ...
+    if (dwc->sys_wakeup)
+        device_init_wakeup(&dwc->xhci->dev, false);
+    ...
+}
 
-diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
-index 59d85d6a8..1f4ac7078 100644
---- a/drivers/usb/gadget/function/u_ether.c
-+++ b/drivers/usb/gadget/function/u_ether.c
-@@ -865,6 +865,17 @@ int gether_register_netdev(struct net_device *net)
- 
- 	if (!net->dev.parent)
- 		return -EINVAL;
-+
-+	/*
-+	 * A register_netdev() that failed after netdev_register_kobject()
-+	 * leaves the device NETREG_UNREGISTERED, and it can never be
-+	 * registered again. The function drivers retry on every bind while
-+	 * the device is not registered, so refuse instead of hitting the
-+	 * BUG_ON() in register_netdevice().
-+	 */
-+	if (net->reg_state != NETREG_UNINITIALIZED)
-+		return -EINVAL;
-+
- 	dev = netdev_priv(net);
- 	g = dev->gadget;
- 
+Because dwc->xhci is NULL, &dwc->xhci->dev evaluates to a small non-zero
+offset. This bypasses the !dev check inside device_init_wakeup() and can
+cause a fault when attempting to read dev->power.can_wakeup.
 
----
-base-commit: a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
-change-id: 20261014-fix-gadget-netdev-reregister-75cf4090afeb
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(dwc3_host_init);
 
-Best regards,
---  
-Nicholas Velten <nicholasfvelten@gmail.com>
-
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014105711.1708=
+244-1-prashanth.k@oss.qualcomm.com?part=3D1
