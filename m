@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3C94D7948
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 11:07:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E0829B8E1;
+	Wed, 14 Oct 2026 11:09:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791976079; cv=none; b=eIex6B00vQxp6cBPY8IbxnnL7Gps/L2GhkNFGndgN0NBRJeOv1fJQ4oqJWDcAeiwAfYrW20UX0MPz3utkQejgdvOywOqcxvok94HmMmdJdbvMpDv0AyRYZ1AbZDcATOCAD0uGOi7wqVEWuOn5N3wHkc194dqeI8C8qHnUxdg9aA=
+	t=1791976176; cv=none; b=COJPnrl7qq0mZA7bwax8CAKK7cRV9WVStMhbgZHDiPy2x38NZ6R58y24np+kUHQsADjmYlw1+M6sEoNdTwEsRRL5Tg6H69nxyoptWRAnGUFBbLntLKM85ra1RIrqYaTsxtsatJTR98KCv37TaeK6NuQFbLEpWNHRI6LQvUVmjrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791976079; c=relaxed/simple;
-	bh=GvqRNnYqco6yUJpUNGYstfZncNY30nQ+nMAnIMzcfCE=;
+	s=arc-20240116; t=1791976176; c=relaxed/simple;
+	bh=0S3g3q/Mg9tOj3Xw44fL5bfqq4XsBJtH96jqCevX4JU=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=CJVbdpcwdAR2sUIkNrFMYnbOSSDODIqP3/Kc7KYT9i2wfWgckD8ji6swLP/+NBMUBE2CJzUzv4x9Cvw86MH6Y+juhwPeTrmKTRLtWb6zzDwvoZ6Yx5XStZ9aJM8zlvcbB6k4cJTAYEoM74oH/Fr3WoKuXPlgsMSoAjQN9dZaia8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oOkbXt0a; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=fkDBMsIAli4n4TcheHLg/i+FJoAOYzjTbGvtLGHOqkCAHq1gD/UDoImELj/b5NJssX/6Ad2vacNaZy4kjsO2ULRKCt/QH0Mb+L0hj9Y8IDaHHE7f0ZxovWHfT/AVTK6N3yDYkLI9eTXoOcYWnUG/XXbpXE27I7xuyL2QpcDj7l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m3ZP4QCG; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oOkbXt0a"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E63FF1F000FF;
-	Wed, 14 Oct 2026 11:07:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m3ZP4QCG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30471F000FF;
+	Wed, 14 Oct 2026 11:09:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791976078;
-	bh=xia5ImPowvEv6Sligyzz/D7pbOs2ngd91Y04wh7Hrx0=;
+	s=k20260515; t=1791976175;
+	bh=7eQyul8MJ1lQVTV1k//ovzXLDeiWRCjY1X6LwVD42Cs=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oOkbXt0ayuqqtN3Bg5ghCUezc6o1/Upauy/HirSjV+Zf+lc33RKMf87h2EpxwSASk
-	 2o7Ino5R9CpiO1Xn2vZfglyAxfIMDwTsfK8GhvNMDODtU2p1mgbG6CWLqIvJIOYfk0
-	 EC08t/MCAoJIHfwUpN7DA1MlRjeYHjMQU+1yuu/nRm8POeXttXlyC5MGTgwflJmCxX
-	 Jg7JftWOZ+uhIuSOBbd8aVjkgm3X06fsDYxGcTtO02fr9f35A/BSbpAjXXh6TPITIA
-	 h9Qq/qpnqZCOlwJ9qeWl00Qi8gdzdZTgMFPJJf1XQQKzlY4FZ+KZvcnUIBN8WRTakY
-	 Ov+ZfaTYgPorg==
-Message-ID: <sashiko-outbox-171174@kernel.org>
+	b=m3ZP4QCGF/MWVau+3A0Svf4T09ymggeDLISS2074GRFeSBMt+i2+fisUQrUnVMNKm
+	 2lFs+EtYokFFaLoCZLZLZDPhS+6x923QU9SI0EPqCWvhIqllv/3uXViZkOHUrF/DCl
+	 Gcq8ca1QgGM32nrxmCn2eMzljcmGkk0dqfzGMEYidyWbx9LlcMSjM4a/K809EjWKwK
+	 tArIVm7KOk5i+zYD1OnhVCz+jnhdvdqZoUQQLHkDOMaN3Lfus6RCNYxdia8LDkpE8Y
+	 32geeSzgL3nx3eCoQOmqCfa/HYTQItVFi0dAv3ndYxFuyLpU6QKD4OH3kfxRZDMfSM
+	 xtdSFsM3L23CQ==
+Message-ID: <sashiko-outbox-171177@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: dwc3: host: Mark dwc->xhci as null if xhci probe
- fails
+Subject: Re: [PATCH v2] usb: uas: validate status URB length before parsing
+ the IU
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Prashanth K" <prashanth.k@oss.qualcomm.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014105711.1708244-1-prashanth.k@oss.qualcomm.com>
-References: <20261014105711.1708244-1-prashanth.k@oss.qualcomm.com>
+To: "Olivier Kaloudoff" <olivier.kaloudoff@gmail.com>, linux-usb@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org
+In-Reply-To: <20261014105526.16392-1-olivier.kaloudoff@gmail.com>
+References: <20261013221937.41490-1-olivier.kaloudoff@gmail.com>
+ <20261014105526.16392-1-olivier.kaloudoff@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2026 11:07:57 +0000
+Date: Wed, 14 Oct 2026 11:09:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,70 +47,63 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] usb: dwc3: NULL pointer offset dereference in dwc3_host_exit() dur=
-ing role switch
+- [High] usb/uas: short STATUS IUs (4-15 bytes) falsely complete as SUCCESS
 --
 
-commit 24753f0ba9a09a8a782231f3b06d19d819bc300c
-Author: Prashanth K <prashanth.k@oss.qualcomm.com>
+commit 1a208f3daab26d0bf253bfe97e68d1636d90a96c
+Author: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
 
-usb: dwc3: host: Mark dwc->xhci as null if xhci probe fails
+usb: uas: validate status URB length before parsing the IU
 
-Currently dwc->xhci is not cleared when xhci_plat_probe fails, leading to a
-use-after-free or null pointer dereference later. This commit sets the
-pointer to NULL in the error path of dwc3_host_init() to prevent this issue.
+The commit attempts to fix log spam caused by parsing a short or empty stat=
+us
+URB transfer. It does so by bailing out if actual_length is smaller than
+sizeof(struct iu), which is only 4 bytes long.
 
-> diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
-> index c5674161b2b08..b01cf49454c2e 100644
-> --- a/drivers/usb/dwc3/host.c
-> +++ b/drivers/usb/dwc3/host.c
-> @@ -219,6 +219,7 @@ int dwc3_host_init(struct dwc3 *dwc)
->  	return 0;
->  err:
->  	platform_device_put(xhci);
-> +	dwc->xhci =3D NULL;
+> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+> index 8655edbd66b16..b5d3071d86c84 100644
+> --- a/drivers/usb/storage/uas.c
+> +++ b/drivers/usb/storage/uas.c
+> @@ -315,6 +315,13 @@ static void uas_stat_cmplt(struct urb *urb)
+>  		goto bail;
+>  	}
+> =20
+> +	if (urb->actual_length < sizeof(struct iu)) {
 
 [Severity: High]
-Could this lead to an invalid pointer dereference during subsequent role
-switches?
+Does this allow 4-15 byte packets to proceed to type-specific processing?
 
-In drivers/usb/dwc3/core.c:__dwc3_set_mode(), the role is updated to host m=
-ode
-before dwc3_host_init() is called, and is never reverted on failure:
+Because sizeof(struct iu) is only 4 bytes, a packet of 4-15 bytes with
+iu_id =3D=3D IU_ID_STATUS (3) passes this check.
 
-__dwc3_set_mode() {
-    ...
-    dwc3_set_prtcap(dwc, mode);
-    dwc->current_dr_role =3D mode;
-    ...
-    ret =3D dwc3_host_init(dwc);
-    ...
+If that occurs, uas_stat_cmplt() delegates to uas_sense():
+
+drivers/usb/storage/uas.c:uas_sense() {
+...
+	if (urb->actual_length > 16) {
+...
+	}
+
+	cmnd->result =3D sense_iu->status;
 }
 
-If dwc3_host_init() fails, the role remains set to host mode, and dwc->xhci
-is now explicitly NULL. When the system later attempts to switch roles (e.g=
-.,
-back to device mode), __dwc3_set_mode() evaluates dwc->current_dr_role and
-invokes dwc3_host_exit(dwc).=20
+Since the transfer buffer is zero-allocated and not completely overwritten =
+by
+the short transfer, sense_iu->status at offset 6 reads as 0 (SAM_STAT_GOOD).
 
-Inside dwc3_host_exit(), if dwc->sys_wakeup is true, it unconditionally
-evaluates the address of dev inside xhci:
+Does this result in the command falsely completing as SUCCESS and hiding
+device errors from the SCSI block layer?
 
-dwc3_host_exit() {
-    ...
-    if (dwc->sys_wakeup)
-        device_init_wakeup(&dwc->xhci->dev, false);
-    ...
-}
-
-Because dwc->xhci is NULL, &dwc->xhci->dev evaluates to a small non-zero
-offset. This bypasses the !dev check inside device_init_wakeup() and can
-cause a fault when attempting to read dev->power.can_wakeup.
-
->  	return ret;
->  }
->  EXPORT_SYMBOL_GPL(dwc3_host_init);
+> +		dev_err_ratelimited(&urb->dev->dev,
+> +			"stat urb: short transfer (%u bytes)\n",
+> +			urb->actual_length);
+> +		goto bail;
+> +	}
+> +
+>  	idx =3D be16_to_cpup(&iu->tag) - 1;
+> =20
+>  	spin_lock_irqsave(&devinfo->lock, flags);
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014105711.1708=
-244-1-prashanth.k@oss.qualcomm.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014105526.1639=
+2-1-olivier.kaloudoff@gmail.com?part=3D1
