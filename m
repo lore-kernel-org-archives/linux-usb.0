@@ -1,126 +1,289 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3758A4EDCB9;
-	Wed, 14 Oct 2026 10:10:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791972638; cv=none; b=aOj4tiCV9/6AY1hQ7Rhsi+NoFYIaBHKJWbizdmrTsxCMZK4c5HKSNKxZeLq+Yo0sHWby1Mdw+0w1YNIjA3l5DyArkCY5oAxt59fI4caPvfIWYwrh6mwX/ml3Uo4VAhg10bXVIDYRLCbn3p2Q37KOtMCiFH3MoTVZwySbX4YzgzU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791972638; c=relaxed/simple;
-	bh=yuGWrqvzNmN3yhigttSdJ0b/S9YKdnQt/hArXMWhVKM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X6mAXEbNCuok7kP/myCK9CbCgdyuuAek453rd2Vc/ryAiLMm+8euVycLn6DKXugG9zNEfREzTBOf+JDZm637XImes/yiVnDPXdHGI7zYb5+BH+9RZM0p4MBY3fvK8U8kuL0OmLJWiumWrs83u7v4FeBA2rh4BjYOTOsUjVyKviA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQ2TZCZh; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D1C34EA367
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 10:14:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791972896; cv=pass; b=dJl+oAXWnSxxJN5yvzEgiWrH/kYZJKNisClRWC3eZIk0qJz83JrBIzUOC8NdqLMvQ9mS1PlbljrWIP1N7NSs9saLYiH1ut7tyAMCrXWp37BUJEBtIgtPjoU+a8w3a2T6oKhrhvAMu3MoJmzWhMgZ+3WuX8oecXFXmdyivEOGU1c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791972896; c=relaxed/simple;
+	bh=+23UWhQI/KNob9ARYWQiZhgyqTCPgnw2PPmhgS8i4i4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tt7VSXb7agN/4LThuLV9p9De08N/usSwm8vhPEu9XLQrdlzJcd7ElIz5oLwiVko7NmRtoT7+5nPY5A8bBRMDom/qw9GDt+KXQpDyW5mWbZ5wx68HbOh4WRj+R83bVJsxdA6H3wEXcg68VOu1MPOIqIk7LI8dp73vTVKrqO47bWM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DVUCih7v; arc=pass smtp.client-ip=74.125.224.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQ2TZCZh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005B01F000FF;
-	Wed, 14 Oct 2026 10:10:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791972629;
-	bh=ktsMdkR+NlEi7tmxfG6KqIwZFdoUQsHLRPY8vg2h60Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=ZQ2TZCZhVe94KLLtnzQ3yR3ogHvFzoxgQoc3R1jER79UgA78VXRr8iDg3KdFK2ODP
-	 YyS7jdT9/qbWHEHVD1tZ0sznhtXz0CLfu/G2ciKfdx2B86Rt8LLvukWQdSWM2alydl
-	 17pZ2hpDxVrw6eJwdF+f2XcE7JE0OtxM/4eHtYNPCKG4lvUpVvi4AIBrjGyKN5aj2z
-	 hOYmRjD3vg6CojY4avQVdA569Pd+vN61WS/tEq8+7080n1V95JqaEPQ5ewUUGtc5cH
-	 ajYXuidjwKPwswshX59bvhBz0Wu8cAFzVvQbWg7EgmAS+4JmNAco4fSfzkm6n5bh//
-	 lk5YJkqCAE56Q==
-Date: Wed, 14 Oct 2026 03:10:27 -0700
-From: "Peter Chen (Qualcomm)" <peter.chen@kernel.org>
-To: liuc63 <liuc63@xiaopeng.com>
-Cc: rogerq@kernel.org, pawell@cadence.com, gregkh@linuxfoundation.org,
-	stable@vger.kernel.org, liuwb@xiaopeng.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: cdns3: validate endpoint index from setup packet
-Message-ID: <as9VE0CJtUBxgds9@hu-petche-lv.qualcomm.com>
-References: <20261012110107.2458022-1-liuc63@xiaopeng.com>
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DVUCih7v"
+Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-67990a45e02so358901d50.3
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:14:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791972888; cv=none;
+        d=google.com; s=arc-20260327;
+        b=hU3xNKKyJ5Q6STBRSDdXYE7rGMPyTWZbD3RJ+icBABgd1WMu/EQM0+IU+iqxbJSJiZ
+         GthcAUBXYIjkH3iqODfvjGZG4LGLpnyHkjVG2ogeLj3NyjPs+g0M5Dv7ly6aVj1DWGRo
+         Koc9KAlHzFqb54hySrnYuiG4RicZlXjxYt9tz7wEvlTjrjvqP5u2ORYqyaRQs6MVlFz5
+         FvYrXSivVB5vyjlvKQEMGKGTayK0YVfhArPRFAgYMiMl0CrrSmlAqf7mYx1ACszx6kmh
+         lh4ouizAizIIk8I0C+/xNmSayFkZCfft2/o7E1PG5lfeMTKBIv9P2ZYEB5UaGt799CsO
+         cJTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Edwfse8WHzu9gP6zUwwr3O8TIa4a9hek/bDZw8bIzFg=;
+        fh=e4Ik/F1P4+mvd9qdhxNyTKmoM4cA0IyxK+qj452u8uM=;
+        b=AVxzpjAhDtIQsYRxQXEHUfoGz98ZgtxfOAPS/M3yX87rGNMTrnlgiZO8Q98Xattkp2
+         W/6jKfvsBT1z+kzj0C1jerOD2uj+8d1M45gokNMwTNKO4v13Ykkl5t07TUCP4GQC+svj
+         ejP7m7wGPYmi5Q11RZAn0bL8TQIoaBiGt0kRxG381INr8orb9XYNswsZ1/kuszKpzNim
+         dx1Jcw+T4hgExjaFn4l9anhzmY7BYijQ2LVzXQYIfRMUN232muLthCqtrzVSXmfSjyqL
+         dQHyrmiVH5jTLO4LlJLRD6Nv6J6Zo+seuWCZ6rnsSew6lXtSV91QVUmzGzFZ4JP+StoL
+         Hz2g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1791972888; x=1792577688; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=Edwfse8WHzu9gP6zUwwr3O8TIa4a9hek/bDZw8bIzFg=;
+        b=DVUCih7vNeIhW21lbUpw4HMdRhEzMdpSwSuksriltCOFGkI6CPNRMwRnOwFmoks8EO
+         fXS6hOrp8pKVwr80zT8wquzsSv/uYurHrUrLfZ3ZOePeeZSTvhqz2MN9HrXBDGVnIatN
+         pmIOzxAD6br8tYQC46lTAtJFMFMM/E+rrcs1Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791972888; x=1792577688;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Edwfse8WHzu9gP6zUwwr3O8TIa4a9hek/bDZw8bIzFg=;
+        b=xTamaVpmhHcN15OYLKwTcXAFRvZ1eabuW6ZkWF6JidYxnTEVMCNY+rfrYN/2dr9MpL
+         49NkG9Zra8Ht/DPaBQ+5ANo7kozamSopZeM88zkTa0lOdklavU7pCgc9Ec3gVXQ+qZli
+         SU1f6ZW6+MSgGkPhkDrYJ69XzdKBE5Y7vFpaOTE1IsvQn0wqqy/rKdSICd03fkPNDzma
+         YtXHlmHKCfeXwpUKWMa5JpzOqHzWxwH9cTRJ1Zfu4nhWeSZ/nI8soyJvtUZzmYRPoOCQ
+         Lhoa3ySDNQJMJnksumwdzh08XjI93oI/ney/t3eVbOXvmaW3mY4VcimrcGcN+7y+ZBW2
+         Gvng==
+X-Forwarded-Encrypted: i=1; AKwUvBxdQZaNeiGQiB/zdtfB/5MdwjIaAcg4hV/i+K02PI4d60H327soRB1lo2DgkI+z0E+8gvYGIzhyz1U=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKM/SMcEiaCHjjl6fNWzWOsphHhDad5fjfchOlZ0sU6eH9b0irT
+	/bkr/VbDHVfBVWvQPFMh90mHq0bn9lbTh7ncrW4ga3nt2WKcX2BzMcWK2JhdYiW4n5myKaMt1ni
+	AdUB+EKzNmJOEAhin14XLQRltxEKdHeLs4dh9W4RJ
+X-Gm-Gg: AYBFou1oFiYPZFgJ7k+fE2h8/tX5db/9O6wn4ecoEK4WTyoi90WUBy82yH/b/XaB6q9
+	Hq/l9LPetF0CKTdr78Bs9Qotw/J3uvb4qdLSMwd+hfwg6yILFu35wBry/H/47kMQdFdZwIad2zs
+	Nk8Eu7oz200aSay6LDF9gvjCbY/gvidYGYw8rvQPBJRpVD76phJaWfCP1935hQMV6oWnz0gtCWb
+	Ot9+h4ACy3KSSjfoURs2AWCGi8VhcJBy96wWjiLPJ6xb6djfzza1ANuOUNVdnCT7LJk2elHf0o9
+	s87oChsEyi+lAqeMY12pOF2lmvacTXtQzH1pMLmYOM5jbLPavbmZqZRj
+X-Received: by 2002:a05:690e:1206:b0:677:ac49:ebc4 with SMTP id
+ 956f58d0204a3-67936a424f4mr7759702d50.67.1791972888459; Wed, 14 Oct 2026
+ 03:14:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261012110107.2458022-1-liuc63@xiaopeng.com>
+References: <20261014082037.1774672-1-wenst@chromium.org> <20261014082037.1774672-3-wenst@chromium.org>
+ <7020a7a6-332e-4fd0-a659-d82eb768614c@linaro.org> <CAGXv+5G1kgyumbj7wGf6rPFbg3spSO0zYmEkn-hZT4qUdJbytA@mail.gmail.com>
+ <03375a31-0ac6-47a4-b0dc-6327080e1622@linaro.org>
+In-Reply-To: <03375a31-0ac6-47a4-b0dc-6327080e1622@linaro.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 14 Oct 2026 19:14:37 +0900
+X-Gm-Features: AclHuK8K2ha0wfmSqlf_vB5Bnq5oR8A0v5D4YSyisrVXA9HcSK0AnBminp1imug
+Message-ID: <CAGXv+5H+ZZXnZKB4EzXP0O9f4YGHBHsz3YCRyRJgX9V6RW1eug@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: usb: snps,dwc3: Fix downstream port numbering
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <balbi@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Sven Peter <sven@kernel.org>, 
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Ryan Chen <ryan_chen@aspeedtech.com>, 
+	Billy Tsai <billy_tsai@aspeedtech.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Peter Griffin <peter.griffin@linaro.org>, =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Yixun Lan <dlan@kernel.org>, 
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>, Minda Chen <minda.chen@starfivetech.com>, 
+	Shyam Pandey <radhey.shyam.pandey@amd.com>, Wei Yang <yangwei1@eswincomputing.com>, 
+	Senchuan Zhang <zhangsenchuan@eswincomputing.com>, Hang Cao <caohang@eswincomputing.com>, 
+	Li Jun <jun.li@nxp.com>, Peng Fan <peng.fan@nxp.com>, Roy Luo <royluo@google.com>, 
+	Yang Xiwen <forbidden405@foxmail.com>, 
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
+	Robert Marko <robert.marko@sartura.hr>, Xu Yang <xu.yang_2@nxp.com>, 
+	Wesley Cheng <quic_wcheng@quicinc.com>, Stanley Chang <stanley_chang@realtek.com>, 
+	Ze Huang <huang.ze@linux.dev>, Aswath Govindraju <a-govindraju@ti.com>, 
+	Roger Quadros <rogerq@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org, imx@lists.linux.dev, 
+	linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	spacemit@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 26-10-12 19:01:07, liuc63 wrote:
-> From: Liu Chao <liuc63@xiaopeng.com>
-> 
-> cdns3_ep_addr_to_index() computes (ep_addr & 0x7F) + 16 for IN
-> endpoints.  wIndex is supplied by the USB host, so ep_addr & 0x7F can
-> be up to 127, giving an index up to 143.  The eps[] array has only
-> CDNS3_ENDPOINTS_MAX_COUNT (32) entries.
-> 
-> Both cdns3_req_ep0_get_status() (GET_STATUS) and
-> cdns3_ep0_feature_handle_endpoint() (SET/CLEAR_FEATURE) pass the
-> unvalidated index straight into priv_dev->eps[index] and then
-> dereference the result.
-> 
-> Besides the out-of-bounds index, eps[index] may also be NULL for
-> endpoints that are not enabled, as cdns3_init_eps() only populates
-> entries for endpoints enabled in USB_CAP3.
-> 
-> Add a bounds check against CDNS3_ENDPOINTS_MAX_COUNT together with a
-> NULL check in both functions, matching the fix already applied to
-> aspeed_udc in commit ee0d382feb44 ("usb: gadget: aspeed_udc: validate
-> endpoint index for ast udc").
-> 
-> Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
-> Cc: <stable@vger.kernel.org>
-> Reviewed-by: Weibin Liu <liuwb@xiaopeng.com>
-> Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
-> ---
-> Changes in v2:
->  - Also check priv_dev->eps[index] for NULL, as endpoints not enabled
->    in USB_CAP3 are left NULL by cdns3_init_eps() (Peter Chen)
->  - Correct the reference: the same-class fix ee0d382feb44 is for
->    aspeed_udc, not renesas_usb3; cite it with the commit title and
->    drop the CVE mention (Peter Chen)
->  - Fix the function name cdns3_ep0_handle_status() ->
->    cdns3_req_ep0_get_status() in the commit message
-> 
-> v1: https://lore.kernel.org/linux-usb/20260917103145.3047850-1-liuc63@xiaopeng.com/
-> ---
->  drivers/usb/cdns3/cdns3-ep0.c | 5 +++++
->  1 file changed, 5 insertions(+)
-> 
-> diff --git a/drivers/usb/cdns3/cdns3-ep0.c b/drivers/usb/cdns3/cdns3-ep0.c
-> index e29989d57..d26fa89b6 100644
-> --- a/drivers/usb/cdns3/cdns3-ep0.c
-> +++ b/drivers/usb/cdns3/cdns3-ep0.c
-> @@ -251,6 +251,9 @@ static int cdns3_req_ep0_get_status(struct cdns3_device *priv_dev,
->  		return cdns3_ep0_delegate_req(priv_dev, ctrl);
->  	case USB_RECIP_ENDPOINT:
->  		index = cdns3_ep_addr_to_index(le16_to_cpu(ctrl->wIndex));
-> +		if (index >= CDNS3_ENDPOINTS_MAX_COUNT ||
-> +		    !priv_dev->eps[index])
-> +			return -EINVAL;
+On Wed, Oct 14, 2026 at 6:44=E2=80=AFPM Neil Armstrong
+<neil.armstrong@linaro.org> wrote:
+>
+> On 10/14/26 11:29, Chen-Yu Tsai wrote:
+> > On Wed, Oct 14, 2026 at 5:28=E2=80=AFPM Neil Armstrong
+> > <neil.armstrong@linaro.org> wrote:
+> >>
+> >> On 10/14/26 10:20, Chen-Yu Tsai wrote:
+> >>> The DWC3 controller can operate in host mode. It does so with a XHCI
+> >>> compliant host controller. The XHCI has two downstream ports, one for
+> >>> HS and one for SS. USB downstream ports start from 1, not 0.
+> >>
+> >> Is there something in index 0 we will need to define at some point ?
+> >
+> > On the host side, no. Downstream ports start at 1.
+> >
+> > On the device mode side, I believe the numbers are completely made up.
+> >
+> >> Using 0 as base for numbering in DT isn't incompatible with the USB
+> >> spec using base 1 for numbering,
+> >
+> > But you end up with diverging numbering schemes, and it diverges
+> > from other USB controllers, particularly XHCI, which DWC3 embeds.
+> >
+> > And it also differs from the numbering currently used for directly
+> > connected onboard devices (like hubs), which use or expect the USB
+> > numbering scheme.
+> >
+> > Sure we can make DWC3 "special", drop inclusion of usb-hcd.yaml,
+> > and duplicate the section for onboard devices. On Linux, we can
+> > add some more code to xhci_find_raw_port_number() to make an
+> > exception for DWC3 controllers.
+> >
+> > Also, usb_of_get_connect_type() is already broken for DWC3 based
+> > controllers that only describe the HS connection but not the SS
+> > connection. usb_of_get_connect_type() currently doesn't call
+> > usb_hcd_find_raw_port_number() so both HS and SS get mapped to port 1,
+> > which wouldn't be in the DT since HS is currently port@0. But even if
+> > it did, SS would get mapped to port 2 anyway.
+> >
+> >
+> > IMHO having consistent numbering across controller types would be
+> > better. This avoids making the USB core and hub code deal with more
+> > exceptions, and also easier to understand and write device trees.
+>
+> I was in the impression the port number not necessarily reflects
+> an actual physical numbering, and can be a logical number we would
+> then map in the kernel.
+>
+> I don't see any issue here having base 0 for the bindings and then
+> converting it to base 1 for the XHCI port numbering.
+>
+> Each controller (Host, Device, OTG) will have it's own numbering anyway,
+> so using the XHCI numbering only sounds a bad idea TBH.
 
-Oh, I have seen sashiko AI comments. You may use USB_ENDPOINT_NUMBER_MASK to get
-a valid EP number, then get 'index' according to its direction (IN or OUT), at last,
-judge if priv_dev->eps[index] is NULL.
+OK. So we keep the port numbering, which is different from the embedded
+device numbering, even for the same dual role controller? See below.
 
-Peter
+I hope you see why I think it is confusing.
 
->  		priv_ep = priv_dev->eps[index];
->  
->  		/* check if endpoint is stalled or stall is pending */
-> @@ -368,6 +371,8 @@ static int cdns3_ep0_feature_handle_endpoint(struct cdns3_device *priv_dev,
->  		return 0;
->  
->  	index = cdns3_ep_addr_to_index(le16_to_cpu(ctrl->wIndex));
-> +	if (index >= CDNS3_ENDPOINTS_MAX_COUNT || !priv_dev->eps[index])
-> +		return -EINVAL;
->  	priv_ep = priv_dev->eps[index];
->  
->  	cdns3_select_ep(priv_dev, le16_to_cpu(ctrl->wIndex));
-> -- 
-> 2.50.1
-> 
+> >
+> >>> Reconcile the downstream port numbering with the common USB host
+> >>> binding, renumbering the downstream port numbers from 0 and 1 to
+> >>> 1 and 2.
+> >>>
+> >>> This is non-backwards compatible, however it won't break current
+> >>> major implementations:
+> >>>
+> >>> - dwc3 "gadget mode" in Linux kernel only requires a connection to be
+> >>>     present; it doesn't matter which port it is
+> >>>     - dwc3 "host mode" OF graph connections aren't supported yet [1]
+> >>> - FreeBSD doesn't use the OF graph for anything
+> >>> - U-boot doesn't use the OF graph for USB
+> >>> - OpenBSD doesn't support dwc3, only the XHCI in dwc3, and doesn't us=
+e
+> >>>     the OF graph for USB
+> >>> - coreboot doesn't use the OF graph for anything
+> >>> - Zephyr doesn't support dwc3
+> >>> - TF-A doesn't use the OF graph for anything
+> >>> - EDK2 doesn't support dwc3 and doesn't support OF graph
+> >>> - OP-TEE doesn't support dwc3 and doesn't support OF graph
+> >>>
+> >>> [1] WIP to tie OF graph port node to USB port device
+> >>>
+> >>> Fixes: a33113f73693 ("dt-bindings: usb: snps,dwc3: document HS & SS O=
+F graph ports")
+> >>> Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> >>> ---
+> >>> It is unclear to me whether the HS/SS numbering is fixed for all dwc3
+> >>> variants. I checked Allwinner H616 and Rockchip RK3588 and they both
+> >>> have HS as port 1 and SS as port 2.
+> >>>
+> >>> This also doesn't cover a potential "multi-port" DWC3 implementation,
+> >>> which Qualcomm seems to have.
+> >>
+> >> It breaks the current Qualcomm numbering on numerous boards.
+> >
+> > Yes. It breaks _everyone_ using the current numbering in the sense that
+> > they are no longer valid, but should not affect actual usage.
+>
+> Older DT are supposed to be working on new kernels, you will break ABI
+> and will break usage if the port numbering is enforced to enabled embedde=
+d
+> hubs for example.
 
--- 
+On that front, embedded hubs already require you to use the USB numbering.
 
-Thanks,
-Peter Chen
+If you write
+
+    dwc3 {
+        hub@0 {
+            compatible =3D "usb0123,abcd";
+            reg =3D "0";
+        };
+    };
+
+It won't match anything. The current USB HCD binding doesn't prevent you
+from using port 0, but the kernel won't tie the USB device to it, even
+if it is a single port USB controller. As I mentioned, USB downstream
+ports start at 1, even for root hubs that only have 1 downstream port.
+
+The kernel also doesn't check if the compatible property is correct, but
+that is a separate issue. Maybe it should though, so people can see that
+their DT is incorrect, like if they swapped HS and SS ports for a USB 3.x
+hub.
+
+
+ChenYu
+
+
+> Neil
+>
+> >
+> > This comment refers to "multiport" controllers from Qualcomm [1], which
+> > would have ports beyond 1 and 2.
+> >
+> > [1] https://lore.kernel.org/all/20240420044901.884098-8-quic_kriskura@q=
+uicinc.com/
+> >
+> >
+> >>> ---
+> >>>    Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml | 4 ++=
+--
+> >>>    1 file changed, 2 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.y=
+aml b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> >>> index 6c0b8b653824..4b6304bd2ec1 100644
+> >>> --- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> >>> +++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> >>> @@ -410,11 +410,11 @@ properties:
+> >>>          property is used.
+> >>>
+> >>>        properties:
+> >>> -      port@0:
+> >>> +      port@1:
+> >>>            $ref: /schemas/graph.yaml#/properties/port
+> >>>            description: High Speed (HS) data bus.
+> >>>
+> >>> -      port@1:
+> >>> +      port@2:
+> >>>            $ref: /schemas/graph.yaml#/properties/port
+> >>>            description: Super Speed (SS) data bus.
+> >>>
+> >>
+>
