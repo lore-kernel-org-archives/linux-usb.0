@@ -1,156 +1,232 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A6C33556B;
-	Wed, 14 Oct 2026 09:21:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.203.200.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6185C4D6C55
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 09:29:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791969695; cv=pass; b=hFBD1/YhFzvFuG7LUWCrI9s4jfYTDwrzWwjS74FO7IItGBDBTewthK+JQr6smQfohxSILXfLv7Uadk/SHbu73g71Tu+fPg+7rUM/lilSRLhs6lmC8aplq/yCwpCd4w2W/2hidDgQ0eQinbnEJhMiCODZXZ4jfVnCDxowRkxC7W4=
+	t=1791970201; cv=pass; b=Emdd++ytFdNVrvl4W+bqeCs0hwa5uMTlyiLICY03aiYC1S513S75UGv5N+Slgcp/xdn1b4jnk6Gg381Yv9fFGAeFNj/bdpiKLzF8ZKaqrgy+J/Er+aW1d1Clu1e5e8dvE/tnzhAoLvA1Zw43EUrnCeIAyowrUs68LIi6vXP5Uos=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791969695; c=relaxed/simple;
-	bh=vA8UhhoscoIdqb9kU0tT0rcvRN6wRnsukhp05bZu/6M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZtiGZd7h1am1aL8ZSJShJux63x4FdawS2JUBVC27646fZ8uH6bfkNOYv3c0ZiPu9bf28fPjqwMwWtWpq8IPpWlOGTS02L1rt3jJtNSIHbpeUqKfGeFCVZ3Ngv8lc0VNrA5lDYx38hmtH7PCzPV9MNFCATNUoR4AOiDuUn7H9CRw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b=bn36ga2R; arc=pass smtp.client-ip=185.203.200.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	s=arc-20240116; t=1791970201; c=relaxed/simple;
+	bh=pWLyM9luQsQK0o6TzyDtyGsr+aOk8Ps1JZKkmmEaLaY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=At1zFanx1/EQLzXSj8vhJ7UcCPT+VU7fDgziIkl+ghYhMVgFgFqFsYYXPbUvovGOYkGsb6Z49JyekhmJ6SPPQWIn4b6uxBAMkV1Ug3Zz3QBkYu3tBMSeSs0U3GOa2IxbmCiNOFMMtYAUX3lgfjSbDmdYBvULeKaHTXJXrE+TtfY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=aAoGSYIW; arc=pass smtp.client-ip=74.125.224.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b="bn36ga2R"
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id A44962007F9;
-	Wed, 14 Oct 2026 11:21:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1791969688;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nfE+HoszBW81JfpKZ8ADGrOXhCccZkZmZbnezmaZz3g=;
-	b=bn36ga2R/Q/f3RzbVzI3q6AtPXo0q/3b0o7HWyn8C+bupqoZyNda9UByXCzx1v0D5MUQ+K
-	puzo8nkZ671mWby9XmipkAeHsgg3usNnzWXTtP1iQ5FY1H+iSKyO4WEuBfvhne/kQSGsRG
-	b2HotNgEutFHg8HXZj3EORPlylvMPFvTRHa15kcWk/+itKu2byobqUZEnv9v71Cp2tymIh
-	dV+JSAWEYey7ZOg1t5MVT18Nhi/jpytrP8oRvQapB2FdUCa2x/sc1f1ztJUkTzGXLLj+J5
-	+dnGneohYTjjzvVzclxoFCFsxr2MOM6H5Tu9TlRBImTJDNqrBADddVhv2zbx7A==
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1791969688; a=rsa-sha256;
-	cv=none;
-	b=f76UA6F/dBELSiSpxsm8I9Zx8r4qVCdk44SCMOTX0qXGz7BiNDSPqxFM31uiiBOfZxvV0+
-	qN9mpsNugI5BjbGQ8urd1TpZsARtMcccbLXxl6hMQ/bA5zS2gQRrA+JWMJZDPR/T8rePQs
-	LQlUW/K08XuyfWsHy3zGxDc0ma/V1T21ZNK8Meioha/6UWHuQwYChZDy7X+RQFY8b+kt6D
-	ZfdT6lO3jvfcmhOdUpsYOVW37xSlQqWGem4oC0VmFePYB1Z4HwQgXnrlek7XTy1Ou39fCL
-	6syxLCVPlsCw6QcUadCnWwJ+7HBo+a+I0/DcntyNoPeF6TTTIBgOHVC+L32/mw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1791969688;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nfE+HoszBW81JfpKZ8ADGrOXhCccZkZmZbnezmaZz3g=;
-	b=CdLwJjGT7nw/4fkVzcRRKViVB3mBzOdNNMW1YDXoFf9cYzPtc1LCzNA7lFIIxa+c1DYhpr
-	cW5I1NdRis8TLoerZtgQ7teQduhQle2l57CP4xLYpzGkaWzcb3kBrR+C5WkoyJ9vfHDaP3
-	cAJ1V4l04BjWfqkDyt6GDk5SigrZyJcBUadH/cPvVVXGogIBKGpbC3D5NwJcFVt3+5FZR/
-	XpjD81IBqnyq4f1/diU7XoPbXbeqcWFQhDeAjf40pwdF4fT5vjHSx7ss+g+tEGQ031oL5D
-	a30xD6fKClvEJqL5iW9Lnkf/LvCj8oLAWJLICnf73nAeHrXPhbwBnXooaWG49Q==
-Message-ID: <c54ea6fb6adf7b0c944c47bc91f564af9ad1560b.camel@pengutronix.de>
-Subject: Re: [PATCH v3] usb: dwc3: st: balance reset ownership on deassert
- failure
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Pengpeng Hou <hppiscas@163.com>, patrice.chotard@foss.st.com
-Cc: thinh.nguyen@synopsys.com, gregkh@linuxfoundation.org, 
-	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 14 Oct 2026 11:21:28 +0200
-In-Reply-To: <20261014031920.8390-1-hppiscas@163.com>
-References: <20261014031920.8390-1-hppiscas@163.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="aAoGSYIW"
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-677bc4704cbso3533702d50.0
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 02:29:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791970197; cv=none;
+        d=google.com; s=arc-20260327;
+        b=IrcHRtcS45vptAoezvPsuERXYPrHgzcHs+GSdOWSY1v3dR+LawgutpBEDCchUgo/qn
+         85uMc14dF6dZKOyuY+ORxeDhvCQqFiBKWP+wqCAp00NaPf7RfgeSjYHMJcMKpGs+AxBq
+         7zBl9nhRcaG8qkP2q42St328DP+B83o+9fBksnH2TtbAMHuoLfUplMIIz5w4gulql2ku
+         GNmFC+ScbsJxvxSiQyP1zKNMGTwuoPb6Gsol6PMUNomNrQ1Bp6X7WbIPUtZn4TFDhoPp
+         /7lngjFFkOw+ap2qjFPHDQ1pgtwsICeberB8WvmqTNVs0uhBuNaUz0YAjN3uaKthkUwV
+         uXrA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pMwu/+dLKz/hELXQ8G9suR4fEQW92masMZdt6u+igOk=;
+        fh=G4Pn9UEUePojAD/ztXaSgoOezH9EoAATYXGrsvSEhlc=;
+        b=NND2nPzPHaL7rdsO3E7iAPjJkks6d7H0AZCE1ru7Hz+i1OEifmLK/tdDAT9Pcq8dUV
+         fbiOaGIr8uFEoJggRlNSldpc4GhTXOV4oSj2kWCBQnTkFIiXHXy6jxI4BQwnyQxYNayy
+         Rzoxku/4l8xhlKTuXOWbFKlfoZcpZGbD6/htDQa6JEXXTwPtQTQzOIW6MAmDPoppKSrD
+         rDDp5ztM/Mja/E24gjFbfe1dlGjV1HCXCR+HGEjgjPzC1yvWlv/pmqcvjGqdJRs4Hvo6
+         Um+6ms3B742sma9zoOci40LkNzu+qtrIXg5U5Xr7w/EMo5qJNneOlwFaH05qDGLsyaJf
+         woeA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1791970197; x=1792574997; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=pMwu/+dLKz/hELXQ8G9suR4fEQW92masMZdt6u+igOk=;
+        b=aAoGSYIWWjtVl7BdPGo49TE1UOs7NuJ9kjStb8r2sXTsaTBtWvFMA+ayTXnDHo4wVv
+         +ajzuC8CFoNnYs+L3Pd5obM6j8bqYoTtK63Fp52vRVwxAVtnds3dPppxzGg/qHsH5dDb
+         fXf5FX8TYvPKwE7Hmn8A97zWNhRVC+SXvPylI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791970197; x=1792574997;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pMwu/+dLKz/hELXQ8G9suR4fEQW92masMZdt6u+igOk=;
+        b=isr7HwXyS5yPCIzLpOU7xIi/UwbOESDrbDe9ZVeKRVP7oL3QG6m2uRU6f6NtA8Duhr
+         7CeUR3BS3GlENZbbKcQLM4omezjA5DzX1qxx1Miq+sX4B8f0RsuZZUtZRX/EjmTbUdWc
+         egQ28fzWChXqbHSAd871Bc505DuLKuuqaS3YrdqXjoTxYY1tXYcQcakVW2iMjX9cnSX2
+         zmZCLg0L4iKZNh9TYpkiiiwnTn/oZteKt2CTJqi4DbfHIFI82lt/zJ8Bs+2VK5tY87fk
+         ZVQmCzO8PE4RHv+/UX0OxCFvBI184JqaZZ3lJc62oHaBMahQSD+tkpyBMh30TQEdDHI0
+         0iEA==
+X-Forwarded-Encrypted: i=1; AKwUvBwPn4l1bsTRWetsuOKjWP35pVohBZL91NFAGGgaPtgmADylNdxdBAS1wNThlMrJBlibJaTEa7fB9xg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKYmagrecPIeoLbIrLFu8BRgntYBAMJXNJx6Wib86TiLQypdx5/
+	4POcjDDPBWBzzL/ocOYYs8S6DyozF8krOTS2DtSaS5LCA3TV3bbb4DM8obhUY3TleqBGVP0sJg0
+	ykzwRusZZM7lJ1tArBYSGqnglfLQ4DdLvM5mqbiv9
+X-Gm-Gg: AYBFou3QvMQ9zFHsf8M4SeJwZs0qCmcj025I2cInnCKgYzFd7ORA9QeKD4uF8pCUuOR
+	Wtd2trv9sauiJeWHWuatowz0wBXanZXEbkgfCeQ0vi28dAnlVvKhMLOkS3tgP/PpVgVOiMPsCbE
+	akZuM03iVejPdicfwo1sxP/xsv8xH+SinRCpBJVW0YM+Q+pnw3y62/ZDsL8lN7v2SiHXJPhWVeM
+	bMK3opbadl0CtMguuNnvCKASxOVkBtKvSkf+392RMZH4NKDW37kasfYYGw9BUswRNxBZewgqke8
+	RmVZx/0Yu0h1w5Cx0F5tGAudIweVsAU5htSUqpnxS+cYjWJvWK4CQ56bvX5OMDRq6dg=
+X-Received: by 2002:a05:690e:1094:10b0:677:d106:6f97 with SMTP id
+ 956f58d0204a3-679363475c0mr3180487d50.152.1791970197053; Wed, 14 Oct 2026
+ 02:29:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20261014082037.1774672-1-wenst@chromium.org> <20261014082037.1774672-3-wenst@chromium.org>
+ <7020a7a6-332e-4fd0-a659-d82eb768614c@linaro.org>
+In-Reply-To: <7020a7a6-332e-4fd0-a659-d82eb768614c@linaro.org>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Wed, 14 Oct 2026 18:29:46 +0900
+X-Gm-Features: AclHuK9N2qPZVqRIKj3AC2e-RNgLBJ_oiV-FNmg6s8RgvBJGg_msVeXPasEPdno
+Message-ID: <CAGXv+5G1kgyumbj7wGf6rPFbg3spSO0zYmEkn-hZT4qUdJbytA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] dt-bindings: usb: snps,dwc3: Fix downstream port numbering
+To: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Felipe Balbi <balbi@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>, 
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>, Sven Peter <sven@kernel.org>, 
+	Janne Grunau <j@jannau.net>, Neal Gompa <neal@gompa.dev>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Ryan Chen <ryan_chen@aspeedtech.com>, 
+	Billy Tsai <billy_tsai@aspeedtech.com>, Michal Simek <michal.simek@amd.com>, 
+	Frank Li <Frank.Li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	Peter Griffin <peter.griffin@linaro.org>, =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
+	Tudor Ambarus <tudor.ambarus@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Alim Akhtar <alim.akhtar@samsung.com>, Kunihiko Hayashi <hayashi.kunihiko@socionext.com>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Yixun Lan <dlan@kernel.org>, 
+	Troy Mitchell <troy.mitchell@linux.spacemit.com>, Minda Chen <minda.chen@starfivetech.com>, 
+	Shyam Pandey <radhey.shyam.pandey@amd.com>, Wei Yang <yangwei1@eswincomputing.com>, 
+	Senchuan Zhang <zhangsenchuan@eswincomputing.com>, Hang Cao <caohang@eswincomputing.com>, 
+	Li Jun <jun.li@nxp.com>, Peng Fan <peng.fan@nxp.com>, Roy Luo <royluo@google.com>, 
+	Yang Xiwen <forbidden405@foxmail.com>, 
+	Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>, 
+	Robert Marko <robert.marko@sartura.hr>, Xu Yang <xu.yang_2@nxp.com>, 
+	Wesley Cheng <quic_wcheng@quicinc.com>, Stanley Chang <stanley_chang@realtek.com>, 
+	Ze Huang <huang.ze@linux.dev>, Aswath Govindraju <a-govindraju@ti.com>, 
+	Roger Quadros <rogerq@kernel.org>, linux-arm-kernel@lists.infradead.org, 
+	linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org, imx@lists.linux.dev, 
+	linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-riscv@lists.infradead.org, 
+	spacemit@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mi, 2026-10-14 at 11:19 +0800, Pengpeng Hou wrote:
-> The ST DWC3 glue ignores reset deassert failures in probe and resume.
-> It may publish the child device or access the glue registers without both
-> reset operations having succeeded.
->=20
-> Check both results and unwind DRD setup failures as well. A shared
-> softreset provider failure must go through undo_softreset: the reset core
-> has already incremented its deassert count before calling the provider.
->=20
-> Track whether this driver owns the deassert pair so suspend and remove do
-> not release it again after failed resume has unwound it. This is referenc=
-e
-> ownership, not a guarantee about the physical reset-line state. Resume
-> itself needs no early-return guard: the paired suspend callback clears
-> the ownership state before resume is entered.
->=20
-> The issue was found by our static-analysis tool and manually reviewed.
->=20
-> Fixes: f83fca0707c6 ("usb: dwc3: add ST dwc3 glue layer to manage dwc3 HC=
-")
-> Assisted-by: gpt 5
-> Signed-off-by: Pengpeng Hou <hppiscas@163.com>
-> ---
-> Changes since v2:
-> - remove the redundant resets_active early return in resume, as Thinh que=
-ried
-> - keep failed shared deasserts routed through undo_softreset
-> - retain the independently needed suspend/remove ownership guards
-> - rebase on current mainline
->=20
-> Previous version:
-> https://lore.kernel.org/all/20260922004312.3589-1-hppiscas@163.com/
->=20
->  drivers/usb/dwc3/dwc3-st.c |   43 ++++++++++++++++++++++++++++++++++----=
------
->  1 file changed, 34 insertions(+), 9 deletions(-)
->=20
-> diff --git a/drivers/usb/dwc3/dwc3-st.c b/drivers/usb/dwc3/dwc3-st.c
-> index 5d513decaacd22de15825dc061c2747cf09fef07..1a2f38f9407ae0aea25edd616=
-f8d77f953b3b404 100644
-> --- a/drivers/usb/dwc3/dwc3-st.c
-> +++ b/drivers/usb/dwc3/dwc3-st.c
-> @@ -84,6 +84,7 @@
->   * @dr_mode:		drd static host/device config
->   * @rstc_pwrdn:		rest controller for powerdown signal
->   * @rstc_rst:		reset controller for softreset signal
-> + * @resets_active:	whether this driver holds its deasserted reset pair
->   */
-> =20
->  struct st_dwc3 {
-> @@ -94,6 +95,7 @@ struct st_dwc3 {
->  	enum usb_dr_mode dr_mode;
->  	struct reset_control *rstc_pwrdn;
->  	struct reset_control *rstc_rst;
-> +	bool resets_active;
->  };
-> =20
->  static inline u32 st_dwc3_readl(void __iomem *base, u32 offset)
-> @@ -242,7 +244,9 @@ static int st_dwc3_probe(struct platform_device *pdev=
-)
->  				     "could not get power controller\n");
-> =20
->  	/* Manage PowerDown */
-> -	reset_control_deassert(dwc3_data->rstc_pwrdn);
-> +	ret =3D reset_control_deassert(dwc3_data->rstc_pwrdn);
-> +	if (ret)
-> +		return ret;
+On Wed, Oct 14, 2026 at 5:28=E2=80=AFPM Neil Armstrong
+<neil.armstrong@linaro.org> wrote:
+>
+> On 10/14/26 10:20, Chen-Yu Tsai wrote:
+> > The DWC3 controller can operate in host mode. It does so with a XHCI
+> > compliant host controller. The XHCI has two downstream ports, one for
+> > HS and one for SS. USB downstream ports start from 1, not 0.
+>
+> Is there something in index 0 we will need to define at some point ?
 
-		goto undo_powerdown;
+On the host side, no. Downstream ports start at 1.
 
-This behaviour of _deassert causing workarounds in drivers is
-unfortunate.
+On the device mode side, I believe the numbers are completely made up.
 
-Maybe we should add a reset_control_deassert_get/put() pair for shared
-resets where _get() decrements deassert_count on failure and _put()
-returns void.
+> Using 0 as base for numbering in DT isn't incompatible with the USB
+> spec using base 1 for numbering,
 
-regards
-Philipp
+But you end up with diverging numbering schemes, and it diverges
+from other USB controllers, particularly XHCI, which DWC3 embeds.
+
+And it also differs from the numbering currently used for directly
+connected onboard devices (like hubs), which use or expect the USB
+numbering scheme.
+
+Sure we can make DWC3 "special", drop inclusion of usb-hcd.yaml,
+and duplicate the section for onboard devices. On Linux, we can
+add some more code to xhci_find_raw_port_number() to make an
+exception for DWC3 controllers.
+
+Also, usb_of_get_connect_type() is already broken for DWC3 based
+controllers that only describe the HS connection but not the SS
+connection. usb_of_get_connect_type() currently doesn't call
+usb_hcd_find_raw_port_number() so both HS and SS get mapped to port 1,
+which wouldn't be in the DT since HS is currently port@0. But even if
+it did, SS would get mapped to port 2 anyway.
+
+
+IMHO having consistent numbering across controller types would be
+better. This avoids making the USB core and hub code deal with more
+exceptions, and also easier to understand and write device trees.
+
+> > Reconcile the downstream port numbering with the common USB host
+> > binding, renumbering the downstream port numbers from 0 and 1 to
+> > 1 and 2.
+> >
+> > This is non-backwards compatible, however it won't break current
+> > major implementations:
+> >
+> > - dwc3 "gadget mode" in Linux kernel only requires a connection to be
+> >    present; it doesn't matter which port it is
+> >    - dwc3 "host mode" OF graph connections aren't supported yet [1]
+> > - FreeBSD doesn't use the OF graph for anything
+> > - U-boot doesn't use the OF graph for USB
+> > - OpenBSD doesn't support dwc3, only the XHCI in dwc3, and doesn't use
+> >    the OF graph for USB
+> > - coreboot doesn't use the OF graph for anything
+> > - Zephyr doesn't support dwc3
+> > - TF-A doesn't use the OF graph for anything
+> > - EDK2 doesn't support dwc3 and doesn't support OF graph
+> > - OP-TEE doesn't support dwc3 and doesn't support OF graph
+> >
+> > [1] WIP to tie OF graph port node to USB port device
+> >
+> > Fixes: a33113f73693 ("dt-bindings: usb: snps,dwc3: document HS & SS OF =
+graph ports")
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> > It is unclear to me whether the HS/SS numbering is fixed for all dwc3
+> > variants. I checked Allwinner H616 and Rockchip RK3588 and they both
+> > have HS as port 1 and SS as port 2.
+> >
+> > This also doesn't cover a potential "multi-port" DWC3 implementation,
+> > which Qualcomm seems to have.
+>
+> It breaks the current Qualcomm numbering on numerous boards.
+
+Yes. It breaks _everyone_ using the current numbering in the sense that
+they are no longer valid, but should not affect actual usage.
+
+This comment refers to "multiport" controllers from Qualcomm [1], which
+would have ports beyond 1 and 2.
+
+[1] https://lore.kernel.org/all/20240420044901.884098-8-quic_kriskura@quici=
+nc.com/
+
+
+> > ---
+> >   Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml | 4 ++--
+> >   1 file changed, 2 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yam=
+l b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> > index 6c0b8b653824..4b6304bd2ec1 100644
+> > --- a/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> > +++ b/Documentation/devicetree/bindings/usb/snps,dwc3-common.yaml
+> > @@ -410,11 +410,11 @@ properties:
+> >         property is used.
+> >
+> >       properties:
+> > -      port@0:
+> > +      port@1:
+> >           $ref: /schemas/graph.yaml#/properties/port
+> >           description: High Speed (HS) data bus.
+> >
+> > -      port@1:
+> > +      port@2:
+> >           $ref: /schemas/graph.yaml#/properties/port
+> >           description: Super Speed (SS) data bus.
+> >
+>
