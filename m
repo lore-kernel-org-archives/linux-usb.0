@@ -1,99 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1526C35AC13
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 09:55:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791971702; cv=none; b=roI+ioapLPr0IYyWBpu7+CVxqMspFgGl+hCp/6aIoWhYlqFP5rgU9k1vHGBuGFFNLjZKL2N0pMWoltuCWRb2ZxJV8BNXmZmHBNosWhJ/N66GKmD5QpeBaILQDeg/V3kBWEXtne3eC9M6okE4no2Mk0umEUSmYBKZUGJvMokFRCc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791971702; c=relaxed/simple;
-	bh=UsWP33UUn0p813/KEW4ZJE7pgzlA2Khtq5ArD/OTa4U=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=sHg8kY3o1svUwxZ72eQiCI4om6dqtk+2CpiEd9Ztz1QnernzSZrjnnbqQ0/i9petLV3JutjMVf3XxiYN/wYKZ06d+NYdDQ8qgylOHhz/HTtN/2wk9okNEpLeJv+4hMgqfZQjNM1VbXiAg2zYXV7gmXAZAaTCjZ2qwOu2+oBzqWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gGGJtX0q; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A8B4E3EEC
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 10:02:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791972180; cv=pass; b=IzjCWfjRTw1ZPp3Uek8c8QQbt7RGw/bmbv3/dMiBX1t9AwJmTYguHgVqLSpBMzpCjGtwom73clz+48/yIqHlLeBtQVHxJ5GX6cs5W/Rpn7swXCBgrZW5hV410jqMipzAE0iptlwnhOFSBOQyHKm4C923AGTIJOkhDxHB5gEHGr0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791972180; c=relaxed/simple;
+	bh=Paj/fEMKM3cmws1K99Dv7KitqqWmnLrgK9UzwEVlN2M=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=CxUisJouveSwOR9+kwwe45MOpX+i/M7dJcx5aAbXVKb2/3EE+Lo2JqrKZ+C/kRYZEP9RFkgYh0VI1kVqT4m5cmQgmjj1pkf2J6ywFRtEhNpzkqepZdjuGkZum+FcllDc7DrQWQBcuRi9wKAOhX2477QlevSXb1S9XAEziIP9d+w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=glqGfazB; arc=pass smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gGGJtX0q"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D5271F000FF;
-	Wed, 14 Oct 2026 09:55:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791971700;
-	bh=wpApY6QVpVBNXnerR6CPuwzN7J1eqhfRS7vVB7US6ms=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gGGJtX0qTUwxeBMc49207/aM9hDR4hLzgLWVuUxo2maHoLyHG+ge+9wkw7s61BzpU
-	 RaS19rFFanOXGrw3HrlXJWjeSDaawhWpmZDNRlvjgj5F3woUbxVcSDzrS2+jWB/jK4
-	 C8u3lPjPsS38YdpcBggc6kbzIRSUCuamhbuSxnHq2IJIt5Gc4awNSnGfWNtJ4xLGBf
-	 0xFqwu7WvnSbWdFJ2yDNdhyZHDi1hsNTeC8u72gW/Drmtqywuu/laozz6+qln2VKXT
-	 lRJiljA7VPf1lT2Q+/MNIwrWbMislB8ovfidSfIQ7Wq69Hy+DJFlnrDIZvpAM22Cmp
-	 VfNv28X90kepQ==
-Message-ID: <sashiko-outbox-171104@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: storage: bound timeout=0 URB waits to 30s
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hongyu Xie" <xiehongyu1@kylinos.cn>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014093856.415812-1-xiehongyu1@kylinos.cn>
-References: <20261014093856.415812-1-xiehongyu1@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2026 09:55:00 +0000
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="glqGfazB"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6af9a9451daso6174675a12.0
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:02:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1791972177; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TbHF8E+2OD+bzG8G2IHN6LMoJQu7pPOKcHEyKUvcOB9LPBClrJd/LsMUeN0xBbBMpW
+         AiH8BM6c9b95kKxJzMydk5N93xOyy3H24CX3tB/UrynMLbdaPo0xT8bdmrRGIaxKcEvE
+         Z1KQn/41fXukosqrF0GeJJ8c81oxFbqAVM634LY18gyn2io7bhRwjk170WG8VxqEAXjo
+         DL04gzifXCYB7d7nG1wk4GgRI5x1rAS1ah1Uk9Fh7xUI8Q/p31y3mxVr/N1Za/3JAhow
+         NI8p5r33DAdaIG/vZVNw4/M8Hbln3l+QFiXa/87xMXHAQCf+o8A7sPgDzDkCyRxvnPck
+         XPlg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=Paj/fEMKM3cmws1K99Dv7KitqqWmnLrgK9UzwEVlN2M=;
+        fh=AFQZ6V9Jf5w1J1k+LUVL2sccXlgGSsunG29/ipXSEbg=;
+        b=qAvYrl8hdRlAoiiSTFtdpcdfDxcYaVUpIDv+Lyh5PnxSVJoETR7JJK9x87Bi1JhFeX
+         T4aeiDurwcL3d47OG8/1ohmp4kZC6c+/5Fionp4lj51A9zVpo1QQLTa31yogw+vndNA1
+         1PYDVs8A2niOJx8HnKePRoMZDTsRdWoCZ+GpEg+SThsCpmB58qYhV70Wwj+q8WYnA6Ro
+         uvUFC9aLNumx/4v6tRD8j/CD9qWuSPSt4Wq9bhRH0dArzMs1O8VxhxrcZ9wFnTyveK4e
+         I8eLT9FugiUpGKzA81i7i/7BanCagx+VwSokSM3jmvz9dTDkNEmZBS7pR8jJs7AT47RU
+         y1Vg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1791972177; x=1792576977; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Paj/fEMKM3cmws1K99Dv7KitqqWmnLrgK9UzwEVlN2M=;
+        b=glqGfazBc5xusIciCDxW4ih2y26V5DdqUeAIJlcc0MYvTkmbmGybWp0wHpNCyvH49o
+         QZ5WLl7kOxSVUnOEtyY+WcpoimBLF4j7xvb2Xk69wAYU8Szodwyrpe8yA8outnrM8+3r
+         rqxYbJbv2ybVNLrxFBnKUi3htUhbrtYsyePjTK7GAt04T/dJ91XTjv0XfOEEUfcDE/6Z
+         CAc3BoYX/7caZU3B4t/w5mN8/l9lEBI6YdUyw7wh9zcFCZDQS80l7WCovU5UXu6DCg1b
+         VFYkKePClvH4eQjieFdswXwLmOuTdXTbWXcQ7QLFYymZVD9Br730e0d0mEEK9m32N3Dc
+         /uEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791972177; x=1792576977;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Paj/fEMKM3cmws1K99Dv7KitqqWmnLrgK9UzwEVlN2M=;
+        b=SGTWHfLJBvFLAQgg8R5J2UOyTNSIcexrFys42C/ehtH2UfZUe/vAfCoLO1H4uSnE4V
+         +w9xIzJEvbyvxIpMDAoiOXTnw7AUWV0UYV8i9n9GB3EKzB9HGqit0k8gHGHvkfbbfZ9p
+         QKv4U6Q7FR3PvhqrE7MvvZnuA66M+f6ioFmmzIMvU982XhIwOEap3DW56/Vai9v2eB26
+         R3Gu8el1SPFrgy9MLFyLORzMFm6cQJQsyaqzFaX74RSmq0uc3Qh0ZpH+eyj+/n18i3T2
+         XqorW4hW0Fk++vxbJF+5xfIrKFqRUHWQWzNDOlSlQqJb4OUvRSvdOuP4/KSIYkIEXKuZ
+         8coQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx5wV03LTTBC7wMW56dQCB3mPSZLwPV32k6Gd2bBE2x1fmgrHssRWiQHI9aPqDf2j57gIGYI1PsAkA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIWHBE5ReyaBZNBe98g2Rhb1P9CQNrt8IWkpBiXhb5cx0w0L4cX
+	nJo3o1P+MqUD+WFBMxChlvFEF7WsvX4cYjZUknglf3Q1LpLewPRuX4kIGa9ZX05ZkrmfI71dsaP
+	tKq3EkQ1/Grgud8aIryJxWag4KXiZa9U=
+X-Gm-Gg: AYBFou3CwvDOJnsUkLFD1KG2Ri95e6J8Yj8tMe3WWknyRJeDNKkuqedckUIzVXyx3Ea
+	OHL8Nk6NJvitEgp+0maREsW0zhPfzo/OhwmAtLZHTE90j5AKfG+IrsOtWjcPoHzIJQBsK3tcr4h
+	JiX3hm2zdso5ZPqCeKrZYSNUAANr+3CFzXqWUlLgX2NW94G9ghvvqbKTuH5pogxNgYg+mBOG7ZA
+	a6vzD2l/chjcNMhsNS/vTY68aokmInl//KCxjjz/CcZjkm6ICaFkeSVWqpfVCRUrFRg5OvvE0nu
+	gm6Y32Y7SQXke0qCW4MqupBq0upn9wpHSP31sGO/3s9PtvVGzQwVHxqa
+X-Received: by 2002:a05:6402:51d4:b0:6aa:f260:b851 with SMTP id
+ 4fb4d7f45d1cf-6b17c2ac332mr13030975a12.33.1791972176597; Wed, 14 Oct 2026
+ 03:02:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+From: Ayush Yaduvanshi <ayush37735@gmail.com>
+Date: Wed, 14 Oct 2026 15:32:18 +0530
+X-Gm-Features: AclHuK_5KUbXFqyhRWHejkVpygkLU5hHyftSH2zUVPZDbQX6AQkitHFeWqRkUg4
+Message-ID: <CAPgWTUQ5tYtV_YR7SDV7SRsDmvmxsgV5xOdns7Aq93Uy1kg9iA@mail.gmail.com>
+Subject: Re: [PATCH v2] USB: sisusbvga: avoid prolonged initialization on failure
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, michal.pecio@gmail.com
+Cc: Thomas Winischhofer <thomas@winischhofer.net>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+3bc656a9271e7c8a5c6b@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] usb-storage: hardcoded 30s URB timeout breaks long-running SCSI co=
-mmands
---
+Hi Greg,
 
-commit e1a1498b59035fae65ddf1b4b34a943e9c28791c
-Author: Hongyu Xie <xiehongyu1@kylinos.cn>
+Friendly ping on this v2 patch. It fixes a task hang reported by
+syzbot in sisusbvga.
 
-usb: storage: bound timeout=3D0 URB waits to 30s
+The patch was tested and verified by syzbot using the reported
+reproducer, confirming that the hang is resolved. Could you please
+review and consider it for usb-next when you have a moment?
 
-This commit bounds timeout=3D0 URB waits in usb_stor_msg_common() to 30 sec=
-onds
-to prevent permanent hangs when a device stops responding mid-transfer. It
-replaces MAX_SCHEDULE_TIMEOUT with a 30-second timeout, matching the SCSI
-layer's default command timeout for disk and CD-ROM LUs.
+Patch link: https://lore.kernel.org/linux-usb/20260907074308.109603-1-ayush37735@gmail.com/
+Syzbot bug: https://syzkaller.appspot.com/bug?extid=3bc656a9271e7c8a5c6b
 
-> diff --git a/drivers/usb/storage/transport.c b/drivers/usb/storage/transp=
-ort.c
-> index 8de3015bce050..a6588e55312c2 100644
-> --- a/drivers/usb/storage/transport.c
-> +++ b/drivers/usb/storage/transport.c
-
-[ ... ]
-
-> @@ -164,7 +173,7 @@ static int usb_stor_msg_common(struct us_data *us, in=
-t timeout)
->  =20
->  	/* wait for the completion of the URB */
->  	timeleft =3D wait_for_completion_interruptible_timeout(
-> -			&urb_done, timeout ? : MAX_SCHEDULE_TIMEOUT);
-> +			&urb_done, timeout ? : USB_STOR_URB_TIMEOUT);
-
-[Severity: High]
-Does this hardcoded 30-second timeout break legitimate long-running SCSI
-commands like FORMAT UNIT or tape rewinds?
-
-This logic unconditionally truncates unbounded transport waits to 30 second=
-s,
-ignoring dynamic timeouts present in us->srb->request->timeout. A BOT SCSI
-command taking longer than 30 seconds could legitimately withhold the CSW
-until the operation finishes.
-
-Could this cause usb_stor_msg_common() to kill the URB and return
-USB_STOR_XFER_ERROR before the SCSI layer's own command timeout (which could
-be hours) expires?
-
->  =20
->  	clear_bit(US_FLIDX_URB_ACTIVE, &us->dflags);
->
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014093856.4158=
-12-1-xiehongyu1@kylinos.cn?part=3D1
+Thanks,
+Ayush Yaduvanshi
