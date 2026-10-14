@@ -1,209 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from r9204.ps.combzmail.jp (r9204.ps.combzmail.jp [160.16.62.132])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECF3B4B0C9E
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 23:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCCB630DD10
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 01:00:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=160.16.62.132
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791933916; cv=none; b=AkD54waiuXtoNpTavlYRJCwS7nN5+omUVBVsvImDMT7I9v6g0W6+jNQhDvmSYJFEIrikRuNdCrCf26uRZrVD/sTvra9lFNMUClYPwj5xR2G9t593PYAMCxkkmQEESELsXpSPhHK03+MeWgrjtsljyhqaFMzgtdfVK4+WLPP5aWY=
+	t=1791939613; cv=none; b=XiNsdURi+aJRdT8jpEMKNQolaxLrx2w9WGgkcMEudbmF09r0S4kDHgMG9SRcitqZWEdx1Re0kHOnyLKnBstoZQZpk278bpnL1Fdv9SXYmyebz9YuPfcH/jt0NL8c6dKDQ37hZdWH1h0iCT0AASybzm1a6eSptVVQLtnN3mlqycI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791933916; c=relaxed/simple;
-	bh=pyp25QtKyLM8BrmBaxXVfW+c86ZxFuXNe529PVbugRo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hnYtjyXwh1SG+Gf9CXPDuvsThTguNAlsqTgpE3IA9kfw0fz0GX5xO3jS2UB1AiYp6UJQtE9FBJTZrj6qola4s8VdbooomrVvZNOY+WxNtWVu0/atDEuEY/t0sHwJjNComzrW6Y9b0YxSuZhfhiwHE+5rf7tklooUU08YiQzsubc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lHc+HFoI; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lHc+HFoI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82A451F0089F
-	for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 23:25:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791933914;
-	bh=bF+W4sghZSTsd+ZdP1W6Me6PZqk4DiSPea7R/+7acVg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=lHc+HFoIiIZdyHrYvGHCmk1Y68/+4V1TwAFb/64uLVSVRLfYYFmwTlT59RWrkryTI
-	 TwdY62kwHmD8VHOxvTE2vR2I6RO1jBYXRvC/TwUAnDcIgTcCb/a91uY+NOFp9NIaIG
-	 LQD0L6VPX5DK+CXT0XPWvBslR27YhMmrIRo1PPEgBB7DilKUMChL2WDm6UeVLoBsa2
-	 7BZ8dPvD/bVGgk9aQP5+vuVZb0DZlGh4f39fq2zbYF4yR2rAO6jWCQBOHpQNdLEdUQ
-	 NFtGj1gq7xOn4FcCxO6vIdaqTRHy0HIUsGHfmajYeJFsvOURsCXx3k4vdBqNWeyYoH
-	 rs/KBnW3Y7I3A==
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5bcb3726952so1735814e87.3
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 16:25:14 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBxpjHHu6/Vw27oJY/AMjt6MFrzt/WXoDHqHrSsR8r8usr8UphKpO9dGNEdrmALbBiFMjVUYNnSFCrw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIGew89PSLz8aEZeVT6zUeSDqDSW35XCnwbbAzZnM7a2hs/RVXD
-	pOcvZWp3xDTcb2IpKqSdGk9cZDpmbhbcMRWUDUTLim1d6wwMUkWnFPoV7+ZljhVtRvmsWI41ufL
-	OFnXDpI1WKdhyGTllq14t1tbTWnuvLxM=
-X-Received: by 2002:a05:6512:3d8a:b0:5b8:f048:473d with SMTP id
- 2adb3069b0e04-5bcde35cad4mr4274371e87.7.1791933913215; Tue, 13 Oct 2026
- 16:25:13 -0700 (PDT)
+	s=arc-20240116; t=1791939613; c=relaxed/simple;
+	bh=HYeyaqkQjohnE2UhlMcdYYIfEDK509tuaHN+zgJCgt8=;
+	h=To:From:Subject:Mime-Version:Content-Type:Message-Id:Date; b=tZgVEM0VBDbqWsIl11G7f3qajL9ogEBZetO6M9NYZ1CkMtRNXnn5z39hL8hKVoLoI0ci28cE0+FG0LSGwN1NtkyYnYSR3ZBxcfBMOkYEPeHaCaetl+I6D7RIR3NYyMZ3FbjNeMLQ9KlcjvhRowxpC2snQWg6y4tTt0Cfkwe44Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=knowledgelink-corp.jp; spf=pass smtp.mailfrom=magerr.combzmail.jp; arc=none smtp.client-ip=160.16.62.132
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=knowledgelink-corp.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=magerr.combzmail.jp
+Received: by r9204.ps.combzmail.jp (Postfix, from userid 99)
+	id 17408103972; Wed, 14 Oct 2026 09:57:16 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 r9204.ps.combzmail.jp 17408103972
+To: linux-usb@vger.kernel.org
+From: =?ISO-2022-JP?B?GyRCJUolbCVDJTglaiVzJS8bKEI=?= <info@knowledgelink-corp.jp>
+X-Ip: 2245271667485097
+X-Ip-source: k85gj73p48dnsa9wu0p6gd
+Precedence: bulk
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Subject: =?ISO-2022-JP?B?GyRCIVY7WDwoQlQkQT9NNFYhVyRPJDMkJkF9GyhC?=
+ =?ISO-2022-JP?B?GyRCJCgkaxsoQg==?=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com> <20261012-lstp-usb-adapter-v1-6-aambrozewicz@nvidia.com>
-In-Reply-To: <20261012-lstp-usb-adapter-v1-6-aambrozewicz@nvidia.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Wed, 14 Oct 2026 01:25:00 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkru2AL2_7ieOdbYrePAhNSFaa3wwEzCagiPsALgG2GwQ@mail.gmail.com>
-X-Gm-Features: AclHuK8aDJrbMFX2SY9BpZEACe6CGzBOm9_cURajb8zp_6_hmnV2osIeBJ4Fdic
-Message-ID: <CAD++jLkru2AL2_7ieOdbYrePAhNSFaa3wwEzCagiPsALgG2GwQ@mail.gmail.com>
-Subject: Re: [PATCH 06/11] gpio: Add NVIDIA LSTP GPIO driver
-To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Donald Shannon <donalds@nvidia.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-usb@vger.kernel.org, llvm@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-MagazineId: 3p9w
+X-uId: 6764315237486066664986261056
+X-Sender: CombzMailSender
+X-Url: http://www.combzmail.jp/
+Message-Id: <20261014010008.17408103972@r9204.ps.combzmail.jp>
+Date: Wed, 14 Oct 2026 09:57:16 +0900 (JST)
 
-Hi Adrian,
+　
+　いつもお世話になります。
+　
+　〇 社員のモチベーションを上げようと声をかける
+　〇 現場のトラブルに、自ら先頭に立って対応する
+　
+　もし、社長がこれらを率先しているようであれば
+　残念ながら、その組織の成長はそこで止まります。
+　
+　社長の“優しさ”が、社員の甘えを生み、責任感を奪い
+　「指示待ち人間」を量産する装置になっているからです。
+　
+　「優しさ」で人を動かすのではなく、「正しさ」で組織を動かす。
+　
+　4,800社の経営者が衝撃を受けた、
+　良かれと思ってやってしまう「社長のNG行動」の正体。
+　
+　組織を正しい方向に変えるためのウェビナーです。　
+　もし心当たりがあれば、一度ご視聴ください。　
+　
+　>>視聴予約はこちら
+　https://knowledge-co.jp/shikigaku5/
+　
+----------------------------------------------
+　
+　テーマ ：　それ、危険です 『社長のNG行動』
+　　　　　 〜 その行動が、組織崩壊を招く 〜
+　
+　日 程　：10月14日（水）13:00スタート
+　　　　　 10月22日（木）13:00スタート
+　　　　　 ※内容は同じです。
+　会 場　：Zoom開催
+　定 員　：先着100名（費用は不要）
+----------------------------------------------
+　※経営層の方限定です
+　
+　
+　なぜ、社員は「言われたこと」しかやらないのか。
+　なぜ、次世代のリーダー候補が育たないのか。
+　
+　それは、能力の問題ではなく、
+　
+　良かれと思って続けている「社長の配慮」こそが、
+　組織成長を止める、最大のボトルネックかもしれません。
+　
+　本セミナーでは、4,800社以上が導入した
+　独自の組織論「識学」に基づき、社長の「NG行動」と
+　真の経営者へ脱皮するためのマインドセットを伝授します。
+　
+　
+　【セミナー内容(一部抜粋)】
+　 ○ NG行動3選
+　 ○ なぜ優秀なNo.2や部長が育たないのか
+　 ○ マネジメントスタイルの変革について
+　 ○ 導入企業の事例
+　
+　「管理職が育ったら任せる」ではなく「任せるから育つ」
+　という思考の逆転を提言。
+　
+　現場から「冷たくなった」と思われることを恐れず
+　機能的な階層構造を作ることで
 
-thanks for your patch!
+　結果として社員全員を守り
+　利益を最大化させる道筋を明示します。
 
-On Mon, Oct 12, 2026 at 7:37=E2=80=AFPM Adrian Ambrozewicz
-<aambrozewicz@nvidia.com> wrote:
+　「優しさ」で人を動かすのではなく
+　「正しさ」で組織を動かす。
 
-> Add a driver for the GPIO channels of NVIDIA LSTP USB adapters. Each
-> channel is registered as a GPIO chip with an interrupt controller for
-> its pins; every line access is a USB transaction, so the chip can
-> sleep. Pins the firmware reports as LEDs are not GPIO lines: the driver
-> hands them to the LED driver as an auxiliary device.
->
-> At probe the driver reads each pin's interrupt configuration from the
-> device. A reply that misses the response timeout can answer a later
-> request and shift every following pin's state by one, so a single read
-> cannot simply be retried. After a timeout the driver reads all pins
-> again, alternating ascending and descending order, until two
-> consecutive passes without a timeout agree: at most five passes, ending
-> within 10 s of the first timeout, after which the probe fails as
-> before. The probe runs in the context that added the device, often the
-> hub's worker, hence the bound.
->
-> Signed-off-by: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-(...)
-> +++ b/drivers/gpio/Kconfig
-> @@ -2051,6 +2051,20 @@ config GPIO_USBIO
->           This driver can also be built as a module. If so, the module
->           will be called gpio_usbio.
->
-> +config GPIO_LSTP
+　音声やお顔が表に出ることはございませんので
+　お気軽にご視聴ください。
+　
+　>>視聴予約はこちら
+　https://knowledge-co.jp/shikigaku5/
+　
+　
+-----------------------
+　一般社団法人 ナレッジリンク
+　東京都千代田区神田小川町1-8-3
+　電話：03-5256-7638
 
-GPIO_USBIO ... GPIO_LSTP?
-
-These should be in alphabetical order.
-
-> +#include <linux/atomic.h>
-> +#include <linux/bitmap.h>
-> +#include <linux/build_bug.h>
-> +#include <linux/delay.h>
-> +#include <linux/device.h>
-> +#include <linux/err.h>
-> +#include <linux/gpio/driver.h>
-> +#include <linux/irq.h>
-> +#include <linux/jiffies.h>
-> +#include <linux/kernel.h>
-> +#include <linux/module.h>
-> +#include <linux/mutex.h>
-> +#include <linux/seq_file.h>
-> +#include <linux/slab.h>
-> +#include <linux/string.h>
-> +#include <linux/wait_bit.h>
-> +#include <linux/workqueue.h>
-> +#include <uapi/linux/gpio.h>
-
-Do you really need all this?
-Certainly <uapi/linux/gpio.h> is a mistake, look over all of these.
-
-> +/* clang-format off */
-
-I beg your pardon? What is this?
-
-> +enum lstp_gpio_direction {
-> +       LSTP_GPIO_OUTPUT =3D 0x00,
-> +       LSTP_GPIO_INPUT =3D 0x01
-> +} __packed;
-> +enum lstp_gpio_pin_state {
-> +       LSTP_GPIO_LOW =3D 0x00,
-> +       LSTP_GPIO_HIGH =3D 0x01
-> +} __packed;
-> +enum lstp_gpio_drive_config {
-> +       LSTP_GPIO_PUSH_PULL =3D 0x00,
-> +       LSTP_GPIO_OPEN_DRAIN =3D 0x01,
-> +       LSTP_GPIO_OPEN_SOURCE =3D 0x02
-> +} __packed;
-> +enum lstp_gpio_bias_config {
-> +       LSTP_GPIO_NO_PULL =3D 0x00,
-> +       LSTP_GPIO_PULL_UP =3D 0x01,
-> +       LSTP_GPIO_PULL_DOWN =3D 0x02
-> +} __packed;
-> +enum lstp_gpio_led_support {
-> +       LSTP_GPIO_NOT_LED =3D 0x00,
-> +       LSTP_GPIO_LED_MODE_HOLD =3D 0x01, /* pattern brightness jumps bet=
-ween steps */
-> +       LSTP_GPIO_LED_MODE_INTERPOLATE =3D 0x02, /* pattern brightness in=
-terpolates between steps */
-> +} __packed; /* clang-format on */
-
-This  looks very dense too..
-
-At least a newline between the enums?
-
-What's with the clang-format thing? I don't get it.
-
-> +struct lstp_gpio_priv {
-
-Just call it lstp_gpio
-
-> +       struct lstp_channel *ch;
-> +       struct gpio_chip gc;
-
-Why? Normally drivers get the state container from the
-chip not the other way around.
-
-> +static int lstp_gpio_get_direction(struct gpio_chip *gc, unsigned int pi=
-n)
-> +{
-> +       struct lstp_gpio_priv *priv =3D gpiochip_get_data(gc);
-> +       u8 direction;
-> +
-> +       int ret =3D lstp_gpio_read_direction(priv, pin, &direction);
-> +
-> +       if (ret)
-> +               return ret;
-> +
-> +       if (direction =3D=3D LSTP_GPIO_INPUT)
-> +               return GPIO_LINE_DIRECTION_IN;
-> +
-> +       return GPIO_LINE_DIRECTION_OUT;
-> +}
-> +
-> +static int lstp_gpio_direction_input(struct gpio_chip *gc, unsigned int =
-pin)
-> +{
-> +       struct lstp_gpio_priv *priv =3D gpiochip_get_data(gc);
-> +
-> +       return lstp_gpio_require_direction(priv, pin, LSTP_GPIO_INPUT);
-> +}
-> +
-> +static int lstp_gpio_direction_output(struct gpio_chip *gc, unsigned int=
- pin, int value)
-> +{
-> +       struct lstp_gpio_priv *priv =3D gpiochip_get_data(gc);
-> +       int ret =3D lstp_gpio_require_direction(priv, pin, LSTP_GPIO_OUTP=
-UT);
-> +
-> +       if (ret)
-> +               return ret;
-> +
-> +       return lstp_gpio_set_value(gc, pin, value);
-> +}
-
-It seems some pins are only input and some are only output.
-
-Have you considered using serialized register access over
-regmap and use regmap-gpio with fixed direction bitmaps?
-
-Yours,
-Linus Walleij
+　セミナーのご案内が不要な方は大変残念ではございますが、
+　下記URLより手続き下さいませ。
+　
+　メール配信のワンクリック解除はこちら
+　https://fc-knowledgelink-corp.jp/mail/
+　
