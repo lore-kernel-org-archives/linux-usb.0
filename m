@@ -1,36 +1,40 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A5C37416F;
-	Wed, 14 Oct 2026 05:00:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726EE2931FB;
+	Wed, 14 Oct 2026 05:01:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791954005; cv=none; b=sjq6pI4Zceo2mTrdd0Df+KVIGy0YGUrqGo/UgYD8qKNEYXhOx8kfcwlrPpdI2VimIc8/M5RhHv/rqPMQSdgHjOGJrzyg2ALXYyz0lPT0sGxa29JFaIE+xz74gdQKYEOHv8LOZ5ZPHL06QDpY7fuRRaMNatHcbgjuy4DpG0X+I/U=
+	t=1791954087; cv=none; b=oioqPhgAj17jU8zqvBiEIysnW7ENQxb+vUhGpyER+kwtZEUGIjdIZT21HkEDDNW2OuI9KWrDmurrdOvr/1d2EqOz7zov7MdLTzlEKK6z3I3RY8qePTEKHh5l9pEoFzgkDfMJYO0K8bPT8OFTnAsuPuxP+3FnUhOy7YYlp78/S9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791954005; c=relaxed/simple;
-	bh=KU+EoPX+Yq88Up8AkRMKYmhG8QzaJM6I9m0xF3TnhFE=;
+	s=arc-20240116; t=1791954087; c=relaxed/simple;
+	bh=6NjnpfpfXmm0tK3iMsNcWy1R/OZoGK6mpI/wOQWA504=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HOL/fJqv1xeuPRWnO9rWQNvEJmgir9ocSL4RWn4oBsDMlAXQ1SCuWvUa4eLqoBJ/COUD5h5Jn4Bod6XlLcZq+6gzk5aooteyL9VmCVGwUKMUjCNCED0n3ZKdxHV8Sya9CoC9TLVJ6bLI3al4R+/MVtz+XFRJbOnyGz/4CS6TfFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Bh7NTVYC; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=XyDEE4Y4xnvKjG8dfNrYk+UVsckK0435t26pXQWhqdZzhipmGdJMqsTjc0A+u0NlXu/yvMq0cdh+b36Ec9q8CBRcu+yDuBMLa9YSxrJshTlsGBgzpV4kOT7S+EPQhaGIgNbrFURQZEBRkWHJTdfeW26anLB1UgQcHQyY8LDF0h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Zmj7Bg6k; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Bh7NTVYC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B0DD1F000FF;
-	Wed, 14 Oct 2026 05:00:04 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Zmj7Bg6k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 737701F000FF;
+	Wed, 14 Oct 2026 05:01:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791954004;
-	bh=fXIs9ekj66ZBix1q9Z5865T/YtxWnwsc1T6fGlLjdAU=;
+	s=korg; t=1791954086;
+	bh=dvp2MnZGyz4TCYY4bOldhCQXpFhZkzQswKXfILlGTSM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Bh7NTVYCZWWamxV4NFgqwYbcstOplbNhbTswoLkfXrPg0GGMCOiSjqnGIhJagdTXG
-	 Xbk/DeHIk8kUqT17fvi1Z+l5KyN9l5nEUg1JTV+ZsuM16GQ0jaHuuVQXB53Nx5KpHs
-	 qcQ14cKrWLrHTmWXjUN+o4N5GH0W8E/hnBx1IcIY=
-Date: Wed, 14 Oct 2026 07:00:09 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
-Cc: linux-usb@vger.kernel.org, stern@rowland.harvard.edu,
-	usb-storage@lists.one-eyed-alien.net, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
-Message-ID: <2026101442-slacker-hypocrite-33b5@gregkh>
-References: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
+	b=Zmj7Bg6kYiGA9VS8ewMvYvPMh/Rkw/dkUY/kWlYPd1iNrgirh0a6vlhvA2pqKIp9t
+	 923zw34+bOAWe/YE4fr6TgC7ofx7veEp6oFYU8bPCVijWDc7jRcAb09+MqNArbfST+
+	 upFF5PifaoxvIn3EbiQApPou9gk7sk/nzSvXxlR4=
+Date: Wed, 14 Oct 2026 07:01:31 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Fabien Sanglard <sanglardf@google.com>
+Cc: Oliver Neukum <oneukum@suse.com>,
+	Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: core: Emit KOBJ_CHANGE on unbound interface
+Message-ID: <2026101410-undergrad-deniable-44c0@gregkh>
+References: <b7c2f7d1-40fd-4d83-8ced-5fc27e3be051@rowland.harvard.edu>
+ <20261012171609.88273-1-sanglardf@google.com>
+ <b819ff38-6916-40e0-b2f3-1b19876971bd@suse.com>
+ <CAA92w6=OhNYXF_kQFV4tPKa19xdWRkdQbFXaqhdxfqW4N9zMVg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,24 +43,38 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
+In-Reply-To: <CAA92w6=OhNYXF_kQFV4tPKa19xdWRkdQbFXaqhdxfqW4N9zMVg@mail.gmail.com>
 
-On Wed, Oct 14, 2026 at 12:19:44AM +0200, Olivier Kaloudoff wrote:
-> diff --git a/drivers/usb/storage/uas-detect.h b/drivers/usb/storage/uas-detect.h
-> index 4d3b49e5b87a..f0d9748b0194 100644
-> --- a/drivers/usb/storage/uas-detect.h
-> +++ b/drivers/usb/storage/uas-detect.h
-> @@ -78,6 +78,8 @@ static int uas_use_uas_driver(struct usb_interface *intf,
->  	 * ASM1051 - with broken (*) uas support
->  	 * ASM1053 - with working uas support, but problems with large xfers
->  	 * ASM1153 - with working uas support
-> + * ASMT135x - broken uas support, shares the ASM1153 MaxPower == 0
-> + *            signature, identify it by its product string
->  	 *
->  	 * Devices with these chips re-use a number of device-ids over the
->  	 * entire line, so the device-id is useless to determine if we're
+A: http://en.wikipedia.org/wiki/Top_post
+Q: Were do I find info about this thing called top-posting?
+A: Because it messes up the order in which people normally read text.
+Q: Why is top-posting such a bad thing?
+A: Top-posting.
+Q: What is the most annoying thing in e-mail?
 
-Please always check your patches before sending them out :(
+A: No.
+Q: Should I include quotations after my reply?
+
+http://daringfireball.net/2007/07/on_top
+
+On Tue, Oct 13, 2026 at 09:48:21AM -0700, Fabien Sanglard wrote:
+> My original patch focuses on fixing the silent failure for usbfs
+> drivers (like ADB). Since other drivers survive a reset without issues
+> from a user space perspective, I wanted to avoid being disruptive to
+> unaffected systems.
+> 
+> That said, unifying the behavior upon reset would be elegant. My main
+> concern is whether some existing udev rules or netlink listeners in
+> user space might break if we generalize this behavior and start
+> emitting unexpected CHANGE events for interfaces that successfully
+> rebound (which already emit UNBIND -> BIND).
+> 
+> But it might be worth "trying". I am unsure what the kernel team
+> philosophy is in this regard. If you all agree, we could trigger the
+> KOBJ_CHANGE event unconditionally inside rebind_marked_interfaces()
+> instead of conditionally inside usb_rebind_intf().
+
+Please try and test to verify.
 
 thanks,
 
