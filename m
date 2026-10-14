@@ -1,88 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961BC51EDED;
-	Wed, 14 Oct 2026 13:38:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E15F4E2F30
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 13:40:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791985085; cv=none; b=SuUFa+DxJ2kTyS3UJQVkQTvxI3pEt687IdzgtcpsWG3CJmlsoxxPF67/J45K41f/DB3dPfDTjXtViEFRWWCl2/QrAw96y9TiPXa45v7Jas9yCeFS5X1iDc6kLbQJiy+Zh9OPfK00rzeKjeV1x6Y8Zg/FYfnacRC3BQn2oMv4SLs=
+	t=1791985255; cv=none; b=SeeHBWpKI2o1pM5D8h5Tp3sYJkgRc4Fy9krRGZAM6Vuv2VdvmnguHORl9jt5QZ9lr/xazN/oeImWIV7lAdAPfgd6Yb7csN5umqRGjfUlCn0ApG2CzBy3P3LBuCuc2jjtwY2ZVQUo32nDwTHiPS6JZfVLIsU/TWKrZdQAXnV9OvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791985085; c=relaxed/simple;
-	bh=lsLgCFxLmomxMTZ7taP21AHXZ2tRz3Rk2n/Urrr7EjQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mKCCKmLzl1MyJFw+BFAsXrD8tmKtAN6OgcKy8heIpQiwxTay2fm+nmfKvKW9IYDJq4HA6K25mMMYUCG3kWJhyuHB1zcmnwzjVKNIPkKM3/N/N2D4h4DyjA9kgFAGLTeNziohIAbVicQKybESVdD7TVnhaKf2sv4T0uOFsEMD3JI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jT74RIkY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1791985255; c=relaxed/simple;
+	bh=K6AtXGm1AKROiQccZaLdrOZAVlCZ5h+c7Oom5VUayXQ=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=tPvdBoSFNsksgMOmBq/orTPLsIOmeXvfXfsDpKDXkPe9ZmVddtc4a+9jMmSKVOtzMcwVMMNWGQooIydIb1FNGNikbDncgBFiswI4hBCi5zuzmJzgrqiWbozMCX94do5gAF/W7M1A7+Sw3jQT5Oe3G/wYuIQ7MGmBx+mL+K20mew=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZmA5C1W; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jT74RIkY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 352A61F000FF;
-	Wed, 14 Oct 2026 13:38:04 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZmA5C1W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A0EA1F000FF;
+	Wed, 14 Oct 2026 13:40:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791985084;
-	bh=WVbTgdcg4XcQxdZoauWuBZS9YbZkaCVeEj9rq8u1Bi0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=jT74RIkYDUlgpNbv5Zkm4TgJ/LtDz4TmX0BY5jQ5TUafYEUTfJ3dmIJvTlEMhMnZj
-	 94yU7Lfu2LULvRVWij++3Jl8Iu7yMLv193H7nLrAC/nSvRVluKwWDhlZ5mwz8xKo8F
-	 NLeWf6b476abexFPFbT312U8Ib2r1jkQGonueRGrZip8F6itVGGx8PIkSDd/1oHKWW
-	 UBylMh59lAMja6xJrOi4iSOgo6d+iuhpLMzZyMwlRb6yJL3CthObC0Y7EP7D4t85du
-	 aUSDbeSU6KOxLeyOipPAOWj5B2zp9FGCge/e5/0OM2TJFKRuV2j9B7Fcc2rnJFpBMS
-	 qKHnPkd0nDu/w==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xGzBC-00000005qIS-0nwh;
-	Wed, 14 Oct 2026 15:38:02 +0200
-Date: Wed, 14 Oct 2026 15:38:02 +0200
-From: Johan Hovold <johan@kernel.org>
-To: PETER Mario <mario.peter@leica-geosystems.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	"driver-core@lists.linux.dev" <driver-core@lists.linux.dev>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3] driver core: take parent lock in async device attach
-Message-ID: <as-FumLy7e1BedqS@hovoldconsulting.com>
-References: <20261013140408.1226841-1-johan@kernel.org>
- <c465c6a3-d189-4304-a7ea-feb3eea33674@leica-geosystems.com>
+	s=k20260515; t=1791985250;
+	bh=obPdsNTP6GkL88XltUdgo3dzWVMDPxyDPLu1HqtJETI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LZmA5C1WmFWMXJfQt12PIM8+8VonML+J+d1POVxuk+v9WqmrCwgn8Oe38k6tC3AxV
+	 LuzTQYC9nwtUCPC8jQXeE4IFlzcWtRzK7wCfndMrsIhf6svhtJeJilKRcSpRI1At5m
+	 s3cCsUDQB27/MF768t3EyMTALYRQ8N1Zld1iR23z4hfSy2brjmDI8GWaNOElspcI5/
+	 aPjd+A93bLLBXVC435Pa9YpJRoeVVrFjyQm8YdA5l3/LBI+2hk4uH1Y5SRnZMDydCN
+	 RLLyBAj83u/zLQBvOWm/muS/8ppx6sz0u0uXB8jIi6NMVnfZgo5afwcObSjSCxZXIp
+	 UViIdL3e0G/VQ==
+Message-ID: <sashiko-outbox-171369@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 3/3] driver core: take parent lock in async device
+ attach
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Johan Hovold" <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261014133109.1392265-4-johan@kernel.org>
+References: <20261014133109.1392265-1-johan@kernel.org>
+ <20261014133109.1392265-4-johan@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 14 Oct 2026 13:40:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c465c6a3-d189-4304-a7ea-feb3eea33674@leica-geosystems.com>
 
-On Tue, Oct 13, 2026 at 03:41:28PM +0000, PETER Mario wrote:
-> On 10/13/26 16:04, Johan Hovold wrote:
+> From: Mario Peter <mario.peter@leica-geosystems.com>
+>=20
+> On buses with need_parent_lock set (only USB), probe() must run with the
+> parent device locked. A synchronous attach after device_add() gets this
+> from the caller, e.g. usb_set_configuration() holds the udev lock while
+> adding interfaces. __device_attach_async_helper() runs the probe from an
+> async worker instead, where that lock isn't held, and only takes
+> device_lock(dev).
+>=20
+> With async probing enabled for the hub driver (e.g. driver_async_probe=3D*
+> or driver_async_probe=3Dhub), this races when a multi-TT hub is
+> configured. For multi-TT hubs, hub_probe() calls
+> usb_set_interface(hdev, 0, 1) to select the TT-per-port altsetting, and
+> usb_set_interface() creates the endpoint devices of the interface a
+> second time:
+> [ ... ]
+>          async_schedule_dev() runs synchronously when parent lock is
+> 	 held ]
+> Cc: stable@vger.kernel.org	# 4.2
+> Cc: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-> > @@ -1038,7 +1070,7 @@ static void __device_attach_async_helper(void *_dev, async_cookie_t cookie)
-> >                 .want_async     = true,
-> >         };
-> > 
-> > -       device_lock(dev);
-> > +       __device_driver_lock(dev, dev->parent);
-> 
-> Thanks for picking this up and for fixing the deadlock.
-> 
-> The use-after-free that the AI review flags here is real, I can
-> trigger it in QEMU. With a debug delay before this line,
-> driver_async_probe=usb,hub, and dummy_hcd unbound while the probe of
-> the emulated hub's usb_device waited, KASAN reports a
-> slab-use-after-free in __mutex_lock() called from
-> __device_attach_async_helper(), on the root hub. An interface pins its
-> usb_device, but a usb_device doesn't pin its parent hub, and dev drops
-> its reference to the parent in device_del(). v2 has the same problem.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-Thanks for checking. I can also trigger a UAF through some existing
-paths when disconnecting a hub (with some instrumentation to increase
-the race window).
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014133109.1392=
+265-1-johan@kernel.org?part=3D3
 
-I've just sent a v2 series for the deferred probe fix that also
-addresses the UAF issue and includes your fix:
-
-	https://lore.kernel.org/all/20261014133109.1392265-1-johan@kernel.org/
-
-Johan
