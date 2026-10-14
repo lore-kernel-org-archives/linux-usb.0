@@ -1,87 +1,65 @@
-Received: from mail.thorsis.com (mail.thorsis.com [217.92.40.78])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C9C9282F14;
-	Wed, 14 Oct 2026 14:47:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.92.40.78
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72C836167F;
+	Wed, 14 Oct 2026 14:49:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791989257; cv=none; b=IoDYtkyhNw6S15NGjOlpgdqn3Zsce51X4QRc3q0HsH65njhEkwN+cXaUNkc/wzRw62bg3cIc1PKGYxe6t//C1QrdPaFKwZkgvH8NZGtVQikhsTNDChBpD9YKnWDMxqoPQM/OKQS2fRHLpoyUIpEqtwk5rxcOevYThW6z+Yny7ho=
+	t=1791989377; cv=none; b=KAlJ+Tp98BMnQJmR+Br85/NW+RmnPCikJf/xqRZqjjMl1uW2+CQ7qOmti1LDnfuC3+WsNRPVkNaUyZ49YF5mlQutTrmRkBedDMBTHYlPVr8x2lEF08Ce/e+OgajujTXgvsIX8+aC91nxbwLW0isMkfDv5uEhfqNYbmVu+6ECaIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791989257; c=relaxed/simple;
-	bh=upeD6fUrQMtbrY+ESvSkqKgRSiS+U38urfmzfPe7b0k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MGrp3sHADLn8j6ZXQyyqRPHEfZNxSAq1R97Pz02x8BQMspr7WqxBsXRmjOuM3dyltZYOVRH4uqmfWXRETh5olX2O3s04eNT9GHAq5FVAus6nK8739ITULFgf5kd1CdM+bvBCdOT4LsAJ/qPAUwx864Cnj8wQoTSnVHw4pR3tUiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com; spf=pass smtp.mailfrom=thorsis.com; dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b=s335Ao7X; arc=none smtp.client-ip=217.92.40.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=thorsis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thorsis.com
+	s=arc-20240116; t=1791989377; c=relaxed/simple;
+	bh=hPLpi6Ywz/Zi35eBcOCtNrznDFL590clNlJ0uAarxJI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=t9I8cR0Gj77aVtrnXCxIykIMMdwaeyFKS5X5vXmQbNebh5+sU2HsuDYN/asisUYL7h89vUy55ZZOzzl6sZ9iehD+jDcYXFNZGebVOc0lygBn5csVbUjkBIyBz5Zkic0C2wQDAP2P/rH3P9cLnFPLyAsBHGgLxNtLs4pJs+Ft1GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyCTxP3Z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thorsis.com header.i=@thorsis.com header.b="s335Ao7X"
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E5032148FDFB;
-	Wed, 14 Oct 2026 16:39:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=thorsis.com; s=dkim;
-	t=1791988746; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 in-reply-to:references; bh=o4aBxesv+vBtVvSxWhefHeqzqJtPvappSmoCf4blYE0=;
-	b=s335Ao7XbUWldgKyMzh7twRWMfboqYdP5YUN75P/riJ/gatq/juIoGx5fRSOkdKgsQVHWP
-	m5L5cV0J3k0Ou80A/58TPlpKx+ILfZVMJWiyMjS9XfItgcfenhyWZoUPheSVVPtuswQm4a
-	aDITQ55NfAkuXZmge3K+KVniUXDGdXwpwLNTHB8rgoFqu3n2LAjXQ1Wgwdu3Wqf975ctya
-	s1DyIGkFwirgJz0hzTNWvWHOgnM9x8sc8fHWKzksxHWyRfVU9lAhABvXcMh8ZiFPndntqC
-	RuyBH+g8ggh/swxROklZtU6IAY50kQFg7DKw33POQrXgmSoCGqEtgW3bl9+yXQ==
-Date: Wed, 14 Oct 2026 16:38:34 +0200
-From: Alexander Dahl <ada@thorsis.com>
-To: Mihai Sain <mihai.sain@microchip.com>
-Cc: stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev, linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: host: ehci-atmel: Use dev_dbg() for debug messages
-Message-ID: <20261014-smugness-lather-c65cb20cf37e@thorsis.com>
-Mail-Followup-To: Mihai Sain <mihai.sain@microchip.com>,
-	stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
-	nicolas.ferre@microchip.com, alexandre.belloni@bootlin.com,
-	claudiu.beznea@tuxon.dev, linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20261014121656.1634-1-mihai.sain@microchip.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyCTxP3Z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5510D1F000C4;
+	Wed, 14 Oct 2026 14:49:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791989375;
+	bh=VkGQywlxdW2HyQHqD30g0LqoOskVB091xOSb05TMLLQ=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=JyCTxP3ZSbOviMEedo7hhb+khoq8e+WoR94HfK6EShZJ99ecsU04ojxCqpb3ieZOP
+	 aHR1DCtVyQJeFtJSNok4h/hoT4EbmxTh3BU1wFNYdkFqtwH8NByu9JugznnCoQKYH8
+	 hT/ru1N5W4vC82sF9YIXDuiGy7Jzt6yM8sPeUKUQXv/wOFtmGNDu3iHGuzpkSjMV3r
+	 avl+uflpiLE3DZceQEosdbJqOBQm2MXDh1B4DWHZXsNSScUuEGFriyPJ6J8yC/iDY0
+	 6U1lwDWIWuLUXmiuRvGApIaWJiB55OibS9cq0A1F6oO0H/E5LzYAMVPj0b8rT93YMw
+	 GytLbLihXGlGg==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261014121656.1634-1-mihai.sain@microchip.com>
-User-Agent: Mutt/2.2.13 (2024-03-09)
-X-Last-TLS-Session-Version: TLSv1.3
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 14 Oct 2026 16:49:31 +0200
+Message-Id: <DM4N7SKUMF98.32GW04E2EVM8I@kernel.org>
+Subject: Re: [PATCH v2 1/3] driver core: fix parent lock use-after-free on
+ USB disconnect
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Dmitry Torokhov" <dmitry.torokhov@gmail.com>, "Alan
+ Stern" <stern@rowland.harvard.edu>, "Mario Peter"
+ <mario.peter@leica-geosystems.com>, <driver-core@lists.linux.dev>,
+ <linux-usb@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <stable@vger.kernel.org>
+To: "Johan Hovold" <johan@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20261014133109.1392265-1-johan@kernel.org>
+ <20261014133109.1392265-2-johan@kernel.org>
+In-Reply-To: <20261014133109.1392265-2-johan@kernel.org>
 
-Hello Mihai,
+On Wed Oct 14, 2026 at 3:31 PM CEST, Johan Hovold wrote:
+> + * @need_parent_lock:	When probing or removing a device of this type,
+> + *			driver core should lock the device's parent. Note that
+> + *			the device must hold a reference to its parent.
 
-Am Wed, Oct 14, 2026 at 03:16:56PM +0300 schrieb Mihai Sain:
-> Use dev_dbg() instead of pr_debug() in the probe function
-> to provide a more specific device message.
-> This ensures the log message is properly associated with
-> the corresponding platform device instance.
-> 
-> Signed-off-by: Mihai Sain <mihai.sain@microchip.com>
-> ---
->  drivers/usb/host/ehci-atmel.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/host/ehci-atmel.c b/drivers/usb/host/ehci-atmel.c
-> index 65747270fd88..b6ba7005be69 100644
-> --- a/drivers/usb/host/ehci-atmel.c
-> +++ b/drivers/usb/host/ehci-atmel.c
-> @@ -99,7 +99,7 @@ static int ehci_atmel_drv_probe(struct platform_device *pdev)
->  	if (usb_disabled())
->  		return -ENODEV;
->  
-> -	pr_debug("Initializing Atmel-SoC USB Host Controller\n");
-> +	dev_dbg(&pdev->dev, "Initializing Atmel-SoC USB Host Controller\n");
->  
->  	irq = platform_get_irq(pdev, 0);
->  	if (irq < 0) {
+For the reasons described in [1], I object to making subsystems responsible=
+ for
+the parent reference needed by driver core's delayed accesses.  The driver =
+core
+should acquire and release that reference internally.
 
-Reviewed-by: Alexander Dahl <ada@thorsis.com>
-
-Greets
-Alex
-
+[1] https://lore.kernel.org/driver-core/DM4N25JXKTQM.3K7TP9HM68KQ2@kernel.o=
+rg/
