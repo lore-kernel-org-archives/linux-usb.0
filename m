@@ -1,143 +1,144 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 022B8344D8C
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 10:56:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE8935AC13
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 10:57:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791975407; cv=none; b=GFARa4FWqCDCX3iSFC05e3b6tSLD5UYU2J16qc4aWJ8Hb7DHU+H8Bo9JE3Xh7Pkfa3s+vct/JVnLWsLmO+QDIFe1uBBSFuFQKyc4Oe1pmN36CWBYz7UCpQx68Vtg2+IVogOGuO9mNd/UGtEC/OBaH002RFpANgeoPQ5Za1Djfic=
+	t=1791975443; cv=none; b=i+07n8zC8k6l/JrgBV0JQybKycaLEfqDuRqYCOY93n4bnZ38geHAvWy5a09WPw5rA6jVZUcf2/srqWdJqRVOKFoy2kic2a6suvR2ZL39AIqc4iGdjWqmpGKcr2do4lAIa3Yy3SMKZzVBLWpSWpxq25lINV7etX3SsgrNDLFE3po=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791975407; c=relaxed/simple;
-	bh=Y4eZrrndS2C2UGm8W6Nw931MICNnIUtHZLsSlWIh+PI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ER9eS4WsDVWKjsDs5CAqyU9xNGivCVFYHnbQ/IeFK94ZWidSet+HLxnWnsi/xEBS27lbZzFDJB+2Tvxc13pU9XS9i41jAWMd5hE9HXoMbA6q6jZhbtFlivwuX75yo07hcTeV7nG9MqDjoB5ZS3s4HKZUY2wabWcFJU/H7lp9XVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mTMGHceW; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791975443; c=relaxed/simple;
+	bh=UdIyyP1ApsBk1pCqs7Ih4NsoUeemI3hETxT2kMh9j4Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=OF8lIDrLH/wbm1C+LP+5Iz58hBCRta5bP2iZIhMSOZREjyP4/Fl5snjAIFEWf7aJzVU++NrgA9Zr5KVOfFnAozCvkgZJuJZ09UO59em+N7DEk0/261W1kGW1FSGWnK9DfnUszq0CVzD5NSOEKDBFSZjRVg0scE62ggTMnfxo7LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ub3/tZ84; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=XaQ8VEWn; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mTMGHceW"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a018792ab3so32673945e9.0
-        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:56:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ub3/tZ84";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="XaQ8VEWn"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69E66G7K3366064
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 10:57:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=tji34sWOk4uE2FZ5pTc7yNpCndx/9KM/rdx
+	f1s+86uc=; b=Ub3/tZ84k3vUxE4iC1baW5k2p1MU04KVWUM/xJAn6K083nQw82z
+	swvcB8YJ959+Ogch50H/ygEpl4H0yCFaG9tP640m7cUUbz+7oJAQIh63gxZNj82V
+	Dp7QN2KQnfZcq6Vbo2Tq+ZZKe/bb0oyfnJsDi8vYEeAggzhEKKenHf/OJQTS76lh
+	Q9CO9AZU7mHvi4MoAdvufCGIHQ7vnXJa2aXW9edhguc2qD1kKo1k4Q6dCiIbyRSM
+	GNQb5PxAL7lgQ204Ublnbcugsmdf09cgQAFETETnMiajbX4nRMpa6l3e0fkh3WBJ
+	YNz0VBe0b10vyCeOzHRmcV1TaBA0mG7jr1g==
+Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com [209.85.216.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ha46216uc-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 10:57:20 +0000 (GMT)
+Received: by mail-pj1-f70.google.com with SMTP id 98e67ed59e1d1-3a6d30f66c9so5217536a91.0
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:57:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791975403; x=1792580203; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Y2xZR8hA7sxhS1GPiOCm7v6GvoHFfeF4FaagxZ1l5xE=;
-        b=mTMGHceWJ9D4xtoEnTzJcMC5O4wNIWKQ0ZOk3dUuL0JJqprZrC01VYuBmNrD6fRUm1
-         O+BDLCnnL4Qz9rSrde2SkdPtE/gEXiPE0vAFkr7BJVkOiHNgQXQNEJN8FKhDVc8Vo3U1
-         2n0FZmO92hYaXQSTAUA7PUCy6nSrYlNbdY+BVL+Ccf/NQeCEs6nt0WHfZpqO6/YJnSgN
-         FQNCFqM2LfuXhR1S4BDe4SHytlz/zac4F9gWkhvSQLuUJzkrugxlkG0HdI0pLHkr/wAw
-         JKFrkVGFVnnaljr5Mk0+PtYTGHU5c6LjdSXX0OFhw+W98I7mL+oLCR4eQ+xQdlnJRqKu
-         YAQg==
+        d=oss.qualcomm.com; s=google; t=1791975439; x=1792580239; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tji34sWOk4uE2FZ5pTc7yNpCndx/9KM/rdxf1s+86uc=;
+        b=XaQ8VEWnVrGETMk3d5WPxL4QuhgEcLN12mQy/z5silq+nC8NeaO4gQUqF4+9PMp1rt
+         i/g2d1BDK0ipGuaBO5QAP7+bz+V2nFHqpRqvNJsn7ilt5Z7+vI4J5kDxdkjW93uUHnwa
+         Fs07b57yPTdjNMP3gutiL/sxvJOhzTY42b6YOMnvZXAiBiN/7Zl7+4IdpKxiKBkyKcAk
+         thPIzM91dgpOnUTdGzcFHDIXZYl32cnu5ZBGtnE+BTX1yP9x3qsWpHA5ezkYDq8wwhca
+         gSjH9nX5W6H7+7pe20C+15SKLOUUvuiCInuHJjjv3pg8fRBSLxPNEzspEfBwssEnYbRw
+         xzgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791975403; x=1792580203;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y2xZR8hA7sxhS1GPiOCm7v6GvoHFfeF4FaagxZ1l5xE=;
-        b=b/aARF9+Yt7pwol8pHB4FQVb15FWWo2UI66QaxLgskHaY3mJ+TK6f1rDuqvSenVkC7
-         fn/zRmdVJJ5lQ0Oj4LMgU2SJwA3F3feMrHDKBeL2bf59TvhPLNFie/5Z6P2v0RA/bmhN
-         w+KAKeAkS29qnfdXzpTpDy3AejwBtqcCS2Dfw2dtQYC4Nd4+tni0HPk+Xd6JSW++ljgE
-         4/5mBjXm372mscFn9Rg1TPSLxeX2sMQ2Z7YB0g5OEO34R77c4oEr32kHJuaVDlBMdeY/
-         qBDW0HAb221H1Ag5XRME8DujjJ1qTxkk9R3hulaw8//K2/TTlo63pc2zS6b3Q+DZmBQW
-         W/BA==
-X-Gm-Message-State: AFq9FYI3Vm5VcnWn/M9GLP3h/9t7WL1Wi3iWLL6cmpvvo9SEVmyWWnQD
-	mMn+OpByGFH7uoKIhpIG/ykqPToOTa2X2qa6T7YK9s0r7viF4w1ICMjRdVolf83Q
-X-Gm-Gg: AYBFou36ah7cUwngDoZ2sXwddeG7gYNxa+oocZQunSfqGUP5Kh9Ne6/twUkZ/Vf0j5w
-	DtBRSI75z/8kIgMdi7YlND9yx3EObpbxN2Ty8Nvn/dm6qDdVTVNf8N7epEWMpendEfoQGya65K0
-	cq4boZ+D3LRm0xsxsXKTx2CGjjJdU6Sw/MkVj5prB9rZ/JZM5klfJGaDksjbieohtUFJPBKXtO3
-	6FW3RT2xeZvycXRPqtwAMbyupGiRLiT8MD/uPWTLhvKU4XN/EApjl3XvcjHLKI9ySjgQD0TiqgU
-	JdVRC/MU/QC+pbxexAiRMSp6cz3zucXDmQwcDLpTeZLRK325JLGqRWwN69jrSPbq3C9wYYsj1AX
-	xgsU4vrvdXVEYbfZOPGVQ2pgMFGYAAYIkLXRvs9SHuS19vX9TlSv8TqBJ6MXG1lBBrjQDWOL1ZP
-	27stYeVXpih2oDdsezKfUgJkznB8eTfFK8bh8UHXerdnlKzI9nE4CjmJTHKooq+CdqVtuTs2uF7
-	DxJHuKtlowanm1p1xcw+4jkkwQhNG+6QvNb+vmo1qOwZqMghzgd8tZStj0EptJ29BVi9hzuLznU
-	5rIgJMPIS9ZyjO2gogorQRcCHf1xoNN4nNL+Z6eFtCkPCLeiemrTTWm8b0gwu/i83/5Mo6iMh7W
-	yaMHHDgN0NC4p3FdXwZze96vWXzrjCoCjKJlaLvWwBu2JIIo0ooE0ceRZIPK6wlY0HWqQsv0o4A
-	RQ+Y7n
-X-Received: by 2002:a05:600c:46cf:b0:4a1:7e1f:21bc with SMTP id 5b1f17b1804b1-4a18e4d6636mr318973045e9.29.1791975403143;
-        Wed, 14 Oct 2026 03:56:43 -0700 (PDT)
-Received: from localhost.localdomain ([37.167.102.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a19f249692sm434061555e9.3.2026.10.14.03.56.42
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Oct 2026 03:56:42 -0700 (PDT)
-From: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: oneukum@suse.com,
-	stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org,
-	linux-scsi@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net,
-	Olivier Kaloudoff <olivier.kaloudoff@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb: uas: validate status URB length before parsing the IU
-Date: Wed, 14 Oct 2026 12:55:26 +0200
-Message-ID: <20261014105526.16392-1-olivier.kaloudoff@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261013221937.41490-1-olivier.kaloudoff@gmail.com>
-References: <20261013221937.41490-1-olivier.kaloudoff@gmail.com>
+        d=1e100.net; s=20260707; t=1791975439; x=1792580239;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tji34sWOk4uE2FZ5pTc7yNpCndx/9KM/rdxf1s+86uc=;
+        b=FMgLMXm8V35XPNk0aVUBGezmEF1CePbtLMiIIFgC9rxIFfg2hdyY+pyOvuSEwNJnJi
+         7F3kAqSb4Zwnco83+Yq5SPb7Mgfu+SL8xI9MHR27kTMrMXjVTsZVmCx+b7YWW92ySCEL
+         h/+/er6SeN0IHUyNzAmXD9lAlvr8NgwfZJJIN6Hid+/rM2CcNIuliEFPifeuMtBtCKyw
+         VWOD5pnDWbsbx2U3ODZCX0s/zaa7riyz80nfpAbhnANnJ80a3wzqIdRIMszW7tcvfjiq
+         aRGcFVFwmql3W7igDGGJYF26VzzrQhPh+6EslW3Cpvb+/ePe7iwmUN9whF/htvhzByCF
+         4Fqg==
+X-Gm-Message-State: AFq9FYLl9TxYCL2emadhwT1NiIfRRtOq9TAaNs4FcyWo9eJaJB/b1+fq
+	jcu9RiXiH412bS3NSqtfxsRK6If9JQCQso+6uXGS/hw9hi7NRNJfdLhuZjwszsqD54uE0DmRdNc
+	sD8rU60HL+tBtAdWuCdpu411nvMZerQ3MSkgHI3SbImmdFmjqvSBjzfu/VekZwps=
+X-Gm-Gg: AYBFou1e49wYQeZUnyD0rRNy+R6rCcb9QYvPdCI4nOrmId9ljSLzAG3qgrc8Q2SwalS
+	h7ccvAa59G9Jl3ZE/WHpg8cIg/UAggDm+qBf2LvGb5L9Qcfr24aHXYgkYyQTNOq+pJpPMLuw52V
+	jKOAw60nNAvThNB+NsNMAy8+0uirX75QbUYqItMqDSAaNkW67TCCTvSVEkaf5vPd3Fc5fDZmNVI
+	IqdquFfbppIkSeFeP0fpcpoaooZJeerxI5/v8bbXiThiJOXgBnpcaun41t8nmEZXgq924/FamkW
+	f75DQB2Hmw9HGA3IliBBYV+Fc/8wKGHHLh3rvmKjXAgZuVZxlD/a/aKN1lx75R89gEYouiYs+sX
+	5FxVjUm8JK+fk5FgvbXeOrZNDAOW+
+X-Received: by 2002:a17:90b:2d06:b0:3a7:cffb:8b8c with SMTP id 98e67ed59e1d1-3ab3ad0e976mr7839184a91.43.1791975439056;
+        Wed, 14 Oct 2026 03:57:19 -0700 (PDT)
+X-Received: by 2002:a17:90b:2d06:b0:3a7:cffb:8b8c with SMTP id 98e67ed59e1d1-3ab3ad0e976mr7839170a91.43.1791975438591;
+        Wed, 14 Oct 2026 03:57:18 -0700 (PDT)
+Received: from hu-prashk-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac752d590csm2294922a91.2.2026.10.14.03.57.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 03:57:17 -0700 (PDT)
+From: Prashanth K <prashanth.k@oss.qualcomm.com>
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Prashanth K <prashanth.k@oss.qualcomm.com>
+Subject: [PATCH] usb: dwc3: host: Mark dwc->xhci as null if xhci probe fails
+Date: Wed, 14 Oct 2026 16:27:11 +0530
+Message-Id: <20261014105711.1708244-1-prashanth.k@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: zG8IXqta6ktYhSzK8WUTzvrebAAEHhnp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDA0MyBTYWx0ZWRfX/Uq/VyQLow4J
+ dM/oicZBrKN2aEALghKBOf+Pt0ZHheCDhH2c0NR0Fn0lcigUDxrDXlEvhiuv1lxORnbaqCcHMSM
+ x0GEZVeZ0cX2HJ5GSglH2dVJO67oX+KPFHeoFtDdil/he4FQ9qp9Rpdzp4hJfdibdzEPtAo33gz
+ JWHQdnilx0wHEJvrLfepul0zdOe0994LIIGNa9PXhuMshO9LFyIFxACDCoyaP+tT6gEweAH0RcL
+ ondOkG9nGe9BgN0+juGISpaLdVGswyBUjv3d3B+Ptg3znVgm4RCZup2qpvEi+cPErxVqb7mWt/C
+ 0OM+9B7geCS/oe9kU3gzpIcB6yxDx5iIrtBRkskwjIwh16rA/9FV5iWTzko+QCTv1lbqgWce6c9
+ sJT37BGmRJsmBV2UbmX9Imvgh8ws1Me0Cq8gorlVEFeRy/mufDcCxIjuIXX7IkG2oLydxzD5qEh
+ TDX+Kfuqr4RTYV+mRhA==
+X-Authority-Analysis: v=2.4 cv=ErZHPicA c=1 sm=1 tr=0 ts=6acf6010 cx=c_pps
+ a=0uOsjrqzRL749jD1oC5vDA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
+ a=byRqvHi71s-wVIH-LgMA:9 a=mQ_c8vxmzFEMiUWkPHU9:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDA0MyBTYWx0ZWRfX8uki3svjVcvS
+ VKjpPtjKm6uFP5436IIoL++hfVCMyK3AGwO+jMDnSYTWi0tCU2Iq//g/D6ylybXi/5HrYdrQ90k
+ smSnkW/Np3YNQNUWPa6IQBaQ+plCcWE=
+X-Proofpoint-GUID: zG8IXqta6ktYhSzK8WUTzvrebAAEHhnp
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-09_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 bulkscore=0 impostorscore=0 adultscore=0
+ suspectscore=0 clxscore=1015 lowpriorityscore=0 priorityscore=1501
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
+ definitions=main-2610140043
 
-uas_stat_cmplt() dereferences iu->tag without verifying that the
-status URB actually carried a full IU header.  The transfer buffer is
-a freshly-zeroed sense_iu, so a status URB that completes
-successfully but with a short or empty actual_length — observed in
-the wild during link-level upsets (Thunderbolt-chain xhci blips) and
-on a wedging bridge — reads back as iu_id=0/tag=0 and produces the
-misleading
+Currently dwc->xhci is not cleared when xhci_plat_probe fails,
+leading to null pointer dereference in dwc3_qcom_read_usb2_speed.
+Mark the xhci pointer as NULL to prevent this.
 
-  stat urb: no pending cmd for uas-tag 0
-
-log spam seen e.g. on an ASMT135x enclosure and a Samsung T7, right
-before the affected commands time out into the error handler.
-
-Beyond the noise, a short packet that happens to carry a
-plausible-looking header could be matched to an inflight command and
-drive the state machine off garbage.  Bail out on anything shorter
-than a full struct iu.
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
+Signed-off-by: Prashanth K <prashanth.k@oss.qualcomm.com>
 ---
-v2: use dev_err_ratelimited() so a device emitting a stream of
-    short status URBs cannot spam the kernel log (per Greg KH).
+ drivers/usb/dwc3/host.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-    Tested: patched uas module reloaded on a live system carrying an
-    ASMT135x enclosure (behind an Alpine Ridge TB dock) and a Samsung
-    PSSD T7 (AMD onboard xhci, HS link); verified clean re-probe,
-    mount, and sustained I/O, plus 16 forced disconnect/re-enumerate
-    cycles under write load with no regressions and no spurious
-    short-transfer reports.
-
- drivers/usb/storage/uas.c | 7 +++++++
- 1 file changed, 7 insertions(+)
-
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 265162981269..d1725ef8f954 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -315,6 +315,13 @@ static void uas_stat_cmplt(struct urb *urb)
- 		goto bail;
- 	}
- 
-+	if (urb->actual_length < sizeof(struct iu)) {
-+		dev_err_ratelimited(&urb->dev->dev,
-+			"stat urb: short transfer (%u bytes)\n",
-+			urb->actual_length);
-+		goto bail;
-+	}
-+
- 	idx = be16_to_cpup(&iu->tag) - 1;
- 
- 	spin_lock_irqsave(&devinfo->lock, flags);
+diff --git a/drivers/usb/dwc3/host.c b/drivers/usb/dwc3/host.c
+index c5674161b2b0..b01cf49454c2 100644
+--- a/drivers/usb/dwc3/host.c
++++ b/drivers/usb/dwc3/host.c
+@@ -219,6 +219,7 @@ int dwc3_host_init(struct dwc3 *dwc)
+ 	return 0;
+ err:
+ 	platform_device_put(xhci);
++	dwc->xhci = NULL;
+ 	return ret;
+ }
+ EXPORT_SYMBOL_GPL(dwc3_host_init);
 -- 
-2.47.3
+2.34.1
 
