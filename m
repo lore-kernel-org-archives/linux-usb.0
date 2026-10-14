@@ -1,132 +1,155 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FB6C445ACE
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 09:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E0E4E5337
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 09:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791970583; cv=none; b=kzq3SIpKkzCVc0gYclRt4t5PryM18J0v4QT+PJXf1qlhasIWNNOGQKh87A6Ge1THP/PAKp8o/FQRSCGgbCi8SjNSTkb1Ca56APCOZ4ZUDi+JYUTM5fPE5+Aswd0twfo8PNq2tW3J4wyD8yKVhvd1D0hmpERzB2XYl1BJwA8CWhU=
+	t=1791970761; cv=none; b=smlqMfxJQQKTdJoWagaLrRK8V298mCdL+2wcH9dcrlkqwoD8JebrnzNvbXfs5dIAdrFZ9BJYkUbXMeUi22tT4G4tNUx1qsqLAGME9bLjzSsCuNCSRxRgAOlodbpX+IGguFX1vopG32Jqsgg3Qw/OTT/UgQUJIk+B4B1RM7CT81Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791970583; c=relaxed/simple;
-	bh=Z5ysX779+2BJivXevzHH1XvznaoW04mloJ1QhySlIwY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jfhXeWHCVGubfyJ6Gy5xsXKIEe5bGJCBvjHPD/n4S88/Fzah9hpjQYw4h46dhb+aVd44SV7N5AMVchPAqvAXKKe20dRB0rLnKUkEyGxskq8ySqAQjWaoA8mqMntPaJdxgABGYfdwo2Z1cpMnIgjXPDU0w/cqGDGzer+UvL0d0es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=D4h9k2KY; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="D4h9k2KY"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48b0d19cf7eso3880497f8f.1
-        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 02:36:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1791970580; x=1792575380; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=9nFXolfpittgi2Lah9fQ/bqQ/j+/1tOBiVSyiO7ElMg=;
-        b=D4h9k2KYW0maCX6tsmsmAbBTbeDdlb5KVqZYxV9wP/e97DT6QK8TQKq4I42wueMV0a
-         zE2RtdDtU8d5LBptU2aMNoFDSszAJdZP1rravwftWPtTz7oH0RmXjV1nqk91mu9TQkAX
-         ufJfj8m19qntw2Uu955lFAoHWNN1BGx8VOiRbyd6rOWAuibyEHYTpQULp7Zq0IxGfTRD
-         MctpWNhBsxU45VyxsNAquLRCunBRdU4E/MnypoU/eseCMjj1ajJ2dmDecnvL2R0x0VtR
-         mVdVJM1Pm0mA+T+WIQk3HglCHAZE2vUw7QZhJE/CeYtTti7pqi6FPX2xqTjb//pYNPn5
-         E4RA==
+	s=arc-20240116; t=1791970761; c=relaxed/simple;
+	bh=lwLTnWkw2QbpMsgGznoa4wf50q2gJDEynEMjODgtbGM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QrZ3OefSfjMB68C1pJ5chO4ADquilRypMBWpyOm34SuZ69ECmrGyu26jDbFZOpGXL3ZPPRVzQWKAXe5NakMY4+k6GmaMRYM7TkSJQLQt7Gfvdxkr4a0tzKn5+84BqFxs8m8I5HXVbSFAFpijxgWCpqossyi72iqpUB010xeHknI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3ac7842c17dso154377a91.3
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 02:39:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791970580; x=1792575380;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20260707; t=1791970758; x=1792575558;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=9nFXolfpittgi2Lah9fQ/bqQ/j+/1tOBiVSyiO7ElMg=;
-        b=Nnr8hINUaTdly/CG125kL7adDL+GgqhDJgs0Y3UGWmMWb0ZDkN592su0FCA0ejHq4E
-         W6D81pWdNVe7ewIZM8TMaw7yyk3Yr6LwYtYZg8sTPoSjx11CsCwrVGoGfxunpNGoDNez
-         jqA7IGOjPplQ9IL5QTasIExjKsJnZ9gg2BzUOSDJG7mEVPru8nr+Ff4smgHBjJ6PviQX
-         VLrDowFkPMPJEWfikE0XPfQ4Z7qun1MtxRvjbc6T4wS1IMBaNRl3/0qLb7QvtR4Jofkt
-         AfKBxMIhsu7j09wjF8zi38RtOwvqtYf3Y9hpy1b1jlQKyatqlNL9rpLROR5dpG6lyZPg
-         WPyQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzBGJ8WY+AJzg0FuH0236NeZjXTqDtZwToUIwzWunQfY5JAXG1aOMSN7Gh96wCVxqiValN8KBr3crY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKqQO4PFMTNnh3Mnfl1CterlbQ0zSoqqLGa1pB+AK2O6vnoOBEy
-	jOkTHCBL0+wCz4fb9GoCZM8ivv6HJvBCLXiMtcRvfbQDUebsEaGY/elPfxuLZDBADJk=
-X-Gm-Gg: AYBFou3zW+RQLNsGIRZYRALLRhMG4nVrCDJpNpIMA95UVDLegx3zluRsxtlx6DoZndG
-	rBEbGEtRtFukmdblUX0OkAfvKainA4H+E3UqW3UpMsO3ShTY47gY8k9p9GVzuFUUb2voMYIeDqu
-	pcpn52Ya1wWAxsKm5DnORGZlbPo+7zra7Kh8bQjhX69vX+ieGRFnAPrLV8ThXgrQJ6cYgqfX6cr
-	qStzEmerSd6kpQkDZis74ieK7HfHnD/2Uhi+Qm7fuiQgW3+7hacPn+xtMMcFoPzenbQaysFLLTA
-	HBbDHMyFWVPcCLVtVxrdcpaRlGUxazXc+tJmmXzTzXfiaCEK5HKmL2J4Ti9wbxFWVxwI4dZcssg
-	ubGsYYkqDPpd/jh08rEkwD/aYqpagbJ76Fhyt2C8e19ulzFaw+bJa3MPsJKq6afjb6t7wZQt3WF
-	Umg7xuov8MW2/q239ccMQq1lmts94nxrKfQNgVdZLJ9oyyiRyYPP7s7kft23rdIWKHMP7ANWUX1
-	uByqs04W4qgi9hjIkD19h27K2OA6xwrg37bhaHJJN5BpdRNnBKpH/BmBIxCgrvo4n0B5xLbibZe
-	ZH/bFrNMSS8qJ+OudmzdWMSq7KBO7nKKPYkzIaj9
-X-Received: by 2002:a05:600c:8a09:20b0:4a1:9c98:b9b8 with SMTP id 5b1f17b1804b1-4a19c98c153mr160846965e9.11.1791970579795;
-        Wed, 14 Oct 2026 02:36:19 -0700 (PDT)
-Received: from ?IPV6:2a00:1028:838d:271e:8e3b:4aff:fe4c:a100? (dynamic-2a00-1028-838d-271e-8e3b-4aff-fe4c-a100.ipv6.o2.cz. [2a00:1028:838d:271e:8e3b:4aff:fe4c:a100])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0aaaa3fsm10907378f8f.10.2026.10.14.02.36.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 14 Oct 2026 02:36:19 -0700 (PDT)
-Message-ID: <2e88806e-57dd-47e0-a9ef-a8507d22aa3e@suse.com>
-Date: Wed, 14 Oct 2026 11:36:17 +0200
+        bh=oP4dNmygS7uyOL+9ZYR4iCmzy+Ai9zwLwjIst1maoF0=;
+        b=R8UzRWZfudJiDuhbISVTSWzt6FqV+4LxwjNJF/bfUWT1keGHPOZ3KA6QyxMXrtWyfK
+         9VcLD5DLoauCzz/4t03kR902dPGwRTcrqVCwtav4yKk0yZ7TS5JQoYKt0nK3HFWnsAuc
+         BVBTVH+0KSC7V80esC/MxOUFJRseKKd7mstnzEUg3zKkdgl2LExmIPtYy+GmLn7GzvrS
+         /qN0oE1S8Wdl9GIHBCSlInrlfpwDLG4OQPBr132xmbCSdrMQvvRV2QxZ9CrkM1nn0TIp
+         qmc7gOkbgSby13D/wa/u/ycxRxEO5QkFmUEdio2kUq+1KYrpD+IT2kVCWz29w4N2BtNO
+         4ftA==
+X-Gm-Message-State: AFq9FYLjXmxqqqYu+at6Qgq0jYh8ACgfNpbmfozwZjb56+nykBnhC1zW
+	S0DpMuTisriz4+eq1PURinwYZdHLKi03Qp4Ksd2vZ9tJG7TWLLLZxIiBdWJuKcV5rVT1+g==
+X-Gm-Gg: AYBFou0GFWFsp7N8mB+xOQfpVHMk7IN99hlnoP1F/VmrOZklniFD/q7wh0AFudzl8Dm
+	xKuVarnp75MsYh1/vT3xWiEdsQgpiKEVMTlJ0FUyTb6vaYrufoLhW/35/a54KttZ/RkI3ZfluLU
+	IGKDpTCzl2jqM2oRUsqqSTp6nCNSSNGoi4L1WKWUMJGkqxUBFoV/ScJ2x2BOZfI5SvIE/fdV00r
+	aQy8v8cEI9fxkhRX+r++JQ0F4acj1qBXJp15jVAp31+ZJfbaREy/iSEEHXd+tqLs8N64jlLXYYp
+	XwOnqxqib2CTPxZgB3J4vTr5zpFYFH8YOq55badP0Z9TKYnbGe5E6nwFIYoKqIYOMK4MUXLh5IT
+	8559Bz4g9GSt3A1YDPAKhmudbPgvSM2YnxWUfq95zPW8f+vYv3PoEruJ8fONjCEKtKLj/7brKNW
+	US0I8fvYHuI2HLPtdILtYmDNG2RfrfYe1715W3BAOsnCTUWtv4dGW29bWXmhl3/IVXLKYB4TtTG
+	wNYvs7FvxkOxyE=
+X-Received: by 2002:a17:90b:1c08:b0:3a0:c3d4:f3b2 with SMTP id 98e67ed59e1d1-3ab3a8d6296mr13308362a91.56.1791970758194;
+        Wed, 14 Oct 2026 02:39:18 -0700 (PDT)
+Received: from localhost.localdomain ([116.128.244.169])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac760fc92csm1938622a91.14.2026.10.14.02.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 02:39:17 -0700 (PDT)
+From: Hongyu Xie <xiehongyu1@kylinos.cn>
+To: stern@rowland.harvard.edu,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	Hongyu Xie <xiehongyu1@kylinos.cn>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: storage: bound timeout=0 URB waits to 30s
+Date: Wed, 14 Oct 2026 17:38:56 +0800
+Message-Id: <20261014093856.415812-1-xiehongyu1@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/3] Remove obsolete __MODULE_STRING()
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
- Guenter Roeck <linux@roeck-us.net>, Ian Abbott <abbotti@mev.co.uk>,
- H Hartley Sweeten <hsweeten@visionengravers.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Rudolf Marek <r.marek@assembler.cz>, Andi Shyti <andi.shyti@kernel.org>,
- Chris Snook <chris.snook@gmail.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Tony Nguyen <anthony.l.nguyen@intel.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- =?UTF-8?Q?Marek_Beh=C3=BAn?= <kabel@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Andreas Noever <andreas.noever@gmail.com>,
- Mika Westerberg <westeri@kernel.org>, Yehezkel Bernat
- <YehezkelShB@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>, Duncan Sands <duncan.sands@free.fr>,
- Chas Williams <3chas3@gmail.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>,
- Aaron Tomlin <atomlin@atomlin.com>,
- Wolfram Sang <wsa+renesas@sang-engineering.com>,
- linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
- netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
- linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-atm-general@lists.sourceforge.net,
- linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261002-module-string-v2-0-fc7438acaf4d@suse.com>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20261002-module-string-v2-0-fc7438acaf4d@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 10/2/26 10:31 AM, Petr Pavlu wrote:
-> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
-> MODULE_PARM support for older modules" [1] in 2002-12. That change also
-> moved it to the graveyard section at the end of linux/module.h
-> 
-> Replace the remaining uses of __MODULE_STRING() with __stringify() and
-> remove the macro.
-> 
-> Apologies for the wide distribution. Acked-bys are appreciated.
-> 
-> [1] https://git.kernel.org/tglx/history/c/136839a1b4
+usb_stor_msg_common() is the common URB submission/wait helper for
+usb-storage transfers.  Callers that pass a positive timeout get that
+timeout, but the three internal transfer helpers (usb_stor_ctrl_transfer,
+usb_stor_intr_transfer and usb_stor_bulk_transfer_buf) all pass 0,
+which selects MAX_SCHEDULE_TIMEOUT: the control thread waits for the URB
+forever.
 
-I've queued the second patch ("drivers: Replace __MODULE_STRING() with
-__stringify()") on modules-next for v7.4-rc1. Thanks for the Acked-byes
-and reviews.
+A device that stops responding while such a transfer is pending hangs the
+control thread permanently, and the hang propagates into the SCSI error
+handler:
 
-The first patch ("hwmon: Replace __MODULE_STRING() with __stringify()")
-should go through the hwmon tree. Once these changes are in mainline,
-I plan to pick up the final patch ("module: Remove obsolete
-__MODULE_STRING()").
+    scsi command timeout -> eh_abort_handler -> command_abort()
+      -> usb_stor_stop_transport()  /* URB unlink issued, but the URB of
+                                      a device wedged mid-transition
+                                      never completes */
+      -> wait_for_completion(&us->notify)  /* no timeout */
 
--- Petr
+The unbounded wait also closes a deadlock cycle observed on arm64 servers
+running 5.4.x, where a Realtek USB WiFi dongle in CD-ROM mode (sr0)
+wedges during usb_modeswitch's re-enumeration transition: the system
+shutdown hook (mdadm --wait-clean --scan, which opens every block device)
+blocks in disk_block_events() holding ev->block_mutex, waiting for the
+disk events work whose TEST UNIT READY timed out into the
+command_abort() wait above.  No timeout anywhere in the cycle means the
+shutdown hangs forever -- hung_task warnings every 120s until power loss,
+two production incidents with identical stacks.
+
+Bound the fallback wait to 30s, matching the SCSI layer's default command
+timeout for disk and CD-ROM LUs (SD_TIMEOUT / SR_TIMEOUT).  When the bound
+fires, the URB is killed, the transport reports USB_STOR_XFER_ERROR, and
+the command fails through the regular paths: the control thread
+completes, notify is signalled, the abort returns, and the events work
+(and with it the shutdown) can finish.
+
+For disk and CD-ROM LUs this bound introduces no new policy: a transfer
+that produced no URB completion for 30s has already exhausted the SCSI
+layer's patience, and the error handler trying to abort it cannot make
+progress while the control thread is stuck in the unbounded wait.
+
+A blanket bound for this helper was suggested before [1] but dropped over
+concern that legitimate SCSI commands (format, tape rewind) can exceed
+60 seconds.  Those commands are issued to tape LUs whose SCSI timeouts
+are much longer than 30s; usb-storage-attached tapes holding back a CSW
+for more than 30 seconds remain the residual false-positive window of
+this change (modern tape bridges use UAS, which is unaffected).
+
+The scatter-gather data path (usb_stor_bulk_transfer_sglist(), which
+waits in usb_sg_wait()) is a separate unbounded wait and is not covered
+by this change; a device that stalls mid data phase can still wedge the
+control thread there.
+
+Validation: on the affected production machine the hang occurred twice
+across ~4800 hibernate cycles with identical stacks; with this bound in
+place, 990+ hibernate cycles completed without a recurrence.
+
+[1] https://lkml.rescloud.iu.edu/hypermail/linux/kernel/2207.0/05816.html
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+---
+--- a/drivers/usb/storage/transport.c
++++ b/drivers/usb/storage/transport.c
+@@ -112,6 +112,15 @@
+  * command _must_ pass through this function (or something like it) for the
+  * abort mechanisms to work properly.
+  */
++
++/*
++ * Bound for the URB wait when the caller passes timeout == 0: matches the
++ * SCSI layer's default command timeout for disk and CD-ROM LUs (SD_TIMEOUT /
++ * SR_TIMEOUT), so a wedged device surfaces as a regular command failure
++ * instead of hanging the control thread forever.
++ */
++#define USB_STOR_URB_TIMEOUT	(30 * HZ)
++
+ static int usb_stor_msg_common(struct us_data *us, int timeout)
+ {
+ 	struct completion urb_done;
+@@ -164,7 +173,7 @@
+  
+ 	/* wait for the completion of the URB */
+ 	timeleft = wait_for_completion_interruptible_timeout(
+-			&urb_done, timeout ? : MAX_SCHEDULE_TIMEOUT);
++			&urb_done, timeout ? : USB_STOR_URB_TIMEOUT);
+  
+ 	clear_bit(US_FLIDX_URB_ACTIVE, &us->dflags);
+
+-- 
+2.25.1
