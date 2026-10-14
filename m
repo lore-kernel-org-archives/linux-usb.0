@@ -1,170 +1,76 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7135E4DDB55
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 10:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D365447A88E
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 11:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791975502; cv=none; b=pLaruBIIxt1E8AT47Iz5bSeIMM+o33XfvZHTTK/RdJk0jaAh/AZGIM3QH4gIVvKwIBuW73HsGdmyPJZVYUzdGtMvqEcUvWKQIXphd+89eIieRsDbszeimi4vn1Kxo2EbDKyF4nyfske0r3VUUXtuDwXeoQJv5ZgVvKHpZFp7nXU=
+	t=1791975740; cv=none; b=Jg9hwMt/isz4iUa5cWF/sE/u0ctF2HXAHRq3+uoWHtObixZ8s+IGBiaXcPvIxN6HH/VmrJ75dZXnJJVbpHZFaGD9AadH0HVuIRca6Q3nE7khI3JK9HI1o9Qh18kasOYiB9RPZS1a0q0T28N8ao2C+p1Fk+xWaJXD7mKZg/LjGcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791975502; c=relaxed/simple;
-	bh=AYIDLdC4DIa4bszf3iy6sh5ar7HaFoLMBfW1KLJXpGU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LQMZNdDUSNUC4decztAWLUX3TmmYXyGqtfDgnudQW1/15KrqOB06dpoxkvO0xLpqnwaXgEBLa0eDZZ1gdiGezBgqdvgJ2wdDU6YtjjkrNtbwHrmWGPSLep7y9w5K7+SXxY/2IlwWR5ZfdCr5txVVKJgVOAqOp6be1KI28xIU8Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UhBcN/Oe; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1791975740; c=relaxed/simple;
+	bh=wQKZlw8FSQS0zkeucZNPdi577LRNvPcK/q6X3hI8h/8=;
+	h=Message-ID:From:Subject:To:In-Reply-To:References:Content-Type:
+	 Date; b=GE5dpJ8TnaXO4gl67neYoXpPLryBh4u+96ZSPJWyiny8rh9gVEsmmtY7a2fil7YBM3UkSoiGIYkHQ6tjalMapfK6sTby6jrwJGM4YLzcH4nBlZ2xgMDGv6FKZPqp8KPQ2Dj8+vAnA+eekJenHSp9Ik+H9oMveFmNLks1XdqsvRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nqaL2Fzu; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UhBcN/Oe"
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48c45111bebso2398060f8f.0
-        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:58:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791975498; x=1792580298; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=iKUolQ563+eS2F7rnauHIL/AVP3xpqqaVjfXFTcZMvQ=;
-        b=UhBcN/OeU7HbgtJ9rMrncrxMdRguMNgfb/s0D8JLzLmPTVjMuyO1cumZEOX/jlzpC3
-         WTYnWNxsjWhK2ApOcaY0zVruQYAA0XGpMG1iMCpSTi86xdAnyD6INSJQm1N8G7H0SY3y
-         DE1FBrMM5aQml1gde2JiatjT681py3PYHeAqzXsZ+ebeqU3b7npiZ+7fBs2bceoRwF1t
-         O2UkLABGNVKqUxrt42GanPLkTDHobGGaqzzpV2vRQBTRIiYvF+/NWs2QyBf9gU4DV0of
-         1fz9P9oQ7RIWco9QMmA1fwxbGuhFSACj/OJ/ydfl29zJ0xXU0QK5KOLXuZzWjb09x2xo
-         3hCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791975498; x=1792580298;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iKUolQ563+eS2F7rnauHIL/AVP3xpqqaVjfXFTcZMvQ=;
-        b=KKcteYdaxqVguOh6jcawIhzwNEQuLYCFsILZlCrTUp2ipztqnQhNKqF6N7cjGEB+oT
-         tCOdveuBrnKNRCnf+9XY3Ecrwzjkv0y/3XPmXWs5WAitPXwCzwlZ2MUzjWxHQSbTD1Sp
-         N6PH4xG2NKwM+7F2+CanvVCxgVeNf0cqKBnMZ0kh6bLZ22FerRfB2G2ApERUeUx5G9px
-         26mTupgQnZ1XEkhCAowhcs5dPYRJKtoZYd2AfLD+RtRpBm6DNFZueSOWCQmaalhwLjBi
-         K9OlieBv+OaCwsFZ2ENXYfZfHbvXUU91HUeXt5VQCTbrtcMn2galzenOrXq6IP8RmcUD
-         B5XQ==
-X-Gm-Message-State: AFq9FYLAE38vwJ9sjuT7YA77HnJyVQm8LQv7go3zk/IwVYdnRy+tKmIp
-	LhlcCeqqju6n0o4GfSESB/2kmtOQz8pc8RBNnZ5HmK9T3fKvQJYETFUeZcEFXY2J
-X-Gm-Gg: AYBFou29eDWvr6ofEdbY0GAD6+5r9PXRICa/wwc9yo3nq3Lw+20S3YMN36rNEd62De6
-	kFk2vwyfaVu2I7PYWlYV4LZq42UjDm2f1Hf7J+jZOqqNomBqfqKCwIjf9i8h+8/SJc3+4N14Q13
-	TkeBnPk17xVAUsWuaUTINAltYaCPzFJ/UEKzIu57xBfFcQ59owLU2dwL16qSTDWpQ6NVbMB7ovV
-	Xq6ykXIgzZEvJhX0epgqiJ3uRndZK06Dqhscx6vw3bdl55WYV9GNLuBkbFmfeFotjFlZYqnPxtX
-	cGk+DyrZQ3RgVI4IQ1BW0pwux0+AQMMKoBeUAznmj3RbUJEdg4Ow+tAkkB23/dsJzxeXB08DnrR
-	ZOxT0WRXJe8VUACrN+6harGoFU7te5SNIjmH3bo7udhp40438QXAgYTSymSNkNnJGRsjjpudYWG
-	EuUUHIVSd8ARcOfb6z88vVt3tt/JlEaj74iTM8aJ7xJ00cj43AR8FG28rN2Lge40TthtB7dcL6h
-	aSscngUa/8GpA6mRHY29vbX/MlzyTwZtM7nj5Flxm6xMmF1/h2iTxAGLadHXXCG6JJtPOkHm+w/
-	8a2RzBkklg+oEjolnlKqrd3sd/U5iBtczPEwlQx2jsrjqGqe9jzyB8/1+g+afit8ppdOaNBFTFH
-	HpN73Y03n1jU3BE4hc5c2+RJZP5okrbFqi28Wvtx+5wrZAxyzZ4kVcQeVvjKgIAdJfQBp0n+Sm1
-	NkiYE5
-X-Received: by 2002:a05:6000:2505:b0:485:8a47:5b91 with SMTP id ffacd0b85a97d-48dbacf6fc4mr27045803f8f.46.1791975497516;
-        Wed, 14 Oct 2026 03:58:17 -0700 (PDT)
-Received: from localhost.localdomain ([37.167.102.19])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48de0bd777fsm10285694f8f.57.2026.10.14.03.58.16
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Oct 2026 03:58:17 -0700 (PDT)
-From: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
-To: linux-usb@vger.kernel.org
-Cc: stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org,
-	usb-storage@lists.one-eyed-alien.net,
-	Olivier Kaloudoff <olivier.kaloudoff@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
-Date: Wed, 14 Oct 2026 12:57:00 +0200
-Message-ID: <20261014105700.19433-1-olivier.kaloudoff@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nqaL2Fzu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED6901F000FF;
+	Wed, 14 Oct 2026 11:02:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791975737;
+	bh=NdS74CSIucaXPoLXDni5QAgRbTrF+MDeDRUtPF7Rljg=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=nqaL2FzuughVCFQZaY5qc/lK4xYKu0TJzNto95CBi71cOmwVWX5T9PEVt/Tc+gcSy
+	 Srr00IhBjDOrC8sv3mb0x4yslObHu9IhCdXipAr08fSwGR/pqKPYGsqaLy5RpA94p5
+	 xUGX/LNC/E7qow3JWgV/xvZIW2rUT2b2aTX8BQ+A1ToDDxIjW9FVCoPx6ymPfI5HTt
+	 0jINE4sENb4ciXXGLDmRtLKAzQEnZzeMV5VrllUlKYPFpacmWmmQ4ezDLFzGPwm8NO
+	 HtQgrRHZqq55VYnRH7GeIZGZ9Ij30mzkUF9FZICwhuBVKQaBBAFXQOg1AHxFRpA2Aq
+	 R1YER0fG/AEbQ==
+Message-ID: <sashiko-outbox-171170@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: uas: ignore UAS for ASMT135x bridges
+ (174c:55aa)
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Olivier Kaloudoff" <olivier.kaloudoff@gmail.com>, linux-usb@vger.kernel.org
+In-Reply-To: <20261014105700.19433-1-olivier.kaloudoff@gmail.com>
 References: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
+ <20261014105700.19433-1-olivier.kaloudoff@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 14 Oct 2026 11:02:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 
-The ASMedia chip detection in uas_use_uas_driver() assumes that every
-device with idVendor/idProduct 174c:5106 or 174c:55aa reporting a
-config.MaxPower of 0 is an ASM1153 with working UAS.
+> The ASMedia chip detection in uas_use_uas_driver() assumes that every
+> device with idVendor/idProduct 174c:5106 or 174c:55aa reporting a
+> config.MaxPower of 0 is an ASM1153 with working UAS.
+>=20
+> ASMT135x bridges (iProduct "ASMT135x") share the same 174c:55aa id and
+> also report MaxPower =3D=3D 0, so they take the "ASM1153, do nothing"
+> path =E2=80=94 but their UAS implementation is broken:
+>=20
+> - The first READ(16) issued by sd probing times out after 30 s;
+>   enumeration only completes after a uas_eh_abort_handler plus a full
+>   uas_eh_host_reset_handler cycle:
+>=20
+>     scsi 3:0:0:0: Direct-Access  ASMT  ASMT135x  0  PQ: 0 ANSI: 6
+>     sd 3:0:0:0: [sdb] tag#26 uas_eh_abort_handler 0 uas-tag 1 inflight: C=
+MD IN
+>     sd 3:0:0:0: [sdb] tag#26 CDB: Read(16) 88 00 00 00 00 00 00 00 00 00 =
+00 00 00 01 00 00
+> [ ... ]
+> with the equivalent usb-storage quirks parameter (174c:55aa:u) the
+> device is completely stable.
+>=20
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
 
-ASMT135x bridges (iProduct "ASMT135x") share the same 174c:55aa id and
-also report MaxPower == 0, so they take the "ASM1153, do nothing"
-path — but their UAS implementation is broken:
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-- The first READ(16) issued by sd probing times out after 30 s;
-  enumeration only completes after a uas_eh_abort_handler plus a full
-  uas_eh_host_reset_handler cycle:
-
-    scsi 3:0:0:0: Direct-Access  ASMT  ASMT135x  0  PQ: 0 ANSI: 6
-    sd 3:0:0:0: [sdb] tag#26 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD IN
-    sd 3:0:0:0: [sdb] tag#26 CDB: Read(16) 88 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00
-    scsi host3: uas_eh_host_reset_handler start
-    usb 6-2: reset SuperSpeed USB device number 2 using xhci_hcd
-    scsi host3: uas_eh_host_reset_handler success
-
-- Under concurrent load the bridge stalls: all inflight commands (20+
-  UAS tags in the captured incident, mixed READ(16)/WRITE(16)) hit the
-  30 s UAS timeout in the same event, forcing repeated abort/reset
-  cycles and eventually a USB disconnect.  Writes dropped mid-flight
-  during these resets returned zeros to the filesystem (observed as
-  XFS metadata corruption on the mounted volume).
-
-- Sequential-write throughput is ~45 MiB/s under UAS versus ~136 MiB/s
-  after disabling UAS (usb-storage BOT mode), which is fully stable:
-  several tens of GiB written without a single error.
-
-- Bulk reads of healthy LBA ranges do work under UAS (~190 MiB/s, no
-  errors); the failure pattern is command-timeout at enumeration and
-  under queue depth / write load, not a broken transfer path.
-
-Since 174c:55aa is shared across several ASMedia bridges and enclosure
-rebrandings, distinguish the ASMT135x by its product string — the same
-approach used for the HIKSEMI MD202 check a few lines below.  The
-product strings of working bridges using the same id ("ASM1053E",
-"ASM1153", "ASM1153E", "ASM1351", vendor rebrands such as "YZWY_TECH")
-do not contain "ASMT135", so the match is safe.
-
-Verified on an ORICO enclosure (iManufacturer "ASMT", iProduct
-"ASMT135x", bcdDevice 1.00) attached through an Alpine Ridge TB3 dock:
-with the equivalent usb-storage quirks parameter (174c:55aa:u) the
-device is completely stable.
-
-Cc: stable@vger.kernel.org
-Signed-off-by: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
----
-v2: fix the comment block: added lines were missing the leading
-    tab, breaking the *-alignment with the rest of the block.
-    Apologies — the v1 diff was mangled by my editor before sending.
-
- drivers/usb/storage/uas-detect.h | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/storage/uas-detect.h b/drivers/usb/storage/uas-detect.h
-index 4d3b49e5b87a..d8dc77015992 100644
---- a/drivers/usb/storage/uas-detect.h
-+++ b/drivers/usb/storage/uas-detect.h
-@@ -78,6 +78,8 @@ static int uas_use_uas_driver(struct usb_interface *intf,
- 	 * ASM1051 - with broken (*) uas support
- 	 * ASM1053 - with working uas support, but problems with large xfers
- 	 * ASM1153 - with working uas support
-+	 * ASMT135x - broken uas support, shares the ASM1153 MaxPower == 0
-+	 *            signature, identify it by its product string
- 	 *
- 	 * Devices with these chips re-use a number of device-ids over the
- 	 * entire line, so the device-id is useless to determine if we're
-@@ -99,7 +101,10 @@ static int uas_use_uas_driver(struct usb_interface *intf,
- 			(le16_to_cpu(udev->descriptor.idProduct) == 0x5106 ||
- 			 le16_to_cpu(udev->descriptor.idProduct) == 0x55aa)) {
- 		if (udev->actconfig->desc.bMaxPower == 0) {
--			/* ASM1153, do nothing */
-+			if (udev->product && strstr(udev->product, "ASMT135"))
-+				/* ASMT135x, broken uas */
-+				flags |= US_FL_IGNORE_UAS;
-+			/* else ASM1153, do nothing */
- 		} else if (udev->speed < USB_SPEED_SUPER) {
- 			/* No streams info, assume ASM1051 */
- 			flags |= US_FL_IGNORE_UAS;
--- 
-2.47.3
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014105700.1943=
+3-1-olivier.kaloudoff@gmail.com?part=3D1
 
