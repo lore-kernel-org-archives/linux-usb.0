@@ -1,82 +1,207 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B83AC3F2100;
-	Wed, 14 Oct 2026 16:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8D85616A2
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 16:36:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791994276; cv=none; b=is3nJGtnqph7BA67HU4ngowJSHoj4DirDwNaRG7+ziJC2JFW5RQSPM8nDMbNb4r0ZVuIGpVflcytnMQ4AvYGa4Xbz8V/bvxsoVHPXm4ojq/rZWRVjwN2krO8WF93g5kj+Rt2iBkLNchScCoPmNZMJo8Vt72sIWl1ZN9EyTinA/4=
+	t=1791995779; cv=none; b=A0miXZrG5Fa9mE8xJaE+VdVu8ee66kNaU4TICQWGtWJTszBvvEiioLcU3JkZLNnFIx5JAPhvwmr91co2E9SeqnuU7kgClnhyonfJzEGPiPklt1eHAFD6bZ2JF6ctjdAdzdlTATlq50vGdrR3NfT+maGfDHv4eLxR2W7Slhew/uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791994276; c=relaxed/simple;
-	bh=Xcxm0b+DqyH/3qMsa5XE2XcxHc50OQ0RC/55/HYpVxY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gisa6H6tYn6k4RhUMuNn0YtIDBVRV25EDIYolgNT9wTf5gNinD4/7rP3hE6fxszRC2rjsLE3mlhB57MNyumufAQfWMWI6vMDlhz4Av8Ux2+/gYrYApBHxAGAZRtXEmkaZU53yaSWRMiN1CSkOZpGf4Qzvtu6ZjouWbRTu7dGluU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=KrF+/Auw; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1791995779; c=relaxed/simple;
+	bh=PklsOs09Vlf82YwgBbtSpUmzn87NUh90iD+8UJYGK3w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZMjLfDRsTZ8pBGOSw2UZ18hzwGOmHA+VnGaVRJAPhemTXooFueI7E/4WD48b9g3BOGPFdIKz+qEDup01pvr443uslnKv2gF8GPivBNfz6g1nFSbZNjQ9/iW0gWWAhKfJDd6OorVaZFfatAVtBvU3W3EGeSxksqQTWxXpxjcL/3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NTMjNEvY; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Y6TTLrhV; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="KrF+/Auw"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=ATveWh08eRUA1brkma7A3rEyXoH7sGRO7VGs5ZCBaUM=; b=KrF+/Auw5uql60aFJQ3SgTNHCQ
-	IbYCxSzDKQDVgyTlDWJurCpJ+6knYhwH+xE4h7yOs/sVQfHLITlgFGzUW6P6y/CEbFHyiH47/PixC
-	lwHrGHTNHqoud+td07EVeElT3FTyfRtU77A42/7aQBbgaQe51d4qbweLdpeH+tP8o2lQ=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xH1Z9-00AmBl-K9; Wed, 14 Oct 2026 18:10:55 +0200
-Date: Wed, 14 Oct 2026 18:10:55 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Hayes Wang <hayeswang@realtek.com>
-Cc: Linmao Li <lilinmao@kylinos.cn>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Chih Kai Hsu <hsu.chih.kai@realtek.com>,
-	nic_swsd <nic_swsd@realtek.com>,
-	Birger Koblitz <mail@birger-koblitz.de>,
-	Xiangqian Zhang <zhangxiangqian@kylinos.cn>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: Re: [PATCH net v2] r8152: Use BMSR to detect the link state
-Message-ID: <06aaa778-ad49-4e30-b1c6-a7dc68718a21@lunn.ch>
-References: <20261005105249.1281648-1-lilinmao@kylinos.cn>
- <fd3bff0e63304681b9e5f35f2f57e50e@realtek.com>
- <7a8d21bd-3484-4120-abd6-f7290f919b7d@lunn.ch>
- <2bd3886a-da6e-4703-bd7a-9baa32bfd2f4@kylinos.cn>
- <591ca604-b296-4469-94b5-957d9ba45ae4@lunn.ch>
- <16d9caec96e8449d88ac456e8512f08b@realtek.com>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NTMjNEvY";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Y6TTLrhV"
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69EFMhhq1682634
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 16:36:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	qZE4atZVuUnxe4gh8yTrME7HVReQ6qljuMq3IYiqA/Q=; b=NTMjNEvYqdTCrKll
+	f6XgOd60FLUu0XdMAj4D7IwL++ZnvVk0xw3E9JzHsXJ5cLwEOOQq3ip4lcEj3Qsz
+	FQjLfPpM9zxfgv3zGMEYeSPgpIfndEwxOrtxSneycTU/s2FeHk06HmPPMYTlx3Ma
+	VorPWR5d7vtllaxOSeBTeEsBifuxva5XOLjtdg/zpLiQ7g7soCORo+i8zsJMNwgG
+	YxXHxU7XBSeSJsREwCIvF6zEhvS6aRW9IHeaoxldVxCCf5PaiaNXBVxwvpYdbwWi
+	wKzzxsCyVjL0f6aT2QyitUg1BKR992QBb+EQK4OC9L9HmcVsqp7eFdoRNUTkUea2
+	QRN/qA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hacb009kf-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 16:36:17 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93cc50fb0d2so83791885a.0
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 09:36:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1791995777; x=1792600577; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qZE4atZVuUnxe4gh8yTrME7HVReQ6qljuMq3IYiqA/Q=;
+        b=Y6TTLrhVhlcXX5WZmRZbeD6ohqU2i5YpE2EAkHLJkWSYXHJlhj1ZxDkK2zEVvXkrTq
+         EJieSrUjxDLNFGdXgePJXqBPQrqPD9fUXEQDe562osZrld9t67GJTQjJFMbMj59QI1dI
+         5yHYC6trTqFSVCKpPmGvHfo131p5rgeDTDd+DOu5oz7EeenYq95dkvwWhK6EwQtVxgFD
+         D/J5hojQImNhJ7w6Wi/SkRLbWAlCJwU8CG4eWP+3rnShOuGy3O//XNhZrTusDXNZ/bFP
+         ciT2qy/n+0ewDoBd0LITtkfD9WdFB5LJdbVGWL18tZ+spR5a0YmsgMfd67z+O9n0vwJs
+         8duQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1791995777; x=1792600577;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qZE4atZVuUnxe4gh8yTrME7HVReQ6qljuMq3IYiqA/Q=;
+        b=hzUxgQMSnJkkGbqWntAOFB7N1PxxATtIVPrLwKRJxPOw3hV2tn2UmeatXzlBksGWsX
+         LH5hJyYbud/dXMa6yAZnxuNJmtuBAMgYRmseQElkwVOQTjBZK+2Qfk53+PJoe755doYg
+         ZrfJb2KGpi5TbZgKtLfx2EFfOMTnqBZPwWnRtne3N2AegvnrVmeRA36KJcn3ggyITYBA
+         ojbfrz6KdYIhOs80NW+PLed/L/OEVsV3tD8WY3Hyw7hfS1VBmNDPDqCIX1/2hJWSUksa
+         lXxMbMOw+h8S0lJI4KUMsULHU+k6fQoDvF7KPoMB/LxEy7A/Je1ihMdUjQrSnxSreSp8
+         6tcA==
+X-Forwarded-Encrypted: i=1; AKwUvBzurrh0N0amT5qn0qCcv53ojcK0bbzaBj3VRpUa9/CM6ZcDi093VWv6nrZr0p0kaFk1MVUvpFqLuVo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJzfoiPgAJj/gCr7pvTlAwU37erRKBhwFg/eKXcv/XBNccd6hdh
+	hPwjjoCM7bncUh8wmZBkcAV07L0wlW5M9a73DYszzmW0TW/6lVzQcoSM0a+ZNlUlb569if0iA/Y
+	al1DZmnYouRdTDho46cejXnLULWPcltBQ4nzTAkWEb8Evqv3W29evWAgOvWAHV48=
+X-Gm-Gg: AYBFou3z3qKXO18q1O2xR9+ndZv+sZR13oHAMgT7g9dBWk+dlIau4FRS5wBGYE0PiGJ
+	P0KK2kVrVELHIVM2JDUNx52QhLXDArfw4fe3w5WSoYhAwByWZ5kT7i0dcrrzjszYMz//b/LjEHM
+	pri/9/x1tXmerk3B7RoDxAYVeA5/pgh1OT1x932j7Y9cXgLbDcD8oJnj6Vun0bFjGz9yuf4paJW
+	3MWi6GKwbVQSdwd/KQ4ze0SFEINYTMURO1LsWvFbVp7qSymT7jrqzGCClvPfkpjahWQmQiWEIa2
+	hoRjuqLcQjjzoRiTW8zFrTnBqZqlTNhaAtwZAUxvFFOvYDFPb6zMv6fudIh8n83N2x9uaEmM2Jw
+	oLaFnbUOFSrONitaf62HldA==
+X-Received: by 2002:a05:620a:3186:b0:939:8bc:8826 with SMTP id af79cd13be357-93ebd10c0e2mr3128574685a.2.1791995776329;
+        Wed, 14 Oct 2026 09:36:16 -0700 (PDT)
+X-Received: by 2002:a05:620a:3186:b0:939:8bc:8826 with SMTP id af79cd13be357-93ebd10c0e2mr3128568885a.2.1791995775873;
+        Wed, 14 Oct 2026 09:36:15 -0700 (PDT)
+Received: from [192.168.226.26] ([178.235.128.140])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b20386327csm1289977a12.18.2026.10.14.09.36.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 09:36:14 -0700 (PDT)
+Message-ID: <b4c0761b-34f2-42ad-97e7-ab34ae776281@oss.qualcomm.com>
+Date: Wed, 14 Oct 2026 18:36:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <16d9caec96e8449d88ac456e8512f08b@realtek.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] dt-bindings: usb: snps,dwc3: Fix downstream port
+ numbering
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Chen-Yu Tsai <wenst@chromium.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Sven Peter <sven@kernel.org>, Janne Grunau <j@jannau.net>,
+        Neal Gompa <neal@gompa.dev>, Joel Stanley <joel@jms.id.au>,
+        Andrew Jeffery <andrew@codeconstruct.com.au>,
+        Ryan Chen <ryan_chen@aspeedtech.com>,
+        Billy Tsai
+ <billy_tsai@aspeedtech.com>,
+        Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@nxp.com>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        Peter Griffin
+ <peter.griffin@linaro.org>,
+        =?UTF-8?Q?Andr=C3=A9_Draszik?=
+ <andre.draszik@linaro.org>,
+        Tudor Ambarus <tudor.ambarus@linaro.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        Alim Akhtar <alim.akhtar@samsung.com>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>,
+        Masami Hiramatsu <mhiramat@kernel.org>, Yixun Lan <dlan@kernel.org>,
+        Troy Mitchell <troy.mitchell@linux.spacemit.com>,
+        Minda Chen <minda.chen@starfivetech.com>,
+        Shyam Pandey <radhey.shyam.pandey@amd.com>,
+        Wei Yang <yangwei1@eswincomputing.com>,
+        Senchuan Zhang <zhangsenchuan@eswincomputing.com>,
+        Hang Cao <caohang@eswincomputing.com>, Li Jun <jun.li@nxp.com>,
+        Peng Fan <peng.fan@nxp.com>, Roy Luo <royluo@google.com>,
+        Yang Xiwen <forbidden405@foxmail.com>,
+        Ahmad Zainie <wan.ahmad.zainie.wan.mohamad@intel.com>,
+        Robert Marko <robert.marko@sartura.hr>, Xu Yang <xu.yang_2@nxp.com>,
+        Wesley Cheng <quic_wcheng@quicinc.com>,
+        Stanley Chang <stanley_chang@realtek.com>,
+        Ze Huang <huang.ze@linux.dev>, Aswath Govindraju <a-govindraju@ti.com>,
+        Roger Quadros <rogerq@kernel.org>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, linux-kernel@vger.kernel.org,
+        asahi@lists.linux.dev, linux-aspeed@lists.ozlabs.org,
+        imx@lists.linux.dev, linux-samsung-soc@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-riscv@lists.infradead.org, spacemit@lists.linux.dev
+References: <20261014082037.1774672-1-wenst@chromium.org>
+ <20261014082037.1774672-3-wenst@chromium.org>
+ <7020a7a6-332e-4fd0-a659-d82eb768614c@linaro.org>
+ <CAGXv+5G1kgyumbj7wGf6rPFbg3spSO0zYmEkn-hZT4qUdJbytA@mail.gmail.com>
+ <03375a31-0ac6-47a4-b0dc-6327080e1622@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <03375a31-0ac6-47a4-b0dc-6327080e1622@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=VKpIDNPX c=1 sm=1 tr=0 ts=6acfaf81 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22
+ a=KKAkSRfTAAAA:8 a=auHUQpDKApYGa_LtnhgA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=PEH46H7Ffwr30OY-TuGO:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDA2NiBTYWx0ZWRfX6IHcOrst7kE+
+ 9ngOu+npichahBTyglIVGBiYJ4shsEeOyTzbZqO2lMYxeABld4F3xKKSse+PCUItlkdj/3F04cc
+ K7PPAChfGJSHA+wMXMcOM/m1isN/PUc=
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDA2NiBTYWx0ZWRfX78j5vMEShU/T
+ Mf3zx1mPkVISOdLwC6N2+hSTQUnbh6/oXlD/jotucNnCW9siyZ5EchrH696jl5dv6Dv/seO2JLj
+ 5qXsN8tWgS4DduNCBP39mUmYX6xaFo1VgHFjqwEzBhHEH+zhQRm00Zqltf+zWO644oZfVrGKdTi
+ 3yQ/VEaEAqPerXP8+DaCcTk+Q0LUrWA/yqlRKxZi2alH8BtChENfIfbeYJUxw1rDakVMuvOwxS9
+ yVh3g2i7xyBRHhq+ErbejWxX8h3UH1+c04FAhLki9hDa9OS5wkabswzQyDR8cWj8enpkjnTnlJR
+ cIndTfR4DprSEBnvqeCir6tU5Mdw2weV5fUfDH5+vpOeGhhVPU/WRMXRoWRVPRlbizReUDi7TtF
+ uZnGF3nGFABOaXIPu6ssd/vqkYi46FUuJTZBlLQXAmEIuc+vKmdeX3j9L+QW60tPESt6Up0W6Zj
+ 1Vc1NHBk4VZWKuX1QNw==
+X-Proofpoint-ORIG-GUID: R8nTJxbrbvt7lMc7bGA8q7g8z5FXmhxa
+X-Proofpoint-GUID: R8nTJxbrbvt7lMc7bGA8q7g8z5FXmhxa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ malwarescore=0 phishscore=0 spamscore=0 clxscore=1015 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610140066
 
-> > For those devices which are broken, double read the BMSR.  The danger is,
-> > somebody who quickly unplugs and replugs the cable is not going to get the
-> > down notification. The dhcp client will not restart, so the old IP address will be
-> > used, for the next hour to day, and the network is broken.
+On 10/14/26 11:44 AM, Neil Armstrong wrote:
+> On 10/14/26 11:29, Chen-Yu Tsai wrote:
+>> On Wed, Oct 14, 2026 at 5:28 PM Neil Armstrong
+>> <neil.armstrong@linaro.org> wrote:
+>>>
+>>> On 10/14/26 10:20, Chen-Yu Tsai wrote:
+>>>> The DWC3 controller can operate in host mode. It does so with a XHCI
+>>>> compliant host controller. The XHCI has two downstream ports, one for
+>>>> HS and one for SS. USB downstream ports start from 1, not 0.
+
+[...]
+
+
+>> IMHO having consistent numbering across controller types would be
+>> better. This avoids making the USB core and hub code deal with more
+>> exceptions, and also easier to understand and write device trees.
 > 
-> Could this actually happen? 
-> I think it would take several seconds for the link to go down and then come back up.
-> Wouldn't this issue occur only if the link transitions from up to down and back up before the driver processes the link-down event?
+> I was in the impression the port number not necessarily reflects
+> an actual physical numbering, and can be a logical number we would
+> then map in the kernel.
+> 
+> I don't see any issue here having base 0 for the bindings and then
+> converting it to base 1 for the XHCI port numbering.
 
-802.3 thinks this can happen, otherwise why make it latch?
+I thought base1 comes from the USB spec and not just XHCI?
 
-If i'm just going from port 7 to port 8 of my switch, it might happen.
-
-Or i reconfigure my managed switch to change the port from one subnet
-to another subnet. The RJ45 is not moved, it is just a configuration
-change. The switch should do a down/up on its side to indicate
-something has changed, and that needs to be reported to userspace so
-dhcpcd gets a new IP address.
-
-       Andrew
+Konrad
