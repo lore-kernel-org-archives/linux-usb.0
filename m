@@ -1,149 +1,156 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5922C481ABE
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 09:17:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791969429; cv=none; b=c0/coQjJiJckRo+rJJvTwupDIY+FvwDzTcrRFiLfE7vWPWT31nFDTf9W+70TNLdHKVkDH1u/JrWUAmUDgbGmmab4aN1YI+5VxWeDyUlzoMv/zEJuhoOphEgqN+tKoXe5YAaAZ/wLI/aZR+5CYYF5qVnyHxBFBE64XzLdMck8FCc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791969429; c=relaxed/simple;
-	bh=oKJsVFLubvLsj5D35e53rnVR+8UYd1QDrDrjPrGaDLY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=I2riFwmE1SD1sdldBBBaQbvD7WXUFnulGteUp8iw+jmnQ1EH9ZqBXJEhjWCGA6kbkcNndnE4XLhKFU1wap9Sl+OAWQzVe55olRUL5/Xeqg0N/rQt7ZjX0r9mtJd61E3ZOPVrUElINOCxPwOswKKUBarEkzgWABbD4afbjUyuBPI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YKOSo4IU; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9A6C33556B;
+	Wed, 14 Oct 2026 09:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.203.200.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791969695; cv=pass; b=hFBD1/YhFzvFuG7LUWCrI9s4jfYTDwrzWwjS74FO7IItGBDBTewthK+JQr6smQfohxSILXfLv7Uadk/SHbu73g71Tu+fPg+7rUM/lilSRLhs6lmC8aplq/yCwpCd4w2W/2hidDgQ0eQinbnEJhMiCODZXZ4jfVnCDxowRkxC7W4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791969695; c=relaxed/simple;
+	bh=vA8UhhoscoIdqb9kU0tT0rcvRN6wRnsukhp05bZu/6M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZtiGZd7h1am1aL8ZSJShJux63x4FdawS2JUBVC27646fZ8uH6bfkNOYv3c0ZiPu9bf28fPjqwMwWtWpq8IPpWlOGTS02L1rt3jJtNSIHbpeUqKfGeFCVZ3Ngv8lc0VNrA5lDYx38hmtH7PCzPV9MNFCATNUoR4AOiDuUn7H9CRw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b=bn36ga2R; arc=pass smtp.client-ip=185.203.200.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YKOSo4IU"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a1635f7c89so7229725e9.2
-        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 02:17:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791969426; x=1792574226; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jo2PRIALCUq4kxjl1uc95AJMEIZIxh5cvF+ejGasI4Q=;
-        b=YKOSo4IU5JgAX2Bqfd3CM96RMVR3XBacvjCZY3O1iXBqXvwJz4o/m02SbAJTrzIFYY
-         FVmuJ91aaX2I16rVnwYWVQsy/hGL8f5M+90MPd9tz3bcjkL78tZXgqT5X/XkfMkZq4g3
-         PdHVudlmq9DjMBYcoKbgx+e2pb7IMP5xmC6j2DKZurLGN3ieLieRPXLBw2UzsUBLSFvI
-         aHJdKUOasw/33EiTK/CNqI3zzCV2mYMUOnbqpz2vkxbmIXXz0MkunFD/kdiQ6K3IHQdM
-         zKz0bwv1dgTaYNCkWLp+mCii5blpfPDzWsAbigJACe+VMqILVr0aP2Pca3uhP6yU5AZK
-         palA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791969426; x=1792574226;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jo2PRIALCUq4kxjl1uc95AJMEIZIxh5cvF+ejGasI4Q=;
-        b=YBcfFDbUi8tyB6SDgEUT1ujFNXj9v2YNe6378W/byv/tsnQWHn2OapztHuRNOKDGaq
-         xbF1W3++o7crRZDDOBPR7FCxKYScM9mFujedb5E2E9NrnckEBi6pUYMHDAd/tAssSsRF
-         PUYhzi7Fb+JV3sQA2Kw/JjO70JVCaTUT4Avfu8TOQJ0pSBPd6me/104Y22OIMLGCu8Bk
-         +uuQEktO7jCRdd7MEjgq/K0p1I6m5xum4yq1pkiUZEAEEkLpqX3ycM2WOGkSxXJi61Y/
-         I6ozerMHflBHSSa+zGuhu8J5XjrQsnZi627+xKtmxUDmpApTslvrKop8cYwEmQy5cnBV
-         2Y0w==
-X-Forwarded-Encrypted: i=1; AKwUvBzqjGbhRw5G2oF+EeSNj+cRDOrywz8iD6u5Ok5R2RM2+xZIjzFCfGduLdJq5j7lmYseDEvETcJMqVc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ9/uMeDmN6qO0LrXaXSvJVtirV2j+2jHhwQaC3B91kLSIh83Wk
-	P9tqVBAioKDnr7W1+K473S7ZCP3+RbdGHK/or5REIwLkk6NEUMJYcurv
-X-Gm-Gg: AYBFou35fMKcf0cIMLpC6+1pFjynxeFPBR25AFjEfIadKyZtyoRbRlzxGWPsmGpzhMS
-	fWZALLoxrA2TkJsDB12r4iHCLXKNgv2ijqCxFu+GqCjAa4ti4zCg4HU4mjct0JaBDqaow89YWyG
-	EcLqfH7t1eeNAdz02UtgboyWV4ajjSV1eMjJSAcDQQpuQ/6bUUqY9t0koOUgCK6G0ug4k/3nxnV
-	2ly6PV9kSMzyBjJsxc4uot99Ocut3+P1rh0v526YT0MiHkSEzqePSQnGtuNVs5sIbIP1FLe2aiH
-	4/AEGAvrgQ1d5Gw9IPtvrCQsfk8RED+zFzznIzck02EJE64idUUIx7AQkHjeam5bPjBx4zYhI6g
-	vuwPrYurG/yJqa5J9idQjjqsnxUTm17icEoWgsr8GN60JjkWdo77zIUjHP5pXx+ImERxzhRtPkI
-	Y3OJ1Dm34VdYL3z9WaPm3GxqZ0GK402H3wCzWhFscxUkmwXfIj7KT1EwPwgUK+VQLvZ1Atyn5m3
-	gX64tTA8g==
-X-Received: by 2002:a05:600c:8716:b0:4a1:62b8:9aa1 with SMTP id 5b1f17b1804b1-4a18e44885dmr310815675e9.2.1791969426406;
-        Wed, 14 Oct 2026 02:17:06 -0700 (PDT)
-Received: from foxbook (bez186.neoplus.adsl.tpnet.pl. [83.28.37.186])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a18bf214a1sm489997615e9.7.2026.10.14.02.17.05
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 14 Oct 2026 02:17:06 -0700 (PDT)
-Date: Wed, 14 Oct 2026 11:17:01 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, Mathias Nyman
- <mathias.nyman@intel.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-Subject: Re: [PATCH v4 3/5] usb: xhci: sideband: allocate sideband ring
- segments from a dedicated pool
-Message-ID: <20261014111701.4a63e9ca.michal.pecio@gmail.com>
-In-Reply-To: <5cd85c1b-4bb7-4f30-930d-6c6451f09395@oss.qualcomm.com>
-References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
-	<20260909-16k_offload_v1_b4-v4-3-f24a86617597@oss.qualcomm.com>
-	<68b34f04-f7e2-4468-8a18-ac97decb987d@linux.intel.com>
-	<82e0b9c7-3b3f-4dce-a72e-64989b08ef98@oss.qualcomm.com>
-	<20261013111110.423dd0ff.michal.pecio@gmail.com>
-	<5cd85c1b-4bb7-4f30-930d-6c6451f09395@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=pengutronix.de header.i=@pengutronix.de header.b="bn36ga2R"
+Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
+	(Authenticated sender: pza@pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id A44962007F9;
+	Wed, 14 Oct 2026 11:21:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1791969688;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nfE+HoszBW81JfpKZ8ADGrOXhCccZkZmZbnezmaZz3g=;
+	b=bn36ga2R/Q/f3RzbVzI3q6AtPXo0q/3b0o7HWyn8C+bupqoZyNda9UByXCzx1v0D5MUQ+K
+	puzo8nkZ671mWby9XmipkAeHsgg3usNnzWXTtP1iQ5FY1H+iSKyO4WEuBfvhne/kQSGsRG
+	b2HotNgEutFHg8HXZj3EORPlylvMPFvTRHa15kcWk/+itKu2byobqUZEnv9v71Cp2tymIh
+	dV+JSAWEYey7ZOg1t5MVT18Nhi/jpytrP8oRvQapB2FdUCa2x/sc1f1ztJUkTzGXLLj+J5
+	+dnGneohYTjjzvVzclxoFCFsxr2MOM6H5Tu9TlRBImTJDNqrBADddVhv2zbx7A==
+ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1791969688; a=rsa-sha256;
+	cv=none;
+	b=f76UA6F/dBELSiSpxsm8I9Zx8r4qVCdk44SCMOTX0qXGz7BiNDSPqxFM31uiiBOfZxvV0+
+	qN9mpsNugI5BjbGQ8urd1TpZsARtMcccbLXxl6hMQ/bA5zS2gQRrA+JWMJZDPR/T8rePQs
+	LQlUW/K08XuyfWsHy3zGxDc0ma/V1T21ZNK8Meioha/6UWHuQwYChZDy7X+RQFY8b+kt6D
+	ZfdT6lO3jvfcmhOdUpsYOVW37xSlQqWGem4oC0VmFePYB1Z4HwQgXnrlek7XTy1Ou39fCL
+	6syxLCVPlsCw6QcUadCnWwJ+7HBo+a+I0/DcntyNoPeF6TTTIBgOHVC+L32/mw==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1791969688;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nfE+HoszBW81JfpKZ8ADGrOXhCccZkZmZbnezmaZz3g=;
+	b=CdLwJjGT7nw/4fkVzcRRKViVB3mBzOdNNMW1YDXoFf9cYzPtc1LCzNA7lFIIxa+c1DYhpr
+	cW5I1NdRis8TLoerZtgQ7teQduhQle2l57CP4xLYpzGkaWzcb3kBrR+C5WkoyJ9vfHDaP3
+	cAJ1V4l04BjWfqkDyt6GDk5SigrZyJcBUadH/cPvVVXGogIBKGpbC3D5NwJcFVt3+5FZR/
+	XpjD81IBqnyq4f1/diU7XoPbXbeqcWFQhDeAjf40pwdF4fT5vjHSx7ss+g+tEGQ031oL5D
+	a30xD6fKClvEJqL5iW9Lnkf/LvCj8oLAWJLICnf73nAeHrXPhbwBnXooaWG49Q==
+Message-ID: <c54ea6fb6adf7b0c944c47bc91f564af9ad1560b.camel@pengutronix.de>
+Subject: Re: [PATCH v3] usb: dwc3: st: balance reset ownership on deassert
+ failure
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Pengpeng Hou <hppiscas@163.com>, patrice.chotard@foss.st.com
+Cc: thinh.nguyen@synopsys.com, gregkh@linuxfoundation.org, 
+	linux-arm-kernel@lists.infradead.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Wed, 14 Oct 2026 11:21:28 +0200
+In-Reply-To: <20261014031920.8390-1-hppiscas@163.com>
+References: <20261014031920.8390-1-hppiscas@163.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Tue, 13 Oct 2026 15:53:39 -0700, Wesley Cheng wrote:
-> I guess my intention was to see if we could leverage the existing
-> memory operations within xHCI as much as we could.
+On Mi, 2026-10-14 at 11:19 +0800, Pengpeng Hou wrote:
+> The ST DWC3 glue ignores reset deassert failures in probe and resume.
+> It may publish the child device or access the glue registers without both
+> reset operations having succeeded.
+>=20
+> Check both results and unwind DRD setup failures as well. A shared
+> softreset provider failure must go through undo_softreset: the reset core
+> has already incremented its deassert count before calling the provider.
+>=20
+> Track whether this driver owns the deassert pair so suspend and remove do
+> not release it again after failed resume has unwound it. This is referenc=
+e
+> ownership, not a guarantee about the physical reset-line state. Resume
+> itself needs no early-return guard: the paired suspend callback clears
+> the ownership state before resume is entered.
+>=20
+> The issue was found by our static-analysis tool and manually reviewed.
+>=20
+> Fixes: f83fca0707c6 ("usb: dwc3: add ST dwc3 glue layer to manage dwc3 HC=
+")
+> Assisted-by: gpt 5
+> Signed-off-by: Pengpeng Hou <hppiscas@163.com>
+> ---
+> Changes since v2:
+> - remove the redundant resets_active early return in resume, as Thinh que=
+ried
+> - keep failed shared deasserts routed through undo_softreset
+> - retain the independently needed suspend/remove ownership guards
+> - rebase on current mainline
+>=20
+> Previous version:
+> https://lore.kernel.org/all/20260922004312.3589-1-hppiscas@163.com/
+>=20
+>  drivers/usb/dwc3/dwc3-st.c |   43 ++++++++++++++++++++++++++++++++++----=
+-----
+>  1 file changed, 34 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/drivers/usb/dwc3/dwc3-st.c b/drivers/usb/dwc3/dwc3-st.c
+> index 5d513decaacd22de15825dc061c2747cf09fef07..1a2f38f9407ae0aea25edd616=
+f8d77f953b3b404 100644
+> --- a/drivers/usb/dwc3/dwc3-st.c
+> +++ b/drivers/usb/dwc3/dwc3-st.c
+> @@ -84,6 +84,7 @@
+>   * @dr_mode:		drd static host/device config
+>   * @rstc_pwrdn:		rest controller for powerdown signal
+>   * @rstc_rst:		reset controller for softreset signal
+> + * @resets_active:	whether this driver holds its deasserted reset pair
+>   */
+> =20
+>  struct st_dwc3 {
+> @@ -94,6 +95,7 @@ struct st_dwc3 {
+>  	enum usb_dr_mode dr_mode;
+>  	struct reset_control *rstc_pwrdn;
+>  	struct reset_control *rstc_rst;
+> +	bool resets_active;
+>  };
+> =20
+>  static inline u32 st_dwc3_readl(void __iomem *base, u32 offset)
+> @@ -242,7 +244,9 @@ static int st_dwc3_probe(struct platform_device *pdev=
+)
+>  				     "could not get power controller\n");
+> =20
+>  	/* Manage PowerDown */
+> -	reset_control_deassert(dwc3_data->rstc_pwrdn);
+> +	ret =3D reset_control_deassert(dwc3_data->rstc_pwrdn);
+> +	if (ret)
+> +		return ret;
 
-This means xhci-hcd needs to be aware of all the client requirements. 
-Today we are adding DMA pool to allocate segments on separate pages.
-But people may want more - say a client wants different segment size,
-it needs to adjust the DMA pool, but also to add another patch because
-xhci-hcd would try to create Link TRB at 4KB offset. Or maybe a client
-needs more segments. Client allocation gives this flexibility.
+		goto undo_powerdown;
 
-To me this is the main appeal - both sides can evolve independently,
-without needing to update each other when something changes.
+This behaviour of _deassert causing workarounds in drivers is
+unfortunate.
 
-Maybe the sg_table stuff could be replaced with something simpler.
-Clients still needs to tell xhci-hcd where the segments are so they
-can be mapped, but it could be a few xhci_sideband_[un]map_segment()
-calls instead of constructing a table. In principle, a client could
-even grow the ring dynamically, without any patches to xhci-hcd.
+Maybe we should add a reset_control_deassert_get/put() pair for shared
+resets where _get() decrements deassert_count on failure and _put()
+returns void.
 
-> The only concern I would have with having the client own all the
-> memory operations/allocations is that we would need to carefully
-> maintain the transitional phases between offloaded and non-offloaded
-> scenarios to be handled properly.  At least in the audio offload
-> case, we're only offloading data to the DSP when audio is active,
-> which can be for a short duration, and we have proper checks and
-> locking already within the xHCI mem/core layers.
-
-Not sure if ring ownership changes anything here?
-What sort of existing checks and locking do you want to rely on?
-
-> Since I did take a look at the other issue that probably reminded you
-> of this, without getting on to a tangent subject, it really broke
-> down to two scenarios:
-> 1.  reset_resume during bus resume
-> 2.  usb_device_reset for recovery
-> 
-> In both situations there are requirements that when those
-> happen/trigger, technically, the bus should be completely idle.  For
-> #1, since we're coming from a bus suspend transition, there should be
-> no pending URBs in flight, so if reset_resume happened, xfer rings
-> aren't being utilized.  For #2, there were some changes that weren't
-> properly handling the pre and post reset callbacks, leading to
-> problems in that situation.  I think that series showed us that there
-> are corner cases where referencing vdev could potentially be
-> unreliable.  I'm going to assume this has no relationship to the
-> client driver owning memory, please correct me if I'm wrong. :)
-
-Right, ring UAF and driver data UAF are separate issues and changing
-ring ownership won't magically fix driver bugs. It seems impossible to
-avoid xhci-sideband keeping references to vdevs, because endpoints must
-be stopped on sideband removal. So these references need to be found
-and invalidated in all cases when devices are freed "prematurely".
-
-But does this need to go outside xhci-hcd (including xhci-sideband)?
-Are those callbacks into the client necessary? It seems they wouldn't
-be necessary if ring memory is client-owned.
-
-Regards,
-Michal
+regards
+Philipp
