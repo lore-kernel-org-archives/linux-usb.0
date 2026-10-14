@@ -1,81 +1,79 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2A4655D889
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 16:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FA254B1B1
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 16:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791997060; cv=none; b=jkWfjyLbg2K2RM0Kf/nr6WYO2Amb5kjB8WfACaXQQnASUC58X7V1NZ6HU5tRMeyuamAVNJHBGf7xLbvdDTAlXX7TJvCddn8c4hPiC6y7LF9ipMJPiVPrEybxbWZZwKGHrn66afZR/wjv4deDnTZQFp5mJIDQni3cAIx62GSKIig=
+	t=1791997142; cv=none; b=cesYhxxK3tcmYUffdPhzssFHsXmmkaKajPV5irTcFCtuXeszXA1x67cz2eLgp2pvlB/LonzHD++8RptTJNmuNxVOjdU4tUdOxrakBFTTxIW9/mTAXQiV0F8HOLd0zTCWiIdUk+6LcqQ4JESMUaAloPSX4J2kcpvwWnhGbhypDds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791997060; c=relaxed/simple;
-	bh=f6jAdHzhboSsrvnAwQk9bd8ybs7PXFPvcgnOKc54iZA=;
+	s=arc-20240116; t=1791997142; c=relaxed/simple;
+	bh=wsKKe1abKSPrhu9iyZJMEGTFefY63GXOz3LP4YR8Egc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i9njhJg7jlhoipt2WP9nekm9xf19ALbBt8lI2iZua4lMUnbNl0TKG9AQ+BfRrXaNY2ZQ4Ub7sq6lnpxgwGj9t6NsxsinZWyzJvyb+R4SoxA0YSJcN4W9X33mMr67TYkjPelxEcpGCSSfyYhYrjzJACzde3w+gBRNNuEJlBU1oag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Hvk17E8q; arc=none smtp.client-ip=209.85.128.45
+	 MIME-Version:Content-Type; b=Ju+2SzuNLYra7HmqIr6YmxxZSFsrcq2KehTQvrUtq7JRsLHJtiqxO28X2IxUu7MbGKgaKkCDz45gI0R4Xq4qLRRu7zksy1OAMmTvf5qAmvaWM36Fc2cjLIk9A100smCSrNOQFWjY7VeiEtMLmFx1LcsjRViM2WGh5qgKAzR18eU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZXUNsQjm; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Hvk17E8q"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a16af2a232so34641415e9.1
-        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 09:57:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZXUNsQjm"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a16aaf2067so15582955e9.0
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 09:59:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791997057; x=1792601857; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1791997139; x=1792601939; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=3qcxre9NbZoUsuxuBW1AKl0J1hEgizU6C0yp28P8CW8=;
-        b=Hvk17E8qvt/FVFRq3X8fP/WwagQByVmYs4aKHGAz9Ia5GFF8zBIeb27hM3Qxp3laeZ
-         HYLtLUPRvnPFfuJQtUImKG9+AyNcQDO4cSjcHNRA3NoQs0MWfC73VZJ0OUE5rm1UeD9r
-         A1syYWiMRku5DxIKmlEnuoV+zUfYyYK3KuhAsbga5znKTA6MlZWmytt4nkE0RpLJu+Gr
-         jRJ9s+l3EF0qpNyTXpoAmQfA7V5zvOX6qZgM2+FLhk7+QHx/5kcE20qVnEQzoASuEdtk
-         u63I5S6dmHyBCugFkjBQcesEyrS0lXM4X242Bi+aS2LYw4E0wvXz5yTPOhi4x2GmPaAI
-         tt8w==
+        bh=C8fBlAp2z+aZBAqOX2JhqzLP2hcIpXKFMGxJYCC88GM=;
+        b=ZXUNsQjmWokdUf+Jf0nqDUbHGHqryDIOcSzCtb9p0aAbLnvVPgiTrIIultOQ1MsJ9A
+         ClgMvBrvb6zZt6Bt08qjch20KG18SrcIFRk8OFJ8u9MXiS35YFObBhhLi2jKlKnuY7fZ
+         g1y9BxpRm7upc43xW8Q2+BvXEULfFWxCeXxNfTW8GF4rmmLOGEWyey+hjHxx1w3o7LrT
+         CqtsdOG9JnSZC3hWlZYzd3E2nh+AvG9OxIyEKLksAm1dTqPeqYQ5NAoU1ZSVO9NzRSiP
+         jh4A+ZQa5qkfMCyZJs8ZEmCFCk+8smG5Qe6RPZz90kXbNyPV99u/gUhRczIfrZuFCaJg
+         1J6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791997057; x=1792601857;
+        d=1e100.net; s=20260707; t=1791997139; x=1792601939;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3qcxre9NbZoUsuxuBW1AKl0J1hEgizU6C0yp28P8CW8=;
-        b=HpsTsSfX2RkUclo1Zmb758S894Sl8Ned9LUnOZTDNmcNHVP9wyoXSzkn8kEMXCpDTr
-         c31tuDBtdXFsWFCKPtpYcPcXVxMp087laV0QKzx0QmguBSIAk1M5o0Q6FEHZ6ms4TwoU
-         m/GIScD3vB2lv0DDOacMOo4a6qMpkj5LjLsY8T6OtMuMQ2iKsycty8eoysALbI2YgiaD
-         75rlZL2D7o1sUBHn6V8P2o/FZAjU9GJnR9hMSMdzqLSN6blNqDEqeEeTdShuIkH/Xu6q
-         u4cOwGFbTbT2XZj+ks4vmeb9ERdOjsxThEXK8DflUo7sPidLYX59/D91w+1K31ZIQ0JC
-         pGrQ==
-X-Gm-Message-State: AFq9FYLtxDynQMtbRj7eo+zFZKNpvxtlId0qvz/i1cVTATrdW88Npsjy
-	D/HOFmmWe2oSbeMcOdbf2O6b2MDv/VLE9LOjNMzG8KooTzO4rm6Qyv7/v8ck7xQI
-X-Gm-Gg: AYBFou2C18LHGz47DsKuE2LO9QOKJOetbwf+KhueoxP34cktawnIMkwTr3RIT4kTZ31
-	lAV26wweu0jgSkmWrA+EkuUEpADVjMi/WCbkd8Dywd++wLMJQVigflgZNCb7dh8aJc5n1cStpvK
-	SDBr1qq8ID3ZYx6qlQgOQD1c/1JLzx2Q19oxN8yr0iNwZT2Q4zd2FjYpjiBLpidmC4drv/bVvyN
-	heFJLE/MfeQUZb3NU4F0kOACdEJ/RxxN9I1/OZjMWNJkV6UumPzjk+TdnDoo5e4PKrTKKSxSGTT
-	uZLx2TFgeS1hblN+7nFMTGuHXKnetRIkdlW+MgjY6inLvcKAUMJYlefCA5BapaqTF/FICrjoo68
-	w9r6ArBrUZTDAF9vk7hfCMDT2zDIqHSFuXenv6vtyLnPZFbg/wozmcM1n/G9RdEOv1mj+h3vKP2
-	25U+dmQlgNB2Cyu2DSUnrpqKpLx7J7vg5RNHN3cUfSKDxE6ARQQ4n2VYubapXZ8ctnIsDEMdDGH
-	pfYIwuzpfArlvyJMIUkqagxJEm0B3K94N1F7WI2tohVTJwKPDLnw5ZjcJ92N72vRQkPv6dlPKgN
-	x9dP7vWzGCA0dRL0LnshYYBSmuqvmej43cBpcpqd+eWjSYF0uCSC00PfwK9zIEKfj4OGJO03HY5
-	eXgF0oCF3rwYbJe16xpPIOHtLyttcpCfP3kDKXFp/HeEpngda/Y/+iAX6W33tLu4cVm0SmvrVvY
-	o=
-X-Received: by 2002:a05:600c:3e0a:b0:49e:6050:9fbe with SMTP id 5b1f17b1804b1-4a18e49c52bmr318268005e9.15.1791997056758;
-        Wed, 14 Oct 2026 09:57:36 -0700 (PDT)
+        bh=C8fBlAp2z+aZBAqOX2JhqzLP2hcIpXKFMGxJYCC88GM=;
+        b=PufF4gj4BI3GK1VnsVQP0R/iiozrj7ErfvzoBcr4PeGoo+SIV0PY+OokEZPZNcGzMH
+         4xL7yrgaygbSecp9VKwOO+1IALHqI/OBhoHaNklOJMbpCQfAKY5aayQ7QSeudXcxo6KH
+         Y+AJTexUWx9x0Me3YW1BLYV1i/wDHVmyA3wknl3GyK6vAg+SZq3Pi0zTMQDRZRhvB8TM
+         EtCkOoEqr2833jd5hLVxQh9qj2J3ozvfvtIwpLvcEb7+x44DQl+DFaETh+5uZKpDki2I
+         RvTnIS9X1fAoz9bAuTuHSK6LCd+mCIPxWW40yhZVaU0rmbZx8soYnmc/o/oWWs7WZc0y
+         KfUA==
+X-Gm-Message-State: AFq9FYK2nVatEFca3GZlWPpZpffoBP7nHluUWcb5eHg8usev7CkwLKhf
+	D7g3t0fKIpwuPsolxRMdoGV3TdgOF6zYTJUAcXyw7lhukqejp+/Wo6fwk4M8imHH
+X-Gm-Gg: AYBFou2E7SfP4407fvDLq3PlTrg+IMMhhbqifVLq8+Vu7g+2R1+RSoY0ajQ4Z0fE6TM
+	wjSnOJhNvrorHNhATSWJYk5TUa7xyuJtMzOVYr4p1MfbAc9/2ZU92wOllqaYheqCKtw4HdWEiJv
+	VqXvAfhT0YPRFUfmMrJOANnXtcdBS69pkNjOCGCHeIxYrMlFe/QPy+AaLOSXbLwK6pmnb9CcH82
+	1Z9xTA3ozMIEJdvl56A6tXBO1tW6csAz2RyxTLvjARi+6lwgYv0X4fmOStaFmhKCS2tsc57MvD7
+	3hWz3bFJWr7JGtnpEhd6lzqVDZlnHmTHZMznP1sWPs0VQIi6B4kRWWMb7EJxHtdZ6nC/3ELnO/Q
+	XbTcBHAOzhwES4OwgulK0HbHCMXE4H7bo2wrADTA2VlYXEIxcNHq85VuhcVyIhfsUQ/JdOmhdse
+	j+a7KFI4XFL7hBvHewOogcEiBfYlkmFM2VBbKJiSoOiyJr+qKD4O9G4xEbOOWPO/ED1ad/MS0F1
+	yp/j7KYQSrL4U+u70y8fMGWkPddXmGzkTwzwS3Nx/FuU8VUCUiWeVWtn1p7iUH8eIRpuHDGrmk3
+	JJ2rJAfpmXKlh3EtYsSnBP80sPg+Gk+Lec5Cd+HAjrVAaPOjQW/oCP7pQgY7xO3Jg93Z9UN9CLw
+	udkacphIIjOP6YnlPQTYoCfKK6QYZGOFvL9LobyRYeq8kL5nRYqJ4IidQYLO74xsU8V6sxTakS5
+	I=
+X-Received: by 2002:a05:600c:154b:b0:49c:fed6:cd3f with SMTP id 5b1f17b1804b1-4a18e4d0be2mr320839625e9.23.1791997139296;
+        Wed, 14 Oct 2026 09:58:59 -0700 (PDT)
 Received: from localhost.localdomain ([37.167.99.185])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd680c83sm2701595e9.2.2026.10.14.09.57.35
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bdbace19sm3736615e9.14.2026.10.14.09.58.58
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 14 Oct 2026 09:57:35 -0700 (PDT)
+        Wed, 14 Oct 2026 09:58:58 -0700 (PDT)
 From: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
 To: linux-usb@vger.kernel.org
-Cc: oneukum@suse.com,
-	stern@rowland.harvard.edu,
+Cc: stern@rowland.harvard.edu,
 	gregkh@linuxfoundation.org,
-	linux-scsi@vger.kernel.org,
 	usb-storage@lists.one-eyed-alien.net,
 	Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
-Subject: [PATCH v3] usb: uas: validate status URB length before parsing the IU
-Date: Wed, 14 Oct 2026 18:56:18 +0200
-Message-ID: <20261014165618.33800-1-olivier.kaloudoff@gmail.com>
+Subject: [PATCH v3] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
+Date: Wed, 14 Oct 2026 18:57:41 +0200
+Message-ID: <20261014165741.35758-1-olivier.kaloudoff@gmail.com>
 X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261013221937.41490-1-olivier.kaloudoff@gmail.com>
-References: <20261013221937.41490-1-olivier.kaloudoff@gmail.com>
+In-Reply-To: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
+References: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -85,94 +83,87 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-uas_stat_cmplt() dereferences iu->tag without verifying that the
-status URB actually carried a full IU header.  The transfer buffer
-is a freshly-zeroed sense_iu, so a status URB that completes
-successfully but with a short or empty actual_length — observed in
-the wild during link-level upsets (Thunderbolt-chain xhci blips) and
-on a wedging bridge — reads back as iu_id=0/tag=0 and produces the
-misleading
+The ASMedia chip detection in uas_use_uas_driver() assumes that every
+device with idVendor/idProduct 174c:5106 or 174c:55aa reporting a
+config.MaxPower of 0 is an ASM1153 with working UAS.
 
-  stat urb: no pending cmd for uas-tag 0
+ASMT135x bridges (iProduct "ASMT135x") share the same 174c:55aa id and
+also report MaxPower == 0, so they take the "ASM1153, do nothing"
+path — but their UAS implementation is broken:
 
-log spam seen e.g. on an ASMT135x enclosure and a Samsung T7, right
-before the affected commands time out into the error handler.
+- The first READ(16) issued by sd probing times out after 30 s;
+  enumeration only completes after a uas_eh_abort_handler plus a full
+  uas_eh_host_reset_handler cycle:
 
-Worse, this is not just log noise: a short packet that happens to
-carry a plausible header is matched to an inflight command, and the
-untouched bytes of the zeroed buffer then stand in for fields that
-were never transferred — sense_iu.status reads as SAM_STAT_GOOD,
-falsely completing the command, and response_iu.response_code reads
-as RC_TMF_COMPLETE.
+    scsi 3:0:0:0: Direct-Access  ASMT  ASMT135x  0  PQ: 0 ANSI: 6
+    sd 3:0:0:0: [sdb] tag#26 uas_eh_abort_handler 0 uas-tag 1 inflight: CMD IN
+    sd 3:0:0:0: [sdb] tag#26 CDB: Read(16) 88 00 00 00 00 00 00 00 00 00 00 00 00 01 00 00
+    scsi host3: uas_eh_host_reset_handler start
+    usb 6-2: reset SuperSpeed USB device number 2 using xhci_hcd
+    scsi host3: uas_eh_host_reset_handler success
 
-Enforce the IU header minimum before parsing the tag, then enforce
-per-IU minimums before dereferencing: STATUS IUs need at least the
-status byte, RESPONSE IUs need response_code; READ_READY and
-WRITE_READY IUs legitimately carry only the 4-byte header.
+- Under concurrent load the bridge stalls: all inflight commands (20+
+  UAS tags in the captured incident, mixed READ(16)/WRITE(16)) hit the
+  30 s UAS timeout in the same event, forcing repeated abort/reset
+  cycles and eventually a USB disconnect.  Writes dropped mid-flight
+  during these resets returned zeros to the filesystem (observed as
+  XFS metadata corruption on the mounted volume).
+
+- Sequential-write throughput is ~45 MiB/s under UAS versus ~136 MiB/s
+  after disabling UAS (usb-storage BOT mode), which is fully stable:
+  several tens of GiB written without a single error.
+
+- Bulk reads of healthy LBA ranges do work under UAS (~190 MiB/s, no
+  errors); the failure pattern is command-timeout at enumeration and
+  under queue depth / write load, not a broken transfer path.
+
+Since 174c:55aa is shared across several ASMedia bridges and enclosure
+rebrandings, distinguish the ASMT135x by its product string — the same
+approach used for the HIKSEMI MD202 check a few lines below.  The
+product strings of working bridges using the same id ("ASM1053E",
+"ASM1153", "ASM1153E", "ASM1351", vendor rebrands such as "YZWY_TECH")
+do not contain "ASMT135", so the match is safe.
+
+Verified on an ORICO enclosure (iManufacturer "ASMT", iProduct
+"ASMT135x", bcdDevice 1.00) attached through an Alpine Ridge TB3 dock:
+with the equivalent usb-storage quirks parameter (174c:55aa:u) the
+device is completely stable.
 
 Signed-off-by: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
 ---
-v3: address Sashiko review — the bare header check still let a
-    4-15 byte STATUS/RESPONSE IU match an inflight tag and read the
-    zeroed buffer as SAM_STAT_GOOD / RC_TMF_COMPLETE.  Now enforce
-    per-IU minimums (status byte / response_code) before
-    dereferencing; READ/WRITE_READY legitimately carry only the
-    4-byte header.
-v2: use dev_err_ratelimited() so a device emitting a stream of
-    short status URBs cannot spam the kernel log (per Greg KH).
+v3: add braces around the if-body (per Greg KH).
+v2: fix the comment block: added lines were missing the leading
+    tab, breaking the *-alignment with the rest of the block.
 
-    Tested: module reload + 16 forced disconnect/re-enumerate cycles
-    under write load on ASMT135x (Alpine Ridge TB path) and Samsung
-    T7 (AMD onboard xhci); compile-verified on 7.3-rc5 tree.
+ drivers/usb/storage/uas-detect.h | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
- drivers/usb/storage/uas.c | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
-
-diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-index 265162981..4e099f4a3 100644
---- a/drivers/usb/storage/uas.c
-+++ b/drivers/usb/storage/uas.c
-@@ -315,6 +315,13 @@ static void uas_stat_cmplt(struct urb *urb)
- 		goto bail;
- 	}
- 
-+	if (urb->actual_length < sizeof(struct iu)) {
-+		dev_err_ratelimited(&urb->dev->dev,
-+			"stat urb: short transfer (%u bytes)\n",
-+			urb->actual_length);
-+		goto bail;
-+	}
-+
- 	idx = be16_to_cpup(&iu->tag) - 1;
- 
- 	spin_lock_irqsave(&devinfo->lock, flags);
-@@ -337,6 +344,12 @@ static void uas_stat_cmplt(struct urb *urb)
- 
- 	switch (iu->iu_id) {
- 	case IU_ID_STATUS:
-+		if (urb->actual_length < offsetofend(struct sense_iu, status)) {
-+			dev_err_ratelimited(&urb->dev->dev,
-+				"stat urb: truncated STATUS IU (%u bytes)\n",
-+				urb->actual_length);
-+			break;
-+		}
- 		uas_sense(urb, cmnd);
- 		if (cmnd->result != 0) {
- 			/* cancel data transfers on error */
-@@ -363,6 +376,13 @@ static void uas_stat_cmplt(struct urb *urb)
- 		uas_xfer_data(urb, cmnd, SUBMIT_DATA_OUT_URB);
- 		break;
- 	case IU_ID_RESPONSE:
-+		if (urb->actual_length < offsetofend(struct response_iu,
-+						     response_code)) {
-+			dev_err_ratelimited(&urb->dev->dev,
-+				"stat urb: truncated RESPONSE IU (%u bytes)\n",
-+				urb->actual_length);
-+			break;
-+		}
- 		cmdinfo->state &= ~COMMAND_INFLIGHT;
- 		success = uas_evaluate_response_iu((struct response_iu *)iu, cmnd);
- 		if (!success) {
+diff --git a/drivers/usb/storage/uas-detect.h b/drivers/usb/storage/uas-detect.h
+index 4d3b49e5b..523a17cf0 100644
+--- a/drivers/usb/storage/uas-detect.h
++++ b/drivers/usb/storage/uas-detect.h
+@@ -78,6 +78,8 @@ static int uas_use_uas_driver(struct usb_interface *intf,
+ 	 * ASM1051 - with broken (*) uas support
+ 	 * ASM1053 - with working uas support, but problems with large xfers
+ 	 * ASM1153 - with working uas support
++	 * ASMT135x - broken uas support, shares the ASM1153 MaxPower == 0
++	 *            signature, identify it by its product string
+ 	 *
+ 	 * Devices with these chips re-use a number of device-ids over the
+ 	 * entire line, so the device-id is useless to determine if we're
+@@ -99,7 +101,11 @@ static int uas_use_uas_driver(struct usb_interface *intf,
+ 			(le16_to_cpu(udev->descriptor.idProduct) == 0x5106 ||
+ 			 le16_to_cpu(udev->descriptor.idProduct) == 0x55aa)) {
+ 		if (udev->actconfig->desc.bMaxPower == 0) {
+-			/* ASM1153, do nothing */
++			if (udev->product && strstr(udev->product, "ASMT135")) {
++				/* ASMT135x, broken uas */
++				flags |= US_FL_IGNORE_UAS;
++			}
++			/* else ASM1153, do nothing */
+ 		} else if (udev->speed < USB_SPEED_SUPER) {
+ 			/* No streams info, assume ASM1051 */
+ 			flags |= US_FL_IGNORE_UAS;
 -- 
 2.47.3
 
