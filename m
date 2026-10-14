@@ -1,83 +1,90 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D16C37E2EB;
-	Wed, 14 Oct 2026 04:53:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A5C30F803;
+	Wed, 14 Oct 2026 04:59:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791953594; cv=none; b=lGywBDbPQvwTRdd2eXcD0Ik7ydc9QR6UHXlWpOXwaXoIqMtj/2p7oLVefBQB94KbHN5VC8no4AZJgF76wf11ou+ES84VhINroWZhG7U0bOfmMhc6oTbUg47AK565ujdtUoOHlhE7xxqqZojbZRsSs52sryF/zNsb8WAeepMseUA=
+	t=1791953966; cv=none; b=rduMHYdB3kumvXLGfOZJVZmQk75H+8kMEFiDlBU0Ks5hkb6s0lh1imlbQ+CI1XMHfq3RQL9Fk0DeaXgOsvFG+ivTlS/ag1GKJKpte2w690VXA8waiwYBKvrMg2PDPWRAlXIwCXWA7H4sm7tstb6V3h5Jg6Dg0r50ozC8/9tiPpU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791953594; c=relaxed/simple;
-	bh=hklVXFpU2pSJrxrzCQk5ANGCs+7t7FzjTYHzKdijKbY=;
+	s=arc-20240116; t=1791953966; c=relaxed/simple;
+	bh=k2G1gGW7lhO5m5s8SoUEHosvhmLHajlLPnUGO/LbcQ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EuHCfCYe4scUHEGa6J6JusgdXW/1t5qMdewajJjaHkxiUDyiB31U8PONW6Plt+HSPXZkbn1EW+IlvS5flC2ZP0wF0ta1ZMW74a8Qajc2p9V02dEY+JNvoAogWSnTfJDDhLa/AL1C7ArRef5DKf8L3dWtZHVMDYkUAGyAYwYutUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=lzbKHHM2; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=DmKiG+paPtTJ3pTF+5zV8pVRlLEd0x4GRrQRxNFAc9LA3+un6Q8Bycnhktxyr5Mlhi2XLh8SfjSRELn9pVARu869FsjGHYNDjEPN6CVIWy1R2noZbBwSjDP+UgIiZYiEu2JKkedDR1nnoFiOOC3o/XGxyFt9b232BDfJw4Qcjys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Rt6mJKKh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="lzbKHHM2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F5781F000FF;
-	Wed, 14 Oct 2026 04:53:12 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Rt6mJKKh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 049511F000FF;
+	Wed, 14 Oct 2026 04:59:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791953592;
-	bh=hklVXFpU2pSJrxrzCQk5ANGCs+7t7FzjTYHzKdijKbY=;
+	s=korg; t=1791953964;
+	bh=lz89EZ5EYVxYJOKYY6jYn9HslcKbAALQidGCQ+zsu+M=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lzbKHHM2V9LPJc6ljWUl7spbFkb71zTuckdnQm4HTN+hQdJKXuXJVALoS/MF/mDJ/
-	 jP1li9V85veb17TJnuU8Te/HycZwgtyhnqsOtDZc7XTe5v8DyehaHH3rUyfnkaXf2x
-	 DL+G9DCFZAJFPj43F3jiAucGoLraeCNpUGa3RmqY=
-Date: Wed, 14 Oct 2026 06:53:17 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Jeremy Kerr <jk@codeconstruct.com.au>
-Cc: Adrian Ambrozewicz <aambrozewicz@nvidia.com>,
-	Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
-	Corey Minyard <corey@minyard.net>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hansg@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	Quan Nguyen <quan@os.amperecomputing.com>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-spi@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	openipmi-developer@lists.sourceforge.net,
-	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
-	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
-Message-ID: <2026101444-corncob-wildcard-6616@gregkh>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <2026101310-scuttle-unison-d4c3@gregkh>
- <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
+	b=Rt6mJKKhFKaBTu3FLOge+9WtxpYekrxNKcx/wN1DDPvpB113c09qBxE6AVVoOz7m9
+	 /S9ihVJQzRW/yxqyjWdR3hM8Jo8VrsihCItVH2d9cEPt1bgoUOC/L1V+HML4tehYlf
+	 9IpBGQdPM5pEO9Ua/HFn+63YGHdbWyTxe98YPt6U=
+Date: Wed, 14 Oct 2026 06:59:28 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
+Cc: linux-usb@vger.kernel.org, oneukum@suse.com, stern@rowland.harvard.edu,
+	linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: uas: validate status URB length before parsing the
+ IU
+Message-ID: <2026101453-worry-arose-6024@gregkh>
+References: <20261013221937.41490-1-olivier.kaloudoff@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <c569c912141e9da7530121b8b2fc81527e0518a4.camel@codeconstruct.com.au>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261013221937.41490-1-olivier.kaloudoff@gmail.com>
 
-On Wed, Oct 14, 2026 at 11:38:45AM +0800, Jeremy Kerr wrote:
-> FWIW, we did raise greybus as an approach to various HW vendors; I
-> assume there were reasons behind OBMF-ICP, and assume some prior-art
-> assesment was involved, but I don't have specifics for those reasons.
+On Wed, Oct 14, 2026 at 12:19:37AM +0200, Olivier Kaloudoff wrote:
+> uas_stat_cmplt() dereferences iu->tag without verifying that the
+> status URB actually carried a full IU header.  The transfer buffer is
+> a freshly-zeroed sense_iu, so a status URB that completes
+> successfully but with a short or empty actual_length — observed in
+> the wild during link-level upsets (Thunderbolt-chain xhci blips) and
+> on a wedging bridge — reads back as iu_id=0/tag=0 and produces the
+> misleading
+> 
+>   stat urb: no pending cmd for uas-tag 0
+> 
+> log spam seen e.g. on an ASMT135x enclosure and a Samsung T7, right
+> before the affected commands time out into the error handler.
+> 
+> Beyond the noise, a short packet that happens to carry a
+> plausible-looking header could be matched to an inflight command and
+> drive the state machine off garbage.  Bail out on anything shorter
+> than a full struct iu.
+> 
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>
+> ---
+>  drivers/usb/storage/uas.c | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+> index 265162981269..88fed50c262b 100644
+> --- a/drivers/usb/storage/uas.c
+> +++ b/drivers/usb/storage/uas.c
+> @@ -315,6 +315,13 @@ static void uas_stat_cmplt(struct urb *urb)
+>  		goto bail;
+>  	}
+>  
+> +	if (urb->actual_length < sizeof(struct iu)) {
+> +		dev_err(&urb->dev->dev,
+> +			"stat urb: short transfer (%u bytes)\n",
+> +			urb->actual_length);
 
-greybus is patent-encumbered free so there should not be any prior-art
-issues involved with it and could work here just fine (with the added
-bonus that you only need to write a tiny host bridge driver and then
-suddenly all of the client drivers will "just work").
+Do not allow broken / malicious devices to spam the kernel log.
 
-I strongly recommend that instead of going off and creating new specs
-and protocols that ignore prior-art.
+And how was this tested?
 
 thanks,
 
