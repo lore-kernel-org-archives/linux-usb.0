@@ -1,63 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE9A39A4A0
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:04:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C4F13B71BB
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:04:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791947085; cv=none; b=tddxJzdH1O3o2nbBglstt//psaLAu+Ag9B1ptozyNW4ACr9lRFxFMNZA+X1/xMGg4vGtrKEyEq6q3Ir7VLkRVwsdwfTn537EYg1OXQWL+EN5qN6w0IVRIW4khOcU3EFqhWSRWykUUONDx8ZCRYY2CwRspYiFYUNz2zsnVHNjp88=
+	t=1791947086; cv=none; b=ig0nsEbuEmaNITxw3kW6N+6U/I0drqBdaAnrTenVrQceAiZBnKcl10YLiCygFHfYQL+fbfWW2mwKlRFCAalXPd1Tl5qBMhpuEk8rRpa45rUuyoiOKXF0Gd51jbwWPkNfdrhIK45xMiG2RSc8bbOV3D8CjlJaiWnMUGE9Fp5O98s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791947085; c=relaxed/simple;
-	bh=Hxmz1kwng4iVz0/t36rAy4vzBecA3bQeq7lER5EsBU0=;
+	s=arc-20240116; t=1791947086; c=relaxed/simple;
+	bh=107Fqs+Dh7aNaDWQjx/RdvuLKFRuK2abLY3xDMiwCTA=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=TWTvFZp5bDem1FXOPYlZi7ISgThlqg3NWSLFjPA/NS18VCdsdfQavT4MoYpOl7p2f92ZfDh3ujvap3phw7CFZoA+C1TktTgy3ABfbGT3OLpyYxKr+znQX3xddZ0Q8KBGrkMjwxj8Hznbvpw5KZ/7dlfnJGt59BOSToJvJqTpZZ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHRbbqPT; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=nWBbo5+X3MqFGGWt0aLXUeRT4Egkzr8Vb0ltopbOr3usXhVN26NqbO+l1EJGoe6U0qTCgMYkdEhQkdlXOaKBr0MDlqpR2XwjR0ua/k2jZ3taQYlR+jszkkYM5Rtn+SeI4vn91H2rq5Qe6HtqSmU06JDBeIDJE4kUzJ+BfGiq3Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AAq0dn4f; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHRbbqPT"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 439261F000FF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AAq0dn4f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 022CF1F00893;
 	Wed, 14 Oct 2026 03:04:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1791947084;
-	bh=Hxmz1kwng4iVz0/t36rAy4vzBecA3bQeq7lER5EsBU0=;
+	s=k20260515; t=1791947085;
+	bh=a3RV1xowPOFQhqozq6xfJvxhdB6gzbexrt+Ta4Y+Jqg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BHRbbqPTtrt/3aJwL0LoQodcMs9wJJJfsZXiB/p38fjB8QleK6ltsHQveUvK989dp
-	 zl4jHoiaYwC+ilalia4sokQ9H/Xuq80p/yqHyWPh0FxBHxbiP4sL3WKOLffkdXNKbE
-	 F8r6RRIIuq0zMBQ7ftCUuWFsAtDlsvuQtg85uj7rjL1a7KzLoUPB9rVovU91WTS2Kh
-	 OmPxFJKyN9/EOIJzzJuBkC6oWg6XlZXoj6iE5PlCOoN/fooeN3mNNlKpibRb3oE2dk
-	 ccFSZRp1qzfy7L4fOWy3ndw8oCoXFdFVl8wBxFE2BDnJ6T/uCEmf5Cfg7wX9IMWijR
-	 qYH1JzAPCxpEg==
-Message-ID: <sashiko-outbox-170752@kernel.org>
+	b=AAq0dn4fb0kKdmLkEt/rLoG93uwLt4OnwcQu8qSO9Amb3Rltnx5HkP18N2+0AushA
+	 Rw0wGyOkDvSHrLaqraRgX0XK7jd4eACqwKyuDerrN3NIOxnvzzU3J73R8KQ4rTUkZf
+	 LwuB2aI0gw9IjsS3ATzyp30weMUFpIN9tnPcu+qAmu0Ia8+bor/k89bGiCiqWOJLcX
+	 SULL/y2mxLQKylO5Nl+LpCnO3OO1wGXnNh97JTLdt3BlR9UVUihLj/wvqHZ1EyaCW9
+	 lhoazzamGs4W5yoIbg4dhTZRkFqDvvDZr4TFgC9JUFdBIo2LtdIQyQY6kkeX/TlYAs
+	 wOnnUzpJx1CiA==
+Message-ID: <sashiko-outbox-170753@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net 1/2] net: usb: lan78xx: do not update statistics
- after a failed read
+Subject: Re: [PATCH net 2/2] net: usb: lan78xx: reject short register and
+ statistics reads
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Wei Jie Law" <law.wei.jie@gt.tech.gov.sg>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014025602.26334-2-law.wei.jie@gt.tech.gov.sg>
+In-Reply-To: <20261014025602.26334-3-law.wei.jie@gt.tech.gov.sg>
 References: <20261014025602.26334-1-law.wei.jie@gt.tech.gov.sg>
- <20261014025602.26334-2-law.wei.jie@gt.tech.gov.sg>
+ <20261014025602.26334-3-law.wei.jie@gt.tech.gov.sg>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2026 03:04:43 +0000
+Date: Wed, 14 Oct 2026 03:04:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> lan78xx_update_stats() reads the hardware counters into an on-stack
-> struct lan78xx_statstage. If lan78xx_read_stats() fails, only the
-> rollover check is skipped: the counters are still recomputed from the
-> uninitialized stack buffer and stored in dev->stats.curr_stat, which is
-> then reported to user space by ethtool -S.
+> lan78xx_read_reg() and lan78xx_read_stats() read from the device into
+> a freshly kmalloc()ed buffer, but only treat a negative return value
+> from usb_control_msg() as an error. A device that answers with fewer
+> bytes than requested leaves part or all of the buffer uninitialized,
+> and those bytes are then used as the register value or the counters.
 >=20
-> Keep the previous values when the read fails.
+> With an emulated device on a kernel booted with init_on_alloc=3D0:
 >=20
-> Found by code review with LLM assistance. Tested together with the next
-> patch, which makes short reads fail: with an emulated device, ethtool -S
-> then keeps reporting the previous counters.
+> - A zero-length reply to the statistics request makes ethtool -S, which
+>   needs no privileges, report the stale contents of the kmalloc-192
+>   buffer. One counter pair read back as 0xffffffff8a427800, the
+>   address of usb_api_blocking_completion(), next to several direct
+>   map pointers.
 >=20
-> Fixes: 20ff55655a93 ("lan78xx: handle statistics counter rollover")
+> - A zero-length reply to the RX_ADDRL/RX_ADDRH reads in
+> [ ... ]
+>=20
+> Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 E=
+thernet device driver")
 > Cc: stable@vger.kernel.org
 > Assisted-by: LLM
 > Signed-off-by: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
@@ -66,5 +72,5 @@ Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014025602.2633=
-4-1-law.wei.jie@gt.tech.gov.sg?part=3D1
+4-1-law.wei.jie@gt.tech.gov.sg?part=3D2
 
