@@ -1,105 +1,126 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77A8B4E3EEC
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 10:02:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791972180; cv=pass; b=IzjCWfjRTw1ZPp3Uek8c8QQbt7RGw/bmbv3/dMiBX1t9AwJmTYguHgVqLSpBMzpCjGtwom73clz+48/yIqHlLeBtQVHxJ5GX6cs5W/Rpn7swXCBgrZW5hV410jqMipzAE0iptlwnhOFSBOQyHKm4C923AGTIJOkhDxHB5gEHGr0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791972180; c=relaxed/simple;
-	bh=Paj/fEMKM3cmws1K99Dv7KitqqWmnLrgK9UzwEVlN2M=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=CxUisJouveSwOR9+kwwe45MOpX+i/M7dJcx5aAbXVKb2/3EE+Lo2JqrKZ+C/kRYZEP9RFkgYh0VI1kVqT4m5cmQgmjj1pkf2J6ywFRtEhNpzkqepZdjuGkZum+FcllDc7DrQWQBcuRi9wKAOhX2477QlevSXb1S9XAEziIP9d+w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=glqGfazB; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3758A4EDCB9;
+	Wed, 14 Oct 2026 10:10:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1791972638; cv=none; b=aOj4tiCV9/6AY1hQ7Rhsi+NoFYIaBHKJWbizdmrTsxCMZK4c5HKSNKxZeLq+Yo0sHWby1Mdw+0w1YNIjA3l5DyArkCY5oAxt59fI4caPvfIWYwrh6mwX/ml3Uo4VAhg10bXVIDYRLCbn3p2Q37KOtMCiFH3MoTVZwySbX4YzgzU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1791972638; c=relaxed/simple;
+	bh=yuGWrqvzNmN3yhigttSdJ0b/S9YKdnQt/hArXMWhVKM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X6mAXEbNCuok7kP/myCK9CbCgdyuuAek453rd2Vc/ryAiLMm+8euVycLn6DKXugG9zNEfREzTBOf+JDZm637XImes/yiVnDPXdHGI7zYb5+BH+9RZM0p4MBY3fvK8U8kuL0OmLJWiumWrs83u7v4FeBA2rh4BjYOTOsUjVyKviA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQ2TZCZh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="glqGfazB"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-6af9a9451daso6174675a12.0
-        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:02:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1791972177; cv=none;
-        d=google.com; s=arc-20260327;
-        b=TbHF8E+2OD+bzG8G2IHN6LMoJQu7pPOKcHEyKUvcOB9LPBClrJd/LsMUeN0xBbBMpW
-         AiH8BM6c9b95kKxJzMydk5N93xOyy3H24CX3tB/UrynMLbdaPo0xT8bdmrRGIaxKcEvE
-         Z1KQn/41fXukosqrF0GeJJ8c81oxFbqAVM634LY18gyn2io7bhRwjk170WG8VxqEAXjo
-         DL04gzifXCYB7d7nG1wk4GgRI5x1rAS1ah1Uk9Fh7xUI8Q/p31y3mxVr/N1Za/3JAhow
-         NI8p5r33DAdaIG/vZVNw4/M8Hbln3l+QFiXa/87xMXHAQCf+o8A7sPgDzDkCyRxvnPck
-         XPlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=Paj/fEMKM3cmws1K99Dv7KitqqWmnLrgK9UzwEVlN2M=;
-        fh=AFQZ6V9Jf5w1J1k+LUVL2sccXlgGSsunG29/ipXSEbg=;
-        b=qAvYrl8hdRlAoiiSTFtdpcdfDxcYaVUpIDv+Lyh5PnxSVJoETR7JJK9x87Bi1JhFeX
-         T4aeiDurwcL3d47OG8/1ohmp4kZC6c+/5Fionp4lj51A9zVpo1QQLTa31yogw+vndNA1
-         1PYDVs8A2niOJx8HnKePRoMZDTsRdWoCZ+GpEg+SThsCpmB58qYhV70Wwj+q8WYnA6Ro
-         uvUFC9aLNumx/4v6tRD8j/CD9qWuSPSt4Wq9bhRH0dArzMs1O8VxhxrcZ9wFnTyveK4e
-         I8eLT9FugiUpGKzA81i7i/7BanCagx+VwSokSM3jmvz9dTDkNEmZBS7pR8jJs7AT47RU
-         y1Vg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1791972177; x=1792576977; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Paj/fEMKM3cmws1K99Dv7KitqqWmnLrgK9UzwEVlN2M=;
-        b=glqGfazBc5xusIciCDxW4ih2y26V5DdqUeAIJlcc0MYvTkmbmGybWp0wHpNCyvH49o
-         QZ5WLl7kOxSVUnOEtyY+WcpoimBLF4j7xvb2Xk69wAYU8Szodwyrpe8yA8outnrM8+3r
-         rqxYbJbv2ybVNLrxFBnKUi3htUhbrtYsyePjTK7GAt04T/dJ91XTjv0XfOEEUfcDE/6Z
-         CAc3BoYX/7caZU3B4t/w5mN8/l9lEBI6YdUyw7wh9zcFCZDQS80l7WCovU5UXu6DCg1b
-         VFYkKePClvH4eQjieFdswXwLmOuTdXTbWXcQ7QLFYymZVD9Br730e0d0mEEK9m32N3Dc
-         /uEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791972177; x=1792576977;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=Paj/fEMKM3cmws1K99Dv7KitqqWmnLrgK9UzwEVlN2M=;
-        b=SGTWHfLJBvFLAQgg8R5J2UOyTNSIcexrFys42C/ehtH2UfZUe/vAfCoLO1H4uSnE4V
-         +w9xIzJEvbyvxIpMDAoiOXTnw7AUWV0UYV8i9n9GB3EKzB9HGqit0k8gHGHvkfbbfZ9p
-         QKv4U6Q7FR3PvhqrE7MvvZnuA66M+f6ioFmmzIMvU982XhIwOEap3DW56/Vai9v2eB26
-         R3Gu8el1SPFrgy9MLFyLORzMFm6cQJQsyaqzFaX74RSmq0uc3Qh0ZpH+eyj+/n18i3T2
-         XqorW4hW0Fk++vxbJF+5xfIrKFqRUHWQWzNDOlSlQqJb4OUvRSvdOuP4/KSIYkIEXKuZ
-         8coQ==
-X-Forwarded-Encrypted: i=1; AKwUvBx5wV03LTTBC7wMW56dQCB3mPSZLwPV32k6Gd2bBE2x1fmgrHssRWiQHI9aPqDf2j57gIGYI1PsAkA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIWHBE5ReyaBZNBe98g2Rhb1P9CQNrt8IWkpBiXhb5cx0w0L4cX
-	nJo3o1P+MqUD+WFBMxChlvFEF7WsvX4cYjZUknglf3Q1LpLewPRuX4kIGa9ZX05ZkrmfI71dsaP
-	tKq3EkQ1/Grgud8aIryJxWag4KXiZa9U=
-X-Gm-Gg: AYBFou3CwvDOJnsUkLFD1KG2Ri95e6J8Yj8tMe3WWknyRJeDNKkuqedckUIzVXyx3Ea
-	OHL8Nk6NJvitEgp+0maREsW0zhPfzo/OhwmAtLZHTE90j5AKfG+IrsOtWjcPoHzIJQBsK3tcr4h
-	JiX3hm2zdso5ZPqCeKrZYSNUAANr+3CFzXqWUlLgX2NW94G9ghvvqbKTuH5pogxNgYg+mBOG7ZA
-	a6vzD2l/chjcNMhsNS/vTY68aokmInl//KCxjjz/CcZjkm6ICaFkeSVWqpfVCRUrFRg5OvvE0nu
-	gm6Y32Y7SQXke0qCW4MqupBq0upn9wpHSP31sGO/3s9PtvVGzQwVHxqa
-X-Received: by 2002:a05:6402:51d4:b0:6aa:f260:b851 with SMTP id
- 4fb4d7f45d1cf-6b17c2ac332mr13030975a12.33.1791972176597; Wed, 14 Oct 2026
- 03:02:56 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQ2TZCZh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005B01F000FF;
+	Wed, 14 Oct 2026 10:10:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791972629;
+	bh=ktsMdkR+NlEi7tmxfG6KqIwZFdoUQsHLRPY8vg2h60Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ZQ2TZCZhVe94KLLtnzQ3yR3ogHvFzoxgQoc3R1jER79UgA78VXRr8iDg3KdFK2ODP
+	 YyS7jdT9/qbWHEHVD1tZ0sznhtXz0CLfu/G2ciKfdx2B86Rt8LLvukWQdSWM2alydl
+	 17pZ2hpDxVrw6eJwdF+f2XcE7JE0OtxM/4eHtYNPCKG4lvUpVvi4AIBrjGyKN5aj2z
+	 hOYmRjD3vg6CojY4avQVdA569Pd+vN61WS/tEq8+7080n1V95JqaEPQ5ewUUGtc5cH
+	 ajYXuidjwKPwswshX59bvhBz0Wu8cAFzVvQbWg7EgmAS+4JmNAco4fSfzkm6n5bh//
+	 lk5YJkqCAE56Q==
+Date: Wed, 14 Oct 2026 03:10:27 -0700
+From: "Peter Chen (Qualcomm)" <peter.chen@kernel.org>
+To: liuc63 <liuc63@xiaopeng.com>
+Cc: rogerq@kernel.org, pawell@cadence.com, gregkh@linuxfoundation.org,
+	stable@vger.kernel.org, liuwb@xiaopeng.com,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: cdns3: validate endpoint index from setup packet
+Message-ID: <as9VE0CJtUBxgds9@hu-petche-lv.qualcomm.com>
+References: <20261012110107.2458022-1-liuc63@xiaopeng.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Ayush Yaduvanshi <ayush37735@gmail.com>
-Date: Wed, 14 Oct 2026 15:32:18 +0530
-X-Gm-Features: AclHuK_5KUbXFqyhRWHejkVpygkLU5hHyftSH2zUVPZDbQX6AQkitHFeWqRkUg4
-Message-ID: <CAPgWTUQ5tYtV_YR7SDV7SRsDmvmxsgV5xOdns7Aq93Uy1kg9iA@mail.gmail.com>
-Subject: Re: [PATCH v2] USB: sisusbvga: avoid prolonged initialization on failure
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, michal.pecio@gmail.com
-Cc: Thomas Winischhofer <thomas@winischhofer.net>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+3bc656a9271e7c8a5c6b@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261012110107.2458022-1-liuc63@xiaopeng.com>
 
-Hi Greg,
+On 26-10-12 19:01:07, liuc63 wrote:
+> From: Liu Chao <liuc63@xiaopeng.com>
+> 
+> cdns3_ep_addr_to_index() computes (ep_addr & 0x7F) + 16 for IN
+> endpoints.  wIndex is supplied by the USB host, so ep_addr & 0x7F can
+> be up to 127, giving an index up to 143.  The eps[] array has only
+> CDNS3_ENDPOINTS_MAX_COUNT (32) entries.
+> 
+> Both cdns3_req_ep0_get_status() (GET_STATUS) and
+> cdns3_ep0_feature_handle_endpoint() (SET/CLEAR_FEATURE) pass the
+> unvalidated index straight into priv_dev->eps[index] and then
+> dereference the result.
+> 
+> Besides the out-of-bounds index, eps[index] may also be NULL for
+> endpoints that are not enabled, as cdns3_init_eps() only populates
+> entries for endpoints enabled in USB_CAP3.
+> 
+> Add a bounds check against CDNS3_ENDPOINTS_MAX_COUNT together with a
+> NULL check in both functions, matching the fix already applied to
+> aspeed_udc in commit ee0d382feb44 ("usb: gadget: aspeed_udc: validate
+> endpoint index for ast udc").
+> 
+> Fixes: 7733f6c32e36 ("usb: cdns3: Add Cadence USB3 DRD Driver")
+> Cc: <stable@vger.kernel.org>
+> Reviewed-by: Weibin Liu <liuwb@xiaopeng.com>
+> Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+> ---
+> Changes in v2:
+>  - Also check priv_dev->eps[index] for NULL, as endpoints not enabled
+>    in USB_CAP3 are left NULL by cdns3_init_eps() (Peter Chen)
+>  - Correct the reference: the same-class fix ee0d382feb44 is for
+>    aspeed_udc, not renesas_usb3; cite it with the commit title and
+>    drop the CVE mention (Peter Chen)
+>  - Fix the function name cdns3_ep0_handle_status() ->
+>    cdns3_req_ep0_get_status() in the commit message
+> 
+> v1: https://lore.kernel.org/linux-usb/20260917103145.3047850-1-liuc63@xiaopeng.com/
+> ---
+>  drivers/usb/cdns3/cdns3-ep0.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/drivers/usb/cdns3/cdns3-ep0.c b/drivers/usb/cdns3/cdns3-ep0.c
+> index e29989d57..d26fa89b6 100644
+> --- a/drivers/usb/cdns3/cdns3-ep0.c
+> +++ b/drivers/usb/cdns3/cdns3-ep0.c
+> @@ -251,6 +251,9 @@ static int cdns3_req_ep0_get_status(struct cdns3_device *priv_dev,
+>  		return cdns3_ep0_delegate_req(priv_dev, ctrl);
+>  	case USB_RECIP_ENDPOINT:
+>  		index = cdns3_ep_addr_to_index(le16_to_cpu(ctrl->wIndex));
+> +		if (index >= CDNS3_ENDPOINTS_MAX_COUNT ||
+> +		    !priv_dev->eps[index])
+> +			return -EINVAL;
 
-Friendly ping on this v2 patch. It fixes a task hang reported by
-syzbot in sisusbvga.
+Oh, I have seen sashiko AI comments. You may use USB_ENDPOINT_NUMBER_MASK to get
+a valid EP number, then get 'index' according to its direction (IN or OUT), at last,
+judge if priv_dev->eps[index] is NULL.
 
-The patch was tested and verified by syzbot using the reported
-reproducer, confirming that the hang is resolved. Could you please
-review and consider it for usb-next when you have a moment?
+Peter
 
-Patch link: https://lore.kernel.org/linux-usb/20260907074308.109603-1-ayush37735@gmail.com/
-Syzbot bug: https://syzkaller.appspot.com/bug?extid=3bc656a9271e7c8a5c6b
+>  		priv_ep = priv_dev->eps[index];
+>  
+>  		/* check if endpoint is stalled or stall is pending */
+> @@ -368,6 +371,8 @@ static int cdns3_ep0_feature_handle_endpoint(struct cdns3_device *priv_dev,
+>  		return 0;
+>  
+>  	index = cdns3_ep_addr_to_index(le16_to_cpu(ctrl->wIndex));
+> +	if (index >= CDNS3_ENDPOINTS_MAX_COUNT || !priv_dev->eps[index])
+> +		return -EINVAL;
+>  	priv_ep = priv_dev->eps[index];
+>  
+>  	cdns3_select_ep(priv_dev, le16_to_cpu(ctrl->wIndex));
+> -- 
+> 2.50.1
+> 
+
+-- 
 
 Thanks,
-Ayush Yaduvanshi
+Peter Chen
