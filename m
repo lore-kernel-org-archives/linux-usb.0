@@ -1,148 +1,70 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02B843B9DA7
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 02:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE9A39A4A0
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 03:04:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791946582; cv=none; b=JHjVFLLDGlePeSC5Zv1OiMlEyFxdRZi1P1eU/8FV6/jGueOrGSpnCv/tjX2ibizdchGRu4z0UD9aflvTibZYnoVLOMoq2XW9lnROUeL2N4hl5G2540WNU/NMsqy2apOqaN6l3dwt2gMVBQpWROACMk2GR19zmHn2KAC9KIfxkEU=
+	t=1791947085; cv=none; b=tddxJzdH1O3o2nbBglstt//psaLAu+Ag9B1ptozyNW4ACr9lRFxFMNZA+X1/xMGg4vGtrKEyEq6q3Ir7VLkRVwsdwfTn537EYg1OXQWL+EN5qN6w0IVRIW4khOcU3EFqhWSRWykUUONDx8ZCRYY2CwRspYiFYUNz2zsnVHNjp88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791946582; c=relaxed/simple;
-	bh=xlvNzdBEDkNjZ4017cocaTCfcKs9/ceIgmy0m9FwRY0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qOuUvBQ44qQvJi4nUi7cIRxokhorrub9Ivhv8Xxs2NmMTYW4T9fZXBRrqrLITwMNRcA/tr40FTg6l41+xMSuOVnr0piuor1XlWUzzgNfll0GVAU7u12l9glJ1h1TYOHCfNvpNmCL089QZweJ9bc/XMm3YOe2y7X/4W6RKKDUPSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gt.tech.gov.sg; spf=pass smtp.mailfrom=gt.tech.gov.sg; dkim=pass (1024-bit key) header.d=gt.tech.gov.sg header.i=@gt.tech.gov.sg header.b=YAtnaBc3; arc=none smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gt.tech.gov.sg
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gt.tech.gov.sg
+	s=arc-20240116; t=1791947085; c=relaxed/simple;
+	bh=Hxmz1kwng4iVz0/t36rAy4vzBecA3bQeq7lER5EsBU0=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=TWTvFZp5bDem1FXOPYlZi7ISgThlqg3NWSLFjPA/NS18VCdsdfQavT4MoYpOl7p2f92ZfDh3ujvap3phw7CFZoA+C1TktTgy3ABfbGT3OLpyYxKr+znQX3xddZ0Q8KBGrkMjwxj8Hznbvpw5KZ/7dlfnJGt59BOSToJvJqTpZZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BHRbbqPT; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=gt.tech.gov.sg header.i=@gt.tech.gov.sg header.b="YAtnaBc3"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-141395927feso6889808c88.0
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 19:56:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gt.tech.gov.sg; s=google; t=1791946579; x=1792551379; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eOt/1BdDYxiMzENqA6TOzLT/rpB6ssuySkd04haqJTY=;
-        b=YAtnaBc3Vm3KfG/62r7tE+qpsXEnCF7hvvHeicYJh6Lx7ADnU9Z7sxScRtY3vsNR0Q
-         Z9lTZFs+EhUcYo4EHeUMiCu55eBnZ+B3GDA1mWHhe9FpA4LBubsZvcaLneJi34TuBEdN
-         f8c3upHfsyoqrebEAPZOb7388SYf3LoKsJQbw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791946579; x=1792551379;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eOt/1BdDYxiMzENqA6TOzLT/rpB6ssuySkd04haqJTY=;
-        b=iY9OJfR8E0Yx5FvyktOsE8ZDB50bU7z6nIfh9vdr7O5iCSuwgB/E7Cc6sSj+KS9wOg
-         GuScdU7n3EWDpd2dQBtYIrCIdDOs4Z0ab6XZ2MNv890For64OZNmg+ABDrZooHSBmfSv
-         utLBELI21prV0I8+X465/M6Ou0VbT5vYhfqrBvpD7ctRMQzK+MUpjqWCw3r0LXUSh4GN
-         4IBtEj9pHQhXoV7TLqUcyHvaLzTib5fJLp2ZDPl4Gm6zp9y1Va6CT/pflAOUGvOhaMex
-         QZ9S1/p6kLPo7gGprTXd43FvciqkkSctycZFV1TsJ2xjZCYtUiNIiDyJ5+bxlhyNfm+R
-         aDZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxjWcKv06AL6cw8aA7UGYcz0kKgPEN7HA95N7zQZUNoFvW02LuD1beXf7S5D4SOu8u5d1N/pUSkbDI=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKNrsCC2flZX9bX+aSPduttU1veC0IuMU1u3kO2WFAIAUUhT7FQ
-	/EQ9IfJlHWorcRLEiAUMc8E7r2nUccQ/TgVLL1G9CVyjizFaI9yVuz+R7FgF3cofH8o=
-X-Gm-Gg: AYBFou0Iw6JIpTGlu32WtAzIbzvus6SJE7s76Y2+uvDuOyVDjKLajpNOW7vqnLVnwNF
-	Phq2+lXLBF3wOKT9i2X3h9n7e/oKlMs3c+RSYKkHCWvL9LZ/HU17OhfHTG9WOToX9GkYUL08zTs
-	eSmPQ/YyMsQ5Z352uiag9+oxY1FwCRdbBoD9B683wsBlDolxKa7ZNS19luhWabY54QoJW4o60DR
-	lvBesx/ZQzGWCmCQjrcxfsgEt+6e//gok18KNnzDbpE1xGwsWBS1B5tm2Q2FdfGE7ZPz0qPnLDQ
-	eSNRdSGOAhGA4OXpoJhfJ8Uvr4WfyHB7DTdZeeI4j63oGybkIh3OikAnXaS6hig12kEvNXPKD/J
-	Tdd7QJiBZ00AxkzTIOLTvRNXi1SAsdFb2Hmq8PQtqraDnJm5fR1aciPQiWVm3IkvXjUYxTwDkIv
-	7umoTEeduKYw/8jw2EVAFqEOWWp8VmCeYSxjBPdNxeEFrFLjuT7SYvWzzheEZZ03liCTU2dQzQ/
-	O530/Lw5fJMxJHm0TLb9z8feT35IUJTR6hR/A==
-X-Received: by 2002:a05:7022:7e0e:b0:143:72b1:9004 with SMTP id a92af1059eb24-16a61d5c336mr20362920c88.45.1791946578956;
-        Tue, 13 Oct 2026 19:56:18 -0700 (PDT)
-Received: from LAPTOP-UUUVNN1I.localdomain ([129.126.57.197])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-17dc865cbffsm2122640c88.6.2026.10.13.19.56.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 19:56:18 -0700 (PDT)
-From: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
-To: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	UNGLinuxDriver@microchip.com,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>
-Cc: Woojung Huh <woojung.huh@microchip.com>,
-	netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wei Jie Law <98lawweijie@gmail.com>,
-	stable@vger.kernel.org
-Subject: [PATCH net 2/2] net: usb: lan78xx: reject short register and statistics reads
-Date: Wed, 14 Oct 2026 10:56:02 +0800
-Message-ID: <20261014025602.26334-3-law.wei.jie@gt.tech.gov.sg>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261014025602.26334-1-law.wei.jie@gt.tech.gov.sg>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BHRbbqPT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 439261F000FF;
+	Wed, 14 Oct 2026 03:04:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791947084;
+	bh=Hxmz1kwng4iVz0/t36rAy4vzBecA3bQeq7lER5EsBU0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=BHRbbqPTtrt/3aJwL0LoQodcMs9wJJJfsZXiB/p38fjB8QleK6ltsHQveUvK989dp
+	 zl4jHoiaYwC+ilalia4sokQ9H/Xuq80p/yqHyWPh0FxBHxbiP4sL3WKOLffkdXNKbE
+	 F8r6RRIIuq0zMBQ7ftCUuWFsAtDlsvuQtg85uj7rjL1a7KzLoUPB9rVovU91WTS2Kh
+	 OmPxFJKyN9/EOIJzzJuBkC6oWg6XlZXoj6iE5PlCOoN/fooeN3mNNlKpibRb3oE2dk
+	 ccFSZRp1qzfy7L4fOWy3ndw8oCoXFdFVl8wBxFE2BDnJ6T/uCEmf5Cfg7wX9IMWijR
+	 qYH1JzAPCxpEg==
+Message-ID: <sashiko-outbox-170752@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net 1/2] net: usb: lan78xx: do not update statistics
+ after a failed read
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Wei Jie Law" <law.wei.jie@gt.tech.gov.sg>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261014025602.26334-2-law.wei.jie@gt.tech.gov.sg>
 References: <20261014025602.26334-1-law.wei.jie@gt.tech.gov.sg>
+ <20261014025602.26334-2-law.wei.jie@gt.tech.gov.sg>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 14 Oct 2026 03:04:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-lan78xx_read_reg() and lan78xx_read_stats() read from the device into
-a freshly kmalloc()ed buffer, but only treat a negative return value
-from usb_control_msg() as an error. A device that answers with fewer
-bytes than requested leaves part or all of the buffer uninitialized,
-and those bytes are then used as the register value or the counters.
+> lan78xx_update_stats() reads the hardware counters into an on-stack
+> struct lan78xx_statstage. If lan78xx_read_stats() fails, only the
+> rollover check is skipped: the counters are still recomputed from the
+> uninitialized stack buffer and stored in dev->stats.curr_stat, which is
+> then reported to user space by ethtool -S.
+>=20
+> Keep the previous values when the read fails.
+>=20
+> Found by code review with LLM assistance. Tested together with the next
+> patch, which makes short reads fail: with an emulated device, ethtool -S
+> then keeps reporting the previous counters.
+>=20
+> Fixes: 20ff55655a93 ("lan78xx: handle statistics counter rollover")
+> Cc: stable@vger.kernel.org
+> Assisted-by: LLM
+> Signed-off-by: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
 
-With an emulated device on a kernel booted with init_on_alloc=0:
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-- A zero-length reply to the statistics request makes ethtool -S, which
-  needs no privileges, report the stale contents of the kmalloc-192
-  buffer. One counter pair read back as 0xffffffff8a427800, the
-  address of usb_api_blocking_completion(), next to several direct
-  map pointers.
-
-- A zero-length reply to the RX_ADDRL/RX_ADDRH reads in
-  lan78xx_init_mac_address() turns uninitialized heap memory into the
-  MAC address (12:85:1f:dc:2e:bd and e6:93:44:41:9b:9f on two probes),
-  which is then written back to the device in RX_ADDRL/RX_ADDRH and
-  MAF_LO(0)/MAF_HI(0).
-
-Treat a short transfer as -EIO in both helpers. With this change the
-same device fails to probe with -EIO, and with only the statistics
-reply cut short all counters stay zero.
-
-Found by code review with LLM assistance and reproduced with an
-emulated USB device (raw-gadget + dummy_hcd).
-
-Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 Ethernet device driver")
-Cc: stable@vger.kernel.org
-Assisted-by: LLM
-Signed-off-by: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
----
- drivers/net/usb/lan78xx.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index cb8204371f5c..e6be066349de 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -612,6 +612,9 @@ static int lan78xx_read_reg(struct lan78xx_net *dev, u32 index, u32 *data)
- 			      USB_VENDOR_REQUEST_READ_REGISTER,
- 			      USB_DIR_IN | USB_TYPE_VENDOR | USB_RECIP_DEVICE,
- 			      0, index, buf, 4, USB_CTRL_GET_TIMEOUT);
-+	if (ret >= 0 && ret != sizeof(*buf))
-+		ret = -EIO;
-+
- 	if (likely(ret >= 0)) {
- 		le32_to_cpus(buf);
- 		*data = *buf;
-@@ -695,6 +698,9 @@ static int lan78xx_read_stats(struct lan78xx_net *dev,
- 			      (void *)stats,
- 			      sizeof(*stats),
- 			      USB_CTRL_SET_TIMEOUT);
-+	if (ret >= 0 && ret != sizeof(*stats))
-+		ret = -EIO;
-+
- 	if (likely(ret >= 0)) {
- 		src = (u32 *)stats;
- 		dst = (u32 *)data;
--- 
-2.43.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014025602.2633=
+4-1-law.wei.jie@gt.tech.gov.sg?part=3D1
 
