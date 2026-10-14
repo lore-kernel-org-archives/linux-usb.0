@@ -1,93 +1,207 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A0894A5EB7
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 22:38:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED24D4C14F3;
+	Wed, 14 Oct 2026 22:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792017488; cv=none; b=MhQgYF2plIndH5/9GIiywK1mxEML9XQYJOvBW9PSNzPJh136b5TGESFz/CT039/39LthEEUoAmfV3ITbz5p48cLSURr2GhE9RqQaMi2lHpDjDHf/tDFvDCM3bQcIcuLrgr6WvDVeCd7fB1D/h8fyiuTJ2D1upyUacmAxhfQeHx0=
+	t=1792017648; cv=none; b=eLFYpKUjcF6zM9ZrhXnsPtA5aOIhjYBCxY0Vs6Kbj67BL5yantAIqs8R1JCra2f7dt/17fdpOey1aBFfRF7Jy4DNd1Xms1KpYbll1ObNujV29Xg1jZuo+upz1EXziD2KccE+ry4z59Q+9knUrZ/YL2KKdTZRXB/vfeTihQbaECQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792017488; c=relaxed/simple;
-	bh=Rtlv/tcoSiQaK4VHH7GtFKp/elzjN2GIZJ1hByjGsAU=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=brenlKTk586OLpxQH+367rwio0NQt3PqjKk8AS8GpEX0oq59iNLOTaOd0gAPSMshe3kEJUmGpNF7fe9DaYzSurLCEtEoAieej4RLCWR+fh/v76oFs3097Sgni83t25X2QJmK9XybxeKgc4FyZ19CH1qPEr6BpWBcQVoQFADHJc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BKJNZunq; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792017648; c=relaxed/simple;
+	bh=3zMKStu57wu1s210M0wBl0cKlpREHyiuH3D/r7Twb2k=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=YF/2zTPm9pGulprOY4Di2JakZ38dm5MWSvXolBqqH0W9Te2dAP61lyqu0TBL717arHcrpRU+Ss+X30kSkOxQB8QJMBBVXi7GgqUOpmamd8RAJcIvjCJ9g4nUO3UubbbK/ArT0AQamxAPWKanWdwW0VdeonBk6D89ibAwm/QHEOU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AFXKXaju; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BKJNZunq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 952A61F000C4;
-	Wed, 14 Oct 2026 22:38:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AFXKXaju"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A751B1F000C4;
+	Wed, 14 Oct 2026 22:40:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792017486;
-	bh=s2UfqfNcF7+vf5YKiC9W7PUICaa/jm+U37ODUB37HRQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BKJNZunqoxDbhUA7hMV3LFyyRgmTrjTIV1knyOaas4x74Z4ulB3IkFxONw+WXE1xR
-	 v75tMDcPty+wmOYOtfWayP1vD7RosTX+N1Jxjuv0PIyVJeyfRMiwKLnM0KAWjyfuGb
-	 oVqSM2m+ARGmqalNuU2yTMO95e/KdMS+fGqoODs1XOAXO/a1lEKRVNbHUaQJApo/oz
-	 98ssjrj8h8RFVq9L/w5BZ11gjj+Jo22qpkJ8oSa00ivQ2Vzo9TYSdc2Pd4DWvSxawn
-	 0Kx9QEkd6XPEqrhMmXT/c98JZsAiBeHidVZLsHnqhSGQmYWTOMH2Uv8A871RgtM9qA
-	 c2mctf3r89naw==
-Message-ID: <sashiko-outbox-171982@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH V2] xhci: Reset TI usb controller on xhci shutdown
-Reply-To: sashiko-reviews@lists.linux.dev
-To: wenxiong@linux.ibm.com
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014222855.13698-1-wenxiong@linux.ibm.com>
-References: <20261014222855.13698-1-wenxiong@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 14 Oct 2026 22:38:06 +0000
+	s=k20260515; t=1792017645;
+	bh=f+z6zAFLCvaCAmCvCFxJcssIZyFfbNiJ0CIpX6Ijf38=;
+	h=Date:Cc:To:From:Subject:References:In-Reply-To;
+	b=AFXKXajuri2XUTwRNmk1+piowUIzxjFgNfzvRHTZhDWB6afoVS8fcTvZw5oWoRffc
+	 iWGhZZiIQ4nwDiDUwIzxiZG5oB/re5tzPDDMvHTiwotPTDL5q3PRklCPm0zH6xo1tc
+	 7x4ekZLEv0uXvnvZaq/jpjhcFXvG/VmJPhD7iOpW9FGPUBN8mpMWpBmgypASl58tc3
+	 AiRwkXnO6Xtu39ozlXGBjDFEdwW7Zuyu67JoTITqHaZQi2TX8ENb5yvLt90Ud8UcFQ
+	 5HY/4aBpBxGtqbo2VZ6GFU2U/RzHY5bGAuuTWZDKXoBbXRyfco57PUFGNiI8ijDo8C
+	 YtRM1VpBklqWw==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 15 Oct 2026 00:40:42 +0200
+Message-Id: <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
+Cc: "Alan Stern" <stern@rowland.harvard.edu>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Mario Peter"
+ <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
+To: "Johan Hovold" <johan@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+Subject: Re: [PATCH] driver core: take parent lock on deferred probe
+References: <20261013140615.1226992-1-johan@kernel.org>
+ <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
+ <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
+ <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
+ <as86K1qm1sHtgTFL@hovoldconsulting.com>
+ <DM4N25JXKTQM.3K7TP9HM68KQ2@kernel.org>
+ <as-cW9ZwmMCPcftL@hovoldconsulting.com>
+In-Reply-To: <as-cW9ZwmMCPcftL@hovoldconsulting.com>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] usb: xhci: typo in commit signature and comment formatting
---
+On Wed Oct 14, 2026 at 5:14 PM CEST, Johan Hovold wrote:
+> On Wed, Oct 14, 2026 at 04:42:09PM +0200, Danilo Krummrich wrote:
+>> On Wed Oct 14, 2026 at 10:15 AM CEST, Johan Hovold wrote:
+>
+>> > But it's driver core that needs the extra reference. It seems
+>> > reasonable to require that any subsystem that sets a new
+>> > type->need_parent_lock also makes sure that any device of that type
+>> > holds a reference to its parent. And importantly, it's already the cas=
+e
+>> > for the only user of this feature today (i.e. USB interfaces).
+>>=20
+>> Exactly, it is the driver core that needs the extra reference count; for=
+ a field
+>> that is owned by the driver core, and for which the driver core manages =
+its
+>> lifetime.  If it needs an additional reference count for async or deferr=
+ed work
+>> it should obtain the reference count for this scope explicitly.
+>
+> As I've mentioned, it's not just for async or deferred probe. It's also
+> needed when a driver gets added or when probe is triggered through
+> sysfs. The bus iterators only takes a reference to the each device and
+> not their parents before calling __driver_attach() etc.
+>
+>> USB interfaces already holding an additional reference makes the propose=
+d
+>> contract work for today's user, but I'd rather not make that prerequisit=
+e of the
+>> API.  It would push a prerequisite for an implementation detail to the u=
+ser.
+>
+> I understand your concern, but my reasoning is that this feature is only
+> needed when devices are tightly coupled with their parents and where it
+> therefore probably always make sense to pin the parent.
+>
+> Note that the need_parent_lock flag is now set in the device type struct
+> which also holds a pointer to the release function that drops the
+> reference. So it's pretty easy to check any theoretical further users.
+>
+>> Please, let's not add this API contract. Let's have the driver core deal=
+ with
+>> this internally.
+>
+> I can take another look at it, but the alternatives seemed either error
+> prone or a bit icky (e.g. a helper that returns a reference to the
+> parent after checking the dead flag under the device lock).
 
-commit d01818bc6cd938fdc83cd4a8bea9dbde80b9d813
-Author: Wen Xiong <wenxiong@linux.ibm.com>
+I thought some more about this, and since it is only the USB device type us=
+ing
+it it's probably fine for now.  Should we ever gain new users of this API (=
+which
+I do not hope), we can still change it and add something like the diff belo=
+w.
 
-xhci: Reset TI usb controller on xhci shutdown
+I'd suggest to also add a comment in the USB code, explaining that this
+reference count (also) serves the purpose to fulfill the driver core API
+contract.
 
-This commit introduces a PCI function reset on shutdown for TI xHCI
-controllers to ensure they initialize properly in a kexec booted kernel.
-
-> Signed-off-by: Wen Xixong <wenxiong@linux.ibm.com>
-
-[Severity: Low]
-This isn't a bug, but there is a typo in the Signed-off-by name (Xixong
-instead of Xiong).
-
-> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> index a8889081ae824..36191639bf430 100644
-> --- a/drivers/usb/host/xhci-pci.c
-> +++ b/drivers/usb/host/xhci-pci.c
-
-[ ... ]
-
-> @@ -950,6 +952,13 @@ static void xhci_pci_shutdown(struct usb_hcd *hcd)
->  	/* Yet another workaround for spurious wakeups at shutdown with HSW */
->  	if (xhci->quirks & XHCI_SPURIOUS_WAKEUP)
->  		pci_set_power_state(pdev, PCI_D3hot);
-> +
-> +	/*=20
-> +	* TI xHCI controllers fail to initialize in a kexec=20
-> +	* kernel without a PCI function reset
-> +	*/
-
-[Severity: Low]
-This isn't a bug, but is this block comment introduced in xhci_pci_shutdown
-missing the standard leading spaces before the asterisks on the second and
-third lines?
-
-> +	if (xhci->quirks & XHCI_RESET_ON_SHUTDOWN)
-> +		pci_reset_function_locked(pdev);
->  }
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014222855.1369=
-8-1-wenxiong@linux.ibm.com?part=3D1
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 3c36a2128f88..8193bf924726 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -101,6 +101,8 @@ struct driver_private {
+  * @async_driver: pointer to device driver awaiting probe via async_probe
+  * @deferred_probe_reason: capture the -EPROBE_DEFER message emitted with
+  *			   dev_err_probe() for later retrieval via debugfs
++ * @deferred_parent_ref: parent reference held until release for device ty=
+pes
++ *			 with &struct device_type.need_parent_lock set.
+  * @device: pointer back to the struct device that this structure is
+  *	    associated with.
+  * @dead: This device is currently either in the process of or has been
+@@ -118,6 +120,7 @@ struct device_private {
+ 	struct list_head deferred_probe;
+ 	const struct device_driver *async_driver;
+ 	char *deferred_probe_reason;
++	struct device *deferred_parent_ref;
+ 	struct device *device;
+ 	u8 dead:1;
+ };
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 5daa88fa724a..45050f90294b 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -2641,6 +2641,8 @@ static void device_release(struct kobject *kobj)
+ 	else
+ 		WARN(1, KERN_ERR "Device '%s' does not have a release() function, it is =
+broken and must be fixed. See Documentation/core-api/kobject.rst.\n",
+ 			dev_name(dev));
++	if (p)
++		put_device(p->deferred_parent_ref);
+ 	kfree(p);
+ }
+=20
+@@ -3682,6 +3684,9 @@ int device_add(struct device *dev)
+ 	pr_debug("device: '%s': %s\n", dev_name(dev), __func__);
+=20
+ 	parent =3D get_device(dev->parent);
++	/* Parent locking must remain safe after device_del(). */
++	if (dev->type && dev->type->need_parent_lock)
++		dev->p->deferred_parent_ref =3D get_device(parent);
+ 	kobj =3D get_device_parent(dev, parent);
+ 	if (IS_ERR(kobj)) {
+ 		error =3D PTR_ERR(kobj);
+@@ -3828,6 +3833,7 @@ int device_add(struct device *dev)
+ parent_error:
+ 	put_device(parent);
+ name_error:
++	put_device(dev->p->deferred_parent_ref);
+ 	kfree(dev->p);
+ 	dev->p =3D NULL;
+ 	goto done;
+@@ -4697,6 +4703,10 @@ int device_move(struct device *dev, struct device *n=
+ew_parent,
+ 		goto out;
+ 	}
+ 	old_parent =3D dev->parent;
++	if (dev->type && dev->type->need_parent_lock) {
++		dev->p->deferred_parent_ref =3D get_device(new_parent);
++		put_device(old_parent);
++	}
+ 	dev->parent =3D new_parent;
+ 	if (old_parent)
+ 		klist_remove(&dev->p->knode_parent);
+@@ -4715,6 +4725,10 @@ int device_move(struct device *dev, struct device *n=
+ew_parent,
+ 				if (new_parent)
+ 					klist_remove(&dev->p->knode_parent);
+ 				dev->parent =3D old_parent;
++				if (dev->type && dev->type->need_parent_lock) {
++					dev->p->deferred_parent_ref =3D get_device(old_parent);
++					put_device(new_parent);
++				}
+ 				if (old_parent) {
+ 					klist_add_tail(&dev->p->knode_parent,
+ 						       &old_parent->p->klist_children);
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 7c7682e4dafe..7604060ff99b 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -85,8 +85,7 @@ int subsys_virtual_register(const struct bus_type *subsys=
+,
+  * the DEVTYPE variable.
+  *
+  * @need_parent_lock:	When probing or removing a device of this type,
+- *			driver core should lock the device's parent. Note that
+- *			the device must hold a reference to its parent.
++ *			driver core should lock the device's parent.
+  */
+ struct device_type {
+ 	const char *name;
