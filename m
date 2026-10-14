@@ -1,160 +1,89 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F6154145D;
-	Wed, 14 Oct 2026 14:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6021F53D9E0;
+	Wed, 14 Oct 2026 14:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791987984; cv=none; b=bndssp+TSznOurXRgcGsGOuLIRNCg21khMuKq1+EiiZ/yFX9Vo4n9y1M/7sw/5hYkBqPn9U3+LFFuVAxe2S9UOT2NF4aXa5oOkzVySmA2zzqVF2EXdW/u6Cf7GYUL2LXzAmJ0efRjq5P6kUSzT3UPC2q9321n8OK2arkpYEIPpo=
+	t=1791988253; cv=none; b=VwTXOMBP3n7mKbaD/dd4DDhF7MdnPnlAEe1hTuJuJfcYfhSP4h2TBNpGeZSLl33yKt2edYT1+o2az0U+/zyuGjoxtlw465fs1bbJf+meFvgMkZi9LVUwkdZoAdQnKrltW0UZ8KekUKL9l5YAQaEz+0shjXEyjMWF/ToaBAxruRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791987984; c=relaxed/simple;
-	bh=CMit829FdlsuZxyCandGgteUJYJNOWEowwLmB/nPbGo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q+Px07HnDZp/twFjrqTVJ5Zx0TtY7/E5lcc36s4L4GQmUoNTiSdDSHuSCtjnZiAkq4hP7+ONzhwgjBgapHvNvMgAv2dGbKoUHDxOkieLU1rKqHkx7ZpbLv3qjm1+uQOQ9C6WmBYElmEYYacg/fDhFEhPVzYwgGA0gW9xas9bFLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XmLz8zJ6; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1791988253; c=relaxed/simple;
+	bh=fMBeam/zOOgKWNtCnDtUC7mnmy/TtsBEDUY4nS0LHGA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=tsR1X3CLuOvWKAePrJNrDb31SE6GlZEIqEeaFiDmGEMyK66zBjr91PWqjFR9vxOpG93+xtHDaHFLq23hPwvGx+GYt/XAPpXFGkFMZHQy+K69tQKVbqHPyDnu5fpT2l3AqAUHx6gcNtaCVn3U8RYiNQH9YxW+e1N7SfCdCnhcvEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TUwHJa0K; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XmLz8zJ6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1791987983; x=1823523983;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=CMit829FdlsuZxyCandGgteUJYJNOWEowwLmB/nPbGo=;
-  b=XmLz8zJ6IFS5q7wyofYoloiJSuv0HCBW0EGLysnV3b5Hx9pTVlAr8beX
-   0A644AIg9Wx/FvbL3XumLRANr9cyRdhb+GXW4T6v3u7jU4VEn4Cv9P6Mm
-   qAsOVq4pUgwBHiZYlHQ/e1ZxxqQKWjeh5iBg7JE2Cz8WGrgEzIIzZx6X2
-   Ia2haHtdiPdaDv1PoZPIJfMlE0saV6C97hfRWEXoYsOBLEBEBxHfS9Ilm
-   IzzWzt4dqDlOLur9c756OauWS6Q5OfsJ9ZqphXH5DZk+yoqY5bZf0+8c9
-   nnACUc3nCejr4IxhtB0n++RNM6hYgJ4pUVw6pL8Ltby048jX2alczVhQT
-   g==;
-X-CSE-ConnectionGUID: Ixz4CaaZRSuZSMawJJ9VfA==
-X-CSE-MsgGUID: Dmz1e17hSzmet+g8qyKxeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11935"; a="722893"
-X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="722893"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 07:26:22 -0700
-X-CSE-ConnectionGUID: WxRB+wAGSUitgg/qdY4mGw==
-X-CSE-MsgGUID: 7tFm1eICRyituzDcAdSZuA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,158,1787036400"; 
-   d="scan'208";a="1807186"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.225]) ([10.245.245.225])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2026 07:26:20 -0700
-Message-ID: <73096f91-146a-4754-a685-f3b22f1ac3d5@linux.intel.com>
-Date: Wed, 14 Oct 2026 17:26:12 +0300
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TUwHJa0K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5CE31F000C4;
+	Wed, 14 Oct 2026 14:30:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1791988251;
+	bh=dKfIAC0YXO8UqRJ28sEGEIpaahHp44GZxTk9EsGyPsk=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=TUwHJa0KsNAWxA1Uu0qoMNH4UlCHKBky1cH+SPuj28RAsBRrNeC3x+tEAoMCyMTUK
+	 GY6TubNY5o9CffmODMx34dKmc7WlJC8ukJDPIPZtAkdyZSvmqmzznLxS5VRI/Lj4b4
+	 HV7Pp75YOi3VC3sctDZkLB13ogKsVtAIQHqW9776bekes9xf1ltZAHwHGrsDAl5aAo
+	 iwzGEdZ+lbMm0l1WRtFY06LKip3eSjlPs/s9cehn2W7yy9482MuCtbjsy5Vxoxexfp
+	 4ru5WHuB+Q+AZd8SWDQ/l1rNo0FEbRWwWtRs7e+/BG5bH+D+RitYBvCE2WY4EsTorp
+	 3/2nnZTyRqpgw==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/5] usb: xhci: sideband: allocate sideband ring
- segments from a dedicated pool
-To: Michal Pecio <michal.pecio@gmail.com>,
- Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-sound@vger.kernel.org
-References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
- <20260909-16k_offload_v1_b4-v4-3-f24a86617597@oss.qualcomm.com>
- <68b34f04-f7e2-4468-8a18-ac97decb987d@linux.intel.com>
- <82e0b9c7-3b3f-4dce-a72e-64989b08ef98@oss.qualcomm.com>
- <20261013111110.423dd0ff.michal.pecio@gmail.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20261013111110.423dd0ff.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 14 Oct 2026 16:30:48 +0200
+Message-Id: <DM4MTGIILY95.YZSDZOIBBZZT@kernel.org>
+Subject: Re: [PATCH] driver core: take parent lock on deferred probe
+Cc: "Johan Hovold" <johan@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Mario Peter"
+ <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
+To: "Alan Stern" <stern@rowland.harvard.edu>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20261013140615.1226992-1-johan@kernel.org>
+ <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
+ <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
+ <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
+ <9803935c-11d9-48a0-8d4c-95c478a724a8@rowland.harvard.edu>
+In-Reply-To: <9803935c-11d9-48a0-8d4c-95c478a724a8@rowland.harvard.edu>
 
-On 10/13/26 12:11, Michal Pecio wrote:
-> On Mon, 12 Oct 2026 18:01:50 -0700, Wesley Cheng wrote:
->> On 10/5/2026 4:03 AM, Mathias Nyman wrote:
->>> xhci is the one allocating the ring when adding an endpoint, and
->>> telling xHC hardware to write to that ring. It seems more
->>> approriate that xhci should be the one freeing the ring after it
->>> told xHC hardware to drop the endpoint, and there no longer is a
->>> risk on hardware accessing it.
->>
->> Hi Mathias,
->>
->> Sorry for the late response.  Was out last week.
->>
->> Specifically in the disconnect path (while audio offload is active),
->> when we utilize the usb_set_interface() path, it'll return early due
->> to the iface->unregistering check.  This would lead to the
->> drop_endpoint not to be called, and rely on the xhci_free_dev() to
->> handle the transfer ring cleanup.  This wouldn't work in the offload
->> situation, because qc_audio_offload is the only entity managing the
->> DMA pool, and that would be freed during the .disconnect callback,
->> which happens BEFORE xhci_free_dev().
+On Wed Oct 14, 2026 at 4:38 AM CEST, Alan Stern wrote:
+> I was going to suggest that the driver core could acquire and release=20
+> these extra references automatically for devices on a bus with=20
+> need_parent_lock set, but it looks like that can't be done because the=20
+> bus_type might not yet be set when device_initialize() runs.
+>
+> However, is there any real reason why the driver core wouldn't want to=20
+> guarantee that dev->parent will be a valid pointer up until the time=20
+> when dev is released?  For every device that has a parent, not just USB?
 
-You are right, audio class driver .disconnect is called, driver unbound
-and interface device gone before xhci_free_dev() is called.
+I'm not sure we don't have any cases where this would create cyclic referen=
+ce
+counts.  Like with the kobject API, the separate device_del() step would br=
+eak
+circular reference counts.
 
-If sideband is unregistered as part of .disconnect callback it also means
-ring/pool would be destroyed before xHC has dropped the endpoint/disabled
-the slot. Would be better to free the ring after we know xHC controller
-won't access it.
+From a quick check ALSA seems to have this cyclic topology.
 
->>
->> Would you be more inclined to prefer a solution where we can defer
->> the DMA pool free'ing to the xHCI core during xhci_free_dev, or maybe
->> adding another sideband notifier (sb->notify_client) enum to tell the
->> client driver that it can release the pool?
+> On the other hand, there's something a bit weird about this whole thing. =
+=20
+> The problem arises when you want to probe a device whose parent has been=
+=20
+> deleted.  Isn't there some sort of protection to prevent that from ever=
+=20
+> happening?  I mean, doesn't deleting a device imply that all its=20
+> descendants have been (or are in the process of being) deleted?  And of=
+=20
+> course, deleting and probing are mutually exclusive -- they can't race,=
+=20
+> right?
 
-sb->notify_client callback has the risk that this sideband entity is
-unregistered and gone by the time we want to call it
-
-Deferring freeing the DMA poolby some kind of reference counting again adds
-complexity, and maybe not a suitable solution for this issue.
-(taking a reference at sideband register and every dma_pool_zalloc(), putting
-when freeing or sideband unregister, finally freeing pool when reaching zero.)
-
-I'm trying to figure out a simpler solution.
-
-How about skipping dma pools completely for endpoints in these cases?
-(page size over 4k with offloaded endpoints)
-
-Instead of sideband client creating a custom dma pool it could just set a
-'no dma pool' flag for the endpoint. xhci driver would allocate the
-ring segments using dma_alloc_coherent() instead of dma_pool_zalloc() for
-these, possibly even allocate a full page for each segment?
-Freeing would be done similarly.
-
-Would this be a viable simple solution?
-
-> 
-> I'm not Mathias but my opinion is the same as always: none of these
-> problems would exist if the sideband client allocated and freed all
-> transfer/event ring memory, and xhci-sideband only owned a mapping.
-> 
-> The mapping would be freed by xhci_sideband_unregister() or similar
-> calls, which should ensure that the xHC stops using the rings, and
-> memory would only be freed by the client driver after unregistering
-> the sideband and stopping the coprocessor. Nothing is ever UAF or
-> leaked, and ensuring this is *easy*. And if xhci-hcd randomly wants
-> to get rid of some endpoint, it simply stops using the mapping and
-> lets the sideband client clean it up two milliseconds later.
-> 
-> One thing I'm not entirely sure about is how we could create this
-> mapping. Using bare iommu_map() creates a hard dependency on IOMMU.
-> Documentation/core-api/dma-attributes.rst mentions possibility of
-> using generic dma_map_() helpers on multiple devices, so maybe this
-> can work, but I haven't seen existing examples of such use.
-> 
-Could be an option, but maybe not for this specific issue.
-It's a larger, complex change without any real need (yet).
-
-I'm hoping vendors would move away from this sideband implementation
-instead of evolving it, adapting the 'xHCI Audio Sideband Capability'
-defined in xHCI  specification section 7.9 instead.
-
-Thanks
-Mathias
-
+Yes, that's what the dev->p->dead check under the device lock protects agai=
+nst.
+But the new code accesses dev->parent before acquiring the device lock and
+reaching that check.
