@@ -1,38 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E61B3C3438;
-	Wed, 14 Oct 2026 11:45:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E7C44E662;
+	Wed, 14 Oct 2026 11:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791978352; cv=none; b=qgF/YBp+SXELF9T0bmuAP3jlNyr83YeUV+KO+atAzJok3pCD35NDkVM4xJ1E4OAyZwhF86OMsFTGt/kA06DvruupMZLiQPe77smy3MrLd5UM/xSKSGa9ZW+UGguoSPA7idSRHXfsSspWZPqyrImbSvvE/vRUvTrAzZEIzNN9GJs=
+	t=1791978446; cv=none; b=k6HLjg0XVsT3F+5HNX+g0UiD6xUI+3g5srACxs8PLG6uH/7+O3e3yVYpIEkCrFRA4oJJ/YGG24WRrcZK06E+3ry6LkHFof4isggFeYrt5yLRZYP78trsZMf3jW+U97nG9ZKRbTyTiWNQtqf9tvZMCDdpu1v9GZ2MpnpfjiPpZL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791978352; c=relaxed/simple;
-	bh=H7vRFpwPbpjw9AD0kixUiQJNc9zZicO0QemgJirn5gA=;
+	s=arc-20240116; t=1791978446; c=relaxed/simple;
+	bh=ILhBZJCEuct5sP2YsHKzlUh4iKWnRwYMXrZnAg4Ca1w=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qA/nRcvTP8tEa0bqkGozulvbORvewUZJR8l6+D1kJ1HFe9qwyLzHXufSr65WmOVlOuArMlFiRU+h1mQfkYAriK0RwXvHzAdIAMtnrR6hU0USb1JHKbNyYRvuiuV3T1AFLmPk8a7VBNG9GLGfepsM1rNxToxwZMyZOIhdmOfiPec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=pltTUsOv; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=PQzy8F9teYgr3GH9JrHDMdGIk8vevTiXGnJCr6kBTYKfWrAg7ywjTRhyjRtRXg6sI9+uIwhzWmFbvWR8m8u47snh3weMmQhrJgzHnd9X8PlJjQRTrxoCTqExn7YVAqREYQMKvHqguRSptTwk+qDWM1KqH0t59+WYsgO/J7xaqd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=sOeyWaaJ; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="pltTUsOv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B3901F000FF;
-	Wed, 14 Oct 2026 11:45:50 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="sOeyWaaJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE101F000FF;
+	Wed, 14 Oct 2026 11:47:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1791978350;
-	bh=TlCOeKNhIPOTJ05V3kzGLevIxfAxvJ45OWn5EOuyj6Q=;
+	s=korg; t=1791978444;
+	bh=LLYhgszy6ZH9nQCkUTNqMMjfJeES0ElaWQzVBTD2Pko=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=pltTUsOvf1cera9RmZoxBfhhKKphHfkNkO+r32Zh+o96oNC+d2Z7rxiVqwU8FvQQv
-	 tr/GWSUlpRWt1KqqchMS0ZYP8NkBUb1LCFa9/pwjuO7S+PyyTANK3REaR1zZ11R7rV
-	 BLgJ0+MxBvD8QKeJPrdhFzrVO8CbSIMMT+3bYgow=
-Date: Wed, 14 Oct 2026 13:45:55 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ayush Yaduvanshi <ayush37735@gmail.com>
-Cc: michal.pecio@gmail.com, Thomas Winischhofer <thomas@winischhofer.net>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	syzbot+3bc656a9271e7c8a5c6b@syzkaller.appspotmail.com
-Subject: Re: [PATCH v2] USB: sisusbvga: avoid prolonged initialization on
- failure
-Message-ID: <2026101440-dislocate-subject-8aa6@gregkh>
-References: <CAPgWTUQ5tYtV_YR7SDV7SRsDmvmxsgV5xOdns7Aq93Uy1kg9iA@mail.gmail.com>
+	b=sOeyWaaJULi3bsHFTFJYywzV+9QXJ6m9a2qTYJNGA+XZufZiw6pc4NTue1J1BnB6A
+	 35VKjVwvPdo9kB/UFAf3mBFNYqKBFB17cz7nbk0GGuDcVmvWPMKhaJrNWpbQELVR9U
+	 8NsfQeU1HaH0IU7TuowqgQswROEuIHnakrUxSPHc=
+Date: Wed, 14 Oct 2026 13:47:29 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Hongyu Xie <xiehongyu1@kylinos.cn>
+Cc: stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: storage: bound timeout=0 URB waits to 30s
+Message-ID: <2026101406-lair-impaired-172b@gregkh>
+References: <20261014093856.415812-1-xiehongyu1@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -41,30 +40,90 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAPgWTUQ5tYtV_YR7SDV7SRsDmvmxsgV5xOdns7Aq93Uy1kg9iA@mail.gmail.com>
+In-Reply-To: <20261014093856.415812-1-xiehongyu1@kylinos.cn>
 
-On Wed, Oct 14, 2026 at 03:32:18PM +0530, Ayush Yaduvanshi wrote:
-> Hi Greg,
+On Wed, Oct 14, 2026 at 05:38:56PM +0800, Hongyu Xie wrote:
+> usb_stor_msg_common() is the common URB submission/wait helper for
+> usb-storage transfers.  Callers that pass a positive timeout get that
+> timeout, but the three internal transfer helpers (usb_stor_ctrl_transfer,
+> usb_stor_intr_transfer and usb_stor_bulk_transfer_buf) all pass 0,
+> which selects MAX_SCHEDULE_TIMEOUT: the control thread waits for the URB
+> forever.
 > 
-> Friendly ping on this v2 patch. It fixes a task hang reported by
-> syzbot in sisusbvga.
-
-I have no context here, why did you delete it all?
-
-> The patch was tested and verified by syzbot using the reported
-> reproducer, confirming that the hang is resolved. Could you please
-> review and consider it for usb-next when you have a moment?
+> A device that stops responding while such a transfer is pending hangs the
+> control thread permanently, and the hang propagates into the SCSI error
+> handler:
 > 
-> Patch link: https://lore.kernel.org/linux-usb/20260907074308.109603-1-ayush37735@gmail.com/
-> Syzbot bug: https://syzkaller.appspot.com/bug?extid=3bc656a9271e7c8a5c6b
+>     scsi command timeout -> eh_abort_handler -> command_abort()
+>       -> usb_stor_stop_transport()  /* URB unlink issued, but the URB of
+>                                       a device wedged mid-transition
+>                                       never completes */
+>       -> wait_for_completion(&us->notify)  /* no timeout */
+> 
+> The unbounded wait also closes a deadlock cycle observed on arm64 servers
+> running 5.4.x, where a Realtek USB WiFi dongle in CD-ROM mode (sr0)
+> wedges during usb_modeswitch's re-enumeration transition: the system
+> shutdown hook (mdadm --wait-clean --scan, which opens every block device)
+> blocks in disk_block_events() holding ev->block_mutex, waiting for the
+> disk events work whose TEST UNIT READY timed out into the
+> command_abort() wait above.  No timeout anywhere in the cycle means the
+> shutdown hangs forever -- hung_task warnings every 120s until power loss,
+> two production incidents with identical stacks.
+> 
+> Bound the fallback wait to 30s, matching the SCSI layer's default command
+> timeout for disk and CD-ROM LUs (SD_TIMEOUT / SR_TIMEOUT).  When the bound
+> fires, the URB is killed, the transport reports USB_STOR_XFER_ERROR, and
+> the command fails through the regular paths: the control thread
+> completes, notify is signalled, the abort returns, and the events work
+> (and with it the shutdown) can finish.
+> 
+> For disk and CD-ROM LUs this bound introduces no new policy: a transfer
+> that produced no URB completion for 30s has already exhausted the SCSI
+> layer's patience, and the error handler trying to abort it cannot make
+> progress while the control thread is stuck in the unbounded wait.
+> 
+> A blanket bound for this helper was suggested before [1] but dropped over
+> concern that legitimate SCSI commands (format, tape rewind) can exceed
+> 60 seconds.  Those commands are issued to tape LUs whose SCSI timeouts
+> are much longer than 30s; usb-storage-attached tapes holding back a CSW
+> for more than 30 seconds remain the residual false-positive window of
+> this change (modern tape bridges use UAS, which is unaffected).
+> 
+> The scatter-gather data path (usb_stor_bulk_transfer_sglist(), which
+> waits in usb_sg_wait()) is a separate unbounded wait and is not covered
+> by this change; a device that stalls mid data phase can still wedge the
+> control thread there.
+> 
+> Validation: on the affected production machine the hang occurred twice
+> across ~4800 hibernate cycles with identical stacks; with this bound in
+> place, 990+ hibernate cycles completed without a recurrence.
+> 
+> [1] https://lkml.rescloud.iu.edu/hypermail/linux/kernel/2207.0/05816.html
 
-I have 2000+ linux-usb patches/messages to review right now.  Please
-help out by doing reviews of other submissions so that yours moves to
-the top of the queue.
+Please only use lore.kernel.org links.
 
-And for syzbot issues, for fake devices like this (i.e. no real device
-hits this), it's _WAY_ down the priority list for obvious reasons (i.e.
-no user will ever trigger this.)
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+> ---
+
+No diffstat?  How did you generate this?
+
+> --- a/drivers/usb/storage/transport.c
+> +++ b/drivers/usb/storage/transport.c
+> @@ -112,6 +112,15 @@
+>   * command _must_ pass through this function (or something like it) for the
+>   * abort mechanisms to work properly.
+>   */
+> +
+> +/*
+> + * Bound for the URB wait when the caller passes timeout == 0: matches the
+> + * SCSI layer's default command timeout for disk and CD-ROM LUs (SD_TIMEOUT /
+> + * SR_TIMEOUT), so a wedged device surfaces as a regular command failure
+> + * instead of hanging the control thread forever.
+
+Please rewrite this from scratch and do not use a LLM for it, as this
+doesn't make much sense to me at all.
 
 thanks,
 
