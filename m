@@ -1,175 +1,126 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD02397944
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 02:38:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC570377A96
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 02:53:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1791945538; cv=none; b=Kgi5y0zoCIu7qgt/bHaJKQODKY1dJzSSOyi85u/QqBgWV6yd12V4jIJGU7ulo/qPmPl6SibdQ4n6igkRehwSI+8UXtTTI164jCebFAyK9xyF/DmJxHpAuP9ubjkGrWuq02HDmwe50F1CNzS/QlEAozrHJPG+ET2CBdkITKmrqQk=
+	t=1791946406; cv=none; b=KLBrAPpYmfrI3sXwfBCQbtGIMQI6LRlEdaJEPTA+9bFpDy6eAGLY1qJ4se8a2mvNfGc7thtSkK/mCKiy2lB9lXPg405Ltu7go48zgMC7K1z6txOmqTFNExUe3QfrEEcBIWuRKjvrHZFdTywOsqv97oR2x8xnX0oOrfisSveivyA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1791945538; c=relaxed/simple;
-	bh=ScelcZyE52ZQd8lA4ACXuwYHHmFqpRNhs5nb7pATNtM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O54GEw7xcvHn7Se37RH2XCIys32PmRusSivoZ2BI8LdygPLZd0h9sSmDiLIoYqtA4SXtAEO/O1ff4GMUZ1ldYI5vBkG87RrEaJdcKLaCEwIfC5yHGO191VuWDaQ6+GBWuwpV9p9U31JiahO5Q6gJySf96wMjZj2H7A2/1M7thgY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=uGeFObiI; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	s=arc-20240116; t=1791946406; c=relaxed/simple;
+	bh=21pyKGK+IKg/zTXev+HEz90+q9KFZmImFzV+iA62bcw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b0sbS2PQHUP01SliAYhIYISs1yW/yCXd/KkcpSygi8SWCCKZtwbAWtu/RuOi5P76+vDpW1Ktn1xTYcAH66HfWTQUuLNdbmLhoHAkVXdFRfEjdlVzKUPNefH0olMr2jKPHacs5ZZA985Kdlern7lCN5Q01DuAHu+M5ZYxJPGgCTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gt.tech.gov.sg; spf=pass smtp.mailfrom=gt.tech.gov.sg; dkim=pass (1024-bit key) header.d=gt.tech.gov.sg header.i=@gt.tech.gov.sg header.b=KUF0FXw9; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=gt.tech.gov.sg
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gt.tech.gov.sg
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="uGeFObiI"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-533930955a4so33749961cf.3
-        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 19:38:57 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=gt.tech.gov.sg header.i=@gt.tech.gov.sg header.b="KUF0FXw9"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3550c917fd3so716303eec.0
+        for <linux-usb@vger.kernel.org>; Tue, 13 Oct 2026 19:53:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1791945536; x=1792550336; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=81rgxI9/Er4yjHtl/CLpwDXbGoyatzgl1W8u9x4gaMM=;
-        b=uGeFObiINLfqftF5nht5CHrSapcKy+LW/RBD6bqkxCPwUkzTjc5EPRw0UcLma52IOy
-         8kqEZDMTPk9O95FuNdA/R2K7NQwUzUR64Wag6M10t/VuG8LBUewCbOOl4IRlnKdnCcIt
-         DjWEhBfmNbXly/g3H5QaPW3Z3k8Bm4914X72W7SqhOpol9xKw/8bdzcFaTCMzboI3tcm
-         qPIYE01tbkU2+DQTMKdY6/RISSETnh09xnGLaocDI5XBoejNd00UuVDU1bG58n2i+rIs
-         MN3H+QOtOHoM3Ly9IcahRtFkOVgbTofgRgDEUDowIDE3isLsivhdrvyPdD7fEiTL7rNz
-         T0/A==
+        d=gt.tech.gov.sg; s=google; t=1791946404; x=1792551204; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oY2fKx8mXWxNmYV5ihzs1KI0duZG3Xnqm3LRIyGvrJU=;
+        b=KUF0FXw92jXFptAE5i8/1mzTQvnyqKxTbcLrQYlwi4zXVdVyTcDdf9xsZcVzH6JsSu
+         7Mpe63/xZ0RsYzLZMfjTZ0FmsuCIO5/mpEEGQgLRAhAYGVT6mRKWuqMY6nFLEVl5DvE4
+         1N3pE69QFJtdIY2On4zA3sW4Jq5x0nqfJdnl8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1791945536; x=1792550336;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=81rgxI9/Er4yjHtl/CLpwDXbGoyatzgl1W8u9x4gaMM=;
-        b=qgLoeAqHSUF+7oWuS/m+JiuQ6jodDcS0r69cIbAZn9oK4pwmOsTEuKvDPWcnXAOLVF
-         XKTmWPC/w5591P+Z5dSO01v+LiNsPTHg8RiiJpC/AvsI8pAjongoel0ZlkgfrB8PLToj
-         1duKa5L7n2oTKR6pqTrYE84oI/kMA7fOSPfkHAzGTWZaPZBMRFea5k6DieBD8pOfHzdR
-         ycU9pwt8hbYrjG1cVx7/yNkRogFH0Jx6weREqxNPcXcdzemQloN88ytGoaQTLSFXZn/X
-         5h7OwRNaRzJBlYpBMjhmTqmk623p58uUHok/Dos159XkktiV+nMIOZvUW/vkJcgYt0OL
-         OrQA==
-X-Forwarded-Encrypted: i=1; AKwUvBwDWLfJdmGmJ8UEFtIhw1KJzcrO4M6xEWvTo0foyKFULu+Ui6Mohbaj8k0a6DbgqfrY2wuiLd+pd1A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKGzPAcLnHkL8+G9RLWSGnnYyiH4GExQna0v9yOiUVpWutZr7bG
-	fkd0B5uCHW+uBsst+OgGcajycTymHdJit3PguL+2g6e5HfxoKvlIEF9YxAHzRcJaGw==
-X-Gm-Gg: AYBFou2o1fdlCgwK+9DbW1/M7XAXFtfzB96nDmBDk0ZteBaKjNJKEX8cdSGlRbcYmIa
-	uyrnLuTGL2Y0cmKCQJyR+HVUKWWSbt9ZHY2TlobVrkZlP9gaoDQjDesY9jaWbKVzQLOlA1r2UJC
-	XjV0w4Qc3hV0C3QvqI7vcX15Nks33QpTxRnEMQMMdutP3JgqrzZKnjH5NSPgoZC5HYjJSUPbwu9
-	QVnVYg2JsK0pg6rqdo1C6NqvXmm3j+L7pDIKX70PJWnHLXNQmUPHOSXz3RDlY0GLQdXAZgZNG2F
-	Cdg86AmFiL16AYjErH5cAfy1vm6mxjobZUAklqKhGRMJvq+3ZX0SoejUI/Iq0Sdsc+2to/MMUlX
-	HF4fQyhQHlLPtGYw4AEmRYF+exWxlVTo1+Nrnq1mBKd5vxlpe3aGU1FB/J3T33b1Ebnq4qu3cA+
-	FvpVdbCPEKZFWQwBPaLY/b6IMsaA/pCOXxSnToFP+aEo6V1lXWZniMyFbI06T9i1TQabIetyQ=
-X-Received: by 2002:a05:622a:2483:b0:534:b7b2:6353 with SMTP id d75a77b69052e-5359fdcab5bmr204146021cf.56.1791945536079;
-        Tue, 13 Oct 2026 19:38:56 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::4791])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5359b7c0214sm116472561cf.25.2026.10.13.19.38.54
+        d=1e100.net; s=20260707; t=1791946404; x=1792551204;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oY2fKx8mXWxNmYV5ihzs1KI0duZG3Xnqm3LRIyGvrJU=;
+        b=OAQSr/HSWbJ55P/ASXEyM16cZi0stHXQ9u4O4zGnevMSamhtp9VxOAoWHbs+MkDOhI
+         rPwkYfrQ4Uo5PtkvRPPaBDshNeirlbE9s63oGTTGbyRtIfZ9ZGPuMVXWJI45MnAx11zo
+         bLCu5VL2NCCRihEtHeIYFuy7GIVMKrigfeN0bJm3PIXLkNpDUR9DtjMBx9DyP3pUxNcK
+         HqSvzPC9eHyIcRI5Q8rQWE2il39iOKvC651uTgIs+vxxDgc0C6F61SLRLi1I0mlghUfh
+         ucG3XwTzMG0fpI0ELJUHkb94hU1cU0GnErbukkQeDdYwcoIqd6CAunqblLl3NyvOGFiQ
+         sQjQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx9g+FhffSZrlux3YE9LLHUq+tjJCpfIZiVWrzqSP/8duoOjU4CyW4Ba0n/S2Cb/qcNWE1q9Im2jmM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIeBEGWArllUOyrKanFugvBDYd2oWuLsAHKvuYvzML1+TCYdbMj
+	8e8FRnTggiu+p9fjDXPfOezwVzI6SHnxyBg3L06EGQr5BrW9tFPJSglVkbHfitZvBwrt+fh3Ks+
+	z13XRAig=
+X-Gm-Gg: AYBFou2V4XLX4groP+TS4K8phbvCvYUyZMWJ/VkkqkgPcgo/yEdq6nvv+MyeK1O/lm1
+	6lKoslt0csizC8c6LnOiW10m9XNwPyf+OAjvJASZpO5/M9bcOJNzNBjtTJjjovalIDv2smtXRW2
+	WG++VcBh/1N6Ty8b/zAGnrDV7ssVUX/26koQGKfMPcmSd8219wksIJiV6S/Q8sKCIvKuML/f0eH
+	4uWIqPSGfXHGbVcgdkAdgW9aL0PhCRjdvFa4Ir1U5YOhUc/lXotU2MX5DNWMl8fsoTJfSG1Nno0
+	gXYS3mevi4+CkqIyHYffM0bNzUzZsojMdiCMAmPUBpotT4rtOMEzZT+haA+BaMrGX3eOKYBb7LT
+	RuGj4Oor2y2HYoKFZ7o5T5uU73+8FsyrkS5BFrXH5Z7hJ4rLfFNAVw7+1Ye9lS5XEVooy3TfzDp
+	2UUoJrnq6b2/pOeeAm+26q8GXHPrWmumls9V6gJgLmtY9l9zI6SK85H4SmKJ0lIJ0Lfi7vnoxTE
+	ou4GFXorRTQl0OmUOWNXNg56Ac=
+X-Received: by 2002:a05:7300:8256:b0:35b:782c:aa29 with SMTP id 5a478bee46e88-35b782caf17mr7301083eec.33.1791946403882;
+        Tue, 13 Oct 2026 19:53:23 -0700 (PDT)
+Received: from LAPTOP-UUUVNN1I.localdomain ([129.126.57.197])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537cb2fd33sm46522557eec.28.2026.10.13.19.53.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2026 19:38:54 -0700 (PDT)
-Date: Tue, 13 Oct 2026 22:38:51 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	driver-core@lists.linux.dev, linux-usb@vger.kernel.org,
+        Tue, 13 Oct 2026 19:53:23 -0700 (PDT)
+From: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
+To: Petko Manolov <petkan@nucleusys.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>
+Cc: netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	Mario Peter <mario.peter@leica-geosystems.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] driver core: take parent lock on deferred probe
-Message-ID: <9803935c-11d9-48a0-8d4c-95c478a724a8@rowland.harvard.edu>
-References: <20261013140615.1226992-1-johan@kernel.org>
- <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
- <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
- <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
+	Wei Jie Law <98lawweijie@gmail.com>
+Subject: [PATCH net 0/2] net: usb: pegasus: fix receive length handling
+Date: Wed, 14 Oct 2026 10:53:05 +0800
+Message-ID: <20261014025307.25233-1-law.wei.jie@gt.tech.gov.sg>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 13, 2026 at 11:01:16PM +0200, Danilo Krummrich wrote:
-> On Tue Oct 13, 2026 at 9:11 PM CEST, Alan Stern wrote:
-> > On Tue, Oct 13, 2026 at 07:43:08PM +0200, Danilo Krummrich wrote:
-> >> On Tue Oct 13, 2026 at 4:06 PM CEST, Johan Hovold wrote:
-> >> > +void bus_probe_device_deferred(struct device *dev)
-> >> > +{
-> >> > +	if (dev->parent && dev->bus->need_parent_lock)
-> >> > +		device_lock(dev->parent);
-> >> 
-> >> This looks like it has the same potential UAF as the other patch.  It's quite
-> >> unfortunate we need the whole need_parent_lock thing just for USB.  IIUC the
-> >> main reason USB needs this is because interface devices share resources of USB
-> >> devices and we need to keep the locking order to avoid inversions, right?  Is
-> >> there more to this from the USB side of things?
-> >
-> > That's pretty much it.
-> >
-> >> I think we can probably do something like this
-> >> 
-> >> 	struct device *parent = NULL;
-> >> 
-> >> 	scoped_guard(device, dev) {
-> >> 		if (dev->p->dead)
-> >> 			return;
-> >> 	
-> >> 		if (dev->bus->need_parent_lock)
-> >> 			parent = get_device(dev->parent);
-> >> 	}
-> >> 
-> >> to avoid the problem, but it's still a bit ugly.
-> >> 
-> >> > +	__bus_probe_device(dev);
-> >> > +	if (dev->parent && dev->bus->need_parent_lock)
-> >> > +		device_unlock(dev->parent);
-> >> > +}
-> >
-> > Wouldn't it be simpler just to make each USB interface take a reference 
-> > to its parent device?  And likewise for USB devices, if needed?
-> 
-> The driver core already holds a reference count of the parent between
-> device_add() and device_del(), which is where a "parent" is technically defined.
-> But the deferred retry can extend beyond device_del().
+Two fixes for read_bulk_callback(), both reachable by a USB device that
+identifies itself as a Pegasus II adapter.
 
-There could be another reference that extends all the way to the child's 
-release.
+Patch 1 fixes an out-of-bounds write: on the 0x8513, every frame that
+is dropped because of an oversized length field advances the receive
+buffer by two bytes, until the host controller writes past the end of
+the skb data area.
 
-> USB interfaces already take an additional reference to their USB device in
-> usb_set_configuration() and drop it in usb_release_interface(), so they should
-> already be protected against this particular UAF.
-> 
-> The issue concerns a USB device and its parent hub's USB device.  (This makes me
-> wonder whether probing a USB device actually requires the parent USB HUB
-> device's lock to be held, or whether this is just a consequence of sharing the
-> same usb_bus_type?)
+Patch 2 drops frames whose claimed length exceeds the data actually
+received, instead of passing the uninitialized remainder of the receive
+buffer up the stack.
 
-The latter.
+Both bugs need a malicious or emulated USB device, which
+Documentation/process/threat-model.rst treats as a regular bug rather
+than a vulnerability, so they are posted publicly.
 
-> In theory a USB device could also keep a reference count to its parent, but then
-> the driver core code would rely on an implementation detail of its users; I'd
-> prefer not to make driver core's access to dev->parent depend on references
-> maintained by individual subsystems.
-> 
-> I'd even go a step further any say that if subsystems try to keep this pointer
-> valid beyond what's guaranteed by the driver core, they should do this with a
-> separate bus specific pointer.  The reason is that otherwise the lifetime and
-> ownership definition of this pointer does not depend on API contracts, but on
-> individual implementation details, which is a very common source for all kinds
-> of bugs.
+Testing: the series builds without warnings (W=1) on net and passes
+checkpatch --strict. It applies unchanged to v6.12.105, where it was
+tested on a KASAN kernel with a device emulated by raw-gadget +
+dummy_hcd:
 
-I was going to suggest that the driver core could acquire and release 
-these extra references automatically for devices on a bus with 
-need_parent_lock set, but it looks like that can't be done because the 
-bus_type might not yet be set when device_initialize() runs.
+- 3000 frames with pkt_len 0xfff, then 20 valid frames. Before: KASAN
+  slab-out-of-bounds writes and a general protection fault in
+  skb_release_data(). After: no KASAN reports, and all 20 valid frames
+  are received.
 
-However, is there any real reason why the driver core wouldn't want to 
-guarantee that dev->parent will be a valid pointer up until the time 
-when dev is released?  For every device that has a parent, not just USB?
+- Five each of: 1536-byte transfers with pkt_len 1534, 1535 and 1536;
+  101-byte transfers claiming 1500 and 97 bytes; normal frames.
+  Before: all 30 received. After: the 15 that fit are received, and
+  rx_bytes matches; the rest are dropped.
 
-On the other hand, there's something a bit weird about this whole thing.  
-The problem arises when you want to probe a device whose parent has been 
-deleted.  Isn't there some sort of protection to prevent that from ever 
-happening?  I mean, doesn't deleting a device imply that all its 
-descendants have been (or are in the process of being) deleted?  And of 
-course, deleting and probing are mutually exclusive -- they can't race, 
-right?
+Both bugs were found, and the patches written, with LLM assistance,
+hence the Assisted-by tags.
 
-Alan Stern
+Wei Jie Law (2):
+  net: usb: pegasus: do not advance rx_skb->data on dropped frames
+  net: usb: pegasus: check rx pkt_len against the received length
+
+ drivers/net/usb/pegasus.c | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+
+base-commit: af32da41b0327b9c6a37856ba82b6760d6c8d10e
+-- 
+2.43.0
+
