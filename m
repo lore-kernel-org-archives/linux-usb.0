@@ -1,86 +1,180 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AC1B4AA1EB;
-	Wed, 14 Oct 2026 23:12:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CFD632D0EE
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 23:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792019570; cv=none; b=agcYdJi9jIt5VnsHGaIFdJ7gkoCthJLVBcqPI9lZrrQNjo6v7KgW+vFmUdN5f6S5ujAi2nu0liYQAAZIuFTgbrYaauLV+fPcxu+gpSy4PfCVMB52QgxyLR6SvS3xPo0I+voFERJQeq2xw1FJ05DEU0IV+VwQW+uQ03VJEJwZkhE=
+	t=1792021586; cv=none; b=i5ceDIiM4CMKmxfPtzmv49SfhHZCQ2zx8Mm+279gGIwP5nch01Tfw18/B1bzsic7XJ/kJ0koU/REzn0pbJIW/6PmaSXkWsRZtGBHs7UBHXKgiGqBWfbIbEASzIys+ty8fVTRMJQIPvoTN6XNJMltICS3K+sK7sRbv3Cng8VzIQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792019570; c=relaxed/simple;
-	bh=kMafyjduaP1lUae/4WI1XQzW0RPWpwTuPodGwUCrnPo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mjwW8HQBX+XOeBPHicWznjmau1fq+NiC+rTt/7IYAvip0pYwnGOxfW0mTyBOkxYUmr3GT27j8F3F2IXTktgJm7NDrR3tYl5J40sKK2MGKii+Ba6rGKIJxI9Lz9ciybMhBuEhcaeaNNadzcbjuQGnijnNMBbx/euLBiQgYHLI97M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fgch2ncL; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792021586; c=relaxed/simple;
+	bh=Ljm5/80+eKYYhfC/Y5wV2iv6COTVsHuMd6r2nW1uC7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=APOXp5rhcNwgl9q+MUmcKdW809VdkXLWm9fH/EwWgEkKc2rKwZWh9/j8av7XVNH+tugQpbb9LT37Rg5/gWpOkcfTTsYcT3MqoTR8s+fufTEKgjpme4/1Sp9iUglcMlX1vZ6HSyXeB68+lUsFloHxckhHosCRYPp0I48Jjq8Ywh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=O46HmpVJ; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=MyJhqyda; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fgch2ncL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 750541F000C4;
-	Wed, 14 Oct 2026 23:12:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792019568;
-	bh=07jZ1V0Z1+isVVyQM8bA8/GKrnr3SvshesGTrCgvRho=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Fgch2ncLIzpykEIEsE6E5sTHrkq8kpaZkCZ+kHtis5IWwo8o3HCBHink8y3K1QjOg
-	 dWpDnKt/C8uYbHBVYa7g5PIGeqssPI7M1BlkQrSlwhlHWf2lbKcPPLb3BAuXwWk6tL
-	 9e1ALhM+2GQypVZgYT4ggjb9b2wWkB6hrU4VshHQaWcTiw/nwxa9Cc3ec4dZsj9LVO
-	 8VWVESrZLpkaLZz5EA7jSKKLQ4BQ5/WsKWxgc2xyw2OljD+OFQCbCM1epxxvyvGGjb
-	 kiDGFpjd+l0MR9lFitbVOLZ/MlUeC9HhrU7Ex63jLxjzHGkVXEiswddPQBEZGAIWy2
-	 Bue3zta5TssFw==
-From: Danilo Krummrich <dakr@kernel.org>
-To: Johan Hovold <johan@kernel.org>
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="O46HmpVJ";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="MyJhqyda"
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69ELvSM6905388
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 23:46:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ReKVbNx+D5AMrmxj0HiDzNjM
+	MNMqfQtzg8j7u13LE9k=; b=O46HmpVJH9qI9Cc9w+33CO6yrWJ1EBw2T2z9pILQ
+	Vh4AvXalBt4x0JsyiRg1RtPbCzoKDNZm+GzJRjwbIDX+gf2xYpNGMB+1mHxtzPk0
+	P7/80k4m4HKkXINqmyQPdWn0BKSxPZUlVdjJpn8aChpLv5AFvvqlOV8PAop83o0y
+	i46jyUhlJ/zq4LGG+MHe60GCNAclB56uAJUrgf6LRmaqJSJDYCsCrp2jqWto/hrP
+	JO3HL0jp9VAEUNU+pQYgZdxCeExA36f6FabsbimVXTdpKslfgCJarrrr/8qXhwFJ
+	vMTIP4UXyomjpEp7IAiuPUkjHOFKT74/8muEUeqSw6kidw==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ha42p40fv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 23:46:23 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93ecdc701a2so134584485a.3
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 16:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792021583; x=1792626383; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ReKVbNx+D5AMrmxj0HiDzNjMMNMqfQtzg8j7u13LE9k=;
+        b=MyJhqydaSLbDYIvHgV1bgceS1X8WBNzpaHYjvwl0KotpFnVR+zgeeLuhVtXA7tr+By
+         lgYwYEXR9/mmplVeyLt0AADIKABKONx40NiBuTwEvu3CNw3NsJFO1Iak31lYGk8f+FxI
+         90lRFFBvlMd61Cgt1y3DSglyvyXk16VIEAaCaiyY2ZG8smf43ftXlrQDCej1EIf2/9lL
+         wth14iF+tCHO4lKpw4WCUu7BJy1LVd2FwLr2qJwSg4EJHqvvFjkZqhnt0zYMG5aXLpV1
+         D3eNk4ULEE0amSpnORx7U2pZdaOgiH6juS82VmaWZLQzJxqgljv8pDS2bHlJdFoi765c
+         wetQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792021583; x=1792626383;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ReKVbNx+D5AMrmxj0HiDzNjMMNMqfQtzg8j7u13LE9k=;
+        b=DkZtfIyw4KClTY0T5EI2VSQ1+JGNdSMme+Vo+n7uVD46oG6A8rMlCr9HXwaqBrGTGp
+         0ie5l694dyD/+GNuCojHTTIzFyptUDCQ7tcft7IeQ39K4cQMhr117AKU28beDEfVirqi
+         ccLqsWeRtKZbD0DK8TKWVSJONRVkr/rr5LJKdXCW/KI4ML6BJrIjoRGcRAuRLvPiqiCz
+         NCFHs6JyoaqwZm31qYpEIHMrf3P8xA74gRlEJgBr6py9Br9NGNh/g7zRlwLXA//9yeRV
+         Zg66HpRf4Sj/hv/DEsV4Cco6E5xc5z2sQrOiOJmPMjcnqxZH4H4/sqkw52rRgXq6Dv83
+         xHzQ==
+X-Forwarded-Encrypted: i=1; AKwUvBw6/hdhKYWvUvc+WWwwIAT1vE2sZ9z6WE8YODD4Knbnw90I7227hpgrBI2yXg+L5AkTZ8imhG52pJA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI5gH9ovicxDtl/WpVuCmzd6KU+6oolwDiw7Um9TvLTKdsKXQPn
+	d//bQFQNW7fEVAZoGAcnSL9faraC83wpWjtl9ufwxdVWJPMo1ZYOb47KFMaSolGbsNYEGvjKoMY
+	I/rC0RNj9W+Ucsr/IwW0xmMDE1PEosvXLKxxCtNneNoKkMWZWZI5yOeKgVL2k2jA=
+X-Gm-Gg: AYBFou3RV+1/6V4vgFR22lVNsHQ8xdq8PFTbV3wNkUHwKG0x9pNui8AkP+KkyExESn9
+	0/QqpSpsGkpCaI0sMxwpanj9g4DAE1Tbmvak9YgFgQE0uD+pyGvlTNNMfZZBa4TJ1SYqaCcBIs6
+	3kUAKzozYfT+xSikuMbJz7HJCIsGMvQydp5k1gUpcCw9llM3TQgw83e9B+oX1fD2BsvnNvkuWpb
+	NlzwqGvUkp/Mc33Gs9ymkQSrZZS4oW+lkIAx3EtnQ66XxtiDtWVVrKkULymCkGqTZ38QrRD4aHO
+	83Taje22RCQ2J0oF9tX+QjKD//2dPy0soYfzYMn3bsaNVpc/v6uQeSWJq2yIgHQavw+ZC53mSL3
+	AmzJhIvWI6ZsXQxkjUJeTx/F8Yd4y0x4dRo8sny3aDP7lQ+a70nsTxLVZkAuqq8n15ZbFA8nqEI
+	ypZ6Xf7ogXQn0L
+X-Received: by 2002:a05:620a:4693:b0:93a:9ef5:d370 with SMTP id af79cd13be357-93ebd0be3d8mr2916450885a.1.1792021583028;
+        Wed, 14 Oct 2026 16:46:23 -0700 (PDT)
+X-Received: by 2002:a05:620a:4693:b0:93a:9ef5:d370 with SMTP id af79cd13be357-93ebd0be3d8mr2916446585a.1.1792021582503;
+        Wed, 14 Oct 2026 16:46:22 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5be33d90ce5sm957598e87.59.2026.10.14.16.46.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 14 Oct 2026 16:46:20 -0700 (PDT)
+Date: Thu, 15 Oct 2026 02:46:18 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Sebastian Reichel <sre@kernel.org>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J . Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Mario Peter <mario.peter@leica-geosystems.com>,
-	driver-core@lists.linux.dev,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 0/3] driver core: parent lock fixes
-Date: Thu, 15 Oct 2026 01:12:11 +0200
-Message-ID: <20261014231210.2346737-2-dakr@kernel.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261014133109.1392265-1-johan@kernel.org>
-References: <20261014133109.1392265-1-johan@kernel.org>
-X-Patch-Reply: applied
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, kernel@collabora.com,
+        Sebastian Reichel <sebastian.reichel@collabora.com>
+Subject: Re: [PATCH 1/4] dt-bindings: connector: Add DP AltMode VDO
+ definitions
+Message-ID: <otk44i4caul5k5dhqsprgmv4hr4jrvtpq2nhcyhgc7ngul5iyl@jmz2ebrwhcgc>
+References: <20261014-dp-altmode-dt-defines-v1-0-b657c9b6e4c3@collabora.com>
+ <20261014-dp-altmode-dt-defines-v1-1-b657c9b6e4c3@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261014-dp-altmode-dt-defines-v1-1-b657c9b6e4c3@collabora.com>
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDA5NCBTYWx0ZWRfX9yQYwvgnAZaA
+ jFNLVF4o50xx85eDUd3Z1cwFgE3/McXI9L34N2j0Iq3hnzOQO2eagG768G1P2ds8Lb2cU25ABi0
+ 2G/fZYF3Wh0tbFCdifQHLUX7l9FBWzU=
+X-Proofpoint-ORIG-GUID: ASrtgyFLswr--RvzEPea96fe0DQ61K5m
+X-Authority-Analysis: v=2.4 cv=aeb0Dhot c=1 sm=1 tr=0 ts=6ad0144f cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=QX4gbG5DAAAA:8
+ a=EUspDBNiAAAA:8 a=YnuTlg8LRq0IA_Y-aJEA:9 a=CjuIK1q_8ugA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=AbAUZ8qAyYyZVLSsDulk:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDA5NCBTYWx0ZWRfX9AskmJTnRVvq
+ 1F+FrX/yVSpgKlUyrKoX8Q3uzMvyaVgNJdMlBRUWedpIfdD3OAGnYQ6poE/zeOegasr1Q5I7HBW
+ YDe0pmiuqDHQDjUWEKlHeSe2AWkC/wh/sCwgBrGjWu++U6fAqQxovW7gww4h3jYEqNcz97N9PfE
+ rzJ/TxLXYyNnIpawIM1RuuxFE+HCQhxacKwtA45fythgnmetqd1uQ5ipI+FWXWp4kGDjzJS8w6G
+ +iS6iJPBeIVRHzDpseHsG0q6LIsmvRh0q54Co8DfuNEAdSpAklkdNurnG6/1SD7q13FdToWFiEd
+ rPnfoVANFDNDLECTSroV4TXvcZXWCUUInfbrKoS9Y2P1zczm2k03yV3Kn8LXa48g5LqK7d68PhE
+ BKyiH0v8Hl1WjG1l6+W+TGYI/eaBtjrNeWNuRYU4gykNW21nWZiXLV34VqZQXa09A+rhH4vQjON
+ Jpp1YOKF6ViH7qEqr8A==
+X-Proofpoint-GUID: ASrtgyFLswr--RvzEPea96fe0DQ61K5m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 bulkscore=0 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ spamscore=0 priorityscore=1501 malwarescore=0 clxscore=1015 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610140094
 
-On Wed, 14 Oct 2026 15:31:06 +0200, Johan Hovold wrote:=0D
-> [PATCH v2 0/3] driver core: parent lock fixes=0D
-=0D
-Applied, thanks!=0D
-=0D
-  Branch: driver-core-testing=0D
-  Tree:   git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-=
-core.git=0D
-=0D
-[1/3] driver core: fix parent lock use-after-free on USB disconnect=0D
-      commit: af61396a992b=0D
-=0D
-      [ Fix mention of bus vs. device type in __device_driver_{un}lock().=0D
-        - Danilo ]=0D
-=0D
-[2/3] driver core: take parent lock on deferred probe=0D
-      commit: 277d13e909dc=0D
-[3/3] driver core: take parent lock in async device attach=0D
-      commit: 20dacc0138e3=0D
-=0D
-      [ Fold the nested conditions into a single if statement; correct comm=
-it=0D
-        message to mention "device types" rather than "buses" for=0D
-        "need_parent_lock". - Danilo ]=0D
-=0D
-The patches will appear in the next linux-next integration (typically withi=
-n 24=0D
-hours on weekdays).=0D
-=0D
-The patches are in the driver-core-testing branch and will be promoted to=0D
-driver-core-next after validation.=0D
+On Wed, Oct 14, 2026 at 11:31:49PM +0200, Sebastian Reichel wrote:
+> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+> 
+> The typical USB-C DisplayPort AltMode capabilities for a down facing
+> port (i.e. sending out video data) looks like this:
+> 
+> altmodes {
+> 	displayport {
+> 		svid = /bits/ 16 <0xff01>;
+> 		vdo = <0x00001c46>;
+> 	};
+> };
+> 
+> Improve the readability by adding defines for the numbers, so that
+> the above instead looks like this:
+> 
+> altmodes {
+> 	displayport {
+> 		svid = /bits/ 16 <USB_SVID_DP_ALTMODE>;
+> 		vdo = <VDO_DP(DP_CAP_DPAM_V2_0, DP_CAP_CABLE_TYPE_PASSIVE,
+> 			      DP_CAP_UHBR_13_5_UNSUPPORTED,
+> 			      DP_PIN_UFP_NONE, DP_PIN_DFP_C_D_E,
+> 			      DP_CAP_USB2_USED, DP_CAP_RECEPTACLE,
+> 			      DP_CAP_SIGNALLING_HBR3, DP_CAP_DFP_D)>;
+> 	};
+> };
+> 
+> The generated DT binary will stay unchanged.
+> 
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  include/dt-bindings/usb/pd.h | 58 ++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 58 insertions(+)
+> 
+
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+
+-- 
+With best wishes
+Dmitry
