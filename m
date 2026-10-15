@@ -1,108 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.teplosmart.kz (mail.teplosmart.kz [109.248.152.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110044AEBCE;
-	Thu, 15 Oct 2026 10:47:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC3951B166;
+	Thu, 15 Oct 2026 11:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.248.152.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792061225; cv=none; b=g+MoiiSIPgWWilhMvDusecFl5ccDOJu/coOqnSfIjuIjFi7pt+v5Cz48N2wemoy/lRZ5kGj4wSzQNkdGjDFnUMJKUlykIc4rdpRcrictsFq2E5VJ47zBx/plGGF2t/AgZ0Vy7xqco+Mh+dmL3cuTbPFrAu2OX6yhh/5LFJ2Q14w=
+	t=1792064031; cv=none; b=RDrrFICXCwbyWZl7lChSTKFMh+aQzkKOmTfADEb4Sc2esBy1P7KAzip05defDDMyuFOZsqE89JBHAzcbJtGBo+LnFBXGwNShM7Hblc2oCVoA+He6j7hiv195ZihNkBvPxiSZYBqTDgRK72L3jrHksCqnJPUxBIsVhB3J67czVeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792061225; c=relaxed/simple;
-	bh=3l22oUBQUWdDwjGMwhzw0uMg4snUszAq46Il6N+4ums=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=Ht2GbzC2r5FqmquvuR/Y7HdKGTV/faQAbi6NQJkrvTUMnhglEJZ3bpgb+TZ0ygrTLYyVeQjln+WjtH4eIAi//0YCMqt2M3plJYh86PgYjV7GNvl86E0w7348NcYh96B2uPFKfw75+ug3xFAIfO7jC2bOW363iJuf8vGiOI1lZLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XfwHVBMu; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792064031; c=relaxed/simple;
+	bh=4C/AZXi9grtRt3mBsT54Kv9HZu2he0XxzoSI6bWEJSY=;
+	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=fefuxPaMdshnnGBAqwMcgRXbMSGyoqlB6Uf8L3AXYy7BPCrGLO5hlrgJsq9yJyvEtblu3WHqob5Dxq+W+bub63wKVUK3o58whVi+v5kOyHu8BmVQdUiFcrQRUKRZhZ+vwiugeaZ/JuW+X9x48hzxGdFOg+l0w4HB7L6saMQVuIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=teplosmart.kz; dkim=pass (2048-bit key) header.d=teplosmart.kz header.i=@teplosmart.kz header.b=mG7L1IjR; arc=none smtp.client-ip=109.248.152.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=teplosmart.kz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XfwHVBMu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 023081F000C4;
-	Thu, 15 Oct 2026 10:47:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792061223;
-	bh=Ft+gkYwOAwr7XHuxub+OX7EI1tRPr/sNud4T/vHhp/w=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XfwHVBMujPCxroB6+pH1C7bnQyRHj879zvcQGbUevWfnyKrfpRt2q8FT10B33eUCf
-	 iiZqSw1tktVLpscKt0sTbfGh/wnw3wxx3CI04vI3uonma/JL3sm12zXC94ORWXimNL
-	 hsbguhTFRjSqjyIXi7GPSWyq7vgokd/nDBS91GuCHeSbHSctgye8g2uL3NnA+HeUZp
-	 gSVdo0LAUtyiAW2+ppv5rOCd/2mIFsUNzuczXBLR6/1JNU5Kz/S3UM3Q8t0hErJxQg
-	 Bb/31v5NXwiu+OVz9UAMZ/xKqRa1Wbtso4EoQt2PvSK7m3WQe6hlgNR1okLlVyZF35
-	 YeaWgIA6jb/Aw==
-Message-ID: <sashiko-outbox-172676@kernel.org>
-From: sashiko-bot@kernel.org
+	dkim=pass (2048-bit key) header.d=teplosmart.kz header.i=@teplosmart.kz header.b="mG7L1IjR"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AE65E665B7B;
+	Thu, 15 Oct 2026 16:33:37 +0500 (+05)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=teplosmart.kz;
+	s=dkim; t=1792064020;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=3uqW+09n5FTefnsRmZrO2GQEJUaCUJKldwLRYEBXOGA=;
+	b=mG7L1IjRLu+uGG2EfQLuqUGWZfJb0Tk1I2nFK8w005sUdo9SL+/Xho4ehmBKsxpXP2O0XY
+	eFZlFSfoLpUH2xW3Ztk09o5P4ft1Por3cwUr82zVaYyCfc9YFba6kVi6eGexJfem3cDvHG
+	/PwI+vNn5V6W3d4TQUVFv/DNyh+SSFXxZACzbFYDXr0bz3Cd0Mg3HTJsccpVdxKJBLNWak
+	sS79RaB9EeOr2SBp3AwP0jCDTfqMhr3bBzyw+hhaEUXIhqMYIeQlyiFX5+EZIozSrX3xdc
+	NPT3CI2uBvwM1xcAPJKZFSTsh2nUacvKlgxgcS78u2g19ELdplpktGAUB07LPA==
 Subject: Re: [PATCH] HID: usbhid: add HID_QUIRK_SKIP_FEATURE_REPORT_ID
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Fedor Gubenkov" <writesfaster@gmail.com>
-Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org, dmitry.torokhov@gmail.com
+From: Fedor Gubenkov <writesfaster@gmail.com>
+To: jikos@kernel.org, bentiss@kernel.org
+Cc: linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, writesfaster@gmail.com
+Date: Thu, 15 Oct 2026 16:33:35 +0500
+Message-ID: <179206401538.18141.5875548091082581632@teplosmart.kz>
 In-Reply-To: <20261015102601.1235724-1-writesfaster@gmail.com>
 References: <20261015102601.1235724-1-writesfaster@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 10:47:02 +0000
+X-Mailer: git-send-email style (smtplib)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] HID: missing HID_QUIRK_SKIP_FEATURE_REPORT_ID check in usbhid_ge=
-t_raw_report
---
+Please drop this patch; I'm NAK-ing my own submission.
 
-commit b5d7d6ff27fe5a08bcc6f67c8ed596cb786d6404
-Author: Fedor Gubenkov <writesfaster@gmail.com>
+After further testing against the actual device, the premise of this
+patch is wrong. The dongle (3689:8762) *requires* the report ID byte in
+the SET_REPORT(Feature) payload. Captured at the USB level:
 
-HID: usbhid: add HID_QUIRK_SKIP_FEATURE_REPORT_ID
+  - SET_REPORT(Feature) with the report ID present (21 bytes): the device
+    returns a valid, challenge-dependent response.
+  - SET_REPORT(Feature) with the report ID stripped (20 bytes) - exactly
+    what HID_QUIRK_SKIP_FEATURE_REPORT_ID produces - the device returns a
+    single constant byte (0xe7) for every challenge, i.e. an invalid
+    reply.
 
-Some HID dongles implement a stateful challenge/response over HID
-feature reports. This patch introduces a quirk to omit the report ID from
-the SET_REPORT payload, fixing a stall when interacting with the USBKey don=
-gle.
+So the unmodified usbhid behaviour (report ID included, as mandated by
+the HID spec for numbered reports) is already correct for this device,
+and the quirk breaks the only device it targets. My earlier "the 20-byte
+transfer works" observation was a flawed comparison that used a different
+challenge and never actually elicited a valid response.
 
-> diff --git a/drivers/hid/usbhid/hid-core.c b/drivers/hid/usbhid/hid-core.c
-> --- a/drivers/hid/usbhid/hid-core.c
-> +++ b/drivers/hid/usbhid/hid-core.c
-> @@ -914,8 +914,10 @@ static int usbhid_set_raw_report(struct hid_device *=
-hid, unsigned int reportnum,
->  	int ret, skipped_report_id =3D 0;
-> =20
->  	/* Byte 0 is the report number. Report data starts at byte 1.*/
-> -	if ((rtype =3D=3D HID_OUTPUT_REPORT) &&
-> -	    (hid->quirks & HID_QUIRK_SKIP_OUTPUT_REPORT_ID))
-> +	if (((rtype =3D=3D HID_OUTPUT_REPORT) &&
-> +	     (hid->quirks & HID_QUIRK_SKIP_OUTPUT_REPORT_ID)) ||
-> +	    ((rtype =3D=3D HID_FEATURE_REPORT) &&
-> +	     (hid->quirks & HID_QUIRK_SKIP_FEATURE_REPORT_ID)))
->  		buf[0] =3D 0;
->  	else
->  		buf[0] =3D reportnum;
+Sorry for the noise.
 
-[Severity: Medium]
-Since this quirk is used for a challenge/response over feature reports,
-does usbhid_get_raw_report() also need to be updated to handle the response?
-
-If the device omits the report ID in its response, it appears
-usbhid_get_raw_report() will not offset the buffer for numbered reports:
-
-drivers/hid/usbhid/hid-core.c:usbhid_get_raw_report() {
-	/* Byte 0 is the report number. Report data starts at byte 1.*/
-	buf[0] =3D report_number;
-	if (report_number =3D=3D 0x0) {
-		/* Offset the return buffer by 1, so that the report ID
-		   will remain in byte 0. */
-		buf++;
-		count--;
-		skipped_report_id =3D 1;
-	}
-...
-}
-
-Will this cause usb_control_msg() to overwrite buf[0] (the report ID) with =
-the
-first byte of the device's raw payload, resulting in a misaligned payload f=
-or
-user-space applications reading these feature reports?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261015102601.1235=
-724-1-writesfaster@gmail.com?part=3D1
+Thanks,
+Fedor
