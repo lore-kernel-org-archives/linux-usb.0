@@ -1,116 +1,77 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1EC4CE672
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43FF4CEE51
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792052440; cv=none; b=GMpiPPLyn/M/agNfCe/LbffAPpnbm76jQVm1zDwG8WC3W0hMLBAEYzIrLptySIUV29wRgfnYsqBObyoXOCnXdPRXtuW3bTC/JJ6mmHCs6o+oola5aewXGJgpO5N2HDePCXW7bCGz82galSsb3d8cVlIegny5T6rYJ3J2BEmdz9E=
+	t=1792052441; cv=none; b=eaqJ/554fhXCrefzlWMYE29qy0OopOsqL06KTKw9TFsBVzMiDHhmtTrydlGyhawT+wPr1u7IRk6N+OMnuKX9wFPrazfH/j0BVP3JJMK/ddasuIX2z+YDkyOmDdr75eoiHfI61VpHYVDKUgMMfTbVPdS6qiM26POzJXX7IuiQ1Dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792052440; c=relaxed/simple;
-	bh=iiJlKl0BV+FvVDrFJdZeR9l623Tz54AffTcjwFPilzk=;
+	s=arc-20240116; t=1792052441; c=relaxed/simple;
+	bh=xpdBzxe6zN3JQW45SAq8JzGCNF8423ojCfZenDZb7fI=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=K7Tr8fvExh/c9Z6GkeHN8xFpxJj1RBhVGS6RPIeas4+TtAthIwQQsa4e5T8z2M0yCQ58EaAJCi4D1Rku7MJs7jXMxOsCUzmW3M9qrP4d4BlVTWWHzKOKEFUDrHrcWFLmUQFA1z+OCqiH0Jq0KxcNKH/5GHSt50KQgA//nuZD7tQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gviUadJa; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=KjIxcGNGbA1e6gtQU8pyzvoTNJGLEHm7I/wO1TaXTS/JB/ZhMLCOfCmLVsdRxq4eToAl1X3bzqrtvP+lq8JNxNfoEbAdKkdyurl+LO0pyr833G74oTdQUxb/cmNVsGhfELXWSFK9xHeKYPSUGikM6F/oUe+n4ERSJSFblgtuV2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dp5/KuUf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gviUadJa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF0D71F000C8;
-	Thu, 15 Oct 2026 08:20:36 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dp5/KuUf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A0F1F000C9;
+	Thu, 15 Oct 2026 08:20:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1792052437;
-	bh=Vj47aobbG6Eo9hy9iKdjz+0t8DbkmzNlCCYXYUi0cLA=;
+	bh=xpdBzxe6zN3JQW45SAq8JzGCNF8423ojCfZenDZb7fI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gviUadJaA1XA1blKyG3dHvAg7fw/WHUrC811eh0BkQAj280xZ5fovCseTKcFLhr8C
-	 ghM/LMqrAPkdYN666nYLw07g7ZIVAA9BDRBQQd2nz219MrhrDt85KjiPTUbCOuw22a
-	 F8Bxbu15pbjcyOcYrCCdmJzJqTVzJydNolvI8zPbHNQeBzMamnD6XqTmSPgev/trcS
-	 4ZNVWILrdtT3Vug8twNqTsKBFAWrI0F70ojbFU9cH5SHK8zKGsznH+sUStGp+u+iBg
-	 D0kqv6u7QeG6B02dSKVFcNbaECoEoYOb+Y0dSbulfSemRf3y+BkM+/tjfmnoXPX9vF
-	 6EHVL2byzs8gQ==
-Message-ID: <sashiko-outbox-172466@kernel.org>
+	b=dp5/KuUf3/u3rFbtJBur9iYISilQcJTqfndfPk7AAV3lb0d4cXewTtVL7vlBFAJE3
+	 lamI78ypCcVbejYuDrzeTL6SkFVeP+qlxKBNeSwLixV7V8lMDP3oCVF9jrfyTiq7uV
+	 wE/WuSRZbpv4MdNol3xyNJBH4VMQ4cv+jBFIATYDyFYGP3lgLQpjakjj/4m3MDcI4Y
+	 UirQqq3lFUHb9eSVDpqBo2gSvOK/Pr/m07B05098GFQE3q6Rp8VZW38zMG+SHM9gBV
+	 KoJAkaWvTcZ/c5449OEXX5MJ5d8DO8TvkLi90ghP1u1/iIWiJkxl4FgBwYzz0qPO19
+	 YCOWDlovTjoWg==
+Message-ID: <sashiko-outbox-172467@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v7 08/10] r8152: add TGPHY register access for
- RTL8157 and RTL8159
+Subject: Re: [PATCH net-next v7 04/10] r8152: split rtl8156_enable/up/down
+ into per-generation functions
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014081904.6491-9-nic_swsd@realtek.com>
+In-Reply-To: <20261014081904.6491-5-nic_swsd@realtek.com>
 References: <20261014081904.6491-1-nic_swsd@realtek.com>
- <20261014081904.6491-9-nic_swsd@realtek.com>
+ <20261014081904.6491-5-nic_swsd@realtek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 08:20:36 +0000
+Date: Thu, 15 Oct 2026 08:20:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] net: mii: corrupted PHY write-backs on negative error codes
---
+> rtl8156_enable(), rtl8156_up() and rtl8156_down() had accumulated
+> tp->version range checks to cover RTL8156, RTL8156B, and
+> RTL8157/RTL8159, including an early bail-out in rtl8156_enable()
+> that skipped most of the function body for RTL8157/RTL8159. The
+> result hides which settings belong to which chip, so chip-specific
+> register differences cannot be reviewed, and cannot be added without
+> touching the other families.
+>=20
+> Give each generation its own ops callback: rtl8156_enable() for
+> VER_10/11/12/13/15, and rtl8157_enable()/rtl8157_up()/rtl8157_down()
+> for VER_16/17. rtl8156_up()/rtl8156_down() keep serving RTL8156 and
+> RTL8156B (VER_10/11/12/13/15).
+>=20
+> RTL8156/8156B/8157/8159 share most of the up/down sequence, so move
+> it into common helpers, as RTL8152B/8153 do with exit_oob/enter_oob.
+>=20
+> Each extracted function reproduces what its chips already did, with
+> the guards that were true for them inlined and the ones that were
+> false dropped as unreachable.
+>=20
+> No functional change intended.
+>=20
+> Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
-commit 2f3d9bfec100e921469b287bd26fd9b2d7f8a3db
-Author: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-Subject: r8152: add TGPHY register access for RTL8157 and RTL8159
-
-This commit adds TGPHY register access for the RTL8157 and RTL8159 chips.
-It changes the r8152_mdio_read function to return an int so that TGPHY=20
-hardware timeouts can return negative error codes.
-
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index 558ccb4682c27..7c0de56266963 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
-> @@ -1664,16 +1675,33 @@ static void ocp_reg_write(struct r8152 *tp, u16 a=
-ddr, u16 data)
-> =20
-> -static inline int r8152_mdio_read(struct r8152 *tp, u32 reg_addr)
-> +static int r8152_mdio_read(struct r8152 *tp, u32 reg_addr)
->  {
-> -	return ocp_reg_read(tp, OCP_BASE_MII + reg_addr * 2);
-> +	u16 data;
-> +	int ret;
-> +
-> +	ret =3D ocp_reg_read(tp, OCP_BASE_MII + reg_addr * 2, &data);
-> +
-> +	return ret < 0 ? ret : data;
->  }
-
-[Severity: High]
-Does this code inadvertently corrupt PHY settings during a read timeout?
-
-The commit message notes that the MII library callbacks still ignore the=20
-status and need care, but propagating these negative error codes introduces=
-=20
-an immediate regression.=20
-
-When r8157_phy_read() times out, r8152_mdio_read() returns -110=20
-(-ETIMEDOUT). This negative value propagates through read_mii_word() to=20
-the standard MII library without being sanitized.
-
-For example, it can happen in mii_nway_restart():
-
-drivers/net/mii.c:mii_nway_restart() {
-    ...
-    bmcr =3D mii->mdio_read(mii->dev, mii->phy_id, MII_BMCR);
-
-    if (bmcr & BMCR_ANENABLE) {
-        bmcr |=3D BMCR_ANRESTART;
-        mii->mdio_write(mii->dev, mii->phy_id, MII_BMCR, bmcr);
-    ...
-}
-
-Because -110 is 0xFFFFFF92 in two's complement, the bitwise check=20
-bmcr & BMCR_ANENABLE evaluates to true (0xFFFFFF92 has the 12th bit, 0x1000,
-set).=20
-
-The callback then incorrectly ORs BMCR_ANRESTART (0x0200) and writes the=20
-corrupted value (0xFF92) back to the MII_BMCR PHY register. This=20
-inadvertently triggers the Reset (0x8000), Loopback (0x4000), and Power=20
-Down (0x0800) bits, turning a transient timeout into a persistent link=20
-failure.
+Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014081904.6491=
--1-nic_swsd@realtek.com?part=3D8
+-1-nic_swsd@realtek.com?part=3D4
+
