@@ -1,141 +1,200 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f54.google.com (mail-yx1-f54.google.com [74.125.224.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B61434D6C20;
-	Thu, 15 Oct 2026 11:58:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E992846D544
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 12:08:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.54
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792065508; cv=pass; b=RAgJet9s23KNpUzknJqkW0DLnDI5zKNjJaX73SOB2rXuS4llUkgKQQxyR8u5mGmoA2pgPuKu1nRHSPHsn6IVuLHyeW5/Hbgqo8gl1SL2NzbA4USvm1HpgmIYuJykUy0tWrKNfuqY1r66UGSjUEVTYW0ka1yd47ThPsxsDjZTbIU=
+	t=1792066083; cv=pass; b=JKWKYlBROfA+fPpP3nHsrRaBdkCsjE36x70EqIFUz7MrnVQH5hd94t58EaSHzkB2gEenKzEu20XqavbQeOZ5xdQE/2P4n6JooPQBD0ZKt5AwejBlI/NNpA01fE9k+e8EqMlNbvdRz83ddSQR2PzwUAxuK4JqirtZuXH4b4HaZCw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792065508; c=relaxed/simple;
-	bh=ZQjnLF1YwrB2ataqUQ1gNLQBjQgVRrLmuxGJ+kShVJU=;
-	h=Message-ID:Subject:From:To:Cc:In-Reply-To:References:Content-Type:
-	 Date:MIME-Version; b=gDRdkmVo4rtsfZzQvchO4UcuDgGJhZ+eYin3Uyr1oUeXIPJHTSEIIFpIYebmpGl7Tp00Vn3mhq6vGI8tK4PLyi33IxA/5H/6avoKugbldMtgm9F6qN8u3RxHeND6/EvRE2ZWwjsc1oTiqgfJ1XrzBH0QVo6rwNzrj7VIQnd1Q7Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe; spf=pass smtp.mailfrom=rong.moe; dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b=ZInmAsFG; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rong.moe
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rong.moe
+	s=arc-20240116; t=1792066083; c=relaxed/simple;
+	bh=CHuR3T2nKbWyNeCG8TXa0L7+Lnah41FyiIfTKcB7elU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=TctWw4g+daF8KeLfKKaF6WsqDFo7YDPRbDObLg52pnsAKlYP39dcSNkwh7WRuHj5sxkDJjt3Dl6TEA9o9haL7qaZyrhK9t2LlEXPrBuKu/jPC3lEXKHR5hPEK4UKeSDK8aJwGCIFb/y7ALlrJn9M31chkndCHQMygquxOoIkzH0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U7fcMuxF; arc=pass smtp.client-ip=74.125.224.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rong.moe header.i=i@rong.moe header.b="ZInmAsFG"
-ARC-Seal: i=1; a=rsa-sha256; t=1792065480; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=ai9eX4qBYHOVgw9CLvJ4GF3lh1vQx9N257ohG5l0skYj233gMLHx3YurcJLtQ0jdbN94cLT/ddhboCFCRbgJFW7LKoa7gBTVSAdbTI6QdTYk7vG4N4ZS5eotyzTzBsKsm7x3BTMUUYwxEXjJbb2lhOjkga1nWK+Kl4tJXdNBXoQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1792065480; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=LUx1dLxAkaPBqPMUqfHWgH9b0YKDCw02ZjGIlKa+O5M=; 
-	b=FuCEueIQuuACnn+XAygeDXL3zniTimu+czRPaTqGzOa9t7eAogiTiTzT2dHpJLt3JXyR+qJPSqQXZuxNoJaV7YXj/DuI5ndgO0HwvGjVWY7adDpwDFBkMgFzQ7pWHzq52PHTRYI8qff5KjxXapc3Fy970vxBqDIZGjvevtN6u4k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=rong.moe;
-	spf=pass  smtp.mailfrom=i@rong.moe;
-	dmarc=pass header.from=<i@rong.moe>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792065479;
-	s=zmail2048; d=rong.moe; i=i@rong.moe;
-	h=Message-ID:Subject:Subject:From:From:To:To:Cc:Cc:In-Reply-To:Content-Type:Content-Transfer-Encoding:Date:Date:MIME-Version:Message-Id:Reply-To;
-	bh=LUx1dLxAkaPBqPMUqfHWgH9b0YKDCw02ZjGIlKa+O5M=;
-	b=ZInmAsFGhHFW5CGIfXK5qlTENek1oV6GWB8oLpfAeI0I3eQyFB96NjKwPq068qMw
-	tE5WUFYCqPYKtNtKKPsARG7ALrqqkihq3XuHcaiT3/PEwIH1K1zljQt3GTSzIY51okp
-	Lwz3PTkIYpD0zYnugpv2JfKQGzVMrtTkNmX748+WUYIHQUhmdTRnsnDOMmki76NRlyd
-	bAY44pMgzkQ6t789D8nu+WjlFqwM9RR3+y5S+ItU0P8d1TK80OdtGC71hlccCWftdCD
-	EA3mDcEhcYpv3kC4zIJYflj+Fa0ofhUYAHH/2Qvb5yjlrSPHlHfB3UWiZGObMK4KBJL
-	GUJKimA8ow==
-Received: by smtp.zohomail.com with SMTPS id 1792065477586319.75322492405417;
-	Thu, 15 Oct 2026 04:57:57 -0700 (PDT)
-Message-ID: <134e9482ec396787d6aaf079729c49106ee45286.camel@rong.moe>
-Subject: Re: [PATCH 0/4] ACPI: Serialize EC queries, UCSI and ideapad
- methods
-From: Rong Zhang <i@rong.moe>
-To: Ali Ahmet =?gb2312?Q?Memi=810=946?= <aliamemis@disroot.org>, "Rafael J
- . Wysocki" <rafael@kernel.org>
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>, Ilpo
- =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, Heikki
- Krogerus <heikki.krogerus@linux.intel.com>, Greg Kroah-Hartman	
- <gregkh@linuxfoundation.org>, Len Brown <lenb@kernel.org>, Ike Panhc	
- <ikepanhc@gmail.com>, "Derek J . Clark" <derekjohn.clark@gmail.com>, Mark
- Pearson <mpearson-lenovo@squebb.ca>, Armin Wolf <W_Armin@gmx.de>, Avraham
- Hollander	 <anhollander516@gmail.com>, Jeffrey =?ISO-8859-1?Q?W=E4lti?=	
- <jeffrey@waelti.dev>, Rick <rickk1166@gmail.com>,
- linux-acpi@vger.kernel.org, 	platform-driver-x86@vger.kernel.org,
- linux-usb@vger.kernel.org, 	acpica-devel@lists.linux.dev,
- linux-kernel@vger.kernel.org
-In-Reply-To: <20261014190544.150093-1-aliamemis@disroot.org>
-References: <20261014190544.150093-1-aliamemis@disroot.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 19:52:33 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U7fcMuxF"
+Received: by mail-yx1-f54.google.com with SMTP id 956f58d0204a3-6799defef1eso75567d50.2
+        for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 05:08:01 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792066081; cv=none;
+        d=google.com; s=arc-20260327;
+        b=K+m8HR+GewQTj0Xrkp4L4XRnARB1MY80Y2UIMpd9fWkTC9PuKxZmotJzw5DUE+UKAV
+         1TyqWET2jLBzB6s7NkKAAWPRTaPAlJH3otwcP7r916+1CC8jqrRZb19ihwvy2WpF9WcB
+         rnT6iYtYL4QDYkj4hLsi/KDs+G0R/pYKoYMqu/8xX2yGfVhaa0se2cie1cgBDyOUL4Ck
+         MsAQyRwMs8Gm8dqaBzazUU/fIJPQcUtnnYDuomp+/djVstz90b9mxlB1peLaCYNhA/2e
+         V+1xc6+7P2u/svU4tcGFfpvxiGkZDH4XWgqXAEyIEPZ6/+vvpjMG5ZK+JJU8OM+AUjOm
+         1dAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=9Sr1hizfvHOuqxx6DDbi0iSP3W01DP8pwpzAOeJwIpU=;
+        fh=oXYrayZ9IpjhFr45KsAKgByL5LMGRlT4jqmXfv01t/8=;
+        b=CnU5Lm2hRULMCHLuPNa3SriGjstGgrYpfvvncDYcVMIO2L5YVKEuXpxg4Yg3194AdL
+         GvUge8oRc5FfXhRcqdnWS/9Y3GUD70KrgrxH48PQJ7xcZk2HAMXrRNKYEWxxKzEDC0hF
+         EdMiLF00usPtPPRL+EfueT/FdT+7GrhZUDTAPwdhqeA944hEPef98fXOnSXtt+hm5qP8
+         iboNCKmx8Xls0RiCAMS/EIb03xUnxSny5voab37+VGqRzwOr8uQpJ2BWdQDPUF5IG9He
+         WFqmlllEGU+Q/3Zk+3Sw4b+tktW5sAB+HiNPK9/DpXhRnnTi660cWqVH9gZDpFYnAW49
+         sEwg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792066081; x=1792670881; darn=vger.kernel.org;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9Sr1hizfvHOuqxx6DDbi0iSP3W01DP8pwpzAOeJwIpU=;
+        b=U7fcMuxFY75Wm1ZOAk+bIO3K0BT5DyvZ6nMRrBQLHsWzIhOeO5F7h1jR3k3qDQouK4
+         7QsKj++KUC6bRG8G0qJFwSeRFs6LhYVcSD9wY+CtPTAJaeaAc0H0Nm8P5mw2GZu5sO7C
+         01UzkuPWLwFZDT7yoiW9mWtA1t7zcQpXt2j/uzdMPrSSYJgAX6GWJSxhN/w+yJhqwK5c
+         rfu2HnDPf7Wngd9/9OiTQx4YSIf/YBsOizcRBJy8jQhLABc7/pcKybjIhLIOcxMElQ+A
+         gBUrVGqMRDac1fX92y5rz6QlXKjZWhFB9JfUbEA+Ocn+88k8KhAbzYDGp4h5xg+057h0
+         M/LA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792066081; x=1792670881;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9Sr1hizfvHOuqxx6DDbi0iSP3W01DP8pwpzAOeJwIpU=;
+        b=JY/oocXtoiBJrRZUtMqFj96hsKbqKe2OhK0Alkgda0j8FtIB9rxCTsidM+whuhZvoV
+         ZHcnuHGnEyb8uGq7UiFt9z2XYM43jg/zCM18s76vSCOJqJ8GjjKtuBSyvF5WQCXFspzY
+         AAM0tQtsHHlKx+VsrGpqO4ieRov4jd3z8ZLuz5dNjIroiina53t+nm/OZGkcQRP39plQ
+         RS8IvfP8IVy2NiV/LPBWu0hFvPfX1RORD9xhjndUUV6w86TFPyc/6Mp37jan+MNM8nm2
+         WAcnSRUFGwOA7X22NWW5Bw1xjYn4X/SYfeXyJRnFXx8+0gSc/4E8XungjZ5AZ5cRnYYV
+         uiCQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxF+FoCKyzszkUJihZnsHYd1NRRAI/QtvMFLPtlQHWKj1oG7Dj7dgZfysgmb0mLDasfvwLkRbP9HuY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLCOZ8JXdkJlHBNsU81/eceiIFusr7Ysu3X5jbRw8d5nm9E/ulF
+	JqdyAKT8YEK6raZgSWEr6K9AUEHQByKUzD/+w7rb7sItPenhHVNyNLBg8ton8eyrpRjU1K/WfzN
+	2mK7gRb6VuWpAJhMBO5vtAQVGxwr4kMT3VtZNa14=
+X-Gm-Gg: AYBFou05gIu4dXiB6fvjXRer6R8ACYc5HUcoKpksJnSIF2G7DHnejHa5BNPoNbf0l5l
+	HSney9SiC1HyH8VYzNu7+o6R3pwj4NuRExOWmjkfiN3MlQtXbrASSY3z+emlaIGy/RoaWO03EYD
+	xL2efvCsFXX67XyHI96WcGLbN6HjrHgV/Tn4o/RoMQGBuNrapLjZVPzJ6Icz8f5tW/KI1/e1qaj
+	pZFxeVt9C07T++3goZoTkTcPhgStqMSHPw+qP1v7Njk/lZf0nbOpG/vtqfnMNvDoMdTwQNkLFpA
+	sgrd41w98I83W6+YHH+6tyNEImQsdgvkNwM9Uy1tisdL+nVRDUCS/OA2wMvI9JR5ZSEbw9u1ng1
+	Y4CjtSc7tvZA0AV+k4X1DpVylmCc9jg5ctHBdibyK5/bJYHMmDE2BvEqt3kLmWUpBptcz
+X-Received: by 2002:a05:690e:138a:b0:677:aca9:7034 with SMTP id
+ 956f58d0204a3-67935f45c27mr11673062d50.2.1792066080646; Thu, 15 Oct 2026
+ 05:08:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Evolution 3.56.2-10+b1 
-X-ZohoMailClient: External
+References: <CAGNJ+_3qpWtzjTLntxTzF2v0jU9mVssukGfhrJFOx_yb+2Abyg@mail.gmail.com>
+ <2026101531-secular-entire-f7a4@gregkh> <CAGNJ+_0ShEM-G+8p3oHx1uF8rBtC7JyqmyFzswDB50qsW=qwuw@mail.gmail.com>
+ <2026101509-reggae-whacking-6598@gregkh>
+In-Reply-To: <2026101509-reggae-whacking-6598@gregkh>
+From: Reid D <skibletz@gmail.com>
+Date: Thu, 15 Oct 2026 08:07:49 -0400
+X-Gm-Features: AclHuK_ul4QykuX4zlqXt3wvnHtPp9fCKeaI7wZEI-pRr6siNY0lc0ZPtQEYXZo
+Message-ID: <CAGNJ+_3ug6Xs-A45-MMA5q-qHLvu=8OhbMLmVkzE_Cm6N=HbUA@mail.gmail.com>
+Subject: Re: usb: devio: USBFS_XFER_MAX check bypassed for iso urbs due to
+ incorrect ordering, potential oob heap write
+To: Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+Content-Type: multipart/mixed; boundary="000000000000270d82065ddfe645"
 
-Hi Ali,
+--000000000000270d82065ddfe645
+Content-Type: multipart/alternative; boundary="000000000000270d81065ddfe643"
 
-On Wed, 2026-10-14 at 22:04 +0300, Ali Ahmet Memi=C5=9F wrote:
-> This goes on top of [1] and uses its exclusive helpers for the other
-> users of the shared EC mutex in bko221065: the _Qxx methods, the UCSI
-> _DSM and the ideapad-laptop methods, as discussed in [2].
+--000000000000270d81065ddfe643
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Please rephrase the cover letter and the commit messages according to my
-analysis in the other series.
+Greg, sorry about that.
 
->=20
-> Patches 3 and 4 depend on patch 1 and on [1], so it is probably easiest
-> to take the whole set through the ACPI tree.
+The fix moves the USBFS_XFER_MAX check to after totlen is computed so it
+validates the actual transfer size used for the kmalloc.
 
-I don't really see the necessity of sending the two series individually.
-It just made things more complicated. It'd be better to send a v2 merging
-them into a single series. Once ready, each maintainer will do a subset
-apply or leave an Acked-by: tag to permit applying through another
-subsystem.
+On Thu, Oct 15, 2026 at 8:02=E2=80=AFAM Greg KH <gregkh@linuxfoundation.org=
+> wrote:
 
->=20
-> The ideapad part is only build-tested, so it would be great if someone
-> with one of the bko221065 machines could try both series together.
->=20
-> [1] https://lore.kernel.org/all/20261014132703.93355-1-aliamemis@disroot.=
-org/
-> [2] https://lore.kernel.org/all/8be1a245-6061-4f86-9223-0da18d5e423a@oss.=
-qualcomm.com/
->=20
-> Ali Ahmet Memi=C5=9F (4):
->   ACPI: utils: Add acpi_evaluate_dsm_exclusive()
+> On Thu, Oct 15, 2026 at 07:30:26AM -0400, Reid D wrote:
+> > Greg,
+> >
+> > Please check out the fix,
+>
+> <snip>
+>
+> For some reason you sent this only to me, which is a bit rude to
+> everyone else on the mailing list.  I'll be glad to respond if you
+> resend it to everyone.
+>
+> thanks,
+>
+> greg k-h
+>
 
-With both series merged together, you don't need a separate patch for
-acpi_evaluate_dsm_exclusive() either. It can be merged into "ACPI: utils:
-Add exclusive AML evaluation helpers".
+--000000000000270d81065ddfe643
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->   ACPI: EC: Evaluate _Qxx methods exclusively
->   usb: typec: ucsi: acpi: Evaluate _DSM exclusively
+<div dir=3D"ltr"><div>Greg, sorry about that.</div><div><br></div><div>The =
+fix moves the USBFS_XFER_MAX check to after totlen is computed
+so it validates the actual transfer size used for the kmalloc.=C2=A0</div><=
+/div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Thu, Oct 15, 2026 at 8:02=E2=80=AFAM Greg KH &lt;<a=
+ href=3D"mailto:gregkh@linuxfoundation.org">gregkh@linuxfoundation.org</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Th=
+u, Oct 15, 2026 at 07:30:26AM -0400, Reid D wrote:<br>
+&gt; Greg,<br>
+&gt; <br>
+&gt; Please check out the fix,<br>
+<br>
+&lt;snip&gt;<br>
+<br>
+For some reason you sent this only to me, which is a bit rude to<br>
+everyone else on the mailing list.=C2=A0 I&#39;ll be glad to respond if you=
+<br>
+resend it to everyone.<br>
+<br>
+thanks,<br>
+<br>
+greg k-h<br>
+</blockquote></div>
 
-Based on my analysis, EC queries and UCSI _DSM are just innocent victims
-of the ABBA deadlock.
+--000000000000270d81065ddfe643--
+--000000000000270d82065ddfe645
+Content-Type: text/x-patch; charset="US-ASCII"; 
+	name="0001-usb-devio-fix-USBFS_XFER_MAX-check-ordering-for-iso-.patch"
+Content-Disposition: attachment; 
+	filename="0001-usb-devio-fix-USBFS_XFER_MAX-check-ordering-for-iso-.patch"
+Content-Transfer-Encoding: base64
+Content-ID: <f_mv9htzi30>
+X-Attachment-Id: f_mv9htzi30
 
-If solving bko221065 is the only reason why they are included in the
-series, PATCH 2 and 3 are probably needless.
-
->   platform/x86: ideapad-laptop: Evaluate ACPI methods exclusively
->=20
->  drivers/acpi/ec.c                            |  7 ++-
->  drivers/acpi/utils.c                         | 54 +++++++++++++-------
->  drivers/platform/x86/lenovo/ideapad-laptop.c | 21 ++++++--
->  drivers/usb/typec/ucsi/ucsi_acpi.c           |  8 ++-
->  include/acpi/acpi_bus.h                      |  3 ++
->  include/linux/acpi.h                         |  8 +++
->  6 files changed, 76 insertions(+), 25 deletions(-)
-
-My comments to the other series also applies here. Please resolve them
-here and there.
-
-I will defer my tags for this series to v2.
-
-Thanks,
-Rong
-
->=20
->=20
-> base-commit: 24a19b953e2a3d0ea5a8c4951a0ab8f32720c907
-> prerequisite-patch-id: 4bd123d6caded06beb9a977d502370df046f82aa
-> prerequisite-patch-id: 19de145660fffa3651defed4e6d536cb78418940
-> prerequisite-patch-id: 01d8992be9ebc2b28dd3986fe06269eb2fe959f5
+RnJvbSBlM2IzMmZhZmFjMTNiYzg0MTgzNjI0ZmFiYzYxNmNkY2YzNzE5Y2FkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiAiUmVpZCBEb3duaW5nIChiMW52MGlkKSIgPHNraWJsZXR6QGdt
+YWlsLmNvbT4KRGF0ZTogVGh1LCAxNSBPY3QgMjAyNiAwNzoyNDoyMCAtMDQwMApTdWJqZWN0OiBb
+UEFUQ0hdIHVzYjogZGV2aW86IGZpeCBVU0JGU19YRkVSX01BWCBjaGVjayBvcmRlcmluZyBmb3Ig
+aXNvIHVyYnMKClNpZ25lZC1vZmYtYnk6IFJlaWQgRG93bmluZyAoYjFudjBpZCkgPHNraWJsZXR6
+QGdtYWlsLmNvbT4KLS0tCiBkcml2ZXJzL3VzYi9jb3JlL2RldmlvLmMgfCAyMCArKysrKysrKysr
+Ky0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDExIGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25z
+KC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVycy91c2IvY29yZS9kZXZpby5jIGIvZHJpdmVycy91c2Iv
+Y29yZS9kZXZpby5jCmluZGV4IGU3NzllYmRmYTE1My4uZmRiNTQ1ZTRiNTExIDEwMDY0NAotLS0g
+YS9kcml2ZXJzL3VzYi9jb3JlL2RldmlvLmMKKysrIGIvZHJpdmVycy91c2IvY29yZS9kZXZpby5j
+CkBAIC0xNzY0LDEwICsxNzY0LDE1IEBAIHN0YXRpYyBpbnQgcHJvY19kb19zdWJtaXR1cmIoc3Ry
+dWN0IHVzYl9kZXZfc3RhdGUgKnBzLCBzdHJ1Y3QgdXNiZGV2ZnNfdXJiICp1dXJiCiAJCX0KIAkJ
+dSAqPSBzaXplb2Yoc3RydWN0IHVzYl9pc29fcGFja2V0X2Rlc2NyaXB0b3IpOwogCQl1dXJiLT5i
+dWZmZXJfbGVuZ3RoID0gdG90bGVuOwotCQkJCWlmICh1dXJiLT5idWZmZXJfbGVuZ3RoID49IFVT
+QkZTX1hGRVJfTUFYKSB7CisJCWlmICh1dXJiLT5idWZmZXJfbGVuZ3RoID49IFVTQkZTX1hGRVJf
+TUFYKSB7CiAJCQlyZXQgPSAtRUlOVkFMOwogCQkJZ290byBlcnJvcjsKIAkJfQorCQlicmVhazsK
+KworCWRlZmF1bHQ6CisJCXJldHVybiAtRUlOVkFMOworCX0KIAogCWlmICh1dXJiLT5idWZmZXJf
+bGVuZ3RoID4gMCAmJgogCQkJIWFjY2Vzc19vayh1dXJiLT5idWZmZXIsIHV1cmItPmJ1ZmZlcl9s
+ZW5ndGgpKSB7CkBAIC0yMzI2LDEzICsyMzMxLDYgQEAgc3RhdGljIGludCBwcm9jX2lvY3RsKHN0
+cnVjdCB1c2JfZGV2X3N0YXRlICpwcywgc3RydWN0IHVzYmRldmZzX2lvY3RsICpjdGwpCiAJaWYg
+KCFjb25uZWN0ZWQocHMpKQogCQlyZXR1cm4gLUVOT0RFVjsKIAotCWlmIChwcy0+ZGV2LT5zdGF0
+ZSAhPSBVU0JfU1RBVEVfQ09ORklHVVJFRCkKLQkJcmV0dXJuIC1FSE9TVFVOUkVBQ0g7Ci0KLQlp
+bnRmID0gdXNiX2lmbnVtX3RvX2lmKHBzLT5kZXYsIGN0bC0+aWZubyk7Ci0JaWYgKCFpbnRmKQot
+CQlyZXR1cm4gLUVJTlZBTDsKLQogCS8qIGFsbG9jIGJ1ZmZlciAqLwogCXNpemUgPSBfSU9DX1NJ
+WkUoY3RsLT5pb2N0bF9jb2RlKTsKIAlpZiAoc2l6ZSA+IDApIHsKQEAgLTIzNDksNyArMjM0Nywx
+MSBAQCBzdGF0aWMgaW50IHByb2NfaW9jdGwoc3RydWN0IHVzYl9kZXZfc3RhdGUgKnBzLCBzdHJ1
+Y3QgdXNiZGV2ZnNfaW9jdGwgKmN0bCkKIAkJfQogCX0KIAotCXN3aXRjaCAoY3RsLT5pb2N0bF9j
+b2RlKSB7CisJaWYgKHBzLT5kZXYtPnN0YXRlICE9IFVTQl9TVEFURV9DT05GSUdVUkVEKQorCQly
+ZXR2YWwgPSAtRUhPU1RVTlJFQUNIOworCWVsc2UgaWYgKCEoaW50ZiA9IHVzYl9pZm51bV90b19p
+Zihwcy0+ZGV2LCBjdGwtPmlmbm8pKSkKKwkJcmV0dmFsID0gLUVJTlZBTDsKKwllbHNlIHN3aXRj
+aCAoY3RsLT5pb2N0bF9jb2RlKSB7CiAKIAkvKiBkaXNjb25uZWN0IGtlcm5lbCBkcml2ZXIgZnJv
+bSBpbnRlcmZhY2UgKi8KIAljYXNlIFVTQkRFVkZTX0RJU0NPTk5FQ1Q6Ci0tIAoyLjUzLjAKCg==
+--000000000000270d82065ddfe645--
