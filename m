@@ -1,36 +1,56 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68F11FCFFC
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 05:18:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3990415E5BB;
+	Thu, 15 Oct 2026 06:48:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792041494; cv=none; b=QFSknPp/ckqNg4XB73kSQEX+vwXfmfZ3CYw9mmzhHtF23FWSq5pAAl8fMeqH38jWVlCu4hVTHPxe0gMOqGpfFmdz+lkpzqQ07XRCUb6hWZfFKePyx332EaZscoZgyXywtmrc/N2/8KRU1gRTIZ3Fob01KA0YfkPJOJOmMQpu5uQ=
+	t=1792046909; cv=none; b=MaJ5eIROyZGuz1zlJpJ3Fik2akneXSqL/GnPc3GQayzLbeOLL5RIgp8glPJ/+1T5yOtmC/KtXnqsqakLWp6leA4Rg8TkMRjVzPOINUHA2JGN2qCHO7fWt/AKbWmZEkws6ZHPTTNVmdyPIrx/mApX20F5ZgdfT4EJ2ThTCuWZrLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792041494; c=relaxed/simple;
-	bh=ScwFpMgM6ozPoixp6NIj04ykc2gGalRSSDIu72pICCk=;
+	s=arc-20240116; t=1792046909; c=relaxed/simple;
+	bh=x06vfpE1sVYyhtd6+t3pDnzhp4GcwfStVJjoGGp63fk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=atLwcXnbAjykzJuCd7uTTCatm72GN/dxdn/LaZU5pNNj5hNJ8hKtS+sgnO0/e5wkB1zzM1HQAxBANnFuKkJZmfgadAw252rC9qa7PZWD+mLwYNwz8EM+DCH8NZaDICONeFKuqShM7QMI/elnNX8P2968VH/Vzu9PxsDjqs+FaiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qQg8eb8v; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rj35cr9SASRDJ/tyEHNVpkTSciE3cs0AWvAnQ97Tc+jD/f5m+K/BffEnlcWCNXaLORMS39K+0JeI1sc+0j9ac8LJ+RdYhBORk0otj3PpEqIQa4bo80M+Eiu9/obl60Dk0SPxogmDcpU+BK6V8UhGOEWvTjbWhf663FCQTon0AS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDBPhC3v; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qQg8eb8v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D42991F000C4;
-	Thu, 15 Oct 2026 05:18:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792041493;
-	bh=EeLRcs1c/BkYhO0qkDOamo4GwnUrdQW25aq7M4ACueE=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDBPhC3v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B05AF1F000C4;
+	Thu, 15 Oct 2026 06:48:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792046907;
+	bh=dso/tIH4LiNIquidRJisKhpHbOzUSZnjCA6TuPe7msg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=qQg8eb8vKrJWvxjDC82ZfYPZ6n2PtJYZDjTmsB3FnVsOptXAmCKNriaZ13/hG1Tz3
-	 6enPUyUzLkKLOGRDFZ0ru50eSXP42dH24hoMKFc47u0PK7nwzgwirGGbbnyMLO+hm/
-	 VUZPjY4V+rHORgDc7qZOZJkGJxNueb+iT5IaDSoE=
-Date: Thu, 15 Oct 2026 07:18:10 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Reid D <skibletz@gmail.com>
-Cc: linux-usb@vger.kernel.org
-Subject: Re: usb: devio: USBFS_XFER_MAX check bypassed for iso urbs due to
- incorrect ordering, potential oob heap write
-Message-ID: <2026101531-secular-entire-f7a4@gregkh>
-References: <CAGNJ+_3qpWtzjTLntxTzF2v0jU9mVssukGfhrJFOx_yb+2Abyg@mail.gmail.com>
+	b=EDBPhC3vvoPIFCSjeH6OLfZoRLmI4fSqDnYTg1WOVjDB+YbC5UKJWVul2BE8JnpWy
+	 pFpD1/szBkXixBhRT+7x7vol6oYzMMohjbHdMSlPr+ZgAkOQ1HaJaeFNso8L3m5q8V
+	 aMsYVAUgx0QbncKBjsw/243ll6N3dYQ7muPukmUIDSAdFarJ4b4N0CFAFk5gWe4t67
+	 5v1UIWGHSYgB38UWTqQDFa7J6t9CQCrydmwGoQoXLiQluvYviknkWdV68vjG9QktXh
+	 0fsglpWDyrRANIQ+1UhN8+Duk6DIY3QVTHBAh1z0ffNEOHhTyjfvyDyrudBuPaJ1OG
+	 xGTmvaL4gqC+Q==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xHFGL-00000005w4b-0mBf;
+	Thu, 15 Oct 2026 08:48:25 +0200
+Date: Thu, 15 Oct 2026 08:48:25 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	driver-core@lists.linux.dev, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mario Peter <mario.peter@leica-geosystems.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] driver core: take parent lock on deferred probe
+Message-ID: <atB3Octe0OaCLBUQ@hovoldconsulting.com>
+References: <20261013140615.1226992-1-johan@kernel.org>
+ <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
+ <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
+ <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
+ <as86K1qm1sHtgTFL@hovoldconsulting.com>
+ <DM4N25JXKTQM.3K7TP9HM68KQ2@kernel.org>
+ <as-cW9ZwmMCPcftL@hovoldconsulting.com>
+ <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,56 +59,38 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAGNJ+_3qpWtzjTLntxTzF2v0jU9mVssukGfhrJFOx_yb+2Abyg@mail.gmail.com>
+In-Reply-To: <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
 
-On Wed, Oct 14, 2026 at 05:36:56PM -0400, Reid D wrote:
-> usb: devio: USBFS_XFER_MAX check bypassed for iso urbs
-> due to incorrect ordering, potential oob heap write
-> 
-> file: drivers/usb/core/devio.c
-> function: proc_do_submiturb()
-> ioctl: USBDEVFS_SUBMITURB
-> 
-> the bug:
-> 
-> the size check at line 1647 runs on buffer_length before the iso
-> path has computed totlen. the iso path then overwrites buffer_length
-> with totlen at line 1768, so the check never actually validates
-> the real transfer size.
-> 
->     line 1647 - check runs here on the wrong value:
->     if ((unsigned int)uurb->buffer_length >= USBFS_XFER_MAX)
->         return -EINVAL;
-> 
->     line 1768 - real value computed after the check:
->     uurb->buffer_length = totlen;
-> 
->     line 1843 - kmalloc uses the unchecked value:
->     as->urb->transfer_buffer = kmalloc(uurb->buffer_length, ...);
-> 
-> impact:
-> 
-> if totlen exceeds the kmalloc allocation size, the copy_from_user
-> that follows writes past the end of the heap buffer. for an out
-> transfer the user controls both the length and the data, giving a
-> heap write-what-where primitive.
-> 
-> current constants (128 packets * 98304 max each = 12mb) keep
-> totlen below USBFS_XFER_MAX (16mb) so this is not exploitable
-> today. the check ordering is structurally wrong regardless and
-> will become a live bug if those constants change.
-> 
-> fix:
-> 
->     uurb->buffer_length = totlen;
->     if (uurb->buffer_length >= USBFS_XFER_MAX)
->         return -EINVAL;
-> 
+On Thu, Oct 15, 2026 at 12:40:42AM +0200, Danilo Krummrich wrote:
+> On Wed Oct 14, 2026 at 5:14 PM CEST, Johan Hovold wrote:
+> > On Wed, Oct 14, 2026 at 04:42:09PM +0200, Danilo Krummrich wrote:
 
-Great, please turn this into a real patch that can be applied so you get
-full credit for resolving this.  Your favorite llm can easily do this
-for you (and it can test it, which you really should also do...)
+> > I understand your concern, but my reasoning is that this feature is only
+> > needed when devices are tightly coupled with their parents and where it
+> > therefore probably always make sense to pin the parent.
+> >
+> > Note that the need_parent_lock flag is now set in the device type struct
+> > which also holds a pointer to the release function that drops the
+> > reference. So it's pretty easy to check any theoretical further users.
+> >
+> >> Please, let's not add this API contract. Let's have the driver core deal with
+> >> this internally.
+> >
+> > I can take another look at it, but the alternatives seemed either error
+> > prone or a bit icky (e.g. a helper that returns a reference to the
+> > parent after checking the dead flag under the device lock).
+> 
+> I thought some more about this, and since it is only the USB device type using
+> it it's probably fine for now.  Should we ever gain new users of this API (which
+> I do not hope), we can still change it and add something like the diff below.
 
-thanks,
+Sounds good. It was variations of your two diffs that I had in mind as
+well.
 
-greg k-h
+> I'd suggest to also add a comment in the USB code, explaining that this
+> reference count (also) serves the purpose to fulfill the driver core API
+> contract.
+
+Sure, I'll do that.
+
+Johan
