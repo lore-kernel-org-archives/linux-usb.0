@@ -1,370 +1,240 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA60547061;
-	Thu, 15 Oct 2026 00:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AEB9286D70
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 00:44:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792023528; cv=none; b=bQcIy4VvBs2h12l+4nBcTw0ynxXnQ7kanKxbVZ3xw47xmdgb6d6fI8BOD8HQi0+xUWha03q8u6AOel47MsuiMJWqC3f4rkoQD+kSDHwDvLRAOU4002jshgvrh05dCg5aRH/CeOy9lHDlI4MGYBrQBSGqIURkuajengkpE0Tn9pI=
+	t=1792025068; cv=none; b=Lktnn3zNhzu5EJWHTfsq1noUjoavP8ySEESHGyl6I7ZphzWN9LInQDLgbrejecfk1scwPfCvdUDT1hRZBVgWn40gYtyMsfUFHY4FxFqwGNokvItNgiM27U2hGFS1xAnf7veh5GP9KeLv9cm0lLhcm+jKFKZQNRx8gDbiPCnB6GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792023528; c=relaxed/simple;
-	bh=ewXiFF0dkYx1oW1z99Vo134lYaEXqI+knbGM+2ZIHGg=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=gTaCmI3XohmfiK4V6kyWSbcsTa4CNlRwDYfAX4RNmry2CUSe/j/E47BnHaSLt5B9kh+ScrZiSsjrGWibvumd4i+OnjUHfjwCm1YHd05hF5GOj8MHgv3DrtFBs74wplORAK04GVoghlaPNUw+Sp2oef+FXcq2RnqzY5Wr+zS1Fec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7XjEDjd; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792025068; c=relaxed/simple;
+	bh=Am1zJrn9JDhl3VNyJyMRi/vW0Nz9xOEmi/5uPEvS7GA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZkxHZqlWVJMaM8OQw7gsGi7UqQgojzqCLgi12OogAQCAj0YBXOfI61MRh90+TGfALFqgpdeIvAfi6FSTwuCavJviID1X0pJqpd7DRvlFTLkM1n/B0VF8S2MkHSWw2RizmVUXMqvTXhnXWEvu6jrbJ4q4XJ3bgTnh+7vjPMsKGlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=OppX0DSr; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=Cj308ehm; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7XjEDjd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 977CB1F000C4;
-	Thu, 15 Oct 2026 00:18:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792023526;
-	bh=Qp0nD6Ti2x3T8NpaZrCeQlKRS+Nx7BmhthDtPhQxZxI=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=W7XjEDjdgFHlHHMnBR2tLE9LNEhVtBw4VpN7OSd2D7Hf3XLFUwJwjiklxjdsWXAPr
-	 TM0apnR6rz1Fz7PqOGRbWaTFd2kGP9QrpH63qwgQHGYTaSpuA68ie4tBJMoMMvilbP
-	 cliC8DwyaFUyRq1XYkEkCX3AwN4P6iFZYM0/lazuFaenCQwX7vXIlB7eM9k9YqB+pE
-	 aZ50pIcniHj+FUxEvVcRKAaSCDbTL9+Ydw1S2zogh3Kec6c+viELWralHzjyEsNN5V
-	 f4Tj2f4i++UBQ9oY1lLY6FQs4fRIPiBIm7A9NuTGPxHSmy5H/3245DvnZAsaT/TB6s
-	 YL93MH3eU973g==
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="OppX0DSr";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="Cj308ehm"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69F0R6Rh1672284
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 00:44:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	WwLvIv226Kbz3Mldv+ppT8nWCp7iwfoRCP3ii8p0yZA=; b=OppX0DSr1y+EdrxL
+	hQ53BDmahnAmCSDCDDZGm8/Mz2kpeAeqAoor/0xWh2mnzpTk7U1ANH6OZLcd2iVJ
+	xh4XILsG7jaFV4vY95YKadp0vMlBqMzromZAyfqyLovZXcdF5DXLWrh1wUcuWLc6
+	89AeZ/5Q8WVZW70aqvknq8tZMeAdwF7+t6RmuGcgOqiYx0s/AQxXLqqkYr2HV/UH
+	tEjKXZnWqxdnpS+a1Qqi/KpCbdViuiWbYcCwWvjVS3b0NaSGoXVCmTHD8iZ018fp
+	tfe4ATrMPiEXGxjwQm6mOiLx1vR4tNn/3nDJPcygrh2MTVkqGgddWoCs/o/Yi6zK
+	wPDYQA==
+Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hacrh9rqv-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 00:44:26 +0000 (GMT)
+Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-3515266f6eeso2812261eec.0
+        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 17:44:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792025066; x=1792629866; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=WwLvIv226Kbz3Mldv+ppT8nWCp7iwfoRCP3ii8p0yZA=;
+        b=Cj308ehmGm6PcUsT+wuhlNk+JBlFyCWT7fwZuXFnOmLIgoEBTGIJ3bXCl2ULuAsjKZ
+         kOchhixPPsAwO7XLXxDnAOvIxjK8gg1IZIdoF4kcrm2qd3xRyWl/kGErvhL5J/M9ILmV
+         rZxA6ttqi/mQ5+MOvOtMAFBpvUpE2OAAHB5AzZk6oBSxj+iEawL80JMnszeyDtvC5F4C
+         lJfv38AS/miKyJMy/j+K8drYnlmljOA98x50w3zWf/OJYwz5s0heOI3c1ZPWwGTUWDnM
+         FDPAuVQOBeWZWEGqsZ8+dUVM1ciu6OYwKj4CQHJIQneX8+rfXzXIPIiQ6x00axgLFkgu
+         F9Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792025066; x=1792629866;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WwLvIv226Kbz3Mldv+ppT8nWCp7iwfoRCP3ii8p0yZA=;
+        b=fDMArTIKccgnzM12xawV4x1ICYGaDB0zx/FdHgwVWidmGJqfGXmFAmEYYaNjE717Uv
+         17PG3fdw0RnpO+r+EzcHsLZgQ7s+R6ZJ5K/K6UMVTZFhrpgPL+hV3foKJdFwTc9x27Xi
+         shZp7515HtuDUgiqUPlvEW02z2wkBl8GQbbkpooN5vqPSYlwhpZrtXWVjpqaw6l3VlSg
+         qzExeOk0n5p50ATK2miqw4tfVHMoClQtV9DcNlMy4aKcS8RYWATdd0nbMjmyt8qJbeva
+         C8ASXkZH/SrBKEsN4TI2iojwmvocor0cTTvjG0Z7oeK32oSv6DSCJ++tV6AJCfQxWKR+
+         7vqg==
+X-Forwarded-Encrypted: i=1; AKwUvBzM30cHvMoIBSIJZSc0794hzj3ZgcEJoyLnlHE/sHpfvpKzuExT4+1cxLt6Do4GcKWcqoAYV1raK4E=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJQMzIk+ng3QjZ2pwEyqllckA+Rn68D/JpuX0kbMGutn3f1TONu
+	spD21SgbrYf9VawotUPzDcH5K89u/81zNgqks6kUS2rpo5LvKK7uQBKLbrEA+lpTVwzmTWpoV8w
+	3WVMJDMqsl+V1NnWbAg/NRv1vYFcQLaLgc0j8hsgD9GB/S+zlteF2ozn8vhVpXaE=
+X-Gm-Gg: AYBFou3ZZG4/XdIQnAsHI5Nj1EXL37seg9zxGbWPLKJjvJ8nHSq74+XHQ9hH8YB49sg
+	RUc8sCHz7pmWwTsTXrQqAGd8tkrgnwlgnu2JqJoHITMecoO8Wjr5IIJJBRdF6GOOpiZ3gCKYh0P
+	E4pObsC2NnmCG02DrMk6miUvEoYkKdxV945Ws+HZpiuH/uqVxHmADrVYujZpQxziNOZ2sHUGRkS
+	KthwVv4JtMQuH7iPDOEKnjq2/aoHKKPz7PfwPm7sbSPmjVc6JfOF6WzJlOCHP6yAlresmV3RlMi
+	pBe29+DBNR/KpismpP9wLxLNx39QBaifjpk4pICPg8017unLrNh3a0GKBG2dHCc6XuPJ19BJIoA
+	yDTpVV8SVE9tUbz6An7C6D/HoN3UzWV5MU18Nf31S+lz+2Ig=
+X-Received: by 2002:a05:7300:d18b:b0:351:1e2e:da4d with SMTP id 5a478bee46e88-3537e0bdfe0mr24842339eec.23.1792025065635;
+        Wed, 14 Oct 2026 17:44:25 -0700 (PDT)
+X-Received: by 2002:a05:7300:d18b:b0:351:1e2e:da4d with SMTP id 5a478bee46e88-3537e0bdfe0mr24842296eec.23.1792025064843;
+        Wed, 14 Oct 2026 17:44:24 -0700 (PDT)
+Received: from [10.73.199.44] (pat_11.qualcomm.com. [192.35.156.11])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3537c61eaa0sm62458917eec.0.2026.10.14.17.44.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 Oct 2026 17:44:24 -0700 (PDT)
+Message-ID: <5a60513e-9d39-4cbe-9f2b-dde8ca71a8a3@oss.qualcomm.com>
+Date: Wed, 14 Oct 2026 17:44:23 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 15 Oct 2026 02:18:43 +0200
-Message-Id: <DM4ZBLHJLQJB.11A47MPAF74B8@kernel.org>
-Subject: Re: [PATCH] driver core: take parent lock on deferred probe
-Cc: "Alan Stern" <stern@rowland.harvard.edu>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
- "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
- <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Mario Peter"
- <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
-To: "Johan Hovold" <johan@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-References: <20261013140615.1226992-1-johan@kernel.org>
- <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
- <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
- <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
- <as86K1qm1sHtgTFL@hovoldconsulting.com>
- <DM4N25JXKTQM.3K7TP9HM68KQ2@kernel.org>
- <as-cW9ZwmMCPcftL@hovoldconsulting.com>
- <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
-In-Reply-To: <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/5] usb: xhci: sideband: allocate sideband ring
+ segments from a dedicated pool
+To: Mathias Nyman <mathias.nyman@linux.intel.com>,
+        Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-sound@vger.kernel.org
+References: <20260909-16k_offload_v1_b4-v4-0-f24a86617597@oss.qualcomm.com>
+ <20260909-16k_offload_v1_b4-v4-3-f24a86617597@oss.qualcomm.com>
+ <68b34f04-f7e2-4468-8a18-ac97decb987d@linux.intel.com>
+ <82e0b9c7-3b3f-4dce-a72e-64989b08ef98@oss.qualcomm.com>
+ <20261013111110.423dd0ff.michal.pecio@gmail.com>
+ <73096f91-146a-4754-a685-f3b22f1ac3d5@linux.intel.com>
+Content-Language: en-US
+From: Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+In-Reply-To: <73096f91-146a-4754-a685-f3b22f1ac3d5@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: wZdXEU-utynLq2k3eU8njXf8s9NPO77D
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE1MDAwMSBTYWx0ZWRfX+vK4n4FYJWb1
+ K4RNCt+uMiO7u4t8ik4yf+zzrnQI41DkvKg8oLvFkPeg89+/toi2eRu6aIfCh3XBq7DCj70PDR9
+ v3+aZxMUCWA0vKibqH5oC7c5Ah8dWGI=
+X-Proofpoint-GUID: wZdXEU-utynLq2k3eU8njXf8s9NPO77D
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE1MDAwMSBTYWx0ZWRfX2YKhrjtO063+
+ BjhjvxA1rOD6+QasMfWkkRjFdRhJg9OXu2DcaOi3dW6zk8xXm7UbW3LX9B9j1S309QxILxpPijZ
+ 8/zRqj/osQWfbAWI7DfFoxeVocOtrFo/QXNQvs1GiWuunYtOBfPYef7Qikge9Kw7lpSPSFqFx5Q
+ YF5GQEsH3mqqTLvtOaOUP23/BxrBAzfpTe8lwj6oLo/Taxw+RyjUejkb1FpiHaQZj27OYXJg0as
+ p6iQibyE0tPsL9V+EBMDe14obYQGfXwbP3mY7mMKICwL9X/+QqX/0n2/s/MOhne+x0VwlUReWzh
+ JpMGzSSEb58mOvkbVAkChKxjFscVroSHFVsqQNSkK9HH7dZRrR21G14mOf8WmPvPYgKc+9qq56J
+ qOAOMXTXhRE/Z2eWPn0aKa24EXzBu28ZM49FV9OAXEr2YHGExi0uVxZr14Lwx9Jp37Ftt6NesXp
+ ZyMdiGsfqmYVlKygCxg==
+X-Authority-Analysis: v=2.4 cv=SYZi5fRu c=1 sm=1 tr=0 ts=6ad021ea cx=c_pps
+ a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=ZdW6uxA9NKXbfdqeeS2OGA==:17
+ a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=ZtxY5wSq_RZQGLwgOdYA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=bBxd6f-gb0O0v-kibOvt:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-13_01,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 phishscore=0 suspectscore=0 clxscore=1015
+ spamscore=0 lowpriorityscore=0 impostorscore=0 adultscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610150001
 
-On Thu Oct 15, 2026 at 12:40 AM CEST, Danilo Krummrich wrote:
-> On Wed Oct 14, 2026 at 5:14 PM CEST, Johan Hovold wrote:
->> On Wed, Oct 14, 2026 at 04:42:09PM +0200, Danilo Krummrich wrote:
->>> On Wed Oct 14, 2026 at 10:15 AM CEST, Johan Hovold wrote:
+
+
+On 10/14/2026 7:26 AM, Mathias Nyman wrote:
+> On 10/13/26 12:11, Michal Pecio wrote:
+>> On Mon, 12 Oct 2026 18:01:50 -0700, Wesley Cheng wrote:
+>>> On 10/5/2026 4:03 AM, Mathias Nyman wrote:
+>>>> xhci is the one allocating the ring when adding an endpoint, and
+>>>> telling xHC hardware to write to that ring. It seems more
+>>>> approriate that xhci should be the one freeing the ring after it
+>>>> told xHC hardware to drop the endpoint, and there no longer is a
+>>>> risk on hardware accessing it.
+>>>
+>>> Hi Mathias,
+>>>
+>>> Sorry for the late response.  Was out last week.
+>>>
+>>> Specifically in the disconnect path (while audio offload is active),
+>>> when we utilize the usb_set_interface() path, it'll return early due
+>>> to the iface->unregistering check.  This would lead to the
+>>> drop_endpoint not to be called, and rely on the xhci_free_dev() to
+>>> handle the transfer ring cleanup.  This wouldn't work in the offload
+>>> situation, because qc_audio_offload is the only entity managing the
+>>> DMA pool, and that would be freed during the .disconnect callback,
+>>> which happens BEFORE xhci_free_dev().
+> 
+> You are right, audio class driver .disconnect is called, driver unbound
+> and interface device gone before xhci_free_dev() is called.
+> 
+> If sideband is unregistered as part of .disconnect callback it also means
+> ring/pool would be destroyed before xHC has dropped the endpoint/disabled
+> the slot. Would be better to free the ring after we know xHC controller
+> won't access it.
+> 
+>>>
+>>> Would you be more inclined to prefer a solution where we can defer
+>>> the DMA pool free'ing to the xHCI core during xhci_free_dev, or maybe
+>>> adding another sideband notifier (sb->notify_client) enum to tell the
+>>> client driver that it can release the pool?
+> 
+> sb->notify_client callback has the risk that this sideband entity is
+> unregistered and gone by the time we want to call it
+> 
+> Deferring freeing the DMA poolby some kind of reference counting again adds
+> complexity, and maybe not a suitable solution for this issue.
+> (taking a reference at sideband register and every dma_pool_zalloc(), putting
+> when freeing or sideband unregister, finally freeing pool when reaching zero.)
+> 
+> I'm trying to figure out a simpler solution.
+> 
+> How about skipping dma pools completely for endpoints in these cases?
+> (page size over 4k with offloaded endpoints)
+> 
+> Instead of sideband client creating a custom dma pool it could just set a
+> 'no dma pool' flag for the endpoint. xhci driver would allocate the
+> ring segments using dma_alloc_coherent() instead of dma_pool_zalloc() for
+> these, possibly even allocate a full page for each segment?
+> Freeing would be done similarly.
+> 
+> Would this be a viable simple solution?
+> 
+
+I think so, this was something similar I proposed on v0:
+https://lore.kernel.org/all/20260824-16k_offload_v1_b4-v1-0-49a6be60ca30@oss.qualcomm.com/
+
+In that case, the client offload driver wasn't responsible for freeing 
+anything and that was all taken care of by xHCI core.  The sideband just 
+set the alignment_req.  Might need to make some adjustments after the 
+further discussions we've had.
+
+Thanks
+Wesley Cheng
+
 >>
->>> > But it's driver core that needs the extra reference. It seems
->>> > reasonable to require that any subsystem that sets a new
->>> > type->need_parent_lock also makes sure that any device of that type
->>> > holds a reference to its parent. And importantly, it's already the ca=
-se
->>> > for the only user of this feature today (i.e. USB interfaces).
->>>=20
->>> Exactly, it is the driver core that needs the extra reference count; fo=
-r a field
->>> that is owned by the driver core, and for which the driver core manages=
- its
->>> lifetime.  If it needs an additional reference count for async or defer=
-red work
->>> it should obtain the reference count for this scope explicitly.
+>> I'm not Mathias but my opinion is the same as always: none of these
+>> problems would exist if the sideband client allocated and freed all
+>> transfer/event ring memory, and xhci-sideband only owned a mapping.
 >>
->> As I've mentioned, it's not just for async or deferred probe. It's also
->> needed when a driver gets added or when probe is triggered through
->> sysfs. The bus iterators only takes a reference to the each device and
->> not their parents before calling __driver_attach() etc.
+>> The mapping would be freed by xhci_sideband_unregister() or similar
+>> calls, which should ensure that the xHC stops using the rings, and
+>> memory would only be freed by the client driver after unregistering
+>> the sideband and stopping the coprocessor. Nothing is ever UAF or
+>> leaked, and ensuring this is *easy*. And if xhci-hcd randomly wants
+>> to get rid of some endpoint, it simply stops using the mapping and
+>> lets the sideband client clean it up two milliseconds later.
 >>
->>> USB interfaces already holding an additional reference makes the propos=
-ed
->>> contract work for today's user, but I'd rather not make that prerequisi=
-te of the
->>> API.  It would push a prerequisite for an implementation detail to the =
-user.
+>> One thing I'm not entirely sure about is how we could create this
+>> mapping. Using bare iommu_map() creates a hard dependency on IOMMU.
+>> Documentation/core-api/dma-attributes.rst mentions possibility of
+>> using generic dma_map_() helpers on multiple devices, so maybe this
+>> can work, but I haven't seen existing examples of such use.
 >>
->> I understand your concern, but my reasoning is that this feature is only
->> needed when devices are tightly coupled with their parents and where it
->> therefore probably always make sense to pin the parent.
->>
->> Note that the need_parent_lock flag is now set in the device type struct
->> which also holds a pointer to the release function that drops the
->> reference. So it's pretty easy to check any theoretical further users.
->>
->>> Please, let's not add this API contract. Let's have the driver core dea=
-l with
->>> this internally.
->>
->> I can take another look at it, but the alternatives seemed either error
->> prone or a bit icky (e.g. a helper that returns a reference to the
->> parent after checking the dead flag under the device lock).
->
-> I thought some more about this, and since it is only the USB device type =
-using
-> it it's probably fine for now.  Should we ever gain new users of this API=
- (which
-> I do not hope), we can still change it and add something like the diff be=
-low.
->
-> I'd suggest to also add a comment in the USB code, explaining that this
-> reference count (also) serves the purpose to fulfill the driver core API
-> contract.
+> Could be an option, but maybe not for this specific issue.
+> It's a larger, complex change without any real need (yet).
+> 
+> I'm hoping vendors would move away from this sideband implementation
+> instead of evolving it, adapting the 'xHCI Audio Sideband Capability'
+> defined in xHCI  specification section 7.9 instead.
+> 
+> Thanks
+> Mathias
 
-I pasted the wrong diff, I meant the one below, but either should work.
-
-diff --git a/drivers/base/base.h b/drivers/base/base.h
-index 3c36a2128f88..b3730d030f5f 100644
---- a/drivers/base/base.h
-+++ b/drivers/base/base.h
-@@ -161,8 +161,9 @@ bool bus_is_registered(const struct bus_type *bus);
-
- int bus_add_driver(struct device_driver *drv);
- void bus_remove_driver(struct device_driver *drv);
-+struct device *device_get_parent_for_lock(struct device *dev);
- void device_release_driver_internal(struct device *dev, const struct devic=
-e_driver *drv,
--				    struct device *parent);
-+				    bool lock_parent);
-
- void driver_detach(const struct device_driver *drv);
- void driver_deferred_probe_del(struct device *dev);
-diff --git a/drivers/base/bus.c b/drivers/base/bus.c
-index fd2257f73253..9975f250d22e 100644
---- a/drivers/base/bus.c
-+++ b/drivers/base/bus.c
-@@ -637,11 +637,13 @@ void bus_probe_device(struct device *dev)
-
- void bus_probe_device_deferred(struct device *dev)
- {
--	if (dev->type && dev->type->need_parent_lock)
--		device_lock(dev->parent);
-+	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
-ev);
-+
-+	if (parent)
-+		device_lock(parent);
- 	__bus_probe_device(dev);
--	if (dev->type && dev->type->need_parent_lock)
--		device_unlock(dev->parent);
-+	if (parent)
-+		device_unlock(parent);
- }
-
- /**
-@@ -866,11 +868,13 @@ static int __must_check bus_rescan_devices_helper(str=
-uct device *dev,
- 	int ret =3D 0;
-
- 	if (!dev->driver) {
--		if (dev->type && dev->type->need_parent_lock)
--			device_lock(dev->parent);
-+		struct device *parent __free(put_device) =3D device_get_parent_for_lock(=
-dev);
-+
-+		if (parent)
-+			device_lock(parent);
- 		ret =3D device_attach(dev);
--		if (dev->type && dev->type->need_parent_lock)
--			device_unlock(dev->parent);
-+		if (parent)
-+			device_unlock(parent);
- 	}
- 	return ret < 0 ? ret : 0;
- }
-diff --git a/drivers/base/core.c b/drivers/base/core.c
-index 5daa88fa724a..3a924c4e194e 100644
---- a/drivers/base/core.c
-+++ b/drivers/base/core.c
-@@ -1676,8 +1676,7 @@ void device_links_unbind_consumers(struct device *dev=
-)
-
- 			device_links_write_unlock();
-
--			device_release_driver_internal(consumer, NULL,
--						       consumer->parent);
-+			device_release_driver_internal(consumer, NULL, true);
- 			put_device(consumer);
- 			goto start;
- 		}
-diff --git a/drivers/base/dd.c b/drivers/base/dd.c
-index 52123251965d..6ff8d0653769 100644
---- a/drivers/base/dd.c
-+++ b/drivers/base/dd.c
-@@ -1030,6 +1030,30 @@ static int __device_attach_driver(struct device_driv=
-er *drv, void *_data)
- 	return ret =3D=3D 0;
- }
-
-+/*
-+ * Pin the parent before taking its lock. A reference to dev alone does no=
-t
-+ * keep its parent alive after device_del().
-+ *
-+ * device_del() marks the device dead under its lock before dropping the
-+ * registration reference to the parent. A dead device may still need to b=
-e
-+ * unbound; while dev->driver is set, device_del() cannot have completed t=
-he
-+ * unbind and dropped that reference either.
-+ *
-+ * The caller must hold a reference to dev and put the returned parent aft=
-er
-+ * its last access, including any temporary unlock/relock during unbind.
-+ */
-+struct device *device_get_parent_for_lock(struct device *dev)
-+{
-+	if (!dev->type || !dev->type->need_parent_lock)
-+		return NULL;
-+
-+	guard(device)(dev);
-+	if (dev->p->dead && !dev->driver)
-+		return NULL;
-+
-+	return get_device(dev->parent);
-+}
-+
- /*
-  * __device_driver_lock - acquire locks needed to manipulate dev->drv
-  * @dev: Device we will update driver info for
-@@ -1065,13 +1089,14 @@ static void __device_driver_unlock(struct device *d=
-ev, struct device *parent)
- static void __device_attach_async_helper(void *_dev, async_cookie_t cookie=
-)
- {
- 	struct device *dev =3D _dev;
-+	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
-ev);
- 	struct device_attach_data data =3D {
- 		.dev		=3D dev,
- 		.check_async	=3D true,
- 		.want_async	=3D true,
- 	};
-
--	__device_driver_lock(dev, dev->parent);
-+	__device_driver_lock(dev, parent);
-
- 	/*
- 	 * Check if device has already been removed or claimed. This may
-@@ -1093,7 +1118,7 @@ static void __device_attach_async_helper(void *_dev, =
-async_cookie_t cookie)
- 	if (dev->parent)
- 		pm_runtime_put(dev->parent);
- out_unlock:
--	__device_driver_unlock(dev, dev->parent);
-+	__device_driver_unlock(dev, parent);
-
- 	put_device(dev);
- }
-@@ -1205,11 +1230,12 @@ void device_initial_probe(struct device *dev)
-  */
- int device_driver_attach(const struct device_driver *drv, struct device *d=
-ev)
- {
-+	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
-ev);
- 	int ret;
-
--	__device_driver_lock(dev, dev->parent);
-+	__device_driver_lock(dev, parent);
- 	ret =3D __driver_probe_device(drv, dev);
--	__device_driver_unlock(dev, dev->parent);
-+	__device_driver_unlock(dev, parent);
-
- 	/* also return probe errors as normal negative errnos */
- 	if (ret > 0)
-@@ -1223,14 +1249,15 @@ EXPORT_SYMBOL_GPL(device_driver_attach);
- static void __driver_attach_async_helper(void *_dev, async_cookie_t cookie=
-)
- {
- 	struct device *dev =3D _dev;
-+	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
-ev);
- 	const struct device_driver *drv;
- 	int ret;
-
--	__device_driver_lock(dev, dev->parent);
-+	__device_driver_lock(dev, parent);
- 	drv =3D dev->p->async_driver;
- 	dev->p->async_driver =3D NULL;
- 	ret =3D driver_probe_device(drv, dev);
--	__device_driver_unlock(dev, dev->parent);
-+	__device_driver_unlock(dev, parent);
-
- 	dev_dbg(dev, "driver %s async attach completed: %d\n", drv->name, ret);
-
-@@ -1296,9 +1323,11 @@ static int __driver_attach(struct device *dev, void =
-*data)
- 		return 0;
- 	}
-
--	__device_driver_lock(dev, dev->parent);
-+	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
-ev);
-+
-+	__device_driver_lock(dev, parent);
- 	driver_probe_device(drv, dev);
--	__device_driver_unlock(dev, dev->parent);
-+	__device_driver_unlock(dev, parent);
-
- 	return 0;
- }
-@@ -1372,8 +1401,11 @@ static void __device_release_driver(struct device *d=
-ev, struct device *parent)
-
- void device_release_driver_internal(struct device *dev,
- 				    const struct device_driver *drv,
--				    struct device *parent)
-+				    bool lock_parent)
- {
-+	struct device *parent __free(put_device) =3D lock_parent ?
-+		device_get_parent_for_lock(dev) : NULL;
-+
- 	__device_driver_lock(dev, parent);
-
- 	if (!drv || drv =3D=3D dev->driver)
-@@ -1400,7 +1432,7 @@ void device_release_driver(struct device *dev)
- 	 * within their ->remove callback for the same device, they
- 	 * will deadlock right here.
- 	 */
--	device_release_driver_internal(dev, NULL, NULL);
-+	device_release_driver_internal(dev, NULL, false);
- }
- EXPORT_SYMBOL_GPL(device_release_driver);
-
-@@ -1413,7 +1445,7 @@ EXPORT_SYMBOL_GPL(device_release_driver);
-  */
- void device_driver_detach(struct device *dev)
- {
--	device_release_driver_internal(dev, NULL, dev->parent);
-+	device_release_driver_internal(dev, NULL, true);
- }
-
- /**
-@@ -1440,7 +1472,7 @@ void driver_detach(const struct device_driver *drv)
- 		dev =3D dev_prv->device;
- 		get_device(dev);
- 		spin_unlock(&drv->p->klist_devices.k_lock);
--		device_release_driver_internal(dev, drv, dev->parent);
-+		device_release_driver_internal(dev, drv, true);
- 		put_device(dev);
- 	}
- }
-diff --git a/include/linux/device.h b/include/linux/device.h
-index 7c7682e4dafe..7604060ff99b 100644
---- a/include/linux/device.h
-+++ b/include/linux/device.h
-@@ -85,8 +85,7 @@ int subsys_virtual_register(const struct bus_type *subsys=
-,
-  * the DEVTYPE variable.
-  *
-  * @need_parent_lock:	When probing or removing a device of this type,
-- *			driver core should lock the device's parent. Note that
-- *			the device must hold a reference to its parent.
-+ *			driver core should lock the device's parent.
-  */
- struct device_type {
- 	const char *name;
