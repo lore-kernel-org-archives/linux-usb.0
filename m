@@ -1,33 +1,67 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3471E522EFB;
-	Thu, 15 Oct 2026 13:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16EDD51CF5F
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 13:10:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792069274; cv=none; b=uJfWpSsGRgzHRSaa4Huf60ALRLnBYB52ABFoBWVwQ89yGZW55SD2hOGGEh02FuJdQaGySL/PAGw/lJcGrL2IjQRA14i+4vRNHmj3+XowApPJVM1WtiunKxxG7EMEFfhc76eLstbDQRyrjpt0LvQNoN33sSkb8pQImhCG6a7GLZg=
+	t=1792069860; cv=none; b=jajQMWxw2je309+uQYIqxmRW1gz6RTaRJduoJnwsnN/eAydZBJbZ27wxStZlk+i6HRuUOhR5kJh3tJCM9QGpHWA/rKYFGAcILQLlJ0BElw+GWa2BS4beTEfAeOa+caU7DmAbBAktxQiNgv02APITSphL9O9p6iiesDG20gx7438=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792069274; c=relaxed/simple;
-	bh=KNSXJi+NNEtUDlRfnbNAIaRITk+Ou1thMrl7TK66NH0=;
+	s=arc-20240116; t=1792069860; c=relaxed/simple;
+	bh=vMOw2LnSptLx2inZHDauA7QAHN1ePZ6m86XtVnrNXWc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hL8orCGZWos0xVuQG9iACpeKi8rZykIuVyH44GkmzGCFEqBZVDW59+CfLCJVygLtxxyY+PE2pvZcwKIy90QvF8uixT8wvZ5HQNzEUbojq2kvIwnXT5XjOqm6vJByA8f1peebjt7X5iVVFAR+djgdm4WFcP0ULoeXidwxi24dr6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AOVSy6gN; arc=none smtp.client-ip=100.103.45.18
+	 In-Reply-To:Content-Type; b=CQAiSlX0Vg3KpeERrUyqEJ0GXnhD7KSb+1hoSYW5K9l58XZa3dGzAflRYq5+zSSltyjt7DTsJsmaWBhdou4TCH4OJ4ghYGORVnecqWT/Dys7yPR7kGMTs65c8J9pyDAJ78wCZBuMWxc/pEFasIlgM8XdEKBvnEz1b/jC/kVYAqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EUWgwLAG; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AOVSy6gN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B63B71F000C4;
-	Thu, 15 Oct 2026 13:01:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792069272;
-	bh=eqIgsGYukq6PGetqnMXH2t9oTCKq1pYgymkhGCe9J7k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=AOVSy6gNTvD89UTGpdp2X+qSgZFiPSiP5w8Cb9tznZHPoBJmQvy+SJWl/ti+GiFX1
-	 dxYKD16CA0pz5rjxCLJlD3+1PwNWm5R8Vwh7f8mlQ4EGI+/DR8mGPisswQpobwCdiB
-	 97S5pEBfTrgj1TqZlYG4Xd6TO5qRoWNrXH1fV3kr0AMuQqoqmYVG+Lds8xpjZigCmE
-	 tvJ3nro//2ImXfoN+QaLHXB7XbmJE2mcsyeqZwUQ8Z/dsIkEZFrQt0m18lrN7NTz10
-	 iJaaVRU8/fnLVKeJZMGPVQPYgLzxfgJPfRiVJs9DusncbdqcTc2X0c04Xv/XLX4i6d
-	 tTNPYhpJoZKig==
-Message-ID: <33c0c48e-91aa-461f-80bd-ac1d0860a125@kernel.org>
-Date: Thu, 15 Oct 2026 08:01:11 -0500
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EUWgwLAG"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a16aaf2067so25714325e9.0
+        for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 06:10:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1792069857; x=1792674657; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y1H+C/SntNFC1iY1JZXwhhR2BGSETQJL2ytojY5GJ3U=;
+        b=EUWgwLAGFmMJsZkYtydLu/CHXyvnmoKfUkRIEU5V1Udz45MVgy4jqXeixgbKcoWEjr
+         jRnQuhYBi0OcFCauVI5CdndT26uTqZtuJs/dvWTFa9c2GULJX4JE0wNH3LCI1MwJjG3Z
+         GT2QtGd+lTA2AYKQJ4JZLf3IisUvPgXEqr2vqIzNqcU4e1MEFwFtvm9l0a2sS9vr1lD/
+         pbGsbs9ImfeUqCCdtQ5m2mTf0p0bMXRgAAo2ocL39fs9ev23HZSFRWbLSqM35SmXsa2Q
+         spDiL9CcJTH8Xhs5r7qAgqSMraH1OQrVfeN1DDIW6NdublJS/hHLtxdsszqSAVKgFsgW
+         bdJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792069857; x=1792674657;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=y1H+C/SntNFC1iY1JZXwhhR2BGSETQJL2ytojY5GJ3U=;
+        b=PideeK0itJNqolanpwtSJHUo6tJxqSY6SOU7TOupoSp0fm3dLHmYLzmAsXuj3fBBTX
+         0Oe53+HrhZXvygDI6sPRJ3eK3glYHEJgf2Yv/8DPGWBS27G2d5f9XjEgXi3iP1HfNMgt
+         WP+RIeHi4sqUPatshjVdzvk/1Gze78u/i+GG+VPR3MEjl8Za8fpB3Y+C/jC4O9FDwNv+
+         Sp9kLh0IYmVNgFIPxpUMXBI3MLvL0NOVhdGGOdi4Etx4s0/Ib+3A+uy8E62oNDWqeO+5
+         WIBQGy6VUa/bjFCjkATAb4p//JtwgmCoHOLLkOlbYpuIMmCTcGAtgEPdWiT+ku64jmjn
+         utqg==
+X-Gm-Message-State: AFq9FYKwWYu52tNcoIaoVoTspmalilXBhPQ/wKZuwGZL/WVmFeG2UrGO
+	7nOCelvaHo9Ysr4cqqIQw1VWnnr4ATHrcU+rF4vGpzclwHvKzimz/lf/fhnWQ7qD8q4=
+X-Gm-Gg: AYBFou37tEDElpHy+Q1yRhZlLW1vDt1XDJfuj3OG18c7RFI2MGWcWHBzZ7Ge2Q4E2W4
+	oE88/RxIv/vFs2d2DKcvFBeQTYH3OH64X1H2HsFTq5yyc4otnwl5FowTxGH6tvQyectgmYbYbVZ
+	3CChZZgoEBucEtwmo8J282TxSIrwV7IO5Z5cASbgPorX7GYUGu+nZnUFOHERFzq6DQrnWQE1bzT
+	gm6w01OjX2dcLWR/UPiWSaG/5H0lTfxQvk0SoIXj4cs1GWLkXVd3+A0JPnJUbbLzRcYp1SC954V
+	ZRd64aPsCxm19UKpInYjBfzBsRUdChpKSG4B0UkH0dgu1CBWS/pHUBbVCFfBg1qsq+HRbb6ApCN
+	ndEZUCtDMopO6gsc9bcI0Jl4jX3zYoWqalQrJmR0QK573Efdlz6tW/YDIBGQWVffb0wIsWHqJcp
+	P7bgjeICLaeGC4edAP88HhjtUHDEyk81oCzpK+VGhG7lvadJTG0yphmkk67fZwGwEBMBGORrcMq
+	tPMpekN2a84nG11tljrLJHrsjlhRmneHTqyHp7sPcA=
+X-Received: by 2002:a05:600c:524a:b0:49b:9202:6f80 with SMTP id 5b1f17b1804b1-4a18e4a4f2amr384803075e9.6.1792069857275;
+        Thu, 15 Oct 2026 06:10:57 -0700 (PDT)
+Received: from ?IPV6:2001:a61:130c:b201:1a24:6e5c:9182:4c01? ([2001:a61:130c:b201:1a24:6e5c:9182:4c01])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1bd6834dasm65234445e9.4.2026.10.15.06.10.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 15 Oct 2026 06:10:56 -0700 (PDT)
+Message-ID: <aed1c8c9-1603-4d35-9b2d-e164d559f497@suse.com>
+Date: Thu, 15 Oct 2026 15:10:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -35,127 +69,33 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] usb: pci-quirks: always assert xHCI OS ownership
-Content-Language: en-US
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Rishabh Jain <rishabh.jain1198@gmail.com>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+Subject: Re: [PATCH] usb: storage: bound timeout=0 URB waits to 30s
+To: Hongyu Xie <xiehongyu1@kylinos.cn>, stern@rowland.harvard.edu,
+ gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20260902052631.75c6068b.michal.pecio@gmail.com>
- <178832755831.50581.1058201741431375556@gmail.com>
- <7d64e267-8ca6-4130-bd4a-d80fb4224f72@kernel.org>
- <20261015111733.5ead367c.michal.pecio@gmail.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20261015111733.5ead367c.michal.pecio@gmail.com>
+References: <20261014093856.415812-1-xiehongyu1@kylinos.cn>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261014093856.415812-1-xiehongyu1@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/15/26 04:17, Michal Pecio wrote:
-> On Mon, 12 Oct 2026 15:14:14 -0500, Mario Limonciello wrote:
->> On 9/2/26 00:39, Rishabh Jain wrote:
->>> The xHCI ownership protocol requires the OS driver to assert the HC OS
->>> Owned semaphore before using the host controller, then wait for HC BIOS
->>> Owned to clear if firmware owns it.
->>>
->>> quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
->>> is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
->>> while both ownership semaphores remain clear.
->>>
->>> The timeout fallback also clears BIOS Owned using the original register
->>> value, which can clear OS Owned at the same time.
->>>
->>> On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
->>> resume to terminate Controller Restore State with USBSTS 0x401. Linux
->>> then reset the host controller, both root hubs and the USB Bluetooth
->>> adapter.
->>>
->>> The controller entered resume ready and halted with USBSTS 0x1.
->>> Endpoint state, 100 ms save/restore delays, scratchpads, the DCBAA,
->>> device contexts and command, event and transfer rings were verified not
->>> to cause the restore error.
->>>
->>> Across four S3 cycles, asserting only HC OS Owned changed USBLEGSUP from
->>> 0x00000801 to 0x01000801 and eliminated the restore failure. Testing
->>> included the unmodified 7.1.8-ogc1.1.fc44.x86_64 distribution kernel
->>> using a test module that set the HC OS Owned semaphore. The same test
->>> was repeated after review with the same result. Clearing USBLEGCTLSTS
->>> was independently verified to be unnecessary.
->>>
->>> Always assert OS Owned for controllers using the standard xHCI handoff,
->>> and leave the existing TI/Renesas forced handoff unchanged. Keep OS
->>> Owned asserted after the standard handoff, including when forcing BIOS
->>> Owned clear after a timeout, to prevent firmware from reclaiming the
->>> controller during subsequent suspends.
->>>
->>> Fixes: 66d4eadd8d06 ("USB: xhci: BIOS handoff and HW initialization.")
->>> Cc: stable@vger.kernel.org
->>> Assisted-by: LLM
->>> Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
->>> ---
->>
->> Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
-> 
-> Yes, this fixes a legit issue and would be worth getting in mainline.
-> Two users confirmed the patch works for them, though no one could be
-> bothered to post proper Tested-by here :(
-> 
-> https://lore.kernel.org/linux-usb/P1FsfbW--F-9@tuta.io/
-> https://lore.kernel.org/linux-usb/CY8PR14MB59803EC0F6C7FD39A6D3C42FA0BF2@CY8PR14MB5980.namprd14.prod.outlook.com/
 
-They're public assertions, let's just put T-b tags for them so b4 can 
-pick them up from this thread.
 
-Tested-by: McKenna Fan <blue_sun@tuta.io>
-Tested-by: Quinn Schive <quinnschive@hotmail.com>
-> 
->>
->>> I kept val unchanged for the error log, restored the original handshake
->>> formatting, and explicitly preserve OS Owned when forcing BIOS Owned
->>> clear after a timeout. Documented timeout issue in commit message.
->>>
->>> I repeated the same S3 test on the unmodified
->>> 7.1.8-ogc1.1.fc44.x86_64 distribution kernel using the test module, with
->>> the same successful result.
->>>
->>> Changes in v5:
->>> - Preserve the original ownership value for error logging.
->>> - Restore the original handshake formatting.
->>> - Explicitly retain OS Owned in the timeout fallback.
->>>
->>>    drivers/usb/host/pci-quirks.c | 13 ++++++++-----
->>>    1 file changed, 8 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/usb/host/pci-quirks.c b/drivers/usb/host/pci-quirks.c
->>> index 0404489c2f6a..2b12a35e6f10 100644
->>> --- a/drivers/usb/host/pci-quirks.c
->>> +++ b/drivers/usb/host/pci-quirks.c
->>> @@ -1193,10 +1193,11 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
->>>    			 && pdev->device == 0x0014)) {
->>>    		val = (val | XHCI_HC_OS_OWNED) & ~XHCI_HC_BIOS_OWNED;
->>>    		writel(val, base + ext_cap_offset);
->>> -	}
->>> -
->>> -	/* If the BIOS owns the HC, signal that the OS wants it, and wait */
->>> -	if (val & XHCI_HC_BIOS_OWNED) {
->>> +	} else {
->>> +		/*
->>> +		 * Perform the standard handoff and leave OS ownership set to
->>> +		 * keep the BIOS at bay during subsequent suspends.
->>> +		 */
->>>    		writel(val | XHCI_HC_OS_OWNED, base + ext_cap_offset);
->>>    
->>>    		/* Wait for 1 second with 10 microsecond polling interval */
->>> @@ -1208,7 +1209,9 @@ static void quirk_usb_handoff_xhci(struct pci_dev *pdev)
->>>    			dev_warn(&pdev->dev,
->>>    				 "xHCI BIOS handoff failed (BIOS bug ?) %08x\n",
->>>    				 val);
->>> -			writel(val & ~XHCI_HC_BIOS_OWNED, base + ext_cap_offset);
->>> +			writel((val | XHCI_HC_OS_OWNED) &
->>> +			       ~XHCI_HC_BIOS_OWNED,
->>> +			       base + ext_cap_offset);
->>>    		}
->>>    	}
->>>      
->>
+On 14.10.26 11:38, Hongyu Xie wrote:
+
+> A blanket bound for this helper was suggested before [1] but dropped over
+> concern that legitimate SCSI commands (format, tape rewind) can exceed
+> 60 seconds.  Those commands are issued to tape LUs whose SCSI timeouts
+> are much longer than 30s; usb-storage-attached tapes holding back a CSW
+> for more than 30 seconds remain the residual false-positive window of
+> this change (modern tape bridges use UAS, which is unaffected).
+
+And these concerns are entirely justified.
+I am sorry, but there is no uniform timeout suitable for SCSI commands.
+If anything hangs based on wrong timeouts, that is the bug to fix.
+
+	Regards
+		Oliver
 
