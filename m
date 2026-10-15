@@ -1,95 +1,190 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f70.google.com (mail-ot1-f70.google.com [209.85.210.70])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAF53ABD90;
-	Thu, 15 Oct 2026 08:28:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83AB94457C9
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.70
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792052911; cv=none; b=SctlcUvpFiYmgxwaPIGeSrkei0XBNb3goZM/08eH0919hELNP+tSpzGlV0kAsFBfTQcqJkZn/dIqS3/Fu3HU9jDNakZ88lJ4rl+vkhvon1WBMwWP1KlSfBviv32qvPnEJM2KkomR6z5io7JEAAJvG3A9O19e4rWX/ggpymT2OqI=
+	t=1792053158; cv=none; b=VA+qHmMy8Q7bHW/9bMT5aBmhMcKUbBe+gH0xTmPyCDau1MWMJtdlVjVmYQczRliChCy3kxGUfJDH5e2F17RzYqsswWx7rAEafWKFDlP9Sh57SAmM2Q4kJaKWw1T8/5fW9/FFcP4kYtAkfL2N3PKQ+DVhakJ6TL29MiL0s3KBYL8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792052911; c=relaxed/simple;
-	bh=74/xrUjBmhy/hBYGQNVx7rE7cCVNyFMGw8kk5FZHCgE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gj9axwbfNqHqd75MLghaG3us7Q4aBP8Q35M1gA+cFFERNV9EyHVTnHykg65A82/wy9HNcOhwEheqAftblsQZawHrfoJ00AzjtcJncGyTYcwMs7jmn1aF8fEQnOUHtREI0FrhrAXC8IujHKNlBBXFGaOv4JeQotFCkhE8kcH46pI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3Ysde+z; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3Ysde+z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ACD11F000C4;
-	Thu, 15 Oct 2026 08:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792052910;
-	bh=Syv2U7qOHInP7OCx7Iw4cZz4BGPR69oUDoJy54aqFf8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=d3Ysde+zzfc1ttiANHu5w7bbYCc7Jz9EyabJCzufWXNC2c6VOpx6x02mi8MuqA2Z3
-	 29EljYGKLcXS1B1ZI0KsCrTfn85CLoeuTCKO+aKFD4vnhg1EydWoGALOVjH7/x4Bu/
-	 S3lE4fF5VzQq+E73RZkjPplnM5wvVGG6hvEqnbF96TI/A1v1gRtJ7FsSwSpQju+Zwm
-	 RUK7jbeKBVA7J6PQ/xI59kvsoUsl/1TsfxvOC2wYC0o9/dYuBfGz17Th6qv86IEBJV
-	 mYuOUHaw+G+EM6bl/2AQh0H4cVURVbmBiKK9A3ga9hh89rwos7UFDKeNTJnUfkk435
-	 QvB4MCzo1e2aw==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xHGp9-00000005xZf-4AQ8;
-	Thu, 15 Oct 2026 10:28:28 +0200
-Date: Thu, 15 Oct 2026 10:28:27 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] USB: core: document purpose of interface parent reference
-Message-ID: <atCOq_kAAoUzKGRw@hovoldconsulting.com>
-References: <20261015074831.1418677-1-johan@kernel.org>
- <DM59BD7BDUHZ.2BON4KMXDR086@kernel.org>
+	s=arc-20240116; t=1792053158; c=relaxed/simple;
+	bh=trsxjJs4a5p0t0lDB7Iuc9bAOM8VgarbgPTTsfU4A9E=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=qy6dfxjTYtPrJdlVhU9sSuVL7nDtLVL/wswcN3mNxK1JJI0ZKcaQG56e8ax6srT7gttap+wGtmsk8gEl2+qxmQM4bVpw5XZgaXRxIAD0k+aWXJ+gzUD2RiqNxNfygW2rwrYcvcoRgXeM+7jT9chGcfM8vgJ71tJxfVeem/NKLbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f70.google.com with SMTP id 46e09a7af769-8227ad6ddfaso8582621a34.1
+        for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 01:32:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792053155; x=1792657955;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0rr8KpN9JHoF6KJIZzWxfKkUMUAtkKXqxWnSrskXy1Q=;
+        b=fg9x+UOPzjRGPJQhA1+bFOvG69boZ2wFEO6IABvvddAyzQp0FoxbSCghYdQMNy/iLj
+         2tR3RrfBzKgtpgjN8fD468cPjRYPDn6xGY/eCKKCAN46pOQAB+WKwG/Rhgrh0DRT1D1J
+         p5uPOv/+04Wni45QZbkiMhmGumurlEslE/NzJ2zPf32zz7hYNan3buT2UTU4O8KFCLut
+         GZNVbXDuJ5bomHprdYq93ehiz7knFZqLHVL6uSIvsoSIXW3GeOmYNnQfsGufHYmkg1oB
+         CfSUS1pqwYQrDLpCvZIufbLzukyNqEwY6/Q0/dEC/DLSIeqo4v0jp8ZlFxei41sVVHlM
+         9tfQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzuEWDAekEtKgA7Vf0T11nBiDOl2/mJi9ghFkm9XezaHw3Be+/0XAqoiRW/Gto1JqiD7unYzTLmpu0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI0dRycI1E9mJF9JbiTud+4pqFPvBIa8RVboaUBQD11yK2/Cvd2
+	lwOfEnCIYJu4ISvAdd/GqJ81VXHC/4QTTnYu/6ncSq6MjNQ928Eiz4IR0Ia/QK9fG2SvlBmVTmZ
+	SW11NX+VhdGQO/YjWn/HEN1+QWGoLJGppgDw7oi0ntrTIuY8kiWEowP8CwME=
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM59BD7BDUHZ.2BON4KMXDR086@kernel.org>
+X-Received: by 2002:a05:6808:f8c:b0:4c1:f40e:b697 with SMTP id
+ 5614622812f47-50c56bf8ed8mr15803938b6e.38.1792053155521; Thu, 15 Oct 2026
+ 01:32:35 -0700 (PDT)
+Date: Thu, 15 Oct 2026 01:32:35 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ad08fa3.a150a118.27e199.006c.GAE@google.com>
+Subject: [syzbot] [input?] [usb?] general protection fault in saitek_event
+From: syzbot <syzbot+eba2b3201bd25a97cddf@syzkaller.appspotmail.com>
+To: linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Oct 15, 2026 at 10:08:36AM +0200, Danilo Krummrich wrote:
-> On Thu Oct 15, 2026 at 9:48 AM CEST, Johan Hovold wrote:
-> > USB interfaces hold a reference to their parent USB device to make sure
-> > they do not outlive the parent.
-> >
-> > Add a comment explaining that this reference is specifically needed for
-> > asynchronous device resets and the device type need_parent_lock feature
-> > (to allow driver core to lock the parent when only holding a reference
-> > to the interface).
-> >
-> > See commits:
-> >
-> >   524134d42231 ("USB: don't cancel queued resets when unbinding drivers")
-> >   af61396a992b ("driver core: fix parent lock use-after-free on USB disconnect")
-> >
-> > for further details.
-> >
-> > Signed-off-by: Johan Hovold <johan@kernel.org>
-> 
-> NIT: Maybe add that the reference count must be held until release().
+Hello,
 
-I think that's implied as the comment refers to the lifetime of these
-objects.
+syzbot found the following issue on:
 
-> In any case,
-> 
-> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+HEAD commit:    a5ebb76233b7 Merge tag 'edac_urgent_for_v7.3_rc7' of git:/..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=14fa29c9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4118aaa2d227be26
+dashboard link: https://syzkaller.appspot.com/bug?extid=eba2b3201bd25a97cddf
+compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=158511d1580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1733f435580000
 
-Thanks for reviewing.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/f2a7c6a3f91d/disk-a5ebb762.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9d9d6d2a348b/vmlinux-a5ebb762.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/454e9cb8662e/bzImage-a5ebb762.xz
 
-> > @@ -2209,6 +2209,11 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
-> >  		pm_runtime_no_callbacks(&intf->dev);
-> >  		dev_set_name(&intf->dev, "%d-%s:%d.%d", dev->bus->busnum,
-> >  				dev->devpath, configuration, ifnum);
-> > +		/*
-> > +		 * Make sure the interface does not outlive its parent (e.g.
-> > +		 * as needed for usb_queue_reset_device() and
-> > +		 * usb_if_device_type->need_parent_lock).
-> > +		 */
-> >  		usb_get_dev(dev);
-> >  	}
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+eba2b3201bd25a97cddf@syzkaller.appspotmail.com
 
-Johan
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000003: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000018-0x000000000000001f]
+CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
+RIP: 0010:saitek_event+0x51/0x2b0 drivers/hid/hid-saitek.c:154
+Code: aa f8 49 83 c6 78 4c 89 f0 48 c1 e8 03 42 80 3c 28 00 74 08 4c 89 f7 e8 4d 5a 1b f9 4d 8b 36 49 83 c6 18 4c 89 f0 48 c1 e8 03 <42> 80 3c 28 00 74 08 4c 89 f7 e8 30 5a 1b f9 49 8b 06 48 89 04 24
+RSP: 0018:ffffc90000007830 EFLAGS: 00010006
+RAX: 0000000000000003 RBX: ffff88801c7ed988 RCX: ffffffff8fa8f000
+RDX: 0000000000000100 RSI: 0000000000000100 RDI: ffff8880773c8000
+RBP: 000000000000008d R08: 0000000000000000 R09: 0000000000000000
+R10: ffff88801c7ed9a8 R11: ffffffff891d95c0 R12: ffffffff910c0c68
+R13: dffffc0000000000 R14: 0000000000000018 R15: ffff8880773c8000
+FS:  0000000000000000(0000) GS:ffff888123abf000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f50c9650ff8 CR3: 000000007ea2a000 CR4: 00000000003526f0
+Call Trace:
+ <IRQ>
+ hid_process_event+0x436/0x620 drivers/hid/hid-core.c:1572
+ hid_process_report drivers/hid/hid-core.c:1730 [inline]
+ hid_report_raw_event+0xf6a/0x1900 drivers/hid/hid-core.c:2109
+ __hid_input_report+0x454/0x580 drivers/hid/hid-core.c:2180
+ hid_ctrl+0x204/0x580 drivers/hid/usbhid/hid-core.c:486
+ __usb_hcd_giveback_urb+0x378/0x540 drivers/usb/core/hcd.c:1657
+ dummy_timer+0xa91/0x4cc0 drivers/usb/gadget/udc/dummy_hcd.c:2023
+ __run_hrtimer kernel/time/hrtimer.c:2074 [inline]
+ __hrtimer_run_queues+0x3bc/0xa10 kernel/time/hrtimer.c:2131
+ hrtimer_run_softirq+0x1e3/0x2e0 kernel/time/hrtimer.c:2148
+ handle_softirqs+0x226/0x860 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0xa6/0xc0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:pv_native_safe_halt+0xf/0x20 arch/x86/kernel/paravirt.c:64
+Code: 0b 8b 02 e9 c3 08 03 00 cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 f3 0f 1e fa 66 90 0f 00 2d e3 c5 20 00 fb f4 <c3> cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc cc 90 90 90 90 90
+RSP: 0018:ffffffff8fa07ca0 EFLAGS: 00000246
+RAX: 00000000000a1669 RBX: ffffffff819becb0 RCX: 8000000000000001
+RDX: 0000000000000001 RSI: ffffffff8e4696a9 RDI: ffffffff8c6dde80
+RBP: ffffffff8fa07d78 R08: ffff8880b8433a1b R09: 1ffff11017086743
+R10: dffffc0000000000 R11: ffffed1017086744 R12: 0000000000000000
+R13: 1ffffffff1f51e00 R14: 1ffffffff1f40f9c R15: dffffc0000000000
+ arch_safe_halt arch/x86/kernel/process.c:767 [inline]
+ default_idle+0x9/0x20 arch/x86/kernel/process.c:768
+ default_idle_call+0x72/0xb0 kernel/sched/idle.c:122
+ cpuidle_idle_call kernel/sched/idle.c:199 [inline]
+ do_idle+0x2e0/0x540 kernel/sched/idle.c:355
+ cpu_startup_entry+0x43/0x60 kernel/sched/idle.c:454
+ rest_init+0x378/0x3a0 init/main.c:732
+ start_kernel+0x392/0x3e0 init/main.c:1190
+ x86_64_start_reservations+0x24/0x30 arch/x86/kernel/head64.c:310
+ x86_64_start_kernel+0x137/0x1b0 arch/x86/kernel/head64.c:291
+ common_startup_64+0x13e/0x157
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:saitek_event+0x51/0x2b0 drivers/hid/hid-saitek.c:154
+Code: aa f8 49 83 c6 78 4c 89 f0 48 c1 e8 03 42 80 3c 28 00 74 08 4c 89 f7 e8 4d 5a 1b f9 4d 8b 36 49 83 c6 18 4c 89 f0 48 c1 e8 03 <42> 80 3c 28 00 74 08 4c 89 f7 e8 30 5a 1b f9 49 8b 06 48 89 04 24
+RSP: 0018:ffffc90000007830 EFLAGS: 00010006
+RAX: 0000000000000003 RBX: ffff88801c7ed988 RCX: ffffffff8fa8f000
+RDX: 0000000000000100 RSI: 0000000000000100 RDI: ffff8880773c8000
+RBP: 000000000000008d R08: 0000000000000000 R09: 0000000000000000
+R10: ffff88801c7ed9a8 R11: ffffffff891d95c0 R12: ffffffff910c0c68
+R13: dffffc0000000000 R14: 0000000000000018 R15: ffff8880773c8000
+FS:  0000000000000000(0000) GS:ffff888123abf000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f50c9650ff8 CR3: 000000007ea2a000 CR4: 00000000003526f0
+----------------
+Code disassembly (best guess):
+   0:	aa                   	stos   %al,%es:(%rdi)
+   1:	f8                   	clc
+   2:	49 83 c6 78          	add    $0x78,%r14
+   6:	4c 89 f0             	mov    %r14,%rax
+   9:	48 c1 e8 03          	shr    $0x3,%rax
+   d:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1)
+  12:	74 08                	je     0x1c
+  14:	4c 89 f7             	mov    %r14,%rdi
+  17:	e8 4d 5a 1b f9       	call   0xf91b5a69
+  1c:	4d 8b 36             	mov    (%r14),%r14
+  1f:	49 83 c6 18          	add    $0x18,%r14
+  23:	4c 89 f0             	mov    %r14,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 28 00       	cmpb   $0x0,(%rax,%r13,1) <-- trapping instruction
+  2f:	74 08                	je     0x39
+  31:	4c 89 f7             	mov    %r14,%rdi
+  34:	e8 30 5a 1b f9       	call   0xf91b5a69
+  39:	49 8b 06             	mov    (%r14),%rax
+  3c:	48 89 04 24          	mov    %rax,(%rsp)
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
