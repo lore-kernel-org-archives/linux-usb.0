@@ -1,96 +1,97 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3990415E5BB;
-	Thu, 15 Oct 2026 06:48:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22624479869
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 07:24:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792046909; cv=none; b=MaJ5eIROyZGuz1zlJpJ3Fik2akneXSqL/GnPc3GQayzLbeOLL5RIgp8glPJ/+1T5yOtmC/KtXnqsqakLWp6leA4Rg8TkMRjVzPOINUHA2JGN2qCHO7fWt/AKbWmZEkws6ZHPTTNVmdyPIrx/mApX20F5ZgdfT4EJ2ThTCuWZrLw=
+	t=1792049094; cv=none; b=U5aDwBIZZguDg3Kvs64JMn9UwQ7pusPd2dVUQxF/+pi4O5QWgafYs+XMNRblrMkHB0ZQjL3sG0IlBm29dJG2kjoh9a8HPD24+KzB7a1hpOnHvd9Xi/ut30puG/Av2TDsG3Cw1j5VdxNUiQbgmrcPWb9/JYWMmcB6AUSQH2o/2EA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792046909; c=relaxed/simple;
-	bh=x06vfpE1sVYyhtd6+t3pDnzhp4GcwfStVJjoGGp63fk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rj35cr9SASRDJ/tyEHNVpkTSciE3cs0AWvAnQ97Tc+jD/f5m+K/BffEnlcWCNXaLORMS39K+0JeI1sc+0j9ac8LJ+RdYhBORk0otj3PpEqIQa4bo80M+Eiu9/obl60Dk0SPxogmDcpU+BK6V8UhGOEWvTjbWhf663FCQTon0AS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EDBPhC3v; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792049094; c=relaxed/simple;
+	bh=SGWYALJKmtkN/fe4LedVXq1u+FbVS1bm/olljEGvZ7o=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=R/TdQhqMnhf1iyXVSGldEirYLo0GfhKnSRTDaolET5EnRThYQLulFbdALsJuAB6YrJvpn+AfGDUWj7Me0EkFK37FcfunvWWLj0kTM/v/vhXa7GHz58LVxJELF3Y3MsoP7HUrRRb2o/lVemo9Vafe8HPHS5QVfgtJ/626FGVosSU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOaNB3RE; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EDBPhC3v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B05AF1F000C4;
-	Thu, 15 Oct 2026 06:48:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOaNB3RE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9612E1F000CB;
+	Thu, 15 Oct 2026 07:24:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792046907;
-	bh=dso/tIH4LiNIquidRJisKhpHbOzUSZnjCA6TuPe7msg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EDBPhC3vvoPIFCSjeH6OLfZoRLmI4fSqDnYTg1WOVjDB+YbC5UKJWVul2BE8JnpWy
-	 pFpD1/szBkXixBhRT+7x7vol6oYzMMohjbHdMSlPr+ZgAkOQ1HaJaeFNso8L3m5q8V
-	 aMsYVAUgx0QbncKBjsw/243ll6N3dYQ7muPukmUIDSAdFarJ4b4N0CFAFk5gWe4t67
-	 5v1UIWGHSYgB38UWTqQDFa7J6t9CQCrydmwGoQoXLiQluvYviknkWdV68vjG9QktXh
-	 0fsglpWDyrRANIQ+1UhN8+Duk6DIY3QVTHBAh1z0ffNEOHhTyjfvyDyrudBuPaJ1OG
-	 xGTmvaL4gqC+Q==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xHFGL-00000005w4b-0mBf;
-	Thu, 15 Oct 2026 08:48:25 +0200
-Date: Thu, 15 Oct 2026 08:48:25 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	driver-core@lists.linux.dev, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mario Peter <mario.peter@leica-geosystems.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] driver core: take parent lock on deferred probe
-Message-ID: <atB3Octe0OaCLBUQ@hovoldconsulting.com>
-References: <20261013140615.1226992-1-johan@kernel.org>
- <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
- <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
- <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
- <as86K1qm1sHtgTFL@hovoldconsulting.com>
- <DM4N25JXKTQM.3K7TP9HM68KQ2@kernel.org>
- <as-cW9ZwmMCPcftL@hovoldconsulting.com>
- <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
+	s=k20260515; t=1792049083;
+	bh=8vEMCKVcZehNR+sV3hC3kP5ImvAvuDNLDfJ29yek84M=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=lOaNB3REWczssKB1iBo8h5Yonob68RBiiFQbhXmeyOlhg4GGzFPzrRuESqXU8vwB/
+	 FAcesDS/pAVdbrWKUffXK86MojhsUNHDh6cFjSI0OfIsfHDLRYW7rbS5qVimWuQWgk
+	 V1RmfVzqWfRPf1pusjqosRVs6ygpT0OeHWudzBNmnMtAvBm5HnzWi7+ILKFioAlrtt
+	 7DBVJgLPR+WywVmukRfyOIMQRdoEnQhMY4K7X8xBWZoDzQ7Q2v/9qOpVWW+W6TVMXm
+	 eZPW3z4yiPikRYn9DG+hk00FUVbZZVsMdccWVlT4oJmNt5G1s+S5FTTfReyTZkanVx
+	 AJtT1uIHncuxg==
+Message-ID: <sashiko-outbox-172416@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2 22/24] usb: dwc3: generic-plat: Add ZTE ZX279128S
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Navid Ghahremani" <ghahramani.navid@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261014072109.1759502-23-ghahramani.navid@gmail.com>
+References: <20261014072109.1759502-1-ghahramani.navid@gmail.com>
+ <20261014072109.1759502-23-ghahramani.navid@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 15 Oct 2026 07:24:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
 
-On Thu, Oct 15, 2026 at 12:40:42AM +0200, Danilo Krummrich wrote:
-> On Wed Oct 14, 2026 at 5:14 PM CEST, Johan Hovold wrote:
-> > On Wed, Oct 14, 2026 at 04:42:09PM +0200, Danilo Krummrich wrote:
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] usb: dwc3: generic: clock leak in resume error path
+--
 
-> > I understand your concern, but my reasoning is that this feature is only
-> > needed when devices are tightly coupled with their parents and where it
-> > therefore probably always make sense to pin the parent.
-> >
-> > Note that the need_parent_lock flag is now set in the device type struct
-> > which also holds a pointer to the release function that drops the
-> > reference. So it's pretty easy to check any theoretical further users.
-> >
-> >> Please, let's not add this API contract. Let's have the driver core deal with
-> >> this internally.
-> >
-> > I can take another look at it, but the alternatives seemed either error
-> > prone or a bit icky (e.g. a helper that returns a reference to the
-> > parent after checking the dead flag under the device lock).
-> 
-> I thought some more about this, and since it is only the USB device type using
-> it it's probably fine for now.  Should we ever gain new users of this API (which
-> I do not hope), we can still change it and add something like the diff below.
+commit b05da126b481233779c64514b7441eac703bad0d
+Author: Navid Ghahremani <ghahramani.navid@gmail.com>
 
-Sounds good. It was variations of your two diffs that I had in mind as
-well.
+usb: dwc3: generic-plat: Add ZTE ZX279128S
 
-> I'd suggest to also add a comment in the USB code, explaining that this
-> reference count (also) serves the purpose to fulfill the driver core API
-> contract.
+This commit uses the generic DWC3 platform integration to enable clocks
+and release resets for the ZTE ZX279128S SoC.
 
-Sure, I'll do that.
+> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3=
+-generic-plat.c
+> index ca69ac0eb07ce..aa838cf0676f2 100644
+> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
+> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
+> @@ -237,6 +237,7 @@ static const struct of_device_id dwc3_generic_of_matc=
+h[] =3D {
+>  	{ .compatible =3D "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
+>  	{ .compatible =3D "eswin,eic7700-dwc3", &eic7700_dwc3},
+>  	{ .compatible =3D "starfive,jhb100-dwc3", },
+> +	{ .compatible =3D "zte,zx279128s-dwc3", },
 
-Johan
+[Severity: Medium]
+Does dwc3_generic_resume() leak the clock prepare/enable counts if
+dwc3_pm_resume() returns an error during system resume?
+
+drivers/usb/dwc3/dwc3-generic-plat.c:dwc3_generic_resume() {
+	...
+	ret =3D clk_bulk_prepare_enable(dwc3g->num_clocks, dwc3g->clks);
+	if (ret)
+		return ret;
+
+	ret =3D dwc3_pm_resume(dwc);
+	if (ret)
+		return ret;
+	...
+}
+
+Should clk_bulk_disable_unprepare() be called in the error path before
+returning?
+
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, dwc3_generic_of_match);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014072109.1759=
+502-1-ghahramani.navid@gmail.com?part=3D22
