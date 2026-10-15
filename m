@@ -1,135 +1,60 @@
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender-op-o17.zoho.eu (sender-op-o17.zoho.eu [136.143.169.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22543EC83C
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 03:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792036173; cv=none; b=CEymdN1VMEoMRLm44RN9zu9IYPKbMyXYsjRHrEN0AXr3ECd+U5HYJ4r9hITec0OuINbijJTuAx4slX96oqQTGj+oIa+cGZ1/HvS9SvvdpLgYj3CqTiOVbCbutQS88Sp5AIc9G81WcTWs58x3fWactDlhLGYkoXnWQevx1+Kp46A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792036173; c=relaxed/simple;
-	bh=Uv9EmrRaAH/Mht0c5liX9EH4uwX0CGeBWpQZZzd/SHI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=SgihYWVwmmAuIcHWtAPbR6j2xg8S2QgwgSeY3Aptoikqq5qujht3ENeJZr6NCc/vEoy6Fi10OHKIoDOvbutMqabfrMH/T9ZUrVIAoEaC/5E+0R4uLbyGvjOynO272ct6oNhgPDuAjLD4UTIGmPhzF5TR5RQMBvea+GgJzT58qkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rXwpDpD4; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B3F237F01A;
+	Thu, 15 Oct 2026 03:58:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.169.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792036717; cv=pass; b=WrjcTaz4RTEbhpGhSyKbrYkwr/4Q940JNn4hhCHl5mHS3W436q9nwLqUfOSt9HE4I0CAqJ3KVcuMnV7m49+88Sro+P7pSc1Z2/ZzMoQGkaCfkqRSpRL0ndsFcyVki8m7h2X1+DCJgpdz5UQkqmibg7zQNRo2Q3GeNoYPG9ATn68=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792036717; c=relaxed/simple;
+	bh=pifDH0uDw0EMlv5YUttgPbWoNR7hI3QK3uBz9udZ6wU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=P/cdmbTG5iLIxFjaIhrjhywZnZ9lG3+09Mz4lBhut1551QNim4UR2FrhA2YvZr63yrHxAMpyKQKMkz21Pw8FtsNKntirexdz/2M1Jq34ZL9TNcuCFOgbNTUJvNaMZlKqDAVurAHaOGUzryeJvgXs1Iuu3jzDvQgOAfN3y/HcmlQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iav.lv; spf=pass smtp.mailfrom=iav.lv; dkim=pass (1024-bit key) header.d=iav.lv header.i=iav@iav.lv header.b=CZ6T92YO; arc=pass smtp.client-ip=136.143.169.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iav.lv
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iav.lv
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rXwpDpD4"
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-91b55859245so72267686d6.0
-        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 20:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792036165; x=1792640965; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bunKBsFj9Fyqn3V/dhLLQQp1k0qDhFRte4iKdlCJT1k=;
-        b=rXwpDpD4jdvmJxv75PaXNWHf9Et1+NV0v2hpyaUPvUpTn1eoeh8P/Z6GNScyZttVar
-         VeiMuD0e8iKZo/FRc0iBcY5h0O4wqFUovWR1HxEPaDnGnR9y14zHQCVJAzMeL2pl15Ge
-         mc+D+kTb9o22TkqJmEuTID5x5tsxhHurSi5JpD9LHjtwww/gRG9UqoDeFkUTr5MZhHSb
-         DpRSgrW18ksIBwWJkjsaEfHLW0wNv/ZoLoz6uj7l7PwWPgCxKppXn2TY3GvrX0uc/4Ev
-         OcPV6uZH+JvN45/h/T1ywdi+vLsRmpxZzhjkNwOtPm5tWpUz2xgr+YmNOldayTvGjqOt
-         qi2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792036165; x=1792640965;
-        h=content-transfer-encoding:mime-version:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bunKBsFj9Fyqn3V/dhLLQQp1k0qDhFRte4iKdlCJT1k=;
-        b=FtNZdrOHkzWpT6Kp1Fi4Ai+I7rRw0Wydoc5yTb4eAjMdeou3Eh1w0eXj8A3+Lx8W8O
-         fRD34B+oLxVMkUKBPkR/bGKyLiXQWl8Nb7Pkq76seOrrwHwDG7Ai9/lz9zafTQr8sqsK
-         GQAQXJpP2OoYsGGNMOGz2PJHv++7OfOm00JQFas3OfUAjIlQy+Lgg5glr9pQPIh6mrWd
-         sut/sA9WF63s0nH9P6T+3MDODrNf3YOHYT9BbX/teEDEBlZ65kezt8+3NWiP8e0pa1eL
-         9V+mHa+x0eYuzu2pgdNMwR284kZf9T1KOhVgtAoCKx1xMu89NGgdPFfDsIWZKcfBGpMm
-         NXcA==
-X-Gm-Message-State: AFq9FYKYjeAvh9hxwQjJ5jx3EDGKsOt1Qn8BbrD+4USnRv7oCp9mt7xu
-	BYSZEd16UckUFSyf72bW54TtFL1ubHlQ5EqbQyRXGcD9xwUMZfzYvUk=
-X-Gm-Gg: AYBFou1pe/eJa55GIL6EWjuI9Q3azkP5cqvWvk5Vi/Wtr3Qjt5S/sIRd24w/99dMT0Q
-	/wk1TLvp+P1IJJY+s8U9DgufxLoyFh9NkSIGsX0ijQ9WzQvs029z/ZmjSBkedXuuBkXVghYiflH
-	2Cok7cMeTtxok/ue91BOZSliQbwkgbFQ4OJRG0q6/W+GvyQu4Wtn3kpKC5ZS7c3/T7UovTzZ8KP
-	oI3b42vgPdcszpS6Uo113TPzq9u6FN8ROdgIA3ixBhC4oRcU1PPnmAfxUgMiP9dRWROy++55pyP
-	3g83COYWmm6un0iVPWvbao0RHHK5SsVOtfRT/GbYkwSFWvs/V3wJx73uuNtNJcB/lBWyzzOe/1T
-	sSkaXfJZDwFEHnfCK2ChfRUR3TGQhxPh5dIwRHNrC/Fs2v/a7O/QNuDuxJzzKgQTo1GiMbl/N7K
-	OUnFZtp0VFfCbHmQ+d0kk6QA0UJOUsOZ4wje8TOio9YSmimaTp6SXRfSr27txKNH5+3JcNIitFr
-	TlxXTF0G46fpJuM/ogMVweGk7CoEj3vtFSZmUSjtn83nJSVolohwv7aNOXU++QXlFFN91tBBVEH
-	/5LflCmurRSSOTmHvVJVtbZ9ZxrEjIQKKyox+ns=
-X-Received: by 2002:a05:6214:5184:b0:917:8d8f:9d6c with SMTP id 6a1803df08f44-91b554c317bmr317474676d6.9.1792036165229;
-        Wed, 14 Oct 2026 20:49:25 -0700 (PDT)
-Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91b97b3864dsm70540626d6.14.2026.10.14.20.49.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 20:49:23 -0700 (PDT)
-From: Myeonghun Pak <mhun512@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Ijae Kim <ae878000@gmail.com>,
-	Vasileios Almpanis <vasilisalmpanis@gmail.com>
-Subject: [PATCH 4/4] usb: gadget: pch_udc: free the EP0 data descriptor to its owning pool
-Date: Wed, 14 Oct 2026 23:49:16 -0400
-Message-ID: <20261015034916.2773248-5-mhun512@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261015034916.2773248-1-mhun512@gmail.com>
-References: <20261015034916.2773248-1-mhun512@gmail.com>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (1024-bit key) header.d=iav.lv header.i=iav@iav.lv header.b="CZ6T92YO"
+ARC-Seal: i=1; a=rsa-sha256; t=1792036686; cv=none; 
+	d=zohomail.eu; s=zohoarc; 
+	b=XzPeRgEUlE3s0CSareeggcFzEnRfqc7xoCpj4oo2E82QbQDlix7V9KbvZ06IcxJ9gTngzArzUTu8Ow3hnS1aRWzkj4bGt5IyX1V/G2XM9xXXre3FgXvqDEIWBVpCSZhAKOblOCeOA12su29hYHCisU3xO6Ep//FiMZI0//bwxiI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.eu; s=zohoarc; 
+	t=1792036686; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=pifDH0uDw0EMlv5YUttgPbWoNR7hI3QK3uBz9udZ6wU=; 
+	b=APm6ig9UNFz+3FbTT3D47VhHIUfHoLuD+FBpe36tSfRK1owNP9HeEHs5gNYxj+4joCsSS5mXJL66RtNpKJZuCMltMuVEHqcsRaBylNyW/p4CAT5GOtq6RPo9cXi/9c35wZW3HTAV1X4fqE1IoK75Xa1ZS+pKdc4SeHsSTLf90U0=
+ARC-Authentication-Results: i=1; mx.zohomail.eu;
+	dkim=pass  header.i=iav.lv;
+	spf=pass  smtp.mailfrom=iav@iav.lv;
+	dmarc=pass header.from=<iav@iav.lv>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792036686;
+	s=zoho; d=iav.lv; i=iav@iav.lv;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:In-Reply-To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=pifDH0uDw0EMlv5YUttgPbWoNR7hI3QK3uBz9udZ6wU=;
+	b=CZ6T92YOtgOrWHHIxR94ereumsmrWWD6DTCKVTY8K/N+10dtHCVhqhIuwMjV3YpX
+	r6jdNdqtfKPRbFC9HiksDsmVyvOKT2GinsZhkRFVI6G0hRSMMpKSZUBWkRslMMian4S
+	Q9AcHjYd+6rT1uvzOFwT/24GGv6Qo9fjV/ODwSzA=
+Received: by smtp.zoho.eu with SMTPS id 1792036684329824.7527309360931;
+	Thu, 15 Oct 2026 05:58:04 +0200 (CEST)
+Date: Thu, 15 Oct 2026 06:58:02 +0300
+From: Igor Velkov <iav@iav.lv>
+To: Jonas Karlman <jonas@kwiboo.se>
+Cc: Heiko Stuebner <heiko@sntech.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Peter Geis <pgwipeout@gmail.com>, Michael Riesch <michael.riesch@collabora.com>, Diederik de Haas <diederik@cknow-tech.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Igor Velkov <iav@iav.lv>
+Subject: Re: [PATCH v2 2/2] arm64: dts: rockchip: Fix devices suspend freeze on RK3568/RK3566
+In-Reply-To: <20260624192726.781864-3-jonas@kwiboo.se>
+References: <20260624192726.781864-1-jonas@kwiboo.se> <20260624192726.781864-3-jonas@kwiboo.se>
+Message-ID: <20261015-m1-tested-by-usb-clk-v2-2@iav.lv>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8bit
 
-The EP0 OUT data descriptor is allocated from data_requests, but
-cleanup destroys that pool before passing the descriptor to
-stp_requests. Return it to data_requests before destroying the
-owning pool. Keep the setup descriptor on stp_requests.
+Tested on ODROID-M1 (RK3568) with 7.3-rc7: without this patch
+pm_test=devices hung while suspending the first OHCI controller 4 of
+14 times, with it all 31 runs passed.
 
-This issue was identified as part of our ongoing research while
-reviewing kernel code.
-
-Fixes: f646cf94520e ("USB device driver of Topcliff PCH")
-Assisted-by: LLM
-Co-developed-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Ijae Kim <ae878000@gmail.com>
-Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
----
-Compile-tested only.
-
- drivers/usb/gadget/udc/pch_udc.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/usb/gadget/udc/pch_udc.c b/drivers/usb/gadget/udc/pch_udc.c
-index 38b9159e2461..b07da0fdcdfc 100644
---- a/drivers/usb/gadget/udc/pch_udc.c
-+++ b/drivers/usb/gadget/udc/pch_udc.c
-@@ -2984,20 +2984,21 @@ static void pch_udc_cleanup(struct pch_udc_dev *dev)
- 	}
- 
- 	/* dma pool cleanup */
--	dma_pool_destroy(dev->data_requests);
-+	if (dev->data_requests) {
-+		if (dev->ep[UDC_EP0OUT_IDX].td_data)
-+			dma_pool_free(dev->data_requests,
-+				      dev->ep[UDC_EP0OUT_IDX].td_data,
-+				      dev->ep[UDC_EP0OUT_IDX].td_data_phys);
-+		dma_pool_destroy(dev->data_requests);
-+	}
- 
- 	if (dev->stp_requests) {
--		/* cleanup DMA desc's for ep0in */
-+		/* Free the EP0 OUT setup descriptor. */
- 		if (dev->ep[UDC_EP0OUT_IDX].td_stp) {
- 			dma_pool_free(dev->stp_requests,
- 				dev->ep[UDC_EP0OUT_IDX].td_stp,
- 				dev->ep[UDC_EP0OUT_IDX].td_stp_phys);
- 		}
--		if (dev->ep[UDC_EP0OUT_IDX].td_data) {
--			dma_pool_free(dev->stp_requests,
--				dev->ep[UDC_EP0OUT_IDX].td_data,
--				dev->ep[UDC_EP0OUT_IDX].td_data_phys);
--		}
- 		dma_pool_destroy(dev->stp_requests);
- 	}
- 
+Tested-by: Igor Velkov <iav@iav.lv>
