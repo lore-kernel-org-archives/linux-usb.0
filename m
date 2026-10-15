@@ -1,71 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D43FF4CEE51
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3318377A8F
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792052441; cv=none; b=eaqJ/554fhXCrefzlWMYE29qy0OopOsqL06KTKw9TFsBVzMiDHhmtTrydlGyhawT+wPr1u7IRk6N+OMnuKX9wFPrazfH/j0BVP3JJMK/ddasuIX2z+YDkyOmDdr75eoiHfI61VpHYVDKUgMMfTbVPdS6qiM26POzJXX7IuiQ1Dw=
+	t=1792052441; cv=none; b=smLTwNzXLf3hmiy1kmDU0yPr+A24QMsLwA674Kld24RVvCXic/XgtR1+LZrTwah8p+TEckKSdp6TqSLHojfBqNeTCssVepN5iJTJ8bulPlhWRVfZM+9hRyiVA3tXOo6YkrePVGB+AOgcmVmq25EoFrR4sPdBTmv5ilJPzGPN4bI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792052441; c=relaxed/simple;
-	bh=xpdBzxe6zN3JQW45SAq8JzGCNF8423ojCfZenDZb7fI=;
+	bh=MVSNORonzgN3U48cXI0yYeBS4NkrhzrHyaPOo/P8UHk=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=KjIxcGNGbA1e6gtQU8pyzvoTNJGLEHm7I/wO1TaXTS/JB/ZhMLCOfCmLVsdRxq4eToAl1X3bzqrtvP+lq8JNxNfoEbAdKkdyurl+LO0pyr833G74oTdQUxb/cmNVsGhfELXWSFK9xHeKYPSUGikM6F/oUe+n4ERSJSFblgtuV2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dp5/KuUf; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=Np7UWVplyJCpSnLm2ujnTmdTu0Jk/vmjBDjxKUTtLsGbkrrQgpl66+2A39lbHojEbG0eIKDxm0Smaa3tAK0zyLEVsTnGmGMRHbeeTzZQvUzzd0cn+FMaKywRDKFz/VSAX9nwGvH8jSEWZbrtcGrkwIHrYBaRtOZIeRbzibT7JZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPW5uT/t; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dp5/KuUf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2A0F1F000C9;
-	Thu, 15 Oct 2026 08:20:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPW5uT/t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D1CC1F000C5;
+	Thu, 15 Oct 2026 08:20:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792052437;
-	bh=xpdBzxe6zN3JQW45SAq8JzGCNF8423ojCfZenDZb7fI=;
+	s=k20260515; t=1792052435;
+	bh=LEoiuzTsvpFjQYcfxh+XvfC3to8rfkCiJCe/P6Z/Fl0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dp5/KuUf3/u3rFbtJBur9iYISilQcJTqfndfPk7AAV3lb0d4cXewTtVL7vlBFAJE3
-	 lamI78ypCcVbejYuDrzeTL6SkFVeP+qlxKBNeSwLixV7V8lMDP3oCVF9jrfyTiq7uV
-	 wE/WuSRZbpv4MdNol3xyNJBH4VMQ4cv+jBFIATYDyFYGP3lgLQpjakjj/4m3MDcI4Y
-	 UirQqq3lFUHb9eSVDpqBo2gSvOK/Pr/m07B05098GFQE3q6Rp8VZW38zMG+SHM9gBV
-	 KoJAkaWvTcZ/c5449OEXX5MJ5d8DO8TvkLi90ghP1u1/iIWiJkxl4FgBwYzz0qPO19
-	 YCOWDlovTjoWg==
-Message-ID: <sashiko-outbox-172467@kernel.org>
+	b=OPW5uT/tXGtWal4uIfF6/XynCeYglhqBXmnOMOD+h4Xqpc4j6a/9DLsqGHLT/vYIE
+	 ebxV5uRO9hG26B9OgQbd2aS+84UjhxzzV68FwV2AZpeZlHftAYdbQYLMyYeftdbsbq
+	 YuDdsojuJ6sVF/Uz87dTp+S9ASImjrtb0nO/sBwUn6N7a5Ybma9mc031HSvc8qlbJW
+	 HY82n46J0AnPokCatM8ew9Z+ib8tQRRSIgll6mI3ZDJi0IecytJ25TAJUXOtW+rQ4s
+	 cfGJVeld6zLd/e2Y9iRJdk1E8J/fdIjiw6U9FTkO+3xXAJ4qMvfvm3gKGOOlUqMBhg
+	 otP4ckdpRG4cg==
+Message-ID: <sashiko-outbox-172463@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v7 04/10] r8152: split rtl8156_enable/up/down
- into per-generation functions
+Subject: Re: [PATCH net-next v7 02/10] r8152: add new init writes for
+ RTL8156/8156B/8157/8159
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014081904.6491-5-nic_swsd@realtek.com>
+In-Reply-To: <20261014081904.6491-3-nic_swsd@realtek.com>
 References: <20261014081904.6491-1-nic_swsd@realtek.com>
- <20261014081904.6491-5-nic_swsd@realtek.com>
+ <20261014081904.6491-3-nic_swsd@realtek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 08:20:37 +0000
+Date: Thu, 15 Oct 2026 08:20:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> rtl8156_enable(), rtl8156_up() and rtl8156_down() had accumulated
-> tp->version range checks to cover RTL8156, RTL8156B, and
-> RTL8157/RTL8159, including an early bail-out in rtl8156_enable()
-> that skipped most of the function body for RTL8157/RTL8159. The
-> result hides which settings belong to which chip, so chip-specific
-> register differences cannot be reviewed, and cannot be added without
-> touching the other families.
+> Bring the per-generation init functions in line with the vendor init
+> sequence by adding writes the shared r8156_init() never performed.
 >=20
-> Give each generation its own ops callback: rtl8156_enable() for
-> VER_10/11/12/13/15, and rtl8157_enable()/rtl8157_up()/rtl8157_down()
-> for VER_16/17. rtl8156_up()/rtl8156_down() keep serving RTL8156 and
-> RTL8156B (VER_10/11/12/13/15).
+> - Clear PREBOOT_OPTION and RMT_WAKE_EN in r8156_init() and
+>   r8157_init().
 >=20
-> RTL8156/8156B/8157/8159 share most of the up/down sequence, so move
-> it into common helpers, as RTL8152B/8153 do with exit_oob/enter_oob.
+> - Add r8156b_u2phy_backup() for RTL8156B (VER_12/13/15).
 >=20
-> Each extracted function reproduces what its chips already did, with
-> the guards that were true for them inlined and the ones that were
-> false dropped as unreachable.
+> - Clear AUTO_SPEEDUP in r8157_init().
 >=20
-> No functional change intended.
+> - Disable interrupt mitigation (0xcf04) in r8157_init().
+>=20
+> - Clear the Warm RST / Bus RST event flag (0xcd06 BIT(11)) in
+>   r8157_init().
+>=20
+> - Clear the FW u1u2 patch option (0xb9a6 BIT(0)) and enable the u3phy
+>   patch backup (0xb9a2) for RTL8159 (VER_17) only.
+>=20
+> - Clear RX_END_TRANSFER_EN (0xd406 BIT(11)) for RTL8157 (VER_16), too.
+>   While it is set, incoming packets are buffered in the RX FIFO and
+>   Bulk-in transfers are suspended. The bit is zero by default and
+>   isn't used now. Clear it unconditionally for safety.
 >=20
 > Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
@@ -73,5 +74,5 @@ Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014081904.6491=
--1-nic_swsd@realtek.com?part=3D4
+-1-nic_swsd@realtek.com?part=3D2
 
