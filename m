@@ -1,110 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37A0529BD9A
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 02:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5117C29BD9A;
+	Thu, 15 Oct 2026 02:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792032820; cv=none; b=Qox7AfWZ4NbG9p40NqvSx34LsUo5aA3hCny+vpvJ6zSm9qKmFW98eDU4FBd+q+qBE28mnTU1K9fk8+TfLqsMxEjB0pym4Zg5Bt4cIdJf1AE2QFr9c3F0ej8Gw0qEGWHadqKw/GnAnut9rIuV6qypClRuLXdBssVvy7vtGBvuB1E=
+	t=1792032884; cv=none; b=a6OWrJP8hYrocFTqKQHN/F2cGDIIAMBfzsLPJHd3HpUJyTzgwgliqF1B09Y7Yr27090JMdYVfxa8ckyuIBIMzn1TAqtZjsEdqiXsveOwWGmblaJZSnuM4PP0Y7aUwVYEYS6Otemt0FR2PTKaaDFtJMgNV4C1PNKuooq/q+TKfjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792032820; c=relaxed/simple;
-	bh=nyCq+9oDU6mBGAQ1mxoLkuBt74UFXk9k+qZEb8k4Zfg=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=CPNeF4Yhi/Lowy4Pq5XAsaZbCmfdUFq3/P9g2YyCBVu9MquFl6h41YSAQ1f3+z6R12me1Zz/5TJ1C3WZgpcz0sjI9F/fx2/iGNMex9rHFrIVL+quL3TDHs+1S7cuHEEfE1xR9BPDGklJ+iZGcGXYLRSV0O+lmeRgbPx2+r5kGxk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eyorU1LB; arc=none smtp.client-ip=100.103.45.18
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eyorU1LB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E57DE1F000C5;
-	Thu, 15 Oct 2026 02:53:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792032819;
-	bh=I6OJjvd09kUWzibTCj7QanRWWbjb3xQ6jCdbi/Zsw0A=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=eyorU1LBNXyv8tFStOoQmXpJJU213J6JaR40qM1kvJ8xZlJeaEKhn8Z7q6uRzs8Hn
-	 U/wf7oh644RaR76FSATgd2zmTkbEiKlPpG/7fHffE6psAr1uHEq8SsMVcrXUUI0PBN
-	 87BUdc8CjPRjkczMgf4HQS0kzTJM7ku+0+QaRt1CaWziXOWbdTua7sw8iDVA/U4Ypf
-	 n8Jh4sV9WlYcrkTncXhuK0L79TfJb1Fe1Rzyu52nk0DNN6mZ04D270b7zqfzkdvYoK
-	 dDIpp17mV3051EVDoLeZnldQHu0F52l9RYk0ZBfOdXCzl+D/opIqg42mzX9J+0g1VB
-	 s1L/eCSOxRSSg==
-Message-ID: <sashiko-outbox-172186@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net 2/2] net: usb: pegasus: check rx pkt_len against the
- received length
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wei Jie Law" <law.wei.jie@gt.tech.gov.sg>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014025307.25233-3-law.wei.jie@gt.tech.gov.sg>
-References: <20261014025307.25233-1-law.wei.jie@gt.tech.gov.sg>
- <20261014025307.25233-3-law.wei.jie@gt.tech.gov.sg>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 02:53:38 +0000
+	s=arc-20240116; t=1792032884; c=relaxed/simple;
+	bh=p3BBM3/ASQZwgp/7YtCpXRoVuWfV685qIw5c23cdOD4=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=nDNTCAXM6Ws7k9dM/ktKO+r2puwwxQScccIyM7ZO3mQtSXi7XFjyzvtFCAQLm8FCrouUfgIPnYr6YGvUzDNedPye+fyzI8ix1wXQP4m28c+aqqnQlu84YrNi059ZLU79zU7N7CGGiTueHJdiXD2tFFBgaRg/JiOTKmKG1pYbfZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: c190b198c84311f19a56ed5b684f684d-20261015
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:37f67a52-ada7-4980-9eca-80cabb2be0f2,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:20
+X-CID-META: VersionHash:7db8b62,CLOUDID:29d3a414a3750f921fa58b6695b78d0c,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
+	,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
+	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: c190b198c84311f19a56ed5b684f684d-20261015
+X-User: huangwei@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <huangwei@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 201491061; Thu, 15 Oct 2026 10:54:36 +0800
+From: Huang Wei <huangwei@kylinos.cn>
+To: leStoppe <lestoppe@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Craig Hesling <craig@hesling.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	huangwei@kylinos.cn
+Subject: Re: [PATCH] USB: serial: simple: narrow OWON match to avoid breaking VDS1022
+Date: Thu, 15 Oct 2026 10:54:31 +0800
+Message-Id: <20261015025431.3927020-1-huangwei@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20261014031228.1fadf3d2@delby>
+References: <20260810091322.2201740-1-huangwei@kylinos.cn> <20261014031228.1fadf3d2@delby>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] net: usb: pegasus: uninitialized memory read in eth_type_trans o=
-n short packets
---
+Hi leStoppe,
 
-commit 35f61a0523edaec588769ea008eada12f3c5521e
-Author: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
+Thanks a lot for the dump - this settles it. Johan's hypothesis was
+exactly right: the florentbr tool talks to the VDS1022 over libusb,
+and the kernel driver binding is what blocks it from claiming the
+interface. And the point that the VDS1022 is a headless scope where
+the PC tool is the primary interface makes it clear it should stay
+unclaimed.
 
-net: usb: pegasus: check rx pkt_len against the received length
+The descriptor data also settles the match question, in a slightly
+unexpected way. The two families share interface class 5, but:
 
-This commit modifies the receive path in the pegasus driver to drop frames
-where the claimed packet length plus the receive header offset exceeds the
-actual received byte count. It prevents packets from being processed with
-uninitialized buffer data when a short transfer claims a long frame.
+  HDS272S (dump in the commit message of 4cc01410e1c1):
+    class 5, subclass 0, protocol 0
+  VDS1022 (your dump):
+    class 5, subclass 6, protocol 0x50
 
-> diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
-> index 7c7d6b69998f2..7bc9312eaa9ec 100644
-> --- a/drivers/net/usb/pegasus.c
-> +++ b/drivers/net/usb/pegasus.c
-> @@ -520,10 +520,11 @@ static void read_bulk_callback(struct urb *urb)
->  	}
-> =20
->  	/*
-> -	 * If the packet is unreasonably long, quietly drop it rather than
-> -	 * kernel panicing by calling skb_put.
-> +	 * If the packet is longer than what was actually received, quietly
-> +	 * drop it rather than kernel panicing by calling skb_put or passing
-> +	 * up stale buffer contents. count is at most PEGASUS_MTU.
->  	 */
-> -	if (pkt_len > PEGASUS_MTU - rx_offset)
-> +	if (pkt_len + rx_offset > count)
+So a class-only match - the USB_DEVICE_INTERFACE_CLASS() form that
+came up in the August review - would still claim the VDS1022. The
+full interface tuple does discriminate, which is what my original v1
+used. I'll follow up with a v2 that keeps the full-tuple match and
+reworks the commit message around the libusb breakage, with both
+descriptor dumps as the justification.
 
-[Severity: Medium]
-Does this length validation adequately prevent undersized packets from pass=
-ing?
+Craig - if you happen to know whether subclass 0 / protocol 0 holds
+across the HDS200 series and firmware versions, that would be a
+useful confirmation; the dump in your commit message is the only
+HDS200 data point I have.
 
-If a small transfer arrives with count =3D 4, pkt_len =3D 0, and rx_offset =
-=3D 2,
-the check (pkt_len + rx_offset > count) evaluates to false since 0 + 2 <=3D=
- 4,
-allowing the packet to proceed.
-
-The function then calls skb_put() and passes the buffer to eth_type_trans()
-further down in read_bulk_callback():
-
-	skb_put(pegasus->rx_skb, pkt_len);
-	pegasus->rx_skb->protocol =3D eth_type_trans(pegasus->rx_skb, net);
-
-Because eth_type_trans() unconditionally reads ETH_HLEN (14 bytes) to parse
-the MAC header, providing it with an empty or undersized socket buffer
-results in an uninitialized memory read of 12 bytes.
-
-Could an additional check be added to ensure the calculated pkt_len is at
-least ETH_HLEN before passing the packet up the stack?
-
->  		goto goon;
-> =20
->  	/*
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014025307.2523=
-3-1-law.wei.jie@gt.tech.gov.sg?part=3D2
+Thanks,
+Huang Wei
