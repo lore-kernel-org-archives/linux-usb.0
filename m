@@ -1,97 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB30C3DB630;
-	Thu, 15 Oct 2026 08:08:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E34344C10CD
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792051720; cv=none; b=MpB8VFJHRNpwXnj+ZVlND72sh8tIjV4DobaM0HaaPa+K/eBb2KwHY0jsmyPuOQZyNuxCMVVrOwpycIxK548Vp/HwzzVlRLgvi1/P9Atjrh09LAxeJLGg5km1bZwt85tLBulpvafioLeAiqmk54eW35cvDXZdyzCxeKt6WGxu1lg=
+	t=1792052438; cv=none; b=KTO9EnJ8MwMj+2lJPGkddiZI4KavM4UNPRd2N2roHmnq2jYx8LCvAfM+z2qvdL7U3uXKEKCze/EHHb8Ag0OIbNXol+1TNhH10Gm/UWTka68CzAxnnpAcGQtFuQrUOc8Gokn5K75tcOzssupXb0n64GecK4pU3y/Fa04Xyb4r1os=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792051720; c=relaxed/simple;
-	bh=bgbZxIcVkmv0C0YrU14gcGzeLaQ2QtER/owUOauL+Kk=;
-	h=Content-Type:Date:Message-Id:Subject:Cc:To:From:Mime-Version:
-	 References:In-Reply-To; b=GZetQbBhsbGby5KEzBUL3M/Y+SQQA09pCuFTre42nsMXORBkb2YPi5Ajkhdq+o0CUDwOcPubQA7rkLIG8dm6/cnMyuDDUwVWr+UmxYYPllTY7xvBEZ0k66i3hXzesSd84V5cwl1biE5LVuHm4O0d16B9Uyg8Ly1M6jfJK13NEp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EeVx7iOz; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792052438; c=relaxed/simple;
+	bh=yhB+80j3oQS2kI2lNyWIJcwvg3CPvSz8aK8Yv/gmww0=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=TmfzcD9jVk7ee435/Eer7WhJRvuzZJyPq7jbUDzIfCLVet1asivMpXUEcQg9mJRt8w/DIl+EfC2v1aa9Jum1h+L0kcy0B9j+MZ/EIx87EEg6MZJDw53piM9KK4VOrQYrMhiQ/+8yhiwE/TcQ/IZZw0fJaPOBFDKgf1cuAg2rMQw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hSXtzLC1; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EeVx7iOz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B3351F000C4;
-	Thu, 15 Oct 2026 08:08:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hSXtzLC1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76FA31F000C4;
+	Thu, 15 Oct 2026 08:20:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792051719;
-	bh=JAM6YcMDl0OW1joozjFNhkAtYZOpOhcmdyy2jB71aPM=;
-	h=Date:Subject:Cc:To:From:References:In-Reply-To;
-	b=EeVx7iOz+gjpAnePRHBXg+JYSBR8gpviWTo7baNLQFQMHm03GAGMWr+RJBPsSnDLw
-	 vYEd+oSVo6lIa88pWpT+XO4bYhXW9J6jK1WQDvx3Hu0JXSJC/YPfbCvS04hngmRZ/8
-	 Ti8V3JjET0pQbSvHAwDSU7wE3KKk95wR0ASJyyFAltEHco9hW24JaLPqG6Klj1Wdzj
-	 7sFI2ir/wNWjvMFr8b6cPdu+QybCY4dPS4TPK2AazjY7wM4cD+1v8alX9XRGIbJRBr
-	 8KLfW+kx9bMWPwXTKVP0ecNjPR6+ZBC2yTjB03Z+WQkCJ/RHSvFnYdM7zcUV98Sch0
-	 /+eUeNqZk+mLQ==
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 15 Oct 2026 10:08:36 +0200
-Message-Id: <DM59BD7BDUHZ.2BON4KMXDR086@kernel.org>
-Subject: Re: [PATCH] USB: core: document purpose of interface parent
- reference
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Alan Stern"
- <stern@rowland.harvard.edu>, <linux-usb@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-To: "Johan Hovold" <johan@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
+	s=k20260515; t=1792052434;
+	bh=w8IZuefjxrJrNNiJrMmDH+txnlBFXCOdApIbquIl2D0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=hSXtzLC18Q59CjucnCk59z9bB7Mtga3P1y7M1MMdqLxRwMUgHj4CCyX/yY2ww1TSH
+	 NOMeuYk7l8HL8c758GPLWC6SzOGXEpUgDn8mBch1yuA/Q64v6gYRrDUf8radIVMvoC
+	 vyXWcPETAp99H+fC3F80R2WS473keN2RB2fXJqBVNv5JnEQfO1hjo7BvkQvQKl3mB9
+	 9tAgBRU+pReIv3YWDG4IQ28mFTXtpsMmfoyDBDPVVnS34yVXjpeTCecmL0yTYmorGj
+	 Gy6cwtsYF2Z69U0WDjgzS8r2DcuSdvLDgY3efR/5TGno1E3VI76TBhkRtdn9vrJQ32
+	 cHdGQugKknDlw==
+Message-ID: <sashiko-outbox-172462@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next v7 01/10] r8152: split r8156_init by generation
+ and factor out wait_autoload_done
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261014081904.6491-2-nic_swsd@realtek.com>
+References: <20261014081904.6491-1-nic_swsd@realtek.com>
+ <20261014081904.6491-2-nic_swsd@realtek.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 15 Oct 2026 08:20:34 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20261015074831.1418677-1-johan@kernel.org>
-In-Reply-To: <20261015074831.1418677-1-johan@kernel.org>
 
-On Thu Oct 15, 2026 at 9:48 AM CEST, Johan Hovold wrote:
-> USB interfaces hold a reference to their parent USB device to make sure
-> they do not outlive the parent.
->
-> Add a comment explaining that this reference is specifically needed for
-> asynchronous device resets and the device type need_parent_lock feature
-> (to allow driver core to lock the parent when only holding a reference
-> to the interface).
->
-> See commits:
->
->   524134d42231 ("USB: don't cancel queued resets when unbinding drivers")
->   af61396a992b ("driver core: fix parent lock use-after-free on USB disco=
-nnect")
->
-> for further details.
->
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] net: r8152: uninitialized stack memory read via read_poll_timeou=
+t()
+--
 
-NIT: Maybe add that the reference count must be held until release().
+commit 7e3b002970c7595bd4777521d55501576d7f77e7
+Author: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
-In any case,
+r8152: split r8156_init by generation and factor out wait_autoload_done
 
-Reviewed-by: Danilo Krummrich <dakr@kernel.org>
+This commit splits r8156_init into two generation-specific functions and
+factors out the repeated AUTOLOAD_DONE polling loop into a new common
+wait_autoload_done helper using read_poll_timeout.
 
-> ---
->  drivers/usb/core/message.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/usb/core/message.c b/drivers/usb/core/message.c
-> index 276768f47558..a738d03c23ea 100644
-> --- a/drivers/usb/core/message.c
-> +++ b/drivers/usb/core/message.c
-> @@ -2209,6 +2209,11 @@ int usb_set_configuration(struct usb_device *dev, =
-int configuration)
->  		pm_runtime_no_callbacks(&intf->dev);
->  		dev_set_name(&intf->dev, "%d-%s:%d.%d", dev->bus->busnum,
->  				dev->devpath, configuration, ifnum);
-> +		/*
-> +		 * Make sure the interface does not outlive its parent (e.g.
-> +		 * as needed for usb_queue_reset_device() and
-> +		 * usb_if_device_type->need_parent_lock).
-> +		 */
->  		usb_get_dev(dev);
->  	}
->  	kfree(new_interfaces);
-> --=20
-> 2.55.0
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index af3d7dcb2f141..518a2b42c2200 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
 
+[ ... ]
+
+> @@ -4172,6 +4172,23 @@ static u16 r8153_phy_status(struct r8152 *tp, u16 =
+desired)
+>  	return data;
+>  }
+> =20
+> +static int wait_autoload_done(struct r8152 *tp)
+> +{
+> +	u16 ocp_data;
+> +	int ret;
+> +
+> +	ret =3D read_poll_timeout(ocp_read_word, ocp_data,
+> +				test_bit(RTL8152_INACCESSIBLE, &tp->flags) ||
+> +				(ocp_data & AUTOLOAD_DONE),
+> +				20000, 10 * USEC_PER_SEC, false, tp,
+> +				MCU_TYPE_PLA, PLA_BOOT_CTRL);
+
+[Severity: Medium]
+When the device is inaccessible, could this read uninitialized stack memory?
+
+The read_poll_timeout macro executes the read operation before evaluating
+the condition. In this case, ocp_read_word is called before checking
+test_bit(RTL8152_INACCESSIBLE, &tp->flags).
+
+If the device is inaccessible, generic_ocp_read returns -ENODEV and leaves
+the local variable tmp uninitialized. However, ocp_read_word ignores this
+return code and proceeds to read the uninitialized memory:
+
+drivers/net/usb/r8152.c:ocp_read_word() {
+    __le32 tmp;
+    ...
+    generic_ocp_read(tp, index, sizeof(tmp), &tmp, type | byen);
+
+    data =3D __le32_to_cpu(tmp);
+    ...
+}
+
+The original open-coded loops explicitly checked the inaccessible flag befo=
+re
+calling ocp_read_word, which avoided this.
+
+> +
+> +	if (ret)
+> +		dev_err(&tp->intf->dev, "autoload done timeout\n");
+> +
+> +	return test_bit(RTL8152_INACCESSIBLE, &tp->flags) ? -ENODEV : 0;
+> +}
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014081904.6491=
+-1-nic_swsd@realtek.com?part=3D1
