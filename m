@@ -1,110 +1,80 @@
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8708545DBA
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 15:25:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7FF93C0A13
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 15:26:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792077917; cv=none; b=RrZQ36z8fnl+dIy2yNQsiVP0GEKppGMCdsFWExCM/7GV1+PIfdMl6Vi8QJLCKmmDOeE+jEDBEERQYo36MwMGH99/QLjNo8W9hGkRM3K51SxVY0ct6K6ziWS+ssuemjLsNaMmRJelXrYBOdpVs4foGZcmB3pAD53OZzmJ6TLSZ+M=
+	t=1792077985; cv=none; b=glk8nrWZwirKE/aUdgMJajzvXraNhJMEH8I+x1X3Q5P3gwV/jG910Qa3WtMQNerxSBoRDaCQ37NvTHVJXXdYNSoCwzKFZLk6eWEP+6DCw2DoM6tGyImVzlwNqYQdVu/toexG7tbET8z1MairpXlf95G5loiWPVJq2pS0HRh8V7A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792077917; c=relaxed/simple;
-	bh=wTJ/MKrksLVZQfu7+/axrVOiZqprXvPLXKzjnn+lofA=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=Eyo6DUNSBTsomX6tMRFoYRDFwhLrjpIq2ksXxMDMUdDhXN/yRUhTgwUxWuljNhrDasedYX7FWBjYRKHKBXAMbUeKbn9O7LgRuKXCAKX4+CPKVkc5zIJfEQdNi9SxMrjplfQhUo9ifkmJyDOzM13YB9ygECJsPPegtjYEmGU0iwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Kv7GoUfn; arc=none smtp.client-ip=209.85.214.200
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
+	s=arc-20240116; t=1792077985; c=relaxed/simple;
+	bh=a4W3d7msFe7oUSqyPwPOia01Yj9ffh4D43oCAea/GdU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TEwSP95A015Q6114BiT1zeQI2fR9vO5sOzK/80Nfc+z3Z/qHHVlbnbkHn6FmzfCDRvTjbq1xTvZPwT+XhLx1k9LlT7Hrxl2Ak1a0EkdvKM7gGQpEzq6BuXC1fC3G8rlG0Rw+YRUJliclDSpiYuSh3+3tIGgYUdmSp4+mN8F7QKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=VyFF1eJ3; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Kv7GoUfn"
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-2e6188d1e51so59374475ad.0
-        for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:25:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1792077908; x=1792682708; darn=vger.kernel.org;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hVLJrkxHho56UqRaVrS4STKkOiQZB4NXHbPAyATS9iM=;
-        b=Kv7GoUfnzCQa1Pasy/T1XTAzDp0b3fQc9MWmLYiU91udQiV59I2elH/zMekLaaE6n/
-         OvLDf3owk5QlQ4HVE/X3LWAsUpi53/lD4S8qoIGDh7oxT9VHSgCoOohLfkQeuQy/S+0O
-         pxEH2oUeErWjSeNA8/iGnDu0hxtJmCFUe3KLzrEcicQDb/y8lrSZMVPmvnVuEmcWKOQm
-         4P7ZMC0/msqb8MawPhOfFdlcyLhx8ajLAXigDuQC76PCE6svccdQSuFoGAAmzK4RjFMi
-         vozEYjc2xJ+4xBeWjOJOX7xxA+JxFyMCUsqZ4lpZxJTClaUZrHaR820zkQlctnRmLVBk
-         bJAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792077908; x=1792682708;
-        h=content-type:cc:to:from:subject:message-id:mime-version:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=hVLJrkxHho56UqRaVrS4STKkOiQZB4NXHbPAyATS9iM=;
-        b=tRmqITUb4Mj6rfA6Bgz4mtcqXSY9oUDRlK6tUeqEbb0E4xNc6z67qIR2I2iLRUlXmi
-         omPD0YiXme3lXz+VNdYO2pOPITZbc97X80W17rndEzabWhrRNlL0M9V6XScd+Fz6HVqb
-         LZMRnOwTcTzpgTQadNAv81zn40EyAFmTZcRb3PWKyzT38teQ2Wh9mJhI6/H26/ZiovxK
-         skGdjz8aOzwWDAaINlQQV8OoEdwUvkMDE0jSkdUr3my49DkzGbdEcdbVqoVk+fskDJGn
-         iRw1eNE5x4fFqYtkq2lw31z1gToVihdeJFuWF8IiA0Ie/ZuwxJfKLSdpYXQnhMibCqoM
-         VHLQ==
-X-Gm-Message-State: AFq9FYKNJ9075JIPu4xvxz2QBq+JyK+6Mqd/toMCaHyO8bRuI2sOYZs1
-	YXSEecreluRuANVQvny2vguDRG7pAQFfZWrXM8jcUy4Sa9k8Ux15DiUEcgjguUjr9ZAbpjOnQEX
-	et194tHzxmw==
-X-Received: from plje2.prod.google.com ([2002:a17:902:ed82:b0:2e8:21ee:f199])
- (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:19e7:b0:2e6:1a6c:abcd
- with SMTP id d9443c01a7336-2e84280a68fmr192641215ad.3.1792077907624; Thu, 15
- Oct 2026 08:25:07 -0700 (PDT)
-Date: Thu, 15 Oct 2026 15:24:57 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VyFF1eJ3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D78F1F000C5;
+	Thu, 15 Oct 2026 15:26:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792077981;
+	bh=dSjlskCGpXMiw4LUy3kLtIbV3v6CzJeD3x8f/Is+z9U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=VyFF1eJ3JjBVHvlkBowXtNl04M6imT1BV7bI7W3mgeDjSdC8oo+H8QgA9kbH7k8eN
+	 329fE6HGTozqg4rnKsokDHfaRzjY1+PqUjMKCkxlIGlvyNAFsXkzPCU3BAxCxVhLfH
+	 kmV5rEtwV3JMBZap8lH4FVzcf8zgk06QECQ0gHuk=
+Date: Thu, 15 Oct 2026 17:26:18 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Reid D <skibletz@gmail.com>, linux-usb@vger.kernel.org
+Subject: Re: usb: devio: USBFS_XFER_MAX check bypassed for iso urbs due to
+ incorrect ordering, potential oob heap write
+Message-ID: <2026101546-civic-gorged-3023@gregkh>
+References: <CAGNJ+_3qpWtzjTLntxTzF2v0jU9mVssukGfhrJFOx_yb+2Abyg@mail.gmail.com>
+ <2026101531-secular-entire-f7a4@gregkh>
+ <CAGNJ+_0ShEM-G+8p3oHx1uF8rBtC7JyqmyFzswDB50qsW=qwuw@mail.gmail.com>
+ <2026101509-reggae-whacking-6598@gregkh>
+ <CAGNJ+_3ug6Xs-A45-MMA5q-qHLvu=8OhbMLmVkzE_Cm6N=HbUA@mail.gmail.com>
+ <747393c4-4824-4a06-9747-3fd74028c2d7@rowland.harvard.edu>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.56.0.385.gd3acb90ef8-goog
-Message-ID: <20261015152458.3541767-1-nkapron@google.com>
-Subject: [PATCH] MAINTAINERS: add Neill Kapron as USB Gadget maintainer
-From: Neill Kapron <nkapron@google.com>
-To: gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, kernel-team@android.com, 
-	Neill Kapron <nkapron@google.com>, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <747393c4-4824-4a06-9747-3fd74028c2d7@rowland.harvard.edu>
 
-Restore the USB GADGET/PERIPHERAL SUBSYSTEM entry and add myself as
-maintainer to help review and maintain USB gadget drivers, core
-framework, headers, and documentation.
+On Thu, Oct 15, 2026 at 10:54:31AM -0400, Alan Stern wrote:
+> On Thu, Oct 15, 2026 at 08:07:49AM -0400, Reid D wrote:
+> > Greg, sorry about that.
+> > 
+> > The fix moves the USBFS_XFER_MAX check to after totlen is computed so it
+> > validates the actual transfer size used for the kmalloc.
+> 
+> It isn't necessary to do this.  The check you added can never be 
+> violated.
+> 
+> To see why, read the code.  The first thing the USBDEVFS_URB_TYPE_ISO 
+> case does is ensure that uurb->number_of_packets <= 128.  The loop that 
+> accumulates the individual packet sizes also limits isopkt[u].length to 
+> be <= 98304.  Therefore the largest possible buffer size for an 
+> isochronous transfer is 128 * 98304 = 12582912.  But USBFS_XFER_MAX is 
+> (UINT_MAX / 2 - 1000000) or 2146483648, which is a lot bigger (about 2 
+> billion vs. 12 million).  This means the calculated value for 
+> uurb->buffer_length cannot exceed USBFS_XFER_MAX.
+> 
+> The real point of the USBFS_XFER_MAX check is to limit the size of bulk 
+> and interrupt transfers.
 
-Signed-off-by: Neill Kapron <nkapron@google.com>
----
- MAINTAINERS | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+Awe, you spoiled the test :)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 65e8a4b5c90b..16560ddf7b7b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -28220,6 +28220,28 @@ S:	Maintained
- F:	Documentation/usb/ehci.rst
- F:	drivers/usb/host/ehci*
- 
-+USB GADGET/PERIPHERAL SUBSYSTEM
-+M:	Neill Kapron <nkapron@google.com>
-+L:	linux-usb@vger.kernel.org
-+S:	Supported
-+T:	git git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git
-+F:	Documentation/ABI/testing/configfs-usb-gadget*
-+F:	Documentation/ABI/testing/sysfs-devices-platform-_UDC_-gadget
-+F:	Documentation/driver-api/usb/gadget.rst
-+F:	Documentation/usb/functionfs*
-+F:	Documentation/usb/gadget*
-+F:	Documentation/usb/mass-storage.rst
-+F:	drivers/usb/gadget/
-+F:	include/linux/usb/composite.h
-+F:	include/linux/usb/func_utils.h
-+F:	include/linux/usb/functionfs.h
-+F:	include/linux/usb/g_hid.h
-+F:	include/linux/usb/gadget*
-+F:	include/uapi/linux/usb/functionfs.h
-+F:	include/uapi/linux/usb/g_*.h
-+F:	include/uapi/linux/usb/gadgetfs.h
-+F:	tools/usb/ffs-*
-+
- USB HID/HIDBP DRIVERS (USB KEYBOARDS, MICE, REMOTE CONTROLS, ...)
- M:	Jiri Kosina <jikos@kernel.org>
- M:	Benjamin Tissoires <bentiss@kernel.org>
--- 
-2.56.0.385.gd3acb90ef8-goog
+Reid, again, remember that the _BEST_ LLM right now (top of the line,
+frontier model, no guardrails) makes up patches that are 50% of the time
+wrong.  You MUST have a reproducer to have a LLM be able to prove it, OR
+take the time to manually review it yourself.
 
+Best of luck!
+
+greg k-h
