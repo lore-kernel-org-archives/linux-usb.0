@@ -1,76 +1,74 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CB514FD27E
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 19:40:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F12F64CA776
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 19:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792093249; cv=none; b=HcAWc5PSwHf2e0r9P2LWTI9iuz6iaKWDNEdj+UvjD7nSJHhYrXl7HEKRUFxMtUZgKw9FTHrwTEnCt/Oibjt4mun7Ioi4jyuERGZemjqG9+xczsVBQiqg+uq4VW7NsTvoC1reIyU6fiJnX8Kp4JxXFbyRTvCDerrJcnKyXKQWa34=
+	t=1792093294; cv=none; b=QEFlZf05IgLVhhYZv9tKKD6C/+/eYZ2lzrqm5/eh9rHAurs7Jzuhqn27WeSiTA4E3xxvyQbgVNLVFsWkBmTpb4+Sa8XW3nD0rC2CwmePPHqD5THFS+9vTX2s5DKotfYtelSWRVAUzGGjG1GL1k8uwv+5TfkSTVR5ixFeRvfsU2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792093249; c=relaxed/simple;
-	bh=exYz8HojfNFpfT1r/TAXOuBExCBpvaaa/xfi09cNlzo=;
+	s=arc-20240116; t=1792093294; c=relaxed/simple;
+	bh=bZQs56rDkIWlPjcycHP2pUZxtxjL9ufLKxmX4B1ppDk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mDh7melzE28GGx2c2+Y+vBGXidfNPdZ+VWnfTc5v0s+QT73hLvhw2DzNLCh2DIm+YgXRMeISewwlOChCGs82sjF9SvhSX2V1oY8K1uATSTIcOnv3aIDnnK21jRKo4i/IPh4rRRGpHbfQeC9PRRGHQZfFk+AtfYanB6WPaVBjr80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qacgLhXK; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=fxgEcTHxS7RE4b8RuCMNJOOoC3EjQv1u04PHnpTA2Urj1XFxeLI3dfCcW31xRYBRkUjt7zAZJ7cXbbOYuYI26NVUxWhrq7uzr31kESOsGfbddeOIVnpuiOI14LbMKW5KB+Gd+UvHj+H2b/JhK88YOjKAMmmsYueYiM7LpvEIndI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sorqVEAJ; arc=none smtp.client-ip=209.85.128.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qacgLhXK"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48c02782159so3506808f8f.0
-        for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 12:40:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sorqVEAJ"
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49ff680331aso27846435e9.3
+        for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 12:41:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792093245; x=1792698045; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792093291; x=1792698091; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=REOYRPOTLjq9QJv9FoE0sRCG3Um2XhJ02u8RHdOrcGU=;
-        b=qacgLhXKOC+sSCreea5CASCXLhJqmqczd4HPBRBVZ58M1/N5wAU1qkMTLA0u4TAscx
-         Xl3vo7HyLmtX7XpTuAJvyxcTgUjob6OPH8OqerEq4bq7Za4y+aaWb7ge0JpvcVLGH3Ez
-         SMok+dIm8wBV5woC55bUWD8gUyOUrC1JDdO8GTJwmnD2ssrWwVwPnouKMef9SWuvAdz0
-         rXgibQly6FrJ1e9Kqt1kPJcTY2jw0kBfOe5ZTkddnAXneMfMx3tgW7A83l3XWtbMh1Uc
-         v2Nqyy/3wHsd6b0G4JehbYnTdot4SZg40FjzITOTdljnqq3dty42dNHXS0UcNe+MwsdN
-         0hfA==
+        bh=jUm4qss7qtZF/f3JgD710pihw36IfWdD94haCCfcfwY=;
+        b=sorqVEAJ7hf4HiY4znjc/6kUVuUVKISL6QqIJWXDzbdiRuZkJnHvk8289kNSPFDLAG
+         mZc6XfmNN67ERPUtl8lZmLDjj3xDOr+SN1WqNEO+95PlMIFZAe0M7/ckRJ2vDQpH1Jh0
+         aN1GXS6ppIQGtJ8KtoBP69zS++Z1ot/P8qV/Iz4gFLXJjY8wOYs+ramwqlVMVN/y/1K5
+         viEQs0Pd9f/hwdonnF4e5ery0m3BywhGgMVbadwCv15yN2znDUzmNQp2jJxO4sV/6ItY
+         VF8jZo9mp192tL0fcXk800uNKTvWsYYYRjUGSi/HsMFt3RbPD7rSV4/NnNqFDJshTUph
+         79Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792093245; x=1792698045;
+        d=1e100.net; s=20260707; t=1792093291; x=1792698091;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=REOYRPOTLjq9QJv9FoE0sRCG3Um2XhJ02u8RHdOrcGU=;
-        b=s9EwnjfRVlGdej+D7boyDZSAB8qLqsBqNYXpqanxFkLeYb0EN+yGFJ2aJJN1AtNqhf
-         ls3DfK8Cxt3bqtnLbzJBKH1lipUmOFroHOhKtwDrT66g9ETP2JFQ5i5C1ECIdqHyFn+I
-         oJWOiQ5elkekZZ/7Obft63dFMfutSph3Lzrbk/VzHaL7XbaXFzvkp1sYEYSMyef3MusA
-         Beeb12sTo7zP1IbiD+HY9228GKlJxJS+Hr4GDVNpzSP2SNRNoxdRh5ejwZl0Sisx+3k+
-         h4dBQQp9VTiNfm1RS/N0jInSq9p1J9su7UxIMgxgpPwv4/G8jnCBPxf4oCsOycolmVGr
-         rX8w==
-X-Gm-Message-State: AFq9FYLPrlJd9wwRgimmXcjUDTLoouoAGYqf9CpzY3Rv5v7QkmpOsr7Z
-	c9xIsgBMNUIUHyw0b0bMqDXQE753TZERWLgbmAZt5walxg6+Crpd6Ujw
-X-Gm-Gg: AYBFou1VqeT6DRoUyJHpWKDOCc06ZBOiRPraGUowp3P1hpnP1+8zMvFJ7LI9fwi3GRf
-	dW0xIn1Bm/F2J7Cx/sM8KYtB9PszwgC3OObVf9ZQZtNVU0OKwQ1EwCInY1p8iqy00RClo35dDdZ
-	2wWp5ilP2B5X2FsDYyJFKTrqFQA294nrei+WQXIbLluLtzNzXFsoDCno8LWD7e9bLoCg0DH7otB
-	M5kqQFRhT5xz/Va5MIArFX2J5gyJPKlRcD1rh7drgy2B48wZyC8ebV9wDKUjFtmy+vD4Wk1MPGD
-	LdwZwTJODqrLd9SHD1Py1DqYC0jD3p8pQxQ2R0SSuF0O0baSST8s0n5qPh1ytGuk9cJBW6GOCjN
-	nlQkCzHBTJCRuxgyeQlgqonhryScyL+LWIPlzycvJBme4AeEhyNvMZU0eJ6U+ilZ9MkeK4PCCAJ
-	9HYqiqQlIGbFy+TCv49AZTlOSL9TAe8HyW1OBcJWTDshQMBaufRZkDTQZwP3cCAFC6CmSF2FbQE
-	1qf+8sNa+jZ3fsqhrA94OXA1iBJ4lWfKJya0xhoBpWhtII3/dtAthOlCUKZt5+Md/FDsbZKE1fB
-	EX7v9UganctoNRKt
-X-Received: by 2002:a05:6000:4288:b0:488:6ed9:b11d with SMTP id ffacd0b85a97d-48dbacf554cmr39361187f8f.52.1792093245329;
-        Thu, 15 Oct 2026 12:40:45 -0700 (PDT)
-Received: from center.jhjvjihww5qejoy14qwv1cc4td.frax.internal.cloudapp.net ([131.189.143.225])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd471a72sm195253f8f.4.2026.10.15.12.40.44
+        bh=jUm4qss7qtZF/f3JgD710pihw36IfWdD94haCCfcfwY=;
+        b=sqt+iMbXawbJ6aAfOonGk3j8xn1WVuinvBAaw4STGFdHbaCh4V4MtuIBbHWzt/5sA/
+         YmXzR3mIn4YHrT1FmMnBV2I4PxekhErio8QDCrBrqk3+Zu5W2woTh3x58B1N/nmGkUey
+         9jyxrFIYSbFhDNUYQmIzxnv9NYS5ThMEabzH2RUmw/e/V3C/gV+cjaxdzKoKZXrPSta5
+         FSRD+0uIfqIk6dtQ9MrR4UZa02Hqb0FCIvx4tTb6NBDPvfJze5tFMTipQ2JRI6hhwUu6
+         U/eEi21CSRxIdfRKKanJd4UCjLIshmBR1UNupWCGTNVjdIT6YrhGefEhJGW6rVQlQzWU
+         9yNQ==
+X-Gm-Message-State: AFq9FYKMI58ctPWWXllNZ2G3qj2Jvk911jzbNOL5uRaZmQsftOMfporg
+	43wpdRJCR9jrL0IE+I7OP/K138tGEL8gJdUHDWdtz244zTVwNwuOPZ/pcr5D2VKTpJc=
+X-Gm-Gg: AYBFou1b97yaWm0/jFKvQs1GRuhOk3hMM34MY6wSg785ein7gLPZn0zSRFQ6FuTWkRX
+	iU9rj0+ggtb3EOKkID0Dpic2w3viYUyOnSqjHcPsCqPxEobZnI3XMN6ckJiBuxmOWR216DFBTNp
+	NxJ3hD8gSknUFNHVsMa9oghxB1Q+ukL/kgHTvBqwK16WL2MT1rQojz2ZGFr0iwuvQnQWVktk7qT
+	SUOOdaLM6cFf46DtODVKmngjhTB1uAJeo6JNHs4N+BHid5Xy9t+FaT5BG01suHcqRH7t/fn2j9p
+	KNDQIG4K2GoKoDYrXrbqP6mByC2JRrPphsDFebyyT3bdNWzXwe2KGdr/yeZy3S9WcyuXwCWfkHL
+	rmQ42DTDbyygX6qwprOVCkWfOVphIZRPPVCG0JCEUY6OFAj3ziy0JqC/H98JCTc/rUu7WsMsGk9
+	0zfwvIzcFkFBE+SNfYdHniJclOAqxsQyFUjmsU7tfRkKsYTvvsY53SmPL7zhJgJWK1H+zg8kI9n
+	lOQ
+X-Received: by 2002:a05:600c:699b:b0:4a0:4a8:d444 with SMTP id 5b1f17b1804b1-4a18e4af334mr434073315e9.33.1792093290939;
+        Thu, 15 Oct 2026 12:41:30 -0700 (PDT)
+Received: from deb05.proceq.com ([213.160.61.66])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1c91c68b4sm304475e9.1.2026.10.15.12.41.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 Oct 2026 12:40:44 -0700 (PDT)
-From: Orgad Shaneh <orgads@gmail.com>
-To: gregkh@linuxfoundation.org
+        Thu, 15 Oct 2026 12:41:29 -0700 (PDT)
+From: Mehmet Fide <mehmet.fide@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	lkp@intel.com,
-	oe-kbuild-all@lists.linux.dev
-Subject: [PATCH] usb: octeon-hcd: fix the kernel-doc of struct octeon_hcd
-Date: Thu, 15 Oct 2026 19:40:43 +0000
-Message-ID: <20261015194043.1597422-1-orgads@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <202610151637.5srThc2q-lkp@intel.com>
-References: <202610151637.5srThc2q-lkp@intel.com>
+	mehmet.fide@screeningeagle.com
+Subject: Re: [PATCH] usb: gadget: u_serial: implement flush_buffer
+Date: Thu, 15 Oct 2026 21:41:28 +0200
+Message-ID: <20261015194128.2545029-1-mehmet.fide@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <sashiko-outbox-173201@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -79,67 +77,34 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The struct octeon_hcd comment opens with /** but names its members
-without the @ prefix, so kernel-doc sees none of them and warns about
-every member. aebbc7d63407 added sof_timer without a line at all,
-which the robot reports as a new W=1 warning.
+The window is real, but the use-after-free in it is older than this
+patch.
 
-Prefix the members with @, drop "pipe", which is no longer a member,
-and describe the three that were missing: periodic, nonperiodic and
-sof_timer. scripts/kernel-doc -Wall reports nothing for octeon_hcd
-afterwards.
+I reproduced it on a Verdin AM62 with 6.12.113 and KASAN, with a 3 s
+delay added at the top of gs_close() to widen the window. At shutdown
+systemd closes ttyGS0 while the configfs teardown unbinds the gadget
+and removes the acm function:
 
-Fixes: aebbc7d63407 ("usb: octeon-hcd: sleep on an hrtimer for far-off periodic transfers")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202610151637.5srThc2q-lkp@intel.com/
-Assisted-by: LLM
-Signed-off-by: Orgad Shaneh <orgads@gmail.com>
----
- drivers/usb/host/octeon-hcd.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
+  BUG: KASAN: slab-use-after-free in check_tty_count+0x230/0x278
+  Workqueue: events do_tty_hangup
+   __tty_hangup.part.0
+   do_tty_hangup
+  Allocated by: gserial_alloc_line_no_console <- acm_alloc_instance
+  Freed by: gserial_free_port <- gserial_free_line <- acm_free_instance
 
-diff --git a/drivers/usb/host/octeon-hcd.c b/drivers/usb/host/octeon-hcd.c
-index 4929c6a..d6ba52b 100644
---- a/drivers/usb/host/octeon-hcd.c
-+++ b/drivers/usb/host/octeon-hcd.c
-@@ -348,20 +348,23 @@ struct cvmx_usb_tx_fifo {
- /**
-  * struct octeon_hcd - the state of the USB block
-  *
-- * lock:		   Serialization lock.
-- * init_flags:		   Flags passed to initialize.
-- * index:		   Which USB block this is for.
-- * idle_hardware_channels: Bit set for every idle hardware channel.
-- * usbcx_hprt:		   Stored port status so we don't need to read a CSR to
-- *			   determine splits.
-- * pipe_for_channel:	   Map channels to pipes.
-- * pipe:		   Storage for pipes.
-- * indent:		   Used by debug output to indent functions.
-- * port_status:		   Last port status used for change notification.
-- * idle_pipes:		   List of open pipes that have no transactions.
-- * active_pipes:	   Active pipes indexed by transfer type.
-- * frame_number:	   Increments every SOF interrupt for time keeping.
-- * active_split:	   Points to the current active split, or NULL.
-+ * @lock:		Serialization lock.
-+ * @init_flags:		Flags passed to initialize.
-+ * @index:		Which USB block this is for.
-+ * @idle_hardware_channels: Bit set for every idle hardware channel.
-+ * @usbcx_hprt:		Stored port status so we don't need to read a CSR to
-+ *			determine splits.
-+ * @pipe_for_channel:	Map channels to pipes.
-+ * @indent:		Used by debug output to indent functions.
-+ * @port_status:	Last port status used for change notification.
-+ * @idle_pipes:		List of open pipes that have no transactions.
-+ * @active_pipes:	Active pipes indexed by transfer type.
-+ * @frame_number:	Increments every SOF interrupt for time keeping.
-+ * @active_split:	Points to the current active split, or NULL.
-+ * @periodic:		Pending TX FIFO writes for periodic channels.
-+ * @nonperiodic:	Pending TX FIFO writes for non-periodic channels.
-+ * @sof_timer:		Polls the block when the next periodic transfer is
-+ *			due, so SOF interrupts can stay off until then.
-  */
- struct octeon_hcd {
- 	spinlock_t lock; /* serialization lock */
--- 
-2.53.0
+In one of the runs the closing task then faulted in release_tty() ->
+tty_buffer_cancel_work(). The KASAN report is the same with this patch
+not applied.
 
+gserial_free_port() frees the gs_port, and with it the embedded
+tty_port, while a tty still refers to it: the tty core keeps using
+tty->port until release_tty(), and u_serial has no install/cleanup pair
+that holds a reference on the port meanwhile. I will send a v2 as a
+series: first keep the gs_port alive through the tty_port reference
+count (get in install, put in cleanup, free in the destructor), then
+flush_buffer on top of it.
+
+Greg, please drop this version.
+
+Thanks,
+Mehmet
