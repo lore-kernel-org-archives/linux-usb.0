@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22624479869
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 07:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A47B947142D;
+	Thu, 15 Oct 2026 07:24:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792049094; cv=none; b=U5aDwBIZZguDg3Kvs64JMn9UwQ7pusPd2dVUQxF/+pi4O5QWgafYs+XMNRblrMkHB0ZQjL3sG0IlBm29dJG2kjoh9a8HPD24+KzB7a1hpOnHvd9Xi/ut30puG/Av2TDsG3Cw1j5VdxNUiQbgmrcPWb9/JYWMmcB6AUSQH2o/2EA=
+	t=1792049095; cv=none; b=gk2I5WUUhbGpV+M7EZz+vMcfBrBiLqVMTAgcy1jrtJ9WNhpbZ1PZrIETVddVcwjZVrYjPqF4c50ZNe3J+q1EkeCMmD55W3HoGbIsIoqj/A5Sfzd4a/E3QYlUBVKyfCyOZbKReLXa736PN9pkvJLF25lR7jzT1iNTOn/jO7NusHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792049094; c=relaxed/simple;
-	bh=SGWYALJKmtkN/fe4LedVXq1u+FbVS1bm/olljEGvZ7o=;
+	s=arc-20240116; t=1792049095; c=relaxed/simple;
+	bh=jtJQxYQ+G7jJqP3EKdl+yxGADKqrsE3UTF+ry7DPn5U=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=R/TdQhqMnhf1iyXVSGldEirYLo0GfhKnSRTDaolET5EnRThYQLulFbdALsJuAB6YrJvpn+AfGDUWj7Me0EkFK37FcfunvWWLj0kTM/v/vhXa7GHz58LVxJELF3Y3MsoP7HUrRRb2o/lVemo9Vafe8HPHS5QVfgtJ/626FGVosSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lOaNB3RE; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=TuHtXDi5qZwW5GNQJlp7GPBnQKXrh/o4kYYvr1FmL3R8BadHGdoAp9GUYxMbXOvCUqfWJ2XEL4vN5nijrChg7X5NppHknRiAyfu6z9CaNGCywU8jVihtgskA4pif66k5W5qmW/zjSjzSsT9B2pgZ6hU8L/P6eBOTu72LBXHwqk4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TYb0geWe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lOaNB3RE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9612E1F000CB;
-	Thu, 15 Oct 2026 07:24:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TYb0geWe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF5911F000CA;
+	Thu, 15 Oct 2026 07:24:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1792049083;
-	bh=8vEMCKVcZehNR+sV3hC3kP5ImvAvuDNLDfJ29yek84M=;
+	bh=UPUo3QRk7Vj/+Unc3rUo+6IPEGCZvhlS2SBoAr9llgo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=lOaNB3REWczssKB1iBo8h5Yonob68RBiiFQbhXmeyOlhg4GGzFPzrRuESqXU8vwB/
-	 FAcesDS/pAVdbrWKUffXK86MojhsUNHDh6cFjSI0OfIsfHDLRYW7rbS5qVimWuQWgk
-	 V1RmfVzqWfRPf1pusjqosRVs6ygpT0OeHWudzBNmnMtAvBm5HnzWi7+ILKFioAlrtt
-	 7DBVJgLPR+WywVmukRfyOIMQRdoEnQhMY4K7X8xBWZoDzQ7Q2v/9qOpVWW+W6TVMXm
-	 eZPW3z4yiPikRYn9DG+hk00FUVbZZVsMdccWVlT4oJmNt5G1s+S5FTTfReyTZkanVx
-	 AJtT1uIHncuxg==
-Message-ID: <sashiko-outbox-172416@kernel.org>
+	b=TYb0geWe+nPLRgXlSrHqQoCngMxxguw/nztXmST7VGWG2cfQXqOuEUQGUI9Bq9YRR
+	 WXSnlivA0asFipekovupoXAQjiI1cQEvOBNp4jdp8NzMSiXvxqUUxnf5RBN3ogEKY+
+	 SjKz/rnbHSdvNmhgyG6QJ/SVT2XQAPWQyDvH3rgTdfngNTv/BEn48NnFEVgkWMdZ9G
+	 lkEV8drIhxL8Kkd0fjG49zQCDg05hu22Uy/o6/BCEGNyThgRWMOWu/epD0pTfaMmnj
+	 585ym6RKhhcKD6INFd6SO/e04OF+6+PSiDEjBDmghoBzc+wyqcXZu/LYXqL8xc/agr
+	 OxISG3dgZljWg==
+Message-ID: <sashiko-outbox-172415@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 22/24] usb: dwc3: generic-plat: Add ZTE ZX279128S
+Subject: Re: [PATCH v2 21/24] dt-bindings: usb: Add ZTE ZX279128S DWC3
+ controller
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Navid Ghahremani" <ghahramani.navid@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014072109.1759502-23-ghahramani.navid@gmail.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
+In-Reply-To: <20261014072109.1759502-22-ghahramani.navid@gmail.com>
 References: <20261014072109.1759502-1-ghahramani.navid@gmail.com>
- <20261014072109.1759502-23-ghahramani.navid@gmail.com>
+ <20261014072109.1759502-22-ghahramani.navid@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 07:24:43 +0000
+Date: Thu, 15 Oct 2026 07:24:42 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -46,52 +47,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] usb: dwc3: generic: clock leak in resume error path
+- [Low] dt-bindings: usb: missing reset header and incorrect macros in exam=
+ple
 --
 
-commit b05da126b481233779c64514b7441eac703bad0d
+commit 4b49967364799b06d338b499b3fff468b97de327
 Author: Navid Ghahremani <ghahramani.navid@gmail.com>
 
-usb: dwc3: generic-plat: Add ZTE ZX279128S
+dt-bindings: usb: Add ZTE ZX279128S DWC3 controller
 
-This commit uses the generic DWC3 platform integration to enable clocks
-and release resets for the ZTE ZX279128S SoC.
+Describe the USB host integration with three CRM clocks and four reset
+bits.
 
-> diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3=
--generic-plat.c
-> index ca69ac0eb07ce..aa838cf0676f2 100644
-> --- a/drivers/usb/dwc3/dwc3-generic-plat.c
-> +++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-> @@ -237,6 +237,7 @@ static const struct of_device_id dwc3_generic_of_matc=
-h[] =3D {
->  	{ .compatible =3D "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
->  	{ .compatible =3D "eswin,eic7700-dwc3", &eic7700_dwc3},
->  	{ .compatible =3D "starfive,jhb100-dwc3", },
-> +	{ .compatible =3D "zte,zx279128s-dwc3", },
+> diff --git a/Documentation/devicetree/bindings/usb/zte,zx279128s-dwc3.yam=
+l b/Documentation/devicetree/bindings/usb/zte,zx279128s-dwc3.yaml
+> new file mode 100644
+> index 0000000000000..2fd9fe0cc74bd
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/usb/zte,zx279128s-dwc3.yaml
 
-[Severity: Medium]
-Does dwc3_generic_resume() leak the clock prepare/enable counts if
-dwc3_pm_resume() returns an error during system resume?
+[ ... ]
 
-drivers/usb/dwc3/dwc3-generic-plat.c:dwc3_generic_resume() {
-	...
-	ret =3D clk_bulk_prepare_enable(dwc3g->num_clocks, dwc3g->clks);
-	if (ret)
-		return ret;
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/zte,zx279128s-crm.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    usb@9100000 {
+> +        compatible =3D "zte,zx279128s-dwc3";
+> +        reg =3D <0x09100000 0x100000>;
+> +        interrupts =3D <GIC_SPI 50 IRQ_TYPE_LEVEL_HIGH>;
+> +        clocks =3D <&topcrm ZX279128S_TOP_USB_REF>,
+> +                 <&topcrm ZX279128S_TOP_USB_ACLK>,
+> +                 <&topcrm ZX279128S_TOP_USB_SUSPEND>;
+> +        clock-names =3D "ref", "bus_early", "suspend";
+> +        resets =3D <&topcrm ZX279128S_TOP_RST_USB_B11>,
+> +                 <&topcrm ZX279128S_TOP_RST_USB_B14>,
+> +                 <&topcrm ZX279128S_TOP_RST_USB_B9>,
+> +                 <&topcrm ZX279128S_TOP_RST_USB_B10>;
 
-	ret =3D dwc3_pm_resume(dwc);
-	if (ret)
-		return ret;
-	...
-}
+[Severity: Low]
+Will this example pass make dt_binding_check?
 
-Should clk_bulk_disable_unprepare() be called in the error path before
-returning?
+The example is missing an include for <dt-bindings/reset/zte,zx279128s-rese=
+t.h>.
 
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, dwc3_generic_of_match);
+Additionally, the macros used here (e.g., ZX279128S_TOP_RST_USB_B11) appear
+to be misspelled. The actual macros defined in the reset header are prefixed
+with ZX279128S_RESET_ (e.g., ZX279128S_RESET_USB_B11).
+
+This discrepancy will result in a build failure when validating the schema.
+
+> +        dr_mode =3D "host";
+> +    };
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014072109.1759=
-502-1-ghahramani.navid@gmail.com?part=3D22
+502-1-ghahramani.navid@gmail.com?part=3D21
