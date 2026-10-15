@@ -1,71 +1,79 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B580C5616AD
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 19:42:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE430224AF2
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 20:36:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792093342; cv=none; b=NOqnrFrJ6BeYD6nq0QEo/wbJfWysgt1uDDdALWhmtfWYHUftcFvIylD6ZdzHkRfT5MMzU+/9u/tGy7SPACVbwOPL9Vr+ha+ENa7maulNSzFaknZFKRz7Ue01X1OdwXCjLdwjl8HIR7ojGcfuiytMM19oIKQogshWlvfkEYTComc=
+	t=1792096561; cv=none; b=Nu1OC4HY6CtUmZ5YuPz8StcS2VQEZbj+puL85t7UILQLPtGdMgCgVhZuYaKOE9puk3HGFmjZWtA2VcvIElmrMPNzgm5gSzF/PPLilfprhWSMxPsyjbEmWFXownVSkgJIHTIAM4KKjxM6XLM4NTwzMC95nbaMuxlxkaNsoKITams=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792093342; c=relaxed/simple;
-	bh=v0YZ5kCZWllA139nQ8ZorvNKN5hdI9yawhPTgsL0yCo=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=VWZnylB7n+cbiDztHWh60eWhf25Z1XN7cAI3wYWA+/rAhfgPLAvu8odLuCrZc8QJR3ENtUF9YHgIGqvlOC6fl48EXgI/luaVcuz8jJO/h1H8Kdtrf4eoeTWaOam/dWUN9or8VH4QDqh3S4arPmFM95It5waOlCYrtFG6uuXmidM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z9qx0577; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792096561; c=relaxed/simple;
+	bh=BFhZM7IsvqFpY+a6ZrUa/ZeBScZu49qCu9L8o/Epk/E=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Du34TvkpjohnPoETvOeCmr7rwdrPNkDHDC0TB7aZdLX/c3jgZXcpNczBWMXIQQFmTUJac4tEA9gYo1MbtVFukLZG9MYA4TdAaF72QV5Z6vRXW0g8h4ff2TuhGvbuP6t+THBN/LXfT2boP7SopfiGrDldv1foku0tg/Kkq7EXIO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QUZWHRxP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z9qx0577"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 015D71F000C4;
-	Thu, 15 Oct 2026 19:42:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792093331;
-	bh=v0YZ5kCZWllA139nQ8ZorvNKN5hdI9yawhPTgsL0yCo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Z9qx0577azjMa8OTr0FBdo3DkVsoMvgPV08kZ+ripx2NWVCzlawVu6SrIpOwwciZ2
-	 7CScBrI4CBJ7ZPqfBICi6RqjKOzfpgJvMOguR23/BNYGHsnLdG3wlUNatm/agAZ04I
-	 ZnQ6+StyfnWcHqpg6dS7TgUdvg0GGq8akGS9VD7/Dj60LNiOx1os/2oE+3Vi56ZXwE
-	 jF1RC4hiJmrLDxHp9+s0/5dHxj47hYzxjrGslsIAcy7u9ufZBaPCnkuRYn8xMJ25Fs
-	 bYj2dNLS6P0jbYnDmAeH6x+7zp/idqh1Af87K8OgnZH7bqzpb0LeZ0/iVwpbmYPe5l
-	 1FA51kbrrU05w==
-Message-ID: <sashiko-outbox-173362@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: octeon-hcd: fix the kernel-doc of struct
- octeon_hcd
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Orgad Shaneh" <orgads@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261015194043.1597422-1-orgads@gmail.com>
-References: <202610151637.5srThc2q-lkp@intel.com>
- <20261015194043.1597422-1-orgads@gmail.com>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QUZWHRxP"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D9D9C2BCFB
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 20:36:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792096560;
+	bh=BFhZM7IsvqFpY+a6ZrUa/ZeBScZu49qCu9L8o/Epk/E=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=QUZWHRxPa4t76gn77v3hTAGc2qFX7ZBWJOFqaoU8Nn3Tp31hftjqCXLWUCde94iaF
+	 7h+lztsiWzXhSg67HAHEwgBwEtfsUqMPpu/MFCDbRkm13+Y28un/EQLrzLZrGeWOLd
+	 Yna9Z4nNEtG7+0s28zrBcqah6IYtSRM2uSsFrIv5WRg+VzTx3aNj7iLeh5ZzFkfSCe
+	 SOBkotubvTdKAmYV6E7YRtZzHGpQzrV+Gyx81MjG/sgW9rETgSPvy4P4ciHOyCP/hZ
+	 B1nHTIwbr0YMjHD1BLlm0TGLbe/lklx7MLZjMJKVaPInhuBZ8k7PhG3f1olJBz6f/L
+	 OmGRDlUSNN6BA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 13E05C41612; Thu, 15 Oct 2026 20:36:00 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222047] [REGRESSION] USB xhci_hcd boot timeout on ASUS ROG
+ Crosshair X870E Hero since Linux 7.0)
+Date: Thu, 15 Oct 2026 20:35:59 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michal.pecio@gmail.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-222047-208809-kuXQjyRfEi@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-222047-208809@https.bugzilla.kernel.org/>
+References: <bug-222047-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 19:42:10 +0000
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
 
-> The struct octeon_hcd comment opens with /** but names its members
-> without the @ prefix, so kernel-doc sees none of them and warns about
-> every member. aebbc7d63407 added sof_timer without a line at all,
-> which the robot reports as a new W=3D1 warning.
->=20
-> Prefix the members with @, drop "pipe", which is no longer a member,
-> and describe the three that were missing: periodic, nonperiodic and
-> sof_timer. scripts/kernel-doc -Wall reports nothing for octeon_hcd
-> afterwards.
->=20
-> Fixes: aebbc7d63407 ("usb: octeon-hcd: sleep on an hrtimer for far-off pe=
-riodic transfers")
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202610151637.5srThc2q-lkp@i=
-ntel.com/
-> Assisted-by: LLM
-> Signed-off-by: Orgad Shaneh <orgads@gmail.com>
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222047
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+--- Comment #8 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
+Does it help to downgrade to a kernel version which worked in the past? You=
+ are
+on Arch, so your options are local pacman cache or the official package
+archive.
+
+Does it help to disconnect the PC from all power for a minute?
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261015194043.1597=
-422-1-orgads@gmail.com?part=3D1
+You may reply to this email to add a comment.
 
+You are receiving this mail because:
+You are watching the assignee of the bug.=
