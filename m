@@ -1,146 +1,94 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80D183D9665
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 03:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6950271A94
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 03:02:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792033214; cv=none; b=Yldqfm/Mqx2XZPSNnd89W+ZwQHsQqiXSEpBRISBeiWwu1bmwbGIQjHBK7ECUmCUrrOBXULsS3p1r9IJeOr1ydu2HzKtjkbzZPCW/iEqHFCyRY0ezD5cAV/E990KvTSsvzDrIIdUhmw4KUbFeDqgpYQ0szy6MKOkteogxv8/pgro=
+	t=1792033331; cv=none; b=ZjY3FzM/MB/xrnzrox6w6XRi8tj+Za40g6gxBc2p6olScmIKlHmkWogHSkPUpaQQDzMXwX5uL0G4dFATgEtVaCP+WKhegHUKDHUaDI+P8W0EiWAewaAlaVKVG5+0RKN1WbOKCyMGHUSG6DHgI1rEI9tq7zD6qGFEmbqx+jN8Ko4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792033214; c=relaxed/simple;
-	bh=FTCxCDBcHMyfkU8vbFTUK4IxQH84dZ9tNxBpWaeF+tU=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=YIBLBZO4RxEHIx4yuPKnWBAUBIvf2ye7uGeveHzDKFkyH1PR3QrofyWyYlaWGDBtq2wSouKxKDLmlCY0DUcMCK3TdUcJOWPSNb/J2+D0HmQ3qR+i40DsuL4Tyj2a9MfC+YH0dyywnUX7KQqMhCIqevJpnJZQ+sqPR2dnK2e8kJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AwT8Xfy/; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792033331; c=relaxed/simple;
+	bh=ERrjaMqjEtnuyHeC1l1csmOFlk+OUKuUNB2QUP9uyk0=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=R0lYG8VoX9ooJ4LqbwnYJMT5LNcaklV+eVv8fPf/Tl6z4Jgw4LF0YNotG6Ora2D2H6lpZkm3mojAuQtukpB416WFNQoaOQDLwUia/NA1B0vG13eITd5oIK8/VBQregS8xXEi//zk5akWSQmXCVv6mABvQ0I5PwzyCeTyjD6gSs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hspXvKw/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AwT8Xfy/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F48F1F000C4;
-	Thu, 15 Oct 2026 03:00:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792033209;
-	bh=/qC6DzHVTsDRv+sU6tklLHPQt7IZDGCHiCXz2GjDr0Y=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=AwT8Xfy/2d4mjWm/teJFk65r7sH3bKSE/BDZOEcl2dDTGDRbgvpkkHBT1p21JlUjO
-	 gxvKjvSSJ8whNxK5JuyVuSsO2DY0SnOFVSVgPMmHlB7HJpzCnDmNe1UiLXHaTA7Omj
-	 fHEJgXlg5nfrCkVItasFzJ1PP3DmjqZjFj1ps/CYyeAf6QT2ANCHgtzqiPW+wyiZ7b
-	 QH/e5u+GnKZW245BUm2TEyP2NohIw0deaP7re2fmvIiT9nvWIgivaJywrHboGrv+IS
-	 yjDGbPAxcIBfL0P5m3kqtp0Vjh+aJX2SruyteKQTsgGIOZnnTpO0id6o4rpvfvpsfb
-	 xH56tsJwpRQzQ==
-Message-ID: <sashiko-outbox-172189@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_ncm: Fix use-after-free in
- ncm_wrap_ntb()
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Boyan Liu" <yymhvert@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261015024508.3179-1-yymhvert@gmail.com>
-References: <20261015024508.3179-1-yymhvert@gmail.com>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hspXvKw/"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3A1E0C2BCC7
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 03:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792033331;
+	bh=ERrjaMqjEtnuyHeC1l1csmOFlk+OUKuUNB2QUP9uyk0=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=hspXvKw/N6aKPkNDlIMBYeLaF2esAgyjTXF+y8zCVx+k98vBWb5Dd0ig9eKeUkcJY
+	 VTnrsEJAojP7pR4TYk8XrsB4IIF3Jiu1a0wQi4JV4SmOFVZCIbYJ4tJioCDjBUR1bc
+	 66MH3G0OubxS0T4h71Mwb2HeDH287/AcJSKSrlbMPj2Z9Eu2jVuNE2hPHcJ5TOPj3s
+	 WifK/CeJUUJH8rVrmPNYlZf8z6IQppb22/b4ScDHWZ9nUc0gZZpDGK5WBPkPy8fj2x
+	 P3QnZQLIfX56I6N2omk0PtoEMKjoWwgDxBpIPX7FX4fAy9vGIqmbzKv4uQQGRqU9tO
+	 SXXYwGXcI0b0A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 25616C41616; Thu, 15 Oct 2026 03:02:11 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
+ breaks functionality of Owon VDS1022
+Date: Thu, 15 Oct 2026 03:02:10 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: high
+X-Bugzilla-Who: daway320@163.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-220193-208809-Mr8tmm38xB@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
+References: <bug-220193-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 03:00:09 +0000
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] usb: f_ncm: NULL pointer dereference in ncm_wrap_ntb()
-- [Medium] usb: gadget: f_ncm: skb2 is leaked on subsequent allocation fail=
-ure
---
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
 
-commit 8ffb0eb4a1490f0bf7e457d7a7e0bc30811f90a1
-Author: Boyan Liu <yymhvert@gmail.com>
+--- Comment #7 from Wei Huang (daway320@163.com) ---
+Hi leStoppe,
 
-usb: gadget: f_ncm: Fix use-after-free in ncm_wrap_ntb()
+No worries about the delay - and thanks, the dump is exactly what was neede=
+d.
 
-This commit addresses a use-after-free by clearing the ncm->skb_tx_data and
-ncm->skb_tx_ndp pointers after freeing them in the error path of
-ncm_wrap_ntb(). This prevents subsequent transmits from dereferencing the
-freed skbs when allocation fails.
+Quick summary of where this landed: the interface tuple is what distinguish=
+es
+the VDS1022 (class 5, subclass 6, protocol 0x50) from the HDS200 series (cl=
+ass
+5, subclass 0, protocol 0, per the HDS272S dump in the commit message of the
+original driver). So the fix is to match the HDS200's full tuple, which lea=
+ves
+the VDS1022 unclaimed and lets your libusb tool work out of the box again.
 
-> diff --git a/drivers/usb/gadget/function/f_ncm.c b/drivers/usb/gadget/fun=
-ction/f_ncm.c
-> index 500c9c19c78b4..be1c2fa36350b 100644
-> --- a/drivers/usb/gadget/function/f_ncm.c
-> +++ b/drivers/usb/gadget/function/f_ncm.c
-> @@ -1132,10 +1132,14 @@ static struct sk_buff *ncm_wrap_ntb(struct gether=
- *port,
-> =20
->  	if (skb)
->  		dev_kfree_skb_any(skb);
+I've submitted the updated patch (v2) on the linux-usb mailing list with th=
+is
+analysis and both descriptor dumps as evidence:
+https://lore.kernel.org/linux-usb/20261015025456.3927808-1-huangwei@kylinos=
+.cn/
 
-[Severity: High]
-Is it possible for ncm->netdev to be NULL when accessed in this error path?
-
-If ncm_disable() or ncm_set_alt() executes concurrently with
-eth_start_xmit(), they clear ncm->netdev locklessly before calling
-gether_disconnect():
-
-drivers/usb/gadget/function/f_ncm.c:ncm_disable() {
-	if (ncm->netdev) {
-		ncm->netdev =3D NULL;
-		gether_disconnect(&ncm->port);
-	}
-}
-
-Because eth_start_xmit() relies on dev->lock to verify dev->port_usb, it can
-proceed to call ncm_wrap_ntb() if it acquires the lock before
-gether_disconnect() disables the TX path.
-
-If alloc_skb() then fails under memory pressure inside ncm_wrap_ntb(), the
-code jumps to the err label just above this modified block:
-
-	err:
-		ncm->netdev->stats.tx_dropped++;
-
-Will this unconditional dereference of ncm->netdev lead to a NULL pointer
-dereference?
-
-[Severity: Medium]
-Is skb2 leaked in this error handling path?
-
-Earlier in ncm_wrap_ntb(), when an existing batch is full, the function
-packages the pending frames into skb2:
-
-	if (ncm->skb_tx_data && (... > max_size)) {
-		skb2 =3D package_for_tx(ncm);
-		if (!skb2)
-			goto err;
-	}
-
-Immediately after, it attempts to allocate a new buffer for the incoming sk=
-b:
-
-	if (!ncm->skb_tx_data) {
-		...
-		ncm->skb_tx_data =3D alloc_skb(max_size, GFP_ATOMIC);
-		if (!ncm->skb_tx_data)
-			goto err;
-
-If this alloc_skb() fails, the code jumps to the err label and runs through
-the cleanup path modified here. While the incoming skb and the pending
-ncm->skb_tx_data and ncm->skb_tx_ndp are freed, skb2 is never handled.
-
-Since the function returns NULL without freeing skb2, is the newly
-aggregated buffer leaked?
-
-> -	if (ncm->skb_tx_data)
-> +	if (ncm->skb_tx_data) {
->  		dev_kfree_skb_any(ncm->skb_tx_data);
-> -	if (ncm->skb_tx_ndp)
-> +		ncm->skb_tx_data =3D NULL;
-> +	}
-> +	if (ncm->skb_tx_ndp) {
->  		dev_kfree_skb_any(ncm->skb_tx_ndp);
-> +		ncm->skb_tx_ndp =3D NULL;
-> +	}
-> =20
->  	return NULL;
->  }
+Thanks again - this settled the last open question from the review.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261015024508.3179=
--1-yymhvert@gmail.com?part=3D1
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
