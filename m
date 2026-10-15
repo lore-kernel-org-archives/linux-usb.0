@@ -1,46 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45548322B8F;
-	Thu, 15 Oct 2026 09:51:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B350B48665F;
+	Thu, 15 Oct 2026 09:53:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792057875; cv=none; b=FZ7MlFsrhG2mgVU6dzztm0lP5vxpFQTgFzTuftMAS5dYJ13+rms9NjdEBWxzwxnwpoogd8cGhX+nW4LYM4FfT9NmERBTqPAFF/riISs6LERd6vj+U4NFkk2c+GqNSEa9BFtNqCXKEZh3NgB/Xb6lJVIfmJnKhSnTBJkW1wazawo=
+	t=1792058006; cv=none; b=i/aQJcPIFrgpC0vJYgLcHidcWTTECfwGPgn/xEURy+6zTX3FfAidDwx7G2LqXBdRsiLNnXTGCEPkpVT41S0YtLKRa/kICoQBKyq86IvdhavSGMlnJ0Nojufz8x5wx6ef4plTmCQWcU7WWLxAlmNW+TrHLyJL+LTRopJc+QTHje8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792057875; c=relaxed/simple;
-	bh=muwCLVxPr3lu2PYo+nyQS5gG+tKhi8xOCj4xL309a+w=;
+	s=arc-20240116; t=1792058006; c=relaxed/simple;
+	bh=pwEm4/2RBhku51g18W4c5ncfp9iaO/+W3jklu4v+Va8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hs1+Ow3KlmSyhAjHFkDiGOsW4qgUOw0QnhAOM69GgwIMYYaF/nD+NzFqOCdVW9pGg0W25sfbQ6k7HXSsp9tNb9jHEIgiLRvu92jRLXYsedTcxwqYyTRwdeEE7Zvs6MFIfjICqzy4Y2HuGPhzImpugwCX6Jc15MlCiBE/1j1KjcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lGuNGhUX; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=GHnBzys5E4IWZ8QEVoKesyQ/xEQQSKcTUKMw/NLw0S/srUSBLOZpUL9YRoyos3oRJNYIA/x8NWn8OLu6VRdSlwvZrPwJ/b7Pyg/+KyDrNOqmnxTY98Hu1ZcjaUBKzycXk8Xwuzr5+fMf3EapwMsfJZ16rufv0orp6TecpdEytDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lfSjs0NV; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lGuNGhUX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C66E81F000C4;
-	Thu, 15 Oct 2026 09:51:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lfSjs0NV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 439281F000C4;
+	Thu, 15 Oct 2026 09:53:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792057872;
-	bh=6EimAlhipM/QvHYdXcrEyjUEVG6Xm+Hd234W5MqbFJk=;
+	s=k20260515; t=1792058004;
+	bh=pWSv0HLiAJoTWLt7uJPRQqYR8RlGcCvdzB2n4hsLLBE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=lGuNGhUXYGNT8rfxdEATidMUz1+wRE211/U6+2f0Q9FCk+UCGR13IPaYdSsl8BWpv
-	 cSjSfzJKyZ59LL8/iE7bOy5AqaM6KhZTh/mXaT/SSmlmDxRbLw4JiipeApqd9TMJDp
-	 7G9SqO/ZoEzo7S79VSNKl3G3hUi9h4fawiLMq6LLatpSI2paosVTNxBlSF4PDfKoWh
-	 v1bl0851TyWRlJj7SY6kOHwmRl2f0qTmBrC0jGR4NN9XcrBsyTtRvCZIYjss1x5lI0
-	 kw/gUbq8PmoOvMOlOq4UpBhrp6XIudByLSKTOFIg1nPbou/Z6WYnTgJh98tmLT8gJi
-	 cQeUB2jvMFSEg==
+	b=lfSjs0NVa2Q7Yoce0HBjO6gAq4xiMOnf48jazkWzuNHu9mMe451E88M/arH5Jf5ZT
+	 EBiLaH31kt4glfCU96mV+sdGqiYwFU+FoR+YVVcdoHCTzcOu6uKuVdaAEQMmXLd3BM
+	 wUA/4VtkCA8pm7unwTtXb4NedmPqxs6bTVA9n8SGjV6H6GlBGHbWUPYpFu/L7hPIZh
+	 j8DwNvXcq2TSgmdSOwKXC1PyC2XA6TdTn3DKC3gh83HxOD3rzRrB5TCrfFJbno9MFt
+	 4thOVS3Dp3ETLiKJm2JJYyWKPm3o4/RjhiJirzG/eYY2kMmuKr0F/kPbZDziOJmT29
+	 Dytk8Ghkv3WCA==
 Received: from johan by xi.lan with local (Exim 4.99.5)
 	(envelope-from <johan@kernel.org>)
-	id 1xHI7C-00000006E9X-2a5D;
-	Thu, 15 Oct 2026 11:51:10 +0200
-Date: Thu, 15 Oct 2026 11:51:10 +0200
+	id 1xHI9K-00000006EBG-0xAz;
+	Thu, 15 Oct 2026 11:53:22 +0200
+Date: Thu, 15 Oct 2026 11:53:22 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Crescent Hsieh <crescentcy.hsieh@moxa.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	FangpingFP.Cheng@moxa.com, Epson.Chiang@moxa.com,
 	EddieSY.Lin@moxa.com, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/6] USB: serial: mxuport: add MUX50U support and
- updates
-Message-ID: <atCiDvHBI7F3SCoZ@hovoldconsulting.com>
+Subject: Re: [PATCH v3 4/6] USB: serial: add generic write control callbacks
+Message-ID: <atCikmW89iycQzTp@hovoldconsulting.com>
 References: <20260811060501.2307836-1-crescentcy.hsieh@moxa.com>
+ <20260811060501.2307836-5-crescentcy.hsieh@moxa.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -49,54 +49,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260811060501.2307836-1-crescentcy.hsieh@moxa.com>
+In-Reply-To: <20260811060501.2307836-5-crescentcy.hsieh@moxa.com>
 
-On Tue, Aug 11, 2026 at 02:04:55PM +0800, Crescent Hsieh wrote:
-> This series updates the mxuport driver to support MUX50U-based devices
-> and fixes device-specific runtime behaviours.
+On Tue, Aug 11, 2026 at 02:04:59PM +0800, Crescent Hsieh wrote:
+> Some USB serial devices use device-specific flow control to determine
+> whether write submission may proceed. The generic write path currently
+> provides no way to pause submission based on driver-specific state. It
+> also provides no way for a driver to restore its state if URB submission
+> fails.
 > 
-> The first three patches clean up the USB device ID table and firmware
-> version handling, and add support for UPort G2 and Platform UART
-> devices. The device family is encoded in the USB device ID table so
-> that the table provides both the port count and the information needed
-> for firmware handling.
+> Add an optional write_ready() callback to struct usb_serial_driver. Call
+> it with port->lock held after confirming that data is queued and a write
+> URB is available. If the callback returns false, stop write processing
+> and leave the data in the FIFO. The driver must call
+> usb_serial_generic_write_start() when writes may proceed again.
 > 
-> The fourth patch adds optional callbacks to the generic USB-serial
-> write path so that drivers can stop write submission based on
-> device-specific state and restore that state if URB submission fails.
+> Add an optional write_rollback() callback for restoring driver-specific
+> state after usb_submit_urb() fails. Call it with port->lock held after
+> restoring the generic transmit accounting, and pass it the length of the
+> prepared transfer.
 > 
-> The fifth patch uses these callbacks to implement the per-port
-> SEND_NEXT transmit flow-control protocol without duplicating the
-> generic write implementation.
+> Drivers which do not provide these callbacks retain the existing generic
+> write behaviour.
 > 
-> The sixth patch adds RS485 mode configuration through the standard
-> TIOCSRS485/TIOCGRS485 interface.
-> 
-> ---
-> Changes in v3:
->   - [PATCH v3 1/6]:
->     Rename the existing PID definitions after their corresponding
->     products and introduce a helper to keep each USB device ID table
->     entry on one line.
->   - [PATCH v3 2/6]:
->     Rename the firmware-version composition helper and retain the
->     existing firmware image-size validation.
->   - [PATCH v3 3/6]:
->     Name the new PID definitions after their corresponding products,
->     list all supported products by device family, rename the family
->     definitions to describe device rather than firmware families, and
->     use BIT() for the nonzero family values.
->   - [PATCH v3 4/6] and [PATCH v3 5/6]:
->     Replace the mxuport-specific copies of the generic write path with
->     optional write_ready() and write_rollback() callbacks. Use the
->     callbacks to pause SEND_NEXT writes and restore the per-port state
->     if URB submission fails. Expand the SEND_NEXT commit message to
->     describe the per-port protocol.
+> Signed-off-by: Crescent Hsieh <crescentcy.hsieh@moxa.com>
 
-Again, sorry about the late feedback on this one.
+> @@ -171,9 +173,7 @@ int usb_serial_generic_write_start(struct usb_serial_port *port,
+>  	spin_unlock_irqrestore(&port->lock, flags);
+>  
+>  	urb = port->write_urbs[i];
+> -	count = port->serial->type->prepare_write_buffer(port,
+> -						urb->transfer_buffer,
+> -						port->bulk_out_size);
+> +	count = type->prepare_write_buffer(port, urb->transfer_buffer, port->bulk_out_size);
 
-Now applied for 7.4 with two whitespace amendments.
+I kept the last line break here to keep the line under 80 chars.
 
-It was a joy to review, excellent work.
+> @@ -436,4 +444,3 @@ module_exit(usb_serial_module_exit);
+>  	usb_serial_module_driver(KBUILD_MODNAME, __serial_drivers, __ids)
+>  
+>  #endif /* __LINUX_USB_SERIAL_H */
+> -
+
+And dropped this unrelated change.
 
 Johan
