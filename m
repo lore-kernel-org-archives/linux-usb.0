@@ -1,207 +1,370 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622E14E73B1
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 23:47:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAA60547061;
+	Thu, 15 Oct 2026 00:18:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792021670; cv=none; b=mHr6BREzj4QnbrYhB4+mRoVJXbzh37a/6oJ38RDoBJXzWyGG4Q1QSbyEDTjHuNZlRgWJp9K94FYtnIa5xUfX0RX8GyKeTtu2zRa2ndZ3uZIxpQbNJbhOFVnTTRUV1O8V1LSLxA3+8Uat3VNdYIRhmC3MFs8N3lOsV2gM4ROiKmM=
+	t=1792023528; cv=none; b=bQcIy4VvBs2h12l+4nBcTw0ynxXnQ7kanKxbVZ3xw47xmdgb6d6fI8BOD8HQi0+xUWha03q8u6AOel47MsuiMJWqC3f4rkoQD+kSDHwDvLRAOU4002jshgvrh05dCg5aRH/CeOy9lHDlI4MGYBrQBSGqIURkuajengkpE0Tn9pI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792021670; c=relaxed/simple;
-	bh=Mr72y5DUeV010T8JwhU6xIUOY5wzfcfT+k0VitQvdNc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t8hz2RXF9MVH70XQKEvmkPc+ebR8b7NqmDuNtil1lxdobl2/BNgnYFdZzrqrAENk2c7AQdcBrUZugqJzA7ogGlzhT++dOOsPVoYXxfHE/rTcNo6I30XbTwtdQA7GrQW0yInLC7Np5xe9bOnCDtN/vafJaQRB+GZBe6q2KbdR55A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LSCWDxQw; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=G6DcHEqd; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1792023528; c=relaxed/simple;
+	bh=ewXiFF0dkYx1oW1z99Vo134lYaEXqI+knbGM+2ZIHGg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=gTaCmI3XohmfiK4V6kyWSbcsTa4CNlRwDYfAX4RNmry2CUSe/j/E47BnHaSLt5B9kh+ScrZiSsjrGWibvumd4i+OnjUHfjwCm1YHd05hF5GOj8MHgv3DrtFBs74wplORAK04GVoghlaPNUw+Sp2oef+FXcq2RnqzY5Wr+zS1Fec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W7XjEDjd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LSCWDxQw";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="G6DcHEqd"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69EN73Ln4167121
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 23:47:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=8jeQjHDKcOHCXmCoyag9tPF5
-	EdS/R/OQDxIBgOt2FOY=; b=LSCWDxQwT4suNSOnBFbCQ7rfN+pgjj16sC1Fqza/
-	LD7YzSGPrkPPTmsXIJnfzfyoENc2oNnRMAfD2+GN1A7pyUlReFCB1DLIaYIWm93u
-	59gdvlM/1NP8rSjQthbco/PWpU0ehjYRrZFtcsND5TMvdeZH8Xt+eHwH8RmCP5ON
-	TwR5G0E/6kMI+/uYKiR221325vASNsyMQ60zxtkwdM9ToWu04Ief4EEnPS/O+8R9
-	jMuJ3LsjMd+SbarNRQyNVPZuB+YKiaIAiIXZNdzi6KN003SX+XuH+KNmJQjpdwWD
-	wHBNJ9rrAfbXwN8Dwp2iyaQ7A5W9Q/8LyXOY/aBwNosVqQ==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hac231twc-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 23:47:47 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-93ecdc701a2so134663285a.3
-        for <linux-usb@vger.kernel.org>; Wed, 14 Oct 2026 16:47:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792021666; x=1792626466; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8jeQjHDKcOHCXmCoyag9tPF5EdS/R/OQDxIBgOt2FOY=;
-        b=G6DcHEqdS7rKih8bcU2hSdWix7xGbWC/KumXySsdeud6jmdjBuO6xOsULLDLgowOwG
-         AeIkbRx1ugRlbc1z3AxHsZDuQSBR1WqJT3KXELlLMkCdty2hPlzwNmer0+wbOXXgtErS
-         SrLr1Co/txjiijWrlVWDw8fXMUOfCz0qIE9wn893ehgTXpQJkMCgwsr2e2AY+P+taqcF
-         arYVx5LEwGul4k4gk5KU5pIW0i54ySK2f3wHX51dI4g9R53y+8obVmC+etcRaqubc45o
-         5/rXgid9YvBvTcEToTJUXjCFyIeOkEqrGYZ0ciHINRNUR1DLb6CSgvJHkPTwHAvdi1vC
-         S/9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792021666; x=1792626466;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8jeQjHDKcOHCXmCoyag9tPF5EdS/R/OQDxIBgOt2FOY=;
-        b=TYOx27pSKDY49vCGbYKHkIDUisg3vGQ7TAqUreD4apX8+Vvb/AZ+XWPNMItsy5v5J6
-         NgIC10O4rOaUtM0kmmzkvKoqDZfku/pmZ7VWQ8cNBGrqPYmYo6usAmT+SVgfdM+/onVL
-         USgDlyCaPogwOPTG2M89ktX2sxR6KG5KQ6KPAFqi9SWNXdYqFbBDm4dWpWGfNA2uK3fT
-         diEpuK1R2ZUxpulE1Dz9X8i4R4jXs6Ztsz3d/bRhfF47ETyw6xIou8Q8ED9AaG4Lk7fk
-         oyUQigc2C4Q31keG6JjJ5Vr575YJnjxHfgM2R1YTNmO3RfeIblKsarBDQfAw2RJZOWW4
-         v1QA==
-X-Forwarded-Encrypted: i=1; AKwUvBw57y1dP+s8f9yRTlFtdKlSJCKYBvvW6sCFQM2eKY2H3bv22vFvPBCxgTH0IoFzQ5wVLScyJmQVFc4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK9rrWgkZ0G29xog9yrDjV5poByNLUJwmzdLvGC8w7OgPkw8sFR
-	QI3Tx0FPlcDY6GC/siWwT8Sh6uLftI9EOAFinMOMzp+KzsiZXWHrFVEZLDjKuVQRA50+9I7VVBK
-	DXat823i4c4q2nvicAXq0zq+MJ6GdboKrxyq7gAH6LJl8aV7Z/JRNuiHi7I5F+oY=
-X-Gm-Gg: AYBFou1kdKB2dM9YjSBqmYWu5KBBo/4XEFryevjXIwIIXy32rhSRqe0qFJL+Uq4WXVT
-	JoC32nqD9TnYaCfXCfjdA5fFx07iYpnvEOdlACM7C6eGu/YOCfLGw+WaolsDFjHXmL1pBpq6pcK
-	VwZ3a3hLy92YgvYJzGw+OWYaEfcp9F+C7nsBGdVwkRfvb+OAqTp42erPWAnsBzmzZaZtjg6OSws
-	5VCksqvPcJEzie69FANwo9ew52X8Ie/uL7H16/rKMxNTdYxWcmoqjyFiZIhuxFXuTsgoOe6Lq3C
-	G37mTWIArsBQ0cJFQ3JwkeKwLTDLUNMCLIpC4WcErmMgpdwcmmGrCzTSmBaPvIwyF5WwLRoVQk5
-	ZUb0guTn0Qi3TJHHjsYBAU25SHsbCAAh9MhX4iwjxOj6jwstbUqzNIZhGKIvslnLod//+D9ebBd
-	Kbm/oqLAbV1+y3
-X-Received: by 2002:a05:620a:84c3:b0:939:ed29:8ad with SMTP id af79cd13be357-93ebd0bf49emr2568371285a.3.1792021666290;
-        Wed, 14 Oct 2026 16:47:46 -0700 (PDT)
-X-Received: by 2002:a05:620a:84c3:b0:939:ed29:8ad with SMTP id af79cd13be357-93ebd0bf49emr2568368585a.3.1792021665765;
-        Wed, 14 Oct 2026 16:47:45 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3aafdeaa3afsm2113211fa.14.2026.10.14.16.47.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2026 16:47:42 -0700 (PDT)
-Date: Thu, 15 Oct 2026 02:47:39 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Sebastian Reichel <sre@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, kernel@collabora.com,
-        Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH 3/4] arm64: dts: mediatek: Use DP AltMode defines
-Message-ID: <mtiuiy5rfqsozygax7fuifbotn2vno2irdtkc6bew2xxasd2mq@uypohil5zz2g>
-References: <20261014-dp-altmode-dt-defines-v1-0-b657c9b6e4c3@collabora.com>
- <20261014-dp-altmode-dt-defines-v1-3-b657c9b6e4c3@collabora.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W7XjEDjd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 977CB1F000C4;
+	Thu, 15 Oct 2026 00:18:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792023526;
+	bh=Qp0nD6Ti2x3T8NpaZrCeQlKRS+Nx7BmhthDtPhQxZxI=;
+	h=Date:Subject:Cc:To:From:References:In-Reply-To;
+	b=W7XjEDjdgFHlHHMnBR2tLE9LNEhVtBw4VpN7OSd2D7Hf3XLFUwJwjiklxjdsWXAPr
+	 TM0apnR6rz1Fz7PqOGRbWaTFd2kGP9QrpH63qwgQHGYTaSpuA68ie4tBJMoMMvilbP
+	 cliC8DwyaFUyRq1XYkEkCX3AwN4P6iFZYM0/lazuFaenCQwX7vXIlB7eM9k9YqB+pE
+	 aZ50pIcniHj+FUxEvVcRKAaSCDbTL9+Ydw1S2zogh3Kec6c+viELWralHzjyEsNN5V
+	 f4Tj2f4i++UBQ9oY1lLY6FQs4fRIPiBIm7A9NuTGPxHSmy5H/3245DvnZAsaT/TB6s
+	 YL93MH3eU973g==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261014-dp-altmode-dt-defines-v1-3-b657c9b6e4c3@collabora.com>
-X-Authority-Analysis: v=2.4 cv=PYJqFShd c=1 sm=1 tr=0 ts=6ad014a3 cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=QX4gbG5DAAAA:8
- a=Gdl50fq9-iV3HN9amUMA:9 a=CjuIK1q_8ugA:10 a=NFOGd7dJGGMPyQGDc5-O:22
- a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE0MDA5NCBTYWx0ZWRfXxanaLO8Cdu83
- h2740+Pk/IemtFmmnj2m4BXwFkjdGxmd28yhmhvYllbfGGmCZHJOgoG86fn5/x9AlBf9HW1dc8I
- MhFtIK4f5wpHtT/NSLC0gMUul3i5mCQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE0MDA5NCBTYWx0ZWRfXywWHVALz69wn
- Kp0YTdYZEBexZoY8OIkW69tglpQULOKF3J9EuMnc1oIPAeCOycLn6DqHVGVsciXf2FM06ac/GJB
- Oy337JEHE2Jv/diOxLLtl5oUj0LRg11f1yTkVZPS0XGm8wpXii3kNPSrHzh00S3NZs74bPjWraW
- MlNjWHc6ai6z0pzWLZV6M4SR+eEHW47qwxd9UnNsW2RgWOOztuDb8NcJXb+8E6yFcR9Nk6aJQuH
- RADabKzkdH9ADN/ZxRXjxFQf9WYTj/XCnp549Wq+r9Fajc2dHg3HJzyhzE429uPP8npdHI6yZFV
- 1K5oBDxzWnLoU4zpjNCBCZJ1VT45ccB9nwFyWr2bdhiTQKUTVsZ/ds4YQh9g/BJEHiVkG+6A1o6
- YO4OhePxKloSGDWohIJi0sSb7ld1RT6DE0627MC9+kj2hUf7iTsqmdppOZ2QC0gM5gNHHiOj0yI
- fLAm5HnchGZieW+zJlA==
-X-Proofpoint-GUID: 2y7Ig2bzW4epnjTf5EdT6bBkzCLoWjqJ
-X-Proofpoint-ORIG-GUID: 2y7Ig2bzW4epnjTf5EdT6bBkzCLoWjqJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-13_01,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 bulkscore=0 clxscore=1015 priorityscore=1501
- suspectscore=0 phishscore=0 malwarescore=0 impostorscore=0 adultscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610080000
- definitions=main-2610140094
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 15 Oct 2026 02:18:43 +0200
+Message-Id: <DM4ZBLHJLQJB.11A47MPAF74B8@kernel.org>
+Subject: Re: [PATCH] driver core: take parent lock on deferred probe
+Cc: "Alan Stern" <stern@rowland.harvard.edu>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
+ <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "Mario Peter"
+ <mario.peter@leica-geosystems.com>, <stable@vger.kernel.org>
+To: "Johan Hovold" <johan@kernel.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+References: <20261013140615.1226992-1-johan@kernel.org>
+ <DM3WA69YX6WE.2Q4DY9MIU7A0L@kernel.org>
+ <ba24846a-7403-4bb1-a0cb-869cf1d44e05@rowland.harvard.edu>
+ <DM40HVOBKMFI.3W1DK371ZWI80@kernel.org>
+ <as86K1qm1sHtgTFL@hovoldconsulting.com>
+ <DM4N25JXKTQM.3K7TP9HM68KQ2@kernel.org>
+ <as-cW9ZwmMCPcftL@hovoldconsulting.com>
+ <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
+In-Reply-To: <DM4X8JU9PXCU.T51SZD8XO7MG@kernel.org>
 
-On Wed, Oct 14, 2026 at 11:31:51PM +0200, Sebastian Reichel wrote:
-> From: Sebastian Reichel <sebastian.reichel@collabora.com>
-> 
-> Use the new USB-C DP AltMode defines for the SVID and the capabilities
-> VDO to make the DTs more readable. This also fixes up mt8390 Genio
-> platform incorrectly announcing UFP_D (upwards facing) support. This
-> feature is unfortunately not supported by the SoC.
-> 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi |  8 ++++++--
->  arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi | 10 ++++++++--
->  2 files changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi b/arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi
-> index 669eaec662f3..02f8b33d64ac 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi
-> @@ -527,8 +527,12 @@ PDO_FIXED_DUAL_ROLE |
->  
->  			altmodes {
->  				displayport {
-> -					svid = /bits/ 16 <0xff01>;
-> -					vdo = <0x001c1c47>;
-> +					svid = /bits/ 16 <USB_DISPLAYPORT_SVID>;
+On Thu Oct 15, 2026 at 12:40 AM CEST, Danilo Krummrich wrote:
+> On Wed Oct 14, 2026 at 5:14 PM CEST, Johan Hovold wrote:
+>> On Wed, Oct 14, 2026 at 04:42:09PM +0200, Danilo Krummrich wrote:
+>>> On Wed Oct 14, 2026 at 10:15 AM CEST, Johan Hovold wrote:
+>>
+>>> > But it's driver core that needs the extra reference. It seems
+>>> > reasonable to require that any subsystem that sets a new
+>>> > type->need_parent_lock also makes sure that any device of that type
+>>> > holds a reference to its parent. And importantly, it's already the ca=
+se
+>>> > for the only user of this feature today (i.e. USB interfaces).
+>>>=20
+>>> Exactly, it is the driver core that needs the extra reference count; fo=
+r a field
+>>> that is owned by the driver core, and for which the driver core manages=
+ its
+>>> lifetime.  If it needs an additional reference count for async or defer=
+red work
+>>> it should obtain the reference count for this scope explicitly.
+>>
+>> As I've mentioned, it's not just for async or deferred probe. It's also
+>> needed when a driver gets added or when probe is triggered through
+>> sysfs. The bus iterators only takes a reference to the each device and
+>> not their parents before calling __driver_attach() etc.
+>>
+>>> USB interfaces already holding an additional reference makes the propos=
+ed
+>>> contract work for today's user, but I'd rather not make that prerequisi=
+te of the
+>>> API.  It would push a prerequisite for an implementation detail to the =
+user.
+>>
+>> I understand your concern, but my reasoning is that this feature is only
+>> needed when devices are tightly coupled with their parents and where it
+>> therefore probably always make sense to pin the parent.
+>>
+>> Note that the need_parent_lock flag is now set in the device type struct
+>> which also holds a pointer to the release function that drops the
+>> reference. So it's pretty easy to check any theoretical further users.
+>>
+>>> Please, let's not add this API contract. Let's have the driver core dea=
+l with
+>>> this internally.
+>>
+>> I can take another look at it, but the alternatives seemed either error
+>> prone or a bit icky (e.g. a helper that returns a reference to the
+>> parent after checking the dead flag under the device lock).
+>
+> I thought some more about this, and since it is only the USB device type =
+using
+> it it's probably fine for now.  Should we ever gain new users of this API=
+ (which
+> I do not hope), we can still change it and add something like the diff be=
+low.
+>
+> I'd suggest to also add a comment in the USB code, explaining that this
+> reference count (also) serves the purpose to fulfill the driver core API
+> contract.
 
-USB_SVID_DP_ALTMODE
+I pasted the wrong diff, I meant the one below, but either should work.
 
-> +					vdo = <VDO_DP(DP_CAP_DPAM_V2_0, DP_CAP_CABLE_TYPE_PASSIVE,
-> +						      DP_CAP_UHBR_13_5_UNSUPPORTED,
-> +						      DP_PIN_UFP_NONE, DP_PIN_DFP_C_D_E,
-> +						      DP_CAP_USB2_USED, DP_CAP_RECEPTACLE,
-> +						      DP_CAP_SIGNALLING_HBR3, DP_CAP_DFP_D)>;
->  				};
->  			};
->  
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi b/arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi
-> index aef908df530e..3f7d57dfcf93 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi
-> @@ -597,8 +597,14 @@ PDO_FIXED_DUAL_ROLE |
->  
->  				altmodes {
->  					displayport {
-> -						svid = /bits/ 16 <0xff01>;
-> -						vdo = <0x00001c46>;
-> +						svid = /bits/ 16 <USB_DISPLAYPORT_SVID>;
+diff --git a/drivers/base/base.h b/drivers/base/base.h
+index 3c36a2128f88..b3730d030f5f 100644
+--- a/drivers/base/base.h
++++ b/drivers/base/base.h
+@@ -161,8 +161,9 @@ bool bus_is_registered(const struct bus_type *bus);
 
-USB_SVID_DP_ALTMODE
+ int bus_add_driver(struct device_driver *drv);
+ void bus_remove_driver(struct device_driver *drv);
++struct device *device_get_parent_for_lock(struct device *dev);
+ void device_release_driver_internal(struct device *dev, const struct devic=
+e_driver *drv,
+-				    struct device *parent);
++				    bool lock_parent);
 
-> +						vdo = <VDO_DP(DP_CAP_DPAM_V2_0,
-> +							      DP_CAP_CABLE_TYPE_PASSIVE,
-> +							      DP_CAP_UHBR_13_5_UNSUPPORTED,
-> +							      DP_PIN_UFP_NONE, DP_PIN_DFP_C_D_E,
-> +							      DP_CAP_USB2_USED, DP_CAP_RECEPTACLE,
-> +							      DP_CAP_SIGNALLING_HBR3,
-> +							      DP_CAP_DFP_D)>;
->  					};
->  				};
->  
-> 
-> -- 
-> 2.53.0
-> 
+ void driver_detach(const struct device_driver *drv);
+ void driver_deferred_probe_del(struct device *dev);
+diff --git a/drivers/base/bus.c b/drivers/base/bus.c
+index fd2257f73253..9975f250d22e 100644
+--- a/drivers/base/bus.c
++++ b/drivers/base/bus.c
+@@ -637,11 +637,13 @@ void bus_probe_device(struct device *dev)
 
--- 
-With best wishes
-Dmitry
+ void bus_probe_device_deferred(struct device *dev)
+ {
+-	if (dev->type && dev->type->need_parent_lock)
+-		device_lock(dev->parent);
++	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
+ev);
++
++	if (parent)
++		device_lock(parent);
+ 	__bus_probe_device(dev);
+-	if (dev->type && dev->type->need_parent_lock)
+-		device_unlock(dev->parent);
++	if (parent)
++		device_unlock(parent);
+ }
+
+ /**
+@@ -866,11 +868,13 @@ static int __must_check bus_rescan_devices_helper(str=
+uct device *dev,
+ 	int ret =3D 0;
+
+ 	if (!dev->driver) {
+-		if (dev->type && dev->type->need_parent_lock)
+-			device_lock(dev->parent);
++		struct device *parent __free(put_device) =3D device_get_parent_for_lock(=
+dev);
++
++		if (parent)
++			device_lock(parent);
+ 		ret =3D device_attach(dev);
+-		if (dev->type && dev->type->need_parent_lock)
+-			device_unlock(dev->parent);
++		if (parent)
++			device_unlock(parent);
+ 	}
+ 	return ret < 0 ? ret : 0;
+ }
+diff --git a/drivers/base/core.c b/drivers/base/core.c
+index 5daa88fa724a..3a924c4e194e 100644
+--- a/drivers/base/core.c
++++ b/drivers/base/core.c
+@@ -1676,8 +1676,7 @@ void device_links_unbind_consumers(struct device *dev=
+)
+
+ 			device_links_write_unlock();
+
+-			device_release_driver_internal(consumer, NULL,
+-						       consumer->parent);
++			device_release_driver_internal(consumer, NULL, true);
+ 			put_device(consumer);
+ 			goto start;
+ 		}
+diff --git a/drivers/base/dd.c b/drivers/base/dd.c
+index 52123251965d..6ff8d0653769 100644
+--- a/drivers/base/dd.c
++++ b/drivers/base/dd.c
+@@ -1030,6 +1030,30 @@ static int __device_attach_driver(struct device_driv=
+er *drv, void *_data)
+ 	return ret =3D=3D 0;
+ }
+
++/*
++ * Pin the parent before taking its lock. A reference to dev alone does no=
+t
++ * keep its parent alive after device_del().
++ *
++ * device_del() marks the device dead under its lock before dropping the
++ * registration reference to the parent. A dead device may still need to b=
+e
++ * unbound; while dev->driver is set, device_del() cannot have completed t=
+he
++ * unbind and dropped that reference either.
++ *
++ * The caller must hold a reference to dev and put the returned parent aft=
+er
++ * its last access, including any temporary unlock/relock during unbind.
++ */
++struct device *device_get_parent_for_lock(struct device *dev)
++{
++	if (!dev->type || !dev->type->need_parent_lock)
++		return NULL;
++
++	guard(device)(dev);
++	if (dev->p->dead && !dev->driver)
++		return NULL;
++
++	return get_device(dev->parent);
++}
++
+ /*
+  * __device_driver_lock - acquire locks needed to manipulate dev->drv
+  * @dev: Device we will update driver info for
+@@ -1065,13 +1089,14 @@ static void __device_driver_unlock(struct device *d=
+ev, struct device *parent)
+ static void __device_attach_async_helper(void *_dev, async_cookie_t cookie=
+)
+ {
+ 	struct device *dev =3D _dev;
++	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
+ev);
+ 	struct device_attach_data data =3D {
+ 		.dev		=3D dev,
+ 		.check_async	=3D true,
+ 		.want_async	=3D true,
+ 	};
+
+-	__device_driver_lock(dev, dev->parent);
++	__device_driver_lock(dev, parent);
+
+ 	/*
+ 	 * Check if device has already been removed or claimed. This may
+@@ -1093,7 +1118,7 @@ static void __device_attach_async_helper(void *_dev, =
+async_cookie_t cookie)
+ 	if (dev->parent)
+ 		pm_runtime_put(dev->parent);
+ out_unlock:
+-	__device_driver_unlock(dev, dev->parent);
++	__device_driver_unlock(dev, parent);
+
+ 	put_device(dev);
+ }
+@@ -1205,11 +1230,12 @@ void device_initial_probe(struct device *dev)
+  */
+ int device_driver_attach(const struct device_driver *drv, struct device *d=
+ev)
+ {
++	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
+ev);
+ 	int ret;
+
+-	__device_driver_lock(dev, dev->parent);
++	__device_driver_lock(dev, parent);
+ 	ret =3D __driver_probe_device(drv, dev);
+-	__device_driver_unlock(dev, dev->parent);
++	__device_driver_unlock(dev, parent);
+
+ 	/* also return probe errors as normal negative errnos */
+ 	if (ret > 0)
+@@ -1223,14 +1249,15 @@ EXPORT_SYMBOL_GPL(device_driver_attach);
+ static void __driver_attach_async_helper(void *_dev, async_cookie_t cookie=
+)
+ {
+ 	struct device *dev =3D _dev;
++	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
+ev);
+ 	const struct device_driver *drv;
+ 	int ret;
+
+-	__device_driver_lock(dev, dev->parent);
++	__device_driver_lock(dev, parent);
+ 	drv =3D dev->p->async_driver;
+ 	dev->p->async_driver =3D NULL;
+ 	ret =3D driver_probe_device(drv, dev);
+-	__device_driver_unlock(dev, dev->parent);
++	__device_driver_unlock(dev, parent);
+
+ 	dev_dbg(dev, "driver %s async attach completed: %d\n", drv->name, ret);
+
+@@ -1296,9 +1323,11 @@ static int __driver_attach(struct device *dev, void =
+*data)
+ 		return 0;
+ 	}
+
+-	__device_driver_lock(dev, dev->parent);
++	struct device *parent __free(put_device) =3D device_get_parent_for_lock(d=
+ev);
++
++	__device_driver_lock(dev, parent);
+ 	driver_probe_device(drv, dev);
+-	__device_driver_unlock(dev, dev->parent);
++	__device_driver_unlock(dev, parent);
+
+ 	return 0;
+ }
+@@ -1372,8 +1401,11 @@ static void __device_release_driver(struct device *d=
+ev, struct device *parent)
+
+ void device_release_driver_internal(struct device *dev,
+ 				    const struct device_driver *drv,
+-				    struct device *parent)
++				    bool lock_parent)
+ {
++	struct device *parent __free(put_device) =3D lock_parent ?
++		device_get_parent_for_lock(dev) : NULL;
++
+ 	__device_driver_lock(dev, parent);
+
+ 	if (!drv || drv =3D=3D dev->driver)
+@@ -1400,7 +1432,7 @@ void device_release_driver(struct device *dev)
+ 	 * within their ->remove callback for the same device, they
+ 	 * will deadlock right here.
+ 	 */
+-	device_release_driver_internal(dev, NULL, NULL);
++	device_release_driver_internal(dev, NULL, false);
+ }
+ EXPORT_SYMBOL_GPL(device_release_driver);
+
+@@ -1413,7 +1445,7 @@ EXPORT_SYMBOL_GPL(device_release_driver);
+  */
+ void device_driver_detach(struct device *dev)
+ {
+-	device_release_driver_internal(dev, NULL, dev->parent);
++	device_release_driver_internal(dev, NULL, true);
+ }
+
+ /**
+@@ -1440,7 +1472,7 @@ void driver_detach(const struct device_driver *drv)
+ 		dev =3D dev_prv->device;
+ 		get_device(dev);
+ 		spin_unlock(&drv->p->klist_devices.k_lock);
+-		device_release_driver_internal(dev, drv, dev->parent);
++		device_release_driver_internal(dev, drv, true);
+ 		put_device(dev);
+ 	}
+ }
+diff --git a/include/linux/device.h b/include/linux/device.h
+index 7c7682e4dafe..7604060ff99b 100644
+--- a/include/linux/device.h
++++ b/include/linux/device.h
+@@ -85,8 +85,7 @@ int subsys_virtual_register(const struct bus_type *subsys=
+,
+  * the DEVTYPE variable.
+  *
+  * @need_parent_lock:	When probing or removing a device of this type,
+- *			driver core should lock the device's parent. Note that
+- *			the device must hold a reference to its parent.
++ *			driver core should lock the device's parent.
+  */
+ struct device_type {
+ 	const char *name;
