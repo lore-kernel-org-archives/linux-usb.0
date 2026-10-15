@@ -1,72 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3318377A8F
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDEB84CEE65
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792052441; cv=none; b=smLTwNzXLf3hmiy1kmDU0yPr+A24QMsLwA674Kld24RVvCXic/XgtR1+LZrTwah8p+TEckKSdp6TqSLHojfBqNeTCssVepN5iJTJ8bulPlhWRVfZM+9hRyiVA3tXOo6YkrePVGB+AOgcmVmq25EoFrR4sPdBTmv5ilJPzGPN4bI=
+	t=1792052442; cv=none; b=R3kN30yOdmmSORQSLqJJ0v73vYinFlZPsQvh4/1KCPePWr1u2Fa3qQk01sBvbVIQNTWZDBgk7NpyuFKtjGL6Rw1md+sqCs1ZVF1dgp8z/Jav7+msM+KNA63HNBjHmejKAGx7vDHkxj9VOoWNRrJ/NvTu71Z+58x4THGXsSZIHWY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792052441; c=relaxed/simple;
-	bh=MVSNORonzgN3U48cXI0yYeBS4NkrhzrHyaPOo/P8UHk=;
+	s=arc-20240116; t=1792052442; c=relaxed/simple;
+	bh=vE7GItXQ8q/6zUQcgms9WKd5tM7fD/AZsqnzokN0c2w=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=Np7UWVplyJCpSnLm2ujnTmdTu0Jk/vmjBDjxKUTtLsGbkrrQgpl66+2A39lbHojEbG0eIKDxm0Smaa3tAK0zyLEVsTnGmGMRHbeeTzZQvUzzd0cn+FMaKywRDKFz/VSAX9nwGvH8jSEWZbrtcGrkwIHrYBaRtOZIeRbzibT7JZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OPW5uT/t; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=CXta/1oLK6x28ORY0ept2W/o5/x0gKuLqEba2saFgaBCCpqa39Io3/K970g/3JIiIjXL+e8uq9FsWVb5ZR6RR5kLgpA7o5YlK+ld+J7wPwinvvQ8yah6CCQXR0AMY7PWE1Wr9PInati7Ei0xdXoqfNK+KcqA/X1P9WQRU5/5KMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UFSgvvTe; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OPW5uT/t"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D1CC1F000C5;
-	Thu, 15 Oct 2026 08:20:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UFSgvvTe"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E2721F000C4;
+	Thu, 15 Oct 2026 08:20:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792052435;
-	bh=LEoiuzTsvpFjQYcfxh+XvfC3to8rfkCiJCe/P6Z/Fl0=;
+	s=k20260515; t=1792052438;
+	bh=G9OXogmyFvU3ZpcLitjMO7N0KvsnCTXna9IZsre1Cio=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OPW5uT/tXGtWal4uIfF6/XynCeYglhqBXmnOMOD+h4Xqpc4j6a/9DLsqGHLT/vYIE
-	 ebxV5uRO9hG26B9OgQbd2aS+84UjhxzzV68FwV2AZpeZlHftAYdbQYLMyYeftdbsbq
-	 YuDdsojuJ6sVF/Uz87dTp+S9ASImjrtb0nO/sBwUn6N7a5Ybma9mc031HSvc8qlbJW
-	 HY82n46J0AnPokCatM8ew9Z+ib8tQRRSIgll6mI3ZDJi0IecytJ25TAJUXOtW+rQ4s
-	 cfGJVeld6zLd/e2Y9iRJdk1E8J/fdIjiw6U9FTkO+3xXAJ4qMvfvm3gKGOOlUqMBhg
-	 otP4ckdpRG4cg==
-Message-ID: <sashiko-outbox-172463@kernel.org>
+	b=UFSgvvTe7N4kIb4FusTHLf9L4Amm+Y1JaktHx3K+TP/Z35xeIAL7COnvkE1smD2eY
+	 SsEB3ZiGjcNw6lXGlOdf0Qpa3monMQCxmJO+NPpbJKcOwkYYAzA/Rkdep1Et6rm7uj
+	 gyDS3E6g+lsshya89J3PzWlNjTPSvw3ushXSQ/7MwR7z2egBLdD2tgFd/YwBPrsfVz
+	 dFlOhshdaXK2Eu7fiLN83p3kTgORMEngFRlt/cxl+RCv0215TOOQfMbZOCKx4wS0dQ
+	 FMGIoTJqp6iUeINeegg+X3wRXMcVPeNmGbT6mX3GhQdjx92KiV9ApE37I6GnmZZVdk
+	 c5UBdPgBwE17Q==
+Message-ID: <sashiko-outbox-172468@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v7 02/10] r8152: add new init writes for
- RTL8156/8156B/8157/8159
+Subject: Re: [PATCH net-next v7 06/10] r8152: split r8157_hw_phy_cfg into
+ RTL8157 and RTL8159 variants
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014081904.6491-3-nic_swsd@realtek.com>
+In-Reply-To: <20261014081904.6491-7-nic_swsd@realtek.com>
 References: <20261014081904.6491-1-nic_swsd@realtek.com>
- <20261014081904.6491-3-nic_swsd@realtek.com>
+ <20261014081904.6491-7-nic_swsd@realtek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 08:20:34 +0000
+Date: Thu, 15 Oct 2026 08:20:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> Bring the per-generation init functions in line with the vendor init
-> sequence by adding writes the shared r8156_init() never performed.
+> r8157_hw_phy_cfg() served both RTL8157 (VER_16) and RTL8159
+> (VER_17_QFN68/QFN100) via a tp->version switch inside a single
+> function, but per the datasheet RTL8159's PHY tuning differs from
+> RTL8157's in more than the per-version blocks already captured.
 >=20
-> - Clear PREBOOT_OPTION and RMT_WAKE_EN in r8156_init() and
->   r8157_init().
+> Split it into r8157_hw_phy_cfg() (VER_16 only) and a new
+> r8159_hw_phy_cfg() (VER_17_QFN68/QFN100), each with its own copy of
+> the shared prologue/epilogue. rtl_ops_init() assigns each one to its
+> own chips only. Per the datasheet, RTL8159 diverges from RTL8157 in
+> this split in several ways:
 >=20
-> - Add r8156b_u2phy_backup() for RTL8156B (VER_12/13/15).
->=20
-> - Clear AUTO_SPEEDUP in r8157_init().
->=20
-> - Disable interrupt mitigation (0xcf04) in r8157_init().
->=20
-> - Clear the Warm RST / Bus RST event flag (0xcd06 BIT(11)) in
->   r8157_init().
->=20
-> - Clear the FW u1u2 patch option (0xb9a6 BIT(0)) and enable the u3phy
->   patch backup (0xb9a2) for RTL8159 (VER_17) only.
->=20
-> - Clear RX_END_TRANSFER_EN (0xd406 BIT(11)) for RTL8157 (VER_16), too.
->   While it is set, incoming packets are buffered in the RX FIFO and
->   Bulk-in transfers are suspended. The bit is zero by default and
->   isn't used now. Clear it unconditionally for safety.
+> - RTL8159 doesn't need EEE disabled before reprogramming PHY
+>   parameters, so r8159_hw_phy_cfg() drops the rtl_eee_enable(tp,
+>   false) call that r8157_hw_phy_cfg() keeps.
+> - Since EEE isn't forced off up front, r8159_hw_phy_cfg() ends with
+> [ ... ]
+> mirroring the existing sram_set_bits()/sram_clr_bits(), and use the
+> named OCP_POWER_CFG/EN_10M_PLLOFF/EN_ALDPS_PLLOFF macros in place of
+> the raw "ocp_reg_set_bits(tp, 0xa430, BIT(0) | BIT(1))".
 >=20
 > Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
@@ -74,5 +71,5 @@ Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014081904.6491=
--1-nic_swsd@realtek.com?part=3D2
+-1-nic_swsd@realtek.com?part=3D6
 
