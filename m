@@ -1,73 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6024825AD
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FAF53ABD90;
+	Thu, 15 Oct 2026 08:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792052443; cv=none; b=Fl/rUdjmZEeKGKw0EtwkLxVxzo7mk+VGpMJBhUsSCy1we5UXkxPeeEbNxGERFEmkrTENKSIDvmANDGzbGvN/ChxmUnmz59/KpHriVORFwwTK/ld/iB1j9fiTn3ZyDji199X+/G88eC8So0+GO/k5XDpa88mDnSrzGdziarrdx4o=
+	t=1792052911; cv=none; b=SctlcUvpFiYmgxwaPIGeSrkei0XBNb3goZM/08eH0919hELNP+tSpzGlV0kAsFBfTQcqJkZn/dIqS3/Fu3HU9jDNakZ88lJ4rl+vkhvon1WBMwWP1KlSfBviv32qvPnEJM2KkomR6z5io7JEAAJvG3A9O19e4rWX/ggpymT2OqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792052443; c=relaxed/simple;
-	bh=+QSweAKHZdU6MujwtiH3zECVB9u/7/dHyaqLRHfBqh0=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=Hfxz6KgccyP8q9ZVISdcfVuAWSa83qHlrj/ybnRAh+xbUAac2aegCdtX5a4czFP3xLXeNCVlDFKRIxzNLZeogBIod/a4K0bIzWLtWGv9C3DBSRmza9TocnsNWV/eXkLkE9wx9rimRLOVReni26uubn0vkDgGpZ9AihQ29lmHAY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvGzc2yY; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792052911; c=relaxed/simple;
+	bh=74/xrUjBmhy/hBYGQNVx7rE7cCVNyFMGw8kk5FZHCgE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gj9axwbfNqHqd75MLghaG3us7Q4aBP8Q35M1gA+cFFERNV9EyHVTnHykg65A82/wy9HNcOhwEheqAftblsQZawHrfoJ00AzjtcJncGyTYcwMs7jmn1aF8fEQnOUHtREI0FrhrAXC8IujHKNlBBXFGaOv4JeQotFCkhE8kcH46pI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d3Ysde+z; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvGzc2yY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2FE11F000CC;
-	Thu, 15 Oct 2026 08:20:39 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d3Ysde+z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2ACD11F000C4;
+	Thu, 15 Oct 2026 08:28:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792052439;
-	bh=+QSweAKHZdU6MujwtiH3zECVB9u/7/dHyaqLRHfBqh0=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KvGzc2yYDhHR+niQB5vJr38U/taLgv/5cvBeEBkSS2v/yt4SrOms90zJQjz41iwuL
-	 TI/3LwMHJxSDwlupWUzPUR9q6QHpXToUP6HN+6qc6ODy3DhI00hhSy/L3Lma0ryNd1
-	 vI0YvU8h3W6j6wc3yDsThISNvWmgE4g7Z4T3aULlilwqS4j10ZBvd/44wR4d+OQjdl
-	 0LfdZVGDJwBPLIOkHDYANb5tjL4BRUjlKODl1UMnRDBMYNCYLU2+1UuwopruLDPd6U
-	 7WOs8FwgTAze53XUA8nHt5cB3ZMT2+2ZnuKHFcVj8kAGyX2E1w8pRu4Hrp97aoCS81
-	 mZXgKdNzfzVLQ==
-Message-ID: <sashiko-outbox-172470@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v7 07/10] r8152: add rtl8157_unload and
- rtl8157_change_mtu
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014081904.6491-8-nic_swsd@realtek.com>
-References: <20261014081904.6491-1-nic_swsd@realtek.com>
- <20261014081904.6491-8-nic_swsd@realtek.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 08:20:39 +0000
+	s=k20260515; t=1792052910;
+	bh=Syv2U7qOHInP7OCx7Iw4cZz4BGPR69oUDoJy54aqFf8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=d3Ysde+zzfc1ttiANHu5w7bbYCc7Jz9EyabJCzufWXNC2c6VOpx6x02mi8MuqA2Z3
+	 29EljYGKLcXS1B1ZI0KsCrTfn85CLoeuTCKO+aKFD4vnhg1EydWoGALOVjH7/x4Bu/
+	 S3lE4fF5VzQq+E73RZkjPplnM5wvVGG6hvEqnbF96TI/A1v1gRtJ7FsSwSpQju+Zwm
+	 RUK7jbeKBVA7J6PQ/xI59kvsoUsl/1TsfxvOC2wYC0o9/dYuBfGz17Th6qv86IEBJV
+	 mYuOUHaw+G+EM6bl/2AQh0H4cVURVbmBiKK9A3ga9hh89rwos7UFDKeNTJnUfkk435
+	 QvB4MCzo1e2aw==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xHGp9-00000005xZf-4AQ8;
+	Thu, 15 Oct 2026 10:28:28 +0200
+Date: Thu, 15 Oct 2026 10:28:27 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: core: document purpose of interface parent reference
+Message-ID: <atCOq_kAAoUzKGRw@hovoldconsulting.com>
+References: <20261015074831.1418677-1-johan@kernel.org>
+ <DM59BD7BDUHZ.2BON4KMXDR086@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM59BD7BDUHZ.2BON4KMXDR086@kernel.org>
 
-> RTL8157 and RTL8159 used rtl8153_unload() and rtl8156_change_mtu(),
-> which program power-cut and MTPS the way earlier chips require. Per
-> the datasheet, RTL8157/RTL8159 need r8157_power_cut_en() (already
-> used by r8157_init()) instead of r8153_power_cut_en(),
-> and an MTPS scaled from the configured MTU (10K-16K, max_pkt_size /
-> 64 capped at 0xff) instead of a fixed MTPS_JUMBO.
->=20
-> Add rtl8157_unload(), used only by RTL8157/RTL8159: calls
-> r8157_power_cut_en(tp, false), then the Interrupt Mitigation disable
-> that rtl8153_unload() used to gate on "tp->version >=3D RTL_VER_16"
-> unconditionally, since this function now only runs for those
-> versions.
->=20
-> Add rtl8157_change_mtu(), also RTL8157/RTL8159-only, and wire it up
-> via ops->change_mtu in place of rtl8156_change_mtu().
->=20
-> Fixes: fd3c7d080df5 ("r8152: Add support for the RTL8157 hardware")
-> Fixes: ad2a55b63b41 ("r8152: Add support for the RTL8159 chip")
-> Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+On Thu, Oct 15, 2026 at 10:08:36AM +0200, Danilo Krummrich wrote:
+> On Thu Oct 15, 2026 at 9:48 AM CEST, Johan Hovold wrote:
+> > USB interfaces hold a reference to their parent USB device to make sure
+> > they do not outlive the parent.
+> >
+> > Add a comment explaining that this reference is specifically needed for
+> > asynchronous device resets and the device type need_parent_lock feature
+> > (to allow driver core to lock the parent when only holding a reference
+> > to the interface).
+> >
+> > See commits:
+> >
+> >   524134d42231 ("USB: don't cancel queued resets when unbinding drivers")
+> >   af61396a992b ("driver core: fix parent lock use-after-free on USB disconnect")
+> >
+> > for further details.
+> >
+> > Signed-off-by: Johan Hovold <johan@kernel.org>
+> 
+> NIT: Maybe add that the reference count must be held until release().
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+I think that's implied as the comment refers to the lifetime of these
+objects.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014081904.6491=
--1-nic_swsd@realtek.com?part=3D7
+> In any case,
+> 
+> Reviewed-by: Danilo Krummrich <dakr@kernel.org>
 
+Thanks for reviewing.
+
+> > @@ -2209,6 +2209,11 @@ int usb_set_configuration(struct usb_device *dev, int configuration)
+> >  		pm_runtime_no_callbacks(&intf->dev);
+> >  		dev_set_name(&intf->dev, "%d-%s:%d.%d", dev->bus->busnum,
+> >  				dev->devpath, configuration, ifnum);
+> > +		/*
+> > +		 * Make sure the interface does not outlive its parent (e.g.
+> > +		 * as needed for usb_queue_reset_device() and
+> > +		 * usb_if_device_type->need_parent_lock).
+> > +		 */
+> >  		usb_get_dev(dev);
+> >  	}
+
+Johan
