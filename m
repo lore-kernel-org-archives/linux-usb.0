@@ -1,141 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8AF42E8DC
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB98A4C652E
+	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 08:20:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792052442; cv=none; b=Ex+ZG7HgldDIW0M1NlUUZLogISg7/YXmo2uDRKQzah7Y/avfBA0EJyarIXaZ6mFaloDBwU1N9iofC0YQ287zb6VaQvqe1lyd9UAKh/P4BlV/FsnS5b31M1AhaY2iBrQfZmCFLA3tm53bTyA2i0eUzcQYUJStqezeY9MgJCH1OXY=
+	t=1792052442; cv=none; b=uRAVqT1FHAl+PzuahKdL8Bwx087MTVnNtuwMOk29gF41JL4siSzqz2GMI9+65/BEfKmm4SR0uXZAEX/t/ojwH5lnq5LIc4x/jaNa0LhgoBOLBr5nA5RgtPeLqVwGCnZx4ezYyg7vQmi2YuQdqjMO1TpwDuZmfLRYjUsX6q9Rixg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1792052442; c=relaxed/simple;
-	bh=QiSoUZSxIz8T+qslMyaxDZD6XX8N2Lma494wpzAkwOM=;
+	bh=UV6754c8jFdD9v5Xc2/Zd873CaneAE86xghQmAl90c8=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=WuuQNScPM7YENQftF3nk8xd2zre5G7MyQM41/UyeUQ0HRNyz3+f21HsS9ZFF4tw6uizSn0ZZdJOsnkNcNWkqB7SYboZj+vMrAvebj/uU8oKSQbNF8h9EAXyaq/0w/gN3IoFfg/Qf3SN53tRIXQS/iRz9dFISyJ9kXAmOO6ROAKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AJEF328h; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=fhlxBymLCux1Cenw9QVUYElfbmDLZr3eDpS9frLRuvzVryWLco1l4L9wPuMGYFNIXuy7ySrU2Hzj2yKWXNloYVvH9MR5AVlVf4VknLk1Pmwnfk4ZxsujtO8aEBx51AaVak/8ODfga51gOqT844GGkJrTqQzc9nc/ER8s+NIZrMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Z/gEMifo; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AJEF328h"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EEB0E1F000CA;
-	Thu, 15 Oct 2026 08:20:38 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Z/gEMifo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6007A1F000C7;
+	Thu, 15 Oct 2026 08:20:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792052439;
-	bh=dymxCw5MQJeAuOkpNfryJX6sxBQt8HNZlYHjfXq+uyM=;
+	s=k20260515; t=1792052436;
+	bh=UV6754c8jFdD9v5Xc2/Zd873CaneAE86xghQmAl90c8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=AJEF328hwkMGKljh22bctO1NeXTAW+yTNCRn88exwNUVzwPuaXtXhgC53cliuGWcy
-	 U7Gh/21H9RWqVQ+JM2EHd7I8y0YLoODHwh/9iQd7SNj3hw8BNVL3EET4lytcNCLg1i
-	 vXQgOWRYBZObXqAgr047S/XBqwCxJ8l6UuXBIy8rDM3QsAdusbS/4OOuTt4fB8QeAs
-	 TY8t8wQ3myhBic0x3VHSfqRj/WlAmh8zdXY5Ge8XHJbfaoL+KX/mUzZWimGh6weGAV
-	 MD7w3xaEmQATnfOZgMrA8iySZYmccVF/O/8paecT0tnvCdy06yLFiWQ/pZu6bt/SOe
-	 q5quTNPTkFdqg==
-Message-ID: <sashiko-outbox-172469@kernel.org>
+	b=Z/gEMifoXYjohttY5mOtxbbkw7wxsHLjju8j6/uBSz3fln3yEUgqiu+f4F8s03Ls6
+	 O5hDDgo24XBvEgEYA8U6jti34sTW+UsCcQaxrp+NmyYcClnpy8RSVv6XdHFkio53fT
+	 7u+4oR4fgBq6iGxRD4LaUpBYGTaWHdIVuqYFJSgj2UkSEqS+RswwJiquWha3wF7o6d
+	 UUyhbhcwp1BPVx91BehT7yUp0tWI0IqUl/VftSJ0KO0bPVMKwmvkw4KY/zRtv2hTy+
+	 TSD2w8rq50w9TwPNBELIxCeX8f78KwGB4OEhcaORCxdRaFLXwdYBgj5YiD982hPFqq
+	 sgK1ifUv+EqUA==
+Message-ID: <sashiko-outbox-172465@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net-next v7 10/10] r8152: enable UPS for RTL8157 and
- RTL8159 QFN68
+Subject: Re: [PATCH net-next v7 03/10] r8152: split RTL_VER_17 into QFN68
+ and QFN100 package variants
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Chih Kai Hsu" <hsu.chih.kai@realtek.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261014081904.6491-11-nic_swsd@realtek.com>
+In-Reply-To: <20261014081904.6491-4-nic_swsd@realtek.com>
 References: <20261014081904.6491-1-nic_swsd@realtek.com>
- <20261014081904.6491-11-nic_swsd@realtek.com>
+ <20261014081904.6491-4-nic_swsd@realtek.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 15 Oct 2026 08:20:38 +0000
+Date: Thu, 15 Oct 2026 08:20:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] r8152: uninitialized stack memory usage on ups timeout
---
+> RTL8159 is sold in QFN68 and QFN100 packages, and only QFN68 needs
+> the u2phy backup-restore patch and enables UPS (in a later patch).
+> There was previously no way to tell the two apart at runtime, since
+> both used the same RTL_VER_17.
+>=20
+> Split RTL_VER_17 into RTL_VER_17_QFN68 and RTL_VER_17_QFN100 and
+> update every switch/case on RTL_VER_17 in the driver to handle both.
+> Detect the package by reading the new PLA_PKG_DET register
+> (0xdc48, masked with PKG_MASK =3D 0x1e) via a new __rtl_get_pkg_det()
+> helper, called from __rtl_get_hw_ver() when the chip ID is 0x2020:
+> pkg_det value 0x1e/0x1c selects QFN68, 0x18/0x1a selects QFN100, and
+> any other value logs "Unknown package" and falls back to
+> RTL_VER_UNKNOWN.
+>=20
+> r8157_init() gains a QFN68-only write ("Enable u2phy backup restore
+> patch", 0xb99c BIT(0)) that does not apply to QFN100.
+>=20
+> Signed-off-by: Chih Kai Hsu <hsu.chih.kai@realtek.com>
 
-commit ccaf26bc04b9e38bb645175ba5efb0ef8a733f8f
-Author: Chih Kai Hsu <hsu.chih.kai@realtek.com>
-
-r8152: enable UPS for RTL8157 and RTL8159 QFN68
-
-This commit enables UPS for RTL8157 and RTL8159 QFN68 devices by adding
-r8157_ups_en() and modifying UPS flags encoding.
-
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index 95f510da376de..7a1b34db1d88b 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
-[ ... ]
-> @@ -4484,6 +4522,49 @@ static void r8156_ups_en(struct r8152 *tp, bool en=
-able)
->  	}
->  }
-> =20
-> +static void r8157_ups_en(struct r8152 *tp, bool enable)
-> +{
-> +	if (enable) {
-[ ... ]
-> +	} else {
-> +		ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_POWER_CUT,
-> +				  UPS_EN | USP_PREWAKE);
-> +
-> +		ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_MISC_2,
-> +				  UPS_FORCE_PWR_DOWN);
-> +
-> +		if (ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0) & PCUT_STATUS) {
-> +			u32 ocp_data;
-> +			int ret;
-> +
-> +			ret =3D read_poll_timeout(ocp_read_word, ocp_data,
-> +						ocp_data & BACKUP_RESTRORE, 200,
-> +						20000, false, tp, MCU_TYPE_USB,
-> +						USB_GPHY_CTRL);
-> +			if (ret) {
-> +				rtl_set_inaccessible(tp);
-> +				dev_err(&tp->intf->dev,
-> +					"backup-restore timed out\n");
-> +				return;
-
-[Severity: High]
-If the backup-restore wait in r8157_ups_en() times out, it flags the device
-inaccessible but returns void. This hides the failure from callers like
-rtl8157_runtime_enable(), which will then proceed with initialization.
-
-Because the device is inaccessible, generic_ocp_read() will abort early
-without writing to the provided buffer. Accessors like ocp_read_word()
-do not check this return value and process uninitialized stack memory:
-
-static u16 ocp_read_word(struct r8152 *tp, u16 type, u16 index)
-{
-	u32 data;
-	__le32 tmp;
-...
-	generic_ocp_read(tp, index, sizeof(tmp), &tmp, type | byen);
-
-	data =3D __le32_to_cpu(tmp);
-...
-
-This causes the driver to branch randomly based on garbage stack values.
-For example, this is called shortly after resume:
-
-static inline u16 rtl8152_get_speed(struct r8152 *tp)
-{
-	return ocp_read_word(tp, MCU_TYPE_PLA, PLA_PHYSTATUS);
-}
-
-Could r8157_ups_en() be updated to return an error code instead of void
-so the caller can properly handle the timeout?
-
-> +			}
-> +
-> +			/* clear USB fw_ver_reg */
-> +			ocp_write_byte(tp, MCU_TYPE_USB, USB_FW_USB_VER, 0);
-> +
-> +			tp->rtl_ops.hw_phy_cfg(tp);
-> +
-> +			rtl8152_set_speed(tp, tp->autoneg, tp->speed,
-> +					  tp->duplex, tp->advertising);
-> +		}
-> +	}
-> +}
+Sashiko has reviewed this patch and found no issues. It looks great!
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261014081904.6491=
--1-nic_swsd@realtek.com?part=3D10
+-1-nic_swsd@realtek.com?part=3D3
+
