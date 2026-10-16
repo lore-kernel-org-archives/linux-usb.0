@@ -1,121 +1,93 @@
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 357833BA244;
-	Fri, 16 Oct 2026 09:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.164.118
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7B63B7B83;
+	Fri, 16 Oct 2026 09:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792144147; cv=none; b=SdfyEVoXCT1cJap1cbXFkNlzXiq3bmwZ+hOOEibK+bcewx+hUc3vE7/5K+fZlzd8JnwjnfhY/1z3/BGXkGRwwLISyyRMTbgv+vIFMeegzB9Str7fawPjm4FHcCMddVuR2D4T0FfjcNM35E8xVFqU7f0HQNVgQf5CP1zTkjwL5OI=
+	t=1792144634; cv=none; b=f6NzmC+BuujIInIyOsqHqZZqA8TddnMkSh1J0ESOtR1oxhRi+HUgs+FHRTNVprC/y3lZ/At1Jei5c+DINEfkbq/dN6Q7MScwqruVrhdwq5WfG6NWVYlSHN69UQw1hlsihcKx51a9F9r6XawvnADmuC4v/1e1U7G64ASnHhttdjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792144147; c=relaxed/simple;
-	bh=8dcHHwy9OlvaOUB5unjLCa6WdicP5fGq5tN0rluGOTs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Y5y/4AIPOu2Sdg5H31GFZeVaOnxYROayh+SUWglwK2TBeQtR2x7sRNLakBGxCjHE7WjtseD0i6FkwI8lFJ+jwwUI7n4X0WiYMSGFACQ2ZtRlz5RZ39+05tqCR+VJFq0zkmlSSSd7tzEfFZA/kuQeX9Tpa2qA9Jv24HL7q3R2e4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn; spf=pass smtp.mailfrom=stu.xidian.edu.cn; dkim=fail (0-bit key) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b=RdM8DCmX reason="key not found in DNS"; arc=none smtp.client-ip=162.243.164.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+	s=arc-20240116; t=1792144634; c=relaxed/simple;
+	bh=zYIwrLLAU7PP2d0x9w+aBblEp/0b5I4GL1hE9vxVE44=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=p5njK8nPKjrjWVmSThCtOt/btAF6xBsN9COEuaxS5oecRLaSBcQ1gaRFDpDu80xZp+v0ZFRW461p/PkHlzAJx4NB7BfoNv7+teuKfLG71jjoAZXsI3ATM1/XuWMzCWUATz7IGF0JhnTrd/aGa5uEAsx0rg4/DRqb2nM7NGKPWGw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LXWCxszP; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=stu.xidian.edu.cn header.i=@stu.xidian.edu.cn header.b="RdM8DCmX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=uR8wNjdN3n
-	oPpSthKKavTByMn9RY+hXHGyeagzL5rII=; b=RdM8DCmXpxWQ1Sv3qH+AbV7utW
-	Wyh0fsPEq9bFXElwwYzuPBXhBFr7MHULpdXjAnMzTJj/pGqyD9MYbJIMKLGbcf2p
-	Up0G7vnpX/8RZWoXE6PX0dKmrx/6BFLG3JQxC7OoZyfRc95RVOpOd6qPHwZct8K6
-	XtHAEBGdlONOM7cRs=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.90])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkD2HAMB89FqYiGqAA--.46213S2;
-	Fri, 16 Oct 2026 17:48:50 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>,
-	YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-Subject: [PATCH] usb: usbtest: reject transfer lengths the allocator cannot serve
-Date: Fri, 16 Oct 2026 17:48:48 +0800
-Message-Id: <20261016094848.38533-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LXWCxszP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E98C41F000C4;
+	Fri, 16 Oct 2026 09:57:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792144632;
+	bh=keyCxRSbagkSqM2i86G4Z1V7nJP55VQiMZ6RJMi4SiY=;
+	h=Date:From:To:cc:Subject:In-Reply-To:References;
+	b=LXWCxszPtCHX+Sh5b86nlR14KK3hMVe1ZOUFMuZqrJRjhN9b6amEFVn6RdI1yCRq9
+	 MQpsRJ/RmZeNxhoEjYGrp90m6BfhFid0IzLnPVvVBiMGxm6QKVgQsH7kDhUJZBwH06
+	 sWegiXdJc0McM6SfhttXFvjmHotxR4e6fKH704uGiNuuXp+o+9v/r5hBHjjSox6MMH
+	 IlTzYkHP5BvexmlYdxAlFNzCdzPFmcpjMonp40uS2gJzx7SxgWsuUmOyT/9kiKCPUK
+	 GrBVPuTV2v/U+nmcekAOaZqTE+3Mrjthbjm5tKIGoV9Z+KJHPW26MCwliMy0HDoIlA
+	 7mSsDrl5I5Jwg==
+Date: Fri, 16 Oct 2026 11:57:09 +0200 (CEST)
+From: Jiri Kosina <jikos@kernel.org>
+To: Ahmed Yaseen <yaseen@ghoul.dev>
+cc: Benjamin Tissoires <bentiss@kernel.org>, 
+    Denis Benato <denis.benato@linux.dev>, 
+    Antheas Kapenekakis <lkml@antheas.dev>, 
+    =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+    Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
+    Alan Stern <stern@rowland.harvard.edu>, 
+    Kerim Kabirov <the.privat33r+linux@pm.me>, GameBurrow <gameburrow@pm.me>, 
+    regressions@lists.linux.dev, linux-usb@vger.kernel.org, 
+    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
+    stable@vger.kernel.org
+Subject: Re: [PATCH v2] HID: usbhid: skip interrupt IN polling for devices
+ with no input reports
+In-Reply-To: <20260828104159.62399-2-yaseen@ghoul.dev>
+Message-ID: <172916rs-519q-3sn1-o138-9ppno78noq29@xreary.bet>
+References: <20260828104159.62399-1-yaseen@ghoul.dev> <20260828104159.62399-2-yaseen@ghoul.dev>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkD2HAMB89FqYiGqAA--.46213S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxXr4xKryfCryDtr43JFW7XFb_yoW5Gr1kpF
-	W7Xryj9398Xr47ur4DJw47Ka4ruws3JFW5GFyIq345ZrsxAayxCa4kKrn0gr97Aw40qF10
-	yF90yay5C3yDC37anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9K14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
-	6r4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
-	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
-	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
-	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
-	x2IErcIFxwCY1x0262kKe7AKxVWUAVWUtwCY02Avz4vE14v_GFWl42xK82IYc2Ij64vIr4
-	1l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK
-	67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI
-	8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAv
-	wI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14
-	v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfU1v38DUUUU
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUID2rQ7FGTdAABsi
+Content-Type: text/plain; charset=US-ASCII
 
-usbtest sizes every buffer it allocates from the user supplied
-struct usbtest_param::length, but it never bounds that value.  The
-scatterlist tests, the queued bulk tests and the unlink tests pass the
-length straight to kzalloc() and usb_alloc_coherent(), so a large value
-reaches the page allocator as an allocation order above MAX_PAGE_ORDER:
+On Fri, 28 Aug 2026, Ahmed Yaseen wrote:
 
-    WARNING: mm/page_alloc.c:5340 at alloc_order_allowed mm/page_alloc.c:5340 [inline]
-    WARNING: mm/page_alloc.c:5340 at __alloc_frozen_pages_noprof+0x4ae/0x1fd0 mm/page_alloc.c:5397
-    ...
-     alloc_sglist+0x331/0x500
-     usbtest_do_ioctl+0x2686/0x5880
-     usbtest_ioctl+0x440/0x720
+> usbhid starts polling a device's interrupt IN endpoint on open
+> (usbhid_open() -> hid_start_in()). If the report descriptor declares no
+> input reports there is nothing to read there, so the poll is useless,
+> and on some composite devices it is also harmful.
+> 
+> The ASUS ROG N-Key keyboards expose a second, input-less interface used
+> only for RGB control via feature reports. Opening its hidraw node (any
+> hidraw reader does, including SDL/Steam Input or a plain cat) starts the
+> pointless IN poll and keypress reports on the keyboard interface get
+> dropped for as long as the node stays open: a lost key-down drops a
+> letter, a lost key-up leaves the key stuck. usbmon shows the dropped
+> reports never reach the URB layer.
+> 
+> The useless poll itself is long-standing; commit 4ac74ea68f64 ("HID:
+> asus: early return for ROG devices") is what exposes it on these
+> devices by keeping the input-less interface alive instead of ejecting
+> it, so its hidraw node can be opened and the poll started.
+> 
+> Skip the poll in usbhid_open() when the device has no input reports.
+> Feature reports and hidraw output keep working over the control and OUT
+> endpoints, so the interface is otherwise unaffected.
+> 
+> Fixes: 4ac74ea68f64 ("HID: asus: early return for ROG devices")
+> Link: https://discuss.cachyos.org/t/keyboard-input-issues-on-asus-rog-strix-16-2025-with-cachyos-during-gaming/30823
+> Link: https://github.com/ublue-os/bazzite/issues/4590
+> Cc: stable@vger.kernel.org
+> Tested-by: Kerim Kabirov <the.privat33r+linux@pm.me>
+> Tested-by: GameBurrow <gameburrow@pm.me>
+> Signed-off-by: Ahmed Yaseen <yaseen@ghoul.dev>
+> Reviewed-by: Denis Benato <denis.benato@linux.dev>
 
-A run of "TEST 7:  write/-7 -2147483648 sglists 3 entries
-0..-2147483645 bytes" asks kzalloc() for more than 2 GiB.  The queued
-bulk tests reach the same warning through usb_alloc_coherent() and
-dma_direct_alloc().  The allocation fails after the warning and the
-driver then returns -ENOMEM, but the warning itself is driven by
-unvalidated user input.
+Applied to hid.git#for-7.3/upstream-fixes, thanks.
 
-Reject such lengths where the other parameter limits are already
-enforced.  KMALLOC_MAX_SIZE, that is PAGE_SIZE << MAX_PAGE_ORDER, is
-the largest contiguous allocation the page allocator is willing to
-serve, and the unaligned tests add at most one byte on top of the
-requested length.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
----
- drivers/usb/misc/usbtest.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
-index 8759df49be28..8f2a4752b9c8 100644
---- a/drivers/usb/misc/usbtest.c
-+++ b/drivers/usb/misc/usbtest.c
-@@ -2192,6 +2192,15 @@ usbtest_do_ioctl(struct usb_interface *intf, struct usbtest_param_32 *param)
- 		return -EINVAL;
- 	if (param->sglen > MAX_SGLEN)
- 		return -EINVAL;
-+	/*
-+	 * Every test case sizes its transfer buffers from param->length,
-+	 * using one contiguous allocation per URB or scatterlist entry.
-+	 * The page allocator cannot serve a length of KMALLOC_MAX_SIZE
-+	 * or more: the allocation order would exceed MAX_PAGE_ORDER and
-+	 * the allocator would warn before failing the allocation.
-+	 */
-+	if (param->length >= KMALLOC_MAX_SIZE)
-+		return -EINVAL;
- 	/*
- 	 * Just a bunch of test cases that every HCD is expected to handle.
- 	 *
 -- 
-2.34.1
+Jiri Kosina
+SUSE Labs
 
