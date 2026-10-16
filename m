@@ -1,50 +1,83 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 911F03264C4;
-	Fri, 16 Oct 2026 12:49:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B683161A1
+	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 12:50:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792154993; cv=none; b=ofLoKJ7+XBw2MpOsqznl64bDwATQnKO1XY5jBK9w2U5q1GaDIC6XJUhdubySOydvcs3gbokU7Krpgl2AbFrbpu4rjDqeGvpFztCILXFhFjgOB4Zwqk1Qmgph3j0exllAWGYQ2+oCsF3SEQKakO/KQS3/4hFiGRnNG861GRT1c6s=
+	t=1792155051; cv=none; b=keqfWteBXDVnmOA1Y4HfWqwxyu3SMiNZuUdRXSqTmspjjujifX6htvWd+/YAEpfs8NQFDJb9IUM9ID3keg1eEeGvVR55lE2jolAzfqe+tbFr8MkDJ37TOP80QdN5X6CDGAEfAyeWcrBosy65wV4CSR7dk9ReLHEubK06aXvSZm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792154993; c=relaxed/simple;
-	bh=rod6xy9+gndHUdnbr4wgG656s1uGxUW7SPIP+EVNlHM=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=c7vxrfEfzOfcp9yAaPqsNJhazJO+xWOxNl4qsr2gd7gc3Zton2d+KL5ES612WXrjaYT/tmNz2ZRh5o2d19k2+9/3XFzIU1Q4iFY6SmPn0huhRDrNGzJMkRchQSje+uW8iNBb2qCpUk9gdIO6MDwJOHCfQ4D7vVt/GxdxY+mC3xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com; spf=pass smtp.mailfrom=ugreen.com; dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b=l4gXVKAM; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ugreen.com
+	s=arc-20240116; t=1792155051; c=relaxed/simple;
+	bh=s4rcpm684AbbWFl9WuUkuu3EtJDM/Esqd6+a5JxGRSg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=To1UNi3spH383Tsrkpddye5YY4KXf98PHlYThpFqcOTVb2UFJ+BwrH0gh/c5fUIiuNuz2WG/kVWqZmr1t8wSe3CDn7iSUWuy6fbG9VDDPApfUC0CO4SI0JQgEQ/EiQ5iD7M8MxBSa4zdMxCaWyU2sDBzsDKko3ZdpLd9PUzy01I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SbeUr00P; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b="l4gXVKAM"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ugreen.com;
-	s=pkvm2402; t=1792154950;
-	bh=PTGNf+pFA4HlvSUNJLATMTS2BdbiXazN6lRObVyVPC0=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version;
-	b=l4gXVKAMC3yETwkqcs1lFqJ8Qc0sAwQA76Y0SGeybbnWHA1it7xcHbXgla3dwVn6t
-	 3+xSLhgLMVHG9bTTzOezXXlCuMlQ/1r4fOISDmMggcza/XbpEsGv8Kqf08yjqS381g
-	 DsZ9PHj73mXQj8nbx2iZtcJUG1p3zgPHrmK/jkfI=
-X-QQ-mid: zesmtpgz8t1792154945t80257fa0
-X-QQ-Originating-IP: fxmolzZxMAKzmLOLloioZrYju46a8tj5RAF29sd94ss=
-Received: from exmail.qq.com ( [14.153.252.100])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Fri, 16 Oct 2026 20:49:00 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 0
-X-BIZMAIL-ID: 5218228176751609531
-EX-QQ-RecipientCnt: 6
-From: Hanson Wang <hanson.wang@ugreen.com>
-To: netdev@vger.kernel.org
-Cc: linux-usb@vger.kernel.org,
-	oneukum@suse.com,
-	kuba@kernel.org,
-	andrew@lunn.ch,
-	hanson.wang@ugreen.com
-Subject: [PATCH net v2] net: usb: aqc111: fix set_mac_address return value
-Date: Fri, 16 Oct 2026 20:48:58 +0800
-Message-Id: <20261016124858.1939743-1-hanson.wang@ugreen.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260703073936.462231-1-hanson.wang@ugreen.com>
-References: <20260703073936.462231-1-hanson.wang@ugreen.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SbeUr00P"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3acd21ba21aso453038a91.1
+        for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 05:50:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792155049; x=1792759849; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Ogy/UTo3Vu0INpL0C1Y6pZtlcOAen6uVXSl1ntl6vTo=;
+        b=SbeUr00PMKD3O7+Oyo5zHisGWnIRtUdMHDQ7eHQOK6EMsM4SJl+svyy3B3TU1RvgCS
+         0kdqb+RHIqNgr+L7lZdVp1rmvHw7MCKn+QrTNHeTyn/kLhJZBeeJmOpCRUYTh4rufhaf
+         eLSsZ32ihbKind6a60iQVbjco2HgaIrHR/0CMOR0kBsqSaEnrfQU7PwHJTuEg9yxpodl
+         zzTNdy8Z9C8sxs1OZMoUDZ8WxfIf4YhHAkIOKCzgs2eQRSJY+xjrst8MaAbl/i+ZKHWg
+         9ru5DZYRsF+RgiQzEr++eDABcleJXpJce7NAXS0jGMhpYRl3T4RKLdRfNGYs3EbELISM
+         ItcA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792155049; x=1792759849;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Ogy/UTo3Vu0INpL0C1Y6pZtlcOAen6uVXSl1ntl6vTo=;
+        b=UiZO9KkBYSW6iLuOqVnzaCDzX9S/xgSxgVaKw/8BUGF+IKFjIACELeCB9CYenAepnq
+         Bz2hXCW/KBFb0U87FdjrClgf6P4FhBZ0wYYLwvYZiBHKBJ0vZjelyEkmQSWTgHk2RNKu
+         QLFAQp73rcgSCqkR8fr0HtG/Mh7o/oxy/iCU848mdODGybJSg8Ofb7oGN7w9aN/A1wsm
+         Mv6Lbpo6JjCSFKS7tJ4L46D5GLR+18s0CwIvsndlocwbekKnxpZfyTpJu8dOCDz5wRzf
+         7+6Gay4L3L0v0u28BK0bX0/+o/Gy1xCzz9eucUBdHUtc6tgDyO+oj/oHUZI54EIm9EDd
+         717Q==
+X-Forwarded-Encrypted: i=1; AKwUvBzEc991Sf5QNZ430QqPD1Sr5GuhmMhB9fLtF8b9ah2yLm1WzoLQ0agPbn1+8s6+GViFtmz/0ZAPRfE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKZ6geKEkmqu84ZJ80SRlMYQ7OcYiQAr0N8t3XbFqF6Ewdr7QRd
+	sY2kZvaYZryH5fy2POHDL2dyZXCdZWVIsKWNccyGZhO0WOU2oGqKA7fo
+X-Gm-Gg: AYBFou0K1oIP4al6x1mK0bUxxV78o1753s+3S5/TXqqGiTH7IZU+UGcTEE/B0CsO4D6
+	hclq+uw8gQkAP8P1QKjh7CWgkHE/d4Gtpbt9CrkeSU94muU6attDx49AXVgwleTAcC/pUuEAj6W
+	+TpzKdjUz3zomua5U/RQHnEoy8ziTWgbp9Sw/pnXreJE2+LOKq1d/S79vasdpghentRBc5P7YNI
+	6xkjqjzirRXEyIaFC57R9KSDCHQMAZ9vWTnBPkYwoErGbPMOqfJeDHP6uTwWqN/dmsqrl7kiG+w
+	Ot0uwUVTcGLk7pajfS8Lwg0He3GzsP4mHcuQ0eytXl7TsHfvI0djDIwpTr+avs7qXki0EK5cxbr
+	W8OEMY+hXe0MwNq/zeQx03YGESurHIZ3kIJd0ghpU81wQji82bCUNU3igEnsnSMdm/VDe+iRVur
+	+HgiHXJMF7MhuPdqdPN5zzeK+XBQhc3A0tfVDJW6hdjAs+2gbxfLE2WpyBed1HEVb65kfqdhUTr
+	SkBbnivI8POFME=
+X-Received: by 2002:a17:90a:4c82:b0:3ab:a3ee:33ad with SMTP id 98e67ed59e1d1-3aba3ee3e2fmr11173340a91.22.1792155049139;
+        Fri, 16 Oct 2026 05:50:49 -0700 (PDT)
+Received: from DESKTOP-NM9EKIA ([125.134.240.130])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac94627250sm9106546a91.8.2026.10.16.05.50.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 05:50:48 -0700 (PDT)
+From: Joonhoe Kim <26rote@gmail.com>
+To: Abel Vesa <abel.vesa@oss.qualcomm.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Johan Hovold <johan@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Casey Connolly <casey.connolly@linaro.org>,
+	linux-arm-msm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RFC] usb: typec: ucsi: Schedule connector worker on freezable workqueue
+Date: Fri, 16 Oct 2026 21:50:44 +0900
+Message-ID: <20261016125044.1085-1-26rote@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.5
+In-Reply-To: <20250205-ucsi-schedule-conn-worker-on-freezable-wq-v1-1-107d1356b77b@linaro.org>
+References: <20250205-ucsi-schedule-conn-worker-on-freezable-wq-v1-1-107d1356b77b@linaro.org> <dp5ohy5piss7osycibuke7kwnfl5elnmc6gfvqgfh6mzzrldla@sru3ylzrtuea>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -52,63 +85,40 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpgz:ugreen.com:qybglogicsvrgz:qybglogicsvrgz3a-0
-X-QQ-XMAILINFO: NLIGCJzX3Qmez+MNMKksA/1yHF4RoeseEmx7qU8echuQlHQNG9HELPSI
-	/CRwPoWzNFTkW+WcAboyncIJ9/N36iMcUxBlpn6yinfVDhskB9rWMPIIy9iEQQzSc8tMgh1
-	mLnhFSfpCmQoJuDRk2rCNzOjyH/NODcnYKRVnCI1vdu5uSopbQYgy/vIlroEe1p9PwavUjD
-	4EqzAFb9KIVCYQSyrNRBAfMsBNwyu+nTh7cdYRNbLX8hyT+l8TjTDEsXpmEUtNvA/LyYDWF
-	kHvJSs7vgKgH4ID5WtzmL918Lm/7feltwwHwsTMQGcae/rq4CynArcnOl59YrYxBhifg/kn
-	C+L9uAhlt951Tl0dUKk7MQU/2fWZAquRE1B0qwYE17z2OORN3HjuH7AqDvjxpPpEVABgJSn
-	cs3nfbunp7ZrhMgu3kVHuVo/mWhsbZ5fcCJD7/0QHBj263PsTslQAfFu++9MdMe2TB1hH/7
-	Lv0Jq2WVJ19Cns6JrhWeXYgLMmlSE7U2YOHb47tog750uJigas4/6sqlq/NA/Bp5pwmCxTq
-	T8CIEUi0VlNNrKZjxVRO0aoQqVMzBQ1gzWvy4onIh9C47fhY/TSPZID4N1FucIVX9ukkawJ
-	LWKLyvCgym4Fxxj+PGG1JwXKSuyu8zxAxU2z+st+vcv2Dx2NyLd735Q0kUGVUS+u5kdgyMy
-	q3jjphsM2jE64esCjieeM8uCw0jVJn1q5+i3sLH8Ba8tIxTfW4+mV6Lwz5q+8HZF2a8b4F7
-	5c6ue+F3EN7R+/UfcAorX5D0b7vUC1LHfFp1XZYQtEUL0Pcp2po/8IJgdXf+gWdbbi98OfS
-	x6VvRYWm4F4JeDQ3FvcA4hsnBvGzIDtqVNdARSSjWOf/XOMCf//3ZjfHyEr8mG3kS3/hCXy
-	Y8zBwcHPWQiT6GfS2EnFy4FbGm5ewnjOdEjaK26RrbCNC/KEiPbQF89pcXCzCQwqLdFG9bl
-	XbXTwoqgbjkPSqIaKCA+p22CMlQsmPNZYwDYrDJjOUoHc/kBZbLUrqLMuvK+sXf3iMqooaA
-	Hy2to5bA952ttl1Kn9VUx/j/eUKnBhVonxCi8yfdzZsBcTy58sByxu311xAcXi6+bUUU+Pa
-	N8bryIKg+CRXFqydthrA7x7yDpyVQv3Wm+RGC7cm5hvpeHyySZMYF4=
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
-X-QQ-RECHKSPAM: 0
 
-aqc111_set_mac_addr() returns the result of aqc111_write_cmd() on
-success. That function wraps usb_control_msg(), which returns the
-number of bytes transferred (6 for ETH_ALEN) rather than zero.
+(Resending with the lists on Cc; my earlier reply only went to Abel.)
 
-Callers such as netif_set_mac_address() and bonding treat any
-non-zero return value as failure when setting the MAC address.
+On Wed, Feb 05, 2025 at 01:45:05PM +0200, Abel Vesa wrote:
+> Scheduling the USCI connector worker on the freezable system workqueue
+> instead will ensure the devices are resumed by the time the worker is
+> scheduled to run.
 
-Return 0 on success and propagate negative error codes on failure.
+Hi Abel,
 
-Link: https://lore.kernel.org/netdev/20260703073936.462231-1-hanson.wang@ugreen.com
+You mentioned respinning this together with the altmode change (now
+7d0767c5cd87). Are you still planning to? I hit the same problem on a
+Kaanapali tablet (Lenovo Legion Tab Y700 Gen 5) with an FSA4480
+orientation switch. Unplugging a USB-C to HDMI adapter during s2idle,
+with the altmode change applied:
 
-Signed-off-by: Hanson Wang <hanson.wang@ugreen.com>
----
- drivers/net/usb/aqc111.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+  i2c i2c-2: Transfer while suspended
+  Workqueue: events ucsi_handle_connector_change
+   fsa4480_set
+   typec_switch_set
+   typec_set_orientation
+   pmic_glink_ucsi_connector_status
+   ucsi_handle_connector_change
 
-diff --git a/drivers/net/usb/aqc111.c b/drivers/net/usb/aqc111.c
-index 9201ee10a..827aab540 100644
---- a/drivers/net/usb/aqc111.c
-+++ b/drivers/net/usb/aqc111.c
-@@ -476,8 +476,12 @@ static int aqc111_set_mac_addr(struct net_device *net, void *p)
- 		return ret;
- 
- 	/* Set the MAC address */
--	return aqc111_write_cmd(dev, AQ_ACCESS_MAC, SFR_NODE_ID, ETH_ALEN,
--				ETH_ALEN, net->dev_addr);
-+	ret = aqc111_write_cmd(dev, AQ_ACCESS_MAC, SFR_NODE_ID,
-+			       ETH_ALEN, ETH_ALEN, net->dev_addr);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
- }
- 
- static int aqc111_vlan_rx_kill_vid(struct net_device *net,
--- 
-2.34.1
+and the system never resumes. With this patch on v7.3-rc4 it resumes
+normally (2 of 2) and the change is handled after thaw.
 
+On Dmitry's question: freezing the ucsi_glink notify_work instead would
+also hold back command completions (ucsi_notify_common() ->
+complete()), so a command in flight at freeze time would wait for
+UCSI_TIMEOUT_MS. That is from reading the code, not tested.
+
+If you respin it, I can reply with a Tested-by. If you'd rather I send
+it, I have it rebased on next-20260928; just tell me how to credit you.
+
+Thanks,
+Joonhoe Kim
