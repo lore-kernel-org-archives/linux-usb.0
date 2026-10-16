@@ -1,67 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902F93B9D81;
-	Fri, 16 Oct 2026 20:54:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8A73C3C1C
+	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 21:15:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792184062; cv=none; b=dRtqDY7qMy6OIuelqy84J/KuKv9oAJ7iGUZCtOSjNPPYgwoPKh2MaCv7u30TGh4fnNJKolPvXFVbqgQJW0oDYgg0PDRIyDp3LbtYlH9ZivyO+LyRJ4otQSdDVN5Fiw9ILzt91QRSw4YVuK7nGoJoT+RLFHO+I/DFwRDeDBADINE=
+	t=1792185307; cv=none; b=PzwSf2rMGwDRXHI3d8S4FMmyO806bjqr60ozeirrYZpgpOBHg7lj0xST7hMLElJ66PyXeNjfwr/da5pD4PCl2qyyunwvHIrHJp9yJjSfq5r+T/fFcBDJzvUzsx2dMtz6/lu3sFmyyvA658jnxoptOGN23UYIQD9+Nt3rEppPZUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792184062; c=relaxed/simple;
-	bh=1V4l8uRu2i96ghxvDwYiBzQeDgK2Qzolm6DvGR3SHs4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
-	 References:In-Reply-To; b=edQgGCCf8bU5Ax4xkPTrL8zKQ+RrjiuQBwr6u0i/qzknmm6pLz6Jl/FBEWoBPvC8YIj0vcBb9bqEhnvF2sCKWpQVA+U12HlTzt/Al8gZjcH1EYxv0dhfK5pjJugbjes5UY30ZG+ihK6G5LaWqUHKZs/TEKbK6ah8qur8Wc2g1BA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dPrvzyM+; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792185307; c=relaxed/simple;
+	bh=XnDcigIQogj9VPzhFmb1u5EwChzTVE1u40a9G7Kkp3g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IbslKqsRYwvmSwY660s/IkFmCR9iDW/qCaw9zzte8yoLdjRTz0OqRHEMqYu08ligAoLJzrDRr84Tuapa5eTcqGw3dC9VQUBCBvre4NSk8xX1OeDhLSlD8uWMeBUWNUJZMY1zyI49SOvNxkX6FVSOAiphwC5XZKz37qtsle/L8yk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DEyj8AwU; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dPrvzyM+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDFAC1F000C4;
-	Fri, 16 Oct 2026 20:54:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DEyj8AwU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7DC1F000C9
+	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 21:15:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792184061;
-	bh=GrVb6jwevewU99eQY/kLucIj5BipS3XfcwgRuYHjzm0=;
-	h=Date:From:Subject:Cc:To:References:In-Reply-To;
-	b=dPrvzyM+XM2Szji4h569SNoCSHP3zVbMpc1JrXrTgIKObUr+iBgxdCyLzK1bUhy0W
-	 jWrNSpv04ZjvQ9NVVLS95UbQ6UuW6UWYjaPUANUxjTppGUBbJ+4O0ZJPF7u84ai0Dl
-	 P5nRZxqeRo5ZRMgZS6XkoakxjwkV9VlQndypRzeGSIk+HgyYtp/xBui5aj65YPPc5R
-	 aewECvO1uGSGkv9FFTFmCwV3LiyQIS5ei0qkWLFs4BPhbMtSA6HujE2JSpP6PeD1A6
-	 Bi/+bBrJYbnL9uaMpxmtzXNQZFvqzleILqkxAlulPx11RzJ148Tqz21M1ruamxR85Q
-	 WieHtibx7C6tw==
+	s=k20260515; t=1792185306;
+	bh=XnDcigIQogj9VPzhFmb1u5EwChzTVE1u40a9G7Kkp3g=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc;
+	b=DEyj8AwUZx9W+ruO9fCTzQQVAEVdYP9QsWREem5xVGFsl478eGF7zIIsLVcybEdzv
+	 78c082ksBDoNj+d+X88ZyqHVUthFzmQ/Yq2z9ZtvFBpGaWjQrXZw2Wu8RwZKf6K96z
+	 BysU4xjv+CTcMmW6I7keumfztAVNeFDmBdOsiLp/6pL7ASw5aQoYIbSLhRtQmZ3seU
+	 Tr5JnIetHjJQAqOfAe1oWtGKv0r+UefNaP2/hoKW4Qs0HWcoMBn1xR3woBGrZyAm+P
+	 r7XrEFXpLQjV8rNkTYSj7zBW2cuZH8AF83UejHVxOcn0QEjUa5TfVwFLkBLhPcvGx0
+	 AaGC+GGMaDDMw==
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3a1eb6fa0f4so3027561fa.2
+        for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 14:15:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AKwUvBwzfsUM9ZmvmE8eN4qi0tDByn6l/PhQdGxT78FpVdRSTlFtIOZ9Tsz7NJdG4rGftJ5Ssz6Eutq9KE4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI3wiF7i4kYC09a2jQfWnL6aNOGWSHiw0iM1VWMchKDtl2cT4gu
+	1WTFsBSgdu9L8oaMKXl9+IF2RC0jmRyIKM5teMWNw4UbllsNEP15WwbOM3YwbHSUC2w2Hd830C9
+	DXiIgW/JsFUNxIihwqEEB4sMdMwGCkRg=
+X-Received: by 2002:a05:651c:31cf:b0:39c:624d:82b9 with SMTP id
+ 38308e7fff4ca-3ab29286cbdmr2067561fa.4.1792185304697; Fri, 16 Oct 2026
+ 14:15:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
+ <20261012-lstp-usb-adapter-v1-6-aambrozewicz@nvidia.com> <CAD++jLkru2AL2_7ieOdbYrePAhNSFaa3wwEzCagiPsALgG2GwQ@mail.gmail.com>
+ <20261016081917.1958681-4-aambrozewicz@nvidia.com>
+In-Reply-To: <20261016081917.1958681-4-aambrozewicz@nvidia.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 16 Oct 2026 23:14:51 +0200
+X-Gmail-Original-Message-ID: <CAD++jLkQd70V+wQhCaKES8LQqWoU+dmt=Dr0PgbA81xHh+hppw@mail.gmail.com>
+X-Gm-Features: AclHuK-u1MiFTw786aZCKlVc09dcjgjhKNYlnZODKOuP7oo7rrcG4a5O7l15i0c
+Message-ID: <CAD++jLkQd70V+wQhCaKES8LQqWoU+dmt=Dr0PgbA81xHh+hppw@mail.gmail.com>
+Subject: Re: [PATCH 06/11] gpio: Add NVIDIA LSTP GPIO driver
+To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
+Cc: Bartosz Golaszewski <brgl@kernel.org>, Donald Shannon <donalds@nvidia.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
+	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-usb@vger.kernel.org, llvm@lists.linux.dev, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 16 Oct 2026 22:54:17 +0200
-Message-Id: <DM6K85ZAWSUG.VCF8TRYUDHJ0@kernel.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-Subject: Re: [PATCH] USB: core: document purpose of interface parent
- reference
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Alan Stern"
- <stern@rowland.harvard.edu>, <linux-usb@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>
-To: "Johan Hovold" <johan@kernel.org>
-References: <20261015074831.1418677-1-johan@kernel.org>
-In-Reply-To: <20261015074831.1418677-1-johan@kernel.org>
 
-On Thu Oct 15, 2026 at 9:48 AM CEST, Johan Hovold wrote:
-> See commits:
+On Fri, Oct 16, 2026 at 10:19=E2=80=AFAM Adrian Ambrozewicz
+<aambrozewicz@nvidia.com> wrote:
+
+> > It seems some pins are only input and some are only output.
+> >
+> > Have you considered using serialized register access over
+> > regmap and use regmap-gpio with fixed direction bitmaps?
 >
->   524134d42231 ("USB: don't cancel queued resets when unbinding drivers")
->   af61396a992b ("driver core: fix parent lock use-after-free on USB disco=
-nnect")
->
-> for further details.
+> Yes, the device configuration fixes each pin's direction. I looked at
+> gpio-regmap: a regmap bus with one register per pin would cover get,
+> set and the fixed directions. Two parts don't fit well, though.
+> gpio-regmap has no get_multiple/set_multiple, while the device takes
+> several pins in one request,
 
-The last one is now 0f554506a3fc ("driver core: fix parent lock use-after-f=
-ree
-on USB disconnect"), and queued for a -fixes PR mid merge window.
+So just add it (get/set_multiple) to gpio-regmap.c?
 
-Greg, please let me know if you want me to include this one, or if you will=
- take
-it after -rc1 ist out.
+There is a nice generic implementation of get/set_multiple in
+drivers/gpio/gpio-mmio.c to draw on for inspiration.
 
-Thanks,
-Danilo
+It will certainly make everyone happier.
+
+> What I would take from it is reading the directions once at probe into
+> bitmaps, instead of asking the device on every call. Would that be
+> acceptable, or would you still prefer gpio-regmap despite the lost
+> batching?
+
+I don't quite get it, but I prefer gpio-regmap with an extended
+gpio-regmap.
+
+I guess it could be challenging, but I'm here to challenge
+people. ;) If it looks very tricky ask for help.
+
+Yours,
+Linus Walleij
