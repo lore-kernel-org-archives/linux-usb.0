@@ -1,67 +1,260 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF873479885
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 12:59:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9A74AF662;
+	Fri, 16 Oct 2026 13:01:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792155574; cv=none; b=ZT81UwHMSenQuzQvEnAH5RwSi5qVJliCKBqbMBe+58ucB29zpSBlm5dHt4Y52X77JuzNhyCAcsAdNZI0CkBpYeQtNK5ZHTTxRbmE3WuyXr+YwZxoZlAMRc8/7OqvATdm9ajYLU04rIN763q05GylTy6tu3eGdv7mP4x8udVv3SI=
+	t=1792155670; cv=none; b=ex8+kbse12+JMchjlY9ZowcrH3YalevmsMRnOY9WmYi/Y88/yqfZU4bUo3bUIEEYQXkRqA+Vja5oQJIP+Zzil5IgP2cNwWDMGH8fgTlQPLPDlHrPRPKDqJBS74Z0nmfY88Yfj6niEjLlnMihbPQRalKw/IzBuehyhcGjmM10l3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792155574; c=relaxed/simple;
-	bh=6R2XOX9liDg/Xu3aq4JW5EOvBIgANkjOIG4wNPSeN1k=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=sDMtMYS3JdGCC1NvPD3Znl8vxeU4a39TZIoz7/tj6IqJzrD8NFtb2ZiJUGtXKCgyWCJjH0EHOw34Vl/IWvfvgygYHoHRVe+2j4zpuOab6WiOM9rwkOPSHqfjxnBUeIAd5MdrMzBqgwbhxHx09VmGw034p6efKlrXFVe4vfr1I3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F72vqM7B; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792155670; c=relaxed/simple;
+	bh=AgYBh89DYUZxiECMbEUwWp8Q0NW2sRgVYX+SIw3Sbdk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=B2PBpKF1jxhhyDAj6idh2EQquY0kKstEnQ3oNDbhnYywWh+KPXjzUnct4NM+jzMttrCwG7CoGPr/PsQrt49qzEBdYAmEG2mvgLw5b6IF2JitCLLKhFGruxPHr3D09cQBQA6GstlRLV3TKYODYiy7vGwnB7PGH8vMhFR+st7fWzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqeC7m9n; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F72vqM7B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FD381F000C4;
-	Fri, 16 Oct 2026 12:59:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqeC7m9n"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B8261F000C4;
+	Fri, 16 Oct 2026 13:01:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792155572;
-	bh=6R2XOX9liDg/Xu3aq4JW5EOvBIgANkjOIG4wNPSeN1k=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=F72vqM7BFi2PvB5zvDAQSfouAmvWt8exiHscYelBnEi94mBes0eXH4t+OeFbVt6TQ
-	 7zvjXA8/ose71e/VdnbGukJtFw35n10wa9ERZKxNL+Pp40rZFIiRKyGG+8UVikokvS
-	 LH0gq/DTPSbSlsSyTvtMSs8E0dtJ4OUsjZA3iM4+w9vPlS442CXlo/ZRP8dQvtf86i
-	 pokfMEnlLOr6yyYyFn3kQECpgXXvy3ZaOgMrrNK7wFJgBJtbs6RDxZdN9ri3AXpGRe
-	 zPjuBiKDHuYVcricvTjw1x4OCcdaSJeD22w9YpoD91wLX7yUoQ2Zn7v2fzeHX83/TB
-	 Z4U+pFB+auY4A==
-Message-ID: <sashiko-outbox-174353@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v2] net: usb: aqc111: fix set_mac_address return
- value
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Hanson Wang" <hanson.wang@ugreen.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261016124858.1939743-1-hanson.wang@ugreen.com>
-References: <20260703073936.462231-1-hanson.wang@ugreen.com>
- <20261016124858.1939743-1-hanson.wang@ugreen.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Oct 2026 12:59:32 +0000
+	s=k20260515; t=1792155666;
+	bh=nBpu4rtuXOSQhn4D8gOwk/35HpPTLeORp4r0U+l6S0I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=aqeC7m9nCLxVnSQ2GrRqpHVUET0IxIvK/h8fzctu1BPXFmG0m1C7o+fIi8enii5bP
+	 EHBuAQlJ2C6GB7nHZsQi0syWVUyyjdRsovz4oRzha8b633DArjIucTPH1BNLeq+kU8
+	 /o19mcOOsQFbWLAUb+JtBoZmCXV8fVHSctsBn81mYav5dCsBpGzRdBQgzCG1hxmtow
+	 ouyvSwm9iL3DK7BBgWhxq0uKN6qSoAl0EJtrpTuIOnlDY6QeoStb1AMIHEhr9STp+8
+	 I6UWhANvBqytRuxYBqcCuAydwJlOtV4nxkg8NUaIxRYXDPEMAxFaCsIkD+O/L4zvkn
+	 J+5PHY1dz9U1w==
+Message-ID: <7102898a-b99c-499e-b1a1-5da4a542b752@kernel.org>
+Date: Fri, 16 Oct 2026 08:01:02 -0500
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] USB: hub: call ACPI _PRR reset during port power-cycle
+ on enumeration failure
+Content-Language: en-US
+To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+ Mathias Nyman <mathias.nyman@linux.intel.com>,
+ Mika Westerberg <mika.westerberg@linux.intel.com>,
+ Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260706080117.3754550-1-acelan.kao@canonical.com>
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20260706080117.3754550-1-acelan.kao@canonical.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> aqc111_set_mac_addr() returns the result of aqc111_write_cmd() on
-> success. That function wraps usb_control_msg(), which returns the
-> number of bytes transferred (6 for ETH_ALEN) rather than zero.
->=20
-> Callers such as netif_set_mac_address() and bonding treat any
-> non-zero return value as failure when setting the MAC address.
->=20
-> Return 0 on success and propagate negative error codes on failure.
->=20
-> Link: https://lore.kernel.org/netdev/20260703073936.462231-1-hanson.wang@=
-ugreen.com
->=20
-> Signed-off-by: Hanson Wang <hanson.wang@ugreen.com>
 
-Sashiko has reviewed this patch and found no issues. It looks great!
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261016124858.1939=
-743-1-hanson.wang@ugreen.com?part=3D1
+On 7/6/26 03:01, Chia-Lin Kao (AceLan) wrote:
+> Some USB-connected devices (e.g. MT7925 Bluetooth on Dell laptops) expose
+> their hardware reset line via an ACPI Power Resource for Reset (_PRR)
+> rather than relying solely on VBUS cycling for recovery.  When the reset
+> GPIO gets stuck low the device stops responding on USB; a VBUS power-cycle
+> alone cannot recover it because the chip remains in reset regardless of
+> VBUS state.
+> 
+> Add usb_acpi_port_prr_reset() in usb-acpi.c that, given a hub device and
+> one-based port number, looks up the port's ACPI companion handle, evaluates
+> _PRR to obtain the power-resource reference, and then calls _RST on that
+> reference to toggle the reset line.  The function is a no-op if the port
+> has no ACPI handle or no _PRR method, so it is safe to call unconditionally
+> for every port.
+> 
+> Wire it into hub_port_connect() during the mid-retry VBUS power-cycle
+> (at (PORT_INIT_TRIES-1)/2 iterations), calling usb_acpi_port_prr_reset()
+> *after* VBUS goes off and *before* VBUS comes back on.  The ordering is
+> critical: on the tested hardware the ACPI _RST method (MBTR._RST) drives
+> BT_RST low for 200 ms then high again.  If _RST is called after VBUS is
+> already restored the GPIO pulse races with device enumeration starting on
+> the live bus; the device begins asserting USB signals while still held in
+> reset and enumeration fails.  Performing the reset while the port is
+> de-powered ensures the GPIO pulse completes fully before the device is
+> given power and time to initialise.
+> 
+> After VBUS is restored, add an msleep(100) conditional on _PRR._RST having
+> succeeded.  USB 2.0 spec §7.1.7.3 (Fig. 7-29) mandates a minimum of 100 ms
+> between VBUS power-on and the first reset signalling for power settling.
+> On root hubs, hub_power_on_good_delay() returns bPwrOn2PwrGood * 2 with
+> no minimum floor; on the tested xHCI root hub bPwrOn2PwrGood = 10, yielding
+> only 20 ms — well below the spec minimum.  (External hubs already enforce
+> a 100 ms minimum via hub_power_on_good_delay().)  When _PRR._RST has been
+> exercised the device must also complete its full power-on sequence (GPIO
+> de-assertion, internal oscillator start, firmware load) before USB
+> enumeration begins.  The 100 ms sleep enforces the spec minimum and gives
+> the device adequate settling time.
+> 
+> Tested on a Dell laptop with MT7925 Bluetooth (idVendor=0489,
+> idProduct=e139) whose BT_RST GPIO was stuck low.  With this fix the
+> device recovers autonomously at boot without requiring a G3
+> (mechanical power-off) cycle.  The relevant dmesg sequence:
+> 
+>    [    1.448491] usb 3-10: new high-speed USB device number 4 using xhci_hcd
+>    [    6.813942] usb 3-10: device descriptor read/64, error -110
+>    [   22.685978] usb 3-10: device descriptor read/64, error -110
+>    [   22.901715] usb 3-10: new high-speed USB device number 5 using xhci_hcd
+>    [   28.317963] usb 3-10: device descriptor read/64, error -110
+>    [   44.189949] usb 3-10: device descriptor read/64, error -110
+>    [   44.294065] usb usb3-port10: attempt power cycle
+>    [   44.872709] usb 3-10: new high-speed USB device number 6 using xhci_hcd
+>    [   44.888293] usb 3-10: New USB device found, idVendor=0489, idProduct=e139, bcdDevice= 1.00
+>    [   44.888318] usb 3-10: Manufacturer: MediaTek Inc.
+> 
+> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
+> ---
+> v1 -> v2:
+> - Cc the ACPI maintainer and linux-acpi so the _PRR/_RST usage can be
+>    reviewed by the subsystem owners, and trimmed the recipient list to
+>    the people/lists actually relevant to this change (per Greg's request).
+> - Tighten the _PRR package check from "count < 1" to "count != 1" so the
+>    single-element invariant mandated by ACPI 6.4 §7.3.26 is explicit,
+>    matching the existing in-tree _PRR/_RST users (btintel.c,
+>    iwlwifi .../pcie/gen1_2/trans.c).  No functional change: only the
+>    first (and only) element is ever used.
+> 
+
+Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+
+This one looks like it might have gotten misplaced.
+It makes sense to me and looks good though.
+
+> [v1] https://lore.kernel.org/lkml/20260326011708.1128840-1-acelan.kao@canonical.com
+> ---
+>   drivers/usb/core/hub.c      | 14 ++++++++
+>   drivers/usb/core/usb-acpi.c | 68 +++++++++++++++++++++++++++++++++++++
+>   drivers/usb/core/usb.h      |  3 ++
+>   3 files changed, 85 insertions(+)
+> 
+> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+> index 24960ba9caa9..1740e96f73cc 100644
+> --- a/drivers/usb/core/hub.c
+> +++ b/drivers/usb/core/hub.c
+> @@ -5603,11 +5603,25 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+>   
+>   		/* When halfway through our retry count, power-cycle the port */
+>   		if (i == (PORT_INIT_TRIES - 1) / 2) {
+> +			int prr_reset;
+> +
+>   			dev_info(&port_dev->dev, "attempt power cycle\n");
+>   			usb_hub_set_port_power(hdev, hub, port1, false);
+>   			msleep(2 * hub_power_on_good_delay(hub));
+> +			prr_reset = usb_acpi_port_prr_reset(hdev, port1);
+>   			usb_hub_set_port_power(hdev, hub, port1, true);
+>   			msleep(hub_power_on_good_delay(hub));
+> +			/*
+> +			 * USB 2.0 spec §7.1.7.3 requires at least 100 ms
+> +			 * between VBUS power-on and the first reset for power
+> +			 * settling.  hub_power_on_good_delay() on an xHCI root
+> +			 * hub returns bPwrOn2PwrGood * 2 with no minimum floor,
+> +			 * which can be as little as 20 ms.  When _PRR _RST was
+> +			 * also exercised the device must complete its power-on
+> +			 * sequence before enumeration; enforce the spec minimum.
+> +			 */
+> +			if (prr_reset == 0)
+> +				msleep(100);
+>   		}
+>   	}
+>   	if (hub->hdev->parent ||
+> diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
+> index 489dbdc96f94..bb1b5e8cdc15 100644
+> --- a/drivers/usb/core/usb-acpi.c
+> +++ b/drivers/usb/core/usb-acpi.c
+> @@ -142,6 +142,74 @@ int usb_acpi_set_power_state(struct usb_device *hdev, int index, bool enable)
+>   }
+>   EXPORT_SYMBOL_GPL(usb_acpi_set_power_state);
+>   
+> +/**
+> + * usb_acpi_port_prr_reset - issue an ACPI _PRR reset on a hub port
+> + * @hdev: USB device belonging to the usb hub
+> + * @port1: port number (one-based)
+> + *
+> + * Some devices expose their hardware reset line via an ACPI Power Resource for
+> + * Reset (_PRR).  When such a device fails to enumerate (e.g. because the reset
+> + * GPIO is stuck low), the USB power-cycle alone is not enough; the firmware
+> + * reset path must also be exercised.
+> + *
+> + * This function evaluates _PRR on the port's ACPI companion to obtain the
+> + * power-resource reference and then calls _RST on that resource to toggle the
+> + * reset line.  It is intended to be called alongside the mid-retry VBUS
+> + * power-cycle already performed by hub_port_connect().
+> + *
+> + * Returns 0 on success, -ENODEV if the port has no ACPI handle or no _PRR
+> + * method, or a negative error code on failure.
+> + */
+> +int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1)
+> +{
+> +	acpi_handle port_handle;
+> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+> +	union acpi_object *pkg, *ref;
+> +	acpi_status status;
+> +	int ret = 0;
+> +
+> +	port_handle = usb_get_hub_port_acpi_handle(hdev, port1);
+> +	if (!port_handle)
+> +		return -ENODEV;
+> +
+> +	if (!acpi_has_method(port_handle, "_PRR"))
+> +		return -ENODEV;
+> +
+> +	status = acpi_evaluate_object(port_handle, "_PRR", NULL, &buffer);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_dbg(&hdev->dev, "port%d: _PRR evaluation failed: %s\n",
+> +			port1, acpi_format_exception(status));
+> +		return -ENODEV;
+> +	}
+> +
+> +	pkg = buffer.pointer;
+> +	if (!pkg || pkg->type != ACPI_TYPE_PACKAGE || pkg->package.count != 1) {
+> +		dev_dbg(&hdev->dev, "port%d: _PRR returned unexpected object\n",
+> +			port1);
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	ref = &pkg->package.elements[0];
+> +	if (ref->type != ACPI_TYPE_LOCAL_REFERENCE || !ref->reference.handle) {
+> +		dev_dbg(&hdev->dev, "port%d: _PRR element is not a reference\n",
+> +			port1);
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	status = acpi_evaluate_object(ref->reference.handle, "_RST", NULL, NULL);
+> +	if (ACPI_FAILURE(status)) {
+> +		dev_dbg(&hdev->dev, "port%d: _RST evaluation failed: %s\n",
+> +			port1, acpi_format_exception(status));
+> +		ret = -EIO;
+> +	}
+> +
+> +out:
+> +	kfree(buffer.pointer);
+> +	return ret;
+> +}
+> +
+>   /**
+>    * usb_acpi_add_usb4_devlink - add device link to USB4 Host Interface for tunneled USB3 devices
+>    *
+> diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
+> index a9b37aeb515b..4d3dc3bd881b 100644
+> --- a/drivers/usb/core/usb.h
+> +++ b/drivers/usb/core/usb.h
+> @@ -211,7 +211,10 @@ extern int usb_acpi_register(void);
+>   extern void usb_acpi_unregister(void);
+>   extern acpi_handle usb_get_hub_port_acpi_handle(struct usb_device *hdev,
+>   	int port1);
+> +extern int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1);
+>   #else
+>   static inline int usb_acpi_register(void) { return 0; };
+>   static inline void usb_acpi_unregister(void) { };
+> +static inline int usb_acpi_port_prr_reset(struct usb_device *hdev,
+> +					  int port1) { return -ENODEV; }
+>   #endif
 
