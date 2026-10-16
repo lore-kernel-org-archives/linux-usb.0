@@ -1,158 +1,135 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011045.outbound.protection.outlook.com [52.101.52.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105D046C846
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 09:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792142653; cv=none; b=FSFNOox48//lqy82csX3PZopMqMVGhXJUGJ6aZrK3G9elxFIF7tVFKyH1uTuVxzWJEECYchAY/gC36cn7oKH4Xjy1X6W8MFI+gJoPx3/6ApTxXT7DBH/ufhDLVSes6BV25Zg8mWQX782jNOpwv0hxOW+UzQRbeCykMfHvcwMu0A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792142653; c=relaxed/simple;
-	bh=YLXcDiriQixGR/41m+S2ocNy0kvrwbNXY5R1ytsCdd8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OVrlrLdEKPaxLc9YccgZp05qTCOm3GWhaTJiWWqo5po4VQEnMXnHEk9Ej8/Zdjop2vCCMJ1E1VW4o2ydg2OOB8do2xwyjrdZWXsCTzH+G57+P12UmmYH4z3HYSsUeuQtwEHyiqM169f0aM7frbWOd/7v6WnuSCZAvqfFlVji9gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=FCLIgTm1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=ek2f0PCk; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628C43839B9;
+	Fri, 16 Oct 2026 09:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792142909; cv=fail; b=nuJlMzo0gfc4QQEVLjVNoOmfWbrHO89awfNX68iP1V9uzklQuJCq9wwL2TBq6wnXNGU+9T8O7NRV76VMQ4wwAksBvUha3SkZIlt0MqNMNsqWWPkWt2Zl8rk8r23dJrIAr+Vo7va6Ufty0A4KaDSe5qSlDMxtKvRtOVVE9ZIsdDs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792142909; c=relaxed/simple;
+	bh=OAytWAiMqG+WOiBCFnOLcO09oQ/b+XcRPLd2wcJ7XgI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ZFRO3D9oN/QBEVra6sivbBiWJtos+pW0TqFtZ1g5+NJ0W/xetF9PNyKmnqxjVWnb8LnChtUfKO9xf9tGuXpu9oC009G334O7O+o+4KBpAar3ulDaeRqUn14TxFMqDVIkex+FS+CJPoGVMq1xPl1VY9HTQPOOIFU/GulwCNLKEFE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dGCnRoFp; arc=fail smtp.client-ip=52.101.52.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="FCLIgTm1";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="ek2f0PCk"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69G8lXOa2815502
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 09:24:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YLXcDiriQixGR/41m+S2ocNy0kvrwbNXY5R1ytsCdd8=; b=FCLIgTm1fPMohTGh
-	t4ewJk2jnTmXLW47gB52W169u9srbxUtrnezDLYoVxKvGs87OD4e+egrLAfcI7z0
-	DE3GpVE733p3AnsijNAnjjESrbRZk0hn4UIBcid4lCoBeODS4aJPUqU2qWOejvno
-	+1qmB1t+7uCK4ELGfGNdC7sVkCazwc/84bEhaCXlYcxjqX2u6aHAl8PTSUvwIJLm
-	nwG3Up9q3ZkT0lS/63HCT6hQ3A2DJX75RnCnkpSavhPiLQMnXIu2R+3GsqWNE3u8
-	vpiql7U1JXm/3QjsEZHkEkytq10jEk4clS2RlI0bhSry2GJ3YygoEBIGtSW9QkWp
-	/nAt4w==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hb8r11vqv-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 09:24:11 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f12bb489aso19414985a.1
-        for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 02:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792142650; x=1792747450; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YLXcDiriQixGR/41m+S2ocNy0kvrwbNXY5R1ytsCdd8=;
-        b=ek2f0PCkduMSDteWC8jxPRMuhdksYg/C6lrRf0H1T4kv9q6mpFlpgqVYj+Wyg+++RI
-         W1yUv9t5YEd0FC/fflCE6tAllpV2yAOnJKX8m3A2F/U5P+EKrngHit1KndieqQeH5O+t
-         RkJ8u/7wHKhxtHYIWds3nju3x3E4TqAmsfSZno421i5XXWivYndv3dMcaAKsrWNQTfPo
-         2pUwaf7yzs0i0zr3A6UR/iD1cwW8YiEFzxe4wxMH7LMK0zw5YOFan9Hfx+f/5SasdS3U
-         I1odA7icrViIOZA2Ek5SeeQ77rC9jH0BdUInUIKqVs876egKaRSPvYkwiyc/bDKcC8pz
-         0knA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792142650; x=1792747450;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=YLXcDiriQixGR/41m+S2ocNy0kvrwbNXY5R1ytsCdd8=;
-        b=pJbc7PsQfy4czQmSskhK+qw+E05lx4XywgolhRtwxbYgLBRmUsO2qCuB3bQRFGiKoJ
-         7QlfS5RD/jTKDgEp2Rv2TiFzqdmbEkJovNkRpkWcJvTyAq3RXDNEpm+us411gEiVvnu+
-         alQzFYq3dMOlQVykNcgxNn20oEpSyXGfNGx0GUMReFAzZwGbhQdVqVrJ2BYh8lWlwX4z
-         tgNZs/h50qM2qB8pafVXyUqys7ztejeNPEUl90TkrG1oVLtKtVuvRHVZLbSEwoaqb6zx
-         3dV8Nnpn+vLd5lPhXZzykggtW7iSkZLuSgDyMpdGuhduDl6SqqeWdE5VQVKMkTJtoG3U
-         DmmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBw0R7LTYcnn4SkeaVRmroyLUDpYdXbq6dBYOJeJaIcdCEAAI10rNRHxX2Y7iukECtudY57GqRadE10=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKn5Tvn3o3ArfQW25yHJsYQaOans1GBk8t7iNEpz4nQk3UgmBPC
-	FSoare5jPTBqm9eQc2J0uJgZ8q4/PaGdeheqWXkZjvW9aHD2BsfwoWbJHOcoq49r9lIlpnEgUjO
-	TR5WJ8RgQToVE16nBTDm/GNx5LxyTROwdny8cj/bKX1zKbH/aKifDBPg3TnWJlUo=
-X-Gm-Gg: AYBFou1R1ub5LdQxe/X3AeqLwP9fnLnSnkD3XEzFdLaDN9XZeHLFqLjkv0mS+f48dew
-	zzsA3RF+c7ORxKnaetQ1loRfc1mw/geTBxSG7X4fVWbf0QjpmIHl1CyI3CmdV8p1rfbNtgcp3fC
-	j+sRUtYWvTLQGT06z/t33KQ8r74X8Nq/xkf7SfvdbwUmfGPk6jJKT3rNNsuPQtA5SvX1mk/N95R
-	nhMzlJ+J5hgJneY3XSCukHNQo+MfZbp7FEZddzE+LfBPefCyiPUW0PiAwvI+sVs3JQ69Ca7Gu+s
-	+8cENuGMgTI51ygDwxfa/oMf/svznXOdjsaH5Lz+nsJgJ5xQfxRJ1KT2betlUyutkrriLmO/QAv
-	ySSyyDEsIjPmtNjlY4lAUgA==
-X-Received: by 2002:a05:620a:439e:b0:93e:54fc:2c79 with SMTP id af79cd13be357-93ebd264008mr3730187185a.5.1792142650167;
-        Fri, 16 Oct 2026 02:24:10 -0700 (PDT)
-X-Received: by 2002:a05:620a:439e:b0:93e:54fc:2c79 with SMTP id af79cd13be357-93ebd264008mr3730182885a.5.1792142649736;
-        Fri, 16 Oct 2026 02:24:09 -0700 (PDT)
-Received: from [192.168.226.26] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b38a1b19f8sm661345a12.7.2026.10.16.02.24.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 02:24:07 -0700 (PDT)
-Message-ID: <f28d3582-37d5-4443-935b-615a7e194767@oss.qualcomm.com>
-Date: Fri, 16 Oct 2026 11:24:05 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dGCnRoFp"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rwYHqGxHEGExW0hAg3mMWLz5PQUYQwu3VY4hbaqBwI7DUG2f6qqP+ry6NNV5U3wE2zMTqRUgGYoVVUhkfjxaFHtmogel/7ff2Yjo6yyksCskqUhGBO32rmks6CXtQrgMFDXGy5qQek9bgl7tRYNSBZJZMdd2hjlVZqa2gzFzWtiAQOoVKUiO0tGtdET6jTI6L6jfDrhwIiywQqFzs+TK9yNW4HtkpSKhpbRdjGl7iE2EuB7dWxhlFdnOGJVseQU+pYeaTRRCbCZPoyuXs9Rr0emYDih8fJSntKl4fbqG17V0k+bNjNoAZ9PD4zGwhaJFla9gm9kdAolWNaxEekyBHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OAytWAiMqG+WOiBCFnOLcO09oQ/b+XcRPLd2wcJ7XgI=;
+ b=mIDTYfuu9Olm0RKpaMml4Z0mhDAT8URGU6vqE6acWdH4lxNtQwqHsD+NhKSK1JyhZ81F/ANoz8A8JGb15VQMN8W/++Oge3aJCfXtKjnGlpCCN/iiITLAx00eDIGIvY/bjVbZTCHyOS15DW7rFTooczvjTVOfT2PDVv1s6w0kvupLXUwvS9xRXZCOjTk2ssmA1ixFrghJ7dSJa0NGg6UfhzPWyZ1usV5eA6/rCgOM/8Szc5RrZP8XI3lbNqwjDpA1HBqoHcgtAhdx1BILnGSXTKIwzwfeqj92civzqmvAk0uduyRGG3CLCox9fyIKb95/64mgmQQ+DP3MeIrZZPcyZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OAytWAiMqG+WOiBCFnOLcO09oQ/b+XcRPLd2wcJ7XgI=;
+ b=dGCnRoFpYCZCyAmVf5oK1pC+DzwKHz4VewLsU0yJuA0Ka071F8CypicGTH6EW0cvhEszjaX4MBv/W53DMeYalFPz4P7nkwvCVcPwfSxBC6/bZfe45bND14aE1GRUyvjRrW80616mRbprnaVI/JrsAWC7zn9htgukapxXurWOo1zEgx9Dx4/xXqN8xcPRvqdxj4XIQz8TkcrQFfwGH2MYk3KVIDJVGpmtU1YFGnopQSHpqA+RHJ4aHoSp4icHtwyl6qqOAWVmZfiDIJtW5illaGP6ivtBu8kEosq9EfZwgzbdvG4DPHX7xg73FBmWYtiCuwtxoH/2/kYjvTTLH85Hig==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB5974.namprd12.prod.outlook.com (2603:10b6:510:1d9::19)
+ by BN5PR12MB9539.namprd12.prod.outlook.com (2603:10b6:408:2aa::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
+ 2026 09:28:25 +0000
+Received: from PH7PR12MB5974.namprd12.prod.outlook.com
+ ([fe80::f5a5:bbc3:e9da:f8a0]) by PH7PR12MB5974.namprd12.prod.outlook.com
+ ([fe80::f5a5:bbc3:e9da:f8a0%3]) with mapi id 15.21.0522.012; Fri, 16 Oct 2026
+ 09:28:25 +0000
+From: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
+To: sashiko-reviews@lists.linux.dev
+Cc: robh@kernel.org,
+	linux-gpio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	conor+dt@kernel.org
+Subject: Re: [PATCH 01/11] dt-bindings: gpio: Add NVIDIA LSTP GPIO
+Date: Fri, 16 Oct 2026 12:28:12 +0300
+Message-ID: <20261016092821.2049721-1-aambrozewicz@nvidia.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <sashiko-outbox-168484@kernel.org>
+References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com> <20261012-lstp-usb-adapter-v1-1-aambrozewicz@nvidia.com> <sashiko-outbox-168484@kernel.org>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ZRAP278CA0004.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::14) To PH7PR12MB5974.namprd12.prod.outlook.com
+ (2603:10b6:510:1d9::19)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/1] arm64: dts: qcom: glymur: Set
- snps,resume-hs-terminations for USB controllers
-To: Peter Chen <peter.chen@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Abel Vesa <abel.vesa@oss.qualcomm.com>,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-        Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
-        Jack Pham <jack.pham@oss.qualcomm.com>,
-        Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261016091336.2715717-1-peter.chen@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20261016091336.2715717-1-peter.chen@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: _qQ2q667UW_vgo0dtw8LLLzI3bAPDswZ
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE2MDAzNyBTYWx0ZWRfX5uIQPMR7sCi+
- UhmBv5SF/q65TnYiNwy7nOauc47sa0/oIPXUhqjhLS+/EvOuhE0dtmhQGPiegtysw1UTrrhka1e
- MDk1nonX/vT9lRFP1nS1qtVSrHhfAZ8=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE2MDAzNyBTYWx0ZWRfX3inbZ2ARkfOm
- 3pphxM2jxUh12H+qXbVUxEk/DYMvBhrsQ2R23kz4gozVwteTq9YVtcBfVqMvdUOGQnMwdVpiN+U
- XkGjZ8xFtrXZNFMzcRnUP/C8GET4ESm2s+4SkTBqeSIjOWWnVw9Rv0wkQTGMgAQrlF8wreDrnyy
- +FYo3cFnPw9LTrnVeAwtRStYfx7pAZ4TKgqVoH6SJCGhgDvVoPddb/7Qpr+aQHbrQZOUIeb1sfK
- PfD05/aOdT/Pzr573Iw8vC4bjaw4BwBafE5rN3tuFV1h9lYN3HqOPgr+086lGOLiplQomzOZcy/
- XuHXDslzRY3M8SxYUtelgbortSPcHyRd+ymjV3rhojkr7Ib1BFKtxMJcIdjI+Ehw2bhtwq1mQDM
- P1sHhmGWFyqU4Umvg0jVuqD3NBxbVv8axANa/JdMifWE0V1ED/9/Hm3iVpM0gc1CjuJtt8UMYJV
- iMHfNiZo4pNU7YGgOgw==
-X-Proofpoint-GUID: _qQ2q667UW_vgo0dtw8LLLzI3bAPDswZ
-X-Authority-Analysis: v=2.4 cv=L/CI0OT8 c=1 sm=1 tr=0 ts=6ad1ed3b cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=Hm02htHfr-OdaEd79JAA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-14_01,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015 malwarescore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 impostorscore=0 phishscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610160037
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5974:EE_|BN5PR12MB9539:EE_
+X-MS-Office365-Filtering-Correlation-Id: f2a2cd86-a4aa-4000-7d16-08df2b67d405
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|56012099006|4143699003|11063799006|261009223027099003|260925021311599003|260925022911599003|260925021911599003|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	EsIUbJwCclafOZecZtpnpSgsplgh3zFku2l//iK9Q3JYdR5GmUN45swjdww42bOe/1oNqED2D+aazz4MCAQIfHgP/ChQc+3yQgBmDtdItQvrLNHmoFAHWDI8UJHi1PH3UIxkVHGyfjgNArUuTsopfZH/eWuXkIOLtb3dtI/DT9235DA8JvhQjL0DfMIHCMhKoVB/OszYX2x+8/v5lznhSZR8FYkInMmcDAlIPS52sJlXq90BwuZOJTw1BON52gDlghF1apnHiX5m3DvlP3Y+0YeSyaV9axO7l4PtGPbgRzypZLnjAwOupRbRtL5LJsrUKi1MqCSTPi+9DXRSXxX4HvZDhHiP6YMrKvvz/RTKSVAeyjIwEtwVcJtQAWyeZSsra21OxQ+qU2vd1IVw3X1Q5zVD++lHv6UmUOjk6/TTsOSLZM9hn6NH7LED5MQuBiBWca32lPpArne7s9VeSTCozMVofshyUcKjbBONdJpNJWsjQ4wBvg5APuRMoEDWr0TMBh58gHPcYxhJe09qGGgzRAGjcY83bkcPx5d3SILlgx2Nj6XnC2D3BOGr0Re8l6Im+SPWkOfuT19cgSLv6glOZKfYGjbbVH8m84r2q4TCbzPm+XMSBEvk/Z3/aOxkRZOIwtIMpGgiUGX61SJqRyl0Xk3APIs0YPoIR12NfT02SXY=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5974.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(56012099006)(4143699003)(11063799006)(261009223027099003)(260925021311599003)(260925022911599003)(260925021911599003)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?vTAFlH2En5cDREXd9EvcAG05OzmA1n1bfzey+xNvP8RFntOoe4W7oaCFiZl+?=
+ =?us-ascii?Q?lLaqshrgBzGzgYb2S1Gw3+7Lfhptmw0sPx6+01fgjMfrWMZi1K801WcPmQkp?=
+ =?us-ascii?Q?HoQDeGl6tJNqQVM7NEGfyeKASHvoNkgW4Ym5MSq+CCFfr7nBvXOi5KupmkGv?=
+ =?us-ascii?Q?qzA38wXSgwZqYAZdaO5AYoeOCY/QNsuuhfgCpF2RQdPuVFi+DLMRFI6OcPJz?=
+ =?us-ascii?Q?fS/b4zaaRsiRG5aS12GjqBP7jG5w+r6x/gJmZtWYwDDazMAMUwDWBSaZaY9y?=
+ =?us-ascii?Q?n8KN3ayB1UvQNHVPHfXkLg87Ppv2Z+W63eH6GCAFrmY9592zid4OMYNqQDft?=
+ =?us-ascii?Q?B5vo6lGhYHhxUmgHZywtnB++/C16aKRQzjtZ6WkkFc7u01ChZw7Q9bSk8MMy?=
+ =?us-ascii?Q?H1G2caRVfivC16p67OQE0wYcgbZmOZile3GHsUoTwl3iZU5FN+A3T+y0Q0Bw?=
+ =?us-ascii?Q?IS19akEL3w9Wq2DgGR640uNfCDoOuX110bJTSa1tEPCRLseYDOddNjlrOZU+?=
+ =?us-ascii?Q?l+l1ITJ8v4gxPgAjOHxDoTmo4dRaU1+B0ECJF76DjwPOJAewONIeDQScbrOW?=
+ =?us-ascii?Q?AgL/pFWid1yBXjU6oz6xs7lpgsH5XCUN8cHzwyre8pyj8Xbzc3FMuhMrXhbk?=
+ =?us-ascii?Q?dhx9hO+T2gGzsRRhF8yohqDloR4z35MALxnEV+2PQ+JS+1hD7Ijss7rdWd00?=
+ =?us-ascii?Q?qm7gIIyy/rjP4Y7swF0njs3vy+wvpojTS0WooUG+KwZnAHOoPYJvC4H3UOia?=
+ =?us-ascii?Q?xtvj9KxRNXKzly+5XZ2cFn+n0NuvDPnVGPEHSIyzf78rY0WaEF4jdll3/uDw?=
+ =?us-ascii?Q?s2vUoM7mlGZJ8gu431CuYBub//bZaxL1PPwVNse6mmK6Od2+6QAv+97UOg0a?=
+ =?us-ascii?Q?3MpURBNhV/qL8Lj+oDywU3wWTRLwoq08tZnj0spCLWA1muTfkvWZ19TYhUS1?=
+ =?us-ascii?Q?ZOhDJ3zPagGMtFxY+7VYNkU+SI7aQH7U7FW5MubWR+mAo/icp0PZ2EgVe+Ug?=
+ =?us-ascii?Q?FkFElNNcLmh3rR/zW1NmBl0lvtijr97FXREyNLtBflfotSZiG4GpmcOndc+L?=
+ =?us-ascii?Q?vd2nftcTV9PeOslf1xj4qz29dRr6yNsRvktPnHe6Ad2WBMTmWM3xiotPF3jy?=
+ =?us-ascii?Q?V7JI89Oo5+gm751bT3U4Xfk5G/p2lCHiLOsBRVe0yPUkVl6uPiDRhwbUEbcW?=
+ =?us-ascii?Q?LW259zotw1fWcF8gs0l4M0KxJJtkTCJBIFIjbHh5Z1P29hzyl8WPeVdhpPLC?=
+ =?us-ascii?Q?Zl/y6wsNx/FuzJ4fv/moVtZQlAzADrqW6ZN9cI1nHu1jjYf/1XWRvUskikq+?=
+ =?us-ascii?Q?X0nY0+4e5dRn1zo+wtJyX/SBani5bfF0VCDz9WDccOsMyupHi65W9+6izR15?=
+ =?us-ascii?Q?z4JoX8Q9ZQAFMQgxrutHqdnb0uiW2bulkvfH4Db2BSskwHMzUc9pSoLwRifX?=
+ =?us-ascii?Q?AcXzugh27kfkkkHvP67toD8h+gLBZrpAIeIg8qE5Wqgo60+mJ5MoVfUwpHeu?=
+ =?us-ascii?Q?a4nzneaJYrPW7ZZCEoMhRsRcJ32xLXpNicPVLlKAiR0hMV5PX4jOJMmKlhNY?=
+ =?us-ascii?Q?ib/7PhocA9loTyF8uDF/xQGG3omfgKz73kzO+2dxnaIHBCB4nKKl4etfzOhW?=
+ =?us-ascii?Q?SVmRUJEWvHN7/Pg/eRJPI9BV5hf3qXYoEQLnP17h6F+DUrOmmifAjpSANS3R?=
+ =?us-ascii?Q?i2XoUaYGRbhXc0lWz03iARUQsrjacNmSxOUjexORyz57WdKPAGw3IaQAJjc9?=
+ =?us-ascii?Q?PAdrqVHYgQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2a2cd86-a4aa-4000-7d16-08df2b67d405
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5974.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 09:28:24.9474
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: E7b0hBvVuIevkIv0H1VT3obRVvtCwOhPMckFtbT4x5RF7Ht6tBYOAgA6n+R5L+kVOTffv2COxL9FWtr+R1op3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN5PR12MB9539
 
-On 10/16/26 11:13 AM, Peter Chen wrote:
-> The DWC3 controllers on Glymur are paired with the M31 eUSB2 PHY.
-> According to HPG, host-mode USB2 L2/L1 resume with this PHY, GUCTL1[10]
-> (RESUME_OPMODE_HS_HOST) must be set.
+On Mon, Oct 12, 2026 at 05:43:41PM +0000, sashiko-bot@kernel.org wrote:
+> Should interrupt-controller and #interrupt-cells be moved from
+> dependentRequired into this unconditional required list?
 
-$ rg -i m31-eusb2 arch -l
-arch/arm64/boot/dts/qcom/glymur.dtsi
-arch/arm64/boot/dts/qcom/kaanapali.dtsi
-arch/arm64/boot/dts/qcom/hawi.dtsi
-arch/arm64/boot/dts/qcom/sm8750.dtsi
+Noted. Whether these bindings stay is being discussed on the cover
+letter [1] and in the RFC [2]; I'll handle this together with
+Krzysztof's comments on the bindings once that is settled.
 
-Can you send a fixup for all of these?
+[1] https://lore.kernel.org/r/2026101355-species-glance-9ff8@gregkh
+[2] https://lore.kernel.org/r/20261012-lstp-dt-rfc-v1-aambrozewicz@nvidia.com
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-
-Konrad
+Adrian
