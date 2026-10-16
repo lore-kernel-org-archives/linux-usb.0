@@ -1,96 +1,95 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8A73C3C1C
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 21:15:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D53248DB28;
+	Fri, 16 Oct 2026 22:58:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792185307; cv=none; b=PzwSf2rMGwDRXHI3d8S4FMmyO806bjqr60ozeirrYZpgpOBHg7lj0xST7hMLElJ66PyXeNjfwr/da5pD4PCl2qyyunwvHIrHJp9yJjSfq5r+T/fFcBDJzvUzsx2dMtz6/lu3sFmyyvA658jnxoptOGN23UYIQD9+Nt3rEppPZUk=
+	t=1792191508; cv=none; b=j++X9Z4tfCZ/zrVpxyntIdpJCm+AFL4lOUEoYl3NBkjARQb6Ypus4BCJp7zLKeeO5WCBTtrqNOC+vB0DJB7G1GYkXoHJ/M/PJeEdI0RtV4z26m9H4fBJZUFiBK/2MdOa/1LSsrInAThDWFLECsl9rvhwSD9UDsgZFn5eHPO9hkU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792185307; c=relaxed/simple;
-	bh=XnDcigIQogj9VPzhFmb1u5EwChzTVE1u40a9G7Kkp3g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=IbslKqsRYwvmSwY660s/IkFmCR9iDW/qCaw9zzte8yoLdjRTz0OqRHEMqYu08ligAoLJzrDRr84Tuapa5eTcqGw3dC9VQUBCBvre4NSk8xX1OeDhLSlD8uWMeBUWNUJZMY1zyI49SOvNxkX6FVSOAiphwC5XZKz37qtsle/L8yk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DEyj8AwU; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792191508; c=relaxed/simple;
+	bh=vqvvABVBzTGMebKz/IHc0AVIw4erDJUPvxE61OhS4Cw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RTqo7gQOJzZ7Dt/KDhQRHAEHEm8JHFBca2T7MsZA7WjPwifiaR394lqSj1kno0q+ihFiXxAPKpftEvNWu1TMjpVnDZhosTjlmlSSwCEk4DdfvaIjp8Y9KxLHesJ06TQTFp15H5/+mvjT8/MtNAxZqUpGzwuka1nt7qvo+z/O1IU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZJmnck2l; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DEyj8AwU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA7DC1F000C9
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 21:15:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZJmnck2l"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BFDD1F000C4;
+	Fri, 16 Oct 2026 22:58:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792185306;
-	bh=XnDcigIQogj9VPzhFmb1u5EwChzTVE1u40a9G7Kkp3g=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc;
-	b=DEyj8AwUZx9W+ruO9fCTzQQVAEVdYP9QsWREem5xVGFsl478eGF7zIIsLVcybEdzv
-	 78c082ksBDoNj+d+X88ZyqHVUthFzmQ/Yq2z9ZtvFBpGaWjQrXZw2Wu8RwZKf6K96z
-	 BysU4xjv+CTcMmW6I7keumfztAVNeFDmBdOsiLp/6pL7ASw5aQoYIbSLhRtQmZ3seU
-	 Tr5JnIetHjJQAqOfAe1oWtGKv0r+UefNaP2/hoKW4Qs0HWcoMBn1xR3woBGrZyAm+P
-	 r7XrEFXpLQjV8rNkTYSj7zBW2cuZH8AF83UejHVxOcn0QEjUa5TfVwFLkBLhPcvGx0
-	 AaGC+GGMaDDMw==
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-3a1eb6fa0f4so3027561fa.2
-        for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 14:15:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AKwUvBwzfsUM9ZmvmE8eN4qi0tDByn6l/PhQdGxT78FpVdRSTlFtIOZ9Tsz7NJdG4rGftJ5Ssz6Eutq9KE4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI3wiF7i4kYC09a2jQfWnL6aNOGWSHiw0iM1VWMchKDtl2cT4gu
-	1WTFsBSgdu9L8oaMKXl9+IF2RC0jmRyIKM5teMWNw4UbllsNEP15WwbOM3YwbHSUC2w2Hd830C9
-	DXiIgW/JsFUNxIihwqEEB4sMdMwGCkRg=
-X-Received: by 2002:a05:651c:31cf:b0:39c:624d:82b9 with SMTP id
- 38308e7fff4ca-3ab29286cbdmr2067561fa.4.1792185304697; Fri, 16 Oct 2026
- 14:15:04 -0700 (PDT)
+	s=k20260515; t=1792191506;
+	bh=EwYRXxb65dU5pBBDG8naBKTasqjzlMLWFZHZF/jw8Pk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=ZJmnck2lGMYxZRZmBXW2oyIAi65yZueTyn8wlbxlJhIaYdOODi78PRC6yIVoPGPw4
+	 Mv+Jqxmr4PaFLqO+/X+4JS+SUBCF0bbVBWezVJYXWEoK+v60l2DYPX0ldc32AUcffa
+	 vHs86yv5E52hWNUl9lPe4leheba5r4SW6mImgeAeHxGt+3oT0iJab3hPIcqotrrDt+
+	 Afi2qjrw3+rbTBovqrfyHuwRUoqBdlAZUcGre7KJo282+Rj0M1W7e+7cOh+mFDzxiu
+	 bUf9YRwNzdnSiZFvCIQ5dG3OLsufeSMlzr2J6SYy61ZpBE19od8XWDtDkkM0Bx3uKp
+	 uv1MQ1XXpJrjA==
+Date: Fri, 16 Oct 2026 15:58:25 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: omermetekaya0@gmail.com
+Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net v3] usbnet: fix EVENT_RX_PAUSED race in
+ usbnet_skb_return()
+Message-ID: <20261016155825.17d29015@kernel.org>
+In-Reply-To: <179175615306.434549.2652185067157444525@kernel.org>
+References: <20261007220311.113827-1-omermetekaya0@gmail.com>
+	<179175615306.434549.2652185067157444525@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
- <20261012-lstp-usb-adapter-v1-6-aambrozewicz@nvidia.com> <CAD++jLkru2AL2_7ieOdbYrePAhNSFaa3wwEzCagiPsALgG2GwQ@mail.gmail.com>
- <20261016081917.1958681-4-aambrozewicz@nvidia.com>
-In-Reply-To: <20261016081917.1958681-4-aambrozewicz@nvidia.com>
-From: Linus Walleij <linusw@kernel.org>
-Date: Fri, 16 Oct 2026 23:14:51 +0200
-X-Gmail-Original-Message-ID: <CAD++jLkQd70V+wQhCaKES8LQqWoU+dmt=Dr0PgbA81xHh+hppw@mail.gmail.com>
-X-Gm-Features: AclHuK-u1MiFTw786aZCKlVc09dcjgjhKNYlnZODKOuP7oo7rrcG4a5O7l15i0c
-Message-ID: <CAD++jLkQd70V+wQhCaKES8LQqWoU+dmt=Dr0PgbA81xHh+hppw@mail.gmail.com>
-Subject: Re: [PATCH 06/11] gpio: Add NVIDIA LSTP GPIO driver
-To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-Cc: Bartosz Golaszewski <brgl@kernel.org>, Donald Shannon <donalds@nvidia.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers <ndesaulniers@google.com>, 
-	Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-usb@vger.kernel.org, llvm@lists.linux.dev, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 16, 2026 at 10:19=E2=80=AFAM Adrian Ambrozewicz
-<aambrozewicz@nvidia.com> wrote:
+On Sun, 11 Oct 2026 22:02:33 +0000 netdev-bot+sashiko@kernel.org wrote:
+> Will lockdep complain now that this lock is taken with hardirqs enabled?
+> 
+> Before this patch, rxq_pause.lock was only taken through skb_queue_tail()
+> and skb_dequeue(). Both use spin_lock_irqsave(). Here the lock is taken
+> with spin_lock_bh(). usbnet_resume_rx() below takes it with plain
+> spin_lock() inside local_bh_disable().
+> 
+> usbnet_probe() initializes all four queues with the same inline helper,
+> so they appear to share one lockdep class:
+> 
+> usbnet_probe() {
+>     ...
+> 	skb_queue_head_init (&dev->rxq);
+> 	skb_queue_head_init (&dev->txq);
+> 	skb_queue_head_init (&dev->done);
+> 	skb_queue_head_init(&dev->rxq_pause);
+>     ...
+> }
+> 
+> defer_bh() relies on this too. It uses spin_lock_nested() for
+> dev->done.lock while it holds rxq.lock or txq.lock.
+> 
+> Some host controllers do not set HCD_BH (OHCI, UHCI, musb and others).
+> On those, usb_hcd_giveback_urb() runs the completion directly from the
+> HCD interrupt handler, so rx_complete()->defer_bh() takes that lock class
+> in hardirq:
+> 
+> defer_bh() {
+> 	spin_lock_irqsave(&list->lock, flags);
+> 	...
+> 	spin_lock_nested(&dev->done.lock, SINGLE_DEPTH_NESTING);
+>     ...
+> }
+> 
+> With CONFIG_PROVE_LOCKING, wouldn't the first qualifying MTU increase
+> through usbnet_change_mtu()->usbnet_resume_rx() then trigger an
+> "inconsistent {IN-HARDIRQ-W} -> {HARDIRQ-ON-W} usage" report and turn
+> lockdep off?
+> 
+> No code takes rxq_pause.lock itself from hardirq today, so no real
+> deadlock is known. Using spin_lock_irqsave()/spin_unlock_irqrestore() in
+> both new critical sections would match every other sk_buff_head lock use
+> in usbnet.c.
 
-> > It seems some pins are only input and some are only output.
-> >
-> > Have you considered using serialized register access over
-> > regmap and use regmap-gpio with fixed direction bitmaps?
->
-> Yes, the device configuration fixes each pin's direction. I looked at
-> gpio-regmap: a regmap bus with one register per pin would cover get,
-> set and the fixed directions. Two parts don't fit well, though.
-> gpio-regmap has no get_multiple/set_multiple, while the device takes
-> several pins in one request,
-
-So just add it (get/set_multiple) to gpio-regmap.c?
-
-There is a nice generic implementation of get/set_multiple in
-drivers/gpio/gpio-mmio.c to draw on for inspiration.
-
-It will certainly make everyone happier.
-
-> What I would take from it is reading the directions once at probe into
-> bitmaps, instead of asking the device on every call. Would that be
-> acceptable, or would you still prefer gpio-regmap despite the lost
-> batching?
-
-I don't quite get it, but I prefer gpio-regmap with an extended
-gpio-regmap.
-
-I guess it could be challenging, but I'm here to challenge
-people. ;) If it looks very tricky ask for help.
-
-Yours,
-Linus Walleij
+Good suggestion. 
