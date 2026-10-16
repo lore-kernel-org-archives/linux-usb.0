@@ -1,65 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from smtpbguseast3.qq.com (smtpbguseast3.qq.com [54.243.244.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B513CF68E
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 12:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E36A1480DED;
+	Fri, 16 Oct 2026 12:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.243.244.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792153696; cv=none; b=SD2OiI3yx/AY5/8qlxdryn6D2z1yJFxCu8xM3Eu4kwFLEfPsvE7soIondgVl0bUaSk/ZPwCCbhwwWGi3A3jwdWxM0bHx1hMpZzpVCuLQQECufAXmo4wH0xLDd/nwdDnknXDftRgp52UG4krIBdXMlGVez93tUtp97VnbO87CoF4=
+	t=1792153848; cv=none; b=arRQYUbSVCGynP43JjsXiSZ5PI4p520I7cX6luTfYTW05LXk8dSNtsbQ9NpDRmMZh9VOWyuIXKPtemd3sfxAh6ZydP2w81bL4H2GOAmRcjHSaRoCKwW8Do3M4PC+rkD72dqQjra6OpueBGS3Gte1+Wbc/SiJr5DwmyLGoOrsDMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792153696; c=relaxed/simple;
-	bh=xjfp39qX7weEegrMRyyw1AZ2vOfYJfIvYAeMg/SCMTo=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=nwca/hW+pK9tisNL8Qcj+1CWNT1CvsHWIkkx9NHXmdoMlKIqx0X7JvRVfNiDmSWayfM1hmhmU2fjebKihBssXrdOKYKmpMfqFVyqt6zrKruBq3ZV7pmK3zh65uIxQzPKpl97J/GOhzn8rbtloVg9V8N+mHXbYGmxAb10lJhJInA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EB6m+8T2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792153848; c=relaxed/simple;
+	bh=rod6xy9+gndHUdnbr4wgG656s1uGxUW7SPIP+EVNlHM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Nj46AvS6WCgx61n0ro9dxzaXGV/IRjP5N3Pi2QTTk4lxtLYx6Hr/ljm1KITFADCHbs3/Y6YaIVwzHZSfn3AHhB3/jRxhhsthzdscnCy99C7rvoQPqDaoiuFIoc1o+YOncBcHnmgE0m+hgg7E1OjoTX3J5hyA7D/VUU3yDFbvOVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com; spf=pass smtp.mailfrom=ugreen.com; dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b=rP4UF5tK; arc=none smtp.client-ip=54.243.244.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ugreen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ugreen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EB6m+8T2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 268E21F000C4;
-	Fri, 16 Oct 2026 12:28:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792153695;
-	bh=xjfp39qX7weEegrMRyyw1AZ2vOfYJfIvYAeMg/SCMTo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=EB6m+8T27ItSkoexeAsvLnuqLerGV5IBDBq0ALUGFeVzYn2O2HiedKjZxz9PYh0sm
-	 uZJqUlibnRD29JzXNQ7wHdEcOlRR5ckidy0owtV/lcHD1G1P9Qzls2+UqdGT+S4DoA
-	 y7NQA2QNn2DnOekqRfoUHi/HMLNAkRe2+sMDX775uT6tWTe83rC35kzpDTEUI1zY3p
-	 qiJ9LFBApcELwJ54tG1yq+xCkUMit4D7+os2BdZ3LyHAEgv48r2lMHAMTRLEquD2sW
-	 9NZCJS4IzHbj3r93/9Q0th3BPKrFNoNafPZlzFjeZUpJn3q/LQg73+yfwdQ3u+vmoX
-	 RPzksMylVSeVA==
-Message-ID: <sashiko-outbox-174293@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: typec: nb7vpq904m: Set client data in probe to
- avoid crash on remove
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Chaz Bailey" <charles.s.bailey@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261016122045.187862-1-charles.s.bailey@gmail.com>
-References: <20261016122045.187862-1-charles.s.bailey@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 16 Oct 2026 12:28:14 +0000
+	dkim=pass (1024-bit key) header.d=ugreen.com header.i=@ugreen.com header.b="rP4UF5tK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ugreen.com;
+	s=pkvm2402; t=1792153799;
+	bh=PTGNf+pFA4HlvSUNJLATMTS2BdbiXazN6lRObVyVPC0=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version;
+	b=rP4UF5tKmoJzRdfIra7YzOMp+2iUIg+jw/GGGOD9kFdTXFPcwI55HXgfA2K38nCvq
+	 0NcwSq86L8zPnhGwG9F51goITWSPRq4LlzH151gqWhcOX6V/kFaQsmjyCxzFx/2Bma
+	 wFKhLn+y01SXB+b45cingkEo7Zkuimk7QlwJFTQY=
+X-QQ-mid: zesmtpsz8t1792153794td166a33c
+X-QQ-Originating-IP: +8ylvwj65TkPxlY7DREeXjDYclub16XfNEoyv3MvgGA=
+Received: from exmail.qq.com ( [113.88.77.42])
+	by bizesmtp.qq.com (ESMTP) with 
+	id ; Fri, 16 Oct 2026 20:29:46 +0800 (CST)
+X-QQ-SSF: 0000000000000000000000000000000
+X-QQ-GoodBg: 0
+X-BIZMAIL-ID: 3139676211192935493
+EX-QQ-RecipientCnt: 6
+From: Hanson Wang <hanson.wang@ugreen.com>
+To: netdev@vger.kernel.org
+Cc: linux-usb@vger.kernel.org,
+	oneukum@suse.com,
+	jakub.kicinski@kernel.org,
+	andrew+netdev@lunn.ch,
+	hanson.wang@ugreen.com
+Subject: [PATCH net v2] net: usb: aqc111: fix set_mac_address return value
+Date: Fri, 16 Oct 2026 20:29:44 +0800
+Message-Id: <20261016122944.1889622-1-hanson.wang@ugreen.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260703073936.462231-1-hanson.wang@ugreen.com>
+References: <20260703073936.462231-1-hanson.wang@ugreen.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: zesmtpsz:ugreen.com:qybglogicsvrgz:qybglogicsvrgz3a-0
+X-QQ-XMAILINFO: N+sUQ11wBK5qy7i/Q3cLsLARQ0I4WvjA2npztSrd3PrN88qhgpsMCa9Z
+	bBfFtR5aIu3zkUJ0EVl/9K8Tix4yDh9JLoHwc4PGmvC22J+gRLNs/naNB/6Qsz/EKycvVIR
+	ljKtZ0Uu4GBWiKbdIace7+9bJAgS9/8kq0ShVYHkSXDgoRQFFlIRS54fSpAcffeI/XMsvRV
+	jS6Wlko8dHak6f90i/lq9urS1AB/+m4uHx3dufwi5ZJiOcJ9A3uko3pbsMXKCFhekx7OJyq
+	xY1kiIjv/5COP6e/K9HFofi0qvKdl+YwTunShq9MWmZc/paRQ9T0W6hWK8vSnLORI5uCaBB
+	JqDT3C+J6ZsOwudbTTX09c40+H4d0KSeLHUEs0tAyMQbkkYni7QUtpVBJqhOa3wPj+MBqFR
+	GZSv/ISBu9njpFZIOAH0FBqraH7Kd6AIg0rrTZkji49hpXIcyw4GwgLeZM6NU7BBLPCqvlJ
+	8qJOVqllWmjOJRw53QJmrxqJIGG+XzZgF/lYtG03przZn91CTgSbIXyzg4ufuTF/n9K98Hp
+	f6XG0DkC30vBdKU3mqcceDQwHoZhVPZalkhxOiChWBIfb+fjlVm29y1MvChPqLYzXCbrW9q
+	9OduhvdCbuPIQfNd4Xh1pbWSTSOqut7MW89bM3+umL1APHWDoSDnTytWc6kg0Qly1DFHSPu
+	NdOKwsRYmN5jTgqkXUo9qGc3tNlV37OL/EG1nVk0AI6KYJnIepDFJnCkw0STM2yBjNDe822
+	9FqRb4LIIMFqSkuO/OZSWIEHhtigdG8n6nR0QCnoDpZeidc3S33vhUSUWrmEoOeX/UxFOlZ
+	av6fhInouIWr5P4VGWdnHN6Ky4y6iUWqIvzNXtt+iqhPKwUWqqLvX7hT890CNqi9XWVxyU6
+	7BV/VbVQFDhPCWc/wZvLw4DcPNzWRFCWF4QTOc6cP9dxnmZlp7IL4/GhCejrfi29N339bXJ
+	f39PNXXcAh4RaWd7bV3r0NG51rA9q+9kcPWRSW7bYrHcQFpVERgKXWMyRu2waJnAsm5oS56
+	/AKTq0rbvJ3AQ2/f8/LIsrcHgHrv7VQBRMBbLWH11d/qZWeG1zPvH2/lEuh9U0aNEBNyhtF
+	9G1YWNh9NG71igT3zrgLFFuzhHN1PJx2GuV3iUjdpsyK8SchDpaFlI=
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+X-QQ-RECHKSPAM: 0
 
-> nb7vpq904m_probe() allocates struct nb7vpq904m, but client data is not
-> set during probe.
->=20
-> In nb7vpq904m_remove(), i2c_get_clientdata(client) returns NULL, leading
-> to a NULL pointer dereference when accessing nb7->retimer or nb7->sw.
->=20
-> Set client data upon successful allocation in probe.
->=20
-> Fixes: 88d8f3ac9c67 ("usb: typec: add support for the nb7vpq904m Type-C L=
-inear Redriver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Chaz Bailey <charles.s.bailey@gmail.com>
+aqc111_set_mac_addr() returns the result of aqc111_write_cmd() on
+success. That function wraps usb_control_msg(), which returns the
+number of bytes transferred (6 for ETH_ALEN) rather than zero.
 
-Sashiko has reviewed this patch and found no issues. It looks great!
+Callers such as netif_set_mac_address() and bonding treat any
+non-zero return value as failure when setting the MAC address.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261016122045.1878=
-62-1-charles.s.bailey@gmail.com?part=3D1
+Return 0 on success and propagate negative error codes on failure.
+
+Link: https://lore.kernel.org/netdev/20260703073936.462231-1-hanson.wang@ugreen.com
+
+Signed-off-by: Hanson Wang <hanson.wang@ugreen.com>
+---
+ drivers/net/usb/aqc111.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/usb/aqc111.c b/drivers/net/usb/aqc111.c
+index 9201ee10a..827aab540 100644
+--- a/drivers/net/usb/aqc111.c
++++ b/drivers/net/usb/aqc111.c
+@@ -476,8 +476,12 @@ static int aqc111_set_mac_addr(struct net_device *net, void *p)
+ 		return ret;
+ 
+ 	/* Set the MAC address */
+-	return aqc111_write_cmd(dev, AQ_ACCESS_MAC, SFR_NODE_ID, ETH_ALEN,
+-				ETH_ALEN, net->dev_addr);
++	ret = aqc111_write_cmd(dev, AQ_ACCESS_MAC, SFR_NODE_ID,
++			       ETH_ALEN, ETH_ALEN, net->dev_addr);
++	if (ret < 0)
++		return ret;
++
++	return 0;
+ }
+ 
+ static int aqc111_vlan_rx_kill_vid(struct net_device *net,
+-- 
+2.34.1
 
