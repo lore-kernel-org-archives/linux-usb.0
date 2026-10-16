@@ -1,75 +1,75 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D03F63546E5
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 15:04:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28DB54C9E0C
+	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 15:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792163071; cv=none; b=nSbGyLeQ8k5HRGbN06zng+4usb9hg5KhmMYC8MtYgLsrmjTAOI2Fw5nvcDcAFgDZFnYaYQlpQPejPzIerxMcVhu8uNQg25/RZQIu9BAgbkt2fpoocmtf37krULi7iS53IG1lfeWLVd4NKyTToA3taAzF+YSQ03ZqZkNb6udiuO0=
+	t=1792163322; cv=none; b=YdZcCgGKv+qqtN9lcEvXsgSZtCRrKhoF7YDBTi0OrRYozuUarJY2ILT6OjXvo6x/ZHUjP4XhiUpXf7rOnldcAqvZfIFfAsSk6OifkB3QKymfNsVFWkqVkA7bXpCRIib1enj2CmbhqhqjWJnoUjzOVm+KaR8jJ4jfLga2c2r9GJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792163071; c=relaxed/simple;
-	bh=gZ8M3YL4vY9/T1pAnpyOkHKYnY0l+cf+z0EF5NoQEA4=;
+	s=arc-20240116; t=1792163322; c=relaxed/simple;
+	bh=9U/kkAy5hwvAhwUg9vFQfRBjT/HphVatqeqejnZQ0kM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GCbXHZAdFHgkpqRqQi2KET3Y5kukEiqIdIttnXSmp2Y2l6P4XDcKnlomu/1DZMLqOu1pbIyUnSxmcPp7bcHc25RU5TkrMcp6zBbiEJN0aLaOc2/ECHB0YkiaDXRuRWdK6Ejm4fvtWqD/RIi0X6T9k/pCl+AbGU+8MEQ5GIWdQPc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=vw6mGejP; arc=none smtp.client-ip=209.85.222.179
+	 Content-Type:Content-Disposition:In-Reply-To; b=uHds9CJa4X0Dav5LrI5N3O13+fKm6wXX9q1+J2PWa9igk1eUv2g6WeCpveFKaT/QYhgTRXX6oD2k0UjU6LdkGL1z18l1N/E5BRcTnKkHbpLFgkK6+8UTkGuCijJx4N0L/NHyGa1R65f3xUSlcVJyE9YclvcRm08hz8JaHBlNCsM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=vSU1U3N2; arc=none smtp.client-ip=209.85.160.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="vw6mGejP"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-93e503815adso3210585a.1
-        for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 08:04:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="vSU1U3N2"
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-534e6545939so22503061cf.3
+        for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 08:08:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1792163069; x=1792767869; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1792163319; x=1792768119; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=QjMVhSxuyV4C5Y9lVNWGp1YsEKYu5m2G3O2NV9TfmW8=;
-        b=vw6mGejPE0aLkGRv9hs9nCBeabPMPFWvgkNZcGFLmodh06ASEGBJfYYUEYjV8ZLbCh
-         jIQBcLFz6AFKLw1eya7jeAZP1bBEFgljLCh5WTClX7it4JazLLpR+YNBfsX8rfhK+RA0
-         Bb9hcSbEfxtN51KlPMoYkoGClJkiSfMUXMuLDtBPApKZPWh7E2JA7hYjRUJ0VsChM9mC
-         ExHoRsPY46gkY6Rl7wB2EHPFDIHa03N7/mb3414T6DD1IxAAflzIfcR7nRthpWlRSYxn
-         V2XCYpuI1bs/MaSou0NilaNYCJB8ng/zJsgvEFuD7wPhAsW+4Kalq3qCPgtZENUhUy7W
-         ioRw==
+        bh=FTDTxc6bSklEDzSyt9fmhc+/XaQOcj48Uz7ol1WS8+Y=;
+        b=vSU1U3N2Dsoit0P4c2DZqgt5QiWmKZ8WApW4JV+0f4E0DWWqlkb6sXQopVNwF+XuJQ
+         1jCKJbI2S3iwbuEO6MPykVJbGxR34d28+3mbY4W07t4Vy+G5OTd0n9z+9upqpa9yRLro
+         9n24XC9tkp5QDxNzrGnCsKWclSTf+2bSJg2NdVn8GRz0CI9XdUvEovhd3Vz8IaujcBXk
+         enQgW3bPUm8MZDEuyTRMNmmPPCYw8K5qrI9ZeB593lRyF1jAnHWvFHpOZT1fJF9nwrTr
+         17FcZW3i5tL96kpzlw8gtJF7mWy9QOl2b6VOoxqucKE/2vd+SWUBwvmkUdb3QsGnQ7nO
+         paHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792163069; x=1792767869;
+        d=1e100.net; s=20260707; t=1792163319; x=1792768119;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=QjMVhSxuyV4C5Y9lVNWGp1YsEKYu5m2G3O2NV9TfmW8=;
-        b=o0UaMtYEP3Qyp4fJTbfiPtMXpKDhwao5LtKtOFsLVYGBAeNjJO3yPQT0kN5jIxSsTG
-         VD6JhFla8sPR6/GWtCKZBkF3qQuAWwZGt99u04WIuOLr9g1llO5pFkK9ZlLjVPH6MP7N
-         wx5zZAJW4H1yaepkXRjFSleRPlUTCn2V5Sown6mLZpn22yPseTfwhMG6J0WauWn63l/V
-         bwFP4IZV0owSesgAwwAfjR93vrIF4olNPJ73j1qGInVLsrWmWPGCDXCKKSC/4DpaE+wZ
-         xk4Zww66Ylr9N+Ujki6ZAdRyEYxVvuAKFzXnLjaXg+XQzmJxIZYAVavGXTCRjoCkupnc
-         bgjg==
-X-Forwarded-Encrypted: i=1; AKwUvBzNkL2L9B7O1Sd4o7mA72osNXBfL1hxZCkYYkyWzAr+iVIltb2pzhonkANdFdSBthnKKAwRgq70u+Q=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJLkragrHTesGMO3fW5LdM8EXhWIarnU38O86sbSV5NOe0FXavd
-	aVkcbSfPha6wtTLcfJ8uAd16LQBKDI2MaTOJ2fbx4BYL0MHlsY1tSEQbi1qyEdGdJv5zpwjXYtJ
-	yN8Yt+A==
-X-Gm-Gg: AYBFou2c8F/a+vECgfBhLFOCfjASGKb9qFIZYGSmn3LhdbGV+y9vxl+NQCvo8uBQNCx
-	jCQaf8ZxLwFpMipNhx6yHT+fjny/yYmQeK++bsTIKmLOhwczt7AOzqOdO1eP2+Z6ceiERM6ashS
-	I7S5shygIftUdfa5huartJUZtKQNjherSiL85Hhi6E+JSFm7loAwk3WfYnIKmj324SNlhAcej8D
-	COrg+s9HBGAUgXLNzCZd7tawKYbX59znreMjjonTXYLEzPpGB2Rg61OP8dwoa9tnVCmNZbf6K8t
-	qTO8Ha6T5PDIltadgtCEBhdzYHlhqhOdA88FX33s/XhISCTVixlA4+VaWKXfnriAJFxGTqDrnqD
-	6zmLla/VlY71L8B08M5c8XDrC2ZSn30TRT7CmN1Higlk0cC9O29P6gHyfc3UUmMMs+4s+spLGnG
-	qQ+e4EV9TPZG5SRiNrfOiMLKI8MmmeOq3eSEngk6/LS/kSmW/QZYPV5U8RvYmlZ6pwKd8kDvo=
-X-Received: by 2002:a05:620a:439b:b0:93e:e1fd:b87f with SMTP id af79cd13be357-93f29e17275mr10664485a.83.1792163068256;
-        Fri, 16 Oct 2026 08:04:28 -0700 (PDT)
+        bh=FTDTxc6bSklEDzSyt9fmhc+/XaQOcj48Uz7ol1WS8+Y=;
+        b=mZVwKV+v1L/O4SLYt/RK4Otb4siKfXEMmiB32KzmzQLJzmfNGepmJtuCCq7JxIG3VY
+         Q8pybOxkAbxMeLFweqE904N/dvC2NwcAMVIrC2k/qyq+CwaH6hYGd7nDjkInL9VhGF6U
+         t6QliNTd53VzCEiXwvAW8HsXOtmxpYHzFO+9RIlJwqTLdETZI42Vwsyd9u60ZXOV/gdq
+         SPStN20Tu2TywfePyhw05wPFRdIrVGcEozwINgQhJN4fJldIHrgzstjm7PPV2WRFuxZE
+         Qv5454B1cDxYl2fSL1tpHmMo9/EK9jvMGTUvMdpeKxJcZGvaaBRjPuNuN+7HqgrZsnfK
+         dejQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzhoFH9BvFQi+bFBDh9/QWVcy3q+Zhbfc78kH0hHU++oHnCA/UKbNWi+49w5SrqpFdheLBnzjieOzg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIaabDemccOKaQ1ANfJphzIdY4i1GbQC6as71dVz8LiHXKSWmsO
+	+cZbP3Njw9URj3i8VRSH6gla+t4X/k6Wk5JLdH5cGHGYEoZaiGA2NJWeGYcN31tqiXKs9nll2Af
+	Ox/dEFQ==
+X-Gm-Gg: AYBFou2szxFH6fy4qZMjxLsSsoefnuzCGY+wl7qKhXcnLha5T/dKjPiSc5XnonLD9X+
+	7YuntoZ+8nSASMLakwfTRg+fQNyU+e89F4sRyQt6R4oRS1mJlLFRpYEG24+glpudrkA5DL8xlLR
+	p+FATYteVMguv1c5TE/u2V57+H0ULBWGdDIeIcG+K2RSGSNWn5scWSX7wDSH39/l/5vKlUtKSW7
+	41n0H3qVpYon4ETaj4aL3gO53RxkLSLg6PsLfAW1gqLUP65vVnJDTsXA/4YKERPz2Zvl98j5fHp
+	Lq2mlh+KVJesn/4xK5uD4b74RKss5Lr5TK58al0xFAwiukYKq1BqtktrtrchIypHlFVxVHRp/Zj
+	r40qrlYtMhunh2u/1d/VAJzXH4N0XEh0DapJXkcjh6awFflBdpfU+h7H9Ajxn0owU3WeH6vqC67
+	CNPJzr4hy5b1IWUX8gvPRyKlq9lxZFYxlQ5nBWGPmhMKhZsE4j+8D/sv2Q5KXlOOd+SKkKsj8=
+X-Received: by 2002:a05:622a:2445:b0:535:6a51:1f71 with SMTP id d75a77b69052e-5359fb86868mr362986661cf.54.1792163318743;
+        Fri, 16 Oct 2026 08:08:38 -0700 (PDT)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::4791])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f1a1b882asm227739285a.42.2026.10.16.08.04.26
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91bcbb1af26sm24682156d6.33.2026.10.16.08.08.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2026 08:04:27 -0700 (PDT)
-Date: Fri, 16 Oct 2026 11:04:24 -0400
+        Fri, 16 Oct 2026 08:08:38 -0700 (PDT)
+Date: Fri, 16 Oct 2026 11:08:36 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Joe Wang <joe_wang@aspeedtech.com>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: ehci: Quiesce ASPEED EHCI before halting it on
- shutdown
-Message-ID: <7dfc5ef1-a466-4d78-af65-147bee8fe698@rowland.harvard.edu>
-References: <20261016-upstream_ehci_aspeed_shutdown-v1-1-8440c13b5652@aspeedtech.com>
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [PATCH] usb: usbtest: reject transfer lengths the allocator
+ cannot serve
+Message-ID: <e75fa62c-80b3-4a8d-a82f-1b21033e0cd1@rowland.harvard.edu>
+References: <20261016094848.38533-1-25031212351@stu.xidian.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,108 +78,78 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261016-upstream_ehci_aspeed_shutdown-v1-1-8440c13b5652@aspeedtech.com>
+In-Reply-To: <20261016094848.38533-1-25031212351@stu.xidian.edu.cn>
 
-On Fri, Oct 16, 2026 at 04:53:07PM +0800, Joe Wang wrote:
-> On ASPEED EHCI controllers, clearing USBCMD.RS while both the periodic
-> and asynchronous schedules are enabled may leave the controller unable
-> to halt. If an asynchronous transaction is in progress when RS is
-> cleared, it may run past the end of the micro-frame. The controller then
-> clears its internal schedule buffer at the start of the next micro-frame
-> while it is already walking the periodic schedule, issues a DMA read
-> from address 0x0 and never sets USBSTS.HCHalted.
+On Fri, Oct 16, 2026 at 05:48:48PM +0800, YuanZhe Liu wrote:
+> usbtest sizes every buffer it allocates from the user supplied
+> struct usbtest_param::length, but it never bounds that value.  The
+> scatterlist tests, the queued bulk tests and the unlink tests pass the
+> length straight to kzalloc() and usb_alloc_coherent(), so a large value
+> reaches the page allocator as an allocation order above MAX_PAGE_ORDER:
 > 
-> ehci_shutdown() calls ehci_silence_controller(), which halts the
-> controller without first turning off the schedules. For ASPEED
-> controllers, call ehci_quiesce() first to clear CMD_ASE/CMD_PSE and
-> wait for STS_ASS/STS_PSS to clear, as ehci_stop() and
-> ehci_bus_suspend() already do before halting. This is also the stop
-> sequence recommended by ASPEED.
+>     WARNING: mm/page_alloc.c:5340 at alloc_order_allowed mm/page_alloc.c:5340 [inline]
+>     WARNING: mm/page_alloc.c:5340 at __alloc_frozen_pages_noprof+0x4ae/0x1fd0 mm/page_alloc.c:5397
+>     ...
+>      alloc_sglist+0x331/0x500
+>      usbtest_do_ioctl+0x2686/0x5880
+>      usbtest_ioctl+0x440/0x720
 > 
-> Quiesce the controller after setting rh_state to EHCI_RH_STOPPING.
-> The asynchronous and periodic schedule-enable paths require
-> EHCI_RH_RUNNING, so this ordering prevents them from restarting the
-> schedules while the controller is being shut down.
+> A run of "TEST 7:  write/-7 -2147483648 sglists 3 entries
+> 0..-2147483645 bytes" asks kzalloc() for more than 2 GiB.  The queued
+> bulk tests reach the same warning through usb_alloc_coherent() and
+> dma_direct_alloc().  The allocation fails after the warning and the
+> driver then returns -ENOMEM, but the warning itself is driven by
+> unvalidated user input.
 > 
-> Allow ehci_quiesce() to operate in EHCI_RH_STOPPING as well as
-> EHCI_RH_RUNNING. As documented for enum ehci_rh_state, both states
-> indicate that the controller may still be performing DMA, while
-> lower states indicate that it is not.
+> Reject such lengths where the other parameter limits are already
+> enforced.  KMALLOC_MAX_SIZE, that is PAGE_SIZE << MAX_PAGE_ORDER, is
+> the largest contiguous allocation the page allocator is willing to
+> serve, and the unaligned tests add at most one byte on top of the
+> requested length.
 > 
-> The controller-death path in ehci_irq() also sets EHCI_RH_STOPPING
-> and clears CMD_RUN, CMD_ASE and CMD_PSE. A quiesce call in that
-> state writes the command register with these bits still cleared
-> and polls the schedule status bits using the existing timeout
-> limits, without re-enabling the controller or its schedules.
-> 
-> Signed-off-by: Joe Wang <joe_wang@aspeedtech.com>
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+> Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 > ---
-> This issue was observed on a customer host platform using the AST2700
-> PCIe EHCI (ehci-pci), and the root cause was confirmed by the ASPEED
-> hardware team in RTL simulation. The stop sequence used here (clear
-> PSE/ASE, wait for PSS/ASS to clear, then clear RS) is their
-> recommended workaround and was confirmed to resolve the issue on that
-> platform. All ASPEED EHCI controllers share the same design, so the
-> workaround applies to every controller with is_aspeed set.
+>  drivers/usb/misc/usbtest.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
 > 
-> The quiesce is limited to ASPEED controllers to keep the change
-> minimal for other platforms.
-> 
-> Tested on AST2700 (ehci-platform): ehci_shutdown() and unbind/bind
-> (ehci_stop()) with a hub and USB mass storage under load, no
-> regressions.
-
-Under what circumstances does ehci_shutdown() run without ehci_stop() 
-being called first?  Is controller death the only possibility?  If the 
-controller is dead, will quiescing work?
-
-Is there any real reason not to do this on all types of EHCI controller, 
-not just ASPEED?
-
-> ---
->  drivers/usb/host/ehci-hcd.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
-> index 3c46bb18c7f3..d984987c8691 100644
-> --- a/drivers/usb/host/ehci-hcd.c
-> +++ b/drivers/usb/host/ehci-hcd.c
-> @@ -274,7 +274,7 @@ static void ehci_quiesce (struct ehci_hcd *ehci)
->  {
->  	u32	temp;
->  
-> -	if (ehci->rh_state != EHCI_RH_RUNNING)
-> +	if (ehci->rh_state < EHCI_RH_RUNNING)
->  		return;
->  
->  	/* wait for any schedule enables/disables to take effect */
-> @@ -372,6 +372,14 @@ static void ehci_shutdown(struct usb_hcd *hcd)
->  	ehci->enabled_hrtimer_events = 0;
->  	spin_unlock_irq(&ehci->lock);
->  
+> diff --git a/drivers/usb/misc/usbtest.c b/drivers/usb/misc/usbtest.c
+> index 8759df49be28..8f2a4752b9c8 100644
+> --- a/drivers/usb/misc/usbtest.c
+> +++ b/drivers/usb/misc/usbtest.c
+> @@ -2192,6 +2192,15 @@ usbtest_do_ioctl(struct usb_interface *intf, struct usbtest_param_32 *param)
+>  		return -EINVAL;
+>  	if (param->sglen > MAX_SGLEN)
+>  		return -EINVAL;
 > +	/*
-> +	 * ASPEED EHCI may never halt if RS is cleared while both schedules
-> +	 * are enabled, so turn them off first. rh_state is STOPPING at this
-> +	 * point, which keeps them from being re-enabled.
+> +	 * Every test case sizes its transfer buffers from param->length,
+> +	 * using one contiguous allocation per URB or scatterlist entry.
+> +	 * The page allocator cannot serve a length of KMALLOC_MAX_SIZE
+> +	 * or more: the allocation order would exceed MAX_PAGE_ORDER and
+> +	 * the allocator would warn before failing the allocation.
 > +	 */
-> +	if (ehci->is_aspeed)
-> +		ehci_quiesce(ehci);
 
-Don't you want to check whether the controller has already been 
-quiesced?
+This comment is longer than it needs to be.  You can just say:
+
+	/* Don't allow unreasonably large transfer-buffer allocations */
+
+The details about contiguous allocation per URB, MAX_PAGE_ORDER, and 
+allocator warnings don't really matter here.
+
+Aside from that,
+
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
 Alan Stern
 
-> +
->  	ehci_silence_controller(ehci);
->  
->  	hrtimer_cancel(&ehci->hrtimer);
-> 
-> ---
-> base-commit: 2f2f7eeef8b0a1a9b9ca998231419873ccae8d4e
-> change-id: 20261016-upstream_ehci_aspeed_shutdown-9ccffedb2a1c
-> 
-> Best regards,
+> +	if (param->length >= KMALLOC_MAX_SIZE)
+> +		return -EINVAL;
+>  	/*
+>  	 * Just a bunch of test cases that every HCD is expected to handle.
+>  	 *
 > -- 
-> Joe Wang <joe_wang@aspeedtech.com>
-> 
+> 2.34.1
