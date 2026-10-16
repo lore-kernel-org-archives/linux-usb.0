@@ -1,93 +1,76 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA7B63B7B83;
-	Fri, 16 Oct 2026 09:57:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6C113E0C75
+	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 10:01:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792144634; cv=none; b=f6NzmC+BuujIInIyOsqHqZZqA8TddnMkSh1J0ESOtR1oxhRi+HUgs+FHRTNVprC/y3lZ/At1Jei5c+DINEfkbq/dN6Q7MScwqruVrhdwq5WfG6NWVYlSHN69UQw1hlsihcKx51a9F9r6XawvnADmuC4v/1e1U7G64ASnHhttdjU=
+	t=1792144874; cv=none; b=gReQwvkgmYbaTf4Q8Bd3zJpX+KA7zhvaxGCpWAKW5XoKRZuWIMSr/lJAeOnojGYKEdTNPqtcYY9aN8TxeszCJX0cu7mZfM39NYmfCTAsgqxCmTKe60IVvb7AU3R9QcwlmlJVz3c3SGJwV59XyZeI8NSd5FNKE1Rw+v53e4OysIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792144634; c=relaxed/simple;
-	bh=zYIwrLLAU7PP2d0x9w+aBblEp/0b5I4GL1hE9vxVE44=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=p5njK8nPKjrjWVmSThCtOt/btAF6xBsN9COEuaxS5oecRLaSBcQ1gaRFDpDu80xZp+v0ZFRW461p/PkHlzAJx4NB7BfoNv7+teuKfLG71jjoAZXsI3ATM1/XuWMzCWUATz7IGF0JhnTrd/aGa5uEAsx0rg4/DRqb2nM7NGKPWGw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LXWCxszP; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792144874; c=relaxed/simple;
+	bh=VimD/lddTJod+kSZrkfhZoKoQ7JAis0dmMdMCFIIvO8=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=XaZy6yi4hja3fogmDaA5SCZJuueOZ/hwLNCZUzxITETmX33cq1YL50sD7LN7jjOgrAKoAglNU3eH5ClPki9MwYdyWAkgAhFY5QjFog9RLvjbWXFgFHUZqVboyE2+Cu+5oXcNoUGGmihiwDKAPseJfwWKyXbPqgH/V+flGnRgpQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wl0Q/dB5; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LXWCxszP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E98C41F000C4;
-	Fri, 16 Oct 2026 09:57:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wl0Q/dB5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 148231F000C4;
+	Fri, 16 Oct 2026 10:01:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792144632;
-	bh=keyCxRSbagkSqM2i86G4Z1V7nJP55VQiMZ6RJMi4SiY=;
-	h=Date:From:To:cc:Subject:In-Reply-To:References;
-	b=LXWCxszPtCHX+Sh5b86nlR14KK3hMVe1ZOUFMuZqrJRjhN9b6amEFVn6RdI1yCRq9
-	 MQpsRJ/RmZeNxhoEjYGrp90m6BfhFid0IzLnPVvVBiMGxm6QKVgQsH7kDhUJZBwH06
-	 sWegiXdJc0McM6SfhttXFvjmHotxR4e6fKH704uGiNuuXp+o+9v/r5hBHjjSox6MMH
-	 IlTzYkHP5BvexmlYdxAlFNzCdzPFmcpjMonp40uS2gJzx7SxgWsuUmOyT/9kiKCPUK
-	 GrBVPuTV2v/U+nmcekAOaZqTE+3Mrjthbjm5tKIGoV9Z+KJHPW26MCwliMy0HDoIlA
-	 7mSsDrl5I5Jwg==
-Date: Fri, 16 Oct 2026 11:57:09 +0200 (CEST)
-From: Jiri Kosina <jikos@kernel.org>
-To: Ahmed Yaseen <yaseen@ghoul.dev>
-cc: Benjamin Tissoires <bentiss@kernel.org>, 
-    Denis Benato <denis.benato@linux.dev>, 
-    Antheas Kapenekakis <lkml@antheas.dev>, 
-    =?ISO-8859-15?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
-    Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
-    Alan Stern <stern@rowland.harvard.edu>, 
-    Kerim Kabirov <the.privat33r+linux@pm.me>, GameBurrow <gameburrow@pm.me>, 
-    regressions@lists.linux.dev, linux-usb@vger.kernel.org, 
-    linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-    stable@vger.kernel.org
-Subject: Re: [PATCH v2] HID: usbhid: skip interrupt IN polling for devices
- with no input reports
-In-Reply-To: <20260828104159.62399-2-yaseen@ghoul.dev>
-Message-ID: <172916rs-519q-3sn1-o138-9ppno78noq29@xreary.bet>
-References: <20260828104159.62399-1-yaseen@ghoul.dev> <20260828104159.62399-2-yaseen@ghoul.dev>
+	s=k20260515; t=1792144873;
+	bh=RIOtIkOhvb5IsPfPN4ur4Nz/ObmfsrMO6tnfjK/zhNE=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Wl0Q/dB5LRDQMQPvPg7dkHDhhDkXJuqg/yXmePfeBymnY7nadAZ1IveFgDI6bPTow
+	 LA7r5h5N8AQueVqIuDfsuLly+VWXg4tFfaRrwbIULtR88dFRrPtoocyZM5DHQVY+Nw
+	 8cp3My9JWfmRTWOQ61HDCqgaPGSQ0rzD7DLPuWHS0Xn0KjXpEyangSK0W1SDg7I06A
+	 nDAA7L8bS2s498NhaeUlARZWzLUa5TDm/IJWjgsEHzLf2AILzj+u36uNP32UIfpWoy
+	 htCCo1hG9Tz+pIlSC/pt52zOXoBL69e6nkr20nBoGyekGeYYnVSOeir8+q9QY/U+Oe
+	 nDjoRXonaKLbA==
+Message-ID: <sashiko-outbox-174114@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: usbtest: reject transfer lengths the allocator
+ cannot serve
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "YuanZhe Liu" <25031212351@stu.xidian.edu.cn>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261016094848.38533-1-25031212351@stu.xidian.edu.cn>
+References: <20261016094848.38533-1-25031212351@stu.xidian.edu.cn>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 16 Oct 2026 10:01:12 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
 
-On Fri, 28 Aug 2026, Ahmed Yaseen wrote:
+> usbtest sizes every buffer it allocates from the user supplied
+> struct usbtest_param::length, but it never bounds that value.  The
+> scatterlist tests, the queued bulk tests and the unlink tests pass the
+> length straight to kzalloc() and usb_alloc_coherent(), so a large value
+> reaches the page allocator as an allocation order above MAX_PAGE_ORDER:
+>=20
+>     WARNING: mm/page_alloc.c:5340 at alloc_order_allowed mm/page_alloc.c:=
+5340 [inline]
+>     WARNING: mm/page_alloc.c:5340 at __alloc_frozen_pages_noprof+0x4ae/0x=
+1fd0 mm/page_alloc.c:5397
+>     ...
+>      alloc_sglist+0x331/0x500
+>      usbtest_do_ioctl+0x2686/0x5880
+>      usbtest_ioctl+0x440/0x720
+>=20
+> A run of "TEST 7:  write/-7 -2147483648 sglists 3 entries
+> 0..-2147483645 bytes" asks kzalloc() for more than 2 GiB.  The queued
+> [ ... ]
+> Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+> Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+> Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+> Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
 
-> usbhid starts polling a device's interrupt IN endpoint on open
-> (usbhid_open() -> hid_start_in()). If the report descriptor declares no
-> input reports there is nothing to read there, so the poll is useless,
-> and on some composite devices it is also harmful.
-> 
-> The ASUS ROG N-Key keyboards expose a second, input-less interface used
-> only for RGB control via feature reports. Opening its hidraw node (any
-> hidraw reader does, including SDL/Steam Input or a plain cat) starts the
-> pointless IN poll and keypress reports on the keyboard interface get
-> dropped for as long as the node stays open: a lost key-down drops a
-> letter, a lost key-up leaves the key stuck. usbmon shows the dropped
-> reports never reach the URB layer.
-> 
-> The useless poll itself is long-standing; commit 4ac74ea68f64 ("HID:
-> asus: early return for ROG devices") is what exposes it on these
-> devices by keeping the input-less interface alive instead of ejecting
-> it, so its hidraw node can be opened and the poll started.
-> 
-> Skip the poll in usbhid_open() when the device has no input reports.
-> Feature reports and hidraw output keep working over the control and OUT
-> endpoints, so the interface is otherwise unaffected.
-> 
-> Fixes: 4ac74ea68f64 ("HID: asus: early return for ROG devices")
-> Link: https://discuss.cachyos.org/t/keyboard-input-issues-on-asus-rog-strix-16-2025-with-cachyos-during-gaming/30823
-> Link: https://github.com/ublue-os/bazzite/issues/4590
-> Cc: stable@vger.kernel.org
-> Tested-by: Kerim Kabirov <the.privat33r+linux@pm.me>
-> Tested-by: GameBurrow <gameburrow@pm.me>
-> Signed-off-by: Ahmed Yaseen <yaseen@ghoul.dev>
-> Reviewed-by: Denis Benato <denis.benato@linux.dev>
+Sashiko has reviewed this patch and found no issues. It looks great!
 
-Applied to hid.git#for-7.3/upstream-fixes, thanks.
-
--- 
-Jiri Kosina
-SUSE Labs
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261016094848.3853=
+3-1-25031212351@stu.xidian.edu.cn?part=3D1
 
