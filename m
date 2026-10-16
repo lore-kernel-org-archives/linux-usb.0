@@ -1,147 +1,164 @@
-Received: from mail-gw01.astralinux.ru (mail-gw01.astralinux.ru [37.230.196.243])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DC547535E;
-	Fri, 16 Oct 2026 14:08:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.230.196.243
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AD124BD373
+	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 14:45:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792159742; cv=none; b=YHQj/VotkobYWi0imx6yZShSXoMbJdVxKy4f+4x2+1PSb1m537i2rIk3niM3lh3YFVUXELwUY9F5SX4ZM0aQUuWR7xDdlsBZbiOuMtSXHsh0KFR9kRvjMR0Bze/QWw9V8l689W+lWvUbwDNMASjE1JrLvakOrpP8YY4YzbWj5gQ=
+	t=1792161951; cv=none; b=CFn2GPRVS7aYMxUzeqey51LP0M+h08RgjCw1dzzMBrdOC3Bzb2a00Ey2Fue8mAh6FBUGfpYg0mBtwfGBbOsbaGOhQnFODV4dLTiar7Q01S5BViR0NKw4yMKQ4ZdBvznbSUQhWpRvrbxovMgVjLA+YQbZLwBrgz3aEL3WQ4aTX0g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792159742; c=relaxed/simple;
-	bh=5+jNcPrFVwyar2TgHXjQU7Gg8W4bNNaqqDwQA/tIK5w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k5mPdvp+ctiagRgavpMJdwumSObkfPPsfpw94tuV/pOJ4aZS4HZb4RMbVzQ/w8/309CnviOFibxZ+LxLTIcWQGCU23Og0PfBT/Dm0ztyDcRCwyag56HTs1+caKtlIVjB+dBmuTlAyqxiPl1Y9L2xsM1iWuHdy+7Z2wuN3ZMqHwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=tzG6IAaL; arc=none smtp.client-ip=37.230.196.243
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
+	s=arc-20240116; t=1792161951; c=relaxed/simple;
+	bh=I3h8JmncAySVdnyASRgGthbld/UpPY3tAAz7Prz5Kyg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Dlipqr2rj5v5+YD1JKBWRCh3+vOgovfkMfI1ZEPtH8I/C3RFyHTs70tP9lZB+8Zhs/PHCkEUw31aWWk1eL/zeVmBNMc9P40YFOc3WwUTBBG+QfEFXlK/3zn+uHA+L08TFGPvGmQWMB8WHQFrPKQe+7HU931KlcmzRfpiP9z9unw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=LYknFG7p; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="tzG6IAaL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
-	s=mail; t=1792159729;
-	bh=5+jNcPrFVwyar2TgHXjQU7Gg8W4bNNaqqDwQA/tIK5w=;
-	h=From:To:Cc:Subject:Date:From;
-	b=tzG6IAaLMLuiNDg/07xA+hyFpMX/8iTpk81K5XjQaR9wadIcObhDUp10NxdduxHX7
-	 8AzPDdtWv6cwnlBpAnM415MV/f4Lqhllxs39EMfItPog7WBznCbN+z1e773jt5ggRE
-	 ltNLRUQPfif0bnzT8z+plKfBG01NGr15DR6ixJokcdzIKZj7yB6VL1WKbLCOwXgdWL
-	 LhyM/u0R5jTUCrfkNMcy0EonfwWAqnaKszsMMRBoDBheagthK4jMJLKgwGSe72wbPB
-	 KAvTvIi8CnmwWscmQzvGo3B9Izw8m55sTmOipyhVVqZLdGoBulUXWLCCZCctYpkT67
-	 VVDIWd0cLAx6w==
-Received: from gca-sc-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
-	by mail-gw01.astralinux.ru (Postfix) with ESMTP id 05A0125D2B;
-	Fri, 16 Oct 2026 17:08:49 +0300 (MSK)
-Received: from new-mail.astralinux.ru (unknown [10.205.207.8])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail-gw01.astralinux.ru (Postfix) with ESMTPS;
-	Fri, 16 Oct 2026 17:08:47 +0300 (MSK)
-Received: from DESKTOP-D46TNHI (unknown [10.198.49.29])
-	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4j5mdS38KFzY9W;
-	Fri, 16 Oct 2026 16:54:20 +0300 (MSK)
-From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
-To: stable@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
-	Sasha Levin <sashal@kernel.org>,
-	Tobi Gaertner <tob.gaertner@me.com>,
-	Oliver Neukum <oliver@neukum.org>,
-	=?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH 5.10/5.15] net: usb: cdc_ncm: add ndpoffset to NDP16 nframes bounds check
-Date: Fri, 16 Oct 2026 16:53:07 +0300
-Message-ID: <20261016135308.600-1-mdmitrichenko@astralinux.ru>
-X-Mailer: git-send-email 2.54.0.windows.1
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="LYknFG7p"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-93f20b304c0so1840585a.3
+        for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 07:45:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1792161948; x=1792766748; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=DFZB6RGZLQJ1LpcNxnkl77BEnFcrCaCy3BCJGhy3ASE=;
+        b=LYknFG7ptZ8B5OMiGlwkJb4rtQQUwKofGiBLi8B81jkSDZ7UOMKDawkzEQZAXdX74J
+         xarxzzV4f81lSPQu6ZG//Kp8BERPhUtbQMKATOVoxFdD6+5355zh6vpMW+Ct0vehnPK+
+         azIpGVrkvB3jX+l5X1Cvsuz/trNNwHij2JPwD2/cOM5Bap7g6LOLZs7+c8zsEofL1Juf
+         95rucI2dYaVeDQY3yOiaaD7coDyBtgrb8LuSuOftlMLQ2c7c6F0VlEFqupQY3Ola24MK
+         kwQPqiEb+mycipjngNTX8x55Zib9xwTleyfkK+8PUZFAlqMGg/Yva9JB0PIr1Q1Ff+//
+         c/UA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792161948; x=1792766748;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DFZB6RGZLQJ1LpcNxnkl77BEnFcrCaCy3BCJGhy3ASE=;
+        b=GL6trzCMn7dtj93i7BRpKAR66WbPs2/ZMaTOOt0K+9Jzk+iD6ODtaXugnjxxniSekz
+         Cl60KHh1LPzg1JC+n/N5PEWUyu3Vyspf5wiS3XQvJWlmLo+cPQ6UK0+tescLMQuJEucu
+         mLvnvUfTqNnc+5yy7XJw72kVERQd/abpiSw3FPC/RxjpBUITf19/zbZw74zmt62VfFW3
+         x1GFXpZ8hS2hJ1YaqnDfas3d6UBS4y7R7T+Ra2NRbdPMHI+6f0bcw9KclF7wdDWhWBdK
+         rN/Ac1QPjZiVUtykt107CEgGtMT+bpkfw57z5BrZ5ZYb1zxHDJtJJ6ThKAhXPsn/1LPI
+         Cbnw==
+X-Forwarded-Encrypted: i=1; AKwUvByxXdNoqRtPOXbhr6fd60mWFoZ/CXE6CtBf62ZcqhWymIqs3fTJAE0uBlRuz7piaSdrJm38/j49pYY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKDMrgMTJ/6oFmL42eUAMFPe7WuG8hQc2dPiFwsdi+BCjR47NBK
+	i5ronR6xw7iK/78kArWpbNrbtA9gYhU2eEaXsmt2Aee+plzO916hPNhYIZtnClAiBQ==
+X-Gm-Gg: AYBFou3cyieV+OQSOM/YbfWV5QE+lhuVkRs6XM3U6w1dWhn7e10Qj0uOhxAMlcFCP71
+	Q2rraO+OXmOgW3M1U7Ntkfj1B/VsQo+f2RjGxvwglTruBkDUSqC6Oj4ie0aF+m47e4+vh/8eGFt
+	PLSn9b//feBCLTrKWaLzHR8cl9tSRaHnwLfA9itcOUlJloyagALCFbchfkpvs4ZpH5X1hST/wGC
+	0HdeWz4KQfLhB2vwjsAk7JhwPPsclTauDRdyGiLDo8jFNSJ5j8pXf6/AdklzAb5sJCjjDNHd347
+	wdLfVzHs4vkfFWlEzbvAhlkACqjkJ24pFnQn4H/s/EEANTeIpzhcwSoFUA4ByJC4snLklHOh7US
+	EDpc+jSytBTEaYsAwzESB0oKMZdk7Y5ZA0cn5bVjJ6NuzRtn5/yo6i+6WMk1JDsPkcn7No3q+F3
+	v4aE4mtujg2p5kQOk3f9Ofk99/gsjm9kO8ndPN+IG3mSHC6SREhbGSEWnyCyVgelTTgjUDO/Q=
+X-Received: by 2002:a05:620a:3195:b0:93e:5cf8:e5a4 with SMTP id af79cd13be357-93f29d8cd73mr5039985a.58.1792161947789;
+        Fri, 16 Oct 2026 07:45:47 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::4791])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f1a17f226sm225789985a.17.2026.10.16.07.45.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2026 07:45:47 -0700 (PDT)
+Date: Fri, 16 Oct 2026 10:45:44 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Hongyu Xie <xiehongyu1@kylinos.cn>
+Cc: Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net
+Subject: Re: [usb-storage] [PATCH] usb: storage: bound timeout=0 URB waits to
+ 30s
+Message-ID: <74237362-9f51-4d75-baac-9e8ebfb6c301@rowland.harvard.edu>
+References: <20261014093856.415812-1-xiehongyu1@kylinos.cn>
+ <c1a82ee2-c48a-44ca-9da7-d3bad26dc240@rowland.harvard.edu>
+ <179213233444.78616.16846009709382132836@kylinos.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-KSMG-AntiPhishing: NotDetected, bases: 2026/10/16 12:54:00
-X-KSMG-AntiSpam-Auth: dkim=none
-X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
-X-KSMG-AntiSpam-Info: LuaCore: 127 0.3.127 0884f7b061fa529b810563f359267cd65d2ec05c, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;new-mail.astralinux.ru:7.1.1;patch.msgid.link:7.1.1;astralinux.ru:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 206758 [Oct 16 2026]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.27
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/10/16 06:35:00 #28691046
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2026/10/16 12:54:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 1
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <179213233444.78616.16846009709382132836@kylinos.cn>
 
-From: Tobi Gaertner <tob.gaertner@me.com>
+On Fri, Oct 16, 2026 at 02:32:14PM +0800, Hongyu Xie wrote:
+> On Wed, 14 Oct 2026, Alan Stern wrote:
+> > > A device that stops responding while such a transfer is pending hangs the
+> > > control thread permanently,
+> >
+> > Why do you say it hangs _permanently_?  I've seen plenty of examples
+> > where the hang ended when the transfer was aborted.
+> 
+> You are right for the healthy-host-controller case, and our own tests
+> agree with you: when the HC is healthy, the abort path does end the
+> hang (details under Q3). "Permanently" holds only when the hang closes
+> into the cycle below -- and then it holds until power loss. In the
+> September incidents (5.4-based arm64), one machine sat wedged from
+> 23:38 until it was power-cycled three and a half days later; hung_task
+> warned every 120 s throughout and nothing ever unwedged it.
+> 
+> The cycle, in the September samples' stack shape:
+> 
+>     mdadm (systemd shutdown hook runs `mdadm --wait-clean --scan`,
+>     which opens every block device): D state in disk_block_events ->
+>     cancel_delayed_work_sync, holding ev->block_mutex    [hung_task x10]
+>       events workfn: TEST_UNIT_READY never finishes
+>       TUR's 30s SCSI deadline fires -> EH -> command_abort():
+>       unbounded wait_for_completion(&us->notify)
+>       control thread: msg_common(timeout=0) ->
+>       wait_for_completion_interruptible_timeout(MAX_SCHEDULE_TIMEOUT)
+>       [TASK_KILLABLE -- invisible to hung_task, hence only mdadm shows]
+> 
+> Note the last line: hung_task only reports the UNINTERRUPTIBLE part of
+> the cycle, which is why the logs look like "mdadm hung" when the
+> usb-storage control thread is equally stuck. Unplugging the stick does
+> not deadlock the box (no block device open, no disk_block_events); the
+> mdadm hook is what turns a usb-storage wedge into a system deadlock.
 
-commit 2aa8a4fa8d5b7d0e1ebcec100e1a4d80a1f4b21a upstream.
+Okay, but you're missing the point.  If the host controller isn't 
+working, only the host controller driver can repair the damage.  You 
+can't fix the resulting problems by changing usb-storage.  In 
+particular, adding timeouts won't help.  All that will happen is the 
+timeout will expire, the timer handler will try to unlink the URB, and 
+you'll be stuck waiting for the URB to complete, just as before.
 
-cdc_ncm_rx_verify_ndp16() validates that the NDP header and its DPE
-entries fit within the skb. The first check correctly accounts for
-ndpoffset:
+If you're concerned about the fact that faulty hardware can hang the 
+entire system, all I can say is that this problem is not unique to USB.  
+Consider what effect a faulty hard disk drive or faulty CPU or faulty 
+power supply could have.
 
-  if ((ndpoffset + sizeof(struct usb_cdc_ncm_ndp16)) > skb_in->len)
+> > >       -> usb_stor_stop_transport()  /* URB unlink issued, but the URB of
+> > >                                       a device wedged mid-transition
+> > >                                       never completes */
+> >
+> > Why do you say the URB never completes?  Unlinking an URB should always
+> > cause it to complete, whether the device is responding or not.
+> 
+> I will drop that wording. What I can stand behind is the endpoint
+> fact, not the mechanism: in those incidents the device never
+> disconnected -- the firmware was wedged mid-modeswitch, still attached,
+> bulk endpoint silent, and there are zero USB disconnects in the logs
+> across the whole window. With no disconnect,
+> usb_disable_device() -> usb_hcd_flush_endpoint(), the path that
+> forcibly completes pending URBs, never runs. command_abort() did run
+> and did issue usb_unlink_urb() via usb_stor_stop_transport(). The
+> control thread still never returned from the msg_common() wait until
+> power-off days later. Why the host controller did not hand the
+> unlinked URB back in that exact state, I cannot explain -- we never
+> reproduced that state live to dissect it. On healthy host controllers,
+> unlink and kill do complete, including against a dead device; our own
+> A/B tests show exactly that (below).
+> 
+> > Then the appropriate fix is to add a suitable timeout at the appropriate
+> > point in this cycle.  Not to force every command to be limited to a
+> > pre-defined 30-second timeout.
+> 
+> Agreed on both halves. On the first: in this cycle, that point is
+> msg_common().
 
-but the second check omits it:
+The rest of your message deserves TL;DR.
 
-  if ((sizeof(struct usb_cdc_ncm_ndp16) +
-       ret * (sizeof(struct usb_cdc_ncm_dpe16))) > skb_in->len)
+Look, I agree with your basic approach for transfers that otherwise 
+would not have a timeout.  You already posted some patches along those 
+lines for ene_ub6250; you can do the same for the other subdrivers.
 
-This validates the DPE array size against the total skb length as if
-the NDP were at offset 0, rather than at ndpoffset. When the NDP is
-placed near the end of the NTB (large wNdpIndex), the DPE entries can
-extend past the skb data buffer even though the check passes.
-cdc_ncm_rx_fixup() then reads out-of-bounds memory when iterating
-the DPE array.
-
-Add ndpoffset to the nframes bounds check and use struct_size_t() to
-express the NDP-plus-DPE-array size more clearly.
-
-Fixes: ff06ab13a4cc ("net: cdc_ncm: splitting rx_fixup for code reuse")
-Signed-off-by: Tobi Gaertner <tob.gaertner@me.com>
-Link: https://patch.msgid.link/20260314054640.2895026-2-tob.gaertner@me.com
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-[ mdmitrichenko: use struct_size() on the already initialized ndp16
-  pointer instead of struct_size_t(), which does not exist in 5.10 and
-  5.15; struct_size_t(type, ...) is defined as
-  struct_size((type *)NULL, ...), so the result is the same. ]
-Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
----
-Backport fix for CVE-2026-23448
- drivers/net/usb/cdc_ncm.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
-index 57b1e6dc62f0..a3d3f2b6cb1b 100644
---- a/drivers/net/usb/cdc_ncm.c
-+++ b/drivers/net/usb/cdc_ncm.c
-@@ -1638,6 +1638,7 @@ int cdc_ncm_rx_verify_ndp16(struct sk_buff *skb_in, int ndpoffset)
- 	struct usbnet *dev = netdev_priv(skb_in->dev);
- 	struct usb_cdc_ncm_ndp16 *ndp16;
- 	int ret = -EINVAL;
-+	size_t ndp_len;
- 
- 	if ((ndpoffset + sizeof(struct usb_cdc_ncm_ndp16)) > skb_in->len) {
- 		netif_dbg(dev, rx_err, dev->net, "invalid NDP offset  <%u>\n",
-@@ -1657,8 +1658,8 @@ int cdc_ncm_rx_verify_ndp16(struct sk_buff *skb_in, int ndpoffset)
- 					sizeof(struct usb_cdc_ncm_dpe16));
- 	ret--; /* we process NDP entries except for the last one */
- 
--	if ((sizeof(struct usb_cdc_ncm_ndp16) +
--	     ret * (sizeof(struct usb_cdc_ncm_dpe16))) > skb_in->len) {
-+	ndp_len = struct_size(ndp16, dpe16, ret);
-+	if (ndpoffset + ndp_len > skb_in->len) {
- 		netif_dbg(dev, rx_err, dev->net, "Invalid nframes = %d\n", ret);
- 		ret = -EINVAL;
- 	}
--- 
-2.43.0
-
+Alan Stern
