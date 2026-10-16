@@ -1,260 +1,147 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail-gw01.astralinux.ru (mail-gw01.astralinux.ru [37.230.196.243])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9A74AF662;
-	Fri, 16 Oct 2026 13:01:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DC547535E;
+	Fri, 16 Oct 2026 14:08:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.230.196.243
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792155670; cv=none; b=ex8+kbse12+JMchjlY9ZowcrH3YalevmsMRnOY9WmYi/Y88/yqfZU4bUo3bUIEEYQXkRqA+Vja5oQJIP+Zzil5IgP2cNwWDMGH8fgTlQPLPDlHrPRPKDqJBS74Z0nmfY88Yfj6niEjLlnMihbPQRalKw/IzBuehyhcGjmM10l3M=
+	t=1792159742; cv=none; b=YHQj/VotkobYWi0imx6yZShSXoMbJdVxKy4f+4x2+1PSb1m537i2rIk3niM3lh3YFVUXELwUY9F5SX4ZM0aQUuWR7xDdlsBZbiOuMtSXHsh0KFR9kRvjMR0Bze/QWw9V8l689W+lWvUbwDNMASjE1JrLvakOrpP8YY4YzbWj5gQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792155670; c=relaxed/simple;
-	bh=AgYBh89DYUZxiECMbEUwWp8Q0NW2sRgVYX+SIw3Sbdk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B2PBpKF1jxhhyDAj6idh2EQquY0kKstEnQ3oNDbhnYywWh+KPXjzUnct4NM+jzMttrCwG7CoGPr/PsQrt49qzEBdYAmEG2mvgLw5b6IF2JitCLLKhFGruxPHr3D09cQBQA6GstlRLV3TKYODYiy7vGwnB7PGH8vMhFR+st7fWzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aqeC7m9n; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792159742; c=relaxed/simple;
+	bh=5+jNcPrFVwyar2TgHXjQU7Gg8W4bNNaqqDwQA/tIK5w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k5mPdvp+ctiagRgavpMJdwumSObkfPPsfpw94tuV/pOJ4aZS4HZb4RMbVzQ/w8/309CnviOFibxZ+LxLTIcWQGCU23Og0PfBT/Dm0ztyDcRCwyag56HTs1+caKtlIVjB+dBmuTlAyqxiPl1Y9L2xsM1iWuHdy+7Z2wuN3ZMqHwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru; spf=pass smtp.mailfrom=astralinux.ru; dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b=tzG6IAaL; arc=none smtp.client-ip=37.230.196.243
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=astralinux.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=astralinux.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aqeC7m9n"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B8261F000C4;
-	Fri, 16 Oct 2026 13:01:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792155666;
-	bh=nBpu4rtuXOSQhn4D8gOwk/35HpPTLeORp4r0U+l6S0I=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=aqeC7m9nCLxVnSQ2GrRqpHVUET0IxIvK/h8fzctu1BPXFmG0m1C7o+fIi8enii5bP
-	 EHBuAQlJ2C6GB7nHZsQi0syWVUyyjdRsovz4oRzha8b633DArjIucTPH1BNLeq+kU8
-	 /o19mcOOsQFbWLAUb+JtBoZmCXV8fVHSctsBn81mYav5dCsBpGzRdBQgzCG1hxmtow
-	 ouyvSwm9iL3DK7BBgWhxq0uKN6qSoAl0EJtrpTuIOnlDY6QeoStb1AMIHEhr9STp+8
-	 I6UWhANvBqytRuxYBqcCuAydwJlOtV4nxkg8NUaIxRYXDPEMAxFaCsIkD+O/L4zvkn
-	 J+5PHY1dz9U1w==
-Message-ID: <7102898a-b99c-499e-b1a1-5da4a542b752@kernel.org>
-Date: Fri, 16 Oct 2026 08:01:02 -0500
+	dkim=pass (2048-bit key) header.d=astralinux.ru header.i=@astralinux.ru header.b="tzG6IAaL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=astralinux.ru;
+	s=mail; t=1792159729;
+	bh=5+jNcPrFVwyar2TgHXjQU7Gg8W4bNNaqqDwQA/tIK5w=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tzG6IAaLMLuiNDg/07xA+hyFpMX/8iTpk81K5XjQaR9wadIcObhDUp10NxdduxHX7
+	 8AzPDdtWv6cwnlBpAnM415MV/f4Lqhllxs39EMfItPog7WBznCbN+z1e773jt5ggRE
+	 ltNLRUQPfif0bnzT8z+plKfBG01NGr15DR6ixJokcdzIKZj7yB6VL1WKbLCOwXgdWL
+	 LhyM/u0R5jTUCrfkNMcy0EonfwWAqnaKszsMMRBoDBheagthK4jMJLKgwGSe72wbPB
+	 KAvTvIi8CnmwWscmQzvGo3B9Izw8m55sTmOipyhVVqZLdGoBulUXWLCCZCctYpkT67
+	 VVDIWd0cLAx6w==
+Received: from gca-sc-a-srv-ksmg01.astralinux.ru (localhost [127.0.0.1])
+	by mail-gw01.astralinux.ru (Postfix) with ESMTP id 05A0125D2B;
+	Fri, 16 Oct 2026 17:08:49 +0300 (MSK)
+Received: from new-mail.astralinux.ru (unknown [10.205.207.8])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail-gw01.astralinux.ru (Postfix) with ESMTPS;
+	Fri, 16 Oct 2026 17:08:47 +0300 (MSK)
+Received: from DESKTOP-D46TNHI (unknown [10.198.49.29])
+	by new-mail.astralinux.ru (Postfix) with ESMTPA id 4j5mdS38KFzY9W;
+	Fri, 16 Oct 2026 16:54:20 +0300 (MSK)
+From: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+To: stable@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>,
+	Sasha Levin <sashal@kernel.org>,
+	Tobi Gaertner <tob.gaertner@me.com>,
+	Oliver Neukum <oliver@neukum.org>,
+	=?UTF-8?q?Bj=C3=B8rn=20Mork?= <bjorn@mork.no>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: [PATCH 5.10/5.15] net: usb: cdc_ncm: add ndpoffset to NDP16 nframes bounds check
+Date: Fri, 16 Oct 2026 16:53:07 +0300
+Message-ID: <20261016135308.600-1-mdmitrichenko@astralinux.ru>
+X-Mailer: git-send-email 2.54.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] USB: hub: call ACPI _PRR reset during port power-cycle
- on enumeration failure
-Content-Language: en-US
-To: "Chia-Lin Kao (AceLan)" <acelan.kao@canonical.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
- Mathias Nyman <mathias.nyman@linux.intel.com>,
- Mika Westerberg <mika.westerberg@linux.intel.com>,
- Len Brown <lenb@kernel.org>, linux-acpi@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260706080117.3754550-1-acelan.kao@canonical.com>
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20260706080117.3754550-1-acelan.kao@canonical.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-KSMG-AntiPhishing: NotDetected, bases: 2026/10/16 12:54:00
+X-KSMG-AntiSpam-Auth: dkim=none
+X-KSMG-AntiSpam-Envelope-From: mdmitrichenko@astralinux.ru
+X-KSMG-AntiSpam-Info: LuaCore: 127 0.3.127 0884f7b061fa529b810563f359267cd65d2ec05c, {Tracking_one_susp_tld}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;new-mail.astralinux.ru:7.1.1;patch.msgid.link:7.1.1;astralinux.ru:7.1.1;127.0.0.199:7.1.2, FromAlignment: s
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 206758 [Oct 16 2026]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.27
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.0.7854, bases: 2026/10/16 06:35:00 #28691046
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2026/10/16 12:54:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 1
 
+From: Tobi Gaertner <tob.gaertner@me.com>
 
+commit 2aa8a4fa8d5b7d0e1ebcec100e1a4d80a1f4b21a upstream.
 
-On 7/6/26 03:01, Chia-Lin Kao (AceLan) wrote:
-> Some USB-connected devices (e.g. MT7925 Bluetooth on Dell laptops) expose
-> their hardware reset line via an ACPI Power Resource for Reset (_PRR)
-> rather than relying solely on VBUS cycling for recovery.  When the reset
-> GPIO gets stuck low the device stops responding on USB; a VBUS power-cycle
-> alone cannot recover it because the chip remains in reset regardless of
-> VBUS state.
-> 
-> Add usb_acpi_port_prr_reset() in usb-acpi.c that, given a hub device and
-> one-based port number, looks up the port's ACPI companion handle, evaluates
-> _PRR to obtain the power-resource reference, and then calls _RST on that
-> reference to toggle the reset line.  The function is a no-op if the port
-> has no ACPI handle or no _PRR method, so it is safe to call unconditionally
-> for every port.
-> 
-> Wire it into hub_port_connect() during the mid-retry VBUS power-cycle
-> (at (PORT_INIT_TRIES-1)/2 iterations), calling usb_acpi_port_prr_reset()
-> *after* VBUS goes off and *before* VBUS comes back on.  The ordering is
-> critical: on the tested hardware the ACPI _RST method (MBTR._RST) drives
-> BT_RST low for 200 ms then high again.  If _RST is called after VBUS is
-> already restored the GPIO pulse races with device enumeration starting on
-> the live bus; the device begins asserting USB signals while still held in
-> reset and enumeration fails.  Performing the reset while the port is
-> de-powered ensures the GPIO pulse completes fully before the device is
-> given power and time to initialise.
-> 
-> After VBUS is restored, add an msleep(100) conditional on _PRR._RST having
-> succeeded.  USB 2.0 spec §7.1.7.3 (Fig. 7-29) mandates a minimum of 100 ms
-> between VBUS power-on and the first reset signalling for power settling.
-> On root hubs, hub_power_on_good_delay() returns bPwrOn2PwrGood * 2 with
-> no minimum floor; on the tested xHCI root hub bPwrOn2PwrGood = 10, yielding
-> only 20 ms — well below the spec minimum.  (External hubs already enforce
-> a 100 ms minimum via hub_power_on_good_delay().)  When _PRR._RST has been
-> exercised the device must also complete its full power-on sequence (GPIO
-> de-assertion, internal oscillator start, firmware load) before USB
-> enumeration begins.  The 100 ms sleep enforces the spec minimum and gives
-> the device adequate settling time.
-> 
-> Tested on a Dell laptop with MT7925 Bluetooth (idVendor=0489,
-> idProduct=e139) whose BT_RST GPIO was stuck low.  With this fix the
-> device recovers autonomously at boot without requiring a G3
-> (mechanical power-off) cycle.  The relevant dmesg sequence:
-> 
->    [    1.448491] usb 3-10: new high-speed USB device number 4 using xhci_hcd
->    [    6.813942] usb 3-10: device descriptor read/64, error -110
->    [   22.685978] usb 3-10: device descriptor read/64, error -110
->    [   22.901715] usb 3-10: new high-speed USB device number 5 using xhci_hcd
->    [   28.317963] usb 3-10: device descriptor read/64, error -110
->    [   44.189949] usb 3-10: device descriptor read/64, error -110
->    [   44.294065] usb usb3-port10: attempt power cycle
->    [   44.872709] usb 3-10: new high-speed USB device number 6 using xhci_hcd
->    [   44.888293] usb 3-10: New USB device found, idVendor=0489, idProduct=e139, bcdDevice= 1.00
->    [   44.888318] usb 3-10: Manufacturer: MediaTek Inc.
-> 
-> Signed-off-by: Chia-Lin Kao (AceLan) <acelan.kao@canonical.com>
-> ---
-> v1 -> v2:
-> - Cc the ACPI maintainer and linux-acpi so the _PRR/_RST usage can be
->    reviewed by the subsystem owners, and trimmed the recipient list to
->    the people/lists actually relevant to this change (per Greg's request).
-> - Tighten the _PRR package check from "count < 1" to "count != 1" so the
->    single-element invariant mandated by ACPI 6.4 §7.3.26 is explicit,
->    matching the existing in-tree _PRR/_RST users (btintel.c,
->    iwlwifi .../pcie/gen1_2/trans.c).  No functional change: only the
->    first (and only) element is ever used.
-> 
+cdc_ncm_rx_verify_ndp16() validates that the NDP header and its DPE
+entries fit within the skb. The first check correctly accounts for
+ndpoffset:
 
-Reviewed-by: Mario Limonciello (AMD) <superm1@kernel.org>
+  if ((ndpoffset + sizeof(struct usb_cdc_ncm_ndp16)) > skb_in->len)
 
-This one looks like it might have gotten misplaced.
-It makes sense to me and looks good though.
+but the second check omits it:
 
-> [v1] https://lore.kernel.org/lkml/20260326011708.1128840-1-acelan.kao@canonical.com
-> ---
->   drivers/usb/core/hub.c      | 14 ++++++++
->   drivers/usb/core/usb-acpi.c | 68 +++++++++++++++++++++++++++++++++++++
->   drivers/usb/core/usb.h      |  3 ++
->   3 files changed, 85 insertions(+)
-> 
-> diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
-> index 24960ba9caa9..1740e96f73cc 100644
-> --- a/drivers/usb/core/hub.c
-> +++ b/drivers/usb/core/hub.c
-> @@ -5603,11 +5603,25 @@ static void hub_port_connect(struct usb_hub *hub, int port1, u16 portstatus,
->   
->   		/* When halfway through our retry count, power-cycle the port */
->   		if (i == (PORT_INIT_TRIES - 1) / 2) {
-> +			int prr_reset;
-> +
->   			dev_info(&port_dev->dev, "attempt power cycle\n");
->   			usb_hub_set_port_power(hdev, hub, port1, false);
->   			msleep(2 * hub_power_on_good_delay(hub));
-> +			prr_reset = usb_acpi_port_prr_reset(hdev, port1);
->   			usb_hub_set_port_power(hdev, hub, port1, true);
->   			msleep(hub_power_on_good_delay(hub));
-> +			/*
-> +			 * USB 2.0 spec §7.1.7.3 requires at least 100 ms
-> +			 * between VBUS power-on and the first reset for power
-> +			 * settling.  hub_power_on_good_delay() on an xHCI root
-> +			 * hub returns bPwrOn2PwrGood * 2 with no minimum floor,
-> +			 * which can be as little as 20 ms.  When _PRR _RST was
-> +			 * also exercised the device must complete its power-on
-> +			 * sequence before enumeration; enforce the spec minimum.
-> +			 */
-> +			if (prr_reset == 0)
-> +				msleep(100);
->   		}
->   	}
->   	if (hub->hdev->parent ||
-> diff --git a/drivers/usb/core/usb-acpi.c b/drivers/usb/core/usb-acpi.c
-> index 489dbdc96f94..bb1b5e8cdc15 100644
-> --- a/drivers/usb/core/usb-acpi.c
-> +++ b/drivers/usb/core/usb-acpi.c
-> @@ -142,6 +142,74 @@ int usb_acpi_set_power_state(struct usb_device *hdev, int index, bool enable)
->   }
->   EXPORT_SYMBOL_GPL(usb_acpi_set_power_state);
->   
-> +/**
-> + * usb_acpi_port_prr_reset - issue an ACPI _PRR reset on a hub port
-> + * @hdev: USB device belonging to the usb hub
-> + * @port1: port number (one-based)
-> + *
-> + * Some devices expose their hardware reset line via an ACPI Power Resource for
-> + * Reset (_PRR).  When such a device fails to enumerate (e.g. because the reset
-> + * GPIO is stuck low), the USB power-cycle alone is not enough; the firmware
-> + * reset path must also be exercised.
-> + *
-> + * This function evaluates _PRR on the port's ACPI companion to obtain the
-> + * power-resource reference and then calls _RST on that resource to toggle the
-> + * reset line.  It is intended to be called alongside the mid-retry VBUS
-> + * power-cycle already performed by hub_port_connect().
-> + *
-> + * Returns 0 on success, -ENODEV if the port has no ACPI handle or no _PRR
-> + * method, or a negative error code on failure.
-> + */
-> +int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1)
-> +{
-> +	acpi_handle port_handle;
-> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
-> +	union acpi_object *pkg, *ref;
-> +	acpi_status status;
-> +	int ret = 0;
-> +
-> +	port_handle = usb_get_hub_port_acpi_handle(hdev, port1);
-> +	if (!port_handle)
-> +		return -ENODEV;
-> +
-> +	if (!acpi_has_method(port_handle, "_PRR"))
-> +		return -ENODEV;
-> +
-> +	status = acpi_evaluate_object(port_handle, "_PRR", NULL, &buffer);
-> +	if (ACPI_FAILURE(status)) {
-> +		dev_dbg(&hdev->dev, "port%d: _PRR evaluation failed: %s\n",
-> +			port1, acpi_format_exception(status));
-> +		return -ENODEV;
-> +	}
-> +
-> +	pkg = buffer.pointer;
-> +	if (!pkg || pkg->type != ACPI_TYPE_PACKAGE || pkg->package.count != 1) {
-> +		dev_dbg(&hdev->dev, "port%d: _PRR returned unexpected object\n",
-> +			port1);
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	ref = &pkg->package.elements[0];
-> +	if (ref->type != ACPI_TYPE_LOCAL_REFERENCE || !ref->reference.handle) {
-> +		dev_dbg(&hdev->dev, "port%d: _PRR element is not a reference\n",
-> +			port1);
-> +		ret = -EINVAL;
-> +		goto out;
-> +	}
-> +
-> +	status = acpi_evaluate_object(ref->reference.handle, "_RST", NULL, NULL);
-> +	if (ACPI_FAILURE(status)) {
-> +		dev_dbg(&hdev->dev, "port%d: _RST evaluation failed: %s\n",
-> +			port1, acpi_format_exception(status));
-> +		ret = -EIO;
-> +	}
-> +
-> +out:
-> +	kfree(buffer.pointer);
-> +	return ret;
-> +}
-> +
->   /**
->    * usb_acpi_add_usb4_devlink - add device link to USB4 Host Interface for tunneled USB3 devices
->    *
-> diff --git a/drivers/usb/core/usb.h b/drivers/usb/core/usb.h
-> index a9b37aeb515b..4d3dc3bd881b 100644
-> --- a/drivers/usb/core/usb.h
-> +++ b/drivers/usb/core/usb.h
-> @@ -211,7 +211,10 @@ extern int usb_acpi_register(void);
->   extern void usb_acpi_unregister(void);
->   extern acpi_handle usb_get_hub_port_acpi_handle(struct usb_device *hdev,
->   	int port1);
-> +extern int usb_acpi_port_prr_reset(struct usb_device *hdev, int port1);
->   #else
->   static inline int usb_acpi_register(void) { return 0; };
->   static inline void usb_acpi_unregister(void) { };
-> +static inline int usb_acpi_port_prr_reset(struct usb_device *hdev,
-> +					  int port1) { return -ENODEV; }
->   #endif
+  if ((sizeof(struct usb_cdc_ncm_ndp16) +
+       ret * (sizeof(struct usb_cdc_ncm_dpe16))) > skb_in->len)
+
+This validates the DPE array size against the total skb length as if
+the NDP were at offset 0, rather than at ndpoffset. When the NDP is
+placed near the end of the NTB (large wNdpIndex), the DPE entries can
+extend past the skb data buffer even though the check passes.
+cdc_ncm_rx_fixup() then reads out-of-bounds memory when iterating
+the DPE array.
+
+Add ndpoffset to the nframes bounds check and use struct_size_t() to
+express the NDP-plus-DPE-array size more clearly.
+
+Fixes: ff06ab13a4cc ("net: cdc_ncm: splitting rx_fixup for code reuse")
+Signed-off-by: Tobi Gaertner <tob.gaertner@me.com>
+Link: https://patch.msgid.link/20260314054640.2895026-2-tob.gaertner@me.com
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+[ mdmitrichenko: use struct_size() on the already initialized ndp16
+  pointer instead of struct_size_t(), which does not exist in 5.10 and
+  5.15; struct_size_t(type, ...) is defined as
+  struct_size((type *)NULL, ...), so the result is the same. ]
+Signed-off-by: Mikhail Dmitrichenko <mdmitrichenko@astralinux.ru>
+---
+Backport fix for CVE-2026-23448
+ drivers/net/usb/cdc_ncm.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/net/usb/cdc_ncm.c b/drivers/net/usb/cdc_ncm.c
+index 57b1e6dc62f0..a3d3f2b6cb1b 100644
+--- a/drivers/net/usb/cdc_ncm.c
++++ b/drivers/net/usb/cdc_ncm.c
+@@ -1638,6 +1638,7 @@ int cdc_ncm_rx_verify_ndp16(struct sk_buff *skb_in, int ndpoffset)
+ 	struct usbnet *dev = netdev_priv(skb_in->dev);
+ 	struct usb_cdc_ncm_ndp16 *ndp16;
+ 	int ret = -EINVAL;
++	size_t ndp_len;
+ 
+ 	if ((ndpoffset + sizeof(struct usb_cdc_ncm_ndp16)) > skb_in->len) {
+ 		netif_dbg(dev, rx_err, dev->net, "invalid NDP offset  <%u>\n",
+@@ -1657,8 +1658,8 @@ int cdc_ncm_rx_verify_ndp16(struct sk_buff *skb_in, int ndpoffset)
+ 					sizeof(struct usb_cdc_ncm_dpe16));
+ 	ret--; /* we process NDP entries except for the last one */
+ 
+-	if ((sizeof(struct usb_cdc_ncm_ndp16) +
+-	     ret * (sizeof(struct usb_cdc_ncm_dpe16))) > skb_in->len) {
++	ndp_len = struct_size(ndp16, dpe16, ret);
++	if (ndpoffset + ndp_len > skb_in->len) {
+ 		netif_dbg(dev, rx_err, dev->net, "Invalid nframes = %d\n", ret);
+ 		ret = -EINVAL;
+ 	}
+-- 
+2.43.0
 
