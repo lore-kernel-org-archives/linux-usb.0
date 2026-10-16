@@ -1,79 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE430224AF2
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 20:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC72179A3
+	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 00:05:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792096561; cv=none; b=Nu1OC4HY6CtUmZ5YuPz8StcS2VQEZbj+puL85t7UILQLPtGdMgCgVhZuYaKOE9puk3HGFmjZWtA2VcvIElmrMPNzgm5gSzF/PPLilfprhWSMxPsyjbEmWFXownVSkgJIHTIAM4KKjxM6XLM4NTwzMC95nbaMuxlxkaNsoKITams=
+	t=1792109136; cv=none; b=O6ZQb7jH0VXpOls/hYjMYoQ6Z5n3EPMwgJb7o7yFtYvCYUjhVQDGkLm3kQ8aSlaTR3aMfD3hqY3k1pIkGMiedqk6Okz5ZVpHouKolbXm8Xqr3NLv4sxGWZ7U+ASlco6JoGsj4K30dXc1xgSbmSuSsdDl3PHC+/Lu3L9HF3j6F60=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792096561; c=relaxed/simple;
-	bh=BFhZM7IsvqFpY+a6ZrUa/ZeBScZu49qCu9L8o/Epk/E=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Du34TvkpjohnPoETvOeCmr7rwdrPNkDHDC0TB7aZdLX/c3jgZXcpNczBWMXIQQFmTUJac4tEA9gYo1MbtVFukLZG9MYA4TdAaF72QV5Z6vRXW0g8h4ff2TuhGvbuP6t+THBN/LXfT2boP7SopfiGrDldv1foku0tg/Kkq7EXIO0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QUZWHRxP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1792109136; c=relaxed/simple;
+	bh=fPRYypa44znrNavChK57m+Ydl3AyDgbMBifU9YzFMLU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Vwv9v+lGwir8Lk7C3K1iKfq2MCAbKbNFLhGzsiRtBIOdMyS/kRl9ORqWEJ6cBlEmqLuFghBlMbenlt3kI14Bv0Am+N2JVtALOU3q+6dyNQ0b0qGCCUvstSpiWD2u/Uh3wbP2kvjXmJY7sBUvGYwDU0IdF92xLcYoe+LcKVd7DC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rScwL5k5; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QUZWHRxP"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 3D9D9C2BCFB
-	for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 20:36:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792096560;
-	bh=BFhZM7IsvqFpY+a6ZrUa/ZeBScZu49qCu9L8o/Epk/E=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=QUZWHRxPa4t76gn77v3hTAGc2qFX7ZBWJOFqaoU8Nn3Tp31hftjqCXLWUCde94iaF
-	 7h+lztsiWzXhSg67HAHEwgBwEtfsUqMPpu/MFCDbRkm13+Y28un/EQLrzLZrGeWOLd
-	 Yna9Z4nNEtG7+0s28zrBcqah6IYtSRM2uSsFrIv5WRg+VzTx3aNj7iLeh5ZzFkfSCe
-	 SOBkotubvTdKAmYV6E7YRtZzHGpQzrV+Gyx81MjG/sgW9rETgSPvy4P4ciHOyCP/hZ
-	 B1nHTIwbr0YMjHD1BLlm0TGLbe/lklx7MLZjMJKVaPInhuBZ8k7PhG3f1olJBz6f/L
-	 OmGRDlUSNN6BA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 13E05C41612; Thu, 15 Oct 2026 20:36:00 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222047] [REGRESSION] USB xhci_hcd boot timeout on ASUS ROG
- Crosshair X870E Hero since Linux 7.0)
-Date: Thu, 15 Oct 2026 20:35:59 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: michal.pecio@gmail.com
-X-Bugzilla-Status: NEEDINFO
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222047-208809-kuXQjyRfEi@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222047-208809@https.bugzilla.kernel.org/>
-References: <bug-222047-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rScwL5k5"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4a172eb31f0so51979105e9.1
+        for <linux-usb@vger.kernel.org>; Thu, 15 Oct 2026 17:05:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792109134; x=1792713934; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UnhsvI9MzVbrWhzAeYwgCkKjH6CfXVlO8VeDcgUlxMk=;
+        b=rScwL5k5O6KZT1xUuakOfKTXFJWr+OAjf8bQ8GsWjMa4D8l3XuFAzK3ywr6S7ER0g4
+         hw5cKkAhLWyypo3HS8444/rvHwgbanQDCjQtMRb1Sfpg47ArO6hWtTMWGEV08v94vzMc
+         qwbyUJz7/GgOmqHapRdvrEDirTx2GdWy5D9PDrXYB6cE2Kq6oS/FFfYJFk1XdKfGRKF4
+         pr5QELEyQ0xWdd2g/zbRhBV6v9lWfL6IhcIZsqsr5Qx+eXucI8MVITTOEWUh/2MqB6qf
+         5UGc2zYHC+B8dusJZUZspdAv4HwTUCa5wYSKjpZl1QIvu9raRQTuqBgRJqy6+E32Fwe6
+         NGwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792109134; x=1792713934;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UnhsvI9MzVbrWhzAeYwgCkKjH6CfXVlO8VeDcgUlxMk=;
+        b=JRsDJyZxTs2Pqlm5813HRRF8g6LESQ3qiI4wGLMplWsQ7fqVMYYh0U8i5HiJ8iN5UD
+         2Pt2hylSkdoIsWS3fEKQEFspVbYhjuNICqRjOTa8LdLrqnuli/o7aTbRht2epcNFbugT
+         7E8qihKtXoJ2qFmxoEaXGIdU2ikUBw9G/MHWbWe/MrpVGiQKylT4u05kryF+enN5Xepf
+         eDWdDBGT+stjmsVfcNzzDQ0eQyyJHeuhg5aAaxE0KFNha7pR7P6rhkSyOLJf1SFiP5cu
+         iX5OBmNVwv4nhd3Uv6bBqrNeDdmcOrEkOKbj7Fdjh+v3LUHR5GQc+Gg9SiprzSVbHVCj
+         zhfw==
+X-Forwarded-Encrypted: i=1; AKwUvBw+ATzrQjKyU2QomaVhgVKbA2z/DSDrRZoYB2zmXHQn+L/J0k7Qu0bsJspkWlONb0X10P224DNSK+c=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKwtkAwtuScYmD/c7T5ykVqKDO44Vt7TAIdBQ/VeYWW2nQQl4AK
+	kP4iY2vgS0IOzDSTSdzTfLve93DbYWoLXQq0sY2sSOgdM0qIMPTj6PL3
+X-Gm-Gg: AYBFou2pnGWZvtR2rVxzjTtyYK1entcKL3HHGHid+UzA04aTN1uMrPUdofZKtSV3B99
+	ZvJYSXNpnd+Krz36zprdMQQNwG8yBz4/oYqLeFhToObClIty1emayhPdYzyDuco6UF9tb/xkmxp
+	NF2oMu2t6DtQe7dwuaTN4DnvJ4jq1bY/yL3hYATOyJ+wCHlznFSqe2k3f4oBayuUsMdLohLVrgP
+	74yn6CaIMEhh6u32zc4fkofZIIPWiYylqpKI5d2H4D7wq4P8ikraVyxXg3wsgYphLeRzWQkp17A
+	QvtKU6WaUBNUR72vTSy1WVMib0M7CxCf1XvWGKXd3WG70X4BAqi3AH/Uh0RwQqlS2mYtc/D1wqz
+	k3sLNFM0JRQofKM1TdLJ3qj/lV8E5+yHKc1Etdx8wDh8E9GxaRfpDNLiDjwI834FKhOoR7GTkQx
+	lplk6krOUQTRaTynhQXCzhiVedZHaED8oNHK1OrOQMciGNTPECkbk6VmCCBeoRfeeRNgPRldKG3
+	Q+X1mN/23iKjRhftVMGzLYST8ZxaijmWfdKUzBa9xhvqSsO5pI32A==
+X-Received: by 2002:a05:600c:4747:b0:4a1:88de:9e8b with SMTP id 5b1f17b1804b1-4a18e49d65dmr411113445e9.5.1792109133763;
+        Thu, 15 Oct 2026 17:05:33 -0700 (PDT)
+Received: from fedora.fritz.box ([93.93.22.191])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f8d1esm1315821f8f.39.2026.10.15.17.05.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 Oct 2026 17:05:32 -0700 (PDT)
+From: Stefano Munari <stefanomunari.sm@gmail.com>
+To: Thangaraj Samynathan <Thangaraj.S@microchip.com>
+Cc: UNGLinuxDriver@microchip.com,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net] net: usb: lan78xx: fix error handling in lan78xx_open()
+Date: Fri, 16 Oct 2026 02:05:21 +0200
+Message-ID: <20261016000521.92868-1-stefanomunari.sm@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222047
+A failed interrupt URB submission leaves NAPI enabled and EVENT_DEV_OPEN
+set. A subsequent open enables NAPI again, triggering BUG_ON() in
+napi_enable().
 
---- Comment #8 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
-Does it help to downgrade to a kernel version which worked in the past? You=
- are
-on Arch, so your options are local pacman cache or the official package
-archive.
+Clear EVENT_DEV_OPEN and disable NAPI on the submission error path.
 
-Does it help to disconnect the PC from all power for a minute?
+Reproduced using failslab on a Raspberry Pi 3 Model B+ (LAN7515).
+With the fix, the injected allocation failure returns -ENOMEM and a
+subsequent open succeeds. Verified connectivity with ping and SSH.
 
---=20
-You may reply to this email to add a comment.
+Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
+Signed-off-by: Stefano Munari <stefanomunari.sm@gmail.com>
+---
+ drivers/net/usb/lan78xx.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index 5655941f1478..6a95934bb3d3 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -3484,6 +3484,8 @@ static int lan78xx_open(struct net_device *net)
+ 		if (ret < 0) {
+ 			netif_err(dev, ifup, dev->net,
+ 				  "intr submit %d\n", ret);
++			clear_bit(EVENT_DEV_OPEN, &dev->flags);
++			napi_disable(&dev->napi);
+ 			goto done;
+ 		}
+ 	}
+-- 
+2.55.0
+
