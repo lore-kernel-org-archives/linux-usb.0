@@ -1,226 +1,575 @@
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 311753659FD
-	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 17:47:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420FA56C631;
+	Fri, 16 Oct 2026 18:39:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792172849; cv=none; b=HQZblUoQ5BfxuH9kte7W9DaGQn5fZ6jxgUOsMSNTx8CLdMpNJxLmPU0Na3g77gtBml3C71K1PI3I/vwdN3k+d7WmC5D3NVWamV31EiClFcthYNbqePyAD8bdOQyk4TF0lVXDR8PKZltyzI7cifgjXUsaYmhURm+9e0FvD76IK0c=
+	t=1792175985; cv=none; b=nMwYcjQy1SX9foxVG7nsuBh3avnXWRzIkxQVxwL2cLGdnZo+s/HBA7w9MMKAXq/0mwez+ALMGzCLJTc5Mswk0iGqYBroQLRqxKmAObtyCaEgRETO6CxolxDDrr5+lI+QeXZy1aavB+MlgP9mI2cNn3qrXMUeFO8Rh/Megg1s6Wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792172849; c=relaxed/simple;
-	bh=97wBu5DSvx9rNKNsfmvL4+FAQtdXKRZQZU6dewKD/Fs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lEb0DdGv+C6zxmZLnfQTsz7BAlJgkKELqiEvor/V7Uwg5SEuf+QMk6oqnfEu3+YSXlnnW8bVCvfgKKZKQMk781DWHzjbclE+FBWUqE+4z/FLpBmhhUFpLbqEYmx2mnwmIqqpqM0JbNNFboe0RCP/zZhQ7RX/13CInEMnm9Xwd6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hhbOPgMx; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792175985; c=relaxed/simple;
+	bh=D48HLNbR+Re5KKKiLeutDRbm+dA5Az/Vvbho/JPV6ys=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=WbkeDTbCqnH1xsD0HHL2ERkVNgzhEge7QEjLk9o0aEmDc+JOtmd4tXsaEk4xkdBYp6Sl67fwZj8hmOGS/609UxmgxMhFwPzbw4HRdVOa/F+HyYyGuHavNROsEftM1er/7Ndr7a2LQu70QK45BaFYPBsI2lmAwDdMmsu2PAEs4L4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=KeE6yDcs; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hhbOPgMx"
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-cc1c9879395so135782a12.1
-        for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 10:47:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792172846; x=1792777646; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=sKoJikkf8KNTjGtZcVhqWM6F5oLRE7WWybC2K+96Qrw=;
-        b=hhbOPgMxhZS7VrDRLmJFo+kPRJ4yM3NsdRIwzQ4YYdbfwNj2mHr/UUPsO1bo3E1zYc
-         KMLg/gCoUIhShTF1jf3V5z+JtD2QheHOba/OwrgnGbe7DScGAm/mkfTyAZLIfi52kz4D
-         Wwjht22FzWymYmMNnnTYdfG1ylLntJ1HeZC3soH1Kql7+u46sr8O+1zQTm1bnkx/Plqz
-         bEqNGRwy8bnCir1V6EkZKAFc0Ex6NaRvOBu/5mjTdT7Ssm/frNLbyJMNEG49xS7uv77X
-         HPB4qHIKrXTI6SA2BfQnnv64Gdzwnq99kJOFnUWTK7RwQpKP78wxTEm2UBCQc9P7GSMG
-         532A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792172846; x=1792777646;
-        h=content-transfer-encoding:content-type:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=sKoJikkf8KNTjGtZcVhqWM6F5oLRE7WWybC2K+96Qrw=;
-        b=xO2hNvMf9SChK+cXVFLlHRtGk+hApNNJb6ir2xVJFatmPJe5WAz5oxqQv9K7/QX2LT
-         o/aWGJX9rmp4hxQP+88cd4Ut84jcIbiLh9PEDUjiphgN7Lh4CP9GZNGDzmQjMTR9HmfV
-         zMItnaQVXsSaEcxST8s7XYeyh6I0WFhg5FPQYebLXBao74mq4EJ7VkKnil+/Ebe7ycQ7
-         XG0yzT3DxpVKjpK10lzXPddjCjiqv/F1C7KA8s2Wdt4wSapRQpT1vt9g0QhmuGb8bhn/
-         mY2PCIVMjt67x5Sxj/7uiCeMUewcH3vcUabmfg1b4iaxwkkybdn5t9wu/Vrbo3ns7nm2
-         x7Pw==
-X-Gm-Message-State: AFq9FYJZKXf4i2sKUToJQJx2QFpIpZK/L59MJPg4BB6AhY3G3FSONF22
-	kyTIykNI4cucOciBM9GcNDBlGfI5J8QbcWdX8MKfCor3LD+cU8uEPikgH7mtfw==
-X-Gm-Gg: AYBFou2RizRUICUlQgwmsRsL1t2RUTRM/O9MCSW1pJEHGKgx1zo+xn6PtNeGp9WtvJe
-	ihcMXpyKY3bM+ygRn6ys+CAhpaDYKdFER4qyQh0ANwKGH/+NA5iNsbLFbD73s8KGhQ2ujqNCgQh
-	ZkEYgdYvvI+Gd2wwOa8y6qjhV57vQiIufbbN6iwU0ALiOsoGTMS8LWFckJsbgqlVoXUSu44Foxv
-	8JxRYyOWwcq0CjTnYa5w0ewhzAVuiaIYgYvZOEoAw+25KMR/BDmZVDmTitAjtRpN9vl+cT+dXUK
-	c8vWda/eCAaYFfc+V8ffQuDQWtiEzp32jqm4pH7rPFNT6gELUYtXlDcCrPGLbHVr0+A3z9fjw1b
-	ls7S4DKi+DEqcQmfMgTkLaZ2n68HlGG/IspWfoHSU79VFWSZEJ9Fl2prky0vclYfGHcuN3aqiXq
-	KtFm9jM5AjWNVoFhykILDh4wVc0xqJ3vDbBPq00+0mPKGSPyBjxiIZpzKdw5xOMPmZmgmlKuV+X
-	HPDQmvCf8xr7gY1NwVkkvBl5I1v6pTSIYLib6beB3miJ+Ag4w==
-X-Received: by 2002:a17:90b:39a4:b0:3a7:a463:54c2 with SMTP id 98e67ed59e1d1-3acef1458ffmr468430a91.35.1792172846326;
-        Fri, 16 Oct 2026 10:47:26 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd6549c5621sm1555161a12.17.2026.10.16.10.47.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2026 10:47:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <e0d4d61b-6cc9-4395-91a4-d8c10c9aa1ab@roeck-us.net>
-Date: Fri, 16 Oct 2026 10:47:23 -0700
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="KeE6yDcs"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=NnJQe+jwYYdFezk7bpuRz5AXsgINE1m1O3EmebxNtvU=; b=KeE6yDcskgIV7ZLf
+	/smI0WDSPAic1G66uEuPKQVo8JHwYEWNtMCA3LDsxFF2vzS61s7SWfw0Af/WLGQuZRsYi8m01L/sx
+	60GxvBLH5yxQCg7+lnzaD5WhFfkJso8IPH6PsUCBm3t4u5k++nynr2bxeMKK2S5xw2PJyt4pVZMEg
+	vEywW5HIPDBdL0iU5EapfGLqSefF5yOTBYqhXmzo02Oe80hcz7gU2RCor58wMX0mwIM1n6DZ8xmKQ
+	Z+JdP2kKrglNVLafXV5Zb9W1Szoq9WCUesP8uygYxZUC7sRAszL+Ihd7wySpNkjPMyfTAVE67JIZZ
+	I1DXIJcLgDSEuDdFqw==;
+Received: from dg by mx.treblig.org with local (Exim 4.98.2)
+	(envelope-from <dg@treblig.org>)
+	id 1xHmKw-000000004uQ-2HMv;
+	Fri, 16 Oct 2026 18:07:22 +0000
+Date: Fri, 16 Oct 2026 18:07:22 +0000
+From: "Dr. David Alan Gilbert" <dave@treblig.org>
+To: linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+	Thinh.Nguyen@synopsys.com
+Subject: dwc3 gadget performance (on qualcomm x1)
+Message-ID: <atJn2jfI_cZy3UMo@gallifrey>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] usb: xhci-pci: Add AMD 600 series to xhci-pci-prom21
-To: Mirko Jechow <mirko.jechow@gmx.de>,
- Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-hwmon@vger.kernel.org,
- linux-kernel@vger.kernel.org, Stephen Horvath <linux@stevetech.au>,
- stable@vger.kernel.org, Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Jihong Min <hurryman2212@gmail.com>
-References: <20261004002731.49927-1-mirko.jechow@gmx.de>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20261004002731.49927-1-mirko.jechow@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.12.113+deb13-amd64 (x86_64)
+X-Uptime: 17:52:01 up  3:12,  2 users,  load average: 0.00, 0.00, 0.00
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-On 10/3/26 17:27, Mirko Jechow wrote:
-> From: Stephen Horvath <linux@stevetech.au>
-> 
-> It seems the xhci-pci-prom21 module only has IDs for the 800 series
-> chipsets. However, the 600 series chipsets also have Promontory 21
-> chips, so we should add their IDs to the list as well.
-> 
-> I have tested this on my X670 board featuring DID `0x43f7`.
-> 
-> `1022:43f7` also appears on the PCI ID database
-> (https://pci-ids.ucw.cz/read/PC/1022/43f7).
-> Device IDs `0x43f9` (B665) & `0x43fa` (A620) were suggested by Shyam.
-> 
-> Also list the new IDs in Documentation/hwmon/prom21-xhci.rst.
-> 
-> Cc: stable@vger.kernel.org # 7.2.x
-> Cc: Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
-> Cc: Jihong Min <hurryman2212@gmail.com>
-> Signed-off-by: Stephen Horvath <linux@stevetech.au>
-> Tested-by: Mirko Jechow <mirko.jechow@gmx.de>
-> [mirko.jechow@gmx.de: add new IDs to prom21-xhci.rst]
-> Signed-off-by: Mirko Jechow <mirko.jechow@gmx.de>
+Hi,
+  I've got a pair of Qualcomm x1 based laptops wired together via USB
+with ncm gadget and am seeing about 3.5Gbps on iperf and wondered
+if there was a way to squeeze a bit more out.
 
-Acked-by: Guenter Roeck <linux@roeck-us.net>
+  My reading of it (see below) is that it's spending a lot of its
+time on the gadget side interrupt, possibly in the lock on the dwc,
+but I've not tried debugging around this before, so suggestions welcome.
+Would it be possible to handle multiple requests per interrupt?
 
-> ---
-> Changes in v3:
-> - List the new IDs on the PCI IDs line of Documentation/hwmon/prom21-xhci.rst
->    (requested by Jihong Min)
-> - Picked up from Stephen; v2 had no follow-up since 2026-08-23
-> - Link to v2: https://patch.msgid.link/20260820-xhci-pci-prom21-v2-1-638e5958fbbf@stevetech.au
-> ---
->   Documentation/hwmon/prom21-xhci.rst | 2 +-
->   drivers/usb/host/xhci-pci-prom21.c  | 3 +++
->   drivers/usb/host/xhci-pci.c         | 3 +++
->   drivers/usb/host/xhci-pci.h         | 3 +++
->   4 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hwmon/prom21-xhci.rst b/Documentation/hwmon/prom21-xhci.rst
-> index 7984fb187bd8a..6c0b6e7368921 100644
-> --- a/Documentation/hwmon/prom21-xhci.rst
-> +++ b/Documentation/hwmon/prom21-xhci.rst
-> @@ -9,7 +9,7 @@ Supported chips:
->   
->       Prefix: 'prom21_xhci'
->   
-> -    PCI IDs: 1022:43fc, 1022:43fd
-> +    PCI IDs: 1022:43f7, 1022:43f9, 1022:43fa, 1022:43fc, 1022:43fd
->   
->   Author:
->   
-> diff --git a/drivers/usb/host/xhci-pci-prom21.c b/drivers/usb/host/xhci-pci-prom21.c
-> index 6486f4a093455..5f088a47d79f3 100644
-> --- a/drivers/usb/host/xhci-pci-prom21.c
-> +++ b/drivers/usb/host/xhci-pci-prom21.c
-> @@ -111,6 +111,9 @@ static void prom21_xhci_remove(struct pci_dev *dev)
->   }
->   
->   static const struct pci_device_id pci_ids[] = {
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43F7) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43F9) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FA) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD) },
->   	{ /* end: all zeroes */ }
-> diff --git a/drivers/usb/host/xhci-pci.c b/drivers/usb/host/xhci-pci.c
-> index a8889081ae824..b407676808fca 100644
-> --- a/drivers/usb/host/xhci-pci.c
-> +++ b/drivers/usb/host/xhci-pci.c
-> @@ -701,6 +701,9 @@ static const struct pci_device_id pci_ids_renesas[] = {
->   
->   /* handled by xhci-pci-prom21 if enabled */
->   static const struct pci_device_id pci_ids_prom21[] = {
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43F7) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43F9) },
-> +	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FA) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC) },
->   	{ PCI_DEVICE(PCI_VENDOR_ID_AMD, PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD) },
->   	{ /* end: all zeroes */ }
-> diff --git a/drivers/usb/host/xhci-pci.h b/drivers/usb/host/xhci-pci.h
-> index 11f435f94322a..533efc7db8012 100644
-> --- a/drivers/usb/host/xhci-pci.h
-> +++ b/drivers/usb/host/xhci-pci.h
-> @@ -4,6 +4,9 @@
->   #ifndef XHCI_PCI_H
->   #define XHCI_PCI_H
->   
-> +#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43F7	0x43f7
-> +#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43F9	0x43f9
-> +#define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FA	0x43fa
->   #define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FC	0x43fc
->   #define PCI_DEVICE_ID_AMD_PROM21_XHCI_43FD	0x43fd
->   
-> 
-> base-commit: 639df5d23876a548b86fe6526bed8b97edf64d96
+  From a quick look, it looks like the Qualcomm code should allocate enough bandwidth
+internally when it sees a superspeed connection?
 
+Register debug/etc below
+
+Thanks in advance,
+
+Dave
+
+Kernel
+  7.3.0-rc6-ish with patches for this laptop.
+
+Hardware
+  Asus zenbook A14 ( ASUS Zenbook A14 UX3407QA_UX3407QA/UX3407QA, BIOS UX3407QA.308 03/12/2025 )
+Architecture:                aarch64
+  CPU op-mode(s):            64-bit
+  Byte Order:                Little Endian
+CPU(s):                      8
+  On-line CPU(s) list:       0-7
+Vendor ID:                   Qualcomm
+  Model name:                Oryon
+    Model:                   1
+    Thread(s) per core:      1
+    Core(s) per cluster:     8
+    Socket(s):               -
+    Cluster(s):              1
+    Stepping:                0x2
+    Frequency boost:         disabled
+    CPU(s) scaling MHz:      44%
+    CPU max MHz:             2956.8000
+
+Usb negotiated:
+  Bus 006 Device 002: ID da5e:da5e trebligorg linux-ncm
+  Negotiated speed: SuperSpeed+ (10Gbps)
+
+iperf/guest setup:
+  There are two machines:
+
+'dragon' runs iperf -s -V and runs the gadget end.
+'soup' runs iperf -c  10.0.0.1 -l 2M -b 10G and is the normal host end.
+(Dragon also has a pretty idle desktop on)
+
+vmstat 1:
+dragon:                      
+procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
+ 2  0      0 10165008 178064 3143440 0    0     0     0 25340 23812 0 12 87 1  0  0
+ 1  0      0 10164944 178064 3143440 0    0     0     0 30827 29905 0 13 86 1  0  0
+ 0  0      0 10164944 178064 3143440 0    0     0     0 27157 25001 0 13 86 1  0  0
+ 1  0      0 10164720 178064 3143440 0    0     0     0 31158 30783 0 12 87 1  0  0
+
+soup:
+procs -----------memory---------- ---swap-- -----io---- -system-- -------cpu-------
+ r  b   swpd   free   buff  cache   si   so    bi    bo   in   cs us sy id wa st gu
+ 2  0      0 14637084  58360 653468    0    0     0     0 15958  618  0 16 84  0  0  0
+ 1  0      0 14636092  58360 653468    0    0     0     0 16740  672  0 17 83  0  0  0
+ 1  0      0 14636156  58360 653468    0    0     0     0 16793  661  0 17 83  0  0  0                                1  0      0 14638076  58360 653468    0    0     0     0 16266  636  0 16 84  0  0  0
+
+
+perf (on dragon) <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>
+
+#
+    73.82%     0.00%  irq/184-dwc3     [kernel.kallsyms]                   [.] ret_from_fork
+            |
+            ---ret_from_fork
+               kthread
+               |          
+                --73.80%--irq_thread
+                          |          
+                           --73.68%--irq_thread_fn
+                                     |          
+                                     |--46.44%--_raw_spin_unlock_irqrestore
+                                     |          __raw_spin_unlock_irqrestore (inlined)
+                                     |          __preempt_count_dec_and_test (inlined)
+                                     |          get_current (inlined)
+                                     |          
+                                      --27.22%--dwc3_thread_interrupt
+                                                |          
+                                                 --27.22%--__local_bh_enable_ip
+                                                           do_softirq (inlined)
+                                                           do_softirq.part.0
+                                                           |          
+                                                            --27.18%--do_softirq_own_stack
+                                                                      call_on_irq_stack
+                                                                      ____do_softirq
+                                                                      __do_softirq
+                                                                      |          
+                                                                       --27.16%--handle_softirqs
+                                                                                 |          
+                                                                                  --27.11%--trace_softirq_exit (inlined)
+                                                                                            arch_static_branch (inlined)
+                                                                                            |          
+                                                                                            |--17.22%--net_rx_action
+                                                                                            |          |          
+                                                                                            |          |--16.34%--napi_poll (inlined)
+                                                                                            |          |          |          
+                                                                                            |          |           --16.34%--__napi_poll
+                                                                                            |          |                     |          
+
+
+perf (on soup): <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <>
+    92.51%     0.00%  ksoftirqd/0      [kernel.kallsyms]                [.] ret_from_fork
+            |
+            ---ret_from_fork
+               kthread
+               |          
+                --92.50%--smpboot_thread_fn
+                          |          
+                           --92.32%--run_ksoftirqd
+                                     |          
+                                      --92.21%--handle_softirqs
+                                                |          
+                                                |--39.33%--net_rx_action
+                                                |          __napi_poll
+                                                |          |          
+                                                |           --39.31%--process_backlog
+                                                |                     |          
+                                                |                      --39.30%--__netif_receive_skb
+                                                |                                |          
+                                                |                                 --39.18%--__netif_receive_skb_one_core
+                                                |                                           |          
+                                                |                                            --39.08%--ip_rcv
+                                                |                                                      |          
+                                                |                                                       --39.03%--ip_rcv_finish
+                                                |                                                                 |          
+                                                |                                                                  --38.93%--ip_local_deliver
+                                                |                                                                            |          
+                                                |                                                                             --38.90%--ip_local_deliver_finish
+                                                |                                                                                       |          
+                                                |                                                                                        --38.82%--ip_protocol_deliver_rcu
+                                                |                                                                                                  |          
+                                                |                                                                                                   --38.77%--tcp_v4_rcv
+                                                |                                                                                                             |          
+                                                |                                                                                                              --38.68%--tcp_v4_do_rcv
+                                                |                                                                                                                        |          
+                                                |                                                                                                                         --38.63%--tcp_rcv_established
+                                                |                                                                                                                                   |          
+                                                |                                                                                                                                   |--37.02%--__tcp_push_pending_frames
+                                                |                                                                                                                                   |          |          
+                                                |                                                                                                                                   |           --36.91%--tcp_write_xmit
+                                                |                                                                                                                                   |                     |          
+                                                |                                                                                                                                   |                      --36.51%--__tcp_transmit_skb
+                                                |                                                                                                                                   |                                |          
+                                                |                                                                                                                                   |                                 --36.34%--ip_queue_xmit
+                                                |                                                                                                                                   |                                           |          
+                                                |                                                                                                                                   |                                            --36.24%--__ip_queue_xmit
+                                                |                                                                                                                                   |                                                      |          
+                                                |                                                                                                                                   |                                                       --36.16%--ip_output
+                                                |                                                                                                                                   |                                                                 |          
+                                                |                                                                                                                                   |                                                                  --36.16%--ip_finish_output
+                                                |                                                                                                                                   |                                                                            |          
+                                                |                                                                                                                                   |                                                                             --36.13%--__ip_finish_output
+                                                |                                                                                                                                   |                                                                                       |          
+                                                |                                                                                                                                   |                                                                                        --36.10%--ip_finish_output2
+                                                |                                                                                                                                   |                                                                                                  |          
+                                                |                                                                                                                                   |                                                                                                  |--18.60%--__dev_queue_xmit
+                                                |                                                                                                                                   |                                                                                                  |          |          
+                                                |                                                                                                                                   |                                                                                                  |           --18.53%--__qdisc_run
+                                                |                                                                                                                                   |                                                                                                  |                     |          
+                                                |                                                                                                                                   |                                                                                                  |                      --18.30%--sch_direct_xmit
+                                                |                                                                                                                                   |                                                                                                  |                                |          
+                                                |                                                                                                                                   |                                                                                                  |                                |--10.09%--dev_hard_start_xmit
+                                                |                                                                                                                                   |                                                                                                  |                                |          |          
+                                                |                                                                                                                                   |                                                                                                  |                                |          |--5.98%--_raw_spin_unlock_irqrestore
+                                                |                                                                                                                                   |                                                                                                  |                                |          |          
+                                                |                                                                                                                                   |                                                                                                  |                                |           --3.97%--usbnet_start_xmit
+                                                |                                                                                                                                   |                                                                                                  |                                |                     |          
+                                                |                                                                                                                                   |                                                                                                  |                                |                      --3.81%--cdc_ncm_tx_fixup
+                                                |                                                                                                                                   |                                                                                                  |                                |                                |          
+                                                |                                                                                                                                   |                                                                                                  |                                |                                |--2.68%--cdc_ncm_fill_tx_frame
+                                                |                                                                                                                                   |                                                                                                  |                                |                                |          |          
+                                                |                                                                                                                                   |                                                                                                  |                                |                                |           --1.93%--dev_kfree_skb_any_reason
+               |                                |                                                                                                                                   |                                                                                                  |                                |                                |                     |          
+                                                |                                                                                                                                   |                                                                                                  |                                |                                |                      --1.85%--sk_skb_reason_drop
+                          |                     |                                                                                                                                   |                                                                                                  |                                |                                |                                |          
+                                                |                                                                                                                                   |                                                                                                  |                                |                                |                                 --0.68%--skb_release_data
+                                                |                                                                                                                                   |                                                                                                  |                                |                                |          
+                                                |                                                                                                                                   |                                                                                                  |                                |                                 --0.81%--__pi_memcpy_generic
+
+<> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> <> 
+root@dragon:/sys/kernel/debug/usb/a800000.usb# cat lsp_dump 
+GDBGLSP[0] = 0x40000001
+GDBGLSP[1] = 0x00003980
+GDBGLSP[2] = 0x38100000
+GDBGLSP[3] = 0x00801000
+GDBGLSP[4] = 0x11af1000
+GDBGLSP[5] = 0x3e8000fc
+GDBGLSP[6] = 0x00003e80
+GDBGLSP[7] = 0xfc03f0ca
+GDBGLSP[8] = 0x08003fff
+GDBGLSP[9] = 0x00000000
+GDBGLSP[10] = 0x000000f8
+GDBGLSP[11] = 0x000000f8
+GDBGLSP[12] = 0x000000f8
+GDBGLSP[13] = 0x000000f8
+GDBGLSP[14] = 0x000000f8
+GDBGLSP[15] = 0x000000f8
+
+root@dragon:/sys/kernel/debug/usb/a800000.usb# cat regdump 
+GSBUSCFG0 = 0x2222000e
+GSBUSCFG1 = 0x00007f00
+GTXTHRCFG = 0x00000000
+GRXTHRCFG = 0x00b00000
+GCTL = 0x00102000
+GEVTEN = 0x00000000
+GSTS = 0x7e800000
+GUCTL1 = 0x81001808
+GSNPSID = 0x33313130
+GGPIO = 0x00000000
+GUID = 0x00070300
+GUCTL = 0x0d014802
+GBUSERRADDR0 = 0x00000000
+GBUSERRADDR1 = 0x00000000
+GPRTBIMAP0 = 0x00000000
+GPRTBIMAP1 = 0x00000000
+GHWPARAMS0 = 0x4020400a
+GHWPARAMS1 = 0x01092486
+GHWPARAMS2 = 0x17013c42
+GHWPARAMS3 = 0x10420086
+GHWPARAMS4 = 0x48622010
+GHWPARAMS5 = 0x68410410
+GHWPARAMS6 = 0x1834003f
+GHWPARAMS7 = 0x0da00d86
+GDBGFIFOSPACE = 0x00430000
+GDBGLTSSM = 0x9cc20026
+GDBGBMU = 0x20340000
+GPRTBIMAP_HS0 = 0x00000000
+GPRTBIMAP_HS1 = 0x00000000
+GPRTBIMAP_FS0 = 0x00000000
+GPRTBIMAP_FS1 = 0x00000000
+GUCTL2 = 0x00000000
+VER_NUMBER = 0x3139312a
+VER_TYPE = 0x736f3033
+GUSB2PHYCFG(0) = 0x00102400
+GUSB2PHYCFG(1) = 0x00000000
+GUSB2PHYCFG(2) = 0x00000000
+GUSB2PHYCFG(3) = 0x00000000
+GUSB2PHYCFG(4) = 0x00000000
+GUSB2PHYCFG(5) = 0x00000000
+GUSB2PHYCFG(6) = 0x00000000
+GUSB2PHYCFG(7) = 0x00000000
+GUSB2PHYCFG(8) = 0x00000000
+GUSB2PHYCFG(9) = 0x00000000
+GUSB2PHYCFG(10) = 0x00000000
+GUSB2PHYCFG(11) = 0x00000000
+GUSB2PHYCFG(12) = 0x00000000
+GUSB2PHYCFG(13) = 0x00000000
+GUSB2PHYCFG(14) = 0x00000000
+GUSB2PHYCFG(15) = 0x00000000
+GUSB2I2CCTL(0) = 0x00000000
+GUSB2I2CCTL(1) = 0x00000000
+GUSB2I2CCTL(2) = 0x00000000
+GUSB2I2CCTL(3) = 0x00000000
+GUSB2I2CCTL(4) = 0x00000000
+GUSB2I2CCTL(5) = 0x00000000
+GUSB2I2CCTL(6) = 0x00000000
+GUSB2I2CCTL(7) = 0x00000000
+GUSB2I2CCTL(8) = 0x00000000
+GUSB2I2CCTL(9) = 0x00000000
+GUSB2I2CCTL(10) = 0x00000000
+GUSB2I2CCTL(11) = 0x00000000
+GUSB2I2CCTL(12) = 0x00000000
+GUSB2I2CCTL(13) = 0x00000000
+GUSB2I2CCTL(14) = 0x00000000
+GUSB2I2CCTL(15) = 0x00000000
+GUSB2PHYACC(0) = 0x00000000
+GUSB2PHYACC(1) = 0x00000000
+GUSB2PHYACC(2) = 0x00000000
+GUSB2PHYACC(3) = 0x00000000
+GUSB2PHYACC(4) = 0x00000000
+GUSB2PHYACC(5) = 0x00000000
+GUSB2PHYACC(6) = 0x00000000
+GUSB2PHYACC(7) = 0x00000000
+GUSB2PHYACC(8) = 0x00000000
+GUSB2PHYACC(9) = 0x00000000
+GUSB2PHYACC(10) = 0x00000000
+GUSB2PHYACC(11) = 0x00000000
+GUSB2PHYACC(12) = 0x00000000
+GUSB2PHYACC(13) = 0x00000000
+GUSB2PHYACC(14) = 0x00000000
+GUSB2PHYACC(15) = 0x00000000
+GUSB3PIPECTL(0) = 0x030e1002
+GUSB3PIPECTL(1) = 0x00000000
+GUSB3PIPECTL(2) = 0x00000000
+GUSB3PIPECTL(3) = 0x00000000
+GUSB3PIPECTL(4) = 0x00000000
+GUSB3PIPECTL(5) = 0x00000000
+GUSB3PIPECTL(6) = 0x00000000
+GUSB3PIPECTL(7) = 0x00000000
+GUSB3PIPECTL(8) = 0x00000000
+GUSB3PIPECTL(9) = 0x00000000
+GUSB3PIPECTL(10) = 0x00000000
+GUSB3PIPECTL(11) = 0x00000000
+GUSB3PIPECTL(12) = 0x00000000
+GUSB3PIPECTL(13) = 0x00000000
+GUSB3PIPECTL(14) = 0x00000000
+GUSB3PIPECTL(15) = 0x00000000
+GTXFIFOSIZ(0) = 0x00000043
+GTXFIFOSIZ(1) = 0x0043030d
+GTXFIFOSIZ(2) = 0x03508083
+GTXFIFOSIZ(3) = 0x03d3030d
+GTXFIFOSIZ(4) = 0x06e00083
+GTXFIFOSIZ(5) = 0x07630105
+GTXFIFOSIZ(6) = 0x08680083
+GTXFIFOSIZ(7) = 0x08eb0083
+GTXFIFOSIZ(8) = 0x096e0083
+GTXFIFOSIZ(9) = 0x09f10083
+GTXFIFOSIZ(10) = 0x0a740083
+GTXFIFOSIZ(11) = 0x0af70083
+GTXFIFOSIZ(12) = 0x0b7a0083
+GTXFIFOSIZ(13) = 0x0bfd0083
+GTXFIFOSIZ(14) = 0x0c800083
+GTXFIFOSIZ(15) = 0x0d030083
+GTXFIFOSIZ(16) = 0x00000000
+GTXFIFOSIZ(17) = 0x00000000
+GTXFIFOSIZ(18) = 0x00000000
+GTXFIFOSIZ(19) = 0x00000000
+GTXFIFOSIZ(20) = 0x00000000
+GTXFIFOSIZ(21) = 0x00000000
+GTXFIFOSIZ(22) = 0x00000000
+GTXFIFOSIZ(23) = 0x00000000
+GTXFIFOSIZ(24) = 0x00000000
+GTXFIFOSIZ(25) = 0x00000000
+GTXFIFOSIZ(26) = 0x00000000
+GTXFIFOSIZ(27) = 0x00000000
+GTXFIFOSIZ(28) = 0x00000000
+GTXFIFOSIZ(29) = 0x00000000
+GTXFIFOSIZ(30) = 0x00000000
+GTXFIFOSIZ(31) = 0x00000000
+GRXFIFOSIZ(0) = 0x00000313
+GRXFIFOSIZ(1) = 0x03138313
+GRXFIFOSIZ(2) = 0x06260000
+GRXFIFOSIZ(3) = 0x06268000
+GRXFIFOSIZ(4) = 0x06260000
+GRXFIFOSIZ(5) = 0x06268000
+GRXFIFOSIZ(6) = 0x00000000
+GRXFIFOSIZ(7) = 0x00000000
+GRXFIFOSIZ(8) = 0x00000000
+GRXFIFOSIZ(9) = 0x00000000
+GRXFIFOSIZ(10) = 0x00000000
+GRXFIFOSIZ(11) = 0x00000000
+GRXFIFOSIZ(12) = 0x00000000
+GRXFIFOSIZ(13) = 0x00000000
+GRXFIFOSIZ(14) = 0x00000000
+GRXFIFOSIZ(15) = 0x00000000
+GRXFIFOSIZ(16) = 0x00000000
+GRXFIFOSIZ(17) = 0x00000000
+GRXFIFOSIZ(18) = 0x00000000
+GRXFIFOSIZ(19) = 0x00000000
+GRXFIFOSIZ(20) = 0x00000000
+GRXFIFOSIZ(21) = 0x00000000
+GRXFIFOSIZ(22) = 0x00000000
+GRXFIFOSIZ(23) = 0x00000000
+GRXFIFOSIZ(24) = 0x00000000
+GRXFIFOSIZ(25) = 0x00000000
+GRXFIFOSIZ(26) = 0x00000000
+GRXFIFOSIZ(27) = 0x00000000
+GRXFIFOSIZ(28) = 0x00000000
+GRXFIFOSIZ(29) = 0x00000000
+GRXFIFOSIZ(30) = 0x00000000
+GRXFIFOSIZ(31) = 0x00000000
+GEVNTADRLO(0) = 0xfffff000
+GEVNTADRHI(0) = 0x000000ff
+GEVNTSIZ(0) = 0x00001000
+GEVNTCOUNT(0) = 0x00000000
+GHWPARAMS8 = 0x00001834
+GUCTL3 = 0x0000560c
+GFLADJ = 0x8c80c8a0
+DCFG = 0x00a0080d
+DCTL = 0x80f00000
+DEVTEN = 0x00000e57
+DSTS = 0x0083c6bd
+DGCMDPAR = 0x00000000
+DGCMD = 0x00000000
+DALEPENA = 0x0000002f
+DEPCMDPAR2(0) = 0x00000000
+DEPCMDPAR1(0) = 0xfffe2000
+DEPCMDPAR0(0) = 0x000000ff
+DEPCMD(0) = 0x00000006
+DEPCMDPAR2(1) = 0x00000000
+DEPCMDPAR1(1) = 0xfffe2000
+DEPCMDPAR0(1) = 0x000000ff
+DEPCMD(1) = 0x00010006
+DEPCMDPAR2(2) = 0x00000000
+DEPCMDPAR1(2) = 0xfffe3000
+DEPCMDPAR0(2) = 0x000000ff
+DEPCMD(2) = 0x00040007
+DEPCMDPAR2(3) = 0x00000000
+DEPCMDPAR1(3) = 0xffff9000
+DEPCMDPAR0(3) = 0x000000ff
+DEPCMD(3) = 0x00030007
+DEPCMDPAR2(4) = 0x00000000
+DEPCMDPAR1(4) = 0x00000000
+DEPCMDPAR0(4) = 0x00000000
+DEPCMD(4) = 0x00000000
+DEPCMDPAR2(5) = 0x00000000
+DEPCMDPAR1(5) = 0xfffdf000
+DEPCMDPAR0(5) = 0x000000ff
+DEPCMD(5) = 0x00020007
+DEPCMDPAR2(6) = 0x00000000
+DEPCMDPAR1(6) = 0x00000000
+DEPCMDPAR0(6) = 0x00000000
+DEPCMD(6) = 0x00000000
+DEPCMDPAR2(7) = 0x00000000
+DEPCMDPAR1(7) = 0x00000000
+DEPCMDPAR0(7) = 0x00000000
+DEPCMD(7) = 0x00000000
+DEPCMDPAR2(8) = 0x00000000
+DEPCMDPAR1(8) = 0x00000000
+DEPCMDPAR0(8) = 0x00000000
+DEPCMD(8) = 0x00000000
+DEPCMDPAR2(9) = 0x00000000
+DEPCMDPAR1(9) = 0x00000000
+DEPCMDPAR0(9) = 0x00000000
+DEPCMD(9) = 0x00000000
+DEPCMDPAR2(10) = 0x00000000
+DEPCMDPAR1(10) = 0x00000000
+DEPCMDPAR0(10) = 0x00000000
+DEPCMD(10) = 0x00000000
+DEPCMDPAR2(11) = 0x00000000
+DEPCMDPAR1(11) = 0x00000000
+DEPCMDPAR0(11) = 0x00000000
+DEPCMD(11) = 0x00000000
+DEPCMDPAR2(12) = 0x00000000
+DEPCMDPAR1(12) = 0x00000000
+DEPCMDPAR0(12) = 0x00000000
+DEPCMD(12) = 0x00000000
+DEPCMDPAR2(13) = 0x00000000
+DEPCMDPAR1(13) = 0x00000000
+DEPCMDPAR0(13) = 0x00000000
+DEPCMD(13) = 0x00000000
+DEPCMDPAR2(14) = 0x00000000
+DEPCMDPAR1(14) = 0x00000000
+DEPCMDPAR0(14) = 0x00000000
+DEPCMD(14) = 0x00000000
+DEPCMDPAR2(15) = 0x00000000
+DEPCMDPAR1(15) = 0x00000000
+DEPCMDPAR0(15) = 0x00000000
+DEPCMD(15) = 0x00000000
+DEPCMDPAR2(16) = 0x00000000
+DEPCMDPAR1(16) = 0x00000000
+DEPCMDPAR0(16) = 0x00000000
+DEPCMD(16) = 0x00000000
+DEPCMDPAR2(17) = 0x00000000
+DEPCMDPAR1(17) = 0x00000000
+DEPCMDPAR0(17) = 0x00000000
+DEPCMD(17) = 0x00000000
+DEPCMDPAR2(18) = 0x00000000
+DEPCMDPAR1(18) = 0x00000000
+DEPCMDPAR0(18) = 0x00000000
+DEPCMD(18) = 0x00000000
+DEPCMDPAR2(19) = 0x00000000
+DEPCMDPAR1(19) = 0x00000000
+DEPCMDPAR0(19) = 0x00000000
+DEPCMD(19) = 0x00000000
+DEPCMDPAR2(20) = 0x00000000
+DEPCMDPAR1(20) = 0x00000000
+DEPCMDPAR0(20) = 0x00000000
+DEPCMD(20) = 0x00000000
+DEPCMDPAR2(21) = 0x00000000
+DEPCMDPAR1(21) = 0x00000000
+DEPCMDPAR0(21) = 0x00000000
+DEPCMD(21) = 0x00000000
+DEPCMDPAR2(22) = 0x00000000
+DEPCMDPAR1(22) = 0x00000000
+DEPCMDPAR0(22) = 0x00000000
+DEPCMD(22) = 0x00000000
+DEPCMDPAR2(23) = 0x00000000
+DEPCMDPAR1(23) = 0x00000000
+DEPCMDPAR0(23) = 0x00000000
+DEPCMD(23) = 0x00000000
+DEPCMDPAR2(24) = 0x00000000
+DEPCMDPAR1(24) = 0x00000000
+DEPCMDPAR0(24) = 0x00000000
+DEPCMD(24) = 0x00000000
+DEPCMDPAR2(25) = 0x00000000
+DEPCMDPAR1(25) = 0x00000000
+DEPCMDPAR0(25) = 0x00000000
+DEPCMD(25) = 0x00000000
+DEPCMDPAR2(26) = 0x00000000
+DEPCMDPAR1(26) = 0x00000000
+DEPCMDPAR0(26) = 0x00000000
+DEPCMD(26) = 0x00000000
+DEPCMDPAR2(27) = 0x00000000
+DEPCMDPAR1(27) = 0x00000000
+DEPCMDPAR0(27) = 0x00000000
+DEPCMD(27) = 0x00000000
+DEPCMDPAR2(28) = 0x00000000
+DEPCMDPAR1(28) = 0x00000000
+DEPCMDPAR0(28) = 0x00000000
+DEPCMD(28) = 0x00000000
+DEPCMDPAR2(29) = 0x00000000
+DEPCMDPAR1(29) = 0x00000000
+DEPCMDPAR0(29) = 0x00000000
+DEPCMD(29) = 0x00000000
+DEPCMDPAR2(30) = 0x00000000
+DEPCMDPAR1(30) = 0x00000000
+DEPCMDPAR0(30) = 0x00000000
+DEPCMD(30) = 0x00000000
+DEPCMDPAR2(31) = 0x00000000
+DEPCMDPAR1(31) = 0x00000000
+DEPCMDPAR0(31) = 0x00000000
+DEPCMD(31) = 0x00000000
+OCFG = 0x00000000
+OCTL = 0x00000000
+OEVT = 0x00000000
+OEVTEN = 0x00000000
+OSTS = 0x00000000
+
+
+
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
