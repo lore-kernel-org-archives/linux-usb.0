@@ -1,245 +1,238 @@
-Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013033.outbound.protection.outlook.com [52.101.127.33])
+Received: from OS8PR02CU002.outbound.protection.outlook.com (mail-japanwestazon11022108.outbound.protection.outlook.com [40.107.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEBBF47535E;
-	Fri, 16 Oct 2026 10:05:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA2A38E8A1
+	for <linux-usb@vger.kernel.org>; Fri, 16 Oct 2026 10:12:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.75.108
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792145141; cv=fail; b=nDsG7xJ2Id3wrZe9U2SvRDtaLDUaxGE/VCGuz6E/y3tMJcTtM+aSD00uxC2S2z1lt1T5GTHIhHulpVDi7EeditcbwGgyI/f/2NYYsmNOnD/uiAI6O7b1eK3gqa8tCI4YMRpvMD6ChuvWBS7B7/jYwko7cAM/KbYB7nqMgV9AJM8=
+	t=1792145531; cv=fail; b=WpQGQnWxh9T+VCF0tYvjyIZtT9F8FBiAGpcX4yAXpCsGoHzcNDvP0YKNM7f3/lZ9u1K2fzqTEN2WGZ+ISUZdlYgp8WTWeveblvh8PqKSbwYhP8QWFIQTD41ixHIb4JGLwjz8rMT27MN5qH8YUBE6/xZDQNch12I6xcK+aOLzpc8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792145141; c=relaxed/simple;
-	bh=j9rDFYam4BNB0yqH/6dAR34KMBIF9ln3bvbmMG27Pxw=;
+	s=arc-20240116; t=1792145531; c=relaxed/simple;
+	bh=WiGgjw96oNlu83LgOeS6SBSoHAwEtwb5LQdfZSRQvf8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZEpqd0VXx8+mWSbG3x7NY8SdFdzqv9PBiXQygblSJxWQQ3lF9vANXmvEWSjF88VX3d8xQwqXBKOGiHSKD3ebLQARjbVi8A6t51cd9WHZN4CIACGD9NuV/tv+3iaocUDOOJJ3ymSsWEe+yjzld0y0K6821X9SyifyfyqYFvR+eLE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=moxa.com; spf=pass smtp.mailfrom=moxa.com; dkim=pass (1024-bit key) header.d=moxa.com header.i=@moxa.com header.b=DPwYQ2Me; arc=fail smtp.client-ip=52.101.127.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=moxa.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=moxa.com
+	 MIME-Version:Content-Type; b=EDD+knICWtKhCnr2HhrYtW/P+rqMpLJBsjFZhkHjLaHwuvfKa5ND2x9BU8FFJ2PnHJ75HulBszw85JQ/uHloM2QPPvzyo8A8QNaFs0uURqXyfy9H9PRm04EvZzrzwme3zqAXf4E+PQDL+bvwnLxJSW+v/bJHCZiQZEYaKj942/E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com; spf=pass smtp.mailfrom=qnap.com; dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b=qvF+PaHa; arc=fail smtp.client-ip=40.107.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qnap.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qnap.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=moxa.com header.i=@moxa.com header.b="DPwYQ2Me"
+	dkim=pass (2048-bit key) header.d=qnap.com header.i=@qnap.com header.b="qvF+PaHa"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RqZAtQWEDQFNIGtUrHJxjwKO08TF2yJrHuiraLNr2m91j/60JvdBWE5V2obu+iFrSagOZxzg8R09S7dRtYpOtb22LVXZGQtRofaCqJiLEUEOOmEecIZxY/wCloVGH7xDcoUKjNP+5z0gtjE/twee8YhLE4f2kl+RbkPa68wHAZ3c/ORru9g6NOkIc4g7x8ZVAHqmegxjDporxC67/6HViG003yvTXFsBBdUel5DchdptA8n2JFAFq+F+bu9bgZzwksIbTA/xh8olF3vpeev1FAAvtjYAUAobLPMgcs8QOfD79ChqwOkIMn2fsuosyo27JhXccbrWaobnE0qN+TXZAA==
+ b=UwGlONMV4qSDP7z3sYD7GfFpv+EAHypldyOGJUseshwNHbl6XFEbtLzSDBQIQbDMn01ZwbTOals1dEAo64ya7+cKwQ0QJkema/oxHzQ15qxUWs2J/TSTLPr/g7SXtK5eOVP74cF4OmAc2KFrYQgHliIKE+xnN/pIygBSgDlyr/hWdcEdvDoaWQhoPmU+oA8ajZ9RedwNGu+dDIs24C3xgd9q0vJ7UtEsscdA3NP4JoKtEMiz+WiRgaQ25ZRwvfGQPHmCkdKAUp5mmXiF1UId1VcDF9ttMWNMoxnmH//+u6Y7uU9cOmGMY18nsRc/FP9S8bAXHCPYWFIJSkS938QEPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KGakW+bQm5W+i5iMaoZdN5jFnKQmfwX1EJPFQMcWRFA=;
- b=bVnB281O3dQ45jVKeSmK5MmrFbiN6dA7UxhmfYcd/Bpy57XkUm3dmiQZ9rmo2cTJwnvPdN8PuNcuOV/QbiJwHRierUC4jJ0WzirQNMao621ZXCjBHuvJHoIOXuqInFRXyLPyiySuNBbn/lXDWwCQ3WQPGqnqSqU0PTCWcxumyJl8vAinoW180Os67TZcVwDabj4Z0wUqgThVIxkSXuOZmUkxY0kDMOxksDTQF4U4QAExXeBfkSxlAua7r3B9X/UQR6EQWkIZyoK6KEFNkpKkqx2RpQR0L4q7wv2lF+sFqWZI99lplGiXmue9imaGINEhe/p+HankORXf81lK7zb1EQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=moxa.com; dmarc=pass action=none header.from=moxa.com;
- dkim=pass header.d=moxa.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=moxa.com; s=selector1;
+ bh=4Ivn8hEkqMAH4+sn5jm+NANWCnX2nkeAPj6G7M9n1mQ=;
+ b=R8JOiS3cT1o09Hl6+MKzM7brK8c3vxyd9M/GIIZzdNNiVkZSr4IFXzz24o9kSti5B234pL0oitv3tCb3wkS6lp115N8QCLz6wsOGu53RPBx1MMqihcj4I5oEc+s5TO0ra0PEPNydHnLXgM6Y9CRf3jlDcseJSe4xO7v5YOYb/7mmlGBMoy38uO0biHV7MtZF0ZO27fdsxRVy2ixeZyI4p3feey5SI+gBasnWjxSJzJg9Xdmjdj/YlQ+ug351LX6EVaq/X5cZELUUtXuU23hRUdtsQr2OAm3Lkt022OaK4zxz8A6c8nyKO/8w5qXM5QstR23Eu4rqplTgVRztLxBmig==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
+ 122.147.219.42) smtp.rcpttodomain=gmail.com smtp.mailfrom=qnap.com;
+ dmarc=fail (p=quarantine sp=quarantine pct=100) action=quarantine
+ header.from=qnap.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qnap.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KGakW+bQm5W+i5iMaoZdN5jFnKQmfwX1EJPFQMcWRFA=;
- b=DPwYQ2MegQWyNZ4iJrIosMr0GoyHvpN+DeYptVhCM3k0pOwDx/stpjqKbIEjOQ5wecKLHCa1wB08H4ajpV5yvnr/PhBTF0RmrPX/soszbcm/H2CYQoILHoT+GNnVVrSuUQC54Blx8BDwiHtZfus1juygAgLdv2lqjFUOxrBnCl8=
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=moxa.com;
-Received: from PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- (2603:1096:301:115::14) by SEL0PF7EC1E1493.apcprd01.prod.exchangelabs.com
- (2603:1096:108:1::5af) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.14; Fri, 16 Oct
- 2026 10:05:34 +0000
-Received: from PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- ([fe80::ae38:e821:cf7d:3717]) by PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- ([fe80::ae38:e821:cf7d:3717%4]) with mapi id 15.21.0522.013; Fri, 16 Oct 2026
- 10:05:33 +0000
-From: Crescent Hsieh <crescentcy.hsieh@moxa.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Johan Hovold <johan@kernel.org>
-Cc: Fangping Cheng <FangpingFP.Cheng@moxa.com>,
-	Epson Chiang <Epson.Chiang@moxa.com>,
-	Eddie Lin <EddieSY.Lin@moxa.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Crescent Hsieh <crescentcy.hsieh@moxa.com>
-Subject: [PATCH 6/6] USB: serial: mxuport: wait for UART transmit completion
-Date: Fri, 16 Oct 2026 18:03:51 +0800
-Message-ID: <20261016100351.681390-7-crescentcy.hsieh@moxa.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261016100351.681390-1-crescentcy.hsieh@moxa.com>
-References: <20261016100351.681390-1-crescentcy.hsieh@moxa.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: TP0P295CA0054.TWNP295.PROD.OUTLOOK.COM
- (2603:1096:910:3::18) To PUZPR01MB5405.apcprd01.prod.exchangelabs.com
- (2603:1096:301:115::14)
+ bh=4Ivn8hEkqMAH4+sn5jm+NANWCnX2nkeAPj6G7M9n1mQ=;
+ b=qvF+PaHaJjVVeZU/Wcmc5xE0FpzjXmRM+t4AVnpalNyVsRGFlAzkxfVfpwNGmmwUVPsUT8KT1nil9afVecfbGTWrLmJowbzCa3LxNW0NEE99Su6WnkqI7LexiJZJi7NAMsGbEzlrCWujDQMl/RnQyHlUej5XJVYQnqUQ71TBehm7xEpPPt1j/L4J+EMFR1iGYYne2fKK2GxT7YgbSkdFthTp8hg42ykcN3EIqWVUk+kE5D7L5+3AeQVb+1uP/cA0OO9q8ngrFBN2fhypOGaCLrJYznI28kmCP7XCuNNBqWglnyRttgelRFIbtKSA3CIFLOSrR7P7wXe1CUyH5IvvQg==
+Received: from SG2P153CA0002.APCP153.PROD.OUTLOOK.COM (2603:1096::12) by
+ TYSPR04MB7879.apcprd04.prod.outlook.com (2603:1096:405:89::13) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.522.14; Fri, 16 Oct 2026 10:12:04 +0000
+Received: from OSA0EPF000000CC.apcprd02.prod.outlook.com
+ (2603:1096::cafe:0:0:5e) by SG2P153CA0002.outlook.office365.com
+ (2603:1096::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.546.2 via Frontend Transport; Fri, 16
+ Oct 2026 10:12:03 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
+ is 122.147.219.42) smtp.mailfrom=qnap.com; dkim=none (message not signed)
+ header.d=none;dmarc=fail action=quarantine header.from=qnap.com;
+Received-SPF: Fail (protection.outlook.com: domain of qnap.com does not
+ designate 122.147.219.42 as permitted sender)
+ receiver=protection.outlook.com; client-ip=122.147.219.42;
+ helo=mail19.qnap.com;
+Received: from mail19.qnap.com (122.147.219.42) by
+ OSA0EPF000000CC.mail.protection.outlook.com (10.167.240.58) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.6
+ via Frontend Transport; Fri, 16 Oct 2026 10:12:03 +0000
+Received: from localhost (unknown [172.17.22.73])
+	by mail19.qnap.com (Postfix) with ESMTP id 87546148D;
+	Fri, 16 Oct 2026 18:12:00 +0800 (CST)
+From: Henry Tseng <henrytseng@qnap.com>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Henry Tseng <henrytseng@qnap.com>,
+	Mathias Nyman <mathias.nyman@intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH 0/2] xhci: handshake timeout overrun and configure endpoint hang on device disconnect
+Date: Fri, 16 Oct 2026 18:11:39 +0800
+Message-ID: <20261016101141.42602-1-henrytseng@qnap.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261009173516.681681a6.michal.pecio@gmail.com>
+References: <20260930101752.15794-1-henrytseng@qnap.com> <20261002113012.271ceead.michal.pecio@gmail.com> <179136673328.386669.9410030239460428155@qnap.com> <20261008110642.56567a92.michal.pecio@gmail.com> <20261008102522.109308-1-henrytseng@qnap.com> <20261009173516.681681a6.michal.pecio@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR01MB5405:EE_|SEL0PF7EC1E1493:EE_
-X-MS-Office365-Filtering-Correlation-Id: de59689f-5c98-47a5-67fe-08df2b6d007a
+X-MS-TrafficTypeDiagnostic: OSA0EPF000000CC:EE_|TYSPR04MB7879:EE_
+Content-Type: text/plain
+X-MS-Office365-Filtering-Correlation-Id: 6a4a2b40-3c8a-4ac7-aa24-08df2b6deccf
+X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|23010399003|1800799024|366016|22082099003|10067099003|18002099003|261009223027099003|38350700014|56012099006;
+	BCL:0;ARA:13230040|23010399003|82310400026|36860700016|1800799024|376014|6133799003|55112099003|22082099003|18002099003|260925021311599003|260925022911599003|260925021911599003|10067099003|3023799007|4143699003|261009223027099003|11063799006|5023799004|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	Z305Ip1F5BoEf2/Up9TOaxsejIqJVx6OAXnSuaWnmszhhuAhySA6Cp/EAeHfn76uTOaX5snnuChtqxHVjWL+YDJ7hglJQLyqZSqkWj7uRDvoC1ZheJlGbaMqjC1wOJ1L/JUGxQ2g842Z7TjdD0jid7XtCpb5on3NmsCDRvtUMLbXKmF77O8kNL4d+r4SiTTd+sfLLnsJXocpnCABDKdIUrisOqXWmdn30nJkHmrnEkmc8RFEe49uccqIj8jFs/+eNNUV5HdcBSs5BkpLVVFXcdX0PYNf7u+dwHc1ZxJDAdP+3WLKE509MHj6xOk1r1Ot1YteyK+13o1OGfoSj2MLVici8jg3Tnvl79d6myMCTg1t0iKwocx4ClJZuBjkB9ltRGzw0KRF7YmQdvKj1gaosOMqcI6ud9mFJmiuR79cKAObeCwse5tn5Xgxw4pmn3hO4PHx1uqKp9Ga+fctDhFw28Wc5iTRUgOEfJv0F3ZZquW9b3QWOrYCjLDvaPY/1uSp93Dfklsu44hCo48SqUEr7eO/HWEgcFoaZQK0l3rTbHm+Jhj9GaRI3BiDPMbN/Cv2B0ZMFJuwhs8/SRyj+vi+T7bxkWtoX68y8UxvkvkFeQWVzuY+equC8GHgB571T/cIsON1lH5LBxPlyZ7KMvT/UBry4SFmlMe8/IySVGZDLjIHFu96Ix3sjPDLgxKTA6nRaooBpURo9EPGZG7Sr1edQdtLohxcWNiX+/8HC/prehM=
+	sfcG1vzQcczLfzWLCYBeEIbJxiaSLib+ctfHayPa+q+6ZnMAwbQHKtOZbo+PnslYiMSDSepiijYnTEiWDBJ4CAThltN5mdgXUZ7uPwr+G+/uyq9/pXrbWyTsyl8zQj56V7EtB8xF3iqTWbWdks62NBtB82jcv7Ym3jj7qSO+DitwE17bk4stU/qfzJIf0RAbDpCdPiXZZkpkiFkVswmxZfBR3/l5fuLYq2dGOC5KGVy3FFFFZuKi+dIHZ9FBSMRy5IkgCWR/1hV11WI1vFaHVkOq/gAK8UvFkP6GtbBtZGFJhUWITK0zoYE0QNTpU+S8niDBeNOGOxQzRdQyFT+NXKMJOoOkm6Eh9MVVLsAJ4pGCIplQlLcOzh5yG0WkPmVBC3TSKA9lYOgs7E7AIw1P866Bij9CeqqmGbz5YvvW7uZJd4zxlm7iMeGK8ie7MGymEsSw8ife6e6U6G81b4HEvfEMSiJNgC74GmW+mBP0ZPR1SMJkdVIwgMYJzDvecE54sxU9vYtDp5QmCgKjxtrDJCi5PIcxpL1dDlOsW3ltz6fAcEJEMYDWJEp0lERz2pbc8i5+eU5Vg2PSDM9C2b7aydXmhN//wH0edP0tttZdCdCf/FFf1m0E/AmkWltAorEpQ9wyeMd9vHBnGlVSrkPFbCSae71t3qjGsgElc92HCHXXjkWk+ZJyFMv7MZPwUirLMLO/M9FyMtu2P0ArRkuyKw==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR01MB5405.apcprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(23010399003)(1800799024)(366016)(22082099003)(10067099003)(18002099003)(261009223027099003)(38350700014)(56012099006);DIR:OUT;SFP:1101;
+	CIP:122.147.219.42;CTRY:TW;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail19.qnap.com;PTR:122-147-219-42.static.sparqnet.net;CAT:NONE;SFS:(13230040)(23010399003)(82310400026)(36860700016)(1800799024)(376014)(6133799003)(55112099003)(22082099003)(18002099003)(260925021311599003)(260925022911599003)(260925021911599003)(10067099003)(3023799007)(4143699003)(261009223027099003)(11063799006)(5023799004)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?mjbxXIMddsazaAulbctDPxf2eMEHfOmmyJJppXzOQYLIH3T6oveenrLYwZTd?=
- =?us-ascii?Q?dRYnxRFa3E8/BLrTzH40xwUP4Y/Eq1BZ0TL3haM0zf5v/DBcWMV50BGrxgP/?=
- =?us-ascii?Q?bCW+1NIMIQZ5pTe1wupvqb6soSjMjz/gJCnGb2IZyqczGSFZ/hMRDLICauFR?=
- =?us-ascii?Q?zkvG0RauB2Da1mR+qB2TLb5LR8Z19p6JY52bkOYpgVe+jo3lK+pkBSaLHCgA?=
- =?us-ascii?Q?7rnsThJOOWItI3w2pRVPY4MhQ7uc43MrnGXayEOUQjzarX+7mBYWWIeicQdn?=
- =?us-ascii?Q?OC7rblwHeIgTqjv+jDnj9H/SJWCk7mnI7apEAqlCr904X4lfmZIIoccmYLvu?=
- =?us-ascii?Q?umbXcjuPy4gGJDhUv2NXfdMzX3CWpmDB8triVhg7wVIOTDWlSJdEai/QauYn?=
- =?us-ascii?Q?+MZwbxV3Zfe2UFQSP8GaBGLiFqpwciV5C4y4rUP1GuktigDD9L4DkTZf3XlI?=
- =?us-ascii?Q?1UW4bNy2zANX81X+xj//ZNrHhJ7fG2uCCLE4c76Bt8I2N9KbHmxcHIJ5VNia?=
- =?us-ascii?Q?NoHosvI2Os3+CdypPMpeFCK83YRCpIQI26JqT5JsgB2Gnf8MyZoaL6kZyfmy?=
- =?us-ascii?Q?ue/OIGYCYwugDd5IiKFyj/tgpxQvjYH8X52XtAMdKUTgZ/afKpMf18jC0OmW?=
- =?us-ascii?Q?J1AiCusR1EcAxTaA9yBOxIOgI482quLOvyz2Zta6b5gJH/7951UKlML8bIzL?=
- =?us-ascii?Q?m/kq0b14KzM0Cnt6oHHwR2Nl0nChdkBgDja2YYws0seLVEjF5iCqsKVSkQDZ?=
- =?us-ascii?Q?gqjtYzBHyy2DQY7WNA+kncNfgc1pwnnIL112/g+u/X5PRRd/Rd/yS4mACwPM?=
- =?us-ascii?Q?SofsETaUv0ypPguVH46hYvVlFzPlWVu1mf5hmyhCE5h6gRhL5fk8UZ2j84u1?=
- =?us-ascii?Q?bduw7YD2lRdxCrbm3i2OKdmzANu9GeiUTuDvqIodOQNREx0z1LWNYNMJbzUw?=
- =?us-ascii?Q?C/m3PNmPNF6JtBO8QDZVtCuxwvMzmyeo8VaA3DqHpPpXrPUSCBFPj960ybGC?=
- =?us-ascii?Q?mRVtZBXM+VRt602kvZZ/SkKfl3aXYPd9voW0t3X4VEncI+soqdfKUn/Exsv1?=
- =?us-ascii?Q?weoLOCiGGHNoioWFQ4JrhMht2Andef0VphkmMDW+27YfHIvAKSZ8AmO34IeS?=
- =?us-ascii?Q?GedJvEcQSmbOPJ74xgRLE1mkWRsiZUKZiuszjRyTUQgtHdvwz9EWjNTIgtQQ?=
- =?us-ascii?Q?Ej6JSJ06V7TgvIxyU0ANJuwR84+NNVmsQllX0f2+m74DAsHdZ9eWeX9D6ABd?=
- =?us-ascii?Q?0NNnFBpoWP8avFrYdBBMvWpY/mMV745QpfrGhwq2lTuHWs+R7r3yDOH4JzqC?=
- =?us-ascii?Q?AW3JDKkonMUIntgnmEbef77TBmhuEgHl938kK1UUJCbDVXheqPFSK+FPrwgl?=
- =?us-ascii?Q?8XHxTH6180pc+xFxZr0SPcWn13rBHgONvEUhV29h/7jhcEAzRxUMRBA+UtgR?=
- =?us-ascii?Q?i1IjO4ieASAv2ZzwaueJWR6BEvujln6tqPwf7W/IyuJzodACDrgMvAcz4vJz?=
- =?us-ascii?Q?ct28UFdjutzKllraxFzhccePrqnchhsv1/dcwA47vcWLhXQsXINBK6zInr1T?=
- =?us-ascii?Q?Qbpa1QONf+1BIqEpwYjLo8KJL2P4NPb2VMp8fmeEUaOJ+IuwWTKRxFI9CHhW?=
- =?us-ascii?Q?euuRVaWdHbk3MZIle7SXaof6MJqD8Z8l++dD9ULUjAZkze8yn/0q9jVASJgM?=
- =?us-ascii?Q?QNvZtYHMapXVpPUcgqjbQOs6E6RAvNfvXDuzFiQuAzKYmGXeHtabSfsXLLIG?=
- =?us-ascii?Q?HMZvvg3xHX+Y/tNlefn5EEyEKYhljhc=3D?=
-X-OriginatorOrg: moxa.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: de59689f-5c98-47a5-67fe-08df2b6d007a
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR01MB5405.apcprd01.prod.exchangelabs.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 10:05:27.1223
+	40oMKT9PrQAffMEF1ZwHCkVh7763dCWRg14u9NatqKFUlhbQljGddoR1y6+aZJwtyr4oDpIFYm8URAghUkloclrXeLNQwmKJXrqYiUDnZaAfLgrb2C4r2nFO+Wj1FOJsIG48SrWmZ9BFaQI1vHJ9jXYYsGuC+PJc5/e1Kt94IlRHZlXfrhUKRTeMLhHajo0R5MegmZQFGTRM6xML/mASYyp5sTpC1OcaN2KmKwzwHdRSdsqgEFs1MCC5QUHYwvQgpGa1Y9yGHyN5mhdyA8Qr6KkvBVvPHaX7oLWmU+ST1XQoKXGePmSGJ7EQg19ScKmhfnnAVrw83hZ4vUr8nY7FMNJRIYQ3/hUC2DURlNwO5aEHaGH2Lgtn5aJp95IukPl0NmBkoLBfC0pMKZkv8P/4iiZU8oHHWfobzC0CzIfOOt1MDcALzpcqMMuX6j1Ttjco
+X-OriginatorOrg: qnap.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2026 10:12:03.3126
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5571c7d4-286b-47f6-9dd5-0aa688773c8e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Zft6COdSmKW6Iod1hDYUhwMRHXJKSKsgnXYuyOqavnzipdGkM6TBR04ioGuImkP1d85b4u2BtXD4/fhZM5DqG6c6mEgn3CbTabwq8Y1tv1o=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEL0PF7EC1E1493
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a4a2b40-3c8a-4ac7-aa24-08df2b6deccf
+X-MS-Exchange-CrossTenant-Id: 6eba8807-6ef0-4e31-890c-a6ecfbb98568
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=6eba8807-6ef0-4e31-890c-a6ecfbb98568;Ip=[122.147.219.42];Helo=[mail19.qnap.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	OSA0EPF000000CC.apcprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR04MB7879
 
-The RQ_VENDOR_GET_OUTQUEUE response only includes the firmware transmit
-queue on G1, so up to 128 bytes can remain in the UART FIFO after the
-reported count reaches zero. For G2 and Platform UART firmware, the
-response includes the UART FIFO count, but a frame may still be in the
-transmit shifter.
+Hi Michal,
 
-The generic USB-serial wait stops when the reported count reaches zero
-and can therefore return before UART transmission has completed.
+On Fri, 9 Oct 2026 17:35:16 +0200, Michal Pecio <michal.pecio@gmail.com> wrote:
+> On Thu,  8 Oct 2026 18:25:20 +0800, Henry Tseng wrote:
+> > > Does it help to blacklist "uas" driver before connecting the whole
+> > > tree? My guess at this point: probably not, it's not a streams bug.
+> > >   
+> > 
+> > No, the host still dies.
+> 
+> > Deconfiguring 2-1.3 completes fine:
+> > 
+> >   [   87.929570] xhci_hcd 0000:0c:00.3: Cancel URB 0000000064a1e51d, dev 1.3, ep 0x83, starting at offset 0xfff49000
+> >   [   87.929675] xhci_hcd 0000:0c:00.3: Stopped on Transfer TRB for slot 4 ep 6
+> >   [   87.929756] xhci_hcd 0000:0c:00.3: Successful Set TR Deq Ptr cmd, deq = @fff49010
+> >   [   87.930564] xhci_hcd 0000:0c:00.3: drop ep 0x83, slot id 4, new drop flags = 0x80, new add flags = 0x0
+> >   [   87.937756] xhci_hcd 0000:0c:00.3: Successful Endpoint Configure command
+> > 
+> > The host still dies on disconnection, but the stuck command is now the
+> > configure endpoint dropping 0x83 of the 2-1.4 hub (slot 6):
+> > 
+> >   [  164.793408] usb 2-1: USB disconnect, device number 2
+> >   [  164.793419] usb 2-1.3: USB disconnect, device number 3
+> >   ...
+> >   [  164.803390] usb 2-1.4: USB disconnect, device number 4
+> >   ...
+> >   [  164.834173] xhci_hcd 0000:0c:00.3: Cancel URB 000000009ac4b95a, dev 1.4, ep 0x83, starting at offset 0xfff15010
+> >   [  164.834219] xhci_hcd 0000:0c:00.3: Stopped on Transfer TRB for slot 6 ep 6
+> >   [  164.834819] xhci_hcd 0000:0c:00.3: drop ep 0x83, slot id 6, new drop flags = 0x80, new add flags = 0x0
+> >   [  170.058142] xhci_hcd 0000:0c:00.3: Command timeout, USBSTS: 0x00000010 PCD
+> >   [  185.909602] xhci_hcd 0000:0c:00.3: Abort failed to stop command ring: -110
+> >   [  185.921446] xhci_hcd 0000:0c:00.3: xHCI host controller not responding, assume dead
+> 
+> But 2-1.4.4 deconfigured successfully before 2-1.4 failed?
+> Looks like there is something special about those hubs...
+> 
 
-Add a device-specific wait_until_sent callback which retains the generic
-queue polling and then waits for the remaining UART transmit stages. Use
-the active termios baud rate and frame size to wait 129 frame times for
-G1 and one frame time for G2 and Platform UART devices. Keep the generic
-polling and supplemental delay within the caller's timeout, and allow
-both waits to be interrupted by a signal.
+Yes. I repeated it on v7.3-rc5 with 2-1.3 deconfigured first, so 2-1.3
+had nothing left to drop on disconnect and no command was issued for
+it. After the USB3 root port reported the disconnect, the configure
+endpoint command for 2-1.4.4 (slot 8) completed, and then the one for
+2-1.4 (slot 6) got stuck. The relevant lines are below.
 
-Signed-off-by: Crescent Hsieh <crescentcy.hsieh@moxa.com>
----
- drivers/usb/serial/mxuport.c | 65 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 65 insertions(+)
+  [  117.157549] xhci_hcd 0000:0c:00.3: Port change event, 2-1, id 5, portsc: 0xe0202a0
+  [  117.157712] usb 2-1: USB disconnect, device number 2
+  [  117.170395] usb 2-1.4: USB disconnect, device number 4
+  [  117.170483] usb 2-1.4.4: USB disconnect, device number 5
+  [  117.352819] xhci_hcd 0000:0c:00.3: drop ep 0x4, slot id 8, new drop flags = 0x198, new add flags = 0x0
+  [  117.352827] xhci_hcd 0000:0c:00.3: xhci_check_bandwidth called for udev 000000000a3ed4fc
+  [  117.352917] xhci_hcd 0000:0c:00.3: Successful Endpoint Configure command
+  [  117.354934] xhci_hcd 0000:0c:00.3: drop ep 0x83, slot id 6, new drop flags = 0x80, new add flags = 0x0
+  [  117.354944] xhci_hcd 0000:0c:00.3: xhci_check_bandwidth called for udev 000000004aefaf78
+  [  122.439248] xhci_hcd 0000:0c:00.3: Command timeout, USBSTS: 0x00000010 PCD
 
-diff --git a/drivers/usb/serial/mxuport.c b/drivers/usb/serial/mxuport.c
-index 9d304fb3aa02..53ab284f82aa 100644
---- a/drivers/usb/serial/mxuport.c
-+++ b/drivers/usb/serial/mxuport.c
-@@ -25,6 +25,7 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/firmware.h>
-+#include <linux/hrtimer.h>
- #include <linux/jiffies.h>
- #include <linux/serial.h>
- #include <linux/serial_reg.h>
-@@ -207,6 +208,11 @@ static const u16 mxuport_mux50u_fw_ver_offsets[] = {
- #define MX_WAIT_FOR_SEND_NEXT		0x0080
- #define MX_WAIT_FOR_PURGE		0x0100
- 
-+/* G1 queue count excludes its 128-byte UART FIFO and transmit shifter. */
-+#define MX_UPORT_G1_DRAIN_FRAMES	129
-+/* MUX50U queue count includes its UART FIFO but may exclude the shifter. */
-+#define MX_MUX50U_DRAIN_FRAMES		1
-+
- /* This structure holds all of the local port information */
- struct mxuport_port {
- 	u32 sent_payload;
-@@ -716,6 +722,64 @@ static bool mxuport_tx_empty(struct usb_serial_port *port)
- 	return txlen == 0;
- }
- 
-+static void mxuport_wait_until_sent(struct tty_struct *tty, long timeout)
-+{
-+	struct usb_serial_port *port = tty->driver_data;
-+	struct usb_serial *serial = port->serial;
-+	unsigned long features = (unsigned long)usb_get_serial_data(serial);
-+	unsigned long deadline = 0;
-+	unsigned int frame_bits;
-+	unsigned int frames;
-+	unsigned int baud;
-+	ktime_t expires;
-+	u64 delay_ns;
-+
-+	switch (MX_FAMILY(features)) {
-+	case MX_UPORT_G1:
-+		frames = MX_UPORT_G1_DRAIN_FRAMES;
-+		break;
-+	case MX_UPORT_G2:
-+	case MX_PLATFORM_UART:
-+		frames = MX_MUX50U_DRAIN_FRAMES;
-+		break;
-+	default:
-+		usb_serial_generic_wait_until_sent(tty, timeout);
-+		return;
-+	}
-+
-+	baud = tty_get_baud_rate(tty);
-+	if (!baud)
-+		baud = 9600;
-+
-+	frame_bits = tty_get_frame_size(tty->termios.c_cflag);
-+	if (timeout)
-+		deadline = jiffies + timeout;
-+
-+	usb_serial_generic_wait_until_sent(tty, timeout);
-+	if (signal_pending(current))
-+		return;
-+
-+	if (timeout && time_after_eq(jiffies, deadline))
-+		return;
-+
-+	delay_ns = DIV_ROUND_UP_ULL((u64)frames * frame_bits * NSEC_PER_SEC,
-+				    baud);
-+	if (timeout)
-+		delay_ns = min_t(u64, delay_ns,
-+				 jiffies_to_nsecs(deadline - jiffies));
-+
-+	dev_dbg(&port->dev,
-+		"%s - waiting %llu us after transmit queue drained\n",
-+		__func__, DIV_ROUND_UP_ULL(delay_ns, NSEC_PER_USEC));
-+
-+	expires = ktime_add_ns(ktime_get(), delay_ns);
-+	while (!signal_pending(current)) {
-+		set_current_state(TASK_INTERRUPTIBLE);
-+		if (!schedule_hrtimeout(&expires, HRTIMER_MODE_ABS))
-+			break;
-+	}
-+}
-+
- static int mxuport_set_mcr(struct usb_serial_port *port, u8 mcr_state)
- {
- 	struct usb_serial *serial = port->serial;
-@@ -1666,6 +1730,7 @@ static struct usb_serial_driver mxuport_device = {
- 	.set_termios		= mxuport_set_termios,
- 	.break_ctl		= mxuport_break_ctl,
- 	.tx_empty		= mxuport_tx_empty,
-+	.wait_until_sent	= mxuport_wait_until_sent,
- 	.ioctl			= mxuport_ioctl,
- 	.tiocmiwait		= usb_serial_generic_tiocmiwait,
- 	.get_icount		= usb_serial_generic_get_icount,
--- 
-2.53.0
+> The kernel doesn't seem to be doing anything wrong, just stops
+> these endpoints (which don't even seem to be doing much) and
+> tries to disable them. I'm only unsure why 2-1.3 seems not to
+> be suspended despite having no children?
+> 
 
+I agree the kernel isn't doing anything wrong here. The idea of patch
+2 is that when disable slot follows anyway, this configure endpoint
+command doesn't seem to be needed, although the xHC certainly shouldn't
+hang on it.
+
+> Set TR Deq is omitted in the failing case above, but this isn't
+> supposed to matter and kernels before 7.3 didn't omit it.
+> 
+> One thing coming to my mind is that the HW might expect the
+> "deconfigure" flag to be set in the Configure Endpoint command
+> under such circumstances. If you don't mind spending a few minutes
+> more, please try the attached patch, and also before unplugging,
+> 
+>   echo 0 > /sys/bus/usb/devices/1-1/bConfigurationValue
+>   echo 2-1.3:1.0 >/sys/bus/usb/drivers/hub/unbind
+> 
+
+With your patch applied and both commands run before unplugging, it
+still hangs. The configure endpoint command for 2-1.3 (slot 4) was
+issued with the deconfigure flag set and didn't complete. This kernel
+also had patch 1 applied, which is why the abort took 5 s.
+
+  [ 1094.491293] xhci_hcd 0000:0c:00.3: Port change event, 2-1, id 5, portsc: 0xe0202a0
+  [ 1094.491641] usb 2-1: USB disconnect, device number 2
+  [ 1094.491647] usb 2-1.3: USB disconnect, device number 3
+  [ 1094.491996] xhci_hcd 0000:0c:00.3: drop ep 0x83, slot id 4, new drop flags = 0x80, new add flags = 0x0
+  [ 1094.492037] xhci_hcd 0000:0c:00.3: deconfigure slot 4
+  [ 1099.851729] xhci_hcd 0000:0c:00.3: Command timeout, USBSTS: 0x00000010 PCD
+  [ 1104.851768] xhci_hcd 0000:0c:00.3: Abort failed to stop command ring: -110
+  [ 1104.863613] xhci_hcd 0000:0c:00.3: xHCI host controller not responding, assume dead
+
+> But it's starting to look like your patch may be the only option.
+> It's not out of spec and I've tested it on some HW today, none of
+> it had any issues with disabling slots with enabled endpoints.
+>
+> This only works for disconnection from the root hub. Do you have
+> any external (ideally at least USB 3.1 10gbps) hub to check if HC
+> still hangs when you disconnect the same device from a hub?
+> 
+
+The only hub I have at hand is a 5 Gbps one (05e3:0612), so I tested
+with it between the root port and the enclosure. On v7.3-rc5,
+unplugging the enclosure from that hub doesn't hang, and all configure
+endpoint commands complete, including the ones for the 1c04:0018 hubs.
+I'm not sure whether 5 Gbps versus 10 Gbps makes a difference here.
+If it would help, I can look for a 10 Gbps hub and repeat the test.
+
+With patch 2 applied the result is the same. Patch 2 doesn't skip any
+command there, since the root port stays connected and the connected
+flag of its xhci_port stays set. All the commands are still issued and
+complete. This is something I had overlooked, and it isn't what I had
+in mind when writing patch 2. The subject also makes it sound like it
+covers any disconnected device.
+
+I'm not sure what the best way to handle this would be. One option is
+to keep the roothub port check and just fix the commit message.
+Another is to base the check on udev->state, which usb_disconnect()
+sets to USB_STATE_NOTATTACHED before the configure endpoint command is
+issued. If USB_STATE_NOTATTACHED is used as the condition, would it fit
+better to check it in usb_hcd_alloc_bandwidth() in usb core? That
+function already returns early for hosts without check_bandwidth, and
+in tree only xhci implements it, so other hosts wouldn't be affected.
+
+Any preference on which direction to take?
+
+> Maybe it helps to re-connect the device before abort begins?
+> This worked with Renesas :)
+> 
+
+The timing is a bit tricky to hit, but I gave it a few tries and the
+host was still declared dead every time.
+
+Thanks,
+Henry
