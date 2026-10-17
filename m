@@ -1,82 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAA037F318;
-	Sat, 17 Oct 2026 12:11:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A316C490BE8
+	for <linux-usb@vger.kernel.org>; Sat, 17 Oct 2026 12:15:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792239067; cv=none; b=fjvV+74WsjwfL6DlEtIiG2Nw0V589/iiO4BlNZWrhgZcKZaMGwCNOReekxwh/BcQAUq9MFaqQfBmDjIewK3+xGKD5yWYMU9gAPDJx7wSCPlLkBg1UvNrKnbyGEJ4vXmo5FSZu2TCXFIM7i9Xq2bTTNEzIZm+QWqW03mGNHoFgds=
+	t=1792239313; cv=none; b=r0Jg514ZnKD5fd9ytihys7lvkEkXRzbLnXoU/bF1PYGZryKasB/BQf3jB0BU8lagXvWI7ZP3j/9fsadD+qTbPNiTRxi0wIrO7Kkj5swNs10T9cHSmFm6zzEp/UhRAtWIakvOf3xrxFgiOxiElCwT9rax+zsYOEZrghhxDA4qvX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792239067; c=relaxed/simple;
-	bh=BM5MeFN2yRAcUZMBQ1kVaJDLyC0kPMwPZ2Fc2V99c+w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eUmQPMWsoaJurv8g7f6lr1NirjID2Mxmv6SuvOzEwpAbv+dg2XyhZJX9DsQyCStXm2Zwha3/91k5r5Z+YOhpSa48LUEMw6igAfuhpwpx3ar/R0+yC7ynsfpIPEv89lmb5FvoNttvN6cFnKcJWUvKvP++88p9GMlWmRf8SRvXsX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/+a8bc2; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792239313; c=relaxed/simple;
+	bh=Z8Fe0Llv5/JgdmUPm5M9V9lp3NkbjV5zebZVycCTkX0=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=gMAZz4nXTR4HwKhrWJSBkt4TI5Mw8Qd4alK4yNZchRQIWfwmju6WGOnRlEP+5WuaN4BPYvCvb3hrjRf07vMsU7ksZf8SNaTK5MpZdgrVNEERuPoOVWA/lQDJmbBegZmPD8GwZTEkvjUqpEDd6CicGol6iChNIob8nvukLC5fxAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j9J0NPuj; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/+a8bc2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B121F000C4;
-	Sat, 17 Oct 2026 12:11:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j9J0NPuj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03BBC1F000C4;
+	Sat, 17 Oct 2026 12:15:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792239065;
-	bh=veQdq2zi4suj+sytjBTYVEHORuVM5dkp0/o3mNbAOmQ=;
-	h=From:To:Cc:Subject:Date;
-	b=K/+a8bc2gLBBjRAX6SdSD4Xneiu0ZcZA4iBBo8XjYcU5HatnHnweU7rmdSyeAw283
-	 yJc6rteOOGoQfWZdR8kOcelqKQYLAZvvGGgcSXwvug212wHf3CyVpaP3myRDDKixF5
-	 OH6cXYawwdrdKkjc6bUwJuzeKRTWsFV1HNNIstwm6F29apVlRMOAzjqtWre89uyRwo
-	 0kAZuN4lYTinWig0+Y6tETUYneuqFXya7fNN9gI/pNcohdtcMQIP3DdKsHt2DueWpX
-	 53DuEGEHQem7LeAACudvbIejSXwytVV+jNO/cUOVyzT81JPduAwwGVB2uSBubo/nRO
-	 PAMccXJnWoPFA==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xI3Ff-00000007SXx-2qTt;
-	Sat, 17 Oct 2026 14:11:03 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] USB: serial: garmin_gps: explicitly stop read urb on unbind
-Date: Sat, 17 Oct 2026 14:10:19 +0200
-Message-ID: <20261017121019.1777984-1-johan@kernel.org>
-X-Mailer: git-send-email 2.55.0
+	s=k20260515; t=1792239312;
+	bh=Z8Fe0Llv5/JgdmUPm5M9V9lp3NkbjV5zebZVycCTkX0=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=j9J0NPujr+Cx5Xuq4i24eqgfv4oxLHRrBLbcvyMTw9PiuTHynuAD/K/C6QMb3KBaQ
+	 pZ22LagGgq6eSqWbQ+0YolFU41IeyrSIhro4lzyi5bQuByXTsV+krLltP4+PZBdrlq
+	 dXuWmMNhPJtGua6rGm4ZnUwsmu2mhdgYIIbk+q8e5AkLXB4MInjTMQHibOsug3BC/s
+	 qHe3EwZIJPqfsJbfgh0xIE+185Ev40kTZ79AU3liieC9Zpw22YRG8w97Lk840ssPdS
+	 KxI/P3OQh81Ske31/y1+x0XUmxeCm2WvVn/Ctmfr3oSXyGrBL3leKcPuYNKTLAHp20
+	 A5OXeuAsaxMfw==
+Message-ID: <sashiko-outbox-175503@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] USB: serial: garmin_gps: explicitly stop read urb on
+ unbind
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Johan Hovold" <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261017121019.1777984-1-johan@kernel.org>
+References: <20261017121019.1777984-1-johan@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 17 Oct 2026 12:15:11 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The garmin_gps read URB may be submitted from the interrupt URB
-completion handler and should therefore be stopped after stopping the
-interrupt URB and before freeing the port data during port unbind.
+> The garmin_gps read URB may be submitted from the interrupt URB
+> completion handler and should therefore be stopped after stopping the
+> interrupt URB and before freeing the port data during port unbind.
+>=20
+> When a USB serial device is disconnected (or unbound through sysfs),
+> USB serial core stops and poisons the port URBs before unbinding the
+> port however so there is no risk for a use-after-free in the read URB
+> completion handler even if the driver does not stop it in its remove()
+> callback.
+>=20
+> Stop the read URB explicitly for consistency, to avoid relying on core
+> and to prevent false positive reports from LLMs.
+>=20
+> Note that this was erroneously flagged as a use-after-free by Sashiko.
+>=20
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-When a USB serial device is disconnected (or unbound through sysfs),
-USB serial core stops and poisons the port URBs before unbinding the
-port however so there is no risk for a use-after-free in the read URB
-completion handler even if the driver does not stop it in its remove()
-callback.
+Sashiko has reviewed this patch and found no issues.
 
-Stop the read URB explicitly for consistency, to avoid relying on core
-and to prevent false positive reports from LLMs.
-
-Note that this was erroneously flagged as a use-after-free by Sashiko.
-
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/garmin_gps.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
-index 8020149f5658..1853dc8a747d 100644
---- a/drivers/usb/serial/garmin_gps.c
-+++ b/drivers/usb/serial/garmin_gps.c
-@@ -1402,6 +1402,7 @@ static void garmin_port_remove(struct usb_serial_port *port)
- 
- 	usb_kill_anchored_urbs(&garmin_data_p->write_urbs);
- 	usb_kill_urb(port->interrupt_in_urb);
-+	usb_kill_urb(port->read_urb);
- 	timer_shutdown_sync(&garmin_data_p->timer);
- 	kfree(garmin_data_p);
- }
--- 
-2.55.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261017121019.1777=
+984-1-johan@kernel.org?part=3D1
 
