@@ -1,105 +1,82 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D744A41D23B
-	for <linux-usb@vger.kernel.org>; Sat, 17 Oct 2026 11:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EAA037F318;
+	Sat, 17 Oct 2026 12:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792236976; cv=none; b=G4qhQJ+f7xwvuXUnORGX7KExvBv6ebXiLmW0GbNHIP+kRWk24VAtEHtGGOf/mH9nuqX1Hh2s6tggBlL4KuJp1DvOwBUF35hdiW0oBu9tPVTwWuE0B8m1N6xrlVTW40DL41nTWjSDz0/yHks49E+PELhtIbveuKSPJTdiJ9cqr9Y=
+	t=1792239067; cv=none; b=fjvV+74WsjwfL6DlEtIiG2Nw0V589/iiO4BlNZWrhgZcKZaMGwCNOReekxwh/BcQAUq9MFaqQfBmDjIewK3+xGKD5yWYMU9gAPDJx7wSCPlLkBg1UvNrKnbyGEJ4vXmo5FSZu2TCXFIM7i9Xq2bTTNEzIZm+QWqW03mGNHoFgds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792236976; c=relaxed/simple;
-	bh=yNAJuYmjmAjUWtFgm4yj7+VgRbs02dwrTOWE3O4Hxz0=;
-	h=Message-ID:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=dlB3ReyXGNvCUQVXTsuDA3oZ/7AqJf3WRMkCDdJ+Suy2SMRz6Grvcqi0FHKZYMzA4DN/NmPQ5i7vfj0W5HB7ZD/Hod8Lvc1/4bzq3yTe/iwUkToHIk3DG+BnJq6uYxbW0w0LPROrMqNZvLbknBfU4CEyh0zzTfVeKcDut0oJOAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4aiWZ16; arc=none smtp.client-ip=209.85.216.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792239067; c=relaxed/simple;
+	bh=BM5MeFN2yRAcUZMBQ1kVaJDLyC0kPMwPZ2Fc2V99c+w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eUmQPMWsoaJurv8g7f6lr1NirjID2Mxmv6SuvOzEwpAbv+dg2XyhZJX9DsQyCStXm2Zwha3/91k5r5Z+YOhpSa48LUEMw6igAfuhpwpx3ar/R0+yC7ynsfpIPEv89lmb5FvoNttvN6cFnKcJWUvKvP++88p9GMlWmRf8SRvXsX0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K/+a8bc2; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4aiWZ16"
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3a4c78ee4d6so129199a91.1
-        for <linux-usb@vger.kernel.org>; Sat, 17 Oct 2026 04:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792236974; x=1792841774; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=y5lPor2Y39zEYus8yegDwQOLxe73Q923XLq/QXzQIhA=;
-        b=P4aiWZ16cOwnP7tqUyRFrFV3f/GKp6M0UkToAch4MO1/NVa01HhsmyQrgOrbQB+bNe
-         cS1RJLyi33Lwwz3+mDiofapf3Qe6Uwv5ooduXhh3rwnv7Mv3s62sMY07J8zAzaDf7tVk
-         d+cSOv+ywyGvajfKfPiO6mfAdbqxtAh+9M3VWrrt7Jp1t0Q8Ud/xH/TaXWrQgceT6s/j
-         zqWZZ9g3l0bcSTH2LUVpG/6D9hMWtB1ev+NFckNbPHyaBnEjiiiqJughOCx24XvDgyZ2
-         ThDCl5BzPrOpBRYp6iyxW53YOcZMxwi80m/tXSp0hoCFjoV0xQaY/GO42GFZpvl3LjIv
-         x3ww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792236974; x=1792841774;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y5lPor2Y39zEYus8yegDwQOLxe73Q923XLq/QXzQIhA=;
-        b=TOm/bRDY4wAKT2HJG+VATsmUgvhabhpRKRwLJZCzfxN5CuL32ECMyUYLmwo1JgMxoI
-         seQBGuyumRZbin8OeF/lJTSWIm0Ay8JHDnlNTGm7X7FWSnVDiSLebF/2Oiqqr7mWJjNw
-         94fhpMxXGffWHy/+hTzFHjCNJkvf0SHY/ts11UgS+koIVllXJ0yWOU2mIdrod7iefFjN
-         gFFhOTmAz0m2G4RH4CpzhaZe7ek3CgVae96D2YCcaVK/YTtMmrASeO2eCDhQyhRVv3HZ
-         9zwMXuUnQpp6H6vmhVJbir7w08Bccwu6KXyWUJERE9RaDF2l626ckp40hE7crrXCDQ32
-         sk0g==
-X-Forwarded-Encrypted: i=1; AKwUvBw2icIcDHFYvc4ISmhKv0U7IOdv6ZicTCx17FVUs5CuFBS/ApO1Th/b7V7h4GsTD9ATp03rdQYQcnU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKmuk70sGEn+nVXWTe/G8/nWDzdjgX1WtJIvplIFam+gtJS/v8W
-	sulLyHAdzsoEigdnbxpc69L8eaznoDJ4EPtAYdl+B/DgfciKvrowbtn5
-X-Gm-Gg: AYBFou07kGB5BMTGJemCsPZCGIvG/cx6DADmZhsGnQ+O6lpl8kMHTGHw84/A6IUBlLD
-	l6ics6ygo5o4LnKjcMQGXFFiyzLR3E/PDg+ty8lp0Jeani6yiTaqw1tsKGdhSJ4ir+e1r8S3L/G
-	JIjWe3IapRC1AKTc5AZ4ciUTbxsP1K5b6/k8h3pOduiPcOa7BOH6YY9JSWwfuh86c15dVArQfgE
-	lY+sabmfgp9VwISqjFK+XX+cu8+aVfYNtB6e/xKYdT2T6ZF4F7uUDNRn8yoLs+4C7VwNnmsjYY1
-	plrwFNK0MW7e3aoWl51n4uJzCngDKc4UP0bKb47XxGfLK+8qu+16I5ffxbKmu97Hq2KXRTUnYyn
-	YfC1+Veb61+Q8tRDRb8GtPWLfDjEZ3yUbT7OkOZzIi26PR16xatlx06kv4X4hcWh6OApJyxiK8v
-	XPmwmepFRCUh+SH47qK96oZIsvndjnCm30QJwmmJQLs6OQfix29EVfIPE49YWC/1R2kSsJd1Tda
-	N/VZWk+iwezHmJKEaBzzg==
-X-Received: by 2002:a17:90b:164b:b0:3aa:ff60:9bb8 with SMTP id 98e67ed59e1d1-3acef167affmr3313208a91.3.1792236973898;
-        Sat, 17 Oct 2026 04:36:13 -0700 (PDT)
-Received: from [10.64.8.87] ([61.171.228.110])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ac94798212sm12999321a91.14.2026.10.17.04.36.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 Oct 2026 04:36:13 -0700 (PDT)
-Message-ID: <6ad35dad.70c60f76.2e7ac9.12a4@mx.google.com>
-Date: Sat, 17 Oct 2026 04:36:13 -0700 (PDT)
-From: Anfernee Cao <anferneemelokc5@gmail.com>
-To: sashiko-reviews@lists.linux.dev
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xu Rao <raoxu@uniontech.com>
-Subject:
- Re: [PATCH] usb: xhci: fix EP0 context leak on virt device allocation failure
-In-Reply-To: <sashiko-outbox-175494@kernel.org>
-References: <20261017111114.1135-1-anferneemelokc5@gmail.com>
- <sashiko-outbox-175494@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K/+a8bc2"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9B121F000C4;
+	Sat, 17 Oct 2026 12:11:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792239065;
+	bh=veQdq2zi4suj+sytjBTYVEHORuVM5dkp0/o3mNbAOmQ=;
+	h=From:To:Cc:Subject:Date;
+	b=K/+a8bc2gLBBjRAX6SdSD4Xneiu0ZcZA4iBBo8XjYcU5HatnHnweU7rmdSyeAw283
+	 yJc6rteOOGoQfWZdR8kOcelqKQYLAZvvGGgcSXwvug212wHf3CyVpaP3myRDDKixF5
+	 OH6cXYawwdrdKkjc6bUwJuzeKRTWsFV1HNNIstwm6F29apVlRMOAzjqtWre89uyRwo
+	 0kAZuN4lYTinWig0+Y6tETUYneuqFXya7fNN9gI/pNcohdtcMQIP3DdKsHt2DueWpX
+	 53DuEGEHQem7LeAACudvbIejSXwytVV+jNO/cUOVyzT81JPduAwwGVB2uSBubo/nRO
+	 PAMccXJnWoPFA==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xI3Ff-00000007SXx-2qTt;
+	Sat, 17 Oct 2026 14:11:03 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] USB: serial: garmin_gps: explicitly stop read urb on unbind
+Date: Sat, 17 Oct 2026 14:10:19 +0200
+Message-ID: <20261017121019.1777984-1-johan@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-> Does jumping to disable_slot here actually disable the newly enabled
-> slot_id?
+The garmin_gps read URB may be submitted from the interrupt URB
+completion handler and should therefore be stopped after stopping the
+interrupt URB and before freeing the port data during port unbind.
 
-Yes, you're right, and thanks for catching it.  The disable_slot label
-should pass the local slot_id.
+When a USB serial device is disconnected (or unbound through sysfs),
+USB serial core stops and poisons the port URBs before unbinding the
+port however so there is no risk for a use-after-free in the read URB
+completion handler even if the driver does not stop it in its remove()
+callback.
 
-This is a pre-existing bug, separate from the EP0 context accounting
-leak fixed by this patch, and it has already been submitted:
+Stop the read URB explicitly for consistency, to avoid relying on core
+and to prevent false positive reports from LLMs.
 
-  [PATCH] usb: xhci: disable the correct slot on alloc_dev failure
-  https://patchew.org/linux/6C94F1F35FF16E76+20260806084909.2959131-1-raoxu@u=
-niontech.com/
-  Fixes: 3ffbba9511b4 ("USB: xhci: Allocate and address USB devices")
+Note that this was erroneously flagged as a use-after-free by Sashiko.
 
-I deliberately kept this patch independent of that one.  The decrement
-added here releases the endpoint context reservation made by this
-invocation, regardless of which slot the current error path ends up
-disabling.  Once Xu Rao's fix lands, the error path will disable the
-correct slot and the two fixes compose cleanly.
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/serial/garmin_gps.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-If the maintainers prefer, I can resend this rebased on top of that fix
-once it is applied, or send both as a series.
+diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
+index 8020149f5658..1853dc8a747d 100644
+--- a/drivers/usb/serial/garmin_gps.c
++++ b/drivers/usb/serial/garmin_gps.c
+@@ -1402,6 +1402,7 @@ static void garmin_port_remove(struct usb_serial_port *port)
+ 
+ 	usb_kill_anchored_urbs(&garmin_data_p->write_urbs);
+ 	usb_kill_urb(port->interrupt_in_urb);
++	usb_kill_urb(port->read_urb);
+ 	timer_shutdown_sync(&garmin_data_p->timer);
+ 	kfree(garmin_data_p);
+ }
+-- 
+2.55.0
+
