@@ -1,111 +1,149 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from smtp2.iinet.com (smtp2.iinet.com [52.129.46.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C02339375;
-	Sat, 17 Oct 2026 14:24:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A7838DC44;
+	Sat, 17 Oct 2026 15:56:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.129.46.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792247080; cv=none; b=gUPO59XFK+X7f8ww4Kex08y4dzW20A1eEktnTxoIi9fyf3lYqwJc34O4sC7/NdOTpPyUu34R24q4CpHKDa4JDS+zqBXEGCjPaA2+K9K2UO0SUhLIWexESYWXW7B/UwXRF6lbMhffhoKZNotxSPIEVH53NXxDI/VKm+ZYhnMn7BY=
+	t=1792252580; cv=none; b=mbE/y1PA0IjiS+y+jMwTeGXZ+dTZLa+zKmtEEolZMRde19choxTWkJ0DQABpqYsePuE/fydvFcfjp0B8dRQczRlMb33mJRCFvL1A6ZsdFeA/hTPHlfkkHUjwFMjOhKmfRZSiBKcPHfxPDHlvgl7TCi63Uc0GzIiaixBhMO38PUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792247080; c=relaxed/simple;
-	bh=QbHfjeIGKiQU338q0g8Oeylgixw3zvUk+tNkDLgIDxc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M4ZXxQkuP7/AQgq4na55NN9Eu17uWrL9Ji4I9hNvbdJPLnq3QYM6UHkqiNnbciCLfb6W7bTrNJoLiZwuDyNdIabNB4Zz1s+7E9n6+IaQU7dAwo7v5hJCxY0/ELD7gByzAGmJyBDKgEm/e/1biQy7xcCa65nO/isoGg6y4qkXqfU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBypj0yt; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1792252580; c=relaxed/simple;
+	bh=8p2lca59Kr/sPXCKE0RC6oNDFhBqdb/jXD9F09ecVvs=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=UATTaM2UKEgdl46xhIbpdfRKK2y6nxRpgNAu8MX7DnVRJnodW2GBE9QyxCSdWTxwoWV1iEe9QshVE9GRyId13Tz0aR17AXc9/oF02dqbhuKZmXXArLNBvVzdyq5t/TV/PFJ9fvA95sxAL+KUsZc/yJ1Avq9DTyncovmsiSeSKNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com; spf=pass smtp.mailfrom=nwlink.com; dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b=XAwKO+Zv; arc=none smtp.client-ip=52.129.46.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nwlink.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nwlink.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBypj0yt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792247076; x=1823783076;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=QbHfjeIGKiQU338q0g8Oeylgixw3zvUk+tNkDLgIDxc=;
-  b=PBypj0ytAtNAjVA9N8o/LsU6cOO+Qhn0BkeSlSKyXSpHAVbAudfGDTRO
-   lzcrHc8XcgUmdmPTz5oInXDguHsrZIoZw1cLx/ykoE2sEGgI8YQ0puxE3
-   x4XVRxZILOhPNuJviWNyiFGRLpRPB7COs+8d2YTPCWboc1nql76tr0bhC
-   sw2DU5hPgtQMbUxEJUyddcLk9CVAUethOZnlLmXDEQLChuOhQWG7J0EZM
-   doxA8bjbUMGp6fSeKtc5BWgpFauiH6toHLj2y+SPYNsBtLa1m6MTtnH3k
-   WpKSOw+AWD7Px6xCgLC6vJAgwxP0PRUYVtXnTWDzWHO7LWeOozgRpaj0d
-   Q==;
-X-CSE-ConnectionGUID: PhsSHfN0Ssy5NZdDvUPf6w==
-X-CSE-MsgGUID: zL851pA2QbiEgl4eCdv4wQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11937"; a="906138"
-X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="906138"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2026 07:24:35 -0700
-X-CSE-ConnectionGUID: HOZEW8DFQk2gJA2zyd7wTA==
-X-CSE-MsgGUID: haglIp14ROaLRtm+xsBwMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,163,1787036400"; 
-   d="scan'208";a="3935055"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by fmviesa013.fm.intel.com with ESMTP; 17 Oct 2026 07:24:31 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xI5Km-00000000JPy-32zq;
-	Sat, 17 Oct 2026 14:24:28 +0000
-Date: Sat, 17 Oct 2026 22:23:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sebastian Reichel <sre@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	kernel@collabora.com,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Subject: Re: [PATCH 3/4] arm64: dts: mediatek: Use DP AltMode defines
-Message-ID: <202610172234.PyocmhiR-lkp@intel.com>
-References: <20261014-dp-altmode-dt-defines-v1-3-b657c9b6e4c3@collabora.com>
+	dkim=pass (2048-bit key) header.d=nwlink.com header.i=@nwlink.com header.b="XAwKO+Zv"
+Received: from webmail.iinet.com (web1.iinet.com [52.129.46.51])
+	(Authenticated sender: kaf@nwlink.com)
+	by smtp2.iinet.com (Postfix) with ESMTPA id F4024B42BD1;
+	Sat, 17 Oct 2026 08:56:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nwlink.com; s=mail;
+	t=1792252578; bh=wOC3z8d3unpvQdUfL2bvr+OorEHjTzNQZKSBDptrq6I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=XAwKO+ZvEyUqx00zvjmuaTE/L9dRem0ramAaHSewGTTBAzjCD1A+fEG8pR4XFg4Dm
+	 gUJY8aXJ43X5SOn1D0iVJj0pu/g9Jy/JF2aAyAR+ORSAykMZQ2VKylEczL9aJXPJ8D
+	 BUGyrH7162eWdGVa42ZU9XxmFza+eiRzzFH/Z8J7HcEyF8SXGquOOZWV6T3Wx53pow
+	 znAbaT33WQAGu89m/spHLSHFidV9PJu0DvNw9OOGec2h2On7EmTMB6hdI1fVEErsrd
+	 DSUeLBfVDkTSRkjazJQZ4l9T3A3CNv+NXBYiWVEU2KSl7YFRO4fLHCTJdL6PtNnvZA
+	 f5L9gR6Y2wVhw==
+Received: from c-98-203-133-45.hsd1.wa.comcast.net ([98.203.133.45])
+ by webmail.iinet.com
+ with HTTP (HTTP/1.1 POST); Sat, 17 Oct 2026 08:56:15 -0700
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261014-dp-altmode-dt-defines-v1-3-b657c9b6e4c3@collabora.com>
+Date: Sat, 17 Oct 2026 08:56:15 -0700
+From: kaf@nwlink.com
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 0/2 RESEND] usb: gadget: uac2: support explicit channel
+ counts
+In-Reply-To: <2026101742-ouch-sensually-f5a4@gregkh>
+References: <20261016162534.384844-1-kaf@nwlink.com>
+ <2026101742-ouch-sensually-f5a4@gregkh>
+User-Agent: Roundcube Webmail/1.4.3
+Message-ID: <fef8f9aa36c922e846d37e686b38f6c3@nwlink.com>
+X-Sender: kaf@nwlink.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sebastian,
+On 2026-10-17 01:05, Greg Kroah-Hartman wrote:
+> On Fri, Oct 16, 2026 at 09:25:32AM -0700, Kyle Farrell wrote:
+>> USB Audio Class 2.0 permits up to 255 channels in an audio channel 
+>> cluster
+>> via bNrChannels. Independently, a channel-location bitmap is specified 
+>> via
+>> bmChannelConfig for up to 27 predefined spatial locations. Setting
+>> bmChannelConfig to zero indicates that the channels have no predefined
+>> spatial positions.
+>> 
+>> The current UAC2 gadget driver derives bNrChannels from the number of 
+>> set
+>> bits in bmChannelConfig. Since bmChannelConfig provides 27 predefined
+>> spatial locations this limits playback and capture streams to 27 
+>> channels.
+>> 
+>> This series allows channel counts up to the UAC2 limit of 255 without
+>> requiring predefined spatial channel locations in bmChannelConfig.
+>> Existing ConfigFS channel-mask configuration continues to work 
+>> unchanged.
+>> New optional playback and capture count attributes allow the number of
+>> channels to be specified separately from the channel-location bitmap.
+>> 
+>> The series is split so that the shared u_audio infrastructure is 
+>> updated
+>> first without changing behavior, followed by the UAC2 functional 
+>> change.
+>> 
+>> Patch 1:
+>>   Pass resolved playback and capture channel counts explicitly into
+>>   the UAC1/UAC2 shared u_audio implementation instead of deriving them
+>>   from channel masks.
+>> 
+>> Patch 2:
+>>   Add ConfigFS playback/capture channel-count attributes to the UAC2
+>>   function driver and use them when generating descriptors and stream
+>>   configuration, allowing counts beyond the 27 predefined channel
+>>   locations.
+>> 
+>> Testing
+>> 
+>> Testing was performed using a Raspberry Pi Zero 2 W configured as a 
+>> USB
+>> UAC2 gadget. Streaming and descriptor validation were performed 
+>> against
+>> both Linux and macOS hosts.  Windows hosts were not tested.
+>> 
+>> UAC1
+>>   - Verified playback/capture operation via alsaloop.
+>>   - No descriptor or behavioral changes observed.
+>> 
+>> UAC2
+>>   - Verified legacy channel-mask configuration (1-27 channels).
+>>   - Verified explicit channel-count mode with 2, 28, 61, 62, 96 
+>> channels.
+>>   - Verified invalid channel-count/channel-mask combinations are 
+>> rejected.
+>>   - Verified Feature Unit descriptor size limits at 61/62 channel 
+>> boundary.
+>>   - Verified descriptors including:
+>>       * bNrChannels
+>>       * bmChannelConfig
+>>       * Feature Unit presence and bLength
+>>       * AudioControl wTotalLength
+>>       * endpoint wMaxPacketSize
+>>   - Verified ALSA-reported playback and capture channel counts.
+>>   - Verified streaming using alsaloop.
+>> 
+>> Changes in v2:
+>>   - Edit commit messages for clarity and brevity.
+>>   - Add Assisted-by: LLM attribution.
+>>   - No code changes.
+> 
+> Why was RESEND needed here?  Saying that would be nice.
+> 
+> Also, sashiko points out a number of problems...
+> 
+> thanks,
+> 
+> greg k-h
 
-kernel test robot noticed the following build errors:
+I resent v2 as both it and v1 had received no review. I should have 
+stated
+that in the cover letter.
 
-[auto build test ERROR on 0fcb05b72344f40806cbe810de8872f1698bf053]
+I'm reviewing the Sashiko findings and will address relevant issues 
+before
+submitting a revised series.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Reichel/dt-bindings-connector-Add-DP-AltMode-VDO-definitions/20261014-233149
-base:   0fcb05b72344f40806cbe810de8872f1698bf053
-patch link:    https://lore.kernel.org/r/20261014-dp-altmode-dt-defines-v1-3-b657c9b6e4c3%40collabora.com
-patch subject: [PATCH 3/4] arm64: dts: mediatek: Use DP AltMode defines
-config: arm64-randconfig-1001-20261017 (https://download.01.org/0day-ci/archive/20261017/202610172234.PyocmhiR-lkp@intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 13.4.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261017/202610172234.PyocmhiR-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610172234.PyocmhiR-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   Lexical error: arch/arm64/boot/dts/mediatek/mt8395-genio-common.dtsi:600.25-45 Unexpected 'USB_DISPLAYPORT_SVID'
->> FATAL ERROR: Syntax error parsing input tree
---
-   Lexical error: arch/arm64/boot/dts/mediatek/mt8390-genio-common.dtsi:530.24-44 Unexpected 'USB_DISPLAYPORT_SVID'
->> FATAL ERROR: Syntax error parsing input tree
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Thanks,
+Kyle
