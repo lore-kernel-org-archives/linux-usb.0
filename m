@@ -1,154 +1,411 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941FE392C20
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 10:59:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792321144; cv=pass; b=PNfnLGqmUOWF0jzBm2Nvb8qNQHY+AY4XnioroZd99MMoB28YoSzSB23t0IIIqIisWRRO7GdXK61BI0GoVMsAUo22893kLMguXvo1kuLzf8P3nD2uLEg5UnEpao4NBVDHnaV9lHXQrDNZWFCeTQ/8mxz5JvsMoMUrcfBz65OO0L8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792321144; c=relaxed/simple;
-	bh=kH379+03vqq9VgNoMgF4X+CQYZbnfJhixopqpO0bJ7A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AKYk+WichQF/EynVdb659dx8GSRCbTlyVxGTvz2N69EKpns+UbK+WeL7NmG4bI4WD3MXgY0ECnIUQUSKosOtQf///tLmTIxRwxyR9tB+/g0nJKY9aJ5pRllO8QGy9RMAZ5xvHwohN8SollkT8+tdwI8tOdL13OSGpMztIJU20qs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U2NI4BJJ; arc=pass smtp.client-ip=209.85.128.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA8D3DCDBC
+	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 11:11:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792321894; cv=none; b=OCgUF4wyj33jY80fg+5PhX9MjeJpL8CAINlwmMQyhwYlhWc5sh4/shXM0JnW2pTv8NRpXMPXnplH2gHHxhmsc5iHV0lJZXJFVSAKIsqXPes9R333w9X3o99U7/1tNBsQJ2KyTbyI3xQFHNk1X23DRyAtwAxZxa2D82qhJ2oInvc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792321894; c=relaxed/simple;
+	bh=7My8JmNvnhBR3H4hP1APkhv+P/R/t75wo6tfVjATvy8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qcrx2vWqyFWVgLtcaYd6f+swiPfOXqAXEKErB363PnFD+7cADvYrzGlALnAYMuyz34LjNZf1emWN335xVXEIF9V6fyjKSv8DDwq8D9mdYNRQ1KJIJonNar/xOZlz/R+N6MypAC4c6QobpIN+Pw2lrYlfFEZWucizBgLW+PUKpLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=okPgIrOx; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U2NI4BJJ"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b0d63f60bcso8745577b3.3
-        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 03:59:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792321142; cv=none;
-        d=google.com; s=arc-20260327;
-        b=LHevF60M65CxhTRxC1xSIKc2zrRspqQ02z9upwKC3F67YXRwR8Nng0XoCS+y77kagb
-         BM8Vysr2ZyNslgDPebkT0FDJi1sGtg9D1ri9+n8pZi0acZveIc5SW96HgR41uNC0dXZJ
-         dL94cpYw81cRAl0+YCdcWmxt7EIH6cQ6OX3BgMKfoGrtE3hj7nX/cEThK23oFKkRUc2I
-         lsanulUfSf1JwFcPY4CLXl0JrLwdt0Jb00m4+NW0wDces2iLvJ3mV8S66dWmCZv3Eghc
-         jtbwGPNjcjGyIOxdFlV3XWW13N/9ES4nu+3LQBRsVP2UknOk0nn98TBfJfsDdyALC1mT
-         OHlw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=kH379+03vqq9VgNoMgF4X+CQYZbnfJhixopqpO0bJ7A=;
-        fh=BVO4v9k2q3V5Vkk3gUxzmx3S4Pqs1lkfn7Ys/023LrA=;
-        b=lwvo+ScyM5RUx5ZbemMQRGldLs2FSfXAFGMulq6LzSWQoQ88T/hp/1L4P9m4ZEZqgZ
-         UckYKN9fN6XBpCF9ivuy0tFuDBLBD1RHkgqs3ezi+ugZUBSWDJz+jVzK7Jk2/Pe7zqkH
-         14CCT6YkZG1IJC1y17PZslqvk3WHDHfrpxybH52u28tTTuhBCJJ2b8accyapco8Yg84m
-         yD5zGevIOGZepFqa5QCi5q4XJcKsltzKd3pn7y6aQw0bV/rl0xl+SRl30qR+iWNORg8O
-         KcISkLfDOMZO5r6iaRqh/Pyd74fYMH57ZSFvFViVk4si1CtdS/3AU8oqBeFv/4QY01G8
-         TcJw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="okPgIrOx"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48df54150dfso815634f8f.0
+        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 04:11:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792321142; x=1792925942; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=kH379+03vqq9VgNoMgF4X+CQYZbnfJhixopqpO0bJ7A=;
-        b=U2NI4BJJ51mU25KLT8gG5+jEUCYuddntwUkcp6t94Fpw53GvTasaS57I7hf4uzxzZz
-         ELskm3q31qAnl7SldlfYQm+kxw/+g92vtygoYJWVDzeVV+Te8PfsCw/Y2/YOprdq67tp
-         BPr4DvNs0KVdJMwr8DA561AN6KKCtH+B75gj/uae6OviFEDb0M2M7nJoitogdy9ANtzd
-         7HoUtnNKhBvY/JLV2+/3obHdkL7SedimdSa8fPPxkzpqt58WGjLN/f8jmrzXcxpJMZ+M
-         PN/BQEFmb0wj914MisJhg1iBQW9HdLrq/dBEkC8RiiKERyEGTotbMnb7TC95b1K0Pv5i
-         bSLA==
+        d=gmail.com; s=20251104; t=1792321891; x=1792926691; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vgkxqhTApoOBhs/mRrfpjGowBj0GWwdL18OZhQTvCnI=;
+        b=okPgIrOxKos/sNXwaqFsaU+n1Z/Cj7RteI3TJ5Q8mR21W6sAGQ+Bck/oZhNfvtV8xB
+         TlllE+T2969gz9g2GSYSFCVVjPf9n2AcLYZr2xpNXYQRgZcHX24Q2k9VnAg7HnQR4p/h
+         G4pwwKVQ/BsN+tRsImCzQhVQk8rPch3LpSbCQYegF/GPHrywbjrApxVZRKsmDvlGUQ9P
+         T+nrQ/lAn+iVIn5tr5e6v1XmMHHbi55d00Ke/XU4Z2snEMMCopFBLdS65U1DdUS451OX
+         vMsNwnKPW6OhuFt6zzcWsihT8gan7Mt4qk6fQM2+muuEwqDyetcf9C6mwYSoB7iNWCts
+         2Q9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792321142; x=1792925942;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kH379+03vqq9VgNoMgF4X+CQYZbnfJhixopqpO0bJ7A=;
-        b=mntWNFUZon3r5FWTGLFLsHBZs29DlBKl7gzH/goPczsS6m77Y4V8x4CYzlBqkCqe/P
-         jb45V6++2xHPXPMRlN8n8ob0g6IMP9PV6JljtUhSy2cn6sCdZQUb5iRZRkiVuB5y6k+6
-         qqcPoaVxTc5+W2JiUQT9TyUML+miAZddNw5KTKxx3rb4LbRS7PYdLBuoD7JF1AEicrhZ
-         mAs/lou9GaFl9yOsfPBeXq38T+taD2s5RhUJBT9FdkxT4w7UgVRe7CX+5QVZ/c8CB3ET
-         It3Kuj1mLRzsMK79Yi8h5evmNNpcg2vQEi5XM6cg8Mc+VWUowysf5JV0ghePbzpJ61ei
-         EkUA==
-X-Forwarded-Encrypted: i=1; AKwUvBznDT/NDRzOtG+lIsGZildv1AZxoRgMdHEKfkzPrT8xGOtfWtr4F7LtiMiGMcvaUP5bFi487nN8frc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKgk+s4VlQ+88GTsF7sSVQtMommY75PNMW0gUXfY9ijwneRLk3A
-	UOQEexyzKiBRDKwyppbwmneZZ9jImxZpFU1dxqE8G7eOmBKh5DQvLw/VrTyAu/KNAmrtzeQ38Ax
-	ntO56P5pSqZt6HIPE4xRCG0hJ7+lIjlE=
-X-Gm-Gg: AYBFou315tzWSXAvowi+FsrMsYBBls8umEQBAj8xEia2U86fNXPmX7X+DKia7eLipnr
-	woxr7PiBFOFvztyfS2zfKtNAMPP7s8BzQ8cMJ3tjnCmV54nKVy7oNg8SM/wbeDxmX3mwT3pH733
-	Q/P2Qunzp/nSK1VQpF+hFRGgRn8s+MvSqjYISoMxI7cOOguGzy0BZa94kkQQCqW5BPpyKNjrT7s
-	1eKo0jjgsIeOXDkDW6nS81ZUf6yleDr3Gac9/kDxmPYblD05Ba9RWTt11jNC/eZXi2UijNlmtsq
-	XW2R7jEP0/5H6VaU3VymT1Vjey4y4a2TXcd/QYKPVeSBpeK+dDLLjcM/oKICKAsSpIdxNAHa0VB
-	G14WJLhlte4OfyjhILArgnekmzaQNA0et2u8s7P98acCj
-X-Received: by 2002:a05:690c:f82:b0:8b0:f074:75c3 with SMTP id
- 00721157ae682-8b0f219a62dmr15543377b3.11.1792321142377; Sun, 18 Oct 2026
- 03:59:02 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792321891; x=1792926691;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vgkxqhTApoOBhs/mRrfpjGowBj0GWwdL18OZhQTvCnI=;
+        b=T4kOX2bLqATqpcoNVS1G94zdHFMg8ECjpagh9Q8dULpA+VGZxchedjMvQeMNsDf+Yu
+         DGsA4esN0r9e+fBrxAbQLpXoJzAS00YZwutniwbDnQyKh8IEItgIRSlPZeGY/y3Mg1tS
+         asnz9x42QPZmmIh8ecD0g7ML4A4XxiRUfsbF3/wzyjl6ahbhpKYRs9Msegt+8/BAmXyT
+         1HaYYIISFRFYz8bwL760LQi0WFBLdzqGigVoRHhxifpO9A5QyStat8X6/DSDeAwuy4GO
+         GxRIG8o9Z8Z+rr9NIEKGPEaxZaOhesSPL2xvzSI72XD8AJE1qtFx4WfotUzxrMMavQus
+         tFPA==
+X-Forwarded-Encrypted: i=1; AKwUvBzGicGd8CDX2jom7sSju3Cbqmpx7iR4Gfnp5cq055Z1N2VG2RyWv4J+Y2i9KfTmoC/Ota3zICaPgok=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJr57bb1fKZLFAJTLMn0e1tvJ3I4C8f9CDz7kvfKowzfhAC6r4y
+	pwsE+C4zMZxRWtRjHUpVR1Zmj8mtoomjgly7SSnPMNAC6QKUgfV/Jda8
+X-Gm-Gg: AYBFou2nguxy4e7+Uq+ZLU/W3SOdRAeJB9MT7qqkwAdWMvPKKZGT/Wuek6UTvztqJ/1
+	EJCbl0ty06FlC27Dq7vVgr55x3aVdAIdVjr+xus7yBnHkSvdnRwapo1UsLOYrFzyRNaaEqx5yBt
+	zqHw1CLaK8lHmQt30ROPcGd+03q7KAcFbsyqEXf51yzqwYG/88Sm2fmQ9sJe5I+rY61NLDIA2Xg
+	B0ah76dOhvwS5KkVIECPh30OUzmV0LYWSg9XD/Kixl1M0eBMvqsyiZN0OXbbXZJLxaA2hvYLWDZ
+	TeRzX/1TWP1DbScjMpBBFZxISvATwIUb+sprxYL+mLcB5KkKPESxPOup7VA3UxTIRo3gxAZDdir
+	PaUIBm4oQyJSkKBayEU2c13/ZhwZe1sNFMvxi4fgVRhQx8dU0jntSs2g/bVwRDVfe5ihw7eRW14
+	eNZLADCobCP3Wr/C55P+eD0gL+m3mZYgo9zcOMydQ7C7YbgOX4AWNS90E7M0bTZtwTjZtm3sjvE
+	lSu/CQ=
+X-Received: by 2002:a05:600c:6749:b0:4a1:e51d:9244 with SMTP id 5b1f17b1804b1-4a1e51d93f4mr16785525e9.25.1792321890988;
+        Sun, 18 Oct 2026 04:11:30 -0700 (PDT)
+Received: from fedora.domain.name ([217.218.152.67])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4f5177sm15928100f8f.30.2026.10.18.04.11.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 04:11:30 -0700 (PDT)
+From: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+To: stern@rowland.harvard.edu
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+Subject: [PATCH v2] usb: ohci-omap: handle root hub overcurrent
+Date: Sun, 18 Oct 2026 14:41:24 +0330
+Message-ID: <20261018111124.32979-1-ampr.mhd@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261018015747.246611-1-ampr.mhd@gmail.com>
+References: <20261018015747.246611-1-ampr.mhd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260821114854.12218-1-kartikey406@gmail.com> <2026092925-licorice-strode-7905@gregkh>
- <CADhLXY6t7UL9Ys65qDSBBAUzj+sQkS26xFZX3YjkFZ8ufS16wQ@mail.gmail.com>
-In-Reply-To: <CADhLXY6t7UL9Ys65qDSBBAUzj+sQkS26xFZX3YjkFZ8ufS16wQ@mail.gmail.com>
-From: Deepanshu Kartikey <kartikey406@gmail.com>
-Date: Sun, 18 Oct 2026 16:28:49 +0530
-X-Gm-Features: AclHuK_HMv1PVjOPtvzFyVILO65tZfoFuR0e_ptveMjtk5RooNmqwPancL-Uq38
-Message-ID: <CADhLXY55XwzujRCg+xgm4v4UJmfdgUQ0oihS39f3iMwFDzXTRw@mail.gmail.com>
-Subject: Re: [PATCH] usb: gadget: u_audio: reject srate request for
- unconfigured direction
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: kees@kernel.org, pavel.hofman@ivitera.com, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 30, 2026 at 1:48=E2=80=AFPM Deepanshu Kartikey
-<kartikey406@gmail.com> wrote:
->
-> On Tue, Sep 29, 2026 at 6:53=E2=80=AFPM Greg KH <gregkh@linuxfoundation.o=
-rg> wrote:
-> >
-> > On Fri, Aug 21, 2026 at 05:18:54PM +0530, Deepanshu Kartikey wrote:
-> > > u_audio_get_playback_srate() unconditionally locks and reads
-> > > uac->p_prm.lock/srate, but g_audio_setup() only initializes
-> > > p_prm.lock when p_chmask is set. On a UAC2 instance configured
-> > > without a playback direction, this results in acquiring a
-> > > never spin_lock_init()'d lock when a GET_CUR sample rate
-> > > request targets playback, triggering a lockdep "trying to
-> > > register non-static key" warning.
-> > >
-> > > Reject the request with -EOPNOTSUPP when p_chmask is not set,
-> > > before touching prm->lock.
-> > >
-> > > Fixes: eb3a1ce6f5ed ("usb: gadget: u_audio: Add capture/playback srat=
-e getter")
-> > > Reported-by: syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
-> > > Closes: http://syzkaller.appspot.com/bug?extid=3De1d0e66badecc32d45eb
-> > > Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
-> > > ---
-> >
-> > How was this tested?
->
-> I have not been able to test this since there is no
-> repro present in syzbot.
->
-> I verified the fix by static analysis of the call path in the report
-> (afunc_setup -> in_rq_cur -> u_audio_get_playback_srate) and confirmed
-> in g_audio_setup() that uac->p_prm.lock is only passed through
-> spin_lock_init() inside the "if (p_chmask)" block, so it is left
-> uninitialized whenever p_chmask is 0. Leading to lock splat issue.
->
-> This patch is compile test only
->
-> > Did you forget a Assisted-by: tag?
->
-> Sure I will add assisted by tag
->
-> thanks
->
-> Deepanshu
+Handle overcurrent GPIO interrupts, disable port power when
+overcurrent is detected, and report the status through the
+root hub port status.
 
-Hi Greg,
+Signed-off-by: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+---
+ drivers/usb/host/ohci-omap.c | 212 +++++++++++++++++++++++++++++++----
+ 1 file changed, 191 insertions(+), 21 deletions(-)
 
-Please let me know the status of this patch.
+diff --git a/drivers/usb/host/ohci-omap.c b/drivers/usb/host/ohci-omap.c
+index f6e56c4b9914..2a08147dc5fa 100644
+--- a/drivers/usb/host/ohci-omap.c
++++ b/drivers/usb/host/ohci-omap.c
+@@ -15,6 +15,7 @@
+  * This file is licenced under the GPL.
+  */
+ 
++#include <linux/irqreturn.h>
+ #include <linux/clk.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
+@@ -33,6 +34,9 @@
+ #include <linux/signal.h>
+ #include <linux/usb.h>
+ #include <linux/usb/hcd.h>
++#include <linux/interrupt.h>
++#include <linux/spinlock.h>
++#include <linux/usb/ch11.h>
+ 
+ #include "ohci.h"
+ 
+@@ -46,6 +50,10 @@ struct ohci_omap_priv {
+ 	struct clk *usb_dc_ck;
+ 	struct gpio_desc *power;
+ 	struct gpio_desc *overcurrent;
++	spinlock_t overcurrent_lock;
++	bool overcurrent_status;
++	bool overcurrent_changed;
++	int overcurrent_irq;
+ };
+ 
+ static const char hcd_name[] = "ohci-omap";
+@@ -181,11 +189,110 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ 	return 0;
+ }
+ 
++static irqreturn_t ohci_omap_overcurrent_irq(int irq, void *data)
++{
++	struct usb_hcd *hcd = data;
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
++	unsigned long flags;
++	int status;
++
++	status = gpiod_get_value_cansleep(priv->overcurrent);
++	if (status < 0)
++		return IRQ_HANDLED;
++
++	if (status && priv->power)
++		gpiod_set_value_cansleep(priv->power, 0);
++
++	spin_lock_irqsave(&priv->overcurrent_lock, flags);
++	if (!!status != priv->overcurrent_status)
++		priv->overcurrent_changed = true;
++	priv->overcurrent_status = !!status;
++	spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
++
++	usb_hcd_poll_rh_status(hcd);
++
++	return IRQ_HANDLED;
++}
++
++static int ohci_omap_hub_status_data(struct usb_hcd *hcd, char *buf)
++{
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
++	unsigned long flags;
++	bool changed;
++	int length;
++
++	length = ohci_hub_status_data(hcd, buf);
++
++	spin_lock_irqsave(&priv->overcurrent_lock, flags);
++	changed = priv->overcurrent_changed;
++	spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
++
++	if (changed) {
++		if (!length) {
++			buf[0] = 0;
++			length = 1;
++		}
++		buf[0] |= BIT(1);
++	}
++
++	return length;
++}
++
++static int ohci_omap_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
++				 u16 wIndex, char *buf, u16 wLength)
++{
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
++	unsigned long flags;
++	bool status, changed;
++	__le32 *portstatus;
++	u32 value;
++	int ret;
++
++	ret = ohci_hub_control(hcd, typeReq, wValue, wIndex, buf, wLength);
++	if (ret)
++		return ret;
++
++	if (typeReq == ClearPortFeature && wIndex == 1 &&
++	    wValue == USB_PORT_FEAT_C_OVER_CURRENT) {
++		unsigned long flags;
++
++		spin_lock_irqsave(&priv->overcurrent_lock, flags);
++		priv->overcurrent_changed = false;
++		spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
++		return 0;
++	}
++
++	if (typeReq != GetPortStatus || wIndex != 1)
++		return ret;
++
++	spin_lock_irqsave(&priv->overcurrent_lock, flags);
++	status = priv->overcurrent_status;
++	changed = priv->overcurrent_changed;
++	spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
++
++	portstatus = (__le32 *)buf;
++	value = le32_to_cpu(*portstatus);
++
++	if (status)
++		value |= USB_PORT_STAT_OVERCURRENT;
++	else
++		value &= ~USB_PORT_STAT_OVERCURRENT;
++
++	if (changed)
++		value |= USB_PORT_STAT_C_OVERCURRENT;
++	else
++		value &= ~USB_PORT_STAT_C_OVERCURRENT;
++
++	*portstatus = cpu_to_le32(value);
++
++	return 0;
++}
++
+ /*-------------------------------------------------------------------------*/
+ 
+ /**
+  * ohci_hcd_omap_probe - initialize OMAP-based HCDs
+- * @pdev:	USB controller to probe
++ * @pdev: USB controller to probe
+  *
+  * Context: task context, might sleep
+  *
+@@ -196,50 +303,53 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ {
+ 	int retval, irq;
+-	struct usb_hcd *hcd = 0;
++	struct usb_hcd *hcd;
+ 	struct ohci_omap_priv *priv;
+ 
+ 	if (pdev->num_resources != 2) {
+ 		dev_err(&pdev->dev, "invalid num_resources: %i\n",
+-		       pdev->num_resources);
++			pdev->num_resources);
+ 		return -ENODEV;
+ 	}
+ 
+-	if (pdev->resource[0].flags != IORESOURCE_MEM
+-			|| pdev->resource[1].flags != IORESOURCE_IRQ) {
++	if (pdev->resource[0].flags != IORESOURCE_MEM ||
++	    pdev->resource[1].flags != IORESOURCE_IRQ) {
+ 		dev_err(&pdev->dev, "invalid resource type\n");
+ 		return -ENODEV;
+ 	}
+ 
+ 	hcd = usb_create_hcd(&ohci_omap_hc_driver, &pdev->dev,
+-			dev_name(&pdev->dev));
++			     dev_name(&pdev->dev));
+ 	if (!hcd)
+ 		return -ENOMEM;
+ 
+ 	hcd->rsrc_start = pdev->resource[0].start;
+-	hcd->rsrc_len = pdev->resource[0].end - pdev->resource[0].start + 1;
++	hcd->rsrc_len = pdev->resource[0].end -
++			pdev->resource[0].start + 1;
+ 	priv = hcd_to_ohci_omap_priv(hcd);
+ 
+-	/* Obtain two optional GPIO lines */
+-	priv->power = devm_gpiod_get_optional(&pdev->dev, "power", GPIOD_ASIS);
++	spin_lock_init(&priv->overcurrent_lock);
++	priv->overcurrent_status = false;
++	priv->overcurrent_changed = false;
++	priv->overcurrent_irq = -1;
++
++	priv->power = devm_gpiod_get_optional(&pdev->dev, "power",
++					      GPIOD_ASIS);
+ 	if (IS_ERR(priv->power)) {
+ 		retval = PTR_ERR(priv->power);
+ 		goto err_put_hcd;
+ 	}
++
+ 	if (priv->power)
+ 		gpiod_set_consumer_name(priv->power, "OHCI power");
+ 
+-	/*
+-	 * This "overcurrent" GPIO line isn't really used in the code,
+-	 * but has a designated hardware function.
+-	 * TODO: implement proper overcurrent handling.
+-	 */
+-	priv->overcurrent = devm_gpiod_get_optional(&pdev->dev, "overcurrent",
+-						    GPIOD_IN);
++	priv->overcurrent = devm_gpiod_get_optional(&pdev->dev,
++						    "overcurrent", GPIOD_IN);
+ 	if (IS_ERR(priv->overcurrent)) {
+ 		retval = PTR_ERR(priv->overcurrent);
+ 		goto err_put_hcd;
+ 	}
++
+ 	if (priv->overcurrent)
+ 		gpiod_set_consumer_name(priv->overcurrent, "OHCI overcurrent");
+ 
+@@ -277,23 +387,77 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 	if (!hcd->regs) {
+ 		dev_err(&pdev->dev, "can't ioremap OHCI HCD\n");
+ 		retval = -ENOMEM;
+-		goto err2;
++		goto err_release_mem;
+ 	}
+ 
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+ 		retval = irq;
+-		goto err3;
++		goto err_iounmap;
+ 	}
++
+ 	retval = usb_add_hcd(hcd, irq, 0);
+ 	if (retval)
+-		goto err3;
++		goto err_iounmap;
++
++	if (priv->overcurrent) {
++		int status;
++		unsigned long flags;
++
++		priv->overcurrent_irq = gpiod_to_irq(priv->overcurrent);
++		if (priv->overcurrent_irq < 0) {
++			retval = priv->overcurrent_irq;
++			goto err_remove_hcd;
++		}
++
++		retval = request_threaded_irq(priv->overcurrent_irq, NULL,
++					      ohci_omap_overcurrent_irq,
++					      IRQF_ONESHOT |
++					      IRQF_TRIGGER_RISING |
++					      IRQF_TRIGGER_FALLING,
++					      "ohci-omap-overcurrent", hcd);
++		if (retval) {
++			priv->overcurrent_irq = -1;
++			goto err_remove_hcd;
++		}
++
++		/*
++		 * Synchronize the initial GPIO sample with the threaded
++		 * handler so it cannot overwrite the sampled state.
++		 */
++		disable_irq(priv->overcurrent_irq);
++
++		status = gpiod_get_value_cansleep(priv->overcurrent);
++		if (status < 0) {
++			retval = status;
++			enable_irq(priv->overcurrent_irq);
++			goto err_remove_hcd;
++		}
++
++		spin_lock_irqsave(&priv->overcurrent_lock, flags);
++		priv->overcurrent_status = !!status;
++		priv->overcurrent_changed = true;
++		spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
++
++		if (status && priv->power)
++			gpiod_set_value_cansleep(priv->power, 0);
++
++		enable_irq(priv->overcurrent_irq);
++		usb_hcd_poll_rh_status(hcd);
++	}
+ 
+ 	device_wakeup_enable(hcd->self.controller);
+ 	return 0;
+-err3:
++
++err_remove_hcd:
++	if (priv->overcurrent_irq >= 0) {
++		free_irq(priv->overcurrent_irq, hcd);
++		priv->overcurrent_irq = -1;
++	}
++	usb_remove_hcd(hcd);
++err_iounmap:
+ 	iounmap(hcd->regs);
+-err2:
++err_release_mem:
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ err_unprepare_dc_ck:
+ 	clk_unprepare(priv->usb_dc_ck);
+@@ -327,6 +491,10 @@ static void ohci_hcd_omap_remove(struct platform_device *pdev)
+ 	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+ 
+ 	dev_dbg(hcd->self.controller, "stopping USB Controller\n");
++	if (priv->overcurrent_irq >= 0) {
++		free_irq(priv->overcurrent_irq, hcd);
++		priv->overcurrent_irq = -1;
++	}
+ 	usb_remove_hcd(hcd);
+ 	omap_ohci_clock_power(priv, 0);
+ 	if (!IS_ERR_OR_NULL(hcd->usb_phy)) {
+@@ -413,6 +581,8 @@ static int __init ohci_omap_init(void)
+ 		return -ENODEV;
+ 
+ 	ohci_init_driver(&ohci_omap_hc_driver, &omap_overrides);
++	ohci_omap_hc_driver.hub_status_data = ohci_omap_hub_status_data;
++	ohci_omap_hc_driver.hub_control = ohci_omap_hub_control;
+ 	return platform_driver_register(&ohci_hcd_omap_driver);
+ }
+ module_init(ohci_omap_init);
+-- 
+2.55.0
 
-Thanks
-
-Deepanshu
