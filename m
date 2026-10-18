@@ -1,189 +1,596 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A45B02AD0C
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 17:58:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792346285; cv=pass; b=mNijvm6BKfQiMi0LcSn2mZvsrmub5U8aOYP3z9ifHL5I1LB1giMcAARVUbbeEr1jZAr8cCkQbRuaIguT08TgWI1wXBXbU4m6jS3CFMj010/dyifraVwMWzyty8HbA4q6dBJnZflTxc9AJ/JposJEZrPwjnprlGKIZfSAQ7aqiJA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792346285; c=relaxed/simple;
-	bh=iQPskCNoqtPoMIcpKpZqttiB5ypZPAjgyiyTyp6wuYw=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=d0p50wfpEdY8j+887xvzJbymYXhvnI6anvXSeMG+xRxISEMajiGjxFTwLWeLPdL5bjp95sKS1FnEGqV1lzuWwPtCwcry6C0ETOj07IVelS+DQQeTZxoqUlFY7c1X+HvBScc8eQsUi56F8nFOCcN9Wtu8B/CsHJ4tmvaphUOba4k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=voidship.net; spf=pass smtp.mailfrom=voidship.net; dkim=pass (2048-bit key) header.d=voidship-net.20251104.gappssmtp.com header.i=@voidship-net.20251104.gappssmtp.com header.b=XkeD72Qc; arc=pass smtp.client-ip=74.125.224.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=voidship.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=voidship.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39BCF38B133
+	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 22:33:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792362803; cv=none; b=NqNiPgSN+9nFOrtAC1MgiSYlrpdVtIQhAYN0gfJZ6HHxquu8hmwb60/VuzE+cC5Tm1WobNDWyGUA+jU4Y0uxmQ5SMIqyx+TvyX5rOyk2lB12kPXu9HxKWa98kn9TX2IZ8Ca+vkNe16WTrOMIOPpZtFNuS6VT/UXlA30JB2d+vJc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792362803; c=relaxed/simple;
+	bh=r4fRx6yvMRz9zcMoZsQcjza2F1X+3OKXwUQ7hvtYEwM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=aps9x2yv0sKYmph6+mIoDVU5ezSIHX1oqQVvcbKfRKnKSf1GwNV+6roRqjNIyV/sDu95YOeu8jtNM/jGoknYhzXWiMWgwgsArLwVqEta9TvTo3eO/IvnPxBgF+fKcKPQQPkAId55RnccVd8XU8EBN9nEsrydSSUV8XxVaHwzU0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UEiB4s2i; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=voidship-net.20251104.gappssmtp.com header.i=@voidship-net.20251104.gappssmtp.com header.b="XkeD72Qc"
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-675676afc3cso1362205d50.3
-        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 10:58:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792346282; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ENzePDDiKi1hzTtqBlVUypMjLUuGflM4V10pmaOGIpu80a4vLAnjJbg7shuX4AhG3Y
-         txZTO5ubdo3kH0XX2PYXTaFEo1kKe8e9vY7uZoHkPI41RRTbV9w6tQ4hAkmAZv+qbsOC
-         wRj6RqPkNVcgAbfP4G5E/+0V3eaclEU6aut2DAJIRom6le3M6TcQH0P4pFpq1IKq/0Ig
-         9ROmNdqCnlaO2ULvjG2LNpuaRStUUf3Jcq0kLDxl/XutzhQQ/PAfuiXqQfxh86eYRW5Y
-         aqhPhpYLMWIcbBB9oQydLsqDGzgTv4tU5k+haAEn2xVNJhcjziMcEdEzIQhQNUbzvuW7
-         j0mA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=1vqWMr0i+A+wOg3Y8J4IXW6zaKZ6EAFuThjGg28E8gc=;
-        fh=lU+Ng+3RZXYLu170vVzhv9nlfsIMjyHVC8Zenn64AYQ=;
-        b=nmS/+I/E9k4AO+YVp5hlSiAwJriKALS/+TWttBb0xcWlHoMhJsL+wPqREP22TDmHjv
-         XEpyWrSLljoJKy6/XR972FlHpC+j4p94PXENple6S9qLzMNzh5A3esO3cwS/suEV7I5H
-         9A3acszXRups7Ul94BexHcAyCPZsE/ZffYKK8GI1KuO5Cmf7fUm1VwzNfcWn6Aq4OAeH
-         e8ln8O9rXKo5Sb0LAA794U+zFq8ZUMeZin/I59CbMH1zdp92NAG5dC9U2BxTpG+b1SUm
-         Dr20h2Zd+HAbTm8E0dxCEQPMk8EGhGpPi5s0mjpXOg40TluPyufUJmBG3M6N6EBc76el
-         ZxFw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UEiB4s2i"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a16c1608faso17733005e9.0
+        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 15:33:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=voidship-net.20251104.gappssmtp.com; s=20251104; t=1792346282; x=1792951082; darn=vger.kernel.org;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1vqWMr0i+A+wOg3Y8J4IXW6zaKZ6EAFuThjGg28E8gc=;
-        b=XkeD72QcA6zmnTfMKMbVIBz5tfb82Sk+64DoHW1Kl+x1jTsOrvvxfhnwb6ZozyADnN
-         NnbpsTr/IIwPAV/hmH7CAAzFbXflavka7dsjAOiAYX+kAFf7GEwq1J/RDcDA735Qor94
-         woHWkeTjNBLiEajQCdsEjqAzkwg4bESsUARBzgHuFqnBSE7ZWhTYt9Zk+NEE/vYUEd8N
-         hszHUReHz9O8FONRXWyyVJFYV246fxbg+g6msq08fvcntd7/iyYObYvVgjp3ypyBX/gu
-         15t50EgnyFIikKtB2eGi6IGg5UzOIy1qFFzJTdnMu2wPoacZm5KaGX2u4d8Ma+xb7kvi
-         PIjg==
+        d=gmail.com; s=20251104; t=1792362799; x=1792967599; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=oCJAnzj1NjOaiq+tJZP55CQlXI8UkMm0uN4TgAt51rM=;
+        b=UEiB4s2if5l+bHvEutvLBXiRAwG7ckLHDTaB2IPtYCMZ3x3WzMR5fJaFImpqzLLlfJ
+         PoxOalul1wewYwtUR5ZkHn/avsR5FlLnXXpGfZRco2tt1ASym9s3O9wrV2FEa9JC9Vy8
+         SS3Gla6yhsKlaDRxXFloqvh6W7VMAYczVNlf68d0FpysGJp9CNEwFfmRF6cR1CG4YV/s
+         OCBfY0xn/heMcbaZsFlmaCP/+jjrXI9IjE7eF9X6lFDyP3bWIJgaYtd6g0l3e8H++Pds
+         mbwNSJiIaRIntfYY1fun9IMyiL1vjDES44599j30KfR8EEbQlP6wucdNYat8YQedW3WK
+         RbtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792346282; x=1792951082;
-        h=content-type:cc:to:subject:message-id:date:from:mime-version
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=1vqWMr0i+A+wOg3Y8J4IXW6zaKZ6EAFuThjGg28E8gc=;
-        b=UdKMQmSB2ZOkMNwywCyF56nU9F6/MjBlnFXKDujWexz8llZJeKYCT2slsW3W8UMCFF
-         Kdg9SfSZvoIFlrSMxRNUeiJLP0O9f87jxaorj3Ww68tM6MS+/EurtM/uVEmSeGcLWcMx
-         dvX8+XBOX41HVl84IWo+mIYV73s6rwEqFVOPuMLSyjem+xhchnXqX4yXhTfnTQ2byNbM
-         NW8h75Q0N7m8Qfs7Vx68hx1R3ka7AruGgjZG9af2Z5SDiuz/xoJz6PKsjDf0+RJ3m3yj
-         dFwZi0BGe9vj6DlrP2hyAK8s2aDOvj5dvaXVGSqRaXRlpt9aPJxk7axxRXp3z3rXAk5F
-         5PjQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwM/WuClxmgOkFxmBq3e8ecbmdophu/PhnaCSCFX86arLBeBI+viUD3rh38uM+tkFmYl2fJPrcTKp4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKgjI2lkX2zyRVu5fRzTvedqoYoAfxRwA2PfWlwpzbFdyo/5Jgi
-	N8JSsNR1YOfR/SxkaT3m8WdRepAQu5LtTFEDuIBvVtnERn0fZZIQNDNpTgQMPKViBSXcpH5s+Vd
-	AxaPrlvedzze2J0MtPDLm2nAY8EH6xIFJEvon96Q7yw==
-X-Gm-Gg: AYBFou1wWG9f+8/BaZQ9O0PX8nlsHelD4YYQX4JXledUKJGpDeoSlqS2G6HPG7CEohX
-	MDIIMog+AQ98B0SLATPzqWW40vni5Tw5Tc1yfOT01u/lkGSL6dKTULY8gm1ZOnMKDMGOMnUaPQm
-	cfFJY4XGhrpVQ5sD5FIOobZygPEK6MDwBGHay440UL4QIjU/jJl1HTBAAsvQxsHCm+kc6gBpEcV
-	/0QhHzNSo66u7zgTtyolKBNYtq61GPv4pp/BEPYKlTvS5PCPR3NU2hX5mpx4iBkt9q6NQ6qpogG
-	7BeWyXP+72BN916V5T9V/vw5zzHbijEz+MDqaBDigQu5JJ25ZF9yaD4=
-X-Received: by 2002:a05:690e:80c:20b0:671:2ab1:899c with SMTP id
- 956f58d0204a3-679ca8c23d2mr1000683d50.89.1792346282539; Sun, 18 Oct 2026
- 10:58:02 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1792362799; x=1792967599;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=oCJAnzj1NjOaiq+tJZP55CQlXI8UkMm0uN4TgAt51rM=;
+        b=qJ/l2ao3y3APVE+YCGu1/iva2k41NQulc9FmHescNQ9cHUWVK/MLxyXAaP0VwUeKeE
+         VAsS0kTNDmQMgSzP5ag4+sf3POFL3f6mk/8cUThkvUgHMAVGvZTCGg3EvsZftnIUbju/
+         xvnQFqAdZSgQVEKfGxeyB14lsuFUoPUvCx+LMS00plwO/MD+XVc6/KLL943L0uq7jCjd
+         dq96jK72sVzQO08gL5fwn8jgcKHfsZeGGTirpRYxuxmB+2P0pg6VIVIZAejT/GRHWAG9
+         /KtiwkQci4KguCDgBhL+whNwK8kdAxAPQuY9LcdjIzrbPfIMnzICcZa02eZAnsh1IQTi
+         5kGA==
+X-Forwarded-Encrypted: i=1; AKwUvBychORKeqXJYsV8uYxoedtdFXWmudxtwRXWSf1XtZTelsFYGaV4m1RjYE2aqMhTux7QVU4nm2XjeS0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIAcGf+3ysHBZ6hdqEK0VBdDLyCKlZjy4F6m6yLzXtTrElWK0TT
+	HtAcqtF6beyGMbtewDPrbw0FtXeZMPnDZlk0m70pUL0CeJl8HkqjC/JW
+X-Gm-Gg: AYBFou1b6RFc4z7nmUyTC/JkJ8COOE2pEx8F+nAkVslLmsahWahyjSmB+o7eA0S5yHS
+	ed6vfoVIv8HnfIxMmN5DSE05VQtQH+ANqSlnP0iRd4PS/gfOO5YsckV6SM/VnFP3IucdqSoWxeQ
+	snGdZrLtGba8kViAPFwNHh9t4PuREq0yPPwqfOp8LGtSeQ5WE63wmhtGV/fAFxHjFuubsFlPklo
+	o56viUH6MLWgQi7jwQgmQZfXjt0t0ECAT61PGkijF5ovVyi+UL8IhfbuYJkam38tuqyVBGWh3EG
+	s4cqHf9GqhATEZYXVcYDS3Yvkws2e+Oqew1Iih6YUPHvobu5QSbCdZMZR+lYEytto02ntVsoM6b
+	qHj+AvjWkLfsGCw1Gg1n1vCJpUBuo5Q7hlttQdkNg+C487QlpZ3S+N38Xe9xUfstTL0vk+x61eM
+	Fq+NcYEAZp6giZzD4jaoLC+NHqDOg6rYiGIhnW3Ntnj2E04yT9ccHXUYi4fh+jd8OMzceyQMkyR
+	gCcfICR
+X-Received: by 2002:a05:600c:6297:b0:4a1:9ec4:d939 with SMTP id 5b1f17b1804b1-4a1c66cc3a4mr235983075e9.17.1792362799221;
+        Sun, 18 Oct 2026 15:33:19 -0700 (PDT)
+Received: from fedora.domain.name ([217.218.152.225])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48dfd4c5932sm20382753f8f.18.2026.10.18.15.33.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 Oct 2026 15:33:18 -0700 (PDT)
+From: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+To: gregkh@linuxfoundation.org
+Cc: stern@rowland.harvard.edu,
+	linux-usb@vger.kernel.org,
+	linux-omap@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+Subject: [PATCH v4] usb: ohci-omap: implement overcurrent handling for GPIO-based power control
+Date: Mon, 19 Oct 2026 02:03:12 +0330
+Message-ID: <20261018223312.120913-1-ampr.mhd@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Karlos Abel <kabel@voidship.net>
-Date: Sun, 18 Oct 2026 13:57:51 -0400
-X-Gm-Features: AclHuK-uZlwOXUocPsVVlfaIB9gzCJ2YCWicP8Um52WGcy0S0rsyATVZG5eZq9o
-Message-ID: <CANDoYxu94VsX-_Sfzj-pk4Xjfg-oZo_5=L806DHnw786oQD9JQ@mail.gmail.com>
-Subject: [BUG] xhci Intel 8086:777d: Bluetooth active disconnect leaves USB2
- PLL on; isolated U3 prevents it
-To: Mathias Nyman <mathias.nyman@intel.com>, linux-usb@vger.kernel.org
-Cc: Xi Pardee <xi.pardee@linux.intel.com>, Mark Pearson <mpearson-lenovo@squebb.ca>, 
-	platform-driver-x86@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On a ThinkPad T14 Gen 6, turning off the platform Bluetooth rfkill switch
-while its USB link is active leaves PMC0:USB2_PLL_OFF_STS at 0 after the
-xHCI controller runtime-suspends. Suspending the USB device before the
-same radio-off operation leaves the status at 1. Earlier installed-kernel
-tests associated these conditions with failed and successful S0ix entry.
+The OMAP OHCI driver has had optional GPIO lines for VBUS power control
+and overcurrent detection since the gpiolib conversion, but the
+overcurrent line was never wired up — it was marked with a TODO comment.
 
-I have narrowed the difference to hardware link suspension, independently
-of Linux's normal USB-device suspend bookkeeping. I am asking for guidance
-on the controller/platform mechanism before proposing a kernel fix.
+On boards like the OMAP1 OSK, the VBUS power switch (TPS2045) is
+controlled via a TPS65010 GPIO, and overcurrent is reported on a
+separate GPIO. Without this patch, an overcurrent condition is not
+detected by software and VBUS power is not cut, relying solely on the
+hardware current limiter.
 
-Hardware and software:
-  Lenovo ThinkPad T14 Gen 6, type 21QDS3DH00
-  Core Ultra 7 255U; BIOS N4JET28W (1.18), dated 2026-06-16
-  xHCI 0000:00:14.0, PCI 8086:777d, xHCI version 1.20
-  Bluetooth USB 8087:0033, full-speed (12 Mbps), root port 10 / USB 3-10
-  Bluetooth firmware intel/ibt-0093-0041.sfi
-  Active-versus-normal-suspend failure reproduced on stock 7.2.7-arch1-1
-  Latest isolation test: 7.2.7-arch1-bzlink1, a local diagnostic build
-  This report does not claim a hardware test of current mainline.
+This patch implements the missing overcurrent handling:
+- Requests a threaded IRQ on the overcurrent GPIO (both edges)
+- Cuts VBUS power via the power GPIO when overcurrent is detected
+- Reports overcurrent status and change through the root hub port
+  status callbacks so the USB hub core can react
+- Handles SetPortFeature/ClearPortFeature(POWER) to drive the VBUS
+  GPIO alongside the OHCI hardware register
+- Turns off VBUS on driver removal and probe failure
 
-A source comparison on 2026-10-18 against stable 7.2.11 and mainline
-32c52ec87d6245ee2d12ed5dd509e40062939b50 found no matching clock-release fix
-in the reviewed USB/xHCI, Bluetooth, rfkill, ACPI, and PMC paths. Mainline
-does contain newer endpoint-recovery prevention after disconnect, including
-042aad8d0db6 and 7e0ef4332ed9. In the captured radio-off-to-clock-sample
-intervals, however, the only traced xHCI command is Disable Slot: there are
-no endpoint reset, stop, or Set TR Dequeue commands for those changes to
-suppress. This source review does not replace testing a current kernel.
+Signed-off-by: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+---
+v4:
+  - Remove spinlock entirely; use READ_ONCE/WRITE_ONCE for the
+    overcurrent flags (Greg KH).  This also fixes the bug where
+    gpiod_set_value_cansleep() was called under spin_lock_irqsave(),
+    which sleeps on the I2C-attached TPS65010 (Sashiko).
+  - Rename overcurrent_status to overcurrent_active and
+    overcurrent_changed to overcurrent_change_pending (Greg KH)
+  - Fix include order to be alphabetical (Greg KH)
+  - Add comment explaining BIT(1) = port 1 (Greg KH)
+  - Add comment explaining overcurrent_irq = -1 sentinel (Greg KH)
+  - Add VBUS power-off in err_remove_hcd and ohci_hcd_omap_remove()
+    so VBUS is not left enabled after driver unbind (Sashiko)
+  - Re-check overcurrent_active after enabling VBUS in
+    SetPortFeature(POWER) to close the race window (Sashiko)
+  - Rewrite commit message to explain motivation (Greg KH)
 
-All five cases below ran in one boot, awake on battery. Before each case:
-hold the root hub and PCI controller runtime-active; re-enable Bluetooth;
-wait for firmware download and boot plus successful MGMT Read Info; force
-the USB device on/active; remove its configuration and interfaces. For the
-diagnostic cases, also require an idle EP0 and disabled data endpoints.
+v3:
+  - Fix power GPIO polarity: 1 = VBUS off, 0 = VBUS on
+  - Fix wPortChange bit: shift USB_PORT_STAT_C_OVERCURRENT by 16
+  - Add clock and PHY cleanup to probe error path
+  - Use IRQF_NO_AUTOEN to close race window during probe
+  - Only set overcurrent_changed at probe when overcurrent is active
+  - Guard hub_status_data and hub_control behind priv->overcurrent
+  - Handle SetPortFeature/ClearPortFeature(POWER) for VBUS GPIO
+  - Remove shadowed flags variable in hub_control
 
-Then perform the indicated action, block tpacpi_bluetooth_sw, wait for USB
-removal, release parent PM holds, and sample the clock condition after PCI
-runtime suspend. The clock reading was stable across three samples.
+v2:
+  - Use real name in From: and Signed-off-by: lines
 
-  State immediately before radio-off                 USB2_PLL_OFF_STS
-  Normal USB suspend, initial control                         1
-  Active U0                                                  0
-  Stop Endpoint (Suspend=1), remain U0, wait one second        0
-  Same Stop Endpoint, set U3, wait one second                 1
-  Normal USB suspend, final control                          1
+ drivers/usb/host/ohci-omap.c | 282 +++++++++++++++++++++++++++++------
+ 1 file changed, 237 insertions(+), 45 deletions(-)
 
-The local diagnostic uses xhci_set_link_state(..., XDEV_U3) after the guarded
-EP0 stop. It does not set udev->port_is_suspended or the xHCI suspended_ports
-bit. Both flags were observed clear; USB state remained ADDRESS and runtime
-PM remained active/manual. Debugfs showed EP0 stopped and PORTSC 0x663 (U3)
-before and after a measured 1.000659-second wait. The stopped-U0 case showed
-PORTSC 0x603 across its matched wait. No normal suspend callback was used
-for the isolated case.
+diff --git a/drivers/usb/host/ohci-omap.c b/drivers/usb/host/ohci-omap.c
+index f6e56c4b9914..c71721243905 100644
+--- a/drivers/usb/host/ohci-omap.c
++++ b/drivers/usb/host/ohci-omap.c
+@@ -19,20 +19,23 @@
+ #include <linux/dma-mapping.h>
+ #include <linux/err.h>
+ #include <linux/gpio/consumer.h>
++#include <linux/interrupt.h>
+ #include <linux/io.h>
++#include <linux/irqreturn.h>
+ #include <linux/jiffies.h>
+ #include <linux/kernel.h>
+ #include <linux/module.h>
+-#include <linux/usb/otg.h>
+-#include <linux/platform_device.h>
+ #include <linux/platform_data/usb-omap1.h>
+-#include <linux/soc/ti/omap1-usb.h>
++#include <linux/platform_device.h>
++#include <linux/signal.h>
++#include <linux/soc/ti/omap1-io.h>
+ #include <linux/soc/ti/omap1-mux.h>
+ #include <linux/soc/ti/omap1-soc.h>
+-#include <linux/soc/ti/omap1-io.h>
+-#include <linux/signal.h>
++#include <linux/soc/ti/omap1-usb.h>
+ #include <linux/usb.h>
++#include <linux/usb/ch11.h>
+ #include <linux/usb/hcd.h>
++#include <linux/usb/otg.h>
+ 
+ #include "ohci.h"
+ 
+@@ -46,13 +49,23 @@ struct ohci_omap_priv {
+ 	struct clk *usb_dc_ck;
+ 	struct gpio_desc *power;
+ 	struct gpio_desc *overcurrent;
++	/*
++	 * Accessed with READ_ONCE/WRITE_ONCE from the threaded IRQ
++	 * handler and from hub_control in process context.  No lock
++	 * is needed: the IRQ handler is the sole writer of
++	 * overcurrent_active (IRQF_ONESHOT prevents re-entry), and
++	 * overcurrent_change_pending is a single-byte flag where a
++	 * missed clear just causes one extra poll cycle.
++	 */
++	bool overcurrent_active;
++	bool overcurrent_change_pending;
++	int overcurrent_irq; /* -1 means no IRQ has been allocated yet */
+ };
+ 
+ static const char hcd_name[] = "ohci-omap";
+ static struct hc_driver __read_mostly ohci_omap_hc_driver;
+ 
+-#define hcd_to_ohci_omap_priv(h) \
+-	((struct ohci_omap_priv *)hcd_to_ohci(h)->priv)
++#define hcd_to_ohci_omap_priv(h) ((struct ohci_omap_priv *)hcd_to_ohci(h)->priv)
+ 
+ static void omap_ohci_clock_power(struct ohci_omap_priv *priv, int on)
+ {
+@@ -70,15 +83,15 @@ static void omap_ohci_clock_power(struct ohci_omap_priv *priv, int on)
+ static void start_hnp(struct ohci_hcd *ohci)
+ {
+ 	struct usb_hcd *hcd = ohci_to_hcd(ohci);
+-	const unsigned	port = hcd->self.otg_port - 1;
+-	unsigned long	flags;
++	const unsigned port = hcd->self.otg_port - 1;
++	unsigned long flags;
+ 	u32 l;
+ 
+ 	otg_start_hnp(hcd->usb_phy->otg);
+ 
+ 	local_irq_save(flags);
+ 	hcd->usb_phy->otg->state = OTG_STATE_A_SUSPEND;
+-	writel (RH_PS_PSS, &ohci->regs->roothub.portstatus [port]);
++	writel(RH_PS_PSS, &ohci->regs->roothub.portstatus[port]);
+ 	l = omap_readl(OTG_CTRL);
+ 	l &= ~OTG_A_BUSREQ;
+ 	omap_writel(l, OTG_CTRL);
+@@ -89,11 +102,11 @@ static void start_hnp(struct ohci_hcd *ohci)
+ 
+ static int ohci_omap_reset(struct usb_hcd *hcd)
+ {
+-	struct ohci_hcd		*ohci = hcd_to_ohci(hcd);
+-	struct omap_usb_config	*config = dev_get_platdata(hcd->self.controller);
+-	struct ohci_omap_priv	*priv = hcd_to_ohci_omap_priv(hcd);
+-	int			need_transceiver = (config->otg != 0);
+-	int			ret;
++	struct ohci_hcd *ohci = hcd_to_ohci(hcd);
++	struct omap_usb_config *config = dev_get_platdata(hcd->self.controller);
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
++	int need_transceiver = (config->otg != 0);
++	int ret;
+ 
+ 	dev_dbg(hcd->self.controller, "starting USB Controller\n");
+ 
+@@ -110,10 +123,11 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ 	if (IS_ENABLED(CONFIG_USB_OTG) && need_transceiver) {
+ 		hcd->usb_phy = usb_get_phy(USB_PHY_TYPE_USB2);
+ 		if (!IS_ERR_OR_NULL(hcd->usb_phy)) {
+-			int	status = otg_set_host(hcd->usb_phy->otg,
+-						&ohci_to_hcd(ohci)->self);
+-			dev_dbg(hcd->self.controller, "init %s phy, status %d\n",
+-					hcd->usb_phy->label, status);
++			int status = otg_set_host(hcd->usb_phy->otg,
++						  &ohci_to_hcd(ohci)->self);
++			dev_dbg(hcd->self.controller,
++				"init %s phy, status %d\n", hcd->usb_phy->label,
++				status);
+ 			if (status) {
+ 				usb_put_phy(hcd->usb_phy);
+ 				return status;
+@@ -141,7 +155,7 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ 
+ 	/* board-specific power switching and overcurrent support */
+ 	if (machine_is_omap_osk()) {
+-		u32	rh = roothub_a (ohci);
++		u32 rh = roothub_a(ohci);
+ 
+ 		/* power switching (ganged by default) */
+ 		rh &= ~RH_A_NPS;
+@@ -181,6 +195,128 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+ 	return 0;
+ }
+ 
++static irqreturn_t ohci_omap_overcurrent_irq(int irq, void *data)
++{
++	struct usb_hcd *hcd = data;
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
++	int status;
++	bool was_active;
++
++	status = gpiod_get_value_cansleep(priv->overcurrent);
++	if (status < 0)
++		return IRQ_HANDLED;
++
++	if (status && priv->power)
++		gpiod_set_value_cansleep(priv->power, 1);
++
++	was_active = READ_ONCE(priv->overcurrent_active);
++	WRITE_ONCE(priv->overcurrent_active, !!status);
++	if (was_active != !!status)
++		WRITE_ONCE(priv->overcurrent_change_pending, true);
++
++	usb_hcd_poll_rh_status(hcd);
++
++	return IRQ_HANDLED;
++}
++
++static int ohci_omap_hub_status_data(struct usb_hcd *hcd, char *buf)
++{
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
++	int length;
++
++	length = ohci_hub_status_data(hcd, buf);
++
++	if (!priv->overcurrent)
++		return length;
++
++	if (READ_ONCE(priv->overcurrent_change_pending)) {
++		if (!length) {
++			buf[0] = 0;
++			length = 1;
++		}
++		buf[0] |= BIT(1); /* port 1 */
++	}
++
++	return length;
++}
++
++static int ohci_omap_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
++				 u16 wIndex, char *buf, u16 wLength)
++{
++	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
++	int ret;
++
++	/*
++	 * Drive the VBUS power GPIO alongside the OHCI hardware register.
++	 * On boards like the OSK, the OHCI PPS bit does not control the
++	 * real power switch — the GPIO does.
++	 */
++	if (priv->power && wIndex == 1) {
++		if (typeReq == SetPortFeature &&
++		    wValue == USB_PORT_FEAT_POWER) {
++			ret = ohci_hub_control(hcd, typeReq, wValue, wIndex,
++					       buf, wLength);
++			if (!ret && !READ_ONCE(priv->overcurrent_active))
++				gpiod_set_value_cansleep(priv->power, 0);
++			/*
++			 * Re-check: the overcurrent IRQ may have fired
++			 * between the check above and the GPIO call.
++			 * A mutex would close this fully, but the window
++			 * is microseconds and the hardware current limiter
++			 * provides the final safety net.
++			 */
++			if (!ret && READ_ONCE(priv->overcurrent_active))
++				gpiod_set_value_cansleep(priv->power, 1);
++			return ret;
++		}
++		if (typeReq == ClearPortFeature &&
++		    wValue == USB_PORT_FEAT_POWER) {
++			ret = ohci_hub_control(hcd, typeReq, wValue, wIndex,
++					       buf, wLength);
++			if (!ret)
++				gpiod_set_value_cansleep(priv->power, 1);
++			return ret;
++		}
++	}
++
++	ret = ohci_hub_control(hcd, typeReq, wValue, wIndex, buf, wLength);
++	if (ret)
++		return ret;
++
++	if (!priv->overcurrent)
++		return ret;
++
++	if (typeReq == ClearPortFeature && wIndex == 1 &&
++	    wValue == USB_PORT_FEAT_C_OVER_CURRENT) {
++		WRITE_ONCE(priv->overcurrent_change_pending, false);
++		return 0;
++	}
++
++	if (typeReq != GetPortStatus || wIndex != 1)
++		return ret;
++
++	{
++		bool active = READ_ONCE(priv->overcurrent_active);
++		bool changed = READ_ONCE(priv->overcurrent_change_pending);
++		__le32 *portstatus = (__le32 *)buf;
++		u32 value = le32_to_cpu(*portstatus);
++
++		if (active)
++			value |= USB_PORT_STAT_OVERCURRENT;
++		else
++			value &= ~USB_PORT_STAT_OVERCURRENT;
++
++		if (changed)
++			value |= (USB_PORT_STAT_C_OVERCURRENT << 16);
++		else
++			value &= ~(USB_PORT_STAT_C_OVERCURRENT << 16);
++
++		*portstatus = cpu_to_le32(value);
++	}
++
++	return 0;
++}
++
+ /*-------------------------------------------------------------------------*/
+ 
+ /**
+@@ -201,18 +337,18 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 
+ 	if (pdev->num_resources != 2) {
+ 		dev_err(&pdev->dev, "invalid num_resources: %i\n",
+-		       pdev->num_resources);
++			pdev->num_resources);
+ 		return -ENODEV;
+ 	}
+ 
+-	if (pdev->resource[0].flags != IORESOURCE_MEM
+-			|| pdev->resource[1].flags != IORESOURCE_IRQ) {
++	if (pdev->resource[0].flags != IORESOURCE_MEM ||
++	    pdev->resource[1].flags != IORESOURCE_IRQ) {
+ 		dev_err(&pdev->dev, "invalid resource type\n");
+ 		return -ENODEV;
+ 	}
+ 
+ 	hcd = usb_create_hcd(&ohci_omap_hc_driver, &pdev->dev,
+-			dev_name(&pdev->dev));
++			     dev_name(&pdev->dev));
+ 	if (!hcd)
+ 		return -ENOMEM;
+ 
+@@ -221,6 +357,10 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 	priv = hcd_to_ohci_omap_priv(hcd);
+ 
+ 	/* Obtain two optional GPIO lines */
++	WRITE_ONCE(priv->overcurrent_active, false);
++	WRITE_ONCE(priv->overcurrent_change_pending, false);
++	priv->overcurrent_irq = -1;
++
+ 	priv->power = devm_gpiod_get_optional(&pdev->dev, "power", GPIOD_ASIS);
+ 	if (IS_ERR(priv->power)) {
+ 		retval = PTR_ERR(priv->power);
+@@ -229,13 +369,8 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 	if (priv->power)
+ 		gpiod_set_consumer_name(priv->power, "OHCI power");
+ 
+-	/*
+-	 * This "overcurrent" GPIO line isn't really used in the code,
+-	 * but has a designated hardware function.
+-	 * TODO: implement proper overcurrent handling.
+-	 */
+-	priv->overcurrent = devm_gpiod_get_optional(&pdev->dev, "overcurrent",
+-						    GPIOD_IN);
++	priv->overcurrent =
++		devm_gpiod_get_optional(&pdev->dev, "overcurrent", GPIOD_IN);
+ 	if (IS_ERR(priv->overcurrent)) {
+ 		retval = PTR_ERR(priv->overcurrent);
+ 		goto err_put_hcd;
+@@ -277,23 +412,73 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 	if (!hcd->regs) {
+ 		dev_err(&pdev->dev, "can't ioremap OHCI HCD\n");
+ 		retval = -ENOMEM;
+-		goto err2;
++		goto err_release_mem;
+ 	}
+ 
+ 	irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0) {
+ 		retval = irq;
+-		goto err3;
++		goto err_iounmap;
+ 	}
+ 	retval = usb_add_hcd(hcd, irq, 0);
+ 	if (retval)
+-		goto err3;
++		goto err_iounmap;
++
++	if (priv->overcurrent) {
++		int status;
++
++		priv->overcurrent_irq = gpiod_to_irq(priv->overcurrent);
++		if (priv->overcurrent_irq < 0) {
++			retval = priv->overcurrent_irq;
++			goto err_remove_hcd;
++		}
++
++		retval = request_threaded_irq(
++			priv->overcurrent_irq, NULL, ohci_omap_overcurrent_irq,
++			IRQF_ONESHOT | IRQF_NO_AUTOEN | IRQF_TRIGGER_RISING |
++				IRQF_TRIGGER_FALLING,
++			"ohci-omap-overcurrent", hcd);
++		if (retval) {
++			priv->overcurrent_irq = -1;
++			goto err_remove_hcd;
++		}
++
++		status = gpiod_get_value_cansleep(priv->overcurrent);
++		if (status < 0) {
++			retval = status;
++			goto err_remove_hcd;
++		}
++
++		WRITE_ONCE(priv->overcurrent_active, !!status);
++		WRITE_ONCE(priv->overcurrent_change_pending, !!status);
++
++		if (status && priv->power)
++			gpiod_set_value_cansleep(priv->power, 1);
++
++		enable_irq(priv->overcurrent_irq);
++		if (status)
++			usb_hcd_poll_rh_status(hcd);
++	}
+ 
+ 	device_wakeup_enable(hcd->self.controller);
+ 	return 0;
+-err3:
++
++err_remove_hcd:
++	if (priv->overcurrent_irq >= 0) {
++		free_irq(priv->overcurrent_irq, hcd);
++		priv->overcurrent_irq = -1;
++	}
++	usb_remove_hcd(hcd);
++	omap_ohci_clock_power(priv, 0);
++	if (!IS_ERR_OR_NULL(hcd->usb_phy)) {
++		(void)otg_set_host(hcd->usb_phy->otg, NULL);
++		usb_put_phy(hcd->usb_phy);
++	}
++	if (priv->power)
++		gpiod_set_value_cansleep(priv->power, 1);
++err_iounmap:
+ 	iounmap(hcd->regs);
+-err2:
++err_release_mem:
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ err_unprepare_dc_ck:
+ 	clk_unprepare(priv->usb_dc_ck);
+@@ -308,7 +493,6 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+ 	return retval;
+ }
+ 
+-
+ /* may be called with controller, bus, and devices active */
+ 
+ /**
+@@ -323,16 +507,22 @@ static int ohci_hcd_omap_probe(struct platform_device *pdev)
+  */
+ static void ohci_hcd_omap_remove(struct platform_device *pdev)
+ {
+-	struct usb_hcd	*hcd = platform_get_drvdata(pdev);
++	struct usb_hcd *hcd = platform_get_drvdata(pdev);
+ 	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+ 
+ 	dev_dbg(hcd->self.controller, "stopping USB Controller\n");
++	if (priv->overcurrent_irq >= 0) {
++		free_irq(priv->overcurrent_irq, hcd);
++		priv->overcurrent_irq = -1;
++	}
+ 	usb_remove_hcd(hcd);
+ 	omap_ohci_clock_power(priv, 0);
+ 	if (!IS_ERR_OR_NULL(hcd->usb_phy)) {
+-		(void) otg_set_host(hcd->usb_phy->otg, 0);
++		(void)otg_set_host(hcd->usb_phy->otg, 0);
+ 		usb_put_phy(hcd->usb_phy);
+ 	}
++	if (priv->power)
++		gpiod_set_value_cansleep(priv->power, 1);
+ 	iounmap(hcd->regs);
+ 	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+ 	clk_unprepare(priv->usb_dc_ck);
+@@ -344,7 +534,7 @@ static void ohci_hcd_omap_remove(struct platform_device *pdev)
+ 
+ /*-------------------------------------------------------------------------*/
+ 
+-#ifdef	CONFIG_PM
++#ifdef CONFIG_PM
+ 
+ static int ohci_omap_suspend(struct platform_device *pdev, pm_message_t message)
+ {
+@@ -368,8 +558,8 @@ static int ohci_omap_suspend(struct platform_device *pdev, pm_message_t message)
+ 
+ static int ohci_omap_resume(struct platform_device *dev)
+ {
+-	struct usb_hcd	*hcd = platform_get_drvdata(dev);
+-	struct ohci_hcd	*ohci = hcd_to_ohci(hcd);
++	struct usb_hcd *hcd = platform_get_drvdata(dev);
++	struct ohci_hcd *ohci = hcd_to_ohci(hcd);
+ 	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+ 
+ 	if (time_before(jiffies, ohci->next_statechange))
+@@ -392,7 +582,7 @@ static struct platform_driver ohci_hcd_omap_driver = {
+ 	.probe		= ohci_hcd_omap_probe,
+ 	.remove		= ohci_hcd_omap_remove,
+ 	.shutdown	= usb_hcd_platform_shutdown,
+-#ifdef	CONFIG_PM
++#ifdef CONFIG_PM
+ 	.suspend	= ohci_omap_suspend,
+ 	.resume		= ohci_omap_resume,
+ #endif
+@@ -402,8 +592,8 @@ static struct platform_driver ohci_hcd_omap_driver = {
+ };
+ 
+ static const struct ohci_driver_overrides omap_overrides __initconst = {
+-	.product_desc	= "OMAP OHCI",
+-	.reset		= ohci_omap_reset,
++	.product_desc = "OMAP OHCI",
++	.reset = ohci_omap_reset,
+ 	.extra_priv_size = sizeof(struct ohci_omap_priv),
+ };
+ 
+@@ -413,6 +603,8 @@ static int __init ohci_omap_init(void)
+ 		return -ENODEV;
+ 
+ 	ohci_init_driver(&ohci_omap_hc_driver, &omap_overrides);
++	ohci_omap_hc_driver.hub_status_data = ohci_omap_hub_status_data;
++	ohci_omap_hc_driver.hub_control = ohci_omap_hub_control;
+ 	return platform_driver_register(&ohci_hcd_omap_driver);
+ }
+ module_init(ohci_omap_init);
+-- 
+2.55.0
 
-The verifier checked command success, firmware readiness, no target URBs,
-no unexpected target port writes, no target/parent PM transitions during
-isolation, and zero trace loss. No kernel errors occurred in the comparison.
-An initial AC-connected preflight refusal preceded the valid comparison and
-did not change the test state.
-
-At the first disconnect event, all five cases already report identical
-PORTSC 0x000202a0: disconnected, disabled, RxDetect, power on, CSC set.
-Their subsequent target PORTSC writes are also identical:
-  0x000202a0, 0x0a0002a0, 0x0a0202a0.
-Disable Slot is issued in each case. Earlier captures verified successful
-Disable Slot completion even when the clock stayed on.
-
-The local source and saved AML show:
-  thinkpad_acpi bluetooth_set_status -> SBDC(0) -> BPWC(0)
-  -> SGOV(0x00140414, 0), a GPIO output change.
-There is no USB-suspend handshake in this path. By disconnect handling time,
-the port is disabled; the normal xHCI U3 operation requires an enabled port.
-
-Other established controls: driver unbinding, removal of USB configuration,
-logical USB removal before radio-off, and extra active-idle time do not
-substitute for suspension. Resuming a suspended device before radio-off
-reintroduces the failure. Cycling the empty port's power repairs it, but
-that has only been treated as a diagnostic recovery, not a proposed fix.
-
-Is there a known controller/PHY or CNVi sequencing requirement for active
-full-speed Bluetooth removal on this controller? In particular, should
-the disconnected/disabled port release this clock autonomously, or is
-there a documented platform pre-power-off sequence or controller recovery
-that Linux should implement?
-
-The guarded diagnostic patches, exact harness, traces, register snapshots,
-and hash-verified evidence are available. QEMU validates the diagnostic's
-guards and isolated U3 behavior, but does not reproduce Intel PMC behavior.
-The internal defect, minimum useful suspend duration, and production fix
-remain unestablished.
-
-Investigation and drafting were assisted by Codex.  Any mistakes,
-however, are entirely and regrettably my own.
-
-Thank you very much for your attention and your work maintaining this
-stack.  if I can provide any further details, I'm very happy to.
-
-Karlos Abel
