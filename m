@@ -1,180 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E475A1A6811;
-	Sun, 18 Oct 2026 03:08:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA0A39A7E0
+	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 03:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792292905; cv=none; b=tMu3TPXuky71W2ZhDA2ldB41v+nUAcTZ1nRPdQ+++7c9dierphrSj5LiIp/MsYxVUy6ORprai8M6VznGrD4c8VmhZZn2BVrwI2y8NdPopg/TmVEQRg87nzbuenti/nTXAKxI2rhHncF45rtaEVSNT/jeZ84JWZqthT+Q5eu9wE8=
+	t=1792293432; cv=none; b=Xz8ZAA7DTza7XcT/B1C+Y9akwW1pTIycJhLqIJa8KcX19qRpRd4CEHYvs355sYTSIvjnpjXX5VVrni1GHX8eIRB1p/XM95uQRwm3SwWMl7Tvx87S4IsX0X1Vsppx7UEY07ZA6q3L3CCRAxrMU31SSUPwSQOZmNpnCzksDblI6Sw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792292905; c=relaxed/simple;
-	bh=UuqHB8YycYlMyC4ByQ8d+u1wEcHNzqY0naURvnSVgXY=;
-	h=Subject:From:To:Cc:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=aCu5ccdJH9PL9hL+BBkw4kL4unec8PEuNZ3pzfkS1qaOF7lPdLwg0dZALenqdKQCF2v3CNKs+/86cCiUahKS/fNWZz9QolHfJL49KJ4MU4pieQslcslR0Tra+Lx6RzDp204PiCTG7/CiXGdaGqG0TTQn1odhv2Eg0HLb9KAizEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jJ+GDlHR; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792293432; c=relaxed/simple;
+	bh=M/ePt7/U6Z/+EQ9IoyhoFmwghwbLF6fwPZWbqDxG7UY=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=MlqmiiUtCT2MOZvPoPAFLaHKHrL3CVxMXKm199EBGLZZ11TbyxZ76eUyNTeF5o8BPxIzXH5mJSdlazeohKR+E3SWGNd/YY7sWYhY3+Y7+6Jq1qSK10oaEljgNWE01IznEq0+fED1FV+UU78P9KfHPbi12t3Wx7HzFZ9dETglwZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtUex8dj; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jJ+GDlHR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 033721F000C4;
-	Sun, 18 Oct 2026 03:08:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792292903;
-	bh=JWPLR7A/LavbAJgY1uxDZajSqVtX9m0op6i0B4HJO00=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=jJ+GDlHREjzVsREtr0tNOV9ThWTme8FYgzi6a9mD/VZUPuvBXyACNWMs8QVDWCc3q
-	 Fe6B9TX1R2zpFBtDpZdxRjvCt9GoMDa2p5/+Nz5wW1SSwcWVQyWq/5lVupfedTdaJG
-	 ysLyweJecdUdD1YMNfKP5l2YbxK8hTGNOx3ucbwZqITN/dpSiLsqrJMeCMO4nBysi7
-	 qKR8Ly0H/HnkFttACKdlkipY3n676jqZSmXiixjLrslmdNOWATBmCa+CX0rIuCsgTF
-	 zZV0gPt6uci8qdWM7etUI5mZFdl7Z3w8xowwRYgMdqm6mddGyttz6kbNt5mSYWzNQ1
-	 OODr5q6cFHShQ==
-Subject: Re: [PATCH net 2/2] net: usb: pegasus: check rx pkt_len against the
- received length
-From: netdev-bot+sashiko@kernel.org
-To: law.wei.jie@gt.tech.gov.sg
-Cc: petkan@nucleusys.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, 98lawweijie@gmail.com, stable@vger.kernel.org
-Date: Sun, 18 Oct 2026 03:08:22 +0000
-Message-ID: <179229290253.3135.18168766657798775955@kernel.org>
-In-Reply-To: <20261014025307.25233-3-law.wei.jie@gt.tech.gov.sg>
-References: <20261014025307.25233-3-law.wei.jie@gt.tech.gov.sg>
-X-sashiko-severity: High
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtUex8dj"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-91befbcad6dso4563366d6.3
+        for <linux-usb@vger.kernel.org>; Sat, 17 Oct 2026 20:17:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792293430; x=1792898230; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:content-type:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8TbMma2hCgHlI583VdajsztpYXQFI08NX68+gXwkEaE=;
+        b=FtUex8djQFaREvcrP2G7uO8ACMLPi28pWUIpeq3VpZ15M902V1qxFOTVtoyHeVBArj
+         l2sehH+my5YNa3TorPYxQ2g/y4K4qiDCYx018QJn6rGf6DwsjAn3rbBAj/9M8LXFURpN
+         GoCGdAfWgS7CGlSg59CgH2YhWR/T5ezFkRXLmXq7o+CqvuiN8osayLTWlH7K8hYjrHgb
+         WTFIkILdwsZG9wk42/0vs2Wa6unC2Va0W5k136NwnOP/9+YL2tc9s+SXyJV9qdAqZ33M
+         sc+ECAWKhHjH7owbjfUjw5a6rv7fNuB2HUyAMTB8ZhDQ1xRq01njNv9ELzgbpB1csRU6
+         jGBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792293430; x=1792898230;
+        h=content-transfer-encoding:mime-version:content-type:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8TbMma2hCgHlI583VdajsztpYXQFI08NX68+gXwkEaE=;
+        b=CbYZ8so4qzkfPm99/Mu+WKjh/Wx8Si1QHl/Om5i+csIh19IqYTMS276ZDf4cYZJp+M
+         VwHf6w/RXQui1F+zrHYVkc9qRHjiWKjSWhRIf5Uj43e+Ktp+qm3bHbONM3PxY0Q1Cfi4
+         iYDWRFB+L0k2JlYhKHGFBR48pC1eYtglh/GbyGX5cwF0qeMDRs3SoiT6c5KNmHNuDMDa
+         Cv+/1J8H8v0VrkxJugFU6FUR5YrfWm7g0ZsWk50mMCnQygsR17tTCsV3HsIV1RStQS48
+         D8FYM0CvSHR3L9QlHi46BC4JXba4Zfr8nN6HawRmXUPysMgs2mOwPPu9DFqObWjrTUmP
+         PDRw==
+X-Gm-Message-State: AFq9FYKvnIvX99wlCiroipoFKT4wAQrIIrgAmtB3YicwBx/vsIKxzrEs
+	8ZdsRqIffTzUoT1ikt627IoidiB9t55lWU68/yDdn9bmLJcKlA+wKBw=
+X-Gm-Gg: AYBFou1vBMVMyYAPlMbwf2MotBAJ/bbhNS3IrQ5q68GIA+zcxREwpjQZOyB3i+BGk8v
+	h3dzDDjKghgg3grP8VkFcTfHtodsg4uHC5UDU7cYKyLE/Sjooyzxz4+OAkFuCYxjHV6kJoUxpJW
+	spjiGEBbgWicu9P5vsUb0KnjmTmPmzsO2IkgppDYsxu5mdhJBx06eJF+Pcj102ygOGQmXny8esX
+	PCtOmo8H1WdwW9z7yZzZwQSuIlE3X3HpyIysGyntiIiHA5wJMM3Ht1B9EItEoniGUkOLkECkUOM
+	8mpvr+n/bUmg4RoxGH3JA/PSTi6CgSW7l/6mSpyP9v29iiG15dXa4/2iwgVSf7Q+WQJNLZNeSe8
+	Tll9zM2nJZgxpwyb2hgmOo0qiZflUaXCMVg7t+ufhbkjpZJfr6OEC+BYYb9T8RzY3wktmF9EwvW
+	CLKr4iKMA8AVzPl/v3otdpQvIIOILTtWjLK92lMpj7KDmUZ2OK3KsWtBeYC0A4XRZ5Q2VVOGJ4M
+	Z6aruow52tputguwvUNCSOsYKPDpH8wX8IpUFrdLcZpI4CmKQCrHrT2YebbPiWNZGbzHcPxPys6
+	EOVmR1QNXtTxS4kRuniv9HXmBhd8
+X-Received: by 2002:a05:620a:4042:b0:93e:fa30:f1ef with SMTP id af79cd13be357-93f29dc4771mr744477085a.67.1792293429834;
+        Sat, 17 Oct 2026 20:17:09 -0700 (PDT)
+Received: from i4-gl-tmk5904-1.ad.psu.edu ([130.203.156.90])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f1a0cf974sm611181385a.1.2026.10.17.20.17.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 Oct 2026 20:17:09 -0700 (PDT)
+From: Myeonghun Pak <mhun512@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ijae Kim <ae878000@gmail.com>
+Subject: [PATCH] usb: phy: gpio-vbus: disable VBUS work during removal
+Date: Sat, 17 Oct 2026 23:17:06 -0400
+Message-ID: <179229341073.3942822.17212567068599854952.gpio-vbus@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 2 potential
-issue(s) to consider.
+Legacy users such as PXA UDC obtain this PHY through usb_get_phy(),
+which does not create a supplier device link. A sysfs unbind of the PHY
+can therefore run while the gadget consumer remains bound.
 
-Critical: 0 · High: 1 · Medium: 1 · Low: 0
+The VBUS IRQ remains registered until devres cleanup, after
+gpio_vbus_remove() returns. With the gadget still registered, an IRQ
+after cancel_delayed_work_sync() returns can queue another instance of
+the delayed work. The 100 ms delay lets devres release the GPIO, OTG and
+driver state before that instance runs.
 
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
+Disable and drain the delayed work during removal so late IRQs cannot
+queue it again. This also rejects work queued by set_peripheral(), which
+calls the IRQ handler directly. The managed IRQ is released before the
+GPIO and driver state accessed by its handler are freed.
 
-- [High] In read_bulk_callback() (drivers/net/usb/pegasus.c), the new
-  check `if (pkt_len + rx_offset > count) goto goon;` only sets an upper…
-- [Medium] net: usb: pegasus: uninitialized memory read in eth_type_trans
-  on short packets
+This issue was identified as part of our ongoing research while
+reviewing kernel code.
 
---
+Fixes: c2344f13b59e ("USB: gpio_vbus: add delayed vbus_session calls")
+Co-developed-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Ijae Kim <ae878000@gmail.com>
+Signed-off-by: Myeonghun Pak <mhun512@gmail.com>
 
-net: usb: pegasus: check rx pkt_len against the received length
+---
+Compile-tested with Clang, W=1. No hardware runtime testing.
 
-This patch changes the rx length check in read_bulk_callback(). Frames
-whose device-reported length, plus the 0x8513 header, does not fit in
-urb->actual_length are now dropped. Before, the length was only checked
-against PEGASUS_MTU.
+Based on mainline 0fcb05b72344f40806cbe810de8872f1698bf053.
 
-> diff --git a/drivers/net/usb/pegasus.c b/drivers/net/usb/pegasus.c
-> index 7c7d6b69998f2..7bc9312eaa9ec 100644
-> --- a/drivers/net/usb/pegasus.c
-> +++ b/drivers/net/usb/pegasus.c
-> @@ -520,10 +520,11 @@ static void read_bulk_callback(struct urb *urb)
->  	}
->  
->  	/*
-> -	 * If the packet is unreasonably long, quietly drop it rather than
-> -	 * kernel panicing by calling skb_put.
-> +	 * If the packet is longer than what was actually received, quietly
-> +	 * drop it rather than kernel panicing by calling skb_put or passing
-> +	 * up stale buffer contents. count is at most PEGASUS_MTU.
->  	 */
-> -	if (pkt_len > PEGASUS_MTU - rx_offset)
-> +	if (pkt_len + rx_offset > count)
->  		goto goon;
-
-[Severity: Medium]
-This check bounds pkt_len from above, but is anything stopping a
-pkt_len smaller than ETH_HLEN from reaching eth_type_trans()?
-
-On a 0x8513 chip, a 4-byte transfer with buf[0..2] = 0 decodes to
-pkt_len = 0 with rx_offset = 2. rx_status is buf[2], so the 0x1c
-error bits are clear. 0 + 2 > 4 is false, so the frame is accepted.
-The non-0x8513 path gets the same result from a trailer that decodes
-to 4, since pkt_len -= 4 brings it to 0.
-
-read_bulk_callback() then does skb_reserve(pegasus->rx_skb, 2) and
-skb_put(pegasus->rx_skb, 0), and calls eth_type_trans().
-
-eth_type_trans() reads the full 14-byte Ethernet header regardless of
-skb->len. eth_skb_pkt_type() looks at h_dest, and h_proto is used to
-pick skb->protocol. Only 2 of those 14 bytes came from the device.
-
-The other 12 lie past urb->actual_length. They are either left over
-from an earlier transfer, when the skb was reused on the goon path, or
-uninitialized memory from __netdev_alloc_skb_ip_align().
-
-KMSAN would report this as an uninit read. skb->pkt_type and
-skb->protocol are then derived from whatever was in the buffer before
-netif_rx() hands the skb to the stack.
-
-The old PEGASUS_MTU check had the same hole. However, the new comment
-says this check prevents passing up stale buffer contents. Would it
-make sense to also drop frames with pkt_len < ETH_HLEN here, perhaps
-counting them in rx_length_errors?
-
-[Severity: High]
-This sets an upper limit on pkt_len. Does it also need a lower limit?
-
-Nothing checks that pkt_len is at least ETH_HLEN, so a short transfer that
-claims a runt frame still gets through. For example, on a non-0x8513 chip a
-4-byte transfer of 04 00 00 00 gives:
-
-	pkt_len = buf[count - 3] << 8;    /* 0 */
-	pkt_len += buf[count - 4];        /* 4 */
-	pkt_len &= 0xfff;
-	pkt_len -= 4;                     /* 0 */
-
-rx_status is buf[2] = 0, and 0 + 0 > 4 is false, so the frame is accepted.
-
-On 0x8513, a 4-byte transfer with buf[0..1] = 0 gives pkt_len = 0 and
-rx_offset = 2, which also passes. Any pkt_len below 14 that fits in count
-gets through the same way.
-
-After skb_put(pegasus->rx_skb, pkt_len), eth_type_trans() calls
-eth_skb_pull_mac():
-
-include/linux/etherdevice.h:eth_skb_pull_mac() {
-	struct ethhdr *eth = (struct ethhdr *)skb->data;
-
-	skb_pull_inline(skb, ETH_HLEN);
-	return eth;
-}
-
-skb_pull_inline() returns NULL because ETH_HLEN > skb->len, but nothing
-checks the return value. eth_type_trans() then reads h_dest and h_proto from
-the header anyway.
-
-Those bytes lie past urb->actual_length. They are either left over from an
-earlier transfer, when the skb is reused on the goon path, or uninitialized
-memory from __netdev_alloc_skb_ip_align().
-
-Those bytes set skb->pkt_type and skb->protocol, and netif_rx() then
-delivers the skb. For an ETH_P_ALL packet socket the chain continues:
-
-packet_rcv()
-  dev_parse_header()
-    eth_header_parse()
-      memcpy(haddr, eth->h_source, ETH_ALEN);
-
-packet_recvmsg() then copies sll_addr back to userspace. Can that expose up
-to 6 bytes of stale rx buffer contents through sockaddr_ll?
-
-The new comment says this check stops "passing up stale buffer contents".
-Should this check also drop frames with pkt_len < ETH_HLEN?
-
->  
->  	/*
-
-[ ... ]
-
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261014025307.25233-1-law.wei.jie%40gt.tech.gov.sg
+diff --git a/drivers/usb/phy/phy-gpio-vbus-usb.c b/drivers/usb/phy/phy-gpio-vbus-usb.c
+index ce09e78..80216af 100644
+--- a/drivers/usb/phy/phy-gpio-vbus-usb.c
++++ b/drivers/usb/phy/phy-gpio-vbus-usb.c
+@@ -330,7 +330,7 @@ static void gpio_vbus_remove(struct platform_device *pdev)
+ 	struct gpio_vbus_data *gpio_vbus = platform_get_drvdata(pdev);
+ 
+ 	device_init_wakeup(&pdev->dev, 0);
+-	cancel_delayed_work_sync(&gpio_vbus->work);
++	disable_delayed_work_sync(&gpio_vbus->work);
+ 
+ 	usb_remove_phy(&gpio_vbus->phy);
+ }
