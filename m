@@ -1,159 +1,191 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B51B7479883
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 11:56:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11EB64A2A5E
+	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 13:05:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792324594; cv=none; b=YRyMWQ/l+IpjmVSXXTtWWzzwI6yUOxM+nJ5UWuCrv7CFbshyyPo8oXTz39NItpc5TbDC4nr15gDCs6QVhOsG40k0GvvaofRBDqUAzebn4i3bRjRZ5sgvl53VMuMbbJIBdGdSf5QxmXoBqaYJ9Augwl1fhKbjap6yHrILClAmcWw=
+	t=1792328730; cv=none; b=tJ3R/sjJe8KVBx315DVvLOqmnkKJ422dPp1jkdX8LOaL/R42wMuFi3aV4J9KyiWEItS9+9bg76Lr7eWmeSCkOg2BsIxUUauuBK0YpjESsV9u678oHUXc9/YAU9cJGw8kpwkM+XYHBbu6zVQ0PmR+b+p1Maln9auhsB2MzSqb604=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792324594; c=relaxed/simple;
-	bh=ap+80GaPDnXI09SxjszHeawrEkEUnedSIl8LSpSpaRc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PLTne+FFvFK7Naa9HCyhpIfSvtJV8DxrkTWNTIeiMKqNvZGvGtEtzq3Sv2B063C0BoSTj+ArsQVD2EGWD71o9ItYfH5ggvHo3tcTOSmT863K+jOBYZjAcQ26bq8kRK2eyOSdn2EJy4RcFUef9aLohUTkJQJ3C+y2kizf1KaqB6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=QvQ9Afmz; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=bIYmpMR7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1792328730; c=relaxed/simple;
+	bh=n1jnmiWZbd5NOkRkak7b15IAghD30omJjqx47zPf7yA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ry3OHvueyc4jYzJVT754sMP1plnE/GjIZEhZmNLXpoCnEwxg6mlnP1XPgmBnuRVOY6+cU5MFREUzSmqh7HaiFwQafBIuj0RVRWJ/XPg///wSf8/w9AGGwYe4XH8j4xrWfqdteYi5snk28eJUoOJVkHvUEOc5QK7GR8QLDWyfG80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Iw514KFi; arc=none smtp.client-ip=209.85.216.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="QvQ9Afmz";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="bIYmpMR7"
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69I5tgRL2286830
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 11:56:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=gcEYZe12IS5R8fbm0oKp4F5/
-	idlukA88I/0oldtDxJQ=; b=QvQ9Afmzj/fGG+aeASrcA/JAaYzYGKk6IFlJtbUL
-	W5uH3JiBvrYtBFZykDTHD+Tt8jKX4GWEdGsUD0D/CNPcV42pZYoskpnfq8yAn2TJ
-	JXZqU5JFzIO7YLkjVbnQ29AjMQkbTeMKVfeGXEPu2rpZDRdhAl5uLx6qU0X/Qxg2
-	D6gB8QsP3SURJ9+VxKET818hKXYkd3wIoLVBDMXRbjBGDdPQrFH+ZLYwJUC8r3W4
-	yLU/HfKASohkj9S3ANaovwgwu8urHvo1FRMMb1sg4Gdb6QvubeYSQ226KPx3hdR+
-	CDGjnlupNYD6znJGGMCNc3Nq9nHEt3gedBst9cjCh/7Sdw==
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hc2a9junw-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 11:56:32 +0000 (GMT)
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93cb71b1443so285699085a.2
-        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 04:56:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Iw514KFi"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-3ace9e6e1a5so868877a91.0
+        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 06:05:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792324592; x=1792929392; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=gcEYZe12IS5R8fbm0oKp4F5/idlukA88I/0oldtDxJQ=;
-        b=bIYmpMR7eSOK1TWKlF4snWvPeV2X9sgKMkfxhZvBL1mZy+NTUzGBB/VfVZhe2nb1sC
-         gmmy+oHY21eV9JaBGgLcG+pB5Ah6q3Z/r+phl65oje5zIAoNrDjNDGYoSHlmKWaRVBj3
-         MMQjl8pXHHhafPjE4OIaDBvR27osDZ4txyWhyGAWMROLJbvDUxvt7soeR7lYZ/zSm/32
-         QcQecs5G9Df5wD1+opWNW+RK1uIE6MbiD0fClAs4sPZj0K+KOeBi9/csciAq9C962+L7
-         CyBHncaPnBslpgyp3Cak6Tc5NkynaThSAwvubrKfJfB2ZfdheWjNlId8+7JZlLrhtjeY
-         BybA==
+        d=gmail.com; s=20251104; t=1792328727; x=1792933527; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=c2uZEWy5t34eHwZsR2/5So5/B2QP3xF0LaMRdc7gRHU=;
+        b=Iw514KFio+gKpjfziR6TOguvm7oIpT6b/l6iJLSWnNYoyKqtrobujtCkTf9OIQdOWU
+         9cnfbXTf6eu6+ei6aSFQFOCc6xFsBqhqSbEG1RT+j0x1yvn4ddeXfYzGepQopydjXTGl
+         RNCyMcG4Ne4VWlIolfANliZqUr+gR90CTZE3qMHHNrpxMYded43I+fTm9Pt4VbnnN0dF
+         3mpRYPqVUdgXnW3WrYeLLrLBPMxfhvfGEwTy5GuYyQMcUdwj5x+39lb4s3Sv6LNu9wrM
+         cqle20YXslWWQxinr3V21DgDb5koApZQDcdUqSLZeh+9XEc/a3cFfJW4Q6Z635g8APmw
+         l5Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792324592; x=1792929392;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gcEYZe12IS5R8fbm0oKp4F5/idlukA88I/0oldtDxJQ=;
-        b=OqL1jOYYDBRGkmrMjaiS0NV4bg0/xePDG9mr3qDXEcOxnnVub/leXj7VtsMsspaXe+
-         QbrJGvjNmjZm5ZMy4XYqnjprvpPoKUmQx4GZVBL045I+lT/wDQoqFSz2zOns3mJIBQnC
-         PRAxsM3gW58eJk4l+WPkrWUGu64lhxQI6+YaV2ncfFwPTZBLN/yU4x/7zEVBj/mlFviQ
-         Eg7060igSIAA95TQf6vWK/OCygRjw97iD/fgzB0Anzu9REpYEbrMZ8JeRgceJ/xtJtci
-         PyILfAad3URJEH0IcE/necNAxDjytl1bBGuv45fJG8o6fIMml0RUTlhv/BYMijJe7hcD
-         4rug==
-X-Forwarded-Encrypted: i=1; AKwUvBy7uTIpMqXtE6Gs2/Q4xtgXX25O1qC2bJeRm9GSPiTehI8C3Lv/AQ+2CbFkix1UukIitUi5jHaW7Mk=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJf2dcrh4gFOviR3suy+YeoH/Zk7aaQrB39im3yd9PgloRhzfL2
-	NooxOlYz7awUMtRrIMTCw0FSoOmp5Um1l9hA/8O79BdYDiROPlzbI3YsVN0l5vD88r6+qfKkcFZ
-	qeq3jyjGzJBuwOnOdwq8QD4oKCBtmwv0VOAwAbkncn54LkmfjMQ52NUyBu6d7ILC06AjzGUU=
-X-Gm-Gg: AYBFou0s1QIKFswC/toDW5RC6h/YCgrqGNmLZ9xvfYNsWqZtnEAD0UytoQjnFMmhcHe
-	1Nti+fp0eARhmbAwk3f9k+bVrmz7yBJeRTBzIwLeP29q9nSqD0e6hb3oEigMnBqCN60xwGKp1dc
-	0ZrWUdl1hqe6MXReJMpM/3Zkqm6b9nLg+ZhxUO7L1LkFzrCUgUDwF5sXGCD8lZqPc9pWHLv/T3u
-	+TP5OlFTJPKbejjkghzapb2wNKipotx4hzRJ+pG7vySJj3dVUTN9R9en8EmXApf/TD4b5+b6NQN
-	jRA3lu7zzO4AgeQTZpTGmWuuB2ps+CNM20f+xWZexK6YxtVr2QBCHvr3QHdeRjPYrowUbFIxO0J
-	faFGy5OrD4qjX/foRU1YDMbJTWFBBBnbmkzstOO//sbhUZGQsWUsU1Q3yw2a1Jh4YCa0f5mR9KT
-	0+164mfuaVPVe3
-X-Received: by 2002:a05:620a:2314:10b0:93f:31bb:e3c with SMTP id af79cd13be357-93f31bb153bmr332141785a.68.1792324591804;
-        Sun, 18 Oct 2026 04:56:31 -0700 (PDT)
-X-Received: by 2002:a05:620a:2314:10b0:93f:31bb:e3c with SMTP id af79cd13be357-93f31bb153bmr332139985a.68.1792324591331;
-        Sun, 18 Oct 2026 04:56:31 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5be4a63cd1esm1370126e87.72.2026.10.18.04.56.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 04:56:29 -0700 (PDT)
-Date: Sun, 18 Oct 2026 14:56:27 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Sebastian Reichel <sre@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, linux-usb@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-rockchip@lists.infradead.org, linux-mediatek@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org, kernel@collabora.com,
-        Sebastian Reichel <sebastian.reichel@collabora.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: Use DP AltMode defines
-Message-ID: <46mtzsydckbt6ca66h3stj7sn37ittzarhc6nqbjp3fitaqx3x@i7b7vbpxsui6>
-References: <20261017-dp-altmode-dt-defines-v2-0-7ab3d93553dd@collabora.com>
- <20261017-dp-altmode-dt-defines-v2-4-7ab3d93553dd@collabora.com>
+        d=1e100.net; s=20260707; t=1792328727; x=1792933527;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=c2uZEWy5t34eHwZsR2/5So5/B2QP3xF0LaMRdc7gRHU=;
+        b=LCf295rcynqxWRBf6HJIahdYSR1AmM048dYYaPVZaD128LfR+C4vWKkbT/gNYPyn9q
+         XLbqm0m+xZIyYo44BkSfpa1fQ9g+M9qY1he14qsX7MWLrbWbE74sHoQJsd7xyZB46/xV
+         BujL7TC0QpCmVyB8WvV20n9qR5jk3Do21pj+3BMG2yqQA6xsb70VUCb+ghiAv6nIwb4M
+         ewyg2Y2ZGngKvAZ0ojGewrldasXYT8d6uogNO7yZ1D27wwokQ7VODW3Yd6Vmu34ALnBs
+         rs0wDgcnEYF5qhBFB8w5d+o9WIVnaJCtYxRMPPa5pl/OrOatiimc4p/ZyXq9u6vaHg4x
+         Wrxw==
+X-Gm-Message-State: AFq9FYKGA31QiBg973ppZjvy+67j1rL3Nq05jMB0kRY99OWf8i16nTjb
+	9hWQVsfg5gF7SL5OCC8qSP1VUPMe6lZvz83q3kHObuIjbUJsI28r5JYG
+X-Gm-Gg: AYBFou26oNKYUCJ/7okAH2BqcXlNRi9Zcr4hiJ18JuWvwkMBIfKF/5bTQXC6clK0Jk8
+	5VJRa9SeQFnyI//Y2bJlhDBr5xlpVVzazpiHxLFYhR2MKjqtFyaR7rOuZjDnIPWhoVZSBeMXWo8
+	9uaBzgIclTiz/uyQ29VYCvFvsfeOTsaMGgS9uADzjWHwF1bzZH+adYREEOUUtgQAAiu++8ICrom
+	Lje4nDwBfMHnvh56gN2jHsvx4ww3Nms//IbMgxGQnriHfm5Np83pAiL1QU1oVZdjDtcSkcX32Wv
+	7FB6RLZ4J5FGNen9AqVT0sDHUbnkTYaSrRTX5caTKOTo30ShCCc2KINufhh8jdlcKiOzlDpIxwg
+	ZxH/9WpZBRh6XQU7j6DAlaBCwVxIxzwGwF7n+JgV+IQ13li/l+wlMgbtasbl1sakmcP6ahFpTPY
+	zxQ2NewD7dpNIV8zJVYjRi/PzvJdYrVUzQHLDIMKTAgvuSjHJxJT7dLXCl5O857LV8WHqdtlZui
+	WlkzTvHyKnYIGwy1Tv+Ne77wQmmr60W/VNxNiGDKrJOU5/VH0mdgRTzvnO8Hu8jSI5Y1xhrsI6T
+	eYSz2b2kj4sUTY12c9FdOYx1qY4WP6WIghZjpY4T8DiDIEy3
+X-Received: by 2002:a17:90b:4c92:b0:3a6:f6b0:30ce with SMTP id 98e67ed59e1d1-3acef55d641mr3055223a91.36.1792328727152;
+        Sun, 18 Oct 2026 06:05:27 -0700 (PDT)
+Received: from EAIT-H54D9Q2FJQ.eait.uq.edu.au ([130.102.10.249])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc49c263asm11415222a91.17.2026.10.18.06.05.24
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sun, 18 Oct 2026 06:05:26 -0700 (PDT)
+From: Yu Zhang <yuz08559@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yu Zhang <yuz08559@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: gadget: f_mass_storage: take filesem in nofua store to fix backing-file UAF
+Date: Sun, 18 Oct 2026 23:05:19 +1000
+Message-ID: <20261018130519.65850-1-yuz08559@gmail.com>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261017-dp-altmode-dt-defines-v2-4-7ab3d93553dd@collabora.com>
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE4MDA0NyBTYWx0ZWRfX7BLkx5wh1Jjv
- GEa0Fz5IryraM+bj3O7IPa+CnLKHdKhaWZojVkLfBfo3HxBy4wvjOa0J2rV6BT4mqCoztUwSX14
- yLBqzsCQBk+sujwqxgzzbHeaRCHwr/U=
-X-Proofpoint-GUID: o3iE8c6VkFSix1GyDgZADpHWhfJbr0rB
-X-Proofpoint-ORIG-GUID: o3iE8c6VkFSix1GyDgZADpHWhfJbr0rB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE4MDA0NyBTYWx0ZWRfX1q4U0e/dV+2a
- qos/gmMCnpXK+DIPl27JJtcxFt0hWRYJ93FutWvZ71UacWxupCWVLqWSxMr7VSNZ1Xr3Lenjgir
- k974jO76WN3ejwpIXfC/XebGpnmDUrMTgeb8oPyIQCsRuiZaCaXCuaxAunINaElIIwLpvhTvUpY
- 8NxevVysh1+VTed3CWhd8jsnxiMQjZzafqJmMysK1u0KptQFDjOhOLhFVTfCeicQZN1XzxEXukV
- T6UKu9hcfJ5PFWWySMYy86e14kbLQqK/u6OwwiyVOuEZeQ8HWDM0vhDub9imQ4QgtlcyMsErmvF
- 1wvZP27MDGF5+I63GBuLT1assOPK5BPC4yiwqihMNIKq5F1LY7fLu9np2G5KT7eit1djn9LjnIk
- WQiYuIVUKlPoocVPD8bgUw/tchNmEeGHEWIsis5/jR5cmiIvcX7Q8xtzA1MTMX//baGiM9uQnZp
- 9ka/Xv4uEgAcu+fw14Q==
-X-Authority-Analysis: v=2.4 cv=PMeaavqC c=1 sm=1 tr=0 ts=6ad4b3f0 cx=c_pps
- a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=QX4gbG5DAAAA:8
- a=EUspDBNiAAAA:8 a=imkpALUroobUoGdfvlcA:9 a=CjuIK1q_8ugA:10
- a=PEH46H7Ffwr30OY-TuGO:22 a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-18_02,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 spamscore=0 clxscore=1015 suspectscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610180047
+Content-Transfer-Encoding: 8bit
 
-On Sat, Oct 17, 2026 at 09:59:33PM +0200, Sebastian Reichel wrote:
-> From: Sebastian Reichel <sebastian.reichel@collabora.com>
-> 
-> Use the new USB-C DP AltMode defines for the SVID and the capabilities
-> VDO to make the DTs more readable.
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  arch/arm64/boot/dts/qcom/qrb5165-rb5.dts | 8 ++++++--
->  arch/arm64/boot/dts/qcom/sm8150-hdk.dts  | 9 +++++++--
->  2 files changed, 13 insertions(+), 4 deletions(-)
-> 
+fsg_store_nofua() syncs the LUN's backing file when switching from async
+to sync mode:
 
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+	if (!nofua && curlun->nofua)
+		fsg_lun_fsync_sub(curlun);
 
+fsg_lun_fsync_sub() dereferences curlun->filp (vfs_fsync(filp)). Unlike
+every other store that touches the backing file -- fsg_store_ro() and
+fsg_store_cdrom() (down_read), fsg_store_file() (down_write) --
+fsg_store_nofua() holds no filesem while doing so.
 
--- 
-With best wishes
-Dmitry
+A concurrent close of the backing file runs under down_write(filesem) and
+does fput(curlun->filp) in fsg_lun_close() (fsg_store_file() with an empty
+path, the SCSI START_STOP eject in do_start_stop(), or forced_eject), so
+it can free the file while fsg_store_nofua() is dereferencing it:
+
+	BUG: KASAN: slab-use-after-free in vfs_fsync+0x20/0xe0
+	 vfs_fsync+0x20/0xe0
+	 fsg_lun_fsync_sub+0xa0/0xd0
+	 fsg_store_nofua+0x138/0x160
+	 configfs_write_iter+0x1a7/0x250
+	 vfs_write+0x5df/0x940
+	Allocated by task 3459:
+	 fsg_store_file+0x150/0x1f0
+	 configfs_write_iter+0x1a7/0x250
+	Freed by task 3459:
+	 __fput+0x456/0x6c0
+	 __fput_deferred+0x10d/0x330
+	 fsg_store_file+0x9e/0x1f0
+	 configfs_write_iter+0x1a7/0x250
+
+Take filesem for read around the fsync in fsg_store_nofua(), as the sibling
+stores do, so the backing file cannot be closed underneath it.
+
+Reproduced on a mass_storage gadget over dummy_hcd by writing lun.N/nofua
+(1 then 0) from one task while another task rewrites and clears lun.N/file.
+
+Cc: stable@vger.kernel.org
+Signed-off-by: Yu Zhang <yuz08559@gmail.com>
+---
+ drivers/usb/gadget/function/f_mass_storage.c | 6 ++++--
+ drivers/usb/gadget/function/storage_common.c | 5 ++++-
+ drivers/usb/gadget/function/storage_common.h | 3 ++-
+ 3 files changed, 12 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
+index 0000001..0000002 100644
+--- a/drivers/usb/gadget/function/f_mass_storage.c
++++ b/drivers/usb/gadget/function/f_mass_storage.c
+@@ -2663,8 +2663,9 @@
+ 			   const char *buf, size_t count)
+ {
+ 	struct fsg_lun		*curlun = fsg_lun_from_dev(dev);
++	struct rw_semaphore	*filesem = dev_get_drvdata(dev);
+ 
+-	return fsg_store_nofua(curlun, buf, count);
++	return fsg_store_nofua(curlun, filesem, buf, count);
+ }
+ 
+ static ssize_t file_store(struct device *dev, struct device_attribute *attr,
+@@ -3239,7 +3240,10 @@
+ static ssize_t fsg_lun_opts_nofua_store(struct config_item *item,
+ 				       const char *page, size_t len)
+ {
+-	return fsg_store_nofua(to_fsg_lun_opts(item)->lun, page, len);
++	struct fsg_lun_opts *opts = to_fsg_lun_opts(item);
++	struct fsg_opts *fsg_opts = to_fsg_opts(opts->group.cg_item.ci_parent);
++
++	return fsg_store_nofua(opts->lun, &fsg_opts->common->filesem, page, len);
+ }
+ 
+ CONFIGFS_ATTR(fsg_lun_opts_, nofua);
+diff --git a/drivers/usb/gadget/function/storage_common.c b/drivers/usb/gadget/function/storage_common.c
+index 0000003..0000004 100644
+--- a/drivers/usb/gadget/function/storage_common.c
++++ b/drivers/usb/gadget/function/storage_common.c
+@@ -415,7 +415,8 @@
+ }
+ EXPORT_SYMBOL_GPL(fsg_store_ro);
+ 
+-ssize_t fsg_store_nofua(struct fsg_lun *curlun, const char *buf, size_t count)
++ssize_t fsg_store_nofua(struct fsg_lun *curlun, struct rw_semaphore *filesem,
++			const char *buf, size_t count)
+ {
+ 	bool		nofua;
+ 	int		ret;
+@@ -424,11 +425,13 @@
+ 	if (ret)
+ 		return ret;
+ 
++	down_read(filesem);
+ 	/* Sync data when switching from async mode to sync */
+ 	if (!nofua && curlun->nofua)
+ 		fsg_lun_fsync_sub(curlun);
+ 
+ 	curlun->nofua = nofua;
++	up_read(filesem);
+ 
+ 	return count;
+ }
+diff --git a/drivers/usb/gadget/function/storage_common.h b/drivers/usb/gadget/function/storage_common.h
+index 0000005..0000006 100644
+--- a/drivers/usb/gadget/function/storage_common.h
++++ b/drivers/usb/gadget/function/storage_common.h
+@@ -210,7 +210,8 @@
+ ssize_t fsg_show_removable(struct fsg_lun *curlun, char *buf);
+ ssize_t fsg_store_ro(struct fsg_lun *curlun, struct rw_semaphore *filesem,
+ 		     const char *buf, size_t count);
+-ssize_t fsg_store_nofua(struct fsg_lun *curlun, const char *buf, size_t count);
++ssize_t fsg_store_nofua(struct fsg_lun *curlun, struct rw_semaphore *filesem,
++			const char *buf, size_t count);
+ ssize_t fsg_store_file(struct fsg_lun *curlun, struct rw_semaphore *filesem,
+ 		       const char *buf, size_t count);
+ ssize_t fsg_store_cdrom(struct fsg_lun *curlun, struct rw_semaphore *filesem,
