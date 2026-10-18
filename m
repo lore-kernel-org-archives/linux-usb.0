@@ -1,44 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB303CBE80;
-	Sun, 18 Oct 2026 23:05:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466263DE45A;
+	Sun, 18 Oct 2026 23:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792364708; cv=none; b=RGjzrjOR6m+4xyQcuq5T4w7fdikhIGe+UT0OkjYDp0WUXIa4m20Ss68aGCK4E7y+n9+iRO/ly6vK/cZpmQN86JIKyTCNxYIyYYERCxQL1SCerL8IopDcypFamBaxvv0qzP9xqqMf6UTi+HTPYLp+NlGeRtxa53BhB5rj1Uszlpo=
+	t=1792364828; cv=none; b=ZP9Bhyoj1PcQfU/V8jh74edtgcD++Pn8/UNBtM7xXzthS4cbPgS/aXuycvhxIMDFxnQ6C1AEblFMS8j11X7XoxrV934zgo1F046Tr8JD6Skz1IWuQ4ri5Nb5TuubuFruggTc5QRJeGHBwSkVOqxX83zRM8JKImJnyYhlkymnAew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792364708; c=relaxed/simple;
-	bh=Z6Hwewqpwm1Fei7MVKLUibfyjv8QT9aUSps6F8GdAn8=;
+	s=arc-20240116; t=1792364828; c=relaxed/simple;
+	bh=Qvoo/p3vmOBNTXRqkWIqn8zLnfvXIpaXlToRQBd+ZyE=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=AO9Dcdy6rDSm7ouzYh9WmbOLSLVIVEuKslV8ArjPoh2P3cqqgOgykThA19961Wu3J3Y8czGN0Mm9oW0BjeRN0WLGhG01EWcTrlXQZ3lDBIdK/7/OumQCiKPXhNh9+OLJim+3B/7WQYu23uYao8aYWlsC1M712Hr5yq3IhVm6I1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kEwYnQu1; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=iLEcfGxwn4zUHU9yy9ltK1jHHk0RDyXD3++ZmxdCR5yymsTW8Yirm9uMvQ0TTfUi/HwciEy4O2PcM7ezVI+kV4LhvAer1+QsZpRNmGLiPbBLuYUKGP7JrKFxv6iAorEwUtmwo0EmtLeIP2ZY3fk1Brxxl4NWXlyOqdKd3lWZeSg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZWnCIMOd; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kEwYnQu1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDEDB1F000C4;
-	Sun, 18 Oct 2026 23:05:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZWnCIMOd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96DDB1F000C4;
+	Sun, 18 Oct 2026 23:07:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792364707;
-	bh=YV+FENHirwoheCzK+MEle1jjsxWPvq59S17ilTHsNhM=;
+	s=k20260515; t=1792364823;
+	bh=6Iaop+OWHmG6difkSyl9f2fA+S+AXNQV9idXRuE8P1w=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=kEwYnQu1KDju4NIIAtpMnN55cqYAuY/Vkyc0YB75qTO4fqHlHqTPRxxqtjcvwoZxN
-	 rYrs9Zvl43dfMmL/RKaGgT8W7YQFMNhkcoHuPadbFlgZKUbbHQSY7En5m58VSTSE/Z
-	 pk2q1Xde0iafT6wb2X9XsOHr9xS+6Xul8xWga6FAhzdAmXVAzLVhcCn+s/Vx9d02Aw
-	 j1siLiSSpK08ejvT/LFs2t71spQgko2zxUO+mQSlz/MmCk2/pQ9vBnpyPVhDaXFbGW
-	 rFniN4zF3RYwO/zY6CR/zn3un/d1Ag1Qgd/aPiHFAKEy5xucGtslr+2drr4RqJantu
-	 aLopCcWJPuQSA==
-Message-ID: <sashiko-outbox-176442@kernel.org>
+	b=ZWnCIMOdeu/2BIXyKimeeuYy+bvhHPqx1VDYsFWl0xOI48XdFpV40jM1jz+FIoPh3
+	 LMexdgvhOdjv5gtuov6BN860mp3aJfEVd5J6i6cGe2PV3M30WdqK7bed/yARlkqcGt
+	 oHucBeMTWgsAFKmoJ0z6O0uEWjme+sMqfUl7Cm8tw+vxKFiJjqMRaup5dDKW7fwVjF
+	 wr8vkmYfAE4LDWXe4uviucpDYC4E5pF1TfwWNEkba6eJdFHpBJynDuFg1Aeq4b0Rf9
+	 2gpLx/xYNnA6hnn9U2/wt4Kxhh/U7JuCKIRYBj3c+Bg5TagMn5Wp7juaIPCHllp9bD
+	 5Z8RzsQG9euaA==
+Message-ID: <sashiko-outbox-176444@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 2/2] usb: typec: fsa4480: Report switch & mux events to
- codec
+Subject: Re: [PATCH 1/2] dt-bindings: usb: fsa4480: Add an optional audio
+ port/endpoint
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Val Packett" <val@packett.cool>
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261018225906.1265299-3-val@packett.cool>
+In-Reply-To: <20261018225906.1265299-2-val@packett.cool>
 References: <20261018225906.1265299-1-val@packett.cool>
- <20261018225906.1265299-3-val@packett.cool>
+ <20261018225906.1265299-2-val@packett.cool>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 18 Oct 2026 23:05:06 +0000
+Date: Sun, 18 Oct 2026 23:07:03 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -47,113 +47,165 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Medium] usb: typec: fsa4480: leak of codec switch and mux in fsa4480_rem=
-ove()
+- [Medium] dt-bindings: usb: fsa4480: conflicting usb-switch-ports.yaml ref=
+ in allOf
 --
 
-commit ec3a8ea75d1b120f5c00db8c4658dd7e1e5f7c65
-Author: Luca Weiss <luca.weiss@fairphone.com>
+commit bdd98503313bd1c358f2a30a54c1cf8d1fe906dd
+Author: Val Packett <val@packett.cool>
 
-usb: typec: fsa4480: Report switch & mux events to codec
+dt-bindings: usb: fsa4480: Add an optional audio port/endpoint
 
-This commit updates the fsa4480 driver to acquire a Type-C mux and
-orientation switch for the connected audio codec and forward switch and
-mux state updates to it. It also enables the SENSE and MIC bits when
-entering audio accessory mode.
+This commit updates the fcs,fsa4480 binding to support a multi-port graph
+layout so that hotplug notifications can be delivered to an audio codec
+driver through a second port while keeping the single-port layout valid.
 
-> diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4=
-480.c
-> index bea0c1deec94d..d992a7e1887c8 100644
-> --- a/drivers/usb/typec/mux/fsa4480.c
-> +++ b/drivers/usb/typec/mux/fsa4480.c
+> diff --git a/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml b/Doc=
+umentation/devicetree/bindings/usb/fcs,fsa4480.yaml
+> index 89b1fb90aeebc..9dfe95b6adf35 100644
+> --- a/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml
+> +++ b/Documentation/devicetree/bindings/usb/fcs,fsa4480.yaml
+> @@ -9,31 +9,11 @@ title: ON Semiconductor Analog Audio Switch
+>  maintainers:
+>    - Bjorn Andersson <bjorn.andersson@linaro.org>
+> =20
+> -properties:
+> -  compatible:
+> -    oneOf:
+> -      - const: fcs,fsa4480
+> -      - items:
+> -          - enum:
+> -              - ocs,ocp96011
+> -          - const: fcs,fsa4480
+> -
+> -  reg:
+> -    maxItems: 1
+> -
+> -  interrupts:
+> -    maxItems: 1
+> -
+> -  vcc-supply:
+> -    description: power supply (2.7V-5.5V)
+> -
+> -  mode-switch: true
+> -  orientation-switch: true
+> -
+> -  port:
+> +$defs:
+> +  controller-port:
+>      $ref: /schemas/graph.yaml#/$defs/port-base
+>      description:
+> -      A port node to link the FSA4480 to a TypeC controller for the purp=
+ose of
+> +      A port node to link the FSA4480 to a Type-C controller for the pur=
+pose of
+>        handling altmode muxing and orientation switching.
+>      unevaluatedProperties: false
+> =20
+> @@ -69,15 +49,56 @@ properties:
+>                    - AUX+ connected to SBU2
+>                    - AUX- connected to SBU1
+> =20
+> +properties:
 
 [ ... ]
 
-> @@ -287,6 +299,19 @@ static int fsa4480_probe(struct i2c_client *client)
->  		FIELD_GET(FSA4480_DEVICE_ID_REV_ID, val),
->  		FIELD_GET(FSA4480_DEVICE_ID_VENDOR_ID, val));
-> =20
-> +	/* Get Codec's MUX & Switch devices */
-> +	fsa->codec =3D fwnode_typec_mux_get(dev->fwnode);
-> +	if (IS_ERR(fsa->codec))
-> +		return dev_err_probe(dev, PTR_ERR(fsa->codec),
-> +				     "failed to acquire codec mode-switch\n");
+> +  port:
+> +    $ref: "#/$defs/controller-port"
 > +
-> +	fsa->codec_switch =3D fwnode_typec_switch_get(dev->fwnode);
-> +	if (IS_ERR(fsa->codec_switch)) {
-> +		ret =3D dev_err_probe(dev, PTR_ERR(fsa->codec_switch),
-> +				    "failed to acquire codec orientation-switch\n");
-> +		goto err_put_mux;
-> +	}
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +    properties:
+> +      port@0:
+> +        $ref: "#/$defs/controller-port"
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        description:
+> +          A port node to link the FSA4480 to an audio codec in order to
+> +          notify it whenever an analog audio adapter is plugged/unplugge=
+d.
+> +        unevaluatedProperties: false
 > +
->  	/* Safe mode */
->  	fsa->cur_enable =3D FSA4480_ENABLE_DEVICE | FSA4480_ENABLE_USB;
->  	fsa->mode =3D TYPEC_STATE_SAFE;
-> @@ -310,8 +335,11 @@ static int fsa4480_probe(struct i2c_client *client)
->  	sw_desc.set =3D fsa4480_switch_set;
+>  required:
+>    - compatible
+>    - reg
+> -  - port
 > =20
->  	fsa->sw =3D typec_switch_register(dev, &sw_desc);
-> -	if (IS_ERR(fsa->sw))
-> -		return dev_err_probe(dev, PTR_ERR(fsa->sw), "failed to register typec =
-switch\n");
-> +	if (IS_ERR(fsa->sw)) {
-> +		ret =3D dev_err_probe(dev, PTR_ERR(fsa->sw),
-> +				    "failed to register typec switch\n");
-> +		goto err_put_switch;
-> +	}
+>  allOf:
+>    - $ref: usb-switch.yaml#
+>    - $ref: usb-switch-ports.yaml#
 > =20
->  	mux_desc.drvdata =3D fsa;
->  	mux_desc.fwnode =3D dev_fwnode(dev);
-> @@ -319,12 +347,24 @@ static int fsa4480_probe(struct i2c_client *client)
-> =20
->  	fsa->mux =3D typec_mux_register(dev, &mux_desc);
->  	if (IS_ERR(fsa->mux)) {
-> -		typec_switch_unregister(fsa->sw);
-> -		return dev_err_probe(dev, PTR_ERR(fsa->mux), "failed to register typec=
- mux\n");
-> +		ret =3D dev_err_probe(dev, PTR_ERR(fsa->mux),
-> +				    "failed to register typec mux\n");
-> +		goto err_unregister_switch;
->  	}
-> =20
->  	i2c_set_clientdata(client, fsa);
->  	return 0;
-> +
-> +err_unregister_switch:
-> +	typec_switch_unregister(fsa->sw);
-> +
-> +err_put_switch:
-> +	typec_switch_put(fsa->codec_switch);
-> +
-> +err_put_mux:
-> +	typec_mux_put(fsa->codec);
-> +
-> +	return ret;
->  }
-> =20
->  static void fsa4480_remove(struct i2c_client *client)
+> +oneOf:
+> +  - required:
+> +      - port
+> +  - required:
+> +      - ports
 
 [Severity: Medium]
-Does fsa4480_remove() leak fsa->codec_switch and fsa->codec when the
-device is unbound or the driver module is unloaded?
+Does keeping usb-switch-ports.yaml# in allOf conflict with the custom ports
+schema defined here?
 
-In fsa4480_probe(), fwnode_typec_mux_get() and fwnode_typec_switch_get()
-allocate the wrapper structures and take device and module references on
-the codec provider, which are not managed by devres. While the error path
-in fsa4480_probe() cleans them up, fsa4480_remove() still only unregisters
-fsa->mux and fsa->sw:
+In Documentation/devicetree/bindings/usb/usb-switch-ports.yaml, ports is
+defined for SuperSpeed switches:
 
-static void fsa4480_remove(struct i2c_client *client)
-{
-	struct fsa4480 *fsa =3D i2c_get_clientdata(client);
+  ports:
+    $ref: /schemas/graph.yaml#/properties/ports
+    properties:
+      port@0:
+        $ref: /schemas/graph.yaml#/properties/port
+        description:
+          Super Speed (SS) Output endpoint to the Type-C connector
 
-	typec_mux_unregister(fsa->mux);
-	typec_switch_unregister(fsa->sw);
-}
+      port@1:
+        $ref: /schemas/graph.yaml#/$defs/port-base
+        description:
+          Super Speed (SS) Input endpoint from the Super-Speed PHY
+        ...
+        properties:
+          endpoint:
+            $ref: /schemas/graph.yaml#/$defs/endpoint-base
+            ...
+            properties:
+              data-lanes:
+                minItems: 1
+                maxItems: 8
 
-Should fsa4480_remove() also call typec_switch_put(fsa->codec_switch) and
-typec_mux_put(fsa->codec)?
+Because allOf requires validation against both schemas, port@0 in
+usb-switch-ports.yaml references /schemas/graph.yaml#/properties/port, which
+enforces unevaluatedProperties: false on endpoint with no data-lanes proper=
+ty
+(as noted in commit 11e80d371bbb ("dt-bindings: usb: fcs,fsa4480: Fix defau=
+lt
+port schema reference")). That rejects valid data-lanes properties inside
+ports/port@0/endpoint (such as on ocs,ocp96011 in
+arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts when converted to ports),
+defeating #/$defs/controller-port on port@0.
+
+At the same time, port@1 here uses /schemas/graph.yaml#/$defs/port-base
+instead of /schemas/graph.yaml#/properties/port, which leaves port@1/endpoi=
+nt
+without unevaluatedProperties: false and inherits the SuperSpeed data-lanes
+definition from usb-switch-ports.yaml, while ports does not require port@0.
+
+Following commit bd8c3ce6d7a2 ("dt-bindings: usb: switch: split out ports
+definition") for bindings with custom ports layouts, should
+usb-switch-ports.yaml# be dropped from allOf, port@1 changed to reference
+/schemas/graph.yaml#/properties/port, and required: [port@0] added under
+ports?
+
+> +
+>  additionalProperties: false
+
+[ ... ]
+
+>
+>
+>
+
+ base-commit: 90d9f76ccb72ec024ef476b4229f3dd1957d7b26
+--=20
+2.51.2
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261018225906.1265=
-299-1-val@packett.cool?part=3D2
+299-1-val@packett.cool?part=3D1
