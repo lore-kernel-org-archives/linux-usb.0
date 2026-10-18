@@ -1,164 +1,311 @@
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA903AE6EB
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 16:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85A24C33C5
+	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 16:18:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792340311; cv=none; b=jHJjaIyLRvabtgT21Pw/cqGCGupBNLIuF/rR/b0FFUQN4APGt+ZOa9/0D1s3hNdkGGkyNn4aSIl5+/jUkN2sLBliE0emhBXMTwp+y3yy0Eg8jkM936HNJKAUapfkoypn4ZjAPPo4vIvpt8yCrjYECysZUQAbp6D/n7MQOU9w4Tk=
+	t=1792340329; cv=none; b=hWytMgPBWvY09TfmdjXCBwU2Ir6byTRwQYssVeogQqpSYceyox/SW5MjL38k+NNyh1r3Fc3QSqin++uOG0eY5tiazVwxS9MsP2tB/6bSSFhqg/zXJ7R9I8rVoFer731JjbheBVEz6WSu7IhDZY/8seyE83DSdZq5IgDSpwOEZv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792340311; c=relaxed/simple;
-	bh=C7L1XjnZf+bQFGK5gTa971rN1G20Yw7VuY/hecoGzlI=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=mEkEebb80LoQCI36O0OwEGnXB/zm1tQdbz07TUsRGMqAuGcVehKS2HFMma0955ET7QXN0ZLy75s/C0ELlOd0u23mSjgbwZzg8rFlKyUE6pM9+89bPqxgQ3BPC+pRzG3dLLiHMDUm64ovHlxUDv8f1CfDPz23jCVGA4eOD305F/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.167.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4b26d8d2498so2327218b6e.2
-        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 09:18:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792340309; x=1792945109;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6uTfwGzVCcKVkbxklflSZB/XIhVnL6yyzUcQzTnVezc=;
-        b=REaaE9S7WQqe8/ytiupU9Icx6dW6ZR41MIyL6f5DTumbjqlFujpyOdLxuCC38OWkJi
-         veEDAwWOZ2K1oARGOKZK8JKVKdUogxglepfulTO8D0ZschZq6aV3dZj2x9ftM//9Gma9
-         +Gq4GmFfbEpIehKjIo4UD7acu3zaDnHLaYgRhLZH36BDZNC3amAZByCe9Os4wce/xKxK
-         +sRaNObACDa4Pl3cR9jMf3At/mCJqHVuq2M9s/0DMwuVUuaxfohHozzgavtI3zEtrcY+
-         PYlYB/BAUmANHHzwNEEpfexGJ+ilosn5hwA0TMgS4jISgoxn5dNhnmH9d1CFt95PQfXc
-         GR6Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzEWz6vho4SBtUX6dIMW/TobaWiCeXQAIhCeN36oESfLnupPX4d6AgTGde0O/ttuR8byniMh9nrh84=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ3m66mRurLSosQ3QLYIcE7jSUrJdHuzdJWxOWQjjvxGoyC+dTi
-	YXMzJXXWFyIXmV+5f1VOoNFw0y08hzfT20VBPf6Jsm0kXUZ6Lpt3suD/n3GY5TWbX6Q3VlsSO9J
-	SyE6Kc4pvFAmt1IZBP2wobnws4rV3I177DgKsqCijvEu7yzF0q7Ozwv2NUyo=
+	s=arc-20240116; t=1792340329; c=relaxed/simple;
+	bh=CBupNzl2jetuU+YFGHqSiLU5wQ66ePN/dNJzL7nGu6w=;
+	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
+	 Date; b=DqOYs+v4K5brkOAY0vYNZ2A+Tge+4ndC4aa3b4ybY7WZRrqaN7etjxneDdG5mOiNYnlSudqPgkc7ahyFMtuiwGEtMX1BMwo+FXWeuFrya04sZt+LgbAxADysvPyqqNT/2o4Xl2RiZjr9KWiv5GAQVXFddf3WfSG546ZD3cHZoIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MGHdT/RY; arc=none smtp.client-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MGHdT/RY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BACAA1F000C5;
+	Sun, 18 Oct 2026 16:18:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792340327;
+	bh=d8+px51mSbzQt3gHukDJUykhBakqTlYQh2t/MbHi6nM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=MGHdT/RYVU/msaBBXrC45baG036b74uQO3W75bJTVyjN2Qf+2rRZ+7eQ3wjlnnKCi
+	 xBn4zH56mOR9jScJUnqnibhJTn2eLvpIO0bjnUBaD6hT1/zxfPhyWp4x0TRCLVHiLg
+	 uNq5EjVJC7VHeIy6ra8T2aoT0ZVoZT79i1TfMxBQIP+BDtwYyc6UJP9qOCMsiL4i5I
+	 jLG9sjDEV5SIiimSrJa4SClKNqnZb9eyoscbjPIv7NZgYie9H11POStO/1ui3cl5/r
+	 TYEwVNODqNGFamAiKze7FxB6OLslFFKZhbRPOktR74+ctYSlQwmrFH1zsIBW2XaF+i
+	 YF7JWg5VLs8sg==
+Message-ID: <sashiko-outbox-176275@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3] usb: ohci-omap: handle root hub overcurrent via GPIO
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Muhammad Mahdi Amirpour" <ampr.mhd@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261018155355.116290-1-ampr.mhd@gmail.com>
+References: <20261018155355.116290-1-ampr.mhd@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 18 Oct 2026 16:18:47 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-Received: by 2002:a05:6808:124b:b0:4f8:4ec9:b170 with SMTP id
- 5614622812f47-53cc6b00eb3mr4123719b6e.2.1792340308836; Sun, 18 Oct 2026
- 09:18:28 -0700 (PDT)
-Date: Sun, 18 Oct 2026 09:18:28 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ad4f154.a6d1a155.34a93f.00b5.GAE@google.com>
-Subject: [syzbot] [usb?] WARNING in ec168_ctrl_msg/usb_submit_urb
-From: syzbot <syzbot+ed3ada41c4eb1c4ab78e@syzkaller.appspotmail.com>
-To: gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Thank you for your contribution! Sashiko AI review found 4 potential issue(=
+s) to consider:
+- [High] usb: ohci-omap: sleeping GPIO call under spinlock in ohci_omap_hub=
+_control()
+- [High] usb: ohci-omap: VBUS power race in ohci_omap_overcurrent_irq()
+- [Medium] usb: ohci-omap: VBUS power left enabled before OC init and on te=
+ardown
+- [Medium] usb: ohci-omap: overcurrent state and IRQ initialized after usb_=
+add_hcd()
+--
 
-syzbot found the following issue on:
+commit 5181df0775d84a40d846a175267467ebbcb131d6
+Author: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
 
-HEAD commit:    4056b3c9d3c9 Merge tag 'nios2_update_for_v7.4' of git://gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=11370ce1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7d1b274ca9837366
-dashboard link: https://syzkaller.appspot.com/bug?extid=ed3ada41c4eb1c4ab78e
-compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=114faaea580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=154faaea580000
+usb: ohci-omap: handle root hub overcurrent via GPIO
 
-Downloadable assets:
-disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-4056b3c9.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/811a43c89106/vmlinux-4056b3c9.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2bb4f3abea76/bzImage-4056b3c9.xz
+This commit adds root hub overcurrent handling for OMAP OHCI using the
+optional overcurrent GPIO interrupt and updates hub_status_data and
+hub_control to report overcurrent state and control the VBUS power GPIO.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+ed3ada41c4eb1c4ab78e@syzkaller.appspotmail.com
+> diff --git a/drivers/usb/host/ohci-omap.c b/drivers/usb/host/ohci-omap.c
+> index f6e56c4b99148..a3ff50c70d41e 100644
+> --- a/drivers/usb/host/ohci-omap.c
+> +++ b/drivers/usb/host/ohci-omap.c
 
-------------[ cut here ]------------
-usb 5-1: BOGUS control dir, pipe 80000280 doesn't match bRequestType c0
-WARNING: drivers/usb/core/urb.c:413 at usb_submit_urb+0x1057/0x18b0 drivers/usb/core/urb.c:411, CPU#0: syz.0.17/5521
-Modules linked in:
-CPU: 0 UID: 0 PID: 5521 Comm: syz.0.17 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
-RIP: 0010:usb_submit_urb+0x1100/0x18b0 drivers/usb/core/urb.c:411
-Code: b8 00 00 00 00 00 fc ff df 41 0f b6 04 04 84 c0 0f 85 b2 05 00 00 45 0f b6 45 00 48 8b 3c 24 48 8b 74 24 18 4c 89 f2 44 89 f9 <67> 48 0f b9 3a 48 bd 00 00 00 00 00 fc ff df e9 ba f2 ff ff 44 89
-RSP: 0000:ffffc9000228f8d8 EFLAGS: 00010246
-RAX: 0000000000000000 RBX: ffff888044085800 RCX: 0000000080000280
-RDX: ffff88801317fa20 RSI: ffffffff8cc57b40 RDI: ffffffff91885110
-RBP: dffffc0000000000 R08: 00000000000000c0 R09: 0000000000000000
-R10: ffffc9000228f9c0 R11: fffff52000451f44 R12: 1ffff11003c397d4
-R13: ffff88801e1cbea0 R14: ffff88801317fa20 R15: 0000000080000280
-FS:  0000555560660500(0000) GS:ffff88808b0b4000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f1c3f68e000 CR3: 00000000440b1000 CR4: 0000000000352ef0
-Call Trace:
- <TASK>
- usb_start_wait_urb+0x13f/0x5b0 drivers/usb/core/message.c:62
- usb_internal_control_msg drivers/usb/core/message.c:117 [inline]
- usb_control_msg+0x234/0x3e0 drivers/usb/core/message.c:167
- ec168_ctrl_msg+0x308/0x7c0 drivers/media/usb/dvb-usb-v2/ec168.c:73
- ec168_i2c_xfer+0x10e/0x630 drivers/media/usb/dvb-usb-v2/ec168.c:127
- __i2c_transfer+0x7bf/0x1fe0 drivers/i2c/i2c-core-base.c:-1
- i2c_transfer+0x1cb/0x2d0 drivers/i2c/i2c-core-base.c:2350
- i2cdev_ioctl_rdwr+0x460/0x740 drivers/i2c/i2c-dev.c:306
- i2cdev_ioctl+0x6a5/0x880 drivers/i2c/i2c-dev.c:467
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:597 [inline]
- __se_sys_ioctl+0xfc/0x170 fs/ioctl.c:583
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x166/0x520 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7fa9f059e559
-Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffd4b173ed8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007fa9f0825fa0 RCX: 00007fa9f059e559
-RDX: 0000200000000200 RSI: 0000000000000707 RDI: 0000000000000004
-RBP: 00007fa9f06358b0 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007fa9f0825fac R14: 00007fa9f0825fa0 R15: 00007fa9f0825fa0
- </TASK>
-----------------
-Code disassembly (best guess):
-   0:	b8 00 00 00 00       	mov    $0x0,%eax
-   5:	00 fc                	add    %bh,%ah
-   7:	ff                   	lcall  (bad)
-   8:	df 41 0f             	filds  0xf(%rcx)
-   b:	b6 04                	mov    $0x4,%dh
-   d:	04 84                	add    $0x84,%al
-   f:	c0 0f 85             	rorb   $0x85,(%rdi)
-  12:	b2 05                	mov    $0x5,%dl
-  14:	00 00                	add    %al,(%rax)
-  16:	45 0f b6 45 00       	movzbl 0x0(%r13),%r8d
-  1b:	48 8b 3c 24          	mov    (%rsp),%rdi
-  1f:	48 8b 74 24 18       	mov    0x18(%rsp),%rsi
-  24:	4c 89 f2             	mov    %r14,%rdx
-  27:	44 89 f9             	mov    %r15d,%ecx
-* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
-  2f:	48 bd 00 00 00 00 00 	movabs $0xdffffc0000000000,%rbp
-  36:	fc ff df
-  39:	e9 ba f2 ff ff       	jmp    0xfffff2f8
-  3e:	44                   	rex.R
-  3f:	89                   	.byte 0x89
+[ ... ]
 
+> @@ -181,11 +189,148 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+>  	return 0;
+>  }
+> =20
+> +static irqreturn_t ohci_omap_overcurrent_irq(int irq, void *data)
+> +{
+> +	struct usb_hcd *hcd =3D data;
+> +	struct ohci_omap_priv *priv =3D hcd_to_ohci_omap_priv(hcd);
+> +	unsigned long flags;
+> +	int status;
+> +
+> +	status =3D gpiod_get_value_cansleep(priv->overcurrent);
+> +	if (status < 0)
+> +		return IRQ_HANDLED;
+> +
+> +	if (status && priv->power)
+> +		gpiod_set_value_cansleep(priv->power, 1);
+> +
+> +	spin_lock_irqsave(&priv->overcurrent_lock, flags);
+> +	if (!!status !=3D priv->overcurrent_status)
+> +		priv->overcurrent_changed =3D true;
+> +	priv->overcurrent_status =3D !!status;
+> +	spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+[Severity: High]
+Can ohci_omap_overcurrent_irq() race with ohci_omap_hub_control() and leave
+VBUS power enabled during an active overcurrent condition?
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+When an overcurrent interrupt fires, ohci_omap_overcurrent_irq() drives
+priv->power to 1 before acquiring priv->overcurrent_lock and setting
+priv->overcurrent_status =3D true.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+If ohci_omap_hub_control() handles SetPortFeature(USB_PORT_FEAT_POWER) at
+the same time (for instance during root hub activation or port power
+recovery), it can check priv->overcurrent_status after
+ohci_omap_overcurrent_irq() cuts VBUS power, still see
+priv->overcurrent_status =3D=3D false, and call
+gpiod_set_value_cansleep(priv->power, 0) to turn VBUS back on just before
+ohci_omap_overcurrent_irq() records priv->overcurrent_status =3D true.
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Should the overcurrent_status update and the VBUS power GPIO state changes
+be serialized under a sleeping lock such as a mutex?
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+[ ... ]
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+> +static int ohci_omap_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 w=
+Value,
+> +				 u16 wIndex, char *buf, u16 wLength)
+> +{
+> +	struct ohci_omap_priv *priv =3D hcd_to_ohci_omap_priv(hcd);
+> +	unsigned long flags;
+> +	int ret;
+> +
+> +	/*
+> +	 * Drive the VBUS power GPIO alongside the OHCI hardware register.
+> +	 * On boards like the OSK, the OHCI PPS bit does not control the
+> +	 * real power switch =E2=80=94 the GPIO does.
+> +	 */
+> +	if (priv->power && wIndex =3D=3D 1) {
+> +		if (typeReq =3D=3D SetPortFeature &&
+> +		    wValue =3D=3D USB_PORT_FEAT_POWER) {
+> +			ret =3D ohci_hub_control(hcd, typeReq, wValue,
+> +					       wIndex, buf, wLength);
+> +			if (!ret) {
+> +				spin_lock_irqsave(&priv->overcurrent_lock,
+> +						  flags);
+> +				if (!priv->overcurrent_status)
+> +					gpiod_set_value_cansleep(priv->power,
+> +								 0);
+> +				spin_unlock_irqrestore(&priv->overcurrent_lock,
+> +						       flags);
+> +			}
+> +			return ret;
+> +		}
 
-If you want to undo deduplication, reply with:
-#syz undup
+[Severity: High]
+Doesn't calling gpiod_set_value_cansleep() while holding
+priv->overcurrent_lock in ohci_omap_hub_control() sleep in atomic context?
+
+During probe (usb_add_hcd() -> register_root_hub() -> hub_probe() ->
+hub_activate() -> hub_power_on()) or port power recovery, USB core sends
+SetPortFeature(USB_PORT_FEAT_POWER) for port 1.
+
+gpiod_set_value_cansleep() calls might_sleep(), and on OMAP1 OSK the
+"power" GPIO resides on the I2C-attached TPS65010 PMIC:
+
+arch/arm/mach-omap1/board-osk.c:osk_usb_gpio_table:
+	/* Power GPIO on the I2C-attached TPS65010 */
+	GPIO_LOOKUP("tps65010", OSK_TPS_GPIO_USB_PWR_EN, "power",
+		    GPIO_ACTIVE_HIGH),
+
+drivers/mfd/tps65010.c:tps65010_set_gpio_out_value():
+	mutex_lock(&the_tps->lock);
+
+	defgpio =3D i2c_smbus_read_byte_data(the_tps->client, TPS_DEFGPIO);
+
+Calling this inside spin_lock_irqsave(&priv->overcurrent_lock, flags)
+acquires a mutex and performs blocking I2C SMBus transfers with preemption
+and local interrupts disabled.
+
+[ ... ]
+
+> @@ -277,23 +425,76 @@ static int ohci_hcd_omap_probe(struct platform_devi=
+ce *pdev)
+>  	if (!hcd->regs) {
+>  		dev_err(&pdev->dev, "can't ioremap OHCI HCD\n");
+>  		retval =3D -ENOMEM;
+> -		goto err2;
+> +		goto err_release_mem;
+>  	}
+> =20
+>  	irq =3D platform_get_irq(pdev, 0);
+>  	if (irq < 0) {
+>  		retval =3D irq;
+> -		goto err3;
+> +		goto err_iounmap;
+>  	}
+> +
+>  	retval =3D usb_add_hcd(hcd, irq, 0);
+>  	if (retval)
+> -		goto err3;
+> +		goto err_iounmap;
+> +
+> +	if (priv->overcurrent) {
+> +		int status;
+> +		unsigned long flags;
+> +
+> +		priv->overcurrent_irq =3D gpiod_to_irq(priv->overcurrent);
+> +		if (priv->overcurrent_irq < 0) {
+> +			retval =3D priv->overcurrent_irq;
+> +			goto err_remove_hcd;
+> +		}
+> +
+> +		retval =3D request_threaded_irq(priv->overcurrent_irq, NULL,
+> +					      ohci_omap_overcurrent_irq,
+> +					      IRQF_ONESHOT | IRQF_NO_AUTOEN |
+> +					      IRQF_TRIGGER_RISING |
+> +					      IRQF_TRIGGER_FALLING,
+> +					      "ohci-omap-overcurrent", hcd);
+> +		if (retval) {
+> +			priv->overcurrent_irq =3D -1;
+> +			goto err_remove_hcd;
+> +		}
+> +
+> +		status =3D gpiod_get_value_cansleep(priv->overcurrent);
+> +		if (status < 0) {
+> +			retval =3D status;
+> +			goto err_remove_hcd;
+> +		}
+> +
+> +		spin_lock_irqsave(&priv->overcurrent_lock, flags);
+> +		priv->overcurrent_status =3D !!status;
+> +		priv->overcurrent_changed =3D !!status;
+> +		spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
+> +
+> +		if (status && priv->power)
+> +			gpiod_set_value_cansleep(priv->power, 1);
+> +
+> +		enable_irq(priv->overcurrent_irq);
+> +		if (status)
+> +			usb_hcd_poll_rh_status(hcd);
+> +	}
+
+[Severity: Medium]
+Should the initial overcurrent GPIO state and IRQ setup happen before
+usb_add_hcd() enables VBUS and registers the root hub?
+
+Inside usb_add_hcd():
+1. hcd->driver->reset() calls ohci_omap_reset(), which unconditionally
+   enables VBUS via gpiod_set_value_cansleep(priv->power, 0) before
+   priv->overcurrent is sampled.
+2. hcd->driver->start() calls ohci_run(), which sleeps with VBUS enabled
+   and no overcurrent IRQ registered.
+3. register_root_hub() runs hub_probe() -> hub_configure() ->
+   hub_activate() -> hub_power_on(), issuing
+   SetPortFeature(USB_PORT_FEAT_POWER) to ohci_omap_hub_control() while
+   priv->overcurrent_status is still false, so priv->power is driven to 0
+   even if an overcurrent condition is already present.
+
+Furthermore, because the root hub is already registered and exposed to
+hub_wq before usb_add_hcd() returns, unconditionally assigning
+priv->overcurrent_status and priv->overcurrent_changed here can overwrite
+concurrent root hub status queries or ClearPortFeature requests.
+
+> =20
+>  	device_wakeup_enable(hcd->self.controller);
+>  	return 0;
+> -err3:
+> +
+> +err_remove_hcd:
+> +	if (priv->overcurrent_irq >=3D 0) {
+> +		free_irq(priv->overcurrent_irq, hcd);
+> +		priv->overcurrent_irq =3D -1;
+> +	}
+> +	usb_remove_hcd(hcd);
+> +	omap_ohci_clock_power(priv, 0);
+> +	if (!IS_ERR_OR_NULL(hcd->usb_phy)) {
+> +		(void)otg_set_host(hcd->usb_phy->otg, NULL);
+> +		usb_put_phy(hcd->usb_phy);
+> +	}
+> +err_iounmap:
+>  	iounmap(hcd->regs);
+> -err2:
+> +err_release_mem:
+>  	release_mem_region(hcd->rsrc_start, hcd->rsrc_len);
+>  err_unprepare_dc_ck:
+>  	clk_unprepare(priv->usb_dc_ck);
+> @@ -327,6 +528,10 @@ static void ohci_hcd_omap_remove(struct platform_dev=
+ice *pdev)
+>  	struct ohci_omap_priv *priv =3D hcd_to_ohci_omap_priv(hcd);
+> =20
+>  	dev_dbg(hcd->self.controller, "stopping USB Controller\n");
+> +	if (priv->overcurrent_irq >=3D 0) {
+> +		free_irq(priv->overcurrent_irq, hcd);
+> +		priv->overcurrent_irq =3D -1;
+> +	}
+>  	usb_remove_hcd(hcd);
+>  	omap_ohci_clock_power(priv, 0);
+>  	if (!IS_ERR_OR_NULL(hcd->usb_phy)) {
+
+[Severity: Medium]
+Does VBUS power remain enabled via priv->power if probe fails at
+err_remove_hcd or when ohci_hcd_omap_remove() unbinds the driver?
+
+During usb_add_hcd(), ohci_omap_reset() and hub_power_on() drive
+priv->power to 0 to turn on VBUS. When usb_remove_hcd() runs in
+err_remove_hcd or ohci_hcd_omap_remove(), neither hub_disconnect() nor
+ohci_stop() issues ClearPortFeature(USB_PORT_FEAT_POWER), and resetting the
+OHCI registers does not turn off the external GPIO power switch.
+
+Should err_remove_hcd and ohci_hcd_omap_remove() drive priv->power to 1
+after usb_remove_hcd() so VBUS is not left powered on without an active HCD
+or overcurrent interrupt handler?
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261018155355.1162=
+90-1-ampr.mhd@gmail.com?part=3D1
