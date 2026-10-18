@@ -1,47 +1,42 @@
 Received: from mail.unwrap.rs (mail.unwrap.rs [172.232.15.166])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20793E7635;
-	Sun, 18 Oct 2026 16:40:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BEC63F1044;
+	Sun, 18 Oct 2026 16:41:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=172.232.15.166
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792341652; cv=none; b=rlv9A62uRjPHfrTVhUdf9uCILDjTmhq5aktMnQsseOz7hL7Wx1Bjphn2rnB0JfIdrvPAnKjzyO8RICriclCKUD0QA7p+jMSh/rBy4otBNixJKTsaOjeJPSm3T4TuSK1LT3hKG3c7n1dbXheB9rPdOBnGb7NBTxjzuZ4Wt6DA9Ug=
+	t=1792341721; cv=none; b=X6hIEfIaV7xpQYXRyRILPOeW0+brN9v+KBJsw4R3SmP1BOi5sz7aKKL6Aw3Pp6liHIZRVxROT7hxMoMvZR5uOiAKiO494ppsn09TJAf1CfICdY63kyC0/zv2q1Gvm9eE3Kzc1dq8BGBvzrNJA7+CyJcEsDEN1EAUkSpeNDvC310=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792341652; c=relaxed/simple;
-	bh=nVV5hLo3lhMdEwNew1hXXqrUuhb4wCfRP6Bk4IDz68I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kudEacZsHnHbReNaGNY8rwD9HSIdkfx5x3qWNKvjEnxa3dhtCGXqC27Dq4HvH8Vo6u9L00n2DOihPyo+QhRW5cWV9SZdsi/uWbELpM8cqpTAcLHH7BYtHR9jKEUH3goMZBggvO5R6S/MHEo11ZIy0j/Yjvfy/ig7vm4GyefIc8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs; spf=pass smtp.mailfrom=unwrap.rs; dkim=pass (2048-bit key) header.d=unwrap.rs header.i=@unwrap.rs header.b=PDOE5Zk8; dkim=permerror (0-bit key) header.d=unwrap.rs header.i=@unwrap.rs header.b=LTiWAMzU; arc=none smtp.client-ip=172.232.15.166
+	s=arc-20240116; t=1792341721; c=relaxed/simple;
+	bh=hGmLVsblAGabHmvZzEwwReewowZajH/dW6cuAGTB8ZI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=anLdR6/ajSlY3Uq5aB6EPNL9TgmSqZYqrik6uHPid9l89nP7yGj/COP9Mj+z32RXC9Y6TGqkh22liyOnxB3aP0bYEHjskr697bDooidHvkQxyQs4jqYsYjIL114IBumf7ITOAIg6Yeyvhl4LaxIob/J3mTruW9NGVIOa2nI1r6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs; spf=pass smtp.mailfrom=unwrap.rs; dkim=pass (2048-bit key) header.d=unwrap.rs header.i=@unwrap.rs header.b=GjXGD7u2; dkim=permerror (0-bit key) header.d=unwrap.rs header.i=@unwrap.rs header.b=NiqJwT/H; arc=none smtp.client-ip=172.232.15.166
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=unwrap.rs
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=unwrap.rs
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=unwrap.rs header.i=@unwrap.rs header.b="PDOE5Zk8";
-	dkim=permerror (0-bit key) header.d=unwrap.rs header.i=@unwrap.rs header.b="LTiWAMzU"
+	dkim=pass (2048-bit key) header.d=unwrap.rs header.i=@unwrap.rs header.b="GjXGD7u2";
+	dkim=permerror (0-bit key) header.d=unwrap.rs header.i=@unwrap.rs header.b="NiqJwT/H"
 DKIM-Signature: v=1; a=rsa-sha256; s=202503r; d=unwrap.rs; c=relaxed/relaxed; r=y;
-	h=Message-ID:Date:Subject:To:From:Content-Type; t=1792341500; bh=U7bcq8j8Sw
-	Ky1TxDWfDhROsbzUnuOp7UQWlvXe/q4IM=; b=PDOE5Zk8EkYLHIDnzhfQ+6HDACMbRrVQx3Ddk
-	vAsK9D9e6RvM+DXbNlX3jHBjcs/zNBEy4jv3c6VLKaIn4nDl2HeYO7ccYnvPgceMvFJQTSfak3F
-	Q05hNMHZH606BapN/VzM13wDLBGYUzKhPvsCnzLAEJQvDHn/id1iFHQ1fpNC02AOkpxiBvQYTxB
-	x1ft9x6/QG134v1ApCc6+8O/Uct8vAma16Kg5v1VdNZPlAeiLLzC4iEKz+WMrUyqCJ2Nq0CCvAv
-	8zlAJ3dtmO5GZ9dab7BWvOp94UogRZn3sed3ORMuZbWJzb23gMtsViA/UDdndLDbz8ZdmFRMfj6
-	/m60g==;
+	h=Message-ID:Date:Subject:To:From:Content-Type; t=1792341715; bh=v2p66xuZqY
+	iKMK4lP1Xh2fqmBVHwLGyF3dq2Tb2Ypkg=; b=GjXGD7u2z2jRdoHbca7d2WdlVAkgrV/ZCeLLE
+	rz0DlB1r11bDcHcHG9FCXgEXVUkgA1fdgYsU08Tlx0Q5gwmK4j2tOu1P0r3bvJuMhBQCEUhzuOl
+	cRE+MQujZ1DktlocFz3/JSh4bwoEKMDvvNBWUkE1CI8IPzau5JO6UAGtm33cWMAEQQlR8SdCTs5
+	OlpCzOQgK3f1A58M1+F+YpF/N9vHbwtS0KyMXRpZFNbUN04hkBlEaWD230N3x3Tw0Nu2f2LepAm
+	6VY0H7Jr16u6j/ECIfa6cn1zIv6ITv5KbRZ30hVbp6lNohWl5mHmbv9EEREqYOIhr3kBBpgsJZ7
+	ejakg==;
 DKIM-Signature: v=1; a=ed25519-sha256; s=202503e; d=unwrap.rs; c=relaxed/relaxed;
-	h=Message-ID:Date:Subject:To:From:Content-Type; t=1792341500; bh=U7bcq8j8Sw
-	Ky1TxDWfDhROsbzUnuOp7UQWlvXe/q4IM=; b=LTiWAMzUfBJA28VcePyw/1R0S8hNJvMxw5KGE
-	5+DNCZKHchdmakVILDtgKl+4oOvsdcWvm5URmvFUpNpv8FhCw==;
+	h=Message-ID:Date:Subject:To:From:Content-Type; t=1792341715; bh=v2p66xuZqY
+	iKMK4lP1Xh2fqmBVHwLGyF3dq2Tb2Ypkg=; b=NiqJwT/HQDbmVfCsBK9tAxHiX594O0MPf2mhf
+	Uz3nf034XnCDi7J9qg61o76/L3u9HsaYwXIb5t7E113enZoCQ==;
 From: Cole Leavitt <cole@unwrap.rs>
-To: Bjorn Helgaas <bhelgaas@google.com>,
-	Mika Westerberg <westeri@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Cole Leavitt <cole@unwrap.rs>,
-	Lukas Wunner <lukas@wunner.de>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	linux-pci@vger.kernel.org,
+	Alan Stern <stern@rowland.harvard.edu>,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 0/2] PCI: pciehp / thunderbolt: Fix resume with a slow Thunderbolt host link
-Date: Sun, 18 Oct 2026 12:37:14 -0400
-Message-ID: <20261018163750.130470-1-cole@unwrap.rs>
+Subject: [PATCH] USB: hcd-pci: Do not disable an already disabled device on remove
+Date: Sun, 18 Oct 2026 12:41:02 -0400
+Message-ID: <20261018164134.134106-1-cole@unwrap.rs>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -51,37 +46,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On a Lenovo ThinkPad P16 Gen 3 with a discrete Intel JHL9580 (Barlow
-Ridge) Thunderbolt 5 host controller below Root Port 0000:80:1b.4,
-resume from suspend-to-idle intermittently hangs with a black screen.
-The link to the controller is not up in time when the Root Port leaves
-D3cold, pciehp concludes that the device in the slot was replaced, and
-the resulting removal races with the thunderbolt driver's
-->resume_noirq() callback, which dereferences tb->root_switch after
-tb_stop() cleared it.
+suspend_common() calls pci_disable_device() and resume_common()
+re-enables the device. If the host controller is hot-removed during
+system resume before its ->resume() callback ran (for example pciehp
+handling a Thunderbolt/USB4 dock or host router that did not come back),
+usb_hcd_pci_remove() drops the enable count a second time:
 
-Patch 1 defers acting on the synthesized Presence Detect Changed event
-in pciehp until the ->resume() phase, where the PM core serializes the
-removal against the drivers below the port.
+  xhci_hcd 0000:b2:00.0: disabling already-disabled device
+  WARNING: drivers/pci/pci.c:2198 at pci_disable_device+0xac/0xc0, CPU#9: irq/128-pciehp/225
+  Call Trace:
+   xhci_pci_remove+0x89/0xd0
+   pci_device_remove+0x4a/0xb0
+   device_release_driver_internal+0x19e/0x200
+   pci_stop_bus_device+0x63/0x70
+   pci_stop_and_remove_bus_device+0x16/0x30
+   pciehp_unconfigure_device+0x96/0x170
+   pciehp_disable_slot+0x66/0x100
+   pciehp_handle_presence_or_link_change+0x62/0x190
+   pciehp_ist+0x14f/0x1d0
 
-Patch 2 stops the thunderbolt software connection manager from going
-through its resume sequence when nhi_resume_noirq() already found that
-the host controller is gone.  Without it every control channel request
-fails with -ESHUTDOWN and triggers a WARN in tb_cfg_read() or
-tb_cfg_write().
+(usb_hcd_pci_remove() tail-calls pci_disable_device(), hence it is not
+in the trace.)
 
-The patches are independent and can be applied through the PCI and
-thunderbolt trees separately.
+Only disable the device if it is still enabled.
 
-Cole Leavitt (2):
-  PCI: pciehp: Defer device replacement handling until ->resume()
-  thunderbolt: Don't resume the software CM if the host controller is
-    gone
+Fixes: a0d4922da2e4 ("USB: fix up suspend and resume for PCI host controllers")
+Signed-off-by: Cole Leavitt <cole@unwrap.rs>
+---
 
- drivers/pci/hotplug/pciehp_core.c | 26 ++++++++++++++++++++++++--
- drivers/thunderbolt/tb.c          | 13 +++++++++++++
- 2 files changed, 37 insertions(+), 2 deletions(-)
+Notes:
+    Tested on a Lenovo ThinkPad P16 Gen 3 (Core Ultra 9 275HX, JHL9580
+    Barlow Ridge host, I226 Ethernet), in daily use since 2026-09-17.
 
+ drivers/usb/core/hcd-pci.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+index cd223475917e..ae5175fefd91 100644
+--- a/drivers/usb/core/hcd-pci.c
++++ b/drivers/usb/core/hcd-pci.c
+@@ -348,7 +348,13 @@ void usb_hcd_pci_remove(struct pci_dev *dev)
+ 	usb_put_hcd(hcd);
+ 	if ((hcd_driver_flags & HCD_MASK) < HCD_USB3)
+ 		pci_free_irq_vectors(dev);
+-	pci_disable_device(dev);
++	/*
++	 * suspend_common() disables the device. If the controller is
++	 * hot-removed during system resume before resume_common() had a
++	 * chance to re-enable it, there is nothing left to disable.
++	 */
++	if (pci_is_enabled(dev))
++		pci_disable_device(dev);
+ }
+ EXPORT_SYMBOL_GPL(usb_hcd_pci_remove);
+ 
 
 base-commit: 32c52ec87d6245ee2d12ed5dd509e40062939b50
 -- 
