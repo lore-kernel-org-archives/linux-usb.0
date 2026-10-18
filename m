@@ -1,36 +1,39 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466403CB8F5;
-	Sun, 18 Oct 2026 06:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AD532B13E;
+	Sun, 18 Oct 2026 08:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792305718; cv=none; b=XNIUaeIsFOwAnOYSRoEKBEy72YRNXbct/qZfg4cCZQC8ldVJpxvlPOyYT1cs0lOa4Ok+ZTrFULItbYk3y1aM8Aj6LzXj7V8tJDhJTkEJKb0giTErtvnlRGj9YCSSBu5Xz+G4G63lAKlQH+V8Hz85/FMko3s87A0SB8fl1968D+A=
+	t=1792311558; cv=none; b=WuwE5Ao1J1L5fzh4KzSmb3a2QWmTiXNxTXfOovMCJJRZStKCiWZPA4qqlZYq4eppWrQ/AAH7emn6t/YcHeA7D0OK06E+D9/+omPhuwjuqklJaCqkZcu204M/bI5ajZl0gZlgDYJfn2rif75GAU8HjE2c0PKMIMgnC+sE0ZksRMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792305718; c=relaxed/simple;
-	bh=rs5ZHwE3LsmfIanNp+/BzRrIaCnPTb7maIaogFzNqXo=;
+	s=arc-20240116; t=1792311558; c=relaxed/simple;
+	bh=4QUD4emdW0rO2zG3qPgumkCr5bVggmy1qTIcZ2SptDs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FBYdrqm+IogoUsQtvXpg6mCBuz+6yhwdsrX32uOMfIhuUVobFh8iYPqI6SSadaH1dCwUlmcaz7WI34xXfixyiwSeb5g41IfrMHL/MfkWhLgNkOVjLxeNTVQae8mH1Wi8Nkq6JOpcWW3oKhMROyikdC5KSV5pd2rWa+QwFWtmQ6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1mwKXegi; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=flX3W7OX6nbTqdls2yhFlqNAJYxS5iI3b5Aqlj5JhKnLh1eaYKbe7TV3EgDFbvqkXt2BrRpcHBc3P8irMayEuhWrM+CAYBtQUcGvLc4PXSH30sL2nN5tYcuLxWwbD3gmayOwwLfoE1R3ortx59PQiVc+iAwb/1Xh+4xUlJyXgHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wVCgTqDg; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1mwKXegi"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5327F1F000C4;
-	Sun, 18 Oct 2026 06:41:56 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wVCgTqDg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A9041F000C4;
+	Sun, 18 Oct 2026 08:19:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792305716;
-	bh=A4xXl+sehu91x+nUAj2UWN80XDpdbu0ZTl7Uc0bSKgA=;
+	s=korg; t=1792311556;
+	bh=7+f+K98c1MlbjTLqXaEBYt49K9dOeXTOw7oluMlYA/A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=1mwKXegihC7AZN6aPtbv47zcil/pTBahIl5PTeCLuKc3m6IteOFh612J5AAgmVhVD
-	 OnIJwlE/St0KKUPGsE7aF/jJISHqySQCtcV0JOQLNmJaHxfIHyCCKg0+lTtYiNpiCB
-	 b6OPQUEkHC+7PqbS3I0vEgXgfLII2LSMm+3ujX5Y=
-Date: Sun, 18 Oct 2026 08:41:52 +0200
+	b=wVCgTqDgjg42YIPB/LXOI/avaLk+R+y5Xnwr4Cz5lMUvVollPLcSXOumxSQhfv6VG
+	 fQHDgV7n+Xv5KzMrxxmnoM4dnxAYrtj69B54cWcDLO6H8ESDAyhJ8ZjEoPmVbkinA4
+	 vn/3eixzyISJ4/OeBPCxNSZjaaJaBENk5cGcsKL8=
+Date: Sun, 18 Oct 2026 10:19:13 +0200
 From: Greg KH <gregkh@linuxfoundation.org>
-To: m-amirpour <ampr.mhd@gmail.com>
-Cc: stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
-	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: ohci-omap: handle root hub overcurrent
-Message-ID: <2026101840-starch-blaspheme-0e4a@gregkh>
-References: <20261018015747.246611-1-ampr.mhd@gmail.com>
+To: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
+Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com,
+	Alan Stern <stern@rowland.harvard.edu>
+Subject: Re: [PATCH usb-next v2] USB: gadget: Fix UAF on refcount inside
+ gadgetfs_bind()
+Message-ID: <2026101857-transform-hazelnut-4715@gregkh>
+References: <20260905003607.1686172-1-rafad900@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -39,42 +42,76 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261018015747.246611-1-ampr.mhd@gmail.com>
+In-Reply-To: <20260905003607.1686172-1-rafad900@gmail.com>
 
-On Sun, Oct 18, 2026 at 05:27:47AM +0330, m-amirpour wrote:
-> Handle overcurrent GPIO interrupts, disable port power when
-> overcurrent is detected, and report the status through the
-> root hub port status.
+On Fri, Sep 04, 2026 at 05:36:07PM -0700, Rafael Alejandro Diaz Cruz wrote:
+> When usb_ep_alloc_request() fails, gadgetfs_bind() takes
+> the following error path:
 > 
-> Signed-off-by: m-amirpour <ampr.mhd@gmail.com>
+> if (!dev->req)
+>         goto enomem;
+> // ...
+> 
+> enomem:
+> 	gadgetfs_unbind (gadget);
+> 	return -ENOMEM;
+> 
+> In normal case, get_dev() will be called to increment
+> refcounter from gadget->dev->count but in error case,
+> this increment is skipped and gadgetfs_unbind() will
+> decrement it via put_dev().
+> 
+> Going down the error path leads to a refcount imbalance
+> which will cause UAF in close()/umount() operations
+> due to refcount dropping below 0.
+> 
+> Fix this by moving get_dev() above the error paths so
+> that refcounter is incremented before the put_dev()
+> call.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Reported-by: syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
+> Link: https://syzkaller.appspot.com/bug?extid=4a5c87a01894ca37f25c
+> Signed-off-by: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
+> Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
 > ---
->  drivers/usb/host/ohci-omap.c | 212 +++++++++++++++++++++++++++++++----
->  1 file changed, 191 insertions(+), 21 deletions(-)
+> Changes from v1:
+>     Removed syzkaller reference in description
+> 
+>     Added Reviewed-by: tag. 
+> 
+>  drivers/usb/gadget/legacy/inode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
+> index 3e2bce7543d4..181b19e7fc2f 100644
+> --- a/drivers/usb/gadget/legacy/inode.c
+> +++ b/drivers/usb/gadget/legacy/inode.c
+> @@ -1679,6 +1679,7 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
+>  	}
+>  
+>  	set_gadget_data (gadget, dev);
+> +	get_dev(dev);
+>  	dev->gadget = gadget;
+>  	gadget->ep0->driver_data = dev;
+>  
+> @@ -1696,7 +1697,6 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
+>  	spin_lock_irq(&dev->lock);
+>  	dev->state = STATE_DEV_UNCONNECTED;
+>  	spin_unlock_irq(&dev->lock);
+> -	get_dev (dev);
+>  	return 0;
+>  
+>  enomem:
+> -- 
+> 2.43.0
+> 
+> 
 
-Hi,
-
-This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
-a patch that has triggered this response.  He used to manually respond
-to these common problems, but in order to save his sanity (he kept
-writing the same thing over and over, yet to different people), I was
-created.  Hopefully you will not take offence and will fix the problem
-in your patch and resubmit it so that it can be accepted into the Linux
-kernel tree.
-
-You are receiving this message because of the following common error(s)
-as indicated below:
-
-- It looks like you did not use your "real" name for the patch on either
-  the Signed-off-by: line, or the From: line (both of which have to
-  match).  Please read the kernel file,
-  Documentation/process/submitting-patches.rst for how to do this
-  correctly.
-
-If you wish to discuss this problem further, or you have questions about
-how to resolve this issue, please feel free to respond to this email and
-Greg will reply once he has dug out from the pending patches received
-from other developers.
+I think
+https://lore.kernel.org/r/20260811060810.295666-1-khiemtranzo532001@gmail.com
+was send before yours.
 
 thanks,
 
-greg k-h's patch email bot
+greg k-h
