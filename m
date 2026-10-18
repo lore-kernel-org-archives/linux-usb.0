@@ -1,81 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 221B43DEAEB
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 16:45:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E64233F927B;
+	Sun, 18 Oct 2026 16:45:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792341933; cv=none; b=Urx69kkrQBF2KkuuDWI3OHCQM0SSNv/O3x6VAzsMsK7DMJ2rkU/83c3sO5IMdkV5BHrpJmbShbVR+z3ySVlXSrfUPr07KZV/HkukO7yerSfL/cnxZEM7jToOsq64GWGqPOsMKq2BTimP5MuZFhvvuj8jpKr5D/oOnMO0Xw1qTok=
+	t=1792341965; cv=none; b=lwKyOv9xim+Ujn0Di1ksi8teUdW5w3wemfwYs4ekCX9vl66gDBc9Fq4/8ZLduRSTp3VQH6kfcD63/bNvSXGkFi6xNx2GbvYyl5sKG7Y5KFlTQboPqAYDmTZB1Ux4LBHhA0wTpM4b11ga6IhXv7XNlQn2y57B+eVCyJ1tJ4UowHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792341933; c=relaxed/simple;
-	bh=SS7qDGTk7HYzo62Z/tccYpCaWMTfK1Nl0uNv3vQNbP0=;
+	s=arc-20240116; t=1792341965; c=relaxed/simple;
+	bh=8l8//CCQnTFe5UMcwC4wmxjdbCS6zXkcL/xUHA7gqeY=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=TRfkmwtRqrqrivsPMo79qQf4T3xniHlFjfgXErxckbwfPe5sC5yfOvathOuqKIDFDG2T13H5dULeVh3UIjt/4QgRT90AIkQkyIxPZn62zIsswyOikKQhSzL9pLEcprcrs8OyXhwfl63sIKD8LZt6EbRQrfePpT+ciaagzWkmU0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mC68yuxa; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=Q84PsxVfQR5w4o7c+Ai2jP74/V8RbXmyg4l4QVcCPs65QvykNagtoq0rl+ihB9H3K2Lh2gsGDB8n2WgAjW0il//6mxmmsvMUehzAF5ZZcy9/WdI6ctlsHnSMrk4+c5WCk6H4ia0FzvJs478YYXADV+nZQN27T6B7wT8VaBU39Fc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jCKU2Dih; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mC68yuxa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7C43C1F000C4;
-	Sun, 18 Oct 2026 16:45:28 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jCKU2Dih"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FA1A1F000C4;
+	Sun, 18 Oct 2026 16:45:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792341928;
-	bh=b6HlfSF96CDrmRe0ToMhHcWTLN8ahzYFC6jfW2ufdMM=;
+	s=k20260515; t=1792341959;
+	bh=+vM4Se0anLQr1YB4ILyOf7hv1ONUyczoMSJyi6qst0U=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=mC68yuxafFuXGA3CzIVZEPw+KTHHc7ZJ7VkyyHMlOnQWMBarDqW4z+EqNUTwkBcUJ
-	 kmiQcjMfkvdpw5m/zp/KwT0TwEM6GAaTEC5svymN5HSK0Fd+lW29+VK3jHvnd7LkGo
-	 GuiY2c1bfQr11xSAB8FxlV6ou89hxPgAxf5GyDmFNXM/+S5vHYf1ZIjjBSJjuoZ1u6
-	 3EITv4F1MjJkj0lZVDQZ1aKV7RScONeWUCehUZwkpDTm/GnWV6we/A/lWy/qP7PJRc
-	 riK5e9rcMSNVlAMrwtVIqcJF3rcUCKrE22HKBDt3u3xqVr85j9id+WkPPDNvVy2jNr
-	 /H+CNdmhk3lcw==
-Message-ID: <sashiko-outbox-176290@kernel.org>
+	b=jCKU2DihG8v7Vw5uVjWVLxQTy/TdYEmUbVPqxfMydvPnoJFBnm7sKrduSny1qungB
+	 GhBMQhMzLYfWF3kwryKYUBvnwLqFsfW49uGNlZ9T0kCDG5dmFO/eM20zhFgPU7Xqow
+	 xVFw2YlFcIaCcJb28XV42Cx6zp3Yxtdo91uJj3XzyCivG+ZarKfqriewda+VpZ5hpa
+	 NUNfA7mGW+TwhHRmuKxUg3DThIMO80fJvuiKku7/XncwWJsosFsLEn2Ky2F5QT91y1
+	 IywN166yUx3eUAxCHeKogHInxh4QVoXsBzR99hZSvtx4m1JWOgyCuedxA29PuJoJTl
+	 oSwQ3b5yOE6Hw==
+Message-ID: <sashiko-outbox-176291@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] USB: hcd-pci: Do not disable an already disabled device
- on remove
+Subject: Re: [PATCH 2/2] thunderbolt: Don't resume the software CM if the
+ host controller is gone
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cole Leavitt" <cole@unwrap.rs>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261018164134.134106-1-cole@unwrap.rs>
-References: <20261018164134.134106-1-cole@unwrap.rs>
+Cc: linux-pci@vger.kernel.org, linux-usb@vger.kernel.org
+In-Reply-To: <20261018163910.132231-2-cole@unwrap.rs>
+References: <20261018163750.130470-1-cole@unwrap.rs>
+ <20261018163910.132231-1-cole@unwrap.rs>
+ <20261018163910.132231-2-cole@unwrap.rs>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 18 Oct 2026 16:45:27 +0000
+Date: Sun, 18 Oct 2026 16:45:58 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> suspend_common() calls pci_disable_device() and resume_common()
-> re-enables the device. If the host controller is hot-removed during
-> system resume before its ->resume() callback ran (for example pciehp
-> handling a Thunderbolt/USB4 dock or host router that did not come back),
-> usb_hcd_pci_remove() drops the enable count a second time:
+> nhi_resume_noirq() sets nhi->going_away when the host controller is not
+> present anymore on resume (commit bdccf295d7cd ("thunderbolt: Do not
+> touch the hardware if the NHI is gone on resume")). With going_away set
+> tb_ring_start() refuses to start the control channel rings, but the
+> software connection manager's tb_resume_noirq() still goes through the
+> whole resume sequence. Every control channel request then fails with
+> -ESHUTDOWN from __tb_ring_enqueue(), and tb_cfg_read()/tb_cfg_write()
+> WARN for each one:
 >=20
->   xhci_hcd 0000:b2:00.0: disabling already-disabled device
->   WARNING: drivers/pci/pci.c:2198 at pci_disable_device+0xac/0xc0, CPU#9:=
- irq/128-pciehp/225
+>   tb_cfg_write: -108
+>   WARNING: drivers/thunderbolt/ctl.c:1157 at tb_cfg_write+0x94/0xf0 [thun=
+derbolt]
 >   Call Trace:
->    xhci_pci_remove+0x89/0xd0
->    pci_device_remove+0x4a/0xb0
->    device_release_driver_internal+0x19e/0x200
->    pci_stop_bus_device+0x63/0x70
->    pci_stop_and_remove_bus_device+0x16/0x30
->    pciehp_unconfigure_device+0x96/0x170
->    pciehp_disable_slot+0x66/0x100
->    pciehp_handle_presence_or_link_change+0x62/0x190
->    pciehp_ist+0x14f/0x1d0
+>    tb_switch_configure+0x8f/0x1d0 [thunderbolt]
+>    tb_switch_resume+0xb9/0x3d0 [thunderbolt]
+>    tb_resume_noirq+0x5d/0x2e0 [thunderbolt]
+> [ ... ]
+> no events are processed in the meantime.
 >=20
-> (usb_hcd_pci_remove() tail-calls pci_disable_device(), hence it is not
-> in the trace.)
->=20
-> Only disable the device if it is still enabled.
->=20
-> Fixes: a0d4922da2e4 ("USB: fix up suspend and resume for PCI host control=
-lers")
+> Fixes: bdccf295d7cd ("thunderbolt: Do not touch the hardware if the NHI i=
+s gone on resume")
+> Cc: stable@vger.kernel.org
 > Signed-off-by: Cole Leavitt <cole@unwrap.rs>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261018164134.1341=
-06-1-cole@unwrap.rs?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261018163910.1322=
+31-1-cole@unwrap.rs?part=3D2
 
