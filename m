@@ -1,117 +1,154 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58AD532B13E;
-	Sun, 18 Oct 2026 08:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792311558; cv=none; b=WuwE5Ao1J1L5fzh4KzSmb3a2QWmTiXNxTXfOovMCJJRZStKCiWZPA4qqlZYq4eppWrQ/AAH7emn6t/YcHeA7D0OK06E+D9/+omPhuwjuqklJaCqkZcu204M/bI5ajZl0gZlgDYJfn2rif75GAU8HjE2c0PKMIMgnC+sE0ZksRMA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792311558; c=relaxed/simple;
-	bh=4QUD4emdW0rO2zG3qPgumkCr5bVggmy1qTIcZ2SptDs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=flX3W7OX6nbTqdls2yhFlqNAJYxS5iI3b5Aqlj5JhKnLh1eaYKbe7TV3EgDFbvqkXt2BrRpcHBc3P8irMayEuhWrM+CAYBtQUcGvLc4PXSH30sL2nN5tYcuLxWwbD3gmayOwwLfoE1R3ortx59PQiVc+iAwb/1Xh+4xUlJyXgHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=wVCgTqDg; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941FE392C20
+	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 10:59:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792321144; cv=pass; b=PNfnLGqmUOWF0jzBm2Nvb8qNQHY+AY4XnioroZd99MMoB28YoSzSB23t0IIIqIisWRRO7GdXK61BI0GoVMsAUo22893kLMguXvo1kuLzf8P3nD2uLEg5UnEpao4NBVDHnaV9lHXQrDNZWFCeTQ/8mxz5JvsMoMUrcfBz65OO0L8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792321144; c=relaxed/simple;
+	bh=kH379+03vqq9VgNoMgF4X+CQYZbnfJhixopqpO0bJ7A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AKYk+WichQF/EynVdb659dx8GSRCbTlyVxGTvz2N69EKpns+UbK+WeL7NmG4bI4WD3MXgY0ECnIUQUSKosOtQf///tLmTIxRwxyR9tB+/g0nJKY9aJ5pRllO8QGy9RMAZ5xvHwohN8SollkT8+tdwI8tOdL13OSGpMztIJU20qs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U2NI4BJJ; arc=pass smtp.client-ip=209.85.128.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="wVCgTqDg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A9041F000C4;
-	Sun, 18 Oct 2026 08:19:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792311556;
-	bh=7+f+K98c1MlbjTLqXaEBYt49K9dOeXTOw7oluMlYA/A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=wVCgTqDgjg42YIPB/LXOI/avaLk+R+y5Xnwr4Cz5lMUvVollPLcSXOumxSQhfv6VG
-	 fQHDgV7n+Xv5KzMrxxmnoM4dnxAYrtj69B54cWcDLO6H8ESDAyhJ8ZjEoPmVbkinA4
-	 vn/3eixzyISJ4/OeBPCxNSZjaaJaBENk5cGcsKL8=
-Date: Sun, 18 Oct 2026 10:19:13 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
-Cc: linux-usb@vger.kernel.org, stable@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com,
-	Alan Stern <stern@rowland.harvard.edu>
-Subject: Re: [PATCH usb-next v2] USB: gadget: Fix UAF on refcount inside
- gadgetfs_bind()
-Message-ID: <2026101857-transform-hazelnut-4715@gregkh>
-References: <20260905003607.1686172-1-rafad900@gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U2NI4BJJ"
+Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-8b0d63f60bcso8745577b3.3
+        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 03:59:03 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792321142; cv=none;
+        d=google.com; s=arc-20260327;
+        b=LHevF60M65CxhTRxC1xSIKc2zrRspqQ02z9upwKC3F67YXRwR8Nng0XoCS+y77kagb
+         BM8Vysr2ZyNslgDPebkT0FDJi1sGtg9D1ri9+n8pZi0acZveIc5SW96HgR41uNC0dXZJ
+         dL94cpYw81cRAl0+YCdcWmxt7EIH6cQ6OX3BgMKfoGrtE3hj7nX/cEThK23oFKkRUc2I
+         lsanulUfSf1JwFcPY4CLXl0JrLwdt0Jb00m4+NW0wDces2iLvJ3mV8S66dWmCZv3Eghc
+         jtbwGPNjcjGyIOxdFlV3XWW13N/9ES4nu+3LQBRsVP2UknOk0nn98TBfJfsDdyALC1mT
+         OHlw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kH379+03vqq9VgNoMgF4X+CQYZbnfJhixopqpO0bJ7A=;
+        fh=BVO4v9k2q3V5Vkk3gUxzmx3S4Pqs1lkfn7Ys/023LrA=;
+        b=lwvo+ScyM5RUx5ZbemMQRGldLs2FSfXAFGMulq6LzSWQoQ88T/hp/1L4P9m4ZEZqgZ
+         UckYKN9fN6XBpCF9ivuy0tFuDBLBD1RHkgqs3ezi+ugZUBSWDJz+jVzK7Jk2/Pe7zqkH
+         14CCT6YkZG1IJC1y17PZslqvk3WHDHfrpxybH52u28tTTuhBCJJ2b8accyapco8Yg84m
+         yD5zGevIOGZepFqa5QCi5q4XJcKsltzKd3pn7y6aQw0bV/rl0xl+SRl30qR+iWNORg8O
+         KcISkLfDOMZO5r6iaRqh/Pyd74fYMH57ZSFvFViVk4si1CtdS/3AU8oqBeFv/4QY01G8
+         TcJw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792321142; x=1792925942; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kH379+03vqq9VgNoMgF4X+CQYZbnfJhixopqpO0bJ7A=;
+        b=U2NI4BJJ51mU25KLT8gG5+jEUCYuddntwUkcp6t94Fpw53GvTasaS57I7hf4uzxzZz
+         ELskm3q31qAnl7SldlfYQm+kxw/+g92vtygoYJWVDzeVV+Te8PfsCw/Y2/YOprdq67tp
+         BPr4DvNs0KVdJMwr8DA561AN6KKCtH+B75gj/uae6OviFEDb0M2M7nJoitogdy9ANtzd
+         7HoUtnNKhBvY/JLV2+/3obHdkL7SedimdSa8fPPxkzpqt58WGjLN/f8jmrzXcxpJMZ+M
+         PN/BQEFmb0wj914MisJhg1iBQW9HdLrq/dBEkC8RiiKERyEGTotbMnb7TC95b1K0Pv5i
+         bSLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792321142; x=1792925942;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kH379+03vqq9VgNoMgF4X+CQYZbnfJhixopqpO0bJ7A=;
+        b=mntWNFUZon3r5FWTGLFLsHBZs29DlBKl7gzH/goPczsS6m77Y4V8x4CYzlBqkCqe/P
+         jb45V6++2xHPXPMRlN8n8ob0g6IMP9PV6JljtUhSy2cn6sCdZQUb5iRZRkiVuB5y6k+6
+         qqcPoaVxTc5+W2JiUQT9TyUML+miAZddNw5KTKxx3rb4LbRS7PYdLBuoD7JF1AEicrhZ
+         mAs/lou9GaFl9yOsfPBeXq38T+taD2s5RhUJBT9FdkxT4w7UgVRe7CX+5QVZ/c8CB3ET
+         It3Kuj1mLRzsMK79Yi8h5evmNNpcg2vQEi5XM6cg8Mc+VWUowysf5JV0ghePbzpJ61ei
+         EkUA==
+X-Forwarded-Encrypted: i=1; AKwUvBznDT/NDRzOtG+lIsGZildv1AZxoRgMdHEKfkzPrT8xGOtfWtr4F7LtiMiGMcvaUP5bFi487nN8frc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKgk+s4VlQ+88GTsF7sSVQtMommY75PNMW0gUXfY9ijwneRLk3A
+	UOQEexyzKiBRDKwyppbwmneZZ9jImxZpFU1dxqE8G7eOmBKh5DQvLw/VrTyAu/KNAmrtzeQ38Ax
+	ntO56P5pSqZt6HIPE4xRCG0hJ7+lIjlE=
+X-Gm-Gg: AYBFou315tzWSXAvowi+FsrMsYBBls8umEQBAj8xEia2U86fNXPmX7X+DKia7eLipnr
+	woxr7PiBFOFvztyfS2zfKtNAMPP7s8BzQ8cMJ3tjnCmV54nKVy7oNg8SM/wbeDxmX3mwT3pH733
+	Q/P2Qunzp/nSK1VQpF+hFRGgRn8s+MvSqjYISoMxI7cOOguGzy0BZa94kkQQCqW5BPpyKNjrT7s
+	1eKo0jjgsIeOXDkDW6nS81ZUf6yleDr3Gac9/kDxmPYblD05Ba9RWTt11jNC/eZXi2UijNlmtsq
+	XW2R7jEP0/5H6VaU3VymT1Vjey4y4a2TXcd/QYKPVeSBpeK+dDLLjcM/oKICKAsSpIdxNAHa0VB
+	G14WJLhlte4OfyjhILArgnekmzaQNA0et2u8s7P98acCj
+X-Received: by 2002:a05:690c:f82:b0:8b0:f074:75c3 with SMTP id
+ 00721157ae682-8b0f219a62dmr15543377b3.11.1792321142377; Sun, 18 Oct 2026
+ 03:59:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260905003607.1686172-1-rafad900@gmail.com>
+References: <20260821114854.12218-1-kartikey406@gmail.com> <2026092925-licorice-strode-7905@gregkh>
+ <CADhLXY6t7UL9Ys65qDSBBAUzj+sQkS26xFZX3YjkFZ8ufS16wQ@mail.gmail.com>
+In-Reply-To: <CADhLXY6t7UL9Ys65qDSBBAUzj+sQkS26xFZX3YjkFZ8ufS16wQ@mail.gmail.com>
+From: Deepanshu Kartikey <kartikey406@gmail.com>
+Date: Sun, 18 Oct 2026 16:28:49 +0530
+X-Gm-Features: AclHuK_HMv1PVjOPtvzFyVILO65tZfoFuR0e_ptveMjtk5RooNmqwPancL-Uq38
+Message-ID: <CADhLXY55XwzujRCg+xgm4v4UJmfdgUQ0oihS39f3iMwFDzXTRw@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: u_audio: reject srate request for
+ unconfigured direction
+To: Greg KH <gregkh@linuxfoundation.org>
+Cc: kees@kernel.org, pavel.hofman@ivitera.com, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 04, 2026 at 05:36:07PM -0700, Rafael Alejandro Diaz Cruz wrote:
-> When usb_ep_alloc_request() fails, gadgetfs_bind() takes
-> the following error path:
-> 
-> if (!dev->req)
->         goto enomem;
-> // ...
-> 
-> enomem:
-> 	gadgetfs_unbind (gadget);
-> 	return -ENOMEM;
-> 
-> In normal case, get_dev() will be called to increment
-> refcounter from gadget->dev->count but in error case,
-> this increment is skipped and gadgetfs_unbind() will
-> decrement it via put_dev().
-> 
-> Going down the error path leads to a refcount imbalance
-> which will cause UAF in close()/umount() operations
-> due to refcount dropping below 0.
-> 
-> Fix this by moving get_dev() above the error paths so
-> that refcounter is incremented before the put_dev()
-> call.
-> 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Reported-by: syzbot+4a5c87a01894ca37f25c@syzkaller.appspotmail.com
-> Link: https://syzkaller.appspot.com/bug?extid=4a5c87a01894ca37f25c
-> Signed-off-by: Rafael Alejandro Diaz Cruz <rafad900@gmail.com>
-> Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
-> ---
-> Changes from v1:
->     Removed syzkaller reference in description
-> 
->     Added Reviewed-by: tag. 
-> 
->  drivers/usb/gadget/legacy/inode.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-> index 3e2bce7543d4..181b19e7fc2f 100644
-> --- a/drivers/usb/gadget/legacy/inode.c
-> +++ b/drivers/usb/gadget/legacy/inode.c
-> @@ -1679,6 +1679,7 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
->  	}
->  
->  	set_gadget_data (gadget, dev);
-> +	get_dev(dev);
->  	dev->gadget = gadget;
->  	gadget->ep0->driver_data = dev;
->  
-> @@ -1696,7 +1697,6 @@ static int gadgetfs_bind(struct usb_gadget *gadget,
->  	spin_lock_irq(&dev->lock);
->  	dev->state = STATE_DEV_UNCONNECTED;
->  	spin_unlock_irq(&dev->lock);
-> -	get_dev (dev);
->  	return 0;
->  
->  enomem:
-> -- 
-> 2.43.0
-> 
-> 
+On Wed, Sep 30, 2026 at 1:48=E2=80=AFPM Deepanshu Kartikey
+<kartikey406@gmail.com> wrote:
+>
+> On Tue, Sep 29, 2026 at 6:53=E2=80=AFPM Greg KH <gregkh@linuxfoundation.o=
+rg> wrote:
+> >
+> > On Fri, Aug 21, 2026 at 05:18:54PM +0530, Deepanshu Kartikey wrote:
+> > > u_audio_get_playback_srate() unconditionally locks and reads
+> > > uac->p_prm.lock/srate, but g_audio_setup() only initializes
+> > > p_prm.lock when p_chmask is set. On a UAC2 instance configured
+> > > without a playback direction, this results in acquiring a
+> > > never spin_lock_init()'d lock when a GET_CUR sample rate
+> > > request targets playback, triggering a lockdep "trying to
+> > > register non-static key" warning.
+> > >
+> > > Reject the request with -EOPNOTSUPP when p_chmask is not set,
+> > > before touching prm->lock.
+> > >
+> > > Fixes: eb3a1ce6f5ed ("usb: gadget: u_audio: Add capture/playback srat=
+e getter")
+> > > Reported-by: syzbot+e1d0e66badecc32d45eb@syzkaller.appspotmail.com
+> > > Closes: http://syzkaller.appspot.com/bug?extid=3De1d0e66badecc32d45eb
+> > > Signed-off-by: Deepanshu Kartikey <kartikey406@gmail.com>
+> > > ---
+> >
+> > How was this tested?
+>
+> I have not been able to test this since there is no
+> repro present in syzbot.
+>
+> I verified the fix by static analysis of the call path in the report
+> (afunc_setup -> in_rq_cur -> u_audio_get_playback_srate) and confirmed
+> in g_audio_setup() that uac->p_prm.lock is only passed through
+> spin_lock_init() inside the "if (p_chmask)" block, so it is left
+> uninitialized whenever p_chmask is 0. Leading to lock splat issue.
+>
+> This patch is compile test only
+>
+> > Did you forget a Assisted-by: tag?
+>
+> Sure I will add assisted by tag
+>
+> thanks
+>
+> Deepanshu
 
-I think
-https://lore.kernel.org/r/20260811060810.295666-1-khiemtranzo532001@gmail.com
-was send before yours.
+Hi Greg,
 
-thanks,
+Please let me know the status of this patch.
 
-greg k-h
+Thanks
+
+Deepanshu
