@@ -1,134 +1,253 @@
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91E3A4D6C28
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 16:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0825F3AFCE9;
+	Sun, 18 Oct 2026 16:30:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792340787; cv=none; b=YNLOLk3mFjtrRybkqnpMds8WRXki4MImTHsqla8ecH65wpj87LgwO9WSpS3HaYsxpTXDvuhvU9o+yNsmGmVkxeKl8A1HE1I5s2l5rPqJMOD/1wou9G2guXGWHpFBNvSnTOE3SiyBQP5J5McxfCAUvLfNGVExwuTya1ohqs6OkDg=
+	t=1792341012; cv=none; b=JAZjc/uEE6qXt1/epJDSs4kX+CoU0Sa7umhLkVv4zbE28RR8LsugmsVktp44fDJyeBv/dSDA5a3RSR6HdK61sS9lca8j71gksIKhHu0BAV/4pOMA8wyeYB0+s++nH3/7iZXMqWWLYgDgiLVOo5YVvyzTvIG7YNp22VrqlxZ9LmY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792340787; c=relaxed/simple;
-	bh=G4S1n3I+vN415jixgniNKq1lBfK4ap4+2xCFZJvljTc=;
+	s=arc-20240116; t=1792341012; c=relaxed/simple;
+	bh=JPs3XtuJyKx7fLu6hhaPeSyvU/kUm/pkY/aVg1I6V/M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KSFAtfxnuFckXR+GTo7MjFj8HR/gi8iSGc3s7Ol4uKaaYHipIfms5ZxLgsXEnkg+SIFtkWoWxNbnIfzbxSgwVwGmEpJFP9VApZYJUz1NSlrunRPFHBUaR/voPmDhEtfp5qkRAvDIEdSFPZ5I6PhMnCdzgR2YoaTAeWPLeW98mqU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s3ipWvTP; arc=none smtp.client-ip=209.85.216.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=mb1jnv4Y7qfr6AkKN/cYPpUiT5yvpFi6O3UgbQFFCxyzg9JmyyHZUxpyGCavzU9AwsVSlgycqkDGJ7lMDmsi2+/aAm33sEAlr3Hg590Ia+W3LuNW+QwRZegqAFi38ieuE7xxymkavV0jDUiky4r5HMKWtLkmt0RIXy0eHkStehU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=b0Sq09Vz; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s3ipWvTP"
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-3a706146559so1097918a91.2
-        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 09:26:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792340786; x=1792945586; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=r4CcxdQ2oJybJSNbjjXimwSvVRvmuOa37brscnwQTP4=;
-        b=s3ipWvTPS7U8hkOE5XRzFbEkyhGh1zx0IZDL6mKYeUaw8yLilO/+a35SVpvc1gs6Qo
-         RIWx8aAHYJYa3B29rWipZXYB1t3377vMWgqsF8yTITz4Pmbp+jNryGBWrMQdvpGlyFng
-         1n3rWPhu/M3wDFS0LgyxrfAmhMQm8XpPIH4jCQKvCuGqO3JoaxNK09dP4wiKyk4ixRxX
-         tak7IQ/0lT996uyqIP0CIPrs9kDkbgXkoUSjFx6tdRSvcgUaHxFmp5YxMy5AM0akA0+u
-         3TwkQZukKd5AM0ZijSDub40bEaAFMpwsfhzmi8Xgjwq7VKXES1NyQrNxTKMuRxAuI9uQ
-         QDMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792340786; x=1792945586;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:sender:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=r4CcxdQ2oJybJSNbjjXimwSvVRvmuOa37brscnwQTP4=;
-        b=M+RYq9RDfJiZ0g5dsPbyEfnAC9CH+hEbw2luqSzPlHK9wgSQi4F+gZNZYQ4m5lyMiU
-         aqyQXigapHZVzFWhYp3Whr2L+3hUl/lCbvlxM7QBPZGlLV1BDFiVLz7Q2oSprbcn9/pg
-         CTl6VCSPA1LZ0/l3TgTyspR/ifJ4zN5pRHRwZhfR8qG60z+Sod6sliOdRlq2ej++vNtg
-         ei6koNJcZyZzDBqt5pd7EOUALNeYhwA/ersTR3wF3JfckLzV9WqYNaUnyy01/5I2mWAR
-         SuXB8yvTqCOTVkfVcY5M1ESFUfUjr6DHFhuPygFUYCwUnEA4GDgj3cW7KMTAX8EANZtv
-         YOMg==
-X-Forwarded-Encrypted: i=1; AKwUvBzFv9voMaF8cXZ+Do535dP8kl2orc0p/AwrMUTxS3WL0UURpmvR8BVoB/uO3aCmBFjEq6lCOkFTz44=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL324/M6bFkdgUf5FR7Q7k2i8vsYJpoWn52wby8QIJ3g8PV5Rsv
-	moqTDFwhM9Bu7O50kkoVI9zEAHhNtaDxeIkRtawLGCymLD1E1EWGDIEv
-X-Gm-Gg: AYBFou28/r2HC7I+fBm/iXjK+0Cnv2yml/ycmogudRvWtn0p+fnbZIKQpX9qNsSdkqW
-	XcqZFgPD1PljRolj676q2Q50zFHuKQEugI24dpNnABJ7uOJEgx67efHAvxTKvdztoZU6wfvdWR9
-	fVWLKu9if2ksG29kkD8LnrUeMIE8DsSZLE5MxcmnNzf2eNfOaHbsKdBXK4x7JPLvX1cLJDElPqT
-	D2ybEotHaoAW889d5pdCeqXJvWXs3/8rJuLWmUw9ZmTU8F9ZcTBojWoF9iycSXiJ5vYmnCeBUY+
-	2X2Xj46YkO7gMjxp6i0x2WWp4/pOeHS9QkWt3h89qncTKAAWm1vosfpmw5X7/979NoqvNHFSBXb
-	p9ljeCsxxbcdOkebWzVidZIPyxEtZ29pY9PORrQZPq+B/uOPg1XXOwF3ygPc5Ceac92hRJQiYDi
-	PBxxaEj8sN7EGbUUpaibsQNmA/FldEQcWRavEyoVTE6ckkIrzmI3capAZDXhlddU8Nf80CVCRM8
-	q7RyGo/mktR
-X-Received: by 2002:a17:90a:da87:b0:3ab:36c4:b502 with SMTP id 98e67ed59e1d1-3acef19656fmr4952624a91.30.1792340785847;
-        Sun, 18 Oct 2026 09:26:25 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc43a1981sm12210945a91.2.2026.10.18.09.26.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2026 09:26:25 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Sun, 18 Oct 2026 09:26:22 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Ian Abbott <abbotti@mev.co.uk>,
-	H Hartley Sweeten <hsweeten@visionengravers.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Rudolf Marek <r.marek@assembler.cz>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Chris Snook <chris.snook@gmail.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Marek =?iso-8859-1?Q?Beh=FAn?= <kabel@kernel.org>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	Duncan Sands <duncan.sands@free.fr>,
-	Chas Williams <3chas3@gmail.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-watchdog@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-	netdev@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-	linux-rtc@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] hwmon: Replace __MODULE_STRING() with
- __stringify()
-Message-ID: <49d1de69-ffce-490f-bbee-80513cfd0cba@roeck-us.net>
-References: <20261002-module-string-v2-0-fc7438acaf4d@suse.com>
- <20261002-module-string-v2-1-fc7438acaf4d@suse.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="b0Sq09Vz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E601F000C4;
+	Sun, 18 Oct 2026 16:30:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792341003;
+	bh=HP7nvXnHFiO6tJEtVhPZtpaBdSJlCDlwPccWX9P64C8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=b0Sq09Vz66wJMlPXPU1hIy98z2+KVDjGmOGPep4a31izHqvEXjHd0QP8WZZ1hvcMk
+	 noNbODqaSONkR9NtVzrMkU8Z3yuryxkrzHEp3W315LtdQQp5JVCcuaG99CauOK6jXJ
+	 9LzaZM7XrB7pepYoqMkRRrvKoVtvuPCcmcXA6o78=
+Date: Sun, 18 Oct 2026 18:14:54 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] usb: ohci-omap: handle root hub overcurrent via GPIO
+Message-ID: <2026101835-botany-pueblo-cf11@gregkh>
+References: <20261018155355.116290-1-ampr.mhd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261002-module-string-v2-1-fc7438acaf4d@suse.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261018155355.116290-1-ampr.mhd@gmail.com>
 
-On Fri, Oct 02, 2026 at 10:31:01AM +0200, Petr Pavlu wrote:
-> __MODULE_STRING() has been an alias for __stringify() since "[PATCH]
-> MODULE_PARM support for older modules" [1] in 2002-12. That change also
-> moved it to the graveyard section at the end of linux/module.h
+On Sun, Oct 18, 2026 at 07:23:24PM +0330, Muhammad Mahdi Amirpour wrote:
+> Implement proper overcurrent handling for the OMAP OHCI root hub using
+> the optional overcurrent GPIO line that was previously unused.
 > 
-> Replace the remaining uses of __MODULE_STRING() with __stringify() in
-> preparation for its removal.
+> When an overcurrent condition is detected via GPIO interrupt, the driver
+> now disables VBUS power through the power GPIO, records the overcurrent
+> status, and reports it through the root hub port status callbacks so the
+> USB hub core can react appropriately.
 > 
-> Link: https://git.kernel.org/tglx/history/c/136839a1b4 [1]
-> Signed-off-by: Petr Pavlu <petr.pavlu@suse.com>
-> Reviewed-by: Aleksandr Loktionov <aleksandr.loktionov@intel.com>
+> The hub_control override also handles SetPortFeature/ClearPortFeature
+> for USB_PORT_FEAT_POWER to drive the VBUS power GPIO alongside the OHCI
+> hardware register, since on boards like the OMAP1 OSK the OHCI PPS bit
+> does not control the real power switch.
+> 
+> Signed-off-by: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+> ---
+> v3:
+>   - Fix power GPIO polarity: 1 = VBUS off, 0 = VBUS on
+>   - Fix wPortChange bit: shift USB_PORT_STAT_C_OVERCURRENT by 16
+>   - Add clock and PHY cleanup to probe error path
+>   - Use IRQF_NO_AUTOEN to close race window during probe
+>   - Only set overcurrent_changed at probe when overcurrent is active
+>   - Guard hub_status_data and hub_control behind priv->overcurrent
+>   - Handle SetPortFeature/ClearPortFeature(POWER) for VBUS GPIO
+>   - Remove shadowed flags variable in hub_control
+>   - Add comment documenting overcurrent_lock
+> 
+> v2:
+>   - Use real name in From: and Signed-off-by: lines
+> ---
+>  drivers/usb/host/ohci-omap.c | 249 ++++++++++++++++++++++++++++++++---
+>  1 file changed, 228 insertions(+), 21 deletions(-)
+> 
+> diff --git a/drivers/usb/host/ohci-omap.c b/drivers/usb/host/ohci-omap.c
+> index f6e56c4b9914..a3ff50c70d41 100644
+> --- a/drivers/usb/host/ohci-omap.c
+> +++ b/drivers/usb/host/ohci-omap.c
+> @@ -15,6 +15,7 @@
+>   * This file is licenced under the GPL.
+>   */
+>  
+> +#include <linux/irqreturn.h>
+>  #include <linux/clk.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/err.h>
+> @@ -33,6 +34,9 @@
+>  #include <linux/signal.h>
+>  #include <linux/usb.h>
+>  #include <linux/usb/hcd.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/spinlock.h>
+> +#include <linux/usb/ch11.h>
 
-Applied.
+Why the odd include order?  Please be more careful.
 
-Thanks,
-Guenter
+>  #include "ohci.h"
+>  
+> @@ -46,6 +50,10 @@ struct ohci_omap_priv {
+>  	struct clk *usb_dc_ck;
+>  	struct gpio_desc *power;
+>  	struct gpio_desc *overcurrent;
+> +	spinlock_t overcurrent_lock;	/* protects overcurrent_status and overcurrent_changed */
+> +	bool overcurrent_status;
+
+So "status" is true or false?  That doesn't make much sense to me,
+sorry.
+
+> +	bool overcurrent_changed;
+
+"changed" from what?  Previous value?  Next value?  Over time?
+
+> +	int overcurrent_irq;
+
+Why are you initializing this to -1?
+
+And what broke that requires this patch?  When the gpio overcurrent
+logic was added, why wasn't the irq support added then?  Did it ever
+work, or is this to enable new hardware support?
+
+>  };
+>  
+>  static const char hcd_name[] = "ohci-omap";
+> @@ -181,11 +189,148 @@ static int ohci_omap_reset(struct usb_hcd *hcd)
+>  	return 0;
+>  }
+>  
+> +static irqreturn_t ohci_omap_overcurrent_irq(int irq, void *data)
+> +{
+> +	struct usb_hcd *hcd = data;
+> +	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+> +	unsigned long flags;
+> +	int status;
+> +
+> +	status = gpiod_get_value_cansleep(priv->overcurrent);
+> +	if (status < 0)
+> +		return IRQ_HANDLED;
+> +
+> +	if (status && priv->power)
+> +		gpiod_set_value_cansleep(priv->power, 1);
+> +
+> +	spin_lock_irqsave(&priv->overcurrent_lock, flags);
+> +	if (!!status != priv->overcurrent_status)
+> +		priv->overcurrent_changed = true;
+> +	priv->overcurrent_status = !!status;
+> +	spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
+> +
+> +	usb_hcd_poll_rh_status(hcd);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int ohci_omap_hub_status_data(struct usb_hcd *hcd, char *buf)
+> +{
+> +	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+> +	unsigned long flags;
+> +	bool changed;
+> +	int length;
+> +
+> +	length = ohci_hub_status_data(hcd, buf);
+> +
+> +	if (!priv->overcurrent)
+> +		return length;
+> +
+> +	spin_lock_irqsave(&priv->overcurrent_lock, flags);
+> +	changed = priv->overcurrent_changed;
+> +	spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
+
+Why do you need a lock to read this?
+
+> +
+> +	if (changed) {
+
+Ah, but what if the value "changed" changed right after you read it
+(remember, no more lock).
+
+> +		if (!length) {
+> +			buf[0] = 0;
+> +			length = 1;
+> +		}
+> +		buf[0] |= BIT(1);
+
+What does bit 1 mean here?
+
+> +	}
+> +
+> +	return length;
+> +}
+> +
+> +static int ohci_omap_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
+> +				 u16 wIndex, char *buf, u16 wLength)
+> +{
+> +	struct ohci_omap_priv *priv = hcd_to_ohci_omap_priv(hcd);
+> +	unsigned long flags;
+> +	int ret;
+> +
+> +	/*
+> +	 * Drive the VBUS power GPIO alongside the OHCI hardware register.
+> +	 * On boards like the OSK, the OHCI PPS bit does not control the
+> +	 * real power switch — the GPIO does.
+> +	 */
+> +	if (priv->power && wIndex == 1) {
+> +		if (typeReq == SetPortFeature &&
+> +		    wValue == USB_PORT_FEAT_POWER) {
+> +			ret = ohci_hub_control(hcd, typeReq, wValue,
+> +					       wIndex, buf, wLength);
+> +			if (!ret) {
+> +				spin_lock_irqsave(&priv->overcurrent_lock,
+> +						  flags);
+> +				if (!priv->overcurrent_status)
+> +					gpiod_set_value_cansleep(priv->power,
+> +								 0);
+> +				spin_unlock_irqrestore(&priv->overcurrent_lock,
+> +						       flags);
+> +			}
+> +			return ret;
+> +		}
+> +		if (typeReq == ClearPortFeature &&
+> +		    wValue == USB_PORT_FEAT_POWER) {
+> +			ret = ohci_hub_control(hcd, typeReq, wValue,
+> +					       wIndex, buf, wLength);
+> +			if (!ret && priv->power)
+> +				gpiod_set_value_cansleep(priv->power, 1);
+> +			return ret;
+> +		}
+> +	}
+> +
+> +	ret = ohci_hub_control(hcd, typeReq, wValue, wIndex, buf, wLength);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!priv->overcurrent)
+> +		return ret;
+> +
+> +	if (typeReq == ClearPortFeature && wIndex == 1 &&
+> +	    wValue == USB_PORT_FEAT_C_OVER_CURRENT) {
+> +		spin_lock_irqsave(&priv->overcurrent_lock, flags);
+> +		priv->overcurrent_changed = false;
+> +		spin_unlock_irqrestore(&priv->overcurrent_lock, flags);
+
+Why do you need a lock to change a single value?  Are you sure these
+locks are even needed, they feel really wrong as you are using them
+here.
+
+Also, why not use guard()?  Is it because LLMs don't know about them
+yet?
+
+thanks,
+
+greg k-h
