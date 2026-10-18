@@ -1,76 +1,80 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 184A91684B0
-	for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 06:26:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466403CB8F5;
+	Sun, 18 Oct 2026 06:41:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792304791; cv=none; b=Si+D/j6umunR8LP9tpwC//iBSkKsNVQ9B1aHIq0loWgjXbhKvBQlGQFp+0WNAUlQTOYVQdJ/RoSVZ49zgfi91/un4IGjrwnqGc3a21pbT6/lfMmBcjq+8tkugQdgg7ZN3eEniNfUD4ksAQFz1pE4z/cTzjwLAGCYdhGVd0/h4C4=
+	t=1792305718; cv=none; b=XNIUaeIsFOwAnOYSRoEKBEy72YRNXbct/qZfg4cCZQC8ldVJpxvlPOyYT1cs0lOa4Ok+ZTrFULItbYk3y1aM8Aj6LzXj7V8tJDhJTkEJKb0giTErtvnlRGj9YCSSBu5Xz+G4G63lAKlQH+V8Hz85/FMko3s87A0SB8fl1968D+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792304791; c=relaxed/simple;
-	bh=vRc1ATCvydNrYqxNwPXZQnBZmZCAhScDwmXf35hTkfk=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=bIm9LicSS0WihCH3G/01Kwo++HBEFQQXebje3bvh7os4/Fj+PuXjhTi/D6Px60ei+iziVd2GpxzJf2z5PFQ/8cqwUsjf7oBJTOvZJPMWTlQYi6uKlxPQDI1H51Sy+5ZKoijZqMj1pXr8x2Haf3YSuuBeSR4ijcSnHPy4b5GTeE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f3JMPdav; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792305718; c=relaxed/simple;
+	bh=rs5ZHwE3LsmfIanNp+/BzRrIaCnPTb7maIaogFzNqXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBYdrqm+IogoUsQtvXpg6mCBuz+6yhwdsrX32uOMfIhuUVobFh8iYPqI6SSadaH1dCwUlmcaz7WI34xXfixyiwSeb5g41IfrMHL/MfkWhLgNkOVjLxeNTVQae8mH1Wi8Nkq6JOpcWW3oKhMROyikdC5KSV5pd2rWa+QwFWtmQ6Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=1mwKXegi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f3JMPdav"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1C1F1F000C5;
-	Sun, 18 Oct 2026 06:26:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792304790;
-	bh=OanzI+yf2NDzIAjGrYaO7efZOwrEuS4KGgVY0TwYdqY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=f3JMPdavesX+CRDFzAyt2YuJBpdetSvUvSr3bNs1cCqwvX0Gt/p3kkCIACIlWgPc4
-	 6r86uibj8BGShNJed4+wH/jt0OFCGC4Nmku4SPSUipq6AvqE2ZX0qHxkYZGPRlks3A
-	 l+h8N0zlmqZCUhABi/K/tcs4Yx8Rrd7FzWQlRj36mX8Tmg7iIwUGhC8gz+6N2wzUiL
-	 YHf/MYT5DtKGo/AHUqJ2c91K8KQPGamEHHI8IR/+Kp/eA4nxXV4TVYkW9Yb2oDg53Y
-	 3r/Vk6ClBrm08wEN/f0OzEuN4ijqJqR5QsS2a9v3AhiO+icZCM7PUsp2kFsDT8w4qL
-	 sAUUqV/nnjsmA==
-Message-ID: <sashiko-outbox-175989@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v3 2/2] net: usb: lan78xx: reject short register and
- statistics reads
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wei Jie Law" <law.wei.jie@gt.tech.gov.sg>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261018062419.21921-3-law.wei.jie@gt.tech.gov.sg>
-References: <20261018062419.21921-1-law.wei.jie@gt.tech.gov.sg>
- <20261018062419.21921-3-law.wei.jie@gt.tech.gov.sg>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 18 Oct 2026 06:26:29 +0000
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="1mwKXegi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5327F1F000C4;
+	Sun, 18 Oct 2026 06:41:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792305716;
+	bh=A4xXl+sehu91x+nUAj2UWN80XDpdbu0ZTl7Uc0bSKgA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=1mwKXegihC7AZN6aPtbv47zcil/pTBahIl5PTeCLuKc3m6IteOFh612J5AAgmVhVD
+	 OnIJwlE/St0KKUPGsE7aF/jJISHqySQCtcV0JOQLNmJaHxfIHyCCKg0+lTtYiNpiCB
+	 b6OPQUEkHC+7PqbS3I0vEgXgfLII2LSMm+3ujX5Y=
+Date: Sun, 18 Oct 2026 08:41:52 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: m-amirpour <ampr.mhd@gmail.com>
+Cc: stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: ohci-omap: handle root hub overcurrent
+Message-ID: <2026101840-starch-blaspheme-0e4a@gregkh>
+References: <20261018015747.246611-1-ampr.mhd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018015747.246611-1-ampr.mhd@gmail.com>
 
-> lan78xx_read_reg() and lan78xx_read_stats() read from the device into
-> a freshly kmalloc()ed buffer, but only treat a negative return value
-> from usb_control_msg() as an error. A device that answers with fewer
-> bytes than requested leaves part or all of the buffer uninitialized,
-> and those bytes are then used as the register value or the counters.
->=20
-> With an emulated device on a kernel booted with init_on_alloc=3D0:
->=20
-> - A reply to the statistics request that is shorter than the 188 byte
->   counter block leaves the rest of the kmalloc-192 buffer stale, and
->   ethtool -S, which needs no privileges, reports it. Before the
->   previous patch, a zero-length reply was enough: one counter pair read
->   back as 0xffffffff8a427800, the address of
->   usb_api_blocking_completion(), next to several direct map pointers.
->   With the previous patch a zero-length reply is already harmless, but
-> [ ... ]
->=20
-> Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 E=
-thernet device driver")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
+On Sun, Oct 18, 2026 at 05:27:47AM +0330, m-amirpour wrote:
+> Handle overcurrent GPIO interrupts, disable port power when
+> overcurrent is detected, and report the status through the
+> root hub port status.
+> 
+> Signed-off-by: m-amirpour <ampr.mhd@gmail.com>
+> ---
+>  drivers/usb/host/ohci-omap.c | 212 +++++++++++++++++++++++++++++++----
+>  1 file changed, 191 insertions(+), 21 deletions(-)
 
-Sashiko has reviewed this patch and found no issues.
+Hi,
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261018062419.2192=
-1-1-law.wei.jie@gt.tech.gov.sg?part=3D2
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- It looks like you did not use your "real" name for the patch on either
+  the Signed-off-by: line, or the From: line (both of which have to
+  match).  Please read the kernel file,
+  Documentation/process/submitting-patches.rst for how to do this
+  correctly.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
