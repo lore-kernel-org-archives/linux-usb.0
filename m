@@ -1,158 +1,204 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF7D49A3A0
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 09:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E61C484247
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 09:09:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792400865; cv=none; b=WWMw0nLbt+w9FSL4rR25AnTGY8Y3CYVAJ0NArAwVvAvGM0UGqFqgG8ovQl9NRSfldeANL3OoPpuG7BFQoAwoUe8QBsbUmHUbsc9pY5yyNYRihGmJ3NXaAuBMhdXdwNxJtXydnVU5LQIUF0Z6d2NNTmnWVM8GsfWcZelP1v0celg=
+	t=1792400951; cv=none; b=Igrfn64WyhfYzvA2npswtHxrslv/tJ6Zea+7J7e+NKuwdc54UAsdlffZ/JdFsoWT8R+nV+C+IX+oxf3xjZ+M4N+pzGIw/MmKPVbiH2gteZGqL8ikpNd/uUYvDa531xQOhK58MUT1AZkHABhhbHRvrnypzGYeK8EoKVi+WOifL84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792400865; c=relaxed/simple;
-	bh=XEbm8c7un/ubtexMiqmCilOU/M/0muLc3BE5N3+cOHY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=orFZAfBfuEojjPtu3faFUjA1LZhy5Pu9Of6O9Fu1DU6Yv+xAx1eHeCrGfqRZlLSQJ1RQKaFXgl34dKWJ2rA5Lc81BWX854sFSP+EPvQ/4X61zmuK2rv3+yPvOuKDmAGUXOIqf2zgxkdWM0ed14+Ec0SMCDsKbAnjqpfYJEbhg6c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hOvs/ARo; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=dMM78dmd; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1792400951; c=relaxed/simple;
+	bh=bXhM4FoKEMjoVJngey+rLRGsMTJr73lLsNGxz5SKA6g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EIOAFq53ejXFhEspZ0mfoZjiD1+cXZxE+QrJR879qCU6Ofxg07hk+BB1Cfz7Rrra5EAJuyeLU5e2QxIKrRAld+8Cjx/C7vHJlMGS3R+elYntkU5vvIKhi5fEyLR10uE0uxJpWcqRxeMD76KSw2kh5bEqYryqbh9kOOKADxcZkQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JNZnLZBr; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hOvs/ARo";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="dMM78dmd"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69J8P5mj1896469
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 09:07:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iZmkvBbYu+nGYKaGaPZphxwUHTgaluc4gb3c8H9QDSQ=; b=hOvs/ARo3bMlI9Vp
-	klfDUgexlNsMYfJobkIfYmvLcK0xuYIGh20CxVreq9svF7xUc4+QmRsHd1kov+wW
-	KY38iuAAS4wb8daIdU7Qz7SV8sBGZtjjCp/4gormxU3Wkfx3lT879CrJn4BOzhKe
-	CGUTTaQflK0oiadZBaHKZlwGsCswV9d382k0ikKPvAI144RRS+OTwWKGIIaXHwRr
-	OiXFLvBoqv4xTmk25v+qXWvbKmAkxWaLNY2F8xPEsDTk7XPvvmRWhGke+XdawqbU
-	BtqxY1bcxWFUAm2mhp+ZDe4LLr9PdhUoOGzE/wmIOxZF7Qivq7SybtY/aUPbmvkf
-	78QjEw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hdbvr93ns-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 09:07:42 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93ea8a9cfe6so77650185a.2
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 02:07:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JNZnLZBr"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a1cef0439aso19694875e9.0
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 02:09:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792400862; x=1793005662; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=iZmkvBbYu+nGYKaGaPZphxwUHTgaluc4gb3c8H9QDSQ=;
-        b=dMM78dmd77JUNZVt3+Hr4kwg2UDxXEqzzNGivwjXdCi/P7YnplB5R92mIe7D4Y+XCl
-         Gr662vl9woVFg7KelHmSc20gKN09wxRIWR5G3lcQo3sjGSNG3A0P6tQPbDDbEwl+5g50
-         ybjJdk+4cKSks35nwyd/xj8D/ohstTW2YMdfpaO46oqrhImIldyW5oBa6Hgzu2ZvUNxf
-         L4wB/+YLU2PKeCTlUzUAO1Py0r+iivzXfkUfzuJ/4Bw++aBRQax1fUMVwXV5FOCP65xo
-         4RTVDnY0EJnqkl93IpTMRqrfR2NR0hrwo8VLQvpjBeQpPITK662YbnU1ttl9D95q8exx
-         zZag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792400862; x=1793005662;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1792400947; x=1793005747; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=iZmkvBbYu+nGYKaGaPZphxwUHTgaluc4gb3c8H9QDSQ=;
-        b=k7jD3pKGDHdReREQY+cpkGgyKb8OuogBGCL9cgijr30FB+i6pUVzoym4FAk5QcS6n5
-         7GIVcVT/7nIo5CVE6ManWewFJuV+XRsSD4Lj6jdHGmWxjKSahWybicjdHQBCGmkhBr3K
-         bf78QIdAi9HDwXvH3Rx3zijfPneatzq/7ioXCJDetpfy64vHDO2fO5ZpH/29Jzcjnp62
-         nU2oglygHjPxMKvxRXBI1Ap5OkXGnlj1zTK96cypoROwBw3OyiIGRnhJh+9vd8iZGrJd
-         IxVGzwPo6aXpGwl8cCuCCQYXqA5Mtm5nm1knyir40yxgxvNC/r75AJKrxzWC5OPi1K6B
-         +xNQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxrcVlM1hDrCb57+i7KEGqYAlS/RVQQ5WV5ZVdWzvsVOphYG4o8bs0ziew977bo3KdlxiIwiYtzr/o=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIUlxNc4ajPuu3kU/LJ6+tNMSqXOstX9IYwJYShfnkMCQ+5eKY3
-	OYqwQX/lULxln5UA6uBEBRhpvdEFUl3tbUjXZ2crG7+HPEz61bPZ64PmkSD37/mUSH5mjyAEzLi
-	E3Q0CzzhM06y2aMYahcOFc7mlIGkDuZzIC18YeuXoEpxi+ZGOM81rxCZOD5UiadQ=
-X-Gm-Gg: AYBFou1GlI9V5j2FOc/Zc9n0cgib8IERClwp6yqHLDOwuCInFa2h+TLyGvL2hFBkR4l
-	7DH+Iyq4h0ExVwMElFXQ0MJvXZ1kVhSffWlr0ixFJq6cvIa0NMcomwNPIDB84tdF8Krz47BYAY4
-	ZQRT7h5MkNjGtcf5dc5ZcyCIXnTXKrAjPKu3Bq6Z1FpBIaN9uuNA8T+kPK9ZPViTXm4HndC1tdE
-	0yl/3m5cbAvTr6B3P4U3+/DGOHpkN+GZO9YKOlsuhlb6DTUy2geo3xvUZqYovroKBqKsouamAFI
-	37QvKuOWWgcy7tJFEJ87yYnraX8BQYYjCB2qZiMCdwbqlCv6u29HJ/RHV0YyCe5SQ3UoUZ8vT2v
-	Q4JL4tZzgAPTf/zumYYBxfw==
-X-Received: by 2002:a05:620a:4402:b0:93e:508b:7800 with SMTP id af79cd13be357-93f29a21553mr1351060785a.0.1792400861883;
-        Mon, 19 Oct 2026 02:07:41 -0700 (PDT)
-X-Received: by 2002:a05:620a:4402:b0:93e:508b:7800 with SMTP id af79cd13be357-93f29a21553mr1351056585a.0.1792400861324;
-        Mon, 19 Oct 2026 02:07:41 -0700 (PDT)
-Received: from [192.168.226.26] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c40919c03bbsm324440966b.64.2026.10.19.02.07.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 02:07:40 -0700 (PDT)
-Message-ID: <d7acfaf2-f416-4e83-85c3-c30aa4e6111b@oss.qualcomm.com>
-Date: Mon, 19 Oct 2026 11:07:37 +0200
+        bh=74j522Qq3PrDT389l4xKGCJqDvHcj2n6WofFw+CY6Eg=;
+        b=JNZnLZBryx4lKIt/Udc0SddljgwcIGoNhwa50lpYOvirm/+PNL0g+fpRJ4tBqXtTzi
+         S/BQ1EffFtXPjuhVuYXZohX+AZ5B9Xzlgog7UoxvSQbeb7b7ht14KYX4bQGn2EJv/bfS
+         ubzbjxuy1X6hPjq8lpeqv15UOx83DIH2P8UVbEh11unG/HlIMLN8K+VR/xSG1I1Lla18
+         SZcGexF+z0em+M4FiaptEj/whTTqWJExYgshfgPzEC7LlQ+Ztn1jhuj6MT6IB6cg1Tup
+         neZ3Mwwy3b4m7CgVKhyC1mBSflfl9TrJggNKPud/NVNwqLiKotI1b8S9f0ZzlP+qg2E6
+         QbTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792400947; x=1793005747;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=74j522Qq3PrDT389l4xKGCJqDvHcj2n6WofFw+CY6Eg=;
+        b=pCkcmHQYVvrHOli1VFKWD3fxPPCyouc63p3e50cJjHQGiIqiAGVbyZJ/xHPL0QJvC5
+         euRWoiT4Fb4UMI/+YLeJfyOZTpXhgRuFOpA9NASh/7AU4o/qcQZpEDPuNj5qeZee2W48
+         MItz/P6d8IFXepJY1B1TE/hqsW40XEr8tGGXoAa5AmDWHZeKEQ5kaWwCPqKCt+cUF6NU
+         c1A3kWQlfFXTOTQ75iJzcYp0TK/JfpKCxFXodys/kPLnTB75BM0r66puIZB7/EYiqa08
+         KShYGAVj7pg2KOTQ7BujrfDbxGnjPudA60XRe2ktYeSakW55bWFFdgHFYkjMUNrUG5B1
+         LOtw==
+X-Forwarded-Encrypted: i=1; AKwUvByOf5TKDv5+HzVu0Y5qPS7rapkH+aGsBVj5Rft54Cgn0ZyThje+UiLmTmYuEhVbQMhX0+TnyWuOCrU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJQMafHNZMaYTi0uQlqTbfxfSixvCxCKesfWwH90Q+R+6en/lWo
+	ctR9AeZf1s652FIUt0Oe0ikPjzGmca4P0cAxmyMcMPSMCVn5NoCpcBGk
+X-Gm-Gg: AYBFou2ajiEMwPRKkYbxwiWHK02NtwFYkqCT6VQuRDwCdS/R2H48leuhw3zAIA2Ejk2
+	z0e+2SsvGHPuaxxRx/j0LkYQG7ijYuyJvJpT8VoODRglCDv1ley/PI/xtLB5+3bIo1jk0wuHaXW
+	yejF7WFxfShCDlWYgX0ZIreFQnJ7tKU4adYUA67WxXWO6sTDLDDp6PFkfFoO2AEkTzTfS36vyO/
+	sm+cl43501NM+3STx86qj8O7gseOIwI5lyvgZKD1obwHw2648TH+241213SieWXbJxRgHpQ97Kl
+	XuQmgkORvGdONW2iSkccn47+ZyXG+bgvIqpxGHtubxTtoDAGRchR27acWY00HmSS1i5TTQRXotS
+	ciKAksMeLnZ+9cIh/pIZ+PKhyAjk92Pi+DfbS4WK8duQ+S/+xCHwWKVCyxthSLPiNEXX0pnMxPq
+	X0Nal25TzeRJ3lSXG3eyKJYJL8sILIM3N2IlNI2QUwfSRa/txnYVZEmCTk7cXiENdBB6KiR2n3u
+	26b
+X-Received: by 2002:a05:600c:3508:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4a1d762251bmr156669495e9.32.1792400947197;
+        Mon, 19 Oct 2026 02:09:07 -0700 (PDT)
+Received: from deb05.proceq.com ([213.160.61.66])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1df164777sm174734465e9.5.2026.10.19.02.09.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 02:09:06 -0700 (PDT)
+From: Mehmet Fide <mehmet.fide@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Neill Kapron <nkapron@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Wayne Chang <waynec@nvidia.com>,
+	Jon Hunter <jonathanh@nvidia.com>,
+	Felipe Balbi <balbi@ti.com>,
+	Felipe Balbi <balbi@kernel.org>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	mehmet.fide@screeningeagle.com
+Subject: [PATCH v2 1/2] usb: gadget: u_serial: keep the port until its tty is released
+Date: Mon, 19 Oct 2026 11:09:03 +0200
+Message-ID: <20261019090904.3264978-1-mehmet.fide@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261019085855.3259716-1-mehmet.fide@gmail.com>
+References: <20261019085855.3259716-1-mehmet.fide@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] arm64: dts: qcom: hawi: Set
- snps,resume-hs-terminations for USB controller
-To: Peter Chen <peter.chen@oss.qualcomm.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Abel Vesa <abel.vesa@oss.qualcomm.com>,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-        Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
-        Jack Pham <jack.pham@oss.qualcomm.com>,
-        Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20261019021547.1694088-1-peter.chen@oss.qualcomm.com>
- <20261019021547.1694088-5-peter.chen@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20261019021547.1694088-5-peter.chen@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE5MDAzNiBTYWx0ZWRfXzo4X8Tl+aYDW
- x31UcP4mGpUhl9wMQB4r1wgBUiBi3bjsWCuUk+jNur2kbqPeosnZ5T+rldQOq21AhzHLfPeBMcp
- SFhaD1R6MwrMPii44/goa1SrsL9PKBI6yqIWgAWjamTVZCr+6neahnbLVQGRAIZTgwcvmshqEV9
- pvSR5DEaYfdSY3ipUBD4WCLXYvC0Famw1undFrP+gAagsXZjXcC8106iv894QiLPpGRoiDar/pR
- r2pDVlCB6lXBU773+R93+ST/5cxMuKV1IP4UDIGLP1gxYRM2fXVc3VKmp7MDh1BZGW71fUzp0A9
- U9KFtXuSHA37b+7G4bw/ml0Ym3adwua0y5aR+nYOPQiWUG7Vj6NLoy12ljnQMUEqamC0DuH2N/N
- BWBmOb/Ao7442quc6bGxDmPTwTHKMH/mMDwHldWlkWguQOA2nGZo1hNLJJ6Qxh/h1NYM4puxkIe
- CCgot+xX6j6g/15jG8Q==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE5MDAzNiBTYWx0ZWRfX/SxKQ78Tm3qD
- WG+KGVHIarmsujdzfbIzq9yjPVvjMEOB2eHtVyxsyIdd/yjADLg+h+KDyEVPeiRo84ONyQslKrC
- 1TWZ6sfNW4wtwugbosLN2b83M3BGvBc=
-X-Proofpoint-GUID: 7_9kEWc5mZ9CbA3t5WOQ06uumzzXOCqb
-X-Authority-Analysis: v=2.4 cv=K/+3jCWI c=1 sm=1 tr=0 ts=6ad5ddde cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=EUspDBNiAAAA:8 a=SFmIH4a4ZRYK_P-DvPgA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-ORIG-GUID: 7_9kEWc5mZ9CbA3t5WOQ06uumzzXOCqb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-10-19_03,2026-10-14_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 spamscore=0 suspectscore=0 adultscore=0
- impostorscore=0 clxscore=1015 bulkscore=0 lowpriorityscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610190036
+Content-Transfer-Encoding: 8bit
 
-On 10/19/26 4:15 AM, Peter Chen wrote:
-> The DWC3 controller on Hawi is paired with the M31 eUSB2 PHY.
-> According to HPG, host-mode USB2 L2/L1 resume with this PHY, GUCTL1[10]
-> (RESUME_OPMODE_HS_HOST) must be set.
-> 
-> Set snps,resume-hs-terminations on the Hawi USB controller. This makes
-> dwc3 core set GUCTL1[10].
-> 
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Peter Chen <peter.chen@oss.qualcomm.com>
-> ---
+From: Mehmet Fide <mehmet.fide@screeningeagle.com>
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+gserial_free_line() frees the gs_port, and with it the tty_port it
+embeds, as soon as the last close has returned. The tty core keeps
+using tty->port until release_tty(), so a hangup that
+gserial_disconnect() scheduled before that close can still run and
+read the freed port:
 
-Konrad
+  BUG: KASAN: slab-use-after-free in check_tty_count+0x230/0x278
+  Workqueue: events do_tty_hangup
+   __tty_hangup.part.0
+   do_tty_hangup
+  Allocated by: gserial_alloc_line_no_console <- acm_alloc_instance
+  Freed by: gserial_free_port <- gserial_free_line <- acm_free_instance
+
+and release_tty() then cancels the buffer work of the freed port.
+
+Take a reference on the tty_port in install and drop it in cleanup,
+and let the last reference free the gs_port.
+
+Fixes: 19b10a8828a6 ("usb: gadget: allocate & giveback serial ports instead hard code them")
+Cc: stable@vger.kernel.org
+Signed-off-by: Mehmet Fide <mehmet.fide@screeningeagle.com>
+---
+
+Notes:
+    Changes in v2:
+    - new patch: Sashiko pointed out that with flush_buffer the hangup that
+      gserial_disconnect() schedules can run after gserial_free_line() has
+      freed the port; the tty core itself already reads the freed port in that
+      window (check_tty_count, release_tty), so the port has to live as long
+      as its tty
+
+ drivers/usb/gadget/function/u_serial.c | 45 ++++++++++++++++++++++++--
+ 1 file changed, 43 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
+index cdd1dfc666c4..19eea724280b 100644
+--- a/drivers/usb/gadget/function/u_serial.c
++++ b/drivers/usb/gadget/function/u_serial.c
+@@ -908,7 +908,39 @@ static int gs_get_icount(struct tty_struct *tty,
+ 	return 0;
+ }
+ 
++static int gs_install(struct tty_driver *driver, struct tty_struct *tty)
++{
++	int		port_num = tty->index;
++	struct gs_port	*port;
++	int		ret;
++
++	mutex_lock(&ports[port_num].lock);
++	port = ports[port_num].port;
++	if (port)
++		tty_port_get(&port->port);
++	mutex_unlock(&ports[port_num].lock);
++	if (!port)
++		return -ENODEV;
++
++	ret = tty_port_install(&port->port, driver, tty);
++	if (ret) {
++		tty_port_put(&port->port);
++		return ret;
++	}
++	tty->driver_data = port;
++	return 0;
++}
++
++static void gs_cleanup(struct tty_struct *tty)
++{
++	struct gs_port	*port = tty->driver_data;
++
++	tty_port_put(&port->port);
++}
++
+ static const struct tty_operations gs_tty_ops = {
++	.install =		gs_install,
++	.cleanup =		gs_cleanup,
+ 	.open =			gs_open,
+ 	.close =		gs_close,
+ 	.write =		gs_write,
+@@ -1203,6 +1235,15 @@ static void gs_console_exit(struct gs_port *port)
+ 
+ #endif
+ 
++static void gs_port_destruct(struct tty_port *tport)
++{
++	kfree(container_of(tport, struct gs_port, port));
++}
++
++static const struct tty_port_operations gs_port_ops = {
++	.destruct = gs_port_destruct,
++};
++
+ static int
+ gs_port_alloc(unsigned port_num, struct usb_cdc_line_coding *coding)
+ {
+@@ -1222,6 +1263,7 @@ gs_port_alloc(unsigned port_num, struct usb_cdc_line_coding *coding)
+ 	}
+ 
+ 	tty_port_init(&port->port);
++	port->port.ops = &gs_port_ops;
+ 	spin_lock_init(&port->port_lock);
+ 	init_waitqueue_head(&port->drain_wait);
+ 	init_waitqueue_head(&port->close_wait);
+@@ -1258,8 +1300,7 @@ static void gserial_free_port(struct gs_port *port)
+ 	/* wait for old opens to finish */
+ 	wait_event(port->close_wait, gs_closed(port));
+ 	WARN_ON(port->port_usb != NULL);
+-	tty_port_destroy(&port->port);
+-	kfree(port);
++	tty_port_put(&port->port);
+ }
+ 
+ void gserial_free_line(unsigned char port_num)
+-- 
+2.55.0
+
