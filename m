@@ -1,404 +1,558 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C4D54F96AE
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 13:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF87D539763;
+	Mon, 19 Oct 2026 13:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792417751; cv=none; b=OXwSXgNtufZXTAZa5ynGgtQY8r2dliuue0uvHEDk5hYpRY4snlRIKdUGVeyD+UEpQCJZWD+5gqORe11XhtceddTYR+JPptxTNiTTvi30qKED7qk+ZZCNb+9REpjMURo2jxslpNV02VzZaudUOZqHLMfwNGlFm2KwE0F0BGklOe4=
+	t=1792418123; cv=none; b=gctkBiqUyk2AgTkrZ2hfVnMSpT6XmoKwXfYfxcved8akziB9CxGIM+ef46dMP2/xwtgwUR3lcSw6g/xiQxm8knaU//2HbvsDeDLYHb8qPS797kXbC22txFlhdfpYNFwi5zwIqSENf6ZzBIlOYNJPFR5kemHVZbgt+gTAn/6THgg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792417751; c=relaxed/simple;
-	bh=sg5TBl+tLDWPpz188ir3OEN5D80w8rBVK8A/+m0jbrU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ftC4GrfGLASx4Lee6eaBuSGnPz3KEWm8nHXr3RNRtYkwijt6/83PHdEq2JZqLaIR+ikwg/wAWbTTDqt5bKc6qnaoagju4cCkfo6+xuAu9EKvOS+HJET/Eiilv02TeySCqxy5R9VkDfxwIAKVLy5ondzUzrtewP1fVXbj5VJwRbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WTPQw3q/; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792418123; c=relaxed/simple;
+	bh=p/DhF42raQ7LtZU+gbIb+kAcSbQNnWCPCFScLiNA36s=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NicyaA3KZ2XASRXkPU43565TFbmKSUX1WiIQ664DI0d77V7RTaU1/0i5IQQ8tWX2//phheBAobw5KicTNaygSrL2u9z8uyjwNbkV7rFgo+ELq8do+gLSsGz596hv1lYMTY8qtef7hUgEeaBI7wggWk42s2oCmF5xa4tekJX144g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eNbksOTk; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WTPQw3q/"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-3514b90bb89so5417025eec.1
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 06:49:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792417748; x=1793022548; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bEztdDDpFj8E/NzlIg6MGNFZJjN+6g55tMmgBsxZpdQ=;
-        b=WTPQw3q/2ch6+c57GMFUxG/qzPWOCimZ08ObKn9oBcYnX7BHvP3yWFXtzb91Lzfeo3
-         WYt5cRJYCyU/NnAGltvT/Bvk0e2QSHn4rVaFuz95899SFkfTk9xzdPxuN0GRHMLTriTh
-         WiLi8xHO6LESczroYzQN4p5Ly+gcmJiEOPga9hJCuhBg0HvvbuB86xrQ16w1fG9GKG5z
-         eYiZUgCOLJe0QqbEZC2N73LcU5cEAJSVJlnMHsjz5ZVU3fOT9XYMnzPF1BY/Mbjd0soc
-         KHJtgpHVQlF189KEudjiQFjsl5OcFRcXqfdv+YDH+DHmqDVw9P4T1IwDh/yoXmOyUYAb
-         Fv3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792417748; x=1793022548;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=bEztdDDpFj8E/NzlIg6MGNFZJjN+6g55tMmgBsxZpdQ=;
-        b=Eg5aweePhFRcMgIwg48FEYKyurmtFfNwtUtIRkGvrfhAhHJIN+kmXw4tei5Kyt5KlS
-         xRYCV+hnF2yIfhDaOUgOC+5kuRkZf/mzhHRFBKwXsjMyPnggCFOU81ndWR8ykactdOR3
-         8Bgv8ii8G0yXH6QFNvOkjpP1Le5Mz2WQtLIDy7qfdWJU8SpwlYgmsVF5YSaPnyPhemv7
-         XoHrAg11pdECdnm5E3m9+KIH1+wh3+FGpdL+/SHSRa13vS6m+KfaXzeVblKvK415kgUp
-         aWyr6cyIQEN7J0j1YnNmASzsF7cG2+yXHSgGdXzc2FNfdEK+gJjsKaoaoPZP4xSmj9kV
-         m0cA==
-X-Forwarded-Encrypted: i=1; AKwUvBzgYIBJGrafJXxonJw4CQrxFi69oijLRQKwJX7ljruYwKkd4S+Hqlo7iDJoWjb6LZFxzry06ue458c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJB9b+k/j9tfj6HP9sGIXFtGykKny1M54x5QxibEbk5Y2OppLEi
-	9h9VWukc0YaggarsKaF4thOfKkLVNxQW1uEoi14M02sziFuYfrZslt/z
-X-Gm-Gg: AYBFou37inM6qizBJQcMgskLLmmt2B/VzTBKnIuo79Yk+7canZdmkg3j6DxpN/kPZTt
-	gTaJKK30FMQaM9/vYB8DaYT7MbPtCOX2UBRNeWYtMiLktyaO8mho0XyJi7bmxPAxPhJ+U1aZfny
-	k1Jnd9wKcwCfM4yyuydEvPtgIEJyVOfZ1mh1WrUNrcG3Ga8N5yLF1C1zxGewKTTt+7opxU7iknQ
-	GcmVueXJGfMEgfo2+8Xty9Kc4rzIpiFRCVQiJ1FChyHnQyd7sgrfYmj9PhdNmE0uae8BkEWSUp6
-	9iENYyKrewuQzsMvy9XAqPOhhAsuM+8B4eGS2xmQVwY5Hld1EunSXhIgi+Q8aYHspoNUYpHXRnG
-	1ZNZ9sFW5FEQCJPzuK3q46oIQiJWNO6Sci5WMAHQsPd7qpOKblI+pq2VYZhRcuV7vyvx67s/OoP
-	9WdrrqgoC0d7O6Eox8JG5CZATs+TJU60tN/vGahFJcXj1+tO7e3IWRC29NP4AXeNh8pW0Hb4liG
-	sJ39eDc
-X-Received: by 2002:a05:7300:2406:b0:360:ab79:e0a6 with SMTP id 5a478bee46e88-361a264577dmr12085103eec.28.1792417748271;
-        Mon, 19 Oct 2026 06:49:08 -0700 (PDT)
-Received: from maclinux ([2803:c600:9110:8ba5:1c75:eeaa:b22f:20dc])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36081fa5a6esm33611831eec.16.2026.10.19.06.49.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 06:49:07 -0700 (PDT)
-From: =?UTF-8?q?Francisco=20Beltr=C3=A1n=20Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
-To: mika.westerberg@linux.intel.com
-Cc: andreas.noever@gmail.com,
-	westeri@kernel.org,
-	YehezkelShB@gmail.com,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eNbksOTk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBDD11F000CA;
+	Mon, 19 Oct 2026 13:55:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792418119;
+	bh=GNAwXZxGzpjCpCLLS6riFOILsXe4BJz2ZdZ68y974jo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=eNbksOTk0H4NLiU+E7mgpnuaBDfwmQvaTj+XeUtKrtBcGe3rRhnNfhdQId81XLwsT
+	 ZJAVosnq/VJ6kfvW6Wveprnl1yNzqPDXuxw6Za24Iy7XEsniWQemYc5VBEngrAxPgd
+	 FXGkyhbmIVB2fw/nUxnwH6ENOfrozXB1/C2MpofcL8sK04V9qmXhat1rV5yzfn1ybx
+	 baFXf35QISVkxBfXHh88peDXwPaeR+ao7cd2NOuy1jo3BZCd6cDfOaPWXqAH1SDMyA
+	 yIKLA+6JNwgUs3LLVv2d0qgi5JnoXvmwvLZsuiET8An/ob1lPAPRgNnepZswJ+SMQW
+	 Y6a+YuvEh/Kww==
+From: Sasha Levin <sashal@kernel.org>
+To: patches@lists.linux.dev,
+	stable@vger.kernel.org
+Cc: David Laight <david.laight.linux@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
 	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	helgaas@kernel.org,
-	bhelgaas@google.com,
-	linux-pci@vger.kernel.org,
-	lukas@wunner.de,
-	d@rrell.co
-Subject: [PATCH] thunderbolt: Call SXFP() on Apple systems with Alpine Ridge when suspending
-Date: Mon, 19 Oct 2026 10:48:51 -0300
-Message-ID: <20261019134851.7496-1-fbeltranmillalen@gmail.com>
-X-Mailer: git-send-email 2.56.0
+	linux-kernel@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.18-5.10] usb_string_copy: Use kzalloc() to avoid leaking old data
+Date: Mon, 19 Oct 2026 09:45:16 -0400
+Message-ID: <20261019135441.1420968-25-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
+References: <20261019135441.1420968-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Apple systems with Alpine Ridge, suspending to RAM with a device
-connected to a Type-C port leaves the PCIe link to the upstream port of
-the controller down on resume, and the ports are lost until reboot.
-Calling the SXFP(0) ACPI method under the NHI before entering sleep
-avoids that, so do it from suspend_late of the software connection
-manager.
+From: David Laight <david.laight.linux@gmail.com>
 
-The firmware can set bit 26 of plug events CS_20 when it resumes the
-NHI. While it is set SXFP(0) turns the router off and it does not come
-back on resume, so clear the bit first and skip SXFP(0) if that fails.
+[ Upstream commit 057df423bf4747091cf942af57307627e941e1fb ]
 
-Assisted-by: LLM
-Signed-off-by: Francisco Beltrán Millalén <fbeltranmillalen@gmail.com>
+If the string is read while being updated (which is why the copy is done
+in place) and the new string is longer than the old one, then the reader
+can read memory that isnt part of either string.
+
+Use memcpy() to copy the known length string instead of strcpy.
+
+Signed-off-by: David Laight <david.laight.linux@gmail.com>
+Link: https://patch.msgid.link/20260608095523.2606-37-david.laight.linux@gmail.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-This replaces "PCI: Extend Apple Thunderbolt power quirk to Alpine
-Ridge":
-https://lore.kernel.org/all/20260924132815.24430-1-fbeltranmillalen@gmail.com/
 
-As discussed there, both parts now live in drivers/thunderbolt, and
-nothing changes in drivers/pci.  I asked Bjorn to drop the PCI version,
-so the two should not be applied together.
+LLM Generated explanations, may be completely bogus:
 
-Without SXFP(0) the ports were lost in 15 of 15 cycles with a device
-attached (details in the old thread).  It runs from suspend_late
-because from suspend_noirq it did not help: by then the bridges below
-the controller were already inaccessible.
+# Stable backport analysis: `usb_string_copy: Use kzalloc() to avoid
+leaking old data`
 
-I tested it on a MacBookPro14,3, which has two Alpine Ridge controllers
-(two domains), with the software connection manager.  The kernel was
-6.18.49 with a backport of this patch.  The backport uses
-&nhi->pdev->dev in place of nhi->dev and adds a module parameter to
-switch it on, and the PCI quirk was switched off.  That kernel also
-carried my PCI save/restore series and a local change equivalent to
-the ACPICA fix mentioned below.  I have not run this patch without
-them.
+Local tree: **v7.3-rc4** (`7.3.0-rc4`, HEAD `f0100363d8c37`). The commit
+under review is `057df423bf474`. The buggy `kmalloc` + in-place `strcpy`
+path has been in this lineage since **v5.12** (`98f153a10da403`).
 
-- With a USB 3 disk on a Type-C port: 7 suspend/resume cycles,
-  sleeping from 30 seconds to 30 minutes.  The disk was still there
-  after each of them, and every time I checked, it could be read and
-  both upstream port links were at 8 GT/s x4.
-- With nothing connected: 3 cycles, both domains came back.  Plugging
-  the disk in afterwards worked normally.
-- One suspend with pm_test set to "platform".  It goes through
-  suspend_late and the noirq phase and returns without entering S3, so
-  it is the closest I could get to a suspend aborted after SXFP(0).
-  Both domains stayed up and the disk kept working.  SXFP(0) powers
-  down the xHCI on the side with nothing connected, and it came back
-  as well.
+---
 
-About bit 26: here the firmware sets it only with a fix for ACPICA
-PCI_Config regions under a bridge that has no bus number yet (the
-problem that open-acpica PRs #1235 and #1236 address).  Without that
-fix the bit read as clear in my tests, and the patch only calls
-SXFP(0), as the PCI version did.  With the fix, calling SXFP(0) with
-the bit set left the controller with the disk dead after resume in all
-3 cycles I tried.  Clearing the bit just before SXFP(0) gave 15 good
-cycles out of 15 in earlier tests (by hand, from a test module and
-from a modified PCI quirk; 12 of them with the disk attached), plus the
-cycles above.
+## PHASE 1: COMMIT MESSAGE FORENSICS
 
-If the bit cannot be cleared, SXFP(0) is skipped.  With a device
-connected, both choices lose the ports until the machine is powered
-off, so I chose the one that does nothing to the controller.  I have
-not tested that error path.
+**Step 1.1: PARSE THE SUBJECT LINE**
+- Subsystem: USB gadget configfs (`usb_string_copy` in
+  `drivers/usb/gadget/configfs.c`)
+- Action verb: **Use** (kzalloc) / implied **avoid leaking**
+- Claimed intent: stop readers from observing memory that is not part of
+  either the old or new string when an in-place update lengthens the
+  buffer
 
-As with the PCI version, a device plugged in while the system is
-suspended does not wake it.  I measured that with the PCI version and
-the bit cleared; this patch makes the same call.
+Record: `[usb/gadget/configfs] [use/avoid] [zero the string buffer and
+copy a known length to prevent leaking heap bytes during in-place
+updates]`
 
-Not tested:
-- Real Thunderbolt devices, only the USB 3 disk behind the
-  controller's xHCI.
-- Other Alpine Ridge variants.  Only the router ID of this machine is
-  matched.
-- An NHI that is runtime suspended when the system suspends.  Here
-  both NHIs were always active at that point.  If one is runtime
-  suspended, the PM core may skip its suspend_late (direct_complete),
-  and then SXFP(0) is not called.
+**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
+- `Signed-off-by: David Laight <david.laight.linux@gmail.com>` (author)
+- `Link: https://patch.msgid.link/20260608095523.2606-37-
+  david.laight.linux@gmail.com`
+- `Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>` (USB
+  maintainer applied it)
+- No `Fixes:`, no `Reported-by:`, no `Tested-by:`, no `Reviewed-by:`, no
+  `Acked-by:`, no `Cc: stable` (absence is expected)
+- Message-Id `2606-37` = patch 37 of a large series
 
- drivers/thunderbolt/acpi.c    | 83 +++++++++++++++++++++++++++++++++++++++++++
- drivers/thunderbolt/domain.c  |  5 +++
- drivers/thunderbolt/nhi.c     |  8 +++++
- drivers/thunderbolt/tb.c      |  7 ++++
- drivers/thunderbolt/tb.h      |  5 +++
- drivers/thunderbolt/tb_regs.h |  8 +++++
- 6 files changed, 116 insertions(+)
+Record: Author SOB + Greg SOB + lore Link. No reporters. Hardening/USB
+lists were the original audience (confirmed in Phase 4).
 
-diff --git a/drivers/thunderbolt/acpi.c b/drivers/thunderbolt/acpi.c
-index 53546bc477a5..6a61120b75f0 100644
---- a/drivers/thunderbolt/acpi.c
-+++ b/drivers/thunderbolt/acpi.c
-@@ -7,7 +7,9 @@
-  */
- 
- #include <linux/acpi.h>
-+#include <linux/platform_data/x86/apple.h>
- #include <linux/pm_runtime.h>
-+#include <linux/suspend.h>
- 
- #include "tb.h"
- 
-@@ -279,6 +281,87 @@ int tb_acpi_power_off_retimers(struct tb_port *port)
- 	return tb_acpi_retimer_set_power(port, false);
- }
- 
-+static int tb_acpi_apple_clear_bit26(struct tb_switch *sw)
-+{
-+	unsigned int offset = sw->cap_plug_events + TB_PLUG_EVENTS_CS_20;
-+	u32 val;
-+	int ret;
-+
-+	guard(mutex)(&sw->tb->lock);
-+
-+	ret = tb_sw_read(sw, &val, TB_CFG_SWITCH, offset, 1);
-+	if (ret)
-+		return ret;
-+	if (!(val & TB_PLUG_EVENTS_CS_20_BIT26))
-+		return 0;
-+
-+	tb_sw_dbg(sw, "ACPI: clearing bit 26 of plug events CS_20 (%#x)\n", val);
-+	val &= ~TB_PLUG_EVENTS_CS_20_BIT26;
-+	ret = tb_sw_write(sw, &val, TB_CFG_SWITCH, offset, 1);
-+	if (ret)
-+		return ret;
-+
-+	ret = tb_sw_read(sw, &val, TB_CFG_SWITCH, offset, 1);
-+	if (ret)
-+		return ret;
-+
-+	return val & TB_PLUG_EVENTS_CS_20_BIT26 ? -EIO : 0;
-+}
-+
-+/**
-+ * tb_acpi_apple_sxfp() - Call SXFP(0) on Apple systems with Alpine Ridge
-+ * @tb: Domain that is being suspended
-+ *
-+ * On Apple systems with Alpine Ridge the PCIe link to the upstream port
-+ * of the controller does not come up on resume from system sleep if a
-+ * device is connected, unless SXFP(0) under the NHI is called before
-+ * entering it.
-+ *
-+ * The firmware can set bit 26 of plug events CS_20 when it resumes the
-+ * NHI. While it is set SXFP(0) turns the router off and it does not
-+ * come back on resume, so clear the bit first and only call SXFP(0) if
-+ * it reads back as clear.
-+ *
-+ * Call only when entering system sleep. Does nothing on other systems.
-+ */
-+void tb_acpi_apple_sxfp(struct tb *tb)
-+{
-+	struct tb_switch *sw = tb->root_switch;
-+	acpi_handle handle, sxfp;
-+	acpi_status status;
-+
-+	if (!x86_apple_machine)
-+		return;
-+	/* Firmware powers the controller back on only if it was involved */
-+	if (!pm_suspend_via_firmware())
-+		return;
-+	if (!sw || tb->nhi->going_away)
-+		return;
-+	if (sw->config.vendor_id != PCI_VENDOR_ID_INTEL ||
-+	    sw->config.device_id != PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_C_4C_BRIDGE)
-+		return;
-+
-+	handle = ACPI_HANDLE(tb->nhi->dev);
-+	if (!handle || ACPI_FAILURE(acpi_get_handle(handle, "SXFP", &sxfp)))
-+		return;
-+
-+	if (!sw->cap_plug_events) {
-+		tb_sw_warn(sw, "ACPI: plug events capability not found, not calling SXFP\n");
-+		return;
-+	}
-+
-+	if (tb_acpi_apple_clear_bit26(sw)) {
-+		tb_sw_warn(sw, "ACPI: failed to clear bit 26 of plug events CS_20, not calling SXFP\n");
-+		return;
-+	}
-+
-+	tb_sw_dbg(sw, "ACPI: calling SXFP\n");
-+	status = acpi_execute_simple_method(sxfp, NULL, 0);
-+	if (ACPI_FAILURE(status))
-+		tb_sw_warn(sw, "ACPI: SXFP failed: %s\n",
-+			   acpi_format_exception(status));
-+}
-+
- static bool tb_acpi_bus_match(struct device *dev)
- {
- 	return tb_is_switch(dev) || tb_is_usb4_port_device(dev);
-diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
-index 12c88509a54f..06a23dd0fc70 100644
---- a/drivers/thunderbolt/domain.c
-+++ b/drivers/thunderbolt/domain.c
-@@ -569,6 +569,11 @@ int tb_domain_suspend(struct tb *tb)
- 	return tb->cm_ops->suspend ? tb->cm_ops->suspend(tb) : 0;
- }
- 
-+int tb_domain_suspend_late(struct tb *tb)
-+{
-+	return tb->cm_ops->suspend_late ? tb->cm_ops->suspend_late(tb) : 0;
-+}
-+
- int tb_domain_freeze_noirq(struct tb *tb)
- {
- 	int ret = 0;
-diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
-index 6d2be7734a00..f35852ab41e8 100644
---- a/drivers/thunderbolt/nhi.c
-+++ b/drivers/thunderbolt/nhi.c
-@@ -1163,6 +1163,13 @@ static int nhi_suspend(struct device *dev)
- 	return tb_domain_suspend(tb);
- }
- 
-+static int nhi_suspend_late(struct device *dev)
-+{
-+	struct tb *tb = dev_get_drvdata(dev);
-+
-+	return tb_domain_suspend_late(tb);
-+}
-+
- static void nhi_complete(struct device *dev)
- {
- 	struct tb *tb = dev_get_drvdata(dev);
-@@ -1422,6 +1429,7 @@ const struct dev_pm_ops nhi_pm_ops = {
- 	.thaw_noirq = nhi_thaw_noirq,
- 	.restore_noirq = nhi_resume_noirq,
- 	.suspend = nhi_suspend,
-+	.suspend_late = nhi_suspend_late,
- 	.poweroff_noirq = nhi_poweroff_noirq,
- 	.poweroff = nhi_suspend,
- 	.complete = nhi_complete,
-diff --git a/drivers/thunderbolt/tb.c b/drivers/thunderbolt/tb.c
-index 7e39b067e5ff..7b73b8c9accb 100644
---- a/drivers/thunderbolt/tb.c
-+++ b/drivers/thunderbolt/tb.c
-@@ -3108,6 +3108,12 @@ static int tb_suspend_noirq(struct tb *tb)
- 	return 0;
- }
- 
-+static int tb_suspend_late(struct tb *tb)
-+{
-+	tb_acpi_apple_sxfp(tb);
-+	return 0;
-+}
-+
- static void tb_restore_children(struct tb_switch *sw)
- {
- 	struct tb_port *port;
-@@ -3310,6 +3316,7 @@ static const struct tb_cm_ops tb_cm_ops = {
- 	.deinit = tb_deinit,
- 	.suspend_noirq = tb_suspend_noirq,
- 	.resume_noirq = tb_resume_noirq,
-+	.suspend_late = tb_suspend_late,
- 	.freeze_noirq = tb_freeze_noirq,
- 	.thaw_noirq = tb_thaw_noirq,
- 	.complete = tb_complete,
-diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
-index e86845762e22..4820a363f43f 100644
---- a/drivers/thunderbolt/tb.h
-+++ b/drivers/thunderbolt/tb.h
-@@ -481,6 +481,7 @@ struct tb_path {
-  * @suspend_noirq: Connection manager specific suspend_noirq
-  * @resume_noirq: Connection manager specific resume_noirq
-  * @suspend: Connection manager specific suspend
-+ * @suspend_late: Connection manager specific suspend_late
-  * @freeze_noirq: Connection manager specific freeze_noirq
-  * @thaw_noirq: Connection manager specific thaw_noirq
-  * @complete: Connection manager specific complete
-@@ -515,6 +516,7 @@ struct tb_cm_ops {
- 	int (*suspend_noirq)(struct tb *tb);
- 	int (*resume_noirq)(struct tb *tb);
- 	int (*suspend)(struct tb *tb);
-+	int (*suspend_late)(struct tb *tb);
- 	int (*freeze_noirq)(struct tb *tb);
- 	int (*thaw_noirq)(struct tb *tb);
- 	void (*complete)(struct tb *tb);
-@@ -779,6 +781,7 @@ void tb_domain_remove(struct tb *tb);
- int tb_domain_suspend_noirq(struct tb *tb);
- int tb_domain_resume_noirq(struct tb *tb);
- int tb_domain_suspend(struct tb *tb);
-+int tb_domain_suspend_late(struct tb *tb);
- int tb_domain_freeze_noirq(struct tb *tb);
- int tb_domain_thaw_noirq(struct tb *tb);
- void tb_domain_complete(struct tb *tb);
-@@ -1524,6 +1527,7 @@ int tb_acpi_init(void);
- void tb_acpi_exit(void);
- int tb_acpi_power_on_retimers(struct tb_port *port);
- int tb_acpi_power_off_retimers(struct tb_port *port);
-+void tb_acpi_apple_sxfp(struct tb *tb);
- #else
- static inline bool tb_acpi_add_links(struct tb_nhi *nhi) { return false; }
- 
-@@ -1537,6 +1541,7 @@ static inline int tb_acpi_init(void) { return 0; }
- static inline void tb_acpi_exit(void) { }
- static inline int tb_acpi_power_on_retimers(struct tb_port *port) { return 0; }
- static inline int tb_acpi_power_off_retimers(struct tb_port *port) { return 0; }
-+static inline void tb_acpi_apple_sxfp(struct tb *tb) { }
- #endif
- 
- #ifdef CONFIG_DEBUG_FS
-diff --git a/drivers/thunderbolt/tb_regs.h b/drivers/thunderbolt/tb_regs.h
-index 92d893634d2b..e28a9bfbfefa 100644
---- a/drivers/thunderbolt/tb_regs.h
-+++ b/drivers/thunderbolt/tb_regs.h
-@@ -577,6 +577,14 @@ struct tb_regs_hop {
- #define TB_PLUG_EVENTS_PCIE_CMD_TIMEOUT_MASK	BIT(31)
- #define TB_PLUG_EVENTS_PCIE_CMD_RD_DATA		0x1d
- 
-+/*
-+ * Alpine Ridge on Apple systems (VSC_CS_20). The firmware can set bit
-+ * 26 when it resumes the NHI. While it is set SXFP(0) turns the router
-+ * off and it does not come back on resume.
-+ */
-+#define TB_PLUG_EVENTS_CS_20			0x14
-+#define TB_PLUG_EVENTS_CS_20_BIT26		BIT(26)
-+
- /* CP Low Power registers */
- #define TB_LOW_PWR_C1_CL1			0x1
- #define TB_LOW_PWR_C1_CL1_OBJ_MASK		GENMASK(4, 1)
+**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
+The body describes a concurrent-read hole in the in-place update path:
+if a reader walks the buffer while a longer string is being copied, it
+can pass the old NUL and consume bytes that belong to neither string. It
+also switches `strcpy` to `memcpy` of the already-computed length.
+
+Record:
+- Bug: kernel heap contents can be observed by a concurrent reader of a
+  gadget string during an in-place lengthening update
+- Symptom: leaked uninitialized `kmalloc` bytes (via configfs show or
+  USB string descriptors)
+- Version info: none in the message
+- Root cause: first allocation used `kmalloc` (unzeroed tail); in-place
+  `strcpy` of a longer string temporarily removes the old NUL before the
+  new one is written
+
+**Step 1.4: DETECT HIDDEN BUG FIXES**
+This is not disguised cleanup. The subject states the leak. It *is* one
+patch in a treewide `strcpy` sweep, and `memcpy` is that sweep;
+`kzalloc` is the actual leak fix.
+
+Record: `[Not hidden. Real infoleak fix, bundled with strcpy-
+elimination.]`
+
+---
+
+## PHASE 2: DIFF ANALYSIS
+
+**Step 2.1: INVENTORY THE CHANGES**
+- File: `drivers/usb/gadget/configfs.c` (+2 / −2)
+- Function: `usb_string_copy()`
+- Scope: single-file, two-line surgical change
+
+Record: `[configfs.c +2/-2] [usb_string_copy] [single-file surgical]`
+
+**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
+Before:
+- First call: `kmalloc(USB_MAX_STRING_WITH_NULL_LEN)` then `strcpy`
+- Later calls: reuse the same buffer (`str = copy`) and `strcpy` over it
+  (the 2021 UAF workaround)
+
+After:
+- First call: `kzalloc` so the unused tail is zeros
+- Copy: `memcpy(str, s, ret + 1)` (`ret` is `strlen(s)`, so this
+  includes the NUL)
+
+Affected path: configfs store of
+manufacturer/product/serial/configuration strings (`GS_STRINGS_W`).
+
+Record: `[kmalloc+strcpy -> kzalloc+memcpy of known length; first-alloc
+and in-place update paths]`
+
+**Step 2.3: IDENTIFY THE BUG MECHANISM**
+Category: **uninitialized data / kernel infoleak** (with a concurrent-
+read window created by in-place update).
+
+Mechanism, verified in this tree:
+1. `98f153a10da403` (v5.12) stopped `kfree`+`kstrdup` and copies in
+   place so USB host pointers stay valid.
+2. First fill still used `kmalloc`, so bytes after the first NUL are
+   heap residue.
+3. Bind aliases those buffers into USB string tables:
+   - `stringtab[...].s = language->manufacturer/product/serialnumber`
+     (`configfs_attach_gadget_strings`)
+   - `cn->strings.s = cn->configuration` (`configfs_composite_bind`)
+4. `usb_gadget_get_string()` does `strlen(s->s)` then converts to
+   UTF-16.
+5. Configfs show is `sprintf(page, "%s\n", gs->__name ?: "")`.
+6. `GS_STRINGS_W` calls `usb_string_copy()` with **no** `gi->lock`. Host
+   `GET_DESCRIPTOR` is not serialized against that store.
+7. If a reader is in `strlen`/`sprintf` while `strcpy` lengthens the
+   string, the old NUL is overwritten first; the walk continues into the
+   unzeroed tail.
+
+`kzalloc` makes that tail zeros, so a torn read stops instead of leaking
+heap. `memcpy` is equivalent to `strcpy` here (`ret` already came from
+`strlen`).
+
+Record: `[uninitialized kmalloc tail leaked across a designed
+concurrent-read window] [kzalloc zeros the tail; memcpy is strcpy
+replacement]`
+
+**Step 2.4: ASSESS THE FIX QUALITY**
+Obviously correct. `USB_MAX_STRING_LEN` is 126, so max `ret+1` is 127,
+matching `USB_MAX_STRING_WITH_NULL_LEN`. `kzalloc` is strictly safer
+than `kmalloc`. `memcpy` of `strlen+1` matches `strcpy` for a C string.
+
+Regression risk: very low. Remaining torn-string reads of *previous
+string contents* are the pre-existing in-place design, not introduced
+here.
+
+Record: `[minimal, correct] [regression risk very low]`
+
+---
+
+## PHASE 3: GIT HISTORY INVESTIGATION
+
+**Step 3.1: BLAME THE CHANGED LINES**
+- Function added: `88af8bbe4ef781` (2012, “the start of the configfs
+  interface”) — originally `kstrdup` + `kfree(old)`
+- In-place `kmalloc` + `strcpy`: `98f153a10da403` (2021-03-17, in v5.12)
+  — **this is the buggy code**
+- Empty-string guard: `6d3c721e686ea` (2024, `Cc: stable`)
+- This fix: `057df423bf474` (2026-06-08)
+
+Record: `[98f153a10da403, v5.12] [bug present for years in this
+lineage]`
+
+**Step 3.2: FOLLOW THE FIXES: TAG**
+No `Fixes:` tag. The semantic Fixes target is `98f153a10da403`, which
+**is** in this tree (`git merge-base --is-ancestor` succeeded). That
+commit was itself `Cc: stable` and exists because USB host string reads
+race with configfs stores.
+
+Record: `[No Fixes tag] [real introducer 98f153a is in this tree since
+v5.12]`
+
+**Step 3.3: CHECK FILE HISTORY**
+Recent related commits on this file: OOB empty-string fixes
+(`6d3c721e686ea`, `3014168731b79`), later `f63edb54d8f73` (qw_sign,
+unrelated). No prerequisite refactor is required for these two lines.
+`kmalloc_obj` treewide conversion did **not** change this `kmalloc`
+call; the pre-image is still `kmalloc(...)`.
+
+Record: `[standalone vs file history] [no blocking prerequisites in this
+tree]`
+
+**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
+David Laight is not the USB gadget maintainer. Around this commit he
+posted ~100 compile-tested `strcpy` replacements to linux-hardening /
+subsystem lists. Greg applied this one. Sibling leak-style changes exist
+(e.g. TIPC pad bytes).
+
+Record: `[regular contributor, hardening series] [Greg applied; not a
+maintainer-authored USB patch]`
+
+**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
+Needs the in-place buffer (`98f153a`) to be meaningful; that is in this
+tree. Does not need `6d3c721e` (empty-string check) for correctness;
+that only appears as nearby context. Applies standalone.
+
+Record: `[standalone on any tree that has the 2021 in-place copy] [can
+apply standalone here]`
+
+---
+
+## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
+
+**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
+`b4 dig -c 057df423bf474` matched:
+https://patch.msgid.link/20260608095523.2606-37-
+david.laight.linux@gmail.com
+
+`b4 dig -a`: only **v1**, dated 2026-06-08, subject `[PATCH next]`.
+Saved mbox: patch only, **no replies**. Trailer notes:
+- one of a group removing unbounded `strcpy()`
+- **“all the changes are only compile tested”**
+- ~100 patches sent individually
+- “Apologies for the terse commit messages”
+
+WebFetch to lore.kernel.org returned **403**. Discussion content was
+recovered via `b4 dig -m`.
+
+Record: `[lore msgid 20260608095523.2606-37] [v1 only, no review
+comments in thread] [no reviewer Cc: stable] [compile-tested series]`
+
+**Step 4.2: CHECK WHO REVIEWED THE PATCH**
+`b4 dig -w` original recipients: Kees Cook, linux-hardening, linux-
+kernel, linux-usb, Arnd Bergmann, Greg Kroah-Hartman. Greg’s merge SOB
+is the only review signal in git. No `Reviewed-by`/`Acked-by` on the
+commit.
+
+Record: `[USB + hardening lists and Greg CC’d; Greg applied; no written
+review in the thread]`
+
+**Step 4.3: SEARCH FOR THE BUG REPORT**
+No `Reported-by`, no syzbot, no bugzilla. The race is inferred from code
+and from `98f153a`’s real KASAN UAF on the same overlapping access.
+
+Record: `[no external bug report] [concurrent access is documented by
+the 2021 UAF fix, not by a new user report]`
+
+**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
+Patch 37 of a ~100-patch `strcpy` series aimed at linux-next. This
+instance is one of the few that also changes allocation to `kzalloc` and
+describes a leak. No other series member is required for this function.
+
+Record: `[strcpy series; this patch is self-contained]`
+
+**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
+lore.kernel.org/stable search via WebFetch and curl returned **403**.
+Cannot confirm a stable-list nomination or rejection.
+
+Record: `[UNVERIFIED: stable@ discussion]`
+
+---
+
+## PHASE 5: CODE SEMANTIC ANALYSIS
+
+semcode MCP is not available. Used grep + file reads.
+
+**Step 5.1: KEY FUNCTIONS**
+Record: `[usb_string_copy]`
+
+**Step 5.2: CALLERS**
+Direct calls only through `GS_STRINGS_W` in
+`include/linux/usb/gadget_configfs.h`, instantiated in `configfs.c` as:
+- `gadget_language_{manufacturer,product,serialnumber}_store`
+- `gadget_config_name_configuration_store`
+
+Those are configfs attribute stores (privileged gadget setup). Host-side
+readers are `usb_gadget_get_string()` → `strlen` on the aliased buffers
+after bind.
+
+Record: `[configfs stores write; USB GET_STRING and configfs show read
+the same buffers]`
+
+**Step 5.3: CALLEES**
+`strlen`, `kzalloc`/`kmalloc`, `memcpy`/`strcpy`. No locks, no I/O.
+
+Record: `[string copy + slab alloc only]`
+
+**Step 5.4: CALL CHAIN / REACHABILITY**
+Userspace with configfs gadget access: `write(2)` →
+`configfs_write_file` → `GS_STRINGS_W` → `usb_string_copy`.
+USB host: `GET_DESCRIPTOR` / string request → `composite_setup` →
+`usb_gadget_get_string` → `strlen(s->s)`.
+
+Reachable. Typical writers are root (Android/embedded gadgetd). The
+**host** is a different trust domain.
+
+Record: `[reachable from configfs writes and from USB host string reads]
+[host path is the security-relevant reader]`
+
+**Step 5.5: SIMILAR PATTERNS**
+Same file already has other string-safety fixes (`6d3c721e`,
+`3014168731b79`). Author’s series has other “don’t leak leftover bytes”
+patches. No second copy of this exact helper.
+
+Record: `[isolated helper; same file has prior stable-bound string
+bugs]`
+
+---
+
+## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
+
+**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
+Yes. Pre-image at `057df423bf474^` still has `kmalloc` + `strcpy`.
+Introduced v5.12, present through this 7.3-rc4 lineage until this
+commit.
+
+Record: `[yes, usb_string_copy in drivers/usb/gadget/configfs.c] [since
+v5.12 / 98f153a]`
+
+**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
+Hunk is two lines inside a long-stable helper. Would apply cleanly here
+(and would apply to older trees that still have `kmalloc`+`strcpy`;
+empty-string check is only nearby context).
+
+Record: `[clean apply]`
+
+**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
+`6d3c721e` is a different bug (OOB on zero-length write). No other
+kzalloc leak fix for this helper.
+
+Record: `[no substitute fix already present before 057df423]`
+
+---
+
+## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
+
+**Step 7.1: SUBSYSTEM AND CRITICALITY**
+USB gadget configfs (`CONFIG_USB_CONFIGFS`). Used to compose gadgets
+from userspace (Android gadgets, gadgetfs-style gadgets, UDC testing).
+Not core mm/VFS, but a common embedded/Android path.
+
+Record: `[USB gadget configfs] [IMPORTANT for gadget/Android; PERIPHERAL
+for desktops without UDC]`
+
+**Step 7.2: SUBSYSTEM ACTIVITY**
+File still receives security-relevant string fixes in 2024–2026. Mature
+interface, not staging.
+
+Record: `[mature, still getting bounded-string fixes]`
+
+---
+
+## PHASE 8: IMPACT AND RISK ASSESSMENT
+
+**Step 8.1: WHO IS AFFECTED**
+Gadget systems that set manufacturer/product/serial/configuration via
+configfs and have the gadget bound so a host can read string
+descriptors. Config-specific: `CONFIG_USB_CONFIGFS`.
+
+Record: `[driver/config-specific: USB gadget configfs users]`
+
+**Step 8.2: TRIGGER CONDITIONS**
+Concurrent in-place store of a **longer** string while
+`strlen`/`sprintf` is walking the buffer. Window is a 127-byte copy —
+short, but the overlap is intentional (`98f153a` exists because host
+reads and configfs writes do overlap in practice). Unprivileged local
+users generally cannot write these attributes; a USB host can read the
+leaked bytes.
+
+Record: `[short race during string lengthening while gadget is live]
+[USB host can observe the leak]`
+
+**Step 8.3: FAILURE MODE SEVERITY**
+Kernel heap infoleak (uninitialized `kmalloc` bytes), not a crash. Can
+cross to a USB host via string descriptors. That is a security issue,
+not a panic.
+
+Record: `[kernel heap infoleak to USB host / configfs reader] [HIGH for
+security, not CRITICAL crash]`
+
+**Step 8.4: RISK-BENEFIT RATIO**
+- Benefit: closes a real infoleak on a path already known to race; 2
+  lines; `kzalloc` is the usual stable-grade fix
+- Risk: negligible (`kzalloc`/`memcpy` behavior-preserving for this
+  helper)
+
+Record: `[benefit high for gadget infoleak] [risk very low] [favorable]`
+
+---
+
+## PHASE 9: FINAL SYNTHESIS
+
+**Step 9.1: COMPILE THE EVIDENCE**
+
+FOR:
+- Real uninitialized-kmalloc leak, not style-only
+- Concurrent reader is why in-place copy exists (`98f153a`, KASAN UAF,
+  `Cc: stable`)
+- Host `strlen` on aliased pointers is a verified path
+- Two-line, obviously correct change
+- No new API/feature
+- Bug present since v5.12 in this tree’s history
+- Applied by Greg KH
+
+AGAINST:
+- Tiny race window; no syzbot/CVE/user report
+- Series was compile-tested only, labeled `[PATCH next]`
+- No mailing-list review comments
+- Not a universal core-kernel path
+- `memcpy` half is strcpy-hardening, not the leak fix
+
+UNRESOLVED:
+- Whether stable@ ever discussed this (lore 403)
+
+**Step 9.2: STABLE RULES CHECKLIST**
+1. Obviously correct and tested? **PASS** — correctness is local and
+   obvious; series is compile-tested only, but the change cannot
+   reasonably be wrong
+2. Fixes a real bug that affects users? **PASS** — heap bytes can be
+   read on a live gadget string update
+3. Important issue? **PASS** — kernel infoleak (security), not a
+   crash/deadlock
+4. Small and contained? **PASS** — 2 lines, one function
+5. No new features or APIs? **PASS**
+6. Can apply to the local tree? **PASS** — pre-image matches; no missing
+   helpers
+
+**Step 9.3: EXCEPTION CATEGORIES**
+Not a device-ID/quirk/DT/build/docs exception. It is a small
+security/correctness fix.
+
+**Step 9.4: DECISION**
+This is a contained infoleak fix on a helper whose in-place update
+exists specifically so USB hosts can read strings while configfs writes
+them. `kzalloc` is the right, low-risk close of that hole. It meets
+stable rules for this tree.
+
+---
+
+## What the commit solves for stable users
+
+After the 2021 UAF fix, gadget strings live in a reused `kmalloc`
+buffer. A host (or configfs reader) can walk that buffer while a longer
+string is copied in place, skip the old NUL, and return leftover heap
+data in a USB string descriptor. Zeroing on first allocation stops that
+leak. `memcpy` is a safe `strcpy` substitute given the existing
+`strlen`.
+
+Risk vs benefit: two lines, no API change, no lock surgery, benefit is
+closing a kernel-memory leak on Android/embedded gadget configs.
+
+---
+
+## Verification
+- [Phase 1] Parsed tags: author SOB, Greg SOB, lore Link; no
+  Fixes/Reported-by/Cc: stable
+- [Phase 2] Diff: `kmalloc`→`kzalloc`, `strcpy`→`memcpy(str,s,ret+1)` in
+  `usb_string_copy`
+- [Phase 2] Confirmed `USB_MAX_STRING_LEN` 126 and buffer size 127;
+  `ret+1` cannot overflow
+- [Phase 3] `git blame`: in-place `kmalloc` from `98f153a10da403`
+  (v5.12); function from `88af8bbe4ef781` (2012)
+- [Phase 3] `git merge-base --is-ancestor 98f153a10da403 HEAD` —
+  introducer is in this tree
+- [Phase 3] `git merge-base --is-ancestor 057df423bf474 HEAD` — this
+  commit is already in HEAD (ignored as “already selected”)
+- [Phase 3] `git describe HEAD` / Makefile: local tree is **v7.3-rc4 /
+  7.3.0-rc4**
+- [Phase 3] Pre-commit file still has `kmalloc`+`strcpy`
+- [Phase 4] `b4 dig -c 057df423bf474`: msgid `20260608095523.2606-37`,
+  `[PATCH next]`, v1 only
+- [Phase 4] `b4 dig -w`: linux-usb, linux-hardening, Kees, Greg, Arnd
+- [Phase 4] `b4 dig -m`: no replies; author said compile-tested only;
+  ~100 strcpy patches
+- [Phase 4] WebFetch lore.kernel.org: 403; used b4 instead
+- [Phase 5] Callers: `GS_STRINGS_W` →
+  manufacturer/product/serial/configuration stores
+- [Phase 5] Host path: `stringtab[].s` and `cn->strings.s` alias the
+  same buffers; `usb_gadget_get_string` uses `strlen`
+- [Phase 5] `GS_STRINGS_W` does not take `gi->lock`
+- [Phase 6] No other leak fix for this helper; `6d3c721e` is a different
+  OOB bug
+- [Phase 6] Backport difficulty: clean 2-line apply
+- [Phase 8] Failure mode: uninitialized heap infoleak, severity HIGH
+  (security), not a crash
+- UNVERIFIED: stable@ mailing-list discussion (lore 403)
+- UNVERIFIED: no runtime reproduction performed here; race is from code
+  + the 2021 UAF report, not a new reproducer
+
+**YES**
+
+ drivers/usb/gadget/configfs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/gadget/configfs.c b/drivers/usb/gadget/configfs.c
+index aa0a25efb6aa0..b6237a2e02003 100644
+--- a/drivers/usb/gadget/configfs.c
++++ b/drivers/usb/gadget/configfs.c
+@@ -125,11 +125,11 @@ static int usb_string_copy(const char *s, char **s_copy)
+ 	if (copy) {
+ 		str = copy;
+ 	} else {
+-		str = kmalloc(USB_MAX_STRING_WITH_NULL_LEN, GFP_KERNEL);
++		str = kzalloc(USB_MAX_STRING_WITH_NULL_LEN, GFP_KERNEL);
+ 		if (!str)
+ 			return -ENOMEM;
+ 	}
+-	strcpy(str, s);
++	memcpy(str, s, ret + 1);
+ 	if (str[ret - 1] == '\n')
+ 		str[ret - 1] = '\0';
+ 	*s_copy = str;
+-- 
+2.53.0
+
