@@ -1,69 +1,69 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10FD23EF0AA
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 03:34:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C926377ED9
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 03:34:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792380862; cv=none; b=DrlqZH89lAPYhyU6Fsp0AQBOlXlVMmLbP5GmKU4tqahRfJCa8rzKZDgrRnt08feey1l1FO24xCjo6+BCBWm8ystDwR/8Vx/6PB9gL8P1E3iJgSLvreo/kHPXwB3Z/yHTR6/FL5AcDFtQ85TLDkKqHUTuKNUwfR2L4qAqxFp6ADE=
+	t=1792380893; cv=none; b=ojHjkGY7rZxfsaMpVfIcBZPywngR7ULOiHUe0BGbWlEW8YlImfTp7DjdV3tW2eJAqe7nnvf7cMX16HmcNogbcaMeRRZ1wvMd2ww0rDBnSch9O5TOkg7YTH1n32AYSX01MT4RtT35EFCP33quYVXozXxsNMgIOx96KYkMsYYzSZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792380862; c=relaxed/simple;
-	bh=y/cWCG+bVwAtEoZnfRzuUb5PSJqI7ZqfYayWjoAeWsA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=l+tkkxqybaAs4qrchaLXtn+56kWVfDzKDSKkeHGdWpb7aox4igML5IfPGdREO7nNrF6yJ7560HyYFdvKGC1MfLWPYNka1UPSH6eH4jCNE2/W1bJaButoJvUUsBFtlWRH54nxrMNXsrojl4JhrPSmEVObq2yvnSK74Eq4d2zVM+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cPfAAp0A; arc=none smtp.client-ip=209.85.216.44
+	s=arc-20240116; t=1792380893; c=relaxed/simple;
+	bh=4Yjmn2WOkVpLe8VYEyQISbvZgK8n3WDI2qsSfL34KBc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TUVgDA+ZnUgwg7nCrgI74Z7eliGtcInM0qB6dKJBQEkhunKiMINDXUEHQxBEo7LY4LrsY/CKoGooBop9QCTHmYmP/NKEbhGSXoC0pzVXejEEhIa5zryIjrKVSnYsSJgV7ctCm4B0frAALNLTMVm8Etd+oLiIBCZ8BZR/1/J3KDo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZjghTI/V; arc=none smtp.client-ip=209.85.215.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cPfAAp0A"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3ad2b3b1c02so322860a91.1
-        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 20:34:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZjghTI/V"
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cd61a2dfd7aso412691a12.1
+        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 20:34:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792380860; x=1792985660; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792380892; x=1792985692; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=+gpICvUOk5Bsu25IUENRujBQeDUSaz7AmQ+tkKJdfcs=;
-        b=cPfAAp0AZWirMEI0VdPMlabRgt0dl0opuxmNIW0S06cCZYxExeN18namaL5PoE3xIR
-         hEZMJqka2MymTFUi/nmtT+cdt1AMr1I1CjiwEF84JNNp8tapM/3eeCao+gghEnLlxE+j
-         H/2kObyn7VHo0xUlJFBmJIWGPbxuhBcJUHDQ0EUlX1nFCANi7Vd4lU99vBOua9DE/m5g
-         /lg0RKg6Ffgen479ziDY5K5Fa5hVwKz4vYdyvBcH9+B8kSiipXP7Wd2biQa5kMD8iR7p
-         p1NeRfEa824EOsB8zlt3cs15o/ljnbO/fn6af2xlxZSGv52tLfQN99hAYMsf6Q+KvnXE
-         FtFg==
+        bh=HDpleH9Ke2Y1+8VcMmyF2Ssvoq0mqvQ/mLFZpD9YEIk=;
+        b=ZjghTI/VEzIkyay/IEWQu0fUouUfkuU6Y40nhiYDE61F4V+ezSw6GSSL/96VhzmX7f
+         8tbwgWytgPKRt1U0zljpJTBx9j9R1HLLJP130mUxJ4xe1iv18dPf2Je0+rtDJxhUZNqg
+         ssDFAo4KXlG+5pSnvGgKi2BB25hrmlosbizDgpE9ykXNS6NFOHkS5BVk3mxjXp4OPKL4
+         4kd1BT5T02QdvWd5fW2E7bHNaOPqoU6lRh5edC1x7UPdQkSEdDgw5zhG/YIVaf4rO/MK
+         DeUKt0nL44qVCPqHbA89d1ldYwaOwTzdzZIrLcbyH1mljPNGjc6k9qDpGmPoCGLxHfu5
+         hMxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792380860; x=1792985660;
+        d=1e100.net; s=20260707; t=1792380892; x=1792985692;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=+gpICvUOk5Bsu25IUENRujBQeDUSaz7AmQ+tkKJdfcs=;
-        b=pleXZUY5pkT1z5GXQA4CZNc3rScqXZT6T+pkIwvCncZBj1Coi8fdwFbcQAMaNuWfw9
-         oR0afcUq+16uPUnM1oK9BNPMJjfsEW3In648TJgLkTh28Z7uuNEqF/5HqMUyzwkPjpIF
-         NCkAo1ondYFxCb2OudlKAwMJpPPWs/nQEG+0SYpU203wPCiU/CrTRdKf13LefUYPT6Nx
-         FXwbQ5J+9Ui4uQy7M2T78XUG5UNadfHfl6uyxydmbPityIUgdi2WStkSWHNKM/gICKoX
-         xpAQSSPBDyeujtIvxaQ5GGRPW7mJW1FLN7u9Hmzfa9Yg7boOo5o1zr7NRgKundeNFbkv
-         ywtg==
-X-Gm-Message-State: AFq9FYJ/joqbtFUxqsbhyoDLdH+RpzZ8r5FXDHMjY2GzLhVNr8Y4RxYQ
-	BUFbxHizW9fJ8sKdU8V0GCWJo+mgOG53Yww0npIYPHCzLPuIRIwjO1GV
-X-Gm-Gg: AYBFou3bIwMqPsqdVVB+2pfCFPpEEOphGXsh7uKkbjB7r8qum0kwldqDFm5WZ3wIVLg
-	rkm/va2G/J9kn/M9ApSVGXxn8H2q59ADjL/4Ydl7lTkrpdgpRL/kI7TfKPTMvmRuysGTdHKGfKB
-	JYTPpTdewWQx3rhgb4YqhdYpofJzytm04QrSdK9FmwMsDNuBaoAVj0JmWtRzwo+2Y7OocOxG3AW
-	lfp2vKKelu4izaY2TpZOFvjXEjqx1kmlcsfPlDhu/BzAZihgNMadWklx/9Hub01BCTU/RoBh1Se
-	Ah1Lkf/nosmhUam++YJnUEZw/NxXsN2BFF6iOikgw3e7XQt6UobRzcpYaaaMU1e1U4sLf1Hl693
-	sU/HI88V3Z5fju2IX+sU8UGdgzL5lrgzajg60Bz4HiS3G6OjyJDAfXNXF/GOmTtanpp4SEkQvzC
-	plx6+AIxevq1tHN6rkccbJEm+0EXwcnjeXjdrQ/IA+bWXT8P9SAoli7xMyujKCFiXymACYBzmZR
-	eeSa3OBuSp6dZXzQG7RscaxUhLR11ZLMhNUaYsWl5DMb3ZzN4iIzvycTdJoGeUXe3bo/PsuVGH0
-	8CTcFEs08papPMDBHnYels5/Uc4hd/CiqgwkcpbhDx+n/F4u
-X-Received: by 2002:a17:90b:5111:b0:3a8:7096:9b48 with SMTP id 98e67ed59e1d1-3acee293889mr6105920a91.1.1792380860248;
-        Sun, 18 Oct 2026 20:34:20 -0700 (PDT)
+        bh=HDpleH9Ke2Y1+8VcMmyF2Ssvoq0mqvQ/mLFZpD9YEIk=;
+        b=uN1FQJAJXOqa5A2M8gqxmW5Ox3M7ARYByy17K2WcRdhGwYz50BJrE3OrrBAl2C15f5
+         DewafiC9fl+pnYinbm9ksd0G2lbs7IwWgcpGa9xruYfGGmSMNwPOJQvsGsWeX80LHqHU
+         ZKCNQZDaE87ge1r+wlLZDF7Ik2TNrOzn7yQWjT9Jc/HX8dHUYMrhARCZxJlZCmqYZgXo
+         PL+Gw+SiJCO8TYsbmDKpxLlL9oEM5OZoJgkq0nrA3t52dpHBaqr2Xrl1BuZ7kG10lcge
+         mqtG/FClnzKt3UziVEJeaXyO29uUub2io2ulPQ93EG75XCsvClJZ4DU6AjGlvKtAaP1h
+         qq4A==
+X-Gm-Message-State: AFq9FYL2BpEl7QGMxVH005s4ZmXvwQSuE2Wbyzms6ThLrZXIN4Tpp7jS
+	yUhanUEhgym4+K65FD/PQSDcpKdsL7+X6i2QxUkHuvYgyNELE2w6T9sq
+X-Gm-Gg: AYBFou3Pq/cV7cLYd6FgAIhLL4Tlfh8zJiDXTBS9qoX8n2at0TLv5nvVdprQLGNvYjl
+	6xWG4xv7M/f0ZXMTIim+fO84e8LrcLBvx6HjM/IhHyVJV5EXym0hSMFWzqV0D7IBBw7ErmKnPvw
+	Xpa9NytsPS5liAVgId3IOg+oA+TfrDFn1gm3e2EnfIaNNaygF7HhtKDE5TKybaXX2VNbzFFqAca
+	YrTeNSRnefjpFaV9NvRfcjhUlLaT5+Ida0EmFRm7gSLlNYjKRBMkLQ1fd4O1ysT6gfOMJkHJ2wC
+	tCSVJ89O3Q4WlyTYBrd+hSktgAnmoW/8m6yNF7CbYe1MzTDdmeuOpo0nh6H1I3owvJiJU1f1YYX
+	dikVBoITP3p738dQ+kPJn2mD31NvijMADKNhj3C6qiNOTku7lfGtJ137Hyga1E1c5hfsmJDryHd
+	UnoAK/tq9c6v3/l90azPg1Z5zOUN/lnL+oGyp+m0hWObdS5leZiZko6+pLExnMfqQnF/0gd3mVz
+	6QO556gTxKXto/1TvbGklFGx2R+Uh429x5gKUelvGkg89mISoqiwZBERS6h2HCnO4GfxveN+7ws
+	rQIUa1u43pMfMGAmaoDVcQbfLLvTbJMIRUcirlP75ruLJ1Le
+X-Received: by 2002:a17:90b:2ec3:b0:3a0:b312:1fbe with SMTP id 98e67ed59e1d1-3acef134d96mr5136229a91.23.1792380891798;
+        Sun, 18 Oct 2026 20:34:51 -0700 (PDT)
 Received: from EAIT-H54D9Q2FJQ.eait.uq.edu.au ([130.102.10.249])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acc4872861sm15136144a91.7.2026.10.18.20.34.18
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd05c9255sm7373900a91.2.2026.10.18.20.34.49
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 18 Oct 2026 20:34:19 -0700 (PDT)
+        Sun, 18 Oct 2026 20:34:51 -0700 (PDT)
 From: Yu Zhang <yuz08559@gmail.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [BUG] usb: gadget: configfs: use-after-free of gadget strings during bind and under a bound gadget
-Date: Mon, 19 Oct 2026 13:34:15 +1000
-Message-ID: <20261019033415.73542-1-yuz08559@gmail.com>
+Subject: [BUG] usb: gadget: u_serial: use-after-free of gserial in gs_write()/gs_flush_chars() remote-wakeup path
+Date: Mon, 19 Oct 2026 13:34:46 +1000
+Message-ID: <20261019033446.73554-1-yuz08559@gmail.com>
 X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -75,103 +75,59 @@ Content-Transfer-Encoding: 8bit
 
 Hi,
 
-The gadget-side string configfs objects (the strings/<langid> directories
-and the strings beneath them) are created, modified and destroyed with no
-serialization against, and no lifetime coupling to, a bound gadget. This
-gives two use-after-frees, both reproduced on an acm gadget over
-dummy_hcd with KASAN. Both are root/configfs triggered.
+gs_write() and gs_flush_chars() cache
 
-== Background ==
+	struct gserial *gser = port->port_usb;
 
-Writing the UDC attribute (gadget_dev_desc_UDC_store()) runs
-usb_gadget_register_driver() while holding gi->lock, and
-configfs_composite_bind() -> configfs_attach_gadget_strings() then walks
-gi->string_list and, per language, language->gadget_strings to build the
-usb_string tables (the "the gi->lock is hold by the caller" path).
+at function entry, before taking port->port_lock. In the
+"if (port->suspended)" branch they drop port_lock and call
+gserial_wakeup_host(gser) on that cached pointer, with no re-check of
+port->port_usb -- unlike the sibling gs_start_tx() path in the very same
+functions, which is guarded by "if (port->port_usb)" after re-acquiring
+the lock.
 
-The configfs callbacks that build and tear those lists down do NOT take
-gi->lock:
-  - gadget_language_make() / gadget_language_attr_release() add/remove
-    languages on gi->string_list;
-  - gadget_language_string_make() / gadget_language_string_drop() add/
-    remove strings on language->gadget_strings and adjust nstrings.
-(Contrast function_make()/function_drop(), which take gi->lock around
-gi->available_func.)
+gserial_wakeup_host() dereferences gser->func.config->cdev->gadget. A
+concurrent gserial_disconnect() clears port->port_usb (under port_lock),
+and the following unbind / function teardown frees the enclosing
+struct f_acm / struct f_gser (which embeds the gserial) via ->free_func.
+The cached gser is then used after free:
 
-A store to the gadget's "UDC" attribute and a mkdir/rmdir of a child
-strings/<langid> directory are not serialized by the configfs core: they
-hold disjoint locks (the store holds the gadget-root fragment rwsem plus
-gi->lock; the rmdir holds su_mutex plus the langid's own fragment rwsem
-plus the strings/ i_rwsem), so they run concurrently on different CPUs.
-
-== UAF #1: gi->string_list walked during bind vs. concurrent rmdir ==
-
-configfs_attach_gadget_strings() dereferences a struct gadget_language
-that a concurrent "rmdir strings/<langid>" frees:
-
-  BUG: KASAN: slab-use-after-free in configfs_composite_bind+0x2ba/0xe70
-  Read of size 4 at addr ffff8880085db900 by task ...   (language->nstrings)
-   configfs_composite_bind+0x2ba/0xe70
-   gadget_bind_driver+0x170/0x5f0
-   really_probe+...
-   gadget_dev_desc_UDC_store+0x179/0x220
-   configfs_write_iter+0x1a7/0x250
-   vfs_write+0x5df/0x940
+  BUG: KASAN: slab-use-after-free in gs_write+0x120/0x240
+  Read of size 8 at addr ffff888006c5d430 by task ...
+   gs_write+0x120/0x240
+   n_tty_write+0x355/0xc30
+   file_tty_write.isra.0+...
+   vfs_write+...
+   ksys_write+...
   Allocated by task ...:
-   gadget_language_make+0x93/0x340
-   configfs_mkdir+...
-   vfs_mkdir+0x1ed/0x4d0
-   __x64_sys_mkdir+0x47/0x60
+   acm_alloc_func+0x34/0x1f0
+   config_usb_cfg_link+0x15c/0x220
+   configfs_symlink+...
   Freed by task ...:
    kfree+...
-   config_item_put+0x89/0xa0
-   configfs_rmdir+0x42f/0x5b0
-   __x64_sys_rmdir+0x34/0x50
+   acm_free_func+0x29/0x60
+   config_usb_cfg_unlink+0x1a9/0x240
+   configfs_unlink+...
+   __x64_sys_unlink+0x34/0x50
 
-== UAF #2: a bound gadget references strings that rmdir frees ==
-
-configfs_attach_gadget_strings() stores raw pointers to each
-language->manufacturer/product/serialnumber (and each string->string)
-into the cdev's string tables; usb_gstrings_attach() does not copy the
-string contents. Removing a language (or a string) with rmdir while the
-gadget is bound frees those buffers in gadget_language_attr_release() /
-gadget_string_release(), and the next host string request dereferences
-them:
-
-  BUG: KASAN: slab-use-after-free in strlen+0xe/0x40
-  Read of size 1 at addr ffff8880065f2000 by task swapper/2/0  (GET_DESCRIPTOR)
-   strlen+0xe/0x40
-   usb_gadget_get_string+0xbb/0x1b0
-   composite_setup+0x33fa/0x4690
-   configfs_composite_setup+0xbb/0xd0
-  Allocated by task ...:
-   usb_string_copy+0xed/0x110
-   gadget_language_product_store+0x22/0x60
-  Freed by task ...:
-   gadget_language_attr_release+0x36/0x60
-   config_item_put+...
-   configfs_rmdir+0x42f/0x5b0
+gs_flush_chars() has the identical shape.
 
 == Reproduction ==
 
-acm gadget on dummy_hcd (CONFIG_USB_DUMMY_HCD, CONFIG_USB_CONFIGFS,
-CONFIG_USB_CONFIGFS_ACM), KASAN:
+acm gadget on dummy_hcd (CONFIG_USB_DUMMY_HCD, CONFIG_USB_U_SERIAL,
+CONFIG_USB_CONFIGFS_ACM), KASAN. Put the bus into suspend so
+port->suspended is set: write "auto" to the gadget's host-side
+.../power/control with autosuspend_delay_ms=0, which makes dummy_hcd
+suspend the port and run the gadget ->suspend / gserial_suspend. Then:
 
-  mkdir g1; echo ... > g1/idVendor; echo ... > g1/idProduct
-  mkdir g1/strings/0x409
-  echo ... > g1/strings/0x409/{manufacturer,product,serialnumber}
-  mkdir g1/functions/acm.0
-  mkdir g1/configs/c.1
-  ln -s g1/functions/acm.0 g1/configs/c.1/
-  # race:
-  echo <udc> > g1/UDC        &      # bind: walks the string lists
-  rmdir g1/strings/0x409             # frees the language
+  - task A: write to /dev/ttyGS0  (enters the gs_write() suspended branch)
+  - task B: echo "" > g1/UDC ; rm g1/configs/c.1/acm.0 ; rmdir g1/functions/acm.0
+            (unbind + drop the acm function -> frees the gserial)
 
-UAF #1 fires during the bind walk; UAF #2 fires on the next host string
-descriptor request after the language is freed under the bound gadget.
-(I widened the two windows with a debug mdelay to make them
-deterministic; without it they are narrow races.)
+The gserial_wakeup_host(gser) call in task A then touches freed memory.
+(I widened the window after the port_lock drop with a debug mdelay to make
+it deterministic; without it this is a narrow race.)
 
-UAF #1 is a narrow race (bind vs. rmdir); UAF #2 does not even need a
-race: removing a language under a bound gadget is enough, the next host
-string request then reads freed memory.
+The sibling gs_start_tx() call in the same two functions is guarded with
+"if (port->port_usb)" after re-acquiring port_lock; the suspended/wakeup
+branch dereferences the pre-lock cached gser with no equivalent check.
