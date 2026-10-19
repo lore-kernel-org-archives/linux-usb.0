@@ -1,69 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792421953;
-	b=sLLBCMM2hSld5OyS3WrwbsYjnYVSBkld18EXn58byNJzqeAkZqdErPGkHtauMDU4xMUA
-	 fNFNzCII5i/6MBqQ9nJhecqKSdUozybdmxGFQJSWNCxYK9q4YHlMi6wj9Y/p/0HXtm7/p
-	 Rh0yHrVHfjIYX538Jb9EKTrjjw6yIMqcS1xyIBjJiwXAdrElzemvZwMhYt0ndux3OAUdw
-	 snZ1OZFM/dp2rrZicNVxN54jsB0/oxLW2YCMQLKQjfE+1wjrpJNZg/t78jITpFFoKZgNb
-	 V6Bb4Bqq14yEcVn+Q5L04qDTAT5p0rIFRUwR9giGUsUeqlqOHfKRzK//r4+fik6JxmA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792421953;
-	h=Received:Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 Cc:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 Date;
-	bh=+R0B8S2hABvdNBkR24pQrxD7SFfBRqToCiDPwYF36WQ=;
-	b=3xNKk5Hq93q+EOkLeTrIfo0QQU+Ln3aMYF5rTEBG382sIjCIk/F7cSipYkVrnyfhaXgD
-	 Buq0qQUNCtvhQZEgDisa6IR82m2WSD2Qhty4sKTviJgyFgOSVHq17xQIhVL/09ZBhM3Aq
-	 BBWpRnsJfr9GWJFyd4wR7U4ivpGKoosTYOWNvWP9JRb18lwgox3c+dnwhhXOpdXJzGz/N
-	 0BX90NlL4i3YrFnoP1pSeP3oUFab1MJIqf4YV1cDB931RNVAx6fZrMdW+SVZlVkLyFcuG
-	 P3CmoIYRd83GytH8VuwjwzglrkTprWVSNm02macGc/b8MAQA4vugcY0K6BWL8NQEF0w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YI20Oo1Y;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F72B60774E5
-	for <linux-usb.vger.kernel.org@localhost.mlmmj>; Mon, 19 Oct 2026 14:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YI20Oo1Y
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792423223;
+	b=yC2S2tHjmXlnAamYAWl/AzRndN8zDo6iwx/9GStMxq16nAGahx/f9z/TzImOq4E6ak4M
+	 wfATbuT4mPLNqlbI/CCbI7zHpeps/NZrTJ4TyMECmK9vgdGMZ/xsCFNxwm2J0cYsG2LeD
+	 Fb7uakHz8MwQ8GcafgH3j7R/d17usOidLG4RwgmrPWS6EEnMKUJlaAwEE8ArTuEBxZoDl
+	 Fu/fCsQ/SMb5IjzNP+Rf/Nz0m+oIzaUG2TGlk0R5M49Agn/VIt9ayPSfKi5GbgYD/3CcX
+	 cLMEYZRp3dVxduo+Ywt2RtQWm7gjQZGU+Tb02lcQiPJxl2Z61CIvHApJztfAO3Dgn0g==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792423223;
+	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
+	 In-Reply-To:References:X-sashiko-severity:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=XhBCp7Nh6s4BiEKxr65ce1IMZRfLAF9oc7NrWukG/aM=;
+	b=bRqkI0MjYu5eP0LTF9Xk/7GOgFSXQO0EW1ifJoKCeDsXW/LdWqH17vsVLwCD2rdVDsbQ
+	 AJ0XxGumkQzar/8eWukQWtVy5jmSbqoBhs8Mx9FmankjHA9W/ZsKrDue+5aFdt3cGmEA0
+	 VLZsROSoBAQ5MW5b+4k9E6npIL+CQV4uHrU8Wlab16EjHl05cR4ThAQiuSYc6YG8Ih77C
+	 ZeZN+BuRLWY7TGmOgZX3CKmXJtiyvHWp4kqPxqd1qZqQLZlHywy6T1NweF+aHqxWUXmUf
+	 lwIA3V80qh9J4nBpjcVmMuIOTmjC+E6htsbWc/3iOjfrmzcoLaSS9oaoq8MlXN9y7tg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GPVAgI10;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8057A6513C1
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 14:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792421953; cv=none; b=s+svxGQ40mcoRgkiqI0Y4DEJ4ma5+qCEc9z/xY8hfVSSwKLf/NKqJ8JmEIoogxpcU1NcClqnVsZ2eQmd7exA+cB1FvPaN1t8MIZN2K6itbao5nbzpXKT+JVUzhK0m+rOs8xgbYojzvKRkqBsUZZJ5IBsd6OhMSBXI43DWtwkYIU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792421953; c=relaxed/simple;
-	bh=+R0B8S2hABvdNBkR24pQrxD7SFfBRqToCiDPwYF36WQ=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=OVJ9KNkPSH13i8XIBRwJkv6jqEFOvnLvOIY3mNb0PPNI5Ekf5DMStLlHxNPt/dceYePBNNVbpU9s7+Jp5TATJSAWZ4QvwCTQtFDUqikBBjaJLkJrofh+nvMmApCKR+kNXrUIiNEqiEQaCZl6RYoUAdF+doJZmcufTkPEnx/4Ot0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YI20Oo1Y; arc=none smtp.client-ip=100.103.45.18
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3BF2A1F000C4;
-	Mon, 19 Oct 2026 14:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298A160A6F59;
+	Mon, 19 Oct 2026 15:20:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GPVAgI10
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62B8C1F000C5;
+	Mon, 19 Oct 2026 15:20:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792421952;
-	bh=+R0B8S2hABvdNBkR24pQrxD7SFfBRqToCiDPwYF36WQ=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YI20Oo1YkqaTZybdNzEw+fpFywmSSl4AD+wMsMnd6t3G5UqdTxDZVQWUvLagyuv2L
-	 fWaP1O2CIYQa5YrPNVb+g/H1C6yVQlFpXl16NKGDijQY1GfnuhheXHDAYbLPfXFjPy
-	 ZMSggKO37zH+4mmV7rJ70fzp2Rs26z7vDl1oyS4afRPYeskImcsr3KBx++1iA6ldge
-	 U5OlRad8XhDL0dlXMSzAb+DyUQ0PeHnznt8lQUIF/XVw2EHeFwM7grFDXFk5ddjUJf
-	 URXIEfGl1HdYqGZ7S40EffV6vZC753Has2YJfO8cuUAe2zUjpb1kiOUrbjqly8h1Xh
-	 g39h5vNZ+dWNA==
-Message-ID: <sashiko-outbox-177581@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH AUTOSEL 6.18-5.10] usb: misc: cypress_cy7c63: check
- result of IO
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sasha Levin" <sashal@kernel.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261019135441.1420968-353-sashal@kernel.org>
-References: <20261019135441.1420968-1-sashal@kernel.org>
- <20261019135441.1420968-353-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 14:59:11 +0000
+	s=k20260515; t=1792423222;
+	bh=XhBCp7Nh6s4BiEKxr65ce1IMZRfLAF9oc7NrWukG/aM=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References;
+	b=GPVAgI10CSfpJSpDXpybjj/pLY2f1EVax6aPNGZDJ+KFVXaPHg4CMZBYqSTAJEf8K
+	 tjc21bDDsLkBaw7ja/rwTITh59Bmw5+YiNV5HiVQD8RAAGNWUctLnVTTP5/uw8v1V2
+	 +nTbz5vogViT8iETdkvfRQhsGgy1QfHAz0Lx0atSVybaGVaYec32UsQG4tQcefqJ3a
+	 ycd/3yuyBO8I3AGrlc0VdptVmUN4bjhi4h0JsTnJH5jpQcgGEZDRK/emREttM8LSKs
+	 zZUh1t4SIygW/J0+yZN78RfMOnpnVG/lxjBtDoAP72ifOqzIkitNxIW+N49FZezl2L
+	 6jLy7X4XfFk2w==
+Subject:
+ Re: [PATCH net] net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
+From: netdev-bot+sashiko@kernel.org
+To: prashantsengar25031@gmail.com
+Cc: netdev@vger.kernel.org, Thangaraj.S@microchip.com,
+ UNGLinuxDriver@microchip.com, linux-usb@vger.kernel.org, kuba@kernel.org
+Date: Mon, 19 Oct 2026 15:20:21 +0000
+Message-ID: <179242322195.3135.13620860446079084379@kernel.org>
+In-Reply-To: <20261018151830.643511-1-prashantsengar25031@gmail.com>
+References: <20261018151830.643511-1-prashantsengar25031@gmail.com>
+X-sashiko-severity: Medium
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,22 +61,88 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
 
-> From: Oliver Neukum <oneukum@suse.com>
->=20
-> [ Upstream commit 0673b919e0933541ae56bb3f0253853f696d3773 ]
->=20
-> If the device returns a bogus short read, treat it as EIO.
-> Actually check for IO errors.
->=20
-> Signed-off-by: Oliver Neukum <oneukum@suse.com>
-> Link: https://patch.msgid.link/20260710095523.1646308-1-oneukum@suse.com
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Thank you for your contribution! Sashiko AI review found 1 potential
+issue(s) to consider.
 
-Sashiko has reviewed this patch and found no issues.
+Critical: 0 · High: 0 · Medium: 1 · Low: 0
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019135441.1420=
-968-353-sashal@kernel.org?part=3D1
+If you believe none of the issues are legitimate, please reply to each
+issue of Medium severity or higher and explain why the AI is wrong.
+If any of them are legitimate and you plan to respin, please let patchwork
+know by including "pw-bot: cr" as a separate line at the end of your reply
+(one such reply per series is enough).
 
+- [Medium] On a LAN7801 in fixed-link mode with no PHY, lan78xx_set_wol()
+  (drivers/net/usb/lan78xx.c) now accepts WAKE_PHY and returns success,…
+
+--
+
+net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
+
+This commit adds a check in lan78xx_set_wol() so that
+phy_ethtool_set_wol() is only called when netdev->phydev is non-NULL.
+This avoids a NULL pointer dereference on LAN7801 fixed-link setups
+that have no PHY attached.
+
+> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+> index 5655941f14783..0c19a84623523 100644
+> --- a/drivers/net/usb/lan78xx.c
+> +++ b/drivers/net/usb/lan78xx.c
+> @@ -1804,8 +1804,8 @@ static int lan78xx_set_wol(struct net_device *netdev,
+>  	ret = device_set_wakeup_enable(&dev->udev->dev, (bool)wol->wolopts);
+>  	if (ret < 0)
+>  		goto exit_pm_put;
+> -
+> -	ret = phy_ethtool_set_wol(netdev->phydev, wol);
+> +	if (netdev->phydev)
+> +		ret = phy_ethtool_set_wol(netdev->phydev, wol);
+
+[Severity: Medium]
+With no PHY attached, does this now accept WAKE_PHY and return success,
+even though nothing can raise a PHY wake event?
+
+In the fixed-link case, lan78xx_phy_init() returns early and leaves
+netdev->phydev NULL:
+
+	/* No PHY found, so set up a fixed link and return early.
+	 * No need to configure PHY IRQ or attach to phylink.
+	 */
+	return 0;
+
+In lan78xx_set_wol(), the wol->wolopts & ~WAKE_ALL check lets WAKE_PHY
+through. Then pdata->wol = wol->wolopts is stored and
+device_set_wakeup_enable() succeeds. With the new guard the PHY call is
+skipped, so ret stays 0.
+
+On the next system suspend, lan78xx_suspend() calls
+lan78xx_set_suspend(dev, pdata->wol). That arms a PHY wake source that
+has no PHY behind it:
+
+lan78xx_set_suspend() {
+    ...
+	if (wol & WAKE_PHY) {
+		temp_pmt_ctl |= PMT_CTL_PHY_WAKE_EN_;
+
+		temp_pmt_ctl |= PMT_CTL_WOL_EN_;
+    ...
+}
+
+lan78xx_get_wol() also keeps reporting wol->supported = WAKE_ALL, which
+includes WAKE_PHY, so userspace is told the mode is supported and
+active.
+
+Before e110bc825897, this configuration used a registered fixed PHY
+with the generic driver. That driver has no .set_wol, so
+phy_ethtool_set_wol() returned -EOPNOTSUPP.
+
+When netdev->phydev is NULL, should lan78xx_set_wol() reject WAKE_PHY,
+and should lan78xx_get_wol() drop it from the supported mask?
+
+>  
+>  exit_pm_put:
+>  	usb_autopm_put_interface(dev->intf);
+
+-- 
+Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261018151830.643511-1-prashantsengar25031%40gmail.com
