@@ -1,113 +1,127 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E8384DE731;
-	Mon, 19 Oct 2026 12:59:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+Received: from ustc.edu.cn (smtp.ustc.edu.cn [202.38.64.46])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B3C94EC665;
+	Mon, 19 Oct 2026 13:18:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.38.64.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792414774; cv=none; b=azg23YivcEG6y3NLPROIRfgM1c44qwnQdY0F7TxE8Faek0SG3XA7mO/wkCIkwhkJOeQT88LXaIscr38hZQyJWXTgz+yhETgZMumIXIXWybDzeGwT0ac1mWlOvX9FKePTLaKljcFk4YZCjrylDhI/E0vcGCSuru/jrCH/eZQLD4g=
+	t=1792415937; cv=none; b=KIFwvKZfHvFMWOF/sLLVte+DNE1VIFSPVIWaq8ZjO0hiEOmBPeifkpTLAKaWvmGSG6SwPQHV/WKqoUhFKe838V7K0NCtdWQAo4ozxHfoYNzRlt5kVLrj7en7WL+p4BYHirvfUCwgH9pEvyS/4BXtPKTXEgaiSp+b4xZsHLFXRvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792414774; c=relaxed/simple;
-	bh=/O/IZ6jeYkwVNlBRQZe+YCt80JcWyH19FfeWPmk/BhU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=d5ndfEOjYpa6Ca9Y3nxK4xOzTEVgktQ/x/OK4IxdibNF9SKcH9NkSJo04VIpjc6pI45uVPp0r5A+YYew3jgn4/+mNf+3I1CFSIPEeVTFAesFQHPE0qV3EolEYcroYt4+TvuftJQI6RbZdfkf9mjoQRqW37gaFXEruKVXnR755PM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hg7xatRv; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1792415937; c=relaxed/simple;
+	bh=ie2xRdvhW6XEpWHVnEjd1mxBQnEX5/KxMdAhk8NRWm4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Im1qottPw3/BEmCBbGs9Q37mQslkZhVUy854ThTZup+v/Ww3qHzA/VWJSZorU1qFKlLgPt+d6ArUBJjQGXKgQT1NybqUUDQRi22uBXMUO66OYHzV5QMRzZMOUJLEogE0rGl4aDvqgwRhhoQmkdt1NGA5YxK2WFCtG0QOATm5/zE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn; spf=pass smtp.mailfrom=mail.ustc.edu.cn; dkim=pass (1024-bit key) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.b=qxEI6b6P; arc=none smtp.client-ip=202.38.64.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ustc.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hg7xatRv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792414773; x=1823950773;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/O/IZ6jeYkwVNlBRQZe+YCt80JcWyH19FfeWPmk/BhU=;
-  b=hg7xatRvSprGp3zrnXY0Nt+sPRMVMjKW5myYVNjEyL40gAo1MZf2gQbU
-   csmi6Hkw/56M+Xgf6bEV4RKDIEewNE5FRLIyhoVgFrLzg8G7ULC2/KxBx
-   PFjIPDbUffUTpPtCXhYA1AuQIalmI1DGDcmL0LiMLNWFXLdueiz9OTDlt
-   wQyCKHX5IDZA28rDaiuUHo3hLXhdK8Rv1f3JEeXC2ZdTgYslXn+DTAoY2
-   YZro2VNb6EOyu73ETGQ9igGHktUkiZGPqjX+yTH5gjK9hwz2xohhpj65Y
-   yy8rr6swPyD+WhLrcB+0rsm2ZwFN0h9hjiflqItcqbZLHNu8yhfDBTOMj
-   w==;
-X-CSE-ConnectionGUID: R+FXD3yEQfuK4P04DaZXfQ==
-X-CSE-MsgGUID: y/pDUeU4QouyK1fkbLAnlA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="981126"
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="981126"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 05:59:32 -0700
-X-CSE-ConnectionGUID: C+hhxvkJQNCNH16oITH1WQ==
-X-CSE-MsgGUID: +48RKeNsQQmP901awQUj0w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,167,1787036400"; 
-   d="scan'208";a="2410369"
-Received: from nneronin-mobl1.ger.corp.intel.com (HELO [10.245.113.10]) ([10.245.113.10])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2026 05:59:29 -0700
-Message-ID: <80a71702-f2aa-47ce-a1e9-15d6884270ce@linux.intel.com>
-Date: Mon, 19 Oct 2026 15:59:26 +0300
+	dkim=pass (1024-bit key) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.b="qxEI6b6P"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=xR3GgYpgStYUF1iuqM1eQngTFywt2HRYv3
+	7KJeA9g1U=; b=qxEI6b6P3KEImeOCcQxi1sQovRwOayit9sQUWHcvUrMJS062s8
+	IEtfhIbBjXZ86iLdPaIWFrDarKAqUWzate/WKULT0R/9vlK10ivZrRG0cjUq9/wJ
+	Rx99gcrx/DR6UK0yrTwrpe1zAv+Ni/2OfVAd3xVGwamn/DKdZA2b0/wqE=
+Received: from xuqianhui.ustc.edu.cn (unknown [114.214.183.93])
+	by mailimap2024 (Coremail) with SMTP id 3pYKCgAnoze4GNZquR0TAA--.3173S2;
+	Mon, 19 Oct 2026 21:18:49 +0800 (CST)
+From: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [RFC PATCH v3 0/2] USB: describe two connectors sharing one DWC3 HS data bus
+Date: Mon, 19 Oct 2026 21:18:46 +0800
+Message-ID: <20261019131848.344689-1-xiaqinghuan@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261017081320.220525-1-xiaqinghuan@mail.ustc.edu.cn>
+References: <20261017081320.220525-1-xiaqinghuan@mail.ustc.edu.cn>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: disable the correct slot on alloc_dev failure
-To: raoxu <raoxu@uniontech.com>, mathias.nyman@intel.com
-Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <6C94F1F35FF16E76+20260806084909.2959131-1-raoxu@uniontech.com>
-Content-Language: en-US
-From: "Neronin, Niklas" <niklas.neronin@linux.intel.com>
-In-Reply-To: <6C94F1F35FF16E76+20260806084909.2959131-1-raoxu@uniontech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:3pYKCgAnoze4GNZquR0TAA--.3173S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxurWDtr4rXr13JFy3ZrWkWFg_yoW5Xry7pF
+	ZxKrWrtr4DtFWfCwnFv3W8Ca4rua1kGFW7Jr4DXw1UAa15GrWrWrWxtFyYvFyUCrsaq34Y
+	vwn0g3s8W3ZrurJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvIb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwV
+	C2z280aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC
+	0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUGVWUXwAv7VC2z280aVAFwI0_Jr0_Gr
+	1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r1q6r43
+	MxkIecxEwVAFwVW5GwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s
+	026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_
+	Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20x
+	vEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE
+	14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf
+	9x07bYtCcUUUUU=
+X-CM-SenderInfo: 50ld1x5qjk3t3q6ptxnoox23vfohv3gofq/1tbiAREFB2rVHlSR7ABIsS
 
+This is v3 of the series describing two USB-C receptacles that share one
+DWC3 High Speed data bus.  It is deliberately an RFC for the shape: the
+driver part is not included yet.
 
+Changes since v2:
+- Drop port@2.  The shared HS bus is now port@0 with two numbered
+  endpoints, endpoint@0 and endpoint@1, so "ports" keeps describing the
+  controller's own buses.
+- Require "ports" when port-select-gpios is present, and reject the
+  endpoint properties when it is not.
+- Constrain the two mux-state values to be complementary.
+- Move the per-connector role-switch lookup into a generic helper,
+  usb_role_switch_at_endpoint() (new patch 2/2).  v2 relied on the
+  lookup walking from the endpoint up to the parent device, which is not
+  what usb_role_switch_get() does upstream, so a consumer would never
+  find the switch.  With the helper the switch is registered against the
+  remote endpoint and found from the connector's endpoint.
+- Do not describe driver switching policy in the binding.
 
-On 06/08/2026 11.49, raoxu wrote:
-> From: Xu Rao <raoxu@uniontech.com>
-> 
-> xhci_alloc_dev() stores the Slot ID returned by the Enable Slot command
-> in the local slot_id variable.  udev->slot_id is updated only after
-> xhci_alloc_virt_device() succeeds.
-> 
-> If endpoint resource reservation or virtual device allocation fails
-> before that update, the error path passes udev->slot_id to
-> xhci_disable_and_free_slot().  During initial enumeration this is slot 0.
-> When reallocating a device whose virtual device is missing or belongs to
-> another usb_device, udev->slot_id may contain a stale Slot ID.
-> The newly enabled slot can therefore remain active, or the wrong slot can
-> be disabled.
-> 
-> Pass slot_id, which identifies the slot enabled by this invocation.
-> xhci_disable_and_free_slot() already handles a missing xhci->devs entry.
-> 
-> Fixes: 3ffbba9511b4 ("USB: xhci: Allocate and address USB devices")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Xu Rao <raoxu@uniontech.com>
-> ---
->  drivers/usb/host/xhci.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index 091c82ca8ee2..dd8c12380e0c 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -4298,7 +4298,7 @@ int xhci_alloc_dev(struct usb_hcd *hcd, struct usb_device *udev)
->  	return 1;
-> 
->  disable_slot:
-> -	xhci_disable_and_free_slot(xhci, udev->slot_id);
-> +	xhci_disable_and_free_slot(xhci, slot_id);
-> 
->  	return 0;
->  }
-> --
-> 2.50.1
+Two questions for you:
 
-Reviewed-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+1. Why not the standard mux bindings?
+   The GPIO only routes the HS D+/D- pair.  What the driver needs is role
+   arbitration between two connectors (the oldest active request owns the
+   data path, and a connector reports its role only while it owns the
+   path).  The mux subsystem can select a state but has no notion of
+   ownership or of USB roles, and drivers/usb/ has no mux_control
+   consumer today.  gpio-mux also drives its mux-gpio to the idle state
+   at probe time, which would override the level left by the bootloader
+   on this board.  So the arbitration stays in the controller and the
+   binding only describes the wiring.  If you would still prefer the mux
+   bindings we will rework it -- that is why this is RFC.
 
-Thanks,
-Niklas
+2. Is "usb-role-switch" on a graph endpoint acceptable, given that the
+   property normally means "this device registers a role switch"?  Here
+   it declares that this connector endpoint has its own role switch, and
+   the new helper looks it up from the connector's endpoint.  A separate
+   property name is possible if you prefer.
+
+The board is the same as in v2: two USB-C receptacles, Super Speed pairs
+independent, only the HS D+/D- pair goes through a 2:1 mux controlled by
+TLMM GPIO 29; both connectors have data-role = "dual" and are handled by
+pmic-glink.
+
+Once the shape is acked I will send the DWC3 driver part as v4, including
+the fixes from the review of v2.
+
+Qianhui Xu (2):
+  dt-bindings: usb: snps,dwc3: describe two connectors sharing one HS
+    bus
+  usb: roles: look up role switches attached to a graph endpoint
+
+ .../bindings/usb/snps,dwc3-common.yaml        | 109 +++++++++++++++++-
+ drivers/usb/roles/class.c                     |  40 +++++++
+ 2 files changed, 148 insertions(+), 1 deletion(-)
+
+-- 
+2.53.0
 
