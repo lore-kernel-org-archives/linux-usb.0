@@ -1,100 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792431808;
-	b=CoODtggx1E/aPt3Sx6OkD2Pp+pRvztbJ5A/bF93oJZ5ixqsJt8/OTTzzSZX5/9jbF69D
-	 qfdc/fLRZqWiV8GeXwupEmPmncj0AcV5U+Gj9hZJHUVH4yUi2NnwxgE4xSPJYAnFMEtBS
-	 gNYq3bMSYhD5BppWBHCvF2/hHwKpCfjy0FRqxgEUFg+K2sDQ74RJtTgKG8eOskrZeAaTJ
-	 PxwSFXZNp1iONAGZw18C08MRQnvxyyIY8vkURMv3+67Z/+6grR8SWLW074EaifNTHi9Pd
-	 SUghyg2Ob7IeR2nNtVP9vNZik/+eiepNm/H7HqbzFcujuA03iMjeTzFP46ycR1CwFVg==
+	t=1792432149;
+	b=ZCd1yGwslC2OpD2RD8D9Epa9VdlHavs11uFexUr02EeI2MMijKnIouHfXHdCDVeNTF+f
+	 ufzI4N6z7Ot2PL06z7TftepRbSAOLKTzGiLfMZnSLio0pi7NW7zC2MRhFGOHjh9SfyGQu
+	 MUcQgLOPJYIoybsXv6MIhyrwAMkEVDRW43T2dV1LL/jR+Zp9BlztiKePFte6UL96KJwZN
+	 rxFj9bDipJFYocEnjg6+nH4DFp1XVZffWZNGxqs6GCFJ1ofpf59Ms6UHTe1mbPkUvrvxo
+	 zVMeUhF8wChzQKYzGVrUHF6QdKL2S0F58RFG5NHRCj8xZys+R75Wqdaknkhaz/etGew==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792431808;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=wPNrP0TYEUKG7x6O4F6XyqZ7BQHOfMHuho4V1iIvRxU=;
-	b=Fh95sWPX+akYCU0wmZoCeq12L8ILe1OtfCf+HClZkkEsfSzMWR5LYAIrjC1c5vTI36Q7
-	 ltSYyqGilxY13o/pclamHzmyMRcHUGF4A4XbLvBX5/nZvHgq+q7TBsUsm9I9/PTYwPYMi
-	 tBH0zfYvCXEVscZL6oZ1bC9AfIfd4VutQZACfCihX6nN09HWp7ZBB+VZwpvG1TYeikkzQ
-	 GlsntPt5IfuMGKNeN4kuBpzLIxvhAVr8J8n2D5AZp19g9W/Tzn3ZXCyeBc+oaxYiWeMl7
-	 7/diMmRusX+3gfc3dyKOTjy8v+2rrV7A6xfyb2W8I5uNNf284Q2Gn6DccHy0dOSjiug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792432149;
+	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
+	bh=LQjFmI9QQLellZ0VlCapwZPQEhH0M5Hu+987Zcsj2FY=;
+	b=StxmVlRni0YMum/fkQutRGxk/qfgOKfHrgW93RFz7bCZV3WY/t3B7wue+QggxYEYbSLG
+	 6uQIRN5+f8yv+G+HB0ZpR1vqrnU7EYk93k7TwQ0VHgIvcfPbtJBpWO1tfcU5lxI3/PExF
+	 t51p4hbd+9IAVDZt51gyKglF9rITVNNJ7xPJCm/3XVyDZlWtpnBZJbNPESpzh4FfjpNW7
+	 Db+i3Shb3wkIa5PVm8hLCkfeF9gjxSp3b1GfEbUhgK3AxE5GYWfnIgVmV7hnsOD4K3R/R
+	 oUuVlzzIUayFL+YGIlo1hNuHF0ZgOTJjY3KX1bpy/F1kx7BVoK2PGfmHx7w1XBtR69A==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="dNQ/sBPS";
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.44
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40498606A31B
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 17:43:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40498606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Qv7GCCCL;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 190B9606A319
+	for <linux-usb.vger.kernel.org@localhost.mlmmj>; Mon, 19 Oct 2026 17:49:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=dNQ/sBPS
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c2af2ae1258so26054866b.0
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 10:43:28 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792431806; cv=none;
-        d=google.com; s=arc-20260327;
-        b=m/l84I3tlq8U/DrWQgCgPKK3Wy5vQpkRYxb3jEGRvt4fhKIAlL2JNx0y6P+UQeMT29
-         WlOyVSISrXYYK4ZPSHXl2mxNhwbZZB0FY4Eip4e5RnUjnZ3sJxob+oUhP0AMUzbv99yU
-         pQ2udriaGUhts5amilWfPMOttZmZOTK/2218H5PhstBVcgWiVKFkwMmJW9cS3SyFKVao
-         khCQ1e+dzfmDsZbklIrIZW8v5RUZIo0SJFT2NUxwG3h8+rJCcwxgP2orK/bFZqNKN6JU
-         xAltxUf2FGFGkTQqwOg0vFe1y951rO4yKGo2NldApdxHt5cfxcZBu5IC9dGElnhxTIcI
-         2ecA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wPNrP0TYEUKG7x6O4F6XyqZ7BQHOfMHuho4V1iIvRxU=;
-        fh=fuBIkrlTdZCxBptRhbnekekF1KDKeDV+w9wD34NyiWw=;
-        b=rZSlyUWHnhOz1OY5Nl8LYVSgpjQ7y+YX9MuAVCCmO5JyRX6XtpOcTGM+ueqo67Xpy4
-         m3pH2IuMUxB1/+Dl7UM9GPi4Adxy8Fk/twXRTHOecpJb+2pLLEBcK8gBch4X8CuANy46
-         7lHfNCO+pLP5SPuOnWlHfmSiRVY9J9xzlGPTqh8JClQ0rASAn5qRfv/WGTiFNpejkzL7
-         /CqIFDTL3aGpl9fakcUKie0dRbAHbNLiihaTLlEn5pKPZmVTGG9LZBV+o/d1ODDZcyIb
-         x2+u3LRdgrc+H8vujwuT/Jf68drXObR6UippZs6N1SjZ7+yjcJbYqAFRhsa68BrZJHi/
-         ZMHg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792431806; x=1793036606; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=wPNrP0TYEUKG7x6O4F6XyqZ7BQHOfMHuho4V1iIvRxU=;
-        b=dNQ/sBPStkXMQpex70SuZ62Yrgfa6wMNDbx1wEiIfirPCtEe1UJyUjsuzLb2RA6O5S
-         lWAHfxZ787sebGjmPhX5LCBgQHeO1vzkBhXTbR9dVpVs3NBAe//yafBX0EWhMhyUgICp
-         18kvDDsOhnt/TErM4twzrIsVSKoYX2D83qFqBUsupOWhOILENksjByGt5rnOcsf4ihNt
-         1LDRvQMhAK97pGwxYnQtirazPDbatrPhL6mIWRDOdRvqG476UPE6p1WjDakvQRrnguBu
-         nltB/cYJsNmLnGrSloLMmxaFUR+iImI6+9wrZk9zXO4pN+VIf//RjemQvN44XztefeAa
-         gP6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792431806; x=1793036606;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wPNrP0TYEUKG7x6O4F6XyqZ7BQHOfMHuho4V1iIvRxU=;
-        b=TITK7AdX/s5x7QU5zhFw3Yv85+rMFw+t0UmgzRhZCsk7NtrXd15I+yLbS8vRkMYYWd
-         85E3uNIVB7ZMNuFS8K54jkmsUz9xZ/3kBMhwXuaWr8dXmq+k4VWrnvnKn6mjyBi1hgoa
-         o4w4/Tcqp+N/nSfeTTRaplC8/hpFIVqWvsA0c3ZH7yFf+EMqLbc2K6NoU191+CFiD8Mt
-         l1/oNKpHaGR/t3Q9wDFVEPQd7Wc/Q+tLRQVg7hQFDWaffoDk1Q495K48Sw1WYYbHXgkS
-         OjTJUNmizqFKtMd59a9yx0lzQMrVj/I6kMMz8c147y8cWeuawO0t+ocOFWCOyZBSjAXJ
-         eqPA==
-X-Forwarded-Encrypted: i=1; AKwUvBwqnoVb/FwVjltcRIhfbtxdwcdTMD3pWuTZHrrlTTckNL8HY5Lov0n5gXJbY55YopC1EvxQViZZuqw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKxBirtiZAEszL/SuV/4OnhOV12kWr8+Un5Py/Nma3IHT011zPH
-	lFSLP2DAz5sAmDXH1BM/8ekH2WiFWnwcezYzDG7w4wbXYEYv5OinPf8qILWoHMQAk1ccSoLsQLC
-	Gkc2V074NbBX1EElBK3iC7mJND6rFbZw=
-X-Gm-Gg: AYBFou2MOCLH2jOMs0Q180I/TO3HDVWEvUaJiFzZaxayPBN/vLIomlkMmWt57R9LMTw
-	jgfyzuLgEC8KW1qewntzjWneBrOMR1cQOsTPVCb2W2AgQbax41yckekydoHCewBksV8rrTmPPCh
-	PDPTNi5OcScaGkPBCTnkW8DVUK+T4OZZqv10aBJnVB6SUmRK14Q8Hrjl35a7rc8hgDQtA3kMqH8
-	8cZdpt/hS04sFYtQa/xcpHTEk8yGVg4RgFOHZMD+fVm1LsH0WwUwEJ/ocZoA78rZI9xO3bSGdwp
-	uvqp1TGgxm3QPAp2U5U69Cqm+qbQMdUSYGmphKYajY7w9DRm/L/UjUjHlHvCKA+aAyWFGLONsFX
-	dtZgr4mkoWKY=
-X-Received: by 2002:a17:907:9489:b0:c25:3ec4:9e43 with SMTP id
- a640c23a62f3a-c419699efdbmr677930366b.0.1792431806365; Mon, 19 Oct 2026
- 10:43:26 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=Qv7GCCCL
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E269825771
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 17:49:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792432149; cv=none; b=KxTy3L6b0dvj5t8XAAlT18qMn/Wft/+kD+hfw2IBHIfSlsX++ZYkk5XZ7eA0hOYFnwARz4HwuzVEFpRA9RO3j2uGt1VKzjSeH+XkJs/WFc4t36lHeiQ+4fcU9jFmRwNUoeCFHcq2/x0TjTrT4fpAYfItR9o6e8aSkQ9NDk6lSVM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792432149; c=relaxed/simple;
+	bh=LQjFmI9QQLellZ0VlCapwZPQEhH0M5Hu+987Zcsj2FY=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QAoLA0x/kRo2WkOgijtCj3Olq3/G7a2XWT3VR17+lcWV8LYO98jwaUA3TGTkjWJwe2hLCPh80OnKg6aZE5odX6ZSwXaM7gD8cITIrjrVSHViw0wRuLDBwiP2RxOMgFTmXxJrYU8KH0SqrLae7G4bgnyR2UiLDYTT5aOinclpVyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qv7GCCCL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 33A5DC2BCFD
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 17:49:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792432148;
+	bh=LQjFmI9QQLellZ0VlCapwZPQEhH0M5Hu+987Zcsj2FY=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=Qv7GCCCLyOnF1Zb01XS9xKcmm7pcXFrFkSi9elbIAWRfhVALdrC5MqOhMsZ1J2J+v
+	 i/AS4C5NunGPfQnkKYZsIh4oKy+SoH3dNS6Kl9sLHnJlc1qpGw+9KBIK5974O0bswl
+	 VcwQh9NhuMkGOkWKYRsz1/t53feX6Ok0kICRbgkWyufpFhSdz65rlQr9GABZRiajoq
+	 PDOs9Cye9+5/63oJcHZz34r2SQpGZfA1gQKOaqZ3ySkBTxidG589d2WUlCG3r2u7Yj
+	 jvuxDKLuqVkgmO69BQONMBHSEX0ztqwEOYlEjQ3joRpdKKedIan/PsBZ0VfpDe/Qcx
+	 KyT8WOnYmjvlA==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 0A012C41612; Mon, 19 Oct 2026 17:49:08 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222047] [REGRESSION] USB xhci_hcd boot timeout on ASUS ROG
+ Crosshair X870E Hero since Linux 7.0)
+Date: Mon, 19 Oct 2026 17:49:07 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: michal.pecio@gmail.com
+X-Bugzilla-Status: NEEDINFO
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-222047-208809-W7DkVa9tR5@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-222047-208809@https.bugzilla.kernel.org/>
+References: <bug-222047-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,51 +94,22 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <CABL4uFnCWgWdPL5s85O49sDyNADf4Lk684nx60g9wox_qOOOww@mail.gmail.com>
- <CABL4uF=f6Y06KmZ+ux2ZrboiLxivFZMyB_dqc4rTiEtiLd3GLw@mail.gmail.com>
- <20260925052929.GW106095@black.igk.intel.com> <CABL4uFn1nTrdxomWgAWs_gtsM5r1owt+4KOk1F39rXTLF3UZkg@mail.gmail.com>
- <20261016055802.GV176164@black.igk.intel.com> <CABL4uFncJktAvO9yVpZOjm=uAjLa7291deE9x805i8Kc7tFUDw@mail.gmail.com>
- <20261019061121.GZ176164@black.igk.intel.com>
-In-Reply-To: <20261019061121.GZ176164@black.igk.intel.com>
-From: =?UTF-8?Q?Pawe=C5=82_Frelek?= <pawel.frelek@gmail.com>
-Date: Mon, 19 Oct 2026 19:43:04 +0200
-X-Gm-Features: AclHuK_iN144bomguRyPkFyoET1YGuIlfI0rU3RxX7IM4Q5_G-GMP3EhdF86ZrU
-Message-ID: <CABL4uFkwcK-5fXWY_csebiW2G8i+49H0kfN5bsmA_wGTAeVBqQ@mail.gmail.com>
-Subject: Re: [BUG] thunderbolt: NULL pointer dereference in tb_dp_dprx_work
- after device disconnect (7.2.6)
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: westeri@kernel.org, linux-usb@vger.kernel.org, andreas.noever@gmail.com, 
-	YehezkelShB@gmail.com, Sanath S <Sanath.S@amd.com>, 
-	Basavaraj Natikar <Basavaraj.Natikar@amd.com>, Mario Limonciello <mario.limonciello@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-pon., 19 pa=C5=BA 2026 o 08:11 Mika Westerberg
-<mika.westerberg@linux.intel.com> napisa=C5=82(a):
->
-> Hi,
-Hi
-> I suggest to take the just released v7.3 and see if the problem still
-> persist.
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222047
 
-Tested v7.3 (Arch config, localmodconfig). The recipe that hung 3 out
-of 3 times on 7.2.9 (monitors off via DPMS, back on, reboot ~10 s
-later) now passes 3 out of 3: no hang in nhi_pci_remove, nothing in
-pstore. So it looks fixed by 7.3, thanks!
+--- Comment #10 from Micha=C5=82 Pecio (michal.pecio@gmail.com) ---
+(In reply to Michele Bezzi from comment #9)
+> Yes I tried unplugging the devices (usd ports) and restart:
+Not sure what you mean by this. Which devices did you unplug and from what?
 
-The amdgpu side still logs this on every monitor wake through the
-dock, but that=E2=80=99s a separate thing for the AMD folks:
-
-WARNING: drivers/gpu/drm/amd/amdgpu/../display/dc/link/hwss/link_hwss_dpia.=
-c:52
-at update_dpia_stream_allocation_table+0x120/0x130 [amdgpu]
-amdgpu 0000:73:00.0: [drm] ERROR Sending link address failed with -5
-
-Pawe=C5=82
-
-
-
+The point of downgrading the kernel is to test if the problem goes away or =
+not.
+If old kernel still works, the bug is a kernel regression. If the old kernel
+doesn't work anymore, the problem was caused by a HW change, FW upgrade,
+userspace, etc.
 
 --=20
-Pawe=C5=82 Frelek   (=EF=BB=BF =CD=A1=C2=B0 =CD=9C=CA=96 =CD=A1=C2=B0)
-pawel.frelek@gmail.com
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
