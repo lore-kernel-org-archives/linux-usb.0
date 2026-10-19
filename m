@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792423223;
-	b=yC2S2tHjmXlnAamYAWl/AzRndN8zDo6iwx/9GStMxq16nAGahx/f9z/TzImOq4E6ak4M
-	 wfATbuT4mPLNqlbI/CCbI7zHpeps/NZrTJ4TyMECmK9vgdGMZ/xsCFNxwm2J0cYsG2LeD
-	 Fb7uakHz8MwQ8GcafgH3j7R/d17usOidLG4RwgmrPWS6EEnMKUJlaAwEE8ArTuEBxZoDl
-	 Fu/fCsQ/SMb5IjzNP+Rf/Nz0m+oIzaUG2TGlk0R5M49Agn/VIt9ayPSfKi5GbgYD/3CcX
-	 cLMEYZRp3dVxduo+Ywt2RtQWm7gjQZGU+Tb02lcQiPJxl2Z61CIvHApJztfAO3Dgn0g==
+	t=1792422710;
+	b=gdYZCm+Z+mhw7MquFC7LggAq7z6rPbrPgncjJb+IcL376mRi6ud4wllLe3cZsOKjPMxM
+	 6ph6WJ2hn3NG+gGUMtThygDhZWeiCihR70yMk/ZbLXjBtPA1yZa4iXwbIS+piYp3lNODp
+	 Q3IdJTgWximOrNpu5CHSVmyQdsaFOVeHglP0oP1W+SV3T3K2WDhSArq9CvgurotrR8iM5
+	 1Np/8MQ9p9iw9TawdFXzvQAt62HhgRacjWlTaYr81MQ8mPeHKQtmBVGv7fXRX9PX7OqXP
+	 +aJEf69i7H3mwctzlNvw8x4+1tEobOUHc0AVDxC1b0VdCYDQ1muAOqjXQl52KmN7AVw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792423223;
-	h=Received:DKIM-Signature:Subject:From:To:Cc:Date:Message-ID:
-	 In-Reply-To:References:X-sashiko-severity:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=XhBCp7Nh6s4BiEKxr65ce1IMZRfLAF9oc7NrWukG/aM=;
-	b=bRqkI0MjYu5eP0LTF9Xk/7GOgFSXQO0EW1ifJoKCeDsXW/LdWqH17vsVLwCD2rdVDsbQ
-	 AJ0XxGumkQzar/8eWukQWtVy5jmSbqoBhs8Mx9FmankjHA9W/ZsKrDue+5aFdt3cGmEA0
-	 VLZsROSoBAQ5MW5b+4k9E6npIL+CQV4uHrU8Wlab16EjHl05cR4ThAQiuSYc6YG8Ih77C
-	 ZeZN+BuRLWY7TGmOgZX3CKmXJtiyvHWp4kqPxqd1qZqQLZlHywy6T1NweF+aHqxWUXmUf
-	 lwIA3V80qh9J4nBpjcVmMuIOTmjC+E6htsbWc/3iOjfrmzcoLaSS9oaoq8MlXN9y7tg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792422710;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=PfNh1xWpZ6ttX6c24lnjMmNENwlWHYbc5MV3ffPCAXI=;
+	b=cGZpjjyunAtwZQw4aaNFDpTk4cV04Ypp1vj44rJv0nEuK0N0f4x8zwqXd1b4dHY47uQr
+	 CZLwiwMuVCcvqSiAfOawhsfnIaKg24rSOFJXoVskrF4d+piUNHSkXzxgBfN9GVTc0t/39
+	 AbOvyDe9pFrSYvDDDI4rZn4w8q1Wm8lia3AAw1oZgOsfHAfBDDd8MFxihab5opUpGOkzs
+	 yEcb/crVJ5QpPjIvhdoIsycz/xqhN324IYTO4lgBOAuzOGK68fYEq6jhhtpHAFupgYwcN
+	 lTvEfmbhtCFJoyQgtjR6BI4b2XEb4FBUC9o0eB00OR9+l8eQ2XWjGz+WF6R97rPUY5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GPVAgI10;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="LKcU/AyY";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298A160A6F59;
-	Mon, 19 Oct 2026 15:20:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E288607D35D
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 15:11:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GPVAgI10
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62B8C1F000C5;
-	Mon, 19 Oct 2026 15:20:22 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LKcU/AyY
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7571F000C6;
+	Mon, 19 Oct 2026 15:11:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792423222;
-	bh=XhBCp7Nh6s4BiEKxr65ce1IMZRfLAF9oc7NrWukG/aM=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References;
-	b=GPVAgI10CSfpJSpDXpybjj/pLY2f1EVax6aPNGZDJ+KFVXaPHg4CMZBYqSTAJEf8K
-	 tjc21bDDsLkBaw7ja/rwTITh59Bmw5+YiNV5HiVQD8RAAGNWUctLnVTTP5/uw8v1V2
-	 +nTbz5vogViT8iETdkvfRQhsGgy1QfHAz0Lx0atSVybaGVaYec32UsQG4tQcefqJ3a
-	 ycd/3yuyBO8I3AGrlc0VdptVmUN4bjhi4h0JsTnJH5jpQcgGEZDRK/emREttM8LSKs
-	 zZUh1t4SIygW/J0+yZN78RfMOnpnVG/lxjBtDoAP72ifOqzIkitNxIW+N49FZezl2L
-	 6jLy7X4XfFk2w==
-Subject:
- Re: [PATCH net] net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
-From: netdev-bot+sashiko@kernel.org
-To: prashantsengar25031@gmail.com
-Cc: netdev@vger.kernel.org, Thangaraj.S@microchip.com,
- UNGLinuxDriver@microchip.com, linux-usb@vger.kernel.org, kuba@kernel.org
-Date: Mon, 19 Oct 2026 15:20:21 +0000
-Message-ID: <179242322195.3135.13620860446079084379@kernel.org>
-In-Reply-To: <20261018151830.643511-1-prashantsengar25031@gmail.com>
-References: <20261018151830.643511-1-prashantsengar25031@gmail.com>
-X-sashiko-severity: Medium
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20260515; t=1792422709;
+	bh=PfNh1xWpZ6ttX6c24lnjMmNENwlWHYbc5MV3ffPCAXI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LKcU/AyYfGLKg4ZQMjoJsZBN5MYcyyCyqvArA0iY/dAngXM9CslYWweB9ERBq1Ls8
+	 wdG84kT5q8v/r9NclZrIchHxKthvx2IsoWxpaFV3pFiPE/xv2LGIDQiJzm8sK7Jre7
+	 tx37i/N0+R/EUmnrkJHOHrNuwR25TKyHcNB5Vdy/FN38krQAN+Hr0I8Bqlq7jRUVNK
+	 f57Ai60qoTKnnQuxWu6fTN1krVOfXavE2XYm6CiUDlgOOFF+u9p583Tp0R0i2E59+d
+	 tFkrxSSwY86nVoP6DGF2eg0Ju3r+KlTJ1bRDgcIE8f/07x4r5rl2Z3KYAb4agdo1gJ
+	 10AoWgv77wbyA==
+Message-ID: <sashiko-outbox-177640@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH AUTOSEL 6.18-5.10] USB: gadget: inode: fix mm lifetime
+ handling
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Sasha Levin" <sashal@kernel.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261019135441.1420968-360-sashal@kernel.org>
+References: <20261019135441.1420968-1-sashal@kernel.org>
+ <20261019135441.1420968-360-sashal@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 19 Oct 2026 15:11:49 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,88 +60,133 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential
-issue(s) to consider.
-
-Critical: 0 · High: 0 · Medium: 1 · Low: 0
-
-If you believe none of the issues are legitimate, please reply to each
-issue of Medium severity or higher and explain why the AI is wrong.
-If any of them are legitimate and you plan to respin, please let patchwork
-know by including "pw-bot: cr" as a separate line at the end of your reply
-(one such reply per series is enough).
-
-- [Medium] On a LAN7801 in fixed-link mode with no PHY, lan78xx_set_wol()
-  (drivers/net/usb/lan78xx.c) now accepts WAKE_PHY and returns success,…
-
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: gadget: inode: mmdrop() called in atomic context in ep_aio_co=
+mplete()
 --
 
-net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
+commit 1034aa9a2c06c8a1a74aa881eb54ff67ca5c0fee
+Author: Gabriel Prostitis <prostitisgabriel@gmail.com>
 
-This commit adds a check in lan78xx_set_wol() so that
-phy_ethtool_set_wol() is only called when netdev->phydev is non-NULL.
-This avoids a NULL pointer dereference on LAN7801 fixed-link setups
-that have no PHY attached.
+USB: gadget: inode: fix mm lifetime handling
 
-> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-> index 5655941f14783..0c19a84623523 100644
-> --- a/drivers/net/usb/lan78xx.c
-> +++ b/drivers/net/usb/lan78xx.c
-> @@ -1804,8 +1804,8 @@ static int lan78xx_set_wol(struct net_device *netdev,
->  	ret = device_set_wakeup_enable(&dev->udev->dev, (bool)wol->wolopts);
->  	if (ret < 0)
->  		goto exit_pm_put;
-> -
-> -	ret = phy_ethtool_set_wol(netdev->phydev, wol);
-> +	if (netdev->phydev)
-> +		ret = phy_ethtool_set_wol(netdev->phydev, wol);
+This commit fixes a use-after-free in gadgetfs async I/O handling by pinning
+the submitting task's mm_struct with mmgrab() in ep_aio() and releasing it
+with mmdrop() upon request completion. It also uses mmget_not_zero() in
+ep_user_copy_worker() before switching to the address space.
 
-[Severity: Medium]
-With no PHY attached, does this now accept WAKE_PHY and return success,
-even though nothing can raise a PHY wake event?
+Link: https://patch.msgid.link/20260601-mm-uaf-fix-v2-2-3c942a707bce@gmail.=
+com
 
-In the fixed-link case, lan78xx_phy_init() returns early and leaves
-netdev->phydev NULL:
+> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legac=
+y/inode.c
+> index 13c3da49348c5..7d201c065ae3b 100644
+> --- a/drivers/usb/gadget/legacy/inode.c
+> +++ b/drivers/usb/gadget/legacy/inode.c
 
-	/* No PHY found, so set up a fixed link and return early.
-	 * No need to configure PHY IRQ or attach to phylink.
-	 */
-	return 0;
+[ ... ]
 
-In lan78xx_set_wol(), the wol->wolopts & ~WAKE_ALL check lets WAKE_PHY
-through. Then pdata->wol = wol->wolopts is stored and
-device_set_wakeup_enable() succeeds. With the new guard the PHY call is
-skipped, so ret stays 0.
+> @@ -503,6 +509,7 @@ static void ep_aio_complete(struct usb_ep *ep, struct=
+ usb_request *req)
+>  	 * complete the aio request immediately.
+>  	 */
+>  	if (priv->to_free =3D=3D NULL || unlikely(req->actual =3D=3D 0)) {
+> +		mmdrop(priv->mm);
 
-On the next system suspend, lan78xx_suspend() calls
-lan78xx_set_suspend(dev, pdata->wol). That arms a PHY wake source that
-has no PHY behind it:
+[Severity: High]
+Is it safe to call mmdrop(priv->mm) directly in ep_aio_complete()?
 
-lan78xx_set_suspend() {
-    ...
-	if (wol & WAKE_PHY) {
-		temp_pmt_ctl |= PMT_CTL_PHY_WAKE_EN_;
+ep_aio() pins current->mm with mmgrab(priv->mm) for all async requests. If
+the submitting task exits before the USB request completes (for example,
+with io_uring or a forked process where do_exit() -> exit_mm() -> mmput()
+runs before completion), priv->mm can hold the final reference on
+mm->mm_count.
 
-		temp_pmt_ctl |= PMT_CTL_WOL_EN_;
-    ...
+When the request completes and takes the immediate completion branch
+(priv->to_free =3D=3D NULL || unlikely(req->actual =3D=3D 0)) =E2=80=94 whi=
+ch occurs for
+async writes, single-buffer ITER_UBUF reads where dup_iter() returns NULL,
+zero-length reads, errors, disconnects, or cancellations via
+ep_aio_cancel() -> usb_ep_dequeue() =E2=80=94 ep_aio_complete() runs as the
+usb_request->complete callback with interrupts disabled and while holding
+spin_lock(&epdata->dev->lock):
+
+drivers/usb/gadget/legacy/inode.c:ep_aio_complete() {
+	spin_lock(&epdata->dev->lock);
+	priv->req =3D NULL;
+	priv->epdata =3D NULL;
+
+	if (priv->to_free =3D=3D NULL || unlikely(req->actual =3D=3D 0)) {
+		mmdrop(priv->mm);
 }
 
-lan78xx_get_wol() also keeps reporting wol->supported = WAKE_ALL, which
-includes WAKE_PHY, so userspace is told the mode is supported and
-active.
+If mmdrop(priv->mm) drops the last reference, it invokes __mmdrop() from
+atomic, interrupts-disabled context:
 
-Before e110bc825897, this configuration used a registered fixed PHY
-with the generic driver. That driver has no .set_wol, so
-phy_ethtool_set_wol() returned -EOPNOTSUPP.
+kernel/fork.c:__mmdrop() {
+	...
+	cleanup_lazy_tlbs(mm);
 
-When netdev->phydev is NULL, should lan78xx_set_wol() reject WAKE_PHY,
-and should lan78xx_get_wol() drop it from the supported mask?
+	WARN_ON_ONCE(mm =3D=3D current->active_mm);
+	mm_free_pgd(mm);
+	...
+}
 
->  
->  exit_pm_put:
->  	usb_autopm_put_interface(dev->intf);
+This appears to cause a few issues:
 
--- 
-Sashiko AI review · https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20261018151830.643511-1-prashantsengar25031%40gmail.com
+1. On architectures with CONFIG_MMU_LAZY_TLB_SHOOTDOWN=3Dy,
+__mmdrop() -> cleanup_lazy_tlbs() -> on_each_cpu_mask() ->
+smp_call_function_many_cond() waits synchronously for cross-CPU IPIs,
+triggering lockdep_assert_irqs_enabled() and WARN_ON_ONCE(!in_task()) in
+kernel/smp.c and potentially deadlocking with interrupts disabled.
+
+2. On x86, __mmdrop() -> mm_free_pgd() -> pgd_free() -> pgd_dtor() acquires
+spin_lock(&pgd_lock) without disabling interrupts:
+
+arch/x86/mm/pgtable.c:pgd_dtor() {
+	spin_lock(&pgd_lock);
+	pgd_list_del(pgd);
+	spin_unlock(&pgd_lock);
+}
+
+As noted in free_signal_struct() in kernel/fork.c, __mmdrop() is not safe to
+call from interrupt or softirq context on x86 because taking pgd_lock can
+deadlock if the interrupted context already holds pgd_lock.
+
+3. On CONFIG_PREEMPT_RT=3Dy, __mmdrop() acquires sleeping spinlock_t locks
+while interrupts are disabled and a spinlock is held.
+
+Should ep_aio_complete() use mmdrop_async(priv->mm) here (or avoid grabbing
+priv->mm when priv->to_free =3D=3D NULL, since the worker is only scheduled=
+ when
+priv->to_free !=3D NULL)?
+
+>  		kfree(req->buf);
+>  		kfree(priv->to_free);
+>  		kfree(priv);
+
+[ ... ]
+
+> @@ -543,6 +550,7 @@ static ssize_t ep_aio(struct kiocb *iocb,
+>  	priv->epdata =3D epdata;
+>  	priv->actual =3D 0;
+>  	priv->mm =3D current->mm; /* mm teardown waits for iocbs in exit_aio() =
+*/
+> +	mmgrab(priv->mm);
+
+[ ... ]
+
+> @@ -572,6 +580,7 @@ static ssize_t ep_aio(struct kiocb *iocb,
+> =20
+>  fail:
+>  	spin_unlock_irq(&epdata->dev->lock);
+> +	mmdrop(priv->mm);
+>  	kfree(priv->to_free);
+>  	kfree(priv);
+>  	put_ep(epdata);
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019135441.1420=
+968-360-sashal@kernel.org?part=3D1
