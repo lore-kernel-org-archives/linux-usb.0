@@ -1,448 +1,227 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11023115.outbound.protection.outlook.com [52.101.72.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A17E5616AA;
-	Mon, 19 Oct 2026 13:55:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418127; cv=none; b=pP5F+77iS3fSts38OUtvTD9cizXAnMsWyVAS0lXMI7CmlKrNkd0MCILqHc5TPifvjP1DOd6P7ll1T6iM525uYC1nsHmdhEFfo2KkTf4X+AISQqaBfHU+N4GieDOekV83ihLGTak9RhlG4/noaCgcg0tLvMs1B0/XX4EqVHHG8xE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418127; c=relaxed/simple;
-	bh=RZ4LR5xduwu0elY6VhRuAfSxZS1lh3E+inpixSSxlwc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bnKkAHjINE4h3EL5JBiWVmZ4h4oAvS4mtwFG7vmPl36rz9II+cT2pEH8IDdeHTtC2j3QFphcVeIdbKZC2+bWIDHth9ezmg0eg6cSa7YBW3vgXDbO4NaPxyI7KMZtQmQPQ0DySBM78QI5EQGU5I1YgibUi1Tb3sAuMSNneVguI4w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lV1nmfNp; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E8353FA3C;
+	Mon, 19 Oct 2026 13:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.115
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792418187; cv=fail; b=Q0T9or7XWcC+Ccnm44JzUBUfHX5tkych3NUBTpas06PjsdQm7j7b5TrZd/XfB/YeIp8sg6ODBxbU05HzynJp8nqi2xsvnyuXpiRCth7XqI30lGMwULqKbjAokLNt6YuFrQ1LwJVX0TYu7fLx7b8SB/6gr2bGi/jLoBP04R4ruJM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792418187; c=relaxed/simple;
+	bh=aB0fGfXUPsEaz7pwlVf4PiUEeTtafD2WdAAyC0jyz8E=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=pFA1j8s8z3fD+BJB6KzSML/D3/NYRK6vEz7Erf5BNvOqeXAxU+DoWQaGzUVL2yDML4WFFSchiHjIkKZY6tiv4B+uYC4MLiXcKxCB0OBWyVwES7dzBhTRc+hw+rmpqS1Y3HBCmR5FNBIyWys+Oun678j5jxBZQnZfm+m7k+Zsp9o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=visotia.com; spf=pass smtp.mailfrom=visotia.com; dkim=pass (2048-bit key) header.d=visotia.com header.i=@visotia.com header.b=jAWl1Air; arc=fail smtp.client-ip=52.101.72.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=visotia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=visotia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lV1nmfNp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0910B1F000C6;
-	Mon, 19 Oct 2026 13:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418124;
-	bh=Zm0ShvoR7y74hIRpdKCarjzbD3xiWTbycsn5sH5MJDU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=lV1nmfNppahgvceSEk+iMQ2A4JkNNQowRtmEbAqvDH5pw3Q6AonZVYHq3xDNyo2kd
-	 uATS03pFslSeSbaSX8tjbgnGCv37wm9eIWBIFYFQGYTjYqFkT7T2MRARYRMRglNLkw
-	 6m4idfjBe0IrrgD8ih/aJjQhaXc79l+jTNBPdq3mLUBWwoByHq0tMMUYIMywlpr7Rh
-	 8C+GxEY4lP3jES4U8UOdYCbBbTWHil4Wjx+NXs4eGawvbtnViDqzTOkftXSEmOPe5E
-	 xzzod8x+yNtrdfI1iCmrUmlFBWE2brXd6GBh7sNTgyoYRIGAd3WzWVOzcdtaLzxHVD
-	 oBbTa9GkHZL3w==
-From: Sasha Levin <sashal@kernel.org>
-To: patches@lists.linux.dev,
-	stable@vger.kernel.org
-Cc: Pengpeng Hou <pengpeng@iscas.ac.cn>,
-	Romain Gantois <romain.gantois@bootlin.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sasha Levin <sashal@kernel.org>,
-	heikki.krogerus@linux.intel.com,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18] usb: typec: mux: tusb1046: add missing MODULE_DEVICE_TABLE()
-Date: Mon, 19 Oct 2026 09:45:20 -0400
-Message-ID: <20261019135441.1420968-29-sashal@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
-References: <20261019135441.1420968-1-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=visotia.com header.i=@visotia.com header.b="jAWl1Air"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TqIXVqr1aqHRSuuy5oCn731gAxw/6ulQy5nBnKwmTMMDdXSaLv8nyssgET0c+jtnNcZfqPNfbi8oWNQhnuXcSsMKLmEYW0WpDF8h0b5rOoXvAc/nIVJDZ1iiwyU5NlH1qZJNatmyap0lG19yN2PDMmP3cm6jfqnPeG42xOMkE63AcQgFI3DGRRndeEPXYsGneBsfWOnVkgp9JAd681bksgjEAgtKJTbo/FxRAVMW6Lg5zRHv7SMPDf6eZjIcxIZSpZSZeINesQwLe3tnj3UuW0nE7U3pGONSe5R4bj9uCA4yiB/qvi1YuoQYJHZhQQ7BV3E7+vkYq5WeR8i8vWNtUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ttAz85wy1Fw/iowNlbSJsmYLKSFScOUNS6aE5pAI2+I=;
+ b=hufkDeCUfBAPKeexhAyF6q4YllHNNImW0n7JUz7HPKSAFwdIRGEJF5njyr1zfAs5iO/a5q5HTOXRfzpTEZyf57ItcFQPVFNFenByzZGAulFw16oDW/o2ydAK18yZnoS4sqCdw8aMwIFR7cNhjOD8bWw1Y/+rjRUDtQZ9i2hggUBPu7k07f8VTCjYTiIhepIdNHADCXv/wsK7vSPGGMBlNKCjZWyvnkuysSbaf/ApN3dH/VtGbKFhe5wQOyzQqRgecGqRHe9SY9zfii04u6LQLzknhQ+jVof+ViqKzUBeVRUZVOu6qAQskxoySWzulo55Jc4DGnhUaAoZPlN9ls2Z4Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=visotia.com; dmarc=pass action=none header.from=visotia.com;
+ dkim=pass header.d=visotia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=visotia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ttAz85wy1Fw/iowNlbSJsmYLKSFScOUNS6aE5pAI2+I=;
+ b=jAWl1AirlWDuCX707kqPAIuzoB+095PoG5utsn0biL6gKOibckQJrWOVHNMiAIO5xY3hogjQ+8b5HTEZSJBP08Eq9Rv7+puAza30WwYELKS2VNy+rFKBhPfqx/lqbRmXNM0ik9KeR45Phvk68GeR2GtKOf8oZltm/NiVmaGASRbhAb5j82+Tudj9JUKd9RbNifd978VvQnA++jnaUjwgbgBIbOidS/cZvPZIkfzzj7iGVx24NaTP7Mc6xgYOJc23oLO68zzwnjtZ0WATCHDBMItAXBeAETOQZLxVmPCXLKef/qc+7OmsR5TO08TSxUtyLl+7IT02+UCHeHAo/u0mBQ==
+Received: from PRAP189MB1850.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:27b::14)
+ by DBBP189MB1258.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1ec::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Mon, 19 Oct
+ 2026 13:56:20 +0000
+Received: from PRAP189MB1850.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5cce:ff09:8d2f:9cad]) by PRAP189MB1850.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5cce:ff09:8d2f:9cad%4]) with mapi id 15.21.0522.017; Mon, 19 Oct 2026
+ 13:56:20 +0000
+From: Mikkel Eskildsen <mke@visotia.com>
+To: Oliver Neukum <oneukum@suse.com>, Breno Leitao <leitao@debian.org>
+CC: "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>, Jakub Kicinski
+	<kuba@kernel.org>, Eric Dumazet <edumazet@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>
+Subject: Re: [BUG] cdc_ncm: soft lockup with netconsole over an AX88179B dock
+Thread-Topic: [BUG] cdc_ncm: soft lockup with netconsole over an AX88179B dock
+Thread-Index: AQHdX9CKh0EMeyYVbkas70+IWBbMn7cE45LV
+Date: Mon, 19 Oct 2026 13:56:20 +0000
+Message-ID:
+ <PRAP189MB18502BDD2D1D59FDD6E602DEA9982@PRAP189MB1850.EURP189.PROD.OUTLOOK.COM>
+References:
+ <PRAP189MB185019A5A8D411482BB6E0CDA9982@PRAP189MB1850.EURP189.PROD.OUTLOOK.COM>
+In-Reply-To:
+ <PRAP189MB185019A5A8D411482BB6E0CDA9982@PRAP189MB1850.EURP189.PROD.OUTLOOK.COM>
+Accept-Language: en-US, en-DK
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=visotia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PRAP189MB1850:EE_|DBBP189MB1258:EE_
+x-ms-office365-filtering-correlation-id: 5d9abad5-5956-4861-2dcc-08df2de8c105
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|55112099003|10067099003|18002099003|22082099003|261009223027099003|38070700021|56012099006;
+x-microsoft-antispam-message-info:
+ O9rYA2S9N9jsURDbfvy3kuzbvGosW6xlTB8F+Bui2E2OYdoJiM1Q3H+EzWrPkkR3Gp5WM8InQS11LJqK9Y1UFONWZJcMg+DnTFmw78g7Mh/UlOZfakvxLMArsC5rCjJtqcqg23mswLFGw7LB7Zt0+R7K64vHdLJ60XRVZI+oRiEDZ9+bExPB1OfuN31ia/V0THQIzAiTa67/PXB2bwcr0AXVo5dZy10XA2ghmxs0bqI7hP/CUq9PBnqa+FqTmHvPzEV1/Kps/pWI5lJDdsrmy6KHykPmxZJc3pL4y0sw3fBW7hp53kd7AIAhY2c6Imn3DY8j8jgWoY7wRBQVenRam3eUcPkd2ZqZ17NbtlCsA2QP1Xi6vlAlCQX0Olf+i5JihD4DTHSV8vH/Hl/nZq87d99npx9RmqZ4gLzgab2VCuvFhXTwqqNxDxLIkgP2Ev+udXxxuZu74Jvu3CMwUakuY2LQQr1ual0CmDMSXHZGY60/0nxQl5kzb8tBLvov1cAYu8wtlX6IbqVji4u0rnV0VtSSc29ftNC7/qcRd8mYEUqnIYw2kTl7kesADqK8aDKd9VeNYJIcjwo6AmhsIiusIblilNdiQYPlse2u80yH1iY6OY4IF77KA/pZM2wD5jwL4YcIDiyBsmB9EQwbLZn/48vcLk1WO5fdK6i6hO3Ya0ItK3+3+j5VVJQ/6r2mO8FrlU8ykjSiVJGL0AC/q4Kt63V1BmBb6C3P7lyOAnd5E1U=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PRAP189MB1850.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(55112099003)(10067099003)(18002099003)(22082099003)(261009223027099003)(38070700021)(56012099006);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?3BefCOcTXZonHqBOuXLoslHHxiF69RLZeQL/WHYH1LB/MDEQVg0XFFoW8FsS?=
+ =?us-ascii?Q?04PS8HYUeGfWbBBVugjetQeUgNp0fhOZQL682YGq261wpIg9tUUh2E9VY7j4?=
+ =?us-ascii?Q?+rfial01f3JVerqCqOUQorHwCggF01ZcKNQLyJBKsiM9YspYO33HXzQXTNiW?=
+ =?us-ascii?Q?DawyzIfuI/PUY0x1LQkt99YkHummhYdyHWg+qq9YT1XTFmV/H721/v7W+vtr?=
+ =?us-ascii?Q?0nJS/SkpAs2yZMLP1o5E6+EaCsKMu/GeJV1p+zgGiKUEgaOwQfCnt5nGuYvm?=
+ =?us-ascii?Q?zNL4CFT3bRkvfLXjhFxaAAw2saF5DA2x/Vt4kreEg2w5ToEHN7q/++g7PS92?=
+ =?us-ascii?Q?hjm9j/2z+LBkHRc3hHDEeEo/w34emji5dgpQOLugzj8+c4rzv5I4OqFJpy58?=
+ =?us-ascii?Q?wEHj96ZL4tHC0FK4s1vWr/Wvx3B/WTmucoeRLso9rpfAHCcI9/sRvjakOfdV?=
+ =?us-ascii?Q?EPu9TDMxH7NPjNuT5KHB8sfMMnJXVyl9wKmNzckcn5C8yyBr3vOqziptOhF7?=
+ =?us-ascii?Q?8jSh5b+4EyJSXsa1Fpi7BcWpLHfpM5KhINNP3t4z0+2pCWiew/RKGr61/7eM?=
+ =?us-ascii?Q?jy9+8Mznhriz8SJHEfQs4qXgfX5ZDddkSJpEJ2fo2tziUc8h0Y0JbIkdMKxT?=
+ =?us-ascii?Q?Lp9SsI8QPxmVjIpYPS7JQg+uJvyzQhLZGIjWw4LVGosxzz4qW+XHtWXW5J/c?=
+ =?us-ascii?Q?siOFo3UDkUHJrp1v14EYEC4L9svrB5ZaT8kcWEQ9BKjqTnkncxwERPeAtaan?=
+ =?us-ascii?Q?6V49LFzTUg5f9KeDk2vGB3GkpBzZHRR/gXQtqpLPOqanql4h9WyC2M5pqHn2?=
+ =?us-ascii?Q?Ry39zE9vHfxtTbfJ8/ssgfkUQqv4KIbinIdYwAgic1n5HTtBZOZKL90i/wci?=
+ =?us-ascii?Q?mdh8ldIMW9fmD3CyaIooc4XWoPmLJ1TpH6/B75I29eV7XIVI0sScR7CUL3JW?=
+ =?us-ascii?Q?/FV2HxsLCUSuDnOoeQcjSqquGEcM9hpxoJGFZuJTukQwQNxdnqsaVnxYUmAq?=
+ =?us-ascii?Q?m+D3sMVMP8KFhJgWu46xcmhYf1dVVf9Yg8lnEGaKZEjIUOGSOi2SubhSUaaA?=
+ =?us-ascii?Q?Z0mFA1qW4DB6U3WzO6QKIScOo7kmQSvhwSMaoQe7yHTG0pCKsQW5nh9UrH/6?=
+ =?us-ascii?Q?dChwjJS2bX4wSyapzJSpw0ln4rN64iob64Ag3oOvce6giTlTjKfs33OAvAY1?=
+ =?us-ascii?Q?aU0W6XblFHV3h3uKQfeTLOastV7NBi02NULaSzStCHcc3HNhiCSeNvjBx27V?=
+ =?us-ascii?Q?tbeJZ32trNatiKcruLUO34eqLcHmM2to5MyHkYrwhAxOaNiqmBaQuk7Dwu04?=
+ =?us-ascii?Q?bJ7i7BWl5rMVylROM50YPOrfskX44LdH1gfbywz/4o6F6fC0dAgpUgDd88ue?=
+ =?us-ascii?Q?Z7Bm/Msbmc6shlHBuZ+84UoAoVWgQfxfTSKx5/DfYBjWcHJvC76/LTFfdf5B?=
+ =?us-ascii?Q?l7OBJOdAMrifF2mUMYSaaan14gWGAFujX7sCFvT9C3ZGH+627KT6gJWs1+qV?=
+ =?us-ascii?Q?a7qVj7EUAFIKOe4o6MTo9q5nuMrPAHeyDeCnOoTrncAJvW/NYK/+yPO+1D6j?=
+ =?us-ascii?Q?a1PyPe5vjMnnUhco/8uaGw0fa4yn6Gzuch7uf9azlUInkXnLwa7i8hnMKWij?=
+ =?us-ascii?Q?KG4j/0eR+pgR5cMcxGWkVWIqpqVWbWS/1AIu1aqcUxit+Zm1VFnR19rj6uCn?=
+ =?us-ascii?Q?aA1oqMF4XYbNjpAHFzIBDB90qRWdRpSb3KoUIV+PXfWZ8Lq9?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.18.57
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: visotia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PRAP189MB1850.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d9abad5-5956-4861-2dcc-08df2de8c105
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Oct 2026 13:56:20.3168
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0398e9f1-d93e-448d-9e92-963c448c9a01
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1+1r0q2qN2hb2CRkzb6SgO5xreMYBSMUA3OeYgRtMNUu4CM4lR6cKmcvbm4nL6xK
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBP189MB1258
 
-From: Pengpeng Hou <pengpeng@iscas.ac.cn>
-
-[ Upstream commit 5e4eb5c96324b226220d29d025a334df28054ed3 ]
-
-The driver has an OF match table wired to .of_match_table, but does
-not export the table with MODULE_DEVICE_TABLE().
-
-Add the missing MODULE_DEVICE_TABLE(of, ...) entry so module alias
-information is generated for OF based module autoloading.
-
-This is a source-level fix.  It does not claim dynamic hardware
-reproduction; the evidence is the driver-owned match table, its use by
-the platform driver, and the missing module alias publication.
-
-Signed-off-by: Pengpeng Hou <pengpeng@iscas.ac.cn>
-Reviewed-by: Romain Gantois <romain.gantois@bootlin.com>
-Link: https://patch.msgid.link/20260704124714.18404-1-pengpeng@iscas.ac.cn
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
-
-LLM Generated explanations, may be completely bogus:
-
-The local tree is **v7.3-rc4**. The tusb1046 driver is present, and this
-is a one-line OF module-alias publication so udev can autoload the
-driver. That is a real modular-build bug, not a new feature.
-
-===============================================================
-PHASE 1: COMMIT MESSAGE FORENSICS
-===============================================================
-
-**Step 1.1: PARSE THE SUBJECT LINE**
-Record: **[usb: typec: mux: tusb1046]** **[add]** missing
-`MODULE_DEVICE_TABLE()` so OF module aliases are generated.
-
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-Record:
-- **Fixes:** none (expected for this review)
-- **Reported-by:** none
-- **Tested-by:** none
-- **Reviewed-by:** Romain Gantois \<romain.gantois@bootlin.com\> (driver
-  author / listed maintainer)
-- **Acked-by:** none in the commit; mailing-list thread also has
-  **Reviewed-by: Heikki Krogerus** (USB Type-C maintainer) that did not
-  land in the commit text
-- **Link:**
-  https://patch.msgid.link/20260704124714.18404-1-pengpeng@iscas.ac.cn
-- **Cc: stable@vger.kernel.org:** absent (expected)
-- **Signed-off-by:** Pengpeng Hou (author); Greg Kroah-Hartman (USB
-  maintainer, merged)
-- Ignore any pipeline “already selected” / Sasha Levin markers (none in
-  this commit object)
-
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-Record:
-- **Bug:** `tusb1046_match_table` is wired to `.of_match_table` but not
-  exported with `MODULE_DEVICE_TABLE(of, ...)`.
-- **Symptom:** when `CONFIG_TYPEC_MUX_TUSB1046=m`, `depmod` does not
-  emit `of:N*T*Cti,tusb1046` aliases, so udev/kmod will not autoload the
-  module when DT instantiates the I2C device.
-- **Failure mode:** Type-C mux / orientation switch stays unbound until
-  a manual `modprobe`. Built-in (`=y`) is unaffected.
-- **Version info:** none in the message.
-- **Root cause:** missing module alias publication; match table itself
-  is correct.
-- The “source-level fix / no dynamic hardware reproduction” sentence is
-  in both the sent patch and the committed message.
-
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-Record: Not hidden. It is an explicit autoload/alias bug. Same class as
-device-ID publication: no new behavior, just making existing OF matching
-visible to userspace module loading.
-
-===============================================================
-PHASE 2: DIFF ANALYSIS - LINE BY LINE
-===============================================================
-
-**Step 2.1: INVENTORY THE CHANGES**
-Record:
-- **File:** `drivers/usb/typec/mux/tusb1046.c` — **+1 / −0**
-- **Function:** none; one line after `tusb1046_match_table[]`
-- **Scope:** single-file, one-line surgical fix
-
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-Record:
-- **Before:** OF table exists and is used for in-kernel matching if the
-  module is already loaded; file2alias never sees it.
-- **After:** `MODULE_DEVICE_TABLE(of, tusb1046_match_table)` creates the
-  `__mod_of__tusb1046_match_table` alias consumed by
-  `scripts/mod/file2alias.c`.
-- **Path:** build-time module metadata only; probe/remove/mux paths
-  unchanged.
-
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-Record:
-- **Category:** hardware matching / module autoload (device-ID
-  publication), not UAF/race/leak.
-- **Mechanism:** OF compatible `ti,tusb1046` was never exported in the
-  module’s device table, so autoload could not work.
-
-**Step 2.4: ASSESS THE FIX QUALITY**
-Record:
-- Obviously correct: this is the standard macro used by sibling Type-C
-  mux drivers (`fsa4480`, `ptn36502`, `it5205`, `nb7vpq904m`, etc.).
-- Minimal; no API, locking, or runtime change.
-- Regression risk: negligible. Wrong table/type would be a build
-  concern; here type `of` matches `struct of_device_id`.
-
-===============================================================
-PHASE 3: GIT HISTORY INVESTIGATION
-===============================================================
-
-**Step 3.1: BLAME THE CHANGED LINES**
-Record:
-- Match table introduced in **7c561b8c3e836** (“usb: typec: mux: Add
-  support for the TUSB1046 crosspoint switch”), **Romain Gantois**,
-  2024-10-24, first contained in **v6.13-rc1**.
-- Original driver had `.of_match_table = tusb1046_match_table` and
-  **no** `MODULE_DEVICE_TABLE`. Bug present from introduction.
-- Candidate: **5e4eb5c96324b226220d29d025a334df28054ed3**, first
-  contained in **v7.3-rc1**.
-
-**Step 3.2: FOLLOW THE FIXES: TAG**
-Record: No `Fixes:` tag. Buggy commit is the driver intro
-**7c561b8c3e836**, which **is** an ancestor of this HEAD.
-
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-Record (on this file): driver add → `dev_err_probe` cleanup → include-
-header reshuffle → this alias fix. Standalone; not patch x/y. No
-prerequisite refactor required for the one-line add.
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-Record: Pengpeng Hou is a contributor, not the Type-C mux maintainer.
-Nearby USB work is unrelated. Weight comes from **Romain Gantois**
-(driver maintainer) and **Heikki Krogerus** (Type-C) reviews, plus Greg
-KH merge.
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-Record: None. `MODULE_DEVICE_TABLE` exists in `include/linux/module.h`
-in this tree. Applies standalone on any tree that has
-`tusb1046_match_table`.
-
-===============================================================
-PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-===============================================================
-
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-Record:
-- **b4 dig -c 5e4eb5c96324b:**
-  https://patch.msgid.link/20260704124714.18404-1-pengpeng@iscas.ac.cn
-- **b4 dig -a:** single **v1**, 2026-07-04, no later revision.
-- Thread (mbox): Romain Gantois “LGTM, thanks!” + R-b (2026-07-07);
-  Heikki Krogerus R-b (2026-07-13, after Greg’s 2026-07-08 commit). **No
-  NAKs, no stable discussion, no risk flags.**
-- WebFetch of lore.kernel.org returned **403**; thread recovered via `b4
-  dig -m`.
-
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-Record: **b4 dig -w** original To/Cc: Pengpeng Hou, Romain Gantois,
-Heikki Krogerus, Greg Kroah-Hartman, linux-usb, linux-kernel. Right
-maintainers were on the patch.
-
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-Record: No syzbot/bugzilla/Reported-by. Justification is the missing
-macro vs an existing OF table. No in-tree DTS consumer of `ti,tusb1046`
-(only `Documentation/devicetree/bindings/usb/ti,tusb1046.yaml`). User
-impact is boards that describe this chip in DT, including out-of-tree
-DTS.
-
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-Record: Standalone v1. Same pattern already used in this tree:
-**15a34e5d4b23c** (“usb: typec: fix module autoloading”),
-**f27891abb7930** (“usb: typec: add missing MODULE_DEVICE_TABLE() to
-stusb160x”).
-
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-Record: **UNVERIFIED** — lore.kernel.org/stable WebFetch 403; WebSearch
-failed. No stable nomination in the recovered linux-usb thread.
-
-===============================================================
-PHASE 5: CODE SEMANTIC ANALYSIS
-===============================================================
-
-**Step 5.1: IDENTIFY KEY FUNCTIONS IN THE DIFF**
-Record: No function body changed. Data: `tusb1046_match_table`; driver:
-`tusb1046_driver` / `module_i2c_driver()`.
-
-**Step 5.2: TRACE CALLERS**
-Record: I2C core binds via `module_i2c_driver`. OF match is used once
-the module is loaded. Autoload is userspace (udev) using aliases from
-`modules.alias`. Reachable on DT platforms with `compatible =
-"ti,tusb1046"`.
-
-**Step 5.3: TRACE CALLEES**
-Record: N/A for the added line. Macro expands to a static alias
-attribute for modpost.
-
-**Step 5.4: FOLLOW THE CALL CHAIN**
-Record: DT I2C instantiation → udev/kmod looks up OF alias → `tusb1046`
-module → `tusb1046_i2c_probe`. Userspace cannot trigger a crash via this
-bug; the failure is **driver never loads**.
-
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-Record: Other Type-C mux drivers already have `MODULE_DEVICE_TABLE(of,
-...)`. This driver was the one that omitted it. Semcode MCP not
-available; used `git grep`.
-
-===============================================================
-PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-===============================================================
-
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-Record:
-- **Tree:** `git describe HEAD` = **v7.3-rc4-27-gf0100363d8c37**; `make
-  kernelversion` = **7.3.0-rc4**.
-- Driver file exists; Kconfig `TYPEC_MUX_TUSB1046` is **tristate**.
-- Bug introduced **v6.13**; this 7.3 lineage includes that driver.
-- **HEAD already contains 5e4eb5c96324b** (`git merge-base --is-
-  ancestor` succeeded). Current file already has line 181
-  `MODULE_DEVICE_TABLE(of, tusb1046_match_table)`. That is mainline
-  history, not a reason to reject on technical merit.
-
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-Record: On **current HEAD**, `git apply --check` of the commit **fails**
-because the line is already present. Against the pre-fix file (parent of
-5e4eb5c96324b) the hunk is a clean one-line insert after the match
-table. Any stable tree that still has the original
-`tusb1046_match_table` without the macro would take it cleanly.
-
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-Record: This exact fix is already in HEAD. No alternate autoload
-workaround in the driver. Sibling Type-C autoload fixes are also present
-and do not replace this line.
-
-===============================================================
-PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-===============================================================
-
-**Step 7.1: IDENTIFY THE SUBSYSTEM AND ITS CRITICALITY**
-Record: **USB Type-C mux driver** (`drivers/usb/typec/mux/`).
-**PERIPHERAL** — one I2C crosspoint switch, not mm/VFS/net core. Still
-user-visible USB-C / DP altmode on boards that have the chip.
-
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-Record: Type-C mux is actively developed (ps883x and related churn).
-`tusb1046.c` itself is low-churn since v6.13.
-
-===============================================================
-PHASE 8: IMPACT AND RISK ASSESSMENT
-===============================================================
-
-**Step 8.1: DETERMINE WHO IS AFFECTED**
-Record: **Driver-specific + config-specific:**
-`CONFIG_TYPEC_MUX_TUSB1046=m` on OF/I2C systems with `ti,tusb1046`. Not
-universal. No in-tree DTS users found; out-of-tree / vendor DT is the
-realistic consumer.
-
-**Step 8.2: DETERMINE THE TRIGGER CONDITIONS**
-Record: Every boot/enumeration of that DT node when the driver is a
-module. Not a race. Unprivileged users do not exploit it; they just do
-not get the mux driver.
-
-**Step 8.3: DETERMINE THE FAILURE MODE SEVERITY**
-Record: **Failure mode:** module does not autoload; USB-C orientation/DP
-muxing does not come up until manual load. **Severity: MEDIUM**
-(functional hardware enablement, not oops/corruption/deadlock). Built-in
-builds: no bug.
-
-**Step 8.4: CALCULATE RISK-BENEFIT RATIO**
-Record:
-- **Benefit:** high for TUSB1046 modular users (device actually probes);
-  moderate overall (narrow hardware, no in-tree board).
-- **Risk:** very low (1 line, metadata only).
-- **Ratio:** favorable — same justification as adding a device ID to an
-  existing driver.
-
-===============================================================
-PHASE 9: FINAL SYNTHESIS
-===============================================================
-
-**Step 9.1: COMPILE THE EVIDENCE**
-
-FOR backporting:
-- Real autoload bug for a tristate driver with an OF table.
-- One line, obviously correct, no runtime path change.
-- Reviewed by the driver author and Type-C maintainer; merged by Greg
-  KH.
-- Same pattern already used in this Type-C subsystem.
-- Fits the stable exception for publishing match IDs so existing
-  hardware actually binds.
-- Driver and match table exist in this 7.3 tree (introduced v6.13).
-
-AGAINST:
-- Not a crash, UAF, deadlock, or security issue.
-- No user `Reported-by` and no in-tree DTS enabling the compatible.
-- “Tested” is source-level, not hardware reproduction.
-- HEAD already contains the commit (expected on 7.3-rc; not a pipeline-
-  selection marker).
-
-UNRESOLVED:
-- Could not query lore.kernel.org/stable (HTTP 403 / search failure).
-
-**Step 9.2: APPLY THE STABLE RULES CHECKLIST**
-1. Obviously correct and tested? **PASS** — standard macro; maintainer
-   R-b. Hardware test not claimed.
-2. Fixes a real bug that affects users? **PASS** — modular OF autoload
-   is broken.
-3. Important issue? **PASS** as hardware enablement (autoload),
-   analogous to new device IDs; not CRITICAL.
-4. Small and contained? **PASS** — +1 line, one file.
-5. No new features or APIs? **PASS** — exports an existing table.
-6. Can apply to the local tree? **PASS** for this codebase (driver
-   present). Re-applying on current HEAD conflicts only because the fix
-   is already merged here; a tree that still lacks the line applies
-   cleanly.
-
-**Step 9.3: CHECK FOR EXCEPTION CATEGORIES**
-Record: **Device ID / module alias publication** for an existing driver
-(OF `MODULE_DEVICE_TABLE`). Also build-time metadata, not a new driver.
-
-**Step 9.4: MAKE YOUR DECISION**
-This tree has the TUSB1046 driver. Missing `MODULE_DEVICE_TABLE(of,
-...)` prevents automatic loading of a modular Type-C mux, so USB-C/DP
-switching does not come up on DT systems until someone loads the module
-by hand. The fix is one obviously correct line with essentially no
-regression risk. That meets stable rules and the device-ID exception, so
-it should be backported to this tree’s stable series.
-
-===============================================================
-What the commit solves for stable users
-===============================================================
-With `TYPEC_MUX_TUSB1046=m`, kmod never learns the `ti,tusb1046` OF
-alias, so the I2C Type-C mux never autoprobes. Distro/embedded kernels
-that ship this as a module then lose orientation switch and DisplayPort
-muxing on that hardware. The patch only emits the alias; it does not
-change probe logic.
-
-Risk is negligible. Benefit is real for modular users of this chip. No
-extra commits are required beyond the driver that this 7.3 tree already
-has.
-
-===============================================================
-Verification
-===============================================================
-- [Phase 1] Parsed commit **5e4eb5c96324b**: R-b Romain Gantois; Link
-  patch.msgid.link; no Fixes/Reported-by/Cc:stable.
-- [Phase 2] Diff: **+1** `MODULE_DEVICE_TABLE(of, tusb1046_match_table)`
-  in `drivers/usb/typec/mux/tusb1046.c`.
-- [Phase 2] Confirmed sibling mux drivers already use
-  `MODULE_DEVICE_TABLE(of, ...)`.
-- [Phase 3] `git blame`: table from **7c561b8c3e836** (v6.13-rc1);
-  original add had no `MODULE_DEVICE_TABLE`.
-- [Phase 3] `git describe --contains 7c561b8c3e836` → v6.13-rc1; `git
-  describe --contains 5e4eb5c96324b` → v7.3-rc1.
-- [Phase 3] `git merge-base --is-ancestor 5e4eb5c96324b HEAD` → yes;
-  `7c561b8c3e836` → yes.
-- [Phase 3] `git show 7c561b8c3e836` confirms OF table without the
-  macro.
-- [Phase 4] `b4 dig -c/-a/-w/-m`: v1 only; R-b Gantois + Krogerus;
-  recipients include Type-C and USB maintainers; no NAK.
-- [Phase 4] lore WebFetch 403; used mbox instead.
-- [Phase 5] Kconfig `TYPEC_MUX_TUSB1046` is tristate; Makefile builds
-  `tusb1046.o`; DT binding `ti,tusb1046.yaml` exists.
-- [Phase 5] `git grep ti,tusb1046 arch/` → no in-tree DTS.
-- [Phase 6] `git describe HEAD` = v7.3-rc4-27-g…; kernelversion
-  7.3.0-rc4.
-- [Phase 6] HEAD already has the line; `git apply --check` of the patch
-  on HEAD fails; parent of the commit lacks the macro.
-- [Phase 7] MAINTAINERS: USB TYPEC TUSB1046 MUX DRIVER → Romain Gantois.
-- [Phase 8] Failure = missing autoload, severity MEDIUM; risk very low.
-- UNVERIFIED: stable@ discussion (lore/stable unreachable).
-
-**YES**
-
- drivers/usb/typec/mux/tusb1046.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/usb/typec/mux/tusb1046.c b/drivers/usb/typec/mux/tusb1046.c
-index 3c1a4551c2fbf..89b47aa56c7a9 100644
---- a/drivers/usb/typec/mux/tusb1046.c
-+++ b/drivers/usb/typec/mux/tusb1046.c
-@@ -179,6 +179,7 @@ static const struct of_device_id tusb1046_match_table[] = {
- 	{.compatible = "ti,tusb1046"},
- 	{},
- };
-+MODULE_DEVICE_TABLE(of, tusb1046_match_table);
- 
- static struct i2c_driver tusb1046_driver = {
- 	.driver = {
--- 
-2.53.0
-
+One more thing about the first panic on 2026-10-16. pstore had a second rec=
+ord I missed.=0A=
+=0A=
+It is a hard lockup. A process creating a new netns spins with IRQs off on =
+the lock in netconsole_netdev_event. My guess is that the stuck netconsole =
+thread holds it, but that part of the log is lost. The other CPUs in that p=
+anic wait in flush_tlb_mm_range and lock_sock_nested.=0A=
+=0A=
+The W taint is an unrelated page allocation warning from kswapd three days =
+earlier.=0A=
+=0A=
+[611145.298500] Kernel panic - not syncing: Hard LOCKUP=0A=
+[611145.298502] CPU: 9 UID: 1000 PID: 9088 Comm: forkserver Tainted: G     =
+   W  OE       7.2.9-1-cachyos #1 PREEMPT(full)  458eaf81e04e4bc0eb2f59b851=
+34c9935c8c6b28=0A=
+[611145.298504] Tainted: [W]=3DWARN, [O]=3DOOT_MODULE, [E]=3DUNSIGNED_MODUL=
+E=0A=
+[611145.298504] Hardware name: LENOVO 83KJ/LNVNB161216, BIOS QECN29WW 04/16=
+/2026=0A=
+[611145.298505] Call Trace:=0A=
+[611145.298507]  <NMI>=0A=
+[611145.298507]  vpanic+0x202/0x450=0A=
+[611145.298509]  panic+0x4f/0x50=0A=
+[611145.298512]  ? nbcon_kthreads_wake+0x2a/0xa0=0A=
+[611145.298514]  nmi_panic+0x3c/0x60=0A=
+[611145.298518]  watchdog_hardlockup_check+0x261/0x290=0A=
+[611145.298521]  __perf_event_overflow+0x220/0x380=0A=
+[611145.298524]  intel_pmu_handle_irq+0x2d7/0x850=0A=
+[611145.298529]  ? native_queued_spin_lock_slowpath+0x57/0x260=0A=
+[611145.298531]  perf_event_nmi_handler+0x33/0x60=0A=
+[611145.298533]  nmi_handle+0x69/0x180=0A=
+[611145.298535]  ? native_queued_spin_lock_slowpath+0x57/0x260=0A=
+[611145.298537]  ? native_queued_spin_lock_slowpath+0x57/0x260=0A=
+[611145.298539]  default_do_nmi+0x36/0x110=0A=
+[611145.298541]  exc_nmi+0x186/0x1c0=0A=
+[611145.298542]  end_repeat_nmi+0xf/0x53=0A=
+[611145.298544] RIP: 0010:native_queued_spin_lock_slowpath+0x57/0x260=0A=
+[611145.298546] Code: 0f ba 2f 08 0f 92 c0 89 c2 c1 e2 08 b9 ff 00 ff ff 23=
+ 0f 09 ca 81 fa 00 01 00 00 73 5a 85 c9 74 0e 66 90 80 3f 00 74 07 f3 90 <8=
+0> 3f 00 75 f9 66 c7 07 01 00 65 48 ff 05 1f 51 1c 02 5b 41 5e 41=0A=
+[611145.298547] RSP: 0000:ffffd3913890f8f0 EFLAGS: 00000002=0A=
+[611145.298548] RAX: 0000000000000000 RBX: 0000000000000246 RCX: 0000000000=
+000001=0A=
+[611145.298548] RDX: 0000000000000001 RSI: 0000000000000001 RDI: ffffffffc2=
+842370=0A=
+[611145.298549] RBP: ffff8ad1f76eb000 R08: ffff8ad1fb21a600 R09: 0000000000=
+000000=0A=
+[611145.298549] R10: 0000000000001008 R11: ffffffffc26c6e30 R12: ffff8ad68b=
+438280=0A=
+[611145.298550] R13: fffffffffffffff4 R14: 0000000000000005 R15: ffffffffc2=
+84e668=0A=
+[611145.298558]  ? __pfx_netconsole_netdev_event+0x10/0x10 [netconsole 3dd9=
+ae90ed093db9d831cffd8ca5dea61ecdd887]=0A=
+[611145.298565]  ? native_queued_spin_lock_slowpath+0x57/0x260=0A=
+[611145.298567]  ? native_queued_spin_lock_slowpath+0x57/0x260=0A=
+[611145.298568]  </NMI>=0A=
+[611145.298569]  <TASK>=0A=
+[611145.298569]  _raw_spin_lock_irqsave+0x3e/0x50=0A=
+[611145.298571]  netconsole_netdev_event+0x4e/0x3c0 [netconsole 3dd9ae90ed0=
+93db9d831cffd8ca5dea61ecdd887]=0A=
+[611145.298574]  raw_notifier_call_chain+0x3f/0x70=0A=
+[611145.298576]  register_netdevice+0x94e/0xb60=0A=
+[611145.298578]  register_netdev+0x31/0x50=0A=
+[611145.298578]  loopback_net_init+0x4d/0xa0=0A=
+[611145.298580]  ops_init+0x70/0x170=0A=
+[611145.298582]  setup_net+0x88/0xc0=0A=
+[611145.298583]  copy_net_ns+0x21d/0x390=0A=
+[611145.298585]  create_new_namespaces+0x1a6/0x250=0A=
+[611145.298587]  copy_namespaces+0xc6/0x110=0A=
+[611145.298589]  copy_process+0xe3d/0x1d40=0A=
+[611145.298591]  kernel_clone+0xb3/0x370=0A=
+[611145.298593]  __x64_sys_clone+0x94/0xc0=0A=
+[611145.298594]  do_syscall_64+0xa6/0x3e0=0A=
+[611145.298596]  ? do_syscall_64+0xe4/0x3e0=0A=
+[611145.298598]  ? handle_mm_fault+0x2ed/0x750=0A=
+[611145.298600]  ? do_user_addr_fault+0x255/0x4c0=0A=
+[611145.298602]  ? do_syscall_64+0xe4/0x3e0=0A=
+[611145.298604]  ? do_syscall_64+0x65/0x3e0=0A=
+[611145.298605]  entry_SYSCALL_64_after_hwframe+0x76/0x7e=0A=
+[611145.298606] RIP: 0033:0x7f09df54ed46=0A=
+[611145.298610] Code: 85 ff 74 3e 48 83 e6 f0 74 38 48 89 4e f8 48 83 ee 10=
+ 48 89 3e 48 89 d7 4c 89 c2 4d 89 c8 4c 8b 54 24 08 b8 38 00 00 00 0f 05 <4=
+8> 85 c0 7c 13 74 01 c3 31 ed 58 5f ff d0 48 89 c7 b8 3c 00 00 00=0A=
+[611145.298611] RSP: 002b:00007ffd08d00408 EFLAGS: 00000206 ORIG_RAX: 00000=
+00000000038=0A=
+[611145.298612] RAX: ffffffffffffffda RBX: 0000000058000011 RCX: 00007f09df=
+54ed46=0A=
+[611145.298612] RDX: 0000000000000000 RSI: 00007ffd08d01400 RDI: 0000000058=
+000011=0A=
+[611145.298613] RBP: 00000000000003e8 R08: 00007f09df22ea30 R09: 00007f09df=
+22ea30=0A=
+[611145.298613] R10: 0000000000000000 R11: 0000000000000206 R12: 00007ffd08=
+d018f8=0A=
+[611145.298614] R13: 7fffffffffffffff R14: 00000000000003e8 R15: 00007ffd08=
+d018b0=0A=
+[611145.298615]  </TASK>=0A=
+[611145.298668] Kernel Offset: 0x1d200000 from 0xffffffff81000000 (relocati=
+on range: 0xffffffff80000000-0xffffffffbfffffff)=0A=
+=0A=
+Mikkel=0A=
