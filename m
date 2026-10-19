@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792422710;
-	b=gdYZCm+Z+mhw7MquFC7LggAq7z6rPbrPgncjJb+IcL376mRi6ud4wllLe3cZsOKjPMxM
-	 6ph6WJ2hn3NG+gGUMtThygDhZWeiCihR70yMk/ZbLXjBtPA1yZa4iXwbIS+piYp3lNODp
-	 Q3IdJTgWximOrNpu5CHSVmyQdsaFOVeHglP0oP1W+SV3T3K2WDhSArq9CvgurotrR8iM5
-	 1Np/8MQ9p9iw9TawdFXzvQAt62HhgRacjWlTaYr81MQ8mPeHKQtmBVGv7fXRX9PX7OqXP
-	 +aJEf69i7H3mwctzlNvw8x4+1tEobOUHc0AVDxC1b0VdCYDQ1muAOqjXQl52KmN7AVw==
+	t=1792423089;
+	b=djQXq8h7pzwd5dUnObw9/1CepMd68GzdwbXUPuSSjYBC+dzelfBVwqIHrZQsz4oV2gYG
+	 H89IzO6TeONs/X1yeB/zxoyDxU1cC77V3k4KvRKIBV1WfiApdudisYhwL85KgNwShG1UJ
+	 e2wLymx5NfkSHo54+NfcBUN88cG2WhwF9CvBn2TwAMhBxVDeRxEMlLmBEM/7TQbXP5Gcu
+	 Da6G+8OkdxaegSs1lwly7JfVc2SsYMjKbZcDQfnF/U0L2SCrQ77QJcyTRTLBLRnC+CXrt
+	 ytigSyLT8g5YazHKyrC3CySo0bQfjvvl6CDfQF3D4CK4Pc7OoivUDPW2Vb5b6FVby9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792422710;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792423089;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=PfNh1xWpZ6ttX6c24lnjMmNENwlWHYbc5MV3ffPCAXI=;
-	b=cGZpjjyunAtwZQw4aaNFDpTk4cV04Ypp1vj44rJv0nEuK0N0f4x8zwqXd1b4dHY47uQr
-	 CZLwiwMuVCcvqSiAfOawhsfnIaKg24rSOFJXoVskrF4d+piUNHSkXzxgBfN9GVTc0t/39
-	 AbOvyDe9pFrSYvDDDI4rZn4w8q1Wm8lia3AAw1oZgOsfHAfBDDd8MFxihab5opUpGOkzs
-	 yEcb/crVJ5QpPjIvhdoIsycz/xqhN324IYTO4lgBOAuzOGK68fYEq6jhhtpHAFupgYwcN
-	 lTvEfmbhtCFJoyQgtjR6BI4b2XEb4FBUC9o0eB00OR9+l8eQ2XWjGz+WF6R97rPUY5w==
+	bh=mt6lzHGeY0MpJKhIoi72I+ybP52eDFQfDrJgt1ceMwo=;
+	b=VS1UGeV0MuvoKKqourbFIoJAnBWK9OTL5dTHFF0keRELbu7CH1FQWccokKKEi493yKHy
+	 3CO3QUID+I3/aUnmeenOSEXnPshtSMfP17Hh1A3nfLEDybEpkisDRQJbMitMoutv8CAI3
+	 nLyBPhipbDH28+zS/BU16gS5bid8YMGuSTD/qtGQx59C9YSWc0V9HzDRLoga7hXIdPgej
+	 AMwdZHhV74YBViQECaAtuRu46T36zoCRzNrilQMggifwoTSLS36jF22jGWzci5R8l4XrH
+	 ArDl3xvCW2TAZpvhhXCK8Ys41lEiu7DQCutj97sKCDrzvQEzQ0TwmGEsP3OoXeN6hnw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="LKcU/AyY";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CXXvJgAU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E288607D35D
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 15:11:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61BB060A3807
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 15:18:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LKcU/AyY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B7571F000C6;
-	Mon, 19 Oct 2026 15:11:49 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CXXvJgAU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDB0E1F000C4;
+	Mon, 19 Oct 2026 15:18:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792422709;
-	bh=PfNh1xWpZ6ttX6c24lnjMmNENwlWHYbc5MV3ffPCAXI=;
+	s=k20260515; t=1792423087;
+	bh=mt6lzHGeY0MpJKhIoi72I+ybP52eDFQfDrJgt1ceMwo=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LKcU/AyYfGLKg4ZQMjoJsZBN5MYcyyCyqvArA0iY/dAngXM9CslYWweB9ERBq1Ls8
-	 wdG84kT5q8v/r9NclZrIchHxKthvx2IsoWxpaFV3pFiPE/xv2LGIDQiJzm8sK7Jre7
-	 tx37i/N0+R/EUmnrkJHOHrNuwR25TKyHcNB5Vdy/FN38krQAN+Hr0I8Bqlq7jRUVNK
-	 f57Ai60qoTKnnQuxWu6fTN1krVOfXavE2XYm6CiUDlgOOFF+u9p583Tp0R0i2E59+d
-	 tFkrxSSwY86nVoP6DGF2eg0Ju3r+KlTJ1bRDgcIE8f/07x4r5rl2Z3KYAb4agdo1gJ
-	 10AoWgv77wbyA==
-Message-ID: <sashiko-outbox-177640@kernel.org>
+	b=CXXvJgAUM1VxcVluzju8YLZ0ImD7w3rh1ia5bb3zRvlUOlvegk36G28RMVY/BwVBa
+	 Mtp5T9H4LTvbPbgoJd3dorL4aKEFQLTnmi6gs0g4znKZ1YbwmUdZX7kpyXCfxCJfuB
+	 S5t7I4WMDt47BZPoMrlXHplEY2fP4wQpwLvWNeIwzyYBwNPTn/kYduX1ybfxxc2I/v
+	 K4a9RkmhEcU+JA4s6f7yuz3dIcR5lfkQcV3Olnw+QaAQuu0y0z9k6ajWLR0y4JNr+f
+	 Hu03msk7BE5b9Zfp46GMJqwGEzlF/ucsZ5YBBuIhZIpKdH1tDs/UQykZOu8sAc/BJ7
+	 23xWe1ZFtV6AQ==
+Message-ID: <sashiko-outbox-177673@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH AUTOSEL 6.18-5.10] USB: gadget: inode: fix mm lifetime
- handling
+Subject: Re: [PATCH AUTOSEL 6.18-6.1] usb: gadget: u_audio: clean up capture
+ endpoint on feedback failure
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sasha Levin" <sashal@kernel.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261019135441.1420968-360-sashal@kernel.org>
+In-Reply-To: <20261019135441.1420968-435-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
- <20261019135441.1420968-360-sashal@kernel.org>
+ <20261019135441.1420968-435-sashal@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 15:11:49 +0000
+Date: Mon, 19 Oct 2026 15:18:07 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,132 +61,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] usb: gadget: inode: mmdrop() called in atomic context in ep_aio_co=
-mplete()
---
+> From: Xu Rao <raoxu@uniontech.com>
+>=20
+> [ Upstream commit 7a0d4f60da261f61dcb50c8e05fa53cc7d4d4427 ]
+>=20
+> u_audio_start_capture() enables the capture OUT endpoint, queues capture
+> requests and marks the stream active before setting up the optional
+> feedback endpoint.
+>=20
+> If feedback endpoint configuration or enablement fails, the function
+> returns an error while the capture endpoint remains enabled and its
+> requests may remain queued. The current code even leaves TODO comments
+> at these return paths.
+>=20
+> Unwind the already started capture endpoint on these failures. Also set
+> fb_ep_enabled only after usb_ep_enable() succeeds, so the software state
+> matches the endpoint state.
+>=20
+> Signed-off-by: Xu Rao <raoxu@uniontech.com>
+> Link: https://patch.msgid.link/183621D513E0DE8B+20260611091229.4017443-1-=
+raoxu@uniontech.com
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
 
-commit 1034aa9a2c06c8a1a74aa881eb54ff67ca5c0fee
-Author: Gabriel Prostitis <prostitisgabriel@gmail.com>
-
-USB: gadget: inode: fix mm lifetime handling
-
-This commit fixes a use-after-free in gadgetfs async I/O handling by pinning
-the submitting task's mm_struct with mmgrab() in ep_aio() and releasing it
-with mmdrop() upon request completion. It also uses mmget_not_zero() in
-ep_user_copy_worker() before switching to the address space.
-
-Link: https://patch.msgid.link/20260601-mm-uaf-fix-v2-2-3c942a707bce@gmail.=
-com
-
-> diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legac=
-y/inode.c
-> index 13c3da49348c5..7d201c065ae3b 100644
-> --- a/drivers/usb/gadget/legacy/inode.c
-> +++ b/drivers/usb/gadget/legacy/inode.c
-
-[ ... ]
-
-> @@ -503,6 +509,7 @@ static void ep_aio_complete(struct usb_ep *ep, struct=
- usb_request *req)
->  	 * complete the aio request immediately.
->  	 */
->  	if (priv->to_free =3D=3D NULL || unlikely(req->actual =3D=3D 0)) {
-> +		mmdrop(priv->mm);
-
-[Severity: High]
-Is it safe to call mmdrop(priv->mm) directly in ep_aio_complete()?
-
-ep_aio() pins current->mm with mmgrab(priv->mm) for all async requests. If
-the submitting task exits before the USB request completes (for example,
-with io_uring or a forked process where do_exit() -> exit_mm() -> mmput()
-runs before completion), priv->mm can hold the final reference on
-mm->mm_count.
-
-When the request completes and takes the immediate completion branch
-(priv->to_free =3D=3D NULL || unlikely(req->actual =3D=3D 0)) =E2=80=94 whi=
-ch occurs for
-async writes, single-buffer ITER_UBUF reads where dup_iter() returns NULL,
-zero-length reads, errors, disconnects, or cancellations via
-ep_aio_cancel() -> usb_ep_dequeue() =E2=80=94 ep_aio_complete() runs as the
-usb_request->complete callback with interrupts disabled and while holding
-spin_lock(&epdata->dev->lock):
-
-drivers/usb/gadget/legacy/inode.c:ep_aio_complete() {
-	spin_lock(&epdata->dev->lock);
-	priv->req =3D NULL;
-	priv->epdata =3D NULL;
-
-	if (priv->to_free =3D=3D NULL || unlikely(req->actual =3D=3D 0)) {
-		mmdrop(priv->mm);
-}
-
-If mmdrop(priv->mm) drops the last reference, it invokes __mmdrop() from
-atomic, interrupts-disabled context:
-
-kernel/fork.c:__mmdrop() {
-	...
-	cleanup_lazy_tlbs(mm);
-
-	WARN_ON_ONCE(mm =3D=3D current->active_mm);
-	mm_free_pgd(mm);
-	...
-}
-
-This appears to cause a few issues:
-
-1. On architectures with CONFIG_MMU_LAZY_TLB_SHOOTDOWN=3Dy,
-__mmdrop() -> cleanup_lazy_tlbs() -> on_each_cpu_mask() ->
-smp_call_function_many_cond() waits synchronously for cross-CPU IPIs,
-triggering lockdep_assert_irqs_enabled() and WARN_ON_ONCE(!in_task()) in
-kernel/smp.c and potentially deadlocking with interrupts disabled.
-
-2. On x86, __mmdrop() -> mm_free_pgd() -> pgd_free() -> pgd_dtor() acquires
-spin_lock(&pgd_lock) without disabling interrupts:
-
-arch/x86/mm/pgtable.c:pgd_dtor() {
-	spin_lock(&pgd_lock);
-	pgd_list_del(pgd);
-	spin_unlock(&pgd_lock);
-}
-
-As noted in free_signal_struct() in kernel/fork.c, __mmdrop() is not safe to
-call from interrupt or softirq context on x86 because taking pgd_lock can
-deadlock if the interrupted context already holds pgd_lock.
-
-3. On CONFIG_PREEMPT_RT=3Dy, __mmdrop() acquires sleeping spinlock_t locks
-while interrupts are disabled and a spinlock is held.
-
-Should ep_aio_complete() use mmdrop_async(priv->mm) here (or avoid grabbing
-priv->mm when priv->to_free =3D=3D NULL, since the worker is only scheduled=
- when
-priv->to_free !=3D NULL)?
-
->  		kfree(req->buf);
->  		kfree(priv->to_free);
->  		kfree(priv);
-
-[ ... ]
-
-> @@ -543,6 +550,7 @@ static ssize_t ep_aio(struct kiocb *iocb,
->  	priv->epdata =3D epdata;
->  	priv->actual =3D 0;
->  	priv->mm =3D current->mm; /* mm teardown waits for iocbs in exit_aio() =
-*/
-> +	mmgrab(priv->mm);
-
-[ ... ]
-
-> @@ -572,6 +580,7 @@ static ssize_t ep_aio(struct kiocb *iocb,
-> =20
->  fail:
->  	spin_unlock_irq(&epdata->dev->lock);
-> +	mmdrop(priv->mm);
->  	kfree(priv->to_free);
->  	kfree(priv);
->  	put_ep(epdata);
+Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019135441.1420=
-968-360-sashal@kernel.org?part=3D1
+968-435-sashal@kernel.org?part=3D1
+
