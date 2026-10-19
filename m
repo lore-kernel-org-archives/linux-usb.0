@@ -1,75 +1,76 @@
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27B3150F158
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 14:11:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C31552EB5
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 14:13:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792419106; cv=none; b=E2S5QPdq7lbZ67dcYG0csc053MMho5EPWQuPB7nffiv4l2RCq2I/xvmG+zG54hnNIy9FRRLN6ClhuXRoaJd4LOK9/JVuGcDksbE6g5hafWWgGdD574UAKnVtQE7Hp2x6lpozoiXU0eiQVUCU8N+TUbKbVSBMJHOb1qqXxrCxaDc=
+	t=1792419237; cv=none; b=m/awElwhUAXftZMOfTOxk9uP3Nc7KOlk1cWHPJZG3OQQqJOLiRoKrk8gh/jHA6uuBM0hPnQGMa2I5eIip5gdRzQdB/c5zlhjeRUvnh3F2cUnl9NRzHD0JzaUTqdPr2G7bN1EUIELN4/e+CjOJOOGzv0Qf5NcH6cJ2CzxPvg6tZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792419106; c=relaxed/simple;
-	bh=3pmSZNjogDg7Ey9thVcaWwUVzv/jy+kUn+t5/GFxm9s=;
+	s=arc-20240116; t=1792419237; c=relaxed/simple;
+	bh=Xj1tXuPgTXzaT3nix7piE0Gi8Q7+az0H1KHgxrxkFZw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AFg5YOqlEHsSObHe+fZw9KUHDTMZg95QTgmx5TZGAKJJD42QsBz1v/iy5RrItSzM1nnBPgqUVlmN5Ic8+89qwkJU/jHfgMypA6R5tL1MuKHhX9PNkBAzh0U4DdzQNzCotu+fFnJ17GYJp6+aqGYzX9T+OltanoPwJ+Wq42d7CSw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=uGn6yYiB; arc=none smtp.client-ip=209.85.222.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=nSIwOLwrXMJoqF4fxbsDGn/ohegeGr/Y+tuhoR7wD5xtaMiemcJQnhoO9KjSNVJCqhIo+5Uu62doJEyem1Xocur/jlbG/77IDQFwQDRJFCDTJyOmeXkrdhjkUZthx0K4ZOzJmFqilwHnzG5oU9RXj5lA8vDU4dSUKigqhDccpLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu; spf=fail smtp.mailfrom=g.harvard.edu; dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b=YTFZ7HMD; arc=none smtp.client-ip=209.85.160.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="uGn6yYiB"
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-93e64d52949so216219785a.1
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 07:11:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.b="YTFZ7HMD"
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-53669f7b518so10847541cf.2
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 07:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1792419104; x=1793023904; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1792419235; x=1793024035; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=k97+ZXzgjg5prQ8QTVjKptpH9hxSgUmIIFjzAIHNKV4=;
-        b=uGn6yYiBnlxJRS1F8ckc1bm8ECtX6/wiUhM2Hq0i166OCVNwqQnFRBEuzZhI3bWyfV
-         CuaAiS1sJS3nkuutN49N9b2gulckeEcTDvlx5pPLwgKZfhtTx5oL4TM6Y7XUQ0wpzSzh
-         kxyDhakzVLBSIc92JCgLnrLm3S2Y+zFKhTfGoRmbHtZ5muEAUyAWtNx8jlajTxJPGgVH
-         X5LEXPxj1I1ExRcW3VzyQRLokbDwvdJxRa5VPWLlmyRUIgv8Nqey7G9hqusOIuK8+3Kb
-         eEmy4y2rVTl74/yxDYgXy1eCmlp/oeFLS5KQN6xYrm0AHJwpkdiOnk8Z+OvsX/gGLb67
-         6CIQ==
+        bh=5BlttwcoFjB9LyfPGuIFgEh48duPPMU/zmrf0OZAJ0E=;
+        b=YTFZ7HMD0+7eZ0cb4C8DJvhGaaAIA6s1oS0hIaYf7kL2wQRV+jZYSV9KxZGeBF8JS4
+         TXVFnK+81s75jp2tm77iwoWJMVq1KL3zlwcfDoqcGKhxtGkwDxujOSW4mgcSfaoEGZiQ
+         yQmxvhJTVl9xc6i/eDFIxsUkRzJlChX/LeXyNHXv08kbEZMhvdu/JmMGpfxj6uDwVRZZ
+         8P3SSpVfZ+KE9tzgT8BL6MIQkgfPdyVxStqzrp3TDDL5YzFc7JiyrNibTY5g30HsOeRk
+         iif9nlaAjJLNu73mXLR2QYHJ5oHAh5fz+OhUR1yCr8zn7AtNSKEaCounzi30FMfcpfGi
+         mIPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792419104; x=1793023904;
+        d=1e100.net; s=20260707; t=1792419235; x=1793024035;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=k97+ZXzgjg5prQ8QTVjKptpH9hxSgUmIIFjzAIHNKV4=;
-        b=rd9VIPuMfRW4HXOla69DY56jQIprZjWpZ4ulWRPC9m5pR+/FCvHayj3l5TTEDDK3gp
-         KTwCDKqTpRmnMG47ib+jD0FkfDiEWNuJ0GSJuxzYijsaS/8l7BCtx7Tdl7HGhedrg21F
-         zxFcFWx9sB2TECp8HtHjaBU0bS4J0Xj0xAaex4ojjLwV92Z2SpHzJ4EyMfOWq6sDZL4Q
-         Vrzpww1jNZ8RN6VJvFgzGIDyAJv60OGFrF7TUElJdeQhLmXjdU97NIahBLYwJmD63Q3T
-         J9Z2979zOohQrzJH6iqBAHbtPdRyDMq3FxEKGAc+c8gKeuq2YNp86/J5jcBdQuvE2Cxw
-         po4w==
-X-Forwarded-Encrypted: i=1; AKwUvBwd3p++JmvUFfRGkGzNp2Ay6B/J0i0ctVMD6OnZewNjsyCf2KB1rDnu0uyUo0HfChhk5loarCAYPaQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL7iknHQEDxE9IvGK05y75rL68NPou1xcwP9z7E0AqvvvcWa6fQ
-	vlam/RcDaEJtubP+qWBSbPnjjVw9IEplhe0/hgO4En5wKPHyYYnM+qeUAcZrv549Rg==
-X-Gm-Gg: AYBFou2e8zB8O5/U1S5ZKY3ODqLwYPoJcq8arfIydHvjudQv4KenxtQkTnnHFhtnyC5
-	pYSiBJ+FTiTRaHzJhzaoLeLTYW2xjqS65bwKfZx7I2xzSvzO9N80lo50bMYLFSsS8plf1Q4rz2m
-	GeOqT9XEXZptzBE7G40zThutIvh5IST3QPyiN5EI1+7noUcXZpBsfj0rPPRU3HILfbBakrwu6Qx
-	Jd6DmkeyO2IMd9H47zdlryUCg/bAeJO7XKC8D7C5iOA+AM22Y+So+dsqfxh+7eRME2vXvxn66CH
-	oTb8dTHT5iTPAXiw+AXKKKvcw4gQokUmaEK5ZOVsTyowMz0MNomqGQPuGXbdMWMHW5QAwNhks0y
-	qsRwsKr1DjADox63zNyM5XtOB1RWHbn7xEfYGHXP/NewLzVD8cJizhlT6kvUZaEvtoq08LFrw4c
-	axy7WMjjY9I6ChY5OeMK4SKP3PSF9BcH0atni31KMVqfhx1SsbJcv5/mzfbswGDbtEUd9QAxSPr
-	yQIsw1xCefdaP+g
-X-Received: by 2002:a05:620a:3715:b0:93f:1823:308f with SMTP id af79cd13be357-93f29dabcdemr1233148985a.81.1792419103824;
-        Mon, 19 Oct 2026 07:11:43 -0700 (PDT)
+        bh=5BlttwcoFjB9LyfPGuIFgEh48duPPMU/zmrf0OZAJ0E=;
+        b=Q+18qY7B7g/XCgiGRNHsFR/BIyq/YBlgzV0QOzRKrwlApdbCD/nT/b/jFU0PojNcpv
+         J4cl/MOua/PraFpJd+gERQgcosFlvx+uOANDaBjFhFn/FKsRdNZhUWuhOeF3FWgv55L3
+         v6+ZBcC8RHBmVbHZxn4nsw4+pZ8ppUj8P06nnhp0Pipq8qqmhSdKFKD67WyxfjZrxF9Z
+         9iZWaLPfQGaV6cOjX/f7RDhcjZQpxHn0dPdCMVQ1GqgwfWhRDrY+xYaYd1oor4uJWFHk
+         qHmr81Z3Od/1hxRgXy6ecmHRMhYOdsCnPb5WrJ1Ex0x1Oj8chjDaY9as4M8Rgd7WweIx
+         fyLg==
+X-Forwarded-Encrypted: i=1; AKwUvBxJWY4VdqmnfDXI10lFlddF2G0C6lr+b+dTTLGvZpzqbG9aM+hY8+iNGkdkqaC+rNSV9nhvo9KhXCI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJvEHVw9PMnVX2qPnmDWNRooBod9xNv1+mZ2H660w5wj83K4cP/
+	7gvbjaLryAMxisq0BX73p6DPaBgJPIagWP4WeNJ5EsTZwHA26cxieb3KH6uOUHP8iQ==
+X-Gm-Gg: AYBFou2SNISY2wzrSnU2IAhCwU0MRYHv29jhc11fmmoH07oWv/RoXBqtj1vBJZn6ciA
+	8y9UtAej0ooIXqlw/TR4FYiyL8fn750zaUuRhpJI5h21iL2vUreZqMUVEpP+nG8gcnxgRuww2ha
+	C4CLIFMtmo4j9ftyiia2s1wsTG7RiDVvBufUTXGFWNRI0z2qyqW0ufJbjXwUoCKkftAyPLhbObZ
+	/jKe7iJ8dngiXLDpVSkxjhE1o9R4SkrPizeXAFWgS0yUUzcYh8ApAx5SeGUENSiB2n8oTxKz2ie
+	nG7adzNsg6O8pPhDX1FbK9SnVfJPafN7PS4oY0pHfOnOnORC6ykX8wJL4ieZXmdO2cEHA9w7szH
+	3W72CWmLjw4m0sYxO+Y1G7C+v15E2OFBoj0I58My3oPEXKcesUyKOYfmy/D/kAxYc1+5X0A01mw
+	LM67UyZxDW1//JxrAhUQQI580xi/LxLwGoVR8IOXMKcpOPjCsgcHhRIUE03fYRrEm8sA9PectB7
+	jtOvCub+Igqt9HaE/IywQo1WHc=
+X-Received: by 2002:a05:622a:514e:b0:530:42d4:4c9a with SMTP id d75a77b69052e-5364605937emr109597891cf.44.1792419234421;
+        Mon, 19 Oct 2026 07:13:54 -0700 (PDT)
 Received: from rowland.harvard.edu ([140.247.181.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91bcba3d5a1sm97847996d6.8.2026.10.19.07.11.42
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-5362a8e43cfsm99785331cf.5.2026.10.19.07.13.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 07:11:42 -0700 (PDT)
-Date: Mon, 19 Oct 2026 10:11:40 -0400
+        Mon, 19 Oct 2026 07:13:52 -0700 (PDT)
+Date: Mon, 19 Oct 2026 10:13:50 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: liuc63 <liuc63@xiaopeng.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Weibin Liu <liuwb@xiaopeng.com>, linux-usb@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: net2280: fix out-of-bounds read of short
- packet in write_fifo
-Message-ID: <c0ba00f7-822d-437f-a3e1-3a4c0e3d9776@rowland.harvard.edu>
-References: <20261019075651.2093625-1-liuc63@xiaopeng.com>
+To: Andi Shyti <andi.shyti@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com, stable@vger.kernel.org,
+	Antti Palosaari <crope@iki.fi>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] media: dvb-usb-v2: ec168: Reject zero-length I2C reads
+Message-ID: <1ab79363-7211-475d-8529-1d5c00586f8c@rowland.harvard.edu>
+References: <20261019123542.4040472-1-andi.shyti@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -78,67 +79,49 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261019075651.2093625-1-liuc63@xiaopeng.com>
+In-Reply-To: <20261019123542.4040472-1-andi.shyti@kernel.org>
 
-On Mon, Oct 19, 2026 at 03:56:49PM +0800, liuc63 wrote:
-> From: Liu Chao <liuc63@xiaopeng.com>
+On Mon, Oct 19, 2026 at 02:35:42PM +0200, Andi Shyti wrote:
+> ec168_i2c_xfer() checks the length of the register-address
+> message in a combined demodulator read, but does not validate the
+> read message length. Userspace can supply a zero-length read
+> through I2C_RDWR.
 > 
-> write_fifo() handles the trailing short word of an IN transfer by
-> reading a full 32-bit word from req->buf even when only 1..3 bytes
-> remain. get_unaligned((u32 *)buf) therefore reads up to three bytes
-> past the end of the request buffer, which KASAN reports as a
-> slab-out-of-bounds read.
+> This reaches ec168_ctrl_msg(), which selects an IN control pipe
+> for READ_DEMOD with wLength set to zero. The USB core treats
+> control requests without a data stage as OUT(*), triggering the
+> "BOGUS control dir" warning in usb_submit_urb().
 > 
-> The over-read bytes are not sent to the host: set_fifo_bytecount()
-> limits the FIFO to count & 0x03 bytes, so this is an out-of-bounds read
-> rather than an information leak.
+> Reject zero-length read messages with -EOPNOTSUPP before issuing
+> the USB request, using the existing exit path to release the I2C
+> mutex.
 > 
-> Copy the remaining 1..3 bytes into a zero-padded word and feed that to
-> the existing get_unaligned()/cpu_to_le32s() sequence, so the trailing
-> word is built only from data that belongs to the request. The full-word
-> path above is unchanged, and reusing get_unaligned()/cpu_to_le32s()
-> keeps the byte order identical on both little- and big-endian hosts.
+> (*) is_out = ... || !setup->wLength;
 > 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Weibin Liu <liuwb@xiaopeng.com>
-> Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+> Fixes: 2bf290be4f3e ("V4L/DVB (13364): ec168: add new driver for E3C EC168 DVB USB")
+> Reported-by: syzbot+ed3ada41c4eb1c4ab78e@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=ed3ada41c4eb1c4ab78e
+> Signed-off-by: Andi Shyti <andi.shyti@kernel.org>
+> Cc: <stable@vger.kernel.org> # v2.6.33+
 > ---
->  drivers/usb/gadget/udc/net2280.c | 13 ++++++++++++-
->  1 file changed, 12 insertions(+), 1 deletion(-)
+>  drivers/media/usb/dvb-usb-v2/ec168.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/usb/gadget/udc/net2280.c b/drivers/usb/gadget/udc/net2280.c
-> index 7c5f30cfd24d..a1f5d11f82d2 100644
-> --- a/drivers/usb/gadget/udc/net2280.c
-> +++ b/drivers/usb/gadget/udc/net2280.c
-> @@ -649,7 +649,18 @@ static void write_fifo(struct net2280_ep *ep, struct usb_request *req)
->  	 * when maxpacket is not a multiple of 4 bytes.
->  	 */
->  	if (count || total < ep->ep.maxpacket) {
-> -		tmp = count ? get_unaligned((u32 *)buf) : count;
-> +		/*
-> +		 * Don't read past the end of the request buffer: a short
-> +		 * trailing packet has only count & 0x03 valid bytes. Copy
-> +		 * them into a zero-padded word and reuse the same
-> +		 * get_unaligned()/cpu_to_le32s() sequence as the full-word
-> +		 * path above, so the byte order on the wire is unchanged.
-> +		 */
-> +		u8 tail[4] = {};
-> +
-> +		if (count)
-> +			memcpy(tail, buf, count & 0x03);
-> +		tmp = get_unaligned((u32 *)tail);
->  		cpu_to_le32s(&tmp);
+> diff --git a/drivers/media/usb/dvb-usb-v2/ec168.c b/drivers/media/usb/dvb-usb-v2/ec168.c
+> index 973b32356b17..f6b98c7d3704 100644
+> --- a/drivers/media/usb/dvb-usb-v2/ec168.c
+> +++ b/drivers/media/usb/dvb-usb-v2/ec168.c
+> @@ -115,7 +115,7 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
+>  	while (i < num) {
+>  		if (num > i + 1 && (msg[i+1].flags & I2C_M_RD)) {
+>  			if (msg[i].addr == ec168_ec100_config.demod_address) {
+> -				if (msg[i].len < 1) {
+> +				if (msg[i].len < 1 || msg[i+1].len < 1) {
+>  					i = -EOPNOTSUPP;
+>  					break;
+>  				}
 
-Wouldn't it be simpler to do the memcpy() directly into tmp?  Then the 
-get_unaligned() call wouldn't be needed at all.  Also, the big comment 
-would be unnecessary.
+Isn't there an I2C quirks flag to indicate that 0-length reads aren't 
+allowed?  Setting that flag would be more understandable than this test.
 
 Alan Stern
-
->  		set_fifo_bytecount(ep, count & 0x03);
->  		writel(tmp, &regs->ep_data);
-> -- 
-> 2.50.1
-> 
-> 
