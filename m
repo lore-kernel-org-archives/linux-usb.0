@@ -1,69 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665A7539763
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 14:34:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA7C6491B12;
+	Mon, 19 Oct 2026 14:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.13.80.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792420450; cv=none; b=rhqmyu2xOKX472HIU2T5C5t/DWm38Y55U5kDO4HVjHfa8OI+amWHxWvva+WuOfcICfJHjhb7b/cJstpBcABEGv0DRgemxtgwu1hLFWPnRKaDOYwIgjRRKuLcdIRW8dEXI0CjM+DlkufwV1/wUknc5LT4yPJFauVH5tgV83CnAew=
+	t=1792420930; cv=none; b=sK/FO4Ix6Hb9TCfe0ddqrynXFV7UzF0jZuhKWqJoh/w3yfHkxTP/sbaEJFFTSoDO2aoH9zKZ3lyNRay2F7AgELFB449lgtkD27bUNeXtHO3pIiSfqpgx/VbO6f+jMZpzI/wyBV6eQVC6R2KReclpeRtQufb80SP/H5a6TWyRvL4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792420450; c=relaxed/simple;
-	bh=j1GeT55oNCCMvAKJTbn/aTOvGgarrvCD6THjTItucnA=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=JPrZGGn5h+GPkG0G+iWWnmV+i2yfkkAUy0WRZrspKs4l1dycGKhhZPbay0K4ytTJ3+4PyHHFgVR0MlrwnlebbJNOXcKase9ge1AovVFCfJSt9QdWxnGZSPfDyNYzMXp4N1L4Z/haLWiEsVMNT11AeIR3lR4+xPnLqRNaxRYlKtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GyTnKI6u; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792420930; c=relaxed/simple;
+	bh=+CcE//8LwHV5giiOzprhXnBLjNfbqHe6aALXRB3Ow80=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=oZpm9DMUNqO38jmObRi41HdToJlxjB6rAl/cMTLbf5MLAxifPq7MWeeQXFI4bAgs2bPinU9WX+/96O2laSBB1ETlv0ZJIM+Z/JespVFNQpn/tSQa9UwWF/eOWx5NH6oWJpcvpmRn+PfEIuwQxIN7t/7e+B/eFFIuj5zcfMS7mRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de; spf=pass smtp.mailfrom=tipi-net.de; dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b=n8aGCNXm; arc=none smtp.client-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GyTnKI6u"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B58BB1F000C5;
-	Mon, 19 Oct 2026 14:34:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792420449;
-	bh=j1GeT55oNCCMvAKJTbn/aTOvGgarrvCD6THjTItucnA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GyTnKI6u0o9NFffvUKivhYU0VfiHX6jFU+HY6MOQKRBQ0U/zt0IkUzEbwdYPjUoZw
-	 GZYAjKa+9CR/JX4Ps+md67HnTAfVKHIOKQOp2ZzZ//WNhHQpN8QS5Pda8tHn08ZNLl
-	 TGqzV30rbyBhe0DmY4Zat2yhGnbI0BJEY4s0ZJwpXdspaRXgun6nLqwXvVXb8bCypc
-	 0yGj1YU0kVSk5KAuAs2ltlLb9cnc3hFNPUfTyOMoqH7ikkqQcGwzDBtN/jEIlVmlQA
-	 6qvdtnp9ECnVweWQa7MmvXqhNHtwcVyjg0fRCw+hoE6X+vjwqEWI92unYkIoG2NEUi
-	 8nwCFvBXjbg8g==
-Message-ID: <sashiko-outbox-177430@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH AUTOSEL 6.18-5.10] USB: misc: uss720: Fix leak in
- get_1284_register
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sasha Levin" <sashal@kernel.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261019135441.1420968-193-sashal@kernel.org>
-References: <20261019135441.1420968-1-sashal@kernel.org>
- <20261019135441.1420968-193-sashal@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 14:34:08 +0000
+	dkim=pass (2048-bit key) header.d=tipi-net.de header.i=@tipi-net.de header.b="n8aGCNXm"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 354A4A156A;
+	Mon, 19 Oct 2026 16:42:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1792420922; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=gdPAFwtkiyGOrrmpDJKuYvH8c98AWepp1hYqr6NQ5+A=;
+	b=n8aGCNXms/uv7CzfapYewb+6FNb5I6XxvEM2THqbJ+0eVNxdgBR1CdLKSwAiP6yTZtl/+T
+	BiQqHZgfXpvS/NVyOU+x9fYvXTl8J12rfCsyzJmNMvgf2INH5/p1d/4S6eYV3h2jcQEj9l
+	o+84ZZILEiA1SxvgRTuXJUt2fvcPfJClCXVIpnSDaZHosUzqijz3rUU12HJui/Fsu0yAXN
+	7jzCW2uzfRSZCfzjayRdU41IZp0mee9yAWAwg4xw6oOzsA5Lui9jZFpYEJXTTSYPv7P/Qm
+	6BLxQydaKShJXXDOQt3fMgc/1q/5/coEb+FuAJ4cbj0GsgOqc0ysVXApbKaD5A==
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Date: Mon, 19 Oct 2026 16:42:02 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: Mikkel Eskildsen <mke@visotia.com>
+Cc: Oliver Neukum <oneukum@suse.com>, Breno Leitao <leitao@debian.org>,
+ netdev@vger.kernel.org, linux-usb@vger.kernel.org, Jakub Kicinski
+ <kuba@kernel.org>, Eric Dumazet <edumazet@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>
+Subject: Re: [BUG] cdc_ncm: soft lockup with netconsole over an AX88179B dock
+In-Reply-To: <PRAP189MB185019A5A8D411482BB6E0CDA9982@PRAP189MB1850.EURP189.PROD.OUTLOOK.COM>
+References: <PRAP189MB185019A5A8D411482BB6E0CDA9982@PRAP189MB1850.EURP189.PROD.OUTLOOK.COM>
+Message-ID: <6aaea20ede0bd16a5138bc126f3ec897@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-> From: Michail Tatas <michail.tatas@gmail.com>
->=20
-> [ Upstream commit 15902712b9e2a46649cba2f22002d05faec2a990 ]
->=20
-> if wait_for_completion_timeout() times out in get_1284_register()
-> then we do not destroy the reference acquired via kref_get() in
-> submit_async_request. Add the missing kref_put in the timeout path.
->=20
-> link: https://syzkaller.appspot.com/bug?extid=3D56962eb32ba0136cd330
->=20
-> Reported-by: syzbot+56962eb32ba0136cd330@syzkaller.appspotmail.com
-> Signed-off-by: Michail Tatas <michail.tatas@gmail.com>
-> Link: https://patch.msgid.link/allaDTUua9n5DQ0a@michalis-linux
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
+Hi Mikkel
 
-Sashiko has reviewed this patch and found no issues.
+On 19.10.2026 15:48, Mikkel Eskildsen wrote:
+> Hi,
+> 
+> My laptop panicked with a soft lockup on 2026-10-16 and again on 
+> 2026-10-19 while netconsole was running over a USB dock NIC that uses 
+> cdc_ncm. Both times the laptop was docked and netconsole was on that 
+> interface. I have turned netconsole off for now.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019135441.1420=
-968-193-sashal@kernel.org?part=3D1
+I was able to reproduce the issue with a similar device.
 
+Seems like netconsole holds the tx lock while the cdc_ncm driver
+lets pending network work run in the middle of the send.
+... which then starves on the lock netconsole still holds.
+
+Below is a patch which hopefully fixes the issue.
+
+> 
+> The trace below is from pstore. The netconsole thread on CPU15 is in 
+> netpoll_send_skb -> usbnet_start_xmit -> cdc_ncm_tx_fixup. The 
+> spin_unlock_bh() in cdc_ncm_tx_fixup runs pending softirqs, TCP RX 
+> sends a packet and it spins in sch_direct_xmit. My guess is that it 
+> waits for the eth0 tx queue lock that netpoll already holds. The other 
+> CPUs then wait on the socket lock until the watchdog panics.
+> 
+> The first panic looks the same, but pstore lost the part with the 
+> netconsole thread.
+> 
+
+> [...]
+
+> I can test a patch if that helps. Is this a known issue?
+
+https://github.com/nbuchwitz/linux/commit/319cb0933e2eaf984b98906ebddb55befb4e2996
+
+> 
+> Mikkel
