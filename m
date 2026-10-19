@@ -1,211 +1,161 @@
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568294AAC62
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 09:55:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792403759; cv=pass; b=RTfXD5AlSyPPP4PkQgDALzOncT1IfjppMYxuhQjn7N3a1JY16+amGXM5jnZ4JLKIMA6n9bWEJpZDDVFl3FAMUj+gq4MPp6hrtaOoNF/VCyljpPzf8v0mbPxjLBCrednn03ilqLf2V1fVkHREtUwdS1xpxJdaAYlw1BqAVLlSkBo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792403759; c=relaxed/simple;
-	bh=gqi3U7n/QtDsR5wlhBbyg7CifMun5YBwGtD8IH4Foxk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=piRnv7O/7F9mOhRrTh0BHuz1sjhZ7/J91BB+5gSegoF/Esl7I1KeG2SGfph7e4tDlzNVrpEttlch5JveFiFgO7mVCDjIYgQd7Hy4YmwqjjsY+P1PBtPgInOiFHDjXWYvywL+/Oul1mF8RCjwjFvWeSw1QyWpy6WcQi6XnoFFAiw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EDWJ/FlJ; arc=pass smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB0148EC97
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 10:26:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792405613; cv=none; b=kKBjucziBtOEkeZEJKm/uHi9nEoxsYMXLZNF7I9mpgtJ5Vj+JCWRsahh6/Yk6fttR2IarMK16nSzUaszaLkfm27hcOms8dRKpPSkX2g55g04S5X7q3e+HygCHBMpWRpQxHjdQ3h39i4wrIdPqBQtsBKvJ3UQElabrBTagDrn5hs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792405613; c=relaxed/simple;
+	bh=Ote98vI9qz/LW3HtMpRzLbduL+1SdafZvtDXqvEYh+U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EVecp06cFZgzhWwniFWccax8tR0445iixursVCcpjenhdzsybKU8Dj26SVZpn0g3Hpdcq6/gF5xZNjP9jXOZrPruCHCk+OUHe6Ky4xyXwG/d/+1/O53SKhmMSdOs4LK+/egjH4dBdlQ6H4OBdYfgdPGMOlhk5v2Dc8lKnRgbW5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=JKezsfgi; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=IeWlVLdW; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EDWJ/FlJ"
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5ba3fba0080so1308264e87.1
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 02:55:58 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792403756; cv=none;
-        d=google.com; s=arc-20260327;
-        b=oDiAjayfklTRRqAOMxwHXi1s7RcX+E4HCNkWTs/mERXWm7fbFtcXNxkIs8TemmKWix
-         COG/qcg1b142tWuM1+nhFE2tZ4p5Fy06C2eEXunseKEZ2x1vFBSLbAVJpqSySfA4hYqr
-         wIzuZFrVgdksqRc/0ewQLMB4V5ng2riuBWCgGsGbYPb7GjtCg5usohN6Pl1dZ6NeqUN1
-         VmafuBHpFwobbBqn2RBPuMOC9jduogrViZHOf7NcPotLo/azWHeCVpUAazNGiFINk92Y
-         xVSS3cn0+ig/XyzFIGXN/PQeh1R1+c7pG5s/jqbvmd/T3158JQ733LJqzmNXJCa31bbR
-         BsVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=MuJPDRdTy81KjotvArVXlt4OrVu92Si9O0HYOV8J+9o=;
-        fh=pb9xropvH1rsCjEg8gJQVFFHtbmdyLUMzum+iC0alN4=;
-        b=emQJgUFKvkJo9c1uVQZ8KEYQasofIoKSdrur3C4LBdq2GkKD2VysGGxx95ljRFLV2e
-         1PwolxWw7j/hoixXIFEoMms8hu/Yz3wc67hJBwMIJOW5n8hLGf3U5c1IVFJGCBAO6huw
-         O2UkAzqb6DkYUlGItV9JVxR/hjbgJbznB74kII41POBk9TWonwMoogQiqDuoUQcmCiPp
-         PSrrHv4teLbbjnysVshadc5eTmq/we8M8wkegZvP44vmpOV8QT9+83yvuxQ81RIHIVwY
-         oc3XAjv7iINWvHmQ0p6Umbh2ZoUxeluogsoXwWikqOT0IQnsETOqFhY3nb6bpcUpO9oM
-         +rGQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="JKezsfgi";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="IeWlVLdW"
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69J8P0F41168172
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 10:26:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=F+LKQoTb35jRYglAbCLwIauW
+	hdIYSRn5yyAB/X8aCJY=; b=JKezsfgiQ5BQB5yy1PZjfVo1qSvJ2na8uOD56GU3
+	oUKsYcD1OyIsHJzKfxUIp42qr9SbNOxLO9XP+aD+Oqxw7gcrQZ2iKx76mvtwXFw2
+	R307TZffIWrVnTpmhEF+unb0PUDaQDDQK7aoO07g18TRglNeZbZyDobikTKA5yo9
+	L+NZMjdXXr4QWetyYnDhU3TtFYEKM7XlOjbR6mqMjpNMp7a/x+YLxefY1BIartYw
+	CwrWDBpVZq+mr6ZdOVQ2GjK/rlJ/5QJ9dx2exS1ygiwsI3CXyph6ERYXaVDSc6LE
+	rNFpX7VBjsmzR6f+Hj9gO/ZH5KSLc6dJ0xg32xDXnUFwCw==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hdf5c8kg5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 10:26:50 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-93ca9b53afaso694651285a.0
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 03:26:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792403756; x=1793008556; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=oss.qualcomm.com; s=google; t=1792405610; x=1793010410; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=MuJPDRdTy81KjotvArVXlt4OrVu92Si9O0HYOV8J+9o=;
-        b=EDWJ/FlJfmX2v91zxOsOCF5x37Q+IOa7JfFvjNDfGzKEGuln9OB68EyqJy2UUbI4gc
-         Wb4gnUxCZ980F3gu4kb3Ij+tVs1Av7GEDtUn+uRl9cVtzENZOQ9CukFcZjetedHS51Md
-         X9LDDE6x6VeZH8ElMQhQWYH+w2ws3vhusxHlcx//gNLmMouR9CEGiJuzVYY7Ly/isvZy
-         Zk/gLvTmM7q/r61NxW5tb1pEwc4nZ/Ue5PFARi7C1cwJF0IbtAq8xzh+ulda1xUmeQB7
-         P2TKv0Eu26dlJ5jleLFovEBr8qmdTHzfthmhRPTQFN9YrXMo+kKzvnsSK1LjHm58thb6
-         hp3g==
+        bh=F+LKQoTb35jRYglAbCLwIauWhdIYSRn5yyAB/X8aCJY=;
+        b=IeWlVLdWvpaYwCPMdzwyPXlP6HbcdWf8p7r9kGaqK1VLHKY/LixrmOHBtVutuWucTt
+         FUNActAD4qWZzegJt8vCVIYxifK+r4Q+QJWkcdocKm428tqh9EUqe0g9lqosdrzmh5td
+         WA8hF45MRMr1FwObFXDGpSeRIust2gtb0MR0jJ9f807nhHrfqEQGtlsAYBRgTKA+QIEO
+         IGY4PK12Evl1hQWra0UoW8w+TXC86PUVJeSsjjirf4ojBPK1+50ARV6yNCe4IFu7ecc4
+         qKHmf8vvSeerw9dj4mahw5QG2Q+6igd9ewl+wjm6qJ3+ssl+/JR1SsF08D/rMKz2AGOt
+         uMpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792403756; x=1793008556;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1792405610; x=1793010410;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=MuJPDRdTy81KjotvArVXlt4OrVu92Si9O0HYOV8J+9o=;
-        b=cMqVY0jnKsjCCSR9wAjSmu/lItLGscfGP/RErUa781WJSl2gP2nUeJBwAxK3M9W8nY
-         6uMoTzokJlekYR42Tg6VzjOegQy1WHDRcyGyPhAqYirs97WejvMdi9OqcH/+I/c0dGlX
-         OpaZh6y8q8357NYdlMvL9obWBv/h4msQamMmMHKPpqmkGpTDELB/tJnpg2Wr3CbAggUg
-         4AezGCmD29xumeo7k6b92Jp3yZI4XYjkB62lco8Jhfb2MkBANalupB+C8H8rul9yY9Rl
-         gtnoAPoM8no7gYQDasUbgvUb2iRb5vGLUdjzzAWHr1SQSMBNH0wwvg26/+FFC6ae746X
-         USeg==
-X-Forwarded-Encrypted: i=1; AKwUvBxX0CV7D9f/4mKo14dBnzekmdSnAsez8y+dc3+cckRNTR3V2rhwxT559SiOaevHcs1FtTMfBUmBYM4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYL7jJJyyLcgoeRlX8arC+QDWAAdFw/1OXo3UWUTFzpaz287aY3b
-	pJ3mABnUL5hK1UxjFXalnsOYh7RDjHfhVoS8D4BzowW4M1W30TLXplDCWlt1d7pzQHxKJSmZaIC
-	f8zTogvrG4W04sIML6hipimy+hssgmBiYTqLGmizi+Q==
-X-Gm-Gg: AYBFou2QTpF7EprnnbeCEDARkAOZjx7Gf2Ebl647aQb5Wp7wBSyed8vTtaXO+/1ZAsA
-	1/8jJgFjKCHcZVq6WErYud9acmkl7MZzuT6ZtvQZ8cjjeOoYM5t4D9rfC1DLC77wdUArGckIj0v
-	20J9aU3C5vNvJFOhaPiF9AL4fKnyF/u/iDZ9Id//r46at0CIP8zguMBy1FrBeAGnhG15dBwZ8/3
-	VJI2sgLCzwMXPiX3tIoXQKVvQvmUWMrZ4v5QFyn2BPyX2VQUVyAh/DBYTBJTRttTBnGnHj6pyyB
-	wlViphKYfK3z9GbSK0L6MvI3jne20Y9r39s/Ov208VG9/LvfOPa23FrG+aUP6XkjbUcFUMn5jpI
-	Pg4hJi8bQZiOa
-X-Received: by 2002:a05:6512:b84:b0:5bc:bb39:1b53 with SMTP id
- 2adb3069b0e04-5be50a73b7dmr2347028e87.31.1792403756369; Mon, 19 Oct 2026
- 02:55:56 -0700 (PDT)
+        bh=F+LKQoTb35jRYglAbCLwIauWhdIYSRn5yyAB/X8aCJY=;
+        b=G86Ea2i3P80WZvM9Rzp9rtdvBvyyRQXSrLS9M4MAeWAYvbeBRAhIsGlOhQc6Cw2X1h
+         h0lBLlCnjLSBKMKXMY+aZ3AT7Bws4V+3YfzP1P5l8dE01Mx6AGLWgBMdMhb5mgNouaWC
+         DGEV2hMgJHZ/35h+iDNVARGLLW6SY0z62JlrkuDIicjlnCjTl3Hq8V+axjnhhn1IomKE
+         iuE3EOZbSg9iW14Ke19h/NCBZg/ioCoLPblZZtLmGBV/IXEqF3AEE0XvdcZWXv6wXA7C
+         oND4Gh7RtdK2L3ZnSx43tNqK83jmyieMgNhyf1yIvEj5+eCwm64ZJVJnHj85S8iejcYQ
+         19bQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwCiothmBw33C/KxCZmlQLMpGtuEFpvEhUPTiQl+cJyiVPkj6WAiHlvYZuFX8xoYg91XGfw0iVshM8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKE1S8PlgvsbbjTOtO2HwRD9056lYMBqYoqmYyasCFxBQQD3BtL
+	fr42kwRaWWrDMnxtrSPT8v0kFQpfSwRj2A9cRhKvjo0vQ2bnhXl/O7/RQDCtlgWegWIhJpSZYPq
+	obohUS371KGyUHe1RFdezGqNj/bjgdPTddfFOb8M+fCbdbalSUYKAYqiaIwMiiYo=
+X-Gm-Gg: AYBFou3f9r7SOD9B2PwsRqpe2pCZ+Ma70s6MJM5Df2Q+trNdq6vBMyp6KtvcCZ3daCW
+	cipKIOAztP+TMCN9J128GlONkBF8B7sVZlo+bIGqmf2un3RQKfuh4f79Xb0dZd/L1PJ3F5s1h2w
+	6SlALuy5Be3BOlqGALoxIsDG52mbeag7nkdpLLC5eh3ZPSDBEq9x9OjcFjoRcOU+IAu2g2+kRwZ
+	D32C/X4o+hPi74pynyuj8Nd7mlacrVLcZ8CXv88K5xbsalzHWDE+OqrM3Xj9M3vDs7Ummu+vVLy
+	HOqRqaI5RNBHIBCimncYeL2tl4optmhRYI8mjzjs/CNF8cfxlAg42JtWowMB5NVv3Xx6Rw5ELrb
+	tQTtFPpSanfH6bGWi
+X-Received: by 2002:a05:620a:260a:b0:93e:5eaf:dd87 with SMTP id af79cd13be357-93f29db9df9mr1156269585a.62.1792405610308;
+        Mon, 19 Oct 2026 03:26:50 -0700 (PDT)
+X-Received: by 2002:a05:620a:260a:b0:93e:5eaf:dd87 with SMTP id af79cd13be357-93f29db9df9mr1156266785a.62.1792405609758;
+        Mon, 19 Oct 2026 03:26:49 -0700 (PDT)
+Received: from oss.qualcomm.com ([188.27.161.187])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1d3e2e602sm281985745e9.5.2026.10.19.03.26.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 03:26:48 -0700 (PDT)
+Date: Mon, 19 Oct 2026 13:26:47 +0300
+From: Abel Vesa <abel.vesa@oss.qualcomm.com>
+To: Peter Chen <peter.chen@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
+        Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
+        Jack Pham <jack.pham@oss.qualcomm.com>,
+        Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: [PATCH v2 1/4] arm64: dts: qcom: glymur: Set
+ snps,resume-hs-terminations for USB controllers
+Message-ID: <dcdpigc2i3lfwisawli3dggr4otxquy7uwmkzn4tmuy7jns7rw@ljcdemrrdzsr>
+References: <20261019021547.1694088-1-peter.chen@oss.qualcomm.com>
+ <20261019021547.1694088-2-peter.chen@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20261012095452.135828-3-marco.crivellari@suse.com>
- <179188543192.434549.4257004266357227847@kernel.org> <20261018143442.GM503057@horms.kernel.org>
-In-Reply-To: <20261018143442.GM503057@horms.kernel.org>
-From: Marco Crivellari <marco.crivellari@suse.com>
-Date: Mon, 19 Oct 2026 11:55:45 +0200
-X-Gm-Features: AclHuK_6oFqzh3TbYN_-CW7N1nWbLX95zNftyFclNTBVaLpWf8RWHFN24zLVM5Q
-Message-ID: <CAAofZF4YxqKihS3TtYXyT6y-f5pH9XjYiXKo2VzjXWWZ3OWjRw@mail.gmail.com>
-Subject: Re: [PATCH net-next v4 2/6] net: ti: icssg-stats: Move long delayed
- work on system_dfl_long_wq
-To: Simon Horman <horms@kernel.org>
-Cc: netdev-bot+sashiko@kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, tj@kernel.org, jiangshanlai@gmail.com, 
-	frederic@kernel.org, bigeasy@linutronix.de, mhocko@suse.com, 
-	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
-	kuba@kernel.org, pabeni@redhat.com, enelsonmoore@gmail.com, 
-	linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261019021547.1694088-2-peter.chen@oss.qualcomm.com>
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDE5MDA0MSBTYWx0ZWRfX/nqWzJpSolfE
+ Ja2rWAVLuo5r5eInN2Asnv2S1wHQ3EwqyhivFl5gPsC1S5egvd8UG4L7mN0/P6i4AeMMWHDmz5n
+ gLxQbZpwqPHb/d4zbRb0TvBc7PJ11/Y=
+X-Proofpoint-ORIG-GUID: qC_DfgEsMhp5r4Hd2TGBUmiqsNk1deZB
+X-Proofpoint-GUID: qC_DfgEsMhp5r4Hd2TGBUmiqsNk1deZB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDE5MDA0MSBTYWx0ZWRfX5EbTYg/6R0lt
+ AqRRnJ8JCoV3fdan/mr+yv2RuGtruITGfefopJqu0J1XEnolgS54ceVweMIIjYhlafs224eALzk
+ UQ8o2lq8wsvRxfTng+IB9YQuUJ01YyA+5haO7XY6rWl0pjoKtU9oh0l14BCJaYSiZIRo638u24V
+ xrMJhffCOpj1KQ4M/06P2qRMWY1p9xKeSu5ofBpx5IqbD+C9rLEk74Pn79hquvPuW+9OcEymP4d
+ rpovBxmBWXsW5kr2ibD4SbumaCPm6oz0NVs6ugXZwZCtHciBtyQaSDJsWYBNvtqZeU+4ot3CIba
+ P1sld3dNhQGR+SUrRWSeW3F2EfQE1WSqflUDWenCtjRgazBk2wvRBwJJMcJvXEP7O/Aah6+1idw
+ TBUXuymvJJ6kXvZjR7+8GUv2qApknppRp8Pr1w5u1DyITNFO+eZAAYo7s3dLy6RceN0k2sXUNMB
+ JNurNK2b7VnN3esXu3g==
+X-Authority-Analysis: v=2.4 cv=K6O3jCWI c=1 sm=1 tr=0 ts=6ad5f06b cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=Qvngrl3H0rQgGg+94q4QgA==:17
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22
+ a=EUspDBNiAAAA:8 a=YwX7B-rWpBLcgDuOc-wA:9 a=CjuIK1q_8ugA:10
+ a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-19_03,2026-10-14_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0 malwarescore=0
+ adultscore=0 suspectscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610080000 definitions=main-2610190041
 
-On Sun, Oct 18, 2026 at 4:34=E2=80=AFPM Simon Horman <horms@kernel.org> wro=
-te:
->
-> On Tue, Oct 13, 2026 at 09:57:11AM +0000, netdev-bot+sashiko@kernel.org w=
-rote:
-> > Thank you for your contribution! Sashiko AI review found 1 potential
-> > issue(s) to consider.
-> >
-> > Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 0
-> >
-> > If you believe none of the issues are legitimate, please reply to each
-> > issue of Medium severity or higher and explain why the AI is wrong.
-> > If any of them are legitimate and you plan to respin, please let patchw=
-ork
-> > know by including "pw-bot: cr" as a separate line at the end of your re=
-ply
-> > (one such reply per series is enough).
-> >
-> > - [Medium] The conversion is incomplete, so one delayed_work is queued =
-on
-> >   two different workqueues.
-> >
-> > --
-> >
-> > net: ti: icssg-stats: Move long delayed work on system_dfl_long_wq
-> >
-> > This commit changes the self-requeue in icssg_stats_work_handler() from
-> > the per-cpu system_long_wq to the unbound system_dfl_long_wq. The goal =
-is
-> > to let the periodic stats work benefit from scheduler task placement.
-> >
-> > > diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.c b/drivers/ne=
-t/ethernet/ti/icssg/icssg_stats.c
-> > > index 7159baa0155cf..7d6d6692d8192 100644
-> > > --- a/drivers/net/ethernet/ti/icssg/icssg_stats.c
-> > > +++ b/drivers/net/ethernet/ti/icssg/icssg_stats.c
-> > > @@ -69,7 +69,7 @@ void icssg_stats_work_handler(struct work_struct *w=
-ork)
-> > >                                             stats_work.work);
-> > >     emac_update_hardware_stats(emac);
-> > >
-> > > -   queue_delayed_work(system_long_wq, &emac->stats_work,
-> > > +   queue_delayed_work(system_dfl_long_wq, &emac->stats_work,
-> > >                        msecs_to_jiffies((STATS_TIME_LIMIT_1G_MS * 100=
-0) / emac->speed));
-> > >  }
-> >
-> > [Severity: Medium]
-> > Is this conversion complete?
-> >
-> > Both ICSSG drivers use icssg_stats_work_handler() for the same
-> > emac->stats_work. Both prueth_netdev_init() functions, in icssg_prueth.=
-c
-> > and icssg_prueth_sr1.c, do this:
-> >
-> >     INIT_DELAYED_WORK(&emac->stats_work, icssg_stats_work_handler);
-> >
-> > However, the first run is still queued on the per-cpu workqueue from
-> > the ndo_open path:
-> >
-> > drivers/net/ethernet/ti/icssg/icssg_prueth_sr1.c:emac_ndo_open() {
-> >     ...
-> >       queue_work(system_long_wq, &emac->stats_work.work);
-> >     ...
-> > }
-> >
-> > The follow-up patch "net: ti: icssg-prueth: Move long delayed work on
-> > system_dfl_long_wq" converts the matching call in icssg_prueth.c. No
-> > patch in the series seems to change icssg_prueth_sr1.c.
-> >
-> > On SR1.0 hardware, the first stats run after each open would still go t=
-o
-> > a per-cpu worker. Every later run would go to system_dfl_long_wq.
-> >
-> > Could mixing the two workqueues also bypass the non-reentrancy check in
-> > __queue_work()?
-> >
-> > kernel/workqueue.c:__queue_work() {
-> >     ...
-> >               if (worker && worker->current_pwq->wq =3D=3D wq) {
-> >     ...
-> > }
-> >
-> > The instance running on system_long_wq re-arms onto system_dfl_long_wq,
-> > so this check fails. If the timer expires before the first worker
-> > returns, a second instance could start at the same time on another
-> > worker.
-> >
-> > Today this looks harmless. The handler does nothing after
-> > queue_delayed_work(), and emac_update_hardware_stats() takes
-> > prueth->stats_lock.
-> >
-> > Should emac_ndo_open() in icssg_prueth_sr1.c also switch to
-> > system_dfl_long_wq, so stats_work is only ever queued on one workqueue?
->
-> It seem to me that it would be worth getting this right upfront.
+On 26-10-18 19:15:44, Peter Chen wrote:
+> The DWC3 controllers on Glymur are paired with the M31 eUSB2 PHY.
+> According to HPG, host-mode USB2 L2/L1 resume with this PHY, GUCTL1[10]
+> (RESUME_OPMODE_HS_HOST) must be set.
+> 
+> Without this bit setting, USB2 HS device cannot be reset after it is
+> runtime resumed. For example, after:
+> 
+>   echo on > /sys/bus/usb/devices/1-1/power/control
+> 
+> PORTSC.PR never clears (PORTSC = 0xe11) and the hub driver fails with
+> "port_wait_reset: err = -16".
+> 
+> Set snps,resume-hs-terminations on all Glymur USB controllers. This
+> makes dwc3 core set GUCTL1[10] and fixes the issue, tested on Glymur CRD.
+> 
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+> Fixes: 4eee57dd4df9 ("arm64: dts: qcom: glymur: Add USB related nodes")
+> Assisted-by: Claude:claude-opus-5-5
+> Signed-off-by: Peter Chen <peter.chen@oss.qualcomm.com>
 
-Thanks for your comment on this Simon.
-It likely makes sense to change it there as well. I will check for the v5.
-
-Thanks!
-
---=20
-
-Marco Crivellari
-
-SUSE Labs
+Reviewed-by: Abel Vesa <abel.vesa@oss.qualcomm.com>
