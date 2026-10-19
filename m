@@ -1,230 +1,211 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EE84B1CF0
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 09:23:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792401801; cv=none; b=PgxKHEhUAuBrErtdq7p1pbnLfLCHGkiLsxCK9nLIojFqP2zmT75v7NFJrfzA5ElE9mMhHTnaUgyFKgjkFEhGdRGkTP6nLFyAKKzIkCPuH3Nk+yZzqFhi2HTNri/VhpQVyn24/JdOBz0fB9hT5aPQ0qhzM0JVidPHwwelc423tIE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792401801; c=relaxed/simple;
-	bh=GoSnbJATzwhVz9Y9sjvX+/3VJfEcb82bv5B2qIewsKQ=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=KzqxuH3xFqUNh++e8aXuqAWBy84XPvPe5zZzTjeOdVp/AmKv2yFBCp5htNpVJPIiONC9daT5w9tc231R9tQix1WvZZWRD1FCtUgPmiMjL/gWKGUZo+JFtZBGGmLQazslcjJPAKezv32StuZX7ojd/YSyE+wmVfLSTwkl6y596oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Prf5Qnrt; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 568294AAC62
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 09:55:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792403759; cv=pass; b=RTfXD5AlSyPPP4PkQgDALzOncT1IfjppMYxuhQjn7N3a1JY16+amGXM5jnZ4JLKIMA6n9bWEJpZDDVFl3FAMUj+gq4MPp6hrtaOoNF/VCyljpPzf8v0mbPxjLBCrednn03ilqLf2V1fVkHREtUwdS1xpxJdaAYlw1BqAVLlSkBo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792403759; c=relaxed/simple;
+	bh=gqi3U7n/QtDsR5wlhBbyg7CifMun5YBwGtD8IH4Foxk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=piRnv7O/7F9mOhRrTh0BHuz1sjhZ7/J91BB+5gSegoF/Esl7I1KeG2SGfph7e4tDlzNVrpEttlch5JveFiFgO7mVCDjIYgQd7Hy4YmwqjjsY+P1PBtPgInOiFHDjXWYvywL+/Oul1mF8RCjwjFvWeSw1QyWpy6WcQi6XnoFFAiw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=EDWJ/FlJ; arc=pass smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Prf5Qnrt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D39EA1F000C5;
-	Mon, 19 Oct 2026 09:23:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792401800;
-	bh=MEz/cPBkqCPY3QWnRxxGun2yyZfa6C8961XRSfaSK4I=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Prf5QnrtnLN+dUmMLS/pTzvN8SdunieizXZ9st9is5M9CbnuzmLTRPO+8r8VghSHY
-	 SGd6u+CatgcYPg5c3NXb8tVqr4cEbdGOl0MsQNe+92hRVbw3ut3VirZN0cG319TvaF
-	 Z3e011UAYUDk4hzkat5zeo3aabRYCFValDSWD6ipjbmH2Iw5bX1jXUqh9JCLz4pZK4
-	 TB3Ado8+8zdRE65kWzkWDXYozip6EaNs1CAc9iV8gMS+OhtfytsR5WLgeVtdfYxCgq
-	 Tx7HKtCJGRz9NjYPsCSQo+U1bz4sNBNPPyFKXNd2fWiI8TGLpncEvfZk0w4uyJ1b2/
-	 uKFIZEhKsib6w==
-Message-ID: <sashiko-outbox-176892@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 1/2] usb: gadget: u_serial: keep the port until its
- tty is released
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mehmet Fide" <mehmet.fide@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261019090904.3264978-1-mehmet.fide@gmail.com>
-References: <20261019085855.3259716-1-mehmet.fide@gmail.com>
- <20261019090904.3264978-1-mehmet.fide@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 09:23:18 +0000
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="EDWJ/FlJ"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5ba3fba0080so1308264e87.1
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 02:55:58 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792403756; cv=none;
+        d=google.com; s=arc-20260327;
+        b=oDiAjayfklTRRqAOMxwHXi1s7RcX+E4HCNkWTs/mERXWm7fbFtcXNxkIs8TemmKWix
+         COG/qcg1b142tWuM1+nhFE2tZ4p5Fy06C2eEXunseKEZ2x1vFBSLbAVJpqSySfA4hYqr
+         wIzuZFrVgdksqRc/0ewQLMB4V5ng2riuBWCgGsGbYPb7GjtCg5usohN6Pl1dZ6NeqUN1
+         VmafuBHpFwobbBqn2RBPuMOC9jduogrViZHOf7NcPotLo/azWHeCVpUAazNGiFINk92Y
+         xVSS3cn0+ig/XyzFIGXN/PQeh1R1+c7pG5s/jqbvmd/T3158JQ733LJqzmNXJCa31bbR
+         BsVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MuJPDRdTy81KjotvArVXlt4OrVu92Si9O0HYOV8J+9o=;
+        fh=pb9xropvH1rsCjEg8gJQVFFHtbmdyLUMzum+iC0alN4=;
+        b=emQJgUFKvkJo9c1uVQZ8KEYQasofIoKSdrur3C4LBdq2GkKD2VysGGxx95ljRFLV2e
+         1PwolxWw7j/hoixXIFEoMms8hu/Yz3wc67hJBwMIJOW5n8hLGf3U5c1IVFJGCBAO6huw
+         O2UkAzqb6DkYUlGItV9JVxR/hjbgJbznB74kII41POBk9TWonwMoogQiqDuoUQcmCiPp
+         PSrrHv4teLbbjnysVshadc5eTmq/we8M8wkegZvP44vmpOV8QT9+83yvuxQ81RIHIVwY
+         oc3XAjv7iINWvHmQ0p6Umbh2ZoUxeluogsoXwWikqOT0IQnsETOqFhY3nb6bpcUpO9oM
+         +rGQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1792403756; x=1793008556; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=MuJPDRdTy81KjotvArVXlt4OrVu92Si9O0HYOV8J+9o=;
+        b=EDWJ/FlJfmX2v91zxOsOCF5x37Q+IOa7JfFvjNDfGzKEGuln9OB68EyqJy2UUbI4gc
+         Wb4gnUxCZ980F3gu4kb3Ij+tVs1Av7GEDtUn+uRl9cVtzENZOQ9CukFcZjetedHS51Md
+         X9LDDE6x6VeZH8ElMQhQWYH+w2ws3vhusxHlcx//gNLmMouR9CEGiJuzVYY7Ly/isvZy
+         Zk/gLvTmM7q/r61NxW5tb1pEwc4nZ/Ue5PFARi7C1cwJF0IbtAq8xzh+ulda1xUmeQB7
+         P2TKv0Eu26dlJ5jleLFovEBr8qmdTHzfthmhRPTQFN9YrXMo+kKzvnsSK1LjHm58thb6
+         hp3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792403756; x=1793008556;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=MuJPDRdTy81KjotvArVXlt4OrVu92Si9O0HYOV8J+9o=;
+        b=cMqVY0jnKsjCCSR9wAjSmu/lItLGscfGP/RErUa781WJSl2gP2nUeJBwAxK3M9W8nY
+         6uMoTzokJlekYR42Tg6VzjOegQy1WHDRcyGyPhAqYirs97WejvMdi9OqcH/+I/c0dGlX
+         OpaZh6y8q8357NYdlMvL9obWBv/h4msQamMmMHKPpqmkGpTDELB/tJnpg2Wr3CbAggUg
+         4AezGCmD29xumeo7k6b92Jp3yZI4XYjkB62lco8Jhfb2MkBANalupB+C8H8rul9yY9Rl
+         gtnoAPoM8no7gYQDasUbgvUb2iRb5vGLUdjzzAWHr1SQSMBNH0wwvg26/+FFC6ae746X
+         USeg==
+X-Forwarded-Encrypted: i=1; AKwUvBxX0CV7D9f/4mKo14dBnzekmdSnAsez8y+dc3+cckRNTR3V2rhwxT559SiOaevHcs1FtTMfBUmBYM4=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL7jJJyyLcgoeRlX8arC+QDWAAdFw/1OXo3UWUTFzpaz287aY3b
+	pJ3mABnUL5hK1UxjFXalnsOYh7RDjHfhVoS8D4BzowW4M1W30TLXplDCWlt1d7pzQHxKJSmZaIC
+	f8zTogvrG4W04sIML6hipimy+hssgmBiYTqLGmizi+Q==
+X-Gm-Gg: AYBFou2QTpF7EprnnbeCEDARkAOZjx7Gf2Ebl647aQb5Wp7wBSyed8vTtaXO+/1ZAsA
+	1/8jJgFjKCHcZVq6WErYud9acmkl7MZzuT6ZtvQZ8cjjeOoYM5t4D9rfC1DLC77wdUArGckIj0v
+	20J9aU3C5vNvJFOhaPiF9AL4fKnyF/u/iDZ9Id//r46at0CIP8zguMBy1FrBeAGnhG15dBwZ8/3
+	VJI2sgLCzwMXPiX3tIoXQKVvQvmUWMrZ4v5QFyn2BPyX2VQUVyAh/DBYTBJTRttTBnGnHj6pyyB
+	wlViphKYfK3z9GbSK0L6MvI3jne20Y9r39s/Ov208VG9/LvfOPa23FrG+aUP6XkjbUcFUMn5jpI
+	Pg4hJi8bQZiOa
+X-Received: by 2002:a05:6512:b84:b0:5bc:bb39:1b53 with SMTP id
+ 2adb3069b0e04-5be50a73b7dmr2347028e87.31.1792403756369; Mon, 19 Oct 2026
+ 02:55:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20261012095452.135828-3-marco.crivellari@suse.com>
+ <179188543192.434549.4257004266357227847@kernel.org> <20261018143442.GM503057@horms.kernel.org>
+In-Reply-To: <20261018143442.GM503057@horms.kernel.org>
+From: Marco Crivellari <marco.crivellari@suse.com>
+Date: Mon, 19 Oct 2026 11:55:45 +0200
+X-Gm-Features: AclHuK_6oFqzh3TbYN_-CW7N1nWbLX95zNftyFclNTBVaLpWf8RWHFN24zLVM5Q
+Message-ID: <CAAofZF4YxqKihS3TtYXyT6y-f5pH9XjYiXKo2VzjXWWZ3OWjRw@mail.gmail.com>
+Subject: Re: [PATCH net-next v4 2/6] net: ti: icssg-stats: Move long delayed
+ work on system_dfl_long_wq
+To: Simon Horman <horms@kernel.org>
+Cc: netdev-bot+sashiko@kernel.org, linux-kernel@vger.kernel.org, 
+	netdev@vger.kernel.org, tj@kernel.org, jiangshanlai@gmail.com, 
+	frederic@kernel.org, bigeasy@linutronix.de, mhocko@suse.com, 
+	andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@google.com, 
+	kuba@kernel.org, pabeni@redhat.com, enelsonmoore@gmail.com, 
+	linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] usb: gadget: u_serial: port reallocation race between gs_install()=
- and gs_open()
-- [High] usb: gadget: u_serial: unbalanced port count in gs_close() when gs=
-_open() fails
---
+On Sun, Oct 18, 2026 at 4:34=E2=80=AFPM Simon Horman <horms@kernel.org> wro=
+te:
+>
+> On Tue, Oct 13, 2026 at 09:57:11AM +0000, netdev-bot+sashiko@kernel.org w=
+rote:
+> > Thank you for your contribution! Sashiko AI review found 1 potential
+> > issue(s) to consider.
+> >
+> > Critical: 0 =C2=B7 High: 0 =C2=B7 Medium: 1 =C2=B7 Low: 0
+> >
+> > If you believe none of the issues are legitimate, please reply to each
+> > issue of Medium severity or higher and explain why the AI is wrong.
+> > If any of them are legitimate and you plan to respin, please let patchw=
+ork
+> > know by including "pw-bot: cr" as a separate line at the end of your re=
+ply
+> > (one such reply per series is enough).
+> >
+> > - [Medium] The conversion is incomplete, so one delayed_work is queued =
+on
+> >   two different workqueues.
+> >
+> > --
+> >
+> > net: ti: icssg-stats: Move long delayed work on system_dfl_long_wq
+> >
+> > This commit changes the self-requeue in icssg_stats_work_handler() from
+> > the per-cpu system_long_wq to the unbound system_dfl_long_wq. The goal =
+is
+> > to let the periodic stats work benefit from scheduler task placement.
+> >
+> > > diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.c b/drivers/ne=
+t/ethernet/ti/icssg/icssg_stats.c
+> > > index 7159baa0155cf..7d6d6692d8192 100644
+> > > --- a/drivers/net/ethernet/ti/icssg/icssg_stats.c
+> > > +++ b/drivers/net/ethernet/ti/icssg/icssg_stats.c
+> > > @@ -69,7 +69,7 @@ void icssg_stats_work_handler(struct work_struct *w=
+ork)
+> > >                                             stats_work.work);
+> > >     emac_update_hardware_stats(emac);
+> > >
+> > > -   queue_delayed_work(system_long_wq, &emac->stats_work,
+> > > +   queue_delayed_work(system_dfl_long_wq, &emac->stats_work,
+> > >                        msecs_to_jiffies((STATS_TIME_LIMIT_1G_MS * 100=
+0) / emac->speed));
+> > >  }
+> >
+> > [Severity: Medium]
+> > Is this conversion complete?
+> >
+> > Both ICSSG drivers use icssg_stats_work_handler() for the same
+> > emac->stats_work. Both prueth_netdev_init() functions, in icssg_prueth.=
+c
+> > and icssg_prueth_sr1.c, do this:
+> >
+> >     INIT_DELAYED_WORK(&emac->stats_work, icssg_stats_work_handler);
+> >
+> > However, the first run is still queued on the per-cpu workqueue from
+> > the ndo_open path:
+> >
+> > drivers/net/ethernet/ti/icssg/icssg_prueth_sr1.c:emac_ndo_open() {
+> >     ...
+> >       queue_work(system_long_wq, &emac->stats_work.work);
+> >     ...
+> > }
+> >
+> > The follow-up patch "net: ti: icssg-prueth: Move long delayed work on
+> > system_dfl_long_wq" converts the matching call in icssg_prueth.c. No
+> > patch in the series seems to change icssg_prueth_sr1.c.
+> >
+> > On SR1.0 hardware, the first stats run after each open would still go t=
+o
+> > a per-cpu worker. Every later run would go to system_dfl_long_wq.
+> >
+> > Could mixing the two workqueues also bypass the non-reentrancy check in
+> > __queue_work()?
+> >
+> > kernel/workqueue.c:__queue_work() {
+> >     ...
+> >               if (worker && worker->current_pwq->wq =3D=3D wq) {
+> >     ...
+> > }
+> >
+> > The instance running on system_long_wq re-arms onto system_dfl_long_wq,
+> > so this check fails. If the timer expires before the first worker
+> > returns, a second instance could start at the same time on another
+> > worker.
+> >
+> > Today this looks harmless. The handler does nothing after
+> > queue_delayed_work(), and emac_update_hardware_stats() takes
+> > prueth->stats_lock.
+> >
+> > Should emac_ndo_open() in icssg_prueth_sr1.c also switch to
+> > system_dfl_long_wq, so stats_work is only ever queued on one workqueue?
+>
+> It seem to me that it would be worth getting this right upfront.
 
-commit 80163fbde5c8a63d71508c20f74ff07e66b93936
-Author: Mehmet Fide <mehmet.fide@screeningeagle.com>
+Thanks for your comment on this Simon.
+It likely makes sense to change it there as well. I will check for the v5.
 
-usb: gadget: u_serial: keep the port until its tty is released
-
-This commit adds install and cleanup callbacks to gs_tty_ops to take a
-reference on tty_port during tty installation and release the gs_port via
-a tty_port destructor when the last reference is dropped.
-
-> diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/=
-function/u_serial.c
-> index cdd1dfc666c4f..19eea724280b0 100644
-> --- a/drivers/usb/gadget/function/u_serial.c
-> +++ b/drivers/usb/gadget/function/u_serial.c
-> @@ -908,7 +908,39 @@ static int gs_get_icount(struct tty_struct *tty,
->  	return 0;
->  }
-> =20
-> +static int gs_install(struct tty_driver *driver, struct tty_struct *tty)
-> +{
-> +	int		port_num =3D tty->index;
-> +	struct gs_port	*port;
-> +	int		ret;
-> +
-> +	mutex_lock(&ports[port_num].lock);
-> +	port =3D ports[port_num].port;
-> +	if (port)
-> +		tty_port_get(&port->port);
-> +	mutex_unlock(&ports[port_num].lock);
-> +	if (!port)
-> +		return -ENODEV;
-> +
-> +	ret =3D tty_port_install(&port->port, driver, tty);
-> +	if (ret) {
-> +		tty_port_put(&port->port);
-> +		return ret;
-> +	}
-> +	tty->driver_data =3D port;
-> +	return 0;
-> +}
-
-[Severity: High]
-Does setting tty->driver_data in gs_install() cause an unbalanced
-port->port.count decrement in gs_close() when gs_open() fails?
-
-When gs_open() returns a non-zero error, tty_open() cleans up by calling
-tty_release() -> gs_close(). In gs_open(), the function can fail and return
--ENODEV or -ENOMEM before incrementing port->port.count:
-
-drivers/usb/gadget/function/u_serial.c:gs_open() {
-	mutex_lock(&ports[port_num].lock);
-	port =3D ports[port_num].port;
-	if (!port) {
-		status =3D -ENODEV;
-		goto out;
-	}
-
-	spin_lock_irq(&port->port_lock);
-
-	/* allocate circular buffer on first open */
-	if (!kfifo_initialized(&port->port_write_buf)) {
-		spin_unlock_irq(&port->port_lock);
-		status =3D kfifo_alloc(&port->port_write_buf,
-				     WRITE_BUF_SIZE, GFP_KERNEL);
-		if (status) {
-			...
-			goto out;
-		}
-		spin_lock_irq(&port->port_lock);
-	}
-
-	/* already open?  Great. */
-	if (port->port.count++)
-		goto exit_unlock_port;
-}
-
-Because gs_install() already set tty->driver_data =3D port, gs_close() runs
-with a valid port pointer even though gs_open() never incremented
-port->port.count:
-
-drivers/usb/gadget/function/u_serial.c:gs_close() {
-	struct gs_port *port =3D tty->driver_data;
-	...
-	spin_lock_irq(&port->port_lock);
-
-	if (port->port.count !=3D 1) {
-raced_with_open:
-		if (port->port.count =3D=3D 0)
-			WARN_ON(1);
-		else
-			--port->port.count;
-		goto exit;
-	}
-}
-
-On a failed first open where port->port.count is 0, gs_close() hits
-WARN_ON(1).
-
-Furthermore, if a process already holds the tty open (port->port.count =3D=
-=3D 1)
-and gserial_free_line() has cleared ports[port_num].port =3D NULL while
-waiting in gserial_free_port() at wait_event(port->close_wait,
-gs_closed(port)), a second process reopening the existing tty via
-tty_reopen() -> gs_open() sees ports[port_num].port =3D=3D NULL and returns
--ENODEV. The resulting tty_release() -> gs_close() sees port->port.count =
-=3D=3D 1
-from the first opener and runs final-close teardown on the active port,
-resetting port->port_write_buf, clearing port->port.tty =3D NULL, setting
-port->port.count =3D 0, and waking port->close_wait while the first opener
-still has the tty open.
-
-> +
-> +static void gs_cleanup(struct tty_struct *tty)
-> +{
-> +	struct gs_port	*port =3D tty->driver_data;
-> +
-> +	tty_port_put(&port->port);
-> +}
-
-[Severity: High]
-Can a port free and reallocation between gs_install() and gs_open() cause
-gs_cleanup() to free a newly allocated struct gs_port while leaking the
-originally installed struct gs_port?
-
-On first open, tty_open() -> tty_open_by_driver() -> tty_init_dev() calls
-gs_install(), which locks ports[port_num].lock, takes a reference on the
-current port (port1), unlocks ports[port_num].lock, binds tty->port to
-&port1->port, and sets tty->driver_data =3D port1.
-
-Before tty_open() invokes gs_open(), neither ports[port_num].lock nor
-tty_mutex is held, and port1->port.count is still 0. If gserial_free_line()
-runs in this window, wait_event(port->close_wait, gs_closed(port)) in
-gserial_free_port() returns immediately because port1->port.count is 0, and
-gserial_free_port() drops port1's initial reference. If the line is then
-reallocated via gs_port_alloc(), a new struct gs_port (port2) is stored in
-ports[port_num].port with kref =3D=3D 1.
-
-When gs_open() then executes, it re-reads ports[port_num].port instead of
-using tty->driver_data:
-
-drivers/usb/gadget/function/u_serial.c:gs_open() {
-	mutex_lock(&ports[port_num].lock);
-	port =3D ports[port_num].port;
-	...
-	if (port->port.count++)
-		goto exit_unlock_port;
-
-	tty->driver_data =3D port;
-	port->port.tty =3D tty;
-}
-
-This overwrites tty->driver_data with port2 without taking a tty_port
-reference on &port2->port, while tty->port remains &port1->port (and
-port2->port.itty remains NULL). When the tty is later released, gs_cleanup()
-calls tty_port_put(&port->port) on tty->driver_data (port2), dropping
-port2's sole reference and freeing port2 via gs_port_destruct() while
-ports[port_num].port still points to it, while port1's reference from
-gs_install() is never dropped.
-
-[ ... ]
-
-> @@ -1258,8 +1300,7 @@ static void gserial_free_port(struct gs_port *port)
->  	/* wait for old opens to finish */
->  	wait_event(port->close_wait, gs_closed(port));
->  	WARN_ON(port->port_usb !=3D NULL);
-> -	tty_port_destroy(&port->port);
-> -	kfree(port);
-> +	tty_port_put(&port->port);
->  }
-> =20
->  void gserial_free_line(unsigned char port_num)
+Thanks!
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019085855.3259=
-716-1-mehmet.fide@gmail.com?part=3D1
+
+Marco Crivellari
+
+SUSE Labs
