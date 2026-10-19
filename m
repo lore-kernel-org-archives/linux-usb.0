@@ -1,97 +1,101 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4393139A802;
-	Mon, 19 Oct 2026 12:05:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF6C83E0088;
+	Mon, 19 Oct 2026 12:12:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.75.126.72
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792411546; cv=none; b=prhMLX3cbpAnlHdL4cTef0vWDoJVPYVr8lfap/Ckx+qzEeGBaBMSVMxzvLw6AKxlF4a4CTHbWDV+ySX8mshUX3a6JT/zbezHVlWHmxvVAc6ilG22Xjw5VCAh6qFXaCEvrIrJANAS5CYroyF2IeKv8+8dG8lE0bmcOcee4M/KlW8=
+	t=1792411980; cv=none; b=LHijfHItWbSkrea0XW23jAvQOoUZdzLasoP3ATvCUBjGSq2IPNK0BaLya3WFxXO76/69sHxPqMLpdgpiimV1oPbhLPNWr7t25uvUEIcSH2+aKmgM3xu2MTirak2lnPf9t4PXUaA2Jr0KIp5BTCljMCWlyqIi/nARlywqB5JFNEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792411546; c=relaxed/simple;
-	bh=nYSS2IYw13pyhnbJO1ErGYRo3CUonH00oT9u7bgla48=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QNx5OCLqmkp0GpIXnUypTn2gwLpq/+l7806SA55mHr9m6z3Vdd/xbHHz4BQYV7zykagfytCMkBaIMuWG5YEHc5OyDIsAshqzYWntvm+UyKfnYL6MLe1tHNEo4U2VmnK3l9jbvFQZQ+6PruKcmc1wJLXzAzM1DE3gmYdvnpMXMMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dtwM4OgV; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792411980; c=relaxed/simple;
+	bh=Y3J17ScURVLMgamwb8LB4OcOXkKMkuQtLh0AIehEdpY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=YVYCinH+o9PdYxBBCq2BQUuNVENeYau5yLpMZQIWCKMzDs+ejdjCXB7s2gMuTbbofyJMh3uhg+pueURsMtZfaWTsLaL/iE75cO3nin4um8Ioc4E9bbhuc7IggJIGVl71SnF6KtY8yvykZA4jVbP7ELamcHgBHerVqAvW/oSVmOE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com; spf=pass smtp.mailfrom=realtek.com; dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b=lvzrf4da; arc=none smtp.client-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dtwM4OgV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC9E21F000C4;
-	Mon, 19 Oct 2026 12:05:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792411544;
-	bh=k5Yyj8vCsAnzHeWLL+PbRQWwWPbgPOmrW/W5BOPg2O4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=dtwM4OgVnuqvtO7MIC0pbZanCORHJ1GRv65XygtPNe42XGU/H0uMvVWb9U/LUmuvb
-	 kpag6MBtDnmnpIJ4ZhMVeB/mOpBe+OcFoFFzg0hPvUSprvWDvIIeaPnRF3IBfn0q2l
-	 aGXv3vY2IJgEzOypJglAJ7VXXNqwhzoaE0kcgEeeCqFtpVMqNLy8aDkRdO8yOCRuX+
-	 bWjQEu/f7CYFnl3Eq+XuC0pDz6El/vFXOH5MSMsXj8qd7IAkMQmiH6IsL7UzHS8B/K
-	 aD69AgcoNwqX8rkNNX/5uqOZUaMZglecUNgdqY2kqKO8a33vQ5xXz+u1nWzPB4dIHx
-	 j/2veTfOf/MyQ==
-Date: Mon, 19 Oct 2026 14:05:40 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Alan Stern <stern@rowland.harvard.edu>
-Cc: syzbot <syzbot+ed3ada41c4eb1c4ab78e@syzkaller.appspotmail.com>, 
-	Wolfram Sang <wsa+renesas@sang-engineering.com>, gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com, linux-i2c@vger.kernel.org
-Subject: Re: [syzbot] [usb?] WARNING in ec168_ctrl_msg/usb_submit_urb
-Message-ID: <atYHEIRoE_I-EenD@zenone.zhora.eu>
-References: <6ad4f154.a6d1a155.34a93f.00b5.GAE@google.com>
- <0a758fb7-6c71-4e59-a9df-0d2a71649f1e@rowland.harvard.edu>
+	dkim=pass (2048-bit key) header.d=realtek.com header.i=@realtek.com header.b="lvzrf4da"
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 69JCC62X01879690, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1792411926; bh=Y3J17ScURVLMgamwb8LB4OcOXkKMkuQtLh0AIehEdpY=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=lvzrf4davbB2v/FdvT9F/Ss0DdNTxKejmC+krgh6aHe1Xg2ZmL8yKX7MSQ6FKJoMe
+	 uAlvxWrC71OYwlbn0Kt/1B/0MMAoNN00ZyrDbq22/62rwZVyRaiciJ5/PGAFrU/gKJ
+	 2xGF/VXW4woeajCx4bDgYN6F+1nvraYS67HiR8+MIvgR4C+z1hlxBq7knQLoRAYG5B
+	 GPYN+ObZ3IZLdFRRoXwrodXthAkCX049flzFw4YWClTtHYM630M12+MdCXLSK81Q3n
+	 vkIhTUGQZNSTOqJooGlFmFvjE3eRRiW753wPI0SX/qiUfL5+QRqfMJNZ5gpuYc+HcQ
+	 Eiy4sQj4iGi9w==
+Received: from mail.realtek.com (rtkexhmbs03.realtek.com.tw[10.21.1.53])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 69JCC62X01879690
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 19 Oct 2026 20:12:06 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+ RTKEXHMBS03.realtek.com.tw (10.21.1.53) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Mon, 19 Oct 2026 20:12:06 +0800
+Received: from RTKEXHMBS03.realtek.com.tw ([::1]) by
+ RTKEXHMBS03.realtek.com.tw ([fe80::f36f:a844:4916:93f2%9]) with mapi id
+ 15.02.2562.049; Mon, 19 Oct 2026 20:12:06 +0800
+From: Hayes Wang <hayeswang@realtek.com>
+To: Linmao Li <lilinmao@kylinos.cn>, Andrew Lunn <andrew@lunn.ch>
+CC: Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
+	<davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski
+	<kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Chih Kai Hsu
+	<hsu.chih.kai@realtek.com>, nic_swsd <nic_swsd@realtek.com>, Birger Koblitz
+	<mail@birger-koblitz.de>, Xiangqian Zhang <zhangxiangqian@kylinos.cn>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH net v2] r8152: Use BMSR to detect the link state
+Thread-Topic: [PATCH net v2] r8152: Use BMSR to detect the link state
+Thread-Index: AQHdVLexra3FlE5swkqMdmzmTHCGJ7bwLnWg///8UICABCHSAIAAVXKAgAaA7TCAAZqtgIACjy+AgAWOExA=
+Date: Mon, 19 Oct 2026 12:12:06 +0000
+Message-ID: <04de94998df1449b945b8847204980d2@realtek.com>
+References: <20261005105249.1281648-1-lilinmao@kylinos.cn>
+ <fd3bff0e63304681b9e5f35f2f57e50e@realtek.com>
+ <7a8d21bd-3484-4120-abd6-f7290f919b7d@lunn.ch>
+ <2bd3886a-da6e-4703-bd7a-9baa32bfd2f4@kylinos.cn>
+ <591ca604-b296-4469-94b5-957d9ba45ae4@lunn.ch>
+ <16d9caec96e8449d88ac456e8512f08b@realtek.com>
+ <06aaa778-ad49-4e30-b1c6-a7dc68718a21@lunn.ch>
+ <cf64cf73-aa31-4a78-82c4-a9a6c866d7cf@kylinos.cn>
+In-Reply-To: <cf64cf73-aa31-4a78-82c4-a9a6c866d7cf@kylinos.cn>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0a758fb7-6c71-4e59-a9df-0d2a71649f1e@rowland.harvard.edu>
 
-Hi,
-
-On Sun, Oct 18, 2026 at 12:30:24PM -0400, Alan Stern wrote:
-> On Sun, Oct 18, 2026 at 09:18:28AM -0700, syzbot wrote:
-> > Hello,
-> > 
-> > syzbot found the following issue on:
-> > 
-> > HEAD commit:    4056b3c9d3c9 Merge tag 'nios2_update_for_v7.4' of git://gi..
-> > git tree:       upstream
-> > console output: https://syzkaller.appspot.com/x/log.txt?x=11370ce1580000
-> > kernel config:  https://syzkaller.appspot.com/x/.config?x=7d1b274ca9837366
-> > dashboard link: https://syzkaller.appspot.com/bug?extid=ed3ada41c4eb1c4ab78e
-> > compiler:       Debian clang version 22.1.8 (++20260613092233+e80beda6e255-1~exp1~20260613092250.77), Debian LLD 22.1.8
-> > syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=114faaea580000
-> > C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=154faaea580000
-> > 
-> > Downloadable assets:
-> > disk image (non-bootable): https://storage.googleapis.com/syzbot-assets/d900f083ada3/non_bootable_disk-4056b3c9.raw.xz
-> > vmlinux: https://storage.googleapis.com/syzbot-assets/811a43c89106/vmlinux-4056b3c9.xz
-> > kernel image: https://storage.googleapis.com/syzbot-assets/2bb4f3abea76/bzImage-4056b3c9.xz
-> > 
-> > IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> > Reported-by: syzbot+ed3ada41c4eb1c4ab78e@syzkaller.appspotmail.com
-> 
-> This looks like another example of a 0-length I2C-over-USB read.  It 
-> would be nice if we could rule out these things at all at once, instead 
-> of going after them piecemeal.
-> 
-> Alternatively, this WARN() in the USB core could be reduced to something 
-> less severe in the case of length-0 control reads.  We haven't been 
-> seeing very many instances of it apart from I2C, and those have only 
-> occurred during fuzzing.
-
-I am about to send a patch for it, we just need to disallow size
-'0' read messages:
-
-@@ -115,7 +115,7 @@ static int ec168_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[],
- 	while (i < num) {
- 		if (num > i + 1 && (msg[i+1].flags & I2C_M_RD)) {
- 			if (msg[i].addr == ec168_ec100_config.demod_address) {
--				if (msg[i].len < 1) {
-+				if (msg[i].len < 1 || msg[i+1].len < 1) {
- 					i = -EOPNOTSUPP;
- 					break;
- 				}
-
-Thanks,
-Andi
+TGlubWFvIExpIDxsaWxpbm1hb0BreWxpbm9zLmNuPg0KPiBTZW50OiBGcmlkYXksIE9jdG9iZXIg
+MTYsIDIwMjYgMzoxNiBQTQ0KWy4uLl0NCj4gT3B0aW9uIGEpIGFkZHJlc3NlcyBvbmx5IHRoZSBz
+cGVlZCByZWdyZXNzaW9uLiBJdCBrZWVwcyB0aGUgZXhpc3RpbmcNCj4gUExBX1BIWVNUQVRVUyBj
+YXJyaWVyIGRldGVjdGlvbiBhbmQgZG9lcyBub3QgaW1wcm92ZSByZXBvcnRpbmcgb2Ygc2hvcnQg
+bGluaw0KPiBkcm9wcyB0aGF0IHJlY292ZXIgYmVmb3JlIHRoZSBsaW5rIHdvcmsgcnVucy4NCj4g
+DQo+IEkgcGxhbiB0byBwb3N0IGEpIGFzIHYzIGZvciBuZXQgbmV4dCB3ZWVrLCBrZWVwaW5nIHRo
+YXQgc2NvcGUgZXhwbGljaXQuIFBsZWFzZSBsZXQNCj4gbWUga25vdyBpZiB5b3Ugc2VlIGEgcHJv
+YmxlbSB3aXRoIHRoaXMgYXBwcm9hY2guDQoNCkkgdGVzdGVkIHRoZSBmb2xsb3dpbmcgcGF0Y2gs
+IGFuZCBpdCB3b3JrcyBmb3IgbWUuIEl0IG1pZ2h0IGJlIHVzZWZ1bCBhcyBhIHJlZmVyZW5jZS4N
+Cg0KZGlmZiAtLWdpdCBhL2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jIGIvZHJpdmVycy9uZXQvdXNi
+L3I4MTUyLmMNCmluZGV4IGY2MTY4NjQzMzAzMS4uMzk4ZDM1ZjZmYjdiIDEwMDY0NA0KLS0tIGEv
+ZHJpdmVycy9uZXQvdXNiL3I4MTUyLmMNCisrKyBiL2RyaXZlcnMvbmV0L3VzYi9yODE1Mi5jDQpA
+QCAtNjk3OSwxMSArNjk3OSw4IEBAIHN0YXRpYyB2b2lkIHNldF9jYXJyaWVyKHN0cnVjdCByODE1
+MiAqdHApDQogew0KIAlzdHJ1Y3QgbmV0X2RldmljZSAqbmV0ZGV2ID0gdHAtPm5ldGRldjsNCiAJ
+c3RydWN0IG5hcGlfc3RydWN0ICpuYXBpID0gJnRwLT5uYXBpOw0KLQl1MTYgc3BlZWQ7DQotDQot
+CXNwZWVkID0gcnRsODE1Ml9nZXRfc3BlZWQodHApOw0KIA0KLQlpZiAoc3BlZWQgJiBMSU5LX1NU
+QVRVUykgew0KKwlpZiAocjgxNTJfbWRpb19yZWFkKHRwLCBNSUlfQk1TUikgJiBCTVNSX0xTVEFU
+VVMpIHsNCiAJCWlmICghbmV0aWZfY2Fycmllcl9vayhuZXRkZXYpKSB7DQogCQkJdHAtPnJ0bF9v
+cHMuZW5hYmxlKHRwKTsNCiAJCQluZXRpZl9zdG9wX3F1ZXVlKG5ldGRldik7DQpAQCAtNzAwOSw2
+ICs3MDA2LDExIEBAIHN0YXRpYyB2b2lkIHNldF9jYXJyaWVyKHN0cnVjdCByODE1MiAqdHApDQog
+CQkJdGFza2xldF9lbmFibGUoJnRwLT50eF90bCk7DQogCQkJbmV0aWZfaW5mbyh0cCwgbGluaywg
+bmV0ZGV2LCAiY2FycmllciBvZmZcbiIpOw0KIAkJfQ0KKw0KKwkJaWYgKHJ0bDgxNTJfZ2V0X3Nw
+ZWVkKHRwKSAmIExJTktfU1RBVFVTKSB7DQorCQkJc2V0X2JpdChSVEw4MTUyX0xJTktfQ0hHLCAm
+dHAtPmZsYWdzKTsNCisJCQlzY2hlZHVsZV9kZWxheWVkX3dvcmsoJnRwLT5zY2hlZHVsZSwgMCk7
+DQorCQl9DQogCX0NCiB9DQoNCg0KQmVzdCBSZWdhcmRzLA0KSGF5ZXMNCg0K
