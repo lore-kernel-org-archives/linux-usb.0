@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E74DC60405F;
-	Mon, 19 Oct 2026 14:03:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B285D606134;
+	Mon, 19 Oct 2026 14:03:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792418598; cv=none; b=YqIE5cUI1cKqw1YfbwnP9oSTJlYwflGfb+IaUaXneQHtvSonZ36MaAu6uRWN5Z5Ox4vGG4f2fGKLF41h+brI2etJsHiUQh0f0PUGxK/0dGehRW5B40O4/4ONa7Qxn8CcXWHOZ9OF0fhBfEwC1Kr1Ze3QfhU16W4XCby+saxJhb8=
+	t=1792418601; cv=none; b=MNe0FEJJWysMgPMRLgqneBmXmwo7loB9qn/iV6Omjz2yFLDGQ2ickztlm1KBOb2waCqts/no+Y7+M4BqzLjpWLdn+zp5nZG+ro+z8ntnGUTUG/BzzE4Mxo346U7in3liFaE1cIUTPbLzhZBJ3WDHnuIikk5hthNbWl685kDFLxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792418598; c=relaxed/simple;
-	bh=YBo5zmd88spl13QBuS8ZcFRMMMHz5pOjOCoZNbVAQTU=;
+	s=arc-20240116; t=1792418601; c=relaxed/simple;
+	bh=PMgA9PZlf02ZMMOTWwvddXbD6Vd+7kTdfmbeboZtQ1I=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kjzVrlFqSHPVpNKxKGsDji+rTGE0Czd1t/S1f+jpC9SCD4oyeK7QSiEjIBMZay3PYoyzTllpAgGyJYFIVcfx28ykojjbowx/T+ixTcNzMPhhOlXYoaSueL++3sVIYM0yxz6xsXwJeA6pcdGUdLsLxrpIujVazsmDyzS6Yl6CRps=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Cmmg7EPn; arc=none smtp.client-ip=100.103.45.18
+	 MIME-Version:Content-Type; b=ZTgnRaK7gXcykc1dNIN71PlwBmWhR+J7ypf0SOihrzi1A30TbYh25GBo20K44PbxommKbOmVWScjyrXiuDZnHiK98NVIhKKvg5MQkgSj3N9uF7zIPGc3UmFPpVwgfDWXXErSObhIgmAbZQCX+/Ju0UElFN85hvLuEyZetrcoMtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U3x7giZi; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Cmmg7EPn"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 056B61F000C5;
-	Mon, 19 Oct 2026 14:03:14 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U3x7giZi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC17D1F000C8;
+	Mon, 19 Oct 2026 14:03:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792418595;
-	bh=D/nMetE7AC9AwvuL9ehIST2RhDWAAZmzIy6F26VmNhM=;
+	s=k20260515; t=1792418598;
+	bh=1f/3E7GBQELuPmGfuS3V/GVdSIWaQRfdTZ0pogT42/U=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Cmmg7EPnPHvtjTYW13W85VjUkYLEbOMdZxb4vsdlWP2GIwBGwEYR2UsSQio/Ei7dj
-	 lOc9gUCVegaei/qpIfWkUkZ3pbgR10PUv25jLmOpLouvzsmf+j2slIP/MeBc6ZSqHs
-	 VKuKM9pYjXt8nC/l/klWDnq8aspjgA174yCO2MI0gqAIveXBiaz3K6nUwkzgIU1M5E
-	 qaLALqRXPFacGihpP/mYTJ//RVpX5xjCwnreQ00C3VnokTqvQ38GgpTm3VnkkfQoHK
-	 vYGf8he5SHJSEMgKB4nMHYphMQzeKbzfW8UvfAxq8qKfBUR1tjqyXjW9urzXHXoO3Z
-	 IVbbHnJNpkDig==
+	b=U3x7giZiGYq90ojmSCsCtoEpLgkZOL3CoO533x1tBTMMbRqaXQgF58W4sfoRA14GP
+	 gYc5xL15WYswbxMPg3NRg13xebWMJmMeaSE6EkISxonLyj+bayYyKShgXlG6bXfBWw
+	 IRxFhdUd0N1GqCOz+Lbn6oDWnnNQxeZWJbW6dKu3Ofd2wUB384RDRlT9erVStAiL16
+	 cDYYGdyqnvql5R+dIGpAKyDxMaakYxTKOkFnK/qLHLDdVgEsYgInhy7C2fH21WsS5D
+	 CS1HLV0wewhvlmeGv9wpB4aLLXwsdxOtMqJ0gjLoik6AMID5X2pAX+ZsEBEWtEBD1q
+	 layPsnMXDkvNQ==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Gabriel Prostitis <prostitisgabriel@gmail.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Xu Rao <raoxu@uniontech.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
+	mathias.nyman@intel.com,
 	linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.18-5.10] USB: gadget: inode: fix mm lifetime handling
-Date: Mon, 19 Oct 2026 09:50:51 -0400
-Message-ID: <20261019135441.1420968-360-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.18] xhci: include all root port children in recovery prevention on link error
+Date: Mon, 19 Oct 2026 09:50:53 -0400
+Message-ID: <20261019135441.1420968-362-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20261019135441.1420968-1-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
@@ -53,502 +54,470 @@ X-stable-base: Linux 6.18.57
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Gabriel Prostitis <prostitisgabriel@gmail.com>
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-[ Upstream commit a1c33c80e11ecd5c3310a38c4be324095dd85ac5 ]
+[ Upstream commit e3d757dc9257f2638ca61eda4faef26c2daeea10 ]
 
-priv stores a pointer to the submitting task's mm_struct,
-but does not currently hold a reference to it while async
-requests are pending.
+Driver already prevents useless transfer retry and endpoint recovery
+for devices directly connected to a root port with link errors.
 
-This can result in a use-after-free if the task exits before
-completion handling finishes.
+These devices are either disconnecting or will be reset. Link is gone.
 
-Take a reference with mmgrab() when queuing the read request
-and release it with mmdrop() on request completion.
+Move the flag indicating link error from the xhci device structure to
+the root port strucure, allowing all child devices behind hubs to easily
+check for root port link errors, avoiding useless transfer retries and
+endpoint recovery.
 
-Reported-by: Gabriel Prostitis <prostitisgabriel@gmail.com>
-Signed-off-by: Gabriel Prostitis <prostitisgabriel@gmail.com>
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
-Link: https://patch.msgid.link/20260601-mm-uaf-fix-v2-2-3c942a707bce@gmail.com
+This extends the previous endpoint recovery prevention in
+commit b8c3b718087b ("usb: xhci: Don't try to recover an endpoint if port
+is in error state.")
+Only root port link errors can be detected early by xhci driver,
+not link errors between external hubs and their children.
+
+Tested-by: Xu Rao <raoxu@uniontech.com>
+Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+Link: https://patch.msgid.link/20260806142113.2436238-4-mathias.nyman@linux.intel.com
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-## PHASE 1: COMMIT MESSAGE FORENSICS
-
-**Step 1.1: PARSE THE SUBJECT LINE**
-
-Record: **[USB gadget / gadgetfs] [fix] [hold an `mm_struct` reference
-for pending async endpoint I/O so completion cannot use a freed mm]**
-
-- Subsystem prefix: `USB: gadget: inode:`
-- Action verb: **fix**
-- Intent: correct mm lifetime in the legacy gadgetfs AIO path
-
-**Step 1.2: PARSE ALL COMMIT MESSAGE TAGS**
-
-Record:
-- **Reported-by:** Gabriel Prostitis (author reported it)
-- **Signed-off-by:** Gabriel Prostitis (author)
-- **Acked-by:** Alan Stern (USB gadget reviewer)
-- **Link:** https://patch.msgid.link/20260601-mm-uaf-
-  fix-v2-2-3c942a707bce@gmail.com
-- **Signed-off-by:** Greg Kroah-Hartman (USB maintainer; merged)
-- **Fixes:** none (expected for this review path)
-- **Cc: stable:** none (expected)
-- Ignored pipeline markers: none in the real commit (`a1c33c80e11ec`)
-
-Notable: single reporter (the author), but **Acked-by Alan Stern** and
-merge by Greg KH. Cover letter (v2 0/2) states KASAN confirmed the UAF.
-
-**Step 1.3: ANALYZE THE COMMIT BODY TEXT**
-
-Record:
-- **Bug:** `kiocb_priv` stores `current->mm` while async USB requests
-  are pending, with no `mm_count` pin.
-- **Symptom / failure mode:** use-after-free if the submitting task
-  exits before completion handling. Cover letter (lore): KASAN UAF in
-  the workqueue path; possible **memory corruption in another process’s
-  address space** if the freed `mm_struct` is reused. Trigger: async
-  reads on OUT endpoints (io_uring called out for FunctionFS; gadgetfs
-  has the same `read_iter` AIO path).
-- **Version info:** none in the commit; buggy `priv->mm = current->mm`
-  dates to 2013 (`a80bf61ef36da4`, contained in v3.10-rc1).
-- **Root cause (author):** stored mm pointer without `mmgrab()`;
-  completion uses it via `kthread_use_mm()`.
-
-**Step 1.4: DETECT HIDDEN BUG FIXES**
-
-Record: **Not hidden.** Subject and body are an explicit UAF/lifetime
-fix. The extra `mmget_not_zero()` around `kthread_use_mm()` matches the
-documented `mmgrab()` contract in `include/linux/sched/mm.h`.
-
----
-
-## PHASE 2: DIFF ANALYSIS
-
-**Step 2.1: INVENTORY THE CHANGES**
-
-Record:
-- **File:** `drivers/usb/gadget/legacy/inode.c` — **+13 / −4** (17 lines
-  changed)
-- **Functions:** `ep_user_copy_worker()`, `ep_aio_complete()`,
-  `ep_aio()`
-- **Scope:** single-file surgical fix
-
-**Step 2.2: UNDERSTAND THE CODE FLOW CHANGE**
-
-Record:
-1. **`ep_aio()` (queue):** still stores `priv->mm = current->mm`; now
-   **`mmgrab(priv->mm)`**. Fail path after that **`mmdrop(priv->mm)`**.
-2. **`ep_aio_complete()` (USB complete, writes / zero-length reads):**
-   completes immediately; now **`mmdrop(priv->mm)`** before freeing
-   `priv`.
-3. **`ep_user_copy_worker()` (async read copy):** previously
-   `kthread_use_mm(mm)` on an unpinned pointer. Now `mmget_not_zero(mm)`
-   → copy → `mmput` → always **`mmdrop(mm)`**. If the address space is
-   already gone, return `-EFAULT` instead of touching a dying mm.
-
-**Step 2.3: IDENTIFY THE BUG MECHANISM**
-
-Record:
-- **Category:** use-after-free / reference counting
-  (`mm_struct.mm_count` / `mm_users`)
-- **Mechanism:** `priv->mm` was a raw pointer. `kthread_use_mm()` itself
-  does `mmgrab(mm)` (`kernel/kthread.c`), which is a UAF if `mm` is
-  already freed. Classic AIO `exit_aio()` does **not** cover io_uring.
-  Cover letter: process exit while a request is pending frees mm while
-  the worker still holds the pointer.
-- **Fix:** pin with `mmgrab()` for the struct lifetime;
-  `mmget_not_zero()` before using the address space, as documented.
-
-**Step 2.4: ASSESS THE FIX QUALITY**
-
-Record:
-- **Quality:** obviously correct and matches
-  `mmgrab()`/`mmget_not_zero()` docs. Refcounts are balanced: grab on
-  queue; drop on fail, immediate complete, and worker.
-- **Minimal:** no unrelated edits.
-- **Regression risk:** low. Worst case after process exit is `-EFAULT`
-  instead of a copy into a dead mm. No new API, no lock-order change.
-  `mmgrab(NULL)` is not a realistic syscall path
-  (`ep_read_iter`/`ep_write_iter` from userspace).
-
----
-
-## PHASE 3: GIT HISTORY INVESTIGATION
-
-**Step 3.1: BLAME THE CHANGED LINES**
-
-Record:
-- Buggy store `priv->mm = current->mm` and worker: **`a80bf61ef36da4`**
-  (“gadget: remove only user of aio retry”, Zach Brown, **2013-05-07**,
-  **v3.10-rc1**).
-- `kthread_use_mm`/`kthread_unuse_mm`: `f5678e7f2ac31c` (2020).
-- Pattern has been in tree for many years, including this 7.3 checkout.
-
-**Step 3.2: FOLLOW THE FIXES: TAG**
-
-Record: **No `Fixes:` tag.** Not applicable. Introducer is
-`a80bf61ef36da4`, present in this tree (blame on the parent of the fix).
-
-**Step 3.3: CHECK FILE HISTORY FOR RELATED CHANGES**
-
-Record:
-- Related: **`5eb5c72c72fef`** “USB: gadget: ffs: fix mm lifetime
-  handling” (patch 1/2, parent of this commit). Different file
-  (`f_fs.c`); **not a code dependency**.
-- After this commit on `inode.c`: only `dd0eed9e165b1` (unrelated ioctl
-  NULL deref).
-- **Standalone** for gadgetfs.
-
-**Step 3.4: CHECK THE AUTHOR'S OTHER COMMITS**
-
-Record: Gabriel Prostitis has these two USB gadget mm-lifetime commits.
-Not the subsystem maintainer. **Alan Stern Acked-by** on this inode
-patch; Greg KH merged both.
-
-**Step 3.5: CHECK FOR DEPENDENT/PREREQUISITE COMMITS**
-
-Record: Uses `mmgrab`/`mmdrop`/`mmget_not_zero`/`kthread_use_mm`, all
-present here. No new helpers. Patch 1/2 is a sibling, not a
-prerequisite. **Applies standalone.**
-
----
-
-## PHASE 4: MAILING LIST AND EXTERNAL RESEARCH
-
-**Step 4.1: FIND THE ORIGINAL PATCH DISCUSSION**
-
-Record:
-- **b4 dig:** https://patch.msgid.link/20260601-mm-uaf-
-  fix-v2-2-3c942a707bce@gmail.com
-- **Series:** v1 (2026-05-31), v2 (2026-06-01). v2 cover: “Fix swapped
-  lines in `inode.c`”; v2 is what was merged.
-- Cover letter: UAF in FunctionFS **and** gadgetfs; `kthread_use_mm()`
-  in workqueue; KASAN; io_uring-style async read + exit; possible cross-
-  process corruption.
-- **No NAKs.** Ping 2026-06-30; Greg KH replied that the merge window
-  delayed review, then merged 2026-07-10.
-- **No explicit Cc: stable** in the thread (mbox).
-
-**Step 4.2: CHECK WHO REVIEWED THE PATCH**
-
-Record: **b4 dig -w** recipients: author, Greg KH, linux-usb, linux-
-kernel, **Alan Stern**. Stern’s Acked-by is on the inode.c patch.
-
-**Step 4.3: SEARCH FOR THE BUG REPORT**
-
-Record: Author is the reporter. Cover letter cites KASAN on the
-workqueue completion path. Direct lore HTTP fetches returned **403**;
-thread body recovered via **`b4 dig -m`**.
-
-**Step 4.4: CHECK FOR RELATED PATCHES AND SERIES**
-
-Record: **v2 1/2** `USB: gadget: ffs: fix mm lifetime handling`
-(`5eb5c72c72fef`) is the FunctionFS analogue. Independent file. This 2/2
-is self-contained for gadgetfs.
-
-**Step 4.5: CHECK STABLE MAILING LIST HISTORY**
-
-Record: lore.kernel.org/stable search returned **403**. **UNVERIFIED**
-whether stable@ discussed this. No Cc: stable on the patch itself (not a
-negative signal here).
-
----
-
-## PHASE 5: CODE SEMANTIC ANALYSIS
-
-**Step 5.1: KEY FUNCTIONS**
-
-Record: `ep_aio()`, `ep_aio_complete()`, `ep_user_copy_worker()`.
-(semcode MCP not available.)
-
-**Step 5.2: TRACE CALLERS**
-
-Record:
-- `ep_aio()` ← `ep_read_iter()` / `ep_write_iter()` when
-  `!is_sync_kiocb(iocb)`
-- Those are `ep_io_operations.read_iter` / `.write_iter` (gadgetfs
-  endpoint files)
-- `ep_aio_complete()` ← USB gadget `usb_request.complete` (often
-  IRQ/softirq)
-- `ep_user_copy_worker()` ← `schedule_work()` from that complete path
-
-Reachable from **io_submit / io_uring** on gadgetfs endpoint fds, plus
-USB completion.
-
-**Step 5.3: TRACE CALLEES**
-
-Record: `mmgrab`/`mmdrop`/`mmget_not_zero`/`mmput`,
-`kthread_use_mm`/`kthread_unuse_mm`, `copy_to_iter`,
-`usb_ep_queue`/`usb_ep_alloc_request`/`usb_ep_free_request`,
-`ki_complete`.
-
-**Step 5.4: FOLLOW THE CALL CHAIN**
-
-Record: userspace AIO/io_uring on gadgetfs ep file → `ep_aio` stores mm
-→ USB complete → worker `kthread_use_mm` + `copy_to_iter`. **Userspace-
-reachable** if gadgetfs is mounted and configured (typically privileged
-USB gadget role).
-
-**Step 5.5: SEARCH FOR SIMILAR PATTERNS**
-
-Record: Same bug in `drivers/usb/gadget/function/f_fs.c`
-(`io_data->mm`), fixed by sibling `5eb5c72c72fef`. Systematic copy of
-the 2013 “stash mm, copy in worker” pattern.
-
----
-
-## PHASE 6: CROSS-REFERENCING AGAINST THE LOCAL TREE
-
-**Step 6.1: DOES THE BUGGY CODE EXIST IN THIS TREE?**
-
-Record:
-- **Tree:** `git describe HEAD` = **v7.3-rc4-27-gf0100363d8c37**; `make
-  kernelversion` = **7.3.0-rc4**
-- File and AIO path exist. Pre-fix code is in `a1c33c80e11ec^`.
-  Introduced **v3.10** (`a80bf61ef36da4`). **Bug exists in this
-  lineage.**
-- `git merge-base --is-ancestor a1c33c80e11ec HEAD` → yes (used only to
-  inspect the candidate, not as “already selected”).
-
-**Step 6.2: CHECK FOR BACKPORT COMPLICATIONS**
-
-Record: **Clean apply on this tree.** Surrounding code matches the diff.
-`mmgrab`/`mmdrop`/`mmget_not_zero`/`kthread_use_mm` are present.
-`inode.c` does not include `linux/sched/mm.h` directly; `mmgrab` is
-visible via existing includes (e.g. `pagemap.h` → `mmap_lock.h` →
-`sched/mm.h`) in **this** tree.
-
-**Step 6.3: CHECK IF RELATED FIXES ARE ALREADY HERE**
-
-Record: No earlier alternate gadgetfs mm-lifetime fix. Sibling
-FunctionFS fix is separate. No competing fix for this inode.c UAF.
-
----
-
-## PHASE 7: SUBSYSTEM AND MAINTAINER CONTEXT
-
-**Step 7.1: IDENTIFY THE SUBSYSTEM**
-
-Record: **USB gadgetfs** (`drivers/usb/gadget/legacy/`).
-**IMPORTANT/PERIPHERAL:** not core mm/VFS, but a supported (non-staging)
-USB gadget userspace API. FunctionFS is more common; gadgetfs is still
-shipped and has the same UAF.
-
-**Step 7.2: ASSESS SUBSYSTEM ACTIVITY**
-
-Record: File is mature (code from 2005–2013 with occasional fixes). Low
-churn. Long-lived bug, not a brand-new subsystem.
-
----
-
-## PHASE 8: IMPACT AND RISK ASSESSMENT
-
-**Step 8.1: WHO IS AFFECTED**
-
-Record: **Config-specific / driver-specific:** `CONFIG_USB_GADGETFS`,
-async I/O on gadgetfs endpoints, process exit before USB complete. Not
-all machines, but real gadgetfs userspace drivers.
-
-**Step 8.2: TRIGGER CONDITIONS**
-
-Record: Async read (or write, for the pin) on a gadgetfs endpoint, then
-the submitting task exits before `ep_aio_complete` / worker. Cover
-letter: io_uring-style async + exit. Timing-dependent but realistic.
-Typically needs gadgetfs access (usually privileged), **not** a random
-unprivileged syscall on a default desktop.
-
-**Step 8.3: FAILURE MODE SEVERITY**
-
-Record: **Use-after-free of `mm_struct`** → KASAN crash or **cross-
-process memory corruption**. **Severity: HIGH** (UAF / security-adjacent
-corruption). Not a log-only issue.
-
-**Step 8.4: RISK-BENEFIT RATIO**
-
-Record:
-- **Benefit: HIGH** for gadgetfs AIO users — stops UAF/corruption.
-- **Risk: LOW** — 13 insertions, 4 deletions, refcount pin matching
-  documented API, Acked-by Stern.
-- **Ratio:** benefit clearly outweighs risk.
-
----
-
-## PHASE 9: FINAL SYNTHESIS
-
-**Step 9.1: COMPILE THE EVIDENCE**
-
-**FOR:**
-- Real UAF of `mm_struct` when async gadgetfs I/O outlives the task
-- Cover letter: KASAN; possible corruption of another process’s mm
-- Small, contained, refcounts balanced
-- Matches `mmgrab()` documentation
-- Acked-by Alan Stern; merged by Greg KH
-- Code and APIs exist in this v7.3-rc4 tree; bug dates to v3.10
-- Standalone (patch 2/2 does not need 1/2)
-
-**AGAINST:**
-- Gadgetfs is a narrower, legacy userspace gadget API
-- Trigger needs gadgetfs + async I/O + exit-before-complete
-- No `Fixes:` / `Cc: stable` (not a negative for this process)
-
-**UNRESOLVED:**
-- lore.kernel.org HTTP 403; stable@ discussion not independently
-  confirmed beyond the mbox from `b4 dig`
-- No public syzbot hash in the commit (KASAN is from the cover letter)
-
-**Step 9.2: STABLE RULES CHECKLIST**
-
-1. Obviously correct and tested? **PASS** — API-correct pin; v2 after a
-   v1 line-swap mistake; Stern ack
-2. Fixes a real bug that affects users? **PASS** — UAF on gadgetfs async
-   completion
-3. Important (crash, security, corruption, deadlock)? **PASS** — UAF /
-   possible cross-process corruption (**HIGH**)
-4. Small and contained? **PASS** — one file, +13/−4
-5. No new features or APIs? **PASS**
-6. Can apply to the local tree? **PASS** — context and helpers exist
-   here
-
-**Step 9.3: EXCEPTION CATEGORIES**
-
-Record: none (not a device ID / quirk / DT / build / docs exception).
-Qualifies as a normal important bugfix.
-
-**Step 9.4: DECISION**
-
-This is a small, reviewed UAF fix for code that exists in this tree.
-Process exit during gadgetfs AIO can free `mm_struct` while
-`ep_user_copy_worker()` still calls `kthread_use_mm()`. That is a real
-stability/security bug, not cleanup. Risk of the pin itself is low.
-
-### What the commit solves for this tree
-
-`ep_aio()` saved `current->mm` without an `mm_count` reference.
-Completion may run after the task is gone (especially io_uring, which is
-not `exit_aio()`). The worker then used a dangling `mm_struct`. Pinning
-with `mmgrab()` and using `mmget_not_zero()` before the copy closes that
-window.
-
-### Risk vs benefit
-
-Benefit is preventing kernel UAF/corruption on a reachable gadgetfs AIO
-path. Risk is a few refcount operations on a slow path. No structural or
-API change.
-
-### Concerns
-
-Patch 2/2 of a series, but independent of FunctionFS. v1 had swapped
-lines; merged v2 is the one to use. Direct lore HTTP was blocked;
-discussion was recovered with `b4 dig -m`.
-
----
-
-### Verification
-- **[Phase 1]** `git log -1 a1c33c80e11ec`: subject/tags as above; no
-  Fixes/Cc:stable
-- **[Phase 2]** `git show a1c33c80e11ec`: +13/−4 in `inode.c`; mmgrab on
-  queue; mmdrop on fail, immediate complete, and worker; mmget_not_zero
-  around copy
-- **[Phase 2]** Read `ep_aio`/`ep_aio_complete`/`ep_user_copy_worker` in
-  this tree: refcounts balanced
-- **[Phase 2]** `include/linux/sched/mm.h`: mmgrab docs require
-  mmget_not_zero before using the address space
-- **[Phase 2]** `kernel/kthread.c` `kthread_use_mm()`: mmgrab on the
-  passed mm — UAF if mm already freed
-- **[Phase 3]** `git blame` on parent: `priv->mm` from `a80bf61ef36da4`
-  (v3.10-rc1, 2013)
-- **[Phase 3]** `git describe --contains a80bf61ef36da4` →
-  `v3.10-rc1~50^2~20`
-- **[Phase 3]** Sibling `5eb5c72c72fef` is f_fs.c only; not required for
-  inode.c
-- **[Phase 3]** `git log --author="Gabriel Prostitis" -- drivers/usb/`:
-  only these two mm-lifetime commits
-- **[Phase 3]** `git merge-base --is-ancestor a1c33c80e11ec HEAD`: is
-  ancestor (inspection only)
-- **[Phase 4]** `b4 dig -c a1c33c80e11ec`: v2 2/2 lore URL
-- **[Phase 4]** `b4 dig -a`: v1 then v2; v2 cover notes inode.c swapped-
-  line fix
-- **[Phase 4]** `b4 dig -w`: Greg KH, linux-usb, Alan Stern
-- **[Phase 4]** `b4 dig -m /tmp/gadget-mm-uaf.mbox`: KASAN, io_uring
-  trigger, cross-process corruption; Stern ack; no NAK; Greg delay-then-
-  merge
-- **[Phase 4]** WebFetch/curl lore: **403** — UNVERIFIED via HTTP; mbox
-  used instead
-- **[Phase 4]** stable@ search: **403** — UNVERIFIED
-- **[Phase 5]** grep: `ep_aio` only from `ep_read_iter`/`ep_write_iter`;
-  those are `ep_io_operations`
-- **[Phase 5]** Same mm stash in `f_fs.c`, fixed separately
-- **[Phase 6]** `git describe HEAD` / `make kernelversion`: **v7.3-rc4**
-  / **7.3.0-rc4**
-- **[Phase 6]** Buggy path present before `a1c33c80e11ec`; helpers
-  present
-- **[Phase 7]** `USB_GADGETFS` in `drivers/usb/gadget/legacy/Kconfig`
-- **[Phase 8]** Failure mode: mm UAF → oops or cross-process corruption;
-  HIGH
-- **UNVERIFIED:** whether stable@ already discussed this (lore 403); no
-  syzbot ID in the commit
+## Phase 1: Commit message forensics
+
+**Step 1.1: Subject line**
+- Record: `[xhci]` `[include]` extend existing root-port link-error
+  recovery skip from the directly attached device to every device under
+  that root port.
+
+**Step 1.2: Tags**
+- Record:
+  - `Tested-by: Xu Rao <raoxu@uniontech.com>`
+  - `Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>` (xhci
+    maintainer)
+  - `Link: https://patch.msgid.link/20260806142113.2436238-4-
+    mathias.nyman@linux.intel.com`
+  - `Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>`
+  - No `Fixes:` / `Cc: stable` (expected for this review)
+  - Pipeline `Signed-off-by: Sasha Levin` ignored
+- Notable: maintainer-authored; tester is the person who hit the host-
+  teardown bug.
+
+**Step 1.3: Body**
+- Record:
+  - **Bug:** On a root port in SS.Inactive, xhci already skips URB
+    enqueue and endpoint reset for the device plugged into that port
+    (`VDEV_PORT_ERROR`). Devices behind hubs never get that flag, so
+    they still retry transfers and reset endpoints after the root-port
+    link is gone.
+  - **Symptom:** Useless recovery while the hub driver is still sorting
+    the port out. The existing comment on this path is “Can cause host
+    hang.” The 2019 precursor (`b8c3b718087b`) documented host-
+    controller stop after repeated endpoint resets on an inactive root
+    port.
+  - **Root cause:** The error flag lives on `xhci_virt_device`, and
+    `handle_port_status()` only sets it on `xhci->devs[port->slot_id]`
+    (the device directly on the root port).
+  - **Fix:** Move the flag to `xhci_port->link_inactive` so every child
+    that already has `vdev->rhub_port` can see the same root-port state.
+  - **Limit:** Only root-port link errors are visible this way, not hub-
+    to-child link errors.
+
+**Step 1.4: Hidden bug fix?**
+- Record: Not hidden. It is an explicit extension of a hang-prevention
+  check. Moving the flag off `vdev` is a small structural change with
+  standalone functional effect, not a pure cleanup.
+
+## Phase 2: Diff analysis
+
+**Step 2.1: Inventory**
+- Record:
+  - `drivers/usb/host/xhci-ring.c`: `xhci_handle_halted_endpoint()`,
+    `handle_port_status()` (~15+/12-)
+  - `drivers/usb/host/xhci.c`: `xhci_urb_enqueue()`,
+    `xhci_discover_or_reset_device()` (1+ / 3-)
+  - `drivers/usb/host/xhci.h`: drop `vdev->flags` / `VDEV_PORT_ERROR`;
+    add `xhci_port.link_inactive:1`
+  - Net: 17 insertions, 23 deletions. Single-subsystem surgical change.
+
+**Step 2.2: Control-flow change**
+- Record:
+  - **Before:** Port event with PLS==`XDEV_INACTIVE` and no `PORT_RESET`
+    sets `vdev->flags |= VDEV_PORT_ERROR` on the directly attached slot
+    only. `PORT_RC` clears it. `reset_device` also zeros `vdev->flags`.
+    Halted-endpoint recovery and URB enqueue consult that per-device
+    flag.
+  - **After:** If the port is not in reset, `port->link_inactive = (pls
+    == XDEV_INACTIVE)`. All devices whose `rhub_port` is that port skip
+    recovery/enqueue. Device reset no longer clears the flag; port
+    events drive it from real PLS.
+
+**Step 2.3: Bug mechanism**
+- Record: **Logic / correctness + hardware hang workaround.** Same class
+  as the 2019 “don’t reset an endpoint on an inactive root port” fix.
+  Also improves flag lifetime vs the stale-flag bug already fixed in
+  this tree by `d77efd7b3def7` (clearing is now “link is not Inactive”,
+  not “PORT_RC or reset_device succeeded”).
+
+**Step 2.4: Fix quality**
+- Record: Obviously correct for the stated gap. Minimal. Regression risk
+  is low: skipping recovery when the root-port link is gone is the
+  intended policy; clearing is tied to actual port state, which is
+  stricter and more accurate than clearing on `reset_device` while the
+  port may still be Inactive. Theoretical `rhub_port == NULL` deref
+  exists in the new loads; `xhci_setup_addressable_virt_dev()` sets
+  `rhub_port` before normal URB traffic, and mainline has no follow-up
+  NULL-check fix on this path.
+
+## Phase 3: Git history
+
+**Step 3.1: Blame**
+- Record: Flag set/clear in `handle_port_status()` is `d77efd7b3def7`
+  (2025), which reworked `b8c3b718087b` (2019-06-18, v5.2-rc5 era, `Cc:
+  stable`). The hang-prevention hole for hub children has been in the
+  driver since 2019.
+
+**Step 3.2: Fixes: tag**
+- Record: None. The message names `b8c3b718087b`, which **is** an
+  ancestor of this 6.12 tree (`git merge-base --is-ancestor` exit 0).
+
+**Step 3.3: Related file history**
+- Record:
+  - `d77efd7b3def7` “fix stale flag preventing URBs after link state
+    error is cleared” — already in this tree; this commit supersedes its
+    per-vdev flag management.
+  - Same-day series on `origin/master`: `e3d757dc9257f` (this) →
+    `042aad8d0db66` (disconnect) → `7e0ef4332ed9b` (`EP_DROP_PENDING`).
+  - None of those three are in this checkout.
+
+**Step 3.4: Author**
+- Record: Mathias Nyman is the xhci maintainer. This is his generic
+  replacement for Xu Rao’s proposed `XHCI_NO_SOFT_RETRY` quirk on
+  Renesas uPD720201.
+
+**Step 3.5: Dependencies**
+- Record: This patch does **not** need the later two to compile or to
+  apply its own logic. The later two **do** need this
+  (`rhub_port->link_inactive`). Local context differs
+  (`readl(port->addr)` vs `xhci_portsc_readl()`, no `xhci_sideband`
+  field); those are apply-noise, not semantic prerequisites. `rhub_port`
+  itself (`06790c19086fe`) is already here.
+
+## Phase 4: Mailing list
+
+**Step 4.1: Original discussion**
+- Record:
+  - `b4 dig -c e3d757dc9257f`: lore `https://patch.msgid.link/2026080614
+    2113.2436238-4-mathias.nyman@linux.intel.com`
+  - Applied version is **[PATCH 03/17] xhci features and fixes for usb-
+    next** (Aug 6 2026).
+  - First posting was **[RFT PATCH 1/3] xhci: avoid futile stop endpoint
+    command and host teardown** (`20260629123031.142133-2`).
+  - Cover letter of that RFT: stop-endpoint timeout → `xHCI host
+    controller not responding, assume dead`.
+  - No NAK. No reviewer `Cc: stable` on this specific patch.
+
+**Step 4.2: Recipients**
+- Record: `b4 dig -w`: Mathias Nyman, gregkh, linux-usb, Xu Rao. Right
+  list and USB maintainer.
+
+**Step 4.3: Bug report**
+- Record: Xu Rao, Renesas uPD720201 (`1912:0014`), Genesys Logic hub +
+  RTL8153. Repro: bring Ethernet up, hot-unplug hub. Log:
+  - `Transfer error` → `Soft-reset ep` → `xHCI host not responding to
+    stop endpoint command` → `assume dead` → `HC died`.
+  - Xu tested the **3-patch RFT as a whole** and said the teardown is
+    gone; he also said the `EP_DROP_PENDING` path (patch 3 of that
+    series) was used on disconnect. He agreed the generic series made
+    the `XHCI_NO_SOFT_RETRY` quirk unnecessary.
+
+**Step 4.4: Series context**
+- Record: Standalone for *link-error* hub children. The reported hot-
+  unplug teardown is a **disconnect** path that also wants
+  `042aad8d0db66` and `7e0ef4332ed9b`. This commit is still the
+  necessary first step and independently closes the Inactive-link gap.
+
+**Step 4.5: stable@ discussion**
+- Record: No stable-specific thread found for this SHA. The 2019
+  precursor and the 2025 stale-flag fix both went to stable.
+
+## Phase 5: Semantic / call-path analysis
+
+**Step 5.1: Functions**
+- Record: `xhci_handle_halted_endpoint()`, `handle_port_status()`,
+  `xhci_urb_enqueue()`, `xhci_discover_or_reset_device()`. Structs:
+  `xhci_virt_device`, `xhci_port`.
+
+**Step 5.2: Callers of halted-endpoint recovery (this tree)**
+- Record: transaction/babble/split errors, stall, bulk/interrupt soft-
+  retry (`process_bulk_intr_td`), stream transferless events, stop-ep
+  completion racing a stall. All of these run from xhci interrupt/event
+  handling during normal USB I/O.
+
+**Step 5.3: Callees**
+- Record: `xhci_reset_halted_ep()` / `xhci_queue_reset_ep()` — the
+  commands that, on a dead link, have hung or killed hosts.
+
+**Step 5.4: Reachability**
+- Record: Yes. Any USB transfer on a device under an xhci root port
+  whose PLS is `XDEV_INACTIVE`. Hot-unplug / bad SuperSpeed link is a
+  normal user action, not a debug path.
+
+**Step 5.5: Similar patterns**
+- Record: Same skip already exists for the directly attached device.
+  Follow-up commits add `port->connected` and `EP_DROP_PENDING` for
+  disconnect; they are not in this tree.
+
+## Phase 6: This tree (6.12.111)
+
+**Step 6.1: Buggy code present?**
+- Record: **Yes.** `p-6.12-3-gc504cf0baa3d8`, `VERSION=6 PATCHLEVEL=12
+  SUBLEVEL=111`.
+  - `xhci.h:753` `VDEV_PORT_ERROR`
+  - `xhci-ring.c:943` and `xhci.c:1572` still test `vdev->flags`
+  - `xhci-ring.c:2024-2028` still sets the flag only on the directly
+    attached `vdev`
+- Candidate SHA `e3d757dc9257f` is **not** an ancestor of HEAD.
+
+**Step 6.2: Backport difficulty**
+- Record: **Minor context.** This tree still uses `readl(port->addr)`
+  (not `xhci_portsc_readl`), `xhci_get_usb3_hcd()`, and has no
+  `xhci_sideband`. The logic hunks (`VDEV_PORT_ERROR` →
+  `rhub_port->link_inactive`, port-level PLS update, drop
+  `virt_dev->flags = 0`) match this tree.
+
+**Step 6.3: Related fixes already here**
+- Record: `b8c3b718087b` and `d77efd7b3def7` are here. They only cover
+  the directly attached device. Disconnect/`EP_DROP_PENDING` follow-ups
+  are not here. Renesas `0x0014` still has only `XHCI_ZERO_64B_REGS`,
+  not `XHCI_NO_SOFT_RETRY`.
+
+## Phase 7: Subsystem
+
+**Step 7.1**
+- Record: USB xhci host controller. **IMPORTANT** — default host on most
+  PCs, many embedded SoCs, Android.
+
+**Step 7.2**
+- Record: Actively maintained; this is a targeted hang-prevention fix in
+  a mature path, not a new subsystem.
+
+## Phase 8: Impact and risk
+
+**Step 8.1: Who is affected**
+- Record: Users of xhci with a hub (or composite device with an
+  integrated hub) under a root port that goes SS.Inactive, plus any
+  topology that currently misses `VDEV_PORT_ERROR`. Confirmed hardware:
+  Renesas uPD720201 + Genesys hub + RTL8153; the mechanism is not
+  vendor-specific.
+
+**Step 8.2: Trigger**
+- Record: Root-port link Inactive (cable/hub/link training). Common in
+  the field. Unprivileged users can unplug USB devices. Full Xu Rao hot-
+  unplug teardown also needs the later disconnect patches.
+
+**Step 8.3: Failure mode**
+- Record: Endpoint reset / soft-retry on a dead link → stop-endpoint
+  timeout → **`xHCI host controller not responding, assume dead`** →
+  entire xhci bus torn down. **CRITICAL** (host death, all USB on that
+  controller gone). The 2019 write-up also described host stop after
+  repeated endpoint resets.
+
+**Step 8.4: Risk/benefit**
+- Record: Benefit high (prevents host teardown on a realistic USB event;
+  closes a 2019 hang hole for hub children). Risk low (~20-line xhci-
+  only change, no API, policy already used for direct-attach devices).
+  Ratio favors backport.
+
+## Phase 9: Synthesis
+
+**For:**
+- Real hang/host-death class bug; xhci is widely deployed.
+- Extends a fix that already went to stable in 2019.
+- Small, maintainer-written, tester-acked as part of the hang series.
+- Buggy code is in 6.12; apply needs only local context tweaks.
+- Standalone value: hub children currently do not skip recovery on root-
+  port Inactive.
+
+**Against:**
+- First of a 3-patch hang series; Xu Rao’s hot-unplug case also needs
+  the disconnect + `EP_DROP_PENDING` patches.
+- No `Cc: stable` on this commit (not a negative per the review rules).
+- Tiny leftover: `vdev` is still fetched in `handle_port_status()` for
+  later `xhci_ring_device()`, so it is not unused.
+
+**Unresolved:** Whether `rhub_port` can be NULL at `xhci_urb_enqueue()`
+in some rare pre-address path — unverified as a real 6.12 trigger; not
+used as a NO reason.
+
+**Stable rules**
+1. Obviously correct and tested — **PASS** (maintainer + Tested-by)
+2. Real user-visible bug — **PASS** (host teardown / hang)
+3. Important — **PASS** (CRITICAL: xhci assumed dead)
+4. Small and contained — **PASS**
+5. No new features/APIs — **PASS**
+6. Applies to this tree — **PASS** (minor context)
+
+**Exception category:** None required; ordinary bugfix.
+
+This should be backported to **this** 6.12 tree. It is not a new
+feature; it is the missing half of an existing hang-prevention check.
+The later two series patches are additional (disconnect) coverage, not a
+reason to keep this gap in 6.12.
+
+## Verification
+- [Phase 1] Parsed tags: Tested-by Xu Rao; Link msgid `...2436238-4`;
+  maintainer SOB; no Fixes/Cc:stable
+- [Phase 2] Diff: move `VDEV_PORT_ERROR` from `xhci_virt_device` to
+  `xhci_port.link_inactive`; 17+/23-
+- [Phase 3] `git describe HEAD` / Makefile: **6.12.111**
+  (`p-6.12-3-gc504cf0baa3d8`)
+- [Phase 3] `git merge-base --is-ancestor b8c3b718087b HEAD` → yes;
+  `e3d757dc9257f` → no
+- [Phase 3] `git blame` on flag set/clear: `d77efd7b3def7` (already in
+  tree) over `b8c3b718087b` (2019)
+- [Phase 3] `git show d77efd7b3def7`: stale-flag fix still uses per-vdev
+  flag; this commit replaces that
+- [Phase 4] `b4 dig -c e3d757dc9257f`: PATCH 03/17; earlier RFT 1/3
+- [Phase 4] `b4 mbox` RFT cover: “stop endpoint command” / “assume dead”
+- [Phase 4] Xu Rao: teardown gone after the 3-patch series;
+  EP_DROP_PENDING used on unplug
+- [Phase 4] Original report: Renesas 1912:0014, Genesys hub, RTL8153
+  hot-unplug
+- [Phase 5] Callers of `xhci_handle_halted_endpoint` in `xhci-ring.c`
+  (soft retry, stall, transaction error)
+- [Phase 6] Local `VDEV_PORT_ERROR` still present; `rhub_port` present;
+  Renesas 0x0014 lacks `XHCI_NO_SOFT_RETRY`
+- [Phase 8] Failure mode verified in `xhci-ring.c:1725` (“xHCI host not
+  responding to stop endpoint command”)
+- UNVERIFIED: lore.kernel.org HTTP fetch (403); used `b4` instead
+- UNVERIFIED: concrete 6.12 NULL `rhub_port` at enqueue; not used for
+  the verdict
 
 **YES**
 
- drivers/usb/gadget/legacy/inode.c | 17 +++++++++++++----
- 1 file changed, 13 insertions(+), 4 deletions(-)
+ drivers/usb/host/xhci-ring.c | 27 +++++++++++++++------------
+ drivers/usb/host/xhci.c      |  4 +---
+ drivers/usb/host/xhci.h      |  9 +--------
+ 3 files changed, 17 insertions(+), 23 deletions(-)
 
-diff --git a/drivers/usb/gadget/legacy/inode.c b/drivers/usb/gadget/legacy/inode.c
-index 7c72267c0c53b..a46b6a6b1f836 100644
---- a/drivers/usb/gadget/legacy/inode.c
-+++ b/drivers/usb/gadget/legacy/inode.c
-@@ -473,11 +473,17 @@ static void ep_user_copy_worker(struct work_struct *work)
- 	struct kiocb *iocb = priv->iocb;
- 	size_t ret;
- 
--	kthread_use_mm(mm);
--	ret = copy_to_iter(priv->buf, priv->actual, &priv->to);
--	kthread_unuse_mm(mm);
--	if (!ret)
-+	if (mmget_not_zero(mm)) {
-+		kthread_use_mm(mm);
-+		ret = copy_to_iter(priv->buf, priv->actual, &priv->to);
-+		kthread_unuse_mm(mm);
-+		mmput(mm);
-+		if (!ret)
-+			ret = -EFAULT;
-+	} else {
- 		ret = -EFAULT;
-+	}
-+	mmdrop(mm);
- 
- 	/* completing the iocb can drop the ctx and mm, don't touch mm after */
- 	iocb->ki_complete(iocb, ret);
-@@ -503,6 +509,7 @@ static void ep_aio_complete(struct usb_ep *ep, struct usb_request *req)
- 	 * complete the aio request immediately.
+diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+index 6ce5874fc4b3d..dc18da8385a21 100644
+--- a/drivers/usb/host/xhci-ring.c
++++ b/drivers/usb/host/xhci-ring.c
+@@ -1008,7 +1008,7 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
+ 	 * Avoid resetting endpoint if link is inactive. Can cause host hang.
+ 	 * Device will be reset soon to recover the link so don't do anything
  	 */
- 	if (priv->to_free == NULL || unlikely(req->actual == 0)) {
-+		mmdrop(priv->mm);
- 		kfree(req->buf);
- 		kfree(priv->to_free);
- 		kfree(priv);
-@@ -543,6 +550,7 @@ static ssize_t ep_aio(struct kiocb *iocb,
- 	priv->epdata = epdata;
- 	priv->actual = 0;
- 	priv->mm = current->mm; /* mm teardown waits for iocbs in exit_aio() */
-+	mmgrab(priv->mm);
+-	if (ep->vdev->flags & VDEV_PORT_ERROR)
++	if (ep->vdev->rhub_port->link_inactive)
+ 		return -ENODEV;
  
- 	/* each kiocb is coupled to one usb_request, but we can't
- 	 * allocate or submit those if the host disconnected.
-@@ -572,6 +580,7 @@ static ssize_t ep_aio(struct kiocb *iocb,
+ 	/* add td to cancelled list and let reset ep handler take care of it */
+@@ -2007,13 +2007,15 @@ static void xhci_cavium_reset_phy_quirk(struct xhci_hcd *xhci)
+ static void handle_port_status(struct xhci_hcd *xhci, union xhci_trb *event)
+ {
+ 	struct xhci_virt_device *vdev = NULL;
+-	struct usb_hcd *hcd;
+-	u32 port_id;
+-	u32 portsc, cmd_reg;
+-	unsigned int hcd_portnum;
+ 	struct xhci_bus_state *bus_state;
+-	bool bogus_port_status = false;
+ 	struct xhci_port *port;
++	struct usb_hcd *hcd;
++	bool bogus_port_status = false;
++	unsigned int hcd_portnum;
++	u32 cmd_reg;
++	u32 port_id;
++	u32 portsc;
++	u32 pls;
  
- fail:
- 	spin_unlock_irq(&epdata->dev->lock);
-+	mmdrop(priv->mm);
- 	kfree(priv->to_free);
- 	kfree(priv);
- 	put_ep(epdata);
+ 	/* Port status change events always have a successful completion code */
+ 	if (GET_COMP_CODE(le32_to_cpu(event->generic.field[2])) != COMP_SUCCESS)
+@@ -2050,6 +2052,7 @@ static void handle_port_status(struct xhci_hcd *xhci, union xhci_trb *event)
+ 	bus_state = &port->rhub->bus_state;
+ 	hcd_portnum = port->hcd_portnum;
+ 	portsc = xhci_portsc_readl(port);
++	pls = portsc & PORT_PLS_MASK;
+ 
+ 	xhci_dbg(xhci, "Port change event, %d-%d, id %d, portsc: 0x%x\n",
+ 		 hcd->self.busnum, hcd_portnum + 1, port_id, portsc);
+@@ -2061,12 +2064,12 @@ static void handle_port_status(struct xhci_hcd *xhci, union xhci_trb *event)
+ 		usb_hcd_resume_root_hub(hcd);
+ 	}
+ 
+-	if (vdev && (portsc & PORT_PLS_MASK) == XDEV_INACTIVE) {
+-		if (!(portsc & PORT_RESET))
+-			vdev->flags |= VDEV_PORT_ERROR;
+-	} else if (vdev && portsc & PORT_RC) {
+-		vdev->flags &= ~VDEV_PORT_ERROR;
+-	}
++	/*
++	 * Tag broken links to avoid retries while hub driver sorts it out.
++	 * Link status is not relible while port is in reset.
++	 */
++	if (!(portsc & PORT_RESET))
++		port->link_inactive = (pls == XDEV_INACTIVE);
+ 
+ 	if ((portsc & PORT_PLC) && (portsc & PORT_PLS_MASK) == XDEV_RESUME) {
+ 		xhci_dbg(xhci, "port resume event for port %d\n", port_id);
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index 14eeb16f668b2..a4fab82da76b6 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1674,7 +1674,7 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 		goto free_priv;
+ 	}
+ 
+-	if (xhci->devs[slot_id]->flags & VDEV_PORT_ERROR) {
++	if (xhci->devs[slot_id]->rhub_port->link_inactive) {
+ 		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
+ 		ret = -ENODEV;
+ 		goto free_priv;
+@@ -4038,7 +4038,6 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
+ 				xhci_get_slot_state(xhci, virt_dev->out_ctx));
+ 		xhci_dbg(xhci, "Not freeing device rings.\n");
+ 		/* Don't treat this as an error.  May change my mind later. */
+-		virt_dev->flags = 0;
+ 		ret = 0;
+ 		goto command_cleanup;
+ 	case COMP_SUCCESS:
+@@ -4090,7 +4089,6 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
+ 	}
+ 	/* If necessary, update the number of active TTs on this root port */
+ 	xhci_update_tt_active_eps(xhci, virt_dev, old_active_eps);
+-	virt_dev->flags = 0;
+ 	ret = 0;
+ 
+ command_cleanup:
+diff --git a/drivers/usb/host/xhci.h b/drivers/usb/host/xhci.h
+index caa3fbee29f2c..87d43bc95bf33 100644
+--- a/drivers/usb/host/xhci.h
++++ b/drivers/usb/host/xhci.h
+@@ -741,14 +741,6 @@ struct xhci_virt_device {
+ 	struct xhci_port		*rhub_port;
+ 	struct xhci_interval_bw_table	*bw_table;
+ 	struct xhci_tt_bw_info		*tt_info;
+-	/*
+-	 * flags for state tracking based on events and issued commands.
+-	 * Software can not rely on states from output contexts because of
+-	 * latency between events and xHC updating output context values.
+-	 * See xhci 1.1 section 4.8.3 for more details
+-	 */
+-	unsigned long			flags;
+-#define VDEV_PORT_ERROR			BIT(0) /* Port error, link inactive */
+ 
+ 	/* The current max exit latency for the enabled USB3 link states. */
+ 	u16				current_mel;
+@@ -1469,6 +1461,7 @@ struct xhci_port {
+ 	int			hcd_portnum;
+ 	struct xhci_hub		*rhub;
+ 	struct xhci_port_cap	*port_cap;
++	unsigned int		link_inactive:1;
+ 	unsigned int		lpm_incapable:1;
+ 	unsigned long		resume_timestamp;
+ 	bool			rexit_active;
 -- 
 2.53.0
 
