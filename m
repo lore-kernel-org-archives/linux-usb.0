@@ -1,133 +1,241 @@
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C926377ED9
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 03:34:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E77604028D9
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 03:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792380893; cv=none; b=ojHjkGY7rZxfsaMpVfIcBZPywngR7ULOiHUe0BGbWlEW8YlImfTp7DjdV3tW2eJAqe7nnvf7cMX16HmcNogbcaMeRRZ1wvMd2ww0rDBnSch9O5TOkg7YTH1n32AYSX01MT4RtT35EFCP33quYVXozXxsNMgIOx96KYkMsYYzSZ8=
+	t=1792380912; cv=none; b=tcY7BW1Md2a+mhog6wpFKbj3rxEptkJXRdgAGIyuBq7RdahYtVQMV2WofHyGCO4L/E3/gxIgAEwUIhpGNprL0CtnMMdJh16Yc/aCrh3Zci8OVGNhUDsZCPKa+cnXR8FkBqfrpcbQVUbr6XJUK4bY7MT1tkBWVskmnmrZOZv27XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792380893; c=relaxed/simple;
-	bh=4Yjmn2WOkVpLe8VYEyQISbvZgK8n3WDI2qsSfL34KBc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TUVgDA+ZnUgwg7nCrgI74Z7eliGtcInM0qB6dKJBQEkhunKiMINDXUEHQxBEo7LY4LrsY/CKoGooBop9QCTHmYmP/NKEbhGSXoC0pzVXejEEhIa5zryIjrKVSnYsSJgV7ctCm4B0frAALNLTMVm8Etd+oLiIBCZ8BZR/1/J3KDo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZjghTI/V; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1792380912; c=relaxed/simple;
+	bh=3mxZ5SPsFK+9PZ4MuhmNv426omDr6uHMq1XJUfPaOz0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=Z+aW8BA0tH3y8NtLP5S3rmGsDcOTsa2PsG/R1EbVpJpeJ7dVjkCtoCRI8pgCAOvdcM3RApe413+s4O8wZYyTKdxuF07Xm7mfX6reXiHx6YGknA3vO9wFjIv+WIFVjzaKh3YMsbyQzBqdLQs4qqxhaY8+wGUcv1Vqm/Ac8iIQpMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JCIw5FKq; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZjghTI/V"
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-cd61a2dfd7aso412691a12.1
-        for <linux-usb@vger.kernel.org>; Sun, 18 Oct 2026 20:34:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792380892; x=1792985692; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HDpleH9Ke2Y1+8VcMmyF2Ssvoq0mqvQ/mLFZpD9YEIk=;
-        b=ZjghTI/VEzIkyay/IEWQu0fUouUfkuU6Y40nhiYDE61F4V+ezSw6GSSL/96VhzmX7f
-         8tbwgWytgPKRt1U0zljpJTBx9j9R1HLLJP130mUxJ4xe1iv18dPf2Je0+rtDJxhUZNqg
-         ssDFAo4KXlG+5pSnvGgKi2BB25hrmlosbizDgpE9ykXNS6NFOHkS5BVk3mxjXp4OPKL4
-         4kd1BT5T02QdvWd5fW2E7bHNaOPqoU6lRh5edC1x7UPdQkSEdDgw5zhG/YIVaf4rO/MK
-         DeUKt0nL44qVCPqHbA89d1ldYwaOwTzdzZIrLcbyH1mljPNGjc6k9qDpGmPoCGLxHfu5
-         hMxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792380892; x=1792985692;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HDpleH9Ke2Y1+8VcMmyF2Ssvoq0mqvQ/mLFZpD9YEIk=;
-        b=uN1FQJAJXOqa5A2M8gqxmW5Ox3M7ARYByy17K2WcRdhGwYz50BJrE3OrrBAl2C15f5
-         DewafiC9fl+pnYinbm9ksd0G2lbs7IwWgcpGa9xruYfGGmSMNwPOJQvsGsWeX80LHqHU
-         ZKCNQZDaE87ge1r+wlLZDF7Ik2TNrOzn7yQWjT9Jc/HX8dHUYMrhARCZxJlZCmqYZgXo
-         PL+Gw+SiJCO8TYsbmDKpxLlL9oEM5OZoJgkq0nrA3t52dpHBaqr2Xrl1BuZ7kG10lcge
-         mqtG/FClnzKt3UziVEJeaXyO29uUub2io2ulPQ93EG75XCsvClJZ4DU6AjGlvKtAaP1h
-         qq4A==
-X-Gm-Message-State: AFq9FYL2BpEl7QGMxVH005s4ZmXvwQSuE2Wbyzms6ThLrZXIN4Tpp7jS
-	yUhanUEhgym4+K65FD/PQSDcpKdsL7+X6i2QxUkHuvYgyNELE2w6T9sq
-X-Gm-Gg: AYBFou3Pq/cV7cLYd6FgAIhLL4Tlfh8zJiDXTBS9qoX8n2at0TLv5nvVdprQLGNvYjl
-	6xWG4xv7M/f0ZXMTIim+fO84e8LrcLBvx6HjM/IhHyVJV5EXym0hSMFWzqV0D7IBBw7ErmKnPvw
-	Xpa9NytsPS5liAVgId3IOg+oA+TfrDFn1gm3e2EnfIaNNaygF7HhtKDE5TKybaXX2VNbzFFqAca
-	YrTeNSRnefjpFaV9NvRfcjhUlLaT5+Ida0EmFRm7gSLlNYjKRBMkLQ1fd4O1ysT6gfOMJkHJ2wC
-	tCSVJ89O3Q4WlyTYBrd+hSktgAnmoW/8m6yNF7CbYe1MzTDdmeuOpo0nh6H1I3owvJiJU1f1YYX
-	dikVBoITP3p738dQ+kPJn2mD31NvijMADKNhj3C6qiNOTku7lfGtJ137Hyga1E1c5hfsmJDryHd
-	UnoAK/tq9c6v3/l90azPg1Z5zOUN/lnL+oGyp+m0hWObdS5leZiZko6+pLExnMfqQnF/0gd3mVz
-	6QO556gTxKXto/1TvbGklFGx2R+Uh429x5gKUelvGkg89mISoqiwZBERS6h2HCnO4GfxveN+7ws
-	rQIUa1u43pMfMGAmaoDVcQbfLLvTbJMIRUcirlP75ruLJ1Le
-X-Received: by 2002:a17:90b:2ec3:b0:3a0:b312:1fbe with SMTP id 98e67ed59e1d1-3acef134d96mr5136229a91.23.1792380891798;
-        Sun, 18 Oct 2026 20:34:51 -0700 (PDT)
-Received: from EAIT-H54D9Q2FJQ.eait.uq.edu.au ([130.102.10.249])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3acd05c9255sm7373900a91.2.2026.10.18.20.34.49
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 18 Oct 2026 20:34:51 -0700 (PDT)
-From: Yu Zhang <yuz08559@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [BUG] usb: gadget: u_serial: use-after-free of gserial in gs_write()/gs_flush_chars() remote-wakeup path
-Date: Mon, 19 Oct 2026 13:34:46 +1000
-Message-ID: <20261019033446.73554-1-yuz08559@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JCIw5FKq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792380912; x=1823916912;
+  h=date:from:to:cc:subject:message-id;
+  bh=3mxZ5SPsFK+9PZ4MuhmNv426omDr6uHMq1XJUfPaOz0=;
+  b=JCIw5FKql3uxAbdR9oSUX4wF/0fT5f5iN4/iSrAejBbQ3etNn2j6uqmR
+   fRKWQAO6tVnEEwtIuG89IklBjvBs433jN+6yY3hQa5bPY7wwXzhOVy3eB
+   vDh13yi9sHfFmBvJZszlmgha2Sc64NmoKS4yEjipmO4jHBfwp7mPGUYzb
+   F6NartTegvKWBPEItfpPvQ6Nza/bfoE9YHDZ8c//Rw/4iQbM37av9ZbWM
+   r8IATgME0xIzRfg9wc5JCJprpsCdNGuiSCc4t2WemSOGFi8/FRhsRnI8y
+   +Z/4iSp4snqFvlE+3eyJA+AEkU0yTb9NeDvQMP+XRqQ2YYfhDROCzuzmx
+   w==;
+X-CSE-ConnectionGUID: KCgC0bs9QyezjFAffFs8oA==
+X-CSE-MsgGUID: LFnGicdDTf6HUr9dXGdodg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11939"; a="1067137"
+X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
+   d="scan'208";a="1067137"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Oct 2026 20:35:11 -0700
+X-CSE-ConnectionGUID: 2nKCWSx5ShWRRbWRMS1TWg==
+X-CSE-MsgGUID: jx8vBEa9TXmyQzxN1ZS1qA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,166,1787036400"; 
+   d="scan'208";a="2424569"
+Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
+  by orviesa004.jf.intel.com with ESMTP; 18 Oct 2026 20:35:10 -0700
+Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1xIe9S-00000000LE6-3CEZ;
+	Mon, 19 Oct 2026 03:35:06 +0000
+Date: Mon, 19 Oct 2026 11:34:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+Subject: [usb:usb-testing] BUILD SUCCESS
+ bdf12cde30830d46a8ef1ba93986356f1164b4f1
+Message-ID: <202610191109.VnX6eJAY-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Hi,
+tree/branch: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+branch HEAD: bdf12cde30830d46a8ef1ba93986356f1164b4f1  usb: gadget: dummy_hcd: prevent unbind via sysfs
 
-gs_write() and gs_flush_chars() cache
+elapsed time: 1105m
 
-	struct gserial *gser = port->port_usb;
+configs tested: 164
+configs skipped: 7
 
-at function entry, before taking port->port_lock. In the
-"if (port->suspended)" branch they drop port_lock and call
-gserial_wakeup_host(gser) on that cached pointer, with no re-check of
-port->port_usb -- unlike the sibling gs_start_tx() path in the very same
-functions, which is guarded by "if (port->port_usb)" after re-acquiring
-the lock.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-gserial_wakeup_host() dereferences gser->func.config->cdev->gadget. A
-concurrent gserial_disconnect() clears port->port_usb (under port_lock),
-and the following unbind / function teardown frees the enclosing
-struct f_acm / struct f_gser (which embeds the gserial) via ->free_func.
-The cached gser is then used after free:
+tested configs:
+alpha                              allnoconfig    gcc-16.2.0
+alpha                             allyesconfig    gcc-16.2.0
+alpha                                defconfig    gcc-16.2.0
+arc                               allmodconfig    clang-24
+arc                                allnoconfig    gcc-16.2.0
+arc                               allyesconfig    clang-24
+arc                                  defconfig    gcc-16.2.0
+arc                   randconfig-1000-20261019    clang-21
+arc                   randconfig-1001-20261019    clang-21
+arm                                allnoconfig    gcc-16.2.0
+arm                               allyesconfig    clang-24
+arm                                  defconfig    gcc-16.2.0
+arm                       integrator_defconfig    gcc-16.2.0
+arm                           pxa3xx_defconfig    gcc-16.2.0
+arm                   randconfig-1000-20261019    clang-21
+arm                   randconfig-1001-20261019    clang-21
+arm                   randconfig-1002-20261019    clang-21
+arm                   randconfig-1003-20261019    clang-21
+arm64                             allmodconfig    clang-24
+arm64                              allnoconfig    gcc-16.2.0
+arm64                                defconfig    gcc-16.2.0
+arm64                 randconfig-1000-20261019    clang-24
+arm64                 randconfig-1001-20261019    clang-24
+arm64                 randconfig-1002-20261019    clang-24
+arm64                 randconfig-1003-20261019    clang-24
+csky                              allmodconfig    gcc-16.2.0
+csky                               allnoconfig    gcc-16.2.0
+csky                                 defconfig    gcc-16.2.0
+csky                  randconfig-1000-20261019    clang-24
+csky                  randconfig-1001-20261019    clang-24
+hexagon                           allmodconfig    gcc-16.2.0
+hexagon                            allnoconfig    gcc-16.2.0
+hexagon                              defconfig    gcc-16.2.0
+hexagon               randconfig-1000-20261019    clang-24
+hexagon               randconfig-1001-20261019    clang-24
+i386                               allnoconfig    gcc-16.2.0
+i386        buildonly-randconfig-1000-20261018    clang-22
+i386        buildonly-randconfig-1001-20261018    clang-22
+i386        buildonly-randconfig-1002-20261018    clang-22
+i386        buildonly-randconfig-1003-20261018    clang-22
+i386        buildonly-randconfig-1004-20261018    clang-22
+i386        buildonly-randconfig-1005-20261018    clang-22
+i386                                 defconfig    gcc-16.2.0
+i386                  randconfig-1000-20261019    clang-22
+i386                  randconfig-1001-20261019    clang-22
+i386                  randconfig-1002-20261019    clang-22
+i386                  randconfig-1003-20261019    clang-22
+i386                  randconfig-1004-20261019    clang-22
+i386                  randconfig-1005-20261019    clang-22
+i386                  randconfig-1006-20261019    clang-22
+i386                  randconfig-1007-20261018    gcc-14
+i386                  randconfig-1008-20261018    gcc-14
+i386                  randconfig-1009-20261018    gcc-14
+i386                  randconfig-1010-20261018    gcc-14
+i386                  randconfig-1011-20261018    gcc-14
+i386                  randconfig-1012-20261018    gcc-14
+i386                  randconfig-1013-20261018    gcc-14
+loongarch                         allmodconfig    clang-24
+loongarch                          allnoconfig    gcc-16.2.0
+loongarch                            defconfig    clang-24
+loongarch             randconfig-1000-20261019    clang-24
+loongarch             randconfig-1001-20261019    clang-24
+m68k                              allmodconfig    gcc-16.2.0
+m68k                               allnoconfig    gcc-16.2.0
+m68k                              allyesconfig    clang-24
+m68k                                 defconfig    clang-24
+m68k                             mac_defconfig    gcc-16.2.0
+microblaze                         allnoconfig    gcc-16.2.0
+microblaze                        allyesconfig    gcc-16.2.0
+microblaze                           defconfig    clang-24
+mips                              allmodconfig    gcc-16.2.0
+mips                               allnoconfig    gcc-16.2.0
+mips                              allyesconfig    gcc-16.2.0
+mips                        rbtx49xx_defconfig    gcc-16.2.0
+nios2                             allmodconfig    clang-20
+nios2                              allnoconfig    clang-24
+nios2                                defconfig    clang-24
+nios2                 randconfig-1000-20261019    clang-24
+nios2                 randconfig-1001-20261019    clang-24
+openrisc                          allmodconfig    clang-20
+openrisc                           allnoconfig    clang-24
+openrisc                             defconfig    gcc-16.2.0
+parisc                            allmodconfig    gcc-16.2.0
+parisc                             allnoconfig    clang-24
+parisc                            allyesconfig    clang-17
+parisc                               defconfig    gcc-16.2.0
+parisc                randconfig-1000-20261018    clang-24
+parisc                randconfig-1001-20261018    clang-24
+parisc64                             defconfig    clang-24
+powerpc                           allmodconfig    gcc-16.2.0
+powerpc                            allnoconfig    clang-24
+powerpc               randconfig-1000-20261018    clang-24
+powerpc               randconfig-1001-20261018    clang-24
+powerpc64             randconfig-1000-20261018    clang-24
+powerpc64             randconfig-1001-20261018    clang-24
+riscv                             allmodconfig    clang-24
+riscv                              allnoconfig    clang-24
+riscv                             allyesconfig    clang-24
+riscv                                defconfig    gcc-16.2.0
+riscv                 randconfig-1000-20261018    clang-17
+riscv                 randconfig-1001-20261018    clang-17
+s390                              allmodconfig    clang-17
+s390                               allnoconfig    clang-24
+s390                              allyesconfig    gcc-16.2.0
+s390                                 defconfig    gcc-16.2.0
+s390                  randconfig-1000-20261018    clang-17
+s390                  randconfig-1001-20261018    clang-17
+sh                                allmodconfig    gcc-16.2.0
+sh                                 allnoconfig    clang-24
+sh                                allyesconfig    clang-17
+sh                                   defconfig    gcc-14
+sh                    randconfig-1000-20261018    clang-17
+sh                    randconfig-1001-20261018    clang-17
+sh                           rsk7264_defconfig    gcc-16.2.0
+sparc                              allnoconfig    clang-24
+sparc                                defconfig    gcc-16.2.0
+sparc                 randconfig-1000-20261019    clang-20
+sparc                 randconfig-1001-20261019    clang-20
+sparc                        sparc64_defconfig    gcc-16.2.0
+sparc64                           allmodconfig    clang-20
+sparc64                              defconfig    gcc-14
+sparc64               randconfig-1000-20261019    clang-20
+sparc64               randconfig-1001-20261019    clang-20
+um                                allmodconfig    clang-17
+um                                 allnoconfig    clang-24
+um                                allyesconfig    gcc-16.2.0
+um                                   defconfig    gcc-14
+um                              i386_defconfig    gcc-14
+um                    randconfig-1000-20261019    clang-20
+um                    randconfig-1001-20261019    clang-20
+um                            x86_64_defconfig    gcc-14
+x86_64                             allnoconfig    clang-24
+x86_64                               defconfig    gcc-14
+x86_64                                   kexec    clang-22
+x86_64                randconfig-1000-20261018    clang-22
+x86_64                randconfig-1001-20261018    clang-22
+x86_64                randconfig-1002-20261018    clang-22
+x86_64                randconfig-1003-20261018    clang-22
+x86_64                randconfig-1004-20261018    clang-22
+x86_64                randconfig-1005-20261018    clang-22
+x86_64                randconfig-1006-20261018    clang-22
+x86_64                randconfig-1007-20261018    clang-22
+x86_64                randconfig-1008-20261018    clang-22
+x86_64                randconfig-1009-20261018    clang-22
+x86_64                randconfig-1010-20261018    clang-22
+x86_64                randconfig-1011-20261018    clang-22
+x86_64                randconfig-1012-20261019    gcc-14
+x86_64                randconfig-1013-20261019    gcc-14
+x86_64                randconfig-1014-20261019    gcc-14
+x86_64                randconfig-1015-20261019    gcc-14
+x86_64                randconfig-1016-20261019    gcc-14
+x86_64                randconfig-1017-20261019    gcc-14
+x86_64                                rhel-9.4    clang-22
+x86_64                            rhel-9.4-bpf    gcc-14
+x86_64                           rhel-9.4-func    clang-22
+x86_64                     rhel-9.4-kselftests    clang-22
+x86_64                          rhel-9.4-kunit    gcc-14
+x86_64                            rhel-9.4-ltp    gcc-14
+x86_64                           rhel-9.4-rust    clang-22
+xtensa                             allnoconfig    clang-24
+xtensa                            allyesconfig    clang-20
+xtensa                randconfig-1000-20261019    clang-20
+xtensa                randconfig-1001-20261019    clang-20
+xtensa                          virt_defconfig    gcc-16.2.0
 
-  BUG: KASAN: slab-use-after-free in gs_write+0x120/0x240
-  Read of size 8 at addr ffff888006c5d430 by task ...
-   gs_write+0x120/0x240
-   n_tty_write+0x355/0xc30
-   file_tty_write.isra.0+...
-   vfs_write+...
-   ksys_write+...
-  Allocated by task ...:
-   acm_alloc_func+0x34/0x1f0
-   config_usb_cfg_link+0x15c/0x220
-   configfs_symlink+...
-  Freed by task ...:
-   kfree+...
-   acm_free_func+0x29/0x60
-   config_usb_cfg_unlink+0x1a9/0x240
-   configfs_unlink+...
-   __x64_sys_unlink+0x34/0x50
-
-gs_flush_chars() has the identical shape.
-
-== Reproduction ==
-
-acm gadget on dummy_hcd (CONFIG_USB_DUMMY_HCD, CONFIG_USB_U_SERIAL,
-CONFIG_USB_CONFIGFS_ACM), KASAN. Put the bus into suspend so
-port->suspended is set: write "auto" to the gadget's host-side
-.../power/control with autosuspend_delay_ms=0, which makes dummy_hcd
-suspend the port and run the gadget ->suspend / gserial_suspend. Then:
-
-  - task A: write to /dev/ttyGS0  (enters the gs_write() suspended branch)
-  - task B: echo "" > g1/UDC ; rm g1/configs/c.1/acm.0 ; rmdir g1/functions/acm.0
-            (unbind + drop the acm function -> frees the gserial)
-
-The gserial_wakeup_host(gser) call in task A then touches freed memory.
-(I widened the window after the port_lock drop with a debug mdelay to make
-it deterministic; without it this is a narrow race.)
-
-The sibling gs_start_tx() call in the same two functions is guarded with
-"if (port->port_usb)" after re-acquiring port_lock; the suspended/wakeup
-branch dereferences the pre-lock cached gser with no equivalent check.
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
