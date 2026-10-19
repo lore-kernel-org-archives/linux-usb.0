@@ -1,84 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.170
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792436772;
-	b=H7MbD83X9YOmEWbP5pYdtFEIHDpgwjP5oEmUPWTh6Peg8Km6AkVGoOxUgo4pBy7Ujv1G
-	 JVmvXteKuuE4Gga7iu7u2KN+zWdmX8xKxWFShowwqEqcpeMfQgXW/+S8nii88MIs9+rBC
-	 JukLGFarGoN0Tz/j2QMNZ644lZB4tE2uIkCOLq8Z23FQLCCoU7TkUwV/c6aqYeXx02k7N
-	 mC5IpaxORuMXC1cYZCU7ed2HYy8ScbhAblerlkiNHci5L2lojrODbOUkgibsrWox13GtJ
-	 U/v+G5aAJBruN88Ps09RgFeV7bVYwqWUKLeuvqonjo4Cii29d5BPwtuKWAPCYrzk3zA==
+	t=1792437438;
+	b=fYBDolpQR+g/Uv/xtA279ZO1FMnsKfToW7Hh5xCMpejcKezPTjM7Qy0zmSJINnCIxdA2
+	 xaU/5koJPFfpcV+NMYle9AcqLvjZhD+4mlD1gNHw+dtgvpnfyGfWzzhcx1Hoi5PBJVPzN
+	 yAvP6icDhN6FFMZhMbMXjnYkC3M9XBeZYhK0GqT/aVPCoeUx6V3ZUYeMgBnVCjwDIBmz4
+	 ZCvVIql3JU515dVdoOQ/QtiRLHtYvpvGe2t/WebOkRx11rIvwR6KaC/fHuZXz6OiGmZ/+
+	 wB+BQUY0zYfhy5YS9GClUgpLRz8HFIWR0RD5vqaeyhVFTtKQkDIPwEPmq9pKvNs+/4w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792436772;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792437438;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=K17P0iX4e7B3zFL8vnCHFVMBflW7pbaf+lenu0Wl0AQ=;
-	b=OFAZ7kG0IR3oaJRpPVNlg+qH8TkKRcjSnyggl+8LqJE52Qrcdoxi1kP2xQUPhv+IWW2G
-	 r2QSWdyh3JQ2GzVvSkVg1kJUcypptiBVMLJ3LRLzQPqCWow5r0y3lcqQddNRwD5PfFmXp
-	 Dj925BRD34f5IVq6Jq5fdYX2S+NqEJ6AzQwltaHVse1EnUi7jKAFRvg7qUR8gXaiweGCs
-	 ojxJ9Ow/KXt/jJWe/w51/NpQ1w+41LK1/6JvSDfeX4oKnaVApmifssrMCaE3EsfmZMvq/
-	 6zopo6S1qY9vVUkjen1J8nlNJvtvT9aD2pMnR8XXGJdjVl17z+O/0VOJ7BG1RXxTyiQ==
+	bh=nEaJSEmFi7tdhNRRtiloMBCFCWtro6yzfl/zLHiT3pI=;
+	b=OXgJwKlvFk5Pt6tuyP6hM9jlujUpwqx2m7vuVWDCh+QNv4OwT0KL65mgI71GxfTJAEvV
+	 NFBQ2W1FjcJ0vu2y6xsWEHs3Zw5aPJGCstK/NuQE4GBwRzU7tJHDpdPBZxHK/rDlMVyiw
+	 KvB8/hfs6QgGbebLQeyds134GgRd+1u+0JWyMVoOSzEXheemFUmTbF9AgU59HryAMN3dq
+	 IdcE/7nxn80uNYCRNUIxQDww52mp14HR5yaWbkpyF2BHfxMtephbP4QZv9c6bctZCu9zA
+	 bXRu2yiwE8G0h4V2gQouzo9T9FalcevJmDkzGnJRGDvN5iW5u1aZaP6qYvm4TMeyPVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linuxfoundation.org;
 	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=dzptXhnH;
-	arc=none smtp.remote-ip=209.85.210.47
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	arc=none smtp.remote-ip=209.85.167.170
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7CF606A329
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 19:06:10 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0A7CF606A329
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62896606A31F
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 19:17:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62896606A31F
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=dzptXhnH
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-81b54d0cb17so1307498a34.1
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 12:06:10 -0700 (PDT)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-4f14642adb4so1081366b6e.1
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 12:17:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1792436770; x=1793041570; darn=vger.kernel.org;
+        d=linuxfoundation.org; s=google; t=1792437426; x=1793042226; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=K17P0iX4e7B3zFL8vnCHFVMBflW7pbaf+lenu0Wl0AQ=;
-        b=dzptXhnHhtTBr2egznLXKGskGVaHlMTSRlsICyXeWmLAZKjgR0S+JaFQeD4x0hNlzl
-         M9MQD/7Dewf4apvvbBsnZUzvochjpgE6ErgwmkqTLqSwRLHYMqxL0CwNImJe2+Tnyjhq
-         OrdO+vyLiJKuVhyuYujFQQN7siRC1+SMVPlsw=
+        bh=nEaJSEmFi7tdhNRRtiloMBCFCWtro6yzfl/zLHiT3pI=;
+        b=fSeNzQRnAW4IKP4kSbBBVuq4cYW+bUP+uYb8nreQzuaPMgbvBuiRx6Fuhp+NrTXQWW
+         Ut8Z5rhQWmMKqFnJ9riJxcBM3iYxrisvIlZ75yOP205wFxoBtZ1rSrTWTZ1MFk076PcP
+         fUgiR3UjRUUjl8lPjmGbb/BG8dNhY2lLkDIf0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792436770; x=1793041570;
+        d=1e100.net; s=20260707; t=1792437426; x=1793042226;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=K17P0iX4e7B3zFL8vnCHFVMBflW7pbaf+lenu0Wl0AQ=;
-        b=yBspI3JrxGcJiWIj8abRXr6kTf0NCxvMyAmiyR5MK6e5N8UAH6EIiLHe1ord6Klay1
-         ygFnAyzeqAoGuYmvJUtcSa2uqP4ZnO68DsPGcOJ9+aSvhiVr1fFnIBaxtyaq4ooIpRIs
-         8stn28+jr41Pm6qfgzgnPyFcB5EvN8TPQ/wMjF8DAGXmgMK0Qf7v7SvdDPqbrByDP4m8
-         HfgeFGVxHcPkpeaZnbNPfRA13gsK7GLRkjNLQv5ByHQXkYOmFuepyHDlCGX9D9A699Oc
-         UHmU9lg8RE4dfxJDXeXTM0XbXwusUaGRoK7Hw2VVbgV9AAsKCSKoUyPNSNPlbFmM+oMN
-         LvKQ==
-X-Forwarded-Encrypted: i=1; AKwUvBweCCX74IcxGtLh0EtMBjjKps+DWlHQJtI230uoiDaqqR0R3zuOFbYKSB4j41Yg0Oi0lDezAchnL9c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKnZR7NVpRhfizG1n/301WIC4y5GXAQ5zYFIbwAZcunh68PFAqS
-	JEGWxwxeEstbu6kWar1npe1tFpg6JUQwTVhyo8LcFCi0m8amEjlVDaXuGz+y8Evr7yE=
-X-Gm-Gg: AYBFou2Kqf49C/HTUJSR1hvJdDuBBgjaIA33wIEwLM0a5g9jT+0Mxn8984BbxmSQ+i/
-	djYVHb2yJDheva00WkIsCRX18XUlmLa8HaZmwmGYykIb0jbbk7Wr4HdgmaeIK8P5+tmfHR78hQf
-	52JtbYHoVFaG/PqBdbSTUZMZHPA525BCuomZpLHU4F48Y/+HRDIGhkJo7dDxlB+Rbb+gfjmXHUi
-	K5BGu2+ZUPlkwuxLcFVl+DOeonLajd/JJ43rcmNHoQQJ8Vz12o95mEhReBSHE7zbIM4HnK/twJB
-	9EB2iSmks78lzHiMyMG9Yr7xYZVZNhPNI9wXpmHwzJbGjor+kxxbFl9PLN0cbThKXlYVnO+Zgi1
-	00lKlbDNANTEimFVfFfeAc//zCA42btFP9hdrG+tap6srDu0Is+9BuRL4R68aQdmoC2GcjlChXS
-	1o2Dk03dM3knrH64GKEuCSDziISmwDFZP1U3JxxiEhsiCDd5miztevulMtGsxyE8jBsbWrqe4P6
-	FhCfqWK
-X-Received: by 2002:a05:6830:4407:b0:80c:d30f:97a with SMTP id 46e09a7af769-84500f5ae51mr9470270a34.27.1792436769896;
-        Mon, 19 Oct 2026 12:06:09 -0700 (PDT)
+        bh=nEaJSEmFi7tdhNRRtiloMBCFCWtro6yzfl/zLHiT3pI=;
+        b=O1OmCjcJC8ptbjMEY7Zz75ODo11jMJrqAaJr6rPgSjaYMybFkNnxRO8Ow6Uw0nPJ/W
+         MEwZsqpFibrDlTkfaWCYWat0DCfzY0eo+oFfVlcgLG1j8KblBjXcP2/ygml+GbNzNLLV
+         m12hilpJNhul8ep893H6TV0AVZNH6at8jjoMdGcojIAvDHq+ymXrkmT3BMF/gVC394y0
+         m3X7GPsny8AqLGNE5hwZz02ViBBiltAszexYT+dRHdIJDBqyyGPJpRAE3rWW5kbshrxr
+         djyh6bekbIldSJ9idZlw7wwvZlB5Zz7qbJywBkNacfYo2BirKUW8JaSDgIaX/6K9sUSi
+         Q37g==
+X-Forwarded-Encrypted: i=1; AKwUvBzd3VJlgD1QmWddC3m2cu4esvWLGYMyxwcTBsY9PM/uSpeqE+JhsLH/SeiWalvpSQKZOHBxVLsP/MY=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIS8sU4wGuuKimwFHBIz+GcyF8QIwIk5UtmDMTJLlfffzzxIpWM
+	J60m0D9TKkoignHSGQbD00+SJ7ptRgBdnxuJSpFVdx38tKX9FslcL+i3GUbza1KBKaM=
+X-Gm-Gg: AYBFou0ZLLnYarahLc0D/6L7ciE3+UAB7nWIy2n6uVf6aNfj9Z952RVWKoqLsWyyiVB
+	4EXzPB8Axb65jktix0xWoSO3EjoQzvbz5SYVcadUzbVVYwCt9gfvo4nZKjEcq6N0fIZV/6qowav
+	JVFUrNghw84O26ZSuv4dO+ztanC5s2Zxkc9XpWwdSrHouYoxceZxTvisciADWHOwFX+cbdswJfM
+	Ngy4ml4DqujA5093PJSbMR+i1VDsmCecDdouD2MX33gaR+iuwkWJzyeEigzhorHNqkcNYyRrMTU
+	vkcKEb9HsQAgC/nt3MbzhosfWlFlHu7kz7bAywWXTewxzO1YcxULHm4AP/K6GhCdCa625rApEwH
+	ExZxI8Wy9Ex4ChiMVS4HGNCfjX5PC9pm0Z1dkgfYUnFQhhi5mj3HWRP1pVsyxaQhq+cyEq7Y/P4
+	kQ/ujS5JGv5YUzahP7U29YA65Xl7qU7jnfWMRVaHrA4UtF0SnLNybihQm78lZx00W+jE79WHPbH
+	W8vDaA=
+X-Received: by 2002:a05:6808:1314:b0:4f6:243:cb9d with SMTP id 5614622812f47-53cd561fffdmr8117322b6e.61.1792437426202;
+        Mon, 19 Oct 2026 12:17:06 -0700 (PDT)
 Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-842a4a00f15sm9615455a34.8.2026.10.19.12.06.08
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-5388c1654e9sm7396007b6e.8.2026.10.19.12.17.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 Oct 2026 12:06:08 -0700 (PDT)
-Message-ID: <3237a1ae-c38c-4544-97c9-0dfaf0a0bc94@linuxfoundation.org>
-Date: Mon, 19 Oct 2026 13:06:06 -0600
+        Mon, 19 Oct 2026 12:17:04 -0700 (PDT)
+Message-ID: <bf13495a-0f70-4ce6-a2a5-77d6c1bee241@linuxfoundation.org>
+Date: Mon, 19 Oct 2026 13:17:01 -0600
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -89,93 +86,62 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usbip: vhci_hcd: store seqnums as u32 to fix lost unlinks
- after 2^31
-To: Lucas Pascal <lucas.pascal@pqshield.com>,
- Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>
-Cc: Hongren Zheng <i@zenithal.me>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- stable@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20261019151537.112304-1-lucas.pascal@pqshield.com>
+Subject: Re: [PATCH] usbip: vhci_hcd: time out unanswered unlink requests
+To: Hongyu Xie <xiehongyu1@kylinos.cn>, valentina.manea.m@gmail.com,
+ shuah@kernel.org, gregkh@linuxfoundation.org
+Cc: i@zenithal.me, bgmerrell@novell.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+b6f11035e572f08bc20f@syzkaller.appspotmail.com,
+ syzbot+a7edecbf389d11a369d4@syzkaller.appspotmail.com,
+ syzbot+bfa320b67fcbe2583c6f@syzkaller.appspotmail.com,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20261006125652.10296-1-xiehongyu1@kylinos.cn>
 Content-Language: en-US
 From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20261019151537.112304-1-lucas.pascal@pqshield.com>
+In-Reply-To: <20261006125652.10296-1-xiehongyu1@kylinos.cn>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/19/26 09:15, Lucas Pascal wrote:
-> vhci_hcd numbers every CMD_SUBMIT and CMD_UNLINK from a per-HCD atomic_t
-> counter, and keeps the value in unsigned long fields of struct vhci_priv
-> and struct vhci_unlink. On the wire, the seqnum is a __u32, and the peer
-> echoes it back as such.
+On 10/6/26 06:56, Hongyu Xie wrote:
+> When the connection to the peer is alive, vhci_urb_dequeue() only queues
+> a CMD_UNLINK PDU and relies on the peer to send RET_UNLINK (or
+> RET_SUBMIT) before the unlinked URB is given back.  A peer that keeps
+> the socket open but never answers therefore makes usb_kill_urb() wait
+> forever.  The waiter is typically the hub work item, which runs with
+> the shared address0_mutex held, so every later task that needs that
+> mutex or the device lock chain - a second attach, usbfs open/release/
+> ioctl, udev - piles up behind it and the whole USB stack wedges.
 > 
-> Once the counter passes INT_MAX, atomic_inc_return() returns a negative
-> int, which is sign-extended when stored in an unsigned long on 64-bit.
-> Commit 15b93f340fa6 ("usbip: Fix seqnum sign extension issue in
-> vhci_tx_urb") fixed this for submitted URBs with a (u32) cast, but
-> vhci_urb_dequeue() still stores the unlink seqnum without one. The
-> CMD_UNLINK goes out with the correct, truncated 32-bit value, but when
-> the RET_UNLINK comes back, dequeue_pending_unlink() compares the
-> sign-extended value with the 32-bit one and never finds it:
+> syzbot reports this shape in three long-lived bugs:
+>    INFO: task hung in hub_port_init
+>    INFO: task hung in hub_event
+>    INFO: task hung in usbdev_release
 > 
->    vhci_hcd: unlink->seqnum 18446744071562096407
->    vhci_hcd: cannot find the pending unlink 2147512087
+> Give every queued unlink request a deadline of its own and arm a
+> per-device watchdog; when the watchdog fires, it tears the connection
+> down through the existing error path (VDEV_EVENT_ERROR_TCP) if any
+> request is still unanswered past its own deadline.  The teardown
+> already knows how to give back every pending URB with -ENODEV, and a
+> RET_UNLINK that arrives late (or never) after that is handled by the
+> existing "already given back" paths.
 > 
-> The unlinked URB is then never given back. A task waiting for it in
-> usb_kill_urb() blocks forever, typically with the device lock held by
-> usbdev_do_ioctl(), and everything else touching that device (open,
-> ioctl, driver binding, rmmod, reboot) piles up behind it in D state.
-> Only a forced reboot recovers. On a machine importing a few FTDI-based
-> JTAG adapters through a local usbip loopback, the counter crossed 2^31
-> after about 30 days of uptime:
+> The watchdog is cancelled whenever no request is outstanding.  Queueing
+> a request re-arms it to that request's deadline, so the callback does
+> not trust the timer's expiry: it re-checks the outstanding requests
+> against their own deadlines under priv_lock and becomes a no-op when
+> none has run out.  A peer that answers promptly is therefore unaffected.
+> Controller removal quiesces the device first - the event handler
+> stops the per-device rx/tx threads and drains the pending events -
+> and only then calls timer_shutdown_sync(), which also waits for a
+> watchdog callback that is already running, so the callback cannot
+> touch the controller after it is freed.
 > 
->    INFO: task fpServer:2209312 blocked for more than 122 seconds.
->    Call Trace:
->     usb_kill_urb
->     usbdev_do_ioctl
->     usbdev_ioctl
-> 
-> The wire protocol uses 32-bit seqnums, so store them as u32 as well.
-> The counter then wraps around modulo 2^32 consistently on both the
-> submit and the unlink paths, instead of relying on a cast at each
-> assignment. Adjust the format specifiers that printed these fields
-> with %lu.
-> 
-> Fixes: 04679b3489e0 ("Staging: USB/IP: add client driver")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Lucas Pascal <lucas.pascal@pqshield.com>
-> ---
-> Hi,
-> 
-> A bit of context on this fix:
-> 
-> - We heavily use USB/IP on CI/CD runners, in order to have full
->    control/isolation for multiple USB development boards plugged into
->    a powered hub. So USB/IP host and client are on the same machine.
->    Once configured, a runner host stays up ad vitam.
-> - I found the bug while debugging a runner host lockup on Ubuntu
->    7.0.0-31-generic, with an uptime > 1month. The log lines above are from
->    that machine.
-> - The diagnosis, this patch and its changelog were prepared with the
->    help of an AI coding assistant (Claude Opus 5.5), then reviewed by me.
-> - Build-tested on x86_64 and i386 with CONFIG_USBIP_DEBUG=y: no new
->    warnings (W=1 reports a pre-existing -Wformat-truncation in
->    vhci_sysfs.c, unrelated).
-> - checkpatch.pl --strict: clean.
-> - The patch was tested in QEMU (virtme-ng), not on the physical runner,
->    using dummy_hcd + g_zero in loopback mode (bulk IN read only complete
->    when unlinked), exported through a USB/IP loopback (bind + attach to
->    localhost), running usbtest test 11 (unlink reads, 3000 iterations), with
->    a test-only change starting vhci_hcd->seqnum at INT_MAX - 2000.
->    Without this patch: the first unlink past 2^31 is lost
->    ("unlink->seqnum 18446744071562067969", "cannot find the pending
->    unlink 2147483649"), and testusb hangs in D state.
->    With this patch: 5007 unlinks past 2^31, none lost, testusb passes.
+> A similar fix was proposed as an RFC by the syzbot assisted-fix
+> pipeline; this version arms a single per-device watchdog instead of a
+> timer per unlink request.
 
-Can you reproduce this with usbip_host and client exchanging messages?
-have you noticed "seqnum max" messages in dmesg while you were running
-tests?
+Did you test this change with a usbip_host and client? How does this
+reproduce in a regular setup?
 
 thanks,
 -- Shuah
