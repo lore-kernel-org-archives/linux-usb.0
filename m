@@ -1,80 +1,75 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9ACC9500359
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 14:18:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3A55008DD
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 14:20:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792419507; cv=none; b=G020BbR2Q7qqHwSJ2JvFzze+LxAy7reHYnGV+RnGptWleTy6tRxP/PfsMVW1qaYkyHRcCUDQ7TPG7bnGxaLtZgQz329l4UBKhfzqVR1I6rMFkYH2zdzx4wbpj6dZSwy6uG/rMsDj4V/T86727HStMn6em1FtwOUjd1mcyzpfO7k=
+	t=1792419617; cv=none; b=BUbO00YDhzh9WAmyk8qnIDa8BWaw/ZtAOEEPEqvC4dvBTjfU51TquwGDPoK5rluJ4CURnEE68OLxWUIbZaHI38eeb88Gp4500IjfjH5yLTVhYifVey+QsH3oihHGc2hJ3esE3C5+XS+FIjOVUnFluvwXEbQx3vUwPUGmJwYpMyw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792419507; c=relaxed/simple;
-	bh=yzi/Exl34xZr85Zp4N2ixiYqRpsiDbg7RWVRJosQO6U=;
+	s=arc-20240116; t=1792419617; c=relaxed/simple;
+	bh=bO4/DNwkHXfvLEEAXHdKXx/+x9KPJV75/dW2kpb2ZJg=;
 	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=OnGEASnVx3qVySi8ULHYpUr1dT6K5mxh3fsGZaKgwEkKP54OGkeqY0KzYh/yGznTv21WsQKWfddtZQ8zP3/Fjokhb+dE3WSeP5+cC7jaZyAmVJI+EVTBblJcjTKdzfcL2pi88KawBeekAYd91mKAoH4bnMqurmPqPN4Uhz66u7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aggZfTJF; arc=none smtp.client-ip=100.103.45.18
+	 Date; b=ri9f7DQMOmyM4rhCK2AH3bvcw/UsE1aU02Z6E7PWeg223sRAhsmcLZ7I3gaNB77wU9Bj2Ggz1KlpSFD4HqQSEhjxlIn6dX6FC7EEAMc6FrEX0stTdZG+Sn57hV872HgZiYBbz60u7Bgf7/hIwqwDCDYIH2deLeNLk+En3CieziE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gMKuNHOa; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aggZfTJF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 541541F000C4;
-	Mon, 19 Oct 2026 14:18:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gMKuNHOa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE8B01F000C4;
+	Mon, 19 Oct 2026 14:20:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792419504;
-	bh=e4hbOCuddjsRgmgX24o3XzFLMw6TAwncf5a4soxyv7g=;
+	s=k20260515; t=1792419616;
+	bh=bO4/DNwkHXfvLEEAXHdKXx/+x9KPJV75/dW2kpb2ZJg=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=aggZfTJFh9fyuqVwAr8BdNvrZhlEAIDqQh5qVzWc690SqIAs8AxIH/RNtKLrWlaf5
-	 uBYdun1bH1FtLxTtZ5rWHFkm1T5wycS3QNzX0QFOnZrWB7rwLx8C/Y5u1QvWc+KoXz
-	 +rUy/0JH1AAC9077E6t4Kez3mghs3wMds3bMFxQGMORfA48rBJD6mNslTDZM/0Dhyr
-	 I2jkG4fA5Nlt1La0vzlVQssoIYLOookMVGWn6z7WDrTTTiK+ZZycdsG7Fn5DyMC7pV
-	 wWCW85R5AUsuvbHQTEfxbd3e6orEchgYZmq8We65I4AhJpjZG9XyLIGYvOT4OLwbVW
-	 RV4oV8QcplL9A==
-Message-ID: <sashiko-outbox-177343@kernel.org>
+	b=gMKuNHOalijbScFWiuKmn1/JnQV6EIcVSnB7tuIXyQ3brxbPXUTdK/H6s5bJUJ8Hi
+	 LCJuPrr3lrE48vsXZXr5FAIvKytNkpqjaVYHzw+smg5xu+QNo3ExxO8sggIidep8eo
+	 Pw7Nph+HzjBySwfngSzKUR3G7m6mnhguVxb4/7Lgnnye5eweVJjCQL0OAT05cyR2Wz
+	 9sS1t6UTfzRfk83/YN4v9DVh4wjeEXu7kGAbyVS4rBuI4BK6WMap1ME7xGBZmrU38t
+	 +co0lTytYYHNPhogirzTrj2SFXqz7wutkYGJJZBGoQel2RKzq0AE7H667Z7goclVom
+	 fo+nrD0sF9mAQ==
+Message-ID: <sashiko-outbox-177350@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH AUTOSEL 6.18-5.10] usb: mtu3: Fix double dereference in
- TP_printk
+Subject: Re: [PATCH AUTOSEL 6.18-5.10] net: usb: rtl8150: handle link status
+ read failures
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sasha Levin" <sashal@kernel.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261019135441.1420968-102-sashal@kernel.org>
+In-Reply-To: <20261019135441.1420968-112-sashal@kernel.org>
 References: <20261019135441.1420968-1-sashal@kernel.org>
- <20261019135441.1420968-102-sashal@kernel.org>
+ <20261019135441.1420968-112-sashal@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 14:18:23 +0000
+Date: Mon, 19 Oct 2026 14:20:15 +0000
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 
-> From: Vladimir Murzin <vladimir.murzin@arm.com>
+> From: Yousef Alhouseen <alhouseenyousef@gmail.com>
 >=20
-> [ Upstream commit cfb3293c4573289f11f913611f530ea6b1926d67 ]
+> [ Upstream commit 8c9c5b9a689612dcb92a04a4218c975cd19f19d8 ]
 >=20
-> Paul reported kernel splat:
+> set_carrier() ignores the result of the USB control transfer and tests
+> the stack variable supplied as its receive buffer. If the device rejects
+> or aborts the request, that variable remains uninitialized and the driver
+> chooses an arbitrary carrier state.
 >=20
-> [    0.000000] TRACE EVENT ERROR: Event mtu3_gadget_ep_set_halt has doubl=
-e dereference in TP_printk: &REC->gpd_ring->dma
-> [    0.000000] ------------[ cut here ]------------
-> [    0.000000] Event mtu3_gadget_ep_set_halt has double dereference in TP=
-_printk: &REC->gpd_ring->dma
-> [    0.000000] WARNING: kernel/trace/trace_events.c:420 at test_double_de=
-reference+0x144/0x14c, CPU#0: swapper/0/0
-> [    0.000000] Modules linked in:
-> [    0.000000] CPU: 0 UID: 0 PID: 0 Comm: swapper/0 Not tainted 7.3.0-rc1=
- #15247 PREEMPT
-> [    0.000000] Hardware name: linux,dummy-virt (DT)
-> [    0.000000] pstate: 600000c5 (nZCv daIF -PAN -UAO -TCO -DIT -SSBS BTYP=
-E=3D--)
-> [    0.000000] pc : test_double_dereference+0x144/0x14c
-> [ ... ]
-> Tested-by: Mark Rutland <mark.rutland@arm.com>
-> Reviewed-by: Steven Rostedt <rostedt@goodmis.org>
-> Signed-off-by: Vladimir Murzin <vladimir.murzin@arm.com>
-> Signed-off-by: Paul E. McKenney <paulmck@kernel.org>
+> Leave the existing carrier state unchanged when the link status cannot be
+> read. A transient USB error should not be treated as link loss.
+>=20
+> Reported-by: syzbot+9db6c624635564ad813c@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=3D9db6c624635564ad813c
+> Suggested-by: Petko Manolov <petkan@nucleusys.com>
+> Signed-off-by: Yousef Alhouseen <alhouseenyousef@gmail.com>
+> Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+> Link: https://patch.msgid.link/20260630101216.10365-1-alhouseenyousef@gma=
+il.com
+> Signed-off-by: Paolo Abeni <pabeni@redhat.com>
 > Signed-off-by: Sasha Levin <sashal@kernel.org>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019135441.1420=
-968-102-sashal@kernel.org?part=3D1
+968-112-sashal@kernel.org?part=3D1
 
