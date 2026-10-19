@@ -1,67 +1,102 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 578224F55A1
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 12:36:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C85C54EF14F;
+	Mon, 19 Oct 2026 12:38:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792413418; cv=none; b=mvLkSPNHXuE18FB7kPoxPWMc9dk0tMmVkMfloxiySYFJvpGRzOgV5Age7JELFi2t9idw9uGNlrsge09kF5mKc9epG9QStAZofn1glJt+JSiJn0YVrJcg/qTW7XsUjionPydF3T4OdUahDckkLnWSVfqcnERrH3iHQOKnKF3CYY8=
+	t=1792413545; cv=none; b=QQyNaINeQhacuVkao3tecfW4yK2nugM3UNc2Bn8Zgu+r8J6xMxukCrHIdPcu32e3J93sKzgBtAtGh0eOxucWWJsJ6wd4fWMbxBGWNJYU8u1fQgL4539U15DkAtTTeJ1L4vy22ytlut2bKbqZ2ZAHfzFJ8RpDLOtCh/kzGS7Ebe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792413418; c=relaxed/simple;
-	bh=MsSztkfzJH75+b1uAyyietpALWtCYgVJkjFrVAGw03g=;
-	h=Message-ID:From:Subject:To:Cc:In-Reply-To:References:Content-Type:
-	 Date; b=K4GMSn09iRuwEAt/V/b38M43NHS/DbIXQYm6oJJ7oDr5/wl9aQCIC8rhctJx/Mm7cqBC3+Rhq31Z6exAURDO5NsAC4xhagUtc9TfVIbXdhOGV0eTrVKy7VWIWKNzQ8/TxTjJZxVHbDA2xfAWdg+zoOwSkZxmTLXbyzfRwvFC8G0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fnIifj/C; arc=none smtp.client-ip=100.103.45.18
+	s=arc-20240116; t=1792413545; c=relaxed/simple;
+	bh=BDdFtg3ZGv7rmQwN0MseL8YVqHdUCU+/nGoJZkoUIlk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=r4d1g3dtb3/KbZ5Z2lvipC2tB9udWc+8R6m6DsmiSaAoxLO8WuSzXWjsD56HXBio9NexP8w/VMVOX130t6o9YyvS1y/NgsMCi7mQX4XdfhK8N0DO1HT1Z3mpMgb2u8vZhD4BDBE57TxJM19tyZJmybs01DziBymv7vE29OK0t30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BuRaoIRh; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fnIifj/C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9222D1F000C4;
-	Mon, 19 Oct 2026 12:36:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BuRaoIRh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 212DC1F000C4;
+	Mon, 19 Oct 2026 12:38:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792413403;
-	bh=sRcDIpBp5F5Mo0neq7UhRP5pd86JoKbXVUtmKcbBRps=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fnIifj/CGtQsWdQb+/76DfiRRnVqKhSPIB9wAziiOct8BjvieN4+kBnVOYJ6PcRPo
-	 oTtGoVT+6ST/J+MdTBhEcQSAjxGRpOTlVMiOch/iSjAWNfF1s5ba0Cnlzj14yMyv5g
-	 2/t64WHjpj9Evk6ydyGNO3QO7nI2kancZ2uX+I3c2j5S7XfhKP3xiM4hWkxapNjeXJ
-	 pd0cvbboCUUgP9sgo88cfApKmhIMrvvvz67YY3Jm0mBzAtcsC40B+BQ3lKR1jtTlT5
-	 ZzGoTxlx+ndq7dYsSY0aJflVWO6wVV45jy5XUu++pUOWBptdZU74yvjph6zCKETtnQ
-	 +8goipkQ3tWGQ==
-Message-ID: <sashiko-outbox-177075@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] USB: serial: upd78f0730: fix NULL-deref on hangup
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Johan Hovold" <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261019123412.2007715-1-johan@kernel.org>
-References: <20261019123412.2007715-1-johan@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 19 Oct 2026 12:36:43 +0000
+	s=k20260515; t=1792413534;
+	bh=aJDtnsOU3g0kJlIqq5MrL0HWf70JKwLAZv0djCT8OFY=;
+	h=From:To:Cc:Subject:Date;
+	b=BuRaoIRhWVs3KyXmD0wwe1Cw4dfzu8P0cG0RrSF/ZSoLQxvK2mvw40oRIJd1YfmYJ
+	 mNqUcaIZesuNzki4+HeVpim1+DoVEjZsolxiy1bgnHV5U4C9aX9MOvtpK1U/qBJd61
+	 uzF9quCsRPMU/UP6+iUaYzgOBMLeBU45LA1jJEbv9678IbkAT5IQaR+Ml9Pm/ypc2v
+	 Ifp/I+LkuDwdh/vViuRgSttJ4h7uAmR8a0QPLCSQTCgQEIu8j8OG8bkrjDvDuKAX+v
+	 wWC7TQFl5i4BxcjeM4Ce4vPcrlwcz1tO9t2M34QowBVi2SzPpRNsXOw9TPhk7SVUvM
+	 LYqox9Tz0MBHw==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xImdg-00000008QuY-0B6D;
+	Mon, 19 Oct 2026 14:38:52 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Oliver Neukum <oneukum@suse.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Johan Hovold <johan@kernel.org>,
+	stable@vger.kernel.org,
+	Dan Drown <dan-netdev@drown.org>
+Subject: [PATCH] USB: cdc-acm: fix NULL-deref on hangup
+Date: Mon, 19 Oct 2026 14:37:55 +0200
+Message-ID: <20261019123755.2008384-1-johan@kernel.org>
+X-Mailer: git-send-email 2.55.0
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> The port tty pointer is cleared on hangup before deasserting the modem
-> control signals and should not be used in the dtr_rts() callback.
->=20
-> Factor out a new upd78f0730_port_tiocmset() helper that can be used in
-> upd78f0730_dtr_rts() to avoid dereferencing a NULL-pointer on hangup
-> (e.g. on disconnect).
->=20
-> This issue was flagged by an LLM.
->=20
-> Fixes: ea534e0b4047 ("USB: serial: add uPD78F0730 USB to Serial Adaptor D=
-river")
-> Cc: stable@vger.kernel.org	# 4.11
-> Cc: Maksim Salau <maksim.salau@gmail.com>
-> Assisted-by: LLM
-> Signed-off-by: Johan Hovold <johan@kernel.org>
+Make sure to take a reference to the port tty when processing carrier
+detect changes to avoid dereferencing a NULL pointer when the port is
+being hung up.
 
-Sashiko has reviewed this patch and found no issues.
+Fixes: 3b563b901eef ("usb: cdc-acm: add PPS support")
+Cc: stable@vger.kernel.org	# 6.6
+Cc: Dan Drown <dan-netdev@drown.org>
+Signed-off-by: Johan Hovold <johan@kernel.org>
+---
+ drivers/usb/class/cdc-acm.c | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261019123412.2007=
-715-1-johan@kernel.org?part=3D1
+diff --git a/drivers/usb/class/cdc-acm.c b/drivers/usb/class/cdc-acm.c
+index e7cefb671bd2..a6595dcd981e 100644
+--- a/drivers/usb/class/cdc-acm.c
++++ b/drivers/usb/class/cdc-acm.c
+@@ -294,6 +294,7 @@ static void acm_process_notification(struct acm *acm, unsigned char *buf)
+ 	unsigned long flags;
+ 	struct usb_cdc_notification *dr = (struct usb_cdc_notification *)buf;
+ 	unsigned char *data = buf + sizeof(struct usb_cdc_notification);
++	struct tty_struct *tty;
+ 
+ 	switch (dr->bNotificationType) {
+ 	case USB_CDC_NOTIFY_NETWORK_CONNECTION:
+@@ -320,12 +321,17 @@ static void acm_process_notification(struct acm *acm, unsigned char *buf)
+ 
+ 		difference = acm->ctrlin ^ newctrl;
+ 
+-		if ((difference & USB_CDC_SERIAL_STATE_DCD) && acm->port.tty) {
+-			struct tty_ldisc *ld = tty_ldisc_ref(acm->port.tty);
+-			if (ld) {
+-				if (ld->ops->dcd_change)
+-					ld->ops->dcd_change(acm->port.tty, newctrl & USB_CDC_SERIAL_STATE_DCD);
+-				tty_ldisc_deref(ld);
++		if (difference & USB_CDC_SERIAL_STATE_DCD) {
++			tty = tty_port_tty_get(&acm->port);
++			if (tty) {
++				struct tty_ldisc *ld = tty_ldisc_ref(tty);
++
++				if (ld) {
++					if (ld->ops->dcd_change)
++						ld->ops->dcd_change(tty, newctrl & USB_CDC_SERIAL_STATE_DCD);
++					tty_ldisc_deref(ld);
++				}
++				tty_kref_put(tty);
+ 			}
+ 		}
+ 
+-- 
+2.55.0
 
