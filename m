@@ -1,91 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792438598;
-	b=zcljsRRbJ/aoZVLW5WB4nDUsoWzqmXw4gTbk2LVT6ywPs4IbgwTs1u9fJqqAOCwtMilz
-	 Jlku695fjHTnhOYyqKSwC/H1ajdP3Nmu/rkeV5MSQMIL7tu4eS0+E/W7Q7RIzbGurEg6s
-	 v/sUqY/YQYgdjLpO49gK7LplZixSV9Tg2ByrtUgjZPL29BCvxXm3mFpbqDaDkBqgeTzX0
-	 1SsCJiJgOd6t7F2hxxDRfe9AU6RjijZh9YM1G/pVMoZP8MA3fPJbGrdrEgUcaHg1eIWn1
-	 Zf7PdtSEx26EUQut8lAWku6AFIsYst/aV+J9e7yD7Pr2+z5tRC/MDgy5tvYrZAVayBQ==
+	t=1792438781;
+	b=UEVdNikOrQUpmLnKQp1Kwcc7ML4xCPCVa+belQMnRCb7bK1+6PClt/8q2kOC5S2zOfCw
+	 NZiAfl1o0Vk1FuBCun0sfd1EjAaWf5XODj6U0LXUNu8QacebiML6HQfe67xw3sZpDvaHa
+	 CyzMxhEhcTXWXURax9CvUHC9qWu/IQU7SbWZfkVvo+bkP6javUMnKp1sY+YaHRexXNTRB
+	 va2455AN5Ou6uhTnDYBw2AsYFogZiP1qw9rin6asnmum5GnUQMMxNQcbMR/yydMJlVCtT
+	 X+6NU3mBTBNwKSXxQQAWRvkVIiD2Rln/p948WrI47yPaibl5N0Kbavh1kpXkDeFAezQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792438598;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=lf4sMTZrdesRxg1xBJVdHHtuRLabPGu8I9i65QyzjrY=;
-	b=EpgUwXe40ujCk2tS8HApUr1g8FSstaq7Cjv3G+IzsRgcWKV6p3RiF/JRINZRVU5Za4rp
-	 giG6m1tZcPgleXxPFCYHr9qbufvJ5U+NxgnsghLicOtopE047Udn7nPGrdFPkJXeqlvhx
-	 +BAZhqC4O7NRNVyd0OEHYYdCj7n8sdOq3pqT88F+ZoLhIARBjDhNQr28X0mp3yrTF0heY
-	 UMb/HZmEyB1Jtu3cAA9f6BbgfoWAr0nVGmB9HRWaSVSBzRq6jredkiT0CCLM9uVGc1tjK
-	 Ssm0b9mauytBAtqx078U7e6xzwTEyEoSxlcnvTMEy/7+3YpcBZDe2ShjLxujoDoidvw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792438781;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:Auto-Submitted:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=PJRu7W6/Or1we5Gv3BgoLEtby0D0Y0UGgfjBHfRc5+k=;
+	b=FE0BRwcmz9gQoM+pKLb/MyJ+xAO7pRAPHR+IOylH/KdxKahLLyKLbOByk5nDZCaukakj
+	 xhQY9iET7TexWu8SawF19EE0TWPYKu7HmpgVhd5qLDndbPU852Nk4YRGuupiebP7whuZR
+	 /4Xw0a0iLBBNCfwuLH8b8KrdG+Juu2oAYc3rqNmvWz3GD0adm/X08ECtsK59Jrhi81byp
+	 9Dhm5IWOkrgLt9tlnjz33OdTHgvHdBAhXVTleSC1Lj9hBkmuOn8pOF/eahGRt5svsV1nz
+	 8fnR0dwt6f2E8URbTL55gfLVTjFqkyo4hnMCnHGGhJ3FaaE8mYrpYVookbFuWFdIWJw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="U/HBN0Bv";
-	arc=none smtp.remote-ip=74.125.82.53
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FHvCdEDz;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB124606A31D
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 19:36:37 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DB124606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40DD6606A319;
+	Mon, 19 Oct 2026 19:39:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=U/HBN0Bv
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-15dd124bbe7so4611921c88.1
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 12:36:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792438597; x=1793043397; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=lf4sMTZrdesRxg1xBJVdHHtuRLabPGu8I9i65QyzjrY=;
-        b=U/HBN0BvWaU1F04M4ZB7fuHGeLstE3cH6i0i5Aff7kz0wTWGyy5VcjCxVeN+FcVwY/
-         0a9Uoum5pqXCy3XtG25YcaRgjpn4mgzCfrAglTlaaw7Pd2Dt7Mwxz4FXuhiFnO3S9rZz
-         SJiCOuxfJSKtYvUw7VgdGfuLJnENtR4Rtw4pDs4XRbiiUBEgcggE7tnK+TAOx7xiZM6n
-         40nyE2ib7dk5POoxMsllDkb1JTihXAYzaHEMv941n8uLrsLkMuM+lWDq49eRUvkfGKrJ
-         vAvp7fkVntt2Ds1JE67qoPTdV2HtZPWKsUi7m3fqQVueaDo4fLxqQ4l6dTpK/0keyFHT
-         PMaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792438597; x=1793043397;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=lf4sMTZrdesRxg1xBJVdHHtuRLabPGu8I9i65QyzjrY=;
-        b=m5mlWq8JI/CUhlKqu+KPowIKrFMDI5m9BYvg9Zqev3MGgmBH0RA4WWvCDE+oV2aggR
-         3A0EkePR1MTgZy96v5MsUWJ5nB+pE3KjwgisUyTZQ0blVbwcmWQgRAvLpypPXci+cn2x
-         rdUYQoSyVzDQH8tIxyRZ0UJ68gm6UGa2fRi8mkMYJ7HVeDQfDiZrQTDCXCn0//St1JpZ
-         P7ktv8OErDbTMbKVxtkMITD8VCqfJyoRHuKNucyoVQyq6Li1wycLdMn6OyAo15FSQIUs
-         4UaZfBLuSfqQ2+7SwUKDWAfoQvLq86OtioIGzKX4le3meCjWcIUzIJnbxlWtlk7/G48N
-         ONVg==
-X-Forwarded-Encrypted: i=1; AKwUvBz/zBxAbUkJOY2siDRxVuqjl5hK0qSOkfP6ECoZES/jhAvnrO/0CYtvI2PtRTbjjkhxBUVQAsdqMIw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLfmC5SvCuJU7nw5ha5ZJmi+bUKi1VzUT9+sGVlxJ7p46fEBrAm
-	el/KOZiTfyILa+BaRCqvqvFnfOfX4pxgqoMbHnYPis0PELMs8i0Hz0kt
-X-Gm-Gg: AYBFou1091IJvusMGtNgaVGJ/dbNRSOuMcv/9nwfEirVNCN4WhDYntSW1PUb0xkbfcF
-	xw0wgkq1YPgqNJsxjOECxnMmBvW5WSPadMdG4Wma5nJ2k7vf5d7JllnLiqpf1iA846vZy/ehOpO
-	iKbPiEYCjgrD+wX06u+cZlRt4DN7RQA5nJJv+c0EB55xqiXsXCFTdcfwckMH3gQKc8XbalklStg
-	nnfAOTt2GufTTN68cH3UbxmdZV4a48qxefriXe14cUQMG4C4uon/hWWb5XNWHxv09khAkhCnSoQ
-	rv3cuWcssH0W43zgomSeTDI9w54Dl8e+f1sDDN8wKguTuu6Js/85kJ0n/KYMZjz9KMd76QjjhyN
-	S4bkhY9U9K3jIOs9HLnQf0xn5Fc2YHN7RndoWWQcHhtwgVESX+3pEgdPiqXfCCzEGfh+Cx9E0TR
-	kEve5ZfaCqbQ4tX9CVDqrStRpCQ7XiMUWi10SokLeKPG9w/cqoy4xJShPkSTkQDlU5GHTbNjQAb
-	a/5p6xaDWgAnQRVBQf+e2Y=
-X-Received: by 2002:a05:7022:b051:20b0:147:9ad0:cf10 with SMTP id a92af1059eb24-18514cf32d5mr13380836c88.47.1792438596542;
-        Mon, 19 Oct 2026 12:36:36 -0700 (PDT)
-Received: from arch.localdomain ([2401:4900:add5:70b2:7032:342a:ce70:6aba])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1831a6f58c2sm47260509c88.11.2026.10.19.12.36.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2026 12:36:35 -0700 (PDT)
-From: Prashant Sengar <prashantsengar25031@gmail.com>
-To: netdev@vger.kernel.org
-Cc: Thangaraj.S@microchip.com,
-	UNGLinuxDriver@microchip.com,
-	andrew+netdev@lunn.ch,
-	linux-usb@vger.kernel.org
-Subject: [PATCH net v2] net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
-Date: Tue, 20 Oct 2026 01:01:48 +0530
-Message-ID: <20261019193148.1381545-1-prashantsengar25031@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FHvCdEDz
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B60B1F000C4;
+	Mon, 19 Oct 2026 19:39:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792438780;
+	bh=PJRu7W6/Or1we5Gv3BgoLEtby0D0Y0UGgfjBHfRc5+k=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=FHvCdEDzlCNG5MUncYbT5iGTy59HWV1GiRjWYVOWkLmqWF4v9fZ2AuV9/u0nVOgua
+	 IjgKEvC0VfaKxaYEPoTjIMYZV7uIKtHhJsW1vtXDdPDg2WDbHhH9GAznkkcnUSXPX2
+	 E/A03FoM9vYKBEhhn3hhzpl/sw/6u6JrYxeTrS1GEnr4u5oUGDb4K6gA0e/oyDo6F3
+	 XHTrzii2LS+mImB8I+vlRBUJxVgSZRs5jAOZb89P3h4ax3Y9zBqajBZ9U9oyib9157
+	 gdF1+wqi7hq3zFBa2g6rzSDV3c4myisGOpWw9JGB1TwkCc1L+Iphw3iRJXe7IoHl9w
+	 gG62/To2uXF7w==
+From: netdev-bot+sinfo@kernel.org
+To: Prashant Sengar <prashantsengar25031@gmail.com>
+Cc: netdev@vger.kernel.org, Thangaraj.S@microchip.com,
+ UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch,
+ linux-usb@vger.kernel.org
+Subject: 
+ Re: [PATCH net v2] net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
+Date: Mon, 19 Oct 2026 19:39:39 +0000
+Message-ID: <179243877992.3290.11469645558271556558@kernel.org>
+In-Reply-To: <20261019193148.1381545-1-prashantsengar25031@gmail.com>
+References: <20261019193148.1381545-1-prashantsengar25031@gmail.com>
+Auto-Submitted: auto-generated
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -95,50 +63,21 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-LAN7801 supports fixed-link configurations without an attached PHY.
-However, lan78xx_set_wol() unconditionally passes netdev->phydev
-to phy_ethtool_set_wol(), causing a NULL pointer dereference when
-a userspace WoL request reaches this path.
+Hi!
 
-Use phylink_expects_phy() to skip PHY WoL configuration for fixed
-links, and use phylink_ethtool_set_wol() for configurations that
-expect a PHY. This avoids the NULL dereference while keeping PHY
-operations within the phylink API.
+This is an automated message. This series looks like a fix, but its
+commit messages seem to be missing some information:
 
-The issue was reproduced using USB Raw Gadget and dummy_hcd in QEMU.
-An ETHTOOL_SWOL ioctl triggered a kernel Oops with the original
-driver. With this change, the same request completes successfully.
+ - How the issue was discovered, e.g. hit in production, hit during
+   development, syzbot report, manual code inspection, LLM or static
+   analysis tool scan.
 
-Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
-Signed-off-by: Prashant Sengar <prashantsengar25031@gmail.com>
----
-v2:
-  - Use phylink_expects_phy() to avoid PHY WoL operations for
-    fixed-link configurations.
-  - Use phylink_ethtool_set_wol() instead of the direct PHY
-    helper, addressing Andrew Lunn's review.
-  - Preserve the existing controller WoL configuration order.
-v1: https://lore.kernel.org/netdev/20261018151830.643511-1-prashantsengar25031@gmail.com/
- drivers/net/usb/lan78xx.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Please do not repost the series just to address the above. Instead,
+reply to this email with the missing information, so that reviewers
+can take it into account. If the series needs another revision for
+other reasons, please include the information in the commit messages
+then.
 
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index 5655941f1478..1702f633d42e 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -1805,7 +1805,9 @@ static int lan78xx_set_wol(struct net_device *netdev,
- 	if (ret < 0)
- 		goto exit_pm_put;
- 
--	ret = phy_ethtool_set_wol(netdev->phydev, wol);
-+	if (phylink_expects_phy(dev->phylink))
-+		ret = phylink_ethtool_set_wol(dev->phylink, wol);
-+
- 
- exit_pm_put:
- 	usb_autopm_put_interface(dev->intf);
--- 
-2.55.0
-
+The evaluation is done by an LLM so it may be wrong, if you think
+that is the case please reply and explain.
