@@ -1,62 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-alma10-1.taild15c8.ts.net [100.103.45.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B700F483825;
-	Mon, 19 Oct 2026 06:44:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85F947F2D1;
+	Mon, 19 Oct 2026 06:46:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=100.103.45.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792392298; cv=none; b=E61RY6z29Sf48kj6o9PsSjPv1AieILpYX7RmgkWv5nu5UcQWib+00PygMseF1Z/mRbVBfoOsRRNRridLZskkQkXV2rY2QUl6u6wQF9OoFGI9fc8RBhfFbegxjiCRfBp5SRCFLmEDcI7ANT8ed3Vh18B+RLe7VyXL80PE17VXnA8=
+	t=1792392378; cv=none; b=lYlZUhrUpYzvMGD3zK70OT1JtyfT4SBXdqXOdl3JRR9CprX69r6OSjzohmV9tvvsDJ0dco7JBgcFo4JRmOTMNg2jH3jkIXWcwm5L6XA/Yk2cOU6SeeLIyZVUENzx4qpIz5nb96u+ViEXTovtvN/ZEReGmKcvawIvkiOUxo/m+HQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792392298; c=relaxed/simple;
-	bh=lqbJEObwBrdWFqMbuvMSTaxauNLio7+eV26yKqdwg0A=;
+	s=arc-20240116; t=1792392378; c=relaxed/simple;
+	bh=YQ8lTf8izlpocVzFGJ3tCmF9xA0j178kX/fbHROKyeg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dEWhq+CBCgwSVOLeocgLvC7GKhwSFWFT+hlVzEXf2micHX2HT1GaYFed4/wLNhNk/ANDu5o1Xa+9ARyGYurWn2AT88G1fOBU0MHUpSpJ3TzDtcq7czRWaLy9gN/X4+A90RXtcaGq6+4RuHDyHp9XYje5mPMXQf4Kmnm2IYw+ahw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=EIqS7BwB; arc=none smtp.client-ip=100.103.45.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=ebXvygT+BWGmwGDn15RJAwfCa0BSS0LD1+PnCT79CkvJ8F+HS9Us2VPlddxCuxv3zPMQ5hGt9gI3ZZGvWi8bU0uUMo+Xh0hKLWPuxVfTbJZwgH4Y28aMCw3WUW9imBmnEAjuzWZ3alUciqzm3HqxzQss8d8ilmNwbhIZ4H2uNoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=KQ/zhJaf; arc=none smtp.client-ip=100.103.45.18
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="EIqS7BwB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A91891F000C6;
-	Mon, 19 Oct 2026 06:44:53 +0000 (UTC)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="KQ/zhJaf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8280A1F000C4;
+	Mon, 19 Oct 2026 06:46:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792392297;
-	bh=dFROdIku4+PQRXecwdlgWRgsOyT7CP7FHtDMXx3nHwY=;
+	s=korg; t=1792392376;
+	bh=UibeRcsOWMwjU2MgWXLgP4E0ubSKnMg/pKDOUT5jzAo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=EIqS7BwBx5crAqP5vmMU9xht6AIlU7N4H3znUyF5o3IQtYeS1OpYogzE3QaArkY5e
-	 ROjEBmTpId90KxaH3Vg7eNyjP20Ad+sndi6VafSnOHLBPwhu5231f4Oj0jYulXe/NM
-	 2njB+E2qq4r4VhCm2/q4u88Q22bBXJViVwvg38Lc=
-Date: Mon, 19 Oct 2026 08:44:45 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Yu Zhang <yuz08559@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [BUG] usb: gadget: u_serial: use-after-free of gserial in
- gs_write()/gs_flush_chars() remote-wakeup path
-Message-ID: <2026101924-scratch-ripcord-03cd@gregkh>
-References: <20261019033446.73554-1-yuz08559@gmail.com>
+	b=KQ/zhJafUctp/xenhL6xzsSzTcWU+zX5TcuMZq2ApWU1+W3bzWaHwtzMlUZJvlRSt
+	 gHLbjjmmeBHkUJ7vTcjor3sgmga8lDa2kuhe996IekmInvmZWZBNBxli1XTBLJsI6/
+	 KwIhyvcyMeRueM+4fDHM6uC1rgnr5INoBhGxpBCs=
+Date: Mon, 19 Oct 2026 08:46:06 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+Cc: stern@rowland.harvard.edu, linux-usb@vger.kernel.org,
+	linux-omap@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] usb: ohci-omap: implement overcurrent handling for
+ GPIO-based power control
+Message-ID: <2026101934-ferris-seldom-69d2@gregkh>
+References: <20261018223312.120913-1-ampr.mhd@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20261019033446.73554-1-yuz08559@gmail.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261018223312.120913-1-ampr.mhd@gmail.com>
 
-On Mon, Oct 19, 2026 at 01:34:46PM +1000, Yu Zhang wrote:
-> Hi,
+On Mon, Oct 19, 2026 at 02:03:12AM +0330, Muhammad Mahdi Amirpour wrote:
+> The OMAP OHCI driver has had optional GPIO lines for VBUS power control
+> and overcurrent detection since the gpiolib conversion, but the
+> overcurrent line was never wired up — it was marked with a TODO comment.
 > 
-> gs_write() and gs_flush_chars() cache
+> On boards like the OMAP1 OSK, the VBUS power switch (TPS2045) is
+> controlled via a TPS65010 GPIO, and overcurrent is reported on a
+> separate GPIO. Without this patch, an overcurrent condition is not
+> detected by software and VBUS power is not cut, relying solely on the
+> hardware current limiter.
 > 
-> 	struct gserial *gser = port->port_usb;
+> This patch implements the missing overcurrent handling:
+> - Requests a threaded IRQ on the overcurrent GPIO (both edges)
+> - Cuts VBUS power via the power GPIO when overcurrent is detected
+> - Reports overcurrent status and change through the root hub port
+>   status callbacks so the USB hub core can react
+> - Handles SetPortFeature/ClearPortFeature(POWER) to drive the VBUS
+>   GPIO alongside the OHCI hardware register
+> - Turns off VBUS on driver removal and probe failure
 > 
-> at function entry, before taking port->port_lock. In the
-> "if (port->suspended)" branch they drop port_lock and call
-> gserial_wakeup_host(gser) on that cached pointer, with no re-check of
-> port->port_usb -- unlike the sibling gs_start_tx() path in the very same
-> functions, which is guarded by "if (port->port_usb)" after re-acquiring
-> the lock.
+> Signed-off-by: Muhammad Mahdi Amirpour <ampr.mhd@gmail.com>
+> ---
+> v4:
+>   - Remove spinlock entirely; use READ_ONCE/WRITE_ONCE for the
+>     overcurrent flags (Greg KH).  This also fixes the bug where
+>     gpiod_set_value_cansleep() was called under spin_lock_irqsave(),
+>     which sleeps on the I2C-attached TPS65010 (Sashiko).
 
-Great, can you submit a patch for this after testing this on linux-next
-to verify it's not already resolved?
+Are you sure this is correct?  You never responded to my previous review
+comments here, just submitted a new version which is a bit odd...
 
 thanks,
 
