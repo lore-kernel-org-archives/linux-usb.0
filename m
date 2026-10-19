@@ -1,54 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.200
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792440273;
-	b=yZBQ4WTuf2qX36Bt9UTsIWEWTG6Wkc/L7j2L8QxHi3VVeHAGiMMt6Js0Rx4GKpqVe+Xy
-	 yUB6Gl50JdIBl3ECazO2d1v9qoYqAmYrEi9vRpTBv+Ndphmt+DuUxmLujXog1SkjFHpoW
-	 gCZVXzUuZWJ5SHsTVsY/Zplu+eIzntr3/e+SMOCyMqauGhEuyAa+QlWeNGbJMPPpr5dwO
-	 fK9iZrXSMzc7yqDfU01X6NsoYr85Yom4pcxqtul8H1bANO/cgfYDCYXArMdYPqOzKPBk8
-	 KCFRGn3P3t87QR/EarIEML/iSI9dczG4dpQahdIX7WYAhTt9ks2gAKY/uGBqx3uxSyg==
+	t=1792441507;
+	b=wF2E0wSq1+EhNV8B0WsojeN4VKas1412JXPLIAdNTI+47UPiezpKnxdFkkkR9q08Jm3l
+	 TLZk6S0mJ5pQwtrhuFSadRx3tH8J6dyCWKE+Gjd+ljhn3qx4o2pcTfaWQhu0IY8jbqhiz
+	 RWPiZwtSKgtaQgddJsCB6LNQXhijYxjtBeKUz7LEqDgBsX6M2bKGbigMFjNva5Dkk6FRQ
+	 XvRI7Oz3y+eG1rSiQ7MroySJJJVkCWODBOAJeg+YPiTb03bQDFDK7GwzyPhAovsdSQM6R
+	 VLMvhL2oBtswzkgLtr7dGrUvbCHQUSapXu8VhSlX/CiRZDtiB+UOeUw20ezkTWA9KTQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792440273;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=oDfINcFbuQrHtezeW26KtgRUuzHaaOUFoMxP5VuL0xM=;
-	b=27jfu/S8g47icuCc8BqYW0B2uB/soZkM4pdkbiKLyFRdORXFHPnJHrTfHTKMSEP+mKWH
-	 z7iIRH6l4fTYuQFEGvhKkeHMdTcFdAuzoJl8r+ggkqEJ3t9LwI/mvZpszOOqOP2Fcd9/l
-	 2PAAWl136wdpSZ7FEN3iDZqbYkQxl0wKdpK5+/LEJAkrPyc7EW3XPVNKhEsplaCm7YSpl
-	 X2ha9YOdSgRKc0VudOK5Ng6zzCzuzxQIt8hqtY3nGMtMnAnB2/Jy50Ll9LNSML62SHUJs
-	 3RpAshh0jhD9Ur/vNKDETZnAAhMP6RwRNvsnWF0aTG9KuIH2lEDdsrD3DO8Sk3bXDbg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792441507;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=CYZTGOdlwMOQm8Q+o3LfRbkQ9TshE/oKmn4afUM8mfs=;
+	b=fDtPIfLM6eko/WNCQpNC1wjO3mbY+S+qpBtwL2dfBYLka4cXvl+sAVhh/kFHih8C8n/1
+	 CMkE1Mo+HgCIKiNngvSyjDEfqDg8zL0oQlATo1Dxy98yFvSyTAlK9wpXIRM/QRAAWrBjg
+	 Wa72CL9pfcxGxdQkKGrkPWqm74ofpwgugdjUKiIRGOdCXLTscIMqoENRSb7UeVeZoUkQt
+	 eugYixGN8vh2Q6VeqJzm+UVebiJSef9CthBr/P/FPinmuG0RQESuYy6nuZw/wKUluahvB
+	 /MJURC2ov5KIRBc7vx3xxc6/adJF6BSE/viB12TtbAQ7UELIikGoNbElXm/m11dzwGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.200
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com [209.85.167.200])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TC4TKF9l;
+	arc=none smtp.remote-ip=209.85.221.177
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38118606A319
-	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 20:04:33 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38118606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f200.google.com with SMTP id 5614622812f47-4cc89e86e4dso4231086b6e.2
-        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 13:04:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792440272; x=1793045072;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12248606A332
+	for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 20:25:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 12248606A332
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TC4TKF9l
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-5d7daf06158so812530e0c.3
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 13:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792441506; x=1793046306; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oDfINcFbuQrHtezeW26KtgRUuzHaaOUFoMxP5VuL0xM=;
-        b=PNRgKBB4waXX4Q2dRdrtorxf/kaPqpOBJg4j9vNwcfUAaKgvOOKOwg+t6W65RzINMU
-         fi1UCcMW9iIGYdUi9QyC6ExwflhOiIMYc39aYlxYU6qabiRlyGNnvFBuI+k/5Ft/V9cP
-         sqk7tH0ZmLr8hUGYUqoxv2eS1zojzscbsgT8vBDFloi8K+LJdyrvRIfEhy4uAUNVRcMC
-         n5Vdfqohr8J/PwpKMlu/M6h7RP0F5WKbuBA9dvfJNY5EN/u+CU6zK1uufNoyWuxE9Ygr
-         zqH7VvFHSerlHbUCM1s/k3iKzKdkVresNsoL/umgBzbdd7KY0A8kt6yGzOhDijdvLymP
-         iMeA==
-X-Forwarded-Encrypted: i=1; AKwUvByH8iCLC+qhoN2AhrKFaftyXeVwGP3+Nmz7I6UXsptPkpLrM2Q4UoXEaCZCF3YkAIFlJYHaOE/pMDU=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLPwFRLSKDhnENlQjQ1K6M+o3E7oIUKfmnDztX2wku0PHC21ALn
-	3yFZCqtMu+TFCJu/iutzA2QqtsJqQfUwTUsrfhi1u6sOCbhlH6bo+ZyALS4XLJlZPo+ich0Ib0X
-	8U66QX8UFizmbBXwx0PW8hqmKknyQg3lioj0WQjIWud7jJIfg4y28KmfUdkU=
+        bh=CYZTGOdlwMOQm8Q+o3LfRbkQ9TshE/oKmn4afUM8mfs=;
+        b=TC4TKF9lY4lChXjrHgxF/o23vDcUzWCN0n4b+YcZCIMJhtZgjMOMRPnaoctqbMvD0l
+         0hNIi8fQ6VgYTRwSGjqXlvHW4FGY/KhmENEPMUjjnjsYjSoUZcB5HAHzf8VORuXNvs7M
+         iMUYzAlFB50t77pQHCk6cBFEyGu+hczE7lQWSc7PettrDxX4Yx345iTYNRElwSplYyT5
+         LyyvsTkFotSaWdtki0h2oZ4tjiP4FLYsmgG/JruMRUhhbFU/FQGkcbdmaL0gSjJdmV5P
+         aO/6pWCYVlB/Wckn8BIZ3Crc9F5BbDKZ7b37MPTdvahpBSQ4RY1MQ+GeJfINq0PMRN2y
+         lWFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792441506; x=1793046306;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=CYZTGOdlwMOQm8Q+o3LfRbkQ9TshE/oKmn4afUM8mfs=;
+        b=ZOvoQpbrju75nh6K0M1OiTqZYWCj0jZc7JGB1cgyGkGLFaj9S2dNWw44moIsGm3Cax
+         KuYpM9IIa09p7ySUuxsdcnItYSSWB12UuvdwZJQb2XYD23vkK+XQj085WiTWVJU74l3y
+         uuU2v/o6dLAhGwyMWsp8I1NWZjNlv448OnaO9PyV9lcGC0eWrv6wAxqVCRp2g9iJjrth
+         AvPtWajlUqEX16sGXLCTDWAwwZduEm6K7/flNMvn83oXRTx9xhvE5jnrJCDQy0thab7C
+         nr1oO9kfDIyRjn22DFpcAlnr35foZcFlwfTj9ZlQAD4/Wtuqp2GCBQ8wC2VbPj5JerzU
+         KTXg==
+X-Forwarded-Encrypted: i=1; AKwUvBziUUUng7IgoNTatvE6MPA0seLNsgpAtffGheKc5XhcxmIP6R+5j7CL3HOTtzYdGvcoMh+4X/fCpKE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJEztdYhY2B/Cn4sdL07/kmDLqZsNmFJGbEsUo8xhmr9KzTQhWn
+	P99Ulvs1dD5vJ23tk+0UuImIMCOcFV0IVkPi8db+OqPkp1uMjFwlcDX3
+X-Gm-Gg: AYBFou3sR306urhwXt8ybvifMqxF8WiEZpEio8yhfHY5W8oyETpBDiOH4Gv5fPxVK78
+	jzGECsKRo0UKGFa73kz2tTPe5kDWDAMAOPWKpN8dSvqV/0MffNAIdUKNDfmpui1N/+Qvxo9Rjnt
+	CmcxiVMosQk+zK/8d7cdqY/eP/Xu7zVyx7YmGJd1o00Qf/2p2uXbpzHuLXAmSwG6f7F4gIk5Prn
+	BVd0p9zutR8lUnDHmgnhhMi1O+AbF6ar68ogyW35DVNoe3eFGAbWZbDw5CQ+thwxki8gnpD+sqY
+	LJV06vqu0MKgf0+2bHfO3n43R5onNLQ3K6kOl52NSx1fhTD/5gTQCgBp3hbm6vKsfnt0xchizyJ
+	zimzvnCozvbvhI6bAAbCX3RLTaWcvAA1TqLRp5uSShHEDVLpeEw7vCrZTTPnusYDVhfWCy5z9mz
+	upfttlPgBbRauBDR7rcO0/w18FAYvLYuEm4Inn1a2I6DApLbFCGJKkP7P0N/4A9V1IZGSa16f9X
+	X1mt4nS
+X-Received: by 2002:a05:6122:488c:b0:5ce:b65d:22b8 with SMTP id 71dfb90a1353d-5eaaa6a8d9amr3168085e0c.19.1792441505981;
+        Mon, 19 Oct 2026 13:25:05 -0700 (PDT)
+Received: from maclinux ([2803:c600:9110:8ba5:1c75:eeaa:b22f:20dc])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ea9b128725sm11194050e0c.0.2026.10.19.13.25.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2026 13:25:05 -0700 (PDT)
+From: =?UTF-8?q?Francisco=20Beltr=C3=A1n=20Millal=C3=A9n?= <fbeltranmillalen@gmail.com>
+To: Bjorn Helgaas <bhelgaas@google.com>,
+	linux-pci@vger.kernel.org
+Cc: Bjorn Helgaas <helgaas@kernel.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Lukas Wunner <lukas@wunner.de>,
+	Farhan Ali <alifm@linux.ibm.com>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Darrell Gum <d@rrell.co>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/2] PCI/PM: Keep the saved config space of an inaccessible device
+Date: Mon, 19 Oct 2026 17:24:43 -0300
+Message-ID: <20261019202445.38259-1-fbeltranmillalen@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,138 +104,113 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1645:b0:4d6:308d:4ca7 with SMTP id
- 5614622812f47-53cced20326mr7361172b6e.24.1792440272158; Mon, 19 Oct 2026
- 13:04:32 -0700 (PDT)
-Date: Mon, 19 Oct 2026 13:04:32 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ad677d0.a20cb897.960b0.0048.GAE@google.com>
-Subject: [syzbot] [sound?] [usb?] BUG: scheduling while atomic in wait_clear_urbs
-From: syzbot <syzbot+4b408ec271028c02705a@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
-	linux-usb@vger.kernel.org, perex@perex.cz, syzkaller-bugs@googlegroups.com, 
-	tiwai@suse.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello,
+When a PCI device stops responding while the system is suspending,
+pci_save_state() stores all ones over its saved config space, and
+pci_restore_state() writes that back on resume once the device responds
+again.  For a bridge, that means bus numbers ff/ff/ff and Secondary Bus
+Reset asserted, which cuts off everything below it.  Resume can also
+wait about 65 seconds for a device behind a dead bridge, because an
+all-ones Link Status reads as an active link.  I ran into both on a
+MacBookPro14,3.
 
-syzbot found the following issue on:
+Patch 1 makes pci_save_state() keep the previous snapshot of a device
+that is not accessible, instead of overwriting it with all ones.  Patch
+2 stops the link wait code from taking an all-ones Link Status for an
+active link.
 
-HEAD commit:    b810335a0699 Add linux-next specific files for 20261015
-git tree:       linux-next
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=167bffd1580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=1b8bbfb3c8b8bab9
-dashboard link: https://syzkaller.appspot.com/bug?extid=4b408ec271028c02705a
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=117bffd1580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=129b3e8e580000
+Patch 2 does not depend on patch 1 and is unchanged from v2, so it can
+be applied on its own, as you offered on v2.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/d857324ce96e/disk-b810335a.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/c678b2144185/vmlinux-b810335a.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/a48079386c10/bzImage-b810335a.xz
+Why patch 1 changed
+-------------------
+On v2 I described [1] what returning -EIO from pci_save_state() does to
+some drivers: stmmac_pci_plat_suspend(), intel_eth_pci_suspend(),
+atl1e, atl2 and amd_mp2 abort system suspend, and libata and others
+trigger the "State of device not saved" warning.  I asked how you would
+like those drivers handled, and said I would hold v3 until then.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+4b408ec271028c02705a@syzkaller.appspotmail.com
+The Thunderbolt work exposed the same PCI problem in another path.  I
+have sent a Thunderbolt patch [2] that calls the SXFP ACPI method on
+Apple systems with Alpine Ridge before system sleep.  SXFP also powers
+down the xHCI on the side of the controller with nothing connected.
+The automated review of that patch pointed out that if this happens
+before the xHCI saves its state, pci_save_state() stores all ones and
+resume writes them back.  I found the same by reading the code; I have
+not run that case without this series.
 
-raw-gadget.0 gadget.0: fail, usb_ep_enable returned -22
-usb 1-1: BOGUS urb xfer, pipe 0 != type 3
-BUG: scheduling while atomic: syz-executor208/5624/0x00000002
-locks held by syz-executor208/5624: 2, on CPU#1:
- #0: ffff8880375782c8 (&pcm->open_mutex){+.+.}-{4:4}, at: snd_pcm_oss_release+0x110/0x250 sound/core/oss/pcm_oss.c:2589
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: spin_lock_irq include/linux/spinlock.h:377 [inline]
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: snd_pcm_group_lock_irq sound/core/pcm_native.c:103 [inline]
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: snd_pcm_stream_lock_irq sound/core/pcm_native.c:142 [inline]
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: class_pcm_stream_lock_irq_constructor include/sound/pcm.h:678 [inline]
- #1: ffff88807bbb7910 (&group->lock#2){..-.}-{3:3}, at: snd_pcm_drop+0xcc/0x780 sound/core/pcm_native.c:2323
-Modules linked in:
-irq event stamp: 62624
-hardirqs last  enabled at (62623): [<ffffffff8c0b3e43>] __raw_spin_unlock_irq include/linux/spinlock_api_smp.h:219 [inline]
-hardirqs last  enabled at (62623): [<ffffffff8c0b3e43>] _raw_spin_unlock_irq+0x23/0x50 kernel/locking/spinlock.c:229
-hardirqs last disabled at (62624): [<ffffffff8c0b3b17>] __raw_spin_lock_irq include/linux/spinlock_api_smp.h:163 [inline]
-hardirqs last disabled at (62624): [<ffffffff8c0b3b17>] _raw_spin_lock_irq+0x17/0x50 kernel/locking/spinlock.c:189
-softirqs last  enabled at (62310): [<ffffffff81895e3b>] __do_softirq kernel/softirq.c:679 [inline]
-softirqs last  enabled at (62310): [<ffffffff81895e3b>] invoke_softirq kernel/softirq.c:519 [inline]
-softirqs last  enabled at (62310): [<ffffffff81895e3b>] __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
-softirqs last disabled at (62299): [<ffffffff81895e3b>] __do_softirq kernel/softirq.c:679 [inline]
-softirqs last disabled at (62299): [<ffffffff81895e3b>] invoke_softirq kernel/softirq.c:519 [inline]
-softirqs last disabled at (62299): [<ffffffff81895e3b>] __irq_exit_rcu+0xcb/0x220 kernel/softirq.c:758
-Preemption disabled at:
-[<0000000000000000>] 0x0
-Kernel panic - not syncing: scheduling while atomic: panic_on_warn set ...
-CPU: 1 UID: 0 PID: 5624 Comm: syz-executor208 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 07/24/2026
-Call Trace:
- <TASK>
- vpanic+0x26f/0x710 kernel/panic.c:661
- panic+0xc5/0xd0 kernel/panic.c:787
- check_panic_on_warn+0x89/0xb0 kernel/panic.c:533
- __schedule_bug+0xf1/0x150 kernel/sched/core.c:6143
- schedule_debug kernel/sched/core.c:6172 [inline]
- __schedule+0x18b7/0x5820 kernel/sched/core.c:7232
- __schedule_loop kernel/sched/core.c:7462 [inline]
- schedule+0x164/0x2b0 kernel/sched/core.c:7477
- schedule_timeout+0x152/0x2c0 kernel/time/sleep_timeout.c:99
- wait_clear_urbs+0x134/0x390 sound/usb/endpoint.c:1010
- sync_pending_stops sound/usb/pcm.c:317 [inline]
- snd_usb_pcm_sync_stop+0x9c/0xb0 sound/usb/pcm.c:325
- snd_pcm_sync_stop sound/core/pcm_native.c:648 [inline]
- snd_pcm_drop+0x57d/0x780 sound/core/pcm_native.c:2335
- snd_pcm_release_substream+0x75/0x4a0 sound/core/pcm_native.c:2836
- snd_pcm_oss_release_file sound/core/oss/pcm_oss.c:2413 [inline]
- snd_pcm_oss_release+0x144/0x250 sound/core/oss/pcm_oss.c:2590
- __fput+0x408/0xa40 fs/file_table.c:513
- fput_close_sync+0x11f/0x240 fs/file_table.c:619
- filp_close_sync+0x6e/0xa0 fs/open.c:1897
- close_files fs/file.c:572 [inline]
- put_files_struct+0x230/0x3c0 fs/file.c:584
- do_exit+0x6f0/0x2360 kernel/exit.c:977
- do_group_exit+0x22d/0x2f0 kernel/exit.c:1123
- get_signal+0x1216/0x12c0 kernel/signal.c:3112
- arch_do_signal_or_restart+0xbb/0x860 arch/x86/kernel/signal.c:337
- __exit_to_user_mode_loop kernel/entry/common.c:66 [inline]
- exit_to_user_mode_loop+0x10e/0x770 kernel/entry/common.c:101
- __exit_to_user_mode_prepare include/linux/irq-entry-common.h:207 [inline]
- syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:230 [inline]
- syscall_exit_to_user_mode include/linux/entry-common.h:343 [inline]
- do_syscall_64+0x328/0x520 arch/x86/entry/syscall_64.c:89
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f41afbcdcc9
-Code: Unable to access opcode bytes at 0x7f41afbcdc9f.
-RSP: 002b:00007ffc3a104688 EFLAGS: 00000246 ORIG_RAX: 0000000000000001
-RAX: 00000000002828c9 RBX: 0000000000000000 RCX: 00007f41afbcdcc9
-RDX: 00000000fffffcd9 RSI: 0000200000002200 RDI: 0000000000000006
-RBP: 0000000000000001 R08: 0000000000000000 R09: 0000000000000006
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffc3a1047f8
-R13: 431bde82d7b634db R14: 00007f41afc60c40 R15: 0000000000000002
- </TASK>
-Shutting down cpus with NMI
-Kernel Offset: disabled
-Rebooting in 86400 seconds..
+On v2 you wrote that skipping pci_save_state() when the device is not
+accessible seemed worthwhile.  That preserves a usable saved state, but
+does not make the Thunderbolt controller resume.  The Thunderbolt part
+now has its own patch in drivers/thunderbolt [2].  This version only
+does the skipping: pci_save_state() keeps the previous snapshot, marks
+the state as saved and returns 0, as it does today.  Callers see no
+change, and there is nothing for the PM core to warn about.  The device
+gets the config space it had when it was last accessible back on
+resume.  This makes v2 patch 1 (usb: hcd-pci) unnecessary, so it is
+dropped.  The values written back can be older than the last ones the
+device had; patch 1 describes that.
 
+If you would still rather have pci_save_state() report the failure, I'd
+like to know how you want the drivers above handled.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+[1] https://lore.kernel.org/all/20261011210451.12129-1-fbeltranmillalen@gmail.com/
+[2] https://lore.kernel.org/all/20261019134851.7496-1-fbeltranmillalen@gmail.com/
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Changes since v2:
+- 1/2 (was 2/3): keep the previous snapshot and return 0 instead of
+  returning -EIO, with the check once at the start of pci_save_state()
+  as you suggested.  On v2 I said I would make pci_dev_save_and_disable()
+  use the return value of pci_save_state(); with this version that no
+  longer works, so it keeps its own check (see the notes in patch 1).
+- Dropped v2 1/3 (usb: hcd-pci).
+- 2/2 (was 3/3): no code change.  Added Darrell's Tested-by from v2.
+- Based on pci/next as of 2026-10-15 (732c4f7d2c04).
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+v2: https://lore.kernel.org/all/20260930141914.6678-1-fbeltranmillalen@gmail.com/
+v1: https://lore.kernel.org/all/20260924124221.12374-1-fbeltranmillalen@gmail.com/
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+Testing:
+I built patch 1 into a v6.18.49 kernel with patch 2, a backport of
+e18d1abc3bff and other local changes for the MacBookPro14,3, including
+the next version of the Thunderbolt patch above, with the changes Mika
+asked for in his review.  The USB HCD patch was not included.  I tested
+it on that machine with 30 second suspend/resume cycles and a USB 3
+disk on the Type-C ports, which sit behind the two Thunderbolt
+controllers:
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+- Five cycles: three with the disk on one side or the other, one
+  removing the disk while the system was suspended, and one with
+  nothing connected.  All resumed, and both Thunderbolt controllers
+  came back.  The disk was read after each cycle in which it stayed
+  connected, and after the other two it worked when plugged in again
+  (on both sides after the first, on one after the second).  In these
+  cycles the xHCI saved its state before SXFP powered it down, so the
+  new check in pci_save_state() did not trigger.  The order of the two
+  is not fixed, as both suspend asynchronously.
+- To hit the case above, I also called SXFP earlier, in the PCI suspend
+  phase, through a test-only PCI quirk that is otherwise disabled.  In 3
+  of 3 cycles the xHCI on the empty side (each side at least once) was
+  reported as "Device config space inaccessible; unable to save state",
+  the snapshot from before was written back on resume instead of all
+  ones, and the xHCI came back.  A disk plugged into that xHCI
+  afterwards worked at USB 3 speed, on both sides.  In all of them the
+  snapshot was one taken earlier while the xHCI was accessible.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+There was no kernel WARNING and no "State of device not saved" during
+the whole boot.  The series itself was built on pci/next with W=1.  I
+have no SR-IOV hardware, so the VF case is untested, and the machine
+never reaches the pcie_wait_for_link_status() change.
 
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks to Bjorn for the review and the simpler check, to Farhan for the
+pointer to the 2025 discussion, and to Darrell Gum for testing v2 on a
+second MacBookPro14,3.
+
+Francisco Beltrán Millalén (2):
+  PCI/PM: Keep the saved config space of an inaccessible device
+  PCI: Do not mistake an absent device for an active link
+
+ drivers/pci/pci.c | 29 ++++++++++++++++++++++++-----
+ 1 file changed, 24 insertions(+), 5 deletions(-)
