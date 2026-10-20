@@ -1,69 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.88.97.239
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.172
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792468219;
-	b=VTAnHb2CM4TscR/+U6nea+owKdj1emGaAxeIXWYrXFZsvBtOKyfbItoiA0B/UU8qP4HQ
-	 4LwRdhMZn0++uV/8z0kkRTrgncJZ83n0SKDR06BmLT2Tw1uRSp77/+RIK11ydpm2/lKEO
-	 +59kE1JBjD2lV3l09ehVO+SjtdviuII36Bl1SQ3kuf5Sct2g/riQX1lk4bNdP+QWIbs4X
-	 nLxgJqqrSobJTODGG9Z+TUQS68sD87pkAl6930wz6jUZGfrhZpDA+v3nirXnyF+Evit5R
-	 xPDNQi1Ice9VAwV1gqVOWFEk6RHTLB4eohuspcQNVRwYB5B2IcWT/hxpZFbolxayr8w==
+	t=1792473294;
+	b=zPhGnKxW5WFOrkMApI3BnWYfzx89412PMmExYe4MAWGXF+GGbNlQBRQSALAYPiVjUbCw
+	 AaaIU8L+4RWLE5ENSV04U+6w5b74f2taBfbzDWmvGWYnfGftKalRK8BebxD+jPj7GE+cJ
+	 ISQzJH7d28UhHxMW2yfmbSAil1E5QFEYtD/gVMezmolWFGCZqjz1d42MWRNrROFSqmR2I
+	 sUe8V8RRC3teq6Yvbhtf//4OpW56LEP0F98Cumk9BK7vmRDIg8TCmQ8XbkBcGP+izR/3b
+	 Lh/8rbJOr2vsCg/eHWYUdakL1vgTz3S8cgZBsGVkeher5w7HQeR3j0nCJXB0sgAilqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792468219;
-	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
-	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=Zs7TQJ1QMl5/wgAW6DMgdgeWAnLtRic9HtSTpoGlsjY=;
-	b=3bk+V8yLwxPEhb/R+KVYubID+x4USL3pQnI2Ye/Dk775wYaDIeN+SLUQWZ3sn4QvFPZ+
-	 CETAk7Zr1J28eFpW+XR3OUlK7ClH+Sn03NsaH204b8t6dGq97cRQiMJsOLn4SxYjmlNRX
-	 CuBHe1jZgFVGpvT89bjSkt/9HiJ2j3GBXHlpvMwE5zshTV0jNu0yYmgT0pDG+bah9eTNL
-	 h0y9IICX0wV7FugM8sfXvfBsnQMkfUy4Cwv+ZFjgTRTVzqL0Fc+JiV0VqNQ4I2ws0fnnI
-	 JD9Dnry2s5sa2BufCn/71wVjyd/KW4BLJB4eiP2AXtbo8zE+kG9b6+FOITZ5HT3+PLQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792473294;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=TrZLjxuUWkEymBh2PSVn3/lyI3kENtzx2QTXaKgS9MY=;
+	b=Tksay3R59DR/uuJh2upRLu8YiK7kLRMIlSEjYQOK6dECTIChS370SW+YPmeYy0XD5iOn
+	 lqkqOSKUMdm7z26c2LuHlmIviodAMRNosHXZi6yDMKH5Wx13JmLbcVaR9GwRbtjXzxyvO
+	 KuNdM5Y1Mf69AommBMW7TkHBSlDrCVjXDDCX2O9R8GAdj1i/AKaRYpsUgjobb4afyseij
+	 hfZVKeT4OnFXUsfn/DMNv8+bbx0sX69ytcjrfPb5oRTcC4+Bj0WqCVLrLuxLS8PDN+mw5
+	 zP4Xspg4TT0ITSh0o8ZgnD1IPZzjPKR6NOG3746fdEQtPVKfaimGsbKGW77BCNuLhPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=birger-koblitz.de;
-	spf=pass smtp.mailfrom=birger-koblitz.de;
-	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=sKH2Imjl;
-	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=qR33jShD;
-	arc=none smtp.remote-ip=23.88.97.239
-Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="pj/U+8sT";
+	arc=none smtp.remote-ip=209.85.215.172
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF733606A319;
-	Tue, 20 Oct 2026 03:50:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EF733606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64D0606A319
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 05:14:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A64D0606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=sKH2Imjl;
-	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=qR33jShD
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1792468211;
-	bh=7+K4+AX/RtVusBYoHVcrrKKwlzL1owrS1ons4OCjTgo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=sKH2ImjlFrukzax0bdrGDOvPEsAFx9elkdNoKqJZKlGqbNf+uH7qj/b7GE8mEfVWV
-	 XcoImoyp1DRsRlLh/26L4WsDZSD8TTgMQfYwwPBBQ8qPM41QMcgd48gDSs12K0uDWJ
-	 Pv26Qc/C8pUaoiCE7lmKdCn5URJwbDBYjgM1YwTQr46Z4D1RmebVfzL1ekMMc6SqOp
-	 TIEo+0vr0+29E84PTjQISkB6tdJm+MEZHtHAhPxtHNLVIxr10JlMIAPlV3jkHt5YVa
-	 H2PzWW3B7poS7FZ5mBG4yLim5/dTsr8+OZ25vBIronmWZDras2jR1cbr3T6V/tNQfD
-	 AW64zrDg8ut1w==
-Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
-	id 07C14491A8; Tue, 20 Oct 2026 03:50:11 +0000 (UTC)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
-	s=default; t=1792468208;
-	bh=7+K4+AX/RtVusBYoHVcrrKKwlzL1owrS1ons4OCjTgo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qR33jShDxubnpWGjAKP4snVpA0kPV8kHg5LEng0IY0Ov2UqnwZGLV2TjvCxhsi4EZ
-	 eTPRk+16geu+Gqr5OYqYtMptFgEvTIVixmpkBLPTHp5vNm6e/iJ6+lGiv7IqAYcG7q
-	 epmL/R6S67VxftIhBhuIgDeoQkW+Yn4yimIJo4PEb8XwG6d1/V/tVoEjlYOQYn/cN7
-	 n/VYoc3xE8jJzDP9GmytVn4pdR+SymFVNoKgZM2DoBYt40d94rJFbe8fJLsGxZpepO
-	 uJH6p6Tvgi/T/Z072Y/WzcyFERdEtFqbSP24vuUhped3cFgwl4wdlQTqjNw5AVVENf
-	 5HCxYfSom+LhQ==
-Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
-	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id 9D16F491A7;
-	Tue, 20 Oct 2026 03:50:08 +0000 (UTC)
-Message-ID: <d2b9c51d-2f82-49d9-a072-aa47959d7242@birger-koblitz.de>
-Date: Tue, 20 Oct 2026 05:50:08 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pj/U+8sT
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-cd60d155070so1257670a12.2
+        for <linux-usb@vger.kernel.org>; Mon, 19 Oct 2026 22:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792473293; x=1793078093; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=TrZLjxuUWkEymBh2PSVn3/lyI3kENtzx2QTXaKgS9MY=;
+        b=pj/U+8sT7PblrBdJkCpGeL6ASX2udgplnUPFcQFKQG3BPcwrOXWHzlHAFPQOJcZJZI
+         uNRbdtAb2pIPDl2pyRPQVH9WQLhw91c6oE2QvhkPt7a3ToJmcaSFeZNPwzcaqYE0BT4X
+         2CKHmJTb3voGDHNfKyWPzvb+diIMoXnbmzA5ovxp5ESExbdEqQeu1ZL9gnI1qYRTD+dN
+         VD4TZm4wJGbuzZpWJA9Vh8lwPexwq5w/2UEBytdfr6ommumrhGiBbFy2XpEwc8DLsnem
+         5T5MNWq4sz32gXflMK+dJ0NHSkx9CoocrkMrgA6bVN+ceyTVrC1+giRjTHG4vPZBBc7I
+         qBVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792473293; x=1793078093;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=TrZLjxuUWkEymBh2PSVn3/lyI3kENtzx2QTXaKgS9MY=;
+        b=GPQSXsZiH+KuiVhkjILcOBAzyfz5YO2trprWZcyMjwXsBLUhqMIHdB6wpDjBjRxldX
+         7kb10sUS8V3S7tEvnbpEhs83kedGktDUL+qvIjCciRxLZzyfqzqUu09dW5nB9CFIS8K7
+         yp3U6hsi0W3vs+W7vaQH85f3gSIIuhGe7KBepchyS/p6g+cEYxu8Djq3hkmf+dm8Ijt4
+         Sgyzmjxb4TFpN4nISN3Bvrk3JwyQSqkorCSjVMFDdgxhAVITCiz8F31HiK5nGweRzg6N
+         ZSgKdHr5rBYnnqiOYLcyhjld13lUwJ8BekykmDmFaoJGGmD5xDA3/2crf9HcZg5hMKP2
+         kaYQ==
+X-Gm-Message-State: AFq9FYLtSDsQMFXa2Ix8+UlxYtgLujPg4KW4tSK/vyHvsY3Y9J+JxxPj
+	m43Zn1qwruHnoP5EExzuc9D92AeSHHA+nNrsVu6EBxmG1ZWA4H9jAdx0Yr8RxXiZ
+X-Gm-Gg: AYBFou2fXPJVAzu6OycJQTOxzvvvYJDbfykiWbjhzWovuXnN4IHQSoK3SeBFCLIE3l1
+	DYDeGd8NfK6a3PCt1DcVpHX7BKQQQvJ2jsQdk17FwXIA7HkNvgHKG/RXOs5Sw4pUMPX6IeaNZWC
+	vAIQkI/te2L9ryNPU2qUfOsYQ6a1Yj1dDK+92PKP3dnnORo/E5YXObQbESMD+5WeKHT6PO/Ug/T
+	s6oCA95XSu13A3CeZCuzrYMeHOn61ZVISEdu83tsqpqlZsP6XMVcW4ZU5xpwIiLca8wHSZDmSXV
+	iuXR8PJabk8vRaLPXR/wqz7xGVxixQ4A7ja2xpuAdo1AJyZm6Hif2dOoogr7tLEQP3s3nPRoC87
+	DKt05BaiMOIzovImlsZcsYoY6PUphG7J5tMTFsFxoitkKNllt9JqZHBRxy6brBg3HejkRiA/tl+
+	NKfF2pRt98Vl4sVTsKkAltNxhmhatzCM+lODCoePx4zUvhFmD5fBPv/Kig2gJ8MH/M/WhZRUDaL
+	ZYZZFCdLq9FnyovuxPPA26GctTILBVE3dSZouC96sO39ln/NYLRbBTJIQAmGASM1JLKm9XAK66h
+	+NmUjQ9O2hG9T6rqeciyVBCVBrRAqI8+/cg99YTzQ2nDh4g+
+X-Received: by 2002:a17:90b:5448:b0:3ab:2d17:51c5 with SMTP id 98e67ed59e1d1-3acee98db60mr7985189a91.6.1792473292926;
+        Mon, 19 Oct 2026 22:14:52 -0700 (PDT)
+Received: from EAIT-H54D9Q2FJQ.eait.uq.edu.au ([130.102.10.249])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ad64273f6csm1843353a91.15.2026.10.19.22.14.50
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 19 Oct 2026 22:14:52 -0700 (PDT)
+From: Yu Zhang <yuz08559@gmail.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yu Zhang <yuz08559@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: gadget: f_hid: avoid copy_from_user() under get_report_spinlock
+Date: Tue, 20 Oct 2026 15:14:46 +1000
+Message-ID: <20261020051446.92179-1-yuz08559@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -73,49 +94,67 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v19 01/13] phylink: Add phylink_mac_interrupt
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: sashiko-reviews@lists.linux.dev, linux-usb@vger.kernel.org,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Andrew Lunn <andrew@lunn.ch>,
- Eric Dumazet <edumazet@kernel.org>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jianhui Xu <neuromoments@gmail.com>
-References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
- <20261010-ax88179a-v19-1-7475173cfb56@birger-koblitz.de>
- <sashiko-outbox-167008@kernel.org>
- <acada24c-903e-49ea-be04-879fedbfa08b@birger-koblitz.de>
- <20261019171805.6aa3a7a3@kernel.org>
-From: Birger Koblitz <mail@birger-koblitz.de>
-Content-Language: en-US
-In-Reply-To: <20261019171805.6aa3a7a3@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Thanks Jakub for the explanation!
+f_hidg_get_report() copies the userspace report into a freshly allocated
+'entry' before taking get_report_spinlock.  When the report id is already
+present in the list it then copies the same userspace buffer a second
+time into the existing entry, this time while holding get_report_spinlock
+(acquired with spin_lock_irqsave()):
 
-On 20/10/2026 2:18 am, Jakub Kicinski wrote:
-> On Sun, 11 Oct 2026 07:32:52 +0200 Birger Koblitz wrote:
-> You are responding to the main Sashiko instance, not the netdev one.
-> Due to infinite wisdom of some MM people these are not even CCed
-> to netdev (I guess CCing the USB list triggers them?)
-> You can ignore the feedback form that instance for networking patches.
-> 
-> Unfortunately our instance didn't run because patch 4 breaks the build
-> (patch 12 fixes it). Our instance tries to save tokens and doesn't run
-> on patches where basic CI checks fail.
-It would be nice to get that kind of feedback immediately from the CI 
-system.
+	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
+	ptr = f_hidg_search_for_report(hidg, report_id);
+	if (ptr) {
+		if (copy_from_user(&ptr->report_data, buffer,
+				sizeof(struct usb_hidg_report))) {
 
-> 
-> drivers/net/usb/ax88179_178a.c:691:8: error: use of undeclared label 'err_nodev'
->    691 |                 goto err_nodev;
->        |                      ^
-Interestingly, Sashiko did not even complain about that. And the extra 
-error handling was in respect of existing code. Should have refused to 
-do that, I guess...
+copy_from_user() may fault and sleep, which is not allowed while holding
+a spinlock with interrupts disabled:
 
-I will fix only this issue, then, and re-send once the patch window 
-opens again. Thanks again for looking into this,
+	BUG: sleeping function called from invalid context at ./include/linux/uaccess.h:169
+	in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 3481, name: hidg_getreport
+	 __might_fault+0x4d/0x60
+	 f_hidg_get_report+0x155/0x310
+	 f_hidg_ioctl+0xbd/0xe0
+	 __x64_sys_ioctl+0x120/0x170
+	 do_syscall_64+0xf9/0x540
 
-Birger
+This is reached by issuing GADGET_HID_WRITE_GET_REPORT twice for the same
+report id (the first call inserts the entry, the second takes the update
+path).  On a non-debug kernel a userspace buffer crafted to fault (e.g.
+via userfaultfd) would sleep with the spinlock held and interrupts
+disabled.
+
+The data has already been copied into 'entry' before the lock is taken,
+so reuse it instead of copying from userspace again under the lock.  This
+also drops a redundant second read of the user buffer.
+
+Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
+Cc: stable@vger.kernel.org
+Signed-off-by: Yu Zhang <yuz08559@gmail.com>
+---
+ drivers/usb/gadget/function/f_hid.c | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+index 3c6b43d..520892b 100644
+--- a/drivers/usb/gadget/function/f_hid.c
++++ b/drivers/usb/gadget/function/f_hid.c
+@@ -668,13 +668,7 @@ static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *b
+ 
+ 	if (ptr) {
+ 		/* Report already exists in list - update it */
+-		if (copy_from_user(&ptr->report_data, buffer,
+-				sizeof(struct usb_hidg_report))) {
+-			spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+-			ERROR(cdev, "copy_from_user error\n");
+-			kfree(entry);
+-			return -EINVAL;
+-		}
++		ptr->report_data = entry->report_data;
+ 		kfree(entry);
+ 	} else {
+ 		/* Report does not exist in list - add it */
+-- 
+2.43.0
+
