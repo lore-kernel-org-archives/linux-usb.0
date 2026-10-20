@@ -1,114 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.71
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792487220;
-	b=UK0UNglEl8P21aIGgoGs+R/l82c2otw5gI7Opnq1I963ozurYkx6R7qhRr84E7TEgcua
-	 Gwzq04BBnzC2SPbFpJbCmx+uXxNH/eE1aV/Xm7J5o3NhID1QIEBNimHha/NsBgaE+Ky4G
-	 IEOq52e+VWCkN9wuWhF1Po/oj0jj1a1Ngk9zpqTUjPQU1b/Guq96TwwY/VDsk/Fm6CGTk
-	 d/9O/VUKsRb0rYfrbZhBTR4RLqCF0WjecQzoKCZ70OXjc9h2kxIiNqVnV12xWAtXl1TgI
-	 Klc3lEne6J+vmnLxWrURY2gh7YKfnMNgNwWrJfFPFtvIrxx2bfeR/Yrj06RkEAg8ICw==
+	t=1792488754;
+	b=wWlLj/4OxAKwMweTIJPmGMdO4OuH4J5wgsnt4/pe3iuBmtnperB5PJw+M0QmoBvaw8+Z
+	 XQMP3HmsU0690dZ4ZUL0edakOQ+0dvBRDoM7XFcVDrH95Qx9OlgNipgzuyVmmuFT11p3X
+	 MsqSw3UaIvNY7KdEU4PHje41pmaQbXNOd/wpcyXgGLs/tobZl4V4+lHJfQH/+cgzcP6yb
+	 39Uk4dURxgQIwpBZQWr5Zvp1G4hkG1yqIBrm3DIfAfoGGyQf3CI+yuOFW4ZQUoBXakWnO
+	 Py3bnVQAz0Gl4y4yDil506O0B0bsvt5K88YzC2bbIolU/EIbdtMjKtX/XJhuXgXbwMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792487220;
-	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
-	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
-	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
-	 X-Spam-Flag:X-Spam-Score:X-Spam-Level:X-Spamd-Result;
-	bh=xwINHTgCnT1vCZQIZe0JyVWtSi5Ffah6jz5uwd0618g=;
-	b=UAZu2+PU/ZBsOnmWQnDGG4EKQQZgNkQNua/yqDDk3lOO3I6e+n9OoMfnK1zyDUjSsvWG
-	 mDw+fkDeQn06F0v81ZPZU4RABX25oq99qCc7bkAh+UrWAbPm4D+GfGdxP3iZp+6xnqMKl
-	 eoGDy6GgpQ32ikCWkTy23FE5CZ/EyVKQld8UhSXKo2eGF8AkScLwJiVSbd+WpFLSUti7H
-	 48hQH5650BobYHPWBy38+5taDUIyVX3642FKFQoGOkl3ei+ECAu5rA9UCHV+lB5llcmQX
-	 eOMyrazrJl2fAaMrVZ4B9JjMdkkeTfc5indpEiEJM7OX/pebRGLT2MSKZ/eSU5ZQAWg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792488754;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=IEGOFRYKNjT2cDILI2yM/s/jbC6C4nGaeAuqDwjS1do=;
+	b=S/hhWWNH3+9kImFyjIBbwyyecmGpNf0I5DJBg2MDsRpnrRZWzO8VQ7egEOZ6IR2YoBN5
+	 9B8OoqlfOBn/MnzyDVhvIA1PY7+b+r3L4RebwsAfD7e5OwWO/ENtd33bzThJfThm41LSD
+	 eDufUDkBR1M/ePTV1je3dPluBZjwy8WAh38IFg9iKynkxYRyMVq3JKNjtSwvEs+Px0nPT
+	 Mc/G+Ptx6ZOMSMbnRNWPN0E4aXR3On5u6s1vFk2d7PeBGvhbauOahaFNgRjk1wXWeuCZv
+	 /PSMTEjkx6PDMa51zmHckKqCGdQtDKhKWpvwvhS4NrXet8bkdmYIgZsF0k7cPbwCGYA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.de;
-	spf=pass smtp.mailfrom=suse.de;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=CBT7h19t;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6lpblSgq;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=CBT7h19t;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6lpblSgq;
-	arc=none smtp.remote-ip=195.135.223.131
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.160.71
+Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com [209.85.160.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50EFB606A319;
-	Tue, 20 Oct 2026 09:07:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50EFB606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=CBT7h19t;
-	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6lpblSgq;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=CBT7h19t;
-	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=6lpblSgq
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B2B991F451;
-	Tue, 20 Oct 2026 09:06:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792487218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xwINHTgCnT1vCZQIZe0JyVWtSi5Ffah6jz5uwd0618g=;
-	b=CBT7h19tzNPggCOvECubxz18UsTXHXvN2iYF9nGzhd1Rciwtx50MtWPXfYfdQMpA2BqiHV
-	6ZsO1JFvHvQKht+0wqfzQ8xXgsv3/MNlHDi+wtl/rnKcrDXY6fLy+b1+7IqFkGf5RLM11n
-	tNDl+IWt0EK3yY8PxEDCkOUvmpGVCXI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792487218;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xwINHTgCnT1vCZQIZe0JyVWtSi5Ffah6jz5uwd0618g=;
-	b=6lpblSgqsRfzMEeHoHQfLNmEKP3tNMmwfJbvNwtTP6DQAi82Y99X45y6mtlyJ6HvhC/IQW
-	ruxklm15vZQOjlBw==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1792487218; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xwINHTgCnT1vCZQIZe0JyVWtSi5Ffah6jz5uwd0618g=;
-	b=CBT7h19tzNPggCOvECubxz18UsTXHXvN2iYF9nGzhd1Rciwtx50MtWPXfYfdQMpA2BqiHV
-	6ZsO1JFvHvQKht+0wqfzQ8xXgsv3/MNlHDi+wtl/rnKcrDXY6fLy+b1+7IqFkGf5RLM11n
-	tNDl+IWt0EK3yY8PxEDCkOUvmpGVCXI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1792487218;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xwINHTgCnT1vCZQIZe0JyVWtSi5Ffah6jz5uwd0618g=;
-	b=6lpblSgqsRfzMEeHoHQfLNmEKP3tNMmwfJbvNwtTP6DQAi82Y99X45y6mtlyJ6HvhC/IQW
-	ruxklm15vZQOjlBw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 4C14F136CC;
-	Tue, 20 Oct 2026 09:06:58 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 2iNZCTIv12qzZQAAD6G6ig
-	(envelope-from <tiwai@suse.de>); Tue, 20 Oct 2026 09:06:58 +0000
-Date: Tue, 20 Oct 2026 11:06:57 +0200
-Message-ID: <87a4o8ivv2.wl-tiwai@suse.de>
-From: Takashi Iwai <tiwai@suse.de>
-To: Sonali Pradhan <sonalipradhan@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neill Kapron <nkapron@google.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Fan Wu <fanwu01@zju.edu.cn>,
-	Victor Krawiec <victor.krawiec@arturia.com>,
-	Felipe Balbi <balbi@ti.com>,
-	"Felipe F. Tonello" <eu@felipetonello.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH RESEND] usb: gadget: f_midi: fix UAF race during IN request handling
-In-Reply-To: <20261019135701.2767078-1-sonalipradhan@google.com>
-References: <20261019135701.2767078-1-sonalipradhan@google.com>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0508C606A319
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 09:32:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0508C606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oa1-f71.google.com with SMTP id 586e51a60fabf-46a5954cdfcso3462147fac.3
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 02:32:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792488753; x=1793093553;
+        h=content-type:to:from:subject:message-id:in-reply-to:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=IEGOFRYKNjT2cDILI2yM/s/jbC6C4nGaeAuqDwjS1do=;
+        b=XONvkC+/kVz4+bx/O02E8febboYDBoUeelnn9sR/JAwqAkr2PDKNAUlf+RZmHmguB8
+         uZxfdcKt5/HWf0EXYxki8ktGlS7KdDsoPlWg2464zSAwYOGISzvlF34tCmyknj4w0eTY
+         GG6Zya9oT/NyANSsUsIk9WS8igfY8oS90xHZqiwmiPgtLJwwK+uTN6m1zoyCY/u51ziL
+         tdgeZt5VRrLc/IA18XAebh/B4mFLJZtHkuKdic9wA9WxbyvLOUYoIRAVchMfpByRuJ4W
+         OiVMGZ3DpCqg4tBlQnPYjEBQFiRkWmrURxzX3Gm7NVV9g/4T8gv8K/v7DrREZLI4S+lY
+         QnVg==
+X-Forwarded-Encrypted: i=1; AKwUvBxM9/eETnsGdnTozavfYTfOVMdt1VzlrDqzJlu4+eDqZH3yF9khR6FXAQgOJEraiHmKb7wXKgT5yjM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIhuC3VeJh19EPmu/zz+8JDc4+gqRLpMuFFSkusE1cF5YEI6GVu
+	ZgomO6pXgvKJQfLV+QYxPxexy5F0uvsf3PA+pV524eMsMrxFWSF7d9KRXo1pQRYJvqQXvU1f5M8
+	OX9UyInXW0MqyalEzXsK3gnKzAYthwVWMIDDKfgnKIzzIJ805dbYUjrW8gJ4=
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -117,95 +57,188 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Flag: NO
-X-Spam-Score: -3.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_ENVRCPT(0.00)[wanadoo.fr];
-	FREEMAIL_CC(0.00)[linuxfoundation.org,google.com,suse.de,wanadoo.fr,zju.edu.cn,arturia.com,ti.com,felipetonello.com,vger.kernel.org];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:6b8a:b0:4d6:90f4:48ab with SMTP id
+ 5614622812f47-53ccfba424emr7865166b6e.45.1792488753042; Tue, 20 Oct 2026
+ 02:32:33 -0700 (PDT)
+Date: Tue, 20 Oct 2026 02:32:33 -0700
+In-Reply-To: <6a6944b4.d9e86bb5.297b12.003c.GAE@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ad73531.5c73e770.1a06c9.0104.GAE@google.com>
+Subject: Re: [syzbot] [usb?] [fs?] possible deadlock in uvc_func_allow_link
+From: syzbot <syzbot+8c0a48f6c8357c9da819@syzkaller.appspotmail.com>
+To: gregkh@linuxfoundation.org, linux-fsdevel@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 19 Oct 2026 15:57:01 +0200,
-Sonali Pradhan wrote:
-> 
-> f_midi_disable() frees pre-allocated IN requests from in_req_fifo
-> without holding midi->transmit_lock. Concurrent f_midi_transmit() or
-> f_midi_complete() calls can then access these request buffers after they
-> are freed, leading to a use-after-free.
-> 
-> Fix this by acquiring midi->transmit_lock in f_midi_disable() while
-> releasing IN requests, and checking ep->enabled under midi->transmit_lock
-> in f_midi_transmit() and f_midi_complete() before modifying requests.
-> 
-> Fixes: e1e3d7ec5da3 ("usb: gadget: f_midi: pre-allocate IN requests")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sonali Pradhan <sonalipradhan@google.com>
-> ---
-> Resending and rebasing on latest linux-next as I haven't received
-> feedback on my initial submission:
-> https://lore.kernel.org/all/20260819102709.212646-1-sonalipradhan@google.com/
-> 
->  drivers/usb/gadget/function/f_midi.c | 19 ++++++++++++++++---
->  1 file changed, 16 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/f_midi.c b/drivers/usb/gadget/function/f_midi.c
-> index 63fb6ee70a3d..c26d04eb9209 100644
-> --- a/drivers/usb/gadget/function/f_midi.c
-> +++ b/drivers/usb/gadget/function/f_midi.c
-> @@ -280,9 +280,18 @@ f_midi_complete(struct usb_ep *ep, struct usb_request *req)
->  			/* We received stuff. req is queued again, below */
->  			f_midi_handle_out_data(ep, req);
->  		} else if (ep == midi->in_ep) {
-> +			unsigned long flags;
-> +
->  			/* Our transmit completed. See if there's more to go.
->  			 * f_midi_transmit eats req, don't queue it again. */
-> +			spin_lock_irqsave(&midi->transmit_lock, flags);
-> +			if (!ep->enabled) {
-> +				spin_unlock_irqrestore(&midi->transmit_lock, flags);
-> +				return;
-> +			}
->  			req->length = 0;
-> +			spin_unlock_irqrestore(&midi->transmit_lock, flags);
-> +
+syzbot has found a reproducer for the following issue on:
 
-Does this transmit_lock help here?  As far as I see, the ep
-enable/disable itself is done outside the lock.
+HEAD commit:    f47d223627f8 Merge tag 'vfs-7.4-rc1.sync_close' of git://g..
+git tree:       git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+console output: https://syzkaller.appspot.com/x/log.txt?x=1475c831580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=897740d587b37862
+dashboard link: https://syzkaller.appspot.com/bug?extid=8c0a48f6c8357c9da819
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=1275c831580000
 
-> @@ -678,10 +690,11 @@ static void f_midi_transmit(struct f_midi *midi)
->  	unsigned long flags;
->  
->  	/* We only care about USB requests if IN endpoint is enabled */
-> -	if (!ep || !ep->enabled)
-> -		goto drop_out;
-> -
->  	spin_lock_irqsave(&midi->transmit_lock, flags);
-> +	if (!ep || !ep->enabled) {
-> +		spin_unlock_irqrestore(&midi->transmit_lock, flags);
-> +		goto drop_out;
-> +	}
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+8c0a48f6c8357c9da819@syzkaller.appspotmail.com
 
-Ditto.
+======================================================
+WARNING: possible circular locking dependency detected
+syzkaller #0 Not tainted
+------------------------------------------------------
+syz-executor238/6025 is trying to acquire lock:
+ffffffff914019a8 (gadget_subsys.su_mutex){+.+.}-{4:4}, at: uvc_func_allow_link+0x76/0x3f0 drivers/usb/gadget/function/uvc_configfs.c:3651
+
+but task is already holding lock:
+ffff88802eca5b80 (&sb->s_type->i_mutex_key#25){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
+ffff88802eca5b80 (&sb->s_type->i_mutex_key#25){+.+.}-{4:4}, at: configfs_symlink+0x452/0x1340 fs/configfs/symlink.c:201
+
+which lock already depends on the new lock.
 
 
-thanks,
+the existing dependency chain (in reverse order) is:
 
-Takashi
+-> #3 (&sb->s_type->i_mutex_key#25){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       down_write+0x8b/0x1f0 kernel/locking/rwsem.c:1631
+       inode_lock include/linux/fs.h:1024 [inline]
+       configfs_depend_item_unlocked+0xf3/0x6a0 fs/configfs/dir.c:1268
+       usbg_make_tpg+0x251/0x610 drivers/usb/gadget/function/f_tcm.c:1692
+       target_fabric_make_tpg+0xab/0x8c0 drivers/target/target_core_fabric_configfs.c:947
+       configfs_mkdir+0x525/0xd40 fs/configfs/dir.c:1369
+       vfs_mkdir+0x364/0x850 fs/namei.c:5420
+       filename_mkdirat+0x48b/0x5e0 fs/namei.c:5453
+       __do_sys_mkdir fs/namei.c:5480 [inline]
+       __se_sys_mkdir fs/namei.c:5477 [inline]
+       __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5477
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #2 (tpg_instances_lock){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1c20 kernel/locking/mutex.c:821
+       tcm_alloc_inst+0x5f/0x1e0 drivers/usb/gadget/function/f_tcm.c:2687
+       try_get_usb_function_instance+0x136/0x1f0 drivers/usb/gadget/functions.c:28
+       usb_get_function_instance+0x16/0x70 drivers/usb/gadget/functions.c:44
+       function_make+0x18c/0x3f0 drivers/usb/gadget/configfs.c:626
+       configfs_mkdir+0x525/0xd40 fs/configfs/dir.c:1369
+       vfs_mkdir+0x364/0x850 fs/namei.c:5420
+       filename_mkdirat+0x48b/0x5e0 fs/namei.c:5453
+       __do_sys_mkdir fs/namei.c:5480 [inline]
+       __se_sys_mkdir fs/namei.c:5477 [inline]
+       __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5477
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #1 (func_lock){+.+.}-{4:4}:
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1c20 kernel/locking/mutex.c:821
+       try_get_usb_function_instance+0x26/0x1f0 drivers/usb/gadget/functions.c:18
+       usb_get_function_instance+0x16/0x70 drivers/usb/gadget/functions.c:44
+       function_make+0x18c/0x3f0 drivers/usb/gadget/configfs.c:626
+       configfs_mkdir+0x525/0xd40 fs/configfs/dir.c:1369
+       vfs_mkdir+0x364/0x850 fs/namei.c:5420
+       filename_mkdirat+0x48b/0x5e0 fs/namei.c:5453
+       __do_sys_mkdir fs/namei.c:5480 [inline]
+       __se_sys_mkdir fs/namei.c:5477 [inline]
+       __x64_sys_mkdir+0x6b/0x90 fs/namei.c:5477
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+-> #0 (gadget_subsys.su_mutex){+.+.}-{4:4}:
+       check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
+       check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+       validate_chain kernel/locking/lockdep.c:3952 [inline]
+       __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
+       lock_acquire kernel/locking/lockdep.c:5942 [inline]
+       lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+       __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+       __mutex_lock+0x1a4/0x1c20 kernel/locking/mutex.c:821
+       uvc_func_allow_link+0x76/0x3f0 drivers/usb/gadget/function/uvc_configfs.c:3651
+       configfs_symlink+0x695/0x1340 fs/configfs/symlink.c:211
+       vfs_symlink fs/namei.c:5804 [inline]
+       vfs_symlink+0x178/0x4d0 fs/namei.c:5783
+       filename_symlinkat+0x2a6/0x560 fs/namei.c:5829
+       __do_sys_symlink fs/namei.c:5856 [inline]
+       __se_sys_symlink fs/namei.c:5852 [inline]
+       __x64_sys_symlink+0x79/0xb0 fs/namei.c:5852
+       do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+       do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+       entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+other info that might help us debug this:
+
+Chain exists of:
+  gadget_subsys.su_mutex --> tpg_instances_lock --> &sb->s_type->i_mutex_key#25
+
+ Possible unsafe locking scenario:
+
+       CPU0                    CPU1
+       ----                    ----
+  lock(&sb->s_type->i_mutex_key#25);
+                               lock(tpg_instances_lock);
+                               lock(&sb->s_type->i_mutex_key#25);
+  lock(gadget_subsys.su_mutex);
+
+ *** DEADLOCK ***
+
+locks held by syz-executor238/6025: 2, last CPU#3:
+ #0: ffff888025b44460 (sb_writers#13){.+.+}-{0:0}, at: filename_create+0x10d/0x400 fs/namei.c:5095
+ #1: ffff88802eca5b80 (&sb->s_type->i_mutex_key#25){+.+.}-{4:4}, at: inode_lock include/linux/fs.h:1024 [inline]
+ #1: ffff88802eca5b80 (&sb->s_type->i_mutex_key#25){+.+.}-{4:4}, at: configfs_symlink+0x452/0x1340 fs/configfs/symlink.c:201
+
+stack backtrace:
+CPU: 3 UID: 0 PID: 6025 Comm: syz-executor238 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2 04/01/2014
+Call Trace:
+ <TASK>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ print_circular_bug.cold+0x178/0x1be kernel/locking/lockdep.c:2087
+ check_noncircular+0x146/0x160 kernel/locking/lockdep.c:2219
+ check_prev_add+0xeb/0xe60 kernel/locking/lockdep.c:3209
+ check_prevs_add kernel/locking/lockdep.c:3328 [inline]
+ validate_chain kernel/locking/lockdep.c:3952 [inline]
+ __lock_acquire+0x1528/0x1f40 kernel/locking/lockdep.c:5288
+ lock_acquire kernel/locking/lockdep.c:5942 [inline]
+ lock_acquire+0x1d1/0x380 kernel/locking/lockdep.c:5899
+ __mutex_lock_common kernel/locking/mutex.c:646 [inline]
+ __mutex_lock+0x1a4/0x1c20 kernel/locking/mutex.c:821
+ uvc_func_allow_link+0x76/0x3f0 drivers/usb/gadget/function/uvc_configfs.c:3651
+ configfs_symlink+0x695/0x1340 fs/configfs/symlink.c:211
+ vfs_symlink fs/namei.c:5804 [inline]
+ vfs_symlink+0x178/0x4d0 fs/namei.c:5783
+ filename_symlinkat+0x2a6/0x560 fs/namei.c:5829
+ __do_sys_symlink fs/namei.c:5856 [inline]
+ __se_sys_symlink fs/namei.c:5852 [inline]
+ __x64_sys_symlink+0x79/0xb0 fs/namei.c:5852
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x123/0x790 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f17e04c5357
+Code: 77 01 c3 48 c7 c2 d8 ff ff ff f7 d8 64 89 02 b8 ff ff ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 b8 58 00 00 00 0f 05 <48> 3d 00 f0 ff ff 77 01 c3 48 c7 c2 d8 ff ff ff f7 d8 64 89 02 b8
+RSP: 002b:00007ffdfd785e48 EFLAGS: 00000206 ORIG_RAX: 0000000000000058
+RAX: ffffffffffffffda RBX: 00007f17e051e1e8 RCX: 00007f17e04c5357
+RDX: 0000000000000000 RSI: 00007f17e051e170 RDI: 00007f17e051e1e8
+RBP: 00007f17e051e300 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000206 R12: 00007f17e051e250
+R13: 00007f17e051e298 R14: 00007f17e051e2d8 R15: 00007f17e051e1b0
+ </TASK>
+
+
+---
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
