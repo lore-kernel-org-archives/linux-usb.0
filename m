@@ -1,90 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.227.1
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792511541;
-	b=J94571G8ziC+hY1lgbeajbT6RtWee6j4XM44z+yzNBDcLq6fr8SjfdDvvViT1zNzq8mw
-	 LxunexJXOZA/AqJuY9PdTvY41tCx8hI+T4dz/9t22T7MXWvnOOfmzvBvNEkAfsRS2VFFi
-	 4wgaXCQ/Wr2n0D/zlFzexC8v5LL/9CxiPS4qdN6Bf39cvzzn6gByPxQVS0k0Cg9IZVwf/
-	 NTO+2Wg8juH058xG86wHoip2icK3YtoiH7SORk7YP+rej3TibfU4VN9Dc1j7dAUA0LPrO
-	 M42kbTrwX7pZD0ZUlJEldz77OQcr8kiW5QIA84Cvbrh7lht2SN+UjvftfxwL1HLRIFw==
+	t=1792512810;
+	b=hkrtkoZhluuxYEloecUxwR4pYb4qyD+uUTTgb7WiKAhUeEzT+Tv3CWf0PN+sugZ7F+Ch
+	 LjHZUYhSr/jcjKMU1XZxM2E1exynZhc8EyuJMCMXbTajr3NfseQwIQkPwwlBcqXDpczQm
+	 3KWuomMlPgXJSRb3J7JhwZSUCFKFV6ZMfxWtiMD2h92LmFKeVgNT6iYM3FpdzjjtIPPNA
+	 U24vjOG0HGUkf0ocXzH2t2JEtha5msq8n1UvExiICvDD6ZNe0gZqhCk3loX/fCLGJPQL1
+	 Z1tNqcxXxxTCsnwJcg3HSe1YtmZNGDohkzFEFs5VskEvL+xIYZSrkbS7xTOAsPtHgWw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792511541;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792512810;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type;
-	bh=n2NrdT5zDS0kkhFDqsqeiTGBX18CerPgmLJitntpUHc=;
-	b=nei8UB/H2ZbS+CAgWSSCfxhTZF0x5THXU+CbyTtjvU1PQRU7i7yv1glOlcFCr0tY2PZ8
-	 SwbZRzbXsJHu/OZrAecX/AkEGQp49advkmckCnX2O3k5ZLIJa+OXd2JoaniKYwp7SAO8I
-	 xlUM9Ht4OrXCIJWtOgeiOAYE2D9JrziUm3ue8sj9j+btGITo93pEDaH7shuqL0DOZmo/c
-	 SPP7+uB7z1TrQNxmGEsr1WCpSjIuJv8WebAImuohSmqsQcMo5dmDc43yP+8hT7NFnjZqk
-	 r9+5Az1WLiGrdIUJgOVkC7zYFSDe71kq0ZJjHj8zUdcTkdOZFy97PKOp7dpR0t6zMJg==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:Message-ID:Date:From:
+	 X-Google-Original-From:To:Subject;
+	bh=2kNao7l8qwbGvb/x++ZyFnXiZZmrXtU2EvUuB0/rTkY=;
+	b=tiCyYVgJ1d5cl4lPq43bNUxuK6F42kVmRdnUxENmRRhyljNgmXxpzpOPLB6tbg8YvWQe
+	 ptZcKRkRDIlKpAiLtP6ip2wLYYE5NV+SBo+oARQLzE2i81ItSaUJOPU1IqnYyM5Hxwaba
+	 ZkN2YMGQBrHvUCTl91NfeUGaE8VNbnoAttShhp3I5vWkTa31sUpTezcjTVbHhIslV9ycm
+	 y5yCMaIT7Q8Oiu9NTZGdcXRXpbmxK5AOO7f1ndJSeCycFCz0RZG5R8Pf0ZjNmTN44sEQp
+	 90BLX4bjJ6INJlj1+3wHEAsIypLxSDM8Ug/P8RGwyNcmUpElsm8x1I2s12OOohmlHXQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=StASTQzJ;
-	arc=none smtp.remote-ip=209.85.210.175
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="bsvluR/i";
+	arc=none smtp.remote-ip=74.125.227.1
+Received: from mail-vs2-f1.google.com (mail-vs2-f1.google.com [74.125.227.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D8460A2639
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 15:52:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 55D8460A2639
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62559606A319
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 16:13:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62559606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=StASTQzJ
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8a06df2304cso142219b3a.0
-        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 08:52:21 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=bsvluR/i
+Received: by mail-vs2-f1.google.com with SMTP id ada2fe7eead31-754acd5ebe8so4024262137.0
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 09:13:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792511541; x=1793116341; darn=vger.kernel.org;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=n2NrdT5zDS0kkhFDqsqeiTGBX18CerPgmLJitntpUHc=;
-        b=StASTQzJyZyqKvna+MguyiqN5KFN/a0/4ciSaYm06uXS6Hhmbirt3OdDP9tTlKGo2P
-         IrgWPKe5sPL4i7ns2XEYQGPVS7DWRcuDKEEq5DJXvEsazdcvssEJy1mT2xzDeh+H5ygw
-         zwV78dfUU2s/1Fahz0p7w/CJr8InHVnxf3S2zYVtlvpI2wt0lpMvqUk25ETNAhWTCDmf
-         q05ukX7sldIno4UvYQ0ftxfGjzwZz7TY04S4t/t11gwq60LwhQaDIlcLCPakDnpw5bG2
-         92rVNWcoeUV0gUMkQpy9OLlVynMxd7Co0hJBal/cyxorxAFbyGEdBJZ0KVWqlWVJEOG8
-         2/Ng==
+        d=gmail.com; s=20251104; t=1792512809; x=1793117609; darn=vger.kernel.org;
+        h=subject:to:from:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=2kNao7l8qwbGvb/x++ZyFnXiZZmrXtU2EvUuB0/rTkY=;
+        b=bsvluR/iTqZEzZnl7bWJrf4e/ccBWiuzrlZYf3jHl1fYu22S+K8cvY/yrpeJdvb9pM
+         75uKu0H8d9wyUJTq/o8QY8WndZnaHcJF8A/gB8EoDUTdmDqUh3/Gybq6lMOT/2fBMLmU
+         5wD1xzPPfIMMYJcdABbOPrVnBCALNlQQA7Szfuo9vni5EWoBcIUiv8V1fG4nniGnDikM
+         QA7dU5BPVZ926wMVog5e8+10ufVNAjfZh8GI3sMPvaNDCgmlTkrKK6ym0BmYco+ZUbws
+         NbZOhXAwbhRsxXtNxl2fdOZ2FiLwKk2ULtbMB5PFAU+7U/BCaXq+Nt0+YWjL4xssohiA
+         rc+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792511541; x=1793116341;
-        h=content-type:mime-version:references:in-reply-to:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=n2NrdT5zDS0kkhFDqsqeiTGBX18CerPgmLJitntpUHc=;
-        b=flm1x36btcuC1a9Vz74Nh0FaaeYPDCBAUcEQCIGB/oXEFUizxt6h5VGM0foAcmrSzO
-         CLvIGMoka+VxvVg+iKlkYWJv4HPlnbMsnsoJ56FRT6U/nj2FGkbCjx7X/ALWlx4dB97+
-         DYbShI6fn5Rx8goTN3DNr+mD8PtLntQ/Kqehg8T4FRZT3NKQ51xQOzpuwiNYhp2ibINq
-         N4fPdDrJz0071dev/qTxxi/NtKkMeQn57/oJF8ouoLDMzrfmHCBFvJpXmDj3wYlKTO6E
-         6MRGjn8jWXBU/GuaL+V5MJ44tt9S16W2ZegGAmg8zE+ITSrZAaOlMR68b2PBXyd3zkUJ
-         3gag==
-X-Forwarded-Encrypted: i=1; AKwUvByf2ROKkxV17amAK5STvylAJ6DSv0PTpGFQpX4hjWikVvl6z28cMKirr/UiZNtSq/8praPg60OHk5c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKCzdsigqNVCUmiv0w0YE7b0hScv1qf34FrWYn+xtAxZC+0THGZ
-	eQBrHo7Ktjd0N/wirDkTZy+QnlSWJwjNoy+XBWn8Q1GKoS0Xy5yjis5Xsmhv0z8AKWI=
-X-Gm-Gg: AYBFou18nVgP++bre+RB68zPMGaglmeCJzIRkkvALtYpMt7q9ZjBI6mm8pGbtoKIMhT
-	oleCZBziOLzbdqqwsLf31Pr8oxWhXHE2Gr1jC8VRq+Mmu3lib8MVe7cmXD4UgEY4APXkRQp/EjI
-	agPz7LJYkvyrzhY/YquSztsvgvd0LqVqH1nma99rm5l0c9jIweGQsT4E1N3OR+qfvIA7C0S+OwD
-	Ysyro2gcQImxbQIchxf11GtUlfP7p7JRQvFgwtU1GpIBrab+Y5K0hrlRd0EHQuf3jurFKp07fJK
-	hRBFLn3VgMoOERlyG+o+YvkwivZ/AAY5cZrjNEgnlNodDuXyPUU3FZ6klAMLvMgn6NP+plfVMpb
-	6au34tMEe7zc5+bugFTAHqpgjl+url9ptHifwrq+pP58EvyUmKQgEgslkawViXDZIOl3lFwl+/d
-	uvpY+RjatpJyXZ8li4azhYgGd4oIUZaVwoxPn/nV0Lxtx0kSG2itbHtQvuwUVMkqj/VfEGMNWMd
-	PavNXtMaZAmjlkHN263Iggr6A==
-X-Received: by 2002:a05:6a00:468a:b0:8a0:8832:7b51 with SMTP id d2e1a72fcca58-8a08832cfb8mr93447b3a.0.1792511540588;
-        Tue, 20 Oct 2026 08:52:20 -0700 (PDT)
-Received: from [192.168.31.234] ([183.193.19.60])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a06b4d1a7csm2106541b3a.45.2026.10.20.08.52.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 08:52:19 -0700 (PDT)
-From: Anfernee Cao <anferneemelokc5@gmail.com>
-To: "Neronin, Niklas" <niklas.neronin@linux.intel.com>, Mathias Nyman <mathias.nyman@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH] usb: xhci: fix EP0 context leak on virt device allocation failure
-Date: Tue, 20 Oct 2026 23:52:13 +0800
-Message-ID: <179251153301.11928.2472677014573396901@gmail.com>
-In-Reply-To: <e952e037-5be8-49c0-b0fe-bcf1bda77bdc@linux.intel.com>
-References: <20261017111114.1135-1-anferneemelokc5@gmail.com> <e952e037-5be8-49c0-b0fe-bcf1bda77bdc@linux.intel.com>
+        d=1e100.net; s=20260707; t=1792512809; x=1793117609;
+        h=subject:to:from:date:message-id:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=2kNao7l8qwbGvb/x++ZyFnXiZZmrXtU2EvUuB0/rTkY=;
+        b=iIVf81Q9viSrymX4AjdUht7mjFJkBNZhr6qXsdciY2nTCm0fUK8q+zwx8Kg5ioCkbQ
+         B+9BMVt7ejJ7YLvCkePSQR62A5eXgmN9NIgAYr51Y3XiDoccy036IIdlXtNicpu7XBP0
+         ZSLJb0/iiscAejGs8PZ3ZeL278/vVNxxbMANYMk5o5X1sI6XfzuTjv8uI1MbU0tw2FxC
+         Ko5s5aVwguuZqf556kTKtcx82wen/3MmHsF21prAOQowaAp+Qv5m/qxupOWS6kHAb3aS
+         WvKVMxsU9mBmlJCfqAGTI/9Y9rMjmh3Q4UnQXEXNmaHKl331PJGszf/6DTou1qcgR5iH
+         H1Jg==
+X-Gm-Message-State: AFq9FYLH+HBC3aMhf+3ab8cAOcXr8az+/a8LHFRny7OHAHwfQPcXhnCy
+	p/keo0K/ffWHD8O8N9fXxXNp/lOXvduc3h0a7fL6LcSvEb2VfM7e7IXjNCPB4dEgFz51HPnG
+X-Gm-Gg: AYBFou08ylIbHGv5gG3J6e2Nn+W8i9R3xX1oLunG/gZRj40QjhzFT4DpyRglDQH8HM/
+	GBr2l/obZ4bm6UjbNcUJikR2aCulbhwO7SJ8C5ubskFP6wo4WWVZdmEV8d3pSEOe3UqP6Y5tZly
+	s16sNrvvEUAS7RqOd2iCLX/ekfTQOBed6gRHTLrL0I1fUgZkGsSjkX65NhmepQkdYmUz8ngkGpC
+	tGNcaWVww4q6C4elhkjN+scQzWdXHBl0YR3R54W/JbaFphA1lHqIQ2+tzrmmn2aF0bdiJkwOHDn
+	XsSs/kMM3CddMGWCIEaeM69A06lNpPvIQDCuW5uQIIKkz6OVMEKVMJYgqjKxW8OQvN+ZmNMsdX0
+	wr14JcLq+6NCOPGgJd1ICjmyjFHHlzsyrvsbuCkJz8DFyBNUx2A9U8UiHDxqkddHQf3PXp7PjMA
+	evbXe6P3xUm9hUygRS2K6xShJjGKKRnOgcQP/sxhAX0c/FW0YnRPNRsum5vAgYpqsVQngk/RTw8
+	A4fbH70lU6DxtHKIkprRjLY
+X-Received: by 2002:a05:6102:390c:b0:7b4:879c:bb76 with SMTP id ada2fe7eead31-7cc36a18028mr3520840137.21.1792512809074;
+        Tue, 20 Oct 2026 09:13:29 -0700 (PDT)
+Received: from localhost ([43.157.181.14])
+        by smtp.gmail.com with UTF8SMTPSA id ada2fe7eead31-7cc76df1c68sm3210069137.0.2026.10.20.09.13.27
+        for <linux-usb@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Oct 2026 09:13:27 -0700 (PDT)
+Message-ID: <6ad79327.3114c3a4.816dc.80e5@mx.google.com>
+Date: Tue, 20 Oct 2026 09:13:27 -0700 (PDT)
+From: Linux Usb <miguelcriley679@gmail.com>
+X-Google-Original-From: Linux Usb
+To: linux-usb@vger.kernel.org
+Subject: Subscription Activated | $243.95 | Ref: I-9QY973596Q1XFD
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,13 +88,25 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 
-Hi Niklas,
+Hi Linux,
 
-Thanks for the pointer - yes, this is the same issue, so I'll drop my
-patch. Thanks for catching it.
+Thank you for your continued trust in PayPal! We've successfully processed your membership renewal (Order #55Z62062CA8993145R) and are excited to continue serving you.
 
-Best regards,
-Anfernee
+Renewal Details:
+📅 Renewal Date: Today
+👤 Member: Linux Usb
+📧 Email: linux-usb@vger.kernel.org
+💳 Transaction: #UID431591
+🛡 Service: Parental Controls
+⏳ Term: 1 Year
+💰 Amount: 243.95 USD
+
+Your membership benefits are now active for another year. As always, our team is here to help at (843) 301 5520.
+
+Warm regards,
+The PayPal Team
+(843) 301 5520
+5729 Bethel Rd Dallas Tx Usa
+
+© 2025 PayPal LLC. All rights reserved.
