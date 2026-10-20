@@ -1,93 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.182
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.54
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792505505;
-	b=nSTJgrT6Y1Hj/Bjcsy3Q3vUwjVpEY4TD7sYZP1rA86C8uNypMwpsecpFJTPPhPo32GA+
-	 H9QXJMvVO0tXQFsOZXGZJVIuUhy8ouO2U4QhpTqgAIN9NWKz6Sra+vBYgOEdMss2RMh4o
-	 9tn8zKq+wyd8eUqY9cyA3EjURp7/ljst9QvGynxt1uXLF8v33OaG2Z86vwAmYMuiGi+oL
-	 BQxr0ofHTedcHlQwL75FLm0xB6xZMnzCNRXTKUcsbWqC26zV4SfiEWHme5T7KEyQh9LDj
-	 /pO5bYIWorUAt+gsgipWKzyEqsTP6lhvdfVr4FclTRrt4eyQRXIerO2AI6hIsGhnhPQ==
+	t=1792505966;
+	b=BTJTNFY1LCZ/UZybepFi3iYsYJnZctuXf9onhEUnyRowV4uWWalXTLODQIevVsX3g/vB
+	 oPqX6PbTLlj4bWfWpwoMUQvjLtC9zUo4K4TWvSrZ1HrniKNd1qBrS51nV/FCeTgpYLPmF
+	 1MBKKEwtrfvNCaWBY9SrY2v1ff92m2YaXrc3pMjcamcwYcrlYRulNFfswpIlwckG2najK
+	 8t6dabe/M6gelODvh/BSSYIw+HpPLr3W5NzuhttbMkbpnDznpwiR6gTdbaYJi+pQBWqd0
+	 BXUVJ0WugAyLIxrFD0dX3PwZWXF2JHID7QQSBGkCi2E2scTL9BWb2C5QrXy93X9Zk9g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792505505;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792505966;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
 	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=phh2bd3K2u8/kNcJb+pNLZuDiJF2bTQud6vADUqieMI=;
-	b=ydp10Z4Y2ltXTxbkCqLXw004pXlPXFljrpLwK+jgmKojhENldJK9ZSqLiV7z3Jq36kvy
-	 LPSVMy5zMajo3PHsZfciYF2yBmkkOapHSFKLntpoCR/JCnsAkNAjO9PWIs+v66kkRTGH5
-	 suwrA/Yx9Zyt98JhYO5Ea3N/Z2Xh8MiuQZ63WKtjL49XqWUcbQndCLEtbILDK+eW/Xo6/
-	 sYMmjQfkCqIMx2m2qo20QInfDqNX37dikOEvwEka8lIR73LVeO2AV/HKRPuwwo82zZ7Me
-	 FT0CbVzrqM87p5SbvuN/qknJMotv+Oyv00FVimhzPkL8+eM5nnkv/twfXVdxtLH4KwQ==
+	bh=YkoDoRI70vCTaQBZvsRQEGTtNXqyblBPUwYfPQEb34Q=;
+	b=Wuk6CbhE4QcdOfb1cTaYOD3SPlcCtuEj2gPO2EkGOavqKgxQa90YcWjpwL7H3uAK6LUX
+	 D3m1rKY1ahFcGRI+GJl5fU7p6skLH0iVygHfm1vrwuzoubjtOF3IHrA5mgOA9uHdbxnfe
+	 R2AWGkYBahf88l5OhNKpNYnB1aC0xl0bUWuuhP//YQAgzi6zcvFa2y8XWrvOE2yuT8OXF
+	 iY4pHf72EUlC7ib/PWeeqRVRT3ZImiiQ2CH24eqYTy5+wWQe9HE9KEW9xcq+FHybbcDdK
+	 4r5IQ9CcfSgB1H3aZpnEld8hPmkiqosNyJwlI3uxMDLx0xYDPk++VtbUr+0mTG8dKlQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=rowland.harvard.edu;
 	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=CQqZm4Qq;
-	arc=none smtp.remote-ip=209.85.222.182
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=cUsGTRWI;
+	arc=none smtp.remote-ip=209.85.219.54
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE2B60A4AFF
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 14:11:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EE2B60A4AFF
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97EC1606A326
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 14:19:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97EC1606A326
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=CQqZm4Qq
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f20b304c0so314301185a.3
-        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 07:11:45 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=cUsGTRWI
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-917bab38b14so34875476d6.3
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 07:19:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1792505504; x=1793110304; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1792505964; x=1793110764; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=phh2bd3K2u8/kNcJb+pNLZuDiJF2bTQud6vADUqieMI=;
-        b=CQqZm4QqzQBrGwRTNeTgjajTHWY5MaTuXaVA+ATI86hSLgiW1FB774vgWc3O4miO5t
-         fu41DHQSSTmYMD85XbQQElBqDVXE7y1HvgWF2Jnyn9+tI8gPRSkb5b5emYx+EvwCQEkg
-         EIUtsg7/v32JJRMZaanidELXfEvOYzZLx3LdxawrZ31IoABDmkiXrX14xkm2e4ZVZzN2
-         10ce2wsbzecI0sAzpvZnMoBjlaIAUTWDQvssIUFvmK1nZgrPFZmue7SkHG2a0RSAdD6P
-         bkHTA74GoHxzI2exBgb7i6elGN8KPdFaJ3ZAq1enl1BGDRTl21oSlZ6rGxb/3xY081Rw
-         17UA==
+        bh=YkoDoRI70vCTaQBZvsRQEGTtNXqyblBPUwYfPQEb34Q=;
+        b=cUsGTRWIH9EJciEn7zAs4VS09n4txlL/2Kc6Jd/Iz4sj3PYxp29ix1P5ZiRvNCVMzm
+         KEYmfGeExCYSLcLz/W/doOdtM8pHYKUDZMFuYLf2REbMOFcjrIyVPzc8UFKqfAugbnZY
+         mAV1tDtdYAHB05jBGiEUMDiXiRQvKM4ZAIpxQUR7tewRu+oSif/5EuecdYlG5gE9nAg5
+         TVboywSCL/FpJx4B6pgqnSKjDqh+J6Wh521nfhs2nEBJaIMNQ4WcD9DnukoDm20+ci1T
+         RMAtRuuasFz9LrG+vnXh/H4+/lZIxGknEJ+SfYNZ8JYevckkF3fIrnReGZ5zYy6YzbiO
+         sigg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792505504; x=1793110304;
+        d=1e100.net; s=20260707; t=1792505964; x=1793110764;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=phh2bd3K2u8/kNcJb+pNLZuDiJF2bTQud6vADUqieMI=;
-        b=hILQCmg9EzAweV+SQdNgQXDV581AJ3xZezOLqZ2nTh7Xn51IqTwobNQV4F5udRIopu
-         e+yoFVydsdkaUnDm6nOcPcKo0uD4rafGTYkAtqO6sr/2QzVM4nZurXGXmY1OMF5tHbub
-         80FlQxW5BjDXbs0BH7lML73oX/YOPj4xtywBzHxPl3JVQFVoeL/Z7+Oj8nh0fYtpI9hO
-         lWmmik/l0Ca67eJflxPb4patltywKabA2ZYRh6Wis/EQlClE6H1B8vkHm12OT3IbvXfA
-         owqIiVoCvz5e3WUZeAhKv8zk/8Pb3u59hujoNvUWFyrp+4qaYHAOTMvJaR2r0v0e/2Oh
-         G9pQ==
-X-Forwarded-Encrypted: i=1; AKwUvBysr4n5ZBlnyfn27EbaGa+uCezp1HzMnMxBr+VCqBb4PvofmAXOG+wazKlTpOgyWGVo31wNpl8OdUA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKxd1iLR4LBI7opJ5EoQkrd5gRT/O8h5Xq76LYsx0W9dYor/gLR
-	AGqPseaAVBNjs1qvPccBEfURT/SjW/HCTTP3Wo07m9J8Uvw3f7IZhl/0YyzMTYPOEA==
-X-Gm-Gg: AYBFou14uvmyZdy30X2jb7IBl7uy70BT+t8WYrBTuuom+5tn3HDyeme8u9gysT3+RAm
-	HnK7TT4NMOg0fedHM6jlsw+VnYNffTSZNK7JuFEuGGSAxQuBNOQSRDRKkDYS+N0Pu+9InxD98kJ
-	mIED1g9aCOQ2a4IcoKKvQIw60lJQIqv/zG5c4kd0dGNnezz+EvxVSDtGhEBwE4QdS/xvVMWM05m
-	5m5uYTx8F3vNBJdeedSoaVyHrguwj3bNMmoXfV0Ha4gT+KuYVQW6hu4ixsGPqrVNgWiqvIBs1/O
-	HfPoFjqTbq4vsSRdc3yMIql6wOUXGoXlrQ5eDHIB5us0ngBqWiG1QpKwzLelMzXQa+SOZwTFtAz
-	emWGjgGeC/Hw72Ya99CfTO7O+53Ysy/rwTF8Q1mvlpiVS9N/+932qsxs+IOKN76ZPtP3WiZbKhO
-	d6yfzLhOyfWs+iq6Qv0Y3EWAYhswkLKqWdVB3EKKLw4FVqEJ+LSIFsMaMcZ9kvMoVFUNuRlRI=
-X-Received: by 2002:a05:620a:4042:b0:93e:920c:c012 with SMTP id af79cd13be357-93f29b7f9e9mr1754715285a.10.1792505503808;
-        Tue, 20 Oct 2026 07:11:43 -0700 (PDT)
+        bh=YkoDoRI70vCTaQBZvsRQEGTtNXqyblBPUwYfPQEb34Q=;
+        b=IA2UrFStCW7K8ZonV985rGsILMjWsyg52HoIMX9Mae0UiNVnb1dqB5QxBCcl1ryStL
+         MaSvxXCJOs5bZdmmOJd/7YuZj8mHtto1iv9hg+F0NfSttU2Ym5QaUjY4z7tphumJHVUo
+         PIbmx0q8CQLvcV1B6OkJ6JL7izPSsDDAyrpFJ6+u+SOGKgw3xpxooNUblAvasQaN6a2j
+         wKHPaVu/5+bCpX7+c4ixzDpvlzNkSaVqUSIP5EeH1R9StTJU0IVKB8sTG9Y+m3eE8wB+
+         dLEhKISaH9OTEcSV+bAsobtYuK4LW+ca6UkbQtg1tgqduxmmNtH6Fc1gWVBnXoI6NBrz
+         Azzw==
+X-Forwarded-Encrypted: i=1; AKwUvBww9TgOEMB3vu/4hHFytJv6V/83cU0H8pO2gcdL3VyA9A9buUzGbKxcXUOOybYOsbONP7QmKYqo4Xg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJWtuBh6+wymRrXmpiG2LDnxU6LXGIgR29lKd2gVGu2qNS05lnV
+	1KGgQBvLSpFhvFptVO303mjNN8dMPLkTZHUA0k+cHHwaluItBrGUzrvNORWhnJ0Z1w==
+X-Gm-Gg: AYBFou1UX1HaKt8T4MZSgSRbSwNzir543710ilPRKEKh7cKFZ7ecclol0xI1Hwj+2n5
+	FQL0ItERMIQU3FgFYI9Kcn1Wdgk9MAOBkrYubywA7q4zscwe2d5uogiWy2Uq344yf7IfRtIeNUd
+	m3QHTdEMKHz1Pq8XTgOPHzb3DvaCPiLI6E1QQdjW0acrW4BPLUz/A15MY7ngJ4sMgAltrx8tOqn
+	hQmFL7yBgiHHJfbJTsnK/ljm6Lf1CDcaOsuhMIn/PBtGiKv99NSWw1VQKeSWofurHaO/d/LQ52x
+	oMmxKr6FZeyYvnyP2Eh9mKZIoRdQYXKCUW2Y0vvDRDgp9SQX52ltB8E3ThHHMZ26SOxna+Tbsnv
+	j2CqOauX43buvxfeAtLfDoGbn8N1AmK28G9uQu/5Ak/9tI6Up4+BmqRhmtlLHCQGU/uSDz68fDS
+	krdoucm8nTk0wOeheWjDhowE0obccw73fpuYzXmjJb8rMSDTdWa/MWsGH3RMPqlbSLSYxKzIHm
+X-Received: by 2002:a05:620a:3711:b0:93f:22af:cce7 with SMTP id af79cd13be357-93f29b48f0bmr1804346785a.12.1792505964411;
+        Tue, 20 Oct 2026 07:19:24 -0700 (PDT)
 Received: from rowland.harvard.edu ([2601:19b:d01:d210::4791])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f4b05e2f3sm228265585a.8.2026.10.20.07.11.42
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f4b10563fsm227100085a.43.2026.10.20.07.19.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 07:11:43 -0700 (PDT)
-Date: Tue, 20 Oct 2026 10:11:40 -0400
+        Tue, 20 Oct 2026 07:19:23 -0700 (PDT)
+Date: Tue, 20 Oct 2026 10:19:21 -0400
 From: Alan Stern <stern@rowland.harvard.edu>
-To: Yu Zhang <yuz08559@gmail.com>
+To: Joe Wang <joe_wang@aspeedtech.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] usb: gadget: f_mass_storage: take filesem in nofua
- store to fix backing-file UAF
-Message-ID: <3f13c0d1-0e3a-4a62-a149-4c719ee3cab5@rowland.harvard.edu>
-References: <20261018130519.65850-1-yuz08559@gmail.com>
- <20261020023050.87701-1-yuz08559@gmail.com>
+	"linux-aspeed@lists.ozlabs.org" <linux-aspeed@lists.ozlabs.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH] usb: ehci: Quiesce ASPEED EHCI before halting it on
+ shutdown
+Message-ID: <8e2fb3af-3bf9-448a-a6b3-16f629417152@rowland.harvard.edu>
+References: <20261016-upstream_ehci_aspeed_shutdown-v1-1-8440c13b5652@aspeedtech.com>
+ <7dfc5ef1-a466-4d78-af65-147bee8fe698@rowland.harvard.edu>
+ <OSQPR06MB725090D70BB07F70A2B521E789672@OSQPR06MB7250.apcprd06.prod.outlook.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,135 +101,72 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261020023050.87701-1-yuz08559@gmail.com>
+In-Reply-To: <OSQPR06MB725090D70BB07F70A2B521E789672@OSQPR06MB7250.apcprd06.prod.outlook.com>
 
-On Tue, Oct 20, 2026 at 12:30:50PM +1000, Yu Zhang wrote:
-> fsg_store_nofua() syncs the LUN's backing file when switching from async
-> to sync mode:
+On Tue, Oct 20, 2026 at 10:42:55AM +0000, Joe Wang wrote:
+> Hi Alan,
 > 
-> 	if (!nofua && curlun->nofua)
-> 		fsg_lun_fsync_sub(curlun);
+> Thanks for the review.
+> > 
+> > Under what circumstances does ehci_shutdown() run without ehci_stop()
+> > being called first?  Is controller death the only possibility? 
 > 
-> fsg_lun_fsync_sub() dereferences curlun->filp (vfs_fsync(filp)). Unlike
-> every other store that touches the backing file -- fsg_store_ro() and
-> fsg_store_cdrom() (down_read), fsg_store_file() (down_write) --
-> fsg_store_nofua() holds no filesem while doing so.
-> 
-> A concurrent close of the backing file runs under down_write(filesem) and
-> does fput(curlun->filp) in fsg_lun_close() (fsg_store_file() with an empty
-> path, the SCSI START_STOP eject in do_start_stop(), or forced_eject), so
-> it can free the file while fsg_store_nofua() is dereferencing it:
-> 
-> 	BUG: KASAN: slab-use-after-free in vfs_fsync+0x20/0xe0
-> 	 vfs_fsync+0x20/0xe0
-> 	 fsg_lun_fsync_sub+0xa0/0xd0
-> 	 fsg_store_nofua+0x138/0x160
-> 	 configfs_write_iter+0x1a7/0x250
-> 	 vfs_write+0x5df/0x940
-> 	Allocated by task 3459:
-> 	 fsg_store_file+0x150/0x1f0
-> 	 configfs_write_iter+0x1a7/0x250
-> 	Freed by task 3459:
-> 	 __fput+0x456/0x6c0
-> 	 __fput_deferred+0x10d/0x330
-> 	 fsg_store_file+0x9e/0x1f0
-> 	 configfs_write_iter+0x1a7/0x250
-> 
-> Hold filesem for read around the fsync in fsg_store_nofua() so the backing
-> file cannot be closed underneath it. The lock is only needed when the
-> fsync actually runs, so it is taken only in that branch.
-> 
-> Reproduced on a mass_storage gadget over dummy_hcd by writing lun.N/nofua
-> (1 then 0) from one task while another task rewrites and clears lun.N/file.
-> 
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Yu Zhang <yuz08559@gmail.com>
-> ---
-> v2:
->  - Use guard(rwsem_read) instead of a bare down_read()/up_read() pair
->    (Greg KH).
->  - Take filesem only inside the branch that actually calls
->    fsg_lun_fsync_sub(), not around the whole function / the
->    curlun->nofua assignment, since the lock is only needed for the sync
->    (Alan Stern).
-> 
-> v1: https://lore.kernel.org/all/20261018130519.65850-1-yuz08559@gmail.com/
-> 
->  drivers/usb/gadget/function/f_mass_storage.c | 8 ++++++--
->  drivers/usb/gadget/function/storage_common.c | 7 +++++--
->  drivers/usb/gadget/function/storage_common.h | 3 ++-
->  3 files changed, 13 insertions(+), 5 deletions(-)
+> No, it's the normal case: ehci_shutdown() runs from the .shutdown
+> callback during reboot, poweroff and kexec, where the HCD is not
+> removed, so ehci_stop() is never called and the controller is usually
+> still running with devices attached. The issue was seen on a host
+> using LinuxBoot (NERF) firmware, which boots the final OS with kexec.
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+Okay, so this will slow down a normal reboot or poweroff.  Hopefully not 
+by very much, if everything is working properly.
 
+> Controller death is mentioned in the changelog only because relaxing
+> the check in ehci_quiesce() also affects that path.
 > 
-> diff --git a/drivers/usb/gadget/function/f_mass_storage.c b/drivers/usb/gadget/function/f_mass_storage.c
-> index b7b06cb..6712566 100644
-> --- a/drivers/usb/gadget/function/f_mass_storage.c
-> +++ b/drivers/usb/gadget/function/f_mass_storage.c
-> @@ -2663,8 +2663,9 @@ static ssize_t nofua_store(struct device *dev, struct device_attribute *attr,
->  			   const char *buf, size_t count)
->  {
->  	struct fsg_lun		*curlun = fsg_lun_from_dev(dev);
-> +	struct rw_semaphore	*filesem = dev_get_drvdata(dev);
->  
-> -	return fsg_store_nofua(curlun, buf, count);
-> +	return fsg_store_nofua(curlun, filesem, buf, count);
->  }
->  
->  static ssize_t file_store(struct device *dev, struct device_attribute *attr,
-> @@ -3239,7 +3240,10 @@ static ssize_t fsg_lun_opts_nofua_show(struct config_item *item, char *page)
->  static ssize_t fsg_lun_opts_nofua_store(struct config_item *item,
->  				       const char *page, size_t len)
->  {
-> -	return fsg_store_nofua(to_fsg_lun_opts(item)->lun, page, len);
-> +	struct fsg_lun_opts *opts = to_fsg_lun_opts(item);
-> +	struct fsg_opts *fsg_opts = to_fsg_opts(opts->group.cg_item.ci_parent);
-> +
-> +	return fsg_store_nofua(opts->lun, &fsg_opts->common->filesem, page, len);
->  }
->  
->  CONFIGFS_ATTR(fsg_lun_opts_, nofua);
-> diff --git a/drivers/usb/gadget/function/storage_common.c b/drivers/usb/gadget/function/storage_common.c
-> index 75831f2..51a70f2 100644
-> --- a/drivers/usb/gadget/function/storage_common.c
-> +++ b/drivers/usb/gadget/function/storage_common.c
-> @@ -415,7 +415,8 @@ ssize_t fsg_store_ro(struct fsg_lun *curlun, struct rw_semaphore *filesem,
->  }
->  EXPORT_SYMBOL_GPL(fsg_store_ro);
->  
-> -ssize_t fsg_store_nofua(struct fsg_lun *curlun, const char *buf, size_t count)
-> +ssize_t fsg_store_nofua(struct fsg_lun *curlun, struct rw_semaphore *filesem,
-> +			const char *buf, size_t count)
->  {
->  	bool		nofua;
->  	int		ret;
-> @@ -425,8 +426,10 @@ ssize_t fsg_store_nofua(struct fsg_lun *curlun, const char *buf, size_t count)
->  		return ret;
->  
->  	/* Sync data when switching from async mode to sync */
-> -	if (!nofua && curlun->nofua)
-> +	if (!nofua && curlun->nofua) {
-> +		guard(rwsem_read)(filesem);
->  		fsg_lun_fsync_sub(curlun);
-> +	}
->  
->  	curlun->nofua = nofua;
->  
-> diff --git a/drivers/usb/gadget/function/storage_common.h b/drivers/usb/gadget/function/storage_common.h
-> index 11ac785..347a86b 100644
-> --- a/drivers/usb/gadget/function/storage_common.h
-> +++ b/drivers/usb/gadget/function/storage_common.h
-> @@ -210,7 +210,8 @@ ssize_t fsg_show_cdrom(struct fsg_lun *curlun, char *buf);
->  ssize_t fsg_show_removable(struct fsg_lun *curlun, char *buf);
->  ssize_t fsg_store_ro(struct fsg_lun *curlun, struct rw_semaphore *filesem,
->  		     const char *buf, size_t count);
-> -ssize_t fsg_store_nofua(struct fsg_lun *curlun, const char *buf, size_t count);
-> +ssize_t fsg_store_nofua(struct fsg_lun *curlun, struct rw_semaphore *filesem,
-> +			const char *buf, size_t count);
->  ssize_t fsg_store_file(struct fsg_lun *curlun, struct rw_semaphore *filesem,
->  		       const char *buf, size_t count);
->  ssize_t fsg_store_cdrom(struct fsg_lun *curlun, struct rw_semaphore *filesem,
-> -- 
-> 2.43.0
+> > If the controller is dead, will quiescing work?
 > 
+> It won't help, but it's harmless. The death path has already cleared
+> CMD_RUN, CMD_ASE and CMD_PSE, so ehci_quiesce() writes those bits back
+> as zero and the handshakes either succeed at once or time out after
+> 16 uframes. ehci_shutdown() already touches the registers through
+> ehci_halt() in that case anyway.
+> 
+> > Is there any real reason not to do this on all types of EHCI controller, not
+> > just ASPEED?
+> 
+> No EHCI technical reason that I know of. I limited it to ASPEED because
+> that's what the report and my testing cover. Since ehci_stop()
+> already quiesces unconditionally, doing it for all controllers should
+> be safe.
+
+I think it makes sense for the change to apply to all EHCI types.  It's 
+not really a good idea to leave an independent DMA master running while 
+the system is shutting down.
+
+> > Don't you want to check whether the controller has already been quiesced?
+> 
+> The quiesce has to come after rh_state is set to EHCI_RH_STOPPING;
+> otherwise a URB submission or hrtimer event could re-enable the
+> schedules through ehci_poll_ASS()/ehci_poll_PSS() before the halt.
+> That's why v1 relaxes the check in ehci_quiesce(). The side effect is
+> that a controller that was already suspended or halted gets quiesced
+> again, which is harmless but unnecessary.
+> 
+> I see two ways to avoid the extra ehci_quiesce() :
+> 
+> (a) Keep the relaxed check, and in ehci_shutdown() record under
+>    ehci->lock whether rh_state was EHCI_RH_RUNNING before setting
+>    EHCI_RH_STOPPING, quiescing only in that case. This is the
+>    smaller change.
+> 
+> (b) Same as (a), but leave ehci_quiesce() unchanged and have
+>    ehci_shutdown() call a separate helper for the schedule
+>    quiescing part. Other callers of ehci_quiesce() are then not
+>    affected at all.
+> 
+> Either can be combined with dropping the `is_aspeed` check. Which would
+> you prefer?
+
+(a) is more reasonable.
+
+Alan Stern
