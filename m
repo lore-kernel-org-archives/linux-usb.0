@@ -1,100 +1,85 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.44
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792479919;
-	b=AglIDtU/KTkXwGK2/qR4HCHi6vSksSI1y5YjC3n0KZnJa643d3MBmLoeX6kc2NLxRyzr
-	 NeTw7VswfFU3mxGyem+4WboZnc8EHroi+bbfWsCvxn83OQLZ6byWaYciHyv24ZjHx7POM
-	 t/1yUmjYU6r1SXg4bMD97g+8nIVGfE0haDWbQ+jYiYYZE/WYmOT7EuX586DwjwuvFHa8i
-	 7q9QqA/6vtgTrSn6Ljwd9BueXq4pl/6INbqBkRotKHY7/D4d+sG5szyQNsgJWGd0KS/md
-	 EaZWH/pKmk9MA319WNXCSJxYULIFa+NcsaAZG7crlW30hUJTqkXaFNfH5tFfdeAjGzg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792479919;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=Cv2JqhQRLc+jCz83YkiL31u7vtPW6A1fRdUTLPUppjE=;
-	b=YzFdtwZbtrYtrCmoFMQVYhRTMXhoQEnMF0FM3OiHOkJBaXqpskh/JHSH7jcvGMszerDc
-	 ylzutp/5sXDmP2axnpfAF2h0KekrabqlKeZLUACY6F+ES5HVFZ/XxGLRexyPkwJqZaDS5
-	 7p+MrEXMWZeBTzGdyEFVMmf8hOMr8R850bqC/xz1XouUpzRcecHc881AJki5npM+y3/Oe
-	 CQrZ/gr9uB+bf9MToaqYXWZw6yT6+75jwKViCCqISb6TaTv7SDIGkg+bblWNnLRwK77IJ
-	 99bk4WbzIwz40KdKt4J0BFNdpqlQuKnkXi2Mxm/Ck/bf5+GWjlSUq9uGDuasB4gxRcw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.180
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792480236;
+	b=mnsqZHx2H9mqD51mEg13aiYgL4CoSxiw6H8VoPFKZnluQ6KgUAL/oalSFdNnHbWxQqrb
+	 ktl714RaFvqsnXDTeZHe6+Lj4ONRwrO7VMj1/xQ+eyJ01QzfjT3PWNLmbUDMga7BrFdsX
+	 ZRXdPSf1YjEPmn8Zz3+7HEnB7BwSuTNe8Ya6vQcII3iYV6GJ806AKzYsQPnu3b63LzIwm
+	 escMXobSXo8VbgqloDla4eoE9gwQDWSZg4Mt/McUGAnEw7Y9mwKAAO4cuiRSIYKLfa+1v
+	 RygVsEgwmjqTIuEIFVWW9XqhThZQSWlwMNCGdtDsdgIXZL0Ixm0z/c1rafFI6MINqtQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792480236;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version;
+	bh=pVMhRWk8qtW+u6oBSL+Up0nK8r194VsI+nQohbgpZHI=;
+	b=jjccez0KPSRF1MoREBU61ElkcCHyHTT/2RvGRjCmg8PPFya89pTFnad1ZfnwICqV5lAH
+	 skaY7vqoPH/sjJiy012hA1silYvci51hZuzg/eGvpgFQUhSp2hfqJzyDSEJU5OcJW8C+W
+	 ngs0H7yJnXVh0IATylGM/JyftoDosqu/mWIwH+NKRzzWjIteU7MOClDc+FPRs+H7pkRuF
+	 f149C62fdY9ONrJPe5yruD+roVn7FJW/WdG+v35W+Fe3P3fpVSSdowiN86gdQUns7X4NH
+	 GL8gmuxecK080eUpqS1mCHznSK51rN26fdBt7vRg4U8roxnSd1Za+uoRJALnjuloSIQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=kylinos.cn;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ci7vn84H;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.44
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	arc=none smtp.remote-ip=209.85.210.180
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C72606A319
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 07:05:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 19C72606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61918606A31B
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 07:10:35 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 61918606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Ci7vn84H
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c43373ae89aso307150566b.3
-        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 00:05:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792479917; cv=none;
-        d=google.com; s=arc-20260327;
-        b=bSV58Xr7vwiI65hyjMTBAiK61lO72kPpA/k1+qhgE1FmTy42wAvkQOJW65pzirG+RM
-         XmtbtRLzHnohxt87+S+z9oH+RF3vcfZnNAdhQhjL/J5y80D7a+6t9Q3sZ2KVDRmaCs2i
-         /RWX+U8zS2NXMQpDI9/9Z1JqgDatTDvhWIs4aBgEYHKe5BjTzEIFRnkFyQDQAD5MBMr4
-         wsrr1AQl4Y89lGM5cqnFCTzJ1EmCR8n40uKGHPiSQl/rKldG53gEsvBz73PLy/R6GvE9
-         qRpB09XHbEky3gdCPdleA33HsO/53bzUvk9GTcnCRBTdPSVtK28Orss6+C6P2WDT33hL
-         W1rw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Cv2JqhQRLc+jCz83YkiL31u7vtPW6A1fRdUTLPUppjE=;
-        fh=aEh1CSUjo1aDzXe0vDt6lsKJU3lQhiexRCdLVqg+wnY=;
-        b=gQdVeZO8yL8pG2yNLzVn/M4x6YMjbqTBR9T3s0S393BL6t1f/0jG3FBKb4vpvjXslG
-         r2fCPiPmOKtPf3LcBn35FzK+bph2dzaVnvhTHBjSU5LW4+lBaHw95wdArfMqyh8EK228
-         isF4yWBLmged7BANDVGlxXEKogB6kQ9QnIlAX0DS0AWLiXJSnHaKudvqPoVeTtg+e1tS
-         rPlXi+QkiLvFTejmArybd9IcvrWJ4MPtXl6uj22ZxV4BbMK+M0mBg7vypjlmal1LJBjX
-         LGY/EvcFuCCzFTOMxO+WhoE/1MgawEIUz2sY7cfg5De6lJBdp9CzDmEc50Zge+kucsjy
-         JDTA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792479917; x=1793084717; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=Cv2JqhQRLc+jCz83YkiL31u7vtPW6A1fRdUTLPUppjE=;
-        b=Ci7vn84Hm3XDopKmFIkGRWeYa/rtCTr2roBS3xPoMSFZjbIisbzNmyEcM/ndv212wh
-         DMJ1HWpq4I225TuzoGZ2f/dsLIAvpZJ/gBPOV3CjDBBNdRGi7UWcpJIKQotGnbx7o7mo
-         r3oqNk7Q7d/tadttRra1TS+hMZ8obuLx0uh1biFsaiuL+sn6zzROA3cniMuryeEwxA2M
-         /PxQCnsT9A8sgeMHZ+IABdW2S09M4hopMKt1STugedoUGQQ4e0q/c5rlJYsN2uliTj9t
-         HVVizhLHnNFGEBvtVexw80TxFhZLmtMrw7dBWTjXH6iCO+UfO+g6IIN44Y1rFh7HLwZb
-         f9fA==
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-8a06ca6e8f4so1137425b3a.1
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 00:10:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792479917; x=1793084717;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1792480235; x=1793085035;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Cv2JqhQRLc+jCz83YkiL31u7vtPW6A1fRdUTLPUppjE=;
-        b=KNYcgY/YoyDdoArzg5VAbNDMCOih8LOqxoo6AO7LPs6qymAALRmWrbOnYin5+IGb94
-         kJM/yh0W4s9Vsc8x61VDXrly8R2mOReYaKaGy2PqJE4cESYjT/XVjKmKKsbgY2KLFKDc
-         k2wbdX+n+V/1kZ3QeXWLLyAZsAAwTYJdnq81f/tyjQ1nLm0ibcqHqLMj2Vfb1+Hu6+HJ
-         Pj3QF8pY1LAaYGe8uNigBQa1PtgdD5AszxiRBUA50xE64fvOqOurLhGiIx/a5neXR2EP
-         xGHm8EEWNAngJIIuGpHvZnWUAI+6EKvCWVnyS7fXTOWAXSEMI0ZvCOr9fyPswoMDWHpS
-         pG5g==
-X-Forwarded-Encrypted: i=1; AKwUvBwAfStneOnvSltihAR2elU3ukyDJIflHkgendlTKTWz2+Hw2432vXNbCvv+StbdEaCB3iQeJeC/R7A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJmxpMlms6/fWHjjaC7lI5LIX+0P4e0xB+c9HmaVe1W4+4Vfv8I
-	ajJAzmHGlj/q3uOLotNTvTIgIQkROqfCfapNF42BaPtTEcGLTfBddigBQJEuuRR9drKDYxGUOyz
-	bXe859DBbjkj9T/6X+/qvbQ/jvIdQZvU=
-X-Gm-Gg: AYBFou3KDEZh0tiaJjUw5ijlL8Qzgy5q9AIce8zYUvN/UitB0bstppJooaPMoeQEjG8
-	FUeHgB0rGvbMOPZKWXoRmpyK0saTj3vSxq1v84YEWeSQyRF/AI3KMLMHx5SnBqibtydzpgS1Hkx
-	M3ZFpqTULTmYqF3wqsEx4ftC2aj1j6i3HBDhGPIa9NwEi99uSnTFbyPwuauklOUnjugCuWkuKsQ
-	vo54klqKUgLDmbXDKsiG3vd4fZfAOBDD3MV2bM3UL8+b1q/e2dlD/mo0jTMcHAsQCMWkAOpJVuC
-	7O69H+kBnAHt5El8jbvnJiAPJwucAEwxzSgzUy8rucgh9jzuMCnSl/yZSYfdKfuVR2iiCW+iFM5
-	OQtd6b/4rYPA=
-X-Received: by 2002:a17:907:2d10:b0:c40:5de7:33d3 with SMTP id
- a640c23a62f3a-c419f416e87mr706642266b.35.1792479917230; Tue, 20 Oct 2026
- 00:05:17 -0700 (PDT)
+        bh=pVMhRWk8qtW+u6oBSL+Up0nK8r194VsI+nQohbgpZHI=;
+        b=P4emwYFPFgxRx6EbdeLm9aHflC/5BeSces6dEmLXX/z6Mt27LVTJM5Pe27WF4yaIx6
+         izW+cB6Oa7SOZoB2vaVKUdchnrcSEEQtPjd/bfhUgtkI+8V9eByd4KQnzLubnsqqAnyk
+         FWUIhJTgY3VSrXPW14+SMO8R2KkU2j45G07nKBb6XMQVzbN0TV4aEkjd+z6R17ooL8CK
+         mt1CUPOQeP4TBpATbQE+k2DRV6XqM00N1vdx6bCKEznIlTxdCVFu/n3wWqAcWs2zA2zU
+         SMjzrMa+KG6Mg7oV0MhNwWx/uw9ISSufOjzwm4piDkOsJH6LQJibnL2mpZ+TPxfqNoZ6
+         6g6g==
+X-Forwarded-Encrypted: i=1; AKwUvBxHJiPeTfY+thgtXFaUXf+Ph0lfLk0aMLZ2qHj68x70gxWztfi8G/V00YyHd/IR4O2Jzc0h2koimt8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI7RJV8gQQDlB9AyfUeIsciJMP3vBs18Mz+0yZA6iDSaQNbn14s
+	WrUnNgUKaR47kLc5LstBbbXWleyS2VoYDs8k11VPNvk/zNXGQyZZkiFR
+X-Gm-Gg: AYBFou2Vw8Ta0ysPtUjLZavL0zI1edQZmxpbgXGNHNmEF0BWTSAgPDekq3+qdrcrhE3
+	v5H4ikSmH2vQGwRqc2TNTHVFnjYWJyEVWkDHkG5R0u3A+K4beij+WGE/ZGwQ5fKoZuSwCggR0yT
+	xl0gBgyvCqporVRzL0emvz3Oi7Rs51pSNUPCbsPMvKjFuKiF3h+HgRMV8CeJRXOpwRjvigGkgTo
+	VJDRh3jcOK5XKIcut4+alpuxgRUsWCF1D7/qFwqfCOsLftFJ+6V4xPcZf3pOdHX4vpibXLMD22x
+	jULwUwaxCrrPyzCAO+XRRC65UX3yuJagoYLt7nx7GIzj6trvDTGgnRqm7sO+pYtJiJu0spR6Le7
+	3G2ltqv5N/yEykdcOlLZi0vTCb49C0KgnQD51gqOFyBNpvYeorV4DmhtZZQWjMhy0IHg2qIUEHI
+	zsDjXfj3cFHR0XxCYBEgQBTIMLMA+MfMSK9DSs+qVszPE3mlvvBa+TEADAJWnu3ZXJWgDH+nRQa
+	yQ5a/X/XxKxAmshjm/C7KPAACV4htCcrcrOoO5td3joZSaOt1kfVyZ3Y0KseTPhJ5Vg27jhJhkW
+	F0EiC6sCaxz873Ea2gxmXFvFGdPupRghdyHEPaqsYmGJnQV4fMftBzKKBt8=
+X-Received: by 2002:a05:6a20:eec7:10b0:3e2:2d44:fc65 with SMTP id adf61e73a8af0-3e22d4507c2mr4709328637.37.1792480234627;
+        Tue, 20 Oct 2026 00:10:34 -0700 (PDT)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([185.220.238.36])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cd6549c5621sm4773692a12.17.2026.10.20.00.10.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2026 00:10:34 -0700 (PDT)
+From: Hongyu Xie <xiehongyu1@kylinos.cn>
+To: Shuah Khan <skhan@linuxfoundation.org>, shuah@kernel.org,
+ valentina.manea.m@gmail.com, gregkh@linuxfoundation.org
+Cc: i@zenithal.me, bgmerrell@novell.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+b6f11035e572f08bc20f@syzkaller.appspotmail.com,
+ syzbot+a7edecbf389d11a369d4@syzkaller.appspotmail.com,
+ syzbot+bfa320b67fcbe2583c6f@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usbip: vhci_hcd: time out unanswered unlink requests
+Date: Tue, 20 Oct 2026 15:10:29 +0800
+Message-ID: <179248022909.38718.8671761249933493010@kylinos.cn>
+In-Reply-To: <bf13495a-0f70-4ce6-a2a5-77d6c1bee241@linuxfoundation.org>
+References: <20261006125652.10296-1-xiehongyu1@kylinos.cn>
+ <bf13495a-0f70-4ce6-a2a5-77d6c1bee241@linuxfoundation.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,65 +89,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261019193148.1381545-1-prashantsengar25031@gmail.com> <d9177176-75c2-4273-b5ba-d0c6afdad6c5@lunn.ch>
-In-Reply-To: <d9177176-75c2-4273-b5ba-d0c6afdad6c5@lunn.ch>
-From: Prashant Sengar <prashantsengar25031@gmail.com>
-Date: Tue, 20 Oct 2026 12:35:04 +0530
-X-Gm-Features: AclHuK_7y3QBi-8T55S8hZraTXagD4MrO2PiPkvzXTg04An0LfQcykZBh015bfk
-Message-ID: <CABW1sBkKtBt0gipBNsNRWbwYy3GSDbe2d0TMBX8=whwu4WQmJg@mail.gmail.com>
-Subject: Re: [PATCH net v2] net: usb: lan78xx: avoid NULL PHY dereference in
- WoL setup
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: netdev@vger.kernel.org, Thangaraj.S@microchip.com, 
-	UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch, 
-	linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Andrew,
+Hi Shuah,
 
-While testing the unconditional phylink_ethtool_set_wol() call, I
-noticed that it returns -EOPNOTSUPP for the PHY-less LAN7801
-fixed-link configuration in my QEMU USB Raw Gadget setup.
+> Did you test this change with a usbip_host and client? How does this
+> reproduce in a regular setup?
 
-The NULL dereference is avoided, but lan78xx_set_wol() updates
-pdata->wol and the USB wakeup policy before calling phylink. I
-observed the following when disabling WoL:
+Yes, end to end with the usbip tools. The server ran usbipd
+exporting a g_serial gadget (CDC ACM) on a usbip-vudc UDC. The
+client, a v7.3-rc7 kernel built with and without the patch,
+attached with `usbip attach` through a userspace TCP forwarding
+agent. Once the device had enumerated, I stopped the forwarding
+agent with SIGSTOP: the TCP connection stayed established, but no
+RET_UNLINK came back. Then `echo 0 > /sys/bus/usb/devices/1-1/authorized`:
 
-Before SET: WoL =3D 0x20, USB wakeup enabled
-SET WoL=3D0:  -EOPNOTSUPP
-After SET:  WoL =3D 0x00, USB wakeup disabled
+  - unpatched: the writer hangs in D state forever. Two hung-task
+    warnings, 123 seconds apart, print the same stack:
 
-LAN78xx currently doesn't register a mac_wol_set callback with
-phylink, although it has its own controller-side WoL handling during
-suspend.
+      __schedule+0x417/0x1910
+      schedule+0x28/0xb0
+      usb_kill_urb+0xb4/0x100
+      usb_start_wait_urb+0xd7/0x200
+      usb_control_msg+0x103/0x170
+      usb_control_msg_send+0x9e/0xf0
+      usb_set_configuration+0x69b/0x9d0
+      usb_deauthorize_device+0x3c/0x60
+      authorized_store+0x55/0xa0
+      dev_attr_store+0x17/0x40
+      sysfs_kf_write+0x74/0x90
+      kernfs_fop_write_iter+0x162/0x1f0
+      vfs_write+0x25b/0x480
+      ksys_write+0x71/0xf0
+      __x64_sys_write+0x19/0x30
+      do_syscall_64+0xba/0x550
+      entry_SYSCALL_64_after_hwframe+0x76/0x7e
 
-I wanted to share this observation while investigating the WoL path.
-Is this behavior expected for the fixed-link configuration, or am I
-overlooking some existing handling?
+  - patched: the watchdog fires after 5s ("peer did not reply to an
+    unlink request within 5000 msecs"), tears the connection down
+    (stop threads / release socket / disconnect device), and the
+    writer returns instead of hanging.
+
+The syzbot C reproducer, run verbatim in QEMU on v7.3.0-rc4, shows
+the same before/after: without the patch the hub work item sits in
+usb_kill_urb() holding address0_mutex and a second attach never
+enumerates; with the patch it enumerates ~30s in.
+
+In a regular setup, anything that leaves the TCP connection alive
+while the peer stops replying reproduces this: a wedged proxy, a
+firewall dropping the server-to-client direction, a hung server.
+After import usbipd hands the socket fd to the kernel, so the stall
+has to be in the network path, not in the daemon itself. The
+client-side trigger is just a control transfer that times out and
+is killed via usb_kill_urb().
+
+Console logs of both rounds are available on request.
 
 Thanks,
-Prashant
-
-
-On Tue, Oct 20, 2026 at 2:54=E2=80=AFAM Andrew Lunn <andrew@lunn.ch> wrote:
->
-> > @@ -1805,7 +1805,9 @@ static int lan78xx_set_wol(struct net_device *net=
-dev,
-> >       if (ret < 0)
-> >               goto exit_pm_put;
-> >
-> > -     ret =3D phy_ethtool_set_wol(netdev->phydev, wol);
-> > +     if (phylink_expects_phy(dev->phylink))
->
-> Is phylink_expects_phy() actually needed?
->
-> > +             ret =3D phylink_ethtool_set_wol(dev->phylink, wol);
->
-> We try to keep the phylink API simple, and put all the complexity
-> within phylink. Hence it would be better if you could just call
-> phylink_ethtool_set_wol() and at the MAC level not have to care about
-> fixed link. phylink knows if there is a PHY, it should decide what to
-> do.
->
->         Andrew
+Hongyu
