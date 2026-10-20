@@ -1,91 +1,91 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.178
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792526122;
-	b=DdKd86Go6wkTnWeUwv6AsSqhMzITwaanxrEqiWH4WwvdFWXAtLfhXcnmxQ6e6FAYCbDS
-	 DnSBmM7j0D9aBjTw+FqecwCgjn4ENCr7tOIrIRULN73guU+M/jTLXtG9bI/9w3dq2S4m2
-	 UzcsVJyBrw0/rJQcxGbZAe7ckUMMhsH77v/b/Wy08ccmQQaWl25OEU8lnHAyHUNTd6eTI
-	 ZJNBI1s429YfkK0+R40ShqqXIOXxIgnuZg8ZfDDpN2rloCcRoa1zAp4g18zK24nDm1UQV
-	 dZ0fRIBzCOS3R9l2rY1n70p11+L209yBPg9IqhhD33nnTmi60FOEB17bDPKmNGDuG8Q==
+	t=1792527357;
+	b=0ZK8Tp8+43w+dT5GOoqdjTT5j4L5UdINYhXkIe4Igw3+UhaI0MEt/2mNv9KlsL9Yc5B/
+	 C1xMaeFgbVUyDTyScIc/QWK/1dzaut2Mxu/ZcOvN/GyBzGEjfzKvB1r5vraHFZmnLq76Y
+	 FZWZ7T8msE+egy8qDlA8usA+0pYUmrqntS3iNBeE6vYHazacODI9wYGgTdu2pphvZWWu+
+	 fkrkeZFIJOmR5f6Hi0PWkHx+YIppgx6p6kVkZp0Mx9ecMqDY2UFh1isr/Je/wE77u65jW
+	 6MqaR2+iKpBjQsj2I6Or9mvLjhecPi+aWWQsOxWoNN9cjQSy1jK+gxyQyEkDMhBoKhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792526122;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792527357;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=DC5Mr95KOFv3KF2iAi8A1QbvNEAK4XEA7i/Tzk/Q3Vw=;
-	b=hugiBlMWIXxyoMC8HktK4kS1TLSR2VJ93R3Ym8+t3iuK1SjRLTNGboN+YIzMDQXxonVT
-	 BYum1blJmw0Ho0GMnl8brGn4md4IAQw9lK/3WMMov4jaiQupRa/CVjhkf2F7irlV0fcdD
-	 el9vvo+Jz/HYlAZfSTR9xyx2GkAFJNITbILA8fsu1YbYpUYAxYgz16nMpBkw8mtF/o7lP
-	 7HiPRzBsUlzYNJNkHqHPfFSfQuJ1AEgPty6Qd4gZg4ud4KubZ6KvqIXoCW9UD9AA8tWwF
-	 gOUIJTZQXGl9JJtu6o0uzHWcSYmU533J2CRgilm1A7m03g8CestEYxtrcc2+gL8lx1g==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=UskgvncvUpPt8ituFGdb7oQlhxbaiJTmOeLamQsyhQ4=;
+	b=Xtm7g725h93nehqVpJ8EjBlYCQPhHeEsnUYwqpRPNX72lkFj0DKYGel2pEpoHdOP57cK
+	 hRnboN/rvzNrpWubEIA4ZBdmSDtXm7Y4D4w1UC8Dk5qLHNgqlgr8Z0z76XpBhy+ie5SvN
+	 GIVU7Lr5GiSqrdyFHAZ829XuOOiPiv4DWE4cuYlLyzEEAN804im36tR6PO2q8OfG+s9yR
+	 uCPtN7IMd7Q82p8Iz8WM3883nvpqXEqvU8T6UefnRJQxLsbAHMjR6T05R4ioj3nmWJrEB
+	 kCM3HoKSIXh2meh20G5slPGyQi132A5/y3XJv7znjhF5QaOPCUW5WJB7Z4I6g4DlHdg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=ho0OZRqL;
-	arc=none smtp.remote-ip=209.85.160.172
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KkNdjM2W;
+	arc=none smtp.remote-ip=74.125.82.178
+Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEA49606A319
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 19:55:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EEA49606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99565606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 20:15:57 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99565606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=ho0OZRqL
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-5364648ae07so526301cf.1
-        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 12:55:21 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KkNdjM2W
+Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-35cd4e8bdbdso8528977eec.1
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 13:15:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1792526121; x=1793130921; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=DC5Mr95KOFv3KF2iAi8A1QbvNEAK4XEA7i/Tzk/Q3Vw=;
-        b=ho0OZRqL5r4eCjM4AkMA34OzsHIanDDPh2NtnMmtdsc9djpMFgiMxqjzzu5D/XkQlb
-         SWoD0Fqji573KIYf6/nXchzgpptoGfx9N0euiidYldAZ7BLbEPDa9EyMLKgBAeg7E5sP
-         95SmFzyBHSd94wz5Kl1wE9Jia6cZxTAlga++tXhM6ORfOLBya5MnUL8Z3LR50upBe9Ap
-         Cfn56zjTXQtMQy0dTjzklZrSd81aPLxla+oaUvAFOhbAAXJ0KmbnspMgT5JfdLBZkubx
-         3SoaSNF5ZNS4syu5PS4+G1dATjaT9iiR6glwxobUedpVWKVqHyh8DKby2DImkFvdnzLR
-         JvMw==
+        d=gmail.com; s=20251104; t=1792527357; x=1793132157; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UskgvncvUpPt8ituFGdb7oQlhxbaiJTmOeLamQsyhQ4=;
+        b=KkNdjM2WRZU+wtKJ20+0ZHo+LXraciSWuqpBXt5e/UQEE+V4xzsXI3Id6rPaiAGRyQ
+         CXEyWrM7f69l5W9gPlKigwzJeHTPrbIhoF6mfAV4H8CLRkd4D06fy1++xizx6k7eywkI
+         x/iv0fwdq7wYnY7gFPho1cskbXZU0NEY7YG7Px0sBEuAdiX7LYh3GsncfFewaoJgYWoU
+         bwtIoBJkRK+sQa5UypDB4uf7uw4E0JvQEm1uJftKT2FpKmmtV4HZHGRwlzKb4SMNNzwU
+         xwUQYANdC9z2JAMhXLY+j++o5bXVw5epvsUM/clkemu/U8TmkDXDnom4X+ZTW4XLR4fs
+         Zk7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792526121; x=1793130921;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DC5Mr95KOFv3KF2iAi8A1QbvNEAK4XEA7i/Tzk/Q3Vw=;
-        b=Tlg8jRstOdkt7025WhYPjUKpi6oH/zYfgMfZRz751m0Uj4NMsmBHnlBYzZ0yOoSSaz
-         2ON34qDoHYXd7Frf4w5hJYbYs06jyX0oSqbVrhULNGi081lIGDQSG4V0pHmGp0QPua8n
-         J1/jjOu2pE6h8nDVIKko4OoaTENficwLNfBUqYluTzpE+u3rsmhNoZGOR/lc7t8UPNGP
-         vnZBYPSOyhsNFX2ET2L58A2qEFMj9YVFz2J9akBJaxQJBjn7orowOqbrdPCRhiKZ1FKc
-         WUeYMUkJob3KshevjuaP04l7UaiRlhrfuoREvwNUESufqtB2X5oiY+LzmjBa2H8+oGq6
-         UJvw==
-X-Forwarded-Encrypted: i=1; AKwUvBwUsTbr54WKmBHGBXLM3f+0YLuaZ8Raq+hNuES28sEd1eraTumxfEFnzfRu4+RQyVEluAhMziN3mvM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJGZk28olFzlpqy6fcKX1cqcbw8iruEgTNs67CqNcUUsp//HDVw
-	70oqxhbM7OCh6Vu8FSzd6UfOEnP7+G+iR8c2H8rRGMQIODlMppupnohLnwsoMHGerg==
-X-Gm-Gg: AYBFou1n00PncfsUD+hCYhL/vcL+gnST4atqfwXpG/ISylnf5fCePbxEfVb22rDRN23
-	o5D7TQ2UFX8CddkHLllsKRPOURzdoQEdwdWGEZqQ2nkwZdZ9yKZQGZtPB8h8U3cshbC9BBo0vcJ
-	p/eeMIPda2IQm3a0N5U8J6VvHgd96vSD/32yd+W6DFzoCjUkvEgKrg0AOeS4FuWb21CphSY7AnY
-	1WeVFpUlPspTIwSs4I6G5ehbQJd4Iuif9owdD2R6XYFhg30LDya0hwLGo8uvQtCzjI6eTH9AT9A
-	FM3JfmcQE89lnwgDXaZXhY1Ustk5nrQkaQWq1C68rEVc/Ge5MJqaLXYoB0apij3LUYtiBUD8A0u
-	U+znYk6V1sE21qsRf2lnyxo8DOQrOZY55X17JE2CBfvYQUHXQ2GuYdoQPghH7iRKWBzJr2pb7yT
-	Rh5Gt/x6PH9NAxxnixJm2/YZ5dioMZhzN21QRnLa/B3y1yJcFo4eBLxruTUW38Mjt32NggG03A
-X-Received: by 2002:ac8:5f13:0:b0:536:7c84:be60 with SMTP id d75a77b69052e-5367c84c62amr86451461cf.65.1792526120653;
-        Tue, 20 Oct 2026 12:55:20 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::4791])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53698ae7fa8sm3806721cf.9.2026.10.20.12.55.19
+        d=1e100.net; s=20260707; t=1792527357; x=1793132157;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UskgvncvUpPt8ituFGdb7oQlhxbaiJTmOeLamQsyhQ4=;
+        b=n2kmfiWpnNYPqQJBEixBEUNpKq50H4Ks0tuDF5h2oytv94cKAZS4x58IXFHtBR6H/z
+         7PObsXUpJfyPiT3V5H2Et1VTOmehuZghoTK1K5D83UGEMAr3mRHGZzWsxD+YwWO889Xy
+         VTGDhVm6z8U99TOEZW45n+FXQzmDNC4c7+rwo/SJbt6+ks1QeyaFBirkIUvD1/swLalJ
+         tihRDfQvFLwDLI+ZG2Uy+zB9C9GsO1LjrGYuRMmbkR2NzFTVeZ8Rnx/ggNsCPsV5w+HD
+         GvV5HgpTz54aze41W3HxfjJEOKh8S37oDIumQesig/iq1vR49pQ0lrLF3cD0D4PwSLt9
+         x4zg==
+X-Forwarded-Encrypted: i=1; AKwUvByeJKXR7DmjOUmZ7Y3FVBgJtFM9bWAkUqhr90L5Bp154LiThiUUv0lVL0gU9GaVs+vd7Ic0Gjia/Mo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIl6s9DZ3KpYySp5WcJUOuNVzZKfoIcjjcZGYiArgoQi8wUEkaa
+	Ztv7VZF9HPJCk5jySNLqYD9ZdWx0/sDjePuxjrXcRd8x1nWka2aRdIcv
+X-Gm-Gg: AYBFou3sHQ7fHDhhAVbM/ViOXQi7xLmg8VD7FHFp+wOYEXx357Dx2qoSd7nvXIGqNBW
+	44yiBnkB2Hbtk4Ht+/2oi5tSd7fUcMk1y9RZrGAIPpQ5wez+qGDKEpaqbyP7nEx5Yr6uv/y46pX
+	ILfesGxbO+o/7QlOoE8RdNwHXYeULqU6TF0jm0NDmanHGZpvXL6kPe+N5uxI4mHry9fWlD5paPm
+	AtkbsXNijcEC+3l6nclqgP7nwFeiOUKCCiPusRDPiNY23YdJwm3dN3rZxx+QfH4QMIHGOdR/GZf
+	1tZI7hvA/9qu55Qc09WvOouHZka/VZCVPgJYCiKvQWtGRtjDlDP8gWHX6S/Wy5mtun5nhD7qNuf
+	O/q6GYtT882QV5Sk7uM3oMXuAfk8VZGjxbvXnCkH7QVMTYnaDZpNlSZ5eefI8bgAR9rHedbUDKN
+	SUXsnj2vtm9UNe0j5Z1CZbBEPB4NWz4xK6Hoc3q8JsGHnpEOLwqUV4tNSLl9E/5ewPPnQ0xvDay
+	bJhBKIysyVPMKnchViICYK/DnJk1GtSPA==
+X-Received: by 2002:a05:7300:c00b:20b0:35c:ba31:6fef with SMTP id 5a478bee46e88-3674f21af3amr445718eec.36.1792527356516;
+        Tue, 20 Oct 2026 13:15:56 -0700 (PDT)
+Received: from arch.iiitdmj.ac.in ([103.199.188.243])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36740cc8c6dsm912580eec.12.2026.10.20.13.15.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 12:55:20 -0700 (PDT)
-Date: Tue, 20 Oct 2026 15:55:18 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: hcd-pci: avoid double disable on surprise removal
-Message-ID: <01f4dc0b-8ed8-46ce-9ff3-df811bd4b84f@rowland.harvard.edu>
-References: <20261020-topic-hub_pci-v1-1-bccdaef0344f@oss.qualcomm.com>
- <a25e2100-e01f-49b7-b794-da1027dffedf@rowland.harvard.edu>
+        Tue, 20 Oct 2026 13:15:55 -0700 (PDT)
+From: Prashant Sengar <prashantsengar25031@gmail.com>
+To: netdev@vger.kernel.org
+Cc: Thangaraj.S@microchip.com,
+	UNGLinuxDriver@microchip.com,
+	andrew+netdev@lunn.ch,
+	linux-usb@vger.kernel.org
+Subject: [PATCH net v4] net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
+Date: Wed, 21 Oct 2026 01:45:37 +0530
+Message-ID: <20261020201537.2465655-1-prashantsengar25031@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -95,21 +95,69 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a25e2100-e01f-49b7-b794-da1027dffedf@rowland.harvard.edu>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Oct 20, 2026 at 03:52:28PM -0400, Alan Stern wrote:
-> On Tue, Oct 20, 2026 at 05:05:39PM +0200, Konrad Dybcio wrote:
-> > A PCI HCD can be surprise-removed after suspend_common() disables it
-> > and before resume_common() re-enables it. Avoid a second call to
-> > pci_disable_device() in the remove path when no enable reference
-> > remains.
-> 
-> Does the double disable actually cause any problems?
+LAN7801 supports fixed-link configurations without an attached PHY.
+However, lan78xx_set_wol() unconditionally passes netdev->phydev
+to phy_ethtool_set_wol(), causing a NULL pointer dereference when
+a userspace WoL request reaches this path.
 
-Also, is your patch any different from this one from two days ago?
+Report no WoL capabilities when no PHY is attached, and return
+-EOPNOTSUPP from lan78xx_set_wol() before modifying the wakeup
+configuration. Keep the existing phylib WoL handling for devices
+with an attached PHY.
 
-https://lore.kernel.org/linux-usb/20261018164134.134106-1-cole@unwrap.rs/
+The issue was reproduced using USB Raw Gadget and dummy_hcd in QEMU.
+An ETHTOOL_SWOL ioctl triggered a kernel Oops with the original
+driver. With this change, the PHY-less configuration no longer
+advertises unsupported WoL operations, avoiding the crash.
 
-Alan Stern
+Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
+Signed-off-by: Prashant Sengar <prashantsengar25031@gmail.com>
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
+---
+v4:
+  - Remove the unrelated blank-line change noted in review.
+  - Preserve the existing spacing in lan78xx_get_wol().
+
+v3:
+  - Report WoL as unsupported when no PHY is attached.
+  - Keep the existing phylib WoL handling for attached PHYs.
+
+v2:
+  - Use the phylink API instead of calling phylib directly.
+
+v1: https://lore.kernel.org/netdev/20261018151830.643511-1-prashantsengar25031@gmail.com/
+ drivers/net/usb/lan78xx.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index 5655941f1478..4f100bec5b3a 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -1764,6 +1764,12 @@ static void lan78xx_get_wol(struct net_device *netdev,
+ 	u32 buf;
+ 	struct lan78xx_priv *pdata = (struct lan78xx_priv *)(dev->data[0]);
+ 
++	if (!netdev->phydev) {
++		wol->supported = 0;
++		wol->wolopts = 0;
++		return;
++	}
++
+ 	if (usb_autopm_get_interface(dev->intf) < 0)
+ 		return;
+ 
+@@ -1795,6 +1801,9 @@ static int lan78xx_set_wol(struct net_device *netdev,
+ 	if (wol->wolopts & ~WAKE_ALL)
+ 		return -EINVAL;
+ 
++	if (!netdev->phydev)
++		return -EOPNOTSUPP;
++
+ 	ret = usb_autopm_get_interface(dev->intf);
+ 	if (ret < 0)
+ 		return ret;
+-- 
+2.55.0
+
