@@ -1,59 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792445058;
-	b=gsRkFarLHqzVt4J+gbaAMzwWTVCdizUOQk0PSdpMY7ecs9ai5XjbWdE51G0ss/QQE9HC
-	 DidBuPUDyEVSUysEuSUGSeefq+SjuO9NMtaiGZ8bOh0yg6LPA31oPf55pey/i/qrxPkKp
-	 2+qupLmFph230C0Gen6vuT9FMl0smYR95YTfWL+7xHWeDPAyFxB4oMosiz6Top88/Nxhi
-	 vFqmUs3Tyc2Hke6fF27/brFMzWosGtmSdyVxZS7YiVPl1xSYwoMQxAtJ5g+86BtiIC0kQ
-	 TlpOwOkEOxF2OtmfyS5RcTcCmsd/lJ3C3LPcMRGXA/N0pciJ8uhCgY96jsZHgjtqU5Q==
+	t=1792455487;
+	b=y2N2wHYzjIuNXmIc1veSL9uuNwJl3m0i60km81zTRRA265ZRPC+FZuBr0mhdR9Hys2fu
+	 TXMtP3T1KVC44y/PB1ephM2yBfiz4OVjqnDbNSz/jxWYjdgOH8+/7wWNduiYbLCi0w01C
+	 Ho/v3kdqFEMXGBplqWT6XYfeM5hFo4YYBBPxBffObYW+JuR1PhZd/M5XA9N3Ss3QYEyhe
+	 /1QErrIToCdLZaqHThlqku2vgKkNHY+3+glcAl7RZsJwS9iY3iRzvT8VypZfcyWOhGOkt
+	 d+L9PbmLo1HltYePtMxmT0MbPKpVFkhKN8idXX9kI0GlmQ5OlNI9EzyRzLsIOkIolRg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792445058;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=1YXs6rrJZv6Usz6XsrtQKINxbiM6rWZ3xRR58cYtHN0=;
-	b=ew7oYesFWySryqopaEXzoZ/rRtj6BFuJ2hbraNpRHEmpZdd3HDpHtET0yL376EVM5tVn
-	 54c9l1lqGs5LLiRpgsLuZSzU1evtLNxem50PtL8lUOKZ40BAneqiyw/WfSBNWvI18YSDL
-	 hJ515tp6+vRH1q+S0xXNFkh7ywKKqUeDzd+emmQaGfc7dkl/FLJjgcOuxnPxDdq+6fiBz
-	 ElJCcbJeAuXW5XgFHqywLsCBCAgGBHPXD8ycq5ChHYzCJs41WXYisLI1NJ9czwIuFTzb9
-	 Hy07bhaQXOO7xVdP0WLkMNgwsxScVbm3JWou4Uz/pzKx0Eab/CBT6mGLinUbfjxMm1g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792455487;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=IEvaIyhXHXEZCzlzSit2T9T6bk8kSwVa4Br1EuaLx3c=;
+	b=FKHay+oN23wVmfpoX1GzUYqahy3lvpR/8c1qjctGW4ndGBX9btOqMeA6v06+wi0PIww/
+	 kSLCL+4hvLIQOejWviOokcwKc2Bur5uK8qPBETVNcio1+aBd4hWykYUJTua1UUfAOx3wQ
+	 RYhZX72r5YDINMajMJMuLMU4HpW3E+zqvauxkfMknHNAL+Ax+7TtCZC5Qe4pCU8qKKEQd
+	 4dhbTiIIzGRM6qLwkEB5pkqOY4/rvCUhzS+2MtRGP5bdWf8O35jA/5QxjrL360iUD0UAt
+	 zNhmK7jxwvPcRHSiV8tOryx0Eox8NgWRfN42PKsi4yuGnOcHcoLyOozIpcvy95rx7Gw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=SDLR9a8l;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FAgv4K+1;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43AC606A319;
-	Mon, 19 Oct 2026 21:24:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C43AC606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09C49606A319;
+	Tue, 20 Oct 2026 00:18:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=SDLR9a8l
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=1YXs6rrJZv6Usz6XsrtQKINxbiM6rWZ3xRR58cYtHN0=; b=SDLR9a8lBKfpRccuCc5ld0BsJn
-	9uCmTFKQYrlloKxuSKSPg7w00B7M64mutjTo45+3XNOMC8ikGdM7PCqSsm/QeCwQ/KR+AZBYOrE41
-	Bm6VyUqlckHXiM3bV53xvhs+EsMsMcQ6Qy1ksIIk0Zqi/qcg0iZA/mFY1tSS5LxlUlOg=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xIuq6-00Bi8x-7G; Mon, 19 Oct 2026 23:24:14 +0200
-Date: Mon, 19 Oct 2026 23:24:14 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Prashant Sengar <prashantsengar25031@gmail.com>
-Cc: netdev@vger.kernel.org, Thangaraj.S@microchip.com,
-	UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH net v2] net: usb: lan78xx: avoid NULL PHY dereference in
- WoL setup
-Message-ID: <d9177176-75c2-4273-b5ba-d0c6afdad6c5@lunn.ch>
-References: <20261019193148.1381545-1-prashantsengar25031@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FAgv4K+1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5002C1F000C4;
+	Tue, 20 Oct 2026 00:18:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792455486;
+	bh=IEvaIyhXHXEZCzlzSit2T9T6bk8kSwVa4Br1EuaLx3c=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=FAgv4K+1kT/E5gHVL2jgLK93rJVamNF8UOIr0ShvcCTp/+J+yPY9KaR4x5ZhsUFG7
+	 cPd9LaCNYTN/Z7kdWDwrclTUbob3U7rUMHxCNN3NMpdHmcnldA9K/MNq0zaHozdMqr
+	 7qzu8iBxvyaHs/MuI2ocfwOFKhIIIkyHlH7/dj3QSpV8VnHeRFCHSS/17Mh6lVN/bu
+	 2gl+lE2/DaKhTf4UscwIepesmvg1nBPOonCZpNlCmgmkVzEfiLiWicEnAHBJ9vgHtv
+	 jgs/beWsBur8OZXHdW6Uh7D80KYpLspIWn4QLw/yd9COYLmkKkic6EPO3M8nv4wbqc
+	 3SJwvT5hz9yaw==
+Date: Mon, 19 Oct 2026 17:18:05 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Birger Koblitz <mail@birger-koblitz.de>
+Cc: sashiko-reviews@lists.linux.dev, linux-usb@vger.kernel.org, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Andrew
+ Lunn <andrew@lunn.ch>, Eric Dumazet <edumazet@kernel.org>,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, Jianhui Xu
+ <neuromoments@gmail.com>
+Subject: Re: [PATCH net-next v19 01/13] phylink: Add phylink_mac_interrupt
+Message-ID: <20261019171805.6aa3a7a3@kernel.org>
+In-Reply-To: <acada24c-903e-49ea-be04-879fedbfa08b@birger-koblitz.de>
+References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
+	<20261010-ax88179a-v19-1-7475173cfb56@birger-koblitz.de>
+	<sashiko-outbox-167008@kernel.org>
+	<acada24c-903e-49ea-be04-879fedbfa08b@birger-koblitz.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,25 +64,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261019193148.1381545-1-prashantsengar25031@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> @@ -1805,7 +1805,9 @@ static int lan78xx_set_wol(struct net_device *netdev,
->  	if (ret < 0)
->  		goto exit_pm_put;
->  
-> -	ret = phy_ethtool_set_wol(netdev->phydev, wol);
-> +	if (phylink_expects_phy(dev->phylink))
+On Sun, 11 Oct 2026 07:32:52 +0200 Birger Koblitz wrote:
+> > The function comment notes that SFP modules do not support interrupts. However,
+> > when an SFP module is physically unplugged, the electrical link drops. Could
+> > this link drop trigger the MAC interrupt being handled here?  
+> 
+> The way this code-review is done by whoever handles the AI is absolutely 
+> not OK. The same patch was considered to be free of errors in the 
+> previous round. Now something is brought up that has been discussed ad 
+> nauseam before, including an analysis by Andrew, and found correct.
+> The minimum I expect is that emails relating to the patches are being 
+> looked at and also understood!
 
-Is phylink_expects_phy() actually needed?
+You are responding to the main Sashiko instance, not the netdev one.
+Due to infinite wisdom of some MM people these are not even CCed 
+to netdev (I guess CCing the USB list triggers them?)
+You can ignore the feedback form that instance for networking patches.
 
-> +		ret = phylink_ethtool_set_wol(dev->phylink, wol);
+Unfortunately our instance didn't run because patch 4 breaks the build
+(patch 12 fixes it). Our instance tries to save tokens and doesn't run
+on patches where basic CI checks fail.
 
-We try to keep the phylink API simple, and put all the complexity
-within phylink. Hence it would be better if you could just call
-phylink_ethtool_set_wol() and at the MAC level not have to care about
-fixed link. phylink knows if there is a PHY, it should decide what to
-do.
-
-	Andrew
+drivers/net/usb/ax88179_178a.c:691:8: error: use of undeclared label 'err_nodev'
+  691 |                 goto err_nodev;
+      |                      ^
+-- 
+pw-bot: cr
