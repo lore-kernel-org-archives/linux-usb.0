@@ -1,56 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792506705;
-	b=tHemufrPPwqFZ2HCQ3eCTdgaxZBbxbxMRmYhG10ZHZtIVvhwi1hrW7BQ/GTn5tm6mMjh
-	 +XtoWFYxBr/MmPvW9tLCL7nttMeHCcvd+u6PK2cIlYlMegsRtPyC8cwi1TyMBr+Y8sffF
-	 UDFRKtXkeP1YrIiDy3LoxVx+dD8z1YlQd8cVzhqIQbV1UmNitdNG/ca5k2SUuEwp8fhWX
-	 NPKzuZUdmNy3GsQQS+xbt98URw/nZu43lixcUo/YR8HP3Om3AKhL11sf9cwXiran3cfo6
-	 nQRCLgdz9IiMOgL7N67GuZgE54iCN7rjtAhjALLs82Pw0lKcQWkURO4NMa4WZ6pOzcQ==
+	t=1792506822;
+	b=DC7smo969SU6FCe7/C/M0gVoKOjIQ1QebZTsEohmMujBJawZJJCwBA4flBcrb7pUFUm3
+	 bDGYYgRCxrq8BdqphngVEcNwoUKNedfKmC7H83JwferM+/T20cOVclEMuVjz6oFJkggY0
+	 g809MPuxudMjOeq/jiEPiix+CgtdF3HZcx4Vth1XWLBAEaRAIQGttlYhpnV2mw165ejei
+	 8BA3ZUf4oTIp2bsbNUjFAcAnJ8UCzPWHJBi7vgKUMI1aqiT8t4tlbFuCE816Uw+tN/xUN
+	 H2tIs2a4uwMvh8vZpFVzDKiBoD++afyDBAdJscr0EWtR5bbLowmpOfk5OieqMw/1JZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792506705;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=PAJdC3WRD1j7i3YkLeo0/w6OYzannZ/OllFeWBae9Ak=;
-	b=kr6R0Uz293ZdtYwkaqSENQizNfiNzWw7rsozyTSQFcNNztMMuOnY7NBSksLFFBGvoS0u
-	 jpfJbj6QeFUPLo/I74mzN+DEg8r9eHvcVPWvaPUOwmF+cSiTbPeBEHAZ7mKovKlvETW/T
-	 aXbrXDSHinSXliaM/Q8kEmmc29ZI6wb8P0xKQaF1P9EnA83Anuhxk3Yo+UZz5cVqhPbjE
-	 Adi7kDOvHNzTzWV0EZsgcsAfacb4et7D2S9By6tRLkNYQGVJ/IoJOC6hDgWH1Qheqdl0P
-	 e8zRy2f37lTP6WgnV59x7bweFPRuAVVItdeFDWmFm3daforLj67I97UVgz9zRs6NThw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792506822;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=5k5yhn0VmTXKeRBJWIm7k2IXEUpSUMCZ2YdMJhwf2m8=;
+	b=droXRP2Uq/vjpujhpWptryJEVfTTDG1Q1YB99e8PENvtK9+fds2USIlB6xBuSg73q5zt
+	 IrwAjASkM4YDat/S56D1Kgt8kk/toeHk63jRNdOeBudqNL0wsaOcG9UFpuoAIpsV1B9iW
+	 7chTKw05c/694Ate0xVxfma64XTHISxtxe1yzd7fRmorA30gF57a0yPnhoCdDwNySdCeG
+	 OhB3EV2i4bIlGCQt+dT+hEYSrMH5r9pnA70twEBXhucrkiMTObVAiEnLWpixdONDvJ7rV
+	 GCfvsV/IX9smjdBozF9Rkdwq9KSZCRAuiHGj7WEqtPNzKRVAxXeHCxrBr/ddUNHapyA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N4MAozix;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.210.72
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com [209.85.210.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 851C8606A31C
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 14:31:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=N4MAozix
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECFBD1F000C4;
-	Tue, 20 Oct 2026 14:31:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792506705;
-	bh=PAJdC3WRD1j7i3YkLeo0/w6OYzannZ/OllFeWBae9Ak=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=N4MAozixHeDCRk2DMHFma86l9hWKVhrpfri+Bws27LjU7W0ays6Vyx9UK+rbjmCwW
-	 piQsm5ae9SOfpFR+GARRayOa3lgABNWOR8gsnG+pcLC86awDy+B5+zL1POV9RdJ8Xd
-	 Y03Bph+gkDbUNDGTNI4YXK6jLIz695Hmlxxme0KPw5jAqbQR7rGaS5wSEtaOvv5MXQ
-	 iRO0XEJZav9rgd5tdkCqMP7FeGJ7oeasQEQ8106/hsnln31ZFhD76yieV4LAC6jbYR
-	 QX2KzlCAFCPYJMUejrVBTfscf82x4PfxW7oje0c5zk3gyIt2+OwuAgRBYig/ulcNyK
-	 /TePUMpETflVg==
-Message-ID: <sashiko-outbox-179144@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: musb: fix double put of gadget device on setup
- failure
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Anfernee Cao" <anferneemelokc5@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <179250629747.20696.17364135141613638741@gmail.com>
-References: <179250629747.20696.17364135141613638741@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Oct 2026 14:31:44 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 961D8606A319
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 14:33:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 961D8606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-821de0b7baaso5866467a34.1
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 07:33:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792506821; x=1793111621;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5k5yhn0VmTXKeRBJWIm7k2IXEUpSUMCZ2YdMJhwf2m8=;
+        b=KOhT2mmWjPHtYgw6++DF67QSp+VLYDNS5d2omw2iyNZ70Yjd6/XlY1nY/esu1zIBhW
+         YOeJVx0SEt77fE/UfKdf7cxOvPwgooRFU8VHoUQq9hRT2nA87pfgzjbjYyGyt810H00r
+         vvzSyjy6scwtGPXNdog4oJNl3fJ226fqRsivB+nL+93HTQAr25ftcfjcTpPf/LfJNzS7
+         PpywbTT0SXQrjHkGQPMkSQfwZzDjzDH+mqhwZSORvEWeZxZKJ+YwT6meMjQjxaeW387p
+         ZqN8bzOCqXxg2lbFmmumdVFL3jtVeUw0iOJjDyt2QEg5J351Y1pbCwArHPcpyTYAnmqk
+         5+7g==
+X-Forwarded-Encrypted: i=1; AKwUvBzSJqKyDkkkgnLkiYVKWDKTYoDDj3+Rhdt5EQd4KWhIhT/V0/d6fQGVFIq78Wh7F9kG85rHTRtcnZU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLEVrKJbsD4m2IMP0nmdefH9FQDmsRysAH9jY+OF6yHDXscCb9d
+	gfZawoZybXNG4sD28oZRvY6/W8lO1fqTprElCc0ZMh8Z8lOkOc+PiQVGRk1RLH7Dl9xNMVhYwmh
+	AbzrYkmsFN/LjIVoY/bMmex4ofT3gP1nVDuBvZbmJCom6UHDUIvLaNd9kHgQ=
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,35 +57,134 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-Received: by 2002:a05:6808:2207:b0:4f5:77f:5 with SMTP id
+ 5614622812f47-53cd14eb3fbmr8311002b6e.41.1792506821602; Tue, 20 Oct 2026
+ 07:33:41 -0700 (PDT)
+Date: Tue, 20 Oct 2026 07:33:41 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6ad77bc5.3270bda1.2a227.0001.GAE@google.com>
+Subject: [syzbot] [greybus?] WARNING: ODEBUG bug in gb_operation_put
+From: syzbot <syzbot+61464b62b688791cc24c@syzkaller.appspotmail.com>
+To: elder@kernel.org, gregkh@linuxfoundation.org, greybus-dev@lists.linaro.org, 
+	johan@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, linux-usb@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-> musb_gadget_setup() calls usb_add_gadget_udc() and, when that fails,
-> calls device_unregister(&musb->g.dev).  But usb_add_gadget_udc() already
-> releases the gadget on failure: usb_add_gadget_udc_release() calls
-> usb_put_gadget(), i.e. put_device(&gadget->dev), in its error path.
->=20
-> The device model documents the same rule in the kerneldoc of
-> device_register() (drivers/base/core.c):
->=20
->     NOTE: _Never_ directly free @dev after calling this function, even
->     if it returned an error! Always use put_device() to give up the
->     reference initialized in this function instead.
->=20
-> The extra device_unregister() therefore runs device_del() on a device
-> that was never added (or was already deleted) and drops the reference a
-> second time, causing a refcount underflow.
->=20
-> Drop the redundant cleanup and just return the error; the UDC core has
-> already released the gadget.
->=20
-> This issue was found by manual code inspection.
->=20
-> Fixes: 3301c215a2bb ("USB: UDC: Expand device model API interface")
-> Cc: stable@vger.kernel.org # v5.10+
-> Signed-off-by: Anfernee Cao <anferneemelokc5@gmail.com>
+Hello,
 
-Sashiko has reviewed this patch and found no issues.
+syzbot found the following issue on:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179250629747.20696.=
-17364135141613638741@gmail.com?part=3D1
+HEAD commit:    893584e7e390 Merge tag 'usb-serial-7.4-rc1' of ssh://gitol..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=15d65da9580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7f0127eb11110629
+dashboard link: https://syzkaller.appspot.com/bug?extid=61464b62b688791cc24c
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=17d7c621580000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=12828121580000
 
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/7fc735ea948d/disk-893584e7.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/546995671e2c/vmlinux-893584e7.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/54ff06887775/bzImage-893584e7.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+61464b62b688791cc24c@syzkaller.appspotmail.com
+
+greybus greybus1: 0/0:0: synchronous operation id 0x0003 of type 0x14 failed: -71
+------------[ cut here ]------------
+ODEBUG: free active (active state 0) object: ffff88811ce2bad8 object type: timer_list hint: gb_operation_timeout+0x0/0xe0 drivers/greybus/operation.c:1211
+WARNING: lib/debugobjects.c:629 at debug_print_object+0x198/0x2b0 lib/debugobjects.c:629, CPU#1: kworker/u8:1/33
+Modules linked in:
+CPU: 1 UID: 0 PID: 33 Comm: kworker/u8:1 Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/16/2026
+Workqueue: greybus1:0 gb_operation_work
+RIP: 0010:debug_print_object+0x1a5/0x2b0 lib/debugobjects.c:629
+Code: b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 03 80 3c 02 00 75 4f 48 8d 3d f8 be 37 08 41 56 48 8b 14 ed 40 cf d2 87 4c 89 e6 <67> 48 0f b9 3a 58 83 05 d2 16 33 08 01 48 83 c4 18 5b 5d 41 5c 41
+RSP: 0018:ffffc90000237868 EFLAGS: 00010246
+RAX: dffffc0000000000 RBX: ffffc90000237950 RCX: 0000000000000000
+RDX: ffffffff87d2ce80 RSI: ffffffff87d2ca20 RDI: ffffffff8b1aa8a0
+RBP: 0000000000000003 R08: ffff88811ce2bad8 R09: ffffffff87ad4ea0
+R10: 0000000000000001 R11: 0000000000000000 R12: ffffffff87d2ca20
+R13: ffffffff87ad4ee0 R14: ffffffff861dd740 R15: ffffc90000237968
+FS:  0000000000000000(0000) GS:ffff8882684d7000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f27a5b70220 CR3: 00000001176ce000 CR4: 00000000003506f0
+Call Trace:
+ <TASK>
+ __debug_check_no_obj_freed lib/debugobjects.c:1171 [inline]
+ debug_check_no_obj_freed+0x4da/0x630 lib/debugobjects.c:1201
+ slab_free_hook mm/slub.c:2679 [inline]
+ slab_free mm/slub.c:6509 [inline]
+ kmem_cache_free+0x398/0x650 mm/slub.c:6636
+ _gb_operation_destroy drivers/greybus/operation.c:682 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ gb_operation_put+0x1b2/0x3c0 drivers/greybus/operation.c:694
+ gb_operation_sync_timeout+0x193/0x220 drivers/greybus/operation.c:1172
+ gb_operation_sync include/linux/greybus/operation.h:203 [inline]
+ gb_svc_pwrmon_rail_count_get drivers/greybus/svc.c:137 [inline]
+ gb_svc_pwrmon_debugfs_init drivers/greybus/svc.c:772 [inline]
+ gb_svc_debugfs_init drivers/greybus/svc.c:827 [inline]
+ gb_svc_hello drivers/greybus/svc.c:875 [inline]
+ gb_svc_request_handler+0x515/0x1250 drivers/greybus/svc.c:1276
+ gb_operation_request_handle drivers/greybus/operation.c:243 [inline]
+ gb_operation_work+0xb7/0x990 drivers/greybus/operation.c:280
+ process_one_work+0xac7/0x1b10 kernel/workqueue.c:3396
+ process_scheduled_works kernel/workqueue.c:3479 [inline]
+ worker_thread+0x5ef/0xe50 kernel/workqueue.c:3560
+ kthread+0x373/0x450 kernel/kthread.c:436
+ ret_from_fork+0x69f/0xc90 arch/x86/kernel/process.c:158
+ ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
+ </TASK>
+----------------
+Code disassembly (best guess):
+   0:	b8 00 00 00 00       	mov    $0x0,%eax
+   5:	00 fc                	add    %bh,%ah
+   7:	ff                   	lcall  (bad)
+   8:	df 48 89             	fisttps -0x77(%rax)
+   b:	fa                   	cli
+   c:	48 c1 ea 03          	shr    $0x3,%rdx
+  10:	80 3c 02 00          	cmpb   $0x0,(%rdx,%rax,1)
+  14:	75 4f                	jne    0x65
+  16:	48 8d 3d f8 be 37 08 	lea    0x837bef8(%rip),%rdi        # 0x837bf15
+  1d:	41 56                	push   %r14
+  1f:	48 8b 14 ed 40 cf d2 	mov    -0x782d30c0(,%rbp,8),%rdx
+  26:	87
+  27:	4c 89 e6             	mov    %r12,%rsi
+* 2a:	67 48 0f b9 3a       	ud1    (%edx),%rdi <-- trapping instruction
+  2f:	58                   	pop    %rax
+  30:	83 05 d2 16 33 08 01 	addl   $0x1,0x83316d2(%rip)        # 0x8331709
+  37:	48 83 c4 18          	add    $0x18,%rsp
+  3b:	5b                   	pop    %rbx
+  3c:	5d                   	pop    %rbp
+  3d:	41 5c                	pop    %r12
+  3f:	41                   	rex.B
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
