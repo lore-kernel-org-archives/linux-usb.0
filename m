@@ -1,57 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792499928;
-	b=vx7P1bWGBqgnc3JSJ9WjtHkj0fnWnOJnb57y+lxrxL/W+aZmt/208rTuG9HneR5F2kfn
-	 XNV6S4tBAE9YtB0rD5FD5xKSTn0kibKWKShWP+qJS0k0T27pk0v9OuSBS8OG5o8ko8x2x
-	 7zW9k8lymr5a0VPwwTaYSKMREqi8sjofsddJ8zUC+KZedXBrU1D/WBYXH0mfnEFOADzO3
-	 0ywatTqv4Xfk6BaFtYlOIpO7OWoBbM5QHSDGxCz2EN4acRAhf9tnaH/uIh+c7Vt6NhN+n
-	 TIOFdDx3AAXTlR4HHKLnk3LmrErBnXibqN5ASc4/F2XtmnkYSm1yJDgHZzD+czKkNsg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792499928;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=/6x4bCYZdPi3t0lUuSJXXxFJL4VJcQrmB7LrShT9NXU=;
-	b=T77+l4AIY9pdUk9K7JndpmNni2koqKtu6vB7djtJYXLDDjEYRcgZwQnGNFsIw+yYE7Vh
-	 qNGhUPFQvANZq+IQzVQ/Mis4qJH9y7kvUiPYvgId708TkINfJG2I/AhrmG/BT+e5oA8P2
-	 5mCPStQNtijmmM9H2rPHt+W4bzFeaGtZV+s2xdlECBXG62qgOVJMYfcq0To9F09nASdYi
-	 952JFV7QjVTRlS0VgQqNB513IO1urBbVtZ7K0Osyf1FDf7N6UYCgPrFx3QK6F7YyqsRBh
-	 nIN1Erz8EvpAv2MaXX3AJvL1TFo/keJmdWphNpMphPXqvzS8c/0qQfMloFp13A5UreA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.49
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792499995;
+	b=UeaG2tSQYzItgsUsli3iKQP9HgYbtRaB09AXNP5cegHrJklWcK6CF7aEmETeByC2aNpf
+	 wVqbMVUqJdaYbryclZMgXDHIWzp+5YiTF0K4jKyL+oz3Sq+gYqz1Czw9Itn9TMk+n0P8R
+	 8YnugsjtT74Q5+S6EaXFwb16L/JLbj4vTX5SGdG6Nh/Su/JgFmThKXFBZmZTK6XEAye2n
+	 Yozyi/cLPEnryg1A7UqBJcKsNH7AcSaLDGWcbgTkI94MxRpHIhEry4IUQF4gFF3+lGE51
+	 i9F8ECfHPS9svCF/iKHK1YddNfCv+/dx3xRoclDwoaw3rB0VXzvlzLsrHJecWfyMoUw==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792499995;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=mn+KPT7PNe9VT7UdlFzXBdv0pr1VqYLkw7yXQZOMxLw=;
+	b=SxhRPCQGHebAPFsESawRPG1xvL/ySER0JjSneyEsFmwHz/p8bC0+9RCoHGM5ibuL+hwS
+	 uK1VGdIvdT5i28hWQrxwS0VDHM0HUeN1QKK9klWOsOu84X/6rTFzo1rmBn9oZDaSo6I1J
+	 ndmOoEMWHVgoct4YCNGd5eJhsgADSEWUiBHUGMI5/x+1wC4necGrZH/LZ73AuFoHhHksP
+	 IBvaUKsMy24YBKL6V58rbxAGA7+XhdkW/p0mJ6AFkzMfY3t/Ife7Sn+oyz7vRKIDtuyQR
+	 7evlj/VoqJtIv9PwIJiq9BcKRHG/BriyBnn2/GavkP0QGRI0d8cV4wdsd4ebypXIvaw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=gckgA8by;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.49
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EF6A606A319;
-	Tue, 20 Oct 2026 12:38:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0EF6A606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2debce02cc8311f19a56ed5b684f684d-20261020
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:a345f462-07ca-4556-8621-33e4c1eca9e0,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:7db8b62,CLOUDID:16d147198c1fb3b894fead51ff1a54ea,BulkI
-	D:nil,BulkQuantity:0,SF:80|81|82|83|102|865|898|915,TC:nil,Content:0|15|52
-	|99,EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:
-	0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2debce02cc8311f19a56ed5b684f684d-20261020
-X-User: lilinmao@kylinos.cn
-Received: from [192.168.1.101] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <lilinmao@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 756192786; Tue, 20 Oct 2026 20:38:40 +0800
-Message-ID: <9dae0159-f62a-47f7-92f4-66e547612245@kylinos.cn>
-Date: Tue, 20 Oct 2026 20:38:37 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC60E606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 12:39:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CC60E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=gckgA8by
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-48e0d1c095dso1834098f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 05:39:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1792499988; cv=none;
+        d=google.com; s=arc-20260327;
+        b=BtKb7uT6lsduYSTxY4xFftxmvpP7uZWzIWAjoFqI0PGybfvsMBS9Epj6iBoFYf03TD
+         rL0jL2RRJEceH/RsjRrW95ElXwg5DNqKHkI+pKYHGs9tEq6v4XDPQoh7r7iIw8DIMtVx
+         jv8VYjvc9U+rpca5W1ChxGrLDwQczZ5vqzKPG+bzVDzTtsfgV4zgosei+Jfs93icxQbV
+         Ynz5mOzqzUd5bS2XytAmQvxFVD6bBDgKKvaqmHSWez7xW1VAZo4gDzR4cuo/bl8DcmC+
+         Bn/QBUx345NuhfoD3+ha2OQj65YDCbEoE/GZdG6WJTEGASVnN4J1Acukmf3Ebq2wdt9P
+         uZmA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=mn+KPT7PNe9VT7UdlFzXBdv0pr1VqYLkw7yXQZOMxLw=;
+        fh=pCzwVPomkcMg6xSZLZLWwyItbXtT1G3T/iYwRZluEEc=;
+        b=hZfJF4MCuSocvRCkZWQMHBpytoEFFdqoUUjufNWrDJYu82K4EIuWpL/1KP/hhA7eNH
+         gowa8+Nizj2KdrkJNI/IVzgzERHo9yNLhFFZ1zVFhAVRDQKIDrU2HJpq7hILm/m4tlFt
+         ZgCEGBcwF0mZ8SAgnG5XbuoH+Up7WTzwqHUkLV55+LBu6bmHklRbH2knwgFUkGyZR0TG
+         7HZOjiMZaWAWK5e0FGPY48pOcE4OhEoXiF45zjWH1yJFxAI3z5W3jRnP82Z90kWqZGuN
+         cvSEZrxcSGry5Y+C78WD7NDL8kSDSYek0jPSJ8QMc5kEb8ObB4Ug1Poqn/tRBQmSpEUl
+         Nxlw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792499988; x=1793104788; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mn+KPT7PNe9VT7UdlFzXBdv0pr1VqYLkw7yXQZOMxLw=;
+        b=gckgA8byjsGEdVN8Oe89vE/KvG+6bqzWUIfTn8joJ2MQKIZ/t1PNErPtmh9OMAn3vC
+         P3eKQmb+TvnrYRWdfSArFZDfukjYzv85mZWJWq9dWaG82DFfJowJo/MZxMttJ2kJjLys
+         53CbLDxXimjFQpc4ybWTbYWQ1PHhDweE4odPk0bAyytyCvQXygxtbucjPnonKjYpgD3s
+         ohFbDFbampKm/vVXv3FUy+1qzb+8QxK+Qu7yMV4dJ5xU24dVnjmPhO9v6MoCxSbJEKnL
+         A/v0+5v2iqiQJL7lcDUjoV7ktIFPiFWO+zzyXKi3gXQakae7FAnBHpUF09dIr5/QUShA
+         1CYg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792499988; x=1793104788;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mn+KPT7PNe9VT7UdlFzXBdv0pr1VqYLkw7yXQZOMxLw=;
+        b=DhxEHhhvW9VgDMAqDlYjspvKayV416OIlDzmuG1nHZjE9fmBJz35Tji984mw5BY69i
+         dwfRm3M9oqviG9ZwFOaqK/bp4f9vkZdvfU57zLB06KbZ2zdtgZeyrDgyadGFD09vDYSV
+         JrQHogYPCAMkSMSnEfJBmMAg5rWTpZClqnre2I5FchQPyLLRqgXqS3FWF1gs4NZxSkWv
+         QND64HjtNDb0VSyBC4JQsKLUk3ZB7K8TY64cGWiWry3LiRAYdsrT1SRybfoNPqpAXXDp
+         XHzPTOECxM6WpdK90kRyOgDHCL8wGOZ54neFWKypalJEkpyDqjz5wBtO7A/jMrC62DUs
+         ZUAA==
+X-Gm-Message-State: AFq9FYIXW66KFGNSNsD8tNTsyJpDfvUhxl4VhrPvc4GZH/oj3wHhd9af
+	GoUo3HIwi+hRpLcOsorngwv8G8cmxxcT6ClgNGc29hLxQVD737SK1AjdEgLCJ+5Q7dQcYghM//B
+	/DhHA38ZSB0jYTgxSpsF2ER26o9Jq4P8=
+X-Gm-Gg: AYBFou0/7TVqrgQaMbJ1pBlTXjK+wiPRF5v++48cYOwCCHOUmgFVdvSV2EtJ7xiNbG7
+	X2wtiEFCK0fPvfRek6VeuvVfchi5fcFmms9QY607lXbcGNBN6niqMX7mV0if7cm+xytKgTvEw8C
+	h9F65gDxI3aKHccuYsrF3gxxLjJzZWY0JCu9l5lythpeyeNqBzZxNo7uWb4ADstsT/1m2ED9NKx
+	SxZlvDaN9OPh/YOWJFCJnlmgcJilvPJZ/nJXT/hZxt6aFJf2h9jrmkz52DZZ+fiXFTMyKowecFN
+	FAiWLCpxjzm2lLh/kSqLw/0+8iJ2BOfjM/h8rQNB8wvsVY9Ad3rnstsVZkdO3yMkGW4=
+X-Received: by 2002:a05:6000:26d0:b0:48c:77ad:d52d with SMTP id
+ ffacd0b85a97d-48e20fbffb6mr3084270f8f.43.1792499987813; Tue, 20 Oct 2026
+ 05:39:47 -0700 (PDT)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,98 +102,42 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net v2] r8152: Use BMSR to detect the link state
-To: Hayes Wang <hayeswang@realtek.com>, Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Chih Kai Hsu <hsu.chih.kai@realtek.com>,
- nic_swsd <nic_swsd@realtek.com>, Birger Koblitz <mail@birger-koblitz.de>,
- Xiangqian Zhang <zhangxiangqian@kylinos.cn>,
- "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "stable@vger.kernel.org" <stable@vger.kernel.org>
-References: <20261005105249.1281648-1-lilinmao@kylinos.cn>
- <fd3bff0e63304681b9e5f35f2f57e50e@realtek.com>
- <7a8d21bd-3484-4120-abd6-f7290f919b7d@lunn.ch>
- <2bd3886a-da6e-4703-bd7a-9baa32bfd2f4@kylinos.cn>
- <591ca604-b296-4469-94b5-957d9ba45ae4@lunn.ch>
- <16d9caec96e8449d88ac456e8512f08b@realtek.com>
- <06aaa778-ad49-4e30-b1c6-a7dc68718a21@lunn.ch>
- <cf64cf73-aa31-4a78-82c4-a9a6c866d7cf@kylinos.cn>
- <04de94998df1449b945b8847204980d2@realtek.com>
-From: Linmao Li <lilinmao@kylinos.cn>
-In-Reply-To: <04de94998df1449b945b8847204980d2@realtek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260910082008.12397-1-syedtayyabfarooq08@gmail.com>
+ <2026091034-slicing-same-692a@gregkh> <CAKD4hN41w_bRPAY3i9=tD1tWQLag3r-FGsngD5U6igM=FWe-_Q@mail.gmail.com>
+ <2026102052-stretch-craftily-e3f8@gregkh>
+In-Reply-To: <2026102052-stretch-craftily-e3f8@gregkh>
+From: Syed Tayyab Farooq <syedtayyabfarooq08@gmail.com>
+Date: Tue, 20 Oct 2026 17:39:34 +0500
+X-Gm-Features: AclHuK8QNNfi9bQ6Wl4hOpfhwScE0HF214wRGBmecZbXX8hu2QyD6SP0CGAeWSI
+Message-ID: <CAKD4hN5mFTS6OyYjDdWjDs1b2Y99-FZCGd4AkXhEOZ-gF94Ovw@mail.gmail.com>
+Subject: Re: [PATCH] usb: gadget: u_serial: fix use-after-free between tty
+ open/close and gserial_free_line
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "open list:USB SUBSYSTEM" <linux-usb@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, 
+	syzbot+fe63e4d633540f230624@syzkaller.appspotmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi,
 
-在 2026/10/19 20:12, Hayes Wang 写道:
-> Linmao Li <lilinmao@kylinos.cn>
->> Sent: Friday, October 16, 2026 3:16 PM
-> [...]
->> Option a) addresses only the speed regression. It keeps the existing
->> PLA_PHYSTATUS carrier detection and does not improve reporting of short link
->> drops that recover before the link work runs.
->>
->> I plan to post a) as v3 for net next week, keeping that scope explicit. Please let
->> me know if you see a problem with this approach.
-> I tested the following patch, and it works for me. It might be useful as a reference.
->
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index f61686433031..398d35f6fb7b 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
-> @@ -6979,11 +6979,8 @@ static void set_carrier(struct r8152 *tp)
->   {
->   	struct net_device *netdev = tp->netdev;
->   	struct napi_struct *napi = &tp->napi;
-> -	u16 speed;
-> -
-> -	speed = rtl8152_get_speed(tp);
->   
-> -	if (speed & LINK_STATUS) {
-> +	if (r8152_mdio_read(tp, MII_BMSR) & BMSR_LSTATUS) {
->   		if (!netif_carrier_ok(netdev)) {
->   			tp->rtl_ops.enable(tp);
->   			netif_stop_queue(netdev);
-> @@ -7009,6 +7006,11 @@ static void set_carrier(struct r8152 *tp)
->   			tasklet_enable(&tp->tx_tl);
->   			netif_info(tp, link, netdev, "carrier off\n");
->   		}
-> +
-> +		if (rtl8152_get_speed(tp) & LINK_STATUS) {
-> +			set_bit(RTL8152_LINK_CHG, &tp->flags);
-> +			schedule_delayed_work(&tp->schedule, 0);
-> +		}
->   	}
->   }
->
->
-> Best Regards,
-> Hayes
-Hi Hayes,
+Apologies for the confusion, As a first-time contributor, I am still
+familiarizing myself with the patch submission workflow.
 
-Thanks. I tested your patch on an RTL8153B with a kernel based on
-net/main (513444cc62e2):
-
-- With NetworkManager running, it reported 1000 Mb/s after 3 of 3
-   rebinds, where it reported an unknown speed without the patch.
-- On link up, the first BMSR read returned the latched link down,
-   PLA_PHYSTATUS showed link, so the work was rescheduled and the next
-   read brought the carrier up. After ethtool -r there was no repeated
-   rescheduling while autonegotiation was in progress.
-- I also filtered intr_callback() to pass only link status changes.
-   I delayed the first link check until after both down and up
-   notifications from ethtool -r had arrived; the recheck ran without
-   an artificial delay. In 5 of 5 runs, carrier went off and back on
-   within about 8 ms, and ip monitor saw NO-CARRIER then LOWER_UP.
-
-I will post v3 based on your patch with Suggested-by: Hayes Wang. If
-you would rather be credited with Co-developed-by and your
-Signed-off-by, please let me know.
+I have addressed all of your comments in the v2 patch, which was sent
+as a separate thread. Please review the updated version here:
+https://lore.kernel.org/all/20260910105359.12915-1-syedtayyabfarooq08@gmail=
+.com/
 
 Thanks,
-Linmao
+Tayyab
+
+On Tue, Oct 20, 2026 at 4:39=E2=80=AFPM Greg Kroah-Hartman
+<gregkh@linuxfoundation.org> wrote:
+>
+> On Tue, Oct 20, 2026 at 03:49:29PM +0500, Syed Tayyab Farooq wrote:
+> > Hi,
+> >
+> > I wanted to follow up on this patch, if anyone has had a chance to revi=
+ew it.
+>
+> It seems you ignored my review comments on it?
