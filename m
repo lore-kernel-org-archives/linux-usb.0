@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792485409;
-	b=w+3hHJYYeBIUFOJqfxz5PyltYWVDdcHp2oXtokw48CVHN9BjQ0WBLMtBkdYnJHdBNQBH
-	 btlFOw/qnciapJX52hDHA0Zcq3ma+wyGsZYu84QqF+5qG+Jcy70PHM53svwUn3yIJtMV0
-	 56YMiQ5uaQYCk3UUS572/+Va29E/+IYJmIsNEXZqOWTm120oCgp7xWTrm8yFcjVWJwcrx
-	 x5+2Yfe3VL/t1biuYkaB75u+xktvzRza9+Vpo+p6r2ytsjGSwqG+p1Y7NcOhmoKMGT/A6
-	 /KcI7zc2m8QdoErtoRiFarjaetMp17UP+u6u/8paLzWMrIHDU0j87gA+XGWjZHKZpFQ==
+	t=1792485472;
+	b=jgbdYLYmC1rptDcTGg+hxVBsXKVuHYFiysaEWEGZAicDTbMaFUC3xrU3Ztld9Kehqlkr
+	 wZ1cuMhGUM777OkoMUItaP+et+M19m9SeBUb1FgGMRN4Wic+tczz6dGINplwFxIkoxhYs
+	 f/PbXrTscEexB2iGv2S+lTTtYkXz5RUrBV8hPn0abUkGGHElp8bCVgcph8b4JKQ639F68
+	 R5WQWZ2r8pBCkLjnAJVOCa5ybbfIIokzq1HR3JmaMs01shXo20L9rPIoyBk26bqpezgye
+	 Wf4Df7qpk7Glz2uuCFS5CleznC6aowHVNNqknNUTQ6A+9+uSWLXz5+PBQdaoLUgO0dw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792485409;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792485472;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=fj+fGCDx81dk69N5Z+qiC3JXdHj53Vme+Xw6+QRumUk=;
-	b=hsVo4qVCGtnTZfhDDXi8RPhbSLLb/0Cz+hf1T7kenuJvsMAgBcWPCmqwpEdhdYiu5Sw/
-	 Y5l4ZxOhZuU1K4gsaLCn8ZZrGODCIAi9pGH0DOxbi/Ii45Zo7U/3uQ0uvFntTtVngrR54
-	 LbkvPgT9G1FAogFlpr8VtY46kK/wM5+b7VZAvP9XO+WKo5QIK+5cLy2W0V6PD/84PEXQ1
-	 pGz8BZbV0Tl0/YqkHrB+pN2mI/1vVRZcK5klO3JKRkiKi8UAEp/iXGNvQlhD5+wINrCm/
-	 12n62WMHJLHj4jBfG9x3vUdWUcpejNrvpqcdAZ/u/UlrjQKce2uQo8oW3BJy7dA9Dmg==
+	bh=xCI4ICMFnHI1tXoqcZJbnnyeDnXTe4ED977SPl2qON0=;
+	b=X+gcphUsFgf7UDhnfMHJ41MYBrQZNpNvYYxEu8DAK5O2o72cm8RzdI7YTvVM/wr+1tTc
+	 Tp8sV8QZtjyyVzvq8wcz+aPUHmQOomKc13yvfE71v6oYxBYtbGE+rj5Vi8T9HhuQ8UM4/
+	 03vQ1stbtDuGGZ1Kie99vHvwx89kKds/sCFvhhnpTooDeiCQ7KpHZKm7jzoIAb5sBsa/J
+	 LNDCWo5ruf4yscBecjhNGTN2htAQujD7W3xwGh2jOqW44v0vu/KKm5EgeW0wmhosOg1xF
+	 TWPUDsSRkMLz+EDeyYW8dCq8nCOmbgUDVi7FwOR/pBef/nKTQQj31Siu/Bq1LClPzGw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oMez3u0q;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="Jb8Bi/W1";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5212606A31B
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 08:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39F0D606A31F
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 08:37:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oMez3u0q
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 630C61F000C4;
-	Tue, 20 Oct 2026 08:36:48 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Jb8Bi/W1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 942DA1F000C5;
+	Tue, 20 Oct 2026 08:37:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792485408;
-	bh=fj+fGCDx81dk69N5Z+qiC3JXdHj53Vme+Xw6+QRumUk=;
+	s=k20260515; t=1792485471;
+	bh=xCI4ICMFnHI1tXoqcZJbnnyeDnXTe4ED977SPl2qON0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=oMez3u0qcycghWOPbB3tuXpT+3VoumHhhayWN2PyIA/fXLcL4krfKnBy6HNU8Pu/e
-	 TMfECeH0XHKzOvQyO8uz2w1u/co7zxuU2Ps//ONJ3e0PJYBNxKYK9FdL4lFOa9VIvo
-	 avuw9BmvJKmhfl1UUYzi2ChK3fnWgkZs/xnmdHy0F01xbw3YQorFxKVGVY26hVVJ2o
-	 U3o+xAb2ok0kKNUcfkKLq8teBzuFRvj8ICFsoDm71zm9B+lZGvRpFcl4oouEwGEs9N
-	 JQE9wIzABVwet7Er8YCK2fE+FLPkVCfI/q3+dGNKvpqtJGeFFQlkzhtqPY1Dbeoigu
-	 9t0X7/gPr9b0g==
-Message-ID: <sashiko-outbox-178580@kernel.org>
+	b=Jb8Bi/W11wxwIvXzez3gHGPgL5/c++e89o8hJKnKOipHTI4dJeD58YLCbis5Nw5s8
+	 GHIx9WaLzi0EIcWAPz4ZtxPhH2e+FVxrPAWF8sOxibKeE8xxsPy5VAQp/Be7393sQl
+	 CzlcgxCVi+PVBF0Y0gFxtfCGG2LT2fB9ymlE+jPUiADo92nwxhhfEX2qm7NbevnB4S
+	 WaheanJJQ6Rn3IF+dFtPptp8b/3i4AFFMf7f9e7hZOw3D8NdiHYn/s00uqVy5whbY6
+	 pFR4StvQ3J6aj/IHbvwZSmwUW+b5PhVs0HrmXePSKo/ZQVXW7GDWoYVFjAhZ+GVaLg
+	 7SMhER0TwtF5Q==
+Message-ID: <sashiko-outbox-178585@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3 1/6] dt-bindings: usb: gadget: udc: add Axiado AX3000
- and AX3005 UDC
+Subject: Re: [PATCH v3 2/6] usb: gadget: udc: crg: Add hardware definitions
+ and structs
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Petar Stepanovic" <pstepanovic@axiado.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261020-axiado-ax3000-usb-device-controller-v3-1-3012ecfc0a93@axiado.com>
+In-Reply-To: <20261020-axiado-ax3000-usb-device-controller-v3-2-3012ecfc0a93@axiado.com>
 References: <20261020-axiado-ax3000-usb-device-controller-v3-0-3012ecfc0a93@axiado.com>
- <20261020-axiado-ax3000-usb-device-controller-v3-1-3012ecfc0a93@axiado.com>
+ <20261020-axiado-ax3000-usb-device-controller-v3-2-3012ecfc0a93@axiado.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Oct 2026 08:36:47 +0000
+Date: Tue, 20 Oct 2026 08:37:50 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,14 +61,9 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Add a Devicetree binding for the USB device controller integrated into
-> the Axiado AX3000 and AX3005 SoCs.
->=20
-> The controller is based on a Corigine USB 3.1 IP core that is
-> dual-role capable (device and host), used here in device role. It
-> provides SuperSpeed (5 Gb/s) or High-Speed (480 Mb/s) operation, and
-> supports control, bulk, interrupt, and isochronous transfer types
-> across multiple configurable endpoints.
+> This patch introduces the hardware definitions, register offsets, and
+> fundamental data structures for the Axiado AX3000/AX3005 USB Device
+> Controller driver.
 >=20
 > Co-developed-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
 > Signed-off-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
@@ -80,5 +75,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261020-axiado-ax3=
-000-usb-device-controller-v3-0-3012ecfc0a93@axiado.com?part=3D1
+000-usb-device-controller-v3-0-3012ecfc0a93@axiado.com?part=3D2
 
