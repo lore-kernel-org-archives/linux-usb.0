@@ -1,64 +1,79 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.163.158.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792528145;
-	b=X93hQmI8DwW5ys9xjy6Y+4IGOSKSveIXd+oZccY20PBvOSXUkfHiCzNU+KYP51pPnmLs
-	 dfkz9i3TDe0RPt6AxpCs1d5bQWt6urj9irccVCdNifibxvJCcn2llEFoliGoViYuHbnmn
-	 QBPwqDuo0sZ8XD4lLpPzMEU72ZxV3CFcgOpfEFbm8W1tl9YP4desFISfWxI/b0AypFGhI
-	 oDmynJi7Ig6pUEmuWeJ9eYy+AYPHkFPBuKoa7krHUezDsJPDsh+BWpFu6r3yYVh/ji7Xw
-	 ESS6f/xcwrERbQjoC5461LYyzko9Dgu/KI8ZS2uBfcMR44V2cZ4VRCZG5HioeKD5ZsQ==
+	t=1792528850;
+	b=fLezBih1lJLX0wt+uyj9o604BILFo8nv7Pev8c18ZWtSVFBDdmh5bpvjEHCheGWLrJCu
+	 pF/dwOLamCsmn5IYNIl3ZR8l/tTM8EJWpCfjk9lAKULJl5PAggzR1EygL6vQyFq2f2QLA
+	 D+nY1HES8FdbnbAmWB8OnZEg1yBZNSUSiKEb5ArYsGMDGXeQIidB5wrJ9qv4OxAb7xj2E
+	 zno74s8lOrLsxbUYu1kETMt4ieDUXDS0kg/RDMVJAsieZfpjOZFkObjV8LIw7fEMHJBxc
+	 t1BgP9hKt8MCrUFurU1puvm2YF/8YnatbFMHzGb20F1SbgPIh1S5SLdICPwcKOUVx0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792528145;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 In-Reply-To:References:Auto-Submitted:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version;
-	bh=PJRu7W6/Or1we5Gv3BgoLEtby0D0Y0UGgfjBHfRc5+k=;
-	b=ER3VL/YKcVAvi6I4leAEmmCSa5fzlRBhaTWdm3Y34p8Q+Y8OGA7gKl7ey9uzlBnvfuw6
-	 6IMmcyI6C5knwnzadONtAKkHvKgNtQvNSs7llgAhrrvfGjB6ZP5edCP5g9fZ0Z0kCRrzJ
-	 FskFUyhS3M4OZs3K2pyJQyQ+aHxfhuXwVaG3NTqGegibA4AKytNwgXW5exsAOThtFhyCn
-	 UnfiQpiEkU87yzcHmqtBiCnDPvynxQYfxW5bPzhW2c8ed2l2E0CiCOmdmEdNVnlDvKRkC
-	 f9+QiQtItafCem2iFMLdy1/ZvXc8LAOkrQ7F5bJQ0puvvFrOhENNNZ3m+DRF06HXfYQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792528850;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received:Received:Received:Received:MIME-Version:Date:From:To:Cc:
+	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding:X-TM-AS-GCONF:X-Proofpoint-Reinject:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=nmC/incgC44p0YLHcQ1YsL8k+YChQ6lTfX1k4mMNozs=;
+	b=l0gSSUtdV89e/eo3ZQN/gWiHiwpZiMmMy8nIci0nQZq4egClWf10nFoKwsyznNGLf6kl
+	 E5G0N8YIN0dklUuQLva7k3nI/DO8PKsGUL8L0UTfNOgxhmG4k4LSl6Y7uSGEqjV/KlhUf
+	 zU5Bv+aLNpyQBtZdkutPvZhHaeGAdRyfrR1yodJf1FsNJbAIEZcOXuHSTeSC5CQO97a/q
+	 /ZURwRo+LkR93HQwAnFvgCtQn9vWjmrpwxHVhkKPDjOri6GTSIwnObtEHqgMuiif8S8Nt
+	 ANeTyFemN0PXNm1onTRmtBlBvynl0CqDnNkKq/OC+Hckkm4FHUf4ClEtTdjlV/JjTVg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DVn5k188;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=linux.ibm.com;
+	spf=pass smtp.mailfrom=linux.ibm.com;
+	dkim=pass header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Eyv12zPY;
+	arc=none smtp.remote-ip=148.163.158.5
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16DE1606A319;
-	Tue, 20 Oct 2026 20:29:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EB51606A31A;
+	Tue, 20 Oct 2026 20:40:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6EB51606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=DVn5k188
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C19DD1F000C9;
-	Tue, 20 Oct 2026 20:29:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792528144;
-	bh=PJRu7W6/Or1we5Gv3BgoLEtby0D0Y0UGgfjBHfRc5+k=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=DVn5k188EQ6OALYXS3EEOWOS7LLlYJX5eJAothAcwLyQ0ugIGMLAKM32ayOgB5v7z
-	 SPHWgfDt+FmsttDnX90hmAr57mp67FYK2A1lmINGDTGHJXuVFDi/ZmszxqySjN2BzQ
-	 ld7pCSuOgAvWSiY1KtKRvcMuaZIHptxH5QAU3p2NoKKcjUqP6iULXpn8jsph6Nq+SQ
-	 cfXVIMahvDw2V++H0r2RkE2yz4obJzjGb0kGK6XZAeox0flMnsSpL/aCTnyZCL/KfB
-	 0sUDUV1/ul0EmJyXqhoDMlUN/NO1cBSDOxbs5X/JXTAj/C4PnLMNFh4i6IxOsVINTv
-	 omJ3bFmGnQYIA==
-From: netdev-bot+sinfo@kernel.org
-To: Stefano Munari <stefanomunari.sm@gmail.com>
-Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
- UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
- Oleksij Rempel <o.rempel@pengutronix.de>, Nicolai Buchwitz <nb@tipi-net.de>,
- netdev@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: 
- Re: [PATCH net v2] net: usb: lan78xx: fix error handling in lan78xx_open()
-Date: Tue, 20 Oct 2026 20:29:03 +0000
-Message-ID: <179252814326.3290.13906032175458755329@kernel.org>
-In-Reply-To: <20261020202614.30277-1-stefanomunari.sm@gmail.com>
-References: <20261020202614.30277-1-stefanomunari.sm@gmail.com>
-Auto-Submitted: auto-generated
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=ibm.com header.i=@ibm.com header.a=rsa-sha256 header.s=pp1 header.b=Eyv12zPY
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69KHEPYL3067822;
+	Tue, 20 Oct 2026 20:40:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=nmC/in
+	cgC44p0YLHcQ1YsL8k+YChQ6lTfX1k4mMNozs=; b=Eyv12zPYcwSqGAvQOd6/tM
+	O0wEtbsLeoEegPD5Y0YbawQ+3VZO6hPc3abEsk+7Z9LdnRLaquXCqzYHJgSRgeF8
+	ZoHkiKDIsMEJq9iP/4k7x4VKE19Ek/xkePZZol/Eu7MB1wiJQGYh93Pbw+ketQqT
+	MAjJlpe2yUHDhKpgzDI9VqoBSFS6gKjfwEDTE/7FCQKgfDK5GR3GMicDuKE4mMnU
+	g+O1N2UcHYgKOUzLtg6EbGavueClSat/8xyDLJ/Gr9wnmXPRquUo7RbWZKIYPpAX
+	+dSeyXevy8S1ZjqiWFkAGRcTFW4at61KDGVmr3X8iUfVqLNhxkvPLS7GkccBQXhw
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4hdw59w3sn-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 20 Oct 2026 20:40:25 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.11/8.18.1.11) with ESMTP id 69KHJoTP1793404;
+	Tue, 20 Oct 2026 20:40:25 GMT
+Received: from smtprelay06.wdc07v.mail.ibm.com ([172.16.1.73])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4hckqvm2gk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 20 Oct 2026 20:40:25 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (smtpav03.dal12v.mail.ibm.com [10.241.53.102])
+	by smtprelay06.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 69KKeOsa7078418
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 20 Oct 2026 20:40:25 GMT
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D299F58068;
+	Tue, 20 Oct 2026 20:40:24 +0000 (GMT)
+Received: from smtpav03.dal12v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4C89258060;
+	Tue, 20 Oct 2026 20:40:24 +0000 (GMT)
+Received: from ltc.linux.ibm.com (unknown [9.5.196.140])
+	by smtpav03.dal12v.mail.ibm.com (Postfix) with ESMTP;
+	Tue, 20 Oct 2026 20:40:24 +0000 (GMT)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,21 +83,72 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Date: Tue, 20 Oct 2026 15:40:24 -0500
+From: Wen Xiong <wenxiong@linux.ibm.com>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        stable@vger.kernel.org, wenxiong@us.ibm.com,
+        Brian King
+ <brking@linux.vnet.ibm.com>,
+        Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+        Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH] xhci: Reset controller on xhci shutdown
+In-Reply-To: <20261015103307.3ba25345.michal.pecio@gmail.com>
+References: <20261001222527.11742-1-wenxiong@linux.ibm.com>
+ <20261002102931.3cb06009.michal.pecio@gmail.com>
+ <561d22493c3d078b26f547dd8f6f6f46@linux.ibm.com>
+ <20261002161828.365ff859.michal.pecio@gmail.com>
+ <55a53022d1c6f671a3ed549d8cf7cd1a@linux.ibm.com>
+ <20261006125546.10471489.michal.pecio@gmail.com>
+ <64515dfd9a6cd8c3f5665e72a6bf6b81@linux.ibm.com>
+ <20261015103307.3ba25345.michal.pecio@gmail.com>
+Message-ID: <5510281a5d91bbd435d9920431a3fa75@linux.ibm.com>
+X-Sender: wenxiong@linux.ibm.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIwMDA4MCBTYWx0ZWRfX4XtqGvhWkg4f
+ 8kQxnN6848X+gcsx7WALTF9DKcCLIt0kO4rLLU7t6fghQ1hMzccXt+FsP2bmOQc975fLakJ1Non
+ y6Nww9Ml2L1UXE45PciOVA3+UXPGwSRIbeLI+cVucbRH7bZNlbWRwgg+51tesQrU88IufLW5Fod
+ wbcEhnbFXqZqUjvCgmN2bV4cFPgBfRASs7RTETZ1tfuGoy7FUDz1ynSaDa8EpAZHXjFjV7LzfiN
+ onUZcAsI7C+fZegwPQ5uZxOlwVJ5dMOctpEvOKclYKCxs0sn9z9xKexvDBZwXD8jaA5L1qVqvtb
+ 7iT0BH1kW79pjGQ0Fc+c+ag9xYIMYL7Wdszh603C8sKSlYSPsNoqM86lS9W8HhtBcHCsqYQMxBJ
+ QfuErwWkoJWrdybP87puPjA03gcXCklUyi5iszIq+qGvifIKxxQGVmvVfZaCeyIww7F7AUZ0lNK
+ MYuxWQq3Beuv99zhG3Q==
+X-Proofpoint-ORIG-GUID: y6EkgGZBlFtU8poduQyeycfDwTpiLXTs
+X-Proofpoint-GUID: ULvzCJmwWIHRjaPUnlzOOJ02bZjFnke-
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIwMDA4MCBTYWx0ZWRfX6H5CSDYMVph1
+ N6irgTUk2d/1JOgG1GIDieWHUuFQ2E3pJAuB3zB9Lv4D0Xbizc7PSNibc0944hsCLokAAvl5CpJ
+ PLQMzFQyjVLg9njUHV6r0FYb9swEvlk=
+X-Authority-Analysis: v=2.4 cv=ZfSIpcVA c=1 sm=1 tr=0 ts=6ad7d1ba cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=nViXcNDWPswa_XI7mFQA:9
+ a=CjuIK1q_8ugA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-10-20_03,2026-10-19_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 impostorscore=0 malwarescore=0 spamscore=0 suspectscore=0
+ clxscore=1015 phishscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610200080
 
-Hi!
 
-This is an automated message. This series looks like a fix, but its
-commit messages seem to be missing some information:
+> If it doesn't help, it will look like you have something (machine FW?)
+> monkeying with the chip during kexec. Then we could try fixing some
+> known bugs in quirk_usb_handoff_xhci(). Maybe this will be enough.
+> 
+Above patch is similar like my V1 patch.
+It works fine and all usb devices are showed up after executing a kexec.
 
- - How the issue was discovered, e.g. hit in production, hit during
-   development, syzbot report, manual code inspection, LLM or static
-   analysis tool scan.
+If we can combine above patch + my V2 patch(set flag to TI devices in 
+quirks), it should work fine.
 
-Please do not repost the series just to address the above. Instead,
-reply to this email with the missing information, so that reviewers
-can take it into account. If the series needs another revision for
-other reasons, please include the information in the commit messages
-then.
+Or you can other ideas?
 
-The evaluation is done by an LLM so it may be wrong, if you think
-that is the case please reply and explain.
+Thanks,
+Wendy
