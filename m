@@ -1,91 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=114.111.35.100
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792519988;
-	b=O3zRfL2Hmcb1A3oE5IhG49S3oH8yoh3qFTvOHQT0ywV0zqoXud1hNX4gDpuMy+ywrhyS
-	 VDO3FtuBVaW8MctbqBfFqPKksWe9aCvljJWXhrvrhuVG9EisF46ZWNEHp0wLmxpLi7jZE
-	 vYg3zKNvzbc2MGQImAXuq7JTz7UX3mLuZfn6S7BPKvJRCu84H+H/mApirAYHh4EFziMxQ
-	 HX66ksHvvL3OJGUbdgA1XX8IBcY7Nzj/FSpzyhyHz4QMSjLQaFiUrevhB/wYxx1YFoiIX
-	 NExttkHbKisnMTXeRvGA3RHfQWNx470CONBsd/xh3EJXfJCsd/gko4eW5B0Ti4Cg5qA==
+	t=1792520002;
+	b=gpRX0TlLCLuI4e0Z0XZ132GfHSFJ1oZaN0RNb+T51l2hcenXSzeW7wDGeQqlz3B4qmU2
+	 2eNBhR7GMsqLRYaTBPpxhlY7WzDsLwWGBYpE0lIzJZ9ConG5Ofba5ebXN0e5xCJLK+hJQ
+	 LEGn97cjb3hzNzJXLlJq2aF3hcC0EaogbO+Id1CBqo9f1VjM0EQtNCGr60ESLF7fEO1gw
+	 jKXw8gmFsGAu6d43Z6ylFJB4mfkTAIHoZyet49YUvYHrjHASuXInq3f0U86znwGcDOvrU
+	 WmHh9BX8eqRLMC9aRX/elOEiUK0TspzKZVFUFronsXyBnJ1rZOXMIcCshySZ+0KqTzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792519988;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=7Wx9GyoHHfawHRnV0Cg3i7Hst1BvQl6Kp0zfGCvvP3g=;
-	b=SK/YfO6U7EErFAu4Bv3vLClFFJZquuxfk227DJHUW49wRBoYBjwtEhtXxz8JUZeSRNLM
-	 2yHsdhr2kXsrRIArGXvfWV6brkMcPIdWyzPtYAQocukmQovUZRSBmyk4fr3TnUFh+aCin
-	 VXqLvzXaXlCXmzBD/8AgZrdWA/5NpxXnG7T3uGIr5D+Y8U1e6wvhHg/pqEeeIDGkuzuj6
-	 BBtaJNzFoHjA34nWSeDSW5ea8Tb3pfdKjwWlgcvermy2mzGYUyWQf1DazSBJWP2rAkitg
-	 ZxCz+0phgKG7gQsacWCpzCpMZiAyaIXOsHNnZLUer7h5w1EwfB2R/VPatwRDUVibOSA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792520002;
+	h=DMARC-Filter:X-Originating-IP:X-Works-Smtp-Source:Received:
+	 DKIM-Signature:X-Session-ID:MIME-Version:Message-ID:Date:From:
+	 In-Reply-To:References:Importance:To:Cc:Subject:X-Originating-IP:
+	 X-Works-Send-Opt:Content-Type:Content-Transfer-Encoding;
+	bh=4liDSZC6O8PGJR5EtoBBWb1/do3eriDJ6f0uaDnNs6A=;
+	b=ph+PovpQwh6Q5FpqekZaQbnBmsfTvxfa4qDJCVpjb4aSFERY9ZGTVI96RAiHbE+SQT6O
+	 rDYJR6+AvUvNBlLw0fcIWT/vLDjeIz07cTchXr0MlRHlFkIfo4CiRKFp92y6HVl4fGfpm
+	 frfMBbi85LL9RYnAWhnIYOSq3dEQOrGz++NaFyw21r7dFKnsYqYR4D64hWg8KZSY2/jfC
+	 AYQDZwVeZzpT4k6s6FV5FsYS4Z4q4l25vKV/HrVatZLycL+/sgSe6QS1StcsIJeh7vw3E
+	 yKTLb3sfJDvPqPxcIPRwviXIfkNEj4hty07cY0HSJzlAauNnQVc2nALfoT/xFPNVZ6w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=dd3axunV;
-	arc=none smtp.remote-ip=74.125.82.172
-Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=naver.com;
+	spf=pass smtp.mailfrom=naver.com;
+	dkim=pass header.d=naver.com header.i=@naver.com header.a=rsa-sha256 header.s=s20171208 header.b="Otoiruw/";
+	arc=none smtp.remote-ip=114.111.35.100
+Received: from cvsmtppost02.nm.naver.com (cvsmtppost02.nm.naver.com [114.111.35.100])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B6D7606A322
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 18:13:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7B6D7606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727E9606A327
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 18:13:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 727E9606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=dd3axunV
-Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-354ba08cfd1so6393008eec.1
-        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 11:13:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792519988; x=1793124788; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7Wx9GyoHHfawHRnV0Cg3i7Hst1BvQl6Kp0zfGCvvP3g=;
-        b=dd3axunVuUqRuGrGGRSfLkb1V8FvMQ424d9Mzy0sC6Mk8rBd+qmiIfOpd9wkRXU7N3
-         QazkkiHhdfGV8qnqKWXHIO5Lv0Vvx0yb5h6EpRB2UVGv3OKrHmY3bkfnj4t9rd7ZtEGN
-         6Vp4P2VDjhHXjYOsALXNwbWhaKKxCeEfPDdaYlgcQWig4aYrjgYIh9ci+avYY7wjWGo6
-         CnTgsiURhUCBlzMHXSe88xGlEHv2YRSYUZXIIuknz4iQFOIkW8LvTzZJ/qTMlb3JQ4Jk
-         bQfhlGSfHvH1y9OviUtBf/sty6IPXxG6urYRWk2bpT0ic4WSTe+lV4ZDa3X8bwbS1Kvl
-         2Xmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792519988; x=1793124788;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7Wx9GyoHHfawHRnV0Cg3i7Hst1BvQl6Kp0zfGCvvP3g=;
-        b=q6BnO82dTbe72PWl3TsmP5tA0t7qCMuFtPAP5/22uGqxC/nsY6zfcGJlzFeuiIFX5X
-         Ul6Ra9KWQzyDg0RK9gxZb5fVj7KWIXQCiwavaqLaQIHaDqfQrIXpOLOrdR9YrnlF7JSL
-         VizpLwbpDrLHz5TUGDeEZeLtx/CBYNTsNwyilq7JAmgG02ZwqXppolMjeE+pvexQqcU4
-         245F1TNUd33dPUDDHJbPzYeV2kaoda7Jrg099vHqYrAirreoPgwe9v5YIZlnnF/Z0HUT
-         e73lb4EONdDnvqvXIB85jBQzmUTv0s+ag/MvEIYyH/fGcy9SBv6k3KcfE5aTomcvBwns
-         vOag==
-X-Forwarded-Encrypted: i=1; AKwUvByum5Igyj1eWlasrfQx054Qrb1mDbf0cztVzyXAVN434ixvNxM7gKkpq60vt8P8DputTcb3TiS2pGc=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIRgaJkcaJ4Muw8qKZT/1uKq5VIoBkzAF46EWGlKc3mpu0i0S3A
-	IDjuDQRkTFWV+OmsZeTH3qyX7ftBALEmD240lf/Esn4WTUqMR53opw3k
-X-Gm-Gg: AYBFou3cHJct8FgFkWEBULIV2b4Fiv9dktwIFrhFnvY8GYgIJVy3vYsk0DueJZ8zFSQ
-	bJqpbK9TUZqDNXKpfdxlFO1iavNZ+2T9mMsbQAsxvMHWvSPnBXmKORT3e2ZaYhloE91ej90rVda
-	04EiWg/gTpxo3oCaF14Rbn4mZBZyssuif3rYEnR+KqY5FpysQf1bRdYvyczip8FH4B1xwnaph7Y
-	XqMzNlxxLqyImTLMZODq5U84pRYUcYsC304vfyR+w38W4DV9MPOazXIQ8UiClZoMQyI3YvsckyL
-	N0woO2xsKj8dIQBx6xTzBM/aFqAarzZOqRZHfuyNnLpmJcnJ0Ep5MbDx2Bb3rp9AnNdXV7VjHBr
-	5L7REGonQauyQtSlgm0rzpz4UZL+j6+grGSErrRSrOZkcitQMwPGlBiZ5tV2Ue+6ChziPjUtQ4S
-	qEQrJLDLUs2vJH5sJ/YczcYu2khIl65kznKoJwBjl3T0OADxndaBGOFCnuuFmNnk/B5IcE8oyQz
-	X3lnkZDD8g5NeunkgVKmA==
-X-Received: by 2002:a05:693c:608b:b0:35c:ef18:6a78 with SMTP id 5a478bee46e88-3674a41869amr97000eec.2.1792519987538;
-        Tue, 20 Oct 2026 11:13:07 -0700 (PDT)
-Received: from arch.localdomain ([2401:4900:e005:334b:4504:532e:b7dc:d438])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-367416a1fb9sm265873eec.20.2026.10.20.11.13.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2026 11:13:06 -0700 (PDT)
-From: Prashant Sengar <prashantsengar25031@gmail.com>
-To: netdev@vger.kernel.org
-Cc: Thangaraj.S@microchip.com,
-	UNGLinuxDriver@microchip.com,
-	andrew+netdev@lunn.ch,
-	linux-usb@vger.kernel.org
-Subject: [PATCH net v3] net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
-Date: Tue, 20 Oct 2026 23:42:37 +0530
-Message-ID: <20261020181237.2374075-1-prashantsengar25031@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=naver.com header.i=@naver.com header.a=rsa-sha256 header.s=s20171208 header.b=Otoiruw/
+X-Works-Smtp-Source: f/Y/FAUlFqJCpNm/aAEXWHF0
+Received: from nv1s-hmac-real-31 ([10.180.31.91])
+  by cvsmtppost02.nm.naver.com with ESMTP id I4VvQCTGR6uDjI1R66fJWw
+  for <multiple recipients>;
+  Tue, 20 Oct 2026 18:13:08 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1792519988; bh=4liDSZC6O8PGJR5EtoBBWb1/do3eriDJ6f0uaDnNs6A=;
+	h=Message-ID:Date:From:To:Subject:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=Otoiruw/v1rqSrufPbdIwhExz0pHqsaGLFJu3B2NG0YXs9HlK+eXSJISw6+50j1ew
+	 02yIIEW0F/Hc+CXTfPCBW/gSu0ks2wNkVb2QNu6bMm+RdjWBI35qyZdyKSoNcws8rB
+	 R1o9efdNJBzh/ZwnBdjdPXYrY72N9qX+G7eeSUEnkSk38SVTg3WiK5ucODJ0LpoVuO
+	 jUg6P94a1mTIvWsSJDPpl1/OZwGjS/5PcyqW5x/WVG/ztF0C/IQL99NeslLhvOVHk8
+	 21Utj8iKLL8Uhccb8JACEyZZC7RmFJnFvEoAZ9Y7dJrWxG03GXoQsycCptTLbwzD8C
+	 ayIuLjrgaF2dA==
+X-Session-ID: 64e5b39724f4da7a6779f7c91e26da4b47ca29e36f706ee48597f65d1d445c69
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -95,73 +59,52 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-ID: <f5323f2896832bc270fce3abb33ada1c@cweb014.nm>
+Date: Wed, 21 Oct 2026 03:13:08 +0900
+From: =?utf-8?B?7ISx67OR7LCs?= <tjdqudcks0424@naver.com>
+In-Reply-To: <ea08392d-dd6c-493a-9e8e-f788bc2cd158@linuxfoundation.org>
+References: <20261008134107.265827-1-tjdqudcks0424@naver.com>
+	<ea08392d-dd6c-493a-9e8e-f788bc2cd158@linuxfoundation.org>
+Importance: normal
+To: =?utf-8?B?U2h1YWggS2hhbg==?= <skhan@linuxfoundation.org>,
+	<valentina.manea.m@gmail.com>,
+	<shuah@kernel.org>
+Cc: <linux-usb@vger.kernel.org>
+Subject: =?utf-8?B?UmU6IFtQQVRDSF0gdXNiaXA6IGF2b2lkIGRlcmVmZXJlbmNpbmcgYSBtaXNzaW5nIGRldg==?=
+	=?utf-8?B?aWNlIGluIHJlY2VpdmUgZXJyb3Jz?=
+X-Works-Send-Opt: OPFwpzGdjHmdKHFOMr39Ko3YKHmdjAudFqM9KqMqFxIYkEljxBmwjAg=
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-LAN7801 supports fixed-link configurations without an attached PHY.
-However, lan78xx_set_wol() unconditionally passes netdev->phydev
-to phy_ethtool_set_wol(), causing a NULL pointer dereference when
-a userspace WoL request reaches this path.
-
-Report no WoL capabilities when no PHY is attached, and return
--EOPNOTSUPP from lan78xx_set_wol() before modifying the wakeup
-configuration. Keep the existing phylib WoL handling for devices
-with an attached PHY.
-
-The issue was reproduced using USB Raw Gadget and dummy_hcd in QEMU.
-An ETHTOOL_SWOL ioctl triggered a kernel Oops with the original
-driver. With this change, the PHY-less configuration no longer
-advertises unsupported WoL operations, avoiding the crash.
-
-Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
-Signed-off-by: Prashant Sengar <prashantsengar25031@gmail.com>
----
-v3:
-  - Report no WoL capabilities when no PHY is attached.
-  - Return -EOPNOTSUPP from set_wol() before updating wakeup state
-    when no PHY is present.
-  - Retain the original phylib WoL call for PHY-attached devices,
-    following Andrew Lunn's review.
-  - Leave fixed-link MAC WoL support for separate net-next work.
-
-v2: https://lore.kernel.org/netdev/20261019193148.1381545-1-prashantsengar25031@gmail.com/
- drivers/net/usb/lan78xx.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-index 5655941f1478..612e1e46de6d 100644
---- a/drivers/net/usb/lan78xx.c
-+++ b/drivers/net/usb/lan78xx.c
-@@ -1763,7 +1763,11 @@ static void lan78xx_get_wol(struct net_device *netdev,
- 	int ret;
- 	u32 buf;
- 	struct lan78xx_priv *pdata = (struct lan78xx_priv *)(dev->data[0]);
--
-+	if (!netdev->phydev) {
-+		wol->supported = 0;
-+		wol->wolopts = 0;
-+		return;
-+	}
- 	if (usb_autopm_get_interface(dev->intf) < 0)
- 		return;
- 
-@@ -1795,6 +1799,9 @@ static int lan78xx_set_wol(struct net_device *netdev,
- 	if (wol->wolopts & ~WAKE_ALL)
- 		return -EINVAL;
- 
-+	if (!netdev->phydev)
-+		return -EOPNOTSUPP;
-+
- 	ret = usb_autopm_get_interface(dev->intf);
- 	if (ret < 0)
- 		return ret;
-@@ -1807,6 +1814,7 @@ static int lan78xx_set_wol(struct net_device *netdev,
- 
- 	ret = phy_ethtool_set_wol(netdev->phydev, wol);
- 
-+
- exit_pm_put:
- 	usb_autopm_put_interface(dev->intf);
- 
--- 
-2.55.0
-
+SGkgU2h1YWgsCgpUaGFuayB5b3UgZm9yIHJldmlld2luZyB0aGlzLgoKSSB2ZXJpZmllZCB0aGUg
+Zml4IGluIGEgbmV0d29yay1pc29sYXRlZCB4ODZfNjQgUUVNVSBndWVzdCBhdApmZjQ3NjUyYTRi
+NjZjMDY3Yzc2NWE3YWQ0NjRkOTMwYjVhOTM2N2NjLCB1c2luZyBhIEtBU0FOIGtlcm5lbCB3aXRo
+CnBhbmljX29uX3dhcm49MSwgb29wcz1wYW5pYyBhbmQgcGFuaWM9MS4KClRoZSBmaXh0dXJlIHJ1
+bnMgYXMgUElEIDEgaW4gdGhlIGd1ZXN0IGFuZCB1c2VzIHRoZSBwcm9kdWN0aW9uIFZVREMgcGF0
+aC4gSXQKY3JlYXRlcyBhIGNvbmZpZ2ZzIEhJRCBnYWRnZXQgd2l0aCBhIDY0LWJ5dGUgT3V0cHV0
+IHJlcG9ydCwgYmluZHMgaXQgdG8KdXNiaXAtdnVkYy4wLCBhdHRhY2hlcyBvbmUgZW5kIG9mIGEg
+bG9jYWwgc29ja2V0cGFpciB0aHJvdWdoIHVzYmlwX3NvY2tmZCwgYW5kCnVzZXMgdGhlIG90aGVy
+IGVuZCBhcyB0aGUgVVNCL0lQIHBlZXIuIEl0IGRvZXMgbm90IGNhbGwKdl9yZWN2X2NtZF9zdWJt
+aXQoKSBvciBhbm90aGVyIGludGVybmFsIFZVREMgaGVscGVyIGRpcmVjdGx5LgoKQWZ0ZXIgZW51
+bWVyYXRpb24sIHRoZSBmaXh0dXJlIGZvdW5kIGEgcmVhbCBpbnRlcnJ1cHQtT1VUIGVuZHBvaW50
+IGF0IDB4MDMKd2l0aCBhIDY0LWJ5dGUgbWF4aW11bSBwYWNrZXQgc2l6ZS4gVGhlIGZhaWx1cmUg
+Y2FzZSBzZW50IGEgQ01EX1NVQk1JVCBoZWFkZXIKYWR2ZXJ0aXNpbmcgYSA2NC1ieXRlIE9VVCBw
+YXlsb2FkLCBidXQgc2VudCBub25lIG9mIHRoYXQgcGF5bG9hZCBiZWZvcmUKY2xvc2luZyB0aGUg
+dHJhbnNwb3J0LgoKT24gdGhlIHVubW9kaWZpZWQga2VybmVsLCB0aGF0IGNhc2UgcmVwcm9kdWNl
+ZCBpbiB0aHJlZSBmcmVzaCBib290cy4gRWFjaCBydW4KcmVwb3J0ZWQgYSBLQVNBTiBOVUxMIHBv
+aW50ZXIgZGVyZWZlcmVuY2UgaW4gX19kZXZfcHJpbnRrKCksIHJlYWNoZWQgZnJvbQp1c2JpcF9y
+ZWN2X3hidWZmKCksIGFuZCB0aGVuIHBhbmlja2VkIHRoZSBndWVzdC4KCldpdGggdGhlIHBhdGNo
+IGFwcGxpZWQsIHRoZSBpZGVudGljYWwgY2FzZSBjb21wbGV0ZWQgYXMgYSBib3VuZGVkIHJlY2Vp
+dmUKZXJyb3IgaW4gdGhyZWUgZnJlc2ggYm9vdHMuIFRoZSBrZXJuZWwgcmVtYWluZWQgYWxpdmUs
+IHRoZSBmaXh0dXJlIGVzdGFibGlzaGVkCmEgbmV3IFZVREMgdHJhbnNwb3J0LCBhbmQgYSBmb2xs
+b3dpbmcgdmFsaWQgNjQtYnl0ZSBpbnRlcnJ1cHQtT1VUIHRyYW5zZmVyCmNvbXBsZXRlZCBzdWNj
+ZXNzZnVsbHkuCgpJIGFsc28gcmFuIHR3byBjb250cm9scyBpbiB0aHJlZSBmcmVzaCBib290cyBl
+YWNoIG9uIGJvdGgga2VybmVsczoKCiAgLSBhIG5vcm1hbCA2NC1ieXRlIGludGVycnVwdC1PVVQg
+dHJhbnNmZXI7CiAgLSBhIG5lYXItbmVnYXRpdmUgNjMtYnl0ZSBpbnRlcnJ1cHQtT1VUIHRyYW5z
+ZmVyLgoKQm90aCBjb250cm9scyBjb21wbGV0ZWQgc3VjY2Vzc2Z1bGx5IGluIGFsbCBydW5zLiBU
+aGUga2VybmVsIGNvbmZpZ3VyYXRpb24gYW5kCmZpeHR1cmUgd2VyZSB1bmNoYW5nZWQgYmV0d2Vl
+biB0aGUgYmFzZWxpbmUgYW5kIGZpeGVkIHJ1bnM7IHRoZSBmaXhlZCBpbWFnZQp3YXMgdGhlIHNh
+bWUgYmFzZSBwbHVzIHRoaXMgcGF0Y2guCgpJIGhhdmUgcmV0YWluZWQgdGhlIGZpeHR1cmUgc291
+cmNlIGFuZCB0aGUgY29tcGxldGUgc2VyaWFsIGxvZ3MgYW5kIGNhbiBwcm92aWRlCnRoZW0gaWYg
+dXNlZnVsLgoKVGhhbmtzLApTdW5nIGJ5ZW9uZ2NoYW4=
