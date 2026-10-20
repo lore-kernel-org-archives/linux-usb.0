@@ -1,57 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792455919;
-	b=BLYLIL1d+34ICPxyn2gF/469KO4r6kGpFBClzvHMHyhts8uI1Ownoph+ekw8BzIR1i3o
-	 34k6aX22XmK4c239gRL+MBT+Nlk86BU5sHEeITENCsFkHKEOw8EQy+GQFOSPntMIWqQkK
-	 i9wgEHjlLvcaa9DhGnEdN2ZtSWSpRfPnq9XkcbFt2a6LkkhNldlPsyEeTE2tMMUrto/Ua
-	 KywiH/zowuTXR5IcUtBImfL3rytVuqDgsKw47M0oahiLzGUia9YkZ6K/FJuQpMmxQ0A4T
-	 Y4gc9TlTEElIX1Uv+2TuKmiSdVDAIGEbUxwuHvJPmMtiZK2TLyrfXHKzy2UDJM6cIWQ==
+	t=1792456545;
+	b=p8wu5JtbHzTApBU03u59BC53Wl9UCnixbtvAULYOE+BqfIod/uvbkxRGFCJvvE03/oFS
+	 PifAPmMfvYJ7afxe945FAjnKMjpYr7Ech879MlEmi1UPDeaol5Rbe5Bpe1yN3EFXs740E
+	 Cfbh5jQXH8Rxnbku4kvMIdD/P674W4z3fwaEzdCdWfCNX1UcglX0+tSV4hNjFMJNIX52i
+	 sO2xGO91cKcjgJTHi3/Y/1jMiYszzYgs9liAh6+jlff/ZtD5qKIKzB4uOwH1lcU6JMimY
+	 vrW5fuc89uDuK6UawW77cmmpTfSZf4Sx55VhXTflg9yGXJE8z7YiTcI8uBsz4IG2MRw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792455919;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=R7imVLupuPzZ7T4rXokect2tZryxXUM60jv4qmM6KKs=;
-	b=o++nEEOPBode0ct/M7UvnzLyJDDsSclelt8HQF78TjZ5Mr2oVW8kIXKp+KH3IFIbWIwJ
-	 edlonUADgC4/9uPYp244Lw3XXUZjXsPthjGzd05X23T2qt9wwXcScEH4ubJvE7GELhSvx
-	 6T1h+o74UG5nJYfgGSEGvkX2ruwt5DI++TYyqaLHR+pHjlVk8wJ1ePMoYxtTXxFH5iHad
-	 +qLkgCJ2gc2cADB+5VKRXsdrccvBElEBrBbd8ZUN+6ngbYwV8ivdzKhWKvcKdSa3MueOg
-	 37svS9QkZzcOsfoUcqrs7lUgTHbcPRASYikS+vUJnC9969/hutOBFotoZu+OB4fG7aQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792456545;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=7C7GZbdbo3a4H8A+zEhg8yGiQ1HjOPz6tQYB0uZWjAU=;
+	b=FsBi9t4SkhjXdQKk+UB5NASYeghe4am/mMAcEuzb1UP/IyigdKIprFg8CJLFMZiWCEAk
+	 mf5Q9n3TTE1Fuwa0qxOwkehsxvC3UHy488bmsgy3qC20Yw//Nm0hLKGidQHOeHNNnevax
+	 DqlL3gJ+HNaJOm9VEph3KByN1c5Z6jdt5XHwUYDUw7gZEQmZEN4OVe3AYpXuJEcWOxpsN
+	 KRf7WClBh0CUlY2BSHSZ3QHL8UsdocOlA3J9SOZOKAGZctA9SsJuBzGfqK61Qk3Wa2LuW
+	 LJCwublvHZlGcPL+BRPjajM+Vcumzpxhi+i9wIdGV/TSbt45VT7yZZHStlRyGzqswVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GvnYfVwe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b="XF/nunrU";
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DBC3606A325
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 00:25:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC248606A31C;
+	Tue, 20 Oct 2026 00:35:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DC248606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GvnYfVwe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E06E1F000C4;
-	Tue, 20 Oct 2026 00:25:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792455913;
-	bh=R7imVLupuPzZ7T4rXokect2tZryxXUM60jv4qmM6KKs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=GvnYfVwedXPW0MftOQfyLs1IgJuPXH5sMeiauyCGkONr+zJTf5f9QZSK3W8h2XEE+
-	 YpP11LasN4eZiKjjQP5WZ7ZD6eOKE1MLp6J4PCLnbn7FRRLgbyA/mwlIxp4TiXtU89
-	 E4DV6jVDGfnLEORcHqzbOCW+lxPkossJlA7qDz7rkTh7TEriHh3WPF9VUgP8CuaxIM
-	 vzYUTCYHblHfI/iitUFCLD1+y8XbkNEAHP15PDDX1MMggnYhq2wiDFnJIgVsdsDY/9
-	 uDV1fhR7dvl1bkGfeoAyqIUZBe3IK7AXqpcSCrj7DRzyCiplwlgqvT9Uw0wciIc1pc
-	 yDeFITdoWnW4w==
-Message-ID: <sashiko-outbox-178380@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v4 1/2] net: usb: lan78xx: do not update statistics
- after a failed read
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Wei Jie Law" <law.wei.jie@gt.tech.gov.sg>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261020001621.2920-2-law.wei.jie@gt.tech.gov.sg>
+	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=XF/nunrU
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=7C7GZbdbo3a4H8A+zEhg8yGiQ1HjOPz6tQYB0uZWjAU=; b=XF/nunrUjxJNxPqxShgWFi9C6M
+	JA8D5R9y3ZprWQFKpc7FmVKI8wCk2I/4QWLL7XHS3KM/blKVbwvfowcKdfDGDIrfEm4+usnTnAtiT
+	f5JAEABnDuYY0PcX2H8rIMaOdxbPfWzXtkaoxQbvEpNzJijHuu9/oF7RfHqFGgTzgeLY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xIxpE-00BjMd-Jj; Tue, 20 Oct 2026 02:35:32 +0200
+Date: Tue, 20 Oct 2026 02:35:32 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Woojung Huh <woojung.huh@microchip.com>, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Wei Jie Law <98lawweijie@gmail.com>, stable@vger.kernel.org
+Subject: Re: [PATCH net v4 2/2] net: usb: lan78xx: reject short register and
+ statistics transfers
+Message-ID: <5c1e5db0-1149-473d-b71d-f30d3b96b5f7@lunn.ch>
 References: <20261020001621.2920-1-law.wei.jie@gt.tech.gov.sg>
- <20261020001621.2920-2-law.wei.jie@gt.tech.gov.sg>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Oct 2026 00:25:12 +0000
+ <20261020001621.2920-3-law.wei.jie@gt.tech.gov.sg>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,27 +68,37 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261020001621.2920-3-law.wei.jie@gt.tech.gov.sg>
 
-> lan78xx_update_stats() reads the hardware counters into an on-stack
-> struct lan78xx_statstage. If lan78xx_read_stats() fails, only the
-> rollover check is skipped: the counters are still recomputed from the
-> uninitialized stack buffer and stored in dev->stats.curr_stat, which is
-> then reported to user space by ethtool -S.
->=20
-> Keep the previous values when the read fails.
->=20
-> Found by code review with LLM assistance. Tested together with the next
-> patch, which makes short reads fail: with an emulated device, ethtool -S
-> then keeps reporting the previous counters.
->=20
-> Fixes: 20ff55655a93 ("lan78xx: handle statistics counter rollover")
+On Tue, Oct 20, 2026 at 08:16:21AM +0800, Wei Jie Law wrote:
+> lan78xx_read_reg() and lan78xx_read_stats() read from the device into
+> a freshly kmalloc()ed buffer, but only treat a negative return value
+> from usb_control_msg() as an error. A device that answers with fewer
+> bytes than requested leaves part or all of the buffer uninitialized,
+> and those bytes are then used as the register value or the counters.
+> 
+> Treat a short transfer as -EIO in both helpers. lan78xx_write_reg()
+> does not use uninitialized data, since it fills its buffer before the
+> transfer, but make it fail on a short transfer as well, so that all the
+> register helpers report a partial transfer as an error.
+> 
+> The write path validation was suggested by Andrew.
+> 
+> Found by code review with LLM assistance and reproduced with an
+> emulated USB device (raw-gadget + dummy_hcd).
+> 
+> Fixes: 55d7de9de6c3 ("Microchip's LAN7800 family USB 2/3 to 10/100/1000 Ethernet device driver")
 > Cc: stable@vger.kernel.org
+> Suggested-by: Andrew Lunn <andrew@lunn.ch>
 > Assisted-by: LLM
 > Signed-off-by: Wei Jie Law <law.wei.jie@gt.tech.gov.sg>
 
-Sashiko has reviewed this patch and found no issues.
+It probably never happens or users would of noticed. Please post to
+net-next, without the Fixes: tag, once the merge window closes.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261020001621.2920=
--1-law.wei.jie@gt.tech.gov.sg?part=3D1
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
+    Andrew
