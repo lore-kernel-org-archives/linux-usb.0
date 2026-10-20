@@ -1,11 +1,11 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.129
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.125
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
 	t=1792480748;
-	b=sSEP4bWDeFOaiUy3s3T/otppaqCeeM/+Sy+tN7RxB5dbJLZMTcR0EF9wP5lN/qfg3EaL
-	 27oUO9LL41shq5A5qb+7aQvLnHVef5QXsM7z6/hzJr8oyAse+dAd4KnSBU/mUq4EEpkTl
-	 1ZQ5S4mlvvVxvQbxPn6idcUYwSnXI26tJOUkIS9byz4AQKD8m6RWinEzYBPyuM8dE6TZp
-	 IvRF+zsFI0sbHOx3yw0DY8MgBNhRLG272Aene/o8N6A2Ww+TsXL/IAdBWFvghiFVvmxal
-	 UBTKBz656ZUUUzu5kUOgX5OYzVZTjGXgvYsUcOpGrFZQp5QBcMfHEexw9DHAJSA0DYg==
+	b=bYROqRveAyD3xANtCKdW9hoXuddxHBVloIrv8q5KiPVDTVTsMeozeb5O3aVxyEmimfYE
+	 APIruqgV7AT04HPU4Ts3bM5NC13C2JPCsdmnEr9Om9lge1/k3tRQiPxxVFPJm1jh14K/A
+	 2FBrLXBwiNLeN64MtIGdYMGMhMN+0FMwMZwSmhiiGOnh2Tlk/LcXNVqf4YNrMZCor6gUU
+	 53q6sKnX7nQsukiWjupU9t7bRR0ioWCcrpGpK1sxd1ziYR+2AJeA033KHCw8WQ7QS9HvF
+	 yUKA4zBI1RzFnFf63sNzMETY52I1EL1lk2ysX+0J1qBfaUxid7Cj80Z/2yfSBJ/+N2w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792480748;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:
@@ -26,32 +26,35 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
 	 X-MS-Exchange-CrossTenant-FromEntityHeader:
 	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=hPl44SdWPg1NdRm1sRKjsB9EHD9j0fhFyfARcxY9Lbg=;
-	b=VP9a3SEt8IRbM2p0AQqC3kMVIAb4FSjJ3+5imwlrRnO7m04teRcJBF3M2HddrlJ+OlG6
-	 CnV7SWSBunkVMgNW1czKsOiEIhi/eJRf3p7LNFXaFHrUXPcgVglVKKTayNBNHOlvtYUVw
-	 n1uDxv3TBAsbhZl0plATkXln5C55bGsl3wbokMJS0OTdMxjnbqwry+wGLbneizxqA/GWU
-	 SXD0PRVe/D/rju/ZE+KD80dsVpj4pYsRGIESEzKMH/BpBCpUxB7bQ7Oigct7SMQ/xDNsv
-	 ZR1Pj7b/BDHHeHyEdN9riaS6/rsrYNa30P3Z7usdcef2bb4hIV7kadulQEp17N18FXQ==
+	bh=u6Xl0DxAwZRUx0Loyq/GQSvzlYHrjDCb2aEX3ISwTEs=;
+	b=KffT7K02RuNiT6Kqw1RifW3aTYTZWL8tTkSPjmusDDw5tmd4ZT0H+jUNMkeBbnprf50F
+	 4jgB2MlG59dOlLRazUbT6ua/VzXGkZFggzwIV2I5M4uLDMtIu7hxegc5tKaL9XnrDIaZl
+	 0cbJTUqEtukCpHJGeJCQrzgH2ccTX7SklFZfxwuMqhcqza4alYwqR2cbiHOxkchMKffD7
+	 r2gJnHbpG3vbKCPMwTU5vFaiY2yI/1R3TLYjnmZVAPzMdx7kXqYvAAx6PF157vXI+Ztn8
+	 AN/22PTt+9vV+KxjbfP+9tErFIRdkvRRTDrQFvYoIYKbByRtJbQk/LCeAnOepaca2Hg==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=none header.from=axiado.com;
 	spf=pass smtp.mailfrom=axiado.com;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.93.198.129
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11020129.outbound.protection.outlook.com [40.93.198.129])
+	dkim=pass header.d=axiado.com header.i=@axiado.com header.a=rsa-sha256 header.s=selector1 header.b=QFMc9qJb;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.125
+Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11022125.outbound.protection.outlook.com [40.107.200.125])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D739606A31C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62DC7606A31D;
 	Tue, 20 Oct 2026 07:19:07 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4D739606A31C
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62DC7606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axiado.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axiado.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=axiado.com header.i=@axiado.com header.a=rsa-sha256 header.s=selector1 header.b=QFMc9qJb
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n9US4UtE7kM3rybiUkMzgIRF9KAAVL7p1M4gZcbqdwO1rOr0e5jpnB0wBq88FaEWGcgC+YefZeWNubhzqg7jeHPZhsRcU+NYweAek7C9CIIfrPa4BUiw+pcTMbEocozU5RItcAc4UPz2YriuVTZXoRr/9gCawTUok0OFhQqD8I8YVFtgcn1jySd8ZJp+3jZDGF4TaTNyc8mANHR7zJqRD5F7beYxhaw/Rm1i4Zks/7y+g0WZ+1ZPqYa7qSrV+AaYAQdzcuE1nEsGtgD7RjVu0NVDuGvI5uukHA7kl3y75sXOXCEEXhdDVC/eoJc6TPOhUF3AvECMUM5Bt5JZN0W7AQ==
+ b=tu4ZUq8E9JjiK3ZCxoGFbYn+RcsTaez6aaQhpOK0mkO25iOPEcvspK+W2IQlacZz9W+odPVPL/F6PRN9Z3tMGOd1FzBwpMUXOtLfcT/qVEo3/+ciA+WXOAl5eq0t624qELj5PnMJz8LiC8BuIF4tYx1AF5yifhVEUBmxE1ypcC/+Bnal0Ie5Esj3lIEQghsKFVIKDjBEq27Bl5fnKNfTsYFAeegQOJ4qwULPN0+Yh7F1xXcZiI8iAgP0xgkecAvl4wLzQy6bzJTyPubOrVZ6Y/+hjCX8De6bpqrliQlgex+IjRalRI/axSw25qL6vAcRDiW/jDTZ4a5SDbJ08a+irA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hPl44SdWPg1NdRm1sRKjsB9EHD9j0fhFyfARcxY9Lbg=;
- b=EvRVhNnpFhrYibVPpHgfp2k1q7NXPZOUgfWXMyhbci0Dnb9mF0Y/+rFfVQ3qrdEcZ7/ngQ8kEk7DpgF5J68JF5qqoAOvoYj5vaYmd2R758zuc2TMxaqX9+CBELlxfrnEOP56tTRdWhsrHMVSapy4byuDfivc9iRqvnpyurjdXnsrWa1ZLXtIxyltWCn7q+ypewhxEeKKSGD6qlndzH10lKs4ztESCwUAsY6kcwinceKLpOVwHNRk1XpEay0vSolIY1iynUhpp8IDgkJ/9b+R9ekha+MlaTUjhe54Keg70L2mI7FoEE6ves0IM+WsJe5j0O0F2Yfzq+IHLEfrYaQ4qQ==
+ bh=u6Xl0DxAwZRUx0Loyq/GQSvzlYHrjDCb2aEX3ISwTEs=;
+ b=ErR0Q8xdL9MQbayBP9igDM2f4eO5sbvxwYrTosH0zy0sEx5DR52HDldpi4r6vC3jbioD65Y2IM3ISvkFIUX4OY3j6aXxindP+Xl/0IeK23x8wiU0E6uxXRGRY7eKNfy7ou3q9wpXWUN7ef6vikSTZuGPuLOQ01t5O0mXlFgvQ51koKrw5Tg/Cmh/enxcydqZ++6LxDmOBvMemcIBiMFeqokFyreHmj5PKx9Izz1o1/HB4ej0hSTGFebqY4hNdFFzns3OYU7ExvFf75kBJ3EgCWEyox4x4TP3M2WIUZxKXjX7byTXV5qvBFJxcrfZ77kVIKBCM3zYO5p9dAgEBQ3zow==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  64.62.143.114) smtp.rcpttodomain=axiado.com smtp.mailfrom=axiado.com;
  dmarc=none action=none header.from=axiado.com; dkim=none (message not
@@ -59,16 +62,16 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axiado.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hPl44SdWPg1NdRm1sRKjsB9EHD9j0fhFyfARcxY9Lbg=;
- b=HmT+hKyRxZ5HvMe33rlGL0GuIIxntiblF/K7m3alt63LUFbY3NuZ9Lb9aahcobNxWZuTPfdu6kUcodttKl2hdNzmbnRq6ypS7EHiHhQrbs1YB3WeJbjibk/roJtGmez8WLPLk3p4ZYZg/9UR1DnXueVws1nA1vWW/GwnEprmzwI5+xmrKPOmLRH+4C+AFbolDq+MQrZ5H46yFQaARHg5bgWQtTFM7ef7rDmiyTtiQbdFg9qP63WaYesYGiC2wphwmIjSwGbu4zjbZ4Mwl3DhN/F2K5cxQg8pwGYPFQiUvhb/dmHsa3ePtpoKJn/grrwIJUsOZkj1OSFK6v3qk1H9wA==
-Received: from CY5PR20CA0022.namprd20.prod.outlook.com (2603:10b6:930:3::15)
- by CO1PR18MB4793.namprd18.prod.outlook.com (2603:10b6:303:ec::12) with
+ bh=u6Xl0DxAwZRUx0Loyq/GQSvzlYHrjDCb2aEX3ISwTEs=;
+ b=QFMc9qJbyLrrL1hRm1VOHW3b2DTiiP3dA7eltGzR7L+gKAJlKzx/B4zrPhdsZ1HwJUTy2+6Pl9TjHU/xLle1ZvveesOM4A2DhwW2JWDi2sVPy5F1p4JI6lQrd/XQW0yzP0J8+VDNHvnbtw1LDXaU0SYnkuRVXZpAhqyRDVJUGK4fJpDY8JlGoK73PThr8sXD1Xm+FFjnf2qkaOl95uSQ8YzeDe2vEIZmwDWrO2xIK8v0XfiD5yp/liJyTMYnpe13vxSfZTuM6nylHFFHlWX1jsr2p6EneHVw6aKjTHgDmWmZn8xzjZpEYdfCmPd01YOksjpcvoXwPbJwnMM9OMxb9Q==
+Received: from DS7P220CA0008.NAMP220.PROD.OUTLOOK.COM (2603:10b6:8:1ca::15) by
+ SACPR18MB259539.namprd18.prod.outlook.com (2603:10b6:806:546::8) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.19; Tue, 20 Oct
  2026 07:19:01 +0000
-Received: from SN1PEPF000397B3.namprd05.prod.outlook.com
- (2603:10b6:930:3:cafe::3d) by CY5PR20CA0022.outlook.office365.com
- (2603:10b6:930:3::15) with Microsoft SMTP Server (version=TLS1_3,
+Received: from CY4PEPF000392D8.namprd03.prod.outlook.com
+ (2603:10b6:8:1ca:cafe::2d) by DS7P220CA0008.outlook.office365.com
+ (2603:10b6:8:1ca::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.20 via Frontend Transport; Tue,
  20 Oct 2026 07:19:01 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=fail (sender IP
@@ -78,16 +81,15 @@ Received-SPF: Fail (protection.outlook.com: domain of axiado.com does not
  designate 64.62.143.114 as permitted sender) receiver=protection.outlook.com;
  client-ip=64.62.143.114; helo=smtp.corp.axiado.com;
 Received: from smtp.corp.axiado.com (64.62.143.114) by
- SN1PEPF000397B3.mail.protection.outlook.com (10.167.248.57) with Microsoft
+ CY4PEPF000392D8.mail.protection.outlook.com (10.167.247.118) with Microsoft
  SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.6
  via Frontend Transport; Tue, 20 Oct 2026 07:19:01 +0000
 Received: from axz-uw1-build-vm02.corp.axiado.com (unknown [10.14.1.22])
-	by smtp.corp.axiado.com (Postfix) with ESMTP id 767504186B5A;
+	by smtp.corp.axiado.com (Postfix) with ESMTP id 93FBA40BFE0E;
 	Tue, 20 Oct 2026 00:19:00 -0700 (PDT)
 From: Petar Stepanovic <pstepanovic@axiado.com>
-Date: Tue, 20 Oct 2026 00:18:57 -0700
-Subject: [PATCH v3 3/6] usb: gadget: udc: crg: Add ring and transfer
- management
+Date: Tue, 20 Oct 2026 00:18:58 -0700
+Subject: [PATCH v3 4/6] usb: gadget: udc: crg: Add endpoint 0 handling
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,7 +101,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261020-axiado-ax3000-usb-device-controller-v3-3-3012ecfc0a93@axiado.com>
+Message-Id: <20261020-axiado-ax3000-usb-device-controller-v3-4-3012ecfc0a93@axiado.com>
 References: <20261020-axiado-ax3000-usb-device-controller-v3-0-3012ecfc0a93@axiado.com>
 In-Reply-To: <20261020-axiado-ax3000-usb-device-controller-v3-0-3012ecfc0a93@axiado.com>
 To: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>, 
@@ -114,42 +116,42 @@ Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
  openbmc@lists.ozlabs.org, Petar Stepanovic <pstepanovic@axiado.com>, 
  Krutik Shah <krutikshah@axiado.com>
 X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792480739; l=20102;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1792480739; l=34751;
  i=pstepanovic@axiado.com; s=20250916; h=from:subject:message-id;
- bh=Qjftb8CHhUcskfti8UpJkNvGZ+lrHJ2cSjRcxag6rIw=;
- b=dwIcp8CuCvoV6ZxdaOe+/9IQCwd0JDEjyLKT2EdaUE1n3bta8ZbnV/5rW6uRqA/PhqmlGJYxY
- sK/bR8wSZm5AabN3CcBDJ7BN5nSom5gAvRag1RWkIitRP+R+h5cHoDX
+ bh=iCOXJH599YS88Y9x13BiZec+TkMt4ZeUzRO19Yx6GwU=;
+ b=7fPlIz6rS8ZVvlReIpcv/z5Mn5eNKw3p7RPBtgI2c76X++7A8D8qSUdYlZIeeCixjBLf7A7uQ
+ qUF8FVyJeGsAlFk/AuwQDLEe/vBLB/pFXvetMKQ1Zaaf8okTB0P11de
 X-Developer-Key: i=pstepanovic@axiado.com; a=ed25519;
  pk=70f1UJOGT9U11ZK6o+ENXtv0I5wBE3e+Y9YWODzRsdI=
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF000397B3:EE_|CO1PR18MB4793:EE_
-X-MS-Office365-Filtering-Correlation-Id: bc255b4c-566d-42ea-1c7b-08df2e7a6a49
+X-MS-TrafficTypeDiagnostic: CY4PEPF000392D8:EE_|SACPR18MB259539:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f540d1f-f5bf-4baf-26d2-08df2e7a6a43
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700016|7416014|23010399003|1800799024|82310400026|261009221227099003|261009223027099003|10067099003|56012099006|21046099003|6133799003|22082099003|18002099003;
+	BCL:0;ARA:13230040|36860700016|376014|7416014|82310400026|1800799024|23010399003|6133799003|18002099003|22082099003|10067099003|261009220027099003|261009221727099003|261009223327099003|261009223027099003|5023799004|261009221227099003|56012099006;
 X-Microsoft-Antispam-Message-Info:
-	e20NK1F31qrTF+We6mDYDKgpg4eOhM1KutcMJc5Fp7lF8wJ8yhYlLjpHOIvdzyqg8R+df0vmpqWXu2IcWHdKW9L88aJueJxVVaTxtdT2psxB+XR4N+LooQZZ8k+55tZheyWg3Po1G+oBpWasQjLTjkTQarh/GD8qyqhVXflwELz7NjRdkKHdXifb7WWaLAb1OHD32jCsVR8uHQZfPjRJhPQJ01/ASnZTTStU73qH5VLmK9GHiwwCfwegJbYH2wAyINs1G2744LH9kJlaK0rqpFVel3mc9+yLjfHOoBadblpJRXKvnKnOJ1BvikMxxAq9j8oeOhZoy68/mHhfiZ4t/CTTOcYhJ8pWbS3TG68ksxRwHnI+c+D7H4H3rA+2Ihy0opVPgqa1K3x3B4rx3JaNCPzod+Gampmk13bzu0Ns6vSerJJkSfzzJ/e9cL0V8oLNjZkulQRcrFURrxRCdE1I/22p8+EyH9E5KKvhwBoNeoD1SUtKqAO0XEVyDxBqIY0OkcdyG/0U+gA6B0CeejoW2XWxOr07iwKfJO33F1QqzX3qu2yl+zYh9BaLFRdD4xT3CEFWSHzCY2YRqbXy986KuMYN4TRSJUrwz0IzhEDfZDnEfawDeDh1MH6BLczMDdoWszCWFlExemDgr8X+0ZSh5Fh/I/CtDq/tpm2G/H9XbyGFQ8pjVAKaTbWM0KqB/Ku6gMjc4QCLtrjUc+HJqJ4Vgg==
+	K5CPdGKpciKvmTfIywDTSVo1mZERt785a+Gts2gXk92oZBkl2ulsac+SGnRaNZGEO7DWwAzmC2RgY6Wc3Cq16hhP3vX8TiAkjBDs3YfXlELetC+fOfF4SrEoEuJlkEuKmgWJ/yhW0ilIFOHxzTQzFtVGmzr1O4o72X1e0TtMy9wM/S9ts26H7iaUM8XIlOndkaXouTWKxlD3MfLYscYGs58xcgTGZ9l6FqlrW/xTUkUmGNsM8cIyEHk9z2Hh9NE3C1/J0t6sxPMzk7HuP7GFAGBO1FEG180WzZFwq2LoBrSg2PC4O747NGYLT255kIZXoXtwcnvc+lTpzYvJE1nJ+jZ9K7c/Sdf9xU65as75pR882lRIjcmps7+UHONom7rCz286A8WebrcfPEqML4+7FrLfnclxunoETl+n65X0OJuqY5P4CU6Da9A4GAkBvedxd+Zvc3v09mCOJ3TIwO3c7dN2BoD6reGDzm0Qm+tfvzGB8rEo7G5jLw9g63pjlx48Kw4tijfWnas+2O4hPOw5lTzny5Hrm3aKi9k2b5i4gvj8xX0qai49jzmP9AuOGK9049ME6NGLuUfnaz+b2QJnq5o6N/drX4h08o8KwMZzZlySLWMM6nfWkQ0fJTQ9zNYmO2DwcgsXDfime3ZqpOos4NCVMLv7tb9CQKQsFs1b9fCnaq2XF4d5NgrtvraXCCROOszzdrWdqBEaH0P//gur8Q==
 X-Forefront-Antispam-Report:
-	CIP:64.62.143.114;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtp.corp.axiado.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(36860700016)(7416014)(23010399003)(1800799024)(82310400026)(261009221227099003)(261009223027099003)(10067099003)(56012099006)(21046099003)(6133799003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
+	CIP:64.62.143.114;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:smtp.corp.axiado.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(7416014)(82310400026)(1800799024)(23010399003)(6133799003)(18002099003)(22082099003)(10067099003)(261009220027099003)(261009221727099003)(261009223327099003)(261009223027099003)(5023799004)(261009221227099003)(56012099006);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	OwfjFwXKCtTKgTosV06d5XMHA8Mm366aaKT+L6i3/09tr9pJJipJBHgebIz5Oz9gbf0iGBRw2NgYtoi5KbaVr78ij1BMFB9UyKXSnebLuiitp+xhTJZNGVL7xVuMHJFr6TCb0NmamH2NyAp/OfRQwHBCR0hDE+OWpYLwWay+PRXD4hY1bWaHM8P32BeqvAIsCzt+TlzXB8bS4ORuukfHd5vjw5VwCX2ielgfmtrzLQauADXLzkE0OKTkMHCFmsEkmv9v/tng+aeuCj2M84ziL2Mkv1DiYQHpsTgL6e/Yt9bPClObtmtltWqAZDnErVBCyQeXzXJ/RgGTkEx/2Xl7dF800FynbIgcdBq6iXYnJa88KjC2V3WYfvdXEAn2cyJ0/xqry7zE3sEWJIb4HmkAmkSvGJp+r2qyIadipkLs+m2kIgpUgYooHgFbIEWgwq+a
+	8iht6k1Rf7E1eSFZnzZzFlvpGfhpTeuCXfKs1TDpruhlf/uE8PKzxdU45Y/D+G8370hksCubq5fo8gvsWM+s6qnrx0PCBXj3Ytehfqbw7Ge00BDlmjFKQpjGgMdjtuqWgnumH2W2QO3vTVp+PIjr+tezi6YJE2vTKEgcKdlYIbW99DSieycK9rpsvAhtaJFhbtpyt1PBWSnX295S6owT/C7CWpluG/R6q8KRecskqM6xcrmtKBjtq6pvSdvGMwivjVyIVz0iMaW/8R7mfuTohH9QMDZk0D4pkTanEvnuLxgKCUdIxkXFWm1PNWMkfGEEjw7BmCyxppKRappr1hWV3MBrJ7BPGWpEWxt6MMJFy06EBV8SZncADvGz1fNymUl+eSZIWtKAkofGSUWnO4EdspGpGTjzrXNsUKSuxanFoMbOIfRdlHQkc1b/hFsUZlP/
 X-OriginatorOrg: axiado.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 07:19:01.2697
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 07:19:01.2111
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: bc255b4c-566d-42ea-1c7b-08df2e7a6a49
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f540d1f-f5bf-4baf-26d2-08df2e7a6a43
 X-MS-Exchange-CrossTenant-Id: ff2db17c-4338-408e-9036-2dee8e3e17d7
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=ff2db17c-4338-408e-9036-2dee8e3e17d7;Ip=[64.62.143.114];Helo=[smtp.corp.axiado.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF000397B3.namprd05.prod.outlook.com
+	CY4PEPF000392D8.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR18MB4793
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SACPR18MB259539
 
-This patch introduces the memory management and ring buffer logic
-(TRBs and event rings) required by the Axiado AX3000/AX3005 UDC.
+This patch adds the endpoint 0 setup packet, status, and control
+transfer handling for the Axiado AX3000/AX3005 UDC.
 
 Co-developed-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
 Signed-off-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
@@ -157,15 +159,15 @@ Co-developed-by: Krutik Shah <krutikshah@axiado.com>
 Signed-off-by: Krutik Shah <krutikshah@axiado.com>
 Signed-off-by: Petar Stepanovic <pstepanovic@axiado.com>
 ---
- drivers/usb/gadget/udc/crg/crg-udc-ring.c | 664 ++++++++++++++++++++++++++++++
- 1 file changed, 664 insertions(+)
+ drivers/usb/gadget/udc/crg/crg-udc-ep0.c | 1106 ++++++++++++++++++++++++++++++
+ 1 file changed, 1106 insertions(+)
 
-diff --git a/drivers/usb/gadget/udc/crg/crg-udc-ring.c b/drivers/usb/gadget/udc/crg/crg-udc-ring.c
+diff --git a/drivers/usb/gadget/udc/crg/crg-udc-ep0.c b/drivers/usb/gadget/udc/crg/crg-udc-ep0.c
 new file mode 100644
-index 000000000000..1c57dc1787d4
+index 000000000000..dce36d23d3ec
 --- /dev/null
-+++ b/drivers/usb/gadget/udc/crg/crg-udc-ring.c
-@@ -0,0 +1,664 @@
++++ b/drivers/usb/gadget/udc/crg/crg-udc-ep0.c
+@@ -0,0 +1,1106 @@
 +// SPDX-License-Identifier: GPL-2.0+
 +/*
 + * Axiado AX3000/AX3005 USB Device Controller driver.
@@ -173,662 +175,1104 @@ index 000000000000..1c57dc1787d4
 + * Copyright (c) 2019 Corigine Inc.
 + * Copyright (c) 2021-2026 Axiado Corporation.
 + */
-+#include <linux/sched.h>
-+#include <linux/scatterlist.h>
++#include <linux/iopoll.h>
 +
 +#include "crg-udc.h"
++#include "crg-udc-trace.h"
 +
-+void crg_udc_advance_dequeue_pt(struct crg_udc_ep *udc_ep)
++static void enable_setup_event(struct crg_gadget_dev *crg_udc);
++
++void crg_udc_build_ep0_status(struct crg_udc_ep *udc_ep_ptr, bool default_value,
++			      u32 status, struct crg_udc_request *udc_req_ptr,
++			      u8 set_addr, u8 stall)
 +{
-+	struct crg_udc_request *udc_req;
++	struct crg_gadget_dev *crg_udc = udc_ep_ptr->crg_udc;
++	struct crg_transfer_trb *enq_pt = udc_ep_ptr->enq_pt;
 +
-+	if (!list_empty(&udc_ep->queue)) {
-+		udc_req = list_entry(udc_ep->queue.next, struct crg_udc_request,
-+				     queue);
-+
-+		if (udc_req->first_trb)
-+			udc_ep->deq_pt = udc_req->first_trb;
-+		else
-+			udc_ep->deq_pt = udc_ep->enq_pt;
++	if (default_value) {
++		udc_req_ptr = crg_udc->status_req;
++		udc_req_ptr->usb_req.length = 0;
++		udc_req_ptr->usb_req.status = status;
++		udc_req_ptr->usb_req.actual = 0;
++		udc_req_ptr->usb_req.complete = NULL;
 +	} else {
-+		udc_ep->deq_pt = udc_ep->enq_pt;
-+	}
-+}
-+
-+unsigned int crg_udc_count_trbs_linear(dma_addr_t addr, u64 len)
-+{
-+	unsigned int num_trbs = 0;
-+
-+	while (len) {
-+		u32 chunk = crg_udc_trb_chunk_len(addr, len);
-+
-+		if (!chunk)
-+			return 0;
-+		num_trbs++;
-+		addr += chunk;
-+		len -= chunk;
++		udc_req_ptr->usb_req.status = status;
++		udc_req_ptr->usb_req.actual = 0;
 +	}
 +
-+	return num_trbs;
-+}
++	crg_udc_setup_status_trb(crg_udc, enq_pt, &udc_req_ptr->usb_req,
++				 udc_ep_ptr->pcs, set_addr, stall);
 +
-+unsigned int crg_udc_count_trbs_sg(struct crg_udc_request *udc_req)
-+{
-+	struct scatterlist *sg;
-+	u64 remaining = udc_req->usb_req.length;
-+	unsigned int i;
-+	unsigned int num_trbs = 0;
++	enq_pt++;
 +
-+	for_each_sg(udc_req->usb_req.sg, sg, udc_req->usb_req.num_sgs, i) {
-+		dma_addr_t addr;
-+		u64 len;
-+
-+		if (!sg_dma_len(sg))
-+			continue;
-+		if (!remaining)
-+			break;
-+
-+		len = min_t(u64, sg_dma_len(sg), remaining);
-+		addr = sg_dma_address(sg);
-+		while (len) {
-+			u32 chunk = crg_udc_trb_chunk_len(addr, len);
-+
-+			if (!chunk)
-+				return 0;
-+			num_trbs++;
-+			addr += chunk;
-+			len -= chunk;
-+			remaining -= chunk;
++	/* check if we are at end of trb segment.  If so, update
++	 * pcs and enq for next segment
++	 */
++	if (FIELD_GET(TRB_TYPE_MASK, le32_to_cpu(enq_pt->dw3)) ==
++	    TRB_TYPE_LINK) {
++		if (FIELD_GET(TRB_LINK_TOGGLE_CYCLE_MASK,
++			      le32_to_cpu(enq_pt->dw3))) {
++			dma_wmb();
++			le32p_replace_bits(&enq_pt->dw3, udc_ep_ptr->pcs,
++					   TRB_CYCLE_BIT_MASK);
++			udc_ep_ptr->pcs ^= 0x1;
 +		}
++		enq_pt = udc_ep_ptr->first_trb;
 +	}
++	udc_ep_ptr->enq_pt = enq_pt;
 +
-+	return remaining ? 0 : num_trbs;
++	crg_udc_knock_doorbell(crg_udc, 0);
++
++	list_add_tail(&udc_req_ptr->queue, &udc_ep_ptr->queue);
 +}
 +
-+static dma_addr_t event_trb_virt_to_dma(struct crg_udc_event *udc_event,
-+					struct crg_event_trb *event)
++/*
++ * Abort the current EP0 control transfer when a new SETUP packet arrives.
++ *
++ * A SETUP packet is allowed to abort any in-progress control transfer. Do
++ * not defer the new SETUP until the old transfer completes: doing so leaves
++ * the old request on the EP0 software queue and subsequent gadget requests
++ * are rejected as "queue not empty".
++ *
++ * The controller's EP0 ring is reinitialized at the ring start, making all
++ * TRBs belonging to the aborted control transfer stale. The new SETUP is
++ * then handled immediately with a fresh setup tag.
++ */
++int crg_udc_abort_ep0_for_setup(struct crg_gadget_dev *crg_udc)
 +{
-+	dma_addr_t dma_addr = 0;
-+	unsigned long seg_offset;
-+
-+	if (!udc_event || !event)
-+		return DMA_MAPPING_ERROR;
-+
-+	if ((void *)event < udc_event->event_ring.cpu_addr ||
-+	    (void *)event >=
-+		    udc_event->event_ring.cpu_addr + udc_event->event_ring.len)
-+		return DMA_MAPPING_ERROR;
-+
-+	seg_offset = (void *)event - udc_event->event_ring.cpu_addr;
-+	dma_addr = udc_event->event_ring.dma_addr + seg_offset;
-+
-+	return dma_addr;
-+}
-+
-+int crg_udc_init_event_ring(struct crg_gadget_dev *crg_udc, int index)
-+{
-+	struct crg_uicr __iomem *uicr = crg_udc->uicr[index];
-+	struct crg_udc_event *udc_event = &crg_udc->udc_event[index];
-+
++	struct crg_udc_ep *udc_ep0 = &crg_udc->udc_ep[0];
++	struct crg_uccr __iomem *uccr = crg_udc->uccr;
++	dma_addr_t dqptaddr;
++	u32 cmd_param0;
++	u32 cmd_param1;
++	u32 tmp;
 +	int ret;
-+	u32 buff_length;
-+	dma_addr_t mapping;
-+	bool erst_allocated = false;
 +
-+	buff_length = CRG_ERST_SIZE * sizeof(struct crg_erst);
-+	if (!udc_event->erst.cpu_addr) {
-+		udc_event->erst.cpu_addr = dma_alloc_coherent(
-+			crg_udc->dev, buff_length, &mapping, GFP_ATOMIC);
++	/*
++	 * A new SETUP is allowed to abort the current control transfer.
++	 * Keep EP0 in ABORTING for the complete stop/nuke/reinitialize
++	 * sequence. crg_udc_req_done() drops udc_lock while invoking the gadget
++	 * callback, so the callback may re-enter the UDC during the nuke.
++	 */
++	crg_udc->setup_status = WAIT_FOR_SETUP;
++	crg_udc->ep0_state = EP0_STATE_ABORTING;
 +
-+		if (!udc_event->erst.cpu_addr)
-+			return -ENOMEM;
-+		erst_allocated = true;
-+	} else {
-+		mapping = udc_event->erst.dma_addr;
++	/*
++	 * Stop EP0 before touching the transfer ring. The controller may still
++	 * own the old TRBs even when no EP0 request is running from the gadget's
++	 * point of view. Do not clear the DMA-visible ring until the hardware
++	 * reports that EP0 is no longer running.
++	 */
++	ret = crg_udc_issue_command(crg_udc, CRG_CMD_STOP_EP, BIT(0), 0);
++	if (ret) {
++		dev_err(crg_udc->dev,
++			"failed to stop EP0 for SETUP abort: %d\n", ret);
++		crg_udc->ep0_state = EP0_STATE_ERROR;
++		return ret;
 +	}
 +
-+	udc_event->erst.len = buff_length;
-+	udc_event->erst.dma_addr = mapping;
-+	udc_event->p_erst = udc_event->erst.cpu_addr;
-+
-+	buff_length = CRG_EVENT_RING_SIZE * sizeof(struct crg_event_trb);
-+	if (!udc_event->event_ring.cpu_addr) {
-+		udc_event->event_ring.cpu_addr = dma_alloc_coherent(
-+			crg_udc->dev, buff_length, &mapping, GFP_ATOMIC);
-+
-+		if (!udc_event->event_ring.cpu_addr) {
-+			ret = -ENOMEM;
-+			goto err_free_erst;
-+		}
-+	} else {
-+		mapping = udc_event->event_ring.dma_addr;
++	ret = readl_poll_timeout_atomic(&uccr->ep_running, tmp, !(tmp & BIT(0)),
++					10, 10000);
++	if (ret) {
++		dev_err(crg_udc->dev, "timeout stopping EP0 for SETUP abort\n");
++		crg_udc->ep0_state = EP0_STATE_ERROR;
++		return ret;
 +	}
 +
-+	udc_event->event_ring.len = buff_length;
-+	udc_event->event_ring.dma_addr = mapping;
-+	udc_event->evt_dq_pt = udc_event->event_ring.cpu_addr;
++	udc_ep0->ep_state = EP_STATE_STOPPED;
++	/* Complete requests belonging to the aborted control transfer. */
++	crg_udc_ep_nuke(udc_ep0, -ECONNRESET);
 +
-+	udc_event->evt_seg0_last_trb =
-+		(struct crg_event_trb *)(udc_event->event_ring.cpu_addr) +
-+		(CRG_EVENT_RING_SIZE - 1);
++	if (!udc_ep0->first_trb || !udc_ep0->tran_ring_info.cpu_addr) {
++		crg_udc->ep0_state = EP0_STATE_ERROR;
++		return -ENODEV;
++	}
 +
-+	udc_event->ccs = 1;
-+
-+	udc_event->p_erst->seg_addr_lo =
-+		cpu_to_le32(lower_32_bits(udc_event->event_ring.dma_addr));
-+	udc_event->p_erst->seg_addr_hi =
-+		cpu_to_le32(upper_32_bits(udc_event->event_ring.dma_addr));
-+	udc_event->p_erst->seg_size = cpu_to_le32(CRG_EVENT_RING_SIZE);
-+	udc_event->p_erst->rsvd = cpu_to_le32(0);
-+	/* Ensure that event ring is updated */
-+	dma_wmb();
-+	/* clear the event ring, to avoid hw unexpected ops
-+	 * because of dirty data
++	/*
++	 * The controller has stopped consuming EP0 TRBs. It is now safe to
++	 * discard the old transfer descriptors and restart the ring from its
++	 * beginning. No ring memory is freed here.
 +	 */
-+	memset(udc_event->event_ring.cpu_addr, 0, buff_length);
++	memset(udc_ep0->first_trb, 0, udc_ep0->tran_ring_info.len);
++	udc_ep0->enq_pt = udc_ep0->first_trb;
++	udc_ep0->deq_pt = udc_ep0->first_trb;
++	udc_ep0->pcs = 1;
++	udc_ep0->tran_ring_full = false;
++	crg_udc_setup_link_trb(udc_ep0->last_trb, true,
++			       udc_ep0->tran_ring_info.dma_addr);
 +
-+	/* Ensure that event ring is clear before programming
-+	 * ERSTBA/ERSTSZ/ERDP
-+	 */
++	/* Make the new ring contents visible before handing the ring to HW. */
 +	dma_wmb();
 +
-+	writel(CRG_ERST_SIZE, &uicr->erstsz);
-+	writel(lower_32_bits(udc_event->erst.dma_addr), &uicr->erstbalo);
-+	writel(upper_32_bits(udc_event->erst.dma_addr), &uicr->erstbahi);
-+	writel(lower_32_bits(udc_event->event_ring.dma_addr) |
-+		       CRG_U3DC_ERDPLO_EHB,
-+	       &uicr->erdplo);
-+	writel(upper_32_bits(udc_event->event_ring.dma_addr), &uicr->erdphi);
++	dqptaddr = crg_udc_tran_trb_virt_to_dma(udc_ep0, udc_ep0->first_trb);
++	if (dma_mapping_error(crg_udc->dev, dqptaddr)) {
++		crg_udc->ep0_state = EP0_STATE_ERROR;
++		return -EIO;
++	}
 +
-+	writel((CRG_U3DC_IMAN_INT_EN | CRG_U3DC_IMAN_INT_PEND), &uicr->iman);
-+	/* Interrupt moderation: 4000 * 250ns = 1ms */
-+	writel(4000, &uicr->imod);
++	cmd_param0 = (lower_32_bits(dqptaddr) & CRG_CMD0_0_DQPTRLO_MASK) |
++		     FIELD_PREP(CRG_CMD0_0_DCS_MASK, udc_ep0->pcs);
++	cmd_param1 = upper_32_bits(dqptaddr);
++
++	ret = crg_udc_issue_command(crg_udc, CRG_CMD_INIT_EP0, cmd_param0,
++				    cmd_param1);
++	if (ret) {
++		dev_err(crg_udc->dev,
++			"failed to reinitialize EP0 for SETUP: %d\n", ret);
++		crg_udc->ep0_state = EP0_STATE_ERROR;
++		return ret;
++	}
++
++	udc_ep0->ep_state = EP_STATE_RUNNING;
++	crg_udc->ep0_state = EP0_STATE_IDLE;
 +	return 0;
++}
 +
-+err_free_erst:
-+	/* Only free what this call allocated; a pre-existing erst is owned
-+	 * by an earlier successful init and released by crg_udc_free_resources().
++int crg_udc_enable_setup(struct crg_gadget_dev *crg_udc)
++{
++	enable_setup_event(crg_udc);
++	crg_udc->device_state = USB_STATE_DEFAULT;
++	usb_gadget_set_state(&crg_udc->gadget, USB_STATE_DEFAULT);
++	crg_udc->setup_status = WAIT_FOR_SETUP;
++
++	return 0;
++}
++
++static void enable_setup_event(struct crg_gadget_dev *crg_udc)
++{
++	struct crg_uccr __iomem *uccr = crg_udc->uccr;
++	u32 val;
++
++	val = readl(&uccr->config1);
++	val |= CRG_U3DC_CFG1_SETUP_EVENT_EN;
++	writel(val, &uccr->config1);
++}
++
++void crg_udc_ep0_req_complete(struct crg_udc_ep *udc_ep_ptr,
++			      unsigned long *flags)
++{
++	struct crg_gadget_dev *crg_udc = udc_ep_ptr->crg_udc;
++
++	switch (crg_udc->setup_status) {
++	case DATA_STAGE_XFER:
++		crg_udc->setup_status = STATUS_STAGE_RECV;
++		crg_udc_build_ep0_status(udc_ep_ptr, true, -EINPROGRESS, NULL,
++					 0, 0);
++		break;
++	case DATA_STAGE_RECV:
++		crg_udc->setup_status = STATUS_STAGE_XFER;
++		crg_udc_build_ep0_status(udc_ep_ptr, true, -EINPROGRESS, NULL,
++					 0, 0);
++		break;
++	default:
++		if (crg_udc->setup_fn_call_back) {
++			crg_udc->setup_fn_call_back(crg_udc);
++			crg_udc->setup_fn_call_back = NULL;
++		}
++		crg_udc->setup_status = WAIT_FOR_SETUP;
++		break;
++	}
++}
++
++static void get_status_cmpl(struct usb_ep *ep, struct usb_request *req)
++{
++	struct crg_udc_ep *udc_ep = container_of(ep, struct crg_udc_ep, usb_ep);
++	struct crg_gadget_dev *crg_udc = udc_ep->crg_udc;
++	unsigned long flags;
++
++	kfree(req->buf);
++	req->buf = NULL;
++
++	/*
++	 * A non-zero status means this request was completed early (e.g.
++	 * crg_udc_ep_nuke(..., -ECONNRESET) from crg_udc_abort_ep0_for_setup()
++	 * for a new SETUP). EP0 is being reinitialized for that new control
++	 * transfer; queuing a status stage here would race with it.
 +	 */
-+	if (erst_allocated) {
-+		dma_free_coherent(crg_udc->dev, udc_event->erst.len,
-+				  udc_event->erst.cpu_addr,
-+				  udc_event->erst.dma_addr);
-+		udc_event->erst.cpu_addr = NULL;
-+	}
-+	return ret;
++	if (req->status)
++		return;
++
++	spin_lock_irqsave(&crg_udc->udc_lock, flags);
++	crg_udc->setup_status = STATUS_STAGE_RECV;
++	crg_udc_build_ep0_status(udc_ep, true, -EINPROGRESS, NULL, 0, 0);
++	spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
 +}
 +
-+static bool is_event_ring_x_empty(struct crg_gadget_dev *crg_udc, int index)
++static void getstatusrequest(struct crg_gadget_dev *crg_udc, u8 request_type,
++			     u16 value, u16 index, u16 length)
 +{
-+	struct crg_event_trb *event;
-+	struct crg_udc_event *udc_event;
++	struct crg_udc_ep *udc_ep_ptr = &crg_udc->udc_ep[0];
++	struct crg_udc_request *udc_req_ptr = crg_udc->status_req;
++	u16 status_val = 0;
++	u32 dci;
++	int ret;
 +
-+	udc_event = &crg_udc->udc_event[index];
-+	if (udc_event->evt_dq_pt) {
-+		event = (struct crg_event_trb *)udc_event->evt_dq_pt;
-+
-+		if (FIELD_GET(EVE_TRB_CYCLE_BIT_MASK,
-+			      le32_to_cpu(event->dw3)) != udc_event->ccs)
-+			return true;
++	if (!udc_req_ptr || !list_empty(&udc_req_ptr->queue) || value ||
++	    length != sizeof(u16)) {
++		crg_udc_set_ep0_halt(crg_udc);
++		return;
 +	}
 +
-+	return false;
++	switch (request_type & USB_RECIP_MASK) {
++	case USB_RECIP_DEVICE:
++		if (index)
++			goto invalid;
++		if (crg_udc->gadget.speed == USB_SPEED_HIGH ||
++		    crg_udc->gadget.speed == USB_SPEED_FULL) {
++			if (crg_udc->u2_rwe)
++				status_val |= BIT(USB_DEVICE_REMOTE_WAKEUP);
++		} else if (crg_udc->gadget.speed >= USB_SPEED_SUPER) {
++			if (crg_udc->feature_u1_enable)
++				status_val |= BIT(USB_DEV_STAT_U1_ENABLED);
++			if (crg_udc->feature_u2_enable)
++				status_val |= BIT(USB_DEV_STAT_U2_ENABLED);
++		}
++		if (crg_udc->gadget.is_selfpowered)
++			status_val |= BIT(USB_DEVICE_SELF_POWERED);
++		break;
++
++	case USB_RECIP_INTERFACE:
++		if (crg_udc->device_state != USB_STATE_CONFIGURED ||
++		    (index & 0xff00))
++			goto invalid;
++		break;
++
++	case USB_RECIP_ENDPOINT:
++		if (index & ~(USB_ENDPOINT_NUMBER_MASK | USB_DIR_IN))
++			goto invalid;
++		dci = crg_udc_index2dci(index);
++		if (dci == 1 || dci >= CRG_NUM_EP_CX)
++			goto invalid;
++		if (crg_udc->device_state < USB_STATE_ADDRESS && dci != 0)
++			goto invalid;
++		if (crg_udc->device_state == USB_STATE_ADDRESS && dci != 0)
++			goto invalid;
++		if (crg_udc->device_state == USB_STATE_CONFIGURED &&
++		    crg_udc_get_ep_state(crg_udc, dci) == EP_STATE_DISABLED)
++			goto invalid;
++		if (crg_udc_get_ep_state(crg_udc, dci) == EP_STATE_HALTED)
++			status_val = BIT(USB_ENDPOINT_HALT);
++		break;
++
++	default:
++		goto invalid;
++	}
++
++	kfree(udc_req_ptr->usb_req.buf);
++
++	udc_req_ptr->usb_req.buf = kzalloc_obj(status_val, GFP_ATOMIC);
++	if (!udc_req_ptr->usb_req.buf)
++		goto invalid;
++
++	*(__le16 *)udc_req_ptr->usb_req.buf = cpu_to_le16(status_val);
++	udc_req_ptr->usb_req.length = sizeof(status_val);
++	udc_req_ptr->usb_req.status = -EINPROGRESS;
++	udc_req_ptr->usb_req.actual = 0;
++	udc_req_ptr->usb_req.complete = get_status_cmpl;
++
++	udc_req_ptr->map_dir = DMA_TO_DEVICE;
++	ret = usb_gadget_map_request_by_dev(crg_udc->dev, &udc_req_ptr->usb_req,
++					    true);
++	if (ret) {
++		kfree(udc_req_ptr->usb_req.buf);
++		udc_req_ptr->usb_req.buf = NULL;
++		goto invalid;
++	}
++
++	crg_udc->setup_status = DATA_STAGE_XFER;
++
++	ret = crg_udc_build_td(udc_ep_ptr, udc_req_ptr);
++	if (ret) {
++		crg_udc_unmap_request(udc_ep_ptr, udc_req_ptr);
++		kfree(udc_req_ptr->usb_req.buf);
++		udc_req_ptr->usb_req.buf = NULL;
++		crg_udc_set_ep0_halt(crg_udc);
++		return;
++	}
++	list_add_tail(&udc_req_ptr->queue, &udc_ep_ptr->queue);
++	return;
++
++invalid:
++	crg_udc_set_ep0_halt(crg_udc);
 +}
 +
-+bool crg_udc_is_event_rings_empty(struct crg_gadget_dev *crg_udc)
++int crg_udc_prepare_for_setup(struct crg_gadget_dev *crg_udc)
 +{
-+	int i;
++	struct crg_udc_ep *udc_ep0_ptr;
 +
-+	for (i = 0; i < CRG_RING_NUM; i++) {
-+		if (!is_event_ring_x_empty(crg_udc, i)) {
-+			dev_err(crg_udc->dev, "event ring not empty\n");
-+			return false;
++	dma_addr_t dqptaddr;
++	u32 cmd_param0;
++	u32 cmd_param1;
++
++	if (!crg_udc_is_event_rings_empty(crg_udc) ||
++	    crg_udc->portsc_on_reconnecting == 1)
++		return -EBUSY;
++
++	udc_ep0_ptr = &crg_udc->udc_ep[0];
++	/* If we reinit ep0 on bus reset, we just make ep0 dequeue pointer
++	 * align with enqueue pointer, all remaining xfer trbs became dumb once
++	 * which will not produce xfer event anymore.
++	 *
++	 * If we considering the opposite solution, we should wait all ep0 xfer
++	 * trbs be completed(with some err complete code)
++	 */
++	if (crg_udc->reinit_ep0_on_bus_reset) {
++		/* Complete any reqs on EP0 queue */
++		crg_udc_ep_nuke(udc_ep0_ptr, -ESHUTDOWN);
++
++		/* context related ops */
++		dqptaddr = crg_udc_tran_trb_virt_to_dma(udc_ep0_ptr,
++							udc_ep0_ptr->enq_pt);
++		if (dma_mapping_error(crg_udc->dev, dqptaddr))
++			return -EIO;
++		cmd_param0 =
++			(lower_32_bits(dqptaddr) & CRG_CMD0_0_DQPTRLO_MASK) |
++			FIELD_PREP(CRG_CMD0_0_DCS_MASK, udc_ep0_ptr->pcs);
++		cmd_param1 = upper_32_bits(dqptaddr);
++		if (crg_udc_issue_command(crg_udc, CRG_CMD_INIT_EP0, cmd_param0,
++					  cmd_param1))
++			return -EIO;
++
++		udc_ep0_ptr->deq_pt = udc_ep0_ptr->enq_pt;
++		udc_ep0_ptr->tran_ring_full = false;
++	} else {
++		if (!list_empty(&udc_ep0_ptr->queue)) {
++			dev_err(crg_udc->dev,
++				"remaining ep0 xfer trbs on reset\n");
++			return -EBUSY;
 +		}
 +	}
++
++	crg_udc_enable_setup(crg_udc);
++
++	return 0;
++}
++
++static void set_address_cmpl(struct crg_gadget_dev *crg_udc)
++{
++	if (crg_udc->device_state == USB_STATE_DEFAULT &&
++	    crg_udc->dev_addr != 0) {
++		crg_udc->device_state = USB_STATE_ADDRESS;
++		usb_gadget_set_state(&crg_udc->gadget, USB_STATE_ADDRESS);
++	} else if (crg_udc->device_state == USB_STATE_ADDRESS) {
++		if (crg_udc->dev_addr == 0) {
++			crg_udc->device_state = USB_STATE_DEFAULT;
++			usb_gadget_set_state(&crg_udc->gadget,
++					     USB_STATE_DEFAULT);
++		}
++
++	}
++}
++
++int crg_udc_set_ep0_halt(struct crg_gadget_dev *crg_udc)
++{
++	struct crg_udc_ep *udc_ep_ptr = &crg_udc->udc_ep[0];
++	enum crg_ep_state ep_state;
++
++	ep_state = crg_udc_get_ep_state(crg_udc, udc_ep_ptr->dci);
++	if (ep_state == EP_STATE_HALTED || ep_state == EP_STATE_DISABLED)
++		return 0;
++
++	crg_udc_build_ep0_status(udc_ep_ptr, true, -EINVAL, NULL, 0, 1);
++
++	udc_ep_ptr->ep_state = EP_STATE_HALTED;
++
++	return 0;
++}
++
++static void set_sel_cmpl(struct usb_ep *ep, struct usb_request *req)
++{
++	struct crg_udc_ep *udc_ep;
++	struct crg_gadget_dev *crg_udc;
++	struct crg_sel_value *sel_value;
++
++	udc_ep = container_of(ep, struct crg_udc_ep, usb_ep);
++	crg_udc = udc_ep->crg_udc;
++
++	if (req->buf) {
++		if (!req->status && req->actual >= sizeof(*sel_value)) {
++			sel_value = req->buf;
++			crg_udc->sel_value.u2_pel_value =
++				le16_to_cpu(sel_value->u2_pel_value);
++			crg_udc->sel_value.u2_sel_value =
++				le16_to_cpu(sel_value->u2_sel_value);
++			crg_udc->sel_value.u1_pel_value = sel_value->u1_pel_value;
++			crg_udc->sel_value.u1_sel_value = sel_value->u1_sel_value;
++		}
++
++		kfree(req->buf);
++		req->buf = NULL;
++	}
++}
++
++static void set_test_mode_cmpl(struct crg_gadget_dev *crg_udc)
++{
++	if (crg_udc->set_tm != 0) {
++		u32 tmp;
++		struct crg_uccr __iomem *uccr = crg_udc->uccr;
++
++		tmp = readl(&uccr->u2portpmsc);
++		FIELD_MODIFY(CRG_U3DC_U2PORTPM_TM_MASK, &tmp, crg_udc->set_tm);
++		writel(tmp, &uccr->u2portpmsc);
++
++		crg_udc->set_tm = 0;
++	}
++}
++
++static void setaddressrequest(struct crg_gadget_dev *crg_udc, u16 value,
++			      u16 index, u16 length)
++{
++	int status = -EINPROGRESS;
++	u8 status_set_addr = 0;
++
++	if (value > 127 || index != 0 || length != 0) {
++		status = -EINVAL;
++		goto set_address_error;
++	}
++
++	if ((crg_udc->device_state == USB_STATE_DEFAULT && value != 0) ||
++	    crg_udc->device_state == USB_STATE_ADDRESS) {
++		u32 param0;
++
++		param0 = FIELD_PREP(CRG_CMD2_0_DEV_ADDR_MASK, value);
++		if (crg_udc_issue_command(crg_udc, CRG_CMD_SET_ADDR, param0,
++					  0)) {
++			status = -EIO;
++		} else {
++			crg_udc->dev_addr = value;
++			status_set_addr = 1;
++		}
++	} else {
++		status = -EINVAL;
++	}
++
++set_address_error:
++	dev_dbg(crg_udc->dev, "crg_udc_build_ep0_status for Address Device\n");
++
++	crg_udc->setup_status = STATUS_STAGE_XFER;
++	crg_udc->setup_fn_call_back = &set_address_cmpl;
++	crg_udc_build_ep0_status(&crg_udc->udc_ep[0], true, status, NULL,
++				 status_set_addr, status != -EINPROGRESS);
++}
++
++static bool setfeaturesrequest(struct crg_gadget_dev *crg_udc, u8 request_type,
++			       u8 b_request, u16 value, u16 index, u16 length,
++			       unsigned long *flags)
++{
++	int status = -EINPROGRESS;
++	u8 dci;
++	struct crg_udc_ep *udc_ep_ptr;
++	u32 tmp;
++	u32 set_feat = 0;
++	struct crg_uccr __iomem *uccr = crg_udc->uccr;
++
++	if (length != 0) {
++		status = -EINVAL;
++		goto set_feature_error;
++	}
++
++	if (crg_udc->device_state == USB_STATE_DEFAULT) {
++		status = -EINVAL;
++		goto set_feature_error;
++	}
++
++	set_feat = (b_request == USB_REQ_SET_FEATURE) ? 1 : 0;
++	if ((request_type & (USB_RECIP_MASK | USB_TYPE_MASK)) ==
++	    (USB_RECIP_ENDPOINT | USB_TYPE_STANDARD)) {
++		dev_dbg(crg_udc->dev, "Halt/Unhalt EP\n");
++		if (crg_udc->device_state == USB_STATE_ADDRESS) {
++			if (index != 0) {
++				status = -EINVAL;
++				goto set_feature_error;
++			}
++		}
++
++		if (value != USB_ENDPOINT_HALT)
++			goto set_feature_error;
++
++		if (index & ~(USB_ENDPOINT_NUMBER_MASK | USB_DIR_IN))
++			goto set_feature_error;
++
++		dci = crg_udc_index2dci(index);
++		if (dci == 1 || dci >= CRG_NUM_EP_CX)
++			goto set_feature_error;
++		if (dci != 0 && crg_udc->device_state == USB_STATE_CONFIGURED &&
++		    crg_udc_get_ep_state(crg_udc, dci) == EP_STATE_DISABLED)
++			goto set_feature_error;
++
++		udc_ep_ptr = &crg_udc->udc_ep[dci];
++		status = crg_udc_ep_halt(
++			udc_ep_ptr, (b_request == USB_REQ_SET_FEATURE) ? 1 : 0,
++			0, flags);
++
++		if (status < 0)
++			goto set_feature_error;
++	} else if ((request_type & (USB_RECIP_MASK | USB_TYPE_MASK)) ==
++		   (USB_RECIP_DEVICE | USB_TYPE_STANDARD)) {
++		switch (value) {
++		case USB_DEVICE_REMOTE_WAKEUP:
++			/* REMOTE_WAKEUP selector is not used by USB3.0 */
++			if (index ||
++			    crg_udc->device_state < USB_STATE_DEFAULT ||
++			    crg_udc->gadget.speed >= USB_SPEED_SUPER) {
++				status = -EINVAL;
++				goto set_feature_error;
++			}
++
++			crg_udc->u2_rwe = set_feat;
++			crg_udc->gadget.wakeup_armed = set_feat;
++
++			break;
++		case USB_DEVICE_U1_ENABLE:
++		case USB_DEVICE_U2_ENABLE: {
++			u32 timeout_val;
++
++			if (crg_udc->device_state != USB_STATE_CONFIGURED) {
++				dev_err(crg_udc->dev,
++					"u12 enable fail, usb state=%d\n",
++					crg_udc->device_state);
++				status = -EINVAL;
++				goto set_feature_error;
++			}
++
++			if (index != 0 ||
++			    crg_udc->gadget.speed < USB_SPEED_SUPER) {
++				status = -EINVAL;
++				goto set_feature_error;
++			}
++
++			if (set_feat == 1 && crg_udc->u12_forbidden) {
++				status = -EINVAL;
++				goto set_feature_error;
++			}
++
++			tmp = readl(&uccr->u3portpmsc);
++			if (value == USB_DEVICE_U1_ENABLE) {
++				if (!crg_udc->u12_initiate_forbidden) {
++					tmp &= (~CRG_U3DC_U3PORTPM_U1IEN);
++					tmp |= FIELD_PREP(
++						CRG_U3DC_U3PORTPM_U1IEN,
++						set_feat);
++				}
++				if (!crg_udc->u12_forbidden)
++					timeout_val =
++						set_feat ? CRG_UDC_U1_TIMEOUT_VAL : 0;
++				else
++					timeout_val = 0;
++
++				FIELD_MODIFY(CRG_U3DC_U3PORTPM_U1TMOUT_MASK,
++					     &tmp, timeout_val);
++
++				crg_udc->feature_u1_enable = set_feat;
++			}
++
++			if (value == USB_DEVICE_U2_ENABLE) {
++				if (!crg_udc->u12_initiate_forbidden) {
++					tmp &= (~CRG_U3DC_U3PORTPM_U2IEN);
++					tmp |= FIELD_PREP(
++						CRG_U3DC_U3PORTPM_U2IEN,
++						set_feat);
++				}
++				if (!crg_udc->u12_forbidden)
++					timeout_val =
++						set_feat ? CRG_UDC_U2_TIMEOUT_VAL : 0;
++				else
++					timeout_val = 0;
++
++				FIELD_MODIFY(CRG_U3DC_U3PORTPM_U2TMOUT_MASK,
++					     &tmp, timeout_val);
++
++				crg_udc->feature_u2_enable = set_feat;
++			}
++			writel(tmp, &uccr->u3portpmsc);
++
++			break;
++		}
++		case USB_DEVICE_TEST_MODE: {
++			u32 u_pattern;
++
++			if (b_request != USB_REQ_SET_FEATURE ||
++			    crg_udc->gadget.speed != USB_SPEED_HIGH ||
++			    crg_udc->device_state < USB_STATE_DEFAULT ||
++			    (index & 0xff) || (index >> 8) == 0 ||
++			    (index >> 8) > 6)
++				goto set_feature_error;
++			u_pattern = index >> 8;
++			crg_udc->set_tm = u_pattern;
++			crg_udc->setup_fn_call_back = &set_test_mode_cmpl;
++
++			break;
++		}
++
++		default:
++			goto set_feature_error;
++		}
++
++	} else if ((request_type & (USB_RECIP_MASK | USB_TYPE_MASK)) ==
++		   (USB_RECIP_INTERFACE | USB_TYPE_STANDARD)) {
++		if (crg_udc->device_state != USB_STATE_CONFIGURED) {
++			dev_err(crg_udc->dev,
++				"interface u12 enable fail, usb state=%d\n",
++				crg_udc->device_state);
++			status = -EINVAL;
++			goto set_feature_error;
++		}
++
++		/* Suspend Option */
++		if (value != USB_INTRF_FUNC_SUSPEND) {
++			status = -EINVAL;
++			goto set_feature_error;
++		}
++
++		if (!(index & USB_INTR_FUNC_SUSPEND_OPT_MASK &
++		      USB_INTRF_FUNC_SUSPEND_LP)) {
++			status = -EINVAL;
++			goto set_feature_error;
++		}
++
++		if (index & USB_INTRF_FUNC_SUSPEND_RW)
++			dev_dbg(crg_udc->dev, "Interface En Remote Wakeup\n");
++		else
++			dev_dbg(crg_udc->dev, "Interface Dis RemoteWakeup\n");
++
++		/* Do not need to return status stage here
++		 * Pass to composite gadget driver to process
++		 * the request
++		 */
++		return false;
++	}
++
++	crg_udc->setup_status = STATUS_STAGE_XFER;
++	crg_udc_build_ep0_status(&crg_udc->udc_ep[0], true, status, NULL, 0, 0);
++	return true;
++
++set_feature_error:
++	crg_udc_set_ep0_halt(crg_udc);
 +	return true;
 +}
 +
-+bool crg_udc_is_pointer_less_than(struct crg_transfer_trb *a,
-+				  struct crg_transfer_trb *b,
-+				  struct crg_udc_ep *udc_ep)
++static void setselrequest(struct crg_gadget_dev *crg_udc, u16 value, u16 index,
++			  u16 length)
 +{
-+	if (!a || !b || !udc_ep->first_trb || !udc_ep->last_trb)
-+		return false;
-+	if (b > a && (udc_ep->enq_pt >= b || udc_ep->enq_pt < a))
-+		return true;
-+	if (b < a && (udc_ep->enq_pt >= b && udc_ep->enq_pt < a))
-+		return true;
-+	return false;
-+}
-+
-+int crg_udc_process_event_ring(struct crg_gadget_dev *crg_udc, int index,
-+			       unsigned long *flags)
-+{
-+	struct crg_event_trb *event;
-+	struct crg_udc_event *udc_event;
-+	struct crg_uicr __iomem *uicr = crg_udc->uicr[index];
-+	u32 val;
-+	dma_addr_t erdp;
-+	int ret;
-+	unsigned int processed = 0;
-+
-+	if (!uicr)
-+		return -ENODEV;
-+
-+	val = readl(&uicr->iman);
-+	val |= CRG_U3DC_IMAN_INT_PEND;
-+	writel(val, &uicr->iman);
-+
-+	udc_event = &crg_udc->udc_event[index];
-+	while (udc_event->evt_dq_pt) {
-+		event = (struct crg_event_trb *)udc_event->evt_dq_pt;
-+
-+		if (FIELD_GET(EVE_TRB_CYCLE_BIT_MASK,
-+			      le32_to_cpu(event->dw3)) != udc_event->ccs)
-+			break;
-+		/* Read the payload only after observing device ownership. */
-+		dma_rmb();
-+
-+		ret = crg_udc_handle_event(crg_udc, event, flags);
-+		if (ret == -ECONNRESET) {
-+			/* The disconnect path rebuilt and reprogrammed the ring. */
-+			return 0;
-+		}
-+		if (ret < 0)
-+			dev_dbg(crg_udc->dev, "failed to process event: %d\n",
-+				ret);
-+
-+		/* Consume malformed events so they cannot pin the ring head. */
-+		if (event == udc_event->evt_seg0_last_trb) {
-+			udc_event->ccs = udc_event->ccs ? 0 : 1;
-+			udc_event->evt_dq_pt = udc_event->event_ring.cpu_addr;
-+		} else {
-+			udc_event->evt_dq_pt++;
-+		}
-+
-+		/*
-+		 * udc_event state is only re-read from crg_udc, never cached
-+		 * across this drop, so releasing and reacquiring the lock
-+		 * here is safe and lets other udc_lock users, and this CPU's
-+		 * other interrupts, make progress during a busy event ring.
-+		 */
-+		if (++processed % CRG_EVENT_RING_BATCH == 0) {
-+			erdp = event_trb_virt_to_dma(udc_event,
-+						     udc_event->evt_dq_pt);
-+			if (!dma_mapping_error(crg_udc->dev, erdp)) {
-+				writel(upper_32_bits(erdp), &uicr->erdphi);
-+				writel(lower_32_bits(erdp) |
-+					       CRG_U3DC_ERDPLO_EHB,
-+				       &uicr->erdplo);
-+			}
-+			spin_unlock_irqrestore(&crg_udc->udc_lock, *flags);
-+			cond_resched();
-+			spin_lock_irqsave(&crg_udc->udc_lock, *flags);
-+		}
-+	}
-+
-+	/* update dequeue pointer */
-+	erdp = event_trb_virt_to_dma(udc_event, udc_event->evt_dq_pt);
-+	if (dma_mapping_error(crg_udc->dev, erdp))
-+		return -EINVAL;
-+	writel(upper_32_bits(erdp), &uicr->erdphi);
-+	writel(lower_32_bits(erdp) | CRG_U3DC_ERDPLO_EHB, &uicr->erdplo);
-+
-+	return 0;
-+}
-+
-+/* This function will go through the list of the USB requests for the
-+ * given endpoint and schedule any unscheduled trb's to the xfer ring
-+ */
-+int crg_udc_queue_pending_trbs(struct crg_udc_ep *udc_ep_ptr)
-+{
-+	struct crg_udc_request *udc_req_ptr, *tmp;
++	struct crg_udc_request *udc_req_ptr = crg_udc->status_req;
++	struct crg_udc_ep *udc_ep_ptr = &crg_udc->udc_ep[0];
++	struct crg_sel_value *sel;
 +	int ret;
 +
-+	list_for_each_entry_safe(udc_req_ptr, tmp, &udc_ep_ptr->queue, queue) {
-+		if (udc_req_ptr->all_trbs_queued)
-+			continue;
-+
-+		ret = crg_udc_build_td(udc_ep_ptr, udc_req_ptr);
-+		if (ret == -ENOSPC || ret == -EBUSY) {
-+			/*
-+			 * Ring is full; leave this request queued and retry
-+			 * it (and anything behind it) on the next TRB
-+			 * completion via crg_udc_queue_pending_trbs().
-+			 */
-+			return ret;
-+		} else if (ret) {
-+			/*
-+			 * A non-capacity failure is not transient: fail this
-+			 * request instead of leaving it stuck forever, and
-+			 * keep rebuilding the rest of the queue.
-+			 */
-+			dev_err(udc_ep_ptr->crg_udc->dev,
-+				"failed to build pending transfer: %d\n", ret);
-+			list_del_init(&udc_req_ptr->queue);
-+			crg_udc_req_done(udc_ep_ptr, udc_req_ptr, ret);
-+			continue;
-+		}
-+		break;
++	if (!udc_req_ptr || !list_empty(&udc_req_ptr->queue) ||
++	    crg_udc->device_state == USB_STATE_DEFAULT || value || index ||
++	    length != sizeof(struct crg_sel_value)) {
++		crg_udc_set_ep0_halt(crg_udc);
++		return;
 +	}
 +
-+	return 0;
++	kfree(udc_req_ptr->usb_req.buf);
 +
-+}
-+
-+/* num_trbs here is the size of the ring. */
-+u32 crg_udc_room_on_ring(struct crg_gadget_dev *crg_udc, u32 num_trbs,
-+			 struct crg_transfer_trb *p_ring,
-+			 struct crg_transfer_trb *enq_pt,
-+			 struct crg_transfer_trb *dq_pt)
-+{
-+	u32 i = 0;
-+
-+	if (enq_pt == dq_pt) {
-+		/* ring is empty */
-+		return num_trbs - 2;
++	udc_req_ptr->usb_req.buf = kzalloc_obj(*sel, GFP_ATOMIC);
++	if (!udc_req_ptr->usb_req.buf) {
++		crg_udc_set_ep0_halt(crg_udc);
++		return;
 +	}
 +
-+	while (enq_pt != dq_pt) {
-+		i++;
-+
-+		enq_pt++;
-+
-+		if (FIELD_GET(TRB_TYPE_MASK, le32_to_cpu(enq_pt->dw3)) ==
-+		    TRB_TYPE_LINK)
-+			enq_pt = p_ring;
-+
-+		if (i > num_trbs)
-+			break;
++	sel = udc_req_ptr->usb_req.buf;
++	udc_req_ptr->usb_req.length = sizeof(*sel);
++	udc_req_ptr->usb_req.status = -EINPROGRESS;
++	udc_req_ptr->usb_req.actual = 0;
++	udc_req_ptr->usb_req.complete = set_sel_cmpl;
++	udc_req_ptr->map_dir = DMA_FROM_DEVICE;
++	ret = usb_gadget_map_request_by_dev(crg_udc->dev, &udc_req_ptr->usb_req,
++					    false);
++	if (ret) {
++		kfree(udc_req_ptr->usb_req.buf);
++		udc_req_ptr->usb_req.buf = NULL;
++		crg_udc_set_ep0_halt(crg_udc);
++		return;
 +	}
 +
-+	return i - 1;
++	crg_udc->setup_status = DATA_STAGE_RECV;
++
++	ret = crg_udc_build_td(udc_ep_ptr, udc_req_ptr);
++	if (ret) {
++		crg_udc_unmap_request(udc_ep_ptr, udc_req_ptr);
++		kfree(udc_req_ptr->usb_req.buf);
++		udc_req_ptr->usb_req.buf = NULL;
++		crg_udc_set_ep0_halt(crg_udc);
++		return;
++	}
++	list_add_tail(&udc_req_ptr->queue, &udc_ep_ptr->queue);
 +}
 +
-+void crg_udc_setup_datastage_trb(struct crg_transfer_trb *p_trb, dma_addr_t dma,
-+				 u8 pcs, u32 transfer_length, u32 td_size,
-+				 bool ioc, bool azp, u8 dir, u8 setup_tag)
++int crg_udc_update_ep0_maxpacketsize(struct crg_gadget_dev *crg_udc)
 +{
-+	u32 tmp;
++	u16 maxpacketsize = 0;
++	struct crg_udc_ep *udc_ep0 = &crg_udc->udc_ep[0];
++	u32 param0;
 +
-+	p_trb->dw0 = cpu_to_le32(lower_32_bits(dma));
-+	p_trb->dw1 = cpu_to_le32(upper_32_bits(dma));
-+
-+	/* TRB_Transfer_Length
-+	 * For USB_DIR_OUT, this field is the number of data bytes expected
-+	 * from xhc. For USB_DIR_IN, this field is the number of data bytes
-+	 * the device will send.
-+	 */
-+	tmp = 0;
-+	FIELD_MODIFY(TRB_TRANSFER_LEN_MASK, &tmp, transfer_length);
-+	FIELD_MODIFY(TRB_TD_SIZE_MASK, &tmp, td_size);
-+	FIELD_MODIFY(TRB_INTR_TARGET_MASK, &tmp, 0);
-+	p_trb->dw2 = cpu_to_le32(tmp);
-+
-+	tmp = 0;
-+	FIELD_MODIFY(TRB_CYCLE_BIT_MASK, &tmp, pcs);
-+	FIELD_MODIFY(TRB_INTR_ON_SHORT_PKT_MASK, &tmp, 1);
-+	FIELD_MODIFY(TRB_INTR_ON_COMPLETION_MASK, &tmp, ioc);
-+	FIELD_MODIFY(TRB_TYPE_MASK, &tmp, TRB_TYPE_XFER_DATA_STAGE);
-+	FIELD_MODIFY(TRB_APPEND_ZLP_MASK, &tmp, azp);
-+	FIELD_MODIFY(DATA_STAGE_TRB_DIR_MASK, &tmp, dir);
-+	FIELD_MODIFY(TRB_SETUP_TAG_MASK, &tmp, setup_tag);
-+
-+	/* Publish ownership only after the TRB payload is visible. */
-+	dma_wmb();
-+	p_trb->dw3 = cpu_to_le32(tmp);
-+}
-+
-+void crg_udc_setup_link_trb(struct crg_transfer_trb *link_trb, bool toggle,
-+			    dma_addr_t next_trb)
-+{
-+	u32 dw = 0;
-+
-+	link_trb->dw0 = cpu_to_le32(lower_32_bits(next_trb));
-+	link_trb->dw1 = cpu_to_le32(upper_32_bits(next_trb));
-+	link_trb->dw2 = cpu_to_le32(0);
-+
-+	FIELD_MODIFY(TRB_TYPE_MASK, &dw, TRB_TYPE_LINK);
-+	if (toggle)
-+		FIELD_MODIFY(TRB_LINK_TOGGLE_CYCLE_MASK, &dw, 1);
++	if (crg_udc->gadget.speed >= USB_SPEED_SUPER)
++		maxpacketsize = 512;
 +	else
-+		FIELD_MODIFY(TRB_LINK_TOGGLE_CYCLE_MASK, &dw, 0);
++		maxpacketsize = 64;
 +
-+	/* Publish ownership only after the link address is visible. */
-+	dma_wmb();
-+	link_trb->dw3 = cpu_to_le32(dw);
++	param0 = FIELD_PREP(CRG_CMD1_0_MPS_MASK, maxpacketsize);
++	if (crg_udc_issue_command(crg_udc, CRG_CMD_UPDATE_EP0_CFG, param0, 0))
++		return -EIO;
++
++	crg_udc->ep0_desc.wMaxPacketSize = cpu_to_le16(maxpacketsize);
++	udc_ep0->usb_ep.maxpacket = maxpacketsize;
++
++	return 0;
 +}
 +
-+void crg_udc_setup_status_trb(struct crg_gadget_dev *crg_udc,
-+			      struct crg_transfer_trb *p_trb,
-+			      struct usb_request *usb_req, u8 pcs, u8 set_addr,
-+			      u8 stall)
++void crg_udc_handle_setup_pkt(struct crg_gadget_dev *crg_udc,
++			      struct usb_ctrlrequest *setup_pkt, u8 setup_tag,
++			      unsigned long *flags)
 +{
-+	u32 tmp, dir = 0;
-+
-+	/* There are some cases where crg_udc_setup_status_trb() is called with
-+	 * usb_req set to NULL.
-+	 */
-+	p_trb->dw0 = cpu_to_le32(0);
-+	p_trb->dw1 = cpu_to_le32(0);
-+
-+	tmp = 0;
-+	FIELD_MODIFY(TRB_INTR_TARGET_MASK, &tmp, 0);
-+	p_trb->dw2 = cpu_to_le32(tmp);
-+
-+	tmp = 0;
-+	FIELD_MODIFY(TRB_CYCLE_BIT_MASK, &tmp, pcs);
-+	FIELD_MODIFY(TRB_INTR_ON_COMPLETION_MASK, &tmp, 1);
-+	FIELD_MODIFY(TRB_TYPE_MASK, &tmp, TRB_TYPE_XFER_STATUS_STAGE);
-+
-+	dir = (crg_udc->setup_status == STATUS_STAGE_XFER) ? 0 : 1;
-+	FIELD_MODIFY(DATA_STAGE_TRB_DIR_MASK, &tmp, dir);
-+
-+	FIELD_MODIFY(TRB_SETUP_TAG_MASK, &tmp, crg_udc->setup_tag);
-+	FIELD_MODIFY(STATUS_STAGE_TRB_STALL_MASK, &tmp, stall);
-+	FIELD_MODIFY(STATUS_STAGE_TRB_SET_ADDR_MASK, &tmp, set_addr);
-+
-+	/* Publish ownership only after the TRB payload is visible. */
-+	dma_wmb();
-+	p_trb->dw3 = cpu_to_le32(tmp);
-+}
-+
-+void crg_udc_setup_trb(struct crg_transfer_trb *p_trb, u32 xfer_len,
-+		       dma_addr_t xfer_buf_addr, u8 td_size, u8 pcs,
-+		       u8 trb_type, bool short_pkt, bool chain_bit,
-+		       bool intr_on_compl, bool b_setup_stage, u8 usb_dir,
-+		       bool b_isoc, u16 frame_id, bool sia, bool azp)
-+{
++	u16 w_value = le16_to_cpu(setup_pkt->wValue);
++	u16 w_index = le16_to_cpu(setup_pkt->wIndex);
++	u16 w_length = le16_to_cpu(setup_pkt->wLength);
++	struct usb_gadget_driver *driver;
 +	u32 tmp;
 +
-+	p_trb->dw0 = cpu_to_le32(lower_32_bits(xfer_buf_addr));
-+	p_trb->dw1 = cpu_to_le32(upper_32_bits(xfer_buf_addr));
++	trace_crg_udc_ctrl_req(setup_pkt);
 +
-+	tmp = 0;
-+	FIELD_MODIFY(TRB_TRANSFER_LEN_MASK, &tmp, xfer_len);
-+	FIELD_MODIFY(TRB_TD_SIZE_MASK, &tmp, td_size);
-+	FIELD_MODIFY(TRB_INTR_TARGET_MASK, &tmp, 0);
++	/* EP0 come backs to running when new setup packet comes */
++	crg_udc->udc_ep[0].ep_state = EP_STATE_RUNNING;
 +
-+	p_trb->dw2 = cpu_to_le32(tmp);
++	crg_udc->setup_tag = setup_tag;
++	crg_udc->setup_status = SETUP_PKT_PROCESS_IN_PROGRESS;
++	crg_udc->setup_fn_call_back = NULL;
 +
-+	tmp = 0;
-+	FIELD_MODIFY(TRB_CYCLE_BIT_MASK, &tmp, pcs);
-+	FIELD_MODIFY(TRB_INTR_ON_SHORT_PKT_MASK, &tmp, short_pkt);
-+	FIELD_MODIFY(TRB_CHAIN_BIT_MASK, &tmp, chain_bit);
-+	FIELD_MODIFY(TRB_INTR_ON_COMPLETION_MASK, &tmp, intr_on_compl);
-+	FIELD_MODIFY(TRB_APPEND_ZLP_MASK, &tmp, azp);
-+	FIELD_MODIFY(TRB_TYPE_MASK, &tmp, trb_type);
++	if ((setup_pkt->bRequestType & USB_TYPE_MASK) == USB_TYPE_STANDARD) {
++		switch (setup_pkt->bRequest) {
++		case USB_REQ_GET_STATUS:
++			if (setup_pkt->bRequestType !=
++				    (USB_DIR_IN | USB_RECIP_DEVICE |
++				     USB_TYPE_STANDARD) &&
++			    setup_pkt->bRequestType !=
++				    (USB_DIR_IN | USB_RECIP_INTERFACE |
++				     USB_TYPE_STANDARD) &&
++			    setup_pkt->bRequestType !=
++				    (USB_DIR_IN | USB_RECIP_ENDPOINT |
++				     USB_TYPE_STANDARD)) {
++				crg_udc_set_ep0_halt(crg_udc);
++				return;
++			}
 +
-+	if (b_setup_stage)
-+		FIELD_MODIFY(DATA_STAGE_TRB_DIR_MASK, &tmp, usb_dir);
++			getstatusrequest(crg_udc, setup_pkt->bRequestType,
++					 w_value, w_index, w_length);
++			return;
++		case USB_REQ_SET_ADDRESS:
++			if (setup_pkt->bRequestType !=
++			    (USB_DIR_OUT | USB_RECIP_DEVICE |
++			     USB_TYPE_STANDARD)) {
++				crg_udc_set_ep0_halt(crg_udc);
++				return;
++			}
 +
-+	if (b_isoc) {
-+		FIELD_MODIFY(ISOC_TRB_FRAME_ID_MASK, &tmp, frame_id);
-+		FIELD_MODIFY(ISOC_TRB_SIA_MASK, &tmp, sia);
++			setaddressrequest(crg_udc, w_value, w_index, w_length);
++			return;
++		case USB_REQ_SET_SEL:
++			if (setup_pkt->bRequestType !=
++			    (USB_DIR_OUT | USB_RECIP_DEVICE |
++			     USB_TYPE_STANDARD)) {
++				crg_udc_set_ep0_halt(crg_udc);
++				return;
++			}
++			crg_udc->setup_status = DATA_STAGE_RECV;
++			setselrequest(crg_udc, w_value, w_index, w_length);
++			return;
++		case USB_REQ_SET_ISOCH_DELAY:
++			if (setup_pkt->bRequestType !=
++				    (USB_DIR_OUT | USB_RECIP_DEVICE |
++				     USB_TYPE_STANDARD) ||
++			    w_index || w_length ||
++			    w_value >
++				    FIELD_MAX(
++					    CRG_U3DC_PTMCTRL_ISOCH_DELAY_MASK)) {
++				crg_udc_set_ep0_halt(crg_udc);
++				return;
++			}
++
++			tmp = readl(&crg_udc->uccr->ptmctrl);
++			FIELD_MODIFY(CRG_U3DC_PTMCTRL_ISOCH_DELAY_MASK, &tmp,
++				     w_value);
++			writel(tmp, &crg_udc->uccr->ptmctrl);
++			crg_udc->setup_status = STATUS_STAGE_XFER;
++			crg_udc_build_ep0_status(&crg_udc->udc_ep[0], true,
++						 -EINPROGRESS, NULL, 0, 0);
++			return;
++
++		case USB_REQ_CLEAR_FEATURE:
++		case USB_REQ_SET_FEATURE:
++			/* Need composite gadget driver
++			 * to process the function remote wakeup request
++			 */
++			if (setfeaturesrequest(crg_udc, setup_pkt->bRequestType,
++					       setup_pkt->bRequest, w_value,
++					       w_index, w_length, flags)) {
++				/* Get here if request has been processed.*/
++				return;
++			}
++			break;
++		case USB_REQ_SET_CONFIGURATION:
++			if (setup_pkt->bRequestType !=
++				    (USB_DIR_OUT | USB_RECIP_DEVICE |
++				     USB_TYPE_STANDARD) ||
++			    w_length || w_value > 0xff) {
++				crg_udc_set_ep0_halt(crg_udc);
++				return;
++			}
++			/* In theory we need to clear RUN bit before
++			 * status stage of deconfig request sent.
++			 * But seeing problem if we do it before all the
++			 * endpoints belonging to the configuration
++			 * disabled.
++			 */
++			if (crg_udc->device_state <= USB_STATE_DEFAULT) {
++				crg_udc_set_ep0_halt(crg_udc);
++				return;
++			}
++
++			break;
++		default:
++			dev_dbg(crg_udc->dev,
++				"USB_REQ default bRequest=%d, bRequestType=%d\n",
++				setup_pkt->bRequest, setup_pkt->bRequestType);
++		}
 +	}
 +
-+	/* Publish ownership only after the TRB payload is visible. */
-+	dma_wmb();
-+	p_trb->dw3 = cpu_to_le32(tmp);
-+}
++	if (w_length) {
++		/* data phase from gadget like GET_CONFIGURATION
++		 * call the setup routine of gadget driver.
++		 * remember the request direction.
++		 */
++		crg_udc->setup_status = (setup_pkt->bRequestType & USB_DIR_IN) ?
++						DATA_STAGE_XFER :
++						DATA_STAGE_RECV;
++	}
++	driver = crg_udc->async_callbacks ? crg_udc->gadget_driver : NULL;
++	spin_unlock_irqrestore(&crg_udc->udc_lock, *flags);
 +
-+void crg_udc_squeeze_xfer_ring(struct crg_udc_ep *udc_ep_ptr,
-+			       struct crg_udc_request *udc_req_ptr)
-+{
-+	struct crg_transfer_trb *trb = udc_req_ptr->first_trb;
-+	struct crg_udc_request *next_req, *tmp;
-+	u8 new_pcs;
-+
-+	if (!trb)
-+		return;
-+
-+	/* The canceled request becomes the new enqueue point. Its original
-+	 * cycle bit is the cycle expected at that point after the tail is
-+	 * removed.
++	/*
++	 * Make sure any reset notification queued by
++	 * crg_udc_handle_port_status() has actually run before this SETUP
++	 * (which may be SET_CONFIGURATION) reaches the function driver.
++	 * Otherwise udc_reset_work's usb_gadget_udc_reset() could run after
++	 * the new configuration is already active and tear it back down.
 +	 */
-+	new_pcs = FIELD_GET(TRB_CYCLE_BIT_MASK, le32_to_cpu(trb->dw3));
++	flush_work(&crg_udc->udc_reset_work);
 +
-+	while (trb != udc_ep_ptr->enq_pt) {
-+		memset(trb, 0, sizeof(*trb));
-+		trb++;
-+		if (trb == udc_ep_ptr->last_trb)
-+			trb = udc_ep_ptr->first_trb;
++	if (!driver || driver->setup(&crg_udc->gadget, setup_pkt) < 0) {
++		spin_lock_irqsave(&crg_udc->udc_lock, *flags);
++		crg_udc_set_ep0_halt(crg_udc);
++		return;
++	}
++	spin_lock_irqsave(&crg_udc->udc_lock, *flags);
++	if (setup_pkt->bRequest == USB_REQ_SET_CONFIGURATION &&
++	    (setup_pkt->bRequestType & (USB_TYPE_MASK | USB_RECIP_MASK)) ==
++		    (USB_TYPE_STANDARD | USB_RECIP_DEVICE)) {
++		if (w_value) {
++			crg_udc->device_state = USB_STATE_CONFIGURED;
++			usb_gadget_set_state(&crg_udc->gadget,
++					     USB_STATE_CONFIGURED);
++		} else {
++			/* Endpoint disable may already have updated device_state. */
++			crg_udc->device_state = USB_STATE_ADDRESS;
++			usb_gadget_set_state(&crg_udc->gadget,
++					     USB_STATE_ADDRESS);
++		}
++	}
++}
++
++int crg_udc_init_ep0(struct crg_gadget_dev *crg_udc)
++{
++	struct crg_udc_ep *udc_ep_ptr = &crg_udc->udc_ep[0];
++	u32 cmd_param0;
++	u32 cmd_param1;
++
++	/* setup transfer ring */
++	if (!udc_ep_ptr->tran_ring_info.cpu_addr) {
++		dma_addr_t dma;
++		u32 ring_size = CRG_UDC_CONTROL_EP_TD_RING_SIZE;
++		void *vaddr;
++		size_t len;
++
++		len = ring_size * sizeof(struct crg_transfer_trb);
++		vaddr = dma_alloc_coherent(crg_udc->dev, len, &dma, GFP_KERNEL);
++		if (!vaddr)
++			return -ENOMEM;
++
++		udc_ep_ptr->tran_ring_info.cpu_addr = vaddr;
++		udc_ep_ptr->tran_ring_info.dma_addr = dma;
++		udc_ep_ptr->tran_ring_info.len = len;
++		udc_ep_ptr->first_trb = vaddr;
++		udc_ep_ptr->last_trb = udc_ep_ptr->first_trb + ring_size - 1;
 +	}
 +
-+	udc_ep_ptr->enq_pt = udc_req_ptr->first_trb;
-+	udc_ep_ptr->pcs = new_pcs;
-+	udc_ep_ptr->tran_ring_full = false;
-+	crg_udc_setup_link_trb(udc_ep_ptr->last_trb, true,
-+			udc_ep_ptr->tran_ring_info.dma_addr);
++	memset(udc_ep_ptr->first_trb, 0, udc_ep_ptr->tran_ring_info.len);
++	/* Ensure that transfer ring is updated */
 +	dma_wmb();
++	udc_ep_ptr->enq_pt = udc_ep_ptr->first_trb;
++	udc_ep_ptr->deq_pt = udc_ep_ptr->first_trb;
++	udc_ep_ptr->pcs = 1;
++	udc_ep_ptr->tran_ring_full = false;
 +
-+	if (list_is_last(&udc_req_ptr->queue, &udc_ep_ptr->queue))
-+		return;
++	crg_udc_setup_link_trb(udc_ep_ptr->last_trb, true,
++			       udc_ep_ptr->tran_ring_info.dma_addr);
 +
-+	next_req = udc_req_ptr;
-+	list_for_each_entry_safe_continue(next_req, tmp, &udc_ep_ptr->queue,
-+					  queue) {
-+		int ret;
++	/* context related ops */
++	cmd_param0 = (lower_32_bits(udc_ep_ptr->tran_ring_info.dma_addr) &
++		      CRG_CMD0_0_DQPTRLO_MASK) |
++		     FIELD_PREP(CRG_CMD0_0_DCS_MASK, udc_ep_ptr->pcs);
++	cmd_param1 = upper_32_bits(udc_ep_ptr->tran_ring_info.dma_addr);
 +
-+		next_req->usb_req.status = -EINPROGRESS;
-+		next_req->usb_req.actual = 0;
-+		crg_udc_clear_req_container(next_req);
-+		ret = crg_udc_build_td(udc_ep_ptr, next_req);
-+		if (ret == -ENOSPC) {
-+			/* Ring is full; a later TRB completion will retry
-+			 * this and any remaining requests via
-+			 * crg_udc_queue_pending_trbs().
++	if (crg_udc_issue_command(crg_udc, CRG_CMD_INIT_EP0, cmd_param0,
++				  cmd_param1))
++		return -EIO;
++
++	udc_ep_ptr->desc = &crg_udc->ep0_desc;
++	udc_ep_ptr->ep_state = EP_STATE_RUNNING;
++	udc_ep_ptr->pcs = 1;
++
++	return 0;
++}
++
++int crg_udc_queue_ctrl(struct crg_udc_ep *udc_ep_ptr,
++		       struct crg_udc_request *udc_req_ptr,
++		       u32 num_of_trbs_needed)
++{
++	struct crg_gadget_dev *crg_udc = udc_ep_ptr->crg_udc;
++	enum crg_ep_state ep_state;
++	struct crg_transfer_trb *enq_pt = udc_ep_ptr->enq_pt;
++	struct crg_transfer_trb *dq_pt = udc_ep_ptr->deq_pt;
++	struct usb_request *usb_req = &udc_req_ptr->usb_req;
++	struct crg_transfer_trb *p_trb;
++	u32 transfer_length;
++	bool ioc;
++	bool azp;
++	u8 dir = 0;
++	u8 setup_tag = crg_udc->setup_tag;
++
++	/* A new SETUP aborts the previous EP0 transaction. The completion
++	 * callback of the aborted request is allowed to run, but it must not
++	 * requeue the old request before the new SETUP has been handed to the
++	 * gadget driver.
++	 */
++	if (crg_udc->ep0_state == EP0_STATE_ABORTING)
++		return -ECONNRESET;
++
++	ep_state = crg_udc_get_ep_state(crg_udc, 0);
++	/* Need to queue the request even ep is paused or halted */
++	if (ep_state != EP_STATE_RUNNING) {
++		dev_dbg(crg_udc->dev, "EP State = 0x%x\n", ep_state);
++		return -EINVAL;
++	}
++	if (list_empty(&udc_ep_ptr->queue)) {
++		/* For control endpoint, we can handle one setup request at a
++		 * time. so if there are TD pending in the transfer ring.
++		 * wait for the sequence number error event. Then put the new
++		 * request to transfer ring
++		 */
++		if (enq_pt == dq_pt) {
++			u32 i;
++			bool need_zlp = false;
++			dma_addr_t trb_dma = usb_req->dma;
++			u64 remaining = usb_req->length;
++			/* Transfer ring is empty
++			 * setup data stage TRBs
 +			 */
-+			udc_ep_ptr->tran_ring_full = true;
-+			break;
-+		} else if (ret) {
++			udc_req_ptr->first_trb = udc_ep_ptr->enq_pt;
++			if (crg_udc->setup_status == DATA_STAGE_XFER)
++				dir = 0;
++			else if (crg_udc->setup_status == DATA_STAGE_RECV)
++				dir = 1;
++			else
++				dev_dbg(crg_udc->dev,
++					"unexpected setup_status!%d\n",
++					crg_udc->setup_status);
++			if (udc_req_ptr->usb_req.zero == 1 &&
++			    udc_req_ptr->usb_req.length != 0 &&
++			    ((udc_req_ptr->usb_req.length %
++			      udc_ep_ptr->usb_ep.maxpacket) == 0))
++				need_zlp = true; /* zero length packet */
++			if (num_of_trbs_needed > 32)
++				return -EMSGSIZE;
++
++			if (num_of_trbs_needed >
++			    crg_udc_room_on_ring(
++				    crg_udc, CRG_UDC_CONTROL_EP_TD_RING_SIZE,
++				    udc_ep_ptr->first_trb, enq_pt, dq_pt))
++				return -ENOSPC;
++
++			u8 original_pcs = udc_ep_ptr->pcs;
++
++			for (i = 0; i < num_of_trbs_needed; i++) {
++				p_trb = enq_pt;
++				transfer_length = crg_udc_trb_chunk_len(
++					trb_dma, remaining);
++				ioc = (i == num_of_trbs_needed - 1);
++				azp = ioc && need_zlp;
++				crg_udc_setup_datastage_trb(
++					p_trb, trb_dma,
++					i == 0 ? (original_pcs ^ 1) :
++						 udc_ep_ptr->pcs,
++					transfer_length,
++					num_of_trbs_needed - i - 1, ioc, azp,
++					dir, setup_tag);
++				udc_req_ptr->all_trbs_queued = 1;
++				trb_dma += transfer_length;
++				remaining -= transfer_length;
++				enq_pt++;
++				if (FIELD_GET(TRB_TYPE_MASK,
++					      le32_to_cpu(enq_pt->dw3)) ==
++				    TRB_TYPE_LINK) {
++					if (FIELD_GET(
++						    TRB_LINK_TOGGLE_CYCLE_MASK,
++						    le32_to_cpu(enq_pt->dw3))) {
++						dma_wmb();
++						le32p_replace_bits(
++							&enq_pt->dw3,
++							udc_ep_ptr->pcs,
++							TRB_CYCLE_BIT_MASK);
++						udc_ep_ptr->pcs ^= 0x1;
++					}
++					enq_pt = udc_ep_ptr->first_trb;
++				}
++			}
++			dma_wmb();
++			le32p_replace_bits(&udc_req_ptr->first_trb->dw3,
++					   original_pcs, TRB_CYCLE_BIT_MASK);
++			udc_ep_ptr->enq_pt = enq_pt;
++			crg_udc_knock_doorbell(crg_udc, 0);
++			if (udc_ep_ptr->enq_pt == udc_ep_ptr->first_trb)
++				udc_req_ptr->last_trb =
++					udc_ep_ptr->last_trb - 1;
++			else
++				udc_req_ptr->last_trb = udc_ep_ptr->enq_pt - 1;
++		} else {
 +			/*
-+			 * A non-capacity failure is not transient: fail this
-+			 * request instead of leaving it stuck forever, and
-+			 * keep rebuilding the rest of the queue.
++			 * The software queue is empty but the transfer ring
++			 * still holds pending TDs from a previous control
++			 * transfer (the host issued a new setup before the
++			 * old one drained). We process one setup at a time,
++			 * so we intentionally do not queue TRBs here.
++			 * Returning success leaves this request on the
++			 * endpoint queue; the stale TDs and this request are
++			 * flushed and completed (with -EINVAL) by the
++			 * sequence-number-error / setup-tag-mismatch event in
++			 * crg_udc_handle_xfer_event().
 +			 */
-+			dev_err(udc_ep_ptr->crg_udc->dev,
-+				"failed to rebuild queued request: %d\n", ret);
-+			crg_udc_req_done(udc_ep_ptr, next_req, ret);
-+			continue;
++			dev_err(crg_udc->dev,
++				"ep0 ring not idle on new setup\n");
 +		}
-+		if (udc_ep_ptr->tran_ring_full)
-+			break;
++	} else {
++		dev_err(crg_udc->dev, "udc_ep_ptr->queue not empty\n");
++		/* New setup packet came
++		 * Drop this request.
++		 */
++		return -EINVAL;
 +	}
-+}
-+
-+struct crg_transfer_trb *crg_udc_tran_trb_dma_to_virt(struct crg_udc_ep *udc_ep,
-+						    dma_addr_t address)
-+{
-+	dma_addr_t offset;
-+	struct crg_transfer_trb *trb_virt;
-+
-+	if (lower_32_bits(address) & 0xf)
-+		return NULL;
-+
-+	offset = address - udc_ep->tran_ring_info.dma_addr;
-+	if (unlikely(offset >= udc_ep->tran_ring_info.len))
-+		return NULL;
-+	offset = offset / sizeof(struct crg_transfer_trb);
-+	trb_virt = udc_ep->first_trb + offset;
-+	return trb_virt;
-+}
-+
-+dma_addr_t crg_udc_tran_trb_virt_to_dma(struct crg_udc_ep *udc_ep,
-+					struct crg_transfer_trb *trb)
-+{
-+	unsigned long offset;
-+	int trb_idx;
-+	dma_addr_t dma_addr = 0;
-+
-+	trb_idx = trb - udc_ep->first_trb;
-+	if (unlikely(trb_idx < 0))
-+		return DMA_MAPPING_ERROR;
-+
-+	offset = trb_idx * sizeof(*trb);
-+	if (unlikely(offset >= udc_ep->tran_ring_info.len))
-+		return DMA_MAPPING_ERROR;
-+	dma_addr = udc_ep->tran_ring_info.dma_addr + offset;
-+	return dma_addr;
-+}
-+
-+void crg_udc_update_dequeue_pt(struct crg_event_trb *event,
-+			       struct crg_udc_ep *udc_ep)
-+{
-+	u32 deq_pt_lo = le32_to_cpu(event->dw0);
-+	u32 deq_pt_hi = le32_to_cpu(event->dw1);
-+	u64 dq_pt_addr = (u64)deq_pt_lo | ((u64)deq_pt_hi << 32);
-+	struct crg_transfer_trb *deq_pt;
-+
-+	deq_pt = crg_udc_tran_trb_dma_to_virt(udc_ep, dq_pt_addr);
-+	if (!deq_pt)
-+		return;
-+	deq_pt++;
-+	if (deq_pt == udc_ep->last_trb)
-+		deq_pt = udc_ep->first_trb;
-+
-+	if (FIELD_GET(TRB_TYPE_MASK, le32_to_cpu(deq_pt->dw3)) == TRB_TYPE_LINK)
-+		deq_pt = udc_ep->first_trb;
-+
-+	udc_ep->deq_pt = deq_pt;
-+}
-+
-+u32 crg_udc_trb_chunk_len(dma_addr_t dma, u64 remaining)
-+{
-+	u32 boundary = CRG_UDC_TRB_MAX_BUFFER_SIZE -
-+		       (lower_32_bits(dma) & (CRG_UDC_TRB_MAX_BUFFER_SIZE - 1));
-+
-+	return min_t(u64, remaining, boundary);
-+}
-+
-+u32 crg_udc_actual_before(struct crg_udc_ep *udc_ep,
-+			  struct crg_udc_request *udc_req,
-+			  struct crg_transfer_trb *pause)
-+{
-+	struct crg_transfer_trb *trb = udc_req->first_trb;
-+	u32 actual = 0;
-+	u32 guard = 0;
-+	u32 max_iter = udc_ep->tran_ring_info.len / sizeof(*trb);
-+
-+	if (!trb || !pause)
-+		return 0;
-+
-+	while (trb != pause && trb != udc_ep->enq_pt && guard++ < max_iter) {
-+		u32 len;
-+
-+		if (FIELD_GET(TRB_TYPE_MASK, le32_to_cpu(trb->dw3)) ==
-+		    TRB_TYPE_LINK) {
-+			trb = udc_ep->first_trb;
-+			continue;
-+		}
-+		len = FIELD_GET(TRB_TRANSFER_LEN_MASK, le32_to_cpu(trb->dw2));
-+		actual += len;
-+		trb++;
-+		if (trb == udc_ep->last_trb)
-+			trb = udc_ep->first_trb;
-+	}
-+
-+	return min(actual, udc_req->usb_req.length);
++	return 0;
 +}
 
 -- 
