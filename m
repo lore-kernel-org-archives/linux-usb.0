@@ -1,55 +1,44 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=114.111.35.161
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792520032;
-	b=AtnEWSvE1SU2oX67LJ23LIZev8gX0MfQhAAhXugRAlXGlA1SPRc3RSVv+IFUalyO12Cr
-	 OTYSF3UXJPF87Hb/9aR4wuYOy8cxDnhgYa2bD6C+67UMEixeaGfHMlfKhiiVlSGMt88Av
-	 qFl1e3nBxY5TdQgmm3Ho+drlS46dcbaosAUoLcqcdhwB6e2fs/UtxqVdznrvuC9EJVy90
-	 zJImu0onEGdq+JkZZcpm3pJisWEyAcxXGFZ1fzSybslAyWTwOu4XGc3krHp15zOMtIVh2
-	 iBg8McNP4+nvvTphyw7hXRaYT6YcPEEcYtC73X4uLFwagHuWndfWfO1UX1yIsx538xA==
+	t=1792520305;
+	b=w87e6dQNwXwzGTznv/oOtljEfPN2eKijWNMFRyVKdSgYHJ8jfG9zUKAWpNqEs5wzy3fw
+	 VSZmrgnTPEafjzcM0OOYs6OqSWXpgsvsj9EjZuGMtemTwo24ArSACTOMHIS+wL8tBl4do
+	 43qyaYS/6Ew3k9QrQGAWWeOIL9fT+Vryh+aJkrThgAI3Sxmb1IAkWu8COjrWTYtW6O3Y/
+	 fO87SqR0t8Q2tFUz1gX+P/ykoapAIzsTIebPEdXnOLJRdqEwRsjUwCcX8jy0p90wsLifd
+	 L5rA+eM6wQGt8LcOsd9B1whvuAkYPs/ZDi1wACdnnk+f92ZKd3J40W1tI+RHcmTZJnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792520032;
-	h=DMARC-Filter:X-Originating-IP:X-Works-Smtp-Source:Received:
-	 DKIM-Signature:X-Session-ID:MIME-Version:Message-ID:Date:From:
-	 In-Reply-To:References:Importance:To:Cc:Subject:X-Originating-IP:
-	 X-Works-Send-Opt:Content-Type:Content-Transfer-Encoding;
-	bh=xBwg47qZzPyIAG5offW1+qkXnDG6uBqWFQgzSIRs9BQ=;
-	b=ZNYzmZRMDbe8rLfh7Fhb5VvqpE0RvcvZrzuw+OU/bl7RxxyZVuAuuqn/vbtsvvVE3fgd
-	 TqqPt9mdLrpOM4/gT9oGR7eL+BVc67zA+gAXUGImo3G6ODZ3zCT3BUes9p9h5uppRBai/
-	 mOA1fnBufLkzl+XeQaGKtp79jZvrnc+TWTDbbCZPti0w8PQyPnPlTwsQ0PdQlMRCNNTXb
-	 7RyeJimq5lqbq9Yw1i26T3T1+/pxTfy0vBewbsFV1os25Le51oyl8WCwmX3GMfGMMDMwq
-	 kWfE7gHc6yaFOe4ypPdH2puXvH8Wj7bxkpezWUSUQNHcdof16wJ1Ac9nN8SbJm98K4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792520305;
+	h=Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=DfBhKtajucyvfmmNTsKe2Ab7sqyhk9L3hh3VIyXeDhI=;
+	b=ilUVyx3xzo1EPTdw4ao60AnMwpp62AuKBoezQRmcjjnRD5asSYNfufOlLh9E6aQnvUCP
+	 kJGzU38PVk78p6n+FhiFoYnBTql6LDJkG/CNl73/VW/tXcZlNUl5R7ot6FZFwQR2dM72L
+	 NcmaaThpLOAXbfwE5/j5Q5NUwjkJ9NYQGZZR37udUtyxnUdMGn51NQWZdBGelZ6XFSD1o
+	 UeK0u2ZchAOPsuOQrEwN3PrsZTvfTxJNgRhqAs5MOrpio3Diya/Gy2ws2U4x7oiCwgbkh
+	 7rw1kGeJoilV5xYjl8+QzlX6fpKPQxGM7Tua8ynHg1voi+pCPBI6kVukYvrZ4zxJswQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=naver.com;
-	spf=pass smtp.mailfrom=naver.com;
-	dkim=pass header.d=naver.com header.i=@naver.com header.a=rsa-sha256 header.s=s20171208 header.b=avICx5Go;
-	arc=none smtp.remote-ip=114.111.35.161
-Received: from cvsmtppost23.nm.naver.com (cvsmtppost23.nm.naver.com [114.111.35.161])
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6528606A321
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 18:13:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6528606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=naver.com header.i=@naver.com header.a=rsa-sha256 header.s=s20171208 header.b=avICx5Go
-X-Works-Smtp-Source: frb/FAUlFqJCpNmqKoMXWHF0
-Received: from nv1s-hmac-real-6 ([10.180.31.91])
-  by cvsmtppost23.nm.naver.com with ESMTP id SGIe05TWQv23rYoqSPiEwg
-  for <multiple recipients>;
-  Tue, 20 Oct 2026 18:13:43 -0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
-	t=1792520023; bh=xBwg47qZzPyIAG5offW1+qkXnDG6uBqWFQgzSIRs9BQ=;
-	h=Message-ID:Date:From:To:Subject:From:Subject:Feedback-ID:
-	 X-Works-Security;
-	b=avICx5Go8rygt3oXJhDy+ScI8HQIkRf8iEoXpAA78Q/zBlEOgirgT8JPzFX8DCrP/
-	 +TJ0KMjrFzb7OXGySo/jtkC7Ah/lj6yHGRetVio418h3bE9rvQRnuYVyLnYe/wISBl
-	 c9u22DBgqftuF7YgsAKtT4fLTX2Y811+Q8BtSolPMii4eSHkSO5uW4Q376nweAkMuF
-	 pcEnRp7mkZ6Z+GO/8QoR0XlQ6yfSYXvmhBwGGgw7mDt9pV+8/jLDcUHkZviyFEDP+H
-	 ypi+/6g6R4KlE3Iwe6rqrrm0Abwb4RiulYkDQbg5WslSDPApNuySkfORacSpUqESiL
-	 lNO22aJBylGgw==
-X-Session-ID: bebbc36d00c19a1c3bec72b82c414e5df807127987a3fe064afa24da97b174e9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91903606A31E;
+	Tue, 20 Oct 2026 18:18:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3D9B1F000C9;
+	Tue, 20 Oct 2026 18:18:24 +0000 (UTC)
+Date: Tue, 20 Oct 2026 13:17:54 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+Cc: krzk+dt@kernel.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, michal.simek@amd.com,
+	Thinh.Nguyen@synopsys.com, conor+dt@kernel.org,
+	p.zabel@pengutronix.de, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, gregkh@linuxfoundation.org
+Subject: Re: [PATCH v4 1/3] dt-bindings: usb: amd,versal2-mmi-dwc3: Add MMI
+ USB support on Versal Gen2 platform
+Message-ID: <179252027211.589421.5653120976811914326.robh@kernel.org>
+References: <20261020112636.2661087-1-radhey.shyam.pandey@amd.com>
+ <20261020112636.2661087-2-radhey.shyam.pandey@amd.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,80 +48,56 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Message-ID: <727f178628d723faed73edb2648ae18@cweb002.nm>
-Date: Wed, 21 Oct 2026 03:13:43 +0900
-From: =?utf-8?B?7ISx67OR7LCs?= <tjdqudcks0424@naver.com>
-In-Reply-To: <bca330ed-9594-4b0c-a15a-49d694d72cfa@linuxfoundation.org>
-References: <20261008183753.10231-1-tjdqudcks0424@naver.com>
-	<bca330ed-9594-4b0c-a15a-49d694d72cfa@linuxfoundation.org>
-Importance: normal
-To: =?utf-8?B?U2h1YWggS2hhbg==?= <skhan@linuxfoundation.org>,
-	=?utf-8?B?VmFsZW50aW5hIE1hbmVh?= <valentina.manea.m@gmail.com>,
-	=?utf-8?B?U2h1YWggS2hhbg==?= <shuah@kernel.org>
-Cc: <linux-usb@vger.kernel.org>
-Subject: =?utf-8?B?UmU6IFtQQVRDSF0gdXNiaXA6IHZ1ZGM6IHJlamVjdCBzdWJtaXRzIGFmdGVyIGVuZHBvaQ==?=
-	=?utf-8?B?bnQgc3RhdGUgY2hhbmdlcw==?=
-X-Works-Send-Opt: OPFwpzGdjHmdKHFOMr39Ko3YKHmdjAudFqM9KqMqFxIYkEljxBmwjAg=
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261020112636.2661087-2-radhey.shyam.pandey@amd.com>
 
-SGkgU2h1YWgsCgpUaGFuayB5b3UgZm9yIGFza2luZy4gSSBuZWVkIHRvIGNvcnJlY3Qgb25lIHBh
-cnQgb2YgbXkgb3JpZ2luYWwgY29tbWl0Cm1lc3NhZ2UgYmVmb3JlIGV4cGxhaW5pbmcgdGhlIHJl
-cHJvZHVjdGlvbi4KClRoZSBzZW50ZW5jZSBhdHRyaWJ1dGluZyB0aGUgcmFjZS1zcGVjaWZpYyBm
-YWlsdXJlIHRvIHRoZSBOVUxMIHVyYi0+ZGV2CmRpYWdub3N0aWMgd2FzIGluYWNjdXJhdGUuIFRo
-YXQgZGlhZ25vc3RpYyBpcyB0aGUgc2VwYXJhdGVseSBjb25maXJtZWQgcGFyZW50ClZVREMgcmVj
-ZWl2ZS1lcnJvciBpc3N1ZS4gSW4gdGhlIGVuZHBvaW50LXN0YXRlIHJhY2UgZGVzY3JpYmVkIGJ5
-IHRoaXMgcGF0Y2gsCnRoZSBvYnNlcnZlZCBjcmFzaCBvY2N1cnJlZCBpbiB0aGUgdl9yZWN2X2Nt
-ZF9zdWJtaXQoKSBwYXRoIGFmdGVyIHRoZSBlbmRwb2ludApkZXNjcmlwdG9yIGhhZCBiZWVuIGNs
-ZWFyZWQuCgpJIHJlcHJvZHVjZWQgdGhlIHJhY2UgaW4gYSBuZXR3b3JrLWlzb2xhdGVkIHg4Nl82
-NCBRRU1VIGd1ZXN0IGF0CmZmNDc2NTJhNGI2NmMwNjdjNzY1YTdhZDQ2NGQ5MzBiNWE5MzY3Y2Mg
-d2l0aCBLQVNBTiBlbmFibGVkLiBUaGUgUElELTEKZml4dHVyZSBjcmVhdGVzIGEgcmVhbCBjb25m
-aWdmcyBVQUMyIGdhZGdldCBhbmQgYXR0YWNoZXMgYSBsb2NhbCBzb2NrZXRwYWlyIHRvCnRoZSBw
-cm9kdWN0aW9uIFZVREMgdXNiaXBfc29ja2ZkIGludGVyZmFjZS4gSXQgZG9lcyBub3QgY2FsbCBh
-biBpbnRlcm5hbCBWVURDCmZ1bmN0aW9uIGRpcmVjdGx5LgoKRm9yIHRoZSBzdGFsZS1zdWJtaXQg
-Y2FzZSwgdGhlIGZpeHR1cmUgcGVyZm9ybXMgdGhlIGZvbGxvd2luZyBzZXF1ZW5jZToKCiAgMS4g
-RW5hYmxlIGFuZCBlbnVtZXJhdGUgYW4gaXNvY2hyb25vdXMgT1VUIGVuZHBvaW50LgogIDIuIFNl
-bmQgYSBTRVRfSU5URVJGQUNFIHJlcXVlc3Qgc2VsZWN0aW5nIGFsdHNldHRpbmcgMCwgaW1tZWRp
-YXRlbHkgZm9sbG93ZWQKICAgICBieSB0aGUgaGVhZGVyIG9mIGFuIElTTyBPVVQgQ01EX1NVQk1J
-VCwgaW4gb25lIHNvY2tldCB3cml0ZS4KICAzLiBMZXQgdGhlIHJlY2VpdmUgdGhyZWFkIGNvbnN1
-bWUgdGhlIElTTyBzdWJtaXQgaGVhZGVyIGFuZCBiZWdpbiB3YWl0aW5nIGZvcgogICAgIGl0cyBi
-b2R5LgogIDQuIFdoaWxlIGl0IGlzIHdhaXRpbmcsIGxldCB0aGUgVlVEQyB0cmFuc2ZlciB0aW1l
-ciBjb21wbGV0ZSBTRVRfSU5URVJGQUNFCiAgICAgYW5kIGRpc2FibGUgdGhlIGVuZHBvaW50Lgog
-IDUuIFNlbmQgdGhlIGRlbGF5ZWQgSVNPIGJvZHkgYWZ0ZXIgdGhlIGVuZHBvaW50IGhhcyBiZWVu
-IGRpc2FibGVkLgogIDYuIFJlLWVuYWJsZSB0aGUgc2FtZSBsb2dpY2FsIGVuZHBvaW50IGFuZCBj
-aGVjayB0aGUgc3RhbGUgY29tcGxldGlvbiBhbmQgYQogICAgIGZvbGxvd2luZyBFUDAgb3BlcmF0
-aW9uLgoKVGhlcmUgaXMgbm8ga2VybmVsLXNpZGUgZGVsYXkgb3IgdGVzdCBob29rLiBUaGUgcmVj
-ZWl2ZSB0aHJlYWQgaXMgaGVsZCBpbiB0aGUKbm9ybWFsIHBheWxvYWQgcmVjZWl2ZSBvcGVyYXRp
-b24gd2hpbGUgdGhlIG5vcm1hbCBWVURDIHRpbWVyIHByb2Nlc3NlcyB0aGUKZW5kcG9pbnQgdHJh
-bnNpdGlvbi4KClRoZSBiYXNlbGluZSByYWNlIGlzIHRpbWluZy1zZW5zaXRpdmUuIEZpdmUgb2Yg
-c2l4IGJhc2VsaW5lIHN0YWxlIHJ1bnMKcmVjb3ZlcmVkIHdpdGhvdXQgYSBzYW5pdGl6ZXIgcmVw
-b3J0LCBidXQgb25lIHJ1biBwcm9kdWNlZCBhIEtBU0FOIE5VTEwgcG9pbnRlcgpkZXJlZmVyZW5j
-ZSBpbiB0aGUgaW5saW5lZCB2X3JlY3ZfY21kX3N1Ym1pdCgpIHBhdGguIFRoaXMgaXMgY29uc2lz
-dGVudCB3aXRoCnRoZSBlbmRwb2ludCBkZXNjcmlwdG9yIGJlY29taW5nIE5VTEwgd2hpbGUgdGhl
-IHVubG9ja2VkIGNvZGUgY2FsY3VsYXRlcyB0aGUKZW5kcG9pbnQgbWF4aW11bSBwYWNrZXQgc2l6
-ZS4gVGhlIG90aGVyIHJ1bnMgc3RpbGwgZGVtb25zdHJhdGVkIHRoYXQgdGhlCnN1Ym1pdCBjb3Vs
-ZCBjcm9zcyB0aGUgZW5kcG9pbnQgc3RhdGUgdHJhbnNpdGlvbi4KClRoZSBnZW5lcmF0aW9uIGNo
-ZWNrIGlzIGludGVuZGVkIHRvIGNsb3NlIGJvdGggcGFydHMgb2YgdGhhdCB3aW5kb3c6CgogIC0g
-ZW5kcG9pbnQgdHlwZSBhbmQgbWF4aW11bSBwYWNrZXQgc2l6ZSBhcmUgc25hcHNob3R0ZWQgd2hp
-bGUgdWRjLT5sb2NrIGlzCiAgICBoZWxkLCBzbyBwYXJzaW5nIGRvZXMgbm90IGRlcmVmZXJlbmNl
-IGEgbXV0YWJsZSBkZXNjcmlwdG9yIGFmdGVyIGRyb3BwaW5nCiAgICB0aGUgbG9jazsKICAtIGVu
-YWJsZSBhbmQgZGlzYWJsZSBlYWNoIGluY3JlbWVudCB0aGUgZW5kcG9pbnQgZ2VuZXJhdGlvbiB3
-aGlsZSBob2xkaW5nCiAgICB0aGUgc2FtZSBsb2NrOwogIC0gaW1tZWRpYXRlbHkgYmVmb3JlIHVy
-Yl9xdWV1ZSBpbnNlcnRpb24sIHRoZSByZWNlaXZlciByZWFjcXVpcmVzCiAgICB1ZGMtPmxvY2sg
-YW5kIHJlcXVpcmVzIGJvdGggYSBwcmVzZW50IGRlc2NyaXB0b3IgYW5kIHRoZSBzYW1lIGdlbmVy
-YXRpb24uCgpDaGVja2luZyBvbmx5IHRoZSBlbmRwb2ludCBwb2ludGVyIHdvdWxkIG5vdCBiZSBz
-dWZmaWNpZW50IGJlY2F1c2UgZGlzYWJsZSBhbmQKcmUtZW5hYmxlIHJldXNlIHRoZSBzYW1lIHN0
-cnVjdCB2ZXAuIFRoZSBnZW5lcmF0aW9uIGNoZWNrIGRpc3Rpbmd1aXNoZXMgdGhlCm5ldyBlbmRw
-b2ludCBzdGF0ZSBmcm9tIHRoZSBzdGF0ZSB1c2VkIHdoZW4gdGhlIHN1Ym1pdCB3YXMgcGFyc2Vk
-LiAtRVNIVVRET1dOCmlzIHJldHVybmVkIGJlY2F1c2UgdGhlIGVuZHBvaW50IGluc3RhbmNlIGZv
-ciB3aGljaCB0aGUgc3VibWl0IHdhcyByZWNlaXZlZCBubwpsb25nZXIgZXhpc3RzLgoKVXNpbmcg
-dGhlIGV4YWN0IGNvZGUgZGlmZiB0aGF0IEkgcG9zdGVkLCBJIHJhbiB0aHJlZSBmcmVzaCBib290
-cyBlYWNoIGZvcgpub3JtYWwgb3BlcmF0aW9uLCBzZXJpYWxpemVkIGRpc2FibGUsIGFuZCB0aGUg
-c3RhbGUtZ2VuZXJhdGlvbiBzZXF1ZW5jZS4gVGhlCnRocmVlIHN0YWxlIHJ1bnMgc2VudCB0aGUg
-Ym9keSBhZnRlciBkaXNhYmxlLCB3ZXJlIHJlamVjdGVkIHdpdGggLUVTSFVURE9XTiwKcmVtYWlu
-ZWQgZnJlZSBvZiBLQVNBTi9vb3BzL3BhbmljIHJlcG9ydHMsIGFuZCBjb21wbGV0ZWQgYSBmb2xs
-b3dpbmcgRVAwCnJlcXVlc3QgYWZ0ZXIgYm91bmRlZCB0cmFuc3BvcnQgcmVjb3ZlcnkuCgpJIHdp
-bGwgY29ycmVjdCB0aGUgZmFpbHVyZSBkZXNjcmlwdGlvbiBpbiBhIHYyIGNvbW1pdCBtZXNzYWdl
-LiBUaGUgY29kZSBkaWZmCndpbGwgcmVtYWluIHVuY2hhbmdlZC4KClRoYW5rcywKU3VuZyBieWVv
-bmdjaGFu
+
+On Tue, 20 Oct 2026 16:56:33 +0530, Radhey Shyam Pandey wrote:
+> The Versal Gen 2 platform includes two distinct USB controllers. The
+> LPD controller is a USB 2.0 instance and reuses the existing
+> xlnx,versal-dwc3 binding. The second is the Multimedia Integrated (MMI)
+> USB 3.2 Gen 2x1 Dual-Role (DRD) controller, which natively supports USB
+> 3.2 host and device operation over Type-C in a Gen 2x1 configuration
+> with a maximum data rate of 10 Gbps per direction.
+> 
+> Introduce a new compatible in <vendor>,<soc>-<subsystem>-<ip> format to
+> uniquely distinguish the MMI USB controller.
+> 
+> Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
+> ---
+> Changes for v4:
+> - Switch to flat mode and rephrase commit description.
+> 
+> Changes for v3:
+> - Modify commit description to explain that there are two different
+>   USB controllers and difference between versal2-dwc3 and
+>   versal2-mmi-dwc3. Suggested by Krzysztof.
+> 
+> Changes for v2:
+> - Add blank line after compatible as suggested by Krzysztof.
+> - Retain the mmi suffix in the compatible string, as this USB 3.2 Gen2
+>   IP from Synopsys is part of the dedicated Multimedia Interface. The
+>   Versal Gen2 platform also includes a separate USB 2.0 controller,
+>   and the mmi suffix uniquely distinguishes between the two USB
+>   controllers. MMI is an independent subsystem particularly targeted for
+>   deployment in Multi-Media related applications. The MMI block include
+>   following submodules: UDH: USB3.2 Gen 2x1 Dual Role Device, DisplayPort
+>   Transmit Controller, Security Module (ESM) for DisplayPort and HDMI
+>   Controllers, DP AUX-I2C PHY.
+> - For MMI USB define parent address space i.e UDH block.
+> - Fix inconsistent MHz spacing to use SI convention with spaces.
+> - Move description before $ref and items in xlnx,usb-syscon property.
+> - Restore original zynqmp-dwc3 example, add new versal2-mmi-dwc3 example.
+> - Use 'usb' node name (without unit address) for versal2 example since
+>   it has no reg property.
+> - Use 1/1 address/size configuration in versal2 example, use lowercase
+>   hex in syscon offsets.
+> ---
+>  .../bindings/usb/amd,versal2-mmi-dwc3.yaml    | 92 +++++++++++++++++++
+>  1 file changed, 92 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/amd,versal2-mmi-dwc3.yaml
+> 
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+
