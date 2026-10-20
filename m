@@ -1,49 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792521210;
-	b=G2u16hdLgK0chWZM/P9L5iwKfr5qYrWGJA9kqqXFwGF6jOKm400NpxlGTnoiFJ923MZB
-	 Rug8ehwXPuiv+5SauvOAgeZkdztAKCYc8e8fAlu99VS2p6Y99u900GCuR53FpEMGJFHQb
-	 z7LE9LbR5icr5MaNSvvK8Tg4WKhG3CkX4xo4gThsKtrM6A0ElaCNLX+M32huO6xgnzFcD
-	 EJpeBtaMJTZoYvgx1l9IH92+XNaDdKxF1gd+FuWOH0eNrPuuSMyJ5BcS0TqN0Y6wl2FaB
-	 6rL4t719BZ9P8UuC5iaDOJIHSm7BM5qYsTR8uh/d2Z/I0PcMbegY31/ccGO1VTkckpw==
+	t=1792524783;
+	b=GPAF9bWPcy5/bUhkw/beLUyGCxT7aACGtsvbdIJ8YWAWX/tT4jnvF8JcOEDvIK9Hl6zT
+	 30HVF3mBN+dMPrf4jAuq+Eeujy0/jY2ryIr16MNSGeJEu8q7PSGfLkOhnzrvMNTm7G/W0
+	 IHPCXzFMy+vBnk+sqiki+yuaq/LNE49aMbXDioKJMZ2J3mAdFykb2f36i6gnx9VNawUpc
+	 cE/06s3FXe9KlQd4NQ6mqbqVQ4bSRyIzwiCk22zw5ABRb6kmgrVglyEmrrPEYMzLNe64n
+	 mLbb9mCggk1M3cD7RJkwBLa4/W3Ge8q/155+PE3c/1dOJxFfUS66MQqg4x2B3V6merA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792521210;
-	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
-	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=0z9aJM5pcb7dWz5EgKYVG4y4LAG3PeNtEiLV7ggtYRc=;
-	b=SACWsYsoXfUIKrgfj3qx418gkIJo1LfaLC/kPkWEqrUg1SM1IrUi21tADYUC1Ggn+DaQ
-	 0Qkq6zybwXnXV+JihpFXikrC6CamaxAWuE+MQwk+YhEY5B8RIhuVCbNL/wa1DpQAVL1fG
-	 erEon+Ud85zcAe/A66GXa2CbDt06jBt+H3CSWmsFPtUiUJyD2qODt0ZypMH3sQXnuAz64
-	 XN8Oqd6JFk+rBk4XZs3OfHTRXHos4rvO0pKltwQ+3qR9fv0qpGwOkbeYlqAAPqH6FSM8z
-	 ZYXSk7hzkZXMNZ2ew8ggC3eijia5a/746egK3UWJi5LZlX1qYRtMZy9DU8OPE7zyiaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792524783;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=ZI2XOhYhSS+ON68+ycU1NaNTWPtxOOczoynazLMcOec=;
+	b=hN2/MANa7iAMwHpez2N8VbJqOSl5Hj2vkyYnahCb2db3hQHok2GDFcKMo4INJDJQj22j
+	 6DipQO0OZJhGu/3g3zrgEK/MxZ8Kdhh3XNeCbH+fev4eiimPctgxn7caCIo1sG592fdvH
+	 jNjdluBffWIqpOZWy/1rFFFB/zcOobK8Dxoo1ZuDy6o7jWbEDEvqAkoIA2PqDQ0yBkceE
+	 e24Ld9EtY3GScZpiBDPa9LyEDbdtF3BkoBn1hJtw7ITny0qu2+//plpk9c08BhQTe/ipr
+	 xAKMtaF4GyxKGi9lzkRBuaMosRSGx4xbrwjJs2ZLJy+G0dM+UfsZtc6Uy9ODMx98lrg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=tipi-net.de;
-	spf=pass smtp.mailfrom=tipi-net.de;
-	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=JTwO+OeJ;
-	arc=none smtp.remote-ip=194.13.80.246
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b="Ck1M7/DE";
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFF01606A31A;
-	Tue, 20 Oct 2026 18:33:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFF01606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 685F8606A319;
+	Tue, 20 Oct 2026 19:33:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 685F8606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=JTwO+OeJ
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 43C89A156A;
-	Tue, 20 Oct 2026 20:33:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1792521198; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=0z9aJM5pcb7dWz5EgKYVG4y4LAG3PeNtEiLV7ggtYRc=;
-	b=JTwO+OeJj20KZlr9tv+3kST6kEEl7JPmOCBFgFFVCNjecNVZP2qVu24zJxuFi2nmPEBTTe
-	ew5RyL0/pBeakP84TlsPY7nBlEkQpoPoYHOuOmVUMDeTaL1yAhLh2MPUfdKifAVTr7LxP6
-	fRRueY+w4hQ3NiTbFwhsHauHPjQeUDQUHzRLVzmcxvwKpIygsueKgny0vHxeWza/qTulaT
-	y2euBenaXrc9Hh9eDiSnN0Eoy29Jp52CE4QG2Ld3b4NHPDSUvxrcp4cEj+tA75GbcS81u0
-	n3CGRzhl/bb7bQHX91feDGk8ziJOAb/V/FF9YCejEtxR0YB8Jxrg4H8jo8A+tQ==
+	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=Ck1M7/DE
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=ZI2XOhYhSS+ON68+ycU1NaNTWPtxOOczoynazLMcOec=; b=Ck1M7/DEzX3otab1/vZLj5+glh
+	JtHxK8DuJsK8W172OphKQJHHORFhLFqv7/rWaQAztGFA3PAc6aMpUemJTWoEqbBvi/qHiLelD6NoP
+	eNU1WfAiR8RH45pWI+6mTMbb9m2PHU/1L7AkfCOawTPZyE4PdV2Gtr3QJlng7QZL7A7M=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xJFZz-00BuiX-3P; Tue, 20 Oct 2026 21:32:59 +0200
+Date: Tue, 20 Oct 2026 21:32:59 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Prashant Sengar <prashantsengar25031@gmail.com>
+Cc: netdev@vger.kernel.org, Thangaraj.S@microchip.com,
+	UNGLinuxDriver@microchip.com, andrew+netdev@lunn.ch,
+	linux-usb@vger.kernel.org
+Subject: Re: [PATCH net v3] net: usb: lan78xx: avoid NULL PHY dereference in
+ WoL setup
+Message-ID: <9b6cff4a-3717-4d70-8a7d-6d2f040b798c@lunn.ch>
+References: <20261020181237.2374075-1-prashantsengar25031@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,99 +63,43 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Tue, 20 Oct 2026 20:33:17 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steve Bayless
- <steve_bayless@keysight.com>, Guido Kiener <guido@kiener-muenchen.de>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org
-Subject: Re: [PATCH 0/4] usb: usbtmc: fix undersized high-speed bulk packets
- on xHCI
-In-Reply-To: <20261020184244.69b78d5e.michal.pecio@gmail.com>
-References: <20261020-fix-usbtmc-short-packets-v1-0-903f4d029193@tipi-net.de>
- <20261020184244.69b78d5e.michal.pecio@gmail.com>
-Message-ID: <a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261020181237.2374075-1-prashantsengar25031@gmail.com>
 
-Hi Michal
-
-On 20.10.2026 18:42, Michal Pecio wrote:
-> [...]
-
-> But SDM4065A is apparently pretty modern (2025) gear marketed for
-> "automatic production lines", so it's odd that it has such issues.
-> Has anyone looked if the same out-of-spec descriptor shows up on
-> Windows or (don't laught at my optimism) consulted vendor support?
-
-Not yet, but I'll check on Windows. The vendor(s) don't really seem to
-care about the bug (surprise!). It is known for quite a while and even
-not fixed with the latest 2026 firmware for the siglent. This makes me
-assume that either most of the professional users a) use Windows or b)
-use the lan interface (which we do for most of the stations).
-
+On Tue, Oct 20, 2026 at 11:42:37PM +0530, Prashant Sengar wrote:
+> LAN7801 supports fixed-link configurations without an attached PHY.
+> However, lan78xx_set_wol() unconditionally passes netdev->phydev
+> to phy_ethtool_set_wol(), causing a NULL pointer dereference when
+> a userspace WoL request reaches this path.
 > 
-> Maybe Windows xHCI driver tries to enable out-of-spec maxpacket?
-> We could do that too, though IIRC not all controllers are happy,
-> so a SW workaround may be unavoidable.
-
-Did some quick tests and it looks good so far. If the usb maintainers
-can agree on making it less restrictive (/ compliant) it would save
-lots of efforts and the quirk would be down to the ZLP patch. In my
-tests all three devices worked with
-
-diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
-index 8a8636279e844..c4306482874eb 100644
---- a/drivers/usb/host/xhci-mem.c
-+++ b/drivers/usb/host/xhci-mem.c
-@@ -1505,7 +1505,9 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
-                 err_count = 3;
-         /* HS bulk max packet should be 512, FS bulk supports 8, 16, 32 
-or 64 */
-         if (usb_endpoint_xfer_bulk(&ep->desc)) {
--               if (udev->speed == USB_SPEED_HIGH)
-+               if (udev->speed == USB_SPEED_HIGH && max_packet != 512)
-+                       xhci_warn(xhci, "EXPERIMENT: keeping HS bulk 
-maxp %u\n", max_packet);
-+               else if (udev->speed == USB_SPEED_HIGH)
-                         max_packet = 512;
-                 if (udev->speed == USB_SPEED_FULL) {
-                         max_packet = rounddown_pow_of_two(max_packet);
-
-So this looks like the better fix. How would we want it gated, a USB
-core quirk flag per device, or per controller?
-
-> [...]
-
->> The Rigols still have one issue I can't work around. They split
->> replies over 500 bytes into several transfers, and a follow-on
->> transfer that ends exactly on a packet boundary never arrives. Raw
->> libusb shows the same, so I guess it's another firmware bug. Should
->> be fine for most use cases though.
+> Report no WoL capabilities when no PHY is attached, and return
+> -EOPNOTSUPP from lan78xx_set_wol() before modifying the wakeup
+> configuration. Keep the existing phylib WoL handling for devices
+> with an attached PHY.
 > 
-> What exactly is the sequence of URBs you see vs would want to see?
+> The issue was reproduced using USB Raw Gadget and dummy_hcd in QEMU.
+> An ETHTOOL_SWOL ioctl triggered a kernel Oops with the original
+> driver. With this change, the PHY-less configuration no longer
+> advertises unsupported WoL operations, avoiding the crash.
+> 
+> Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
+> Signed-off-by: Prashant Sengar <prashantsengar25031@gmail.com>
 
-The Rigols split anything over 500 bytes into two transfers:
 
-   REQUEST_DEV_DEP_MSG_IN #1
-   IN: 8 x 64 bytes (12 byte header + 500 data), then a ZLP
-   REQUEST_DEV_DEP_MSG_IN #2
-   IN: header + the rest
+> @@ -1807,6 +1814,7 @@ static int lan78xx_set_wol(struct net_device *netdev,
+>  
+>  	ret = phy_ethtool_set_wol(netdev->phydev, wol);
+>  
+> +
+>  exit_pm_put:
+>  	usb_autopm_put_interface(dev->intf);
 
-That works fine, unless the second transfer happens to end exactly on
-a 64 byte boundary (e.g. 640 bytes). Then the device just never answers
-request #2 and the first IN times out. I also tried leaving the ZLP
-from #1 pending until after request #2. That fixes the boundary case,
-but then the device randomly ignores request #2 instead (roughly 1 in
-5). Raw libusb behaves the same, also with maxpacket 64 in xHCI, so I'm
-pretty sure it's just another firmware bug. What I'd want to see is
-simply the second transfer arriving :)
+Please avoid changes like this.
 
-> [...]
+Once fixed, please add: Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
-Thanks,
-Nicolai
+    Andrew
+
+---
+pw-bot: cr
