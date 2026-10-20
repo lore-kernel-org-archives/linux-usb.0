@@ -1,56 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792535810;
-	b=ZzwdG6OYhMxV5X0x1Drrw7R3N/5CbuERVafvfNnaHcMbesg1lc1qCGxiNKYCHdN703x1
-	 oawRBXE02906IETTpLIcaiUy0XSjfFZUm8D6K/A8WqufxopSHaRWwp2XmNywyeSODqVAW
-	 vmNk3x3JItVCQwtNwtF7G38DPqzOwKjSgM+OGE/yYNohZYIKw7pFXbPMJ5rBWQMAaQeg7
-	 ehm2kaUrBiP9+dum0GyoMAiHYj8Qxn5NPt6tZG0FixZmoNnFHF3Su2oNDzgRcLD4Zz5V6
-	 2dk1Mgs7p/QOScXKcWJaYeb8eHAcSyKb3ByWUCpGMK/ppGGqN1/Lc6qn6z4H8746IjA==
+	t=1792537027;
+	b=dxCve061WDIbf9aW1jMVDdFRCZt//Xmbk31yyO74oH1fGhWAmEq/wlQBMPm8KSHm6q3a
+	 0+ZaF4PMGnFDUcxrVeqUUw4PLydJqshYv2Jcn7pQbzWxlkeNxak7NLf6gRfuxa8mi3TIW
+	 hDMCA8e/WsirO8bZ//O3lC8W84f1rgQxGiLkpNZtfg9du567NEaLcgveI5xUJBG1tpjNo
+	 JTFRajdSG9bemwFqHaivHnceEyHc4DSa+yfgiS9p6glvESPnPBFvYOu7XWCsPLSpDDJo4
+	 dBH1mew9cOpF83h58fRaPr6bdJjd8OkIiIV1g1Z8xp82xI9HCQCfK/sVviuHoCy5pyQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792535810;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=f7nnrAS2dyQuRQVNl+CF71OnW3l4TVhPwk9bGvlLqO8=;
-	b=EXRDWFAS65/IFh4eK+FiLuTNarwAu3CVUnRKYCiKqp4GczIz5A2A7yPMp39uAivTSMPU
-	 btVTgYzHZYPyBdnNFxHFGHDDDIVg4fkYrXYL0OgThcMBIxFcJm9VJgvFrrQGLQ4ZMRxeS
-	 0yNeEiPJdopUdwiZjDvwZQYO9HihBP1YMZA8j1dl62dvH/pFrJD3QHB+ZozdnXxJc8wnI
-	 w7Js38yZxLB0U914FeH49lDxAtEPLoMfh15M0j55RIC+B6C478DOGW4fOxhqYZ4YKRxWj
-	 8DogVwrOS2mKF2c0eG3ZRRoO+Ol/elMe6FadmakZEWWnKfaqTeojvYLaMfRYy72JlVQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792537027;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=bVH1fJHf5vkXaa9LWZIGqzT2wgp2XysB6VORD+LQhvw=;
+	b=vR9u4nNkT+EVe6ZRELgtjWr20EpqRw3MQYTZZNPR4u60SeXn7/sv2o69uyBDUI19wfKO
+	 1v9Vgm0ofKVjElYYRyuVhwh9uqC0OysNDf1yEJHKdcH0tAgmgX6aemZc8Z2GKotpMjD9B
+	 +JNp8hUURhTJ8yakuty2yqBj3W/zXNdgpc86ujC5ot/g5Feu8XNhiTKcmw8QRTMq0szvi
+	 CnQXsLeDQyEPf6qg1UBK3g12Yce8WipMRHy5qk4yOqMbUAVuTf/ZH4NfiYIbQdAfCrvS8
+	 xwN1QP6P2lmz7N+HtdFyeExZS9nmVgZWlHlOyZcMmWBRdb/ruwJh8i7062ZSRDPuWoQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jEAxasDx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DdozBHqU;
+	arc=none smtp.remote-ip=209.85.221.44
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D1F606A31D
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 22:36:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A11BF606A319
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 22:57:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A11BF606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jEAxasDx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F108A1F000CA;
-	Tue, 20 Oct 2026 22:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792535810;
-	bh=f7nnrAS2dyQuRQVNl+CF71OnW3l4TVhPwk9bGvlLqO8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jEAxasDxqjmfsBAcLuZQzH+RS7B3uXKoWYXu0cpgjGpuTJUxGI536lHazYgGGT+BS
-	 1h0kDU32OBsDfC59kUnh2V/10eOdYaTBu4yD/JYuet/s8yDDe9TS4C5bapK5uxryRi
-	 e4TQygoe84XIAbMIG9uIHvQ59icLJHzRC1bMzBmhIg3uPYXux1t5lnA/9hipdVk50E
-	 rPCLziGDKDfEls8rms5qRFf8ofqk2jqHFy+vJLavvSJxpD3yFnJwPaP0S+Aq1T77J7
-	 aa04hNu/fPE2nrOPWrYKcTR1W9OUdsHFE18wYUnxO29wzPHCBitn4slQEGhu7j17D+
-	 i0DeejE7Ro8xg==
-Message-ID: <sashiko-outbox-179552@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v4] net: usb: lan78xx: avoid NULL PHY dereference in
- WoL setup
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Prashant Sengar" <prashantsengar25031@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261020201537.2465655-1-prashantsengar25031@gmail.com>
-References: <20261020201537.2465655-1-prashantsengar25031@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 20 Oct 2026 22:36:49 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=DdozBHqU
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so100349f8f.1
+        for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 15:57:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792537025; x=1793141825; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=bVH1fJHf5vkXaa9LWZIGqzT2wgp2XysB6VORD+LQhvw=;
+        b=DdozBHqUDBzjiHMLGZcAE0TBmdgteIvD+UXOVDOyF1dw4jIK/arG4W0oHYIMrMoJqA
+         Gj4Utzf9gPeDDLGJAg3KQ0LWQMYSGGwLbYpxHB2k+Y7XWEI34dToIDek4EGPC4Vts2jV
+         MPz+UPjpN/jMsa0RZXRSf5+7urqLXi4RSmKaTRJqH0ZzRfIakCdmeSfObivYbm9JjuSc
+         yue4IBxEKidcnuMtUoTNa07vUHjQg78ALTk6P9+u3ZJ+z0zaeEK8UQ/K/7/5GpOcNbFi
+         HGzCzZqejRAcSdiWmu61KG7ect6sezy6/7BGcRWWD88tlg6oSiAquiv+NMBB2q5sen42
+         iD2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792537025; x=1793141825;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=bVH1fJHf5vkXaa9LWZIGqzT2wgp2XysB6VORD+LQhvw=;
+        b=NPs+i/VmUpAonb2o1cX2k/jKTL1PUqdU+PoeHIx6KzzsVEk4ervMyRi6jAH8XtI+Yv
+         K+zye5tc8Cmp0uf0+7daYtmKnpHsH5wBks9ddEr8g+z3o0XCZSk+QnwMAJG+I7OF6sAN
+         JYl2OBguJw/Q9/ZqTqa0lpYiSnGejUrnUhXer6rAa6VQRIDKIb2Yiagpa1cRkYA1JRha
+         Ve10qZvCRnptggN055EdsJnyzi2luW1nkkv70/dB4GnP7ZdwwoVnKtzNPCgh5/IVPdmi
+         5D6dmsg/hPocrUGTKAdl9V07SgNy0kNXrOssKcSLr7mWREVcE9djbrN90vljHEW2a7P7
+         vEWg==
+X-Forwarded-Encrypted: i=1; AKwUvBx2LWB+Ts1EJ9Y8LOm1dIqy/qmO1xHCl+TBCppioIArcGV87CEECHkdUIptj/FucysDHmi/NbJNBKM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIKqfVdaw56WGyOdR29hXu3nwJKHUp0XkRBrCqMVzZgm+N7tvDm
+	gXuu929qwpkKARDb2RlUi2hhTs5ickR7CT41XqAGDjtNztPtqHwZYLNM
+X-Gm-Gg: AYBFou0TmPesA2dvGmfPItpCbnjktupd65YXCkszeXO6X/b2SB0Rn5GpptbVDcDLBTE
+	cSOeCZxJaxO10rd3aVPH/RuA5fSH38uZSK7zQtiS8AQl5C7XldZh9pXoEaPj/L4wyhX41y0olfU
+	a2epVumjj+8BoSxgfREjQVmPIpcNfYh/WPyig2DKKfebi4p3w/CfVth2cnFuZ1sbyJXMzJpiVRj
+	5SpLgKUmakTcdpBqBicGNl663AyRi2qDheVvfdkwmT3GxpRWJneDt8/TqIg2/+cr9/ff8m18nYR
+	c47rh/HxJ8xySD8gSYYEYITxIzXhSbXXPM5YT1fmc1UHmtvav4Uj1M2dcdExd5+Lzi4nTDQIeam
+	Tkb1IVZBLS5WySsyGoOck59Rjc7iIhZX7xCQoYYwNPLKWvwTak9PTR3IZtvckqaXWXBzmSQaxne
+	TECSPw95CDgx5WqKSnzSlRM0XeTykAb7sd33q2K867BmsuK/HB3DYdc5fm9UGZQHpghtEkf8mUs
+	bhFI4arIw==
+X-Received: by 2002:a05:6000:992:b0:48c:4a62:9af7 with SMTP id ffacd0b85a97d-48e264c01e8mr221660f8f.28.1792537024962;
+        Tue, 20 Oct 2026 15:57:04 -0700 (PDT)
+Received: from foxbook (bfd231.neoplus.adsl.tpnet.pl. [83.28.41.231])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2583ffa8sm1292244f8f.51.2026.10.20.15.57.03
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Tue, 20 Oct 2026 15:57:04 -0700 (PDT)
+Date: Wed, 21 Oct 2026 00:56:54 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Nicolai Buchwitz <nb@tipi-net.de>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steve Bayless
+ <steve_bayless@keysight.com>, Guido Kiener <guido@kiener-muenchen.de>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
+Subject: Re: [PATCH 0/4] usb: usbtmc: fix undersized high-speed bulk packets
+ on xHCI
+Message-ID: <20261021005654.23517441.michal.pecio@gmail.com>
+In-Reply-To: <a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
+References: <20261020-fix-usbtmc-short-packets-v1-0-903f4d029193@tipi-net.de>
+	<20261020184244.69b78d5e.michal.pecio@gmail.com>
+	<a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,29 +100,102 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-> LAN7801 supports fixed-link configurations without an attached PHY.
-> However, lan78xx_set_wol() unconditionally passes netdev->phydev
-> to phy_ethtool_set_wol(), causing a NULL pointer dereference when
-> a userspace WoL request reaches this path.
->=20
-> Report no WoL capabilities when no PHY is attached, and return
-> -EOPNOTSUPP from lan78xx_set_wol() before modifying the wakeup
-> configuration. Keep the existing phylib WoL handling for devices
-> with an attached PHY.
->=20
-> The issue was reproduced using USB Raw Gadget and dummy_hcd in QEMU.
-> An ETHTOOL_SWOL ioctl triggered a kernel Oops with the original
-> driver. With this change, the PHY-less configuration no longer
-> advertises unsupported WoL operations, avoiding the crash.
->=20
-> Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved =
-PHY and MAC management")
-> Signed-off-by: Prashant Sengar <prashantsengar25031@gmail.com>
+On Tue, 20 Oct 2026 20:33:17 +0200, Nicolai Buchwitz wrote:
+> On 20.10.2026 18:42, Michal Pecio wrote:
+> > But SDM4065A is apparently pretty modern (2025) gear marketed for
+> > "automatic production lines", so it's odd that it has such issues.
+> > Has anyone looked if the same out-of-spec descriptor shows up on
+> > Windows or (don't laught at my optimism) consulted vendor support?  
+> 
+> Not yet, but I'll check on Windows. The vendor(s) don't really seem to
+> care about the bug (surprise!). It is known for quite a while and even
+> not fixed with the latest 2026 firmware for the siglent. This makes me
+> assume that either most of the professional users a) use Windows or b)
+> use the lan interface (which we do for most of the stations).
 
-Sashiko has reviewed this patch and found no issues.
+It's worth trying, because sporadically we see devices which enumerate
+differently on Windows and on Linux for some stupid reason. Although I
+have a feeling that this won't be one of those times.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261020201537.2465=
-655-1-prashantsengar25031@gmail.com?part=3D1
+> > Maybe Windows xHCI driver tries to enable out-of-spec maxpacket?
+> > We could do that too, though IIRC not all controllers are happy,
+> > so a SW workaround may be unavoidable.  
+> 
+> Did some quick tests and it looks good so far. If the usb maintainers
+> can agree on making it less restrictive (/ compliant) it would save
+> lots of efforts and the quirk would be down to the ZLP patch. In my
+> tests all three devices worked with
+> 
+> diff --git a/drivers/usb/host/xhci-mem.c b/drivers/usb/host/xhci-mem.c
+> index 8a8636279e844..c4306482874eb 100644
+> --- a/drivers/usb/host/xhci-mem.c
+> +++ b/drivers/usb/host/xhci-mem.c
+> @@ -1505,7 +1505,9 @@ int xhci_endpoint_init(struct xhci_hcd *xhci,
+>                  err_count = 3;
+>          /* HS bulk max packet should be 512, FS bulk supports 8, 16, 32 or 64 */
+>          if (usb_endpoint_xfer_bulk(&ep->desc)) {
+> -               if (udev->speed == USB_SPEED_HIGH)
+> +               if (udev->speed == USB_SPEED_HIGH && max_packet != 512)
+> +                       xhci_warn(xhci, "EXPERIMENT: keeping HS bulk maxp %u\n", max_packet);
+> +               else if (udev->speed == USB_SPEED_HIGH)
+>                          max_packet = 512;
+>                  if (udev->speed == USB_SPEED_FULL) {
+>                          max_packet = rounddown_pow_of_two(max_packet);
+> 
+> So this looks like the better fix. How would we want it gated, a USB
+> core quirk flag per device, or per controller?
 
+[Cc Mathias]
+
+Good question. Do you need this fixed in stable?
+
+Depending on regression risk maybe we could get away with no quirk
+flag at all. That's what ehci and dwc2 seem to do, which means that
+hopefully no device specifies illegal packet size while using 512.
+
+Other possible risk is some device doesn't truly care (no transfer
+is ever large enough to matter) and works with 512, but setting its
+requested packet size (needlessly) breaks some xHCI controller.
+
+Such devices seem not very likely to exist, though more likely than
+the former kind, so I will try to test whether such xHCI breakage is
+possible. Preliminary results are encouraging: although several of
+my HCs reject packet size of 1024 or corrupt data, 64 is accepted by
+all but one. I haven't checked for corruption yet.
+
+I will also see if I can figure out what Windows does in such case,
+because doing the same thing as Windows may be the safest bet.
+
+> >> The Rigols still have one issue I can't work around. They split
+> >> replies over 500 bytes into several transfers, and a follow-on
+> >> transfer that ends exactly on a packet boundary never arrives. Raw
+> >> libusb shows the same, so I guess it's another firmware bug. Should
+> >> be fine for most use cases though.  
+> > 
+> > What exactly is the sequence of URBs you see vs would want to see?  
+> 
+> The Rigols split anything over 500 bytes into two transfers:
+> 
+>    REQUEST_DEV_DEP_MSG_IN #1
+>    IN: 8 x 64 bytes (12 byte header + 500 data), then a ZLP
+>    REQUEST_DEV_DEP_MSG_IN #2
+>    IN: header + the rest
+> 
+> That works fine, unless the second transfer happens to end exactly on
+> a 64 byte boundary (e.g. 640 bytes). Then the device just never
+> answers request #2 and the first IN times out. I also tried leaving
+> the ZLP from #1 pending until after request #2. That fixes the
+> boundary case, but then the device randomly ignores request #2
+> instead (roughly 1 in 5). Raw libusb behaves the same, also with
+> maxpacket 64 in xHCI, so I'm pretty sure it's just another firmware
+> bug. What I'd want to see is simply the second transfer arriving :)
+
+Doesn't look like any obvious xHCI problem to me. Did it also happen
+with those USB2 controllers that you used previously?
+
+Regards,
+Michal
