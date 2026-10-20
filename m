@@ -1,65 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=84.19.26.246
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792530337;
-	b=jET0dlUz2aYMAG+bV01olQrnAeZD1H9xD77ummY5H02jPfo1ytYaTznHaAIbWL2JRUYS
-	 wmZmNq4xOEGNdmla6Yxa3WrsOV2fWpcb+ndxePRLNd9dzan1yokHpEFlwDj8zy1pzLWtk
-	 6J5t9te5qN6+B/NWKRydOyihEbwd3UPEgPQI9Vn/g2H7ZWfyRYoQP8NO5Msxx94537uS7
-	 e/Gbo0Qfyme222SPOSgHJG3odpHYR3FV4ISyT4xHzUO4VSepHpXoCq5teeFHes2DpJnVd
-	 8ffOjsp9+jsHXuCVi0ye/cQBiql6rHMYG4VuWCFyUz1uQKDGYSelt2aN0a9boEHeE2w==
+	t=1792530752;
+	b=2oYMy70tyEabWciioOXogPzYfZnMB6uZuDwqcMB+EhBAohsg2ibinBWvSuQ3th7S3hUB
+	 CBl8AhP9WNav+XVm64+QALwCpm1ggtM56LAzg1yNy7wP7/p2RdVmo/+Xe/BE5uJTGwZv3
+	 pEiQvvwg2R1ZFio3vZpO/vOOJUe70/8Y5IBjgWlUubK3fUHCd4q7u9XJJ6ZwdJ5ydjf3A
+	 yQ4qtp+jZ+tFwGQEp+nZCLmYmYULlFd2PwyVyK08DIYpkdSiHzIEo2y9whA7XubnQPlqZ
+	 sGDRJC2b5laR4n8MjuQd3CphLvUDKLQh7RNf/tsiNIMV0+CuwJmF1G4AnGDbagQH2SQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792530337;
-	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=eMqMFwpTpqN2HVxCs4u1Rwn8A+RwwZ+HmzQanCZlbz8=;
-	b=vRnrnEIDTG94hpoLHYNBR5eSIxKXYkfxIkvEihl4mNsxGblIX66lumzzs9665r5KkxGi
-	 01wdXxyKGBUqtqLstnDkQ/+rLiUG3pKe6bYETukXLGKIvSVbaFw89xT8TWe3b/Pi3AnvS
-	 30p9S+FjIC2f+fZ6WF1qsZdja8EYNF9ZtdSj8rrtZrsh5OrYnuV60JjVkB9zIGnj5PMPR
-	 NASu6yFuLcGcdcdY4LNTVrr0rK2euiZ4TXgU1LCHlU6MmMXwqw+s4ybVEUhBLZ3so9Prw
-	 x4oKouvd1vckDvvbsePZbHtXT/6Zf/DLyPfF+TxDH0z7OnTivf2ya6QOi0pK3osPw6g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792530752;
+	h=DMARC-Filter:Received:Received:Received:Received:Received:
+	 Received-SPF:MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:
+	 References:Message-ID:X-Sender:Content-Type:Content-Transfer-Encoding:
+	 X-PPP-Message-ID:X-PPP-Vhost:X-POWERED-BY;
+	bh=ziFQduvBFp2/a0Qma91+j1J9NIAtLrmEIaU+o8krKdU=;
+	b=gpT7//XGRPDFt4z1ribx1oktGiSOdixLdWTEjNjqMZdascSLV0b3mZUR86AaSA1x0PI2
+	 77RpRJ8SXEzavVqier40v8sSntGmdUVW45Cw3/jsa0xa3+k8ZYtWg+b1dMzFUg4Ut8J1x
+	 UgZYboavy3v52s63IKbmgfRBuBPW3b/wMPajj4t2xIeA7FtAO2jpBZF/PQFUbEj0SNFU4
+	 FClchwOP+rd7mT81dlybtWGn2gAhsovU6DnPGf+0d/3jF2tBiC5JGkXJR4OkK3tWAqprs
+	 L6cA/vXZL/974jHRfXi9oUCHej4rBllJpYtHbB8Ulf/RoqkLqocZveJsvow12eax8MQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=lunn.ch;
-	spf=pass smtp.mailfrom=lunn.ch;
-	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=JDkvzPaB;
-	arc=none smtp.remote-ip=156.67.10.101
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=none header.from=kiener-muenchen.de;
+	spf=pass smtp.mailfrom=tldhost.de;
+	arc=none smtp.remote-ip=84.19.26.246
+Received: from mr08.mx01.tldhost.de (mr08.mx01.tldhost.de [84.19.26.246])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4CD606A31A;
-	Tue, 20 Oct 2026 21:05:36 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BF4CD606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=JDkvzPaB
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=eMqMFwpTpqN2HVxCs4u1Rwn8A+RwwZ+HmzQanCZlbz8=; b=JDkvzPaBGFYP/YGilqnwS/4V7d
-	cQEL59YkU01AvJpJspB2yA2HPmO+upPkeQOxWljn4yzebKeoo5pwhFvlR9KAkAHk7JlsLeo55Jfo2
-	bJTyVQ0WMl9kwqb5sS0y0tPbL2nEdteYIgHBInrDPBh2sw+rhXkbbuIKZi/7m0/evMGU=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1xJH1H-00BvdT-Be; Tue, 20 Oct 2026 23:05:15 +0200
-Date: Tue, 20 Oct 2026 23:05:15 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Stefano Munari <stefanomunari.sm@gmail.com>
-Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	Nicolai Buchwitz <nb@tipi-net.de>, netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v2] net: usb: lan78xx: fix error handling in
- lan78xx_open()
-Message-ID: <1449a6a1-670c-4d1d-bb98-51f92e32d848@lunn.ch>
-References: <20261020202614.30277-1-stefanomunari.sm@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32E74606A31B
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 21:12:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32E74606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kiener-muenchen.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tldhost.de
+Received: from mx01.tldhost.de (localhost [127.0.0.1])
+	by mx01.tldhost.de (Postfix) with ESMTP id 5A386122E84;
+	Tue, 20 Oct 2026 23:12:22 +0200 (CEST)
+Received: by mx01.tldhost.de (Postfix, from userid 1001)
+	id 3DBA6122E77; Tue, 20 Oct 2026 23:12:22 +0200 (CEST)
+Received: from mailout.tldhost.de (mailout.tldhost.de [84.19.26.10])
+	by mx01.tldhost.de (Postfix) with ESMTPS id 2BB90122E70;
+	Tue, 20 Oct 2026 23:12:20 +0200 (CEST)
+Received: from mailout.tldhost.de (localhost.localdomain [127.0.0.1])
+	by mailout.tldhost.de (Proxmox) with ESMTP id 0ED5F82A0A;
+	Tue, 20 Oct 2026 23:12:20 +0200 (CEST)
+Received: from server12.tldhost.de (server12.tldhost.de [84.19.26.112])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519)
+	(No client certificate requested)
+	by mailout.tldhost.de (Proxmox) with ESMTPS;
+	Tue, 20 Oct 2026 23:12:19 +0200 (CEST)
+Authentication-Results: server12.tldhost.de;
+        spf=pass (sender IP is ::1) smtp.mailfrom=guido@kiener-muenchen.de smtp.helo=webmail.kiener-muenchen.de
+Received-SPF: pass (server12.tldhost.de: connection is authenticated)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -69,26 +59,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261020202614.30277-1-stefanomunari.sm@gmail.com>
+Date: Tue, 20 Oct 2026 23:12:18 +0200
+From: guido@kiener-muenchen.de
+To: Nicolai Buchwitz <nb@tipi-net.de>
+Cc: Michal Pecio <michal.pecio@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Steve Bayless <steve_bayless@keysight.com>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+Subject: Re: [PATCH 0/4] usb: usbtmc: fix undersized high-speed bulk packets
+ on xHCI
+In-Reply-To: <a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
+References: <20261020-fix-usbtmc-short-packets-v1-0-903f4d029193@tipi-net.de>
+ <20261020184244.69b78d5e.michal.pecio@gmail.com>
+ <a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
+Message-ID: <d702d2b3b66d6229855515c2eed09636@kiener-muenchen.de>
+X-Sender: guido@kiener-muenchen.de
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <179253073937.20268.16253300091701606469@server12.tldhost.de>
+X-PPP-Vhost: kiener-muenchen.de
+X-POWERED-BY: TLDHost.de - AV:CLEAN SPAM:OK
 
-On Tue, Oct 20, 2026 at 10:26:14PM +0200, Stefano Munari wrote:
-> A failed interrupt URB submission leaves NAPI enabled and EVENT_DEV_OPEN
-> set. A subsequent open enables NAPI again, triggering BUG_ON() in
-> napi_enable().
-> 
-> Clear EVENT_DEV_OPEN and disable NAPI on the submission error path.
-> 
-> Reproduced using failslab on a Raspberry Pi 3 Model B+ (LAN7515).
-> With the fix, the injected allocation failure returns -ENOMEM and a
-> subsequent open succeeds. Verified connectivity with ping and SSH.
+Hi Nicolai,
 
-Memory allocations for small blocks generally don't fail, so this is
-theoretical, and very unlikely to happen. Please target net-next, and
-drop the Fixes tag.
+The USBTMC protocol was defined by the IVI Foundation. The purpose of a 
+specification is to ensure that manufacturers adhere to the agreed rules 
+so that maximum compatibility between T&M instruments and client 
+software (e.g. NI‑VISA, Keysight VISA, R&S VISA, etc.) is guaranteed.
+The Linux USBTMC kernel driver is a class driver that has been tested by 
+members of the IVI Foundation and ensures reliable communication with 
+their devices. Therefore every manufacturer of USBTMC devices should 
+comply with the specification and cannot expect bugs in device firmware 
+to be fixed by patches to the USBTMC driver on Windows, Linux, or macOS.
+If such an approach were tolerated, the development costs that one 
+manufacturer omitted would be shifted onto and multiplied across all 
+other manufacturers. If there is a demonstrable bug in the USBTMC kernel 
+driver, we can certainly discuss fixing the driver. Otherwise I cannot 
+support adding device‑specific patches to a class driver. Over time that 
+would increase the driver’s complexity and encourage other manufacturers 
+not to follow the jointly developed specification — something that would 
+certainly not be acceptable for the TCP/IP stack either.
 
-    Andrew
+Best regards,
 
----
-pw-bot: cr
+Guido Kiener
+
