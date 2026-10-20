@@ -1,108 +1,47 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.16
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792495656;
-	b=wPN9fhgP2tUSuZjgvP7Jq645zhm/XvjpYOoGqdJ33AQf9ushbqmNgi1ObMXIn0Q4vn1R
-	 IjqWRaY/LTLnYmGS7NamU+Lowx7v7xs6VB+lp29eLNlRuspkbKq5+xREX0ZQ9gO2Sqi4v
-	 UmkZqbpuc8CmgJGHpk8n8YH7S4oNephLEy+YyNeqVLqS8Z150yWZej6aXTPvjzKOKJtSA
-	 H4o1zI5UeNsQHjtpmXcOG7azQPNJW4UT8PYPdbSfMF7TEVe4IRaQ3CgvZkketgsq2k8Ze
-	 yFG2lSXV7vLu0LkEpXz1/l/bFqw6eHZQII9ja3YNnHwg7PmnMWl456rQgYGe4uJc55A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792495656;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:
-	 X-MS-Exchange-Authentication-Results:Received-SPF:Received:Received:
-	 Received:From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:Content-Type:
-	 X-EOPAttributedMessage:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-Id:
-	 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=5xZuzujW9c5zQXjxHKk/SR4ZaZokOPcXvhg6StESgH4=;
-	b=JX95X6jgN9MXhNB4F0oL25kMZJkBfqXKa9Nt1RolQmycOlqe+0n76ldreL8w09F6zMjQ
-	 w7/7lLaz5PFLBnjhXkjijoWAHv214H2/bWBx0AupzB0PWyOTnhVLYsnja6k5tBSVjy/6L
-	 z/EVgLKOAxphXfiWVOv22DAT9/sPa9t5QWuZ+ClUMwJXu+tcqBOa2HVrUy5eURKdngtEG
-	 YuqFjV/ib77U4jS4k6Pk2AL6PNs/gHzLdgNgynlJ9DL6pvYmcasect8Zm66xcQA6l3XSy
-	 MM8bhKGUzl1hszAtLYex3izrWQu2AfwzFvXMviRHrWLLiTO1GZRBZx/8UkKWQX4DP7w==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=amd.com;
-	spf=fail smtp.mailfrom=amd.com;
-	dkim=pass header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=rjpS24uY;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=40.107.200.16
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012016.outbound.protection.outlook.com [40.107.200.16])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792495961;
+	b=D67ryBRF8yy9IAZHxKSU9QfU+1LJN+RvjgKt+M0Ms58p3i5q8XrRsLgNUmExDlenLTiP
+	 CQBnK4NDPxWnMZSiLq7dptDKXek41+UYBBCJvvk4a5PMFnRmX6Gjye+uSrJRhsDzM2SGP
+	 ZahFFWxHAKtqT4TMVvK0oK8ZdnuayO/vWOJ8piZ9s2TLKBIa9WRQOt/V5XfDD1TeHv1eJ
+	 NSvPNOytnqlHDcZIyMqQ53nzTT8/XCkiOJ1zUYWiTzUPJkmM53EQpDQZ0AYrFJnz2ovVw
+	 OEoWA2k6zvzYMxmx7KnxTLR44TvEHCwbWDUDr9dJXikby1Ng2yTShcV2qPav4CL0zfA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792495961;
+	h=Received:DKIM-Signature:Message-ID:Date:MIME-Version:User-Agent:
+	 Subject:To:Cc:References:From:Content-Language:Autocrypt:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=Sp5oihtLvg49MCLp/n/qyNEd5ihDt74z2SKQHiNYLbE=;
+	b=wUrCHMlC+2cBDiN/o97kEqC36nP11jsJOH96Dngrl6NQgo9OIUTZ6Ypw79YncbLblWRX
+	 /SO4fXAaSqL6PNldqyxckMqwU7GCiW/rSTXxUeT3bx/CVj5BCz/m5eMGzp0ZRiD61PVeS
+	 QugVdCTeP6dgIFIQtbaFV3uWcVWEbUmnDYB9KRNDFH0RC6WM2GXbrRg90B4huKkdfoRoZ
+	 PcjD8SZ+z5Em78wClcgQhZNwb/P3VVOHORDmF8cvr+Ai9B9Ls+vmt8wSya08ScNLR1hHD
+	 LwP2na5/YHXtV0YbMOutNXCy7QR6wT1G2fmtYSVJ1dO1EY8+3cDLDTDIP8Ixjcpzztg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jpYqxBJB;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62849606A329;
-	Tue, 20 Oct 2026 11:27:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 62849606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AAA606A31A;
+	Tue, 20 Oct 2026 11:32:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=amd.com header.i=@amd.com header.a=rsa-sha256 header.s=selector1 header.b=rjpS24uY
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zOWtj/SgclR7Td8pL1NQ4CRc1yv0G3eLrlreTkRJiqq2VLp4XYJlRrK1K8nZrn2mdU2vkyGqtj43OoCe1+D/UhxkOI08Anl+/Pv9MaViZMu164BlomTtJ7FSdcOERX8hMCkBXuJlrmReS9geFVmTQ4IaASmi9ElvCkzVufI6/ID9oK2Zfy745mZszdAl5dG1/mpqPz+czgvZslCvXpgbtn5FNJObR0RcZ3lNhGHmPfaHJXeVfE3E6fh0MUoEflbFvkFqTN/g/CH18iIAR7/bdsBSWh7dfciBfGq9FACnSKHUGT0awUCguGnZBxfpTyKoFH0aGGIJvqJQRQtQWGmumg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5xZuzujW9c5zQXjxHKk/SR4ZaZokOPcXvhg6StESgH4=;
- b=j2d7lREkPrNdN1WzYF0+qk4g13d78bcdTkJiSLamxD1fbdY5decPrddPdglzbc0iSA1hsKmtW31ZBqUsZecBPz+WTHRr7g6JxM8gIWVaMCAJDniX80BlTHPntbUprBGNkGecz8BkuJ+ozkkfpvoZgSnlUzudcMwudYtYFHZcn4BBBltx6ahLmmHAXZPVPZJ5z36gqQW+Ya/H8CIDnSzBMj0CqxvARvZGbdykecgvweA1bBNhiCAlass5wrtKGifvMZtYShy5B2oN/O1hBJsYpfG1B9OP1MhU/QdN7aNI3CeKpW88pB2VsJN7ra2xdmapzYP2vwQ51AGbDRjBHo4LZA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=linuxfoundation.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5xZuzujW9c5zQXjxHKk/SR4ZaZokOPcXvhg6StESgH4=;
- b=rjpS24uY4egQcgTnMb/2UM+YhEncM5r7hreq5drQGUnRBgl+OFbaXbkMxV9Ck5VJdHefIWj7cVYmc1msSHpP1x+odDcEk849t77T1sx1uqFdxEw605YbYdzs8QKHzq322ufQJ9OOLKUTItYm4uJg74U2/KpYhZKN3XCgEBjkc1M=
-Received: from SJ0PR03CA0209.namprd03.prod.outlook.com (2603:10b6:a03:2ef::34)
- by BL3PR12MB6620.namprd12.prod.outlook.com (2603:10b6:208:38f::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.14; Tue, 20 Oct
- 2026 11:27:30 +0000
-Received: from SJ1PEPF00002318.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef:cafe::86) by SJ0PR03CA0209.outlook.office365.com
- (2603:10b6:a03:2ef::34) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.522.19 via Frontend Transport; Tue,
- 20 Oct 2026 11:27:29 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 165.204.84.17) smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SJ1PEPF00002318.mail.protection.outlook.com (10.167.242.228) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.546.15 via Frontend Transport; Tue, 20 Oct 2026 11:27:29 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.53; Tue, 20 Oct
- 2026 06:27:28 -0500
-Received: from xhdradheys41.xilinx.com (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.53 via Frontend
- Transport; Tue, 20 Oct 2026 06:27:25 -0500
-From: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-To: <gregkh@linuxfoundation.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
-	<conor+dt@kernel.org>, <Thinh.Nguyen@synopsys.com>, <michal.simek@amd.com>,
-	<p.zabel@pengutronix.de>
-CC: <linux-usb@vger.kernel.org>, <devicetree@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-Subject: [PATCH v4 1/3] dt-bindings: usb: amd,versal2-mmi-dwc3: Add MMI USB support on Versal Gen2 platform
-Date: Tue, 20 Oct 2026 16:56:33 +0530
-Message-ID: <20261020112636.2661087-2-radhey.shyam.pandey@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261020112636.2661087-1-radhey.shyam.pandey@amd.com>
-References: <20261020112636.2661087-1-radhey.shyam.pandey@amd.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jpYqxBJB
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A301F000C4;
+	Tue, 20 Oct 2026 11:32:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792495961;
+	bh=Sp5oihtLvg49MCLp/n/qyNEd5ihDt74z2SKQHiNYLbE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=jpYqxBJBSJIS/6C50M/aTHWoWlaB0rsoKl9Kb3tr/jlBhef/bLfaK48s8b7VFjrrU
+	 a2f2ImaCJU2kz0+GZmSj6mpWXl94MKI/0C31ePLDd7u3kikh8SyFD0ZYeHO4tZEqmc
+	 HBAaUBzRWJNqjbx83kwJ8xMQV0EOrNXzPSQYBEIbT00P6+GWnWrt0U8/MzTbEeN83t
+	 PonyHx/M+HdAwaoUU46b2dG9q9zLTeVlHz01ZEehRQnwes4t3PofyEGlzNwlZqsyk0
+	 Op4fsmVLJdutqfQiu2KzYwwZSqgFkz+lY5IZzLNKiGW/FwfWhuhiDBaZYtYTYEUBAq
+	 //USVk3tW0c6Q==
+Message-ID: <2fd0111b-8dc9-40e5-b705-d9f3d5265035@kernel.org>
+Date: Tue, 20 Oct 2026 13:32:28 +0200
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -112,177 +51,160 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] dt-bindings: usb: Introduce samsung,snps-dwc3
+To: Selvarasu Ganesan <selvarasu.g@samsung.com>
+Cc: peter.griffin@linaro.org, alim.akhtar@samsung.com,
+ gregkh@linuxfoundation.org, robh@kernel.org, conor+dt@kernel.org,
+ Thinh.Nguyen@synopsys.com, mani@kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+ linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, jh0801.jung@samsung.com, h10.kim@samsung.com,
+ dh10.jung@samsung.com, akash.m5@samsung.com, hongpooh.kim@samsung.com,
+ eomji.oh@samsung.com, shijie.cai@samsung.com, muhammed.ali@samsung.com,
+ thiagu.r@samsung.com
+References: <20260916122229.2604003-1-selvarasu.g@samsung.com>
+ <CGME20260916122354epcas5p401fd6470d6cef75951af732b03aa5970@epcas5p4.samsung.com>
+ <20260916122229.2604003-3-selvarasu.g@samsung.com>
+ <20260918-burgundy-marmoset-of-focus-c9b9a7@quoll>
+ <fef2b2f5-3838-4eec-8118-d41f9ca0ed2f@samsung.com>
+ <7fbcf497-a166-45d6-844d-faaece6f581c@kernel.org>
+ <ad11251d-6632-498d-95f6-04a7c6dade72@samsung.com>
+ <6643fece-aa39-42e6-8cd6-5264f15e12ff@samsung.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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
+In-Reply-To: <6643fece-aa39-42e6-8cd6-5264f15e12ff@samsung.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002318:EE_|BL3PR12MB6620:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46967d81-e050-46c6-5bfe-08df2e9d2052
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|7416014|23010399003|36860700016|82310400026|56012099006|11063799006|261009223027099003|10067099003|18002099003|22082099003|6133799003|13003099007|3023799007;
-X-Microsoft-Antispam-Message-Info:
-	ZBX63YRbhcKTIANasGq6ZAtJMvyPK5tVt6k/+402vpR3V+ADJ8n3IwRRyuCVstmNdyNSa1wAJVrMNPOzXKmpmEMoRuK1Ncdvj75MS5gxrcKPrBSN3703dZPbISuWEAg6ZImOp9Gp7Pt+LGEoDT8/ee204Jl3H5b1avcZ/22Urqbq75yMPuM1FW9PbfZ6yA4fTr3QtrEL1WEkTvT6Tp9JEvhM4zMJpiYSi94V4fB9HRliE1BJAJZG1zLa+TuZu32YSgVzAKkin3lY0gAdxPuFhJ7r0DufJ7lhz2eGrdLIcck+vQXIm7sVdqFG2bt6R9KOx9Ce+eYYMoew0A+MPpxEw5SWC+Ne165ruB1PsgytFoTxCX7Lpwr9G1tGQIal3OcyTAO73l8bFgvTatKommgdD4lnMnvuJoWudUxuPdNLO2kYo6FDHSl771AeoSO6OSx1BsMR9RRZavjMzDUHi3K9A5LaQ8e6PhXF8N/RqbfL+zGSF/RBkJLtI3Afg15zA0a8ax7dTJuwpnBusVXP9eIdxIttSdss4YsUcbFORBVaI9+El6sQdleppDFhUk+TkQJpkMQNQVo6zbkYZeZeHF3NwP4JWVVkiiNZLa7jBAJTDNXNl1qQtoOffShu5an63cj+Qp+pPZPLuXr5Fc7KKoOXGA==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(23010399003)(36860700016)(82310400026)(56012099006)(11063799006)(261009223027099003)(10067099003)(18002099003)(22082099003)(6133799003)(13003099007)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	TU7fiN4JiyV/hRulNR9P04p/Bj7dlMXaqihA1jOL9wPXykx+ZKVLDN1CtK4opi1NKfG1rKzMQ7DfyxPBa7oDOJnc91+3kavHcBavEeKtlenROVr3zJsrd65+BfmYouU4mnftF7LtneTmIP9/qwtERpWqUDEqdTTkK76SXjzdN/jZmc/npcF8B0NkH8WL4CXLw2+DDj0qPx1VIdPbt5t+MjHQ5hytlWVS7dzFNk5HaJcfgzuvO09+1FzYciDGCvFyEHjm0GKWhO2+x+B22XPvmxWFyH5eI9ZXTgWUEsdK0hfvwbDE5Dg2m6pdAKfR2Dt+iZy1qUhXcRyy/hL0HPiFFY0GEDjAz9zaw89rryQGrWuMAA1lxboqCAhp92/6Onkxowio4aSSdWVaykLGqo3tTBylPsqusV3mi5xp6F04rFD1LA/ydUthnuhRQv2uwbsO
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2026 11:27:29.5633
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46967d81-e050-46c6-5bfe-08df2e9d2052
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002318.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6620
 
-The Versal Gen 2 platform includes two distinct USB controllers. The
-LPD controller is a USB 2.0 instance and reuses the existing
-xlnx,versal-dwc3 binding. The second is the Multimedia Integrated (MMI)
-USB 3.2 Gen 2x1 Dual-Role (DRD) controller, which natively supports USB
-3.2 host and device operation over Type-C in a Gen 2x1 configuration
-with a maximum data rate of 10 Gbps per direction.
+On 20/10/2026 10:02, Selvarasu Ganesan wrote:
+>>>>>> +properties:
+>>>>>> +  compatible:
+>>>>>> +    items:
+>>>>>> +      - enum:
+>>>>>> +          - samsung,exynos8855-dwc3
+>>>>>> +      - const: samsung,snps-dwc3
+>>>>> And this fallback is not really accurate. Samsung does not have snps
+>>>>> device, because snps is a vendor. Anyway, generic fallbacks should go
+>>>>> away, drop, so you are left with samsung,exynos8855-dwc3 only.
+>>>> Hi Krzysztof,
+>>>>
+>>>> Thanks for your review comments.
+>>>> And We apologize for our repeated below explanation, but we wanted to
+>>>> ensure our intentions were clear for each point to avoid any
+>>>> misunderstanding.
+>>>>
+>>>> The original intent of the generic fallback was to support existing
+>>>> Exynos dwc3 bindings from a parent/child representation from
+>>> How does it support existing bindings? I don't understand. There is no
+>>> such fallback in existing bindings.
+>>
+>>
+>> Sorry for the misunderstanding, Yes there is no such a fallback in 
+>> existing bindings.
+>>
+>> Our intention was to use new proposed generic fallback compatible 
+>> string that will support USB dwc3 flatted node for all Samsung soc 
+>> when those are migrated in the future without adding SoC specific 
+>> compatible string in driver.
+>>
+>> Agreed, Here using generic fallback name (samsung,snps-dwc3 as a 
+>> reference of qcom,snps-dwc3) is incorrect as snps is vendor not a device.
+>>
+>> As per DTS101 slide , Now we clear that the future Exynos SoCs could 
+>> use  samsung,exynos8855-dwc3 as a fallback when they are compatible 
+>> with the Exynos8855 hardware definition, rather than introducing a 
+>> generic samsung,snps-dwc3 fallback. The dedicated compatible would 
+>> still describe any SoC specific differences, such as clocks.
+>>
+>> And Understood that we were mixing the current Exynos8855 binding with 
+>> the longer term migration plan for the existing Exynos SoCs and future 
+>> SoCs.
+>>
+>> We will drop the generic fallback and use SoC specific compatible 
+>> samsung,exynos8855-dwc3 (vendor,device), following 
+>> samsung,exynos-dwc3.yaml as the reference.
+>>
+>> Regarding the binding filename, if the flattened representation is 
+>> expected to support multiple Exynos SoCs where there is only 
+>> differences in clock in the future, similar to how 
+>> samsung,exynos-dwc3.yaml covers multiple SoCs with the legacy (parent 
+>> and child) node representation, should we use a common binding 
+>> filename for the flattened representation instead of a SoC specific 
+>> name like samsung,exynos8855-dwc3.yaml.
+>> For example,
+>>     samsung,exynos-dwc3-flattened.yaml.
+> 
+> 
+> HI Krzysztof,
+> 
+> I am writing to kindly follow up on my previous inquiry regarding the 
+> binding filename for the flattened representation.
 
-Introduce a new compatible in <vendor>,<soc>-<subsystem>-<ip> format to
-uniquely distinguish the MMI USB controller.
+I started to ignore overly long answers, because to me that means
+contributor expects me to devote a lot of time to their contribution. Or
+second option: LLM proxy. There is even a trend where people paste
+prompts or LLM-chat-confirmation-like answers. I often do not correct
+even such cases, just put the ignore list.
 
-Signed-off-by: Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
----
-Changes for v4:
-- Switch to flat mode and rephrase commit description.
 
-Changes for v3:
-- Modify commit description to explain that there are two different
-  USB controllers and difference between versal2-dwc3 and
-  versal2-mmi-dwc3. Suggested by Krzysztof.
+> 
+> To recap, I would like to know if we should use a common binding 
+> filename, such as samsung,exynos-dwc3-flattened.yaml, instead of SoC 
+> specific names (e.g., samsung,exynos8855-dwc3.yaml). This would be 
+> consistent with how samsung,exynos-dwc3.yaml covers multiple SoCs in the 
+> legacy representation, especially if we expect to support multiple 
+> Exynos SoCs with only clock differences in the future.
+> 
+> I would appreciate your guidance or suggestions on the preferred naming 
+> convention for this implementation.
 
-Changes for v2:
-- Add blank line after compatible as suggested by Krzysztof.
-- Retain the mmi suffix in the compatible string, as this USB 3.2 Gen2
-  IP from Synopsys is part of the dedicated Multimedia Interface. The
-  Versal Gen2 platform also includes a separate USB 2.0 controller,
-  and the mmi suffix uniquely distinguishes between the two USB
-  controllers. MMI is an independent subsystem particularly targeted for
-  deployment in Multi-Media related applications. The MMI block include
-  following submodules: UDH: USB3.2 Gen 2x1 Dual Role Device, DisplayPort
-  Transmit Controller, Security Module (ESM) for DisplayPort and HDMI
-  Controllers, DP AUX-I2C PHY.
-- For MMI USB define parent address space i.e UDH block.
-- Fix inconsistent MHz spacing to use SI convention with spaces.
-- Move description before $ref and items in xlnx,usb-syscon property.
-- Restore original zynqmp-dwc3 example, add new versal2-mmi-dwc3 example.
-- Use 'usb' node name (without unit address) for versal2 example since
-  it has no reg property.
-- Use 1/1 address/size configuration in versal2 example, use lowercase
-  hex in syscon offsets.
----
- .../bindings/usb/amd,versal2-mmi-dwc3.yaml    | 92 +++++++++++++++++++
- 1 file changed, 92 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/usb/amd,versal2-mmi-dwc3.yaml
+Please use the naming expressed in on of the rules for writing bindings,
+so one matching the compatible or fallback compatible.
 
-diff --git a/Documentation/devicetree/bindings/usb/amd,versal2-mmi-dwc3.yaml b/Documentation/devicetree/bindings/usb/amd,versal2-mmi-dwc3.yaml
-new file mode 100644
-index 000000000000..f71fccd95b2a
---- /dev/null
-+++ b/Documentation/devicetree/bindings/usb/amd,versal2-mmi-dwc3.yaml
-@@ -0,0 +1,92 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/usb/amd,versal2-mmi-dwc3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: AMD Versal Gen 2 MMI SuperSpeedPlus DWC3 USB controller
-+
-+maintainers:
-+  - Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>
-+
-+description:
-+  AMD Versal Gen 2 MMI (Multimedia Integrated) USB 3.2 controller.
-+  The MMI subsystem integrates a DesignWare USB 3.2 host/device controller
-+  with platform-specific clock, reset, and power domain management. It
-+  supports USB 3.2 Gen 2x1 SuperSpeedPlus operation. SuperSpeedPlus
-+  operation uses an external combo PHY shared with DisplayPort, and cable
-+  orientation and role management are handled by a USB Type-C PD
-+  controller.
-+
-+allOf:
-+  - $ref: snps,dwc3-common.yaml#
-+
-+properties:
-+  compatible:
-+    const: amd,versal2-mmi-dwc3
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: SoC bus clock, has to be >= 156.25 MHz in SSP mode,
-+          >= 125 MHz for SS operation and >= 60 MHz for HS operation.
-+      - description: Reference clock, generates ITP when the USB2 PHY is
-+          suspended.
-+
-+  clock-names:
-+    items:
-+      - const: bus_early
-+      - const: ref
-+
-+  dma-coherent: true
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  phys:
-+    minItems: 1
-+    maxItems: 2
-+
-+  phy-names:
-+    minItems: 1
-+    maxItems: 2
-+    items:
-+      enum:
-+        - usb2-phy
-+        - usb3-phy
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  resets:
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - power-domains
-+  - resets
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    usb@edec0000 {
-+        compatible = "amd,versal2-mmi-dwc3";
-+        reg = <0xedec0000 0x10000>;
-+        clocks = <&usb_bus_clk>, <&usb_ref_clk>;
-+        clock-names = "bus_early", "ref";
-+        dma-coherent;
-+        dr_mode = "host";
-+        interrupts = <GIC_SPI 191 IRQ_TYPE_LEVEL_HIGH>;
-+        power-domains = <&scmi_devpd 0>;
-+        resets = <&scmi_reset 0>;
-+    };
--- 
-2.43.0
 
+Best regards,
+Krzysztof
