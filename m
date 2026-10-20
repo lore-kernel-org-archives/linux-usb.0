@@ -1,61 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=95.215.58.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792490056;
-	b=CMOIFkK2pKxeFzrXkW38qVUFEGF+kr9jPAP4f1bJ0rnyq6jvH+3jeaUX/c3h/0xj2LXv
-	 QQ+iIgNP0hhk/vBceDBzVqKh/AZAOYDrWrZE5tuE4Ya+hlqR4moE/Z35P40w5Vy/k74Xe
-	 H3D2wgPfzLE8kOErXF54ElAFMX69GKQvtbTlxq1UyWLQ5gaecoCpc7dh9jAXktWidN5RD
-	 F4yFWYXWa9rBUCOySrEyKjRINPgfDrNjCwF+qjnXalqyU382iTVcCTHO5jOncrfh5WkzW
-	 DPanj38Xu5VEhsSw+Ee7Rf3DZtC9hqv6d5lni+WrnY5naRHv9htpuz5bWuHVDZqluUQ==
+	t=1792490142;
+	b=PsYtuS7pehj4/GUlbhPs6JxeaXdzvayLft2wB6Bxwdk/I7dLQg3UcAnESyNwC+J1gjsO
+	 dFfmUCc/hI02lRzLKdMNzqRcLz6quylbiqI3tXPiNK/wAu0h1T3zbGyxn7PHES1ulddSc
+	 lv/SDFPac8ClvyDxxLRYMjc3Gsi0k6SdbeYaNen6yEHMqry8FbV1BEVsXwhUfm3AloaTH
+	 6WY8VfgAdFe0mWnOOL57DT48gcdsDr6U1A9F8RBFIOX65Vi3yBu7XdIsI4UonGhUvjgSq
+	 xaRj+TENnwGeK3BZ7Pf1lJUlqe7Fedj7WyI/Sg0UwfJbVqZ0TtkSXC8vbHC8I3Nd9bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792490056;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=artqVHYwLfA3rNS6curj70sxHdKIUF4ARsisg35C+BY=;
-	b=j6zhNmvPvtDY2f1bctQhYQl5wfGxN5KFqEPu0rJRV3zRIqcQzjWnkWx3gA1w3GYvYmoo
-	 esCcfMWnmEcG6GvY1hh4IbV8gtISO2S8f9SSud843XE7MkqiYSIRC75JQP5dOzYQjWUN7
-	 wkMzNTv9u3/XJyNxcSn8au9ujixbHjTXQAVJbvmMnZN9HXpgszqF6WxSfi2E/PSrmDaKX
-	 yo+OqJGCKMGR2IkbEnndCvUmmhOcVHKvUPEkgsj5FS46viUkwa8ekIUV8J1pi5WH8caMD
-	 0MTgtHCqMB3KepHqBBUfp/LMIgVLNCVDS2H5mjhyezdkmSw/1OUtiNkYu4ebKrdzhyA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792490142;
+	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
+	 X-Mizu-Trace-ID:X-Migadu-Flow:Message-ID:Date:MIME-Version:User-Agent:
+	 Content-Language:To:Cc:From:Subject:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=+cbnxiAKt/WWE3E26Wh6+5ILmBzou2i/hmzwAjrTHQ8=;
+	b=4/bAWTikUvAlxPz7DvqzBw6NtE1UWM8mG9h1i5borsF1gATjscc+H1Jn8emrdggXe1hz
+	 uvsTnuBNxTYhcIKLsPfjJKQeJpU+N3VgOSLEJJ5WCjM/hbemaB8rN6rDsYaAR0D1Ofa5H
+	 6NQVXp1LFPOkY5ePDLm/SelIbBHhigpeXufPE7QM/RiqObstkBHsRSgr5ZnDnS9eyR/eR
+	 /IlGtwM4ZI/6fkdDQ7dFiZwsln5X0Fy3FS23UUq/abPjZy6J3i1zvw48dlCRrxvdsl0/A
+	 ksRWONziB4/N2TjQoNz+v21W2pL1x9TJO99L6QiqsuBklmZafalsgbU69FMTF7ULu/A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AovypkY5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gra.red;
+	spf=pass smtp.mailfrom=gra.red;
+	dkim=pass header.d=gra.red header.i=@gra.red header.a=rsa-sha256 header.s=default header.b=mfGfH40q;
+	arc=none smtp.remote-ip=95.215.58.46
+Received: from mta1.migadu.com (out-46.mta1.migadu.com [95.215.58.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE88606A31B;
-	Tue, 20 Oct 2026 09:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84EDB60A2609
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 09:55:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84EDB60A2609
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gra.red
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gra.red
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AovypkY5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 473E11F000C4;
-	Tue, 20 Oct 2026 09:54:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792490056;
-	bh=artqVHYwLfA3rNS6curj70sxHdKIUF4ARsisg35C+BY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=AovypkY5UjrZtDb/MxxKugfxW2dDJq1XPk457GKOUEmDlJ4Bz2/PCJstKdumxm6KR
-	 tUNEtwmm0ynOXctcavOecCYpvlZgRwHf6gMZMVCYZ/UM6vjoz2XiRTZl6IzvCZ/bHh
-	 lF7UZr6TYg89GPljalCp+7BQlhTBbz/O2zUplUeWLnPrsOLtpe7OsWwk8nwblG5tzU
-	 o+jo5znQWx8QjWTaQGz180xSvZvbzXiRJQJ9CAuMJlGRNFLEZWk3y0bblMKLnl+w/S
-	 WbVUowhUp7YzF5RSLwf+dyb01/KNUgQu8ngPMziat9XOZ2+a3IQ8mxT86JN6XhZiOs
-	 4GYtVRcJun9QA==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xJ6Xt-00000008kSy-2jqn;
-	Tue, 20 Oct 2026 11:54:13 +0200
-Date: Tue, 20 Oct 2026 11:54:13 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Hui Peng <benquike@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v4] USB: serial: garmin_gps: validate packet data length
- in nat_receive()
-Message-ID: <atc6RV5iox6w-s-I@hovoldconsulting.com>
-References: <20260919112819.3885778-1-benquike@gmail.com>
- <2026092059-hacking-coveting-c629@gregkh>
- <20260930075247.471109-1-benquike@gmail.com>
- <ar9-ULmQkzUJ7-uh@hovoldconsulting.com>
+	dkim=pass (1024-bit key, unprotected) header.d=gra.red header.i=@gra.red header.a=rsa-sha256 header.s=default header.b=mfGfH40q
+X-Envelope-To: linux-usb@vger.kernel.org
+DKIM-Signature: a=rsa-sha256; bh=BKV/xyRLGMDNR8UeRTHuPC8F81p7YkKkbMzSUt8Ri+g=;
+ c=simple/simple; d=gra.red;
+ h=from:to:subject:date:message-id:mime-version:content-type; s=default;
+ t=1792490139; v=1; x=1793094939;
+ b=mfGfH40qiwlCpw4FWPaBQECEOgszC2wgLTg2liuW8159lalqx8mN15DgR7cCJJHE6QZR8RNk
+ f6jJt9Gog0vPlmdgRs3FhhG5yI+SpkBS1vZljuKGkLyWfji5VgXepScA5OdVpgjev/W6ONgvcW7
+ sI1Ps9vQ2Zj+jYXSkD18wSrk=
+X-Envelope-To: linux-usb@vger.kernel.org
+Received: by smtp.migadu.com with ESMTPS id d27aadb386860bec;
+	Tue, 20 Oct 2026 09:55:37 +0000
+X-Mizu-Trace-ID: d27aadb386860bec
+X-Migadu-Flow: FLOW_OUT
+Message-ID: <ea0ed395-47a3-4982-8eb7-54059726e6b7@gra.red>
+Date: Tue, 20 Oct 2026 12:55:36 +0300
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -65,82 +58,117 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ar9-ULmQkzUJ7-uh@hovoldconsulting.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, Mark Pearson <mpearson-lenovo@squebb.ca>
+From: Vlad Mykhailichenko <dywedir@gra.red>
+Subject: ucsi_acpi: ThinkPad X13 Gen 1 (AMD) - VERSION reads 0, and GET_PDOS
+ returns one PDO per command
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, Oct 02, 2026 at 11:50:08AM +0200, Johan Hovold wrote:
-> On Wed, Sep 30, 2026 at 07:52:47AM +0000, Hui Peng wrote:
-> > In nat_receive() (called from garmin_write() when userspace writes to
-> > /dev/ttyUSBn in MODE_NATIVE mode), while garmin_data_p->insize is less
-> > than GARMIN_PKTHDR_LENGTH (12), the loop copies up to 12 bytes into
-> > garmin_data_p->inbuffer. Once garmin_data_p->insize reaches
-> > GARMIN_PKTHDR_LENGTH, nat_receive() computes the total packet size as:
-> > 
-> >   len = GARMIN_PKTHDR_LENGTH + getDataLength(garmin_data_p->inbuffer);
-> > 
-> > Because getDataLength() returns a signed int from __le32_to_cpup(), a
-> > 12-byte header with a negative 32-bit length field (such as 0xfffffff5,
-> > i.e., -11) causes len to underflow to a small positive value (12 + (-11)
-> > = 1) without any bounds check at that point. Then garmin_data_p->insize
-> > >= len (12 >= 1) evaluates to true and nat_receive() calls
-> > garmin_write_bulk(port, inbuffer, 1, 0), which allocates a 1-byte slab
-> > buffer via kmemdup() and immediately reads 4 bytes from it in
-> > getLayerId(buffer) (and again in garmin_write_bulk_callback() when the
-> > URB completes):
-> 
-> > Validate the unsigned 32-bit data length (dlen >= GPS_IN_BUFSIZ -
-> > GARMIN_PKTHDR_LENGTH, matching the existing len >= GPS_IN_BUFSIZ bound)
-> > in nat_receive() as soon as the 12-byte header is present, resetting
-> > insize and returning -EINVPKT on invalid lengths so garmin_write_bulk()
-> > is only ever called with a full valid packet header (12 <= len <
-> > GPS_IN_BUFSIZ).
-> 
-> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> > Cc: stable@vger.kernel.org
-> > Assisted-by: LLM
-> > Signed-off-by: Hui Peng <benquike@gmail.com>
+Hi Heikki,
 
-> >  drivers/usb/serial/garmin_gps.c | 10 ++++++++--
-> >  1 file changed, 8 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
-> > index 8020149f5658..a3f599043a4d 100644
-> > --- a/drivers/usb/serial/garmin_gps.c
-> > +++ b/drivers/usb/serial/garmin_gps.c
-> > @@ -769,8 +769,14 @@ static int nat_receive(struct garmin_data *garmin_data_p,
-> >  
-> >  		/* do we have a complete packet ? */
-> >  		if (garmin_data_p->insize >= GARMIN_PKTHDR_LENGTH) {
-> > -			len = GARMIN_PKTHDR_LENGTH+
-> > -			   getDataLength(garmin_data_p->inbuffer);
-> > +			u32 dlen = getDataLength(garmin_data_p->inbuffer);
-> > +
-> > +			if (dlen >= GPS_IN_BUFSIZ - GARMIN_PKTHDR_LENGTH) {
-> > +				garmin_data_p->insize = 0;
-> > +				result = -EINVPKT;
-> > +				break;
-> > +			}
-> > +			len = GARMIN_PKTHDR_LENGTH + dlen;
-> 
-> Shouldn't you fix the sanity check at the top of the loop instead so
-> that we never reach this conditional in case of a malformed header?
+On a ThinkPad X13 Gen 1 (AMD Ryzen 5 PRO 4650U, 20UGS2K101, BIOS
+R1CET86W 1.55, 2026-05-08), UCSI never comes up, and once it is forced up it
+reports only the first source PDO. Seen on 6.18.56 and 7.2.10 (NixOS), with
+identical PPM responses on both. The relevant code in ucsi.c looks unchanged
+in current master (7.3).
 
-I took another look at this and this check needs to go here where you
-have it. The check at the start of loop now essentially become redundant
-however. I'll keep it as a safe guard (e.g. to not rely on the driver
-clearing the buffer when switching mode) but add a comment about it
-being redundant, while also moving the comment and dev_dbg().
+1) ucsi_acpi probe fails silently with -ENODEV
 
-> >  			if (garmin_data_p->insize >= len) {
-> >  				garmin_write_bulk(garmin_data_p->port,
-> >  						   garmin_data_p->inbuffer,
+ucsi_acpi loads, USBC000:00 has _STA 0xF, but the device stays unbound and
+/sys/class/typec is empty. Nothing is logged, even with dyndbg=+p. A manual
+bind returns ENODEV:
 
-I'll queue this one up with my amendments when the merge window closes
-this time.
+   # echo USBC000:00 > /sys/bus/platform/drivers/ucsi_acpi/bind
+   echo: write error: No such device
 
-But in the future, don't spam the lists with dozens of LLM generated
-patches while ignoring review feedback for weeks, or your patches will
-just be treated as LLM generated reports.
- 
-Johan
+USBC000:00 is not in devices_deferred. The silent path is the version check
+in ucsi_register():
+
+   if (!ucsi->version)
+           return -ENODEV;
+
+The firmware's SSDT (LENOVO UsbCTabl rev 1) declares the mailbox as
+\_SB.UBTC.USBC at 0xCC235000 (0x30 bytes; VER1, VER2, RSV1, RSV2, CCI0-3,
+CTL0-7, MGI0-F, MGO0-F). Its _DSM read path (ECRD) copies CCI and MGI 
+from the
+EC. Nothing in any table writes VER1/VER2, so VERSION presumably stays 0
+unless the BIOS fills it during POST, which it evidently does not. I could
+not read the mailbox directly because of STRICT_DEVMEM.
+
+As a workaround, an additional SSDT from the initrd (not a replacement of
+UsbCTabl) sets VERSION to 1.0 at load time:
+
+   DefinitionBlock ("", "SSDT", 2, "WATTSN", "UcsiVer", 0x00000001)
+   {
+       External (\_SB.UBTC.VER1, FieldUnitObj)
+       External (\_SB.UBTC.VER2, FieldUnitObj)
+
+       If (CondRefOf (\_SB.UBTC.VER2))
+       {
+           If (((\_SB.UBTC.VER1 == Zero) && (\_SB.UBTC.VER2 == Zero)))
+           {
+               \_SB.UBTC.VER2 = One
+           }
+       }
+   }
+
+With that, ucsi_acpi binds, port0/port1 register and are linked to
+usb2/usb3-port1 and usb4/usb5-port1, and no PPM errors are logged. On 7.2.10
+the existing reserved-bit check also fires, so GET_CAPABILITY from the same
+firmware sets bit 7 of bNumConnectors as well (0x82 for 2 connectors):
+
+   ucsi_acpi USBC000:00: UCSI: Invalid num_connectors 130. Likely buggy FW
+
+2) GET_PDOS returns a single PDO regardless of the number requested
+
+With a 45 W USB PD charger on connector 2, the partner's source caps show
+only "1:fixed_supply 5000mV 3000mA". ucsi-source-psy-USBC000:002 reports
+voltage_now 0, current_now 2250000, current_max 3000000, voltage_min/max
+5000000.
+
+GET_PDOS via debugfs (partner, source, connector 2), one PDO at a time:
+
+   offset 0  0x400820010 -> ...5383ff01 0801912c   fixed  5 V 3.00 A
+   offset 1  0x401820010 -> ...5383ff01 0002d12c   fixed  9 V 3.00 A
+   offset 2  0x402820010 -> ...5383ff01 0003c12c   fixed 12 V 3.00 A
+   offset 3  0x403820010 -> ...5383ff01 0004b12c   fixed 15 V 3.00 A
+   offset 4  0x404820010 -> ...5383ff01 000640e1   fixed 20 V 2.25 A
+   offset 5  0x405820010 -> ...5383ff01 c8dc325a   PPS 5.0-11.0 V 4.5 A
+   offset 6  0x406820010 -> ...5383ff01 00000000
+
+Four at a time, only the first dword of the response is a valid PDO and the
+rest looks stale:
+
+   offset 0  0x700820010 -> 0x01100200012000015383ff010801912c
+   offset 4  0x704820010 -> 0x01100200012000015383ff01000640e1
+
+ucsi_get_pdos() reads one PDO, takes num_pdos < UCSI_MAX_PDOS as the end of
+the list, and stops. GET_CONNECTOR_STATUS shows the RDO selecting object
+position 5, operating current 2.25 A:
+
+   0x20012 -> 0x0110020001200001538384e1202b5b60
+
+so the contract is 20 V / 2.25 A, but the psy cannot report the voltage,
+because the kernel only has PDO 1.
+
+Questions:
+
+- Would a dev_err()/dev_warn() for the version == 0 case be acceptable? It
+   would have saved most of this.
+- For VERSION, is a DMI quirk that assumes 1.0 acceptable, or would you 
+rather
+   this stays a firmware problem for Lenovo? Mark, is this something 
+that can
+   be raised with the BIOS team?
+- For GET_PDOS, would you take a fallback (or a quirk) that reads one PDO at
+   a time when a multi-PDO read returns exactly one?
+
+I am happy to test patches on this machine.
+
+Thanks,
+Vlad Mykhailichenko
+
