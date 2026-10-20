@@ -1,75 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=91.218.175.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792484057;
-	b=VoElYPCaoMXblE1Z7ovQrp8tbWxxrDHiv0r+IxkR783zasv3k0RTME2CwL8nsqBD2PCq
-	 FANlDwD1P0jaFmaVyr6SR0ba1UUngV59CE9cS6XOzK7Z8vnYGwJArHv5pIYZ723V4taPB
-	 1wQuTtS11T7xLBfwKmuOGmjZL3rA7Fi3UvbOeLjH4egPnORSHUUdyE5YFlyB91/6Za+rP
-	 Q8QtaVeUOMyTT0z/d75gKPR6nBA9uQAXlQ46IACth6z4kNRYF1Q47xYMTX0xIswBDirSX
-	 4lNxdeRlY4OfLqDEeV2pTGU7xx74W85XxmXfVGET4Wp2AIneF3fO92bT5irCJnu5m2A==
+	t=1792484443;
+	b=wreLr6ENy7nZ3nffmTWsPGKBZfxulg+ldFUzSswxf/nzsfo4Ynh8dKu0Rd1fXj2Q+ZUO
+	 4uLM15BVkUbQXkvBnxbwcMXPldUxSpEYWp02kiCyuhBATGTQr4Ns8NvHfvLSQ6pShH+DN
+	 lLY4B1Dkwb9kzLJ+b3yCW03/NGxCeGIXdKs3HDfBsdvCdAxWg78YVCug5rKNfKpbOVGua
+	 17sxwmidwXSTHYyLT5qkWlVF049742iSpyCz69b8O4qSDm6DSz64+mbCLHc2kZRMmop+u
+	 7DAt+/A3DAx5l3i2xI/TCaViVoYhw/5nUG9zodC3BkpYu1EciPI9a8B9pzpVv2wJOwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792484057;
-	h=DMARC-Filter:X-Envelope-To:DKIM-Signature:X-Envelope-To:Received:
-	 X-Mizu-Trace-ID:X-Migadu-Flow:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=qO3JqoryMuz3iGO1ugSkLq6Ey291hKQqWmHA9+oEZXs=;
-	b=lBegMb7AWTx6tHcU7vdn6BRGCquYq8VzbxghesUYJyDSmOBXSjn/BW/zVpwLDbqvv1g7
-	 f6p8hblcnVtJgh9uB2JPNuic+JyQBjKHL7uBJIDtRmJd8qQ5yN9Y/AvtBMzZMbS7W3OaL
-	 usDBJoDPp3rrTBjNL7G1mlSM/fOnMXEEoeLzuFRyedCndkXWIS7xPDM1bT2yx4dfOlkTz
-	 OkAlLzZlqT1SpkbYkPKPHt2bu/MNoOKki28tmM+9aE+0C22jIXyignuiN8u2d/Q4H2THy
-	 5P/SaKzppQ0ZGST+7l9kNo/wDATXQNVo0AcETSsCjrhQxp7IQYlc41rju4QUNJS3D/A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792484443;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=6FL6vybst19uz2uz0JrB2e5T06p2MvK2Guv+NkUq7ns=;
+	b=BxSIgsOHzgXS4s+0YUEwaxpCtpXJGorTcxhTPJe6aXVIeTE38DPrWTmxbMX8DBqWuf9L
+	 qTMsXEL40YWuJ/F+h/cB0Koa3GlFJrbOvpP6FRsUUALYwSB+xsq1PdP4MJa/YlXE3NMpl
+	 zYEnizAElBSKQ5hmFTKBDdDQcQL8RTvgiE1OUirov9jfkKw1/HDgOJ5fFFpfZ2iyvnvO1
+	 OUbZmQ3DPJbypQvpBduuWF6QCuL664n/1fTlLQ5dHgsPs9tY7x7n7cFAE15F9qaeDJO7u
+	 qRWzbpkzVLIEdtVs55aKU+B1c2nBGfxEU3h4lNi85mKMx3MdfPswR3+eO/O3EvAY5oA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=packett.cool;
-	spf=pass smtp.mailfrom=packett.cool;
-	dkim=pass header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=SLcI4GpH;
-	arc=none smtp.remote-ip=91.218.175.42
-Received: from mta0.migadu.com (out-42.mta0.migadu.com [91.218.175.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aEoErWdb;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608C5606A329
-	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 08:14:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 608C5606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015CD606A319
+	for <linux-usb@vger.kernel.org>; Tue, 20 Oct 2026 08:20:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=packett.cool header.i=@packett.cool header.a=rsa-sha256 header.s=key1 header.b=SLcI4GpH
-X-Envelope-To: linux-usb@vger.kernel.org
-DKIM-Signature: a=rsa-sha256; bh=r7U2PL3f73XxI6tIOrwGXDDfc8aDPCW0xlVXmaXSGY8=;
- c=simple/simple; d=packett.cool;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1792484054; v=1; x=1793088854;
- b=SLcI4GpHA/sN5zzdKjfUNQ61moYOuP4b5L1DgHmyxTp2GjiN6Co0mRbqu+3i2S74wT6WAYCn
- bma2sjPmDuV4/Re4d/Efk4AcAc3+M+Br7btL3kSLtqYkG0ZzMT06NCrHZUaJQ0Nj6hrzHz6Z1Mc
- 5KzHT1U570dLEUsi/MzeTdtwBTH0Kpx6kBv2HSgTS7yiyrYOIRzsP7WA1vvKoXQwhhrOAUmqdK3
- x01qUQvqNFlGy9syApCwRfL7/Y4O1yUA0QZWcW1MerTwSOS0cx12tCsJuKg+e1LvKc58+BhYPEW
- 1VkeqF7OPrXLXZxPRIaA6l7PeNZImMbL3OEfF1hG5EG3w==
-X-Envelope-To: linux-usb@vger.kernel.org
-Received: by smtp.migadu.com with ESMTPS id 9afd8cc5e267956b;
-	Tue, 20 Oct 2026 08:14:14 +0000
-X-Mizu-Trace-ID: 9afd8cc5e267956b
-X-Migadu-Flow: FLOW_OUT
-From: Val Packett <val@packett.cool>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Luca Weiss <luca.weiss@fairphone.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	~postmarketos/upstreaming@lists.sr.ht,
-	phone-devel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	Val Packett <val@packett.cool>
-Subject: [PATCH v2 2/2] usb: typec: fsa4480: Report switch & mux events to codec
-Date: Tue, 20 Oct 2026 05:12:54 -0300
-Message-ID: <20261020081343.1507986-3-val@packett.cool>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261020081343.1507986-1-val@packett.cool>
-References: <20261020081343.1507986-1-val@packett.cool>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=aEoErWdb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64FED1F000C5;
+	Tue, 20 Oct 2026 08:20:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792484442;
+	bh=6FL6vybst19uz2uz0JrB2e5T06p2MvK2Guv+NkUq7ns=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=aEoErWdbKRSJ/p7VBY6JvqC1vqPj4AXiuF9JFpKjSnTtd3TK5NFdpyfl3vJ3pyaCO
+	 r2Ab1D2hzwLULpnneDOHsJT0F+bD+y7SOs/yVsHQpjuLGpg6S3aflfjTg0mYzIt1qC
+	 2FdTx4jn9HDslrdwsSlsoxdNjAkCTfnu5G30VmBaVdQJEKTdZRukc4OPiqgWF11Roi
+	 57N0yugBtnPkC7f4hDac/Kt0HIYVGUFKMPAmlm08yPvlrlha4CMs4iuerISZ0FfMeO
+	 nE+KGZ/El5k4VV59cF4bGTRczqEXyE7Eh2V6vqInMmTLGZFoEcNRo/xvTZUhxvS/tf
+	 3SbkmvQmjIinw==
+Message-ID: <sashiko-outbox-178522@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: f_hid: avoid copy_from_user() under
+ get_report_spinlock
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Yu Zhang" <yuz08559@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261020051446.92179-1-yuz08559@gmail.com>
+References: <20261020051446.92179-1-yuz08559@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 20 Oct 2026 08:20:41 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -78,145 +59,33 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Luca Weiss <luca.weiss@fairphone.com>
+> f_hidg_get_report() copies the userspace report into a freshly allocated
+> 'entry' before taking get_report_spinlock.  When the report id is already
+> present in the list it then copies the same userspace buffer a second
+> time into the existing entry, this time while holding get_report_spinlock
+> (acquired with spin_lock_irqsave()):
+>=20
+> 	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
+> 	ptr =3D f_hidg_search_for_report(hidg, report_id);
+> 	if (ptr) {
+> 		if (copy_from_user(&ptr->report_data, buffer,
+> 				sizeof(struct usb_hidg_report))) {
+>=20
+> copy_from_user() may fault and sleep, which is not allowed while holding
+> a spinlock with interrupts disabled:
+>=20
+> [ ... ]
+> also drops a redundant second read of the user buffer.
+>=20
+> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IO=
+CTL")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yu Zhang <yuz08559@gmail.com>
 
-In the Type-C graph, the FSA4480 switch is in between the USB-C connector
-and the audio codec, but the audio codec also needs to receive the
-switch and mux events from the FSA4480.
+Sashiko has reviewed this patch and found no issues.
 
-Update the driver to get an Type-C mux on the next endpoint and
-broadcast the recevied mux & switch state to it.
-
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
-[val: enable the SENSE/MIC bits; put the refs in fsa4480_remove]
-Signed-off-by: Val Packett <val@packett.cool>
----
- drivers/usb/typec/mux/fsa4480.c | 57 +++++++++++++++++++++++++++++----
- 1 file changed, 50 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4480.c
-index bea0c1deec94..93faa81d0879 100644
---- a/drivers/usb/typec/mux/fsa4480.c
-+++ b/drivers/usb/typec/mux/fsa4480.c
-@@ -60,6 +60,9 @@ struct fsa4480 {
- 
- 	struct regmap *regmap;
- 
-+	struct typec_mux *codec;
-+	struct typec_switch *codec_switch;
-+
- 	enum typec_orientation orientation;
- 	unsigned long mode;
- 	unsigned int svid;
-@@ -115,7 +118,8 @@ static int fsa4480_set(struct fsa4480 *fsa)
- 		}
- 	} else if (fsa->mode == TYPEC_MODE_AUDIO) {
- 		/* Audio Accessory Mode, setup to auto Jack Detection */
--		enable |= FSA4480_ENABLE_USB | FSA4480_ENABLE_AGND;
-+		enable |= FSA4480_ENABLE_USB | FSA4480_ENABLE_AGND |
-+			 FSA4480_ENABLE_SENSE | FSA4480_ENABLE_MIC;
- 	} else
- 		return -EOPNOTSUPP;
- 
-@@ -162,7 +166,11 @@ static int fsa4480_switch_set(struct typec_switch_dev *sw,
- 
- 	mutex_unlock(&fsa->lock);
- 
--	return ret;
-+	if (ret)
-+		return ret;
-+
-+	/* Report orientation to codec after switch has been done */
-+	return typec_switch_set(fsa->codec_switch, orientation);
- }
- 
- static int fsa4480_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *state)
-@@ -185,7 +193,11 @@ static int fsa4480_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *st
- 
- 	mutex_unlock(&fsa->lock);
- 
--	return ret;
-+	if (ret)
-+		return ret;
-+
-+	/* Report event to codec after switch has been done */
-+	return typec_mux_set(fsa->codec, state);
- }
- 
- enum {
-@@ -287,6 +299,19 @@ static int fsa4480_probe(struct i2c_client *client)
- 		FIELD_GET(FSA4480_DEVICE_ID_REV_ID, val),
- 		FIELD_GET(FSA4480_DEVICE_ID_VENDOR_ID, val));
- 
-+	/* Get Codec's MUX & Switch devices */
-+	fsa->codec = fwnode_typec_mux_get(dev->fwnode);
-+	if (IS_ERR(fsa->codec))
-+		return dev_err_probe(dev, PTR_ERR(fsa->codec),
-+				     "failed to acquire codec mode-switch\n");
-+
-+	fsa->codec_switch = fwnode_typec_switch_get(dev->fwnode);
-+	if (IS_ERR(fsa->codec_switch)) {
-+		ret = dev_err_probe(dev, PTR_ERR(fsa->codec_switch),
-+				    "failed to acquire codec orientation-switch\n");
-+		goto err_put_mux;
-+	}
-+
- 	/* Safe mode */
- 	fsa->cur_enable = FSA4480_ENABLE_DEVICE | FSA4480_ENABLE_USB;
- 	fsa->mode = TYPEC_STATE_SAFE;
-@@ -310,8 +335,11 @@ static int fsa4480_probe(struct i2c_client *client)
- 	sw_desc.set = fsa4480_switch_set;
- 
- 	fsa->sw = typec_switch_register(dev, &sw_desc);
--	if (IS_ERR(fsa->sw))
--		return dev_err_probe(dev, PTR_ERR(fsa->sw), "failed to register typec switch\n");
-+	if (IS_ERR(fsa->sw)) {
-+		ret = dev_err_probe(dev, PTR_ERR(fsa->sw),
-+				    "failed to register typec switch\n");
-+		goto err_put_switch;
-+	}
- 
- 	mux_desc.drvdata = fsa;
- 	mux_desc.fwnode = dev_fwnode(dev);
-@@ -319,18 +347,33 @@ static int fsa4480_probe(struct i2c_client *client)
- 
- 	fsa->mux = typec_mux_register(dev, &mux_desc);
- 	if (IS_ERR(fsa->mux)) {
--		typec_switch_unregister(fsa->sw);
--		return dev_err_probe(dev, PTR_ERR(fsa->mux), "failed to register typec mux\n");
-+		ret = dev_err_probe(dev, PTR_ERR(fsa->mux),
-+				    "failed to register typec mux\n");
-+		goto err_unregister_switch;
- 	}
- 
- 	i2c_set_clientdata(client, fsa);
- 	return 0;
-+
-+err_unregister_switch:
-+	typec_switch_unregister(fsa->sw);
-+
-+err_put_switch:
-+	typec_switch_put(fsa->codec_switch);
-+
-+err_put_mux:
-+	typec_mux_put(fsa->codec);
-+
-+	return ret;
- }
- 
- static void fsa4480_remove(struct i2c_client *client)
- {
- 	struct fsa4480 *fsa = i2c_get_clientdata(client);
- 
-+	typec_mux_put(fsa->codec);
-+	typec_switch_put(fsa->codec_switch);
-+
- 	typec_mux_unregister(fsa->mux);
- 	typec_switch_unregister(fsa->sw);
- }
--- 
-2.55.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261020051446.9217=
+9-1-yuz08559@gmail.com?part=3D1
 
