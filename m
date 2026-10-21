@@ -1,88 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792569690;
-	b=dt4V4ly5+UdjskIRUqWiy7k2u/JfB2/kfqhPOIjT3NSDzc74Vh82K9gybMiyI3dKxnw3
-	 ekCCcFfGmBZdCAeRjbI8eFKaazE1RBgXt5XX0Iz0f6vMIZMHTu5tMr27XV+KkjKWXjVFl
-	 0Qka2UcyRdelSNZAqG9Dt0pPYSmNAI5ZLlLRM3S+0pW0efyGNwAihFCirfexIGqw4VL7P
-	 vx9NulTS/e5jXxCJClzi0zEaoAAz3fRnEPksJWR0wTK/exiOSQ+1DPU0Zfk9Jv0G5NUJw
-	 tZIaNwKHurqvudv1MLldTEe55c4ax1+a9j3QepdSAkaqk/sBwVtQsp+aCXWOwfSpH9w==
+	t=1792570314;
+	b=SaA4lPEIUx14MA418dib0XMHVzNyrkjq6IHd65yKy8UL9dEoC0Ttr8BcxuTuJiRJwOWU
+	 dTVs9YGS6YJgSkEhmZW4TMs1HL2kya2jDu2zYlEHzllWAFUAYHmJnqHOJ+CSvJ4d9mXjO
+	 bPde8JxKmw7tj70LVly/6tWflUvsPV8LqC1iLoYuCqlU4LZKUdQaN6yReMFf5nIwNBAzg
+	 B2KDPUhu7n3NwJjmg3dysN1okxCJQRF5gKEhwllyv7fE7u3jYgYQNb2WZKl+G7bX5I17r
+	 ltRENlFtbpUve4R7GFwhN4kW/AdufmHMZRzRZfWT5agdwJOcFKvxgbR0g1xgc8NziSQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792569690;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=8JsivEzCfsBUsKB7VniSyajrogrywUv+aAjVG1xwA/k=;
-	b=G1B+UnBXCAglmprn5ERLFNM8k5ibpMLIlEpl2+PRxJxcx2SAfxMx7c3EgtE+MNZgjjq5
-	 KQy1FVCPBhmnJfywtL8UGWdg1MnguIfshbCl23yZ9HsAQvx/PNRUoSRB2BKJek6ylP5Hs
-	 DRKti0Lz28wus2BwRWDCH4y9Bg6pkabKu2H0MArQ9mdtdYfs54GRuNJGoidvl27z7D9XA
-	 WdBKimwKDqIjAXcPMeLCRHq73s2uFfLfckMa+3V4k7SKDv+cSPf87bmnS3FENzbnApMfM
-	 yZ/dpzGX1ZEuc5WU7dtgVtt76NAn5aJ6JZOo1quTBbKE0LQJzzTvj/T2o4sw9/KHgag==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792570314;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=cqGN88ZYSx+RjKyzmamolQzERQ0LDoNuYdNkMhp2fFo=;
+	b=1Z1IXElUTfq4OWaHsg7Mt4cjw/XDlQH1kw0FilsR2sbHv71Q8OJvb05Bfs9Qg6UIMOq9
+	 TClUUA6ZbtFTAx8QAyEoXZKzkB8467PrjEqsCle5NsN6bRES0dtej2E9ohgJR2J20xoCV
+	 wnEZ5OXgSFqXNp0Gk2l6x6n+8kMdpxYYSqGi52gmwxAuuNMtqcbpekhybtUD0dfvsmNf9
+	 4rDrESm1Mojbfkp+tWaJ9nJ6VLVNph60k3QUvUm9SO7coe6PIZr7x8W9BuSt86X2MVFsm
+	 koBFK9Jt8G1IS/9NBAvv1+suoF/xDKLXlBAZiX1wqvjt/hdvHP428p7c0hy0XaZezKQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=PNQ8gbLw;
-	arc=none smtp.remote-ip=209.85.221.42
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NwxxZogO;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB15D606A319
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 08:01:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB15D606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C043D606A319
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 08:11:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=PNQ8gbLw
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so374039f8f.1
-        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 01:01:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792569688; x=1793174488; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8JsivEzCfsBUsKB7VniSyajrogrywUv+aAjVG1xwA/k=;
-        b=PNQ8gbLwhnN3xwijAEbY/MjJSOHfENlfsgK0sFWXmepdRB8kYoa9HWXzPjsMpOhvED
-         VDrA3wiG0qOAFhoB2xbc7WhJQvPnfxbf+evFAsf4S9myLySRFtcIpfJlgN1U73OlEwir
-         8Jn0IDENmxCNMB/M1o/HkAH7nPEDz5s1y2PT6x0q3C6gIxpCVks01c4GKW13Y+TONoRe
-         BWrN0zg87NHSuzMHuHLDVkhBGTUuGykI6q5sHCJT/QBtHEw+qzWElqUpLFgMSOY7WFGc
-         Cl7/k6id3HxKUn0tl11J8ImyvuwyXWFu7dsm5BRCyR9W5pNu722sAyWeWnvlZcYlSj+s
-         HtcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792569688; x=1793174488;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8JsivEzCfsBUsKB7VniSyajrogrywUv+aAjVG1xwA/k=;
-        b=rv5BWfE0aomVtxx2ucXXpxVJftBy3d0dewP5G1f8wSJFsyJzZkdH7dadfCTcQ7DF9M
-         hjNtjR+Nx3TMFy0Ssfj5OpGxR1kXfZbu1A375P7Mj8l8TRRugNcFrdWDhGk9Vox8U+RL
-         asNZwM7/7VVj0evgtqPsVY/GS3Q77rzgpmK/TQPFX3hxcVbBkUhFHuErWCoYQtdGrRWH
-         tLcchnxlEUSrxXBK7nD77cYMorI7yBitrI71Bk6gDtNu4u12bYyEl7PKpBKx5CHSxSJ/
-         dT0cwK1Omo8hMkWgb+9ez0uwOAi0+qBg8XBmDHoPIYgr93YrF5zwJZ9RxqA12Qjn9d8y
-         zUFA==
-X-Forwarded-Encrypted: i=1; AKwUvByVHhSNNZcN0U5kXAFyh2MQMcBAnE/O9Rv86MNS4RD5l4ssu5+++AP9fmsbBqrQZK5x/WrY4dV9UeA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJLQhfDBp0eg8ULq1GJtO/uv18ERhies0q8RJ+NSestabdyubXU
-	pSgQ2YrPXFW6i4X79JfVmOL0o1rDsqD/yyuN2hXdKxCaJBFC3Mw/SITr8yRfHmbWRCc=
-X-Gm-Gg: AYBFou0Cw3AHZUxl4puWK9fUtId2+TirfoWtuh9bYvZO7XYYRjUW6dIwxStXTNbV8E6
-	wDGaKd1jDNFQva1fWQUOjiFjYVnLakMToDvPH53rsue38zwcTpHxV6tfm9caukOISMav0O5UCqA
-	Zw/1EAVAOEdWNQ/pnipu0NC3r7Dzp325BChscznPGFlH7Yh5+IsA7Z1dBiqZ7AzpWQg/hcTvLRU
-	cWIL0OTfS1HtqWAtTykoji3yKQPdzOWkP06JJVU5d3pa9GPEuKHvqAeWILqZ9q++Zkx9hZPr2jQ
-	dWS53c7wm/kWcV8XZe6HDYKWOYv8RhDYwN1T3wwT+ULmlKX8GdP6xV8Hxig9eacdQI9g6c+qqE/
-	gOulJlV+4NeUzol+uQyPzFAye9tiBCZ/7BrLMGlzxKjft7zB4qdyjhTXCR9urJlSRHnsYKJDcUa
-	joP2ztSg6BAn4MPNYhFBWgdOEYY/7l8/1fiF4s438N7bZAZYMOKtWv5CDwj8ClSjZKc6Ka1u3WF
-	Rj38YsGlKUG6aZiWo7eC6l2O9oCHsN9BJOSMX+jKf2Hov4mKjK8DxRWMvmG02hSLylk1V1wnYZW
-	Jq/NC6v3Ldro+HUT2w==
-X-Received: by 2002:a5d:5f42:0:b0:48d:f996:1814 with SMTP id ffacd0b85a97d-48e264fb916mr2431823f8f.57.1792569686595;
-        Wed, 21 Oct 2026 01:01:26 -0700 (PDT)
-Received: from ?IPV6:2a02:3033:701:244:19c9:79b9:fe6b:6f9? ([2a02:3033:701:244:19c9:79b9:fe6b:6f9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2582a53fsm3980308f8f.32.2026.10.21.01.01.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Oct 2026 01:01:25 -0700 (PDT)
-Message-ID: <f86ca4e0-b294-42cb-b51a-d9e9984544ef@suse.com>
-Date: Wed, 21 Oct 2026 10:01:24 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NwxxZogO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A1361F000C9;
+	Wed, 21 Oct 2026 08:11:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792570313;
+	bh=cqGN88ZYSx+RjKyzmamolQzERQ0LDoNuYdNkMhp2fFo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=NwxxZogO/cP0u6ThODL7opcvvatYWLdYrHhKmcs7kACIPw0HFwIiMaiZtiwKyUFgM
+	 bNUY0AEjXos+95IoLPyVxOPGCNEcVlRx6dbdgqMw/+Kg/yGv8qWG0Ktt3QIuhNxrfg
+	 BgVDAzvG/FNXZ8UVSNKNyWsgt6oGj5R/TZoFSxcQFvQ4yqtilYeQMyI1HDDRsH9dWq
+	 iA3S7EObu1Jq8A2KuMg4Zzh4GtDIplF06zNvW49sc+1ikAurKV76x/7Kcuqbwwqx98
+	 YYqmFVwMusujvW2pqJrW2x/WQ1fSpiq0mDt4T3vKC8ki0mBurUK2mxMsr0XpL6f/NT
+	 RzNUlWu3Ze37g==
+Message-ID: <sashiko-outbox-179943@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net v2 1/2] net: usb: cdc_ncm: don't enable BHs in
+ tx_fixup under netpoll
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Nicolai Buchwitz" <nb@tipi-net.de>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261021-cdc-ncm-netpoll-v2-1-8818965bbb69@tipi-net.de>
+References: <20261021-cdc-ncm-netpoll-v2-0-8818965bbb69@tipi-net.de>
+ <20261021-cdc-ncm-netpoll-v2-1-8818965bbb69@tipi-net.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2026 08:11:52 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,44 +60,26 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: core: Emit KOBJ_CHANGE on unbound interface
-To: Fabien Sanglard <sanglardf@google.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <b7c2f7d1-40fd-4d83-8ced-5fc27e3be051@rowland.harvard.edu>
- <20261012171609.88273-1-sanglardf@google.com>
- <b819ff38-6916-40e0-b2f3-1b19876971bd@suse.com>
- <CAA92w6=OhNYXF_kQFV4tPKa19xdWRkdQbFXaqhdxfqW4N9zMVg@mail.gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <CAA92w6=OhNYXF_kQFV4tPKa19xdWRkdQbFXaqhdxfqW4N9zMVg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-Good morning,
+> netpoll holds the txq lock and calls ndo_start_xmit() with IRQs off but
+> BHs on. The spin_unlock_bh() in cdc_ncm_tx_fixup() then runs pending
+> softirqs. If one of them transmits, it spins on the txq lock that
+> netpoll holds. With netconsole on a cdc_ncm device this ends in a soft
+> or hard lockup.
+>=20
+> Use spin_lock_irqsave(), which is safe both under netpoll and on the
+> normal xmit path.
+>=20
+> Fixes: c84ff1d6dff3 ("cdc_ncm: reduce driver latency in the data path")
+> Reported-by: Mikkel Eskildsen <mke@visotia.com>
+> Closes: https://lore.kernel.org/netdev/PRAP189MB185019A5A8D411482BB6E0CDA=
+9982@PRAP189MB1850.EURP189.PROD.OUTLOOK.COM/
+> Tested-by: Mikkel Eskildsen <mke@visotia.com>
+> Signed-off-by: Nicolai Buchwitz <nb@tipi-net.de>
 
-On 13.10.26 18:48, Fabien Sanglard wrote:
+Sashiko has reviewed this patch and found no issues.
 
-> That said, unifying the behavior upon reset would be elegant. My main
-> concern is whether some existing udev rules or netlink listeners in
-> user space might break if we generalize this behavior and start
-> emitting unexpected CHANGE events for interfaces that successfully
-> rebound (which already emit UNBIND -> BIND).
-
-On a generic note, it seems to me that you are concerned about
-an unavoidable case. You can check whether an interface is
-unclaimed. Yet you have no way to ensure that the result of
-your check is still current and thus valid, at time you act
-upon it.
-
-In other words, you were about to design an interface that is
-inherently racy. That is not a good idea.
-If you really, really need to avoid it, you'd have to define
-a new type of event.
-
-	Regards
-		Oliver
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021-cdc-ncm-ne=
+tpoll-v2-0-8818965bbb69@tipi-net.de?part=3D1
 
