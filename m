@@ -1,57 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792543685;
-	b=GlBg9NxO7VWc/OVGRj5sj8HVuwxsBH5e+z6XR6o5Zdqk261f+HzClenNQ4HXZ/pXFefC
-	 ZSSvWXV2YJ8UGo2IFvqgxFbx1LGQ1lRmmiCzvJJ+RSAFWF2StItFYQL+cY/h6QukDV85E
-	 tlIDaHFDe7lOUBdt52BSeLpWUQXA5iOBh6GmKaEmomZNRs7/Mo4hHNXAR5nXpd+TohpSS
-	 VbELWF1VJDCSs1X9wnqfN0pXzZuHNJf19OmBiF9S4V1PSnKB766RB1Cw2j4q43tiSciCO
-	 RwnNX8zQSzIxIDNtn/CSyZvon0JZDOL5naSpzO0REiQMQ+naKcfOg9dCMhtGo1iuVKQ==
+	t=1792543766;
+	b=Ii2NrLl8LxA5tcefzQggu0qy7UYsaZUgpwxPuVlxnHnLSX3IrfM1w1DquZuCrS7upGfr
+	 htJj62qL3CYMCtmPcl+vlbQs9DZueZ6jj0PvMC8CjPV9pw4JiemAZ+FiOhMaVgrrUIO/x
+	 XjOWGIDdeApl+fZ84OGE1Y+J5tMrIJDhUdkpe/Uw6CG+hTHasfe2oY+0wXB4Ejz9Z5UF7
+	 8DmmGOMEZlDV9jUJ46yA/q6m+XO5XWwnp8apoc/XqrTHddLG8/ygTQ8u9aGadd6vhg6CN
+	 Ixynha9KPa4ypA0jpDuul45LxOqiOd28Eis7l6Sv/rbB8tTN5pByKwkKxqs7i3tv13Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792543685;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792543766;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=AcPwb06EeXH5PBNlMnUgLzO9uZrjn+KGQ/T+qbZFEzo=;
-	b=RM60DF2ABbw89AcJ/bPqZiBZU/M5jyF4f9XWRCUIvTV+WTBU7U3YQaYdPliuWfdUlZGb
-	 ade0YeA8fXaF434IOJ80GU69fRv6n6YN0PdP8BHFqCS3d/oUcKA/E9BFBNxBtg6NWwKZj
-	 YZMGOASr48zf3BogKkLysuJT6xg83clkwgEYlMWqsqAuuIeOuotEj3st2punLtdi5jM7m
-	 ptpWCVIN3JPjaazx8q0DNLIcZxt0ro0lC6DP8TCxdV8+aYj45SENfICbC0TtUwjsC8JMP
-	 gilKiswySqcUYhQIDaE0wt6Ul/6QWyolkEPVDh+tchp3YMNc6CX2+ZZliswMq9dG+6Q==
+	bh=nXksRKm05C4yuoaqBConZqhezuQ0QptQqr1wbf05Czc=;
+	b=BPsC2I86yWRLFFf0gdSGdNcdTDKwJRWcPtc6PYa6E6pn9BeQXffei5KjPR5uVa8WQdxB
+	 9nkg1bo+JubttBS1hCGjkUHvhoFTI8IM2M4RCP0YjQzH4w6JoJfoP1hcfoMSdDgpq57I+
+	 Y3c0TVhSmC+/nY8maYYGO5ZKBBecs7nf/YVE5t3o/UfKF+Fx3s0eREXNRRR8/b9+V67G8
+	 XcRgzSekT00Eq4oeMF4nesZ4kqMy9rq8cco96KC8EoAAyJKOpGqGUgoPvD4i6ml+hbP50
+	 E8mvfbXANaWEWUd8gSsh1GzVZ2wG9mIIZWvTiv29ri2H7WykwFVIoBodYWbUuzKgbOw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nVKQ1DOz;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c6OVkJkk;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC843606A319
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 00:48:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E146606A320
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 00:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nVKQ1DOz
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A50D11F000C9;
-	Wed, 21 Oct 2026 00:48:04 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c6OVkJkk
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 46D4E1F000CD;
+	Wed, 21 Oct 2026 00:49:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792543684;
-	bh=AcPwb06EeXH5PBNlMnUgLzO9uZrjn+KGQ/T+qbZFEzo=;
+	s=k20260515; t=1792543766;
+	bh=nXksRKm05C4yuoaqBConZqhezuQ0QptQqr1wbf05Czc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nVKQ1DOzm08qhj4r/aStm+KinhDdtKe23C3CQM9R9F4TQK0bWUnCvuZogc0ibQKaL
-	 WXnIVNpn3kgH0UEmg6r7s0unu72ClZJVTESdGPDE2dPban1kDBZwQSVqjEra3C9TCJ
-	 xtDJA3lwS4+ZWD/5fzlwRfaw2n/jnza7nfnMHggH1+qSJ4/wqIQL005PscimgJCV9U
-	 bVzqcXW11EVrEAHRTYO9jZKOR5rXNJsVZdk3UyE1sHMVKBG5iXi6qcAe8XIcE/7ISi
-	 feCsRywqZt5gz4+vzVxMTNzKIRvYqtfwjkGwDsb0tdiICGmQagg2h2WvmYUnFpD1Km
-	 p5J66fBg739HA==
-Message-ID: <sashiko-outbox-179647@kernel.org>
+	b=c6OVkJkkRPui01SPNit32q15Ei+nMdn9s0hsIE4TfLnzgLeBNzxrj0m96Hy1hwCXf
+	 hyCbh6UkqobNHERxhW1sBDWU5wgCzSsusQATRcw1ujuYO6EQNwM/a6ZN+xuLKNBk++
+	 WM4Kl8Y/otgYwAAylurSMvjrWo25xlSOmt1gBbhV+N1+XOECTjBe0Ef5zQkC+jgA4t
+	 EMXw0ntZ2bKg8UnHPTliTtsXbnN61Ub3BE6HvWN0Tz1tg8x2UyWk5BJwamOESJ/ZPw
+	 zqIteVY9ZVOiken/lifs8muEMhL1WJyZ3ePcaQWsMWjBjLfdWhDWRFG/gaRm10Et1N
+	 F9zQyMGF1fsuQ==
+Message-ID: <sashiko-outbox-179648@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/7] usb: dwc3: gadget: Issue no-op Start Transfer only
- for stream endpoints
+Subject: Re: [PATCH] usb: dwc3: trace: Restore request name assignment
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thinh Nguyen" <Thinh.Nguyen@synopsys.com>
 Cc: =?utf-8?b?bGludXgtdXNiQHZnZXIua2VybmVsLm9yZw==?= <linux-usb@vger.kernel.org>
-In-Reply-To: <227e97e30d26a017c92d7008a8633c01f955d088.1792542945.git.Thinh.Nguyen@synopsys.com>
-References: <cover.1792542945.git.Thinh.Nguyen@synopsys.com>
- <227e97e30d26a017c92d7008a8633c01f955d088.1792542945.git.Thinh.Nguyen@synopsys.com>
+In-Reply-To: <8bd045b136bfef8ce5de79f1fa2f09db639f0707.1792543567.git.Thinh.Nguyen@synopsys.com>
+References: <8bd045b136bfef8ce5de79f1fa2f09db639f0707.1792543567.git.Thinh.Nguyen@synopsys.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 00:48:04 +0000
+Date: Wed, 21 Oct 2026 00:49:25 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,26 +59,21 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The function driver may re-enable an endpoint before the End Transfer
-> command issued on ep disable completes. The no-op Start Transfer issued
-> on ep enable then fails with "No Resource".
+> The commit 0a06917432a7 ("usb: dwc3: Log dwc3 address in traces")
+> removed the __assign_str(name) call from dwc3_log_request. The name
+> field still exists in the trace event, but nothing fills it in, so the
+> endpoint name printed for these events is leftover garbage from the ring
+> buffer.
 >=20
-> Only stream endpoints need the no-op Start Transfer to initiate a
-> stream. Other bulk and interrupt endpoints start their transfer when a
-> request is queued. Skip it for those endpoints, and move it to a helper
-> to be reused.
+> Put the __assign_str() call back so the endpoint name is logged again.
 >=20
-> Fixes: a97ea994605e ("usb: dwc3: gadget: offset Start Transfer latency fo=
-r bulk EPs")
+> Fixes: 0a06917432a7 ("usb: dwc3: Log dwc3 address in traces")
 > Cc: stable@vger.kernel.org
-> Reported-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
-> Closes: https://lore.kernel.org/linux-usb/20260227121236.963-1-selvarasu.=
-g@samsung.com/
 > Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1792542945.gi=
-t.Thinh.Nguyen@synopsys.com?part=3D4
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/8bd045b136bfef8ce5d=
+e79f1fa2f09db639f0707.1792543567.git.Thinh.Nguyen@synopsys.com?part=3D1
 
