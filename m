@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792544749;
-	b=BaAQI9LqC28vCi+IHqks/gTCoxuILnG/W0xU2P2OPS1bZl7b4up2TDtxIgI2unNIuGQ0
-	 L2Flf0y+fB1ZOMiXXsxJsp8IhuB4s1q9h1nYLp3Dk/rq7y85eaL4eCbI7y/i0UfRbgyQs
-	 LQ3FDZ4EK9T3obfaOPzrptzfETskPE1yAz9miP9+oC3gRMg8hnv/Tjn/TmPmC5GaHsI5A
-	 fHm68aafEce6HFhOXojeFfWD5YEf9y2Oad3WgKiRg3JFT+TyDAJU+iN1gV49PLBPDwiNT
-	 ivkZEF2NShuyRCZjNdh7fJg6v3FO7B739jP8z/NrZtgbkUv158elUWn2f9ov3Tv1q7Q==
+	t=1792545185;
+	b=MlwTr9LCZS2MidZaX09ser1dESBomdZCjR986j34E8L1bcIkHKGxHt1AjgQpzIHpxfyU
+	 PS1W4o5pIAdP1bpF86N1EBnMnW/JYUoUpN1j1HoK8AEM3u+I+HwiYmkBALcbRsnv5tSRH
+	 iCDrncOSEWiN3zz5OeoWWcTVdhYb5ww93iVDaSjL9BZ1Hy6cqHTida0gbqbF9wMmSUfGk
+	 ScoLGJbMimFQUiqzLtb1Qij1Os6c4oY46KKA+KWV2SLWUc5B+ShfSZ/KdtL1dp7O5Yfrt
+	 Tg7o7LPEU2chod5Z3g3TcpPgC1JKGBY86EwmD+i7Y0GHM5qbeFt48mLQnWSD/c1SYOg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792544749;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792545185;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=WscpVR3z+qRf0LNYkBAdxpxDqTcLLq7IKGvaG6IvztE=;
-	b=XnFOHASY0NnxkC4vNfCBpMz+sjy83jhsHx1HjbTkSOWNh9ykQV5X9YI4K/awDtD4f/n7
-	 2WE2KRGmrKuenD5Pu8wKuS1syX4tSt4X6N2Vbpii+wz5omFjXIIN/XSF1vgObwnZpoZ5u
-	 n7VdG/OvkacTEL8RgGFtdfE1qQS4aDGbYzwEIC3rnXOgrzz0Q3F/sSYcDflJdgT6ApnUS
-	 sBBaXIq+q8RofbDP5HVTYb0g79xoTETlMXP3OSDsqY/vx3d2ijuotm0ysJmcW5H0Duxm+
-	 cJO5UtGH8ozWVWoY3UIK5pTIWZ6UyJeuvh9ftzIzpJbmhFafBmpfEctsytbYubnInqQ==
+	bh=igQ0CA+we1N/sd5mw/ydZoQhIlnnTmEDNNgvACWkOTc=;
+	b=VyS0Eq+rKrDZEs74SxKp5rtzhpqbKD6Ue1R87FbJCr+P0iX93VO5z0RlV20SxVwWvN8z
+	 NdpZT5QzLxUiMK47MeUJYucemL6gVecMwD8nzm/+V/CqhQLs4twfHDr3o4fIshBeRNJaH
+	 7ddSMJsDHo/iWau6WJqr5Gmt3CqbIIMIzpm4FCOVjLEMzL9EZCDUBz/+mO7URzUd7htwQ
+	 nWeQ3fbHmVz9PR9qfufN4Mc3KL7Gn0NRKe1gTGTBU7FdETmTyvx4kpUzxY6R0D908S7Hz
+	 hovY4gvoRH6cv6YdqJaXTL64dH3upkNmrAeu/WUc4IX6ce30PWjHzhUTmUr2YfkY1dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KcWCbCzw;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="YOfRd0/p";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266D5606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 01:05:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC105606A319
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 01:13:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KcWCbCzw
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFB4E1F000C9;
-	Wed, 21 Oct 2026 01:05:48 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YOfRd0/p
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 160591F000C9;
+	Wed, 21 Oct 2026 01:13:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792544748;
-	bh=WscpVR3z+qRf0LNYkBAdxpxDqTcLLq7IKGvaG6IvztE=;
+	s=k20260515; t=1792545184;
+	bh=igQ0CA+we1N/sd5mw/ydZoQhIlnnTmEDNNgvACWkOTc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=KcWCbCzwpfBb57yolhheXRnL6294NB/TBzGiXgQDhEzJzI67i8t+hW6Q3ofiOGIuu
-	 23O2BXDqI7P+y5JlmV/x7eJcK0cT1XEJ2g0lmcG0SFylYrM2nstOAJqpGZmBbbNLbc
-	 cLATcnA47KpU+QwVRrgPxevBAs/FbZEImbqPVuX1IhHsVNq0f4Rb71N+SjHho7W/8j
-	 ecvcR405D6eg+tSIgztuItZfLS5ThEJE1F3EqzAtRsPgehDPCMgNm5lKxarbX6dql+
-	 beqksDi4IZ427FJEW5rl3kGho05A7KcJnBreO+wivsYeYgKdFzZpa4TgCTHus2bBHV
-	 bImmq6zmPc/oQ==
-Message-ID: <sashiko-outbox-179659@kernel.org>
+	b=YOfRd0/pxmTlaJ1t3e7vFt2TxqcAcaNst2qAitef2E4mGYOYumrZlzI+LboUFuKBP
+	 GE+j/HTFhr+1cPabL25HnA1CezLzY0Cxm43TyuHPa5kwH5o4yrnJoOKNq6QlfDgwUm
+	 XNM9Y1MQGOJCUI55OWa3vB9Y57HttY7HBVHbF0PH0zMcGpz9tQXYyApHozt+yiEysy
+	 jIqXgBeCz6oRAf0vpuO8tO3sk5F9ty5GFtlD/wTdzYEPSDu/bvhN4taxC1NkKz0Eou
+	 VwI0nTYkp8semZpLSqkC3DIzdCWrpHsCzNKDHRv74RpXCxJbQcziNuZKIHsEGYTGod
+	 KQlL/jMxmd3tg==
+Message-ID: <sashiko-outbox-179665@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 7/7] usb: dwc3: gadget: Recover from End Transfer
- timeout
+Subject: Re: [PATCH 5/7] usb: dwc3: gadget: Wait for End Transfer completion
+ on ep disable
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thinh Nguyen" <Thinh.Nguyen@synopsys.com>
 Cc: =?utf-8?b?bGludXgtdXNiQHZnZXIua2VybmVsLm9yZw==?= <linux-usb@vger.kernel.org>
-In-Reply-To: <7523e9a11303a33acd0b92a092fb0e8218d509d2.1792542945.git.Thinh.Nguyen@synopsys.com>
+In-Reply-To: <24fa8adeb0222dab415c8c2799405188440bad4b.1792542945.git.Thinh.Nguyen@synopsys.com>
 References: <cover.1792542945.git.Thinh.Nguyen@synopsys.com>
- <7523e9a11303a33acd0b92a092fb0e8218d509d2.1792542945.git.Thinh.Nguyen@synopsys.com>
+ <24fa8adeb0222dab415c8c2799405188440bad4b.1792542945.git.Thinh.Nguyen@synopsys.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 01:05:48 +0000
+Date: Wed, 21 Oct 2026 01:13:03 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,244 +61,189 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 5 potential issue(=
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
 s) to consider:
-- [Critical] usb: dwc3: gadget: __dwc3_stop_active_transfer() re-arms work =
-on exit
-- [High] usb: dwc3: dwc3_err_recovery_work() skips reset on soft_disconnect=
-() timeout
-- [High] usb: dwc3: gadget: race between dwc3_err_recovery_work() and suspe=
-nd
-- [High] usb: dwc3: gadget: race between dwc3_err_recovery_work() and threa=
-ded IRQ
-- [Medium] usb: dwc3: gadget: __dwc3_gadget_start() clears DWC3_EP_ENABLED =
-on active eps
+- [High] usb: dwc3: gadget: missing DWC3_EP_FORCE_RESTART_STREAM on deferre=
+d noop start
+- [Medium] usb: dwc3: gadget: broken NoStream handling on deferred stream e=
+p enable
 --
 
-commit d30e9ae79405a29ae6e289723c7c0106f74fcf1a
+commit bcb5a08575e576634a58cb654feac5c3da3a21ed
 Author: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
-usb: dwc3: gadget: Recover from End Transfer timeout
+usb: dwc3: gadget: Wait for End Transfer completion on ep disable
 
-This commit schedules controller error recovery via
-dwc3_schedule_err_recovery() when an End Transfer command times out in
-__dwc3_stop_active_transfer().
+This commit issues the End Transfer command with an interrupt when disabling
+an endpoint and keeps DWC3_EP_END_TRANSFER_PENDING and
+DWC3_EP_TRANSFER_STARTED set until the command completes. It also defers the
+no-op Start Transfer for a re-enabled stream endpoint until the End Transfer
+command completion interrupt is processed.
 
 > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> index a8f12e583a0f4..a76f669a796c2 100644
+> index e68584f20fbde..e531adc02a401 100644
 > --- a/drivers/usb/dwc3/gadget.c
 > +++ b/drivers/usb/dwc3/gadget.c
-[ ... ]
-> @@ -1818,6 +1820,9 @@ static int __dwc3_stop_active_transfer(struct dwc3_=
-ep *dep, bool force, bool int
->  		dev_err_ratelimited(dep->dwc->dev,
->  				"end transfer failed: %d\n", ret);
-> =20
-> +	if (ret =3D=3D -ETIMEDOUT && dep->dwc->err_state =3D=3D DWC3_ERR_NONE)
-> +		dwc3_schedule_err_recovery(dep->dwc);
-> +
->  	dep->resource_index =3D 0;
-> =20
->  	if (!interrupt || (ret && ret !=3D -ETIMEDOUT))
-
-[Severity: Critical]
-Can __dwc3_stop_active_transfer() re-schedule dwc->err_recovery_work during
-teardown after cancel_work_sync() has already run in dwc3_gadget_exit()?
-
-In drivers/usb/dwc3/gadget.c, dwc3_gadget_exit() cancels err_recovery_work
-and destroys connect_mutex before tearing down the gadget and freeing
-endpoints:
-
-	cancel_work_sync(&dwc->err_recovery_work);
-	mutex_destroy(&dwc->connect_mutex);
-	dwc3_enable_susphy(dwc, true);
-	usb_del_gadget(dwc->gadget);
-	dwc3_gadget_free_endpoints(dwc);
-
-Between cancel_work_sync() and the completion of usb_del_gadget() and
-dwc3_gadget_free_endpoints(), __dwc3_stop_active_transfer() can still be
-called with interrupt set to true and time out in dwc3_send_gadget_ep_cmd():
-
-- usb_del_gadget() -> gadget_unbind_driver() invokes the gadget driver
-  unbind callback, which calls usb_ep_disable() -> dwc3_gadget_ep_disable()
-  -> __dwc3_gadget_ep_disable() -> dwc3_remove_requests() ->
-  dwc3_stop_active_transfer() -> __dwc3_stop_active_transfer().
-
-- Until usb_del_gadget() stops the gadget and frees dwc->irq_gadget,
-  dwc3_thread_interrupt() can still invoke __dwc3_stop_active_transfer().
-
-- Until dwc3_gadget_free_endpoints() cancels dep->nostream_work,
-  dwc3_nostream_work() can still call dwc3_stop_active_transfer() ->
-  __dwc3_stop_active_transfer().
-
-If dwc3_send_gadget_ep_cmd() times out on any of those paths while in the
-setup phase, wouldn't __dwc3_stop_active_transfer() re-queue
-dwc->err_recovery_work after cancel_work_sync(), causing
-dwc3_err_recovery_work() to lock the destroyed dwc->connect_mutex and access
-freed dwc->eps[], dwc->gadget, and struct dwc3?
+> @@ -1020,9 +1020,14 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep =
+*dep, unsigned int action)
+>  	 * Response Update Transfer command.
+>  	 */
+>  	if (dep->stream_capable) {
+> -		ret =3D dwc3_gadget_ep_start_noop_transfer(dep);
+> -		if (ret < 0)
+> -			return ret;
+> +		if (dep->flags & (DWC3_EP_END_TRANSFER_PENDING |
+> +				  DWC3_EP_DELAY_STOP)) {
+> +			dep->flags |=3D DWC3_EP_PENDING_NOOP_START;
+> +		} else {
+> +			ret =3D dwc3_gadget_ep_start_noop_transfer(dep);
+> +			if (ret < 0)
+> +				return ret;
+> +		}
+>  	}
 
 [Severity: High]
-When an End Transfer command times out in __dwc3_stop_active_transfer() and
-does not complete in hardware, will dwc3_err_recovery_work() actually reach
-the soft reset in dwc3_gadget_soft_connect()?
+Can deferring dwc3_gadget_ep_start_noop_transfer() here leave
+DWC3_EP_FORCE_RESTART_STREAM unset when a request is queued before the End
+Transfer command completes?
 
-In drivers/usb/dwc3/gadget.c, __dwc3_stop_active_transfer() schedules
-dwc3_err_recovery_work() and sets the end transfer pending flag while leavi=
-ng
-the transfer started flag set:
+In drivers/usb/dwc3/gadget.c, __dwc3_gadget_ep_disable() clears
+DWC3_EP_FORCE_RESTART_STREAM when masking dep->flags, while keeping
+DWC3_EP_END_TRANSFER_PENDING (or DWC3_EP_DELAY_STOP) and
+DWC3_EP_TRANSFER_STARTED set.
 
-	if (!interrupt || (ret && ret !=3D -ETIMEDOUT))
-		dep->flags &=3D ~DWC3_EP_TRANSFER_STARTED;
-	else
-		dep->flags |=3D DWC3_EP_END_TRANSFER_PENDING;
+When the function driver re-enables a stream-capable endpoint in
+__dwc3_gadget_ep_enable() before DWC3_DEPEVT_EPCMDCMPLT is processed,
+DWC3_EP_PENDING_NOOP_START is set instead of calling
+dwc3_gadget_ep_start_noop_transfer(). However,
+dwc3_gadget_ep_start_noop_transfer() is the only place that sets
+DWC3_EP_FORCE_RESTART_STREAM:
 
-When dwc3_err_recovery_work() runs, it calls dwc3_gadget_soft_disconnect()
-first and aborts recovery if that fails:
+	if (!dep->direction ||
+	    !(dwc->hwparams.hwparams9 & DWC3_GHWPARAMS9_DEV_TXF_FLUSH_BYPASS))
+		dep->flags |=3D DWC3_EP_FORCE_RESTART_STREAM;
 
-	ret =3D dwc3_gadget_soft_disconnect(dwc);
+If the function driver then queues a request via __dwc3_gadget_ep_queue()
+before the End Transfer command completes, __dwc3_gadget_ep_queue() sees
+DWC3_EP_END_TRANSFER_PENDING or DWC3_EP_DELAY_STOP and sets
+DWC3_EP_DELAY_START.
 
-	dwc3_disconnect_gadget_sleepable(dwc);
+When dwc3_gadget_endpoint_command_complete() later runs, it skips
+dwc3_gadget_ep_start_noop_transfer() because DWC3_EP_DELAY_START is set, and
+calls __dwc3_gadget_kick_transfer() directly. That leaves
+DWC3_EP_FORCE_RESTART_STREAM unset on the endpoint, so
+dwc3_gadget_endpoint_stream_event() will not schedule dep->nostream_work on
+subsequent DEPEVT_STREAM_NOSTREAM events:
 
-	if (ret)
-		goto err_unrecoverable;
-
-Inside dwc3_gadget_soft_disconnect() -> dwc3_stop_active_transfers() ->
-dwc3_remove_requests() -> dwc3_stop_active_transfer(), the endpoint is
-skipped because the end transfer pending flag is set:
-
-	if (!(dep->flags & DWC3_EP_TRANSFER_STARTED) ||
-	    (dep->flags & DWC3_EP_END_TRANSFER_PENDING))
-		return;
-
-Then dwc3_gadget_soft_disconnect() calls dwc3_gadget_run_stop(dwc, false) to
-clear run/stop and poll for the controller halt bit. Because the controller
-cannot halt while an active transfer's End Transfer command remains
-incomplete in hardware, dwc3_gadget_run_stop() times out as well.
-
-Unlike dwc3_gadget_suspend(), which calls dwc3_gadget_soft_connect() ->
-dwc3_core_soft_reset() when dwc3_gadget_soft_disconnect() fails:
-
-	ret =3D dwc3_gadget_soft_disconnect(dwc);
-	if (ret && dwc->softconnect) {
-		dwc3_gadget_soft_connect(dwc);
-		return -EAGAIN;
-	}
-
-doesn't dwc3_err_recovery_work() jump straight to err_unrecoverable without
-ever resetting the controller?
-
-[Severity: High]
-Could scheduling dwc->err_recovery_work from __dwc3_stop_active_transfer()
-race with system or runtime suspend and access registers after
-dwc3_core_exit() has disabled clocks and asserted reset?
-
-In drivers/usb/dwc3/core.c, dwc3_suspend_common() suspends the gadget and
-calls dwc3_core_exit():
-
-	case DWC3_GCTL_PRTCAP_DEVICE:
-		if (pm_runtime_suspended(dwc->dev))
-			break;
-		ret =3D dwc3_gadget_suspend(dwc);
-		if (ret)
-			return ret;
-		synchronize_irq(dwc->irq_gadget);
-		dwc3_core_exit(dwc);
+	case DEPEVT_STREAM_NOSTREAM:
+		dep->flags &=3D ~DWC3_EP_STREAM_PRIMED;
+		if (dep->flags & DWC3_EP_FORCE_RESTART_STREAM)
+			queue_delayed_work(system_percpu_wq, &dep->nostream_work,
+					   msecs_to_jiffies(100));
 		break;
 
-During dwc3_gadget_suspend() -> dwc3_gadget_soft_disconnect() ->
-dwc3_stop_active_transfers() -> dwc3_remove_requests() ->
-dwc3_stop_active_transfer() -> __dwc3_stop_active_transfer(), an End Transf=
-er
-timeout will now schedule dwc->err_recovery_work, while
-dwc3_stop_active_transfers() ignores the error. Similarly, during
-dwc3_gadget_disconnect_interrupt(), dwc->connected is set to false, endpoint
-disable in dwc3_disconnect_gadget() can time out in
-__dwc3_stop_active_transfer() and schedule dwc->err_recovery_work while
-releasing per-request runtime power management references, and
-pm_request_idle(dwc->dev) is called.
+In addition, if that queued request is dequeued from dep->pending_list via
+dwc3_gadget_ep_dequeue() before the End Transfer completes,
+DWC3_EP_DELAY_START remains set while dep->pending_list is empty, so both
+dwc3_gadget_ep_start_noop_transfer() and DWC3_DEPCMD_STARTTRANSFER in
+__dwc3_gadget_kick_transfer() will be skipped.
 
-Since dwc3_suspend_common() does not cancel dwc->err_recovery_work before
-dwc3_core_exit(), and dwc3_err_recovery_work() in drivers/usb/dwc3/gadget.c
-does not acquire a runtime power management reference before calling
-dwc3_gadget_soft_disconnect() and dwc3_gadget_soft_connect(), what prevents
-dwc3_err_recovery_work() from accessing controller registers while clocks a=
-re
-disabled and reset is asserted?
+[ ... ]
 
-[Severity: High]
-How is dwc3_err_recovery_work() synchronized against dwc3_thread_interrupt()
-when __dwc3_stop_active_transfer() schedules recovery from inside the
-threaded interrupt handler?
+> @@ -1089,7 +1099,7 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep =
+*dep)
+> =20
+>  	dep->flags &=3D ~DWC3_EP_ENABLED;
+> =20
+> -	dwc3_remove_requests(dwc, dep, -ESHUTDOWN);
+> +	dwc3_remove_requests(dwc, dep, -ESHUTDOWN, true);
+> =20
+>  	dep->stream_capable =3D false;
+>  	dep->type =3D 0;
+> @@ -1101,6 +1111,15 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep=
+ *dep)
+>  	 */
+>  	if (dep->flags & DWC3_EP_DELAY_STOP)
+>  		mask |=3D (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
+> +
+> +	/*
+> +	 * The End Transfer command is still in progress.  Do not clear the
+> +	 * flags, so that the ep is only rearmed once the command completes.
+> +	 */
+> +	if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
+> +		mask |=3D (DWC3_EP_END_TRANSFER_PENDING |
+> +			 DWC3_EP_TRANSFER_STARTED);
+> +
+>  	dep->flags &=3D mask;
+> =20
+>  	/* Clear out the ep descriptors for non-ep0 */
 
-Previously, dwc3_schedule_err_recovery() was only called from the hardirq
-handler dwc3_check_event_buf() when waking dwc3_thread_interrupt() was
-skipped. With this change, __dwc3_stop_active_transfer() can call
-dwc3_schedule_err_recovery() from inside dwc3_thread_interrupt() ->
-dwc3_process_event_buf(), both directly from endpoint event handlers and
-while dwc->lock is dropped for gadget callbacks such as dwc3_reset_gadget(),
-dwc3_disconnect_gadget(), or dwc3_ep0_delegate_req() -> usb_ep_disable().
+[ ... ]
 
-In drivers/usb/dwc3/gadget.c, dwc3_err_recovery_work() executes
-dwc3_gadget_soft_disconnect() and dwc3_disconnect_gadget_sleepable() before
-calling synchronize_irq(dwc->irq_gadget):
-
-	ret =3D dwc3_gadget_soft_disconnect(dwc);
-
-	dwc3_disconnect_gadget_sleepable(dwc);
-
-	if (ret)
-		goto err_unrecoverable;
-
-	if (dwc->softconnect) {
-		u32 count;
-		synchronize_irq(dwc->irq_gadget);
-
-When dwc3_thread_interrupt() drops dwc->lock (for example in
-dwc3_gadget_giveback() or during an in-flight gadget driver callback), can't
-dwc3_err_recovery_work() concurrently halt the controller in
-dwc3_gadget_soft_disconnect(), invoke the gadget disconnect callback in
-dwc3_disconnect_gadget_sleepable(), and then have dwc3_thread_interrupt()
-re-acquire dwc->lock and overwrite controller state (such as
-dwc3_gadget_reset_interrupt() setting dwc->connected =3D true after
-dwc3_reset_gadget())?
+> @@ -3901,7 +3920,16 @@ static void dwc3_gadget_endpoint_command_complete(=
+struct dwc3_ep *dep,
+>  			dwc3_ep0_send_delayed_status(dwc);
+>  	}
+> =20
+> +	if (dep->flags & DWC3_EP_PENDING_NOOP_START) {
+> +		dep->flags &=3D ~DWC3_EP_PENDING_NOOP_START;
+> +
+> +		if (!(dep->flags & DWC3_EP_DELAY_START) &&
+> +		    (dep->flags & DWC3_EP_ENABLED))
+> +			dwc3_gadget_ep_start_noop_transfer(dep);
+> +	}
+> +
+>  	if ((dep->flags & DWC3_EP_DELAY_START) &&
+> +	    (dep->flags & DWC3_EP_ENABLED) &&
+>  	    !usb_endpoint_xfer_isoc(dep->endpoint.desc))
+>  		__dwc3_gadget_kick_transfer(dep);
+> =20
 
 [Severity: Medium]
-When dwc3_err_recovery_work() or dwc3_gadget_suspend() calls
-dwc3_gadget_soft_connect() -> __dwc3_gadget_start() while non-control
-endpoints are still enabled in the gadget layer, doesn't clearing the endpo=
-int
-enabled flag in __dwc3_gadget_start() desynchronize dep->flags from
-dep->endpoint.enabled?
+What happens to NoStream handling in dwc3_gadget_endpoint_command_complete()
+when an endpoint is disabled, re-enabled as stream-capable, and has a reque=
+st
+queued before the End Transfer command from __dwc3_gadget_ep_disable()
+completes?
 
-In drivers/usb/dwc3/gadget.c, __dwc3_gadget_start() masks dep->flags on all
-non-control endpoints:
+In drivers/usb/dwc3/gadget.c, when __dwc3_gadget_ep_disable() calls
+dwc3_remove_requests(dwc, dep, -ESHUTDOWN, true), the End Transfer command =
+is
+issued for the prior transfer while DWC3_EP_END_TRANSFER_PENDING remains se=
+t.
+If __dwc3_gadget_ep_enable() re-enables the endpoint for streams before
+DWC3_DEPEVT_EPCMDCMPLT is processed, dwc3_gadget_set_ep_config() sets
+dep->stream_capable =3D true and __dwc3_gadget_ep_enable() sets
+DWC3_EP_PENDING_NOOP_START.
 
-	for (epnum =3D 2; epnum < dwc->num_eps; epnum++) {
-		dep =3D dwc->eps[epnum];
-		if (!dep)
-			continue;
+When the End Transfer from __dwc3_gadget_ep_disable() completes in
+dwc3_gadget_endpoint_command_complete(), dep->stream_capable is already tru=
+e,
+so it sets DWC3_EP_IGNORE_NEXT_NOSTREAM at the start of the handler:
 
-		dep->flags &=3D (DWC3_EP_TXFIFO_RESIZED |
-			       DWC3_EP_RESOURCE_ALLOCATED);
-	}
+	if (dep->stream_capable)
+		dep->flags |=3D DWC3_EP_IGNORE_NEXT_NOSTREAM;
 
-In dwc3_gadget_suspend(), dwc3_gadget_soft_connect() is called on
-soft-disconnect failure without calling dwc3_disconnect_gadget_sleepable(),
-and in dwc3_err_recovery_work(), dwc3_gadget_soft_connect() runs immediately
-after dwc3_disconnect_gadget_sleepable() even if a function driver defers
-usb_ep_disable() to a worker thread or userspace. When usb_ep_disable() is
-subsequently called while dep->endpoint.enabled is still true, won't
-dwc3_gadget_ep_disable() hit dev_WARN_ONCE() and return early without runni=
+If a request was queued in the meantime (setting DWC3_EP_DELAY_START),
+dwc3_gadget_endpoint_command_complete() skips
+dwc3_gadget_ep_start_noop_transfer() (leaving DWC3_EP_FORCE_RESTART_STREAM
+unset) and immediately starts the new stream transfer via
+__dwc3_gadget_kick_transfer() with DWC3_EP_IGNORE_NEXT_NOSTREAM set.
+
+Even if DWC3_EP_FORCE_RESTART_STREAM were set during
+__dwc3_gadget_ep_enable(), wouldn't setting DWC3_EP_IGNORE_NEXT_NOSTREAM ri=
+ght
+before __dwc3_gadget_kick_transfer() starts the new transfer (with no pendi=
 ng
-__dwc3_gadget_ep_disable():
+synthetic NoStream event from a no-op End Transfer) cause dwc3_nostream_wor=
+k()
+to ignore the first real host NoStream rejection?
 
-	if (dev_WARN_ONCE(dwc->dev, !(dep->flags & DWC3_EP_ENABLED),
-					"%s is already disabled\n",
-					dep->name))
-		return 0;
-
-leaving endpoint state such as dep->endpoint.desc uncleaned?
+	if ((dep->flags & DWC3_EP_IGNORE_NEXT_NOSTREAM) ||
+	    (!DWC3_MST_CAPABLE(&dwc->hwparams) &&
+	     !(dep->flags & DWC3_EP_WAIT_TRANSFER_COMPLETE)))
+		goto out;
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1792542945.gi=
-t.Thinh.Nguyen@synopsys.com?part=3D7
+t.Thinh.Nguyen@synopsys.com?part=3D5
