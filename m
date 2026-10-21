@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=148.163.158.9
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1792543090;
-	b=MNL3c+DA6nWW+C9fiTN5+ybNje2qqsNOy4+7JO9JhDV16nO+FRqhRDTsPwIcqHYecy4y
-	 GzhA8Q8DVRQPkXTQaobzWmDxemtL0IAWTDBRDTNI8ydJixEZ0pVR8H6XBu+YGk2wQakBq
-	 YTB5mKX1PIIiLVmCv6/vACHp95f0GYVSVPsTTMG2aGdp6onQBn5/z9gVI+AlThIOqSZNq
-	 2rUwewN5jcSbJ06tdplIvLE34chFqRycffNtJhr/7AklDA7iG5WsoLW1TemvShrUKLCkZ
-	 i7Te+Xhds5fVVutKa8oJSerfTYikv+wJPqyJIX9vhmzM2wEw8Cq6JG02uLLH6p7B2Hw==
+	t=1792543102;
+	b=QTyRoVcamh8P/h6NQhAefQ6YFBMtc31NyHgCMRrn/9bcUatqLuWtYMgdv2ZtNILrOOjF
+	 QL/EazkbosJouDlQo1U2bdzwcOFvQFZSwbMQ9L3RqM52ILvWeVO2cDWPnEYvPUaf2T2Zb
+	 aOiOxzP0tPYSdlF+orpjoJwezNMOq/EzschnZ57L7mdHLO5A0XrNGj6w435OWtz0liznN
+	 dMaNV29GdPlEkiteYXGbisroIUpFlhR2Tf6PeDxblU2XW71LojvrIrmYP2aBi6B+8Mp7f
+	 y1Z5FO+uYE0dvvS9J3ydBpxKTiWgCCh+b6Ze6RJvvhgZyTnBq9VtVAbQhrPhn85Bw3g==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792543090;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792543102;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
 	 Received:Received:Received:DKIM-Signature:Received:Received:
 	 X-SNPS-Relay:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
@@ -29,127 +29,128 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-fromentityheader:
 	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
 	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Authority-Analysis:X-Proofpoint-Spam-Info:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
+	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
+	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=wyUkx3vglyDjC8mPzqi3m2kExG30g9w13h49l6s+kmg=;
-	b=B3KyjGsT5jRUWCYlcMvpp0Mmp7rSMDuzsDgSwh4FT8S0ngs+8qHAaKYRIp8K3BcCmVwN
-	 uvfBBCYtrYgir2jApSKbdQ8uC4oty/+oVN5jotFC5YiHfxlaoPzE9pt2h1DimogCYfBnN
-	 V/ZIyFUHAkGy1Byo6sHjEgUgtivQbETAtpPiC5pVQk+GgLiLCAiIJ6RZUJ3we1DhxklS7
-	 eD8mmaQYCZ88rZXbp95zNckCr6EvdjgYJhRfCTWipwOAq5UekNDiWS5uNMQiiUbgswHG4
-	 s8V4+ThXjiYmVJysE1Dqritag+7zhAbe91qxp7m86FLgktzvbU52gfgkfnGVJf3qz6A==
+	bh=8CHTs0ltwkYzzB+G3dDQGSg5vdbDyqH+No9ldjXB0nU=;
+	b=GItCjAdxHDc+NEy2ec5AfJ/+Oex5tt6zoVOAMBoCXJq7TJOdRSF7wSdVVIDe7caw7tjN
+	 h1RfAjDiba8PCtxn83eYOH1CNtO0rprgVPx7ON/DulU7JK/Ep7TEHnR+QY9N2OdfBf7wz
+	 wxKYGO8dnQkoZWrPT4x1a+XE/zcD7z6og8q9Zwv6BgiRASu+cQ6wgFMalhOdm1QZxhPrW
+	 Y0apupskvYwSzPfNGD6diqPFbaEbacYFVfR8nrKhmGGRTOhWYHFPOw7DMoivYuCOCq1Hf
+	 EpK/79jHxAhrCBna6LJnp60Q+nPqcRL8yffRTTDCJR1spLVBYlTm346a8IsTDeKgz1w==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=synopsys.com;
 	spf=pass smtp.mailfrom=synopsys.com;
-	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=ih5dOm9P;
-	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=Z1nfjDwC;
-	dkim=fail reason="signature verification failed" header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=RTUxl8hL;
+	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=CTmQeuzn;
+	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=HbgLcV0L;
+	dkim=fail reason="signature verification failed" header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=nL70I12U;
 	arc=fail smtp.remote-ip=148.163.158.9
 Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06C4E606A31A;
-	Wed, 21 Oct 2026 00:38:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 06C4E606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31BB606A328;
+	Wed, 21 Oct 2026 00:38:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E31BB606A328
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=ih5dOm9P;
-	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=Z1nfjDwC;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=RTUxl8hL
-Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
-	by mx0b-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69KLI7hw3719268;
-	Tue, 20 Oct 2026 17:37:58 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=CTmQeuzn;
+	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=HbgLcV0L;
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=nL70I12U
+Received: from pps.filterd (m0297265.ppops.net [127.0.0.1])
+	by mx0a-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69KKvpVe2052411;
+	Tue, 20 Oct 2026 17:38:03 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=pfptdkimsnps;
-	 bh=wyUkx3vglyDjC8mPzqi3m2kExG30g9w13h49l6s+kmg=; b=ih5dOm9PlqZv
-	sp6qApybF5sQCO8aaynA1KM1swVN3+H7+Vg4AELz7lhfA6TNWDEpSdc3kePNUMN7
-	euMfyOKIAz/iftdJV1YRmSRbYgRPiGHguSS6gTGddtIk6AqaLz39y1IzZElYp33/
-	IPmR8qXXjs3yzU60gpjMFKBpiCLwTTMa5OsY+ecmPs8Kn6x4wWIhgXkUHkd7C0fq
-	6jttv12OFAfC/11K6RNMOCIpn0bJz/FrqcXLqSb8XLoMwIW1C+7jCmDfI4ih1Q8e
-	VZTUvVv62oh+ovqdAnoVl1+rD1W2HLfQYAk+Bv/uyTb8sLoJOa1z6zy05NwKjQds
-	bmOJ+TYvcw==
+	 bh=8CHTs0ltwkYzzB+G3dDQGSg5vdbDyqH+No9ldjXB0nU=; b=CTmQeuzn8vuk
+	Fe5GEXbnD/90haD+D7FNmVtvA/d39hA0bo4dRn5sujuhLgYOJCBe5DQZDDsaRdED
+	+yEvEhChQqH+Cpje35IEkSFD6vK/z50xIl3d8O0XmerDWmeYNLYjh1T9fEj+RGl8
+	gm5OaVpgDrVBj779kwcnbL7pYbmuf/WUiAvNIIVh35QCbVDwUON4g8mcm1N2XuOl
+	GkJv/AcB91Phgrxt/EGbzbPjbObNgb6S2A5/eGQ7ZaODxcrfLWS9mT7q43nFQkdd
+	5wwZ4pchlrwfuPEBdy6cwA3qQir5fjtLYqt0yUKhELlO7kbjKxz35diJ4fEvWJqH
+	4ONOfxHfDg==
 Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.87.133])
-	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 4hdw70g81f-1
+	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 4hdw6v8evq-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 20 Oct 2026 17:37:57 -0700 (PDT)
+	Tue, 20 Oct 2026 17:38:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1792543077; bh=OcNP3PwkdjeVVojuD9hs3dKJqMCqnXxk5lldWPCaSLk=;
+	t=1792543082; bh=v3+xpDaOsy1xcc5cGoFeSkYhTBI+GTNeA4McDOaEdSo=;
 	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=Z1nfjDwCKAleFYanznlr6gSHgZ/7koc5US7ttQed2oiNpaH3PoGCN1+CPxiCwMEE0
-	 +s90X/SotSpMHXVZpxQkjw4KBysfmInZ3NWjS6+GQzbekNc4/Ti9ZAnBpMsujfm3cr
-	 5IiXp0iF9uzOS3IBiEC2H9xKRUndoDD9KEKHeGZM1mwKR7FGE0O5dWA/Unegnjesr4
-	 JXSGRE/PK38dmsaeHshWGsNPS2k2SliFzEL93+C6BJx/aesakiPHyqMVpFNH2uTWfz
-	 FeIZIYwmAgGnAqAEcol+ssu0WY3KJpIF4LYKxSwRD+iRjccOOxC/mJLVcWWPZJ7dw6
-	 w6XFY6EamCquA==
-Received: from mailhost.synopsys.com (badc-mailhost3.synopsys.com [10.192.0.81])
+	b=HbgLcV0L/f8/g1ebAdao4TYwCh2aoy8Otf3rT/o3iC8ySWADmBCPa7DGIzhRTDa00
+	 PvO2jsrLM0Jum+mmytdkqazgiJ/E1TOWfdB497TYpE2ka6yxq9m2ri4DqB/7Xj9Iod
+	 Amlw1x+ZUvyjf2g827lUxi6b+DLQ665Uui06lnwrAiECUJPmRDp4HwrYL4eDqHj5jY
+	 +KvZ6kln/wEVEWHO+W7zDeRwSOc5ux2R28zReDPjrB6wgsQZISCDGQts8xGsGv6byO
+	 ifhUrNLnPA6idAQQyzSxoG+BXm8GqfYTSSlIP8eHs8cbMsfm0nAJF2cn0udEtNCTI3
+	 o6e98ifQibUxw==
+Received: from mailhost.synopsys.com (sv1-mailhost2.synopsys.com [10.205.2.132])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
 	 client-signature RSA-PSS (2048 bits))
 	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id F2E15405E2;
-	Wed, 21 Oct 2026 00:37:56 +0000 (UTC)
-Received: from o365relay-in.synopsys.com (sv2-o365relay7.synopsys.com [10.202.1.143])
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id EBB4D405E2;
+	Wed, 21 Oct 2026 00:38:01 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com [10.4.161.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
 	 client-signature RSA-PSS (2048 bits))
 	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id AD3A5A0091;
-	Wed, 21 Oct 2026 00:37:56 +0000 (UTC)
+	by mailhost.synopsys.com (Postfix) with ESMTPS id 9DDF2A009E;
+	Wed, 21 Oct 2026 00:38:01 +0000 (UTC)
 Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
 Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=RTUxl8hL;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=nL70I12U;
 	dkim-atps=neutral
-Received: from BN1PR07CU003.outbound.protection.outlook.com (mail-bn1pr07cu00307.outbound.protection.outlook.com [40.93.12.7])
+Received: from SN1PR07CU001.outbound.protection.outlook.com (mail-sn1pr07cu00101.outbound.protection.outlook.com [40.93.14.97])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits)
-	 client-signature RSA-PSS (2048 bits))
+	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
 	(Client CN "mail.protection.outlook.com", Issuer "DigiCert SHA2 Secure Server CA" (not verified))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 7F89C2202F1;
-	Wed, 21 Oct 2026 00:37:56 +0000 (UTC)
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id 8881C40E01;
+	Wed, 21 Oct 2026 00:38:00 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cp3wFAPBryumOu48PC3+r6TJ/yBCBn6ObyAl4NEHncDfd8fZSNA8uj3Ob4+kwR68RYhHaOJ785MsC5YA0EBKnTFYumEfC8xuY7weci7uwFHMktuI/5cC91O2Ob46wW/WiLo5WQcfvlLY1jFHS0RF4sJvVCs0sl0BWua4IEFd2HuFl+EoHTyRyXmKY1ceXM/jh6thImrXn83RCuVdcOWFnzzeJHl5ItfB4szxlGjpRBhWgtR4FGA6BlN5eaNUCo4xFdzsMGQ0dtIPdzGjAaYH8N9bAfP+DosNIjbBiKFaUFIJyV8olKO/77s3oFT+baKM3Sk7LMjuG9oL9MoyxnSlBw==
+ b=NjAIHghf+TQjpgx4LYXP7vxc0Tf03A1s0Jhz1ACmKpGRB+63SU9xTa908m1WzYuhVzt/h7TkIi460WxpU8/KyW0FJMpnkAq4+QkDJiE2lRZ7C6h9h1uKfPaugGHzwP8qfdO62/b9b4iP3H3fvogHccTP0Ac6Q4Q5lHxAqZrN7Hszu2pFtOLlHKfu49BNXjsHZ8QLTfevaLZWBh/1uJNDbZ5XiqRFhM0+km3Luug29B5lwJzCo4WMqk7/kTMjzxM8XxXNMod5Cj29IGRAR7QBWuIbXjgG3EjORt+H8JBTT025C/mQyWqC/WO7HZypmwaf8ul144LLIsWLMnKdezBcFA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wyUkx3vglyDjC8mPzqi3m2kExG30g9w13h49l6s+kmg=;
- b=FvA0HX5eYPTbLXhZpDSCQZwA04WlM8T34arjAT8Jw4GMiAuAPuTp6osyEqFIh35IceEhPBtGFms1vHJPWivf6MfjfH+ehNX/WgwD8nNrH4y9Fl/uv4eGpiCLmo3Uyo+914RXaUi3aJklYJ7XGjGBEba+bdYN64szYDFmwMS64nI/MpPG/gvT6Y+zti9eeH/PswBiJAck2EIM3LaTbsP6pua70I/aqsUZ60sTrR+c1LBDqj8NLn2fdzbs+pQ2jOOc9KiaqtYT4FUAbTeT6NVQwLRmz82bcjfdcUT+I7an/wCCZivwrefJTqDKMElI+4Dyux0R7vDqdPljE0Yau34nfA==
+ bh=8CHTs0ltwkYzzB+G3dDQGSg5vdbDyqH+No9ldjXB0nU=;
+ b=I7iFfHrp0XcXq/D2O0R8XvhsPVjK5iDdVo7Hre2QrdqURB2jwIA1Vq0mUDVnVFihiLF+NMAifFBMuQE1ulBgJueJlE5dQCwe1UqN9+WZXFRoLJkqYdqcZSgDea0FCB/jMRN9ObiR5vk/exaBPTDcJ402/sUdLtSLlQOITLZTeQLq1+yHox+WvOvJ7xkWCWCmV9wykJU+laoOlw/Bk9SzSExRqVso8/h5/qRYmdLnqxB/W0zbPoiXrfaRURiJcmEFaqIdaGuPcIhIxUZDSv4pLiBCy1JZii0QIJtx9ZCtMK19UqpmAfYfPIyRmjb2UnaJ+RifGHFiawZUx3APRR3Hig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
  dkim=pass header.d=synopsys.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wyUkx3vglyDjC8mPzqi3m2kExG30g9w13h49l6s+kmg=;
- b=RTUxl8hLjBu2ZuOQBZfgnBkAbma1om+PwDrsKt27RVn0ArsQ3iLovB4Vxk6k8dvpJfZLk2xeZlMTMMiOiGlNLB8iyyb8sJqoAKdr+riSE9hYvgqHueNt+QUvfSVbzeSWEpz+vcgcP/g3Jd4747gwswlhkA5mHaK8F2Fv4jdWfvM=
+ bh=8CHTs0ltwkYzzB+G3dDQGSg5vdbDyqH+No9ldjXB0nU=;
+ b=nL70I12U8zt4Or9GvzkniK5jKrhQGRQNj5BsRL+DzBNp/dJWhk624MUpGsGgl8ijqCVox135aQXEB/rYdBpt/Ipb+ogzVKOwyPsahrR3k1tfXXXhKHk8mR491FfkNhbbVa4Rt6149ebW+cNuN6qky9OGmlCxJ+kkjnD8vIhK3FA=
 Received: from PH0PR12MB7486.namprd12.prod.outlook.com (2603:10b6:510:1e9::6)
  by CY8PR12MB7433.namprd12.prod.outlook.com (2603:10b6:930:53::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Wed, 21 Oct
- 2026 00:37:51 +0000
+ 2026 00:37:56 +0000
 Received: from PH0PR12MB7486.namprd12.prod.outlook.com
  ([fe80::7df9:b25e:9216:f109]) by PH0PR12MB7486.namprd12.prod.outlook.com
  ([fe80::7df9:b25e:9216:f109%5]) with mapi id 15.21.0522.017; Wed, 21 Oct 2026
- 00:37:51 +0000
+ 00:37:56 +0000
 X-SNPS-Relay: synopsys.com
 From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Michael Grzeschik <mgr@kernel.org>
 CC: Tejas Narendra Joglekar <Tejas.Joglekar@synopsys.com>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>,
+        Michael Grzeschik <m.grzeschik@pengutronix.de>,
         Selvarasu Ganesan <selvarasu.g@samsung.com>
-Subject: [PATCH 1/7] usb: dwc3: gadget: Reject requests to a disabled endpoint
-Thread-Topic: [PATCH 1/7] usb: dwc3: gadget: Reject requests to a disabled
- endpoint
-Thread-Index: AQHdYPRnea6aPGw0JkOCCoT//EUA9w==
-Date: Wed, 21 Oct 2026 00:37:51 +0000
+Subject: [PATCH 2/7] usb: dwc3: gadget: Track a timed out End Transfer
+Thread-Topic: [PATCH 2/7] usb: dwc3: gadget: Track a timed out End Transfer
+Thread-Index: AQHdYPRqi06ezYURC0a11ThkuaHWNQ==
+Date: Wed, 21 Oct 2026 00:37:56 +0000
 Message-ID:
- <4ceab6aa5d6af0e4780f9d3a964fd5d8168a0a02.1792542945.git.Thinh.Nguyen@synopsys.com>
+ <5815c41a7e7923edb114741f29697cf0161f523c.1792542945.git.Thinh.Nguyen@synopsys.com>
 References: <cover.1792542945.git.Thinh.Nguyen@synopsys.com>
 In-Reply-To: <cover.1792542945.git.Thinh.Nguyen@synopsys.com>
 Accept-Language: en-US
@@ -160,48 +161,48 @@ authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=synopsys.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PH0PR12MB7486:EE_|CY8PR12MB7433:EE_
-x-ms-office365-filtering-correlation-id: 6023d6c1-87f6-4cea-45b8-08df2f0b89b8
+x-ms-office365-filtering-correlation-id: 473923cb-aafb-4606-5e1b-08df2f0b8d0c
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|10067099003|22082099003|18002099003|5023799004|11063799006|261009223027099003|38070700021|56012099006;
+ BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|10067099003|22082099003|18002099003|11063799006|261009223027099003|38070700021|56012099006;
 x-microsoft-antispam-message-info:
- 9kMXDTk1eODn+L1QYIIhteS+A9PNiyDbhoSpg9ojVF0B6lYy/C8ZT8PS2t0BLnZItfgaEqqvxKQEpWYqOMfCkgTvCQe2qAdv922VsRkx8XopP/GWgCLtTELdMLoe0UBX+/jb7QP3vfaTdpzdl7/OmdzBnbsQPPX60mD9GF34bGLJfHBRboumrD3pliOrciu7T6SSQEown9r2JeQlVgCaOw62mJXNUVaagoskMKahpbJmjTBCtotvdHdxTKgptqeT9MRr1MVe39QTVhwyMLRxBIK135+lu86aHXI2ltWeI0IDXT5HSZ5s2UEvWiTWh9SDxq8mVVjwJLkT8kT3JI2ygMVFLqlkCND9RZIl2yiDditOGCrGjjrrhpyKRgfLOuOlsPy7/Hl393j4pd6nIb5AlAqM745PdFZPPydM/DcfvbgFKeW9na4HxoEVraDCZi4xkDGss1NQVgfpy6cNF1b3qr9D9Q80yUp6ph6y0hLvrtQ/jMT7uUr+3XfEqjdKJ4ieybXQLWNBtdBeMQFkMRrWl2d9tIKfrR0W55i8P+HXkPqWDD+oqGtbvZ4Wl5f5JugjU3sqGuSKcty6WySdy9xPsfDRxYEwOCIzgSQZljrFOQlHxDVygBJW3xkOHAK3SyDBIqHyC3wXvT7qxZoVAIIPNwLNbX+bG6GEcWPKkAjZbWDKDdLXlC5xqmBwIH/MUArYcuVSe2oxYG/G7J2sp6xrPfO7FGk1Jm3OO+PXDZs+dPU=
+ t4TSEDGqAf0uWcNu1Sqp1HrdfRtYO6RNtYaAi6XoO0xgbsqPD9iAZxocufmhei8y19zTreabPhvA7wMowXF6r7mulWPO88bn2j4uEhd4CFRWg9NBSy+uxU/SVCDZYkeSEXIrDRsrKOym0Bd+yHBGPG2dKcTuAW88NN63iEwXCsYaSzFzQDTaZ4Kta9O3JlRiOgCzA+78Zz2iERfhWiEZM2A8QQ4lZyMbEVc+D7BIBpkoCD85NsgAJF1QnAxPtwhFRBEI4hwW0c3x4GWzIxfnJOGHP9trHOykVTc0pL7vxRcyRzMSUN20gWvtLMfo+lJlpje4/J/d8pZkSBMkgvhtCJLkkDp31rrRquoPBN8URXjk+msIGaGnmlCMPzWOYPoAy8rGWWyaie2rBaz+txSihaxEwjlHWc/yv1P4pvWFf1vdUmTZIXwgeBAD6a9bgUWSLQ3faoz4aHsWpP3vuV8/NjfJkeaiUkPD0MyBAs3bc+6gdnRcj4CNHMZyFfndBfgrZMO6DKkQ0sWuECMVRpbCa3u2NGV5hEKJilJmk1JgKLlxnCbyCjcl5DjEiBRKO4sovKC4sggXLzDl6W4XZrjD8ZAmqtla+vtKQXmvXgWtBfJKYaFsOfF1Ob0mlusxLMaquxDuNdA93Lelt+jaBphRA3yfS3YJExny5+yxQhRpU2A=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(10067099003)(22082099003)(18002099003)(5023799004)(11063799006)(261009223027099003)(38070700021)(56012099006);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(10067099003)(22082099003)(18002099003)(11063799006)(261009223027099003)(38070700021)(56012099006);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?CPKD2oxiY5F5VQs4uY1xx2G9dQ33TLiQroLqmQjU0C7/JMh44y2LQtz5TL?=
- =?iso-8859-1?Q?iGYlZshC6/fcIQ9Wuy7EmU/5EYEMyPJavPe9XrNGJBhgdmN1VEN89QOe98?=
- =?iso-8859-1?Q?vWjefS3pK+kGfFB8S0b1Iqv0y0Zgf8/6+Qa4znpSl73kC5vHcK3kXiv38o?=
- =?iso-8859-1?Q?NalER7ZN5EcK2P2Ep/G1J7nnoE4S1faoXbtbNEPk12K/IcpTh0WspBn7wP?=
- =?iso-8859-1?Q?2t2iFq8XdUa0ruFoPnmyXISJeQiHr8QOf/u2aswv9OuCu2F0T3BFZvUs3j?=
- =?iso-8859-1?Q?IMr3PYAOzX1osFm+OE/RqebA3MMWuRWCT1lRyd2ycT2Q0C/NAf9HTocMBv?=
- =?iso-8859-1?Q?vIiW0UT3gBUwHgFf5+b4s/exsbGAZtYD9n2kJWevjP0PJ+i+6Y4HdY1RLz?=
- =?iso-8859-1?Q?/zFCHTmkLpnIz4oyMj/4+exFdCBOJIpqJnSGJz2XdcBGjzbsfCoSEVM96k?=
- =?iso-8859-1?Q?qJ76Fp6GLX0L0FXh5WdoyrFND5yJlANWGHF4lArWlDaCBXR0buUa5s/aDn?=
- =?iso-8859-1?Q?DfrXg0I0OH9FUj/LP+W7uJ+8vZwJWJEaSfnFZulukk1NhfU2Lp1aw7FtIz?=
- =?iso-8859-1?Q?P6nascR9mjFXflB769aIin8Pt2ZEvh51Pqjt+aAkE/mhNWDQsSzbn3tknv?=
- =?iso-8859-1?Q?je2vLYTAJjjxsaO9TikkFYiezj4g+ym2Iupf/TQYRUWO0fP9zSg9+XHIlk?=
- =?iso-8859-1?Q?wzXnQhNmypBB4LsjkVcN3YnfJ/UGUCH6UzZBvmqZ00c6jueRLlOi8diwss?=
- =?iso-8859-1?Q?dwBuSANrpCF3+8TzEU2M9IeUVYQugEOGjzaFTcE2+kA/YhSiBDrlde6D4A?=
- =?iso-8859-1?Q?Wuzi/yQ6CLJm2/suo9+BWYdXVEKX+pz9OG8vM7UXCgLUJw3y71Z8rnksXi?=
- =?iso-8859-1?Q?2y9675yKH9gMjzv/NETJ3QBl0Jp3Z/oqk1XOgb9LG0t4kXjfslljFYeL0v?=
- =?iso-8859-1?Q?fqQTAI8Vhy/bn3MnyVavhy+2Lck4zOCPI5dwabrLtTLEtZNRDIXIInoAFS?=
- =?iso-8859-1?Q?qP0uJeA9H5picDWfWDpF/OiARCuuxcoTL5ZSaekKduy1AEXgxHp8nJxsBA?=
- =?iso-8859-1?Q?Avw9fvCXGF2HgzSrPySzijRjCsDkngrArh344JrAF6apaonMpXyuog/izX?=
- =?iso-8859-1?Q?HgMjb1suOMip1IgzM20qdoDLnJkk3PZ9EihIjfIQZLbEznSuOw67VKqh23?=
- =?iso-8859-1?Q?aGVpvEJNUgSCq57HduP3uLQQbR1Bz5/06AY2IKHZb+G+qjrlt9ANHqeJHj?=
- =?iso-8859-1?Q?3eEWXcyNGZaHLAWiYpOrMXDgnuAbW4AJKm4/KjFeBsLEJk/sopuNuBub/s?=
- =?iso-8859-1?Q?FtMuLHmWVO3hUmI3UQbL8ezEQfS2hi/QJn0mpeS1xke5irOks2ByyFE5tf?=
- =?iso-8859-1?Q?bLVsA5zd77A7xpqzB37RWkpL0FXGqavmYxwAkAMnWrBl3ipM0ZK8qt0KP/?=
- =?iso-8859-1?Q?YIVBH59tQ1enZlNRDNpnWNgvrd4vku+8BLs6nWrUZAzFi0asEhaFdAhMLS?=
- =?iso-8859-1?Q?bfwqBq0u3QNW8zgLrig0NjnDSzwRSxTVGD/ArnyIR9lyQJXIURleAMXGLR?=
- =?iso-8859-1?Q?/oX56wJiDueIqEYXRnFeKa7d9lb/eRSifi+PKO2r2Lh6b7y+3IZ9/pUPa3?=
- =?iso-8859-1?Q?KopBR/ab+a+oNaojtDauC9f5AUzpZ5PkKL7Pv/N+GFfXYtshPeIijZcytJ?=
- =?iso-8859-1?Q?Q+kkFLYpEN7IWAAYOtNCScQxjamJ3V2h8KmhF8IC24pw0XzoH+ELwcss19?=
- =?iso-8859-1?Q?yp+G0CtHTrQ88sxFG6ANC2N1SYtiJHx3KiXL1ElVCwSRbiYTv2Bxfhu90r?=
- =?iso-8859-1?Q?mBJBoh4LuA=3D=3D?=
+ =?iso-8859-1?Q?KHn5o7fZbnwKspJ47TdRVcaHDjBpzsjN98bNksu7HPlU7poZdzdJp6/0hG?=
+ =?iso-8859-1?Q?Dw4lF21fxPjkhRkvX7swpkGL4wqm9YS1FRPzDGHbT+ha2AzJ+MMy4BUp1Q?=
+ =?iso-8859-1?Q?PC0NtKKZUVaouLw4fBm6XUU9XQ5yeDUMA42yj9QbPIhtx7q4shF8nml+MY?=
+ =?iso-8859-1?Q?wGZDP04+3HOF84P7MVsFysHAnbMfaHoH8FirsnGznRzFR/nmJZlFUYB7Sq?=
+ =?iso-8859-1?Q?K/9ERlEinsyhKA6Q5LVWpeiaW42xRo2ZUqgQq4JDwEmdIJDm6FgY/LPjlm?=
+ =?iso-8859-1?Q?/sXnWnZXv6ayQimQWUESsjzyxxfRH7RfaxleGGMKeL7+38QX7H1KF4yKr5?=
+ =?iso-8859-1?Q?dDRsOjaylvULn2Bk7EZ9PwS2beehiub+k/HDtpl8gaX/NRQXcPwBUvzCuv?=
+ =?iso-8859-1?Q?fURpCXm0q3jp2PksIocPqYZBQlgVWHGR/Ffbue8l/eISdDu5yI7ZlQP59p?=
+ =?iso-8859-1?Q?rvLSsBNJehRjnSHF9q/1WBeHiRYsq4wbW22qSnbzf+tIW8Z+xpgqVJdQil?=
+ =?iso-8859-1?Q?TfrxinX8HGZAoFGHrZf7aWg8CslBoZDmNo7sbdGJ+sIp0FZdJJLpPAZHuV?=
+ =?iso-8859-1?Q?kuv/ujBnXiqVF0Hfvat3xgtAjsK8enrA+OAciYG3XnGRRsoCcMzdrDuyTw?=
+ =?iso-8859-1?Q?YxOk7swK+NrZDX5u67qSDCAvfF5UnB1jleYJR6MFq+xuCUBNGpduuJ5fwy?=
+ =?iso-8859-1?Q?yQEuq3gifa8zVLmvDG5gup7PBOgvcJG9QgiMKCacfWNn5cz1ijLbRgdkDA?=
+ =?iso-8859-1?Q?KrCt7e1FPADrw/MolTyG65d4tVBmYkZ06Dhoamv9bhWe+UwmPWCspdPvbv?=
+ =?iso-8859-1?Q?QQ7hOZpIZ9v74Gypr9HOenwlPNQ+kp+TyuMbfJi4vrN1cfyUbce0R0gp9E?=
+ =?iso-8859-1?Q?HaHSf6qbR3r5e6zA1utahe/4LARYrg+qIf5LdKi/qIza/x89/9/CCaXaDq?=
+ =?iso-8859-1?Q?TENnwkBMTdVwKZGaX863+D6Fm/ICTUn0mh7c+KPJBSGuWIHy0Yka1xNhq5?=
+ =?iso-8859-1?Q?PV6MsYIsrl2R92XDb2MCf7AaPJaaqB7GU2zH6CkXmZ35fsQ/7TTe04zJDc?=
+ =?iso-8859-1?Q?QPtZz5rcpMFvTOdws+x7gyNrF90eHJPTQGyIGpAZuMC1pbUrlxsSmWJodb?=
+ =?iso-8859-1?Q?h/F2OC243Q5bvbWMDn52QVOmb9gINghksYTbDME0am1LU9kBIGqlPOJgES?=
+ =?iso-8859-1?Q?Az42+G7LOQG+6tYve8KpzklY4ZOC2KehLqMbHyum0/4V3eL/71itxR9VVk?=
+ =?iso-8859-1?Q?W6RS15ohrkezMadjIl0b8k20tJGUV/LCAy/q+FXyKoau/XXwDA/FoaIPGv?=
+ =?iso-8859-1?Q?JZw6EWHw6XMQZEPIN+RtDZnnI8pp6Ttc17Vz/RAE5pKBvz99LCJmKMKjc2?=
+ =?iso-8859-1?Q?bq2EEB4H/eDc6ieLMiYpRbAiAxE980wJ3uy9wUAb0rEdWvIMCslEXtHZeO?=
+ =?iso-8859-1?Q?lpNFk6DO9zbAA7Wh5BgHUcVgyJEQa35fWEfQMXqh/Ekq0JAI0X4ixYnKB8?=
+ =?iso-8859-1?Q?V7HNgkmmUYdPJE00fHrDziNQGYgwFkAaj7Eu7oCOUkHasqwOEALux2bZao?=
+ =?iso-8859-1?Q?JS2lme+4eXZ0T3HTcBP0Sp5rOFgqLXyYpcpfMmq3ySd75I/WL+tsGjRo2O?=
+ =?iso-8859-1?Q?Ui7AusVoPZYSspG2cjY7TpZHg6TpOJLSoTVRo1fKptUPT2Rp9Hqa7jVLcE?=
+ =?iso-8859-1?Q?e1L25IC6PLxNIQgzMCinJiCfWCCHswpMRA8EI+F8fLhQuR0roFZnVfRVOG?=
+ =?iso-8859-1?Q?h+oPiqtx/kU1Ii8KNtlCh4/5ZFd4E4TZ/8MlXgLDihVrLy1I3MDiKRw9mb?=
+ =?iso-8859-1?Q?Rn7lST2CuQ=3D=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -214,89 +215,88 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked:
-	tXX161jRip8b5OUvB+vdtBXYPTwjdY19HOzpX7Sahir1wLMrguTW+ICxEwdgGXPnQZXnBcbB7hwtg9s9L+ILdJevzdOLhzF1Byut9Gu5a7QlzRnLhLnsebzi2dGHcVrqNoNrEv1E8pvVztvHD5fBdxAGFBkMbYkQ7jOGiYmlCfMLgRS0LZ7E9ALMkVTL7nl1yrgb/0YHidyxtYTJrOdtO7qpF3cyAS+H27Z7fUlJso7x66D+LdGCnH8c7ai9dNwQT4PieIKqOnppRXo1jcJRZY3kGm/uEEqMqdxBAEM8l8BbRYn3yVD9XyOsglhzuJdftUlbhhXasVIT0CktwSs8CA==
+	aPOS9FVRDbmJgbtTAMhRHE5PjsWg87OoQyK06oRLnE1D2J8P0V+YrzRtOLQ22PyI8c12NBZZ1Q0EIe6TfK0V4OwoSUA6DDYymDP3qBOcnLLWIpyjh9LC0jGqaiYpzXr0CHF2n90/GFjtvXUYQZdbHMJpraNjSZmhp0ed33QhjdiT3SuRRCzXt1uAiCGvUvFn1CnvRQOVDPpGUqFOvZjTIEpY8jWReMrzdNVpmZpvKydszYFTIGEO0bsZXSlYorxDSaF5X4S1pWoaeYG+ahDZUCxHGx8OcLCu0l0IPNpv3MA07AG1wNYcAeg5mwyIJ6sUu02efuC1hAycIdbcPiXUwQ==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	1wPJEnVk8a71I5GJl18UicRiGVhTnTeORPit3UihpYPP7RXJu+/pFH0IIxhgIZlnLvenCvBeFpGb27JBcDydPlvspBl86Mls58Nd6q26n0+h0APDA2RTKnkrFctw3HCNNHiC5Fg8ePEmDX81GK4OSfj+63P6i9BG95SzciBgBu9Z4byk01ZSLMD8bFzQToFTiw/q4SvWq4GD+rmv1hHKAuQeTV1lUJTWjLpWOmWKbMky4zrKwAYIhLf4Vsv9pwV0+M1RY9KKms3kRJuM/DxVdIGuKPZMoBzP034Z/yaCHvDzveNCvFCh9HKv6qDQ8Or3/wZY/9G12zZlFzeQf60T8UQWPt/5t9lf39Nv1ZxQr3lGJIi0EgoXbyjTl5c0eqFuhJGzzWl2r4/znnw9O//i7nP1TXEP6h+5x4hMdGiK+1jPOmBBwhqh8hu4T5O71j8F3u6Q+EgaCXkrvAroh8xVsu1WspfmDMzLb31YuRuYOEK/XqqIFeZe7zY//lPdljgoecuAuclNTvaLU3iQul3HxAKtvvaCtJ+HhSVbZPnT+Oo3lD03IKaDPmkwwXGTvDvtDCDsjSe8/ON+5YpIPsDMZ4+0Bg7EHxUsX2XvNNKkQne5rjQU28PNzjnAE44LzPHSIKlUhcs+QOicoVhDFeBPHw==
+	13sA5cO1rMSXdeFg5tbGQ5vi1ieeed4l9y+czNGTXlACTiTGrwPp8YkBnuOz7d8J3IzP+v/KgiJMKchMVG/d8dlOUc3RaBc+jMUXWkaD6e383zCVlp+i6FLfgidaO2dmP2xc9R6i8kuHImLn4zpSlda2fAZBl8pL12PzwhibOHhrmxP2BiqybC+zDJ5Y4UA+3DMcAko3MA/Znp+zarFRKkVYZIRVEj06cp3pIUaRKO2sT6ZWS4osPZ85IUNSX3E+P3R54RlDw4df2FEUqjPY5Ckj3Vtk2H26MDRcGn3ilDO2NrCT8onHgTt2AN0QPBYD3uWsH1da/VcfJreOv+JlNCPXWuleWBpy3Zq19vjCVPpj+/MOs/P1uXkR64zvE1y1cP7MWnYc6eUc4AYjpQMvatbgSAuLu5M5BFxjMaXVXXVj7AJOnpMYkrNdH9gG9MUh0DIGH/gEt2uUOC5w90LR+MAIz7kzFW4a9NH9NJzhmGl6oQDNagTXjq49CFWmKz3SYcOanwlJf4VegtYbB/w2BDNL64L96xIiL4ZzfTERv4BOmCQkHW32i+XZvTe8h8b9cHT6ezSofttJpNgDIslgTGl/kqdgYW1p42n3QjEP/yy7+Ex1GxiPJr9/W86vF+pj7/VlmYvRRdCz7C8ypWaB0g==
 X-OriginatorOrg: synopsys.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6023d6c1-87f6-4cea-45b8-08df2f0b89b8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 00:37:51.1097
+X-MS-Exchange-CrossTenant-Network-Message-Id: 473923cb-aafb-4606-5e1b-08df2f0b8d0c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 00:37:56.6984
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RZ3mCwcwjk7vddUBMr9Hb0u6RsfW//SjnA5/q+tdPjQiIbRDLf/6h4OzmYTft/1OFIeNF6RCIdADTdxlp/oJRQ==
+X-MS-Exchange-CrossTenant-userprincipalname: 0B9XQQDPoON62LBk5FsuNJjFCyIij3LUXxCJ/w1pLWAXZV1RFcFJUe5h0Mhdk0gzE0eYP9AXzZ4bLOQE6Bu57A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB7433
-X-Proofpoint-GUID: p1jOPNrYxHtN7HCbPZ2bB8KGlKCP4CvN
-X-Proofpoint-ORIG-GUID: p1jOPNrYxHtN7HCbPZ2bB8KGlKCP4CvN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAwMSBTYWx0ZWRfX9jyaYZiFdOx9
- AbnJk8C3uycrm8v7b1Wm9xUlySs3sdp8dsJekEh3zZoSOmpuZpDE08hCfi6RWxvdDKI1ux9NnV9
- 6+CtNNJPUYP3ldBY8SVZafrpQQQQFf0Tb/gupznoYEmg/IWdw43/pQpc0ihyK5aTSld/YHzS0bX
- eONO1LA8DDJ9tD16CE0ApC072omprnYapZ+a6hydggYxwSQbaOz4r+0VIK5ral+yJtvhASJXo2t
- oTjSbBFGIxgp20VqxCFB9UGDZQ9/pKoKmMaCz22ikmIrGNbgcinNpWDlHQzJs7W+lWg9HBz96mU
- OP+9qQ7lYA87EbK3tF8Ky3Co11zt+s/wueDRp271IYv0Go1vYKVy87Wcjhi8aHwUPr4bfK6Xive
- WfgZuryLp/QpvbvNrOS7dZNTCvUuDVDfOBmxVLqp2kZhd8nMbx/HBnrZGdHRNSHARMusyPZa1RD
- MzCXkGi9Azc1PmN4V8Q==
-X-Authority-Analysis: v=2.4 cv=E8RYNqdl c=1 sm=1 tr=0 ts=6ad80965 cx=c_pps
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAwMSBTYWx0ZWRfX6lGNjTYtyGM5
+ MPCtBzNcUJ6nzmpximFue/PEUGpyBixXg/Qyh2IE+pxDUd+v1zzwY6smgpTGCMcILQagza5Ic5l
+ QFCLUkrFDy4//BVTwjG2How4RgkG2mo=
+X-Proofpoint-GUID: vX3r9szELkmaY6hjCMB-ftmqHo8riCWB
+X-Proofpoint-ORIG-GUID: vX3r9szELkmaY6hjCMB-ftmqHo8riCWB
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAwMSBTYWx0ZWRfXzTl2K4hlpYcl
+ vMIGXc0oRDSeXlbgsyPe/OgJLBoQ75PoI4OtrjJ61WNR50g/ZqRYhnY2UmxsofiPw3J1V5ACkfA
+ UE+URqs9oxrgHu8Hso+bQuZvPzA3DB2F/FvyB4tuQp9idFoCma2TuJ9uhE+MRgfIaX7WTiF6473
+ bIzw7WBFCiuJPW78w0Lrg9fNeDr3DIYe8cfsbUqUSZ3pbcxWsXUWoa3E18ESCyQ0E3+hkm39HrW
+ sS6odiNJIx0ygu1qEv6WfTZFHIZdeahGdRqRwz8Rxd+vj2q14NmyfhWXTJWTaJyJKG2r5SueKoC
+ P41L1PkFcVY6BhX1FnkQ4aD/fE5DX1yRpCZb8KsF3EA5l2k9FRpN+W5c6/ks858O688DcGcisGU
+ kgplWkFjZYV0+1PMNpQ7SLiwBTZmvkJO0bW51tnQBmZUFp2VDZ1JZrG5GGGcYfcq2pAMQtk5zWy
+ 8v5DUH7OafW/R4GcwrQ==
+X-Authority-Analysis: v=2.4 cv=LK3z05W9 c=1 sm=1 tr=0 ts=6ad8096a cx=c_pps
  a=t4gDRyhI9k+KZ5gXRQysFQ==:117 a=t4gDRyhI9k+KZ5gXRQysFQ==:17
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10 a=660iZSQnnn4A:10 a=qPHU084jO2kA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=jSPayVjLy6xbsuKauFBc:22
- a=VwQbUJbxAAAA:8 a=jIQo8A4GAAAA:8 a=gEeMJsqpcwTDM6lsfioA:9 a=wPNLvfGTeEIA:10
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAwMSBTYWx0ZWRfX3RV+INkLeo2o
- KrWea4o8byiYOUIA+ibZHBBK+HcVNYkMKMUfZaQD6Y4u+Wd2kKK1DTpSoEcmVirqp8Dn/YLI7jE
- gnqyxoVwZOfjRQbzqJZJRGYO4mVDHiw=
+ a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=-4-sGo8i1FcW4KD7_GeR:22
+ a=VwQbUJbxAAAA:8 a=hD80L64hAAAA:8 a=jIQo8A4GAAAA:8 a=jrSeYK05MLPENkRGUnsA:9
+ a=wPNLvfGTeEIA:10
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-20_04,2026-10-19_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
- policy=outbound_active_cloned score=0 suspectscore=0 adultscore=0
- phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
- impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210001
+ policy=outbound_active_cloned score=0 bulkscore=0 lowpriorityscore=0
+ priorityscore=1501 phishscore=0 clxscore=1011 malwarescore=0 adultscore=0
+ impostorscore=0 suspectscore=0 spamscore=0 classifier=typeunknown authscore=0
+ authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.22.0-2610190000 definitions=main-2610210001
 
-__dwc3_gadget_ep_disable() releases the lock while giving back requests,
-and DWC3_EP_ENABLED is only cleared afterward. A function driver can
-queue a new request in this window, and the driver would start a
-transfer on an endpoint that is already disabled in hardware.
+If an End Transfer command with CMDIOC times out, the driver clears the
+resource index but keeps DWC3_EP_TRANSFER_STARTED without setting
+DWC3_EP_END_TRANSFER_PENDING. The command is still outstanding, but a
+later stop issues another End Transfer with resource index 0, and the
+next Start Transfer fails with "No Resource".
 
-Clear DWC3_EP_ENABLED before giving back the requests, and reject
-requests queued to an endpoint that is not enabled.
+Mark the timed out End Transfer as pending so that no other command is
+issued to the endpoint until it completes. For any other failure, there
+is no outstanding command, so clear DWC3_EP_TRANSFER_STARTED.
 
-Fixes: 72246da40f37 ("usb: Introduce DesignWare USB3 DRD Driver")
+Fixes: e192cc7b5239 ("usb: dwc3: gadget: move cmd_endtransfer to extra func=
+tion")
 Cc: stable@vger.kernel.org
+Reported-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+Closes: https://lore.kernel.org/linux-usb/3fdda532-8181-48e9-b58d-cad728940=
+8e7@samsung.com/
 Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 ---
- drivers/usb/dwc3/gadget.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ drivers/usb/dwc3/gadget.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index ee837235630a..eb6666b7bb98 100644
+index eb6666b7bb98..df5407e75788 100644
 --- a/drivers/usb/dwc3/gadget.c
 +++ b/drivers/usb/dwc3/gadget.c
-@@ -1084,6 +1084,8 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *d=
-ep)
- 	reg &=3D ~DWC3_DALEPENA_EP(dep->number);
- 	dwc3_writel(dwc, DWC3_DALEPENA, reg);
+@@ -1798,9 +1798,9 @@ static int __dwc3_stop_active_transfer(struct dwc3_ep=
+ *dep, bool force, bool int
 =20
-+	dep->flags &=3D ~DWC3_EP_ENABLED;
-+
- 	dwc3_remove_requests(dwc, dep, -ESHUTDOWN);
+ 	dep->resource_index =3D 0;
 =20
- 	dep->stream_capable =3D false;
-@@ -1990,7 +1992,8 @@ static int __dwc3_gadget_ep_queue(struct dwc3_ep *dep=
-, struct dwc3_request *req)
- {
- 	struct dwc3		*dwc =3D dep->dwc;
+-	if (!interrupt)
++	if (!interrupt || (ret && ret !=3D -ETIMEDOUT))
+ 		dep->flags &=3D ~DWC3_EP_TRANSFER_STARTED;
+-	else if (!ret)
++	else
+ 		dep->flags |=3D DWC3_EP_END_TRANSFER_PENDING;
 =20
--	if (!dep->endpoint.desc || !dwc->pullups_connected || !dwc->connected) {
-+	if (!(dep->flags & DWC3_EP_ENABLED) || !dep->endpoint.desc ||
-+	    !dwc->pullups_connected || !dwc->connected) {
- 		dev_dbg(dwc->dev, "%s: can't queue to disabled endpoint\n",
- 				dep->name);
- 		return -ESHUTDOWN;
+ 	dep->flags &=3D ~DWC3_EP_DELAY_STOP;
 --=20
 2.53.0
