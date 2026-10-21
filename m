@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792544298;
-	b=h/FsDasb0xSN5Z8EkJu+j7EyFLG8f8kO6bADb6Fhp1Xg5HPJ3BR0JCy3etzxBrAhUFu6
-	 iDkTFI3qemX8LZW6ktY5eSwZ5G3ISKAXBQtFC4dSB45+YCvAKYDAN6ZQLPILB/VPJv9UT
-	 ChH6M4uqk8BQEf46mv4aBRY7YyD+x1e42YGge8CXK7svRSBf3JUkt66UMV/9NUsG7Su69
-	 mLivPOBo5TO7JVC7JobeFzIcWz+g7qzMJyKubJR3viiBDWhJ0FTjMnnwBLSfcOibYeETK
-	 GEPhKeWFWKG2ekHowVtS1NlSAfAfPzYunEQWWc7nIQNfi5XoW0YCzCs83dSEXQMJ1Qg==
+	t=1792544597;
+	b=Erj8SPiCf/RlASavTqUoTzU6UnUuKgd2N3SQLMjraM1x8kfnW1op2HzvSC3eh6+F1F9+
+	 YZWGTO1BhCiaBFcXrQsq1ecAbKRS7xuAc+AbsjDcLPiDOQNRvcBhor8Gsk7gp8P72Y8P7
+	 dzZTaG157BYZcKg7feSUdS/x4Q8bwHKlwqiXGsyzzTGrYbgO5egsMpCpAL1DFkDvjLfM+
+	 65bM8wRaSPuM6IFAvQEBj8ZXckX7R+790llWTkV9TCmnOWCswAE6iWNpNF0ok1RvYATGw
+	 5V4mygeHOOg8U27GPdb9mkOiuwpIhDwMqbOJPwVGhvZTNfK2SmQAojoMIS2KzaJjo2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792544298;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792544597;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=uBmNgaYndRJ1UyWvyqKYgaA0kvx/u36fuPLUIOdI9AI=;
-	b=kkeDlsvj4VYu6coknjH6kfeXXbZM7zoZSekSxK42OlxIG3fteST2/HJObPrOXzslcK5o
-	 ioZClu4R25aTOlRCneaXEOeztEUFe9Gc62ShByyXBRcAlbti6DlWyQzMji9tD7ZbTgjk0
-	 QZVFPAIES04sWkHufE7lgmhCEQpgzlZ9WrP9nKxExYKdYGT3w/azMHkNC1MxOXCPrHCmx
-	 ZBHjkmGa8EezcZilRfsswZb4bg5iqmHhKfLkbChobARhJH57xVXcprurCZ2EEU4a1P8S+
-	 WbbUyJFG6ef7xonnE4Y5pOAWnt57hq/4Rorgm1j/YNqOLQwc6dtVQnBApqLdaRb17pg==
+	bh=ewyB5th9miUU8ahZeEAdLkCD2WgTw+5vGW1rG/kEYaA=;
+	b=s3Mi9j0X4+3xgXUWKgdAw4Y/r849J2+82h2BQVBAEV5hMTBTv91giW3gJsChhWrvAlLi
+	 Z0jNDbuqeaod2LunC5rp1U7wGLXDA93xVPAYOcPbOIeV+zR41hKQpU8tMqFlHYXVhi2Jw
+	 +9nu4TSEBx4Ng+1HkUZl2O8MnpHXjEaEuG44CahOEB1IGSJAV1gk9wgAjieki0K2w7qLu
+	 5J9c4OfUFcQHlQ5/A9exMsvqfSXq13k2KWYATz5e4nev2bMjTLYNNNLalFQhZafH0tyds
+	 h3R8xueluutQXS8xRj7NokJlfTBh1eqekxNslu2v4jEg0O2fMxR49mR7mHkd4HWv1QQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cv8UrZLb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CvbTuTww;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D79A606A31A
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 00:58:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A0D7606A31B
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 01:03:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cv8UrZLb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF281F000C9;
-	Wed, 21 Oct 2026 00:58:17 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CvbTuTww
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A4BE1F000CA;
+	Wed, 21 Oct 2026 01:03:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792544297;
-	bh=uBmNgaYndRJ1UyWvyqKYgaA0kvx/u36fuPLUIOdI9AI=;
+	s=k20260515; t=1792544596;
+	bh=ewyB5th9miUU8ahZeEAdLkCD2WgTw+5vGW1rG/kEYaA=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cv8UrZLb0X1dgC1AXhuxeRjS6yumBdhfKLjxV2pVGwFCXtoI0so5kbagMZnVXxyQ0
-	 j/IjtMRwrH9tkDVqSPILOlzAys5SzJjbh8HNfGFXCWDDczy71+5dLcfaMreS3p//G0
-	 LefSkzM//Dn1llCBj+dSUru9mMqMSrrmcyvv5lOrxP61gFpDgmaed0HUdkMMzovFKL
-	 MfZX7Q2Fz2sICphG638QqLgkyj7HM5MiSZFweALNLvyKhcwLGoL3cGbWwxZdtCdD//
-	 z6Oxp4BzeEhUD+7Pe2azi2DmZA2YCSq2sAdEg2hFAQA4o5j81t61LlkEKT3uJKoQxD
-	 IakM6WK7E0RwA==
-Message-ID: <sashiko-outbox-179651@kernel.org>
+	b=CvbTuTww4mPujgja+3txmOzwKhGVlQlwddLRCn14j3sBQR/Hk+Dj3+3nTAx5xfziD
+	 feKGKpLFReV6eDKQmnzPrfN0a+vqzhgvg1O/lX0zmsXXYLEsdbig6YWu3GhSoV2X4C
+	 sIDV45JGkCuMCn7aGH0hzAb0lyTti9eR/4uWPNAGTd2ILGNFyuJzPjzUZAzjJr9uYB
+	 +eT6ct5yRGBhuvIQX8vhLz/y195E7KjbtgKwolEKdKA4w+6V/HmqZK95WKQRLejcPY
+	 sixoFc5MohyB3lKrBJFlE1jCQIYqMnfcbHjV4j98WI4n+ybqlQiYQs0L6zR2A8QLjT
+	 /DtWTFPejgyrw==
+Message-ID: <sashiko-outbox-179655@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 3/7] usb: dwc3: gadget: Clear delayed stop on End
- Transfer completion
+Subject: Re: [PATCH 6/7] usb: dwc3: gadget: Reset endpoint flags on
+ controller start
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Thinh Nguyen" <Thinh.Nguyen@synopsys.com>
 Cc: =?utf-8?b?bGludXgtdXNiQHZnZXIua2VybmVsLm9yZw==?= <linux-usb@vger.kernel.org>
-In-Reply-To: <c28a9660f7b6bfa626077ddcfbadd50e6b503f86.1792542945.git.Thinh.Nguyen@synopsys.com>
+In-Reply-To: <21cd189962b9d32a4f9df381df4947d35341d5a9.1792542945.git.Thinh.Nguyen@synopsys.com>
 References: <cover.1792542945.git.Thinh.Nguyen@synopsys.com>
- <c28a9660f7b6bfa626077ddcfbadd50e6b503f86.1792542945.git.Thinh.Nguyen@synopsys.com>
+ <21cd189962b9d32a4f9df381df4947d35341d5a9.1792542945.git.Thinh.Nguyen@synopsys.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 00:58:16 +0000
+Date: Wed, 21 Oct 2026 01:03:15 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,133 +63,118 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] usb: dwc3: gadget: skipped request cleanup on DWC3_EP_DELAY_STOP c=
-lear
+- [High] usb: dwc3: gadget: __dwc3_gadget_start() clears DWC3_EP_ENABLED on=
+ active eps
 --
 
-commit f4ade355ebc7b629210edc8108aa9f5fb3f0bcc2
+commit 4093b4f01f6fe6cc6713a8ff97925d5c1b4491d8
 Author: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
-usb: dwc3: gadget: Clear delayed stop on End Transfer completion
+usb: dwc3: gadget: Reset endpoint flags on controller start
 
-This commit clears the DWC3_EP_DELAY_STOP flag in
-dwc3_gadget_endpoint_command_complete() when an End Transfer command
-completes, preventing a later retry on the next SETUP phase from stopping a
-newly started transfer.
+This commit resets the endpoint flags of all non-control endpoints in
+__dwc3_gadget_start(), preserving only DWC3_EP_TXFIFO_RESIZED and
+DWC3_EP_RESOURCE_ALLOCATED so stale flags from a pending End Transfer comma=
+nd
+do not persist across a soft disconnect or error recovery.
 
 > diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-> index df5407e757884..4de3b81cb6781 100644
+> index e531adc02a401..a8f12e583a0f4 100644
 > --- a/drivers/usb/dwc3/gadget.c
 > +++ b/drivers/usb/dwc3/gadget.c
-> @@ -3875,6 +3875,7 @@ static void dwc3_gadget_endpoint_command_complete(s=
-truct dwc3_ep *dep,
->  	if (dep->stream_capable)
->  		dep->flags |=3D DWC3_EP_IGNORE_NEXT_NOSTREAM;
+> @@ -2972,6 +2972,7 @@ static int __dwc3_gadget_start(struct dwc3 *dwc)
+>  {
+>  	struct dwc3_ep		*dep;
+>  	int			ret =3D 0;
+> +	u32			epnum;
+>  	u32			reg;
 > =20
-> +	dep->flags &=3D ~DWC3_EP_DELAY_STOP;
->  	dep->flags &=3D ~DWC3_EP_END_TRANSFER_PENDING;
->  	dep->flags &=3D ~DWC3_EP_TRANSFER_STARTED;
->  	dwc3_gadget_ep_cleanup_cancelled_requests(dep);
+>  	/*
+> @@ -3029,6 +3030,15 @@ static int __dwc3_gadget_start(struct dwc3 *dwc)
+>  		return ret;
+>  	}
+> =20
+> +	for (epnum =3D 2; epnum < dwc->num_eps; epnum++) {
+> +		dep =3D dwc->eps[epnum];
+> +		if (!dep)
+> +			continue;
+> +
+> +		dep->flags &=3D (DWC3_EP_TXFIFO_RESIZED |
+> +			       DWC3_EP_RESOURCE_ALLOCATED);
+> +	}
 
 [Severity: High]
-Can clearing DWC3_EP_DELAY_STOP unconditionally here in
-dwc3_gadget_endpoint_command_complete() in drivers/usb/dwc3/gadget.c skip
-deferred request cleanup and leak usb_request objects (and their mapped DMA
-buffers) if the endpoint was disabled or the controller disconnected while
-DWC3_EP_DELAY_STOP was set?
+What happens if __dwc3_gadget_start() is called while non-control endpoints
+are still enabled by the gadget driver (dep->endpoint.enabled is true)?
 
-In __dwc3_stop_active_transfer(), if dwc3_send_gadget_ep_cmd() with
-DWC3_DEPCMD_CMDIOC returns -ETIMEDOUT while dep->dwc->ep0state !=3D
-EP0_SETUP_PHASE (for example, while dwc->delayed_status is true in
-dwc3_gadget_ep_dequeue(), __dwc3_gadget_ep_set_halt(),
-__dwc3_gadget_kick_transfer(), or __dwc3_gadget_ep_disable() after commit
-"usb: dwc3: gadget: Wait for End Transfer completion on ep disable", or via
-__dwc3_gadget_start_isoc()), the driver sets DWC3_EP_DELAY_STOP and returns
-0 without clearing DWC3_EP_TRANSFER_STARTED (and before scheduling error
-recovery in commit "usb: dwc3: gadget: Recover from End Transfer timeout"),
-while the End Transfer command remains in flight in hardware.
+For example, in dwc3_gadget_suspend(), if dwc3_gadget_soft_disconnect() fai=
+ls,
+dwc3_gadget_soft_connect() -> __dwc3_gadget_start() is called before
+dwc3_disconnect_gadget_sleepable() runs:
 
-If __dwc3_gadget_ep_disable() or dwc3_gadget_soft_disconnect() then runs
-before EP0 reaches EP0_SETUP_PHASE, dwc3_remove_requests() returns early
-without giving back dep->started_list, dep->pending_list, or
-dep->cancelled_list:
+	ret =3D dwc3_gadget_soft_disconnect(dwc);
+	if (ret && dwc->softconnect) {
+		dwc3_gadget_soft_connect(dwc);
+		return -EAGAIN;
+	}
 
-drivers/usb/dwc3/gadget.c:dwc3_remove_requests() {
-	...
-	dwc3_stop_active_transfer(dep, false, false);
+	dwc3_disconnect_gadget_sleepable(dwc);
 
-	/* If endxfer is delayed, avoid unmapping requests */
-	if (dep->flags & DWC3_EP_DELAY_STOP)
-		return;
-	...
-}
+Similarly, in dwc3_err_recovery_work(), dwc3_gadget_suspend() /
+dwc3_gadget_resume(), or dwc3_gadget_pullup(), gadget drivers such as
+raw_gadget and gadgetfs defer usb_ep_disable() to userspace rather than
+disabling endpoints synchronously during their disconnect callback, so
+endpoints can still be enabled when __dwc3_gadget_start() executes.
 
-And in __dwc3_gadget_ep_disable(), dep->endpoint.desc is cleared while
-DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED remain set:
+Clearing DWC3_EP_ENABLED here while dep->endpoint.enabled remains true caus=
+es
+a subsequent usb_ep_disable() -> dwc3_gadget_ep_disable() call to hit
+dev_WARN_ONCE() and return early without calling __dwc3_gadget_ep_disable():
 
-drivers/usb/dwc3/gadget.c:__dwc3_gadget_ep_disable() {
-	...
-	if (dep->flags & DWC3_EP_DELAY_STOP)
-		mask |=3D (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
-	dep->flags &=3D mask;
+	if (dev_WARN_ONCE(dwc->dev, !(dep->flags & DWC3_EP_ENABLED),
+					"%s is already disabled\n",
+					dep->name))
+		return 0;
+
+	spin_lock_irqsave(&dwc->lock, flags);
+	ret =3D __dwc3_gadget_ep_disable(dep);
+	spin_unlock_irqrestore(&dwc->lock, flags);
+
+Because __dwc3_gadget_ep_disable() is skipped, dwc3_remove_requests() is not
+run and dep->stream_capable, dep->type, dep->endpoint.comp_desc, and
+dep->endpoint.desc are not cleared:
 
 	/* Clear out the ep descriptors for non-ep0 */
 	if (dep->number > 1) {
 		dep->endpoint.comp_desc =3D NULL;
 		dep->endpoint.desc =3D NULL;
 	}
-	...
-}
 
-If the in-flight End Transfer command completes before dwc3_ep0_out_start()
-runs, dwc3_gadget_endpoint_command_complete() now clears DWC3_EP_DELAY_STOP
-and only calls dwc3_gadget_ep_cleanup_cancelled_requests(dep), which does
-not clean up dep->started_list or dep->pending_list, and stops after the
-first request in dep->cancelled_list when the endpoint is disabled:
+In drivers/usb/gadget/legacy/raw_gadget.c, raw_ioctl_ep_disable() frees
+ep->desc immediately after usb_ep_disable(), which leaves dep->endpoint.desc
+as a dangling pointer:
 
-drivers/usb/dwc3/gadget.c:dwc3_gadget_ep_cleanup_cancelled_requests() {
-	...
-		/*
-		 * The endpoint is disabled, let the dwc3_remove_requests()
-		 * handle the cleanup.
-		 */
-		if (!dep->endpoint.desc)
-			break;
-	}
-}
+	usb_ep_disable(dev->eps[i].ep);
 
-Because DWC3_EP_DELAY_STOP has already been cleared, when
-dwc3_ep0_out_start() later runs on entering EP0_SETUP_PHASE, it will skip
-the endpoint instead of finishing the deferred dwc3_remove_requests()
-cleanup:
+	spin_lock_irqsave(&dev->lock, flags);
+	usb_ep_free_request(dev->eps[i].ep, dev->eps[i].req);
+	kfree(dev->eps[i].ep->desc);
 
-drivers/usb/dwc3/ep0.c:dwc3_ep0_out_start() {
-	...
-		if (!(dwc3_ep->flags & DWC3_EP_DELAY_STOP))
-			continue;
+Conversely, if the gadget driver calls usb_ep_enable() while ep->enabled is
+still true, usb_ep_enable() returns early without calling into dwc3, leaving
+DWC3_EP_ENABLED cleared so subsequent usb_ep_queue() calls fail with
+-ESHUTDOWN.
 
-		dwc3_ep->flags &=3D ~DWC3_EP_DELAY_STOP;
-		if (dwc->connected)
-			dwc3_stop_active_transfer(dwc3_ep, false, true);
-		else
-			dwc3_remove_requests(dwc, dwc3_ep, -ESHUTDOWN);
-	...
-}
+Could this regression be avoided if __dwc3_gadget_start() keeps
+dep->flags synchronized with dep->endpoint.enabled, or properly cleans up a=
+ny
+still-enabled endpoints when resetting their flags?
 
-Additionally, in the dwc3_gadget_soft_disconnect() path where
-!dwc->connected (while ep0state is still EP0_STATUS_PHASE after
-dwc3_ep0_send_delayed_status() clears dwc->delayed_status),
-dep->endpoint.desc is still non-NULL and DWC3_EP_ENABLED is still set. If
-DWC3_EP_DELAY_START was set prior to disconnect, could
-dwc3_gadget_endpoint_command_complete() also call
-__dwc3_gadget_kick_transfer(dep) and start a new hardware transfer from
-dep->pending_list while disconnecting?
-
-Should dwc3_gadget_endpoint_command_complete() check whether the endpoint
-was disabled (!dep->endpoint.desc) or disconnected (!dwc->connected) when
-DWC3_EP_DELAY_STOP was set and invoke dwc3_remove_requests(dwc, dep,
--ESHUTDOWN) instead of kicking delayed transfers?
+> +
+>  	dep =3D dwc->eps[0];
+>  	dep->flags =3D 0;
+>  	ret =3D __dwc3_gadget_ep_enable(dep, DWC3_DEPCFG_ACTION_INIT);
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1792542945.gi=
-t.Thinh.Nguyen@synopsys.com?part=3D3
+t.Thinh.Nguyen@synopsys.com?part=3D6
