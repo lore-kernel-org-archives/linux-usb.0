@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792593084;
-	b=NJ27rJuDeqaDVdLm/7+LWUiw3QsOmgmZHVt37aGR9hDU1pWI6ueuaKToQ+Yw7g/GPABa
-	 18CpfKf8lQqpS2TZIUAfeZ0nYlnuOycQLZ/wfGDe6k11uDbLQXXigI8nmoZ/zFsuESGTA
-	 FSZ+YdEzg2enK1hbBOuhGMcO/xJv8PeXYuyWivfmLjssCNY3lxavooLrEJjoqlnRSaBx5
-	 M40VDKAITd7AG8jCjyg0MbA+S3kUnKd2LH15/ewVZkTYrDM8FlNJmBORfmWeeYGqPgRn/
-	 xZI4//VrQG4W6nH4ZR8VSWNcPYYqlHe1FuxQbYsWR7qCIngDD4zJsosMuhINOI8PyMg==
+	t=1792593470;
+	b=CHr1b2/r8hSPX9fxJ1eQaPP/rM36vFHmqSRu46j2DbmQpX1wHcuCWaAUlyam3LsB0HCR
+	 CEfImWEbjUYcSd1j8hAvx8EkVu0pnvM5jm7560LTtG1msPpOO0uzptx7TNrvjZKA6rs3E
+	 aoC7Xul7qCu8iIBD4aVW5bhE9s5w50xItvikZ3ldnFw+vQqlcC1OfoKZSQ3kB+GpRCiMA
+	 fkNSUOGpNoLUFhDmYqsbSlB4Yj5hDBy5knUW4+zcNBoj97K19E80YUfxCMRGoKe/9NEAx
+	 12GbtH/MUlGoIAZ27uBjeuc5RmS6FKf/MB1gLkVO/iWuNsTSQYBTQJXKFH+hiGFvHPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792593084;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792593470;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2yeKMNTVX+XsXDiajDw3dBAG7xt2hVmpuw/S60H0N2M=;
-	b=IyfUlmq3+fepBfD+pRgb4obelJCfw2/fsvxcsffWvtq/oNM8eoI/DzVBiKC143hdVVy+
-	 XpYY1+y/qGPiSQVsNvzTEVG4mqgDLVSZ9jZ5+yCoAiIa2DSs07NeQU7oBOVbpZkvheClU
-	 Mt8g6DD+EYQ+N2LxZW+YDhmlPrWh+vGpW2YIQlwTiTJrQw+nUSeXD58gSoX/JVUTbboaF
-	 dWQTPpwddY8js1oak9yifVNIxVJlfjdKSC/jriraPDgbcMoPWXHdKqQx9z024m3ZahcIs
-	 7+8G7Jrd5IwRC9TIJnEU4avsO32Fg/Uqgun9qQOhEutw4h1mMg7Nr5I+wwtbhgkGIKQ==
+	bh=X+8/HUUXv855h+Y+Vf8C8SkH8E+TZB0cUXdtAJwPGqE=;
+	b=WwojqwqjG+OUxoD4dIB6KS1ropGTF5R4Dy3YOvX4amynVpwijbWNndE6OZc1HIwmF75u
+	 VAQiFKBdoU/WS6aSKwWo9e7LDp5nQJzq6SrkyWCbtS9OJCTfIezsdX7VLWB9V/AGr+Tnj
+	 z8oqcCmdq6G8NCgQxdmDBXgTCWi7Fv6VN2zGcvMBcSnL9Lcfj2y6gjftTQ+dA18mviJC5
+	 omY+CMFSJ5o1b0dZYJyoNWNTF9TvsRZpWQ5fwUnrHW6PgNtB6TJQcJo7IY14sva4O6e1+
+	 jWf98Z5dkfzwsasqZ6BvIb0b6u9tPIq38sylWVRESVSQBnLwCvUWgdAuLwobb2ohEAA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LsJnRFBG;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NoJdODz5;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09ACD606A319
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 14:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 424DF606A319
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 14:37:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LsJnRFBG
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D6C31F000C5;
-	Wed, 21 Oct 2026 14:31:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NoJdODz5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A490A1F000C1;
+	Wed, 21 Oct 2026 14:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792593083;
-	bh=2yeKMNTVX+XsXDiajDw3dBAG7xt2hVmpuw/S60H0N2M=;
+	s=k20260515; t=1792593469;
+	bh=X+8/HUUXv855h+Y+Vf8C8SkH8E+TZB0cUXdtAJwPGqE=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LsJnRFBGsIJugsX37MqQGNiUKju0jOVp3oYnuTgaHId1GXn7Zu0Pe3+5z8yiHszMJ
-	 5VKRldLvKEM29a5VS7OqGd9vFIRx0vxIv5/zv/c0SpFkMd3vQ9fgkszqTf96MsyJKU
-	 hPEzdDJOlzE2Nuz+bG5l88SLzw7SyA71BItyKB5BGJ3B/nxtXw0+Dy1qfdDiGkEFkP
-	 StBtqU8WgQVU4ioJce3dUBik41uWvXt3yfzXE0EAbCslR0eppEzLFT9OeJChHZBpwo
-	 kFtWmK0AZ9oAitDWyWjzk+hli9mC96ny4v8SaE2AgvIk9aWswMnDIFex1xUc/n5T0Y
-	 adVnfNE1Xjo9Q==
-Message-ID: <sashiko-outbox-180379@kernel.org>
+	b=NoJdODz5XEqWmL73PpGuAJSdQvArSK1l0ZNg87XnR00j0zFZQnLZIiOcABqhTeaUO
+	 RCjYmvwNEyhv+7rCfYGqDy+v8kegj8ob0W0GFwUwKloa8dlzG+38JJzV0ZtkMLXBas
+	 eA5d9Bx8wh8/HEU8KLcfzc8CdB156S0SZr64EsmzlChBMmmMrL5moCwtCzy195EClz
+	 3kqJEsEkC/KmFhAXOILi/Ylzw2Azv3Up8mObIw+5vz6M+1lJziyTs/zSUY/fL6SnKp
+	 CyqodXg5/T16s6JLayqCHq1gw+5nQiV5P3NdMXKhitX5lMmfsXer+5ORz1mCRSppS1
+	 0VrRs8ntn7r7Q==
+Message-ID: <sashiko-outbox-180389@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 02/11] USB: serial: io_edgeport: fix potential fifo
- corruption
+Subject: Re: [PATCH 03/11] USB: serial: io_edgeport: fix potential close()
+ use-after-free
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Johan Hovold" <johan@kernel.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261021141154.2324793-3-johan@kernel.org>
+In-Reply-To: <20261021141154.2324793-4-johan@kernel.org>
 References: <20261021141154.2324793-1-johan@kernel.org>
- <20261021141154.2324793-3-johan@kernel.org>
+ <20261021141154.2324793-4-johan@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 14:31:22 +0000
+Date: Wed, 21 Oct 2026 14:37:49 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,158 +63,101 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [High] usb: serial: io_edgeport: race in process_rcvd_status() allows FIF=
-O corruption
+- [High] usb: serial: io_edgeport: race between edge_close() and edge_write=
+()
 --
 
-commit 3c973c9c441546b1507dc5bafcc938334e398bb6
+commit 611925474c1210ae646660fb9dfc233968cca260
 Author: Johan Hovold <johan@kernel.org>
 
-USB: serial: io_edgeport: fix potential fifo corruption
+USB: serial: io_edgeport: fix potential close() use-after-free
 
-This commit initializes maxTxCredits to zero when opening a port and rejects
-subsequent open responses in process_rcvd_status() if maxTxCredits is alrea=
-dy
-non-zero, preventing a device from changing the buffer size after the tx fi=
-fo
-has been allocated.
+This commit adds spinlock protection around clearing edge_port->open in
+edge_close() so that a racing interrupt completion handler does not submit
+more data while the port's write_urb and txfifo are being freed.
 
 Link: https://sashiko.dev/#/patchset/20260714101316.823942-1-shpark061104%4=
 0gmail.com?part=3D1
 
 > diff --git a/drivers/usb/serial/io_edgeport.c b/drivers/usb/serial/io_edg=
 eport.c
-> index cdf41e86ba448..0cc4f41299e03 100644
+> index 0cc4f41299e03..a2410c063ffe8 100644
 > --- a/drivers/usb/serial/io_edgeport.c
 > +++ b/drivers/usb/serial/io_edgeport.c
-> @@ -878,7 +878,11 @@ static int edge_open(struct tty_struct *tty, struct =
-usb_serial_port *port)
->  	}
+> @@ -1089,7 +1089,9 @@ static void edge_close(struct usb_serial_port *port)
 > =20
->  	/* initialize our port settings */
+>  	/* port->close =3D true; */
+>  	edge_port->closePending =3D false;
 > +	spin_lock_irq(&edge_port->ep_lock);
->  	edge_port->txCredits =3D 0;	/* Can't send any data yet */
-> +	edge_port->maxTxCredits =3D 0;
+>  	edge_port->open =3D false;
 > +	spin_unlock_irq(&edge_port->ep_lock);
-> +
->  	/* Must always set this bit to enable ints! */
->  	edge_port->shadowMCR =3D MCR_MASTER_IE;
->  	edge_port->chaseResponsePending =3D false;
-> @@ -1750,6 +1754,7 @@ static void process_rcvd_status(struct edgeport_ser=
-ial *edge_serial,
->  	struct tty_struct *tty;
->  	struct device *dev;
->  	__u8 code =3D edge_serial->rxStatusCode;
-> +	unsigned long flags;
+>  	edge_port->openPending =3D false;
 > =20
->  	/* switch the port pointer to the one being currently talked about */
->  	if (edge_serial->rxPort >=3D edge_serial->serial->num_ports)
-> @@ -1793,10 +1798,17 @@ static void process_rcvd_status(struct edgeport_s=
-erial *edge_serial,
->  	}
-> =20
->  	if (code =3D=3D IOSP_STATUS_OPEN_RSP) {
-> +		spin_lock_irqsave(&edge_port->ep_lock, flags);
-> +		/* reject stray open responses to avoid FIFO corruption */
-> +		if (edge_port->maxTxCredits !=3D 0) {
-> +			spin_unlock_irqrestore(&edge_port->ep_lock, flags);
-> +			return;
-> +		}
->  		edge_port->txCredits =3D GET_TX_BUFFER_SIZE(byte3);
->  		edge_port->maxTxCredits =3D edge_port->txCredits;
->  		dev_dbg(dev, "%s - Port %u Open Response Initial MSR =3D %02x TxBuffer=
-Size =3D %d\n",
->  			__func__, edge_serial->rxPort, byte2, edge_port->txCredits);
-> +		spin_unlock_irqrestore(&edge_port->ep_lock, flags);
->  		handle_new_msr(edge_port, byte2);
-> =20
->  		/* send the current line settings to the port so we are
+>  	usb_kill_urb(edge_port->write_urb);
 
 [Severity: High]
-Could an unsolicited IOSP_STATUS_OPEN_RSP message race with edge_open() in
-drivers/usb/serial/io_edgeport.c and still corrupt edge_port->txfifo?
+While holding ep_lock around setting edge_port->open =3D false prevents
+send_more_port_data() from racing with the deallocation of write_urb and
+txfifo.fifo in edge_close(), could edge_write() still race with this
+cleanup and dereference edge_port->txfifo.fifo while or after it is freed?
 
-In process_rcvd_status(), edge_port->ep_lock only covers the check and
-assignment of edge_port->maxTxCredits, without checking
-edge_port->openPending, and the lock is dropped before clearing
-edge_port->openPending:
-
-	if (code =3D=3D IOSP_STATUS_OPEN_RSP) {
-		spin_lock_irqsave(&edge_port->ep_lock, flags);
-		/* reject stray open responses to avoid FIFO corruption */
-		if (edge_port->maxTxCredits !=3D 0) {
-			spin_unlock_irqrestore(&edge_port->ep_lock, flags);
-			return;
-		}
-		edge_port->txCredits =3D GET_TX_BUFFER_SIZE(byte3);
-		edge_port->maxTxCredits =3D edge_port->txCredits;
-		...
-		spin_unlock_irqrestore(&edge_port->ep_lock, flags);
-		handle_new_msr(edge_port, byte2);
-		...
-		/* we have completed the open */
-		edge_port->openPending =3D false;
-		edge_port->open =3D true;
-		wake_up(&edge_port->wait_open);
-		return;
-	}
-
-Meanwhile, in edge_open(), edge_port->maxTxCredits is cleared under
-edge_port->ep_lock before edge_port->openPending is set outside the lock, a=
-nd
-after wait_event_timeout() returns, edge_port->maxTxCredits is read without
-holding edge_port->ep_lock:
+In drivers/usb/serial/io_edgeport.c, edge_close() does not zero
+edge_port->txCredits (which was replenished during
+block_until_chase_response()) and frees edge_port->txfifo.fifo outside
+ep_lock:
 
 	spin_lock_irq(&edge_port->ep_lock);
-	edge_port->txCredits =3D 0;	/* Can't send any data yet */
-	edge_port->maxTxCredits =3D 0;
+	edge_port->open =3D false;
 	spin_unlock_irq(&edge_port->ep_lock);
+	edge_port->openPending =3D false;
+
+	usb_kill_urb(edge_port->write_urb);
 	...
-	edge_port->openPending =3D true;
-	edge_port->open        =3D false;
-	response =3D send_iosp_ext_cmd(edge_port, IOSP_CMD_OPEN_PORT, 0);
+	kfree(edge_port->txfifo.fifo);
+	edge_port->txfifo.fifo =3D NULL;
+
+Meanwhile, edge_write() acquires ep_lock without checking edge_port->open
+and copies data into fifo->fifo whenever edge_port->txCredits > fifo->count:
+
+	spin_lock_irqsave(&edge_port->ep_lock, flags);
+
+	/* calculate number of bytes to put in fifo */
+	copySize =3D min_t(unsigned int, count,
+				(edge_port->txCredits - fifo->count));
 	...
-	wait_event_timeout(edge_port->wait_open, !edge_port->openPending,
-								OPEN_TIMEOUT);
+	if (copySize =3D=3D 0) {
+		dev_dbg(&port->dev, "%s - copySize =3D Zero\n", __func__);
+		goto finish_write;
+	}
 	...
-	edge_port->txfifo.size	=3D edge_port->maxTxCredits;
-	edge_port->txfifo.fifo	=3D kmalloc(edge_port->maxTxCredits, GFP_KERNEL);
+	memcpy(&fifo->fifo[fifo->head], data, firsthalf);
 
-If an unsolicited IOSP_STATUS_OPEN_RSP arrives on the bulk-in endpoint (whi=
-ch
-can already be active from edge_startup(), another open port, or the
-interrupt urb submitted earlier in edge_open()) and runs the ep_lock section
-in process_rcvd_status() just before edge_open() takes ep_lock:
+During tty_port_close() -> tty_port_shutdown() -> edge_close(), before the
+line discipline and flip-buffer workqueue are flushed or closed, concurrent
+calls to edge_write() can still occur in two ways:
 
-1. edge_open() resets edge_port->maxTxCredits =3D 0 under ep_lock and sets
-   edge_port->openPending =3D true.
-2. The in-flight process_rcvd_status() finishes handle_new_msr() and
-   change_port_settings(), then sets edge_port->openPending =3D false and
-   edge_port->open =3D true, waking edge_open().
-3. edge_open() observes edge_port->maxTxCredits =3D=3D 0, sets
-   edge_port->txfifo.size =3D 0, and calls kmalloc(0, GFP_KERNEL), storing
-   ZERO_SIZE_PTR in edge_port->txfifo.fifo.
-4. Because edge_port->maxTxCredits was reset to 0, a second
-   IOSP_STATUS_OPEN_RSP passes the edge_port->maxTxCredits !=3D 0 check in
-   process_rcvd_status() and sets edge_port->txCredits and
-   edge_port->maxTxCredits to a non-zero value (or races between setting
-   edge_port->txfifo.size and calling kmalloc()).
-5. Subsequent edge_write() calls then compute a non-zero copySize from
-   edge_port->txCredits while edge_port->txfifo.size is 0, causing memcpy()
-   to dereference ZERO_SIZE_PTR or overflow edge_port->txfifo.fifo.
+1. edge_interrupt_callback() checks edge_port->open outside ep_lock and
+   calls tty_port_tty_wakeup() -> tty_wakeup() -> ld->ops->write_wakeup(),
+   which in framing line disciplines (such as n_hdlc, ppp_async, slip,
+   n_gsm, or hci_ldisc) synchronously invokes tty->ops->write() ->
+   serial_write() -> edge_write().
 
-In this commit, an unsolicited IOSP_STATUS_OPEN_RSP on a closed port also
-sets edge_port->open =3D true while edge_port->txfifo.fifo and
-edge_port->write_urb are null. Follow-up commits ("USB: serial: io_edgeport:
-fix potential NULL-deref at open" and "USB: serial: io_edgeport: move initi=
-al
-termios update to open()") move setting edge_port->open =3D true and calling
-change_port_settings() into edge_open(), but the unsynchronized
-openPending and maxTxCredits race remains present.
+2. Incoming receive data pushed via process_rcvd_data() -> edge_tty_recv() =
+->
+   tty_flip_buffer_push() before edge_port->open becomes false is processed
+   asynchronously by the flush_to_ldisc() workqueue during edge_close(). In
+   n_tty, this can call edge_write() via n_tty_check_throttle() ->
+   tty_throttle_safe() -> serial_throttle() -> edge_throttle() when ixoff
+   is enabled (especially once the follow-up commit "usb: serial:
+   io_edgeport: drop redundant open sanity checks" removes the unlocked
+   !edge_port->open check from edge_throttle() and edge_unthrottle()), or
+   via n_tty_receive_char_closing() -> process_echoes() -> tty_put_char()
+   when ixon is enabled with pending echoes.
 
-Should edge_port->openPending also be synchronized under edge_port->ep_lock
-and checked in process_rcvd_status() before accepting IOSP_STATUS_OPEN_RSP?
+Should edge_write() also check edge_port->open under ep_lock (or should
+edge_close() zero txCredits / free txfifo.fifo under ep_lock) to avoid a
+use-after-free write or null pointer dereference on fifo->fifo?
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021141154.2324=
-793-1-johan@kernel.org?part=3D2
+793-1-johan@kernel.org?part=3D3
