@@ -1,80 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.43
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.182
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792595297;
-	b=aeJEHv9BwEwkLWo67F74arUWDB0N5FF92JYljTkgLBJotIs8kxnQthkJrRl1WT8eHsjd
-	 4ezEWBVw9uyTWoEOIgfwb+nFtQCnN/c4NL5E/SqM53mOJTFGGVDuxxtAKHeP5H6GDWw4G
-	 uwxWIgxYyfjpVETzXreMZ7P25/janSGD/kFwUoP8oKZbCSpRWbBiv1jlgQgpElU78XwFK
-	 F/OBQqJCPkXj2gMo6IRr6s7M1OAOfWwcP1Cis+hCRSTyB74BDJCGSfCCZgK9YHCvzUkH7
-	 fKhFSKWyzPFFzsS26YP8ByPQh7kEeXehcS0eA0pG6Ky+gzZt6BMRv513UNbocDOgfmg==
+	t=1792595294;
+	b=zxmarQ+trnMiT5Q3M98XBX9W+hZTJFN/EYVgU0zbgBzLNhEEHwbxWv/CsoTwlDrV583O
+	 T67QPsfXcFza7NyLXXloGM/WuB8doclD4vH1rlWRBUwkQmdARWYnpC9xGAM2aPO70fiP5
+	 GG1yYczo6gWg9BJL19TXmWNOCKPWmE3ia5g+3MNEf4Kco7tfHWKdfnQDsa/5ZJZYemnI3
+	 q+d+ixwkUWUfwoLFv6Io2wAAMT7X0qS8mc80tzjN9DtHq37+lOevQtHMHJYZhEnnm37Md
+	 3tZEm81xTrw/iK3qlBKTOBDiy5EPix0XsOPxEmpyMYtGBwr/D6XyHOLu+sFEmxUy+sw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792595297;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792595294;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=nX+gP2drifdU2o+OF+ySLEpKlcNDTqHvU5zt6uKwARU=;
-	b=fcdrsgh6cVcGOXiS227jOup9F07aC7Y3l0UZ3zA3ytxsIkpVqTFhgpgEZkx5DQNLyu/T
-	 AGDHV+lx03932meqkbUfE3czuQ92FOTUK34BfjjbiEn7exT4cLRpIK8tt54puynh8goHO
-	 Cq6Flnu/4ucMalBPffMk+7Umx1CFPhuy9Cl7P6x9c1Y+QVuOTV3QRii4oGukuP5ixN0IN
-	 tcWOevLjsGFP36CFO/WgN/5pjiYCsM0Uyn1Uj5Eq7qJP86wLuHgRdMM8LzFu7OU0vu+NR
-	 1MJQuyGVOuCI152oIJ482w2Hy61FJE84jgSONFkpHsGJI83J4KI5iCLYk4b40MslSxw==
+	bh=84k5TBvs1A0y0i2ngDG+bcTK+NNF141yVhoDDZPV9pA=;
+	b=tKzCZeooXn/dNtwipCa7vshTzsJag91Pzw1839p3bV8RW8viFv2MczTkbAzqzua9jAwX
+	 uys3H5bE+4pZTkYbEICOtB7afCGV9uKcBTSZO+F8AgkM2aOIzFZY1vYz5rW0Mr9fUhx55
+	 egHgogQb9wCbQyOOWXPhkUz5uJhg8RZ4jDmtKNYkpIXsdwt5R1I0dv06VyUmFcLPxvKtp
+	 ujXwZ8+PIeH3pcNp7wnk8qskAEuL1VRDibGrI8JCPoQNIeuMgZwEMa83KCrDv70csQ3ml
+	 Q2ptXAfGN6Rb22S4FnWn4lFECMuDkHPl4vkBD2eQm7wkX6pJ/tAzrtyabEkSsd5YL5w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=chromium.org;
 	spf=pass smtp.mailfrom=chromium.org;
-	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=oVC2S4B7;
-	arc=none smtp.remote-ip=209.85.210.43
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+	dkim=pass header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=D7ZQBy6v;
+	arc=none smtp.remote-ip=209.85.167.182
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C17460A380F
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 15:08:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6C17460A380F
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D81760A2627
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 15:08:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D81760A2627
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=oVC2S4B7
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-84621d8c7aaso445411a34.2
-        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 08:08:17 -0700 (PDT)
+	dkim=pass (1024-bit key, unprotected) header.d=chromium.org header.i=@chromium.org header.a=rsa-sha256 header.s=google header.b=D7ZQBy6v
+Received: by mail-oi1-f182.google.com with SMTP id 5614622812f47-4b21f71613fso472584b6e.2
+        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 08:08:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1792595296; x=1793200096; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1792595293; x=1793200093; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=nX+gP2drifdU2o+OF+ySLEpKlcNDTqHvU5zt6uKwARU=;
-        b=oVC2S4B7NFJNQTrSito4yJfEumKFdCgmaWTW1R8xRymEe+S9WdzW5tinIY4IOobWb5
-         NQxBC4YgeLe2VNjzyzR+jYDQN+hf0aOFqnAL5RroVOYue/nVYJXrCremCd9qZD8Af0M3
-         p1iWgRi6XHyNYyirbChTYVvH3G5LthAyLYQng=
+        bh=84k5TBvs1A0y0i2ngDG+bcTK+NNF141yVhoDDZPV9pA=;
+        b=D7ZQBy6vufjuZJLFrTf5PozoHzgsUzww0smXTpTc0XwYv4UpsjtGaYjkUi0huzuLiH
+         lmX427OaE3jzu89UCKYoWfqaVvetBzEF1n4O5YYHtsBCO99Bh+gDUfzAvr2KZ/KTfRDV
+         0q3KRGm+JmQyEpyouoadjwNeAFwYtv+Th35qw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792595296; x=1793200096;
+        d=1e100.net; s=20260707; t=1792595293; x=1793200093;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=nX+gP2drifdU2o+OF+ySLEpKlcNDTqHvU5zt6uKwARU=;
-        b=E0auucjacoAJgLKK/RdG26FRc74cBJgs+pptuYHM+IyENLPQ/2CeeccpOrjxIeLyPX
-         6LckPuGqDNm1KiSn4N/tYUxMpwbDMlom9I8CvufbaKfe2QujtY9NcXj5q44zCmyhyIKo
-         HlGg3fezJN2LfIo/AgP+4L0wpKXtRDjYn2qoWE4efEnTdb0P1HSjsYGwEON6eX3PbVlu
-         fJs+/70enwtroqR+hNm2dEgmBZNCxdF09pbl4hHDrTkoKYpKfVZHnOofWaN8KzzobQH0
-         KCdVBHZOZKEVc91qDz47seza03sZE3gAn+Y7dCCQVtVkaQVoHQsLnrwkX8M4rSfRjEZg
-         ctkg==
-X-Forwarded-Encrypted: i=1; AKwUvBxWnl+0noLjD3mFVFs6/Nl8goIv6dX2pgzkvSviXP5ly1o0OpvZez25eP/U4NfIFnfm36ScVCZZc9c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLIIYFtxD1hzM/9qk3Du/UH2bNERz6mwv/6xfCtymUqh45o8Uvq
-	rD+1lY4SY5L+/OOIkKgtL4bDoOpDUE+mLlrg/eRSWQPBjfv16+ZPocx/FvpWOozHdA==
-X-Gm-Gg: AYBFou0pWpu/fYHEgJoJK6CxSN664JKpiPKLt3KwztShrRBmjmdcqZzb/fY6UwYxo3B
-	i9EvejbF1EGr/qg6OrVy4Que8GUVQoGVR5vxULAkdeJqog2RQN6qJlhD5CqLNWqqTgH6fWQYW2a
-	x0O8hedn4x69o7YsC8jHbd/45QKHBtjyB5lZWEL5pOLTDKynaOgGLveYsatPoM9FICsHhl5J0ht
-	XJPghlENsMCEn0uu3CCRBhbIIkr6wy8TYMtFBeMidwxm31TF0dHbofvFtdBvAo9/X7ib7eXAh6A
-	TIULE3ewlfLgnNkjfatW58X6B78xEa0PDMcDWE/sSCSgKaD6PNhc5n6x8NiImMHB8BEhlq/igGI
-	Z2zqGZ6DTdK4F72E5Ja/tJHXwNj4kI9EFW+6L2o6E4ygaMKtFv9kHTVjBYmWPaADfno/r19KMU+
-	xdmEBcCujNZslsBP4cjwjxcgF0jVmO910zElhxOr7eZNfzlWhkc8uUdJj4h/PcyyBgRcsPqoMlN
-	pQSb3oA4fYD2ES23quWyfm3TqKt7qCvyszgZdGr0Uo70sXvPhHGAqzqG0JZinr6XLKOOJfnGmRR
-	+l7pu256/Wy72Y9ZJ+EQy+d3ymFqujPU9HHaCXIgi3No
-X-Received: by 2002:a05:6808:148e:b0:4ea:5e0e:7dab with SMTP id 5614622812f47-5535818f4edmr1498560b6e.37.1792595295749;
-        Wed, 21 Oct 2026 08:08:15 -0700 (PDT)
+        bh=84k5TBvs1A0y0i2ngDG+bcTK+NNF141yVhoDDZPV9pA=;
+        b=CVZfBiDlFWRJc+Kpb0jm2K4Kg9ApcKSEIk0mTK5S5EGQXMg9xKc9DOA8esBP4QFWEp
+         aKlMYNZc08l+bM0rqzscs6MkPOYq0aRusHOwOXuxojozEShFVcKJUFSaD9f/FD2Vf50r
+         O7yk/dm+pBsa9jo6y1PHnrlPl1fC54mwQmB9ztfYfauk0Zz0ZGU9nLlIwfk1csx1X4NG
+         pWTKzXuJD6DNnEvZu5ai5B34StlqAQlxR08kyjBahZZ3jyC5HFW/Zc6AT3Qp+YX/8JDi
+         5z31z2hJ9A9x/0BPPfTd29nb9p6aCnVgbwmDd4JlDU72aQQxcYMwxo+6PT4uSAOZtPpu
+         Bj4Q==
+X-Forwarded-Encrypted: i=1; AKwUvBz7AV+0JOlXIW+bGt8mJp8jYkU+QfY2hjPfz73V0Q4bpY0F/IFQI+Th5i5cpB/QWzlLb/3wwLwt6Pg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJkZFnybJVHfjcrWE2uZYmm2qYYhtGGCZbtOYHVp2EWzef+z0uU
+	94RYwqC2wMzum+12f0B/bbbEAj1/YHJpXNOqpv0O5LRhJ0rrxUYxR+NEcGrgseq2Qg==
+X-Gm-Gg: AYBFou0EKBuwTX3XJRqHDhoG/d/F7oT9Ws5KOJ5c6cUqtN4sfJNraCsamhNzjJCeUrZ
+	FSse4ai5NFIG5B5/15qT8X3zEAtDF8MAWv7TXHOebF6cJkVBSDc7Tp+Ylx9CddDJwwIcdF2JIyX
+	ul60uX6+fi+F2rl92cKK6P1eSBuK5bLUvuwjs72fZ1kK+YewiDCFtRxHqhQ1g7gFwC2AIQA/NBe
+	hpbpjpBJebR3sbbQIEPg6YsJ5MlxLlBeUJeZOTh4aK0+9YAuGFw3oyWcNH5kwkrEw+ltSVi1hcc
+	wEgdHU5GcmbJDoSG9quahyRqYKsS9qVMo46Ybh54TzL6/rVj+CBkiIJe40Vk4j91ePl1KT9gx3r
+	gG1CaB6YXRhNeaow4gdZZi9I/IkgWGBVA74o2QyTBsEQXQNLOhPtdGyL9+k0WlhOnzS9MXcPavd
+	llvBssQGVf0Rx70lT/XLVRIl+lcMOS6BCMEwFsrcCqb29kmDxq12PYVTJq80oxozBzJh8g5wepL
+	7+JKqHenWPHQPL9eZThG67Y2p/1JkCrp55/tmXH9LggFFk2MfCcUA9B6rd2sXo/qM2CFuCR+qU7
+	9UKH1PwZ43EFqAysg/78/9dJQAkaaoMseCf+I3HKOEm64iUaDFEQ1CcW5vEqet8VqQ==
+X-Received: by 2002:a05:6808:150a:b0:52b:7641:33a6 with SMTP id 5614622812f47-5535a66d1d5mr1600281b6e.14.1792595292926;
+        Wed, 21 Oct 2026 08:08:12 -0700 (PDT)
 Received: from rrangel.c.googlers.com.com (202.168.136.34.bc.googleusercontent.com. [34.136.168.202])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-552b400bd39sm2023922b6e.6.2026.10.21.08.08.14
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-552b400bd39sm2023922b6e.6.2026.10.21.08.08.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 08:08:15 -0700 (PDT)
+        Wed, 21 Oct 2026 08:08:12 -0700 (PDT)
 From: Raul E Rangel <rrangel@chromium.org>
 To: Valentina Manea <valentina.manea.m@gmail.com>,
 	Shuah Khan <shuah@kernel.org>,
@@ -84,10 +84,11 @@ Cc: Hongren Zheng <i@zenithal.me>,
 	linux-usb@vger.kernel.org,
 	Raul E Rangel <rrangel@chromium.org>,
 	stable@vger.kernel.org,
+	Anirudh Rayabharam <mail@anirudhrb.com>,
 	"Brian G. Merrell" <bgmerrell@novell.com>
-Subject: [PATCH 5/6] usbip: vhci_hcd: allocate vhci_priv outside lock and handle ENOMEM
-Date: Wed, 21 Oct 2026 09:07:00 -0600
-Message-ID: <20261021150704.3129446-6-rrangel@chromium.org>
+Subject: [PATCH 3/6] usbip: vhci_hcd: stop enqueue and drain all pending URBs on disconnect
+Date: Wed, 21 Oct 2026 09:06:58 -0600
+Message-ID: <20261021150704.3129446-4-rrangel@chromium.org>
 X-Mailer: git-send-email 2.56.0.212.g129ede20d9-goog
 In-Reply-To: <20261021150704.3129446-1-rrangel@chromium.org>
 References: <20261021150704.3129446-1-rrangel@chromium.org>
@@ -102,129 +103,249 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In vhci_urb_enqueue(), usb_hcd_link_urb_to_ep() links the URB onto the
-endpoint before calling vhci_tx_urb(), which allocates struct vhci_priv
-with GFP_ATOMIC while holding vhci->lock. If that allocation fails,
-vhci_tx_urb() triggers VDEV_EVENT_ERROR_MALLOC and returns while
-vhci_urb_enqueue() still returns 0, leaving urb->hcpriv NULL and the URB
-linked on ep->urb_list where vhci_urb_dequeue() rejects it with -EIDRM.
-Moreover, failing a single URB submission should return -ENOMEM to the
-caller rather than tearing down the entire USB/IP connection.
+Even with vhci_urb_dequeue() completing unsent URBs locally when
+unlinked, several races in vhci_shutdown_connection() allow URBs to be
+enqueued after shutdown begins or remain stranded on vdev->priv_tx and
+vdev->priv_rx across disconnect and port reset:
 
-Allocate struct vhci_priv in vhci_urb_enqueue() using the caller's
-mem_flags before acquiring vhci->lock, pass it to vhci_tx_urb(), and
-free it on early-exit and non-transmit paths.
+1. vhci_urb_enqueue() only rejects URBs when vdev->ud.status is
+   VDEV_ST_NULL or VDEV_ST_ERROR. Because ud.status remains VDEV_ST_USED
+   after USBIP_EH_SHUTDOWN is set and until vhci_device_reset() runs
+   after vhci_shutdown_connection(), vhci_urb_enqueue() continues
+   accepting new URBs onto vdev->priv_tx even after tcp_tx has stopped.
 
-In vhci_urb_dequeue(), if allocating struct vhci_unlink fails after
-usb_hcd_check_unlink_urb() has already marked urb->unlinked, return 0
-after triggering VDEV_EVENT_ERROR_MALLOC so callers know the unlink was
-accepted and connection teardown will drain priv_rx and give back the
-URB.
+2. vhci_shutdown_connection() clears vdev->ud.tcp_socket without holding
+   vhci->lock or vdev->ud.lock, racing with vhci_urb_enqueue() and
+   vhci_urb_dequeue().
 
+3. vhci_device_unlink_cleanup() only processes vdev->unlink_tx and
+   vdev->unlink_rx, leaving non-unlinked URBs on vdev->priv_tx and
+   vdev->priv_rx until asynchronous rh_port_disconnect() work runs on
+   usb_hub_wq. If a task holds udev->dev.mutex while waiting on an URB,
+   usb_disconnect() blocks on udev->dev.mutex. Moreover, because
+   vhci_device_reset() immediately sets ud.status to VDEV_ST_NULL, any
+   entries left on vdev->priv_tx when the port is re-attached via
+   attach_store() will be transmitted by the new connection's tcp_tx
+   thread to the new server.
+
+In a live deadlock captured with drgn on a hung host:
+- rx thread logged "connection closed" and set USBIP_EH_SHUTDOWN, and
+  vhci_shutdown_connection() stopped tcp_rx and tcp_tx (29.6519 s)
+  before clearing tcp_socket (29.6716 s).
+- In kernel memory (drgn), vdev->priv_tx still held never-transmitted
+  URB seqnum 17193284 with urb->unlinked = -ESHUTDOWN and
+  use_count = 1, while vdev->priv_rx held unanswered URB
+  seqnum 17193282 with urb->unlinked = 0 and vdev->unlink_tx/unlink_rx
+  were empty.
+- A concurrent USBDEVFS_RESET ioctl holding udev->dev.mutex called
+  usb_hcd_flush_endpoint() -> usb_kill_urb(), blocking in D state on
+  seqnum 17193284 while usb_hub_wq blocked in usb_disconnect() waiting
+  for udev->dev.mutex, freezing the vhci root hub.
+
+Fix this to guarantee all pending URBs are given back when the
+connection is torn down (note that while a connection remains up,
+usb_kill_urb() still waits for RET_UNLINK or connection teardown):
+- Clear vdev->ud.tcp_socket under vhci->lock and vdev->ud.lock in
+  vhci_shutdown_connection(), and reject vhci_urb_enqueue() (with a
+  rate-limited error) when USBIP_EH_SHUTDOWN is set or tcp_socket is
+  NULL.
+- Drain and give back all remaining URBs on vdev->priv_tx and
+  vdev->priv_rx in vhci_device_unlink_cleanup() via
+  vhci_cleanup_priv_list(), using list_first_entry() loops across lock
+  drops.
+
+Fixes: 258c81b341c8 ("usbip: give back URBs for unsent unlink requests during cleanup")
 Fixes: 04679b3489e0 ("Staging: USB/IP: add client driver")
 Cc: stable@vger.kernel.org
 Assisted-by: Gemini
 Signed-off-by: Raul E Rangel <rrangel@chromium.org>
 ---
 
- drivers/usb/usbip/vhci_hcd.c | 30 ++++++++++++++++++++----------
- 1 file changed, 20 insertions(+), 10 deletions(-)
+ drivers/usb/usbip/vhci_hcd.c | 115 ++++++++++++++++++++++++-----------
+ 1 file changed, 81 insertions(+), 34 deletions(-)
 
 diff --git a/drivers/usb/usbip/vhci_hcd.c b/drivers/usb/usbip/vhci_hcd.c
-index 522cbaa6eb0a..27dba51392b7 100644
+index 7fadb41c01fc..78ea1fc7906e 100644
 --- a/drivers/usb/usbip/vhci_hcd.c
 +++ b/drivers/usb/usbip/vhci_hcd.c
-@@ -665,18 +665,12 @@ static int vhci_hub_control(struct usb_hcd *hcd, u16 typeReq, u16 wValue,
- 	return retval;
- }
- 
--static void vhci_tx_urb(struct urb *urb, struct vhci_device *vdev)
-+static void vhci_tx_urb(struct urb *urb, struct vhci_device *vdev,
-+			struct vhci_priv *priv)
- {
--	struct vhci_priv *priv;
- 	struct vhci_hcd *vhci_hcd = vdev_to_vhci_hcd(vdev);
- 	unsigned long flags;
- 
--	priv = kzalloc_obj(struct vhci_priv, GFP_ATOMIC);
--	if (!priv) {
--		usbip_event_add(&vdev->ud, VDEV_EVENT_ERROR_MALLOC);
--		return;
--	}
--
- 	spin_lock_irqsave(&vdev->priv_lock, flags);
- 
- 	priv->seqnum = (u32)atomic_inc_return(&vhci_hcd->seqnum);
-@@ -702,6 +696,7 @@ static int vhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 	u8 portnum = urb->dev->portnum;
- 	int ret = 0;
- 	struct vhci_device *vdev;
-+	struct vhci_priv *priv;
- 	unsigned long flags;
- 
- 	if (!portnum || portnum > VHCI_HC_PORTS) {
-@@ -716,11 +711,16 @@ static int vhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 		return -EINVAL;
- 	}
- 
-+	priv = kzalloc_obj(struct vhci_priv, mem_flags);
-+	if (!priv)
-+		return -ENOMEM;
-+
- 	spin_lock_irqsave(&vhci->lock, flags);
- 
- 	if (urb->status != -EINPROGRESS) {
- 		dev_err(dev, "URB already unlinked!, status %d\n", urb->status);
- 		spin_unlock_irqrestore(&vhci->lock, flags);
-+		kfree(priv);
- 		return urb->status;
- 	}
- 
-@@ -734,6 +734,7 @@ static int vhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 				    vdev->rhport);
+@@ -727,8 +727,11 @@ static int vhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 	/* refuse enqueue for dead connection */
+ 	spin_lock(&vdev->ud.lock);
+ 	if (vdev->ud.status == VDEV_ST_NULL ||
+-	    vdev->ud.status == VDEV_ST_ERROR) {
+-		dev_err(dev, "enqueue for inactive port %d\n", vdev->rhport);
++	    vdev->ud.status == VDEV_ST_ERROR ||
++	    (vdev->ud.event & USBIP_EH_SHUTDOWN) ||
++	    !vdev->ud.tcp_socket) {
++		dev_err_ratelimited(dev, "enqueue for inactive port %d\n",
++				    vdev->rhport);
  		spin_unlock(&vdev->ud.lock);
  		spin_unlock_irqrestore(&vhci->lock, flags);
-+		kfree(priv);
  		return -ENODEV;
- 	}
- 	spin_unlock(&vdev->ud.lock);
-@@ -829,7 +830,7 @@ static int vhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 	}
+@@ -982,18 +985,20 @@ static void vhci_cleanup_unlink_list(struct vhci_device *vdev,
+ 	struct vhci_hcd *vhci_hcd = vdev_to_vhci_hcd(vdev);
+ 	struct usb_hcd *hcd = vhci_hcd_to_hcd(vhci_hcd);
+ 	struct vhci *vhci = vhci_hcd->vhci;
+-	struct vhci_unlink *unlink, *tmp;
++	struct vhci_unlink *unlink;
+ 	unsigned long flags;
  
- out:
--	vhci_tx_urb(urb, vdev);
-+	vhci_tx_urb(urb, vdev, priv);
- 	spin_unlock_irqrestore(&vhci->lock, flags);
+ 	spin_lock_irqsave(&vhci->lock, flags);
+ 	spin_lock(&vdev->priv_lock);
  
- 	return 0;
-@@ -837,6 +838,7 @@ static int vhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- no_need_xmit:
- 	usb_hcd_unlink_urb_from_ep(hcd, urb);
- no_need_unlink:
-+	kfree(priv);
- 	if (!ret) {
- 		/* usb_hcd_giveback_urb() should be called with
- 		 * irqs disabled
-@@ -956,10 +958,18 @@ static int vhci_urb_dequeue(struct usb_hcd *hcd, struct urb *urb, int status)
- 		/* setup CMD_UNLINK pdu */
- 		unlink = kzalloc_obj(struct vhci_unlink, GFP_ATOMIC);
- 		if (!unlink) {
-+			/*
-+			 * Leave urb->unlinked set and return 0 so callers know
-+			 * the unlink was accepted and usb_hcd_flush_endpoint()
-+			 * does not busy-spin retrying unlink1(); the shutdown
-+			 * triggered below (assuming usbip_event_add() can
-+			 * allocate its event node) will drain priv_rx and give
-+			 * back the URB.
-+			 */
- 			spin_unlock(&vdev->priv_lock);
- 			spin_unlock_irqrestore(&vhci->lock, flags);
- 			usbip_event_add(&vdev->ud, VDEV_EVENT_ERROR_MALLOC);
--			return -ENOMEM;
-+			return 0;
+-	list_for_each_entry_safe(unlink, tmp, unlink_list, list) {
++	while (!list_empty(unlink_list)) {
+ 		struct urb *urb;
+ 
++		unlink = list_first_entry(unlink_list, struct vhci_unlink, list);
++		list_del(&unlink->list);
++
+ 		urb = pickup_urb_and_free_priv(vdev, unlink->unlink_seqnum);
+ 		if (!urb) {
+-			list_del(&unlink->list);
+ 			kfree(unlink);
+ 			continue;
  		}
+@@ -1002,8 +1007,6 @@ static void vhci_cleanup_unlink_list(struct vhci_device *vdev,
  
- 		unlink->seqnum = atomic_inc_return(&vhci_hcd->seqnum);
+ 		usb_hcd_unlink_urb_from_ep(hcd, urb);
+ 
+-		list_del(&unlink->list);
+-
+ 		spin_unlock(&vdev->priv_lock);
+ 		spin_unlock_irqrestore(&vhci->lock, flags);
+ 
+@@ -1019,6 +1022,50 @@ static void vhci_cleanup_unlink_list(struct vhci_device *vdev,
+ 	spin_unlock_irqrestore(&vhci->lock, flags);
+ }
+ 
++/*
++ * Drain any remaining URBs still queued on priv_tx (e.g. enqueued before
++ * USBIP_EH_SHUTDOWN was set or after tcp_tx stopped) or waiting for a reply
++ * on priv_rx so no orphaned URBs remain after connection teardown.
++ */
++static void vhci_cleanup_priv_list(struct vhci_device *vdev,
++				   struct list_head *priv_list)
++{
++	struct vhci_hcd *vhci_hcd = vdev_to_vhci_hcd(vdev);
++	struct usb_hcd *hcd = vhci_hcd_to_hcd(vhci_hcd);
++	struct vhci *vhci = vhci_hcd->vhci;
++	struct vhci_priv *priv;
++	unsigned long flags;
++
++	spin_lock_irqsave(&vhci->lock, flags);
++	spin_lock(&vdev->priv_lock);
++
++	while (!list_empty(priv_list)) {
++		struct urb *urb;
++
++		priv = list_first_entry(priv_list, struct vhci_priv, list);
++		urb = priv->urb;
++
++		list_del(&priv->list);
++		kfree(priv);
++		urb->hcpriv = NULL;
++
++		urb->status = -ENODEV;
++
++		usb_hcd_unlink_urb_from_ep(hcd, urb);
++
++		spin_unlock(&vdev->priv_lock);
++		spin_unlock_irqrestore(&vhci->lock, flags);
++
++		usb_hcd_giveback_urb(hcd, urb, urb->status);
++
++		spin_lock_irqsave(&vhci->lock, flags);
++		spin_lock(&vdev->priv_lock);
++	}
++
++	spin_unlock(&vdev->priv_lock);
++	spin_unlock_irqrestore(&vhci->lock, flags);
++}
++
+ static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
+ {
+ 	/* give back URB of unsent unlink request */
+@@ -1026,17 +1073,26 @@ static void vhci_device_unlink_cleanup(struct vhci_device *vdev)
+ 
+ 	/* give back URB of unanswered unlink request */
+ 	vhci_cleanup_unlink_list(vdev, &vdev->unlink_rx);
++
++	/* give back remaining unsent and unanswered URBs */
++	vhci_cleanup_priv_list(vdev, &vdev->priv_tx);
++	vhci_cleanup_priv_list(vdev, &vdev->priv_rx);
+ }
+ 
+ /*
+- * The important thing is that only one context begins cleanup.
+- * This is why error handling and cleanup become simple.
+- * We do not want to consider race condition as possible.
++ * Tear down an active virtual port connection. After stopping tcp_rx and
++ * tcp_tx, tcp_socket is cleared under vhci->lock and ud->lock so concurrent
++ * vhci_urb_enqueue() and vhci_urb_dequeue() calls are serialized before
++ * vhci_device_unlink_cleanup() drains all pending URBs.
+  */
+ static void vhci_shutdown_connection(struct usbip_device *ud)
+ {
+ 	struct vhci_device *vdev = container_of(ud, struct vhci_device, ud);
+-	struct usb_hcd *hcd = vhci_hcd_to_hcd(vdev_to_vhci_hcd(vdev));
++	struct vhci_hcd *vhci_hcd = vdev_to_vhci_hcd(vdev);
++	struct usb_hcd *hcd = vhci_hcd_to_hcd(vhci_hcd);
++	struct vhci *vhci = vhci_hcd->vhci;
++	struct socket *socket;
++	unsigned long flags;
+ 
+ 	/* need this? see stub_dev.c */
+ 	if (ud->tcp_socket) {
+@@ -1056,34 +1112,25 @@ static void vhci_shutdown_connection(struct usbip_device *ud)
+ 	dev_info(hcd_dev(hcd), "stop threads\n");
+ 
+ 	/* active connection is closed */
+-	if (vdev->ud.tcp_socket) {
+-		sockfd_put(vdev->ud.tcp_socket);
+-		vdev->ud.tcp_socket = NULL;
+-		vdev->ud.sockfd = -1;
+-	}
++	spin_lock_irqsave(&vhci->lock, flags);
++	spin_lock(&vdev->ud.lock);
++	socket = vdev->ud.tcp_socket;
++	vdev->ud.tcp_socket = NULL;
++	vdev->ud.sockfd = -1;
++	spin_unlock(&vdev->ud.lock);
++	spin_unlock_irqrestore(&vhci->lock, flags);
++
++	if (socket)
++		sockfd_put(socket);
+ 	dev_info(hcd_dev(hcd), "release socket\n");
+ 
+ 	vhci_device_unlink_cleanup(vdev);
+ 
+ 	/*
+-	 * rh_port_disconnect() is a trigger of ...
+-	 *   usb_disable_device():
+-	 *	disable all the endpoints for a USB device.
+-	 *   usb_disable_endpoint():
+-	 *	disable endpoints. pending urbs are unlinked(dequeued).
+-	 *
+-	 * NOTE: After calling rh_port_disconnect(), the USB device drivers of a
+-	 * detached device should release used urbs in a cleanup function (i.e.
+-	 * xxx_disconnect()). Therefore, vhci_hcd does not need to release
+-	 * pushed urbs and their private data in this function.
+-	 *
+-	 * NOTE: vhci_dequeue() must be considered carefully. When shutting down
+-	 * a connection, vhci_shutdown_connection() expects vhci_dequeue()
+-	 * gives back pushed urbs and frees their private data by request of
+-	 * the cleanup function of a USB driver. When unlinking a urb with an
+-	 * active connection, vhci_dequeue() does not give back the urb which
+-	 * is actually given back by vhci_rx after receiving its return pdu.
+-	 *
++	 * rh_port_disconnect() triggers asynchronous USB device disconnect on
++	 * usb_hub_wq (usb_disconnect() -> usb_disable_device()). All pending
++	 * URBs and unlink requests on vdev have already been unlinked and
++	 * given back synchronously by vhci_device_unlink_cleanup() above.
+ 	 */
+ 	rh_port_disconnect(vdev);
+ 
 -- 
 2.56.0.212.g129ede20d9-goog
 
