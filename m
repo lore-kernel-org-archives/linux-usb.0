@@ -1,78 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792599179;
-	b=DAyCVYgsdauaM5yDDxJLG6AMtVcGc/B5vvI8Z3InoNH4BsNAeJygyBuI6RNJWzaNFakj
-	 kvdiQoE909kxs9DJCQlKSX13aTQvL4nbCDR35vz9tu91XRQZaXoSJvV2yOHSnWB/eu9/t
-	 EA9UR6YSWSlYL3IBtIDyWvjScmfJo3NnSv1dpo1VWOdL4eiN8BhXSQkc7YXWtrqUhadFm
-	 cBzO/xMG13dX5JqBCMazHAlsLq2saBejOpquw6aQrSHf/dBvWGaA1uaTAkkiywbZZdXaz
-	 Eax+PgLswcwh9DgMD1iVA8BxWctOQRUwYgmOUqy3U9CP0I7azNA3u/GRgNzNpj5RQwg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792599179;
-	h=Received:DKIM-Signature:Received:From:Date:Subject:MIME-Version:
-	 Content-Type:Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=jJLVwqngB3khTM7aVsmVcc/kQR+Ovh/E3oE7VLbfW6I=;
-	b=ZWEjfoGQ6QcjAFkJIFMd0PcR+qHjs49JlLbQUpvjZ+muLwbAofWaKVGcYskAjfXt8Pr6
-	 OjQeUWhnHZfHesvyH93k+oqTqZQ9jZ/GH4sJ5aI6Y3hqGKS4xs0BA7VABAbDBkFAKSV6X
-	 h2C5dZRSfsSfH74vTJTvSMwJIIwa3nKGWKyLaEwg6o3z3abLBd7AE0P5lHW1QFJB8Xldn
-	 Kiqhu0doz2hC8Gx5JWR9MZxYVUVfqLJxu6JuKRgb+ziT8Y8HZPuoGW2/ohEPZoVpzr8Ki
-	 XHMYbX0vUFW79iahwRdcTOpPhgEpdcYyzG77lMsMxwKGoGepSv+eNx+Iyq5IF0L4tPg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C6crfg8Q;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792599389;
+	b=RxTJtrnxYJD1uGMObuh9qfel4/L7aDddMr5F1PRcxLJxxTYZwlfAXCbqgxjmGwVOpbST
+	 9jnGQ8/VkeOK963eBgLUwA7Z2L7mVuuqGGIr1D6k0+NRAkMXBogfqpvmQSkGLKJxzfSPB
+	 YsVvfLGyWXcHCglJey7Mb+AEkisIAYDUp8h2v1ZUkJUdFFQTHCacT8e84vcScMlXRyxNJ
+	 lbm6RIiZl7vdvqcYkfGdAdXKrKzSvtFLr+Ul50QcLij+k17lc8Q7xMf9nC6NrfLIn99/g
+	 gKOmHvR4lD/Ry+pjdD6ZfQDzsXQrrsni1JixiOAkzwQYH7SS7ufu0LUuMZMYY/Ks++Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792599389;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=bg+1+4ZPaQi6eUD7Z5Axj25aKV9yf5JpgYmXlfjkdck=;
+	b=v0jbrCL6CbwnDa1dBxFPaehiOkLej6S4JuzQmgiey9fIEagJlzl9yCxGxHLvY36BXvrx
+	 kVd3wydDAUy/hSuJgrYYL8GD2BsJAjDmWiRPv+659nQlAqDbsSgKb7M8/JbkXNJH8i15U
+	 1VDVqgQDsDHcSTPtXdlMfpEBsYFV5ueThrwXZ+4nR108gOY3AIoi8CGBCCmksK3vdCXOY
+	 3V3pE4jIPwaiYNcNeLZk6NqFRP8zZb9EPNVircGPdh+eiSRunTMjc4WPWOL696pEWQeru
+	 cDFUE7aLHCPlLcQUzXRCJ/Sg3CTAUybks7f0I65Jq0eRR3kbuFOzD0FPJcaTQy8Y5lg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tw7ylmQ1;
+	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2B30606B6D6;
-	Wed, 21 Oct 2026 16:12:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13E88606A319
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 16:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C6crfg8Q
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1792599178;
-	b=CxlHMCJQvj75x+e6yy//KoCf4kzOQhe9KiEOZPX0xFagqIPoNR+OCerjMGop7/DsXzVD
-	 Jm3mPNFeVvylhtiE0DaTwxNK4nkLFw2PHpj3Bn/04KaGeTt3vZndCWG3XHgQF0QiYpAG7
-	 w9T9rix9yWpq96SMoUDdTciC5Zmp+CPsjjYpdR2U/1SUszNxkGTHOAGnP83MmffouwNHR
-	 YZ/k3Is4r1eNV4vQxtmSzJBDB6mCqFF8+K74X1Sn1RA7e9mB9ZoBJZT6Ych43Z5LuGoK3
-	 LRUURM7Oni0sjLEdxtIhl/6v6Oq/aVTqVBImJJepywtrhgdG2aiazNSi7lhpXskCwig==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1792599178;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:References:In-Reply-To:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=jJLVwqngB3khTM7aVsmVcc/kQR+Ovh/E3oE7VLbfW6I=;
-	b=S+GpLeef+xvvCbmW40qZlP2Np/fLQR3Gfmdasp83+EkHc2zKPyg0nRT6YRgcbwrMOdCU
-	 IIxvjFEXHinUiHxSb/hW738UhuCE9UVGlqjfoXb26napjz8Trx4XWg+qTPxoeYqVuOQE4
-	 IMvjUEhAE43+tP+3upmKyuTO6uwiWtpbUyrzZ/j6xvJ1x16AKsUWLOIt2Tp7LNQXM3aV6
-	 rHS1yVUtoAz++TTStzfnM2ruKkzWQusg+UfbENRZF1U4tpaqdLLBj0nwjstoahVysdpIG
-	 kEVyFGdslNQDprdxrEQetDKlmfRFh6O/fskGXqNZD9dGF/p2G0mmp88WH/AGzvzP4Og==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id B09481F0182C;
-	Wed, 21 Oct 2026 16:12:42 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Tw7ylmQ1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A09D1F000C3;
+	Wed, 21 Oct 2026 16:16:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792599178;
-	bh=jJLVwqngB3khTM7aVsmVcc/kQR+Ovh/E3oE7VLbfW6I=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To;
-	b=C6crfg8QGMWcqaz5bkhnfezazuqCOoAch/wy4x20VhBffSVH6wPro2EzMAYCqyUOf
-	 VYbDS0hEAFlcPl+qL+M3Lr7kxmi/G2O/HMwXwgUNpml56qodAnraU7/c2dR52Gi9Oy
-	 m8ehORFpbb6DNyl/CW5QQ8zvjCgLR1FfXLHte1UgNtVLIRaF/6E0K/HcsK5/PM8Bj9
-	 7M5xQqT13lrpypZqA5CNcx6QVzLVAQBnNBWtpGSFfx9a2Gyo3tdP/alyr5uh37LnfX
-	 IXkAUdeiYTsdU5mxrXLRd8u7V20dawVMavLx4oHWaoKXg+Rus3RWzDw7IwZXno5rA/
-	 w0RJ0TMfhgSsQ==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id D07E743400;
-	Wed, 21 Oct 2026 16:12:23 +0000 (UTC)
-From: Cunhao Lu via B4 Relay <devnull+1579567540.qq.com@kernel.org>
-Date: Thu, 22 Oct 2026 00:11:21 +0800
-Subject: [PATCH 24/27] mmc: dw_mmc-rockchip: Keep RK3572 NVM domain powered
+	s=k20260515; t=1792599388;
+	bh=bg+1+4ZPaQi6eUD7Z5Axj25aKV9yf5JpgYmXlfjkdck=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Tw7ylmQ1O92+IehlkVMS0Zqlw7T/lb/0hQUXee6u69Qj7f7SkKV/KvYX38MW8N4re
+	 bqNAfQQhbdz17JdkDzl/8PhGgjh3j/ft3vHvQ3TFsJrgjKzfmjlnwnTPPOpgekiYsg
+	 9AcYdEb3AL5Khx12HJ7Wo7VLNnjTOBuD6Z22J2FvjonCD4E6aTpntKjHgP2ELPpBxW
+	 nIGfMIwP8y57y/5NpuK2hKgszOuN76gOwaWuJWJrIjAYoubPG8/6Y0BDGf3UYSo7ZF
+	 sQgdyWQjfRpMZ+ceQDQ0erg4Yh8GegG6QZZYb9/kYRRPuGsAyFET6yhGoSyOzOUNFp
+	 ZxXsEHtmHBMRQ==
+Message-ID: <sashiko-outbox-180461@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH V3] xhci: Reset TI USB controller on xhci shutdown
+Reply-To: sashiko-reviews@lists.linux.dev
+To: wenxiong@linux.ibm.com
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261021160608.8229-1-wenxiong@linux.ibm.com>
+References: <20261021160608.8229-1-wenxiong@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2026 16:16:27 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -81,126 +58,102 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261022-add-board-ok3572-c-v1-24-0b0fd85a31ee@qq.com>
-References: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
-In-Reply-To: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
-To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
- Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Elaine Zhang <zhangqing@rock-chips.com>, Lee Jones <lee@kernel.org>, 
- Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
- Richard Cochran <richardcochran@gmail.com>, Ulf Hansson <ulfh@kernel.org>, 
- Andi Shyti <andi.shyti@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, 
- Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- David Wu <david.wu@rock-chips.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
- Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
- Lukasz Luba <lukasz.luba@arm.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
- Manivannan Sadhasivam <mani@kernel.org>, 
- Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
- Jaehoon Chung <jh80.chung@samsung.com>, 
- Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Cunhao Lu <1579567540@qq.com>, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- mfd@lists.linux.dev, linux-gpio@vger.kernel.org, netdev@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, 
- linux-serial@vger.kernel.org, linux-mmc@vger.kernel.org, 
- linux-stm32@st-md-mailman.stormreply.com, linux-phy@lists.infradead.org, 
- linux-usb@vger.kernel.org
-X-Mailer: b4 0.15.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1792599138; l=2194;
- i=1579567540@qq.com; s=20261015; h=from:subject:message-id;
- bh=3PU9hSe/SMk7DBdg0xf4xauSWrjq1Nz1yuJVCXM3AuM=;
- b=F8VlQQXXXNczwtESOy5RD1fLR2o2T1P1xaFISpXna6qy9gK+Nv97fAEV0tPYcJpVPqhMJ72/i
- Vvc390n0/atAb9P5zCJiO6A21b9yqanXUk0GsKPdEjNs1+rSq2/UdJr
-X-Developer-Key: i=1579567540@qq.com; a=ed25519;
- pk=sUTWrzlIwT4C7ctjNfVZAzzg0G7QUn2XxRGpYsw4RtM=
-X-Endpoint-Received: by B4 Relay for 1579567540@qq.com/20261015 with
- auth_id=1177
-X-Original-From: Cunhao Lu <1579567540@qq.com>
-Reply-To: 1579567540@qq.com
-Content-Transfer-Encoding: 7bit
 
-From: Cunhao Lu <1579567540@qq.com>
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] xhci: uninitialized variable err in xhci_shutdown()
+- [Low] xhci: build failure in xhci_shutdown() when CONFIG_PCI is disabled
+--
 
-Power cycling the RK3572 NVM domain causes repeated SD recovery. Keep it
-powered during runtime suspend without disabling controller runtime PM.
+commit b61fa6ad71541414d2813b27997006fef547aa43
+Author: Wen Xiong <wenxiong@linux.ibm.com>
 
-Signed-off-by: Cunhao Lu <1579567540@qq.com>
----
- drivers/mmc/host/dw_mmc-rockchip.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+xhci: Reset TI USB controller on xhci shutdown
 
-diff --git a/drivers/mmc/host/dw_mmc-rockchip.c b/drivers/mmc/host/dw_mmc-rockchip.c
-index 75c82ff20f177..8bc55d4b996c6 100644
---- a/drivers/mmc/host/dw_mmc-rockchip.c
-+++ b/drivers/mmc/host/dw_mmc-rockchip.c
-@@ -10,6 +10,7 @@
- #include <linux/mmc/host.h>
- #include <linux/of_address.h>
- #include <linux/mmc/slot-gpio.h>
-+#include <linux/pm_domain.h>
- #include <linux/pm_runtime.h>
- #include <linux/slab.h>
- 
-@@ -528,6 +529,19 @@ static int dw_mci_rockchip_init(struct dw_mci *host)
- 	return 0;
- }
- 
-+static int dw_mci_rk3572_init(struct dw_mci *host)
-+{
-+	int ret;
-+
-+	/* Power cycling the NVM domain disrupts SDMMC recovery. */
-+	ret = dev_pm_genpd_rpm_always_on(host->dev, true);
-+	if (ret && ret != -EOPNOTSUPP)
-+		dev_warn(host->dev, "failed to keep power domain on: %pe\n",
-+			 ERR_PTR(ret));
-+
-+	return dw_mci_rockchip_init(host);
-+}
-+
- static const struct dw_mci_drv_data rk2928_drv_data = {
- 	.init			= dw_mci_rockchip_init,
- 	.parse_dt		= dw_mci_rk2928_parse_dt,
-@@ -541,6 +555,14 @@ static const struct dw_mci_drv_data rk3288_drv_data = {
- 	.init			= dw_mci_rockchip_init,
- };
- 
-+static const struct dw_mci_drv_data rk3572_drv_data = {
-+	.common_caps		= MMC_CAP_CMD23,
-+	.set_ios		= dw_mci_rk3288_set_ios,
-+	.execute_tuning		= dw_mci_rk3288_execute_tuning,
-+	.parse_dt		= dw_mci_rk3576_parse_dt,
-+	.init			= dw_mci_rk3572_init,
-+};
-+
- static const struct dw_mci_drv_data rk3576_drv_data = {
- 	.common_caps		= MMC_CAP_CMD23,
- 	.set_ios		= dw_mci_rk3288_set_ios,
-@@ -554,6 +576,8 @@ static const struct of_device_id dw_mci_rockchip_match[] = {
- 		.data = &rk2928_drv_data },
- 	{ .compatible = "rockchip,rk3288-dw-mshc",
- 		.data = &rk3288_drv_data },
-+	{ .compatible = "rockchip,rk3572-dw-mshc",
-+		.data = &rk3572_drv_data },
- 	{ .compatible = "rockchip,rk3576-dw-mshc",
- 		.data = &rk3576_drv_data },
- 	{},
+This commit adds an XHCI_RESET_ON_SHUTDOWN quirk for TI 0x8241 xHCI PCI
+controllers and calls pci_reset_function_locked() in xhci_shutdown() so the
+controller can initialize properly in a kexec-booted kernel.
 
--- 
-2.34.1
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index a9e47e178c280..8e5e25ebb6b5e 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -750,6 +750,7 @@ EXPORT_SYMBOL_GPL(xhci_stop);
+>  void xhci_shutdown(struct usb_hcd *hcd)
+>  {
+>  	struct xhci_hcd *xhci =3D hcd_to_xhci(hcd);
+> +	int err;
+> =20
+>  	if (xhci->quirks & XHCI_SPURIOUS_REBOOT)
+>  		usb_disable_xhci_ports(to_pci_dev(hcd->self.sysdev));
+> @@ -781,6 +782,13 @@ void xhci_shutdown(struct usb_hcd *hcd)
+>  	xhci_dbg_trace(xhci, trace_xhci_dbg_init,
+>  			"xhci_shutdown completed - status =3D %x",
+>  			readl(&xhci->op_regs->status));
+> +
+> +	/*
+> +	 * TI xHCI controllers fail to initialize in a kexec
+> +	 * kernel without a PCI function reset
+> +	 */
+> +	if (err && (xhci->quirks & XHCI_RESET_ON_SHUTDOWN))
 
+[Severity: High]
+Is err used uninitialized here in xhci_shutdown() in drivers/usb/host/xhci.=
+c?
 
+In xhci_shutdown(), err is declared on the stack without an initializer and=
+ is
+never assigned a value before being checked in:
+
+	if (err && (xhci->quirks & XHCI_RESET_ON_SHUTDOWN))
+		pci_reset_function_locked(to_pci_dev(hcd->self.sysdev));
+
+When system shutdown or a kexec reboot runs:
+
+  device_shutdown()
+    -> pci_device_shutdown()
+      -> usb_hcd_pci_shutdown()
+        -> xhci_pci_shutdown()
+          -> xhci_shutdown()
+
+this reads uninitialized stack memory (and triggers an uninitialized variab=
+le
+warning at build time), and when stack variables are zero-initialized,
+pci_reset_function_locked() will be skipped completely.
+
+Should err be dropped so the condition only checks xhci->quirks &
+XHCI_RESET_ON_SHUTDOWN?
+
+> +		pci_reset_function_locked(to_pci_dev(hcd->self.sysdev));
+
+[Severity: Low]
+Will building drivers/usb/host/xhci.c fail when CONFIG_USB_XHCI_HCD is enab=
+led
+and CONFIG_PCI is disabled?
+
+In include/linux/pci.h, pci_reset_function_locked() is only declared inside
+the #ifdef CONFIG_PCI block and does not have a stub when CONFIG_PCI is
+disabled:
+
+  #ifdef CONFIG_PCI
+  ...
+  int __pci_reset_function_locked(struct pci_dev *dev);
+  int pci_reset_function(struct pci_dev *dev);
+  int pci_reset_function_locked(struct pci_dev *dev);
+
+Since drivers/usb/host/xhci.c can be built without CONFIG_PCI, calling
+pci_reset_function_locked() directly in xhci_shutdown() causes an implicit
+function declaration error on non-PCI configurations.
+
+Would it be better to perform this PCI function reset in xhci_pci_shutdown()
+in drivers/usb/host/xhci-pci.c alongside the existing PCI-specific shutdown
+handling?
+
+>  }
+>  EXPORT_SYMBOL_GPL(xhci_shutdown);
+
+[ ... ]
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021160608.8229=
+-1-wenxiong@linux.ibm.com?part=3D1
