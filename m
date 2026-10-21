@@ -1,56 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792570947;
-	b=Ie1jqIz6aFKcvovO8/gDjZ6mzKdnucusnfCEI5Covlm4hOVCDrDwtOxljIiDmQvPMrQ5
-	 JWoxD3aAPz/VyeRs21z8Rw2h4MZeBrOXIiKaCxTzHiA2eu8/UjroUSxYqbmveNedgFhWl
-	 zTIltrhz5WlMNYRM+KEd3qbNq3OKRVgPk18xRP3mDAUbKE1q6fJq2uTfgl/Hj/BTs+uKb
-	 VYlzTudVikMoVsy7WA8GcQ5GLiH9XGFytLZYJFRvhq51ZI7B4HuwZtThbaPHP7qE6VsJ2
-	 KjqPzXZ3Xf4VTLvYkIZLv5IEEKtgNSfO6YU2Vz3heg37vqsAv/4zS5Tnt7P/eTU3+Aw==
+	t=1792571906;
+	b=KzeTFDVU1QdPncLxIzb37grIq2nOWI0QvybYoK0TF4P0462Oo0uMoWLYBKet5J+kcs5H
+	 5j6Wf4kse8VVQPQIK8IE0W6E70UURG845iaL+00f6Xm2ev5gZilaathoIuhb87WarzAUy
+	 +B90lHLOcpikn4FrRjnHOLTV6mDFgBeAFlLARPF/e2rRnsVOt6ITuqV4TMlC7uErkSxL8
+	 pBfSE1Z0qIgun3gNSttXTFV4lQK2AL65I+1EYadsOPJ423iMOOePNSiw3+QZBn9cwGsrs
+	 XC/o7W7TRau3SftgoP+DqFsifpQKEd03xN1wY52LwCO0FH1FtkdqVaIDZ3KzkMc0Omg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792570947;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=EuR/QaSl1Xyys2HojvhA977TlypGGESfsTvuwqGQhNc=;
-	b=YgcWiCktXdDj8iZuyWyZa35VdCAKwJpSpZY/cJVR5vAz2Jd3s7jPNU8l5u0wvt2q+7RA
-	 OUW70T17+tdE+NSblQzhAq6mZEyUB1DCXofszvUvO6z5x35X/HdPo23GAQlf0kUGOYRYt
-	 CoFRo43tOsin+Uie5TEVro5pLxf64je+MzcXryQbQNnHhzQAFAFlW4t32AlskV88dHts6
-	 JvzwTTfmPm50c6w9eNuf4gHMtw0w15382BkPClN6mrlEmcskq1W7tlrGxa6a9b9v/C48v
-	 TGqQQFRCvo+XNs2gIHdC007DU0V6knpbfD5iqywHKS5N0y4NEcQ0gJZmZK0W+/cKVOw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792571906;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=TDFRov/l+XAhp9FmFsI6kfCpkXLvo+o328yz57FheTw=;
+	b=gf28Eqmx1kFIBZ5778XzecFPmWiPXnKGMImDDoZu3yv+tZ3R0jhfiURfqYRRARkBQrI8
+	 UAS0ihZ+RrCkrnjYd8+ZX6zIa4HGdFCTyt8ZDO+vjShkedEwqCZohdnERAW1cfTwSJs61
+	 l+iFDZdrvF+DK02jeElm7yhioyW1aNOSVcDxryOTzt99XLIuuzKZAyY9VW9SNWPAZKfWY
+	 006Qf0r+jWPwwdcUXpGNhPzdQHu9xk2B3O4+HebR/tx3RehbgBfWQMf7LxwiX9EKZUL+Q
+	 89nzlgozLqG+qwB4BQSjJRYgpHDEhgqKQtj1SmqP2WE5iovRcUivHHjbeSWYV3gDYUA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hHmvPI8+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="k/TFvvJU";
+	arc=none smtp.remote-ip=192.198.163.15
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D035606A31B
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 08:22:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72C4606A321;
+	Wed, 21 Oct 2026 08:38:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B72C4606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hHmvPI8+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6AB81F000CC;
-	Wed, 21 Oct 2026 08:22:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792570947;
-	bh=EuR/QaSl1Xyys2HojvhA977TlypGGESfsTvuwqGQhNc=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hHmvPI8+XBkkkCuMlum+id7mKcDF5QdvL16oQy85aguaIwCpwOAvBR72Akqy4FRZ4
-	 EPBqLYS8+xSL5nV14cTgMuitC8azf8kNLUVwbj1uGBPzYjQ9RDfg7ZU/xsuL9yDNJM
-	 CGZZhrBaT12gjfMO+sIqt2zlx2mv7DbHuTPBO+aJV/YMhNjQMJJ6OftnpUV3Cnd8Vm
-	 HllZA00s41xK5bkBS1Q0sFXHOtzgSUrt3FYUubyeYCGQsZZ3xkzTwylqBJI+VtRtb6
-	 Ac4Zaq8naR1puxWISefC5DNSVBXmG/EiAqaMYKi9wsyfZ5DSWMBOouwr1DTKuEUr6u
-	 s1guT266BMS5A==
-Message-ID: <sashiko-outbox-179958@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb-storage: option_ms: bound probe-time bulk
- transfers
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Lee Yongjun" <jun85566@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261021081616.89976-1-jun85566@gmail.com>
-References: <20261021081616.89976-1-jun85566@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 08:22:26 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k/TFvvJU
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792571906; x=1824107906;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=hecfkEuDMhalihKY9BMlj7bW/6zIbpDkpTHwVzJjacc=;
+  b=k/TFvvJURwBNRz7uQ6kuoFKRIjWrarqd2Zz7TcmpWGU563iVw8OTVqGj
+   Zq7XHB+GkqgnO7WcSPYrTBhJEkHPgmk8LaQfzANRujp7tnf68vBZ7L1sc
+   PAqumQY2nTwm9pDOxKeh8+29iFHDe923kxiy9zJFM33Cjcy/HvIOHz7/W
+   ouCgtIauO3QMMdcNpcLlV5iZiafRNKGB0Y1QIrRxdRW8ht7sRgffOpP10
+   wuttasAM8O67a8r9IWMRk6RJoJe3b0gw1LkaavTS1sGp68dCLYyxAmUBl
+   ZwKbtDheQNPOTmJ8YEtmGj+pFLT+kOk4wEeN5tk1hAHLQLLP85Bqd5JsR
+   w==;
+X-CSE-ConnectionGUID: 1esg6ILVTvKXj2ss+okF8g==
+X-CSE-MsgGUID: M1CJ45jkR/Gu2uy3kLqYdQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1302480"
+X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
+   d="scan'208";a="1302480"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 01:38:21 -0700
+X-CSE-ConnectionGUID: s8cnjJfgTd2wTC6Q/D+k0w==
+X-CSE-MsgGUID: 9zqGMS6QRESgPiTuW0QrMQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
+   d="scan'208";a="3030859"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.66]) ([10.245.245.66])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 01:38:19 -0700
+Message-ID: <ecc0265a-04e4-4ff8-9831-c5ef45a2b37c@linux.intel.com>
+Date: Wed, 21 Oct 2026 11:38:12 +0300
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,130 +71,48 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] usb: xhci: fix EP0 context leak on virt device allocation
+ failure
+To: Anfernee Cao <anferneemelokc5@gmail.com>, sashiko-reviews@lists.linux.dev
+Cc: Mathias Nyman <mathias.nyman@intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xu Rao <raoxu@uniontech.com>,
+ Niklas Neronin <niklas.neronin@linux.intel.com>
+References: <20261017111114.1135-1-anferneemelokc5@gmail.com>
+ <sashiko-outbox-175494@kernel.org>
+ <6ad35dad.70c60f76.2e7ac9.12a4@mx.google.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <6ad35dad.70c60f76.2e7ac9.12a4@mx.google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] usb-storage: option_ms: undeclared helper usb_stor_bulk_transfer_bu=
-f_timeout()
---
+On 10/17/26 14:36, Anfernee Cao wrote:
+>> Does jumping to disable_slot here actually disable the newly enabled
+>> slot_id?
+> 
+> Yes, you're right, and thanks for catching it.  The disable_slot label
+> should pass the local slot_id.
+> 
+> This is a pre-existing bug, separate from the EP0 context accounting
+> leak fixed by this patch, and it has already been submitted:
+> 
+>    [PATCH] usb: xhci: disable the correct slot on alloc_dev failure
+>    https://patchew.org/linux/6C94F1F35FF16E76+20260806084909.2959131-1-raoxu@uniontech.com/
+>    Fixes: 3ffbba9511b4 ("USB: xhci: Allocate and address USB devices")
+> 
+> I deliberately kept this patch independent of that one.  The decrement
+> added here releases the endpoint context reservation made by this
+> invocation, regardless of which slot the current error path ends up
+> disabling.  Once Xu Rao's fix lands, the error path will disable the
+> correct slot and the two fixes compose cleanly.
+> 
+> If the maintainers prefer, I can resend this rebased on top of that fix
+> once it is applied, or send both as a series.
 
-commit 67810d8c99cea0179f022bfe478460be6b644ac8
-Author: Lee Yongjun <jun85566@gmail.com>
+I'll pick up Xu Rao's patch. It got lost somehow
 
-usb-storage: option_ms: bound probe-time bulk transfers
-
-This commit replaces the bulk transfer calls in option_rezero() and
-option_inquiry() with usb_stor_bulk_transfer_buf_timeout() to bound probe-t=
-ime
-transfers to 5 seconds. As noted in the patch commentary, this change depen=
-ds
-on an unmerged series from Hongyu Xie that introduces the timeout helper.
-
-> diff --git a/drivers/usb/storage/option_ms.c b/drivers/usb/storage/option=
-_ms.c
-> index 7c0b05a365543..d844fcaaf3fc6 100644
-> --- a/drivers/usb/storage/option_ms.c
-> +++ b/drivers/usb/storage/option_ms.c
-
-[ ... ]
-
-> @@ -44,9 +46,9 @@ static int option_rezero(struct us_data *us)
->  		return USB_STOR_TRANSPORT_ERROR;
-> =20
->  	memcpy(buffer, rezero_msg, sizeof(rezero_msg));
-> -	result =3D usb_stor_bulk_transfer_buf(us,
-> -			us->send_bulk_pipe,
-> -			buffer, sizeof(rezero_msg), NULL);
-> +	result =3D usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-> +						    buffer, sizeof(rezero_msg), NULL,
-> +						    OPTION_MS_PROBE_TIMEOUT);
->  	if (result !=3D USB_STOR_XFER_GOOD) {
->  		result =3D USB_STOR_XFER_ERROR;
->  		goto out;
-> @@ -56,14 +58,14 @@ static int option_rezero(struct us_data *us)
->  	 * Some of the devices need to be asked for a response, but we don't
->  	 * care what that response is.
->  	 */
-> -	usb_stor_bulk_transfer_buf(us,
-> -			us->recv_bulk_pipe,
-> -			buffer, RESPONSE_LEN, NULL);
-> +	usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-> +					   buffer, RESPONSE_LEN, NULL,
-> +					   OPTION_MS_PROBE_TIMEOUT);
-> =20
->  	/* Read the CSW */
-> -	usb_stor_bulk_transfer_buf(us,
-> -			us->recv_bulk_pipe,
-> -			buffer, 13, NULL);
-> +	usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-> +					   buffer, 13, NULL,
-> +					   OPTION_MS_PROBE_TIMEOUT);
-> =20
->  	result =3D USB_STOR_XFER_GOOD;
-> =20
-> @@ -90,17 +92,17 @@ static int option_inquiry(struct us_data *us)
->  		return USB_STOR_TRANSPORT_ERROR;
-> =20
->  	memcpy(buffer, inquiry_msg, sizeof(inquiry_msg));
-> -	result =3D usb_stor_bulk_transfer_buf(us,
-> -			us->send_bulk_pipe,
-> -			buffer, sizeof(inquiry_msg), NULL);
-> +	result =3D usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-> +						    buffer, sizeof(inquiry_msg), NULL,
-> +						    OPTION_MS_PROBE_TIMEOUT);
->  	if (result !=3D USB_STOR_XFER_GOOD) {
->  		result =3D USB_STOR_XFER_ERROR;
->  		goto out;
->  	}
-> =20
-> -	result =3D usb_stor_bulk_transfer_buf(us,
-> -			us->recv_bulk_pipe,
-> -			buffer, 0x24, NULL);
-> +	result =3D usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-> +						    buffer, 0x24, NULL,
-> +						    OPTION_MS_PROBE_TIMEOUT);
->  	if (result !=3D USB_STOR_XFER_GOOD) {
->  		result =3D USB_STOR_XFER_ERROR;
->  		goto out;
-> @@ -112,9 +114,9 @@ static int option_inquiry(struct us_data *us)
->  		result =3D memcmp(buffer+8, "ZCOPTION", 8);
-> =20
->  	/* Read the CSW */
-> -	usb_stor_bulk_transfer_buf(us,
-> -			us->recv_bulk_pipe,
-> -			buffer, 13, NULL);
-> +	usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-> +					   buffer, 13, NULL,
-> +					   OPTION_MS_PROBE_TIMEOUT);
-> =20
->  out:
->  	kfree(buffer);
-
-[Severity: Low]
-Does building drivers/usb/storage/option_ms.c with CONFIG_USB_STORAGE enabl=
-ed
-fail here with an implicit function declaration error?
-
-In drivers/usb/storage/option_ms.c, option_rezero() and option_inquiry() ca=
-ll
-usb_stor_bulk_transfer_buf_timeout(), but drivers/usb/storage/transport.h o=
-nly
-declares usb_stor_bulk_transfer_buf():
-
-    extern int usb_stor_bulk_transfer_buf(struct us_data *us, unsigned int =
-pipe,
-                    void *buf, unsigned int length, unsigned int *act_len);
-
-and usb_stor_bulk_transfer_buf_timeout() is not yet defined in
-drivers/usb/storage/transport.c because the prerequisite patch series is not
-present in the tree.
-
-([1] https://lore.kernel.org/r/20261001123135.38831-1-xy521521@gmail.com/)
-
-([1] Note: this patch mentions a dependency below "---" on Hongyu Xie's
-pending series, which may explain why usb_stor_bulk_transfer_buf_timeout()
-is missing in this tree.)
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021081616.8997=
-6-1-jun85566@gmail.com?part=3D1
+Thanks for the reminder
+-Mathias
