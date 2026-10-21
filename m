@@ -1,68 +1,103 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.42
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792571906;
-	b=KzeTFDVU1QdPncLxIzb37grIq2nOWI0QvybYoK0TF4P0462Oo0uMoWLYBKet5J+kcs5H
-	 5j6Wf4kse8VVQPQIK8IE0W6E70UURG845iaL+00f6Xm2ev5gZilaathoIuhb87WarzAUy
-	 +B90lHLOcpikn4FrRjnHOLTV6mDFgBeAFlLARPF/e2rRnsVOt6ITuqV4TMlC7uErkSxL8
-	 pBfSE1Z0qIgun3gNSttXTFV4lQK2AL65I+1EYadsOPJ423iMOOePNSiw3+QZBn9cwGsrs
-	 XC/o7W7TRau3SftgoP+DqFsifpQKEd03xN1wY52LwCO0FH1FtkdqVaIDZ3KzkMc0Omg==
+	t=1792574833;
+	b=2KhvQXaOthhJggtGcsdMONnrPjlKEDdoAh4dbIcNjaql1Yz+a/vPP3AptmTK4DAnPqSQ
+	 v5rv3cXI/H5lu1GaBkwrKoZL+FttYB1H4tW+gsSsoZLq8geFrbtvASlwhxfYEANjpI2oa
+	 9CIxm4g2W2Gdv3RA8ukR5w3MgfGYaWthDzVRWrwzUwyDpCCk8z8AdD2gY22yzlIFbfjWN
+	 Y5/wfYXXTy100NXGOYAWq7Bh9JzK6dKsJkghJ0zmCXchfYv5aiCtErveSTfXQTR7Vww6n
+	 /9JCMGBHR+Qa9lVEf88N9OqKIAuYW6B/5M1TEL96mkZiMaLcyHrMFkpVA6grASnUWzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792571906;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=TDFRov/l+XAhp9FmFsI6kfCpkXLvo+o328yz57FheTw=;
-	b=gf28Eqmx1kFIBZ5778XzecFPmWiPXnKGMImDDoZu3yv+tZ3R0jhfiURfqYRRARkBQrI8
-	 UAS0ihZ+RrCkrnjYd8+ZX6zIa4HGdFCTyt8ZDO+vjShkedEwqCZohdnERAW1cfTwSJs61
-	 l+iFDZdrvF+DK02jeElm7yhioyW1aNOSVcDxryOTzt99XLIuuzKZAyY9VW9SNWPAZKfWY
-	 006Qf0r+jWPwwdcUXpGNhPzdQHu9xk2B3O4+HebR/tx3RehbgBfWQMf7LxwiX9EKZUL+Q
-	 89nzlgozLqG+qwB4BQSjJRYgpHDEhgqKQtj1SmqP2WE5iovRcUivHHjbeSWYV3gDYUA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792574833;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=9XQkh9lf7wElzJVQsyWKbD5l2m4uqHSi/59IR73vHTg=;
+	b=CAGuyfRLOV6eyItllMKkFUu1gX5JI7BffPvMjn25yMB4IlqTT+swXKzZWSaAZkTEmzkg
+	 8sPGSrrUbeN2x1d895HkS/t6WHUb49MS7hybWpOzXHb+QCwWFs5eEQohQSZSbsJFfjrKH
+	 R2MJg5cZuLCqFPpUsq9TBPxjv2ZzdcY1UkuvYX6tsul1BGY7PTNcCKIzi6wiEhp1TxGVc
+	 cbEejeT36uk98dDPFh9SnPZ469+66A0FbJtL3kB7anNJK3MqC1UynJ6RzAb/H4a3mIr1z
+	 nnURvgVyH7wC/3f7Ei/7NihoIAPGiQm9135xwOZgj4Vs2SNnwPQZm9S0QhdHZ0ET8FA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="k/TFvvJU";
-	arc=none smtp.remote-ip=192.198.163.15
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=MIJrvosy;
+	arc=none smtp.remote-ip=209.85.128.42
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72C4606A321;
-	Wed, 21 Oct 2026 08:38:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B72C4606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAC66606A31A
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 09:27:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AAC66606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=k/TFvvJU
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792571906; x=1824107906;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=hecfkEuDMhalihKY9BMlj7bW/6zIbpDkpTHwVzJjacc=;
-  b=k/TFvvJURwBNRz7uQ6kuoFKRIjWrarqd2Zz7TcmpWGU563iVw8OTVqGj
-   Zq7XHB+GkqgnO7WcSPYrTBhJEkHPgmk8LaQfzANRujp7tnf68vBZ7L1sc
-   PAqumQY2nTwm9pDOxKeh8+29iFHDe923kxiy9zJFM33Cjcy/HvIOHz7/W
-   ouCgtIauO3QMMdcNpcLlV5iZiafRNKGB0Y1QIrRxdRW8ht7sRgffOpP10
-   wuttasAM8O67a8r9IWMRk6RJoJe3b0gw1LkaavTS1sGp68dCLYyxAmUBl
-   ZwKbtDheQNPOTmJ8YEtmGj+pFLT+kOk4wEeN5tk1hAHLQLLP85Bqd5JsR
-   w==;
-X-CSE-ConnectionGUID: 1esg6ILVTvKXj2ss+okF8g==
-X-CSE-MsgGUID: M1CJ45jkR/Gu2uy3kLqYdQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11941"; a="1302480"
-X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="1302480"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 01:38:21 -0700
-X-CSE-ConnectionGUID: s8cnjJfgTd2wTC6Q/D+k0w==
-X-CSE-MsgGUID: 9zqGMS6QRESgPiTuW0QrMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,169,1787036400"; 
-   d="scan'208";a="3030859"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO [10.245.245.66]) ([10.245.245.66])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 01:38:19 -0700
-Message-ID: <ecc0265a-04e4-4ff8-9831-c5ef45a2b37c@linux.intel.com>
-Date: Wed, 21 Oct 2026 11:38:12 +0300
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=MIJrvosy
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a01933b584so3564715e9.0
+        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 02:27:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792574831; x=1793179631; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=9XQkh9lf7wElzJVQsyWKbD5l2m4uqHSi/59IR73vHTg=;
+        b=MIJrvosyhchoySA6M2ALuD2hK2i7sP5TXboHiwjpDDDnGVkv8xuog2A30lshVg1tY5
+         o64M3aBqnP9h8QfrR+V2mbwqpld/OzqnxelyWx7m5BqaVd1GMG/vWjeHbJO/HsAJguQp
+         4uaQZz13+TpRFNm70wAukTI7xNn2ieLfPJtaqrAv99DOsLWIDmud38yU+fczSnZw2G/Q
+         7upiFYKPYutM7qQO/kBDezbI4Rha80n3nViPTvlWRJz3vykLrq+wEK3+rMvmm96/K80A
+         ZimIIpqyqRA6z1HUiLd3+GlRNkLrLSm7/C6gEYBCl6LPKBqMuQL+ckk/yIRVBDD4NruJ
+         FiOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792574831; x=1793179631;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9XQkh9lf7wElzJVQsyWKbD5l2m4uqHSi/59IR73vHTg=;
+        b=THznLnYdatuCTaFJ82AmMBNeaHt+ysZYZhutznpWijAzsLhPzIJF23CxQ9sQsOHHHP
+         KtfRGbn74/H++0ab57q/l/jKQ9NmUaVmR2teeW6C2FNBGtlPQSRp8BcGcEa0Bfbx5zFP
+         J+UCk/9bTWIw3T3GMgbhkeWL0DxV8VLjCczpsGSC3bdCbXmKqkKtxx5F4ir41PZNoOm5
+         VB4IOzNKXCFk0hz13qTDWEhh71HY4pqaOSeJPUiOBm3KNdq3UfB3UfRL88rFRrHmylaB
+         LTuAnr6lGhbuzPKOsN0FP3+q+9LL/2KVfeRrrJ47WUIBfrb+SCRXGoGwLI67KdWvaXg4
+         ZaUg==
+X-Forwarded-Encrypted: i=1; AKwUvByrZIi0q0P3Je9Tflx8sOOpDRz4WS0p4zV0a+5gVrFhJtNBzTPbtrBiXX9hsbX35S93TdRBFXEn0DE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKJuKk/pUJTkUG+5HcTHylrafAZ0OZK4Sb8uhtalR9uK4Lf9Yk3
+	mxZd8rkkLQz55fshXzpJt48wUxwU11NN0X4o7MJz0SvWJFX0BAjfr+I+
+X-Gm-Gg: AYBFou0921LyA0Pp+cx2xqXW3HsB9V8p9gPwcDF9qD2Gv564u6kkJuiKpShNJC0YRbe
+	D6DSGM2tfVOhpAZio4VVDXRplTNXLXp95T8PE9JwPRTM5yFYP4uNUALxug7EZ5ltlWXa1tW8568
+	/C3uSgqWym9V5BRun2gyjen64mBuVzM42D2Tk0Y2twer9m0gIjFwmzebzc62nGMjMBi23XiPax7
+	btooJpgRmRTej/X7tBUkFkkqmhbQKZxj78kawCy2IxqLtuAZjebtgqVIERlfq2vAb/815bo3Qzm
+	2kdOvAWKHHTLrzgEWpm/CDvHo9vbXh1z2BOBFUuVCk+GhyT6QDrxfQGBAlxNV2zKSEMQE8DbPxz
+	7TrsjQNofmBiaUxS5IicJDblE4lijJPEvimnSjNfJHDRCEZ1UQIscI8ybkCTtk0AZYG2IOZDw8V
+	5Pm6cO7uboVIk2quLRBw8Qt+UE2awhYXWgXHc/ouqkMb9Sj6IBHTQyA1RKSV7daEEg6Ed0/6vkH
+	2k72W/l3BmY+WwOUkjTJNTcS1nD3DP4/VFZCHh32Iol7dHRKN7zg993/qwzeMmrZfM=
+X-Received: by 2002:a05:600c:34c4:b0:49f:ce78:3562 with SMTP id 5b1f17b1804b1-4a1fdd37971mr30903995e9.19.1792574830916;
+        Wed, 21 Oct 2026 02:27:10 -0700 (PDT)
+Received: from foxbook (bfd231.neoplus.adsl.tpnet.pl. [83.28.41.231])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a1f2d1e8ebsm129038025e9.3.2026.10.21.02.27.09
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 21 Oct 2026 02:27:10 -0700 (PDT)
+Date: Wed, 21 Oct 2026 11:27:05 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Wen Xiong <wenxiong@linux.ibm.com>
+Cc: mathias.nyman@intel.com, gregkh@linuxfoundation.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, wenxiong@us.ibm.com, Brian King
+ <brking@linux.vnet.ibm.com>, Samuel Mendoza-Jonas <sam@mendozajonas.com>,
+ Joel Stanley <joel@jms.id.au>
+Subject: Re: [PATCH] xhci: Reset controller on xhci shutdown
+Message-ID: <20261021112705.19fd90b8.michal.pecio@gmail.com>
+In-Reply-To: <5510281a5d91bbd435d9920431a3fa75@linux.ibm.com>
+References: <20261001222527.11742-1-wenxiong@linux.ibm.com>
+	<20261002102931.3cb06009.michal.pecio@gmail.com>
+	<561d22493c3d078b26f547dd8f6f6f46@linux.ibm.com>
+	<20261002161828.365ff859.michal.pecio@gmail.com>
+	<55a53022d1c6f671a3ed549d8cf7cd1a@linux.ibm.com>
+	<20261006125546.10471489.michal.pecio@gmail.com>
+	<64515dfd9a6cd8c3f5665e72a6bf6b81@linux.ibm.com>
+	<20261015103307.3ba25345.michal.pecio@gmail.com>
+	<5510281a5d91bbd435d9920431a3fa75@linux.ibm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,47 +107,33 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: xhci: fix EP0 context leak on virt device allocation
- failure
-To: Anfernee Cao <anferneemelokc5@gmail.com>, sashiko-reviews@lists.linux.dev
-Cc: Mathias Nyman <mathias.nyman@intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Xu Rao <raoxu@uniontech.com>,
- Niklas Neronin <niklas.neronin@linux.intel.com>
-References: <20261017111114.1135-1-anferneemelokc5@gmail.com>
- <sashiko-outbox-175494@kernel.org>
- <6ad35dad.70c60f76.2e7ac9.12a4@mx.google.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <6ad35dad.70c60f76.2e7ac9.12a4@mx.google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 10/17/26 14:36, Anfernee Cao wrote:
->> Does jumping to disable_slot here actually disable the newly enabled
->> slot_id?
-> 
-> Yes, you're right, and thanks for catching it.  The disable_slot label
-> should pass the local slot_id.
-> 
-> This is a pre-existing bug, separate from the EP0 context accounting
-> leak fixed by this patch, and it has already been submitted:
-> 
->    [PATCH] usb: xhci: disable the correct slot on alloc_dev failure
->    https://patchew.org/linux/6C94F1F35FF16E76+20260806084909.2959131-1-raoxu@uniontech.com/
->    Fixes: 3ffbba9511b4 ("USB: xhci: Allocate and address USB devices")
-> 
-> I deliberately kept this patch independent of that one.  The decrement
-> added here releases the endpoint context reservation made by this
-> invocation, regardless of which slot the current error path ends up
-> disabling.  Once Xu Rao's fix lands, the error path will disable the
-> correct slot and the two fixes compose cleanly.
-> 
-> If the maintainers prefer, I can resend this rebased on top of that fix
-> once it is applied, or send both as a series.
+On Tue, 20 Oct 2026 15:40:24 -0500, Wen Xiong wrote:
+> Above patch is similar like my V1 patch.
+> It works fine and all usb devices are showed up after executing a kexec.
 
-I'll pick up Xu Rao's patch. It got lost somehow
+Thanks for testing. The big difference is that my patch does nothing
+if the preceding xhci_halt() completes successfully. So if it helps,
+this tells us that xhci_halt() fails and the chip most likely locks up
+right there, during xhci_shutdown().
 
-Thanks for the reminder
--Mathias
+It probably fails due to some devices that are connected and haven't 
+been shut down normally; I suspect that nothing bad would happen if
+you disconnect all devices or unbind xhci_hcd before kexec, but we
+still need to cope with surprise shutdown somehow.
+
+In such case your suggestion to PCI reset may be the simplest way out.
+It seems we could either call it always on TI chips, or automatically
+as a fallback when xhci_shutdown() fails to halt the xHC.
+
+Mathias, any preferences?
+
+The latter is perhaps a bit cleaner and more generally useful, though
+I must say that I tested rebooting with a bunch of devices connected
+to a few different HCs and all of them passed through xhci_shutdown()
+successfully, so the issue isn't widespread. I don't have TUSB7340.
+
+Regards,
+Michal
