@@ -1,63 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792543933;
-	b=j7p/hmzsnBofJEKzhTfDQ0JyivvV88DSIt1Fgo4uteqHsOqbW64x+L4/LxbbiLHY9dOE
-	 I05XZxohFwQ9rHL4y6l60CFp2goJfGfVx2FKKndxXb2CTjUrYIMsu+BhviXb5wYL7u4Xn
-	 3B8hqgX8HRSvH9oikPec6jIIjlCQbXx0ExPHa2cdHqWm6pGfeOnboAt7+hlQAm+w+vzyK
-	 1U3AN9xLoo8dNKaQrjcgehQ/Bgzg57nnQ6r682L07VJaIyvfZ6mHbBkE5QPe9YYK4ryh7
-	 ObJS3EesQW4XwQtSSD8L67osKN3h5hUCJuUt0CyWKckEU13nPjG+Xt68asmHfFykl9A==
+	t=1792544298;
+	b=h/FsDasb0xSN5Z8EkJu+j7EyFLG8f8kO6bADb6Fhp1Xg5HPJ3BR0JCy3etzxBrAhUFu6
+	 iDkTFI3qemX8LZW6ktY5eSwZ5G3ISKAXBQtFC4dSB45+YCvAKYDAN6ZQLPILB/VPJv9UT
+	 ChH6M4uqk8BQEf46mv4aBRY7YyD+x1e42YGge8CXK7svRSBf3JUkt66UMV/9NUsG7Su69
+	 mLivPOBo5TO7JVC7JobeFzIcWz+g7qzMJyKubJR3viiBDWhJ0FTjMnnwBLSfcOibYeETK
+	 GEPhKeWFWKG2ekHowVtS1NlSAfAfPzYunEQWWc7nIQNfi5XoW0YCzCs83dSEXQMJ1Qg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792543933;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=GBFH6oRYSJP/dQWfGegi7pqI65g5/qbXzo/olR5/xbg=;
-	b=iMhy+Pb4rCuzJhbWItYKgYWkcy2f4ITE0gzdAzQysELAXJvBPMOOOM12lHV496shFT3H
-	 2jwQROWv0Q4etrzACPTQiWzein+F/Ns8VWesaiBCMKzboUPy72OkZZrH69wHfDVEu2e3l
-	 8Jbb3Ab17Ol4UZl6U9PicFkY6rx5o0H9FFMbgHUcfGjjIPdMIx8IKmRrf0ZN+zKo1rq9z
-	 gFXyOnwVRbysqfdsIh8hoorNI2IRj6RWIo9kBJ3gDu7xhpSRUqSwGUNqqzzjbD/L3zdPU
-	 4HW9fG4jE5aKJyQ8XpPBXyoKmhwJiHwicCfOI5UTdF7SHYeFTONyb9D6lf8CqflM/Iw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792544298;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=uBmNgaYndRJ1UyWvyqKYgaA0kvx/u36fuPLUIOdI9AI=;
+	b=kkeDlsvj4VYu6coknjH6kfeXXbZM7zoZSekSxK42OlxIG3fteST2/HJObPrOXzslcK5o
+	 ioZClu4R25aTOlRCneaXEOeztEUFe9Gc62ShByyXBRcAlbti6DlWyQzMji9tD7ZbTgjk0
+	 QZVFPAIES04sWkHufE7lgmhCEQpgzlZ9WrP9nKxExYKdYGT3w/azMHkNC1MxOXCPrHCmx
+	 ZBHjkmGa8EezcZilRfsswZb4bg5iqmHhKfLkbChobARhJH57xVXcprurCZ2EEU4a1P8S+
+	 WbbUyJFG6ef7xonnE4Y5pOAWnt57hq/4Rorgm1j/YNqOLQwc6dtVQnBApqLdaRb17pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bII38EBC;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cv8UrZLb;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61829606A323;
-	Wed, 21 Oct 2026 00:52:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D79A606A31A
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 00:58:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=bII38EBC
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A690B1F000C9;
-	Wed, 21 Oct 2026 00:52:12 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cv8UrZLb
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6AF281F000C9;
+	Wed, 21 Oct 2026 00:58:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792543933;
-	bh=GBFH6oRYSJP/dQWfGegi7pqI65g5/qbXzo/olR5/xbg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=bII38EBCvPXNjrjqOumQ4YCpuKNsNvskPH4yy49yKaPsullfPKOZAGf35AFSKgQLy
-	 j9cIwXj2GbDVMG8rr+WoIz6RPtSheHVjwqOdv3BQKUNbHNTyAEtg7JAEZRuOxqhDjk
-	 MStfA7WozJuuoO2uorH5vPqIrnoIMPn0IU+39Ny+6cown/DIpjkUnOvYEuyHTWl/k/
-	 /ZQ+fd548btLFQR4kLQYR9/bD+a2OOOyHkcub2cN5VeOAc77Sl9lZDIdoo8VMiGcz4
-	 1nT+0ZnodbPdx90NmX35t4aSu6SrS5U0J2g2XhVyLhDVMfVauV6V4GcDQFOmR7W2jd
-	 wEIaHTmHdlRaA==
-From: Jakub Kicinski <kuba@kernel.org>
-To: hsu.chih.kai@realtek.com
-Cc: Jakub Kicinski <kuba@kernel.org>,
-	davem@davemloft.net,
-	netdev@vger.kernel.org,
-	nic_swsd@realtek.com,
-	linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	edumazet@google.com,
-	bjorn@mork.no,
-	pabeni@redhat.com,
-	andrew+netdev@lunn.ch,
-	mail@birger-koblitz.de
-Subject: Re: [PATCH net-next v7 05/10] r8152: fix up and down register settings for RTL8156/8156B/8157/8159
-Date: Tue, 20 Oct 2026 17:52:12 -0700
-Message-ID: <20261021005212.1254979-1-kuba@kernel.org>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261014081904.6491-6-nic_swsd@realtek.com>
-References: <20261014081904.6491-6-nic_swsd@realtek.com>
+	s=k20260515; t=1792544297;
+	bh=uBmNgaYndRJ1UyWvyqKYgaA0kvx/u36fuPLUIOdI9AI=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=cv8UrZLb0X1dgC1AXhuxeRjS6yumBdhfKLjxV2pVGwFCXtoI0so5kbagMZnVXxyQ0
+	 j/IjtMRwrH9tkDVqSPILOlzAys5SzJjbh8HNfGFXCWDDczy71+5dLcfaMreS3p//G0
+	 LefSkzM//Dn1llCBj+dSUru9mMqMSrrmcyvv5lOrxP61gFpDgmaed0HUdkMMzovFKL
+	 MfZX7Q2Fz2sICphG638QqLgkyj7HM5MiSZFweALNLvyKhcwLGoL3cGbWwxZdtCdD//
+	 z6Oxp4BzeEhUD+7Pe2azi2DmZA2YCSq2sAdEg2hFAQA4o5j81t61LlkEKT3uJKoQxD
+	 IakM6WK7E0RwA==
+Message-ID: <sashiko-outbox-179651@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 3/7] usb: dwc3: gadget: Clear delayed stop on End
+ Transfer completion
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Thinh Nguyen" <Thinh.Nguyen@synopsys.com>
+Cc: =?utf-8?b?bGludXgtdXNiQHZnZXIua2VybmVsLm9yZw==?= <linux-usb@vger.kernel.org>
+In-Reply-To: <c28a9660f7b6bfa626077ddcfbadd50e6b503f86.1792542945.git.Thinh.Nguyen@synopsys.com>
+References: <cover.1792542945.git.Thinh.Nguyen@synopsys.com>
+ <c28a9660f7b6bfa626077ddcfbadd50e6b503f86.1792542945.git.Thinh.Nguyen@synopsys.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2026 00:58:16 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,122 +60,136 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
----
-r8152: fix up and down register settings for RTL8156/8156B/8157/8159
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: dwc3: gadget: skipped request cleanup on DWC3_EP_DELAY_STOP c=
+lear
+--
 
-This commit corrects several up/down and OOB register settings for the
-RTL8156, RTL8156B, RTL8157 and RTL8159 chips, following the earlier
-per-generation split of the up/down callbacks. It changes the PLA_RCR1,
-USB_SPEED_OPTION, Clear_SDR, PLA_BDC_CR/PLA_OOB_CTRL and OOB
-PLA_RMS/PLA_MTPS settings, and drops PLA_MCU_SPDWN_EN handling from
-rtl8157_up()/rtl8157_down().
+commit f4ade355ebc7b629210edc8108aa9f5fb3f0bcc2
+Author: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 
-> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index b245b63fb6aaf..045460a35f383 100644
-> --- a/drivers/net/usb/r8152.c
-> +++ b/drivers/net/usb/r8152.c
+usb: dwc3: gadget: Clear delayed stop on End Transfer completion
 
-[ ... ]
+This commit clears the DWC3_EP_DELAY_STOP flag in
+dwc3_gadget_endpoint_command_complete() when an End Transfer command
+completes, preventing a later retry on the next SETUP phase from stopping a
+newly started transfer.
 
-> @@ -6938,8 +6937,18 @@ static void r8156_enter_oob(struct r8152 *tp)
->  	rtl_disable(tp);
->  	rtl_reset_bmu(tp);
->  
-> -	ocp_write_word(tp, MCU_TYPE_PLA, PLA_RMS, 1522);
-> -	ocp_write_byte(tp, MCU_TYPE_PLA, PLA_MTPS, MTPS_DEFAULT);
-> +	switch (tp->version) {
-> +	case RTL_VER_16:
-> +	case RTL_VER_17_QFN68:
-> +	case RTL_VER_17_QFN100:
-
-[Severity: Medium]
-This patch has three Fixes: tags:
-
-  Fixes: 195aae321c82 ("r8152: support new chips")
-  Fixes: fd3c7d080df5 ("r8152: Add support for the RTL8157 hardware")
-  Fixes: ad2a55b63b41 ("r8152: Add support for the RTL8159 chip")
-
-Will it apply and build on the trees those tags point to?
-
-RTL_VER_17_QFN68 and RTL_VER_17_QFN100 come from an earlier patch in this
-series, "r8152: split RTL_VER_17 into QFN68 and QFN100 package variants".
-Before that patch the enum only has RTL_VER_17.
-
-rtl8157_up() and rtl8157_down() also only exist after "r8152: split
-rtl8156_enable/up/down into per-generation functions", which is described
-as no functional change. Before that patch there is one shared
-rtl8156_up() with tp->version >= RTL_VER_16 and tp->version < RTL_VER_16
-checks.
-
-So a stable backport would either conflict or need both non-fix patches
-as prerequisites. One of them is the package detection change, which
-makes an unrecognised PLA_PKG_DET value fall back to RTL_VER_UNKNOWN.
-
-Could these fixes go to net separately, written against the pre-refactor
-code? Or could the commit message at least name the prerequisites?
-
-> +		ocp_write_word(tp, MCU_TYPE_PLA, PLA_RMS, 1526);
-> +		ocp_write_byte(tp, MCU_TYPE_PLA, PLA_MTPS, 10 * 1024 / 64);
-> +		break;
-
-[ ... ]
-
-> @@ -6997,6 +7008,11 @@ static void rtl8157_up(struct r8152 *tp)
->  	}
->  
->  	r8153_aldps_en(tp, true);
-> +
-> +	/* Enable Clear_SDR */
-> +	ocp_byte_set_bits(tp, MCU_TYPE_USB, 0xd378, BIT(7));
-> +	/* Clear SDR bit */
-> +	ocp_word_clr_bits(tp, MCU_TYPE_USB, 0xcd06, BIT(15));
->  }
+> diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+> index df5407e757884..4de3b81cb6781 100644
+> --- a/drivers/usb/dwc3/gadget.c
+> +++ b/drivers/usb/dwc3/gadget.c
+> @@ -3875,6 +3875,7 @@ static void dwc3_gadget_endpoint_command_complete(s=
+truct dwc3_ep *dep,
+>  	if (dep->stream_capable)
+>  		dep->flags |=3D DWC3_EP_IGNORE_NEXT_NOSTREAM;
+> =20
+> +	dep->flags &=3D ~DWC3_EP_DELAY_STOP;
+>  	dep->flags &=3D ~DWC3_EP_END_TRANSFER_PENDING;
+>  	dep->flags &=3D ~DWC3_EP_TRANSFER_STARTED;
+>  	dwc3_gadget_ep_cleanup_cancelled_requests(dep);
 
 [Severity: High]
-The commit message says:
+Can clearing DWC3_EP_DELAY_STOP unconditionally here in
+dwc3_gadget_endpoint_command_complete() in drivers/usb/dwc3/gadget.c skip
+deferred request cleanup and leak usb_request objects (and their mapped DMA
+buffers) if the endpoint was disabled or the controller disconnected while
+DWC3_EP_DELAY_STOP was set?
 
-  - RTL8156B (VER_13/15) need Clear_SDR enabled on up, which nothing
-    ever did for them.
+In __dwc3_stop_active_transfer(), if dwc3_send_gadget_ep_cmd() with
+DWC3_DEPCMD_CMDIOC returns -ETIMEDOUT while dep->dwc->ep0state !=3D
+EP0_SETUP_PHASE (for example, while dwc->delayed_status is true in
+dwc3_gadget_ep_dequeue(), __dwc3_gadget_ep_set_halt(),
+__dwc3_gadget_kick_transfer(), or __dwc3_gadget_ep_disable() after commit
+"usb: dwc3: gadget: Wait for End Transfer completion on ep disable", or via
+__dwc3_gadget_start_isoc()), the driver sets DWC3_EP_DELAY_STOP and returns
+0 without clearing DWC3_EP_TRANSFER_STARTED (and before scheduling error
+recovery in commit "usb: dwc3: gadget: Recover from End Transfer timeout"),
+while the End Transfer command remains in flight in hardware.
 
-Is the RTL8156B part missing from this patch? These are the only
-Clear_SDR writes the patch adds. rtl8157_up() is only used for
-RTL_VER_16, RTL_VER_17_QFN68 and RTL_VER_17_QFN100.
+If __dwc3_gadget_ep_disable() or dwc3_gadget_soft_disconnect() then runs
+before EP0 reaches EP0_SETUP_PHASE, dwc3_remove_requests() returns early
+without giving back dep->started_list, dep->pending_list, or
+dep->cancelled_list:
 
-In rtl_ops_init(), RTL_VER_13 and RTL_VER_15 are bound to rtl8156_up():
-
-	case RTL_VER_12:
-	case RTL_VER_13:
-		tp->support_2500full	= 1;
-		fallthrough;
-	case RTL_VER_15:
-		...
-		ops->up			= rtl8156_up;
-
-This patch does not change rtl8156_up(), and it still writes no
-Clear_SDR register:
-
-	r8156_exit_oob(tp);
-
-	ocp_word_clr_bits(tp, MCU_TYPE_PLA, PLA_MAC_PWR_CTRL3, PLA_MCU_SPDWN_EN);
-
-	ocp_word_clr_bits(tp, MCU_TYPE_USB, USB_SPEED_OPTION,
-			  RG_PWRDN_EN | ALL_SPEED_OFF);
-
-	ocp_write_dword(tp, MCU_TYPE_USB, USB_RX_BUF_TH, 0x00600400);
+drivers/usb/dwc3/gadget.c:dwc3_remove_requests() {
 	...
-	r8153_aldps_en(tp, true);
-	r8153_u2p3en(tp, true);
+	dwc3_stop_active_transfer(dep, false, false);
 
-So every open or resume on an RTL8156B goes through ops->up ->
-rtl8156_up() without the Clear_SDR enable. The later patches in the
-series don't add it to rtl8156_up() either.
+	/* If endxfer is delayed, avoid unmapping requests */
+	if (dep->flags & DWC3_EP_DELAY_STOP)
+		return;
+	...
+}
 
-Should rtl8156_up() get the RTL8156B Clear_SDR writes under an
-RTL_VER_13/RTL_VER_15 check, or should this bullet come out of the commit
-message? The 0xd378/0xcd06 writes used for RTL8157/8159 can't be assumed
-to apply to RTL8156B.
+And in __dwc3_gadget_ep_disable(), dep->endpoint.desc is cleared while
+DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED remain set:
+
+drivers/usb/dwc3/gadget.c:__dwc3_gadget_ep_disable() {
+	...
+	if (dep->flags & DWC3_EP_DELAY_STOP)
+		mask |=3D (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
+	dep->flags &=3D mask;
+
+	/* Clear out the ep descriptors for non-ep0 */
+	if (dep->number > 1) {
+		dep->endpoint.comp_desc =3D NULL;
+		dep->endpoint.desc =3D NULL;
+	}
+	...
+}
+
+If the in-flight End Transfer command completes before dwc3_ep0_out_start()
+runs, dwc3_gadget_endpoint_command_complete() now clears DWC3_EP_DELAY_STOP
+and only calls dwc3_gadget_ep_cleanup_cancelled_requests(dep), which does
+not clean up dep->started_list or dep->pending_list, and stops after the
+first request in dep->cancelled_list when the endpoint is disabled:
+
+drivers/usb/dwc3/gadget.c:dwc3_gadget_ep_cleanup_cancelled_requests() {
+	...
+		/*
+		 * The endpoint is disabled, let the dwc3_remove_requests()
+		 * handle the cleanup.
+		 */
+		if (!dep->endpoint.desc)
+			break;
+	}
+}
+
+Because DWC3_EP_DELAY_STOP has already been cleared, when
+dwc3_ep0_out_start() later runs on entering EP0_SETUP_PHASE, it will skip
+the endpoint instead of finishing the deferred dwc3_remove_requests()
+cleanup:
+
+drivers/usb/dwc3/ep0.c:dwc3_ep0_out_start() {
+	...
+		if (!(dwc3_ep->flags & DWC3_EP_DELAY_STOP))
+			continue;
+
+		dwc3_ep->flags &=3D ~DWC3_EP_DELAY_STOP;
+		if (dwc->connected)
+			dwc3_stop_active_transfer(dwc3_ep, false, true);
+		else
+			dwc3_remove_requests(dwc, dwc3_ep, -ESHUTDOWN);
+	...
+}
+
+Additionally, in the dwc3_gadget_soft_disconnect() path where
+!dwc->connected (while ep0state is still EP0_STATUS_PHASE after
+dwc3_ep0_send_delayed_status() clears dwc->delayed_status),
+dep->endpoint.desc is still non-NULL and DWC3_EP_ENABLED is still set. If
+DWC3_EP_DELAY_START was set prior to disconnect, could
+dwc3_gadget_endpoint_command_complete() also call
+__dwc3_gadget_kick_transfer(dep) and start a new hardware transfer from
+dep->pending_list while disconnecting?
+
+Should dwc3_gadget_endpoint_command_complete() check whether the endpoint
+was disabled (!dep->endpoint.desc) or disconnected (!dwc->connected) when
+DWC3_EP_DELAY_STOP was set and invoke dwc3_remove_requests(dwc, dep,
+-ESHUTDOWN) instead of kicking delayed transfers?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/cover.1792542945.gi=
+t.Thinh.Nguyen@synopsys.com?part=3D3
