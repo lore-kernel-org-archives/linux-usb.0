@@ -1,57 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792596451;
-	b=SuJM8UPjx1SNo9uhWtQiwrlI8Wfoa4zvpNexYf1otmkgz9QNySg6ZTSmgf0W9dyBQ4ES
-	 a9AaS+4AsK73LEvbeP+FNTwUmkLcaATVEHn11IW1tIZule3fzajf0RmZvvePeUV0BRXs1
-	 miUFnf1Avxz/XWMZBuoaeX5Ka92xJQ/GJUdNih/zCLsXFV9XoNP9/ubKX2e/UBX4YQcOG
-	 Rwoh/Ha370n/s4ynkMRTEuUIAF/G2iEE8iNpoIzPAho/kX5+vJ3SgPeNoIWG2YsVXVjyc
-	 K9XFfESQ5qoRImVc59ezI5wOi3ZWothWN8WTM7BeMDLbwjKDL7DoGlFkS31nw5sqRsQ==
+	t=1792597397;
+	b=kkxyAr0mx5M4TJXnTOwQ/JKRrc2sfO0ALzVhfmaV/Mxz5So7zmbnio/2N87fL2DM+Emu
+	 YSNGDoAcP7FXsOE+hh32534v9mzOVtf1BhU1Ex3aA54+9H/28bSA/kVNUtR23D7g7bkE0
+	 CSDjIjbGlTjl0yCjaOqDCoo0j+NQ4A1gmbElMwnB7Qc0NQZBbmTzOuvsPFAqi4Y0tJhn3
+	 LjoGgSFePksQjjHhG+ukpkRhzOvImklwzyHJpcQSg8GNjBCWtu38Si4L9sWA1/LXxDX5c
+	 inLk50ix6nOA2P2nmMxqzhP1tWSbfDC63jkqifxRZuY/6EymSPzexX3lRyM6D3S3c8g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792596451;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792597397;
 	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=KdpLXwNR3YiTKAqJX1q++2ufQ+gyLZVFEyMm7BY4GM8=;
-	b=ffIGTiCGv3fAHt7MCZnNVcY/7DVJ5k5U0wmoUmqM0gLc6GkaNoh7OsViRr0uBVhJ4YmW
-	 HbqVrci7UY7QQGv8HDMDoQQfbOODLykjBXUtwJxgGS/mwF/WLrnPqEIxUCkSPT0t/PwXA
-	 EoAQZvRVzOPLR23zsKWM9Kg0c99v9NXRvDbiRu2WIW4DIfGgWel6QH0n1xjNLVkOb1SjD
-	 rzsjsO3EB3miURRu85du5O+bjMXLb4RXvGQZvwRJhvtBm9S6t3UwFJ/nzBFOcI9od/K4n
-	 X+Y5I2+MpECT0BQ0RpL4IeS0VGNMjOuXjozfFo6Tnz3sVrbqh8jAeOXSgWLDeGWX9MQ==
+	bh=eBqVI8yN0IiCs/E5hXnOFRIzZG0pYyjeORxR57mR5Yo=;
+	b=fN1D0pRLLpVl+mi8rmjIc7bQS5SNnpx59UrJdpa6KZIpBs9z7b8+pqd8zg0YY8eJs+g6
+	 I4RjFXgqz/G0q2QIee/JN4hOAfubPCTwLzfH3W2b69rkGR+BRCFnyfa2K5GFLMTUngbhJ
+	 7KdBIOU88nrZxml6UvmGhwOA9KL8GHEcISPWEuEBVBV5VGP2fI7EKK2ZCJqBHtprdP4Oi
+	 Q+xp+hpwPpvTCdaVi7TvXnwq90U8N/YK9G7DHmx80dWhQQDbuc4Dgl+W+8+xL3/7T2iRg
+	 ZFgEtMv484u6/2gm9Q887pubgI6Axl4NtrsGW9d666qXvfYOkEJcgIGURj1JRekh/dw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hiPDPN+/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="P14C/EtG";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E14AF606A332;
-	Wed, 21 Oct 2026 15:27:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 817E6606A328;
+	Wed, 21 Oct 2026 15:43:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hiPDPN+/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B49AF1F000C2;
-	Wed, 21 Oct 2026 15:27:30 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P14C/EtG
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4960F1F000D2;
+	Wed, 21 Oct 2026 15:43:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792596450;
-	bh=KdpLXwNR3YiTKAqJX1q++2ufQ+gyLZVFEyMm7BY4GM8=;
+	s=k20260515; t=1792597397;
+	bh=eBqVI8yN0IiCs/E5hXnOFRIzZG0pYyjeORxR57mR5Yo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=hiPDPN+/+/pZ2K/hQLWMHHWPv9icCfEL15LhTHGQ4tdOI4FXAbi+VDb8y9C9d/16n
-	 gOi0u1NO3KdDEEgmByM83Ecz96kxCjcdWZX0feFRjcxR1oKeQlKq/Ty8Tp0vftXelJ
-	 HbwuG3XFuQgPow+y6nnwOQ2TtAGAlFTFI0wU5v4l7FNZ8PIBTwwxjNDQZab5wBL96x
-	 cXHfYoB1ko8xRSV+7MBkLIafK6wk2IacL2Q9yiL/KYZf8XvCG977hcCUbB9pz9RdeS
-	 /Ndmw6k+NwVC2mUAoxbDeRaK8EX2MgfX2nkCeIi4DrC0HMpepiGKziRfyMKXfztypz
-	 RqiilxIAA+k0A==
+	b=P14C/EtGerP306Fa5dEgyQaeopyf+QIFk9F1Oz9lRtunut6RuFkIioAEvWgW3VKUt
+	 FTpYirRXNvdufVtxowWpZ1+JiU4BpaR5g2oMnJhGYxr9D1qndbkjLs0WK4Mvp8HchY
+	 AyIoo6D2ldNC+C3W4IdV4MpHcqE+fbfMkSkmFyNf7b4Isc0bsTC8IuqoBzvElEx81N
+	 ceGfhFTGUrlBau5Krz+eEzu2qWG9Wrb3xRESr0ScqkZkv0bn3vwhLRAo7LJcTwsQ8e
+	 062IEYp0MQIzVtELbATwTC3Fn7Yl4dZvRNsZ0mgiCjiQWzjqPldaoYD8dJI3iVmXsK
+	 8txxg5+OvIxDg==
 Received: from johan by xi.lan with local (Exim 4.99.5)
 	(envelope-from <johan@kernel.org>)
-	id 1xJYDw-00000009lwc-2dFd;
-	Wed, 21 Oct 2026 17:27:28 +0200
-Date: Wed, 21 Oct 2026 17:27:28 +0200
+	id 1xJYTD-00000009mBb-13MP;
+	Wed, 21 Oct 2026 17:43:15 +0200
+Date: Wed, 21 Oct 2026 17:43:15 +0200
 From: Johan Hovold <johan@kernel.org>
 To: sashiko-reviews@lists.linux.dev
 Cc: linux-usb@vger.kernel.org
-Subject: Re: [PATCH 05/11] USB: serial: io_edgeport: serialise MCR accesses
-Message-ID: <atjZ4Pcf9_NpUUzF@hovoldconsulting.com>
+Subject: Re: [PATCH 11/11] USB: serial: io_edgeport: switch to synchronous
+ commands
+Message-ID: <atjdk0UfX0S5TKyp@hovoldconsulting.com>
 References: <20261021141154.2324793-1-johan@kernel.org>
- <20261021141154.2324793-6-johan@kernel.org>
- <sashiko-outbox-180370@kernel.org>
+ <20261021141154.2324793-12-johan@kernel.org>
+ <sashiko-outbox-180361@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,23 +64,13 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <sashiko-outbox-180370@kernel.org>
+In-Reply-To: <sashiko-outbox-180361@kernel.org>
 
-On Wed, Oct 21, 2026 at 02:26:55PM +0000, sashiko-bot@kernel.org wrote:
-> Thank you for your contribution! Sashiko AI review found 1 potential issue(s) to consider:
-> - [High] usb: serial: io_edgeport: change_port_settings() locks mutex in atomic context
+On Wed, Oct 21, 2026 at 02:23:15PM +0000, sashiko-bot@kernel.org wrote:
+> Thank you for your contribution! Sashiko AI review found 2 potential issue(s) to consider:
+> - [High] usb: serial: io_edgeport: command buffer leak in write_cmd_usb() callers
+> - [Medium] usb: serial: io_edgeport: jiffies timeout passed to usb_bulk_msg()
 
-> A subsequent commit in this series moves the initial termios update from
-> process_rcvd_status() to edge_open(), but having this patch ordered
-> before that change leaves an intermediate bisection window where opening
-> a port triggers a sleeping-in-atomic bug, and could also cause a
-> regression when this commit is backported to stable trees without the
-> follow-up refactoring.
-
-Indeed, and that was why this one was ordered after the termios change
-until today when I picked up this series that got put on the backburner
-months ago...
-
-Will fix in v2.
+This one clearly wasn't ready...
 
 Johan
