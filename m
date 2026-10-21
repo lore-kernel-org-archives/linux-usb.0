@@ -1,13 +1,13 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=148.163.158.9
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1792543103;
-	b=3kqFZlIxx9Yyw7ygQuHtEX9rV3JOEUyrO0EQ4sF78gzrWq0W2Dq0VTl/u9pKyef9zoFt
-	 JfnYOYv9vZWNBjcCmExCMq2V+dpiAExjGEIGrAl/+5SDvbhBtA6+9dz6Upw9RVPfVjDzX
-	 cQCHoiwE8KLUf4s1lyNmvT2x6OI+kJsi11Wul31bxit3gE5A0HtJXkQhm3+rHoyLkCTz3
-	 mvnYkBDZLjIXaE0SQF7tZxNqgTWDVRZ1fFf40ntPEuO6vUpnFtmZAU5Mur16VYnGfReZ7
-	 ANLPLsn9osvUN+1GRAajgEY8L25A4YeO7fK4lVtXT93TahFFedMxfBAQ30LpKIRdTIw==
+	t=1792543108;
+	b=Gn4xxs0gaGZNH/9DF39n0LL41URi4v1GWU5GRK83mvdf9Jz3kiM6PEL/WPa6JL1pEM0A
+	 c2P1/ZsIaa7ZP/puSn+4eXR0m0wZGtpw3XYDXMwVVDVYDXmveCNskjtGu/L4+/N4itLCQ
+	 +5vg4zIEYFHWa1u3u2blh5ghCtkwRsGDru0kvYub3X4XMVD3efeBZEtRdt6Rwvrsk+Wze
+	 0sbcIlboKP00BKw+2WsfJFK9Vf10htpUByhuVLhayqQbBZuHLr2NM2j7lpNKCjAy7xoSl
+	 vK1cpZnSc7PUkWK0hqLPPgHqRSwtzDmUfybXP9rAAFl/pxUpCGGP0L7ZDE8mgwI3ZGQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792543103;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792543108;
 	h=DMARC-Filter:Received:DKIM-Signature:Received:DKIM-Signature:
 	 Received:Received:Received:DKIM-Signature:Received:Received:
 	 X-SNPS-Relay:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
@@ -29,112 +29,112 @@ ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
 	 X-MS-Exchange-CrossTenant-fromentityheader:
 	 X-MS-Exchange-CrossTenant-id:X-MS-Exchange-CrossTenant-mailboxtype:
 	 X-MS-Exchange-CrossTenant-userprincipalname:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
+	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
+	 X-Authority-Analysis:X-Proofpoint-Spam-Info:
 	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
-	bh=OOexhBcmKcrTrqPv+9I8gRKrU1m+QtvrEyI+xBW+5Gg=;
-	b=DjjRTNYYBLT6k36jf+/S6KFivLBk8odeuK3bw+ToGmsQYOY0oS4PzCNKRRJCqGgRv38R
-	 ndTf36IqbC0NQtETf8n8QMC3l/h+uCBqG0zkjHBIePi4U5bmzYGrqoxo5l8RoCy0RjJej
-	 tuL/X3iM/YM0N5Bxucadz7CMz9oFxVhwD+3TZDCll00ZB7lcPyoiDqE3sNEDbAIpIVVIr
-	 SDsoKrPlvwBpyy18DhZb3H1XxmZSBZcm1mOQjgXkZHpRSSObb5j5f2k0cYmCCQbVdkeRy
-	 k/jRHqWJIRcbUaKzauP3DUguYQh9MUJ5H9wL8L6gGJOVUyRcH/yNEwfUEogUSvFwiog==
+	bh=HuyAQEVUl/6lXt11tA2Z+obmhABSsG2w5EsnT2TrjSY=;
+	b=t6lkXBJw0A3PoDoOmuuWiiFN4w2o43dK3SeoC2jeWH+UnndP0JONrlr8Vxvwfs2fYBSc
+	 Ex5GZluCiGDw2SmkBBtUZ3CpZXuwiJTh1wdzJ0SRtUrvQtUPbTn9tzvri7zS7ZUOkxOKs
+	 dmicKYmX35nrhcPMAggSOSqtD/AIKcWSW4cD3tNHxE0aFSz4zj12ni6wlRMk0GGRPziYG
+	 RcRbix8SHdwsw52tqzRF1/5NeenoX+MTE1Om3RTb4EiqntCOgYKUPx1QS6/UDatWSaFK0
+	 LdA8P5nKcDVI9PGWMaqaxp8KHslupJr5D2Ff5zR/oQZrQeYkQ3Z4v8x+svw+v376f0g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=synopsys.com;
 	spf=pass smtp.mailfrom=synopsys.com;
-	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=DP6Y43Em;
-	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=kS9Fx7iz;
-	dkim=fail reason="signature verification failed" header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=KNW1rG6f;
+	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=mxN1IiOX;
+	dkim=pass header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=ZaxPo1J7;
+	dkim=fail reason="signature verification failed" header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=ggXRZfGn;
 	arc=fail smtp.remote-ip=148.163.158.9
 Received: from mx0b-00230701.pphosted.com (mx0b-00230701.pphosted.com [148.163.158.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B9BD606A321;
-	Wed, 21 Oct 2026 00:38:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8B9BD606A321
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA2D606A319;
+	Wed, 21 Oct 2026 00:38:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EA2D606A319
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=DP6Y43Em;
-	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=kS9Fx7iz;
-	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=KNW1rG6f
-Received: from pps.filterd (m0297265.ppops.net [127.0.0.1])
-	by mx0a-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69KKvoMc2052396;
-	Tue, 20 Oct 2026 17:38:16 -0700
+	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=pfptdkimsnps header.b=mxN1IiOX;
+	dkim=pass (2048-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=mail header.b=ZaxPo1J7;
+	dkim=fail reason="signature verification failed" (1024-bit key, unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=ggXRZfGn
+Received: from pps.filterd (m0098572.ppops.net [127.0.0.1])
+	by mx0b-00230701.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69KKwtLQ3684511;
+	Tue, 20 Oct 2026 17:38:22 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=pfptdkimsnps;
-	 bh=OOexhBcmKcrTrqPv+9I8gRKrU1m+QtvrEyI+xBW+5Gg=; b=DP6Y43EmmhUy
-	AHIOpkfSH8Y2tj514K6reqLq3GhLcfpdceTknOiBarEJFRmpm8pbtFds6yA29LZ2
-	pcrl8TwUmbg+UXRz1ObQCQ1Ifp4RXnCB0xGt8BjqCBPGnyYtX4GL1nnn2xt4iohT
-	6dZRudA49cV1FoyskHbQaFfY1YKZd0J/dtynKJljWiAXQM5WLlU9vVGVAdnGoX6N
-	8IKfIENsc/0bKMiEdamHwSSo+KV3TVVjUyxNneM/jvJa1tPa/0Ywgb+pN7AbXj6E
-	uLY4YQt++xXfWBGcLh5RmxF880hFgVpIXn1UPOkcG/0gv3lQZRAbkKkCT5CbqhaY
-	3UzRiKNfjw==
+	 bh=HuyAQEVUl/6lXt11tA2Z+obmhABSsG2w5EsnT2TrjSY=; b=mxN1IiOXCRnI
+	zmiPGLLyexFmZnNnUdQp0MnEWK7YAEZefY9NQBDJAalC0AxAHcXiNCaT5TyPdbQV
+	KAq4t99JXvT8h2eWOqbF+DaMXLNs975AOfXa8nz0PMTboR/eVpvYrVHlP7Cvy4Rt
+	hyRDX8CVp2c1JB2OtKWAt274JMxIjyfJEZVUqCXcHXTW05sIfmQh+eVrJJv6tUxT
+	M+df3c6pE8wWMX6mCx47vfZGNlAsZOuIq6j2I8YddKmpVBTzi+DmgeKI19FfZVDm
+	Dkl53mbUF41RHu+QKfWM5UeKHTkpX+hZeu/qbytOFCYj4WICtlL1fkjL5gJs4z/Q
+	vkQO6w6PnA==
 Received: from smtprelay-out1.synopsys.com (smtprelay-out1.synopsys.com [149.117.73.133])
-	by mx0a-00230701.pphosted.com (PPS) with ESMTPS id 4hdw6v8ewf-1
+	by mx0b-00230701.pphosted.com (PPS) with ESMTPS id 4hdw70g82s-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 20 Oct 2026 17:38:15 -0700 (PDT)
+	Tue, 20 Oct 2026 17:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-	t=1792543094; bh=X4Bx/mjPwXTXjDHyrxZqNy316Z7kLn0t2kRDDzosU2c=;
+	t=1792543101; bh=C8f8ubeYMT08bl8CZCY/XIaAiqO6EgDNG20MLkF+i3c=;
 	h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-	b=kS9Fx7izPZNBcYDmr6xE6DkVu90lrr8rpffib9/RCmWOLkjO+twNw6Lh7b4HF+bIF
-	 3TlMG2J7QJSq8TgeAcaVh8NSWdip86qrpRBjiGIe9rQR5bTRzFjHmCyvHKFOULKAE5
-	 XylGrbtg5bDUCIdrRkWIieywl3zT0R+9zIsfHyioBy7MDbm3wOlZJ4N9OwTbVrhL6s
-	 sBWsuLX0EeTxF++SZLj1C2VabD6tmli2hIXObfSYY/EQtwjMWKlklPQD7YPC060VQf
-	 gAvFexTswrfmm0qcrrCfQUQCSoCdUPxMCdy4i4FkwRStEFolfbCkux19nPrU/vHj22
-	 OLkyY7KTcoNNw==
-Received: from mailhost.synopsys.com (us03-mailhost2.synopsys.com [10.4.17.18])
+	b=ZaxPo1J79jp/KJTpur/Q9OuXOvzodGZS0wnL/AXvH9yf5eKXwhGoKs/wD8LAq7XUF
+	 RO9IRzBQG4RimDgBH1vv/lxJnWI2zFurJVKekewqaoMBPwWvPsYSjy7ZvsyGdvDwyz
+	 FzcjDjTmtXHB+4K/CkW8nj4gbyeTCosyAx5iWtVXkTftg1rf1PHn04KnxnqOJGz19v
+	 RSS6j7TyFYwEOHybC7WgeOSqEdOfMlbb5MgEvdjqVIR6MJI9pxq1rgxOb0tiHVquSl
+	 tvQbNAVLPTgCDs7BqQ2o+2cwy+4BY2QprwCTZ4GxKwKA31t9GmdcZ6kq7xjrGwxGfs
+	 moG7mFrF01QMQ==
+Received: from mailhost.synopsys.com (badc-mailhost1.synopsys.com [10.192.0.17])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
 	 client-signature RSA-PSS (2048 bits))
 	(Client CN "mailhost.synopsys.com", Issuer "SNPSica2" (verified OK))
-	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8467A401C7;
-	Wed, 21 Oct 2026 00:38:14 +0000 (UTC)
-Received: from o365relay-in.synopsys.com (sv2-o365relay7.synopsys.com [10.202.1.143])
+	by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 23BC6401C7;
+	Wed, 21 Oct 2026 00:38:21 +0000 (UTC)
+Received: from o365relay-in.synopsys.com (us03-o365relay3.synopsys.com [10.4.161.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits)
 	 client-signature RSA-PSS (2048 bits))
 	(Client CN "o365relay-in.synopsys.com", Issuer "Sectigo Public Server Authentication CA OV R36" (not verified))
-	by mailhost.synopsys.com (Postfix) with ESMTPS id 47F2CA0070;
-	Wed, 21 Oct 2026 00:38:14 +0000 (UTC)
+	by mailhost.synopsys.com (Postfix) with ESMTPS id 06BACA00E5;
+	Wed, 21 Oct 2026 00:38:21 +0000 (UTC)
 Authentication-Results: o365relay-in.synopsys.com; dmarc=pass (p=reject dis=none) header.from=synopsys.com
 Authentication-Results: o365relay-in.synopsys.com; spf=pass smtp.mailfrom=synopsys.com
 Authentication-Results: o365relay-in.synopsys.com;
-	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=KNW1rG6f;
+	dkim=pass (1024-bit key; unprotected) header.d=synopsys.com header.i=@synopsys.com header.a=rsa-sha256 header.s=selector1 header.b=ggXRZfGn;
 	dkim-atps=neutral
-Received: from BYAPR08CU003.outbound.protection.outlook.com (mail-byapr08cu00301.outbound.protection.outlook.com [40.93.1.105])
+Received: from DM2PR04CU003.outbound.protection.outlook.com (mail-dm2pr04cu00303.outbound.protection.outlook.com [40.93.13.59])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (P-384) server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (2048 bits) client-digest SHA256)
 	(Client CN "mail.protection.outlook.com", Issuer "DigiCert SHA2 Secure Server CA" (not verified))
-	by o365relay-in.synopsys.com (Postfix) with ESMTPS id EC1D72202F1;
-	Wed, 21 Oct 2026 00:38:13 +0000 (UTC)
+	by o365relay-in.synopsys.com (Postfix) with ESMTPS id B748E401A6;
+	Wed, 21 Oct 2026 00:38:20 +0000 (UTC)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X69lDpAZh6tEAT7JMOfBBlyC5ZuWGlOUgDfoSUwMquyA+ge24wOJb4JnRWAjo7JfGUf/v2FwPMX6HwWqE1skTx82wqHDmpihw0WRRnn2/+58ASTCVM3HX5D3c1h4uZGYVOeHrQXJ65jWoSpu7aYRcRYUSR9Mwg2lP42+LuPpXmfQhmfUfAmtxpN1Teiv93VUTJlg4vVCQIu4XFdMd88XxsP2vRpIlicQxm3t3AROREqyUpodSGvV0hI16anINKqctzwJHZg4jBVcwB5Yf4gayZur0a0RF2sKXfrwTWpMNFszCSdLbgju1UvrYyLhPWQJbfN5c83PTgTae4WfXz4CWA==
+ b=DYBXcXQxvEuwasz4OUXCjcoHVO69mhjTDZMso6IL1z9FkniK5BsMXWMv7qMf9El2X++yXdYHB5CiK4wTvSucnYMko/KYe6TH6klfwxEsn+tdFDTdqeqsK4N9DWalAEPMBZ9g0RgOGR0q3aM6+wbWQYbAugC4J9wqW7Qesj830uEPqBmwpjEqA5m7y7s3ohi1883Y+uicBwlxyEklQLZ56qc47Yc2SiMckhukcGtDfHIy5gRW3HrlPCcrrp2z2KS7XN1UQr0rb69P19TPx4mTFXnTW+ptMZDexhh3wvF//nWUCjX3HpeAfyKaUSxc9Grevxp01MeB/3PDVq2TRrQn3g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OOexhBcmKcrTrqPv+9I8gRKrU1m+QtvrEyI+xBW+5Gg=;
- b=cw3NV1AWLUZ9ixq1ipXl2fCZ9yg1yMy7KwdV2H6f3zF0c8LqXSiY8Db+/yAOwe1l9IAEKL+S8NXgPJHCcK3K93E7l6bazPXKCiqQA919QaY4rHRa7WPCj4Ymq0JxIY5dx4nSAZ0QTR7bphQfUK3CJinLU8jlYIKT4zqf8KkHaeLe1IK3e9pKk9vzWie8+BmRvXCnW4MBkdVgwrddK1H1jGi/h/QKZxFvVfoEWy/8VN0t69UZQVQUX54xw/IAoUo7YOPunPcOz12LmUMrDxZ/XradbgveHKbIHyATWbaLOyS1coFhBS0lpz0wqcZ0w9h9zzIGLkdNGjjXsiPM/3/Dxw==
+ bh=HuyAQEVUl/6lXt11tA2Z+obmhABSsG2w5EsnT2TrjSY=;
+ b=n4DQqMXRv8TUt69lknNc/fmmBTLlsJyxV91AYWEpb8b2VF5Jlan8Uxcww9Hc07VE6pNMOZgk7wfJzvY7+rOCgo1NULuOU6VYxt+CEara6Brp1y16EejtkhUUjU6YAzzzhGEtjiI2mbq1BnOWSjs++El+CffE3z2Dx8S6kx5zfU8Itgwt1TfYZCtHi0P88nCtV9DE41f170H4zqpCIOOuo81NSSzdjY0b0raZDBNM3DcH7KGrTKuFIrvVHmc0L1o+rKW2EqY/nNvoWggjCuH1yh33m7/y2Dj8jiMdOwpZodxVnqsaKWLV6lbNAwe5oak9cu5iJBh37MEFXyBEl8yOEQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
  dkim=pass header.d=synopsys.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OOexhBcmKcrTrqPv+9I8gRKrU1m+QtvrEyI+xBW+5Gg=;
- b=KNW1rG6fsjpkpqbeDJtqEcZ+aHmNcICtSC9p3peClyssvqWWcrmzXkJnKmiBrvn3bMPs5mtODWUO/+p4e27dqgu0kwY7ukXTU9SI/sv4wZD26tpmFWNQbjXVcOCwWTw3H3Lw8sRAx/Y+PdyQ906WpnH/Fg8U4K1VGJicsky6DnU=
+ bh=HuyAQEVUl/6lXt11tA2Z+obmhABSsG2w5EsnT2TrjSY=;
+ b=ggXRZfGniqLRWF97W2gg8bRyi9WSKi4EE7nUsy4MeG5rL2Y+CrHPYVguqlmWpr3wBDd90s6U5VN9Qr/EFPxzN23IuN/XgCWWialNJPH192iUAZyZSw+O5D8xtyjQ2rEDnk9YujLjGMplG4F3bARVGsT+MOCGhNGsQ/rlRJ3NR84=
 Received: from PH0PR12MB7486.namprd12.prod.outlook.com (2603:10b6:510:1e9::6)
  by PH8PR12MB8607.namprd12.prod.outlook.com (2603:10b6:510:1cf::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.522.18; Wed, 21 Oct
- 2026 00:38:08 +0000
+ 2026 00:38:13 +0000
 Received: from PH0PR12MB7486.namprd12.prod.outlook.com
  ([fe80::7df9:b25e:9216:f109]) by PH0PR12MB7486.namprd12.prod.outlook.com
  ([fe80::7df9:b25e:9216:f109%5]) with mapi id 15.21.0522.017; Wed, 21 Oct 2026
- 00:38:07 +0000
+ 00:38:13 +0000
 X-SNPS-Relay: synopsys.com
 From: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -143,14 +143,14 @@ CC: Tejas Narendra Joglekar <Tejas.Joglekar@synopsys.com>,
         "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
         "stable@vger.kernel.org" <stable@vger.kernel.org>,
         Selvarasu Ganesan <selvarasu.g@samsung.com>
-Subject: [PATCH 4/7] usb: dwc3: gadget: Issue no-op Start Transfer only for
- stream endpoints
-Thread-Topic: [PATCH 4/7] usb: dwc3: gadget: Issue no-op Start Transfer only
- for stream endpoints
-Thread-Index: AQHdYPRxYuSiuH218Eqg59T4Qrp9tA==
-Date: Wed, 21 Oct 2026 00:38:07 +0000
+Subject: [PATCH 5/7] usb: dwc3: gadget: Wait for End Transfer completion on ep
+ disable
+Thread-Topic: [PATCH 5/7] usb: dwc3: gadget: Wait for End Transfer completion
+ on ep disable
+Thread-Index: AQHdYPR0vMKNvIZqoEiCEvVM9AjrEw==
+Date: Wed, 21 Oct 2026 00:38:13 +0000
 Message-ID:
- <227e97e30d26a017c92d7008a8633c01f955d088.1792542945.git.Thinh.Nguyen@synopsys.com>
+ <24fa8adeb0222dab415c8c2799405188440bad4b.1792542945.git.Thinh.Nguyen@synopsys.com>
 References: <cover.1792542945.git.Thinh.Nguyen@synopsys.com>
 In-Reply-To: <cover.1792542945.git.Thinh.Nguyen@synopsys.com>
 Accept-Language: en-US
@@ -161,48 +161,48 @@ authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=synopsys.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: PH0PR12MB7486:EE_|PH8PR12MB8607:EE_
-x-ms-office365-filtering-correlation-id: 47573475-9a1e-4669-c752-08df2f0b93b5
+x-ms-office365-filtering-correlation-id: 847a3dff-64a9-4626-5a00-08df2f0b9707
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|38070700021|5023799004|11063799006|261009223027099003|10067099003|22082099003|56012099006|18002099003|6133799003;
+ BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|38070700021|11063799006|5023799004|261009223027099003|10067099003|22082099003|56012099006|18002099003;
 x-microsoft-antispam-message-info:
- vE/q1axjYhKqNTVZgiQ/WNJ0IKh862VKjrEl8jCOy7J1TE+pasXgHGjlDvETJN36uIRy3q+PzQMjLIU832VJP34iQ8pFyIC3ErNk8pN04Q+CQDlKv+pggjRfBEPR9JlGrx8EUnhucRx3MWx0Te/vHoHElCeqttaVnI4J24bHBjAuALj9GJpI6qPB76jxgcL/CFxF56uWAAoOcErgKkgW1awoAe6FLhMrC6W3EyAAgsZvogoIcAKr8Jta7gzvRx5o0n5h0wCbchSw1IWcwumfwgtwWzjLK1xPha0/PslOaLUBYUnhocwF2TUCsP3vhACg1nHSiKump3TbLLgsIXd34lvNyd/QQ0O/DJZZaG9zfgYp+oXrZVBhhJZmYrGalyEEtFa2nP6OcZC60kjN+mrbHMH2HBfWpenDyLRuMrcpO8JFTp8/VUO+eJut6MxYpd/bLX0oEkwVXNTqD/7E/LQwqypoo7lzW7Ng2/mCQ3XGT1q8tnhyD/rQpEKB+VCGknivhi0v4+N6EWPHOaOZQBGO2OgXrITIIC2IaljNScIOr+f6odgX71HGxeLSGiRX52TI3k7Gf5i+qxxBbRpaIQZ6zp68FxEt9WSIKXMNWj/m42oOTDdcgep2a5Ql+lk8S5K0FWpIHBKPGGnY8mwIdLcKn4MkTBh9r1H8mAyixfWBGY0=
+ VXwmhA7bX3h4XeKEP+0wWOusgvQWLgAtzMceDRIHhRMzSbhAaDMLlw87RHyiA7WZUMqGnr9tyZtgdt9glF2zZQEA0Fvn4RdTsiISQ1J3NEFmHk/X6a6WT5yh0ORK9kG64dzbm157wQ+TTtAVrsW8rxj8EM7SHnoPeEDQZ5jEvjJwWQPKo2R1VHjEk084hvviq3IdhJB3NpD6ghEKD8AQjGsetavUgNsfI9Mm0+4BZ4Nj1wXcH566pEmjyGa9theJg5CM7gFA1mu2V4oOj+oot/De6Crk2M8jdtPMaeCOdt2UrIvJxxIuqimfQCb2Gfskhw1iuiVoHv2MT4MErt5d4GFCGQigYVDNILm1VX7CQlJ+ugzuFoWRYylLfuN52Zowc5WmA9g1WCHbWLgI+W1W34y2UzkTU+wBxFXgapWHKsZ8G5yzJjm4tB9BDvjZYqWZaWYr10yITiJS35uYKlDk+sr8i0geP6ibeeH89QaVHfO95bO55qy8/Bp5W0hYWqwNNoBHozsmxregOC2Jh8RPWtLIdAhoKRJ+Vw0p9w9BbI7R16jN4Ej04H5kXT94YXL84LX7/zLs7NgQGJBGwM8/4WXY9JJrrIEFuxBwbhrj2eDKCH2PuDcAoUZoXYIk9ngKXWiqHl/YcUURz4a4Fi21LgFChnqKgZ+jPn920AI2TIo=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(38070700021)(5023799004)(11063799006)(261009223027099003)(10067099003)(22082099003)(56012099006)(18002099003)(6133799003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR12MB7486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(38070700021)(11063799006)(5023799004)(261009223027099003)(10067099003)(22082099003)(56012099006)(18002099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?C0tSUjfGvpVPoMx3KSmHbg4tI3L/CmEe/CUaVfiP++jgm2jNGBB/GZZNNS?=
- =?iso-8859-1?Q?gjGXZvxfqpNXxV/8E8VB1HMAp+glGrN/JSypX85VftRfaM0plj4hEFTalG?=
- =?iso-8859-1?Q?dsbQyL+uyt7/oqTrVBwvRC/AiTX6jFFWIqlJklnfc6mVNwTnzPAbUGuFvd?=
- =?iso-8859-1?Q?ChosEj1KwEc5mVbJtIoR42988LrcrxhwlkJIMy569j3hC51e1tNoC0dw0R?=
- =?iso-8859-1?Q?fbowq3y0OSD+6BVieHZXl12IZjI3827PdrrhgEewvpJnWGw+okdDrPaKCA?=
- =?iso-8859-1?Q?un2E6pHTpQnm35anQyP9eglprOwpRUI5eQitv+dbE0tTVUW0rupzvfBmXl?=
- =?iso-8859-1?Q?FKk2BUKIyDWN/OcLeFwbeeBMoe/cxlN6ZxhI5heEOasUw/IZdvFy8qNHnk?=
- =?iso-8859-1?Q?5TCSuQ2QifIMM6+k4voRS724ImOPAoNq1wGuRid+A9i78SZjS3l5CQImRd?=
- =?iso-8859-1?Q?nhvDo0WfjgvtIL6TFG9Z1F0W7otWxOAYKDGVqk9azNPlbjQag8p/qwqMxA?=
- =?iso-8859-1?Q?Qx26rdEuw9pT8Lic1bWOxJw/qNyKqoWt8+j5DURMCK5PpAjjgQxXz+nbLr?=
- =?iso-8859-1?Q?uGuUA5FqoQjLqtEQ9u0n9hIncncZASARWl3qIYmRBABhp6CYzDTKM7hVvA?=
- =?iso-8859-1?Q?T0vBWWCx+Icg0gp8tWw1W53Zt/ucuCgoEjh3lIcFP+kSYsf4Ry8deWRVQp?=
- =?iso-8859-1?Q?fFpl33wzF0TTaT7zmFfMPOkaqgZ6NCWAujCIYlsj5P81NU1Y7Jq39gxC2o?=
- =?iso-8859-1?Q?9O7p9JqBlVntiEE0qYHcOyckQNRS9NGEycTlUFKtb5c7BpVv3XzFqbpss9?=
- =?iso-8859-1?Q?DvPfNsFveraW32DTr458JSChCiVIar6+C63QgXHRY554l+m1Jl18dGijB5?=
- =?iso-8859-1?Q?IUWGqSw8eNhyBZjDJy1hyKeckDH34wj5NiAcyAq/Tffl50+/miH7+wHP2b?=
- =?iso-8859-1?Q?JfEeIoTJzvrIKGv/pb9kOUGoMQwMf1wfFC3UBwbiLAK92GOvJfnGn9p+Bp?=
- =?iso-8859-1?Q?35Beef2ipBe4NDmSVifbEDXhzkXBf87LXSirVqz1MWjmqqhjxb8HnbWqei?=
- =?iso-8859-1?Q?jAPLde2sKj8u3EBkgRvbO0q2dhvm7Fr/XjIu1SfEs0f3BNW8ASmXW9GFkH?=
- =?iso-8859-1?Q?RSEP0FBqrdZv/y5CbY4RyytnFtOYzkG7VvnctjUnNApsJpOMsdboaqzC6n?=
- =?iso-8859-1?Q?ccMf8tMJl/FswcXO9UpNR/FuZ3x1pZTCxqWZy3a/rammylLnyW7PvtvVk+?=
- =?iso-8859-1?Q?E0wMpxe4grd/+Hf/TCxd6UK0EzoAGgI/JpXF8Uis2iDeNwH3nBknLmCbqh?=
- =?iso-8859-1?Q?BRBhfJq8mdfWUxLTkrDfkraYet1xwyz/GMMe1SufZumHynTPi4TRd9PNRo?=
- =?iso-8859-1?Q?g3JIqMdXm2Xq2kDscUhZJ28RGVHjSDAqa9IVfqGZGsS91JMPTXmrfJk+Az?=
- =?iso-8859-1?Q?DyeBYNYmdwRyQBLj9XHMtmViA+FNLWE2S0B7L3cf1eEKZW3CyGAvr5wSBW?=
- =?iso-8859-1?Q?l70uliSpQjzqQshzEnFDfOqs52+d/WsC9rRa/vufEoTqrAhxYj+NyLIEZA?=
- =?iso-8859-1?Q?GstdKvzXcOE3l/xJHVXeD0redVLmfan9qF509eojU75PFRv5zBqo1M99pO?=
- =?iso-8859-1?Q?jyC0ukd8c64oCQdZUILMFCQ7/1+ngZKfLRSR0u5r9jVo/lHKBX2X1yUxxa?=
- =?iso-8859-1?Q?6uboN1SFm9NhRmutPZJTea7cRG0se/Sc1hUuO+JUkNH9tRkBIxzneC82Wf?=
- =?iso-8859-1?Q?yEnEXlCV00sMDEm6H2YIME+BQORpWZesbHXDlUlS7KiOI76XrtLdwdEpwt?=
- =?iso-8859-1?Q?6Ae3IwZHOg=3D=3D?=
+ =?iso-8859-1?Q?8/icqBY6Lh/+BGISipP+/scYwmy0XgRdRkudIcYNWwp1ZBEsNE2YJhE7KS?=
+ =?iso-8859-1?Q?2+ckvUDG2HbouO57nUGQ0SbS1RI4YySIQFZf4XIxWVw7SWJBsmk2zNlP3o?=
+ =?iso-8859-1?Q?Fzs2aZUHTsYMn9Lr0XZ0TC51GCUm8ib1xU9Z/VutXhKKh5KtLh+BWtu5mF?=
+ =?iso-8859-1?Q?YKNzfLFBYbyqTqQfUPBKZ7hSVSuMG+CXFVRPo0E7GZzp/FU6LTjwgwHRiD?=
+ =?iso-8859-1?Q?W2H8qeJWBdlRI1nl6GqZJ7FDINAk52NbYAGhxPMC43WjLLi7kyhyu726v6?=
+ =?iso-8859-1?Q?gLhcXBQWvo4q+zg7cNHv7+CljiIrxB2JfknpCPn91NnAn1HNUWwOqDZI12?=
+ =?iso-8859-1?Q?thIfhQg9NY4+NRxO2BX3dOrZ51NiQ0l3/0nSAHB9ZrhUo+htOjjQMnxDXp?=
+ =?iso-8859-1?Q?+wzNuyjJYKHHishzCR+PtmaQa8QjtvSdQmFSbbH08mnq0cAZKXWbPh/xZT?=
+ =?iso-8859-1?Q?tDAtfwfmsZFzEo7iSBsnNhI2Mn1H1PWLqNS6Kwavg3KXs7PDAIvjBAaaYl?=
+ =?iso-8859-1?Q?09NL6c4lzW8HvmkvSM8azDaDlZj3obedxMkFF4NUNJiuXrJB9TAQvtuXZX?=
+ =?iso-8859-1?Q?WxhK7dG+O0CKr4rRczsSaI8NQbmCvPR7CxhEp48ypI/YduLoi56UayjTyI?=
+ =?iso-8859-1?Q?Onr/He0laMr4r+EJnCINHWP+INRqZSfAcq1tQ+Pfs2AMFx03n0M3HidNeE?=
+ =?iso-8859-1?Q?8U506wYnYfOxkCJHR74a9azYH+mf82qIHonW9DCE8K+q6GbFqIfvhz9Ljg?=
+ =?iso-8859-1?Q?2f7ecNYgce2L7YNBp3psxHIc0OojHzqGjux2S7+STYCsnIREtHPj1uBc9Z?=
+ =?iso-8859-1?Q?VwA+RtRbQfDbD1Ail25tm1a9BfSgqmLTX0iYIidJ21NaOq9ejl6bNWWhye?=
+ =?iso-8859-1?Q?819Gn+87Vr+QKNJl1KJHLLIcfaiQSr1xZERcg+ilJIZx3Maz0h3vOlD7T8?=
+ =?iso-8859-1?Q?h8fJft7i6bpR0KtEA1rlwiBY23w9x/RnJn7j6PNDIz43MUMl3dud2rwmuB?=
+ =?iso-8859-1?Q?Hi35as40iWHgY3pOHWpP+tXM7AiBf9zb0pagT+JZmO8cgk51PvtLoUjDjy?=
+ =?iso-8859-1?Q?eUrH4TDsXC/Zk4gJ1oLM5D69LX2QxF+PXcIXXiCW/FqfZUAxUer8TAnpDT?=
+ =?iso-8859-1?Q?P6IGQK6GUdkRWdpC4GaziraRc5hXMI9Xxv2WHrGy/xGlvUl8tljAjitXRh?=
+ =?iso-8859-1?Q?qEh1YpbfwOWvDEEvfBPqhU8GlyQuLSENNJoxrjSFG2o90aTcLeruIDi3Ek?=
+ =?iso-8859-1?Q?kSDi71QIFA7PgsRf54xK1utP9J7g3LI7TX/J6J0ndWno0rYGkcWiofaqVY?=
+ =?iso-8859-1?Q?Al/x5DIsJ2lzCG3OoMIDmGqjojx8yU7VLL3039lAu4f9/76KFjdA9D9Yy3?=
+ =?iso-8859-1?Q?66MAAtbuo7D3JVybg5exUw0HRjWKirr5NeqLQDMfhZwP46fb8aaULdrZEt?=
+ =?iso-8859-1?Q?F9yq7OP/tVKFT4tOIJy6ZXoyR7Q+cMv/IPsb3fhqdkLOKd/ts7Wnnk48lK?=
+ =?iso-8859-1?Q?9uEAoenl1QyuLF5q8Hab33yJnEvebfsorC3hhuRNuhnCb7cOmut50Y6Kgn?=
+ =?iso-8859-1?Q?/ZnfEQlmvuDv453hhC+dKpQYVaZ4vEEECk8IgYsgVXojGGredKhO34lTt4?=
+ =?iso-8859-1?Q?q9cGB15VoRTVW49cwAPFViKWEb1Bxe+u4uyV9P0aE56u/o0PWyIrfxuHsr?=
+ =?iso-8859-1?Q?XrTvJuC0xKQz0hkXeO/EF/BZ0Jnu1cKi3iTduEzZWFpAprUDmTbYV3Uchl?=
+ =?iso-8859-1?Q?LX9okySOAwnGL25nbZG/j82dZJTW74x9G/3OhFfhuV+7imla0FSxyv++kz?=
+ =?iso-8859-1?Q?SOP3rrpVsg=3D=3D?=
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-usb@vger.kernel.org
@@ -215,189 +215,217 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked:
-	o3T1pmKET9WmP2wzHXiq0e8m0mDVPIfyQvmPmKIgPHKk0Qlx3ZEADTGzJoHgp6Sm2avmxd9GuHXeYOs7itJQJNwf/9RAe5wahJI6O1yjZnHgyz5ZAhS7roVFmYsC2LSdQds+HaCcW3XDzzOaVpprxUTkjQ/htQ69u/g7P1SO9F5fLjFlJHWBFpDHC4rZ/KTiH6jRg2SdziOXOnpRBdyF4Tj8DQX4R6gpZbMFjsyOLl/P6NRkyySD89pChTHOcPz2rCM4d9+e3b+3ZV7BA5hOs0Knh+0+S4bqu1oJV1IZvD0K/8+l73lbepeYobM6bHbes+/X2NRGi5vI2MmgJPApGQ==
+	Xnu590HLKarqtRxJLgres4falZSVTUYhKdznqaKAdleBlKk3UDhwzG3RoepfNmYCnXKthWUc48iDKyz2wVGfYhxxyXO7FoPGZ+aRrWlcyjqd/FOXVEBcgPWpdgkXZtlMPig1kOgYMQ0wU8F/2mrVdHi9B7Nw3dDj5KS3dzf5k6B7c6E7BHAD/BCQ672M5Ddq6oR3PPkY8EPb1F5ak3gh4YXsBVdvTz0b7INMlFrtcYNwlOG1MYX1YMYSwcfYzryTBBNlBNCaaXMT4wH9HrdgFsEoIgFPU6UkofEhmopNG9yi3E1kVM778bA+jahHZ4pCisfNpcaB+Lwh7NE6rm8Qpg==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	sNNf49p+tCthnIYmKwTzpvs/4jxJsjVi/PS1nllPxKjk5lVHWDxPMBSa0N7f10RZdnoTkCDV5lyyS88rKkWAyrmZpsqpWIy565MqmJXKYxYtgUsXenjVGNgC5wc5KU3N1A7eZlDTYJQg1plmQvjeqd+hUFzdmHSXHg6NuiWk9v2cEDnzZsqtx7njazzhCIbWGubwvTZht0tSsppiZkxzUxnRHRIjG2WzqnhtC/SjU6wGgOkuZ6UOYLCCyPIUhDcubLDhkdVNy2Bd5fGzdUbueyI3Xa4ffM+vmzT/1eoKfxQpv6eUo3Uw+DsqTBL7EJYmAIhIGaGIdlHK7ZSqM+AE3DLYJja16/zlQDtpDu2nu1TIeE0e2jJFjwC4J0JLS1AAU8vn195jJXnVNbqVZ42PXnJEZVTRx4oVKUxnFc1PqO8T7OpiYc+9xxUEi3yyTs4+4KR9+2NAw0uckk/1sJDRRHo+lXeSiemQ7/nKijCXRMhZyx9yDwW3/nB3MgMXYQVqCcPsQiALT5nOAI1Jra5KiO21an4b+E58IDnEh+MPbrPxt1JPENvGOBK79Df3MWlWc2iL8OYe2Y11yzm0FpgXPFQSRr6rWeQJXkA4FiLbOSDB8rEOhM4mDZWfEFXXExdmePnweD22D8vZvJXThmoAUA==
+	p8bgNtr/D0qV7VTL+N2AW4hiRJIdZL2cf1t3zgXcwoWLZk597UcQI84ZsE1iJXOVrptis0xBFKRh6YRSx7VfaKLUZQRjJM3PFyVg6QSg2SZrUXPMCGY1tX9A1lwiPSsmpwBCanOx4FfE9ecjXxD/qhLeHa1sXlKx0XdgqqHmrsiByDNYH4TU3CfwQK571T1aqaOiEBWI6JKQvIJcb12AjPvzDp+nyokPqq3hTJQ6yhn0YRoEOuSUoyFsM7jfUqc6Qyol+AF8VKVo4bntln2J+XFvAH40/BP7tVcMSksX7UsgIs+WjK+c7zELenHs4W0Kl/AoohKc5gtDpepo9jIdPMmnxZ7yPtwHQAJU9rmZ3cqu/iZAPjFyT1GoRY8eG8NwuZ04NazDCJqsqzr4JHenWvFh+3HJPvpCU+xdYYF8bPFQv0jVsj+1dlKCaJBhre+81EegwjGcOlVVUXV7CwgWe6pJqSvv2h4SiacsLpPJGb33lUXKhrtbqvSkOqfoD76Ybq5SDRjJFWyxiKnOXzSWJwdhaJes1p4kRr05RwSYYMnlJtYbcDIcETkxFvr3cBAjm6OszcVDPRkkagZ/sSft7cunsuoLNOwyU16FjjKtwJBI/lPal4GISVFsIXgUNJH8yEDRX5KqN6ROUPIeFaPUGw==
 X-OriginatorOrg: synopsys.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PH0PR12MB7486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47573475-9a1e-4669-c752-08df2f0b93b5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 00:38:07.8539
+X-MS-Exchange-CrossTenant-Network-Message-Id: 847a3dff-64a9-4626-5a00-08df2f0b9707
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2026 00:38:13.4470
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: QfdoSEANo/VopgaRW/xvDcHyV8fkyjdk3as+A/cw7mfhSJPdigEzlbP771IAd3AkybsnnKVLmKJIjIJG7IjIpA==
+X-MS-Exchange-CrossTenant-userprincipalname: AQh0Ry2/7Y2TzbRs0TseJMuL7MRVd5RhdbHJDHfrDRZbERzT24Wxg6JF9rW2CAJCbATK3YMeGAiP3Wygml2zZQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB8607
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAwMSBTYWx0ZWRfX5b93j1qMrdNO
- qGibnnZmdz5gZSH+4558IOcxH/e+xhcnV3Q7jBhPpdZcEll9+x5gfEaAQo83c1ceOWqdNjt1XnN
- i6g37VkmaZ6KS5zSVQJYv8tK51H9KYQ=
-X-Proofpoint-GUID: ci4RpjIHewWkLCUL_N7dQq4oAu3NtduQ
-X-Proofpoint-ORIG-GUID: ci4RpjIHewWkLCUL_N7dQq4oAu3NtduQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAwMSBTYWx0ZWRfX7i4k78s/nvsR
- hqG31X3koo4wRUiO5I9+OUG8juy6LfIi6ON8UQ9kZoDhBMyof1nARzniaaRXHJ5tjFFkGb8r6q5
- JwXXqiEZ7ZxDZa+FKECo7taL618ffajxmxnHaZH2vrjuoWH5TEFDEH0EAZc5zUbRCffgHFzAGU5
- 5USO8RH67sCrl3UrAepeKCOHsdbKhph+UBVkdcfDXErq0K0Y5/sdan4IEdpkl156NEZZDBcAi9w
- DS/Clij//FW5qbiIAtTPuS212FdEz+z0a1v/7ac7xAJeApO1rqDprHU/WkajXiZ2jb0582vGm+/
- w+XW4WT6o9aMefXi0iAz/E0uZyn1BSPOgIJ4TmiEP53VaWGTAgOm9m/SaY9ZIWDi1i4HnDhoLyz
- MoRaLYrZxVihu/SmcVup7KKVzJ0Qx6wGx8G5qK6lXR0IlV/dmuJG8JW31J5RQwAlJCQr958gW1S
- jhT5Sepu74YvCtQTYCA==
-X-Authority-Analysis: v=2.4 cv=LK3z05W9 c=1 sm=1 tr=0 ts=6ad80977 cx=c_pps
+X-Proofpoint-GUID: yPkdtOZ-SvdF3PBHALJr7b8ESD8rKzdK
+X-Proofpoint-ORIG-GUID: yPkdtOZ-SvdF3PBHALJr7b8ESD8rKzdK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDAwMSBTYWx0ZWRfXy2UK/eFOWFR8
+ 2iam+aG00j8twIfObeuMByP88juCjs5ybk3u96peL9mHqjpSZdUEVHbI/RCi+wo54d1hUs5DKzY
+ 4DQ2xIHUSOb92xEVQbJjduj77xjuHuRSuxQ1bttz3yTiuH5v4MZYp41C9AFsVKJy60pTfC+Pnb+
+ g85qD0Mx8ivEIHAlyjc/6KMwPbTlEdnUSYQsB2ZuqGiuSC+dQD7i1dsAWjEmn/SNDyeR2FOkRDa
+ 1i7mn2QLDYrgjE8MwjcpTOLCb/Kzn78xGVqapiI8vQ/TchE6exg4bwEiRWADlO2cLPlvBBdXJmy
+ Fs5ViaxxP+EOiYFCAQJOmRn48t4qMtVi9xFGthgz3smGgVu6tPf8T/ZQraBwJ/ABt4Zgecf4Ig+
+ ObLGHaximDWe2kVhdhd3HGrPzuZgzJ4RAxf4XjE80cQaJPgYXI3Zluh2MYGYdZWB1F92g/dJJh8
+ A0OOGg/oAv6keQp8gow==
+X-Authority-Analysis: v=2.4 cv=E8RYNqdl c=1 sm=1 tr=0 ts=6ad8097e cx=c_pps
  a=8EbXvwLXkpGsT4ql/pYRAw==:117 a=8EbXvwLXkpGsT4ql/pYRAw==:17
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=8nJEP1OIZ-IA:10 a=660iZSQnnn4A:10 a=qPHU084jO2kA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=-4-sGo8i1FcW4KD7_GeR:22
- a=VwQbUJbxAAAA:8 a=hD80L64hAAAA:8 a=jIQo8A4GAAAA:8 a=6h78iNf4uoTPcObiNlkA:9
+ a=VkNPw1HP01LnGYTKEx00:22 a=tU_645BZ7FZt8VqRJtHG:22 a=jSPayVjLy6xbsuKauFBc:22
+ a=VwQbUJbxAAAA:8 a=hD80L64hAAAA:8 a=jIQo8A4GAAAA:8 a=PXEoWPVRprKaXEqG_kUA:9
  a=wPNLvfGTeEIA:10
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDAwMSBTYWx0ZWRfXwRTJaq837DT3
+ GcgDl2hE1KLkIDA4Vh4LWnWm5iBm0EsfSSNNB37uMUjuIkitw+HjreUpGurwbjoenkkydVH5Xo5
+ Fn4BRsKhjU9GU+2WqpeLXUqDsNSmTg0=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-10-20_04,2026-10-19_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_active_cloned_notspam
- policy=outbound_active_cloned score=0 bulkscore=0 lowpriorityscore=0
- priorityscore=1501 phishscore=0 clxscore=1015 malwarescore=0 adultscore=0
- impostorscore=0 suspectscore=0 spamscore=0 classifier=typeunknown authscore=0
- authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.22.0-2610190000 definitions=main-2610210001
+ policy=outbound_active_cloned score=0 suspectscore=0 adultscore=0
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610210001
 
-The function driver may re-enable an endpoint before the End Transfer
-command issued on ep disable completes. The no-op Start Transfer issued
-on ep enable then fails with "No Resource".
+The End Transfer command on ep disable is issued without interrupt, and
+the endpoint flags are cleared right after a fixed delay. The command
+may not have completed by then. If the function driver re-enables the
+endpoint and queues a request, the next Start Transfer fails with "No
+Resource".
 
-Only stream endpoints need the no-op Start Transfer to initiate a
-stream. Other bulk and interrupt endpoints start their transfer when a
-request is queued. Skip it for those endpoints, and move it to a helper
-to be reused.
+Issue the End Transfer command with interrupt on ep disable, and keep
+DWC3_EP_END_TRANSFER_PENDING and DWC3_EP_TRANSFER_STARTED until the
+command completes. Defer the no-op Start Transfer of a stream endpoint
+re-enabled in the meantime to the command completion.
 
-Fixes: a97ea994605e ("usb: dwc3: gadget: offset Start Transfer latency for =
-bulk EPs")
+Fixes: c5353b225df9 ("usb: dwc3: gadget: don't enable interrupt when disabl=
+ing endpoint")
 Cc: stable@vger.kernel.org
 Reported-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
 Closes: https://lore.kernel.org/linux-usb/20260227121236.963-1-selvarasu.g@=
 samsung.com/
 Signed-off-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
 ---
- drivers/usb/dwc3/gadget.c | 97 ++++++++++++++++++++-------------------
- 1 file changed, 50 insertions(+), 47 deletions(-)
+ drivers/usb/dwc3/core.h   |  4 +++-
+ drivers/usb/dwc3/ep0.c    |  2 +-
+ drivers/usb/dwc3/gadget.c | 42 ++++++++++++++++++++++++++++++++-------
+ 3 files changed, 39 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
-index 4de3b81cb678..e68584f20fbd 100644
---- a/drivers/usb/dwc3/gadget.c
-+++ b/drivers/usb/dwc3/gadget.c
-@@ -906,6 +906,54 @@ static int dwc3_gadget_resize_tx_fifos(struct dwc3_ep =
-*dep)
- 	return 0;
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index f3dabb37f806..267c922ca11b 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -771,6 +771,7 @@ struct dwc3_ep {
+ #define DWC3_EP_TXFIFO_RESIZED		BIT(12)
+ #define DWC3_EP_DELAY_STOP             BIT(13)
+ #define DWC3_EP_RESOURCE_ALLOCATED	BIT(14)
++#define DWC3_EP_PENDING_NOOP_START	BIT(15)
+=20
+ 	/* This last one is specific to EP0 */
+ #define DWC3_EP0_DIR_IN			BIT(31)
+@@ -1695,7 +1696,8 @@ int dwc3_send_gadget_ep_cmd(struct dwc3_ep *dep, unsi=
+gned int cmd,
+ int dwc3_send_gadget_generic_command(struct dwc3 *dwc, unsigned int cmd,
+ 		u32 param);
+ void dwc3_gadget_clear_tx_fifos(struct dwc3 *dwc);
+-void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep, int statu=
+s);
++void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep, int statu=
+s,
++			  bool interrupt);
+ #else
+ static inline int dwc3_gadget_init(struct dwc3 *dwc)
+ { return 0; }
+diff --git a/drivers/usb/dwc3/ep0.c b/drivers/usb/dwc3/ep0.c
+index 46a34c4a046b..cf5a47b71efc 100644
+--- a/drivers/usb/dwc3/ep0.c
++++ b/drivers/usb/dwc3/ep0.c
+@@ -315,7 +315,7 @@ void dwc3_ep0_out_start(struct dwc3 *dwc)
+ 		if (dwc->connected)
+ 			dwc3_stop_active_transfer(dwc3_ep, false, true);
+ 		else
+-			dwc3_remove_requests(dwc, dwc3_ep, -ESHUTDOWN);
++			dwc3_remove_requests(dwc, dwc3_ep, -ESHUTDOWN, false);
+ 	}
  }
 =20
-+static int dwc3_gadget_ep_start_noop_transfer(struct dwc3_ep *dep)
-+{
-+	struct dwc3_gadget_ep_cmd_params params;
-+	struct dwc3		*dwc =3D dep->dwc;
-+	struct dwc3_trb		*trb;
-+	dma_addr_t		trb_dma;
-+	u32			cmd;
-+	int			ret;
-+
-+	memset(&params, 0, sizeof(params));
-+	trb =3D &dep->trb_pool[0];
-+	trb_dma =3D dwc3_trb_dma_offset(dep, trb);
-+
-+	params.param0 =3D upper_32_bits(trb_dma);
-+	params.param1 =3D lower_32_bits(trb_dma);
-+
-+	cmd =3D DWC3_DEPCMD_STARTTRANSFER;
-+
-+	ret =3D dwc3_send_gadget_ep_cmd(dep, cmd, &params);
-+	if (ret < 0)
-+		return ret;
-+
-+	/*
-+	 * For streams, at start, there maybe a race where the host primes the
-+	 * endpoint before the function driver queues a request to initiate a
-+	 * stream. In that case, the controller will not see the prime to
-+	 * generate the ERDY and start stream. To workaround this, issue a
-+	 * no-op TRB as normal, but end it immediately. As a result, when the
-+	 * function driver queues the request, the next START_TRANSFER command
-+	 * will cause the controller to generate an ERDY to initiate the
-+	 * stream.
-+	 */
-+	dwc3_stop_active_transfer(dep, false, true);
-+
-+	/*
-+	 * All stream eps will reinitiate stream on NoStream rejection.
-+	 *
-+	 * However, if the controller is capable of TXF_FLUSH_BYPASS, then IN
-+	 * direction endpoints will automatically restart the stream without
-+	 * the driver initiation.
-+	 */
-+	if (!dep->direction ||
-+	    !(dwc->hwparams.hwparams9 & DWC3_GHWPARAMS9_DEV_TXF_FLUSH_BYPASS))
-+		dep->flags |=3D DWC3_EP_FORCE_RESTART_STREAM;
-+
-+	return 0;
-+}
-+
- /**
-  * __dwc3_gadget_ep_enable - initializes a hw endpoint
-  * @dep: endpoint to be initialized
-@@ -971,55 +1019,10 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *d=
+diff --git a/drivers/usb/dwc3/gadget.c b/drivers/usb/dwc3/gadget.c
+index e68584f20fbd..e531adc02a40 100644
+--- a/drivers/usb/dwc3/gadget.c
++++ b/drivers/usb/dwc3/gadget.c
+@@ -1020,9 +1020,14 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *d=
 ep, unsigned int action)
- 	 * Issue StartTransfer here with no-op TRB so we can always rely on No
  	 * Response Update Transfer command.
  	 */
--	if (usb_endpoint_xfer_bulk(desc) ||
--			usb_endpoint_xfer_int(desc)) {
--		struct dwc3_gadget_ep_cmd_params params;
--		struct dwc3_trb	*trb;
--		dma_addr_t trb_dma;
--		u32 cmd;
--
--		memset(&params, 0, sizeof(params));
--		trb =3D &dep->trb_pool[0];
--		trb_dma =3D dwc3_trb_dma_offset(dep, trb);
--
--		params.param0 =3D upper_32_bits(trb_dma);
--		params.param1 =3D lower_32_bits(trb_dma);
--
--		cmd =3D DWC3_DEPCMD_STARTTRANSFER;
--
--		ret =3D dwc3_send_gadget_ep_cmd(dep, cmd, &params);
-+	if (dep->stream_capable) {
-+		ret =3D dwc3_gadget_ep_start_noop_transfer(dep);
- 		if (ret < 0)
- 			return ret;
--
--		if (dep->stream_capable) {
--			/*
--			 * For streams, at start, there maybe a race where the
--			 * host primes the endpoint before the function driver
--			 * queues a request to initiate a stream. In that case,
--			 * the controller will not see the prime to generate the
--			 * ERDY and start stream. To workaround this, issue a
--			 * no-op TRB as normal, but end it immediately. As a
--			 * result, when the function driver queues the request,
--			 * the next START_TRANSFER command will cause the
--			 * controller to generate an ERDY to initiate the
--			 * stream.
--			 */
--			dwc3_stop_active_transfer(dep, false, true);
--
--			/*
--			 * All stream eps will reinitiate stream on NoStream
--			 * rejection.
--			 *
--			 * However, if the controller is capable of
--			 * TXF_FLUSH_BYPASS, then IN direction endpoints will
--			 * automatically restart the stream without the driver
--			 * initiation.
--			 */
--			if (!dep->direction ||
--			    !(dwc->hwparams.hwparams9 &
--			      DWC3_GHWPARAMS9_DEV_TXF_FLUSH_BYPASS))
--				dep->flags |=3D DWC3_EP_FORCE_RESTART_STREAM;
--		}
+ 	if (dep->stream_capable) {
+-		ret =3D dwc3_gadget_ep_start_noop_transfer(dep);
+-		if (ret < 0)
+-			return ret;
++		if (dep->flags & (DWC3_EP_END_TRANSFER_PENDING |
++				  DWC3_EP_DELAY_STOP)) {
++			dep->flags |=3D DWC3_EP_PENDING_NOOP_START;
++		} else {
++			ret =3D dwc3_gadget_ep_start_noop_transfer(dep);
++			if (ret < 0)
++				return ret;
++		}
  	}
 =20
  out:
+@@ -1031,16 +1036,21 @@ static int __dwc3_gadget_ep_enable(struct dwc3_ep *=
+dep, unsigned int action)
+ 	return 0;
+ }
+=20
+-void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep, int statu=
+s)
++void dwc3_remove_requests(struct dwc3 *dwc, struct dwc3_ep *dep, int statu=
+s,
++			  bool interrupt)
+ {
+ 	struct dwc3_request		*req;
+=20
+-	dwc3_stop_active_transfer(dep, false, false);
++	dwc3_stop_active_transfer(dep, false, interrupt);
+=20
+ 	/* If endxfer is delayed, avoid unmapping requests */
+ 	if (dep->flags & DWC3_EP_DELAY_STOP)
+ 		return;
+=20
++	/* Give the controller time to stop accessing the request buffers */
++	if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
++		mdelay(1);
++
+ 	/* - giveback all requests to gadget driver */
+ 	while (!list_empty(&dep->started_list)) {
+ 		req =3D next_request(&dep->started_list);
+@@ -1089,7 +1099,7 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *d=
+ep)
+=20
+ 	dep->flags &=3D ~DWC3_EP_ENABLED;
+=20
+-	dwc3_remove_requests(dwc, dep, -ESHUTDOWN);
++	dwc3_remove_requests(dwc, dep, -ESHUTDOWN, true);
+=20
+ 	dep->stream_capable =3D false;
+ 	dep->type =3D 0;
+@@ -1101,6 +1111,15 @@ static int __dwc3_gadget_ep_disable(struct dwc3_ep *=
+dep)
+ 	 */
+ 	if (dep->flags & DWC3_EP_DELAY_STOP)
+ 		mask |=3D (DWC3_EP_DELAY_STOP | DWC3_EP_TRANSFER_STARTED);
++
++	/*
++	 * The End Transfer command is still in progress.  Do not clear the
++	 * flags, so that the ep is only rearmed once the command completes.
++	 */
++	if (dep->flags & DWC3_EP_END_TRANSFER_PENDING)
++		mask |=3D (DWC3_EP_END_TRANSFER_PENDING |
++			 DWC3_EP_TRANSFER_STARTED);
++
+ 	dep->flags &=3D mask;
+=20
+ 	/* Clear out the ep descriptors for non-ep0 */
+@@ -2553,7 +2572,7 @@ static void dwc3_stop_active_transfers(struct dwc3 *d=
+wc)
+ 		if (!dep)
+ 			continue;
+=20
+-		dwc3_remove_requests(dwc, dep, -ESHUTDOWN);
++		dwc3_remove_requests(dwc, dep, -ESHUTDOWN, false);
+ 	}
+ }
+=20
+@@ -3901,7 +3920,16 @@ static void dwc3_gadget_endpoint_command_complete(st=
+ruct dwc3_ep *dep,
+ 			dwc3_ep0_send_delayed_status(dwc);
+ 	}
+=20
++	if (dep->flags & DWC3_EP_PENDING_NOOP_START) {
++		dep->flags &=3D ~DWC3_EP_PENDING_NOOP_START;
++
++		if (!(dep->flags & DWC3_EP_DELAY_START) &&
++		    (dep->flags & DWC3_EP_ENABLED))
++			dwc3_gadget_ep_start_noop_transfer(dep);
++	}
++
+ 	if ((dep->flags & DWC3_EP_DELAY_START) &&
++	    (dep->flags & DWC3_EP_ENABLED) &&
+ 	    !usb_endpoint_xfer_isoc(dep->endpoint.desc))
+ 		__dwc3_gadget_kick_transfer(dep);
+=20
 --=20
 2.53.0
