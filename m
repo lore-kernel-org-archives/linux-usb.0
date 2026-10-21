@@ -1,61 +1,61 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=148.251.105.195
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792605954;
-	b=DgjC0T0l4GqrPspgXi51A+Btr821nov5Rvdl7D4JtWVF4yr/Wr/zATnUjcg7kBqdl0aN
-	 SppKMlRqSRe9iVlqgwr5a5ZJuC7JrAPQQYbyRjqPwl83h7a3U8et1FFWebCe16TqunHyI
-	 9OtEPSS2GHEEfI/IxrIZM4VH5VfPoJ06pbVdE+BJt/Ja6SGE1CDWp+gNpuNN/oCCgVBRA
-	 YrnwRMG3ykW+XXlpMyL33flcEPzllRB73qSzUbioECOVwoYBI5O4b49NCoNSxNHRvGLrv
-	 TDpDyj9+A45sZMa0UKjBGmOKkQI+J11+dDxjYQ7PNtkvNPbT6FSJBzvIKhoGg9qrkmA==
+	t=1792605952;
+	b=WWKCqhgZByvFFDNoB31jFCOx/kJX/1GCbB2jhkE6DsQUdlTQNJHecgmAZqHiW3+YEWOA
+	 67mD6BsiQ/owahXOTDLw96qgAfYenOPc/5bVVm/DJYwHaBQq+1jDnMDeSyA2Y48XMLDt1
+	 4mRzVgqYjuqJ/EMvZORhWAuz67GT7gDUVeZZS+1CTgM0CNqouPMZvV1ZGVhVJxlia6UQS
+	 gH0upZnWcna/ok+VLTgiNgH9D8KKfQRKx5SJEoZiEdD5jDnOpHOXIuPF2R4qNQqVpXdDE
+	 U5ql18dYUpJI9qEL7WIUGwCP4JL/F6IAWiZ1PUrFhW+mpu+Jh149HmYtyassFXgCu2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792605954;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792605952;
 	h=DMARC-Filter:DKIM-Signature:Received:Received:From:Date:Subject:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
 	 References:In-Reply-To:To:Cc:X-Mailer:X-Developer-Signature:
 	 X-Developer-Key;
-	bh=+2G5VZLK8HCZ0p1x2CyF5yDVbIltgfNGz0f2AYltyWA=;
-	b=enZWiawHxI205YcWYqaGXcJemvH+Nn2dhkH/MF/Urv0tWlRlh5t50BFzkrRJPF6q6x8e
-	 LEMj6EZEqv9jAu+jmRHIEI1GfKIUVIvd8iQsQxoSXE++T1Hz1b+zKjpBayl1JNFPeNk/j
-	 kyuZG3C8X9C4pvC02ynW3qCvQB/bURvwex1LUVCTJ5GrPLbPwPxi5Kh9UgghYZM6jhc93
-	 v42EHu6pHA31sas0DcTj8/PSHYM1Sluet2u+Krjz0ovIYXlL9DX7k2HOQk4SCifqMF9yo
-	 SxA42JiQhsJN0Kj8gh849QTVXe3ICZ4o9di/Kj9fQPzmtBnbPyN6WpGEPAzGdoSVmHQ==
+	bh=yq9LVAN5JxUV1XxpBBUTYSSSlaYw6zxP+Mv8Wu6YgDk=;
+	b=i9Sk9sYd9Y5TL3mBdLTH7oLlYeSaZJJJUnZPeYTVYd9FlXPe2vlYBahDdGWx8mKhIWbI
+	 p+1FmWwjsoaLINU2eHFXEGrG1mmrc1yebdka3TEqpYwGj8VnEjVtVjbra0RTMfw2bVQtS
+	 iorKy3FOvDs5budj/b+GBgj+jQvcGGRoRKQPCHBdgizRQg4NdCgczA6LYClv8qFLz/aeX
+	 xqOkZ13xxkSbajkS4O5i2j7/tGZmgSnhzQIGxvkehVSySSrdzWjjy9QacG9EKQlBjZ4wK
+	 PjJxDpBTk0rzrBUhexlo9g+ITW/5G3TGsoOmo1pdOrq6soDVImcVAXPTzQ33nkrmkaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=collabora.com;
 	spf=pass smtp.mailfrom=collabora.com;
-	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=KzgoVOZX;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=dH24piyD;
 	arc=none smtp.remote-ip=148.251.105.195
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8D860A260D;
-	Wed, 21 Oct 2026 18:05:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BA8D860A260D
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763FF606A321;
+	Wed, 21 Oct 2026 18:05:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 763FF606A321
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=KzgoVOZX
+	dkim=pass (2048-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=mail header.b=dH24piyD
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1792605944;
-	bh=rcNmKpWmTn7+TJeXvWtVirw/uYcmmOwXMSqcMxV5Cbs=;
+	s=mail; t=1792605943;
+	bh=NvsnwJPFAW5v0kVCPBz6237a7VHJ/RsQIoGbPMllOlA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KzgoVOZXPHtQixXe6jJdotH3nuMS/B7iwJG1GVOM3JYl42TuXqv4dIPhjshUt0/Ky
-	 wVnj4CMLmoG9eqDhp9PF4J4VBcj0U/6EG567ZI0C34hAMjlEZd7mKWIzji/hHwHYML
-	 6QWRvwnWCS61+nfTtR3ZwNJB80ICF0uJGHSrrWfC0ztqp/3FDSzP39f/Q6CTIgF5Ro
-	 QCyEVZcXtFrRVr9GsB+uuwjuXRQ0yP717XZ9BNzO3kLuAai0EnhVvhwYisWfxYLa1A
-	 Ke7wd6ISPSry7gqagSCOQnVwzVVBsJPOTr79PsbQ0dVz9l7Ic/x63XI91xtGeIndsg
-	 4ZylOEfBEBVEA==
+	b=dH24piyDiAAm3TGtO4bOQXcA7c+LmoWVFx7TBMqDLwMdnB/Lc1UTCE/N1oBpvZnc0
+	 vDDv1Xf+O3XKprAwBfdmTl/2lko65dXfjew0KV4gXcU8tl3tZZVwJAGvutjmV8FVrm
+	 c53lyNwBg2PNTtSiQ81/HBwMTyQhjHUFiVKeUUIFG6USn123GAYcYDSXMRNJhF0vq+
+	 cAbPB9cHuq0oMkVN/sEYSg6Bzx+gZUfybACowMnJGc3spNtAfS58mU2E1jRcbbyn5Q
+	 a3JwyguGmAqrB4lF/PW6ykby2VVPu6DV6D2My6Id+Ss/8OldEyHypZqhB2yO4XWNOL
+	 K+wE9sdNqZbMg==
 Received: from jupiter.universe (unknown [100.64.1.62])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519)
+	 key-exchange x25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sre)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id EF2DD17E0B2D;
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9D49C17E05F1;
 	Wed, 21 Oct 2026 20:05:43 +0200 (CEST)
 Received: by jupiter.universe (Postfix, from userid 1000)
-	id 6A4AB480038; Wed, 21 Oct 2026 20:05:43 +0200 (CEST)
+	id 61F70480027; Wed, 21 Oct 2026 20:05:43 +0200 (CEST)
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
-Date: Wed, 21 Oct 2026 20:05:31 +0200
-Subject: [PATCH v18 6/7] usb: gadget: define stub for usb_udc_vbus_handler
+Date: Wed, 21 Oct 2026 20:05:26 +0200
+Subject: [PATCH v18 1/7] phy: rockchip: usbdp: Track PHY power state
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,7 +67,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-6-60000d03fca2@collabora.com>
+Message-Id: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-1-60000d03fca2@collabora.com>
 References: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
 In-Reply-To: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
 To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
@@ -80,53 +80,106 @@ Cc: Igor Paunovic <royalnet026@gmail.com>, linux-kernel@vger.kernel.org,
  linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org, 
  kernel@collabora.com, Sebastian Reichel <sebastian.reichel@collabora.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1158;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2394;
  i=sebastian.reichel@collabora.com; h=from:subject:message-id;
- bh=rcNmKpWmTn7+TJeXvWtVirw/uYcmmOwXMSqcMxV5Cbs=;
- b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGrY/vc9xa1w5K+P+9KH0j1yKeiILyDf75yoa
- 2JbS3ggb50XFokCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq2P73AAoJENju1/PI
- O/qaS6AP/1s3/oWKm6obCCUW7Bs/i3yKaLLUdMMz3Jgk5isaXEX2wW7yxCuZ3e1CM86OqizO0y3
- iuTmRRSrXVqKTqm2YE5Moc+V586H/KLbmS5NldiRMoEOx2ptnMAUOa7rFhhow2XxCmENMSxFq7M
- 9kRHbIDeLlNvN+ovsNOoJrBRlaqux+7AkSBchCmiTbat+UbWWI9gkAbvYucyO8rIpu61M6EyCrr
- ERuf3EQBl6PEVeEEuLwf5+9ip4BFZwJTVUk/Ptb9FU6XsvBhaM645stPzjX6OL+HWk1NdDSzpcL
- ZemqaEHkOJGUgYN416iPGEuJ4hiNTu+PXBMrR7ilvvLjwo3VZ3QqqJ8NylqAUUly6AIPU+iWreS
- HoUjvfFmFGrE8a7OtsS925PLkAX2zUIiZ6KN/6yQvRxhXJVuD3sS297UqxfvDmBWZuUQQu+/lBf
- m7i53Na8WV1QbvxbkQruyCjclq4KMXqWM9lWeAAtTH1915ElDcQRl5znkowx3UPnaPyWEG/FbiB
- kvMl6c8zca1Njca0xlWUY3jZHoDssidZ8zMIgZ1A+s3JlWi58oyG5fkXKWdPI7UWh87WqBgcNwV
- ALVkSjv/HCJZ2DrDSx9taULC0TxhaNN5DcWkveIFSPFETrnuZBUiFqhqCOVwABWF/+TXwL516uz
- AsHtt3gkUzYS5Mc5LszUx8g==
+ bh=NvsnwJPFAW5v0kVCPBz6237a7VHJ/RsQIoGbPMllOlA=;
+ b=owJ4nAFtApL9kA0DAAoB2O7X88g7+poByyZiAGrY/vdY08luJUkIGee10Mu50u+NdhJaFusvP
+ 6auT8IGbtXxsYkCMwQAAQoAHRYhBO9mDQdGP4tyanlUE9ju1/PIO/qaBQJq2P73AAoJENju1/PI
+ O/qaykMQAKfAg0/BAbn4DP0dFWAjAc4cJ2c2PToW8+xKtdSX1GExIVfyWTctPVhWM4a3vjDXXBU
+ DSTCmrrBlgeMSOdekQXDq5bMKnSWFOfYC+7qPe3atLoxnr1vvo82HJdQY8Ybsnkv6RrGqVdfu9Z
+ gh0yYrZi1L3avy+mx57WHC0mjcFNR0P0Ufa7AyaVgWGiYvjIJFzpm0ClMkEe/62Q1lrUMqN63fP
+ hQ4Azn46pKo8puwoEt4Yb/Heg4woJ2Bpbmc/PFmEDznksfSre/y9aCQ3nrFSGo6vcr+AlYnFLoF
+ hXTBMbOmOUTbfhFimvvHFsZDErCgRQlKOACD64v7slzxm717u9Gv9wPRbVXt6ZUSZvdP3RFxl02
+ LtYFzmHoMQXYvTHC+wuHS2MrnyjMZE9tV2Hp+4BCe9ele1NzhoxoDn9/H2XgS1gK6irRR275RIK
+ SUGEilCnIkvUj7Q9uhL+cBvOd/RV1zDMsBINKOFYJCKYXg3CQ+/7pT45OAbqNqyxdN2sHNrPjYg
+ spMQLdYdggKO9NKEkFXtYk8a6+zFKOUvnvSvIARFMJMuA3a2qH3i8zQOGBa2BMo8x7xXYJQPnrs
+ ZcLPKX1YIDAVg79pmTtGy3H1Nr36YSFaFor6GPC5Wdvttt0lq1sxlC2nuEftLafDpyW4OzZ1iur
+ xUXOUP3IwauUIZmK09ek1cg==
 X-Developer-Key: i=sebastian.reichel@collabora.com; a=openpgp;
  fpr=EF660D07463F8B726A795413D8EED7F3C83BFA9A
 
-Platform drivers with optional gadget mode support may want to
-call usb_udc_vbus_handler to properly handle a cable being
-re-plugged.
-
-Ensure these drivers can call the function without a hard dependency on
-CONFIG_USB_GADGET or having the ifdef logic in the driver.
+Track PHY state requested by software for DP and USB3 individually
+in preparation to rework and fix up power state handling.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 ---
- include/linux/usb/gadget.h | 5 +++++
- 1 file changed, 5 insertions(+)
+ drivers/phy/rockchip/phy-rockchip-usbdp.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/include/linux/usb/gadget.h b/include/linux/usb/gadget.h
-index 8285b19a25e0..551e71b6eda0 100644
---- a/include/linux/usb/gadget.h
-+++ b/include/linux/usb/gadget.h
-@@ -979,7 +979,12 @@ extern int usb_gadget_ep_match_desc(struct usb_gadget *gadget,
- /*-------------------------------------------------------------------------*/
+diff --git a/drivers/phy/rockchip/phy-rockchip-usbdp.c b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+index e748acdd2d31..cb1f455accf8 100644
+--- a/drivers/phy/rockchip/phy-rockchip-usbdp.c
++++ b/drivers/phy/rockchip/phy-rockchip-usbdp.c
+@@ -175,6 +175,7 @@ struct rk_udphy {
+ 	bool phy_needs_reinit;
+ 	u8 mode;
+ 	u8 status;
++	u8 sw_mode; /* modes currently requested */
  
- /* utility to update vbus status for udc core, it may be scheduled */
-+#if IS_ENABLED(CONFIG_USB_GADGET)
- extern void usb_udc_vbus_handler(struct usb_gadget *gadget, bool status);
-+#else
-+static inline void usb_udc_vbus_handler(struct usb_gadget *gadget, bool status)
-+{}
-+#endif
+ 	/* utilized for USB */
+ 	bool hs; /* flag for high-speed */
+@@ -1051,11 +1052,15 @@ static int rk_udphy_dp_phy_power_on(struct phy *phy)
+ 	int ret;
  
- /*-------------------------------------------------------------------------*/
+ 	scoped_guard(mutex, &udphy->mutex) {
++		udphy->sw_mode |= UDPHY_MODE_DP;
++
+ 		phy_set_bus_width(phy, udphy->dp_lanes);
  
+ 		ret = rk_udphy_power_on(udphy, UDPHY_MODE_DP);
+-		if (ret)
++		if (ret) {
++			udphy->sw_mode &= ~UDPHY_MODE_DP;
+ 			return ret;
++		}
+ 
+ 		rk_udphy_dp_lane_enable(udphy, udphy->dp_lanes);
+ 
+@@ -1078,6 +1083,8 @@ static int rk_udphy_dp_phy_power_off(struct phy *phy)
+ 
+ 	guard(mutex)(&udphy->mutex);
+ 
++	udphy->sw_mode &= ~UDPHY_MODE_DP;
++
+ 	rk_udphy_dp_lane_enable(udphy, 0);
+ 	rk_udphy_power_off(udphy, UDPHY_MODE_DP);
+ 
+@@ -1286,16 +1293,25 @@ static const struct phy_ops rk_udphy_dp_phy_ops = {
+ static int rk_udphy_usb3_phy_init(struct phy *phy)
+ {
+ 	struct rk_udphy *udphy = phy_get_drvdata(phy);
++	int ret;
+ 
+ 	guard(mutex)(&udphy->mutex);
+ 
++	udphy->sw_mode |= UDPHY_MODE_USB;
++
+ 	/* DP only or high-speed, disable U3 port */
+ 	if (!(udphy->mode & UDPHY_MODE_USB) || udphy->hs) {
+ 		rk_udphy_u3_port_disable(udphy, true);
+ 		return 0;
+ 	}
+ 
+-	return rk_udphy_power_on(udphy, UDPHY_MODE_USB);
++	ret = rk_udphy_power_on(udphy, UDPHY_MODE_USB);
++	if (ret) {
++		udphy->sw_mode &= ~UDPHY_MODE_USB;
++		return ret;
++	}
++
++	return 0;
+ }
+ 
+ static int rk_udphy_usb3_phy_exit(struct phy *phy)
+@@ -1304,6 +1320,8 @@ static int rk_udphy_usb3_phy_exit(struct phy *phy)
+ 
+ 	guard(mutex)(&udphy->mutex);
+ 
++	udphy->sw_mode &= ~UDPHY_MODE_USB;
++
+ 	/* DP only or high-speed */
+ 	if (!(udphy->mode & UDPHY_MODE_USB) || udphy->hs)
+ 		return 0;
 
 -- 
 2.53.0
