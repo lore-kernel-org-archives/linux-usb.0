@@ -1,84 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.11.138.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792621344;
-	b=mavfFRSdLQz58wHrS1MNKst2yX3hDZgtX4FodA7CqrSJGlnRTKApK3C7EnQJXQPWW14w
-	 3qNQOHLEpQ4ri9TJzHuHxdY9Gj/hZ2M9drax7nSVrUnvtkQp9M2T8Z5Fl1EP/qUQoDyMh
-	 XIRy1n17MCQA76JNP6Fj/+y2DpOmcexoY+qfm9kJXvNAUUFmv5C2Q5iMnc7QgNhp2tP/R
-	 3DAwlGPkpKjVJhKluAfslANQb0NOw7VGKSW3Uz1N+H0MJDt9P9OoCMvFV1difNeewbLtc
-	 E5demmwimFfOrIl4Aodov9gqEZ1/dYhLTnBAFCEkuHUWnglFcxxrhbZqQPdSHoxU7Cw==
+	t=1792621634;
+	b=EB+183yw609ETxXYTuwhI6loKz6Q83RwXmK5j8hM1+mnkONhUNo8pSXRj3fzygyzxw+Q
+	 qhQvEWvRpBp6jRnge78tidJUMu7vO0EFsn1SYDgU2bg0N4GLv0bVYeLkrvuWY2ObdAEUN
+	 psY6sSUwKlIkQzdmnGs3cuyGIpELhURTiicSH3bFsz7vbgqwtH6h57pHI2NYdKxq0vcwJ
+	 gWaJ/jL10Ivv4DsyuJFtGFaUFPGZj3nG1ICkr/D7fpdIcbVQFA0Eq24i6TKY5T0xJQ63E
+	 e8Kcg9ilt6aCgazf24Rp3E9Pw1nSyWAO+usLThzvSKACBgk9vVT5A5MFTiAFzZS6v6w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792621344;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=fiUM6JnMHmA5Ov/xErJ0AuJ15Kfyu9ttUsUZNXK5l38=;
-	b=FHCDbNqjw4p2QXDoZKRqB8pFXNIqKJ0cekIqI0g07YHw5yX9i1E+HOvPOJCCQZNajnjf
-	 2GhH9+rjgdHOMP+e+oE4C8+gkE2wUgeGCRJysv55wqw/5oNY96RK9hBAgD75F8Mbpp9ae
-	 Dd+rvup9XBHoZekwVq7B7CUBkgmUqb7Uf/BtYnSaE2uOusH+QpKw7l8iPeEhI/2M/jlwO
-	 Sdz1D9XFyzxB6NnOonbUYWfO+OKIsUIbPJGU+nVhSjd/cCaVIHORg6C3fq4rW5rLgMLle
-	 2MY/LfJzzpGanEYSSFnhR4+/EpdxUEpOpYUiCDQuAylDgP3YpyInaFSmernpDdhJH5g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792621634;
+	h=DMARC-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:
+	 Content-Type;
+	bh=/Fy3vYhdZ1fZJw/ef1BHjs8s8zcYhlFJOKnLAYjNcDY=;
+	b=m5DovQUu+w7RQA51yf5x1KbzOqvZ+LWVZNDnzWwnpNygsxW0rk2HQOJJZ6M3N5kLjZLm
+	 SZbF+rKVFEhoaFMSqRGEa+rdfdC53bNlDP9ksIpmglQjZaAtT8ROcKAO/RVmQ5OBhjqrO
+	 u9F1nF6ISziGF7X5i+GEC+tfY2RNNRes22XD3zbkFUoL0j8h+57nkzfFm2mXTlbL+fOLB
+	 4btVB3schFmbqJdLC86q95KqLA1QWVLweWEBFs/dEadi71r0cmhjbEbfofoacBr0MR1lD
+	 9COktDhuGjiOTV3ySalt+3CIteZpNMCF1V6dWsL71sVO9JCBtOWJCCB/6Rnfv2Gkd/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cKEmHpaZ;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=sntech.de;
+	spf=pass smtp.mailfrom=sntech.de;
+	dkim=pass header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=ahip0nLo;
+	arc=none smtp.remote-ip=185.11.138.130
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EED606A322;
-	Wed, 21 Oct 2026 22:22:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 52EED606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 076AE606A319;
+	Wed, 21 Oct 2026 22:27:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 076AE606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=cKEmHpaZ
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792621343; x=1824157343;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rPUtyuFnWu82Z984Cm8dRmoMlFt8wbeuLLGVVyrRq0o=;
-  b=cKEmHpaZAKll5ufRzLNbx8vm9dLyATaoh+4zoO5lEvRwSyFifsB5myjG
-   BfYgR9YwPovf+b3wvCckH9nxhyVz0e92Jbcmes6d2C+pUwDv+kju3perM
-   fwO/twEYqL4MZKrM6OLacdc271eL1z/5FsQW4NkRCJhvbXZQW3KCLontU
-   5ao8WD62uVFySHNiyF85Mgna5sdZYaCTVRkMDRUlZhbL01ZBrLtbgnqKt
-   vsVX36kolWEPkn7FGhT+o1ju2HkJA+dtI8ROhBSqwP+PdKFqdPFJfup8O
-   +ZZALEuJ9FkoO1OV9CeSspHlr/cVJOp+YKmu5AadCMFeb7iDtkgjXDKgV
-   Q==;
-X-CSE-ConnectionGUID: 202Bar4aRBulGHiWzjFgZg==
-X-CSE-MsgGUID: WlSygMDEQCixWwklwGkVLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11942"; a="1373155"
-X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="1373155"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2026 15:22:22 -0700
-X-CSE-ConnectionGUID: jERSXTrpQ4mmahGGAlw3dw==
-X-CSE-MsgGUID: Fu/9SPr7QIiN0bURyZL7vA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,171,1787036400"; 
-   d="scan'208";a="3258258"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 21 Oct 2026 15:22:20 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xJehM-00000000Q94-2Qb6;
-	Wed, 21 Oct 2026 22:22:16 +0000
-Date: Thu, 22 Oct 2026 06:22:03 +0800
-From: kernel test robot <lkp@intel.com>
-To: Lee Yongjun <jun85566@gmail.com>, stern@rowland.harvard.edu,
-	gregkh@linuxfoundation.org
-Cc: oe-kbuild-all@lists.linux.dev, digidietze@draisberghof.de,
-	xiehongyu1@kylinos.cn, linux-usb@vger.kernel.org,
-	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	syzbot+7317196294d50d6e55c3@syzkaller.appspotmail.com,
-	Lee Yongjun <jun85566@gmail.com>
-Subject: Re: [PATCH v2] usb-storage: option_ms: bound probe-time bulk
- transfers
-Message-ID: <202610220624.5aofbefV-lkp@intel.com>
-References: <20261021081616.89976-1-jun85566@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=sntech.de header.i=@sntech.de header.a=rsa-sha256 header.s=gloria202408 header.b=ahip0nLo
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
+	bh=/Fy3vYhdZ1fZJw/ef1BHjs8s8zcYhlFJOKnLAYjNcDY=; b=ahip0nLoapq7XNH6QNpOVtb4m1
+	v9qkpz3ynmvBUaq1pY2hva8QWaxHgiHoOeSnNhhju1iR+aDBpS/dLNMOwzBYJvRU8rBPIPtekaBih
+	UFFW3nOQB74FBnrB9qM1ynbrPFfu2WgCeIeDxxh5fTnvTP1vua3IhW9hjFaW7tpx+IUehaWhXHRtw
+	7/hAQlyEEAMuIHnEvSMdaZpb8O+NYdHRn0bTvbMeVN7wUbB1Um8gTTRDs1MkuumU5I+IKAMeHv3gJ
+	4iSFShsmBWdNiqU6W/oEkAqlpYEgjRHYL1hTuijyP7XwhRv89sbfIX1K7DnO5doVnMZhhbY111jaH
+	pVKUI+cg==;
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>,
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Elaine Zhang <zhangqing@rock-chips.com>, Lee Jones <lee@kernel.org>,
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+ Richard Cochran <richardcochran@gmail.com>, Ulf Hansson <ulfh@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, Jisheng Zhang <jszhang@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, David Wu <david.wu@rock-chips.com>,
+ "Rafael J. Wysocki" <rafael@kernel.org>,
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>,
+ Lukasz Luba <lukasz.luba@arm.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Shawn Lin <shawn.lin@rock-chips.com>,
+ 1579567540@qq.com
+Cc: Cunhao Lu <1579567540@qq.com>, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ mfd@lists.linux.dev, linux-gpio@vger.kernel.org, netdev@vger.kernel.org,
+ linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-serial@vger.kernel.org, linux-mmc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linux-phy@lists.infradead.org,
+ linux-usb@vger.kernel.org
+Subject: Re: [PATCH 07/27] clk: rockchip: Add RK3572 clock and reset support
+Date: Thu, 22 Oct 2026 00:26:36 +0200
+Message-ID: <2339330.72vocr9iq0@diego>
+In-Reply-To: <20261022-add-board-ok3572-c-v1-7-0b0fd85a31ee@qq.com>
+References:
+ <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
+ <20261022-add-board-ok3572-c-v1-7-0b0fd85a31ee@qq.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -88,92 +91,53 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261021081616.89976-1-jun85566@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Hi Lee,
+Hi,
 
-kernel test robot noticed the following build errors:
+Am Mittwoch, 21. Oktober 2026, 18:11:04 Mitteleurop=C3=A4ische Sommerzeit s=
+chrieb Cunhao Lu via B4 Relay:
+> From: Cunhao Lu <1579567540@qq.com>
+>=20
+> CPU clocks are managed by SCMI. Keep BPLL and LPLL enabled for firmware
+> consumers.
+>=20
+> Signed-off-by: Cunhao Lu <1579567540@qq.com>
 
-[auto build test ERROR on usb/usb-testing]
-[also build test ERROR on usb/usb-next usb/usb-linus linus/master v7.3 next-20261020]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Lee-Yongjun/usb-storage-option_ms-bound-probe-time-bulk-transfers/20261021-171616
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20261021081616.89976-1-jun85566%40gmail.com
-patch subject: [PATCH v2] usb-storage: option_ms: bound probe-time bulk transfers
-config: x86_64-defconfig (https://download.01.org/0day-ci/archive/20261022/202610220624.5aofbefV-lkp@intel.com/config)
-compiler: gcc-14 (Debian 14.2.0-19) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261022/202610220624.5aofbefV-lkp@intel.com/reproduce)
+> diff --git a/drivers/clk/rockchip/clk-rk3572.c b/drivers/clk/rockchip/clk=
+=2Drk3572.c
+> new file mode 100644
+> index 000000000000..78fd35f5f27d
+> --- /dev/null
+> +++ b/drivers/clk/rockchip/clk-rk3572.c
+> @@ -0,0 +1,1972 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2025 Rockchip Electronics Co., Ltd.
+> + * Author: Elaine Zhang <zhangqing@rock-chips.com>
+> + */
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202610220624.5aofbefV-lkp@intel.com/
+As you didn't write this driver on your own and even kept the original
+author, please also credit the original author in the commit itself.
 
-All errors (new ones prefixed by >>):
+This can be done for example with something like
+	git commit --amend --author=3D"Elaine Zhang <zhangqing@rock-chips.com>"
+and in the commit also have both signed-offs-by, aka Elaine first
+then yours below as the submitter, i.e. like
 
-   drivers/usb/storage/option_ms.c: In function 'option_rezero':
->> drivers/usb/storage/option_ms.c:49:18: error: implicit declaration of function 'usb_stor_bulk_transfer_buf_timeout'; did you mean 'usb_stor_bulk_transfer_buf'? [-Wimplicit-function-declaration]
-      49 |         result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-         |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-         |                  usb_stor_bulk_transfer_buf
++++++++++++
+Signed-off-by: Elaine Zhang <zhangqing@rock-chips.com>
+[document what changes you did inside the brackets]
+Signed-off-by: Cunhao Lu <1579567540@qq.com>
++++++++++++
+
+The same applies to all commits coming from the Rockchip vendor kernel.
 
 
-vim +49 drivers/usb/storage/option_ms.c
+Thanks
+Heiko
 
-    30	
-    31	static int option_rezero(struct us_data *us)
-    32	{
-    33		static const unsigned char rezero_msg[] = {
-    34		  0x55, 0x53, 0x42, 0x43, 0x78, 0x56, 0x34, 0x12,
-    35		  0x01, 0x00, 0x00, 0x00, 0x80, 0x00, 0x06, 0x01,
-    36		  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    37		  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00
-    38		};
-    39		char *buffer;
-    40		int result;
-    41	
-    42		usb_stor_dbg(us, "Option MS: %s\n", "DEVICE MODE SWITCH");
-    43	
-    44		buffer = kzalloc(RESPONSE_LEN, GFP_KERNEL);
-    45		if (buffer == NULL)
-    46			return USB_STOR_TRANSPORT_ERROR;
-    47	
-    48		memcpy(buffer, rezero_msg, sizeof(rezero_msg));
-  > 49		result = usb_stor_bulk_transfer_buf_timeout(us, us->send_bulk_pipe,
-    50							    buffer, sizeof(rezero_msg), NULL,
-    51							    OPTION_MS_PROBE_TIMEOUT);
-    52		if (result != USB_STOR_XFER_GOOD) {
-    53			result = USB_STOR_XFER_ERROR;
-    54			goto out;
-    55		}
-    56	
-    57		/*
-    58		 * Some of the devices need to be asked for a response, but we don't
-    59		 * care what that response is.
-    60		 */
-    61		usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-    62						   buffer, RESPONSE_LEN, NULL,
-    63						   OPTION_MS_PROBE_TIMEOUT);
-    64	
-    65		/* Read the CSW */
-    66		usb_stor_bulk_transfer_buf_timeout(us, us->recv_bulk_pipe,
-    67						   buffer, 13, NULL,
-    68						   OPTION_MS_PROBE_TIMEOUT);
-    69	
-    70		result = USB_STOR_XFER_GOOD;
-    71	
-    72	out:
-    73		kfree(buffer);
-    74		return result;
-    75	}
-    76	
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
