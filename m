@@ -1,109 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792590298;
-	b=lBG44WcqGZErwFsXUM2P5qcOueD+5xJQgAvhHsJHDZXxOFmxw+vRNJR4tybOTtX7E0f2
-	 SsLQR9ftFlnl4SQxagPwy2hObC8m2pkpHBbInoJTliBvAtChI5L9L3M7ffpaDB5dhwprb
-	 Zn/xctzf5UXQGPG2Em93Pe21qJCtM8IjyPKdBeG5NJCLDRsuNZASE9TOMW22nuA2H2bUF
-	 edMXgPcLG2wiFEJp/eSu95RVNBwpjmWIgvm4ThQ6xPkSWBVxHZKLCLiP0MSEOH4V3Aefb
-	 djiTmygA639J8sYV7FVhwioWFzR7764bt9Z5WQ6hGFNKFZcRwiBEje0oqtQvNRhpAOw==
+	t=1792590426;
+	b=YpQzUKWaoUYJE3I2QAHomCNnhrxGzJOcEJGFVFEQuqCjnzZXBgSwQeKMsrHB/NLKsZiC
+	 lcFez42GGHmMI0AUJSUXRNYjwC3Bgprq+Ffapjh/e89qYx6AN/TVMjpqN47rHk9U8UBfR
+	 xD4NwI2O98opRzdEMSfu3OKW3xu/Tl2v7bZMPOpz7SGiWT+JM9rB1XGrteVuk6rCObQ3v
+	 7+LBryxz2cyFLipQOgD2ER9HNNDTTSNPlm2pikYgdHHqum/M2DEUYUdVx/sPzCa26PNBh
+	 FqFxg63r4Zm1+t8szq6eJogkMU7FD25y1uQxho+HzSyU0ejtVY/4WkaCc5PA9FllFDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792590298;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=4HFJLn83kygPNb4chE01mOHDBkV5We/MxsvCuFn6o6U=;
-	b=N2B7ZYrwzT62VGlTnN6BfD9c5MsHFKEpCPsIVlKofhUpuPpyp+bN3tBn9LSsOw0R8tcW
-	 GInNmKRG8oNG1wkdGw3CE+WYXq00NE2EAT9ToN2xgxm5iNnoTOMDwgHTbRnMEdEtLO2Yf
-	 AYOGUeTd1eKcmoEbAfGUh+kRu4HVnksxlEy0k2nOXFDNdV9aKcARmeCDcO9mPaw2Hqp2o
-	 lm0ds0G+SMR7VxV7S7pfEPE56fQTadO9OuZ3fIMUaQiYb0NSAC5mbXX3r6xeI7sV55ri+
-	 0K1gSnnpOAvBPjLAUoos2JDg88ABPYCRvJ/APHmw/aVDRFc609mmFOhfIqDaVHXO9FA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792590426;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=kgtGQJbzPRUfHlejZQbNysmTaQQPZRXn9ZZAO+5WyiU=;
+	b=qMA9zY80Zf0wrJLPQZDuL2+Zx83qWIJj6nfygfO59IDilE78eDuM3QOfPkglECkPFt3+
+	 BuNVJ/y2IelzrRLUriJdC+TR1hsQwIYLRAxH34wKnxFg8SZAfTPU6IOMpyAeWCFx/eYnl
+	 V2TpFpKfufSEFh7VC/bacebVKIlVSMsE8umLo6k6+LB5CrDbB4oIBmauya79PQLjhr6XG
+	 ODwtx1iIkEoFaq8hO6iOq6yTd1UL6z9xsEI90o/mCS2No3nQQr1l8PlqoXzz1UaFAXiKb
+	 0QC9NqdzA5XZouOEGcxcbjKJ8vzhGqTpZP0VwQkHGEH6sLream6NChdD4EbSsdqWkIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fUxQwyQc;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=hIQPDwi4;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=Ldjnfx1t;
+	arc=none smtp.remote-ip=209.85.222.177
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0470606A31D
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 13:44:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0470606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E654606A31B
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 13:47:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4E654606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=fUxQwyQc;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=hIQPDwi4
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69LBgt9W4168634
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 13:44:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	4HFJLn83kygPNb4chE01mOHDBkV5We/MxsvCuFn6o6U=; b=fUxQwyQcb1/73HkE
-	hHGrufBLfRzLHURFpHedf2eLTNvdvRIEdUh26bdpVFAnaRqfFFuVyKAo2adWD80N
-	JDkdtOtajuJYoeYPZjpUZtIEONH4emz+p1UZ/dygS2NMJi7GRC8OV8RXeggGUHWj
-	9z8H09Sefd/RRvLUJgui1wN8hrP82AnWjrBlzS/HJmGXqoruEqrRTuXvQm6nSM/v
-	ChRw0TNb/w49QEWr327yWiXq21MtWkZ3BlNDza/lzCBT724oMZDJesmjjQlBUkl1
-	aMZh5rxyFNXqsbhoJJLsGY6JbGrIY91CZJpoI6OdONcKFM5QHDVNlDBkNfuqhIX8
-	eXMNcg==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4heda0m6r3-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 13:44:57 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-93f1440e081so17631285a.0
-        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 06:44:56 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=Ldjnfx1t
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93e64d52949so69746185a.1
+        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 06:47:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792590296; x=1793195096; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=4HFJLn83kygPNb4chE01mOHDBkV5We/MxsvCuFn6o6U=;
-        b=hIQPDwi4OS6dLClXV33BIspcr4sidgyFCKs4COUUsc8aCkVg7ep8HxVKna94TNiLOW
-         qiC3sHxsSASByLIgmD4BeIHSuePvop87TnZWXZtXaQlbTATfuMGYYyQxyf2MZ3BX5lZs
-         lfTw8CduIUQ0DnCcx3rpHG1CeZZuKCtxzByWTfhJKkEgcElM36WvZVjGIm7hTrAYyrdZ
-         wWnkbTmOYSCwkBr4wKZtvo7Uwzhzb6CQ2MltjdEJLReDtRgsTuv33crPldVNfthoxg3v
-         WiFzZmKd+dKzwCFAzWziPUe8cpjKNl/trVXPiGEjvur87XTPU/qkLt0FkAk4/AmvDdtA
-         I8Kw==
+        d=rowland.harvard.edu; s=google; t=1792590425; x=1793195225; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=kgtGQJbzPRUfHlejZQbNysmTaQQPZRXn9ZZAO+5WyiU=;
+        b=Ldjnfx1t/qfbMvCpjtlUf1T23Q41lFuGDI94teAPX/Idd8dibdqldK2px3JKb3K1ZM
+         vBOtzE2m7UsJ0NSSNrGl0OpSpINMVJ+qVxcP58wE9VF0VWRdq/NFLN8Qjy/PRFB30GK9
+         HoxWjPT05NUVaM2AnCVp8lZj6X5bysDdmLCg0oAzHpZsmjkCFtn+I2mSSJ9M2ymw749/
+         GpfJGghRc2KwOh8tS4aixS2/biA3AT70i9WbmbXKH22kMsNd62U7VO/5e2mQ02OQEscw
+         5Z8jUxZAxNC13YcBuvRNWl8b5CPNkb2XiVuE9NgJvjLcr0y+RSUcwbe2gJd9coV5ZGon
+         ejBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792590296; x=1793195096;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4HFJLn83kygPNb4chE01mOHDBkV5We/MxsvCuFn6o6U=;
-        b=AXlguaYAXVd+eGmVtcMizGMBmFY9TBFIbRtTGVXVT3TBcnH7rxw74Bna4WCphECC0x
-         ApkKv4sFtP2IX0TwUQNs6ZTMNQbIBcSkPIN8fDWCnEOtq+gJiAyziZRrDc79mZ4UqPkk
-         5kQEfU6beKdQwnnuZRqVw4rNYzY6NGoFJkNQGBmpGIZWel/qiLJdqD/YpVsuhEjMhs9j
-         zC6mar9qY0OKJF/kt2vMwd8gmKwmmKKJ8yXEX/7Z2WdsWkh6IVICTt9wluPA/LRg2axE
-         tAx5cMGYYMZOvE356xgRuattWLTQPlbE7w6rQhNQSR6XQolo/y+o30feQzACX8VNyTQ7
-         rO5w==
-X-Gm-Message-State: AFq9FYLOLD434OVtcKt0yrnkuEM2brrNiS4VPofApx0ZoY8U/si4b+zF
-	pM1JZP4bcxGTXoGu4fSRVvzrmivFSjtexTG+elQFKsqCzY4D1GBBx3ops2Fbdin0sF4ivkc0R1y
-	+KnMARtMz32O2zHX2acCQCR+Z/fQIf5bmKFXs1C2C77sESX5Kykz3wD1qez884qQ=
-X-Gm-Gg: AYBFou31W/4ssFg7zlix+SZp+EBV8WE7sNxY+SHlqYIUoqjgZOPnTYzyz6YWnzfu+hW
-	BNzvH7N4rujLZ5Wg4MfWyGMIvpR4w0Mf+UEO53kGPGdv1n581fLiheOP1k0arbFbZoCZz4s+SNs
-	D0qQBEWWI0LSa29no9UgnORAp/K/tSeBKZETc34fw3ebi/KZ70QMDnj+e2OGm2BlIAfXSJe5Ldb
-	V4zfAFVCnHM6fE7QDit5bKNZ/IKA0ZlnZD6xW2AVq7ZvoRmiR4CRADo0CK3EnCxl+PhtEzZoyHK
-	BrrQxhFGMeYxHdVvLk4z393jFj4juBK7vjF9oPcPNylddLjUzMxUta2jgISzyod+yEbuej6yKyG
-	AE+yuu2o=
-X-Received: by 2002:a05:620a:2a08:b0:92e:6485:f640 with SMTP id af79cd13be357-93f57fa2115mr496122785a.4.1792590295755;
-        Wed, 21 Oct 2026 06:44:55 -0700 (PDT)
-X-Received: by 2002:a05:620a:2a08:b0:92e:6485:f640 with SMTP id af79cd13be357-93f57fa2115mr496114885a.4.1792590295090;
-        Wed, 21 Oct 2026 06:44:55 -0700 (PDT)
-Received: from [192.168.226.26] ([178.235.128.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c468a59d61esm6097366b.56.2026.10.21.06.44.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 Oct 2026 06:44:54 -0700 (PDT)
-Message-ID: <7eb8f0f7-9e5b-44e9-971c-54bfdab23c30@oss.qualcomm.com>
-Date: Wed, 21 Oct 2026 15:44:52 +0200
+        d=1e100.net; s=20260707; t=1792590425; x=1793195225;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kgtGQJbzPRUfHlejZQbNysmTaQQPZRXn9ZZAO+5WyiU=;
+        b=aI7yCkAz9TxMqtJsnjy+ZOmAhfi405cvXBeiaxzewoy06QV8pHogr/geSsQulwIP4R
+         FndaHl7Yr4M5lo+gvfRqoCy9lbty1G01UYn8v9B//QEVQeJaIFjxTiXmTTf05ToiFqjm
+         lhtIDkMPpHHrrZzTGaGtwv7oc2D1hFSY7D5Lz7t7KStHVOEtIKzvXWN9m7F83leJhRRG
+         6mdnWHQecCoP7syICsERthsSm1ecwcuDobNrtgQBprPbnEXhkfRXgUQzUuHhDTjNOXlM
+         8HWLCpeJchDfvliINj/HUHLnUqnOCdOsTQnk+nhjK2VTDRlLPvvkClMyTVbi8vE6rMCg
+         iNKw==
+X-Forwarded-Encrypted: i=1; AKwUvBzkrwM/5i8pCcDxKQ2y4b4Q9l3iMvDLTbeu/8qelCcJT1AIDe3eE3OGvxa+Am5tvsUtZUiDxa60Kqc=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ31JlRM2xwdNkFnoWfZUfYY69IlnuypGmzKIOmy2DSbf2sdB3N
+	xt0IJXQ0bra7y5/09/cspJA0C4CLL7xSqiENxFw2o6r7tmEP4s6AnwppvZ6W32v35w==
+X-Gm-Gg: AYBFou2dsC5pskv/7dWWXi46pRanIKB6BBzgEAvQdI5BrK/gAO0Kc0ifYdL7OCYtdQy
+	6kmCpVu+maGRJPtvMD6Ix59bKLMfi8daaup2IKsVYsVdiYqQ1qPKFg1kCA6nwPn6nlCXUcZOtlc
+	5VNTQ0jg1kdAkX08o1g+lfiEUUWRJdknwp3AycREG2AaSEel2zJ/KZ5H9pnXfNYM0bwRdemiEfM
+	GdHcHhLwVgqY3BLLG3R9OVrc9kZCb3rGTKUf/ctCht2AZKmNJDPeIW9uLHB00pRktIHBf8LisCR
+	1+UtbEOcfs1QR9YN6QAjMSUhLd/zzv2OT+77jBj+iTUayNYkPjs4EyJE7KcNgcRcm0sVTZk+e4k
+	Ftaw9WJDSejiUDDRdXcQ6M9RT3wf1MRHir7P1KCX7afllJ5RMaMwsT+IrigRKAX4dz3wIRcBWiZ
+	neJcfX/wuxKRoS3hvoNR2tVtJtmD5No7uSROylNpRUqkAlp4OSUHXj4stV2ZBTUlqAqAIDsx6DJ
+	47CZNoMsmfBM/DVFjy5C4Rl9CmexL9ppd7fnoi6yXbHskWwk+tHZA4WVMUAs5Oz+8lFwE8o6w==
+X-Received: by 2002:a05:620a:4496:b0:93e:c12c:f121 with SMTP id af79cd13be357-93f57fe2729mr420063685a.77.1792590425021;
+        Wed, 21 Oct 2026 06:47:05 -0700 (PDT)
+Received: from rowland.harvard.edu ([140.247.181.15])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56e2a60fsm257587685a.41.2026.10.21.06.47.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2026 06:47:04 -0700 (PDT)
+Date: Wed, 21 Oct 2026 09:47:02 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Cole Leavitt <cole@unwrap.rs>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] USB: hcd-pci: Do not disable an already disabled device
+ on remove
+Message-ID: <c9cb1c9d-1dab-4a18-af70-636770dbaa64@rowland.harvard.edu>
+References: <20261018164134.134106-1-cole@unwrap.rs>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -113,63 +96,69 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: dwc3: qcom: Check for L2 only when suspending a host
- with wakeup
-To: fabricioakio@gmail.com, Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-References: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIxMDA1NCBTYWx0ZWRfXzrO3ZzO3aXOy
- HvjP6uPwHzkwTwhRM5T6n6FOyj5k3abXUUerCYFkkpgj9ZYUOSaGakBoZn8hX5lV0Dde1qiWql3
- C3buoX3UOGPFBYZQg4d+ybNYf/ZLO0RZznbevOBT6Uo3QIo9HYT7YbnP7OMIfKqJT9MOIr1vWsU
- 06szMcik2y1fX0D9VoRLq0IEwQtlUs6127BKzSVV/+HNnQ3KWj3ous4B3XHInYUpcytHXArcCug
- YcmambzOC1iV7ZHonPdXjQtLlWgxaNmCZt8j0UjYAW4WIAO+h/qZczQxqXPivbcXfC5+EZ4glca
- ZR2fxUUxKV0EtUh5MLrIxDpv8yhQnRfB+0u+XvVHNB7gVkvVpYu4QGivy+C2/mSxCFeswKZCBoc
- SLqeKL+izbjbw+dtaiaWl69oQpeEkEl1EXOCSxidpWnJGfgfggufM7LJPBl4j0c6kklMMQ2dN6Y
- Mj+EmT8uxrAd/Usubow==
-X-Proofpoint-ORIG-GUID: RYxPVOd8DUxR9SOHV5YnEPyH4zFH4JvL
-X-Proofpoint-GUID: RYxPVOd8DUxR9SOHV5YnEPyH4zFH4JvL
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIxMDA1NCBTYWx0ZWRfXwJjb4YtV7WqG
- CAJVJYefOv6PdEhcNdW8TNuwUrcNZjIE7NKCzq7I5AQHP6cLSZeS+8HlHayn5uX5SNrsoWJZhy6
- 4zQUaGmfXHq8ksmUqCO7hWrSicDb8SM=
-X-Authority-Analysis: v=2.4 cv=HL5WhYtv c=1 sm=1 tr=0 ts=6ad8c1d9 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=PRfkaYvzSr8QmIIGAkY2Sg==:17
- a=QFNGBFAix9GFkXGs:21 a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=pGLkceISAAAA:8 a=0a4RfB2vrMYbvN3io2kA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-21_03,2026-10-21_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 impostorscore=0
- clxscore=1015 phishscore=0 suspectscore=0 bulkscore=0 malwarescore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610210054
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261018164134.134106-1-cole@unwrap.rs>
 
-On 9/28/26 8:16 PM, Fabricio Akio via B4 Relay wrote:
-> From: Fabricio Akio <fabricioakio@gmail.com>
+On Sun, Oct 18, 2026 at 12:41:02PM -0400, Cole Leavitt wrote:
+> suspend_common() calls pci_disable_device() and resume_common()
+> re-enables the device. If the host controller is hot-removed during
+> system resume before its ->resume() callback ran (for example pciehp
+> handling a Thunderbolt/USB4 dock or host router that did not come back),
+> usb_hcd_pci_remove() drops the enable count a second time:
 > 
-> In peripheral mode the core disconnects and powers the PHY off before
-> the glue suspends, so the link never enters L2 and every system
-> suspend logs "HS-PHY not in L2". Check only for a host with wakeup,
-> the one case that parks the PHY in L2.
+>   xhci_hcd 0000:b2:00.0: disabling already-disabled device
+>   WARNING: drivers/pci/pci.c:2198 at pci_disable_device+0xac/0xc0, CPU#9: irq/128-pciehp/225
+>   Call Trace:
+>    xhci_pci_remove+0x89/0xd0
+>    pci_device_remove+0x4a/0xb0
+>    device_release_driver_internal+0x19e/0x200
+>    pci_stop_bus_device+0x63/0x70
+>    pci_stop_and_remove_bus_device+0x16/0x30
+>    pciehp_unconfigure_device+0x96/0x170
+>    pciehp_disable_slot+0x66/0x100
+>    pciehp_handle_presence_or_link_change+0x62/0x190
+>    pciehp_ist+0x14f/0x1d0
 > 
-> Signed-off-by: Fabricio Akio <fabricioakio@gmail.com>
+> (usb_hcd_pci_remove() tail-calls pci_disable_device(), hence it is not
+> in the trace.)
+> 
+> Only disable the device if it is still enabled.
+> 
+> Fixes: a0d4922da2e4 ("USB: fix up suspend and resume for PCI host controllers")
+> Signed-off-by: Cole Leavitt <cole@unwrap.rs>
 > ---
+> 
+> Notes:
+>     Tested on a Lenovo ThinkPad P16 Gen 3 (Core Ultra 9 275HX, JHL9580
+>     Barlow Ridge host, I226 Ethernet), in daily use since 2026-09-17.
 
-I think we should be able to retain the link in L2 in device
-mode too upon suspend, but that needs more plumbing on the
-clock/gdsc side? (+Cc)
+Acked-by: Alan Stern <stern@rowland.harvard.edu>
 
-Konrad
+>  drivers/usb/core/hcd-pci.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/core/hcd-pci.c b/drivers/usb/core/hcd-pci.c
+> index cd223475917e..ae5175fefd91 100644
+> --- a/drivers/usb/core/hcd-pci.c
+> +++ b/drivers/usb/core/hcd-pci.c
+> @@ -348,7 +348,13 @@ void usb_hcd_pci_remove(struct pci_dev *dev)
+>  	usb_put_hcd(hcd);
+>  	if ((hcd_driver_flags & HCD_MASK) < HCD_USB3)
+>  		pci_free_irq_vectors(dev);
+> -	pci_disable_device(dev);
+> +	/*
+> +	 * suspend_common() disables the device. If the controller is
+> +	 * hot-removed during system resume before resume_common() had a
+> +	 * chance to re-enable it, there is nothing left to disable.
+> +	 */
+> +	if (pci_is_enabled(dev))
+> +		pci_disable_device(dev);
+>  }
+>  EXPORT_SYMBOL_GPL(usb_hcd_pci_remove);
+>  
+> 
+> base-commit: 32c52ec87d6245ee2d12ed5dd509e40062939b50
+> -- 
+> 2.54.0
+> 
