@@ -1,44 +1,44 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792543935;
-	b=GeGzUp98xBQpz1tp1eUkrV6bNZiWKGJQR/QuGecLAz14n+hzPXDILaLeKCu0vukfklLl
-	 caBi7skize3pHegGDAsWJe+K9QwtGhzsHq86G+jTTyZ28LKgr2Db2eXzc4nZaBPVIVXoZ
-	 cbM/Pi91nYG/zqewZ+DgRT9fCq0rxJCJ/Tg4ig2Hbq82tbD/0g7cd4MMUV1+XOPwTTyZn
-	 I8pZfbL6NkKvU8EMqSTct84SyInx9aUV8RpQQA85ZhjgNW9uh/bJt327/Y/MBwJ8GbyF6
-	 +iCX5d08c75CZqrSx0CuJp7ep4nOJsUPQTOcVkwMZyjncNwBM6I2Upis5Cc2tKaoIIg==
+	t=1792543932;
+	b=f0DzNXzuHVF4IJQ+m3pj6XaR6HVayW7/gUNY8m2hgWahzgTfziSrZuRLy9stJnQsHWmq
+	 04sfK8Iv2KWxwfHIWgeAO2651BDR7NObn43QbzwPxFTU74IX0wXOp+e/Lz3xNFL9j1/wI
+	 kXgxA/10yBJlIBO/z1y0PUEuzd9a5vot+YGO+NSFQmG2PpoGZB40r1Lt83lCMJ5yKeBMM
+	 MCVVaXYSTKUg6jWuQ3C0PHsJIRvhFHSxjX02wHJ7kHB/dmBJ6e1A7C7J1Ipf5iEi6XLFq
+	 dHMJi8s5h5jX3uJbdNsZL52D5/oe9sHVfcKF1lkw/NgM8xjDwtXhZttFAk2fN7ibFrA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792543935;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792543932;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 In-Reply-To:References:MIME-Version:Content-Transfer-Encoding;
-	bh=mSMY52hIg7vAcjDlf2LPfos459LIsVBRRd++d9Y3/3o=;
-	b=wTaTA++xyk5ltMxzMSaCCh0IMGKUh5wP6+K/BQF2+V9YiIr0Qxn8tjdTUxBfFao/5tIl
-	 rxS0cKZrCR8xmgF3lR2Ad/0OMQoHaiNBhoKSlU9nKqAzERks6pfzb/Z3Y6UScoIUcoKXx
-	 2+0jwyc5d3M1qzfxlBRoG1TeLb3vUmZpvma03nQCUa9STrWMWdcHEQyLcyf2S80m2AkIx
-	 adUHh5avwwbzGxTzxk10k2zdktsuhfsv/cd8fcqd5XF+fx0lxA2MwhrjBTDef1vV04V1T
-	 26+ezRfU2vqYNeIBpR8+vRvtFthOQkjeNJnjv7+MQLqxo/9PL65ku1cdOo2Ax7eqCsg==
+	bh=prmScGbjI7+4MtWkSwMe0QqbWgh0FbO2nXsCboobksk=;
+	b=Ll8eTY/hG+IkEFuumHPBKDmrMp7dJmquO8kYhNXJ5b7lTsfr8nbRk0FTneFbhQcnaixH
+	 kerkwkh65yRATgcwbHeb59T72NPEuZySH8V9ygN8Lx4dN6TpZwmsxB/rzoYR4cbqlArL9
+	 Oky1tB70A+bV7UUwqJ0Xj9vuNEfA4/b/dU0CtS4s46Nh6NVskwQztFhU/mT4Rcby1UpRm
+	 DaaIyt3qCnVJfX+6nT0ZQXo64m0/FlRhCCxzWH98YOzHOvJPekfL9BQ4Y7od7PH8UJ1o4
+	 4tqSaJxoVQ8wvBNe3TD06yEuJfNyITZAEp+BwTnKMD4BKOsYCfr28LohUnRPMRcaQZw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUrlgWNb;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BA2AV4xO;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C476606A334;
-	Wed, 21 Oct 2026 00:52:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C140606A31A;
+	Wed, 21 Oct 2026 00:52:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=oUrlgWNb
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD7091F000CD;
-	Wed, 21 Oct 2026 00:52:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BA2AV4xO
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B49F1F000C9;
+	Wed, 21 Oct 2026 00:52:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792543935;
-	bh=mSMY52hIg7vAcjDlf2LPfos459LIsVBRRd++d9Y3/3o=;
+	s=k20260515; t=1792543931;
+	bh=prmScGbjI7+4MtWkSwMe0QqbWgh0FbO2nXsCboobksk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=oUrlgWNbShcp2IfJXHva/yfbd4HCjdm3HUzusQFH7rxQkPUe1O3vP06EXoYfNJjYV
-	 3AcbhyAu6qxb67lCqE+limZ9IA6ybTu4N/Jqbdx3nSlZCGDa8ZRxz0jdP8x9ktiZV6
-	 aOXIcUKbAv3fQ9jH8A4qZG2NiSt5Ohs1gmlYmi2Q9CxUXYtoMqnwoypBg2blrvzl1G
-	 /HxY+ULQlVZ794GHegELxwp+QA+T2TknhApj8DKD/lO1s1S6RtEvr4lxVcP1lBNfzE
-	 1pCuXGgUFDgJBfc9NUbJ6vfDEyVEQkDEIVS+QAbh6unn0TI8KLhLJbj96qUDpNxlwM
-	 a9JRUBe9m0wmA==
+	b=BA2AV4xOal6/+GxU4jjEoRySKaCCZQsXun20R2QCHlALBj7zOCiJuv5rnyltXvTrZ
+	 qNFmzKlb3y0Vca/2tdIqQNsAwi4DGnxb9I39nZWcxxz5UtX6RJF8s/lHDAgDEKWZ15
+	 qb5RBx7emeXuS5OlEwD5Nfk20jn9G+G8hrwuzk8G86xx04FFzaI8aKv53XvYH83RpP
+	 wKFOfPKlKqJVIxrHYQzyJ1Q80YEePvBlbjEZP9yM8bpp0+BWJFFDELfdMlLsYusytC
+	 GryvkE6l4bZu1QzxhmuH1JHi5qfel6Uu/s+IhJajVjj9BtBQTBJLaVPlUjF/88tBEM
+	 VmSXAmf7yFKpA==
 From: Jakub Kicinski <kuba@kernel.org>
 To: hsu.chih.kai@realtek.com
 Cc: Jakub Kicinski <kuba@kernel.org>,
@@ -52,12 +52,12 @@ Cc: Jakub Kicinski <kuba@kernel.org>,
 	pabeni@redhat.com,
 	andrew+netdev@lunn.ch,
 	mail@birger-koblitz.de
-Subject: Re: [PATCH net-next v7 10/10] r8152: enable UPS for RTL8157 and RTL8159 QFN68
-Date: Tue, 20 Oct 2026 17:52:14 -0700
-Message-ID: <20261021005214.1255071-1-kuba@kernel.org>
+Subject: Re: [PATCH net-next v7 01/10] r8152: split r8156_init by generation and factor out wait_autoload_done
+Date: Tue, 20 Oct 2026 17:52:10 -0700
+Message-ID: <20261021005210.1254886-1-kuba@kernel.org>
 X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261014081904.6491-11-nic_swsd@realtek.com>
-References: <20261014081904.6491-11-nic_swsd@realtek.com>
+In-Reply-To: <20261014081904.6491-2-nic_swsd@realtek.com>
+References: <20261014081904.6491-2-nic_swsd@realtek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,193 +72,174 @@ Content-Transfer-Encoding: 8bit
 This is an AI-generated review of your patch. The human sending this
 email has considered the AI review valid, or at least plausible.
 ---
-r8152: enable UPS for RTL8157 and RTL8159 QFN68
+r8152: split r8156_init by generation and factor out wait_autoload_done
 
-This patch adds r8157_ups_en() and calls it from rtl8157_runtime_enable(),
-so UPS is now switched on and off during runtime suspend and resume for
-RTL_VER_16 and RTL_VER_17_QFN68. It also adds per-speed EEE flags and
-5G/10G speed encodings to r8156_ups_flags(), and skips the lite_mode
-encoding for those chips.
+The patch splits r8156_init() into two functions. r8156_init() now covers
+RTL8156/RTL8156B, and the new r8157_init() covers RTL8157/RTL8159. It also
+moves the repeated PLA_BOOT_CTRL AUTOLOAD_DONE polling loop into a new
+wait_autoload_done() helper built on read_poll_timeout(), and converts the
+r8153 init and ups_en paths to use it.
 
 > diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
-> index 95f510da376de..7a1b34db1d88b 100644
+> index af3d7dcb2f141..518a2b42c2200 100644
 > --- a/drivers/net/usb/r8152.c
 > +++ b/drivers/net/usb/r8152.c
-
-[ ... ]
-
-> @@ -4484,6 +4522,49 @@ static void r8156_ups_en(struct r8152 *tp, bool enable)
->  	}
+> @@ -4172,6 +4172,23 @@ static u16 r8153_phy_status(struct r8152 *tp, u16 desired)
+>  	return data;
 >  }
 >  
-> +static void r8157_ups_en(struct r8152 *tp, bool enable)
+> +static int wait_autoload_done(struct r8152 *tp)
 > +{
-> +	if (enable) {
-> +		r8156_ups_flags(tp);
+> +	u16 ocp_data;
+> +	int ret;
 > +
-> +		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_POWER_CUT,
-> +				  UPS_EN | USP_PREWAKE | PHASE2_EN);
-
-[Severity: Medium]
-This is a pre-existing issue, but this patch adds more callers of the
-ocp_byte_w0w1() read/modify/write path, and that path depends on
-get_registers():
-
-drivers/net/usb/r8152.c:get_registers() {
-    ...
-	if (ret < 0)
-		memset(data, 0xff, size);
-	else
-		memcpy(data, tmp, size);
-    ...
-}
-
-usb_control_msg() accepts short IN transfers. Could a malicious device
-reply with fewer than size bytes and leave stale kmalloc() data in the
-part of tmp it never wrote?
-
-ocp_byte_w0w1() then writes that byte back with only the masked bits
-changed:
-
-	ocp_data = ocp_read_byte(tp, type, index);
-	ocp_data = (ocp_data & ~clear) | set;
-	ocp_write_byte(tp, type, index, ocp_data);
-
-That would let the device read back up to 8 bits of stale heap data per
-read/modify/write. This does not happen with init_on_alloc. Every
-read/modify/write in the driver has the same pattern, and this patch does
-not change get_registers().
-
+> +	ret = read_poll_timeout(ocp_read_word, ocp_data,
+> +				test_bit(RTL8152_INACCESSIBLE, &tp->flags) ||
+> +				(ocp_data & AUTOLOAD_DONE),
+> +				20000, 10 * USEC_PER_SEC, false, tp,
+> +				MCU_TYPE_PLA, PLA_BOOT_CTRL);
 > +
-> +		ocp_byte_set_bits(tp, MCU_TYPE_USB, USB_MISC_2,
-> +				  UPS_FORCE_PWR_DOWN);
-> +	} else {
-> +		ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_POWER_CUT,
-> +				  UPS_EN | USP_PREWAKE);
+> +	if (ret)
+> +		dev_err(&tp->intf->dev, "autoload done timeout\n");
 > +
-> +		ocp_byte_clr_bits(tp, MCU_TYPE_USB, USB_MISC_2,
-> +				  UPS_FORCE_PWR_DOWN);
-> +
-> +		if (ocp_read_word(tp, MCU_TYPE_USB, USB_MISC_0) & PCUT_STATUS) {
-
-[Severity: Low]
-This isn't a bug introduced by this patch, but ocp_read_word() ignores
-the return value of generic_ocp_read() and uses its local tmp anyway:
-
-drivers/net/usb/r8152.c:ocp_read_word() {
-	__le32 tmp;
-    ...
-	generic_ocp_read(tp, index, sizeof(tmp), &tmp, type | byen);
-
-	data = __le32_to_cpu(tmp);
-    ...
-}
-
-If RTL8152_INACCESSIBLE is already set, generic_ocp_read() returns
--ENODEV without writing the buffer. The same happens if kmalloc() fails
-in get_registers(). Would the PCUT_STATUS check here, and the
-BACKUP_RESTRORE poll below, then test an uninitialized stack value?
-
-When the device is inaccessible, the writes that follow do nothing, so
-the most likely visible effect is a KMSAN report. Every ocp_read_*
-caller is affected.
-
-> +			u32 ocp_data;
-> +			int ret;
-> +
-> +			ret = read_poll_timeout(ocp_read_word, ocp_data,
-> +						ocp_data & BACKUP_RESTRORE, 200,
-> +						20000, false, tp, MCU_TYPE_USB,
-> +						USB_GPHY_CTRL);
-> +			if (ret) {
-> +				rtl_set_inaccessible(tp);
-> +				dev_err(&tp->intf->dev,
-> +					"backup-restore timed out\n");
-> +				return;
-> +			}
-
-[Severity: Medium]
-Can this leave the interface unusable after a runtime resume, with
-nothing to recover it?
-
-With this patch, runtime suspend on RTL_VER_16 and RTL_VER_17_QFN68
-enables UPS power cut by default. That means any runtime resume that
-finds PCUT_STATUS set will run this wait:
-
-rtl8152_runtime_resume()
-  tp->rtl_ops.autosuspend_en(tp, false)
-    rtl8157_runtime_enable(tp, false)
-      r8157_ups_en(tp, false)
-        read_poll_timeout() times out
-        rtl_set_inaccessible(tp)
-
-r8157_ups_en() returns void, so rtl8157_runtime_enable() carries on, and
-r8157_u2p3en() and r8153b_u1u2en() quietly do nothing.
-rtl8152_runtime_resume() then runs napi_disable()/napi_enable(),
-rtl8152_get_speed() and usb_submit_urb(), and returns 0.
-
-rtl8152_resume() has a reset fallback, but it is skipped for runtime
-resume:
-
-	if (!runtime_resume && test_bit(RTL8152_INACCESSIBLE, &tp->flags))
-		usb_reset_device(tp->udev);
-
-Once the flag is set, r8152_control_msg() also returns early:
-
-	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
-		return -ENODEV;
-
-This happens before it gets to the usb_queue_reset_device() logic, so
-later register accesses cannot start a recovery either.
-
-The netdev stays registered and up while every hardware access is
-skipped. That lasts until a replug, a system suspend/resume, or an
-unrelated reset. Before this patch, rtl8157_runtime_enable() had no such
-wait.
-
-The commit message mentions this and defers recovery to a follow-up
-series. Since this path is on by default for these chips, should this
-patch at least queue a USB reset here (for example with
-usb_queue_reset_device(tp->intf)) or pass the error back?
-
-> +
-> +			/* clear USB fw_ver_reg */
-> +			ocp_write_byte(tp, MCU_TYPE_USB, USB_FW_USB_VER, 0);
-> +
-> +			tp->rtl_ops.hw_phy_cfg(tp);
-
-[Severity: Low]
-This isn't a bug introduced by this patch, but r8157_hw_phy_cfg() can
-return early after it has already turned EEE and ALDPS off:
-
-drivers/net/usb/r8152.c:r8157_hw_phy_cfg() {
-    ...
-	r8153_aldps_en(tp, false);
-	rtl_eee_enable(tp, false);
-    ...
-	if (rtl_phy_patch_request(tp, true, true))
-		return;
-    ...
-}
-
-If the PHY patch handshake times out (for example -ETIME when
-PATCH_READY never appears), the code skips re-enabling EEE and ALDPS and
-skips set_bit(PHY_RESET). By then r8153_eee_en() has already cleared
-tp->ups_info.eee.
-
-hw_phy_cfg returns void, so r8157_ups_en() goes straight on to
-rtl8152_set_speed() and runtime resume reports success. Does EEE and
-ALDPS then stay off until the PHY is reconfigured? Would the next UPS
-suspend also leave out the new per-speed EEE flags in r8156_ups_flags()?
-
-The hw_phy_work path and r8153b_ups_en()/r8156_ups_en() share the same
-early return. This patch adds one more caller.
-
-> +
-> +			rtl8152_set_speed(tp, tp->autoneg, tp->speed,
-> +					  tp->duplex, tp->advertising);
-> +		}
-> +	}
+> +	return test_bit(RTL8152_INACCESSIBLE, &tp->flags) ? -ENODEV : 0;
 > +}
+> +
+
+[Severity: Medium]
+Can this end up reading uninitialized stack memory in ocp_read_word()?
+
+read_poll_timeout() runs op before it evaluates cond, on the first
+iteration, after every sleep, and once more after the timeout expires.
+So once RTL8152_INACCESSIBLE gets set, the helper still issues another
+ocp_read_word() on PLA_BOOT_CTRL before the test_bit() in the condition
+gets a chance to stop the loop.
+
+In that case generic_ocp_read() returns -ENODEV without writing to the
+local tmp. ocp_read_word() ignores that return value and still does
+__le32_to_cpu(tmp), then hands the result back as ocp_data.
+
+The loops being replaced did not do this. r8153b_ups_en() and
+r8153c_ups_en() tested the flag before each read. The init functions
+tested it right after msleep(20) and left the loop before the next
+read.
+
+The test_bit() short-circuit means the garbage is never acted on, but
+the read itself is still undefined behaviour of the sort KMSAN is meant
+to catch, and it now happens whenever the device goes away while we are
+waiting for AUTOLOAD_DONE.
+
+A flag check before the poll would only cover the entry case, since
+the flag can be set during the sleep. Would it be better to initialize
+tmp in ocp_read_word() and the other ocp_read_*() helpers, given that
+plenty of existing callers already read without checking the flag?
+Or is an open-coded loop that tests the flag first preferable here?
 
 [ ... ]
+
+> @@ -7225,22 +7226,14 @@ static void r8152b_init(struct r8152 *tp)
+>  static void r8153_init(struct r8152 *tp)
+>  {
+>  	u32 ocp_data;
+> -	int i;
+>  
+>  	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+>  		return;
+>  
+>  	r8153_u1u2en(tp, false);
+>  
+> -	for (i = 0; i < 500; i++) {
+> -		if (ocp_read_word(tp, MCU_TYPE_PLA, PLA_BOOT_CTRL) &
+> -		    AUTOLOAD_DONE)
+> -			break;
+> -
+> -		msleep(20);
+> -		if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+> -			break;
+> -	}
+> +	if (wait_autoload_done(tp))
+> +		return;
+>  
+>  	r8153_phy_status(tp, 0);
+>  
+> @@ -7341,22 +7334,13 @@ static void r8153_init(struct r8152 *tp)
+>  
+>  static void r8153b_init(struct r8152 *tp)
+>  {
+> -	int i;
+> -
+>  	if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+>  		return;
+>  
+>  	r8153b_u1u2en(tp, false);
+>  
+> -	for (i = 0; i < 500; i++) {
+> -		if (ocp_read_word(tp, MCU_TYPE_PLA, PLA_BOOT_CTRL) &
+> -		    AUTOLOAD_DONE)
+> -			break;
+> -
+> -		msleep(20);
+> -		if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+> -			break;
+> -	}
+> +	if (wait_autoload_done(tp))
+> +		return;
+>  
+>  	r8153_phy_status(tp, 0);
+>  
+
+[Severity: Medium]
+Is the commit message accurate for r8153_init() and r8153b_init()? It
+says:
+
+  a plain AUTOLOAD_DONE timeout is logged but otherwise treated as
+  success, same as every one of the loops it replaces, which only bailed
+  out early on RTL8152_INACCESSIBLE and otherwise fell through to the
+  rest of the init sequence.
+
+and:
+
+  No functional change intended.
+
+In these two functions the old loops did a break, not a return, when
+RTL8152_INACCESSIBLE was set:
+
+		msleep(20);
+		if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+			break;
+
+So init always ran to the end of the function. Only r8153c_init(), the
+old r8156_init() and the two *_ups_en() loops returned early.
+
+wait_autoload_done() returns -ENODEV whenever RTL8152_INACCESSIBLE is
+set, so both functions now return early instead.
+
+The commit message says the early return costs nothing because
+generic_ocp_read()/generic_ocp_write() short-circuit. However, the
+skipped tail also does work that does not go through OCP accesses:
+
+  r8153_init():
+	usb_enable_lpm(tp->udev);
+	...
+	tp->coalesce = COALESCE_SUPER;   (or COALESCE_HIGH / COALESCE_SLOW)
+
+  r8153b_init():
+	usb_enable_lpm(tp->udev);
+	...
+	set_bit(GREEN_ETHERNET, &tp->flags);
+	...
+	tp->coalesce = 15000;
+
+usb_enable_lpm() is a counted USB core call. It decrements
+udev->lpm_disable_count and does not check the driver's
+RTL8152_INACCESSIBLE flag.
+
+The polling interval also changes. The old loops used msleep(20), while
+read_poll_timeout() with a sleep_us of 20000 ends up in
+usleep_range(5001, 20000).
+
+These differences only show up on error paths. Still, could the commit
+message describe the new early return in r8153_init() and r8153b_init()?
+Or should these two functions keep the old break-and-continue behaviour?
+-- 
+pw-bot: cr
