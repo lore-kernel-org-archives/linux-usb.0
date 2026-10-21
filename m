@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792606224;
-	b=kNKK/CZk8vfTmE4+l2v33Y/ELzbEAIno0SgbHg/baMCKTZ1unPuAS3TI5LF+EqGsb2xa
-	 j8LFcZ6WGKGdCyDPvxil7YEY6ZRURaNwXBHHt+8LyabsUQTYl+Sqf5mmd3LNbdy4GREzh
-	 yzh8vy4NU8+GrFTbUlRQhac/l+rhVnTiO2P6TQ83wGakYIa4YtWI2onmS9v2Yp6hM/ELH
-	 DJyAYe8pF99GZ1irNPhugSryz3VkCD7PjE+a/8w6U/wTJ5y2YFB9GinbsoCCNE8duir4w
-	 /ZY+A9wJG+c9dPpnqEllIOJeu0avgMR9fMlsuoaOW2vasrx1kwgfpIRQVBzrX1ZkPMg==
+	t=1792606259;
+	b=Uxe+gcmwk4LK4sb3/hp2JjrqzGXS884glQ4OriRyXTCMldTIkIBazWgVLOgHWrC05M0G
+	 f1BTSPXxu5C/4vWbu/2xNj7uKRU7t5bwtX6GvEXn4POPc7BZmHAM8PhKvd+kdNqMTEvlH
+	 jbK1hzuJ1F4j8GfgxtPTzumQTH+xUlT6LXMEIvVwgPvZf6dYu744MwEYZQqYSs9717SjQ
+	 gnTvYwIb6KFD8njC5RX+udrvFOpP72FKRo5JIjrb9MFGAEiB2lWcMY0Yyt/khIbUmmqPd
+	 QJgOelhl6diL8qws/V6trNLl/83pfwj/p01fe5iWu+Q1OPJ4T/mMTUaN7o3m+5ALCoQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792606224;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792606259;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=7fwhiR7eYAyLUu0KRfA+UX3Z9oj7kS7/Cw0gL5YUvcE=;
-	b=hNVg0oCGWNuUEkwrPIBMuopNBOQH8U8YVFBxQQzsUeZ7LSYIK0UYiCLcAd9J95edZyrF
-	 qq9P2/oC1kiti3mDAx2S2nF/TnxiOdfPOnLRbv+plqetraxZluABpJ1J75KzggWohE7rO
-	 p+Oo2RMcOS+dDTTH2dRKrHuz5z74eR9BCSXgWmdCqRNPNWhEqbCmtwpLV3XKC3R/pEjEK
-	 P60TLGqnEAD4Fnc49Sgm8CC1Nsd9donTybZOPXe3pk/7KKqQ7CM+pngYdGf9gi7DIG+C7
-	 K1hBaDo8UXBfsv6Hpf1vIAGKeyhm8ED2EiLLfhTtofTZWOJpnmmSEFASSZkwZdWGvyw==
+	bh=MXecBpZGiar8FlCjY0+DLEcUIXt/2IzzIDS3/3gSbOY=;
+	b=QZ39X//6twxWwQJDuJESRCCDnfLTb++R1D5Byg/8XpnYoLz54SbhIRQq2t/ItY+OvHvZ
+	 UpSdqjycU+mkoC9+3Ujt5HsJZnE5B1oBkf7Rh/SWWct1VUb9BLnwmZHc8b9FZegCzDNq9
+	 x8enGfy8k3/mDA2Sc8+PEejgnBxCW0oMUvQzbD3uOu5Y0UUNq9Alf1ASUdN33hKt+Kw5H
+	 1b8NN9mFHqQmBDZ7qG/MC6ghpJ1staDWKammljgTwtU+/tZMywsUP4ByPWfeY9yAf01Zj
+	 dSzzYltE/46Hvaj017FWyMvgalB/7TtYzhBtg2GmQjT57oGz70eR1cUXJOyfpA90AOQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iy3uNefj;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="dBYiF6/v";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0258606A31E
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 18:10:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD35606A322
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 18:10:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=iy3uNefj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4248A1F000C1;
-	Wed, 21 Oct 2026 18:10:23 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dBYiF6/v
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9B8D1F000C4;
+	Wed, 21 Oct 2026 18:10:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792606223;
-	bh=7fwhiR7eYAyLUu0KRfA+UX3Z9oj7kS7/Cw0gL5YUvcE=;
+	s=k20260515; t=1792606259;
+	bh=MXecBpZGiar8FlCjY0+DLEcUIXt/2IzzIDS3/3gSbOY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=iy3uNefjgjzpj3bEz+EwC2Rpb8YZDiGViE4S+4+F6CLMIrGx2nQIyTgcMLwarCxon
-	 Nd5UiLoqn+UvASDnI+yzBnEi8VXZTF2KkDckTjwBGBr+C54ys++kDM27DYE7bUH4tm
-	 xXVAbhZGvDWSuJ1D9r+WoOxdgAniOA+A4RQXSauNJc4ciqOXh0DWnnTIpIQ7kWy+RW
-	 JcoTCzJ9VGFNuHvH/1LteBaisqIKhS4VCvKIZsEsEe6Tbqf44hJSP3JN2RhK90Sgjo
-	 k4PFTDeip5dfVWQvc2/UwJdGE1LzFsmKiuh/k2R5FOrnwQZFyRn2EMoOORwK2FjQfp
-	 a+OsVz7dHiZyg==
-Message-ID: <sashiko-outbox-180540@kernel.org>
+	b=dBYiF6/vu5psL4NhfcZOcc2G9a3P56bvsFQaUZc7bsh5vbLKAZgzZac/GDxvNXs/g
+	 g7go6CKTjD0rdU3gkNIbP5q5ayjbLCnX0BPygEMKkV9U0uwsTLhjgbobvkEWbdW8D6
+	 hHXWycusmWk/MhovL6tmPEiV+QqnItWDMOAQ5g28PKTG/pcPZTQEP1/t81DOA+Du9D
+	 co1PK2eFRwMKlhFZK4e/zL8JYpv6suqf+KM0dDIWE4S8wZUkLze1Gso0ZWqtZtqHbV
+	 C3RNNUvE3UQ0+/CC9tNy+BFnEbwLBlda1FnuuJkU4QgPIg7BZGspv4g/HL9YhVsXXX
+	 GPhxudwS2++ig==
+Message-ID: <sashiko-outbox-180542@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v18 4/7] usb: dwc3: core: add post PHY registration hook
- for platform glue
+Subject: Re: [PATCH v18 1/7] phy: rockchip: usbdp: Track PHY power state
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Sebastian Reichel" <sebastian.reichel@collabora.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-4-60000d03fca2@collabora.com>
+In-Reply-To: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-1-60000d03fca2@collabora.com>
 References: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
- <20261021-b4-rockchip-dwc3-rockchip-glue-v18-4-60000d03fca2@collabora.com>
+ <20261021-b4-rockchip-dwc3-rockchip-glue-v18-1-60000d03fca2@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 18:10:22 +0000
+Date: Wed, 21 Oct 2026 18:10:58 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,18 +60,14 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> Add support for custom PHY handling steps in platform glue code
-> by adding a post registration hook. This will be used for handling
-> PHY reset notifications on the Rockchip platform.
+> Track PHY state requested by software for DP and USB3 individually
+> in preparation to rework and fix up power state handling.
 >=20
-> Tested-by: Igor Paunovic <royalnet026@gmail.com> # Orange Pi 5 Plus
-> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-> Reviewed-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021-b4-rockchi=
-p-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com?part=3D4
+p-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com?part=3D1
 
