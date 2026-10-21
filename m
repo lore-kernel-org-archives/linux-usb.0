@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792606396;
-	b=CjFDWK3IUHq5CGtesW2OfbEysxfpDEBERW2hQB156e56TZXomYeEQgIM3gA2vRmX0BGL
-	 KGNnJmeVf1OhrpAzNGh3RYKpTshn/e4BZY2EeYO2ZBOBIAg+ArTZDp8fFXquQgW/GwNYH
-	 1GvjhBl8G2zHmx03J2hBKvV+MZPdkBDMwAbfPD4+8LGwoQlpBs/MYISIlmQh3zXS3Fk6k
-	 lewXOH0Ck/btmRh9azuygj3hBDNvlYpxTE0NyyPc3rk3KjaCYKSB85AZWF8U/sGyxXKSG
-	 g8W9v5ICBRUREBmger8zJi9U4p0eRn03VGCq0slSim5QibdgurjM4TcYEcslX7b9eXA==
+	t=1792606411;
+	b=hzta5G2HqhyBgR18vDPG0Xwv/by4W8hW7B9s2c4t2lXKXpIpp7i6hgfWPSzq8VEQ2d0a
+	 H7qq1Jmy2aDozNZDF/A8PKgdn6/fV0/NEd8iqv3uwNP9/OuSHs8QjLdBVuE9w6paMW/7M
+	 L8XgbAMORNW1B5WE/9r4Yxg4NQrej07seQpXWJ50H5ou5k9mMNSUh+ypEm8wOPVN5YktU
+	 jy/2oh01c6e19HXslzuCz+Ktx+qon5+0FNQ3/UoyHauPA0czUzgGIJ/+SYHQBvUtAzjLk
+	 rAK9IlUzeVujRcU7pjit8pochNXS2BYvereWScBMeRLpPzuhZybQzWc4qRgNiUZj26w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792606396;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792606411;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=EJnT7WdFL40q8IUZ0Y2GrThgSmsqC0vhFrdNEXR+vzI=;
-	b=pTnPMidtIKnlxRoZToYhKSgK8VeqGHUdpYdDO83r6FH4zxJxVSMiW9QqMhChUNKIgSWs
-	 Aj/j7BTTTJi4SyMjCnB6nruT8XkBld7gJOPyw6CRnq8EDUCKVCJiMqYfVJuJxqTncPa5v
-	 V4tRyAlGHGtuWy3W2JE1E0SxbGhbNJ61X0xLwZbgrKtKxQJ9v348DF7W2hGMFfPGr5+d8
-	 dnkyoudIHiKlqJmOInqEXpYfdeDDMfWLbi1VeIevYsQjJLtQVUPdWe1G4ZUX/RkPZXWAL
-	 Y+Tu9c12xlNfBbSMrnoFCJdiPtfOhSbOZBv8uMX6TTJIpUCUDOZgDTMHq40dkhJNIDw==
+	bh=3V889LzmPTz/k88TGA4KMJgdVJtR3GTxdm3PoqVj2pQ=;
+	b=p9W3qGAkcuhrwRHV9fXqazj2RWzQTzNqJW7feBKik2IeK16uIAkojT8T3nhVCo3Q7C9w
+	 6w7bUW4dqX9bTjPuu76teeRIiPQ3UGUUm6zpsb3br4dvWErEDfEvxYuxlpBI7PZjEzNUX
+	 39IJhg5P+2cQbHmIYcbui1gjRmIsg1to48JFo3DY3uQ94K+JKx6XwNe9G6REkAZQpty2O
+	 wBMlcAJPytQHFhrRYX6L4rGaZFcSZBNJqmC4AXxiE7xQadzXETW09C9rv3BuHtpa8AXNy
+	 +Kh7FA0NLVE5TsQHkCsOTNInp7a4EJsQgoaocXrNDMnWz5r4S6fOOYF09IeRinueo0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NCk0YuUK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IrAJwjMp;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 194A1606A31A
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 18:13:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E803606A31B
+	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 18:13:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=NCk0YuUK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 96B461F000C1;
-	Wed, 21 Oct 2026 18:13:15 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IrAJwjMp
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 466D41F000C1;
+	Wed, 21 Oct 2026 18:13:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792606395;
-	bh=EJnT7WdFL40q8IUZ0Y2GrThgSmsqC0vhFrdNEXR+vzI=;
+	s=k20260515; t=1792606411;
+	bh=3V889LzmPTz/k88TGA4KMJgdVJtR3GTxdm3PoqVj2pQ=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=NCk0YuUKB4ucb48DbzwmnJQk2oihXr/9sOyUcJ84widd3y2oj5QeeNCSpjJfEGaaC
-	 WCHCfxG9XcPJg5Ta8XAeNzrC5yI17FjiuYdgMsrFEmo+MjhZ8ZQRvWNXpfYtmADyZ2
-	 2e7LuqCfjCWxDgxOC2fK8QwIFMXpw9rxrv/zdperLsNmshD0gUFVOyNEontmaTR+Zy
-	 mS9DSuVfg4RsdeEJJkXk8v92Al81ieRbz+9hGsiDaTZFdquC19g7oLU8T7IQWyYkFv
-	 CqjU7I0kNMG4Rw1wqcFDzhmFsfOJOcFjDh9CjmFzszTxAYdi+H4704Vw65zF7HXqwr
-	 ysMk/8/cElG3w==
-Message-ID: <sashiko-outbox-180546@kernel.org>
+	b=IrAJwjMpS1sMPwvS7leM/hrnQNxJnBTPaWzsBVmuP6zbYupsEjV6TEWUOorwwVEEy
+	 wLjF44ZVe/NQ+XqMG7+HUPbQ7xHS7Fj03m5OhYkgAgBAXErKnrl4fvkrXwAC/vTbKT
+	 DwYkLl5ESwHq7mps1cwsVuubEgY5lj9TNpuA7iBaDyzHUcZeVftbwc71lbFgEdrOBA
+	 90UW9cHhbNnEq/aRpQrMsX9ZePUy45J6OeOGmc5yewmspfUq1y8A93YeO3N8dxOW/N
+	 65iyETZnHpbL3+aDrhxHXakJRVEjk8i+7kvaQJP99z3dQqG021XbgUYDMQBav1wQ1V
+	 ebUbSsS5rDG1Q==
+Message-ID: <sashiko-outbox-180547@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v3] net: usb: lan78xx: avoid NULL PHY dereference in
- WoL setup
+Subject: Re: [PATCH v18 6/7] usb: gadget: define stub for
+ usb_udc_vbus_handler
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Prashant Sengar" <prashantsengar25031@gmail.com>
+To: "Sebastian Reichel" <sebastian.reichel@collabora.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261020181237.2374075-1-prashantsengar25031@gmail.com>
-References: <20261020181237.2374075-1-prashantsengar25031@gmail.com>
+In-Reply-To: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-6-60000d03fca2@collabora.com>
+References: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
+ <20261021-b4-rockchip-dwc3-rockchip-glue-v18-6-60000d03fca2@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 21 Oct 2026 18:13:15 +0000
+Date: Wed, 21 Oct 2026 18:13:30 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,102 +61,18 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] net: usb: lan78xx: WoL left enabled in probe when no PHY is atta=
-ched
---
+> Platform drivers with optional gadget mode support may want to
+> call usb_udc_vbus_handler to properly handle a cable being
+> re-plugged.
+>=20
+> Ensure these drivers can call the function without a hard dependency on
+> CONFIG_USB_GADGET or having the ifdef logic in the driver.
+>=20
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-commit 875dd87fe0cdd58a79d308dc9e623386e8a76113
-Author: Prashant Sengar <prashantsengar25031@gmail.com>
-
-net: usb: lan78xx: avoid NULL PHY dereference in WoL setup
-
-This commit avoids a NULL pointer dereference in lan78xx_set_wol() on
-PHY-less configurations by reporting no Wake-on-LAN support in
-lan78xx_get_wol() and returning -EOPNOTSUPP from lan78xx_set_wol() when
-netdev->phydev is NULL.
-
-> diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
-> index 5655941f14783..612e1e46de6dd 100644
-> --- a/drivers/net/usb/lan78xx.c
-> +++ b/drivers/net/usb/lan78xx.c
-> @@ -1763,7 +1763,11 @@ static void lan78xx_get_wol(struct net_device *net=
-dev,
->  	int ret;
->  	u32 buf;
->  	struct lan78xx_priv *pdata =3D (struct lan78xx_priv *)(dev->data[0]);
-> -
-> +	if (!netdev->phydev) {
-> +		wol->supported =3D 0;
-> +		wol->wolopts =3D 0;
-> +		return;
-> +	}
->  	if (usb_autopm_get_interface(dev->intf) < 0)
->  		return;
-> =20
-> @@ -1795,6 +1799,9 @@ static int lan78xx_set_wol(struct net_device *netde=
-v,
->  	if (wol->wolopts & ~WAKE_ALL)
->  		return -EINVAL;
-> =20
-> +	if (!netdev->phydev)
-> +		return -EOPNOTSUPP;
-
-[Severity: Medium]
-When netdev->phydev is NULL (for example, on LAN7801 in fixed-link mode),
-lan78xx_get_wol() now reports that Wake-on-LAN is unsupported and disabled,
-and lan78xx_set_wol() rejects attempts to change it.
-
-However, during probe, lan78xx_probe() -> lan78xx_bind() unconditionally
-initializes pdata->wol before lan78xx_phy_init() checks whether a PHY is
-present:
-
-drivers/net/usb/lan78xx.c:lan78xx_bind() {
-	...
-	dev->net->flags |=3D IFF_MULTICAST;
-
-	pdata->wol =3D WAKE_MAGIC;
-	...
-}
-
-And lan78xx_probe() then unconditionally enables wakeup on the USB device:
-
-drivers/net/usb/lan78xx.c:lan78xx_probe() {
-	...
-	ret =3D lan78xx_phy_init(dev);
-	if (ret < 0)
-		goto free_urbs;
-	...
-	ret =3D device_set_wakeup_enable(&udev->dev, true);
-	...
-}
-
-When the system suspends while the interface is open, lan78xx_suspend() uses
-pdata->wol to configure the MAC for Magic Packet wakeup (enabling WUCSR_MPE=
-N_
-and PMT_CTL_WOL_EN_ in lan78xx_set_suspend()):
-
-drivers/net/usb/lan78xx.c:lan78xx_suspend() {
-	...
-		} else {
-			struct lan78xx_priv *pdata;
-
-			pdata =3D (struct lan78xx_priv *)(dev->data[0]);
-			netif_carrier_off(dev->net);
-			ret =3D lan78xx_set_suspend(dev, pdata->wol);
-			if (ret < 0)
-				goto out;
-		}
-	...
-}
-
-Does this leave Wake-on-LAN active in hardware and driver state on PHY-less
-configurations while ethtool reports it as disabled and prevents userspace
-from turning it off?
-
-[ ... ]
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261020181237.2374=
-075-1-prashantsengar25031@gmail.com?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261021-b4-rockchi=
+p-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com?part=3D6
+
