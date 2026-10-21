@@ -1,100 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.50
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792567563;
-	b=zALWEnPRTFRtjc9npBh7dDkmELo6rexFOQbbLAzZybZ0D6pQ15d8e+ub1OuCMAyMaC7/
-	 KtTF1Hef37ve6es33di35pj8DqWo2v/dOUzOui57vIJrwjNGKlMXHPy+7E9f+1hkITeyO
-	 QKSvvqpRryRM4vuWb8qbsS5HDyWLViV8XHjH3ibyTdXUGJJ4iZYkJUzX/RiYzCTB/+QeH
-	 6evWQfhSzK53QSngM7QbO9d3qFMaWpsvsU7ssLeCnM6jHgWjpzP08bdFvv/hbDP2hJCya
-	 PK7XPlQsjoxtYaf4uyoP0eyStkGIaIITLVPBvUJqqFuIgdPf0TKSA0WR19eNzvkhb1g==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792567563;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=6NK+Pu6Mo2Qewcl8SZlZRwKFnzkox4FNAGBJWGVjKm4=;
-	b=3I/uN8TM6zjvaLejdYfMC5jmzq3GpP42ZImQWfIBblnedg2dkUWrVG1Inw7NsG1I1Nnx
-	 r/mlK1ZcTo4FOge/14bgremOfzfCNA3jmHA0AwHCyj5QIUo96+Rw+BcACqrFzEl6RF+O9
-	 ygkkSm7IW7NUuIInZqy5++iLJgwTx0AStOKo8mbfHPCygaP6A7AeSJ+RHEmMSKwhEmPTd
-	 VJ0JBofq+miszfeiMKzcgIhV0KcpTpm12FdOptv9qiR3S91QR0K2lTaDCMDXgCSHivUFC
-	 qmxmnqPhdy0/8ZXKuIckVAYhtANeU27n1EVZrtTZzJndfKKX24idt7GgzIVERktiUOA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Im59a3l4;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792568554;
+	b=ZVKQ5jAG8iq1oqqgHM2Ut43S/NaZ/eNHn6y1CgKxepPI4iEJOdCkUcDe7+I2EMDe8pIN
+	 Y/6B1pfXBz8qfVIAf2IhxIRcllgPZArex7eHANJEW0P5I99yHZkC+J+AYsX00X1SzXTu2
+	 8DVJCZ3uFsQaN327+6W0JSkISqH83GL3eeZm1gKpq3gntz316fIE6LZJR/k+TwBZfc8Am
+	 Po6xjyR4AjZPrzGZGPSCSjyIrIzZmY9LB7/jYmj3ozB6V4MziwH7IWvsY73vTW/UFzkhB
+	 B2obtIEMhn6PgdHvhFQR126TGDsO+H/c2cdU4mXB3+QoX0OIY8/rtLctv1019X2h+wg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792568554;
+	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
+	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=SrMJu/tPUiSUut5zE490wX9ihBWXDV4lmTuNbxq60bg=;
+	b=maYaxRykfn+/PEhd7nipLJsPxspKtG/lpbC5PKQCt7y6ROa307ypoH5wBU8mAEGUEJut
+	 0k56OXKM+YXgJoOF26cK0vA1iK8OCnwner8qOAACO4z2eo7dT3acx06vqz5iqxaLFUFRw
+	 pF5OT8e0jb6RlnF0HSaZ+zY3RkUSCGDyoN1V566UReHxvHRH+0YBw7eX2cEfsHq3FJWwY
+	 JMa2bAW98Wu9Yi3LplpB31pzRYgKmng2lSodFQtHzzErieyaG7MDm2YFzQrCO0aWd7y80
+	 9W5Ww4ueYYP11M9TVmJ4X2vbuYE8BDXYYxP6dbw6+SCEN2jlq10GyTitA41qnQ9xJDA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=none header.from=tipi-net.de;
+	spf=pass smtp.mailfrom=tipi-net.de;
+	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=BXZG+It6;
+	arc=none smtp.remote-ip=194.13.80.246
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F4E3606A31A
-	for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 07:26:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3F4E3606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 888C6606A319;
+	Wed, 21 Oct 2026 07:42:33 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 888C6606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Im59a3l4
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48df4e9d2d4so194287f8f.3
-        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 00:26:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792567562; cv=none;
-        d=google.com; s=arc-20260327;
-        b=sWaby4QO980Iqxl22fVV1ngIW3RZu2ShmBDQKz2Qv6jv2gQbHlYQDbgcJKVkOtB1oN
-         aX9qiiE1/3CpTrvNniIgHQ/UTY/xDwwmWjmgPVqpQsplPwwhrgI7ROY2sIL/aQhtKqRp
-         ipTj7sCtsDWhB6yMXVB1Yt3SjaffNXETEY889KNFX3kFQHVtVyvZ2YXNi+e5ptFvWcQ5
-         wb2rNsGL8D8INjg1ItzhSfd02PLSSzlXEEUr7bHhtdTqZ2EHmNSPGBiz1/X3vMY589fG
-         x0QTX4PwSWBez5iaY5mgjVREEBX4vEyeKgyFydNX5dcba+Eah3eeJ/xdUK+yKPCJdPVq
-         Fq7A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6NK+Pu6Mo2Qewcl8SZlZRwKFnzkox4FNAGBJWGVjKm4=;
-        fh=I3xnWZXwLXuML2xPU755jMCR11b3iK+cj8kJ5bRMTJs=;
-        b=AGeiIIEyog3KRUK02zSKJ2KioduNcchG3EDoYckMEJdswg4ifBP/SScPRC2DxrCISW
-         EVA4Yo5zgGqv9pDnlLP440whbcRovWIaktm/mEeC9m3hjb23R/stQLp3dNqmcwYrf7Fd
-         D2MpIO/47a7pb6fJkfWKW3W2XyWtv7P72RnuCkDDqVLKIlW8xfNbQTnpwCEz1TeFJUl6
-         nOPfwQXfsHB3X4klIBJroyivEKnZInrTJI7Dv5q2GVG9w06UrCw5cLx1P1KW9GA6cLcv
-         iiXH60UxjRsHbG5JhfzTTq09cui76MHgFt0DI4yfr8gYlahxHiNRqujh4gw5RXz+rR53
-         GWLQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792567562; x=1793172362; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=6NK+Pu6Mo2Qewcl8SZlZRwKFnzkox4FNAGBJWGVjKm4=;
-        b=Im59a3l4DJYrtkXUTuv+8s3bZ0QE4tY64ScU4JwS5igTlyja2GRz5l1EcfbJkYSLXY
-         UJlVmHV8nLZyNz+Y8Q30sN8LHCsAnQ211G3rTFBjSqbHxg4FMhC9EB8J3Imsb2013Yjj
-         VW4se7FTDsZb9JTmvFxaDEhHv6KH3B0KfDmcgx3cb4YUHQHk2l7D/C5uPzp4eZdRC9wZ
-         7XoM9Rc57XS2V42yXc3NCuQ9rAo2L1f10vM91wn7eH7UBnbYQ88k390aL8Yb9NvQBMkK
-         XzovV9wnCg8UOIGVykobsEGexO1Qn9+Kb4AkuQM5KKlIBfuFnYkvx8VdylsQ0SVDFl08
-         lGcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792567562; x=1793172362;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=6NK+Pu6Mo2Qewcl8SZlZRwKFnzkox4FNAGBJWGVjKm4=;
-        b=rPU7jZHguxl/+GVWlL9eCnvmyOgFEhqyEfA/w4oDLPPN1/X/yHET/9fsXk1OpUNf3I
-         FmU0B5HWcHegKxg0uUVgZhtWr4RYbEuBgOlK4/v0spjA6iR33KlDMVR6TuOvXOmmdtAM
-         08qlxG1FtnoM6FaNPhBbKtWRSqpoCw/8WEM4fUZuQb9tUE3tA7XspKSRBmz9XLEz2BYa
-         KuQ1lkFaHooRnCJjALpeedZO3nUTrIOGrlS4MZV9r24K9XEYUZDFIjon2eUxqrDVHIlo
-         MrUEYzl19Mh0gqr85XYGNO6RsAlFyPDsmKS5i4kbr7XYDg9kNQjK5I+m5H4wS+vftx3m
-         O6gA==
-X-Forwarded-Encrypted: i=1; AKwUvBxjeuydcjqFE53lrCYsMatBPYzKyAsFenjaHpb2/Qr2NSlzrgrOLh2yz3hJ9Pu9UtBOndjQ4ghojdQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ66+3ZFifXetHrgY1cG0J8F5SuKP4OHnNCvvOGmZXu/fTAJhLX
-	qMDue1pEAjG52vx19OcpV8vh21+8/POirsLxe6k7YlZB7hpTmTR6YZ01Q2hJyoTd6gz9apqJMJh
-	W9T3v6FrBNzw3ffNXXyt7owlFxDJrqJw=
-X-Gm-Gg: AYBFou05BKQCN0TDLtVUCMqPguRkwUPOl1LTybrtMuljra/HJYIbtIt9yo2kT8stAqs
-	JuDrxrmXPFog9R1fu2N0HfRlacJWiHgfs6rF+qO+jpR96H1/UmO/NZ1+3geK1G3Q5kWgbpvFPO9
-	4LRByoLF8m2GSfVQpgr7qmkEJa37yX6r1JQEHMDqAIcvXn+y7K29GyjP5CWwUDLHUZMnkd8mSv8
-	794lfKuLUXHrRMi7vPMsaO8NVF+9gkhvqoiF6NmMbLatHvjwYChUasJ+iNA3NuV7gvnsZVgDANF
-	d1A5xOZHcOJt8RySpLZTpK5OGPE0rkrmyul/SGHJn6WKLjwLvV4t+oM3O51c05rDG0QRLDbzwAj
-	8riR6+nHL+BVjWvvwJzYMOblUI9JH/X+Vbvdi
-X-Received: by 2002:a05:6000:2612:b0:48b:efb:4a66 with SMTP id
- ffacd0b85a97d-48e2641ddf2mr2067966f8f.6.1792567561509; Wed, 21 Oct 2026
- 00:26:01 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=BXZG+It6
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1262DA012B;
+	Wed, 21 Oct 2026 09:42:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1792568550; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=SrMJu/tPUiSUut5zE490wX9ihBWXDV4lmTuNbxq60bg=;
+	b=BXZG+It6CtWbR7Obz+4TgjB+ZwtyvWP/bZ/K4akuDDZdysVL3gWs/GNx8uc92oQU56UJZB
+	hIPbTMZUSIAts9v27IKLJECoGZs6mZpJbV5Ic8w0mf5GO1TkMDsJj0vOSsrqp6dmo/LH5Y
+	FY0WmrPlzv2cUher+V0Z/kNSFc7Xz1IzX+e82rSvfUp+X2l1UF3wJXsgHTyWEBTVYthYzf
+	14CHKyp+ZSVPs8wM8PKX+oVWqG3Y5OppvovknOz+WYECCxgYMujkseVdEUC18+cN4jGAn2
+	5TEYCuf5w8X8aOtgxIZBzaa2LdfPZBy2QzKzvFxYqCBf7w0l4oQSjPtSXyWROw==
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,88 +53,130 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261013132033.4352-1-jun85566@gmail.com> <2026101310-crier-december-be03@gregkh>
-In-Reply-To: <2026101310-crier-december-be03@gregkh>
-From: Jun <jun85566@gmail.com>
-Date: Wed, 21 Oct 2026 16:25:50 +0900
-X-Gm-Features: AclHuK_5zzb9An2pyb1TF4wk3TZKJmT2QuQ5H9SZ4O5kutNbDUL7VIV13Fjrzho
-Message-ID: <CAJ_OVWRUPXdpyGjLVp0LK9kMPRmWJKFmHAujO=S5cby5VnRv=Q@mail.gmail.com>
-Subject: Re: [PATCH] usb-storage: option_ms: bound probe-time bulk transfers
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: stern@rowland.harvard.edu, digidietze@draisberghof.de, 
-	xiehongyu1@kylinos.cn, linux-usb@vger.kernel.org, 
-	usb-storage@lists.one-eyed-alien.net, linux-kernel@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com, 
-	syzbot+7317196294d50d6e55c3@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Wed, 21 Oct 2026 09:42:28 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steve Bayless
+ <steve_bayless@keysight.com>, Guido Kiener <guido@kiener-muenchen.de>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
+Subject: Re: [PATCH 0/4] usb: usbtmc: fix undersized high-speed bulk packets
+ on xHCI
+In-Reply-To: <20261021005654.23517441.michal.pecio@gmail.com>
+References: <20261020-fix-usbtmc-short-packets-v1-0-903f4d029193@tipi-net.de>
+ <20261020184244.69b78d5e.michal.pecio@gmail.com>
+ <a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
+ <20261021005654.23517441.michal.pecio@gmail.com>
+Message-ID: <5f7be4fcf5cb8c3b60e8acc5312d9980@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-> So a broken device?
+Hi Michal
 
-Yes, effectively. The reproducer emulates a USB device that completes
-enumeration but does not respond to the subsequent bulk OUT transfer.
-Without a timeout, the hub worker remains blocked while holding the
-device mutex, preventing other operations such as usb_device_read()
-from proceeding.
+On 21.10.2026 00:56, Michal Pecio wrote:
+> [...]
 
-> That feels very long, are you sure that works well?
+>> So this looks like the better fix. How would we want it gated, a USB
+>> core quirk flag per device, or per controller?
+> 
+> [Cc Mathias]
+> 
+> Good question. Do you need this fixed in stable?
 
-I've reduced the timeout to 5 seconds, using usb_modeswitch's 3
-seconds timeout for similar bulk transfers as a reference, with some
-additional margin.
-I retested with the syzkaller reproducer under QEMU, and
-initialization now proceeds after 5 seconds instead of 30.
+Would be nice, as I've also seen other reports of this issue with
+Rigol / Siglent test equipment. Otherwise I can carry it for a while
+in our tree.
 
-> This should go below the --- line and is why sashiko is confused.
+> 
+> Depending on regression risk maybe we could get away with no quirk
+> flag at all. That's what ehci and dwc2 seem to do, which means that
+> hopefully no device specifies illegal packet size while using 512.
 
-Thank you, I'll move the dependency note below the --- line
+They do. dwc2 just takes usb_endpoint_maxp() as is, and ehci even does
+it on purpose, see qh_make():
 
-> No blank line above here is needed.
+         /* The USB spec says that high speed bulk endpoints
+          * always use 512 byte maxpacket.  But some device
+          * vendors decided to ignore that, and MSFT is happy
+          * to help them do so.  So now people expect to use
+          * such nonconformant devices with Linux too; sigh.
+          */
 
-I'll remove the extra blank line.
+So I'd suspect that Windows takes it as is too.
 
-Thanks for your review. I'll send v2 with these changes.
+> 
+> Other possible risk is some device doesn't truly care (no transfer
+> is ever large enough to matter) and works with 512, but setting its
+> requested packet size (needlessly) breaks some xHCI controller.
+> 
+> Such devices seem not very likely to exist, though more likely than
+> the former kind, so I will try to test whether such xHCI breakage is
+> possible. Preliminary results are encouraging: although several of
+> my HCs reject packet size of 1024 or corrupt data, 64 is accepted by
+> all but one. I haven't checked for corruption yet.
 
-Lee Yongjun
+Thanks for testing!
 
+> 
+> I will also see if I can figure out what Windows does in such case,
+> because doing the same thing as Windows may be the safest bet.
 
-2026=EB=85=84 10=EC=9B=94 14=EC=9D=BC (=EC=88=98) =EC=98=A4=EC=A0=84 1:18, =
-Greg KH <gregkh@linuxfoundation.org>=EB=8B=98=EC=9D=B4 =EC=9E=91=EC=84=B1:
->
-> On Tue, Oct 13, 2026 at 10:20:33PM +0900, Lee Yongjun wrote:
-> > The Option device initialization path issues bulk transfers
-> > without a timeout. If a device does not complete a transfer,
-> > the USB hub worker can remain blocked while holding the device
-> > mutex, causing usb_device_read() to hang.
->
-> So a broken device?
->
-> > Use the timeout-aware bulk transfer helper for the transfers
-> > in option_inquiry() and option_rezero(). This bounds the wait
-> > for each probe-time transfer to 30 seconds.
->
-> That feels very long, are you sure that works well?
->
-> > Tested with the syzbot C reproducer under QEMU/KVM. The
-> > patched kernel repeatedly completed USB device initialization
-> > attempts after approximately 30 seconds without triggering
-> > the previously observed hung-task warning.
-> >
-> > This patch depends on Hongyu Xie's pending v3 series:
-> > https://lore.kernel.org/r/20261001123135.38831-1-xy521521@gmail.com/
->
-> This should go below the --- line and is why sashiko is confused.
->
-> > Fixes: 32ebbe7b6ad4 ("USB: usb-storage: add filter to "option_ms" to le=
-ave unrecognized devices alone")
-> > Reported-by: syzbot+7317196294d50d6e55c3@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=3D7317196294d50d6e55c3
-> > Assisted-by: LLM
-> >
-> > Signed-off-by: Lee Yongjun <jun85566@gmail.com>
->
-> No blank line above here is needed.
->
-> thanks,
->
-> greg k-h
+Sounds good to me. Doing the same as ehci/dwc2 (and maybe Windows)
+feels like the cleanest option. Happy to test whatever you come up
+with on BCM2711 and RP1 xHCI with the three devices here.
+
+I can also check on Windows, but I'll need to look up how, as I'm not
+really familiar with Windows internals anymore.
+
+Given Guido's reply and the USBTMC spec (the host "should not send a
+zero-length packet" if the last payload is wMaxPacketSize), I'll drop
+the usbtmc series and work around the Rigol ZLP issue in our test
+software instead.
+
+>> >> The Rigols still have one issue I can't work around. They split
+>> >> replies over 500 bytes into several transfers, and a follow-on
+>> >> transfer that ends exactly on a packet boundary never arrives. Raw
+>> >> libusb shows the same, so I guess it's another firmware bug. Should
+>> >> be fine for most use cases though.
+>> >
+>> > What exactly is the sequence of URBs you see vs would want to see?
+>> 
+>> The Rigols split anything over 500 bytes into two transfers:
+>> 
+>>    REQUEST_DEV_DEP_MSG_IN #1
+>>    IN: 8 x 64 bytes (12 byte header + 500 data), then a ZLP
+>>    REQUEST_DEV_DEP_MSG_IN #2
+>>    IN: header + the rest
+>> 
+>> That works fine, unless the second transfer happens to end exactly on
+>> a 64 byte boundary (e.g. 640 bytes). Then the device just never
+>> answers request #2 and the first IN times out. I also tried leaving
+>> the ZLP from #1 pending until after request #2. That fixes the
+>> boundary case, but then the device randomly ignores request #2
+>> instead (roughly 1 in 5). Raw libusb behaves the same, also with
+>> maxpacket 64 in xHCI, so I'm pretty sure it's just another firmware
+>> bug. What I'd want to see is simply the second transfer arriving :)
+> 
+> Doesn't look like any obvious xHCI problem to me. Did it also happen
+> with those USB2 controllers that you used previously?
+
+Yes, it's pre-existing and also is present on dwc2, which is what we 
+used
+before. Replies up to 500 + 480 bytes are fine, but as soon as the 
+second
+transfer ends on a 64 byte boundary it times out, and some of the
+missing data shows up later as garbage in the next reply ("wrong
+MsgID: 79 != 2", 79 being the 'O' of RIGOL). So that's a firmware bug,
+which I can work around in our application if needed.
+
+The only real blocker is the strict maxpacket handling in xHCI. If it
+could be relaxed to what dwc2 (and ehci) already do, that would help a
+lot!
+
+> [...]
+
+Thanks,
+Nicolai
