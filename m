@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792653165;
-	b=Z1IlNcl1oa0yHTcxIU7dsKbWJoAYx5mojcWM9rBSCWbmGuPLytZIeHPW+cWsYcsjcbOo
-	 nJ+vFBGmJ1/iJHaUodqSBXeO/9EY4I7yLi183BUd0WX0Kqo7DEs+U8N9NJYgnTxZ0jVmi
-	 HkKM4/X4aKvhEkHjxLKzz9qbl4zbTTNpSv5fOgl2xeCcrurdk5Y515YQN9YbMVUVwYuG5
-	 bAxorasAEtjaz/ZVMVHPEHTOw5VuI0x7mLQgYRBM2iz/BeLXWP+urIp5O64F3qzJGDmlz
-	 0pngJHlMTU+1t5nlMnAtlikECMsL8NX6Ez1w1UzXUnuPi7GGinPzNN9ZYY2S6y6aOPA==
+	t=1792653176;
+	b=vSXcxfbWSW8RigEUQwn4fbkEEhRaSC/bJAVR5T1xyFPyhxnRITki/xTuQ93eErVVPEFe
+	 cssGvd4gZOGj3mKPnwXQT+9mv30xaB2shxwz9pT5xi7eAfWJgP9ePiYo4pZtZt/rKPIEJ
+	 GUO3yUGytYZ35aICBRsiKHxDlsRsB7FofXZ131R8ilT3+VwUGloBm2CoSY9MkWBFLf3lh
+	 gfVHZRF23SDpTmm1hys3XddjMW6MHcVlhkghfkmE8/xsGyLfZsyVAsUCbSZoOStxPmtKR
+	 jR8WPCSqrlB1uT5oF/RgZ6gz5H7PHqE2Sk8x6Ao1uOGCLfwK/8gaUnk7VOMNnetDyMQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792653165;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792653176;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=mrLSzxN4q7tLcV1UWhB/u0DzeZWi/9DTbRtDxFUVM84=;
-	b=sEWzzSnbaBZ6TsolpEJj7ulcb7EG0ZwE3SUd1+hihppsGNgM0WlZXkFavSca5R9kxQhx
-	 ZSTehyV8RYfyany+0Sw0Cqp8Rd4UDfpoiQ5BqH9SrHgqqjQJn0tmy+pDAM539dxs/sWkh
-	 12+2NxyMQ8zoeBJ+uCM6S8N+19ajjubTzI7iQIyu4/cL4X1FrRpMPRT1CQzqzsmahavdP
-	 vQn0mihvxXHYtJ6wiPrLNpnud/EkN3FG3J2D/Q/vIGtH87qhRqn3+ogr0Vfsb/d7jgVOT
-	 HvPGqYqCWL4meb58i8L3H+54cbNal3yzrIQ+mIy1bnjxY4FJnmK3KGWVWJgk4T+ONng==
+	bh=AyV8nTmMr+aQZhsqxyO8DRCQxC/zcRvbloJ6lKgo8SA=;
+	b=mrbUTGBluYjXEyJZkL8tu+dPTVsTH6mc7vA33C1oZ1fkjcCcO2cOLWV8LAfUapRbgsyX
+	 jc7KVPCa2HPBA3w0MjzxoPbnNwgKNyU41dbxnGj8xjuOf36dd0o8iJli4hpg964eKEdsZ
+	 Vf8FbxKjN9yt6yUfcpQp68s0BHVyqMxkOzwnyyk+TItJuCLN4op6vSiKlnw3kVndR9maA
+	 DEUAChWkdU/svzpgNGtWrVLHIbhyIohNW7ZJzFXWKaI/NOxJkD0dKnnkf7Oq5zRn0iDVC
+	 UsmapCMfbs9+B0ahwvkAIU63d1y9Qt2NkuUlNWpkL29eUCuGtbx+qhGJqmQ6b94TkUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="J7VaHy/R";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LUPLM9Pg;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 725E1606A326
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 07:12:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E5DB606A319
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 07:12:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=J7VaHy/R
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C63CA1F000C1;
-	Thu, 22 Oct 2026 07:12:44 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LUPLM9Pg
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE0591F000C1;
+	Thu, 22 Oct 2026 07:12:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792653165;
-	bh=mrLSzxN4q7tLcV1UWhB/u0DzeZWi/9DTbRtDxFUVM84=;
+	s=k20260515; t=1792653175;
+	bh=AyV8nTmMr+aQZhsqxyO8DRCQxC/zcRvbloJ6lKgo8SA=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=J7VaHy/RWwVQTrip1BfYE6Ul7hecfwgxj46f2Sw7Jve4HllYK6Gj0hgMIkJY4LStV
-	 yfwoQNGJd0N73WcLznDhpa78oytTUlF/OeH5xjyxssCWbQ/KCenfwXj/fMIh5v6rPi
-	 NuM22L3eqAxuNQ8Y72Cewks5Tv8FcDtZvRIhAaiLAU3vyY/ohZ7bjG0EeqtS0vJhMg
-	 HPc91MPcaa/n9QgW30/BGTrIdnl2DCob62gXI2YphiNxO2Jx+4LefOXW0Rm+SxMU3B
-	 D7ZlWw/8QOt5cwewLv0beA2qM7lJWZnxVx2BfaYIO8tvaPNu9RoDUu76I1hPJpv6CO
-	 +uSHQ7LZJA2EQ==
-Message-ID: <sashiko-outbox-181116@kernel.org>
+	b=LUPLM9PgQQOWs62IZxCdqU3nEuhInShH6iem0g1kFeG+Hqv+UqgsPXsC4s1mi3dDu
+	 n7KWz+W0r7sJyWub+vLH2pmXQsMkJk22DM5m8Oo1w0rQejgErkXF3SBU2RkH0IP5jd
+	 JrBX6lu6xhclnkc1Ie99Hw0TmsfIRuSBtnW0FBWSmQHlsfI4Abr0iUut6p7+wUKhGg
+	 cikOx39gWyChXcCv+iuZfc8yfIqUeUrQTqk8J6oKUm0AkIO+vP5cy+z87J2CeWyv2y
+	 tmhess4i6+ajwDyNBwmgRbnM6d5Q6cp+T1ia5qGS8B1y9LX6q/Z/M7RpBKFiarmKft
+	 mpzbWji95Nykw==
+Message-ID: <sashiko-outbox-181117@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 RESEND 5/6] Input: tablet - use usb_make_subpath()
+Subject: Re: [PATCH v2 RESEND 3/6] Input: misc - use usb_make_subpath()
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Shihuang Liu" <shlomojune6@gmail.com>, linux-usb@vger.kernel.org
-In-Reply-To: <20261022070929.20820-6-shlomojune6@gmail.com>
+In-Reply-To: <20261022070929.20820-4-shlomojune6@gmail.com>
 References: <20261021123146.17202-1-shlomojune6@gmail.com>
  <20261022070929.20820-1-shlomojune6@gmail.com>
- <20261022070929.20820-6-shlomojune6@gmail.com>
+ <20261022070929.20820-4-shlomojune6@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2026 07:12:44 +0000
+Date: Thu, 22 Oct 2026 07:12:55 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,14 +60,15 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The acecad, aiptek, hanwang, kbtab and pegasus_notetaker drivers build
-> their input device physical paths by appending "/input0" with strlcat()
-> after usb_make_path().
+> The ati_remote2, cm109, ims-pcu, keyspan_remote, powermate and yealink
+> drivers build their input device physical paths by appending a subpath
+> with strlcat() after usb_make_path(). Most use "/input0"; ims-pcu also
+> uses "/input1" for its gamepad interface.
 >=20
 > In preparation for removing the deprecated strlcat() API [1], replace
-> each pair of calls with usb_make_subpath(). The helper formats the USB
-> path and the "input0" subpath in one call, avoiding a separate buffer
-> scan and append operation.
+> these pairs of calls with usb_make_subpath(). Pass "input0" or "input1"
+> as appropriate so the helper constructs each physical path in one call,
+> avoiding a separate buffer scan and append operation.
 >=20
 > Link: https://github.com/KSPP/linux/issues/370 [1]
 > Signed-off-by: Shihuang Liu <shlomojune6@gmail.com>
@@ -76,5 +77,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022070929.2082=
-0-1-shlomojune6@gmail.com?part=3D5
+0-1-shlomojune6@gmail.com?part=3D3
 
