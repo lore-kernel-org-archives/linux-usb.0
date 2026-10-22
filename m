@@ -1,57 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=217.74.67.75
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792676786;
-	b=i+r5DUQNwSIgI5dPJF9d2pCPxKQF1u/DoOi4r5nBMY1ZgwCn5OcqukxKCKIyTG5p2Khh
-	 YW+OGWhRI7SV/bVx97tCE0Y46zTdmKjeEusth773NWl6Mkxy2L1GFoSIag9IibSoYzkb3
-	 vUBpUAZDaNGc9MLPdEeDP2IjbPpNnzJ+caTDQpVWwBN6NXuATqNQ0+MBL8m+/2jHDSkvy
-	 5LQ1zpB0ashYxhPOkUzS8YY0E9MQhigNi3612xvN36Qvq7G2OLTSqpOFfe3JcZllB/Ae4
-	 Sfvqt8kWovIhTeiGIstFRal3Tkmy/HKyUJPlOe0LadBBbdEGrprBiSfhb8k4h8dYUxA==
+	t=1792676997;
+	b=rxEnPHB6mF7Tg47Lq5lmMxxEQzyXKgZYD3TBBjTCK4ltMwf3AhHmMJSqrV1skN0AdCX3
+	 1ngDLTrEGarpPOGREFiYVGjae51NIawf5yBDSIvDGBDBKEX7scfh+/0EMd6xCaW7Flc48
+	 j0xfxiftNH0rWL0DeMItT8G+3wlDDDm2rHFTM4Tg3Tfn6QS16BnTODlai9Ra3mMcsAL4m
+	 zCyghWDkGHh2/1bbjLlb2hG+cn1pekqoJeCHNe1Ys1P+Q0EAJbCN0t6t1KNKDixVY4zaG
+	 Tp7eYkN2hrWc5AsOXou8dXIzzz4gltKzFxxihClaOJaprkecsG5FJ31m68K2tijtnXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792676786;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=xlXgzCsk7GWchCuQqi932QWkmLMSYvgwRHNnNOUqMyk=;
-	b=C1y9Fz5fpmUTQmZP+TOQWan7F2YWWa/ukoIi09DeZtHddw1WVHmZcgHNQb1I4DXusrXz
-	 j0UdsESn00tGKU0qnZ3YwEmWG2z9TpFqgCv3QF/Uq4GdXrsOXbC/vnYMGVDui/gnpu2iS
-	 PBMoYCwqXQox377CqnpVDsAxTUHlp26aC06B8UiAvYrvECldvf/c9cOrxuPsQV0Cq46dh
-	 q7db/tADr4jGt+01c0B8MHmAHBMih/W9IAE5bMIhPfidCl8LWFvc9HzaSiH69voULH/io
-	 X8bjXa1YwayxP631ZRBAJS+WPvRt3vytwAyn8mY6xfLkycOgzAZMRmyk2lIS6bvtziQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792676997;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:DKIM-Signature;
+	bh=6bJcvQHtL/4UbYgJFe6NESmKZgTL+XZ+piSAggxPAJw=;
+	b=Y9k1Xgu2NY00VB6qzPh4DoYN7gGlnd0kF0Fe4BRPR2CxbqhB1xlP9SIoUolmO2sYvgD5
+	 1E6iya6IoBbg64BrZKo4jUU2CRUbW2zAisTS79e6+sLRi1SeWE0ffhPQO/X1Kl6z/02fi
+	 QvNO+szmuQ7/F9uG6uvvMaRYlu65UTITXwIFEowMfDt5qCIpp5xi44YgP1go6ZRijvu+e
+	 ihhC8GJL0UrAK0fWxu8aMluSEbulUAKk0GGUJG1u7+ooMfG82Gj/a8qbytdAOFaK2U0LK
+	 Qd57zXled6L5Lxtrp59maW8u97Ra19Ak2c8A4Z8PNx0yPyWs9YETAARuqgG+0V5ir0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c1It2CFc;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=poczta.fm;
+	spf=pass smtp.mailfrom=poczta.fm;
+	dkim=pass header.d=poczta.fm header.i=@poczta.fm header.a=rsa-sha256 header.s=dk header.b="j55kopD/";
+	arc=none smtp.remote-ip=217.74.67.75
+Received: from smtpo75.interia.pl (smtpo75.interia.pl [217.74.67.75])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F62660A6F76
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:46:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1300E606AFC4
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:49:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1300E606AFC4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=poczta.fm
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=poczta.fm
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=c1It2CFc
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78DCE1F000C5;
-	Thu, 22 Oct 2026 13:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792676785;
-	bh=xlXgzCsk7GWchCuQqi932QWkmLMSYvgwRHNnNOUqMyk=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=c1It2CFcNVsUsxIjhOXYoGtk1vffbxX0dImWtPkqQB9u/6Se7Rv88QnpksdYGTi0y
-	 1okUY76ZrahqsLYxLTaaK5dbzjg2+y381MY70LUvCzkde3qPvKZ9SjPtA43sjYihTR
-	 CcBXx1EV7wkZ8JARlZVtUsbvzlmY+r6O4/I9ShbVWJLPgSAwb7SrFYXCvFGuFHUuBq
-	 XkUV2sCJbOwOmyK4KiJIfuvYKbVecojiAb65dhOfmVJ5OOty0OhsBZCipyg5BiQY6G
-	 GPIdZrN+hUid75bZA2lHcBqWcQzWf7izwwE/WFHdVuuoLKi2r4KS7noFePMDQfu+Ep
-	 6RqFRjzVwlN7Q==
-Message-ID: <sashiko-outbox-181565@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 6/9] drm/msm/dp: don't take extra references on
- multiple plug events
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org, neil.armstrong@linaro.org
-In-Reply-To: <20261022-hpd-irq-events-v6-6-337ea3ddaa62@oss.qualcomm.com>
-References: <20261022-hpd-irq-events-v6-0-337ea3ddaa62@oss.qualcomm.com>
- <20261022-hpd-irq-events-v6-6-337ea3ddaa62@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2026 13:46:24 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=poczta.fm header.i=@poczta.fm header.a=rsa-sha256 header.s=dk header.b=j55kopD/
+Received: from localhost (unknown [80.68.231.31])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by poczta.interia.pl (INTERIA.PL) with ESMTPSA;
+	Thu, 22 Oct 2026 15:49:45 +0200 (CEST)
+From: Slawomir Stepien <sst@poczta.fm>
+To: gregkh@linuxfoundation.org,
+	andrzej.p@samsung.com,
+	jiashengjiangcool@gmail.com,
+	yun.zhou@windriver.com,
+	zzzccc427@gmail.com,
+	bigeasy@linutronix.de,
+	nab@linux-iscsi.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Slawomir Stepien <sst@poczta.fm>,
+	syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
+Subject: [PATCH 1/3] usb: gadget: f_tcm: take the TPG in tcm_bind() instead of tcm_alloc()
+Date: Thu, 22 Oct 2026 15:49:24 +0200
+Message-ID: <20261022134926.1125473-1-sst@poczta.fm>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,145 +61,185 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=poczta.fm; s=dk;
+	t=1792676988; bh=6bJcvQHtL/4UbYgJFe6NESmKZgTL+XZ+piSAggxPAJw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version;
+	b=j55kopD/6JFBVXTmYhI/Ph2rARHpZ4lxPwFDk0FWVX7NV7Lnc9WZwvNuyghjoKXdM
+	 v6XUZAKmX1ED5MRum+mHlNm7TI8GtuKe6c0QEldD7vtEZw0GMSghsrYeKgoxwTkkla
+	 x+K9+5bEl3y9E9YxaD5a05xAZECoX1heHjqF7ylA=
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
-s) to consider:
-- [High] drm/msm/dp: skipped HPD high processing in msm_dp_hpd_plug_handle()
-- [Medium] drm/msm/dp: runtime PM reference leak in msm_dp_bridge_detect()
---
+tcm_alloc() runs when a TCM function is symlinked into a gadget
+configuration. It searches tpg_instances[] for the function instance
+and copies the TPG pointer into fu->tpg at that point, under
+tpg_instances_lock. This has two problems.
 
-commit 1182d7f2f2e876c63dd6756de1f85227702b93b4
-Author: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+The function and the TPG can be set up in either order. If the
+function is linked into a configuration before the TPG directory is
+created, tpg_instances[i].tpg is still NULL and fu->tpg stays NULL.
+Creating and enabling the TPG afterwards sets can_attach, so
+tcm_bind() succeeds, and the first USB request that reaches the
+target code dereferences the NULL fu->tpg.
 
-drm/msm/dp: don't take extra references on multiple plug events
+Removing a TPG also leaves can_attach set for configfs instances, so a
+later bind is not refused even though the TPG it would use is gone.
 
-This commit skips subsequent HPD plug events in msm_dp_hpd_plug_handle() wh=
-en
-dp->plugged is already set so that extra runtime PM references are not taken
-before an unplug event arrives.
+Store the TPG in struct f_tcm_opts instead: set it in usbg_make_tpg()
+and clear it in usbg_drop_tpg(), under opts->dep_lock. In tcm_bind(),
+refuse to bind unless both can_attach and opts->tpg are set, and copy
+opts->tpg into fu->tpg there. Also clear can_attach in usbg_drop_tpg()
+for configfs instances. The legacy g_target driver sets can_attach once
+at module load, and its attach callback does not set it again, so
+leave it alone in that case or g_target could never bind again after a
+TPG is recreated.
 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp=
-/dp_display.c
-> index fa8942922b533..ce919a26fba28 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -412,6 +412,9 @@ static int msm_dp_hpd_plug_handle(struct msm_dp_displ=
-ay_private *dp)
-> =20
->  	guard(mutex)(&dp->plugged_lock);
-> =20
-> +	if (dp->plugged)
-> +		return 0;
+With fu->tpg no longer set in tcm_alloc(), the tpg_instances[] lookup
+there serves no purpose: f->fi already identifies the instance for the
+item's whole lifetime. Drop it, and with it the tpg_instances_lock
+acquisition. config_usb_cfg_link() calls tcm_alloc() with gi->lock
+held, so this also removes the gi->lock -> tpg_instances_lock edge
+from the following lockdep report:
 
-[Severity: High]
-Can returning early here when dp->plugged is true cause
-msm_dp_display_process_hpd_high() to be skipped completely when a display is
-connected?
+  WARNING: possible circular locking dependency detected
+  task is trying to acquire lock:
+   (tpg_instances_lock){+.+.}-{4:4}, at: tcm_alloc
+  but task is already holding lock:
+   (&gi->lock){+.+.}-{4:4}, at: config_usb_cfg_link
 
-In drivers/gpu/drm/display/drm_bridge_connector.c,
-drm_bridge_connector_detect_ctx() invokes the bridge detect callback before
-notifying HPD:
+  the existing dependency chain (in reverse order) is:
+  -> #2 (&gi->lock):
+         config_usb_cfg_link
+         configfs_symlink
+  -> #1 (&sb->s_type->i_mutex_key#24):
+         configfs_depend_item_unlocked
+         usbg_make_tpg
+         target_fabric_make_tpg
+         configfs_mkdir
+  -> #0 (tpg_instances_lock):
+         tcm_alloc
+         usb_get_function
+         config_usb_cfg_link
+         configfs_symlink
 
-drm_bridge_connector_detect_ctx()
-    detect->funcs->detect() -> msm_dp_bridge_detect()
-    drm_bridge_connector_hpd_notify()
-        -> msm_dp_bridge_hpd_notify()
-        -> msm_dp_hpd_plug_handle()
+Fixes: 4bb8548df632 ("usb: gadget: f_tcm: add configfs support")
+Reported-by: syzbot+2799146a53c356f8017d@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=2799146a53c356f8017d
+Link: https://syzkaller.appspot.com/ai_job?id=51e1f189-6d91-4321-a6ba-07d4eb3cd8cd
+Assisted-by: Gemini:gemini-4-argon Gemini:gemini-3.8-flash syzbot
+Signed-off-by: Slawomir Stepien <sst@poczta.fm>
+---
+ drivers/usb/gadget/function/f_tcm.c | 29 +++++++++++------------------
+ drivers/usb/gadget/function/u_tcm.h |  4 ++++
+ 2 files changed, 15 insertions(+), 18 deletions(-)
 
-When msm_dp_bridge_detect() in drivers/gpu/drm/msm/dp/dp_display.c runs
-first (for instance at boot or resume when a monitor is already connected, =
-or
-during connector probing before the threaded HPD IRQ runs), it reads the DP=
-CD
-capabilities into a local buffer and sets priv->plugged =3D true without
-calling msm_dp_display_process_hpd_high():
+diff --git a/drivers/usb/gadget/function/f_tcm.c b/drivers/usb/gadget/function/f_tcm.c
+index 9e6d4f39900a..cc75d7e9792a 100644
+--- a/drivers/usb/gadget/function/f_tcm.c
++++ b/drivers/usb/gadget/function/f_tcm.c
+@@ -1720,6 +1720,9 @@ static struct se_portal_group *usbg_make_tpg(struct se_wwn *wwn,
+ 
+ 	tpg_instances[i].tpg = tpg;
+ 	tpg->fi = tpg_instances[i].func_inst;
++	mutex_lock(&opts->dep_lock);
++	opts->tpg = tpg;
++	mutex_unlock(&opts->dep_lock);
+ 	mutex_unlock(&tpg_instances_lock);
+ 	return &tpg->se_tpg;
+ 
+@@ -1760,11 +1763,14 @@ static void usbg_drop_tpg(struct se_portal_group *se_tpg)
+ 		opts = container_of(tpg_instances[i].func_inst,
+ 			struct f_tcm_opts, func_inst);
+ 		mutex_lock(&opts->dep_lock);
+-		if (opts->has_dep)
++		opts->tpg = NULL;
++		if (opts->has_dep) {
+ 			module_put(opts->dependent);
+-		else
++		} else {
++			opts->can_attach = false;
+ 			configfs_undepend_item_unlocked(
+ 				&opts->func_inst.group.cg_item);
++		}
+ 		mutex_unlock(&opts->dep_lock);
+ 	}
+ 	mutex_unlock(&tpg_instances_lock);
+@@ -2300,10 +2306,11 @@ static int tcm_bind(struct usb_configuration *c, struct usb_function *f)
+ 	opts = container_of(f->fi, struct f_tcm_opts, func_inst);
+ 
+ 	mutex_lock(&opts->dep_lock);
+-	if (!opts->can_attach) {
++	if (!opts->can_attach || !opts->tpg) {
+ 		mutex_unlock(&opts->dep_lock);
+ 		return -ENODEV;
+ 	}
++	fu->tpg = opts->tpg;
+ 	mutex_unlock(&opts->dep_lock);
+ 	us = usb_gstrings_attach(c->cdev, tcm_strings,
+ 		ARRAY_SIZE(tcm_us_strings));
+@@ -2729,22 +2736,10 @@ static void tcm_unbind(struct usb_configuration *c, struct usb_function *f)
+ static struct usb_function *tcm_alloc(struct usb_function_instance *fi)
+ {
+ 	struct f_uas *fu;
+-	unsigned i;
+-
+-	mutex_lock(&tpg_instances_lock);
+-	for (i = 0; i < TPG_INSTANCES; ++i)
+-		if (tpg_instances[i].func_inst == fi)
+-			break;
+-	if (i == TPG_INSTANCES) {
+-		mutex_unlock(&tpg_instances_lock);
+-		return ERR_PTR(-ENODEV);
+-	}
+ 
+ 	fu = kzalloc_obj(*fu);
+-	if (!fu) {
+-		mutex_unlock(&tpg_instances_lock);
++	if (!fu)
+ 		return ERR_PTR(-ENOMEM);
+-	}
+ 
+ 	fu->function.name = "Target Function";
+ 	fu->function.bind = tcm_bind;
+@@ -2754,12 +2749,10 @@ static struct usb_function *tcm_alloc(struct usb_function_instance *fi)
+ 	fu->function.setup = tcm_setup;
+ 	fu->function.disable = tcm_disable;
+ 	fu->function.free_func = tcm_free;
+-	fu->tpg = tpg_instances[i].tpg;
+ 	INIT_WORK(&fu->delayed_set_alt, tcm_delayed_set_alt);
+ 	spin_lock_init(&fu->delayed_set_alt_lock);
+ 
+ 	hash_init(fu->stream_hash);
+-	mutex_unlock(&tpg_instances_lock);
+ 
+ 	return &fu->function;
+ }
+diff --git a/drivers/usb/gadget/function/u_tcm.h b/drivers/usb/gadget/function/u_tcm.h
+index 2cd15d9a1c0d..fa38d55c2a17 100644
+--- a/drivers/usb/gadget/function/u_tcm.h
++++ b/drivers/usb/gadget/function/u_tcm.h
+@@ -15,6 +15,8 @@
+ 
+ #include <linux/usb/composite.h>
+ 
++struct usbg_tpg;
++
+ /**
+  * @dependent: optional dependent module. Meant for legacy gadget.
+  * If non-null its refcount will be increased when a tpg is created and
+@@ -23,10 +25,12 @@
+  * @ready: true if the dependent module information is set.
+  * @can_attach: true a function can be bound to gadget
+  * @has_dep: true if there is a dependent module
++ * @tpg: target portal group associated with this function instance.
+  *
+  */
+ struct f_tcm_opts {
+ 	struct usb_function_instance	func_inst;
++	struct usbg_tpg			*tpg;
+ 	struct module			*dependent;
+ 	struct mutex			dep_lock;
+ 	bool				ready;
+-- 
+2.56.0
 
-drivers/gpu/drm/msm/dp/dp_display.c:msm_dp_bridge_detect() {
-    ...
-	status =3D connector_status_connected;
-	priv->plugged =3D true;
-    ...
-}
-
-When msm_dp_hpd_plug_handle() is then called, it sees dp->plugged =3D=3D tr=
-ue and
-returns 0 immediately.
-
-Similarly, if msm_dp_hpd_plug_handle() runs first and
-msm_dp_display_process_hpd_high() returns an error (such as when a branch
-device is connected with sink_count =3D=3D 0 or on a transient AUX error),
-msm_dp_hpd_plug_handle() still sets dp->plugged =3D true at the end of the
-function:
-
-drivers/gpu/drm/msm/dp/dp_display.c:msm_dp_hpd_plug_handle() {
-    ...
-	ret =3D msm_dp_display_process_hpd_high(dp);
-
-	drm_dbg_dp(dp->drm_dev, "After, type=3D%d sink_count=3D%d\n",
-			dp->msm_dp_display.connector_type,
-			dp->link->sink_count);
-
-	dp->plugged =3D true;
-
-	return ret;
-}
-
-Because msm_dp_display_process_hpd_high() is never completed in either case,
-will dp->panel->link_info, LTTPR state, the connector EDID, and
-dp->link->sink_count remain uninitialized?
-
-[Severity: Medium]
-How does this single-reference model in msm_dp_hpd_plug_handle() interact
-with the runtime PM reference handling in msm_dp_bridge_detect()?
-
-In drivers/gpu/drm/msm/dp/dp_display.c, msm_dp_bridge_detect()
-unconditionally acquires a runtime PM reference on &dp->pdev->dev at entry
-and only releases it at the end if !priv->plugged:
-
-drivers/gpu/drm/msm/dp/dp_display.c:msm_dp_bridge_detect() {
-	guard(mutex)(&priv->plugged_lock);
-	ret =3D pm_runtime_resume_and_get(&dp->pdev->dev);
-	if (ret) {
-		DRM_ERROR("failed to pm_runtime_resume\n");
-		return status;
-	}
-    ...
-	status =3D connector_status_connected;
-	priv->plugged =3D true;
-    ...
-end:
-	if (!priv->plugged) {
-		if (phy_deinit) {
-			msm_dp_aux_enable_xfers(priv->aux, false);
-			msm_dp_display_host_phy_exit(priv);
-		}
-
-		pm_runtime_put_sync(&dp->pdev->dev);
-	}
-
-	return status;
-}
-
-When a sink is connected and priv->plugged is already true, won't every call
-to msm_dp_bridge_detect() leak an extra runtime PM reference on
-&dp->pdev->dev because msm_dp_hpd_unplug_handle() only calls
-pm_runtime_put_sync(&pdev->dev) once when transitioning dp->plugged from tr=
-ue
-to false?
-
-Conversely, if priv->plugged is true (holding a reference from
-msm_dp_hpd_plug_handle()) and drm_dp_read_dpcd_caps() or drm_dp_read_desc()
-fails inside msm_dp_bridge_detect(), msm_dp_bridge_detect() sets
-priv->plugged =3D false and only drops the reference it took at entry, caus=
-ing
-msm_dp_hpd_unplug_handle() to return early on !dp->plugged without releasing
-the reference acquired by msm_dp_hpd_plug_handle().
-
-> +
->  	ret =3D pm_runtime_resume_and_get(&pdev->dev);
->  	if (ret) {
->  		DRM_ERROR("failed to pm_runtime_resume\n");
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022-hpd-irq-ev=
-ents-v6-0-337ea3ddaa62@oss.qualcomm.com?part=3D6
