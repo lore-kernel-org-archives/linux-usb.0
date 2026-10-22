@@ -1,93 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792633666;
-	b=ZDK+hfT6zgyDdzwqy+W9pTLV88/x/5sQVMKaHhY2p5docouHfOhFBK27PmqgOOKJYULg
-	 HH2R0BDnK2YIsFPaGt38Vh+x5cJ4Q2z2xrQW2N5P4ixhRNNwCu95YpLMljKSEGAoZrqyU
-	 McHzipvHSY9WQIgt4h3JNWcoQRVlqntUoNlq4sqiABiH9IiKhfe7z5OxM2ohACPX+tN9s
-	 rI7czqa3DR4UPNo4gA5JRXR2BIskgRL3fZNnNcoVNbNoZYZri6FDry7Ez5tU55/gy37DS
-	 luAsHEDWT+L1b4HCvl+SlPbXYDE/tAQF71RePqHDLSk+vwfKuvQQLzjHzDabkGgGp1Q==
+	t=1792639627;
+	b=F+1vStWT55nqdK6KromuSlyv96/ocwqgc5boDv3uh1dz1piavjw2WEAyfuatZR5yNazT
+	 y0biZilzbYaZpJ0yRqJK3eHnz5HJw+RXgfYkxtMlrCAf0xeDCV14goPsb0sqngs39mLSt
+	 rK6frBwzyTFiyyGbZ5pSnbppeP+hsivoKJNa594Suy75kseqsfmD+fyc84nNq+AGnhffM
+	 r8TzViuv7t6vFiV0N+KeBUdFPlvfjfWMl6TY1lhEMxqtK1X5ZU6swveoNMrw9YAoTKfrU
+	 0SfEkY5YipwQs+CUUABVpNbiaW+tiu+bFKSSzdVhc95BxWgjvsJvBkMJJlb28mf4Fxw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792633666;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=gYKqhMNUDqm7sf/jtPqhDcMNm1ldVrzzvJB2Y2KBTPk=;
-	b=ntL3dV2H2KObhSXpvQkVY7avQF5mpYSqVmEiNwc34PMXbG+agD5ysoEq8R2xNui0newm
-	 Tn8TcKxOX8jQ5JQg3w1VxJ6FIgbBDILu+5Q15j+xVawJA1FP1QmMl/JL4ZWj1QORXPINr
-	 4Ou1ktK/z5wVeV0zQkFhLwuDXYLsVKeweY+2rbvOtHHtjFxiyKNEC//CCIbGDRp2jKk2J
-	 +gzWXriR4V8P4F265ge4TOAbWUwmw6RtyJD3z22WqgQI9imr5wOmKIjIbqYqXpqbyQJUn
-	 W04a9U6cbF+L6FLbHJkEwPaRp8/oRnt8Lxj21tmPoB4KYHwhIvWLiryYvBCehM4TkxA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792639627;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
+	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-GUID:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=GGmZmli6XEiqC9WcTdozsjPuYlwvOxi9MxEGhwdmAzI=;
+	b=lPHcFEc/6YqtZXVlhXZo1mGSRpwutiapXTuQuy3PiubDdfNUSxVW1v870e8dM/kM20P/
+	 oIhX97nqBPVdtvyZtAOX0zkxSw4M7VQnCd471HcYBGwnVuWp2A9Ed+hH3OFY+hxQfr0Ck
+	 630pCROrGKNU/ZNlHEu0GH14WfK8di/YawQDrDFMUoTVpfph+LrTKsjFToBo5cii6XUsm
+	 tufsd6r5Yq6gW2Hycsp4f0lTfiBbjL7Y7Nm08IwSLDq6TAru++rPFjxEkNwp5hX3DTFqu
+	 kW+zG195/BL3D665Hob9e57zQ0MC8V2yUg7bMFr2SP/0OM34W/q3/j/Gsv42bl5YUnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=nXxj1A75;
-	arc=none smtp.remote-ip=209.85.222.173
-Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=phO3eKgp;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Pii21JKO;
+	arc=none smtp.remote-ip=205.220.180.131
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D61606A319
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 01:47:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A6D61606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C7F606A319
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 03:27:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1C7F606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=nXxj1A75
-Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-93a40a9a01aso55629885a.0
-        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 18:47:45 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=phO3eKgp;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Pii21JKO
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69M2eue72463681
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 03:27:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=GGmZmli6XEiqC9WcTdozsjPu
+	YlwvOxi9MxEGhwdmAzI=; b=phO3eKgpY/wp9HeFoWPJLOFWRlM1OzwTbpzxGa2u
+	lNdCkKoH1oLccrWYbrruuN+KYF774iz+2skToZakXZlWL/ctzgyQMGk9U5oF3oJU
+	O2GLjwTQPqt+AzSw9XzdCFt2HswSRw4IBawDZsbP8428R6JF9umjqsdJkCfnOvXr
+	KH0ajGUv8//6uFi4kFUKRVCjOzIQE0wlEgdQy79898jtm0jYo2B/qwU8uNHVJm6Y
+	LSLKB+Ql6HEsgqTZ70Junp+ueEogCKCeZ4bjTwQsTik89CjlzmroNHMIooqG0ZCC
+	Z6UGMMk4/TOeaFviVlwV1B/pAcHZSULKPspIq1pcCf9Hpg==
+Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hf93ardud-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 03:27:05 +0000 (GMT)
+Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-30c0d568830so3316101eec.1
+        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 20:27:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1792633665; x=1793238465; darn=vger.kernel.org;
+        d=oss.qualcomm.com; s=google; t=1792639624; x=1793244424; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=gYKqhMNUDqm7sf/jtPqhDcMNm1ldVrzzvJB2Y2KBTPk=;
-        b=nXxj1A75zJ3ME9bxbMTnoHw8JSyLmgR58jQTvpfcRcZnEsPfyyAJxz6MiOMRf77ipP
-         PpRl3Zq3XnJMhS26FnGpIq7XjEQnA1+akk2dlr3iHML6tiOtvyvs9rg+QKBS6+GmJURS
-         +vXULOnY6aic56GzVQ4rX2rEOwofw2rSJeZ3nnsZNybcrvh8gU56XwmnhQqk2m4GO6AP
-         MxQpAFtjXjJquLGhtAX0Pejz8bGlplFy2Vnse4mGDX4PdiexnkVo2MEaIYszu+G+r4Sh
-         epvdo4ez6HruQW59ldwf0xmEKzX4OO1WJFdUSW/f8KTOYQvASZdq9UElMqetcflJASuO
-         0NrA==
+        bh=GGmZmli6XEiqC9WcTdozsjPuYlwvOxi9MxEGhwdmAzI=;
+        b=Pii21JKOA+7a1HFfCqBwn8A9fxtGhIyIYBlnAkjSixur7eOmG1Boe2Dx6n+x2etO51
+         gw9wHCkXHa8w0YQlZtjbBUn1M+grXwIj/sEhKWmPBylGWb8wsaCXGx5wt5MtpAcnhQWb
+         X6meJnMrJH93+VKhZuHSK4+DOFNths3jMrdVIy43sT2bIdCJCL90QpyiLFmXiWxX7WYU
+         vQ2IhOD7bVyK1lCG4+wqpVXK6dMeuMHWpDDfxdY3K59HwjGCXtO7SfCIPOeFqs6SlhsF
+         msmIrprEE0h1APBvl5ljs+0SL0ngEuuV+96XDBQMbIbpMHc81Ac+k0kki+iU9wKcwGn2
+         TSrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792633665; x=1793238465;
+        d=1e100.net; s=20260707; t=1792639624; x=1793244424;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=gYKqhMNUDqm7sf/jtPqhDcMNm1ldVrzzvJB2Y2KBTPk=;
-        b=GVX/gyWom5cImGj78NwmY0XsYLjEgDY7HcVX2Ecvec8F6pKZoR4zGzlUdVhEQ3J5kQ
-         RBcXyVFG0P5GURESC1cOAeg9D4NB+H+DyIuqZzJxjyLNlvJaO0CkuhHCDI5SLmMWPMCu
-         tL+GsSzmQt/jmwjRP2WWmdy7WBPPVVsEGX9Dig0ELtUHvL1uHTBMYrXHAenxRxbtpvj6
-         AfV3NT3OnJPoqIAzspGpOJ41pO9yZBVR6NM046mJqUD0SjuUmKt1/G8qnNhX+d0qHUm7
-         aYKe/YVI9jru9ySOGcduyjr+WhaYYMkXUFYmakUTB8+ZDtPqW8TUxv77H6pZLyAgM3e8
-         wxsw==
-X-Forwarded-Encrypted: i=1; AKwUvBwvo7LjIA7yHLhinKXAtg+qFa4/9HDS2GcWD9L5gSdhfxuRBtZKyAH3DAL1BcGt7W6XRQR1DPsSg3g=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLNz6iEj47JTRA0EqXKVAUfTa6ts9/thkN5QpmsBdiqKoh/ehjS
-	nv+q5E+f8FEv81ewxeU8w31y+SQkRcbkwIHZHwzfPgB3Oaa1OaeeSadTdPU75vPCDg==
-X-Gm-Gg: AYBFou2JdbDcimHu6GMttaOoJCowYPou4Rr/7x5Agn4SHbNHna/tbv2lU1iSZxZfnbH
-	GSbedBgl0kZRdkZleSjfzAHQFdp1yizg9CBR/lMmBA/eqVNQznwv42YMECV71ysvDxGuC6qnFDw
-	O76gIbEMSl4pSbqFdqia2DxeCQTy7yv843nxqEZFdBgZexo1BHx+4qzdQB1xZrTGjULKIcY/TTG
-	aX+xHWCfWaSiLlmvInDhZoqQUEjnX/ppKFR21J4bgu0ExYEtzwe2YbAlpLMjcqFjo/xGauS2PeC
-	7oD1wc4aOYBbvqLIgspqT9pOzRqYMRBaR6dHQnT4ULr6xbyME1VPPIceKkkMF56dY34sgxHXJzR
-	yWwX44u3UJBsneiBqOLdxdjDm3hq17mH0Voz1xWjHq3aILTeWcDxxgKdSO3taeFHPd80YiFh+cV
-	vZW3JHqe6vdF/+F89jbRMx3Re65LPvk3OzZqbnj3h4mgg0XsHqtCmF38N/ZFeNhzw3FDjKWYOY1
-	GPuATzsPuYnmUs7HNV2s7DR6XJZagGnvczr9be7tzw7oWilvW3FmsPq
-X-Received: by 2002:a05:620a:84c4:b0:93f:16d4:3c0a with SMTP id af79cd13be357-93f6248e92emr176006185a.4.1792633664545;
-        Wed, 21 Oct 2026 18:47:44 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::4791])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93f56e246cesm398743785a.38.2026.10.21.18.47.40
+        bh=GGmZmli6XEiqC9WcTdozsjPuYlwvOxi9MxEGhwdmAzI=;
+        b=bynsSTTUKYS5U41TZxpiGT0WgyX/6JKh4QCvgTaVAykWvYog10Ca2TDeKzR1WuO5yT
+         ZAtFACBNGasdQgo0uf8ek974SmNMKuumtp3wGN1dO9mc8LxBa7kDCKrLIKZ0020X63+y
+         9YlFc9l4kiIftV5YFP+oD6IgeZNpniP0PvLC8rJOySlHpvXSBu9UvWrOtRklfEJ0iBR2
+         21+hmjw5e5kM0VyYuhW6l/Gfrv4EPYL6MvhMlc69T8BsgUs7guAW6OdD9Geoxfc/IWaV
+         PIoTYmEJorFxroA1v7ZemP/FfQBfvRa7ZulN97v1eVt7hKi4F6+YuFOYrG22QWIMEwrx
+         Iw6w==
+X-Forwarded-Encrypted: i=1; AKwUvBwKXaYmMv8E7VH8nxYA8KjHv/P0dlE1OlX5CAM29obmbcOLGcQT84GHjixGkM84oYX8fT5cT4UsbsM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIru9XEGWeBcH0ZlcVJ9/GelDlagCmQ/1+xGfvaStzdxn/T7Xwc
+	o530Vkb4m4BPas0Gt/g1TgBDj1W9jBB2KkZRhTiOCNSFoGhRE+hng6YaE3H0jk10bgnn5Nr1hpU
+	ohb9I8Utv+NiqBrMejjpK9ks/jFNit8frFq5s+OsLFLd7X+eWK1/ogtgVNczvXcg=
+X-Gm-Gg: AYBFou0S0ejjP5iGsCrOSGnnGGxgz3/O2greJr6WnfWqN4ksN/CaLjmornXyf7Oo1lu
+	wCvdXaL80fnGCpBEXP5jYengU2VobAO8IZzA08fQWG3k63B7LvFzkEd91K/uAvZDkj2Nfx+3pHh
+	Yb7rxjyk4s9dedFt07Q38vQOyi0h3QxNJ7oTPZJ566yXnyLnGXhj8fWenvLEVR46g6c/IXniqrv
+	SuhIocqXqGCdKEg2+T2GI0eDpazrtoMphAIl+bYFdwOrHC1gIkgqf0LqSNrpoybcvdHpx2TB/wf
+	kddyx7WFbMA3jqq2OoZ464ufea/jO/hOaTTwNxmi2ir9rVmMmDsvdVEHE7nTcirhLpwDz4Yz8WF
+	PwtXigPxyFw5Xdcfq6qI7VjQBEAygeyJhFDt0+ohp/q2ZfcUo
+X-Received: by 2002:a05:693c:8803:10b0:368:8ab7:2a4c with SMTP id 5a478bee46e88-3688ab72b28mr1840506eec.30.1792639624373;
+        Wed, 21 Oct 2026 20:27:04 -0700 (PDT)
+X-Received: by 2002:a05:693c:8803:10b0:368:8ab7:2a4c with SMTP id 5a478bee46e88-3688ab72b28mr1840490eec.30.1792639623830;
+        Wed, 21 Oct 2026 20:27:03 -0700 (PDT)
+Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3674198f1d8sm17373764eec.24.2026.10.21.20.27.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 18:47:43 -0700 (PDT)
-Date: Wed, 21 Oct 2026 21:47:39 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: Joe Wang <joe_wang@aspeedtech.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-aspeed@lists.ozlabs.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] usb: ehci: Quiesce controller before halting it on
- shutdown
-Message-ID: <0acd4f35-4b99-41aa-a9c6-2764a6744c8d@rowland.harvard.edu>
-References: <20261022-upstream_ehci_aspeed_shutdown-v2-1-62712169bc07@aspeedtech.com>
+        Wed, 21 Oct 2026 20:27:03 -0700 (PDT)
+Date: Wed, 21 Oct 2026 20:27:00 -0700
+From: Peter Chen <peter.chen@oss.qualcomm.com>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
+Cc: fabricioakio@gmail.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Subject: Re: [PATCH] usb: dwc3: qcom: Check for L2 only when suspending a
+ host with wakeup
+Message-ID: <atmChJYMtjPtW_ZE@hu-petche-lv.qualcomm.com>
+References: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
+ <7eb8f0f7-9e5b-44e9-971c-54bfdab23c30@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -99,105 +126,65 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261022-upstream_ehci_aspeed_shutdown-v2-1-62712169bc07@aspeedtech.com>
+In-Reply-To: <7eb8f0f7-9e5b-44e9-971c-54bfdab23c30@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDAxMyBTYWx0ZWRfX56NrwdGELWaG
+ UFaS9UDZV4m6t301szAbu+Oq5iuYsHLTXhv1I/mma/LCK2Eo9U88GANHEOegYX/Mii8rHHWSUwf
+ y50m+q0JaFK2v0Ag+odncYth1mTN4rS14jc45BhDfoSizFjmhiDpuLiGQcPqZnay7uJYG1PR0Sw
+ n2wzpXOrLwWB0ov3yJu5ApX6RtbMpkabmO3oUNpI0yyiGbzSNYAL+Z24kQvCkfhHRwT+kdGsddq
+ E8FEPD6dPDGgrv/IuZW+wRyMfz9fjl7zLM4exMz8LyeYRqHTVX/TQPtqyUIg2DFPSrTueQZKNWs
+ j8WspP9nf4ZdVRpPMDlJxQNF0M45C1Flbc1AX0Q4W6Fqq6JoXzyeToOdi/LEcFY4rcXQv+93qvr
+ 17dptVXyRX7WR1NFeiUL2ZIjU0Gbt7S6sPJipEEsS+wBuB5Dheva8dIXCIGtCCU9K2VIb3pzULl
+ vLNGVdCc32iZnOYqxJw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDAxMyBTYWx0ZWRfX8sEyEF9IuQua
+ 0TsJL6eFaYS5PB6GTwLGfZecm2T8Q83VYIuUCVJAzMD2JE+eBQ9mgQoSMsGSXuFPkMrlxVojprd
+ qG7rjR5EB/cIMPDlxw4TesaKNzSzUHc=
+X-Authority-Analysis: v=2.4 cv=QPn91QLL c=1 sm=1 tr=0 ts=6ad98289 cx=c_pps
+ a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=QFNGBFAix9GFkXGs:21 a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
+ a=pGLkceISAAAA:8 a=uQVJHn5EHz_PyVhorDgA:9 a=CjuIK1q_8ugA:10
+ a=6Ab_bkdmUrQuMsNx7PHu:22
+X-Proofpoint-GUID: _LSellHeD3d35LjGV2PxuxjGSSRVzmYG
+X-Proofpoint-ORIG-GUID: _LSellHeD3d35LjGV2PxuxjGSSRVzmYG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-22_01,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 clxscore=1015 bulkscore=0 impostorscore=0
+ suspectscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610220013
 
-On Thu, Oct 22, 2026 at 09:21:11AM +0800, Joe Wang wrote:
-> ehci_shutdown() runs from the .shutdown callback during reboot,
-> poweroff and kexec, for example when LinuxBoot firmware boots the
-> final OS. The HCD is not removed in that path, so ehci_stop() is not
-> called and the controller may still be running. ehci_shutdown() then
-> halts it without first turning off the schedules, leaving a DMA master
-> running while the system shuts down.
+On 26-10-21 15:44:52, Konrad Dybcio wrote:
+> On 9/28/26 8:16 PM, Fabricio Akio via B4 Relay wrote:
+> > From: Fabricio Akio <fabricioakio@gmail.com>
+> > 
+> > In peripheral mode the core disconnects and powers the PHY off before
+> > the glue suspends, so the link never enters L2 and every system
+> > suspend logs "HS-PHY not in L2". Check only for a host with wakeup,
+> > the one case that parks the PHY in L2.
+> > 
+> > Signed-off-by: Fabricio Akio <fabricioakio@gmail.com>
+> > ---
 > 
-> On ASPEED EHCI controllers, clearing USBCMD.RS while both the periodic
-> and asynchronous schedules are enabled may also leave the controller
-> unable to halt. If an asynchronous transaction runs past the end of
-> the micro-frame after RS is cleared, the controller walks the periodic
-> schedule with a cleared internal buffer, reads from address 0x0 and
-> never sets USBSTS.HCHalted.
+> I think we should be able to retain the link in L2 in device
+> mode too upon suspend, but that needs more plumbing on the
+> clock/gdsc side? (+Cc)
 > 
-> If the controller was running, call ehci_quiesce() before halting it,
-> as ehci_stop() and ehci_bus_suspend() already do. Do this after
-> rh_state is set to EHCI_RH_STOPPING, so that URB submissions and
-> hrtimer events cannot re-enable the schedules, and let ehci_quiesce()
-> accept that state: like EHCI_RH_RUNNING, it means the controller may
-> still be doing DMA. The controller-death path in ehci_irq() also sets
-> EHCI_RH_STOPPING, but it has already cleared CMD_RUN, CMD_ASE and
-> CMD_PSE, so a quiesce there cannot re-enable anything.
-> 
-> Signed-off-by: Joe Wang <joe_wang@aspeedtech.com>
-> ---
-> This issue was observed on a customer host platform using the AST2700
-> PCIe EHCI (ehci-pci), and the root cause was confirmed by the ASPEED
-> hardware team in RTL simulation. The stop sequence used here (clear
-> PSE/ASE, wait for PSS/ASS to clear, then clear RS) is their
-> recommended workaround and was confirmed to resolve the issue on that
-> platform.
-> 
-> When the controller is running, the added delay at shutdown is bounded
-> by the two existing 16-uframe handshakes in ehci_quiesce().
-> 
-> Tested on AST2700 (ehci-platform): reboot with a hub and USB mass
-> storage under load, ehci_shutdown() on already halted controllers,
-> and unbind/bind (ehci_stop()); no regressions.
-> ---
-> Changes in v2:
-> - Apply to all EHCI controllers, not only ASPEED (Alan)
-> - Quiesce only if the controller was running (Alan)
-> - Link to v1: https://lore.kernel.org/r/20261016-upstream_ehci_aspeed_shutdown-v1-1-8440c13b5652@aspeedtech.com
-> ---
->  drivers/usb/host/ehci-hcd.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
 
-Acked-by: Alan Stern <stern@rowland.harvard.edu>
+From what I see, dwc3 core just keeps gadget (device mode) disconnecting
+when dwc3 core enters suspend. The reason is probably dwc3 core wakeup signal
+(through .dwc3_gadget_wakeup or dwc3_gadget_func_wakeup) is send by software.
+When the system has suspended, no software has run, so can't trigger wakeup.
 
-> diff --git a/drivers/usb/host/ehci-hcd.c b/drivers/usb/host/ehci-hcd.c
-> index 3c46bb18c7f3..d9d816eedc66 100644
-> --- a/drivers/usb/host/ehci-hcd.c
-> +++ b/drivers/usb/host/ehci-hcd.c
-> @@ -274,7 +274,7 @@ static void ehci_quiesce (struct ehci_hcd *ehci)
->  {
->  	u32	temp;
->  
-> -	if (ehci->rh_state != EHCI_RH_RUNNING)
-> +	if (ehci->rh_state < EHCI_RH_RUNNING)
->  		return;
->  
->  	/* wait for any schedule enables/disables to take effect */
-> @@ -356,6 +356,7 @@ static void ehci_silence_controller(struct ehci_hcd *ehci)
->  static void ehci_shutdown(struct usb_hcd *hcd)
->  {
->  	struct ehci_hcd	*ehci = hcd_to_ehci(hcd);
-> +	bool		was_running;
->  
->  	/**
->  	 * Protect the system from crashing at system shutdown in cases where
-> @@ -367,11 +368,19 @@ static void ehci_shutdown(struct usb_hcd *hcd)
->  		return;
->  
->  	spin_lock_irq(&ehci->lock);
-> +	was_running = ehci->rh_state == EHCI_RH_RUNNING;
->  	ehci->shutdown = true;
->  	ehci->rh_state = EHCI_RH_STOPPING;
->  	ehci->enabled_hrtimer_events = 0;
->  	spin_unlock_irq(&ehci->lock);
->  
-> +	/*
-> +	 * Turn off the schedules before halting. rh_state is STOPPING now,
-> +	 * so they cannot be re-enabled.
-> +	 */
-> +	if (was_running)
-> +		ehci_quiesce(ehci);
-> +
->  	ehci_silence_controller(ehci);
->  
->  	hrtimer_cancel(&ehci->hrtimer);
-> 
-> ---
-> base-commit: 2f2f7eeef8b0a1a9b9ca998231419873ccae8d4e
-> change-id: 20261016-upstream_ehci_aspeed_shutdown-9ccffedb2a1c
-> 
-> Best regards,
-> -- 
-> Joe Wang <joe_wang@aspeedtech.com>
-> 
+For runtime suspend, current dwc3 core doesn't consider link suspend event
+(eg, L2/U3) as low power event, and doesn't put dwc3 core entering runtime
+suspend, so the link is always L2 or U3.
+
+Thinh/Wesley, if I understand wrong, please correct me.
+
+-- 
+
+Thanks,
+Peter Chen
