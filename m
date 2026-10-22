@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792685594;
-	b=bMBMo5dEJI0/iUH2wDiBEOeaKcFKVVzsSbM7mmL31t+DFKti1i4AOKdrRPj/3rijN1O4
-	 ZTNKZh8MODgeRvutPGTYsgCgEOBGWDHyZpdUbw9aws7yptQ/N+/6aXcj/eHeZ6IaS+8MX
-	 nsI32EOf1/FMKvp6Vabotub0m9VWssAvOfntV77pmTBKe3chnZsTsW+R9BTeqGk0Hj8CJ
-	 dn70gt03V98Fz23PvEIkrJ6teyC+lSGub/k6UCKYANKROqVcHuzDtVrDmvY/5zN78k17v
-	 fRBoQW8fL/lfZq9EVG/sLlvqrcpbKyHbDxcV5CO6y3O7B74g4aPwi04l6t9Ye7xqy7A==
+	t=1792685595;
+	b=FgE8CQvCK6Jmju0LPUGNf8dtvTyRJ+3QOMk/V4ctG2nbT+41/zuQpzjep6wNd9Fa1KdL
+	 GYR2iBRjEqJi9/JwYWTpQpfCu09cVeIFUI82r6vDs/SsMAdyomCMDjQVued+ZboDofnpj
+	 AwBWuF68T21DOjJAC1Vb2t0cD95DcW8CxDvex9uOOWQK4e0u5mGLxrEP5IiMSO04YiAvJ
+	 /J7b2ltxn9Tkx9j9e7jRlrFR9UBFPREB/MCN6TJTjtGm3OWCdnOfU5nZ0yDiMli91sT73
+	 D2n7nOYmfU3Vr3pxzJIGBtLW/Ab2rpoFkh2X8U3sVss2b4nLeLSCNU2IjyTLEImzTFA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792685594;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792685595;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=JcbJrMwo/8k3kbS0tFEw0+h4GrLaoNONDxjlaNwqCts=;
-	b=3X/tZ2JZ90KB8Q8BYeZkMWf/RiTZrY5aO2Phse5WVcWhDGyk8HZ0N30PusAphCYJ4CH1
-	 KuGhxr5jsmPCaWQqZXYLwz5q+iYa3RxIPIttAEmhhylk4vtve4qGHiV3He6d8Fsw5BI+m
-	 ejUgomICpdCyC2C1PvK+x83ODBxlAC6GScNi4M6rDtdbSWhIB0RlVQw2EdeKbkKU18MNi
-	 /3hWQvrqDbH46y8EFT4DcHfudlDf+4d4VTdJJVZH2YnzXm8UkxL9W60Sglmg6iFR0j6kY
-	 FuKQE7WQcwmXep9GBpqmW+ohLS+4EIIOBxWHv5UuDNi4qpNYW2VjTIOyB0oqpzOb/YA==
+	bh=EDB4hR/xPIU7rhzXLefFKFZDydGD0qGb2dUaO8VQhVc=;
+	b=KbPYBxpfQsCOSen8j8+xmZHrMAME4IPPlRyWE3r9ISFuzsgxVmFxwa062vABFjCOFPaW
+	 y4FUKuKJ0GRnQx0rm6+sEKxOndsUDQg2+o9BablqcemmDtj0Klkj5F7s1AQvDbEXBAl6t
+	 B26t4r3J69w3WtXDxKnz3uXHzaW4qsy6HAUVET2kRkgeDsYX1yqYAIt67v9GNCffxtsmk
+	 N9evjS59dJwLoTaSrsYH12XPzVtoLWD6DAHRWKwNU6HSS89jXBe2wW53Yy8N12neG9/xA
+	 3MalWPzLCVoHTWtea2IB6hn135tfeard4bjSYFNtxjuXLDwSxhSdluLLej69VNEdljA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W85J3VPQ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AkMPvOBW;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0F8606A334;
-	Thu, 22 Oct 2026 16:13:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47DE2606A327;
+	Thu, 22 Oct 2026 16:13:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W85J3VPQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E5E311F01828;
-	Thu, 22 Oct 2026 16:13:13 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AkMPvOBW
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB2E1F01829;
+	Thu, 22 Oct 2026 16:13:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792685594;
-	bh=JcbJrMwo/8k3kbS0tFEw0+h4GrLaoNONDxjlaNwqCts=;
+	s=k20260515; t=1792685595;
+	bh=EDB4hR/xPIU7rhzXLefFKFZDydGD0qGb2dUaO8VQhVc=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=W85J3VPQua4wUxtCE7UOR4s479VNoghTTFc134Ix3GavoJBG85Nw2Dzd3K//cugh6
-	 ikYI8W8lekMyQzWj3yezTHei69LCGqxPC9M9FTqKVsXU6ncO+IeOoQa8ORDSo5CSNI
-	 XswfnqBG3bdD3kMupRQvOdcN6qi3L5zY3r/wAEVFEibpDGg/ebff7RJGKH+kfJKUVp
-	 2+aMG4RQvKySLV9jrOEoaihy5M6PXA+sZRlnlhb084LP9v+m3rNfoJl033lWCTic9v
-	 yCS19o+qQEYTBbHU2fs5YKVvczpFLjLllAqGpBewk7cOhme2xNlLNfx5nze0eOohbu
-	 GCMkjw9lZYw6w==
-Message-ID: <sashiko-outbox-181779@kernel.org>
+	b=AkMPvOBWYIgygrhPwiTZPC44XCuJCXwURToRZ0NCNsqY8y+p7Td4ft6EJzFgL7KSQ
+	 D8+saTg+n4vtlwPKWvBrLCx3dF/9ytWQA95fKUa1knn1fX68Vm1RdeF0YF5QMvGwrl
+	 TlMoqh9wpc9yd1Gq86I0iousJYZKRPN1P7I60vVw6ErMtN6L9IthP8QZSSt+giiLJr
+	 edT13H1GanTwsDMtCYw+sQI+/qi+yGi3IVhrW2WSwr/FpSgd5VWVJLF2oGYs8DuWRl
+	 t49kN2Wkgwqh0MatXHdUeywWyMREgv80z3WFZr5PuOY6Cg7P/JU0pX7a21jUWT/0/l
+	 DJB7Z8nrvhMTA==
+Message-ID: <sashiko-outbox-181780@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 15/27] dt-bindings: thermal: rockchip: Add RK3572
+Subject: Re: [PATCH 16/27] net: stmmac: dwmac-rk: Add RK3572 support
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Cunhao Lu" <1579567540@qq.com>
 Cc: mfd@lists.linux.dev, linux-serial@vger.kernel.org, linux-usb@vger.kernel.org, lee@kernel.org
-In-Reply-To: <20261022-add-board-ok3572-c-v1-15-0b0fd85a31ee@qq.com>
+In-Reply-To: <20261022-add-board-ok3572-c-v1-16-0b0fd85a31ee@qq.com>
 References: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
- <20261022-add-board-ok3572-c-v1-15-0b0fd85a31ee@qq.com>
+ <20261022-add-board-ok3572-c-v1-16-0b0fd85a31ee@qq.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2026 16:13:13 +0000
+Date: Thu, 22 Oct 2026 16:13:14 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,7 +62,8 @@ Precedence: list
 
 > From: Cunhao Lu <1579567540@qq.com>
 >=20
-> Add the RK3572 thermal sensor compatible.
+> Configure RGMII delays and clocks for both RK3572 GMAC controllers,
+> using GMAC-specific GRF registers.
 >=20
 > Signed-off-by: Cunhao Lu <1579567540@qq.com>
 
@@ -70,5 +71,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022-add-board-=
-ok3572-c-v1-0-0b0fd85a31ee@qq.com?part=3D15
+ok3572-c-v1-0-0b0fd85a31ee@qq.com?part=3D16
 
