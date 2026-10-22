@@ -1,98 +1,84 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.56
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792665639;
-	b=22+z8Qq0s05gs1ZWAed/aZfRfsDQ9lguaIxWx81aB/LxQshgMkrXHoZkwis3dwDIr6Gm
-	 MsJZFvxyZec8Rde0L0dRYCliu+Q8/UTncOJFi16pSTyNRD11FVQ5CK0MzGaCefAjn2ja1
-	 xfr14MYfhgaydWo44cDeqQJncPS7zQ0k3/vBs8q0C/5kyOFRlBiDNe7DxYWiyuQuBcG4I
-	 uhPv+XDJs65UEavXtgHneN/K0fDVdoc2Kbzx9JbnefkxDVQg0UNqYvgM1veFOHrJybgaZ
-	 oOzFQ4a4/dWfjA9+UnCje3eWFpby+qwH6qmn4dx/ZF8ckVBRtpLKR1DH8lCy5COV5Gw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792665639;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 Content-Transfer-Encoding:Content-Type:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=kM5Iz6iSbrgwtqeY3LsEOsYK1DVhh8NqFmIjlrOkz+Y=;
-	b=FtOwvU7Cw2Iedcx7twBE2+jQzgMfjmUEOVXED5niy1Rvs3+emBW+NT/6R0PbFy3kgRyY
-	 4erSFPmkWAfsP1UD1dketJrukPaOSpovIjA+F2B+iVF3hfgax0UmXvTms6NRHA8+Q6f1c
-	 3IbBsGShr5y7YdWj7HLV95QvEZ99Eai6sf5bYfnup8u41yBvjxhKDxhqxp2VwsKAUeMdM
-	 jPK7bPjNPPA+0Syhv7Ufeetq2nej5HQj4+OuP6/XBDxJA2OTcJ8S4G1LEBxv03hdOQ02x
-	 BBymj2bLDYNzqF4MCgIHBwAUlTWXeGsnlPnHqRsVmisEcEtdsJnlnrERnyKMroFpOJQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=nvidia.com;
-	spf=fail smtp.mailfrom=nvidia.com;
-	dkim=pass header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=G35DHwzS;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.193.56
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010056.outbound.protection.outlook.com [52.101.193.56])
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.75.126.72
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792668667;
+	b=nRhOetoP/F7de52okLi7jKBK+ORueomHmEbKY7IX0r+j5xwwFNnvt2XFO5A1tXBwu3Pt
+	 YSi1D93Ee5UbNdMMDf97zUqt3r6nmWB6r+gHrd2N5r2kUu39F9jOGkuqI2/aOnWiN4EEZ
+	 zCxAAyI8W7vlyEQZ4MImsE3Gf2GJC8/wGrhNn3h83MruZdcrBYnCvAusl+Rz65w6ij/kn
+	 imh53c4ayr/UlZ5hmP0B3yygpUz8Y2peduSIA6TsWLPI7mLHnhJFWCwa9jn2E1YIX03jH
+	 ezEgeoO06Bwx7Uxign4IqZPkB5jFQT3NmnYBHiWTpXq8ootcRqL3/4sXotaibKvduCw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792668667;
+	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
+	 Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:Message-ID:
+	 References:In-Reply-To:Accept-Language:Content-Language:
+	 x-originating-ip:Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=LPtOsPhf3qNQ+WDuZ7lQU3mMhCaKIt/W3KycpH260F0=;
+	b=vApNgS8rlL1/xg58+1znsQQc1YyyJ/opbOiTMzMzZ6B1PLAua+m+I6zZOfisXmqSge5W
+	 iP8cpejPxd3bDDsi/SdYbJN3Iai9gwg4qpzcIcUMj6CTKH09rb3qLLKuUfnfuJXgMm+YC
+	 o3p9zEW9I94TGX2sF3uqQ+apfaX69ObGUDZiZjrmO+W2Y88qabCvdDl/ASK2BTPVw46xW
+	 H4RS0cTs2oAci81d+zU1M8HBKuc2Q4hMMxd1/13+eKY4kdeBLsCKZjWkBT1WrSULOD/Bj
+	 7EmJGKL6OsMkZFAAUF+EFCHqMOKGFGsJVIILM2j/mN9UMLv1pFbzJ5MOdpEGwI0yqJQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=realtek.com;
+	spf=pass smtp.mailfrom=realtek.com;
+	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=KjZLqQFO;
+	arc=none smtp.remote-ip=211.75.126.72
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7F8A606A31D;
-	Thu, 22 Oct 2026 10:40:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B7F8A606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6652606A319;
+	Thu, 22 Oct 2026 11:31:06 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6652606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=Nvidia.com header.i=@Nvidia.com header.a=rsa-sha256 header.s=selector2 header.b=G35DHwzS
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G7vQ+OQdBP8Fdx5m/Ur55UwI3bX97V58C3zAE2kgcTN3T9oADtUauLGECTHTCLk7SIjFOUrW6Fcvs81LLnu4p66BeIFlW/O5Nuvlp240bvXIbdjm3xRpEPg6wpLFfYqQHgfOrxtrgW7ZSJ2q8jB6n9Jl4x8wEsVuhp+6OFk+LrAJkSLoECM6O8iLWfFkgldQj0DldS1H8VYVI8HFcSh/0y+yioV4vFGA2LEUKEqEspiPeLSNWxqJ7A/LBAbKqwPRSHb7uVTs+viY6dodYE70utTHG38mLxJCBkVxA8nBZNlvZjG9t7fcGMO2omVPhh9j+dOniUqdM4Ounooanh26sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kM5Iz6iSbrgwtqeY3LsEOsYK1DVhh8NqFmIjlrOkz+Y=;
- b=lQjAmWYMXwEzpUMCJUG1VXaJhq4Fk6a12mikyYyeXrOQGpLilRM3o1QKlJuVUh5MDUjTWXmfp8EXljqapNSuVz56ylhxY+fOwRSMX96gboUH2Bwv30huKcL8K694JMRA2MT8J/QIuIf/JQsTzxfNkcvvVWLxBDcyAfaY6GRWWDFKaMILSG/kUDxd4S3OuC+cz8dEjfSQmqXbuAFiD8rl/7IygnJ567EejZok1ersu2Vkl/5hbx3p5AVz2XHNMbzKqQafm7IVv/BpIe5Z0gYbSMuUPqT2D4kAs91pF33+ADcvJSf3vab/iIEDsa6IlQaaeyuP5yGGXdGyxpZsb8faHg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kM5Iz6iSbrgwtqeY3LsEOsYK1DVhh8NqFmIjlrOkz+Y=;
- b=G35DHwzSz7sNT/Z+4Ye5bcpTx3MdjmvCUzNGl9CmRKQ203rSynLzROw+MGfbC8JxkVJjqX0BKA1Lk+Rg0iJziJcHe70/6vZlOCQzj1FboAjQPVXRTFQFCsUu/Zs7Ebplv6rmvBL92lEbNDOsPXMGVfyNG5pnZCsBdRUmL4Sbz5RdlhnJa/MwgeIo3lhAUA4+W9EL0rlqNpyrSS49tPn7CR5PJ20or88sKFxntZVSPzMvniPU++DtGYFIDeWvwajUiNlvo4CtPJYnken5sL3UtxYC8THQuRsdI1ohO9yCTAcF0rMV/KERk6ipPLv55Rx3BTwWETaGJrNt26rtLtHKwA==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB5974.namprd12.prod.outlook.com (2603:10b6:510:1d9::19)
- by MW4PR12MB6756.namprd12.prod.outlook.com (2603:10b6:303:1e9::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.546.15; Thu, 22 Oct
- 2026 10:40:35 +0000
-Received: from PH7PR12MB5974.namprd12.prod.outlook.com
- ([fe80::f5a5:bbc3:e9da:f8a0]) by PH7PR12MB5974.namprd12.prod.outlook.com
- ([fe80::f5a5:bbc3:e9da:f8a0%3]) with mapi id 15.21.0546.016; Thu, 22 Oct 2026
- 10:40:35 +0000
-From: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Donald Shannon <donalds@nvidia.com>,
-	linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 04/11] dt-bindings: usb: Add NVIDIA LSTP USB adapter
-Date: Thu, 22 Oct 2026 13:40:27 +0300
-Message-ID: <20261022104025.3956402-4-aambrozewicz@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <9b0436bf-3430-460c-b03b-f943eaca9685@kernel.org>
-References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com> <20261012-lstp-usb-adapter-v1-4-aambrozewicz@nvidia.com> <9b0436bf-3430-460c-b03b-f943eaca9685@kernel.org>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0388.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f7::17) To PH7PR12MB5974.namprd12.prod.outlook.com
- (2603:10b6:510:1d9::19)
+	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=KjZLqQFO
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 69MBUKvdC860903, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1792668620; bh=LPtOsPhf3qNQ+WDuZ7lQU3mMhCaKIt/W3KycpH260F0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=KjZLqQFOZ6igvd4j/LD+GCBqXv8ksx0Ode2EwRUPaWnhthYA0ruv6iWFdce3E+zEK
+	 FraR73SRtGNZ4HnmryLIZlp+7QgDrTUNqSlIwv81FhsCNOGu9apWqXjiSl6vzhXXiU
+	 rC14ArKGShEe4o+qHlK66oQZaxNX+S7711nS5QLQXapiezMbK9/r9LZCudeYCapwQ0
+	 fbzooMFxqt5s5eH/uwlQ13FilKykpILyIrv6yMoJtLqgeFMyVrfQzVB8MrudKx5mpH
+	 D5/2tpiWmkMnYav86CJTyRC0xW0tRFWn4Ul2t6aw1xWM2s3xmgcMEakA107inKZDiI
+	 2KqKpsyvz+t3g==
+Received: from mail.realtek.com (rtkexhmbs04.realtek.com.tw[10.21.1.54])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 69MBUKvdC860903
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 22 Oct 2026 19:30:20 +0800
+Received: from RTKEXHMBS06.realtek.com.tw (10.21.1.56) by
+ RTKEXHMBS04.realtek.com.tw (10.21.1.54) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Thu, 22 Oct 2026 19:30:19 +0800
+Received: from RTKEXHMBS06.realtek.com.tw ([::1]) by
+ RTKEXHMBS06.realtek.com.tw ([fe80::b3cc:c263:b82d:e87c%10]) with mapi id
+ 15.02.2562.049; Thu, 22 Oct 2026 19:30:19 +0800
+From: Chih Kai Hsu <hsu.chih.kai@realtek.com>
+To: Jakub Kicinski <kuba@kernel.org>
+CC: "davem@davemloft.net" <davem@davemloft.net>, "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>, nic_swsd <nic_swsd@realtek.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"edumazet@google.com" <edumazet@google.com>, "bjorn@mork.no" <bjorn@mork.no>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, "mail@birger-koblitz.de" <mail@birger-koblitz.de>
+Subject: RE: [PATCH net-next v7 08/10] r8152: add TGPHY register access for
+ RTL8157 and RTL8159
+Thread-Topic: [PATCH net-next v7 08/10] r8152: add TGPHY register access for
+ RTL8157 and RTL8159
+Thread-Index: AQHdW7Sx8HBQfKfQi0mxvAxbM5jHf7cGr0yAgAKXA8A=
+Date: Thu, 22 Oct 2026 11:30:19 +0000
+Message-ID: <7fca8dc9e982437898d725aad8601969@realtek.com>
+References: <20261014081904.6491-9-nic_swsd@realtek.com>
+ <20261021005213.1255035-1-kuba@kernel.org>
+In-Reply-To: <20261021005213.1255035-1-kuba@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,85 +88,512 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5974:EE_|MW4PR12MB6756:EE_
-X-MS-Office365-Filtering-Correlation-Id: e720143e-098b-4fc5-cc37-08df3028e73e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|10067099003|18002099003|22082099003|261009223027099003|4143699003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info:
-	2Xi3xB9V7/xBYjmZDy/npbD+2UFyu2dBhGzgiGAZijpMZ0D8uY+/qdiiHwzIbuw/lb2oNJyMaqrTQGoLbQYJLS1Pb9ulr7okn5romvrKlvRBzOUhyI7jm2paISFR8JQnmRCNtbneGJuZGsdFSxHy8vAICznE9opCP1VUhREkH94SXaSXC3TiFnZydaQO8WQXwH4pxR49B1cCf9BG1S/3vHtR0GqzRowA+zT1aOPSrWIe3Nr/zwXNfy9biK60xSk6wEwQntvvlgkwZtUMMLoxhcbSNi6p4N9btHLjMpGdx84YlnrrFcrWHDKdaj53832ph/jYPeEMQrrS3AeJuAZVL6VUICpF+ljoP7E0zPIk/evBDvd6J3BrcCZfyOZ6aAgcyTutWuQlP2nFOXZOo9lgCcy+9Ix4l6br7BH29xTNgPQeip0/g95j1KiZ9I939Hi4BRWi3A7mShV0zZa4pS+Hgah90vUtCEay4bPGq4I2iZD2edIAnmxMUcj2UWkNv2oLE2jxbmyeQFwrNTLmwCHfGIU5Ydfh/8gJZvwKtA3zzNai6sko4H0pitkgmiVclsoXJYfOdRIPSk02t4aoXW2g2Xp2zh1DciF+pA+zYZEUaMLC+3codve7nGvxeX/u8MSE9AiP+lVsrSIyEJaAcfiJrErwCtipR0R1c/aX7cM2v7c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5974.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(10067099003)(18002099003)(22082099003)(261009223027099003)(4143699003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?iNQAGpPEiUx/in5hZtHiTWNN/HDUUn8Wc/kBR52r2wuUw3ZhMLxw9beOl2wk?=
- =?us-ascii?Q?F7Toldi+JsgVbgCsGqXOx9lz2ipwszuAVXDrKfgVTMQXei7ZI9A2L9934BX9?=
- =?us-ascii?Q?lZsRZEQ178RhIBAfpPoQEexJ1nhUdYKrYO1HP4gAWgjjDIbOEWyVLs4PkID5?=
- =?us-ascii?Q?S8mQePoMBB/hAK7wOuiYKSmn1Por+K2cEa9q8Sh+iaWT8vDJsXClQeoKV4SI?=
- =?us-ascii?Q?40aRD2aa2VEJynmmERxxAJ+qWBwzwYEUUpdAAnWOoMglUrA8GFXb4NP1Wj5I?=
- =?us-ascii?Q?1x9BG93p/pjbrK8+lMJj4x1fqh3p4jJAmDY9FsVVq5KpmLxluXHZwcsNrYTB?=
- =?us-ascii?Q?VBu28VH5BibLjvsPYd54srFVcixXUMccuy1u4VrI8l/WRm9MN7pkRT7OrnMZ?=
- =?us-ascii?Q?TvY0oKjaYCvHKAxUCCuPMh7LSSwLv+ZvMx817RRnw/dxt5E3+bbUbCuF7+kn?=
- =?us-ascii?Q?5BNG6Q4WzzkwPiNE9OtXPp62sFyi4Yc5Pi9X4HH9wrIlgRcyGOGW+iwwgJ7+?=
- =?us-ascii?Q?sijQNrecMcfwtIvk7+QyxCglr8RNcmz2oHsJ7hXBQMfmCptymDjRAM+MFNmV?=
- =?us-ascii?Q?p8MklxUFnVYq1EtKuvMd1AhJfuqH8nDi3CgSYLg19cSeMLYcClHYJM+g5+Ab?=
- =?us-ascii?Q?GxAGU8UgpJfWbEaGxyhD2bL9phzOan7SpRLqWMWvL/utKVWi8KUIWVtNO1NH?=
- =?us-ascii?Q?S6FdJpsYJqEsbcYIgDdZa5NsiT95T4B/Cxe1UMdlUDVS7OQyDA/J1VXP/xXF?=
- =?us-ascii?Q?RRrt4gJ/MDYQc82TLOpMBPh79JS7nxe0sAeiIap/vCf4K0Qt30vwQWbCZCQ9?=
- =?us-ascii?Q?GtN5kdZ8/rf3ShOqA0p7mV01IEewQ3LH5LFYHp15nRFEBF/tW8NJu9CVivcE?=
- =?us-ascii?Q?fa11SyHaPvLt3VdYI5p6b1Y/RNDqLMQ+mcB7oXLE3+x94FSs+wm4friSN4Sq?=
- =?us-ascii?Q?7gW37pJKKcXIRAXhrVvZj/koBisRABqDYb6QYWmHG84Ww1gjjwZgfK0X0rHM?=
- =?us-ascii?Q?LgoMVZIYxNZ9QKm0gpyJSSN7si0WJZJdxbnrGu1HaU3hc5s6zYlnbhoimMo+?=
- =?us-ascii?Q?eYOk6R60HmuAvCOAqxLzDsnNxxoWAwpLVcLduJVv9C3xTCdjBRDXH7GQoFoQ?=
- =?us-ascii?Q?XYV0V2LwLa5R92djrwv5SdNwvnakcqyUA9fWGzWvS/cDNAuJLOwIBuiqxmub?=
- =?us-ascii?Q?UHiabZelubBWEi40k5c/VMXOkNDKAbTzbzdHGkOJHwkRiHQJxKTTzU7heuF4?=
- =?us-ascii?Q?m3yNRcLf8sjHOF/FmCNH6eUohIzcOfyL1dhnwPVSkBpYGj7rxhICdI3DkmGJ?=
- =?us-ascii?Q?YqVT5g3rM3YmbfhderXcfeXuO0MW/ZQ1yviyO349jnzIkFM387CCX7KUILXi?=
- =?us-ascii?Q?sECF+3X2jI5gv9+mRLzY9H69qX3zQQ0XFknpciDEPr1qYdzcAqyIdXO93ms5?=
- =?us-ascii?Q?EBZjai4jiDsJmOUd9fxctYq3V1X9mQTkBDJRmeGt9WVfU2Q/3IZsCKahGlpZ?=
- =?us-ascii?Q?HMYPVECAmZ0P63o2sdIFQjVUILVi47wlX4FtOoPpQR8V3c+cSs9JzNOuwncn?=
- =?us-ascii?Q?Hx9nkhKZE18IVtntunuZe7RVtpjT0wisxYW9iMNZwgln+Ncow0TwfsZpq9xg?=
- =?us-ascii?Q?fpYxDs4mzZxAu9ADzRAhjaFR/8c1QSS5pHrXw9PhmmLOVaLP8HYlJNrJiT2X?=
- =?us-ascii?Q?5Um+JK7xtdn0YxWgIiKTAG4SzdGwewVALcHDIIp5oFZk+YOSYDTsTgW3BXpg?=
- =?us-ascii?Q?Vwgx0P9tsQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e720143e-098b-4fc5-cc37-08df3028e73e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5974.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2026 10:40:34.8627
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zM3PFWnoe0/IRr8iEA5Sya7vUnPEKRoXhyXIl1cKSMF8PrJl+L6T3oBzK80/RwJvCYSFt6TnNV88IGiw+X2vQQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6756
 
-On Tue, Oct 13, 2026 at 08:17:18AM +0200, Krzysztof Kozlowski wrote:
-> No, compatible, not presence of properties defines whether device has
-> SPI or not.
-[...]
-> What's more, your top level compatible EXACTLY defines all
-> this, thus none of your properties are needed as they are implied by the
-> top-level compatible.
+On Wednesday, October 21, 2026 8:52 AM, Kicinski wrote:
+> This is an AI-generated review of your patch. The human sending this emai=
+l has
+> considered the AI review valid, or at least plausible.
+> ---
+> r8152: add TGPHY register access for RTL8157 and RTL8159
+>=20
+> This adds a TGPHY command channel backend for PHY register access on
+> RTL8157 and RTL8159. It is selected through new rtl_ops.phy_read and
+> phy_write hooks. The helpers built on ocp_reg_read()/ocp_reg_write() now
+> return int, and a subset of callers propagate the errors.
+>=20
+> > This patch propagates the status only where an errno would otherwise
+> > be taken for register content or reported as
+> > success: the pause parameters, rtl8152_set_speed(),
+> > SIOCGMIIREG/SIOCSMIIREG, the PHY patch handshake and the PHY firmware
+> > version checks.
+> >
+> > Not handled here, and left to a follow-up series: the remaining
+> > callers, notably the hw_phy_cfg and init sequences,
+> > r8153_phy_status(), r8152_mmd_read(), EEE handling and the MII library
+> > callbacks, still ignore the status.
+>=20
+> [Severity: Medium]
+> Is this description accurate? Some of the callers listed as still ignorin=
+g the status
+> do act on it in this diff.
+>=20
+> r8153_get_eee() returns an errno from each of its ocp_reg_read() calls:
+>=20
+>         ret =3D ocp_reg_read(tp, OCP_EEE_ABLE, &val);
+>         if (ret < 0)
+>                 goto out;
+>=20
+> r8153_phy_status() now leaves its poll on the first failed read:
+>=20
+>         if (ocp_reg_read(tp, OCP_PHY_STATUS, &data) < 0)
+>                 break;
+>=20
+> rtl8152_get_link_ksettings() is not in either list. It now fails the whol=
+e request
+> when the OCP_10GBT_CTRL or OCP_10GBT_STAT read fails.
+>=20
+> rtl8153_in_nway(), r8156_mdio_force_mode(), r8156_eee_en() and
+> rtl8152_fw_phy_fixup() also return early on a read failure now.
+>=20
+> Could the commit message be updated to cover these changes?
 
-It cannot here: firmware decides the channel set, so one VID:PID
-carries different channels per board, several of one type.
+Sure, I will update the commit message.
 
-On folding into the parent [1]: one device can have several I2C buses
-as well as SPI and GPIO channels, each with its own devices, line names
-and hogs, and other nodes reference the GPIO channels by phandle. Each
-needs a node.
+>=20
+> > diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c index
+> > 558ccb4682c27..7c0de56266963 100644
+> > --- a/drivers/net/usb/r8152.c
+> > +++ b/drivers/net/usb/r8152.c
+>=20
+> [ ... ]
+>=20
+> > @@ -1664,16 +1675,33 @@ static void ocp_reg_write(struct r8152 *tp,
+> > u16 addr, u16 data)
+>=20
+> [ ... ]
+>=20
+> > +static int r8152_mdio_read(struct r8152 *tp, u32 reg_addr) {
+> > +     u16 data;
+> > +     int ret;
+> > +
+> > +     ret =3D ocp_reg_read(tp, OCP_BASE_MII + reg_addr * 2, &data);
+> > +
+> > +     return ret < 0 ? ret : data;
+> >  }
+>=20
+> [Severity: Medium]
+> On RTL8157/RTL8159, can this pass -ETIMEDOUT to the generic MII library a=
+s if
+> it were a BMCR value? read_mii_word() is the mii_if_info.mdio_read callba=
+ck,
+> and it returns the result of r8152_mdio_read() unchanged.
+>=20
+> mii_nway_restart() in drivers/net/mii.c does:
+>=20
+>         bmcr =3D mii->mdio_read(mii->dev, mii->phy_id, MII_BMCR);
+>=20
+>         if (bmcr & BMCR_ANENABLE) {
+>                 bmcr |=3D BMCR_ANRESTART;
+>                 mii->mdio_write(mii->dev, mii->phy_id, MII_BMCR, bmcr);
+>                 r =3D 0;
+>         }
+>=20
+> -ETIMEDOUT is 0xffffff92, which has BMCR_ANENABLE set. write_mii_word()
+> only filters RTL8152_INACCESSIBLE, and a TGPHY timeout does not set that =
+flag.
+> So 0xff92 would be written to BMCR. That sets BMCR_RESET, BMCR_LOOPBACK,
+> BMCR_PDOWN and BMCR_ISOLATE, and the call still returns 0.
+>=20
+> The path is:
+>=20
+> rtl8152_nway_reset()
+>   mii_nway_restart()
+>     read_mii_word()
+>       r8152_mdio_read()
+>         r8157_phy_read()
+>           rtl_tgphy_access()
+>             wait_tgphy_cmd_ready() returns -ETIMEDOUT
+>=20
+> rtl_ethtool_set_eee() also calls mii_nway_restart(). In addition,
+> mii_ethtool_get_link_ksettings() would decode link modes from the errno.
+>=20
+> Before this patch, the only errno read_mii_word() could return was -ENODE=
+V,
+> and write_mii_word() filters that case.
+>=20
+> The commit message mentions this case, and the later patches in the serie=
+s do
+> not seem to address it. rtl_ops_init() switches RTL_VER_16/17 to
+> r8157_phy_read() in this patch. Could read_mii_word()/write_mii_word()
+> handle the errno before or in this patch?
 
-Is a node per I2C, SPI and GPIO channel acceptable? If not, how would
-you describe them? The interface node I'll answer separately. Why DT
-at all is in my reply to Greg [2], the other open questions in the
-RFC [3].
+The driver uses mii_nway_restart() and mii_ethtool_get_link_ksettings(), re=
+turning 0
+when tgphy timed out can prevent the two functions from using the -ETIMEDOU=
+T as
+a BMCR/BMSR value.
 
-[1] https://lore.kernel.org/r/58cbdffa-7574-4daa-851b-dbb50012f158@kernel.org
-[2] https://lore.kernel.org/r/20261016084443.1972351-1-aambrozewicz@nvidia.com
-[3] https://lore.kernel.org/r/20261012-lstp-dt-rfc-v1-aambrozewicz@nvidia.com
+I will fix this in the next version.
 
-Thanks,
-Adrian
+>=20
+> > @@ -1906,100 +1950,217 @@ static void ocp_byte_set_bits(struct r8152
+> > *tp, u16 type, u16 index, u8 set)
+>=20
+> [ ... ]
+>=20
+> > +static int wait_tgphy_cmd_ready(struct r8152 *tp) {
+> > +     u16 ocp_data;
+> > +     int ret;
+> > +
+> > +     ret =3D read_poll_timeout(ocp_read_word, ocp_data,
+> > +                             test_bit(RTL8152_INACCESSIBLE,
+> &tp->flags) ||
+> > +                             !(ocp_data & TGPHY_CMD_BUSY),
+> > +                             2000, 20000, false, tp,
+> > +                             MCU_TYPE_USB, USB_TGPHY_CMD);
+> > +
+> > +     if (ret)
+> > +             dev_err(&tp->intf->dev, "TGPHY cmd busy timeout\n");
+>=20
+> [Severity: Medium]
+> What happens if TGPHY_CMD_BUSY stays set while USB transfers still work?
+> Each PHY access then waits up to 20ms here, or 40ms for a read. It also p=
+rints
+> another error that is not ratelimited. There is no recovery, and
+> RTL8152_INACCESSIBLE is never set.
+>=20
+> Most callers ignore the status and keep going. r8157_hw_phy_cfg() makes w=
+ell
+> over a hundred PHY accesses, and the firmware loaders do one write per
+> firmware word:
+>=20
+> rtl8152_fw_phy_nc_apply() {
+>     ...
+>         for (i =3D 0; i < num; i++)
+>                 ocp_reg_write(tp, OCP_SRAM_DATA,
+> __le16_to_cpu(data[i]));
+>     ...
+> }
+>=20
+> rtl8152_fw_phy_union_apply() has the same loop.
+>=20
+> All of this runs with tp->control held in the probe, resume, open and res=
+et paths.
+> Could this stall for seconds or minutes and flood the log?
+> Would ratelimiting the message, or stopping the sequence after the first
+> timeout, avoid that?
+
+I prefer to ratelimit the message.
+
+>=20
+> > +
+> > +     return test_bit(RTL8152_INACCESSIBLE, &tp->flags) ? -ENODEV :
+> > +ret; }
+> > +
+> > +static int rtl_tgphy_access(struct r8152 *tp, u16 addr, u16 *data,
+> > +bool write) {
+> > +     u16 cmd =3D 0;
+> > +     int ret;
+> > +
+> > +     ret =3D wait_tgphy_cmd_ready(tp);
+> > +     if (ret < 0)
+> > +             goto out;
+> > +
+> > +     if (write) {
+> > +             cmd |=3D TGPHY_CMD_WR;
+> > +             ocp_write_word(tp, MCU_TYPE_USB, USB_TGPHY_DATA,
+> *data);
+> > +     }
+> > +
+> > +     ocp_write_word(tp, MCU_TYPE_USB, USB_TGPHY_ADDR, addr);
+> > +
+> > +     cmd |=3D TGPHY_CMD_BUSY;
+> > +     ocp_write_word(tp, MCU_TYPE_USB, USB_TGPHY_CMD, cmd);
+>=20
+> [Severity: Low]
+> This is a minor point. The status of the USB_TGPHY_DATA, ADDR and CMD
+> transfers is not checked here.
+>=20
+> A misdirected command does not seem possible. r8152_control_msg() calls
+> rtl_set_inaccessible() when a control transfer fails, so a CMD write that=
+ follows a
+> failed ADDR write is never sent.
+>=20
+> rtl_tgphy_access() can still return 0 once after a failed transfer, eithe=
+r for a write
+> or when the final USB_TGPHY_DATA read fails. Would it be cleaner to retur=
+n
+> -ENODEV when RTL8152_INACCESSIBLE is set at the end of the transaction?
+
+Agree. Returning -ENODEV when RTL8152_INACCESSIBLE is set is cleaner.
+
+>=20
+> > +
+> > +     if (!write) {
+> > +             ret =3D wait_tgphy_cmd_ready(tp);
+> > +             if (ret < 0)
+> > +                     goto out;
+> > +
+> > +             *data =3D ocp_read_word(tp, MCU_TYPE_USB,
+> USB_TGPHY_DATA);
+>=20
+> [Severity: Medium]
+> This isn't a bug introduced by this patch, but ocp_read_word() ignores th=
+e
+> return value of generic_ocp_read():
+>=20
+> ocp_read_word() {
+>     ...
+>         generic_ocp_read(tp, index, sizeof(tmp), &tmp, type | byen);
+>=20
+>         data =3D __le32_to_cpu(tmp);
+>     ...
+> }
+>=20
+> RTL8152_INACCESSIBLE could be set between the second
+> wait_tgphy_cmd_ready() and this read, for example by
+> rtl8152_disconnect()->rtl_set_unplug(). In that case generic_ocp_read() r=
+eturns
+> -ENODEV early, tmp stays uninitialized, and rtl_tgphy_access() returns 0.
+> SIOCGMIIREG could then copy that stack data into
+> data->val_out.
+
+The driver didn't propagate the error of ocp_read*; I think I should follow=
+ the
+original behavior.
+
+Propagating and handling the error of generic_ocp_read() is out of scope.
+
+>=20
+> dev_ioctl() requires CAP_NET_ADMIN for SIOCGMIIREG, so unprivileged users
+> cannot reach this. r8152_phy_read() already has the same flaw.
+>=20
+> [ ... ]
+>=20
+> > @@ -4177,11 +4338,13 @@ static void r8153b_green_en(struct r8152 *tp,
+> > bool enable)
+> >
+> >  static u16 r8153_phy_status(struct r8152 *tp, u16 desired)  {
+> > -     u16 data;
+> > +     u16 data =3D 0;
+> >       int i;
+> >
+> >       for (i =3D 0; i < 500; i++) {
+> > -             data =3D ocp_reg_read(tp, OCP_PHY_STATUS);
+> > +             if (ocp_reg_read(tp, OCP_PHY_STATUS, &data) < 0)
+> > +                     break;
+> > +
+>=20
+> [Severity: Medium]
+> On RTL8157/8159, one 20ms TGPHY busy timeout now ends this poll, which
+> previously ran for up to 500 x 20ms. The function then returns 0 or a sta=
+le
+> masked value. Is that safe for callers that switch on the result?
+>=20
+> r8157_hw_phy_cfg() {
+>     ...
+>         data =3D r8153_phy_status(tp, 0);
+>         switch (data) {
+>         case PHY_STAT_EXT_INIT:
+>                 rtl8152_apply_firmware(tp, true);
+>                 ocp_reg_clr_bits(tp, 0xa466, BIT(0));
+>                 ocp_reg_clr_bits(tp, 0xa468, BIT(3) | BIT(1));
+>                 break;
+>         case PHY_STAT_LAN_ON:
+>         case PHY_STAT_PWRDN:
+>         default:
+>                 rtl8152_apply_firmware(tp, false);
+>                 break;
+>         }
+>     ...
+> }
+>=20
+> A return of 0 falls into the default case. That calls rtl8152_apply_firmw=
+are(tp,
+> false) and skips the EXT_INIT release writes, even when the PHY really is=
+ in
+> PHY_STAT_EXT_INIT. r8159_hw_phy_cfg() and
+> r8157_init() follow the same pattern.
+>=20
+> The later r8153_phy_status(tp, PHY_STAT_LAN_ON) call also stops after its=
+ first
+> failed read. The PFM, ALDPS and related settings are then programmed befo=
+re
+> the PHY reaches LAN_ON, and WARN_ON_ONCE() fires.
+>=20
+> Before this patch, the loop always ran to its full timeout on these chips=
+.
+
+r8153_phy_status() should skip the status check and keep polling when
+ocp_read_word() failed instead of early break.
+
+>=20
+> [ ... ]
+>=20
+> > @@ -4598,25 +4762,29 @@ static int rtl_phy_patch_request(struct r8152
+> *tp, bool request, bool wait)
+> >       }
+> >
+> >       for (i =3D 0; wait && i < 5000; i++) {
+> > -             u32 ocp_data;
+> > -
+> >               if (test_bit(RTL8152_INACCESSIBLE, &tp->flags))
+> >                       return -ENODEV;
+> >
+> >               usleep_range(1000, 2000);
+> > -             ocp_data =3D ocp_reg_read(tp, OCP_PHY_PATCH_STAT);
+> > -             if ((ocp_data & PATCH_READY) ^ check)
+> > +             ret =3D ocp_reg_read(tp, OCP_PHY_PATCH_STAT, &ocp_data);
+> > +             if (ret < 0)
+> > +                     return ret;
+> > +             else if ((ocp_data & PATCH_READY) ^ check)
+> >                       break;
+> >       }
+> >
+> > -     if (request && wait &&
+> > -         !(ocp_reg_read(tp, OCP_PHY_PATCH_STAT) & PATCH_READY)) {
+> > -             dev_err(&tp->intf->dev, "PHY patch request fail\n");
+> > -             rtl_phy_patch_request(tp, false, false);
+> > -             return -ETIME;
+> > -     } else {
+> > -             return 0;
+> > +     if (request && wait) {
+> > +             ret =3D ocp_reg_read(tp, OCP_PHY_PATCH_STAT, &ocp_data);
+> > +             if (ret < 0) {
+> > +                     return ret;
+> > +             } else if (!(ocp_data & PATCH_READY)) {
+> > +                     dev_err(&tp->intf->dev, "PHY patch request fail\n=
+");
+> > +                     rtl_phy_patch_request(tp, false, false);
+> > +                     return -ETIME;
+> > +             }
+> >       }
+>=20
+> [Severity: Medium]
+> When request is true, PATCH_REQUEST is already set in OCP_PHY_PATCH_CMD
+> by the time these two new return ret paths run. Do they leave it asserted=
+? The
+> -ETIME path releases it with rtl_phy_patch_request(tp, false, false), but=
+ the
+> errno paths return without doing that.
+
+Agree. Even if the ocp_read_word() failed, the driver should try to release=
+ it with
+rtl_phy_patch_request() instead of returning without doing that.
+
+>=20
+> Callers treat any non-zero return as "not acquired" and do not release:
+>=20
+> r8157_hw_phy_cfg() {
+>     ...
+>         if (rtl_phy_patch_request(tp, true, true))
+>                 return;
+>     ...
+> }
+>=20
+> r8159_hw_phy_cfg() and rtl_ram_code_speed_up() do the same. A TGPHY
+> timeout on the OCP_PHY_PATCH_STAT read would leave the PHY in patch
+> request mode. r8157_hw_phy_cfg() would also skip the rest of its configur=
+ation.
+>=20
+> [ ... ]
+>=20
+> > @@ -6629,7 +6815,10 @@ static int rtl8152_set_speed(struct r8152 *tp, u=
+8
+> autoneg, u32 speed, u8 duplex,
+> >               }
+> >
+> >               if (tp->support_2500full || tp->support_5000full ||
+> tp->support_10000full) {
+> > -                     orig =3D ocp_reg_read(tp, OCP_10GBT_CTRL);
+> > +                     ret =3D ocp_reg_read(tp, OCP_10GBT_CTRL, &orig);
+> > +                     if (ret < 0)
+> > +                             goto out;
+> > +
+> >                       new1 =3D orig &
+> ~(MDIO_AN_10GBT_CTRL_ADV2_5G | MDIO_AN_10GBT_CTRL_ADV5G
+> >                                       |
+> MDIO_AN_10GBT_CTRL_ADV10G);
+> >
+>=20
+> [Severity: Medium]
+> The reads are checked now, but the writes in rtl8152_set_speed() still ar=
+e not.
+> The commit message names this function as one where an errno is no longer
+> reported as success:
+>=20
+>         if (orig !=3D new1) {
+>                 r8152_mdio_write(tp, MII_ADVERTISE, new1);
+>                 tp->mii.advertising =3D new1;
+>         }
+>         ...
+>         if (orig !=3D new1)
+>                 r8152_mdio_write(tp, MII_CTRL1000, new1);
+>         ...
+>         if (orig !=3D new1)
+>                 ocp_reg_write(tp, OCP_10GBT_CTRL, new1);
+>=20
+> If one of these writes times out on RTL8157/8159, tp->mii.advertising is =
+still
+> updated. The function returns 0 as long as the BMCR write succeeds.
+> rtl8152_set_link_ksettings() then saves tp->advertising, tp->speed and
+> tp->duplex as if they had been applied.
+
+Agree. If the write failed, tp->mii.advertising should not be updated.
+
+>=20
+> The PHY patch handshake has the same gap. rtl_phy_patch_request() does no=
+t
+> check the result of the PATCH_REQUEST write:
+>=20
+>         if (request) {
+>                 ocp_reg_set_bits(tp, OCP_PHY_PATCH_CMD,
+> PATCH_REQUEST);
+>                 check =3D 0;
+>         } else {
+>                 ocp_reg_clr_bits(tp, OCP_PHY_PATCH_CMD,
+> PATCH_REQUEST);
+>                 check =3D PATCH_READY;
+>         }
+>=20
+> This has three effects:
+>=20
+> - With wait false, a failed request or release returns 0. The firmware
+>   path uses this mode through rtl_pre_ram_code(..., !power_cut).
+> - With request true, a failed write polls for more than 5 seconds and
+>   then returns -ETIME instead of the real errno.
+> - With request false and wait true, a failed release runs all 5000
+>   iterations and still returns 0.
+>=20
+> rtl_pre_ram_code() also turns any error into -ETIME, and
+> rtl8152_apply_firmware() ignores its return value.
+>=20
+> Should these write results be checked as well?
+
+Yes. If the previous write failed, rtl_phy_patch_request() should return ea=
+rly
+and pass the errno.
+
+>=20
+> > @@ -6660,20 +6849,23 @@ static int rtl8152_set_speed(struct r8152 *tp,
+> u8 autoneg, u32 speed, u8 duplex,
+> >       if (test_and_clear_bit(PHY_RESET, &tp->flags))
+> >               bmcr |=3D BMCR_RESET;
+> >
+> > -     r8152_mdio_write(tp, MII_BMCR, bmcr);
+> > +     ret =3D r8152_mdio_write(tp, MII_BMCR, bmcr);
+> > +     if (ret < 0)
+> > +             goto out;
+>=20
+> [Severity: Medium]
+> Is the pending PHY reset lost when this write fails? PHY_RESET is cleared=
+ before
+> the write. On RTL8157/8159, r8152_mdio_write() can now return -ETIMEDOUT
+> before anything is sent to the hardware:
+>=20
+> rtl_tgphy_access() {
+>         ...
+>         ret =3D wait_tgphy_cmd_ready(tp);
+>         if (ret < 0)
+>                 goto out;
+>         ...
+> }
+>=20
+> This can happen if the preceding OCP_10GBT_CTRL write is still busy.
+>=20
+> r8157_hw_phy_cfg() and r8159_hw_phy_cfg() end with set_bit(PHY_RESET,
+> &tp->flags) so that the next rtl8152_set_speed() resets the PHY. If this =
+write fails,
+> BMCR_RESET never reaches the PHY and the flag is not set again.
+>=20
+> Should PHY_RESET be restored on this error path?
+
+Yes. If the write timed out, the driver should restore PHY_RESET. This give=
+s the=20
+device another chance to reset PHY.
+
+>=20
+> [ ... ]
+
+Best Regards,
+Chih-Kai
