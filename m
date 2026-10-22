@@ -1,88 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792649547;
-	b=EfIHSdjUwmOqTd3Ch5v31b3WjdwsqONrwiLwwfQXh+GWccE5yObUuY1wsaDccDstqtd7
-	 ZPKN+PnirR2f++qhPtAxilQ7FNFAIlRX1UDM2j/TfBm2AeyhJkffoV6EqicAJt2KxmFxP
-	 eAyn+Fg8J7MNMUtq2AfXANlVYLMYEX5rCuvaJOqaenAelbh8CVCfFcAPdx6iy29QNaVfS
-	 KDFZ9UWFYgJvQhSQ3eqHL2Th0cMGwJCGKMcsAo9RRbo2IvcF5+y+GAydQDl+6W0g4b0Ak
-	 tMqVJFj2T3r+af6jMYyVnTycIqefxkOrA8TEsPH6xtk2wl43fzAENAjo3gkgeV6a30g==
+	t=1792649760;
+	b=ktb1uuhiJ2As+uHyOjhjN+FK4HwDgLxx1ZVPYyNg0K9+yTSoKK8s5SnBJY2glhqedx5N
+	 MZlOgOSNcYZn6cdn5yXxGA47KOnAEvrwg2uwhtZIX/5FRbYJ1TmHZTc/ffmmElBxJRaVe
+	 i1Izq5IcMsr18m6S0rZqd7s93FQ9XTh7cy/Y87CwHWnAlr7gDNrJ3BO88ZtA4/5asQdYA
+	 WE72AL03/WBI6KCacxnv1g9h8numETdlXUvUyM7Cmwr8KrFiB6Id/C00MrbLLamzFLQxm
+	 Z3Ro6uxD57FMx4xVO4kX7Dn+3y4CZnAlChOk2QVC8xtKG+/2qTfAp/Pt0+jFZiBmx1A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792649547;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=5pnnS+Y/wXmkMAXZOCcNK/efgofVbcU1KgsjqBCjmI0=;
-	b=TmGU+regVpxkhM3b53mIkyv0ocZk2Kv+HkPmNvDySy3ouoywcF1Nyvhah1CZZFaGfnkD
-	 4g+03+wTF17WIsNW9VDpvCZC9Mw8GYuJkS8f0fAorQw35s08niC6U52uS1vQFr1pWHJt8
-	 v2sYB9BLLytMX2wW6ePyR3M9T8WThr+SABTzMnn80/nnm/RZlKTvXP7cZU9tsLwmJQYGX
-	 cyAuXYJ4r3QwdUGzrnwIwDCt3PnW0wY60heZkJbcUYF7p2tCXMz6sB3Wyq+Mlrw5o+6Y+
-	 zKa3fZNTDlUMY01yxfO+zvBMCkVr+m85Sy//xocDRBsUnwPIv5DBD/YPau865UBT5Pg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792649760;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=Fvv040Yt3X6Tncl9PyddasEpSaYQNZJ3YnveAkKzmjw=;
+	b=oneoetq38yg5s7E8wwo2sJI13S6lDPoYU05HMzOZOiNOI5QPq2a0P8ZGTvdCmEJsaTkb
+	 pSKb5JUYRTVl3dp6g1FmEf67pGCmrIvgTHZbMQORoUP9+9g77y+FJxsiUduvyPfRJ9E7l
+	 eOLG9gEfSXwPR7VRGtvnuMEFZLvDmCQGF+inhcMwsiuT1PNvIDWbiPZIrgZfaLurxuoXM
+	 BnJPiETOsANSi3fjj/DSHGrEjorXLMRVcY9PR6R+uCAUU9WugNk9j6Ol9HBGBd4bC4nLU
+	 pZZsmNtQWEMt8gVCSUZBuOTyosWNEWOdvelwZMZUkAElXYdsqpUtRykXh1nEePX1Yig==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=googlemail.com;
-	spf=pass smtp.mailfrom=googlemail.com;
-	dkim=pass header.d=googlemail.com header.i=@googlemail.com header.a=rsa-sha256 header.s=20251104 header.b=WEjfd2nM;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VQWIJ4Q0;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9333C606A31D
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 06:12:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9333C606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=googlemail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=googlemail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6A23606A319
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 06:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=googlemail.com header.i=@googlemail.com header.a=rsa-sha256 header.s=20251104 header.b=WEjfd2nM
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e0d1da913so394470f8f.1
-        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 23:12:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20251104; t=1792649545; x=1793254345; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5pnnS+Y/wXmkMAXZOCcNK/efgofVbcU1KgsjqBCjmI0=;
-        b=WEjfd2nMGBudUT3dmNXOoIRpZoXAimNjhvXn4cwjyjKfQNR2yXufkltVvyF0wnboaJ
-         issnGpKDJ6HzdZfclQY2GqRp4/gRtewob7HY7mmKOOIbbLyktLG8FjeTyc65bY6Lf2o1
-         qoIIUqBIrrBvhaPU9KS2YamLkmLG621IvR0MJevh+Wowdp/L7nD5TGSi3ytxY0P9AN8l
-         T1covCMQdXiGv6JhX8yEV35s2kVBaKF+m+g/B7FD9l7+F/1LqlQXNOUpCMdi1ttyL3dt
-         /AM6S4pqyKGh1dzaoMSWU+/eq+B6uz2DkS5qeRtJ2hefWCGrsuh428qXO8EL+nNCtYKA
-         cd5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792649545; x=1793254345;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5pnnS+Y/wXmkMAXZOCcNK/efgofVbcU1KgsjqBCjmI0=;
-        b=m/7xSz/hnQYC/sEICRasetyzJI5VJDMj9Jzd/qyM802e354F244Hxmu9tVC9Sfo6LI
-         JhFE5u/9O94jVgg7NacyLurWU0KSO5UnzPdqHTu9MNTRRYK7lhqPlBYjxKiVcFpcTocc
-         mFB7bEaIsEPc+L7SDLOIwh/FWIkhPfbcAmD3tdam64bkKfQ6Ixzj6xskbenBPBISK7jq
-         OEZQ3f/WINv+N9jADMKPdw3bYJLYHs4TQu7IMrBz4BgqomQg6zkvn5atSi2VgqtuVI5n
-         tLeeRB+5e0y/AcCxq3uXZpaU34vrVf1Pa7Baj5Mu/yHaBMnHi8ovC0mmMQJEnXTlvqqy
-         MngQ==
-X-Gm-Message-State: AFq9FYJIv+pcmZtKpkQDgjiSL1d42lFqpDFGwXCQTBUfmmB3RosevzNc
-	QI4t856GB8om9GuvGx9ODa0frWSB5Sazd4cfWMlq/0TQ3vuG7VX03GaE1G+/8KgXI84=
-X-Gm-Gg: AYBFou2yOrEsbicuyOONjRQkzPaVL47TXKi16GvPizNz17/SJrgUUzzeFFxNW6c/0CW
-	PTZgDhQAyN0IOyFPhiPVQ9QZmiHInmyCZC5zBMBvT3S+v79Bayj2zuVUbuktbhiOkOemJJynLLk
-	O/In48ktzPQWDzalLOA60VS0Ry1IBV36SwsVhovY6DaE6rL3LXwY3vCniYh1E837Z0keOAQQuKI
-	Y/Jw7Cs+Ma4e842sc2TqPQ3tzJyzjWCElDZ75pmsL5wkV+48i6pTgKp0caYpAqvwDoiO2DQIsw8
-	u2bP+i4d0xcc11Y+PXL6nPTIuRWp4c47yH1tMcErLDqymSPmm8ovo9uCcZz0bnpvZxgH94/EW7h
-	lNjLWPCUuiDuiv1sAf1/O9Al6cA1w5DbcGugzla35gqSbPdqlj/I/t5OBlgEHKtP8eBDQWokIoF
-	VAs9TwUE/cO/puws9ngkb22uAoENIbPvhehHYS5oULzIS4YCrMLl03qnRj9e+LAd+xsOh1Hads5
-	G5jEOF4/GAqfCKHcySYVSt5d2KGKHdpg1K72buk/JpyQDYe7wER6vxvtoXz7npmaUlU1XdYzwPL
-	sw==
-X-Received: by 2002:a05:6000:29d3:b0:48e:adc:b97d with SMTP id ffacd0b85a97d-48e2d142df6mr1820877f8f.8.1792649544694;
-        Wed, 21 Oct 2026 23:12:24 -0700 (PDT)
-Received: from tuxedo-os.fritz.box ([2a02:8071:b680:2840:9131:192a:9b8d:6849])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e25827087sm10064063f8f.21.2026.10.21.23.12.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 23:12:24 -0700 (PDT)
-From: Danny Zimmer <dzimmer50@googlemail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] USB: quirks: add DEVICE_QUALIFIER quirk for Mobapad C2 Lite gamepad
-Date: Thu, 22 Oct 2026 08:12:14 +0200
-Message-ID: <20261022061214.3497578-1-dzimmer50@googlemail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VQWIJ4Q0
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 405831F000C1;
+	Thu, 22 Oct 2026 06:15:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792649759;
+	bh=Fvv040Yt3X6Tncl9PyddasEpSaYQNZJ3YnveAkKzmjw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=VQWIJ4Q0uGNmUQCm6Iv5Pn6fmMQl6w63kI8c0gukClXuwTCLaxyG4dYUpk8n+yHnP
+	 oNNDSjWG9142OtWaXyhf7ghkB8Bgh9nxhTIjH9WWQscWR2DidZdPSCHvNQUggTDRn5
+	 suxsfRqWMxV1lDpb6iJ/NvnJWkb3AbTE1M+MeNnT46bpThlfk+aeYJuejRWOnvKf+g
+	 mBDLL0upRxguRr98cu4bdx9WngDJMt6G0G0Crh0UAjriTcbi3JbMyz2HxoeM0f9tv8
+	 bT6iJnnwmCG5YwqFv9CkDRjIbg3N1aoyD92P97NfgYGUnbpsC8Jm3JT1Zra0SKidBL
+	 C6oyhY31mbVvg==
+Message-ID: <sashiko-outbox-181069@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] USB: quirks: add DEVICE_QUALIFIER quirk for Mobapad C2
+ Lite gamepad
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Danny Zimmer" <dzimmer50@googlemail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261022061214.3497578-1-dzimmer50@googlemail.com>
+References: <20261022061214.3497578-1-dzimmer50@googlemail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Oct 2026 06:15:58 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,43 +59,27 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The Mobapad C2 Lite gamepad in its "Xbox 360 Controller for Windows" mode
-(USB ID 2345:e06e) fails to enumerate on Linux and enters an endless
-connect/reset loop. A USB trace shows the device returns its device
-descriptor, but then stalls the Device_Qualifier request and stops
-answering any further control transfers, so the host resets it and the
-cycle repeats indefinitely.
+> The Mobapad C2 Lite gamepad in its "Xbox 360 Controller for Windows" mode
+> (USB ID 2345:e06e) fails to enumerate on Linux and enters an endless
+> connect/reset loop. A USB trace shows the device returns its device
+> descriptor, but then stalls the Device_Qualifier request and stops
+> answering any further control transfers, so the host resets it and the
+> cycle repeats indefinitely.
+>=20
+> The device works on Windows, which does not issue a Device_Qualifier
+> request. Setting USB_QUIRK_DEVICE_QUALIFIER so the host skips that request
+> lets the device enumerate normally; the configuration descriptor is then
+> read at its usual size without problems and the controller binds as an
+> xpad gamepad.
+>=20
+> Tested on two hosts (x86_64/xhci and Raspberry Pi 3B/dwc_otg).
+>=20
+> Signed-off-by: Danny Zimmer <dzimmer50@googlemail.com>
 
-The device works on Windows, which does not issue a Device_Qualifier
-request. Setting USB_QUIRK_DEVICE_QUALIFIER so the host skips that request
-lets the device enumerate normally; the configuration descriptor is then
-read at its usual size without problems and the controller binds as an
-xpad gamepad.
+Sashiko has reviewed this patch and found no issues.
 
-Tested on two hosts (x86_64/xhci and Raspberry Pi 3B/dwc_otg).
-
-Signed-off-by: Danny Zimmer <dzimmer50@googlemail.com>
----
- drivers/usb/core/quirks.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index b5b577f..06d15ae 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -586,6 +586,9 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* VIA Labs, Inc. USB2.0 Hub */
- 	{ USB_DEVICE(0x2109, 0x2817), .driver_info = USB_QUIRK_NO_LPM },
- 
-+	/* Mobapad C2 Lite gamepad - stalls on Device_Qualifier request */
-+	{ USB_DEVICE(0x2345, 0xe06e), .driver_info = USB_QUIRK_DEVICE_QUALIFIER },
-+
- 	/* Raydium Touchscreen */
- 	{ USB_DEVICE(0x2386, 0x3114), .driver_info = USB_QUIRK_NO_LPM },
- 
--- 
-2.43.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022061214.3497=
+578-1-dzimmer50@googlemail.com?part=3D1
 
