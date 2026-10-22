@@ -1,120 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792639627;
-	b=F+1vStWT55nqdK6KromuSlyv96/ocwqgc5boDv3uh1dz1piavjw2WEAyfuatZR5yNazT
-	 y0biZilzbYaZpJ0yRqJK3eHnz5HJw+RXgfYkxtMlrCAf0xeDCV14goPsb0sqngs39mLSt
-	 rK6frBwzyTFiyyGbZ5pSnbppeP+hsivoKJNa594Suy75kseqsfmD+fyc84nNq+AGnhffM
-	 r8TzViuv7t6vFiV0N+KeBUdFPlvfjfWMl6TY1lhEMxqtK1X5ZU6swveoNMrw9YAoTKfrU
-	 0SfEkY5YipwQs+CUUABVpNbiaW+tiu+bFKSSzdVhc95BxWgjvsJvBkMJJlb28mf4Fxw==
+	t=1792641206;
+	b=tlI07Yw0RFZBHhLTmGI3MVefsyWSL0yGSb3fk2j6xFfmKNKHpRqTh4t2uNH53zWsP4v5
+	 78tqnKDP3RlpvMjrmHPahsAeM0Kt30JXsgeiiJPB75bKClVT7VD+5DmGqPgMcenDucz12
+	 8ldyxR4lNiTS1F8npJOyQIQqrLtMdp7pZZKYhsZxG8HDT06VQGwjWLx5mRnZXEbXdqGvu
+	 l6Sv1s1V1oefuBlQmYqH9OwY+cER9o70alLAMPSm2bqvgmFUQl5GdGeKZpr4HPCclRR9u
+	 89k2+fB1bLN/pMqtUMjwRskpC4zBomFQll0TCNsb4ogzqEvRga30P2c1vjqQOrXB3YA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792639627;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-Spam-Info:X-Authority-Analysis:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=GGmZmli6XEiqC9WcTdozsjPuYlwvOxi9MxEGhwdmAzI=;
-	b=lPHcFEc/6YqtZXVlhXZo1mGSRpwutiapXTuQuy3PiubDdfNUSxVW1v870e8dM/kM20P/
-	 oIhX97nqBPVdtvyZtAOX0zkxSw4M7VQnCd471HcYBGwnVuWp2A9Ed+hH3OFY+hxQfr0Ck
-	 630pCROrGKNU/ZNlHEu0GH14WfK8di/YawQDrDFMUoTVpfph+LrTKsjFToBo5cii6XUsm
-	 tufsd6r5Yq6gW2Hycsp4f0lTfiBbjL7Y7Nm08IwSLDq6TAru++rPFjxEkNwp5hX3DTFqu
-	 kW+zG195/BL3D665Hob9e57zQ0MC8V2yUg7bMFr2SP/0OM34W/q3/j/Gsv42bl5YUnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792641206;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Gm-Message-State:
+	 X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:Date:Message-ID:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=AYxNwlYjoI2/uyAaF5PFCrzANhHSTAvl+pCJ088T5bY=;
+	b=heaevcw7V/ZTiWi9IJTm1Hne174UnfmRkAmV1IglcJQcpmJ2D59VJC5qszksnfJJw0RV
+	 l0p/NqG2Y00sGRoknI/sJxbNG6F2bVjeWgNJ4UXOyA9RE5WLo/2ctJbjIBV7JoNpQ8sgi
+	 BuCMPq8d6cTFi72MuF6uxpMFzssPLVzJhX8Tiuyuk4mOfFwVwLAo8EXNtcEOdUcr6ILes
+	 COPwsduMVK5q0fniT6smJCLqi+b9YG8sg0LYU4Ie7XzIu6RVOW0C806WRzlsOYia7RdBM
+	 lGfpNSdSkT/ZjqyBodNyGviA5Cog1BMcsnoFVFrNMLZd7PN/VLvM6bQzVGbI51XvGfA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=phO3eKgp;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Pii21JKO;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=74.125.82.48
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C7F606A319
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 03:27:06 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A1C7F606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=phO3eKgp;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Pii21JKO
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69M2eue72463681
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 03:27:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=GGmZmli6XEiqC9WcTdozsjPu
-	YlwvOxi9MxEGhwdmAzI=; b=phO3eKgpY/wp9HeFoWPJLOFWRlM1OzwTbpzxGa2u
-	lNdCkKoH1oLccrWYbrruuN+KYF774iz+2skToZakXZlWL/ctzgyQMGk9U5oF3oJU
-	O2GLjwTQPqt+AzSw9XzdCFt2HswSRw4IBawDZsbP8428R6JF9umjqsdJkCfnOvXr
-	KH0ajGUv8//6uFi4kFUKRVCjOzIQE0wlEgdQy79898jtm0jYo2B/qwU8uNHVJm6Y
-	LSLKB+Ql6HEsgqTZ70Junp+ueEogCKCeZ4bjTwQsTik89CjlzmroNHMIooqG0ZCC
-	Z6UGMMk4/TOeaFviVlwV1B/pAcHZSULKPspIq1pcCf9Hpg==
-Received: from mail-dy1-f200.google.com (mail-dy1-f200.google.com [74.125.82.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hf93ardud-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 03:27:05 +0000 (GMT)
-Received: by mail-dy1-f200.google.com with SMTP id 5a478bee46e88-30c0d568830so3316101eec.1
-        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 20:27:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792639624; x=1793244424; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=GGmZmli6XEiqC9WcTdozsjPuYlwvOxi9MxEGhwdmAzI=;
-        b=Pii21JKOA+7a1HFfCqBwn8A9fxtGhIyIYBlnAkjSixur7eOmG1Boe2Dx6n+x2etO51
-         gw9wHCkXHa8w0YQlZtjbBUn1M+grXwIj/sEhKWmPBylGWb8wsaCXGx5wt5MtpAcnhQWb
-         X6meJnMrJH93+VKhZuHSK4+DOFNths3jMrdVIy43sT2bIdCJCL90QpyiLFmXiWxX7WYU
-         vQ2IhOD7bVyK1lCG4+wqpVXK6dMeuMHWpDDfxdY3K59HwjGCXtO7SfCIPOeFqs6SlhsF
-         msmIrprEE0h1APBvl5ljs+0SL0ngEuuV+96XDBQMbIbpMHc81Ac+k0kki+iU9wKcwGn2
-         TSrw==
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3D9606A319
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 03:53:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB3D9606A319
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-170135e43c7so1232765c88.0
+        for <linux-usb@vger.kernel.org>; Wed, 21 Oct 2026 20:53:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792639624; x=1793244424;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GGmZmli6XEiqC9WcTdozsjPuYlwvOxi9MxEGhwdmAzI=;
-        b=bynsSTTUKYS5U41TZxpiGT0WgyX/6JKh4QCvgTaVAykWvYog10Ca2TDeKzR1WuO5yT
-         ZAtFACBNGasdQgo0uf8ek974SmNMKuumtp3wGN1dO9mc8LxBa7kDCKrLIKZ0020X63+y
-         9YlFc9l4kiIftV5YFP+oD6IgeZNpniP0PvLC8rJOySlHpvXSBu9UvWrOtRklfEJ0iBR2
-         21+hmjw5e5kM0VyYuhW6l/Gfrv4EPYL6MvhMlc69T8BsgUs7guAW6OdD9Geoxfc/IWaV
-         PIoTYmEJorFxroA1v7ZemP/FfQBfvRa7ZulN97v1eVt7hKi4F6+YuFOYrG22QWIMEwrx
-         Iw6w==
-X-Forwarded-Encrypted: i=1; AKwUvBwKXaYmMv8E7VH8nxYA8KjHv/P0dlE1OlX5CAM29obmbcOLGcQT84GHjixGkM84oYX8fT5cT4UsbsM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIru9XEGWeBcH0ZlcVJ9/GelDlagCmQ/1+xGfvaStzdxn/T7Xwc
-	o530Vkb4m4BPas0Gt/g1TgBDj1W9jBB2KkZRhTiOCNSFoGhRE+hng6YaE3H0jk10bgnn5Nr1hpU
-	ohb9I8Utv+NiqBrMejjpK9ks/jFNit8frFq5s+OsLFLd7X+eWK1/ogtgVNczvXcg=
-X-Gm-Gg: AYBFou0S0ejjP5iGsCrOSGnnGGxgz3/O2greJr6WnfWqN4ksN/CaLjmornXyf7Oo1lu
-	wCvdXaL80fnGCpBEXP5jYengU2VobAO8IZzA08fQWG3k63B7LvFzkEd91K/uAvZDkj2Nfx+3pHh
-	Yb7rxjyk4s9dedFt07Q38vQOyi0h3QxNJ7oTPZJ566yXnyLnGXhj8fWenvLEVR46g6c/IXniqrv
-	SuhIocqXqGCdKEg2+T2GI0eDpazrtoMphAIl+bYFdwOrHC1gIkgqf0LqSNrpoybcvdHpx2TB/wf
-	kddyx7WFbMA3jqq2OoZ464ufea/jO/hOaTTwNxmi2ir9rVmMmDsvdVEHE7nTcirhLpwDz4Yz8WF
-	PwtXigPxyFw5Xdcfq6qI7VjQBEAygeyJhFDt0+ohp/q2ZfcUo
-X-Received: by 2002:a05:693c:8803:10b0:368:8ab7:2a4c with SMTP id 5a478bee46e88-3688ab72b28mr1840506eec.30.1792639624373;
-        Wed, 21 Oct 2026 20:27:04 -0700 (PDT)
-X-Received: by 2002:a05:693c:8803:10b0:368:8ab7:2a4c with SMTP id 5a478bee46e88-3688ab72b28mr1840490eec.30.1792639623830;
-        Wed, 21 Oct 2026 20:27:03 -0700 (PDT)
-Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3674198f1d8sm17373764eec.24.2026.10.21.20.27.02
+        d=1e100.net; s=20260707; t=1792641205; x=1793246005;
+        h=mime-version:content-transfer-encoding:content-type:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=AYxNwlYjoI2/uyAaF5PFCrzANhHSTAvl+pCJ088T5bY=;
+        b=KcjCiSZljNUpgOMB6q7EGL49nSeS1cw02aRVEktwTlFjNmVEB9z9S8GbbY0yGm8/xe
+         mYFnUIBdMk+CQME46y20QpgtB+ZgeapjcWykOAK0kRGp55N7Up1nzEDNXm41ZoEHnzc+
+         Kps5c3C4G/lXBXbRBCpoj4m5BX/DfuGyj9+2PF+DTTkmqh9bouFB/1R7uNduZ12qUCMQ
+         BhE5HY51cFAm7d2Cf1HGd5X6V+P8Mb/HbpskHC0yfTG+UolqO//ymzWSjuauhlcu6x0M
+         kvl36Xcwhk3EK0m2stXuzL1op3j1tU2HRb9RK0778BGHbBKT2dYvpHOnm+gViQ2Z0IBZ
+         T5Ag==
+X-Gm-Message-State: AFq9FYKqk5iCo0D7xWoErrhlFjR2PrHuOYuKi2ff2yJZn4+csYzBRkEr
+	+cSaUn7Y7Hicp9rrkMyHO7/Si+Av7THmuNh2p+/a3aSc+wTtoMWeqBUdaN2IwQ==
+X-Gm-Gg: AYBFou3sU5vvaMW0/KgngLiw1wE4dq8ILqyiW3Wi6efCzHSkx48+XBLb0Kf7HsPSo8p
+	h9Dk7gJ92l3fOvumOFvpIn1CauHUIBi4KNrbQZ34b/5jjh1nDrEm8+Yu2Q9lHh7JE8t/B10VO1+
+	RyeZoVbEJfPBk2yPOhgwvGJuPyfaChO2hBdxh4xC3LlCpWS7Qww89Vvzfwk8fV1t0VTKc9IHMZ4
+	TPW99cAAlzQJ0xfnZwCACFBcYvL0zDbS98m52c77vCOm/nyb5vCyA73GMrwpqynJE7oRB2dyL9h
+	OYlpiIeAsbWreO7tRHlnVU7SwqAuxMcQ1dnZeRDaSHVF73QKzONszsge88TNyw5r5Nxnra5ZQp2
+	I0CP0PEjKLnG9eL/R2wNeBvNH7EfI0Xe2KBQ9MDPzOUxX6w7AurryHXUNBGa4Bcx3bM5nj96cjI
+	EvIarrJCx3C4tb0XWwgkvR8KTCH559A5QWljAvA2K2KyuNYxor29zyt+pX50g7RlMSw1YckibFO
+	m64nn+sjB6pzQf9WT6Q73by/5AikcI2whEzl7okU5EVO5+DovKwDLV1KuVeZyHAj7YAXAVlIKAF
+	x0OMbRPUcYLkPs/OxEUTUxXwjs9YkVFDNJXdPNmmXtbNjOn+rYW0H82h0R8=
+X-Received: by 2002:a05:7023:a5a:b0:143:6080:668f with SMTP id a92af1059eb24-190a6adc7b9mr4481368c88.7.1792641204525;
+        Wed, 21 Oct 2026 20:53:24 -0700 (PDT)
+Received: from 1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa ([185.220.238.36])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1903e02901fsm10979489c88.22.2026.10.21.20.53.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2026 20:27:03 -0700 (PDT)
-Date: Wed, 21 Oct 2026 20:27:00 -0700
-From: Peter Chen <peter.chen@oss.qualcomm.com>
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>
-Cc: fabricioakio@gmail.com, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-Subject: Re: [PATCH] usb: dwc3: qcom: Check for L2 only when suspending a
- host with wakeup
-Message-ID: <atmChJYMtjPtW_ZE@hu-petche-lv.qualcomm.com>
-References: <20260928-dwc3-qcom-l2-check-v1-1-43c5c6e97922@gmail.com>
- <7eb8f0f7-9e5b-44e9-971c-54bfdab23c30@oss.qualcomm.com>
+        Wed, 21 Oct 2026 20:53:24 -0700 (PDT)
+From: Hongyu Xie <xiehongyu1@kylinos.cn>
+To:
+ Greg KH <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>
+Cc: linux-usb@vger.kernel.org, Oliver Neukum <oliver@neukum.org>,
+ Hans de Goede <hansg@kernel.org>, linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] usb: core: fix three use-after-free windows in the USB
+ anchor protocol
+Date: Thu, 22 Oct 2026 11:53:21 +0800
+Message-ID: <179264120148.17277.68253767316647311@kylinos.cn>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -124,67 +81,100 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <7eb8f0f7-9e5b-44e9-971c-54bfdab23c30@oss.qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDAxMyBTYWx0ZWRfX56NrwdGELWaG
- UFaS9UDZV4m6t301szAbu+Oq5iuYsHLTXhv1I/mma/LCK2Eo9U88GANHEOegYX/Mii8rHHWSUwf
- y50m+q0JaFK2v0Ag+odncYth1mTN4rS14jc45BhDfoSizFjmhiDpuLiGQcPqZnay7uJYG1PR0Sw
- n2wzpXOrLwWB0ov3yJu5ApX6RtbMpkabmO3oUNpI0yyiGbzSNYAL+Z24kQvCkfhHRwT+kdGsddq
- E8FEPD6dPDGgrv/IuZW+wRyMfz9fjl7zLM4exMz8LyeYRqHTVX/TQPtqyUIg2DFPSrTueQZKNWs
- j8WspP9nf4ZdVRpPMDlJxQNF0M45C1Flbc1AX0Q4W6Fqq6JoXzyeToOdi/LEcFY4rcXQv+93qvr
- 17dptVXyRX7WR1NFeiUL2ZIjU0Gbt7S6sPJipEEsS+wBuB5Dheva8dIXCIGtCCU9K2VIb3pzULl
- vLNGVdCc32iZnOYqxJw==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDAxMyBTYWx0ZWRfX8sEyEF9IuQua
- 0TsJL6eFaYS5PB6GTwLGfZecm2T8Q83VYIuUCVJAzMD2JE+eBQ9mgQoSMsGSXuFPkMrlxVojprd
- qG7rjR5EB/cIMPDlxw4TesaKNzSzUHc=
-X-Authority-Analysis: v=2.4 cv=QPn91QLL c=1 sm=1 tr=0 ts=6ad98289 cx=c_pps
- a=PfFC4Oe2JQzmKTvty2cRDw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=QFNGBFAix9GFkXGs:21 a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=gowsoOTTUOVcmtlkKump:22
- a=pGLkceISAAAA:8 a=uQVJHn5EHz_PyVhorDgA:9 a=CjuIK1q_8ugA:10
- a=6Ab_bkdmUrQuMsNx7PHu:22
-X-Proofpoint-GUID: _LSellHeD3d35LjGV2PxuxjGSSRVzmYG
-X-Proofpoint-ORIG-GUID: _LSellHeD3d35LjGV2PxuxjGSSRVzmYG
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-22_01,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 clxscore=1015 bulkscore=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 priorityscore=1501 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610220013
 
-On 26-10-21 15:44:52, Konrad Dybcio wrote:
-> On 9/28/26 8:16 PM, Fabricio Akio via B4 Relay wrote:
-> > From: Fabricio Akio <fabricioakio@gmail.com>
-> > 
-> > In peripheral mode the core disconnects and powers the PHY off before
-> > the glue suspends, so the link never enters L2 and every system
-> > suspend logs "HS-PHY not in L2". Check only for a host with wakeup,
-> > the one case that parks the PHY in L2.
-> > 
-> > Signed-off-by: Fabricio Akio <fabricioakio@gmail.com>
-> > ---
-> 
-> I think we should be able to retain the link in L2 in device
-> mode too upon suspend, but that needs more plumbing on the
-> clock/gdsc side? (+Cc)
-> 
+Anchors are usually embedded in driver-private structures, and several
+anchor API returns -- a non-zero usb_wait_anchor_empty_timeout(),
+usb_kill_anchored_urbs(), usb_poison_anchored_urbs() and
+usb_scuttle_anchored_urbs() -- license the caller to free that memory.
+The wakeup protocol backing this license has three windows in which a
+URB giveback or unanchor still touches the anchor after the caller has
+been told it is unused:
 
-From what I see, dwc3 core just keeps gadget (device mode) disconnecting
-when dwc3 core enters suspend. The reason is probably dwc3 core wakeup signal
-(through .dwc3_gadget_wakeup or dwc3_gadget_func_wakeup) is send by software.
-When the system has suspended, no software has run, so can't trigger wakeup.
+ 1. The waiter's condition check and the giveback's suspend_wakeups
+    decrement plus wake_up() were not serialized, so the waiter could
+    return while a giveback was still in flight.  Reported by syzbot
+    repeatedly since 2019; patch 1 references the two reports this
+    analysis is built on.
 
-For runtime suspend, current dwc3 core doesn't consider link suspend event
-(eg, L2/U3) as low power event, and doesn't put dwc3 core entering runtime
-suspend, so the link is always L2 or U3.
+ 2. __usb_hcd_giveback_urb() captured urb->anchor at the top of the
+    function but incremented suspend_wakeups only after DMA unmapping
+    and the usbmon hooks.  A concurrent unanchor could empty the anchor
+    with suspend_wakeups still zero, so the waiter returned and freed
+    the anchor underneath the pending increment.  No syzbot report is
+    attributed to this interleaving; it was found by extending the
+    analysis of patch 1.  Patch 2 folds the capture, the increment and
+    the unanchor into a single anchor->lock critical section.
 
-Thinh/Wesley, if I understand wrong, please correct me.
+ 3. usb_unanchor_urb() and the giveback read urb->anchor and only then
+    acquire anchor->lock; between the two the anchor can already have
+    been freed.  This gap is as old as usb_unanchor_urb() itself and
+    cannot be closed with a reference count: the first dereference of
+    the freshly read pointer would have to be the increment itself.
+    Patch 3 therefore turns the wakeup protocol into a lifetime
+    protocol: the lockless anchor reads run in RCU read-side critical
+    sections, urb->anchor is published with rcu_assign_pointer(), and
+    every return that lets the caller free the anchor holds a
+    suspend_wakeups pin across one synchronize_rcu() first.
 
+Patch 3 changes contracts, stated up front:
+
+ - usb_kill_anchored_urbs(), usb_poison_anchored_urbs() and
+   usb_scuttle_anchored_urbs() may now sleep even on an empty anchor.
+   All in-tree callers already sleep (they sit next to usb_kill_urb()
+   calls).
+
+ - usb_wait_anchor_empty_timeout() returns 1 on success instead of the
+   remaining jiffies, and a successful wait -- including one with a
+   zero timeout -- pays one RCU grace period.
+
+ - The cost is one grace period per successful teardown exit.  On
+   x86-64 real hardware, 100 consecutive successful waits on an empty
+   anchor cost 3.1 us per call on the base kernel and 8.2 us with this
+   series, about +5 us per call.  Callers that wait once per batch
+   (zd1211rw) or tear down several anchors at close (btusb) pay this
+   per anchor; it is small next to the URB I/O these paths bracket,
+   but it is the price of the free-after-return guarantee.
+
+No fields are added to struct usb_anchor or struct urb, and no driver
+changes are needed.
+
+Testing:
+
+ - A QEMU/KASAN attack harness reproduced each window separately
+   (deterministic arming for the two giveback windows, a forced free
+   inside the read-to-lock gap for the third) and verified that each
+   patch closes its own window with zero reports under identical
+   pressure.
+
+ - The full stack also ran on real x86-64 hardware with KASAN kernels
+   built from the same base.  The base kernel hits every probe: both
+   deterministic windows fire within 100 iterations (hundreds of probe
+   arm hits), and the natural-race variants hit within 2000 iterations
+   with no arming at all.  The kernel with all three patches runs the
+   identical workload with zero reports -- the attack still executes
+   there, its probes arm hundreds of times too, only the windows are
+   gone.  The zero-timeout contract probe (empty anchor, timeout 0)
+   returns 1 as documented.
+
+checkpatch: 0 errors, 0 warnings for all three patches.  Patch 2 keeps
+one CHECK for an extern prototype in a header, matching the prevailing
+style of that header.
+
+Signed-off-by: Hongyu Xie <xiehongyu1@kylinos.cn>
+
+Hongyu Xie (3):
+  usb: core: Fix use-after-free in anchor wakeup protocol
+  usb: core: Close anchor capture-to-increment race in URB giveback
+  usb: core: Close residual anchor read-to-lock window with RCU
+
+ drivers/usb/core/hcd.c |  10 +-
+ drivers/usb/core/urb.c | 303 +++++++++++++++++++++++++++++++++++------
+ drivers/usb/core/usb.h |   1 +
+ include/linux/usb.h    |   7 +-
+ 4 files changed, 277 insertions(+), 44 deletions(-)
+
+
+base-commit: 22430ae5d90ab288b0ee2ad99ae941f4a666b694
 -- 
+2.32.0
 
-Thanks,
-Peter Chen
