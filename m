@@ -1,65 +1,46 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=43.163.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792651057;
-	b=Lv9HqETH5a2VqGDuFarH75uRSS05FfAeAFkbW7yvP0xYeSM5lDguGcdBrJMN9oNKDNOK
-	 RWiI/xM7ygeKfQaHVLtLbpUlrIGPCx3QsNzczHTVvsc6PgNfwDMq3zlFSulMnXz36bwSj
-	 2CoznWs1Jm9z1mWrg8iTG/yL5g+YjBtWH6wkOE1A5BCpQSrIdl+0RlvRUYM5eiPI5/aVs
-	 zI4xutyZbSscZZmCrYz+gPJjSyKccY3GzwWl7GbXS5G5MaCaWMiQJAAnaircOhLkKgDzP
-	 NkbYC0vSkthl9VrsaVEAVvVDpf7vyeAZinBYZH+wcFQFde+loDMR18KSIIURUtd8cDw==
+	t=1792651920;
+	b=mATgwnItz1YDABtwQCZe40SUqVF92a48beyNqLMgtDfTYsxndv3Ow9JUwdtZ2G7BvsIx
+	 COIAF6fhQut/rUqXtGcnWWilMIZGK3beO8oP4KdwRqxwJnvgqLTC1p9Klpx7NmvSsu5FR
+	 sxjsIWhQgXXJNs+1wya+TRrO/RpzagtellqPA1lVQlYjDwukc5PKGTC0GMxhkrfXOZArR
+	 fUBRpe89qwuXSZvCcxO267Ii6pg4lTv/1MphplGfQudqnaJtJTUsVLA4E2QVVavzgpsFe
+	 WOyUpRz1x5j0IyDkrwx1QnxeYUqJPyYngk0FyD7cCZpr5q+m0FWP/3EBlsKIPuVxAnQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792651057;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-XMRINFO:X-QQ-XMAILINFO:From:To:Cc:
-	 Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Date:
-	 X-Priority:Message-ID:X-QQ-MIME:X-Mailer:X-QQ-Mailer:References:
-	 In-Reply-To:X-QQ-mid;
-	bh=VQFTusPZWZAQO9ncVP5/pVATTKlUKVRB9FJ/9plts7M=;
-	b=rOqigqugdI/vH7ScdRZWTCGBZe/YBZ6WHRvvm+cYKUGR/wnHCQdG20UNhG+9om0tVYZ8
-	 mNwcjlCghb8u+FJLb6afwcoaKDHfRM18wrKpOg7NUAAxT2cDM4Q3N11fSHpoOlsafLYL4
-	 2cf/KrtzHGcA6WYTCsQCcc95ssLcgQkl7+Dd0ixYcwrucZ2Ysxy835sv6KXHGLE3mNgxl
-	 55HSv9PAATbXHgu57s0uiY9wsOSbvP8PX9f43FW/kQk46xOYpnjR+chARs1fVL+t7jGgR
-	 0VlLCQUpuDF8A4q+vfkdo1YoUOKuEwXqI/r5ZexW10QXPxbMZwtyd/7NYimkvZpYX3Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792651920;
+	h=Received:DKIM-Signature:Date:From:To:Subject:Message-ID:MIME-Version:
+	 Content-Type:Content-Disposition;
+	bh=Fxx+f+pmoy2K8FG2VJY88utQ88NglXhrdhzsq7ogqNI=;
+	b=sCrJyrAX/zoAlqKEPlA9Tuygxh6UCThRQamuK0s4dgswuP9Kr6HBXQYqYwnxoZDH9G8k
+	 dHbANFXwUZZQHJyUZLubihRlr2ABQSQY7OFObChqewCNzYhF8a0W/R48k+ugy4jkC6ZdD
+	 bakxt/t2DEDgHA36yOHFfqSSJvAjIL7TwyTsAt5LMKFiXdAYQzKkDfy2fpKEq1KuNkfmn
+	 EXAv75I2q6M/KEIDEhysbwMqMhrQ2pSmSlLYIvlL1+Oqo54uTKaoI0ppkie8rSOsJGOUN
+	 RG4X5UqD8VyoM5AGsN/NQk+Pcm7tl/CmKPOuHRaeQAH7W6eS8lELyxBtuHMdelYbNPQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=GmTf6oYL;
-	arc=none smtp.remote-ip=43.163.128.52
-Received: from xmbghk7.mail.qq.com (xmbghk7.mail.qq.com [43.163.128.52])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=m9dCyeNL;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94CB3606A31A;
-	Thu, 22 Oct 2026 06:37:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 94CB3606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00B04606A319;
+	Thu, 22 Oct 2026 06:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=GmTf6oYL
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1792651052; bh=VQFTusPZWZAQO9ncVP5/pVATTKlUKVRB9FJ/9plts7M=;
-	h=From:To:Cc:Subject:Date:References:In-Reply-To;
-	b=GmTf6oYL8AKlduANqJiMvZbkQOf7gKp/zQwFXmoaknAFcT1VltESHTOaOrg1fcjsW
-	 ooQVtPfnStMG4UMWTARNwo+QdJW0/ktwQv7oAfnOSn7krkbD0yr8PCfT2j9MVsT4Ld
-	 a+4EUQyPnJwSlLkvXFQ17TUOpHSAfKWsStATXj6U=
-X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
-X-QQ-XMAILINFO: N6vT1niysq6m+dolIeSRQmZ0Z/lSCBqEUxgMgKnhlcqyDzFYwRYb/nFI862AH8
-	 hx16FZ7vQ76yOO4KNrAZLP9nGxJ89E38Vmc3rNG+xB70iOUAV7wSRAQwTihTOulk5fqrM0fPZ230B
-	 KEjiMz7HM7L4qzHyBVCqvG9OHxF9AE9K5R4nq44q5B5A5vDvoF2e6N2kZaxF1Xwl7qyXn0HPU+w0q
-	 jx+hU0FDBXH84DVvxXpEVC45nfZW7RE5b4cT+s2JTCz893w+J65yZGKPYhKhbfVjLu1uzs423rZHF
-	 YhpWLoHB7Z5iyFTSqhVekL+bsNuil22wBS381bllGmpRd0Z5eGD8IpYIPKcsKtvIw3suSvGWztqCp
-	 ZGnIzV/u3oZCv65hNU2vXGJYFoE1CwNhDvwyxZLhcqUptZfdM3alzxLkTi4sZcGcAkl0YQLxv0wcs
-	 xDYdGeTy4dt8w7sun/yBo2hbrgzaosoCMO9RohKNuUElD6qUPsPbWHI0n7ImrN45HY2QPGs1bCvVk
-	 MWSRQYnB5gBQQseXW+2S7fzKMYfLxHzAz/06wSHooNP221o35sl8hHLxnG+gxrgIhpp8SEAZcRLdv
-	 wttYLqc66aRhuxibq6faN+1fdUvvf0l4cS04L724Xdz7CC95Ngz5WGvieS2ipVQY1PH3RPEC0SCQc
-	 LLZDi4lUTEtGHPpV3lXVwSsXOJZKBClnzlse4Bo/O+ZEZSX8poOOa0aS22M1U1Gi0XNUU8VxABkh2
-	 bEmFwFeuf6x8bwc+bj+CMBVRMOBbJozHjSlFbbqRMjHcly44ucpG1KRKT5UmvuIARe2VdvezT5O6l
-	 4AjpimmT+Wwm48X5K++Szf3pWy8brWR888+n7HrXrJNl+S1bpTLclyQC60yZO5MIsRD1+1zgcsxEy
-	 Y16MLptC3/0G6NBTSzeoOt/17k+XaE4mdHZh69reiQfF1CWqaBhKA87ASDRQ945nLDYWOlNQ6C5AI
-	 wOHX74OkmtP7bfnjvPr48Afne4f9RYdonvRTS0CxUYkICRgEbasogiv1kyvxnWGZzdyciyj+lRx9T
-	 ZTKQ1aSJt3odwsS1uNe1fIHMqU8WkURomskKvfn9JQJrjd4w=
-From: "=?utf-8?B?Q3VuaGFvIEx1?=" <1579567540@qq.com>
-To: "=?utf-8?B?U2hhd24gTGlu?=" <shawn.lin@rock-chips.com>
-Cc: "=?utf-8?B?c2hhd24ubGlu?=" <shawn.lin@rock-chips.com>, "=?utf-8?B?bGludXgtY2xr?=" <linux-clk@vger.kernel.org>, "=?utf-8?B?ZGV2aWNldHJlZQ==?=" <devicetree@vger.kernel.org>, "=?utf-8?B?bGludXgtYXJtLWtlcm5lbA==?=" <linux-arm-kernel@lists.infradead.org>, "=?utf-8?B?bGludXgtcm9ja2NoaXA=?=" <linux-rockchip@lists.infradead.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, "=?utf-8?B?bWZk?=" <mfd@lists.linux.dev>, "=?utf-8?B?bGludXgtZ3Bpbw==?=" <linux-gpio@vger.kernel.org>, "=?utf-8?B?bmV0ZGV2?=" <netdev@vger.kernel.org>, "=?utf-8?B?bGludXgtcG0=?=" <linux-pm@vger.kernel.org>, "=?utf-8?B?bGludXgtaTJj?=" <linux-i2c@vger.kernel.org>, "=?utf-8?B?bGludXgtc2VyaWFs?=" <linux-serial@vger.kernel.org>, "=?utf-8?B?bGludXgtbW1j?=" <linux-mmc@vger.kernel.org>, 
-	"=?utf-8?B?bGludXgtc3RtMzI=?=" <linux-stm32@st-md-mailman.stormreply.com>, "=?utf-8?B?bGludXgtcGh5?=" <linux-phy@lists.infradead.org>, "=?utf-8?B?bGludXgtdXNi?=" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 00/27] rockchip: Add RK3572 and Forlinx OK3572-C support
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=m9dCyeNL
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A741F000C1;
+	Thu, 22 Oct 2026 06:51:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792651919;
+	bh=Fxx+f+pmoy2K8FG2VJY88utQ88NglXhrdhzsq7ogqNI=;
+	h=Date:From:To:Subject;
+	b=m9dCyeNL7g2ENWmYszzuYPvV+joCCX/sqqjjfXO/vl4+IQzoof0w5OVqmDmYnv9m3
+	 DhXqjFxoIxnkFniFVk5qplbjL9IoQJ2+zzx4DP9uHdi00bpKvy0/TfLxUkcVR8f4Hb
+	 qTgvk5EjWYLEj9tdxqwYjL4IH0vklwEpMdIOLrsw=
+Date: Thu, 22 Oct 2026 08:51:41 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: usbutils 020 release
+Message-ID: <atmyfUVyCnr5WnJh@kroah.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,27 +49,227 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Thu, 22 Oct 2026 14:37:30 +0800
-X-Priority: 3
-Message-ID: <tencent_1468586598128C460803261171FD769AA209@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
-	<7fa26028-5c7c-4c5d-8cc5-3116b2e51cc0@rock-chips.com>
-In-Reply-To: <7fa26028-5c7c-4c5d-8cc5-3116b2e51cc0@rock-chips.com>
-X-QQ-mid: xmsezb41-0t1792651050t9mjujcfl
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="j+14c5xRj1NLxu8m"
+Content-Disposition: inline
 
-SGksCgo+IFRoYW5rcyBmb3IgeW91ciBwYXRjaGVzLiBUeXBpY2FsbHksIGEgc2VyaWVzIG9m
-IHRoaXMgc2l6ZSBjb3ZlcmluZyBTb0MKPiBzdXBwb3J0IHNob3VsZCBiZSBzcGxpdCBieSBz
-dWJzeXN0ZW3vvIxmb3IgaW5zdGFuY2UsIHNlcGFyYXRlIERUIGJpbmRpbmcKPiBhbmQgZHJp
-dmVyIHBhdGNoZXMgZm9yIGVhY2ggc3Vic3lzdGVt77yMYW5kIG9ubHkgQ0MgdGhlIHJlbGV2
-YW50Cj4gbWFpbnRhaW5lcnMgYW5kIG1haWxpbmcgbGlzdHMuIFRoZSBEVFMgcGF0Y2ggY2Fu
-IGZvbGxvdyBhZnRlcndhcmRzLgoKVGhhbmsgeW91IGZvciB0aGUgZ3VpZGFuY2UuIEkgYXBv
-bG9naXplIGZvciB0aGUgaW5jb252ZW5pZW5jZS4gSSdsbCBzcGxpdAp2MiBieSBzdWJzeXN0
-ZW0uCgpCZXN0IHJlZ2FyZHMsCkN1bmhhbw==
+--j+14c5xRj1NLxu8m
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
+Another year later, so it's time for a new usbutils release.
+
+I'd like to announce the usbutils 020 release.
+
+Lots of fuzzing fixes in this release for 'bad' devices, now that people
+are starting to worry more about these types of USB devices.  I'm not
+guaranteeing that all "malformed" USB devices will now not crash the
+codebase, but we should be a better off than in the past.  As usbutils
+is NOT something that is a "security boundry" this really isn't a
+problem in real life, but it is nice to harden up the USB descriptor
+parser a lot.  Thanks to lots of OS fuzzing rounds, we should be better
+off here.  There's also now a built in "test suite" that can help make
+modifying the code a bit easier to verify that nothing obvious is
+different from the system-installed version of the tools (unless you are
+wanting there to be a change, and in that case, you can ignore the test
+failures.)
+
+Other than that, there's some new support for a newer USB spec, and the
+constant churn of "where is the usb ids file located now?" work to
+handle more distros and systems, and some cleanups of 'lsusb -t' to make
+it more obvious which device is which at times.
+
+Full details of the changes in this are found below in the shortlog.
+
+Tarballs can be found on kernel.org here:
+	https://www.kernel.org/pub/linux/utils/usb/usbutils/
+
+Or you can pull from the following git locations as well:
+	https://git.sr.ht/~gregkh/usbutils
+	https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usbutils.git
+	https://github.com/gregkh/usbutils
+	https://github.com/linux-usb/usbutils
+
+thanks,
+
+greg k-h
+
+------------
+
+usbutils 020
+============
+
+Armin Wolf (1):
+      lsusb: Add support for FWStatus Capability decoding
+
+Greg Kroah-Hartman (124):
+      justfile: add 'make' target
+      usb-spec.h: fix up spelling mistake for "Tone Enable" entry
+      tests: vendor brat 0.10.1 as the test runner
+      tests: compare built lsusb against the installed copy
+      tests: lsusb -h: compare built against installed
+      tests: lsusb -t: compare built against installed
+      tests: lsusb -s: compare built against installed
+      tests: lsusb -d: compare built against installed
+      tests: lsusb -D: compare built against installed
+      tests: usb-devices: compare built against installed
+      tests: lsusb.py: compare built against installed
+      tests: lsusb.py -h: compare built against installed
+      tests: lsusb.py -i: compare built against installed
+      tests: lsusb.py -I: compare built against installed
+      tests: lsusb.py -u: compare built against installed
+      tests: lsusb.py -U: compare built against installed
+      tests: lsusb.py -c: compare built against installed
+      tests: lsusb.py -C: compare built against installed tests:
+      lsusb.py -e: compare built against installed
+      tests: lsusb.py -w: compare built against installed
+      tests: lsusb.py -f: compare built against installed
+      justfile: add 'test' target
+      desc-dump: fix operator precedence bug in bit-to-byte conversion
+      usbmisc: fix NULL dereference on getcwd() failure in get_absolute_path()
+      usbmisc: check malloc() return in get_dev_string_ascii()
+      usbmisc: check malloc() return in usb_string_to_native()
+      usbmisc: fix unbounded recursion and strncpy issues in readlink_recursive()
+      names: replace sprintf() with snprintf() for modalias formatting
+      lsusb-t: replace sprintf() with snprintf() in lanes_to_str()
+      desc-dump: fix NULL pointer dereference for unknown audio terminal types
+      desc-dump: fix integer underflow in get_array_entry_count()
+      names: fix missing null termination in get_vendor_product_with_fallback()
+      sysfs: fix buffer handling in read_sysfs_prop()
+      sysfs: check initial snprintf() return value in get_sysfs_name()
+      lsusb: fix out-of-bounds array access in dump_encryption_type()
+      lsusb: fix out-of-bounds reads in video EXTENSION_UNIT descriptor parsing
+      lsusb: fix unaligned memory access in dump_printer_device()
+      lsusb: fix out-of-bounds read in video HEADER descriptor parsing
+      lsusb: fix out-of-bounds read in HID report descriptor parsing
+      lsusb: replace sprintf() with snprintf() in get_guid()
+      lsusb: fix out-of-bounds read in MIDI streaming endpoint descriptor
+      lsusb: fix out-of-bounds read in STILL_IMAGE_FRAME descriptor parsing
+      lsusb-t: fix buffer handling in read_sysfs_file_string()
+      lsusb: fix wrong variable in FORMAT_TYPE_II descriptor length calculation
+      lsusb: fix out-of-bounds reads in video INPUT_HEADER and OUTPUT_HEADER
+      lsusb: fix out-of-bounds reads in video PROCESSING_UNIT descriptor
+      lsusb: fix out-of-bounds reads in video terminal and selector descriptors
+      lsusb: fix undefined behavior in convert_le_u32() signed shift
+      lsusb: fix OOB reads in UAC1 audio FORMAT_TYPE descriptor parsing
+      lsusb: fix out-of-bounds read in SuperSpeedPlus capability descriptor
+      lsusb: fix OOB reads in audio FORMAT_SPECIFIC descriptor parsing
+      lsusb: fix out-of-bounds reads in IPP printer descriptor parsing
+      lsusb: add missing length checks in dump_wire_adapter and dump_rc_interface
+      lsusb: add missing length checks in dump_security and dump_encryption_type
+      lsusb: fix OOB read in dump_dfu_interface on short descriptors
+      lsusb: add missing length check in dump_association()
+      lsusb: fix out-of-bounds reads in dump_hid_device() on short descriptors
+      lsusb: fix OOB reads in UAC2 FORMAT_TYPE descriptor parsing
+      lsusb: fix OOB reads in MIDI HEADER and MIDI_IN_JACK descriptor parsing
+      lsusb: fix OOB read in dump_videocontrol_interrupt_endpoint()
+      lsusb: fix OOB reads in video streaming format descriptors
+      lsusb: fix OOB reads in video FRAME descriptor parsing
+      lsusb: fix remaining OOB read in MIDI_OUT_JACK initial fields
+      lsusb: fix remaining OOB reads in video descriptor warn-and-continue paths
+      lsusb: fix OOB reads in video INPUT_HEADER and OUTPUT_HEADER data loops
+      lsusb: fix OOB read in STILL_IMAGE_FRAME compression pattern loop
+      lsusb: fix OOB read in FORMAT_MPEG2TS descriptor on short descriptors
+      lsusb: zero hub descriptor buffer to prevent reading uninitialized data
+      lsusb: fix OOB read in FORMAT_STREAM_BASED descriptor parsing
+      lsusb: fix unsigned integer underflow in dump_bytes calls for short descriptors
+      lsusb: fix wrong byte printed for CCID bClassEnvelope
+      lsusb: bounds-check MIDI ELEMENT bNrInputPins/bElCapsSize against bLength
+      lsusb: bounds-check UVC INPUT_TERMINAL bControlSize against bLength
+      lsusb.py: strip control characters from device-supplied sysfs strings
+      usbreset: refuse ambiguous selectors that match more than one device
+      usbmisc, usb-devices: strip control characters from device-supplied strings
+      lsusb: don't loop forever in find_otg() on a zero-bLength sub-descriptor
+      desc-defs: fix off-by-one in UAC1 wFormatTag string lookup
+      lsusb: bounds-check the BOS device-capability walk
+      usbhid-dump: skip interfaces with bInterfaceNumber 0xff
+      usb-devices: use printf instead of echo for device-supplied strings
+      usb-devices: fix default case in class_decode()
+      lsusb: strip control characters from the WebUSB landing-page URL
+      lsusb: bound the report-fetch loop in dump_hid_device() too
+      lsusb: bounds-check MIDI OUT_JACK bNrInputPins against bLength
+      lsusb: bounds-check IPP printer capability walk against bLength
+      desc-dump: bound get_value_from_field() against descriptor length
+      sysfs: strip control characters from device-supplied string attributes
+      lsusb, usbmisc, usbhid-dump: zero-init buffers passed to libusb control transfers
+      lsusb: migrate the MIDIStreaming parsers onto the desc-dump table engine
+      desc-dump: don't exit() on a device-supplied size_field value
+      lsusb: return on short bLength in the class-specific descriptor dispatchers
+      lsusb: check FORMAT_TYPE bLength before reading bFormatType
+      lsusb: avoid undefined behaviour when assembling u32s from descriptor bytes
+      lsusb: bound the extra[] dispatch loops by remaining size
+      lsusb: fix wHubDelay decoding in the USB3 hub descriptor dump
+      usbhid-dump: bound the HID-descriptor-extra walk by entry end, not start
+      lsusb: fix two -D path-resolution edge cases in usbmisc.c
+      lsusb: don't pass NULL into %s for unknown HID report/usage tags
+      tests: brat: fix some spelling issues
+      usbutils.spdx: update with new files added
+      lsusb: add expected length message for video descriptor endpoint
+      meson.build: turn off -Wno-unused-function
+      lsusb: fix up parsing for older uvc devices
+      tests: usbhid-dump: compare built against installed
+      tests: usbhid-dump -h: compare built against installed
+      tests: usbhid-dump -s: compare built against installed
+      tests: usbhid-dump -d: compare built against installed
+      tests: usbhid-dump -i: compare built against installed
+      tests: usbhid-dump -e: compare built against installed
+      tests: add lsusb argument-combination brat tests
+      tests: add lsusb.py argument-combination brat tests
+      tests: add lsusb -h/-V interaction test
+      tests: add lsusb -t precedence test (-s/-d/-D ignored under -t)
+      tests: add lsusb -D precedence test (-s/-d ignored under -D)
+      tests: add lsusb -V precedence test
+      tests: add lsusb -h precedence test
+      tests: add lsusb repeated -s/-d/-D test
+      tests: add lsusb -d :pid product-only filter test
+      tests: add lsusb -D error-path tests
+      tests: add lsusb -P/-p vestigial-option test
+      tests: add lsusb -- end-of-options test
+      test/lsusb-vv.brat: send errors to /dev/null
+      lsusb-t: fall back to the sysfs vendor/product strings
+
+Jefferson Kline (1):
+      usbreset: return failure when device reset fails
+
+John Whittington (1):
+      lsusb.c: fix typo dwMaxiumumClock
+
+MingHao Chen (1):
+      lsusb.py: fix parse_usb_ids
+
+MoJl4yH (1):
+      lsusb: fix shift UB and truncated-item reads in HID report dump
+
+dependabot[bot] (8):
+      ci: bump github/codeql-action in the all-actions group
+      ci: bump the all-actions group with 5 updates
+      ci: bump the all-actions group across 1 directory with 4 updates
+      ci: bump github/codeql-action in the all-actions group
+      ci: bump the all-actions group with 2 updates
+      ci: bump the all-actions group with 5 updates
+      ci: bump the all-actions group with 5 updates
+      ci: bump the all-actions group across 1 directory with 3 updates
+
+
+--j+14c5xRj1NLxu8m
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEZH8oZUiU471FcZm+ONu9yGCSaT4FAmrZsn0ACgkQONu9yGCS
+aT51HBAAjNx/XmP9uhXKHwxCBfPKMZyA/lJqjWuHnwSAtXs1bhIvYFuCo+DLO6Kn
+v+P0cxotXME2HTUKFhi3slJQN2mCJBH4IwQluDG0jhBgwasB5a8pL9j9WjQLIAex
+EEdW8l7SVsqyzB7Kdvwe9pCCCOVf+9jZaZku4mtMKde79A2v/TUOGpeRVxa/zMO6
+4usSHaX3g+7cUUFzGe3LQRtTsx6+hYVZXpKiWvuuokSMFTUcwCQ+u78/03WOkAlV
+6WL7okGrJOCAg9jws29KB4JtOxj32y9KE2ROKVW3Yj9O+A0g31xvW2tS0QddseCG
+l2XcFNaaH5q/CQBv0La1acpEkYWxrfWfah1U9BOsl1KwMgpzZ1FqRgj9X2+PshnS
+UI9tFhAAROIzyh7nEjzkV58pGQVliwyfV/k8uJKqgteqAOE4eu8HIzua9Cf2iXVz
+pq0Ho4zpPEWIxX3yIya0VSB8bNzsaqdd7+Jri5ARZo0y61729+xAg0aYZYW5e9l2
+qEfk9HchWfjW1KBjVHOP098Bj4Z4LzNmOS4pbjILc122KZQfuk61pwZGx9iGj9C8
+M8oWkb/cgpqGVC202VLaWML7Lkjw5jdBajVcoDaM9IYs7MkDuSEWUFDLApVKM3mc
+RkBuUuOmw7sCQzCkdUtxa13avFabYtj6ldP8ZPUDTCp8SUvjjy0=
+=8dpi
+-----END PGP SIGNATURE-----
+
+--j+14c5xRj1NLxu8m--
