@@ -1,88 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792675796;
-	b=upcCOGZUkyHKIfAz3wZuSrL+Ix7VTGi74156bB9ri4LxuphpmtHEqwpB1obMthLsUNaM
-	 2rYVrQyyLkogFFFq4t4ycN81uV5m5DSJps9ucQptPKxpETSX94haYLZ+jKK1elo6tliRv
-	 fPh9h6+7C2llC+aXeuAj8p+XEvS9OUrivehvn4hKDEp7lQN7+WgaNCdF5bmn8GfueOAfZ
-	 /wCcOTeGMwu91WyGPpjri7WNjVZm+U+P3hWpbvGEn/hujzpJdwrLWYvD1UmSHgVnS3cAK
-	 OjITB9jT71KGtLNiqkjMVUuXcQ9F6o0msi6s9ZxyP7mGNlkAGsO1fntBaC6URtG3x0w==
+	t=1792675792;
+	b=omM3nnGRul2lto06wvZ8zVL0tSF+nGE09SkjDGpaq8Tr1HbGyPrnXqWV+f+63U0UTkbX
+	 vFm1uB++XQPqVdfdRIylKQlr/osf6Cd/oKbhZuua7G1l8ttBwchszYpMA3u+WT92vGlvQ
+	 LzJqu27hTQvbmTf9iDXZE4yi1rFmahg13Y766zdcnhLyzaCV8fkhT+F+Ug1fYyGbMDjJD
+	 /f/rXfSpcnnfiodIh8u2oTYLDTrFSv3Zr6RyUIWeAAQMDn0USRyO6unU9l+YIIwQVLAMN
+	 /2VcPEF4DqarFKGvAkltMuvJufHR9e1uUT1JaEBewMupiASP4gDUmKtDMWJ2k8Z3T9A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792675796;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=qTs7ITGH5Vm0O/b2VvByjBvC5hRyxCKXY/CuqHg+goE=;
-	b=2IXBZ2Wm5505wMslJ9oOdEzxVRjQ855SlZioYvocJwCVL3lH2WUcftyVVRv/HIu2PKJg
-	 kFGIdhOoIHZkxMipoMy2iy8XF+w0v2BywBQ6+4hvmhqpCo1W05Hskf/fl92YL/Rq4o/s6
-	 sUwoIpSoaBSth1A1XiigyU5HBDdbrrpFrbZ8B8uKXAkBPbGUKwbXQK/7SuYYUe65Jnfn9
-	 mn7VgUQDIXoYQ+56NpbEbJObk8Aa9deWRhqvL86vDaCtb5uj9oldSfN4P7LNAOhYUDKon
-	 wqzkhybrP7dbM+qGTUEilULUKfNQmzjVXN9q3Icm2w/aaS/4KtEurZcRw/f5OuTlZGA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792675792;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BHloWhYz7GJBLiM/ipNU8e/tSSUGBZyPKJWypWVrUrM=;
+	b=fPXxQ7OLti8rvzfqm5FvthazY1qAcEmKNJzqVABLTd1lOWTCrZPQ8j87uSo2P1HxKF87
+	 fCeOqUn5xvCKMwQ766UZMplXueAdnHWH7NQ3e/5HpigcaafJgOg3BKzi7afTuq8inu1bD
+	 X1faldDm/pa8wLUG7wsSmgqpCEB/LiumbHGZpdCCaSF66tZ1jbamwKFdeZfvuGkoRKgU2
+	 GvUHCtkwI3Mdjs2RyH6uHII39YRcNTMJr+Z06DV3OB17V6sX5npChG334j95M7EITTIFC
+	 8Ip27cMXq2MoMY6cRJuHkNct76H0+cEP+4uf+GlgUA3PQI4nM0PA8vqI5v55es0bmxw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=UnnznAku;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ipjyl4WV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FBB60A262D
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:29:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 73FBB60A262D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CE960A2604;
+	Thu, 22 Oct 2026 13:29:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=UnnznAku
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1ec92f655so11222135e9.0
-        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 06:29:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1792675794; x=1793280594; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qTs7ITGH5Vm0O/b2VvByjBvC5hRyxCKXY/CuqHg+goE=;
-        b=UnnznAkuDtGZE+MuoQei834/NZGnv+7Vu3YK0PkPpU0vwUPzY0P7vPsBfdCBwl1D7g
-         cDMgvm6L11UCVY634uIvYXoT301cHNuxy6xCGZwomfA5BcqKkBKwgphDojJzmW42m7yF
-         nZsOF3aj7f8myme7/ZAA5ACEV+B1OvvzCpRuMSqZGAZNuAiES68IdgYcIXt6kP5jlFRP
-         lxaajb5lltKGetqki+6nThGI6mtu4BZ4gT4LPreda2Yr5ihTPSWO7PSOFLXvma0SlABy
-         uOpEbcoLqT89POjef+36bd6+VJwTehl49AbT9dDCDWbVtSL3Kw3EDUgKzjdqTX4stHSI
-         hTZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792675794; x=1793280594;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qTs7ITGH5Vm0O/b2VvByjBvC5hRyxCKXY/CuqHg+goE=;
-        b=obrRxged1RSZvg+fIXdw7joJE7Mg9Mcu19QiJEuomFdKW2A4s7Sua6JiFU/17AOSbJ
-         DQZ8rbkNmOgkBS4qPtAadtDZDurYQTIpt98p0NRjLRD92fgCyqyiesxK/Q2oA7ajj/1k
-         XOpU4Ftf2SM3ybxJTpe7/jNTRvj5iajoJLymd8CasEv7wvD4bTghKMyP1Oebs1kgtqGo
-         eC6y6zYk0NzSms9QkOEJ670593X9QfGf3zyF2QosLgvSgvDPpdXd4TLu9vYXh5nk26nW
-         Ba1eF1wkuZijrOyhDpJ0LhUAI4O28IgGzwtopzXJ3i4f6SnmN0iDXx6+bOX8YMmL/oqL
-         ptRQ==
-X-Forwarded-Encrypted: i=1; AKwUvByOjZNWRAPYdye9C5AA3d3XJX5xh/PXUaV1IxyqzC/uscLr13tinA+HL9Y7pOIEtVmDfiNQgm7X0mQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK9TnGCoreJ05EfUS/iFrki3XJoErMFA6ErVp8pp+GVEycvJd5T
-	ZJ8xWI2f7d5c8NGNA3oBQWOeKpFb6xaTp0A3dTGsl069D4+3ogXyJs3WUnOjsmz6xyY=
-X-Gm-Gg: AYBFou0uLdN2RV15ccyI4+rxrQmx6iZq1jQRa/80E0pCywTuwyv8Cl4ZgyUwkqX2Oly
-	JOZHwHclQBdlAEJJUfjx2cYEdNgfbBKePNZYoMC6phu1f72r/vGmMkczXsiPM6eW8EFd83vdwci
-	LVL2kUn3uaYpmZYe56gEa45yK7wTaeOh1GMDuay9uBBiy73C46uJ/j5aNurytWwiptxeMii1foI
-	Uzw1BzoJ5VhEmyjg0BlFXcsyiYJ5a+56nQVmjwJ45eg9YGYq4nU0WqTHxxaf2r2eIKOhyuPrApH
-	yAyfvhEQBrKLsMtbEmKVoiCK41tWRf0n486RSB7AwGBc5JRnVsjsUd4vIiGsbfzN0SPXJywxcQz
-	EvfNdSLzE2hQmC6NGgC+w2rEe0Ly6Nxt+ErzXaXphx7JEqfTHHD8hLYyYDlaCr8rVbT/ob8ZgVA
-	DJUV5KUUdcPkb+x0C7VxtEBQ8sghkACfAt53EhvBpG0+usHKQMX11XkJ8timwXUYRNAtamFplAN
-	JZZiFI4CtkgmqcZPNoU5IwQP8Eo3THfYIQPCNLhFbnj/C38H4/EMN5M8UqT9S6Qwud0MplP6T28
-	ETceCwIl4rxGjT7R5ek=
-X-Received: by 2002:a05:600c:6085:b0:4a1:a7f8:c124 with SMTP id 5b1f17b1804b1-4a204b04321mr42997325e9.7.1792675793804;
-        Thu, 22 Oct 2026 06:29:53 -0700 (PDT)
-Received: from ?IPV6:2001:a61:1362:6c01:90a6:c895:55cc:41c? ([2001:a61:1362:6c01:90a6:c895:55cc:41c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a203a265afsm82566045e9.7.2026.10.22.06.29.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 22 Oct 2026 06:29:53 -0700 (PDT)
-Message-ID: <6015c40b-04ae-443e-8271-63e064f08ab0@suse.com>
-Date: Thu, 22 Oct 2026 15:29:52 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ipjyl4WV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E81D71F000C2;
+	Thu, 22 Oct 2026 13:29:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792675791;
+	bh=BHloWhYz7GJBLiM/ipNU8e/tSSUGBZyPKJWypWVrUrM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=ipjyl4WVUMaePbP8eQPmaEfK7J/3RZ1TYrKdiNb92bEF42Dy9+KYZdsQFMRMsboSF
+	 zKu9HrcsnZenjyraJqvjlVuHMvgpWMorBB7kvBnawTj3Ld7pah59+zVPkaekC4FC4z
+	 b87E/GW1wE+3LrxDIpnlCtSHe+LyRpVtpS/hihPU=
+Date: Thu, 22 Oct 2026 15:29:43 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Adrian Ambrozewicz <aambrozewicz@nvidia.com>
+Cc: Donald Shannon <donalds@nvidia.com>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, Lee Jones <lee@kernel.org>,
+	Pavel Machek <pavel@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Mark Brown <broonie@kernel.org>, Jiri Slaby <jirislaby@kernel.org>,
+	Corey Minyard <corey@minyard.net>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans de Goede <hansg@kernel.org>, Lixu Zhang <lixu.zhang@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>, Johan Hovold <johan@kernel.org>,
+	Oliver Neukum <oneukum@suse.com>,
+	Quan Nguyen <quan@os.amperecomputing.com>,
+	Andrew Jeffery <andrew@codeconstruct.com.au>,
+	Jeremy Kerr <jk@codeconstruct.com.au>, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-leds@vger.kernel.org, linux-i2c@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-serial@vger.kernel.org,
+	openipmi-developer@lists.sourceforge.net,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org,
+	driver-core@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/11] Add NVIDIA LSTP USB adapter drivers
+Message-ID: <2026102222-oppose-saggy-983a@gregkh>
+References: <20261012-lstp-usb-adapter-v1-0-aambrozewicz@nvidia.com>
+ <2026101355-species-glance-9ff8@gregkh>
+ <20261022104025.3956402-3-aambrozewicz@nvidia.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,42 +77,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: uas: wait for pending commands before unbinding
-To: Jiayi Li <lijiayi@kylinos.cn>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
- Michal Pecio <michal.pecio@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
- linux-kernel@vger.kernel.org
-References: <20261022123401.319479-1-lijiayi@kylinos.cn>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261022123401.319479-1-lijiayi@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261022104025.3956402-3-aambrozewicz@nvidia.com>
 
-Hi,
+On Thu, Oct 22, 2026 at 01:40:26PM +0300, Adrian Ambrozewicz wrote:
+> On Tue, Oct 13, 2026 at 01:37:11PM +0200, Greg Kroah-Hartman wrote:
+> > > Why the auxiliary bus, and why not MFD
+> > > --------------------------------------
+> >
+> > Neither is ok for USB devices, that's not an argument either way.
+> 
+> Here USB only carries the traffic. The I2C, SPI and GPIO channels are
+> ordinary controllers on the board, and their drivers register with
+> those subsystems; hosts describe what is wired to them with ACPI, BMCs
+> with device tree [1].
+> 
+> usb-ljca is a recent driver for a very similar device, so we modelled
+> the core on it: one interface carries GPIO, I2C and SPI, and the core
+> creates an auxiliary device per function and attaches its ACPI node.
+> LSTP extends that model to device tree.
+> 
+> Whether the next version stays LSTP or becomes a set of divergences
+> from an OBMF-ICP driver, as Jeremy suggested, the need is the same: a
+> device behind a tunnelled channel is described like one wired straight
+> to the BMC, so a board can move between the two without rewriting its
+> description.
 
-thank you for doing this.
+THat's exactly what USB is supposed to be on its own.  Just use that,
+don't attempt to "overload" a single USB device as somehow being a
+random set of devices attached that way, that's a peversion of the USB
+spec, don't you think?
 
-On 22.10.26 14:34, Jiayi Li wrote:
+But if you REALLY want to do that, then again, do something that has
+already been defined, like greybus, which you can use your USB device as
+a greybus host device and "hang" the other devices off of that (i.e.
+your firmware knows the device types and describes it to the host.)
 
-> +static void uas_pre_disconnect(struct usb_interface *intf)
-> +{
-> +	struct Scsi_Host *shost = usb_get_intfdata(intf);
-> +	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
-> +	unsigned long flags, start_time;
-> +
-> +	spin_lock_irqsave(shost->host_lock, flags);
-> +	scsi_block_requests(shost);
+To attempt to use a non-self-describing device/bus in this century for a
+brand new protocol and device that actually uses USB as a transport
+layer is insane.  Please learn from history and don't repeat the same
+mistakes.
 
-No, on pure grounds of maintainability, please put the
-blocking of the host in the direct handler for disconnect.
-Unblocking in the caller something that was never blocked
-would forever trip up anybody reading the code.
+So, again, why not use greybus for this?
 
-	Regards
-		Oliver
+thanks,
 
-
+greg k-h
