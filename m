@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792691745;
-	b=KVnR8oUiUmHPFj/0destsABYIL/Hn8+GYfzpO6WdE6LcjnuLeXkr1AjpBaGn+87dT9Yd
-	 4bR9vkVzu54Gh/5WXY1VqAbY//TQoglwlWaXat6wCkl/rxNsU4mB0MKA+zUiRS6uPsxdA
-	 qPgAVqBg1CAw2CIFLfJ8wTmRJKvNam/5zlqyPK57Xs1+VarIsa8n68fZZr64v7ZVL0A6u
-	 TqTuNp/jBhDDzJ6ICvnIfRGOgmMJAnoiQc/EWDm/T9kFtrcU4QW7yLTmy3i+FrE5+NC0B
-	 bacX3ojb5kQy8lJdBH7QjSYLrn0ArxzJFC7CzmHD9pGvT3zpcn6Oo5oqVNQZZKqB5IA==
+	t=1792692215;
+	b=zh2/+u5XOejCfrrahcaB90CKSHyhxMcS4eQhAzGjQ18VnCO0bCzzL+k3knzXrhMi5nWY
+	 IPJWsCUQn7WPprt3zcT2FLzGGUN0p3d/+yhBayXCi/5isVK0VQm0dEJYfxIbo6LKyX7OP
+	 EjWxG7EkNsJEdt8p+kMTDOoeaRDeUgQPuq0e7M1q0P5d5SFj5aGRn7GEwSVmm4dUt5TnA
+	 ysltN7ZZkb4rzjHG1zh+kGZFLElUqKbgpYOg7VKaZ4K60ZDbJuqZnUM50U6omf2d6SFdF
+	 7QvaCKjCGgDJe2+aqbCU+RgO21DvzlrNqyhNOiUbgATMRWVwt67Kdt8QSlohHMyWAYg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792691745;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792692215;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=KjGf7OsZBejgmPvwT8zLu5A7UBqJzs2vz/1IDZM/ap8=;
-	b=HWAHmQlDLjmWVW3ewdmRdFWsNh8BpSkmfseH4iAtQlgKCLeAqQWvalRDCPIdmuy8hWD1
-	 rKq/d2myUftqqcz+ZTSkbpmVFsjqt//GtoL7cxNbsBWpMVbXcsR/9PTmcQ8Crx9zesAHI
-	 v7Hv4xdXL2Khjyx82Z1QqmwwKSA4RpXPdZ2C7rPQG2Ih6tnF0jVVH6ePPrhh23n69NH77
-	 UaCXixERHKlrCklvxEAiyCVVoqRBqeyrh2xvInhxExTOi2MvyN/KRcq6z5X/RLcHRBuu1
-	 C+yQaNiRaH/sR97SeNov23/rSDn99IxhJRDusTxuOuc2wGeSSsQHODOBYv0yQVot8+g==
+	bh=14WjTagRVG96HvUs9DGj5AXFV5bwPENUsEFHhBB8VkM=;
+	b=ZT1g6BoxHXid104uH4KmnaG7iwSHtdxeedlbFZU9X2Fagix6r271hd28KO864ChKW6cc
+	 GFNWhG0nX7jz1ZT7Y5th2cQ51jMi6l3v588FG8OZnswVOaWxmnxrlz4BX0nkBybmysJla
+	 Vsf/Hz9tiPFIve3gv1EdqJv/SP0xZyD90w3wo68w8y6QuysB+Hqms0uhUaBbXSEL3X7aH
+	 OrIj4fvedTqvBtDjiTO3blIdYHH5PfBtYs4USzXs6nfGeWIvXJJumLNAdERjYR44Jis7/
+	 ry8eFPOrD6j0pCHxKxq66eVRJuQF6XdKKRiXpR4LqTAYRbD0NLY2yKb6Rkb2CczLM4A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dqpA5nvh;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZPNEiQ+h;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D4C606A319
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 17:55:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEA6606A319
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 18:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dqpA5nvh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 639791F01825;
-	Thu, 22 Oct 2026 17:55:44 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZPNEiQ+h
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 411161F01825;
+	Thu, 22 Oct 2026 18:03:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792691744;
-	bh=KjGf7OsZBejgmPvwT8zLu5A7UBqJzs2vz/1IDZM/ap8=;
+	s=k20260515; t=1792692214;
+	bh=14WjTagRVG96HvUs9DGj5AXFV5bwPENUsEFHhBB8VkM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dqpA5nvhvXc8maiX2iDO8kJPjs4roQYu6Oxkc3c2kFiJEE/SJ3sBRPUascf32TSOZ
-	 GLn2+fi7dvJ4qYv7EOCDB/mL2otX9lMg2JND2Z7+xmcHrOC4lZIhXtY2U3Lxm0oPL+
-	 ZmogMWlDU/IsX1rK3uoV9Nm2fw24aAKHOckQd1l0i6j1+dhNJr18UnUsmOiJ4AYAP/
-	 bsiBgBstnhF7pUAanK/4FyP3inYZ2tLMpSMPbaRkTjccBss6IMrMBVJSRHg8Fs7aVV
-	 3JqqIuH+VKJt2rXfaWUl+sbvyQxuFtSW48OvMuMw6OOtPBgIG1wVW69s4MUPUU6kP7
-	 3FHzjnGKYGqrg==
-Message-ID: <sashiko-outbox-181896@kernel.org>
+	b=ZPNEiQ+hcrOkkOCDwtqBPVYElOVzP8nKYeuzDLSuN67lR2QUwSGr4eYP7NbGiXe2L
+	 GaqNiNt6kDp/e10WPTum9mH0RILgTf0XpcMH1iiL+ixtq252lCKoamYVuLGrbQVGZo
+	 pGJnYodlwo7NzJNS+fr8YVPVHAVqAkv2kISlonPVE8XrJyNTrFQHCjjNOy1hXTn/hz
+	 M5dpNVrXB8Eqjy2w2K4OuXNKFODi+zgpYrp+w/yBZvkPWPiCyFFJyOm909kDy5EvNK
+	 WRPO1LKRYwblqKCYUAVi0Vz+V6XdBhWlcgcUMtHeNl6YUX+IA2FDNoXwxXc8vXhDkT
+	 DTx76QrpI+vJw==
+Message-ID: <sashiko-outbox-181900@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH 2/4] soc: qcom: pmic_glink: Report wakeup events on
- behalf of clients
+Subject: Re: [RFC PATCH 1/4] soc: qcom: pmic_glink: Hold back notifications
+ over system sleep
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Vladyslav Tymoshchuk" <tvlad744@gmail.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261022164151.592-3-tvlad744@gmail.com>
+In-Reply-To: <20261022164151.592-2-tvlad744@gmail.com>
 References: <20261022164151.592-1-tvlad744@gmail.com>
- <20261022164151.592-3-tvlad744@gmail.com>
+ <20261022164151.592-2-tvlad744@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2026 17:55:43 +0000
+Date: Thu, 22 Oct 2026 18:03:33 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,248 +61,251 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
 s) to consider:
-- [Medium] soc: qcom: pmic_glink: premature wakeup relax in pmic_glink_disp=
-atch()
-- [Medium] soc: qcom: pmic_glink: client wakeup source clobbered on overlap=
-ping events
+- [High] soc: qcom: pmic_glink: deliver_work() dispatches messages before s=
+ervice UP
+- [High] soc: qcom: pmic_glink: race between pmic_glink_prepare() and deliv=
+er_work()
+- [Medium] soc: qcom: pmic_glink: pmic_glink_drop_deferred() leaks num_drop=
+ped count
 --
 
-commit 8f440750750801ffa1527cda60138e403b071b3e
+commit 3dadaa06ca7997c9a5f8bc5601e0bf726bf560b1
 Author: Vladyslav Tymoshchuk <tvlad744@gmail.com>
 
-soc: qcom: pmic_glink: Report wakeup events on behalf of clients
+soc: qcom: pmic_glink: Hold back notifications over system sleep
 
-This commit adds wakeup event reporting to pmic_glink on behalf of client
-devices when notifications arrive, with optional per-client wakeup filterin=
-g.
-When notifications are deferred during system sleep, it keeps the client
-device's wakeup source active until the deferred notifications are dispatch=
-ed
-or dropped.
+This commit defers incoming PMIC GLINK notifications and service UP events
+starting from the PM prepare callback and delivers them on
+system_freezable_wq from the PM complete callback so client workers do not
+access suspended devices during system sleep.
 
 > diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
-> index 748b335be6ef7..c629df8009e68 100644
+> index 84fd0c82c0c4d..748b335be6ef7 100644
 > --- a/drivers/soc/qcom/pmic_glink.c
 > +++ b/drivers/soc/qcom/pmic_glink.c
 
 [ ... ]
 
-> @@ -166,6 +216,15 @@ int pmic_glink_send(struct pmic_glink_client *client=
-, void *data, size_t len)
->  }
->  EXPORT_SYMBOL_GPL(pmic_glink_send);
-> =20
-> +static bool pmic_glink_is_wakeup_event(struct pmic_glink_client *client,
-> +				       const void *data, size_t len)
+> @@ -149,13 +166,77 @@ int pmic_glink_send(struct pmic_glink_client *clien=
+t, void *data, size_t len)
+
+[ ... ]
+
+> +static void pmic_glink_drop_deferred(struct pmic_glink *pg)
 > +{
-> +	if (!device_may_wakeup(client->dev))
-> +		return false;
+> +	struct pmic_glink_deferred_msg *msg, *tmp;
 > +
-> +	return !client->wakeup_filter || client->wakeup_filter(data, len, clien=
-t->priv);
+> +	guard(spinlock_irqsave)(&pg->defer_lock);
+> +
+> +	list_for_each_entry_safe(msg, tmp, &pg->deferred, node) {
+> +		list_del(&msg->node);
+> +		kfree(msg);
+> +	}
+> +	pg->num_deferred =3D 0;
 > +}
-> +
->  static void pmic_glink_dispatch(struct pmic_glink *pg, const void *data,=
- size_t len)
->  {
->  	const struct pmic_glink_hdr *hdr =3D data;
-> @@ -174,8 +233,12 @@ static void pmic_glink_dispatch(struct pmic_glink *p=
-g, const void *data, size_t
-> =20
->  	spin_lock_irqsave(&pg->client_lock, flags);
->  	list_for_each_entry(client, &pg->clients, node) {
-> -		if (client->id =3D=3D le32_to_cpu(hdr->owner))
-> -			client->cb(data, len, client->priv);
-> +		if (client->id !=3D le32_to_cpu(hdr->owner))
-> +			continue;
-> +
-> +		/* From here on, the client keeps the system awake if it needs to */
-> +		pmic_glink_client_relax(client);
-> +		client->cb(data, len, client->priv);
->  	}
->  	spin_unlock_irqrestore(&pg->client_lock, flags);
->  }
 
 [Severity: Medium]
-Can pmic_glink_dispatch() in drivers/soc/qcom/pmic_glink.c prematurely
-deactivate client->dev's wakeup source while a wakeup notification for that
-client is still queued in pg->deferred?
+Should pmic_glink_drop_deferred() also reset pg->num_dropped to 0?
 
-Because deferred wakeup retention is tracked with a single per-client boole=
-an
-client->stay_awake in pmic_glink_rpmsg_callback(), pmic_glink_dispatch()
-unconditionally clears client->stay_awake and calls pm_relax(client->dev) on
-the first message dispatched to that client.
+If pmic_glink_defer() drops notifications while the queue is full (or on
+kmalloc_flex() failure) and the remote service subsequently goes down,
+pmic_glink_state_notify_clients() calls pmic_glink_drop_deferred() to disca=
+rd
+all queued messages from that remote session.
 
-If a client uses pmic_glink_client_set_wakeup_filter() and receives a
-non-wakeup notification during system sleep followed by a wakeup notificati=
-on
-before resume, both are queued in FIFO order in pg->deferred and
-client->stay_awake is set to true. When pmic_glink_deliver_work() drains
-pg->deferred:
+Because pg->num_dropped is left untouched here, pmic_glink_deliver_work() w=
+ill
+later read the stale pg->num_dropped count and log a warning for notificati=
+ons
+that belonged to the discarded session.
 
-drivers/soc/qcom/pmic_glink.c:pmic_glink_deliver_work() {
-	for (;;) {
-		spin_lock_irqsave(&pg->defer_lock, flags);
-		msg =3D list_first_entry_or_null(&pg->deferred, ...);
-		...
-		list_del(&msg->node);
-		pg->num_deferred--;
-		spin_unlock_irqrestore(&pg->defer_lock, flags);
+[ ... ]
 
-		pmic_glink_dispatch(pg, msg->data, msg->len);
-		kfree(msg);
-	}
-}
-
-the earlier non-wakeup notification is dispatched first. That call runs
-pmic_glink_client_relax(client) -> pm_relax(client->dev) before invoking
-client->cb(). Since the first message is not a wakeup event, the client
-callback will not re-activate client->dev's wakeup source, leaving the wake=
-up
-source inactive while the wakeup notification is still waiting in
-pg->deferred.
-
-The same premature relax happens if two wakeup notifications for the same
-client are queued in pg->deferred, or if a new wakeup notification arrives =
-in
-pmic_glink_rpmsg_callback() after pmic_glink_deliver_work() drops
-pg->defer_lock for an earlier message (while pg->defer is still true) and
-before pmic_glink_dispatch() acquires pg->client_lock. Wouldn't this allow
-autosleep or a suspend started via /sys/power/wakeup_count to put the system
-back to sleep before the client has seen the pending wakeup notification?
-
-> @@ -235,8 +298,11 @@ static void pmic_glink_drop_deferred(struct pmic_gli=
-nk *pg)
->  static int pmic_glink_rpmsg_callback(struct rpmsg_device *rpdev, void *d=
-ata,
->  				     int len, void *priv, u32 addr)
->  {
-> +	struct pmic_glink_client *client;
->  	struct pmic_glink_hdr *hdr;
->  	struct pmic_glink *pg =3D dev_get_drvdata(&rpdev->dev);
-> +	bool notification, deferred;
+> @@ -217,13 +305,18 @@ static void pmic_glink_state_notify_clients(struct =
+pmic_glink *pg)
+>  	unsigned long flags;
+> =20
+>  	if (pg->client_state !=3D SERVREG_SERVICE_STATE_UP) {
+> -		if (pg->pdr_state =3D=3D SERVREG_SERVICE_STATE_UP && pg->ept)
+> +		/* On UP the clients use the remote, hold that back as well */
+> +		if (pg->pdr_state =3D=3D SERVREG_SERVICE_STATE_UP && pg->ept &&
+> +		    !pmic_glink_deferring(pg))
+>  			new_state =3D SERVREG_SERVICE_STATE_UP;
+>  	} else {
+>  		if (pg->pdr_state =3D=3D SERVREG_SERVICE_STATE_DOWN || !pg->ept)
+>  			new_state =3D SERVREG_SERVICE_STATE_DOWN;
+>  	}
+> =20
+> +	if (pg->pdr_state =3D=3D SERVREG_SERVICE_STATE_DOWN || !pg->ept)
+> +		pmic_glink_drop_deferred(pg);
+> +
+>  	if (new_state !=3D pg->client_state) {
+>  		spin_lock_irqsave(&pg->client_lock, flags);
+>  		list_for_each_entry(client, &pg->clients, node)
+> @@ -233,6 +326,40 @@ static void pmic_glink_state_notify_clients(struct p=
+mic_glink *pg)
+>  	}
+>  }
+> =20
+> +static void pmic_glink_deliver_work(struct work_struct *work)
+> +{
+> +	struct pmic_glink *pg =3D container_of(work, struct pmic_glink, deliver=
+_work);
+> +	struct pmic_glink_deferred_msg *msg;
+> +	unsigned int dropped;
 > +	unsigned long flags;
-> =20
->  	if (len < sizeof(*hdr)) {
->  		dev_warn(pg->dev, "ignoring truncated message\n");
-> @@ -246,11 +312,30 @@ static int pmic_glink_rpmsg_callback(struct rpmsg_d=
-evice *rpdev, void *data,
->  	hdr =3D data;
-> =20
->  	/* The sender of a request is waiting for the response */
-> -	if (le32_to_cpu(hdr->type) !=3D PMIC_GLINK_REQ_RESP &&
-> -	    pmic_glink_defer(pg, data, len))
-> -		return 0;
-> +	notification =3D le32_to_cpu(hdr->type) !=3D PMIC_GLINK_REQ_RESP;
 > +
-> +	/* Defer under client_lock, to set stay_awake before it is delivered */
-> +	spin_lock_irqsave(&pg->client_lock, flags);
-> +	deferred =3D notification && pmic_glink_defer(pg, data, len);
-> +	list_for_each_entry(client, &pg->clients, node) {
-> +		if (client->id !=3D le32_to_cpu(hdr->owner))
-> +			continue;
+> +	guard(mutex)(&pg->state_lock);
 > +
-> +		if (deferred) {
-> +			if (pmic_glink_is_wakeup_event(client, data, len)) {
-> +				pm_stay_awake(client->dev);
-> +				pm_system_wakeup();
-> +				client->stay_awake =3D true;
-> +			}
-> +			continue;
+> +	for (;;) {
+> +		spin_lock_irqsave(&pg->defer_lock, flags);
+> +		msg =3D list_first_entry_or_null(&pg->deferred, struct pmic_glink_defe=
+rred_msg, node);
+> +		if (!msg) {
+> +			pg->defer =3D false;
+> +			dropped =3D pg->num_dropped;
+> +			pg->num_dropped =3D 0;
+> +			spin_unlock_irqrestore(&pg->defer_lock, flags);
+> +			break;
 > +		}
 > +
-> +		if (notification && pmic_glink_is_wakeup_event(client, data, len))
-> +			pm_wakeup_hard_event(client->dev);
-> =20
-> -	pmic_glink_dispatch(pg, data, len);
-> +		client->cb(data, len, client->priv);
+> +		list_del(&msg->node);
+> +		pg->num_deferred--;
+> +		spin_unlock_irqrestore(&pg->defer_lock, flags);
+> +
+> +		pmic_glink_dispatch(pg, msg->data, msg->len);
+> +		kfree(msg);
 > +	}
-> +	spin_unlock_irqrestore(&pg->client_lock, flags);
+> +
+> +	pmic_glink_state_notify_clients(pg);
+> +
+> +	if (dropped)
+> +		dev_warn(pg->dev, "%u notifications lost during system sleep\n", dropp=
+ed);
+> +}
+
+[Severity: High]
+Isn't the ordering between deferred message delivery and
+pmic_glink_state_notify_clients() in pmic_glink_deliver_work() inverted when
+the remote service starts or restarts during system sleep?
+
+In pmic_glink_state_notify_clients(), any SERVREG_SERVICE_STATE_DOWN event
+discards all previously queued messages via pmic_glink_drop_deferred() and
+notifies clients of SERVREG_SERVICE_STATE_DOWN. If the service then comes up
+while pg->defer is true, SERVREG_SERVICE_STATE_UP is held back, so any
+messages remaining in pg->deferred at resume arrived after the service came
+up.
+
+However, pmic_glink_deliver_work() dispatches all of pg->deferred (and clea=
+rs
+pg->defer =3D false) before calling pmic_glink_state_notify_clients(pg) to
+deliver SERVREG_SERVICE_STATE_UP:
+
+1. In drivers/power/supply/qcom_battmgr.c, qcom_battmgr_pdr_notify() only s=
+ets
+   battmgr->service_up =3D true on SERVREG_SERVICE_STATE_UP:
+
+   static void qcom_battmgr_pdr_notify(void *priv, int state)
+   {
+           struct qcom_battmgr *battmgr =3D priv;
+
+           if (state =3D=3D SERVREG_SERVICE_STATE_UP) {
+                   battmgr->service_up =3D true;
+                   schedule_work(&battmgr->enable_work);
+           } else {
+                   battmgr->service_up =3D false;
+           }
+   }
+
+   Delivering post-UP notifications before SERVREG_SERVICE_STATE_UP causes
+   qcom_battmgr_notification() -> power_supply_changed() to trigger property
+   reads while battmgr->service_up is still false, failing with -EAGAIN.
+
+2. In drivers/usb/typec/ucsi/ucsi_glink.c, pmic_glink_ucsi_pdr_notify()
+   schedules ucsi->register_work on the non-freezable system_wq:
+
+   static void pmic_glink_ucsi_pdr_notify(void *priv, int state)
+   {
+           struct pmic_glink_ucsi *ucsi =3D priv;
+           unsigned long flags;
+
+           spin_lock_irqsave(&ucsi->state_lock, flags);\
+           ucsi->pd_running =3D (state =3D=3D SERVREG_SERVICE_STATE_UP);
+           spin_unlock_irqrestore(&ucsi->state_lock, flags);
+           schedule_work(&ucsi->register_work);
+   }
+
+   When SERVREG_SERVICE_STATE_DOWN is passed on immediately during system
+   sleep, ucsi->register_work runs ucsi_unregister() -> ucsi_unregister_por=
+t()
+   -> ucsi_unregister_partner() -> typec_set_mode(con->port, TYPEC_STATE_SA=
+FE)
+   while Type-C mux and retimer devices are still suspended. Then, when the
+   service comes back up during sleep and pmic_glink_deliver_work() dispatc=
+hes
+   post-UP notifications before SERVREG_SERVICE_STATE_UP,
+   pmic_glink_ucsi_callback() schedules ucsi->notify_work before
+   ucsi->register_work re-registers UCSI, accessing the freed ucsi->connect=
+or.
+
+[ ... ]
+
+> @@ -386,10 +519,35 @@ static void pmic_glink_remove(struct platform_devic=
+e *pdev)
+>  	if (pg->data->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
+>  		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
 > =20
->  	return 0;
+> +	pmic_glink_drop_deferred(pg);
+> +
+>  	guard(mutex)(&__pmic_glink_lock);
+>  	__pmic_glink =3D NULL;
 >  }
+> =20
+> +static int pmic_glink_prepare(struct device *dev)
+> +{
+> +	struct pmic_glink *pg =3D dev_get_drvdata(dev);
+> +
+> +	guard(spinlock_irqsave)(&pg->defer_lock);
+> +	pg->defer =3D true;
+> +
+> +	return 0;
+> +}
 
-[Severity: Medium]
-What happens if a client keeps client->dev's wakeup source active from
-client->cb(), as described in the commit message, and another notification
-arrives for the same client before the client relaxes its wakeup source?
+[Severity: High]
+Can pmic_glink_deliver_work() race with pmic_glink_prepare() and clear
+pg->defer =3D false while the system is entering sleep?
 
-In drivers/base/power/wakeup.c, struct wakeup_source is not reference-count=
-ed.
-When pmic_glink_rpmsg_callback() in drivers/soc/qcom/pmic_glink.c calls
-pm_wakeup_hard_event(client->dev) for a non-deferred wakeup notification, it
-invokes pm_wakeup_dev_event(client->dev, 0, true) ->
-pm_wakeup_ws_event(ws, 0, true):
+In kernel/power/hibernate.c, hibernation_snapshot() calls
+dpm_prepare(PMSG_FREEZE) before freeze_kernel_threads() freezes
+system_freezable_wq:
 
-drivers/base/power/wakeup.c:pm_wakeup_ws_event() {
-	...
-	wakeup_source_report_event(ws, hard);
+	error =3D dpm_prepare(PMSG_FREEZE);
+	if (error)
+		goto Complete;
 
-	if (!msec) {
-		wakeup_source_deactivate(ws);
-		goto unlock;
-	}
-	...
-}
+	/* Preallocate image memory before freezing kernel threads and shutting do=
+wn devices. */
+	error =3D hibernate_preallocate_memory();
+	if (error)
+		goto Complete;
 
-Because msec is 0, pm_wakeup_ws_event() unconditionally calls
-wakeup_source_deactivate(ws) before client->cb() is called, which deactivat=
-es
-client->dev->power.wakeup and cancels its timer if the client was already
-holding it active from an earlier callback (for example via
-pm_stay_awake(client->dev) or pm_wakeup_event(client->dev, msec)).
+	error =3D freeze_kernel_threads();
 
-Similarly, in pmic_glink_deliver_work() in drivers/soc/qcom/pmic_glink.c:
+A similar situation occurs if a second sleep transition or hybrid-sleep
+suspend starts while pg->deliver_work queued by a previous
+pmic_glink_complete() is still pending or running on system_freezable_wq.
 
-drivers/soc/qcom/pmic_glink.c:pmic_glink_deliver_work() {
-	for (;;) {
-		spin_lock_irqsave(&pg->defer_lock, flags);
-		msg =3D list_first_entry_or_null(&pg->deferred, ...);
-		if (!msg) {
-			pg->defer =3D false;
-			dropped =3D pg->num_dropped;
-			pg->num_dropped =3D 0;
-			spin_unlock_irqrestore(&pg->defer_lock, flags);
-			break;
-		}
-		...
-		spin_unlock_irqrestore(&pg->defer_lock, flags);
+Because pmic_glink_prepare() sets pg->defer =3D true without flushing or
+canceling pg->deliver_work first, an in-flight pmic_glink_deliver_work() can
+finish draining pg->deferred after pmic_glink_prepare() returns and set
+pg->defer =3D false, leaving notification deferral disabled for the rest of=
+ the
+sleep transition.
 
-		pmic_glink_dispatch(pg, msg->data, msg->len);
-		kfree(msg);
-	}
-
-	/* Release the clients whose notifications were dropped */
-	spin_lock_irqsave(&pg->client_lock, flags);
-	list_for_each_entry(client, &pg->clients, node)
-		pmic_glink_client_relax(client);
-	spin_unlock_irqrestore(&pg->client_lock, flags);
-}
-
-if client->cb() activates client->dev's wakeup source during
-pmic_glink_dispatch(), and a new wakeup notification arrives while pg->defer
-is still true, pmic_glink_rpmsg_callback() calls pm_stay_awake(client->dev)
-and sets client->stay_awake =3D true; the subsequent pmic_glink_client_rela=
-x()
-then calls pm_relax(client->dev) and deactivates the wakeup source held by =
-the
-client. Also, between setting pg->defer =3D false and acquiring pg->client_=
-lock
-for the post-loop pmic_glink_client_relax() pass, a client with
-client->stay_awake set from a dropped notification can receive a non-deferr=
-ed
-notification in pmic_glink_rpmsg_callback(), activate its wakeup source in
-client->cb(), and then immediately have it relaxed by the post-loop
-pmic_glink_client_relax() call.
-
-Could pmic_glink use its own wakeup_source (or otherwise avoid calling
-pm_wakeup_hard_event() and pm_relax() on client->dev while the client owns
-it) so that pmic_glink and the client driver do not clobber the same
-non-refcounted wakeup source?
+[ ... ]
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022164151.592-=
-1-tvlad744@gmail.com?part=3D2
+1-tvlad744@gmail.com?part=3D1
