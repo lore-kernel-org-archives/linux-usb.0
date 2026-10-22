@@ -1,113 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.52
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792687358;
-	b=B8xZVIIIQ52t5g0mhf5ClxJJc4lP4nq2AKcvToyFtonPnsSIqgJ+MxKQRTnLDJnMrT1o
-	 mDAvstC4dQ5ZXEYRbNrwTkl0Y7FPDvR/Hw9gP++MqSaHVxtMshb30H2/4ARCFUiwy9yv7
-	 KOm+S6k0ntZingdF4F1OVVdqzA64VZttKcUXmVNlHx7naL6UvL4nfKVKxBY0gXVHNznRM
-	 MDDcf9ecC++mV4jVJ4K2d0qXueeXkYJ3syZbmH9FybVqXxf/J+6rWctmomVcg/ghdA3+x
-	 F7xe11AviZfHzNt99fy+UuLUNG1GG1u3o3zLMjd+CoSzSl4CvTHyawAexMj5ED0aTcA==
+	t=1792687907;
+	b=juC0JsifrkTLU0HvP1CJnImYfklSYPYPCoyiGGkkkbYtmyfM3VrnX3mC0Xrzlqai71+Z
+	 XMa8zgTzDfTxfCBFPPYWtvOb9m7gN2OL1MWW2HOcNC2Qz8YgFCAyabSBIQbS5Fhntjbel
+	 fDcf07xZwvysAIAFvgGSuKT4OVbGOSRjRJxH/HVNFkqOicsslVtD2fNRdDG+ga2TBMehm
+	 MjHxVsHXDycQj8ZvQs4oxXGtqsO92TP1gzpo3Gl0x9eyGarWQSOLeBXQ0y7ZPYy6DovtW
+	 h+FjVD2D7eCx6SnZcxX5eETvWHJylZZ4NoIx7WbABsJv8izUrl98volTlgBYmolRB2A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792687358;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792687907;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=jmbJBLbEKgv9jA5Ot3v67VcMUMs8UAriUTIRE7uFg08=;
-	b=1RuWz6o62lKPO7EGBUdyqvRIPScL8jzUdwIRhbLcALAkxgufM/Z8yX91BbRkmyiKIIvl
-	 ZpWscdbdJcW8VjGhPm5qKj+csU5AVcnuI+PwvwSmutMgvO5o3/JcWDLNp7+gBwohg6Onc
-	 1VK5z6p1cFLSI3iQfDYD2ZvMSP9+IiLtY9QnG7rUOM/9tjNNVMqnJWqAY3sq1k+jN2RwQ
-	 WoiNrFnj0U92vSFyCuV4wFjBSUVAv6kDokFV1MpaS3rrO7yrVSOZSrT5IPant3wT7TyQ7
-	 EdL0TGY5F1AFd9ieFbxh2TrX68hdobe/IRjIdf8LjuBrfc9r4RBF0meeK2Ddn5BUFmA==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=MDRQGAeJLdbef9dVZwQAv7nGIbRRq1DpVqeg51obZuA=;
+	b=o4ZGfzBCJZSc4yPNaNeF8DwwdZ5oDRQcr08kF6qR0IEziZVBQ/AoEAWYNhfosu7Z6oNZ
+	 JARZL6dsPL8nk3TBFDshV6fFqls7TI5DuGKwX80CBbkcWsoztQKNb29tPBdfkbUx1RB2g
+	 B9fe6Rt33g/XMD5EnT9lDVKKrP203qRt1tY7RrYN7YD3oCm2VGH7flki7scUO3TVpkN6M
+	 lIWxMMrDJsEpSXlDaJN2fI+TShJPG7gcc9ZTJsQIC2CnHso4MNngwp0FCAn7Ap8VQ5LJF
+	 bHZkRZ7xzMuQZtkumYtrGfJO3NFdh5GK5agwFglEWy+5SXUbAZcELQvJAwz+QMXnNiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oXcixrpN;
-	arc=none smtp.remote-ip=209.85.221.44
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KBp3mBBV;
+	arc=none smtp.remote-ip=74.125.82.52
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B8D0606A32E
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 16:42:26 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2B8D0606A32E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D972D606A31D
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 16:51:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D972D606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=oXcixrpN
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48dc202a60eso1114109f8f.3
-        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 09:42:26 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KBp3mBBV
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-18cdcfc05ffso2335084c88.1
+        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 09:51:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792687345; x=1793292145; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=jmbJBLbEKgv9jA5Ot3v67VcMUMs8UAriUTIRE7uFg08=;
-        b=oXcixrpNx5kMQgBtfJVgT37oNmSp4Hg5Pmk0KK+rTuBgHPWyIVd58669NL+hApY68G
-         CnUtVpTQwsUdr73YWFbpjGNQtQhfbVC7a1M4D3r5whQmfkcrWnK8a3Xdc0noe+LoF809
-         0CItgolz5nI9ojMnOECkNbJCfSzYJmWhmsgCu+87u0Z9DUm9mDFkJE6z20Amc9uV45rC
-         IPwnrN1rs6i3xOp9SUP0gW+D2VG4TjywvQJ74a2HpkUALiZ/wcAI8/CGvr5m2F/N6VeR
-         5equw/ttobD2mp65N7BYTxWppx4R0ejVBvTj5Y9uU4XovHgG6wrZpJXdLR0hcuGtVhj6
-         9CtA==
+        d=gmail.com; s=20251104; t=1792687906; x=1793292706; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=MDRQGAeJLdbef9dVZwQAv7nGIbRRq1DpVqeg51obZuA=;
+        b=KBp3mBBVD8mfQPf1xPzMq78aeOa7OjwZrfrkFTLv2MOomwMfKo99PpbcsyR98PDW6g
+         tlLlCzCxgP+Il1BNJNs21b8d88NZyIipvWgy701LcDZjekp2TPyi5kfoqZfNifcoLnQv
+         pCVLLkfC4iJTo11uUocrgB6P+bNIQhMrcr3Cv9WAYYPQZkoL0MmkkQ7cBgqIb1s5+SD/
+         LdLxXBZC6br+p7I05cm4zZ1V/+dSp/OcLLSiBU5OkH5QNaEfFB4qR6ZPQX1+MzBum8nj
+         vJ8XEp1KCdtY9mQCDytv2jub6UXE3/+3BsU17StIu8Qf4QJpxIAuxzHzaPZxmwuEzTC1
+         UUzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792687345; x=1793292145;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jmbJBLbEKgv9jA5Ot3v67VcMUMs8UAriUTIRE7uFg08=;
-        b=JxvD4Byzg8kEdw+4zgw8NrERVlZJWZg81eAIfgn9JbcRtYe3Pyga28NM3nDE8pLd7t
-         9gbs4TzIzY+Z5XoyklV9Tbc8YVgl9ZNNgsDWShOLKNR/kOLo0Yqu9wkehdQWN/6de6jH
-         FIVcsdp9Id3ERiVEJlKjV9d7ifyv0p5mmz/h/Jrmkhh1LxCkZyisAxmD67UWQskTUnbb
-         TZ5/MDVt8C0ATpiiQPUZfuxFc0MswMQhKquddrF8wd2RL9EjxrLRF17qXwCJoz246SRn
-         dw2UvP4nCsAB/9IHE3+hqhXdksZYa/wHkvVUK+FfhXFfBWaaysAy7fw3YoxN47/L8pY1
-         yCRw==
-X-Forwarded-Encrypted: i=1; AKwUvBwvdPEC3gs5Eq28mwsK+PSFpxSrbxOP/qaTARLWcDuyd2GqXZD9uKOBKmmIk+1exOZg4dOI0gZCFQQ=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI7OGbcISULkWkYmdWmRPkLHc6eLQqkoD28cH99zVgkHwdAgq9d
-	s6vjzgyaIHbdPHZNUxsN9b4V17+2j4DIZx8ODXP/HWdMVGos5GaMzYi9
-X-Gm-Gg: AYBFou3GrvTMxlgQeVITlNzcXL5f/HwjSx3Uk467WCIp4lYauK/egb4uaAF2FdcKh1R
-	hFzWnjZNDdwoO3WzR4ydcohRE18owT2tc+U60h2kZjIGZLJRzJTS74qDiCEIvHZer0uMwKBstJQ
-	tQa0az4iD/XCqu824G3PM+ldA/ZlW2pou2Sm0NTVHEGdbWBF2XBifPKtf7hr5gIMOPQfpcHcyRK
-	dbJ9PunInixR6rVLrzboB5Jy41DrpZ+QUV3eVeYEWN2gVnMsE0Oh1Axc0rHbyx/Y5pDn1BiMn0+
-	e1wVVsGn1Ao9elCa9cL1plCRYB4/K8fMfobkLwI/XJ/Y2ro+t+VQ4y376ls9eA5RMGxKEIqApOQ
-	0WBSLjIzLf29WKvqsra5xJltTMcgKtNWBasGZswBbKPVhqWXy5JSZJX3OObvP2oMkGw3STCawY/
-	4Svg0XirD0+nKBq+vz9hMf5vnDTiPu2lBvLFcGNMR3VZP696F5lVUx+FtfmEjOoBilKCkoGKfie
-	QVO7zt1VYXWff53pB6gNImAB2hX5vvciPZp/KePAH4oL3tnZuahUKpp7dX3laDZx6BQoFwkAVgJ
-	OCZ1BA==
-X-Received: by 2002:a05:6000:2001:b0:48b:1c:d6e1 with SMTP id ffacd0b85a97d-48e264dd0e4mr12439317f8f.43.1792687344535;
-        Thu, 22 Oct 2026 09:42:24 -0700 (PDT)
-Received: from localhost.localdomain ([188.190.249.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2584c3b0sm15040175f8f.57.2026.10.22.09.42.23
+        d=1e100.net; s=20260707; t=1792687906; x=1793292706;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=MDRQGAeJLdbef9dVZwQAv7nGIbRRq1DpVqeg51obZuA=;
+        b=mV+p82oVosdIXwKMV8VUoZ34n2jLtlC3RAB9AHg2g/jVfW52l7+blHo+KPNfwzJgk7
+         jw+spZW8y/4V/Yk/ia4CclL6DKHFy9+Yso8mIvLDebz1M5oB/89VAEmyEilj7hMfl2rv
+         wTju1fAngqhPjL27vaHPg8REIjo4GBcjtvcc13P46EiTLJ4JewzDzXKhrY7WL0W4yHE7
+         RUT+kSO7pTerqfE+1uFgARODtm9ppPXVEdrYiLON9tkU4GMT+NCgJN3TRkMrRe1URSA4
+         v8Q55Mv85fIsemAEq6FARm7scy6C1GRFbHwViHkAKaqq5sN8kWwcOShGkNLfwUfTY7pQ
+         acMA==
+X-Forwarded-Encrypted: i=1; AKwUvBxso31XYnGCCgBXeO2Pdet8bgzgHmgKdvba+E10ayj04StUVc9XvrhE2JAj1S1YCXJ3BJgTe2xCFJQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJFs7NUuLH+wZipcIq6W4T+HRHozwM2iQbjGS2LQ6U/DlLKPYMy
+	UEMMgOAN923e4RxXDS2VjPtGzVSdwcaesPeTt+LDXupbKhyHyRHmmEWGH2Mv3S92vQCJyQ==
+X-Gm-Gg: AYBFou0Iy7qmkjAF/mhqF8xBGubCxeBjSKzsGuyBN4EZdLrFgJaHC1OKPzoCvkc51Ek
+	Yvxnh8bPOO5G0DprKvdDaSvTkxBkq4PGorGHxYOb6J+ierS096iH5annQcph82jNtndIZaLeCcL
+	UxwrvnDd5n/aQ7yMc8h4PpFa1XJlkjkRYArEjzvo12XiO39DpfZAFTfG4oLgbt2shgJMwXL7CBQ
+	t+rTTRR91zqc6r8io8KQFqd9W74uQz5s/Qyz/6AlI33Drnu9l6GC1g8fHMa83m9ePoXBms2nAMo
+	MMjQYDrRbWwce8H10iJ0VATuZwkU7jsn9MFLN1QTMXa5zs0JfQFb6+l/yUjXpjlVqLsLn/evYPS
+	ZKZtjqsGVJbE93oFxOxqpnr3R2kvfwPDdhtNoC+toYK0Xq+1dEDhBv1gswScPH0AeLQq1OONZBP
+	U2HgIZrMv0QU7Xe5/swEjAe56MVcTSqZs/4H5euCrjrxQ+4Jc4TiXuzOVWLUQ0+Lc/ESbS2Q2/m
+	UQk1Ok/cJau/g4Oo/IjVnCH9XkH9OT91cL8rUlSXX1R+wZWCBXSRK5igl2N7fqNsUtt2XY=
+X-Received: by 2002:a05:701b:42d4:20b0:191:444:425 with SMTP id a92af1059eb24-19104440440mr6489634c88.2.1792687905761;
+        Thu, 22 Oct 2026 09:51:45 -0700 (PDT)
+Received: from DESKTOP-NM9EKIA ([125.134.240.130])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1959dd144aasm46566c88.0.2026.10.22.09.51.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 09:42:24 -0700 (PDT)
-From: Vladyslav Tymoshchuk <tvlad744@gmail.com>
-To: Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: Abel Vesa <abelvesa@kernel.org>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Casey Connolly <casey.connolly@linaro.org>,
-	Johan Hovold <johan@kernel.org>,
-	Jishnu Prakash <jishnu.prakash@oss.qualcomm.com>,
-	Kamal Wadhwa <kamal.wadhwa@oss.qualcomm.com>,
-	Joonhoe Kim <26rote@gmail.com>,
-	Daniel J Blueman <daniel@quora.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A . R . Silva" <gustavoars@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
+        Thu, 22 Oct 2026 09:51:44 -0700 (PDT)
+From: Joonhoe Kim <26rote@gmail.com>
+To: heikki.krogerus@linux.intel.com,
+	gregkh@linuxfoundation.org
+Cc: neil.armstrong@linaro.org,
 	linux-usb@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Vladyslav Tymoshchuk <tvlad744@gmail.com>
-Subject: [RFC PATCH 2/4] soc: qcom: pmic_glink: Report wakeup events on behalf of clients
-Date: Thu, 22 Oct 2026 19:41:49 +0300
-Message-ID: <20261022164151.592-3-tvlad744@gmail.com>
-X-Mailer: git-send-email 2.45.1.windows.1
-In-Reply-To: <20261022164151.592-1-tvlad744@gmail.com>
-References: <20261022164151.592-1-tvlad744@gmail.com>
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] usb: typec: mux: fsa4480: Keep the USB 2.0 switch on in DP-only modes
+Date: Fri, 23 Oct 2026 01:51:43 +0900
+Message-ID: <20261022165143.1327-1-26rote@gmail.com>
+X-Mailer: git-send-email 2.55.0.windows.5
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -119,265 +98,50 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The GLINK interrupt is requested with IRQF_NO_SUSPEND, but it is not a
-wakeup interrupt: most PMIC GLINK messages, battery status updates for
-one, must not wake up the system. A notification that arrives during
-system sleep is now held back until the system has resumed, so the
-client sees it too late to report it as a wakeup event.
+DisplayPort pin assignments C and E give all four SuperSpeed lanes to
+DisplayPort, but the USB 2.0 D+/D- pair is not part of the pin
+assignment and stays available. The FSA4480 sits on that pair, and in
+these modes the driver turns its USB switch off, so a USB 2.0 hub or
+device behind a DisplayPort sink is disconnected as soon as the
+DisplayPort mode is set.
 
-Decide in pmic_glink, when the notification arrives: it is a wakeup
-event if the client's device may wake up the system and the client's
-wakeup filter, if the client has set one, accepts it. The client
-driver picks the default with device_init_wakeup() or
-device_set_wakeup_capable(), and user space can change it through
-power/wakeup, like for any other device. Report a hard wakeup event,
-so that it also brings the system out of suspend-to-idle.
+Configure the USB switch the same way in all DisplayPort modes.
 
-While a wakeup notification is held back, keep the wakeup source of
-the client's device active, so that autosleep, or a suspend started
-through /sys/power/wakeup_count, does not put the system back to sleep
-before the client has seen it. Release it right before the callback
-rather than after it, as the client may keep the same wakeup source
-active from there.
-
-Responses are not wakeup events, the client is waiting for them.
-
-Keep the device passed to devm_pmic_glink_client_alloc() in the client
-for this, and document the function. No in-tree client enables wakeup
-on its device yet, so nothing changes for them.
-
-Signed-off-by: Vladyslav Tymoshchuk <tvlad744@gmail.com>
+Fixes: c7054c31c1c9 ("usb: typec: fsa4480: rework mux & switch setup to handle more states")
+Signed-off-by: Joonhoe Kim <26rote@gmail.com>
 ---
-I used an AI assistant (Claude) for the analysis and to draft this
-patch and its description; I reviewed the result. The testing is
-described in the cover letter.
+Tested on a Lenovo Y700 Gen 5 (TB323FU, Kaanapali; out-of-tree board
+support) with a USB-C monitor in pin assignment C: its USB 2.0 hub was
+disconnected when the mux was set; with this change the hub and the
+keyboard behind it stay connected.
 
- drivers/soc/qcom/pmic_glink.c       | 104 ++++++++++++++++++++++++++--
- include/linux/soc/qcom/pmic_glink.h |   2 +
- 2 files changed, 100 insertions(+), 6 deletions(-)
+ drivers/usb/typec/mux/fsa4480.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
-index 748b335be6ef..c629df8009e6 100644
---- a/drivers/soc/qcom/pmic_glink.c
-+++ b/drivers/soc/qcom/pmic_glink.c
-@@ -9,12 +9,14 @@
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_wakeup.h>
- #include <linux/rpmsg.h>
- #include <linux/slab.h>
- #include <linux/soc/qcom/pdr.h>
- #include <linux/soc/qcom/pmic_glink.h>
- #include <linux/spinlock.h>
- #include <linux/string.h>
-+#include <linux/suspend.h>
- #include <linux/workqueue.h>
- 
- #define PMIC_GLINK_SEND_TIMEOUT (5 * HZ)
-@@ -70,11 +72,15 @@ struct pmic_glink_client {
- 	struct list_head node;
- 
- 	struct pmic_glink *pg;
-+	struct device *dev;
- 	unsigned int id;
- 
- 	void (*cb)(const void *data, size_t len, void *priv);
- 	void (*pdr_notify)(void *priv, int state);
-+	bool (*wakeup_filter)(const void *data, size_t len, void *priv);
- 	void *priv;
-+
-+	bool stay_awake;
- };
- 
- struct pmic_glink_deferred_msg {
-@@ -83,6 +89,16 @@ struct pmic_glink_deferred_msg {
- 	u8 data[] __counted_by(len);
- };
- 
-+static void pmic_glink_client_relax(struct pmic_glink_client *client)
-+{
-+	lockdep_assert_held(&client->pg->client_lock);
-+
-+	if (client->stay_awake) {
-+		client->stay_awake = false;
-+		pm_relax(client->dev);
-+	}
-+}
-+
- static void _devm_pmic_glink_release_client(struct device *dev, void *res)
- {
- 	struct pmic_glink_client *client = (struct pmic_glink_client *)res;
-@@ -91,9 +107,26 @@ static void _devm_pmic_glink_release_client(struct device *dev, void *res)
- 
- 	spin_lock_irqsave(&pg->client_lock, flags);
- 	list_del(&client->node);
-+	pmic_glink_client_relax(client);
- 	spin_unlock_irqrestore(&pg->client_lock, flags);
- }
- 
-+/**
-+ * devm_pmic_glink_client_alloc() - allocate a client of the PMIC GLINK service
-+ * @dev:	client device, a child of the pmic_glink device
-+ * @id:		owner of the messages for the client
-+ * @cb:		called, in atomic context, with each message for the client
-+ * @pdr:	called, in atomic context, with the state of the remote service
-+ * @priv:	passed to @cb, @pdr and the wakeup filter
-+ *
-+ * A notification for a client whose @dev may wake up the system, see
-+ * device_may_wakeup(), is a wakeup event, unless the wakeup filter of the
-+ * client rejects it. Notifications that arrive during system sleep reach @cb
-+ * once the system has resumed.
-+ *
-+ * Return: the client, to be registered with pmic_glink_client_register(), or
-+ * an ERR_PTR() on failure.
-+ */
- struct pmic_glink_client *devm_pmic_glink_client_alloc(struct device *dev,
- 						       unsigned int id,
- 						       void (*cb)(const void *, size_t, void *),
-@@ -108,6 +141,7 @@ struct pmic_glink_client *devm_pmic_glink_client_alloc(struct device *dev,
- 		return ERR_PTR(-ENOMEM);
- 
- 	client->pg = pg;
-+	client->dev = dev;
- 	client->id = id;
- 	client->cb = cb;
- 	client->pdr_notify = pdr;
-@@ -120,6 +154,22 @@ struct pmic_glink_client *devm_pmic_glink_client_alloc(struct device *dev,
- }
- EXPORT_SYMBOL_GPL(devm_pmic_glink_client_alloc);
- 
-+/**
-+ * pmic_glink_client_set_wakeup_filter() - select the wakeup notifications
-+ * @client:	client from devm_pmic_glink_client_alloc(), not registered yet
-+ * @filter:	called, in atomic context, with each notification for the client
-+ *		while its device may wake up the system; returns true to wake
-+ *		the system up
-+ *
-+ * Without a filter, every notification for the client is a wakeup event.
-+ */
-+void pmic_glink_client_set_wakeup_filter(struct pmic_glink_client *client,
-+					 bool (*filter)(const void *, size_t, void *))
-+{
-+	client->wakeup_filter = filter;
-+}
-+EXPORT_SYMBOL_GPL(pmic_glink_client_set_wakeup_filter);
-+
- void pmic_glink_client_register(struct pmic_glink_client *client)
- {
- 	struct pmic_glink *pg = client->pg;
-@@ -166,6 +216,15 @@ int pmic_glink_send(struct pmic_glink_client *client, void *data, size_t len)
- }
- EXPORT_SYMBOL_GPL(pmic_glink_send);
- 
-+static bool pmic_glink_is_wakeup_event(struct pmic_glink_client *client,
-+				       const void *data, size_t len)
-+{
-+	if (!device_may_wakeup(client->dev))
-+		return false;
-+
-+	return !client->wakeup_filter || client->wakeup_filter(data, len, client->priv);
-+}
-+
- static void pmic_glink_dispatch(struct pmic_glink *pg, const void *data, size_t len)
- {
- 	const struct pmic_glink_hdr *hdr = data;
-@@ -174,8 +233,12 @@ static void pmic_glink_dispatch(struct pmic_glink *pg, const void *data, size_t
- 
- 	spin_lock_irqsave(&pg->client_lock, flags);
- 	list_for_each_entry(client, &pg->clients, node) {
--		if (client->id == le32_to_cpu(hdr->owner))
--			client->cb(data, len, client->priv);
-+		if (client->id != le32_to_cpu(hdr->owner))
-+			continue;
-+
-+		/* From here on, the client keeps the system awake if it needs to */
-+		pmic_glink_client_relax(client);
-+		client->cb(data, len, client->priv);
- 	}
- 	spin_unlock_irqrestore(&pg->client_lock, flags);
- }
-@@ -235,8 +298,11 @@ static void pmic_glink_drop_deferred(struct pmic_glink *pg)
- static int pmic_glink_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
- 				     int len, void *priv, u32 addr)
- {
-+	struct pmic_glink_client *client;
- 	struct pmic_glink_hdr *hdr;
- 	struct pmic_glink *pg = dev_get_drvdata(&rpdev->dev);
-+	bool notification, deferred;
-+	unsigned long flags;
- 
- 	if (len < sizeof(*hdr)) {
- 		dev_warn(pg->dev, "ignoring truncated message\n");
-@@ -246,11 +312,30 @@ static int pmic_glink_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
- 	hdr = data;
- 
- 	/* The sender of a request is waiting for the response */
--	if (le32_to_cpu(hdr->type) != PMIC_GLINK_REQ_RESP &&
--	    pmic_glink_defer(pg, data, len))
--		return 0;
-+	notification = le32_to_cpu(hdr->type) != PMIC_GLINK_REQ_RESP;
-+
-+	/* Defer under client_lock, to set stay_awake before it is delivered */
-+	spin_lock_irqsave(&pg->client_lock, flags);
-+	deferred = notification && pmic_glink_defer(pg, data, len);
-+	list_for_each_entry(client, &pg->clients, node) {
-+		if (client->id != le32_to_cpu(hdr->owner))
-+			continue;
-+
-+		if (deferred) {
-+			if (pmic_glink_is_wakeup_event(client, data, len)) {
-+				pm_stay_awake(client->dev);
-+				pm_system_wakeup();
-+				client->stay_awake = true;
-+			}
-+			continue;
-+		}
-+
-+		if (notification && pmic_glink_is_wakeup_event(client, data, len))
-+			pm_wakeup_hard_event(client->dev);
- 
--	pmic_glink_dispatch(pg, data, len);
-+		client->cb(data, len, client->priv);
-+	}
-+	spin_unlock_irqrestore(&pg->client_lock, flags);
- 
- 	return 0;
- }
-@@ -330,6 +415,7 @@ static void pmic_glink_deliver_work(struct work_struct *work)
- {
- 	struct pmic_glink *pg = container_of(work, struct pmic_glink, deliver_work);
- 	struct pmic_glink_deferred_msg *msg;
-+	struct pmic_glink_client *client;
- 	unsigned int dropped;
- 	unsigned long flags;
- 
-@@ -354,6 +440,12 @@ static void pmic_glink_deliver_work(struct work_struct *work)
- 		kfree(msg);
- 	}
- 
-+	/* Release the clients whose notifications were dropped */
-+	spin_lock_irqsave(&pg->client_lock, flags);
-+	list_for_each_entry(client, &pg->clients, node)
-+		pmic_glink_client_relax(client);
-+	spin_unlock_irqrestore(&pg->client_lock, flags);
-+
- 	pmic_glink_state_notify_clients(pg);
- 
- 	if (dropped)
-diff --git a/include/linux/soc/qcom/pmic_glink.h b/include/linux/soc/qcom/pmic_glink.h
-index 7cddf1027752..786d2f35a9a9 100644
---- a/include/linux/soc/qcom/pmic_glink.h
-+++ b/include/linux/soc/qcom/pmic_glink.h
-@@ -28,6 +28,8 @@ struct pmic_glink_client *devm_pmic_glink_client_alloc(struct device *dev,
- 						       void (*cb)(const void *, size_t, void *),
- 						       void (*pdr)(void *, int),
- 						       void *priv);
-+void pmic_glink_client_set_wakeup_filter(struct pmic_glink_client *client,
-+					 bool (*filter)(const void *, size_t, void *));
- void pmic_glink_client_register(struct pmic_glink_client *client);
- 
- #endif
+diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4480.c
+index bea0c1deec94..e05ab3c10c81 100644
+--- a/drivers/usb/typec/mux/fsa4480.c
++++ b/drivers/usb/typec/mux/fsa4480.c
+@@ -93,16 +93,9 @@ static int fsa4480_set(struct fsa4480 *fsa)
+ 		sel = FSA4480_SEL_USB;
+ 	} else if (fsa->svid) {
+ 		switch (fsa->mode) {
+-		/* DP Only */
+ 		case TYPEC_DP_STATE_C:
+-		case TYPEC_DP_STATE_E:
+-			enable |= FSA4480_ENABLE_SBU;
+-			if (reverse)
+-				sel = FSA4480_SEL_SBU_REVERSE;
+-			break;
+-
+-		/* DP + USB */
+ 		case TYPEC_DP_STATE_D:
++		case TYPEC_DP_STATE_E:
+ 		case TYPEC_DP_STATE_F:
+ 			enable |= FSA4480_ENABLE_USB | FSA4480_ENABLE_SBU;
+ 			sel = FSA4480_SEL_USB;
+
+base-commit: 2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64
 -- 
 2.43.0
 
