@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792676175;
-	b=BEhH+p6sWdC4qRCkMQFNUvxbJEc748Air59n2rhQNCwrq9sVy8xv97PXBPxTE65dqc2B
-	 TIneWI7DOzOvXMAGA35xj04K6V/G6MGDSQPBTPm6LxfIF+IQ7HzvNxOYMufGNUqEr6TB5
-	 6fVpLVDyf34iXHQ+egfBdfdxMiHxk2jSPMqkbDc7ikC9dUV35t7wPUZmuGmCKdosZbtRZ
-	 Vnt34+PykUMbp6CXdZLfXC6+2IIL4+v2soVv9Qsi134QpVC64DkINdJUAmzeVebW8rZwE
-	 yvusY3op7NAGD9ql1vaKwKOx4bL9YOduKvRXApgc0al0X838s7cALRg97rs5jf9wSyg==
+	t=1792676326;
+	b=FYIIPzJO69tgyOobfvH0miZZezKmPFflpLD79/LDL+2BrJGLAGWmhls35PiAHeMp++s0
+	 REtFa2ozlF29AG52KpvlGxg+Sv4Q/AVB418a8dWh6evttrjOzMfYBcVwal3cW/mJvh74C
+	 zOkkCPNtklExtu1x6P31z3h/0+7ob22TtlD4yFvr6AObddAam7vZ7RUePDdgxGI0SpW64
+	 a6eY5l4+QTPegiSGRZzQAgEB1U6puuHfHWTjpwXVUuRNooSWfalEs3ZEsUm+DSts6rqI0
+	 ZdOazpfZJhUrERVeiOqplQA6NjJmc5nrjuZTWYhUa7KC50Mlbrn5pBAY6Vsp0LFSjXQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792676175;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792676326;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=3w09WnSpHMCL+nOxRSmrXAUQvEi9x0w0Pki8cgizQu4=;
-	b=wPd30PU5T9U7Zjz1TFydpDyZr0K4HSVjz7iewWNxFz8qlHHf9VjY1GmYI4BMXxhbxUJ4
-	 ebhcoowRNP7mxv8PaTIu75JdikVSL2eIqAKZafoHjjLv4+Yo7fEa5mqulL5poNA7A8rI7
-	 6RQb6zY+zn4AcvTgJBNsdyyIw9INfVaUcdqVXvZlSzeS2DJzS6dAc30F+rivQe3EBSEXF
-	 sJNnkUTjIQ4ALPSGIt/NxZ8NjgnJRMqFmIJJwc4Ix9abzeAwb6F4xsvkuuUGbpluekkCE
-	 i0LOEAj9mvvxF0x4kqObee4/NyqKKf4SfZ3ohe0x8RSuuEYoZiv94kD48reCQxeN+gw==
+	bh=ULYZ/55QiRddvfDhSSFtUGP38N9/fKV9BspCQGFIXXY=;
+	b=Um1PnU+UKqe+NfEIlt6JZsGfn362YRgYjvnjJvyQL/26FmgSpKfRou8yKrvhyikQYNAd
+	 9ZTvCUdGTanr7fT9xslnRtf1yj79PeiKSgsll447f5eHVXqFP0z1lgSjNH0rL8oB/oP7O
+	 aQGx3XVJop0olW3LFG8TocI0SWgwCp84ak7zHxl9nsgp82vlj9xJNioALrFMUhmX73kTi
+	 2M+rypS/Qnn03gbPCBzn+QM2qoEdwbEIuC4EkjAjseJ0rZwC5w44cXTTpbyDka5tVspJz
+	 //V1aVXAP2ttAl4BNP+yb9uU1ItMcyU4APOW5qvdXyqzMnmmb/pnBTbmei46WhT0Beg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YZXwmC5I;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="ilKJeme/";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1723B606A31D
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:36:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4A0606A319
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YZXwmC5I
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DA2A1F000C7;
-	Thu, 22 Oct 2026 13:36:14 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ilKJeme/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 535AE1F000C1;
+	Thu, 22 Oct 2026 13:38:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792676174;
-	bh=3w09WnSpHMCL+nOxRSmrXAUQvEi9x0w0Pki8cgizQu4=;
+	s=k20260515; t=1792676325;
+	bh=ULYZ/55QiRddvfDhSSFtUGP38N9/fKV9BspCQGFIXXY=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YZXwmC5I3tp+lnV3Lv0PLZTmb4GKgzg4BRCpngt3xrIEyFgWXuXG0OnzNtBlRbkpQ
-	 2ncE/P5SfSmBG0E3YEMlEmhmgU243CotAfhgR40/L+IqzPX/jmSlN7ZOKjDMHP66vG
-	 K2AUB/0C2WyOfieKMNAkWrYyATFCDrSJMdsOu4ElDNAZosBMViaxT/E967HgeSkShh
-	 9gShAcWLldgcFC7kooeIrY8sqjr8oKwsLY+xvTlfH8xbGUIQ1nVtk1EP8hH5DQBBoN
-	 iTZ2lIvB8YqrSHUCcfO0iEas84DtdCjEhoyUrFqbSQQdlAikPZ2JKDo8ENJjQavQi5
-	 sAmwsDKvX1tkQ==
-Message-ID: <sashiko-outbox-181551@kernel.org>
+	b=ilKJeme/HkOCKSlSoyh0+0sFTsIhd0temS8j1xbMB9yw9gFqB4SKz27idnxkALOWj
+	 Y6W9a4l1Qz//YiB4jKEiK5Rb97nxmRu7G6DR/b0EA5C3TN/p9PjALEPAfnreVP0vyf
+	 DnzR3ubExHV8met34jnepcdCRVJCM1TuX2G1hgS0ShBd8JMEsHiEbEg/uH19f21+Eq
+	 QDiC8b4s+EPMsCIrq1tXzD1FfuwHefifCDPtg8ZAy3MSPAX5SloC3r9AQc/RlhaZsm
+	 erm2j/FwJtSQyWWKeGNLxazVt4hpSj0FVNufGG8u8R4S1mMzZB/LKwUIiN3OxlP4M5
+	 1+NFtnLXCc9sg==
+Message-ID: <sashiko-outbox-181556@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6 1/9] drm/connector: report out-of-band IRQ_HPD events
+Subject: Re: [PATCH v6 4/9] drm/bridge: pass extra events to the HPD
+ callback
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261022-hpd-irq-events-v6-1-337ea3ddaa62@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org, neil.armstrong@linaro.org
+In-Reply-To: <20261022-hpd-irq-events-v6-4-337ea3ddaa62@oss.qualcomm.com>
 References: <20261022-hpd-irq-events-v6-0-337ea3ddaa62@oss.qualcomm.com>
- <20261022-hpd-irq-events-v6-1-337ea3ddaa62@oss.qualcomm.com>
+ <20261022-hpd-irq-events-v6-4-337ea3ddaa62@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2026 13:36:14 +0000
+Date: Thu, 22 Oct 2026 13:38:44 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,24 +61,69 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The DisplayPort standard defines a special kind of events called IRQ.
-> These events are used to notify DP Source about the events on the Sink
-> side. It is extremely important for DP MST handling, where the MST
-> events are reported through this IRQ.
->=20
-> In case of the USB-C DP AltMode there is no actual HPD pulse, but the
-> events are reported through the bits in the AltMode VDOs.
->=20
-> Rename drm_connector_oob_hotplug_event() to drm_connector_dp_oob_status()
-> and extend its interface to report IRQ events to the DisplayPort Sink
-> drivers.
->=20
-> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Low] drm/bridge: misplaced hdmi5_bridge_hpd_notify() hunk breaks bisecta=
+bility
+--
 
-Sashiko has reviewed this patch and found no issues.
+commit c6cd0e6e9f3efd88f40aba30dc7463e072351c53
+Author: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+
+drm/bridge: pass extra events to the HPD callback
+
+This commit adds drm_bridge_hpd_notify_extra() and updates the HPD callback
+signature registered via drm_bridge_hpd_enable() to pass extra sink events
+such as DisplayPort IRQ_HPD to underlying drivers.
+
+[ ... ]
+
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdr=
+m/dss/hdmi5.c
+> index c542ba6ce7d32..a21f9355594cc 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+> @@ -427,7 +427,8 @@ static void hdmi5_bridge_disable(struct drm_bridge *b=
+ridge,
+> =20
+>  static void hdmi5_bridge_hpd_notify(struct drm_bridge *bridge,
+>  				    struct drm_connector *connector,
+> -				    enum drm_connector_status status)
+> +				    enum drm_connector_status status,
+> +				    enum drm_connector_dp_event event)
+>  {
+>  	struct omap_hdmi *hdmi =3D drm_bridge_to_hdmi(bridge);
+> =20
+
+[Severity: Low]
+In drivers/gpu/drm/omapdrm/dss/hdmi5.c, hdmi5_bridge_hpd_notify() is assign=
+ed
+to struct drm_bridge_funcs.hpd_notify rather than registered via
+drm_bridge_hpd_enable():
+
+static const struct drm_bridge_funcs hdmi5_bridge_funcs =3D {
+	...
+	.hpd_notify =3D hdmi5_bridge_hpd_notify,
+	.edid_read =3D hdmi5_bridge_edid_read,
+};
+
+The hpd_notify callback signature in struct drm_bridge_funcs (in
+include/drm/drm_bridge.h) and the other in-tree implementations (including
+hdmi4_bridge_hpd_notify() in drivers/gpu/drm/omapdrm/dss/hdmi4.c) were
+updated in parent commit 9cf55ff0f96b ("drm/bridge: pass down IRQ_HPD to the
+drivers").
+
+Because the hdmi5_bridge_hpd_notify() update landed in this patch instead,
+building the kernel at commit 9cf55ff0f96b with CONFIG_DRM_OMAP and
+CONFIG_OMAP5_DSS_HDMI enabled fails with an incompatible function pointer t=
+ype
+error when initializing hdmi5_bridge_funcs.hpd_notify.
+
+Should this hunk be moved into commit 9cf55ff0f96b ("drm/bridge: pass down
+IRQ_HPD to the drivers") to preserve bisectability?
+
+[ ... ]
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022-hpd-irq-ev=
-ents-v6-0-337ea3ddaa62@oss.qualcomm.com?part=3D1
-
+ents-v6-0-337ea3ddaa62@oss.qualcomm.com?part=3D4
