@@ -1,54 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792675789;
-	b=axBiv/QGeadKEKMRBnoy0LppltYI+MWgh+pRTH064VoZvwrasG47F52wMhfHI1r95uUn
-	 +EbBJyY9pjLTdvrVaCMnCcw3f9UPB1zg8PZuxARysb2d6+xUhT/JZHkNXWCkyVtG4EOzL
-	 2yRRs5jQXWZIPq0oSy+Wfmaav+DNJxVBPqykSVLoSUHqfKXmxJ90WzmxR1Kjmm4T8s7yn
-	 By2SccE/gFlMyBTevQFxyI3xqIL/z3EMSWsfldr4zhAmDID75d6aipAaiO90tk2o2MbdP
-	 ksCPSnvj+Gt9rCJuJEnvrIcbM1LF7W2Nc/7WVxPDe5dnwkv9CiAqUA9pDmNxrVJxn3w==
+	t=1792675902;
+	b=feZjCTkMcLb2IKI3eYyhq/CkwUN9VhjhlDelCWSqc9Z5QKHWA+TAXiGKUIMD9f67dNl7
+	 SaRccUTsvs5CZujwCKhmvCKEGIsaDG5hlgNZ5MwZvjh+ajYAFOaxuuW4d3ZhfotZA52Mp
+	 0m0LA7JYczDXs199dY8SU7RHJpZmcX1hhon/lxe9M4/2KGXnut6MBys8DG7r+s6zlEwIc
+	 zKolwkVmk20O49n86oV/xvEIQfm9tbV0WEGS76CmqJNXi07KsE5LCJWSMNrOjdMhuwbZm
+	 BEjhZ/6+FcDpVReD2v+GvGg2IiqssMVp8TcE0Tg8iW9nUEIMUEV1Rdz17XlKvsSJjdw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792675789;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=AnqmMFqEFPzN9pgWUkIKDXgFbu33bdpsPqR54NgslOY=;
-	b=ctNes0PBiEiIjuNt8R3EiF9GfBATjmIDdyWv3e+NhcjGMmcOICsYQGoDM64RlzI8Fblg
-	 /LlDgKeCESyTbJRwh0ODdCnOMSPbAl2frGFpb5Bk4C1JIpVB1iofBCGNW/sFJhqTyMPFT
-	 gb2gtky3GpUC0SS1ta3Chp+6bkwPk9JU0cdSedfPROtar/y3wR8B3KVGHCqjYWr4teeNO
-	 jlNruKFRh0BjqVeymTvIDtSHaGgAAn11eqv1kz9kDTNtDNZ1Wc230fDJwsCZnRLNb+hji
-	 WUTI2AlmfgeTPjsVV08TEB2C/0eHdg7LDxjBdcaEjoKRayvDGjpYKCgQLWAEJC4BCJw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792675902;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=licjKEGbIxqH2Fd12jgENFIPiBy9mgDOIWo1zjuB26E=;
+	b=NCOq02Y2SvBujPNXv7lBHJcojQUFk4d7IVERMmWYRAsjHG02Utaqn83CO3WVSxmVOLO0
+	 B/imBEGD3MIIUM16ftUy9Mg4N42ZnQidQ4s7THxspLE6bOR6UmX1W5xwshUglSd8a6xRx
+	 XJ0pm4nrspHDJeEVyaHAmLHlAT6t+iLlEgUM4AbTp+o3LVJGakB3b+hWaJH5uHzDbZELf
+	 czq7qExRgPTdIZvgZefLCOiP13OAx77YHoOFS6cUup9d575TYIaWqoAJbDd8fwJevQ7D4
+	 eR+dEN1HJnqdGzlNgOUSO0iq/bAgh1Kunhg77TKdnI8GUX3uAjdCm4VdL0FebJxDPCQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=S4z790oy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AsKjuhH2;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E920606A323;
-	Thu, 22 Oct 2026 13:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B81606A335
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=S4z790oy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD661F000C2;
-	Thu, 22 Oct 2026 13:29:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792675788;
-	bh=AnqmMFqEFPzN9pgWUkIKDXgFbu33bdpsPqR54NgslOY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=S4z790oyKjJ5ibyjkrETS1ROM6VsCTXT0lzLkd5p3POQWFrfQxPD+qNNu3KLKXuIH
-	 PrPGgx/iSTqC4CSq7qDJFTicFcFcdOR7M5CdUMOF77XNz6tbjV9fK1Fk0jsnc78Q6T
-	 7h2zG7IrPDd0ENi4F1Vh/S1t+sTc7sN0Ilu7wrGw=
-Date: Thu, 22 Oct 2026 15:26:42 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Francesco Lavra <flavra@baylibre.com>
-Cc: Kuen-Han Tsai <khtsai@google.com>, Kees Cook <kees@kernel.org>,
-	raub camaioni <raubcameo@gmail.com>,
-	Sonali Pradhan <sonalipradhan@google.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Felix Schladt <felix.schladt@gmail.com>
-Subject: Re: [PATCH] usb: gadget: f_ncm: Restart timer when eth_start_xmit()
- fails
-Message-ID: <2026102226-frugally-wake-024e@gregkh>
-References: <20260727165441.1969927-1-flavra@baylibre.com>
- <d1534d72eae4fd210bda0b485ed05d3ef0147728.camel@baylibre.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=AsKjuhH2
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2CC1F000C2;
+	Thu, 22 Oct 2026 13:31:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792675901;
+	bh=licjKEGbIxqH2Fd12jgENFIPiBy9mgDOIWo1zjuB26E=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=AsKjuhH23iydCVU4nhR9HvGy5ZhCCfzZBudOmBM0L5F3m0EAFSabtACoXxN5C/ClA
+	 cOXGBUlsH9WSQZLyIv+ZOsTQir+7DHXc88vepoCYlqWcfNsUr/62uLz/5scN2VOWav
+	 FdQRQbMuqas1vIIKVgrm4qiCy+q2HaXE+m1E9sNZlIt0077ZXXsfAQTE5jMetS0iAN
+	 hCNHd4JlqeDHv3ur8sljir5iVXSjdSOgzpl1iVqSJde9nw3o3lfj8vBfmOiw1o8Qba
+	 ha4MJEN/xQdhwZfbfubdBMq965qScC2gqCT9jfR7sggf1tjCsQjwmjDDuNcaPvtEUP
+	 pgQRZ30HIEWOQ==
+Message-ID: <sashiko-outbox-181541@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v6 5/9] drm/bridge: aux-hpd: let drivers pass IRQ_HPD
+ events
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261022-hpd-irq-events-v6-5-337ea3ddaa62@oss.qualcomm.com>
+References: <20261022-hpd-irq-events-v6-0-337ea3ddaa62@oss.qualcomm.com>
+ <20261022-hpd-irq-events-v6-5-337ea3ddaa62@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 22 Oct 2026 13:31:40 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,13 +60,27 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d1534d72eae4fd210bda0b485ed05d3ef0147728.camel@baylibre.com>
 
-On Thu, Oct 22, 2026 at 12:24:23PM +0200, Francesco Lavra wrote:
-> Friendly ping
+> The DisplayPort standard defines a special kind of HPD events called
+> IRQ_HPD. These events are used to notify DP Source about the events on
+> the Sink side.
+>=20
+> Let users of aux-hpd, the UCSI and PMIC GLINK drivers pass the IRQ_HPD
+> events to the DisplayPort drivers.
+>=20
+> The drm_aux_hpd_bridge_notify() is kept to ease merging of the series,
+> preventing extra cross-tree merges. It will be removed once all
+> drivers are converted. The drm_bridge_hpd_notify() function is kept for
+> the drivers which only care about the connector status and will always
+> pass DRM_CONNECTOR_NO_EXTRA_STATUS as the extra status.
+>=20
+> Reviewed-by: Pengyu Luo <mitltlatltl@gmail.com>
+> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-It is the middle of the merge window, sorry, will try to catch up after
--rc1 is out...
+Sashiko has reviewed this patch and found no issues.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022-hpd-irq-ev=
+ents-v6-0-337ea3ddaa62@oss.qualcomm.com?part=3D5
+
