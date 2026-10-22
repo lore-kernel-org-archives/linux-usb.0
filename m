@@ -1,108 +1,97 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.50
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792660457;
-	b=GmWzV+51sKcYkYzxGZMiMFOVxxhIYD60TZejRmhuq8qkEfcwH2FsIYM4HJWyyoi1Xh7f
-	 VGxWhU7a2at/WSdfK+wD4QibwbBvs3L8RoVXG1cmh3FZ65HJFlyHT6OYD30BwYg/kz04G
-	 QhlHDjrdocwBOXf3vcf1d5kNCGkxgziu70950ELScEHU8NFVGSV0Qjur4C6rKXVXZYXwE
-	 EkgB7TlJtMjKulWDJx3SWe/rXjl2rVOr5QHhr868Bm4khJcRh40p3rMoAACoOTqPXcZ7N
-	 b5AU3/C0wS2ciCuskyeuNaOeyFC3pVYksqFJhGqoO4imOGNvkf1Jm7sUXeGjhwhe4Pw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792660457;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=TT/G+LaV+N0GyZAIi03X4FvjbCyGL46ou/Kls81a/U4=;
-	b=ZztSJig30oCztWVizbpbgw8Td83Oz3L6UN6dweLT7euCJ6zE+6Xjo6g5nznSjCNec1Pf
-	 kPmjJwZwfHmuc2eYpUxJ8mzHVRVWa3/XzME6vFX8o19T+oDlUvRnSM49gDgb/78cDlPLH
-	 DIz+onlJxC9aKCcwHFUC8ExDQJPeWexJVMTf0Cr01uZkCIjv6QF7sqfFzRjb6vXNmO1CW
-	 vqf63y88TEJ9SQs6ocPXYz7MhJyJH7Fa0tv+Sb5N3uyagibBqWtDfANxsb3nYL2jmmTuO
-	 NoeCevYyENrJhqrtPrqybQ07xonw0zvPz3VPQQZEmx6+/Aw7JojI3BCtI41y24M2NSg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pbWchEPk;
-	arc=none smtp.remote-ip=209.85.128.50
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792661786;
+	b=1/8jL2FEZ95hz99rZcrCE6oN7yPJfikE/E0AgmjlaelWiKnBVs5a77ssM6OCRHmUK5c2
+	 mjm8khtKaMktIaAy4UlHkuCn7Heesijqu2Ed7m1KZzZJI7VCbwdFUaidO6/seSBl5a9fN
+	 5D+VZSnEYPpABYHy+8xZxRSlm4b/PjyrTEwIpa81HP5VueurVUOesEtwZT7Wqt7t83uTl
+	 cOfMoOLavoETD6MuL/i4fQWBWEyLkdYm7OKXwI8IZi5VEMqXlVyZanxQbB6lB1fICGiNz
+	 ZBtTtQycpPclbHjI9jOuY9Y2ITdJ6u71B/Y5+2iO7hApDtFTypBEFoS0MpYnkS1Ft5g==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792661786;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
+	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
+	 User-Agent:MIME-Version;
+	bh=y6fKhPj/87pimLsrwa96wiOXJcyMQ8XJmdtAlqWwRbI=;
+	b=gVwoSRe1kH5xJLFSMao8PNftvGC8kICsDMHM65DTJODm8iyvbxZe2DYu8bStAPCzknnX
+	 HSfWRUgJ4/k5GkbJBXoAWoLDeLqZoFCq9aDwbsYx7/TE9OojroJooWputeqk8MxkyvhHj
+	 VWeRPgc8Z2ooPfGSJlAttKSOatyRF1IYWeQRjOKrMyVVewq01etlqvGFAo2+hiCE+5TQ0
+	 9G7IwqFH147NbbJ3bOn+YKNswVs67D2pXIBCcWd7SdtEA/JvairVb4/Il1gtD+vYTtrBs
+	 4syraSVzv4W+VrSBKBBwUEiARBp/LtGNbG5dnGngAlaq0B2ImQG5dhjq2chx/Jaeskw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=pengutronix.de;
+	spf=pass smtp.mailfrom=pengutronix.de;
+	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=bXq7ph6n;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 516AE606A321
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 09:14:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 516AE606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9553606A31D;
+	Thu, 22 Oct 2026 09:36:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9553606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pbWchEPk
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a208d93758so4018845e9.3
-        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 02:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792660455; x=1793265255; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=TT/G+LaV+N0GyZAIi03X4FvjbCyGL46ou/Kls81a/U4=;
-        b=pbWchEPkVThRmShZ/pXvMs4GdDzGN61VsrGBRl1BPO1c60b4MoulaASSIdTHURWhv7
-         wWSXZbFPb1urP77j75IkPM2K6Xx45ekzJWxbO8vMncsoiJeZFf8xbGrPxFZwUMJhfgt9
-         W2Z2bwbCz4H9HJSMb5UT4dtcwoY60jB19sEukjhQOfIO4rFP9CrqoyoPp3UWvrNCAyAh
-         N9DKlX6QgbMRjxErdYs/tn0JoQWyHssgh3Itx6NdQB4lq2zyEdmHdkCZtztm+byXhZmD
-         YVrOnYTmlX6SDbfilgFeu9LAEi5PkqHaThIoUxcQoXLQGisrRDnq8bFi4phtAiyT80lW
-         JeAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792660455; x=1793265255;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=TT/G+LaV+N0GyZAIi03X4FvjbCyGL46ou/Kls81a/U4=;
-        b=1fAhZ5aPztdK1EhF/DFfD/VzZJprrnytv70w9x5ABxqkR8x1R+2ouUuWX4/DktGcWt
-         gTy1xNirHK3bu60KhuhhpSKl/P4niZDqdOUI4cmVv0TMyELVM6C/26TjWBdm1IKmREJc
-         dQr4iN5hmNaMV6Mp6dV7VkpC7wA46t/sggZyt2czY5n1Q2GX3v3wzMHj003jO7YK08Bt
-         q6dNcVcmfAlHEQEMijxWMv50KO6RmycqjJy16tNbWUNbXYLqe6VZfFrxgO70TVYo6oVV
-         tcPc1IB/b7FoWlDDcCHQTXVFa4zpRfjZRWYK0G+Y7A4NL774Iq1wDaiBvIP1DImCQEIV
-         +FSQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxLMWuWQmfi+RfKekSayqKZdz8+jotB99FYbyuR5mFSeeC9ro5Wbbg02EFx8hbHBotQjt+TPybLqSg=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLiEe/DlGNQ8V/3w0WdXG2uvTOQHJQ2C1FnrezVvlxuLJZijE6+
-	HS6D/wFyvVDXumYNEsVLGqGilanG/vatngoKY/OBUml74rMC2pAR6HkB
-X-Gm-Gg: AYBFou2pYpU+Zo7erPSFSUYuQ46mD8HD9sXNklBF7ldeMznb+dJju/7MvOtHyXZ7gLK
-	0/nPI9JuHLXB7vduAhwdNACMJoUguywMmQEEoUJf4UTVno7Fc9YB0kONTI5LMqVgybtTQnZ/oyy
-	BJ5c27aZ3G2+iaaBn95nYBAlLzRG8uknrEk6HstBC84IobnJU5m0Ek0Ew8KeeaNYSmRzme9E52R
-	TMxeR5StkM5NIwbzpkLQmJDviOR5KxGkF6JrA9SOzeP9wP2c+6cZ81hDMQRSeh5fedt5KNsSy+D
-	o0mfTcW9Xy3SQLnS1O9l/wRlehrPa+4AXfDu+RS5A5jL8FhuGpKViP+1AvMA+MIYE86ixuZ9blB
-	tlnflHCDVXXjHBFAQedCD05MGaKEQBcuBPpLtevEfv4xocMhPdXCnJfWsDbOel7sq8uYYpJXB29
-	wCEk5uyNGNePxw677LW18KG8ArmfvHTCPsvFxtXJP2h2o69C1mwwSH3baL921Jga2Rrd6UQJsau
-	sYSE595hB1ORvULGlrQeEwHymv4LXbStrR6MFnIPqqbgouBAF1Di8lUdfGxORYwCO1nHXJ4Vv3U
-	kU5cUYCjGZWHKwwpXYUICOCEJISiuaYxp4pqcw7/+Y/rMJQ9PmcseyFryYognvHQuJklY+xpU4W
-	F84ouO8uOvJppXQxhiH0fDETsGuGBNQsEogRFYmuU0BKwihS9ZE8Tv8+QOhTSGkeKf+E9Kc6SzH
-	VphY10NOp+R8Enx3NXUp4JK79q0AQAJ3HNXw8kjeuDI6F5oQ==
-X-Received: by 2002:a05:600c:8b10:b0:4a1:fe55:88ef with SMTP id 5b1f17b1804b1-4a1fe558af6mr99646425e9.20.1792660454440;
-        Thu, 22 Oct 2026 02:14:14 -0700 (PDT)
-Received: from Ubuntu.tail0f733b.ts.net (87-205-15-91.static.ip.netia.com.pl. [87.205.15.91])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a203b3a4eesm52114055e9.7.2026.10.22.02.14.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 02:14:14 -0700 (PDT)
-From: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neill Kapron <nkapron@google.com>,
-	linux-usb@vger.kernel.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Mehmet Fide <mehmet.fide@gmail.com>,
-	Brian Ellis <brianellis@gotenna.com>,
-	Johan Hovold <johan@kernel.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	linux-serial@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	Ai Chao <aichao@kylinos.cn>,
-	Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	syzbot@lists.linux.dev,
-	syzbot+fe63e4d633540f230624@syzkaller.appspotmail.com,
-	stable@kernel.org
-Subject: [PATCH v2] usb: gadget: u_serial: pin ports while TTYs are installed
-Date: Thu, 22 Oct 2026 11:13:59 +0200
-Message-ID: <20261022091359.1187468-1-krystianmkaniewski@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <6941beb7-8cae-4cc5-ba07-e1c8a8753fe1@mail.kernel.org>
-References: <6941beb7-8cae-4cc5-ba07-e1c8a8753fe1@mail.kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=bXq7ph6n
+Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
+	(Authenticated sender: pza@pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id E7E4E2004FF;
+	Thu, 22 Oct 2026 11:36:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1792661782;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y6fKhPj/87pimLsrwa96wiOXJcyMQ8XJmdtAlqWwRbI=;
+	b=bXq7ph6ntsifd3fQBzyhED2nbhwiV5G4GjRpF7oFKQoKAHwUavLydnwPtO02w6UoTIsrwm
+	IGgtbDu2MC0TXa48uEbryw/KHSrSc3Imjl5CQD9kvpGT0wD8tL5zO1jP3UCdWWKEJ2EFbh
+	L93LUL7PHPjIL6/Xx9ARsW4wKx/tPdDqYd0USbBI7rcF9wWbYbAgALnL6t/GwCY8LJc7MH
+	9o1KrLus06gNGE8s6FqOFx0LAqKB/3U7rg3056+7ggxpQfYK7xYraXDYB8K5Y5toq7aEL1
+	XiSQi57j9TVqW32yPWKBhS8dtloO/BDUwvsaAMvVYQMYSJiFDfzdXvvYnJRwzw==
+ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1792661782; a=rsa-sha256;
+	cv=none;
+	b=WykGo8jD8hoj3R5BdABolvEsTgPvDWg7IgivSeTxChcYdeiN6LdCe4v9cw+PDHxpQAhd34
+	LXriW4TjdGJZ7sSihMd8BL8IJsbgE4DGcCKGRW5pJx31vQuUcx3mo1b8fCKtZ6mMHS8BCO
+	aGs0UHSk/z9zxhRVxEyAx4wiMwSFcbsE5iBntSLen4y8ABKhooPDyDYOYMhu+6XikA7MK6
+	lyhJTX8ytsYN/7l8om/+UGIrQRfH4D2PIvcLkC2sE7bgi6HW52XO7G4kxrMOezltHNY/LC
+	k1r6cEBbsYxtKUPj8QvSdYmlvvuGxXLhKveo1VeT9XD4uJ/uK6RNusU4jntSbQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1792661782;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=y6fKhPj/87pimLsrwa96wiOXJcyMQ8XJmdtAlqWwRbI=;
+	b=LlMqAmC8/AkwywL7CYQSP+s+ZiAPecaqDv7M7KJsdN/HON5OTFOnpzKh35OY1Gp3fQouio
+	6kgS82yTFZfAvm4MPHy8/4sqgfAj5ozTWBQV62TJXfusG4nE690zUP5S4dVSnMxeWZIRtK
+	4kSR14eJ19qmpOKGXGplWQ3cxZ9gkwaTxXYLfCecd+xus6QvTonC0ddc50BUTxS9Q9R8rT
+	UnG0UVcY+NW8fANIsuDZq6oc4vu2adjbXzthGL8cWhdvNE0Qi6vVkRe+gALT2VvbJ7SUl+
+	C15BT2EQ5kMRBIz+c4HFjFPQN0zqb8SvcoJsyjPPSeKzmayAwZoOAezz5+gtqg==
+Message-ID: <bafa6ad636d5e8a681494714adbd66bf8f2f7b19.camel@pengutronix.de>
+Subject: Re: [PATCH v3 6/6] usb: gadget: udc: crg: Add core driver and build
+ integration
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Petar Stepanovic <pstepanovic@axiado.com>, Naveen Kumar Rajgiri Bassappa
+	 <rbnaveenkumar@axiado.com>, Prasad Bolisetty <pbolisetty@axiado.com>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Tzu-Hao Wei	 <twei@axiado.com>, Karthikeyan Mitran
+ <kmitran@axiado.com>
+Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	openbmc@lists.ozlabs.org, Krutik Shah <krutikshah@axiado.com>
+Date: Thu, 22 Oct 2026 11:36:22 +0200
+In-Reply-To: <20261020-axiado-ax3000-usb-device-controller-v3-6-3012ecfc0a93@axiado.com>
+References: 
+	<20261020-axiado-ax3000-usb-device-controller-v3-0-3012ecfc0a93@axiado.com>
+	 <20261020-axiado-ax3000-usb-device-controller-v3-6-3012ecfc0a93@axiado.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-0+deb13u1 
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -112,389 +101,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-A slab-use-after-free can occur when gserial_free_line() frees struct
-gs_port while it is still reachable through an installed TTY. The
-port->port.count value tracks successful opens, but it is zero before
-gs_open() and again after gs_close(), before TTY cleanup has finished.
-Teardown can therefore free gs_port while tty_init_dev() or release_tty()
-still accesses its tty_port.
+On Di, 2026-10-20 at 00:19 -0700, Petar Stepanovic wrote:
+> This patch introduces the core probe/remove functions for the Axiado
+> AX3000/AX3005 UDC driver, and wires up the directory into the build
+> system via Kconfig and Makefile.
+>=20
+> Co-developed-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
+> Signed-off-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
+> Co-developed-by: Krutik Shah <krutikshah@axiado.com>
+> Signed-off-by: Krutik Shah <krutikshah@axiado.com>
+> Signed-off-by: Petar Stepanovic <pstepanovic@axiado.com>
+> ---
+>  MAINTAINERS                               |   1 +
+>  drivers/usb/gadget/udc/Kconfig            |   2 +
+>  drivers/usb/gadget/udc/Makefile           |   1 +
+>  drivers/usb/gadget/udc/crg/Kconfig        |  16 +
+>  drivers/usb/gadget/udc/crg/Makefile       |   9 +
+>  drivers/usb/gadget/udc/crg/crg-udc-core.c | 706 ++++++++++++++++++++++++=
+++++++
+>  6 files changed, 735 insertions(+)
+>=20
+[...]
+> diff --git a/drivers/usb/gadget/udc/crg/crg-udc-core.c b/drivers/usb/gadg=
+et/udc/crg/crg-udc-core.c
+> new file mode 100644
+> index 000000000000..80a4fc6a61e8
+> --- /dev/null
+> +++ b/drivers/usb/gadget/udc/crg/crg-udc-core.c
+> @@ -0,0 +1,706 @@
+[...]
+> +static int crg_udc_init_hw(struct crg_gadget_dev *crg_udc)
+> +{
+> +	struct device *dev =3D crg_udc->dev;
+> +	int ret;
+> +
+> +	crg_udc->clk =3D devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(crg_udc->clk))
+> +		return dev_err_probe(dev, PTR_ERR(crg_udc->clk),
+> +				     "failed to get clock\n");
+> +
+> +	ret =3D clk_prepare_enable(crg_udc->clk);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to enable clock\n");
+> +
+> +	ret =3D devm_add_action_or_reset(dev, crg_udc_clk_disable, crg_udc->clk=
+);
+> +	if (ret)
+> +		return ret;
+> +
+> +	crg_udc->rst =3D
+> +		devm_reset_control_get_optional_exclusive_deasserted(dev, NULL);
 
-Manage gs_port lifetime with tty_port references. Take a reference in
-gs_install(), drop it in gs_cleanup(), and move the final free to
-gs_port_destruct(). Unregister the TTY device before dropping the owner
-reference.
+Why is this stored in struct crg_gadget_dev? It's not used anywhere
+that I can see. The struct reset_control could be a local variable.
 
-Keep each minor reserved until the old port is destroyed so an installed
-TTY for one generation cannot overlap a replacement at the same minor.
-Publish the new port before device registration so the cdev and add uevent
-never expose a TTY before gs_install() can pin it. Since commit
-8df07fe93573 ("tty: fix saved termios reset race"), u_serial registration
-no longer frees saved termios. On registration failure, unpublish the port
-before dropping its owner reference.
-
-Check in gs_open() that the installed port is still the published
-generation. Track failures after a successful install so close callbacks
-issued by the TTY core do not decrement port->port.count for opens that
-never incremented it.
-
-Fixes: 19b10a8828a6 ("usb: gadget: allocate & giveback serial ports instead hard code them")
-Assisted-by: Gemini:gemini-3.8-flash syzbot
-Reported-by: syzbot+fe63e4d633540f230624@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=fe63e4d633540f230624
-Link: https://syzkaller.appspot.com/ai_job?id=ec789387-2e7b-4a8f-a7a1-a47bf7fa57f5
-Cc: stable@kernel.org
-Signed-off-by: Krystian Kaniewski <krystianmkaniewski@gmail.com>
----
-v2:
-- Publish the port before TTY device registration so an open triggered by
-  the add uevent cannot observe an unpublished slot.
-- Drop the saved-termios rationale made obsolete by 8df07fe93573
-  ("tty: fix saved termios reset race").
-- Drop unreachable NULL checks in gs_open() and gs_close().
-- Rebase to usb-next and mark the fix for stable backporting.
-- Do not carry Mehmet's Tested-by tag because the registration ordering
-  changed after his test.
-v1: https://lore.kernel.org/r/6941beb7-8cae-4cc5-ba07-e1c8a8753fe1@mail.kernel.org/
-
-Tested on usb-next in QEMU with KASAN, using the syzbot reproducer and
-configuration: without the patch the use-after-free is reported, with it
-there are no reports. A test that opens /dev/ttyGS0 while an ACM
-function is created gets -ENODEV with v1 and not with v2.
-
-Brian Ellis's "[PATCH v4] usb: gadget: u_serial: fix NULL deref in
-gs_close() after failed open" fixes a crash that this patch also removes,
-because gs_close() no longer sees a NULL driver_data after a failed open.
-The two patches do not apply on top of each other:
-https://lore.kernel.org/r/20261013-u_serial-gs-close-null-v4-1-9ea038501994@gotenna.com/
-
- drivers/usb/gadget/function/u_serial.c | 167 ++++++++++++++++++++-----
- 1 file changed, 134 insertions(+), 33 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/u_serial.c b/drivers/usb/gadget/function/u_serial.c
-index cdd1dfc666c4f..41dee2afef5c6 100644
---- a/drivers/usb/gadget/function/u_serial.c
-+++ b/drivers/usb/gadget/function/u_serial.c
-@@ -70,10 +70,28 @@
-  *	gserial->ioport == usb_ep->driver_data ... gs_port
-  *	gs_port->port_usb ... gserial
-  *
-- * gs_port <---> tty_struct ... links will be null when the TTY file
-- * isn't opened; managed by gs_open()/gs_close()
-- *	gserial->port_tty ... tty_struct
-- *	tty_struct->driver_data ... gserial
-+ * gs_port <---> tty_struct:
-+ *	tty->driver_data refers to gs_port from install through cleanup,
-+ *	pinning the port via tty_port reference counting.
-+ *	gs_port->port.tty exists only while the port is open.
-+ *
-+ * Each entry in ports[] is guarded by ports[i].lock and models three states:
-+ *   - Free:      !port && !reserved
-+ *   - Published:  port &&  reserved
-+ *   - Retiring:   !port &&  reserved
-+ *
-+ * A minor remains reserved until gs_port_destruct() runs upon final tty_port
-+ * release, preventing minor reuse while cleanup of the installed TTY is still
-+ * underway. The owner reference is retained through device unregister so the
-+ * destructor releases the reservation only after device teardown is complete.
-+ *
-+ * open_close_failures tracks failed gs_open() calls where port->port.count
-+ * was not incremented. The TTY core calls gs_close() on open failure to tear
-+ * down the tty; tracking failures as aggregate credits allows gs_close() to
-+ * consume a credit and exit without decrementing port->port.count. Credits
-+ * are aggregate rather than paired with individual files (another gs_close()
-+ * can consume a failed open's credit before that file's own close runs).
-+ * It is protected by tty_lock.
-  */
- 
- /* RX and TX queues can buffer QUEUE_SIZE packets before they hit the
-@@ -128,6 +146,7 @@ struct gs_port {
- 	wait_queue_head_t	close_wait;
- 	bool			suspended;	/* port suspended */
- 	bool			start_delayed;	/* delay start when suspended */
-+	unsigned int		open_close_failures; /* protected by tty_lock */
- 	struct async_icount	icount;
- 
- 	/* REVISIT this state ... */
-@@ -135,8 +154,9 @@ struct gs_port {
- };
- 
- static struct portmaster {
--	struct mutex	lock;			/* protect open/close */
-+	struct mutex	lock;			/* protect open/close and port slot */
- 	struct gs_port	*port;
-+	bool		reserved;
- } ports[MAX_U_SERIAL_PORTS];
- 
- #define GS_CLOSE_TIMEOUT		15		/* seconds */
-@@ -603,22 +623,60 @@ static int gserial_wakeup_host(struct gserial *gser)
- 
- /* TTY Driver */
- 
-+static int gs_install(struct tty_driver *driver, struct tty_struct *tty)
-+{
-+	struct gs_port *port;
-+	struct tty_port *tport;
-+	int ret;
-+
-+	mutex_lock(&ports[tty->index].lock);
-+	port = ports[tty->index].port;
-+	if (!port) {
-+		mutex_unlock(&ports[tty->index].lock);
-+		return -ENODEV;
-+	}
-+
-+	tport = tty_port_get(&port->port);
-+	if (!tport) {
-+		mutex_unlock(&ports[tty->index].lock);
-+		return -ENODEV;
-+	}
-+
-+	ret = tty_port_install(tport, driver, tty);
-+	if (ret) {
-+		mutex_unlock(&ports[tty->index].lock);
-+		tty_port_put(tport);
-+		return ret;
-+	}
-+
-+	tty->driver_data = port;
-+	mutex_unlock(&ports[tty->index].lock);
-+
-+	return 0;
-+}
-+
-+static void gs_cleanup(struct tty_struct *tty)
-+{
-+	tty_port_put(tty->port);
-+}
-+
- /*
-- * gs_open sets up the link between a gs_port and its associated TTY.
-- * That link is broken *only* by TTY close(), and all driver methods
-- * know that.
-+ * gs_open associates an open TTY with its gs_port.
-+ *
-+ * There are two TTY-to-port relationships: port->port.tty exists from the
-+ * first successful open until final close, while tty->driver_data is assigned
-+ * during gs_install() and remains valid through gs_cleanup().
-  */
- static int gs_open(struct tty_struct *tty, struct file *file)
- {
- 	int		port_num = tty->index;
--	struct gs_port	*port;
-+	struct gs_port	*port = tty->driver_data;
- 	int		status = 0;
- 
- 	mutex_lock(&ports[port_num].lock);
--	port = ports[port_num].port;
--	if (!port) {
-+	if (ports[port_num].port != port) {
- 		status = -ENODEV;
--		goto out;
-+		goto fail_unlock;
- 	}
- 
- 	spin_lock_irq(&port->port_lock);
-@@ -638,7 +696,7 @@ static int gs_open(struct tty_struct *tty, struct file *file)
- 		if (status) {
- 			pr_debug("gs_open: ttyGS%d (%p,%p) no buffer\n",
- 				 port_num, tty, file);
--			goto out;
-+			goto fail_unlock;
- 		}
- 
- 		spin_lock_irq(&port->port_lock);
-@@ -648,7 +706,6 @@ static int gs_open(struct tty_struct *tty, struct file *file)
- 	if (port->port.count++)
- 		goto exit_unlock_port;
- 
--	tty->driver_data = port;
- 	port->port.tty = tty;
- 
- 	/* if connected, start the I/O stream */
-@@ -672,7 +729,11 @@ static int gs_open(struct tty_struct *tty, struct file *file)
- 
- exit_unlock_port:
- 	spin_unlock_irq(&port->port_lock);
--out:
-+	mutex_unlock(&ports[port_num].lock);
-+	return status;
-+
-+fail_unlock:
-+	port->open_close_failures++;
- 	mutex_unlock(&ports[port_num].lock);
- 	return status;
- }
-@@ -695,6 +756,11 @@ static void gs_close(struct tty_struct *tty, struct file *file)
- 	struct gs_port *port = tty->driver_data;
- 	struct gserial	*gser;
- 
-+	if (port->open_close_failures > 0) {
-+		port->open_close_failures--;
-+		return;
-+	}
-+
- 	spin_lock_irq(&port->port_lock);
- 
- 	if (port->port.count != 1) {
-@@ -909,8 +975,10 @@ static int gs_get_icount(struct tty_struct *tty,
- }
- 
- static const struct tty_operations gs_tty_ops = {
-+	.install =		gs_install,
- 	.open =			gs_open,
- 	.close =		gs_close,
-+	.cleanup =		gs_cleanup,
- 	.write =		gs_write,
- 	.put_char =		gs_put_char,
- 	.flush_chars =		gs_flush_chars,
-@@ -1203,14 +1271,41 @@ static void gs_console_exit(struct gs_port *port)
- 
- #endif
- 
--static int
-+static void gs_port_destruct(struct tty_port *tport)
-+{
-+	struct gs_port *port = container_of(tport, struct gs_port, port);
-+	unsigned int port_num = port->port_num;
-+
-+	mutex_lock(&ports[port_num].lock);
-+	if (WARN_ON(ports[port_num].port))
-+		ports[port_num].port = NULL;
-+	WARN_ON(!ports[port_num].reserved);
-+	if (gs_tty_driver)
-+		gs_tty_driver->ports[port_num] = NULL;
-+	ports[port_num].reserved = false;
-+	mutex_unlock(&ports[port_num].lock);
-+
-+	kfifo_free(&port->port_write_buf);
-+	kfree(port);
-+}
-+
-+static const struct tty_port_operations gs_port_ops = {
-+	.destruct = gs_port_destruct,
-+};
-+
-+static struct gs_port *
- gs_port_alloc(unsigned port_num, struct usb_cdc_line_coding *coding)
- {
- 	struct gs_port	*port;
- 	int		ret = 0;
- 
- 	mutex_lock(&ports[port_num].lock);
--	if (ports[port_num].port) {
-+	if (WARN_ON_ONCE(ports[port_num].port && !ports[port_num].reserved)) {
-+		ret = -EBUSY;
-+		goto out;
-+	}
-+
-+	if (ports[port_num].reserved) {
- 		ret = -EBUSY;
- 		goto out;
- 	}
-@@ -1222,6 +1317,7 @@ gs_port_alloc(unsigned port_num, struct usb_cdc_line_coding *coding)
- 	}
- 
- 	tty_port_init(&port->port);
-+	port->port.ops = &gs_port_ops;
- 	spin_lock_init(&port->port_lock);
- 	init_waitqueue_head(&port->drain_wait);
- 	init_waitqueue_head(&port->close_wait);
-@@ -1235,10 +1331,14 @@ gs_port_alloc(unsigned port_num, struct usb_cdc_line_coding *coding)
- 	port->port_num = port_num;
- 	port->port_line_coding = *coding;
- 
-+	ports[port_num].reserved = true;
- 	ports[port_num].port = port;
-+	mutex_unlock(&ports[port_num].lock);
-+	return port;
-+
- out:
- 	mutex_unlock(&ports[port_num].lock);
--	return ret;
-+	return ERR_PTR(ret);
- }
- 
- static int gs_closed(struct gs_port *port)
-@@ -1258,8 +1358,7 @@ static void gserial_free_port(struct gs_port *port)
- 	/* wait for old opens to finish */
- 	wait_event(port->close_wait, gs_closed(port));
- 	WARN_ON(port->port_usb != NULL);
--	tty_port_destroy(&port->port);
--	kfree(port);
-+	tty_port_put(&port->port);
- }
- 
- void gserial_free_line(unsigned char port_num)
-@@ -1276,15 +1375,15 @@ void gserial_free_line(unsigned char port_num)
- 	ports[port_num].port = NULL;
- 	mutex_unlock(&ports[port_num].lock);
- 
--	gserial_free_port(port);
- 	tty_unregister_device(gs_tty_driver, port_num);
-+	gserial_free_port(port);
- }
- EXPORT_SYMBOL_GPL(gserial_free_line);
- 
- int gserial_alloc_line_no_console(unsigned char *line_num)
- {
- 	struct usb_cdc_line_coding	coding;
--	struct gs_port			*port;
-+	struct gs_port			*port = ERR_PTR(-EBUSY);
- 	struct device			*tty_dev;
- 	int				ret;
- 	int				port_num;
-@@ -1295,19 +1394,20 @@ int gserial_alloc_line_no_console(unsigned char *line_num)
- 	coding.bDataBits = USB_CDC_1_STOP_BITS;
- 
- 	for (port_num = 0; port_num < MAX_U_SERIAL_PORTS; port_num++) {
--		ret = gs_port_alloc(port_num, &coding);
--		if (ret == -EBUSY)
--			continue;
--		if (ret)
-+		port = gs_port_alloc(port_num, &coding);
-+		if (IS_ERR(port)) {
-+			ret = PTR_ERR(port);
-+			if (ret == -EBUSY)
-+				continue;
- 			return ret;
-+		}
- 		break;
- 	}
--	if (ret)
--		return ret;
-+	if (IS_ERR(port))
-+		return PTR_ERR(port);
- 
- 	/* ... and sysfs class devices, so mdev/udev make /dev/ttyGS* */
- 
--	port = ports[port_num].port;
- 	tty_dev = tty_port_register_device(&port->port,
- 			gs_tty_driver, port_num, NULL);
- 	if (IS_ERR(tty_dev)) {
-@@ -1316,14 +1416,15 @@ int gserial_alloc_line_no_console(unsigned char *line_num)
- 
- 		ret = PTR_ERR(tty_dev);
- 		mutex_lock(&ports[port_num].lock);
-+		WARN_ON(ports[port_num].port != port);
- 		ports[port_num].port = NULL;
- 		mutex_unlock(&ports[port_num].lock);
--		gserial_free_port(port);
--		goto err;
-+		tty_port_put(&port->port);
-+		return ret;
- 	}
-+
- 	*line_num = port_num;
--err:
--	return ret;
-+	return 0;
- }
- EXPORT_SYMBOL_GPL(gserial_alloc_line_no_console);
- 
-
-base-commit: bdf12cde30830d46a8ef1ba93986356f1164b4f1
--- 
-2.53.0
-
+regards
+Philipp
