@@ -1,153 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792674602;
-	b=ImFfdx7apUndO4l9w64DjraRbYwwyVKQMXAHEt2nsLXkr9o+bULuzXs5rT4lTFlNP/Eb
-	 EzIaYBTYyMoeckyt0FIIzM49CmpbyhjA2okKtXo2EfHNrLCBFDOI07GfsNe4/LCNCP20+
-	 awej2xIVRsFGqzSNDw1vND70/a5pg1g9caAbPcvfDXWgruME8Md3fO1DxMBxvICuN4TZL
-	 nlPsljHg3iZSwVnVYSXqW8Hh50YfLJJ1pyW9VjAKsnK8tqYhG/Vf5T50EQjHonfKW6J9W
-	 wRp+FJhVcjZIJjV2CkoH6b/x+evx8JVy/QEk9PGdbOaDlSwwWplE4tkI/xEFvgfF0FQ==
+	t=1792674797;
+	b=Lphw/CajLqF9bZ84hI2fpRoLUT4+S22EqKH2L72MM861WoHJ7zd/lc07GvoGs3ypEd+U
+	 Y65cFe7slgQt819Rf74puce1I2sdKKpduAE0blD3ZQ+9MFygiza9ck2kjT3LJbqUOjWpR
+	 W5HTwG+bWdeq0p0P61IgUIo742Nko9sRGRA/1p1jN3dbotM+qLbEYzAlunvPOX9iZkicd
+	 DPLoc8mkbTizi2DEfiw/UcZ9dv2pfXuTNZ5I22ZRLJMMjZkBSobZCH0EbPrw1vDvrup9v
+	 YL0KNEn4jgfLNDT2UDz0sFuRSbGkiHhPZ10n6mIJhKr6Zr6DHXtLZ5QmaVbT70IOEhg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792674602;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Date:From:
-	 To:Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=X71VhERMLk9X4yX6oZKoIWZ1HUd6drCTkrXIPj5i+40=;
-	b=CDFivvP8qeEz812A/JtnRiSRJ9kmxckD4HZBe8ULQ5CsnA87eMaeuSgn2JPruhss7Wgn
-	 Satn+z8nHUuBWWXSsnY+QuiB+zQYXCgjjSoN2OMiwmFsj4EBBKPzaUyR0vxvdVTdDxonB
-	 y1X5L9l61GXkNRdWh5lQ69PeOOfW6s7GuRMO0n+KMRXbAYlt4RYUB2NgUpHgw8DJzcD6i
-	 gO3rtsPO0hyzWrkAiRg1MxdlZUHHYRq3IOj3Y44hQNjFMg/hGEtLuy7ae9VLcXxDF5rk0
-	 v4b0fjEa5KoztKBv8RW9TN16CMgtPDg03KrPEvPxzqGIodxNUbFz9oaA93uqxxs1vMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792674797;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=xlaV1V+yQ3J8w/w8Ck84D01xkjHZK2MyUGosH96xsm4=;
+	b=SODFDxOuYnUTM9ndsFzdfgdAmqq1h4NmlQRouTgh73DrzdyOgdudus372ScXGeTTg7Wm
+	 Ts9/65uhfu2zLOAvSJ5Z1fJDGZabkUZImO8TyInEAtKqmlC2oQCxzryjPKhP3Nm/cTixz
+	 rV3vD3AnLrjZ1Ol3b7t2z5H5r0Y8t705ZxPNkt5901SgDWRIhWD4OhQ7b3ztvFrKskvHy
+	 oo51XTC+spkQxJpOaItPYOtCCxmw3FQCoP75Gnho8ZBF0B2JB9id+5Rn1+oAF09jUdnX0
+	 IUC5rr639Ajj4+yIxhL8RvwLQc1Go48LNp2a3t8aIXR94+KSgfZOwtotrgv9cRh+nfw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=h4kWjHHp;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XfOBk4kY;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DNZcQL0z;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415F3606A31B
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:10:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 415F3606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40FD2606A319;
+	Thu, 22 Oct 2026 13:13:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=h4kWjHHp;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XfOBk4kY
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69M9xoFH346091
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:10:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=X71VhERMLk9X4yX6oZKoIWZ1
-	HUd6drCTkrXIPj5i+40=; b=h4kWjHHp2vQbs7FvHIG3d+zB/9hpThcUAdfi//Kx
-	lHQMH9vEM6g/E9b9N2pDrJHNk9G6T90OAYdz8+F60MgY8MuMvPr8nDZhP5eTUl9i
-	6oV5tW4+SUoYgUfJuoKQfOHAUv8avm3bVlcT8Z5vH54BGXzunjNOP7P7M9XndaJW
-	4R0L6fjgA+khWUgH2DNpSbkAZ2TPpTjXJde1dzqTXIR+wowz5sSREPa7jtRjbkVr
-	3wUhdECgFAlstvlduFnVdLXEILlECEh5HeObxXyF7MqoiGvDisCB4QTYknJ0I7l7
-	nN9QjCi0F9HwgoaFPKjvmTcdjTU4Z5YuOEl8MS6yteLb1A==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hf93dbhv1-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 13:10:01 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-934956beec8so400965685a.0
-        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 06:10:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792674600; x=1793279400; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=X71VhERMLk9X4yX6oZKoIWZ1HUd6drCTkrXIPj5i+40=;
-        b=XfOBk4kYZ2mSb5v9FGnXA9+hEhelNQtojd1pHilJYa+tCWkyTl1Xs8FlGe42DtT/9M
-         Fu1MPoexSJlA8FHxCODYe8FBRzLj6HqyWcNW1NCbd7csuB0sH9XJbGnd9EYV57spCIA8
-         1sHbcd9MLDg6GQTem0tvjs4A0t59/5bkgvoA9mTY9DifPAPHIjRjd+6+ZwpDw/ONsfyX
-         l8H1/xfEkUbIbzfqxKgUZyv3HdRvov61Yky9h8+oUn9YHimLMKuAItXbK/KFAs6ocyIQ
-         9DklOPsD8cMuWsTzkIIDWChPDVDDFttoscmHmvqolcZqDwU9e5f4Rm8kw+Jm9pMcO0lX
-         c8NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792674600; x=1793279400;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=X71VhERMLk9X4yX6oZKoIWZ1HUd6drCTkrXIPj5i+40=;
-        b=PBTrccESzWrHSRlchcgecrNLy9fBifzbPzkP7Ka0BWgV0QorA5OjJ0UUJjzdMh+6UY
-         CfhCYHv5AdIV5wGhi/0Uowt96DVzu0BxvPKCn7tLEpige3tF5x9XFTlX20W0PQAg9u94
-         cMXTakZndv+vk2ffkyvsYDYiN7BA9i3oZkC1ua07+UygFRQFBhLbkGZPnQpMRkXm+K7i
-         coMMTyhlWgLk0YybwHz42K39Lgc9X85ViwNaUWaapghd1L3QJGvenqKFe1O4QIRlGYdp
-         VSDcAdNnfZGtLlegpKTqir0mCvv9UyS9hGlZTdU/ku1/RZDKYnSgrkxPRFxn7XZm/wJU
-         pD2Q==
-X-Forwarded-Encrypted: i=1; AKwUvByaec3jxO0CDV9v3/jmzhUNuvLboRrpl8u1Ig8KGbpSm0JonDP0AoSSIvbrFfChUP1MdWWflcmYbgw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIl2q6o53ilb5xk/RFfzrJdsRZFdCbZi5gxLRwYIEWeDMcuO3Tb
-	kU3vj/A44bdN9Oz7wtUjt4WlwrtMN2mj4ycolMq5bKS6hPyz6XiYj6ycQZsVR/J2vfMDP5SNc1x
-	VWyC6l5FXW2A1lAYDn+3ZRwGzAyiywJOrZsb3HrODGIg89+eRq/KIMsWumneCeMc=
-X-Gm-Gg: AYBFou0s+jYef/bG+R8UHK9L658J3RXaegouwElt06tbZw3k7k8FfiIiOSEd6HUIcGO
-	r5ZorIuhUNzIUhM+RNHfKXkCFAa+aUqwtYgp66jUNO0cuMWcg1R+09lHc3Ecd8r7Ew2Zyd0jbMx
-	1AUYwWmBTcZrFEXW/WRwlgoA7Qlm1l/uIASXtR2gy0nLBilK/NdoXZ+DiHPoZeBkt/BTr5a2RJP
-	nucjsqd2XJFyqljjtdjkeGRIYm1jJcd/MUEd4+4Fr3UBzSRJdLO7L1vEO42Qi4E+8t62ob2qbsc
-	Dvm4Cz7/DDsR7N4yTFr/Wu340epyvKt+H2IwaAy8I+H5nqCGv8YYKxCUqMd2+R4z3oHymXeh7RK
-	Hz1QHJi5hdcBeTMTvAbq0pEGQZ0Lz6I9E5IVyDhUCaVxwa/5b+BFPKzGMzMKMA626kL0AW2xOnP
-	082WmXTDPOg0kG
-X-Received: by 2002:a05:620a:2987:b0:93e:6068:7e8d with SMTP id af79cd13be357-93f57e5e1dfmr891282485a.10.1792674600170;
-        Thu, 22 Oct 2026 06:10:00 -0700 (PDT)
-X-Received: by 2002:a05:620a:2987:b0:93e:6068:7e8d with SMTP id af79cd13be357-93f57e5e1dfmr891275485a.10.1792674599660;
-        Thu, 22 Oct 2026 06:09:59 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfa1b94eb2sm1024058e87.45.2026.10.22.06.09.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 06:09:58 -0700 (PDT)
-Date: Thu, 22 Oct 2026 16:09:56 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrzej Hajda <andrzej.hajda@intel.com>,
-        Neil Armstrong <neil.armstrong@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Adrien Grassein <adrien.grassein@gmail.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rodrigo Vivi <rodrigo.vivi@intel.com>,
-        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-        Tvrtko Ursulin <tursulin@ursulin.net>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        Rob Clark <robin.clark@oss.qualcomm.com>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Pengyu Luo <mitltlatltl@gmail.com>, Nikita Travkin <nikita@trvn.ru>,
-        Yongxing Mou <yongxing.mou@oss.qualcomm.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Francesco Dolcini <francesco@dolcini.it>,
-        Abel Vesa <abelvesa@kernel.org>, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-        linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        freedreno@lists.freedesktop.org
-Subject: Re: [PATCH v5 2/8] drm/connector: pass down IRQ_HPD to the drivers
-Message-ID: <mdmxy4u5vz7xt6e524l3ghcy7b7yx63lirrnk4s7qzs4pm3oti@wucyw3rgooyk>
-References: <20260920-hpd-irq-events-v5-0-ff1de0090c72@oss.qualcomm.com>
- <20260920-hpd-irq-events-v5-2-ff1de0090c72@oss.qualcomm.com>
- <b6ccf98c-58f3-4fdc-bd7b-3eb1bc3b6e98@rock-chips.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=DNZcQL0z
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5240B1F000C1;
+	Thu, 22 Oct 2026 13:13:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792674796;
+	bh=xlaV1V+yQ3J8w/w8Ck84D01xkjHZK2MyUGosH96xsm4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=DNZcQL0z3lmwG2/ll8BW3r8AVu0q/Zb7r4HFXCKMxwool0fDvQs9tz2YhS4gW1UTo
+	 0/0I0JfWjZ3MrG0/Wx5ib8lt53kQ+2rbnJxNmSH76EadYFtvxInLxfTYyP4UjxtHUM
+	 haFiKTF1W4YYKMIFBVj5sIOFdLQ02Dp/PDdDDqDk=
+Date: Thu, 22 Oct 2026 15:05:27 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jiayi Li <lijiayi@kylinos.cn>
+Cc: Oliver Neukum <oneukum@suse.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Michal Pecio <michal.pecio@gmail.com>, linux-usb@vger.kernel.org,
+	linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: uas: wait for pending commands before unbinding
+Message-ID: <2026102214-citrus-reselect-b26d@gregkh>
+References: <20261022123401.319479-1-lijiayi@kylinos.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -159,89 +58,127 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b6ccf98c-58f3-4fdc-bd7b-3eb1bc3b6e98@rock-chips.com>
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIyMDA1MiBTYWx0ZWRfX/N1qkIFZxb3U
- cPlMYInd7Sw+fszUt4HV5dna0m0brbOUzAX8sYt8MtqNUNry+avv+Q1PEUGxAxktpGm18HdfWST
- NV4efUdNF1n4zj0+ELOdbFUuYhj2xeY=
-X-Proofpoint-ORIG-GUID: DlofmrSKAWrcRLnc4arAHVe7Y7i6HqTQ
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIyMDA1MiBTYWx0ZWRfXxapKUNaUEhQh
- rd9+j26F18DT3JDiSrb23L1Y2/Ud6DFbSaR4fxLwOtV9Om78LiVxAOXJ2ydy8XUzgQH6ckDgwQ3
- 9tmCRfTt9NxGCOMfKrpa64zVtNMaIxs5OT+LxuwBuPRAijh31y2Par2NTfK113Yr2kBGws3lV6R
- gqn1/nvQKeAKGvb1xGkVxEl9f/to7c37MFt7BC1FFa3EuDHCRrtF/93aTWW0pcWBfvxT+ros016
- wCqxsMvFwIFaoy3/y+0m4f3F9eKMtrxZ4BMOUTXPHfjubrYwaENSGLZsljWVYJDDGpDKxYf5H4K
- SCNVwAW540Lu3ExQE+XkkzgR+Nfjx9kGudJD9Z6xtl4luVGNLPRFTI75MDOz0EOxZNWBYHlWkaH
- 0LmTp2YSBlxMl/AAj5elvhBbEW+VOdZ33JAuB1FpUZuoo9oQNvXl6nMUa1CgKMrqAfP8yo5oD/Z
- lxFPGjaazEnr7Hzxa9A==
-X-Proofpoint-GUID: DlofmrSKAWrcRLnc4arAHVe7Y7i6HqTQ
-X-Authority-Analysis: v=2.4 cv=TIPQ2Fla c=1 sm=1 tr=0 ts=6ada0b29 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=eoimf2acIAo5FJnRuUoq:22 a=pGLkceISAAAA:8
- a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=qswy0Ei35aWKpRDCTP8A:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-22_04,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 clxscore=1015 adultscore=0 priorityscore=1501
- suspectscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610220052
+In-Reply-To: <20261022123401.319479-1-lijiayi@kylinos.cn>
 
-On Mon, Sep 21, 2026 at 09:53:12AM +0800, Chaoyi Chen wrote:
-> Hi Dmitry,
+On Thu, Oct 22, 2026 at 08:34:01PM +0800, Jiayi Li wrote:
+> USB core normally disables interface endpoints before calling
+> uas_disconnect(). This cancels pending URBs while the device may still
+> be processing the associated commands. Some storage bridges then stop
+> responding after a driver rebind and need a disconnect and reconnect
+> to recover.
 > 
-> On 9/20/2026 11:01 PM, Dmitry Baryshkov wrote:
-> > The DisplayPort standard defines a special kind of HPD events called
-> > IRQ_HPD. These events are used to notify DP Source about the events on
-> > the Sink side.
-> > 
-> > Extend drm_connector_funcs::oob_hotplug_event() to pass the
-> > notifications about the IRQ_HPD events down to the individual drivers,
-> > letting them handle those as required.
-> > 
-> > Reviewed-by: Pengyu Luo <mitltlatltl@gmail.com>
-> > Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> > ---
-> >  drivers/gpu/drm/display/drm_bridge_connector.c | 17 ++++++++++-------
-> >  drivers/gpu/drm/drm_connector.c                |  2 +-
-> >  drivers/gpu/drm/i915/display/intel_dp.c        |  3 ++-
-> >  include/drm/drm_connector.h                    |  3 ++-
-> >  4 files changed, 15 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-> > index 00feb73e63d7..a51567d19550 100644
-> > --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> > +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-> > @@ -141,7 +141,8 @@ struct drm_bridge_connector {
-> >   */
-> >  
-> >  static void drm_bridge_connector_hpd_notify(struct drm_connector *connector,
-> > -					    enum drm_connector_status status)
-> > +					    enum drm_connector_status status,
-> > +					    enum drm_connector_dp_event event)
-> >  {
-> >  	struct drm_bridge_connector *bridge_connector =
-> >  		to_drm_bridge_connector(connector);
-> > @@ -154,7 +155,8 @@ static void drm_bridge_connector_hpd_notify(struct drm_connector *connector,
-> >  }
-> >  
+> Enable soft unbinding and block new SCSI requests before waiting for
+> pending commands to finish. This keeps the endpoints available until
+> the wait completes. Stop waiting when USB core marks the device as
+> not attached, and continue with the existing cleanup on timeout.
 > 
-> It looks like you only changed the function signature. 
-> Don't the "bridge->funcs->hpd_notify" inside this function need to pass the event?
+> Keep requests blocked when leaving the preparation step, including on
+> timeout. Set resetting before unblocking the host so that queued
+> requests cannot submit new URBs during teardown.
+> 
+> ---
+> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+> index 2651629..58a67d7 100644
+> --- a/drivers/usb/storage/uas.c
+> +++ b/drivers/usb/storage/uas.c
+> @@ -9,6 +9,7 @@
+>   */
+>  
+>  #include <linux/blkdev.h>
+> +#include <linux/delay.h>
+>  #include <linux/slab.h>
+>  #include <linux/types.h>
+>  #include <linux/module.h>
+> @@ -1211,16 +1212,55 @@ static int uas_reset_resume(struct usb_interface *intf)
+>  	return 0;
+>  }
+>  
+> +static void uas_pre_disconnect(struct usb_interface *intf)
+> +{
+> +	struct Scsi_Host *shost = usb_get_intfdata(intf);
+> +	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
+> +	unsigned long flags, start_time;
+> +
+> +	spin_lock_irqsave(shost->host_lock, flags);
+> +	scsi_block_requests(shost);
+> +	spin_unlock_irqrestore(shost->host_lock, flags);
+> +
+> +	start_time = jiffies;
+> +	for (;;) {
+> +		if (READ_ONCE(devinfo->udev->state) == USB_STATE_NOTATTACHED)
+> +			return;
+> +
+> +		flush_work(&devinfo->work);
+> +
+> +		if (!usb_wait_anchor_empty_timeout(&devinfo->sense_urbs, 5000))
+> +			break;
+> +
+> +		if (!usb_wait_anchor_empty_timeout(&devinfo->data_urbs, 500))
+> +			break;
+> +
+> +		if (time_after(jiffies, start_time + 5 * HZ))
+> +			break;
+> +		if (uas_cmnd_list_empty(devinfo))
+> +			return;
+> +
+> +		msleep(20);
+> +	}
+> +
+> +	shost_printk(KERN_ERR, shost, "%s: timed out\n", __func__);
+> +}
+> +
+>  static void uas_disconnect(struct usb_interface *intf)
+>  {
+>  	struct Scsi_Host *shost = usb_get_intfdata(intf);
+>  	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
+>  	unsigned long flags;
+>  
+> +	uas_pre_disconnect(intf);
+> +
+>  	spin_lock_irqsave(&devinfo->lock, flags);
+>  	devinfo->resetting = 1;
+>  	spin_unlock_irqrestore(&devinfo->lock, flags);
+>  
+> +	if (shost->host_self_blocked)
+> +		scsi_unblock_requests(shost);
+> +
+>  	cancel_work_sync(&devinfo->work);
+>  	usb_kill_anchored_urbs(&devinfo->cmd_urbs);
+>  	usb_kill_anchored_urbs(&devinfo->sense_urbs);
+> @@ -1260,6 +1300,7 @@ static void uas_shutdown(struct usb_interface *intf)
+>  
+>  static struct usb_driver uas_driver = {
+>  	.name = "uas",
+> +	.soft_unbind = 1,
+>  	.probe = uas_probe,
+>  	.disconnect = uas_disconnect,
+>  	.pre_reset = uas_pre_reset,
 
-This is being handled in one of the next patches. Indeed, maybe I should
-squash the patch into this one.
+Hi,
 
-> 
-> 	drm_for_each_bridge_in_chain_scoped(bridge_connector->encoder, bridge) {
-> 		if (bridge->funcs->hpd_notify)
-> 			bridge->funcs->hpd_notify(bridge, connector, status);
-> 	}
-> 
-> 
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
--- 
-With best wishes
-Dmitry
+You are receiving this message because of the following common error(s)
+as indicated below:
+
+- Your patch does not have a Signed-off-by: line.  Please read the
+  kernel file, Documentation/process/submitting-patches.rst and resend
+  it after adding that line.  Note, the line needs to be in the body of
+  the email, before the patch, not at the bottom of the patch or in the
+  email signature.
+
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
