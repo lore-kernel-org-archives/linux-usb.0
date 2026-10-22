@@ -1,57 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792692215;
-	b=zh2/+u5XOejCfrrahcaB90CKSHyhxMcS4eQhAzGjQ18VnCO0bCzzL+k3knzXrhMi5nWY
-	 IPJWsCUQn7WPprt3zcT2FLzGGUN0p3d/+yhBayXCi/5isVK0VQm0dEJYfxIbo6LKyX7OP
-	 EjWxG7EkNsJEdt8p+kMTDOoeaRDeUgQPuq0e7M1q0P5d5SFj5aGRn7GEwSVmm4dUt5TnA
-	 ysltN7ZZkb4rzjHG1zh+kGZFLElUqKbgpYOg7VKaZ4K60ZDbJuqZnUM50U6omf2d6SFdF
-	 7QvaCKjCGgDJe2+aqbCU+RgO21DvzlrNqyhNOiUbgATMRWVwt67Kdt8QSlohHMyWAYg==
+	t=1792693777;
+	b=JhACTEg+IOXkeKf0gD4ft3D+yGoXRT0JoZwEajJkWUnZSjXBakbKmnuA0wgagRduoRjx
+	 aXp2GQJXKvR/ekiIzOdCM74Z+Mfn1ToasG5yOGHLFrEGb1L6Mz5963q0xJfuGKfPkcExI
+	 5v8b4EKuaQQESLT0LzvWehqL+urq4Ouug5JMZsKYn98H/mUB14wuRDd2e6v4NGeRis7kf
+	 eW4+coww2u6RCErBigjRoP5rErw+++G+TzBYwNbxjZ1y2rZddU6zrQwmmeVnaSZXADodC
+	 U0CSUwYUDnhW+rCqLABjP8YsGoMLgTZmcH4T5wiYkccog1TnlQTW2eggsOGPAbDgJEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792692215;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=14WjTagRVG96HvUs9DGj5AXFV5bwPENUsEFHhBB8VkM=;
-	b=ZT1g6BoxHXid104uH4KmnaG7iwSHtdxeedlbFZU9X2Fagix6r271hd28KO864ChKW6cc
-	 GFNWhG0nX7jz1ZT7Y5th2cQ51jMi6l3v588FG8OZnswVOaWxmnxrlz4BX0nkBybmysJla
-	 Vsf/Hz9tiPFIve3gv1EdqJv/SP0xZyD90w3wo68w8y6QuysB+Hqms0uhUaBbXSEL3X7aH
-	 OrIj4fvedTqvBtDjiTO3blIdYHH5PfBtYs4USzXs6nfGeWIvXJJumLNAdERjYR44Jis7/
-	 ry8eFPOrD6j0pCHxKxq66eVRJuQF6XdKKRiXpR4LqTAYRbD0NLY2yKb6Rkb2CczLM4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792693777;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=fNpgdSLyU0f9T1YtM2kvzGFULXH+7u9XixMiyrfLAIo=;
+	b=HZHeb7q5qhD6jg39PXbC3v2TAu5yHpo8c6+7cJPeVQ5vjGOJaAQtcnnYOms0q3GfKq0I
+	 ZByBmfZgyWfAIh4xTRevaN3MEgzvCztItb6aaWLCOdwXsW2/GFNHF8W2Jd9WLeCdXbJCU
+	 hu1IC3Yr454P4ktPIi5Sbq7lukzkq6P3myIysGsZiOdaNCIL3muFZmyiux21LDKaK2dru
+	 1/byucqHbFvS3w2oKmDW0/MiCf7RmLRqCcc9QW2liPQgIu9GiU/y/PdpBlDagnouxVzkD
+	 35EWFOuHu/MkQZZymVW7tNCnpHe0VvvKu2rMZr368HL16Sq36u29+A4XywaQBuTlKYw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZPNEiQ+h;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--sanglardf.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=byL+frIk;
+	arc=none smtp.remote-ip=74.125.82.72
+Received: from mail-dl1-f72.google.com (mail-dl1-f72.google.com [74.125.82.72])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEA6606A319
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 18:03:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D89606A31E
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 18:29:36 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B3D89606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--sanglardf.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZPNEiQ+h
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 411161F01825;
-	Thu, 22 Oct 2026 18:03:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792692214;
-	bh=14WjTagRVG96HvUs9DGj5AXFV5bwPENUsEFHhBB8VkM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=ZPNEiQ+hcrOkkOCDwtqBPVYElOVzP8nKYeuzDLSuN67lR2QUwSGr4eYP7NbGiXe2L
-	 GaqNiNt6kDp/e10WPTum9mH0RILgTf0XpcMH1iiL+ixtq252lCKoamYVuLGrbQVGZo
-	 pGJnYodlwo7NzJNS+fr8YVPVHAVqAkv2kISlonPVE8XrJyNTrFQHCjjNOy1hXTn/hz
-	 M5dpNVrXB8Eqjy2w2K4OuXNKFODi+zgpYrp+w/yBZvkPWPiCyFFJyOm909kDy5EvNK
-	 WRPO1LKRYwblqKCYUAVi0Vz+V6XdBhWlcgcUMtHeNl6YUX+IA2FDNoXwxXc8vXhDkT
-	 DTx76QrpI+vJw==
-Message-ID: <sashiko-outbox-181900@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [RFC PATCH 1/4] soc: qcom: pmic_glink: Hold back notifications
- over system sleep
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Vladyslav Tymoshchuk" <tvlad744@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261022164151.592-2-tvlad744@gmail.com>
-References: <20261022164151.592-1-tvlad744@gmail.com>
- <20261022164151.592-2-tvlad744@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2026 18:03:33 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20251104 header.b=byL+frIk
+Received: by mail-dl1-f72.google.com with SMTP id a92af1059eb24-147be78cd56so161679c88.1
+        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 11:29:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1792693776; x=1793298576; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=fNpgdSLyU0f9T1YtM2kvzGFULXH+7u9XixMiyrfLAIo=;
+        b=byL+frIkFyfOHmkKgw/m82fikBFuob4P3HvYNGqlai/88pwgy26IMlJImMxdpCjudP
+         Dppfx/TVcFa/PTr4ROVNITLZ3JDWJXLBTVmgJVpviDFxBlZc62eChuLm1uIXEzNy/9L9
+         AFe3yEKO/wqG4BzBY19rQ4nW1JrVkmkLuJ4dRQcEhjb2jVf2rRjlMcmJZjxuLlzv/c18
+         hYPRTIyB/FqqKpUX5+XrjrkrPc2WuNAaNmfgXjulfh43rrUBRWPTbXnigqK33efjCqm0
+         MZKiQD8TB+vq8kIjANhTH5jSx10LA244Fjfw2cFQUdX7jIYegOkX8cACqyomgfCXiZY7
+         h8Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792693776; x=1793298576;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fNpgdSLyU0f9T1YtM2kvzGFULXH+7u9XixMiyrfLAIo=;
+        b=eI39tpNOE+hHF3ktyJsAa8EDvt9sR3tPm7McECpU79xLdF/FFui4A1DUrNyN5Q3r1E
+         5Cn+iCWqflPcrfWO/MrWuEIsEnHCGYF0AikF10fGqhhWVX5Uc1up7eU/5wmln7IHWfvG
+         iBx0/HAM7vBADDSOr5Yw8fPIBS0wYNDR6QNHNQN/FKefJKhugbkItbZsjAAIDsooy/7g
+         Q5TZkmFBu1xpcgn639FE0raCPmsHFFwqFBrNxmVO4YA3GrCYGo1CHDik4uwO3FyAemjs
+         SdFL7WCW3h91XULfyNIaD2JMY97nI4eoanbWfVfUlcxJZ18tcq+b6HeP9FZR6HvGeEH6
+         7fMg==
+X-Forwarded-Encrypted: i=1; AKwUvBzjAanQ1oFFk2tkauUo2JI+9Oi/w8IF2iCXy6EnufxRzOSMK1O7p/e1XiKdvy90ehl2BBU/xxK+oDg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ5wIIspgxKQC6TAlV4cfP1ST+mlJDpB2ZtbIsolu2PVw8OolZm
+	ZNc0h4gwYZuRnIN8VuYg+thJ+kE9ZeSpuwpU19YCAJ2soeY0BULbPxEvSv3sp9UQt5C3UzxlBJ6
+	oAErM/t6g6NSo0Eq62Q==
+X-Received: from dlbts17-n2.prod.google.com ([2002:a05:7022:b051:20b0:18f:4e29:3ddd])
+ (user=sanglardf job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:701b:4551:10b0:166:4b44:66e9 with SMTP id a92af1059eb24-195c5f9ab58mr70105c88.32.1792693775457;
+ Thu, 22 Oct 2026 11:29:35 -0700 (PDT)
+Date: Thu, 22 Oct 2026 18:29:32 +0000
+In-Reply-To: <f86ca4e0-b294-42cb-b51a-d9e9984544ef@suse.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,252 +78,107 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+Mime-Version: 1.0
+References: <f86ca4e0-b294-42cb-b51a-d9e9984544ef@suse.com>
+X-Mailer: git-send-email 2.56.0.257.gf7497c7d27-goog
+Message-ID: <20261022182932.3262876-1-sanglardf@google.com>
+Subject: Re: [PATCH] usb: core: Emit KOBJ_CHANGE on unbound interface
+From: Fabien Sanglard <sanglardf@google.com>
+To: gregkh@linuxfoundation.org
+Cc: oneukum@suse.com, stern@rowland.harvard.edu, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Fabien Sanglard <sanglardf@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 3 potential issue(=
-s) to consider:
-- [High] soc: qcom: pmic_glink: deliver_work() dispatches messages before s=
-ervice UP
-- [High] soc: qcom: pmic_glink: race between pmic_glink_prepare() and deliv=
-er_work()
-- [Medium] soc: qcom: pmic_glink: pmic_glink_drop_deferred() leaks num_drop=
-ped count
---
+On Wed, Oct 14, 2026 at 07:01:31AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Oct 13, 2026 at 09:48:21AM -0700, Fabien Sanglard wrote:
+> > But it might be worth "trying". I am unsure what the kernel team
+> > philosophy is in this regard. If you all agree, we could trigger the
+> > KOBJ_CHANGE event unconditionally inside rebind_marked_interfaces()
+> > instead of conditionally inside usb_rebind_intf().
+>
+> Please try and test to verify.
 
-commit 3dadaa06ca7997c9a5f8bc5601e0bf726bf560b1
-Author: Vladyslav Tymoshchuk <tvlad744@gmail.com>
+On Wed, Oct 21, 2026 at 10:01:24AM +0200, Oliver Neukum wrote:
+> On a generic note, it seems to me that you are concerned about
+> an unavoidable case. You can check whether an interface is
+> unclaimed. Yet you have no way to ensure that the result of
+> your check is still current and thus valid, at time you act
+> upon it.
+>
+> In other words, you were about to design an interface that is
+> inherently racy. That is not a good idea.
 
-soc: qcom: pmic_glink: Hold back notifications over system sleep
+Emitting KOBJ_CHANGE unconditionally on the usb_device (&udev->dev.kobj)
+in usb_reset_device() when ret == 0, right after
+usb_unbind_and_rebind_marked_interfaces(udev), avoids the racy
+unclaimed-interface check and is in line with the earlier feedback
+("Why not always tell user space that a device has been reset?").
+Instead of asserting that an interface is unclaimed, the event simply
+tells userspace that the device has changed and, if tracked, should be
+re-inspected.
 
-This commit defers incoming PMIC GLINK notifications and service UP events
-starting from the PM prepare callback and delivers them on
-system_freezable_wq from the PM complete callback so client workers do not
-access suspended devices during system sleep.
+I tested this across devices with snd-usb-audio (no pre/post_reset),
+usbhid (with pre/post_reset), and usbfs (adb) using udevadm monitor:
 
-> diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
-> index 84fd0c82c0c4d..748b335be6ef7 100644
-> --- a/drivers/soc/qcom/pmic_glink.c
-> +++ b/drivers/soc/qcom/pmic_glink.c
+Interface driver                Uevent sequence on reset (ret == 0)
+--------------------------------------------------------------------------
+Kernel (no pre/post_reset)      UNBIND(intf) -> BIND(intf) -> CHANGE(dev)
+Kernel (with pre/post_reset)    CHANGE(dev)
+Userspace (usbfs, e.g. adb)     UNBIND(intf) -> CHANGE(dev)
 
-[ ... ]
+In all cases, CHANGE(dev) is emitted after in-kernel interface
+rebinding has finished, notifying userspace that the reset is complete.
+Because it is a usb_device uevent, it also includes DEVNAME (which
+usb_interface uevents lack), making it trivial for usbfs clients to
+re-inspect and re-claim the device without polling.
 
-> @@ -149,13 +166,77 @@ int pmic_glink_send(struct pmic_glink_client *clien=
-t, void *data, size_t len)
+Thanks,
+Fabien
 
-[ ... ]
+-- >8 --
+Subject: [PATCH v2] usb: core: Emit KOBJ_CHANGE when usb_reset_device() succeeds
 
-> +static void pmic_glink_drop_deferred(struct pmic_glink *pg)
-> +{
-> +	struct pmic_glink_deferred_msg *msg, *tmp;
-> +
-> +	guard(spinlock_irqsave)(&pg->defer_lock);
-> +
-> +	list_for_each_entry_safe(msg, tmp, &pg->deferred, node) {
-> +		list_del(&msg->node);
-> +		kfree(msg);
-> +	}
-> +	pg->num_deferred =3D 0;
-> +}
+When usb_reset_device() succeeds without re-enumerating the device,
+userspace receives no device-level uevent indicating that the reset has
+completed. For usbfs clients such as adb, usb_forced_unbind_intf()
+unbinds the interface before the port reset, and device_attach() leaves
+it unbound afterward because no kernel driver matches. Since usbfs
+suppresses uevents on interface claim/release, userspace receives
+UNBIND(intf) before the reset and no event when the device is ready to
+be re-claimed, forcing it to fall back to polling /dev/bus/usb.
 
-[Severity: Medium]
-Should pmic_glink_drop_deferred() also reset pg->num_dropped to 0?
+Emit KOBJ_CHANGE on &udev->dev.kobj in usb_reset_device() when the reset
+succeeds, after usb_unbind_and_rebind_marked_interfaces(udev), so
+userspace is notified (with DEVNAME) once the reset and all kernel
+interface rebinding are complete.
 
-If pmic_glink_defer() drops notifications while the queue is full (or on
-kmalloc_flex() failure) and the remote service subsequently goes down,
-pmic_glink_state_notify_clients() calls pmic_glink_drop_deferred() to disca=
-rd
-all queued messages from that remote session.
+Suggested-by: Oliver Neukum <oneukum@suse.com>
+Signed-off-by: Fabien Sanglard <sanglardf@google.com>
+---
+Changes in v2:
+- Emit KOBJ_CHANGE on &udev->dev.kobj in usb_reset_device() after
+  usb_unbind_and_rebind_marked_interfaces() when ret == 0, instead of
+  on the interface in usb_rebind_intf().
+- v1: https://lore.kernel.org/linux-usb/20261012171609.88273-1-sanglardf@google.com/
 
-Because pg->num_dropped is left untouched here, pmic_glink_deliver_work() w=
-ill
-later read the stale pg->num_dropped count and log a warning for notificati=
-ons
-that belonged to the discarded session.
+ drivers/usb/core/hub.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-[ ... ]
-
-> @@ -217,13 +305,18 @@ static void pmic_glink_state_notify_clients(struct =
-pmic_glink *pg)
->  	unsigned long flags;
-> =20
->  	if (pg->client_state !=3D SERVREG_SERVICE_STATE_UP) {
-> -		if (pg->pdr_state =3D=3D SERVREG_SERVICE_STATE_UP && pg->ept)
-> +		/* On UP the clients use the remote, hold that back as well */
-> +		if (pg->pdr_state =3D=3D SERVREG_SERVICE_STATE_UP && pg->ept &&
-> +		    !pmic_glink_deferring(pg))
->  			new_state =3D SERVREG_SERVICE_STATE_UP;
->  	} else {
->  		if (pg->pdr_state =3D=3D SERVREG_SERVICE_STATE_DOWN || !pg->ept)
->  			new_state =3D SERVREG_SERVICE_STATE_DOWN;
->  	}
-> =20
-> +	if (pg->pdr_state =3D=3D SERVREG_SERVICE_STATE_DOWN || !pg->ept)
-> +		pmic_glink_drop_deferred(pg);
-> +
->  	if (new_state !=3D pg->client_state) {
->  		spin_lock_irqsave(&pg->client_lock, flags);
->  		list_for_each_entry(client, &pg->clients, node)
-> @@ -233,6 +326,40 @@ static void pmic_glink_state_notify_clients(struct p=
-mic_glink *pg)
->  	}
->  }
-> =20
-> +static void pmic_glink_deliver_work(struct work_struct *work)
-> +{
-> +	struct pmic_glink *pg =3D container_of(work, struct pmic_glink, deliver=
-_work);
-> +	struct pmic_glink_deferred_msg *msg;
-> +	unsigned int dropped;
-> +	unsigned long flags;
-> +
-> +	guard(mutex)(&pg->state_lock);
-> +
-> +	for (;;) {
-> +		spin_lock_irqsave(&pg->defer_lock, flags);
-> +		msg =3D list_first_entry_or_null(&pg->deferred, struct pmic_glink_defe=
-rred_msg, node);
-> +		if (!msg) {
-> +			pg->defer =3D false;
-> +			dropped =3D pg->num_dropped;
-> +			pg->num_dropped =3D 0;
-> +			spin_unlock_irqrestore(&pg->defer_lock, flags);
-> +			break;
-> +		}
-> +
-> +		list_del(&msg->node);
-> +		pg->num_deferred--;
-> +		spin_unlock_irqrestore(&pg->defer_lock, flags);
-> +
-> +		pmic_glink_dispatch(pg, msg->data, msg->len);
-> +		kfree(msg);
-> +	}
-> +
-> +	pmic_glink_state_notify_clients(pg);
-> +
-> +	if (dropped)
-> +		dev_warn(pg->dev, "%u notifications lost during system sleep\n", dropp=
-ed);
-> +}
-
-[Severity: High]
-Isn't the ordering between deferred message delivery and
-pmic_glink_state_notify_clients() in pmic_glink_deliver_work() inverted when
-the remote service starts or restarts during system sleep?
-
-In pmic_glink_state_notify_clients(), any SERVREG_SERVICE_STATE_DOWN event
-discards all previously queued messages via pmic_glink_drop_deferred() and
-notifies clients of SERVREG_SERVICE_STATE_DOWN. If the service then comes up
-while pg->defer is true, SERVREG_SERVICE_STATE_UP is held back, so any
-messages remaining in pg->deferred at resume arrived after the service came
-up.
-
-However, pmic_glink_deliver_work() dispatches all of pg->deferred (and clea=
-rs
-pg->defer =3D false) before calling pmic_glink_state_notify_clients(pg) to
-deliver SERVREG_SERVICE_STATE_UP:
-
-1. In drivers/power/supply/qcom_battmgr.c, qcom_battmgr_pdr_notify() only s=
-ets
-   battmgr->service_up =3D true on SERVREG_SERVICE_STATE_UP:
-
-   static void qcom_battmgr_pdr_notify(void *priv, int state)
-   {
-           struct qcom_battmgr *battmgr =3D priv;
-
-           if (state =3D=3D SERVREG_SERVICE_STATE_UP) {
-                   battmgr->service_up =3D true;
-                   schedule_work(&battmgr->enable_work);
-           } else {
-                   battmgr->service_up =3D false;
-           }
-   }
-
-   Delivering post-UP notifications before SERVREG_SERVICE_STATE_UP causes
-   qcom_battmgr_notification() -> power_supply_changed() to trigger property
-   reads while battmgr->service_up is still false, failing with -EAGAIN.
-
-2. In drivers/usb/typec/ucsi/ucsi_glink.c, pmic_glink_ucsi_pdr_notify()
-   schedules ucsi->register_work on the non-freezable system_wq:
-
-   static void pmic_glink_ucsi_pdr_notify(void *priv, int state)
-   {
-           struct pmic_glink_ucsi *ucsi =3D priv;
-           unsigned long flags;
-
-           spin_lock_irqsave(&ucsi->state_lock, flags);\
-           ucsi->pd_running =3D (state =3D=3D SERVREG_SERVICE_STATE_UP);
-           spin_unlock_irqrestore(&ucsi->state_lock, flags);
-           schedule_work(&ucsi->register_work);
-   }
-
-   When SERVREG_SERVICE_STATE_DOWN is passed on immediately during system
-   sleep, ucsi->register_work runs ucsi_unregister() -> ucsi_unregister_por=
-t()
-   -> ucsi_unregister_partner() -> typec_set_mode(con->port, TYPEC_STATE_SA=
-FE)
-   while Type-C mux and retimer devices are still suspended. Then, when the
-   service comes back up during sleep and pmic_glink_deliver_work() dispatc=
-hes
-   post-UP notifications before SERVREG_SERVICE_STATE_UP,
-   pmic_glink_ucsi_callback() schedules ucsi->notify_work before
-   ucsi->register_work re-registers UCSI, accessing the freed ucsi->connect=
-or.
-
-[ ... ]
-
-> @@ -386,10 +519,35 @@ static void pmic_glink_remove(struct platform_devic=
-e *pdev)
->  	if (pg->data->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
->  		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
-> =20
-> +	pmic_glink_drop_deferred(pg);
-> +
->  	guard(mutex)(&__pmic_glink_lock);
->  	__pmic_glink =3D NULL;
->  }
-> =20
-> +static int pmic_glink_prepare(struct device *dev)
-> +{
-> +	struct pmic_glink *pg =3D dev_get_drvdata(dev);
-> +
-> +	guard(spinlock_irqsave)(&pg->defer_lock);
-> +	pg->defer =3D true;
-> +
-> +	return 0;
-> +}
-
-[Severity: High]
-Can pmic_glink_deliver_work() race with pmic_glink_prepare() and clear
-pg->defer =3D false while the system is entering sleep?
-
-In kernel/power/hibernate.c, hibernation_snapshot() calls
-dpm_prepare(PMSG_FREEZE) before freeze_kernel_threads() freezes
-system_freezable_wq:
-
-	error =3D dpm_prepare(PMSG_FREEZE);
-	if (error)
-		goto Complete;
-
-	/* Preallocate image memory before freezing kernel threads and shutting do=
-wn devices. */
-	error =3D hibernate_preallocate_memory();
-	if (error)
-		goto Complete;
-
-	error =3D freeze_kernel_threads();
-
-A similar situation occurs if a second sleep transition or hybrid-sleep
-suspend starts while pg->deliver_work queued by a previous
-pmic_glink_complete() is still pending or running on system_freezable_wq.
-
-Because pmic_glink_prepare() sets pg->defer =3D true without flushing or
-canceling pg->deliver_work first, an in-flight pmic_glink_deliver_work() can
-finish draining pg->deferred after pmic_glink_prepare() returns and set
-pg->defer =3D false, leaving notification deferral disabled for the rest of=
- the
-sleep transition.
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022164151.592-=
-1-tvlad744@gmail.com?part=3D1
+diff --git a/drivers/usb/core/hub.c b/drivers/usb/core/hub.c
+index b446905b4..4db428adf 100644
+--- a/drivers/usb/core/hub.c
++++ b/drivers/usb/core/hub.c
+@@ -6447,8 +6447,10 @@ int usb_reset_device(struct usb_device *udev)
+ 		}
+ 
+ 		/* If the reset failed, hub_wq will unbind drivers later */
+-		if (ret == 0)
++		if (ret == 0) {
+ 			usb_unbind_and_rebind_marked_interfaces(udev);
++			kobject_uevent(&udev->dev.kobj, KOBJ_CHANGE);
++		}
+ 	}
+ 
+ 	usb_autosuspend_device(udev);
+-- 
+2.55.0
