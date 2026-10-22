@@ -1,55 +1,63 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792673297;
-	b=uxSgkxEf4kOlS93uZX040T22Clm3hQhNDSgoeXxtuCyKQTSDaYo2vDEG7AiP22cADeVH
-	 tQJWeBMaijbXlACs55kW1B84tJ0u2ag//uIgeTdnPRe8K+OfJ0rHKW129VFwaJBy24E4l
-	 vpldHRiY2bYLf5eLERzccw/rnFUN/jUPLHjkdVuIcJqyL3Vk2kPyUWHPC/CkEVJ4RzZEO
-	 CSeUtnomJ4RaXvtw323yjh2EIJj4du4qNN1jtCsDyIxFQ1t16YZYV+X32JmRdpDteYQLE
-	 9Ez0st2LydbFXsFsOsrHqdyoU1UkVB/TfinEZYo8brbmlczpqTj49kedJiFFSuP4hng==
+	t=1792673900;
+	b=DwJbkf4grAqPFB7o4quGpe9vECjsiTxe8wVz/tSw7iVxzx8PMGhaHo2qevEJdtJ2POtF
+	 AmgxMGjshUNlmpkG9HASeu7EYd2jUl4y7bWezVnbtPUfnNTFUhZpMF3k6BaXvGVI3q+XZ
+	 gLiuXQfjX6vB+OPk+EDb5+HiIgJVLHYqVODZ/yiDlAfY0rIXztjH9KQkX3WXwMAJPRAj+
+	 7PANL4xpnYHxMt7g9fOYcrL0eLa+ob9JaM7zaiw5xJS/l7d0Yif7QmDxyaLgAbqYyCQuA
+	 JlZEFWeJVXE//17UGSRtd/HKq3/csuzyga2yDLIp2iX5dUX7vGNfsu4XQEk7LVf7X1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792673297;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=5IdK+PmjkUiUuh1dD95T8XpuSiVhCAL+6eeuSPEVi9E=;
-	b=YNizjN/Wk7ffGvwo7eH11IxDncxykUOjiZ7v0RRLIBtgEMk8tsiZW72nbgPmGp7NB3j9
-	 6GspXjkqLPuye/EKGO5LCAaqV3pinuOKu/vPe6OGFrt7pUX6deKgcoH3hFwtJYVX8zCk4
-	 hFsI2GiBoAhxyCac4q7qxwkPoT5YMA35SWU7kFJNS9PJdo5ZJ4wr4wdV19NqOE98fDl9n
-	 aaQVNAqO3pqsvmaVJOzsVr8QgoAKJLRrddQgimnXVlRpCE+WwFCPr8uQxMW82UsKniGsJ
-	 crAEF/jCXlzAIG43LsLhtcub6N8q8IG6L6yvvjDA0lt2TyM473TdrrXFClQgrJlqR4A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792673900;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=+y1K/aWGH6oaTGR8AaGUm8uDDh2ORJLAY2tcU/RT7Ss=;
+	b=fgafRka5enJnBdn75UNcaUynFK3cyl8rUbok/q7dVLb/BQsZngkynYrNzYSBIPZbvker
+	 b79cOIMeOftfnabNccSah/vLdocCdRLuvVqH+fTXaK7/dO8E/2j20LGFi8g4EBWHNvtn+
+	 eSgoTiFgdOO69y5oZ5CbpkPGqbJMXpfTJ3sMC2zzigSkN1A/NfwxyBEf0Ug7cnToqcFEE
+	 4hXeoUO6NJOdp0oGo4+4JIxaDAMbIWpR3VebNTeZlIbvhmdHpKWeJ7rsjlJ4aLRlkRmH7
+	 wK1owHDpI6yNeYzqNSxLnbFKNLj+0n+i1QsY182+cJyaq0z6zdzlcu6phL+Y1V2uqNw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nPlkEpy+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SOQZ1Dse;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29BC606A321;
-	Thu, 22 Oct 2026 12:48:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C94E9606A320;
+	Thu, 22 Oct 2026 12:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nPlkEpy+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F3041F000C2;
-	Thu, 22 Oct 2026 12:48:16 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=SOQZ1Dse
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9A1B1F000C2;
+	Thu, 22 Oct 2026 12:58:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792673296;
-	bh=5IdK+PmjkUiUuh1dD95T8XpuSiVhCAL+6eeuSPEVi9E=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=nPlkEpy+G2VG/qLDLna/JYx61CVoY/kPCbJczsgYyRtCzyhr1bFz5anTdjoOTwIXr
-	 OLZufdm814cDn3yMv/bfMYKTmU9+L5UfhadqS3ChyFqbDbJyFonqepoNDHlOELC17j
-	 P6KKBEYRdW8yFopo9SusyFJquUNZFUVMU0lrdETNfOB+HVHfX7sVcRGJW+gANzqo8J
-	 IMxGVBFnm9DNcS9qJYSnltgyvwhLmhBvpCYphj+q5cQca2PBB8oyDcS+wrx7/zfv+t
-	 H//4yqtoTB2Yx3SYwrZvrXR48QrpmUBoE2uYVnepmSNrfDvT/GyLlVdfU/3idEHcLa
-	 Ym8mFpojzWF4A==
-Message-ID: <sashiko-outbox-181504@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: uas: wait for pending commands before unbinding
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jiayi Li" <lijiayi@kylinos.cn>
-Cc: linux-usb@vger.kernel.org, linux-scsi@vger.kernel.org
-In-Reply-To: <20261022123401.319479-1-lijiayi@kylinos.cn>
-References: <20261022123401.319479-1-lijiayi@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 22 Oct 2026 12:48:15 +0000
+	s=k20260515; t=1792673899;
+	bh=+y1K/aWGH6oaTGR8AaGUm8uDDh2ORJLAY2tcU/RT7Ss=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=SOQZ1DseXpQrKmekZL3IEfrzzRNZ81u3L1vRcm9BznD/+56innnLAQ1Yca0yDYtKb
+	 VXgHJ3cO5dOt/3Etib/aeAWd9fD97Ni7LMIhKOhp5ML57Ejt66VrAeaP3mU4b+wGq7
+	 vqUEqSInv3EyNpsDt7nlqgg5sR9bDpRb7PZJYgb8yPzXUEIP0Px7o24L7R/0RkV5jz
+	 UK5ty0rMjGih5MBQgdonyf+oIdMzlinnbKmsYktCYXLtiHWtx+oU3JJbVCq0BP8wNE
+	 +gF8zMpufhLrPqVbL5kw4Jmuse34QzsCQs0TG4nfpb+Noabp8ReVGgzK/eDy0qF2SU
+	 tWCciq6C2NVOQ==
+Date: Thu, 22 Oct 2026 13:58:14 +0100
+From: Simon Horman <horms@kernel.org>
+To: Nicolai Buchwitz <nb@tipi-net.de>
+Cc: Oliver Neukum <oliver@neukum.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Sjur =?utf-8?Q?Br=C3=A6ndeland?= <sjur.brandeland@stericsson.com>,
+	Alexey Orishko <alexey.orishko@gmail.com>,
+	=?utf-8?B?QmrDuHJu?= Mork <bjorn@mork.no>,
+	Greg Suarez <gsuarez@smithmicro.com>,
+	Breno Leitao <leitao@debian.org>, linux-usb@vger.kernel.org,
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mikkel Eskildsen <mke@visotia.com>
+Subject: Re: [PATCH net v2 1/2] net: usb: cdc_ncm: don't enable BHs in
+ tx_fixup under netpoll
+Message-ID: <20261022125814.GE708417@horms.kernel.org>
+References: <20261021-cdc-ncm-netpoll-v2-0-8818965bbb69@tipi-net.de>
+ <20261021-cdc-ncm-netpoll-v2-1-8818965bbb69@tipi-net.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,67 +66,26 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261021-cdc-ncm-netpoll-v2-1-8818965bbb69@tipi-net.de>
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Low] usb: uas: pass &shost->host_lock pointer in uas_pre_disconnect()
---
+On Wed, Oct 21, 2026 at 09:56:18AM +0200, Nicolai Buchwitz wrote:
+> netpoll holds the txq lock and calls ndo_start_xmit() with IRQs off but
+> BHs on. The spin_unlock_bh() in cdc_ncm_tx_fixup() then runs pending
+> softirqs. If one of them transmits, it spins on the txq lock that
+> netpoll holds. With netconsole on a cdc_ncm device this ends in a soft
+> or hard lockup.
+> 
+> Use spin_lock_irqsave(), which is safe both under netpoll and on the
+> normal xmit path.
+> 
+> Fixes: c84ff1d6dff3 ("cdc_ncm: reduce driver latency in the data path")
+> Reported-by: Mikkel Eskildsen <mke@visotia.com>
+> Closes: https://lore.kernel.org/netdev/PRAP189MB185019A5A8D411482BB6E0CDA9982@PRAP189MB1850.EURP189.PROD.OUTLOOK.COM/
+> Tested-by: Mikkel Eskildsen <mke@visotia.com>
+> Signed-off-by: Nicolai Buchwitz <nb@tipi-net.de>
 
-commit 8e251b22758d30ff0f9e6d2743bdddf6dd61fc28
-Author: Jiayi Li <lijiayi@kylinos.cn>
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-usb: uas: wait for pending commands before unbinding
-
-This commit enables soft_unbind on the uas driver and introduces
-uas_pre_disconnect() to block new SCSI requests and wait for pending
-commands and URBs to complete before unbinding.
-
-> diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
-> index 8655edbd66b16..4ece8f15bd170 100644
-> --- a/drivers/usb/storage/uas.c
-> +++ b/drivers/usb/storage/uas.c
-
-[ ... ]
-
-> @@ -1211,16 +1212,55 @@ static int uas_reset_resume(struct usb_interface =
-*intf)
->  	return 0;
->  }
-> =20
-> +static void uas_pre_disconnect(struct usb_interface *intf)
-> +{
-> +	struct Scsi_Host *shost =3D usb_get_intfdata(intf);
-> +	struct uas_dev_info *devinfo =3D (struct uas_dev_info *)shost->hostdata;
-> +	unsigned long flags, start_time;
-> +
-> +	spin_lock_irqsave(shost->host_lock, flags);
-> +	scsi_block_requests(shost);
-> +	spin_unlock_irqrestore(shost->host_lock, flags);
-
-[Severity: Low]
-In uas_pre_disconnect() in drivers/usb/storage/uas.c, shost->host_lock is
-passed by value to spin_lock_irqsave() and spin_unlock_irqrestore(), which
-causes a build failure when CONFIG_USB_UAS is enabled.
-
-In struct Scsi_Host (include/scsi/scsi_host.h), host_lock is an embedded
-spinlock_t rather than a pointer (changed in commit e83b47309f73 ("scsi:
-core: Drop Scsi_Host.default_lock")):
-
-    struct Scsi_Host {
-        ...
-        spinlock_t		host_lock;
-
-Other callers in drivers/usb/storage/uas.c, such as uas_reset_resume(), pass
-&shost->host_lock:
-
-    spin_lock_irqsave(&shost->host_lock, flags);
-    scsi_report_bus_reset(shost, 0);
-    spin_unlock_irqrestore(&shost->host_lock, flags);
-
-Should uas_pre_disconnect() pass &shost->host_lock here as well?
-
-[ ... ]
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261022123401.3194=
-79-1-lijiayi@kylinos.cn?part=3D1
