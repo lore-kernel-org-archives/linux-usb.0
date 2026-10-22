@@ -1,83 +1,83 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792687348;
-	b=MPxVdMGkYhX5pkwtnYA6JRC/3z5m+fjY1TyTyHqecHP5dWBEIqhnBRXXKG6lIbp6+V5x
-	 MnEQDA7pk5LAlBfjgiO4ffrSwU2DZShA2kXfBvA7vwG8PUxP0zYtxM6CuIKJK2MNOB83E
-	 MvYDNhkYkgPS4+Sjt/VPYDx+3L3oGWo+KzaEpFjtWl8vBjTD9JHSmncBeT26/FYz42qms
-	 akdIjFvHlIJ40D2/Sg63JAHC9ct8HwqzGpCxpruooqQjvGzIYmoqS2bbuVo4jrF1WCP6s
-	 XHxfVjSRMvqC19NWCssopPoKtq5OnUtlh1HDjN6fEvEsryETz9M62oX9Nbp6OyFiY9Q==
+	t=1792687351;
+	b=itZFOZYU1480hvswd+7LD9fcTKGWnoD1c2r1hw4NcODpEHagMa5wsZJketlbTX7dKyGy
+	 k/+i85FpVa3bLJlWsoJZHIfr14svH06I8NI4uf368L7m+eHZCTPbB6l2UoSiXxqiSzRcV
+	 M8umlYSMswnq02n6rq+OdqIjRPnc/ebgOK0kt5vPgD3biALBNHxu0eSfx7DMOhPR2lu+L
+	 tOQtFuJqgqnLFmSXT6cWI2E3TzEq5whcWALIK6A9ings/jj3r6pMWTWiK/RpHpiZSv2QZ
+	 3AqMuY3zDlZaTEhHgshWAwEvRixWwn7/mGM1CmeDJBhRG2w5MeKv0nJ02XvkrFJOW9w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792687348;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792687351;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
 	 MIME-Version:Content-Transfer-Encoding;
-	bh=zblh9RJVoqtDhwxOvvPdwA42GF2EgXCszh/ysjfgfTI=;
-	b=g52CUOjqiP2oLjSZEvKyz01sFaZMpuNIuUgMJPkzGS0gIFTRUFiSlaCxNq1VcnKAXJz+
-	 kypjToUJBDLgq3T6lFXe9bjoQhMhnxMQ2KsThdtG1VnR8FPLYjYKaRNMRZAx5mseWqUP5
-	 3F1wDX3dib29G7SP7/QNhn+QBY/CK1T+SsVPhPSmw0Le7bGRc865bqW5PghUFAgA0hlNW
-	 v+uKx7hjqxvtkhTe3J95UkftYCHrcaQkHeL9+Zz8qf8jHsUjzn0/S2qp3PayUQCwaWdC/
-	 J860QIXRFcTta4JNGEreNKhEPlYOPL4nhruyC5XpfmDRaaVAwk05PoySJyYZdhOelKg==
+	bh=hXdIlgvfbcMFAqvWezQr9rqCpt7ASFWoYvc8UsUa6j4=;
+	b=QZTSIeZykHidyiavq6YcVRu1SOD4utLB3ZjPCk9BH6+NaV/QSJLLekuhrbCfqwn1fKYe
+	 +gnCzzmsXBkSZWQaFIaVd/wD0nEw8uhxZt7CxoHSLWO7CHf4S/5PW5Ntsid2gto76nUQM
+	 jz1G3b9TiUgbNZKonCWNqBBjZZ/cWL1NN/yo3kaX+0bdwWbKDmXgRJ8Xxh1KOkoCTMLtz
+	 kzPullNmmjowT4TgEgWu+leWLnK9ehk4o//OvW0N9sEjeoJHMWv9yQbTHEbEhuO6mBkLm
+	 ePrhSiurjmm76jpwAiNZ22KFu5Apy2msTQZCA/uTmavx4DfB+ouoKzlohQPvmx5/4yg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=HVUIURyu;
-	arc=none smtp.remote-ip=209.85.221.46
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TyQbf+bM;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB7F606A331
-	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 16:42:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1CB7F606A331
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C6E606A336
+	for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 16:42:24 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8C6E606A336
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=HVUIURyu
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-48e00eee27dso12723f8f.0
-        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 09:42:27 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=TyQbf+bM
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48e09aa5264so1439983f8f.2
+        for <linux-usb@vger.kernel.org>; Thu, 22 Oct 2026 09:42:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792687346; x=1793292146; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1792687343; x=1793292143; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=zblh9RJVoqtDhwxOvvPdwA42GF2EgXCszh/ysjfgfTI=;
-        b=HVUIURyu90T8GjQn2XXazP7dCqrkiXuYpUxCekjY7600wY09bAmNd4mE46R5Ssogk2
-         CFN6+ZBuNhKlfANZH2F9nzhjn71dnyQbdos+w+SU0yfZwElm7P9o1S4gULAkrdjPI7UL
-         XTodH5b6q94BoS+3Y98uhDdz7YVJrYmsHiJ7kyb3HN4vfUH8UeiU7tByzCLzy+8ADjRp
-         3NZcDrkHTPmVWg7034QG1bqxqVpommIF7hvUmnY9VCBWIPRHvdgdY/cpWD7fMImCMFud
-         MnRjBah85GPQEsKA2fKzvsJ9rDigodkvJHh/PImruCVzjkKI9SmsGI1C2TuEdOd/q7oS
-         x9ew==
+        bh=hXdIlgvfbcMFAqvWezQr9rqCpt7ASFWoYvc8UsUa6j4=;
+        b=TyQbf+bMDrbcgKouWkSfoAi5JottDRZBdFP5S6Q0pU95+sPvoUAPFqQUJhugGkg+en
+         7io2ATGs9CebdPAqlGilGEkHYhez9rJECvJZeMYtMoZaUBR2nB9ydZHCBsQquKerC+xL
+         B30J6aGjrmwF0Aj8u0CrelWg+zNaUqHKzGmaakC0CqKEk9FR5g5I/2PiN+3xMtQ9xYIk
+         RUyywb+pQDPynhdf4AIvh52MubjCLlq06Oso8pCBgWExz/S+7DMkV+zDBk4Xd4yhg5Jd
+         DVW6/OE3BETubwdCJsW371bnHHcfgjtcuttX+bYB50pnNgQZMphMQrpBB8/hWnlD7D23
+         Zdew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792687346; x=1793292146;
+        d=1e100.net; s=20260707; t=1792687343; x=1793292143;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=zblh9RJVoqtDhwxOvvPdwA42GF2EgXCszh/ysjfgfTI=;
-        b=kgpc9i03u70viQOFG/ACwM+GpaUEGq5rtE66jpIYCNeZzA7143Qhe+0aoQfN2xWRRx
-         Fntzs46XR4A8gfHubBrKFgz8ITWjP/0SZac3Zn7gn11Vi1meolnFfhEDRiItgljEm8Dk
-         4lN4RhbWYdPQNtOs4AtnnikEWuwKlv5ANLIHkq5nm/HYK2vndRYrkdUnzCzFBqd+bTNL
-         B0Q2JLpu8EpemqHxdlA3ia2dQP514nRB7M+qfFZ1Om2hLQv8F0HTbXsqM1LJDXQyZBEv
-         4ZkOo7KlwLME8DW+3rC7EbYuCsWdFjS6O+PExvMakFWVZAzjoeB7ykoVYlI1hTD3J9MC
-         shhg==
-X-Forwarded-Encrypted: i=1; AKwUvBxDmkwDtaDQXBwRS9JPIJdlOohy1S6jdWXYFkDqiaR8XBW0tq90W56aWwR8iFxUVmHea9xGjT1VSps=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK9l2VvFOscU/V77aB73SSdt0CjidTSqwoYEXAxmbS5zDXuShYa
-	pqazxoZCWSvXKRbZ2aCjcdWQa87nWjPzg667khfdK6PFemM+iDKiQh4l
-X-Gm-Gg: AYBFou30bqdD2UQsN/dPz1BwNBfH7PS6DAurX7Xltpexl91/VchGuMaPEmWkeQ1XWbx
-	ObZfxJnaNgy9aCdeniz0XBsZZxhyQYq9P+vmZP/sQff5srEKIUxS8iE0Mks5bquHbSAC7TyKpdz
-	J0hdl9FcvpNmEzBPwzY3+1cARyZADiuGVQdAjG595A1wm04shgPIs/ePGEcCk8jMAfdz+upQYEc
-	RxTPw7Nnq6JJmm6ySEiINorYSliaJNH2LETrkGcNAXKPYz6BI08dDAiXSmJDMxOFPQmft4ZqSpo
-	exhBGKUoYnGXLtpuovtpEWkRPEp+oB0L4FsnT3mAuA+7TOYvl1rarWtS4buDhLnmOfJxz0Eb5M3
-	JV8kZSD3Igi9uT0gHxsJ8tSynZ3tE6yPOhQS9rHiRmOghbvJzLDFqsWRoIGwObzbrflbetR1yXh
-	dDcyOY7/eyCdkJLbApiPHBlQhBedTcvLPbZ6jDLncl7NWTWCqQHbuZ/vSYNn3t0c8vcQK+64EKJ
-	1xyN724epbc9i8fq+eHLJtmLYVPRmw441M/2NPJ2+bffCVSAQTi/uBSApFf+B/I1XwR4BVmKokW
-	jB2Czoh3JZm39pYvmFb2zph6Uv4=
-X-Received: by 2002:adf:fc4a:0:b0:48d:fbee:3dec with SMTP id ffacd0b85a97d-48e264c8742mr9406786f8f.29.1792687346264;
-        Thu, 22 Oct 2026 09:42:26 -0700 (PDT)
+        bh=hXdIlgvfbcMFAqvWezQr9rqCpt7ASFWoYvc8UsUa6j4=;
+        b=lzz+t2434aJu04drNqJZ4P6toQWoAX+oj8EvAr61wxGJmPZpMl1TyX0dY229vLPF5l
+         ffAvXge0fD2TncXfCtocmYf3uL+esSlGr923ekhU6H1hbfOS3PvSvXVGFw7upE/SsD7X
+         CcxVq8RPCCRtRx+Cg7FxyhPciVKDVy3OEN/CFT1xZMO2P7MzcnwBYdMlb0aBRzBY7zts
+         c8grNH/5HgPybaWKdKXmAq/5hY74GbchuD4F2T7XFdKm32MGXDlcaHuYhnwpDKHXD9Ku
+         DatGnBZ9kaWWH9oEYTMsW+a6wdcea3HTCR7UM/yk2C8tZCAq0B5MDUSGVEPlF0LtJEsp
+         5jrA==
+X-Forwarded-Encrypted: i=1; AKwUvByVLHb+1b3eAcFK/uxRR6H+fgO5xrfFtOYNTlaZZm4iFYDgFPGAPKc/wLVgS4JH+LmIiHg7ocjs/Kw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLCpXB9gJG8vnlg4vUuve2wYcttaNmwgt5i++rlSomW86F1VFXl
+	5UYt0Vm5p9/0BODa/ObKRn9q2IBMMfx0MUnWanvfYhvhPNv34XG0Tqp5
+X-Gm-Gg: AYBFou1P2CJE7f6SgFSX94RdVUoOr/rySAP8Fx69EpuaIcWE08QTdbprFQq4PfgDjxE
+	aZabMtc+tBvqESsi2ttpHZZf6/zoOMZQYohMo+gouryPDNA6ScfNqNFPRqZ30zZgSNkJ6s1wuq2
+	gmnJDgSOvpsx7SNEcVnabZbisUW3F8Ozl5ZGK24bzosKtjz3wd9kUdQTfAhdycU38XdRnt1oZoC
+	Qx9+CiGOOzQIAOIcfu6y+XjKiJKQOZSlZdMj4Xb/XlEmX8+equT6lrn+Ddl5CsjVTjOGBW5PJwO
+	kXncttuVeyDe6YeCIvtj+ovbWV5oDEDSfTb3cl8A88nXeN9d+tSHU8broiILHnGVBRH6yZosZa+
+	9xzvaET63h4882ZGJyIJFtg8sYu5IeamvPCLxlCgJDYeP4bfdb9hsEswnbfMDFevADrTq2sVosf
+	xEgZpkOQgriG04d9/kfAKGsnPntoyDPRRzAQvFV9xgZ6pXEgbpWawkzp0Z/LWKr3/DqSXXFEJgI
+	4qOLknFeinYSpcuiIWZMzyT9VYwSPV+Ap08xyzzj69llrbW0v03OmlHO01pwqU64JLwjJPEjKq3
+	jtYVvg==
+X-Received: by 2002:a5d:68c2:0:b0:48d:f6d2:9c88 with SMTP id ffacd0b85a97d-48e26508ba9mr9389330f8f.47.1792687342840;
+        Thu, 22 Oct 2026 09:42:22 -0700 (PDT)
 Received: from localhost.localdomain ([188.190.249.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2584c3b0sm15040175f8f.57.2026.10.22.09.42.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e2584c3b0sm15040175f8f.57.2026.10.22.09.42.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2026 09:42:26 -0700 (PDT)
+        Thu, 22 Oct 2026 09:42:22 -0700 (PDT)
 From: Vladyslav Tymoshchuk <tvlad744@gmail.com>
 To: Bjorn Andersson <andersson@kernel.org>,
 	Konrad Dybcio <konradybcio@kernel.org>
@@ -102,9 +102,9 @@ Cc: Abel Vesa <abelvesa@kernel.org>,
 	linux-hardening@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Vladyslav Tymoshchuk <tvlad744@gmail.com>
-Subject: [RFC PATCH 3/4] usb: typec: ucsi: glink: Wake up the system on connector changes
-Date: Thu, 22 Oct 2026 19:41:50 +0300
-Message-ID: <20261022164151.592-4-tvlad744@gmail.com>
+Subject: [RFC PATCH 1/4] soc: qcom: pmic_glink: Hold back notifications over system sleep
+Date: Thu, 22 Oct 2026 19:41:48 +0300
+Message-ID: <20261022164151.592-2-tvlad744@gmail.com>
 X-Mailer: git-send-email 2.45.1.windows.1
 In-Reply-To: <20261022164151.592-1-tvlad744@gmail.com>
 References: <20261022164151.592-1-tvlad744@gmail.com>
@@ -119,54 +119,348 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The UCSI notifications from PMIC GLINK report connector changes, a USB
-cable being plugged in or out for one, and the completion of UCSI
-commands. Enable wakeup on the device, so that pmic_glink reports them
-as wakeup events: a cable change brings the system out of
-suspend-to-idle and aborts a suspend in progress.
+The GLINK interrupt is not suspended, so the PMIC GLINK messages keep
+reaching the clients during system suspend and resume, and while the
+system is in suspend-to-idle. The clients handle most notifications in
+work on the system workqueue, which is not freezable, so the work can
+run before the devices it uses have resumed:
 
-The completion of a command arrives only while the command is in
-flight, so it can wake up the system only when a suspend has started
-in the middle of one.
+- ucsi_glink passes connector changes on to the UCSI core, whose
+  connector work switches the USB role and sets the Type-C muxes and
+  switches. On SM8750, unplugging the USB cable while the system is in
+  suspend-to-idle makes dwc3-qcom access its registers with the clocks
+  off, and the SoC resets. Other boards hit I2C transfers on suspended
+  controllers from the same work, to a PS8830 retimer or an FSA4480
+  switch.
 
-The same was proposed in [1], with the wakeup event reported from the
-callback. pmic_glink reports it now, also for the notifications that
-it holds back over system sleep.
+- pmic_glink_altmode had the same problem with its worker, which
+  commit c7c56b6ec077 ("soc: qcom: pmic_glink: Fix device access from
+  worker during suspend") moved to system_freezable_wq as a stop-gap.
 
-Link: https://lore.kernel.org/all/20260722-ucsi_glink_wakeup-v2-1-b43dee56df24@oss.qualcomm.com/ [1]
+Rather than have each client defer its work, defer the notifications
+in pmic_glink: queue them from ->prepare() on, and from ->complete()
+schedule work on system_freezable_wq that passes them on to the
+clients. The work runs once the tasks have been thawed, after all the
+devices have resumed. Until it has run, new notifications are queued
+behind the old ones, so the clients get them in order. Responses are
+passed on right away, as the client that sent the request is waiting
+for them.
+
+The clients treat a notification as the latest state, or as a hint to
+read the current state, so an identical notification adds nothing:
+keep only the latest copy. Keep at most 64 notifications, drop the
+oldest beyond that, and say how many were lost.
+
+Hold back the service UP too, as on UP the clients start using the
+remote, and pass it on after the deferred notifications. Pass DOWN on
+right away, so that the clients stop using the remote, and drop the
+deferred notifications with it, as they came from the remote that went
+away.
+
+ucsi_glink learns from a notification that a UCSI command has
+completed, so a command still in flight at ->prepare() completes only
+after the system has resumed. The timeout of the UCSI core does not
+count the time spent in suspend, only the time the system takes to
+suspend and resume.
+
+qcom_battmgr calls power_supply_changed() for most notifications, which
+keeps the system awake through the wakeup source of the power supply.
+For a notification that is held back, this now happens after the
+system has resumed, so it no longer aborts a suspend started through
+/sys/power/wakeup_count.
+
+Fixes: 58ef4ece1e41 ("soc: qcom: pmic_glink: Introduce base PMIC GLINK driver")
 Signed-off-by: Vladyslav Tymoshchuk <tvlad744@gmail.com>
 ---
 I used an AI assistant (Claude) for the analysis and to draft this
 patch and its description; I reviewed the result. The testing is
 described in the cover letter.
 
- drivers/usb/typec/ucsi/ucsi_glink.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/soc/qcom/pmic_glink.c | 177 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 168 insertions(+), 9 deletions(-)
 
-diff --git a/drivers/usb/typec/ucsi/ucsi_glink.c b/drivers/usb/typec/ucsi/ucsi_glink.c
-index 1db0c88d817e..b03320f5a6bb 100644
---- a/drivers/usb/typec/ucsi/ucsi_glink.c
-+++ b/drivers/usb/typec/ucsi/ucsi_glink.c
-@@ -7,6 +7,7 @@
- #include <linux/module.h>
- #include <linux/mutex.h>
- #include <linux/of_device.h>
-+#include <linux/pm_wakeup.h>
- #include <linux/property.h>
+diff --git a/drivers/soc/qcom/pmic_glink.c b/drivers/soc/qcom/pmic_glink.c
+index 84fd0c82c0c4..748b335be6ef 100644
+--- a/drivers/soc/qcom/pmic_glink.c
++++ b/drivers/soc/qcom/pmic_glink.c
+@@ -14,8 +14,11 @@
  #include <linux/soc/qcom/pdr.h>
- #include <linux/usb/typec_mux.h>
-@@ -455,6 +456,11 @@ static int pmic_glink_ucsi_probe(struct auxiliary_device *adev,
- 		ucsi->port_orientation[port] = desc;
+ #include <linux/soc/qcom/pmic_glink.h>
+ #include <linux/spinlock.h>
++#include <linux/string.h>
++#include <linux/workqueue.h>
+ 
+ #define PMIC_GLINK_SEND_TIMEOUT (5 * HZ)
++#define PMIC_GLINK_MAX_DEFERRED	64
+ 
+ enum {
+ 	PMIC_GLINK_CLIENT_BATT = 0,
+@@ -50,6 +53,14 @@ struct pmic_glink {
+ 	/* serializing clients list updates */
+ 	spinlock_t client_lock;
+ 	struct list_head clients;
++
++	/* notifications held back over system sleep */
++	spinlock_t defer_lock;
++	bool defer;
++	struct list_head deferred;
++	unsigned int num_deferred;
++	unsigned int num_dropped;
++	struct work_struct deliver_work;
+ };
+ 
+ static struct pmic_glink *__pmic_glink;
+@@ -66,6 +77,12 @@ struct pmic_glink_client {
+ 	void *priv;
+ };
+ 
++struct pmic_glink_deferred_msg {
++	struct list_head node;
++	size_t len;
++	u8 data[] __counted_by(len);
++};
++
+ static void _devm_pmic_glink_release_client(struct device *dev, void *res)
+ {
+ 	struct pmic_glink_client *client = (struct pmic_glink_client *)res;
+@@ -149,13 +166,77 @@ int pmic_glink_send(struct pmic_glink_client *client, void *data, size_t len)
+ }
+ EXPORT_SYMBOL_GPL(pmic_glink_send);
+ 
++static void pmic_glink_dispatch(struct pmic_glink *pg, const void *data, size_t len)
++{
++	const struct pmic_glink_hdr *hdr = data;
++	struct pmic_glink_client *client;
++	unsigned long flags;
++
++	spin_lock_irqsave(&pg->client_lock, flags);
++	list_for_each_entry(client, &pg->clients, node) {
++		if (client->id == le32_to_cpu(hdr->owner))
++			client->cb(data, len, client->priv);
++	}
++	spin_unlock_irqrestore(&pg->client_lock, flags);
++}
++
++static bool pmic_glink_defer(struct pmic_glink *pg, const void *data, size_t len)
++{
++	struct pmic_glink_deferred_msg *msg;
++
++	guard(spinlock_irqsave)(&pg->defer_lock);
++
++	if (!pg->defer)
++		return false;
++
++	/* An identical notification brings nothing new, keep the latest copy */
++	list_for_each_entry(msg, &pg->deferred, node) {
++		if (msg->len == len && !memcmp(msg->data, data, len)) {
++			list_move_tail(&msg->node, &pg->deferred);
++			return true;
++		}
++	}
++
++	if (pg->num_deferred == PMIC_GLINK_MAX_DEFERRED) {
++		msg = list_first_entry(&pg->deferred, struct pmic_glink_deferred_msg, node);
++		list_del(&msg->node);
++		kfree(msg);
++		pg->num_deferred--;
++		pg->num_dropped++;
++	}
++
++	msg = kmalloc_flex(*msg, data, len, GFP_ATOMIC);
++	if (!msg) {
++		pg->num_dropped++;
++		return true;
++	}
++
++	msg->len = len;
++	memcpy(msg->data, data, len);
++	list_add_tail(&msg->node, &pg->deferred);
++	pg->num_deferred++;
++
++	return true;
++}
++
++static void pmic_glink_drop_deferred(struct pmic_glink *pg)
++{
++	struct pmic_glink_deferred_msg *msg, *tmp;
++
++	guard(spinlock_irqsave)(&pg->defer_lock);
++
++	list_for_each_entry_safe(msg, tmp, &pg->deferred, node) {
++		list_del(&msg->node);
++		kfree(msg);
++	}
++	pg->num_deferred = 0;
++}
++
+ static int pmic_glink_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
+ 				     int len, void *priv, u32 addr)
+ {
+-	struct pmic_glink_client *client;
+ 	struct pmic_glink_hdr *hdr;
+ 	struct pmic_glink *pg = dev_get_drvdata(&rpdev->dev);
+-	unsigned long flags;
+ 
+ 	if (len < sizeof(*hdr)) {
+ 		dev_warn(pg->dev, "ignoring truncated message\n");
+@@ -164,12 +245,12 @@ static int pmic_glink_rpmsg_callback(struct rpmsg_device *rpdev, void *data,
+ 
+ 	hdr = data;
+ 
+-	spin_lock_irqsave(&pg->client_lock, flags);
+-	list_for_each_entry(client, &pg->clients, node) {
+-		if (client->id == le32_to_cpu(hdr->owner))
+-			client->cb(data, len, client->priv);
+-	}
+-	spin_unlock_irqrestore(&pg->client_lock, flags);
++	/* The sender of a request is waiting for the response */
++	if (le32_to_cpu(hdr->type) != PMIC_GLINK_REQ_RESP &&
++	    pmic_glink_defer(pg, data, len))
++		return 0;
++
++	pmic_glink_dispatch(pg, data, len);
+ 
+ 	return 0;
+ }
+@@ -210,6 +291,13 @@ static void pmic_glink_del_aux_device(struct pmic_glink *pg,
+ 	auxiliary_device_uninit(aux);
+ }
+ 
++static bool pmic_glink_deferring(struct pmic_glink *pg)
++{
++	guard(spinlock_irqsave)(&pg->defer_lock);
++
++	return pg->defer;
++}
++
+ static void pmic_glink_state_notify_clients(struct pmic_glink *pg)
+ {
+ 	struct pmic_glink_client *client;
+@@ -217,13 +305,18 @@ static void pmic_glink_state_notify_clients(struct pmic_glink *pg)
+ 	unsigned long flags;
+ 
+ 	if (pg->client_state != SERVREG_SERVICE_STATE_UP) {
+-		if (pg->pdr_state == SERVREG_SERVICE_STATE_UP && pg->ept)
++		/* On UP the clients use the remote, hold that back as well */
++		if (pg->pdr_state == SERVREG_SERVICE_STATE_UP && pg->ept &&
++		    !pmic_glink_deferring(pg))
+ 			new_state = SERVREG_SERVICE_STATE_UP;
+ 	} else {
+ 		if (pg->pdr_state == SERVREG_SERVICE_STATE_DOWN || !pg->ept)
+ 			new_state = SERVREG_SERVICE_STATE_DOWN;
  	}
  
-+	/* pmic_glink reports the notifications as wakeup events */
-+	ret = devm_device_init_wakeup(dev);
-+	if (ret)
-+		return ret;
++	if (pg->pdr_state == SERVREG_SERVICE_STATE_DOWN || !pg->ept)
++		pmic_glink_drop_deferred(pg);
 +
- 	ucsi->client = devm_pmic_glink_client_alloc(dev, PMIC_GLINK_OWNER_USBC,
- 						    pmic_glink_ucsi_callback,
- 						    pmic_glink_ucsi_pdr_notify,
+ 	if (new_state != pg->client_state) {
+ 		spin_lock_irqsave(&pg->client_lock, flags);
+ 		list_for_each_entry(client, &pg->clients, node)
+@@ -233,6 +326,40 @@ static void pmic_glink_state_notify_clients(struct pmic_glink *pg)
+ 	}
+ }
+ 
++static void pmic_glink_deliver_work(struct work_struct *work)
++{
++	struct pmic_glink *pg = container_of(work, struct pmic_glink, deliver_work);
++	struct pmic_glink_deferred_msg *msg;
++	unsigned int dropped;
++	unsigned long flags;
++
++	guard(mutex)(&pg->state_lock);
++
++	for (;;) {
++		spin_lock_irqsave(&pg->defer_lock, flags);
++		msg = list_first_entry_or_null(&pg->deferred, struct pmic_glink_deferred_msg, node);
++		if (!msg) {
++			pg->defer = false;
++			dropped = pg->num_dropped;
++			pg->num_dropped = 0;
++			spin_unlock_irqrestore(&pg->defer_lock, flags);
++			break;
++		}
++
++		list_del(&msg->node);
++		pg->num_deferred--;
++		spin_unlock_irqrestore(&pg->defer_lock, flags);
++
++		pmic_glink_dispatch(pg, msg->data, msg->len);
++		kfree(msg);
++	}
++
++	pmic_glink_state_notify_clients(pg);
++
++	if (dropped)
++		dev_warn(pg->dev, "%u notifications lost during system sleep\n", dropped);
++}
++
+ static void pmic_glink_pdr_callback(int state, char *svc_path, void *priv)
+ {
+ 	struct pmic_glink *pg = priv;
+@@ -315,6 +442,10 @@ static int pmic_glink_probe(struct platform_device *pdev)
+ 	spin_lock_init(&pg->client_lock);
+ 	mutex_init(&pg->state_lock);
+ 
++	INIT_LIST_HEAD(&pg->deferred);
++	spin_lock_init(&pg->defer_lock);
++	INIT_WORK(&pg->deliver_work, pmic_glink_deliver_work);
++
+ 	pg->data = of_device_get_match_data(&pdev->dev);
+ 	if (!pg->data)
+ 		return -EINVAL;
+@@ -377,6 +508,8 @@ static void pmic_glink_remove(struct platform_device *pdev)
+ {
+ 	struct pmic_glink *pg = dev_get_drvdata(&pdev->dev);
+ 
++	cancel_work_sync(&pg->deliver_work);
++
+ 	pdr_handle_release(pg->pdr);
+ 
+ 	if (pg->data->client_mask & BIT(PMIC_GLINK_CLIENT_BATT))
+@@ -386,10 +519,35 @@ static void pmic_glink_remove(struct platform_device *pdev)
+ 	if (pg->data->client_mask & BIT(PMIC_GLINK_CLIENT_UCSI))
+ 		pmic_glink_del_aux_device(pg, &pg->ucsi_aux);
+ 
++	pmic_glink_drop_deferred(pg);
++
+ 	guard(mutex)(&__pmic_glink_lock);
+ 	__pmic_glink = NULL;
+ }
+ 
++static int pmic_glink_prepare(struct device *dev)
++{
++	struct pmic_glink *pg = dev_get_drvdata(dev);
++
++	guard(spinlock_irqsave)(&pg->defer_lock);
++	pg->defer = true;
++
++	return 0;
++}
++
++static void pmic_glink_complete(struct device *dev)
++{
++	struct pmic_glink *pg = dev_get_drvdata(dev);
++
++	/* Runs once the tasks are thawed, all devices have resumed by then */
++	queue_work(system_freezable_wq, &pg->deliver_work);
++}
++
++static const struct dev_pm_ops pmic_glink_pm_ops = {
++	.prepare = pmic_glink_prepare,
++	.complete = pmic_glink_complete,
++};
++
+ static const struct pmic_glink_data pmic_glink_adsp_data = {
+ 	.client_mask = BIT(PMIC_GLINK_CLIENT_BATT) |
+ 		       BIT(PMIC_GLINK_CLIENT_ALTMODE) |
+@@ -418,6 +576,7 @@ static struct platform_driver pmic_glink_driver = {
+ 	.driver = {
+ 		.name = "qcom_pmic_glink",
+ 		.of_match_table = pmic_glink_of_match,
++		.pm = pm_sleep_ptr(&pmic_glink_pm_ops),
+ 	},
+ };
+ 
 -- 
 2.43.0
 
