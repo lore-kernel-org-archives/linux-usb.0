@@ -1,60 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792757817;
-	b=ldX3a3LaLJ3nat7L40NscEr9keZw7ap/Yrhq/wjjdn16Aku+l0ob80Pb+o4wMTDb67C1
-	 y0kF/zMiLm1q7HNGO9FPmehmQcbrbI0EJTy6GMjbpJUwDFN8JZeN+Io+h6MrVZtp3rDT4
-	 ycEAMj8XwW7f+QENsDb0Q7yjy9I/tMAhW9DSA+j+vGQJPeg41VNmSnBDn4k2UmMrAIfgu
-	 8TKEJf9jN8pEclrpuNx2rtbMXbhJLlGvEWQ67uKrC5iP2vgmGXKELbVCjSGBY3mUZHNCs
-	 HkHprmduw3eHXnljBcvL/qsePWp0nptEkqudVik5TXvjkooTi3IMoGvhrE2fypATCsg==
+	t=1792758107;
+	b=oaToaf3OM24GYaRPs5dEhzgXNAu293CoAsmJNmLcd0TnoFNejTv2BUx9x+gf7O9BpNaK
+	 c3p0QyeyTeup/CGQShkB2LSrDAMsrZpwT+mMBGmYwUM76cbASCjVrxL0Nlgu0aVNyC1GY
+	 TOKiSwejyS8VFNwhAiSkHV42COArYeMx9PQHRT2bNWBpeP11G53bufZI3yk+a7hEVEEym
+	 n8aECjAFj+F5G6exzwv4EP867EiA2A7rT7nsaB2DZOisysj2IqXKjS7H+IEayKw9sV5vO
+	 9vyiHEOxK2LBF235adMZC5chzhrqN+dnK0gEH2Ur73B1Ynn21bF3OM7i1QP9bEtiIHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792757817;
-	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=jBhRB5dUFh9oSjNWafUfPVccMDoYnz39VGsGqSFvwQ4=;
-	b=PSo/Crk5ZyRFAdLBAo+V5DdqVfovf05Satyo51Av63TxIGTS0iukh2GLSAnCEqAcEB6i
-	 IDCwUC+0Ybwzddnbl3WiyyL7uHAQYh68DnzrDbYA0eJ2VsM92pRy/HsMIMHNVyF6bGJCf
-	 4B9X/HFtuENVCoajuIztdwBjOpg7Fgl3OgtL3w6P1KD5rz61d1aJ5Cw0+D72iT1DyOBMd
-	 ChAyCkGgaBdea05JTXwxgbv4+RtcOKJNUKhzd65knZHCwvfaYCwIhViPxlsM8Ek++/gkB
-	 6/NUk4UOsgbtIJZWBcH93bPL8EycFINfS+3stPsQrxpMsIYR37/OFk5NVWsuhSOTM0g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792758107;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=ciHP8sw8KkJCUfVwwO41L8XxY5GZuIGwR4ead+tdUXA=;
+	b=g45Dqu6audPv3kf38cljtYyb3X8hFzaPl1TxRzGRXkBuItZVesao9XEZcZ/f7v5nrB2x
+	 3hMRblNQSn8MrEgKvzQygGF9kD/qH81lFST4+piVOToiqTskfMabiSHMZ1ViG5VNVPoYM
+	 rIgL4szlGcMrrLs84ZbByg6WmBeF45Ow/Wo+sHiI4IInZ3Z0ImSjpHakVQvWoLB9oF+iy
+	 pPAK4aAFMBqTZqlWFDab5CfYXZu3jKYeyQzEC/l6NiLpi7octYmfYgIxL3mAsKsEhBB/Z
+	 emCeWBLhP7bWsE9Cu1khxs7rPoTKIpw0ZN0iAND6IG0QbtCyKf4jrm7sd4+FmQ+hkkQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qx7TDB9j;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nhwGm1Bm;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 804F1606A330;
-	Fri, 23 Oct 2026 12:16:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED79606A31A
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 12:21:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qx7TDB9j
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 64C0C1F031E4;
-	Fri, 23 Oct 2026 12:16:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=nhwGm1Bm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D06A1F01825;
+	Fri, 23 Oct 2026 12:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792757815;
-	bh=jBhRB5dUFh9oSjNWafUfPVccMDoYnz39VGsGqSFvwQ4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Qx7TDB9jZcE9Gd2aMvy6N1DA6zNIQ4LAK8LwO0twSSorUaCSSREPepseYcu/4w93N
-	 T98XSHBSJeEUuAKo6lsPjWJi4Z/E3vQak2t3Zw+9XH2Vt/+0yzUkij4dcAYfZ6ta9/
-	 tsDJLVJhl7iVnv+vLzmx1qMQdTp0II0tKMhFlU0nFk73Aw4HkEuQRI7iVxLqiWjE2t
-	 slPMNj2bWgUEiOQdiPkXDPVlijWUtJM7Oylzx6YQsmmrlzfKVurX/I2AoUvi/bUB0f
-	 +4W6ZADRQSnXTRu74tjA5chZNkUPxwTIgPaJMonCMTVcpCCe+0GDhfikWPdBYl2j9J
-	 tV87av4F+Id1Q==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xKECb-00000000mZQ-0LbM;
-	Fri, 23 Oct 2026 14:16:53 +0200
-From: Johan Hovold <johan@kernel.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH v2 02/12] USB: serial: io_edgeport: fix potential close() use-after-free
-Date: Fri, 23 Oct 2026 14:15:20 +0200
-Message-ID: <20261023121530.186541-3-johan@kernel.org>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261023121530.186541-1-johan@kernel.org>
-References: <20261023121530.186541-1-johan@kernel.org>
+	s=k20260515; t=1792758107;
+	bh=ciHP8sw8KkJCUfVwwO41L8XxY5GZuIGwR4ead+tdUXA=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=nhwGm1BmXQfbQM6pbCLhUzMOeRbKMMxawIdyIB4XpcCUsvokkuXvwzrRLg++o+lMN
+	 Fso+G2r3hxxVgAvWpaAXyrqS9oQ3vWF2CzxfWGDt7/FBZICh7FAi/6Z7Jc12RnOKJ7
+	 HWj3dKFH/9OtFLT8SyqpcPW1bk3RMQjWS+txqqPBATOQ811jl3hOKfdFokrsYBOCrx
+	 mQHYVXkiiXJWEUHIMHyOHn52SFSyNEfQsIKf//Rc7bnJ+8mzCCFfaKeukV0wZ91ciW
+	 6Mk4Iy98ec3JDDQw6QGXpFJarS2X+WAY6AtZ8u63k6TNbPYG0vmDE+B/WvfebwDwKH
+	 ufSkbt69ueK6w==
+Message-ID: <sashiko-outbox-182754@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/2] usb: gadget: f_ncm: do not notify from
+ ncm_set_alt()
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Massimo Toscanelli" <massimo.toscanelli@leica-geosystems.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261023-ncm-ecm-lpm-v1-1-d01e81fbf460@leica-geosystems.com>
+References: <20261023-ncm-ecm-lpm-v1-0-d01e81fbf460@leica-geosystems.com>
+ <20261023-ncm-ecm-lpm-v1-1-d01e81fbf460@leica-geosystems.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Oct 2026 12:21:37 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,51 +60,41 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add the missing open check on write() and locking when updating the port
-status during close() to prevent a racing interrupt completion handler
-from trying to submit more data for the port while its write URB and
-FIFO are being deallocated.
+> From: Massimo Toscanelli <massimo.toscanelli@leica-geosystems.com>
+>=20
+> ncm_set_alt() calls ncm_notify() for both altsettings of the data
+> interface. So a notification is already queued at SET_CONFIGURATION,
+> when altsetting 0 is selected, and it waits until the host reads the
+> interrupt endpoint.
+>=20
+> The USB 2.0 LPM ECN (section 2.2.2) lets a device answer NYET to an LPM
+> request when it has data pending for the host, and DWC3 does so. So
+> when the host loads no class driver, like the USB-IF test tool, the
+> device never enters L1 and the LPM L1 test fails.
+>=20
+> The CDC NCM spec (version 1.1, section 9.2) [1] asks for the
+> notifications only when the host selects altsetting 1. There the call
+> is not needed: gether_connect() already calls ncm_open() or
+> ncm_close(), and both notify. The extra call only restarts the
+> sequence while the first notification is in flight, so the host gets
+> two connection notifications before the speed one.
+>=20
+> The old ether.c also notified only for altsetting 1, until commit
+> da741b8c56d6 ("usb ethernet gadget: split CDC Ethernet function")
+> moved the call out of that branch in f_ecm. f_ncm copied that
+> pattern.
+>=20
+> Remove the call.
+>=20
+> Fixes: 9f6ce4240a2b ("usb: gadget: f_ncm.c added")
+> Link: https://www.usb.org/sites/default/files/NCM11.pdf # [1]
+> Signed-off-by: Massimo Toscanelli <massimo.toscanelli@leica-geosystems.co=
+m>
 
-This issue was flagged by Sashiko when reviewing a related fix.
+Sashiko has reviewed this patch and found no issues.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Cc: stable@vger.kernel.org
-Link: https://sashiko.dev/#/patchset/20260714101316.823942-1-shpark061104%40gmail.com?part=1
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/usb/serial/io_edgeport.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
-
-diff --git a/drivers/usb/serial/io_edgeport.c b/drivers/usb/serial/io_edgeport.c
-index cdf41e86ba44..a5011fa91ee7 100644
---- a/drivers/usb/serial/io_edgeport.c
-+++ b/drivers/usb/serial/io_edgeport.c
-@@ -1085,7 +1085,9 @@ static void edge_close(struct usb_serial_port *port)
- 
- 	/* port->close = true; */
- 	edge_port->closePending = false;
-+	spin_lock_irq(&edge_port->ep_lock);
- 	edge_port->open = false;
-+	spin_unlock_irq(&edge_port->ep_lock);
- 	edge_port->openPending = false;
- 
- 	usb_kill_urb(edge_port->write_urb);
-@@ -1127,6 +1129,12 @@ static int edge_write(struct tty_struct *tty, struct usb_serial_port *port,
- 
- 	spin_lock_irqsave(&edge_port->ep_lock, flags);
- 
-+	/* avoid accessing freed fifo if tty_wakeup() races with close() */
-+	if (!edge_port->open) {
-+		spin_unlock_irqrestore(&edge_port->ep_lock, flags);
-+		return 0;
-+	}
-+
- 	/* calculate number of bytes to put in fifo */
- 	copySize = min_t(unsigned int, count,
- 				(edge_port->txCredits - fifo->count));
--- 
-2.55.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023-ncm-ecm-lp=
+m-v1-0-d01e81fbf460@leica-geosystems.com?part=3D1
 
