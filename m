@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792763332;
-	b=cTIKfIbt3oyOV9b1VrV8pWLGZFf0MJNNFJW/cMl3DqLijFUmozPZ9fzwwoW90n0Bwlkf
-	 gXVKEawzI4SHzMyvzJu2qGSWIh639BChsewMglp06Xn4ApbuWrZ5KAQq8qEue2oL4Uz0i
-	 U6LB23HARPToFE6+CnelKXZLzIWa8LCSkTk91mUjcYnLCCreG2g+nXiMvFWKGUPqpSmnL
-	 EqAKdBt+zilw3LlSgiu6dldge/dDkI+BGbHNBvrf/5qX0xdUcUXvcqOAMZGA3aSzXNAza
-	 AosWVStvkcAufyGR60gf4YeQvMAWzHmpnFFurOnwXvQ/JfmSKDA36u2HF0/FONxk0GA==
+	t=1792763357;
+	b=DCYMjCwX41rw2zBEAUOGlhte6HbGEI+V2GCD9/vV4fh+CVGNi85r64HPaa9Dglsm4nqF
+	 IbNXd+DoxkCiCf+phsIEiw6mSSuCOchadOylqVZTZ3YS66p6SwfcqhQk6PWJnDd+YnwDj
+	 ZyeAv8VmctiZXN36ypHjvZsRyweYGN7TPplJaSLZiMMHuLoueJxilQr+N8bFaQEBypRUM
+	 A2MR1lwOiY5doclokdvAYPZZzLFl8Oz7HGwteOjZR1NPdapqaxOMegeyn9pDD/7xHAeLe
+	 KfMJrwJnug9DYDegIlr07rNBDGds6lFP8c3uincG9Ct30VYPnOFXEe4LRoMJDXGKwQQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792763332;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792763357;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=MQWn9R/Sdm3duYbyKyFhG1I7K4uNuiysT7qdpbhR5Ss=;
-	b=G61ppcV6G65NQExxQgo/GLShR/SMLy34nChVTksiKvcRn8Kp9mCWh17+IhaFkAhdC5+Y
-	 nvFIzcxGrHar1tR2Y3puSLJAgS0KCDBOzg+3Y06CE4Plwcedn3uhtrLOnGS5lXgdGpikX
-	 VVrz4BfhEk35T01gFbSBGiZpMIvkr6sDAnutUSLlK7EjrboLtPHYstaCiTk6nTObd8Wme
-	 IS9nkFyqYDO8K4j3BcAqGNp2qDityXDLY4m+YqtiDKH2p65USk0S9eGI91cUhsFZkKoqA
-	 aZh7+0p5OJ4/KFCb8maKsj8YDb4ZxaT8sXShCwFdedUbcHBYp146DVJk6aSXHSHYcuw==
+	bh=J5jLfRgfnru1f4M7HoIviw9jPxy8kFRXF0YNC8/6MY0=;
+	b=0yHq+wyyL4jplNecvqbKAf4q/KMqxob10cFW9FLeewVFrcuk6Tg3oIdxzSjou87y3nTF
+	 txoT3NIR1JpB5OyuH9L2xZSK1pYggF1cwpzdMQiOBlP9k0ViO13rsP28iwoQ3npBUz+L/
+	 sUJAZCf7+ssNK7/TaBsCQRQcNmDPBaCEeVDJcAnTvepM+dyCggWLUaX/CQDLDBcOvboIk
+	 id+UOi9rrJHchCJQk/Oj/bupV5qC/szbAN/m+fgRid4SX9KRs90erUgQeaO7xfcAnLOct
+	 0jf51jZcsi67KehkeRClXFhAWoR2kQz9G6wqIbqj+wjulPpiXSzUHV/Ka3RxJzbgc/Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="jzuAhy+/";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PSLYybxi;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D66606A31A
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:48:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5936F606A31E
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:49:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=jzuAhy+/
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E56951F01825;
-	Fri, 23 Oct 2026 13:48:50 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PSLYybxi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A03D11F01828;
+	Fri, 23 Oct 2026 13:49:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792763331;
-	bh=MQWn9R/Sdm3duYbyKyFhG1I7K4uNuiysT7qdpbhR5Ss=;
+	s=k20260515; t=1792763357;
+	bh=J5jLfRgfnru1f4M7HoIviw9jPxy8kFRXF0YNC8/6MY0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=jzuAhy+/LdhVme5k+4ElEyE3+af0LcLSkSe0Ym0GA1n6rPqgtftNmI6Atnut0tFBT
-	 nkDzNIkbXo/yn0dwcmOlmITxJqrKILt33epzd7M9Aiat0IYApoXbot/5FzJlbzC73X
-	 wRCWSevgUmjn4miJcU3xaGq8jiYL0CA8cmL+I2ERd3KdC6enPr1wpZJcYvj4m0yBzW
-	 swIVSSCC22v/p5FFaK47YMIY16y4fEdWmon6yZKOhYtb/gaOC/DJLs3cwqsT+6q4rb
-	 3zP+ukqGVbOYQ5ytdr6anm+Ecx47Bw3wiVB75DGaJiVMqhJMWcZLB7V7Pkl+wcIPKY
-	 M6AzllWsghiIA==
-Message-ID: <sashiko-outbox-182852@kernel.org>
+	b=PSLYybxiSnX2XIw1BFiB6WDnlAN5VaCR9EuyW/3jTSvjvew/o7UuLgHMxkxzqaNvx
+	 nne7wobIlNsoiXs6RC22errueIbEOJCOhO51HLdXHXJ9CooqLXGX5tOCiLR7uSlKal
+	 w5t7iH4+proFiBY8sVJxJaV9jd6F8xp2OVxG+K/fEku8q7Jom+tFKfrLUAA+Vgakfe
+	 MnSmIQ0lZCfz1QcCWNrzzcDxGLsdzQvr9fNq4U4r3IMhE2UjIUNbAtREivaQv6ucEk
+	 b42JRIFmPdNu7CWbG0Iml2dfk1vYiyKbPpfqvT9e79ucw8k7N4kGCiahmwS7Rv9czp
+	 TNEIHTuDREyuQ==
+Message-ID: <sashiko-outbox-182853@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 3/9] drm/bridge: pass down IRQ_HPD to the drivers
+Subject: Re: [PATCH v7 4/9] drm/bridge: pass extra events to the HPD
+ callback
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
 Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org, neil.armstrong@linaro.org
-In-Reply-To: <20261023-hpd-irq-events-v7-3-57a3aea3f09e@oss.qualcomm.com>
+In-Reply-To: <20261023-hpd-irq-events-v7-4-57a3aea3f09e@oss.qualcomm.com>
 References: <20261023-hpd-irq-events-v7-0-57a3aea3f09e@oss.qualcomm.com>
- <20261023-hpd-irq-events-v7-3-57a3aea3f09e@oss.qualcomm.com>
+ <20261023-hpd-irq-events-v7-4-57a3aea3f09e@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 13:48:50 +0000
+Date: Fri, 23 Oct 2026 13:49:16 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,30 +63,28 @@ Precedence: list
 
 Thank you for your contribution! Sashiko AI review found 1 potential issue(=
 s) to consider:
-- [Low] drm/omap: missing event arg in hdmi5_bridge_hpd_notify() breaks bui=
-ld
+- [Low] drm/bridge: misplaced hdmi5_bridge_hpd_notify() hunk breaks bisecti=
+on
 --
 
-commit 8fdca4f38003a51e3d398ac403cb300b423a0ffc
+commit c49a65530348caef1493cae37ceadb5599e2733e
 Author: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-drm/bridge: pass down IRQ_HPD to the drivers
+drm/bridge: pass extra events to the HPD callback
 
-This commit adds the enum drm_connector_dp_event parameter to the
-drm_bridge_funcs.hpd_notify callback so that DisplayPort IRQ_HPD events can
-be passed down to bridge drivers.
+This commit introduces drm_bridge_hpd_notify_extra() and updates the HPD
+callback signature registered via drm_bridge_hpd_enable() to pass extra
+DisplayPort sink events to underlying drivers.
 
-[ ... ]
-
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdr=
-m/dss/hdmi4.c
-> index bd6c4d2dcdc86..72972a6fe989b 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> @@ -429,7 +429,8 @@ static void hdmi4_bridge_disable(struct drm_bridge *b=
+> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi5.c b/drivers/gpu/drm/omapdr=
+m/dss/hdmi5.c
+> index c542ba6ce7d32..a21f9355594cc 100644
+> --- a/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi5.c
+> @@ -427,7 +427,8 @@ static void hdmi5_bridge_disable(struct drm_bridge *b=
 ridge,
 > =20
->  static void hdmi4_bridge_hpd_notify(struct drm_bridge *bridge,
+>  static void hdmi5_bridge_hpd_notify(struct drm_bridge *bridge,
 >  				    struct drm_connector *connector,
 > -				    enum drm_connector_status status)
 > +				    enum drm_connector_status status,
@@ -93,53 +92,28 @@ ridge,
 >  {
 >  	struct omap_hdmi *hdmi =3D drm_bridge_to_hdmi(bridge);
 > =20
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 1981d24a700d2..6382ef5f1ea28 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -509,7 +509,8 @@ struct drm_bridge_funcs {
->  	 */
->  	void (*hpd_notify)(struct drm_bridge *bridge,
->  			   struct drm_connector *connector,
-> -			   enum drm_connector_status status);
-> +			   enum drm_connector_status status,
-> +			   enum drm_connector_dp_event event);
 
 [Severity: Low]
-Does this break compilation when CONFIG_OMAP5_DSS_HDMI is enabled?
+Should this change to hdmi5_bridge_hpd_notify() in
+drivers/gpu/drm/omapdrm/dss/hdmi5.c be squashed into the preceding commit
+8fdca4f38003 ("drm/bridge: pass down IRQ_HPD to the drivers") instead?
 
-While hdmi4_bridge_hpd_notify() in drivers/gpu/drm/omapdrm/dss/hdmi4.c is
-updated here, hdmi5_bridge_hpd_notify() in drivers/gpu/drm/omapdrm/dss/hdmi=
-5.c
-still retains the old 3-argument signature:
+hdmi5_bridge_hpd_notify() is assigned to struct drm_bridge_funcs.hpd_notify
+in hdmi5_bridge_funcs rather than passed to drm_bridge_hpd_enable():
 
 drivers/gpu/drm/omapdrm/dss/hdmi5.c:
-static void hdmi5_bridge_hpd_notify(struct drm_bridge *bridge,
-				    struct drm_connector *connector,
-				    enum drm_connector_status status)
-{
-	struct omap_hdmi *hdmi =3D drm_bridge_to_hdmi(bridge);
-
-	hdmi_audio_hpd_notify(hdmi, status);
-}
-...
 static const struct drm_bridge_funcs hdmi5_bridge_funcs =3D {
 	...
 	.hpd_notify =3D hdmi5_bridge_hpd_notify,
-	.edid_read =3D hdmi5_bridge_edid_read,
 };
 
-Assigning hdmi5_bridge_hpd_notify to hdmi5_bridge_funcs.hpd_notify causes an
-incompatible pointer type error during compilation when CONFIG_OMAP5_DSS_HD=
-MI
-is enabled, and also results in a function signature mismatch when
-drm_bridge_connector_hpd_notify() invokes bridge->funcs->hpd_notify().
-
-It looks like the hunk updating hdmi5_bridge_hpd_notify() ended up in the
-subsequent commit c49a65530348 ("drm/bridge: pass extra events to the HPD
-callback"). Should that change be moved into this commit so that the tree
-remains bisectable?
+Because struct drm_bridge_funcs.hpd_notify in include/drm/drm_bridge.h was
+updated to take the enum drm_connector_dp_event parameter in commit
+8fdca4f38003 (alongside hdmi4_bridge_hpd_notify()), leaving the
+hdmi5_bridge_hpd_notify() update until this commit causes an incompatible
+function pointer type build failure at commit 8fdca4f38003 when building
+drivers/gpu/drm/omapdrm/dss/hdmi5.c, breaking bisection.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023-hpd-irq-ev=
-ents-v7-0-57a3aea3f09e@oss.qualcomm.com?part=3D3
+ents-v7-0-57a3aea3f09e@oss.qualcomm.com?part=3D4
