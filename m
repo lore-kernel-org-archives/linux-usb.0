@@ -1,56 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792790166;
-	b=ocQqgBRh2LQsx2GjjHH1DevW/qq53D7qH4d87frjXoORq2bFlbX3579KKDnLnflkxml1
-	 8vsyg/zPTz9l75L5Do9N5BKlrWqvkhsrqLBzB6z+HG4R0C2KTExH5c9BIAP5KOjO/6Th6
-	 GwwDBq2AasWbaFh7EAMwtPzYH+avTEWg7BEhx+Jg7l6SRx+bJmr7HxVm5K45rW2mk+tYi
-	 zGtwudrAa8yM9MyDrsbPpGeGjB+rzgc36njI9b6nhm0T5WO2u9dPg0J7O24s8cH6GNtE/
-	 p+ps0/Yp2//FtgI/aPZh6zLkyE35rg9HUTmy0uWswLVg2CrYGSDwwdRy+3k28+/K6ww==
+	t=1792791009;
+	b=Z3CP+6Ba7fifQSmhs2VMNoCqk6XJXCymcSjA00HnY2ejUvdV7kTiXQMXj03Yi9G99L/q
+	 7eu8zOR6UD6rYBSsb6Hlev9q7MdV8VaZ7rxsgLRRAdzWg0QSk408/WDlaKsKYQlSP2zGE
+	 qtbcn/W6mCVEgWuoiVozG9GCh2w4ec8fbg0aLjMHZ1AuXOzkzpDR/hmohTGRZbmHAaVrE
+	 nTEC+Zm2+JZjVB2JdSFnxSVd6gx2VeGJNi+eLpzkygZye7D8NGP/iliF3XkQSsING50Dc
+	 JD4AfQBw86yMNJBwwwVBqstHKqGHWjsTNVLBKTVyxGJQwLPhcyoXcbXVQmzrCZPjemw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792790166;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 In-Reply-To:References:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=xTsiCZc657L7oQhql4ts4mXSow+otBZUp5bcJ6kNE4o=;
-	b=44vQp+dTB9gjQ+zJz/LN9k7y7U6pg0T+IOuUEd8Ec3YXC54MGCTgJjRMWldW9rFnxOb0
-	 M2Fw+Qu/jnURbzqOnWtFMWOqW1mtDUI5W+x1O5qdnSMJCIxZe2cBJBW44D/yTJFn928to
-	 Rzzg+S8E7jO7Y7KVUItj34E/70am7LO6bwDJ1BGGZCE/BzFLGEdvisi4agU7mYKpZYD1l
-	 f6uzdzxxJfQ6KrpUuk0EN6UM3/xOxRUUQSdO3UJcfEBbcCS/Unaraw1lEZifJg7RtgAMM
-	 yQnGNIKas5xbvA6tvii/DiIyyTrH9dfpDX088gb+kNIw/xdP417XaT5GXbV7LU7H1/w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792791009;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=FCCNnkSFJzCUFxVHVBz0sLlLXrsTUod3JwOo/W9q0lM=;
+	b=3qTHOFNVYlF5S98PFBb3b+7T1EyhE8qJmgD46HBf0kOIKy7yuJsV1cOVvvFiVrf89cq0
+	 /E9Lf4XwFJNkWFYqRvPeZlUI0Y7QknW54g6WNcrWPFqUWi5Azm3ktWEaiYU1iuW+gSVi7
+	 E0Jta7TNZqkx3WZ/TfhSYlO+pow7RFZMyxVewdCGe59SaZL+InmIaO9e56ePLEQZ78epO
+	 uy1uIl8ODSsXR0mn9rfpt2oFYeWfLPCKkFfx/Jya1ewgQA+aHBz1UURaoEELHulCSHUEJ
+	 EvtY8Yjh97bppjOJvVg4+UV8JnszG3f5glSdSL+DgBWyO7HCK1l006G5xjD0AYHtglQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cy8LBVSs;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EokFwy9j;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78588606A31A;
-	Fri, 23 Oct 2026 21:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0B52606A328;
+	Fri, 23 Oct 2026 21:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cy8LBVSs
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15ED91F01825;
-	Fri, 23 Oct 2026 21:16:06 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=EokFwy9j
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BD721F01825;
+	Fri, 23 Oct 2026 21:30:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792790166;
-	bh=xTsiCZc657L7oQhql4ts4mXSow+otBZUp5bcJ6kNE4o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References;
-	b=Cy8LBVSsmQqXxdWSmyfYBSMocERiuZkmZrhZ3GgNZy/TlkPKDWRhfX0zn20CPDbzI
-	 WIdiQKMZ2IJbKgkYBao+D+178EIqJMAcXH6k4PHgvbidXqs5sPk86HP9E3zLzk7MeI
-	 nhK7gY6Cy7f1LHeMgsLdRhKzrMNJ4dgbnBPAyUFIdwP+m0ykPCh4QRf2iep9dO/2Lb
-	 daapglSqminHk5rg0REH/gcrR82lwucsaJuaw2Ftrc01T6Rpf0ngQovjew6B5K0qXj
-	 8DagkkUoACj6VDRfMd8rjF1NEdMFLIGrt9a5F3W7SWpeTCUpXMq6KnUweXB46R3zST
-	 ZhIuJ7FqP+yGg==
-Date: Fri, 23 Oct 2026 14:16:05 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: =?UTF-8?B?w5ZtZXI=?= Mete Kaya <omermetekaya0@gmail.com>
-Cc: netdev@vger.kernel.org, oneukum@suse.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net v4] usbnet: fix EVENT_RX_PAUSED race in
- usbnet_skb_return()
-Message-ID: <20261023141605.74390430@kernel.org>
-In-Reply-To: <20261020153044.18828-1-omermetekaya0@gmail.com>
-References: <20261020153044.18828-1-omermetekaya0@gmail.com>
+	s=k20260515; t=1792791008;
+	bh=FCCNnkSFJzCUFxVHVBz0sLlLXrsTUod3JwOo/W9q0lM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=EokFwy9jJWUxHj67PG35vdZYmXAmnyqKw2qFViffB8hnyOUUTAl28lgZST44nskCm
+	 XxgvUZVEMp9Sls9IGcSLIcLSEuEIzzhRsx/hitXxqoYFPLaPgomOmDhPanHyjdBAJ4
+	 EURKc+W1RYb5AwsUsooWuvfGLZKL0qsLl7fwU24XO7fc5wQ+YE9ujjrY0WdW0zajTW
+	 gcU/kPTFhypbe74JPqvKFwue3OWgLwh6lrvOXiXYfMnudQCG497dEEtE49EtUx3qrT
+	 RfV9WxaTHWQBtYmuueWCRy+xCOPwRjc8ZuHcd7j1HxycZZ64+zpBQsY7mqE7EB1SzH
+	 qiiGOPGYtNUlg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 813F6391B157;
+	Fri, 23 Oct 2026 21:30:08 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,48 +53,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] net: usb: aqc111: fix set_mac_address return value
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179279100707.1280672.5074637732696737518.git-patchwork-notify@kernel.org>
+Date: Fri, 23 Oct 2026 21:30:07 +0000
+References: <20261016124858.1939743-1-hanson.wang@ugreen.com>
+In-Reply-To: <20261016124858.1939743-1-hanson.wang@ugreen.com>
+To: Hanson Wang <hanson.wang@ugreen.com>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, oneukum@suse.com,
+ kuba@kernel.org, andrew@lunn.ch
 
-On Tue, 20 Oct 2026 18:29:09 +0300 =C3=96mer Mete Kaya wrote:
->  	struct sk_buff *skb;
->  	int num =3D 0;
-> +	unsigned long flags;
+Hello:
 
-reverse xmas tree ordering please
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
->  	local_bh_disable();
-> +	spin_lock_irqsave(&dev->rxq_pause.lock, flags);
->  	clear_bit(EVENT_RX_PAUSED, &dev->flags);
-> -
-> -	while ((skb =3D skb_dequeue(&dev->rxq_pause)) !=3D NULL) {
-> +	while ((skb =3D __skb_dequeue(&dev->rxq_pause)) !=3D NULL) {
-> +		spin_unlock_irqrestore(&dev->rxq_pause.lock, flags);
->  		usbnet_skb_return(dev, skb);
-> +		spin_lock_irqsave(&dev->rxq_pause.lock, flags);
->  		num++;
->  	}
-> -
-> +	spin_unlock_irqrestore(&dev->rxq_pause.lock, flags);
+On Fri, 16 Oct 2026 20:48:58 +0800 you wrote:
+> aqc111_set_mac_addr() returns the result of aqc111_write_cmd() on
+> success. That function wraps usb_control_msg(), which returns the
+> number of bytes transferred (6 for ETH_ALEN) rather than zero.
+> 
+> Callers such as netif_set_mac_address() and bonding treat any
+> non-zero return value as failure when setting the MAC address.
+> 
+> [...]
 
-The retaking of the lock in the loop looks ugly / unnecessary to me
+Here is the summary with links:
+  - [net,v2] net: usb: aqc111: fix set_mac_address return value
+    https://git.kernel.org/netdev/net/c/c3a1ddd5e116
 
-          struct sk_buff_head q;
-          struct sk_buff *skb;
-          unsigned long flags;
-          int num =3D 0;
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-          __skb_queue_head_init(&q);
 
-          local_bh_disable();
-          spin_lock_irqsave(&dev->rxq_pause.lock, flags);
-          clear_bit(EVENT_RX_PAUSED, &dev->flags);
-          skb_queue_splice_init(&dev->rxq_pause, &q);
-          spin_unlock_irqrestore(&dev->rxq_pause.lock, flags);
-
-          while ((skb =3D __skb_dequeue(&q))) {
-                  usbnet_skb_return(dev, skb);
-                  num++;
-          }
---=20
-pw-bot: cr
