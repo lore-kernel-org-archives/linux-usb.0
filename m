@@ -1,89 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792761354;
-	b=WQm0YfTmSyT/y28zr/NmcRaoUMcrxOtuaO/5yADaVuZBmjQCPmr12blfn/R16VcZXbsl
-	 F/rcX3ZY1p1H4n4RIlsGa4Yfk8TO0j23HNE9R74/DFw08JNlWoM17s1wSyeJxyJTkavjB
-	 ZddzQRfC+Qs3seHu8Y/ky24JDMcE+ssvJvwMYNrlPenbf3YctEzxS7ahDyDMZuG2FksKE
-	 X+Bgm7RmpsHehwSVu6ZB6lclnIcfvBSzjluYUyEML0dgW4fgtlXmuE8KsjRTPVn23RocX
-	 spPNs2FwEmL0bg6ax849TEPHaBHSj0oHCPHFe4XuYKoUP6oCOjwPImXpgXyibpfW1Pw==
+	t=1792761603;
+	b=ZQE0bGDsiY8FiPoeCkxz8HBTlt4DcJC4V+vSaouX59KKYQnEo4XUBFRqh9+ElZofj/kK
+	 kcW3sT4+MGTHdo24BTI1xjHyYYBIKjm+EDcSmsPzhwTsIKg9O8bnhHPL4a4SXyKwii4bP
+	 lyHpoJTI7qi0jHo8VXZ/NqzL1zS7SRtImct7J//aVY3hpFQ0tOWhnHgyWcGm03E309QKd
+	 9zzSHk6F9LFO6Szyx/RQ9YAB3sZZEi0zfRdumGZcB52GnGY0kxBzjND5zePgwQKzKLthE
+	 lK/P6ZxmXAtvOqRLtPjeEJakXKF4pOEaWnnf5o/L1eSlrnIwNTgVljlWGFyxVNLwyAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792761354;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
-	 In-Reply-To:X-CMS-MailID:X-Msg-Generator:Content-Type:CMS-TYPE:
-	 cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:References;
-	bh=JjXWggIO1QwF9H9WIE/c77W+Og3mvbbUeijLVnTmFvY=;
-	b=RAx3bvvNNG828WpRTugwVjTv6Bcy7j9Nnhryb+aExu3sxtioPpBKq96C/O9aDqbzxwq5
-	 jNLZLOQ+WzRSOx1xKJnQzyNxAQQtg4+HOKXJ9YsOZQL9roqduJ3wBWiVunlDITn2rcW/L
-	 hbOFV4XiSkr2JBukgYs+m5tYj7Xq42f438VMIcdN3+pvTsN2l2bsd3hjkrqmTJDZzgA6G
-	 Zyc466JhhJpf1jWEN0hMZkwpoKBh8oK9XeQ8ilLbQyxKj3mEFatlrddiwVQUo4Zin4Ev5
-	 hDfPEyc785nWVtDa7Tr97tkKe5ailtPAlcnb2UEm8iSV3Hleb8NrJmcBZKlbcFQy4Hw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792761603;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=5a9w3PI4GWKsVKmG0RVOlKAXaDDDKpJWLD4OQACBtiE=;
+	b=QZN8rXhW8oaZzDI9sxW7Q7RZijT7rAr48xZv6kiWkYj6DIgLCGtSZi32FEXHO0xRaCnz
+	 /rZB8efrau2ZeGoKe+GOFTokLohfbqPCODe7tyGx/soyATtcpMOY45uM2CLCqC7heHI32
+	 CjxXMqDV8PXAc3h9trxzv/of9/198TfeMl/hhbmHehikenPWmiMNaLx/2NhXPkZ2t/faW
+	 OkxUez552IBYEFIOmOXcsqPvQEBmGJIhQzFDN9YRCm2dJlzc8Bm7kPmrHShvK8zWX0icL
+	 vkv2Jg64hskESgT585Bt7BvmsqoyI6Nw/DBbQ2ufmCyimG4NcXpKDxm/np/X8kKjqpQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=oYdvHJoT;
-	arc=none smtp.remote-ip=203.254.224.34
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JFvs2Q5k;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A32606A335
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:15:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7A32606A335
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF797606A32C
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=oYdvHJoT
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261023131551epoutp04c996c0d64b814bdda40e2e2d3dc37d13~hKvN-lJjw2459724597epoutp04b
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:15:51 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261023131551epoutp04c996c0d64b814bdda40e2e2d3dc37d13~hKvN-lJjw2459724597epoutp04b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1792761352;
-	bh=JjXWggIO1QwF9H9WIE/c77W+Og3mvbbUeijLVnTmFvY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oYdvHJoTVTSSRO9g+GqANxMVwuo/SGJAMCh+O8z4SPs3n9/Ffc7wHunJ0fazzxmFo
-	 QapC7MKDyU7bKZVdWzeTSGNJ6GihhyHWF0NK9HX+jFFJoGvT5mpi+Od0QLYSDaC0xz
-	 9Etdzlj/y/IcgHmZNsdAi892/OhyqZKoGEedaSGc=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20261023131550epcas5p4f7f59ff68804b78d3f646465b8db3444~hKvMiDFdI0834608346epcas5p45;
-	Fri, 23 Oct 2026 13:15:50 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.87]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4jB3Rn3BFyz2SSKY; Fri, 23 Oct
-	2026 13:15:49 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20261023131548epcas5p2aeea6d1ff5351907df204e7b3fbe6030~hKvLNyrKo0460604606epcas5p2Y;
-	Fri, 23 Oct 2026 13:15:48 +0000 (GMT)
-Received: from vega.samsungds.net (unknown [107.108.73.84]) by
-	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20261023131546epsmtip2f2c90cea5070ff3d67e5e2304c0bf759~hKvIfsFH90535905359epsmtip2I;
-	Fri, 23 Oct 2026 13:15:45 +0000 (GMT)
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-To: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com,
-	Thinh.Nguyen@synopsys.com, selvarasu.g@samsung.com,
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: jh0801.jung@samsung.com, h10.kim@samsung.com, dh10.jung@samsung.com,
-	akash.m5@samsung.com, hongpooh.kim@samsung.com, eomji.oh@samsung.com,
-	shijie.cai@samsung.com, muhammed.ali@samsung.com, thiagu.r@samsung.com
-Subject: [PATCH v3 2/2] usb: dwc3: Add Exynos8855 to the generic platform
- driver
-Date: Fri, 23 Oct 2026 18:45:01 +0530
-Message-Id: <20261023131501.3157463-3-selvarasu.g@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20261023131501.3157463-1-selvarasu.g@samsung.com>
-X-CMS-MailID: 20261023131548epcas5p2aeea6d1ff5351907df204e7b3fbe6030
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261023131548epcas5p2aeea6d1ff5351907df204e7b3fbe6030
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JFvs2Q5k
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7AC1F031E0;
+	Fri, 23 Oct 2026 13:20:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792761602;
+	bh=5a9w3PI4GWKsVKmG0RVOlKAXaDDDKpJWLD4OQACBtiE=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=JFvs2Q5k2PJe4WSS4W3V26GIfFESJR2alLNjMJ4w50pFR51dRBw7ZrrfN2vGHqrQG
+	 rGH87oD3COJ7sexbtHSN14uu8ivNgGYrkJa/2ujzqCgjHzUP4bIu18TlnOp6Q4pURW
+	 n4BzB8WEM1cgPcIES7Bf/gARJwdEj6rurGrkKfMioUOQJtv45g7DTiYl4DubY5fY1K
+	 Q/r2h5sgB0GHTGVacIUXnR+GDuHbcNmCKc3GkZYXWatGk0q57EDE40QXwKp5ZAqZK1
+	 qXcjC7A0ZypC2riDf4OKW/K5ewSUOBP9B7fToCMjBaHFTrPhvU98nCcM3SISsaphV+
+	 LF8+2X7bhp86Q==
+Message-ID: <sashiko-outbox-182817@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3 2/2] usb: dwc3: Add Exynos8855 to the generic
+ platform driver
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Selvarasu Ganesan" <selvarasu.g@samsung.com>, linux-usb@vger.kernel.org
+In-Reply-To: <20261023131501.3157463-3-selvarasu.g@samsung.com>
 References: <20261023131501.3157463-1-selvarasu.g@samsung.com>
-	<CGME20261023131548epcas5p2aeea6d1ff5351907df204e7b3fbe6030@epcas5p2.samsung.com>
+ <CGME20261023131548epcas5p2aeea6d1ff5351907df204e7b3fbe6030@epcas5p2.samsung.com>
+ <20261023131501.3157463-3-selvarasu.g@samsung.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Oct 2026 13:19:55 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,35 +61,17 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Add the "samsung,exynos8855-dwc3" compatible string to dwc3-generic-plat
-so the Exynos8855 DWC3 controller can probe through the generic DWC3
-platform glue. While at it, alphabetically reorder the existing entries.
+> Add the "samsung,exynos8855-dwc3" compatible string to dwc3-generic-plat
+> so the Exynos8855 DWC3 controller can probe through the generic DWC3
+> platform glue. While at it, alphabetically reorder the existing entries.
+>=20
+> Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
+> Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
+> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
 
-Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
-Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
-Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
----
- drivers/usb/dwc3/dwc3-generic-plat.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+Sashiko has reviewed this patch and found no issues.
 
-diff --git a/drivers/usb/dwc3/dwc3-generic-plat.c b/drivers/usb/dwc3/dwc3-generic-plat.c
-index ca69ac0eb07c..d57496716204 100644
---- a/drivers/usb/dwc3/dwc3-generic-plat.c
-+++ b/drivers/usb/dwc3/dwc3-generic-plat.c
-@@ -232,10 +232,11 @@ static const struct dwc3_generic_config eic7700_dwc3 =  {
- };
- 
- static const struct of_device_id dwc3_generic_of_match[] = {
-+	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
-+	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
-+	{ .compatible = "samsung,exynos8855-dwc3", },
- 	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
- 	{ .compatible = "spacemit,k3-dwc3", },
--	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
--	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
- 	{ .compatible = "starfive,jhb100-dwc3", },
- 	{ /* sentinel */ }
- };
--- 
-2.17.1
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023131501.3157=
+463-1-selvarasu.g@samsung.com?part=3D2
 
