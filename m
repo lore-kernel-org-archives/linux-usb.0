@@ -1,57 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.33
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792759388;
-	b=WNGldwolTArHEeTvYX6zppvJLSOYZiHkW2UU1kCqSjGxaFAj4Fe6B/d5BTNNBvzDhMtx
-	 SLQax5j9HHz4flU+xhKvWGdxax0Vk5YhFQ0cUVTaSOkeByHby1kEoBlTgFA6qc5DUyO27
-	 9x+WbutFgJBBXkpFz8DNHEVnz1HN/s++vtftYHM64PhsrGl+qUCnKQ1+lqL/8V+oTk95l
-	 87yTHtpObMIogJJiHjSIv/x5NxBskLI4EG4TtBv/PSWWVhIwshriISBIGIa5s/N/ms0fJ
-	 gCY2sUUsF/ACYDLyGZ33+BLsky386jhy8fdBTEBaoXRVz6Y5FD9sMEaFz6QGV2Bgf/g==
+	t=1792761349;
+	b=t5hamJUsZuW8wwzh1R8HMKUTecgZgjbX7aQHxjz4sLIzmNBlbq60PEpkiw4yg2X8fpiZ
+	 t5/NxNxsfuj8E6o2ZAARl1V7brGMEJLLk+WPtTsS3xg0mH52QaWpFLRrCMrmyycQWttOP
+	 gRF5cl6uT2KfywowvKHbuqFR/3xfJ2FIj1AuFXwpP+RnYpvlI1Sqk7YDnQVv4rTPLVj0L
+	 QStvUVYGg3W3AIJxXSoHXF0faeW4jtDJjTT8KnOO89qDyVPP5eUj+unHcJPns/d9WV0Mh
+	 o6jMSgIZMl9QqosG9d+f4vBl6/aGJYxETTflaTQeSuNz4JTRRK0CaAxH1fdc7di1hWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792759388;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=UGF+qMyGtPQpcuBveQOqWNS7QDzgAYBJbTmJEAouDC8=;
-	b=hJCsujlwwyULOzwNUzPZcj5ULhLkwNlCoSwcVNdxBEI/TNUNSejyoX36aZmeHtupsZH3
-	 FXzGrfqZLrRRvS29rrwDVPs+eYPz4M4yEipqI6ceAjUuxEsDHfpjaUvZ0KZN89RDfWN+e
-	 Hkm8HKQAaFtxACMmHA+sqdlceV0LLKt02EtcJ7rvw5/64XcFZ9gi7yyFBXfqf4nWPdWkR
-	 A/FUA6oSjKLjqUOpStKaxnG8iL6Tl1kpzjwhx3Hvd0hGhFKmPgiQFEcmmfY7yoFquBIT8
-	 1HEFXJLiveYoSD/Yin58Wp7bDmpmz1pUDBetn0encQUiNwbP+xvekiycQRZpA+ajylg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792761349;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:From:To:Cc:Subject:Date:Message-Id:X-Mailer:
+	 X-CMS-MailID:X-Msg-Generator:Content-Type:CMS-TYPE:cpgsPolicy:
+	 X-CFilter-Loop:X-CMS-RootMailID:References;
+	bh=uaG8jSX0cwndvkXbli6K51CcuRBe961ZbKPI7O25bZY=;
+	b=ICzdn3JNhl6MwJRT/pdQZUqmiPHv3pgriyrQY6EiAK6qvWq61nT1Xvtn+FC0MzW8AnHV
+	 22D3RF9RjaGecVbrOuXsOATKX3tMyqyGuKCAcM5AS+shFNmBI0wJ99HrWTiLGh64tNjkX
+	 84bA0ZvWye74+PKjy8+klJUz4UZIHjDn5B93E5b7Q27NZUkR8MrPf/gA8ZbpdiF94ceqf
+	 XffOGIy2w2sOW6HDy32VxXxrL2TDseDDtv8u3/HaNm36W9yS++91fNEbV49Q2Lw/HOiXL
+	 TBvQO84FgHU313pVPZ8rih4k/Vi5AaKkML0LnSd3FigFCdjcMMIEAzhSiVDTRd/BZcw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VyvHTno8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=BDqr90wW;
+	arc=none smtp.remote-ip=203.254.224.33
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B9C5606A31E
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 12:43:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B10606A323
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:15:47 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66B10606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VyvHTno8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C2F91F01825;
-	Fri, 23 Oct 2026 12:43:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792759388;
-	bh=UGF+qMyGtPQpcuBveQOqWNS7QDzgAYBJbTmJEAouDC8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=VyvHTno80e7LLgtIl59u4qq0mYAkh1PXFtDSwjcMk9hPIz1RygBSJvD9KXe/P4irK
-	 ukIlA0fNiHaQVaS6jyM5hvKrXftyi8XmITiDwjhDwa625Qv0vSys6EcDtWOoOj9Vb7
-	 oC8wtp8XD9hP5C6jAUbZFosmSUF9SoHDlLyLEO0MjZSVOxlzmC+QWxKc9s4A9EA1p/
-	 2cPUPE2hszhoqsMHD0Q1w9bWNIKybLe6xS3LSSkC6wCqWuziyOoSghFknsJesCgKtl
-	 gTb6cWCzAM50Uu73xIatb+J53LLU1aj/9AoYSeJJm1Hy2tx/uufJ6Ka61zUpjvW4Rh
-	 0m5TzgK4G2HKw==
-Message-ID: <sashiko-outbox-182789@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 10/12] USB: serial: io_edgeport: deassert DTR/RTS on
- close() and B0
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Johan Hovold" <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261023121530.186541-11-johan@kernel.org>
-References: <20261023121530.186541-1-johan@kernel.org>
- <20261023121530.186541-11-johan@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 12:43:07 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=BDqr90wW
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20261023131545epoutp031a62af06ac1b862f7e4ea3df7fa35216~hKvHkcMzu0208302083epoutp03K
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:15:45 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20261023131545epoutp031a62af06ac1b862f7e4ea3df7fa35216~hKvHkcMzu0208302083epoutp03K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1792761345;
+	bh=uaG8jSX0cwndvkXbli6K51CcuRBe961ZbKPI7O25bZY=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=BDqr90wWxTcJZNYqJ8g7KzFoflDOUdRE2GMYLgdY7F+OQn395fdtqrO1yL9E8Sjsz
+	 5KuIjhdwiHmOXE2ebV1/a8zrpUv6nXXwPMuVlVqyQycn/YAgW3wU8n4ZVnKsYj84mU
+	 L/1N1ZMcRpa58FVHlk7BIX79A7ug1d1ESwDF3dsQ=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20261023131544epcas5p16733dbf6f91b1e351476a6a7f76abbfc~hKvGpgpd30267602676epcas5p1C;
+	Fri, 23 Oct 2026 13:15:44 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.89]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4jB3Rg29Zjz3hhT3; Fri, 23 Oct
+	2026 13:15:43 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20261023131542epcas5p4be95a0825acdeecc2198259839459034~hKvFTD8NR0834608346epcas5p4v;
+	Fri, 23 Oct 2026 13:15:42 +0000 (GMT)
+Received: from vega.samsungds.net (unknown [107.108.73.84]) by
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20261023131539epsmtip2472a2f57bab2741b2a79cd9cc299f59b~hKvCet7dw0806808068epsmtip2B;
+	Fri, 23 Oct 2026 13:15:39 +0000 (GMT)
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+To: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com,
+	Thinh.Nguyen@synopsys.com, selvarasu.g@samsung.com,
+	linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: jh0801.jung@samsung.com, h10.kim@samsung.com, dh10.jung@samsung.com,
+	akash.m5@samsung.com, hongpooh.kim@samsung.com, eomji.oh@samsung.com,
+	shijie.cai@samsung.com, muhammed.ali@samsung.com, thiagu.r@samsung.com
+Subject: [PATCH v3 0/2] Add USB DWC3 support for Samsung Exynos8855
+Date: Fri, 23 Oct 2026 18:44:59 +0530
+Message-Id: <20261023131501.3157463-1-selvarasu.g@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-CMS-MailID: 20261023131542epcas5p4be95a0825acdeecc2198259839459034
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261023131542epcas5p4be95a0825acdeecc2198259839459034
+References: <CGME20261023131542epcas5p4be95a0825acdeecc2198259839459034@epcas5p4.samsung.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,81 +90,49 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] USB: serial: io_edgeport: DTR/RTS dropped on reopen with HUPCL c=
-leared
---
+The Samsung Exynos8855 SoC implements a Synopsys DesignWare USB3 DRD
+controller. The DWC3 core on the Exynos8855 is instantiated with the
+generic DWC3 platform driver using a flattened model, where the
+controller is directly addressable without a separate glue layer.
 
-commit 04f867c0006b106f7227398e82b66d8d1816c7f9
-Author: Johan Hovold <johan@kernel.org>
+This is the first Samsung Exynos binding using the flattened
+representation, and this series adds the device tree binding and
+platform driver support for this configuration.
 
-USB: serial: io_edgeport: deassert DTR/RTS on close() and B0
+Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+---
 
-This commit adds a dtr_rts() callback to handle asserting and deasserting D=
-TR
-and RTS on open(), close(), and hangup, and updates edge_set_termios() to
-handle B0 transitions.
+Changes in v3:
+- Drop the MAINTAINERS patch.
+- Drop the samsung,snps-dwc3 generic fallback compatible. The binding
+  now uses the SoC specific compatible samsung,exynos8855-dwc3 only.
+- Binding file is renamed to match the compatible string.
+- Remove the "select" from the binding.
+- List the clocks (ref, bus) explicitly and drop the redundant if/then
+  block.
+- Update the driver patch to use the new compatible string.
+- Drop the v2 Reviewed-by (Alim Akhtar) and Acked-by (Thinh Nguyen)
+  tags as the patches changed. re-requesting them.
+- Link to v2:
+  https://lore.kernel.org/all/20260916122229.2604003-1-selvarasu.g@samsung.com/
 
-> diff --git a/drivers/usb/serial/io_edgeport.c b/drivers/usb/serial/io_edg=
-eport.c
-> index 566f0f1a16324..ebbe8c5370cdb 100644
-> --- a/drivers/usb/serial/io_edgeport.c
-> +++ b/drivers/usb/serial/io_edgeport.c
+Changes in v2:
+- Commit 2/3: Clarify this is the first Samsung Exynos binding using
+  the flattened node representation.
+- Commit 3/3: Add the compatible entry in alphabetical order in the
+  of_match_table.
+- Link to v1:
+  https://lore.kernel.org/all/20260903071250.3421499-1-selvarasu.g@samsung.com/
 
-[ ... ]
+Selvarasu Ganesan (2):
+  dt-bindings: usb: Add Samsung Exynos8855 DWC3 controller binding
+  usb: dwc3: Add Exynos8855 to the generic platform driver
 
-> @@ -2412,9 +2429,12 @@ static void edge_set_termios(struct tty_struct *tt=
-y, struct usb_serial_port *por
-> =20
->  	/* set up the MCR register and send it to the EdgePort */
->  	mutex_lock(&edge_port->mutex);
-> -	edge_port->shadowMCR =3D MCR_MASTER_IE;
-> -	if (cflag & CBAUD)
-> -		edge_port->shadowMCR |=3D (MCR_DTR | MCR_RTS);
-> +	if (cflag & CBAUD) {
-> +		if (old_termios && (old_termios->c_cflag & CBAUD) =3D=3D B0)
-> +			edge_port->shadowMCR |=3D MCR_DTR | MCR_RTS;
-> +	} else {
-> +		edge_port->shadowMCR &=3D ~(MCR_DTR | MCR_RTS);
-> +	}
-> =20
->  	status =3D send_cmd_write_uart_register(edge_port, MCR,
->  						edge_port->shadowMCR);
+ .../bindings/usb/samsung,exynos8855-dwc3.yaml | 74 +++++++++++++++++++
+ drivers/usb/dwc3/dwc3-generic-plat.c          |  5 +-
+ 2 files changed, 77 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/usb/samsung,exynos8855-dwc3.yaml
 
-[Severity: Medium]
-Will this cause DTR and RTS to be momentarily dropped when reopening a port
-that was closed with HUPCL cleared?
+-- 
+2.17.1
 
-When a port is closed with HUPCL cleared, tty_port_shutdown_locked() leaves
-DTR and RTS asserted. On a subsequent open, serial_open() -> tty_port_open()
--> serial_port_activate() calls edge_open(), which resets edge_port->shadow=
-MCR
-and calls edge_set_termios() before tty_port_block_til_ready() calls
-edge_dtr_rts(port, 1):
-
-drivers/usb/serial/io_edgeport.c:edge_open() {
-	...
-	/* Must always set this bit to enable ints! */
-	mutex_lock(&edge_port->mutex);
-	edge_port->shadowMCR =3D MCR_MASTER_IE;
-	mutex_unlock(&edge_port->mutex);
-	...
-	if (tty)
-		edge_set_termios(tty, port, NULL);
-	...
-}
-
-Because edge_open() clears MCR_DTR and MCR_RTS in shadowMCR and passes
-old_termios as NULL to edge_set_termios(), edge_set_termios() no longer sets
-MCR_DTR | MCR_RTS and writes shadowMCR without DTR and RTS to the device
-before tty_port_block_til_ready() reasserts them.
-
-Should edge_port->shadowMCR =3D MCR_MASTER_IE be initialized once in
-edge_port_probe() instead of being reset on every open in edge_open() so th=
-at
-DTR and RTS are preserved across a close and reopen when HUPCL is cleared?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023121530.1865=
-41-1-johan@kernel.org?part=3D10
