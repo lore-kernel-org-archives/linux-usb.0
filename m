@@ -1,49 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792764109;
-	b=ifbM7YChgjoYKyn4NRuANhRA1chX9aCyEYbufkUlWu+w4Kj1wGFqxVs/Z97qiNdUGvh2
-	 c5TuPPkVcBY1r0eh5U/eD8vfmwRWKO3MeoMbK0lSYPv+XqskOF7Zd2ea0LWxQEJLTuB7Y
-	 PT798qUwweeqMKdtIkR/kokAUQbdNM3RyUrxcFtU0qbeO05ZPSoHSgAGeM5At/27KpAvZ
-	 hRpZrbMk4pJ2ZQrib1XC6Si0lMOJrK09i9Ng3ZNyv/vLL0RQ0FSntguOW1MqeUuM8ULgZ
-	 3UQYlqAFrBGRof6Y6GpPwzSEOZYxmpNGre67w/R5s2/eaKE03v8X2gtdhTHVlP+Ll+A==
+	t=1792764350;
+	b=Qi0QApdtmrUpFMTt4QVanFBtVlRyJqVZtKZ8fEYHelP9fYFWi4SJ85Icd3is5FgktP+U
+	 d1+shco4VAdurRi0Z7foVIwtDepDd1IxgUUbNSXf8HbUDVi0R6mKgfCzIHpHFCESp8eDJ
+	 GkYPwEhKFGhhM/oq5W7l/gKlCSP2k7BS1j7HYDuDzFg1N1aCSmQLpB344k0/q//yfGhE3
+	 cxyQahZh71shmTOdWCNZ+ogaENFzqjvCGwHxrjZ3moKFAhSG7EWYo0yLgSoSdomMeb4QJ
+	 AuKnh1f5ddiEPFAZdsztyJhlk3i5PVrlKya1zXUjJ0y3vJNJ4tz1oha52Pz1j/KuvyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764109;
-	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
-	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=Nhr/pGVEFL1Bh9ARZKOX/CK/+/Yw8Uv2cNMgYVOXjkk=;
-	b=EuEUYIekWCZ5GOjpUYKhv7GVj/MhXYXz0FOzjT6KfKKTaTc3odQSO4C0S9WKn1FjF0a1
-	 yU9EGcQrKC1jkMNEQrp39HLDqSkUkNcwdh9yIOClt4h5ZqlvxT+Z3MzwUDyLVvq02qcW4
-	 5i+ldMdZVbCQ0njMMFfDTSlyxO4I3+MzrKBx1/4nB5kgHZTl/BqDWLfCLg9pd1/+ijcXy
-	 6a7IbyqTnnz4w071VDPnZ3PN4mNvEMg0wY8oGlhkN4CiCGzGLW5ae74Lqvl6gnJXoU61K
-	 hau8nA05jzEVkcozShQE6igC7KDhkT8dz3eY0qVjmdf7iwi4b7KUgHIahQreCPfzn9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792764350;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=bN4K8C2gcJoq6iVuHKcSfWsvC4b7uQWBypjpJ05w2EM=;
+	b=PxbhDG9KmUYLw3jrFNlqE5t1Xl6MHCvDOTig3vzJThYYhrtIQU+lfH802zBlktm973FE
+	 WeHNiV/IEKCX7cFC1neWlKkLtlg4l5SwmODdMz4D/X6Pbln1yIUNf4al7dH6yS0SCbhqJ
+	 5/Zx9CgexVwoYzayMt3wkIHbZQLHQDztUxCNJBhEKklWsRiAr99tiUocujt0YQX2WV/Jw
+	 Og27BjJT1GPRz0I7g/QsBiu94146MlZ9c60SQkzoUa9pGdhpnLChizL39Bl380LOmeChI
+	 fjVuoI5cljFkskY7L4KaOsoWG2IrjR9oW5rlLGRiKC9qNtYRdvoO/fDv50X2qhSaTMw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=tipi-net.de;
-	spf=pass smtp.mailfrom=tipi-net.de;
-	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=0LibiXj0;
-	arc=none smtp.remote-ip=194.13.80.246
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X03GOyY9;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D94E5606A321;
-	Fri, 23 Oct 2026 14:01:47 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D94E5606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E3B606A31B
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 14:05:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=0LibiXj0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 124C9A0956;
-	Fri, 23 Oct 2026 16:01:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1792764103; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Nhr/pGVEFL1Bh9ARZKOX/CK/+/Yw8Uv2cNMgYVOXjkk=;
-	b=0LibiXj0pgf2+dcSiwf/Nye2L/sZ5XMzzpxbgMV8ptO9aGHSnOBQ3vH87G1RdLgSzWx0hd
-	O3Ulbd3QFaSZWdN056XHbVPX3SQorpuEUpYi/amYYtrg5fDayiDPjSqT8p+SNSQK581qfT
-	BhJv8FfJ5xp0YVlrUKSxNTNNZ+45HEHkduTZS3EChgYWuHfWOIAi/Io/LlrYULoT9kpnmZ
-	RNfNnAWqD0ByawWvp9qim8g2QNKYAkC36LmWgu3JkHZ/lM9wvM7H+FTTJiKArq3LPoBBLr
-	kYKqmwv6GH33kLCRnr5HtZNkz9y4Zw+KAuhnh6MBFB3YST8AkXHdepK9/xhGQQ==
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X03GOyY9
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 867291F01829;
+	Fri, 23 Oct 2026 14:05:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792764349;
+	bh=bN4K8C2gcJoq6iVuHKcSfWsvC4b7uQWBypjpJ05w2EM=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=X03GOyY9GFgm7DNoST/RH7kZYWrgOstVN6nOQFjox6sr9vNJbi4EmBCUCvcHsNJL4
+	 ZfR3Vw49qUPPwZmq8HE8oWD/pMOSIctkgQBml98RvNAE8hi5mnXo/q+OrfCa148o3W
+	 632IiHtQzmzBlDwJc//IRddS5R6qKoFDdm3AmOzH2GbsnxAKbMuMG68PnqhGGJQ4gy
+	 /n6hWMUtf0NwoY2KM640k/Fn64e6h9foVCk3DZnmDJ6BEoOQDHGnL7oJKEYVpUUIT5
+	 /N7psXaH3xh2ZpEiOk8O3B27t8E81nqjraDvUP7sBxNPw82fhHXTPBTtFjAbSTNMcm
+	 yoCWngz9taYlA==
+Message-ID: <sashiko-outbox-182863@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 7/9] drm/msm/dp: handle the IRQ_HPD events reported
+ by USB-C
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org, neil.armstrong@linaro.org
+In-Reply-To: <20261023-hpd-irq-events-v7-7-57a3aea3f09e@oss.qualcomm.com>
+References: <20261023-hpd-irq-events-v7-0-57a3aea3f09e@oss.qualcomm.com>
+ <20261023-hpd-irq-events-v7-7-57a3aea3f09e@oss.qualcomm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 23 Oct 2026 14:05:49 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -52,43 +60,147 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Date: Fri, 23 Oct 2026 16:01:41 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: divyanshu jha <divyanshuj2006@gmail.com>
-Cc: Oliver Neukum <oliver@neukum.org>, netdev@vger.kernel.org, Andrew Lunn
- <andrew+netdev@lunn.ch>, "David S . Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@kernel.org>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next] net: usb: cdc_ncm: add Apple Silicon MacBook Air
- (05ac:1903) device ID
-In-Reply-To: <CAGg1W3gd_nyRs6BrAOV=ysKJsQMQTOskv+DpeP=kf+C-o3JXdA@mail.gmail.com>
-References: <20261023070419.235361-1-divyanshuj2006@gmail.com>
- <a386789d3d2d6709cc5e9c8b2b05a283@tipi-net.de>
- <CAGg1W3gd_nyRs6BrAOV=ysKJsQMQTOskv+DpeP=kf+C-o3JXdA@mail.gmail.com>
-Message-ID: <aee715a0295e51cf132e8897459ebb19@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
 
-On 23.10.2026 15:44, divyanshu jha wrote:
-> The device tested is an Apple MacBook Air (13-inch, M1, 2020), Model
-> A2337
-> (MacBookAir10,1) with an Apple M1 chip.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] drm/msm/dp: msm_dp_bridge_hpd_notify() runs irq_hpd on unpowered l=
+ink
+--
 
-Thanks for the clarification. Please add the tested HW + their VID/PID 
-snippet
-from lsusb to the commit / cover. This will prevent further questions 
-from the
-netdev AI bots :-)
+commit 378c862ef1c761eb90130da10b12f8747c15b1a2
+Author: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-> [...]
+drm/msm/dp: handle the IRQ_HPD events reported by USB-C
 
-With the nit changed + details (you can my the tag in the re-spin):
+This commit updates msm_dp_bridge_hpd_notify() to handle out-of-band
+DRM_CONNECTOR_DP_IRQ_HPD events reported via USB-C AltMode notifications
+and restructures the connected branch so that msm_dp_hpd_plug_handle() runs
+prior to msm_dp_irq_hpd_handle().
 
-Reviewed-by: Nicolai Buchwitz <nb@tipi-net.de>
+> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp=
+/dp_display.c
+> index ce919a26fba28..771c8b0744aee 100644
+> --- a/drivers/gpu/drm/msm/dp/dp_display.c
+> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
+> @@ -1566,11 +1566,13 @@ void msm_dp_bridge_hpd_notify(struct drm_bridge *=
+bridge,
+>  		if (hpd_link_status =3D=3D ISR_HPD_REPLUG_COUNT) {
+>  			msm_dp_hpd_unplug_handle(dp);
+>  			msm_dp_hpd_plug_handle(dp);
+> -		} else if (hpd_link_status =3D=3D ISR_IRQ_HPD_PULSE_COUNT) {
+> -			msm_dp_irq_hpd_handle(dp);
+>  		} else {
+>  			msm_dp_hpd_plug_handle(dp);
+>  		}
+> +
+> +		if (hpd_link_status =3D=3D ISR_IRQ_HPD_PULSE_COUNT ||
+> +		    event =3D=3D DRM_CONNECTOR_DP_IRQ_HPD)
+> +			msm_dp_irq_hpd_handle(dp);
 
-Thanks,
-Nicolai
+[Severity: High]
+Can calling msm_dp_irq_hpd_handle(dp) unconditionally after
+msm_dp_hpd_plug_handle(dp) trigger link maintenance while the mainlink and
+link clocks are still off?
+
+Previously, msm_dp_hpd_plug_handle(dp) and msm_dp_irq_hpd_handle(dp) were in
+mutually exclusive branches in msm_dp_bridge_hpd_notify(). With this change,
+when status is connector_status_connected and either event is
+DRM_CONNECTOR_DP_IRQ_HPD or hpd_link_status is ISR_IRQ_HPD_PULSE_COUNT,
+msm_dp_hpd_plug_handle(dp) runs first and is immediately followed by
+msm_dp_irq_hpd_handle(dp).
+
+When dp->plugged is false on entry (such as when a USB-C AltMode driver
+reports both HPD_STATE and IRQ_HPD together on initial plug, or when a
+monitor is plugged into a connected USB-C branch device whose prior
+sink_count =3D=3D 0 caused msm_dp_hpd_unplug_handle() to clear dp->plugged)=
+, or
+after msm_dp_hpd_unplug_handle(dp) in the ISR_HPD_REPLUG_COUNT path,
+msm_dp_hpd_plug_handle(dp) runs:
+
+msm_dp_hpd_plug_handle()
+  -> msm_dp_display_process_hpd_high()
+       -> msm_dp_link_process_request()
+            -> msm_dp_link_process_ds_port_status_change()
+
+At this point, msm_dp_hpd_plug_handle(dp) only enables AUX transfers and
+initializes the PHY; dp->msm_dp_display.power_on and ctrl->link_clks_on
+remain false until msm_dp_display_atomic_enable() is called. However,
+msm_dp_link_process_ds_port_status_change() has already updated
+link->prev_sink_count to match link->msm_dp_link.sink_count.
+
+When msm_dp_irq_hpd_handle(dp) then runs immediately afterward (or when an
+IRQ_HPD arrives while dp->plugged is true before atomic_enable() has enabled
+the mainlink):
+
+drivers/gpu/drm/msm/dp/dp_display.c:msm_dp_irq_hpd_handle() {
+	rc =3D msm_dp_link_process_request(dp->link);
+	if (!rc) {
+		sink_request =3D dp->link->sink_request;
+		drm_dbg_dp(dp->drm_dev, "sink_request=3D%d\n", sink_request);
+		if (sink_request & DS_PORT_STATUS_CHANGED)
+			rc =3D msm_dp_display_process_hpd_high(dp);
+		else
+			rc =3D msm_dp_display_handle_irq_hpd(dp);
+	}
+}
+
+If DP_DOWNSTREAM_PORT_STATUS_CHANGED is still set in
+DP_LANE_ALIGN_STATUS_UPDATED, msm_dp_display_process_hpd_high(dp) is called
+a second time, redundantly re-initializing LTTPRs and re-reading DPCD and
+EDID.
+
+Otherwise, because link->prev_sink_count already equals sink_count,
+msm_dp_link_process_ds_port_status_change() returns -EINVAL and
+msm_dp_link_process_request() falls through to
+msm_dp_link_process_link_status_update():
+
+drivers/gpu/drm/msm/dp/dp_link.c:msm_dp_link_process_request() {
+	...
+	} else {
+		ret =3D msm_dp_link_process_link_status_update(link);
+		if (!ret) {
+			msm_dp_link->sink_request |=3D DP_LINK_STATUS_UPDATED;
+}
+
+Because the link has not been trained yet (dp->msm_dp_display.power_on is
+false and DP_INTERLANE_ALIGN_DONE is 0), drm_dp_channel_eq_ok() is false, so
+msm_dp_link_process_link_status_update() returns 0 and flags
+DP_LINK_STATUS_UPDATED.
+
+msm_dp_irq_hpd_handle(dp) then takes the else branch into
+msm_dp_display_handle_irq_hpd(dp) -> msm_dp_ctrl_handle_sink_request() ->
+msm_dp_ctrl_link_maintenance():
+
+drivers/gpu/drm/msm/dp/dp_ctrl.c:msm_dp_ctrl_link_maintenance() {
+	int ret =3D 0;
+	int training_step =3D DP_TRAINING_NONE;
+
+	msm_dp_ctrl_push_idle(&ctrl->msm_dp_ctrl);
+
+	ctrl->link->phy_params.p_level =3D 0;
+	ctrl->link->phy_params.v_level =3D 0;
+
+	ret =3D msm_dp_ctrl_setup_main_link(ctrl, panel, &training_step);
+	if (ret)
+		goto end;
+
+	msm_dp_ctrl_clear_training_pattern(ctrl, panel, DP_PHY_DPRX);
+
+	msm_dp_write_link(ctrl, REG_DP_STATE_CTRL, DP_STATE_CTRL_SEND_VIDEO);
+
+	ret =3D msm_dp_ctrl_wait4video_ready(ctrl);
+}
+
+This drives msm_dp_ctrl_push_idle() and writes to link_base registers while
+!dp->msm_dp_display.power_on and !ctrl->link_clks_on, which causes unclocked
+register accesses, PUSH_IDLE timeouts, or a TrustZone force-stop and SoC
+reset (as noted in msm_dp_display_atomic_disable() where
+msm_dp_ctrl_push_idle() is guarded by dp->power_on).
+
+Should msm_dp_irq_hpd_handle(dp) be skipped when msm_dp_hpd_plug_handle(dp)
+just handled a fresh plug, and should link maintenance in the IRQ_HPD path
+check that the mainlink is powered on before attempting to retrain the link?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023-hpd-irq-ev=
+ents-v7-0-57a3aea3f09e@oss.qualcomm.com?part=3D7
