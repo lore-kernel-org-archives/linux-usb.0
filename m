@@ -1,61 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.91.120
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792782112;
-	b=DTC6mxu39LF20GP1bbuI2KeAMdKcWwtr2uAqKqbkvEsUQmgMAtLKVVdT1CpC9OO4Bas5
-	 NkDBxi8b4yOMvkQ5ghiEYhUa2Ksbs6o4yfirCLHxVQNojV3V9dF4HkYb3TeBYfWGuyiWh
-	 w+egFh50wOB4nrIwn0dTfIWLt9X/khqE+pSfm3FB1/GHzKSMNBZGZBTUCU0ibXc1Hr7mu
-	 R0VQj4R6Mh5S1WBdsbMTEon8ac69roc6YIX1TsPAVc9dxJlmJbsWse6MOr9/FI3dOyB79
-	 f4FmSi/o1I2TFs3tj2TvKOK9t0IBpg+kLNO6K91PrB55yWKRxssLvx8dbk+qgKnilxA==
+	t=1792782905;
+	b=lzc/lU6S9Sl0La1tH5gyZZbF7xr173zMe4G3K+0+PKp/V7HxnnHLTUzqI5dYSgu9gLlp
+	 PtOzgUPz4FHJshxnhv/UKJ+W2DhqPfMpz7GqXS9TrDP3TSjPln5LyX467qapI4rDBGaAe
+	 7kdOGc6k/Eh6Ae6n4u0uzqa0uPpXGqtutpa5/a8BBAhqJ+p14xra7//jEjPrl1z9Wb0cw
+	 27NJ3X8g4bSpABGAL1MYcPn3Wjq7fWkw6N0xfnK39mJNF0q63+53QHEyVbHLDcCl1ExMm
+	 gw3tvunRaaE6BfO6mNUKTrVqq+OKrtgrK5hErpMWe+JSdG4HhncLnsVjd+qZLOFVcnA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792782112;
-	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:
-	 X-Proofpoint-ORIG-GUID:X-Authority-Info-Out:X-JNJ;
-	bh=NtX3+RsTY3GVKmc0tLvQPyu1M4G4lLLbwKVaKhrDo78=;
-	b=KhpCnzGmEwXEficLn4vCRuOoCoEonlCRdDIflxhGuYb1MusKF5Ee9moGt7PJ1GBXPwKP
-	 QjD78CDzBzmd243LJ/uBP3vzzecOAeTq7I/FaeUkZZ9MESqAKJW80uS8LtaZRCsY5wfcM
-	 Sh3dFD78EhjPMuAgQ2furqJYRrbmp4nQXL35OGbSteOlHWVwp4eO1j4c5x+py6/IQU56k
-	 RJYqcQxmxm69o1j3ucZzE1/A4MPpYkT6LZAbVmImYIPi1PMQ8g5HhqY7CYzI8vX1OwL2+
-	 vc7ON/q3M+xGHqudnaxJe4gcdV5VubG0PihSa4vUu7TUloXUOnPk5/IR+AlC7uypdNA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792782905;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=j5thw4aqlZ2SY83bvfjuNvSX/gTNsfeGcVUo4niR+ac=;
+	b=d3ALt0CkaKwDiS9WiEb1atndcgL0GG8BdeWoKvLW+hXwBM2/6cjIVhF14ici3h0zQv9E
+	 Zre4a2nDXX3fAoGIdMtRy5bUFLWwqkf5t7bbXAOiizXNYb9I7rBlj3vYhqYP2ZiEvevek
+	 wmXCcEC94BVf5TLf1ovcUk9PHKKTLKaHM+KjTtYD9hFpDNcJkRE6xDL0x9d1ww7Jk8t7y
+	 chGzi+1ViKH6fkXaFJJifjbc4r42Xf68G8TFjNainWZur0k5BCBl4Wlxymk1d127jo0G8
+	 BHh6cUxh0fH2QLsjpWjttKlmSZy0T4wBYFPDtxPBIY+6PASZc/lwEhIScftbf3yokmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=me.com;
-	spf=pass smtp.mailfrom=me.com;
-	dkim=pass header.d=me.com header.i=@me.com header.a=rsa-sha256 header.s=1a1hai header.b=W7pyHhUD;
-	arc=none smtp.remote-ip=57.103.91.120
-Received: from outbound.ci.icloud.com (ci-2001l-snip4-7.eps.apple.com [57.103.91.120])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=syjqtj6f;
+	arc=none smtp.remote-ip=209.85.222.171
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA5F2606A31B
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 19:01:51 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA5F2606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=me.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C945606A326
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 19:15:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C945606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=me.com header.i=@me.com header.a=rsa-sha256 header.s=1a1hai header.b=W7pyHhUD
-Received: from outbound.ci.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-central-1k-20-percent-0 (Postfix) with ESMTPS id BED6F18009F9;
-	Fri, 23 Oct 2026 19:01:48 +0000 (UTC)
-X-ICL-RepId: 01a16a24-081b-783d-aa05-d431a1b4c78e
-X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhBAkMFXgdeDkAdXABYEhVdRVcEWAxdE1EZRQhEK18VFxtcABcNVk1UHR0OWAYSAlpFBk1fDl4fBBdGGVUERx5dVlAEGQJRHFYNV0NUBF9QSQxBUGxaAEcXSB1dGVlvUF0cDgBSRVEfVFheBFNWDkIJSgVcB1kBQQBIAl0DRQNBCksAXBpaHxRQF1QCVANTBlwLcwBSRVEfVEYTGU4bV01QG18CQg8=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1792782110; x=1824318110; bh=NtX3+RsTY3GVKmc0tLvQPyu1M4G4lLLbwKVaKhrDo78=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=W7pyHhUDYHeBkZqoXJzmzovVHJtev1MqUQ2ZWI9654gMfx7yqK2VOCwm/ArMwClm25PhV1nV7cIxZlyq0eJwjy2dYoFq/SYpZf2vFG7DQnRDU4GJ4Fs2S5kHM/Fb1A5PrDvmtX8bnQtIm96muTJu/XgDfVZzzrczIJ4bnvMdeH5p7pS2Y41a3swLcYJf1Po65tUoTwLVO1XpmebEMvC8BPo/qFyl1dGpyKRVTyXV5DdIxLyVLAgeSFie4D365Y2VS9yQB+U3bYFZXmM3LcBmoqLs4u0xRKwxkt6mBjurvAmux5iLfkNbPYHQLHDAFYoXkCEq8jL+4AqOXW32AYfQyw==
-Received: from PROART.taile9cf10.ts.net (unknown [17.57.156.36])
-	by p00-icloudmta-asmtp-us-central-1k-20-percent-0 (Postfix) with ESMTPSA id 0232C1800273;
-	Fri, 23 Oct 2026 19:01:46 +0000 (UTC)
-From: Diogo Chaves <diogochaves@me.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=syjqtj6f
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93e515769d3so111439785a.3
+        for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 12:15:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rowland.harvard.edu; s=google; t=1792782904; x=1793387704; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=j5thw4aqlZ2SY83bvfjuNvSX/gTNsfeGcVUo4niR+ac=;
+        b=syjqtj6feIG5AFFf7XsgD5piN6XF2532Bj5zlfb4nzUPljy+bmkRWUkXg1dinX+yOZ
+         jcv82rXH2puWYPvWiIvfzdl0WLMMtLmGDBPbvLh0kJI1Fqcz1Z5QDRcM6E4GVhhGbnaa
+         9b0OXcpAfew56ijeNQ9zPxYOuRG1tcHwm5876MnoFzA+OMXCXLgomYbmygPbNAhjGk7O
+         Zho+OAbQFnyIt9i4UjG1mv7yyCTMO9XEIBFodHObxq/u/Cj4OwAn9FlkxUvFaA3A0JZX
+         W985Ip4/rYLFkOr31rQEBf+ikjWqPSHFWup4IAik3mt9CRODLCvLSTuhraAngsP0Zxrq
+         /xwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792782904; x=1793387704;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=j5thw4aqlZ2SY83bvfjuNvSX/gTNsfeGcVUo4niR+ac=;
+        b=Gvr1NA7wWfCcM+8rWzTZR86A4i/j5Gtv0b2qXxcHQjwrQ2Oez4sFd/TrdOSXxDlbuS
+         WE0SkQiZtA/E4s1h+d4VTv7HEXKGcpF0xYTkGBTgOSWVOVe5OraHm3RbTzl73ux4aEE1
+         akyg6MPFwsCV80ak/3eTc40GwdVAMkpuKG4FPvG4/p+Z8TAyFFirRP004m6/I+CTAloa
+         VNfbX8TMGoRN7EoFbU+amiobyldTVy5gbN4sp9wC8xidcyY1NXzJzfOGDf7yetcRuJDh
+         YFmZMaSdZixgnRnycHN8UYdYF4TeOPxHpAulWi7pOKzscyAOzrDIELjiEWpaGpVtJhw/
+         2cyg==
+X-Forwarded-Encrypted: i=1; AKwUvBxS/krT197RIqSoqNM3DLqLogI5eayBd0smy7T1V0w10JE1eGUrIewtcxH6Y3QFrV9DQc25+TEyxmQ=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIVre3LuPuQ8+PSBTn6ig0HqZ26LKcERqnXA6WPbhbn81JTKp9H
+	PpWAkkq7uSFL4nulWCwi+OlyFP4OGeK4y4QcCGdBSXQlm7eQSqkwV1M/a46kI6jpkw==
+X-Gm-Gg: AYBFou19P2976/kBL1JX+RpizHpujdHQDqACKw0Qwd3pcCDFz3guzG+2GyxEL49vS7H
+	jzbrOLLptn6M3+ddxpkCPZzBDjNPuSTbC19C6knhIwP+FDOeLAL9e69yIHJPIIyLD5rrP+8zzjs
+	yvZ3bfKVwovb2Jwvrdj35HbOZ5y+Up/Ae5MbdnXkLC0MgpHeUcxpSwTH45ogmnm5vT4b6kXaT4W
+	/U85NQtD9cac2djsKUE7O/JyNEtWxbvf36XE/vAA00b8wqF6snUH6C4DMitTzqwCZzoLfyvGZYU
+	J/1GJJpSBA4Xn/mXYJlIQSAHsjAJRgBinGZMxds9D8OFjR35lNo6QCIYWPV9az11A4XgEw5V+gy
+	e/BipmrdDHZlbSXEP5Vq0hZC3R8qokPW/P3YmASOJBZswXV2Ct9aVn6aLZ4OLv5N/ol7OWe9+PS
+	v5Iu2IA4UMECpb5ZLYeSuRGWEMho3s9xebgoJ1UiM6ycNWk2peCFWKk1iTa67ZsGz4HM/J1uJwT
+	znshwSqke2ZgZ+glSyiiHeOBEY/xx2NRqCF0idcVpQYmCMz0S2ALS2v
+X-Received: by 2002:a05:620a:439e:b0:939:7683:33d5 with SMTP id af79cd13be357-93f6f79bc6emr542030585a.19.1792782904116;
+        Fri, 23 Oct 2026 12:15:04 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9404722eee0sm92440885a.14.2026.10.23.12.15.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 12:15:03 -0700 (PDT)
+Date: Fri, 23 Oct 2026 15:15:00 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Igor Putko <igorpetindev@gmail.com>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	regressions@lists.linux.dev,
-	Yiyu Zhou <yiyu@yiyuzhou.io>
-Subject: Re: [REGRESSION] xhci: 3x descriptor timeout behind a vanished hub since 7.3
-Date: Fri, 23 Oct 2026 16:01:04 -0300
-Message-ID: <20261023190104.113331-1-diogochaves@me.com>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <a10e27de-f188-487f-bb45-bca27d904d06@linux.intel.com>
-References: <20261023132616.339833-1-diogochaves@me.com> <a10e27de-f188-487f-bb45-bca27d904d06@linux.intel.com>
+	Tejun Heo <tj@kernel.org>, Oliver Neukum <oneukum@suse.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
+Subject: Re: [PATCH] usb: core: hcd: cancel giveback work synchronously on
+ stop
+Message-ID: <e16930d5-375d-4d61-9e37-94dc9a83ba64@rowland.harvard.edu>
+References: <20261023174015.54793-1-igorpetindev@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -65,53 +99,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA3NCBTYWx0ZWRfX7Qj9kuxFNTWW
- LurbPfE0vz0+yuG6shnq4xyysOvJw3kxHbHJ8MrIOmtoK6Kath8u0pGrQGtjDa7AeVZ54Fcuhu/
- 22/Dqovwxvue4LUE3qd2o/LU1MlYTRaHP3B13o75iEJwwK7jMLjW8Q/zjV+X0W7cqnSCrJIeNNA
- eXVEYqyVg3Lq6WnTy49f0P+J2u30bZB6K/Tmad5k1X2JJznyItPQigF63+SL16FcUZVwMcOqod5
- jaD0NrMBSXRBKmeHYn+d/FY8v3Z/jSaR1IvbUxUsVVFZMwqA7xM7LLXM4u/tyfhA6gvuUhuymfr
- 9cjko2Jfr092TgtpA7tuO435Yb3dtgl1JHa9yQa0waxMjOI4PqLlOOU13lYcIs=
-X-Proofpoint-GUID: DySGhxaTH30pDKZ2Uvxp7__N0mEMDqBk
-X-Proofpoint-ORIG-GUID: DySGhxaTH30pDKZ2Uvxp7__N0mEMDqBk
-X-Authority-Info-Out: v=2.4 cv=c6SmgB9l c=1 sm=1 tr=0 ts=6adbaf1d
- cx=c_apl:c_pps:t_out a=2G65uMN5HjSv0sBfM2Yj2w==:117
- a=2G65uMN5HjSv0sBfM2Yj2w==:17 a=660iZSQnnn4A:10 a=x7bEGLp0ZPQA:10
- a=HlUpRvj5PA4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=HHGDD-5mAAAA:8
- a=6btwtICwW4nUQ7u8hscA:9
-X-JNJ: AAAAAAABseYEnQyT5BX/YVyuZCNNMvjMXW3ffvmsfOQemfLjiSv9R+GFys44L2LryW64+RdO2O4Hazo4iIp70qr948eFAWbZyd/M2ASpGkK8v6WVmCDqNHSuirR2BBfw8xCiBxceTc5FOICXa69Vn3AWybXU+fbOnbxrhoY6Ds4EJKEuw4/2BBP91OPDTYPevQ5CBcrrwtfYDpX75npkJvRLgIKdS+x+nZeFiqIKCaeKYNO82gyauJhZL1i7ddesmQKAp+kIU7l0DwUzpWHSisWRfyYUPxbRgHTqyyBJ64RCA6v3v751XnEoaqA//Ocm+0Z5VUpqLkVojUT5Fpff6Y/BPHoG56+bscOzfQTmtvjUF9lSYUO88yC308nBSDdyOM53SkdY0u0+T5IH7ocLY4+g8uhHJF3WOWDZHUiw4A0x56Otfeoqz9ocp3dU7MyjDoWJIcW+3KdLor/qHBU8xnA/FCnoFLrnxvkNVCTOPQohGBHe+CXAehiUl8J6WYIwYyXWBis422JadEi9TMPkjOl5En2eyaEKR0/O0aiSXK8jTC336r1nhi6ExYAC9WzBr8F9ivm8e9Rg/Ad6nDBrxf3S3n+x7tntMZkUB3fM+EI9s0YHTg7hjPNgmucrzM/WUAcg32e+1McNSRPqwQknB4JXB3JafL+ZtvuLIrbQ6hJHhXUbvU1l0hd6CsqNv3idhTHfB0WnZeFQAaXkcMt34eRf07CdNs7Yh1FS/XuoI7Ibv+/0t+ygWUNo3P8P2k5UwUJ+Kurc00tNWUqLImSQPJvQDfj4z5vGkV2M2LSU+zonrBjrA0UQPmz7UBtIWpzchu5rEuMvlHPglLgcRA+pcGaFRJTFPDIw5AhTjy4msq/ABo87VNd+Jjt3JA1U6s/mIwCcy07T1EWrjIgzXpZAdi3fb+l96FfL2Ch/StwHBd1LyZ72y2cE/KH5Fa1RchImpoj+vlMDA0H3afg3wPhp/8fRIrozhg+
- 8G5/m64nUDD/WyMfrJpdjI3ohunUUSLF/0fCaGr2KhSEG2PhPOfXa5+iG5J508NPh0YE/OLbdi5MOmQXRz3qWIEcGnemVKiNMotushd8bWwc0feE6lBIuc8z3mgpKxn9to3O7xccNgtPg99kPH1kf6JASyYLLib6t0g3h3fLj5oNRNHmd6WmmIbx8jB0eZPcJfv8Pl7lAkuiWBv9pMlf/nKdOQ5ScIF7ULs6ZlqLj9hpd4BRv5WizA3OsITkSUGJUtk90D5WRhfNXx0MDu0M0OSd6vCf+8B08SDdbznr3wolMZO/0LS6e9fsdEp4BBvo5HdjLbCGzkDJU9YgzLHa5qCtgoQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023174015.54793-1-igorpetindev@gmail.com>
 
-On 10/23/26 17:33, Mathias Nyman wrote:
-> This is very likely the case. This same issue was reported, and fixed in:
->
-> https://lore.kernel.org/linux-usb/20261013073825.17962-1-yiyu@yiyuzhou.io/
->
-> Does it fix your case?
+On Fri, Oct 23, 2026 at 08:40:15PM +0300, Igor Putko wrote:
+> When an HCD is stopped/removed (either during module unload, driver
+> unbind, or an error path in probe), pending URBs are unlinked and
+> completed. However, for root hubs or HCDs with giveback done in BH
+> context, the work function usb_giveback_urb_bh() may still be executing
+> on another CPU after __usb_hcd_giveback_urb() finishes.
+> 
+> Since the caller may immediately free the struct usb_hcd via usb_put_hcd()
+> after usb_stop_hcd() or usb_remove_hcd(), the running worker accesses
+> the embedded giveback_urb_bh structure after it has been freed,
+> triggering a slab-use-after-free write detected by KASAN.
+> 
+> Ensure all giveback work is fully flushed and cancelled in usb_stop_hcd()
+> by calling cancel_work_sync() on both high and low priority BHs.
 
-Yes, it does. I tested v7.3 + 1f36cc9fa949 ("xhci: give back all TDs
-when skipping endpoint reset after disconnect") from your for-usb-linus,
-with the same config and usbcore.initial_descriptor_timeout=1000 as
-before. Time from `usb 1-1.1: new full-speed` to
-`usb 1-1-port1: attempt power cycle`:
+Sashiko's criticism has a point.  If there are any URBs still pending on 
+either of the BH lists when usb_stop_hcd() returns, something is already 
+badly wrong -- that's never supposed to happen.  Whatever it is, it 
+needs to be fixed in the driver that submitted the pending URB, not here 
+in usb_stop_hcd().
 
-                        boot         wake 1  wake 2  wake 3
-  v7.3                  0.1          3.1     3.1     3.1 s
-  v7.3, both reverted   0.03         0.03    0.03    0.03 s
-  v7.3 + 1f36cc9fa949   0.03, 0.19*  0.03    0.03    0.03 s
-
-  * the race hit twice at boot. The second time, the hub went away
-    160 ms into 1-1.1's enumeration, and the port was power-cycled
-    31 ms after `usb 1-1: USB disconnect`.
-
-There was no `error -110`, `error -71` or `cannot reset` in that boot.
-Both receivers were back 5.9-8.5 s after the first drop, the same as
-with the revert (5.9-8.2 s).
-
-Tested-by: Diogo Chaves <diogochaves@me.com>
-
-#regzbot fix: xhci: give back all TDs when skipping endpoint reset after disconnect
-
-Thanks to you and Yiyu.
-
-Diogo
+Alan Stern
