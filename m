@@ -1,57 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=57.103.76.192
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792762017;
-	b=GlyyDrIR2TZ55ZsYW1MpzDQ4/nuTAJGFScHze6vnRBloAr0yDGv/8xhVyFeBZg/K3oEv
-	 TEYE/RU3ni1Ln3Vwb88TZHeubXAP4BKrwnQxSM23dRuwi3niy0te6N7JlVdnYDsT2Y/aQ
-	 LF9Z+DokwhqLSeF7Ft7gGYDwreljP5C2gGqJU0Nj0Uh0FTNIIqTWaTo2R/oLKlN+Nelzm
-	 Tc/LXB1WGeOqOqL4IH7nPjBl5gZHER6hGxazEiuVWKanMcgW6xT1EIhFlvHs8i/pPoWAl
-	 pWHmjS9fPdxBg0PF0Oxfk6LSAaj9u+EOyzzDgRiApRcoT7N4tj6doWTUaW48pmhJ1HA==
+	t=1792762806;
+	b=mU4aV2kYsIM6gYyLF4naiyQVr+qmOYyOzWVxYg2wFglgQzs+CCZpYkn8ng3ye74r3jLR
+	 NtKacVI09ZSFeUpex5GhqvUJn4nLuvihNidx9J1n4XVf19vssAj5JZBTOKtli7rT6F6Sq
+	 alwIeZ9PoCEcQ1x1JJl+hcQhB1hcE4QjcDZF27zxtleuDAGWr9ZOQWnMeb3tualFHXguj
+	 X2bkdtJO7Tt1wCVqzqrajsT/TQ+nj+iWpsH1yI6hHw2E2dzljyFU+0zltGA2Pf6AuMKuf
+	 28X1+yGg5oyUZYJtWc3hiv6KhWThy06i2OM6UVTaWMktvE0T+xR52C2NVc4oosBpl0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792762017;
-	h=DMARC-Filter:Received:X-ICL-RepId:X-ICL-Out-Info:Dkim-Signature:
-	 Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:X-Authority-Info-Out:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Details-Enc:X-JNJ;
-	bh=jbGU65KtEQnPTHCxzVb8IuWPNj7frVnrhFtt5vRA5jw=;
-	b=YCLydGp3456yRqASPBtopjgslRNJyyuz6Jg9YbClF3NfW2PLjYi/B7ac659BdKj79yQn
-	 84ALqgn8QCq2XAIubGwVPQY19dTdunTNNOAVngGdxOeC5dP1gwlOb4bUWkaEvbdoOC0rb
-	 TiebSoN+NBINJtJT2FUrNR26DN+ZvvDso+r8o7gEPRBI4/OcASEPqjdM9o8+RZniPQI6R
-	 WqsTkav3FhWsjNnksAB2dzEqqiI6Q2nWAUZZn805mhN9LMtmplybKPfn94sBnDSZJB8pS
-	 8cZbHSYchgjOBotM6vpBvBOIF1C+gzR3VsrZ+QgvW2+gRh7MgDJo7rd5uV3jT63oKMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792762806;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:From:
+	 Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Proofpoint-Spam-Details-Enc:
+	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Virus-Version:
+	 X-Proofpoint-Spam-Details;
+	bh=OZyxso0AaOeFf5p2y8usJ5/jhDO/hkU7VHpqvGOj+GY=;
+	b=sAGIuk7eYkiPAbyOMmVEoOi/Lp8d8hsyI2/oCRFYUclumRYV4fCh/0F+75QJPZvg1zO5
+	 5DjTiPC/ImCy9qZyUaemGxB9EcS91/h8RGZ4X6URnQX5h+jywyaPEN/XfzfnAZaOeNG/1
+	 P2la4MmoiQzDKHo59zJogKEbm8XinUlN06v2Gk/zY5NXCCk2tGORUYmS2dTLSgVXwEwHx
+	 wdUrTo2dk0byds8jp+Xi8IAs/fcd6JZqqWkfGns+8N9twfQNJzPaJJrTUe9mQpfOqP/fz
+	 p2FbJoq7HEX8vh1e2U8/Z/txW6Z71dYm2XIrrLZM5MV9mC+wgjj1pBrXhPP+v9brVow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=me.com;
-	spf=pass smtp.mailfrom=me.com;
-	dkim=pass header.d=me.com header.i=@me.com header.a=rsa-sha256 header.s=1a1hai header.b="Ru8/f8uc";
-	arc=none smtp.remote-ip=57.103.76.192
-Received: from outbound.st.icloud.com (st-2006i-snip4-1.eps.apple.com [57.103.76.192])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=TxMJRzQF;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Ys2NstjC;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA060606A31A
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:26:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AA060606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=me.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=me.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB330606A330
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:40:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CB330606A330
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=me.com header.i=@me.com header.a=rsa-sha256 header.s=1a1hai header.b=Ru8/f8uc
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-6 (Postfix) with ESMTPS id 7F6291800BE0;
-	Fri, 23 Oct 2026 13:26:54 +0000 (UTC)
-X-ICL-RepId: 01a168f1-6aba-7193-9df2-46283e5b3fe5
-X-ICL-Out-Info: HUtFAUMEWwJACUgATUQeDx5WFlZNRAJCTQhBAkMFXgdeDkAdXABYEhVdRVcEWAxdE1EZRQhEK18VFxtcABcNVk1UHR0OWAYSAlpFB01fDl4fBBdGGVUERx5dVkAZGQJRHFYNV0NUBF9QSQxBUGxaAEcXSB1dGVlvUF0cDgBSRVEfVFheBFNWDkIJSgVcB1kBQQpKBVwBRQFDAEAAXhpaHxRQF1QCVANTBlwLcwBSRVEfVEYTGU4bV01QG18CQg8=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=me.com; s=1a1hai; t=1792762015; x=1824298015; bh=jbGU65KtEQnPTHCxzVb8IuWPNj7frVnrhFtt5vRA5jw=; h=From:To:Subject:Date:Message-ID:MIME-Version:x-icloud-hme; b=Ru8/f8uc/8aToQmecgLejRjp1cqoD22TqVbxKz6j4UNG1Yy/BaCCJaNgFG0ZK0y63uzGX7omhAzQrMMRPFcS/vF3UAF/YWu/IbQYqHcL7NyrkTy49zqUFnQ22RPRo4tVPI0HJlkjPNx/zsVQhvPXllXh16ha9p6hzd0HVseF2+LYOZSGa/lgYJ/nAzyxi+4IaFVR6g4XM8k4YpR4wcg9CF07vkQTjBBVzh4Y2Jcc97lTTtSk169q65FaB6AunATjTrF+hdVpV8AkLq4id0T1m4KekTxPV4c6+Smf9sdgn+Oxf3Lzha0BWkOOtIWdMXRzkJxtFSHvcSJdfAKx5gUpFw==
-Received: from PROART.taile9cf10.ts.net (unknown [17.156.216.30])
-	by p00-icloudmta-asmtp-us-east-1a-60-percent-6 (Postfix) with ESMTPSA id 061A21800286;
-	Fri, 23 Oct 2026 13:26:52 +0000 (UTC)
-From: Diogo Chaves <diogochaves@me.com>
-To: Mathias Nyman <mathias.nyman@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-usb@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: [REGRESSION] xhci: 3x descriptor timeout behind a vanished hub since 7.3
-Date: Fri, 23 Oct 2026 10:26:16 -0300
-Message-ID: <20261023132616.339833-1-diogochaves@me.com>
-X-Mailer: git-send-email 2.56.0
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=TxMJRzQF;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=Ys2NstjC
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69NAAFBB1597380
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:40:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=OZyxso0AaOeFf5p2y8usJ5
+	/jhDO/hkU7VHpqvGOj+GY=; b=TxMJRzQFENnrmyB7Yhrx6phI9seAwH/ZWkk/zL
+	m3JhXHMBTBuHKWQCFqQ1XwuYZPl/aa8Y+DUfshW5F/4x6zs81QYipC47HPnOnLro
+	+k1/Usl1eM7AqiOajLBIzdK6PL1yEOg/TAcxkJd/CW/+Ub4zmjwdi1ILDInOtAfy
+	OZ4e5aN/sDqO2nBuwNNQaHXFUfteZa+gentyUGltaWOQ72I2KFYQyrgfWxk+JiSI
+	QVNhMYXo73yJJfX5wxQL8Hro7y8/algrrlMcC+18zijhH+Rl5djaRYzvLGX52Ct0
+	bDjrYmKbjPE6QyfFNym9APk/WWS6M1jns74rWqd00WDqWJIw==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hfqms3vje-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 13:40:04 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-91b7e90fef1so39742566d6.0
+        for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 06:40:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1792762804; x=1793367604; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=OZyxso0AaOeFf5p2y8usJ5/jhDO/hkU7VHpqvGOj+GY=;
+        b=Ys2NstjCY00iumdWJBkgIS6iUUMEdsDdSwaYPoGNna7yKU8KX56B9w/iAhCWB/FQDV
+         +d0QFEDt8fjiiCs1pHHZglEhrw5mVoCTS3/EsombLD/jAKtck7AkBHTEkdDUMaTuXhbC
+         UzL07+co9SjwIIieJJB9RGl9qzsnGEyYHW1SWi1LdXNOBnCzVYp29J8KftWAODTcMfuv
+         unfjki8rFFFJ55PeH416WUMZMgm641txbMDCL4y7htr0q8QW02pHSglhZGuYsiLpOpys
+         tofIKpC681slY+vRcZgM9NZjqM2iOAhulZLogWN9/kMt6IJaMGpQ1WlkgeohGO4aeiWU
+         E/XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792762804; x=1793367604;
+        h=cc:to:content-transfer-encoding:content-type:mime-version
+         :message-id:date:subject:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=OZyxso0AaOeFf5p2y8usJ5/jhDO/hkU7VHpqvGOj+GY=;
+        b=ENH3qF5f717AyyO41p/sgCRcF2WPNKkheRJtWOVuc98SwLPS8iXXOQgWVRkxBwfpXm
+         9rpmcRwXDASaRPRqtO/Lh2S/UCOcENFP+R29MRVzYg76vlPWzBkULXLwJ5RWmwKt1lfN
+         fFe3NNhgtziJTGbnNdlNq32N/22X7HVvj43tpilwWpTNXVdMZ5JTkYiz3Wa2QBHXVeBJ
+         LWND3DBXYqNa8E854nf5qAflBh7jJJEjvA60UEy/s4W830Y0JhtDJhF3t3Iyu1KfnWPU
+         bo2/+NxjYxVI1jxfgMlSHLbK6j85WmjqHz4yKEYaxQLvPc0e+oCWhPXqgPtdjPiYJVFs
+         fuFw==
+X-Forwarded-Encrypted: i=1; AKwUvBwpcuolXrzzxqc4hg/lFefT4CY8iDpj+qGmxe9fxsDpjKixGktN6Ed4rEzrFZDDVndFGW4I+Xd6Iy0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYI//2ElsQPlbr0g2akV74uaxEZBV73/xtOdJFSJw+Jsb5A5tzjv
+	MLRlZM4NNu5fPHqmUrkkx6QqRkuzFWPZ65VQhz+GNkR223L84JoSvMhkAegtTM3KX+Kp6lYdnud
+	TdpClEuhlETi8hMzlJ6oOARSJyMZoU21AQa1A7XIR/tZ+NNEYiqUh+Xz5XXFYVvM=
+X-Gm-Gg: AYBFou1dAnG7FpBuYjC9PcTI8APCmfbQmOEOZDBf1hvtiurtjikkezPeHMkFpqEcIaZ
+	qWcGPySGw0zzj0u8EpooC8Aj3L1fhkIWkYNNQfAIP2wpA4GokR96fE481Eivcbmiqvql0NKtYaO
+	j0+cda81nc8yttIhZobpblpdm3tbCsKmrOoqJvt2KEswUFlWT5rQEHcjQUXYZSnymi3TvT3nycv
+	LV1WpPGuhaWw9BUHTeb3P/QeP2EznBZgYfjMh5cwLKr+N9Yzb/b89oPHz34SKmcQShw4CmYryX5
+	sz85FImQnwWt+XqRDT+WeGM22+jBx9wf1FNVewn0T1G0SbWQ0WMjXqZdxh9IWq0mapCG5ztN6fA
+	AZZTQCxEoyzOP1iq5a5jLv5uK/hIRisz93GuZ8R/GPAQZflY6/sDDhRw3bT4m6H5jbd5bB/WLl9
+	w6LpL2GU2jTBLq
+X-Received: by 2002:a05:620a:25c7:b0:93c:3863:ff7f with SMTP id af79cd13be357-93f6235c83dmr860056185a.0.1792762803642;
+        Fri, 23 Oct 2026 06:40:03 -0700 (PDT)
+X-Received: by 2002:a05:620a:25c7:b0:93c:3863:ff7f with SMTP id af79cd13be357-93f6235c83dmr860049585a.0.1792762803079;
+        Fri, 23 Oct 2026 06:40:03 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3ac65ce14fcsm5309701fa.7.2026.10.23.06.39.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 06:40:00 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v7 0/9] drm: handle IRQ_HPD events correctly
+Date: Fri, 23 Oct 2026 16:39:40 +0300
+Message-Id: <20261023-hpd-irq-events-v7-0-57a3aea3f09e@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,141 +115,233 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: sWS-it6ooGrl2UI7_VKBXC3G-ODLDRC9
-X-Authority-Info-Out: v=2.4 cv=boJBxUai c=1 sm=1 tr=0 ts=6adb609e
- cx=c_apl:c_pps:t_out a=oyWFxbOnq+dmhQrAPgaJYA==:117
- a=oyWFxbOnq+dmhQrAPgaJYA==:17 a=660iZSQnnn4A:10 a=x7bEGLp0ZPQA:10
- a=HlUpRvj5PA4A:10 a=VkNPw1HP01LnGYTKEx00:22 a=M7o-fo05QJF8rEXw7VAA:9
-X-Proofpoint-GUID: sWS-it6ooGrl2UI7_VKBXC3G-ODLDRC9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA1MiBTYWx0ZWRfX35mlbFkxJ2/k
- n4g3AstNYlbUf57PTUABCHh/oCjTiSVz/eQD/GOAfznyiMMoS9Q7pDJxs2xB+OhJ4vFSS1t2Hoo
- HfKZER8UA536xAFaAJ3uCL/vae/GzYspXXlKYs1uO8t2smaDEwxx3LsqHdQpkmjetxCjJNDdcdB
- 8wh4vqrp/KRUmLOvjvOFIjUdi6L65Q99PTZ2X1srmswp4r9590kxKFv+1GYZqYwSj3PCbYRMBub
- Vo1bIx5mnd73AciHt5fCQMUbn7+a3kNW3IiFHWemr0vJqDkRRuAo6r8RS5ESsbG+4w0/nldRQek
- kGEH+jV0AWR/klFhHC7x2R059wQ5sZBW+MiH5DO+/dWTe0qeQkNSYlQ1VGzZGI=
-X-JNJ: AAAAAAABUHz77Rm/uOfHzucdiWijDG4jB/5rzDjBt47z4GYlfYoB9vlAHIZsq9zLdnJxBJGtScxoTBnvmTCfYJd5fL4SPCnR1LpDo+hQhprriyBOrncFoGCvbhz0RhGx9yZqHBmY+twT3Xi8j6HXX7XZpa0Il1fX6rCv8BsNWuyq59WNN/nHd5Y9RQ+uYQSRl4j+gvyF+/JWJgMIJKI5IwZK2HNyPe18XK5hTENbyzGVr2UBRQUcNXjaKy1CLSPZ6F1gDAbi6eLmMoTKzjoo4OUJtQ5L6pDehMSMjBlGG/LErTxWQJWxRy/+Aj0uTuCgIIltdsWFSjwBzT437Z0kSIz/rworOQLpWC5zGPAPiQhJ4hk74VN6hHmNn1Kp4/pGdrNeisCP+RflvgiYKQYcj0DnPyukPGjYP7awJ/iWlL56yuR1pjQIDjoA9zvEeEsbeRdsS3CRxdEK3OSPigk2PBtCufq8A8tsRV9M4uGZnKefHRrwe/1XZneauDteM3oAw48Z1YsaQjEUoquQhTDyIAWRY1mFfbhzrvCtyAvrqBh/ipAb68twKTsk/ws9HDHFHaCulA075sJ2gFLlnq1FeHaG190ciR0BnTjBg24RI8LRm0Qb0OZs8xrH+oTPKIZLEZAedN4NbXO7WOp0XI/hsA6Md523cXbhoazRPntLC4rZXxDUPE5AfcEj8BjAKJ9v4B/jIY12oilc1hu1Q+wU+dJmHKUMz+JTRPBrnq+qi5HWfhZVZMzaFFlkUnbJxVKnnov7X4r+lxTnFgmBBLiHngGwHWeAZRBsLLRnRI6YQz0PvAuwWmSOOE79jNODEI7FXaYd3kwb25RsqHWl4gCKs5uHI/OVHaWn5M99dYTFHgyWz06sDhXaSAiD+LkLuX5CAzgf7Sfo3uhMiC06kq3QwZIjmibdAXKguTulDlXVrJ+6RFxCxkHFFjqtRIt8efNM+jLn78tdwIw8Nmfiofp9gw0YzZtNNiP
- ZkoVPia8FDpLbUxP/2PlDi37b47MFywIZx3P7kAFbUhp6VYQL+Hh3fbfGDoztGkKYVQ7s4bl8b8ifFbxtqv2sRZPfLpgXfoKd+MVbj8dL0oSUfAKkbdlcTcyR4PRImkP9r8JqFx1W/p4L3j1KK74kq5PZewZbkucQFLGRhN5+bUynIMYnuLlHqECAsoR7iEYcD+p6zDHENQUq2HUKD8mii/MeuBuCpnH1Qp1EHzmH72hwMWYTrJbPD6JkYN8LIwi9Vvor3fyswwGZais1HSFWT1GiRiO4gsHpOR0Nu+nA
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJxj22oC/3XPTU7DMBAF4KtUXuNqPHbspivugVj4Z0yMaNLGa
+ QSqcnecImhFmo2lJ42/eXNhmfpEme03F9bTmHLq2hLM04b5xrZvxFMomSGgBiUUb46Bp/7EaaR
+ 2yJwMOg9G2yoKVj4de4rp8wq+vP7kfHbv5IdZmSealIeu/7puHMU894vr//goOHBhnYjCR4cOn
+ 7uct6ez/fDd4bAtD5t3jHinICwULIoCjJHQUE31iiLvFbFQ5KyogC4qCNGvdVE3RcNuoaiiSHA
+ anZSV2pkVpbop9YOLqqLEKAIB1ODNWhf9pwhAXCh67iINWRmCtfqRMk3TN7jY0hAjAgAA
+X-Change-ID: 20260414-hpd-irq-events-e72bc076a5f1
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrzej Hajda <andrzej.hajda@intel.com>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Tvrtko Ursulin <tursulin@ursulin.net>,
+        Francesco Dolcini <francesco@dolcini.it>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Rob Clark <robin.clark@oss.qualcomm.com>,
+        Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Pengyu Luo <mitltlatltl@gmail.com>,
+        Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        freedreno@lists.freedesktop.org,
+        Francesco Dolcini <francesco.dolcini@toradex.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6276;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=niEm2MZMIIMV2XZngvo1nnwS1Exvi2T37RRlW6xT5ZE=;
+ b=owGbwMvMwMXYbdNlx6SpcZXxtFoSQ9bt5AU+fHH6Z+aKiHw/fPhrrVuZv3Nrj73RuuoW2e8Hl
+ i6cz/ipk9GYhYGRi0FWTJHFp6Blasym5LAPO6bWwwxiZQKZwsDFKQAT+feDg6HjmNvhRUqsHt/l
+ YgTX7Pd8kHr2/UfNWSnBPi1qa2OjlYVu57+3u180Mb3raryN7eM0nxMN1zuPHhHbpZax+l4+n4F
+ i5MSo92+XH9ve452iUqPdm704Ryz+ds6dPfNUgqRkqiM9eiQT4u517zfeolTyoPAW64p79d8UDI
+ LEPKqTOmKefptmHvFLyie6rvgxY9CNK8yh6032erD9u9P10dZB0sGH20eELXt5Y6/xu7dML7ytf
+ GdO1D4lqOtvLijIXdCd9X5B7fkDPZGbl+6b39D7/H5+VoGG16N9vHnHuoSSJxyUt7EIiUmau7H7
+ yONXt2dEeIhIT16V+r2u4l1Lw5OpLk+nXH4lOLs/9K4BAA==
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDIzMDA1MyBTYWx0ZWRfXyT9DQu21RQLG
+ GsZ5/efcqu2GnH/R9l4G+YX3ItLRIbMQqZKBnw/+ju0Vhc6ixEYdBieSB1/NhA9VAt3zIwOiWJE
+ 2QRN2D/eKDBa4F4vFhdpLg2x16v+s2TCfsW9+difdAjSxSB7OI5f0uOwCmftwpoN9Z5sva+zdby
+ kmUZzcFBxIfAoJIMsZl/pFr4r1v/iMBVndUN0rSkwaXBAOEOZUSiVkI/0OHiFOD+/farE70yBgb
+ Po/giRuxskKXIh9824XGHOmzsuhyVGrkdmR42TLWrVRzWX3nCq0MbRJcldwBZ60ILg0Vf+kCS6l
+ 8yX/Tj4rzTxWaxZQ0/jZRrzBip19vKk14sWtffNPszm3Oi9Uh27isRUUO17IfVbnipblo1qER5p
+ DRr5AmMld3IZnguCqvWRsh9ffMJV1E8jz2h8X6Dw7H+hxmAvVeuPcrW1wj/D8w3tTkBvGHxxQY8
+ CGsCQ/cC63EbW4esiCg==
+X-Proofpoint-GUID: tdPSYZ75YPAzJ2Gkr8R-TibPKpDXTBDi
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDIzMDA1MyBTYWx0ZWRfXzr63HoLLpC2l
+ Gn5zMMVHOKEsi/avVcn8MitMrEMzq4usgUrG5pZCFgmWr59xy+VFHlXxEThYCSRhps5KCHc38OU
+ h4tYawUThOJE3L4RAZXJPGk9aTmgpAI=
+X-Authority-Analysis: v=2.4 cv=UdbE26SN c=1 sm=1 tr=0 ts=6adb63b4 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22 a=bC-a23v3AAAA:8
+ a=EUspDBNiAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8
+ a=ag1SF4gXAAAA:8 a=KKAkSRfTAAAA:8 a=P1BnusSwAAAA:8 a=P-IC7800AAAA:8
+ a=GFqr32JmAAAA:8 a=IpJZQVW2AAAA:8 a=mK_AVkanAAAA:8 a=tVI0ZWmoAAAA:8
+ a=s8YR1HE3AAAA:8 a=e5mUnYsNAAAA:8 a=JfrnYn6hAAAA:8 a=uf6nnPeBmoxfmv3DkCAA:9
+ a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22 a=FO4_E8m0qiDe52t0p3_H:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22 a=cvBusfyB2V15izCimMoJ:22 a=D0XLA9XvdZm18NrgonBM:22
+ a=d3PnA9EDa4IxuAV0gXij:22 a=f02Ha7HRcztGgdyUxOxW:22 a=IawgGOuG5U0WyFbmm1f5:22
+ a=3gWm3jAn84ENXaBijsEo:22 a=-BPWgnxRz2uhmvdm1NTO:22 a=jGH_LyMDp9YhSvY-UuyI:22
+ a=Vxmtnl_E_bksehYqCbjh:22 a=1CNFftbPRP8L7MoqJWF3:22
+X-Proofpoint-ORIG-GUID: tdPSYZ75YPAzJ2Gkr8R-TibPKpDXTBDi
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-23_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ priorityscore=1501 suspectscore=0 lowpriorityscore=0 spamscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
+ definitions=main-2610230053
 
-Hi Mathias,
+Both DisplayPort and HDMI standards define a way for the Sink / display
+to notify the Source / host about some kinds of events. In case of HDMI
+it's as simple as singnalling changes to the EDID. In case of
+DisplayPort it's more complicated and requires actual checking of the
+DPCD registers.
 
-This is my first report to linux-usb, so please tell me if something
-is missing or belongs somewhere else.
+Currently USB-C drivers don't have a way to deliver the IRQ_HPD
+notifications, leading to missing MST notifications. Provide necessary
+plumbing to let IRQ_HPD events be passed to the DisplayPort drivers.
 
-Since 7.3, every time my monitor wakes up, my keyboard and mouse take
-about 15 s longer to come back. The cause is a stall in usbcore's
-enumeration of a device behind the monitor's USB hub, when that hub
-drops while its child is being set up. Reverting
+Note: the Yoga C630 UCSI driver and Acer Aspire1 EC driver are not yet
+enabled to send the IRQ_HPD events. Both of them would need some more
+reverse engineering to find out how the event is being reported by the
+EC.
 
-  7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
-  042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disconnect")
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Changes in v7:
+- Fix build error in drm/msm/dp, forgot to squash a patch
+- Link to v6: https://patch.msgid.link/20261022-hpd-irq-events-v6-0-337ea3ddaa62@oss.qualcomm.com
 
-on top of v7.3 makes the stall go away (A/B below).
+Changes in v6:
+- Corrected indentation of args after the function rename (Chaoyi Chen)
+- Reordered / rehashed patches to be more logical (Chaoyi Chen)
+- Fixed build error in the OMAPDSS HDMI driver (Sashiko)
+- Fixed IRQ_HPD vs PLUG interaction in drm/msm/dp (Sashiko)
+- Link to v5: https://patch.msgid.link/20260920-hpd-irq-events-v5-0-ff1de0090c72@oss.qualcomm.com
 
-Setup
------
-- xHC: ASMedia ASM4242 USB 3.2 xHCI [1b21:2426] (the board's USB4
-  controller), bus 1.
-- On its USB-C port: a monitor with a Genesys Logic USB 2.1 hub
-  [05e3:0610] (1-1). Behind it, two Logitech receivers: [046d:c548]
-  on 1-1.1 and [046d:c547] on 1-1.2.
-- On every wake, the monitor's firmware drops and re-adds that hub three
-  times in about 6 s. This has always happened. The last drop often
-  arrives just as hub_wq starts enumerating 1-1.1.
+Changes in v5:
+- Renamed drm_connector_status_extra to drm_connector_dp_event (Maxime)
+- Link to v4: https://patch.msgid.link/20260608-hpd-irq-events-v4-0-30b62b335487@oss.qualcomm.com
 
-What happens
-------------
-In this race, 7.3 logs `usb 1-1.1: new full-speed USB device`, then
-nothing, until `usb 1-1-port1: attempt power cycle` 3 x
-initial_descriptor_timeout later (15 s with the default 5000 ms).
-Before the series, the power cycle came within milliseconds.
+Changes in v4:
+- Renamed drm_connector_oob_hotplug_event() to
+  drm_connector_dp_oob_status() (Maxime)
+- Reworked commit messages, explaining what it is about (Bjorn)
+- Rearranged commits, making them a bit more logical.
+- Link to v3: https://patch.msgid.link/20260421-hpd-irq-events-v3-0-44d2bf40dfc2@oss.qualcomm.com
 
-A/B test, same machine, same config (the distro config trimmed with
-localmodconfig), usbcore.initial_descriptor_timeout=1000 to shorten
-the runs, monitor woken three times per boot plus the wake at boot.
-Time from `usb 1-1.1: new full-speed` to `usb 1-1-port1: attempt power
-cycle`:
+Changes in v3:
+- Fixed build error if aux bridges are disabled (Intel GFX CI)
+- Link to v2: https://patch.msgid.link/20260420-hpd-irq-events-v2-0-402ffe27e9e9@oss.qualcomm.com
 
-  v7.3                                         0.1*, 3.1, 3.1, 3.1 s
-  v7.3 + revert 7e0ef4332ed9 + 042aad8d0db6     0.03, 0.03, 0.03, 0.03 s
+Changes in v2:
+- Change irq_hpd arg to be an enum, possibly desribing other uses (Toni)
+- Account for that, chaning the API accordingly (with_irq -> extra,
+  etc.)
+- Wire up AUX bridge notifications
+- Link to v1: https://patch.msgid.link/20260416-hpd-irq-events-v1-0-1ab1f1cfb2b2@oss.qualcomm.com
 
-  * at boot, on v7.3, the hub was gone before the descriptor read went
-    out (`cannot reset (err = -71)`).
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+To: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+To: David Airlie <airlied@gmail.com>
+To: Simona Vetter <simona@ffwll.ch>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Andrzej Hajda <andrzej.hajda@intel.com>
+To: Neil Armstrong <neil.armstrong@linaro.org>
+To: Robert Foss <rfoss@kernel.org>
+To: Laurent Pinchart <Laurent.pinchart@ideasonboard.com>
+To: Jonas Karlman <jonas@kwiboo.se>
+To: Jernej Skrabec <jernej.skrabec@gmail.com>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+To: Joonas Lahtinen <joonas.lahtinen@linux.intel.com>
+To: Tvrtko Ursulin <tursulin@ursulin.net>
+To: Francesco Dolcini <francesco@dolcini.it>
+To: Kevin Hilman <khilman@baylibre.com>
+To: Jerome Brunet <jbrunet@baylibre.com>
+To: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+To: Rob Clark <robin.clark@oss.qualcomm.com>
+To: Dmitry Baryshkov <lumag@kernel.org>
+To: Abhinav Kumar <abhinav.kumar@linux.dev>
+To: Jessica Zhang <jesszhan0024@gmail.com>
+To: Sean Paul <sean@poorly.run>
+To: Marijn Suijten <marijn.suijten@somainline.org>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Bjorn Andersson <andersson@kernel.org>
+To: Konrad Dybcio <konradybcio@kernel.org>
+To: Pengyu Luo <mitltlatltl@gmail.com>
+To: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+Cc: intel-gfx@lists.freedesktop.org
+Cc: intel-xe@lists.freedesktop.org
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: freedreno@lists.freedesktop.org
 
-Time from the first drop to both receivers working again: 11.2-11.3 s
-on v7.3, 5.9-8.2 s with the revert. The rest of that time is the
-monitor's own three resets.
+---
+Dmitry Baryshkov (9):
+      drm/connector: report out-of-band IRQ_HPD events
+      drm/connector: pass down IRQ_HPD to the drivers
+      drm/bridge: pass down IRQ_HPD to the drivers
+      drm/bridge: pass extra events to the HPD callback
+      drm/bridge: aux-hpd: let drivers pass IRQ_HPD events
+      drm/msm/dp: don't take extra references on multiple plug events
+      drm/msm/dp: handle the IRQ_HPD events reported by USB-C
+      soc: qcom: pmic-glink-altmode: pass down HPD_IRQ events
+      usb: typec: ucsi: huawei-gaokun: pass down HPD_IRQ events
 
-On v7.3, one boot also hit the same thing one step later. The hub went
-away after 1-1.2 had its address, and the full device descriptor read
-then waited out USB_CTRL_GET_TIMEOUT:
+ drivers/gpu/drm/bridge/aux-hpd-bridge.c        | 11 +++++----
+ drivers/gpu/drm/bridge/chrontel-ch7033.c       |  3 ++-
+ drivers/gpu/drm/bridge/lontium-lt8912b.c       |  3 ++-
+ drivers/gpu/drm/bridge/lontium-lt9611uxc.c     |  3 ++-
+ drivers/gpu/drm/bridge/ti-tfp410.c             |  3 ++-
+ drivers/gpu/drm/display/drm_bridge_connector.c | 22 ++++++++++--------
+ drivers/gpu/drm/drm_bridge.c                   | 20 ++++++++++-------
+ drivers/gpu/drm/drm_connector.c                | 22 ++++++++++--------
+ drivers/gpu/drm/i915/display/intel_dp.c        |  3 ++-
+ drivers/gpu/drm/meson/meson_encoder_hdmi.c     |  3 ++-
+ drivers/gpu/drm/msm/dp/dp_display.c            | 12 +++++++---
+ drivers/gpu/drm/msm/dp/dp_drm.h                |  3 ++-
+ drivers/gpu/drm/omapdrm/dss/hdmi4.c            |  3 ++-
+ drivers/gpu/drm/omapdrm/dss/hdmi5.c            |  3 ++-
+ drivers/soc/qcom/pmic_glink_altmode.c          |  6 ++++-
+ drivers/usb/typec/altmodes/displayport.c       | 25 +++++++++++++--------
+ drivers/usb/typec/ucsi/ucsi_huawei_gaokun.c    | 11 +++++----
+ include/drm/bridge/aux-bridge.h                | 13 +++++++++--
+ include/drm/drm_bridge.h                       | 31 +++++++++++++++++++++-----
+ include/drm/drm_connector.h                    | 24 +++++++++++++++++---
+ 20 files changed, 158 insertions(+), 66 deletions(-)
+---
+base-commit: 725953d4da85cfb97a4c309fad6346b72f8529e7
+change-id: 20260414-hpd-irq-events-e72bc076a5f1
 
-  08:56:10.097376 usb 1-1.2: new full-speed USB device number 12 using xhci_hcd
-  08:56:10.282395 usb 1-1: USB disconnect, device number 10
-  08:56:15.720384 usb 1-1.2: device descriptor read/all, error -110
-  08:56:15.723375 usb 1-1-port2: attempt power cycle
+Best regards,
+--  
+With best wishes
+Dmitry
 
-Trace
------
-The trace below was taken with xhci-hcd trace events and hub.c dynamic
-debug, on a distro 7.2.8 kernel that carries this series as a backport
-(I saw the same stall there first; plain v7.3 behaves the same, as
-above). initial_descriptor_timeout=1000. Slot 104 is 1-1.1, behind
-slot 103, the hub. Excerpt, CLOCK_MONOTONIC:
-
-  754.760938 xhci_handle_port_status: port 1-1: 0x000202a0 Speed=0 Link=RxDetect PP CSC
-               (the hub is gone)
-  754.807016 Address Device Command (BSR), slot 104
-  754.833730 xhci_urb_enqueue: 1-1.1 ep0 GET_DESCRIPTOR(DEVICE, 64), slot 104
-  754.833732 xhci_ring_ep_doorbell: slot 104 ep0in
-               (1st try, rung)
-  754.833755 xhci_handle_transfer: CTRL Setup Stage, error event
-               (fails at once; no giveback)
-  755.861009 xhci_urb_dequeue, Cancel URB, giveback
-               (usbcore's timeout, 1.03 s later)
-  755.861037 xhci_urb_enqueue, 3 TRBs queued, no doorbell
-               (2nd try, never sent)
-  756.886018 dequeue / giveback (timeout)
-  756.886054 xhci_urb_enqueue, 3 TRBs queued, no doorbell
-               (3rd try, never sent)
-  757.910008 dequeue / giveback (timeout), Disable Slot 104
-               (then hub.c: "attempt power cycle")
-
-A possible explanation, from reading v7.3's xhci-ring.c with the
-assistant mentioned at the end (I can't vouch for this part myself, so
-please take it as a lead, not a diagnosis): the Setup stage error reaches
-finish_td(), which calls xhci_handle_halted_endpoint() and returns,
-expecting that function to have put the TD on the cancelled list
-("xhci_handle_halted_endpoint marked td cancelled"). But
-xhci_handle_halted_endpoint() now returns early with -ENODEV when
-!rhub_port->connected, after setting EP_DROP_PENDING. The TD is neither
-cancelled nor given back, so the URB sits until usbcore's own timeout
-cancels it. Then usbcore retries. xhci_urb_enqueue() accepts the new
-URBs, but xhci_ring_ep_doorbell() skips EP_DROP_PENDING, so each retry
-also waits out the full timeout. Before the series, a disconnect went
-through the endpoint reset path and the URB came back with an error at
-once.
-
-That is harmless for a device that is really leaving, but here it hits
-every control transfer in flight, or queued, while the parent hub
-drops. During enumeration, that is up to three tries of the initial
-descriptor read, or one 5 s read/all.
-
-Perhaps the early-return path should give the TD back with an error,
-and URBs submitted to an EP_DROP_PENDING endpoint should fail at once.
-I haven't tried either. I also haven't bisected between the two
-commits; I only tested reverting both. I'm glad to test patches on this
-machine; it reproduces on every monitor wake.
-
-#regzbot introduced: 042aad8d0db6
-
-Tools: I used an AI coding assistant (Claude Code) to capture and read
-the trace, build the test kernels, read the xHCI code, and draft this
-report. I checked the A/B measurements and the log lines against my
-own journal; the code reading above is the assistant's, and I don't
-know the xHCI code well enough to confirm it. I'm happy to run more
-tests or take a trace with whatever you'd like enabled.
-
-Thanks for looking at this, and for your work on xHCI.
-
-Diogo Chaves
