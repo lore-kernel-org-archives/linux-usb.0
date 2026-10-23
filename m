@@ -1,57 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792764350;
-	b=Qi0QApdtmrUpFMTt4QVanFBtVlRyJqVZtKZ8fEYHelP9fYFWi4SJ85Icd3is5FgktP+U
-	 d1+shco4VAdurRi0Z7foVIwtDepDd1IxgUUbNSXf8HbUDVi0R6mKgfCzIHpHFCESp8eDJ
-	 GkYPwEhKFGhhM/oq5W7l/gKlCSP2k7BS1j7HYDuDzFg1N1aCSmQLpB344k0/q//yfGhE3
-	 cxyQahZh71shmTOdWCNZ+ogaENFzqjvCGwHxrjZ3moKFAhSG7EWYo0yLgSoSdomMeb4QJ
-	 AuKnh1f5ddiEPFAZdsztyJhlk3i5PVrlKya1zXUjJ0y3vJNJ4tz1oha52Pz1j/KuvyA==
+	t=1792766026;
+	b=mDxZMmRjHEac7Sst9YFDnyUDAe9OLZAIfQkXo+L5mncqOON/CJUk/wo7SMQ0rLHZRY/m
+	 BO0g2lah1v1GTVecHUE5r9E4xj0n+R1s+cd/tp+T+U0DeIjJW/3hjiBPP0BOEq6RIX3X3
+	 Va8ThZVmZCSO1nO8I2FSU8zzPAed+RPGEy1olKtNyYSBkuEeJMRw1hCMTlgA8ObeKte15
+	 pzi+poD27Lbry5UGetZ+p2EQc81sSJL355dD2xaqE9+TYvhk2D/lbVjl61UtTQ/14l3xw
+	 kWfNPQsiozUR/aDkegKmH2qGvYPKfUyb9KgSXvwaFrjiz/8o23CPVlob8r9xusqKiNA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792764350;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=bN4K8C2gcJoq6iVuHKcSfWsvC4b7uQWBypjpJ05w2EM=;
-	b=PxbhDG9KmUYLw3jrFNlqE5t1Xl6MHCvDOTig3vzJThYYhrtIQU+lfH802zBlktm973FE
-	 WeHNiV/IEKCX7cFC1neWlKkLtlg4l5SwmODdMz4D/X6Pbln1yIUNf4al7dH6yS0SCbhqJ
-	 5/Zx9CgexVwoYzayMt3wkIHbZQLHQDztUxCNJBhEKklWsRiAr99tiUocujt0YQX2WV/Jw
-	 Og27BjJT1GPRz0I7g/QsBiu94146MlZ9c60SQkzoUa9pGdhpnLChizL39Bl380LOmeChI
-	 fjVuoI5cljFkskY7L4KaOsoWG2IrjR9oW5rlLGRiKC9qNtYRdvoO/fDv50X2qhSaTMw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792766026;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=V8NemUXnEy/uZt2Cu+0Yd05aRgR42WpZcSw5K+UYp1A=;
+	b=mRnZMEp1ub9gfr/EH9wc7QiQxVUHNrltAzmbgEzBtuqVzEJa69eLU4sxoeCN+IZ/REN4
+	 6dz1rT8K77ncFwLpLzlanHOWjQaAwodvcj0fR7Jfy45sFWNqOW3veIWMz7jNLb/8mf/98
+	 PWYJxhr8w+S3h1qFjUiluAryJBeVzwODDcKEAvIltCd4RImO0hjcxcehlY99j9JPXBwdL
+	 N+4ac4TY4pdZb4tLJxQKodqljLIFLhiUUM6knYdKy8E1CIz14V5+UDwDflMjEONEWVy2x
+	 MdXj1B7wJMlez43ue0vf4SxcaXpjF+p1knToITFsIT5nHi2yfDZwcebtAb0ZL/tcO+g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X03GOyY9;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cf43HmH2;
+	arc=none smtp.remote-ip=198.175.65.18
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08E3B606A31B
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 14:05:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64541606A31D
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 14:33:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64541606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=X03GOyY9
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 867291F01829;
-	Fri, 23 Oct 2026 14:05:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792764349;
-	bh=bN4K8C2gcJoq6iVuHKcSfWsvC4b7uQWBypjpJ05w2EM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=X03GOyY9GFgm7DNoST/RH7kZYWrgOstVN6nOQFjox6sr9vNJbi4EmBCUCvcHsNJL4
-	 ZfR3Vw49qUPPwZmq8HE8oWD/pMOSIctkgQBml98RvNAE8hi5mnXo/q+OrfCa148o3W
-	 632IiHtQzmzBlDwJc//IRddS5R6qKoFDdm3AmOzH2GbsnxAKbMuMG68PnqhGGJQ4gy
-	 /n6hWMUtf0NwoY2KM640k/Fn64e6h9foVCk3DZnmDJ6BEoOQDHGnL7oJKEYVpUUIT5
-	 /N7psXaH3xh2ZpEiOk8O3B27t8E81nqjraDvUP7sBxNPw82fhHXTPBTtFjAbSTNMcm
-	 yoCWngz9taYlA==
-Message-ID: <sashiko-outbox-182863@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 7/9] drm/msm/dp: handle the IRQ_HPD events reported
- by USB-C
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-Cc: dri-devel@lists.freedesktop.org, linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org, neil.armstrong@linaro.org
-In-Reply-To: <20261023-hpd-irq-events-v7-7-57a3aea3f09e@oss.qualcomm.com>
-References: <20261023-hpd-irq-events-v7-0-57a3aea3f09e@oss.qualcomm.com>
- <20261023-hpd-irq-events-v7-7-57a3aea3f09e@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 14:05:49 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cf43HmH2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1792766025; x=1824302025;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=tv6yBg04y3vmvhbt/Z+9ZyAk4dd7BzPXSfJZGShAblU=;
+  b=Cf43HmH2F3c8tDOVyhhXZhd56UYc3jsca+Br3Y3zTRxU/7voSQjXcWGr
+   w8fVaWefU+DRGoLH55g8Fw7STc8uls13bAzMf1o7/rhgUWfDWS8ZkNdD/
+   waQJQ3hC1XjnALTqGezLBrLDs8IFqbPbH/jgv+hwAiwrvYy9b5Rv5KarR
+   tOxQqsA7b4N9T7YiSyx8Ja6Vy9kR/gKB7rGcnGMFs7wGoQ7pqhirFU1XS
+   pd3BapGPx3Y641Nex5BkBhkeOww6Hlo/tuWL4pq6eFgd51bB9UXuVO5G/
+   TiCjpRNmxI9+8Cr/lXjpucEVCLLTDJeMK6xQalJ3gyZNCLgZVcbYy5vZA
+   w==;
+X-CSE-ConnectionGUID: Ur2NbBLfSg+JY50yOypD8w==
+X-CSE-MsgGUID: jHcKjx7SR/GKw7Vqp/6Rsw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1532098"
+X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
+   d="scan'208";a="1532098"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:33:44 -0700
+X-CSE-ConnectionGUID: Ke9B3BePS1KU+4IGXD7+6Q==
+X-CSE-MsgGUID: hCLU23IKQUOyT4GMAL8ThQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
+   d="scan'208";a="4016606"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO [10.245.244.142]) ([10.245.244.142])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:33:43 -0700
+Message-ID: <a10e27de-f188-487f-bb45-bca27d904d06@linux.intel.com>
+Date: Fri, 23 Oct 2026 17:33:40 +0300
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,147 +71,132 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] xhci: 3x descriptor timeout behind a vanished hub
+ since 7.3
+To: Diogo Chaves <diogochaves@me.com>, Mathias Nyman <mathias.nyman@intel.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-usb@vger.kernel.org, regressions@lists.linux.dev
+References: <20261023132616.339833-1-diogochaves@me.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20261023132616.339833-1-diogochaves@me.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] drm/msm/dp: msm_dp_bridge_hpd_notify() runs irq_hpd on unpowered l=
-ink
---
+Hi
 
-commit 378c862ef1c761eb90130da10b12f8747c15b1a2
-Author: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+On 10/23/26 16:26, Diogo Chaves wrote:
+> Hi Mathias,
+> 
+> This is my first report to linux-usb, so please tell me if something
+> is missing or belongs somewhere else.
+> 
+> Since 7.3, every time my monitor wakes up, my keyboard and mouse take
+> about 15 s longer to come back. The cause is a stall in usbcore's
+> enumeration of a device behind the monitor's USB hub, when that hub
+> drops while its child is being set up. Reverting
+> 
+>    7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
+>    042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disconnect")
+> 
+> on top of v7.3 makes the stall go away (A/B below).
+> 
+> Setup
+> -----
+> - xHC: ASMedia ASM4242 USB 3.2 xHCI [1b21:2426] (the board's USB4
+>    controller), bus 1.
+> - On its USB-C port: a monitor with a Genesys Logic USB 2.1 hub
+>    [05e3:0610] (1-1). Behind it, two Logitech receivers: [046d:c548]
+>    on 1-1.1 and [046d:c547] on 1-1.2.
+> - On every wake, the monitor's firmware drops and re-adds that hub three
+>    times in about 6 s. This has always happened. The last drop often
+>    arrives just as hub_wq starts enumerating 1-1.1.
+> 
+> What happens
+> ------------
+> In this race, 7.3 logs `usb 1-1.1: new full-speed USB device`, then
+> nothing, until `usb 1-1-port1: attempt power cycle` 3 x
+> initial_descriptor_timeout later (15 s with the default 5000 ms).
+> Before the series, the power cycle came within milliseconds.
+> 
+> A/B test, same machine, same config (the distro config trimmed with
+> localmodconfig), usbcore.initial_descriptor_timeout=1000 to shorten
+> the runs, monitor woken three times per boot plus the wake at boot.
+> Time from `usb 1-1.1: new full-speed` to `usb 1-1-port1: attempt power
+> cycle`:
+> 
+>    v7.3                                         0.1*, 3.1, 3.1, 3.1 s
+>    v7.3 + revert 7e0ef4332ed9 + 042aad8d0db6     0.03, 0.03, 0.03, 0.03 s
+> 
+>    * at boot, on v7.3, the hub was gone before the descriptor read went
+>      out (`cannot reset (err = -71)`).
+> 
+> Time from the first drop to both receivers working again: 11.2-11.3 s
+> on v7.3, 5.9-8.2 s with the revert. The rest of that time is the
+> monitor's own three resets.
+> 
+> On v7.3, one boot also hit the same thing one step later. The hub went
+> away after 1-1.2 had its address, and the full device descriptor read
+> then waited out USB_CTRL_GET_TIMEOUT:
+> 
+>    08:56:10.097376 usb 1-1.2: new full-speed USB device number 12 using xhci_hcd
+>    08:56:10.282395 usb 1-1: USB disconnect, device number 10
+>    08:56:15.720384 usb 1-1.2: device descriptor read/all, error -110
+>    08:56:15.723375 usb 1-1-port2: attempt power cycle
+> 
+> Trace
+> -----
+> The trace below was taken with xhci-hcd trace events and hub.c dynamic
+> debug, on a distro 7.2.8 kernel that carries this series as a backport
+> (I saw the same stall there first; plain v7.3 behaves the same, as
+> above). initial_descriptor_timeout=1000. Slot 104 is 1-1.1, behind
+> slot 103, the hub. Excerpt, CLOCK_MONOTONIC:
+> 
+>    754.760938 xhci_handle_port_status: port 1-1: 0x000202a0 Speed=0 Link=RxDetect PP CSC
+>                 (the hub is gone)
+>    754.807016 Address Device Command (BSR), slot 104
+>    754.833730 xhci_urb_enqueue: 1-1.1 ep0 GET_DESCRIPTOR(DEVICE, 64), slot 104
+>    754.833732 xhci_ring_ep_doorbell: slot 104 ep0in
+>                 (1st try, rung)
+>    754.833755 xhci_handle_transfer: CTRL Setup Stage, error event
+>                 (fails at once; no giveback)
+>    755.861009 xhci_urb_dequeue, Cancel URB, giveback
+>                 (usbcore's timeout, 1.03 s later)
+>    755.861037 xhci_urb_enqueue, 3 TRBs queued, no doorbell
+>                 (2nd try, never sent)
+>    756.886018 dequeue / giveback (timeout)
+>    756.886054 xhci_urb_enqueue, 3 TRBs queued, no doorbell
+>                 (3rd try, never sent)
+>    757.910008 dequeue / giveback (timeout), Disable Slot 104
+>                 (then hub.c: "attempt power cycle")
+> 
+> A possible explanation, from reading v7.3's xhci-ring.c with the
+> assistant mentioned at the end (I can't vouch for this part myself, so
+> please take it as a lead, not a diagnosis): the Setup stage error reaches
+> finish_td(), which calls xhci_handle_halted_endpoint() and returns,
+> expecting that function to have put the TD on the cancelled list
+> ("xhci_handle_halted_endpoint marked td cancelled"). But
+> xhci_handle_halted_endpoint() now returns early with -ENODEV when
+> !rhub_port->connected, after setting EP_DROP_PENDING. The TD is neither
+> cancelled nor given back, so the URB sits until usbcore's own timeout
+> cancels it. Then usbcore retries. xhci_urb_enqueue() accepts the new
+> URBs, but xhci_ring_ep_doorbell() skips EP_DROP_PENDING, so each retry
+> also waits out the full timeout. Before the series, a disconnect went
+> through the endpoint reset path and the URB came back with an error at
+> once.
 
-drm/msm/dp: handle the IRQ_HPD events reported by USB-C
+This is very likely the case. This same issue was reported, and fixed in:
 
-This commit updates msm_dp_bridge_hpd_notify() to handle out-of-band
-DRM_CONNECTOR_DP_IRQ_HPD events reported via USB-C AltMode notifications
-and restructures the connected branch so that msm_dp_hpd_plug_handle() runs
-prior to msm_dp_irq_hpd_handle().
+https://lore.kernel.org/linux-usb/20261013073825.17962-1-yiyu@yiyuzhou.io/
 
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp=
-/dp_display.c
-> index ce919a26fba28..771c8b0744aee 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1566,11 +1566,13 @@ void msm_dp_bridge_hpd_notify(struct drm_bridge *=
-bridge,
->  		if (hpd_link_status =3D=3D ISR_HPD_REPLUG_COUNT) {
->  			msm_dp_hpd_unplug_handle(dp);
->  			msm_dp_hpd_plug_handle(dp);
-> -		} else if (hpd_link_status =3D=3D ISR_IRQ_HPD_PULSE_COUNT) {
-> -			msm_dp_irq_hpd_handle(dp);
->  		} else {
->  			msm_dp_hpd_plug_handle(dp);
->  		}
-> +
-> +		if (hpd_link_status =3D=3D ISR_IRQ_HPD_PULSE_COUNT ||
-> +		    event =3D=3D DRM_CONNECTOR_DP_IRQ_HPD)
-> +			msm_dp_irq_hpd_handle(dp);
+That patch is sitting in my for-usb-linus branch.
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-linus
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=for-usb-linus
 
-[Severity: High]
-Can calling msm_dp_irq_hpd_handle(dp) unconditionally after
-msm_dp_hpd_plug_handle(dp) trigger link maintenance while the mainlink and
-link clocks are still off?
+Does it fix your case?
+I can add 'Tested-by: Diogo Chaves <diogochaves@me.com>' tag to the patch if you are able to test it.
 
-Previously, msm_dp_hpd_plug_handle(dp) and msm_dp_irq_hpd_handle(dp) were in
-mutually exclusive branches in msm_dp_bridge_hpd_notify(). With this change,
-when status is connector_status_connected and either event is
-DRM_CONNECTOR_DP_IRQ_HPD or hpd_link_status is ISR_IRQ_HPD_PULSE_COUNT,
-msm_dp_hpd_plug_handle(dp) runs first and is immediately followed by
-msm_dp_irq_hpd_handle(dp).
-
-When dp->plugged is false on entry (such as when a USB-C AltMode driver
-reports both HPD_STATE and IRQ_HPD together on initial plug, or when a
-monitor is plugged into a connected USB-C branch device whose prior
-sink_count =3D=3D 0 caused msm_dp_hpd_unplug_handle() to clear dp->plugged)=
-, or
-after msm_dp_hpd_unplug_handle(dp) in the ISR_HPD_REPLUG_COUNT path,
-msm_dp_hpd_plug_handle(dp) runs:
-
-msm_dp_hpd_plug_handle()
-  -> msm_dp_display_process_hpd_high()
-       -> msm_dp_link_process_request()
-            -> msm_dp_link_process_ds_port_status_change()
-
-At this point, msm_dp_hpd_plug_handle(dp) only enables AUX transfers and
-initializes the PHY; dp->msm_dp_display.power_on and ctrl->link_clks_on
-remain false until msm_dp_display_atomic_enable() is called. However,
-msm_dp_link_process_ds_port_status_change() has already updated
-link->prev_sink_count to match link->msm_dp_link.sink_count.
-
-When msm_dp_irq_hpd_handle(dp) then runs immediately afterward (or when an
-IRQ_HPD arrives while dp->plugged is true before atomic_enable() has enabled
-the mainlink):
-
-drivers/gpu/drm/msm/dp/dp_display.c:msm_dp_irq_hpd_handle() {
-	rc =3D msm_dp_link_process_request(dp->link);
-	if (!rc) {
-		sink_request =3D dp->link->sink_request;
-		drm_dbg_dp(dp->drm_dev, "sink_request=3D%d\n", sink_request);
-		if (sink_request & DS_PORT_STATUS_CHANGED)
-			rc =3D msm_dp_display_process_hpd_high(dp);
-		else
-			rc =3D msm_dp_display_handle_irq_hpd(dp);
-	}
-}
-
-If DP_DOWNSTREAM_PORT_STATUS_CHANGED is still set in
-DP_LANE_ALIGN_STATUS_UPDATED, msm_dp_display_process_hpd_high(dp) is called
-a second time, redundantly re-initializing LTTPRs and re-reading DPCD and
-EDID.
-
-Otherwise, because link->prev_sink_count already equals sink_count,
-msm_dp_link_process_ds_port_status_change() returns -EINVAL and
-msm_dp_link_process_request() falls through to
-msm_dp_link_process_link_status_update():
-
-drivers/gpu/drm/msm/dp/dp_link.c:msm_dp_link_process_request() {
-	...
-	} else {
-		ret =3D msm_dp_link_process_link_status_update(link);
-		if (!ret) {
-			msm_dp_link->sink_request |=3D DP_LINK_STATUS_UPDATED;
-}
-
-Because the link has not been trained yet (dp->msm_dp_display.power_on is
-false and DP_INTERLANE_ALIGN_DONE is 0), drm_dp_channel_eq_ok() is false, so
-msm_dp_link_process_link_status_update() returns 0 and flags
-DP_LINK_STATUS_UPDATED.
-
-msm_dp_irq_hpd_handle(dp) then takes the else branch into
-msm_dp_display_handle_irq_hpd(dp) -> msm_dp_ctrl_handle_sink_request() ->
-msm_dp_ctrl_link_maintenance():
-
-drivers/gpu/drm/msm/dp/dp_ctrl.c:msm_dp_ctrl_link_maintenance() {
-	int ret =3D 0;
-	int training_step =3D DP_TRAINING_NONE;
-
-	msm_dp_ctrl_push_idle(&ctrl->msm_dp_ctrl);
-
-	ctrl->link->phy_params.p_level =3D 0;
-	ctrl->link->phy_params.v_level =3D 0;
-
-	ret =3D msm_dp_ctrl_setup_main_link(ctrl, panel, &training_step);
-	if (ret)
-		goto end;
-
-	msm_dp_ctrl_clear_training_pattern(ctrl, panel, DP_PHY_DPRX);
-
-	msm_dp_write_link(ctrl, REG_DP_STATE_CTRL, DP_STATE_CTRL_SEND_VIDEO);
-
-	ret =3D msm_dp_ctrl_wait4video_ready(ctrl);
-}
-
-This drives msm_dp_ctrl_push_idle() and writes to link_base registers while
-!dp->msm_dp_display.power_on and !ctrl->link_clks_on, which causes unclocked
-register accesses, PUSH_IDLE timeouts, or a TrustZone force-stop and SoC
-reset (as noted in msm_dp_display_atomic_disable() where
-msm_dp_ctrl_push_idle() is guarded by dp->power_on).
-
-Should msm_dp_irq_hpd_handle(dp) be skipped when msm_dp_hpd_plug_handle(dp)
-just handled a fresh plug, and should link maintenance in the IRQ_HPD path
-check that the mainlink is powered on before attempting to retrain the link?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023-hpd-irq-ev=
-ents-v7-0-57a3aea3f09e@oss.qualcomm.com?part=3D7
+Thanks
+Mathias
