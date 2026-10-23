@@ -1,56 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.173
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792778806;
-	b=5E6dDZfhfVGJZ8q7ttw6ha9HusKvlo7vJEj2hPGUYQU0xB+5QI3sZGSiZ7O7I3v0Cail
-	 8C7/7WyVZJkS2R/qu3SICEDmGSQhXJLd3H3kRB1+Knk2gCwnK0JXoqkt4wM2rly48JdjJ
-	 pzSOr7ZeSi6hmknnEt5q+ko6tlCS4tJwjb8VzQYVQPdSjpwW0BS6LORar89Pd71bys+9c
-	 JtHDPup61fOoXgIhENwBVY1P0aMzPWcK7PDfFcnt8hbQUkGYTM19fqNeIUWd2uH0zip3z
-	 VSnPcoPl4YI8A6msOXnX9LNWPR6w9aYam53fbPm6cRMNzkquJo97hXre6v2hDUrvTtg==
+	t=1792779550;
+	b=N1Ls5PQ0jd7mcdPbTM8FmAccJ8jWplzWfi4qGRipI9ealqTHGHDCdZgf+H9vRWKmXrwq
+	 HDN6sr3VhQExvXJPaEhuGB+DyWy02+QA0JoYcneo085k2wYQyCII6k+zBmw7spb5rz52d
+	 SkpL3t81CD8XB76VFPysXi5D+sHaNn8xrPX0oJ+e3pqvT+Oz0goxnXMWBqyMwiR8kGNxs
+	 yfH0ZouU7pKZxOJTDpIj9eNAPhuLfaKxBIaWWpmpYrhDU4X5NZOxFu4IPef9R9t+7f23g
+	 9ztYLB0kdrwGm6Ogh8Co8tLcmEYzBl3VS4MLfNuzUO4ExGi2ZiKyq7LuRGnSkv0YmXA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792778806;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=maLShubBBFPWBUOuPBnWcUvKOSeRbUOCtsTzdHZhqh4=;
-	b=UobCDGHPBZ0sYOIqAcORs8h8BZYrPzjI3S/NG6zMmisqcwdR2HXbsVvesMcOGBRDlbRM
-	 g9sITGZQWP4xd+NVcdxFIH512QoqvX6vyTAwjrBVrkFlSA0Vv+I9XHZ6Oo4HsNPGFobJX
-	 uqklItxdysvzpPjatsRvsZTMjamZAwdcnSdBso3y6GA9Qdc+jdj4QmRNJfNR/lty2pbQD
-	 3k+6XK9qnY45H7bXKN4rNRsZGVl+7IiQzJ1mWfFsMR58UkPodKuObtObhlcFToFfHuADc
-	 jgJOMJnmo+zXLCftycD9MbPslFz07WoA3oSALbzFSVEu4+Y5vb3L5iqgXAbi+TayTzQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792779550;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
+	bh=jTqLA83kbkT8YosbSMCS7zXjw/VlllCMxeIzfWZ/V6o=;
+	b=IVbENksCU4cRvJtrnH/HAlvokGHnYUyzE4wGniGZUVw/hft6TOJyUE4CzyJz2sq9xUQV
+	 yB1iWrt81oHkAa4aamy3YQ2nXiw+8hjwltcJsll5QEYHd0OYInz2w++zj2v1EN3Gounbv
+	 D33NkA8+eiNB0COBny6XzAi3FsnV54hABWX2oYXmUtifhQvKhAHs+6AvXjNpL6ZpG/t2g
+	 crSq26o+zm97YX6tcmMA9dOeMBGwidbTVVwjG0rl9v0J6kOr9lUyJp7FpTXYSBu0Qa53y
+	 SSqQmpJavEL+sgEkcpDzhfvNvMrUeDhhnKSVj71d64CZ629obfK9bZ5urQVgMcmWkTw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=htg02Itl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rdrR6k0O;
+	arc=none smtp.remote-ip=209.85.222.173
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4F8D606A321
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 18:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09FB5606A31B
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 18:19:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 09FB5606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=htg02Itl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5021C1F01828;
-	Fri, 23 Oct 2026 18:06:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792778805;
-	bh=maLShubBBFPWBUOuPBnWcUvKOSeRbUOCtsTzdHZhqh4=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=htg02Itlr//GMxeXHAzXqgRWeGuIL0d2wyS2K+WmRYO1XeHzKAeQoTrvnggd1TJdd
-	 OZ5l/EW8Fo58AOICAom88HEWAJwsAJ0isdWpQUzagMNvP+lP4mxvHZZhKQU8XQ+hdO
-	 zKbDkimDKagMRGcHFpll/USITsDxlEsrVZGA+ruiG4U0N3PafPuQGu7QxjANXUpsVC
-	 eqprSamEL+tC6d8TSJm2JXToS9MipnMA6SOiiUjKzkYoYPfjieQvb3ZO5g27+BPSG1
-	 65vnTxYbrt6+EvRge7CDHf7Wfi5+DwmPiSXhE2OpJZMhmPeQu4KMoei6JHsRtXZAzK
-	 nXxdIMUYY7nRg==
-Message-ID: <sashiko-outbox-183042@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: core: hcd: cancel giveback work synchronously on
- stop
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Igor Putko" <igorpetindev@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261023174015.54793-1-igorpetindev@gmail.com>
-References: <20261023174015.54793-1-igorpetindev@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 18:06:44 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rdrR6k0O
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-93f3c616c84so88706385a.1
+        for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 11:19:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792779549; x=1793384349; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=jTqLA83kbkT8YosbSMCS7zXjw/VlllCMxeIzfWZ/V6o=;
+        b=rdrR6k0OlUKzqPxQyJiYbBnrQkgZ+qohSF3KF+C1dXPgNSxeScZEznfJ+TibVoEKV5
+         to9TBc2RzIOWg9K9asy1HxWi9y3AQFTbqMbHsUgiISJOqSttA2M3xodgm32bJotPTKIT
+         YUv8m5jyEfEgZDz6UQTmHlBqu9gb0sYxWtK7TUcXYeOC7suawnsVYjxz/FqrVvCfCUkF
+         bS7ljpyDKT3gS7sE0G73EqWq+QvmHHRGRugfFYQ6YC/PuV6QiWY03BSXx3+mS3yp7PpN
+         644Okg4fAmu9mjV7aMfThJ325ww1rMmXRU4V73huK1nZNYrY08LYNFSsBOa60Qz/vMaz
+         hvjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792779549; x=1793384349;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=jTqLA83kbkT8YosbSMCS7zXjw/VlllCMxeIzfWZ/V6o=;
+        b=D595LzDE14bUODv3ryNixf7bkzRtnO5CRs1PemBQncKFud2b1dAs8NNV0vdVCNp/YY
+         z0J3YBua0CGhrZC82pa9mLSpANP5h+Nnnb7GDqRTVU1AAetu4G9kFnsjL3PC6gJ2cTvg
+         Yf5IQ1tDm6j4YMXvD8m+DKS6lDl0LdbV7Lx9ystJcoKBY69kK5gpnftcjD7rs9dNMV9a
+         HO77UPx0dPip7QGz9nYkBTlcNXfqcPj7M6FHzNF5HHv6FNoQUQwe7XyBTotYpFTwIUIF
+         UDbswcAdOS0+6kchpeENalZ0zrvcFiN3i3EH7Hou4FPMulQXrOOGqrLjSAM49YfAxABH
+         kJUw==
+X-Gm-Message-State: AFq9FYIlvW2Stz6bIoaXt2aJuegklqhRwSP5B78fTz5gz9QQWnDT9x9D
+	oVxOR5Z3dBE9yfiA9DzASxFt1GqkmNgzQqpzfKjyrpUKhZEZNnlMyt4kUPRZhuWw
+X-Gm-Gg: AYBFou16r0Ve1ugUFGRBjaOHvg4ZKXo6lNvGP3rx8YT/uIgxMQoJqUXFOaf97wS9zEa
+	ZJMJZIceRW6ZBY3KKSCQO91s6cdF4skBsShkRvcKOGcoiVm0T2TOozp4cq5zeAeT4tejW3TuB4t
+	KO5L8iFNUixq+GG9kSExdV9h5/XPE0Yh+yev4Pw/76yNOe7KnR2vshrFRZIOssJvhxk4Nz35UjL
+	25Vv3+zYrOB2Ih1mFebg2icCkwod3WO2kcrWdyfkTfNhajJr7CoPfGAyG7I/CIFHv/wrjW+TCjn
+	IQGUVRZePk+3Qo5tL8mbJi2GU45Au4EdIutZCFzLsK5EDkAoMDBmI/ddpvScJazhkUjKkSWHg5r
+	4Ps7NHdnmfsm1sQYmK2KOEtCBmmTpzgfzkMVbF6lnr8lLKc8J4YhDMHtUrINfRCiWHX2PHe2D/8
+	pcOdrfaPtmABY5SGZA1srJD03XRHhZb6kNZzN1coehri4pia4jQWw1OtBt+/TYf27RF6XyN+v78
+	hkNtN1h9nkV0d9j2p5dGMQByI9sY1GWs9csgs94RRuHZ+6NzTteuIjPnXBkei45uvJqZMWS2dQL
+	TYC+3MZN+g==
+X-Received: by 2002:a05:620a:439e:b0:93e:acdd:acd9 with SMTP id af79cd13be357-93f6f79e2a1mr550689285a.7.1792779548875;
+        Fri, 23 Oct 2026 11:19:08 -0700 (PDT)
+Received: from i4-l-hqh5357-03.ad.psu.edu ([130.203.139.71])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94047b1c97esm80339485a.30.2026.10.23.11.19.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 11:19:08 -0700 (PDT)
+From: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+To: Rui Miguel Silva <rui.silva@linaro.org>
+Cc: linux-usb@vger.kernel.org,
+	Shuangpeng Bai <shuangpeng.kernel@gmail.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] usb: isp1760: fix use-after-free when kmem cache setup fails
+Date: Fri, 23 Oct 2026 14:18:57 -0400
+Message-ID: <20261023181857.114054-1-shuangpeng.kernel@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,111 +92,50 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] usb: core: hcd: cancel_work_sync() in usb_stop_hcd() strands pendi=
-ng BH URBs
---
+isp1760_init() ignores the return value of isp1760_init_kmem_once().
+If creating the isp1760_qtd or isp1760_qh cache fails, the error path
+in isp1760_init_kmem_once() destroys the caches that were already
+created, but the global pointers keep pointing to the freed kmem_cache
+structures: urb_listitem_cachep when the qtd cache creation fails, and
+both urb_listitem_cachep and qtd_cachep when the qh cache creation
+fails. Module init still succeeds as long as one of the driver
+registrations succeeds, so the driver stays loaded with dangling cache
+pointers.
 
-commit 6e7c5c14d78d88d1d1fec5ad2d48ff9cf59b253d
-Author: Igor Putko <igorpetindev@gmail.com>
+When the module is unloaded later, isp1760_exit() calls
+isp1760_deinit_kmem_cache(), which destroys the already freed caches a
+second time. A controller probed in the meantime would also allocate
+qTDs and QHs from freed or NULL caches.
 
-usb: core: hcd: cancel giveback work synchronously on stop
+Propagate the error from isp1760_init_kmem_once() so that module load
+fails cleanly instead.
 
-This commit adds cancel_work_sync() calls for both high and low priority
-giveback BH work items in usb_stop_hcd() to prevent use-after-free accesses
-to struct usb_hcd when usb_giveback_urb_bh() is still running during HCD
-teardown.
+Fixes: db11e47dd7b0 ("USB: ISP1760 HCD driver")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Shuangpeng Bai <shuangpeng.kernel@gmail.com>
+---
+ drivers/usb/isp1760/isp1760-if.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index a865a15ea3863..e0f00d68598a1 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -2788,6 +2788,9 @@ static void usb_stop_hcd(struct usb_hcd *hcd)
->  	/* In case the HCD restarted the timer, stop it again. */
->  	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
->  	timer_delete_sync(&hcd->rh_timer);
-> +
-> +	cancel_work_sync(&hcd->high_prio_bh.bh);
-> +	cancel_work_sync(&hcd->low_prio_bh.bh);
+diff --git a/drivers/usb/isp1760/isp1760-if.c b/drivers/usb/isp1760/isp1760-if.c
+index a64190addba6..bf33289bfcd4 100644
+--- a/drivers/usb/isp1760/isp1760-if.c
++++ b/drivers/usb/isp1760/isp1760-if.c
+@@ -274,7 +274,9 @@ static int __init isp1760_init(void)
+ {
+ 	int ret, any_ret = -ENODEV;
+ 
+-	isp1760_init_kmem_once();
++	ret = isp1760_init_kmem_once();
++	if (ret)
++		return ret;
+ 
+ 	ret = platform_driver_register(&isp1760_plat_driver);
+ 	if (!ret)
+-- 
+2.43.0
 
-[Severity: High]
-Could calling cancel_work_sync() instead of draining the BH work items leave
-URBs stranded on hcd->high_prio_bh.head and hcd->low_prio_bh.head, leaking
-struct urb references and DMA mappings or hanging callers in usb_kill_urb()?
-
-Unlike flush_work(), cancel_work_sync() steals the pending bit if &bh->bh h=
-as
-not started executing yet, so usb_giveback_urb_bh() never runs for URBs
-already queued on bh->head. In addition, if usb_giveback_urb_bh() is already
-running a snapshot when new URBs are added to bh->head, it relies on
-re-queueing &bh->bh before returning:
-
-drivers/usb/core/hcd.c:usb_giveback_urb_bh() {
-	...
-	spin_lock_irq(&bh->lock);
-	if (!list_empty(&bh->head)) {
-		if (bh->high_prio)
-			queue_work(system_bh_highpri_wq, &bh->bh);
-		else
-			queue_work(system_bh_wq, &bh->bh);
-	}
-	bh->running =3D false;
-	spin_unlock_irq(&bh->lock);
-}
-
-Because cancel_work_sync() sets WORK_CANCEL_DISABLE while waiting for the
-current execution to finish, that queue_work() call is silently dropped.
-
-This can be reached in two ways during HCD teardown:
-
-1. In usb_stop_hcd(), hcd->driver->stop(hcd) runs right before
-cancel_work_sync(). For HCD drivers with HCD_BH set that complete remaining
-URBs in their stop callback, such as in drivers/usb/dwc2/hcd.c:
-
-_dwc2_hcd_stop()
-  -> dwc2_hcd_disconnect()
-    -> dwc2_kill_all_urbs()
-      -> dwc2_host_complete()
-        -> usb_hcd_giveback_urb()
-
-URBs are added to bh->head and &bh->bh is queued immediately before
-cancel_work_sync() cancels the pending work item.
-
-2. During usb_remove_hcd() -> usb_disconnect() -> usb_disable_device() ->
-usb_hcd_flush_endpoint(), usb_hcd_unlink_urb_from_ep() removes the URB from
-ep->urb_list before usb_hcd_giveback_urb() appends it to bh->head. In
-drivers/usb/core/hcd.c:usb_hcd_flush_endpoint():
-
-	/* Wait until the endpoint queue is completely empty */
-	while (!list_empty (&ep->urb_list)) {
-
-this loop can observe an empty ep->urb_list and return without calling
-usb_kill_urb() while the URB is still sitting on bh->head, allowing
-usb_stop_hcd() to cancel &bh->bh before usb_giveback_urb_bh() processes it.
-
-Any URB stranded on bh->head never reaches __usb_hcd_giveback_urb(), so it
-is never unmapped via unmap_urb_for_dma(), its struct urb reference from
-usb_get_urb() is leaked, urb->complete() is skipped, and urb->use_count
-remains non-zero (which hangs any caller waiting in usb_kill_urb() or
-usb_poison_urb()).
-
-Also, should the comment in drivers/usb/core/hcd.c:usb_remove_hcd() right
-above usb_stop_hcd(hcd):
-
-	/*
-	 * flush_work() isn't needed here because:
-	 * - driver's disconnect() called from usb_disconnect() should
-	 *   make sure its URBs are completed during the disconnect()
-	 *   callback
-	 *
-	 * - it is too late to run complete() here since driver may have
-	 *   been removed already now
-	 */
-
-be updated now that usb_stop_hcd() synchronously waits on the BH work items?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023174015.5479=
-3-1-igorpetindev@gmail.com?part=3D1
