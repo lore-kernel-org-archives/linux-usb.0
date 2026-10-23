@@ -1,58 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1792757816;
-	b=xKQIm8qyom1kSg50GaUNlGKXzGNCFhoNIcTTk20eX1PriHRfy7sE4ioc6P8SAHPcAYz0
-	 LctsnXI7xIste9mT8o79HZJPdoSkJDUE/lrwqcqIrEwMUSzRWubDsXURaWovHbpVR8NQZ
-	 VzYNV0z66qppyXoRN5L9fg1MnWk72evgfXofw2cDvuIiY80NBpaLQtGbYnUZMTt7KpDue
-	 tRJ+uWseY49hmI/sSXUn0JfOxMbRxlGhAQbSW5XFNd2QbyxyCJapUqh6rGPGeuFO/zwDA
-	 l5KWdkAlPRp+LAxvSP5BKp0S/+XknCzl3gQDicNJDECyN1/ad5ZfDceu8YjNovT8u0w==
+	b=0wl8dKbpALnUC/Fdjq1u6pnSjd1/bqpCVS8O8pPgEKKSs7rYa5FP9fS25lRU9MOQadxf
+	 /swE9BKhfb5WoN3dQO68X80xybh62GgskVJ+1tbYtIrge1OrfrmItzU056ve0sIC6VQtA
+	 /kf6GNzzjTAlpuzi553PvmkyKh2J+7MulSpWipeZ1pLIfuSEXAt7vub2LywpfhioTtwAk
+	 Yy3BeuJuEJExxkBe6AvffYd6b72EapMrDhF7/lk740UaRddQ3OBqf643C4OXbEWXutUPw
+	 DBCeGC+y/878542KKofAvgo8/N7cK53uSYAde1YNkonA92HhxCu5vj+Kw8/NBG4lCGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1792757816;
 	h=Received:DKIM-Signature:Received:From:To:Cc:Subject:Date:Message-ID:
 	 X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding;
-	bh=eitBYZdwgfEn4Q+Iq3mIK9U7o899rtaXia/72WAA8LE=;
-	b=eU88KoxpWCSFYiB+IGZ3u1C1UU7H64vEh8q2TrNF+XdymoLr4cOt5UJUCdsdBTC90tjF
-	 /TgQ7Y8EXlVcCWN+cKPvSfvaKDoC3TVmaCrd2j4+ys7dk57DV9RtMJ92CmB/G2qgEALuR
-	 NEC+LifmVGcniA2Lz8W1lDS5OEE729hCpQYKTWY1zxOAxwjceus+Ki+1q8llnKOc5WkpY
-	 rTgoA5ToVC7HBlNDV/JYyFLhMM/Pvr86gf8NOFpOkxGRVZ+Qeobul/ryBHBG3BU2VlzFO
-	 hkULZibeQjoEHnU50yP1yp6vZMP/7/jeH+fQwol3lOwqdrZhrqxc8n0Q9nngUIlT2QA==
+	bh=nwZnGbbvU5uI4Cu02ozANLp9s4gIt3FWpCQg5Wjikf4=;
+	b=z/pMB/QyM2T81I1sijYAwxozH8OaIrZKAlU/hEA+sGcm/+NNCbND5iswM8UIPrKdTZQl
+	 5HDcfrJXYrbzYQU8CbH7UEdpUagZbckF7CDt20YCg6LDXMJK5GfiLW/z6/UsW/uuZkMmC
+	 46cIq+G+r3loDSy8yoV4FotsiD+6mXPDggOg69PKpF+TNFYj0kc/XDh5Zt/+Vlj+eW4di
+	 0HFq5OBztJX2a2L2/Pt6InDSKHPezAB9gBHZKcFetVzgPMe8Hck2u+sMt5WSBlDusXH8U
+	 IeyuvfkM1sfTaNxAOjQeZYYRcvBFvTdEoSORVXOEZCknQV6313nUDMURlMYaGCk/P8Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mb9TtRL+;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BH+vE9ae;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B73E9606A320;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7274606A31D;
 	Fri, 23 Oct 2026 12:16:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mb9TtRL+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 590791F01829;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BH+vE9ae
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D8231F031E1;
 	Fri, 23 Oct 2026 12:16:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
 	s=k20260515; t=1792757815;
-	bh=eitBYZdwgfEn4Q+Iq3mIK9U7o899rtaXia/72WAA8LE=;
+	bh=nwZnGbbvU5uI4Cu02ozANLp9s4gIt3FWpCQg5Wjikf4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=Mb9TtRL+tlje67pPIa3axFcbUMQSXUKGm+4nDR9PZkwLX5vunogfWBsnhh8p8WvoT
-	 E34RjB99nzpc22qPwyHb8qggKWeHY72nVTkRjBZDHB3/zryUNvLYYZETYfm2jgL6wu
-	 6Suf/qYSHVq00lITTPGi863jdmn1jlr64e0zleSRE7ZRVk69vF7oMLXFacM3Mn2n7E
-	 kH1fw+YymZkeAJibTKqor06igvs+Qlh7S/KkdwbQ7KQJitjBU9x9MFPN9ePvr9lbAo
-	 HZyMkdB1UvskmuFsjghlesO7fahxwQBOMGmAZUMeayYT+vtU7LvOSjcOGcFYbEW4lV
-	 yf6b0wHvjcmag==
+	b=BH+vE9aeH4LYGhWrxr1p+XJjxLv80CVVm7xUBRe3zcZ+G1af+LWVUiXnj48FyOCk3
+	 CwCzZATQM5lksmCi6xp6zSWonsyCeIhnDXAroldeCdRlgfqDOeeicvnsW8FB2UftE8
+	 KLyyRYc+ujKiXBYZSHgbPBnS5hBMJwnYCzNyMiGxdNTXEyw3biKmh1CaelGjtVcAM9
+	 th2OZ2TgAqKk2KqohNLjMmeJWuHNYH8+mWUj58W8z2nBmEuzcJ3Ydm187oq8cPWgah
+	 HlI4ReBRt1k/ZccJrx7+2TQpPGXJBLt9XWOgba76u/xjfW7aCLNlVo8uT01yszMC5L
+	 6I2VWYXk/W69Q==
 Received: from johan by xi.lan with local (Exim 4.99.5)
 	(envelope-from <johan@kernel.org>)
-	id 1xKECb-00000000mZO-0HqL;
+	id 1xKECb-00000000mZS-0PBV;
 	Fri, 23 Oct 2026 14:16:53 +0200
 From: Johan Hovold <johan@kernel.org>
 To: Johan Hovold <johan@kernel.org>
 Cc: linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	syzbot+763813d65c7e18c1b6d5@syzkaller.appspotmail.com,
 	stable@vger.kernel.org
-Subject: [PATCH v2 01/12] USB: serial: io_edgeport: fix NULL-deref on early status
-Date: Fri, 23 Oct 2026 14:15:19 +0200
-Message-ID: <20261023121530.186541-2-johan@kernel.org>
+Subject: [PATCH v2 03/12] USB: serial: io_edgeport: fix potential NULL-deref at open
+Date: Fri, 23 Oct 2026 14:15:21 +0200
+Message-ID: <20261023121530.186541-4-johan@kernel.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261023121530.186541-1-johan@kernel.org>
 References: <20261023121530.186541-1-johan@kernel.org>
@@ -67,20 +66,14 @@ Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The driver submits the interrupt-in URB during probe or on first port
-open, which on completion may submit the bulk-in URB before all ports
-have been opened and their waitqueues have been initialised.
+Do not mark the port as open until after the write FIFO has been
+allocated and initialised to prevent a racing interrupt completion from
+attempting to send stale data and dereference the FIFO buffer pointer.
 
-If a (malicious) device sends a status message for a port that has not
-yet been opened this may lead to a NULL-pointer dereference in the
-bulk-in completion handler when attempting to wakeup blocked tasks.
-
-Move waitqueue initialisation from open() to port_probe() to address
-this.
+Note that the open flag defaults to false and is cleared on close() so
+there is no need to reinitialise it on every open().
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Reported-by: syzbot+763813d65c7e18c1b6d5@syzkaller.appspotmail.com
-Link: https://lore.kernel.org/6a8818d8.ae6ddae5.3da009.0031.GAE@google.com
 Cc: stable@vger.kernel.org
 Signed-off-by: Johan Hovold <johan@kernel.org>
 ---
@@ -88,33 +81,48 @@ Signed-off-by: Johan Hovold <johan@kernel.org>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/usb/serial/io_edgeport.c b/drivers/usb/serial/io_edgeport.c
-index eaa8f00716c8..cdf41e86ba44 100644
+index a5011fa91ee7..e8e641e9a197 100644
 --- a/drivers/usb/serial/io_edgeport.c
 +++ b/drivers/usb/serial/io_edgeport.c
-@@ -877,11 +877,6 @@ static int edge_open(struct tty_struct *tty, struct usb_serial_port *port)
- 		}
+@@ -885,9 +885,7 @@ static int edge_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 
+ 	/* send a open port command */
+ 	edge_port->openPending = true;
+-	edge_port->open        = false;
+ 	response = send_iosp_ext_cmd(edge_port, IOSP_CMD_OPEN_PORT, 0);
+-
+ 	if (response < 0) {
+ 		dev_err(dev, "%s - error sending open port command\n", __func__);
+ 		edge_port->openPending = false;
+@@ -897,8 +895,7 @@ static int edge_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 	/* now wait for the port to be completely opened */
+ 	wait_event_timeout(edge_port->wait_open, !edge_port->openPending,
+ 								OPEN_TIMEOUT);
+-
+-	if (!edge_port->open) {
++	if (edge_port->openPending) {
+ 		/* open timed out */
+ 		dev_dbg(dev, "%s - open timeout\n", __func__);
+ 		edge_port->openPending = false;
+@@ -926,6 +923,10 @@ static int edge_open(struct tty_struct *tty, struct usb_serial_port *port)
+ 		return -ENOMEM;
  	}
  
--	/* initialize our wait queues */
--	init_waitqueue_head(&edge_port->wait_open);
--	init_waitqueue_head(&edge_port->wait_chase);
--	init_waitqueue_head(&edge_port->wait_command);
--
- 	/* initialize our port settings */
- 	edge_port->txCredits = 0;	/* Can't send any data yet */
- 	/* Must always set this bit to enable ints! */
-@@ -2965,6 +2960,11 @@ static int edge_port_probe(struct usb_serial_port *port)
- 		return -ENOMEM;
- 
- 	spin_lock_init(&edge_port->ep_lock);
++	spin_lock_irq(&edge_port->ep_lock);
++	edge_port->open = true;
++	spin_unlock_irq(&edge_port->ep_lock);
 +
-+	init_waitqueue_head(&edge_port->wait_open);
-+	init_waitqueue_head(&edge_port->wait_chase);
-+	init_waitqueue_head(&edge_port->wait_command);
-+
- 	edge_port->port = port;
+ 	dev_dbg(dev, "%s - Initialize TX fifo to %d bytes\n",
+ 		__func__, edge_port->maxTxCredits);
  
- 	usb_set_serial_port_data(port, edge_port);
+@@ -1818,7 +1819,6 @@ static void process_rcvd_status(struct edgeport_serial *edge_serial,
+ 
+ 		/* we have completed the open */
+ 		edge_port->openPending = false;
+-		edge_port->open = true;
+ 		wake_up(&edge_port->wait_open);
+ 		return;
+ 	}
 -- 
 2.55.0
 
