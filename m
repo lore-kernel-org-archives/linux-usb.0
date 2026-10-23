@@ -1,68 +1,105 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792766026;
-	b=mDxZMmRjHEac7Sst9YFDnyUDAe9OLZAIfQkXo+L5mncqOON/CJUk/wo7SMQ0rLHZRY/m
-	 BO0g2lah1v1GTVecHUE5r9E4xj0n+R1s+cd/tp+T+U0DeIjJW/3hjiBPP0BOEq6RIX3X3
-	 Va8ThZVmZCSO1nO8I2FSU8zzPAed+RPGEy1olKtNyYSBkuEeJMRw1hCMTlgA8ObeKte15
-	 pzi+poD27Lbry5UGetZ+p2EQc81sSJL355dD2xaqE9+TYvhk2D/lbVjl61UtTQ/14l3xw
-	 kWfNPQsiozUR/aDkegKmH2qGvYPKfUyb9KgSXvwaFrjiz/8o23CPVlob8r9xusqKiNA==
+	t=1792772504;
+	b=1CyfhEAq9lMqCleVDe2XAGGD4JDzCzHp5bpRUOMu9VOgv7Ylv431Pv8gq5UxMlEC20NJ
+	 +prPk5WrDTKq9FsFm0dIh0PoVncLFT9veHMkWYz/MFq5yBC6UN56fvc2P/gC7gnaMm8vm
+	 BBsAjBwvue1CTLzIX8k0Sg2aQbDdPOIlS60Qt0h94GgF9X4/R4mmqjJGD2hdbqUvmL9Tf
+	 /A40QOywefAnAK9V392IBqBxFT403VaSImbJ8zaxa1bl/VF4vtobs4Tagq0vTDXRcAppQ
+	 wCocZPkFW07TtSaL2URITTTtZHRfb9s2ccfhk9Yk2tsIzc5oLbnYzV/ii9tsAXIKp+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792766026;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=V8NemUXnEy/uZt2Cu+0Yd05aRgR42WpZcSw5K+UYp1A=;
-	b=mRnZMEp1ub9gfr/EH9wc7QiQxVUHNrltAzmbgEzBtuqVzEJa69eLU4sxoeCN+IZ/REN4
-	 6dz1rT8K77ncFwLpLzlanHOWjQaAwodvcj0fR7Jfy45sFWNqOW3veIWMz7jNLb/8mf/98
-	 PWYJxhr8w+S3h1qFjUiluAryJBeVzwODDcKEAvIltCd4RImO0hjcxcehlY99j9JPXBwdL
-	 N+4ac4TY4pdZb4tLJxQKodqljLIFLhiUUM6knYdKy8E1CIz14V5+UDwDflMjEONEWVy2x
-	 MdXj1B7wJMlez43ue0vf4SxcaXpjF+p1knToITFsIT5nHi2yfDZwcebtAb0ZL/tcO+g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792772504;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=ObpDvAOX1klXfqsSNdhdP4hJ47WYvmcb7PIfyXC1CRw=;
+	b=yFZ2uoN872vSZ0NzeagODDfKRl1efgcL3o/mitnCxChw9vhg5MTHaJH/B8c9/ulXWEyn
+	 Kx2o9gqmMa80xWtmoqCnmf5R6qIbxIU79M0+JhQVU7WExOoFluiinRiWnZhyvCWBiClqL
+	 x9kQa/Ye3/ce69XF6puaHVqbfAAk+aoPfc7cSyaTiNViHce9qjV+Ny/RdVYOi7TG/y1ps
+	 UQP8i7dkWAASjV8k/XLh4vDO0yFoNr7UmbeyvV0EPO0L9ZcXEfzs0vWyjghw28o6F5F0E
+	 4ADleJrnp1xcaik9rC9UBLnhataY3JgdY5l+gut3w7CqViUcc8K53Po3UaKv/OdKksQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cf43HmH2;
-	arc=none smtp.remote-ip=198.175.65.18
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qhBIX0dc;
+	arc=none smtp.remote-ip=209.85.221.41
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64541606A31D
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 14:33:44 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 64541606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CAC606A31D
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 16:21:43 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0CAC606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=Cf43HmH2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1792766025; x=1824302025;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=tv6yBg04y3vmvhbt/Z+9ZyAk4dd7BzPXSfJZGShAblU=;
-  b=Cf43HmH2F3c8tDOVyhhXZhd56UYc3jsca+Br3Y3zTRxU/7voSQjXcWGr
-   w8fVaWefU+DRGoLH55g8Fw7STc8uls13bAzMf1o7/rhgUWfDWS8ZkNdD/
-   waQJQ3hC1XjnALTqGezLBrLDs8IFqbPbH/jgv+hwAiwrvYy9b5Rv5KarR
-   tOxQqsA7b4N9T7YiSyx8Ja6Vy9kR/gKB7rGcnGMFs7wGoQ7pqhirFU1XS
-   pd3BapGPx3Y641Nex5BkBhkeOww6Hlo/tuWL4pq6eFgd51bB9UXuVO5G/
-   TiCjpRNmxI9+8Cr/lXjpucEVCLLTDJeMK6xQalJ3gyZNCLgZVcbYy5vZA
-   w==;
-X-CSE-ConnectionGUID: Ur2NbBLfSg+JY50yOypD8w==
-X-CSE-MsgGUID: jHcKjx7SR/GKw7Vqp/6Rsw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11943"; a="1532098"
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="1532098"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:33:44 -0700
-X-CSE-ConnectionGUID: Ke9B3BePS1KU+4IGXD7+6Q==
-X-CSE-MsgGUID: hCLU23IKQUOyT4GMAL8ThQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,174,1787036400"; 
-   d="scan'208";a="4016606"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO [10.245.244.142]) ([10.245.244.142])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2026 07:33:43 -0700
-Message-ID: <a10e27de-f188-487f-bb45-bca27d904d06@linux.intel.com>
-Date: Fri, 23 Oct 2026 17:33:40 +0300
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qhBIX0dc
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e00eee27dso707102f8f.0
+        for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 09:21:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792772502; x=1793377302; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ObpDvAOX1klXfqsSNdhdP4hJ47WYvmcb7PIfyXC1CRw=;
+        b=qhBIX0dcQktnNgcuhUOneFmHnNHKpxg+fYyk/FDPz3ae3Xmty8XA9sE9NJ4+d8lNC2
+         ubukkbO61AOfg50nn/TawWQ22v/v/uhgB/q79lB1085dthU9oFX8QUCkem7s53SLDra7
+         9xNt6zmk+iS6vIgX33fVpkylI56664RooxqhLUp4Ljcxz5ZjikQeNCpwBr0J7y+R7cy6
+         OvPIKf3vkIdMe+0ldpc8O5maz3nEGV/qAq0q5KOT+x5x7Bed3TeV3b6OHgC1KzgkmP+H
+         QzUjSQyigkx3VCU5aDPu0ZliEEO4CjZHH2OBBURVgloB6/+5apqO/Qu++l+c85QlZZxZ
+         gfLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792772502; x=1793377302;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ObpDvAOX1klXfqsSNdhdP4hJ47WYvmcb7PIfyXC1CRw=;
+        b=EoKBYeycScv6BWbVwnBStqBUf09uZ38zNZc1j6tpDZjL1kabD03KfU/RtLQkUSItvC
+         AFpjdjvEMoX839yMrlsGUH0SMiNAoZFsdUm+KNgqxVVcSpSGV7m2+g7EWwjK6deTrlTG
+         JlMMo42iEek5Ig/zEhg/1fXfvfDVbv2rtzPpaNELMu+jWyO49bzQMtnuvWpG0e4oA6Pq
+         m/AjYyV5zLZt9ghg+u2KlsQZp47vQYPk+98tRyQzgsJhrJD4tw59UC861wZEAY57jVs2
+         jCGZU8eQGm1Jk3mtStYf8laJIFZO1QbR+vUq/AEp3QaL0iIWIpRhb6AHMxFiN3cPLi1J
+         EvDg==
+X-Forwarded-Encrypted: i=1; AKwUvBzeG34+CTj+IKY/aSStpOz/ZeFhccH1f6pYlQR9QubYclzl7pYqlMyb2cqOirRGrsWwc9PkzuhJLCM=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK7oyD74IbalZ33GhY5wuiDuuS2J39B8E8K9SzUfYO2txxIrBtb
+	/Q7Tizd9ggZZQfxDMhkLR0uhVMCVlpXf0ACalx6U4PBhE80UJtsxzaRK
+X-Gm-Gg: AYBFou0RgJRyMzvokeP0xhMy1OfAulUnMk7CfCk3/swpmnscXhuIeIQmYkKp81qulvK
+	UhlqqfulXLPQxWqo1Z0fkIyIpe80kwdlZJ437PJEAZDEZuztMTe0E1+qAHGGXl8JTbxiaVPC1lj
+	FVMT3aO29U4tck+Nf32hkWhDcVgWgFp+YsVQRBl3JA2jfOgEB1R3RjrRZDb3oGcmF8Vud/I/9XC
+	z4gNleFe+5+zci1+bceEGq6kkiFFoZiYRgzlRGpyLFrzXlEnwfD3dmlSjjnezyW3PhIeTENKonU
+	BevECETJUWztVgu35FFcwupooAIVR0Dit5XvLQw/ewLqI/1hiF/GmwwwHNsxmmgLNjBxa0yAlGD
+	pfxOx2MJcCRcuGXywSIWfo7o4Z9aydozkuCFUVN1TcmkZsz7kSD6SZPwZPVDemUjhrauBDXhfTr
+	h2i0dDyK3ZpSxj828OXh7m7+IL6m7wveEDTCAwfZbK/ejbFEFw+yFqMvN5cjqO+Xl74deLOz/kt
+	qtcbqLFXtQsFeRevXbKyttF4jHPSGYQ0RC9D2zC1/Fl23zGoQcOwDDxhGuMqg==
+X-Received: by 2002:a5d:64e3:0:b0:487:106f:ee31 with SMTP id ffacd0b85a97d-48e385a6690mr4354135f8f.27.1792772501780;
+        Fri, 23 Oct 2026 09:21:41 -0700 (PDT)
+Received: from deb05.proceq.com ([213.160.61.66])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d37ca2asm901583f8f.8.2026.10.23.09.21.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 23 Oct 2026 09:21:41 -0700 (PDT)
+From: Mehmet Fide <mehmet.fide@gmail.com>
+To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Neill Kapron <nkapron@google.com>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	linux-usb@vger.kernel.org,
+	Brian Ellis <brianellis@gotenna.com>,
+	Johan Hovold <johan@kernel.org>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	linux-serial@vger.kernel.org,
+	syzkaller-bugs@googlegroups.com,
+	aichao@kylinos.cn,
+	kees@kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot@lists.linux.dev,
+	stable@kernel.org,
+	mehmet.fide@screeningeagle.com
+Subject: Re: [PATCH v2] usb: gadget: u_serial: pin ports while TTYs are installed
+Date: Fri, 23 Oct 2026 18:21:39 +0200
+Message-ID: <20261023162139.3308-1-mehmet.fide@gmail.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20261022091359.1187468-1-krystianmkaniewski@gmail.com>
+References: 
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,131 +109,22 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] xhci: 3x descriptor timeout behind a vanished hub
- since 7.3
-To: Diogo Chaves <diogochaves@me.com>, Mathias Nyman <mathias.nyman@intel.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-usb@vger.kernel.org, regressions@lists.linux.dev
-References: <20261023132616.339833-1-diogochaves@me.com>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20261023132616.339833-1-diogochaves@me.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi
+Hi Krystian,
 
-On 10/23/26 16:26, Diogo Chaves wrote:
-> Hi Mathias,
-> 
-> This is my first report to linux-usb, so please tell me if something
-> is missing or belongs somewhere else.
-> 
-> Since 7.3, every time my monitor wakes up, my keyboard and mouse take
-> about 15 s longer to come back. The cause is a stall in usbcore's
-> enumeration of a device behind the monitor's USB hub, when that hub
-> drops while its child is being set up. Reverting
-> 
->    7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
->    042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disconnect")
-> 
-> on top of v7.3 makes the stall go away (A/B below).
-> 
-> Setup
-> -----
-> - xHC: ASMedia ASM4242 USB 3.2 xHCI [1b21:2426] (the board's USB4
->    controller), bus 1.
-> - On its USB-C port: a monitor with a Genesys Logic USB 2.1 hub
->    [05e3:0610] (1-1). Behind it, two Logitech receivers: [046d:c548]
->    on 1-1.1 and [046d:c547] on 1-1.2.
-> - On every wake, the monitor's firmware drops and re-adds that hub three
->    times in about 6 s. This has always happened. The last drop often
->    arrives just as hub_wq starts enumerating 1-1.1.
-> 
-> What happens
-> ------------
-> In this race, 7.3 logs `usb 1-1.1: new full-speed USB device`, then
-> nothing, until `usb 1-1-port1: attempt power cycle` 3 x
-> initial_descriptor_timeout later (15 s with the default 5000 ms).
-> Before the series, the power cycle came within milliseconds.
-> 
-> A/B test, same machine, same config (the distro config trimmed with
-> localmodconfig), usbcore.initial_descriptor_timeout=1000 to shorten
-> the runs, monitor woken three times per boot plus the wake at boot.
-> Time from `usb 1-1.1: new full-speed` to `usb 1-1-port1: attempt power
-> cycle`:
-> 
->    v7.3                                         0.1*, 3.1, 3.1, 3.1 s
->    v7.3 + revert 7e0ef4332ed9 + 042aad8d0db6     0.03, 0.03, 0.03, 0.03 s
-> 
->    * at boot, on v7.3, the hub was gone before the descriptor read went
->      out (`cannot reset (err = -71)`).
-> 
-> Time from the first drop to both receivers working again: 11.2-11.3 s
-> on v7.3, 5.9-8.2 s with the revert. The rest of that time is the
-> monitor's own three resets.
-> 
-> On v7.3, one boot also hit the same thing one step later. The hub went
-> away after 1-1.2 had its address, and the full device descriptor read
-> then waited out USB_CTRL_GET_TIMEOUT:
-> 
->    08:56:10.097376 usb 1-1.2: new full-speed USB device number 12 using xhci_hcd
->    08:56:10.282395 usb 1-1: USB disconnect, device number 10
->    08:56:15.720384 usb 1-1.2: device descriptor read/all, error -110
->    08:56:15.723375 usb 1-1-port2: attempt power cycle
-> 
-> Trace
-> -----
-> The trace below was taken with xhci-hcd trace events and hub.c dynamic
-> debug, on a distro 7.2.8 kernel that carries this series as a backport
-> (I saw the same stall there first; plain v7.3 behaves the same, as
-> above). initial_descriptor_timeout=1000. Slot 104 is 1-1.1, behind
-> slot 103, the hub. Excerpt, CLOCK_MONOTONIC:
-> 
->    754.760938 xhci_handle_port_status: port 1-1: 0x000202a0 Speed=0 Link=RxDetect PP CSC
->                 (the hub is gone)
->    754.807016 Address Device Command (BSR), slot 104
->    754.833730 xhci_urb_enqueue: 1-1.1 ep0 GET_DESCRIPTOR(DEVICE, 64), slot 104
->    754.833732 xhci_ring_ep_doorbell: slot 104 ep0in
->                 (1st try, rung)
->    754.833755 xhci_handle_transfer: CTRL Setup Stage, error event
->                 (fails at once; no giveback)
->    755.861009 xhci_urb_dequeue, Cancel URB, giveback
->                 (usbcore's timeout, 1.03 s later)
->    755.861037 xhci_urb_enqueue, 3 TRBs queued, no doorbell
->                 (2nd try, never sent)
->    756.886018 dequeue / giveback (timeout)
->    756.886054 xhci_urb_enqueue, 3 TRBs queued, no doorbell
->                 (3rd try, never sent)
->    757.910008 dequeue / giveback (timeout), Disable Slot 104
->                 (then hub.c: "attempt power cycle")
-> 
-> A possible explanation, from reading v7.3's xhci-ring.c with the
-> assistant mentioned at the end (I can't vouch for this part myself, so
-> please take it as a lead, not a diagnosis): the Setup stage error reaches
-> finish_td(), which calls xhci_handle_halted_endpoint() and returns,
-> expecting that function to have put the TD on the cancelled list
-> ("xhci_handle_halted_endpoint marked td cancelled"). But
-> xhci_handle_halted_endpoint() now returns early with -ENODEV when
-> !rhub_port->connected, after setting EP_DROP_PENDING. The TD is neither
-> cancelled nor given back, so the URB sits until usbcore's own timeout
-> cancels it. Then usbcore retries. xhci_urb_enqueue() accepts the new
-> URBs, but xhci_ring_ep_doorbell() skips EP_DROP_PENDING, so each retry
-> also waits out the full timeout. Before the series, a disconnect went
-> through the endpoint reset path and the URB came back with an error at
-> once.
+On 2026-10-22, Krystian Kaniewski wrote:
+> - Do not carry Mehmet's Tested-by tag because the registration ordering
+>   changed after his test.
 
-This is very likely the case. This same issue was reported, and fixed in:
+Retested v2 on a Colibri VF50 (7.2-rc1, ACM next to NCM) with a 3 s
+delay in gs_close(): freeing the line during a close, opens of the
+retired line, re-creating it and 4 add/remove cycles with the port held
+open behave as with v1, every port is destroyed once and there are no
+new kernel warnings. 3000 opens racing 30 creations of the function all
+succeeded.
 
-https://lore.kernel.org/linux-usb/20261013073825.17962-1-yiyu@yiyuzhou.io/
+Tested-by: Mehmet Fide <mehmet.fide@screeningeagle.com>
 
-That patch is sitting in my for-usb-linus branch.
-https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git for-usb-linus
-https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/log/?h=for-usb-linus
-
-Does it fix your case?
-I can add 'Tested-by: Diogo Chaves <diogochaves@me.com>' tag to the patch if you are able to test it.
-
-Thanks
-Mathias
+Thanks,
+Mehmet
