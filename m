@@ -1,102 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.148
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792751995;
-	b=CsEVISVTI5aSFJ4I1u41fI3d6GdM01MMpi+0vPCTj9gc+qP9zSu/6T3g2rqxZ8qi4mhM
-	 oMBmFGQRbaaQqt+n07iWmmDRTQiIyyeU7tiF8bTv1kzzGl8LPqZWcAgioXHrjtrZy494S
-	 AxMrpXsMkh76MP5pnGA0BRjxnCDt/eCK+8P4IzPNWL3gVUY2ZqJ9VT1PAtJB8O6lqOBHf
-	 FV/OeJLEHjbqw4h8iprs7FvautQfE2QCqOOm2SxS8AFXWWN5qhKIofhh6PhF3arIc/+72
-	 45LaGLoAPR6gD0b5dtYT38rG/u0RUkNp4CRXmTzketqp3cU4JMVjE4/Exiu8P3xdsTw==
+	t=1792753286;
+	b=llCcg3TGz057C2RCz/xHdu/ZrjGUPn6Q/FN+3+1d8tFjt0RvR88I++IZpxr2ETOdVzJG
+	 FLrfQ58VtOx2CA2NDJ5G5EQYxkLhPAPbKl2k+c7Ri1iA845kT8e0IH8+kbC8js6alHwVp
+	 MOF9uKRWbbSLR/JEVr9kwEHSx35E01/ZtJSS8piKE076dAPX89oIjOG5pDfP451r3fBy5
+	 ZRk/LSPeA5ClCme6AmwviZ2SmdP9NTvxo4gUri7lzi1APiWFZcS+BJb1ys+0kaeyGft6H
+	 5/QuqblLGk62/3g8TDvkoAmHjs0+lhcial/a3qUSfXcFMOwjQY8775bboOKwZtPXkwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792751995;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Organization:Content-Type:Content-Transfer-Encoding:User-Agent:
-	 MIME-Version;
-	bh=aePbxP12bi9+JzkDwE4dblQZtnAtPL3OH/5MvF5gIsc=;
-	b=OkUdO/VxMRtbUC68He45Xb/XYiNKyXvymRiZWYm6D0PBzOlbPJ/qsswZCrzeTGZfmR44
-	 4gQX5NyxxxQYX95+cyHJqcKqQweEesoXuGepMz+BpPZu3OZ4ya3xDxPFGtsLL8Ee+tLVS
-	 p5VmAWVypjum9bFgm/vc9VJXunrbzOJwHIdjpkAzO2xJc9iUWqppVa3u97nZklpJ6J71q
-	 AD9720tJ16fiyp4MH/cHeQclL5VFSIBiSWMtL2hpPrWHICf5eKwzD6UMArIE6ygEeJuCW
-	 bQvpOh7cG78vEM8676FZAQr3uB8A+Y1x8644X9HhcxpEk1ZatNh+xZbo33Ploz2XXPg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792753286;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=4Dx2Tbtv5flHAZ7I0g5glR2gdb318idcO7oVSLafTpw=;
+	b=emmjd8/GM19lfA4l7HAJLI9sToIHaAyRvULtcZb+k2J0kB0/7M5zUc7PfYpgMDiDStWO
+	 eMXC4SIOxgf0u2BV+3kT8aqn7Ecdh8z22f4Lz5yT7+WpYkyxREdJFWwt9/q1linLCqHV7
+	 rsalYKEQBtAOzfdUFvl8Qi9Kahf7ctJj0EFBQi8ork5bK0VugzP8diLVjD3uuso8l1uV2
+	 7G8UeoFXZjpKXuTmH6MNlykk6imiCUx9CipPCf1tuHxzHPXLp3KZWUYjp6ATJiNQxjm43
+	 jNMXw35YpoJgdeLecf3CvFN6a8FgxXTaOwVSctVdGWYIKX6G15Gy+X9k2cyjQJlGiVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=baylibre.com;
-	spf=pass smtp.mailfrom=baylibre.com;
-	dkim=pass header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=QrhlYS9J;
-	arc=none smtp.remote-ip=209.85.221.51
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=none header.from=xiaopeng.com;
+	spf=pass smtp.mailfrom=xiaopeng.com;
+	dkim=pass header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=K09z9O38;
+	arc=none smtp.remote-ip=115.124.28.148
+Received: from out28-148.mail.aliyun.com (out28-148.mail.aliyun.com [115.124.28.148])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0E4606A31B
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 10:39:55 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7D0E4606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC8A606A31A;
+	Fri, 23 Oct 2026 11:01:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EC8A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=baylibre.com header.i=@baylibre.com header.a=rsa-sha256 header.s=google header.b=QrhlYS9J
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-48c4649b35bso780185f8f.3
-        for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 03:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1792751994; x=1793356794; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :organization:references:in-reply-to:date:cc:to:from:subject
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aePbxP12bi9+JzkDwE4dblQZtnAtPL3OH/5MvF5gIsc=;
-        b=QrhlYS9JPq7JnApjBXfRmjqqe4dNo2BW1dKZxKhsHlgdnG8+5QiIsK+sTo8d5NTrR3
-         uWL3U+s6CEPmNkiIqq8g2iq94WIayXCdetnfnmIzsQJ6Fb0WzeJ88NN4n7lAwX5pKl1C
-         YZCnwU82I/rXc5kk9r85ZYypjhDys7+VJfnim8KgFjDHVq/tDqBu6h+JiplR2skAxuPU
-         EyxVXPRizn3ISu46j7omzgg8DbvKCwxcC30/pjVcFjQ9HkAGMWBAN/xAJ5yu0MIi1o3K
-         VhhP/x12m9ZrTl6La3MGoRKwN+cZDV/qqKuKyENAmh6vD6S5wXAZEVaGJiAq8ERCgAXX
-         8zeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792751994; x=1793356794;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :organization:references:in-reply-to:date:cc:to:from:subject
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aePbxP12bi9+JzkDwE4dblQZtnAtPL3OH/5MvF5gIsc=;
-        b=R9LaN7gfSDRtIpfU26hFbqUARp4Qq8gH5xd7zm/FHtbY3VwPqocIATy0Yatr51P8Cq
-         KxiwjrJPrR/s6rPNowH5dIekldVQgSYtUEwp3ycrPeo+7/vgVaUy0krKEuCmBI+DKHN5
-         nwjHn9Z8N6dr5wT0SKw7aL7LUwK6GBWB8qDooXb69LsMvJtwnlLEc3jHMzm8EkX1CP6s
-         RIHa+lVduhyWtD8HoNQP1GjVm0QPJeWWASN8FzV/hc068iYN0ovdwIegS0rHkZsRLNFW
-         AJt6SptNilaUg9JQNIxknKiR6Z3AvtfCt5vrCvlY9Ca3LDzmwoJsOwBL/aAmseseDa45
-         Quag==
-X-Forwarded-Encrypted: i=1; AKwUvBzjswIWG6QnLrz9cr00LFAaxF3AUkM2btbNU3GtndkZd3Rp3CLPnDkbHd1KRqsUgxxPF8gtXOeITQY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJhNOojniYtZxCy45e5B1ET2xLL1HLTkbMBrdtRCVTtjMxNcJs6
-	yaMJpItTSes4tJJG/6Hm9BJjy/48Me/u1EjEc4OEX9PReTmRuVeEheFLKzXokQVQstM=
-X-Gm-Gg: AYBFou1BA1tJjrjrKnMKMx+lanZspjzRlicp2lMVo8/hnRx1CDGZ6sze+6bAbJ/U8I3
-	1b5aI+FZbLWhg3F7W2/lt1sdKA4IcvYqhnZy8Q1SwBnYC/BVhISX8z6sBCXsQwgKqxAFMVa74ga
-	eVCMPOhzKa98toqv0IkhjXVrDRA9++aYphVJ+dmjNGmxBaGdQGhoPB4ajGWhwX/3Qp/gbuziu+v
-	8L2Xsqg9VNXu9QqrfCbu4jNXyVUfWcAWirQZ/KoIKcI3HWJF8NQI5P7qx+XkJiUhziMqccI1j1g
-	8SciOB2rKeFEnXsOFlarG0O0yeR3r5SippKaxVJJ286l7eJh/U/3+aN+aZ7FQXwMUInGA2C8k0K
-	kDppoNM8YaoLshohi5FN8+EOPUKCOK4hSFTMmpqAr6RpXelXTD3zD5WSJmbJPo1hb7iz+JHeMZH
-	Mb1TyPafzQK+X4OU7I9pnjfLpKH8+tgJ32YUGg5O8UJpCA/9oydB2lMP1L3ubYYl+5JC/t/V0Wl
-	TAl5pt/s6mzUudiEZKg8yvt5hJUrJYDdI04eXnjb995xKWJm/W+9zxVQiBNUntVqsp03Vb1bUEs
-	Tl6+NGqWKJLB/oBprxzW
-X-Received: by 2002:a05:6000:186c:b0:48c:6cdd:ba89 with SMTP id ffacd0b85a97d-48e385bdfeemr2784852f8f.36.1792751993862;
-        Fri, 23 Oct 2026 03:39:53 -0700 (PDT)
-Received: from ?IPv6:2a0e:439:c2d1:0:bce8:4acb:ee53:8d19? ([2a0e:439:c2d1:0:bce8:4acb:ee53:8d19])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e37edce4fsm4566663f8f.6.2026.10.23.03.39.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 03:39:53 -0700 (PDT)
-Message-ID: <0bb53b3f00e9a1a834e32979bd1e08ecc4517411.camel@baylibre.com>
-Subject: Re: [PATCH v2 1/2 RESEND] usb: gadget: u_audio: pass channel counts
- explicitly
-From: Francesco Lavra <flavra@baylibre.com>
-To: Kyle Farrell <kaf@nwlink.com>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Date: Fri, 23 Oct 2026 12:39:51 +0200
-In-Reply-To: <20261016162534.384844-2-kaf@nwlink.com>
-References: <20261016162534.384844-1-kaf@nwlink.com>
-	 <20261016162534.384844-2-kaf@nwlink.com>
-Organization: BayLibre
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	dkim=pass (1024-bit key, unprotected) header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=K09z9O38
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xiaopeng.com; s=default;
+	t=1792753274; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=4Dx2Tbtv5flHAZ7I0g5glR2gdb318idcO7oVSLafTpw=;
+	b=K09z9O38PEYdB32b3OXDrIqqpybe7D/dkRdaty4a1jcJ+b0dggLUth8/1xXwRKyVEz0kml5UfNI9sypijDVIL9t1cfwZ2tzieZaudMz//MF9C9l0daDVMYge/dNPQ3x4WU3rCDE0O+6Cytjdypo63tNMCRlYrN2QpWMWSio0ofA=
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07447688|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0156875-0.000218424-0.984094;FP=16245881213183280154|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033023087102;MF=liuc63@xiaopeng.com;NM=1;PH=DS;RN=10;RT=10;SR=0;TI=SMTPD_---.joBmZWu_1792753273;
+Received: from localhost(mailfrom:liuc63@xiaopeng.com fp:SMTPD_---.joBmZWu_1792753273 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Fri, 23 Oct 2026 19:01:14 +0800
+From: liuc63 <liuc63@xiaopeng.com>
+To: gregkh@linuxfoundation.org
+Cc: khtsai@google.com,
+	andriy.shevchenko@intel.com,
+	fangxy@xiaopeng.com,
+	rdunlap@infradead.org,
+	dbrownell@users.sourceforge.net,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Liu Chao <liuc63@xiaopeng.com>
+Subject: [PATCH] usb: gadget: u_ether: fix out-of-bounds read in get_ether_addr
+Date: Fri, 23 Oct 2026 19:00:59 +0800
+Message-ID: <20261023110113.2969708-1-liuc63@xiaopeng.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,54 +66,63 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2026-10-16 at 09:25 -0700, Kyle Farrell wrote:
-> u_audio currently derives the channel count from the channel mask in
-> struct uac_params in several places.=C2=A0 Instead, pass the resolved cou=
-nt
-> explicitly, so the shared audio implementation does not depend on how
-> an individual USB audio function represents its channel configuration.
->=20
-> Initialize the new channel count fields from the existing channel masks.
-> This preserves generated descriptors and makes no change to user-visible
-> behavior.
->=20
-> Assisted-by: LLM
-> Signed-off-by: Kyle Farrell <kaf@nwlink.com>
-> ---
-...
-> diff --git a/drivers/usb/gadget/function/u_audio.h
-> b/drivers/usb/gadget/function/u_audio.h
-> index 9512b8fccfaa..46e1d6b5ca4e 100644
-> --- a/drivers/usb/gadget/function/u_audio.h
-> +++ b/drivers/usb/gadget/function/u_audio.h
-> @@ -41,12 +41,14 @@ struct uac_fu_params {
-> =C2=A0struct uac_params {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* playback */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int p_chmask;=C2=A0=C2=A0=
-=C2=A0/* channel mask */
+get_ether_addr() parses a MAC address string with a fixed six-iteration
+loop, unconditionally calling hex_to_bin() twice per iteration.  It never
+checks for the terminating NUL, so a short string supplied through the
+configfs dev_addr attribute (e.g. "ab") makes the parser read past the
+end of the buffer, triggering a slab-out-of-bounds read reported by
+KASAN.  hex_to_bin() also returns -1 for non-hex characters, which is
+shifted and OR'ed into dev_addr.
 
-With these changes, the channel masks are no longer used in u_audio.c, so
-we can remove them.
+Bail out as soon as the string ends or a non-hex digit is found, routing
+all failure paths through the existing eth_random_addr() fallback so that
+dev_addr is always fully initialized before the function returns.
 
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int p_channels;=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* resolved number of channels */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int p_srate;=C2=A0=C2=A0=
-=C2=A0=C2=A0/* rate in Hz */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int p_ssize;=C2=A0=C2=A0=
-=C2=A0=C2=A0/* sample size */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct uac_fu_params p_fu=
-;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Feature Unit parameters */
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* capture */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int c_chmask;=C2=A0=C2=A0=
-=C2=A0/* channel mask */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int c_channels;=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* resolved number of channels */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int c_srate;=C2=A0=C2=A0=
-=C2=A0=C2=A0/* rate in Hz */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int c_ssize;=C2=A0=C2=A0=
-=C2=A0=C2=A0/* sample size */
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct uac_fu_params c_fu=
-;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Feature Unit parameters */
+Fixes: 2b3d942c4878 ("usb ethernet gadget: split out network core")
+Cc: stable@vger.kernel.org
+Reviewed-by: Fang Xieyan <fangxy@xiaopeng.com>
+Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+---
+ drivers/usb/gadget/function/u_ether.c | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/usb/gadget/function/u_ether.c b/drivers/usb/gadget/function/u_ether.c
+index 59d85d6a84a8..12edad59ddc3 100644
+--- a/drivers/usb/gadget/function/u_ether.c
++++ b/drivers/usb/gadget/function/u_ether.c
+@@ -689,17 +689,26 @@ static int get_ether_addr(const char *str, u8 *dev_addr)
+ 		unsigned	i;
+ 
+ 		for (i = 0; i < 6; i++) {
+-			unsigned char num;
++			int hi, lo;
+ 
++			if (!*str)
++				goto fail;
+ 			if ((*str == '.') || (*str == ':'))
+ 				str++;
+-			num = hex_to_bin(*str++) << 4;
+-			num |= hex_to_bin(*str++);
+-			dev_addr [i] = num;
++			if (!*str)
++				goto fail;
++			hi = hex_to_bin(*str++);
++			if (hi < 0 || !*str)
++				goto fail;
++			lo = hex_to_bin(*str++);
++			if (lo < 0)
++				goto fail;
++			dev_addr[i] = (hi << 4) | lo;
+ 		}
+ 		if (is_valid_ether_addr(dev_addr))
+ 			return 0;
+ 	}
++fail:
+ 	eth_random_addr(dev_addr);
+ 	return 1;
+ }
+-- 
+2.50.1
 
