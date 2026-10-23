@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792758342;
-	b=n6WSPxF9vZ1C/M6EiRXs+b2l2B+4o9SIS95ZZVoKak2ni+rarM8jdynWoLBIx0+RvQyc
-	 dWzEb6N7quqhnKFhpm0mS22M1o+NwWV/TURtplv8NP6uvlou39fIwdr3W78McvfEDw5K9
-	 MLMJYEZNjzTbtOA9YvNOaxhu187ICaojp1NqEtify+efDMnIrxMHNUAz5K2cdKVK/WSq1
-	 WwsGq88h/q/0mSgFCk4luVxQ5CISDx8rCTsVFFFNtsfo7MyAV4mw+mx7tdE6SDugeJbmr
-	 CiBybAY+54ILmXcufsF2m0qho18PcIYdfeGWwrHUTppXkGAmDWyGXPUEXKeXvvbRL6A==
+	t=1792758464;
+	b=sHxkb0cUQUGYrSEemLyv4doWAoxGRptIIU9dorQwnKetDQBMgF3VQeVh6t8vphS0dU4e
+	 mo9mtIDvZm3CBtKP/A5hYGgIwn2sYkyOgfxvfFsjG3rMRCG+nSFQ2OLtB6Oo4r99q9z7+
+	 va4OUXTxcKVBzuBzsOKVPmxf61tZQJRe1yTYfrzQKmX3SslvxERWdQueN8S4Ig2kRAE9R
+	 N0mulwXzERsXAd6mWwqkgsujO2cXbnIUahDwlUwjzd4H8egTfq066Iau+9LytWE5Ht8cP
+	 BJX2EyNMGD7UIxCFv1OSN55Z+bhqycHD1FLLJ1qXtz3a9MY+qUNkn9R73K016lC9ldA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792758342;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792758464;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=VfNXXhjPYCg1KduWNiSfXox7uJ5VpapIp9+u4dlyAwk=;
-	b=tKPxtcNJLDlSW2BVkyp1J0ezVbNtAzFDA2ZLQo7j4a/CyV4sYNyWcN/0fWsr+YpS778p
-	 BLHYIq/52jP1aYQapIKGIf54VMgGf/iFX6Kac6gd3+UihALC15ZNpOM/TKhuEx7NELHkx
-	 Qa3iS0DBUgUxlHRV8HfkpB3h0/c7R5ZNGZnYqWVuQ1Cw9WpzLKRzjrowKhD12CAGRHvDe
-	 mbj7vQzUKhoicXxEAG7C+mi3itXaMfC4A666uOa9CVpg8a4SHE6i3wGKziTlfnZFFHG7D
-	 nzu/3hWV0mVgrgDMmwoscoxkP9j6v5bJ/F7aWt4h0wwpqKamHu+jip7F4LRjlVXqYeg==
+	bh=moVYeSBVDEtOMFfwazmj8OjnMvWCZAt8/2oT+OOXEHI=;
+	b=qOqcLwuBy1V3SN9819ogg1agl75NdGeUILAv1Q1ueqfON+6glktmUo2fLQroawsstcL2
+	 gA0NlUXSe/vgiNw1Ld+cuPTNVgdaPzfY1aCqgYdpngtApVbEb05rBXKMiA46fe8DSRjO4
+	 GusFGkH1mIDJ/luIWIV+/4IyzJHMFE+i1MmwIT819oAMTEYVbrhy25+PKZ2qRmx9/SsEw
+	 BjeNXiLcmSEHtMSBWlGUpN7UmwDtQG8btDHRlKVv9AQd06KlZsbousLwsz4/cCtQ8t0a2
+	 7MVDtgw8CM3/m4LI++1R5LhYpE10BIuxYxWEYEUua4MahkygAWFXlMvL8yE4dlh7eIw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Oy7bcAck;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KnA9zuQX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B6C1606A31A
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 12:25:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CB66606A31A
+	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 12:27:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Oy7bcAck
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD9FF1F01829;
-	Fri, 23 Oct 2026 12:25:41 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=KnA9zuQX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 866C81F01825;
+	Fri, 23 Oct 2026 12:27:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792758342;
-	bh=VfNXXhjPYCg1KduWNiSfXox7uJ5VpapIp9+u4dlyAwk=;
+	s=k20260515; t=1792758463;
+	bh=moVYeSBVDEtOMFfwazmj8OjnMvWCZAt8/2oT+OOXEHI=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Oy7bcAckCPRuc7T0uoQXrp9HLR8jJJItHQiNk4t3dM/ft6yWb682uxxOlrG22pU3i
-	 9doJCV8FVWzz8dIylqGUS7e+Wrw7q/2yjZew/c0lXVFUH6Bx/v70MV6FKWdzVw1Am9
-	 ifUsQXEetlgMfVp/igVCnT/rHH5YwLawxe6fy0TfoBYo4Yyv0+GuUqxtsfSdgRXUAH
-	 CgLKBzIsiei416YkPEgTcT3P9x4tF5JQ0JkzzOixMRt9aaAQ6W19sJladeQ42lut/E
-	 t6LKyyGJPZgGwByqSS54COf5L0FEESW9As0cZqHZOkWnTMtboeLFJ4NOGU/QUewV2z
-	 eQJSSrevB9n9A==
-Message-ID: <sashiko-outbox-182764@kernel.org>
+	b=KnA9zuQXZStSwXjcqphUETRELD/i0ooOPd1DP1f5YzkpPPusuYIUvX5piXKUdU6yW
+	 Nuu6NgoOMX+1q7yL1eOkYzXWWrM12y0um0C9rzKOJHydviqehzvj9Unrd2eS2LFw5Q
+	 LMfUp3+74S860/WoHho2RTFvncHA4FydqrsvdikqTky/B3ca5lmoJHskZM0i+6y+RT
+	 hDdn1oXFkgStTzqAGD12x2FoGm52Gxu21nUyhetHehx5spxwRecSK86xktuX/oAkGE
+	 HUYBgfb2qnji1NM7n40N1e1nUkYOTrKSyEGKGXfp/JMF1b84pKdSb7OJge9SGnHfX/
+	 LFia/7OnJoGrg==
+Message-ID: <sashiko-outbox-182765@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 08/12] USB: serial: io_edgeport: drop redundant
+Subject: Re: [PATCH v2 09/12] USB: serial: io_edgeport: drop redundant open
  sanity checks
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Johan Hovold" <johan@kernel.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261023121530.186541-9-johan@kernel.org>
+In-Reply-To: <20261023121530.186541-10-johan@kernel.org>
 References: <20261023121530.186541-1-johan@kernel.org>
- <20261023121530.186541-9-johan@kernel.org>
+ <20261023121530.186541-10-johan@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 12:25:41 +0000
+Date: Fri, 23 Oct 2026 12:27:43 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,11 +61,8 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The serial and port driver data is allocated at probe() before
-> registering the ports and will never be NULL when open(), close(),
-> write(), throttle() and unthrottle() are called.
->=20
-> Drop the redundant driver data sanity checks.
+> The throttle() and unthrottle() callbacks will not be called unless the
+> port is open so drop the redundant sanity checks.
 >=20
 > Signed-off-by: Johan Hovold <johan@kernel.org>
 
@@ -73,5 +70,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023121530.1865=
-41-1-johan@kernel.org?part=3D8
+41-1-johan@kernel.org?part=3D9
 
