@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792741280;
-	b=jt4mouRdE2kujEOFCd4R6ZMcdvZkOZBOK7ekQYqW2NFXxL4ARap4SPUCToT1Rryr2yLd
-	 Z8Z/yG2SczmO+TOeJNWR2OjcpBERAi+X583RLhUdxL0g/sIeAh2ZJoHxs99Spvuoipc86
-	 ahoNfRvBDNDKmFjtodv6doxT+KCpBQri9zsYQs9U5DeEiFX3Zc26Q9FisSUSFGnhgBScR
-	 JsFG3dov6mYv5VkEf0ObHzxNGm35R1f2eshGKzWw03BWtiUbrj1MYyv1d1y0VTH4IR2Pm
-	 jv+GRTXsQjmFO0OKerPnGG046kp/8bkYpWnOIhpa229s+IVUrfhR/CE68sOuyVg4ijw==
+	t=1792741787;
+	b=1+ieJ23Zwc6S1h8QEYmggYkpZv7Zq7ToDm/k9rxJ4yTgKwvgfRndbshbDHnBIohGCuZW
+	 cEkO2uX2e9EoICLscx6ykiOTG4SleYtlx9xWLPTYjhJeva3AbDAXejfvpHKs9fWVX+P5O
+	 D+XMfrI+GibdGFLutv6ZjI5719PmDiw1drrwNENosa+6geUYtvB53oGgYwnrmOqcGAzQL
+	 vNWsaxCXTjcWHb9m04nQibaiOZL/c8hmDYrfbdumy7oAC0JorFlHAAWcvZWJVKiPBcGN9
+	 NEpTGruHTH7pbviSBjTxHL23sXWgSzgteeAw8489gRurrJjaB3sNPsFic0RkDioCtfA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792741280;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=+dsoznRxSp7V+XRLHNGIOq1noAIhAQobst7a2BsKmpU=;
-	b=skQvk0f/GEOh5RY/pJWrsA2BIb6hQ1YnOPZl1w9ICgYZyJYQdV+bIvAXSDXTAdwqSAHJ
-	 WxHXgikvnjaIJn5XMWNyY3hICk3kDZxyc/P4Ux4csN02TpQo02DCxTTsKku5kqUkVtD2e
-	 wNJ1k5OLduZEuhjfREGT4FydJ30ikAiR7JiXC0D5ORI1VZVOTHIQ6LCJkz0QA8N23wgkm
-	 nDqhg82aEFXAKfs85iSf9FFEKASa5X5v6N5SRITVan7FMqmc1Fot0nnAp8whJEiXnb0cf
-	 owc+3HEtIncvbrB+ZiR9usrx/aq0HH2/dZtwOpOSDn+vHWwuyQsUgzCCLihUKWyxkrA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792741787;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=WzOpYD46ST4arJ0WPiIMyO/fbGeCiLktthls5twsZNQ=;
+	b=YFO349Bm68uSLk+CIr5hRcO+Umy5TATEY/HNBNM5fIo3qa10+GS8FwTPUQEQJCHgdNoL
+	 25QqVnr4gX9GOeeyNtc6dRgOdcMjryPzPDRbWAV3bo0ZyuIKXIh6ONjAYQeCN7/7+NaUw
+	 A+ikyByknk6GMVkXkf7YsjFPL3O6uyTM9gCrqb9YX3QqP9bnNAFIwvKl6vjQ5XcMyDmPs
+	 6QI7V1v9XW1YYTbos4/eu95wTLZclcpADtQJMozHNm7zzLI7y+mY3GyITHrYKwb6hSqva
+	 oooRNk9QJ9NJlvEcYPbBQmDs6H4zptBTea+I5B4z3BXvKByKGgessGxqwVjHrQTjFzw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YOYtDTmd;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H0XpAkF3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54A4A606A31A
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 07:41:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6492606A31A;
+	Fri, 23 Oct 2026 07:49:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YOYtDTmd
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CACA11F01825;
-	Fri, 23 Oct 2026 07:41:19 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=H0XpAkF3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 923AB1F01825;
+	Fri, 23 Oct 2026 07:49:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792741280;
-	bh=+dsoznRxSp7V+XRLHNGIOq1noAIhAQobst7a2BsKmpU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=YOYtDTmdKtTACp4lmpYXjw6JV7GocAwUhqXqE4P1MYuvfk9sFaQWLNok3XpzLjhfI
-	 sxDq0XCymFnKd6orAb1/guFWfreqAOvWe3zNLITIouaVC9T1z604sRozcrLje9EwQ8
-	 utXSyI+8SfPhDsYIKUZE8jc+t6F1a1q+HQ2OJH668mCvfEBRve9RLgSjOJGLE24XWz
-	 cdMMtLCK2oRSOVUlEXUw2akqwPfRp+By+6XeJy1z21PfB/cqk6f8lHj1rPvtZNM/Il
-	 pDx+NOQrk1OkfeVsIEyXFuPdpHIdmhgZynIdlfP1vtaIx/EQMFDPjC9mW1UiSAL/ed
-	 GC61XiW2ET6QA==
-Message-ID: <sashiko-outbox-182430@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: udc-xilinx: Fix wild pointer dereference
- on empty EP0 queue
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Li Ximo" <lixicaicai@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261023073131.637062-1-lixicaicai@gmail.com>
-References: <20261023073131.637062-1-lixicaicai@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 23 Oct 2026 07:41:19 +0000
+	s=k20260515; t=1792741786;
+	bh=WzOpYD46ST4arJ0WPiIMyO/fbGeCiLktthls5twsZNQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=H0XpAkF3lnqYyyKXoalzqjQqZUXktMIBndt0IFoP95dXAmSiBd/MSmg5S47aZEkMO
+	 0Be6wZ5hJyF6it8ZrbYWPs6IfqYUOuCHIRAwg4P3C2CI4IKBdXTQDSACU6LDzfS9N2
+	 8H2c93i6qeNXNZNuaEczS0bN9v2Ht+f2FWQfNsv9Ik2yAVTEW9xp4Y5qiorY12Dpjt
+	 VOV7h/JqDfBk9QV0XVhwjutcPhtm3syhem+FOE53tHUzeecWxyZi4Xvb7byUddYpit
+	 yPs4GeLX+VMEQXHpvKX9cL1SALtYPgnSHe7Nqp4YT53v1MBN3ZQvGeko8Q9OpL2ar4
+	 zGefdbbGrSZVg==
+Date: Fri, 23 Oct 2026 09:49:43 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3 1/2] dt-bindings: usb: snps,dwc3: describe two
+ connectors sharing one HS bus
+Message-ID: <20261023-conscious-newt-of-experience-2dddf2@quoll>
+References: <20261017081320.220525-1-xiaqinghuan@mail.ustc.edu.cn>
+ <20261019131848.344689-1-xiaqinghuan@mail.ustc.edu.cn>
+ <20261019131848.344689-2-xiaqinghuan@mail.ustc.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,41 +60,37 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261019131848.344689-2-xiaqinghuan@mail.ustc.edu.cn>
 
-> From: Wang Haoran <haoranwangsec@gmail.com>
->=20
-> list_first_entry() does not return NULL when the list is empty; it
-> returns the result of container_of() on the list head, i.e. a non-NULL
-> wild pointer pointing into the enclosing struct xusb_ep rather than to
-> a valid request. This was found by code audit.
->=20
-> xudc_ep0_out() and xudc_ep0_in() are reached from the endpoint 0
-> interrupt handler xudc_ctrl_ep_handler() purely based on the hardware
-> FIFO status bits, without checking whether ep0->queue actually holds a
-> request. The queue can be empty at that point: the gadget driver's
-> setup() callback may not queue a request for every control transfer
-> stage, and xudc_done() removes the request once it completes, after
-> which bus timing can raise another FIFO ready/free interrupt. The
-> unconditional list_first_entry() then yields a wild pointer, and the
-> subsequent accesses to req->usb_req.actual, req->usb_req.buf and
-> req->usb_req.length read or write unrelated kernel memory, leading to
-> memory corruption or a crash. On real hardware this is triggerable by
-> an external USB host controlling the token timing. Note that the
-> enqueue side __xudc_ep0_queue() already guards the same queue with
-> list_empty(), which shows the queue can legitimately be empty; the
-> dequeue side was simply missing the symmetric check.
->=20
-> Switch both functions to list_first_entry_or_null() and return early
-> when no request is queued, mirroring the existing list_empty() guard
-> on the enqueue side.
->=20
-> Reported-by: Wang Haoran <haoranwangsec@gmail.com>
-> Reported-by: Li Ximo <lixicaicai@gmail.com>
-> Signed-off-by: Wang Haoran <haoranwangsec@gmail.com>
+On Mon, Oct 19, 2026 at 09:18:47PM +0800, Qianhui Xu wrote:
+> Two connectors can share the High Speed D+/D- pair of a single DWC3
+> controller, with a GPIO selecting which one is connected.  Super Speed
+> lanes stay per connector.
+> 
+> Describe that in snps,dwc3-common.yaml:
+> 
+>   - port-select-gpios selects which connector drives the shared HS bus;
+>   - the shared HS bus is port@0 with two numbered endpoints, endpoint@0
+>     and endpoint@1, so that "ports" keeps describing the controller's own
+>     buses as the graph bindings expect;
+>   - each endpoint carries "mux-state", the port-select level of that
+>     connector, and "usb-role-switch" to declare that this connector has
+>     its own role switch input.
+> 
+> When port-select-gpios is absent the endpoint properties are rejected,
+> so existing single-connector descriptions are unaffected.  The two
+> mux-state values are constrained to be complementary.
+> 
+> Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+> ---
 
-Sashiko has reviewed this patch and found no issues.
+v2 had several Sashiko comments, this is called RFC and threaded there,
+so kind of confusing what you expect us here. I assume RFC, so I drop
+this patch from DT patchwork.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261023073131.6370=
-62-1-lixicaicai@gmail.com?part=3D1
+Best regards,
+Krzysztof
 
