@@ -1,105 +1,53 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792772504;
-	b=1CyfhEAq9lMqCleVDe2XAGGD4JDzCzHp5bpRUOMu9VOgv7Ylv431Pv8gq5UxMlEC20NJ
-	 +prPk5WrDTKq9FsFm0dIh0PoVncLFT9veHMkWYz/MFq5yBC6UN56fvc2P/gC7gnaMm8vm
-	 BBsAjBwvue1CTLzIX8k0Sg2aQbDdPOIlS60Qt0h94GgF9X4/R4mmqjJGD2hdbqUvmL9Tf
-	 /A40QOywefAnAK9V392IBqBxFT403VaSImbJ8zaxa1bl/VF4vtobs4Tagq0vTDXRcAppQ
-	 wCocZPkFW07TtSaL2URITTTtZHRfb9s2ccfhk9Yk2tsIzc5oLbnYzV/ii9tsAXIKp+w==
+	t=1792773755;
+	b=l7L8RN23Dor36ND+DLcJ4DZahjby3V3ffEOp4q6us/coRNrNaIe6NbVcFs0y4h1jIm0m
+	 sEPD7BP+A54sEOlU/1QGp8biQTXEOaFCjnySghpbnbJm/tYXfnzaGNS2kvZev1/amqn/d
+	 H/XcTiCcXCZED3WDAypwjx+dOiuIWP+BRCVzGVo2ZhWrGZSWpAmPqxAKxcA5yc5YEESjp
+	 9aBPE7LrYb4QGJMc1olZ42kRMiLZaQM3LOo0ZDXjWuqFUyoxnyF/O9eEvTUF2EzFL5BlI
+	 uuSah8k/wYcJ0UQRC+Uo9W62JeE7Aq4XDHZN7V3Ng3uoMUCb+2rINoOEiD6xEhSpGgQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792772504;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ObpDvAOX1klXfqsSNdhdP4hJ47WYvmcb7PIfyXC1CRw=;
-	b=yFZ2uoN872vSZ0NzeagODDfKRl1efgcL3o/mitnCxChw9vhg5MTHaJH/B8c9/ulXWEyn
-	 Kx2o9gqmMa80xWtmoqCnmf5R6qIbxIU79M0+JhQVU7WExOoFluiinRiWnZhyvCWBiClqL
-	 x9kQa/Ye3/ce69XF6puaHVqbfAAk+aoPfc7cSyaTiNViHce9qjV+Ny/RdVYOi7TG/y1ps
-	 UQP8i7dkWAASjV8k/XLh4vDO0yFoNr7UmbeyvV0EPO0L9ZcXEfzs0vWyjghw28o6F5F0E
-	 4ADleJrnp1xcaik9rC9UBLnhataY3JgdY5l+gut3w7CqViUcc8K53Po3UaKv/OdKksQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792773755;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=Fvb7YIbuQNqXe0X0lqpdVo9LwpxBSbbeEYovcdWAiCs=;
+	b=WrixgcxejsWtmDXiyJsAz5M00/Wc6x35OO8c4llMJ5BZztOR2qhdtFjgCH2mBdqC4R8F
+	 iGcsQav+5x+a49x+94mOQH4owodghVf0UB9tbP68jytUiqehCXJtXB34nCbhwYhBBwj42
+	 Pc8x6NYI7IrvtKFm0/Me3i1zvzS7iIBb99WvS5Y0AG5KwgBx0UNnUIl+6dkH1qgTfeOzr
+	 fHFAN/QVANYATEWvE1XeD5IyXwQgJXxqHuACbmiHj7du+Hk1q5QNie9dMQANkcMU24g4p
+	 kNkZ3NFWlVqInA54Sh/KZiDabDK4Hv/UZ4hglztLpkcgBqhKYJLIu4kU0vXPOggbCnQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qhBIX0dc;
-	arc=none smtp.remote-ip=209.85.221.41
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OALD0rte;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0CAC606A31D
-	for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 16:21:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A0CAC606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72D1E606A31B;
+	Fri, 23 Oct 2026 16:42:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qhBIX0dc
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48e00eee27dso707102f8f.0
-        for <linux-usb@vger.kernel.org>; Fri, 23 Oct 2026 09:21:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792772502; x=1793377302; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ObpDvAOX1klXfqsSNdhdP4hJ47WYvmcb7PIfyXC1CRw=;
-        b=qhBIX0dcQktnNgcuhUOneFmHnNHKpxg+fYyk/FDPz3ae3Xmty8XA9sE9NJ4+d8lNC2
-         ubukkbO61AOfg50nn/TawWQ22v/v/uhgB/q79lB1085dthU9oFX8QUCkem7s53SLDra7
-         9xNt6zmk+iS6vIgX33fVpkylI56664RooxqhLUp4Ljcxz5ZjikQeNCpwBr0J7y+R7cy6
-         OvPIKf3vkIdMe+0ldpc8O5maz3nEGV/qAq0q5KOT+x5x7Bed3TeV3b6OHgC1KzgkmP+H
-         QzUjSQyigkx3VCU5aDPu0ZliEEO4CjZHH2OBBURVgloB6/+5apqO/Qu++l+c85QlZZxZ
-         gfLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792772502; x=1793377302;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ObpDvAOX1klXfqsSNdhdP4hJ47WYvmcb7PIfyXC1CRw=;
-        b=EoKBYeycScv6BWbVwnBStqBUf09uZ38zNZc1j6tpDZjL1kabD03KfU/RtLQkUSItvC
-         AFpjdjvEMoX839yMrlsGUH0SMiNAoZFsdUm+KNgqxVVcSpSGV7m2+g7EWwjK6deTrlTG
-         JlMMo42iEek5Ig/zEhg/1fXfvfDVbv2rtzPpaNELMu+jWyO49bzQMtnuvWpG0e4oA6Pq
-         m/AjYyV5zLZt9ghg+u2KlsQZp47vQYPk+98tRyQzgsJhrJD4tw59UC861wZEAY57jVs2
-         jCGZU8eQGm1Jk3mtStYf8laJIFZO1QbR+vUq/AEp3QaL0iIWIpRhb6AHMxFiN3cPLi1J
-         EvDg==
-X-Forwarded-Encrypted: i=1; AKwUvBzeG34+CTj+IKY/aSStpOz/ZeFhccH1f6pYlQR9QubYclzl7pYqlMyb2cqOirRGrsWwc9PkzuhJLCM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK7oyD74IbalZ33GhY5wuiDuuS2J39B8E8K9SzUfYO2txxIrBtb
-	/Q7Tizd9ggZZQfxDMhkLR0uhVMCVlpXf0ACalx6U4PBhE80UJtsxzaRK
-X-Gm-Gg: AYBFou0RgJRyMzvokeP0xhMy1OfAulUnMk7CfCk3/swpmnscXhuIeIQmYkKp81qulvK
-	UhlqqfulXLPQxWqo1Z0fkIyIpe80kwdlZJ437PJEAZDEZuztMTe0E1+qAHGGXl8JTbxiaVPC1lj
-	FVMT3aO29U4tck+Nf32hkWhDcVgWgFp+YsVQRBl3JA2jfOgEB1R3RjrRZDb3oGcmF8Vud/I/9XC
-	z4gNleFe+5+zci1+bceEGq6kkiFFoZiYRgzlRGpyLFrzXlEnwfD3dmlSjjnezyW3PhIeTENKonU
-	BevECETJUWztVgu35FFcwupooAIVR0Dit5XvLQw/ewLqI/1hiF/GmwwwHNsxmmgLNjBxa0yAlGD
-	pfxOx2MJcCRcuGXywSIWfo7o4Z9aydozkuCFUVN1TcmkZsz7kSD6SZPwZPVDemUjhrauBDXhfTr
-	h2i0dDyK3ZpSxj828OXh7m7+IL6m7wveEDTCAwfZbK/ejbFEFw+yFqMvN5cjqO+Xl74deLOz/kt
-	qtcbqLFXtQsFeRevXbKyttF4jHPSGYQ0RC9D2zC1/Fl23zGoQcOwDDxhGuMqg==
-X-Received: by 2002:a5d:64e3:0:b0:487:106f:ee31 with SMTP id ffacd0b85a97d-48e385a6690mr4354135f8f.27.1792772501780;
-        Fri, 23 Oct 2026 09:21:41 -0700 (PDT)
-Received: from deb05.proceq.com ([213.160.61.66])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3d37ca2asm901583f8f.8.2026.10.23.09.21.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2026 09:21:41 -0700 (PDT)
-From: Mehmet Fide <mehmet.fide@gmail.com>
-To: Krystian Kaniewski <krystianmkaniewski@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neill Kapron <nkapron@google.com>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	linux-usb@vger.kernel.org,
-	Brian Ellis <brianellis@gotenna.com>,
-	Johan Hovold <johan@kernel.org>,
-	Jiri Slaby <jirislaby@kernel.org>,
-	linux-serial@vger.kernel.org,
-	syzkaller-bugs@googlegroups.com,
-	aichao@kylinos.cn,
-	kees@kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot@lists.linux.dev,
-	stable@kernel.org,
-	mehmet.fide@screeningeagle.com
-Subject: Re: [PATCH v2] usb: gadget: u_serial: pin ports while TTYs are installed
-Date: Fri, 23 Oct 2026 18:21:39 +0200
-Message-ID: <20261023162139.3308-1-mehmet.fide@gmail.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261022091359.1187468-1-krystianmkaniewski@gmail.com>
-References: 
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OALD0rte
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 210B31F01825;
+	Fri, 23 Oct 2026 16:42:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792773755;
+	bh=Fvb7YIbuQNqXe0X0lqpdVo9LwpxBSbbeEYovcdWAiCs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=OALD0rtekB14Pw9Bzl7amXP1L6rNyA1HsmaNxN2J2ptxRjzEgUbBWHZUs9t1dmhFI
+	 MA5ul6fIZ8cj2jIZenxj8wIE+3ybQW0OY8xvIqDwHYuWmhv4fJhnhXlVmScNZuL4C0
+	 8SfrD9GQsG1TclYolIMqYUjncXemUsm5lcdamzeUhAIsaH6nfxaCCt0IMHvjYIhaGv
+	 cHina/Ft282Ax6izmauJPH6v3+dcjxWkJjI9Hnrz8eBJiba5COJi6S8zrnRbNu81+Z
+	 a0it1vZFlDJxOXK79k1KNP2x7N2sdTQK5hEnHVtc+zlXp/sbSQFhWXmy3YmVjmGUC2
+	 DxdjRWTMOowKg==
+Date: Fri, 23 Oct 2026 17:42:31 +0100
+From: Simon Horman <horms@kernel.org>
+To: Hanson Wang <hanson.wang@ugreen.com>
+Cc: netdev@vger.kernel.org, linux-usb@vger.kernel.org, oneukum@suse.com,
+	kuba@kernel.org, andrew@lunn.ch
+Subject: Re: [PATCH net v2] net: usb: aqc111: fix set_mac_address return value
+Message-ID: <20261023164231.GO708417@horms.kernel.org>
+References: <20260703073936.462231-1-hanson.wang@ugreen.com>
+ <20261016124858.1939743-1-hanson.wang@ugreen.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -109,22 +57,55 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016124858.1939743-1-hanson.wang@ugreen.com>
 
-Hi Krystian,
+On Fri, Oct 16, 2026 at 08:48:58PM +0800, Hanson Wang wrote:
+> aqc111_set_mac_addr() returns the result of aqc111_write_cmd() on
+> success. That function wraps usb_control_msg(), which returns the
+> number of bytes transferred (6 for ETH_ALEN) rather than zero.
+> 
+> Callers such as netif_set_mac_address() and bonding treat any
+> non-zero return value as failure when setting the MAC address.
+> 
+> Return 0 on success and propagate negative error codes on failure.
+> 
+> Link: https://lore.kernel.org/netdev/20260703073936.462231-1-hanson.wang@ugreen.com
+> 
+> Signed-off-by: Hanson Wang <hanson.wang@ugreen.com>
 
-On 2026-10-22, Krystian Kaniewski wrote:
-> - Do not carry Mehmet's Tested-by tag because the registration ordering
->   changed after his test.
+Overall this looks good to me, thanks for your contribution.
 
-Retested v2 on a Colibri VF50 (7.2-rc1, ACM next to NCM) with a 3 s
-delay in gs_close(): freeing the line during a close, opens of the
-retired line, re-creating it and 4 add/remove cycles with the port held
-open behave as with v1, every port is destroyed once and there are no
-new kernel warnings. 3000 opens racing 30 creations of the function all
-succeeded.
+Reviewed-by: Simon Horman <horms@kernel.org>
 
-Tested-by: Mehmet Fide <mehmet.fide@screeningeagle.com>
+Some points on process to keep in mind.
+There is no need to repost to address these.
 
-Thanks,
-Mehmet
+1. Please respond to netdev-bot+sinfo.
+   It's not too late to do so!
+
+   https://lore.kernel.org/netdev/179215519735.408196.139629932849333374@kernel.org/
+
+2. Please post new versions to patches in new email threads,
+   not as a reply to an earlier versions.
+
+3. Please don't repost within 24h.
+
+4. Please don't repost the same version, without either
+   incrementing the version number or including repost in the subject.
+
+   [PATCh net v2 repost] ...
+
+5. Please do include a summary of what has changed below the scissors ('---').
+   Ideally including lore.kernel.org links to earlier versions.
+
+   v2: Fixes indentation
+   v1: https://lore.kernel.org/netdev/43a0904c-de59-4b40-b186-edd130f6c0cb@lunn.ch/
+
+6. Please don't use the Link tag to link to an earlier version.
+   Instead use it if there is some extra information,
+   e.g. an otherwise unrelated email thread that lead to this patch.
+
+For more information on Netdev processes please see
+https://docs.kernel.org/process/maintainer-netdev.html
