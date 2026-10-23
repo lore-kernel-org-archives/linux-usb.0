@@ -1,44 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=210.79.60.23
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792718499;
-	b=B5WEmY9Zqo+TjT1BjFDojx2HEjgCeoxBj2dv4WQZuQGxTtbZtIcQNRWYiYwb4Y6Sjt5h
-	 IPpqFdV9diygxHCV5ysDtzPaYqwWdexitDM9m5eP+SOOnAj5WGgcpJ2zl0Kv28zv0kotO
-	 NEi6oOBrKpFmEgymGZVzHlSV1HtD5zVA1To2bUaefFOpPn+bIYtsKFO8j9ESKolNMdPWG
-	 Jnu7xShfS1gVktRlHZ69/uSgn4Rdfb9iZEjZSMRZfRMnVbzhL0PkLFC1nfFtCzCWKbC7r
-	 9SWxJldeCVbjftQOOrpewK+JJ4oA/a8h2t+r/+IruWt+c9cHevAa/YeW+ugxMMkdcZg==
+	t=1792719638;
+	b=g+RFBHnnTGDmh2fUHbPjOS/6HuQcD15i4bSSgtPf+exUApzL/m57U1pMgxh6e6aAiWCu
+	 jlCeFbg5T19FILgg4hMyJxtoEdNdyystuvS7B+vYDrYaiI2dJL1MStZub8g3oC4b3/eh/
+	 Q+BuV9PEh9nvP6Sgk0TgfX/qBybpYu4uEb3AY13N6emwtFOBnWZpD3X1QdSotbxHyV9AN
+	 lbU6/6GfU4TUbP7+9exQGlbEzGyf3yTZKS1hH2SAlWc14LPa81j6tjsFZGKQJdegBRm61
+	 gyYSwyeoFNJ08Q6xJhXDN2gmTo1Eeyxh8ZZNgXy6JkaArKuDLOKPH/sp2WXYb7SEpGg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792718499;
-	h=DMARC-Filter:Received:Message-ID:Date:MIME-Version:User-Agent:
-	 Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-HM-Tid:X-HM-MType:
-	 X-HM-Spam-Status:DKIM-Signature;
-	bh=fTHe9pcXTKxRGNgBHQwELDkRI1+tQnp9o4yzAANBj4Y=;
-	b=FU9EKRgUitN6XfVwtfllZlEfOLaIiXXxpowQE3qXDwlHVYlkZ5eXErc9K+aQeicXJTN7
-	 5c/ACVt5DQ6NUucF685dUdmEGQ2zkJm0UmjWKis0WBLyGPjFpSOIg/5QRA0S5RyvECiav
-	 kMkTcZdQmU8UKGuYOrHgiq3J0zfjQ4xABgtAClR0qAsTkElFlP4o/7h3+ztedaheStV+r
-	 se/hKf6TLg72T9qN/Ad7V0utyMCLmHIsNZFrLY0WC2HrBljE9r1hnMVjI0ON+nFcxTc1f
-	 kg52iZazW2pDMlvGhchXgAR8wofNAadt/PFeL4esfD+GMhZ5Vq89+kGm8hBkB54hZcw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792719638;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=0xtcPJBB9DR3vT+rc57esCIkDtzhcoeMa6X95T8tUaE=;
+	b=PE2AN7N/4GjrpwkU6r8jkbUsI5FpF1rFAVG6tzuJalBpb+M5SzHxbeJCNj5I798CxMqU
+	 62yS8MiAg41FCsuhCuXhIiwcJJLvH9PJ5l+sFkYAJm3aCvMEeagCA6VnZcp/TpZxAdg2K
+	 D3nnTLs4Xtj+M1KltXEd7E1Ruh6qhHJQvdS4HYy8YNENu4Dg28y+MRp3lOK/h0nDHC1jf
+	 wdsSh7DnOzY9+ZhwbqdJMT78+m7s+xlBfPwF+eHZWDEbfu1k5TSLToG9KNQCsZpjUXmsI
+	 52SbNW5sUU2O6Mt2cGrwW5GXomIsSAOGHnJkcIx7AALQTcXCX/UgFJDZRlYOld5SNCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rock-chips.com;
-	spf=pass smtp.mailfrom=rock-chips.com;
-	dkim=pass header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b="X/Fm4VDX";
-	arc=none smtp.remote-ip=210.79.60.23
-Received: from mail-m6023.netease.com (mail-m6023.netease.com [210.79.60.23])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F561606A319;
-	Fri, 23 Oct 2026 01:21:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4F561606A319
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rock-chips.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=rock-chips.com header.i=@rock-chips.com header.a=rsa-sha256 header.s=default header.b=X/Fm4VDX
-Received: from [127.0.0.1] (unknown [61.154.14.86])
-	by smtp.qiye.163.com (Hmail) with ESMTP id 520f42c30;
-	Fri, 23 Oct 2026 09:21:25 +0800 (GMT+08:00)
-Message-ID: <e19ac7d1-5a86-4a96-a868-56a4abda3ec4@rock-chips.com>
-Date: Fri, 23 Oct 2026 09:21:08 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 42033606A326;
+	Fri, 23 Oct 2026 01:40:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 42033606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: baf67b34ce8211f19a56ed5b684f684d-20261023
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:d6f6e49f-869c-47d2-b558-f62d9f71d1bd,IP:0,U
+	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:25
+X-CID-META: VersionHash:7db8b62,CLOUDID:3a105906de80bf8c66561fe19e8ebdc0,BulkI
+	D:nil,BulkQuantity:0,SF:102|865|898,TC:nil,Content:0|15|50|99,EDM:5,IP:nil
+	,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,L
+	ES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: baf67b34ce8211f19a56ed5b684f684d-20261023
+X-User: lijiayi@kylinos.cn
+Received: from thinksys.tail1c7620.ts.net [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 2022889980; Fri, 23 Oct 2026 09:40:30 +0800
+From: Jiayi Li <lijiayi@kylinos.cn>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org,
+	Jiayi Li <lijiayi@kylinos.cn>
+Subject: [PATCH v2] usb: uas: wait for pending commands before unbinding
+Date: Fri, 23 Oct 2026 09:39:31 +0800
+Message-Id: <20261023013931.388916-1-lijiayi@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -48,175 +73,105 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 3/9] drm/bridge: pass down IRQ_HPD to the drivers
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Heikki Krogerus <heikki.krogerus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>,
- Francesco Dolcini <francesco@dolcini.it>, Kevin Hilman
- <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
- Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
- Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov
- <lumag@kernel.org>, Abhinav Kumar <abhinav.kumar@linux.dev>,
- Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul <sean@poorly.run>,
- Marijn Suijten <marijn.suijten@somainline.org>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Pengyu Luo <mitltlatltl@gmail.com>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, intel-gfx@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, linux-amlogic@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org
-References: <20261022-hpd-irq-events-v6-0-337ea3ddaa62@oss.qualcomm.com>
- <20261022-hpd-irq-events-v6-3-337ea3ddaa62@oss.qualcomm.com>
-Content-Language: en-US
-From: Chaoyi Chen <chaoyi.chen@rock-chips.com>
-In-Reply-To: <20261022-hpd-irq-events-v6-3-337ea3ddaa62@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-HM-Tid: 0aa1665937f503a7kunmabefcd952d3a31
-X-HM-MType: 1
-X-HM-Spam-Status: e1kfGhgUHx5ZQUpXWQgPGg8OCBgUHx5ZQUlOS1dZFg8aDwILHllBWSg2Ly
-	tZV1koWUFITzdXWRgWCB1ZQUpXWS1ZQUlXWQ8JGhUIEh9ZQVlCHkxKVkIdSU4dHxpNGhkZTFYVFA
-	kWGhdVEwETFhoSFyQUDg9ZV1kYEgtZQVlNSlVKTk9VSk9VQ01ZV1kWGg8SFR0UWUFZT0tIVUpLSE
-	pKQkxVSktLVUpCS0tZBg++
-DKIM-Signature: a=rsa-sha256;
-	b=X/Fm4VDX9sFENPD6Wn9qD+Uao+7D0Epq2pQrsnbwFBrymGk6h8O6RmS3bL18Vm4+OOE5fn9EHK7f5aXlKmzlgC52HGgkZdlKQwycb9gdto26fXfwfIFdx0+DDP+R8+nr+Q9Qgl+MLUiC4hQPHMwHPlcJ75OMdNIu2jiqwx+mQLE=; s=default; c=relaxed/relaxed; d=rock-chips.com; v=1;
-	bh=fTHe9pcXTKxRGNgBHQwELDkRI1+tQnp9o4yzAANBj4Y=;
-	h=date:mime-version:subject:message-id:from;
+Content-Transfer-Encoding: 8bit
 
-On 10/22/2026 9:27 PM, Dmitry Baryshkov wrote:
-> The DisplayPort standard defines a special kind of HPD events called
-> IRQ_HPD. These events are used to notify DP Source about the events on
-> the Sink side. Pass down the extra status to the bridge drivers via the
-> hpd_notify() callback, letting DP bridges to act accordingly.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/bridge/lontium-lt9611uxc.c     | 3 ++-
->  drivers/gpu/drm/display/drm_bridge_connector.c | 2 +-
->  drivers/gpu/drm/meson/meson_encoder_hdmi.c     | 3 ++-
->  drivers/gpu/drm/msm/dp/dp_display.c            | 3 ++-
->  drivers/gpu/drm/msm/dp/dp_drm.h                | 3 ++-
->  drivers/gpu/drm/omapdrm/dss/hdmi4.c            | 3 ++-
->  include/drm/drm_bridge.h                       | 3 ++-
->  7 files changed, 13 insertions(+), 7 deletions(-)
-> 
+USB core normally disables interface endpoints before calling
+uas_disconnect(). This cancels pending URBs while the device may still
+be processing the associated commands. Some storage bridges then stop
+responding after a driver rebind and need a disconnect and reconnect
+to recover.
 
-Reviewed-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
+Enable soft unbinding and block new SCSI requests before waiting for
+pending commands to finish. This keeps the endpoints available until
+the wait completes. Stop waiting when USB core marks the device as
+not attached, and continue with the existing cleanup on timeout.
 
-> diff --git a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> index b3bb7f2cebb3..b1ffbab89a16 100644
-> --- a/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> +++ b/drivers/gpu/drm/bridge/lontium-lt9611uxc.c
-> @@ -429,7 +429,8 @@ static const struct drm_edid *lt9611uxc_bridge_edid_read(struct drm_bridge *brid
->  
->  static void lt9611uxc_bridge_hpd_notify(struct drm_bridge *bridge,
->  					struct drm_connector *connector,
-> -					enum drm_connector_status status)
-> +					enum drm_connector_status status,
-> +					enum drm_connector_dp_event event)
->  {
->  	const struct drm_edid *drm_edid;
->  
-> diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-> index 898273f60cf6..1b0a1a00d8eb 100644
-> --- a/drivers/gpu/drm/display/drm_bridge_connector.c
-> +++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-> @@ -151,7 +151,7 @@ static void drm_bridge_connector_hpd_notify(struct drm_connector *connector,
->  	/* Notify all bridges in the pipeline of hotplug events. */
->  	drm_for_each_bridge_in_chain(bridge_connector->encoder, bridge) {
->  		if (bridge->funcs->hpd_notify)
-> -			bridge->funcs->hpd_notify(bridge, connector, status);
-> +			bridge->funcs->hpd_notify(bridge, connector, status, event);
->  	}
->  }
->  
-> diff --git a/drivers/gpu/drm/meson/meson_encoder_hdmi.c b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-> index c4355c5cc340..a637613ae2e1 100644
-> --- a/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-> +++ b/drivers/gpu/drm/meson/meson_encoder_hdmi.c
-> @@ -323,7 +323,8 @@ static int meson_encoder_hdmi_atomic_check(struct drm_bridge *bridge,
->  
->  static void meson_encoder_hdmi_hpd_notify(struct drm_bridge *bridge,
->  					  struct drm_connector *connector,
-> -					  enum drm_connector_status status)
-> +					  enum drm_connector_status status,
-> +					  enum drm_connector_dp_event event)
->  {
->  	struct meson_encoder_hdmi *encoder_hdmi = bridge_to_meson_encoder_hdmi(bridge);
->  
-> diff --git a/drivers/gpu/drm/msm/dp/dp_display.c b/drivers/gpu/drm/msm/dp/dp_display.c
-> index 6abe30bdff12..fa8942922b53 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_display.c
-> +++ b/drivers/gpu/drm/msm/dp/dp_display.c
-> @@ -1541,7 +1541,8 @@ void msm_dp_bridge_hpd_disable(struct drm_bridge *bridge)
->  
->  void msm_dp_bridge_hpd_notify(struct drm_bridge *bridge,
->  			      struct drm_connector *connector,
-> -			      enum drm_connector_status status)
-> +			      enum drm_connector_status status,
-> +			      enum drm_connector_dp_event event)
->  {
->  	struct msm_dp_bridge *msm_dp_bridge = to_dp_bridge(bridge);
->  	struct msm_dp *msm_dp_display = msm_dp_bridge->msm_dp_display;
-> diff --git a/drivers/gpu/drm/msm/dp/dp_drm.h b/drivers/gpu/drm/msm/dp/dp_drm.h
-> index da412c788503..8f2f4201da60 100644
-> --- a/drivers/gpu/drm/msm/dp/dp_drm.h
-> +++ b/drivers/gpu/drm/msm/dp/dp_drm.h
-> @@ -31,6 +31,7 @@ void msm_dp_bridge_hpd_enable(struct drm_bridge *bridge);
->  void msm_dp_bridge_hpd_disable(struct drm_bridge *bridge);
->  void msm_dp_bridge_hpd_notify(struct drm_bridge *bridge,
->  			      struct drm_connector *connector,
-> -			      enum drm_connector_status status);
-> +			      enum drm_connector_status status,
-> +			      enum drm_connector_dp_event event);
->  
->  #endif /* _DP_DRM_H_ */
-> diff --git a/drivers/gpu/drm/omapdrm/dss/hdmi4.c b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> index bd6c4d2dcdc8..72972a6fe989 100644
-> --- a/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> +++ b/drivers/gpu/drm/omapdrm/dss/hdmi4.c
-> @@ -429,7 +429,8 @@ static void hdmi4_bridge_disable(struct drm_bridge *bridge,
->  
->  static void hdmi4_bridge_hpd_notify(struct drm_bridge *bridge,
->  				    struct drm_connector *connector,
-> -				    enum drm_connector_status status)
-> +				    enum drm_connector_status status,
-> +				    enum drm_connector_dp_event event)
->  {
->  	struct omap_hdmi *hdmi = drm_bridge_to_hdmi(bridge);
->  
-> diff --git a/include/drm/drm_bridge.h b/include/drm/drm_bridge.h
-> index 1981d24a700d..6382ef5f1ea2 100644
-> --- a/include/drm/drm_bridge.h
-> +++ b/include/drm/drm_bridge.h
-> @@ -509,7 +509,8 @@ struct drm_bridge_funcs {
->  	 */
->  	void (*hpd_notify)(struct drm_bridge *bridge,
->  			   struct drm_connector *connector,
-> -			   enum drm_connector_status status);
-> +			   enum drm_connector_status status,
-> +			   enum drm_connector_dp_event event);
->  
->  	/**
->  	 * @hpd_enable:
-> 
+Keep requests blocked when leaving the preparation step, including on
+timeout. Set resetting before unblocking the host so that queued
+requests cannot submit new URBs during teardown.
 
--- 
-Best, 
-Chaoyi
+Signed-off-by: Jiayi Li <lijiayi@kylinos.cn>
 
+---
+Changes in v2:
+- Pair SCSI request blocking and unblocking in uas_disconnect().
+- Use the address of the embedded host_lock in the current tree.
+- Add the missing Signed-off-by tag.
+
+v1: https://lore.kernel.org/linux-usb/20261022123401.319479-1-lijiayi@kylinos.cn/
+
+diff --git a/drivers/usb/storage/uas.c b/drivers/usb/storage/uas.c
+index 8655edb..300ab63 100644
+--- a/drivers/usb/storage/uas.c
++++ b/drivers/usb/storage/uas.c
+@@ -9,6 +9,7 @@
+  */
+ 
+ #include <linux/blkdev.h>
++#include <linux/delay.h>
+ #include <linux/slab.h>
+ #include <linux/types.h>
+ #include <linux/module.h>
+@@ -1211,16 +1212,54 @@ static int uas_reset_resume(struct usb_interface *intf)
+ 	return 0;
+ }
+ 
++static void uas_pre_disconnect(struct usb_interface *intf)
++{
++	struct Scsi_Host *shost = usb_get_intfdata(intf);
++	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
++	unsigned long start_time;
++
++	start_time = jiffies;
++	for (;;) {
++		if (READ_ONCE(devinfo->udev->state) == USB_STATE_NOTATTACHED)
++			return;
++
++		flush_work(&devinfo->work);
++
++		if (!usb_wait_anchor_empty_timeout(&devinfo->sense_urbs, 5000))
++			break;
++
++		if (!usb_wait_anchor_empty_timeout(&devinfo->data_urbs, 500))
++			break;
++
++		if (time_after(jiffies, start_time + 5 * HZ))
++			break;
++		if (uas_cmnd_list_empty(devinfo))
++			return;
++
++		msleep(20);
++	}
++
++	shost_printk(KERN_ERR, shost, "%s: timed out\n", __func__);
++}
++
+ static void uas_disconnect(struct usb_interface *intf)
+ {
+ 	struct Scsi_Host *shost = usb_get_intfdata(intf);
+ 	struct uas_dev_info *devinfo = (struct uas_dev_info *)shost->hostdata;
+ 	unsigned long flags;
+ 
++	spin_lock_irqsave(&shost->host_lock, flags);
++	scsi_block_requests(shost);
++	spin_unlock_irqrestore(&shost->host_lock, flags);
++
++	uas_pre_disconnect(intf);
++
+ 	spin_lock_irqsave(&devinfo->lock, flags);
+ 	devinfo->resetting = 1;
+ 	spin_unlock_irqrestore(&devinfo->lock, flags);
+ 
++	scsi_unblock_requests(shost);
++
+ 	cancel_work_sync(&devinfo->work);
+ 	usb_kill_anchored_urbs(&devinfo->cmd_urbs);
+ 	usb_kill_anchored_urbs(&devinfo->sense_urbs);
+@@ -1260,6 +1299,7 @@ static void uas_shutdown(struct usb_interface *intf)
+ 
+ static struct usb_driver uas_driver = {
+ 	.name = "uas",
++	.soft_unbind = 1,
+ 	.probe = uas_probe,
+ 	.disconnect = uas_disconnect,
+ 	.pre_reset = uas_pre_reset,
