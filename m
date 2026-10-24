@@ -1,102 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792873437;
-	b=JolEBKKIOSm2FQyUiSE/3AQESdShzuVpGkKFP0ZrteGLtGskevg4WngVS2jy9x/sfL4e
-	 xbFO4WlnSwpOwSNEu+FsodlHkj7qaMO2ujxx2CPvdAWn9KD152JhodwDnxJZO61HUFJAn
-	 MBqOhfNofEJlq/OaEoDgi2X+WOfHNBwmJQzi8zO4J8ZijKyOk4leB2IwtM1PuDtsM63Hy
-	 ArrgE9KLbhlyJWZucZX9Gk9wDGdCOJOHZ6foOiZfdFyt8vjWIwZGEKTZzfUkh1VfoPZP2
-	 59dt1/qjjQ0yfsPW1HvLRqXONnFEGHNcPBHftELSrsuTzV7Xc8IS5/T94+Tmb1bvbXQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792873437;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=u6nBBrzH+5QZg/x9FmxPN7BmlpA5oRt3HSD2i+J03io=;
-	b=OJtOdxHV84vsa54jtjcdNiaL2MvNGCIaXh6H2e8MNPYg97CP12zqmmvw9HTT5+sQw+fx
-	 dvs6fj9PbmZqguOTEAsyG0qBMpkC4wxl7Ly71dKZJB4xc2YswGI6YhoKmNpYVUiCN8bTD
-	 V+qsDvhIlpU0xlkpVlTBedxaHWHbkZzZ/69W2pPgYYyeMCw/jTj/3raxk3fwUgnGNvZ4L
-	 qH1VCFnofyMUZGI27KTxOFf/ch+1LwRThP3cB9R2CQgZs4w93kFdaQLwOwFfAERvNH80y
-	 TPxtkiJy1Lp2cO6hdSmntCOLY7KcyoQ0r0RrcDdwBICKhr87uVnBup85cyGZfJqV3ig==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=J+3YcT2G;
-	arc=none smtp.remote-ip=209.85.128.48
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792874173;
+	b=MZffrF0ElePaK89N03V1MirXn6cYuMk22id8u5egxVH+HgxI7wUxdDCoxhyXW/6fBC5S
+	 UrKJTs5KuIu4XT4HpP46jTNpX78+C6MPgFjEJ1QzkLteCmUaDoYPw0/QL2dzKZ9OjXyLK
+	 oUXfcIbFlpeEnatVOd4tTtj3YULrQEEcOLLOZ0R7uEsq8qdhASeUn6NinH65uETNZ+yMO
+	 479scLq9wlRL3k0bnCVzF9FwmqwHYxKpsBNwgsKIBZAPvIIbHBVAs7Dyk1KdbsvTaGMoO
+	 h0Zstd5xuQGwJeS8pyVko0N2wMeo+3rhvRDUn+mJr54XQVtNUuJCGCYE6gSHV4IgO1w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792874173;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-ZohoMailClient;
+	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=;
+	b=UyEd102N+dgYpmRm8Fcv7rfp1fzlH9QPRF42Jt7njPwW3phE2ixMOBOxIcu0SOpLa+N5
+	 t9j8PJGcfyYzsOHi1q6WbOql0lngL7nv5p9rUswsQgNKrofNPRBqv0ooe6bRg5G1kYvVT
+	 oLl6PnwoUr1IvaCnFg1H2Jybv2Qm2a/EyGG/BLeoxoLYWscrcphD2aZE4gJ++wv3mLIHW
+	 fuJwfMDPUEHxrMNfmLPnpaMAxNgeemwzcGBvnoLCHDN5IJIrJOl1IOR499L6Sko80czEB
+	 zx+lzvJgHto9CLD4ZbpAZbpevSuPBuXlC7iFW6tJp4sQOTJLATl/cgIu+a31tOi/JOQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=yiyuzhou.io;
+	spf=pass smtp.mailfrom=yiyuzhou.io;
+	dkim=pass header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=cz92QrAU;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63298606A31B
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 20:23:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 63298606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C4E606A31B
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 20:36:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15C4E606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=J+3YcT2G
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a4d7ae1ae9so2381615e9.1
-        for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 13:23:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792873436; x=1793478236; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=u6nBBrzH+5QZg/x9FmxPN7BmlpA5oRt3HSD2i+J03io=;
-        b=J+3YcT2G0CMbs2UizMx+Tftg1P/7M0ifAtvD9x77/zjipLjxJiNTRt9dPn1mH9W2rX
-         BbAM5jOyP2de8EE4Lc7Y4l2giU8Rk3NG5w7AlY9V7GGmrT3RhP/g/xVRUhNFibxY37fA
-         pkmUpKFmrUDpBJAi/9q3G5aeKlrxMY1AZ7+tg4mR9EmF3y46Ihs0nnLpsf2q44C1FrPp
-         kZ9zRhD9zl6MnHqDTFW+P+3sHbwqDcSQVc7HUQDkWnVpZT+59Y/nkFVp/7SUREustatY
-         ngLlnHetj9LXJrqacKwsgvZXisETavzqVjIBVbKWTLGxtT5rAdqOl0WJJmt4XvrNMVaS
-         XvOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792873436; x=1793478236;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=u6nBBrzH+5QZg/x9FmxPN7BmlpA5oRt3HSD2i+J03io=;
-        b=NP6o1Qz0eJgPeYtndlD0qgUfB08tyqkJf3tFNDDruXM4WByJGJCMVnGjnc5VJuoqm+
-         EfgPMH0YdaaiRuJj/mGX4zRlHrtkPdUi19+NFrcRatnbkGHLxeo0/+G4QldGhJt23Sup
-         1lNpY3sB43qJSoLEJPDlqiUBC1IDVHI1Do33S5Le6veyrx0lYygWR2WlfCdXH8tPaAnO
-         3xqOiEPxblNxVEUj5HeHWrPYVWNedTSQyJ6R1DtGaXVCDp28aoEpfdi5hB4tcXyIQjS+
-         4P4j+B/1NU3zfyA6T2H5rqLm31hWSdFBsvwFfZppyI783mNDrPC5w9OUedJNDaPyE6Te
-         Pn3w==
-X-Forwarded-Encrypted: i=1; AKwUvBzck83K64dfqCLpgBy+858lzdf7bS8ZtEtCE8eRnPznLtGXVcuTwNBMUOOvVPa7SzmVNRR+EN+cVM0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLaL+2VIyrfCKVcx/G7G3/03qn9ncWb9Hnv3O4VeHyRA1H6YMh3
-	qt2icX1nTNdM75/SG5MF+95/WfAW+kYZtrQmBE8CAQyhQoqkrVAjBstE
-X-Gm-Gg: AYBFou3Z4KLQwftD3j0KCfd7vT9hodrW0I4QX2QkmLq2OCLKgddSDVyWf6ljHNGy8Fl
-	sEQI/0dWIruPl5bxsv38rnVAU2/M9Y4HJFN8QEXxGO3hEpc2KMj9jWfQ+wgavBfK+pejzRLdz1A
-	GDvQxbD/MixG/eLIn9hcfcT4A0B6r7PEBxIjeX+RWRtVv5i8ETwBVuz3rT28Jeaj8jJoegHNLtS
-	Z/GWj3tZ82R+5FJJTQm4XNs1/Ne/TpW01VhIZZooQ+I+f8ALH6nnSjRKvMCF9piLJ7a4OTDrBYK
-	ahV1pMvH5u0D27+HsjSoXS9gUK6ozVGA0svbanLTn7U2MqeKPnR7Eze65uEzKjh5s+C61MzciAr
-	FmF7zR3np1goljGFAQbslOzEdlopnOIP9+niwrJ4ShdtrHWDslpsT9Y4ICdQ8EN+TrK0CO6aY8y
-	MpWF+I7NBC5FKXvxYnc+lrqHcqn9egyYhkeZTbAnYWNOSLEyjf+9Xs2hJrhHc08aTtHmEmWZxre
-	RaF35hcEVLXZGmdpvhhRdchvIuFSbv/fVfDx8fj6zrOEZNJbx3/Ywr8gjZ+3lI2w/yhcG0jDS58
-	KwCGrbsBpA==
-X-Received: by 2002:a05:600c:3b96:b0:4a3:5a42:b2a4 with SMTP id 5b1f17b1804b1-4a35ac8dd4fmr54691375e9.12.1792873435759;
-        Sat, 24 Oct 2026 13:23:55 -0700 (PDT)
-Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a30e11bsm93522995e9.1.2026.10.24.13.23.54
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Sat, 24 Oct 2026 13:23:55 -0700 (PDT)
-Date: Sat, 24 Oct 2026 22:23:51 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Nicolai Buchwitz <nb@tipi-net.de>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steve Bayless
- <steve_bayless@keysight.com>, Guido Kiener <guido@kiener-muenchen.de>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
-Subject: Re: [PATCH 0/4] usb: usbtmc: fix undersized high-speed bulk packets
- on xHCI
-Message-ID: <20261024222351.396b0c8c.michal.pecio@gmail.com>
-In-Reply-To: <bc5865736052c55683b2d3f2eeca0e01@tipi-net.de>
-References: <20261020-fix-usbtmc-short-packets-v1-0-903f4d029193@tipi-net.de>
-	<20261020184244.69b78d5e.michal.pecio@gmail.com>
-	<a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
-	<20261021005654.23517441.michal.pecio@gmail.com>
-	<cae2e837872be0560f7f46e13651059b@tipi-net.de>
-	<20261023202645.7bf4827a.michal.pecio@gmail.com>
-	<bc5865736052c55683b2d3f2eeca0e01@tipi-net.de>
+	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=cz92QrAU
+ARC-Seal: i=1; a=rsa-sha256; t=1792874155; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=mnEa4CQjavy7FssC7FoesvbYOX1RQI8CB8FwvOfjeke6uALORVHkuQy/nJUxBYcHH+lHoIO/u1l1Sv3jQwz8mISb+9CT4wEDdqDAOonuMMHLubyRakciD+ohTZxEvik5LdI3UCzEScDNdK8D9zAwZGNFj+igGLlKF2BHIHSREwY=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1792874155; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=; 
+	b=KgwmYNne4EMUO4ousgEkzjKCck9AJM4F2IQRqhy9NPHyyLbyCxxMavvuz1SpSxyEx0BAsp310Jf83qiwf9Ml/vqUvEeZVZYM/Gvz1ip34FHbp8McSCT535kbLasRevNENaEE3vA7shOxh/Vwf8STsSBP69LAf1NG32mekjdQ4Lg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=yiyuzhou.io;
+	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
+	dmarc=pass header.from=<yiyu@yiyuzhou.io>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792874155;
+	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=;
+	b=cz92QrAUEzHzo84mvnh8ZqNjbgcZ4avYJviTADtxQ9AB7LHaU+JGOaBPPObCnSZY
+	XDOIfqqDnQXPGTVd1hVV7JpK1rzMDiu+ayPN5buiEJQsZxrOTj+9kDUFBEBKMMBqmNS
+	J+r3v0MVI6H5+gK8MLCgMIJ4gD5URrAv5vqK99es=
+Received: by smtp.zohomail.com with SMTPS id 1792874153007432.99339235985644;
+	Sat, 24 Oct 2026 13:35:53 -0700 (PDT)
+From: Yiyu Zhou <yiyu@yiyuzhou.io>
+To: Dennis Wissel <dennis@dsine.de>
+Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
+	linux-usb@vger.kernel.org,
+	mathias.nyman@linux.intel.com,
+	regressions@lists.linux.dev
+Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5 (3434:d068) at boot since v7.3
+Date: Sat, 24 Oct 2026 13:34:07 -0700
+Message-ID: <20261024203410.3174741-1-yiyu@yiyuzhou.io>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,38 +74,38 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-On Sat, 24 Oct 2026 13:17:11 +0200, Nicolai Buchwitz wrote:
-> On 23.10.2026 20:26, Michal Pecio wrote:
-> > I don't have any out of spec device, so I tunned a Cypress FX2 into
-> > one - it exactly replays every received packet back to the host. I
-> > found that power of two sizes from 1 to 512 work, except on Etron
-> > HCs which only take 512. Guess we could have an exception for those.
-> > 
-> > So this seems very viable. I will turn it into a proper patch and
-> > see what the maintainers think. Seems better than patching class
-> > drivers.  
-> 
-> Thanks! If you need something testing with the devices I have at
-> hand, please let me know.
+On Sat, 24 Oct 2026 19:47:10 +0200, Dennis Wissel wrote:
+> My guess, untested: the xhci changes merged for 7.3 that touch
+> cancelled transfers on control endpoints, e.g. 7c0c31c66a7f ("move
+> dequeue to next valid td instead of past cancelled one"). The fast -71
+> on 7.2 turning into -110 timeouts plus resets on 7.3 seems to fit
+> that. I haven't bisected or tested a revert yet, but I can if you
+> point me at what to try.
 
-Hmm, I blamed existing code and found that it actually solved some
-reported compatibility issues. Devices that specify bogus packet size
-(that they don't really care about) do exist. Somebody had a problem
-similar to what I see with Etron (maybe it was Etron), somebody's AMD
-chip didn't like packet size of 4. Using legal sizes helped them.
+This matches a regression I reported with an HHKB keyboard on a root
+port.  There too, 7.2 failed at once with -71, while 7.3 made the
+usbhid probe wait out repeated 5 s control timeouts and then
+re-enumerated the device, which hung again.  In my case the device
+disconnects itself while a control transfer is in flight.  Since
+042aad8d0db6 ("xhci: prevent endpoint recovery after roothub
+disconnect") and 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after
+disconnect or link error."), xhci does not give back a halted transfer
+on a disconnected root port and stops ringing the doorbell for that
+endpoint, so every later request waits for its timeout until hub_wq
+handles the disconnect.
 
-I think I will restrict this to plausible values and default to 512.
+The fix is queued in Mathias's for-usb-linus branch as 1f36cc9fa949
+("xhci: give back all TDs when skipping endpoint reset after
+disconnect") and applies cleanly to v7.3:
 
-Testing which could help is to check various xHCI controllers if they
-support those 64 byte endpoints or not. Just because Microsoft and
-Chinese TE vendors do something doesn't necessarily mean it's good ;)
+https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/commit/?h=for-usb-linus&id=1f36cc9fa9496189e95fe5762cde8a74e0cd9d68
 
-The Etron issue is real and Windows seems to have no solution for it
-(instant yellow exclamation mark on connection). Better to avoid such
-drama with devices that don't care. Hopefully it's unique to Etron.
+Could you test it?  If it fixes your case, please reply here so that
+Mathias can add your Tested-by.  If it does not, reverting 042aad8d0db6
+and 7e0ef4332ed9 on v7.3 would show whether these commits are involved.
 
 Regards,
-Michal
+Yiyu
