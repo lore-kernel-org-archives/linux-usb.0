@@ -1,49 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.177
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792840644;
-	b=ylcuemVCDTmq2EuQrHa+3dDcLdTKtstDSDXMV66PEsCdFqBzjvIVRsvI6AS7+K7JeWsR
-	 qSaQp1Z4qJj8Wz5ljkhwyxgROl+8lItWame6FJnZG8R1tpHNADsMfQ2jGlh41NPPGWoOg
-	 T6ROAh5eZWLMn9a/hDQa863/bWIUgm1zsU8AKXraKjv0LOxFMq0A1JHmqCw/o+smwHg05
-	 zvgo/S/0pjwNRyZEfZDQgBT0C9vUiyXPUHpgLzCME6F+85YnY4sCKBvHUK9PFhqDPETmg
-	 nxGsuw2+QA1Q0UHAc8UKGv3uoTS4tFp7KOHW8PHH4fVIMW2+U0ZWNo+mH304gD8RBPg==
+	t=1792842752;
+	b=hHc6oqxyBKIrfLzSeOLsg2giSYLSxAd1+xIfYCGcI8R55bOq4OdjuaKTfZCLj3F+xwpI
+	 XMACOAnpqEH6sQ1M1+6XoHYslx8vnF7F/DLMwfQfHZzGEqP2p4LS09/8QD6H8j+e69Krn
+	 Wb6yYKxJmJdXMElA1Jkpzzn3zt3d7aH3HB4pHVz4GViXxkc/na04BOi5WE0vo01b9Isrk
+	 1UlMpf1JIzyhwznPvS6LTPHbftdz0/FAC6FV9LSntu5Ph4TPLdmSv0QTbscPEnGRxh2XE
+	 nRhcgocRvscu5sSV4cgBvgyHLbufy+0vb0VHIP6cszkTRxeLYsbtoXtMPyQAwMWFSsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792840644;
-	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
-	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
-	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
-	bh=UWioxnS7+9M848vOzYEdNrzd7ZlxotcHELBkStbCFN8=;
-	b=NtUj9b241SQYICkgSI+SUTxS7UCGUHtIsg21TZuQcwkkLvLfBNWYaA7bDevp6gvBQ5Fw
-	 OKXvSGpfk0J5s8loGVotALiqbh6ILxcKmB53VmU9v/GBdHJYSKmO3jeQix6UrX9xTl/HX
-	 2tpimL4VOzh+ZxSPzW7v3YahuCv8Xp83tq2VPqh/3LCszUrF9w7NUX2XWP469eJG8lbVY
-	 1LAVIIeTYJqIBQUkedmjfA44BCJBzwy+QG0n9/OdmEM7iyUZAAEQQb/el6FFrSJAldp6s
-	 M79W0jJ3jt9rUOdlvhKbueQJ41irH3EH5EULKO8wDyFM6Ljk9h0/hIKZQSAAvJU7jtQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792842752;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=AW0iDiDhPw3HeIJ6Qu71m8tTntH56Z6IEED1Lqi8fUo=;
+	b=YKl68mOQCltZ2E4WCEGvDkg7fiP+trJDcmSlAPvSUUyM5Np243ZE3QTjCs4lvc/hCBCb
+	 lM2pkm9RSLHOd9OLqj7FaYDIMgNbOtEbbcnFkm6Ou16yuaDBX5nFidUetMWSbvrtfZzYp
+	 wFijkfC58Txn2d4X54e9ivInIHervAWPS2FWLYySshkZ51Hf+jAPEAnG3oV4qy597udnF
+	 iM9rYDXuBe6QQvLKjrxoZvlUb3nWMN20njux97a2WzE2RUU5lLeNTR7HYx5Ocy6KoTv2S
+	 1lpA713gYvPdpaqG6tyis8a2GLHkcKqxwuTiOQZjfnLiDPf3QA118AdHzthdTYmBoqg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=tipi-net.de;
-	spf=pass smtp.mailfrom=tipi-net.de;
-	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=N1C6S9gU;
-	arc=none smtp.remote-ip=194.13.80.246
-Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=bBjEvhib;
+	arc=none smtp.remote-ip=74.125.82.177
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514A4606A31A;
-	Sat, 24 Oct 2026 11:17:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 514A4606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 368BB606A31A
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 11:52:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 368BB606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=N1C6S9gU
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 32423A15A3;
-	Sat, 24 Oct 2026 13:17:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
-	t=1792840633; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=UWioxnS7+9M848vOzYEdNrzd7ZlxotcHELBkStbCFN8=;
-	b=N1C6S9gUE1z337eFBvCI7/A6w/c5tjnXAVHCR1Qib9hSuNOKyZHeZWPZBv8dQoS/6X7e8H
-	1TdSRxQsNGvC6V1We4py/b2yy3R//BW8BDZoYFhuvhHAw1kLHIZpP3XM+z7wltUpd6B/UT
-	zXbNQCl3Bs0cA3VxLK4ctILrXAx9SAUXBrTxWOBciNPjG/vRFh9eq5llyg+8viRFmvGWo0
-	wWvy3F4PbAddV7YmrSx9JMQLkAV511ASG5N9nqKCP/fBsSILFcvKYpI33bdDGEu46OQ21g
-	vsUpYF2ijJi0PFdzD7rsfJpwfR0Nw9u6bEMKfOi1sFPOj6A9bjgLAUgakh8U0A==
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=bBjEvhib
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-313bab9cfe7so302044eec.3
+        for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 04:52:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792842751; x=1793447551; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AW0iDiDhPw3HeIJ6Qu71m8tTntH56Z6IEED1Lqi8fUo=;
+        b=bBjEvhibJdRdn3Noct7rmn3EONm1dVpRAyq95BwvIWi8wdzowrhCah0aG0FUif8gNw
+         8OPZpCMhdB6slqTRFJB7kO/5SikM8K/X/pjrKnrTCJuTxbA6DMaPPOuPpGV3epTbvlM2
+         GSdAqn7+G+xMgXUImktrF49tZVZJcC8qula4fDXsWxFHuFqr5nyONHYzD5Og2QPWAQyq
+         3uNqw5hksdcm/6IcKJylKaffZQkI8QD/7q0igHZ3dd0yZOpvT3DEW+NYWb3mtgfxgrzD
+         3KLAjlM7YPht5dor+Ode+Vy9Oo9TTfYhQmiuqELyTAFHtMsB4+cWETcPuSIf2qhI2FQ0
+         5c/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792842751; x=1793447551;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AW0iDiDhPw3HeIJ6Qu71m8tTntH56Z6IEED1Lqi8fUo=;
+        b=iFa8MDemy86hoQUFctBbyS5+00jPPoocBGfWUzSKZsYXMzl7e4GEnBGKS3k6JV3yE0
+         c2zLM2iasnXilKk98ZIi1PhBzrWSv6Sai7RUanSb0mu+YV1HKE+DdtnKNTC19Vxln1iF
+         bTDYAygiXycMDelD7bXYeyUE/dIwIToqSUHbI5zbt6OuebMMeTTwoevUf5KdjL3we8si
+         kkrnP8+4sNq2X7ongbO8SfNsEqXp1cFhJmXnoYGpB+WO5LQzPqpOCOpUU4nOQX8KAd9U
+         HpPORfLH1ZREq1CCvCC5ofKVcsVuz8Sw5qiVOD5Y+SWwA41N+25muQRDJ4TBzzlMfg8H
+         Yo5A==
+X-Forwarded-Encrypted: i=1; AKwUvBxHymYVI71l6rYrIkfvTh87vkAdtKi+Zx/p3tyARqzhvdYyV8dIn7M4tU5MXQfh0P59ozpIun/c01w=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKfaGGr1HKceJkLg1a257z6NBvDaY9zr1xhXeU9gcAE3oaX+def
+	2s7ex6FPWE+oB+FxOgqGkR9DBcZZIRpynZuwbExLwP3+PxR7yNYXLFg5
+X-Gm-Gg: AYBFou0EaKmS0PYlTF58k18U2/m3qBvZTrDL8Mwt0GcapJcTiQxjz3eGzNl6BneJ0Zs
+	jIC0UTU4qdNiCxhXz8SCj8AkaBc8FVzWAC3l/P6gYpayZYbRWcLbgSLyRkzOuSZjQSx7aTWoznQ
+	13EKlNU2ute2D73L5tSGWuMxJsFZh9yenyCcCh9lB+22KTp8RWkPVYYiCVp+0+47Ia6NCJ/pTAz
+	f+He+sNOFyBx9b5hH4UsUG5QSVeMzC9s19VJ1swb8Yu2vGMgY7XcgL4tevjMJXyXuo7ypzRzmVk
+	ddUhFbHWFGgvzMBcToaA3RC7Nng6ZlF75FAEHAN9SrxAblBUZN4gOBv1Se2VyuPx9u3w/7POdHR
+	m5Hs4LSrmhi+gwYBDLkKHo9GVk+WwY1oOJ/UweWvOlXkhP8Bf+ayfTi6WbjXcxZ/oj6EYDSp9Tr
+	mEBEfei7kJfpjFyE9Pr1R6Tc1RXGI/XtSDD0FExRlvh2pfkNHkX04t9L0/5SF3Uuesk/tC6a2Gw
+	6YN1VLsy+l83Vi3kkQTgPeUqy26LnaNYufRSXkHq4aT/UhZXNV3DvN2Sb2H9AdgnWOjlIz1K50P
+	MYIctsPefBfhjRant2MJpgsEltAFmP4BGtwDB7E=
+X-Received: by 2002:a05:7022:4582:b0:190:e602:c769 with SMTP id a92af1059eb24-19933e0f4e9mr4773490c88.1.1792842751119;
+        Sat, 24 Oct 2026 04:52:31 -0700 (PDT)
+Received: from chenyou.. ([140.116.39.229])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1989ff2ea25sm6367060c88.5.2026.10.24.04.52.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2026 04:52:30 -0700 (PDT)
+From: Chen-Yu Yeh <chenyou910331@gmail.com>
+To: Minas Harutyunyan <hminas@synopsys.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Inochi Amaoto <inochiama@gmail.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Chen-Yu Yeh <chenyou910331@gmail.com>
+Subject: [PATCH] usb: dwc2: Disable gadget descriptor DMA for Sophgo CV18XX/SG200X
+Date: Sat, 24 Oct 2026 19:52:20 +0800
+Message-ID: <20261024115220.823159-1-chenyou910331@gmail.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,65 +97,44 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Date: Sat, 24 Oct 2026 13:17:11 +0200
-From: Nicolai Buchwitz <nb@tipi-net.de>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steve Bayless
- <steve_bayless@keysight.com>, Guido Kiener <guido@kiener-muenchen.de>,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
-Subject: Re: [PATCH 0/4] usb: usbtmc: fix undersized high-speed bulk packets
- on xHCI
-In-Reply-To: <20261023202645.7bf4827a.michal.pecio@gmail.com>
-References: <20261020-fix-usbtmc-short-packets-v1-0-903f4d029193@tipi-net.de>
- <20261020184244.69b78d5e.michal.pecio@gmail.com>
- <a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
- <20261021005654.23517441.michal.pecio@gmail.com>
- <cae2e837872be0560f7f46e13651059b@tipi-net.de>
- <20261023202645.7bf4827a.michal.pecio@gmail.com>
-Message-ID: <bc5865736052c55683b2d3f2eeca0e01@tipi-net.de>
-X-Sender: nb@tipi-net.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-On 23.10.2026 20:26, Michal Pecio wrote:
-> On Wed, 21 Oct 2026 11:34:19 +0200, Nicolai Buchwitz wrote:
->> I checked on Windows 11 (Intel xHCI, WinUSB + libusb): same
->> descriptors as on Linux (HS, bulk wMaxPacketSize 64), and a single
->> 4096 byte bulk IN read returns the complete 110 byte reply, so it
->> seems, that Windows programs the 64 bytes into the endpoint instead
->> of forcing 512.
-> 
-> Yes, that's what it seems to be doing. I passed a fake storage device
-> with weird endpoints to Windows 10 in QEMU and with some debug tracing
-> (slot/ep context hexdumps are my addition) I see this:
-> 
-> usb_xhci_fetch_trb addr 0x0000000139a3c450, CR_CONFIGURE_ENDPOINT, p 
-> 0x000000013a18d000, s 0x00000000, c 0x01003001
-> usb_xhci_slot_ctx addr 0x000000013a18d020, c 0x68000000 0x00000000 
-> 0x00000000 0x00000000
-> usb_xhci_ep_ctx addr 0x000000013a18d0a0, ep 4, c 0x00000000 0x00400016 
-> 0x39a3cc01 0x00000001 0x00000000
-> usb_xhci_ep_ctx addr 0x000000013a18d1c0, ep 13, c 0x00000000 0x00400036 
-> 0x375ff001 0x00000001 0x00000000
-> 
-> The 0x0040 in the second field is packet size, and it becomes 0x0400
-> when I change to 1024, or 0x0002 with 2050. Windows blindly copies
-> those eleven bits here and only gets upset if they are all zero, then
-> it resets and enumerates again a few times.
-> 
-> I don't have any out of spec device, so I tunned a Cypress FX2 into
-> one - it exactly replays every received packet back to the host. I
-> found that power of two sizes from 1 to 512 work, except on Etron HCs
-> which only take 512. Guess we could have an exception for those.
-> 
-> So this seems very viable. I will turn it into a proper patch and see
-> what the maintainers think. Seems better than patching class drivers.
+dwc2_set_cv1800_params() disables gadget DMA (g_dma) but leaves
+g_dma_desc at its default, which dwc2_set_default_params() takes from
+the hardware capability. Descriptor DMA requires g_dma, so
+dwc2_check_params() rejects the combination at probe time:
 
-Thanks! If you need something testing with the devices I have at hand, 
-please let me know.
+  dwc2 4340000.usb: dwc2_check_params: Invalid parameter g_dma_desc=1
 
-Regards,
-Nicolai
+The check then clears g_dma_desc, so the final configuration is
+already correct and only the warning is spurious. Disable g_dma_desc
+together with g_dma in the platform parameters instead.
+
+The gadget parameters are only set up when dr_mode is "peripheral" or
+"otg". All in-tree CV18XX/SG200X boards use "host", which is why this
+has gone unnoticed.
+
+Tested on Milk-V Duo 256M (SG2002) with CONFIG_USB_DWC2_DUAL_ROLE=y and
+dr_mode = "peripheral": the warning is gone.
+
+Fixes: 63aa7ab955e7 ("usb: dwc2: add support for Sophgo CV18XX/SG200X series SoC")
+Signed-off-by: Chen-Yu Yeh <chenyou910331@gmail.com>
+---
+ drivers/usb/dwc2/params.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/dwc2/params.c b/drivers/usb/dwc2/params.c
+index 091bfcfef753..6941705e426d 100644
+--- a/drivers/usb/dwc2/params.c
++++ b/drivers/usb/dwc2/params.c
+@@ -226,6 +226,7 @@ static void dwc2_set_cv1800_params(struct dwc2_hsotg *hsotg)
+ 	p->otg_caps.srp_support = false;
+ 	p->host_dma = false;
+ 	p->g_dma = false;
++	p->g_dma_desc = false;
+ 	p->speed = DWC2_SPEED_PARAM_HIGH;
+ 	p->phy_type = DWC2_PHY_TYPE_PARAM_UTMI;
+ 	p->phy_utmi_width = 16;
+-- 
+2.43.0
+
