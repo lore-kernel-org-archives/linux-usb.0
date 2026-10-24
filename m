@@ -1,70 +1,54 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792874186;
-	b=hMnWqBAZe6KuY0qVcmyRfYyUbSpaSSdM4HLmXbd2+dRJ25u2bczUH0OtclbLuUpY9aqz
-	 +JXIZvWzgqZCDoralM0Uwrq5QLlgIVCzZDePBr7ewhr0vWeLjjkjOa0hBlyJ0BNB2zJDF
-	 2nZIPHa+I1XixBqoiD7WdbZyWbgHtBU+8NokK0OIV3BAQkytg2TXSqs8EgtDUn44z+B5w
-	 EkxAwPqShfPWgom/ZKh9fe7GB3vheT08vAl71MiY3RXfYKiLQUVo8uSGhIou9Tr39qQdf
-	 5cDgVzcJ3ghfIK4Fkuq27ZvFGR3lCoMlXboRk67HtSvZjvxfCT64Ysj+/CFK3EljFNg==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792874186;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-ZohoMailClient;
-	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=;
-	b=iQCILD/Ph2FVaJr8MrTzYsOuRoxoqYaOXA+pfQg2vlsmSsItRnpYkxW0GWA7lLSfdUMa
-	 9fhBNCYQ82YmrvaoLKa6Uf5h1cqypMgRAl1oZI90Kbd4N1thG9zU68BYu/+HAtnLMxsEq
-	 wsp2diCYWJN70t8U1uHGUaj8ZfV8l9zhteJ07WHNr+aN6B91DJp2V7ovUryYJYHbZG0BK
-	 0A5VBvfAV7QREVcb0AlI7g0x8YwPjkxqIzgM7ASDbtvkvhS0Y7ukWdKGYOMgLG1pmfr1c
-	 yNo3Vdcrns5Rx7e+uP0qJGHcXlfLtQwlbRacqKLd77asvWuWiTJ3JFq7e2yth0YXg6g==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=yiyuzhou.io;
-	spf=pass smtp.mailfrom=yiyuzhou.io;
-	dkim=pass header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=DF9ampO2;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.71
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792874547;
+	b=rrPoDU7jSFiDec9Ry8FcDpuSxrjmyVmkTeTbxUTEqhef3B3KyRK+oaPFEiojTlE7ToQp
+	 qY6RF7ran2X8tVh7Hon/3DfNloWu50wzVPLdyeIGqqXPv6bdBl/ZEpFh8J2ApYpuwLtjf
+	 EFzdCI0hjbC7AVK9QGXymnOQgHi7ICBiNF495Ew3utD1J0beF8U92hLpAdZaIkzXgWEbb
+	 M9REQfDiLl3WpcZAWGCaZrzAMobPIGSgBifXZ0AfQDaul+0bAa0K/NeLRCB+QRk/7O7s9
+	 P9hxs/93rtmYIy2tY3lXXx9C26GEVhHG0xkN6LNkZLM8UetGYjBM9Z8O2lBFB+D85GA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792874547;
+	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
+	 X-Gm-Message-State:MIME-Version:X-Received:Date:
+	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
+	 Subject:From:To:Content-Type;
+	bh=FqBdXGEsMuUTS0y0QM4UIXMu2Yp29adRdaRXwX7vNjE=;
+	b=TSabF+gsyCoEfUxylks+pWJVq2ssyjgaGkmwp5jOVugBizfoAZ7kSbROMTg9wZ/Tfnjp
+	 PORE5QjNC21YcQlX1dvtr3Mr6gGRziH9Y95IDLecEuxH5G8hO6qdFwC5T+XNan1h9VAUo
+	 pRZlRN+P6hmHaGpXyBbu1Ho3ddiegMh76V2i6t9dRPRVROBl0LlLfTbUwQVvT781mmJkG
+	 zK+LCgc9QE/sVXbKfSA4WT1VJMt6ohhlcfZVXkAtHurzXw63314CPrErXzYIyurvhAT1v
+	 or9/Jlf8dJCevU4fIm2WzYgv4ZTyKSQLTd57WEgvoDzPEIGwS0+XwlsEQwinJP4T0wg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=fail header.from=syzkaller.appspotmail.com;
+	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
+	arc=none smtp.remote-ip=209.85.161.71
+Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDCC606A31A
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 20:36:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCDCC606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=DF9ampO2
-ARC-Seal: i=1; a=rsa-sha256; t=1792874171; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=H676zoERxWI6cTCqFzKytTo1ViksR7f9fTpC7sbxEtnYsIdPncDnUNjONMv/p6+XkRzUDJO8opDnK+g5cbm4QFOSYQUn/TfvF+WNkQ/AYczGmiOtuQWLEobigRqXv4jGvrjPwj5pGF7XJ6Fcs+zY2ccXG7ANa1uzq2vTWTjH1BI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1792874171; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=; 
-	b=HCKpGC+MfsMosxIPEhzO5V8DdBhf8Wliqpq/NLmUFiCuyNQty00CoZ8e3+PHH7D5kBD24cudCJy7LxQ3Qonp06u0KQ/j7TITFxRlP3K6QDKJdaF6vh28kDX7/5voJIYfaT4jAx0phcyEC3A/DWGRJpCwONxJ9tNdf7iNa4JCeBs=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=yiyuzhou.io;
-	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
-	dmarc=pass header.from=<yiyu@yiyuzhou.io>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792874171;
-	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=;
-	b=DF9ampO2SgjkSzdRG+1RoCkLk2KP2DIsVeC1jwOyBdAYI1bROj2YyMO0EKyaTyPz
-	tGlBGx+Nztwo0ua86KLEQkgPvX4RduN9FyHAfhcp1O3loPlpINWr+ZbOiWwx3gGusmj
-	pGP5wPO6avl7XLGG3UqnmokSdfIvBLkhBIrpanXk=
-Received: by smtp.zohomail.com with SMTPS id 1792874169153726.9444677472776;
-	Sat, 24 Oct 2026 13:36:09 -0700 (PDT)
-From: Yiyu Zhou <yiyu@yiyuzhou.io>
-To: Dennis Wissel <dennis@dsine.de>
-Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
-	linux-usb@vger.kernel.org,
-	mathias.nyman@linux.intel.com,
-	regressions@lists.linux.dev
-Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5 (3434:d068) at boot since v7.3
-Date: Sat, 24 Oct 2026 13:35:56 -0700
-Message-ID: <20261024203558.3181711-1-yiyu@yiyuzhou.io>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
-References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A86E606A31B
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 20:42:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A86E606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-6dcde9c2063so2019725eaf.3
+        for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 13:42:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792874546; x=1793479346;
+        h=content-type:to:from:subject:message-id:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FqBdXGEsMuUTS0y0QM4UIXMu2Yp29adRdaRXwX7vNjE=;
+        b=tz/eXlCjY1nqRsjSSAd4Z0iwJF9HBVLVzm3VHHs7UkP2m9yJ81ngN8UmiNj/15Eajy
+         lOrGuPLVcs8/87FnurCnW46lV3AB/A6kjPxaX13jJ/dwOjExb3Q3F5EKp6GPxvtby5G4
+         qTeUVYXW3w9dNsRzB9EgKptibXtghEO4Cn8vNCLELkhsTaiVd+214fLnULr0ax5di6FO
+         RgggWmipk1kmpl1X9kPTULJXw/LJ9k4Qhkd26wO9aOliOw536pJaVJeLlp4O9TyTmmyL
+         +0WcQ4eZrzp0pe6x9csZ44pZ9XPgsMT91M0e0GnWDACeIS/Z4vdExaQzxeLPzt9dvVgy
+         V2eg==
+X-Forwarded-Encrypted: i=1; AKwUvBwiBKuTFOj4Yh34JAFjkfYRuoy2++1cClfZti5lruoKoP6xLQYZ0Aq+kfy2FKW4Se/dFdN8PLUjeXA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKL8evH20zAI4eQKfYFwrH5O8CRqg9I5sSOZa9n8i10O7yiHTue
+	m+KlXUvIzVDZdiAaUmpCw87f0NoAbgd/who73vWoy6yrY3q+5fu1qN7FhKLk4brdRpIQhuWvS/1
+	zuWXTvmtuR79fNmbhg3MoxAO51eoGfT1F2obNGIaK+KeOG0R2n8CXqapNZIY=
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -74,38 +58,131 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-Received: by 2002:a05:6820:c0db:10b0:70a:849b:6ec6 with SMTP id
+ 006d021491bc7-70ba0b62d74mr1000207eaf.6.1792874546529; Sat, 24 Oct 2026
+ 13:42:26 -0700 (PDT)
+Date: Sat, 24 Oct 2026 13:42:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <6add1832.a26421ad.3bb4f4.0013.GAE@google.com>
+Subject: [syzbot] [mmc?] BUG: sleeping function called from invalid context in vub300_inactivity_timer_expired
+From: syzbot <syzbot+13d431d857e347804708@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
+	ulf.hansson@linaro.org, ulfh@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 24 Oct 2026 19:47:10 +0200, Dennis Wissel wrote:
-> My guess, untested: the xhci changes merged for 7.3 that touch
-> cancelled transfers on control endpoints, e.g. 7c0c31c66a7f ("move
-> dequeue to next valid td instead of past cancelled one"). The fast -71
-> on 7.2 turning into -110 timeouts plus resets on 7.3 seems to fit
-> that. I haven't bisected or tested a revert yet, but I can if you
-> point me at what to try.
+Hello,
 
-This matches a regression I reported with an HHKB keyboard on a root
-port.  There too, 7.2 failed at once with -71, while 7.3 made the
-usbhid probe wait out repeated 5 s control timeouts and then
-re-enumerated the device, which hung again.  In my case the device
-disconnects itself while a control transfer is in flight.  Since
-042aad8d0db6 ("xhci: prevent endpoint recovery after roothub
-disconnect") and 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after
-disconnect or link error."), xhci does not give back a halted transfer
-on a disconnected root port and stops ringing the doorbell for that
-endpoint, so every later request waits for its timeout until hub_wq
-handles the disconnect.
+syzbot found the following issue on:
 
-The fix is queued in Mathias's for-usb-linus branch as 1f36cc9fa949
-("xhci: give back all TDs when skipping endpoint reset after
-disconnect") and applies cleanly to v7.3:
+HEAD commit:    bdf12cde3083 usb: gadget: dummy_hcd: prevent unbind via sy..
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=10f7c231580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7f0127eb11110629
+dashboard link: https://syzkaller.appspot.com/bug?extid=13d431d857e347804708
+compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
 
-https://git.kernel.org/pub/scm/linux/kernel/git/mnyman/xhci.git/commit/?h=for-usb-linus&id=1f36cc9fa9496189e95fe5762cde8a74e0cd9d68
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Could you test it?  If it fixes your case, please reply here so that
-Mathias can add your Tested-by.  If it does not, reverting 042aad8d0db6
-and 7e0ef4332ed9 on v7.3 would show whether these commits are involved.
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/85e12902fee8/disk-bdf12cde.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/4a1ee2a067fd/vmlinux-bdf12cde.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/2acb753f5754/bzImage-bdf12cde.xz
 
-Regards,
-Yiyu
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+13d431d857e347804708@syzkaller.appspotmail.com
+
+BUG: sleeping function called from invalid context at kernel/workqueue.c:4561
+in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 14894, name: dhcpcd-run-hook
+preempt_count: 100, expected: 0
+RCU nest depth: 1, expected: 0
+locks held by dhcpcd-run-hook/14894: 3, last CPU#0:
+ #0: ffff888119da0340 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_lock include/linux/mmap_lock.h:600 [inline]
+ #0: ffff888119da0340 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_lock_maybe_expand+0x1e2/0x3d0 mm/mmap.c:1691
+ #1: ffffffff898e6f20 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ #1: ffffffff898e6f20 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ #1: ffffffff898e6f20 (rcu_read_lock){....}-{1:3}, at: mt_find+0x136/0x9b0 lib/maple_tree.c:6431
+Preemption disabled at:
+[<ffffffff8177b113>] softirq_handle_begin kernel/softirq.c:486 [inline]
+[<ffffffff8177b113>] handle_softirqs+0xf3/0x9b0 kernel/softirq.c:621
+CPU: 0 UID: 0 PID: 14894 Comm: dhcpcd-run-hook Not tainted syzkaller #0 PREEMPT(lazy) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
+Call Trace:
+ <IRQ>
+ __dump_stack lib/dump_stack.c:94 [inline]
+ dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
+ __might_resched.cold+0x1dc/0x222 kernel/sched/core.c:9264
+ vub300_delete drivers/mmc/host/vub300.c:379 [inline]
+ kref_put include/linux/kref.h:65 [inline]
+ vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
+ vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
+ call_timer_fn+0x198/0x5f0 kernel/time/timer.c:1748
+ expire_timers kernel/time/timer.c:1799 [inline]
+ __run_timers+0x757/0xb00 kernel/time/timer.c:2374
+ __run_timer_base kernel/time/timer.c:2386 [inline]
+ __run_timer_base kernel/time/timer.c:2378 [inline]
+ run_timer_base+0x114/0x190 kernel/time/timer.c:2395
+ run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
+ handle_softirqs+0x1d9/0x9b0 kernel/softirq.c:645
+ __do_softirq kernel/softirq.c:679 [inline]
+ invoke_softirq kernel/softirq.c:519 [inline]
+ __irq_exit_rcu+0x168/0x210 kernel/softirq.c:758
+ irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
+ instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
+ sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
+ </IRQ>
+ <TASK>
+ asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
+RIP: 0010:lock_acquire+0x5e/0x380 kernel/locking/lockdep.c:5947
+RSP: 0018:ffffc90014baf920 EFLAGS: 00000206
+RAX: 0000000000000046 RBX: 0000000000000000 RCX: 0000000000000200
+RDX: 0000000000000000 RSI: ffffffff892be127 RDI: ffffffff87d2bd80
+RBP: ffffffff898e6f20 R08: 0000000032a4bc37 R09: 0000000000000007
+R10: 0000000000000200 R11: 0000000000000001 R12: 0000000000000002
+R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+ rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
+ rcu_read_lock include/linux/rcupdate.h:849 [inline]
+ mt_find+0x14a/0x9b0 lib/maple_tree.c:6431
+ gup_vma_lookup+0x20/0x170 mm/gup.c:1275
+ __get_user_pages+0x241/0x2970 mm/gup.c:1396
+ __get_user_pages_locked mm/gup.c:1692 [inline]
+ get_user_pages_remote+0x3d2/0xb10 mm/gup.c:2609
+ copy_strings.isra.0+0x475/0x790 fs/exec.c:511
+ do_execveat_common.isra.0+0x38f/0x580 fs/exec.c:1941
+ __do_sys_execve fs/exec.c:2038 [inline]
+ __se_sys_execve fs/exec.c:2032 [inline]
+ __x64_sys_execve+0x93/0xd0 fs/exec.c:2032
+ do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
+ do_syscall_64+0x119/0x710 arch/x86/entry/syscall_64.c:84
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f65da68e107
+Code: 0f 00 64 c7 00 07 00 00 00 b8 ff ff ff ff c9 c3 0f 1f 00 48 8b 05 a9 ee 0f 00 48 8b 10 e9 01 00 00 00 90 b8 3b 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d c1 ec 0f 00 f7 d8 64 89 01 48
+RSP: 002b:00007ffdc0ec44e8 EFLAGS: 00000246 ORIG_RAX: 000000000000003b
+RBP: 000055bee7e24ef8 R08: 00007ffdc0ec7f12 R09: 0000000000000000
+R10: 0000000000000008 R11: 0000000000000246 R12: 000055bee7e24e68
+R13: 00007f65da853e8b R14: 000055bee7e24e68 R15: 0000000000000000
+ </TASK>
+
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
