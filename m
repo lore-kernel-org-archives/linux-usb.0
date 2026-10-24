@@ -1,90 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792857907;
-	b=A4/8TysOCV7koObDWdVEhy2KKdp5ORXmMdHp3Ks/kJTvz2Iuj0+Ez0Svkak1ydEJK2Es
-	 fH92NhDUnTBH1lef8g1pMpx36Vasy9fCYJ1nmZU2mnmYqasu2S7M2AMXQmLS2WKzjgPsv
-	 wI7sr8ojCi0chx1PoFb+toNApaSybkrUxLMjwAg5mkn5qbL6lpFjFf0iq8dFMEG96mgin
-	 r5kl5mj9nULLSms/0nVEqYFJVKBDABBjxG7+YwfXoPXBn1c6TXyuMUui9JIrst33KhOmq
-	 qWmK9Sq26zXIcqEg786kiZJi8H80ePWJO6oBDOs1RYNoRbYLyVMlK1KyUvYkc1M0XtQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792857907;
-	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=KKchaePIGv9PH3P2jPdp5ezNGKojdt+++owt2fABHmI=;
-	b=h9Yvf3fDo76wpjvbwQtVHalGABpLKCHlQ40a3rlp5ynkkVckgxnRYXf2cHMZA3IqrUsj
-	 YH3nl6xw80zofYiz/sKJzxdoL4RRKuNZqGFJEuwxKcMnFBaUFjIm4krIuL+cnHWe2Dq+i
-	 0qIKddpR6p5y2bqsQg1VF+Z9y5ElElLp9LR2E3dcCzJIrVaicd5RG+YL4194za+Qx06DA
-	 0J8Et5zTI1Uxh6KyjerFcdGt2K2aXPx34SuZ2++THBSEME218C/FofNFmXft6jMDsf0EH
-	 Gn7O0UnduJbFXrT0EWg/W7AhKLu0S84etexzmWH45Honawxnyc6aMipKrb28crOuPVQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=T6u90IRo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F2D4606A31B
-	for <linux-usb.vger.kernel.org@localhost.mlmmj>; Sat, 24 Oct 2026 16:05:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=T6u90IRo
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792858307;
+	b=dsl4NOKJgdXqN9zXjA6AIOzGqLyXxUFmBZI5g6iSRvn3fU7KEd2bb2PxHMJhHH2NU68Q
+	 yXlfqnve7s20qhXk2k51654qwZJXKI2mZ9D5jXHxLx+50z/QxFwFCq1BAGpbyN/LPy2nf
+	 onHZF6iXphAnem/EnwLQ8iyoz8/edUr5oe2ndJqJ7rmeJ5xCu5I0qbSNq4yI1hw91/elZ
+	 8p6nH2YRcujYky7kmBAh3F7bTeq58DpHCCacNhMxXVGhOzavuur9SUzC8SaLHLimY9ct1
+	 km8cBNl2fTOdEhYzzRN5U6gHUacGjsv6MDmKqLs8H8W029ilRGrE8OgTTPJBeXh3irA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792858307;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=duimOpuL5nU84mD5t1t6eo9wcLsE2QNsu5vbonBfIZg=;
+	b=3soc36/e+wM8UdHSef9rzaFx9t7axryK6DfZevFxNzMsXX72F+b9gUoMdZFvc2cw0MvM
+	 0tOJEJD1yvLrlRRir/o9nCnChtGzAVwYZCPbdFg1pQwuaI68yfpBde5VHncDEkgz45dyB
+	 K+IQKTaINs5AGljGcC/QkN+J3QsPZ9Z4i6TvfaUMHv9t+yv1JCFqOPG2LZKu62MyG7wnb
+	 N/Ku1xPxtPDAcbTqH0xiPtA1UVqXBC0JY7Ym0EX5M7L9Kq8zQssVtMXKvULCNV5w1n/0+
+	 w/zXsGtnfKGuIHcuXsMEiMJvOHGjnLqUbHzgCuIsQA0eAG6VsycfRNX0/G8UnQk6juQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fqSFISD8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130146513C0
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 16:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1792857907; cv=none; b=g2Y3c72VwbG33jvqjew/+AirFtL15C4DwtACp1HUdOf9DDbBLdXHdODiBKarAw9eZQrUgqZqh/mhw0g8OTRfZF8KI02kroGCTgH+O9NoLLFakuNyxhykvUrVqYw/t58LnzaiF+0ldv69Hgn0THipIPSV+7AsxvBQsFqRkLK+HHA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1792857907; c=relaxed/simple;
-	bh=KKchaePIGv9PH3P2jPdp5ezNGKojdt+++owt2fABHmI=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=qGQbxaAit9AiOdjlxvwhCmSiyA6bfaT3DY4iVkYqi3l1tOmDBQnOHDJEKqGWh6Z4/1Hi5EkFMkPffQH7aAwBnkD4xsmfTPS71mGk5aiXcotnmffIJDT6EmdHDBuof7x1b8GFlad9kHwPizpiVsCnTsm6jGAEspGuataUiKUmWfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T6u90IRo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7BFD5C2BCF4
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 16:05:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1792857906;
-	bh=KKchaePIGv9PH3P2jPdp5ezNGKojdt+++owt2fABHmI=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=T6u90IRoZhIr3XbRjnqi7SUIRSSiHzE7wquCp4tq3eXXPKrOFD8j+zxjoX1JDJ9iy
-	 Y6DUfW5qyjQj7PYg768D7HoVlyAB32UUBnZ3LGVbd7L1t6ef6ZJbA37XLejUsrWn3s
-	 849BO/sCXQ/5hBztjCPPBwlf+rU9gKKxt7Bs4DbWBW4eAY3tFHtFHjoDt/Z69X5gk5
-	 KaUCFi1gjuBWhJ/sMRpUew1F5H+SCi4e1yINJp2Mc70Dm9OQxlXf2ec6TPEtZ9TAYX
-	 fOgXB4F80OtNXCPvpWk70kXXeOYGDha9IoZqujO/wd3wGRBib/578QcOEXXNo5bhd4
-	 gLoJx09ohox+w==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 5A442C41616; Sat, 24 Oct 2026 16:05:06 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222188] ASUS ROG Flow Z13 GZ302EAC (Strix Halo): no DisplayPort
- Alt Mode on USB4 Type-C ports, partner altmodes never registered by UCSI
-Date: Sat, 24 Oct 2026 16:05:06 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: aros@gmx.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: 
-Message-ID: <bug-222188-208809-fGf1CnchQV@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-222188-208809@https.bugzilla.kernel.org/>
-References: <bug-222188-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A286606A31B
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 16:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fqSFISD8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D23351F01825;
+	Sat, 24 Oct 2026 16:11:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792858307;
+	bh=duimOpuL5nU84mD5t1t6eo9wcLsE2QNsu5vbonBfIZg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=fqSFISD8UhoiIkPLVpGjDy0w73ujggvx1f47xjWppQNM/PHMLXhk6uHGPnmLyxhKW
+	 OiDe6HhS22dIlyqnH7la+hqhvdJy2xtGJqll1NAilX1P/xo2bGB/YT7qhCoLoDR50r
+	 6hXVLX/tJk6cjZd/XlsH7Au2YBlYd5UmYk+JzlBiEslwcYCuHSRRzs8zyCdDDjUF6b
+	 vh4GC2uW1uwX7WwHARj9ikoRVPGOcjDOOa3Vn/BMjTtg0kzxlJ9SunLMy8iJkGvXlR
+	 qXj0Nkb87m3GU0gOgJLmSb4TWRg6+6oL+xIs+S4SBczMOC8qq6/dliNtyFldRf7QG8
+	 PMMMt4pszBQFA==
+Message-ID: <sashiko-outbox-183788@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v3] usb: core: hcd: flush giveback work on stop
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Igor Putko" <igorpetindev@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261024155614.2732-1-igorpetindev@gmail.com>
+References: <20261023174015.54793-1-igorpetindev@gmail.com>
+ <20261024155614.2732-1-igorpetindev@gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+Date: Sat, 24 Oct 2026 16:11:46 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,17 +59,36 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222188
+> When an HCD is stopped/removed (either during module unload, driver
+> unbind, or an error path in probe), pending URBs are unlinked and
+> completed. However, for root hubs or HCDs with giveback done in BH
+> context, the work function usb_giveback_urb_bh() may still be executing
+> on another CPU after __usb_hcd_giveback_urb() drops the URB use_count
+> and wakes up waiters in usb_kill_urb().
+>=20
+> Since the caller may immediately free the struct usb_hcd via usb_put_hcd()
+> after usb_stop_hcd() or usb_remove_hcd(), the running worker accesses
+> the embedded giveback_urb_bh structure in its epilogue (e.g. clearing
+> completing_ep or clearing the running flag) after the memory has been
+> freed, triggering a slab-use-after-free write detected by KASAN.
+>=20
+> Ensure all giveback work has fully completed in usb_stop_hcd() by calling
+> flush_work() on both high and low priority BHs before deallocating.
+> Also remove the misleading comment in usb_remove_hcd() claiming
+> flush_work() is unneeded, and document the queue emptiness in the
+> usb_stop_hcd() kerneldoc.
+>=20
+> Fixes: 8fea0c8fda30 ("usb: core: hcd: Convert from tasklet to BH workqueu=
+e")
+> Reported-by: syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspotmail.com/bug?extid=3Da5b220cacb0618384d5a
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Signed-off-by: Igor Putko <igorpetindev@gmail.com>
 
---- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
-Please refile here:
-
-https://gitlab.freedesktop.org/drm/amd/-/issues
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-You may reply to this email to add a comment.
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261024155614.2732=
+-1-igorpetindev@gmail.com?part=3D1
 
-You are receiving this mail because:
-You are watching the assignee of the bug.=
