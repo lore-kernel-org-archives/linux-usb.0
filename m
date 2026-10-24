@@ -1,100 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.51
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792857415;
-	b=qHYcJphKQ4zCPydLzWVniT3v4QeVOP3L0WSsKApU4C1OmPcM4zmfS5akxvnM+Sl1sjFV
-	 3Grkn9+P1/PG6hVrjnOWGCeD9yGTQBan0KauosTO7lxub2NNg0HRa+GlyzcqsKK/aHjW9
-	 +fJjOw4F9GtVOu6C+PstJweWDVyZqSnp3fsCtTIqAgfBBv6bJAjXW3giywLe+Yn52t++h
-	 t72pDB47HKoUGYf6oDzFBDBDQSDn0V/YaQurnWIpKN9dG4r08GSpFyZPLqcAmFFOFJGsW
-	 hTI0vHFNKHy6Z0afdTaA1Gjh9oD9lb2Ltg78rJna3XB1PZG66DJVQAh+hUW/E5c0Mzg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792857415;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=4IGEtUDUP8hIGn1B6H6glwiRUGb2LO/zEIMANk76MHE=;
-	b=iLujvqDwRoQHiK+JDuFSWeVAIbxBJwGnn1Rmp3gLVntvnV+h//bMC3v08Ec6WGf415R4
-	 HmP3SKyW9/XVBaxwTwMZcBxwse5mD69Vi8WwdfziXlR+OH2BILEUfJLranzAQSyBTy/z7
-	 QxXA6qFBvputjdMZvko7otauegpBPOPvXc6B8W852Has5KhvfpJIAkNixxgLNhwftJezP
-	 1Yi2KFGwB68CQQrYjngAb5UB1mlWE5PKbbZFoj/FxWVwUra17CyulS3jQ81LweoBVGiOM
-	 auGlp7WntLUfdr52rTR+ImCSq8ZilyHYj8m/5bopvz1ypGHWMmt/GCS3/+diJbnsJbA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b="cJ/chxiA";
-	arc=none smtp.remote-ip=209.85.167.51
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBDF606A31D
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 15:56:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DBDF606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792857907;
+	b=A4/8TysOCV7koObDWdVEhy2KKdp5ORXmMdHp3Ks/kJTvz2Iuj0+Ez0Svkak1ydEJK2Es
+	 fH92NhDUnTBH1lef8g1pMpx36Vasy9fCYJ1nmZU2mnmYqasu2S7M2AMXQmLS2WKzjgPsv
+	 wI7sr8ojCi0chx1PoFb+toNApaSybkrUxLMjwAg5mkn5qbL6lpFjFf0iq8dFMEG96mgin
+	 r5kl5mj9nULLSms/0nVEqYFJVKBDABBjxG7+YwfXoPXBn1c6TXyuMUui9JIrst33KhOmq
+	 qWmK9Sq26zXIcqEg786kiZJi8H80ePWJO6oBDOs1RYNoRbYLyVMlK1KyUvYkc1M0XtQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792857907;
+	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
+	bh=KKchaePIGv9PH3P2jPdp5ezNGKojdt+++owt2fABHmI=;
+	b=h9Yvf3fDo76wpjvbwQtVHalGABpLKCHlQ40a3rlp5ynkkVckgxnRYXf2cHMZA3IqrUsj
+	 YH3nl6xw80zofYiz/sKJzxdoL4RRKuNZqGFJEuwxKcMnFBaUFjIm4krIuL+cnHWe2Dq+i
+	 0qIKddpR6p5y2bqsQg1VF+Z9y5ElElLp9LR2E3dcCzJIrVaicd5RG+YL4194za+Qx06DA
+	 0J8Et5zTI1Uxh6KyjerFcdGt2K2aXPx34SuZ2++THBSEME218C/FofNFmXft6jMDsf0EH
+	 Gn7O0UnduJbFXrT0EWg/W7AhKLu0S84etexzmWH45Honawxnyc6aMipKrb28crOuPVQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=T6u90IRo;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F2D4606A31B
+	for <linux-usb.vger.kernel.org@localhost.mlmmj>; Sat, 24 Oct 2026 16:05:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=cJ/chxiA
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-5bccecba199so1433791e87.1
-        for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 08:56:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792857413; x=1793462213; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=4IGEtUDUP8hIGn1B6H6glwiRUGb2LO/zEIMANk76MHE=;
-        b=cJ/chxiAGQdCLJ7qIgX4jKU3DfB4TEGMxUrjXMK3Cpc23TyIwLB+pczz6G6eNaItEE
-         4IopNSI8HH2LZSX1BPlG+NShrscu+D+4Tdupw7beFLq3wBIIS3BRvi+orn2WW9gUpnuC
-         jDyHVIvW3SYt4sb6iOW3Mh8DpFq/T0WVoavGq5sGELjnu3mZsfoDcZrB4XO72nHAO7aT
-         0ifhjkq8x/Rtcu7FFdZfpFMXABvAgkTufOTaE6YL8UkY3mpWnx6/gj1GTgl3T1g4t+Fb
-         eQSHldZTJGVlABideEsHp/GYLYmMFU3hXzIXGQFkFRLXSpTK0TG6dOCqRLA9YvJMqUeJ
-         yyCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792857413; x=1793462213;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4IGEtUDUP8hIGn1B6H6glwiRUGb2LO/zEIMANk76MHE=;
-        b=CudVZgjpVnMuD3aOOtPnPJhZagSN6UOplYKXeNeMbO5LDP8a5Sz0XWOaaWhAF0C6kf
-         qiIyFaBSF1vKQuyfs6L1gpGo85I4xsd6GWF79er6DeTOu60bwTfPcPejx6+TgLIAfA0U
-         WfMLnpp7XMe9CT0zOyVf7mOGKrN7jBfwIh6hBMGCYJp/IvOMjwjF53iX0EQDLcU5UFKV
-         5mUngGyf3k4GkK2+VYs6h92zsbvEVfcU7FtJa5hFnV8k8DZAOfFnc3baFvu5UbZ1oPBU
-         InSbch6Z/QlxKFwd1kshpqgBq1ec3R2Pe3edMd7E3jRBeC9ssM4DFuDNnnvxkONISsAy
-         V/mA==
-X-Forwarded-Encrypted: i=1; AKwUvByWCVdWPnZsngLIFeZITTFkxc1mjrEAkzfZPwE9Ss6htUlk0fX1CHmVYgs2it7hIFj0O+jftB09VZM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK5asgrE71tWPtdCeGvJhF864OI9dUAIw76BWKHGnAqr3BLGeb8
-	Xhb5BCOl18If38EHYJbWqbXjbZSWKh9qZkoprMmF8yZbpFCQY6qdTVaa
-X-Gm-Gg: AYBFou1HkyeHgQTR44lUm9dzcWjwhzsxTFPj+MNzPPyQEqpGkAvw2UaCi++P2gvL8d+
-	kfVKqxjuZGU+qMQucBSuIoBBFhE+OZSEOzJROqvKPfl5sq2TOEQJCG2jJwCNr4zpzprmljmn8yc
-	iS2nTh78OB250oudU+p3JpPrCqIEoYaXJgdUkJJcEyFUmbczZBt8mnvxpdVj4Jj49g3Lp3w4rOY
-	Gbc65kfY4sAeQD3C27oNlPK7z0JUysRadbvC0z4luRoOTI1LyhJCa+8PCNu4jyrMGsKbRihEXQN
-	wE1GsxHGQBDgugWdz4Y+HP0P0AAllTrcyGHdwpb7IdDq78tdSQhJmsqmsDkfMQ/HxtqwIszoKnZ
-	BstJXC/ibfwteSpZtx8paHvmyWyQbUpch/SFny6UBVeM5DaWMqhF4xedI6GfzlrL0zRHywh6w+p
-	mcu+Ug9l7JqMgH/mRl//KceoMRJjz5780381mf34yFjH9Dy4m8LqsA3gsi2y+dUmp2DZTHFikIS
-	2/3NEfPiAJFepEygww9TEWVivXFvh3mPe2dsVenHUa3Xt64mGCmrgplvKFcCFwnj76w645ZrPN5
-	feFipM9QYJ+6yHGmtKPhNyDdx4CugeTyOmjVZtFH1nkj2ERB/9WGKtUtqYehXyYSLtN5Fwr1raP
-	w7fkqUQ==
-X-Received: by 2002:a05:6512:128d:b0:5be:51d0:e355 with SMTP id 2adb3069b0e04-5bfb719e481mr754446e87.11.1792857412423;
-        Sat, 24 Oct 2026 08:56:52 -0700 (PDT)
-Received: from x870steellegend.lan (95-25-165-240.broadband.corbina.ru. [95.25.165.240])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5bfb7d7d6fcsm459298e87.20.2026.10.24.08.56.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 24 Oct 2026 08:56:52 -0700 (PDT)
-From: Igor Putko <igorpetindev@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alan Stern <stern@rowland.harvard.edu>,
-	Tejun Heo <tj@kernel.org>,
-	Oliver Neukum <oneukum@suse.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com,
-	Igor Putko <igorpetindev@gmail.com>
-Subject: [PATCH v3] usb: core: hcd: flush giveback work on stop
-Date: Sat, 24 Oct 2026 18:56:14 +0300
-Message-ID: <20261024155614.2732-1-igorpetindev@gmail.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20261023174015.54793-1-igorpetindev@gmail.com>
-References: <20261023174015.54793-1-igorpetindev@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=T6u90IRo
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 130146513C0
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 16:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792857907; cv=none; b=g2Y3c72VwbG33jvqjew/+AirFtL15C4DwtACp1HUdOf9DDbBLdXHdODiBKarAw9eZQrUgqZqh/mhw0g8OTRfZF8KI02kroGCTgH+O9NoLLFakuNyxhykvUrVqYw/t58LnzaiF+0ldv69Hgn0THipIPSV+7AsxvBQsFqRkLK+HHA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792857907; c=relaxed/simple;
+	bh=KKchaePIGv9PH3P2jPdp5ezNGKojdt+++owt2fABHmI=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=qGQbxaAit9AiOdjlxvwhCmSiyA6bfaT3DY4iVkYqi3l1tOmDBQnOHDJEKqGWh6Z4/1Hi5EkFMkPffQH7aAwBnkD4xsmfTPS71mGk5aiXcotnmffIJDT6EmdHDBuof7x1b8GFlad9kHwPizpiVsCnTsm6jGAEspGuataUiKUmWfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T6u90IRo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7BFD5C2BCF4
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 16:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792857906;
+	bh=KKchaePIGv9PH3P2jPdp5ezNGKojdt+++owt2fABHmI=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=T6u90IRoZhIr3XbRjnqi7SUIRSSiHzE7wquCp4tq3eXXPKrOFD8j+zxjoX1JDJ9iy
+	 Y6DUfW5qyjQj7PYg768D7HoVlyAB32UUBnZ3LGVbd7L1t6ef6ZJbA37XLejUsrWn3s
+	 849BO/sCXQ/5hBztjCPPBwlf+rU9gKKxt7Bs4DbWBW4eAY3tFHtFHjoDt/Z69X5gk5
+	 KaUCFi1gjuBWhJ/sMRpUew1F5H+SCi4e1yINJp2Mc70Dm9OQxlXf2ec6TPEtZ9TAYX
+	 fOgXB4F80OtNXCPvpWk70kXXeOYGDha9IoZqujO/wd3wGRBib/578QcOEXXNo5bhd4
+	 gLoJx09ohox+w==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 5A442C41616; Sat, 24 Oct 2026 16:05:06 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222188] ASUS ROG Flow Z13 GZ302EAC (Strix Halo): no DisplayPort
+ Alt Mode on USB4 Type-C ports, partner altmodes never registered by UCSI
+Date: Sat, 24 Oct 2026 16:05:06 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: aros@gmx.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: 
+Message-ID: <bug-222188-208809-fGf1CnchQV@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-222188-208809@https.bugzilla.kernel.org/>
+References: <bug-222188-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,87 +94,16 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-When an HCD is stopped/removed (either during module unload, driver
-unbind, or an error path in probe), pending URBs are unlinked and
-completed. However, for root hubs or HCDs with giveback done in BH
-context, the work function usb_giveback_urb_bh() may still be executing
-on another CPU after __usb_hcd_giveback_urb() drops the URB use_count
-and wakes up waiters in usb_kill_urb().
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222188
 
-Since the caller may immediately free the struct usb_hcd via usb_put_hcd()
-after usb_stop_hcd() or usb_remove_hcd(), the running worker accesses
-the embedded giveback_urb_bh structure in its epilogue (e.g. clearing
-completing_ep or clearing the running flag) after the memory has been
-freed, triggering a slab-use-after-free write detected by KASAN.
+--- Comment #1 from Artem S. Tashkinov (aros@gmx.com) ---
+Please refile here:
 
-Ensure all giveback work has fully completed in usb_stop_hcd() by calling
-flush_work() on both high and low priority BHs before deallocating.
-Also remove the misleading comment in usb_remove_hcd() claiming
-flush_work() is unneeded, and document the queue emptiness in the
-usb_stop_hcd() kerneldoc.
+https://gitlab.freedesktop.org/drm/amd/-/issues
 
-Fixes: 8fea0c8fda30 ("usb: core: hcd: Convert from tasklet to BH workqueue")
-Reported-by: syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspotmail.com/bug?extid=a5b220cacb0618384d5a
-Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-Signed-off-by: Igor Putko <igorpetindev@gmail.com>
----
-v2 -> v3:
-- Remove obsolete comment in usb_remove_hcd() regarding flush_work().
-- Add comment in usb_stop_hcd() explaining why flush_work() is needed.
-- Update kerneldoc for usb_stop_hcd() to state giveback queues are empty.
-v1 -> v2:
-- Use flush_work() instead of cancel_work_sync() as suggested by Alan Stern.
+--=20
+You may reply to this email to add a comment.
 
- drivers/usb/core/hcd.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-index 8e8a5f59b319..f403795b17ba 100644
---- a/drivers/usb/core/hcd.c
-+++ b/drivers/usb/core/hcd.c
-@@ -2773,6 +2773,8 @@ static void usb_put_invalidate_rhdev(struct usb_hcd *hcd)
-  * usb_stop_hcd - Halt the HCD
-  * @hcd: the usb_hcd that has to be halted
-  *
-+ * The two giveback queues should be entirely empty when this runs.
-+ *
-  * Stop the root-hub polling timer and invoke the HCD's ->stop callback.
-  */
- static void usb_stop_hcd(struct usb_hcd *hcd)
-@@ -2787,6 +2789,13 @@ static void usb_stop_hcd(struct usb_hcd *hcd)
- 	/* In case the HCD restarted the timer, stop it again. */
- 	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
- 	timer_delete_sync(&hcd->rh_timer);
-+
-+	/*
-+	 * Even though all URBs have been given back, the work routine itself
-+	 * may still be finishing up and accessing the usb_hcd structure.
-+	 */
-+	flush_work(&hcd->high_prio_bh.bh);
-+	flush_work(&hcd->low_prio_bh.bh);
- }
- 
- /**
-@@ -3059,16 +3068,6 @@ void usb_remove_hcd(struct usb_hcd *hcd)
- 		usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
- 	mutex_unlock(&usb_bus_idr_lock);
- 
--	/*
--	 * flush_work() isn't needed here because:
--	 * - driver's disconnect() called from usb_disconnect() should
--	 *   make sure its URBs are completed during the disconnect()
--	 *   callback
--	 *
--	 * - it is too late to run complete() here since driver may have
--	 *   been removed already now
--	 */
--
- 	/* Prevent any more root-hub status calls from the timer.
- 	 * The HCD might still restart the timer (if a port status change
- 	 * interrupt occurs), but usb_hcd_poll_rh_status() won't invoke
--- 
-2.47.3
-
+You are receiving this mail because:
+You are watching the assignee of the bug.=
