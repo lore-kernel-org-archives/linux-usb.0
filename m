@@ -1,64 +1,52 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=178.21.23.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.151
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792863895;
-	b=0mZVSU78ztfaN+QwLH85CDJ4WNgZfpjVX1LapifCk56vU2+T7eSLlc39wgBw0r75b8hM
-	 lUPEdC6ePGKGoXhZ60HM4KK419ILBHIfkyvh3lwqXWeqvUMVGuH/AsrIG6GuUFeTT/iou
-	 UJoH6MYj0eEo5ESIxfVNwBHgB2cKXC2OGOA9zMce4gEaFusaemeaHSsfnk8TJ5h311kzQ
-	 D8n+i9MNddPhlEWfvQEeBIydYVqlnsarqhahlVUkkhRi+O/kTkoy0hQVTCrOVBpbUWxG2
-	 NEgeVBitr98xHjarbgEYth/mdErDSjdDP5tYr4nFVbCPiJMW9Fg4pYsS/iGj2CGL8wA==
+	t=1792864036;
+	b=3Uh6DYNY2+2/l9SFstf2pz6e0/pgtNWpzE0uPH93FiM7SSCtVZVt44p3ynMbJb8ngKk0
+	 2PadzHqW6pzMZxYgtNPBnkbELoH4JnE9SOM0Xs74jRuyGwbDX2y21Cf42x9FIvyxR9QxX
+	 1iXaTfzYMYrCytzRShqsem/K1mWzjVsJJxFDbylaJ0rB2+/xEdBRePicuX70WhiKPr5BK
+	 aAptKJrlp/nF93fe2QAYjxgTKyDuhS4nWcQY8+mWlTfIgVz+hBBLb+IYojf+1hhrxTnlW
+	 H0IVJR6V4Lo8fuL+91dRtuzkgw5ns/Q3/FueEYh9krDw6xTcTk7iR7I3hxZtqWtlLpA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792863895;
-	h=DMARC-Filter:Received:X-Virus-Scanned:Received:DKIM-Signature:From:
-	 To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=kmCe/XnoE3pu2z1aH564eD1m2h5eGZXwVLnoGm1bjiU=;
-	b=Y95lW7nOfSPvieHpz3R1cd8NmOmxpoENbZx3ilWGNvaK1YF7DujGtlJ3lyTKg4Qgqkeh
-	 KfVs0aeiWQvBj8Smro/L2GupJ/Yt/kGIuLkcsXwWDEMCZbyGgK7SErclkL57f5DV/7ISB
-	 xsnfef4yuWyWWQa73rjVFoVR/4YISMoNBWhuW8gPoKFJbfo6cegnoSsCfhMuIALzYac8o
-	 D2ngDHGoJHKQnsl/Pc9lsMe+mHBkmVfrtS6Q+JZu9mljpiRC3oaeU/WVdbvNpTqM6FOJM
-	 8Bbmu2FC1C8hMeOT5Yz1sgVf+JkmJU3mvQsQ3rOfx5KBlvJqZAKno4X5doYj0nwE99Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792864036;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 X-Rspamd-Queue-Id;
+	bh=Fr8UuTG87IUnTlzU94/RiGvziyfYThaUlwDqUzN83Q0=;
+	b=137H8QqSAWDXDABq3FWnzFtgrf3M/jG+/eNjnwTjAPAmeW+uLmsPIYRHZvIBY7zFQ0oV
+	 vZCgHqVXATiTjgJ/Dg7XiJsuxRBt0vrCW1xyVYahQHdbLCHomYKZNqTbidwN0zUtNTyI9
+	 CfmnEDL1SNPpwdCuoXvk6Je+HZ9xaIPU5W3856ViWumlkSldbUYXEB1jawkiSfvTPVxGc
+	 nVNmA2LSLoJCtAQy/zX0ggKPyWSQxs1sD0IAtsafKcDBh5QzZ2T2DrVVdSgbjQDAdOgRu
+	 FC3jAWBiI6q56taNk1RoAUzynR7hNqj/nW/HIn2vgy1bqPtZSS+fX0EPQsN8cwhTwpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=disroot.org;
-	spf=pass smtp.mailfrom=disroot.org;
-	dkim=pass header.d=disroot.org header.i=@disroot.org header.a=rsa-sha256 header.s=mail header.b=c6grM+cc;
-	arc=none smtp.remote-ip=178.21.23.139
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+	dmarc=none header.from=dsine.de;
+	spf=none smtp.mailfrom=dsine.de;
+	arc=none smtp.remote-ip=80.241.56.151
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97D3A606A31A;
-	Sat, 24 Oct 2026 17:44:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 97D3A606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=disroot.org header.i=@disroot.org header.a=rsa-sha256 header.s=mail header.b=c6grM+cc
-Received: from mail01.layka.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id E1DDC82D72;
-	Sat, 24 Oct 2026 19:44:51 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id vZYvhrl8N3ih; Sat, 24 Oct 2026 19:44:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1792863890; bh=TWpn0eYogFmWMxnVSfEWtxcM+k1PFX9Bh/lBHXLOBWQ=;
-	h=From:To:Cc:Subject:Date;
-	b=c6grM+cceItwpi9pxQaNk9PxkOUarXttWRmcUhn5GNotjDSlKCJ9dt46AVUINCK+C
-	 n50Czr8CtnKKCdwcA1k7B4Fm7pRbgouKt3ONp0pXCWODL1lttZKEUuhdzDksbDuglv
-	 YliTMYVkBNBKsKHUx1tP64cRTFy4XBz9BKMaRc4B1fOsqm57Z5fcyNZL0JcWheO781
-	 7PA+8Sw3Xrb6aGEba2q66DIGyH8Alh56Nbci4qNtT4in+u6T7X66eXMEQnt/sCNuRk
-	 koAkajV6FS/Xxltx6DpJ1jPAaU1LaBbhy7EypA5PTgynn/o4kHi6KvArCUS92ax4qQ
-	 7NTJbJ17i6+VQ==
-From: =?UTF-8?q?Ali=20Ahmet=20Memi=C5=9F?= <aliamemis@disroot.org>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Madhu M <madhu.m@intel.com>,
-	Pooja Katiyar <pooja.katiyar@intel.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: typec: ucsi: debugfs: Fix GET commands on UCSI < 2.0
-Date: Sat, 24 Oct 2026 20:44:41 +0300
-Message-ID: <20261024174441.878903-1-aliamemis@disroot.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F850606A31B
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 17:47:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7F850606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dsine.de
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dsine.de
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4jBnQR6kXDz8sb9;
+	Sat, 24 Oct 2026 19:47:11 +0200 (CEST)
+Authentication-Results: outgoing_mbo_mout;
+	dkim=none;
+	spf=none (outgoing_mbo_mout: domain of dennis@dsine.de has no SPF policy when checking 2001:67c:2050:b231:465::102) smtp.mailfrom=dennis@dsine.de
+From: Dennis Wissel <dennis@dsine.de>
+To: linux-usb@vger.kernel.org
+Cc: mathias.nyman@linux.intel.com, regressions@lists.linux.dev
+Subject:
+ [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5 (3434:d068)
+ at boot since v7.3
+Date: Sat, 24 Oct 2026 19:47:10 +0200
+Message-ID: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,33 +56,82 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
+X-Rspamd-Queue-Id: 4jBnQR6kXDz8sb9
 
-Since the debugfs response buffer grew to 24 bytes, every GET command
-fails with -EINVAL on UCSI < 2.0, where the data length is limited to 16
-bytes. Clamp the length to UCSI_MAX_DATA_LENGTH().
+Hi,
 
-Fixes: d9dc19910321 ("usb: typec: ucsi: Fix debugfs response truncation beyond 16 bytes")
-Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
----
- drivers/usb/typec/ucsi/debugfs.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+since moving from 7.2 to 7.3, a wired Keychron M5 mouse (3434:d068,
+firmware 1.0.0, latest) that is plugged in at boot makes the boot hang
+for about 3 minutes. usbhid probe times out on every interface with
+-110, the device is disconnected and re-enumerated in a loop, udev
+stalls, and when the desktop finally comes up neither the mouse nor
+the keyboard on the same controller (NuPhy, 19f5:103b, port 1-5) works.
 
-diff --git a/drivers/usb/typec/ucsi/debugfs.c b/drivers/usb/typec/ucsi/debugfs.c
-index 77a0dd75edd3..3cffd3778c67 100644
---- a/drivers/usb/typec/ucsi/debugfs.c
-+++ b/drivers/usb/typec/ucsi/debugfs.c
-@@ -60,7 +60,8 @@ static int ucsi_cmd(void *data, u64 val)
- 	case UCSI_GET_LPM_PPM_INFO:
- 		ret = ucsi_send_command(ucsi, val,
- 					&ucsi->debugfs->response,
--					sizeof(ucsi->debugfs->response));
-+					min(sizeof(ucsi->debugfs->response),
-+					    UCSI_MAX_DATA_LENGTH(ucsi)));
- 		break;
- 	default:
- 		ret = -EOPNOTSUPP;
--- 
-2.55.0
+Hot-plugging the mouse after boot works fine on 7.3: all four
+interfaces bind and there are no errors.
+
+On 7.2.11 the same device at boot fails only on interfaces 2 and 3,
+and it fails right away with -71. Interfaces 0 and 1 (mouse,
+keyboard) bind and the mouse works. So the device firmware already
+seems to misbehave at boot-time enumeration, but before 7.3 this was
+harmless.
+
+Hardware: Gigabyte Z790 EAGLE AX, i7-13700KF,
+  00:14.0 Intel 700 Series Chipset xHCI [8086:7a60] (rev 11)
+Kernels: 7.2.11-1-cachyos (good), 7.3.0-4-cachyos (bad). These are
+distribution kernels (CachyOS). CachyOS's USB/HID config is the same
+for 7.2 and 7.3, so I think the change is upstream. I can test a
+vanilla build if that helps.
+
+7.3.0-4, mouse plugged in at boot:
+
+[    3.491895] usb 1-1: new full-speed USB device number 2 using xhci_hcd
+[    3.492774] usb 1-1: New USB device found, idVendor=3434, idProduct=d068, bcdDevice= 1.00
+[    3.492894] input: Keychron Keychron M5  as /devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1:1.0/0003:3434:D068.0001/input/input3
+[    3.492951] input: Keychron Keychron M5  Keyboard as /devices/pci0000:00/0000:00:14.0/usb1/1-1/1-1:1.1/0003:3434:D068.0002/input/input4
+[   29.274413] usbhid 1-1:1.2: can't add hid device: -110
+[   29.276093] usbhid 1-1:1.2: probe with driver usbhid failed with error -110
+[   54.874362] usbhid 1-1:1.3: can't add hid device: -110
+[   54.875509] usbhid 1-1:1.3: probe with driver usbhid failed with error -110
+[   56.380225] usb 1-1: USB disconnect, device number 2
+[   56.786013] usb 1-1: new full-speed USB device number 11 using xhci_hcd
+[   82.522447] usbhid 1-1:1.2: can't add hid device: -110
+[  108.122321] usbhid 1-1:1.3: can't add hid device: -110
+[  108.123378] usb 1-1: USB disconnect, device number 11
+[  108.389087] usb 1-1: new full-speed USB device number 13 using xhci_hcd
+... (repeats)
+
+7.2.11, mouse plugged in at boot:
+
+[    3.488582] usb 1-1: new full-speed USB device number 2 using xhci_hcd
+[    3.489628] hid-generic 0003:3434:D068.0001: input,hidraw0: USB HID v1.11 Mouse [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input0
+[    3.516753] hid-generic 0003:3434:D068.0002: input,hidraw1: USB HID v1.11 Keyboard [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input1
+[    3.516859] usbhid 1-1:1.2: can't add hid device: -71
+[    3.517422] usbhid 1-1:1.3: can't add hid device: -71
+[    4.989074] usb 1-1: reset full-speed USB device number 2 using xhci_hcd
+(no further errors, mouse works)
+
+Full 7.3 boot log: https://paste.cachyos.org/p/ead6b4c.log
+(the bad boot is the "previous boot" section)
+
+Things I tried on 7.3, none of which helped:
+- UEFI "Legacy USB Support" and "XHCI Hand-off" both enabled (they
+  were both disabled). There is no "BIOS handoff failed" message in
+  any boot.
+- usbcore.quirks=3434:d068:gn. This made it worse: boot still hangs,
+  and hot-plug now fails with -110 as well.
+
+My guess, untested: the xhci changes merged for 7.3 that touch
+cancelled transfers on control endpoints, e.g. 7c0c31c66a7f ("move
+dequeue to next valid td instead of past cancelled one"). The fast -71
+on 7.2 turning into -110 timeouts plus resets on 7.3 seems to fit
+that. I haven't bisected or tested a revert yet, but I can if you
+point me at what to try.
+
+#regzbot introduced: v7.2..v7.3
+
+Thanks, Dennis
+
 
