@@ -1,58 +1,58 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792874173;
-	b=MZffrF0ElePaK89N03V1MirXn6cYuMk22id8u5egxVH+HgxI7wUxdDCoxhyXW/6fBC5S
-	 UrKJTs5KuIu4XT4HpP46jTNpX78+C6MPgFjEJ1QzkLteCmUaDoYPw0/QL2dzKZ9OjXyLK
-	 oUXfcIbFlpeEnatVOd4tTtj3YULrQEEcOLLOZ0R7uEsq8qdhASeUn6NinH65uETNZ+yMO
-	 479scLq9wlRL3k0bnCVzF9FwmqwHYxKpsBNwgsKIBZAPvIIbHBVAs7Dyk1KdbsvTaGMoO
-	 h0Zstd5xuQGwJeS8pyVko0N2wMeo+3rhvRDUn+mJr54XQVtNUuJCGCYE6gSHV4IgO1w==
+	t=1792874186;
+	b=hMnWqBAZe6KuY0qVcmyRfYyUbSpaSSdM4HLmXbd2+dRJ25u2bczUH0OtclbLuUpY9aqz
+	 +JXIZvWzgqZCDoralM0Uwrq5QLlgIVCzZDePBr7ewhr0vWeLjjkjOa0hBlyJ0BNB2zJDF
+	 2nZIPHa+I1XixBqoiD7WdbZyWbgHtBU+8NokK0OIV3BAQkytg2TXSqs8EgtDUn44z+B5w
+	 EkxAwPqShfPWgom/ZKh9fe7GB3vheT08vAl71MiY3RXfYKiLQUVo8uSGhIou9Tr39qQdf
+	 5cDgVzcJ3ghfIK4Fkuq27ZvFGR3lCoMlXboRk67HtSvZjvxfCT64Ysj+/CFK3EljFNg==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792874173;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792874186;
 	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
 	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
 	 Content-Transfer-Encoding:X-ZohoMailClient;
 	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=;
-	b=UyEd102N+dgYpmRm8Fcv7rfp1fzlH9QPRF42Jt7njPwW3phE2ixMOBOxIcu0SOpLa+N5
-	 t9j8PJGcfyYzsOHi1q6WbOql0lngL7nv5p9rUswsQgNKrofNPRBqv0ooe6bRg5G1kYvVT
-	 oLl6PnwoUr1IvaCnFg1H2Jybv2Qm2a/EyGG/BLeoxoLYWscrcphD2aZE4gJ++wv3mLIHW
-	 fuJwfMDPUEHxrMNfmLPnpaMAxNgeemwzcGBvnoLCHDN5IJIrJOl1IOR499L6Sko80czEB
-	 zx+lzvJgHto9CLD4ZbpAZbpevSuPBuXlC7iFW6tJp4sQOTJLATl/cgIu+a31tOi/JOQ==
+	b=iQCILD/Ph2FVaJr8MrTzYsOuRoxoqYaOXA+pfQg2vlsmSsItRnpYkxW0GWA7lLSfdUMa
+	 9fhBNCYQ82YmrvaoLKa6Uf5h1cqypMgRAl1oZI90Kbd4N1thG9zU68BYu/+HAtnLMxsEq
+	 wsp2diCYWJN70t8U1uHGUaj8ZfV8l9zhteJ07WHNr+aN6B91DJp2V7ovUryYJYHbZG0BK
+	 0A5VBvfAV7QREVcb0AlI7g0x8YwPjkxqIzgM7ASDbtvkvhS0Y7ukWdKGYOMgLG1pmfr1c
+	 yNo3Vdcrns5Rx7e+uP0qJGHcXlfLtQwlbRacqKLd77asvWuWiTJ3JFq7e2yth0YXg6g==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=none header.from=yiyuzhou.io;
 	spf=pass smtp.mailfrom=yiyuzhou.io;
-	dkim=pass header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=cz92QrAU;
+	dkim=pass header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=DF9ampO2;
 	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
 Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C4E606A31B
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 20:36:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 15C4E606A31B
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCDCC606A31A
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 20:36:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CCDCC606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=cz92QrAU
-ARC-Seal: i=1; a=rsa-sha256; t=1792874155; cv=none; 
+	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=DF9ampO2
+ARC-Seal: i=1; a=rsa-sha256; t=1792874171; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=mnEa4CQjavy7FssC7FoesvbYOX1RQI8CB8FwvOfjeke6uALORVHkuQy/nJUxBYcHH+lHoIO/u1l1Sv3jQwz8mISb+9CT4wEDdqDAOonuMMHLubyRakciD+ohTZxEvik5LdI3UCzEScDNdK8D9zAwZGNFj+igGLlKF2BHIHSREwY=
+	b=H676zoERxWI6cTCqFzKytTo1ViksR7f9fTpC7sbxEtnYsIdPncDnUNjONMv/p6+XkRzUDJO8opDnK+g5cbm4QFOSYQUn/TfvF+WNkQ/AYczGmiOtuQWLEobigRqXv4jGvrjPwj5pGF7XJ6Fcs+zY2ccXG7ANa1uzq2vTWTjH1BI=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1792874155; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	t=1792874171; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
 	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=; 
-	b=KgwmYNne4EMUO4ousgEkzjKCck9AJM4F2IQRqhy9NPHyyLbyCxxMavvuz1SpSxyEx0BAsp310Jf83qiwf9Ml/vqUvEeZVZYM/Gvz1ip34FHbp8McSCT535kbLasRevNENaEE3vA7shOxh/Vwf8STsSBP69LAf1NG32mekjdQ4Lg=
+	b=HCKpGC+MfsMosxIPEhzO5V8DdBhf8Wliqpq/NLmUFiCuyNQty00CoZ8e3+PHH7D5kBD24cudCJy7LxQ3Qonp06u0KQ/j7TITFxRlP3K6QDKJdaF6vh28kDX7/5voJIYfaT4jAx0phcyEC3A/DWGRJpCwONxJ9tNdf7iNa4JCeBs=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=yiyuzhou.io;
 	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
 	dmarc=pass header.from=<yiyu@yiyuzhou.io>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792874155;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1792874171;
 	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
 	bh=TsR9sKWVvIFHcKaJnMZNIOZ+QkQWYMOwkj6KzabfNpA=;
-	b=cz92QrAUEzHzo84mvnh8ZqNjbgcZ4avYJviTADtxQ9AB7LHaU+JGOaBPPObCnSZY
-	XDOIfqqDnQXPGTVd1hVV7JpK1rzMDiu+ayPN5buiEJQsZxrOTj+9kDUFBEBKMMBqmNS
-	J+r3v0MVI6H5+gK8MLCgMIJ4gD5URrAv5vqK99es=
-Received: by smtp.zohomail.com with SMTPS id 1792874153007432.99339235985644;
-	Sat, 24 Oct 2026 13:35:53 -0700 (PDT)
+	b=DF9ampO2SgjkSzdRG+1RoCkLk2KP2DIsVeC1jwOyBdAYI1bROj2YyMO0EKyaTyPz
+	tGlBGx+Nztwo0ua86KLEQkgPvX4RduN9FyHAfhcp1O3loPlpINWr+ZbOiWwx3gGusmj
+	pGP5wPO6avl7XLGG3UqnmokSdfIvBLkhBIrpanXk=
+Received: by smtp.zohomail.com with SMTPS id 1792874169153726.9444677472776;
+	Sat, 24 Oct 2026 13:36:09 -0700 (PDT)
 From: Yiyu Zhou <yiyu@yiyuzhou.io>
 To: Dennis Wissel <dennis@dsine.de>
 Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
@@ -60,8 +60,8 @@ Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
 	mathias.nyman@linux.intel.com,
 	regressions@lists.linux.dev
 Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5 (3434:d068) at boot since v7.3
-Date: Sat, 24 Oct 2026 13:34:07 -0700
-Message-ID: <20261024203410.3174741-1-yiyu@yiyuzhou.io>
+Date: Sat, 24 Oct 2026 13:35:56 -0700
+Message-ID: <20261024203558.3181711-1-yiyu@yiyuzhou.io>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
 References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
