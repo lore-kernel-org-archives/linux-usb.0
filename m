@@ -1,56 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=194.13.80.246
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792833072;
-	b=k+OzlopWWEDvRlSwTiSya2fpiyzQtzsiG9mECc6XpSs6AuCXmaHT8UxrwYd/RX7XosJo
-	 yCQNC/l/480bxwxue2OhOmkqn4HH67U7MYWiHoBh5nmjDWKAeplrooO3u4OoB+eMLsnCl
-	 aqG2HkPornFnREvz6xV038UG62jsqB24aiUPArk16xc4G0PpfsqPkHdKRjqTut9zK5LvC
-	 ZjmMCNz/LVSRCWEoty0docW1hv+GWy6cNJV9cG4TuYgNE2VMUOSqtvVbtqRBPoveGL2YY
-	 LbHmvqMAjQ0D0QjXmwiWixX2c6aHWcOeI0rcj7TbFRdf6IQM6RXDFGC38hxq5mHLUIg==
+	t=1792840644;
+	b=ylcuemVCDTmq2EuQrHa+3dDcLdTKtstDSDXMV66PEsCdFqBzjvIVRsvI6AS7+K7JeWsR
+	 qSaQp1Z4qJj8Wz5ljkhwyxgROl+8lItWame6FJnZG8R1tpHNADsMfQ2jGlh41NPPGWoOg
+	 T6ROAh5eZWLMn9a/hDQa863/bWIUgm1zsU8AKXraKjv0LOxFMq0A1JHmqCw/o+smwHg05
+	 zvgo/S/0pjwNRyZEfZDQgBT0C9vUiyXPUHpgLzCME6F+85YnY4sCKBvHUK9PFhqDPETmg
+	 nxGsuw2+QA1Q0UHAc8UKGv3uoTS4tFp7KOHW8PHH4fVIMW2+U0ZWNo+mH304gD8RBPg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792833072;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=zBEORvLFi25a8/Gffq0WUO8RB/AEisyYoqyh+qXp48M=;
-	b=dx6+RZJ0Kxj95zWtyp2CVsyxVPCxj4oftUzmse1CEw9QdLcid2OxuG2tc/yl0RxAhtZ4
-	 2qufu99Dg4C3wf0jOo5G9y+iYQnRfkpchvK33S6T/oS3Ds/CcXN33OKmCuQrABbrCX1zs
-	 1wl1gBgTE13JfOgIRXZytH7bvUsG8jp84VurirDxtFxgQBtdPOERJvOcddXFgBWArStrf
-	 9CX2SMrD6IZzV0T/gTcwvjs33zSpKairW/fpaySbxwWhvJBRpP+3+m7l6iuz7p3JWWtMc
-	 QM6O9lRCTBOw5hdo+wkZvGEw1GJi5kN5SVKUS7QuRI7MNcaERHnZfTXR8FfmExkNqBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792840644;
+	h=DMARC-Filter:Received:DKIM-Signature:MIME-Version:Date:From:To:Cc:
+	 Subject:In-Reply-To:References:Message-ID:X-Sender:Content-Type:
+	 Content-Transfer-Encoding:X-Last-TLS-Session-Version;
+	bh=UWioxnS7+9M848vOzYEdNrzd7ZlxotcHELBkStbCFN8=;
+	b=NtUj9b241SQYICkgSI+SUTxS7UCGUHtIsg21TZuQcwkkLvLfBNWYaA7bDevp6gvBQ5Fw
+	 OKXvSGpfk0J5s8loGVotALiqbh6ILxcKmB53VmU9v/GBdHJYSKmO3jeQix6UrX9xTl/HX
+	 2tpimL4VOzh+ZxSPzW7v3YahuCv8Xp83tq2VPqh/3LCszUrF9w7NUX2XWP469eJG8lbVY
+	 1LAVIIeTYJqIBQUkedmjfA44BCJBzwy+QG0n9/OdmEM7iyUZAAEQQb/el6FFrSJAldp6s
+	 M79W0jJ3jt9rUOdlvhKbueQJ41irH3EH5EULKO8wDyFM6Ljk9h0/hIKZQSAAvJU7jtQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OtcQVTay;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=tipi-net.de;
+	spf=pass smtp.mailfrom=tipi-net.de;
+	dkim=pass header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=N1C6S9gU;
+	arc=none smtp.remote-ip=194.13.80.246
+Received: from mail.tipi-net.de (mail.tipi-net.de [194.13.80.246])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8AF606A31A
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 09:11:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 514A4606A31A;
+	Sat, 24 Oct 2026 11:17:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 514A4606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tipi-net.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tipi-net.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OtcQVTay
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6A3E1F01825;
-	Sat, 24 Oct 2026 09:11:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792833071;
-	bh=zBEORvLFi25a8/Gffq0WUO8RB/AEisyYoqyh+qXp48M=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=OtcQVTay3NKLnYVik5kJarkgW9Ua2qsw7Olpw24f3FGJfiZq6r5TXPOpxgqWSFC/l
-	 VyOkvRM6X371Y3lHJ6Wh/Z7p6IniNCR8eJUvW6kXf0t07wcHhal/DsSzOme7n8hbzf
-	 XOgCn0E42W8OAlnSfZUC5o2KE9Ii2w6RNZVV23g0AY7pQIp+6a5u7fJwPXa/UrCmIU
-	 QB/20fPFYPdi79LJSAP1nSLT8A9AD3jQm2gssJ1sHbUm54/LImxoMtnZYHrKT3bWl3
-	 YjhYJ1kj4Lg9/h6+uXad2P8npXc6zD5if6iFxy9MvbExuSwe4j1J4QcQ/8LIXji9PN
-	 a3G1PC132jsgg==
-Message-ID: <sashiko-outbox-183606@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: core: hcd: flush giveback work on stop
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Igor Putko" <igorpetindev@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261024083647.2599-1-igorpetindev@gmail.com>
-References: <20261023174015.54793-1-igorpetindev@gmail.com>
- <20261024083647.2599-1-igorpetindev@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 24 Oct 2026 09:11:11 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=tipi-net.de header.i=@tipi-net.de header.a=rsa-sha256 header.s=dkim header.b=N1C6S9gU
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 32423A15A3;
+	Sat, 24 Oct 2026 13:17:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tipi-net.de; s=dkim;
+	t=1792840633; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=UWioxnS7+9M848vOzYEdNrzd7ZlxotcHELBkStbCFN8=;
+	b=N1C6S9gUE1z337eFBvCI7/A6w/c5tjnXAVHCR1Qib9hSuNOKyZHeZWPZBv8dQoS/6X7e8H
+	1TdSRxQsNGvC6V1We4py/b2yy3R//BW8BDZoYFhuvhHAw1kLHIZpP3XM+z7wltUpd6B/UT
+	zXbNQCl3Bs0cA3VxLK4ctILrXAx9SAUXBrTxWOBciNPjG/vRFh9eq5llyg+8viRFmvGWo0
+	wWvy3F4PbAddV7YmrSx9JMQLkAV511ASG5N9nqKCP/fBsSILFcvKYpI33bdDGEu46OQ21g
+	vsUpYF2ijJi0PFdzD7rsfJpwfR0Nw9u6bEMKfOi1sFPOj6A9bjgLAUgakh8U0A==
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,119 +52,66 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Date: Sat, 24 Oct 2026 13:17:11 +0200
+From: Nicolai Buchwitz <nb@tipi-net.de>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Steve Bayless
+ <steve_bayless@keysight.com>, Guido Kiener <guido@kiener-muenchen.de>,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Mathias Nyman <mathias.nyman@intel.com>
+Subject: Re: [PATCH 0/4] usb: usbtmc: fix undersized high-speed bulk packets
+ on xHCI
+In-Reply-To: <20261023202645.7bf4827a.michal.pecio@gmail.com>
+References: <20261020-fix-usbtmc-short-packets-v1-0-903f4d029193@tipi-net.de>
+ <20261020184244.69b78d5e.michal.pecio@gmail.com>
+ <a642dbc2e4ba0efc381c69e26821762a@tipi-net.de>
+ <20261021005654.23517441.michal.pecio@gmail.com>
+ <cae2e837872be0560f7f46e13651059b@tipi-net.de>
+ <20261023202645.7bf4827a.michal.pecio@gmail.com>
+Message-ID: <bc5865736052c55683b2d3f2eeca0e01@tipi-net.de>
+X-Sender: nb@tipi-net.de
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Critical] usb: core: hcd: incomplete bh work flush in usb_stop_hcd() on =
-self-requeue
---
+On 23.10.2026 20:26, Michal Pecio wrote:
+> On Wed, 21 Oct 2026 11:34:19 +0200, Nicolai Buchwitz wrote:
+>> I checked on Windows 11 (Intel xHCI, WinUSB + libusb): same
+>> descriptors as on Linux (HS, bulk wMaxPacketSize 64), and a single
+>> 4096 byte bulk IN read returns the complete 110 byte reply, so it
+>> seems, that Windows programs the 64 bytes into the endpoint instead
+>> of forcing 512.
+> 
+> Yes, that's what it seems to be doing. I passed a fake storage device
+> with weird endpoints to Windows 10 in QEMU and with some debug tracing
+> (slot/ep context hexdumps are my addition) I see this:
+> 
+> usb_xhci_fetch_trb addr 0x0000000139a3c450, CR_CONFIGURE_ENDPOINT, p 
+> 0x000000013a18d000, s 0x00000000, c 0x01003001
+> usb_xhci_slot_ctx addr 0x000000013a18d020, c 0x68000000 0x00000000 
+> 0x00000000 0x00000000
+> usb_xhci_ep_ctx addr 0x000000013a18d0a0, ep 4, c 0x00000000 0x00400016 
+> 0x39a3cc01 0x00000001 0x00000000
+> usb_xhci_ep_ctx addr 0x000000013a18d1c0, ep 13, c 0x00000000 0x00400036 
+> 0x375ff001 0x00000001 0x00000000
+> 
+> The 0x0040 in the second field is packet size, and it becomes 0x0400
+> when I change to 1024, or 0x0002 with 2050. Windows blindly copies
+> those eleven bits here and only gets upset if they are all zero, then
+> it resets and enumerates again a few times.
+> 
+> I don't have any out of spec device, so I tunned a Cypress FX2 into
+> one - it exactly replays every received packet back to the host. I
+> found that power of two sizes from 1 to 512 work, except on Etron HCs
+> which only take 512. Guess we could have an exception for those.
+> 
+> So this seems very viable. I will turn it into a proper patch and see
+> what the maintainers think. Seems better than patching class drivers.
 
-commit 9c9e1488a3b8b0e4cd42d6243a942c8d42aeb233
-Author: Igor Putko <igorpetindev@gmail.com>
+Thanks! If you need something testing with the devices I have at hand, 
+please let me know.
 
-usb: core: hcd: flush giveback work on stop
-
-This commit adds flush_work() calls on the high and low priority BH work
-items in usb_stop_hcd() to prevent a use-after-free on struct usb_hcd when
-usb_giveback_urb_bh() is still executing as the HCD is stopped and freed.
-
-> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> index a865a15ea3863..9db0f39896065 100644
-> --- a/drivers/usb/core/hcd.c
-> +++ b/drivers/usb/core/hcd.c
-> @@ -2788,6 +2788,9 @@ static void usb_stop_hcd(struct usb_hcd *hcd)
->  	/* In case the HCD restarted the timer, stop it again. */
->  	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
->  	timer_delete_sync(&hcd->rh_timer);
-> +
-> +	flush_work(&hcd->high_prio_bh.bh);
-> +	flush_work(&hcd->low_prio_bh.bh);
-
-[Severity: Critical]
-Is a single flush_work() call on each BH work item sufficient to drain all
-pending givebacks if usb_giveback_urb_bh() requeues itself?
-
-When an instance of usb_giveback_urb_bh() starts running, process_one_work()
-clears WORK_STRUCT_PENDING_BIT and WORK_STRUCT_PWQ on &bh->bh, and
-usb_giveback_urb_bh() sets bh->running =3D true while moving bh->head to
-local_list.
-
-If another URB is passed to usb_hcd_giveback_urb() while bh->running is tru=
-e,
-it is appended to bh->head without calling queue_work():
-
-drivers/usb/core/hcd.c:usb_hcd_giveback_urb() {
-	...
-	spin_lock(&bh->lock);
-	list_add_tail(&urb->urb_list, &bh->head);
-	running =3D bh->running;
-	spin_unlock(&bh->lock);
-
-	if (running)
-		;
-	else if (bh->high_prio)
-		queue_work(system_bh_highpri_wq, &bh->bh);
-	else
-		queue_work(system_bh_wq, &bh->bh);
-}
-
-This can happen without a caller waiting in usb_kill_urb(). For example,
-during usb_remove_hcd() -> usb_disconnect(), usb_hcd_flush_endpoint() calls
-unlink1(), where usb_hcd_unlink_urb_from_ep() removes the URB from
-ep->urb_list before usb_hcd_giveback_urb() adds it to bh->head. The second
-loop in usb_hcd_flush_endpoint():
-
-	/* Wait until the endpoint queue is completely empty */
-	while (!list_empty (&ep->urb_list)) {
-
-then sees ep->urb_list as empty and returns without calling usb_kill_urb().
-Similarly, HCD ->stop(hcd) callbacks invoked in usb_stop_hcd() (such as
-_dwc2_hcd_stop() -> dwc2_hcd_disconnect() -> dwc2_kill_all_urbs()) can give
-back remaining URBs via usb_hcd_giveback_urb() while an earlier execution of
-usb_giveback_urb_bh() is still in progress.
-
-If usb_stop_hcd() calls flush_work(&bh->bh) before the running worker reach=
-es
-the end of usb_giveback_urb_bh(), &bh->bh is not marked pending, so
-start_flush_work() -> insert_wq_barrier() places the flush barrier on
-worker->scheduled:
-
-kernel/workqueue.c:insert_wq_barrier() {
-	...
-	if (worker) {
-		head =3D worker->scheduled.next;
-		work_color =3D worker->current_color;
-	}
-	...
-}
-
-When the running usb_giveback_urb_bh() then finishes its loop, it sees the
-newly added URB on bh->head and requeues &bh->bh onto pool->worklist:
-
-drivers/usb/core/hcd.c:usb_giveback_urb_bh() {
-	...
-	spin_lock_irq(&bh->lock);
-	if (!list_empty(&bh->head)) {
-		if (bh->high_prio)
-			queue_work(system_bh_highpri_wq, &bh->bh);
-		else
-			queue_work(system_bh_wq, &bh->bh);
-	}
-	bh->running =3D false;
-	spin_unlock_irq(&bh->lock);
-}
-
-When that first execution returns, process_scheduled_works() immediately ru=
-ns
-the barrier on worker->scheduled and wakes flush_work() before bh_worker()
-picks up the requeued &bh->bh from pool->worklist.
-
-Could usb_stop_hcd() then return and allow usb_put_hcd() to free struct
-usb_hcd while the requeued usb_giveback_urb_bh() is still pending or runnin=
-g?
-Also, does the comment above usb_stop_hcd() in usb_remove_hcd() stating that
-flush_work() isn't needed there need to be updated?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261024083647.2599=
--1-igorpetindev@gmail.com?part=3D1
+Regards,
+Nicolai
