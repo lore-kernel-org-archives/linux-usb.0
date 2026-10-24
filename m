@@ -1,54 +1,96 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.161.71
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792874547;
-	b=rrPoDU7jSFiDec9Ry8FcDpuSxrjmyVmkTeTbxUTEqhef3B3KyRK+oaPFEiojTlE7ToQp
-	 qY6RF7ran2X8tVh7Hon/3DfNloWu50wzVPLdyeIGqqXPv6bdBl/ZEpFh8J2ApYpuwLtjf
-	 EFzdCI0hjbC7AVK9QGXymnOQgHi7ICBiNF495Ew3utD1J0beF8U92hLpAdZaIkzXgWEbb
-	 M9REQfDiLl3WpcZAWGCaZrzAMobPIGSgBifXZ0AfQDaul+0bAa0K/NeLRCB+QRk/7O7s9
-	 P9hxs/93rtmYIy2tY3lXXx9C26GEVhHG0xkN6LNkZLM8UetGYjBM9Z8O2lBFB+D85GA==
+	t=1792879609;
+	b=paq3RoyIPi/QR/qaQAcilPfhmhTTr2/OZX/bJwdV6aDejMC75Yd4TUCCZJy59NcdfrGW
+	 oZ+MXjMSG0wnMy/kuKbHq4qBoxUwj9qsHYv7Sd84A9kLHtOGLmEPyDup0HS56zXilbXc7
+	 JeCkuGtBO0mx76pKkQ1nGKuHX6huVkHq4vKCOAz8VcBYXEF3i8C8/OZAncJXMBh857+xL
+	 8RVKzVjcLwjYVovbpqlIziqBk29wGN5r4WQZL76/AM/eEcrSbf/XW6J4YcrRh8602u3Ib
+	 nelKmAfJxJUEoK0N+wGvvqykctaZ8E692Yu8wv42iSjd16NFC9uPdQ3vj7W6Y6qca2Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792874547;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=FqBdXGEsMuUTS0y0QM4UIXMu2Yp29adRdaRXwX7vNjE=;
-	b=TSabF+gsyCoEfUxylks+pWJVq2ssyjgaGkmwp5jOVugBizfoAZ7kSbROMTg9wZ/Tfnjp
-	 PORE5QjNC21YcQlX1dvtr3Mr6gGRziH9Y95IDLecEuxH5G8hO6qdFwC5T+XNan1h9VAUo
-	 pRZlRN+P6hmHaGpXyBbu1Ho3ddiegMh76V2i6t9dRPRVROBl0LlLfTbUwQVvT781mmJkG
-	 zK+LCgc9QE/sVXbKfSA4WT1VJMt6ohhlcfZVXkAtHurzXw63314CPrErXzYIyurvhAT1v
-	 or9/Jlf8dJCevU4fIm2WzYgv4ZTyKSQLTd57WEgvoDzPEIGwS0+XwlsEQwinJP4T0wg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792879609;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=HxeQRAzqUAVtmjjD5cM+lfc+nv6xOYi7h4CqR5Xxty4=;
+	b=U6pSxz3qIwQ8te6drMhRWZCZiHNALy2RezTPANp6/v1kGFeZUwWWVCgw1tlyyzV1PY7r
+	 iAg+uZrAL5KTpBNA1T9mT8NYKNc2RFtshwkScIAISRzevmtFS3/vcyemRsm45TAXFt3OY
+	 V38u/06e3WQe9FfwYBcfN9Ug5jno6RP5Jy2Oqu7xLZ/qWJCceUFRvAk45CR8Rm3ZE6zep
+	 JQyyzFl2ZpyD6ZwoAIt5S1kYklEvssV267071gZ/u7gxJNZKAVP0dt4Vg/h9HIt6oQMFV
+	 THkbZiMEgROL6pbKHlGdaOCY7O6WkSMD6UCAGOpHZL6IBVeg/wCWz6PjWGTY0HYrRow==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.161.71
-Received: from mail-oo1-f71.google.com (mail-oo1-f71.google.com [209.85.161.71])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Z+Ennp60;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A86E606A31B
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 20:42:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A86E606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oo1-f71.google.com with SMTP id 006d021491bc7-6dcde9c2063so2019725eaf.3
-        for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 13:42:27 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B87606A31A
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 22:06:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 76B87606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Z+Ennp60
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a2069b9710so17971165e9.2
+        for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 15:06:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792879607; x=1793484407; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HxeQRAzqUAVtmjjD5cM+lfc+nv6xOYi7h4CqR5Xxty4=;
+        b=Z+Ennp60zU5xjSD/H6r9yrndkA9jr5apGRTkqmpoOq0yZ7TQqQlYL+U2Lmzo9xQ7sc
+         0nd6KgEou+zir8J/tRqBuJQWv/BbiAy2tq6mBXySukRsiAqV8NLpTHwq4kBNFGAmcr4L
+         //p0uSQYaDIdfMp7g8RqtkXBJU4Klktt9NsWi3ACZUeaRuIESS4unXuQwHvvY7wtVK9Y
+         3rIZs9av2N42gHP5UntG/ZWh639NBLP434WI5If0fISDH8MhDFNaoiC8fkZrGsnG5yC3
+         CkRRAMS9rZVJxzKHX/3GCvcrxvclHhBOlNCap3QMkU0LKu45KEeVucx5GbYLJvdQar2f
+         l83w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792874546; x=1793479346;
-        h=content-type:to:from:subject:message-id:date:mime-version
+        d=1e100.net; s=20260707; t=1792879607; x=1793484407;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=FqBdXGEsMuUTS0y0QM4UIXMu2Yp29adRdaRXwX7vNjE=;
-        b=tz/eXlCjY1nqRsjSSAd4Z0iwJF9HBVLVzm3VHHs7UkP2m9yJ81ngN8UmiNj/15Eajy
-         lOrGuPLVcs8/87FnurCnW46lV3AB/A6kjPxaX13jJ/dwOjExb3Q3F5EKp6GPxvtby5G4
-         qTeUVYXW3w9dNsRzB9EgKptibXtghEO4Cn8vNCLELkhsTaiVd+214fLnULr0ax5di6FO
-         RgggWmipk1kmpl1X9kPTULJXw/LJ9k4Qhkd26wO9aOliOw536pJaVJeLlp4O9TyTmmyL
-         +0WcQ4eZrzp0pe6x9csZ44pZ9XPgsMT91M0e0GnWDACeIS/Z4vdExaQzxeLPzt9dvVgy
-         V2eg==
-X-Forwarded-Encrypted: i=1; AKwUvBwiBKuTFOj4Yh34JAFjkfYRuoy2++1cClfZti5lruoKoP6xLQYZ0Aq+kfy2FKW4Se/dFdN8PLUjeXA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKL8evH20zAI4eQKfYFwrH5O8CRqg9I5sSOZa9n8i10O7yiHTue
-	m+KlXUvIzVDZdiAaUmpCw87f0NoAbgd/who73vWoy6yrY3q+5fu1qN7FhKLk4brdRpIQhuWvS/1
-	zuWXTvmtuR79fNmbhg3MoxAO51eoGfT1F2obNGIaK+KeOG0R2n8CXqapNZIY=
+        bh=HxeQRAzqUAVtmjjD5cM+lfc+nv6xOYi7h4CqR5Xxty4=;
+        b=pl26QXBFY+a5OsWgWoXfig7naQop7/ezWEoWpsRYkMYCa57YdSlTg1ddJs9waQYuWi
+         PIsrqsXHNKRGQCZBCqHXuhJdhN2ZEuRJdgKrA0nK8FzRgkT9IINmv73RUIpDsmiHoOak
+         BhK8VV7ik5BIc9/0Ot5S/k+rfLHpon4Vj/RQ798F7JRnHhyGVlDasW5XPV7fWADDbf77
+         ZMDjWZLC/0Vv45W9MNFOgxISLysnwmf8QhwrBUVKO96LJ5bvVKzMCloAI0HDJm5KuwaX
+         LnbOJsdWRLZANs/r6S7A+rhB5uBIhMLsIQp2BuOmirh3DfPWecBi5sF6YdZeltZ/qIxa
+         C/WQ==
+X-Forwarded-Encrypted: i=1; AKwUvBxEqr8cZIoCMM7BjjwhvYzP3EKsZnROj1JrgV6kdBONO9N6RjDewL4GsoqVKFDJyNoVu/JgAl6HeNE=@vger.kernel.org
+X-Gm-Message-State: AFq9FYL5FNZRzBXj8vmcKV2UmY1bu6KDy9ZVvwjCIrkwCs3exNlaPxyc
+	fBRnrj/Bksf7KPnUYYDaqxvCdMQhmArKzYve21HxcIPNjq68J2j3sUnK
+X-Gm-Gg: AYBFou2IwtxLpxFGTCGOTv8fR9CYlacA6KUcv/zRmnZRLhw8EQlfYTcJ1qdJ5mfFdxB
+	iAGJF3GjeqL6nKx2emqNhoKQaZzxM6/YnBK30nlDnSgnE3TWLMQY0Usx+kqDmwLFcBPSWadfXT4
+	PRPavvdjr3Cl25JLppzDkvGVayZQNAeGTn12mQWhjj/iuhPWDwSHgdAimcLrjWCdNsJYaU7j6sk
+	Xw3ijASVJRZILhtmrYeeJqO98YsYc/KufdbOon5FMJA464UnhUCz1NoETTOQj6vQa6/p0oeOM1X
+	0NaBnurDWAsA0RyuJFs9cJb3+B76K3i6M0Lf4BZqErJyu6Nw5l1pBwxNqGEyKK5DapEfvF0WP1c
+	VbLL5p6dmJVPZQpX1LlA6ONDqFOcUNcVIWs1QDI7KZL43tJsTIGWOG4mjXLD2BVGxgKxtgcaZtE
+	oOupCPi2c1hrGhWElNBqerdgj5iuNz4MPfH8NOLkXEoV53rUgkFPaO8usnzwvOGa1w0UC8dD7SU
+	I29EGraDTJhgamotpTGgoH4OynNYa0ZPYOxFJurUDwlR8uqLj45+PT1s+9BeKQr
+X-Received: by 2002:a05:600c:83c7:b0:4a1:e92b:ae4a with SMTP id 5b1f17b1804b1-4a35aca5824mr44913385e9.21.1792879606729;
+        Sat, 24 Oct 2026 15:06:46 -0700 (PDT)
+Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a04ad39sm217549655e9.1.2026.10.24.15.06.45
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sat, 24 Oct 2026 15:06:46 -0700 (PDT)
+Date: Sun, 25 Oct 2026 00:06:43 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Igor Putko <igorpetindev@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern
+ <stern@rowland.harvard.edu>, Tejun Heo <tj@kernel.org>, Oliver Neukum
+ <oneukum@suse.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3] usb: core: hcd: flush giveback work on stop
+Message-ID: <20261025000643.425c57ca.michal.pecio@gmail.com>
+In-Reply-To: <20261024155614.2732-1-igorpetindev@gmail.com>
+References: <20261023174015.54793-1-igorpetindev@gmail.com>
+	<20261024155614.2732-1-igorpetindev@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,131 +100,129 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:c0db:10b0:70a:849b:6ec6 with SMTP id
- 006d021491bc7-70ba0b62d74mr1000207eaf.6.1792874546529; Sat, 24 Oct 2026
- 13:42:26 -0700 (PDT)
-Date: Sat, 24 Oct 2026 13:42:26 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6add1832.a26421ad.3bb4f4.0013.GAE@google.com>
-Subject: [syzbot] [mmc?] BUG: sleeping function called from invalid context in vub300_inactivity_timer_expired
-From: syzbot <syzbot+13d431d857e347804708@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org, 
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com, 
-	ulf.hansson@linaro.org, ulfh@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello,
+Dupe?
 
-syzbot found the following issue on:
+https://lore.kernel.org/linux-usb/20260823125831.6ea35650.michal.pecio@gmail.com/
 
-HEAD commit:    bdf12cde3083 usb: gadget: dummy_hcd: prevent unbind via sy..
-git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-console output: https://syzkaller.appspot.com/x/log.txt?x=10f7c231580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7f0127eb11110629
-dashboard link: https://syzkaller.appspot.com/bug?extid=13d431d857e347804708
-compiler:       gcc (Debian 14.2.0-19) 14.2.0, GNU ld (GNU Binutils for Debian) 2.44
+On Sat, 24 Oct 2026 18:56:14 +0300, Igor Putko wrote:
+> When an HCD is stopped/removed (either during module unload, driver
+> unbind, or an error path in probe), pending URBs are unlinked and
+> completed. However, for root hubs or HCDs with giveback done in BH
+> context, the work function usb_giveback_urb_bh() may still be
+> executing on another CPU after __usb_hcd_giveback_urb() drops the URB
+> use_count and wakes up waiters in usb_kill_urb().
+>
+> Since the caller may immediately free the struct usb_hcd via
+> usb_put_hcd() after usb_stop_hcd() or usb_remove_hcd()
 
-Unfortunately, I don't have any reproducer for this issue yet.
+Is usb_stop_hcd() relevant here?
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/85e12902fee8/disk-bdf12cde.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/4a1ee2a067fd/vmlinux-bdf12cde.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/2acb753f5754/bzImage-bdf12cde.xz
+I placed this in usb_remove_hcd() where other works are cancelled.
+This seems good enough, because no URBs (or wakeups or dead) should
+exist until usb_add_hcd() completes successfully, at which point
+I suppose usb_remove_hcd() must be used, not merely usb_stop_hcd().
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+13d431d857e347804708@syzkaller.appspotmail.com
+> the running worker accesses the embedded giveback_urb_bh structure
+> in its epilogue (e.g. clearing completing_ep or clearing the running
+> flag) after the memory has been freed, triggering a
+> slab-use-after-free write detected by KASAN.
+> 
+> Ensure all giveback work has fully completed in usb_stop_hcd() by
+> calling flush_work() on both high and low priority BHs before
+> deallocating. Also remove the misleading comment in usb_remove_hcd()
+> claiming flush_work() is unneeded, and document the queue emptiness
+> in the usb_stop_hcd() kerneldoc.
+> 
+> Fixes: 8fea0c8fda30 ("usb: core: hcd: Convert from tasklet to BH
+> workqueue") Reported-by:
+> syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com Closes:
+> https://syzkaller.appspotmail.com/bug?extid=a5b220cacb0618384d5a
 
-BUG: sleeping function called from invalid context at kernel/workqueue.c:4561
-in_atomic(): 1, irqs_disabled(): 0, non_block: 0, pid: 14894, name: dhcpcd-run-hook
-preempt_count: 100, expected: 0
-RCU nest depth: 1, expected: 0
-locks held by dhcpcd-run-hook/14894: 3, last CPU#0:
- #0: ffff888119da0340 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_lock include/linux/mmap_lock.h:600 [inline]
- #0: ffff888119da0340 (&mm->mmap_lock){++++}-{4:4}, at: mmap_read_lock_maybe_expand+0x1e2/0x3d0 mm/mmap.c:1691
- #1: ffffffff898e6f20 (rcu_read_lock){....}-{1:3}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #1: ffffffff898e6f20 (rcu_read_lock){....}-{1:3}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #1: ffffffff898e6f20 (rcu_read_lock){....}-{1:3}, at: mt_find+0x136/0x9b0 lib/maple_tree.c:6431
-Preemption disabled at:
-[<ffffffff8177b113>] softirq_handle_begin kernel/softirq.c:486 [inline]
-[<ffffffff8177b113>] handle_softirqs+0xf3/0x9b0 kernel/softirq.c:621
-CPU: 0 UID: 0 PID: 14894 Comm: dhcpcd-run-hook Not tainted syzkaller #0 PREEMPT(lazy) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 10/07/2026
-Call Trace:
- <IRQ>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x100/0x190 lib/dump_stack.c:120
- __might_resched.cold+0x1dc/0x222 kernel/sched/core.c:9264
- vub300_delete drivers/mmc/host/vub300.c:379 [inline]
- kref_put include/linux/kref.h:65 [inline]
- vub300_inactivity_timer_expired drivers/mmc/host/vub300.c:747 [inline]
- vub300_inactivity_timer_expired+0x42f/0x550 drivers/mmc/host/vub300.c:742
- call_timer_fn+0x198/0x5f0 kernel/time/timer.c:1748
- expire_timers kernel/time/timer.c:1799 [inline]
- __run_timers+0x757/0xb00 kernel/time/timer.c:2374
- __run_timer_base kernel/time/timer.c:2386 [inline]
- __run_timer_base kernel/time/timer.c:2378 [inline]
- run_timer_base+0x114/0x190 kernel/time/timer.c:2395
- run_timer_softirq+0x1a/0x50 kernel/time/timer.c:2405
- handle_softirqs+0x1d9/0x9b0 kernel/softirq.c:645
- __do_softirq kernel/softirq.c:679 [inline]
- invoke_softirq kernel/softirq.c:519 [inline]
- __irq_exit_rcu+0x168/0x210 kernel/softirq.c:758
- irq_exit_rcu+0x9/0x30 kernel/softirq.c:775
- instr_sysvec_apic_timer_interrupt arch/x86/kernel/apic/apic.c:1062 [inline]
- sysvec_apic_timer_interrupt+0x8f/0xb0 arch/x86/kernel/apic/apic.c:1062
- </IRQ>
- <TASK>
- asm_sysvec_apic_timer_interrupt+0x1a/0x20 arch/x86/include/asm/idtentry.h:674
-RIP: 0010:lock_acquire+0x5e/0x380 kernel/locking/lockdep.c:5947
-RSP: 0018:ffffc90014baf920 EFLAGS: 00000206
-RAX: 0000000000000046 RBX: 0000000000000000 RCX: 0000000000000200
-RDX: 0000000000000000 RSI: ffffffff892be127 RDI: ffffffff87d2bd80
-RBP: ffffffff898e6f20 R08: 0000000032a4bc37 R09: 0000000000000007
-R10: 0000000000000200 R11: 0000000000000001 R12: 0000000000000002
-R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
- rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- rcu_read_lock include/linux/rcupdate.h:849 [inline]
- mt_find+0x14a/0x9b0 lib/maple_tree.c:6431
- gup_vma_lookup+0x20/0x170 mm/gup.c:1275
- __get_user_pages+0x241/0x2970 mm/gup.c:1396
- __get_user_pages_locked mm/gup.c:1692 [inline]
- get_user_pages_remote+0x3d2/0xb10 mm/gup.c:2609
- copy_strings.isra.0+0x475/0x790 fs/exec.c:511
- do_execveat_common.isra.0+0x38f/0x580 fs/exec.c:1941
- __do_sys_execve fs/exec.c:2038 [inline]
- __se_sys_execve fs/exec.c:2032 [inline]
- __x64_sys_execve+0x93/0xd0 fs/exec.c:2032
- do_syscall_x64 arch/x86/entry/syscall_64.c:61 [inline]
- do_syscall_64+0x119/0x710 arch/x86/entry/syscall_64.c:84
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f65da68e107
-Code: 0f 00 64 c7 00 07 00 00 00 b8 ff ff ff ff c9 c3 0f 1f 00 48 8b 05 a9 ee 0f 00 48 8b 10 e9 01 00 00 00 90 b8 3b 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 8b 0d c1 ec 0f 00 f7 d8 64 89 01 48
-RSP: 002b:00007ffdc0ec44e8 EFLAGS: 00000246 ORIG_RAX: 000000000000003b
-RBP: 000055bee7e24ef8 R08: 00007ffdc0ec7f12 R09: 0000000000000000
-R10: 0000000000000008 R11: 0000000000000246 R12: 000055bee7e24e68
-R13: 00007f65da853e8b R14: 000055bee7e24e68 R15: 0000000000000000
- </TASK>
+No such domain?
 
+Looks like you trusted an LLM ;)
 
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Signed-off-by: Igor Putko <igorpetindev@gmail.com>
+> ---
+> v2 -> v3:
+> - Remove obsolete comment in usb_remove_hcd() regarding flush_work().
+> - Add comment in usb_stop_hcd() explaining why flush_work() is needed.
+> - Update kerneldoc for usb_stop_hcd() to state giveback queues are empty.
+> v1 -> v2:
+> - Use flush_work() instead of cancel_work_sync() as suggested by Alan Stern.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+But why?
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Cancel costs nothing and turns potential UAF into a leak, sounds like
+a win to me. I did the same thing deliberately for this exact reason.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+This review bot is completely hopeless in out-of-spec and bug-vs-bug
+tradeoff scenarios.
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+> 
+>  drivers/usb/core/hcd.c | 19 +++++++++----------
+>  1 file changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> index 8e8a5f59b319..f403795b17ba 100644
+> --- a/drivers/usb/core/hcd.c
+> +++ b/drivers/usb/core/hcd.c
+> @@ -2773,6 +2773,8 @@ static void usb_put_invalidate_rhdev(struct usb_hcd *hcd)
+>   * usb_stop_hcd - Halt the HCD
+>   * @hcd: the usb_hcd that has to be halted
+>   *
+> + * The two giveback queues should be entirely empty when this runs.
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
+No disagreement,
 
-If you want to undo deduplication, reply with:
-#syz undup
+> + *
+>   * Stop the root-hub polling timer and invoke the HCD's ->stop callback.
+>   */
+>  static void usb_stop_hcd(struct usb_hcd *hcd)
+> @@ -2787,6 +2789,13 @@ static void usb_stop_hcd(struct usb_hcd *hcd)
+>  	/* In case the HCD restarted the timer, stop it again. */
+>  	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
+>  	timer_delete_sync(&hcd->rh_timer);
+> +
+> +	/*
+> +	 * Even though all URBs have been given back,
+
+but does anyone actually believe this here?
+
+Hundreds of drivers written over three decades, often
+without linux-usb review. I don't trust them at all.
+
+Regards,
+Michal
+
+> +	 * may still be finishing up and accessing the usb_hcd structure.
+> +	 */
+> +	flush_work(&hcd->high_prio_bh.bh);
+> +	flush_work(&hcd->low_prio_bh.bh);
+>  }
+>  
+>  /**
+> @@ -3059,16 +3068,6 @@ void usb_remove_hcd(struct usb_hcd *hcd)
+>  		usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
+>  	mutex_unlock(&usb_bus_idr_lock);
+>  
+> -	/*
+> -	 * flush_work() isn't needed here because:
+> -	 * - driver's disconnect() called from usb_disconnect() should
+> -	 *   make sure its URBs are completed during the disconnect()
+> -	 *   callback
+> -	 *
+> -	 * - it is too late to run complete() here since driver may have
+> -	 *   been removed already now
+> -	 */
+> -
+>  	/* Prevent any more root-hub status calls from the timer.
+>  	 * The HCD might still restart the timer (if a port status change
+>  	 * interrupt occurs), but usb_hcd_poll_rh_status() won't invoke
+> -- 
+> 2.47.3
+> 
