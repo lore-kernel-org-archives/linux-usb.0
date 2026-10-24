@@ -1,56 +1,146 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.146
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792858307;
-	b=dsl4NOKJgdXqN9zXjA6AIOzGqLyXxUFmBZI5g6iSRvn3fU7KEd2bb2PxHMJhHH2NU68Q
-	 yXlfqnve7s20qhXk2k51654qwZJXKI2mZ9D5jXHxLx+50z/QxFwFCq1BAGpbyN/LPy2nf
-	 onHZF6iXphAnem/EnwLQ8iyoz8/edUr5oe2ndJqJ7rmeJ5xCu5I0qbSNq4yI1hw91/elZ
-	 8p6nH2YRcujYky7kmBAh3F7bTeq58DpHCCacNhMxXVGhOzavuur9SUzC8SaLHLimY9ct1
-	 km8cBNl2fTOdEhYzzRN5U6gHUacGjsv6MDmKqLs8H8W029ilRGrE8OgTTPJBeXh3irA==
+	t=1792859722;
+	b=JNj81fgpG3zKs346/1mGb0c5Lf0kVpJP2ZjfUPIFNOOqWYfSgfX7Uwit6NyHV91Bc1gi
+	 HpWj35S6NEpa/Y2uhI3kSJofybTC3lMg21XCQ5oalB/BjzRq4/+jsoI0RwKQcjrhx1Cgz
+	 39hc8M/RRd+k402lebYme56ZCJazWfqGM6MDTaxNPf8vNBJSHNAhxI7G9OW6UezYuuzRj
+	 U8ZWObTL3nzj0SNEei1cRboswVHfB7OoT0U+UWLZzGJBESJAAOWHf7TXs2UI+0s9ywyoY
+	 z1Qmf7uDLkTRILiEnWQ7tfp5kiPYb4ryhVOY34FgP+asIhPD4hvSnJA0ouPIzht/vbQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792858307;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=duimOpuL5nU84mD5t1t6eo9wcLsE2QNsu5vbonBfIZg=;
-	b=3soc36/e+wM8UdHSef9rzaFx9t7axryK6DfZevFxNzMsXX72F+b9gUoMdZFvc2cw0MvM
-	 0tOJEJD1yvLrlRRir/o9nCnChtGzAVwYZCPbdFg1pQwuaI68yfpBde5VHncDEkgz45dyB
-	 K+IQKTaINs5AGljGcC/QkN+J3QsPZ9Z4i6TvfaUMHv9t+yv1JCFqOPG2LZKu62MyG7wnb
-	 N/Ku1xPxtPDAcbTqH0xiPtA1UVqXBC0JY7Ym0EX5M7L9Kq8zQssVtMXKvULCNV5w1n/0+
-	 w/zXsGtnfKGuIHcuXsMEiMJvOHGjnLqUbHzgCuIsQA0eAG6VsycfRNX0/G8UnQk6juQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792859722;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Received:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:
+	 Received:Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=;
+	b=cObbM3XKvQ/0O9dfm91XhxMYQ0srywWq0p0GzArGdpUnHH4eExoe6cCKdF7arMqLMftr
+	 YGnXziLpJT9bGaHGBTmomQWWTwA48NgMjnpm2Eyri6BqcidZNrgpvQZV7kIx2moTUUBcl
+	 t6sL7Co5Tt8CalLkFKDl7B4j7olwmLIz4Rq9RMN9iOeasWxiAbsR0Mfd3qWwEINSZjrfM
+	 0+yRmAPSZoz2etGjYlVJ3TjdBvxrEhxkqaP/91ZfW8tSAZaxxOr1NpJPZlcc267hJt+A5
+	 50LSrqbscmzXO9j2gCKTps8gD7wSOKqQEFXjqz/yZfCtssnNn6sdXK3xM/W0mWFR3Pg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fqSFISD8;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=shazbot.org;
+	spf=pass smtp.mailfrom=shazbot.org;
+	dkim=temperror header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=E9TTTyuV;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=HSLmwBuR;
+	arc=none smtp.remote-ip=202.12.124.146
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A286606A31B
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 16:11:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60B9606A31E
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 16:35:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E60B9606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=shazbot.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=shazbot.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fqSFISD8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D23351F01825;
-	Sat, 24 Oct 2026 16:11:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792858307;
-	bh=duimOpuL5nU84mD5t1t6eo9wcLsE2QNsu5vbonBfIZg=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fqSFISD8UhoiIkPLVpGjDy0w73ujggvx1f47xjWppQNM/PHMLXhk6uHGPnmLyxhKW
-	 OiDe6HhS22dIlyqnH7la+hqhvdJy2xtGJqll1NAilX1P/xo2bGB/YT7qhCoLoDR50r
-	 6hXVLX/tJk6cjZd/XlsH7Au2YBlYd5UmYk+JzlBiEslwcYCuHSRRzs8zyCdDDjUF6b
-	 vh4GC2uW1uwX7WwHARj9ikoRVPGOcjDOOa3Vn/BMjTtg0kzxlJ9SunLMy8iJkGvXlR
-	 qXj0Nkb87m3GU0gOgJLmSb4TWRg6+6oL+xIs+S4SBczMOC8qq6/dliNtyFldRf7QG8
-	 PMMMt4pszBQFA==
-Message-ID: <sashiko-outbox-183788@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v3] usb: core: hcd: flush giveback work on stop
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Igor Putko" <igorpetindev@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261024155614.2732-1-igorpetindev@gmail.com>
-References: <20261023174015.54793-1-igorpetindev@gmail.com>
- <20261024155614.2732-1-igorpetindev@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 24 Oct 2026 16:11:46 +0000
+	dkim=temperror header.d=shazbot.org header.i=@shazbot.org header.a=rsa-sha256 header.s=fm1 header.b=E9TTTyuV;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=HSLmwBuR
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfout.stl.internal (Postfix) with ESMTP id 5D2C01D0013F
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 12:35:21 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-10.internal (MEProxy); Sat, 24 Oct 2026 12:35:21 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shazbot.org; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1792859717;
+	 x=1792946117; bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=; b=
+	E9TTTyuVq5dqLfibvKAUPgIg5tosgfal3gshY7YFVMEvMYBiRtsE/hVOZz+s9E/s
+	Vp2Mw+33W+xC5axSUv6LiW6jYatqKOB5v9I05nc0ybaBcpLWshDYhkElOb63LJQa
+	5mpWbHmgXLqi/jfi5yzFs5tqgdAcKZZ33LufqE1y0ccmAd5Q2UO75ZaoYMrWplpS
+	bz4023BNvDLPHdfxR8em3XXyTd/MJhW0w0KkQGIlAQRC5iVlx9GKHe0E7Fq0NizZ
+	iZMYZ9oVMwNQai85YBxlmJidCy+s/9t0+LGErr2goPyIoRxsbsUbppJam9TWjcLF
+	oebVumhwCwCnko/ixXCeTQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1792859717; x=
+	1792946117; bh=Q3hza6gfFdynstbaNLuNyAqlUowt1fWQwFZR5teeLxg=; b=H
+	SLmwBuRRP2v647BWrpPT4ump0Bi3DOHEEVDkCvC1Z+khtGlflWopAywI1565MjwV
+	dfRCBs0WVYow5r3uTm+/ImdcNdW0LshiNslhvGKamfXyDXu2wGqF6VjWmSfEnfi/
+	JNfA4N0+/x9qTqCtpiA1OhE2k2y6SKDSKtg477VkRWWVZKjJbH2m6GKQheurdynM
+	dySzra7q/jN+o9xrvg4bexh4ur6/psywQSDB+6zccVPfMb6ihmrBh9sHM1+0I3xn
+	SCm5yidr3P9G14p9kd5/ZLvLiVM8wpyanAwrKXZW2/Gk/QIHnShXe8LT1It9minP
+	abx4p5iwwEwtRMGlPRkNw==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=sign d=shazbot.org a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1792859717; d=shazbot.org;
+	mf=PGFsZXhAc2hhemJvdC5vcmc+;
+	rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm1:rsa-sha256:1hVfJBXOxMU7jg9QkncWaQ5zSDhG/3CbuR8TrFBL6W/u6SH
+	kuHvT4z7VmYTwgry16NspDlTl1LpIhGPw06rzSJvjcj/TYb/U2uIYxP4LRIbCrVE
+	MwW2Yoimf/O+oGy7JGxcljDY8zfbzbOTFWHcIjyRv7oFhjheaAIqEjoKu/2fN1fT
+	DhYNu3fDIaOn/Z7jGgsGPPs5Gxj4pF4TUAisZKhBSaohkBmQSu4KDcEgSzO28Afc
+	S4ar/zRL1T5rjj6vumbspqAQOYA1TMFV48NvS6xtKgtcamv0pXUUFcImSSnbgEfw
+	PFmgAD/eUtuTHNKdDBoyrwGwG0dOgq0tDYq78MA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
+	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:JnbRzMatNOWh6VYk3BtMyVistKV9n98HRh1lJrMuiyI=:s7RKaOxqLU8WzgWaRyrCiYLjCHz0idVdL2rlY3c6L5w=;
+X-ME-Sender: <xms:Q97carmA3_xGeqSlgVk8faN9acf8fxLirifsX3U9VTRqL8U5BKfszw>
+    <xme:Q97cavkNz9L4po1mV2XOeF5DcVEndKPwyd413O8HaE-Au3TPJY6jd4bkNa7yut72N
+    97rywkUVO3ReW-HI3kJIXje6Q7zWYfLxtcwtvQvJfY9JA3gINcE>
+X-ME-Received: <xmr:Q97caqjYB8YGnVQGqpVwONajta7tJM0SiEkEfbanOZY2GQp6SYfr3KgNGIfRFQ>
+X-ME-Proxy-Cause: dmFkZTF9g0HInb6yy90yfs+ss2zLTr6q9s2zMqnyVsBip2hj18csqpDRvrtfuwSbKKJdKA
+    psdh8APLESm8UW8KW01iTqR/S/iRc1Cr4qo4b5Xvo1no8IwYaEMVHtNNjO+pv3ub7J5k4n
+    szfnLzyxBxdMpJ70bAXPu417N3F0afseT87ZW2VZCtJeqMVXl3L9yeaBEZmUVots99yNm7
+    fErISCP5VUjfv2eP10lfqk0j76TstgnE+aocUeQ5nhqqoe7/7PSyPHEZtYRK9uIa37tQGz
+    daj0FHGFjc2S8vyptHVdBTYLfKS0jbo0wjNsNJchNiZajaKm6mcEi63hGrqETG70q6Q7iY
+    2aDtOSpItAChdWXVXgRsecuefI3YGiNy/5tzR+n94CkkrgWuYrfga0EBN2TZhjMAla6DB7
+    08mXSwJMEpvrbzfNCbuIDYpjIUrJSpfs4YYhH2Zk6LM4fgA0VlbnrxlpUIInldNvCwCwwi
+    nyDGoI5RTkojCyZKpoAKEA5LEZjHAv4esvgzLWW9LUsXv2W1pal6pcX0grJnNh+ICAdr3X
+    1sMnr+bWuARbAQ0lzpoLGz8HL+VysK7EfCg+SQyz8j4CTYwPdLl0USuckBMLT1ONgPXxgI
+    sblheuKLPQHtfON71CR2+i3cC7syWwmzs8IqhBPh/STaXERhx43fa5rVoGGA
+X-ME-Proxy: <xmx:Q97carfFfA4SXJtQiRgFajU4VapE3uPl5gkpqu0fLCYli2F0957kqA>
+    <xmx:RN7cao_bSBYz6_AU4G_ivQhzgNK86Q5bEAi8UShmqhP2zTqObGxUCg>
+    <xmx:RN7caphlL7Mlc8KWfZbl2GPnu19Sl2Vw9qG1uReehdpmDTVj-d9zvg>
+    <xmx:RN7cak-MaVrw-X_KHEiKfZbm9VsstGzvp_XMLnPmZEjeLXaiQ2p0gQ>
+    <xmx:Rd7canhIppUmJGzskxC_Ni_y7PxhQy9T-N5ARTumtHQB2GalI6fGR1z4>
+Feedback-ID: i03f14258:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 24 Oct 2026 12:35:13 -0400 (EDT)
+Date: Sat, 24 Oct 2026 10:35:12 -0600
+From: Alex Williamson <alex@shazbot.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <u.kleine-koenig@baylibre.com>,
+ Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>, Danilo
+ Krummrich <dakr@kernel.org>, Luis Chamberlain <mcgrof@kernel.org>, Petr
+ Pavlu <petr.pavlu@suse.com>, Daniel Gomez <da.gomez@kernel.org>, Sami
+ Tolvanen <samitolvanen@google.com>, Aaron Tomlin <atomlin@atomlin.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Randy Dunlap <rdunlap@infradead.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
+ <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh
+ <nogikh@google.com>, linux-modules@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+ linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+ Richard Weinberger <richard@nod.at>, Thierry Reding
+ <thierry.reding@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+ alex@shazbot.org
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <20261024103512.4601ee4f@shazbot.org>
+In-Reply-To: <2026102437-vista-unsoiled-b089@gregkh>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+	<DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+	<arIvG0nx4LXG9nlW@monoceros>
+	<defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+	<9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+	<2026092321-province-yearly-44aa@gregkh>
+	<arOfHEsGGglNse7T@monoceros>
+	<2026092348-victory-erased-0e5a@gregkh>
+	<20261023181326.0dc2f7ed@shazbot.org>
+	<2026102437-vista-unsoiled-b089@gregkh>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,36 +149,181 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> When an HCD is stopped/removed (either during module unload, driver
-> unbind, or an error path in probe), pending URBs are unlinked and
-> completed. However, for root hubs or HCDs with giveback done in BH
-> context, the work function usb_giveback_urb_bh() may still be executing
-> on another CPU after __usb_hcd_giveback_urb() drops the URB use_count
-> and wakes up waiters in usb_kill_urb().
+On Sat, 24 Oct 2026 06:56:34 +0200
+Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+
+> On Fri, Oct 23, 2026 at 06:13:26PM -0600, Alex Williamson wrote:
+> > On Wed, 23 Sep 2026 12:29:56 +0200
+> > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> >  =20
+> > > On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-K=C3=B6nig wrote=
+: =20
+> > > > > No, drivers should NOT have to do that in their .probe() function,
+> > > > > that's what we moved away from decades ago!  The match function s=
+hould
+> > > > > handle all of that for you, otherwise it's contant duplication
+> > > > > everywhere that is unneeded.   =20
+> > > >=20
+> > > > Well then you have to accept that root can provoke a null pointer
+> > > > exception (e.g. by forcing the pwm-tegra driver on a device) becaus=
+e at
+> > > > least with today's platform bus match function such a match is ok. =
+  =20
+> > >=20
+> > > Agreed, yes, root can cause a crash and can do tons of horrible things
+> > > much worse than this, that's not the issue.
+> > >=20
+> > > That's why this taint is there, to make it obvious that this is not a
+> > > "real" bug at all.
+> > >  =20
+> > > > > Please, learn from our history, don't make the same mistakes.
+> > > > >=20
+> > > > > Now I might be convinced that driver_override is the way to go he=
+re, but
+> > > > > it still feels really odd as again, bind/unbind was created as a =
+driver
+> > > > > debugging option only, it should NOT be a normal operation that a=
+ny user
+> > > > > should rely on.  The driver should "just work" properly instead, =
+without
+> > > > > requiring manual bind work, as that's not a good model at all.   =
+=20
+> > > >=20
+> > > > I agree in principle, but (in my case wifi) drivers are buggy somet=
+imes
+> > > > (due to missing documentation and/or engineering effort) and being =
+able
+> > > > to rebind the driver instead of rebooting to get a working device a=
+gain
+> > > > is very useful.   =20
+> > >=20
+> > > Fine, use it!  Just don't expect that to be "normal".
+> > >  =20
+> > > > So yes, theoretically bind/unbind isn't needed, but theory and prac=
+tise
+> > > > differ in practise.   =20
+> > >=20
+> > > Agreed, but again, don't rely on this as a "real" solution fo ranythi=
+ng. =20
+> >=20
+> > Sorry, late to the party, but this isn't a few user scripts that rely
+> > on this behavior.  Effectively every use case of vfio relies on this
+> > behavior.  We rely on unbinding the default driver from the device
+> > before using driver_override and drivers_probe.  That means every
+> > hypervisor with device assignment and every userspace driver use case
+> > now experiences a tainted kernel. That seems like a significant
+> > regression. =20
 >=20
-> Since the caller may immediately free the struct usb_hcd via usb_put_hcd()
-> after usb_stop_hcd() or usb_remove_hcd(), the running worker accesses
-> the embedded giveback_urb_bh structure in its epilogue (e.g. clearing
-> completing_ep or clearing the running flag) after the memory has been
-> freed, triggering a slab-use-after-free write detected by KASAN.
+> Or finally, a real bugfix :)
 >=20
-> Ensure all giveback work has fully completed in usb_stop_hcd() by calling
-> flush_work() on both high and low priority BHs before deallocating.
-> Also remove the misleading comment in usb_remove_hcd() claiming
-> flush_work() is unneeded, and document the queue emptiness in the
-> usb_stop_hcd() kerneldoc.
+> > There is currently no alternative for this process.  It's not a matter
+> > of upgrading to a newer kernel where the drivers claim the device IDs.
+> > We can't claim the device ID, vfio drivers represent a secondary use
+> > case for the device. =20
 >=20
-> Fixes: 8fea0c8fda30 ("usb: core: hcd: Convert from tasklet to BH workqueu=
-e")
-> Reported-by: syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspotmail.com/bug?extid=3Da5b220cacb0618384d5a
-> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> Signed-off-by: Igor Putko <igorpetindev@gmail.com>
+> How can vfio know that it can properly talk to any device like this?
+> Surely you have a list of real device ids that you know will work,
+> otherwise all bets are off.
 
-Sashiko has reviewed this patch and found no issues.
+There's not a list of real device IDs.  PCI, in particular, is a
+self-describing bus.  Devices are discovered via bus walk, their
+resources are probed via standard mechanisms, they support interrupts
+and resets as described by capabilities defined in a specification.
+The vfio-pci driver just provides a generic way to represent a device
+as resources mapped to file offsets with ioctls to discover those
+offsets and interact with things like resets and interrupts.  For
+example, PCI config space and BAR regions are just defined indexes into
+the table of file offsets.  This works with any endpoint device, where
+even that distinction is based on the discoverable PCI header type
+rather than a table of device IDs.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261024155614.2732=
--1-igorpetindev@gmail.com?part=3D1
+Even if we could come up with a set of device IDs, it's a policy
+decision whether a given device is intended by the admin to be used by
+the default in-kernel driver or a userspace driver.  This policy
+changes over time, within the same host session.  That means that at
+one point we want the default driver bound and at another we want a
+vfio driver bound.  Coordinating this is exactly why we have
+driver_override and, building on that, match IDs that require
+driver_override.  This allows drivers to describe themselves as vfio-pci
+compatible drivers via modules.alias while requiring userspace to
+enable the match via driver_override.
 
+This is how vfio-pci variant drivers work.  These drivers contain
+device specific knowledge, for instance the ability to serialize and
+expose device state for migration, but they're still a secondary use
+case to the in-kernel drivers.  This is effort and coordination with
+subsystems and driver-core over many years and relied on by every
+hypervisor, now deemed unsupported through a kernel taint before we can
+even bind the driver.
+=20
+> > A production use case of panic_on_taint now results in a hard failure
+> > for a scenario that has been allowed and documented as best practice
+> > for many years. =20
+>=20
+> It was never "best practice", you took a debugging option and somehow
+> thought it was a valid use case.  Yes, I'm being harsh but I am sure I
+> complained about this in the past and obviously never followed up on it,
+> so that's on me.
+
+I won't doubt that you know more about the history and intent of these
+interfaces than nearly anyone, but I don't find any documentation or
+comments that specifically declare these as debug interfaces.  In fact,
+Documentation/ABI/testing/sysfs-bus-pci has documented the bind and
+unbind ABI for over 20 years.
+
+You've certainly expressed more than once that users get to keep all
+the broken pieces if they bind devices to drivers that don't support
+the hardware.  This is the first that it's been formalized in a
+taint without warning or an escape hatch for drivers like vfio-pci that
+do in fact intend to work with all hardware.  It affects the industries
+that depend on this usage model.  It's a regression.
+
+> > What's the solution we can pursue for the scenario where devices have
+> > dual use cases between in-kernel drivers and userspace drivers?  Thanks=
+, =20
+>=20
+> So what is the real use case here, taking any type of any device and
+> thinking you can bind a random kernel driver to it and it will work ok?
+> You all have specific platform and pci vfio drivers, why not use the
+> proper device ids there instead, or better yet, bake-in this type of
+> functionality into the bus-specific logic so that you can have generic
+> userspace control of a device (like usbfs and uio does today)?
+>=20
+> We have real problems with random "bind/unbind" attempts that this taint
+> is here to help resolve as it was creating hundreds of false-positive
+> bug reports on developers all across the tree now that the fuzzers
+> decided to think this was a valid action to take.  Without this taint,
+> people were being forced to add hacks to all drivers for this which is
+> not an acceptable solution.
+
+At its core, vfio is describing the fundamental aspects of a device,
+regions and interrupts, without purporting to know anything about the
+specific programming model of the hardware.  In the case of PCI, the
+vfio-pci driver effectively decomposes the PCI representation of the
+device into a set of ioctls and a file descriptor.  A userspace driver,
+for example QEMU, recomposes that representation back into a virtual
+PCI device to the VM with virtualization, emulation, and direct access
+wired through to the physical device.
+
+There are no devices deemed only for vfio use by default.  Often we're
+unbinding a device from the host, exporting it to a userspace driver
+through vfio, exposing it to a VM, only to bind the same driver to it
+in the guest that it was previously using in the host.  Binding to a
+vfio driver is always a secondary use case governed by the policy of
+the system.  We cannot create scenarios where there are competing
+drivers for a device.  The vfio driver is always brought into the
+picture via driver_override, and except in the rare case where no host
+driver exists, unbind must be used to release the device for
+drivers_probe.
+
+Is there some way instead that we can resolve the string written to
+driver_override and only taint for non-vfio drivers?  It's a much more
+confined problem if vfio drivers filter hardware outside their scope of
+support in their .probe function, and I think we largely do that
+already.  Thanks,
+
+Alex
