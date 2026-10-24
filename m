@@ -1,108 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.160.180
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792865841;
-	b=lRYT5fOMgu2pDcqMf7tRF0Bt6YsOkrIaBBfKEofs6fI+YZElD1IAfqnRwzrTBtXVuFXQ
-	 lG3JG8ioI2nGhAFrSA4JaufMZMS9fdJ2L6fzxfdi1sFv8Up3VH1knGwUZon6p0hLdombu
-	 AG6ZZWtj/PwXO5Kn+Rn9dMNlsOiCNzhPpYj0dbNWXyZaqBTn696WuVSM5pw4nN1/pCffn
-	 JxPiDPSpkxxzdpw+O49xTaJxYLceAQEjKRwIpTQmA1Tan7XlYfvnxEmlh8M0lr8v0cShy
-	 4ql8CVOj5cWoX9oeZg8X4YCPk0XjPBMLhRnsgzfNZa4c3iIYj7nEgsqA/KXGhFPZqKg==
+	t=1792866488;
+	b=CxGwDJK95uLOx9P+kqRZrSsk0xb8LNdTZrzo/08ZMrjLSwtX1wtHbuNsQ8xUd+n+vQ93
+	 NabgBglQaUdjEgLe028O5QlOYmYIlO6MZVkEt0Zeo3g/KQD+LeHmsGr1Px5xnjgge1tCI
+	 BZspFeLKhaQGqukkJjHE3sgUoLIWlbAxAFYBmUfEyQruDppACyDOwa5uZNsi2Vv9rhS3j
+	 MMvjHc31/HcCkcmpYQj3yx5UV/vSAl3rzr484n+3iaspw4HfjcUL139Hsh9SZKv9v7j+M
+	 MMlYpzQBNV3PigbKVr48f1zIBTkM4nqJKNJFYkgK/hG4HcGfZcXkHOplkRjKu88wmAA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792865841;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Message-ID:Date:MIME-Version:
-	 User-Agent:From:Content-Language:To:Cc:Subject:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-ORIG-GUID:
-	 X-Proofpoint-Spam-Info:X-Proofpoint-GUID:X-Authority-Analysis:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=MCIvJuZWv32x6eJbDQMLTu5JuesvONjdVTfyLboircE=;
-	b=eT+E4NbBUP8ll8xWdDFw87/KvcoumEuVgEQKRKbAGU+A0mdGmW51y5Wb58EJYa13C4R2
-	 wXd5QInZvIvT5XUYevvfkTsYN774E/wJcWjusN1zOHn0bSRKXyZpxrqi5r8U1d1ReVprz
-	 W4LwjxnGDyTd+w6Mrgnp8w1Ux5j67sW5C80AyBPH0ZA46uB9llsjNjkRi9lCE2SjPC+xJ
-	 nqunVED/vARNZyy2gRa86l3Hgrv31benuDlmYMUWkSHG3w6LJjr3bgb/8vetI4SnYm2/r
-	 FpfDRVXRqVCYDT2noOMu4l1otOLgw1NIxM1VE4/rMK9Vbnwm3PIf5gFvorl3Pjiaf8g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792866488;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=HZGm2VHNwK7IrcWUVc/yEaWLTgQRlsvvFiY8hoXSYTA=;
+	b=Vir+idmeG+HcXfNkf7KGoP1FiKT8x9Kb0ffAnkveQ/BIJSvMEEMY/fl2DYX5cJdCkP/M
+	 0JckcbwS0HDDUCMdzCJpJ9kGU68vImzwEllZduLsh5c0Q2gOyYjAIFslwq5GdhHIJo7U1
+	 yGKlZThQHgL6Vn6qpV4tHeGsSfoRBMBQf6yaTWB6ZuwnRZpAiY3BH094ucuBzuCfj8j0r
+	 mH6enovo0CXOkDmgV3f438OeB3N8BBniVDrW6I6fcplerV3O+TBL8jqo+RLfJbUCVUmIk
+	 JMUUbMGyAm+VzaV9ftTh5VpCchwqkwqi7YmycqqqQKT60QFIn3aP/jlm+4luYVTQhDw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OBJxteo4;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kJjiBuuS;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=scIcMFgs;
+	arc=none smtp.remote-ip=209.85.160.180
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF67606A31A
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 18:17:20 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEF67606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1190B606A31A
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 18:28:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1190B606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=OBJxteo4;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=kJjiBuuS
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69OF0HSU2371272
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 18:17:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=MCIvJuZWv32x6eJbDQMLTu
-	5JuesvONjdVTfyLboircE=; b=OBJxteo4Ah8ntu6eF5BAjbaPAV8iRdzkdrjZZ0
-	x7pjuHji0xKlsvKYxx/ArQBlS5RpqwZH4rbTmEspO4cXJ5qtm0a3TITpW4vba3Q+
-	EEGid4TXGHYVr3YeIh2ukuvNnoxyU/gDtow3pwFGTxjRfRIP2Qj1Tp72N311fPv1
-	HsdgislPoxyZn7thjGiwKYcvfwInQR4bowpESfd2LPqjfPN0cbo7sLOlFo07x16X
-	72Vj1CbppDbtE1JMxHbv831hQ4jEA4PibFoUAARWVQi0+9I8/Kt1kbtRNIjsoEiR
-	RzRKOBq9e76S6Ga6VXO90tOKca4Bbq/3VWXIgEDWjiVUK7bw==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hgkp6hngh-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 18:17:19 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-93caf6c528aso303192185a.0
-        for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 11:17:19 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=scIcMFgs
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-536717a4d83so15609331cf.2
+        for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 11:28:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1792865839; x=1793470639; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:subject:cc:to
-         :content-language:from:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MCIvJuZWv32x6eJbDQMLTu5JuesvONjdVTfyLboircE=;
-        b=kJjiBuuS5SGlI10afg/CYEF6vaoFa9y+ObhRWHqgi4VHXlVuxmQCtbjj38Xa0ElcgS
-         0W4WPe1B79GrzOuJbJCBdJkZLonIs9hcz2VTZH1jPVCy3gxKS3IVQ0HKMc8RgKL2IGRL
-         OYPZi/5o+z9DGTps/9zzXtDNRLtbL2HGreWv8qLEISnuv8ZtaOxRoEl8VHUO69nz+z5J
-         EfeaEletMUxFnym3r18cf1VCMWUrmGZrvSh3jxFwDDlbOZTLKTQA8Hzp+WAQo32Our47
-         XCCtVjV3eCO4RXJ02Yvl6xQFhbh2FNdjwb1fGTToC1yofFzIfLfMDvd1lQYcM48v/iqi
-         n2sA==
+        d=rowland.harvard.edu; s=google; t=1792866487; x=1793471287; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=HZGm2VHNwK7IrcWUVc/yEaWLTgQRlsvvFiY8hoXSYTA=;
+        b=scIcMFgsc+uJLHXtfb4EryYJUQ0LWywirVYNvgIkXvoxkzFgXwEjiUddcF0ZjeBq/i
+         ZtsgduTxgNZI4HxAnjkv4FNBKHhx5a6VjAhcNurUtXAAuRDQ7mtLQaDLNWQ1T55KUvb7
+         Q4bqTItwdu52r4vx7R49J2MHxtThw+DXD35/mRnSksqQkZOJyQs2rHkBpna82bX9nS03
+         DMod6/5rRRHUKYzQR3/1Qx2VG6CEAI7wouJX7OvnA5c1M3ptLhrbr7fnMr881IO5tWG2
+         9k5z2i6lPJD3qFpLjvn75ZDUpOyM5TQs4D8oM5mmg61cEsoXicjzH/r6CQP/9ITapnQm
+         KNdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792865839; x=1793470639;
-        h=content-transfer-encoding:content-type:subject:cc:to
-         :content-language:from:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=MCIvJuZWv32x6eJbDQMLTu5JuesvONjdVTfyLboircE=;
-        b=RNWD6VqiuxYQ2Gq+sfJVDx9xOHDmssbbnA4FN0ljStebAVzMkwfTcjBMiTuA7SvZto
-         sbuzmK6Zd98bcIExVly4WJ9ts6NWWJRXCvuRW1UVh2XAJ8+57bktKwFfiPzuVqDuhXW+
-         xjTuZFARQiKEU1zkAgYz9EbXq+8SWHHgN7GUMN2avCwMiPndIWyWxG+rMICwMaHMJuIT
-         Of+yIQdhnOeEFmaOQAxS6nhNEKkD4+C2v+CF1gVZuWW3Q+25FLsiN75QZPGm1+F/UMHu
-         tC7RHPLxpfPVZur9cBiOM1yplTs1UQE8MGaXtH49OsSLZktL9gzT7XPJl4n2GckCcc7k
-         prnQ==
-X-Gm-Message-State: AFq9FYIt8Ud4buz5fsImJKBLmcLQmSnRzaAHR5Qq5PHX0qe4jCAMYVTH
-	FSeBy3NtGD5pU3Jxh3HF3QX6ovXkeDPR7lJJ3y8edsZXnU+EaFe9b8rskFSNzN1wGSH5QXcD9dE
-	7I3xdQT+pPW02NX58waQfHpIGnlxvy5jxsGZYcvZMhavE4EbAwYzzOjoorcQanj8=
-X-Gm-Gg: AYBFou0NsXRM2b7LbXF6fUTYM/NaK0MA49+2DOZ87sukDO/0D0pLdpJ8vsyTlqpgie0
-	M1PKMyMNKGTBSnXUdolyuDZ4+GodCk/pUDjG1nxmTCGwpr688aW9V5SQqCGO0CNZeiasQ9nSiUa
-	AWpD4es+XPKw+Tw/xEOn+U+B3lcfQD+KcOqUvJihQ1vFdUCIN8GhUD9yQh4/qxEe7Jx2qGhuUKr
-	q6byQg6wZ9pGFAMTNWE6MiJJsEogoRY3X7rRP5seaWWWAMdHfYV+riL+xgVXTWCQ4jxgGC8X/KN
-	LpF0uw1+r/HGmCJ292or/BelLqMCf/IYWGF8DOdvRqorD7lbtJr1Ndg8QK9WEbP3BdeF/MPZjra
-	fMlx52E6Nh1pfld3+VstHsIJu2/pQeT7al3ZqrVVQISwzOUuiEfmQYcVHQXf+1PKVMBuOo5gXbe
-	Zj+OqMt3Mmhre+a+5ZupxbjGNQP8ZZ6RJmyaip0HWwAB3qkYyFOUs6Ek4kR8NIuw5tWw==
-X-Received: by 2002:a05:620a:6085:b0:93f:2a56:2772 with SMTP id af79cd13be357-940ef9df0d6mr349734585a.78.1792865838810;
-        Sat, 24 Oct 2026 11:17:18 -0700 (PDT)
-X-Received: by 2002:a05:620a:6085:b0:93f:2a56:2772 with SMTP id af79cd13be357-940ef9df0d6mr349732985a.78.1792865838343;
-        Sat, 24 Oct 2026 11:17:18 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd529b47sm114836366b.40.2026.10.24.11.17.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Oct 2026 11:17:17 -0700 (PDT)
-Message-ID: <b5145213-9542-4351-8f98-527aad74ee64@oss.qualcomm.com>
-Date: Sat, 24 Oct 2026 20:17:16 +0200
+        d=1e100.net; s=20260707; t=1792866487; x=1793471287;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HZGm2VHNwK7IrcWUVc/yEaWLTgQRlsvvFiY8hoXSYTA=;
+        b=XXqgHx0MUscjlzCNNwMzdRvfE5h9Z+jOCEcHa0dqE+TgdZ68w9Qhxcs+OPNg3ABVR3
+         /olB9NG+VwecgDdlr0U3lyDDFDBuAq9ax2n9p8zG6oQY0p9wUY00nCqJ3LQSG5LL49L3
+         0s+E4NkthQ/JLtRiFPLlNGgViFXnGbtpWRKsjlfTjLz96UMKGk5mQboT+KunhFTxAd+m
+         TG7WL4haA/Ecx6xg7sBDmbudZr+UCzFZVjqPkKt1hOGHeDe5nN2YDsxMjkNLCCDrYZNn
+         IazkKyZsQp1KNgyTOXVLPJN9fnLZlEzl9usfLUZZY0jxfdmFVts8cNwYwtUQzSkNm7nP
+         RvTg==
+X-Forwarded-Encrypted: i=1; AKwUvBxkx2eY0cVffmqiUPtKHtleH6NXTcM/R4mMGHv91MapxIRbKGhrSOXt+cXSQVtBqlCk5wjf4AV1r0Y=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLJ80wpnlZLX+5Iy9KBN25EZcNUT1ATSlvb/6lqVLnkwkrr43bB
+	RN0aO9I1oU5NQn+CYBWx6Vq5VpDMq7pCrHbPP2G51FUmipufCm3gmlTiBSp41Wtxow==
+X-Gm-Gg: AYBFou06P90xGMRQBy2dkl0RBMIw8ZPBe+2BuBZsFk2vWgCmi1CVxH/+ztmR3UEs9v0
+	AMkZDseIWM7+gV1RSU0P68kUnagjf5zfQTCDlL6dFMCltIrZcikXGXjpJXPw3ljD0yS97DGN+Dv
+	r8fMk54ur1ZU27TPgo1jav821yxtXrg440cVzi9LiIxVdqrrYorZse7R3VRKqrDGpJSnrRLAujZ
+	qID65Qy9nH0XgvwQDnTSlTffyVZpawLJIghxIp3Mp7cXiOwegBl2lCvZ2O3EBd1azzPiHoUnfFH
+	dcbLvpx7CLqClrYQN8x5li1cLLDLUVbfj6Y5jdczXWkMAA9c4u/Nnu+3BHpd5Kt+5CUewvo/LMi
+	Y0N86FKZYvd8L2bVlxRaDAureyW6P1RPR41ru50zRNsvBoOT2WIicfjijKCFYKJoAgdGrUd8SRS
+	Tm5CJjCnqdUhbzO3+ZWg/6wfwrgs9gQHXK7bHBS/zicBze6wMN3vnhJ1odb7Jqhqgkzu7I+lAzU
+	3iM1k3Wh8sPuk1AVVVe8/jJJcBKPQ8SJDHgjlOhG5igxUFEZmsg0IE9
+X-Received: by 2002:a05:622a:410e:b0:536:566e:6b52 with SMTP id d75a77b69052e-5383b5ebe08mr38603831cf.27.1792866486889;
+        Sat, 24 Oct 2026 11:28:06 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47bd0865sm26558646d6.14.2026.10.24.11.28.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2026 11:28:06 -0700 (PDT)
+Date: Sat, 24 Oct 2026 14:28:04 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Igor Putko <igorpetindev@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tejun Heo <tj@kernel.org>, Oliver Neukum <oneukum@suse.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
+Subject: Re: [PATCH v3] usb: core: hcd: flush giveback work on stop
+Message-ID: <c1f1a281-de3f-4966-b4a8-e9fd0b5268c2@rowland.harvard.edu>
+References: <20261023174015.54793-1-igorpetindev@gmail.com>
+ <20261024155614.2732-1-igorpetindev@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -112,86 +99,92 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Content-Language: en-US, nl
-To: Andreas Noever <andreas.noever@gmail.com>,
-        Mika Westerberg <westeri@kernel.org>,
-        Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: linux-usb <linux-usb@vger.kernel.org>
-Subject: "thunderbolt ... (DP): not active, tearing down" error breaking DP
- over thunderbolt displays
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: nf9lolxYKnPZ7AbkpEqB10dfdESUm7gr
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI0MDA3MiBTYWx0ZWRfX2zj0Le3RGIcZ
- 1ZO2Dcpzs+aHObJoH/f8pLu7vUL57730YOck/90CBciqgRGPFGyIoXOlJyWY46hRe4bqISEGb4d
- Kq435W5k0/fO0cP/hapKtSBXdn9xTAk=
-X-Proofpoint-GUID: nf9lolxYKnPZ7AbkpEqB10dfdESUm7gr
-X-Authority-Analysis: v=2.4 cv=bq/Zl0ai c=1 sm=1 tr=0 ts=6adcf62f cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22 a=zmGJjQdJ9mVjJaYn2lwA:9
- a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI0MDA3MiBTYWx0ZWRfX7vAyQNI8w2I5
- AW8ZC9UlBzXLqkxw8NLiFuR5H/aQCP2HWHJIjVMWo14gZOTljSWnHfDbBh8gYhoAuiRu6bv5QR8
- taQdorpAah4gxxh4xdKAQA00COFxoKENaIs+UaQAvllFpuy1ovWjjq3cg80+WcngyfyhP4gI81H
- LQGQhvezGs8ELVTQd97p9MNXvDOP19NG77qnXOIpj3O7AKFf7N18wkDHlpb5tp9ycmEMg/FsFN/
- y49JA7XyTUe89Anw63qg1vs3Rh47lnhX4uvV2TFZVO4LbvJFPor4a3eTw0Bct+F9PZyFZ23Daij
- 2mCR80yhjWSU6qxbMVBP5IC5Xystgv2XXUoqEDpV6B6XZ1hxNV0W1mPyFetb0YJnLwtaNNrkToN
- axX8YuQJRbIqFdx8JMfuNmGO1OQemZDCcWBeYwITUCvZjoZFyyJ8AHkCakNQCAqTDXsP2k1PNFz
- CJ1b5rqWmGdSK5UWWNw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-24_02,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 malwarescore=0 bulkscore=0 impostorscore=0 spamscore=0
- suspectscore=0 clxscore=1011 lowpriorityscore=0 priorityscore=1501
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2610190000
- definitions=main-2610240072
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261024155614.2732-1-igorpetindev@gmail.com>
 
-Hi All,
+On Sat, Oct 24, 2026 at 06:56:14PM +0300, Igor Putko wrote:
+> When an HCD is stopped/removed (either during module unload, driver
+> unbind, or an error path in probe), pending URBs are unlinked and
+> completed. However, for root hubs or HCDs with giveback done in BH
+> context, the work function usb_giveback_urb_bh() may still be executing
+> on another CPU after __usb_hcd_giveback_urb() drops the URB use_count
+> and wakes up waiters in usb_kill_urb().
+> 
+> Since the caller may immediately free the struct usb_hcd via usb_put_hcd()
+> after usb_stop_hcd() or usb_remove_hcd(), the running worker accesses
+> the embedded giveback_urb_bh structure in its epilogue (e.g. clearing
+> completing_ep or clearing the running flag) after the memory has been
+> freed, triggering a slab-use-after-free write detected by KASAN.
+> 
+> Ensure all giveback work has fully completed in usb_stop_hcd() by calling
+> flush_work() on both high and low priority BHs before deallocating.
+> Also remove the misleading comment in usb_remove_hcd() claiming
+> flush_work() is unneeded, and document the queue emptiness in the
+> usb_stop_hcd() kerneldoc.
+> 
+> Fixes: 8fea0c8fda30 ("usb: core: hcd: Convert from tasklet to BH workqueue")
+> Reported-by: syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspotmail.com/bug?extid=a5b220cacb0618384d5a
+> Suggested-by: Alan Stern <stern@rowland.harvard.edu>
+> Signed-off-by: Igor Putko <igorpetindev@gmail.com>
+> ---
+> v2 -> v3:
+> - Remove obsolete comment in usb_remove_hcd() regarding flush_work().
+> - Add comment in usb_stop_hcd() explaining why flush_work() is needed.
+> - Update kerneldoc for usb_stop_hcd() to state giveback queues are empty.
+> v1 -> v2:
+> - Use flush_work() instead of cancel_work_sync() as suggested by Alan Stern.
 
-I hit this error:
+Reviewed-by: Alan Stern <stern@rowland.harvard.edu>
 
-Oct 24 19:16:58 x1 kernel: thunderbolt 0000:00:0d.3: 0:5 <-> 1:11 (DP): not active, tearing down
-
-while doing some work on a Raptor Lake ThinkPad laptop plugged into a Thunderbolt dock.
-
-After a bunch of debugging I found that the problem is that I had:
-
-"UseSimpleDrm=1" in /etc/plymouth/plymouthd.conf, which combined with
-the latest dracut version causes dracut to omit the i915 drm driver
-from the initramfs.
-
-And when thunderbolt.ko loads (or maybe only once userspace pokes it ?)
-and the i915.ko driver has not claimed the DP connection then the above
-message is logged and Linux does not see the DP attached display(s).
-
-Building i915.ko into the initramfs works around this, but there
-seems to be an assumption on the kernel side about things happening
-in a certain order during boot which there should not be.
-
-Interestingly enough when booting with the dock connected at boot,
-the "thunderbolt ... (DP): not active, tearing down" repeats after
-unplug + replug of the dock. Even though on the replug i915 is loaded
-and active.
-
-And when booting without the dock connected at boot and then
-later connecting the dock things work fine even if i915 was not
-in the initramfs.
-
-But if i915 was not in the initramfs *and* the dock was plugged at
-boot then the "thunderbolt ... (DP): not active, tearing down" error
-persists on TB dock unplug + re-plugs.
-
-I'm not familiar enough with the thunderbolt code to take a shot
-at fixing this (and don't have time to dig into it), but I'm happy
-to test any possible fixes for this.
-
-Regards,
-
-Hans
-
-
+>  drivers/usb/core/hcd.c | 19 +++++++++----------
+>  1 file changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
+> index 8e8a5f59b319..f403795b17ba 100644
+> --- a/drivers/usb/core/hcd.c
+> +++ b/drivers/usb/core/hcd.c
+> @@ -2773,6 +2773,8 @@ static void usb_put_invalidate_rhdev(struct usb_hcd *hcd)
+>   * usb_stop_hcd - Halt the HCD
+>   * @hcd: the usb_hcd that has to be halted
+>   *
+> + * The two giveback queues should be entirely empty when this runs.
+> + *
+>   * Stop the root-hub polling timer and invoke the HCD's ->stop callback.
+>   */
+>  static void usb_stop_hcd(struct usb_hcd *hcd)
+> @@ -2787,6 +2789,13 @@ static void usb_stop_hcd(struct usb_hcd *hcd)
+>  	/* In case the HCD restarted the timer, stop it again. */
+>  	clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
+>  	timer_delete_sync(&hcd->rh_timer);
+> +
+> +	/*
+> +	 * Even though all URBs have been given back, the work routine itself
+> +	 * may still be finishing up and accessing the usb_hcd structure.
+> +	 */
+> +	flush_work(&hcd->high_prio_bh.bh);
+> +	flush_work(&hcd->low_prio_bh.bh);
+>  }
+>  
+>  /**
+> @@ -3059,16 +3068,6 @@ void usb_remove_hcd(struct usb_hcd *hcd)
+>  		usb_disconnect(&rhdev);		/* Sets rhdev to NULL */
+>  	mutex_unlock(&usb_bus_idr_lock);
+>  
+> -	/*
+> -	 * flush_work() isn't needed here because:
+> -	 * - driver's disconnect() called from usb_disconnect() should
+> -	 *   make sure its URBs are completed during the disconnect()
+> -	 *   callback
+> -	 *
+> -	 * - it is too late to run complete() here since driver may have
+> -	 *   been removed already now
+> -	 */
+> -
+>  	/* Prevent any more root-hub status calls from the timer.
+>  	 * The HCD might still restart the timer (if a port status change
+>  	 * interrupt occurs), but usb_hcd_poll_rh_status() won't invoke
+> -- 
+> 2.47.3
+> 
