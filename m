@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792802469;
-	b=DQ/CODB6whkm3eQ+VkCMVFnszf34cOmYvghWTd2xXIRk7YG+AsT+pPUAekj+5lGxnzsq
-	 zMqesyZHGGgOMis3LaFz2MEE7KXJBj2lsBcClT37WGy+hZu8AKDDM5tcmPfutiHSlGjtg
-	 WGJKVwBCP8KF6PngnvCI1xCC8twRaSsRK1Xs6PWzRYHG1bc0zyjb6iAI6ksa8TSnzZEwD
-	 r+VB6WK4X1bJRT5ciwg3vKIANzut9t7kXEb3RbxcYs93ROBpGFv7BzG9Z7zh4aWUT9E01
-	 ZTaF+XILyamGvR0wvCFnzzBOsHKsAk0THjgZX4V0AAG855J2iPsC+PLENzSGfmNXWBw==
+	t=1792802495;
+	b=poks+oK+NmCPr6XdkhZbjwPe1oNabCDfmKMMDwFfFwttAoFaeivdHts3RAGmrfTjGBY8
+	 SilxK+KABqK8Al72ABwz4KdDrycWGxu3RRCHCrEIyCqETaQJlW6wfeb35xy+IKqCzJAqX
+	 MbeL4m4K3I1i2MNh8tpsXhfpA7jMdDn5oiBlcYoulyrybH4IE8CVLCCo0AT5DqZRqce3K
+	 KK8n8epwA8+bnMo2T06pL6/jfRnDVgzjvXI9JseRXyDr9G2tiotX1WoI5NKSw00BWgBxM
+	 DJuxwrfdTr7/w1+XL8pky+n4SneQA2/dbVaE3jWMNLwSNtZaRx32fms7E4b3uc5qLqg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792802469;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792802495;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=i2RSK1iu7WsNBXJqr2dnRlvMgEpq3cbuKp/2ZZWCTjI=;
-	b=RJ5G08OUiyNbtAMcp+z28C22Zm0TGZevY81/I+sWVMQTsaXKyxhdtXYscw0dwystNWHZ
-	 0uZLl1Z/y9MVnoH1GzawvA7ocuXsmGwQZnduVVq9TkJ0qT46tKPW7KZpBkVH6DAVp0Qjf
-	 KMfqM4pr2xI47oBM7xfAMEv4Sa3PWngRhXMm2wmlE3WbdwhFJA1HI3wOyoLrwexz1/kFK
-	 rdTf+4qpkRwrmeN2RVLnqAiFGYJn6EYQH6oy+NA7GAdar73ZgbGOWGoWQC4SMnsd1JpuX
-	 w00bmrz8/Ae73JmG9t+E669qM3pQFzQD0aaq+7q4CCa99hGylWZyd4xoAGUGQKQToTQ==
+	bh=E0VlqShkYwzu52Rh0iJt1HtcshyNb/OppZNgLGlgkk0=;
+	b=E+M3w8CMFFIz5RCf0FdWkdHfDxn63FEKmBIqTJhGvo9BX87gaqLNTGhKczWbEDN/coLr
+	 QD5s/UKgrglQGTxZ19kSgklufivQTg99/VKTIAdHxw3+B4kJdO/cyrH6H6nUE81/J+pi4
+	 oi1jOOoAYVQGHIvNtidpEVcy/wLG5wWD2BI4XvwCeuKMcazy/9Q6VyD0AZxynZEQ8qYE6
+	 HGSQ+ptIlGhJJ0Dk03L4GmT+GUm1cPimaUwWh0tE3jmIcc/SlFcYu98J15S6JjMG/cLoM
+	 aKX7XFVoho8s+3HKpK7mQPYQe0Z0rSQr/rzVf4dygXFX0AcLJy8SZqow+LbmraB+S0A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cil6KCXN;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fxCOYrCd;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C57A606A31A
-	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 00:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C4D606A31A
+	for <linux-usb@vger.kernel.org>; Sat, 24 Oct 2026 00:41:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Cil6KCXN
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27EF71F01825;
-	Sat, 24 Oct 2026 00:41:09 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fxCOYrCd
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C96DC1F01825;
+	Sat, 24 Oct 2026 00:41:34 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792802469;
-	bh=i2RSK1iu7WsNBXJqr2dnRlvMgEpq3cbuKp/2ZZWCTjI=;
+	s=k20260515; t=1792802495;
+	bh=E0VlqShkYwzu52Rh0iJt1HtcshyNb/OppZNgLGlgkk0=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Cil6KCXN6qqdNQ3b2WGT2IUv3rn5jxv1vZ9/mWNBvkCIdkLGIo7VglN+N8MK1uHej
-	 n9sZyNHte+UdrqsZqpSK9iVKhQQ4eV+miE5anTTyA+AViBZmKYNxHhfz9ppuiwyvjE
-	 DlZsUuenXOdQxZHY+ceL0PAts6E8ywVPZ9SFICyu3xul/wYHdZasPJr4XtYtbeahye
-	 xH+wV52XnkFl+fhpMQKtqomFS2X4n5SbIVtZQTvyZO28EzeeSCZCacCv6b8rxt62UV
-	 njt2zxWCq/A9Td3jC3Nd5eOO9y0p6w78zZY5ZGLgKHmzDnwBerScfX1CEYETRCIUmE
-	 5/MeQlI0ZZvAw==
-Message-ID: <sashiko-outbox-183466@kernel.org>
+	b=fxCOYrCd7ZagsZPamYjvRSz9YSNKSaMU55HMz5bZliU2ifHRl4HtGw3MKpxfj7jLG
+	 ZjgRHc5Kgf7zWxjnO7dqWmvGzUCyH9FSD1iqj1xsgf0LA8YIDcEz2Zc3LXJJ3sh+OZ
+	 slkRuDzTlepQWSlwNk2Gxv5KawEZNdfW/4J3kOf57lKMo/6FbiymXnHA+mNGdMzAtP
+	 uKn+d6IAhdX7QKopBZF2sIapb64ORIhqDAlSogBDZ84Ag4VSj82Jh4Iusz2lk8uxPc
+	 BqPCzNKG68uOQr4VW2hKgWxOXdM3jACtmILCH5HtnstLzyPszRO37jh2r4Ovj7H4sY
+	 XoovWUu+TkRhQ==
+Message-ID: <sashiko-outbox-183467@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v8 2/9] drm/connector: pass down IRQ_HPD to the drivers
+Subject: Re: [PATCH v8 3/9] drm/bridge: pass down IRQ_HPD to the drivers
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261024-hpd-irq-events-v8-2-6ee949e7a384@oss.qualcomm.com>
+In-Reply-To: <20261024-hpd-irq-events-v8-3-6ee949e7a384@oss.qualcomm.com>
 References: <20261024-hpd-irq-events-v8-0-6ee949e7a384@oss.qualcomm.com>
- <20261024-hpd-irq-events-v8-2-6ee949e7a384@oss.qualcomm.com>
+ <20261024-hpd-irq-events-v8-3-6ee949e7a384@oss.qualcomm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Sat, 24 Oct 2026 00:41:08 +0000
+Date: Sat, 24 Oct 2026 00:41:34 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,20 +62,15 @@ Precedence: list
 
 > The DisplayPort standard defines a special kind of HPD events called
 > IRQ_HPD. These events are used to notify DP Source about the events on
-> the Sink side.
+> the Sink side. Pass down the extra status to the bridge drivers via the
+> hpd_notify() callback, letting DP bridges to act accordingly.
 >=20
-> Extend drm_connector_funcs::oob_hotplug_event() to pass the
-> notifications about the IRQ_HPD events down to the individual drivers,
-> letting them handle those as required. Bridge core is converted in the
-> next step.
->=20
-> Reviewed-by: Pengyu Luo <mitltlatltl@gmail.com>
-> Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Reviewed-by: Chaoyi Chen <chaoyi.chen@rock-chips.com>
 > Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261024-hpd-irq-ev=
-ents-v8-0-6ee949e7a384@oss.qualcomm.com?part=3D2
+ents-v8-0-6ee949e7a384@oss.qualcomm.com?part=3D3
 
