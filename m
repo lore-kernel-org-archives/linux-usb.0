@@ -1,59 +1,44 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792958809;
-	b=pNszrFHRIBAkCJbkcr27TOt+/ic7RtGc6ycx4bZnjHeCghvsK1zvjFjkjw0v31jHKDYM
-	 uU3fmXg5V8RSR+kgeZWqhxZtxpT2SP4vsRT2aGDUUcM1atOFzqPYiASJXNpN9jSgeJHVd
-	 7UdzA4KBx8pM7qoztXSN5brXAJSgODhtZ97RoVptT6xzcbFTJeqy68/Yks5+Ntq5Ntk5R
-	 NUQthee5fE2t6CVxh5nYBq+hulBEbPYxs58YWTqZghOjDFV2RWuvTHeo9SRpmksRUIRZQ
-	 5oFK77PX2tqov//g+YQlSYjSeT//hhRDwOKvKUDaJiz0pJJvbDXTVRfKgS2BbbPVQiw==
+	t=1792959401;
+	b=tSQV7rBZR03c4sZ8dyDACYE/3MtTNNO5oGkDVrkrXA1qA5PX1H/LVfc6uhGEvAkaLzO2
+	 pLw9hX5Y5MRCNf9VuuyoV08FiyPlq/IzhVBUYyWwqSP1m65l1Z211tcu+GkaR8TOStROY
+	 vVqMm9F38sVf4pldpHSrMtRcsvavvZuy2hsmcmuE1nkCmnOdjUD6B4wXYxXJ5IluVyCoZ
+	 7yNWtvL+UP2BladgOQ6EIcnN6WF7krs1CEFMiip8gr2s5s1CtY6tAzGHZfAqSB8L7L/Ci
+	 tYbs+N58cDv6mtM1poFzdnVTvJ2eXPQ2GgF0Sp8lgloeZjIl7mSWULVgXHWLltehmGw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792958809;
-	h=DMARC-Filter:Received:DKIM-Signature:Date:From:To:Cc:Subject:
-	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
-	 In-Reply-To;
-	bh=mbRl3t9exy6FqHqmbYkjfXKdOm1e4uREYg0nK1TRNp0=;
-	b=wJbZpk5CsQKrfOQ+0lxNnsVqjU7nMGZSibg7/GsuS55bgNDPs9Szr9YPAQVHMTvQxQaB
-	 wMAzdeygFt3pFG7qJsl+tN40GnifpwhIt1nVh3ZRF5Zg0q3UqZvZMm2z5q32Z/pgStBim
-	 r8ETbpEeMVl81PxyUajs2sohrrZV+n/M8redT0jZUHQpdwWJUOfSU824BikQKfyXAiwxI
-	 U49VbRYm+Uqtcs6KbO2BPmWjD03wjyBEpSGsH6IEoCqe3tAUFfCLK8hIGFFBKZiL2UoFq
-	 udPw2JRCnAfh03RaXOSZDPtdM9up6i4Fzaq831j1Rkv6eLHZWvLFoy6XPRZzRj5C+5A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792959401;
+	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
+	 Content-Type:Date:Message-Id:Subject:Cc:To:From:X-Mailer;
+	bh=uBM0P5AgsQXktIUVJpV9bT1UztKARyF/NcxqP+Nynek=;
+	b=1F/4PFGwclbw16UVrMZ6ycUqQ6s05W+Myh/FM3rh2JkPbQhWLiuZzerUwPlprS+7CSog
+	 lF4NnLXG2W4RqjpggR71PUSFI8luUonUN4hsnAa2Kr0OcS5Ig0egyMlg5ItyJtc9iG97W
+	 v+ZfnZNxSUxzUTAlDCur6rkCQvcGScy5jERGsCXlq/Yf0Jigrc7y6kx2TIxG9YBjP5wcx
+	 8zJiL/EWfjN4+rfnmCZkes+nIO97QLOz3gZFWRgnZWivuKSUcvNjx5zQ0xXqs9jnzoeiA
+	 2RmBJs03iR6mWr/Papu6oRxMIai1NCkEXxfhBfW6DTySGdIqK++kZ3ETn51LyRh5X7A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=ideasonboard.com;
-	spf=pass smtp.mailfrom=ideasonboard.com;
-	dkim=pass header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=UaNL2qBa;
-	arc=none smtp.remote-ip=213.167.242.64
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YqAYdfmV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E831C606A31A;
-	Sun, 25 Oct 2026 20:06:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E831C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5C7606A31A;
+	Sun, 25 Oct 2026 20:16:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=ideasonboard.com header.i=@ideasonboard.com header.a=rsa-sha256 header.s=mail header.b=UaNL2qBa
-Received: from killaraus.ideasonboard.com (2001-14ba-70f3-e800--a06.rev.dnainternet.fi [IPv6:2001:14ba:70f3:e800::a06])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F36BCBB;
-	Sun, 25 Oct 2026 21:04:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1792958676;
-	bh=CeO0S0s51CfRjENlBU+f96CdgbSMMC9AWHkiZh0bpdU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UaNL2qBaQPXrrMmTRXx2EmU6XOLkLDGTFHmgJf4YuU0PQS6vw4hhL8JGkSEP5nrGM
-	 xNX7pQ2ttmm1LqVS9TXJQCpOe5OkF+RkGyEfYs0zvlXnLnwGbDhhuRkeIToGSv2ZTa
-	 HLzNXisp3rQ1+ptVVN41zQIivA5vSdF3AiZvc/0s=
-Date: Sun, 25 Oct 2026 22:06:45 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Manuel Herrmann <m@manuel-herrmann.de>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Add support for NV21 pixel format
-Message-ID: <20261025200645.GB1001933@killaraus.ideasonboard.com>
-References: <20261025143522.327365-1-m@manuel-herrmann.de>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YqAYdfmV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E82401F01825;
+	Sun, 25 Oct 2026 20:16:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792959400;
+	bh=uBM0P5AgsQXktIUVJpV9bT1UztKARyF/NcxqP+Nynek=;
+	h=Date:Subject:Cc:To:From;
+	b=YqAYdfmVTVGmha2Z5SQ2FllCG40ih7Rmfyt9rnM8Tgb/byn0mmcBoVZVl66zKEEIq
+	 woW3H9DPDbbfNdJSodvmnYREeXysX+9+DCAgAclGiiR2dn8alr6f+w29M1a2z2dGbv
+	 gUjWJx+Wj5rUupiaHlpm5H1wa2tPoizhUeu5Dpmyhot1TUxih+XqdefZh85gyBiaBW
+	 3DX5aqSXw4Q01zOql5C85gLttwA6sAgA6mnRXZy34hcrMKQn1BcKw32TcBCrgCK5Nr
+	 bk0vRL7B1nud2M+53eARVSRD5HYQd+c1TReGLcrvgQvFCrZLuQYyXIg4q0n92ZpFog
+	 Nawss08X4mCDA==
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,86 +47,71 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20261025143522.327365-1-m@manuel-herrmann.de>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 25 Oct 2026 21:16:37 +0100
+Message-Id: <DME7288WXCGZ.1XSS13X4IVJ5W@kernel.org>
+Subject: [GIT PULL] Driver core fixes for 7.4-rc1
+Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
+ <rafael@kernel.org>, "Johan Hovold" <johan@kernel.org>, "Saravana Kannan"
+ <saravanak@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>,
+ <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+To: "Linus Torvalds" <torvalds@linux-foundation.org>
+From: "Danilo Krummrich" <dakr@kernel.org>
+X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
 
-On Sun, Oct 25, 2026 at 03:35:22PM +0100, Manuel Herrmann wrote:
-> Add support for the NV21 (Y/VU 4:2:0) pixel format to the uvcvideo
-> driver. This format is exposed by the color camera of the Creality Pika
-> 3D scanner (2bc5:0c0b), next to YUYV and MJPEG. Without it, the driver
+Hi Linus,
 
-Could you please provide the USB descriptors for that device
-(`lsusb -v -d 2bc5:0c0b`) ?
+Please pull these driver-core fixes.
 
-> skips the format as unknown.
-> 
-> NV21 only differs from NV12 in the order of the chroma samples, so
-> bytesperline is wWidth, as for NV12.
-> 
-> Signed-off-by: Manuel Herrmann <m@manuel-herrmann.de>
-> ---
-> Tested on media next (d7e7bca71698) in a QEMU guest with the scanner passed
-> through. Before the patch, the driver logs
-> 
->   uvcvideo 2-1:1.3: Unknown video format 3132564e-0000-0010-8000-00aa00389b71
-> 
-> and the color node only offers YUYV and MJPG. With the patch, NV21 is
-> listed, G_FMT reports a bytesperline of 1280 for 1280x960, and v4l2-ctl
-> streams it at 30 fps. A frame captured in the guest has the right
-> colors decoded as NV21, and red and blue swapped decoded as NV12.
-> 
->  drivers/media/common/uvc.c       | 4 ++++
->  drivers/media/usb/uvc/uvc_v4l2.c | 1 +
->  include/linux/usb/uvc.h          | 3 +++
->  3 files changed, 8 insertions(+)
-> 
-> diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
-> index 0107cedd0..7d918ba0e 100644
-> --- a/drivers/media/common/uvc.c
-> +++ b/drivers/media/common/uvc.c
-> @@ -24,6 +24,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
->  		.guid		= UVC_GUID_FORMAT_NV12,
->  		.fcc		= V4L2_PIX_FMT_NV12,
->  	},
-> +	{
-> +		.guid		= UVC_GUID_FORMAT_NV21,
-> +		.fcc		= V4L2_PIX_FMT_NV21,
-> +	},
->  	{
->  		.guid		= UVC_GUID_FORMAT_MJPEG,
->  		.fcc		= V4L2_PIX_FMT_MJPEG,
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index 644c2f1cd..60732f5ac 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -232,6 +232,7 @@ static u32 uvc_v4l2_get_bytesperline(const struct uvc_format *format,
->  {
->  	switch (format->fcc) {
->  	case V4L2_PIX_FMT_NV12:
-> +	case V4L2_PIX_FMT_NV21:
->  	case V4L2_PIX_FMT_YVU420:
->  	case V4L2_PIX_FMT_YUV420:
->  	case V4L2_PIX_FMT_M420:
-> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-> index 99b070ab8..48419a862 100644
-> --- a/include/linux/usb/uvc.h
-> +++ b/include/linux/usb/uvc.h
-> @@ -85,6 +85,9 @@
->  #define UVC_GUID_FORMAT_NV12 \
->  	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
->  	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-> +#define UVC_GUID_FORMAT_NV21 \
-> +	{ 'N',  'V',  '2',  '1', 0x00, 0x00, 0x10, 0x00, \
-> +	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
->  #define UVC_GUID_FORMAT_YV12 \
->  	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
->  	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-> 
-> base-commit: d7e7bca7169873b46e857c025c10f3336c1258d8
+These fixes arrived late in the cycle and missed the main driver-core pull
+request for 7.4-rc1.
 
--- 
-Regards,
+Thanks,
+Danilo
 
-Laurent Pinchart
+The following changes since commit 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e=
+:
+
+  Linux 7.3-rc5 (2026-09-27 13:55:01 -0700)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git=
+ tags/driver-core-7.4-rc1-2
+
+for you to fetch changes up to 187a62f99da29b1a55602b0d401a783d8dc86161:
+
+  driver core: take parent lock in async device attach (2026-10-16 22:36:09=
+ +0200)
+
+----------------------------------------------------------------
+Driver core fixes for 7.4-rc1
+
+- Make parent-lock requirements per device type instead of per bus,
+  fixing a use-after-free on USB disconnect by limiting the requirement
+  to USB interfaces, which retain a reference to their parent
+
+- Honor parent-lock requirements during deferred and asynchronous
+  probing, fixing USB interface probe races, including duplicate
+  endpoint creation attempts in sysfs
+
+----------------------------------------------------------------
+Johan Hovold (2):
+      driver core: fix parent lock use-after-free on USB disconnect
+      driver core: take parent lock on deferred probe
+
+Mario Peter (1):
+      driver core: take parent lock in async device attach
+
+ drivers/base/base.h        |  1 +
+ drivers/base/bus.c         | 32 +++++++++++++++++++++++---------
+ drivers/base/dd.c          | 90 ++++++++++++++++++++++++++++++++++++++++++=
++++++++-----------------------------------------
+ drivers/usb/core/driver.c  |  1 -
+ drivers/usb/core/message.c |  1 +
+ include/linux/device.h     |  5 +++++
+ include/linux/device/bus.h |  3 ---
+ 7 files changed, 79 insertions(+), 54 deletions(-)
