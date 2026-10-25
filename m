@@ -1,101 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.43
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1792914909;
-	b=D4Kt1q9K2gPpWeGcf1l4PzsRRRdgNdWYgyFlN62K15BZXQ6zCmcbeu8RSwpa4Vbuv/1A
-	 tZufpvA4RvSfLF92sP6ZtpPcbYwdMRD5Rm/ODDvWvq6QPDoETT2Do2CAQhbcmic+8a9BO
-	 pLp6QNr3P8e1PmzyQ/EFACtMdVP4Z8Q5a4wBxNGmKHgGNduULOEHB1QVy0RDt7tn84TqA
-	 040Pm2ssgWDS/GnSVmLnqqoXrLotAM6pDS1zNGvQUuCjBGc6qPvtyXbJqV1j9gWyIU2mX
-	 jCjCmOQD1qQeFJPhSZ9sLi8nOXre4/zZ2leNA8Ljf1We5HPum4W7+qY43+kKYJTrHNA==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792914909;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=1C9QfDVmHgok+qT1OfDFTuzpTeVw9bwEFddfhgEu72E=;
-	b=1OX5NHBqVOWJ8Vbrm9NfCcDFX9nsQXi8URuajmpjG/1DcsaSHJuRjzlReKG1NzuA1c99
-	 8oadTK7GyByiO2iPK87F3voGFhhadDSM1XNSGnZBFBCYtOMXqQLZ/S8gVYe54sb/USeT6
-	 UVmJlxHuAIoOZAgwGeDYPufsmvftIavStZ9hKNaTfjRSUn3DZdzP1faQaS0PGRNyk3PHr
-	 jn5Mswd44ihsNTrTJhGRmdp+eY3Q8yM3P+Lm+wPHwW0NDuKVD6upWKr/YrKxyIny4/+Xm
-	 ZfjtTLBEbos55uWOZ57PqdvMCImK6ITFMgDEV51Qs141DPYOSZViCov4bkaJSj4Ok+A==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Bbt87hXo;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.167.43
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=188.68.63.102
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1792918893;
+	b=1pVI6Zkv2YSkoYYLi0aS35A7Q/3okFg7f33RND5Utf1JDM2pgZ1HZTtEzi2w1gnMEtvf
+	 Pe+ivVT+rHoF+QRgUeM7AVNC79vr+WPvYgV7C6pW0KRWtWhOi0An8BBBGsOHKRJ9vRsmT
+	 uyAqE648zgvMkx6K75l/l0bZrtqBEil79ICla8dRTm/sC9++4XAinGZgi7W04jBLSzVlz
+	 PboyqzcX7rz2lIAxHtwb8qyRcxTdGCIX8j+pP7CMdQrJsVnF+7mz9sNTNfxaJCMCCQ0/7
+	 h9xRioGpLZf3ICs1RtJ48P92yQRvipJcFOpHCHbNUAWY38xTCdWpJe5Ucg8YxbIddzw==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792918893;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:Received:
+	 Received-SPF:Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:
+	 References:From:Content-Language:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:X-PPP-Message-ID:X-NC-CID;
+	bh=+vsQEIenaCA1TRM488v6uxI/ZJ+2gKNGoidPlc/iGxo=;
+	b=v0QHK4xka3mlqkkwBDqMoa2gG/ZpKI22K5wO5nDJ32oZfjQV74vhoMDNEn8/YUP2F9Uj
+	 qICQ6VmWE2XjgunN2ods99+CopSCBlbmUaaQn481G5OAknk8QnetTYt/1p9Qie8izf8ft
+	 sFzPIfBIfGlERX3uwA+VPDEhyZ0vpZtyqRY9s90mxvipS0ipceZyrGPNNn1Poyf49Rv88
+	 ps3HFAiC2bJG8tdANsB4Jc1NBaz3GmnP0YF/upPLJrxb/bFK/KjTLQAWtUtbSK+Gj+Why
+	 bX86FJJjfSQKCfhZz0GdWY3Ul/QbKBgaYhlmD1uiaEe6jGxupPYIMB9G5q56PunQdVA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=leemhuis.info;
+	spf=pass smtp.mailfrom=leemhuis.info;
+	dkim=pass header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=Ogtbfqqm;
+	arc=none smtp.remote-ip=188.68.63.102
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.63.102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C791606A31D
-	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 07:55:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5C791606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D410606A31B
+	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 09:01:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3D410606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Bbt87hXo
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5bcb6faf862so2002601e87.2
-        for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 00:55:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1792914907; cv=none;
-        d=google.com; s=arc-20260327;
-        b=DZoLKNaR8bZN4xDHuuTqc89PNDeiKkYVEp9oJL/7fJ9Ip0/Fc3641BhoWCrwTT/ClW
-         +nJS/wkUocH76Fz+rcjjGFcC3vUwBx/O9ftr3zdA5hS7fsGEBkkzicaFrs8eRp1GXqYC
-         kzgpjqwH51C5joVTtd4Ukc7iEiUpuiR5RDHsbDY954DdB85wylsWAMgyKAP4Ae0RljfG
-         ZZ6ImtJ+GDbhus5f3wHvJNeLh3/gefqlXCTKpQo56ADdIZRR/U5zkFzjK6976eHSKdxO
-         NcuIvc3w7LZGAR7p+aYnbwbR0kiFZtGQMiJjG5+VrnaUW1Oe0GvlCoproRivH+7h9Vs0
-         bl/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=1C9QfDVmHgok+qT1OfDFTuzpTeVw9bwEFddfhgEu72E=;
-        fh=LjD01hB7zCBGwpxLECt4plWZiQASCupZyJkCMfrO7GQ=;
-        b=BDbMtPI9eOKCKtkutDRs/BN8b/a4Aa6vHqPSCvNxSZgJ5hYhrSCZ27a5VHNk4RQuDg
-         D1wKDCJA4rVgLZ8safa4XrHgoRHCdJ+PeLl5GHX1yaT4bnK8+B39nQDsG9TrwlHCbYLF
-         jnevhx1CroMNucCVTuucOoZXovs2AeGqWFrtf7unn2vEya7DcO0OwZNwv/6Wzzc24RHw
-         3pUQ2mJRV7J/Dj08qGGK6VU0qeBTaxjBb9cPpyrIPsVICg5aFXQXp0FbTzmQOBNeWstl
-         J7dq4qBJD2rUQ2e1oSnonMiDOoh2Y9BsYB4pztiATkr5Ia4o2rFztkJWtIFFnKnHt07Q
-         jNhw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792914907; x=1793519707; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=1C9QfDVmHgok+qT1OfDFTuzpTeVw9bwEFddfhgEu72E=;
-        b=Bbt87hXowZN8elRvcAmDb7wQSZa9iJUaSANBPRcVJjzQXb0Nehag9g/6N6eBayyhS4
-         Rtynktspj6RRlVAhelZj+DHlzXc9fukq2+P0OQ55/UXkfmuXkztZWhnEtPJKOp9G4Q3d
-         pknwmwLrxn/9eapt7BdGw3ZqhEnNbwB1x748s80/ZSSpvcnlq4p31QMIvMWWxEui/Ifl
-         nDrIIWtvQPrw/n0K3rumxithZbZs0LGXsnnlRfyxXPoNiBmsUpm2Hv1OXq1CCUFeuyKC
-         0wduk/NXLyWxZJ+/3ZtVIx0DmBn0QSYg1y5tRYC4zqkRKrQxYFusZdw0iUPA/VYC3Yqe
-         qW9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792914907; x=1793519707;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=1C9QfDVmHgok+qT1OfDFTuzpTeVw9bwEFddfhgEu72E=;
-        b=1RZB0TfxHUGC61P/pugCcbqHOWvHug8PHBfw5UoB+zGMUOAxx81hfR/3+Exd+yyx6m
-         E0dxTEOK+TUeWNq3TOEIozX1Pp909AIYq2EFfUSDgRBmtgfjmgYUyHwL7Y+uSKeDt5et
-         k4iQsGrehe/nTRADOx7gYGhvL5AgM5W2UnK0AjgxOPtpRsB/Whj8Q99VE3iOCCAE1mRh
-         rfqkNHEE1QiiJUl4coM+RSEc+6NXct+6C+NafxLgudKuzXR7L2qz+kU6QBN/uciG/6m7
-         G8DEScatoZX5U3pD5YTWujcm/SGG/fcuPrET4x6V4cNiN6TRYtchv2Hv9U4mltYFyXEp
-         Hybw==
-X-Forwarded-Encrypted: i=1; AKwUvBwuugNmu4q32ozTrW/eh/EgTb8NxTuJHh8GUWXEPN8vfGMZcoAvpNAqt0ow5C6VKNGTgqiAAlQmF4M=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJOElbCzU1UPvZomYuTeK04WCkQGGMxR3195s3/uquYbt+cwk7o
-	E5VauDWuYlf3f5l1O400BVUgWtbcMhbeU8xgnyTbAqCef8oY8W6T0FpXMdaWIZf5G2SsRgqIMnP
-	P0/DJCefyyrY2Dq8P3nHUwVimfizCumA=
-X-Gm-Gg: AYBFou1yOfvrkfdE/1/9O1UGgfg2gR0abK1hnabuhvKUQ9cOePxnmRzl20Ni9+MwEJ+
-	RxqqL7zCWvy23L0mRHisMJChh4SR2tgbq3PoXrRy+ZlM9JTqx+kdj8N+y6BvVs0y0KWckqtsMVK
-	mUSiKjUTrRaJC3jmZTa4tuHZuai6ck1OqEFyC+MTSJAjv/5kDpwLypNGi8CVRSd8F8JaghX8iuE
-	MgyWdE2zovl9ACTmFX/2cviitEmXn0+5nsWGOdStr6UA2zOLkRrhYy4rbLthHA+5XmMtImIT1lv
-	sTNemFJZusuLYHEnVc4pT3WZLSrm5TAbvPEDLXuSeHyCPZekYtVqv1MzpVdF5IZzo2nIHPSvQLl
-	NpKX+E50URFnbBXt8EfMrPxLvOYfspsqTQHCiIpryJv5IHELNviZaghXggKsLeGnKuFbIWpKgEf
-	0A4ng=
-X-Received: by 2002:a2e:be0c:0:b0:3a9:a315:a655 with SMTP id
- 38308e7fff4ca-3ac6fdc374cmr10772241fa.29.1792914907262; Sun, 25 Oct 2026
- 00:55:07 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=leemhuis.info header.i=@leemhuis.info header.a=rsa-sha256 header.s=key2 header.b=Ogtbfqqm
+Received: from mors-relay-2502.netcup.net (localhost [127.0.0.1])
+	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4jC9gj3LjCz6Hqn;
+	Sun, 25 Oct 2026 10:00:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1792918801;
+	bh=hS0HpeuSusOTmxx6Q6qvJhzX0judNpljj1zIYp5blfw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ogtbfqqm8E3KuYyzHErwE0S4e/6XuR6S0QLQ9m1AeZ1flPy/sh1lguzRgPq10bJal
+	 Zh+93st1Z2EQBm7VmP5yIPsok4aMemj97yhYsjEM/Grca/ObC6AAVfFvyeq41Zf8gw
+	 B4fI3eE+vdJP4s2dojQ4/wn053hfWbjFG41Z9TbHYCABQh/SAOEMBzyEiv4fpwxxaN
+	 Jt64Axm2HjTMSctEKlKu9VKZjgvq223LT8k6GsMAVzMYCtrtvlpPuUdgggp5DrTRtl
+	 2P/W/q+fRKfts+AjTtIeHz/EQLK/oKjg3RrnRzl10lwUrJi+1eHFa8+Rjuevjw1dbt
+	 WnWQiiXrHPfsA==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-2502.netcup.net (Postfix) with ESMTPS id 4jC9gj2gDDz4xKH;
+	Sun, 25 Oct 2026 10:00:01 +0100 (CET)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4jC9gg5Typz8sgw;
+	Sun, 25 Oct 2026 09:59:59 +0100 (CET)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id 6BADB5FD44;
+	Sun, 25 Oct 2026 09:59:44 +0100 (CET)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=regressions@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <c8a3ffeb-8737-46d2-b01b-5ed9bc96012f@leemhuis.info>
+Date: Sun, 25 Oct 2026 09:59:43 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,177 +73,95 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261023174015.54793-1-igorpetindev@gmail.com>
- <20261024155614.2732-1-igorpetindev@gmail.com> <20261025000643.425c57ca.michal.pecio@gmail.com>
-In-Reply-To: <20261025000643.425c57ca.michal.pecio@gmail.com>
-From: IgorpetinDev <igorpetindev@gmail.com>
-Date: Sun, 25 Oct 2026 10:54:57 +0300
-X-Gm-Features: AclHuK8My_8J_d3dvNxWsyAG1OCwp6uakZV7lV0PtlTzoB6Gres-9UtzHSF4BC4
-Message-ID: <CAG21Q83f_Oj5+-OPjFdxzmLWnFkjfYhY9ordyO0zoGtxkWEW3w@mail.gmail.com>
-Subject: Re: [PATCH v3] usb: core: hcd: flush giveback work on stop
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Alan Stern <stern@rowland.harvard.edu>, 
-	Tejun Heo <tj@kernel.org>, Oliver Neukum <oneukum@suse.com>, linux-usb@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
+ (3434:d068) at boot since v7.3
+To: Dennis Wissel <dennis@dsine.de>, Yiyu Zhou <yiyu@yiyuzhou.io>
+Cc: linux-usb@vger.kernel.org, mathias.nyman@linux.intel.com,
+ regressions@lists.linux.dev, Greg KH <gregkh@linuxfoundation.org>
+References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+ <20261024203558.3181711-1-yiyu@yiyuzhou.io> <SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
+From: Thorsten Leemhuis <regressions@leemhuis.info>
+Content-Language: de-DE, en-US
+In-Reply-To: <SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-PPP-Message-ID: 
+ <179291878480.1277187.10073256999779663654@mxe9fb.netcup.net>
+X-NC-CID: T8wdUd8p1JK4a7AuivKKqCAZPMjzFvkmM/TEjn4kRjENGeN2Yzs=
 
-Hi Michal,
+On 10/25/26 01:10, Dennis Wissel wrote:
+> On Sat, 24 Oct 2026 13:34:07 -0700, Yiyu Zhou wrote:
+>> The fix is queued in Mathias's for-usb-linus branch as 1f36cc9fa949
+>> ("xhci: give back all TDs when skipping endpoint reset after
+>> disconnect") and applies cleanly to v7.3:
+> [...]
+>> Could you test it?  If it fixes your case, please reply here so that
+>> Mathias can add your Tested-by.  If it does not, reverting 042aad8d0db6
+>> and 7e0ef4332ed9 on v7.3 would show whether these commits are involved.
+> 
+> Thanks, I tested both on top of 7.3.0-4-cachyos, booting with the mouse
+> plugged in each time.
+> 
+> 1) With 1f36cc9fa949: much better, but not completely fixed.
 
-> No such domain?
-> Looks like you trusted an LLM ;)
+This btw is the third report about problems that that "xhci: give back
+all TDs when skipping endpoint reset after disconnect" fixes; the first
+was what lead to the fix, the second was:
+https://lore.kernel.org/linux-usb/20261023190104.113331-1-diogochaves@me.com/
 
-good catch, that was just a clumsy typo on my part: I accidentally typed
-appspotmail.com instead of appspot.com in the closes tag, anyway - the syzb=
-ot ID
-itself is valid. If Greg or Alan prefer a v4 to fix the URL typo, I'll
-gladly resend it, or it can be fixed up when applying.
+So it sounds like this is something we should mainline rather sooner
+than later (ideally with a stable tag to ensure it's backported).
+Mathias could you make that happen? If you are busy and need help, just
+say so.
 
-> Dupe?
-
-I wasn't aware of your patch from august; I simply saw an open and
-unresolved syzbot report and decided to address it.
-
-Regarding cancel_work_sync() vs. flush_work() and usb_remove_hcd() vs.
-usb_stop_hcd(): these changes were specifically suggested by Alan Stern
-during the review of v1 and v2, which is why v3 was shaped this way and
-subsequently received his reviewed-by tag.
-
-I'll defer to Alan and Greg on how they wish to proceed and which
-approach they prefer to take.
-
-Thanks,
-Igor
-
-On Sun, Oct 25, 2026 at 1:06=E2=80=AFAM Michal Pecio <michal.pecio@gmail.co=
-m> wrote:
->
-> Dupe?
->
-> https://lore.kernel.org/linux-usb/20260823125831.6ea35650.michal.pecio@gm=
-ail.com/
->
-> On Sat, 24 Oct 2026 18:56:14 +0300, Igor Putko wrote:
-> > When an HCD is stopped/removed (either during module unload, driver
-> > unbind, or an error path in probe), pending URBs are unlinked and
-> > completed. However, for root hubs or HCDs with giveback done in BH
-> > context, the work function usb_giveback_urb_bh() may still be
-> > executing on another CPU after __usb_hcd_giveback_urb() drops the URB
-> > use_count and wakes up waiters in usb_kill_urb().
-> >
-> > Since the caller may immediately free the struct usb_hcd via
-> > usb_put_hcd() after usb_stop_hcd() or usb_remove_hcd()
->
-> Is usb_stop_hcd() relevant here?
->
-> I placed this in usb_remove_hcd() where other works are cancelled.
-> This seems good enough, because no URBs (or wakeups or dead) should
-> exist until usb_add_hcd() completes successfully, at which point
-> I suppose usb_remove_hcd() must be used, not merely usb_stop_hcd().
->
-> > the running worker accesses the embedded giveback_urb_bh structure
-> > in its epilogue (e.g. clearing completing_ep or clearing the running
-> > flag) after the memory has been freed, triggering a
-> > slab-use-after-free write detected by KASAN.
-> >
-> > Ensure all giveback work has fully completed in usb_stop_hcd() by
-> > calling flush_work() on both high and low priority BHs before
-> > deallocating. Also remove the misleading comment in usb_remove_hcd()
-> > claiming flush_work() is unneeded, and document the queue emptiness
-> > in the usb_stop_hcd() kerneldoc.
-> >
-> > Fixes: 8fea0c8fda30 ("usb: core: hcd: Convert from tasklet to BH
-> > workqueue") Reported-by:
-> > syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com Closes:
-> > https://syzkaller.appspotmail.com/bug?extid=3Da5b220cacb0618384d5a
->
-> No such domain?
->
-> Looks like you trusted an LLM ;)
->
-> > Suggested-by: Alan Stern <stern@rowland.harvard.edu>
-> > Signed-off-by: Igor Putko <igorpetindev@gmail.com>
-> > ---
-> > v2 -> v3:
-> > - Remove obsolete comment in usb_remove_hcd() regarding flush_work().
-> > - Add comment in usb_stop_hcd() explaining why flush_work() is needed.
-> > - Update kerneldoc for usb_stop_hcd() to state giveback queues are empt=
-y.
-> > v1 -> v2:
-> > - Use flush_work() instead of cancel_work_sync() as suggested by Alan S=
-tern.
->
-> But why?
->
-> Cancel costs nothing and turns potential UAF into a leak, sounds like
-> a win to me. I did the same thing deliberately for this exact reason.
->
-> This review bot is completely hopeless in out-of-spec and bug-vs-bug
-> tradeoff scenarios.
->
-> >
-> >  drivers/usb/core/hcd.c | 19 +++++++++----------
-> >  1 file changed, 9 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/drivers/usb/core/hcd.c b/drivers/usb/core/hcd.c
-> > index 8e8a5f59b319..f403795b17ba 100644
-> > --- a/drivers/usb/core/hcd.c
-> > +++ b/drivers/usb/core/hcd.c
-> > @@ -2773,6 +2773,8 @@ static void usb_put_invalidate_rhdev(struct usb_h=
-cd *hcd)
-> >   * usb_stop_hcd - Halt the HCD
-> >   * @hcd: the usb_hcd that has to be halted
-> >   *
-> > + * The two giveback queues should be entirely empty when this runs.
->
-> No disagreement,
->
-> > + *
-> >   * Stop the root-hub polling timer and invoke the HCD's ->stop callbac=
-k.
-> >   */
-> >  static void usb_stop_hcd(struct usb_hcd *hcd)
-> > @@ -2787,6 +2789,13 @@ static void usb_stop_hcd(struct usb_hcd *hcd)
-> >       /* In case the HCD restarted the timer, stop it again. */
-> >       clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
-> >       timer_delete_sync(&hcd->rh_timer);
-> > +
-> > +     /*
-> > +      * Even though all URBs have been given back,
->
-> but does anyone actually believe this here?
->
-> Hundreds of drivers written over three decades, often
-> without linux-usb review. I don't trust them at all.
->
+Ciao, Thorsten
+> No reset loop anymore. After one disconnect and re-enumeration all four
+> interfaces bind, and both the mouse and the NuPhy keyboard work.
+> Before, the boot took about 3 minutes and both were dead.
+> 
+> But hub_wq still stalls for about 11 s after the first reset of the
+> mouse. Other devices on the same controller (1-9.2, 1-14) are only
+> enumerated after that. Just before the disconnect is handled, xhci
+> prints three "not part of TD" messages for ep 0:
+> 
+> [    3.509460] usb 1-1: new full-speed USB device number 2 using xhci_hcd
+> [    3.510626] hid-generic 0003:3434:D068.0001: input,hidraw0: USB HID v1.11 Mouse [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input0
+> [    3.510772] hid-generic 0003:3434:D068.0002: input,hidraw1: USB HID v1.11 Keyboard [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input1
+> [    4.973074] usb 1-1: reset full-speed USB device number 2 using xhci_hcd
+> (nothing on the bus for 11 s)
+> [   15.970122] xhci_hcd 0000:00:14.0: Event dma 0x0000000104205260 for ep 0 status 1 not part of TD at 00000001042052d0 - 00000001042052f0
+> [   15.970767] xhci_hcd 0000:00:14.0: Event dma 0x0000000104205280 for ep 0 status 13 not part of TD at 00000001042052d0 - 00000001042052f0
+> [   15.971131] xhci_hcd 0000:00:14.0: Event dma 0x0000000104205290 for ep 0 status 1 not part of TD at 00000001042052d0 - 00000001042052f0
+> [   16.157121] usb 1-9.2: new high-speed USB device number 7 using xhci_hcd
+> [   16.354120] usb 1-14: new full-speed USB device number 8 using xhci_hcd
+> [   16.481086] usb 1-1: USB disconnect, device number 2
+> [   16.894150] usb 1-1: new full-speed USB device number 11 using xhci_hcd
+> [   17.026214] hid-generic 0003:3434:D068.000B: input,hidraw1: USB HID v1.11 Mouse [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input0
+> [   17.099110] hid-generic 0003:3434:D068.000C: input,hidraw9: USB HID v1.11 Keyboard [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input1
+> [   17.101019] hid-generic 0003:3434:D068.000D: hiddev100,hidraw10: USB HID v1.11 Device [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input2
+> [   17.103029] hid-generic 0003:3434:D068.000E: hiddev101,hidraw11: USB HID v1.11 Device [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input3
+> 
+> 2) With 042aad8d0db6 and 7e0ef4332ed9 reverted (and without
+> 1f36cc9fa949): exactly like 7.2.11. Interfaces 2 and 3 fail right away
+> with -71, the device is reset once, no stall, no reset loop, and the
+> mouse and keyboard work:
+> 
+> [    3.498259] usb 1-1: new full-speed USB device number 2 using xhci_hcd
+> [    3.525104] usbhid 1-1:1.2: can't add hid device: -71
+> [    3.525732] usbhid 1-1:1.3: can't add hid device: -71
+> [    4.981085] usb 1-1: reset full-speed USB device number 2 using xhci_hcd
+> [    5.167055] usb 1-9.2: new high-speed USB device number 7 using xhci_hcd
+> [    5.352064] usb 1-14: new full-speed USB device number 8 using xhci_hcd
+> 
+> So these two commits are the whole cause here, and with 1f36cc9fa949
+> about 11 s of the regression remain. I'm happy to boot again with xhci
+> dynamic debug or tracing enabled, or to test further patches.
+> 
+> For 1f36cc9fa949, since it fixes the hang and the dead input devices
+> for me, if that's useful:
+> Tested-by: Dennis Wissel <dennis@dsine.de>
+> 
 > Regards,
-> Michal
->
-> > +      * may still be finishing up and accessing the usb_hcd structure.
-> > +      */
-> > +     flush_work(&hcd->high_prio_bh.bh);
-> > +     flush_work(&hcd->low_prio_bh.bh);
-> >  }
-> >
-> >  /**
-> > @@ -3059,16 +3068,6 @@ void usb_remove_hcd(struct usb_hcd *hcd)
-> >               usb_disconnect(&rhdev);         /* Sets rhdev to NULL */
-> >       mutex_unlock(&usb_bus_idr_lock);
-> >
-> > -     /*
-> > -      * flush_work() isn't needed here because:
-> > -      * - driver's disconnect() called from usb_disconnect() should
-> > -      *   make sure its URBs are completed during the disconnect()
-> > -      *   callback
-> > -      *
-> > -      * - it is too late to run complete() here since driver may have
-> > -      *   been removed already now
-> > -      */
-> > -
-> >       /* Prevent any more root-hub status calls from the timer.
-> >        * The HCD might still restart the timer (if a port status change
-> >        * interrupt occurs), but usb_hcd_poll_rh_status() won't invoke
-> > --
-> > 2.47.3
-> >
+> Dennis
+
