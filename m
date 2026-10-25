@@ -1,50 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792909713;
-	b=MiX3KNdtaOnyiSh4+2IjrcOZiVaDzcRhyJAhF5p8jzx017+AE+/UyMZR3QdRERu6V6r5
-	 rxBcj4q9/JCfuTa0utKA9Kst1uCWuEkIJiXwV7t7rDxgVRb0vjSJwwzdHqPc6B6b6WGUY
-	 Km+Bdx3ZazlVg+2M4DOAqoWDWZ0897suXV4AJhcs/sd1OffqXHw8oznW2D0/95nQdI1MO
-	 OCUgtRganz5KX/Fz4Qu+cuoTbeG7gYOK3Yv/5SmzJL5FKO8Fn05Tl+QBxxkCT7yagdAH9
-	 RtPOxetLN7PqVtaSP5eVdFemz+1bTmRhzmZbrhc2QsI9eis2DBJGFYx0gSavVKiHkBw==
+	t=1792909815;
+	b=tbovtctaLn2PMMxVo+QcM85dTqajg30COKvImw7Zzx2T9UBuPv+b1wZB1HmxqaaQQmMc
+	 84G1Qw4/vmP4hOXleHLe6E0sC3RKHhXirB2G9vXKn/HMf1HgDWtr+IMVxKgccSEMGP35m
+	 chwdilGq09WdaC9ySCSjox4SIboSJZeoGhnDVO0EVMWZpPogD1I+gIdfL5C6PN7InvW1o
+	 VY/USS/1DL8++Tu+YMJiaeRqUwkru0msk8mkOPZA0qmRud1MfobZcaz1prEzg8Yl4E/U/
+	 OmvDeofHCXOs/rrMDzYxaQZHGyK0fr126JHsLQpv6EE2FaOPavN8vaI113nqNrNj1Uw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792909713;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792909815;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=9eWGYR42ZqAiPgMLfV2JIEuBKhMU1pLyeq9P+2q1vlM=;
-	b=pqRIKIKqoHEJuk+UsmQvlnrfiiG2Rt9FlE8zvPVvy+9UeG8mwSf93F6NNmyyrTuWT6Re
-	 UKoGxZPSzl16NCSqWsgaRlUh9BfvlSdOd2KDGPrKbBzfedKJIUvhMrP7EJd7oUe9AU3wl
-	 O7x7BgWTGuv2U/K0yk8xHY7h5M2X3MeqDBMsR/xTXUkJ21HclL2E4q5URlhGA/2cKA3v0
-	 6QSgNlt9+IzJRI77d9y//kFlGCYMxis6VkWzOmVJk6F2m1pJQB8lEwGidlaCm7B2hGgCL
-	 p1gjpkuXGS3SJUoawmovRiV5alVnWOKnYowZiLwTMwseTORjF60JLhsmGWyv7hOvhLg==
+	bh=BnzBu4Y7K6KPa4Cpu+i1tdXBIZAfZbtTSdHfUcCgiX8=;
+	b=V/1dDznMC54J4FjL7WPuxrOM/BY9zwveCUK9NexycvqiA39x6Ak6gBIw73FNbL+OKUwD
+	 beNB3TerZxhX8fG5+5G8AZPNWJDeLNMNWU+qhMmrLSH9A16Df9I9AkUC0bTZlzoBRt8Gc
+	 Ud65xfRKHW+ODBC3D+ABfGVsgTV+UhH99Aet+mKZFSqict6hglJy9LIA23rmS26QZj30d
+	 G/bgr5aTHE78Gx4pP9mw9OHxU7lsm3sFUamlnj6DJbmg/Et7ZWzWP8/jy6kULgD4C39JZ
+	 ro9DIMJvJn55Wkbd1hgfPfVHIfylF/XT8Rwz8fRmI4wS5xfKHemQLQNMk3EqZdboEdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=voU+zLCU;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=CQ34mh4n;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F110606A31A;
-	Sun, 25 Oct 2026 06:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23443606A31A
+	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 06:30:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=voU+zLCU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E37C51F01825;
-	Sun, 25 Oct 2026 06:28:31 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=CQ34mh4n
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5527C1F01825;
+	Sun, 25 Oct 2026 06:30:14 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1792909712;
-	bh=9eWGYR42ZqAiPgMLfV2JIEuBKhMU1pLyeq9P+2q1vlM=;
+	s=korg; t=1792909814;
+	bh=BnzBu4Y7K6KPa4Cpu+i1tdXBIZAfZbtTSdHfUcCgiX8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=voU+zLCUiex9OI8Bas1ZNh+FveWEj7uTL5o4mXbWKoybt1Jd7kdn1k+0OI8uqcExV
-	 iwDghdcrIpVEfely0txylXLSJjfCa7kppA7fpyTaifz6OG3EnDgNmDXfglen1DgYEB
-	 3lSpU0wI4zTP38bUFuap8op0eHScXdyCxkU2qGwY=
-Date: Sun, 25 Oct 2026 07:28:29 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Dennis Wissel <dennis@dsine.de>
-Cc: linux-usb@vger.kernel.org, mathias.nyman@linux.intel.com,
-	regressions@lists.linux.dev
-Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
- (3434:d068) at boot since v7.3
-Message-ID: <2026102504-defiance-uncanny-e21f@gregkh>
-References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+	b=CQ34mh4n24e4POl+mYSAASXvSCMdbS7kI2ztvVd2uLYnLkDPgp5K135SFU5E8ZDCS
+	 J/1fyZTV8cw99Rgued0qpkZ6AIwXFLWuqiic9Zg1rjQWtvZORMLO8wK8D5D2WZTWdA
+	 5qiNQZ45gt9vK4s/1N58xOQPhP7zCEjkj9NyfLlk=
+Date: Sun, 25 Oct 2026 07:30:12 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Aldo Ariel <qwe.aldo@gmail.com>
+Cc: linux-usb@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: composite: pass the validated interface
+ index
+Message-ID: <2026102501-wrongdoer-unpaved-db9c@gregkh>
+References: <20260915040947.2829612-1-qwe.aldo@gmail.com>
+ <20261009030246.3057189-1-qwe.aldo@gmail.com>
+ <2026100902-collie-sadly-544e@gregkh>
+ <CAP48HfvjYdY2Lk-BsaVY0Hm2SUPWmW7LVWnZgj5m_UBTPYD1dg@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,17 +58,23 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+In-Reply-To: <CAP48HfvjYdY2Lk-BsaVY0Hm2SUPWmW7LVWnZgj5m_UBTPYD1dg@mail.gmail.com>
 
-On Sat, Oct 24, 2026 at 07:47:10PM +0200, Dennis Wissel wrote:
-> My guess, untested: the xhci changes merged for 7.3 that touch
-> cancelled transfers on control endpoints, e.g. 7c0c31c66a7f ("move
-> dequeue to next valid td instead of past cancelled one"). The fast -71
-> on 7.2 turning into -110 timeouts plus resets on 7.3 seems to fit
-> that. I haven't bisected or tested a revert yet, but I can if you
-> point me at what to try.
+On Sat, Oct 24, 2026 at 05:54:02PM -0300, Aldo Ariel wrote:
+> Hi Greg,
 
-Any chance you can use 'git bisect' to find the offending commit?
+Hi, please don't top-post or send html email as the mailing list will
+reject that.
+
+> Following up on the five gadget fixes in this thread.
+> 
+> I understand there is a review backlog. Is there any additional
+> testing or other work I can do to help with these patches?
+
+Yes please review other gadget driver patches that are pending to help
+move yours up.  also note that nothing can really happen until after
+-rc1 is out.  Is there some rush for these patches that you are hitting
+in a real device right now that requires these to be fixed sooner?
 
 thanks,
 
