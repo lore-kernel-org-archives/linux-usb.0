@@ -1,98 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792941424;
-	b=4XMcGqkqFnheEVhp8KL2UsKPGfcuzrPj0ENi35coaupXVkjq1YqEdWY6BwmPsvFoxYnl
-	 JlUpHfZFYqxfdrkdXodRkzQk1ZNbq2fxaLoDdZOUHnR36J+70gEtwv1PlIGvh8ITDhCx6
-	 m1jMCyFUYaVgf+qXM4X9uzMBQbScYJLIqwniJOv7lpHcKZ2t9kedSBnln6z75ZNd34Ca6
-	 cVgpw7FxypPdRIz89xtx6vls2Teeteu6BueiIQ+BrPl6TUQy51YA7J/vX5U9JrT6ne15s
-	 azMmdJYBIAljjI8uGKTfzSP1OPzSrl38fpicyKGQKkjfncNN0uFdBnnl2NuxmZQBKzg==
+	t=1792944626;
+	b=xUEE4iksgqYr40cOHPrdlFH4Xsc51hX8WHaK1K0N25d/riqkAgeb85bRCGAznJxzsNZI
+	 xSFx2xQ8m4W1rDzlSSzWcA0jvsX5E9if/hisalFd3GpE7MKrNBAPZuACNtrmY+QTRWte/
+	 RoikKpuoEGgGgOvRwvccbF78gEQBmJhT5ky1+PMjh7Fa1raz52Yg4EV7I/NKHB+70wEiY
+	 6JXTf5jsd82GuaZO4bUoWve5eXx8CpFwUMYwGpDEc8Ry2S0NK+3umDtomAMUZAw2fjDBz
+	 vVsKqSCn+NuHfSQRM8HDlOGXV/ed1zIL/8VSEpVu9ptgJ7PRNKxii5f+ND9S5N6M0KQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792941424;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792944626;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To;
-	bh=xuT4b3Ogd1sn4kTuluW41732TPOf5pb8loXXUU48qds=;
-	b=vMSB7siHAXtWBTxQibqy71TO4NB8IBdauzuGhQfDBQpkjsBs1Y2zHskMx6FVNsiyikS2
-	 /u7JkpN517gngvccWaH5vavoMPEp0diETlmJlbsk035QgQi0gmjgxUbrUfpAKDVQ96i2U
-	 0HQ1speWdWXAfCBa7PL+/mHeb3vP3v3kUIiaXVR7DHPqZo+q/rSuYE1EvuES8FB9PqRQ1
-	 7big1RIO+ybP5eHcHD8XY0Pa6aWCGdEhY2Nky1ksuIAv9GM9ZVVQs9gCgBOPeVOP2KRZ8
-	 0uHrZcDgXt/YkSvFRG0UVsOekE3xREGiLwtxyVjLiJM6pDbhGFBu1BPNWOEdwlNV0jQ==
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=kI8AZKbkyFQDh3fWe2Ucjc2rZL7S/+hpSffclpLVllg=;
+	b=guIy02ONuvl/jxyQLVzQafZYYHV7g+MKnwsBHq17zkJMnHbBfkn6CcohQuBs6wy0NGA9
+	 +oKw9YlH6L/la2C40v/vb8+JfgKZ4Rcyc26x/iORW/fhnLQOB9SuUpXhlX3ii0niDxDlx
+	 1cDjyg/ZyjWAWqlrwQm5ZlKEQnB/7gfpoWrdQapYfXS92IBScU/6pmXTgh6rzEIfdJUAC
+	 KU3as5h/zVDDIXAdA5uuudNMSC+HlYuqOyQw2nUqPwclkMgfMofBzIp/s3o0O7GGqTdpU
+	 qoG10lc+Y7dEH79+ikaB+gQp9zLFjwNCkYN546eg4crIK6YI+G9spJyM94axoWHes3w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=rowland.harvard.edu;
-	spf=fail smtp.mailfrom=g.harvard.edu;
-	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=bkhX3K5F;
-	arc=none smtp.remote-ip=209.85.222.171
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qYpad43G;
+	arc=none smtp.remote-ip=209.85.221.50
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3646A606A31B
-	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 15:17:04 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3646A606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34462606A31B
+	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 16:10:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 34462606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=bkhX3K5F
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-93f22a8515eso215440085a.2
-        for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 08:17:04 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=qYpad43G
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48c5358fc28so2087068f8f.0
+        for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 09:10:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rowland.harvard.edu; s=google; t=1792941423; x=1793546223; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+        d=gmail.com; s=20251104; t=1792944625; x=1793549425; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=xuT4b3Ogd1sn4kTuluW41732TPOf5pb8loXXUU48qds=;
-        b=bkhX3K5FjsQrft3v3hXQxqYDsSuQznzyGasYeLiPw0fXaiqj12taMq35qXL7NI3cSN
-         hlUm/LZwUyjwX15zW7w1wiPTx/xepHFLqWLtyfKSkFVURXGjuSKFvD+X3/PFa2jDRbDt
-         50mBJi6EsGzn1/LladRetekFy9+VqpXAkcM5Qq9jHW/fPD3Q4BP0Gadx/TUvpolO+nKC
-         UDAF1qWTxf2i0dAymEkgXv1NCb7sboO4Te4RaWSatHa68p4ishuL2T4OlCQ/1554Tm8P
-         zGaFI1XMkYnTGilMixj1aDMxKxUv09uJwzo3/gL3OgH+ZHMU6x5NffvYICXeok2Bqyc3
-         vY4w==
+        bh=kI8AZKbkyFQDh3fWe2Ucjc2rZL7S/+hpSffclpLVllg=;
+        b=qYpad43Gp/uZiEgOdnGtjj0dO9omo54vhgDQNKJjCMZiSRGg710/7z2DhUVP2weDYT
+         HzBE8cndmQ876KcaN2/yw0KAN4B7OkC5BWezW8SwqlxLy2fZ8t2pJnhlHXeEDiOn+5pF
+         jT4fyQ/AN6iE5tI5h28AdqTJSDxBmOxkSUnKUK7+ZOWtw8vbNAPzCJt2ulFSqILwVcOD
+         iqWZF6lnoyhzTgvqPmqDAr85fnoC4P3c4vymDolWoshsScrSpYiTv3znQtbqtPnat7sL
+         SmbQ+2LNm9ij/44/oXz/IP1IlhG3EOxYtSOImLxjwFWrrYhYDw6JzGdr4p5sBVVq9MH/
+         NOKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792941423; x=1793546223;
-        h=in-reply-to:content-disposition:content-type:mime-version
-         :references:message-id:subject:cc:to:from:date:x-gm-gg
+        d=1e100.net; s=20260707; t=1792944625; x=1793549425;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=xuT4b3Ogd1sn4kTuluW41732TPOf5pb8loXXUU48qds=;
-        b=erBuXd++MjfwRZElkLoeP6s/5HiLUR7HoR1ib02gfmFhz6mqKiyM+REJDAVEBrQqNk
-         vvxwG08UhYJ9zRXSIyaCkDp+wWVMkC5mcdEXLdkZUBu6P/JS4LaPNW5hBPuX9Yn08gIs
-         47by7ryQm2TIBX0sDrQqkKHcNYCvSAWu3xl0IgS6UXKNybnkKLKey5Mh7MhDBXHwlKFe
-         D0x9iFl2y2y998it1S8WcXArofwLXIa3WyO+FmOYHgjj+Fafp8h5EQpSVRxFgOqIA8af
-         NSQg85nJG5PCCg/yBBjX9H6r/k69uS+ejnB0UZEjX051FcR9i1Rn59euE1qbBcgP/vnj
-         21Ew==
-X-Forwarded-Encrypted: i=1; AKwUvBzIkYpQtv32Dyb04gcRnrXSsc+/S1M+Td6vt6IBLU3dlzULq83e6jSwd/hUoT5z8tR7eixT6oSrAQo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJIjNJWqkbUL1PARfrNGFolhJbAQGJWTB/+6ZsLKokjUJEtdGFi
-	c+2sr/TflSoADSB7sTHWWVQCIu8wCtVOYMLWS6R2EnCkREZlI820P0X8S+JchN3cgA==
-X-Gm-Gg: AYBFou1s4FZ/5bZn4JOAhPne0YDV9uS7IEYXsWuzokXgJmEtPlrx+ga19DEhajMskOK
-	yvi4hprPuu0/HQUSZ2q4s7rhlquhZOpnPCo94Z4z8tgewQLOUcs7eqztTZaO93UD+cY6xPLjwve
-	KEmzrGlY129+gNjE7cMHg3CcfNQrkh4KOXFyY4a5T0zZuqHJiCiuEuSSFWvptp4fnC3yho28Fgr
-	G+FVd860Hp5KkPA7/QyOWqMGq5uvYuoRELgcNACaiVsskVt33k5iL5/AcpkqUwqhqh/CVzlvGOA
-	RTorNnfd0OfmeM28Hn1bW2JSH+KTjSn73rjjvFbjrRi/hfy2clwLcYxeKXlTnOUNi65nPGtbSlZ
-	qw3NzIHJwGaXzKjUHOLm6xwWrH46J4dSXeFE1WD0XP6ST5D8CEPITFa0gaT6ywGfFTFMDatXAw5
-	xP5n6M5I6Vii7lpOt1w7/e2plCGIGwHjTq/0v04D4Vvyro0DIOCiGr0eDT3kBhE3WubgvGhVPH6
-	dt1s4/TA8I3ZobH3tU0yEyD35raKEPHhges+l+nFTjEvyJL2TRFgECE
-X-Received: by 2002:a05:620a:40d5:b0:93e:fd69:9a93 with SMTP id af79cd13be357-940ef8d837emr663389785a.31.1792941423007;
-        Sun, 25 Oct 2026 08:17:03 -0700 (PDT)
-Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91c47cd9dcesm47203106d6.42.2026.10.25.08.17.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2026 08:17:02 -0700 (PDT)
-Date: Sun, 25 Oct 2026 11:16:59 -0400
-From: Alan Stern <stern@rowland.harvard.edu>
-To: IgorpetinDev <igorpetindev@gmail.com>
-Cc: Michal Pecio <michal.pecio@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tejun Heo <tj@kernel.org>, Oliver Neukum <oneukum@suse.com>,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
+        bh=kI8AZKbkyFQDh3fWe2Ucjc2rZL7S/+hpSffclpLVllg=;
+        b=M7gvO+jq+FXpdQr/VzYSXCT4eV6+oVa08NOiTjA7SEFydV8Wp6xMna1i3BuXTVwe2h
+         Gk3FenuNNi2rXtBYSXDpRXJbRTc1VZr2QEH7tLCC1ZrcS2AA9SNTIYJ6DEZ9IFtGB9+X
+         zVWR3kS1NCWMvFHHE4WJDtapmDBBQs8r43r+5L5x3bU/3YLJssDQBODL2iJTWiDlCupE
+         d9rfyh6bSKp8o8x0l8Z9vRF2Pv9HXQWhLvhsEB8lFnl0AABI++b8WOjriHnX/Q6Zpjhb
+         wqDGw/sHh4Ey46MDhYkuEP6esu/0cJewp/TyO90K27Z2R8R9diJrQu3GTsaZs8asNCNf
+         0yaA==
+X-Forwarded-Encrypted: i=1; AKwUvBx/vwmQ4JifTpP2l6EKTBi1wdWCV9gFCxsQtC/IzubJpoKHo/oeoRhpkmGbEBmEDh7FTneX6J7Iads=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIGxx8hdnDZ3VbKsXidO18GJYHmQ0hAkJKdNFE9tJtDRM6Qpovi
+	mzzA8jSWNx8Oi/eY6DbR0DN7s4QGAorRxivLnQjWiulsjNaVt4tULmDB
+X-Gm-Gg: AYBFou0ion5s6jsjvPPvZIHtHD9KzTqoX5deDa9t+09+z0mZNDtvHOopo1PnwTRgrX0
+	45wETxPug1C02yat0sFYmodyKv3TbNInLQRoty8YkzDZ8IH5gPx5+iW1n5vFq5fB7ncnUovp4Ra
+	MSHHvA/+x38txtgzKIqvyDPceJ2PpwDGE7w90l4elwRwiMyurWcVw5B5Li8ntYsVtmayzClbYgc
+	syo8XgdXBgTgZ7Uk77jcNVUxAGZ5545W3HsPYpOlYoo4zBQd+pUhR7g8sd5+ZZP0Nl85OWnDHaj
+	fSmMwR51d3b8G8uZqZyDtkJ+/yHr8gcmEEkO6mX35wicO8A4yRZnZbpsfuI4mb9UHS4ZkjMnMLG
+	lQ/xSSMgYNa/BeKFpbCqKY5T8Xmf+144B3WnKacERSuEFdiyba5lckPyqV9muiMvVX99sH0GjoN
+	Jy8Qb4Ftw+w4byVa3YpXWGxVVQ8sAvVmHeSRWJG7sFmtIIrX3Is7G0/lYZSxZ9XiZoMmBLj8QPr
+	ILTEKDjv6oUYsSUbN3tMebO5IR9d/FIK6yV+4ag9XgPd8l9wV90a8Xg2r4fngaT
+X-Received: by 2002:a05:6000:2384:b0:488:7df9:3898 with SMTP id ffacd0b85a97d-48e3eba06efmr8344636f8f.56.1792944624393;
+        Sun, 25 Oct 2026 09:10:24 -0700 (PDT)
+Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecd37f4sm13019486f8f.44.2026.10.25.09.10.23
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Sun, 25 Oct 2026 09:10:24 -0700 (PDT)
+Date: Sun, 25 Oct 2026 17:10:19 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: IgorpetinDev <igorpetindev@gmail.com>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, Tejun Heo <tj@kernel.org>, Oliver Neukum
+ <oneukum@suse.com>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ syzbot+a5b220cacb0618384d5a@syzkaller.appspotmail.com
 Subject: Re: [PATCH v3] usb: core: hcd: flush giveback work on stop
-Message-ID: <76dfb124-d488-45b1-9525-5369026b529f@rowland.harvard.edu>
+Message-ID: <20261025171019.49c9a66f.michal.pecio@gmail.com>
+In-Reply-To: <76dfb124-d488-45b1-9525-5369026b529f@rowland.harvard.edu>
 References: <20261023174015.54793-1-igorpetindev@gmail.com>
- <20261024155614.2732-1-igorpetindev@gmail.com>
- <20261025000643.425c57ca.michal.pecio@gmail.com>
- <CAG21Q83f_Oj5+-OPjFdxzmLWnFkjfYhY9ordyO0zoGtxkWEW3w@mail.gmail.com>
+	<20261024155614.2732-1-igorpetindev@gmail.com>
+	<20261025000643.425c57ca.michal.pecio@gmail.com>
+	<CAG21Q83f_Oj5+-OPjFdxzmLWnFkjfYhY9ordyO0zoGtxkWEW3w@mail.gmail.com>
+	<76dfb124-d488-45b1-9525-5369026b529f@rowland.harvard.edu>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,48 +103,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAG21Q83f_Oj5+-OPjFdxzmLWnFkjfYhY9ordyO0zoGtxkWEW3w@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, Oct 25, 2026 at 10:54:57AM +0300, IgorpetinDev wrote:
-> Regarding cancel_work_sync() vs. flush_work() and usb_remove_hcd() vs.
-> usb_stop_hcd(): these changes were specifically suggested by Alan Stern
-> during the review of v1 and v2, which is why v3 was shaped this way and
-> subsequently received his reviewed-by tag.
+On Sun, 25 Oct 2026 11:16:59 -0400, Alan Stern wrote:
+> > > > +      * Even though all URBs have been given back,  
+> > >
+> > > but does anyone actually believe this here?
+> > >
+> > > Hundreds of drivers written over three decades, often
+> > > without linux-usb review. I don't trust them at all.  
 > 
-> I'll defer to Alan and Greg on how they wish to proceed and which
-> approach they prefer to take.
+> If it's not true, there's likely to be trouble when the completion 
+> handler is called.  We could forcibly remove any remaining URBs from
+> the lists before flushing the work item and just leak them (with a
+> warning of some sort -- ideally, one that prints out the names of the
+> completion handler routines for the leaked URBs, if at all possible).
 
-I don't much care whether the new calls go in usb_remove_hcd() or 
-usb_stop_hcd().  I suppose usb_remove_hcd() would make more sense, since 
-no URBs can be sent to the HCD until it is added.
+But you are now talking about developing a whole new feature of
+unclear usefulness (will anyone pay attention to those logs?),
+while my suggestion is merely a small tweak which costs nothing
+and makes no functional difference under normal circumstances,
+but reduces severity of hypothetical failures.
 
-As for cancel_work_sync() vs. flush_work(), it doesn't really matter.  
-The situation we're in is that there are no more entries remaining in 
-the workqueue and no more will be added, but the final one may still be 
-executing.  In this setting, cancel_work_sync() and flush_work() do the 
-same thing.  However, the name "flush_work" does a better job of 
-expressing what we want to accomplish: wait for the final work item to 
-finish, not try to cancel it.
-
-> > > @@ -2787,6 +2789,13 @@ static void usb_stop_hcd(struct usb_hcd *hcd)
-> > >       /* In case the HCD restarted the timer, stop it again. */
-> > >       clear_bit(HCD_FLAG_POLL_RH, &hcd->flags);
-> > >       timer_delete_sync(&hcd->rh_timer);
-> > > +
-> > > +     /*
-> > > +      * Even though all URBs have been given back,
-> >
-> > but does anyone actually believe this here?
-> >
-> > Hundreds of drivers written over three decades, often
-> > without linux-usb review. I don't trust them at all.
-
-If it's not true, there's likely to be trouble when the completion 
-handler is called.  We could forcibly remove any remaining URBs from the 
-lists before flushing the work item and just leak them (with a warning 
-of some sort -- ideally, one that prints out the names of the completion 
-handler routines for the leaked URBs, if at all possible).
-
-Alan Stern
+Regards,
+Michal
