@@ -1,57 +1,110 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792926943;
-	b=44wUel1iLXhZ/+OV0l+nM40ngv1X16/8+IYo+GNEg641gGyYq31Z8WpbsamHwnQY9Af5
-	 71TfYm26DixCgriCQ51qp1jTkWU75KYpAQTRGRdaaZUOOxEaudaICmwCpezKcMAjkhi6Q
-	 l7zMzeM/PzCUrl1jwWo2AkXUBycT5Mdk0CwOFB5mru/WqRL/TGAK7bmuKTbxxVMX0FCcb
-	 BCWKRvuvOH3TE6GMgetNHH46GMLDrIjbMxIf2XeE6KBiM/+xzygTwebO7p16Y08Z3mwbM
-	 tYRLCO2dRtM93AU40FJ0ZkwNWrns5ECoLOdDZdHTZLuaa4UagUS2QvvENoIw9Iy+A7A==
+	t=1792932496;
+	b=IHq5Xmpj517pEyoMjH6ydk7VIvft1tgTwMmIdZ+fPw/8uaTEAnpPAhz/Er5+N0+Mho0l
+	 S1QlmPRToUmm7JTiv7l2GA6zhamIEEliRRYY/vsyQoJMVfjtfixSjqTGpcK69g2znkrZd
+	 TqzsSXoIYVWw0fgLJVLrPxyzHmXAbjw8lCkWf9jk8tUDzBFot1ap1aVVXQHQLWyvrekft
+	 /iHf/Lk7R1lwO9APZWhpCc+efeimnnsQSiW7oitIuVSVFpNSWKYIndksSbOPYqDr2quqb
+	 V7CtRHTS4tuSz/hJESE6FK9u68bY9G61jp/o3Gr6AmcyEOQaYzx+n8TRjdTimbX1OOw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792926943;
-	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding:Content-Type:
-	 X-Rspamd-Queue-Id;
-	bh=X4+gdRwqeDx2N4uoyJeCOYNCXQpYWhAbljW4FxODZcI=;
-	b=CScgxHD5k6CGRxGrorD0OdHFNCpVzN69QHm+yFVLsWMZf/mStvlU62qzokb8HQEGVMVj
-	 3xghoHH77ULtzgEkh5OpIAK3GHj9jKDlYnb616oUVuD44s4HypX9OTnrI8rxY0CfUr/VK
-	 XHi9LqpQ7aSY1+QwAHg2t4fP8uSt201MOEL/rx57ZpeX8sXQD2DDe7zBa8kdHLR0olM/x
-	 M0IPVEQyj9sYW8eNeVim45FFeIguFJgv46Ao6lK3Vdmn7B5DYcLCRa93+7g1H8UFGPw/b
-	 wH8hN/dvv9Ka3y+cS9eqhdOD1iy1aViVHt8SyZGE81L9iC2EFbZT3zALsnEvR4oAjDQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792932496;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
+	b=48GqLeEukX9MqCxVDarVZpzIa0NGv+xvvo+NNajxQ//IuFNKosL8O5OHETIOVE3leHdg
+	 uoA02zGa3RDrEP1XitgCTNiS7f89YrDS1ADySxhanjs6/nGKWRyDTzguoBnp67+Kyg+lD
+	 tl/yyF8rTA6kxqFlP2/Hz8/QRDa06OQEEXgXCCmuzZx7GGi6P8BU1O2xrrKKKVT9PYuhb
+	 aOIAPgt9795p0qbYKb5V42TkPwcuwqeQePk0XqHkdiwQDjy0crmTNM9sYQjoSVXN8rT45
+	 xFeQqxEUxd2b8CPq/Zin/KvKUSEfgdXX+EntGI5nxiFb5SGtSIcwaEC8lJUqYPbsecQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=dsine.de;
-	spf=none smtp.mailfrom=dsine.de;
-	arc=none smtp.remote-ip=80.241.56.161
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=baylibre.com;
+	spf=pass smtp.mailfrom=baylibre.com;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D42606A31A
-	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 11:15:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 75D42606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dsine.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dsine.de
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4jCDhB6MC5zKnBV;
-	Sun, 25 Oct 2026 12:15:38 +0100 (CET)
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=none (outgoing_mbo_mout: domain of dennis@dsine.de has no SPF policy when checking 2001:67c:2050:b231:465::202) smtp.mailfrom=dennis@dsine.de
-From: Dennis Wissel <dennis@dsine.de>
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Yiyu Zhou <yiyu@yiyuzhou.io>, linux-usb@vger.kernel.org,
- mathias.nyman@linux.intel.com, regressions@lists.linux.dev
-Subject:
- Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
- (3434:d068) at boot since v7.3
-Date: Sun, 25 Oct 2026 12:11:21 +0100
-Message-ID: <ZxkLPfjZS8ibGyR_gfGYKg@dsine.de>
-In-Reply-To: <20261025111410.2c14fcef.michal.pecio@gmail.com>
-References:
- <4MjB9K-2SoiA85WbI9iEig@dsine.de> <SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
- <20261025111410.2c14fcef.michal.pecio@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37213606A31E
+	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 12:48:09 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37213606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso22329875e9.3
+        for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 05:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1792932488; x=1793537288; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
+        b=pg8FDG9OpzKln8+QRdvhMAtMVp0WQ1NMYaLASyxAEYJWLNST/WK5rNIhMJud+ol1qL
+         fnBQe5FIbncQ9e7Yf2jY5Avm2y32XlQwi8zLdEdscaiuJNlhCMoPO1s4R86eAMZm65+N
+         4wN667A/guovDHJDdgGvxXS+E40NfJnWTsV/VNIYrlv42LuwoD8jhjPqOl8WFcqIB9pB
+         a1e9nczTgOPdUb4RwVqkaM30MzLLvdbX8vRjHV0JGK6vlZjszCVuRfZPWEEEj2bVwOtS
+         Onb1sPkJ2qFK+BNjMAVgcE1OO2VGj/K5/NoSG134pZJDNd8mh6bvz+WE17qQMRc8Utq5
+         4GBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792932488; x=1793537288;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GFk493A56cYfyK4uM8/JlxklDpnCWTgb/zmDZtIoFro=;
+        b=tXO0WBCY22kt1NxDaG2wxSx+W8Sh259FLqbM83Ua84H87YHMLKHdHfL8wGn+3uha1G
+         lA/mNu7sQT2KP1Tb+voYc6dlByeKN2Nh1y0695weXAVsPRzlg85IbR8llKMzFESznTnw
+         9wAT4eSL+VLafDN1Y/0N9YmtEwfWSpvPxQSoKxN2B/6sCxX3ttJp4lgenXyLIgSZ5Uu4
+         qraZATifOAARj23HwaEE33iIV/qd36acmDL4LTquumXBLEhxYi0DURTQpNuO6iKK9+sH
+         09NMogo7z2NJHfpf7xIIztYqtP9S8RQdajzperp4Yj/luTECGvZpFa7nswjonRX/7i2s
+         Dn7A==
+X-Forwarded-Encrypted: i=1; AKwUvByc59WQMKV8v5SaHHnzXtuOvPXvf1ahTXiz9PSL2ZmtpIBzW+hxNlYlfrAIEt/5XDY1acVkUH09uAg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ1YNTG27IrYA3WE4Jp0TKbEzhHopj5WYHa4yxWu2xdq/DXS9Pl
+	HObh0XB2frqU7zm1vt2GUVWxTvag3ao/m8L5uHhaT5FjuSLEJ5sZjbvtqH2nnTj0DtA=
+X-Gm-Gg: AYBFou076EHEIimpa3SLSnZgLK2KGvUqXCg7p3HeDeb3L4x6iLyRNL1lpq2UyKbLB3k
+	uUxyW6Xs4t+WlcEwMgYyfofwnFCUyLD5ayuBGpPkn5NZ/PPG3Y43xDM5Z8L0EuB3NMkJ+xnBmlw
+	tUEzg899q53AYCe6TU2D4RHSmzjn3ndQAu9oLwggxL83ww05Whme/T7H0d+W3gDFR9ERZqjmqZF
+	0/u3jglFTV3Yz4Tf4UBzD9aB4ck5u9toPQn0XblbTV/CE4d7pq090vR4+bZxv/WhF30QsNJIoQe
+	FNm8V3d6f+KMEnZW6pkpVXdHS8crO7srMrtNYEeLlXXa0Y/WcUdPP43TnYIa7CRloWv1B+4WqGV
+	ZCZGAoAwTeEC+6bvDkHFC15dGHL893P/x+4nIF9bDS3/OFBlA0pkWdMs/ju7wbuKD1kTtCXo5xH
+	jeaVq3yOxWA5ZTLPhk5Gl9JvzykzJ+HFB6SJ8jE/x6ReSrKuXt2gH6WplgM1V6T/VXh8uxGfXUL
+	aypTjM5RWRsYbGVmtUJcuhyGOUpVSqzMKsuzxgYZ4u4zLUWLsk8CpGbl61q2gFg+aDvS2RdkSG+
+	th0mEw==
+X-Received: by 2002:a05:600c:3b19:b0:4a1:d087:f6ab with SMTP id 5b1f17b1804b1-4a35acc7696mr71714575e9.18.1792932488137;
+        Sun, 25 Oct 2026 05:48:08 -0700 (PDT)
+Received: from localhost ([2a02:8071:56d1:2de0:1d24:d58d:2b65:c291])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4a35a04ad39sm326937255e9.1.2026.10.25.05.48.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2026 05:48:06 -0700 (PDT)
+Date: Sun, 25 Oct 2026 13:48:04 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alex Williamson <alex@shazbot.org>, Armin Wolf <W_Armin@gmx.de>, 
+	David Lechner <dlechner@baylibre.com>, Danilo Krummrich <dakr@kernel.org>, 
+	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, 
+	Aaron Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	"Rafael J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Bradley Morgan <brads@mainlining.org>, Aleksandr Nogikh <nogikh@google.com>, 
+	linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev, linux-trace-kernel@vger.kernel.org, 
+	Johan Hovold <johan@kernel.org>, Richard Weinberger <richard@nod.at>, 
+	Thierry Reding <thierry.reding@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <at34UOuYv3NtX36R@monoceros>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <2026102437-vista-unsoiled-b089@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,86 +114,57 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-Rspamd-Queue-Id: 4jCDhB6MC5zKnBV
-
-On Sun, 25 Oct 2026 11:14:10 +0100, Michal Pecio wrote:
-> This could result in DMAR faults, but it didn't. Was IOMMU enabled?
-
-No. The kernel command line has no intel_iommu=on,
-CONFIG_INTEL_IOMMU_DEFAULT_ON is not set, and /sys/class/iommu is
-empty. DMAR is only used for interrupt remapping. I won't boot
-7.3+1f36cc9fa949 again. The box now runs 7.3 with 042aad8d0db6 and
-7e0ef4332ed9 reverted.
-
-> But can you post what happens on 7.2 with xhci_hcd and usbcore
-> dynamic debug enabled?
-
-7.2.11-1-cachyos booted with "xhci_hcd.dyndbg=+p usbcore.dyndbg=+p
-log_buf_len=16M", mouse plugged in at boot. Below are the lines for
-port 1-1 / slot 1. The full log is 270 KB, so I can send it off-list or
-post it somewhere if needed.
-
-This time all four interfaces failed with -71, not only 2 and 3 as
-in my earlier 7.2.11 boots, and there was no "usb 1-1: reset", only
-the disconnect/re-enumeration. The device seems to drop off the bus
-right after Set Configuration, at the first control transfer of the
-usbhid probe:
-
-[    3.537963] xhci_hcd 0000:00:14.0: set port reset, actual port 1-1 status  = 0x791
-[    3.538304] usb 1-1: new full-speed USB device number 2 using xhci_hcd
-[    3.538344] xhci_hcd 0000:00:14.0: Slot ID 1: HW portnum 0, hcd portnum 0
-[    3.540254] usb 1-1: ep0 maxpacket = 8
-[    3.540543] usb 1-1: New USB device found, idVendor=3434, idProduct=d068, bcdDevice= 1.00
-[    3.541469] usb 1-1: configuration #1 chosen from 1 choice
-[    3.541509] xhci_hcd 0000:00:14.0: add ep 0x82, slot id 1, new drop flags = 0x0, new add flags = 0x21
-[    3.541673] xhci_hcd 0000:00:14.0: add ep 0x83, slot id 1, new drop flags = 0x0, new add flags = 0x6a9
-[    3.542427] usb 1-1: adding 1-1:1.0 (config #1, interface 0)
-[    3.542477] usbhid 1-1:1.0: usb_probe_interface
-[    3.542526] usbhid 1-1:1.0: usb_probe_interface - got id
-[    3.542566] xhci_hcd 0000:00:14.0: Transfer error for slot 1 ep 0 on endpoint
-[    3.542606] xhci_hcd 0000:00:14.0: TRB error 4, halted endpoint index = 0
-[    3.542646] xhci_hcd 0000:00:14.0: Hard-reset ep 0, slot 1
-[    3.542725] xhci_hcd 0000:00:14.0: Ignoring reset ep completion code of 1
-[    3.542923] xhci_hcd 0000:00:14.0: Port change event, 1-1, id 1, portsc: 0x202a0
-[    3.543163] xhci_hcd 0000:00:14.0: Transfer error for slot 1 ep 0 on endpoint
-[    3.543203] xhci_hcd 0000:00:14.0: TRB error 4, halted endpoint index = 0
-[    3.543244] xhci_hcd 0000:00:14.0: Hard-reset ep 0, slot 1
-[    3.543326] xhci_hcd 0000:00:14.0: Ignoring reset ep completion code of 1
-  [... the same 4 lines for each further control transfer, about
-       every 0.5 ms ...]
-[    3.544720] usbhid 1-1:1.0: can't add hid device: -71
-[    3.544804] usb 1-1: adding 1-1:1.1 (config #1, interface 1)
-[    3.547532] usbhid 1-1:1.1: can't add hid device: -71
-[    3.547617] usb 1-1: adding 1-1:1.2 (config #1, interface 2)
-[    3.550329] usbhid 1-1:1.2: can't add hid device: -71
-[    3.550413] usb 1-1: adding 1-1:1.3 (config #1, interface 3)
-[    3.553190] usbhid 1-1:1.3: can't add hid device: -71
-  [... hub_wq enumerates the other ports, nothing for 1-1 ...]
-[    5.065514] hub 1-0:1.0: state 7 ports 16 chg 0000 evt 0002
-[    5.065577] xhci_hcd 0000:00:14.0: Get port status 1-1 read: 0x206e1, return 0x10101
-[    5.065637] xhci_hcd 0000:00:14.0: clear port1 connect change, portsc: 0x6e1
-[    5.065692] usb usb1-port1: status 0101, change 0001, 12 Mb/s
-[    5.065697] usb 1-1: USB disconnect, device number 2
-[    5.065750] usb 1-1: usb_disable_device nuking all URBs
-[    5.065810] xhci_hcd 0000:00:14.0: drop ep 0x81, slot id 1, new drop flags = 0x8, new add flags = 0x0
-[    5.066201] xhci_hcd 0000:00:14.0: drop ep 0x5, slot id 1, new drop flags = 0x6a8, new add flags = 0x0
-[    5.170113] usb usb1-port1: debounce total 100ms stable 100ms status 0x101
-[    5.354755] xhci_hcd 0000:00:14.0: set port reset, actual port 1-1 status  = 0x791
-[    5.466345] usb 1-1: new full-speed USB device number 11 using xhci_hcd
-[    5.597007] hid-generic 0003:3434:D068.0009: input,hidraw8: USB HID v1.11 Mouse [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input0
-[    5.684004] hid-generic 0003:3434:D068.000A: input,hidraw9: USB HID v1.11 Keyboard [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input1
-[    5.685139] hid-generic 0003:3434:D068.000B: hiddev100,hidraw10: USB HID v1.11 Device [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input2
-[    5.686139] hid-generic 0003:3434:D068.000C: hiddev101,hidraw11: USB HID v1.11 Device [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input3
-
-So on 7.2 the disconnect (portsc 0x202a0, CCS=0) is reported at
-3.542923, and the device is connected again (0x206e1) by the time
-hub_wq looks at port 1 at 5.065. There is no other port change event
-for 1-1 in between. All ep0 transfers to the gone device fail within
-about 0.5 ms with a transaction error, so the probes are done after
-11 ms.
-
-Regards, Dennis
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hexcezj4rledtjd3"
+Content-Disposition: inline
+In-Reply-To: <2026102437-vista-unsoiled-b089@gregkh>
 
 
+--hexcezj4rledtjd3
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+MIME-Version: 1.0
+
+Hello,
+
+On Sat, Oct 24, 2026 at 06:56:34AM +0200, Greg Kroah-Hartman wrote:
+> So what is the real use case here, taking any type of any device and
+> thinking you can bind a random kernel driver to it and it will work ok?
+> You all have specific platform and pci vfio drivers, why not use the
+> proper device ids there instead, or better yet, bake-in this type of
+> functionality into the bus-specific logic so that you can have generic
+> userspace control of a device (like usbfs and uio does today)?
+
+Also note that even if the platform and pci busses implement
+bus-specific code to pass a given device to userspace and/or a VM, you
+need proper unbind support in the driver currently managing the device
+(or cripple the mechanism to only work for devices that were not bound
+to a host driver before).
+
+The more I think about this taint, the more I believe the commit should
+be reverted and replaced by a some stop gaps for driver_override. (Be it
+a taint or better yet
+https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com/
+.)
+
+Best regards
+Uwe
+
+--hexcezj4rledtjd3
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmrd+oIACgkQj4D7WH0S
+/k6aewf/a1J79AfBUwvrOd6Ba/0Y7Snc6nW1R3bcrJe5+V181tlQ+NubUnz+DJdu
+l8Jqw1xcQaALmyYYZ+CaEenSacHj9TFNREGi92ZjNkN8m6+iH5soIV1vTHPZaevX
+R9oV4vf5RnsRXugZv92lNktCGbzbu2ceTDhJU4IoX5FyuqL95AVajJ4awrTw+nol
+Y+gyqcgb8mzONrS7D52rBINMIjpn9/nmcPs4bVkXCZjAvPg+MFRZTpjwZ7hB3Guo
+GM19dH/Q7rfMakDFZ/TJqgDbxuKHrPdU/EFkrRXiolTo+VEKvUOmiiW/JK6zrFH9
+WNnJHHFnJdcfBwsazk9IIqGimnpBHQ==
+=zFX2
+-----END PGP SIGNATURE-----
+
+--hexcezj4rledtjd3--
