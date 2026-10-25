@@ -1,64 +1,50 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792893052;
-	b=A7TXCnE7sUz7/2Yd014H7LpPOeuJPB/MZczwmHjuU33oKAxlzGVnQYDtgdARisGStTRJ
-	 k68isACjsE/l3nuTx2UOcs+njrvpNKYJ6yZZfNKhyJz9C5zGm0AiuoA6MyG7Tvr9+MUQR
-	 e3C/E0sJDLOFq14xCQSwHc7Daimpu1z9hOBaa040ZAwKzgy2EyoEOH4dZZEuMA1EkLrIr
-	 OKnab4f0aBukUWrt5ynBW28zrncwmdOHoI2yyFlp2b+wUo2WHvM38G3qOBXyX6V/upVs4
-	 hNq35pSNT3FtwhpDXfPgJa5P4Wasjl8t7h+cFGgFAIN12DUmij1BF5GBQITrQUYARNQ==
+	t=1792909713;
+	b=MiX3KNdtaOnyiSh4+2IjrcOZiVaDzcRhyJAhF5p8jzx017+AE+/UyMZR3QdRERu6V6r5
+	 rxBcj4q9/JCfuTa0utKA9Kst1uCWuEkIJiXwV7t7rDxgVRb0vjSJwwzdHqPc6B6b6WGUY
+	 Km+Bdx3ZazlVg+2M4DOAqoWDWZ0897suXV4AJhcs/sd1OffqXHw8oznW2D0/95nQdI1MO
+	 OCUgtRganz5KX/Fz4Qu+cuoTbeG7gYOK3Yv/5SmzJL5FKO8Fn05Tl+QBxxkCT7yagdAH9
+	 RtPOxetLN7PqVtaSP5eVdFemz+1bTmRhzmZbrhc2QsI9eis2DBJGFYx0gSavVKiHkBw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792893052;
-	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
-	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
-	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
-	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
-	bh=r/sAouJbnxGfgi0LmFwxGGpSvX2Y0raqOln37nn6FjE=;
-	b=1iIw9MU9OGn82VTOesFW7m4xGkQ4WN87IB8UxgQHcnZjf1qrcjTAks1Rc2TOItwtYIbt
-	 mvt3SCqIl4vw7EaJKi9oR4lA/tNilt66gPpRxW4T0vJ/JyE54HRpldjom1TM+YNYo+HzH
-	 ZkvgA0ZhRWwz3/ZDyijzw+T7XvvXTrHweydl66eC29pnB1xK8t68ijPWOOw1aaNYNEBFo
-	 5xuqoaArQBmKOukO6gxhlrm+F2c6QP63606wtdpoxcKe+riOgYhwPJ6BlJsoz+/l/T1W7
-	 gq6bB7F7K4PIAMVs6qTwJu+UCflYQE3WIN1gJZWlCAHRc9ACsenPPchceOqdrAV1KFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792909713;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=9eWGYR42ZqAiPgMLfV2JIEuBKhMU1pLyeq9P+2q1vlM=;
+	b=pqRIKIKqoHEJuk+UsmQvlnrfiiG2Rt9FlE8zvPVvy+9UeG8mwSf93F6NNmyyrTuWT6Re
+	 UKoGxZPSzl16NCSqWsgaRlUh9BfvlSdOd2KDGPrKbBzfedKJIUvhMrP7EJd7oUe9AU3wl
+	 O7x7BgWTGuv2U/K0yk8xHY7h5M2X3MeqDBMsR/xTXUkJ21HclL2E4q5URlhGA/2cKA3v0
+	 6QSgNlt9+IzJRI77d9y//kFlGCYMxis6VkWzOmVJk6F2m1pJQB8lEwGidlaCm7B2hGgCL
+	 p1gjpkuXGS3SJUoawmovRiV5alVnWOKnYowZiLwTMwseTORjF60JLhsmGWyv7hOvhLg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GBUM7rjI;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=voU+zLCU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE38606A32A;
-	Sun, 25 Oct 2026 01:50:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F110606A31A;
+	Sun, 25 Oct 2026 06:28:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=GBUM7rjI
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8936E1F01825;
-	Sun, 25 Oct 2026 01:50:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792893052;
-	bh=r/sAouJbnxGfgi0LmFwxGGpSvX2Y0raqOln37nn6FjE=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=GBUM7rjImaSD90bPn0QzOU3mgYVg8Y1XtK6ih0qI/ZSs9opi7lQsUArfnNmmA/clN
-	 4ok8OjzJ/Oazsz7K5iR4EAnypzuMyRG9DYfL/wY1ZsmTnlmYevuME9qzPa1om8u/0P
-	 vPZYQA7tNBMsRuVqFgeRcKJFeTrqclSmlpUK27+Zn8DagpzqZyNz5zfqZbiIsYuIri
-	 K5FMV1q94ALV43JDtO91ZPUplBQWN38wO4LvDXc5L+VlU/KvAUbCRts7+OZnj8NTzx
-	 dPrwcDCYI3/+16GZxn2ZR8wABWKuXZk5NjkjO5XJm7Nf5vpexsmeJ9xchLjsZbSL3Z
-	 NmYkH+OHGBd7A==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 81AC1391B1B6;
-	Sun, 25 Oct 2026 01:50:52 +0000 (UTC)
-Subject: Re: [GIT PULL] USB/Thunderbolt driver updates for 7.4-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <atoUqhA4O6NAoZ7T@kroah.com>
-References: <atoUqhA4O6NAoZ7T@kroah.com>
-X-PR-Tracked-List-Id: <linux-usb.vger.kernel.org>
-X-PR-Tracked-Message-Id: <atoUqhA4O6NAoZ7T@kroah.com>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.4-rc1
-X-PR-Tracked-Commit-Id: bdf12cde30830d46a8ef1ba93986356f1164b4f1
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 168151cdb0f93d26557f9f3c7aae659b8d6b1863
-Message-Id: <179289305117.1865536.733679841218811546.pr-tracker-bot@kernel.org>
-Date: Sun, 25 Oct 2026 01:50:51 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=voU+zLCU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E37C51F01825;
+	Sun, 25 Oct 2026 06:28:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1792909712;
+	bh=9eWGYR42ZqAiPgMLfV2JIEuBKhMU1pLyeq9P+2q1vlM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=voU+zLCUiex9OI8Bas1ZNh+FveWEj7uTL5o4mXbWKoybt1Jd7kdn1k+0OI8uqcExV
+	 iwDghdcrIpVEfely0txylXLSJjfCa7kppA7fpyTaifz6OG3EnDgNmDXfglen1DgYEB
+	 3lSpU0wI4zTP38bUFuap8op0eHScXdyCxkU2qGwY=
+Date: Sun, 25 Oct 2026 07:28:29 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Dennis Wissel <dennis@dsine.de>
+Cc: linux-usb@vger.kernel.org, mathias.nyman@linux.intel.com,
+	regressions@lists.linux.dev
+Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
+ (3434:d068) at boot since v7.3
+Message-ID: <2026102504-defiance-uncanny-e21f@gregkh>
+References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,16 +53,21 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
 
-The pull request you sent on Thu, 22 Oct 2026 15:50:34 +0200:
+On Sat, Oct 24, 2026 at 07:47:10PM +0200, Dennis Wissel wrote:
+> My guess, untested: the xhci changes merged for 7.3 that touch
+> cancelled transfers on control endpoints, e.g. 7c0c31c66a7f ("move
+> dequeue to next valid td instead of past cancelled one"). The fast -71
+> on 7.2 turning into -110 timeouts plus resets on 7.3 seems to fit
+> that. I haven't bisected or tested a revert yet, but I can if you
+> point me at what to try.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git tags/usb-7.4-rc1
+Any chance you can use 'git bisect' to find the offending commit?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/168151cdb0f93d26557f9f3c7aae659b8d6b1863
+thanks,
 
-Thank you!
-
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+greg k-h
