@@ -1,44 +1,95 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.208.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792959401;
-	b=tSQV7rBZR03c4sZ8dyDACYE/3MtTNNO5oGkDVrkrXA1qA5PX1H/LVfc6uhGEvAkaLzO2
-	 pLw9hX5Y5MRCNf9VuuyoV08FiyPlq/IzhVBUYyWwqSP1m65l1Z211tcu+GkaR8TOStROY
-	 vVqMm9F38sVf4pldpHSrMtRcsvavvZuy2hsmcmuE1nkCmnOdjUD6B4wXYxXJ5IluVyCoZ
-	 7yNWtvL+UP2BladgOQ6EIcnN6WF7krs1CEFMiip8gr2s5s1CtY6tAzGHZfAqSB8L7L/Ci
-	 tYbs+N58cDv6mtM1poFzdnVTvJ2eXPQ2GgF0Sp8lgloeZjIl7mSWULVgXHWLltehmGw==
+	t=1792960317;
+	b=FUK8kcl7NDVADuVqrXrPwMRnO89pO01Q68deIlxoLbNokTPJiMdRVWjzu27Klg96fddR
+	 TOmloskTeaziEtxSaEBeWwurAvvDgecCi52p5F2VF2235FoNR5ok+mQCHfxkeDchf4MzE
+	 2NkcSjUW1w283NA3N3/h1eEDVkurB9ioeaSNmZzVvIyImUtHADXxHxlHDO/JXXG/lGuWc
+	 RXcYIOd+TwjiwVhc4Z8qP332Wi6GxjPXdl0rZRFkCINco/G/N86/qfDLmjT7xJZ6aOLGB
+	 yt9EVoTE05ntbF/tadARHx3b0zokcR0c7AipbTuSNLqaRfI/VGWMSsO0nxSXdWFMqCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792959401;
-	h=Received:DKIM-Signature:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:Subject:Cc:To:From:X-Mailer;
-	bh=uBM0P5AgsQXktIUVJpV9bT1UztKARyF/NcxqP+Nynek=;
-	b=1F/4PFGwclbw16UVrMZ6ycUqQ6s05W+Myh/FM3rh2JkPbQhWLiuZzerUwPlprS+7CSog
-	 lF4NnLXG2W4RqjpggR71PUSFI8luUonUN4hsnAa2Kr0OcS5Ig0egyMlg5ItyJtc9iG97W
-	 v+ZfnZNxSUxzUTAlDCur6rkCQvcGScy5jERGsCXlq/Yf0Jigrc7y6kx2TIxG9YBjP5wcx
-	 8zJiL/EWfjN4+rfnmCZkes+nIO97QLOz3gZFWRgnZWivuKSUcvNjx5zQ0xXqs9jnzoeiA
-	 2RmBJs03iR6mWr/Papu6oRxMIai1NCkEXxfhBfW6DTySGdIqK++kZ3ETn51LyRh5X7A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792960317;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=Be2Qj5VPj3anKQUTdbqSapQ73mXLTFDSUDurM06zZss=;
+	b=CByyrkCKv7LTBf4ksjGwCoEznkYuGop72TzQq3T7pJJD8Jyogj0Yxmabn17Kvxyq171s
+	 TlOHtI9ZvLtpP6GVYAmhAkv3i73WXZdTK1ct/H7axl2jQ96VhWOnczvIHEZHwDUufaI0i
+	 sx8QjhsI0dTkABOY8rYgm2JenmBJQMBLaAenHQiW6hUGEWlrfLVwsF2ygdJdCQEq+D+Uq
+	 p50PN3BZxNnspuESdMzX1iSQD6RSHNNExZUZYw3beB5mH1y41Gg9Ju3XNhi41NZ+qwhQ/
+	 O82AsEUWt1phuyn4tVEsIfYSSCMKJM/S2O5/FurtAPNdGjEQamiPZWToFYLimSkIl3Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YqAYdfmV;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=K6aBLVdw;
+	arc=none smtp.remote-ip=209.85.208.45
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F5C7606A31A;
-	Sun, 25 Oct 2026 20:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96950606A31E
+	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 20:31:56 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 96950606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=YqAYdfmV
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E82401F01825;
-	Sun, 25 Oct 2026 20:16:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792959400;
-	bh=uBM0P5AgsQXktIUVJpV9bT1UztKARyF/NcxqP+Nynek=;
-	h=Date:Subject:Cc:To:From;
-	b=YqAYdfmVTVGmha2Z5SQ2FllCG40ih7Rmfyt9rnM8Tgb/byn0mmcBoVZVl66zKEEIq
-	 woW3H9DPDbbfNdJSodvmnYREeXysX+9+DCAgAclGiiR2dn8alr6f+w29M1a2z2dGbv
-	 gUjWJx+Wj5rUupiaHlpm5H1wa2tPoizhUeu5Dpmyhot1TUxih+XqdefZh85gyBiaBW
-	 3DX5aqSXw4Q01zOql5C85gLttwA6sAgA6mnRXZy34hcrMKQn1BcKw32TcBCrgCK5Nr
-	 bk0vRL7B1nud2M+53eARVSRD5HYQd+c1TReGLcrvgQvFCrZLuQYyXIg4q0n92ZpFog
-	 Nawss08X4mCDA==
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=K6aBLVdw
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6b1f4d8e09aso3486322a12.1
+        for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 13:31:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1792960315; x=1793565115; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Be2Qj5VPj3anKQUTdbqSapQ73mXLTFDSUDurM06zZss=;
+        b=K6aBLVdwCtDvNVXrUDErFoAr+HRy4mh7AvlIq94sT2SQL9nyA0N0K9H5ArPFI4co+s
+         Hr62gpQP70mBYNeGejcjmoM+Cfj3qhkDcel7pq7QbZsdI0VbAbD6rDdyyY4kvpsHlHUv
+         iyzeHlGZwXYYHFOqfgle5UBdOdTPCbKp7wAxs9Mw3zsMWCfZHMsRvOP2eVfXmTACkLBo
+         lYLIOPAIRQABc4UuQ7pnKwWy378A7RpZE6pdLZ7SNuijZrhAmeIIV+RqlgtNgxXrBTlr
+         GjuvAgHMD07GeL3Pq8U3S5MLlyf8PMp0+5yvMvFbjZs9lpzvib0qYA9zy8nH4IwyQayl
+         RFsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1792960315; x=1793565115;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Be2Qj5VPj3anKQUTdbqSapQ73mXLTFDSUDurM06zZss=;
+        b=jPOrWxE3YKSZqqX+URkFRiFA6BCZ26ddfujph1Cs+2OObFbVMVbOKoY1vFjv4G5DIX
+         Rc9zTQ9ysNBHPO5shRRZ54ax0Jacp1u7IvZwePf8Hroe3eNfe+iv0YkTcQZuqbJ+KfN5
+         Q3PNf0c5Nk5d6Gi50r8R+p/Sar7A2Y4gO7j9CaDq/i5YnfuudjS4QeczOkRhnGL6i1bI
+         EzAfcOqjzQg/WmdxFoYQlO6TNu+KtV4Em/i4RUm6Q6jMPGOgiM0voPE7K0RnW8Tq2iAt
+         BfATLAP08zgeXemab1xS/A1zAIULkkUsEivldr2MtrEQpBA/65DJJG1CvJFCjFPw+Fo/
+         KUiw==
+X-Forwarded-Encrypted: i=1; AKwUvBwcxLyva2YHEsvRuK3pGqlfSNQyXN5S4DqZRoo9Bvl+9URfsOPanfJtX+MLu6n+Xy+bQ60Awsm0D2w=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLYQDIO6+jRGWGeP5QieuwOFwdwIO+GGsKjfnaIjsfmvi6noLuo
+	XiaHPPcZ2BP/7c5S/J+0s9v69wBlG1MfYVCSF4FVTDE+4bt6YU0HAVRN
+X-Gm-Gg: AYBFou2J7SY0bequN9d9PLJOv3RF0f+lTNzDiztIYZnyHchn9pWy1+RFNlxxFYEkFVE
+	TST0O2y2So1HmKKW4UBI6wll6Sl8zjE/Cj9zNyw3ubYfTTDaDaOQW+WlE4CCRTU2pom8UkA6jhM
+	2v3Z3e0M1lJuDxIZIrFDgHLkEZxnFEw22s81Dgqzl1j/Yydhh0w/X+ki5JngAVk3+cJw4sebbmi
+	3Q1mRhyYtdQ5egIUmhobKQXvlzLPU+Bv4dFt0F4Z2jDVV7WnGrxjk1hGCTdazddEXk6ez6Qu75s
+	E62eCUwUn98YQbQWdvzMpOa8OImTVcbo0/vZUAgEdmdAF6cQfx3k348a6DUUNKrdVtbHr3/pP6q
+	5HiebayWmMfUYJzatoBp012zdrtlHgrDsI9qt3X/TIAPxzjCmnjUWwpRN2rVxmgvnxdwpsi/y1Y
+	lcNt28es38zXJTZycHnGw9sAQjc9HviNrkHPfDtLpOvpcVPYg4pVGXzLqCCK3rUO7JxQaulfnp/
+	qQu4gwVKN9zvN06w8DEpk+3KXIIHwK8JX6rLWsr307PeOMF6P1e8uY0rqZHLh+oMbyRBgoldVqT
+	lB+sMA9cq/rwSDMAhKxbpjims//S1h0hfTbB9L5r32IQzkqk3gEcYdJFgKUbemYRq9ax9HFOgB9
+	rohsvyBpncmCmS3wPmuS2tfwdBfkemKA9w4JQJ0odr6oA
+X-Received: by 2002:aa7:d286:0:b0:6b3:8018:7643 with SMTP id 4fb4d7f45d1cf-6b44300a8d3mr4496308a12.45.1792960314732;
+        Sun, 25 Oct 2026 13:31:54 -0700 (PDT)
+Received: from localhost ([2605:59c1:3500:c210:a19e:c679:44e8:e9a])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6b44595df8fsm2802175a12.11.2026.10.25.13.31.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2026 13:31:54 -0700 (PDT)
+From: Selby Mashiki <mashikiselby@gmail.com>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-arm-msm@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Selby Mashiki <mashikiselby@gmail.com>
+Subject: [PATCH] usb: typec: tcpm: qcom: fix connector fwnode_handle leak in qcom_pmic_typec_port_probe()
+Date: Sun, 25 Oct 2026 22:31:51 +0200
+Message-ID: <20261025203151.455062-1-mashikiselby@gmail.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -47,71 +98,34 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 25 Oct 2026 21:16:37 +0100
-Message-Id: <DME7288WXCGZ.1XSS13X4IVJ5W@kernel.org>
-Subject: [GIT PULL] Driver core fixes for 7.4-rc1
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, "Rafael J. Wysocki"
- <rafael@kernel.org>, "Johan Hovold" <johan@kernel.org>, "Saravana Kannan"
- <saravanak@kernel.org>, "Andrew Morton" <akpm@linux-foundation.org>,
- <driver-core@lists.linux.dev>, <linux-usb@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-To: "Linus Torvalds" <torvalds@linux-foundation.org>
-From: "Danilo Krummrich" <dakr@kernel.org>
-X-Mailer: aerc 0.22.0-0-gc2f86b7abde3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Linus,
+In qcom_pmic_typec_port_probe(), device_get_named_child_node(dev,
+"connector") acquires a reference to the connector fwnode_handle to pass
+to_of_node(connector) to devm_of_regulator_get_optional(), but never
+releases the reference.
 
-Please pull these driver-core fixes.
+Call fwnode_handle_put(connector) immediately after
+devm_of_regulator_get_optional() to fix the leak.
 
-These fixes arrived late in the cycle and missed the main driver-core pull
-request for 7.4-rc1.
+Fixes: 506927b6bf29 ("usb: typec: tcpm: qcom: prefer VBUS supply from the connector node")
+Signed-off-by: Selby Mashiki <mashikiselby@gmail.com>
+---
+ drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Thanks,
-Danilo
-
-The following changes since commit 72d3fcf802c45d00b300f25b848a93c3a2bd7c7e=
-:
-
-  Linux 7.3-rc5 (2026-09-27 13:55:01 -0700)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git=
- tags/driver-core-7.4-rc1-2
-
-for you to fetch changes up to 187a62f99da29b1a55602b0d401a783d8dc86161:
-
-  driver core: take parent lock in async device attach (2026-10-16 22:36:09=
- +0200)
-
-----------------------------------------------------------------
-Driver core fixes for 7.4-rc1
-
-- Make parent-lock requirements per device type instead of per bus,
-  fixing a use-after-free on USB disconnect by limiting the requirement
-  to USB interfaces, which retain a reference to their parent
-
-- Honor parent-lock requirements during deferred and asynchronous
-  probing, fixing USB interface probe races, including duplicate
-  endpoint creation attempts in sysfs
-
-----------------------------------------------------------------
-Johan Hovold (2):
-      driver core: fix parent lock use-after-free on USB disconnect
-      driver core: take parent lock on deferred probe
-
-Mario Peter (1):
-      driver core: take parent lock in async device attach
-
- drivers/base/base.h        |  1 +
- drivers/base/bus.c         | 32 +++++++++++++++++++++++---------
- drivers/base/dd.c          | 90 ++++++++++++++++++++++++++++++++++++++++++=
-+++++++-----------------------------------------
- drivers/usb/core/driver.c  |  1 -
- drivers/usb/core/message.c |  1 +
- include/linux/device.h     |  5 +++++
- include/linux/device/bus.h |  3 ---
- 7 files changed, 79 insertions(+), 54 deletions(-)
+diff --git a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+index bf985efe1..b89495315 100644
+--- a/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
++++ b/drivers/usb/typec/tcpm/qcom/qcom_pmic_typec_port.c
+@@ -728,6 +728,7 @@ int qcom_pmic_typec_port_probe(struct platform_device *pdev,
+ 	pmic_typec_port->vdd_vbus = devm_of_regulator_get_optional(dev,
+ 								   to_of_node(connector),
+ 								   "vbus");
++	fwnode_handle_put(connector);
+ 	if (pmic_typec_port->vdd_vbus == ERR_PTR(-ENODEV))
+ 		pmic_typec_port->vdd_vbus = devm_regulator_get(dev, "vdd-vbus");
+ 	if (IS_ERR(pmic_typec_port->vdd_vbus))
+-- 
+2.56.0
