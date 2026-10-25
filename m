@@ -1,68 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=176.9.219.86
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792938988;
-	b=YeK0AKlRfoy6PaiHKAnWq1oES076iS7qtMVvIxUdK9AhzkYKNDkhtEXMWhvfxvJTZsVJ
-	 b4r7pleI6NWgq1GfOFjEFfZWwj/5RI6Xl1WRYaA/9fbp8jMuoqVPKKgwYGzfQv01bgwOC
-	 nFipKXJ7dt2ymZqhgEKQAgxyhDr+PcKq84DV8nIkYYZ/rV3mWPjxZfQysUpJKwIIm5PIM
-	 KjqN1C6D2ijtt50zvvQdkCHGUqFwH9Pw/WU093CkZ1SKApflZbyJF952+kOrKug+l/sY1
-	 K072+UexlhtUdGdC99YmhVs2gk9L27qfIB3CaxIhARjcN9V3S3UU3QXhF54MJfyWYJg==
+	t=1792939263;
+	b=AarzaMR2zh95JcAlFGumJ+G0dNF2MzJvsMFPLksmz6ihBQbzkQmxlEvVwqQnzGcgjyPF
+	 wIgINcoVBVF2G7v7tsqpVuV1BuG5GNBUoxeja6nxlWRpsRF47he4qtxo0VBJEblxBe5/D
+	 WApLH1CWL7aq7/fIIjsBEOeQ72QcfjKJsUXMCTgFJldG8DazNS5AVT2BHWn2UcQXXOJjk
+	 0uClgXCkM4ioo50eZd3D3Ukq/BWIqsAIs0bglWuN/jq6ivnJyRdWjhDh6YzaRXN62MaJx
+	 W0vT144ou5Qb61nJuqX/RHV7fU+Eh4GP7X39qFXz+jo0Q/efGz3Doq4ZgSMO8XAkuww==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792938988;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=ml7KDYqtwo3kkAXwh7Yb37PT+M7VJ6pBs9QJcFJB/w4=;
-	b=CmY/b46oDAS5AZoKtsgUc+6znIwNbIH/4fBUGvgLfZIBA7X3VqEzRmt5ud3hXo1dcXl/
-	 UwW/GXPXhAxMYTWivD30l0HjogVyWHP21yMb7E7QJQASZYAwV6XD6RwVPXUYMasOdAfi4
-	 zIYmfICICs8bu8+UQSeCBU084KE8HXBxQoyehqriZaYrWO0TPd0nV/QghkfI4G2KRlnz+
-	 GGTK4Zi50NR/3mBkyMQES228SENMo/JDjj/MjOanYDH2abNghb9El8VKHdmF7M9Z+SOXC
-	 UX0WKpvH/gHUZKTqiuHqF6Q/U/eHmeEMG5FwIUi/7jQcfEQu/xOcSBnC/noVPZJGQHQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792939263;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=7JPAsZC0rJjq2NkDi2/Fnb92GtAHJ9VXa7jvX9/C44I=;
+	b=ghNFTXlj+seBMs0ZxmQKN+G1ZezToSovV1n2xWjgjxAft7ur3XUMcEuLMjjDYb+b3WbQ
+	 SiA9YiLfiLueAvBVXucKP1rBr1oL0EqXo0dPqorc+wNVRUiPo0k2g7JHVa7sieIM3Sppn
+	 A3A6JBfbwEIszvG0pSJfFg8pp8cvyTHwIT4CdY29cvOz9MoE78j1bHfl7iSZt1FDMmSrd
+	 laZhQyrk1o1riFxnR3LTjFpugkbqCMoOKJhEEb4WgD42/iZuAhlvL7Iv7NcmXgKlw64oq
+	 B4waUtdlktZnvSBgwXTOxPowr9bJZq/qqTXZcvkekrQ97hzHNPSv8I4JbcWqapTujpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=manuel-herrmann.de;
-	spf=pass smtp.mailfrom=manuel-herrmann.de;
-	dkim=pass header.d=manuel-herrmann.de header.i=@manuel-herrmann.de header.a=rsa-sha256 header.s=s20260706 header.b="HyYn3r/2";
-	arc=none smtp.remote-ip=176.9.219.86
-Received: from mail.0x17.de (mail.0x17.de [176.9.219.86])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhbX7r0B;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD2A606A31B;
-	Sun, 25 Oct 2026 14:36:25 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5BD2A606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=manuel-herrmann.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=manuel-herrmann.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE6D6606A31A
+	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 14:41:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=manuel-herrmann.de header.i=@manuel-herrmann.de header.a=rsa-sha256 header.s=s20260706 header.b=HyYn3r/2
-Received: from itw.netbird.selfhosted (i5C74DFF6.versanet.de [92.116.223.246])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mh)
-	by mail.0x17.de (Postfix) with ESMTPSA id 555158001B;
-	Sun, 25 Oct 2026 14:36:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=manuel-herrmann.de;
-	s=s20260706; t=1792938977;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ml7KDYqtwo3kkAXwh7Yb37PT+M7VJ6pBs9QJcFJB/w4=;
-	b=HyYn3r/2W0X9bU9qt2mgMIloK8YCHiwyVYAAKFi0BvLxStulfxjUoLDgeVThfPZazVInsw
-	X+PnzpMamoeVit2iGBmBeWgRMUJ5F5FVfnoLey0PRBB22+AhI1WErbacRzmXbYCZ1z1Jzb
-	a9CQbQlmwowCXdbZpqN74ssuqe/k1khj/XxoMoRb/WJ5GaaKRGiu7EjFkw++iZztzbojbF
-	mkMMHu7/TfKKfkFmV+yy1cww12eYXOiRIjIRJixKbKmYb+k37c7mfUKUPpdK6jlERSfjfu
-	PXu8+Z2JLVoZ2a1C4EYNHBRl5xGmzAce8RAvWATgyGLAQqi8wI/ao9bQMURcGg==
-From: Manuel Herrmann <m@manuel-herrmann.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans de Goede <hansg@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Manuel Herrmann <m@manuel-herrmann.de>
-Subject: [PATCH] media: uvcvideo: Add support for NV21 pixel format
-Date: Sun, 25 Oct 2026 15:35:22 +0100
-Message-ID: <20261025143522.327365-1-m@manuel-herrmann.de>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=WhbX7r0B
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BCAA1F01825;
+	Sun, 25 Oct 2026 14:41:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1792939262;
+	bh=7JPAsZC0rJjq2NkDi2/Fnb92GtAHJ9VXa7jvX9/C44I=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=WhbX7r0BQTwHk+k9bnUvX9fKbFE8KAxtmPOb3WTnvVrz3R8AnSXpaTW22lCO1/H2l
+	 W6kZHcljuPbBVOYbx1WsdPVlJD8ErTYKKOMHgiWBdJfjqDHE05tC1tAXiVCzNGBeL4
+	 aacTHHXa7GMF5jIXph3bzhRuWNrNOG8JtKdzVSnzXDfDe28/39w1iZcUmP5Uzu3dwn
+	 Uhfk5iK3hLFNZkVXj6wWohQVNvfNcCuv8JBScrHaR+dD5fTWk4HPF9h6IBkXkrrTrp
+	 mxx4UkId3ihMW5/GsKlcG5TTiN+DAzZ1OxxB+6z1lnnTiTtpRtdu1TOXLjuM/ucXdl
+	 eqfUx3lfirNzA==
+Message-ID: <sashiko-outbox-184253@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Add support for NV21 pixel format
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Manuel Herrmann" <m@manuel-herrmann.de>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261025143522.327365-1-m@manuel-herrmann.de>
+References: <20261025143522.327365-1-m@manuel-herrmann.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 25 Oct 2026 14:41:01 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -71,77 +58,20 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-Add support for the NV21 (Y/VU 4:2:0) pixel format to the uvcvideo
-driver. This format is exposed by the color camera of the Creality Pika
-3D scanner (2bc5:0c0b), next to YUYV and MJPEG. Without it, the driver
-skips the format as unknown.
+> Add support for the NV21 (Y/VU 4:2:0) pixel format to the uvcvideo
+> driver. This format is exposed by the color camera of the Creality Pika
+> 3D scanner (2bc5:0c0b), next to YUYV and MJPEG. Without it, the driver
+> skips the format as unknown.
+>=20
+> NV21 only differs from NV12 in the order of the chroma samples, so
+> bytesperline is wWidth, as for NV12.
+>=20
+> Signed-off-by: Manuel Herrmann <m@manuel-herrmann.de>
 
-NV21 only differs from NV12 in the order of the chroma samples, so
-bytesperline is wWidth, as for NV12.
+Sashiko has reviewed this patch and found no issues.
 
-Signed-off-by: Manuel Herrmann <m@manuel-herrmann.de>
----
-Tested on media next (d7e7bca71698) in a QEMU guest with the scanner passed
-through. Before the patch, the driver logs
-
-  uvcvideo 2-1:1.3: Unknown video format 3132564e-0000-0010-8000-00aa00389b71
-
-and the color node only offers YUYV and MJPG. With the patch, NV21 is
-listed, G_FMT reports a bytesperline of 1280 for 1280x960, and v4l2-ctl
-streams it at 30 fps. A frame captured in the guest has the right
-colors decoded as NV21, and red and blue swapped decoded as NV12.
-
- drivers/media/common/uvc.c       | 4 ++++
- drivers/media/usb/uvc/uvc_v4l2.c | 1 +
- include/linux/usb/uvc.h          | 3 +++
- 3 files changed, 8 insertions(+)
-
-diff --git a/drivers/media/common/uvc.c b/drivers/media/common/uvc.c
-index 0107cedd0..7d918ba0e 100644
---- a/drivers/media/common/uvc.c
-+++ b/drivers/media/common/uvc.c
-@@ -24,6 +24,10 @@ static const struct uvc_format_desc uvc_fmts[] = {
- 		.guid		= UVC_GUID_FORMAT_NV12,
- 		.fcc		= V4L2_PIX_FMT_NV12,
- 	},
-+	{
-+		.guid		= UVC_GUID_FORMAT_NV21,
-+		.fcc		= V4L2_PIX_FMT_NV21,
-+	},
- 	{
- 		.guid		= UVC_GUID_FORMAT_MJPEG,
- 		.fcc		= V4L2_PIX_FMT_MJPEG,
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 644c2f1cd..60732f5ac 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -232,6 +232,7 @@ static u32 uvc_v4l2_get_bytesperline(const struct uvc_format *format,
- {
- 	switch (format->fcc) {
- 	case V4L2_PIX_FMT_NV12:
-+	case V4L2_PIX_FMT_NV21:
- 	case V4L2_PIX_FMT_YVU420:
- 	case V4L2_PIX_FMT_YUV420:
- 	case V4L2_PIX_FMT_M420:
-diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-index 99b070ab8..48419a862 100644
---- a/include/linux/usb/uvc.h
-+++ b/include/linux/usb/uvc.h
-@@ -85,6 +85,9 @@
- #define UVC_GUID_FORMAT_NV12 \
- 	{ 'N',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
- 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-+#define UVC_GUID_FORMAT_NV21 \
-+	{ 'N',  'V',  '2',  '1', 0x00, 0x00, 0x10, 0x00, \
-+	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
- #define UVC_GUID_FORMAT_YV12 \
- 	{ 'Y',  'V',  '1',  '2', 0x00, 0x00, 0x10, 0x00, \
- 	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
-
-base-commit: d7e7bca7169873b46e857c025c10f3336c1258d8
--- 
-2.55.0
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261025143522.3273=
+65-1-m@manuel-herrmann.de?part=3D1
 
