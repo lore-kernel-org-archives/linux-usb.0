@@ -1,91 +1,90 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.174
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792994447;
-	b=k01sPpMgCrchlIjx7nFngQ03aw79FzfXABDzZgIAUERXK4nP3wW1Xll5okN6whc7mdk5
-	 rnodHJdrgKgLblysWI5PcNNTN2EceuSrUWn+eAG6l++E8dNmBztM62poRfT8DV6HLgKwN
-	 DdjRC8q3G4zqcyyk8GPEhwydCHT5ZA2CjkZTSHeBAPv9GI5/vGKYzQ5ngyGBrnX1JKIxW
-	 c5pZX4cpk0qxaByHc00HPYHrYCBs5OxxD8fX6QTS8So/G/40f1rcuWSvC6BROh6Bxvis3
-	 EN3ZU1E3yYLhqZxSBi2s/jiP4R7Cc4oH/zPw9ZdQn0T3JeTC0zD2c3DT/QwuqBJ4qjg==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792994447;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=AthUPl1Vi250H7j13yBEimZbQkhUEMEFrCpf0L5Rwag=;
-	b=ETP/6BIJUtWLJBdmLH8O07+yQ9lrkKwVoj2n0bc22KyK1ZLT4SVeXFIvelyBQgU3ihHU
-	 NI9qxwDXhqHyYrZbOMTb4hNA5ezbb3q0vhzsaQTlpnoPaIIJCdlnl1bDYeJrIDwekURU7
-	 to19RTkemY3/RZ0FjqCAxoC3SrMnM0Asa3BUEUTVdDEDRv3dIUDqF2Ua51ltjaPAoUPpj
-	 0BB6N/uwRPZby04JX1PltVOG9TcsJDF54tTHRYZt47/0LtP/wVtDzO8w9UkbCJzUogCpv
-	 mdVRtCmTggrQe6mmDgA2aYmigEvWCGbH5RZewH+/8xNFrHx7OvViCyiT5g2p4hNNB+A==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aVoaYR4K;
-	arc=none smtp.remote-ip=209.85.210.174
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6054606A31F
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 06:00:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E6054606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1792995205;
+	b=4reP4SAGSYEiFAcJk7TNFwzq0tjTkHtbMnmWzFSk1AylmnAbHGpNt6kDEk/yyPQHd8cj
+	 cXFbQ3e76ZCdcn4MfhSEzxl5U6kx6jVPMqTNKeHS4QaM4niSJbhXyzZ+zcatN2mdyKc1t
+	 orzvBVGA2/VKtXLJ/F0YyyoxfIbnedrf5f0qllsR1zvuJ3W5IjZFkVDXycGwY+yMUASvR
+	 Dkz9xfDD8sND9jnI9D2odHLFdyV0NVtVpshw7KJRGB6dViagPCLehncWA/J4UaMWvUXaI
+	 hhguGLV9S40z49jVfVttbXbuYDmcUnnO87gCbcTfeaHCTkL50LnyxR+OpssKlrCfS0w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1792995205;
+	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
+	bh=6uX0Sac4gFaivSlxEGGCtIYhDJPx7LjnSvYVXPA8ZAo=;
+	b=mUnEO+e8BYnTzRHFXTN95lR1QwZxv5H/ALDSwy/J5GOAyPjwC4IJyHWy/orJ0xymOMNt
+	 an1rlAV9LxIok0nPJdTd6i8lgFSSxjXL308s86dtHI4S4Ce1kL/b6njWFNMwcxgtdfPWF
+	 rP90xjzvwDvO6XquP8AKMfoT9keNChOX1f97RPHtm9LAZDhscLb0fXovpBEqa0qLZpzsy
+	 c236y+ArRpiYqxI7IyxP9T0B2ed2XXQi4Ed0oFvQ6QvOvB00VJqakXuZKGqFcmdbh+13D
+	 ozdcRPam8UBRpf30Uf26tq1X0ouNpxf3rsO1Cz/ZbNsaoQqDJwyPcAR6Rpyqy0FKwhw==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=R1FNiB7t;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC486606A31A
+	for <linux-usb.vger.kernel.org@localhost.mlmmj>; Mon, 26 Oct 2026 06:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=aVoaYR4K
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-8a058315c79so917107b3a.3
-        for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 23:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1792994446; x=1793599246; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=AthUPl1Vi250H7j13yBEimZbQkhUEMEFrCpf0L5Rwag=;
-        b=aVoaYR4KGwxdEJ+I9HK+HQUmLk9NnMqwNe05yhHvbQ0ntmWgK2HnQVFeiQ8euA15KA
-         ipZGt4+fo6BqsoHvS4T0K1F6cT0h/EFZP2Hgv3CUB0DO1TQz/stuIFPl8XXUZ6dLFlha
-         WqexFO/xUhWOGullcV3CXon2Xyi4EdNEomovKc1VxdM1UCzaylM6Cvsb3tp5z+fafF+1
-         WvYrOKQi2xlYOCjuUsbvM6s1Xe1E+v7VWGVJmqixtL2zfM8hhRLJb/k6AkpdMZSdCRIS
-         3HnkzlsAebBB6f48C6VYQ3WDW7itas1rdVHWBi4MtWdFOlJxnTMCEuDfph/0BlCYISBg
-         OnkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1792994446; x=1793599246;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=AthUPl1Vi250H7j13yBEimZbQkhUEMEFrCpf0L5Rwag=;
-        b=ih+pHiJnflqhvXH0mH14Lo/HG/Q6EKsYHkgrTAgVIOUmTHr9D8xfX50lavynWpmziA
-         yHT2UpIbMSUhQlS3VQrkKOF0k/y/+gP/UbIOXnYmSMyGHIWzR5M/aFpVPWYjA+KvBFRe
-         B2dxi3V5ap6YbMLuvqUD8furrCERXI1xNUNCMguphsFSJTfX/jya5BEqHELuh1enuFPC
-         eKRhoc86EkExcixeKBU6sVyRrYYKRxjmQQeL0qNffloqrtGzwR+qcGd6Lr0OT2hVyrQo
-         WI6ipla0cYNVQwJ3HOT1mc1jl8ZSkhBBurAtIejj9MW9v3lRjlUSx+PU92wY/fCpaXD6
-         xnVA==
-X-Gm-Message-State: AFq9FYIsY9B18zgTVW9Ge0pkiHy3yY2hcOkuo7F4XZ0/kOezlZOY2XDB
-	ooXd/R4GmobbaXyD+q+dnNFo+rOHy3zTYNYuNWfyJC8FlAlC2F6rF5vyAvau7gfd
-X-Gm-Gg: AYBFou1aarR7+LgInVEamKYvU3ZhQyPPK7aa3GrfLkUE7CwbnLiPF5bIoNThJxboUIU
-	8Z3oOe78R3W3Rt4XIhTdVJfBGtqwXa7gRUBUERNbeeRVaSvWyknC+XvASRC9MKVeo10FK3A4YXf
-	LFrbKnTPJRn9PRRM5T3AQGJ4m6M3nN9RWkaqPBoiqQt17csXdf9z8tY3nK+9TzYzZYpEdVlGGuG
-	17Ot78F4FBkCfz11q8XqajaS5EKLuwNAJtEpghIAoatCHrqGtYaH2/QluOsmyt4cEAna8yhqs2s
-	YSEllnOUGT59JxuyZNz/t42+ZEKvK+7yZaYyj/0ewfqWd+k0NrcE4EiVtehre1LQBh3S27rEppi
-	9dzAIsS0ppE6VW3PIa3FNmxq16eyTqmNe+Nt0qz7XjAq7yh5rIeB6DkxI62dKJHpdfMVwaHgZs5
-	XSnyHGJswWCVrXmT1DbjiRdF6eyAvlGpFIBLjYTRWwq2MDxw2tD4ag2oVDKxM9KZMOfhUvXXIaY
-	7dhaDLXeoZ0aLVPx8eTssfqGXmK207doOyySMWe1smij+VbvrH6B6g9wNOxZcchoRZjws0TD8AA
-	lLeDHa5/7zUHd99QMPV7Y4fdLwwJl6l3TpAo0TU3m0OJ0QjSUQUonSNyuy72eGiERt7uut3G6nV
-	QNmS3hQtMz3y+afVi5YCFG5Z064oi
-X-Received: by 2002:a05:6a00:3a11:b0:88d:8074:1a9e with SMTP id d2e1a72fcca58-8a364b4c9f7mr867710b3a.3.1792994446159;
-        Sun, 25 Oct 2026 23:00:46 -0700 (PDT)
-Received: from EAIT-H54D9Q2FJQ.eait.uq.edu.au ([130.102.10.17])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a36c4e8616sm993961b3a.56.2026.10.25.23.00.40
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sun, 25 Oct 2026 23:00:45 -0700 (PDT)
-From: Yu Zhang <yuz08559@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Neill Kapron <nkapron@google.com>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Yu Zhang <yuz08559@gmail.com>
-Subject: [PATCH] usb: gadget: f_ecm: serialize notification state with a spinlock
-Date: Mon, 26 Oct 2026 16:00:31 +1000
-Message-ID: <20261026060031.60582-1-yuz08559@gmail.com>
-X-Mailer: git-send-email 2.55.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=R1FNiB7t
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3C926513C0
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 06:13:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1792995204; cv=none; b=khgKCTjxUCS9pFK6iBa0fL4aHghWYCtbcJt7YHWGCo8BVB4HL7h8427wrWjor0m9SbcPuAIxGiEZxggOud2hO+PrPEewVzrA90NB8JKf8zh3rrmFOf6d4xxIf9Fdo/nLOPuRVCRc6Ub5ymCd1T/ILk0uG9WGj9VoA/mF5kvE858=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1792995204; c=relaxed/simple;
+	bh=h6fdB6/iI9niCBXYPK/VqyIeDLUfgEhl4IsyXuomxHc=;
+	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HQQRI/0A5Flbj6+JV3PfxJ8TNk56KV9jcxXro0jKv9VHnsvHSP87b+zY2Lzco73eAPDVfryZF4R1IWwylkBb6YPk8VOqLygkvsrtjn+im/RNkJD0z8v0JY6YLnyJYIcDFanb0hc10I0kQ0zhgd6uexy/MiMAKpaa66V27RHGPMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R1FNiB7t; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2EF75C2BCC7
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 06:13:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1792995204;
+	bh=h6fdB6/iI9niCBXYPK/VqyIeDLUfgEhl4IsyXuomxHc=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=R1FNiB7tG9/eMFSBCZ+znyxcaKnO/XYZUvs+kURvbndTPJttYOUcwOX2sIqFuWoAw
+	 6ItQW6LowM2In/yIgea+RnWIQDLL2DtAKY2CcLBIH/0zSaLPqzVU3w7jMhguOQzT0W
+	 sji0SKZt2XWzLuPPRenQHNasvz+Bh+c9JFrp3U8XRuk8bDv/Lebn+Lm1gfs6FJlHot
+	 s/8dHSAR13fYMgH9JvPU1QPmeA45ayMbmYXWgz3A2YMm6o3sXGF7zxKQzpWB4zON2W
+	 xwc4ph8JfdxyefotLdqh8OrVbpWIY98O3llRQNHJ792koZuJm7vOunMu8ve5dyTfoZ
+	 RLCV7VrJcD92Q==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 110C7C41613; Mon, 26 Oct 2026 06:13:24 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 220936] ASMedia ASM4242 USB 3.2 xHCI Controller gives command
+ timeout
+Date: Mon, 26 Oct 2026 06:13:23 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: changed
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: jiayi_dec@163.com
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: cc
+Message-ID: <bug-220936-208809-ezYKbhR32B@https.bugzilla.kernel.org/>
+In-Reply-To: <bug-220936-208809@https.bugzilla.kernel.org/>
+References: <bug-220936-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -95,117 +94,36 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-ecm_do_notify() guards re-entry only with an atomic_read() of
-notify_count, then fills ecm->notify_req, does atomic_inc() and
-usb_ep_queue().  This check-fill-inc-queue sequence is not atomic and
-runs from three contexts that share no lock: ecm_notify_complete(),
-ecm_open()/ecm_close() (netdev up/down via u_ether) and ecm_set_alt().
+https://bugzilla.kernel.org/show_bug.cgi?id=3D220936
 
-When the completion handler decrements notify_count to 0 and re-enters
-ecm_do_notify(), a concurrent ecm_close()/ecm_set_alt() can observe
-notify_count == 0 in the window between the atomic_dec() and the next
-atomic_inc(), and queue the same ecm->notify_req a second time.  The
-request is then added to the endpoint queue twice (list_add corruption),
-and notify_state is updated concurrently.
+Jiayi Li (jiayi_dec@163.com) changed:
 
-struct f_ecm has carried a FIXME about this missing locking.  The sibling
-f_ncm already serializes the identical state machine with a per-instance
-spinlock.  Do the same in f_ecm: take ecm->lock across the is_open update
-and ecm_notify() in open/close/set_alt and across the state update in
-ecm_notify_complete(), dropping it only around usb_ep_queue().
+           What    |Removed                     |Added
+----------------------------------------------------------------------------
+                 CC|                            |jiayi_dec@163.com
 
-Signed-off-by: Yu Zhang <yuz08559@gmail.com>
----
- drivers/usb/gadget/function/f_ecm.c | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+--- Comment #11 from Jiayi Li (jiayi_dec@163.com) ---
+Hi,
 
-diff --git a/drivers/usb/gadget/function/f_ecm.c b/drivers/usb/gadget/function/f_ecm.c
-index e495bac..d699832 100644
---- a/drivers/usb/gadget/function/f_ecm.c
-+++ b/drivers/usb/gadget/function/f_ecm.c
-@@ -59,9 +59,8 @@ struct f_ecm {
- 	atomic_t			notify_count;
- 	bool				is_open;
- 
--	/* FIXME is_open needs some irq-ish locking
--	 * ... possibly the same as port.ioport
--	 */
-+	/* protects the notification state machine */
-+	spinlock_t			lock;
- };
- 
- static inline struct f_ecm *func_to_ecm(struct usb_function *f)
-@@ -414,7 +413,11 @@ static void ecm_do_notify(struct f_ecm *ecm)
- 	event->wIndex = cpu_to_le16(ecm->ctrl_id);
- 
- 	atomic_inc(&ecm->notify_count);
-+
-+	/* usb_ep_queue() can complete the request re-entrantly */
-+	spin_unlock(&ecm->lock);
- 	status = usb_ep_queue(ecm->notify, req, GFP_ATOMIC);
-+	spin_lock(&ecm->lock);
- 	if (status < 0) {
- 		atomic_dec(&ecm->notify_count);
- 		DBG(cdev, "notify --> %d\n", status);
-@@ -438,6 +441,7 @@ static void ecm_notify_complete(struct usb_ep *ep, struct usb_request *req)
- 	struct usb_composite_dev	*cdev = ecm->port.func.config->cdev;
- 	struct usb_cdc_notification	*event = req->buf;
- 
-+	spin_lock(&ecm->lock);
- 	switch (req->status) {
- 	case 0:
- 		/* no fault */
-@@ -455,6 +459,7 @@ static void ecm_notify_complete(struct usb_ep *ep, struct usb_request *req)
- 		break;
- 	}
- 	ecm_do_notify(ecm);
-+	spin_unlock(&ecm->lock);
- }
- 
- static int ecm_setup(struct usb_function *f, const struct usb_ctrlrequest *ctrl)
-@@ -588,7 +593,9 @@ static int ecm_set_alt(struct usb_function *f, unsigned intf, unsigned alt)
- 		 * follow another (if the first is in flight), and instead
- 		 * just guarantee that a speed notification is always sent.
- 		 */
-+		spin_lock(&ecm->lock);
- 		ecm_notify(ecm);
-+		spin_unlock(&ecm->lock);
- 	} else
- 		goto fail;
- 
-@@ -653,8 +660,10 @@ static void ecm_open(struct gether *geth)
- 
- 	DBG(ecm->port.func.config->cdev, "%s\n", __func__);
- 
-+	spin_lock(&ecm->lock);
- 	ecm->is_open = true;
- 	ecm_notify(ecm);
-+	spin_unlock(&ecm->lock);
- }
- 
- static void ecm_close(struct gether *geth)
-@@ -663,8 +672,10 @@ static void ecm_close(struct gether *geth)
- 
- 	DBG(ecm->port.func.config->cdev, "%s\n", __func__);
- 
-+	spin_lock(&ecm->lock);
- 	ecm->is_open = false;
- 	ecm_notify(ecm);
-+	spin_unlock(&ecm->lock);
- }
- 
- /*-------------------------------------------------------------------------*/
-@@ -942,6 +953,8 @@ static struct usb_function *ecm_alloc(struct usb_function_instance *fi)
- 	if (!ecm)
- 		return ERR_PTR(-ENOMEM);
- 
-+	spin_lock_init(&ecm->lock);
-+
- 	opts = container_of(fi, struct f_ecm_opts, func_inst);
- 	mutex_lock(&opts->lock);
- 	opts->refcnt++;
--- 
-2.43.0
+> ```
+> [  160.064098] xhci_hcd 0000:77:00.0: WARN: xHC CMD_RUN timeout
+> [  160.064117] xhci_hcd 0000:77:00.0: PM: suspend_common(): xhci_pci_susp=
+end
+> [xhci_pci] returns -110
+> [  160.064124] xhci_hcd 0000:77:00.0: can't suspend (hcd_pci_runtime_susp=
+end
+> [usbcore] returned -110)
+> ```
+>=20
 
+I encountered the same error on the same controller model, and enabling
+XHCI_SUSPEND_DELAY resolved it for me. You could try xhci_hcd.quirks=3D0x40=
+000000
+as well.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
