@@ -1,68 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793006923;
-	b=BTP9I0Td/vyyaJzqLnK32eJDx8Fad5fzU8BIbGAGkkWAk9hLu9IHfn7QbRiruzjtoMrr
-	 6CK8eM6aQ3vF7Z4By+aE4OKMbhamRvHCTixLogZj7TK4RDO65M9e3Y7NX7zJmHIy9dZTT
-	 Bdeci3frw0nsdK6tq0nV6uX4RP+yVaoeylWUbR6B/DR2GLHH/dsAz4hRBrjIojUD8bcU9
-	 eLzjj5ghFb2dRfXGKBxzaYRy6xx6PNdUCQ+qvwYlBWXoh8KgpUZR+fNfyXEuq2Sa/ZtfZ
-	 hFPuISb6kVttxnzJJDLCEFj59ez4CdKrEnL3LeIF2noJS/iv/vcssBGq8sLkXkz9jlA==
+	t=1793007868;
+	b=pB5L9ENZfaiP8CfC9YRfhOX5CsDkAsNFxPazlTkGBOh11dPq0pZMUiIVZqQK93adGPxN
+	 kKcQuHl/nOmCrFcyoZG7Dv9K/PufVbUnOd6d29DrAr4Am08I1gFuE+hb52i/N7tXUDnYr
+	 kDutnVf3oLXSWqBB50nG8mivpiD/iMRPymQ5j6RNoWxFzgOgndzvrAefl4I7ngPjhRh1W
+	 /7JOI88svG1QhyqKO5zIUQCWNMvYb+Fk388GNzcJMC+bDRL4LgV1waiQNpxxdxpW1Slz6
+	 leyBExQ1rq8GxOw+fo0HHqhpq5Y4Hb1sFFQWKz1QW3sRvAJhNTHr4XIt+/lEgTLFyBA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793006923;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=xfM14qyyYOsETWTXFtAXsI9547kmF4hdeeM9jojIwAg=;
-	b=D8D+CiTEqgjahWYYlrlMNUZ9huISS4qM0tAi3TxJuwt31KKpkCjtWoMNfWoj+GrgIWM1
-	 BhlPTn+qxiWSN5zpEfd0B6CH2O4tz0bzWIwMTboW1yKqktAsofoybcMXRuJi6iXuvKyyH
-	 rszRyXlvHohsG5VrJSe3C7585Dp5UNnVWiZQpi4V3uPW+zpJSxQSJH5IC/ZEcW78jW+ew
-	 MjdAcJpoyeXU0OjJXxmKenjD3dGmbZxhBE4HgxYDaFxG71K743Q01nhT1Iej/YjuJ+5k9
-	 mhD4d4R7Wr2Uyq7LsASo2Aqv6VEnSlfobAGUAV2VTCyu3uzoPl73fTWr3v9yi8VDizg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793007868;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=w32GAT+2u9Nd9KdCv0tYjgdg8e8hiYuWmScLSClw09U=;
+	b=R68Zk1pMjy1P+Iju05YMR2KpyMwzOeMiNXgPBcTxg83kLk3jTZ2rN9/Ut2oKKGGYjZRt
+	 1lcj5VJPG4rrJI1MPXv5DZR8JzBuh7E83APj7S4SrIcCUKmzRIKP/SMjnE7yXFannnnf8
+	 zfUzy2wo3s4GiCCj3nfpqT6uXnG3dk6gexa/E5Al3cZylmQKu5Mo/5gZ8DacCYDYnGdQC
+	 a3kv+y58ZFrdWQnVS7EEg/g4/M9z5lM7G+ZNhLJavHamU1BClkh5GYEq52gr8cAqBTdQz
+	 cjcg76I1fVfeSfw8lCnYaw81k4YOAIdSR9E+5h6S4qcQk/wDAl8K9lSHw8io7RxoqrQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DX2UaVZv;
-	arc=none smtp.remote-ip=192.198.163.8
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l+WF+8qu;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16364606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 09:28:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16364606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 755D1606A31A;
+	Mon, 26 Oct 2026 09:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=DX2UaVZv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793006924; x=1824542924;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=9fkHPIc+1KN583Ow9wc8L4fad9onzvdBxdzVySj/pow=;
-  b=DX2UaVZvwswcdg2YOvsOBctW7kDrvGhCrJTfDrJqqWB0pS3rdU48xhH7
-   VS2EvP7bT0AfCO8o/ibqWnqFegYHxNEDb53JI1Q8UuGwscKqvwR4xju4V
-   Mf1vkGS0X8Cu1bKuvmi+bIoPCSoRpP81UIe5W0rsc0RlcmOJD1sGHLSiu
-   sihfGoPDrOcmsZZyM4Ao0ygWQ7hm1NpEbyDGj/HnuNxrB7Fgbi1OCck8R
-   8qVyGVt1tlfaDUKNFKW8Pmbe+Yoz8qsfLs7t/SsQPbyPOlPBPcX28L9OQ
-   FRKo2tjQkKdlLEerORG6Woskssf3rGrGi3YnF2d6XHgT9UU65XRM9sVIi
-   Q==;
-X-CSE-ConnectionGUID: 3O16RMJVTyabxWIXFdyJ8w==
-X-CSE-MsgGUID: k/qqknP1Ra+UoIemHOn8vQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1561473"
-X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1561473"
-Received: from fmviesa012.fm.intel.com ([10.60.135.152])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:28:43 -0700
-X-CSE-ConnectionGUID: Xnoou489T/KiLpxGKexBuw==
-X-CSE-MsgGUID: yKs5tsntSZOwGJycLbiqVQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="5971455"
-Received: from ettammin-mobl3.ger.corp.intel.com (HELO [10.245.245.74]) ([10.245.245.74])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:28:40 -0700
-Message-ID: <a174538e-7c7f-4905-8aa5-f906e6664f4a@linux.intel.com>
-Date: Mon, 26 Oct 2026 11:28:37 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l+WF+8qu
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07A041F031E7;
+	Mon, 26 Oct 2026 09:44:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793007868;
+	bh=w32GAT+2u9Nd9KdCv0tYjgdg8e8hiYuWmScLSClw09U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=l+WF+8que08J5dhB5KqdafZx8jD+3iAa2MlqD/zBEQnWYqrI+r5A2xifEINxQfK5w
+	 Fq2xK4xYPa5HwAh1sODPimIMRkVdBSCuK7gszDbu4bzOmtfJ0d/4VRathIIWqqjzpl
+	 mvaiNjoo+3mACXdRFBoVDHnzFm7FLvdGRPBBSFCpJIjIKxTUff57IRHTaCCIveE6P/
+	 WSjRkostIJYmj8spU2Dj9xflswWxH+WyeojB7rC4RCrAGU6kx0mB+t9BO+9x2z5DCI
+	 fdb/95xbaA2cMFC3/NhZVmuKoDFbUS2DRkFSbL13XkzWVYJDcJ/+Nu9DscwZJMYkyE
+	 4lUlHZb8CeBIQ==
+Date: Mon, 26 Oct 2026 10:44:24 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Selvarasu Ganesan <selvarasu.g@samsung.com>
+Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com, 
+	Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	jh0801.jung@samsung.com, h10.kim@samsung.com, dh10.jung@samsung.com, akash.m5@samsung.com, 
+	hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com, 
+	muhammed.ali@samsung.com, thiagu.r@samsung.com
+Subject: Re: [PATCH v3 1/2] dt-bindings: usb: Add Samsung Exynos8855 DWC3
+ controller binding
+Message-ID: <20261026-talented-wolf-of-karma-8abbbd@quoll>
+References: <20261023131501.3157463-1-selvarasu.g@samsung.com>
+ <CGME20261023131545epcas5p1eff195129ccfb0fb476d3c78e6a507bc@epcas5p1.samsung.com>
+ <20261023131501.3157463-2-selvarasu.g@samsung.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,55 +64,69 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
- (3434:d068) at boot since v7.3
-To: Thorsten Leemhuis <regressions@leemhuis.info>,
- Dennis Wissel <dennis@dsine.de>, Yiyu Zhou <yiyu@yiyuzhou.io>
-Cc: linux-usb@vger.kernel.org, regressions@lists.linux.dev,
- Greg KH <gregkh@linuxfoundation.org>
-References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
- <20261024203558.3181711-1-yiyu@yiyuzhou.io> <SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
- <c8a3ffeb-8737-46d2-b01b-5ed9bc96012f@leemhuis.info>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <c8a3ffeb-8737-46d2-b01b-5ed9bc96012f@leemhuis.info>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261023131501.3157463-2-selvarasu.g@samsung.com>
 
-On 10/25/26 10:59, Thorsten Leemhuis wrote:
-> On 10/25/26 01:10, Dennis Wissel wrote:
->> On Sat, 24 Oct 2026 13:34:07 -0700, Yiyu Zhou wrote:
->>> The fix is queued in Mathias's for-usb-linus branch as 1f36cc9fa949
->>> ("xhci: give back all TDs when skipping endpoint reset after
->>> disconnect") and applies cleanly to v7.3:
->> [...]
->>> Could you test it?  If it fixes your case, please reply here so that
->>> Mathias can add your Tested-by.  If it does not, reverting 042aad8d0db6
->>> and 7e0ef4332ed9 on v7.3 would show whether these commits are involved.
->>
->> Thanks, I tested both on top of 7.3.0-4-cachyos, booting with the mouse
->> plugged in each time.
->>
->> 1) With 1f36cc9fa949: much better, but not completely fixed.
-> 
-> This btw is the third report about problems that that "xhci: give back
-> all TDs when skipping endpoint reset after disconnect" fixes; the first
-> was what lead to the fix, the second was:
-> https://lore.kernel.org/linux-usb/20261023190104.113331-1-diogochaves@me.com/
-> 
-> So it sounds like this is something we should mainline rather sooner
-> than later (ideally with a stable tag to ensure it's backported).
-> Mathias could you make that happen? If you are busy and need help, just
-> say so.
+On Fri, Oct 23, 2026 at 06:45:00PM +0530, Selvarasu Ganesan wrote:
+> +title: Samsung Exynos8855 DWC3 USB controller
+> +
+> +maintainers:
+> +  - Krzysztof Kozlowski <krzk@kernel.org>
+> +  - Selvarasu Ganesan <selvarasu.g@samsung.com>
+> +
+> +description:
+> +  Describes the DWC3 USB controller block implemented on the Samsung
+> +  Exynos8855 SoC.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - samsung,exynos8855-dwc3
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
 
-That fix isn't enough, we need to fix it properly.
+interrupts go after clocks, power-domains after interrupts.
 
-7.3 where the issue exists is already out, so that is too late.
+> +
+> +  clocks:
+> +    description: |
+> +      Two clocks are used:
+> +       - ref: Reference clock for SOF/ITP generation.
+> +       - bus: Bus (APB) clock for register access.
+> +    minItems: 2
+> +    maxItems: 2
 
-What is the policy here?
-Should we try to shoehorn regression fixes into rc1 during merge window,
-or wait until rc1 is out?
+Instead replace all this with listing items with description. Don't
+repeat constraints in free form text.
 
-Thanks
-Mathias
+items:
+  - description:
+  - description:
+
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ref
+> +      - const: bus
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+
+Here you have correct order.
+
+Best regards,
+Krzysztof
+
