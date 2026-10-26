@@ -1,64 +1,127 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.125.25.9
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793038162;
-	b=ZeIPK97FBqB+eJ8hK3/E3//CcT5eGHaHUq3g1IJ/PrvhXwBJyE6AGkvIXIn3FvmOpSi1
-	 sjEE8MMlRNbyD4gzT0rCuxT+PpEFXESke/HPBxxUWsaBIRJ3jmjNCyDY+u8nCC82N0CAL
-	 SgjAa4zz55Qnkp4i0Xh5J7C6hO/Ziz1vo1YX5+uCQE/6lnRnp6FWEDkK8HOutKq/PFGeG
-	 v3M7hcQMml7KuaqsoPw7EB/k7Q9lOzoSoZNmXKfOo2W9xhrzYPnZTaVUXuUH78wx+Thyx
-	 FDtBPmYXqyurkpWTtWHY/EmWH35k9ztJQH5hMxCbcXwmNfbM6mJBvwgvLoOYapN+1kQ==
+	t=1793040200;
+	b=ZYUgsuK35vGjrfu6dca6HXx1mR01zlrZYkATblD1EgOSaGpGFcEIIOZ0Gk1PN9WeJDLa
+	 HjazLooqn3EibRnWbOdaljXJ5t3zlYvOjrbif8EOdJb0X4Hud28nlBev3zh6nDkk4S4o9
+	 PB8OuoP2ZukH0uU+EChbb5Fu/i6xZ8xtg+Nw9bJVvGBjZrIZMDnaXBDI/tVvNtFiBDDAF
+	 XeuDyalfBgRHdm+uTv/WYa78NBxnnQBAGIxaB3renJmsn2DWiuTHrBDj5Rob9q4cQ5LDA
+	 66r0IKBe7fqmxK5gK7VXogctyYZVTVoz3igUhJ8dMtO1WItKi8sL8Tfy6K0240UyMPA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793038162;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Feedback-ID:X-Infomaniak-Routing;
-	bh=ePgfAy3uzHAN/EkWHZ8Jng1TIwn/iiaFzzNrCetWo0g=;
-	b=TtmPVW/Ij6pjVgNIkLdgpxE5ujUOcIQ9GzO2anVPbfHqbOA8fYrpcYKKoj7eEfUx9Iwe
-	 A+VHxOIebkJ7COvHaVvq8M3OSuUSymuUyQvwHdPdbFphcYbbr9ajQPtz9TL4FXYOU9gZA
-	 JstLcwf2z9INCdPkKcO9hZF6dOFYXJAZboSwuVTSqpt8poEHckmtpGiXxahKcWhCTE15Y
-	 fiC7NMQK/CzZ/nyIkIwIk+xS9ULglE31w6k5xiktMY3SG2CmvZNgJi0KjxkiNVeyHFeev
-	 X0dU1mZpmXDKBv6KZ82lTqwqWnLG8DDiDFFQPTkSpt+cLcJl3oZKkt+0OmpByKuenmg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793040200;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Received:Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZWci1OY37Q98PjNDa+DsqfD5q79/im0Ez6T5Vupv1s4=;
+	b=FkoS1Ze5Y2end+SAAD3V3DP81BjNZTTCKL2GGBWxkz1GsCFFmAY6n9cRY8vy9tPSi+/Z
+	 opVYmrnay7BCrIgW/s5he55bF9Y/oWSwLninFwU6d4rK8KOWZL1X5tYo6YplZ5q9oRoyi
+	 kwl+7OqnbWHQJy8crGZ9WXj4JUj7RmGlIY/d1HRcqTbyN04avx6jcaOU7dJUNuvT/rmQu
+	 VnVT2SpJUg0JSk4Ep7h/iCLOvKz3tZKrPNtL3f4N86XbYchHcDsDxf59baX+ORENv2pbG
+	 o+Q1ODcixb/TiUOdpk4ZaOXH9YwONDDJu9iWKrbHFY2iy2cWYL8bvpXfwXGSONEAGhA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=etik.com;
-	spf=pass smtp.mailfrom=etik.com;
-	dkim=pass header.d=etik.com header.i=@etik.com header.a=rsa-sha256 header.s=20210927 header.b=wTqMTyv0;
-	arc=none smtp.remote-ip=185.125.25.9
-Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [185.125.25.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=none header.from=ziepe.ca;
+	spf=pass smtp.mailfrom=ziepe.ca;
+	arc=none smtp.remote-ip=209.85.222.175
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EADF606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 18:09:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EADF606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=etik.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etik.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=etik.com header.i=@etik.com header.a=rsa-sha256 header.s=20210927 header.b=wTqMTyv0
-Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
-	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4jD1pt5NLqz1F2d;
-	Mon, 26 Oct 2026 19:09:10 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etik.com;
-	s=20210927; t=1793038150;
-	bh=ePgfAy3uzHAN/EkWHZ8Jng1TIwn/iiaFzzNrCetWo0g=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=wTqMTyv0jprnEQTGDQYh/CbZDdAFRn7jdThjNhR7g6iNaU3bqOlAraT4/AAHq0Qi2
-	 E43P5sv3T9ZrTo5D61jYrShfckpPqPNnXWEKyeFomO/64vSnjrEiSZ3GfzknXQ2CgW
-	 dTZ49OR0j4kayABL9E8B1mwGPOfzJXK8fbtauwyY=
-Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4jD1ps25P6zVbB;
-	Mon, 26 Oct 2026 19:09:09 +0100 (CET)
-From: David Vornholt <dv@etik.com>
-To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-Cc: gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	David Vornholt <david@vornholt.online>,
-	stable@vger.kernel.org,
-	Mark Pearson <mpearson-lenovo@squebb.ca>
-Subject: Re: [PATCH v2] usb: typec: ucsi: Stop a power level change notification storm
-Date: Mon, 26 Oct 2026 19:09:07 +0100
-Message-ID: <20261026180907.76867-1-dv@etik.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <at8kLPzAnJAfZRjF@black.igk.intel.com>
-References: <20261010183917.146821-1-dv@etik.com> <at8kLPzAnJAfZRjF@black.igk.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B35A606A320
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 18:43:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 3B35A606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-93e64d52949so268675985a.1
+        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 11:43:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1793040194; x=1793644994; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ZWci1OY37Q98PjNDa+DsqfD5q79/im0Ez6T5Vupv1s4=;
+        b=azZPsctqXRKqpOwzOSUanbXvvxd+v2oxaACaz4naHK4U/NBQWTZSH1+8VRwPrLVwY0
+         DocnyrGmPyv8LQRxTMk4K4sAlQVJBR98rqP+2aWoEAiU0n2xJtP2lXe11PdsBX9zw7zH
+         rykKuo4jE8Sw3g1ZHf1cUaz2vGbXwYAs98RHcsf375OaxpJvYYqyPF71AEMIeOtk1CIf
+         vDE/ajmi0uLVqaMusVBTVkVR8NUGi0AybkTdqBwAenvqpPLeBFRcUdif9SgXW44+UVBP
+         XcslWkg4kCuQnmXySZ0RwdZ8wSe243a/pyuPpY5dxc6Pr/hlCqlSwaLgYcUdwFY6ZPLq
+         p4lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793040194; x=1793644994;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ZWci1OY37Q98PjNDa+DsqfD5q79/im0Ez6T5Vupv1s4=;
+        b=Ca2/G53j0P0svyh4RND4Ebe7Q++hLCLkTYLZYe07TmsCy75fUVyF76TS4fbC2JjGdb
+         9TpocvMTkqg7Bhk2LqiHYu9boIrryLKvky3jbJmVd8eduuKxHl4DGUBPY7PVFdr1fX7k
+         9Q50MFMlMX5XKiIg8otUEF3zFzBRqMiuminDmX8W/7TCwwsu8eceDt/8Npa5YZztrm+m
+         yVCStXDoN5f0eAYORaBRXCHIT87lNHvTsZnrg/148mPIPIO9GmTQRkHNpyLFnDA6r9gE
+         Bv1uw+7V6OiTTKTcgfbIE1WTr9Cf8Q6elcLrAmJo1zICqSzv2rSr+b5O0xgGal6Q/y0J
+         J8hg==
+X-Forwarded-Encrypted: i=1; AKwUvBxxMPwpMfxxYThvVvUeNQYMFao+HeLJnbFN0i37KlQR3xBnPYlT0itzeBvotU5j6NZ1exZOiPAguTw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK8kiDTwmHStUJEETfHPgeeQYHtyOWfbYDA6IcBCFsc7T3MeyMm
+	e/HRNkKmMrmg4NSo7PNUQp5v719XI+A/xCHvGqQ9IqzRGqKjIZ7uM6UsbaLfvhU4un8=
+X-Gm-Gg: AYBFou2cCFqgQK+3HubP/zrHcT2LlJGETbIE9Gosi71FbQ+vjk8exmxX1fQJq1EbEeK
+	la8+BGOB89Qm7GL8k0nVnLVweQm4yjriQKwnLGZz/GYLlBMzoV+QVmVIaDz8tGmwmRjBjVe8mGH
+	mAegNsgG+Iljg9LeH1lIQp2beOp7yYoR8pppvEhx1jVhCRW0NVvTbbIEs099XNtBN9J66bYpplV
+	oko5ksE1LWM0iOyN/S6+qaTLp/HWeajVOU1Ei5wyixCyXLAgMY8gNW5i9rJ6YzrYx7zhFBALAgt
+	z5FenU/j1w1+iTqe9Wbb6MRJgcOOj65qTUIEI0M1ruG7MhQAT2fsS0O/zOIYSAM2M67838NnGA8
+	Kum2kO4OBLCA+94jzwqRpKr+Hm6J6sMOlgaJdHb78mhMoqnxrfOyPgpgxaHt2dsNGGd6OC48iDG
+	p+h7j/c2VmlkNudoFXgNo+YUtB4+X09XAE/mFmkjKdePpWThjKHCHFA7tRB4cDOYCelki3/MCA3
+	XgI3D2SyQdc/NU/rnEurSIwBjqh0jP/aGqMZIkR6qvZxJLJDFWyVKgF31ewjCfqFPE2uNJNZtjW
+	urs+K5Cq/iNS5pVQfKg28Zs3CDasJVNhp+w00kv0zoTrwr8U/zcjmkVCEnBeCV+CtKoyIM0u1bf
+	41GcYfblTNUo=
+X-Received: by 2002:a05:620a:172a:b0:939:6c31:2318 with SMTP id af79cd13be357-940ef8d8389mr1233127985a.34.1793040193950;
+        Mon, 26 Oct 2026 11:43:13 -0700 (PDT)
+Received: from ziepe.ca (hlfxns010zw-159-2-239-150.pppoe-dynamic.high-speed.ns.bellaliant.net. [159.2.239.150])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-940f067c879sm758709385a.16.2026.10.26.11.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 26 Oct 2026 11:43:13 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1xLPf6-00000007foP-2hO4;
+	Mon, 26 Oct 2026 15:43:12 -0300
+Date: Mon, 26 Oct 2026 15:43:12 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Alex Williamson <alex@shazbot.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <20261026184312.GA1685504@ziepe.ca>
+References: <20260914-bind_taint-v4-0-eadf8a090903@linuxfoundation.org>
+ <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <20261026122243.GA28851@unreal>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,78 +131,27 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Feedback-ID: :8e558a56fdab348:ham:123049f310c9d1d
-X-Infomaniak-Routing: alpha
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261026122243.GA28851@unreal>
 
-Hi Heikki,
+On Mon, Oct 26, 2026 at 02:22:43PM +0200, Leon Romanovsky wrote:
 
-On Mon, Oct 26, 2026 at 10:58:04AM +0100, Heikki Krogerus wrote:
-> On Sat, Oct 10, 2026 at 08:39:17PM +0200, David Vornholt wrote:
-> > On a Lenovo ThinkPad X1 Carbon Gen 13 (BIOS N4BET78W 1.48, EC N4BHT61W
-> > 1.41, UCSI 1.0) with an HP E273m monitor connected, the PPM keeps
-> > signaling a Negotiated Power Level Change although the power contract
-> > stays the same, and signals it again right after it has been
-> > acknowledged:
-> >
-> >   ucsi_connector_change: port1 status: change=0040, opmode=3,
-> >     connected=1, sourcing=0, partner_flags=2, partner_type=4,
-> >     request_data_obj=1304b12c, BC status=2
->
-> Okay, so the PPM really should not report the power level changes
-> since there are not power level changes, right? Have you reported this
-> to Lenovo?
+> This is needed for two reasons: to save hardware and software resources
+> when creating a large number of VFs, and to allow the PCI config space to
+> be configured *before* the driver starts using it.
+> 
+> There is no in-kernel alternative.
 
-Right. The connector status is the same every time, with the same RDO,
-and the Negotiated Power Level Change bit is the only one set in the
-change field.
+Having userspace involved in driver binding has also always been the
+plan for confidential computing needs. We cannot have a device driver
+bound across some of the HW transitions like TDISP shared/private, so
+there has always been an expectation of bind/unbind.
 
-I haven't reported it to Lenovo yet, so I've added Mark to Cc. Mark,
-this is a ThinkPad X1 Carbon Gen 13 (21NT) with BIOS N4BET78W (1.48)
-and EC 1.41, which is still the latest firmware on LVFS. With an HP
-E273m connected over USB-C, the EC keeps signaling a Negotiated Power
-Level Change for an unchanged contract, about seven times a second,
-and GPE 0x6E fires about 680 times a second. Could you pass this on to
-the firmware team? The details are in the patch:
-https://lore.kernel.org/r/20261010183917.146821-1-dv@etik.com
+For this case the existing sysf drivers_probe is good enough for bind,
+but we must have taint-free unbind for PCI devices too.
 
-> This problem may only affect your system, so we really have to isolate
-> it somehow. I'm almost certain that like this there will be problems
-> on some other systems.
+I think this patch should be reverted ASAP, it is a pretty major
+regression for a lot of users.
 
-OK. How about a quirk for this machine only? ucsi_acpi would match it
-by DMI (LENOVO, "ThinkPad X1 Carbon Gen 13") and set a new quirk flag,
-and ucsi_get_supported_notifications() would then leave
-UCSI_ENABLE_NTFY_PWR_LEVEL_CHANGE out of the mask. That replaces all of
-the detection logic in v2 and changes nothing on other systems.
-
-I've tested the effect of that on this machine, with a test switch that
-kept the notification disabled from the start. With the monitor
-connected, the PPM signaled no connector changes at all, and GPE 0x6E
-dropped to about 5/s, from about 680/s with the stock driver. The cost
-is that on this machine the driver won't notice a real power level
-change until the PPM signals some other connector change. The EC
-handles charging on its own.
-
-> Something that I did not quite understand from the above is, if you
-> revert commit a0d4618788f2, do you still have a problem (I understand
-> that you still get the repeated notifications, but do they cause other
-> problems then)?
-
-Yes, though only about half as bad. I didn't test a plain revert, but
-my first attempt did the same for these notifications: it skipped
-ucsi_pwr_opmode_change() when the RDO hadn't changed. That's where the
-"about 360 a second" in the commit message comes from. The PPM still
-signaled the next change right after each ACK, so the driver read the
-connector status and acknowledged it about nine times a second, back to
-back. At about 50 ms of EC transactions per command, the connector work
-and the EC were still busy almost all the time. Only disabling the
-notification stopped that.
-
-I didn't measure CPU time or power draw with that version. If numbers
-for a plain revert would help, I can get them.
-
-If the quirk is OK with you, I'll send a v3 with it.
-
-Thanks,
-David
+Jason
