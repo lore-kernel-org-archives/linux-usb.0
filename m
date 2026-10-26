@@ -1,117 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.24
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793080993;
-	b=4+ap9mduKIwF4+woe8871wSZX8g2cD5WqdOyqkskRSguLHkai4GJkt6a8qHTvVIFempp
-	 TIU+a/zAHeD5mQg8ocxQhCshzgKk49Ldxf3HSpUVe7cp7K6Yb3auWLfrPNOPJN4Zual3n
-	 43bOKeFmtgsZjQ4Cy0I0/3e/p3Uva9DuhFfTKy2UrF1POV26Pp4J5Mp8xPld3pPtsWYFd
-	 UVlveloMU3mBJwRIraZkJ04bQnBwHkhQ4/vrZZFFKr23fMUhdm7Ja8JKO2GGTBZBpN15M
-	 b2Tt/VraGYuIZ5V9XZsklDo1Xhktgwc6YnaoOiEcu7LoyagrsSFL2uVckfDZFy+QDGg==
+	t=1793082967;
+	b=Sh1BDoAsG2o/0V1kXAmivwZy4iM1AhrTeUWAAPd1pNzwkVPwav+F6dL+zwrgDAVJRzsn
+	 8JkUyH6CNg9O1dGnwFvSpC67KBMMNX556ImZyxhmdqyyNv8QWx9EV6z6x1qHF2MVrEB1x
+	 SoUQ+1Gh/EQCjfK1G1AR8ELLGBHxLVCFvzAurZe5JQ93uJYY1TcsjBWj0ZiaQUl4fsrrm
+	 CPS4Y79qFuSATOOU4Cp5y0BFC+vmDBKco3aRa/wU78JSeoGsoRVUyN4ibLRQfmngmi2sm
+	 yS8Rl0m+1AgYFtzLLsH7V0AVVGzgWN4EJ60ao0XB/MYkMhcNBqRfUy0tRptFbXi/yoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793080993;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=KtHkcu0sQsAK751caVzJBQDY0o4i7F/zlOnjMPPeE5I=;
-	b=mSbsvs2VJr1TnBWiM/nMg6PLsnr5EVS8W5l5Q/w5QcsDZntqGpWAoxqpHHuv6WUmQP1M
-	 ZxYVtsyxISXmLoe/afSWj2szkjFBNWhGmKzUodZQMLfef3smKRWLYKehxvAva60u6zkPF
-	 t9YW0xy9PhEHHmU3f36M+8qsf9bnMu9c6Jdy09IYDF7VZMPT/YW1QeOgKwryI7+hgushq
-	 KqXLdP8NWg3PMgj/Ys2YZWCZ2BBAL7GKJV/u0a1diviacQBBCkbFz/VCHSHR2mQBsuwlx
-	 /TbwXDaqjSq/cZmnXnHVmR5AiotWWOck4NWMVm+Ser1TZPiPPW3lB8lCvNSaclgcZ1g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793082967;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:
+	 Cc:Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
+	 X-CMS-MailID:X-Msg-Generator:Content-Type:X-Sendblock-Type:CMS-TYPE:
+	 cpgsPolicy:X-CFilter-Loop:X-CMS-RootMailID:References;
+	bh=Tol23jnTVv1LD346tbZ75g/VM/d5Ya+ZiOElfgXLTFI=;
+	b=uyey0cys0qrJZj+nrADULyyOxXBCMDyKzIStyWBYgZqmjNzwbKr6H/8kph2PgNO2o1UR
+	 /QOaBZNSC34n4dA7MGPV1at0IImjg2a3kKuZzi/gMUeerRSnE5IuawcsNxMlDpngeftJF
+	 a9OlLgzSXG8SWg5pBxkeXUSkQR1P5rz+MX1ymISpTSbpZLj0thizno8z9T/wT0KZACM6O
+	 ml674gyT80HUp+FJvDMbspc8TkWBYKliMD01ygkwT6fTV+/6PXoKn5pxZ080a/B24bHWY
+	 zrAs8D+YENN9Z2hW8fhvm+VALFCfDaPUwpgYMylex2DTaWGOC4y5PgXKImyUtGeQc6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Fd+rVQCT;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b="heX/UPax";
+	arc=none smtp.remote-ip=203.254.224.24
+Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BFC3606A31F
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 06:03:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4BFC3606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A355D606A31B
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 06:36:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A355D606A31B
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=Fd+rVQCT
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35db1f202so19859285e9.3
-        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 23:03:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793080991; x=1793685791; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=KtHkcu0sQsAK751caVzJBQDY0o4i7F/zlOnjMPPeE5I=;
-        b=Fd+rVQCT6h6iWDR02V4pfE6w4B9VB1S0lffsv2IDdIHHIRdyK3jUEt2FmHBfZxMBXo
-         /6CAn9UDjbhCtzDFEAD5X9jRnzYGPQcAkOmikfnG13ul8dm2gAbZsM9KyfdVDLAcz/Ay
-         UiOYwyOaUeF+/xVxB9iMXFcDyDlueTVmMgBFt8QsaC3JgphcNjaakCDKqO2hcesvrHWK
-         9oqTpTZC6ExZY6JzDB3EJe6w45YuoOXY55hHfzjgqADewKP+nXACtXCBTHV/WG0pE4Ke
-         YqA7i+Nq+iwiszDPQZGl2GpPWw21M4pwSa8W/8EODi1AZRQE76335KaE1hQ2D2r+gA/7
-         74bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793080991; x=1793685791;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=KtHkcu0sQsAK751caVzJBQDY0o4i7F/zlOnjMPPeE5I=;
-        b=kyIwrCk1Xd5t64GhlafX0EMuwyGMvEZ6g2zf66q4omJFUq3lWHmV4/aJTbbnxZ0SpH
-         RNnav95cZ2CajzJu8ukAzYM9PR8uSrM70g8+i7G4E/pLunTlpSTPI1UTBzF2uyiHYzOS
-         GRlf6EgzBioWaQt7uXF9h16m+0lvVPOyq3Z45YLdgmmVVBLpEfrHrDJd8diOe9e8n18f
-         5CM9Mz/MxOSWNmBHtvpf9L9p/FmPfU6yHEbltRl2fZLCLxat5YBZo2XYNb7otrtpso1D
-         hqJHNlHUb4/+IkjWFI7gNWJV8IRDV0H/E7iUAaIpySEnlZugXZkMdaq6IXGqXd5lzZG4
-         OEYg==
-X-Forwarded-Encrypted: i=1; AKwUvBxsysgIf3w50kwClch787bpK8uEWWxfvI2aFBwiU/+DSz8M2jB1URmHzfTqfXW9gLVvTmZ54SXzZRA=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLT9R3YIx5upUbvigj0QZymNANy47Z6yMXe1at1/h9MTnuIoS7a
-	/cLiaeJS+RMBmNTzA/HAOT18ugVo/pdlvsPdkebcF8LLBuZVTlcZGXCS
-X-Gm-Gg: AYBFou3Q8T9Bx9wgllThfq+SVNJpHE6d21SbajfoamitpvwEp3OXNAmSEcjv07+jrMk
-	V3ane6Cmifsn2bI+Vgt2Ekk0ryeeepm+aAYVgm1/s3DXWWzxe/d3GMHNJugMFCLhs/sydBVE/ot
-	rIGhHaA/stjP2/3iNvBT2SH9ie7toubGOeQ1KjWtD3EA/rI8VT1LB+CZ/uGI5iFYJ1wJoCmOFko
-	cfQTUfuhgQNrnK4lvP7eragmjBdSWhW8jT7x13EwaJC7dUde81c3dsSDiq63K8rieHwWBF4X/wL
-	grOWGsSIl9Fm7H+LdZ3VLhhPe3Y0W8l5Oo2kdfG+fjaKeHRA4WCowbqyPG4+Bqcq21PPj5nb6P9
-	VCiMQKTkTpvKmiYLjKvLhL3fLFsOWLxZ2iuNRPP4u6+MF2ABuzjzxWxrzfeLWt0RvjJCztLIdqr
-	fEs7Hj6sXlN59TABr1ZrjvnkSlrUs+QfykZqBGJcICxU24cm8dNKrgdhJduzQf6ChdjdcsyHe7C
-	7d/ivEn8/TTWCN8vHysh5eD5k3wxOXQq/e77Po24kG/uMdZE2kSxj+LyaWkK4Zo
-X-Received: by 2002:a05:600c:3acb:b0:4a1:992f:d0e7 with SMTP id 5b1f17b1804b1-4a35aca4fe1mr159192175e9.16.1793080991458;
-        Mon, 26 Oct 2026 23:03:11 -0700 (PDT)
-Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a35a5698f1sm240600745e9.8.2026.10.26.23.03.08
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 26 Oct 2026 23:03:11 -0700 (PDT)
-Date: Tue, 27 Oct 2026 07:03:00 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Alex Williamson <alex@shazbot.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <u.kleine-koenig@baylibre.com>, Armin Wolf <W_Armin@gmx.de>, David Lechner
- <dlechner@baylibre.com>, Danilo Krummrich <dakr@kernel.org>, Luis
- Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Daniel
- Gomez <da.gomez@kernel.org>, Sami Tolvanen <samitolvanen@google.com>, Aaron
- Tomlin <atomlin@atomlin.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, "Rafael
- J. Wysocki" <rafael@kernel.org>, Steven Rostedt <rostedt@goodmis.org>,
- Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Bradley Morgan <brads@mainlining.org>,
- Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
- linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
- Richard Weinberger <richard@nod.at>, Thierry Reding
- <thierry.reding@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>
-Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
- userspace manually messes with devices and drivers
-Message-ID: <20261027070300.4c45616a.michal.pecio@gmail.com>
-In-Reply-To: <2026102637-buggy-mothball-2a08@gregkh>
-References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
-	<arIvG0nx4LXG9nlW@monoceros>
-	<defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
-	<9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
-	<2026092321-province-yearly-44aa@gregkh>
-	<arOfHEsGGglNse7T@monoceros>
-	<2026092348-victory-erased-0e5a@gregkh>
-	<20261023181326.0dc2f7ed@shazbot.org>
-	<2026102437-vista-unsoiled-b089@gregkh>
-	<20261024103512.4601ee4f@shazbot.org>
-	<2026102637-buggy-mothball-2a08@gregkh>
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=heX/UPax
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20261027063557epoutp016a65c33519116ec5bd2646baa94abd2f~iT3M5D-so1538915389epoutp01U
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 06:35:57 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20261027063557epoutp016a65c33519116ec5bd2646baa94abd2f~iT3M5D-so1538915389epoutp01U
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1793082957;
+	bh=Tol23jnTVv1LD346tbZ75g/VM/d5Ya+ZiOElfgXLTFI=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=heX/UPax00oFkfW//onJgxIBOK+oL3z0XerUfv0x+52A2ZPq7huLYzpn0HzTjU49k
+	 OJWPpw38n94FR1ODlB7X4YgvjIaaFJ0sgmmYcW0+EdHlMucM8lNzaRHVW3VaMAhPso
+	 n1Zbv8bogex1mT6K02eAotL/6S8yAKmgS06SwKQQ=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20261027063557epcas5p447c28181c68a2a31f37a950d72f66e27~iT3MMsJtc0175401754epcas5p42;
+	Tue, 27 Oct 2026 06:35:57 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.92]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4jDLNX3GVVz6B9mH; Tue, 27 Oct
+	2026 06:35:56 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
+	20261026110911epcas5p2e68e8b567540241c4bd5d9b2e7d680c1~iD8eepqFV2862828628epcas5p2W;
+	Mon, 26 Oct 2026 11:09:11 +0000 (GMT)
+Received: from [107.122.5.186] (unknown [107.122.5.186]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261026110909epsmtip1fc76579f7b73cccca887d49baaea2ab6~iD8c1_EWT1650216502epsmtip18;
+	Mon, 26 Oct 2026 11:09:09 +0000 (GMT)
+Message-ID: <353d7757-2b9c-4375-93d0-62b28bcb438c@samsung.com>
+Date: Mon, 26 Oct 2026 16:39:01 +0530
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -121,76 +71,89 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/7] usb: dwc3: gadget: Fix No Resource after End
+ Transfer
+To: Selvarasu Ganesan <selvarasu.g@samsung.com>, Thinh Nguyen
+	<Thinh.Nguyen@synopsys.com>, Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>, Wesley Cheng <quic_wcheng@quicinc.com>,
+	Michael Grzeschik <mgr@kernel.org>
+Cc: Tejas Narendra Joglekar <Tejas.Joglekar@synopsys.com>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>, Michael Grzeschik
+	<m.grzeschik@pengutronix.de>, "alim.akhtar@samsung.com"
+	<alim.akhtar@samsung.com>, "thiagu.r@samsung.com" <thiagu.r@samsung.com>,
+	"jh0801.jung@samsung.com" <jh0801.jung@samsung.com>
+Content-Language: en-US
+From: Akash M/Akash M <akash.m5@samsung.com>
+In-Reply-To: <355cab30-09b6-4c10-b19f-e8320d371b10@samsung.com>
 Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20261026110911epcas5p2e68e8b567540241c4bd5d9b2e7d680c1
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261021003845epcas5p4eece85dfc80cdcd3e138c14d5d32ec6c
+References: <CGME20261021003845epcas5p4eece85dfc80cdcd3e138c14d5d32ec6c@epcas5p4.samsung.com>
+	<cover.1792542945.git.Thinh.Nguyen@synopsys.com>
+	<355cab30-09b6-4c10-b19f-e8320d371b10@samsung.com>
 
-On Mon, 26 Oct 2026 21:34:57 +0100, Greg Kroah-Hartman wrote:
-> > Even if we could come up with a set of device IDs, it's a policy
-> > decision whether a given device is intended by the admin to be used
-> > by the default in-kernel driver or a userspace driver.  
-> 
-> Great, then have the admin never allow the in-kernel driver to be on
-> the system, or be loaded (modprobe has deny lists) and all is fine.
 
-As some maintainers like to say, it's not the '90s anymore :)
+On 10/22/2026 12:35 PM, Selvarasu Ganesan wrote:
+> On 10/21/2026 6:07 AM, Thinh Nguyen wrote:
+>> The dwc3 driver can issue a Start Transfer command while a previous End
+>> Transfer command on the same endpoint has not completed. The controller then
+>> rejects it with "No Resource", and the endpoint stays unusable.
+>>
+>> This happens in two cases:
+>>    * On ep disable, the End Transfer command is issued without interrupt and its
+>>      completion isn't tracked. A quick re-enable or queue to the endpoint can
+>>      race with it.
+>>    * A timed out End Transfer is treated as done, and the endpoint resource index
+>>      is lost.
+>>
+>> This series tracks the End Transfer completion on ep disable and on timeout. It
+>> also avoids an unneeded no-op Start Transfer on non-stream endpoints, and
+>> rejects requests queued to an endpoint that is being disabled. If the End
+>> Transfer never completes, the driver recovers through the existing error
+>> recovery, and stale endpoint flags are reset on controller start.
+>>
+>> Thanks to Selvarasu for reporting and debugging the issue.
+>>
+>> Link: https://lore.kernel.org/linux-usb/20260227121236.963-1-selvarasu.g@samsung.com/
+>>
+>>
+>>
+>> Thinh Nguyen (7):
+>>     usb: dwc3: gadget: Reject requests to a disabled endpoint
+>>     usb: dwc3: gadget: Track a timed out End Transfer
+>>     usb: dwc3: gadget: Clear delayed stop on End Transfer completion
+>>     usb: dwc3: gadget: Issue no-op Start Transfer only for stream endpoints
+>>     usb: dwc3: gadget: Wait for End Transfer completion on ep disable
+>>     usb: dwc3: gadget: Reset endpoint flags on controller start
+>>     usb: dwc3: gadget: Recover from End Transfer timeout
+>>
+>>    drivers/usb/dwc3/core.h   |   4 +-
+>>    drivers/usb/dwc3/ep0.c    |   2 +-
+>>    drivers/usb/dwc3/gadget.c | 160 +++++++++++++++++++++++++-------------
+>>    3 files changed, 109 insertions(+), 57 deletions(-)
+>>
+>>
+>> base-commit: bdf12cde30830d46a8ef1ba93986356f1164b4f1
+> Hi Thinh,
+> Thanks for sharing the patches. We will test and update.
+>
+> Thanks,
+> Selva
 
-Users don't reboot systems to kick a kernel driver off a PCI device to
-try something in a disposable VM on a whim.
 
-Even if they did, it's completely normal for desktop users to have two
-GPUs from the same vendor or two xHCI controllers and pass only one of
-them to Windows/macOS while using the other on the host.
+Hi Thinh,
 
-bind/unbind feature prominently on every distribution wiki and forum,
-this cat is absolutely out of the bag at this point.
 
-> > That means that at one point we want the default driver bound and at
-> > another we want a vfio driver bound.  Coordinating this is exactly
-> > why we have driver_override and, building on that, match IDs that
-> > require driver_override.  This allows drivers to describe
-> > themselves as vfio-pci compatible drivers via modules.alias while
-> > requiring userspace to enable the match via driver_override.  
-> 
-> And as said before, that's a horrid hack and one that is breaking
-> things today in all sorts of ways, which is why the taint was added.
+We tested the patches on Exynos platforms and observed no issues. Feel 
+free to add a "Tested-by: Akash M <akash.m5@samsung.com>"
 
-Are you aware of bind/unbind breaking things for PCI specifically?
-
-Without also involving 'driver_override' or 'new_id'? Everyone agrees
-that these APIs used for anything other than pci-stub or vfio are foot
-guns. But your patch targets something different.
-
-We can even bind PCI drivers to wrong devices *without* using bind and
-hence, I presume but don't care to test, without tripping this taint.
-
-> If you wish to override the kernel, then great, a taint flag is added
-> and all is fine.  All this means is that now developers know what you
-> did and can decide to ignore your bug report or not.  No functionality
-> changed at all.
-
-I believe people pointed out that it's a functional change for users of
-panic_on_taint who also use bind without being idiots.
-
-Does this taint even solve a "real" problem? Those bug reports weren't
-coming from users, they were coming from "abusers" like syzbot looking
-for trouble. They were quite obvious even without a taint message.
-
-And at least on linux-usb, they seem to have stopped after Google and
-one other copycat were told to stop sending them, and before this taint
-reaches released kernels.
-
-I even told them to block not only bind but also new_id, so there will
-be no second wave of reports caused by syzbot discovering that it can
-bypass the taint by using new_id intsead of driver_override.
-
-> Why are you worried about a taint flag?  So many servers run with
-> taint flags enabled due to out-of-tree or questionable licenses with
-> no problems, what's one more informational bit here?
-
-And what's the point of a flag which is always set on countless normal
-systems in the wild? If this feature survives to April 1st, I will send
-a patch to rename it to "VM passthrough taint" because everybody (or at
-least those dealing with desktop users) knows what it *really* means.
-
-Regards,
-Michal
+Thanks,
+Akash
