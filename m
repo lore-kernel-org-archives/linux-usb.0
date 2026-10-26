@@ -1,78 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793014818;
-	b=t10tGmdaFnqizjmk9qVjdRMkr1z0/mKKEoae70/UWe3o2dDnwUUMXCWvXzfsdlu6a3YT
-	 JXFItogHrlIBh9G6XUtIe1xwIHJQ3iqK8ZurcSTPEOTxdZBfcQ4AhcebnX1DP01XNfVu8
-	 SMeSEplt1ZhzOzBPu+g9WwL5x+hLLyNihRQ1GhnPqhnf02V2UiHoqCFqAZNVnbftBw0qH
-	 piYzS6aqLCRegrs1X3WZ+B4PxmkWyVgQbXjKamn9HwY8KZJtyHT2BZnX5WzAKU4yKYhy0
-	 8xjXOxeOxtCXi4B9+5RGEtgVPYHiSCuI1ZOCJ56Df/1dfJLFRz51Khrlau0rxiW+YcA==
+	t=1793015651;
+	b=Es0TE11dDi/a4cr6BRTaqtWn8H31H2g3ubrOBzETF3ScIxben2566Jxopn/kPDs8E1dq
+	 yyrtSRUgzQkTEUO8IwlDAR21EpaaoPI36ZfWeczYKVu0vf4vo5iHebNrNuKdvA/u1sZOs
+	 uaPgCbaE0COTNCFjbrozkNUkaOGakBhe9/N4hB47L2mKOMIqFlDyLjoQST1DvfmLERd1Q
+	 V/Vo5ZKw4rf4/t4YnXE4zJ2oysQ2z4eVjulI9xBt7jkx8D/Uo9JtGcW8RDGtKnNink3mb
+	 v1+duPyMmfaxxXJlB/GuTHaq44+GcoB44u2qn9TDrfhWYgPWvyYUr7IaWH2ZAdhH/fQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793014818;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793015651;
 	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
 	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=yxPgJj5K6wdtvZ3s/cYaHrSQ/IJo+WJ9LqzDhRY/Pmw=;
-	b=J/sae4JyJk5gUF6G0kIuteaj063xGK+jCqZ3hHnSeXXqjhjXpWm+WiY1qm2L/PmwJ3eY
-	 z78JYFWRzOCc7HlXjzkqj1TprirCEQFV0AYnes15zX6eaH/COPQYWo40VMIzoUsg43nxI
-	 hWwwrQMLzCCzjSAO76Hpu0WYDf2pXE6GTImvmXLhlUgxgTbQ4HG0XXnEPGX72x5AwKwSZ
-	 jWUdIT5eP51ykbsmFLGZeBvfYgVs03eyOtFdrtlf59ncv2WCASzus6XpCDwPxYF3ZgZRz
-	 uQ7G/1oSIKSK/gpkhMG6ecYlo6ih8itk+1yKx1tWe+SuZD88sNmAlCTKjpTRlZzWqsA==
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=dOm5MRaOgdoFOy8UNmgvpmaOwg3mr6R0PvJvBB/oYAQ=;
+	b=0BtzEuy4z+5Sdcxn4U3yiGINFWlTAedrsQxQTemYr4EJ1NQopcPETsBUS8R4YwcUFql6
+	 xewqcMRMV9Cg5G+9RyVv2p6icl04ZeTmMlVKYhHekatnFGvhxlsGsb/IjbfPFwge+YolC
+	 RxClIrdxkyKJwqBVj1ySqTXAFXAzwRcldjS5PRVMfD7gdsxh2Ndy67twtF52Zjk6WVfmY
+	 2K3o46mJSXR3kieul4swJTiSiwlX9d8SsG/FlyxD5TbZB0es0afTeaj5bo+CYaDDKuv6/
+	 k9XI9y2HYei5g2VMHxhlk2KhEvBGTxlQP9t0hEo/VmVhm3WnJr/cC0spJ6dIaXv1K7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=linux.intel.com;
 	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ijaaStTW;
-	arc=none smtp.remote-ip=198.175.65.21
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dOEkPKYQ;
+	arc=none smtp.remote-ip=198.175.65.9
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50021606A31A;
-	Mon, 26 Oct 2026 11:40:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 50021606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10A3A606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 11:54:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 10A3A606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ijaaStTW
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=dOEkPKYQ
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793014817; x=1824550817;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=XtCSgBz6BjUkGziz506cC24Aq11ze1Q6fumnwvlLF7U=;
-  b=ijaaStTW+4/2SsypYmRfgUd+AIv/R6H6AbWcceJCxU7XwWhf/KI2jtHR
-   Z2ss0KE7aebNGmzl+z/4XRd8tAuHn95CRq+QNjXscCRLJU1kbJdrCLj/x
-   cK3h2eFKdh499WPK+NLuMIe7Cof0YQs2fG3E9uMAwT67Rfnz5YKvJZSvo
-   7htzkURXDdjlCu9i2KjRck51Ya9Yy2vE4ZXNUodpBE/bLznrtEUalt5a3
-   egKof9Rsyyn2XFKsubv+8486pZNhk0yHk9qwNveeZCdVSp3nPHkxJZnq4
-   QCwzf5QM6QNipQ8fzrMrEBkbF4vyQpmgxYbOs6pLO1ZmaafUOgBUBFo54
-   Q==;
-X-CSE-ConnectionGUID: 6w7DAgPcQ/K/AAgYu+shrQ==
-X-CSE-MsgGUID: 8D55mBm3Tb2EzBfTtvVj+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1769474"
+  t=1793015651; x=1824551651;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=tysy31+zIqSbxAExMeBpmYlQeOFW3j5/c0YxXG8en2U=;
+  b=dOEkPKYQgWcpRddoxpWg8VDlwwDAi8JoPqAcrCUZJtiQlVPeIPBA0C83
+   y17Smh2OhSfh9DOjq1SWFFQBbGfhisC38C2p6CDFNiF85sNOoUzKHf0DD
+   sgL9tyg9Ll0kcyVig3+xPHS0LDYRjcTQiPh5S9JgvDhAcbKfXyVe7OP1O
+   7QFb3qGS4SDOwXuwWnX1pLwXtNH5LZgPcWx6KELPXfK+EBtZyvdOjZGsa
+   q1hxZqjGCwj+ojzAx8YjdRtPQZfnKMniirsx4hv4wTaaUBYdhW2dlob1S
+   vP6dQxBepeR5mif0IyIvMLreupo9Wc/xgTTpPMHZpVLavLK6JWVb09U0k
+   A==;
+X-CSE-ConnectionGUID: lxX15D1RTF2jZfIeNZ191Q==
+X-CSE-MsgGUID: VVWMnuavQVOfuF4XtJSAaA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1557823"
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1769474"
-Received: from fmviesa013.fm.intel.com ([10.60.135.153])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 04:40:16 -0700
-X-CSE-ConnectionGUID: 3fhEqgJSSZaeaPjt+YrBcQ==
-X-CSE-MsgGUID: 0MQO2kbPTs6DCXlf74SOYg==
+   d="scan'208";a="1557823"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 04:54:11 -0700
+X-CSE-ConnectionGUID: Pi5J+TLaQA+Tp4xgTv8PdA==
+X-CSE-MsgGUID: +WJ0AfmeRIes2cxfaMGIHQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="6065364"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa013.fm.intel.com with ESMTP; 26 Oct 2026 04:40:15 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 043E499; Mon, 26 Oct 2026 12:40:14 +0100 (CET)
-Date: Mon, 26 Oct 2026 12:40:13 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Bertrand Jacquin <bertrand@jacquin.bzh>
-Cc: gregkh@linuxfoundation.org, venkat.jayaraman@intel.com,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: Fix NULL pointer dereference in power
- level debugfs
-Message-ID: <at88HU4YlGSAJGoE@black.igk.intel.com>
-References: <20261010120357.4937-1-bertrand@jacquin.bzh>
+   d="scan'208";a="4192383"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO [10.245.245.74]) ([10.245.245.74])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 04:54:09 -0700
+Message-ID: <6233126b-9ef9-4f69-9a52-42ff215b2109@linux.intel.com>
+Date: Mon, 26 Oct 2026 13:54:06 +0200
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,81 +72,59 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261010120357.4937-1-bertrand@jacquin.bzh>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
+ (3434:d068) at boot since v7.3
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Dennis Wissel <dennis@dsine.de>, Yiyu Zhou <yiyu@yiyuzhou.io>,
+ linux-usb@vger.kernel.org, regressions@lists.linux.dev
+References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+ <20261024203558.3181711-1-yiyu@yiyuzhou.io> <SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
+ <20261025111410.2c14fcef.michal.pecio@gmail.com>
+ <7082e2e7-8d05-46b8-a26b-5b888a7a0545@linux.intel.com>
+ <20261026105139.6b86cb3c.michal.pecio@gmail.com>
+ <20261026123847.365209e2.michal.pecio@gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20261026123847.365209e2.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sat, Oct 10, 2026 at 01:03:57PM +0100, Bertrand Jacquin wrote:
-> ucsi_register() creates the debugfs entries right away, but
-> ucsi->connector is only set by ucsi_init(), which runs later from
-> ucsi->work and only publishes the connectors once the PPM has been
-> reset and all ports are registered. Until then, or for good if init
-> fails, ucsi->connector is NULL, yet the peak_current, avg_current and
-> vbus_voltage show callbacks dereference it unconditionally.
+On 10/26/26 13:38, Michal Pecio wrote:
+> On Mon, 26 Oct 2026 10:51:39 +0100, Michal Pecio wrote:
+>> On Mon, 26 Oct 2026 11:18:34 +0200, Mathias Nyman wrote:
+>>> So even if we give back all pending URBs and clear the
+>>> EP_DROP_PENDING flag we continue using the stale ring. We should
+>>> either either move dequeue pointer, set TRBs to no-op, or clear and
+>>> reinitialize whole ep0 ring at device reset.
+>>
+>> This may need to be fixed regardless, because EP_DROP_PENDING on EP0
+>> can result from xHCI "Error" aka USB3 "Inactive" state, which (AFAIU)
+>> may be cleared with warm reset, without reallocating the udev. That's
+>> the "existed since forever" issue I was thinking about.
 > 
-> On an Intel NUC13ANKi5 whose PPM never answers when CONFIG_ACPI_EC=n,
-> reading those files after the failed init oopses:
+> 4.6.11 isn't 100% explicit what happens if EP 0 is halted at Reset
+> Device, but generally it should "terminate any USB activity, abort
+> any pending events and transition to the Running state".
 > 
->   ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
->   BUG: kernel NULL pointer dereference, address: 000000000000045c
->   #PF: supervisor read access in kernel mode
->   RIP: 0010:ucsi_debugfs_register+0x291/0x420 [typec_ucsi]
->   Call Trace:
->    <TASK>
->    seq_read_iter+0x1e4/0x4c0
->    seq_read+0x12b/0x160
->    full_proxy_read+0x9a/0x1f0
->    vfs_read+0xba/0x320
->    ksys_read+0x74/0x110
->    do_syscall_64+0x79/0x240
->    entry_SYSCALL_64_after_hwframe+0x71/0x79
+> So just a Set TR Dequeue to current enqueue will probably work, but
+> I think this has never been tried before.
 > 
-> Return -ENODEV from those callbacks while no connector is available.
+> I see that xhci_discover_or_reset_device() clears EP_DROP_PENDING
+> even in case of Reset Device failure, which looks a little odd. We
+> probably wouldn't want to issue Set TR Deq in such case and don't
+> want to clear this flag without fixing the endpoint.
 > 
-> Fixes: c851b71fd6cd ("usb: typec: ucsi: Add support for READ_POWER_LEVEL command")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Bertrand Jacquin <bertrand@jacquin.bzh>
+> What was the reason for placing this loop after and not before
+> the command_cleanup label?
 
-Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-> ---
->  drivers/usb/typec/ucsi/debugfs.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/drivers/usb/typec/ucsi/debugfs.c b/drivers/usb/typec/ucsi/debugfs.c
-> index 77a0dd75edd3..911a151ac16a 100644
-> --- a/drivers/usb/typec/ucsi/debugfs.c
-> +++ b/drivers/usb/typec/ucsi/debugfs.c
-> @@ -92,6 +92,9 @@ static int ucsi_peak_curr_show(struct seq_file *m, void *v)
->  {
->  	struct ucsi *ucsi = m->private;
->  
-> +	if (!ucsi->connector)
-> +		return -ENODEV;
-> +
->  	seq_printf(m, "%u mA\n", ucsi->connector->peak_current);
->  	return 0;
->  }
-> @@ -101,6 +104,9 @@ static int ucsi_avg_curr_show(struct seq_file *m, void *v)
->  {
->  	struct ucsi *ucsi = m->private;
->  
-> +	if (!ucsi->connector)
-> +		return -ENODEV;
-> +
->  	seq_printf(m, "%u mA\n", ucsi->connector->avg_current);
->  	return 0;
->  }
-> @@ -110,6 +116,9 @@ static int ucsi_vbus_volt_show(struct seq_file *m, void *v)
->  {
->  	struct ucsi *ucsi = m->private;
->  
-> +	if (!ucsi->connector)
-> +		return -ENODEV;
-> +
->  	seq_printf(m, "%u mV\n", ucsi->connector->vbus_voltage);
->  	return 0;
->  }
+USB core may reset a device several times without reaching 'addresses'
+or 'configured' state in between resets.
 
--- 
-heikki
+The reset device command in xhci fails with a "context state error" if
+the slot isn't in a addressed or configured state. Make sure we clear
+the flag in those cases.
+
+-Mathias
+
