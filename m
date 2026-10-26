@@ -1,102 +1,59 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.38.64.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793017934;
-	b=18IL1JpUM8uYyPOmzI0Yis6LDCCVi7kL3E5tH2DXCDCdzGNe/W7IbIElSdPSsQ9pUnGt
-	 EFXSi/cFSC+gSh3ljiFTcXPHe3AtNVQ+kMmxSi3zB5cGGgAx4TJTJZWBeUcIB+b8vWDEy
-	 J9lHD4EX23hQnElJltwaZxsG9tICbm57GjMUPUJATQ9Fk/pq33LrQ/eDGAhQs9cYtcuiw
-	 OAMDLZJc4HZ3B3FiO1VOJVZrCjVztrPanTQVkd5Zug50k2Xu3UALxWyUEI/51sjiQ54ok
-	 wNYqeU27kQic/kuyWI2d6fM5RZoZITLgDddPFExm4PBdI8hgOP7d3cg3BggEDwfxuMA==
+	t=1793017944;
+	b=qeNqvlMseYCx4FvbjVuIunKSn6B7JC/QPCd6PwIPAjilbc8WRNiVFNoNye7CK/10GOtE
+	 DYigODHmui1kl0OqwpfFNbXwA9q88CsfBZEqKXHIhdli41LQrNBWjii8PkFli/7otSCFo
+	 jfgp0Od5MtVNvn2uDbUF78oP+Ampgm/uP8tKC4bDB5BkcYJgFipTVuqb1X63J7uNBfD1J
+	 U0hhPp34i6xDIL6ROpuhu9lSO0Y14vEJ5voye3xCN7uSnsRNPkutTx3jLZRSlZ0LcSReC
+	 eaWH+0SSedu6uNgXBztKhCDx9g3qYL3JOXouHEIFeyJUCzwauFu2CCf3YzJ9z485C2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793017934;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=ktUKdiKYfb7DoM5zhVHml/g4TQZHJlrIih9rFWqZVKQ=;
-	b=g9Yf2qGymmIZqXFHiFMzslR5cnwFVgWCEz1hTuIHVFAw4tIQZGT6tU1pPtZPKhb2EyWL
-	 KuAaX4mUnY+pj1qkiHUi4IcBv88gxSCw/A+fRdwarNt37qgtDZMXZ8TBXsFbS2pV7Xci7
-	 MO/qTLmX4sHl4Pc4oZNv1fohuImgFgUJU4+QyClnA/kCmZ+k+YGq63pudwOjS9GJ2iNtR
-	 8QEG5ZGgblPJjaelrTHBoF1Pe3/LHeMJsNfcw4bZN8wP9w1ruQFIaCI5N8QdhW0SjVVeF
-	 aRLkmk+QdOFYIH89os6F4xUjpB+rhlMgKgXuBDw+IP762RNTokOeyYsNPo9Wa0N8uaQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793017944;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
+	 X-CM-SenderInfo;
+	bh=r6uPE5YInHR6J2D0AgytqRvw3kgXk5JSngdLkNfUbH8=;
+	b=h8IYVIYR3WdfPsmE6kkKM8H5fX7T0vH3MtduEzFpfrmXEkNf3imoyhozLQs1779aaVsG
+	 L2jOkhWYUBKCXFqTuYxpsBDgAcYAerjrHajpnKv8WpMb5zdpFqVPXGH2WWjnGxA1J+82O
+	 ucTT1AXQaOoVXXjlM94A3+wVSE+rOAv2SegZfp0V3WH5v2No0bz8IftRj2QmJw/FmY5jE
+	 eGbgoHV50CGNylrgsJCQ1WJZY39CYxwrme2VqhRgLSpPceLGHx7UWHzIr2G44sp+Pxl92
+	 af9q575+xMlIIezD5vLoCEMtZGu3LrFc9/MPFy2LnRFLZseJtsmuuj4uS7gIJrfLjmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=mivMcba8;
-	arc=none smtp.remote-ip=209.85.128.53
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCB2606A32A
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 12:32:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6DCB2606A32A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=mivMcba8
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso13647025e9.2
-        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 05:32:13 -0700 (PDT)
+	dmarc=pass header.from=mail.ustc.edu.cn;
+	spf=pass smtp.mailfrom=mail.ustc.edu.cn;
+	arc=none smtp.remote-ip=202.38.64.46
+Received: from ustc.edu.cn (smtp.ustc.edu.cn [202.38.64.46])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B81606A31D;
+	Mon, 26 Oct 2026 12:32:20 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 28B81606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ustc.edu.cn
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793017932; x=1793622732; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ktUKdiKYfb7DoM5zhVHml/g4TQZHJlrIih9rFWqZVKQ=;
-        b=mivMcba8uYDlFfKaqTMPiPMpITmJGgJrVgHOAE8jYmLoBhYW45mBdXMQ02LqG2updu
-         9LeHTzDGRg5A4F89RhWaUFJZ5c+VI/1ilvjcrv5DlQxsAoj2wFryqCx3b/uPou7AXDeb
-         Wss9LdDOSh3+0Gu7kqjVfhjI8DS+Lu5UP/fenZyhi4gwhMFIDpqrbDyquPelPmXH+51y
-         m+m44LxpXGLxus7eX+O3txTAid5lu69y7VhycvS1snpdVZw/LgFjEanIemDgwrso3110
-         rirMGQoCitHWBLayc4HPMr+aanfRqUmn39o06PX8Oae+V0uea0+PN4brPriZTVyZxsuE
-         4C4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793017932; x=1793622732;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ktUKdiKYfb7DoM5zhVHml/g4TQZHJlrIih9rFWqZVKQ=;
-        b=SprXnfeHQroW6krbWtSGKLjyH9O72PTpBmURcaJqFeIxP06nvI1FIvarIt1VLl1BgL
-         RqvVC4ygMGWf5SNJIKGk+mMaFomY0/8rBx5b4cg0Y2V4I053R4G/ioq1bqQApk5rpULX
-         1n0UoKjHk5YSoHqFmKlHDgaNdsywtvqH9XG7aRfpqHxqEHdKobB65oM88lvmU5bmLXvJ
-         efaCryUNe1fCwmaCV97PIWyRP+1KGp2E6tEB1lBJN8pW0zsRrtMPoNGf1RHUg47LIHMz
-         xnEzzoYJ1zcWWSNACKi+jarpGfXjxq3COyFKV8eNePHVUQrtJAuEtrvkceKboARBhRoG
-         N+8Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzqYT/XwaUFs01V1aoCpLuMbyVimdr7v2r+JLevJGN8eLM4Lx+Ao42oT5R6obNkEQYcG9n6nHyi4/g=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK9TyJkjCY5E2vR5dgAHjBJxtBGt3i9qATLfExhGc62rQ48aUBw
-	POex55cbmd4BOKgHk6garyLxYgdjr3BEAaA2a8SWEab3DS2/eu3IWET7
-X-Gm-Gg: AYBFou1uxvY9eHI4GUBK5s2FizzmS1NO56+p9OhUee8lp1WMnptqlYwpyBr+G0mVYMq
-	xUUwdf+fAvucXkr7Zujr81bWjMLUvDMaFR1Mn+6Zc7jcdan5ElimuCwkcloMF4Ny0mUwdw5gqU7
-	Jdc9ZEyDQlwJqFVQRCPY662F00Fz5HI1XMEP1FuItOgtVw6tj4skIwv45y6K/RRt2RP0YIl/1X2
-	MmYf6kxlSEf7bWPw0H2paoVgwPU2oAbY1qpKSFwaEqqztBXkoUyajpT4A/9Gux5dd1AQj3H+baS
-	C+1V/5vUIpLCEZIPlVU4z5i4NpsEqW9TWouxLY0HreEsc/XhKNN451jY+TG4faPeUrX8odQsRZj
-	O+pJh3BLKdnH7NQ2Te8JU2ctWMCODKc68oqbAqhqw3HLn1GOL/Ww9e713yIhrqmH8MEc06k15jA
-	Y/pvTLucqe22EeQwf+shMqGWAkA9aMbnltC1lEAnbW9mDBn6bqrDmWuCxNfCD6slsW0Dhw+diQ/
-	3pl2FQgsFGONKkvKueKPU56pmKcThNs1b9MIZuvlQITeuGIBcQK1GL6IUVNrBm/84YNJ1hd7peA
-	CQcRXOk3
-X-Received: by 2002:a05:600c:608e:b0:4a6:42cc:bf66 with SMTP id 5b1f17b1804b1-4a642ccc70emr45612025e9.11.1793017931500;
-        Mon, 26 Oct 2026 05:32:11 -0700 (PDT)
-Received: from localhost.localdomain ([188.190.249.216])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecdf9bdsm15684045f8f.55.2026.10.26.05.32.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 05:32:11 -0700 (PDT)
-From: Vladyslav Tymoshchuk <tvlad744@gmail.com>
-To: Cosmin Tanislav <cosmin-gabriel.tanislav.xa@renesas.com>
-Cc: Vladyslav Tymoshchuk <tvlad744@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Kuen-Han Tsai <khtsai@google.com>,
-	Sonali Pradhan <sonalipradhan@google.com>,
-	Kees Cook <kees@kernel.org>,
-	Felipe Balbi <balbi@ti.com>,
-	Jim Baxter <jim_baxter@mentor.com>,
-	Francesco Lavra <flavra@baylibre.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_ncm: restart the TX timer if the TX freelist is empty
-Date: Mon, 26 Oct 2026 14:31:59 +0200
-Message-ID: <20261026123159.53234-1-tvlad744@gmail.com>
-X-Mailer: git-send-email 2.45.1.windows.1
-In-Reply-To: <20260817192638.437798-1-cosmin-gabriel.tanislav.xa@renesas.com>
-References: <20260817192638.437798-1-cosmin-gabriel.tanislav.xa@renesas.com>
+	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:In-Reply-To:References:MIME-Version:
+	Content-Transfer-Encoding; bh=r6uPE5YInHR6J2D0AgytqRvw3kgXk5JSng
+	dLkNfUbH8=; b=dvQY9Q0YsHhgw+t0Bc/7zwvTbaPqixFk+e8zIRwHOWWp40QpdP
+	lvdK1v7NeOI8ZxxDu7pB5udSCs4Z9rJ654PK353KuwwbVUquyU0cxFXggN5uZLC9
+	D95jCnnSimyoHKxJhS05hQ54RMaDxNIxQKFR0XY5OkqDwOsRUIdfjcthQ=
+Received: from xuqianhui.ustc.edu.cn (unknown [114.214.177.11])
+	by mailimap2024 (Coremail) with SMTP id 3pYKCgCHATZLSN9qClRJAA--.2459S5;
+	Mon, 26 Oct 2026 20:32:14 +0800 (CST)
+From: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>
+Cc: linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 3/3] usb: dwc3: support two connectors sharing one HS data bus
+Date: Mon, 26 Oct 2026 20:32:11 +0800
+Message-ID: <20261026123211.243224-4-xiaqinghuan@mail.ustc.edu.cn>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20261026123211.243224-1-xiaqinghuan@mail.ustc.edu.cn>
+References: <20261026123211.243224-1-xiaqinghuan@mail.ustc.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -107,26 +64,491 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:3pYKCgCHATZLSN9qClRJAA--.2459S5
+X-Coremail-Antispam: 1UD129KBjvAXoW3CrWUAry3Gw43KF17KrykXwb_yoW8XFWkto
+	Wft3ykXws5KryFgrykCFn7GFyjva92kr1UAr1rZrsrZF1DX3yFgr9rGr4jqFWfGF4ayr15
+	XayxAr4FqFZayr95n29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUYu7k0a2IF6w4kM7kC6x804xWl14x267AKxVWrJVCq3wAFc2x0
+	x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2048vs2IY020E87
+	I2jVAFwI0_JrWl82xGYIkIc2x26xkF7I0E14v26ryj6s0DM28lY4IEw2IIxxk0rwA2F7IY
+	1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20x
+	vEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280
+	aVCY1x0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzV
+	Aqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S
+	6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r1q6r43MxAIw2
+	8IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4l
+	x2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8ZwCIc40Y0x0EwIxGrw
+	CI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwCI
+	42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z2
+	80aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7IU5DOzDUUUUU==
+X-CM-SenderInfo: 50ld1x5qjk3t3q6ptxnoox23vfohv3gofq/1tbiAREMB2reWNVnoAANso
 
-On Mon, Aug 17, 2026 at 10:26:38PM +0300, Cosmin Tanislav wrote:
-> Under sustained TX saturation the request freelist is empty most of the
-> time. Since the timer is never restarted, small packets keep getting
-> accumulated into the NTB, until either TX_MAX_NUM_DPE packets are stored
-> or NTB_DEFAULT_IN_SIZE is reached, which is an unknown amount of time.
+On some boards a single DWC3 controller drives two receptacles: the Super
+Speed pairs are wired to separate PHYs, while the High Speed data lines
+are muxed to whichever connector is in use.  Such a controller has to
+service two independent role-switch inputs, and the shared data path has
+to be moved before the controller is reinitialised for the requested role.
 
-I hit this on a OnePlus Pad 3 (SM8750, dwc3, high speed to a Windows 11
-host, qmult 5). Pulling 20 MB from the gadget over ssh stalled for 40 s
-or more in 2 of 24 runs, and most of the other runs took ~6 s instead of
-~1 s. During a stall the sender kept retransmitting, the qdisc backlog
-was empty, tx_packets did not move and the ep1in TRB ring had nothing
-owned by the controller, so the frames were sitting in the pending NTB.
+Register one usb_role_switch per connector endpoint described by
+"port-select-gpios" and the per-endpoint "mux-state" property.  Requests
+from the two switches are serialised, the oldest pending request wins, and
+the port-select GPIO is only changed once the previous host or gadget
+instance has been torn down, which is where __dwc3_set_mode() runs.  A
+connector only reports its own role while it owns the data path, so the
+connector drivers see a consistent view of a shared controller.
 
-With this patch on top of v7.3-rc5: 24 of 24 runs at ~0.9 s, no stalls.
-Host to gadget is unchanged.
+The role change keeps the asynchronous semantics of the existing
+single-connector role switch: __dwc3_set_mode() is the only place that
+programs hardware, and it never aborts half-way, so a failed GPIO write
+cannot leave a torn-down role behind.  The error is kept in the mux state
+and reported back to the connector on its next role request.
 
-Francesco Lavra posted the same fix in July [1], but without the
-hrtimer_forward_now(), so the timer would fire again right away.
+While the two-connector mux owns role selection, the debugfs "mode" write
+used to force a specific role is refused instead of racing with it.
 
-[1] https://lore.kernel.org/linux-usb/20260727165441.1969927-1-flavra@baylibre.com/
+Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
+---
+Changes in v4:
+ - register both role switches before the initial dwc3_set_mode(), and
+   cancel the queued role work on the init error path (Critical)
+ - take the request order and the resulting mode request in one critical
+   section instead of dropping the mux lock around dwc3_set_mode() (High)
+ - only take a request ticket on a NONE -> role transition, so an in-place
+   role swap cannot steal the shared data path from the connector that
+   asked first (High)
+ - order requests with a monotonic counter instead of jiffies, removing
+   the time_before() wraparound (High)
+ - drop the unused desired_role field and report the sticky mux error to
+   the connector instead of keeping it unread (Medium)
 
-Tested-by: Vladyslav Tymoshchuk <tvlad744@gmail.com>
+Changes in v3:
+ - binding moved to "port-select-gpios" plus numbered endpoints carrying
+   "mux-state" and "usb-role-switch"; the endpoint lookup helper is part of
+   the series
+---
+ drivers/usb/dwc3/core.c    |  29 ++++-
+ drivers/usb/dwc3/core.h    |  39 +++++++
+ drivers/usb/dwc3/debugfs.c |   4 +
+ drivers/usb/dwc3/drd.c     | 219 ++++++++++++++++++++++++++++++++++++-
+ 4 files changed, 289 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
+index fd5c2cd..6607e65 100644
+--- a/drivers/usb/dwc3/core.c
++++ b/drivers/usb/dwc3/core.c
+@@ -21,6 +21,7 @@
+ #include <linux/io.h>
+ #include <linux/list.h>
+ #include <linux/delay.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/dma-mapping.h>
+ #include <linux/of.h>
+ #include <linux/of_graph.h>
+@@ -165,7 +166,9 @@ EXPORT_SYMBOL_GPL(dwc3_set_prtcap);
+ static void __dwc3_set_mode(struct work_struct *work)
+ {
+ 	struct dwc3 *dwc = work_to_dwc(work);
++	struct dwc3_role_mux *mux = dwc->role_mux;
+ 	unsigned long flags;
++	int mux_port = 0;
+ 	int ret;
+ 	u32 reg;
+ 	u32 desired_dr_role;
+@@ -174,6 +177,8 @@ static void __dwc3_set_mode(struct work_struct *work)
+ 	mutex_lock(&dwc->mutex);
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 	desired_dr_role = dwc->desired_dr_role;
++	if (mux)
++		mux_port = mux->desired_port;
+ 	spin_unlock_irqrestore(&dwc->lock, flags);
+ 
+ 	pm_runtime_get_sync(dwc->dev);
+@@ -184,7 +189,8 @@ static void __dwc3_set_mode(struct work_struct *work)
+ 	if (!desired_dr_role)
+ 		goto out;
+ 
+-	if (desired_dr_role == dwc->current_dr_role)
++	if (desired_dr_role == dwc->current_dr_role &&
++	    (!mux || mux_port == mux->active_port))
+ 		goto out;
+ 
+ 	if (desired_dr_role == DWC3_GCTL_PRTCAP_OTG && dwc->edev)
+@@ -233,6 +239,27 @@ static void __dwc3_set_mode(struct work_struct *work)
+ 		dwc3_writel(dwc, DWC3_GCTL, reg);
+ 	}
+ 
++	/*
++	 * The previous host or gadget instance has been torn down above, so the
++	 * shared High Speed data path can now be moved to the requesting
++	 * connector.  A failure here must not abort the mode change half-way:
++	 * the controller would be left with a torn-down role and a stale
++	 * current_dr_role, which the next request would tear down a second time.
++	 */
++	if (mux && mux_port != mux->active_port) {
++		ret = gpiod_direction_output(mux->select, mux_port);
++		if (ret) {
++			WRITE_ONCE(mux->error, ret);
++			dev_err_ratelimited(dwc->dev,
++					    "failed to select USB port %d: %d\n",
++					    mux_port, ret);
++		} else {
++			spin_lock_irqsave(&dwc->lock, flags);
++			mux->active_port = mux_port;
++			spin_unlock_irqrestore(&dwc->lock, flags);
++		}
++	}
++
+ 	spin_lock_irqsave(&dwc->lock, flags);
+ 
+ 	dwc3_set_prtcap(dwc, desired_dr_role, false);
+diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
+index f3dabb3..1238376 100644
+--- a/drivers/usb/dwc3/core.h
++++ b/drivers/usb/dwc3/core.h
+@@ -1008,6 +1008,43 @@ struct dwc3_glue_ops {
+ 	void	(*pre_run_stop)(struct dwc3 *dwc, bool is_on);
+ };
+ 
++/* Per-connector state of the optional shared-HS-data-bus mux. */
++struct dwc3_role_port {
++	struct dwc3		*dwc;
++	struct usb_role_switch	*sw;
++	struct fwnode_handle	*fwnode;
++	enum usb_role		role;
++	unsigned int		state;
++	/* request order, see dwc3_role_mux.seq */
++	u64			seq;
++};
++
++/**
++ * struct dwc3_role_mux - optional data-path mux between two connectors
++ * @select: GPIO selecting which connector drives the shared HS data lines
++ * @lock: serialises role requests coming from both connectors
++ * @ports: per-connector state, indexed by the endpoint's "mux-state"
++ * @desired_port: index of the connector that currently wins
++ * @active_port: index of the connector currently driving the data lines
++ * @seq: monotonic request counter used to order pending requests
++ * @error: sticky data-path switch error, reported to the role-switch users
++ *
++ * Two connectors can share the High Speed data lines of one controller while
++ * keeping their Super Speed lanes separate.  Each connector then needs its own
++ * role-switch input, and the shared data path has to be moved before the
++ * controller is reinitialised for the requested role.
++ */
++struct dwc3_role_mux {
++	struct gpio_desc	*select;
++	/* serialises role requests coming from both connectors */
++	struct mutex		lock;
++	struct dwc3_role_port	ports[2];
++	int			desired_port;
++	int			active_port;
++	u64			seq;
++	int			error;
++};
++
+ /**
+  * struct dwc3 - representation of our controller
+  * @drd_work: workqueue used for role swapping
+@@ -1064,6 +1101,7 @@ struct dwc3_glue_ops {
+  *		- USBPHY_INTERFACE_MODE_UTMI
+  *		- USBPHY_INTERFACE_MODE_UTMIW
+  * @role_sw: usb_role_switch handle
++ * @role_mux: optional shared data-path mux plus per-connector role switches
+  * @role_switch_default_mode: default operation mode of controller while
+  *			usb role is USB_ROLE_NONE.
+  * @usb_psy: pointer to power supply interface.
+@@ -1265,6 +1303,7 @@ struct dwc3 {
+ 	struct notifier_block	edev_nb;
+ 	enum usb_phy_interface	hsphy_mode;
+ 	struct usb_role_switch	*role_sw;
++	struct dwc3_role_mux	*role_mux;
+ 	enum usb_dr_mode	role_switch_default_mode;
+ 
+ 	struct power_supply	*usb_psy;
+diff --git a/drivers/usb/dwc3/debugfs.c b/drivers/usb/dwc3/debugfs.c
+index 65d909e..0d42f10 100644
+--- a/drivers/usb/dwc3/debugfs.c
++++ b/drivers/usb/dwc3/debugfs.c
+@@ -438,6 +438,10 @@ static ssize_t dwc3_mode_write(struct file *file,
+ 	u32			mode = 0;
+ 	char			buf[32];
+ 
++	/* The connector providers own both the role and the data-path selection. */
++	if (dwc->role_mux)
++		return -EBUSY;
++
+ 	if (copy_from_user(&buf, ubuf, min_t(size_t, sizeof(buf) - 1, count)))
+ 		return -EFAULT;
+ 
+diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
+index f3e37d3..20821d6 100644
+--- a/drivers/usb/dwc3/drd.c
++++ b/drivers/usb/dwc3/drd.c
+@@ -8,6 +8,7 @@
+  */
+ 
+ #include <linux/extcon.h>
++#include <linux/gpio/consumer.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/property.h>
+@@ -501,10 +502,219 @@ static enum usb_role dwc3_usb_role_switch_get(struct usb_role_switch *sw)
+ 	return role;
+ }
+ 
++/*
++ * Index of the connector that should own the shared data path: the oldest
++ * pending request wins, and the last selection is kept when neither connector
++ * requests a role.  Requests are ordered by a monotonic counter rather than by
++ * a timestamp, so a wrapped counter cannot be mistaken for an old request.
++ */
++static int dwc3_role_mux_pick(struct dwc3_role_mux *mux)
++{
++	int sel = mux->desired_port;
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(mux->ports); i++) {
++		if (mux->ports[i].role == USB_ROLE_NONE)
++			continue;
++		if (mux->ports[sel].role == USB_ROLE_NONE ||
++		    mux->ports[i].seq < mux->ports[sel].seq)
++			sel = i;
++	}
++
++	return sel;
++}
++
++static u32 dwc3_role_mux_mode(struct dwc3 *dwc, enum usb_role role)
++{
++	if (role == USB_ROLE_HOST)
++		return DWC3_GCTL_PRTCAP_HOST;
++	if (role == USB_ROLE_DEVICE)
++		return DWC3_GCTL_PRTCAP_DEVICE;
++	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST)
++		return DWC3_GCTL_PRTCAP_HOST;
++
++	return DWC3_GCTL_PRTCAP_DEVICE;
++}
++
++static int dwc3_mux_role_set(struct usb_role_switch *sw, enum usb_role role)
++{
++	struct dwc3_role_port *port = usb_role_switch_get_drvdata(sw);
++	struct dwc3 *dwc = port->dwc;
++	struct dwc3_role_mux *mux = dwc->role_mux;
++	unsigned long flags;
++	enum usb_role selected_role;
++	int selected, ret;
++
++	if (role > USB_ROLE_DEVICE)
++		return -EINVAL;
++
++	/*
++	 * The request order and the mode request it implies are decided under one
++	 * lock, so a second connector cannot change desired_port between the
++	 * selection and the dwc3_set_mode() call that consumes it.
++	 */
++	mutex_lock(&mux->lock);
++	spin_lock_irqsave(&dwc->lock, flags);
++	/*
++	 * A role change between two non-NONE roles of the same connector must not
++	 * give that connector a new request ticket: it would otherwise steal the
++	 * data path from the connector that asked first.
++	 */
++	if (port->role == USB_ROLE_NONE && role != USB_ROLE_NONE)
++		port->seq = ++mux->seq;
++	port->role = role;
++	selected = dwc3_role_mux_pick(mux);
++	mux->desired_port = selected;
++	selected_role = mux->ports[selected].role;
++	/*
++	 * Same asynchronous semantics as the single-connector role switch: the
++	 * data path and the controller are reprogrammed from __dwc3_set_mode().
++	 * dwc3_set_mode() only queues that work, so the mux lock may be held.
++	 */
++	dwc3_set_mode(dwc, dwc3_role_mux_mode(dwc, selected_role));
++	ret = mux->error;
++	mux->error = 0;
++	spin_unlock_irqrestore(&dwc->lock, flags);
++	mutex_unlock(&mux->lock);
++
++	return ret;
++}
++
++static enum usb_role dwc3_mux_role_get(struct usb_role_switch *sw)
++{
++	struct dwc3_role_port *port = usb_role_switch_get_drvdata(sw);
++	struct dwc3 *dwc = port->dwc;
++	struct dwc3_role_mux *mux = dwc->role_mux;
++	unsigned long flags;
++	enum usb_role role = USB_ROLE_NONE;
++
++	/*
++	 * A connector only reports its own role while it owns the shared data
++	 * path, so the connector drivers never fight over the controller.
++	 */
++	spin_lock_irqsave(&dwc->lock, flags);
++	if (mux->active_port == port->state)
++		role = port->role;
++	spin_unlock_irqrestore(&dwc->lock, flags);
++
++	return role;
++}
++
++static void dwc3_role_mux_exit(struct dwc3 *dwc)
++{
++	struct dwc3_role_mux *mux = dwc->role_mux;
++	unsigned int i;
++
++	if (!mux)
++		return;
++
++	for (i = 0; i < ARRAY_SIZE(mux->ports); i++) {
++		if (mux->ports[i].sw)
++			usb_role_switch_unregister(mux->ports[i].sw);
++		mux->ports[i].sw = NULL;
++		fwnode_handle_put(mux->ports[i].fwnode);
++		mux->ports[i].fwnode = NULL;
++	}
++}
++
++/* Returns 1 when the optional two-connector mux has been set up. */
++static int dwc3_role_mux_init(struct dwc3 *dwc, u32 mode)
++{
++	struct usb_role_switch_desc desc = {};
++	struct dwc3_role_mux *mux;
++	struct fwnode_handle *ep;
++	struct gpio_desc *select;
++	char name[64];
++	u32 state;
++	int ret, i;
++
++	select = devm_gpiod_get_optional(dwc->dev, "port-select", GPIOD_ASIS);
++	if (IS_ERR(select))
++		return PTR_ERR(select);
++	if (!select)
++		return 0;
++
++	mux = devm_kzalloc(dwc->dev, sizeof(*mux), GFP_KERNEL);
++	if (!mux)
++		return -ENOMEM;
++
++	ret = gpiod_get_value_cansleep(select);
++	if (ret < 0)
++		return ret;
++
++	mux->select = select;
++	mux->desired_port = ret;
++	mux->active_port = -1;
++	mutex_init(&mux->lock);
++
++	fwnode_graph_for_each_endpoint(dev_fwnode(dwc->dev), ep) {
++		if (!fwnode_property_present(ep, "usb-role-switch"))
++			continue;
++
++		ret = fwnode_property_read_u32(ep, "mux-state", &state);
++		if (ret || state >= ARRAY_SIZE(mux->ports)) {
++			ret = -EINVAL;
++			goto err_put_ep;
++		}
++		if (mux->ports[state].fwnode) {
++			ret = -EINVAL;
++			goto err_put_ep;
++		}
++
++		mux->ports[state].fwnode = fwnode_handle_get(ep);
++		mux->ports[state].state = state;
++		mux->ports[state].dwc = dwc;
++	}
++
++	for (i = 0; i < ARRAY_SIZE(mux->ports); i++) {
++		if (!mux->ports[i].fwnode) {
++			ret = -EINVAL;
++			goto err;
++		}
++	}
++
++	dwc->role_mux = mux;
++
++	for (i = 0; i < ARRAY_SIZE(mux->ports); i++) {
++		snprintf(name, sizeof(name), "%s-port%u", dev_name(dwc->dev), i);
++		desc.name = name;
++		desc.fwnode = mux->ports[i].fwnode;
++		desc.set = dwc3_mux_role_set;
++		desc.get = dwc3_mux_role_get;
++		desc.driver_data = &mux->ports[i];
++		mux->ports[i].sw = usb_role_switch_register(dwc->dev, &desc);
++		if (IS_ERR(mux->ports[i].sw)) {
++			ret = PTR_ERR(mux->ports[i].sw);
++			mux->ports[i].sw = NULL;
++			goto err;
++		}
++	}
++
++	/*
++	 * The controller is only started in its default role once both switches
++	 * are registered: before that a connector driver cannot request a role,
++	 * so nothing can race with this initial mode request.
++	 */
++	dwc3_set_mode(dwc, mode);
++
++	return 1;
++
++err:
++	dwc3_role_mux_exit(dwc);
++	dwc->role_mux = NULL;
++	/* A mode request queued before the failure must not run on freed state. */
++	cancel_work_sync(&dwc->drd_work);
++	return ret;
++err_put_ep:
++	fwnode_handle_put(ep);
++	goto err;
++}
++
+ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ {
+ 	struct usb_role_switch_desc dwc3_role_switch = {NULL};
+ 	u32 mode;
++	int ret;
+ 
+ 	dwc->role_switch_default_mode = usb_get_role_switch_default_mode(dwc->dev);
+ 	if (dwc->role_switch_default_mode == USB_DR_MODE_HOST) {
+@@ -513,6 +723,11 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ 		dwc->role_switch_default_mode = USB_DR_MODE_PERIPHERAL;
+ 		mode = DWC3_GCTL_PRTCAP_DEVICE;
+ 	}
++
++	ret = dwc3_role_mux_init(dwc, mode);
++	if (ret)
++		return ret < 0 ? ret : 0;
++
+ 	dwc3_set_mode(dwc, mode);
+ 
+ 	dwc3_role_switch.fwnode = dev_fwnode(dwc->dev);
+@@ -526,7 +741,7 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ 
+ 	if (dwc->dev->of_node) {
+ 		/* populate connector entry */
+-		int ret = devm_of_platform_populate(dwc->dev);
++		ret = devm_of_platform_populate(dwc->dev);
+ 
+ 		if (ret) {
+ 			usb_role_switch_unregister(dwc->role_sw);
+@@ -541,6 +756,7 @@ static int dwc3_setup_role_switch(struct dwc3 *dwc)
+ #else
+ #define ROLE_SWITCH 0
+ #define dwc3_setup_role_switch(x) 0
++static inline void dwc3_role_mux_exit(struct dwc3 *dwc) {}
+ #endif
+ 
+ int dwc3_drd_init(struct dwc3 *dwc)
+@@ -597,6 +813,7 @@ void dwc3_drd_exit(struct dwc3 *dwc)
+ {
+ 	unsigned long flags;
+ 
++	dwc3_role_mux_exit(dwc);
+ 	if (dwc->role_sw)
+ 		usb_role_switch_unregister(dwc->role_sw);
+ 
+-- 
+2.53.0
+
