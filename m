@@ -1,64 +1,64 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.125.25.9
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793035512;
-	b=NfKCIc9hmqV5kfrSuK9dLbZ64oyXE2d+GbT93tbwXGbC8A8AmJgoARVnTB8EF0WEsDk2
-	 3x1L8EePENhIooSZhYCcpD1tMZAMiNyNU1hoxGbgqsVmVkSZYpxF20a0EhkIz3755dwRe
-	 27q2ztiPWZVoI0ZjGpelwkGP3TbjOPr4juzID4FHo6agmmR0ogygZODQ2D4A6dAjEEjHx
-	 bAljx1dnwj7KMilIquNrwJSgaVuLXALkS3tzwHw+H62NN4UbnFYcahIaWOfexDDtnNleq
-	 d0TLLYlfvHftDEQ3VQvr3ZnqXtpVPuWOWoWzhF2fmzXSTXRR3CzepHXrH0ZulIELrmg==
+	t=1793038162;
+	b=ZeIPK97FBqB+eJ8hK3/E3//CcT5eGHaHUq3g1IJ/PrvhXwBJyE6AGkvIXIn3FvmOpSi1
+	 sjEE8MMlRNbyD4gzT0rCuxT+PpEFXESke/HPBxxUWsaBIRJ3jmjNCyDY+u8nCC82N0CAL
+	 SgjAa4zz55Qnkp4i0Xh5J7C6hO/Ziz1vo1YX5+uCQE/6lnRnp6FWEDkK8HOutKq/PFGeG
+	 v3M7hcQMml7KuaqsoPw7EB/k7Q9lOzoSoZNmXKfOo2W9xhrzYPnZTaVUXuUH78wx+Thyx
+	 FDtBPmYXqyurkpWTtWHY/EmWH35k9ztJQH5hMxCbcXwmNfbM6mJBvwgvLoOYapN+1kQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793035512;
-	h=Received:DKIM-Signature:Received:Subject:From:In-Reply-To:References:
-	 X-PR-Tracked-List-Id:X-PR-Tracked-Message-Id:X-PR-Tracked-Remote:
-	 X-PR-Tracked-Commit-Id:X-PR-Merge-Tree:X-PR-Merge-Refname:
-	 X-PR-Merge-Commit-Id:Message-Id:Date:To:Cc;
-	bh=Ve1em0WUiVhfs92cCJj6cPFNkzrHbV84VQlCPQJkvMM=;
-	b=MYzAID/MSIefIdBUGjuxQ8/tvBg9T3dRRscBzvFurYdTPzCkIqCSM/iIPlR9ON4NC7KU
-	 uZq6tA2ousn0ZpBUBnUvx77phzB8oAJAvdI45jN7PpWRHrjLEUWoeZZrhCiH5TUTaT44U
-	 anynCvf+TG3J/vn/wfh4jmfaer2ifTYSVtNCCtmdbY9Lz8ejslXrB2cHTyfUeeD3/KUrB
-	 1LzuZ0LHCT7g11nBXqmrGmkv5o3ukOxpTLlXB7ISOxIDBk8Dpmjc9DQiXjL7ZAdiuIsa7
-	 k2UjYkpzRkCyDwg47B8BwSuPa7uQKd08BA95WVFaOD82N8l5fHWZCjmzSyQ76UoGQMg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793038162;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Feedback-ID:X-Infomaniak-Routing;
+	bh=ePgfAy3uzHAN/EkWHZ8Jng1TIwn/iiaFzzNrCetWo0g=;
+	b=TtmPVW/Ij6pjVgNIkLdgpxE5ujUOcIQ9GzO2anVPbfHqbOA8fYrpcYKKoj7eEfUx9Iwe
+	 A+VHxOIebkJ7COvHaVvq8M3OSuUSymuUyQvwHdPdbFphcYbbr9ajQPtz9TL4FXYOU9gZA
+	 JstLcwf2z9INCdPkKcO9hZF6dOFYXJAZboSwuVTSqpt8poEHckmtpGiXxahKcWhCTE15Y
+	 fiC7NMQK/CzZ/nyIkIwIk+xS9ULglE31w6k5xiktMY3SG2CmvZNgJi0KjxkiNVeyHFeev
+	 X0dU1mZpmXDKBv6KZ82lTqwqWnLG8DDiDFFQPTkSpt+cLcJl3oZKkt+0OmpByKuenmg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mtu0qkvl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=etik.com;
+	spf=pass smtp.mailfrom=etik.com;
+	dkim=pass header.d=etik.com header.i=@etik.com header.a=rsa-sha256 header.s=20210927 header.b=wTqMTyv0;
+	arc=none smtp.remote-ip=185.125.25.9
+Received: from smtp-1909.mail.infomaniak.ch (smtp-1909.mail.infomaniak.ch [185.125.25.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D85E606A33F;
-	Mon, 26 Oct 2026 17:25:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EADF606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 18:09:18 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5EADF606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=etik.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etik.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mtu0qkvl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B98F1F01825;
-	Mon, 26 Oct 2026 17:25:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793035511;
-	bh=Ve1em0WUiVhfs92cCJj6cPFNkzrHbV84VQlCPQJkvMM=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc;
-	b=Mtu0qkvlQ2Jnu5/RI63xZMZCEEUoukWGl+wppoGptPvYNNEoHHNIrX6Jy3JVmv9hs
-	 z2Dp1gtR4eTQfVvztZWsknh2KIz5zA5tjRymx/B+FLvzRn9m/UTc+vHrNaamrGvz46
-	 w24s0yeJVnswGGb0lw0p2tJ2xweknr/+Q7hUoOVK+06DDruHSKf27aaF/WTsCIpo0m
-	 z9s16zFPvqp9bWj7ToHPObLRWQqtrfKBDamhF3g08wh3ndPiDsvPT0erWgfK8Qk0R3
-	 rDcIHO+Qs7SwJgqfffymbI2NSEK78Ytq8YixFxzjLhbY8ebTTev/DC/tTrns4Bztnl
-	 gN+PKHHGl4YxQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 816883AA58BF;
-	Mon, 26 Oct 2026 17:25:11 +0000 (UTC)
-Subject: Re: [GIT PULL] Driver core fixes for 7.4-rc1
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <DME7288WXCGZ.1XSS13X4IVJ5W@kernel.org>
-References: <DME7288WXCGZ.1XSS13X4IVJ5W@kernel.org>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <DME7288WXCGZ.1XSS13X4IVJ5W@kernel.org>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-7.4-rc1-2
-X-PR-Tracked-Commit-Id: 187a62f99da29b1a55602b0d401a783d8dc86161
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 0cc3ad8f4d2e2009c2005278c754caf7c07fe0a4
-Message-Id: <179303551017.3291751.18363392359285544875.pr-tracker-bot@kernel.org>
-Date: Mon, 26 Oct 2026 17:25:10 +0000
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, Johan Hovold <johan@kernel.org>, Saravana Kannan <saravanak@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, driver-core@lists.linux.dev, linux-usb@vger.kernel.org, rust-for-linux@vger.kernel.org, linux-kernel@vger.kernel.org
+	dkim=pass (1024-bit key, unprotected) header.d=etik.com header.i=@etik.com header.a=rsa-sha256 header.s=20210927 header.b=wTqMTyv0
+Received: from smtp-4-0001.mail.infomaniak.ch (smtp-4-0001.mail.infomaniak.ch [10.7.10.108])
+	by smtp-4-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4jD1pt5NLqz1F2d;
+	Mon, 26 Oct 2026 19:09:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etik.com;
+	s=20210927; t=1793038150;
+	bh=ePgfAy3uzHAN/EkWHZ8Jng1TIwn/iiaFzzNrCetWo0g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=wTqMTyv0jprnEQTGDQYh/CbZDdAFRn7jdThjNhR7g6iNaU3bqOlAraT4/AAHq0Qi2
+	 E43P5sv3T9ZrTo5D61jYrShfckpPqPNnXWEKyeFomO/64vSnjrEiSZ3GfzknXQ2CgW
+	 dTZ49OR0j4kayABL9E8B1mwGPOfzJXK8fbtauwyY=
+Received: from unknown by smtp-4-0001.mail.infomaniak.ch (Postfix) with ESMTPA id 4jD1ps25P6zVbB;
+	Mon, 26 Oct 2026 19:09:09 +0100 (CET)
+From: David Vornholt <dv@etik.com>
+To: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	David Vornholt <david@vornholt.online>,
+	stable@vger.kernel.org,
+	Mark Pearson <mpearson-lenovo@squebb.ca>
+Subject: Re: [PATCH v2] usb: typec: ucsi: Stop a power level change notification storm
+Date: Mon, 26 Oct 2026 19:09:07 +0100
+Message-ID: <20261026180907.76867-1-dv@etik.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <at8kLPzAnJAfZRjF@black.igk.intel.com>
+References: <20261010183917.146821-1-dv@etik.com> <at8kLPzAnJAfZRjF@black.igk.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,16 +67,79 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Feedback-ID: :8e558a56fdab348:ham:123049f310c9d1d
+X-Infomaniak-Routing: alpha
 
-The pull request you sent on Sun, 25 Oct 2026 21:16:37 +0100:
+Hi Heikki,
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/driver-core/driver-core.git tags/driver-core-7.4-rc1-2
+On Mon, Oct 26, 2026 at 10:58:04AM +0100, Heikki Krogerus wrote:
+> On Sat, Oct 10, 2026 at 08:39:17PM +0200, David Vornholt wrote:
+> > On a Lenovo ThinkPad X1 Carbon Gen 13 (BIOS N4BET78W 1.48, EC N4BHT61W
+> > 1.41, UCSI 1.0) with an HP E273m monitor connected, the PPM keeps
+> > signaling a Negotiated Power Level Change although the power contract
+> > stays the same, and signals it again right after it has been
+> > acknowledged:
+> >
+> >   ucsi_connector_change: port1 status: change=0040, opmode=3,
+> >     connected=1, sourcing=0, partner_flags=2, partner_type=4,
+> >     request_data_obj=1304b12c, BC status=2
+>
+> Okay, so the PPM really should not report the power level changes
+> since there are not power level changes, right? Have you reported this
+> to Lenovo?
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/0cc3ad8f4d2e2009c2005278c754caf7c07fe0a4
+Right. The connector status is the same every time, with the same RDO,
+and the Negotiated Power Level Change bit is the only one set in the
+change field.
 
-Thank you!
+I haven't reported it to Lenovo yet, so I've added Mark to Cc. Mark,
+this is a ThinkPad X1 Carbon Gen 13 (21NT) with BIOS N4BET78W (1.48)
+and EC 1.41, which is still the latest firmware on LVFS. With an HP
+E273m connected over USB-C, the EC keeps signaling a Negotiated Power
+Level Change for an unchanged contract, about seven times a second,
+and GPE 0x6E fires about 680 times a second. Could you pass this on to
+the firmware team? The details are in the patch:
+https://lore.kernel.org/r/20261010183917.146821-1-dv@etik.com
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+> This problem may only affect your system, so we really have to isolate
+> it somehow. I'm almost certain that like this there will be problems
+> on some other systems.
+
+OK. How about a quirk for this machine only? ucsi_acpi would match it
+by DMI (LENOVO, "ThinkPad X1 Carbon Gen 13") and set a new quirk flag,
+and ucsi_get_supported_notifications() would then leave
+UCSI_ENABLE_NTFY_PWR_LEVEL_CHANGE out of the mask. That replaces all of
+the detection logic in v2 and changes nothing on other systems.
+
+I've tested the effect of that on this machine, with a test switch that
+kept the notification disabled from the start. With the monitor
+connected, the PPM signaled no connector changes at all, and GPE 0x6E
+dropped to about 5/s, from about 680/s with the stock driver. The cost
+is that on this machine the driver won't notice a real power level
+change until the PPM signals some other connector change. The EC
+handles charging on its own.
+
+> Something that I did not quite understand from the above is, if you
+> revert commit a0d4618788f2, do you still have a problem (I understand
+> that you still get the repeated notifications, but do they cause other
+> problems then)?
+
+Yes, though only about half as bad. I didn't test a plain revert, but
+my first attempt did the same for these notifications: it skipped
+ucsi_pwr_opmode_change() when the RDO hadn't changed. That's where the
+"about 360 a second" in the commit message comes from. The PPM still
+signaled the next change right after each ACK, so the driver read the
+connector status and acknowledged it about nine times a second, back to
+back. At about 50 ms of EC transactions per command, the connector work
+and the EC were still busy almost all the time. Only disabling the
+notification stopped that.
+
+I didn't measure CPU time or power draw with that version. If numbers
+for a plain revert would help, I can get them.
+
+If the quirk is OK with you, I'll send a v3 with it.
+
+Thanks,
+David
