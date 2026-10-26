@@ -1,78 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=114.111.35.109
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793020863;
-	b=GK6Rtw6h5DwjxX1lR2OZqbpsGFDLyFI/LpzlYqxizrEAIr6eYWpSuxRbghQLEEz3EGoZ
-	 Rq4TWE88hGJdU0SlAqcQj27uIA3YdG8RTqONtDdGCfTtovnG9f0t8Rtnh+llvF5U41BIW
-	 o0OF6AYuF/50QkxZUjyYgsPeYUWgYUvg3IXZgCpd3ZCyuUrWcB2P/Xi8BJwDLdo2YwH0X
-	 hG4OPZdUJt+P8BOUck70zlV4sE4iTU2Ul+fFll8wcZDYFBVa4JzER6cFNksapHf/fzOuJ
-	 U882PYGvwPJZiK8AGmIafoW5y2e1y+MyB9EQziufRuxidsCFNrxXE5XPiW0XBJyVv0Q==
+	t=1793020876;
+	b=1nZK5Eknvi42Fna+Xl+u9VhCi+/Ev5nZ/ui+6wupe9CG/m0MsQg6/oauGceX7lsEdW0Y
+	 7TPRgnKyl/uIUz8ssDuZgjRWfphxCmxozrnMSpETuL4/lCMFBLvTtpVlYKL1AIm58ET5e
+	 /bLypZu4w9ZP3GA4N+ryjMdW/JybXdU09011RoSl1sGDcBnFIleNYfoSc4XeLWEf2AkqS
+	 C9K9GTmy+AJh8CIkqEfKs3eZEKe96JLPgeqK0fZ5wvZYHw9k+2kMMXginFvkp1tJj0Dud
+	 fpO1qAJBaPucqUOItOM5ailaRHAJDeIiwi5BjFhsKCJTGheO3mPkkv7xGq2j+ndSvcg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793020863;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=92zvWHSppKZKlbV2z8fjTOWLGPxOJ1h84oGpWcTlTa0=;
-	b=ZW/XQ/x8j9wqEIBubWl54DHqWDcgkQXjXt0QmBmxw3IAWYHZJi+EUPwbYLCp+nMvCG1V
-	 VSX4/v/0jeNv8Oj9VHln1pUFVtshToDdU3A2a2r4/P6X836S4EkvahR+CfSOnVVtG30Sl
-	 LiuLpZxXT0UJX96oV6wLhfd4N16hb+WX13rprTCajKR1PECdOmj7QMl1OyFWt8yMu0YRw
-	 YB0TiQi5rrnCB1lIAExhs9wOGTQJMq0Pb/AKfxuiACKtMW/vHrW+BNF+ar8gzsRHstPZC
-	 RCCESMMU3AcpyGVVTDB/XW+EfqdU1qq/WR8L6YhFIzomotMSPes6Bhemb3Q9YadG+Ug==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793020876;
+	h=DMARC-Filter:X-Originating-IP:X-Works-Smtp-Source:Received:
+	 DKIM-Signature:X-Session-ID:MIME-Version:Message-ID:Date:From:
+	 In-Reply-To:References:Importance:To:Cc:Subject:X-Originating-IP:
+	 X-Works-Send-Opt:Content-Type:Content-Transfer-Encoding;
+	bh=wuj6LvhGGSjiw/69i72OUVnfSHkNsIlYwMzRYhSVLCA=;
+	b=2N9dd5qTi7oU0qUmLhxX0QzoIDY3uyWyijnrPJsWKYySoeSyWA5DAgdHVcb1zbhyrWB1
+	 bF30yuEsc7sMMroMIo5We7scdQRI978RjrsTrnMULiFqD9stS51mzRB7OKkpcyL2dSUix
+	 FhmLbykzpswFbSfIELuNMob9uE68ikfYnl7n/+O3Fqyw/c+7gF1gIzidB+GI1NVrBy8bF
+	 LVazAIAoD+X1CW7/od80twxDYz5uK3UNjAFBTnoqBTPRAo0KDYIwOh8TvZc4bQnqNYtpU
+	 wZucJOWLcrjKwfeeZzqg4NiWBUJZYxQznqrP1KhM82LH1OiaylzVtGdxCmp3fVN9R9A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UyEsjetc;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=naver.com;
+	spf=pass smtp.mailfrom=naver.com;
+	dkim=pass header.d=naver.com header.i=@naver.com header.a=rsa-sha256 header.s=s20171208 header.b=UQF5gG8P;
+	arc=none smtp.remote-ip=114.111.35.109
+Received: from cvsmtppost22.nm.naver.com (cvsmtppost22.nm.naver.com [114.111.35.109])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA3A606A321;
-	Mon, 26 Oct 2026 13:21:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBA3A606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80A72606A31F
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 13:21:15 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80A72606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=naver.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=naver.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UyEsjetc
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793020863; x=1824556863;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q6UvNyOiSBy/+IxTQtW7UsyYTQPm1czeX/2xhznn6Gs=;
-  b=UyEsjetcICm4VRhp4Iy0mgEtWZM8m3aPBH1YtqtuhRKkwn6KeyDMHX9y
-   J/6FzDF6/pyFEEILyKNRITAnsB9qpQSfOp6jYT3GoEA+rqUcF9ryRxyjH
-   HbN5VMId4Sx49slStSxzNrjohQtUmRFJbqT+aFZ9OZJKD47Z4sF/h6VlK
-   903rbZTM7y4APxzMn22fCdFCCAKg1sL4XycYpvH8McnBnnGsaSvuzGwyC
-   T7IXMzJSQxnIIJgXdHGyR1H0D5BqvApVeLnCb1Q8mys7FAnU4ZBWavbCe
-   msBkyPhrcRlnum9KmacPxcftc4VkiICykQqIG55Lc9Hl5q0IIYuT7kfpt
-   Q==;
-X-CSE-ConnectionGUID: EswSfgT7SB6SOm2g60gakA==
-X-CSE-MsgGUID: A7o+F5QfTXGtdzoeUGaJ2g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1717905"
-X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1717905"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 06:20:54 -0700
-X-CSE-ConnectionGUID: Mw/j33mWQxywAcp5SRfSfw==
-X-CSE-MsgGUID: w6K/vCLGRh2RTP9zxJha7Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="4652334"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa006.fm.intel.com with ESMTP; 26 Oct 2026 06:20:52 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id 15ED699; Mon, 26 Oct 2026 14:20:51 +0100 (CET)
-Date: Mon, 26 Oct 2026 14:20:51 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Joonhoe Kim <26rote@gmail.com>
-Cc: gregkh@linuxfoundation.org, neil.armstrong@linaro.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] usb: typec: mux: fsa4480: Keep the USB 2.0 switch on in
- DP-only modes
-Message-ID: <at9Ts6lDS7yWuAMK@black.igk.intel.com>
-References: <20261022165143.1327-1-26rote@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=naver.com header.i=@naver.com header.a=rsa-sha256 header.s=s20171208 header.b=UQF5gG8P
+X-Works-Smtp-Source: u/b/axUlFqJCpNm/Fot/WHF0
+Received: from nv1s-hmac-real-5 ([10.180.31.91])
+  by cvsmtppost22.nm.naver.com with ESMTP id Y8ulTNdhT6W3PWDwjNKiYw
+  for <multiple recipients>;
+  Mon, 26 Oct 2026 13:21:08 -0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=naver.com; s=s20171208;
+	t=1793020868; bh=wuj6LvhGGSjiw/69i72OUVnfSHkNsIlYwMzRYhSVLCA=;
+	h=Message-ID:Date:From:To:Subject:From:Subject:Feedback-ID:
+	 X-Works-Security;
+	b=UQF5gG8PC7cnJUt7iVoYjvTywxosxx5JkggFhtNkmn9QBUS9ovdiLbetaByX6S29a
+	 ZruojgttrjDSgGd02iMS/KCT4skJUedeCxCCsbgSZmJCATOAho+0bJ8fuMWP+47Ce1
+	 lujRe9+JJv6AgEBV8eSw6TfKY9igW09sMALk/9M02jAN4EHbH8QH1L2egCMndLkE3i
+	 fhK/wKnyixl404+sbCMWKC9p17ZYjUMovtSHypZ4L1p5QipF/ZoWyZelhWu19ZnPkg
+	 ReFvKDVr6TFVH8eQ3bZOtwoeJoZ4zpEu/6IORpK4icWLc+IKKVGTMxqppkGEJzTT23
+	 qB/TyOWko+EXQ==
+X-Session-ID: 2618023056a26e484ebb5ef66bf6626c5233e13d8f97ca58730055d85e1a33c4
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,60 +59,85 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261022165143.1327-1-26rote@gmail.com>
+Message-ID: <42c043b49ccc62a79522eb2feed37b@cweb007.nm>
+Date: Mon, 26 Oct 2026 22:21:07 +0900
+From: =?utf-8?B?7ISx67OR7LCs?= <tjdqudcks0424@naver.com>
+In-Reply-To: <572df927-cb52-4504-a663-e73c68592c97@linuxfoundation.org>
+References: <20261020181832.461892-1-tjdqudcks0424@naver.com>
+	<572df927-cb52-4504-a663-e73c68592c97@linuxfoundation.org>
+Importance: normal
+To: =?utf-8?B?U2h1YWggS2hhbg==?= <skhan@linuxfoundation.org>,
+	=?utf-8?B?VmFsZW50aW5hIE1hbmVh?= <valentina.manea.m@gmail.com>,
+	=?utf-8?B?U2h1YWggS2hhbg==?= <shuah@kernel.org>
+Cc: <linux-usb@vger.kernel.org>
+Subject: =?utf-8?B?UmU6IFtQQVRDSCB2Ml0gdXNiaXA6IHZ1ZGM6IHJlamVjdCBzdWJtaXRzIGFmdGVyIGVuZA==?=
+	=?utf-8?B?cG9pbnQgc3RhdGUgY2hhbmdlcw==?=
+X-Works-Send-Opt: OPFwpzGdjHmdKHFOMr39Ko3YKHmdjAudFqM9KqMqFxIYkEljxBmwjAg=
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Fri, Oct 23, 2026 at 01:51:43AM +0900, Joonhoe Kim wrote:
-> DisplayPort pin assignments C and E give all four SuperSpeed lanes to
-> DisplayPort, but the USB 2.0 D+/D- pair is not part of the pin
-> assignment and stays available. The FSA4480 sits on that pair, and in
-> these modes the driver turns its USB switch off, so a USB 2.0 hub or
-> device behind a DisplayPort sink is disconnected as soon as the
-> DisplayPort mode is set.
-> 
-> Configure the USB switch the same way in all DisplayPort modes.
-> 
-> Fixes: c7054c31c1c9 ("usb: typec: fsa4480: rework mux & switch setup to handle more states")
-> Signed-off-by: Joonhoe Kim <26rote@gmail.com>
-
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-
-> ---
-> Tested on a Lenovo Y700 Gen 5 (TB323FU, Kaanapali; out-of-tree board
-> support) with a USB-C monitor in pin assignment C: its USB 2.0 hub was
-> disconnected when the mux was set; with this change the hub and the
-> keyboard behind it stay connected.
-> 
->  drivers/usb/typec/mux/fsa4480.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4480.c
-> index bea0c1deec94..e05ab3c10c81 100644
-> --- a/drivers/usb/typec/mux/fsa4480.c
-> +++ b/drivers/usb/typec/mux/fsa4480.c
-> @@ -93,16 +93,9 @@ static int fsa4480_set(struct fsa4480 *fsa)
->  		sel = FSA4480_SEL_USB;
->  	} else if (fsa->svid) {
->  		switch (fsa->mode) {
-> -		/* DP Only */
->  		case TYPEC_DP_STATE_C:
-> -		case TYPEC_DP_STATE_E:
-> -			enable |= FSA4480_ENABLE_SBU;
-> -			if (reverse)
-> -				sel = FSA4480_SEL_SBU_REVERSE;
-> -			break;
-> -
-> -		/* DP + USB */
->  		case TYPEC_DP_STATE_D:
-> +		case TYPEC_DP_STATE_E:
->  		case TYPEC_DP_STATE_F:
->  			enable |= FSA4480_ENABLE_USB | FSA4480_ENABLE_SBU;
->  			sel = FSA4480_SEL_USB;
-> 
-> base-commit: 2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64
-> -- 
-> 2.43.0
-
--- 
-heikki
+SGkgU2h1YWgsCgpZZXMsIEkgcmVwcm9kdWNlZCBpdC4gU29ycnksIHRoZSBjb21taXQgbWVzc2Fn
+ZSBkaWQgbm90IGRlc2NyaWJlIHRoZQp0ZXN0IGhhcm5lc3MgYW5kIHRoZSBzeW5jaHJvbml6YXRp
+b24gY2xlYXJseSBlbm91Z2guCgpJIHRlc3RlZCBpdCBpbiBhIG5ldHdvcmstaXNvbGF0ZWQgUUVN
+VSBndWVzdCBydW5uaW5nIGEgS0FTQU4ga2VybmVsIGF0CmZmNDc2NTJhNGI2NmMwNjdjNzY1YTdh
+ZDQ2NGQ5MzBiNWE5MzY3Y2MuIFRoZSBndWVzdCBmaXh0dXJlIHJhbiBhcwpQSUQgMSwgY29uZmln
+dXJlZCBhIFVBQzIgY29uZmlnZnMgZ2FkZ2V0IG9uIHRoZSBwcm9kdWN0aW9uIFZVREMsIGFuZAph
+dHRhY2hlZCBhIGxvY2FsIHNvY2tldHBhaXIgdGhyb3VnaDoKCsKgIC9zeXMvZGV2aWNlcy9wbGF0
+Zm9ybS91c2JpcC12dWRjLjAvdXNiaXBfc29ja2ZkCgpUaGUgZml4dHVyZSBzZW50IG9yZGluYXJ5
+IFVTQi9JUCBQRFVzIHRocm91Z2ggdGhhdCBzb2NrZXQuIEl0IGRpZCBub3QKY2FsbCB2X3JlY3Zf
+Y21kX3N1Ym1pdCgpIG9yIGFueSBvdGhlciBpbnRlcm5hbCBWVURDIGZ1bmN0aW9uIGRpcmVjdGx5
+LAphbmQgSSBkaWQgbm90IGFkZCBhIGRlbGF5IG9yIHRlc3QgaG9vayB0byB0aGUga2VybmVsLgoK
+VGhlIHN0YWxlLWVuZHBvaW50IHRlc3QgdXNlZCB0aGUgZm9sbG93aW5nIHNlcXVlbmNlOgoKwqAg
+MS4gRW51bWVyYXRlIHRoZSBnYWRnZXQgYW5kIHNlbGVjdCB0aGUgSVNPIE9VVCBlbmRwb2ludArC
+oCDCoCDCoChhZGRyZXNzIDB4MDEsIGludGVyZmFjZSAxLCBhbHRlcm5hdGUgc2V0dGluZyAxIGlu
+IHRoZXNlIHJ1bnMpLgoKwqAgMi4gSW4gb25lIHNvY2tldCB3cml0ZSwgc2VuZCB0d28gVVNCSVBf
+Q01EX1NVQk1JVCBoZWFkZXJzOgrCoCDCoCDCoGFuIEVQMCBTRVRfSU5URVJGQUNFIHJlcXVlc3Qg
+c2VsZWN0aW5nIGFsdGVybmF0ZSBzZXR0aW5nIDAsCsKgIMKgIMKgZm9sbG93ZWQgYnkgYSA2NC1i
+eXRlIElTTyBPVVQgc3VibWl0IGhlYWRlciB3aXRoIG9uZSBJU08gcGFja2V0LgoKwqAgMy4gRG8g
+bm90IHNlbmQgdGhlIElTTyBwYXlsb2FkIGltbWVkaWF0ZWx5LiBUaGUgcmVjZWl2ZSB0aHJlYWQg
+Y2FuCsKgIMKgIMKgY29uc3VtZSB0aGUgSVNPIGhlYWRlciBhbmQgcGVyZm9ybSB0aGUgZW5kcG9p
+bnQgbG9va3VwLCB0aGVuIGJsb2NrCsKgIMKgIMKgd2FpdGluZyBmb3IgdGhlIHBheWxvYWQgd2hp
+bGUgdGhlIFZVREMgdHJhbnNmZXIgdGltZXIgcHJvY2Vzc2VzCsKgIMKgIMKgdGhlIHByZWNlZGlu
+ZyBTRVRfSU5URVJGQUNFIHJlcXVlc3QgYW5kIGRpc2FibGVzIHRoZSBlbmRwb2ludC4KCsKgIDQu
+IFdhaXQgMjAgbXMsIHRoZW4gc2VuZCB0aGUgNjQtYnl0ZSBwYXlsb2FkIGFuZCBpdHMgSVNPIHBh
+Y2tldArCoCDCoCDCoGRlc2NyaXB0b3IuCgrCoCA1LiBRdWV1ZSBTRVRfSU5URVJGQUNFIGJhY2sg
+dG8gYWx0ZXJuYXRlIHNldHRpbmcgMS4gVGhpcyBhbHNvIHRlc3RzCsKgIMKgIMKgdGhlIGRpc2Fi
+bGUvcmUtZW5hYmxlIGNhc2Ugd2hlcmUgdGhlIHNhbWUgc3RydWN0IHZlcCBpcyByZXVzZWQuCgpJ
+IHJhbiB0aGUgdW5tb2RpZmllZCBiYXNlbGluZSBjYXNlIGluIHNpeCBpbmRlcGVuZGVudCBmcmVz
+aCBib290cy4gQWxsCnNpeCBydW5zIHJlYWNoZWQgdGhlIGludGVuZGVkIG9yZGVyaW5nIGFuZCBs
+b2dnZWQ6CgrCoCBQNTNWMl9TVEFMRSBoZWFkZXJfc2VxPTUgcGhhc2U9TE9PS1VQX1RIRU5fQk9E
+WV9ERUxBWQrCoCBQNTNWMl9TVEFMRSBib2R5X3Jlc3VsdD1TRU5UX0FGVEVSX0RJU0FCTEUgbGVu
+Z3RoPTY0CgpPbmUgb2YgdGhlIHNpeCBydW5zIHRoZW4gZmF1bHRlZCB3aXRoOgoKwqAgT29wczog
+Z2VuZXJhbCBwcm90ZWN0aW9uIGZhdWx0LCBwcm9iYWJseSBmb3Igbm9uLWNhbm9uaWNhbCBhZGRy
+ZXNzCsKgIEtBU0FOOiBudWxsLXB0ci1kZXJlZiBpbiByYW5nZSBbMHgwLTB4N10KwqAgUklQOiB2
+X3J4X2xvb3ArMHg1OTkvMHhiN2YKwqAgS2VybmVsIHBhbmljIC0gbm90IHN5bmNpbmc6IEZhdGFs
+IGV4Y2VwdGlvbgoKdl9yZWN2X2NtZF9zdWJtaXQoKSB3YXMgaW5saW5lZCBpbnRvIHZfcnhfbG9v
+cCBpbiB0aGF0IGJ1aWxkLiBUaGUgZmF1bHQKd2FzIGluIHRoZSBlbmRwb2ludCBkZXNjcmlwdG9y
+IGFjY2VzcyBhZnRlciB2ZXBfZGlzYWJsZSgpIGhhZCBjbGVhcmVkCmVwLT5kZXNjLiBUaGUgb3Ro
+ZXIgZml2ZSBydW5zIGNyb3NzZWQgdGhlIHNhbWUgZW5kcG9pbnQgdHJhbnNpdGlvbiBidXQKZGlk
+IG5vdCBoYXBwZW4gdG8gZmF1bHQsIHNvIHRoZSBjcmFzaCBpdHNlbGYgaXMgdGltaW5nLXNlbnNp
+dGl2ZS4KCkZvciB0aGUgcGF0Y2hlZCBrZXJuZWwgSSByYW4gbm9ybWFsIG9wZXJhdGlvbiwgc2Vy
+aWFsaXplZCBkaXNhYmxlLCBhbmQKdGhlIGV4YWN0IGRpc2FibGUvcmUtZW5hYmxlIHN0YWxlLXN1
+Ym1pdCBjYXNlIGluIHRocmVlIGluZGVwZW5kZW50CmZyZXNoIGJvb3RzIGVhY2guIFRoZSBzZWxl
+Y3RlZCBzdGFsZSBydW5zIHdlcmUgcnVucyAyLCA0LCBhbmQgNS4gRWFjaApvbmUgYWdhaW4gbG9n
+Z2VkIFNFTlRfQUZURVJfRElTQUJMRSwgYnV0IHRoZSByZWNlaXZlIHRocmVhZCByZXR1cm5lZAot
+RVNIVVRET1dOIHdpdGhvdXQgYSBLQVNBTiByZXBvcnQuIEFmdGVyIGF0dGFjaGluZyBhIG5ldyBs
+b2NhbCB0cmFuc3BvcnQKdG8gdGhlIHNhbWUgVlVEQywgYSBmb2xsb3dpbmcgRVAwIHJlcXVlc3Qg
+Y29tcGxldGVkIHdpdGggc3RhdHVzIDAuCgpUaGUgZml4IGNvdmVycyB0d28gcmVsYXRlZCBwYXJ0
+cyBvZiB0aGUgd2luZG93LgoKRmlyc3QsIGVuZHBvaW50IHR5cGUgYW5kIG1heGltdW0gcGFja2V0
+IHNpemUgYXJlIGNvcGllZCB3aGlsZQp1ZGMtPmxvY2sgc3RpbGwgcHJvdGVjdHMgZXAtPmRlc2Mu
+IFRoaXMgcmVtb3ZlcyB0aGUgdW5sb2NrZWQgcGFyc2luZwpyZWFkcyBvZiBtdXRhYmxlIGRlc2Ny
+aXB0b3Igc3RhdGUuCgpTZWNvbmQsIHZlcF9lbmFibGUoKSBhbmQgdmVwX2Rpc2FibGUoKSBib3Ro
+IGluY3JlbWVudCB0aGUgZW5kcG9pbnQKZ2VuZXJhdGlvbiB3aGlsZSBob2xkaW5nIHVkYy0+bG9j
+ay4gSW1tZWRpYXRlbHkgYmVmb3JlIGFkZGluZyB0aGUgVVJCCnRvIHVyYl9xdWV1ZSwgdl9yZWN2
+X2NtZF9zdWJtaXQoKSB0YWtlcyB0aGUgc2FtZSBsb2NrIGFuZCBjaGVja3MgYm90aApkZXNjcmlw
+dG9yIHByZXNlbmNlIGFuZCBnZW5lcmF0aW9uIGVxdWFsaXR5LiBUaGlzIHJlamVjdHMgYSByZXF1
+ZXN0CnRoYXQgY3Jvc3NlZCBlaXRoZXIgZGlzYWJsZSBvciBkaXNhYmxlL3JlLWVuYWJsZSwgaW5j
+bHVkaW5nIHJldXNlIG9mCnRoZSBzYW1lIHN0cnVjdCB2ZXAuCgpUaGF0IGlzIHdoeSBJIHVzZWQg
+YSBnZW5lcmF0aW9uIGNoZWNrIGluIGFkZGl0aW9uIHRvIGNoZWNraW5nIGVwLT5kZXNjLgpBIGRl
+c2NyaXB0b3ItcHJlc2VuY2UgY2hlY2sgYWxvbmUgd291bGQgbm90IGRpc3Rpbmd1aXNoIHRoZSBu
+ZXdseQplbmFibGVkIGVuZHBvaW50IGZyb20gdGhlIGVuZHBvaW50IHN0YXRlIHVzZWQgZHVyaW5n
+IHRoZSBvcmlnaW5hbApsb29rdXAuCgpJIGNhbiBhbHNvIHNlbmQgdGhlIHN0YW5kYWxvbmUgZ3Vl
+c3QgZml4dHVyZSBpZiB0aGF0IHdvdWxkIGJlIHVzZWZ1bApmb3IgcmV2aWV3aW5nIG9yIHJlcHJv
+ZHVjaW5nIHRoZSB0ZXN0LgoKVGhhbmtzLApTdW5nCg==
