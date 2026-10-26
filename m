@@ -1,87 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793021697;
-	b=AUlEYorPu061p4rYv3ZORrd4DIziqxVg8C0zzVqAKUYq75NO/aTB+ifq2a9vdK+ZLM87
-	 Z66dv6qsfi9kbS1/sAoeSKfKb/rubT6LrqfAUBDijO8Zx26Zriy0N8S5A70iKArpE+KW7
-	 gIG9htW5PtjCN6qKV/2NZaz+Kur/+Bzzxwdsp984AMEvCm7gH/S4VQ1XGg0EN0nZG1RKS
-	 OW1KDBmxwu1gUU4lihV+XVyQZnGwzzIr/oRtQJ8FqQYPd6aPzL99lRuZCaxvoLd7kMybk
-	 62NjNM2aEkCKxG9+/mNPi1FYPPwbHc1ZBR0q6ZmSvt7wuLCvqKmEiAMWpEFi+smY5zg==
+	t=1793021813;
+	b=LCQvTewjnqVZk38sJ+KNatWylKkNg0+qOQLDV5UROB48z8mB30tYCXAypIW3saYOQTdl
+	 /svGXnZaIaeY0SuuIoeqkdTzllBYF/gWU9aKQUdL9znBXKFCidkSuSOzBqgIYTv7MgAo2
+	 P7yOEjGAe9DuMoGAFrmBLZu2gPzrlKMQ3wnBbRSTfDdiGd1pL678nj3XRgZfK48h4P3Nm
+	 QpH2wWo7CVti8Mbbp3JQL+f8Cc3ZxyAJWu9MU7Zv7sOjCAQ9H78rlB2O2XiFG/L0u7JbX
+	 GwbcqSym0kZWCE79R6fdJDYo8QVBImjGnsxPsrcEGhkJjfu0sUlIoMhKQLvm5J1jtNQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793021697;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=Ph6mKQKaPm1MUpvQa59GZ4TL6tR4lI7/GVACd9ay4HE=;
-	b=TNVYBnEnNhSuqk5jqlJurvhvkhgJ8jnyNWZu0is74m4wvZVZh8zgqJNok+BuiyqDNNA4
-	 uo2dKxaq56byUkprFUsRSZK4jqyR4BODwsTUxHt64TkRok9gpPP8loExtZk9jaHR686qR
-	 VM1niGHbciQSi1UMroma44I72ASjNumyv4qSh0apZV2HOQhvJRErRtFpVcHXKVG+/3KoJ
-	 3OBKLI3Uflrr+CEy7OgcO0kEkCxHtogY6Z0S0VxpGTEQnI6LugWzdgnfYKmzSYIP2p1Ed
-	 X9qrhsWMa5adYdvS5s538gt6I2Eu+ms0BbSnVIMx5PsFJFF22gWO/PSoFoB/IwuRteg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793021813;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
+	bh=Vz/DBzNIf5iajVdC7eq0Iu8LOtrCCoU7Cy9zGHs3nEw=;
+	b=UpGqFhFs0wEkur+dJOs+QpNZO1d4fP1GXAceM2MXx8IFn+CI1DEhKjjnSR/BtF7XrkLH
+	 /Zmi4cX6ir7+JMr+LRvXJ6Uds1+ACTRz99DKeISbYJxbAUbR/1lNDqIqQ4cl1vdn2gY1f
+	 XJiA/TSmSoHVDQ5AhJEVJS2YWhfA6D+tGLopBUDMCmFFxw+OEz31M3gB25z8VW/byO9F0
+	 Z1pimP4bLD+VV5FkT6UqCqZ1LuojPoxSAIpOC/SWZQcP7aFDnz2FJtyMj7he+bRafcBg0
+	 /EDP7IdE5wQtJtKRp4eCHM0J0dxctAjYdoXRqVoz8WGn6soxT1i8CwsO9odWY7hjfBQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rJyscda+;
-	arc=none smtp.remote-ip=74.125.82.45
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="ApO/gF84";
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6AFA606A31E
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 13:34:56 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6AFA606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02F0606A31A;
+	Mon, 26 Oct 2026 13:36:52 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C02F0606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=rJyscda+
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-156cbe59622so2247307c88.0
-        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 06:34:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793021696; x=1793626496; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Ph6mKQKaPm1MUpvQa59GZ4TL6tR4lI7/GVACd9ay4HE=;
-        b=rJyscda+z9obu97kIzHawsUy4OQ37Kt5wQIp6GV3hsUEq4mF5Y//dSjpDzxAO2LNF5
-         OQEXv8wGes7zrliRrBbOw2aR5QKPVC6mZIlix03Di10jCCg1ICusv28ERBE3KhbI1WJC
-         poiCLe1JjdbB1N0hko/hvh+92FLosIt6ZHWTmPTygwBY/ipiNr3sKg/bDkOoNMeioisG
-         0E6OBcVC6aHQaglif/MuD7BzkncW5W4s+pogvFGaWNzLxnjO39D+Q6laCpodKjE8u6/Y
-         g3GM/5JPYeO2uApGxuOEsqWnL2h7LqJO9V38x57aKpAxWqhSBkF0nPgloZlrD83jrzld
-         LNPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793021696; x=1793626496;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Ph6mKQKaPm1MUpvQa59GZ4TL6tR4lI7/GVACd9ay4HE=;
-        b=wx9s5mDIqjuSFfF1N+Drdk6ea6TA+P7zt8Dii0gyLpDBZF7e245PLsrO0HTTMIAjdB
-         8zJ5t2RlxDd7wQAEpg5Sgj/CzY4M/Kd7tK+Uo6sGxVrRcK5/sFSmBOAqj8nXaQcgbPTd
-         d3HZCp4SRm2GBHSYLX986At7XXmj06y2HpPhIIh5hiQInfsAlBjT9QT7CppzEnOVRMxr
-         IXP5h4c4t256ef3FSGYgaQjbWskL+QvRRA9RxMONfhdZDrLQT6vGvW3lkvtRYXEJ6Mbl
-         C7RzeuuPaQte0d7XvvqDsz3HDl/vpOzGZKhRdvAlshS98gc8LR/06VWjAF0v+Zys9EHj
-         kInQ==
-X-Gm-Message-State: AFq9FYKoIAN9Aewu8FJDM0cLpXN3IlgSwqH+6E44qLw3AHdGjqi8RDSR
-	0RYJO9b3bx9ocUL5y44D4DLVszYhLERwR3uxSO3BptSr+qXfTj4OFMHY
-X-Gm-Gg: AYBFou136+ojbE0hg9y6VfRl/Z1Y9eFSr998/RWORaEwrv8smze6DEyUxlwlkJMSF6R
-	gEBiKUnKKEhRgzWlmbMp6x6itQ8KJndAKZX/7evlxdojEZemtXmt65/O57JmCb1aAmbxpfrJRuo
-	A0OKYVcMRKaySpygEH5q9YFO9cs3R3O4jPe1VJmVwStTUag+xQF5c050LVaRl/hKYSTi0A0dSSZ
-	S8JDSgRRovEhMn46p4twhQDSex5iRfIiNtrIdJPt32ir55KB1Jz6JOBkQKjnXw6LI/8p211LDJ/
-	Td06wC5fRCywwz6qVmwe4+ktEXe8cfz058/MZF+Fsw+NWcqfMfApnenVE/XhWYeTlVUh4gyiy4A
-	qJdMT7nWKHofE1dwqjiAu9FCOkEI8wpRshn9DCmhS5WHJyEPzz9xbNV68cXaJCwtptkY2JQ/z7Y
-	Ll5ubeGlqisDaO2OYLaLm4zB89eGLS7PlMfLdMoXFnzelglaazX8ZLAsBN//dP41OmKxlGdr55/
-	CdMUK46sQMFTtLBW1ssBZha1SCUdKmtKC4uwUdJOs4Kal8SP9+sbJJzRyLJgnJmORA=
-X-Received: by 2002:a05:701b:2301:b0:138:30b1:4c00 with SMTP id a92af1059eb24-199290fe43bmr8991827c88.3.1793021695702;
-        Mon, 26 Oct 2026 06:34:55 -0700 (PDT)
-Received: from localhost.localdomain ([154.17.21.5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-369e8ee71f5sm33014470eec.28.2026.10.26.06.34.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 06:34:55 -0700 (PDT)
-From: ZeroNinEX <zwq939681378@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=ApO/gF84
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793021814; x=1824557814;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=gZzfuu3dJymOL/xW1scaMwA3JcdtpAzOVlR3uF+YWAE=;
+  b=ApO/gF84vcc/o8bm0s9u7w/GWiqWCiIF8Oq9u53Kk6d8QrSyolE/WWBa
+   83Em9ZsVrTBWd66XHVybNF8IUnvBs2gKXtYiVzbmEtY/gaepDMYn9vRwT
+   TU/Mxm7OAzvTCNEohuYTYgzwjZLgNxwlcgI0gg3nxqaAKpcQy9J/pYq6h
+   imY0eEWEYA8SeOMMNVs23TnkCAHAD46RF1Y9LuTC08CszDnxhz3HPMXIZ
+   FY4FajnfdUP8ReoBaQJ54FTPVnxUgEa8JJrhgcXDXxC875Wkd2Em+pNm3
+   X/8jg4sdaUFgiF/iNtHIu8apvRxCqRq4ALYNol0B/HSESWQAAghJ5cIml
+   A==;
+X-CSE-ConnectionGUID: J9gvBgOrSdGeNIsKOvUkjw==
+X-CSE-MsgGUID: EBwuwHaZRXKlMTqun4Rt+g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1719371"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1719371"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 06:36:53 -0700
+X-CSE-ConnectionGUID: lMv8VEU8Qrqa1KgiH1wJ3w==
+X-CSE-MsgGUID: PSkhzGGiSl2TNq4p1HQ5IQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="4655416"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 26 Oct 2026 06:36:51 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 7B4E199; Mon, 26 Oct 2026 14:36:49 +0100 (CET)
+Date: Mon, 26 Oct 2026 14:36:49 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Ali Ahmet =?utf-8?B?TWVtacWf?= <aliamemis@disroot.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Madhu M <madhu.m@intel.com>,
+	Pooja Katiyar <pooja.katiyar@intel.com>, linux-usb@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] usb: core: quirks: Skip device qualifier for BEITONG BTP-PG01A
-Date: Mon, 26 Oct 2026 21:34:48 +0800
-Message-ID: <20261026133448.10185-1-zwq939681378@gmail.com>
-X-Mailer: git-send-email 2.47.3
+Subject: Re: [PATCH] usb: typec: ucsi: debugfs: Fix GET commands on UCSI < 2.0
+Message-ID: <at9XcSnYtFvxf1H5@black.igk.intel.com>
+References: <20261024174441.878903-1-aliamemis@disroot.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -91,69 +82,41 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261024174441.878903-1-aliamemis@disroot.org>
 
-The BEITONG BTP-PG01A wireless controller dongle initially enumerates as
-4131:800c. Device qualifier requests fail with -EPIPE, followed by
-failures to read the configuration descriptor. After port recovery,
-the dongle can enumerate as 045e:028e with only two interfaces, leaving
-the vendor configuration software unusable in a Windows guest.
+On Sat, Oct 24, 2026 at 08:44:41PM +0300, Ali Ahmet Memiş wrote:
+> Since the debugfs response buffer grew to 24 bytes, every GET command
+> fails with -EINVAL on UCSI < 2.0, where the data length is limited to 16
+> bytes. Clamp the length to UCSI_MAX_DATA_LENGTH().
+> 
+> Fixes: d9dc19910321 ("usb: typec: ucsi: Fix debugfs response truncation beyond 16 bytes")
+> Signed-off-by: Ali Ahmet Memiş <aliamemis@disroot.org>
 
-Add USB_QUIRK_DEVICE_QUALIFIER for 4131:800c to skip device qualifier
-requests. The dongle then enumerates as 20bc:5162 with five interfaces,
-including three HID interfaces, and the vendor software works through
-USB passthrough to a Windows VM.
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-Tested both usbcore.quirks=4131:800c:i and the built-in entry on an xHCI
-host. The patched kernel was tested without a dynamic usbcore.quirks
-entry. The configuration-request size quirk alone did not resolve the
-enumeration failure.
+> ---
+>  drivers/usb/typec/ucsi/debugfs.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/debugfs.c b/drivers/usb/typec/ucsi/debugfs.c
+> index 77a0dd75edd3..3cffd3778c67 100644
+> --- a/drivers/usb/typec/ucsi/debugfs.c
+> +++ b/drivers/usb/typec/ucsi/debugfs.c
+> @@ -60,7 +60,8 @@ static int ucsi_cmd(void *data, u64 val)
+>  	case UCSI_GET_LPM_PPM_INFO:
+>  		ret = ucsi_send_command(ucsi, val,
+>  					&ucsi->debugfs->response,
+> -					sizeof(ucsi->debugfs->response));
+> +					min(sizeof(ucsi->debugfs->response),
+> +					    UCSI_MAX_DATA_LENGTH(ucsi)));
+>  		break;
+>  	default:
+>  		ret = -EOPNOTSUPP;
+> -- 
+> 2.55.0
 
-Signed-off-by: ZeroNinEX <zwq939681378@gmail.com>
----
-Tested the built-in entry with kernel 7.3.0-pg01a+ on an xHCI host through
-the original hub chain, with no dynamic usbcore.quirks entry. The dongle
-enumerated as 20bc:5162 with a 146-byte configuration and five interfaces,
-including three HID interfaces. The submitter also confirmed successful
-USB passthrough to a Windows VM and use of the vendor software. Secure
-Boot remained enabled using the host's existing enrolled MOK.
-
-The changed source file compiled without warnings with W=1 using both
-x86_64_defconfig and the host's USB module configuration. The full
-host-configured kernel and Debian packages also built successfully with
-debug information disabled.
-
-The available usbmon capture covers the unsuccessful configuration-request
-size quirk experiment. No capture of the successful path or cold-replug
-trial count is available.
-
-AI assistance: OpenAI GPT helped analyze the original enumeration problem.
-Codex used the supplied handoff and USB traces to check the upstream code,
-prepare the device-table entry, and draft this commit message and workflow.
-The submitter performed the hardware experiments and confirmed the VM and
-vendor-software tests. Codex collected the running kernel, boot parameters
-and cached USB descriptors locally after the static-patch test.
-
- drivers/usb/core/quirks.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/usb/core/quirks.c b/drivers/usb/core/quirks.c
-index a4bcbe9c9..c01c5cfe1 100644
---- a/drivers/usb/core/quirks.c
-+++ b/drivers/usb/core/quirks.c
-@@ -615,6 +615,10 @@ static const struct usb_device_id usb_quirk_list[] = {
- 	/* GameSir G7 SE */
- 	{ USB_DEVICE(0x3537, 0x10a0), .driver_info = USB_QUIRK_WINDOWS_CONFIG_REQ_SIZE },
- 
-+	/* BEITONG BTP-PG01A wireless controller dongle */
-+	{ USB_DEVICE(0x4131, 0x800c), .driver_info =
-+			USB_QUIRK_DEVICE_QUALIFIER },
-+
- 	/* DELL USB GEN2 */
- 	{ USB_DEVICE(0x413c, 0xb062), .driver_info = USB_QUIRK_NO_LPM | USB_QUIRK_RESET_RESUME },
- 
-
-base-commit: 21a7f44fd0765fcc5194130b28767786eba1d1e7
 -- 
-2.47.3
-
+heikki
