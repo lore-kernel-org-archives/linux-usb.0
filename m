@@ -1,78 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793014708;
-	b=iFNleS6oLvjyJxY6mdWXulXcS1yfILd3w4BlqvWxqaV/HHYmX/6jS62jOolhX1V/Riqu
-	 iHxQbQx9T81Jze8PYszkZSz+34t/ZDOe8PmR0YC3N6S1MFPD6Mx012MQPaLsj96SaE/Ks
-	 ZI5Kivny2r/76QAe4iIV/COQPXDIZVEzcmtVWhKagJNTq/DHqrAcrbBq/GBnv35EMKd+o
-	 7LfCoPh+ZzPfsJmIAWKxKQQCBJHWyqnj5cawTh6QETNk+940Feixov9oXZ+yK8ZENoAuQ
-	 iBFQaa6K5jQ59i6vGQ/HiQ2+WRqApVsjRnhO6Gsbev44lvS95eXRgkjKsmcJQ3QGsYQ==
+	t=1793014734;
+	b=PPAc4l24epeAIo2vS/SWmUdyBZ9gJ8t2xH9nfTKwUvazeBT+4K7NxLq0haLTqwjpa7l9
+	 ZVwWXjp+QjhxZTmAzgEAOGRtMhNjNIrjciiTsxfF7tuFb4z/CVKFwdQiKn4WTprkoKic/
+	 kROIXSPPLcxyWpgIyNEupQYeG78mjA1nj1gNJGz15OyJoaE+MaIkRvfZDSnvlulWJhc9D
+	 j+bwXNqbdpxbwTkSqy3SS+/V+hKar1adQM3HrSbL5hbqnfC4z7uJI44YtJi7XDQkxnlVE
+	 LahCq3FVL9EBTs+2BXVLCBaqc4LGqj6OkU1bOo1NIER8PvoNQUetnyNItQ/Qt1fK6qg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793014708;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:Content-Transfer-Encoding:In-Reply-To;
-	bh=blxnqThsMk81z4qvMbZ6ri3hXR90Vzov50Fn/Bsuoq8=;
-	b=F9MHAM705dEYTWClLeTRaUVDdqflUaiKOgRdmlo+4P7oqe4mcjC/+0LaKNI+WFi/oHdF
-	 HDmcQiewso8fMURUXnweZyjjtmt5XjFbjoGWDpo8EMP2IyaLJNr0gNUVjdq3rvMKQnZSd
-	 iYL+ncLuwEtIFnx61S+dhuHUA4XQ6fBST2hoa1oJYt5fl8H9BrXZkXKPel3q60Sw7NlRy
-	 np6Y8tnbK9tcFtlHCQaH4f26/57z0PUeuSjC+cTAdmHWclK4DTgQdkze6SuSCkZkzd9Ph
-	 NGCtRkX4a3FqpLshJ7YfXuIGq6DXOjpY7OtkNW0BxCrgJRp1YXs91GuwOimVcV+gS2g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793014734;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=lGTCUVwBVhHA0G6XFL+3+lxo/iNodYNJMNP7+hVT0qg=;
+	b=hAdcHj7zb5HckZhAuZTRqk7x9Tvk90/1G5qqJv66OLoUZzqHXjbEBlcUa19hVKmW1PBg
+	 AQ/sD/TvEBCwDh31EMauwoLjh8x8rJaoSEgwoe4AbIn+uM0Stiig8Qy0MPzOeS+JF5gnk
+	 upWwDIdbkyHdlbl5TzAbedsFbjinpMYOqQCJzJ3riAH7yQjtZivaVBVou3PE38JbU7Vhh
+	 1AJ5MuX2ierH8O0NCS3l9WNIkWoJ2O6NZkBLWouLmcNnfKX/Avwqo+hA84WCvyYmqO+CH
+	 APSnM9r7EHZP7a9mrszfZRwo2B1s56Ta//70gqTSmo1pIleOhBiVGFOUiAfzX5l6TbA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W7RuWAz2;
-	arc=none smtp.remote-ip=192.198.163.12
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FnEmO9re;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5C1606A324
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 11:38:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9C5C1606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40E1B606A31E
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 11:38:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 40E1B606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=W7RuWAz2
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793014708; x=1824550708;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=LFXbw8h2752XrUusI0960pEZ0NcWauS+1+FZTY+K7jg=;
-  b=W7RuWAz2kfPQyQA5bQMZYIamhY935SQh9tQx97hScfOzMnDsvuZ28RZW
-   RLLiqQZGREadtBBtf13P2lj+3M8aNhxNkFJYnoqJJaEH6fdI32nx1ce4F
-   HBnzS4XnTlbCY02yEW1k+rrVnk+eBdurPwB65pgm72HXvYnQQR+4NMXF7
-   XbXU7U/ESxeOmanrna631A+fxS1AJR1ola6ssZyRDLMaxbjUC4gLdD4nT
-   iLrNevMchmvjxYvY70bF6xpnLdpdfbLf1jMDORJGqVOL4Sg+tSf5FvdpH
-   WzmpXBWKR+OGydRmaTX1tx9E/a6kfwFAA9CwmqkzgYNyPiAlxDGJ2pX4U
-   Q==;
-X-CSE-ConnectionGUID: FOr4Yz3cSmK5pED52pnkug==
-X-CSE-MsgGUID: 8zN88C4JQim/iPrme2T7Cg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1579586"
-X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1579586"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 04:38:27 -0700
-X-CSE-ConnectionGUID: NPEgw9ayQ0qK1DReY3lbYw==
-X-CSE-MsgGUID: YRb4OqMeTgCl/BOZ9rGSyQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="4595198"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa001.fm.intel.com with ESMTP; 26 Oct 2026 04:38:26 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id AA8BE99; Mon, 26 Oct 2026 12:38:24 +0100 (CET)
-Date: Mon, 26 Oct 2026 12:38:24 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Ville =?iso-8859-1?Q?Kivel=E4?= <vkivela@outlook.com>
-Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-	"acelan.kao@canonical.com" <acelan.kao@canonical.com>
-Subject: Re: usb: typec: ucsi: duplicate-altmode filter keeps invalid DP
- partner VDO on Dell XPS 14 DA14260
-Message-ID: <at87sDXF-KHTJAxb@black.igk.intel.com>
-References: <PR3PR10MB3898251C0136EEFE9DEC84FAA5902@PR3PR10MB3898.EURPRD10.PROD.OUTLOOK.COM>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=FnEmO9re
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e20ed3b9dso2622319f8f.2
+        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 04:38:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793014733; x=1793619533; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=lGTCUVwBVhHA0G6XFL+3+lxo/iNodYNJMNP7+hVT0qg=;
+        b=FnEmO9recpGSfcsYzSTlnf0d+rlx7IqBMiP243OolLAbM235DqtUAuJKXq/H/nkYeK
+         yPxZN/uY5Uq76AJ3mEEuWIkiR5m+yAyZIoNxvXoiJUVQFkzc0DK8xkrd5i6ZtXcMkT8R
+         p/eaCx0sbD0vfkkH9i3dK7eqDNSccgAJxs98SUwNw+Zrw2Q2awgDEILz+B/LlFJw4KhE
+         yeXRApMNT9n+H5Gopvcsq+o2ow7vltY86QX2lsyarg7ptRufp6PnGfa8A/62TG32tYIY
+         K+7y3HbWh5ZCRzO609tD37Ys5UHo5KRJngcjBZURoGbqch7pbZbf7zZrd/xrejdKRpZY
+         SOXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793014733; x=1793619533;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=lGTCUVwBVhHA0G6XFL+3+lxo/iNodYNJMNP7+hVT0qg=;
+        b=D/Di0eK0zRxKbwG5dxY1FCYOnk84WmmDa7vPliW4W8oT58Kq0+pYq39r3gWOpmX9Tw
+         lUddfbV9LtKb8o8YVYCJO2SJzHKZsTbRVoas1LWbCEJS8sCfdUGkzQ5kuu1RK1yIUYjQ
+         CObLgZFsne1iBTHSo/e3DbCOyCmHMKj5P7aHmuttwfNeAmvPThRjQQAlpNYb38Adw03/
+         12lgfKbFWWHRh2put0d3/YpWl/aiKD4Nb6RnRYIR5ZGH5lW/16IT7CEsNtYVM22MR5Wu
+         FjDFbYAxD/bPrCtyokvd564jzHKGTAdbB8EAUcqzYoQOKWeoFzVpkDapAk+4jD/DWvaV
+         vceg==
+X-Forwarded-Encrypted: i=1; AKwUvBxrWRTLliBv17AeV9FUfq0gOYOI/wVikPkrKXPqMYuX2MyNrK0vzlylBKcdVOh4iAJxcawolZZ/GEU=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJqfTzoOHaStDSlJEW8le0sElxOIuYCwzGglo/T6lMCw9frTru0
+	BgrG2q3bqsNUAmPYzNH2pU1GwrM2f42YZ9nQDh+BwNPUyUrsT7DPdOED
+X-Gm-Gg: AYBFou3dw4chKTOQd+z6vSl8V5sZlxs38Gqpuaa/UYJEI6vGp3Fd690G834IPE+IWpC
+	WwCTUxcuhem/KXS15Xp8lHuBKZliB5aIBB+f7mZQjy9JdLroOQniY7yF9y8XD8ImC6cDazdpGpQ
+	xYRxAe/lmS60cuBPTevT6AhI85dxP8TBMSebVKBX3OWtJQxrawK2y30E9zc5fdK/b2snd/8hoLP
+	XB2STHD8Ny271rhNLlrrXgTBm8vhkGOGNYpeBDcqMOTlaXia9c1JnY0CY7acRZ72gfBApalbXa5
+	VnXZDNnMqxMn9fLYCErDd19RrejbeMBL+2tEw2Me4qLtmqMrSIUjmk3Wd7oCS1yQ3oN+l4eHVkS
+	oxA5uNaWMVlHO3170vMmTJd5LFWjuBIL5w9kWnEY4hjUH/OyRxcLYitB5F7Sj5FZQ8lJQjpsY2L
+	D3Af1c/XBGGIOqHHxMSUAxSoVJ/0w2LRzH/5cEebE/TGRdu6RxDoerZCQf0uR25i/idl2G4u4ku
+	LcfcIhJ4cOtZoPjF3hdn2E6qaQG6BCZXKCUjp8YkXJesYgJpAkcXNvTpR6Vydt/
+X-Received: by 2002:a5d:5d86:0:b0:48d:f996:1814 with SMTP id ffacd0b85a97d-48e3eb9c7fdmr11109704f8f.57.1793014732636;
+        Mon, 26 Oct 2026 04:38:52 -0700 (PDT)
+Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebd49afsm16227058f8f.35.2026.10.26.04.38.51
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 26 Oct 2026 04:38:52 -0700 (PDT)
+Date: Mon, 26 Oct 2026 12:38:47 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Dennis Wissel <dennis@dsine.de>, Yiyu Zhou <yiyu@yiyuzhou.io>,
+ linux-usb@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron
+ M5 (3434:d068) at boot since v7.3
+Message-ID: <20261026123847.365209e2.michal.pecio@gmail.com>
+In-Reply-To: <20261026105139.6b86cb3c.michal.pecio@gmail.com>
+References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+	<20261024203558.3181711-1-yiyu@yiyuzhou.io>
+	<SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
+	<20261025111410.2c14fcef.michal.pecio@gmail.com>
+	<7082e2e7-8d05-46b8-a26b-5b888a7a0545@linux.intel.com>
+	<20261026105139.6b86cb3c.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,101 +102,40 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PR3PR10MB3898251C0136EEFE9DEC84FAA5902@PR3PR10MB3898.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Ville,
+On Mon, 26 Oct 2026 10:51:39 +0100, Michal Pecio wrote:
+> On Mon, 26 Oct 2026 11:18:34 +0200, Mathias Nyman wrote:
+> > So even if we give back all pending URBs and clear the
+> > EP_DROP_PENDING flag we continue using the stale ring. We should
+> > either either move dequeue pointer, set TRBs to no-op, or clear and
+> > reinitialize whole ep0 ring at device reset.  
+> 
+> This may need to be fixed regardless, because EP_DROP_PENDING on EP0
+> can result from xHCI "Error" aka USB3 "Inactive" state, which (AFAIU)
+> may be cleared with warm reset, without reallocating the udev. That's
+> the "existed since forever" issue I was thinking about.
 
-On Sun, Oct 11, 2026 at 07:34:59PM +0000, Ville Kivelä wrote:
-> Hi,
-> 
-> The duplicate partner altmode filter added in 67c92c6419ea ("usb: typec:
-> ucsi: Detect and skip duplicate altmodes from buggy firmware") keeps the
-> invalid copy of the DisplayPort partner altmode on this machine and drops
-> the valid one. The DP altmode driver then cannot bind, and the monitor's
-> USB hub never works.
+4.6.11 isn't 100% explicit what happens if EP 0 is halted at Reset
+Device, but generally it should "terminate any USB activity, abort
+any pending events and transition to the Running state".
 
-This is why from now on all quirks for this driver are going to be
-isolated with either DMI match or something similar.
+So just a Set TR Dequeue to current enqueue will probably work, but
+I think this has never been tried before.
 
-> Hardware:
->   Dell XPS 14 DA14260 (Intel Panther Lake), BIOS 1.8.2 (2026-05-22)
->   UCSI over ACPI: \_SB_.UBTC (USBC000:00)
->   Partner: Dell U2720Q monitor (DP alt mode + USB hub + PD source)
-> Kernel: 7.2.5 (Arch-based distro kernel "7.2.5-3-omarchy")
-> 
-> The firmware returns the partner's DP altmode (SVID 0xff01) twice on every
-> attach:
-> 
->   ucsi_acpi USBC000:00: con3: Firmware bug: duplicate partner altmode SVID 0xff01 at offset 1, ignoring but please contact the BIOS vendor to fix this issue.
->   ucsi_acpi USBC000:00: con3: VDO mismatch: 0xff01a043 vs 0x00140045
-> 
-> The entry at offset 0 is invalid (0xff01a043: SVID in the upper half,
-> identical whatever the monitor is configured to). The entry at offset 1
-> is the real DP capabilities VDO, and it changes with the monitor's
-> "USB-C Prioritization" setting, as expected:
-> 
->   High Resolution: 0x00140045 (UFP_D, receptacle, pin assignments C/E)
->   High Data Speed: 0x001c0045 (UFP_D, receptacle, pin assignments C/D/E)
-> 
-> The port exposes a single DP altmode (port2.1, svid ff01, vdo 0x001c1c46),
-> so the per-SVID cap is 1. The filter keeps the first partner entry and
-> registers port2-partner.0 with vdo 0xff01a043:
-> 
->   $ cat /sys/class/typec/port2-partner/port2-partner.0/{svid,vdo,active}
->   ff01
->   0xff01a043
->   yes
-> 
-> typec_displayport does not bind to it (no displayport/ directory under the
-> partner altmode), so the OS cannot choose a pin assignment.
-> 
-> Observed result:
->   - High Resolution: video works, but the monitor's hub never enumerates,
->     not even at USB 2.0.
->   - High Data Speed: the hub (0451:8440) enumerates at SuperSpeed on the
->     TCSS xHCI and disconnects within ~1 s, as DP mode is entered. USB 2.0
->     enumeration starts and never completes. There is no video.
-> 
->   usb 2-3: new SuperSpeed USB device number 2 using xhci_hcd
->   usb 2-3: New USB device found, idVendor=0451, idProduct=8440, bcdDevice= 1.10
->   hub 2-3:1.0: USB hub found
->   hub 2-3:1.0: 4 ports detected
->   usb 3-4: new high-speed USB device number 6 using xhci_hcd
->   usb 2-3: USB disconnect, device number 2
->   ucsi_acpi USBC000:00: con3: Firmware bug: duplicate partner altmode SVID 0xff01 at offset 1, ignoring ...
->   ucsi_acpi USBC000:00: con3: VDO mismatch: 0xff01a043 vs 0x001c0045
-> 
-> The same monitor and cable work fully (video and hub) on a MacBook.
-> Reproduced on two different USB-C ports, after a full power drain, and
-> with Dell's "Video/Power only on Type-C ports" BIOS option disabled.
-> 
-> The root cause is the firmware, and it has been reported to Dell. However,
-> when duplicates disagree, keeping the first entry is arbitrary. Would it
-> make sense to prefer an entry that passes basic validation? For SVID 0xff01
-> that could mean a non-zero pin assignment field, no reserved bits set, and
-> the upper 16 bits not equal to the SVID. Alternatively, the driver could
-> prefer the last entry. I'm happy to test patches.
+I see that xhci_discover_or_reset_device() clears EP_DROP_PENDING
+even in case of Reset Device failure, which looks a little odd. We
+probably wouldn't want to issue Set TR Deq in such case and don't
+want to clear this flag without fixing the endpoint.
 
-I already send a patch where I disable support for the alternate mode
-reporting for all Dell XPS systems, but it looks like Greg missed that
-patch - I'll resend it:
-https://lore.kernel.org/linux-usb/20260911132850.1580669-1-heikki.krogerus@linux.intel.com/
+What was the reason for placing this loop after and not before
+the command_cleanup label?
 
-It does not make sense to attempt to add more and more quirks to this
-driver that fix firmware problems on these systems. Dell really has to
-fix the PPM.
+command_cleanup:
+        for (i = 0; i < EP_CTX_PER_DEV; i++)
+                virt_dev->eps[i].ep_state &= ~EP_DROP_PENDING;
 
-> Also seen once at boot on the same machine (cleared by reloading ucsi_acpi):
-> 
->   ucsi_acpi USBC000:00: con1: failed to register alt modes
->   ucsi_acpi USBC000:00: error -ETIMEDOUT: PPM init failed
-
-That should get fixed with the above patch as well.
-
-Thanks,
-
--- 
-heikki
+        xhci_free_command(xhci, reset_device_cmd);
+        return ret;
+}
