@@ -1,54 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793018202;
-	b=n6ZsoLA3lHaju8b9mEcwVlDUwa8BRgUh6L39xwi3qd6jTuU5XzdJc4cTUsNB4IGrTqEt
-	 6Js2C53EZ0eIxvrgy9CymG6KW0Y8vKst/MZndV/KYsDIao5lfeLGYGepTLFfA7p4POeni
-	 mHtiw1/kou8+6W4qneKEp6OZ/XUfpSZsSK6jD+FZIxNbFEla6nxyq4OTxdB1h4d/MymYg
-	 tR56qGQ/RzTFp7B5wqUXhlH9B4pHSQCtk3tcV84RHyedQB3ZMQKKefRxxm9YkJvr/AJhl
-	 mLlbV8SD9q4I+5RpN0mxAs7rieTMywEly/pJdlrwEmLcrR+2BD7H3sxrmthb5E7IhIQ==
+	t=1793018240;
+	b=g1kdmXDhZqpw4f+c/FjWVfOGLTZKv3A+B1LM4iiiloS4EMT9C+iLRFHzeKeYLOqzKt8L
+	 h/VSSC3bhn3FRM4i1/GEaUK06kimxmgjnfaO0Ew4o+D5oDMQ7zUFJ3a3Ki6nu3LUOCIoQ
+	 0KMFsCE/EUgANGHN73OGDugRnxv5hAUGM/VDHjCjqPELsR1h27hZWMNldUjK2ctb6ZTov
+	 XH2TMmSaafqUakaW0QMx7oAdNNcU2WQG0mZOuSAxhtGmERJAwtrVgyBCbT0j/XxQg14Ss
+	 O3OPp/tR1lu9hBxUpn0g7EjcNp2BlLBSLKQvl6Cnjh8XSr7DSfSQg2IgTlG0UFn+RYw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793018202;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=kv1D4zw72J04tOcMux0t9A016KuhZdOeedx6n6a7yeU=;
-	b=1YzA95nsoJaGQ34l37/GlaFPQuWbHLZ8VuHVtPZWK52pQw5lEhSNqjKe4Ua6CSnWZR5a
-	 Ebr5zUqOqsrf3lGVWiokG2pUNqHmJiPXHUulVDu8zWlgbH+hGfToap3o7kF5CPjw841lN
-	 ivNXiUDpr/Fv5Ur1QAZEbn6nCxnnZmKPPwsrPF/myp08nBlWeA2GecbOxw/Yq0NByC1Gz
-	 2p7RPMPrX5AesykZXpupdSb9W/byvuNSTCZyLBK6ld2Og9WFbO+iLF63YKKeNEXch1HYV
-	 svKjEEXCvJMZg7SDteS9piW7p3eVgqjtSIWnfmaI2clPeHTXCYAlxfOw9VZFOYWPWaw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793018240;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=BpY7NsPIPdEk7MVL+wQTDzsCZJ/tn265MVItc/H4VaQ=;
+	b=wsp0iFwmR/VzEXzN+tXw1YkpUiYgN089CgJD4cUZNLosHY/c5wiXlGuIWGcRgIHt2sd2
+	 L4tDkiqYBlGeZ03jgayjQVAUSaXpyoGiQfKsdYyp9g6HNgEJYyKtD0muPWW04jHjjvzZd
+	 GEkFgehfV41OEIs3AQkC6820lJ3UZ00mL/v9rnZJEA9XVLEXNKzSyy+DKfTSxmCrGE35J
+	 8TFDvj3wMW1Av2pCbUHBkNa6pYamZsF3+cVZh8FtmsxLscrZIvXOuFXlKr9xv9ONC/lzI
+	 zx3t4wwxzc3N0Dt6z0h9hwo/vkmSkMX3A/RNz2GIZp2kswF7EvRL9TxAIpV0FAJ1oMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E813C606A31A;
-	Mon, 26 Oct 2026 12:36:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E813C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=kv1D4zw72J
-	04tOcMux0t9A016KuhZdOeedx6n6a7yeU=; b=oje4rCIoa3xrZIA9YSNk+Z1Faz
-	RUwwOaOgu7KgYp8CMs0pOb53iKZ4Kh8fsH4i6QKLT4O3DhUKEeEeoKkPSM0UL6Kb
-	Ku4k2l+tpDLxdOyKIfxsR1YHF/4nme/xsnllAKWkczKvCAFwbO+QstRepTWZ/lqg
-	Z+1v/ezivSPRqeuGs=
-Received: from user-virtual-machine.localdomain (unknown [113.200.174.126])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkCmygBNSd9q9dDpAA--.50221S2;
-	Mon, 26 Oct 2026 20:36:30 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: [PATCH v2] usb: xhci: Fix use-after-free race in xhci_stop_device()
-Date: Mon, 26 Oct 2026 20:36:28 +0800
-Message-Id: <20261026123628.7493-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EdwrJCZ+;
+	arc=none smtp.remote-ip=192.198.163.10
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0F91606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 12:37:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D0F91606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=EdwrJCZ+
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793018240; x=1824554240;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5SrNTHLR6x3oGRQBM0iKuh4kDd4ZR6Ck/9Pw1dbTXnY=;
+  b=EdwrJCZ+Ign+QGf+vYMZsVxNhxfe5QSp67zEMFQN9hBt7FT+TMAIEtxK
+   pc3wpFVCWBLzzK6QVVRtrkRmjOFOViD8D8kF1u9dxm75Otk5PNKneyQN6
+   zxRb5Q4T3NfIGHvSqmfibgdJDyKmTgPhDGrUbTn/32Ty30D701lBLaMM4
+   Llj6W8JRIDsx1XLOZDF0a5aBBWaUYRTpLcDVDzZ9F/IwR6MBWWHcOasAF
+   zNdi5fRpw2x0UbxXhXoYdsF1/yiFuEotj3r43Fp6xPwPNWwTq9evY/nSS
+   mbWSo0O6BbyFPpmXBVfl4zexrkhhtX37hKzgJHsbH+icBuuL3v6Nit1Hr
+   g==;
+X-CSE-ConnectionGUID: qIqs8TAmTHqmSIxgU6Jq5Q==
+X-CSE-MsgGUID: AvC6zR6YT+6n9kBL9DyN8g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1583519"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1583519"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 05:37:19 -0700
+X-CSE-ConnectionGUID: /hCQ2wsXSBCWi6KrR6uryg==
+X-CSE-MsgGUID: 5XVCd1lbSgK4kFBcn0Bxsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="4203516"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa003.jf.intel.com with ESMTP; 26 Oct 2026 05:37:18 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 7E97699; Mon, 26 Oct 2026 13:37:16 +0100 (CET)
+Date: Mon, 26 Oct 2026 13:37:16 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Cc: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	linux-usb <linux-usb@vger.kernel.org>
+Subject: Re: "thunderbolt ... (DP): not active, tearing down" error breaking
+ DP over thunderbolt displays
+Message-ID: <20261026123716.GF158991@black.igk.intel.com>
+References: <b5145213-9542-4351-8f98-527aad74ee64@oss.qualcomm.com>
+ <20261026052331.GC158991@black.igk.intel.com>
+ <fcbac09a-be91-4fac-ae0f-934f628afa01@oss.qualcomm.com>
+ <686b2d33-7a50-44b7-940c-70c30f4c941d@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,145 +86,141 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkCmygBNSd9q9dDpAA--.50221S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3Gr15XFWDZrW7WrWkKFWUCFg_yoW7Xry7pF
-	45Xa4YkrZrKr12qFn8KrW8XF1rXws7X3yDGFyxu348urZ8J34rtFy0yrWqkrn7uFZ7Zr1I
-	qFn8GFZ5uF45GF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9qb7Iv0xC_KF4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-	C2z280aVCY1x0267AKxVWxJr0_GcWlnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8I
-	j28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr
-	4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxG
-	rwCY1x0262kKe7AKxVWUAVWUtwCY02Avz4vE14v_Xr1l42xK82IYc2Ij64vIr41l4I8I3I
-	0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWU
-	GVWUWwC2zVAF1VAY17CE14v26r126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI
-	0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0
-	rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r
-	4UJbIYCTnIWIevJa73UjIFyTuYvjxU4l1vUUUUU
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUSD2reHcC3dwAAsz
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <686b2d33-7a50-44b7-940c-70c30f4c941d@oss.qualcomm.com>
 
-A KASAN slab-use-after-free read was observed in xhci_stop_device():
+Hi,
 
-  BUG: KASAN: slab-use-after-free in xhci_stop_device.constprop.0.isra.0+0x395/0x430
-  drivers/usb/host/xhci-hub.c:479
-  Read of size 8 at addr ffff88804e85d2f0
+On Mon, Oct 26, 2026 at 11:48:06AM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 26-Oct-26 11:30 AM, Hans de Goede wrote:
+> > Hi Mika,
+> > 
+> > Thank you for your quick answer.
+> > 
+> > On 26-Oct-26 6:23 AM, Mika Westerberg wrote:
+> >> Hi,
+> >>
+> >> On Sat, Oct 24, 2026 at 08:17:16PM +0200, Hans de Goede wrote:
+> >>> Hi All,
+> >>>
+> >>> I hit this error:
+> >>>
+> >>> Oct 24 19:16:58 x1 kernel: thunderbolt 0000:00:0d.3: 0:5 <-> 1:11 (DP): not active, tearing down
+> >>>
+> >>> while doing some work on a Raptor Lake ThinkPad laptop plugged into a Thunderbolt dock.
+> >>>
+> >>> After a bunch of debugging I found that the problem is that I had:
+> >>>
+> >>> "UseSimpleDrm=1" in /etc/plymouth/plymouthd.conf, which combined with
+> >>> the latest dracut version causes dracut to omit the i915 drm driver
+> >>> from the initramfs.
+> >>
+> >> The error means that the graphics driver did not read the monitor
+> >> capabilities in time (~12s) and therefore the tunnel was torn down.
+> >> Capabilities read is required for DP tunnels to work properly.
+> >>
+> >>> And when thunderbolt.ko loads (or maybe only once userspace pokes it ?)
+> >>> and the i915.ko driver has not claimed the DP connection then the above
+> >>> message is logged and Linux does not see the DP attached display(s).
+> >>>
+> >>> Building i915.ko into the initramfs works around this, but there
+> >>> seems to be an assumption on the kernel side about things happening
+> >>> in a certain order during boot which there should not be.
+> >>
+> >> Right but as above capabilities read is required by the specs and we cannot
+> >> keep the DP tunnels up forever to consume power (and there is also
+> >> complication with add-in-cards that don't have all DP INs connected).
+> >>
+> >> You can pass "thunderbolt.dprx_timeout=-1" (or some number or seconds) to
+> >> work it around.
+> > 
+> > Hmm, I see thank you for explaining this. The problem is that these kind
+> > of timeouts *never* work. We've been at this since the late 199x years
+> > where we had initramfs shell scripts which loaded scsi drivers and then
+> > had a "sleep 5" for the scsi bus to get scanned, which of course was not
+> > enough on some machines. This was never fixed until we made initramfs-
+> > scripts use udev events to actually wait for the specific disk to show up
+> > instead of a sleep X + blind mount /dev/sdx / which failed when the sleep
+> > was not long enough.
+> > 
+> > In this case specifically there are plans to stop including the GPU drivers
+> > in the initramfs because of the ever growing size of both the drivers and
+> > especially the firmware the GPU drivers need, see e.g.:
+> > 
+> > https://hansdegoede.dreamwidth.org/28291.html
+> > https://fedoraproject.org/wiki/Changes/PlymouthUseSimpledrm
+> > 
+> > The plan is to instead only use simpledrm during the initramfs boot-phase.
+> > And the recent dracut changes to modify dracut's plymouth support to stop
+> > it from bringing in GPU drivers when UseSimpleDrm=1 is set in plymouth's
+> > config file show people are sitll working on this.
+> > 
+> > Combine this e.g. no i915 in the initramfs with a LUKS diskcrypt password
+> > which the user needs to type in in the initramfs boot-phase and one can
+> > easily exceed the 12 seconds.
+> > 
+> > AFAICT the GPU driver never showing up (rather then showing up later)
+> > would be a (configuration?) bug of the system. Under normal circumstances
+> > this (GPU driver never showing up) should not happen.
+> > 
+> > OTOH the GPU driver showing up late is expected behavior when a system
+> > is configured to not have the GPU drivers in the initramfs.
+> > 
+> > So it seems that the current timeout of 12s optimizes for the wrong thing,
+> > it optimizes for a scenario which should never happen while OTOH breaking
+> > a scenario which (IMHO) we actually want to work.
+> > 
+> > I think using a timeout of -1 should be the default, since by default
+> > we should expect a GPU driver to show up and claim the DP connection.
+> > 
+> > Would you be willing to accept a patch to change the default timeout
+> > to -1 ?
+> 
+> Ok, so re-reading your answer I guess one problem here is:
+> 
+> "complication with add-in-cards that don't have all DP INs connected"
+> 
+> Still I would expect at least one GPU driver to always load and
+> initialize successfully. Can we have the GPU driver make a call
+> to the thunderbolt code that it has initialized even if it is not
+> claiming any DP connections and then start the timeout from that call?
+> 
+> I think it is reasonable to expect any secondary GPU drivers to load
+> within 12 seconds once the first one has loaded. But for the no GPU
+> drivers in initramfs case it may take longer then that for the first
+> GPU driver to load.
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> p.s.
+> 
+> We had a similar problem with deferred_probe_timeout handling, see:
+> 
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/base/Kconfig?id=56e3ee721b33bdc4ce0765d370983aa4384f8a59
+> 
+> there this was fixed by making the default timeout value a Kconfig
+> option and letting distros override it since previous discussions
+> did not lead to a consensus on how to handle this. But that won't
+> work here if we want to deal with the "complication with add-in-cards
+> that don't have all DP INs connected" case.
+> 
+> I'm mentioning this because it shows there is a generic problem
+> with this "timeout design pattern" trap us kernel devs seem to
+> keep falling for, especially in relation to things not happening
+> in the initramfs while it waits for user input causing all
+> these timeouts to trigger while they should not trigger yet
+> because more drivers will load once we switch to the real rootfs.
+> 
+> This has made me thinking that maybe we need a bootup-done
+> or at least switched-to-real-rootfs sysfs file userspace can
+> write and only start timeouts like these once userspace has
+> written that file?
 
-  Freed by task 585700:
-   kfree+0xf8/0x390 mm/slub.c:6566
-   xhci_free_virt_device+0x3f/0x50 drivers/usb/host/xhci-mem.c:881
-   xhci_free_dev+0x286/0x350 drivers/usb/host/xhci.c:4131
-   usb_disconnect+0x6b6/0x910 drivers/usb/core/hub.c:2391
-   ...
-   usbdev_ioctl+0x6f05/0x86d0 drivers/usb/core/devio.c:2826
-
-  Allocated by task 572283:
-   xhci_alloc_virt_device+0x171/0xb70 drivers/usb/host/xhci-mem.c:986
-   xhci_alloc_dev+0x475/0x840 drivers/usb/host/xhci.c:4271
-   usb_alloc_dev+0xe8/0xdc0 drivers/usb/core/usb.c:661
-   hub_event+0x1c82/0x4050 drivers/usb/core/hub.c:5953
-
-xhci_stop_device() reads xhci->devs[slot_id] without xhci->lock and
-keeps using the pointer across xhci_alloc_command(GFP_NOIO), which may
-sleep.  All callers (the port suspend and bus suspend paths in
-xhci_hub_control() and xhci_bus_suspend()) drop xhci->lock before
-calling it, so a concurrent usb_disconnect() -> xhci_free_dev() can
-clear xhci->devs[slot_id] and free virt_dev under xhci->lock in that
-window.  The endpoint loop then dereferences the freed virt_dev.
-
-commit 88716a93766b ("usb: xhci: Fix panic if disconnect") added a
-NULL check for this case, but that only helps when the device was
-already freed before the check; it does not close the window.
-
-Re-check xhci->devs[slot_id] against the pointer fetched earlier after
-taking xhci->lock and bail out if it no longer matches, or if the
-device is already being torn down.  The tracepoint reloads
-virt_dev->udev, so it moves under the lock and only runs while the
-device is still attached.
-
-xhci_free_dev() clears virt_dev->udev without xhci->lock, and only
-later detaches the device from xhci->devs[] in xhci_free_virt_device(),
-also under the lock.  Take xhci->lock when clearing ->udev so that
-xhci_stop_device() can rely on it while holding the same lock.
-xhci_free_virt_device() frees the device under xhci->lock, so a
-matching pointer while holding the lock keeps virt_dev alive until
-xhci_stop_device() drops the lock, after which virt_dev is not used
-anymore.
-
-Fixes: be88fe4f4dda93e3 ("USB: xHCI: port power management implementation")
-Cc: stable@vger.kernel.org
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
----
-Changes since v1:
- - xhci_free_dev(): clear virt_dev->udev under xhci->lock, so that
-   checking it under the same lock actually synchronizes with the
-   store.
- - xhci_stop_device(): bail out with -ENODEV once ->udev has been
-   cleared, instead of queueing stop-endpoint commands for a slot
-   that is already being disabled.
-
- drivers/usb/host/xhci-hub.c | 19 +++++++++++++++++--
- drivers/usb/host/xhci.c     |  3 +++
- 2 files changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index b0264bd8577a..f4401f2fcea0 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -467,13 +467,28 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
- 	if (!virt_dev)
- 		return -ENODEV;
- 
--	trace_xhci_stop_device(virt_dev);
--
- 	cmd = xhci_alloc_command(xhci, true, GFP_NOIO);
- 	if (!cmd)
- 		return -ENOMEM;
- 
- 	spin_lock_irqsave(&xhci->lock, flags);
-+
-+	/*
-+	 * Callers drop xhci->lock before calling us and allocating cmd
-+	 * above can sleep, so xhci_free_dev() may have detached and freed
-+	 * the device in the meantime.  It removes the device from
-+	 * xhci->devs[slot_id] and clears ->udev under xhci->lock, so while
-+	 * the lock is held a matching, still-attached device stays alive
-+	 * and keeps its udev.
-+	 */
-+	if (xhci->devs[slot_id] != virt_dev || !virt_dev->udev) {
-+		spin_unlock_irqrestore(&xhci->lock, flags);
-+		xhci_free_command(xhci, cmd);
-+		return -ENODEV;
-+	}
-+
-+	trace_xhci_stop_device(virt_dev);
-+
- 	for (i = LAST_EP_INDEX; i > 0; i--) {
- 		if (virt_dev->eps[i].ring && virt_dev->eps[i].ring->dequeue) {
- 			struct xhci_ep_ctx *ep_ctx;
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 5c759ad28199..9e375eb48f38 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -4128,9 +4128,12 @@ static void xhci_free_dev(struct usb_hcd *hcd, struct usb_device *udev)
- 	trace_xhci_free_dev(slot_ctx);
- 
- 	/* Stop any wayward timer functions (which may grab the lock) */
-+	spin_lock_irqsave(&xhci->lock, flags);
- 	for (i = 0; i < 31; i++)
- 		virt_dev->eps[i].ep_state &= ~EP_STOP_CMD_PENDING;
- 	virt_dev->udev = NULL;
-+	spin_unlock_irqrestore(&xhci->lock, flags);
-+
- 	xhci_disable_slot(xhci, udev->slot_id);
- 
- 	spin_lock_irqsave(&xhci->lock, flags);
--- 
-2.34.1
-
+Yes, I think this is the way to go forward. Then something (like
+notification or callback) that drivers who are interested can opt-in.
