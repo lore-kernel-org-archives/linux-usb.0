@@ -1,78 +1,67 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.34
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793015915;
-	b=BIlQNDkeA3tfHTCmH6n5yNrzT6TCWaIKDchA5DrzJMdLeuNR9Uhc4Ry67Ky5/wZzhdak
-	 ym8VTqOSzMZnmLoru2fq+aNzmK1lp+MyGwSnhI45dyWSTMcJ25lCV+eN3CGoZJk/c0CIh
-	 YeQtuCsL6TswYIp3fZ5X2lDe7d2PNw3BCG+PNRGkaGXqB+3/tf66Q3WnSSYIenwxeSzcQ
-	 5KqQjbA0GH7mJecb8j/q0mtc53D1B+f74UZtj3RgWWBtXcypPXEu85qOuHf20ocA4nfnV
-	 heAgpv6nj0YsITOVnQ2pC6L8ixdNmfNlsWCQEd0w5nFRx9T6DRd+yDs9F9XyBCWlISQ==
+	t=1793016063;
+	b=IqoxcWPbRWlrRBJAun3SiP/4HjM12OwbRyO6W/wbmf7zOKfSvqpnc+/7NiUKDOHRgM9R
+	 kiWxAVvABVCBFzvDJkuuAsmo87TUh4eUwVsSvNJTg84XBKzpK4bxW5GPi9VHGo6KkLX7P
+	 ljaM40rNFpJbr6+Onr1z1HJpqh/cyrJHpGEbWgpjIi7JmjxP6VNAYjccsdtjojxqzCJ18
+	 7Lig2wsUvveURu9Jyb51N3Kqyc85g533QC1PAWTwayEWZHHlG2NdA+OUfT6CMeZ9TelO7
+	 2MBFo2+YsombVnABPIDG70defRfa8wIpBo0FyCWR9unFuhmswG+AYJh9Z9HCXRFs0wA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793015915;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=xA5Je2qa8vdBHWmi+aA7U89RPIKhmEKHRSzdtLfH5tk=;
-	b=jMxxP5MhZ35iVYdxZbAXdkvcJx0Sf0T2Lhs+enrzRBBEyF2On71/ZJ8xXoyG8GM+j4a5
-	 GoNsP9kCRZldNnKclJOPHGarF9ol4osWy5SwCwP2p7a7OOoLqt7iEHF/7DIYSRr75v2bM
-	 ZK+/bIm8Uwsc3Gxz5TYTmRSYj7mmY2Aqc5lFKm4vhbxeAfMibLXhLhBcXCAkQAqzbwr9d
-	 YX1dSQqTolLPJ8K/OH3eL4IMHBda9DsqkgWYyT6eM5emHuCKut3j8wNUV9YhKpJ1o84AQ
-	 U0hyCCcMDdUJfvjC0qjhr6wyGm1aXBWA2BOSjsohE1QDDptx7iskh6NM6SH5wND7iBw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793016063;
+	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
+	 Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:
+	 Cc:Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
+	 X-CMS-MailID:X-Msg-Generator:Content-Type:CMS-TYPE:cpgsPolicy:
+	 X-CFilter-Loop:X-CMS-RootMailID:References;
+	bh=Eooql/PWw9JrcOSkmPC1JhQXpt0yj7tFL/LJ7TTte3w=;
+	b=oqFC0uanWNO5sBIaKCMFU+PaJzNDmGlOeJ5ghPLKhnb0WIrlgtyORmkmtfiRHh/Hf5xF
+	 82TUI3bdsHAoBaRCOudI4LZLXSHamTWRmXCra5tqwDQ/KeMgCc/D/7RYXeYDOjRPS8kVV
+	 71Sbsy6F3Dqd315KeESaxr8WSTm8qtWPoOWOteb93DzfJ3YX740sLAhPGCM/hCLPORqOk
+	 YDElyTaZmkj0Mx51EZuXR1/uxa7pqwq+HjWHS8ZgRPpDV6kVG7uBYUqY2nZBo7TSm1cOj
+	 jw9w24weME1gEhHOc1a51Ngt8RiOUoycqK4bdg6raUhyTJmT0fZDjTDMjZqaO6qFDUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WYd3qw+8;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	dmarc=pass header.from=samsung.com;
+	spf=pass smtp.mailfrom=samsung.com;
+	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=l3Ic3VYd;
+	arc=none smtp.remote-ip=203.254.224.34
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1A0B606A31D;
-	Mon, 26 Oct 2026 11:58:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E1A0B606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701E0606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 12:01:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 701E0606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=WYd3qw+8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793015915; x=1824551915;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=N4+rXbY563duUc5ZojoYwToBOC9b5UWgotUeQPKwe7c=;
-  b=WYd3qw+8Kn1oymEBOnxk2mdH1Hc12UaWkRs/UCzdDUNuWFW3ghj6OXC5
-   HJQD5/rOUozByl76Olg+g4DJFGmDLuk7sABpW75jKHwjP9BbUOQXLUn5t
-   lwbbTCToqCKIw0zXWdxbl3lbGCdej0GFDz/dJWGDeMsa6iMxftTv6/joc
-   3OQm1gb7oKHPz36JSQy1OpC4nG1W7mv/jAJHNvZbxrSx3HDtg/mSvBxMo
-   AF1AFDMXvY401DUqO9SFS1tpUoPDUCIZw93nZHVR6qPzwv2ney99d8MqP
-   6iIIimS4TX2Y/oRWgRVDV6+VlKMfNug9RVdHbmBDZkB+WdxrlJVljZt9X
-   A==;
-X-CSE-ConnectionGUID: C4UKCHtgQXKdQKXb0uq8ig==
-X-CSE-MsgGUID: bT9VsuoqS0qlk+iJRr3MBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1700797"
-X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="1700797"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 04:58:34 -0700
-X-CSE-ConnectionGUID: qWhAAVibSyyppIZEQpTr1w==
-X-CSE-MsgGUID: VLLP/3JoSfGPymKiN2oWkg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
-   d="scan'208";a="4645279"
-Received: from black.igk.intel.com ([10.91.253.5])
-  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2026 04:58:32 -0700
-Received: by black.igk.intel.com (Postfix, from userid 1008)
-	id C17B699; Mon, 26 Oct 2026 12:58:31 +0100 (CET)
-Date: Mon, 26 Oct 2026 12:58:31 +0100
-From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-To: Kyle Tso <kyletso@google.com>
-Cc: badhri@google.com, gregkh@linuxfoundation.org,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v1] usb: typec: tcpm: Fix out-of-bounds read of the pds
- and pd_list arrays
-Message-ID: <at9AZ7KH_1At6Vq1@black.igk.intel.com>
-References: <20261013081549.2375441-1-kyletso@google.com>
+	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=l3Ic3VYd
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261026120100epoutp04aaef85b8ab81f84dde312b0f6528e092~iEpt4B8Qw2298422984epoutp04g
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 12:01:00 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261026120100epoutp04aaef85b8ab81f84dde312b0f6528e092~iEpt4B8Qw2298422984epoutp04g
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1793016060;
+	bh=Eooql/PWw9JrcOSkmPC1JhQXpt0yj7tFL/LJ7TTte3w=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=l3Ic3VYd+gMtyXg1JgRhU7okFwCOEiwEoqoWQDb8N1n2G+hoj2eoZZjWy6BNeiazL
+	 2DLAFM7Juqu38NPweXOp6vDulsFjwTCue8tgAufNaF3R6CYajbtnN7XuldaVgfYdFk
+	 vbHCxmFrIiDGFXUvx/j/FTwNZV5RKJvAZVG2sES0=
+Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20261026120059epcas5p1bdaf5a44a5c532174e91bbfd3d5400a6~iEptUuaTR0298902989epcas5p1a;
+	Mon, 26 Oct 2026 12:00:59 +0000 (GMT)
+Received: from epcas5p2.samsung.com (unknown [182.195.38.90]) by
+	epsnrtp04.localdomain (Postfix) with ESMTP id 4jCsf26vfDz6B9m5; Mon, 26 Oct
+	2026 12:00:58 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20261026120058epcas5p32b10714e9c7e86c757b03baf88c6b40b~iEpr3-hd61524215242epcas5p3M;
+	Mon, 26 Oct 2026 12:00:58 +0000 (GMT)
+Received: from [107.122.5.126] (unknown [107.122.5.126]) by
+	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20261026120055epsmtip160f476325e622f7e86ea621ffb4427f6~iEppABK6U1282912829epsmtip1P;
+	Mon, 26 Oct 2026 12:00:55 +0000 (GMT)
+Message-ID: <c09bd0c9-5173-4cb8-a2c0-2b5008b63712@samsung.com>
+Date: Mon, 26 Oct 2026 17:30:54 +0530
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,84 +71,57 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261013081549.2375441-1-kyletso@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: usb: Add Samsung Exynos8855 DWC3
+ controller binding
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com,
+	Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jh0801.jung@samsung.com, h10.kim@samsung.com, dh10.jung@samsung.com,
+	akash.m5@samsung.com, hongpooh.kim@samsung.com, eomji.oh@samsung.com,
+	shijie.cai@samsung.com, muhammed.ali@samsung.com, thiagu.r@samsung.com
+Content-Language: en-US
+From: Selvarasu Ganesan <selvarasu.g@samsung.com>
+In-Reply-To: <20261026-attractive-puma-of-merriment-0dfbe4@quoll>
+Content-Transfer-Encoding: 7bit
+X-CMS-MailID: 20261026120058epcas5p32b10714e9c7e86c757b03baf88c6b40b
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-542,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20261023131545epcas5p1eff195129ccfb0fb476d3c78e6a507bc
+References: <20261023131501.3157463-1-selvarasu.g@samsung.com>
+	<CGME20261023131545epcas5p1eff195129ccfb0fb476d3c78e6a507bc@epcas5p1.samsung.com>
+	<20261023131501.3157463-2-selvarasu.g@samsung.com>
+	<20261026-attractive-puma-of-merriment-0dfbe4@quoll>
 
-On Tue, Oct 13, 2026 at 08:15:49AM +0000, Kyle Tso wrote:
-> select_usb_power_delivery_show() iterates through port->pds (via the
-> pd_get() callback) and tcpm_find_pd_data() iterates through
-> port->pd_list until they find a NULL entry. However, tcpm_fw_get_caps()
-> allocates only port->pd_count entries for each array, and
-> tcpm_port_register_pd() fills all of them. Without a NULL terminator,
-> both loops read and dereference one entry past the end:
-> 
->   Unable to handle kernel paging request at virtual address
->   adacafaea9a8ac1a
->   Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
->   pc : select_usb_power_delivery_show+0xa4/0x110
->   lr : select_usb_power_delivery_show+0x90/0x110
->   Call trace:
->    select_usb_power_delivery_show+0xa4/0x110
->    dev_attr_show+0x38/0x74
->    sysfs_kf_seq_show+0xb4/0x130
->    kernfs_seq_show+0x44/0x54
->    seq_read_iter+0x158/0x4ec
->    kernfs_fop_read_iter+0x68/0x1bc
->    vfs_read+0x230/0x2c0
->    ksys_read+0x78/0xe8
->    __arm64_sys_read+0x1c/0x2c
->    invoke_syscall+0x58/0x118
->    el0_svc_common+0xb4/0xf4
->    do_el0_svc+0x24/0x80
->    el0_svc+0x2c/0x90
->    el0t_64_sync_handler+0x68/0xb4
->    el0t_64_sync+0x1a4/0x1a8
-> 
-> Allocate one extra, zeroed entry for both arrays so that they are
-> always NULL-terminated.
-> 
-> Fixes: cd099cde4ed2 ("usb: typec: tcpm: Support multiple capabilities")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
-> Signed-off-by: Kyle Tso <kyletso@google.com>
 
-Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+On 10/26/2026 3:14 PM, Krzysztof Kozlowski wrote:
+> On Fri, Oct 23, 2026 at 06:45:00PM +0530, Selvarasu Ganesan wrote:
+>> Add the Samsung Exynos8855 DWC3 binding using a flattened node
+>> representation, where the DWC3 controller is directly addressable
+>> rather than nested as a child node of a glue layer.
+>>
+>> This is the first Samsung Exynos binding using the flattened
+>> representation.
+> Ah and:
+> A nit, subject: drop second/last, redundant "binding". The
+> "dt-bindings" prefix is already stating that these are bindings.
+> See also:
+> https://protect2.fireeye.com/v1/url?k=f1571c7b-aecc251e-f1569734-000babff32e3-08400c25edf5bcfb&q=1&e=549cd4c8-34f1-4b98-afc6-3f62b054ef3c&u=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv7.1-rc7%2Fsource%2FDocumentation%2Fdevicetree%2Fbindings%2Fsubmitting-patches.rst%23L23
+>
+> Best regards,
+> Krzysztof
 
-> ---
->  drivers/usb/typec/tcpm/tcpm.c | 11 +++++++++--
->  1 file changed, 9 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
-> index d721baef5210..8f4e10ec6d66 100644
-> --- a/drivers/usb/typec/tcpm/tcpm.c
-> +++ b/drivers/usb/typec/tcpm/tcpm.c
-> @@ -8376,14 +8376,21 @@ static int tcpm_fw_get_caps(struct tcpm_port *port, struct fwnode_handle *fwnode
->  		}
->  	}
->  
-> -	port->pds = devm_kcalloc(port->dev, port->pd_count, sizeof(struct usb_power_delivery *),
-> +	/*
-> +	 * Allocate one extra entry for each array to keep them NULL-terminated.
-> +	 * select_usb_power_delivery_show() iterates through port->pds (via the
-> +	 * pd_get callback) until it finds a NULL entry. Similarly,
-> +	 * tcpm_find_pd_data() iterates through port->pd_list until it finds a
-> +	 * NULL entry.
-> +	 */
-> +	port->pds = devm_kcalloc(port->dev, port->pd_count + 1, sizeof(struct usb_power_delivery *),
->  				 GFP_KERNEL);
->  	if (!port->pds) {
->  		ret = -ENOMEM;
->  		goto put_capabilities;
->  	}
->  
-> -	port->pd_list = devm_kcalloc(port->dev, port->pd_count, sizeof(struct pd_data *),
-> +	port->pd_list = devm_kcalloc(port->dev, port->pd_count + 1, sizeof(struct pd_data *),
->  				     GFP_KERNEL);
->  	if (!port->pd_list) {
->  		ret = -ENOMEM;
-> -- 
-> 2.56.0.385.gd3acb90ef8-goog
 
--- 
-heikki
+Hi Krzysztof,
+
+Thanks for pointing this out. Sure, will drop the redundant "binding" in 
+the next version.
+
+Thanks,
+Selva
