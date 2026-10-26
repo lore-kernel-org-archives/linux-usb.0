@@ -1,100 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.8
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793005812;
-	b=EprsRZ38BRgLVQodez/TC5xQfJqOPPDeQhGzSNSmg45H8kefec6raEmELwKweC/1g6bH
-	 /lfEttsoQ6rO5rL+30if52mlFRt7og/M3Lrcz9jWx2BCqicBB2ZvzpezT+EysL8yCX4fo
-	 5yuZiG9BGx34boI646lCB3hA3E/SUEKfW1PA8SykEZfbLHupef0+5eMjXKXrw4cwVQhCb
-	 lrhF6o5wYzZjL3b2Yqkf1MNhk0qhom/XLFozsDlE8tsavF8jDUb1do6HSm3rqQdP/jMZ6
-	 S/JzSsi8kSENKQWLoA0bvbb9Zs7z/tkgwi/uyUQiMEbZm6b4TgTY6ZL7lexmc3ac1aw==
+	t=1793006320;
+	b=c9wuFoHvCbsvao3Rrc+yc8z4tJIwWe2Ef1lYoPL40IJjNvV8I9fLl1HdmP5yetXkFZFh
+	 iovAmqQ5nYTowosAQqVGhpdXq4RN6qUUi2L8xjOxbJJA6VkoPig047J21VcLQ3GRafHEe
+	 iShqYSmgbVQmHbfgo/soj7N7D8QHcFChoKaz5tj74U0ecIGwb3qyqISDC5yDEqZRMi6D/
+	 Z5c9y+L2WsBOJQsNmU9wxjS+wzy5gPQkHwlLvIR3RJ4p3phrd4rfCtUZUm6TA9IL9tkiI
+	 3UlXmlcwUgKDPo1WBwRTMh4+XYMg3rTlSmquZeqtCVXJK9zM5y99gRiYZMF4Anp6j4Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793005812;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=J9vwvbzd/ctK76t4ubDixFhgtUMVVnh0YTdKHyIKAw4=;
-	b=liPR//O0n/sqJfIJHG0W+qF4JIQG6/jLu+frA+zB1CtycFb39wP++6bN0+pJjQM9t80S
-	 MbEUkKHAWCzI9wOSOk5UKnIu9TfBZH5q0q4NDR9jJfid63AJ2BOTWvfYxQ6kVgAn/an6o
-	 f37m57FPt6iKfFt97S/yxMSdkux8DTsBHm29QKQdgZkN0Ej0YmteTLzZbd42NU4KTgJ8z
-	 345iZO3i/RmSQThuXUft3KuSyL/qKU5w3L/mFJKcXpIyhtnwQLcGfm7MU5E6XkB91kaat
-	 mKeNkJgTV/mS431Epl5h0GEHNi/wMZMumSZFN4MCrX3hKib5NoGZrYIEhy9HeV/oggA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793006320;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=4TNG55E0oUtd9l6OcjW1QlWIeZy68AdXCcINd3sCBk8=;
+	b=kZ6bPpqV49eFeRaLMjTxydYGKBGThpjKlho5e1FKgeFKlPFx0Il7YVRHttW5E7buYZNk
+	 cmOeBOPeqG+KhA6jzC0TpBTPDlhgcnapQ0UVVmG0dAg+3KNBeCmt6a/cF0MmswljX224t
+	 /hYZzPFcG7yO7Kzzp3JBIigvvdkg14Nufw+ATNuEso3lSVgun/jElvZRQEWe8tbSDpqzt
+	 r9sO3iSGjRa/Jl28tN1ETyCi7z+K34nvVwbDPSIKXIBvF+x98zpA+6CeootXJFAMMB+iC
+	 NinbvjpeXeh+uPbFc9xU9ILfrdXIyim+ZDvWdSZblZ8sCueLPfoWoFNxBj7nPIU3E6A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KLpPmno8;
-	arc=none smtp.remote-ip=209.85.221.47
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="e/WiaY3P";
+	arc=none smtp.remote-ip=192.198.163.8
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E6DF606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 09:10:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5E6DF606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED6E606A31A
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 09:18:39 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AED6E606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=KLpPmno8
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48e00eee27dso1686546f8f.0
-        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 02:10:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793005811; x=1793610611; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=J9vwvbzd/ctK76t4ubDixFhgtUMVVnh0YTdKHyIKAw4=;
-        b=KLpPmno86j460EDRfT84X20OKWtIXvgUsUC+wpT9yqRQ4+BoIun7QBXytto9ElBp0/
-         KIDqNXLLP5Blny2inmfg82h3CWQOJcNHkLHhcH92hW69E8udxMSxUM5FB3fu9A7JXris
-         1A9dxPOSvEQ9kQISRcrolVCqu7UC3LLoh/SMfPByM0lPsKn8CHM0xDs+Jy1Ewg6WCxv3
-         fD/h+rFIvCUoa5d0FKtD7Veo2+zib3FMVNgCuE2BcJJFyHvegVU7NoavMKimwZljZIlh
-         YMOrWcFO0JS5Q0+bJWOZVAxN7XeG4RhusZ3EAWk48GFv2miNtAqREDqMFm2o0pen+I8w
-         k91w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793005811; x=1793610611;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=J9vwvbzd/ctK76t4ubDixFhgtUMVVnh0YTdKHyIKAw4=;
-        b=m8UjNkr1+1V4byaZGJOSpo9xub7g6cI5sGYy/KVvtTYmNh59CwM4MUiF0DRqyBaEtf
-         YRGHfUAVXsmc+1wIe7M3pFkRnifEmxEtu2L6C5FpBf2ONr6atFKX9rYZ1mbf1bu+16Pn
-         5F1ksrj/BjBU/M1tgB6DCzXWwAXCfmriISsdKuLHwwas7HoprCC4SnpDLaALbElasHzH
-         jfhmVUmnEpgs4qRVl6AvSesG1/qWTQmN0OaRdgPxFC371FQH9yrtiZuGs+/d1MEnfUP9
-         lbtu4FCO21sOplxtPcb134PXdpuAVIUJOcnbj9WGYpAvfYTm5sjsCfk2z+Osp+Pieb25
-         Aniw==
-X-Forwarded-Encrypted: i=1; AKwUvByD4LA9uYzDqK7YQlmNgDHJLDVN9ZLTjHJ830xlni91G9SMknRPd/o4mKs6vhacVbWSGWfQQgFSmRY=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKwIcrBy+Ucy9yOPf+B6qXOp9oWEBU1vBXQy+G5plOVkn4q5QE+
-	v/8a9whglmDuSyTMFciGGPRNCgyjONcmZikKWb3MIrlmH3J0DFPIzuLR
-X-Gm-Gg: AYBFou1Li8W4c0klrdkGqUUCm36pFbP0MHcIdRhUffzx43YiCpHuF0+FVoEghauRIOG
-	sYlKYCwP3IJXoYM9sgPYTjlXEc1E2lSQGveCnUYOp7Wp4qcFdS99TfWS6S5uq+ZZS//jb2ROA28
-	L725+2tJq38ftmUJBgMP07kPJ/l7eCZyMChdXzIik8q7i0Bciu3poFq73djpYXrk1VMAcnLeiUZ
-	btWq8uLVw5rcXSSVEV8PvIVG9uTjcgcS8QumgZWzCzzqCyqBP2DGOKqMcP1yL1l/ojZhAdc20r1
-	azY82PxO+LXm/Yc8d68g/WBoQMddHaglEdUIE1wUjhM62vOj7gd2LRwPInmSjX24aZjue3x1hpW
-	08xMPQ9/NNnxe1QmvEg+YqN4R6ZgNhP4OmOvn0PLiMnP5Y+55JJa/sfHSvTKoYZIz8gPiVMz5C5
-	R8vxqipoYxddpzcKVVa7xTTmshs3CzrwHQAs+woRjITa6gAa4eWw9FTZvqWa7DgDUWoZSvMd8d1
-	Uc1K3rvWYa/Yi+oH5uDCD9tAR32H1lfSCNFKh8IbmYQ4uHzYcp0aVZkVg8mPFsDN86S0bDB0P7p
-	SUPMt2J7f5s=
-X-Received: by 2002:adf:e906:0:b0:487:baa:aa6b with SMTP id ffacd0b85a97d-48e3eb9c276mr7811949f8f.43.1793005810570;
-        Mon, 26 Oct 2026 02:10:10 -0700 (PDT)
-Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc39a8sm16086753f8f.11.2026.10.26.02.10.09
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 26 Oct 2026 02:10:10 -0700 (PDT)
-Date: Mon, 26 Oct 2026 10:10:04 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Henry Tseng <henrytseng@qnap.com>
-Cc: Mathias Nyman <mathias.nyman@intel.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH 0/2] xhci: handshake timeout overrun and configure
- endpoint hang on device disconnect
-Message-ID: <20261026101004.37f02f78.michal.pecio@gmail.com>
-In-Reply-To: <20261016101141.42602-1-henrytseng@qnap.com>
-References: <20260930101752.15794-1-henrytseng@qnap.com>
-	<20261002113012.271ceead.michal.pecio@gmail.com>
-	<179136673328.386669.9410030239460428155@qnap.com>
-	<20261008110642.56567a92.michal.pecio@gmail.com>
-	<20261008102522.109308-1-henrytseng@qnap.com>
-	<20261009173516.681681a6.michal.pecio@gmail.com>
-	<20261016101141.42602-1-henrytseng@qnap.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=e/WiaY3P
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793006320; x=1824542320;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=QSQ42AHAfA6i1rzIQPc1CjZr3BcCOEbxFhoogGK7cQQ=;
+  b=e/WiaY3PjKChyfzGiQLY3fRO0KL+VuIAf72pa9r05PsnnjvLf3cG2wTN
+   ZzudJpIZrgEVTVJUILxda88NBhD9QK6PFaAZwMXcl6Uahi2M+EsxGDjyI
+   i1DDXoelPiLnDcReUmOhd6QOzqzSWLX1XOVhRldW8FZ9vxbaPdeHLXWiC
+   P+Ly3KO1lDvOagPa7u0H/e3FsBfQ/VEwFmW9CooOZzi2nn96O42JvDKl5
+   QeuGPRg26l0pRK09lVuviw/kKWGnD1pjK8vmrq/2vZ1DVnB8mVcfXhoQg
+   Og/6/ndS8wMkaM5bjOKN0RIOXBTc2VktDD60ok1vZz1daGT5tDz4b3UwV
+   g==;
+X-CSE-ConnectionGUID: H/+V/aeyRBWVYRLIullYSg==
+X-CSE-MsgGUID: fTYdlEykSemx0Q17u+SDIA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1560646"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1560646"
+Received: from fmviesa012.fm.intel.com ([10.60.135.152])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:18:39 -0700
+X-CSE-ConnectionGUID: 5v41M3BnSgi+8LCPzWsCaQ==
+X-CSE-MsgGUID: B+5F9+/xRdeO5WU7f+c0sw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="5970034"
+Received: from ettammin-mobl3.ger.corp.intel.com (HELO [10.245.245.74]) ([10.245.245.74])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:18:37 -0700
+Message-ID: <7082e2e7-8d05-46b8-a26b-5b888a7a0545@linux.intel.com>
+Date: Mon, 26 Oct 2026 11:18:34 +0200
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -104,61 +72,73 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
+ (3434:d068) at boot since v7.3
+To: Michal Pecio <michal.pecio@gmail.com>, Dennis Wissel <dennis@dsine.de>
+Cc: Yiyu Zhou <yiyu@yiyuzhou.io>, linux-usb@vger.kernel.org,
+ regressions@lists.linux.dev
+References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+ <20261024203558.3181711-1-yiyu@yiyuzhou.io> <SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
+ <20261025111410.2c14fcef.michal.pecio@gmail.com>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <20261025111410.2c14fcef.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On Fri, 16 Oct 2026 18:11:39 +0800, Henry Tseng wrote:
-> Yes. I repeated it on v7.3-rc5 with 2-1.3 deconfigured first, so 2-1.3
-> had nothing left to drop on disconnect and no command was issued for
-> it. After the USB3 root port reported the disconnect, the configure
-> endpoint command for 2-1.4.4 (slot 8) completed, and then the one for
-> 2-1.4 (slot 6) got stuck.
-
-So there is something special about those hubs, but we have no idea
-what it is and whether any workaround is possible. Using the DC flag
-isn't helping either, and basically
-
-> I agree the kernel isn't doing anything wrong here. The idea of patch
-> 2 is that when disable slot follows anyway, this configure endpoint
-> command doesn't seem to be needed
-
-This may be the only option and I haven't noticed bad side-effects on
-any of my HCs when Configure Endpoint is omitted before Disable Slot.
-
-However,
-
-> > Maybe it helps to re-connect the device before abort begins?
-> > This worked with Renesas :)
+On 10/25/26 12:14, Michal Pecio wrote:
+> Hi,
 > 
-> The timing is a bit tricky to hit, but I gave it a few tries and the
-> host was still declared dead every time.
+> On Sun, 25 Oct 2026 01:10:27 +0200, Dennis Wissel wrote:
+>> On Sat, 24 Oct 2026 13:34:07 -0700, Yiyu Zhou wrote:
+>>> The fix is queued in Mathias's for-usb-linus branch as 1f36cc9fa949
+>>> ("xhci: give back all TDs when skipping endpoint reset after
+>>> disconnect") and applies cleanly to v7.3:
+>> [...]
+>>> Could you test it?  If it fixes your case, please reply here so that
+>>> Mathias can add your Tested-by.  If it does not, reverting
+>>> 042aad8d0db6 and 7e0ef4332ed9 on v7.3 would show whether these
+>>> commits are involved.
+>>
+>> Thanks, I tested both on top of 7.3.0-4-cachyos, booting with the
+>> mouse plugged in each time.
+>>
+>> 1) With 1f36cc9fa949: much better, but not completely fixed.
+>>
+>> No reset loop anymore. After one disconnect and re-enumeration all four
+>> interfaces bind, and both the mouse and the NuPhy keyboard work.
+>> Before, the boot took about 3 minutes and both were dead.
+>>
+>> But hub_wq still stalls for about 11 s after the first reset of the
+>> mouse. Other devices on the same controller (1-9.2, 1-14) are only
+>> enumerated after that. Just before the disconnect is handled, xhci
+>> prints three "not part of TD" messages for ep 0:
+>>
+>> [    3.509460] usb 1-1: new full-speed USB device number 2 using xhci_hcd
+>> [    3.510626] hid-generic 0003:3434:D068.0001: input,hidraw0: USB HID v1.11 Mouse [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input0
+>> [    3.510772] hid-generic 0003:3434:D068.0002: input,hidraw1: USB HID v1.11 Keyboard [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input1
+>> [    4.973074] usb 1-1: reset full-speed USB device number 2 using xhci_hcd
+>> (nothing on the bus for 11 s)
+>> [   15.970122] xhci_hcd 0000:00:14.0: Event dma 0x0000000104205260 for ep 0 status 1 not part of TD at 00000001042052d0 - 00000001042052f0
+>> [   15.970767] xhci_hcd 0000:00:14.0: Event dma 0x0000000104205280 for ep 0 status 13 not part of TD at 00000001042052d0 - 00000001042052f0
+>> [   15.971131] xhci_hcd 0000:00:14.0: Event dma 0x0000000104205290 for ep 0 status 1 not part of TD at 00000001042052d0 - 00000001042052f0
+> 
+> That's not good, your HC seems to be executing stale URBs, probably
+> from before the device was reset. I suspect we reuse the default pipe
+> without recovering it from the broken state left by EP_DROP_PENDING.
+> (Such bug may have existed since forever, but only in USB3 and cases
+> which seldom or never happen. 7.3 generalized it to more cases.)
+> 
+> But is USB core really resetting a device for which the hub has
+> reported disconnection? Something isn't as I would expect.
 
-Should be quite easy, you have 5 seconds before the abort begins. But
-this result isn't good, it suggests that your patch is prone to a race
-condition: if the link disappears for a moment and comes back before
-USB core calls xhci_check_bandwidth(), rhub_port->connected may already
-be true again, the workaround won't fire and the HC will hang.
+I suspect udev, xhci virt_dev, and thus xhci ep0 ring stays intact even if device
+has a short disconnect during reset/enumeration.
 
-We really need something that permanently "sticks" to all disconnected
-udevs until they are reset or deleted, like the former VDEV_PORT_ERROR
-flag which has been removed in v7.3.
+So even if we give back all pending URBs and clear the EP_DROP_PENDING flag we
+continue using the stale ring. We should either either move dequeue pointer,
+set TRBs to no-op, or clear and reinitialize whole ep0 ring at device reset.
 
-I have already suggested before that the previous solution was better,
-but Mathias didn't seem interested in reworking this. But I think this
-cannot be avoided in the long term, due to issue like here. Per-device
-flags really are the right thing to do.
+-Mathias
 
-> The only hub I have at hand is a 5 Gbps one (05e3:0612), so I tested
-> with it between the root port and the enclosure. On v7.3-rc5,
-> unplugging the enclosure from that hub doesn't hang, and all
-> configure endpoint commands complete
-
-What happens if you disconnect the 5gbps hub with its children from
-the root hub? If this fails, we obviously have a problem. If not, we
-still won't know. If you think your customers are likely to use these
-devices behind hubs, you may want to get a 10gbps one and try.
-
-I don't understand this bug so I can't tell what result to expect.
-
-Regards,
-Michal
