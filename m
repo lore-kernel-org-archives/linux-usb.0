@@ -1,97 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793020845;
-	b=P2Z7BXnmsY0vu7dCGWTlm6H01DK0V+fTMBhw9U4pJBMk4qGcJKl6LoEF91D6nKePO47L
-	 HBirTZTZDwpvR6sRTMFU11Gs5iYnuruzvM/bHTXfgUIPTkYjTvYuft2go5RneLD1rRa9i
-	 RleR204HzQe91lfA1GayswbYnmW954cNE+X3SE9yfNGD1jhvXN8lfaIbTafx4vmTClKR6
-	 pH0/wwxE1tNTribxULS0m09owGZMOwZhgPfIwQEoLSng8he+0HrsYrF0K4AQmBzYMezl4
-	 jGbQiWe7oZWXNUW1A+TEC37V3ABJDwYhM8UVb3JekmPB45/29SWEwLOZFaHWmxkJDQw==
+	t=1793020863;
+	b=GK6Rtw6h5DwjxX1lR2OZqbpsGFDLyFI/LpzlYqxizrEAIr6eYWpSuxRbghQLEEz3EGoZ
+	 Rq4TWE88hGJdU0SlAqcQj27uIA3YdG8RTqONtDdGCfTtovnG9f0t8Rtnh+llvF5U41BIW
+	 o0OF6AYuF/50QkxZUjyYgsPeYUWgYUvg3IXZgCpd3ZCyuUrWcB2P/Xi8BJwDLdo2YwH0X
+	 hG4OPZdUJt+P8BOUck70zlV4sE4iTU2Ul+fFll8wcZDYFBVa4JzER6cFNksapHf/fzOuJ
+	 U882PYGvwPJZiK8AGmIafoW5y2e1y+MyB9EQziufRuxidsCFNrxXE5XPiW0XBJyVv0Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793020845;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=0kGdvRUS0dLRvNimoHsfs/WP9lwMRZf3ZAqeb280LWk=;
-	b=c84hZ3mYxP8nZGqnN8IOKv8cJ8nm9q27X8zlyHu6kabAEDrjPrLCKtDjnb38TIORDLcu
-	 NuS3QTx1VnmqERk9Fyg3/5aSXi2r7DgHFxIcMY0rN/8jmYq9+JUyHiGh2j7nF7rPibebp
-	 8pAifISxnw1FgYw9RvQHxpf+ymm5XvTrCvaXKmrch8UBW6SUvGRXQEWrd7lg5zXLoOhFW
-	 QEKCLeqPP3GwM5ByVOwBPuETjPmZPRD+DVG+evVKi24pXhfZvNWMrs7/IiN7n2EP4m+xi
-	 wgJ141H4G0xbp+11UUizzmxAgSBCy7haIGKqUtV7ddhQYdNdPoR872/pH6VUKfjD4ZA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793020863;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=92zvWHSppKZKlbV2z8fjTOWLGPxOJ1h84oGpWcTlTa0=;
+	b=ZW/XQ/x8j9wqEIBubWl54DHqWDcgkQXjXt0QmBmxw3IAWYHZJi+EUPwbYLCp+nMvCG1V
+	 VSX4/v/0jeNv8Oj9VHln1pUFVtshToDdU3A2a2r4/P6X836S4EkvahR+CfSOnVVtG30Sl
+	 LiuLpZxXT0UJX96oV6wLhfd4N16hb+WX13rprTCajKR1PECdOmj7QMl1OyFWt8yMu0YRw
+	 YB0TiQi5rrnCB1lIAExhs9wOGTQJMq0Pb/AKfxuiACKtMW/vHrW+BNF+ar8gzsRHstPZC
+	 RCCESMMU3AcpyGVVTDB/XW+EfqdU1qq/WR8L6YhFIzomotMSPes6Bhemb3Q9YadG+Ug==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WauRMrpx;
-	arc=none smtp.remote-ip=209.85.218.46
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UyEsjetc;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254DC606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 13:20:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 254DC606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBA3A606A321;
+	Mon, 26 Oct 2026 13:21:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BBA3A606A321
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=WauRMrpx
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c418e215671so379586066b.0
-        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 06:20:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793020843; x=1793625643; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=0kGdvRUS0dLRvNimoHsfs/WP9lwMRZf3ZAqeb280LWk=;
-        b=WauRMrpxESCrEvvxANq9HsD33ULRAd9/RpQfcJRj3x+Nq5C/hrEbrLJXSu77G4h2mj
-         gdWCfopcCB4YzOAbR4M8SyB16m/KJS5fhGfhvNBsL05YiUDfev2CwTlA7CqzRBoL9FPc
-         UzI/fP9f9w/UftmhT/L5EiW1Y3roXMO734yuTu4G2n5uz5I5utEuhkZ0kAU3r3DlyxkS
-         KXmjUry0VhVebAoeTIFohEMIuRpo+fKDtVD7wjfCwNX18WeXSriGe2a/uy0mms5m6n5w
-         Mzv7ROGeQcpuNbbam/j/yM53lNZMR83DKDwLEBpUmYRHD7BdvDSoTGKyXs0HBMPDSd3F
-         NTtg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793020843; x=1793625643;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0kGdvRUS0dLRvNimoHsfs/WP9lwMRZf3ZAqeb280LWk=;
-        b=SAxHf/Cfmr7azMGpMvTX0GiON8sc5aPluTClQ4X7CMCxVvb1hy/B1wqdQW0GxpDuHe
-         PbHKXS0A7mhUuytVAhw8QVzHRAmTnDgDWqUp1qF0J+m7UVdyc/d45nkXOxmo+/CI8eVi
-         cIo6dV21XhwctIXGB7bgL3o6cG/HlnR8+FrNFvmmHaPmiMVuegufhxwCbMUTveEh0WeK
-         blF2t8FoTSa1ft/Nh/bBxbc7n9F+KUEyCSml1/b4yL89Zt+JzdrxrFGewvRpUkAM/jwO
-         BhdBt4tu0i2SbG0GOx1A2a9pSXNR9eGMSLwM+gm1FK9kz4Cu4XPDED1WjSex2KucRz3Z
-         onrA==
-X-Forwarded-Encrypted: i=1; AKwUvBwl3Nrs1383zqzYmsYA17PHuERlUVtjeujjp37A5ZvGL9dgZ/X88S2IyBmwD9cEIvSm3hjY2KAPP50=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIs9nOq21nxK6aTtbsGwmjSkYM8vcPxZEJFqwiGKsApracDx66h
-	PHK2FTHE+5YTPN69DDUyORDRHPg1jE6y8gPKlKZYmkrtSoEAIx52I1nh
-X-Gm-Gg: AYBFou1VqaX0GJbY/emmEgWp9u77yluXSwIKUFSxdFlCLXF7t5oP+muKh21U0dn1ZsK
-	zreSG6kpIvKD1T465lUit9Fq4zZixnkJSBKBQOBPGPTWavbA/5e93jBxXV7UNavemQl2CoZemjn
-	2a6Zn8RB8JtmOG96hpFkV/11SLfKXwq2DwEXZr3E2pypjkThAVZt9Cq+RHT+e4qVoLz5o2mBuiG
-	zHHHsUWoO7ZTp3JAdHAye3XpxDqzESZf8HFqvd74ZbwQEcFyJrO1f/2Y1Yc2cTyhuo0D6Di7IJs
-	Ld1tN7BsAtGqUDRUwdsC5ODXmu1sn6QuwB+PC3LJlXTDm8X4RSmCiirnhklQQSJy5e50qYtlni9
-	bPwJk3frzfiyFcVkbjheYqwGzAdr6/iQkGWwpfBQgku69vd2vO2LtCKPEkBPoReI5qR6GbNzpXH
-	3CWq0XSTMHDZcmUV9BMf7AEY985xT/1SFWJNN1Vdze7dQerr5xwubC1BZK5UxJElxoEh7PIgbA7
-	JEV+cA8FfKLozuF10yBjDfyaAf1r+BIEyyTN6YTC/bw/0AE
-X-Received: by 2002:a17:907:2da5:b0:c33:ca5e:8ddb with SMTP id a640c23a62f3a-c46bde088d3mr773260366b.28.1793020843337;
-        Mon, 26 Oct 2026 06:20:43 -0700 (PDT)
-Received: from beelink ([187.13.23.140])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd35004asm314324466b.4.2026.10.26.06.20.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2026 06:20:42 -0700 (PDT)
-From: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-To: Li Ximo <lixicaicai@gmail.com>
-Cc: Wang Haoran <haoranwangsec@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Michal Simek <michal.simek@amd.com>,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Aldo Ariel Panzardo <qwe.aldo@gmail.com>
-Subject: Re: [PATCH] usb: gadget: udc-xilinx: Fix wild pointer dereference on empty EP0 queue
-Date: Mon, 26 Oct 2026 10:20:21 -0300
-Message-ID: <20261026132021.220391-1-qwe.aldo@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261023073131.637062-1-lixicaicai@gmail.com>
-References: <20261023073131.637062-1-lixicaicai@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UyEsjetc
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793020863; x=1824556863;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q6UvNyOiSBy/+IxTQtW7UsyYTQPm1czeX/2xhznn6Gs=;
+  b=UyEsjetcICm4VRhp4Iy0mgEtWZM8m3aPBH1YtqtuhRKkwn6KeyDMHX9y
+   J/6FzDF6/pyFEEILyKNRITAnsB9qpQSfOp6jYT3GoEA+rqUcF9ryRxyjH
+   HbN5VMId4Sx49slStSxzNrjohQtUmRFJbqT+aFZ9OZJKD47Z4sF/h6VlK
+   903rbZTM7y4APxzMn22fCdFCCAKg1sL4XycYpvH8McnBnnGsaSvuzGwyC
+   T7IXMzJSQxnIIJgXdHGyR1H0D5BqvApVeLnCb1Q8mys7FAnU4ZBWavbCe
+   msBkyPhrcRlnum9KmacPxcftc4VkiICykQqIG55Lc9Hl5q0IIYuT7kfpt
+   Q==;
+X-CSE-ConnectionGUID: EswSfgT7SB6SOm2g60gakA==
+X-CSE-MsgGUID: A7o+F5QfTXGtdzoeUGaJ2g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1717905"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1717905"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 06:20:54 -0700
+X-CSE-ConnectionGUID: Mw/j33mWQxywAcp5SRfSfw==
+X-CSE-MsgGUID: w6K/vCLGRh2RTP9zxJha7Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="4652334"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa006.fm.intel.com with ESMTP; 26 Oct 2026 06:20:52 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 15ED699; Mon, 26 Oct 2026 14:20:51 +0100 (CET)
+Date: Mon, 26 Oct 2026 14:20:51 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Joonhoe Kim <26rote@gmail.com>
+Cc: gregkh@linuxfoundation.org, neil.armstrong@linaro.org,
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: mux: fsa4480: Keep the USB 2.0 switch on in
+ DP-only modes
+Message-ID: <at9Ts6lDS7yWuAMK@black.igk.intel.com>
+References: <20261022165143.1327-1-26rote@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,6 +82,60 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261022165143.1327-1-26rote@gmail.com>
 
-Reviewed-by: Aldo Ariel Panzardo <qwe.aldo@gmail.com>
+On Fri, Oct 23, 2026 at 01:51:43AM +0900, Joonhoe Kim wrote:
+> DisplayPort pin assignments C and E give all four SuperSpeed lanes to
+> DisplayPort, but the USB 2.0 D+/D- pair is not part of the pin
+> assignment and stays available. The FSA4480 sits on that pair, and in
+> these modes the driver turns its USB switch off, so a USB 2.0 hub or
+> device behind a DisplayPort sink is disconnected as soon as the
+> DisplayPort mode is set.
+> 
+> Configure the USB switch the same way in all DisplayPort modes.
+> 
+> Fixes: c7054c31c1c9 ("usb: typec: fsa4480: rework mux & switch setup to handle more states")
+> Signed-off-by: Joonhoe Kim <26rote@gmail.com>
+
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+
+> ---
+> Tested on a Lenovo Y700 Gen 5 (TB323FU, Kaanapali; out-of-tree board
+> support) with a USB-C monitor in pin assignment C: its USB 2.0 hub was
+> disconnected when the mux was set; with this change the hub and the
+> keyboard behind it stay connected.
+> 
+>  drivers/usb/typec/mux/fsa4480.c | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4480.c
+> index bea0c1deec94..e05ab3c10c81 100644
+> --- a/drivers/usb/typec/mux/fsa4480.c
+> +++ b/drivers/usb/typec/mux/fsa4480.c
+> @@ -93,16 +93,9 @@ static int fsa4480_set(struct fsa4480 *fsa)
+>  		sel = FSA4480_SEL_USB;
+>  	} else if (fsa->svid) {
+>  		switch (fsa->mode) {
+> -		/* DP Only */
+>  		case TYPEC_DP_STATE_C:
+> -		case TYPEC_DP_STATE_E:
+> -			enable |= FSA4480_ENABLE_SBU;
+> -			if (reverse)
+> -				sel = FSA4480_SEL_SBU_REVERSE;
+> -			break;
+> -
+> -		/* DP + USB */
+>  		case TYPEC_DP_STATE_D:
+> +		case TYPEC_DP_STATE_E:
+>  		case TYPEC_DP_STATE_F:
+>  			enable |= FSA4480_ENABLE_USB | FSA4480_ENABLE_SBU;
+>  			sel = FSA4480_SEL_USB;
+> 
+> base-commit: 2efb7a11f1aa4d2dc285fe2680cca22cb9f72f64
+> -- 
+> 2.43.0
+
+-- 
+heikki
