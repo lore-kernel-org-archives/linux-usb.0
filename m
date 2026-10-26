@@ -1,54 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793011951;
-	b=INMQmauV9v1YdUhtDPYbFsXIUd+rvKpOrQBFydd2ohIdaiEp/k3LkUEwVxBpsRA76t+d
-	 VdLbfl29mjj0iDrn3nxJer/9YwU2giOcZFpiPQJuSh3UN7ZZfkKizhAtVuBCfCWG6ZHIN
-	 OKyE6Mw+Bq81XIKF4bNHEPvSFutTlDOWvgWPGQBzwTMP/0DNPZlnxRGozygJlxRwzYw6U
-	 fLJv9EwhOj/z9aFZiH1Zhdpo4o1PHbyFvL16YwD6JEgrBf9sfyO7PuyCo6qvMoAem48jA
-	 Y982owLCoLR3RI9a2Kdb0XCB1TOrKCmgdHVmBzmct/VI4gr/Nv/YVbvf/Ffytlyd6MA==
+	t=1793012953;
+	b=OZeBGE1lQG7Oz838YTSg7nUN0lnUYFhvp34ZRfC24dzXRx3eAlwkPyWVAGrhlYQP1KoF
+	 vm2ud9cnC1w+vg6W5cvHD5CbWKE9GeLie1oP68QgH19hMnwzAbxOhkDouTrQHIPrYQHF7
+	 TVjZcCVLwghvrxLTtQjTcOJuQ7JGCutDsS3oYMFKKAXbIChEnqWmFVwzBCbQc7FmUefdC
+	 V5qB3ZC3R09xJgqgfbeISipridXeMMCa1Dpd8lVjX6FZU+b4KdzdJuk944O+OkLluHMZ9
+	 ojeIqYdX3Ua6sDx+HGWCptMVHF3SxAl9FuCmjQ0clEoq0r76q0MfTApq8T/mUxuYN8w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793011951;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=AQy2Dahtoc1vS64zM/q2064E7p7snqqcln1PMUtXXJo=;
-	b=HYbWrKQyrCiHEqm04dVEz/d8gCamWixh+PQRk9mSA97KqJjxLMV4QwWl+tCkZisa7Q+J
-	 47KxNGUTcI8mk/wf2Z415eUZjE+jR1AF32hxNWENANvmpmC6vlCXI9Q/pvg8j4aDGMYb+
-	 LLfcd5E2jsG3GULc3V0KFIe88GLNni4lyeRFTkufzMUzfmb4vVFRcRxr0FqSJnosGlS6s
-	 lcAY4aGs+tJDSEX6YfMCswN8EyCa69ab+Gce3iiOIEfwXXDohyn0uWIxl4xBNylhnXhZR
-	 flvnNJjWxduTvQRvA3yFC90O6SQDtV7cX/0elRe7pee/AD/g726HzEO47EtWHYQMxIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793012953;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=8NovCQH940na+gosyoo7UWT5zfsY+yv5JWNQkZbmeL0=;
+	b=o4+vtXaOLCKBQglOHTODPc5Si6cVY60z54FY2HtnLjkewClucnBZfHXBnvBERTjJBjSS
+	 w0VhF0rxfM1Z+vJ5chPy57OqAkwj2g3BES6mRWJkuYDqlgp52P0poFR/pT4mS741ltOvG
+	 d1ABQV+amdHpjrW1tpWxJlRDCbVMiWBOT7bff9eXdkNp9vvrSpqJsHPJiU4qQOH9IwFi/
+	 Ak7MCLjcDj3+HgLBOhh9DEKiWuGIxTToWAXRHt5QC3+64OA9/WT+1yKDrOmpnC5/ZJm7D
+	 s1+cl5lFWyQB3juRMXyJozCA9aqAo6gXKScRW/UYiJC6M3J9JNznIXOlD8q0qehD36A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C16D2606A327;
-	Mon, 26 Oct 2026 10:52:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C16D2606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:MIME-Version:Content-Transfer-Encoding; bh=AQy2Dahtoc
-	1vS64zM/q2064E7p7snqqcln1PMUtXXJo=; b=AvoL+hhVnJEQTZGOIuDMCxm3pV
-	UKqpBEt4XPu8LYxSfYzrCoxRcqBu8fKKIhV0yU3X1QjHT6YMaIpSsvn7ea01J910
-	em9EGc32CiJV31oEzKiRCnYBXtNUiwgWeaNIzbSHS/7pEAG1glsgJaWNkpl/l3ff
-	uasfRcBcz2LezBHHU=
-Received: from localhost.localdomain (unknown [113.200.174.126])
-	by hzbj-edu-front-2.icoremail.net (Coremail) with UTF8SMTPA id BLQMCkBmpfrhMN9qL0jpAA--.46778S2;
-	Mon, 26 Oct 2026 18:52:18 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Mathias Nyman <mathias.nyman@intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>
-Subject: [PATCH] usb: xhci: Fix use-after-free race in xhci_stop_device()
-Date: Mon, 26 Oct 2026 18:52:03 +0800
-Message-ID: <20261026105203.1250-1-25031212351@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.45.1.windows.1
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CIIbWtkh;
+	arc=none smtp.remote-ip=198.175.65.10
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66013606A31A;
+	Mon, 26 Oct 2026 11:09:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 66013606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=CIIbWtkh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793012953; x=1824548953;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MlcDPbq8YL7OdWQu9xDbnnlqJLjzqxo74xBBo/QFseQ=;
+  b=CIIbWtkh9W1ZlA5E/XRxWLd/Lwxg5OmHHnuaRXqzjP0kIUhGpnPaLowy
+   yAXqF4iRl8NHbTeE2SnAcpu4WgLrB3MaTOKz4U+ZIKcuBarJV/gAgofa4
+   N3WKUHBZ6Lxdh1A/C1CRxBv/+pfECwYYS4a4T7+FPsCJPBN4lJ9wHhfAG
+   GX0BzAhEAhTRhCN3PCHPfZP6/Xj1i4lGWxawdCwHpfPJavWixJ3CRpn11
+   3MYjkjOyURlHCK4VoS0IsE38/rhOOeaMLtxff8OJK9g57wuiObHGBSlIf
+   ZrkTC7EpZ05D5J4/PDppoKaMVRoe/svQUxjmCvJH3HGN9/fzsw0ak1KJd
+   A==;
+X-CSE-ConnectionGUID: Lkr2tMdPQqWtonOz8NfV5A==
+X-CSE-MsgGUID: pLokmp6/TDSBkQq8F3z1OA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1567230"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1567230"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 04:09:12 -0700
+X-CSE-ConnectionGUID: Pji25Z/gSYWakq1dFtDIMA==
+X-CSE-MsgGUID: twf3KC97TzuRlYmB1RWPTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="4637081"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2026 04:09:09 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id F178A99; Mon, 26 Oct 2026 12:09:07 +0100 (CET)
+Date: Mon, 26 Oct 2026 12:09:07 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Val Packett <val@packett.cool>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] usb: typec: fsa4480: Report switch & mux events
+ to codec
+Message-ID: <at800xHh8lvwsi-8@black.igk.intel.com>
+References: <20261020081343.1507986-1-val@packett.cool>
+ <20261020081343.1507986-3-val@packett.cool>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,114 +90,152 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BLQMCkBmpfrhMN9qL0jpAA--.46778S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxArWfKr1Dtw18Zry7Zw43Wrg_yoWrGFykpF
-	43Ja45CryUKr1agFs8Kry8XF1rAws7Z3yDWryxW34UursxJryrKFySyrZ09wn7ur97Ar17
-	tFn8GFWruay5GF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUU9qb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Jr0_Gr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwV
-	C2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq
-	07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r
-	17McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vI
-	r41lc7CjxVAaw2AFwI0_JF0_Jw1lc2xSY4AK67AK6r4DMxAIw28IcxkI7VAKI48JMxC20s
-	026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_
-	JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14
-	v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xva
-	j40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVWUJV
-	W8JbIYCTnIWIevJa73UjIFyTuYvjxUcID7UUUUU
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUSD2reHcClDgAAsY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261020081343.1507986-3-val@packett.cool>
 
-A KASAN slab-use-after-free read was observed in xhci_stop_device():
+On Tue, Oct 20, 2026 at 05:12:54AM -0300, Val Packett wrote:
+> From: Luca Weiss <luca.weiss@fairphone.com>
+> 
+> In the Type-C graph, the FSA4480 switch is in between the USB-C connector
+> and the audio codec, but the audio codec also needs to receive the
+> switch and mux events from the FSA4480.
+> 
+> Update the driver to get an Type-C mux on the next endpoint and
+> broadcast the recevied mux & switch state to it.
+> 
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> [val: enable the SENSE/MIC bits; put the refs in fsa4480_remove]
+> Signed-off-by: Val Packett <val@packett.cool>
 
-  BUG: KASAN: slab-use-after-free in xhci_stop_device.constprop.0.isra.0+0x395/0x430
-  drivers/usb/host/xhci-hub.c:479
-  Read of size 8 at addr ffff88804e85d2f0
+Acked-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
-  Freed by task 585700:
-   kfree+0xf8/0x390 mm/slub.c:6566
-   xhci_free_virt_device+0x3f/0x50 drivers/usb/host/xhci-mem.c:881
-   xhci_free_dev+0x286/0x350 drivers/usb/host/xhci.c:4131
-   usb_disconnect+0x6b6/0x910 drivers/usb/core/hub.c:2391
-   ...
-   usbdev_ioctl+0x6f05/0x86d0 drivers/usb/core/devio.c:2826
+> ---
+>  drivers/usb/typec/mux/fsa4480.c | 57 +++++++++++++++++++++++++++++----
+>  1 file changed, 50 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/mux/fsa4480.c b/drivers/usb/typec/mux/fsa4480.c
+> index bea0c1deec94..93faa81d0879 100644
+> --- a/drivers/usb/typec/mux/fsa4480.c
+> +++ b/drivers/usb/typec/mux/fsa4480.c
+> @@ -60,6 +60,9 @@ struct fsa4480 {
+>  
+>  	struct regmap *regmap;
+>  
+> +	struct typec_mux *codec;
+> +	struct typec_switch *codec_switch;
+> +
+>  	enum typec_orientation orientation;
+>  	unsigned long mode;
+>  	unsigned int svid;
+> @@ -115,7 +118,8 @@ static int fsa4480_set(struct fsa4480 *fsa)
+>  		}
+>  	} else if (fsa->mode == TYPEC_MODE_AUDIO) {
+>  		/* Audio Accessory Mode, setup to auto Jack Detection */
+> -		enable |= FSA4480_ENABLE_USB | FSA4480_ENABLE_AGND;
+> +		enable |= FSA4480_ENABLE_USB | FSA4480_ENABLE_AGND |
+> +			 FSA4480_ENABLE_SENSE | FSA4480_ENABLE_MIC;
+>  	} else
+>  		return -EOPNOTSUPP;
+>  
+> @@ -162,7 +166,11 @@ static int fsa4480_switch_set(struct typec_switch_dev *sw,
+>  
+>  	mutex_unlock(&fsa->lock);
+>  
+> -	return ret;
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Report orientation to codec after switch has been done */
+> +	return typec_switch_set(fsa->codec_switch, orientation);
+>  }
+>  
+>  static int fsa4480_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *state)
+> @@ -185,7 +193,11 @@ static int fsa4480_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *st
+>  
+>  	mutex_unlock(&fsa->lock);
+>  
+> -	return ret;
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Report event to codec after switch has been done */
+> +	return typec_mux_set(fsa->codec, state);
+>  }
+>  
+>  enum {
+> @@ -287,6 +299,19 @@ static int fsa4480_probe(struct i2c_client *client)
+>  		FIELD_GET(FSA4480_DEVICE_ID_REV_ID, val),
+>  		FIELD_GET(FSA4480_DEVICE_ID_VENDOR_ID, val));
+>  
+> +	/* Get Codec's MUX & Switch devices */
+> +	fsa->codec = fwnode_typec_mux_get(dev->fwnode);
+> +	if (IS_ERR(fsa->codec))
+> +		return dev_err_probe(dev, PTR_ERR(fsa->codec),
+> +				     "failed to acquire codec mode-switch\n");
+> +
+> +	fsa->codec_switch = fwnode_typec_switch_get(dev->fwnode);
+> +	if (IS_ERR(fsa->codec_switch)) {
+> +		ret = dev_err_probe(dev, PTR_ERR(fsa->codec_switch),
+> +				    "failed to acquire codec orientation-switch\n");
+> +		goto err_put_mux;
+> +	}
+> +
+>  	/* Safe mode */
+>  	fsa->cur_enable = FSA4480_ENABLE_DEVICE | FSA4480_ENABLE_USB;
+>  	fsa->mode = TYPEC_STATE_SAFE;
+> @@ -310,8 +335,11 @@ static int fsa4480_probe(struct i2c_client *client)
+>  	sw_desc.set = fsa4480_switch_set;
+>  
+>  	fsa->sw = typec_switch_register(dev, &sw_desc);
+> -	if (IS_ERR(fsa->sw))
+> -		return dev_err_probe(dev, PTR_ERR(fsa->sw), "failed to register typec switch\n");
+> +	if (IS_ERR(fsa->sw)) {
+> +		ret = dev_err_probe(dev, PTR_ERR(fsa->sw),
+> +				    "failed to register typec switch\n");
+> +		goto err_put_switch;
+> +	}
+>  
+>  	mux_desc.drvdata = fsa;
+>  	mux_desc.fwnode = dev_fwnode(dev);
+> @@ -319,18 +347,33 @@ static int fsa4480_probe(struct i2c_client *client)
+>  
+>  	fsa->mux = typec_mux_register(dev, &mux_desc);
+>  	if (IS_ERR(fsa->mux)) {
+> -		typec_switch_unregister(fsa->sw);
+> -		return dev_err_probe(dev, PTR_ERR(fsa->mux), "failed to register typec mux\n");
+> +		ret = dev_err_probe(dev, PTR_ERR(fsa->mux),
+> +				    "failed to register typec mux\n");
+> +		goto err_unregister_switch;
+>  	}
+>  
+>  	i2c_set_clientdata(client, fsa);
+>  	return 0;
+> +
+> +err_unregister_switch:
+> +	typec_switch_unregister(fsa->sw);
+> +
+> +err_put_switch:
+> +	typec_switch_put(fsa->codec_switch);
+> +
+> +err_put_mux:
+> +	typec_mux_put(fsa->codec);
+> +
+> +	return ret;
+>  }
+>  
+>  static void fsa4480_remove(struct i2c_client *client)
+>  {
+>  	struct fsa4480 *fsa = i2c_get_clientdata(client);
+>  
+> +	typec_mux_put(fsa->codec);
+> +	typec_switch_put(fsa->codec_switch);
+> +
+>  	typec_mux_unregister(fsa->mux);
+>  	typec_switch_unregister(fsa->sw);
+>  }
+> -- 
+> 2.55.0
 
-  Allocated by task 572283:
-   xhci_alloc_virt_device+0x171/0xb70 drivers/usb/host/xhci-mem.c:986
-   xhci_alloc_dev+0x475/0x840 drivers/usb/host/xhci.c:4271
-   usb_alloc_dev+0xe8/0xdc0 drivers/usb/core/usb.c:661
-   hub_event+0x1c82/0x4050 drivers/usb/core/hub.c:5953
-
-xhci_stop_device() reads xhci->devs[slot_id] without xhci->lock and
-keeps using the pointer across xhci_alloc_command(GFP_NOIO), which may
-sleep.  All callers (the port suspend and bus suspend paths in
-xhci_hub_control() and xhci_bus_suspend()) drop xhci->lock before
-calling it, so a concurrent usb_disconnect() -> xhci_free_dev() can
-clear xhci->devs[slot_id] and free virt_dev under xhci->lock in that
-window.  The endpoint loop then dereferences the freed virt_dev.
-
-commit 88716a93766b ("usb: xhci: Fix panic if disconnect") added a
-NULL check for this case, but that only helps when the device was
-already freed before the check; it does not close the window.
-
-Re-check xhci->devs[slot_id] against the pointer fetched earlier after
-taking xhci->lock and bail out if it no longer matches, and trace the
-device only while udev is still attached.  xhci_free_virt_device()
-frees the device under xhci->lock, so a matching pointer while holding
-the lock keeps virt_dev alive until xhci_stop_device() drops the lock,
-after which virt_dev is not used anymore.
-
-Fixes: be88fe4f4dda93e3 ("USB: xHCI: port power management implementation")
-Cc: stable@vger.kernel.org
-Co-developed-by: Bin Yu <byu@xidian.edu.cn>
-Signed-off-by: Bin Yu <byu@xidian.edu.cn>
-Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
-Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
----
- drivers/usb/host/xhci-hub.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/usb/host/xhci-hub.c b/drivers/usb/host/xhci-hub.c
-index b0264bd8577a..f058cb4d3534 100644
---- a/drivers/usb/host/xhci-hub.c
-+++ b/drivers/usb/host/xhci-hub.c
-@@ -467,13 +467,31 @@ static int xhci_stop_device(struct xhci_hcd *xhci, int slot_id, int suspend)
- 	if (!virt_dev)
- 		return -ENODEV;
- 
--	trace_xhci_stop_device(virt_dev);
--
- 	cmd = xhci_alloc_command(xhci, true, GFP_NOIO);
- 	if (!cmd)
- 		return -ENOMEM;
- 
- 	spin_lock_irqsave(&xhci->lock, flags);
-+
-+	/*
-+	 * Callers drop xhci->lock before calling us and allocating cmd
-+	 * above can sleep, so xhci_free_dev() may have freed the device in
-+	 * the meantime.  The device is detached from xhci->devs[slot_id]
-+	 * under xhci->lock before it is freed, so re-check under the lock
-+	 * that this slot still points to it.  The device cannot be freed
-+	 * while xhci->lock is held, and virt_dev is not used after the
-+	 * lock is dropped below.
-+	 */
-+	if (xhci->devs[slot_id] != virt_dev) {
-+		spin_unlock_irqrestore(&xhci->lock, flags);
-+		xhci_free_command(xhci, cmd);
-+		return -ENODEV;
-+	}
-+
-+	/* xhci_free_dev() may already have cleared udev without the lock */
-+	if (virt_dev->udev)
-+		trace_xhci_stop_device(virt_dev);
-+
- 	for (i = LAST_EP_INDEX; i > 0; i--) {
- 		if (virt_dev->eps[i].ring && virt_dev->eps[i].ring->dequeue) {
- 			struct xhci_ep_ctx *ep_ctx;
 -- 
-2.34.1
-
+heikki
