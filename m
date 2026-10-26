@@ -1,56 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792972549;
-	b=LlLU1VHy+PThb5rpEMDDMC9nSrVv/JvKVLQScKgAv1YWFDghqhr4yrplHyT9w47ERbAE
-	 1A5bdzx20nGNpdyauWYcm5UOVQYhwz1AngtnmGvEn8AXwE2pjM7NgOvg44bvk5jLYuj8u
-	 wTDOk9+JWZB2QIMEoRQH+W5In44Cdwky7Ax3dWlv47g5ocA4EOb+vgNRU3Bqyx8QN9c7c
-	 LJf3CCXMlbWSI5knF21m+/4MnJ0o5baue8VE8ET0fvfnRBU1ypWdrrKl2I8XQS9pd9OH7
-	 /hzKTfKhCv/nNmxRh/YqABc7Sbc5V6GQtYU0ZQ6Mnfx3pIwyO1r4Eeokz4ZrJ9Ls+UQ==
+	t=1792974112;
+	b=pkp3yqwACG20zPp17iSlK/tNtoOz6N9vUIRkM5KQreiTa7jNvEKF7W2bPLDkE9fcWlOf
+	 rVLND9vCkwcuQFVSI6/U9xWC5hiCwU9YQVkzDC6rnT/VsUoIwuKuveKJZVI1WaOh8GjCb
+	 2v8Ejv+7VK3oXM4674tvts/wxJDe2NjDZB5iLRfpA/k4VgnO8M/W75wYndJVB+o0KdSy/
+	 svDidn3rWBHi2mtpLtSgD1DL1nvs0zFMwevbvQ5eVKOhQ1/tNItmQR0EhUIVdw29Umj6M
+	 Zu0WqrYhb8tg3BUm3y08TOW6UDhTH52GCObgcWdkLMWUOZAHhg88N6gh6zVcg0GnQ0A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792972549;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=yha0xcpo0l+l99YfRBE7t1HWtktbOT6m8oiiBzbviJs=;
-	b=TxZgrjr0P3HWVElvi2e72LWZ5XFkr2WFP3j7yHHiE2cPauB5yZUesrJQcGIUj783w7Yz
-	 /KU0PE8OtRHEfe07gqbRQKW4zM8AjiD4PtGRjBlGp6fev3Ja/I+D/Dlef6ZFEnox67C4J
-	 zW4lQoM0+ZWZOhTzpTkkZ+jUn1M2QmQ6HwR2RyS3EaaZpPhGerRA6DM3uxdpCR4z2Tp51
-	 FhRli5CGuZyVUVxIYuSEIesKpTFA4OTS5Rp77NuWr2C0+S2ErlJrkqA8PY3yE2PqTixRT
-	 yo2qAs+PfREjQzHr7GnHw0s4Eg0muR6moONLsb8OCE6BCXyjLoGkXu/eMGrqyBz6DrA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792974112;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:X-MBO-RS-ID:X-MBO-RS-META;
+	bh=Wr0kFOMxYl9pteGhZNqQSKrR/oMCTxgBwG40hen/ECY=;
+	b=xx1ZsBKgfsdHU8iLUXxzSkO+8l0C6OP6VgN+dyo2vRRrp94JTFxg0UVmeH7OflFKcYYB
+	 LFuw65mOP9vUiCOAqN1xEKTV738IsPh/FOjiUfIscvJ0ON1wTDnUXN2SkEptIiEdtfL0G
+	 hpknxMB3m+Dn60NZxs8efyjqp9ZES1hjeXil/P2WHP9LrPShGTKQX0h9D/KzZxwwu7f4Q
+	 vdlHwZA+mKPQsCJGd9RLuAQ8LEOjthKN9sV+p/iPDQDC4RJlIQoY1e1klX71NTbRYDCZV
+	 fz5hJag68vQ22MOOt1LUzXljgluDQ7yJ53iAafDieY3ZS89v4YzT+xB3rGw0Ndd0+dQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=biUe6ddB;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=mailbox.org;
+	spf=pass smtp.mailfrom=mailbox.org;
+	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=W0pjgows;
+	arc=none smtp.remote-ip=80.241.56.171
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D292606A31E
-	for <linux-usb@vger.kernel.org>; Sun, 25 Oct 2026 23:55:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD8FE606A329;
+	Mon, 26 Oct 2026 00:21:50 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AD8FE606A329
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=biUe6ddB
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16C271F01825;
-	Sun, 25 Oct 2026 23:55:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792972549;
-	bh=yha0xcpo0l+l99YfRBE7t1HWtktbOT6m8oiiBzbviJs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=biUe6ddBXOkDChKQZy143O8VyXidc07JJde5C8rMSYZK/NYNw88ijY9jUnTS6Rkne
-	 IHV4GohEdu65zxOAUtm5uAQVJx1sWqlvJo/lSOlc491i2ScrnvmE9Mjrfru4VAL+zd
-	 PjrA7WUlmnv980zNaz7OPdEEnel5Y5Qhdia1Hb0FDydSU4SToyD+wHp+/T5BkGS/u2
-	 1RGiu5kinj0E/J/+p3uLoCsfRVLtrgtIPlE4S1IbBsNi9yGw/+M658X944XTT6lr7m
-	 4S55oEHeK2ciCsqkqsPVpaBTXWywzYnmw3NMSA4iZW+Cdh5AxI0y/cMmI7VjLpi5Yv
-	 hm2Yq2R2+MSgw==
-Message-ID: <sashiko-outbox-184527@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: acpi: Assume UCSI 1.0 on HP ZBook 8
- G2i 14
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ihor Urazov" <z0rc3r@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261026-ucsi-hp-zbook-8-g2i-v1-1-91002e9ef073@gmail.com>
-References: <20261026-ucsi-hp-zbook-8-g2i-v1-1-91002e9ef073@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 25 Oct 2026 23:55:48 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=W0pjgows
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4jCZ795nlXzMlLg;
+	Mon, 26 Oct 2026 01:21:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1792974101;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Wr0kFOMxYl9pteGhZNqQSKrR/oMCTxgBwG40hen/ECY=;
+	b=W0pjgowsa19X+yxHDoKEjSezGjQsIi0oMxWMJvMU87WOwYrlD0u0aT4ji32aW8aRqll2Gc
+	OUhUFBufvWO0Owy0fPlMd9lh2c42Ni63JZ7Ciy1nmpHQLGtR/rBM7hh7ANfvIIWmMYsYPh
+	NfVJyMDK7rPEcVYbAGE4zd38pgQYCY7wRxqJpcECREZ1tYUI0VWes9gWJuEA3TLxA52TlZ
+	/YWGYyJiO8++utmS8YrmvRwA6BPJhKxhFuMRajG6UAPdexfZLsqQPkuxucO/SgGRz//LdD
+	IrlrWF5n1+SpXSebcSMBr194ijNKNBYwtwsbooZu3AXr/I6BGaOQ7InAKvHenw==
+Message-ID: <be205518-ba8d-486f-b603-1d52321edc1a@mailbox.org>
+Date: Mon, 26 Oct 2026 01:21:39 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,32 +61,64 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 2/2] usb: dwc3: dwc3-generic-plat: Add Renesas R-Car
+ Gen5 DWC3 xHCI USB controller glue
+To: Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: "linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+ Thanh Quan <thanh.quan.xn@renesas.com>, Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>
+References: <20260903213031.314473-1-marek.vasut+renesas@mailbox.org>
+ <20260903213031.314473-2-marek.vasut+renesas@mailbox.org>
+ <aptP39nVZPFLgekY@vbox>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <aptP39nVZPFLgekY@vbox>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 52bd3d68fc0077169a6
+X-MBO-RS-META: 38abrunqgixa6dfgajjwr5tpxqwfm8xk
 
-> From: Ihor Urazov <z0rc3r@gmail.com>
->=20
-> The HP ZBook 8 G2i 14 (board 8ED9) exposes a working UCSI ACPI PPM, but
-> its UCSI VERSION field reads zero until the first command completes.
-> ucsi_register() rejects a zero version with -ENODEV, so no Type-C ports
-> are registered.
->=20
-> The firmware's _DSM READ function (2) is a stub. The mailbox VERSION
-> field is written only by the EC response handler, after a command
-> completes, after which it reads 0x0100 (UCSI 1.0). The mailbox is
-> 48 bytes with 16-byte MESSAGE_IN/MESSAGE_OUT fields, the UCSI 1.x
-> layout, and _DSM function 5 is not implemented.
->=20
-> Add a DMI-specific read_version for this board that substitutes the
-> version the firmware itself reports, UCSI 1.0, only when VERSION reads
-> [ ... ]
-> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
-> Cc: stable@vger.kernel.org
-> Cc: Francesco Orro <ncesco@interstellar.eu>
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Ihor Urazov <z0rc3r@gmail.com>
+On 9/5/26 1:10 AM, Thinh Nguyen wrote:
+> On Thu, Sep 03, 2026, Marek Vasut wrote:
+>> From: Thanh Quan <thanh.quan.xn@renesas.com>
+>>
+>> The Renesas R-Car Gen5 SoC contains multiple instances of DWC3 USB
+>> controller with glue logic wrapper around them. Extend the generic
+>> DWC3 platform driver with Renesas R-Car Gen5 glue logic specifics.
+>>
+>> Signed-off-by: Thanh Quan <thanh.quan.xn@renesas.com>
+>> Co-developed-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
+>> Signed-off-by: Marek Vasut <marek.vasut+renesas@mailbox.org>
 
-Sashiko has reviewed this patch and found no issues.
+[...]
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026-ucsi-hp-zb=
-ook-8-g2i-v1-1-91002e9ef073@gmail.com?part=3D1
+>>   static const struct of_device_id dwc3_generic_of_match[] = {
+>>   	{ .compatible = "spacemit,k1-dwc3", &spacemit_k1_dwc3},
+>>   	{ .compatible = "spacemit,k3-dwc3", },
+>>   	{ .compatible = "fsl,ls1028a-dwc3", &fsl_ls1028_dwc3},
+>>   	{ .compatible = "eswin,eic7700-dwc3", &eic7700_dwc3},
+>> +	{ .compatible = "renesas,rcar-gen5-dwc3", &renesas_rcar_gen5_dwc3},
+>>   	{ .compatible = "starfive,jhb100-dwc3", },
+>>   	{ /* sentinel */ }
+>>   };
+>> -- 
+>> 2.53.0
+>>
+> 
+> Acked-by: Thinh Nguyen <Thinh.Nguyen@synopsys.com>
+Hello everyone,
 
+could these two patches possibly be picked up ? They should have all the 
+necessary RB tags for about a month now.
+
+Thank you !
+
+(yes, I know everyone is flooded by emails recently, I apologize for 
+making this worse for you)
