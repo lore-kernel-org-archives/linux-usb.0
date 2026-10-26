@@ -1,55 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.127
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1792978769;
-	b=lfoP0j9oo+seyQjT90EUsZG/moOgVXgbdvnNO031H6jK3nkkx2X+3wjQWxvTYU7undxN
-	 c707TbBexYhJfQIg62/K9Z5SLUoYqW1eBQ9tfpWJyovPuAXgwsRWHiebEonlxNN1XhzWa
-	 YN55ylC86gHvnkwupL0aHfASMJGM3gCZJ5nthIVk6AEGfAy/P0cqQhQdTCTwcanI3cbx0
-	 pxnCQ280IavvSd/ujD7gTKK3KZCB74CwL+S8pGBs+JO+VyTwxoOYs1e7dznrA0641Atim
-	 1/k8vErnjlMB0tDUlxkRhpt5EvfBhr0WHro70wTS4mPxNYFc9sjHReYWZdKn2u2u9vA==
+	t=1792984311;
+	b=Yr0DO+jrhuXOalMY3+d/33r/g9U3jQ+BdQOYtFihFjp6CHTCMUaBfdIIpv20FLOa7z4E
+	 eNmv0VXsPePLGbpzD9GsL7nwu3xTKLWSJTjbo2UiMWQQR5zEEasfOuBjXgz7cE1KhuOjb
+	 u78sTn9aBOon0C7R23G9xANBcTYEn1WdmF/l7kXBU8fX4hSQ7ZOESqW/njte8mgIi2vfZ
+	 D3GhARpnHo7tFAvjnAFCRoj6eayttTxNNmSjebyMr5n2hXI+LgA+ZCruo+OLSDm6z2x1y
+	 XbPyeyOxjuRyeQCchtJ9Pf4lCUyVRHiqn5u+4mJ3CT4RT+aj22DvSbmEy+GjFZtiWZw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1792978769;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=RPsfDMuhRPinqH1B4J73f1yqoDqpzV8i3HQ/lxbRwVo=;
-	b=eUz6csDbJDvTCXFhy7TqdU0J8lpITZRfQ/zwb9Wr6y9dcrmj8/CAY2C1wfCbA7bcaWwZ
-	 xMGWT/HgRNDLz+5g0WHnmCXHEbXu7Acs3EYBHhEiF4Kclz9SabxwURA8ITlBVgzgkrDfm
-	 7zpdP5d5UZBjd43fZFVoli2G+nEiN/j3ZvPlJQCD0qnhyyVCjU0BU9utfKtwmXYLBZAFo
-	 uBqtPhsEcQb3CRPkP5rOamiVeLTldxYxS8UPSc3U9GNs4vC7rge3Jhi3I2sMjkBkIMh3g
-	 M8JVTpAP6mBf6INoSOWUNxX0KNL5sssr3C7yibNsfKOSi/CAsOvSP0yqyR24heLGDBQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1792984311;
+	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
+	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=D5e6RWMfDcyV1F0L2JTnQ3pw+rEKxZ8VX2v6h/59qmc=;
+	b=RYu6ChG4HB2JPlDTKvgvkX8Bh6I/UvJ0ins7VDlJQnekAqdWR1olddGkCUl0nYcM7uQ+
+	 vJr9M6WQGfmtOA4Gl+rz7Qm4IEo4cej1APiBWVYhwdfKgj/uMGkbxxxVhpFqX6vELfS1N
+	 r547kU/OtqnF0rgqqCxOPua2xffuCMeTlChFy7c27qv9aIR0JzZjmqhG09Ybr2pUtudxJ
+	 lY1Ly4bxThRx/yDI341iCQPSf7CUQYQqOMivmBNnMohxih8cHSxNvnwCZxbMxKsSUjMX+
+	 bgVgWwa8eWy6bdAhY7UsW8qNHA9ixU5bhs/8MpjQ0aqbcJ6jUH3ZXJc+UP/h4fmeCxg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=geqUwXYm;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=xiaopeng.com;
+	spf=pass smtp.mailfrom=xiaopeng.com;
+	dkim=pass header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=u11TTGgg;
+	arc=none smtp.remote-ip=115.124.28.127
+Received: from out28-127.mail.aliyun.com (out28-127.mail.aliyun.com [115.124.28.127])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C99B606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 01:39:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37109606A31A;
+	Mon, 26 Oct 2026 03:11:48 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 37109606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=geqUwXYm
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B1EB21F01825;
-	Mon, 26 Oct 2026 01:39:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1792978768;
-	bh=RPsfDMuhRPinqH1B4J73f1yqoDqpzV8i3HQ/lxbRwVo=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=geqUwXYm81U79GN0PBq81A7EWRdPcNVKIERg7XMJgmvzYfeHJC0YKzDyOj0pNExOG
-	 M4B+AxbEj3EULsr5+xL5pT9zHT8qJGqHnm8xHaBslRrA5MNh4/PHCEXsRU6KzDDF+2
-	 rlcEtgdq6B+K6I87YQgDJbu9uRjJkf4cR4mM7qTBD6f2SHy3bXOH5Z3kpvhJ6sX4Ky
-	 4IqF4kEIQjsNapTMiAcaF0buBLFhokNFbpdeOiEa5hCgzUVtOMnc72ooczV45eP4rO
-	 g7WOngPCoCyqmzpSVjljq+7loeo9XiN1Wqao9eSsQ6/JcF89h2BMpxMU5d8h1b9Wuk
-	 cqksZmFpWo0rA==
-Message-ID: <sashiko-outbox-184585@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH net v3] r8152: Use BMSR to detect the link state
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Linmao Li" <lilinmao@kylinos.cn>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261026012345.1902285-1-lilinmao@kylinos.cn>
-References: <20261026012345.1902285-1-lilinmao@kylinos.cn>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2026 01:39:28 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=u11TTGgg
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xiaopeng.com; s=default;
+	t=1792984300; h=From:To:Subject:Date:Message-ID:MIME-Version;
+	bh=D5e6RWMfDcyV1F0L2JTnQ3pw+rEKxZ8VX2v6h/59qmc=;
+	b=u11TTGggpyi5OUgkcBphUkmNpanuQoG7pnm2PCViUiQoFb99fA9HblvhxOeoSC99L37C1IcQ6vM8Ob3Tb5vS9H9saUdtkPWrNRTJeAr9a6uErhZA18go4c7yyYP8TrEYJdSuemEDvg19cpsCKpvcUXAaxzQ1KRB29EVuReRvIDo=
+X-Alimail-AntiSpam:AC=SUSPECT;BC=0.654752|-1;BR=01201311R141b1;CH=blue;DM=|SUSPECT|false|;DS=CONTINUE|ham_system_inform|0.0666771-0.00040374-0.932919;FP=350682130323022944|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037028158;MF=fangxy@xiaopeng.com;NM=1;PH=DS;RN=6;RT=6;SR=0;TI=SMTPD_---.jpV4g4E_1792984298;
+Received: from localhost.localdomain(mailfrom:fangxy@xiaopeng.com fp:SMTPD_---.jpV4g4E_1792984298 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Mon, 26 Oct 2026 11:11:39 +0800
+From: Fang Xieyan <fangxy@xiaopeng.com>
+To: hminas@synopsys.com,
+	gregkh@linuxfoundation.org
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	Guanglei Zhu <zhugl3@xiaopeng.com>
+Subject: [PATCH] usb: dwc2: gadget: fix off-by-one in ep_from_windex bounds check
+Date: Mon, 26 Oct 2026 11:11:38 +0800
+Message-ID: <20261026031138.35911-1-fangxy@xiaopeng.com>
+X-Mailer: git-send-email 2.50.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,31 +61,38 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> r8152 detects carrier from PLA_PHYSTATUS without reading BMSR, so
-> BMSR_LSTATUS can remain latched low after link up. Since
-> commit f6f2e946aa4d ("net: mii: Fix the Speed display when the network
-> cable is not connected"), the first speed query can then report
-> SPEED_UNKNOWN, which applications such as NetworkManager may cache
-> until the next carrier change.
->=20
-> Use BMSR_LSTATUS in set_carrier() so a latched link down can turn
-> carrier off after the link has recovered. If BMSR reports down but
-> PLA_PHYSTATUS reports up, reschedule the link work to read the current
-> state without waiting for another notification.
->=20
-> Tested on an RTL8153B: NetworkManager reported 1000 Mb/s after 3 of 3
-> rebinds, instead of an unknown speed.
->=20
-> Fixes: f6f2e946aa4d ("net: mii: Fix the Speed display when the network ca=
-ble is not connected")
-> Cc: stable@vger.kernel.org
-> Suggested-by: Hayes Wang <hayeswang@realtek.com>
-> Signed-off-by: Linmao Li <lilinmao@kylinos.cn>
+ep_from_windex() uses idx > hsotg->num_of_eps to validate the
+endpoint index. Since valid indices are below num_of_eps, an index
+equal to num_of_eps passes the check and is used to access
+eps_in[] or eps_out[] out of bounds. This can cause an unintended
+endpoint pointer to be used by subsequent request handling.
 
-Sashiko has reviewed this patch and found no issues.
+Reject indices greater than or equal to num_of_eps to prevent the
+out-of-bounds access.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026012345.1902=
-285-1-lilinmao@kylinos.cn?part=3D1
+Fixes: b3f489b2b658 ("usb:hsotg:samsung: Determine number of EPs from HW configuration register")
+Reviewed-by: Guanglei Zhu <zhugl3@xiaopeng.com>
+Signed-off-by: Fang Xieyan <fangxy@xiaopeng.com>
+---
+ drivers/usb/dwc2/gadget.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/usb/dwc2/gadget.c b/drivers/usb/dwc2/gadget.c
+index 0637bfbc0..b2a25cd5c 100644
+--- a/drivers/usb/dwc2/gadget.c
++++ b/drivers/usb/dwc2/gadget.c
+@@ -1582,7 +1582,7 @@ static struct dwc2_hsotg_ep *ep_from_windex(struct dwc2_hsotg *hsotg,
+ 	if (windex >= 0x100)
+ 		return NULL;
+ 
+-	if (idx > hsotg->num_of_eps)
++	if (idx >= hsotg->num_of_eps)
+ 		return NULL;
+ 
+ 	return index_to_ep(hsotg, idx, dir);
+--
+2.50.1
 
