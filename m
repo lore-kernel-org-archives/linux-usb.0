@@ -1,97 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793008305;
-	b=UM7LnfOkSim30YdghGm39bPiPru+9thmSGGDZ9M05+DNsNj3Yb3GzIYEXko0A2eBoyUw
-	 JbCY75bT28/pBLWA8dIAlQPOAQpcoHzEODF5pz0C5zl/WCaChJ+vwRq2qF4QtZj4ewf2h
-	 Ux9muF3XHZYsJEwFa7iBluU9tgocRXB0Z5wF2VPRb8tqxY5eAlRgyoFqT0itXfVAeHlUA
-	 Cz+DFfP5jXlFUFqqG8J/8m/6Aq4TqZeWNZor/x/arIFIQ8i7UdxuXOvcv8vsVv4ZVPLC3
-	 VxB+p/Ldn1kst/S1XDjEruPmn7Qz1skMKrze0MeNy0Cn3836pJRcNAasiz1fHFabWcw==
+	t=1793008688;
+	b=tIqy6Y9oi5QPCdwMzUYJZ6V9srw4xZp9rUUgf0NxHpZ+QdMEHR2CZxNddxlixa6XEMOP
+	 GutXEXDrTQJ7CYorX6cXaltyjhnIJthSwst31OFGuQsgdQKWrB3r/qiiy2k9cNoHe0o9u
+	 5pAEp5Xqs/yOpEq2JUiF3yGPyDHOjZ7fROEtQNpgyNYX6ZwlY2kaygp1Uxsld9ujdobxV
+	 miTH2LTNi30rfhYDtS/R5eEW+DUWkb+ub3P95GMjKOfSUdPL0Tm/hCUS4n1KZY5YhwRE+
+	 +1CPTRtSkupjFM5IZkpuhxXJWNJ2fMeLSPDzL3s0AqGh8+fNuX1oREuEa6ICn/w8jcA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793008305;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=JgmEPFVnTpRCUP0N3Fa9flIVssp/Qodc0qLnWI6QuoY=;
-	b=ohTJvBxiW5giE9lDB/GZkE0fPRr8npkt4ecH+ydR/0Nt1CobqU4+Dng1ALqhFpONf7ha
-	 9zkumUbuY8O+kU1xpSDrc0f1N38+up1m36Zwsl0X/Vv8HUUCL2u8nDuEvGT09i6nEVRyg
-	 G91wPmEUJMrp8Uw73EacJSQRN1fyCORUpDdJSKGaIdVONgZiuxAgWZvfAPtgz2dEI9jJl
-	 MxxUE0OTjGpNu+zcOarmaswbSph7QypATiyhFGIhwChZlfbqh5XS/20dAyHz3zqwqTNbZ
-	 /RSrViuNYA6acz7pe16+d1wdQkO2iu93Ej9DsxMev93EmjkNTVloTYN+M9pF/rZ/vnA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793008688;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=QpZpC1O18TBX4KqjeqZ571d36hlitpykAr1EFcL90gw=;
+	b=b13OPhYox+x57q6utlR3GXYEmlcAMXlm6BDX17TI571UUGBrY1FPNX/KxMuZQ6Y9PMPm
+	 dAipokw0/2+ajrXjN7y04NY5L07SRgkpl8dRuF5DlnmnI0oY8k/T1hp/Npx1ZTNO8f0ek
+	 fRrtB17GsZ52DBotiC3AX/r+cghugiKsSIpE4cQFsPcVFb/3iviaZqmBWzvsLl8jcaDQA
+	 5XpF5mKiQTyaY4bbukXWrU40MQu1A1ns7AwYAk/VPFWYIq5j5E4+Vzqyfo7Mz35uCsTGO
+	 OAqegR9ZSuTwZrJ/S2UcZE3WwELkIb0LJXZeCFtcx8Ru5RgKUdxhSHEuQ2AL6Yp6mAQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=b5WJ9F4b;
-	arc=none smtp.remote-ip=209.85.221.50
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UNd9IZhJ;
+	arc=none smtp.remote-ip=192.198.163.14
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C3D1606A31B
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 09:51:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8C3D1606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAEC2606CF89;
+	Mon, 26 Oct 2026 09:58:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org DAEC2606CF89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=b5WJ9F4b
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48e46e449e8so802827f8f.3
-        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 02:51:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793008304; x=1793613104; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=JgmEPFVnTpRCUP0N3Fa9flIVssp/Qodc0qLnWI6QuoY=;
-        b=b5WJ9F4bSphojEDAJDX+pK0H7Gf9c7M3okyhoj4NxXuHpmB+hulS1HoJTGhAe5vtEV
-         jkBy9c7GJk6+3tkxmBQhexeo55w7dEPnJRCZ8M68vhkLyK4/ek1Ex9mQCE0XNRRplWoD
-         1QWnl4Cz4PiP4HbaTPst3t9gMLQmuSMzX79pfOtJmWmr/GLNsIbzJS+pHQ3WGWmcZ/0Z
-         dqWXM8FeI/yAcRcLOip6Cf5nOOR/5MK74Pv82rHufzOglaT7dcsb6nHTHCsA0MZ8ZcEI
-         26z6Z0C4bhAFvGHUCVa2v5sZieJfuRe/NcGXlE8HfIfb+cHHcwZrwq6lHKA9aSGv6l1W
-         flYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793008304; x=1793613104;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JgmEPFVnTpRCUP0N3Fa9flIVssp/Qodc0qLnWI6QuoY=;
-        b=Dp6ieKUdYw6VFVry7t5zH4kob4VTTj9zNsqnykYXVX8I//7TGLWo+0moaNhCNhuzRH
-         XE1INPCazdaMTa3G8ZGFh/kt5oOQLpOaesT6XamdHHfLYdR/nMaO4gVSMc034waXhWVs
-         n6Oz189IofkzBs3YsQc/wobtStDd9tjWB29hmhevDMu4IL4JN8Ebpzu0fOavJRTa6uH8
-         TgYzAkfD8/rQqaLrKyOnCHPS4W4JTPgbjlWLa4+DN2WHc2yc1chHOzqgQ1Gc/7gkNAh6
-         Tw7ZhS6BttlnLGeOFbor4bbnEL8YhnnnHkzMPnliaIr3I/uGgHWh19jvCTqsrUmkdMJQ
-         25MA==
-X-Forwarded-Encrypted: i=1; AKwUvBwssPop8cMdOdqkYpr+U3v8zlrQiySfHUUO+AFTd/dXeYHpDAF258rstqeaETJ4ji9dVpuqET6Wb6c=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJF/EKtBT0LFc1LlXAbJ19gQUmWfTMRhA19eVxht33jbfz1h65Q
-	H4x05OipSt5xvc1nXaVH77B1KOGMZYnwOpmlg4UWdIrZFQFFc0wOlNBNGi4Gcg==
-X-Gm-Gg: AYBFou0iMs9I3VY6Va6/Xean18ow6tlclifH5Ax1n2FXkamSsQHv44LNqprCDnLEfpr
-	GANMBqBwNFeVyBpwO61PonjvsX3IN9Q7R2DFWyzOQ4YYIMtcGntk4dSO/bbWO6szeXq4o8rlC/X
-	t4wqG8HneK0IdRzFiyvWhL9JcCK/uSyH2KvkYfkvS8mnmqbC+rSP8VK23XNCEpk2Cq5JatZCoqs
-	SUb6LIb+j7W83c48Ze88X2k7P7dEVXBZRTeE2UecjgGiv2peOuZgJ/vgmhqkG9KcK2r5eNdFT9x
-	vvVJc245FOEVQHoj9sSaX3o0wpXK6xRWLJwYSE8I+roocCmLCvrtQxm6of1SI4xiXVUnwkzzO88
-	pr8cWmpQL9+s12G4pYWvJQYRyUfooZZ39P54fnRxOlCsCWB87JstZiX90VkF70k//dCkAyyn0vA
-	gg90VBm3LfO1NuA/XLMZ9zE9upnWCP+w/51tJzrbnOfibULaGyQONlWwSrHbD00qFk7qjy+yBRN
-	4RLdqXlmvCCFZOLLy1c6Y7hBEMvIcLvc5UK0YgA3MkbjemGv5AyrTTRU+3IpZ05
-X-Received: by 2002:adf:f284:0:b0:48e:2980:d396 with SMTP id ffacd0b85a97d-48e3eb8d6a5mr9414467f8f.37.1793008303936;
-        Mon, 26 Oct 2026 02:51:43 -0700 (PDT)
-Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecdd5b3sm15297823f8f.53.2026.10.26.02.51.43
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 26 Oct 2026 02:51:43 -0700 (PDT)
-Date: Mon, 26 Oct 2026 10:51:39 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Dennis Wissel <dennis@dsine.de>, Yiyu Zhou <yiyu@yiyuzhou.io>,
- linux-usb@vger.kernel.org, regressions@lists.linux.dev
-Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron
- M5 (3434:d068) at boot since v7.3
-Message-ID: <20261026105139.6b86cb3c.michal.pecio@gmail.com>
-In-Reply-To: <7082e2e7-8d05-46b8-a26b-5b888a7a0545@linux.intel.com>
-References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
-	<20261024203558.3181711-1-yiyu@yiyuzhou.io>
-	<SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
-	<20261025111410.2c14fcef.michal.pecio@gmail.com>
-	<7082e2e7-8d05-46b8-a26b-5b888a7a0545@linux.intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=UNd9IZhJ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793008688; x=1824544688;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=40x+2VGzkZ2eFHl8AUtRrzfKo/eNc9LEpQUYRwDDVd0=;
+  b=UNd9IZhJfU+FWTkGbTKa6hJj7njgqIrONLqs/i2BktRNa8H2/5BgI9Ax
+   HnjD/M+b420csh9oScJFhmQ3ACcRfrBVG2dobwYOVd24Ns+z1jc6qSosC
+   Y0kTp/CMEIV46MGvwwkiPssd37CB0S/lFAlCeDm9ceAzsQXg6K7/Mu+mF
+   zgrxQ5RIC43xLpk4G8LaukjcMvp1UROwYXJTm7wn2sK53ZBIGz3r5lHg0
+   W77fbN9mF7g+DgCJVsfpVpuQL8W5DxeDK4gWDoBBUw7H4k41w1wHnZ3Ly
+   2gjL1fQMNuDyNYmiBwFGII31gErqvhyKo35xXsUwUIQJMU3BVibaar1TF
+   A==;
+X-CSE-ConnectionGUID: n1HRvaPLRl+1qkHwW9NI+w==
+X-CSE-MsgGUID: pDOlQl9vQm65Eswz546mLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1696880"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1696880"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 02:58:07 -0700
+X-CSE-ConnectionGUID: FVYmi1jtQX2eeAqYe+WfIA==
+X-CSE-MsgGUID: Z08vYvfrQJqzGTcf5V3G+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="4627247"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2026 02:58:05 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 244FC99; Mon, 26 Oct 2026 10:58:04 +0100 (CET)
+Date: Mon, 26 Oct 2026 10:58:04 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: David Vornholt <dv@etik.com>
+Cc: gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	David Vornholt <david@vornholt.online>, stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: ucsi: Stop a power level change
+ notification storm
+Message-ID: <at8kLPzAnJAfZRjF@black.igk.intel.com>
+References: <20261010183917.146821-1-dv@etik.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,38 +82,369 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261010183917.146821-1-dv@etik.com>
 
-On Mon, 26 Oct 2026 11:18:34 +0200, Mathias Nyman wrote:
-> > That's not good, your HC seems to be executing stale URBs, probably
-> > from before the device was reset. I suspect we reuse the default pipe
-> > without recovering it from the broken state left by EP_DROP_PENDING.
-> > (Such bug may have existed since forever, but only in USB3 and cases
-> > which seldom or never happen. 7.3 generalized it to more cases.)
-> > 
-> > But is USB core really resetting a device for which the hub has
-> > reported disconnection? Something isn't as I would expect.  
+Hi David,
+
+On Sat, Oct 10, 2026 at 08:39:17PM +0200, David Vornholt wrote:
+> From: David Vornholt <david@vornholt.online>
 > 
-> I suspect udev, xhci virt_dev, and thus xhci ep0 ring stays intact
-> even if device has a short disconnect during reset/enumeration.
+> On a Lenovo ThinkPad X1 Carbon Gen 13 (BIOS N4BET78W 1.48, EC N4BHT61W
+> 1.41, UCSI 1.0) with an HP E273m monitor connected, the PPM keeps
+> signaling a Negotiated Power Level Change although the power contract
+> stays the same, and signals it again right after it has been
+> acknowledged:
+> 
+>   ucsi_connector_change: port1 status: change=0040, opmode=3,
+>     connected=1, sourcing=0, partner_flags=2, partner_type=4,
+>     request_data_obj=1304b12c, BC status=2
 
-But this doesn't make sense, right? If the port reports connect state
-change, we have no idea if it's still the same device or not, I would
-expect udev to be discarded. Or is this some "USB persist" magic?
+Okay, so the PPM really should not report the power level changes
+since there are not power level changes, right? Have you reported this
+to Lenovo?
 
-I didn't want to dig into the hub driver or bother Alan, I hope we will
-get that debug log showing what usbcore is doing there.
+> This repeats about seven times a second for as long as the monitor stays
+> connected. Since commit a0d4618788f2 ("usb: typec: ucsi: Workaround for
+> missed op_mode change"), every Negotiated Power Level Change is handled
+> like a power operation mode change, so the driver reads the source PDOs
+> again, checks the alternate modes and the connector capability, and
+> registers the partner's PDOs again each time. Every UCSI command takes
+> about 50 ms of EC transactions on this machine. The EC GPE fires about
+> 680 times a second, and irq/9-acpi and the kworkers keep a CPU busy.
+> Skipping that work for an unchanged contract only brings the rate down
+> to about 360 a second, because the PPM still signals every change and
+> the driver still reads the connector status and acknowledges it.
+> 
+> Keep handling the notification as before when the power operation mode
+> or the RDO changed, which the workaround for Dell's firmware relies on,
+> or when the source PDOs changed with it. Once the PPM has signaled it
+> ten times in a row with the same PD contract, each within a second of
+> the previous one and without a power operation mode change, disable the
+> notification with SET_NOTIFICATION_ENABLE and log it, and enable it
+> again when the partner on that connector is gone. The mask applies to
+> all connectors, so until then a contract change on another connector is
+> only handled with the next connector change that it does signal. This
+> PPM still reports the bit in the connector status change field. If the
+> PPM signals the notification while it is disabled, ignore it for an
+> unchanged contract, and send the mask again after another ten.
+> 
+> Resume and the reset after a timed-out role swap send ucsi->ntfy to the
+> PPM too. Update ucsi->ntfy and send it in one helper that holds
+> ppm_lock, so that none of them can send an outdated mask after another
+> one has changed it. Keep the new mask, and enable the notification again
+> later, even if the command fails, as the PPM may have applied it anyway.
+> Once ucsi_unregister() has disabled the notifications, don't send a mask
+> anymore.
+> 
+> Also forget the RDO when the partner goes away, so that the first
+> contract with the next partner counts as a new one.
+> 
+> With this, the PPM signals ten changes after the monitor is connected,
+> the driver disables the notification and the GPE rate drops to zero.
+> The ports, the partner and its 5 V/3 A power supply stay registered.
+> 
+> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: David Vornholt <david@vornholt.online>
+> ---
+> 
+> Notes:
+>     Changes in v2:
+>     - Enable the notification again when the partner on the connector that
+>       it was disabled for goes away, instead of leaving it disabled until
+>       the driver is unbound (Sashiko review).
+>     - Update ucsi->ntfy and send it to the PPM in one helper that holds
+>       ppm_lock, and use it on resume and in the reset path of
+>       ucsi_role_cmd() too, so that they can't send an outdated mask
+>       (Sashiko review).
+>     - No longer decide from ucsi->ntfy whether to ignore the notification.
+>       While it is disabled, ignore it for an unchanged contract, and send
+>       the mask again after another ten.
+>     - Keep the new mask, and enable the notification again later, even if
+>       SET_NOTIFICATION_ENABLE fails, and don't send a mask anymore once
+>       ucsi_unregister() has disabled the notifications (Codex review).
+>     - Start counting again after a power operation mode change, and don't
+>       count a power level change that comes with a source PDO change
+>       (Codex review).
+>     - v1: https://lore.kernel.org/r/20261010121026.84844-1-dv@etik.com
+>     
+>     Claude Code, an AI coding assistant, found the cause while I was looking
+>     into why irq/9-acpi kept a CPU busy, and wrote this patch and its
+>     description. Codex with GPT-6 Astra reviewed v2 before I sent it, and
+>     this version addresses its findings.
+>     
+>     Tested: v1 ported to v7.2.9 on the X1 Carbon Gen 13 with the HP E273m.
+>     The ucsi trace events show ten connector changes about 100 ms apart,
+>     one SET_NOTIFICATION_ENABLE and the warning, and no connector changes
+>     after that. GPE 0x6E went from about 680/s to 0/s.
+>     
+>     This version, ported to v7.2.9 on the same machine, with the monitor on
+>     the other port (con1): after the monitor is plugged in, the PPM signals
+>     the power level change about every 5 s, which doesn't count, and after
+>     about 50 s every 110 ms. After ten of those, the warning appears and
+>     SET_NOTIFICATION_ENABLE is sent once. The PPM still signals a power
+>     level change about every 5 to 15 s for another 45 s, which the driver
+>     ignores (no GET_PDOS), and then stops. GPE 0x6E goes to about 1/s.
+>     Unplugging the monitor sends SET_NOTIFICATION_ENABLE again, and after
+>     plugging it back in, the next storm is caught the same way. I did that
+>     twice.
+>     
+>     Against usb-linus, this version is only compile-tested (x86_64 defconfig
+>     with TYPEC_UCSI=m and UCSI_ACPI=m, W=1) and passes checkpatch --strict.
+>     
+>     Not tested: this version on con2; other PPMs, in particular Dell's that
+>     rely on a0d4618788f2; other partners on this laptop; suspend and resume
+>     with the notification disabled; the reset path of ucsi_role_cmd(); a
+>     failing SET_NOTIFICATION_ENABLE; unbinding while connector work runs;
+>     sparse (the version available to me was too old).
+>     
+>     If enabling the notification again fails, it's only retried when the
+>     next partner on that connector goes away, or sent again on resume.
+>     
+>     The patch applies as-is from v7.2 on. Older stable trees need a
+>     backport, in particular for the ucsi_run_command() call in
+>     ucsi_update_notifications().
 
-> So even if we give back all pending URBs and clear the
-> EP_DROP_PENDING flag we continue using the stale ring. We should
-> either either move dequeue pointer, set TRBs to no-op, or clear and
-> reinitialize whole ep0 ring at device reset.
+This problem may only affect your system, so we really have to isolate
+it somehow. I'm almost certain that like this there will be problems
+on some other systems.
 
-This may need to be fixed regardless, because EP_DROP_PENDING on EP0
-can result from xHCI "Error" aka USB3 "Inactive" state, which (AFAIU)
-may be cleared with warm reset, without reallocating the udev. That's
-the "existed since forever" issue I was thinking about.
+Something that I did not quite understand from the above is, if you
+revert commit a0d4618788f2, do you still have a problem (I understand
+that you still get the repeated notifications, but do they cause other
+problems then)?
 
-Regards,
-Michal
+Thanks,
+
+>  drivers/usb/typec/ucsi/ucsi.c | 119 +++++++++++++++++++++++++++++++---
+>  drivers/usb/typec/ucsi/ucsi.h |   5 ++
+>  2 files changed, 115 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/usb/typec/ucsi/ucsi.c b/drivers/usb/typec/ucsi/ucsi.c
+> index c1450639c..0d543f777 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi.c
+> @@ -274,6 +274,37 @@ int ucsi_send_command(struct ucsi *ucsi, u64 command,
+>  }
+>  EXPORT_SYMBOL_GPL(ucsi_send_command);
+>  
+> +/*
+> + * Update the notification enable mask and send it to the PPM. Holding ppm_lock
+> + * across both keeps ucsi->ntfy the mask that the PPM was sent last. Keep it
+> + * even if the command fails, as the PPM may have applied the mask anyway.
+> + */
+> +static int ucsi_update_notifications(struct ucsi *ucsi, u64 clear, u64 set)
+> +{
+> +	u64 command;
+> +	u32 cci;
+> +	int ret;
+> +
+> +	mutex_lock(&ucsi->ppm_lock);
+> +
+> +	if (ucsi->unregistering) {
+> +		ret = -ESHUTDOWN;
+> +		goto out_unlock;
+> +	}
+> +
+> +	ucsi->ntfy = (ucsi->ntfy & ~clear) | set;
+> +	command = UCSI_SET_NOTIFICATION_ENABLE | ucsi->ntfy;
+> +	ret = ucsi_run_command(ucsi, command, &cci, NULL, 0, NULL, 0, false);
+> +	if (cci & UCSI_CCI_ERROR)
+> +		ret = ucsi_read_error(ucsi, 0);
+> +
+> +	trace_ucsi_run_command(command, ret);
+> +
+> +out_unlock:
+> +	mutex_unlock(&ucsi->ppm_lock);
+> +	return ret;
+> +}
+> +
+>  int ucsi_write_message_out_command(struct ucsi *ucsi, u64 command,
+>  				   void *data, size_t size, void *msg_out,
+>  				   size_t msg_out_size)
+> @@ -1254,6 +1285,68 @@ static void ucsi_pwr_opmode_change(struct ucsi_connector *con)
+>  	}
+>  }
+>  
+> +/*
+> + * Some PPMs keep signaling a Negotiated Power Level Change although the power
+> + * contract stays the same, and signal it again as soon as it has been
+> + * acknowledged, so the PPM and the driver keep each other busy for as long as
+> + * the partner stays connected. Disable the notification once the PPM has
+> + * signaled it this many times in a row, each within a second of the previous
+> + * one, without a new contract, and enable it again when the partner is gone.
+> + * The notification can only be disabled for all connectors at once. A change
+> + * of the source PDOs can come with an unchanged RDO, so it doesn't count.
+> + */
+> +#define UCSI_PWR_LEVEL_UNCHANGED_MAX	10
+> +
+> +static void ucsi_pwr_level_change(struct ucsi_connector *con)
+> +{
+> +	struct ucsi *ucsi = con->ucsi;
+> +
+> +	if (UCSI_CONSTAT(con, PWR_OPMODE) != UCSI_CONSTAT_PWR_OPMODE_PD ||
+> +	    UCSI_CONSTAT(con, RDO) != con->rdo ||
+> +	    (UCSI_CONSTAT(con, CHANGE) & UCSI_CONSTAT_PDOS_CHANGE)) {
+> +		con->pwr_level_unchanged = 0;
+> +		ucsi_pwr_opmode_change(con);
+> +		return;
+> +	}
+> +
+> +	if (time_after(jiffies, con->pwr_level_change_time + HZ))
+> +		con->pwr_level_unchanged = 0;
+> +	con->pwr_level_change_time = jiffies;
+> +
+> +	if (++con->pwr_level_unchanged < UCSI_PWR_LEVEL_UNCHANGED_MAX) {
+> +		/* Signaled before the notification was disabled, or despite it */
+> +		if (!con->pwr_level_ntfy_disabled)
+> +			ucsi_pwr_opmode_change(con);
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * Enable it again when the partner is gone even if the command fails,
+> +	 * as the PPM may have disabled it anyway.
+> +	 */
+> +	if (!con->pwr_level_ntfy_disabled) {
+> +		con->pwr_level_ntfy_disabled = true;
+> +		dev_warn(ucsi->dev,
+> +			 "con%d: Firmware bug: power level changes without a new contract, disabling the notification\n",
+> +			 con->num);
+> +	}
+> +
+> +	if (ucsi_update_notifications(ucsi, UCSI_ENABLE_NTFY_PWR_LEVEL_CHANGE, 0) >= 0)
+> +		con->pwr_level_unchanged = 0;
+> +}
+> +
+> +/* The partner that the notification was disabled for is gone */
+> +static void ucsi_pwr_level_ntfy_restore(struct ucsi_connector *con)
+> +{
+> +	if (!con->pwr_level_ntfy_disabled)
+> +		return;
+> +
+> +	if (ucsi_update_notifications(con->ucsi, 0, UCSI_ENABLE_NTFY_PWR_LEVEL_CHANGE) < 0)
+> +		return;
+> +
+> +	con->pwr_level_ntfy_disabled = false;
+> +}
+> +
+>  static int ucsi_register_partner(struct ucsi_connector *con)
+>  {
+>  	u8 pwr_opmode = UCSI_CONSTAT(con, PWR_OPMODE);
+> @@ -1324,6 +1417,8 @@ static void ucsi_unregister_partner(struct ucsi_connector *con)
+>  	typec_unregister_partner(con->partner);
+>  	memset(&con->partner_identity, 0, sizeof(con->partner_identity));
+>  	con->partner = NULL;
+> +	con->rdo = 0;
+> +	con->pwr_level_unchanged = 0;
+>  }
+>  
+>  static void ucsi_partner_change(struct ucsi_connector *con)
+> @@ -1400,6 +1495,7 @@ static int ucsi_check_connection(struct ucsi_connector *con)
+>  		ucsi_partner_change(con);
+>  		ucsi_port_psy_changed(con);
+>  		ucsi_unregister_partner(con);
+> +		ucsi_pwr_level_ntfy_restore(con);
+>  	}
+>  
+>  	return 0;
+> @@ -1511,11 +1607,16 @@ static void ucsi_handle_connector_change(struct work_struct *work)
+>  			}
+>  		} else {
+>  			ucsi_unregister_partner(con);
+> +			ucsi_pwr_level_ntfy_restore(con);
+>  		}
+>  	}
+>  
+> -	if (change & (UCSI_CONSTAT_POWER_OPMODE_CHANGE | UCSI_CONSTAT_POWER_LEVEL_CHANGE))
+> +	if (change & UCSI_CONSTAT_POWER_OPMODE_CHANGE) {
+> +		con->pwr_level_unchanged = 0;
+>  		ucsi_pwr_opmode_change(con);
+> +	} else if (change & UCSI_CONSTAT_POWER_LEVEL_CHANGE) {
+> +		ucsi_pwr_level_change(con);
+> +	}
+>  
+>  	if (con->partner && (change & UCSI_CONSTAT_PARTNER_CHANGE)) {
+>  		ucsi_partner_change(con);
+> @@ -1685,13 +1786,10 @@ static int ucsi_role_cmd(struct ucsi_connector *con, u64 command)
+>  
+>  	ret = ucsi_send_command(con->ucsi, command, NULL, 0);
+>  	if (ret == -ETIMEDOUT) {
+> -		u64 c;
+> -
+>  		/* PPM most likely stopped responding. Resetting everything. */
+>  		ucsi_reset_ppm(con->ucsi);
+>  
+> -		c = UCSI_SET_NOTIFICATION_ENABLE | con->ucsi->ntfy;
+> -		ucsi_send_command(con->ucsi, c, NULL, 0);
+> +		ucsi_update_notifications(con->ucsi, 0, 0);
+>  
+>  		ucsi_reset_connector(con, true);
+>  	}
+> @@ -2171,12 +2269,10 @@ static void ucsi_resume_work(struct work_struct *work)
+>  {
+>  	struct ucsi *ucsi = container_of(work, struct ucsi, resume_work);
+>  	struct ucsi_connector *con;
+> -	u64 command;
+>  	int ret;
+>  
+>  	/* Restore UCSI notification enable mask after system resume */
+> -	command = UCSI_SET_NOTIFICATION_ENABLE | ucsi->ntfy;
+> -	ret = ucsi_send_command(ucsi, command, NULL, 0);
+> +	ret = ucsi_update_notifications(ucsi, 0, 0);
+>  	if (ret < 0) {
+>  		dev_err(ucsi->dev, "failed to re-enable notifications (%d)\n", ret);
+>  		return;
+> @@ -2347,6 +2443,8 @@ int ucsi_register(struct ucsi *ucsi)
+>  	if (!ucsi->version)
+>  		return -ENODEV;
+>  
+> +	ucsi->unregistering = false;
+> +
+>  	/*
+>  	 * Version format is JJ.M.N (JJ = Major version, M = Minor version,
+>  	 * N = sub-minor version).
+> @@ -2380,7 +2478,10 @@ void ucsi_unregister(struct ucsi *ucsi)
+>  
+>  	ucsi_debugfs_unregister(ucsi);
+>  
+> -	/* Disable notifications */
+> +	/* Disable notifications, and keep connector work from enabling them */
+> +	mutex_lock(&ucsi->ppm_lock);
+> +	ucsi->unregistering = true;
+> +	mutex_unlock(&ucsi->ppm_lock);
+>  	ucsi->ops->async_control(ucsi, cmd);
+>  
+>  	if (!ucsi->connector)
+> diff --git a/drivers/usb/typec/ucsi/ucsi.h b/drivers/usb/typec/ucsi/ucsi.h
+> index dc594388d..137a83357 100644
+> --- a/drivers/usb/typec/ucsi/ucsi.h
+> +++ b/drivers/usb/typec/ucsi/ucsi.h
+> @@ -496,6 +496,8 @@ struct ucsi {
+>  
+>  	/* The latest "Notification Enable" bits (SET_NOTIFICATION_ENABLE) */
+>  	u64 ntfy;
+> +	/* Set by ucsi_unregister(), protected by ppm_lock */
+> +	bool unregistering;
+>  
+>  	/* PPM communication flags */
+>  	unsigned long flags;
+> @@ -554,6 +556,9 @@ struct ucsi_connector {
+>  	struct power_supply *psy;
+>  	struct power_supply_desc psy_desc;
+>  	u32 rdo;
+> +	unsigned long pwr_level_change_time;
+> +	unsigned int pwr_level_unchanged;
+> +	bool pwr_level_ntfy_disabled;
+>  	u32 src_pdos[PDO_MAX_OBJECTS];
+>  	int num_pdos;
+>  
+> 
+> base-commit: a90ee4305c4a5df72c11b31dacfdc76e00fcf78a
+> -- 
+> 2.54.0
+
+-- 
+heikki
