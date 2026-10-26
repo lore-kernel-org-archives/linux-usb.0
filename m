@@ -1,111 +1,81 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.155
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793044920;
-	b=POCT8aNXSLt0BIjPdVYhhjj0McxGFfDfQTdEd/PIUOA8Xp5haGQQG6LWo2YbW66js08q
-	 Sr80mEgdsfCrf3kVX2vpoYUzJkNDcRqr93zvgKfhh8RSoMDKwGzbj0SV8ToXBZiLkYjQu
-	 Bq9M3Ajg2N3WDCoIsBoe21wtTsjD15WAp1F3uVDVhdS+1r+PeeS6J5Ivj+eBqKnlbx+cT
-	 3iaIx7PDLbK4iklFN9FZBuHeMdoFv86uIYltXiYhRZ7iFoGB3tzkDf6Fwmh42xQFnDfK/
-	 oJvKajOx405H+Ds4r6Gr413wWIpnhNTGysk8s+jrx+4JTAHV2Zea8WqqdfWy5rSesDw==
+	t=1793045108;
+	b=F0Ip3MryqY85Vdq/dOP9DxjlIfS3PAt2YtPUS+i0lrIzAb9IXmnfn5/OXJJK9GBQs2Ft
+	 gYP/h3I35ljYQN8q1di/K0hvv+2zV4O8IP+jB9tQbMybw1srL18PaOaHLZQIXkSR6Todk
+	 ewRvV/DZc9BBErVK0+Ki8VlsmmR/Zc+v9AIn7BgjWPktOTR0Uwar03M1z6fmX3Kac6g4t
+	 X7kTzPOGJPsUjelo0PU3NLsUVRP7WIrrE+ndBtxGKT3dtLun/WH9Y03URlDL7wMaLK9Fk
+	 EPVnhcF3VlbmVQ8L+WMAb3M7pNWbGR1k6FTggD5ks4nKZES3FC3w2cdE8aEXgJdt0iw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793044920;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=VTUalw67Sjd0OheYSOkJw2KWxkQoqOf+v6JIFVGFgeA=;
-	b=ydM5tDlOKGoXj+Hq8CqjB5963sQyL0mGVpgxj3nm4oezKgPTVlDVqhVEGxkY7thpMocR
-	 15xyr0SgUmQi1zIxQKTzyZtBd2uW4Ns/4zBoRMp1RS8Frh0Ok8/jepsJJPiRLkgZvYfWp
-	 6xi2VcAarb1aCHag05v156YNvNsGbX/wIenvD35zGxaenF2xw96wJ6IrsD2ZyQRM/Iezv
-	 GC7QVwjSsUxz6oFZTpNWtV2VxgYU5VO4RyfEkjGB6lcaThfn6tjuc9TAFZ6I03H3Bc365
-	 5Gse4zHJT1AgvTG6mhX5dE2EMtclNqOnPy5RNSxjK7IbP6h0/EciDgSx3ht7TCYNnBg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793045108;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=BawehOGx+swDNz30BXtD0rUayjwrRWdohfXeiD3Nwuc=;
+	b=rxd/TfUd8nEkr+Bhk134tT+Avsdhy0ugVOzSOk2nX0w0aX2B0atn/IoIOEr2rwIY26d7
+	 ga1q3AjO5GecHsaWBRcMhyFpR50ROnhOxa9VBnB7huH0LvCshEuMgL0Ab4uGpUocQh8C4
+	 pT2Ht/LTW/f89mqFKXVpOlovhOHXrVwEJoXMSjl6+nquGF0tVu6xBZwV1vMQans8JTRdP
+	 IGUrAVtCDqC8YHsJmxJDzGlPSVybnX2/R9ZsMpwDjPMziIxP0pjxs/kCpFckCMxl62qkJ
+	 bS16L3cvVoho4AEHVyMAgYyMFDz01V5NNfPpPTFQPC2YutztW1LJcoqGrnZl1GyL69A==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=squebb.ca;
-	spf=pass smtp.mailfrom=squebb.ca;
-	dkim=pass header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm3 header.b=NZ+RJmE2;
-	dkim=temperror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b="Yx/OPFuK";
-	arc=none smtp.remote-ip=202.12.124.155
-Received: from fhigh-b4-smtp.messagingengine.com (fhigh-b4-smtp.messagingengine.com [202.12.124.155])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=uqkQoFM5;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C13A6606A31E
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 20:01:54 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C13A6606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B8C606A31A;
+	Mon, 26 Oct 2026 20:05:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm3 header.b=NZ+RJmE2;
-	dkim=temperror header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=Yx/OPFuK
-Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 8A4967A0436
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 16:01:53 -0400 (EDT)
-Received: from stl-imap-02 ([10.204.2.93])
-  by stl-compute-04.internal (MEProxy); Mon, 26 Oct 2026 16:01:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1793044913;
-	 x=1793131313; bh=VTUalw67Sjd0OheYSOkJw2KWxkQoqOf+v6JIFVGFgeA=; b=
-	NZ+RJmE2uRhB/o0Th1Lv0lJ5jYhK31IagLbSEwGuXpLFRWQTInGTmRZ/cucgN+ft
-	4UNifwqGh3hXPY5kqu5w7OvLMHJm2YhYP82ai7ZlTjKwPtOg+M0nUpps4yZLtZyk
-	XqD4kB7xTLvNjEc7FXL0+AQFlpWoCFstmEFu3FlWvQs3GYmWxDKrcPBmnFPWFM0W
-	w0+mXppSKt/pDp4OmDSRWfvqx9D7fFdFB2peh6KH3XU9pKOkkeoSq4jE6ar6hwyv
-	oLhIqo6qdfvSuaFyKRpE83DxiZ0A7BvgKeAhecWm/1ZNvtO5VoTJ+FuVLZtK0eKZ
-	PMzaJdG/PfsqO+pW/oMOjA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793044913; x=
-	1793131313; bh=VTUalw67Sjd0OheYSOkJw2KWxkQoqOf+v6JIFVGFgeA=; b=Y
-	x/OPFuK/feWLezB2lUoZDh5SabY0F7LxHRzJjuJEY5w3Ript5l+dRSG0DbEh81PR
-	3GmDQK1NCgDsVkjJ1AlfOy8qS2kSotciGEWjYmsJkmHPHrbWQAmnSMH4anxNTehD
-	806SLxgIKoYaH+o7eYlNXxuc9hN3OWYYwUxF0CK579cGRHyEgYYCN4GlMwSEk2ib
-	MhlW2cusrWGiJh/neIuaG7nTgtmZ1hV61GcO8wsKOsEUDHDmSPtZH1ghuWf3pGRx
-	7Q/kUJyp4G5PQNHlxUXmqTwzL0oYWxhH3LBHKdoyOKxxGagCXw4Thp+2ooTAtd5n
-	tkRQokaG0uArlclXQns6w==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=sign d=squebb.ca a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793044913; d=squebb.ca;
-	mf=PG1wZWFyc29uLWxlbm92b0BzcXVlYmIuY2E+;
-	rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm3:rsa-sha256:o8Ic6r1HmO6NM8VZjjQaaUpG8hasY7oJ9Y2vHFdwFWbo7CK
-	DX5q0lT38dQAR/MLyCbHL7XPlkOUn24pC5yIsBgcUyU9Mh3kA1TdlNdW85InISKA
-	WJVNja338sOOO2YeDLDSUdjrGx15eJsF3N/oa70g2L/eff0oSZ8a2C9hLxuFsOVJ
-	jtX2Pv72rypexMSbtxduwIf7xXadDnWr/xt4zlpjWSWrRZTB+baJVesj1w6YgRCi
-	FbRKfVZLMIPYCksHdoK5pX8keEYud+lpKgbTuVjwPKrby44YDrRq3XXC5cFwr7Q4
-	he8dYNokWxK6r03VhXY+dhQR0dSEY5w3i4Membg==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-07;
-	repo=github.com/dkim2wg/interop; date=2026-10-18; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:v+CbSxkUW4zLf2l72bFyxEhEEzXha5t+ido/HmHiLc0=:q7Kl7D0NhkE1T8RUi6v1YqAmu3sHwpSe8oDb91OsFYM=;
-X-ME-Sender: <xms:sLHfasGLitLKnBHpdXBdtTUc5AOmZM5ASYuLTWBl_jGMBLFNupEGrQ>
-    <xme:sLHfagK7By5ytWLbm1MK51l_ARWgiAo0bEqex12kyAe5V-dxhto8shj6iYEnAL7U-
-    yXc90InQxLIxu-MwtqAN8_QfTd2koqEGAy14EI0c_yyLw8NodyVV-_1>
-X-ME-Proxy-Cause: dmFkZTEeWZw4SRci5x6dFguR7oi+QjH47Y3/eSvpkMG2RLoQ4zPa/ely50POWwCqs9jRhv
-    TlgmCKFDRhgphhyLNd/d9R1Nn315DpqP66fpN7cARXUjebCGIdsQX5Jzy9fXoxTc8ykSg+
-    7/zcs3BhmJWa15p/6fA8ubLfRd7rTbfaV/bwXiUUuSa2j9zRDtQg3qn/mSdXGZaeMZkLgP
-    5EDodRss9o6nu1JykWYrZhc2yy9o/WFeQncv7Hc4WR+PGQD3SJ8ZoVAFyRHwWn2kn8CEpP
-    S6EPTP5pG6zW6tRviu5QCvPHjN9znsmONocnAdidi5mv2TBF7+T8+m3m51dzKvWdpVkHBm
-    8T8UpcUNGoJ/YfV2KM/y6MzDg0gybz5AGS9bmg0xLOh5hhl7LVgOErRgr593+2eEhJj6wk
-    kLVp0dJLhVz+diNjEdPOfTvH+e+mOjCG2tZQqCOnNrd7dPlgEUPCNJF1ETFgOsSyOHCeBy
-    /6SEdTrcts5ms8c+BByFQr+dfZnMr1k7QsuRghv/C6Wok7AieQAmV2nHyJi3PrgETuMwwg
-    WjcpL8S1wU5lESFQURE51/KLBM1ZXWwQNULH5Kul7ABttccIFdD1HbgAABSHOZvrW7x46H
-    IwbUoMPQMsCX5KHo9W330UNxIAqPG325/U/DrfK4w2Mj7fqel/biMSVfbMGw
-X-ME-Proxy: <xmx:sLHfarYL3Lh-M2i6JflZkLfzIr7YzlYUeTGTiMKLMl1iWxUw3PNaQA>
-    <xmx:sLHfakae53zLk8jpU8e1cNW3IBCaqH3IRooWMvsajziw86F9Wg08fw>
-    <xmx:sLHfaknWlwunNe2sCHwOj_fd9DCyMVSJjJy-ThUzUIZbUROfTjIxvA>
-    <xmx:sLHfav3QLxQ0Nlod23XMKkeYR-0ha3NOAo_dw7pXVrrd0U50_q48rA>
-    <xmx:sbHfajzIrUOnmVdFLTfLxSg6dGZV2yTxzk5P0oZ5fIYOHp-cut8LZm3B>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.stl.internal (Postfix, from userid 501)
-	id 638F92C0007E; Mon, 26 Oct 2026 16:01:52 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=uqkQoFM5
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFCD41F01825;
+	Mon, 26 Oct 2026 20:05:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793045107;
+	bh=BawehOGx+swDNz30BXtD0rUayjwrRWdohfXeiD3Nwuc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=uqkQoFM52klwzT7RGNaUFA6Qga4FuWuGaYyefzROIzukjBhIFqREK+pqTr4hriVoK
+	 PDd/0ELiJmI8EHpbo0nbvO9gLFbi48BLIx5y9dL4ZVWfdn+SY805AGZXuJumJAO/Tm
+	 19C/ca7D7sF/slrGjQ3K2AJ2vFy+qN+CzA+phAus=
+Date: Mon, 26 Oct 2026 21:05:06 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Leon Romanovsky <leon@kernel.org>, Alex Williamson <alex@shazbot.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Bjorn Helgaas <helgaas@kernel.org>, linux-pci@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026102604-tint-catcall-433e@gregkh>
+References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <20261026122243.GA28851@unreal>
+ <20261026184312.GA1685504@ziepe.ca>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -115,73 +85,39 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: ABQ4mf97QAT7
-Date: Mon, 26 Oct 2026 16:01:32 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "David Vornholt" <dv@etik.com>,
- "Heikki Krogerus" <heikki.krogerus@linux.intel.com>
-Cc: "Greg KH" <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, "David Vornholt" <david@vornholt.online>,
- stable@vger.kernel.org
-Message-Id: <e22cf1da-89f7-4c98-a90d-357b18687df7@app.fastmail.com>
-In-Reply-To: <20261026180907.76867-1-dv@etik.com>
-References: <20261010183917.146821-1-dv@etik.com>
- <at8kLPzAnJAfZRjF@black.igk.intel.com> <20261026180907.76867-1-dv@etik.com>
-Subject: Re: [PATCH v2] usb: typec: ucsi: Stop a power level change notification storm
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261026184312.GA1685504@ziepe.ca>
 
+On Mon, Oct 26, 2026 at 03:43:12PM -0300, Jason Gunthorpe wrote:
+> On Mon, Oct 26, 2026 at 02:22:43PM +0200, Leon Romanovsky wrote:
+> 
+> > This is needed for two reasons: to save hardware and software resources
+> > when creating a large number of VFs, and to allow the PCI config space to
+> > be configured *before* the driver starts using it.
+> > 
+> > There is no in-kernel alternative.
+> 
+> Having userspace involved in driver binding has also always been the
+> plan for confidential computing needs. We cannot have a device driver
+> bound across some of the HW transitions like TDISP shared/private, so
+> there has always been an expectation of bind/unbind.
 
-On Mon, Oct 26, 2026, at 2:09 PM, David Vornholt wrote:
-> Hi Heikki,
->
-> On Mon, Oct 26, 2026 at 10:58:04AM +0100, Heikki Krogerus wrote:
->> On Sat, Oct 10, 2026 at 08:39:17PM +0200, David Vornholt wrote:
->> > On a Lenovo ThinkPad X1 Carbon Gen 13 (BIOS N4BET78W 1.48, EC N4BHT61W
->> > 1.41, UCSI 1.0) with an HP E273m monitor connected, the PPM keeps
->> > signaling a Negotiated Power Level Change although the power contract
->> > stays the same, and signals it again right after it has been
->> > acknowledged:
->> >
->> >   ucsi_connector_change: port1 status: change=0040, opmode=3,
->> >     connected=1, sourcing=0, partner_flags=2, partner_type=4,
->> >     request_data_obj=1304b12c, BC status=2
->>
->> Okay, so the PPM really should not report the power level changes
->> since there are not power level changes, right? Have you reported this
->> to Lenovo?
->
-> Right. The connector status is the same every time, with the same RDO,
-> and the Negotiated Power Level Change bit is the only one set in the
-> change field.
->
-> I haven't reported it to Lenovo yet, so I've added Mark to Cc. Mark,
-> this is a ThinkPad X1 Carbon Gen 13 (21NT) with BIOS N4BET78W (1.48)
-> and EC 1.41, which is still the latest firmware on LVFS. With an HP
-> E273m connected over USB-C, the EC keeps signaling a Negotiated Power
-> Level Change for an unchanged contract, about seven times a second,
-> and GPE 0x6E fires about 680 times a second. Could you pass this on to
-> the firmware team? The details are in the patch:
-> https://lore.kernel.org/r/20261010183917.146821-1-dv@etik.com
->
+What, why?  What forces that decision?  What's wrong with the proper
+driver for the hardware being bound automatically to the device?
 
-I need to read through the patch properly - but the X1 Carbon is quite popular and used by lots of people. Have we been able to rule out it being the E273m on another machine?
+> For this case the existing sysf drivers_probe is good enough for bind,
+> but we must have taint-free unbind for PCI devices too.
 
-I've created internal ticket LO-4728 so we can see if we can reproduce and get input from the FW team on why so many notifications would be generated - generated so many seems quite wrong.
+Why?
 
->> This problem may only affect your system, so we really have to isolate
->> it somehow. I'm almost certain that like this there will be problems
->> on some other systems.
->
-> OK. How about a quirk for this machine only? ucsi_acpi would match it
-> by DMI (LENOVO, "ThinkPad X1 Carbon Gen 13") and set a new quirk flag,
-> and ucsi_get_supported_notifications() would then leave
-> UCSI_ENABLE_NTFY_PWR_LEVEL_CHANGE out of the mask. That replaces all of
-> the detection logic in v2 and changes nothing on other systems.
->
+> I think this patch should be reverted ASAP, it is a pretty major
+> regression for a lot of users.
 
-I've only skim read the proposed patch, but I'm also hesitant to say this is X1 C13 specific.
+But this use case hasn't even happened yet, so what would regress?
 
-As anote, if you do end doing a quirk then that field is bad as there are two different variants of the X1 Carbon 13 - ARL and LNL. Better to use DMI checks on the BOARD_NAME - there are two per platform, and I believe you're on Lunarlake so would be 21NS and 21NT.
+I'm not talking about the vfio thing, that's different here...
 
-Mark
+thanks,
+
+greg k-h
