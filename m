@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793019549;
-	b=L+8eqxxfQ0vH8H5XmozTOpXg+NGfwo93CkUSnhVgVK4H8Q1bbJlRyPdquA8/YeCzJzGe
-	 hg/jlF7NVn9W6hDV+dAQz4hN+Ohb07z6dj6Obn8t97TIT85TR8V/FaCBzUScj8tmwR+qF
-	 II28Ce/jjowzufxM29Y51ZD9BmOpOFedpiWm2J/mGGfPcdh1DipygSjXZ5Jq7vQOUznJ3
-	 YWu6LFgg7ShBdYxrDf5vOnoVh1ysy11jwe8kPipCp3HIgxUWdgdANbjnVz2p1C+wXrOVL
-	 4By1rPqvalYt1UQ/f81FcppnehaNNKkqJ/BA1xBAaL9woVY+M/O5Jbhfox6G+WLcSrg==
+	t=1793019956;
+	b=ibKFw8RA3YigUw7RWoFxNlyFYr8g9pLfet+oadZGz7rBH97Cy8F+OiWt8w0MEOLDLWNX
+	 ya7B4QhLGEzRgRO1zsJJ2h94dXNE5iirl0rKZanyxwDRtKks34hjopAGZenjeoX43mY4o
+	 8LCvJHnaqyG843ihELkxkOPQRqQ7LYzYzFwNh+uD3nQhWNS1oiOZymBtzBdFavA1GbJZF
+	 AT9i0h5hNZG81nzBmFctfDlFG8XDTQHIAGfFi8UBTQLdE8Mr4hy3ysiGlEVn1epESR5s2
+	 8gUu3WAn4b0UblNhsOc9Y9ZubYsVWL8g9ZljH3Bj4r9T8PAA+3I56qYAcHpNjwrx0bQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793019549;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793019956;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=RxdJsiGUp2+MC0H1iRKTMGstxdyFmil3ZjavLIJvLjI=;
-	b=O6jDyp9kfiweBewYiXkvwbW7WV41DmHjEMY3sITAu1325ICgwWqqznS1xWynS2RQagmx
-	 zLlVDEdoPkbbeUNAVzsEukMMxPm452+66Nt5EvEgHRzBeusdO7Uur413u23ECWcng6ca3
-	 eDajh9Kx8Yes5t612yorusp42IlKEDryrgsGcEz3Ym60Vttvux/gulFiWoddZNDsVWuAz
-	 v8RHo2l4wurKBJpjz46eQUFVBAnQlkH7Gm5iLhVM7KS1FJAKFCTBOzaISoh5pk+y8BDnY
-	 gSE0xWP5z2l9a0MF6HkS9wpCoAEdLPSl+KC7TXT6Of7TA1IJrfRnWJYT4WCfk2MjrXw==
+	bh=fRNKE5yeGMMeFNXGj9clOcKDejzr6pMW9hHBhDh9tv8=;
+	b=hv73ikHjPrXM8SXB+UD6VrCm+wfg2mjCNuiYMI/YuUt8HO2WriWFmZd/5JNRmBtjEO2+
+	 nZxBM2xIo3qnUIZr9ISektKcNgFw1UG4empsTpIvKI57XmG1AmO9tFtoyBwFvTYG1J2OT
+	 WPI06EQG8WzDZ3kK0aOjg2+z0vI5KPQvqHbqA14wX2qfculxvcUI1ghT4CYN4EZLzTNAH
+	 XFTV/mQ6GR4SqkZJB7vcpY/gKeLDq+ufVg2w1BjwjphWl0VOi9yfTKLK8T0FvDgc3rfDi
+	 WARNlhbyAPpai9rBSpHWCfhnAGMpD8BDIME7NnQbztgs/80D3iCndEwhbAhguD3+Wzg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fG7AWW8j;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L9jutDvf;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FD0606A31A;
-	Mon, 26 Oct 2026 12:59:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8C43606A31E
+	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 13:05:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=fG7AWW8j
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C24681F01825;
-	Mon, 26 Oct 2026 12:59:08 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=L9jutDvf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F8E41F01829;
+	Mon, 26 Oct 2026 13:05:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793019549;
-	bh=RxdJsiGUp2+MC0H1iRKTMGstxdyFmil3ZjavLIJvLjI=;
+	s=k20260515; t=1793019955;
+	bh=fRNKE5yeGMMeFNXGj9clOcKDejzr6pMW9hHBhDh9tv8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=fG7AWW8jQQJ+cfLZVQvFwTBnqGz0e5qmaQ2jXCEyce+WCjV+QDJIXFPBFyVvYGr4I
-	 LfNcX0sOCX1q+CKVovKEzuDUqH158ad4WEEEpRME67MkXpT9dgkTQ+lHBMrtcyCx92
-	 ULeU9zLobpsbBq6V0IXgZJcCLENK53atadcOw8MoaMzzilTwKTWwldIhjLaZTiK3Kg
-	 pBAtWOqQUQg2wcUugPGpLalloZ5+d1WsqDQ/PVZ/fX6Q2+WXmZYIsOhikWgr1qT5hE
-	 zsatQV5ZYmC8SH5scKhOlbJA2o6dr9hb/5876xOHqnPB+EL38coGZso3e6T/HqvJxO
-	 x48JKg3QyH3aA==
-Message-ID: <sashiko-outbox-185254@kernel.org>
+	b=L9jutDvf4p5ZQGZBjrQx339pXC2j7CzW8819B0yrG4xeq/Ok8HssZSsNKmjhst7RV
+	 xb8yzVKoux9iBAXYR9ktVcZACvP/AgUv8brBIdsORxhvdpODSiFMl2ScmrPabIcpKh
+	 G+Hh40uOInHkj0JL5s7ioCH10l2k6pyCDaE438JomalCIRnLmKLolKS6pPN+0vRaB7
+	 EHv6lnsBIH3L+jD0eCPdsS65nInA0jZXML/FJeKrXt0b9u9g4Vm3rtFae1IeWdzbiF
+	 ZFZNqQizYCB3rShZwWcSrt4zDtqRfXJY8f05D6Y99dWHWE9JslUO8EdxAEaChhWDQb
+	 WtLm+HvJH+ScA==
+Message-ID: <sashiko-outbox-185266@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/3] usb: roles: look up role switches attached to a
- graph endpoint
+Subject: Re: [RESEND PATCH] usb: typec: ucsi: acpi: fix use-after-free on
+ driver removal
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Qianhui Xu" <xiaqinghuan@mail.ustc.edu.cn>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261026123211.243224-3-xiaqinghuan@mail.ustc.edu.cn>
-References: <20261026123211.243224-1-xiaqinghuan@mail.ustc.edu.cn>
- <20261026123211.243224-3-xiaqinghuan@mail.ustc.edu.cn>
+To: =?utf-8?b?SXbDoW4gRXplcXVpZWwgUm9kcmlndWV6?= <ivanrwcm25@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261026125350.816530-1-ivanrwcm25@gmail.com>
+References: <20261026125350.816530-1-ivanrwcm25@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 26 Oct 2026 12:59:08 +0000
+Date: Mon, 26 Oct 2026 13:05:54 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,97 +60,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] usb: roles: propagate -EPROBE_DEFER from usb_role_switch_at_endpoi=
-nt()
---
+> ucsi_acpi_remove() destroys the UCSI instance before removing the ACPI
+> notify handler:
+>=20
+> 	ucsi_unregister(ua->ucsi);
+> 	ucsi_destroy(ua->ucsi);
+>=20
+> 	acpi_remove_notify_handler(...);
+>=20
+> ucsi_acpi_notify() dereferences ua->ucsi, so a notify arriving after
+> ucsi_destroy() uses freed memory:
+>=20
+>   CPU0					CPU1
+>   ----					----
+>   ucsi_acpi_remove()
+>     ucsi_unregister()
+> [ ... ]
+> Fixes: f56de278e8ec ("usb: typec: ucsi: acpi: Move to the new API")
+> Cc: stable@vger.kernel.org
+> Reported-by: Fan Wu <fanwu01@zju.edu.cn>
+> Link: https://lore.kernel.org/all/20260718021142.3146566-1-fanwu01@zju.ed=
+u.cn/
+> Signed-off-by: Iv=C3=A1n Ezequiel Rodriguez <ivanrwcm25@gmail.com>
 
-commit 9ff4dd8101d254581dbf9332fc352de1c83d6e87
-Author: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
-
-usb: roles: look up role switches attached to a graph endpoint
-
-This patch adds usb_role_switch_at_endpoint() to look up a USB role switch
-registered on a remote OF graph endpoint and calls it from
-usb_role_switch_get() and fwnode_usb_role_switch_get() after checking the
-caller's parent node.
-
-> diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-> index edec139b68b52..fc739fd61f033 100644
-> --- a/drivers/usb/roles/class.c
-> +++ b/drivers/usb/roles/class.c
-> @@ -157,6 +157,42 @@ usb_role_switch_is_parent(struct fwnode_handle *fwno=
-de)
->  	return dev ? to_role_switch(dev) : ERR_PTR(-EPROBE_DEFER);
->  }
-> =20
-> +/*
-> + * Look up a role switch registered against the remote endpoint of one o=
-f the
-> + * caller's OF graph endpoints.  This is how a connector endpoint that s=
-hares a
-> + * USB data bus with another connector (for example two Type-C receptacl=
-es on a
-> + * single DWC3 controller, selected by a GPIO mux) finds its own role sw=
-itch.
-> + */
-> +static struct usb_role_switch *
-> +usb_role_switch_at_endpoint(struct fwnode_handle *fwnode)
-> +{
-> +	struct fwnode_handle *ep, *remote, *parent;
-> +	struct usb_role_switch *sw;
-> +	bool available;
-> +
-> +	fwnode_graph_for_each_endpoint(fwnode, ep) {
-> +		parent =3D fwnode_graph_get_remote_port_parent(ep);
-> +		if (!parent)
-> +			continue;
-> +		available =3D fwnode_device_is_available(parent);
-> +		fwnode_handle_put(parent);
-> +		if (!available)
-> +			continue;
-> +
-> +		remote =3D fwnode_graph_get_remote_endpoint(ep);
-> +		if (!remote)
-> +			continue;
-> +		sw =3D usb_role_switch_match(remote, "usb-role-switch", NULL);
-> +		fwnode_handle_put(remote);
-> +		if (!IS_ERR_OR_NULL(sw)) {
-> +			fwnode_handle_put(ep);
-> +			return sw;
-> +		}
-
-[Severity: High]
-Should this check be if (sw) instead of if (!IS_ERR_OR_NULL(sw)) so that
-probe deferral is propagated to the caller?
-
-In drivers/usb/roles/class.c, usb_role_switch_match() returns NULL when the
-remote endpoint does not have the "usb-role-switch" property, and returns
-ERR_PTR(-EPROBE_DEFER) when the property is present on the endpoint node
-but the role switch device has not been registered yet:
-
-drivers/usb/roles/class.c:usb_role_switch_match() {
-	if (id && !fwnode_property_present(fwnode, id))
-		return NULL;
-
-	dev =3D class_find_device_by_fwnode(&role_class, fwnode);
-
-	return dev ? to_role_switch(dev) : ERR_PTR(-EPROBE_DEFER);
-}
-
-Because usb_role_switch_at_endpoint() checks !IS_ERR_OR_NULL(sw),
-ERR_PTR(-EPROBE_DEFER) is ignored when a connector consumer calls
-usb_role_switch_get() or fwnode_usb_role_switch_get() before the USB
-controller driver registers the endpoint role switch.
-
-usb_role_switch_at_endpoint() then returns NULL, and both
-usb_role_switch_get() and fwnode_usb_role_switch_get() fall through to
-connection matching (which checks the remote port parent node rather than
-the endpoint node) and ultimately return NULL instead of
-ERR_PTR(-EPROBE_DEFER), causing consumer drivers to treat the role switch
-as absent rather than deferring probe.
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026123211.2432=
-24-1-xiaqinghuan@mail.ustc.edu.cn?part=3D2
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261026125350.8165=
+30-1-ivanrwcm25@gmail.com?part=3D1
+
