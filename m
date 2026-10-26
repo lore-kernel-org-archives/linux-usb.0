@@ -1,54 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793025281;
-	b=dEzIGqE0h9ClYfQpEi1xwhurwBYzYOQHOs/YHZv1U00R5Gcpo4haaWNtY8lbulNon2b2
-	 DEhSeilu/dSqpe1bC+3Dzi8dqO6vzNqWbRn4DIVw17ic/sIUd66+XnB44VlgPsNqtkfxG
-	 xGTuCbbkKUV5k4hlSmlOiYrwEiqfa+M8Y4VrgctrpQSFpbdJfhImAfLIsPXUP5tiUNdQQ
-	 1CoZm7tt36u2cOXNjLR6tH3DBYHgrkTZZfaLqaonCuBp3FPtel8URjmaYkohpc6pBNt9x
-	 JxAHZrqp99t1C8nv+NKmSpDQDHw4k+bvcV7N685CHoG5O7QzYfwp9fsG3czCxtDc3SQ==
+	t=1793026116;
+	b=29JO9McB9VHCKvDfm806qa8+oBpovKGPLyqZPsPgSk+JbWkb4fR8BTsuRez7MgQ3ztvs
+	 E8WTiKXK6A3eGWa5KsrCpVpuv2UG6ZgexfLrCS4B1Mh4bqrYGzlpkpOmS7Oh14ytY4Pay
+	 u9xWmxX2i2rUFfdrFdOydU83i6oAOdkHRn3Ubs8nUuNT4ASa5rKwwRUFo0RNgfUXdVSs1
+	 haoAYa4/miucG+h69o9kBb5a8iJ5Jgzui8OSyYZNlCVPEKc7zP2yZR05ydUzIpuqmhWMv
+	 aM3xwirhJ1foEr9KcEBmp60BcSxOZTpX5H7WvWyqfgXRrS43IL4hBWdZvFYOwyRKqOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793025281;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=TZSD5QmKH025pA2mThB7Vd1nrJizKgU+p5YfnwSjXP0=;
-	b=AvroSPJRs6yPw18CiBi6iSCGjtY8nHV0ta70oj3PX85qrh2FAZovcYTCA1xLcl7PqofR
-	 7grbHoFfgftt5LsGf44HF0KIBh2FyXI38jjtyJky5qhP2LjMJ0l5d0scd/RWSSae+ef/X
-	 WrjvzqJIUXTnn9oX+lM1cuwaE99ctMNR2Zkl+o8nL2LMBf/x61ZghR/fGDMm10zLowLqt
-	 HvR/R4RvjcHO/ZjZow9ujaSm1fU1OQk69N/H7prOh0BiJx0iTn42qx9vW/6/Wf3twnZNX
-	 bjY7ux4aeffYtHdyqQFnjZ523GeIA2vzY+rW22LIP1SFjdX2a86bpepujeGD4MwyZkw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793026116;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-Originating-IP:X-CM-SenderInfo;
+	bh=qpv1IMTfP7iqXzxzvwIn5n5Lxxhas+0tJm39mkiU4Lw=;
+	b=d5bis0SrT6Vq/x/710b7cAGYjEE9WL/2tNisJ0Ts/a3MoLd5kEinu69rULNuy8PWazrv
+	 0Y0PqakaXso3SdurwM3u1prOmtkcrfs7fOJlxZAdejFqCVXuqumZuvY8eXXwofeU4ShIM
+	 7JbXsP5WNv/pLi4k6Smdx8fUJFn3MQVJYIH3b6SNDu2gPa5BZAPUZd4Gqtoq3G/n9CnPR
+	 /koPhJgRttEesGAy9Bp6uXC+IJ1aPCHn6PAcxwUr/3OFp5nogi+RL/JrLXIsG2gpqOYaf
+	 if3dX5dgp99le5Myxtz79zlmmHU0l2G3pLRcG+gqO9OTLYE5vbWmRTsx/9nVhF4Yiog==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WLfV9TKx;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=SM7x6PWZ;
+	arc=none smtp.remote-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D032606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 14:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13547606A31F;
+	Mon, 26 Oct 2026 14:48:32 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13547606A31F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WLfV9TKx
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2FD551F01825;
-	Mon, 26 Oct 2026 14:34:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793025280;
-	bh=TZSD5QmKH025pA2mThB7Vd1nrJizKgU+p5YfnwSjXP0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=WLfV9TKxd4+pwBvDUJrDo0FbfDGHrrMwG5WXIJfBu6IwkUFArzaCc2I1IFwH4mcda
-	 PhmvnBdA2bCSnElfQh+IDYf3xZSBq6cBF2cKUnX0jZ/N2AEf3P391XrccXbmW/PGUh
-	 vaT185dD1jXaMkku1sN4XwO1h8OamI+7FtJNporo=
-Date: Mon, 26 Oct 2026 15:34:39 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?utf-8?B?7ISx67OR7LCs?= <tjdqudcks0424@naver.com>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>, linux-usb@vger.kernel.org
-Subject: Re: [PATCH v2] usbip: vudc: reject submits after endpoint state
- changes
-Message-ID: <2026102619-hurricane-fretful-747b@gregkh>
-References: <20261020181832.461892-1-tjdqudcks0424@naver.com>
- <572df927-cb52-4504-a663-e73c68592c97@linuxfoundation.org>
- <42c043b49ccc62a79522eb2feed37b@cweb007.nm>
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=SM7x6PWZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=qp
+	v1IMTfP7iqXzxzvwIn5n5Lxxhas+0tJm39mkiU4Lw=; b=SM7x6PWZcGFqh9XsbH
+	iqgtTIxVfOpJQl7dFM54PPjvHJGBpeshbkr1xjTEp+CT7cXiwduDq5tosFGJ4vCZ
+	Y2Q+jr3mutB3heO90HApmi91H/gJ0VzFlq9SaMGx5IZhZyjytOgTRsac2NZygHrB
+	2ph4qbDHeUUToJCc3dL2AfDuI=
+Received: from SYPC (unknown [])
+	by gzsmtp1 (Coremail) with SMTP id PCgvCgDHzXk4aN9qXYziBw--.45867S2;
+	Mon, 26 Oct 2026 22:48:25 +0800 (CST)
+From: hsyysy@163.com
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Yang Siyuan <hsyysy@163.com>
+Subject: [PATCH] usb: phy: generic: request the vbus supply only when it is described
+Date: Mon, 26 Oct 2026 22:48:00 +0800
+Message-ID: <20261026144800.1392738-1-hsyysy@163.com>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,20 +60,56 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <42c043b49ccc62a79522eb2feed37b@cweb007.nm>
+X-CM-TRANSID:PCgvCgDHzXk4aN9qXYziBw--.45867S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WF4DAw1xuF4fZw15JrWfuFg_yoW8AFyfpF
+	48GFs0kr1DtF4xZrs5Gr4xA3WruFs3XrZFkr1xGwn5W3WDG3W3ua9rGa4rZFZxur4kX34Y
+	y34DJFyxCF1fW3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pilks-UUUUU=
+X-CM-SenderInfo: 5kv152r16rljoofrz/xtbC7Rm67mrfaDn3ggAA3x
 
-On Mon, Oct 26, 2026 at 10:21:07PM +0900, 성병찬 wrote:
-> Hi Shuah,
-> 
-> Yes, I reproduced it. Sorry, the commit message did not describe the
-> test harness and the synchronization clearly enough.
+From: Yang Siyuan <hsyysy@163.com>
 
-There is no context here, please do not top-post and always properly
-quote the email you are responding to.
+usb_phy_gen_create_phy() unconditionally asks for an exclusive "vbus"
+regulator. The legacy usb_phy_generic platform device registered by USB
+glue drivers (e.g. sunxi MUSB) has no firmware node, so the lookup ends
+up in the dummy-regulator path and the regulator core warns:
 
-thanks,
+  usb_phy_generic usb_phy_generic.1.auto: dummy supplies not allowed for
+  exclusive requests (id=vbus)
 
-greg k-h
+Only issue the request when the device firmware actually describes a
+vbus-supply, and keep treating -ENODEV as "not present".
+
+Signed-off-by: Yang Siyuan <hsyysy@163.com>
+---
+ drivers/usb/phy/phy-generic.c | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/phy/phy-generic.c b/drivers/usb/phy/phy-generic.c
+index de26b3023..24b7ba536 100644
+--- a/drivers/usb/phy/phy-generic.c
++++ b/drivers/usb/phy/phy-generic.c
+@@ -238,7 +238,17 @@ int usb_phy_gen_create_phy(struct device *dev, struct usb_phy_generic *nop)
+ 		return dev_err_probe(dev, PTR_ERR(nop->vcc),
+ 				     "could not get vcc regulator\n");
+ 
+-	nop->vbus_draw = devm_regulator_get_exclusive(dev, "vbus");
++	/*
++	 * vbus is an optional supply that only exists when the firmware
++	 * describes it. The legacy usb_phy_generic devices registered by USB
++	 * glue drivers have no firmware node, and requesting an exclusive
++	 * dummy supply only makes the regulator core warn.
++	 */
++	if (device_property_present(dev, "vbus-supply"))
++		nop->vbus_draw = devm_regulator_get_exclusive(dev, "vbus");
++	else
++		nop->vbus_draw = NULL;
++
+ 	if (PTR_ERR(nop->vbus_draw) == -ENODEV)
+ 		nop->vbus_draw = NULL;
+ 	if (IS_ERR(nop->vbus_draw))
+base-commit: 091b06388b117fefdcb63336ac09956a4914b961
+-- 
+2.56.0
+
