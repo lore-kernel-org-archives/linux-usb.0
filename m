@@ -1,67 +1,78 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793016063;
-	b=IqoxcWPbRWlrRBJAun3SiP/4HjM12OwbRyO6W/wbmf7zOKfSvqpnc+/7NiUKDOHRgM9R
-	 kiWxAVvABVCBFzvDJkuuAsmo87TUh4eUwVsSvNJTg84XBKzpK4bxW5GPi9VHGo6KkLX7P
-	 ljaM40rNFpJbr6+Onr1z1HJpqh/cyrJHpGEbWgpjIi7JmjxP6VNAYjccsdtjojxqzCJ18
-	 7Lig2wsUvveURu9Jyb51N3Kqyc85g533QC1PAWTwayEWZHHlG2NdA+OUfT6CMeZ9TelO7
-	 2MBFo2+YsombVnABPIDG70defRfa8wIpBo0FyCWR9unFuhmswG+AYJh9Z9HCXRFs0wA==
+	t=1793016193;
+	b=eohOoXckDvfPOo9iXJqTN7FFlbRHsyr8NPyVxJ2F1Bxah8zQlN1S9T4QYn6e7FSaVVZv
+	 IFf93cFwzLMZ1nyafu+nbnm+Fkq7dZ8kSzhG8p7spU8oGIqSZ4AgE3TZt0NeA1ROFQsAF
+	 XzbEWP5442yelidVAtDHjCbg9GoREqvNX5Maay3ArRUdLZ7Y9Ac+NGxd/60pP3N2by5uV
+	 oARfHU2bYNRX8/tG3ig9UwTeB53Zhl12FSkH69zLK8ZUMptmLa1fjFJA9VV+gPiCQebtG
+	 cur9oba9FBAymxp/PY6Hd3jLp30x+g/wdEpNWD60KkigO1C943ZmcuXNzLX+K/ACIfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793016063;
-	h=DMARC-Filter:Received:DKIM-Filter:DKIM-Signature:Received:Received:
-	 Received:Received:Message-ID:Date:MIME-Version:User-Agent:Subject:To:
-	 Cc:Content-Language:From:In-Reply-To:Content-Transfer-Encoding:
-	 X-CMS-MailID:X-Msg-Generator:Content-Type:CMS-TYPE:cpgsPolicy:
-	 X-CFilter-Loop:X-CMS-RootMailID:References;
-	bh=Eooql/PWw9JrcOSkmPC1JhQXpt0yj7tFL/LJ7TTte3w=;
-	b=oqFC0uanWNO5sBIaKCMFU+PaJzNDmGlOeJ5ghPLKhnb0WIrlgtyORmkmtfiRHh/Hf5xF
-	 82TUI3bdsHAoBaRCOudI4LZLXSHamTWRmXCra5tqwDQ/KeMgCc/D/7RYXeYDOjRPS8kVV
-	 71Sbsy6F3Dqd315KeESaxr8WSTm8qtWPoOWOteb93DzfJ3YX740sLAhPGCM/hCLPORqOk
-	 YDElyTaZmkj0Mx51EZuXR1/uxa7pqwq+HjWHS8ZgRPpDV6kVG7uBYUqY2nZBo7TSm1cOj
-	 jw9w24weME1gEhHOc1a51Ngt8RiOUoycqK4bdg6raUhyTJmT0fZDjTDMjZqaO6qFDUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793016193;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=NKB1Y87I4LlR2vC0YNobJ6njavPrckuOYKMefHfRV6w=;
+	b=341Qp0VzUliXLCyjLgKkDfiwOCdAiM6xs7UU7oFE0u/JIY0f0tDDOL++DtGVIgRSE3A4
+	 IQa5qzKcgfGqC2l37DNAqmkExce7/6q0eB6eSMWXFY/bCpIcIE2W3PJxVDgTPC85jeSVF
+	 Xjd17+gc6OLdk9sITR1Yw68TRmt650040dB9AywI/3H48bxEmbEfh29WB81p1bPZIlPi9
+	 FGgnxDsQGeZz6IDR+/U+GlXuzuWobo5Y0S8b81/TDdFE4apgftH0zymQfTyEadO7Vg3Yr
+	 v8xIQ6vmTryGOHqKNLwQEHyEyZQovRBOs7Moo0Tep8fwUkpQTVmOSQqoF7qfYzZMv7Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=samsung.com;
-	spf=pass smtp.mailfrom=samsung.com;
-	dkim=pass header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=l3Ic3VYd;
-	arc=none smtp.remote-ip=203.254.224.34
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PQUF1etZ;
+	arc=none smtp.remote-ip=198.175.65.20
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701E0606A31A
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 12:01:02 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 701E0606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5062D60A2609;
+	Mon, 26 Oct 2026 12:03:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5062D60A2609
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=samsung.com header.i=@samsung.com header.a=rsa-sha256 header.s=mail20170921 header.b=l3Ic3VYd
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20261026120100epoutp04aaef85b8ab81f84dde312b0f6528e092~iEpt4B8Qw2298422984epoutp04g
-	for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 12:01:00 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20261026120100epoutp04aaef85b8ab81f84dde312b0f6528e092~iEpt4B8Qw2298422984epoutp04g
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1793016060;
-	bh=Eooql/PWw9JrcOSkmPC1JhQXpt0yj7tFL/LJ7TTte3w=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=l3Ic3VYd+gMtyXg1JgRhU7okFwCOEiwEoqoWQDb8N1n2G+hoj2eoZZjWy6BNeiazL
-	 2DLAFM7Juqu38NPweXOp6vDulsFjwTCue8tgAufNaF3R6CYajbtnN7XuldaVgfYdFk
-	 vbHCxmFrIiDGFXUvx/j/FTwNZV5RKJvAZVG2sES0=
-Received: from epsnrtp04.localdomain (unknown [182.195.42.156]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
-	20261026120059epcas5p1bdaf5a44a5c532174e91bbfd3d5400a6~iEptUuaTR0298902989epcas5p1a;
-	Mon, 26 Oct 2026 12:00:59 +0000 (GMT)
-Received: from epcas5p2.samsung.com (unknown [182.195.38.90]) by
-	epsnrtp04.localdomain (Postfix) with ESMTP id 4jCsf26vfDz6B9m5; Mon, 26 Oct
-	2026 12:00:58 +0000 (GMT)
-Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20261026120058epcas5p32b10714e9c7e86c757b03baf88c6b40b~iEpr3-hd61524215242epcas5p3M;
-	Mon, 26 Oct 2026 12:00:58 +0000 (GMT)
-Received: from [107.122.5.126] (unknown [107.122.5.126]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20261026120055epsmtip160f476325e622f7e86ea621ffb4427f6~iEppABK6U1282912829epsmtip1P;
-	Mon, 26 Oct 2026 12:00:55 +0000 (GMT)
-Message-ID: <c09bd0c9-5173-4cb8-a2c0-2b5008b63712@samsung.com>
-Date: Mon, 26 Oct 2026 17:30:54 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=PQUF1etZ
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793016192; x=1824552192;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Y3sspoExOb0v12DrZqmms6766mwRzwAeiQE/j1+DjhE=;
+  b=PQUF1etZfnjrAHYj6dW+g3gvDAMsvOTe4XeX3ZGKOL7PMe+fYw8dIIlt
+   y4LDEG9yfF5IINEexv1c7ZYqk+Zo4bTTh+y9pswtW+ZLN9OHLxcdUj16m
+   0iK4G4tGIjOthkq21gGOPu0DItJ7irsemUxsUNbQsID0mA6K2xhtyd3IB
+   woM/gd5hs6xjm64/nCoPKYLvN9gFqY2jZBUeVTrsLbTrCJG1gOW2YAk1v
+   z6p+yB/EjwNMOCurWBoG8FBDQ0JcDTQkV0VkTbtDCnQuW/fhkvzQb/9TF
+   Hroy8Y0PHVqn9Q1QNslUie7RkNIU05gjR8pFtbHNvYH6bbRBxD8wRb3me
+   A==;
+X-CSE-ConnectionGUID: y/9Y7IxSSHWFykoRsan1ig==
+X-CSE-MsgGUID: QKlwjJyfQSuDjo3coFHY9g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11946"; a="1701067"
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="1701067"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2026 05:03:11 -0700
+X-CSE-ConnectionGUID: cGa/oTkNT8i9tEULeZFn0g==
+X-CSE-MsgGUID: a6aLU48LSama0inXYXkpdQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,179,1787036400"; 
+   d="scan'208";a="4646001"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by fmviesa009.fm.intel.com with ESMTP; 26 Oct 2026 05:03:10 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1008)
+	id 56D6A99; Mon, 26 Oct 2026 13:03:09 +0100 (CET)
+Date: Mon, 26 Oct 2026 13:03:09 +0100
+From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+To: Chaz Bailey <charles.s.bailey@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+	linux-usb@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: nb7vpq904m: Set client data in probe to
+ avoid crash on remove
+Message-ID: <at9BfeEyLPhMFkUW@black.igk.intel.com>
+References: <20261016122045.187862-1-charles.s.bailey@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -71,57 +82,48 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: usb: Add Samsung Exynos8855 DWC3
- controller binding
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com,
-	Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	jh0801.jung@samsung.com, h10.kim@samsung.com, dh10.jung@samsung.com,
-	akash.m5@samsung.com, hongpooh.kim@samsung.com, eomji.oh@samsung.com,
-	shijie.cai@samsung.com, muhammed.ali@samsung.com, thiagu.r@samsung.com
-Content-Language: en-US
-From: Selvarasu Ganesan <selvarasu.g@samsung.com>
-In-Reply-To: <20261026-attractive-puma-of-merriment-0dfbe4@quoll>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20261026120058epcas5p32b10714e9c7e86c757b03baf88c6b40b
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-cpgsPolicy: CPGSC10-542,Y
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20261023131545epcas5p1eff195129ccfb0fb476d3c78e6a507bc
-References: <20261023131501.3157463-1-selvarasu.g@samsung.com>
-	<CGME20261023131545epcas5p1eff195129ccfb0fb476d3c78e6a507bc@epcas5p1.samsung.com>
-	<20261023131501.3157463-2-selvarasu.g@samsung.com>
-	<20261026-attractive-puma-of-merriment-0dfbe4@quoll>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261016122045.187862-1-charles.s.bailey@gmail.com>
 
+On Fri, Oct 16, 2026 at 01:20:45PM +0100, Chaz Bailey wrote:
+> nb7vpq904m_probe() allocates struct nb7vpq904m, but client data is not
+> set during probe.
+> 
+> In nb7vpq904m_remove(), i2c_get_clientdata(client) returns NULL, leading
+> to a NULL pointer dereference when accessing nb7->retimer or nb7->sw.
+> 
+> Set client data upon successful allocation in probe.
+> 
+> Fixes: 88d8f3ac9c67 ("usb: typec: add support for the nb7vpq904m Type-C Linear Redriver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Chaz Bailey <charles.s.bailey@gmail.com>
+> Reviewed-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
 
-On 10/26/2026 3:14 PM, Krzysztof Kozlowski wrote:
-> On Fri, Oct 23, 2026 at 06:45:00PM +0530, Selvarasu Ganesan wrote:
->> Add the Samsung Exynos8855 DWC3 binding using a flattened node
->> representation, where the DWC3 controller is directly addressable
->> rather than nested as a child node of a glue layer.
->>
->> This is the first Samsung Exynos binding using the flattened
->> representation.
-> Ah and:
-> A nit, subject: drop second/last, redundant "binding". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://protect2.fireeye.com/v1/url?k=f1571c7b-aecc251e-f1569734-000babff32e3-08400c25edf5bcfb&q=1&e=549cd4c8-34f1-4b98-afc6-3f62b054ef3c&u=https%3A%2F%2Felixir.bootlin.com%2Flinux%2Fv7.1-rc7%2Fsource%2FDocumentation%2Fdevicetree%2Fbindings%2Fsubmitting-patches.rst%23L23
->
-> Best regards,
-> Krzysztof
+Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 
+> ---
+> Changes in v2:
+>  - Rephrased commit message to state that "client data is not set during probe" (Krishna Kurapati).
+>  - Picked up Reviewed-by tag from Krishna Kurapati.
+> 
+>  drivers/usb/typec/mux/nb7vpq904m.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/usb/typec/mux/nb7vpq904m.c b/drivers/usb/typec/mux/nb7vpq904m.c
+> index d1fa26ff44..52e3c9db35 100644
+> --- a/drivers/usb/typec/mux/nb7vpq904m.c
+> +++ b/drivers/usb/typec/mux/nb7vpq904m.c
+> @@ -396,6 +396,7 @@ static int nb7vpq904m_probe(struct i2c_client *client)
+>  		return -ENOMEM;
+>  
+>  	nb7->client = client;
+> +	i2c_set_clientdata(client, nb7);
+>  
+>  	nb7->regmap = devm_regmap_init_i2c(client, &nb7_regmap);
+>  	if (IS_ERR(nb7->regmap)) {
+> -- 
+> 2.55.0
 
-Hi Krzysztof,
-
-Thanks for pointing this out. Sure, will drop the redundant "binding" in 
-the next version.
-
-Thanks,
-Selva
+-- 
+heikki
