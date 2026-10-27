@@ -1,111 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.75.126.72
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793077275;
-	b=LqjswQrTRngkIRWIHDH+eQwwxWyqde0u8hjQqq53xurY4DXsMosl1eDFyLUDGo6tVcNM
-	 BBabBHFBQsl2kLna2D+cDZF9Zd8dRvJ879uVdgA5T3dcSE2aTfV3M1wjW7jdWRSZZXYyG
-	 LVjIKEJZ9E6L5o6eZ/2j9yu16RWtC0Z2SMpJdk6rL1ICBCy7rF9XAOKfOVfZvI84R8Mlh
-	 +Y6tThMpSh3mnhWeX/670jf9aVZcXKDaV06qnjXDVVVXq1NgFJB89MnfZGuIXqiNGpqo5
-	 79z1YXE0VGu3vsLltLMX1qOmvAe2gL9Yzn4VN/IvfEbOzEMX5ulv9CVaGo4tb77BTag==
+	t=1793080214;
+	b=SFOv1rRfL2DgTPozxTtKEhX17/OhkfzPr6kD1HJGQWTur/OGKmYX2JfXq5FIf6pMylxK
+	 3o/QSrK7u1Ag87rZDBFhDl7DQZ1dZPP03ljTTJ86OZTecSIUB2UeoZyUc4apNANp9B/fN
+	 yMh4CRzhN3VTT6PxENINxHBxiPinXF5rt/wSAm0HDv7oODU+DTWMvgdI8V4ST4twCad01
+	 xqbpebBDnjf+bb0wXKJzLl9W5djFTdRzvwSYrkOSwLIeBMmmXEX/edfPDVCKb8WrB0IwS
+	 2O8GWhi3T8y/dv05XuiPYqQPG0M6hGy+Z++bQXuE+u5xhi4X8pbWtl5bcZ4F4slfUlQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793077275;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Info:
-	 X-Proofpoint-Spam-Details-Enc:X-Authority-Analysis:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=CNVazNkHHRfKjH0wJMdsqtIhNk3xkQdWkKNi3Ii+PBo=;
-	b=HBUMfr5xbGXN3DiraJ+4ANbvllOGK+zec1at0ph5RQspvFtxmkRgTiiO3M4c6G0vk1LB
-	 qEdvFOsUNanbVc4vn/+9ejG+DAFXccCHrV7nMpixAAKZlK7vPF+pfp6DCjnH8eh8p7yf1
-	 mfNUH3XziYkpWp58rjOnCqXY1DPXscmPWdCngZSx1P/NxRzH0mmxDsqBdKdpt1yKJ4Eki
-	 6WuzxjsFs9Ee9CTHlZrij3VZESZTDapa8ey0YgaX2twUxZyvQF93cLP/sFywfzlcbiRCA
-	 kuSns1I9paIh3oM9bsmPXt8sGAEir6J28tXKViZxhdW/MDpIDPmN7KknbYxjesc0mYg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793080214;
+	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
+	 Received:Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
+	 Message-ID:References:In-Reply-To:Accept-Language:Content-Language:
+	 x-originating-ip:Content-Type:Content-Transfer-Encoding:MIME-Version;
+	bh=dH+1qS3r3/qThoPs/bcfpRZ8WDJsMNF5jVHZIGMNezg=;
+	b=c3zqUQRpR0fNFEr8UtAd1TPSNqp2dJ6riv2P1n2Uj8+BikKBfi7WGXy9PnOuQMUnPRZw
+	 aZBmqmPHY4vB9KDc/YWsKm2sgVTs3O8hNNzxaAbtRaiTOV2GQ8CGcfISauP1kuvA7PfDt
+	 cA8chfBdMuwUaNGDsFvaDzMrSo9ttpnRmcUFyqFRNelHh2gN4h2Qe53i522Sq5UT5DFK4
+	 +82esOhryj3t9ap+9Lv8poXGIMcw9KqHC0kUS6PmMtROhmhv0YAJHrLWKeE3/aTlSzKLK
+	 gZQwcbSWbzROteySkj/cmPAyod0DOXd0vKPwpE9NEEL7dEJDaQIEQoFy5sCaOkCkpmQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=e7D1ZRG+;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UTgGJxnc;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	dmarc=pass header.from=realtek.com;
+	spf=pass smtp.mailfrom=realtek.com;
+	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=VN52ouDJ;
+	arc=none smtp.remote-ip=211.75.126.72
+Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38EDB606A31B
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 05:01:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 38EDB606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9EA606A327;
+	Tue, 27 Oct 2026 05:50:13 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A9EA606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=e7D1ZRG+;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=UTgGJxnc
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69R2FHaS322856
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 05:01:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	CNVazNkHHRfKjH0wJMdsqtIhNk3xkQdWkKNi3Ii+PBo=; b=e7D1ZRG+pPsHx+ak
-	8nq/yggaKNcYmzTdzKHtDn8VvTWqlVWZK3Q8YaYnrbFtUnXtsVURq7yqeLHbIGrk
-	dJIbP77yGJ7dhDHXkoWfoSdEZ+u8jUTw6qTHo8eqsc6N7TPZtTUrxDrOi0OhQDnq
-	p3KRhdbl1AdmmXTWD3YiJc71aGPxBq5cqKL7M3sT4RceUDC/Rl+hjRoKe9x3OH0B
-	mrhL8rySkmj8WdBjEv6DutyRLOrNYPgfmH9sNuOLARhw0PPwok96vq2BwkBLedeA
-	hreYCGwIZyjZS0jogoPMGgUBEjmf5Efzl8a76Z7824sIarfoiiZShW4myq0IJlLs
-	Cf1Q1g==
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hjbmm9ya8-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 05:01:13 +0000 (GMT)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-887c99013edso2279473b3a.3
-        for <linux-usb@vger.kernel.org>; Mon, 26 Oct 2026 22:01:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793077273; x=1793682073; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=CNVazNkHHRfKjH0wJMdsqtIhNk3xkQdWkKNi3Ii+PBo=;
-        b=UTgGJxnctTPKkdhrbF3T0geupgfNhUrb958yzPquP4CBrPxOUoEayU7HZB8urs0MJU
-         644dHYevdjKJ5iHur/X1fnGsaHbeO23MsfPHCrjLLYbYcPEDldAGJYD22vEHF4D3I1IY
-         MOsvTeeE3IX0+LJyfQJ1e45GiUE6B5OnT7AeplEenmY+0EnH6QTYTyb5g7cXOTvh6Jp8
-         ZHBsJzb0ovdDqYFoO3a9AiyIRwfEuFKTL5HvB3wn/inm7wcSbpbUAdfih2bQRMD2/8c3
-         Qeh6a4D2p3z1ssunrU2TTpHJCV4Qk25yPRkidehibLKFeO2QDWI4nGCrXSJQImFgy2xO
-         /vsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793077273; x=1793682073;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CNVazNkHHRfKjH0wJMdsqtIhNk3xkQdWkKNi3Ii+PBo=;
-        b=HE4x9KrAYOOLO9P21O/thci2LAO+2PpJwIxLcLy4+iRYnDb7Cp9OtwJxamPQWP6iRX
-         VhDWxhi0ef9hixCT+MBcxlpohuGzwiYRCx/ES143nlLI0MU8pm3ouhYa32cd2CZGmJjn
-         p4+4WcljCu0iQXsykZPN33RI3Q5wm2DfK6AtsJIwnb8hWz74oOJoRmINNk6w1B0NSUqu
-         tt/q4WMPh8z46TUSPFchY6ollpBOlZdgpx53lgxbrgJ+EFUQ39RJ7ymRYgA7Sp4vZjax
-         kEq4Xt2HVtDmel8zg++0fhHr3hMZx5TO2orZIlMxYoub5LYXNofm2RuZbiYidGpbHi71
-         LmXg==
-X-Forwarded-Encrypted: i=1; AKwUvBwlm8KQwwRCkP1esYpyj7MGmZ5W6TI2WAOrKMoJ5lB0BQqnVD1bqljTfGAuf8zKErbD8Tia6uCLJMo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIwJ17kLrRVsbFwsTcHMkQta1GltT5NuR40rqPjMkPb/dzQCGig
-	SvhzVBLM08WbHwoMqUiamVs5IaAY+sV37sxEOeo7EBeoC8MkOfjOfeGsBT3eVYRIbAchRfKXvMu
-	Uz2CG/6UTAdm50VqNruPzr0SMTZh2M5nfi72n1/axZnREydCBRJGPTsHkdoLPBlY=
-X-Gm-Gg: AYBFou0XszNmJbx7qUWB7hRG0NG7NyEuJm6rh4sTYNmyyMxoGeIdheYcmgwXQVGqmQP
-	KnLICeROpPoSk9TDsszLDSuyb8CuuKdGMEbpA2JsP9yv1w3Ytw653qDNHeEumnebw5idi5JgJc+
-	nkATUdgREY0fQuUGz2b67JQbka6tVsOBhkwLEisbNoRPWVgJ5ZobUnDzRM4+GsrP0IL89mr3Dos
-	JXCDM0Dn40IHs+urJGifv414KJ9P8h8cjlPPOoq/E64AhkezwZfS3P1aMi4m31p+qJXFQ9Na0P5
-	g/FzAMUCH4IVtKdp7jVjBi1cGCR6xQdC1Wk+4zWCCQUdEgj/d+XQJZ3MxpKMaqnlH2GJwmUqDR8
-	4jbj+H3b1IdZqH5/L6Mqyu046i1m8
-X-Received: by 2002:a05:6a00:3a1c:b0:899:465d:c8ef with SMTP id d2e1a72fcca58-8a367a36a4cmr6659107b3a.14.1793077272558;
-        Mon, 26 Oct 2026 22:01:12 -0700 (PDT)
-X-Received: by 2002:a05:6a00:3a1c:b0:899:465d:c8ef with SMTP id d2e1a72fcca58-8a367a36a4cmr6659079b3a.14.1793077271734;
-        Mon, 26 Oct 2026 22:01:11 -0700 (PDT)
-Received: from [10.217.219.145] ([202.46.22.19])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8a36bf0f4dcsm1841090b3a.44.2026.10.26.22.01.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2026 22:01:11 -0700 (PDT)
-Message-ID: <19ad3b05-bec5-4376-9f90-b233d1e1b2c4@oss.qualcomm.com>
-Date: Tue, 27 Oct 2026 10:31:06 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=VN52ouDJ
+X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 69R5nWhqD701598, This message is accepted by code: ctloc85258
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
+	t=1793080172; bh=dH+1qS3r3/qThoPs/bcfpRZ8WDJsMNF5jVHZIGMNezg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:Content-Transfer-Encoding:MIME-Version;
+	b=VN52ouDJwmzTdlQG+++aCY8axAkumQe6RJ9XGHpLcMPAjjDdLbZiYxgtuctwNTLXx
+	 TAOO+unwUfOeir/gNyfNih1EwJdaubbdduk5atv1ufvygNAvcthcnKdyS7B+l59Qz5
+	 8tNB2ihWBOAUCNkhqbdxxqZ89JF0hrsXm7VQMmlgfDnlWzy0gQ4H6lBTvqygdD9seQ
+	 yCgKK9Nnc6QgnZMji7BMZVe8RtmZEALvoGJgO9PlU0jt1omvh/Jd8NIHTj9vafwMjD
+	 j1hKjWYcjP393Ji+eXKtpOb8RCAJCIP7/AcLYwJR80GbVy3z0In0W7r+ZWqNHjj+uU
+	 tnLZobeY4LRnA==
+Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
+	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 69R5nWhqD701598
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 27 Oct 2026 13:49:32 +0800
+Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
+ RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 27 Oct 2026 13:49:33 +0800
+Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
+ RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.49; Tue, 27 Oct 2026 13:49:32 +0800
+Received: from RTKEXHMBS03.realtek.com.tw ([::1]) by
+ RTKEXHMBS03.realtek.com.tw ([fe80::f36f:a844:4916:93f2%9]) with mapi id
+ 15.02.2562.049; Tue, 27 Oct 2026 13:49:32 +0800
+From: Hayes Wang <hayeswang@realtek.com>
+To: Linmao Li <lilinmao@kylinos.cn>, "andrew+netdev@lunn.ch"
+	<andrew+netdev@lunn.ch>, "davem@davemloft.net" <davem@davemloft.net>,
+	"edumazet@kernel.org" <edumazet@kernel.org>, "kuba@kernel.org"
+	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>
+CC: nic_swsd <nic_swsd@realtek.com>, Chih Kai Hsu <hsu.chih.kai@realtek.com>,
+	"mail@birger-koblitz.de" <mail@birger-koblitz.de>,
+	"zhangxiangqian@kylinos.cn" <zhangxiangqian@kylinos.cn>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>
+Subject: RE: [PATCH net v3] r8152: Use BMSR to detect the link state
+Thread-Topic: [PATCH net v3] r8152: Use BMSR to detect the link state
+Thread-Index: AQHdZOi1SWakue5+fUmL1fScAZd2QbcQ421w
+Date: Tue, 27 Oct 2026 05:49:31 +0000
+Message-ID: <65b2cd5e124a4fee9eb5b013e4069e44@realtek.com>
+References: <20261026012345.1902285-1-lilinmao@kylinos.cn>
+In-Reply-To: <20261026012345.1902285-1-lilinmao@kylinos.cn>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -115,202 +92,53 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] usb: dwc3: qcom: Restore UTMI PIPE clock on resume
-To: Filippo Falezza <effeffe99@gmail.com>
-Cc: Bjorn Andersson <andersson@kernel.org>, linux-arm-msm@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-References: <20261027-dwc3-utmi-resume-v1-1-ca9f0aa65783@gmail.com>
-Content-Language: en-US
-From: Prashanth K <prashanth.k@oss.qualcomm.com>
-In-Reply-To: <20261027-dwc3-utmi-resume-v1-1-ca9f0aa65783@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMDI3MDAxOSBTYWx0ZWRfX9r14XHDBqTFS
- HTo3kl8pEHSoGujgPaPZDuRQMt3pXH+a1KdJ7jRQdUHJ/mDfEW1JOac7P2uRaTt7vsIsG2cjKS5
- W50xWCcwr1wwufwFG8QfByEhreOE6I4=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDI3MDAxOSBTYWx0ZWRfX10/cTT/K8DLq
- kmF6S4bEhvgroVhGsp8rKYBIQ1yOzsoN8dZCxiK23MsE0VNJLR6E+oj0yKMcYBI8XXjE2lOjuZr
- X42yxUvtTrn97XV2w15TwWSR5rbdsLcUFs6GtdRQb57Ra+/n39cqLkPHER2UFbIEWgIeUvAMw3M
- hgWU3de6QK86oBiMiW+hE3qVFx1KnQZiyBVvpxSigRJtVw4KfumPUrr+CGkysHdziAPvaA6seid
- t+FvhIzZwoCr9Nd0z6QNoHwdsFoxPAwIhCTyEAVAA/Ze4uvFriPk+pEFZImieq8SygMx6R47gO5
- GJ05nYEzzVo8CUpHl8eXeOVhJlmzVYm4Q20R2ZYln8MU5F3Frts9RpOKAPUeMKPpUU+oAhoBd8A
- AXGny6x48vl3oOD04I1sgUn47Eh+HPTt3Q3vVBQypDXNryN04z+h+Jci37B3BWE3z4ab2TdYs1h
- j+9lxU0d/aThmfdBu/w==
-X-Authority-Analysis: v=2.4 cv=PrkG/AM3 c=1 sm=1 tr=0 ts=6ae03019 cx=c_pps
- a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
- a=IkcTkHD0fZMA:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=pGLkceISAAAA:8 a=Fk9T1Wms1UAi6vkAl3UA:9 a=QEXdDO2ut3YA:10
- a=OpyuDcXvxspvyRM73sMx:22
-X-Proofpoint-ORIG-GUID: DksamQ0oh-Vgwfb3f7k9wAU7Qloa8Wsm
-X-Proofpoint-GUID: DksamQ0oh-Vgwfb3f7k9wAU7Qloa8Wsm
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-10-27_01,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 priorityscore=1501 phishscore=0 suspectscore=0
- impostorscore=0 clxscore=1015 adultscore=0 bulkscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610270019
 
+Linmao Li <lilinmao@kylinos.cn>
+> Sent: Monday, October 26, 2026 9:24 AM
+> To: andrew+netdev@lunn.ch; davem@davemloft.net; edumazet@kernel.org;
+> kuba@kernel.org; pabeni@redhat.com
+> Cc: Hayes Wang <hayeswang@realtek.com>; nic_swsd
+> <nic_swsd@realtek.com>; Chih Kai Hsu <hsu.chih.kai@realtek.com>;
+> mail@birger-koblitz.de; zhangxiangqian@kylinos.cn; linux-usb@vger.kernel.=
+org;
+> netdev@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.=
+org;
+> Linmao Li <lilinmao@kylinos.cn>
+> Subject: [PATCH net v3] r8152: Use BMSR to detect the link state
+>=20
+>=20
+> External mail : This email originated from outside the organization. Do n=
+ot
+> reply, click links, or open attachments unless you recognize the sender a=
+nd
+> know the content is safe.
+>=20
+>=20
+>=20
+> r8152 detects carrier from PLA_PHYSTATUS without reading BMSR, so
+> BMSR_LSTATUS can remain latched low after link up. Since
+> commit f6f2e946aa4d ("net: mii: Fix the Speed display when the network
+> cable is not connected"), the first speed query can then report
+> SPEED_UNKNOWN, which applications such as NetworkManager may cache
+> until the next carrier change.
+>=20
+> Use BMSR_LSTATUS in set_carrier() so a latched link down can turn
+> carrier off after the link has recovered. If BMSR reports down but
+> PLA_PHYSTATUS reports up, reschedule the link work to read the current
+> state without waiting for another notification.
+>=20
+> Tested on an RTL8153B: NetworkManager reported 1000 Mb/s after 3 of 3
+> rebinds, instead of an unknown speed.
+>=20
+> Fixes: f6f2e946aa4d ("net: mii: Fix the Speed display when the network ca=
+ble is
+> not connected")
+> Cc: stable@vger.kernel.org
+> Suggested-by: Hayes Wang <hayeswang@realtek.com>
+> Signed-off-by: Linmao Li <lilinmao@kylinos.cn>
 
+Reviewed-by: Hayes Wang <hayeswang@realtek.com>
 
-On 10/27/2026 6:51 AM, Filippo Falezza wrote:
-> Boards whose controller has no SuperSpeed PHY set
-> qcom,select-utmi-as-pipe-clk, and the glue then programs QSCRATCH
-> GENERAL_CFG so that the core's PIPE clock domain runs from the UTMI
-> clock. This is only done at probe.
-> 
-> When the SoC reaches its deepest state in suspend-to-idle (CX power
-> collapse), the QSCRATCH registers lose their contents. On resume the
-> core is reinitialised with its PIPE domain unclocked, and the gadget
-> does not come back:
-> 
->   dwc3-qcom a600000.usb: failed to enable ep0out
-> 
-> The link stays down until the driver is unbound and bound again.
-> 
-> Remember the property at probe and select the UTMI clock again in
-> dwc3_qcom_resume(), after the clocks and interconnect paths are enabled
-> and before the core is resumed. Move dwc3_qcom_select_utmi_clk() up so
-> that it is defined before its new caller.
-> 
-> Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
-> Signed-off-by: Filippo Falezza <effeffe99@gmail.com>
-> ---
-> Hello there,
-> 
-> this fixes USB peripheral mode after suspend on a Motorola Moto G 5G
-> Plus (SM7250), a phone with a USB 2.0-only port that I'm bringing up on
-> mainline. Its controller needs qcom,select-utmi-as-pipe-clk. The first
-> s2idle that reached CX power collapse broke the gadget: "failed to
-> enable ep0out" on resume, and USB networking stayed down until I
-> rebound dwc3-qcom by hand. Rebinding works because probe programs
-> GENERAL_CFG again, which is what this patch does in the resume path.
-> 
-> With the patch, the gadget (NCM plus ACM) reconnects after s2idle, and
-> the SSH session over the cable that I use for testing survives
-> suspend; the phone has run with it on linux-next since 11 October.
-> The other boards that use
-> qcom,select-utmi-as-pipe-clk should benefit as well, but I have only
-> tested this one, in peripheral mode. The legacy glue driver
-> (dwc3-qcom-legacy.c) has the same probe-only programming; I left it
-> alone because I can't test it.
-> 
-> The patch is on top of usb-linus (6b4b543fa187) and builds with W=1 for
-> arm64.
-> 
-> I wrote this patch and drafted this note with the help of an AI coding
-> assistant (Claude Code). The testing above is on the phone.
-> 
-
-The patch looks good to me, did you test this with host mode and RT
-suspend/resume?
-
-> Thanks,
-> Filippo
-> ---
->  drivers/usb/dwc3/dwc3-qcom.c | 45 +++++++++++++++++++++++++++-----------------
->  1 file changed, 28 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/usb/dwc3/dwc3-qcom.c b/drivers/usb/dwc3/dwc3-qcom.c
-> index ac68b4218b56..6334ca7ba30f 100644
-> --- a/drivers/usb/dwc3/dwc3-qcom.c
-> +++ b/drivers/usb/dwc3/dwc3-qcom.c
-> @@ -81,6 +81,7 @@ struct dwc3_qcom {
->  	enum usb_dr_mode	mode;
->  	bool			is_suspended;
->  	bool			pm_suspended;
-> +	bool			utmi_as_pipe_clk;
->  	struct icc_path		*icc_path_ddr;
->  	struct icc_path		*icc_path_apps;
->  
-> @@ -335,6 +336,23 @@ static void dwc3_qcom_enable_interrupts(struct dwc3_qcom *qcom)
->  		dwc3_qcom_enable_port_interrupts(&qcom->ports[i]);
->  }
->  
-> +static void dwc3_qcom_select_utmi_clk(struct dwc3_qcom *qcom)
-> +{
-> +	/* Configure dwc3 to use UTMI clock as PIPE clock not present */
-> +	dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-> +			  PIPE_UTMI_CLK_DIS);
-> +
-> +	usleep_range(100, 1000);
-> +
-> +	dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-> +			  PIPE_UTMI_CLK_SEL | PIPE3_PHYSTATUS_SW);
-> +
-> +	usleep_range(100, 1000);
-> +
-> +	dwc3_qcom_clrbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-> +			  PIPE_UTMI_CLK_DIS);
-> +}
-> +
->  static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
->  {
->  	u32 val;
-> @@ -388,6 +406,15 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom, bool wakeup)
->  	if (ret)
->  		dev_warn(qcom->dev, "failed to enable interconnect: %d\n", ret);
->  
-> +	/*
-> +	 * The QSCRATCH registers lose their state when the controller's power
-> +	 * domain is collapsed during system suspend: select the UTMI clock
-> +	 * for the PIPE domain again, or the core can't run without a PIPE
-> +	 * clock ("failed to enable ep0out").
-> +	 */
-> +	if (qcom->utmi_as_pipe_clk)
-> +		dwc3_qcom_select_utmi_clk(qcom);
-> +
->  	/* Clear existing events from PHY related to L2 in/out */
->  	for (i = 0; i < qcom->num_ports; i++) {
->  		dwc3_qcom_setbits(qcom->qscratch_base,
-> @@ -419,23 +446,6 @@ static irqreturn_t qcom_dwc3_resume_irq(int irq, void *data)
->  	return IRQ_HANDLED;
->  }
->  
-> -static void dwc3_qcom_select_utmi_clk(struct dwc3_qcom *qcom)
-> -{
-> -	/* Configure dwc3 to use UTMI clock as PIPE clock not present */
-> -	dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-> -			  PIPE_UTMI_CLK_DIS);
-> -
-> -	usleep_range(100, 1000);
-> -
-> -	dwc3_qcom_setbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-> -			  PIPE_UTMI_CLK_SEL | PIPE3_PHYSTATUS_SW);
-> -
-> -	usleep_range(100, 1000);
-> -
-> -	dwc3_qcom_clrbits(qcom->qscratch_base, QSCRATCH_GENERAL_CFG,
-> -			  PIPE_UTMI_CLK_DIS);
-> -}
-> -
->  static int dwc3_qcom_request_irq(struct dwc3_qcom *qcom, int irq,
->  				 const char *name)
->  {
-> @@ -680,6 +690,7 @@ static int dwc3_qcom_probe(struct platform_device *pdev)
->  	 */
->  	ignore_pipe_clk = device_property_read_bool(dev,
->  				"qcom,select-utmi-as-pipe-clk");
-
-Minor nit, You can use directly qcom->utmi_as_pipe_clk instead of
-ignore_pipe_clk.
-
-> +	qcom->utmi_as_pipe_clk = ignore_pipe_clk;
->  	if (ignore_pipe_clk)
->  		dwc3_qcom_select_utmi_clk(qcom);
->  
-> 
-> ---
-> base-commit: 6b4b543fa18757297ac756a6fe6e64f506b7844a
-> change-id: 20261027-dwc3-utmi-resume-5ff551b1ed1d
-> 
-> Best regards,
-> --  
-> Filippo Falezza <effeffe99@gmail.com>
+Best Regards,
+Hayes
 
