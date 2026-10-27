@@ -1,101 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.173
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793091126;
-	b=dhyaYE3bHe4+N0lbaDfkQzNRH7U9qHba2sStNKG2M9tTb+MmNm8aJHYT41RMip7xeK9W
-	 snHz8B+vo1PgnvuiAen+ePeqCnaU47LQlT/WvmAbApRXRsjsr53mtswKdWtm2fzucZIRi
-	 ykFWj7LN/xQJnbzXQqlhv4gQP1NysfmUCN6B6gV/C2XzwZJC5D+EzKWqiD5KIB13qr900
-	 7C0RXEFK9acpJxiSYh9UU5zuhy4DZOuL2uW+G31HEtqf0Pzl0wGpqQlzcZD+80p4ehhHZ
-	 b4Vdv0xb+T451D4Y3mHQtA7b+CzzdjbcoiUaW0LyRiXmf1WMJ39LO+H2h+0AZo02n7w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793091126;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
-	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
-	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
-	bh=544Vs5W0iQqaMJeYnY15/Vfb543TMzE2RWHWwProMBw=;
-	b=FH97lInjIe2Tcp0eMvQkyVXCWIK5su2zezRjS3UsJKfNvBz4NDYcwnw7LdRYvcA3qcbV
-	 yrIaMPhC6kK3kDbq7j8PrCHPMLQ47U39uLQmq2Rq6On7N81HcXrt/o2f8O3bc4We1uES/
-	 29HxUWRPhzCTJJO78dSvhfimfk4AofwgHDXORgJvpB0tBeLsGjgY0VPA3FK3okXf5Kz07
-	 PCLB3iuY+7zJKHz6DqZVMiU9I8IdRM8Te3cuouRaIAIrbs9BBDjSy+40B3kGmnqtS4fca
-	 kcm5R2PPgcKqI/eJCrFOIurl6XcJI42hxTufo0rlI/iLvTvJZwp5AKYGtTRo9uRfw/Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pUf0+7wZ;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.173
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793091723;
+	b=4oUKEryDnvUfcaJUGV+KgvCXYvAXpMj7/KEbMeu44Xu0+8PN9llrl6Z1jTQz7y7NOLfX
+	 R0DDhlkuj4C0gffzgadQ5sOBLMtQWlLXs7Hl5N4T7FBer6xAWHInGhvUDqK06pxIx0XFA
+	 q/GzfsAmPZ+XlSuW+dLiEZtZHYXrqilH0NJnNgVhpxYNYrO6ySeJzjbWutztd/t67btp6
+	 uZrzKTrkTGTLzTY3ccYi4vj9/aogse8oDhdObS9odaKLgsGhum3OsIGGS1OcIgfevccaQ
+	 AChZNlttrE78wNP4/lQRKidH+vmv4yHM0lby+9hzCwmvFua88Js/yA9LFdEDbLks7pQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793091723;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=5nq/yW3E6nSzBhQE//dTYvgfzBHRxLsoSrzMo34ZjSs=;
+	b=hSaOs+4NYwLMO+cyqaWyHBDnMZOOHPdZ64HJvCazT+MhIqlro9N6oJDzz1EV7o8yrBHL
+	 LRakrWXeYq2cRrkKkIlI1tmmynsWiGZcDHN1XPTCgZvThCaamD01Bq9LFSlg1AgFXMRsZ
+	 /l6f8ujsCEDVEAoSb8UWMkcMShBFJMGNGJplq7QXzSUPDDZfzZzCfbeu5HgCE7tHmCJds
+	 rBXP4H0UvVdd2KFAgb9+BrBdOnrMjPkcM9SAwd21AvBiKqB8MFm1bsrpOxvAfSf5OCbFW
+	 dBwvxLvgiGFgMhNnQsdy6u1OiTgY9XDVKu6k1wQ0PuBNcolSTTDO+uf4Sq709yCJLvQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ulj9p7Jn;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80B7606A320
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 08:52:05 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C80B7606A320
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA4D606A324;
+	Tue, 27 Oct 2026 09:02:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pUf0+7wZ
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36a1947498bso208775eec.1
-        for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 01:52:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1793091125; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ImLPp1HDW+AAyYnEInafWCYENC3AHfQJMz5dvwTKX+0+dUaKlnNXPMhiMahOkVQoZr
-         Qp8HhQFQ+FPEolLGyDxVthwGugkkO6EmsaqhXR5+39o5UMH/4U10lBNI9L9cI/rjJHFg
-         CwVNui3u2GJ2y9yb+Ai3t1txCV6E4XfIoPDoKetMO32Twt1gi4ZwxemZx27819YQNqqX
-         tKOTXZldrODrrJ5f48y/aI692DcECJd9n9JQZOiqANhKWNluBUJvBuMTjxZFpSWxLvuU
-         59r82gTLFeKdWQOecvzXYIMBl0mdYzbAYZ3KR0eAUE4VIZ0j/SsakTnndgXbmYmgg4Yd
-         4WcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=544Vs5W0iQqaMJeYnY15/Vfb543TMzE2RWHWwProMBw=;
-        fh=4NrfZ8pFi/YoLTqFHeaoHRADZvvq06+DH+upPTezt1Y=;
-        b=OYTqCPnLQehxvOMNpZKmHsMxE9W2OloT4sFBrWsICbzJD5s3e8I0t1AItTLG623UXm
-         Rnbg2DcK7tZ1ilqHtlreVFqM81id5ZK4sm26KzhCzpugx/EtuoyAFj10xzd5FDyNEnla
-         iOLsz2HePGKnfJSIcaG7eiNJzyqdbDjpoKEQK+FXK87srqfxmZObAXt4wejh5oriVttg
-         7dTfj1ChFsRVQ4Dt24Tn0H54Ixc0DHqhKnm59FqW5yyacf9yGDev9HM6g8NbZ39O8GjN
-         1B0Nb93AzogyX1DhB6Rw9AoQCOu26R05T6e93B+Csa49Qwdlxt6OtypmhyZMBkTrHuwP
-         mFJw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1793091125; x=1793695925; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=544Vs5W0iQqaMJeYnY15/Vfb543TMzE2RWHWwProMBw=;
-        b=pUf0+7wZWPc6vb08pmDR5P6yk7mSd0eNZggr2tJrJzBo7w39uEiKa1QXLZjKmWm7M2
-         lND4nL5vqeLmDtdnhvuFcc0vihOhPvYKaLsfE9Bm0ztBkLkB82jqwgxcK0mUGN5F4HT0
-         Yqab/3TcmGLFulnpxU5OwJi2wlujE4b54oEC7pPMBoxOyUitR1v8ONiQjoWzoRTs91Gz
-         ar2IIukgQB0zJMUt4nOtS62GihnblGXHDNbM7czAPOIgkpWaxrl2p4PVrut6ORDx+vpd
-         EhZZyqKNwyJxUGDJ/rfbjW5Bx0ZaZRG2zdnaTiXAaiQxEDeGAtFAkJxEEF4fgs774y7Q
-         jLpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793091125; x=1793695925;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=544Vs5W0iQqaMJeYnY15/Vfb543TMzE2RWHWwProMBw=;
-        b=qqnmuNfZWkYvmzh9nfU895CnOy5cjC2rWX8roJWulyjhmKq2AB2RW4JKzB63HPWL3y
-         Xhnbg0BlcXkvHXMDYmp06rD5Gl39xFf/cK2wIhkni0Ck/smK2N8n7dIdBZswkCLlPcXG
-         ABflbuHuMFZZzg+J7ohOVr02BblKMEK3JHw5SATSsa3lYyEoLfTlTV8wQD24GK0/nbRv
-         dFGUIRdzCQFj2/CkZDfDlMw74xDgKb7iFkrB6XHN/dlufewT8JwhQE72RCFmnznMVVqJ
-         8qFXf2lffPIsM7fvNLjx14+5eDXCT5YIAz1k7OCbTOHDXChrASVs3OcSD1ZqsBVWNHK7
-         JFJA==
-X-Forwarded-Encrypted: i=1; AKwUvBxLlx5MVJLzluSX9ok0Mvp92N8TPKnVv76WCDsPjxHmp0Okfggkqs8bNkrcpS5jVP42ioeN378YUbw=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIcB8mxpBUWENrKhMEdxnd8B2kD3fK44RVTaXrZC9LM4ifohGGW
-	QgO3oUk9vx8JwwsuBCiZEbkgmHldStF39iyzo8yRGW7XIWSQX9QeXDYVrfhSJzluqKUqLe1SAcH
-	56xIQ2pyplScWOlZhi36g1dvbASREqAs=
-X-Gm-Gg: AYBFou3H3dx0ByjbwHM9ZZmIsJ2AQ26XMk+e7G/fjCKoCZp5DRTfnMcgVmWBPCnvmbv
-	3fG4Ba0CjUI0a1OR+ULqSOKGnuboOUFvz6ytzvTGjcNIj3sAvyVUjpjUxAH2QMkMlJXrRShRyaL
-	Q21HGH+9j/qbDkpJDnYMb6Ac8FQvr3OkpUubFhDDYfKxE+cSFxPmmx4N7sN4vOtxGAEHPkOzkXf
-	Iv+qAh2MLh2Qx/0o3oX2vYIhJtfLNOXL8J6osKh4D9whoBp79DNo4sbTEKBcFzX/9VwpT+QLYY2
-	U0QCQWHFtZiyq+nR1U40nN2KvWcn9KS1glqDlB+LpU8Um+/pPiJtlHrfDfgtu9TbApUeyHXB7vW
-	pW1UimBCMifo54CwtNtBBfjnHuPoLppqqcnbhdIoRfMP6NynXdmObu9NKYFb2V1C2/bix03p3lk
-	rghJ4QtY6ySxDgWbg=
-X-Received: by 2002:a05:693c:8110:b0:359:2edc:e1d8 with SMTP id
- 5a478bee46e88-369e836b39bmr13749085eec.5.1793091124761; Tue, 27 Oct 2026
- 01:52:04 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ulj9p7Jn
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E4501F01828;
+	Tue, 27 Oct 2026 09:02:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793091723;
+	bh=5nq/yW3E6nSzBhQE//dTYvgfzBHRxLsoSrzMo34ZjSs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Ulj9p7JneLFV1/XhjlgoB/eMNIqEQ4GJO5bi6UfrrD8HhsEGzbsJWw9Fh7Bbk2Zmy
+	 dXTv3coxEQCqyoRT50cWG5/xQfcfb+bKo538FX9mXlQkzg7LNrBHXKUlF7evcHRIO6
+	 xIHd3fw+SGUx7bY9O/A9rtGBRK1urm4D01a3/mQ8Uyvzumxm0hJJShV2f9I5rF/M4r
+	 sHH4Vy0ixTOveeMxJf8ojt1F8pBQYGgoJSXpbxuaFNN8Zg6jEbemlo5+aeWEl6Iyj4
+	 KXqOqZUDrUkhuzR+lhyki8q6UFZaHEsvSvX/e6qq2/E2VBr3h2VRD8uZlsfRHZGFUQ
+	 aEL9J2u5dvy5Q==
+Date: Tue, 27 Oct 2026 11:01:57 +0200
+From: Leon Romanovsky <leon@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Alex Williamson <alex@shazbot.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Armin Wolf <W_Armin@gmx.de>, David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Bjorn Helgaas <helgaas@kernel.org>,
+	linux-pci@vger.kernel.org
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <20261027090157.GB28851@unreal>
+References: <DLIL9H50MALI.3JROXYEEUM3KU@kernel.org>
+ <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <20261026122243.GA28851@unreal>
+ <2026102654-enlighten-perkiness-193c@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -105,58 +90,121 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261004165204.205660-1-clamor95@gmail.com> <20261004165204.205660-2-clamor95@gmail.com>
- <20261026222928.GA15139-robh@kernel.org>
-In-Reply-To: <20261026222928.GA15139-robh@kernel.org>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Tue, 27 Oct 2026 10:51:52 +0200
-X-Gm-Features: AclHuK8LjCWDpNP4DuV4ZuevBx5z2yzl2RQeYjmP-HIeitxouPX3pu1AzADU8K4
-Message-ID: <CAPVz0n2rkWikz1CZhkKiZnX5P+NdDH0RfJi69AyVTEV7qw_VXg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] dt-bindings: usb: Move Tegra-specific Chipidea USB
- properties into a dedicated schema
-To: Rob Herring <robh@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
-	Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
-	Jordan Viknar <jordanviknar@gmail.com>, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <2026102654-enlighten-perkiness-193c@gregkh>
 
-=D0=B2=D1=82, 27 =D0=B6=D0=BE=D0=B2=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 00:2=
-9 Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Sun, Oct 04, 2026 at 07:52:03PM +0300, Svyatoslav Ryhel wrote:
-> > Move all Tegra-specific Chipidea devices and their properties into a
-> > dedicated schema file, by analogy with i.MX.
->
-> I don't really see the point given it is only 2 deprecated properties.
-> Maybe those can be removed? Depends if they are deprecated and still
-> used or deprecated and removed from .dts files years ago.
->
+On Mon, Oct 26, 2026 at 09:27:25PM +0100, Greg Kroah-Hartman wrote:
+> On Mon, Oct 26, 2026 at 02:22:43PM +0200, Leon Romanovsky wrote:
+> > On Fri, Oct 23, 2026 at 06:13:26PM -0600, Alex Williamson wrote:
+> > > On Wed, 23 Sep 2026 12:29:56 +0200
+> > > Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
+> > > 
+> > > > On Wed, Sep 23, 2026 at 11:54:50AM +0200, Uwe Kleine-König wrote:
+> > > > > > No, drivers should NOT have to do that in their .probe() function,
+> > > > > > that's what we moved away from decades ago!  The match function should
+> > > > > > handle all of that for you, otherwise it's contant duplication
+> > > > > > everywhere that is unneeded.  
+> > > > > 
+> > > > > Well then you have to accept that root can provoke a null pointer
+> > > > > exception (e.g. by forcing the pwm-tegra driver on a device) because at
+> > > > > least with today's platform bus match function such a match is ok.  
+> > > > 
+> > > > Agreed, yes, root can cause a crash and can do tons of horrible things
+> > > > much worse than this, that's not the issue.
+> > > > 
+> > > > That's why this taint is there, to make it obvious that this is not a
+> > > > "real" bug at all.
+> > > > 
+> > > > > > Please, learn from our history, don't make the same mistakes.
+> > > > > > 
+> > > > > > Now I might be convinced that driver_override is the way to go here, but
+> > > > > > it still feels really odd as again, bind/unbind was created as a driver
+> > > > > > debugging option only, it should NOT be a normal operation that any user
+> > > > > > should rely on.  The driver should "just work" properly instead, without
+> > > > > > requiring manual bind work, as that's not a good model at all.  
+> > > > > 
+> > > > > I agree in principle, but (in my case wifi) drivers are buggy sometimes
+> > > > > (due to missing documentation and/or engineering effort) and being able
+> > > > > to rebind the driver instead of rebooting to get a working device again
+> > > > > is very useful.  
+> > > > 
+> > > > Fine, use it!  Just don't expect that to be "normal".
+> > > > 
+> > > > > So yes, theoretically bind/unbind isn't needed, but theory and practise
+> > > > > differ in practise.  
+> > > > 
+> > > > Agreed, but again, don't rely on this as a "real" solution fo ranything.
+> > > 
+> > > Sorry, late to the party, but this isn't a few user scripts that rely
+> > > on this behavior.  Effectively every use case of vfio relies on this
+> > > behavior.  We rely on unbinding the default driver from the device
+> > > before using driver_override and drivers_probe.  That means every
+> > > hypervisor with device assignment and every userspace driver use case
+> > > now experiences a tainted kernel. That seems like a significant
+> > > regression.
+> > 
+> > Sorry, I was on vacation and missed this change earlier. This change will
+> > affect SR-IOV deployments around the world, which *rely* on being able to
+> > bind a driver manually *after* virtual functions are created but before
+> > they are used.
+> 
+> Why can't a real driver bind to those virtual functions?  Like is
+> happening in the rust apis?
 
-The ci-hdrc-usb2.yaml schema contains properties that are not
-applicable to Tegra, and conversely, Tegra-specific properties are not
-applicable to qcom, nxp, nuvoton, etc.
+The actual driver is also bound, but at a later stage. I'm not sure what you
+mean by “Rust APIs.”
 
-The 'nvidia,needs-double-reset' property is required for Tegra20 and
-Tegra30, and it is still actively in use, as you can see here [1]. Its
-marked deprecated state appears to be incorrect, as it should simply
-be restricted to Tegra20 and Tegra30.
+> 
+> > This is needed for two reasons: to save hardware and software resources
+> > when creating a large number of VFs, and to allow the PCI config space to
+> > be configured *before* the driver starts using it.
+> 
+> How is hardware and software resources an issue here at all?  And you
+> can write to PCI config space from userspace today, no driver needed
+> anywhere at all, that's always been allowed.
 
-The 'nvidia,phy' property is still used across all ARMv7 Tegra
-generations + Tegra210, as the Chipidea driver has not yet been
-converted to use the generic property. Therefore, while it is marked
-as deprecated, it remains in active use.
+According to the PCI spec—or, at least, the common interpretation of it—
+newly created VFs should have equivalent hardware-resource partitions.
+For most hardware resources, this is not an issue. One resource, however,
+is critical to partition correctly: the number of MSI-X vectors per VF.
+These vectors are backed by physical resources and directly affect
+performance and utilization.
 
-The example I added is from Tegra30, which in the real devicetree uses
-both properties, so I've included them here as well. With your
-permission, I can remove the Tegra-specific parts from
-ci-hdrc-usb2.yaml and tailor the proposed schema to better fit the
-current state.
+In a correctly configured system, the number of MSI-X vectors should
+match the number of CPUs assigned to the VM. More vectors can leave
+hardware underutilized; fewer can degrade performance.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tre=
-e/arch/arm/boot/dts/nvidia/tegra30.dtsi?h=3Dnext-20261026#n1146
+The workflow for cloud operators is therefore:
 
-> Rob
+1. Create a large number of VFs, but do not assign them yet.
+2. Lease a VM to a user and determine how many CPUs they requested.
+3. Repartition the internal MSI-X table allocation.
+4. Assign the VF to the user.
+5. Check how many MSI-X vectors remain available, then return to step 2.
+
+The MSI-X table size is read near the beginning of driver initialization
+and cannot be changed afterward.
+
+So, no—you cannot change those PCI values without breaking the driver
+and OS that are already running.
+
+> 
+> > There is no in-kernel alternative.
+> 
+> Then just don't have a in-kernel driver for the device and all is good?
+
+In addition to Jason's comments, the PF and VF share the same driver because
+they are nearly identical, apart from a few differences in PCI
+configuration space.
+
+Please revert the series ASAP, you are clearly breaking existing deployments.
+
+Thanks
+
+> 
+> thanks,
+> 
+> greg k-h
+> 
