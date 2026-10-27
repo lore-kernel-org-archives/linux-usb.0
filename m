@@ -1,68 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793097391;
-	b=ViF8wJfMZF4GrqoxoyWk/NJBQN2GNerGUMsQDCmoU3yMylKV4TF9Z6TwISBxwyRLP9iw
-	 vkUVyrgpz3Rn2xjfgzRWNFeqp/h3V9omD6smSTrHnY1M9UHcu3oqSA8IezSzi/VNkXdA0
-	 +mxkc00bc3cDoXL2UX9x9ytBQKZrLG4GVp76XYZ7B0UBrkbfrmI04DR6l2FqUnglSsgy2
-	 fhk7Wl97vjZhFmPkwZj3GLxKIz45EgMEcweMbmZoKXfBcGwsy5NsTxDDo7NKgxaBFjovu
-	 YH+8yxXPLszCUb6KlVVdDAKEXQHqn608P5D5VmmhsdnvfrK2PRbGRJVQX6oW8f78x0Q==
+	t=1793097470;
+	b=pova++mkCqSaDc+kXWAm1rMs+P3K/whGYr8x1yjkdQX4kBGg09w1ialw/MnCJKUMh7T5
+	 wDYiTm8ZT/EikTQZC9W5WxKu3Ba1/TMt/nt7ehHSyoAEIiARx9SKCkhMFVRCR0VXx1qa3
+	 kbc1PegPsISfY/+RpkfHfYFi2lukT82dUi3YUSIW1gtgeScfbUX8ePp9nqSFWdPI24xvj
+	 vGUp21OERAbSgCNxrpmee0IJJZFa2nBjQYTc3RKO3KuvzA6wdBtgHm1UtAhpTt7WIJDxm
+	 YnMdUL1okC/BSxlA2f+AZVZLhmsEsJalZPFKVYbqJGeFk0DKcPdI2f8uxoUA84eCkzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793097391;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=dQIOB/6FJwPNuD/XyyHrXfdbiDTQhvuKSHijNSogEKI=;
-	b=3C3kiYCobw5NutjBPAJtaadyubNNTvhD8MiVgf00HKYFVVDxHwp9IwiVvxD7L9YJIeqh
-	 kgQodcXHWgL8fo9nOz7WxOnd3Zw0po6579Ke78UesJohHITTVaK7d5d4YAIe2t3x3ew52
-	 QQj/y3BMtWqBfq2ZKb8LnzmMjKHu9bUvNUoHo7Mwf3lHAht2HeqZ1emC6qIGzW8HjkEse
-	 t2WczVglT8+Re72vhlrWHvDwIg+jtMi1z0+VjBaMv7bIY5zVsI1RfvO77VS/Mm6klIOFI
-	 8/olrPpxC8QsSwuIZN+x9wWX+FbhPri9yao4vBFkygpQX2DVHS426+mqGWE6q6obsKg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793097470;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=HX3HxJY5VOluPZf2ATIINxropjKkbYfea78pzZn8Kig=;
+	b=OCBJ1a4vKAwqF9vMe0E3qa/4ivawft0+eCTcPZKQpt0uhT4bY08xd69Gx7SkADXLc8GW
+	 tAXV8Nh5qHlh8aL/tVscNHCb/g2TsrxOZPd75Bfg/bW/sZ61veO8IRvCA/ZC8zZqSRyKS
+	 FY44W4fDRH5x/xonbaukBoz/f5BuohJed921nXUyZJitXfM1UBI3Y9dJy4sPfuOQmGg6w
+	 qQDcpofst01cIsiw0K87cHkFMBf7LOqH2MmdnlA+EmwUBVKzEuGYcyKo5y+rVkwBqy60d
+	 lbhSdD7SkWwO1r7X8f3OlVYvIHxbF5V77m8GP3ixWKwP8Hw6w/fVKXTI6lEnl4WlBEw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QwUI0Wlx;
-	arc=none smtp.remote-ip=192.198.163.14
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VAeHIlPJ;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E53F3606A321;
-	Tue, 27 Oct 2026 10:36:30 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E53F3606A321
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2A91606A323
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 10:37:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=QwUI0Wlx
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793097391; x=1824633391;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=qJgTn/uD+9ZSmPrW26D3NbXmIc4vmCrFq+bSxNfnUgM=;
-  b=QwUI0Wlx0zEyxrEL2XXo6/jI55gItE8WhC+bht4FeajUIvB7/dQ52Uxo
-   YT4VwlCUJcK9b56BzKW2h6aQvLSfd6x7RPVKCUBpyrRatpAnpAVuuIPb4
-   DOk60fxeVEuJaytjccCxkKxXkOYcjWuT8xb5KP+feXhh4tpg7xnmNm/qN
-   7t3TUbtu37PEunqV+ZETfdExjaBmbpyebG0jk/hKrUaI7B84VGPlDcDWN
-   0GarqQYoztoufIeTO4m+HKZJl0LErqVzmQlIGP3+ngf7xDhJviWmonz6A
-   0XD0eMhx2oUJtRBicoZeqcCjpUKR3qFHygGHdLCbSb9n1cWCOy02nzmtL
-   g==;
-X-CSE-ConnectionGUID: rWp7mZ4VTJq1OfkEf+2rCQ==
-X-CSE-MsgGUID: TbK5bEXGSZuGY7wSbWJljg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11947"; a="1823683"
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="1823683"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 03:36:30 -0700
-X-CSE-ConnectionGUID: JCiDRsriSEKJUBrJAZ9kpw==
-X-CSE-MsgGUID: EpfM37a7TuWZDcTj6uTCug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="4906086"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO [10.245.245.227]) ([10.245.245.227])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 03:36:29 -0700
-Message-ID: <842f8c77-ad37-4eea-9983-61a4086eaf5e@linux.intel.com>
-Date: Tue, 27 Oct 2026 12:36:26 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VAeHIlPJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83A5B1F031E0;
+	Tue, 27 Oct 2026 10:37:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793097469;
+	bh=HX3HxJY5VOluPZf2ATIINxropjKkbYfea78pzZn8Kig=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=VAeHIlPJr/0UE9G3aT0Rsry5utOqPA89OEFhvBJKD+suGL0Xm4GiDQLCtHJECbq56
+	 ijePsGEmu0b14Qf/2zPEu6smwTrzKbe1cXNOX1CY2OoOeqxcq7oQySFZhfND5NX7Dz
+	 fyQ3JMK9yL+5Um+E9YnENMTg4eU/WdelFjZSMsPbYjIsBJkEiX78djLTepkRwsuqXb
+	 pOJGRyPixhQj0b1mxjRi8JzU4ed9XDAou3X3CpnjzxuOsQ13F3+EYg5WzYqPkaZLxI
+	 DzBPgz7sbRi9r2mnTpAKrvg73OONEYz9ZS2p8eFrP/xT3xH+IS3/dmdLfw+Puv2NXh
+	 RSzqYdA8nWPFA==
+Message-ID: <sashiko-outbox-186373@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] usb: typec: ucsi: acpi: Assume UCSI 1.0 on HP ZBook
+ 8 G2i 14
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ihor Urazov" <z0rc3r@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261027-ucsi-hp-zbook-8-g2i-v2-1-02a600e4f0a4@gmail.com>
+References: <20261027-ucsi-hp-zbook-8-g2i-v2-1-02a600e4f0a4@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Oct 2026 10:37:49 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -71,82 +59,32 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] xhci: keep ep0 blocked after disconnect until Address
- Device reloads it
-To: Yiyu Zhou <yiyu@yiyuzhou.io>, mathias.nyman@intel.com,
- gregkh@linuxfoundation.org
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- michal.pecio@gmail.com, regressions@lists.linux.dev,
- Dennis Wissel <dennis@dsine.de>
-References: <qLQr_bD2TzCrwVMFdRe7Wg@dsine.de>
- <20261027084845.1588204-1-yiyu@yiyuzhou.io>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <20261027084845.1588204-1-yiyu@yiyuzhou.io>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 10/27/26 10:48, Yiyu Zhou wrote:
-> After a root port disconnect or link error, xhci_handle_halted_endpoint()
-> sets EP_DROP_PENDING instead of resetting the endpoint, and gives back
-> its TDs.  Their TRBs stay on the ring, and the endpoint's dequeue
-> pointer still points at the halted TD.
-> 
-> If the device comes back before hub_wq handles the disconnect, a driver
-> may reset it on the same slot.  usbhid does this after 1 s of
-> interrupt-in errors.  xhci_discover_or_reset_device() then clears
-> EP_DROP_PENDING on every endpoint.  The other endpoints are disabled by
-> Reset Device and get new rings, but ep0 keeps its ring and dequeue
-> pointer.  For USB 2 devices, usbcore by default sends a 64 byte
-> GET_DESCRIPTOR before SET_ADDRESS, and so before Address Device reloads
-> the ep0 context.  That request is queued behind the stale TRBs.  With a
-> Keychron M5 the reset stalled for 11 s, and the xHC then ran the old
-> TDs ("Event dma ... for ep 0 ... not part of TD"), writing into buffers
-> of URBs that had already been given back.
-> 
-> Keep EP_DROP_PENDING set on ep0 through Reset Device, and clear it when
-> an Address Device command succeeds.  That command loads the ep0 context
-> from the input context, whose dequeue pointer is our enqueue pointer, so
-> the xHC skips the stale TRBs.  Until then, ep0 requests fail with
-> -ENODEV.  If Address Device comes first, as for SuperSpeed devices, the
-> device recovers in place.  Otherwise the reset fails quickly, and
-> usbcore re-enumerates the device on a new slot, as after a real
-> disconnect.  The same applies when Reset Device fails because the slot
-> was never addressed: the next enumeration attempt uses a new slot
-> instead of the stale ring.
+> From: Ihor Urazov <z0rc3r@gmail.com>
+>=20
+> The HP ZBook 8 G2i 14 (board 8ED9) exposes a working UCSI ACPI PPM, but
+> its UCSI VERSION field reads zero until the first command completes.
+> ucsi_register() rejects a zero version with -ENODEV, so no Type-C ports
+> are registered.
+>=20
+> The firmware's _DSM READ function (2) is a stub. The mailbox VERSION
+> field is written only by the EC response handler, after a command
+> completes, after which it reads 0x0100 (UCSI 1.0). The mailbox is
+> 48 bytes with 16-byte MESSAGE_IN/MESSAGE_OUT fields, the UCSI 1.x
+> layout, and _DSM function 5 is not implemented.
+>=20
+> Add a DMI-specific read_version for this board that substitutes the
+> version the firmware itself reports, UCSI 1.0, only when VERSION reads
+> [ ... ]
+> Cc: Francesco Orro <ncesco@interstellar.eu>
+> Assisted-by: Claude:claude-opus-5-5
+> Reviewed-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Reviewed-by: Huang Wei <huangwei@kylinos.cn>
+> Signed-off-by: Ihor Urazov <z0rc3r@gmail.com>
 
-Thanks for the detailed description, this looks like a very targeted fix
-for this specific hid case.
+Sashiko has reviewed this patch and found no issues.
 
-It still leaves the stale TRBs on ep0 ring, and relies on a successful
-address device command to clear the EP_DROP_PENDING flag, blocking ep0
-in all other scenarios. It also leaves xHC internal ep0 in the
-'halted' state. Not sure if xHC internal halted ep0 state is cleared during
-'reset device' or 'address device' command.
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-ucsi-hp-zb=
+ook-8-g2i-v2-1-02a600e4f0a4@gmail.com?part=3D1
 
-There are cases where EP_DROP_PENDING won't be cleared at all in this patch.
-For example if slot is already in the default state when hci_setup_device()
-is called. (slot is in default state after reset device command)
-
-I'm thinking we should take a step backwards first when fixing this regression,
-and then look if we can tune fine tune ep0 after that.
-
-1. Make sure All TDs are turned to no-op before returning the URBs in the disconnect
-    case.
-
-    Add all TDs in ring to cancelled list, turn them no-op, and then give them back.
-
-2. Treat ep0 differently, cancel all TDs on ring as above, but still reset it when halted.
-    Allow a Set TR deq pointer command as well, and only give back ep0 URBs after this.
-    This partially reverts the two patches that caused this issue, and clears the ep0
-    halted state
-
-3. Possibly keep EP_DROP_PENDING flag for ep0 until xhci_setup_device() as this patch
-    does, but always clear it in xhci_setup_device() before it returns
-
-Let me know if you find any flaws with this approach.
-
-Thanks
-Mathias
