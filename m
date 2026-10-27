@@ -1,55 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793113604;
-	b=eBn4fRWNIdXHkj3W6AG5wNIZTPWqg0r9TadinMBd6SwSaau2hyCJRDj+lHvSe8brCG/E
-	 YPZmbaFC+JZXSfZByEYwW8TKP5HYZVOkWXF3L9wIa2mYDxiColp7x1k0QgIuEP1kgwguj
-	 FotY6Z1OJpnbt86JANKIJkEhUWEI5CtX7mGjMJXBIHsBvxjv+pcsYbDy0SrNHvPcnMga/
-	 5Yp2KN1pxZTnE25UwP+AfRWFxPVbrrPh94/pI7brjAmryyqItqvJoRB3Ky3Khp4HfSdwU
-	 Th5zPsz/LTstrAgKOd6kpWjzIKNWs4F3RuQtQ7oWkH7aAUYwtUWjLGHFcULnSWdhDBQ==
+	t=1793113621;
+	b=DHbsVts05yXRMsDCUxDQAcFZO7bhSKjWDdBPwdM0iLDw3iJ2Vs478QrpOMM4iMWvTbjb
+	 /W9zOSVptjQ/ng2k1JcJ0zeH9F2iyohx31cjKP58i4D9pjpmzVvRyE9Kuxcd1+Y/HnrKX
+	 jlAizbpnfdXRjPlMIEK2s1D7vf7KcJiwFAH8bo0XjathbRhalnkGwDwPlm2bgX7SUrTS0
+	 frcI5mph5tHTY7Zx54dJpI1tOiuRzbLmkVrW5u2fYQu4mGE+BvczRduLWp90l/24JXf25
+	 PHD70NOM8/o4YCgOS9Cirg/S+RhbZ5m/YzEPMqmXN0MAY+OIKweMAyq0VL8LZEdMXHA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793113604;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793113621;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=dE4gJ35wU4fut6uSdv7kgy02uRvaqkDVExuKS8fu4Uo=;
-	b=qCDKA8P/hoe6/CV0KFblDAFaz0cbUwKltmdEYNYgw/0DbVzVKE7QM1k+sUfMIw7nsI8J
-	 T+Lqez/XV8j2JiMbyKDy6OLOIPnHtOWXivhwh4fNd9TTnBI5yd8AaNQ20cN495mLSQcem
-	 4TaUx21cxIs8qyZdCM78QwKRoSVuEhBte1I5op4eSs1O4cTAtf/mYvpDF16hEBNPIK9uD
-	 C00OKHZBEh6UofVk386Q4BE+fOkBOOLgGWbRiF9dTq+gpXSB8oirkSmJvPBbFQDXw3AYq
-	 qSMG9MCNyGJsIsO2zL6LzaTbLEagEkjDUhj8J5alnrfp5CgqcTBfrV0yOvBq0HaxKSA==
+	bh=d91dhD64znH3QUtzK36ul5n+F7Z8tsR1lIkAmmuAdA8=;
+	b=Bb6ogdtiYqW/Io928WvnBtnWle9u48qkaHBYJYTt/8KV/D2gj1Mis8S0tzA6/He/425N
+	 BWFKIs5c/AJ/jSgVbXCJVog1TVbQPG0vwXD93FFBPnSoSmLj98q2Nuo9s15p+MNUyRFcj
+	 0pD8RQ7/AWkc+UbNRQ6EgZZYfWrDaz3BeJ8DrzfGDN+dFwKAzMWyGIuG9T4fiOT6lnnWB
+	 ldkucmlkMU6ept68QlTESOIxJ0ryRj9L1PPLBoO7Cns6bBGEQXDuVhXogG/DsRZQYl4K5
+	 7wS2TZ14LO2zFPwKguQMKyTvAjuxsgchTmmdM4y/FaAkdoFT2JdiXNxiRC7Z816ti+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mih3CtLf;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BGW8by0j;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75779606A326
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:06:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD5A6606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:07:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mih3CtLf
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6D741F031E1;
-	Tue, 27 Oct 2026 15:06:43 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BGW8by0j
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5026D1F01825;
+	Tue, 27 Oct 2026 15:07:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793113604;
-	bh=dE4gJ35wU4fut6uSdv7kgy02uRvaqkDVExuKS8fu4Uo=;
+	s=k20260515; t=1793113620;
+	bh=d91dhD64znH3QUtzK36ul5n+F7Z8tsR1lIkAmmuAdA8=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=mih3CtLfstdCyqqQsT5Zeh//3vHb1rCbixnZgbpXBHkWHjt5GDFbJhn+5N9Iou0vN
-	 +zcKfi/g6o9B0vfn5Gwq+A9DAH0YAfniykTQyC697fAzvIbYhT2nCk+ab3UcTj2+WV
-	 seBmdlSvaPBBTwV2zTpDO6WeEbqqCXu2g573KC8Knm/gFEWAtGcnZLLzsfDCK4ieCF
-	 ezGe/TvxTQLYDAxsEt6Qcln36mugguZCcD7aBeZWiI0PSZ1lkrRmLh4pGeNHKSV2Gy
-	 +jD/yWLMVxBVF+wyQmqOGv9KNb1R0mjFfoUTkoAMM93tx+xr1MZdSIvR1yd+7Zi31C
-	 SQA01g8atj9ng==
-Message-ID: <sashiko-outbox-186799@kernel.org>
+	b=BGW8by0jKR9v+DfxjLSnynSgcrPzxBPl6O54MnLWh7NPN9ZkU+2dBYROa9JP+8onz
+	 c5RQwP0/yaAZhC5iWaUnmpxk8mfGW1kSL+Q+zxz7AnRaU82mVZwH0qXqNE4lnh1Zhq
+	 IJBC3ef/AHRVP/DpKIl9gTZ2DMm8a0hGkB4HH8yl8Dthjc69BT51+vxYGMzVVWo8jd
+	 7drAjbXiKfLtD5RU601xY+5lnOMLcmAb0qz6CDG/JQJ3gtKhqnzvVFCE0cbt2sWwp7
+	 rxCYIKCxOZzNSRTzPMs0rs7RHwNjHUv+2L4bo8DmN9CQkp52crMxZvnSOYp2MEt5gX
+	 kmUgPmWNWtKvw==
+Message-ID: <sashiko-outbox-186801@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 07/19] usb: gadget: bdc: the resume callback is optional
+Subject: Re: [PATCH 04/19] usb: host: oxu210hp-hcd: fix oxu_qh_alloc()
+ deadlock
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-In-Reply-To: <20261027-llm-usb-v1-7-b9751ddb9c7c@linuxfoundation.org>
+In-Reply-To: <20261027-llm-usb-v1-4-b9751ddb9c7c@linuxfoundation.org>
 References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
- <20261027-llm-usb-v1-7-b9751ddb9c7c@linuxfoundation.org>
+ <20261027-llm-usb-v1-4-b9751ddb9c7c@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 15:06:43 +0000
+Date: Tue, 27 Oct 2026 15:06:59 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,19 +62,14 @@ Precedence: list
 
 > From: Josef Bacik <josef@toxicpanda.com>
 >=20
-> handle_link_state_change() tests gadget_driver->suspend before it calls
-> it and sets DEVICE_SUSPENDED, but calls gadget_driver->resume untested
-> when the link comes back. gadgetfs has a suspend callback and no resume
-> callback: with it the first bus resume ends in a call of NULL.
+> oxu_qh_alloc() calls ehci_qtd_alloc() with mem_lock held, and that
+> function takes the same spinlock.
 >=20
-> Fixes: efed421a94e6 ("usb: gadget: Add UDC driver for Broadcom USB3.0 dev=
-ice controller IP BDC")
+> Allocate the dummy qtd before taking the lock, and give it back, without
+> the lock, if there is no free queue head.
+>=20
+> Fixes: b92a78e582b1 ("usb host: Oxford OXU210HP HCD driver.")
 > Cc: stable <stable@kernel.org>
-> Cc: Justin Chen <justin.chen@broadcom.com>
-> Cc: Al Cooper <alcooperx@gmail.com>
-> Cc: Broadcom internal kernel review list <bcm-kernel-feedback-list@broadc=
-om.com>
-> Cc: Neill Kapron <nkapron@google.com>
 > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
@@ -81,5 +77,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-llm-usb-v1=
--0-b9751ddb9c7c@linuxfoundation.org?part=3D7
+-0-b9751ddb9c7c@linuxfoundation.org?part=3D4
 
