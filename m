@@ -1,71 +1,73 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.246.84.56
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793125071;
-	b=uslqgrGTDiPfu4eBV71aTPzyaYo75h/LD9okgG2eByVX7VOr25IMpQ2/tTZXlrrirJlz
-	 +ilUwaA2lzjown9gKvk2kH40bP8v6VQC5lQzCz0E2vs108nX8m5z4DG86gmFBcKVAWNIr
-	 /IIs8AW1uIMGb5Qv/0hz1bvk9FOkidD/YO+F39Wlq1gXl8ZQOKiCyCFrDChLu5ph3i3DB
-	 hCbEiCP416YCvw4V4sWo1ypBmSuVWDPqPXcHF059sDoFIHyIXCyx454UaE7zrj4UwmL0v
-	 ti+N7tYdQZUpqssHgKcfOOBeheQiTjpMqez32KZpC3d5tuQY0e73RX3SEnSVFtCEpEw==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793125071;
-	h=DMARC-Filter:Received:Received:Received:DKIM-Signature:Date:From:To:
-	 Cc:Subject:Message-ID:In-Reply-To:References:Organization:X-Mailer:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding:
-	 X-Last-TLS-Session-Version;
-	bh=WfnZD24g2gdDcLADC8Y1lzpwL6/F0QAQfp4goK2tXFQ=;
-	b=3rxhaPx78lhAiX8Y52FPebsmafrBcCTessdIHdbS/Tt4lxG2EAfoxXe6T5GPvLOL9PId
-	 2n/GM7mdM06dRk/1IiI3Mok0GRdmgqW4xnLgOw2a/7iQ9aFASE0u1xDiXf0H5GWTA3BkJ
-	 Z3u5L3QUkmJSIW0Dnr5gTG7qtmXFtjvHek8RNsou41B6+GELDZPGZR0qzkwEzBSsdqhek
-	 3SYbRCiXtjwb3R8qqH9BoidPml1qE0W14CObEXeaFC3V4IW/yPcs4kyA8xwK+d4SPJogS
-	 mIndBbme5QqgB7vLLTOFVYI6R5ZaKDY1LuZqOZOdTPb+enN1P4F0/CQ+hNJYHCr0KOA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=bootlin.com;
-	spf=pass smtp.mailfrom=bootlin.com;
-	dkim=pass header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=VmWnGCox;
-	arc=none smtp.remote-ip=185.246.84.56
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793126519;
+	b=0qcRpD4CYx6VlSdzPrhs5+qv/bVvVnQYObVzAuDaNK6zgzgHdDJgcrD/AhX6nwLKFl1L
+	 xcSuUL5wxlZ7Nzmfrqy12ckqKYR1OIcjZqTJfgRKSQ8hCkR1IiiNFxZNFfBPuxFg/HmhA
+	 sodYB4mR6rnoZ+w6lMv0c9zI0MvxThvCLobpTT9OTYDD6tmJO2K7hYGToLjzOYV0zGXLl
+	 H7HjD8nLSK4YEXf13a+XYka3y0Svx3asPS/oefsSz/WdrRh0X0Y0FtPMjlTGFZd8yTuBw
+	 EoPVmf6ZnlR0AbGfmkx+aMZ0qcE2hvUli4rZfuwlZ2dFLqoWELqFXYeYUYxHbLRZT1A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793126519;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-ZohoMailClient;
+	bh=MYyW/xXo/G0tg/sdPEATKJsUvKH9DdQaOm8Y83GXt/4=;
+	b=rTvbl2iWSxcqUK3tnU3dW80kDkh/9HY6jp1mY5S0Hj9cW/PRFZ81alZ0OzWgz7pq9qUV
+	 cYTYZPXCMODwP69H00AQcJzceOv43n7fBG8joeKWV7JJalixnet2m2ele59Rkni5/GtJ0
+	 TURDDrOp8rxGZbcGbdNskGfZdNEROKBY3lZTKx78x3s+JKpIZvdFNp2EAXUC+TKIfRI7v
+	 mI38DDa3V515YKoSQVljuyPDynM9Vr08XvkV+sUliYFq6jw74fg55fwD5BdqKqtBrvDpU
+	 BefwrbxQvkUpxECU1diOWVSBIc0i9oKCy4mONxFwZz65Oe9KEzI6uV1KI7fXIXQ3uMA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=yiyuzhou.io;
+	spf=pass smtp.mailfrom=yiyuzhou.io;
+	dkim=pass header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=HX36CgBn;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8977606A322;
-	Tue, 27 Oct 2026 18:17:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8977606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E91606A31A;
+	Tue, 27 Oct 2026 18:41:58 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8E91606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=bootlin.com header.i=@bootlin.com header.a=rsa-sha256 header.s=dkim header.b=VmWnGCox
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 2D22E1A134F;
-	Tue, 27 Oct 2026 18:17:47 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 00420603BD;
-	Tue, 27 Oct 2026 18:17:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E77B210329083;
-	Tue, 27 Oct 2026 19:17:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1793125062; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=WfnZD24g2gdDcLADC8Y1lzpwL6/F0QAQfp4goK2tXFQ=;
-	b=VmWnGCoxqadmsoL0mCv3fBFBAPW76ae7UqqzqY159Vbm4R71oKv1B9AvEe4YSs1YI6I9gI
-	iUL2umcHY5YUcs1N7tpon6vIaPfi15VCWlrm4WNNCJOSMn9BSOKjxmQVORbbkzOtDeAPEr
-	p04JY2sLVnbE4m+s5x3dLZAdTGlQaRF/K7V/cN+rXr+H4WoTS8RnBYIeZEjHrcT9p5pyrI
-	7cfsTEDu+Y+K1L67VHlX+bboQIZPJZxZAagdTpapJMEjgGtbNEvaMkhAB7O48MXG1qiWDh
-	9NVrAkhlbmngI1WCM9DdXhmJ6liNqoX1Hde1ldLkwCqTBkp9pRu5ssysjAEz0Q==
-Date: Tue, 27 Oct 2026 19:17:38 +0100
-From: Herve Codina <herve.codina@bootlin.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
- linux-kernel@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>, stable
- <stable@kernel.org>, Neill Kapron <nkapron@google.com>, Ijae Kim
- <ae878000@gmail.com>
-Subject: Re: [PATCH 06/19] usb: gadget: snps_udc_plat: lock out the
- interrupt
-Message-ID: <20261027191738.457acac9@bootlin.com>
-In-Reply-To: <20261027-llm-usb-v1-6-b9751ddb9c7c@linuxfoundation.org>
-References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
-	<20261027-llm-usb-v1-6-b9751ddb9c7c@linuxfoundation.org>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=HX36CgBn
+ARC-Seal: i=1; a=rsa-sha256; t=1793126500; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=dJRfEYwmuIzjO+/Z1667qSn4if+O+nt52WQ6eVkindw07jnWUGvFCYlLCOE8Ao02vwGPbjvDyBI34FSbX9FbXR/3JlUnpzXIljCqEf/li3S+RLj7K+XGV7YlqMC1I8rcaez4ghFeBlXd2kDPHox7PN7EVVp4wGNb/C5lPdTiVyg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1793126500; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=MYyW/xXo/G0tg/sdPEATKJsUvKH9DdQaOm8Y83GXt/4=; 
+	b=T94YV/chK+Iv5S/geQBaB+YmtLy5lGJyGydmRWmMFwEDRXmIpJ+I14K6rAEwXcd/SJsp0p38OIXvKoZ4LS+JOtbzMJTbaDELeNhLXKQ4wQngI8f7mEUZ0HhwM0W6lqUcYQqNex5s9E7aP7Ab8Is09n9YoATlHclalcEAx7lA9TA=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=yiyuzhou.io;
+	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
+	dmarc=pass header.from=<yiyu@yiyuzhou.io>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1793126500;
+	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=MYyW/xXo/G0tg/sdPEATKJsUvKH9DdQaOm8Y83GXt/4=;
+	b=HX36CgBntRO83dEzvItCs+Gi3zQZMUi95G3bJKqPPoo1VukVGVWXWkrcAePkBZfJ
+	h0zvArAnlH/mW9Y35UAtAAWfhc4QV9IkV7+9Opmv7fw40Qi66qf6lcED2YydPuruGL3
+	nWgsRuM3SvWigGLDOBQ5j8IK7k3W77o3kezV8Lnc=
+Received: by smtp.zohomail.com with SMTPS id 1793126496897601.2942230974244;
+	Tue, 27 Oct 2026 11:41:36 -0700 (PDT)
+From: Yiyu Zhou <yiyu@yiyuzhou.io>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dennis Wissel <dennis@dsine.de>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: [PATCH] xhci: keep ep0 blocked after disconnect until Address Device reloads it
+Date: Tue, 27 Oct 2026 11:40:15 -0700
+Message-ID: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <842f8c77-ad37-4eea-9983-61a4086eaf5e@linux.intel.com>
+References: <20261027084845.1588204-1-yiyu@yiyuzhou.io> <842f8c77-ad37-4eea-9983-61a4086eaf5e@linux.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -75,44 +77,31 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
+X-ZohoMailClient: External
 
-Hi Greg,
-
-On Tue, 27 Oct 2026 15:57:46 +0100
-Greg Kroah-Hartman <gregkh@linuxfoundation.org> wrote:
-
-> From: Josef Bacik <josef@toxicpanda.com>
-> 
-> stop_udc() is called from a work item, when the extcon device reports
-> that the cable has been unplugged.  It takes udc->lock with interrupts
-> enabled.  udc_irq(), the hard interrupt handler of the controller, takes
-> the same lock.  If the controller raises an interrupt on the CPU which
-> is in stop_udc(), and it is likely to have something to report when the
-> cable is pulled, the handler spins on a lock which the interrupted work
-> holds: the CPU is stuck.
-> 
-> Disable interrupts while the lock is held.  They are enabled again for
-> the ->disconnect() callback of the gadget driver, for which the lock is
-> dropped as before.
-> 
-> Fixes: 1b9f35adb0ff ("usb: gadget: udc: Add Synopsys UDC Platform driver")
-> Cc: stable <stable@kernel.org>
-> Cc: Neill Kapron <nkapron@google.com>
-> Cc: Ijae Kim <ae878000@gmail.com>
-> Cc: Herve Codina <herve.codina@bootlin.com>
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
->  drivers/usb/gadget/udc/snps_udc_plat.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
-> 
-
-LGTM.
-
-Reviewed-by: Herve Codina <herve.codina@bootlin.com>
-
-Best regards,
-Hervé
+On Tue, 27 Oct 2026 12:36:26 +0200, Mathias Nyman wrote:=0D
+> There are cases where EP_DROP_PENDING won't be cleared at all in this pat=
+ch.=0D
+=0D
+You are right.  xhci_setup_device() returns early with "Slot already in=0D
+default state" for the SETUP_CONTEXT_ONLY call from hub_enable_device(),=0D
+before my new clear, and Reset Device leaves the slot in that state.  I=0D
+missed that early return.  ep0 then stays blocked, and usbcore only gets=0D
+out of it by re-enumerating the device.=0D
+=0D
+On Tue, 27 Oct 2026 11:58:05 +0100, Michal Pecio wrote:=0D
+> You seem to suggest that xhci-hcd should trick usbcore into abandoning=0D
+> "resuscitation", right?=0D
+=0D
+Yes, that was the effect, and I agree it is the wrong place for it.  It=0D
+would also re-enumerate devices that recover from an in-place reset on=0D
+7.2, which is a bigger change than I weighed.=0D
+=0D
+Please drop this patch.  I can't judge the controller side of the plan=0D
+in your mail, but I am happy to test it.  My HHKB covers the original=0D
+disconnect hang, and Dennis's Keychron covers the reset case.  If it=0D
+helps, I can also turn steps 1 and 2 into an RFC to test with, unless=0D
+you have already started on them.=0D
+=0D
+-YZ=0D
