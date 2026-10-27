@@ -1,68 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=111.22.67.139
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793093043;
-	b=QH6QvqF9P4iG9E97sJg2ryo6d5y/g3oNidEIZPTO3FuaDGpHe4iqmn0iFbp6lEzGOS7D
-	 BKU7KK6NesDTpTebleHKI0pxwfCMA7Bvij7viMx5fsdPXoDz5BCeqZrN7gjlUzwfMeLTH
-	 ALruNaESuGNtDOVRjJjiw0qPITmgm88vtEIPUxx7GkXdmXO80zmiUhEE/J2wUj9jXkvhc
-	 KjVGUq3PIe1mtFhlOvoW8QDQnQryQ0QC4G3XkUzzaCrHtak/ziV0UIfU8RCFfnzBMOnt+
-	 iQcitU4LGFwToEPxryW+RX4n77R8G/mxEFTC9lJJTewYtsPq+gJbDkHNfzVLm2y0jPw==
+	t=1793093158;
+	b=etSNlE8ZRvBS/R/tlS3tlK+ADgSfPM5aSvPB+kHDq/WN0evfmhe6b3MjSEIhRWxZ6cPu
+	 vHVt8HiF1BE8l41xTXrPitfJM22yh6tdPvdocEzM6/WSvMKv+mxOjDuUbhU2TKGuLoyjJ
+	 j+MC70ttslH9lct2kvUmCv0VEs78rBIcIY7WVfC4PpxSoaY5WetYsfOU1psEpX9ipDvK0
+	 4aYd+J4y+k80IMFhyjdqBW0rua3us0+/SvT2lccm8RFbtph7kpyGI6run3eFv5eT3qwli
+	 /FEeECMt7YQG7feSN0M2Sp6W1JrMVnVvGVKBYaI43gRC6/00yeOeIMvXS4DSZhDh95A==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793093043;
-	h=DMARC-Filter:DKIM-Signature:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:
-	 X-RM-TRANSID:X-RM-TagInfo:X-RM-SPAM-FLAG:Received:X-RM-TRANSID:From:
-	 To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=WLkKoU5R3LHdPira5kz28Ro+cd4O9pFbGAyyb+5Mdx8=;
-	b=jNDGuXqEGnei/a8ZEMfVb6fsRWl2wm7qNMkGfn+ZA2qbE58988Ymefo0h/7PntIR8v7I
-	 jrIEbPv8JCtiK5PspAah/VaxsmFT30OJJgOtGO6hqJ677JhsqAiRdEmSGYVeCY9IprvxP
-	 vOynDxu0qwa6ojQunlYD8maztvSAoYgq6b6WAzBdjpiTQfWocRJxNccZsyNcWI8eBhViQ
-	 /v8bVRs+EVdh2izaMBLy1LmUjNgyKQFK6sG93Q3y0CJIR5Fp4SGUpKhl0nsSNDHsz7hZG
-	 5RJsqf3NbnM/JJ5F/OqZiPh+XhCYqSoRSSEnQwBLMaW6BRW5LFNDy+9fcPTmwtMphvg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793093158;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=flKdD6AS2NS+3ZvE5aY6U9jNnV3xfqfpICJsLJ7QBgk=;
+	b=TtQyxBYjiVZcbxiYnS0zpLZf/D1QO00eg1HsSmDe61w0Jyz4f6xSgasRTWD+xvUNx6am
+	 nHlQ56yTtRE2NpTfFYKXQzfvVBKX+iRgpPNfpCpJjk5DMVOfNLiriSGpnootHLjIgKV3S
+	 S6ApEQ7p53uKdoXZIRxadIDLx8U7MV1ZQQXl3D1hWO3AumVTAcjVS8rB5dQXZa7WOVjig
+	 5potKrRuyQdbs2QIWMC8YU9zy/+gLR8janHaRk5OFYRUDtDnZ5zUQEAIS/7SAublZbD6A
+	 ARkB+SeGPjheX0bUMoUxHoBbghV7zF/DqICplmLR8l455/Bt/wtcuXk8wZNpa49Lvvw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cmss.chinamobile.com;
-	spf=pass smtp.mailfrom=cmss.chinamobile.com;
-	dkim=pass header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b="Jk/gTw+A";
-	arc=none smtp.remote-ip=111.22.67.139
-Received: from cmccmta6.chinamobile.com (cmccmta6.chinamobile.com [111.22.67.139])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C935606A31B;
-	Tue, 27 Oct 2026 09:23:59 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C935606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cmss.chinamobile.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cmss.chinamobile.com
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PQPfhC0I;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23378606A322
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 09:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=cmss.chinamobile.com header.i=@cmss.chinamobile.com header.a=rsa-sha256 header.s=default header.b=Jk/gTw+A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=cmss.chinamobile.com; s=default; l=0;
-	h=from:subject:message-id:to:cc:mime-version;
-	bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-	b=Jk/gTw+AggaLGn34N0TM+Z3flUE5p1of/k7MgVKx54CMXvo0624mznfQlbo6YZ5CjDxy1nmAwZK56
-	 JMeAquVV7wBg6luWM9PyRkVSZw6W1rbfxUX7Vl8h1b+WjBsBMftVRFOrWgyUr1BtpI2AttQ0DL6s5p
-	 8TEzamIcu9jgTf6U=
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from spf.mail.chinamobile.com (unknown[10.188.0.87])
-	by rmmx-syy-dmz-app01-12001 (RichMail) with SMTP id 2ee16ae06dad3db-32e69;
-	Tue, 27 Oct 2026 17:23:57 +0800 (CST)
-X-RM-TRANSID:2ee16ae06dad3db-32e69
-X-RM-TagInfo: emlType=0                                       
-X-RM-SPAM-FLAG:00000000
-Received:from FHA-W6400298 (unknown[10.55.1.71])
-	by rmsmtp-syy-appsvr04-12004 (RichMail) with SMTP id 2ee46ae06dabdee-0e531;
-	Tue, 27 Oct 2026 17:23:57 +0800 (CST)
-X-RM-TRANSID:2ee46ae06dabdee-0e531
-From: Tang Bin <tangbin@cmss.chinamobile.com>
-To: gregkh@linuxfoundation.org
-Cc: stern@rowland.harvard.edu,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	tangbin@cmss.chinamobile.com,
-	stable@vger.kernel.org
-Subject: [PATCH v2] USB: ohci-spear: check clk_prepare_enable in probe
-Date: Tue, 27 Oct 2026 17:23:54 +0800
-Message-ID: <20261027092354.1761-1-tangbin@cmss.chinamobile.com>
-X-Mailer: git-send-email 2.52.0.windows.1
-In-Reply-To: <2026102645-dinginess-vowed-0d5c@gregkh>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=PQPfhC0I
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89AD81F01825;
+	Tue, 27 Oct 2026 09:25:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793093157;
+	bh=flKdD6AS2NS+3ZvE5aY6U9jNnV3xfqfpICJsLJ7QBgk=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=PQPfhC0IfkqRroOyoTZ+7whjor/z5/EOV1UlcxafKRhFsA8Ogfm8swaZNGA5F84fK
+	 0jkzK5wQ+C1vNbSbg1tNj7tlXfnIHwCJY/gayBi9s+6ZJwM1hB/CaoWaII9WcvJ8ns
+	 TfdRCi0/mtQ7wJWVKROQclcSYNSeZgpgKDHqo6wvDoEmmy/xZvA5ULUxxvles5P2Tp
+	 BlhHN8Tqz1gY1njOHNLw1M4xSwWfNrH5vVCkqM/lw8NPwKLhEz4pbzxl/FR4e45Ni1
+	 ezEA1A16JQ5BVfzvlfgIYXUUzzyFd7bvD1ENii49fo+g+7JNFVQRyRKzHtSZRPU+Q/
+	 xhW5Ck1/9SXUw==
+Message-ID: <sashiko-outbox-186323@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] USB: ohci-spear: check clk_prepare_enable in probe
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Tang Bin" <tangbin@cmss.chinamobile.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261027092354.1761-1-tangbin@cmss.chinamobile.com>
 References: <2026102645-dinginess-vowed-0d5c@gregkh>
+ <20261027092354.1761-1-tangbin@cmss.chinamobile.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Oct 2026 09:25:57 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -71,43 +59,20 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-spear_ohci_hcd_drv_probe() ignored the return of
-clk_prepare_enable(sohci_p->clk). On failure usb_add_hcd() runs unclocked
-and the error path clk_disable_unprepare() would unbalance the count. Check
-the return and bail to err_put_hcd on failure.
+> spear_ohci_hcd_drv_probe() ignored the return of
+> clk_prepare_enable(sohci_p->clk). On failure usb_add_hcd() runs unclocked
+> and the error path clk_disable_unprepare() would unbalance the count. Che=
+ck
+> the return and bail to err_put_hcd on failure.
+>=20
+> Fixes: 1cc6ac59ffaa ("USB: OHCI: make ohci-spear a separate driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
 
-Fixes: 1cc6ac59ffaa ("USB: OHCI: make ohci-spear a separate driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Tang Bin <tangbin@cmss.chinamobile.com>
----
-Changes in v2:
-- Added Cc: stable@vger.kernel.org as suggested by Greg KH.
-- Found by code inspection comparing with ehci-spear.c (which already has this fix).
-- Compile-tested only, no physical hardware available.
+Sashiko has reviewed this patch and found no issues.
 
- drivers/usb/host/ohci-spear.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/host/ohci-spear.c b/drivers/usb/host/ohci-spear.c
-index 5aeabb051..9d93b3f86 100644
---- a/drivers/usb/host/ohci-spear.c
-+++ b/drivers/usb/host/ohci-spear.c
-@@ -80,7 +80,9 @@ static int spear_ohci_hcd_drv_probe(struct platform_device *pdev)
- 	sohci_p = to_spear_ohci(hcd);
- 	sohci_p->clk = usbh_clk;
- 
--	clk_prepare_enable(sohci_p->clk);
-+	retval = clk_prepare_enable(sohci_p->clk);
-+	if (retval)
-+		goto err_put_hcd;
- 
- 	retval = usb_add_hcd(hcd, irq, 0);
- 	if (retval == 0) {
--- 
-2.52.0.windows.1
-
-
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027092354.1761=
+-1-tangbin@cmss.chinamobile.com?part=3D1
 
