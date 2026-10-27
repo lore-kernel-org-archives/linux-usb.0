@@ -1,45 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793113108;
-	b=kK4MlKcISqmpkpQxLZXoEw6teJctyUbqWWsDDm/7TY04Ch3MqtI9Vss+JgVw1lLvVW58
-	 MZed8TFDNoysuRTk7b4xd/eL251e/o0+T5N/LWnENPN0D90xGR8FjCVcYynGBBq4juN7N
-	 ifUE++oEkBPPDM/mYJ8OYSzyIQZv3+FkWZgMoOpnRztsd7oxKtLzKQ2DN27MjLyhoTIqy
-	 9PrNKJsLqKY8fX5VFMEZQktA+jM3v+s+UWX2tOTLeZ0doZ/nhyWt1L9WCDFCTwSfxPNS2
-	 k1Hckn51bGWQ60FMSM5FSp+T3kTsTy4Y/2Feey6gk+FesfmbUH7M3Uh2gtBcfn9NTYQ==
+	t=1793113114;
+	b=bmy7PMjjy7H4HGGoTIQV9gI0WALDYhBsXnINHwz+UjYq+Yme+20PbTGX9yJS64UssW6F
+	 I9reIDvhXcd5qZRN3sT+3pEkpHG2e9oglF1B2eJbU4UGD2txuHt0QfzVc8lt3l+oHM4Us
+	 KWUJwqMNGd9RvvJ+rA3DOrQLZIMij7UOtxnn2cj6vMTgbAdwZi3c35LXFYM/4L2NQrVYz
+	 P+GQDENcdqqN/LKgXkPnb/7aEjs8o5Aev4Pp3sPYp3eawYwLv6H7JEhiMSWM5w6SIKErz
+	 Av6BkctYGMM3+9d8ZWVolp4vV7IrWixCsQRx0HMmq+Cy9ns1MYP+Vmvlkiy6xFtO0yw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793113108;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793113114;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=xUuCOeMQPrHjOqMZIZrhO9qcLrSK4eb9N4CuZ2K9+kY=;
-	b=xwGHchPHQ6dyYXRWVKb00kR5NrMcI2hXBsSaj4D/fcA9ggzfbA0midsxp8GQmCco1khD
-	 7CU2v5fZSJoyrGu9/gH4nY6UTQaE1PLYPyWWYfgrHFqi0MVhBrNgbDVofUQiIqvwbmSR1
-	 nYLOuCD3fTc78p4ycBW7jIIPbSrYSRV3qLIODRbqC5x97MuQ2BugJQr+DfeUITROKlSOq
-	 +xjcvA/3NjnMZM7pqh+aoPbdAzjENxfgivCTJUOmTsG0UxYw/kPF7PMc/rnlzV2aea2Sd
-	 rPreNW6d1yXYqPRH0zMEuBxH0pz/PnLhr2eQU9h7+c938NIHq8fZqApoi2bFfmOLl0g==
+	bh=g+E9r6R072S2JWZoJdvZHF5zoxMw/Bs5LeJOSB0+PjU=;
+	b=JW2PXcCLEvo2hNNg6MHcbRBqygMGsD6LZ6lT6vLTtqa5nqHtWMPFdgh2VLt3uLQC5LRr
+	 bEkROu66yTW7ksUgxmSkUIvm+NmAWoXQcrEGYm7P4Cpujp55U9P/KFTfhKUaKgfU18GYj
+	 mxgFD71YEog4CyiRIyId4LSSs1/gu6LINmpa727wdUfFXM9adTxwnRXs1hXLdf2A1OXnL
+	 wJaEHQyAN4F7+Y+SoZIT16J15zFdxK5P2bhH8e0RYxaWBnXtBz/eauLutZjE08bIG9XkO
+	 Fsodqm6co2b0vwL1QSeTLh0FYe2t/yvYsJCn629Shv0PnqYEkGNKQmsXQb81JS5XyVw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="H1C/WqjY";
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="hraG7/ru";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19A360A2601;
-	Tue, 27 Oct 2026 14:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77FE60A6F4E;
+	Tue, 27 Oct 2026 14:58:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=H1C/WqjY
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC9A1F031E5;
-	Tue, 27 Oct 2026 14:58:26 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=hraG7/ru
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 832871F031E2;
+	Tue, 27 Oct 2026 14:58:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793113107;
-	bh=xUuCOeMQPrHjOqMZIZrhO9qcLrSK4eb9N4CuZ2K9+kY=;
+	s=korg; t=1793113113;
+	bh=g+E9r6R072S2JWZoJdvZHF5zoxMw/Bs5LeJOSB0+PjU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=H1C/WqjYXFo73+hvuBVLJVoUpUs5Ub4n9Z6J7F9vXViTPC8RMP4xqISk5Y3fXRZ9w
-	 OynUy+9N90Vf1V5eEsh2e4uIhDR2X76ZZCL+fPIO7OCWG3Cn3xO9QzQOqdxubC29Jq
-	 N/xuZ+n5SjyT+vDGBTPavRBYiPovjJi9hJqIHUgs=
+	b=hraG7/rui8cTIErt5t8WaWVYPdzGK6GzYR5mG3lsijpL+x/6bLZTOh3khzmcrf+5h
+	 HDa3GnocZ9xLvWB4vRaENip2tW5osmqeXhqOls4JQFcfXg7ZzuwYoaz/0hxbQfIdJf
+	 qMe2MvKhRyD4JoIdvjnTQ1hr5rhcVWg5lyp0hSmc=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Tue, 27 Oct 2026 15:57:52 +0100
-Subject: [PATCH 12/19] usb: typec: tcpci: don't act on unread alerts
+Date: Tue, 27 Oct 2026 15:57:54 +0100
+Subject: [PATCH 14/19] usb: typec: mux: it5205: fix oops on accessory modes
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,191 +51,74 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-llm-usb-v1-12-b9751ddb9c7c@linuxfoundation.org>
+Message-Id: <20261027-llm-usb-v1-14-b9751ddb9c7c@linuxfoundation.org>
 References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
 In-Reply-To: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
 To: linux-usb@vger.kernel.org
 Cc: Alan Stern <stern@rowland.harvard.edu>, linux-kernel@vger.kernel.org, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Josef Bacik <josef@toxicpanda.com>, 
- Badhri Jagan Sridharan <badhri@google.com>, 
- Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
- stable <stable@kernel.org>
+ Josef Bacik <josef@toxicpanda.com>, stable <stable@kernel.org>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>
 X-Mailer: b4 0.17-dev-e5168
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5778;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2023;
  i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=pVeCi9zKHNeLQpT7BKOEXGMnqiuHSpdnh5EZKb6uh7g=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFkPdr8/GCVir9ZQyPFB5XNBwuart5smSjQVuL+2ufc35
- qbS6eP+HbEsDIJMDLJiiixftvEc3V9xSNHL0PY0zBxWJpAhDFycAjARx18M84PWS157Pn/XiVNq
- vZs0A3ZN28hyMoRhwYZdEhuWe3fN/DvtlKFF47qlqvN36AMA
+ bh=XQqp6YmHkvU+lFtuB4zVmvhNTzODQFjVWlDGL/tkpxQ=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkPdr/frhgmt81DcfWigEdcn0yzuLeoN9vk2cqXN+7QP
+ ne/0ourI5aFQZCJQVZMkeXLNp6j+ysOKXoZ2p6GmcPKBDKEgYtTACbCYcAwP57B9Wv3j/TIlfMl
+ N+pMEH50ojkpnWHBPF8XpZ9OO6dsPrI+pHDew+llOstjAA==
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
  fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
 From: Josef Bacik <josef@toxicpanda.com>
 
-tcpci_irq() ignores the result of nearly all its register reads.
+typec_set_mode() passes a state without an alternate mode, and the USB
+and accessory modes (TYPEC_MODE_USB2 ... TYPEC_MODE_DEBUG) start at
+TYPEC_STATE_MODAL like the states of the alternate modes. TCPM and UCSI
+set TYPEC_MODE_AUDIO or TYPEC_MODE_DEBUG when such an accessory is
+attached. it5205_mux_set() then reads state->alt->svid: plugging in an
+analog audio adapter is a NULL pointer dereference.
 
-If the first read of TCPC_ALERT fails, "status" is an unwritten variable,
-and its bits decide which events are reported to the port manager: among
-them a hard reset, which drops VBUS. If the read at the end of the function
-fails, "status" keeps the alerts which have just been handled: they are
-handled again, for as long as the read fails.
+The numbers must not reach the switch either: TYPEC_MODE_AUDIO has the
+value of TYPEC_DP_STATE_D. Without an alternate mode connect the
+SuperSpeed lanes for TYPEC_MODE_USB3 and disconnect them for the rest.
 
-In the receive branch the byte count, the header and the payload are not
-checked: a count made of stack content trips the WARN_ON(), and a message
-made of stack content is handed to tcpm_pd_receive(). A failed read of the
-frame type returns a negative errno as irqreturn_t, with RX_STATUS still
-set.
-
-The handler must not simply return in these cases. Nine in-tree boards
-connect ALERT# to an edge triggered interrupt: as long as an alert is
-pending the line stays low, and there is no further edge. That is what the
-read at the end is for.
-
-So read the alert register through a helper which tries three times and
-reports "no alert" if that fails: after a failed first read the function
-falls through to the read at the end. Drop a message which cannot be read,
-but clear RX_STATUS, to release the line. Don't take an unread power status
-mask for a reset of the TCPC. Return IRQ_HANDLED if any round has found an
-alert, not only the first one.
-
-Fixes: 74e656d6b055 ("staging: typec: Type-C Port Controller Interface driver (tcpci)")
-Fixes: 77e85107a771 ("usb: typec: tcpci: support edge irq")
-Fixes: b691a07c5f64 ("usb: typec: tcpci: pass correct rx_type to tcpm_pd_receive()")
-Cc: Badhri Jagan Sridharan <badhri@google.com>
-Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Fixes: 41fe9ea1696c ("usb: typec: mux: Add ITE IT5205 Alternate Mode Passive MUX driver")
 Cc: stable <stable@kernel.org>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/typec/tcpm/tcpci.c | 64 +++++++++++++++++++++++++++++++-----------
- 1 file changed, 47 insertions(+), 17 deletions(-)
+ drivers/usb/typec/mux/it5205.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/usb/typec/tcpm/tcpci.c b/drivers/usb/typec/tcpm/tcpci.c
-index 6717ac914c6a..26c62216a813 100644
---- a/drivers/usb/typec/tcpm/tcpci.c
-+++ b/drivers/usb/typec/tcpm/tcpci.c
-@@ -715,17 +715,34 @@ static int tcpci_init(struct tcpc_dev *tcpc)
- 	return 0;
- }
- 
-+/*
-+ * An edge triggered ALERT# does not fire again while an alert is pending, so
-+ * don't give up after one failed transfer. No alert if it cannot be read.
-+ */
-+static u16 tcpci_read_alert(struct tcpci *tcpci)
-+{
-+	u16 status;
-+	int i;
-+
-+	for (i = 0; i < 3; i++)
-+		if (!tcpci_read16(tcpci, TCPC_ALERT, &status))
-+			return status;
-+
-+	return 0;
-+}
-+
- irqreturn_t tcpci_irq(struct tcpci *tcpci)
+diff --git a/drivers/usb/typec/mux/it5205.c b/drivers/usb/typec/mux/it5205.c
+index 2ab2ba6a3cbd..00d5bd55e423 100644
+--- a/drivers/usb/typec/mux/it5205.c
++++ b/drivers/usb/typec/mux/it5205.c
+@@ -92,13 +92,19 @@ static int it5205_switch_set(struct typec_switch_dev *sw, enum typec_orientation
+ static int it5205_mux_set(struct typec_mux_dev *mux, struct typec_mux_state *state)
  {
- 	u16 status;
- 	int ret;
--	int irq_ret;
-+	int irq_ret = 0;
- 	unsigned int raw;
+ 	struct it5205 *it = typec_mux_get_drvdata(mux);
++	unsigned long mode = state->mode;
+ 	u8 val;
  
--	tcpci_read16(tcpci, TCPC_ALERT, &status);
--	irq_ret = status & tcpci->alert_mask;
-+	status = tcpci_read_alert(tcpci);
+-	if (state->mode >= TYPEC_STATE_MODAL &&
+-	    state->alt->svid != USB_TYPEC_DP_SID)
+-		return -EINVAL;
++	if (mode >= TYPEC_STATE_MODAL) {
++		/* USB and accessory modes: not the DP pin assignments */
++		if (!state->alt)
++			mode = mode == TYPEC_MODE_USB3 ? TYPEC_STATE_USB :
++							 TYPEC_STATE_SAFE;
++		else if (state->alt->svid != USB_TYPEC_DP_SID)
++			return -EINVAL;
++	}
  
- process_status:
-+	irq_ret |= status & tcpci->alert_mask;
-+
- 	/*
- 	 * Clear alert status for everything except RX_STATUS, which shouldn't
- 	 * be cleared until we have successfully retrieved message.
-@@ -738,12 +755,12 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
- 		tcpm_cc_change(tcpci->port);
- 
- 	if (status & TCPC_ALERT_POWER_STATUS) {
--		regmap_read(tcpci->regmap, TCPC_POWER_STATUS_MASK, &raw);
-+		ret = regmap_read(tcpci->regmap, TCPC_POWER_STATUS_MASK, &raw);
- 		/*
- 		 * If power status mask has been reset, then the TCPC
- 		 * has reset.
- 		 */
--		if (raw == 0xff)
-+		if (!ret && raw == 0xff)
- 			tcpm_tcpc_reset(tcpci->port);
- 		else
- 			tcpm_vbus_change(tcpci->port);
-@@ -755,7 +772,10 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
- 		enum tcpm_transmit_type rx_type;
- 		u16 header;
- 
--		regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
-+		ret = regmap_read(tcpci->regmap, TCPC_RX_BYTE_CNT, &cnt);
-+		if (ret)
-+			goto rx_done;
-+
- 		/*
- 		 * 'cnt' corresponds to READABLE_BYTE_COUNT in section 4.4.14
- 		 * of the TCPCI spec [Rev 2.0 Ver 1.0 October 2017] and is
-@@ -767,26 +787,36 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
- 		else
- 			payload_cnt = 0;
- 
--		tcpci_read16(tcpci, TCPC_RX_HDR, &header);
-+		ret = tcpci_read16(tcpci, TCPC_RX_HDR, &header);
-+		if (ret)
-+			goto rx_done;
-+
- 		msg.header = cpu_to_le16(header);
- 
- 		if (WARN_ON(payload_cnt > sizeof(msg.payload)))
- 			payload_cnt = sizeof(msg.payload);
- 
--		if (payload_cnt > 0)
--			regmap_raw_read(tcpci->regmap, TCPC_RX_DATA,
--					&msg.payload, payload_cnt);
-+		if (payload_cnt > 0) {
-+			ret = regmap_raw_read(tcpci->regmap, TCPC_RX_DATA,
-+					      &msg.payload, payload_cnt);
-+			if (ret)
-+				goto rx_done;
-+		}
- 
- 		ret = regmap_read(tcpci->regmap, TCPC_RX_BUF_FRAME_TYPE, &rx_type);
--		if (ret)
--			return ret;
- 
--		/* Read complete, clear RX status alert bit */
-+rx_done:
-+		/*
-+		 * Read complete, clear RX status alert bit. Also if the message
-+		 * could not be read: it is dropped, ALERT# must be released.
-+		 */
- 		tcpci_write16(tcpci, TCPC_ALERT, TCPC_ALERT_RX_STATUS);
- 
--		rx_type &= TCPC_RX_BUF_FRAME_TYPE_MASK;
--		if (tcpci->rx_type_mask & BIT(rx_type))
--			tcpm_pd_receive(tcpci->port, &msg, rx_type);
-+		if (!ret) {
-+			rx_type &= TCPC_RX_BUF_FRAME_TYPE_MASK;
-+			if (tcpci->rx_type_mask & BIT(rx_type))
-+				tcpm_pd_receive(tcpci->port, &msg, rx_type);
-+		}
- 	}
- 
- 	if (tcpci->data->vbus_vsafe0v && (status & TCPC_ALERT_EXTENDED_STATUS)) {
-@@ -805,7 +835,7 @@ irqreturn_t tcpci_irq(struct tcpci *tcpci)
- 	else if (status & TCPC_ALERT_TX_FAILED)
- 		tcpm_pd_transmit_complete(tcpci->port, TCPC_TX_FAILED);
- 
--	tcpci_read16(tcpci, TCPC_ALERT, &status);
-+	status = tcpci_read_alert(tcpci);
- 
- 	if (status & tcpci->alert_mask)
- 		goto process_status;
+-	switch (state->mode) {
++	switch (mode) {
+ 	case TYPEC_STATE_USB:
+ 		val = IT5205_USB;
+ 		break;
 
 -- 
 2.56.0
