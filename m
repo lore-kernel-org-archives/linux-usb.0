@@ -1,46 +1,54 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112069;
-	b=DgswCvh/9Q5pgjhaY2krVyxadpAUGRLRcAIZmgdx/6Up7tb6iJ5UWTj/dj6PNisg28mH
-	 UZoNQAE2Nm6cVQY96vlLXiX1JS7MhEYws9syZ94yLqZrZgFa+UZJzBBT24HYuxELcdR/Q
-	 ZF8fNjiY1i5pvaZwaFlvCcJ/Lv3fSqZlzUG7S4MlJ67K31JRsE8VQTLPza5aiu1xj/k0Q
-	 dYiJ+u0ILvLWYKLHJ7bpB0T3Aovny2YjnOQWjIwTYZU9QQ8zuNDTXv4plmFSYqYpSBpd2
-	 A84oeWNIJ6S7mBgFUmYLFOAijjiQwSauXkCt1ESrqWi6q4PdN79teJQ0ZRVn3BzUnzw==
+	t=1793112133;
+	b=bTaEOw6NRpUZa3ob7YXpK86O3LtwNeAu63DESwQ1cRmITIdQFD07GoSnwDKbSRrowhH+
+	 aZkqww+8xl75lW7FPkgtKtwLYsutFt+udhLQyvA3T2u32dmQDOFeeSmKa/Z0sFjWb33+Z
+	 CDstYh8OXmUG5rmD0gc1DfCeH8iQ6dPmdXy6AlFJCQOSlix67nvzgfl0XmdVOsoD5xUs5
+	 9/YFWLbZmg8EFdf9BfPzwf8fF3l3Ebo1hn9vxfDw6TVDPyDLIHPNXGOcMTQoFCnPdFrLO
+	 K9lMqE2ibgobP1O8CO5NjAb+iC4BwrrA79n6hN82xUilc/JR7hCcHa7j2Tfv9Ym8kNw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112069;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=cFM+g1SiyPDumjwZqbBa+enhuUcW8n1bsZiLDhvDE10=;
-	b=JCzCZnVI7hqu85C9ZIaHJknpgXf8pYjhTpvJ6Q/dVoXqlypkpUIzFGhOX0Rm3SxdDIkj
-	 gBGZu3kzLyrh77/Q3J8qfHSJkG0QMAmBsFtekHBg0frl2hW3xjT8nyREKt8pQ9ip5S7Zk
-	 22CeXTvP8GjdpuXRTJOPGg8RTpF3n8ASUKs7RIfdZWgOtPYmNqhq1AtZ/ROZgYbD+rydE
-	 V9S8PBpVGNj7STJIvbpg3x3HNQl599Fa/8iMHjmy1bKHQ9iA3GLA1rmJLLvHXnAvxuU24
-	 bBjOI7YQ+l21RpqySf5cdop0fRU2yzHa2WPXu9UCCW0R0h7H0oHpQYdYS9Ts1YaohwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112133;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=NFouP8hPUT8POi6fStUsnMh2AznhRZgbLqZ70w2y0D4=;
+	b=NrxIP3H9z+NIQjYKsMdRF+E8rSj3zMUAvufxpgGlaO1dPq74J9H+qNY7vDbImclrJwdw
+	 PfszEZSr+HVm03rshda84cVFvTbwgKaaCiJHO1EwmW0QttvAiiqDjK97depWLN8vwmPaO
+	 ixU99U+6EsDG5dV0qBr8AH5Qfrkn98gOmv7THebXNvR2Cs+Yn4jSwnHf97Tl7s5d864DX
+	 76v7w3c/bS6QjMXPRcEmy/MQ3Q+Ix2pS1v5lc4s/eQUaYErGiX7hqHXvzrE618i36YpcL
+	 X28H5kKAx+eP8MwCDsQU110FAOLgrfz/hYS3w1KiwtMeJqyu0Vz1AIYOlIImbgVFCEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=lPOyHBlK;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qXWwhii3;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993FA60A3807;
-	Tue, 27 Oct 2026 14:41:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C4B606A338;
+	Tue, 27 Oct 2026 14:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=lPOyHBlK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB5B11F031E9;
-	Tue, 27 Oct 2026 14:41:08 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qXWwhii3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F39221F031E4;
+	Tue, 27 Oct 2026 14:42:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793112069;
-	bh=cFM+g1SiyPDumjwZqbBa+enhuUcW8n1bsZiLDhvDE10=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=lPOyHBlK98vaZ16+KAWlGToYkVzDHDTe7njGwNW1F7so3RuMuTW7mlEtRuvFqzblz
-	 Z43udJZot2cV9YXBV+A/NzgANH3cMZIm0U+5g+cNwh6yH9wwE+gEpt1tKCqWlBkuwq
-	 ecqavdiEO8Jn4JuybeLFcf2DWluxhyRi8sgYzwUQ=
+	s=korg; t=1793112132;
+	bh=NFouP8hPUT8POi6fStUsnMh2AznhRZgbLqZ70w2y0D4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=qXWwhii3/nXzdmldkpbq076PF7Q4ctfx4+zODROoE0h6INMiaYC+ZAbNhT9VZjsbG
+	 OOQqE4Mfu1QrI7EFdpxWfAZniuEeLtCE98NG9MjXm1A86N7ccbeIKpfosmXPI1b/WL
+	 Pkh4jmkkYJrxiJL6h2uOl9glu1GgLvFU09PaapE4=
+Date: Tue, 27 Oct 2026 15:42:11 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Tue, 27 Oct 2026 15:40:49 +0100
-Subject: [PATCH 6/7] usb: storage: shuttle_usbat: fix READ CD divide by
- zero
+To: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Josef Bacik <josef@toxicpanda.com>, stable <stable@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
+Subject: Re: [PATCH] thunderbolt: stream: Undo more if the start fails
+Message-ID: <2026102704-cramp-chip-259e@gregkh>
+References: <2026102751-nibble-synapse-d406@gregkh>
+ <20261027143325.GJ158991@black.igk.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -50,69 +58,34 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-llm-usb-storage-v1-6-d1655e94ed10@linuxfoundation.org>
-References: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
-In-Reply-To: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
-To: Alan Stern <stern@rowland.harvard.edu>, 
- "Cho, Yu-Chen" <acho@novell.com>
-Cc: Josef Bacik <josef@toxicpanda.com>, Greg Kroah-Hartman <gregkh@suse.de>, 
- linux-usb@vger.kernel.org, usb-storage@lists.one-eyed-alien.net, 
- linux-kernel@vger.kernel.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-X-Mailer: b4 0.17-dev-e5168
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1590;
- i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=6gMRfuTxgw3LkZ5DJDio+vffqefSa7yvQeuF7YQGea8=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtn+e1qOzqqhb/cViva+qhRe+F/RkSbUeZX5YcyDhZ
- f3vvCPXOmJZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiWrsZFkziWPxh9bVmub05
- hbZiT0rbjPT6JjDMFbsq9C/EJvj9E5eiy15Bk6at09TcDAA=
-X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
- fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027143325.GJ158991@black.igk.intel.com>
 
-From: Josef Bacik <josef@toxicpanda.com>
+On Tue, Oct 27, 2026 at 03:33:25PM +0100, Mika Westerberg wrote:
+> Hi,
+> 
+> On Tue, Oct 27, 2026 at 03:24:52PM +0100, Greg Kroah-Hartman wrote:
+> > From: Josef Bacik <josef@toxicpanda.com>
+> > 
+> > If the receive buffers cannot be allocated or mapped,
+> > tbstream_dev_start() stops and frees the rings, but
+> > 
+> >  - leaves the DMA paths through the XDomain connection enabled, with the
+> >    hop IDs of rings which no longer exist;
+> >  - does not release the frame array and the pages which
+> >    tbstream_dev_alloc_rx_buffers() had allocated and mapped before it
+> >    failed.
+> > 
+> > Fixes: 6db21d817b43 ("thunderbolt: Add support for USB4STREAM")
+> > Cc: stable <stable@kernel.org>
+> > Cc: Andreas Noever <andreas.noever@gmail.com>
+> > Cc: Mika Westerberg <westeri@kernel.org>
+> 
+> Do you want to take this directly via USB tree? Then,
+> 
+> Acked-by: Mika Westerberg (Intel) <westeri@kernel.org>
 
-A READ CD command of 64KiB or more with a zero transfer length, which
-any user who can open the CD device node may send with SG_IO, oopses
-the kernel with a divide error on an HP 8200e CD-RW behind a USBAT
-bridge.
+I can, thanks!
 
-usbat_hp8200e_handle_read10() splits large reads into chunks of whole
-sectors and, for READ CD, derives the sector size from the transfer
-length taken from the CDB:
-
-    srb->transfersize = scsi_bufflen(srb)/len;
-
-Nothing guarantees that this length is non-zero.  The code right after
-it already falls back to a 2048-byte guess when transfersize is 0.
-
-The bug was found by code inspection and has not been reproduced.
-
-Fix by only dividing by a non-zero transfer length and otherwise
-leaving transfersize at 0 so that the existing fallback applies.
-
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
----
- drivers/usb/storage/shuttle_usbat.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/usb/storage/shuttle_usbat.c b/drivers/usb/storage/shuttle_usbat.c
-index 7e5424268c73..a1b64b10bbe0 100644
---- a/drivers/usb/storage/shuttle_usbat.c
-+++ b/drivers/usb/storage/shuttle_usbat.c
-@@ -1325,7 +1325,7 @@ static int usbat_hp8200e_handle_read10(struct us_data *us,
- 		len <<= 16;
- 		len |= data[7+7];
- 		usb_stor_dbg(us, "GPCMD_READ_CD: len %d\n", len);
--		srb->transfersize = scsi_bufflen(srb)/len;
-+		srb->transfersize = len ? scsi_bufflen(srb) / len : 0;
- 	}
- 
- 	if (!srb->transfersize)  {
-
--- 
-2.56.0
-
+greg k-h
