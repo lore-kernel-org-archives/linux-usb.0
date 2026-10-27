@@ -1,73 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.173
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793091041;
-	b=jvJLwLKSQUM24gWDaGgXahHnUWTSzXYmf17qAK5AuBhFVZTCQoOKJB1afqrerxN0apl4
-	 U1xckaFZiHHOj+lU8CfKvzDrtbOD36nmpWVtTwmbJmpf1v3fqdAwYnd7JgsX/uW1Y+9Au
-	 NZwCR9JzmdkhqSAo0NjgnLq80DhzRIbgd8JqhuEOiWMoZ/JSKoCaXPGgq0CfLbTvXeIMy
-	 W6moR/o/8/BBmxdjoggqYntUfC1MYwDsUTzXyhXimCVijnDAhljyjybCEBv5fcApIb2lY
-	 9UXx75/3VO4RsGAeo3OvjCtLX3rSw9KJOxyMmoCWYKHmxV2KaLHwPnY4TEDEl0rtWLQ==
+	t=1793091126;
+	b=dhyaYE3bHe4+N0lbaDfkQzNRH7U9qHba2sStNKG2M9tTb+MmNm8aJHYT41RMip7xeK9W
+	 snHz8B+vo1PgnvuiAen+ePeqCnaU47LQlT/WvmAbApRXRsjsr53mtswKdWtm2fzucZIRi
+	 ykFWj7LN/xQJnbzXQqlhv4gQP1NysfmUCN6B6gV/C2XzwZJC5D+EzKWqiD5KIB13qr900
+	 7C0RXEFK9acpJxiSYh9UU5zuhy4DZOuL2uW+G31HEtqf0Pzl0wGpqQlzcZD+80p4ehhHZ
+	 b4Vdv0xb+T451D4Y3mHQtA7b+CzzdjbcoiUaW0LyRiXmf1WMJ39LO+H2h+0AZo02n7w==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793091041;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-ZohoMailClient;
-	bh=FLj38MVz5n0Sq7sa0yZGgLRLbZd6FbVVIQAz21Dvemo=;
-	b=5sO4/0RmbYWn02dfv6TJN2PR20UxUMjyY/ACZEvVqzYA+aUCTENI7Tv5ZH4s96kplSKS
-	 iuP3u7MZXmRO9PTUwSlOOVBH4Ag4/bQhTSnCI4H5yZdOqGXjbiM/elAJrPgLLMIILKSjs
-	 MJIptO38Wt8Y3JCBkNEdUwDUhqCD3GPoDhc+knM/iOiZ+KWR2IHK2jRsM+nKRyQSwBUBP
-	 kAnAWfgYpwU7F6DCbE10SgVpHbGhUqaOxgTxA1Y4ANYd3MmCTM/FNAwy0MZgkBxMdlR6d
-	 bXrlWlLPwunNsDhn5eOD5UobkBma4xRKOYbcIDY984Er2tKwSpmaMEMntHLPdGsmHKw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793091126;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=544Vs5W0iQqaMJeYnY15/Vfb543TMzE2RWHWwProMBw=;
+	b=FH97lInjIe2Tcp0eMvQkyVXCWIK5su2zezRjS3UsJKfNvBz4NDYcwnw7LdRYvcA3qcbV
+	 yrIaMPhC6kK3kDbq7j8PrCHPMLQ47U39uLQmq2Rq6On7N81HcXrt/o2f8O3bc4We1uES/
+	 29HxUWRPhzCTJJO78dSvhfimfk4AofwgHDXORgJvpB0tBeLsGjgY0VPA3FK3okXf5Kz07
+	 PCLB3iuY+7zJKHz6DqZVMiU9I8IdRM8Te3cuouRaIAIrbs9BBDjSy+40B3kGmnqtS4fca
+	 kcm5R2PPgcKqI/eJCrFOIurl6XcJI42hxTufo0rlI/iLvTvJZwp5AKYGtTRo9uRfw/Q==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=yiyuzhou.io;
-	spf=pass smtp.mailfrom=yiyuzhou.io;
-	dkim=pass header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=GLrwHEUg;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pUf0+7wZ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.173
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406DF606A31A;
-	Tue, 27 Oct 2026 08:50:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 406DF606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C80B7606A320
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 08:52:05 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C80B7606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=GLrwHEUg
-ARC-Seal: i=1; a=rsa-sha256; t=1793091022; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=mNIgdz7R3r11ZTdxDrF1Q4UNAj/msS2HRtozDlQJSSJt2JF1XeqM5R3fqe0egEeBge134OZnCYIg8nLeYTjBrIyrWpgDerO8KX4+9i6OZz6wwjqMlnXNtJr1NaKqTI2E+9loBXl7++S392yzKQ7pBXj8ls4Kp6GdmM2wOzfU0do=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1793091022; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=FLj38MVz5n0Sq7sa0yZGgLRLbZd6FbVVIQAz21Dvemo=; 
-	b=c87bfdFCXjb5gR2PsR8BOdmGMCaRupck5ZtE3sA4AZNsUmOk1gsAmiusRhEybBQBEIabaYyPd4h6NRcc0y0CFw8iWSdKprFUoQyoNUAezXwJ5+XXP8lyXsdTbGQGnk65eEUcvgNQatPnQNiMuypGV+Ae/YtLyIebVoxBC9xNx1M=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=yiyuzhou.io;
-	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
-	dmarc=pass header.from=<yiyu@yiyuzhou.io>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1793091022;
-	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=FLj38MVz5n0Sq7sa0yZGgLRLbZd6FbVVIQAz21Dvemo=;
-	b=GLrwHEUgbTUGf6R/WLG13CeYhpiA8658UGY7+Mi/ec1jW9yV6uc50Vo2O++5AsfZ
-	UaR36wdvJskpkykrqtlAesO4tjCQFM6QBWRfOkR3pWeU9jtZeBVBfNQqmN4YgZMkFUN
-	Kg8nwZd6TvDxG02N3QWPliO6jWALXgPbAKC/5gEM=
-Received: by smtp.zohomail.com with SMTPS id 1793091020208282.5273528004707;
-	Tue, 27 Oct 2026 01:50:20 -0700 (PDT)
-From: Yiyu Zhou <yiyu@yiyuzhou.io>
-To: mathias.nyman@intel.com,
-	gregkh@linuxfoundation.org
-Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	michal.pecio@gmail.com,
-	regressions@lists.linux.dev,
-	Dennis Wissel <dennis@dsine.de>
-Subject: [PATCH] xhci: keep ep0 blocked after disconnect until Address Device reloads it
-Date: Tue, 27 Oct 2026 01:48:42 -0700
-Message-ID: <20261027084845.1588204-1-yiyu@yiyuzhou.io>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <qLQr_bD2TzCrwVMFdRe7Wg@dsine.de>
-References: <qLQr_bD2TzCrwVMFdRe7Wg@dsine.de>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20251104 header.b=pUf0+7wZ
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-36a1947498bso208775eec.1
+        for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 01:52:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793091125; cv=none;
+        d=google.com; s=arc-20260327;
+        b=ImLPp1HDW+AAyYnEInafWCYENC3AHfQJMz5dvwTKX+0+dUaKlnNXPMhiMahOkVQoZr
+         Qp8HhQFQ+FPEolLGyDxVthwGugkkO6EmsaqhXR5+39o5UMH/4U10lBNI9L9cI/rjJHFg
+         CwVNui3u2GJ2y9yb+Ai3t1txCV6E4XfIoPDoKetMO32Twt1gi4ZwxemZx27819YQNqqX
+         tKOTXZldrODrrJ5f48y/aI692DcECJd9n9JQZOiqANhKWNluBUJvBuMTjxZFpSWxLvuU
+         59r82gTLFeKdWQOecvzXYIMBl0mdYzbAYZ3KR0eAUE4VIZ0j/SsakTnndgXbmYmgg4Yd
+         4WcQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=544Vs5W0iQqaMJeYnY15/Vfb543TMzE2RWHWwProMBw=;
+        fh=4NrfZ8pFi/YoLTqFHeaoHRADZvvq06+DH+upPTezt1Y=;
+        b=OYTqCPnLQehxvOMNpZKmHsMxE9W2OloT4sFBrWsICbzJD5s3e8I0t1AItTLG623UXm
+         Rnbg2DcK7tZ1ilqHtlreVFqM81id5ZK4sm26KzhCzpugx/EtuoyAFj10xzd5FDyNEnla
+         iOLsz2HePGKnfJSIcaG7eiNJzyqdbDjpoKEQK+FXK87srqfxmZObAXt4wejh5oriVttg
+         7dTfj1ChFsRVQ4Dt24Tn0H54Ixc0DHqhKnm59FqW5yyacf9yGDev9HM6g8NbZ39O8GjN
+         1B0Nb93AzogyX1DhB6Rw9AoQCOu26R05T6e93B+Csa49Qwdlxt6OtypmhyZMBkTrHuwP
+         mFJw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1793091125; x=1793695925; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=544Vs5W0iQqaMJeYnY15/Vfb543TMzE2RWHWwProMBw=;
+        b=pUf0+7wZWPc6vb08pmDR5P6yk7mSd0eNZggr2tJrJzBo7w39uEiKa1QXLZjKmWm7M2
+         lND4nL5vqeLmDtdnhvuFcc0vihOhPvYKaLsfE9Bm0ztBkLkB82jqwgxcK0mUGN5F4HT0
+         Yqab/3TcmGLFulnpxU5OwJi2wlujE4b54oEC7pPMBoxOyUitR1v8ONiQjoWzoRTs91Gz
+         ar2IIukgQB0zJMUt4nOtS62GihnblGXHDNbM7czAPOIgkpWaxrl2p4PVrut6ORDx+vpd
+         EhZZyqKNwyJxUGDJ/rfbjW5Bx0ZaZRG2zdnaTiXAaiQxEDeGAtFAkJxEEF4fgs774y7Q
+         jLpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793091125; x=1793695925;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=544Vs5W0iQqaMJeYnY15/Vfb543TMzE2RWHWwProMBw=;
+        b=qqnmuNfZWkYvmzh9nfU895CnOy5cjC2rWX8roJWulyjhmKq2AB2RW4JKzB63HPWL3y
+         Xhnbg0BlcXkvHXMDYmp06rD5Gl39xFf/cK2wIhkni0Ck/smK2N8n7dIdBZswkCLlPcXG
+         ABflbuHuMFZZzg+J7ohOVr02BblKMEK3JHw5SATSsa3lYyEoLfTlTV8wQD24GK0/nbRv
+         dFGUIRdzCQFj2/CkZDfDlMw74xDgKb7iFkrB6XHN/dlufewT8JwhQE72RCFmnznMVVqJ
+         8qFXf2lffPIsM7fvNLjx14+5eDXCT5YIAz1k7OCbTOHDXChrASVs3OcSD1ZqsBVWNHK7
+         JFJA==
+X-Forwarded-Encrypted: i=1; AKwUvBxLlx5MVJLzluSX9ok0Mvp92N8TPKnVv76WCDsPjxHmp0Okfggkqs8bNkrcpS5jVP42ioeN378YUbw=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIcB8mxpBUWENrKhMEdxnd8B2kD3fK44RVTaXrZC9LM4ifohGGW
+	QgO3oUk9vx8JwwsuBCiZEbkgmHldStF39iyzo8yRGW7XIWSQX9QeXDYVrfhSJzluqKUqLe1SAcH
+	56xIQ2pyplScWOlZhi36g1dvbASREqAs=
+X-Gm-Gg: AYBFou3H3dx0ByjbwHM9ZZmIsJ2AQ26XMk+e7G/fjCKoCZp5DRTfnMcgVmWBPCnvmbv
+	3fG4Ba0CjUI0a1OR+ULqSOKGnuboOUFvz6ytzvTGjcNIj3sAvyVUjpjUxAH2QMkMlJXrRShRyaL
+	Q21HGH+9j/qbDkpJDnYMb6Ac8FQvr3OkpUubFhDDYfKxE+cSFxPmmx4N7sN4vOtxGAEHPkOzkXf
+	Iv+qAh2MLh2Qx/0o3oX2vYIhJtfLNOXL8J6osKh4D9whoBp79DNo4sbTEKBcFzX/9VwpT+QLYY2
+	U0QCQWHFtZiyq+nR1U40nN2KvWcn9KS1glqDlB+LpU8Um+/pPiJtlHrfDfgtu9TbApUeyHXB7vW
+	pW1UimBCMifo54CwtNtBBfjnHuPoLppqqcnbhdIoRfMP6NynXdmObu9NKYFb2V1C2/bix03p3lk
+	rghJ4QtY6ySxDgWbg=
+X-Received: by 2002:a05:693c:8110:b0:359:2edc:e1d8 with SMTP id
+ 5a478bee46e88-369e836b39bmr13749085eec.5.1793091124761; Tue, 27 Oct 2026
+ 01:52:04 -0700 (PDT)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -77,97 +105,58 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20261004165204.205660-1-clamor95@gmail.com> <20261004165204.205660-2-clamor95@gmail.com>
+ <20261026222928.GA15139-robh@kernel.org>
+In-Reply-To: <20261026222928.GA15139-robh@kernel.org>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 27 Oct 2026 10:51:52 +0200
+X-Gm-Features: AclHuK8LjCWDpNP4DuV4ZuevBx5z2yzl2RQeYjmP-HIeitxouPX3pu1AzADU8K4
+Message-ID: <CAPVz0n2rkWikz1CZhkKiZnX5P+NdDH0RfJi69AyVTEV7qw_VXg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/2] dt-bindings: usb: Move Tegra-specific Chipidea USB
+ properties into a dedicated schema
+To: Rob Herring <robh@kernel.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Thierry Reding <thierry.reding@kernel.org>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Jordan Viknar <jordanviknar@gmail.com>, linux-usb@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-After a root port disconnect or link error, xhci_handle_halted_endpoint()
-sets EP_DROP_PENDING instead of resetting the endpoint, and gives back
-its TDs.  Their TRBs stay on the ring, and the endpoint's dequeue
-pointer still points at the halted TD.
+=D0=B2=D1=82, 27 =D0=B6=D0=BE=D0=B2=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 00:2=
+9 Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Sun, Oct 04, 2026 at 07:52:03PM +0300, Svyatoslav Ryhel wrote:
+> > Move all Tegra-specific Chipidea devices and their properties into a
+> > dedicated schema file, by analogy with i.MX.
+>
+> I don't really see the point given it is only 2 deprecated properties.
+> Maybe those can be removed? Depends if they are deprecated and still
+> used or deprecated and removed from .dts files years ago.
+>
 
-If the device comes back before hub_wq handles the disconnect, a driver
-may reset it on the same slot.  usbhid does this after 1 s of
-interrupt-in errors.  xhci_discover_or_reset_device() then clears
-EP_DROP_PENDING on every endpoint.  The other endpoints are disabled by
-Reset Device and get new rings, but ep0 keeps its ring and dequeue
-pointer.  For USB 2 devices, usbcore by default sends a 64 byte
-GET_DESCRIPTOR before SET_ADDRESS, and so before Address Device reloads
-the ep0 context.  That request is queued behind the stale TRBs.  With a
-Keychron M5 the reset stalled for 11 s, and the xHC then ran the old
-TDs ("Event dma ... for ep 0 ... not part of TD"), writing into buffers
-of URBs that had already been given back.
+The ci-hdrc-usb2.yaml schema contains properties that are not
+applicable to Tegra, and conversely, Tegra-specific properties are not
+applicable to qcom, nxp, nuvoton, etc.
 
-Keep EP_DROP_PENDING set on ep0 through Reset Device, and clear it when
-an Address Device command succeeds.  That command loads the ep0 context
-from the input context, whose dequeue pointer is our enqueue pointer, so
-the xHC skips the stale TRBs.  Until then, ep0 requests fail with
--ENODEV.  If Address Device comes first, as for SuperSpeed devices, the
-device recovers in place.  Otherwise the reset fails quickly, and
-usbcore re-enumerates the device on a new slot, as after a real
-disconnect.  The same applies when Reset Device fails because the slot
-was never addressed: the next enumeration attempt uses a new slot
-instead of the stale ring.
+The 'nvidia,needs-double-reset' property is required for Tegra20 and
+Tegra30, and it is still actively in use, as you can see here [1]. Its
+marked deprecated state appears to be incorrect, as it should simply
+be restricted to Tegra20 and Tegra30.
 
-Fixes: 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disconnect")
-Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
-Reported-by: Dennis Wissel <dennis@dsine.de>
-Closes: https://lore.kernel.org/linux-usb/4MjB9K-2SoiA85WbI9iEig@dsine.de/
-Tested-by: Dennis Wissel <dennis@dsine.de>
-Signed-off-by: Yiyu Zhou <yiyu@yiyuzhou.io>
----
-This is the RFC from the regression thread [1], unchanged apart from
-Dennis's Tested-by.  It applies on top of 1f36cc9fa949 ("xhci: give
-back all TDs when skipping endpoint reset after disconnect") in
-for-usb-linus and depends on it: without that patch, ep0 requests are
-not rejected while EP_DROP_PENDING is set, so they would wait for their
-timeouts.  7.3 needs both, so they should probably go to stable
-together.
+The 'nvidia,phy' property is still used across all ARMv7 Tegra
+generations + Tegra210, as the Chipidea driver has not yet been
+converted to use the generic property. Therefore, while it is marked
+as deprecated, it remains in active use.
 
-I used an LLM to trace the code and draft the patch.
+The example I added is from Tegra30, which in the real devicetree uses
+both properties, so I've included them here as well. With your
+permission, I can remove the Tegra-specific parts from
+ci-hdrc-usb2.yaml and tailor the proposed schema to better fit the
+current state.
 
-[1] https://lore.kernel.org/linux-usb/20261026203944.2235991-1-yiyu@yiyuzhou.io/
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tre=
+e/arch/arm/boot/dts/nvidia/tegra30.dtsi?h=3Dnext-20261026#n1146
 
- drivers/usb/host/xhci.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index fa3012bf4c0f..15f4ee4aa2c3 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -4091,7 +4091,13 @@ static int xhci_discover_or_reset_device(struct usb_hcd *hcd,
- 	ret = 0;
- 
- command_cleanup:
--	for (i = 0; i < EP_CTX_PER_DEV; i++)
-+	/*
-+	 * Reset Device leaves the ep0 ring and dequeue pointer as they were.
-+	 * After a disconnect or link error, ep0 may still point at TRBs of TDs
-+	 * that were given back, so keep it blocked until Address Device
-+	 * reloads its context.
-+	 */
-+	for (i = 1; i < EP_CTX_PER_DEV; i++)
- 		virt_dev->eps[i].ep_state &= ~EP_DROP_PENDING;
- 
- 	xhci_free_command(xhci, reset_device_cmd);
-@@ -4463,6 +4469,16 @@ static int xhci_setup_device(struct usb_hcd *hcd, struct usb_device *udev,
- 	}
- 	if (ret)
- 		goto out;
-+
-+	/*
-+	 * Address Device loaded the ep0 context from the input context, so
-+	 * the xHC now starts at our enqueue pointer, past any TRBs of TDs
-+	 * given back after a disconnect or link error.  Unblock ep0.
-+	 */
-+	spin_lock_irqsave(&xhci->lock, flags);
-+	virt_dev->eps[0].ep_state &= ~EP_DROP_PENDING;
-+	spin_unlock_irqrestore(&xhci->lock, flags);
-+
- 	temp_64 = xhci_read_64(xhci, &xhci->op_regs->dcbaa_ptr);
- 	xhci_dbg_trace(xhci, trace_xhci_dbg_address,
- 			"Op regs DCBAA ptr = %#016llx", temp_64);
-
-base-commit: 1f36cc9fa9496189e95fe5762cde8a74e0cd9d68
--- 
-2.55.0
-
+> Rob
