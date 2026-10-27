@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112525;
-	b=FsCLOirAUG96qLAtwlRKvkcS5ND9l24IEOhYQkpSGL+hix8lI5JHftugAfKmBtP6LTM+
-	 mQ562cAbIj66DckLVaFGYR5ifgDewNLHfC1jP635AByL3yuITRPA3JL1MF2dpvMSnWDAL
-	 KA8nUw1UcVdvAEkoq3j1FfHYUO+Vrrb3bRN8x2lb6eLvGnriYDF2TQ4jWUSdNBe4bv/wV
-	 yDGDmoqWF3pR7Le4WTV+Rrqh96GZwEQwZ2ujiJweAZEQWaF2N59i1VIa4pBd3h3DNz+g6
-	 kESnc+G96Hhx0PAUalyvospe17g2ZlFsNM1TEI48HTwzdtnf81Fydg5dEoNJjcRL31w==
+	t=1793112633;
+	b=1sESMdvGd2rHqjdOld/LQKyDOjyLZEQjxHGUn//tEEhXdGJbaEDciNiWetdqp/4njlX+
+	 IAZU+CcV+ssjsm3xaLFVai9D3xNgQAKFIIN6HzjxJXIFoGCmP0zOYQxfT4WqqLM6JzerN
+	 fYPbNQbM1stNmv70VRS/bgl1V4BCQ8kf0NYMT5U/AlZdZ//51QlryRaon55P+AGotTWPq
+	 tuwa1E9MNqVAfvYzThjrMN81x5RDoQJza1rzxkrcjMhHWwkNFsQg5qsCVDU884c70pYxW
+	 +R+z8EVSncS3FNwU/oqkixpLjt7QjtOuT+pRHdOXG5XM8pPyrNe0QU5wYDtgWy9Ma1w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112525;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112633;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=b15mDZhIncHIXk5uW0/EkDcYbEqyxyZ8vdCgu0fctTk=;
-	b=xbOywL0/sg0rgyPJ+5HASoKL793O/eDYGTKeMmCaCVS2dBj23uaFxvycXsobhBZamw4i
-	 Rdt5I93yUGF2OO5R2oaKGgnCoTXCnXsICsvuwi7CciSqS0ivPVte4jEFQeOc+3NklQ2p3
-	 e+ldIbA4vkiEgVRbOvDa89fA8vC1EShoyWTwY0Nhu7Mh2vxp3MkmfhtdwPFi9OyICehOf
-	 +K2sLkIMeyPEHHIRljRQtnMBB4BWEpg2STLg8LegLVrnCILwTQJYSItTcYRS17B+vGANL
-	 lmvaaW9YDP4blpVe5nkcRny/yaq3dBUPUsECV9ltz58yKcT59MTt9044RijffB/iX/A==
+	bh=yTgtiAv1UeWEPYPmapM73abPYQDYmu3V0xm54Amz/yk=;
+	b=D5WQyAmuWtlVdLX4h8v3odheehLhf/tCRnqyQCLtOz15OIMvlK5soB7O36xd9WLkj7ij
+	 46BxHLS/i+W+9yhWVMPbu62y3G2LiTfbTf2Op5CJA/gTNzZVCmmMDGrSyTRiWxMFXFLxN
+	 B1o5wixvd2saRniTvy80SFyHghe4yd7L0Scw9kRoQBM3rUbF8Tecvqwmi4gbJswpAXdP9
+	 cN12K9SkK1QhMwC49elWf99Zv5eQbBvLutSwZa4i9ma3aL0KDTLyi+ISH3W2V85mcxUM5
+	 f/dYURm9BHvElfyzhKXiGc8bvQrYtB+jpfjeSoTJcP9ESLPLn/yV3XX+HiUSJFFWjGQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S5fiaIAH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hJY6+X89;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D61D606A31A
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 14:48:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 634CF606A323
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 14:50:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=S5fiaIAH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9F1E1F01825;
-	Tue, 27 Oct 2026 14:48:44 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hJY6+X89
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDCEC1F031E2;
+	Tue, 27 Oct 2026 14:50:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793112525;
-	bh=b15mDZhIncHIXk5uW0/EkDcYbEqyxyZ8vdCgu0fctTk=;
+	s=k20260515; t=1793112633;
+	bh=yTgtiAv1UeWEPYPmapM73abPYQDYmu3V0xm54Amz/yk=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=S5fiaIAHxpfZfAo2z84W5fCAi0aj8RhMGbHb/kQC6V4psJw63d+fZA5Gzl3hwwHr7
-	 gB+QgKo7bHQ2ULTzGeRkWxAE1F7B79LIUb7DB6gYWRdpqpZE5d8KNpy+/bFVmoiQNr
-	 YpD1pelBNVaIbWobC5jT7P6971lHJ3ZR2b00SpX4FxYZFKtp+q1OGOmo0mq81UH+7y
-	 iwtt9rlAlGt8E3qsINcNCOLJtszrooPaZivD/SMChK2DQUSAGEPi0xZG4tuQP+4rVg
-	 cBJH6E+4l6ifiQMk2/pCRuJBzbVdGLg87UjGsGBfzpCKlVntFOOHGvItVteUOBz9zV
-	 xmBDaKpkHEabg==
-Message-ID: <sashiko-outbox-186763@kernel.org>
+	b=hJY6+X89dJ3bfnpUk/En4S8BeQ1eIllYYWfp18z+zsh2nzOqywlNvBdVexG5M4Gwb
+	 jXNySphBEvBzUh0HFy22dMwRn0sfQb559dgTfSm6ZVCzpuUV2QaJFmfzM+zp/GuWFm
+	 zqSrdd8WjX2pK8NA61GJF+VVr8Xg7g1YjrYJCY58WUjWXBfEBheKRcZ3qbG5tpAlo2
+	 utJ6qxvegfjaPNoqhktvKrKKpAdgHjRoduW0SO4VwTLdNeUeG4csIo3c1H8X+ipP80
+	 X3nK7o5WOoY9qYZ8Y5TLtArxhpsxFqS0t1koq7uF5cs8RD0wAIJmoX2bHPF43oEcQb
+	 r1L9uzwltjZ+g==
+Message-ID: <sashiko-outbox-186765@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 7/7] usb: storage: shuttle_usbat: bound the READ chunk
- size
+Subject: Re: [PATCH 5/7] usb: storage: sddr09: bound the unused PBA search
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261027-llm-usb-storage-v1-7-d1655e94ed10@linuxfoundation.org>
+In-Reply-To: <20261027-llm-usb-storage-v1-5-d1655e94ed10@linuxfoundation.org>
 References: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
- <20261027-llm-usb-storage-v1-7-d1655e94ed10@linuxfoundation.org>
+ <20261027-llm-usb-storage-v1-5-d1655e94ed10@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 14:48:44 +0000
+Date: Tue, 27 Oct 2026 14:50:32 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,25 +62,27 @@ Precedence: list
 
 > From: Josef Bacik <josef@toxicpanda.com>
 >=20
-> An SG_IO READ(10) of 64KiB or more to an HP 8200e CD-RW behind a USBAT
-> bridge never makes progress: the usb-storage thread keeps issuing
-> zero-length reads until the SCSI command times out and is aborted.
+> sddr09_find_unused_pba() can read past the end of pba_to_lba[] and hand
+> out a physical block that does not exist on the card, which is then
+> recorded in pba_to_lba[] past its end and written to.
 >=20
-> usbat_hp8200e_handle_read10() splits reads of 64KiB or more into chunks
-> of whole sectors, using srb->transfersize as the sector size:
+> The search resumes from lastpba, a function-local static shared by all
+> SDDR-09 readers and kept across card changes.  The first loop is bounded
+> by end, the number of blocks in the zone, but the wrap-around loop only
+> by lastpba:
 >=20
->     len =3D (65535/srb->transfersize) * srb->transfersize;
+>     for (i =3D 0; i <=3D lastpba; i++) {
+>             if (info->pba_to_lba[zonestart+i] =3D=3D UNDEF) {
 >=20
-> For passthrough requests scsi_setup_scsi_cmnd() sets transfersize to
-> the whole request size, and the READ CD path can likewise compute a
-> value above 65535, so len becomes 0.  The loop then sends commands with
-> a zero length and adds 0 to the transferred count on every pass.
+> After a write to a card with 1024 blocks per zone has left lastpba at,
+> say, 700, writing to a 1MB card (256 blocks) whose blocks are all in use
+> walks pba_to_lba[] from index 256 to 700.  If any of those out-of-bounds
+> words reads as UNDEF, sddr09_write_lba() stores into pba_to_lba[pba]
+> and goes on to program that bogus block.
 >=20
 > The bug was found by code inspection and has not been reproduced.
 >=20
-> Fix by falling back to the existing 2048-byte sector size guess when
-> transfersize is larger than the maximum read size, so that every chunk
-> holds at least one sector.
+> Fix by also stopping the wrap-around loop at the end of the zone.
 >=20
 > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
@@ -91,5 +92,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-llm-usb-st=
-orage-v1-0-d1655e94ed10@linuxfoundation.org?part=3D7
+orage-v1-0-d1655e94ed10@linuxfoundation.org?part=3D5
 
