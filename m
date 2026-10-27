@@ -1,57 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112782;
-	b=c9TO0u6wEMqTbk0fD51KWIFIGvibD6cRaI4mjE1fBo17pDEEyPbbzWemiw0dtT2XH103
-	 Q2SIZxVrg6eJ9+cr6VrSXliGUrXxDbZuUDmWUg1KlI+404eOvQTDhLuyp+fHpAB9E70ec
-	 u8CrYlA2zPI5ozkRAUJzd2plJiqWJHjZiWhngKIKHydA3ujk2efXT7Mw94MMtxPWy2NHD
-	 KR8XAWXrZD931gepU/5UJ8QYKhz6mCFj9yUh7qthyBBu6Kqj2vKZ229r+LSskpui2hqs6
-	 IkEQEigVLpNe6a2g0PZBH8CjnH46Zley8vUjJr1DqK0PurQU6MEqeDBhIT16IzQH9uQ==
+	t=1793112793;
+	b=tYj0Qe85n75clzQoeKQwkRYVfabAHgjiFzEvlS/LPfR1rmDkD2qgs5pWxWIw40/fxGNm
+	 XN/nnH40aqA674Byezcdj0m8UmfeYUPaZncO3K7xMeGQr52/oOiiRjE+AchFaRfZ+y3vA
+	 tgADsUB9MQdVVGyEHY6Ba8Vt0565yrPcWuCO1R8/VG9PsQEvxHGdw0lLADTGdLBptfWgF
+	 dnYJO42efjwmGPRbAOZvtxbcVkYbQKuRHYi8UWld1/gg4+UdrGdH1WH344Mct3lNK/lxU
+	 wZilSZhOxxxYwJMdlhhB3iPruiZT4I3WftwiHV0hX58WhFtReMklAVvgEak4Np9wMeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112782;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112793;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Tm2BNibjHDQ+Bok56qxRmSoJet2b6olPQJA5FCw8q9c=;
-	b=1kdHPQvsF1b4AWgefg/8ObuQNYaLeQOLvlw+uusOhETlsljfIAa9oogiLj/ULGntPl7P
-	 eX0ml82taPFo/4du8/TSEFlrUKHgfS6G5c8XmGLh1jSqMhtfdeaqFR98iWHyO1CjuHKwX
-	 1OJqRWK37DthWM+ijJTkBdsfn7CSyK+IsZOsdLphw3b7DpbMCbvb8HR8HwusMP+bzKTFv
-	 9hsv7l9fxioOkcnPSdK+WtXAJmPZ3J2kS8uz/gDog/qcVC7y4wSDNgBERVqQpkrCturC5
-	 atVwLw9lUi1UvU5LACFxVP5WuLc1GPW0SPyzWJsvjDbt/jvhIRbObwkDtN2/Z1J/oxA==
+	bh=sBxc9DYKZjXgituJs2h44VkppIduQau2nxACJ/08j/U=;
+	b=KDsCSrrlpjLqRGAxgRJGjKMroNMI/Kg4ufY6MkaBrBKsVANdFpeYCQBG3NWEtDz/K9Nr
+	 uo+I110l2ph+aKj6SzxM5jF5hsQB3L82WE9iS9nRKhjVPMY7SpXEFeQ1mPguoLtMgmcum
+	 FArLN72iM/aIbhW3JVmsZ3bo44F6G5baH/rFeh4z2J6RtrYpvt/De6YJn1afg+h9fFm4d
+	 6Z+4ecGwWmOmlaOSgVpKAJ7QxGPrrg/538hJco7e7RsZJwKunkq6ppNQbQZHnjT8wHDLV
+	 +jNYQW65gADFvw/BnegVMIPExSgdWQx8kvDSqmZDzqWOUOVnA74L9pI+Ya+TUSIs6dA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gjvON+vy;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TT5Y0Zg8;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3F9606A31A
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 14:53:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF492606A327
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 14:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gjvON+vy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C04281F01825;
-	Tue, 27 Oct 2026 14:53:01 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=TT5Y0Zg8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68F011F01825;
+	Tue, 27 Oct 2026 14:53:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793112781;
-	bh=Tm2BNibjHDQ+Bok56qxRmSoJet2b6olPQJA5FCw8q9c=;
+	s=k20260515; t=1793112792;
+	bh=sBxc9DYKZjXgituJs2h44VkppIduQau2nxACJ/08j/U=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=gjvON+vybyuRTpaLG9pI1aOTVCtqYMB0uYkYRkvYC6wBGg+RVeL40nWLnpZKGrGTF
-	 ddY7UWioXcp+7J39o75KrovSS7ktfoUdbMotGm1wii7JJVC8TzBrtDqj4VIoWt0hQh
-	 4nkpiF1UpUaWMWN+cTKJCXsg48/dCAxpLl//nMnFeH61dD+2aPsJUaaqy5r+AzNK4x
-	 tMGTdp9Y4CJPHvFSwVwyznh9eHGZWFg5JA+fBWagFAZP3UpAfLxJzPKQzbHTgXIR68
-	 e3kekUFgqGDvPIdsolGiaNV2mguYAhEbVL5NrxwfBvrWGgfePF41GZykfc6BGHyrEc
-	 JbMbThS8vuqeg==
-Message-ID: <sashiko-outbox-186771@kernel.org>
+	b=TT5Y0Zg8id31dw5klnkTDES+tTvJglRNpZSiOE+YwtNBVrZfaSQ8LSUFo6z7nO82G
+	 z9117VCL/VTlYR50Jiyh1hzhYP+74vhH/h1HVhbRAPYGfyPVOQCYUJXLU0+eJUs7Ww
+	 HjRB2qb91RS8aS/hAbv+SokhCwggiazpeaZreGYAiv1FD8hCyboJpzwQO2aJJ8yroa
+	 qfYK/6k5YZydZUhLOQSyAi6nPxU7hPCGFNu8kxBxFourZOlPqUIS42ZG7R67x6yu//
+	 uequXud6SYX8+8QpS8H45+icE70MgTeSLQgEsdJfbIgliHRRaY1CaAzhgiGMDuy/pT
+	 967Z8/tL46isA==
+Message-ID: <sashiko-outbox-186772@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 1/7] usb: storage: ene_ub6250: fail MS init on card
- errors
+Subject: Re: [PATCH 2/7] usb: storage: ene_ub6250: report boot block errors
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261027-llm-usb-storage-v1-1-d1655e94ed10@linuxfoundation.org>
+In-Reply-To: <20261027-llm-usb-storage-v1-2-d1655e94ed10@linuxfoundation.org>
 References: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
- <20261027-llm-usb-storage-v1-1-d1655e94ed10@linuxfoundation.org>
+ <20261027-llm-usb-storage-v1-2-d1655e94ed10@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 14:53:01 +0000
+Date: Tue, 27 Oct 2026 14:53:12 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,27 +62,27 @@ Precedence: list
 
 > From: Josef Bacik <josef@toxicpanda.com>
 >=20
-> Inserting a Memory Stick that has no usable boot block, for example a
-> blank or damaged card, into an ENE UB6250 reader oopses the kernel with
-> a divide error on the first READ(10).
+> A Memory Stick whose boot block is rejected by the ENE UB6250 driver,
+> for instance a hybrid card or a card with an unexpected class, page size
+> or IDI configuration, crashes the kernel with a NULL pointer
+> write when it is inserted.
 >=20
-> ene_ms_init() ignores the return value of ms_card_init().  When
-> ms_card_init() finds no boot block it returns MS_STATUS_ERROR after
-> ms_lib_free_allocatedarea() has cleared the card geometry and freed the
-> logical maps, but MS_Status keeps the MS_Ready bit the reader reported,
-> so ene_transport() goes on to dispatch commands to ms_scsi_irp().  The
-> first READ(10) from the partition scan then reaches ms_scsi_read():
+> ms_lib_process_bootblock() unconditionally sets result to 0 just before
+> returning, so every failure is reported as success.  On those failures
+> the logical maps were either never allocated, or were freed again by
+> ms_lib_free_logicalmap() at its exit label, so ms_card_init() then
+> writes through a NULL Phy2LogMap:
 >=20
->     logblk  =3D (u16)(bn / info->MS_Lib.PagesPerBlock);
+>     info->MS_Lib.Phy2LogMap[btBlk1st] =3D MS_LB_BOOT_BLOCK;
 >=20
-> with PagesPerBlock =3D=3D 0.  With a non-zero PagesPerBlock the same path
-> would dereference the freed (NULL) Log2PhyMap instead.
+> It also means the second boot block is never tried when the first one is
+> bad.
 >=20
 > The bug was found by code inspection and has not been reproduced.
 >=20
-> Fix by clearing MS_Ready and returning USB_STOR_TRANSPORT_ERROR from
-> ene_ms_init() when ms_card_init() fails, as is already done when the
-> reader reports that the card is not ready.
+> Fix by returning the real result from ms_lib_process_bootblock(), so
+> that ms_card_init() falls back to the second boot block and fails when
+> neither one is usable.
 >=20
 > Fixes: 33842cedfc33 ("Staging: Merge ENE UB6250 MS card codes from keucr =
 to drivers/usb/storage/ene_ub6250.c")
@@ -94,5 +93,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-llm-usb-st=
-orage-v1-0-d1655e94ed10@linuxfoundation.org?part=3D1
+orage-v1-0-d1655e94ed10@linuxfoundation.org?part=3D2
 
