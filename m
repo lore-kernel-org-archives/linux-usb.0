@@ -1,56 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793113840;
-	b=HvSgSelF1XgyZ9wa4E2IhXPBGMsMbpXGykUwwgl7dS3X7EffX3DAgTxV1VmjdibF/tef
-	 KxQuW7Cu09ZCna7z2sbWdScrbkzfnJRP3JeJjPW9xz+KWmQ7/PFpgCkIWSUP+QmoUbcpr
-	 mpQiDzuonX/QbIsYpfl0k/VntjNY3v5D40dPYOEl0fPJClsdO4TOI96gK8jX229xaWi/P
-	 v4aHxaRlMwibcG5I49i1jXsUk/VzUv4B4pA+v9a7wmxJuv3C9l0npfkpJcHBF37zIIOAT
-	 DwjhGfmw1xRlVgjXYkjrQvL2QrJhjEUl1zUsqopBadkS8PwO8fHAjB5T/PgNxkTN0qw==
+	t=1793113855;
+	b=GDL7/9DarcD2cUGEGbpyYF+77KyX/c34/OFu2MR0YAdqjDdYl5/EtuBXMN/mVVYTkmdb
+	 rSMoheiIcqokUsMAjnV4cs7w+CA3loDrhina4NLcWbOFe52S4WbmgucPPSoNLg2zSdXI4
+	 jB2J+ahVSHini83VtrliyB3I42WjRmKIh1YLByQJGR3rPX1ZCiKZgd8/KMDssjZwLNmFK
+	 9RsJ+svbnpG9R4xnSrVFDlwdhJZif/mR467SQZBHVJnuRSgQBFN7lOtqXdolHQgeaY+hb
+	 RG+cmrHgquctGiNh9bKHYFfmBRXHLl77zCNyoSHwx9VLiBx5QlLXuu7rwGrqsBIhedw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793113840;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793113855;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=LOTTHNnZpqZ8lKUYBeDn8xuIp7qLlASQlG6pZgO8KQY=;
-	b=vqJ90Uf7Qb1ucz127Rc8W/yKM1ctXrISsPXjuFGs4qH2BRfq97c109YREORQ9pibHUoU
-	 AFKFavrErVShsFtyiTn+lzDyMz4QWn1zbcvDXCUp0/8rwYCvsmMTYbeOcZaY/pQ7xY9Jy
-	 kQY4RhgFgR0T0f0+Kn8RnUaDbpDSjQaCggsA48RjRo+SiOxeCnowr9cN3lPlHsUJINMyG
-	 cG0liRU3IlutRIf3zlqJbSOxIQjgrbOyDYh42WHkSUTq2medw5Pwp7qgyy3d+B/M5PrZc
-	 EGJ1m2zz5U4EiplgBN5DONFeRxQ5O1qN7ljF9OYG/Xv7JyNJyewtYz2WTbJ65zRzeqg==
+	bh=1FT7QV+9hAX7IKQhktN6jXOKjW03/2FBt3aH6UILkRE=;
+	b=AGJlraPNSBGENhVVOeqb7A8m1gQll+Mh5LGId46v/8WSs+8NSlRhfquLucm5DAhmgKdg
+	 fXjQjBYvKDsewB+pAKJ2wwGRyqXQ/us4cwO0jSRWkywPv3+H7BaVzyKiTxoLlfkLZGMet
+	 6E9jdTILDn43XxEaG5aWoG1Guj5V8xKTt3CRFOerbOQBGW72G/Upt7KsTlxflCOE+7LHf
+	 mRn6hvY4VGu2KZ7XYaeI2D3bUyGlxNHezRNcfChVhSzxDrY6L3efpJiWl1JUQI4ZhrVZJ
+	 ZEHVcH37sYKnTF0n4Gqlrjor+ejCH/cfJp8x76/qt8NNYvOhZtlDsAhwyZiRuAXe7wQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FjxKT1k5;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gptgIWwJ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA4F5606A31A
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6256C606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:10:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FjxKT1k5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73C991F031E1;
-	Tue, 27 Oct 2026 15:10:39 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gptgIWwJ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1BB851F01825;
+	Tue, 27 Oct 2026 15:10:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793113839;
-	bh=LOTTHNnZpqZ8lKUYBeDn8xuIp7qLlASQlG6pZgO8KQY=;
+	s=k20260515; t=1793113855;
+	bh=1FT7QV+9hAX7IKQhktN6jXOKjW03/2FBt3aH6UILkRE=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=FjxKT1k5ECKndUqTDtVygcfCMRnmlQBfJnccpKhjTD/bnTKlZIbI16cYqI73zl1PD
-	 ju5XQmoviI6ZaysbQ+Pen3FrGB8qwEwqE6n3WLAAUpjxFhX71P8OwUeDs/YxSzT12l
-	 45DPX92EYm6WVFj8yGB3ZROK1jfT2qpvn1JnzCji2zrqs21hNIXM2dOpXl5Zsy1z5+
-	 U2ub9Qafh2IIjC1TbfgYGrS6RwBif9BqfHBQpidnKU6woRTAFOZXC5OKSnGRnFqWGz
-	 rXQNVnt1E0r+vt5IRk86KD2kCHjkvixG5zZjUafN/P5jLyn4xHMeHqiawikkpEgV0o
-	 anMSf7YbMUIyw==
-Message-ID: <sashiko-outbox-186807@kernel.org>
+	b=gptgIWwJP/LcEwp4j94mBKMf/q5H6iMymVy8/J3hjNnzwQuSIc8Iv309EaBrYkrS2
+	 QrRV9fTitW8+r6dJg1heXgRvPeW7pK6aoIPQXtgzHO5P8uDt/UQZ62fVE28Z382d6S
+	 UqhUAbsVTdjK/b9DEfxnCLCKQdnfDwam7y+7m5k/aax+vtnJXhprWRI36OBddIIHJ4
+	 xdJedrmT/Z0sQuR4PEeM45T2Bdb+IZwp1oiJwr02Mrp76wlBxyc0uxKi9ofoU+2CEU
+	 52VTWxsSRZumdtjTLjzMyrcTlqNJDb3N1dFlsLNCHDDXFGHF6nYtGAmswSlq7S4Iiu
+	 NatfhmlsxYkig==
+Message-ID: <sashiko-outbox-186808@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 01/19] usb: core: sysfs: take the port lock to read the
- BOS
+Subject: Re: [PATCH 13/19] usb: typec: anx7411: zero on-stack alt mode
+ descriptors
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-In-Reply-To: <20261027-llm-usb-v1-1-b9751ddb9c7c@linuxfoundation.org>
+In-Reply-To: <20261027-llm-usb-v1-13-b9751ddb9c7c@linuxfoundation.org>
 References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
- <20261027-llm-usb-v1-1-b9751ddb9c7c@linuxfoundation.org>
+ <20261027-llm-usb-v1-13-b9751ddb9c7c@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 15:10:39 +0000
+Date: Tue, 27 Oct 2026 15:10:54 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,23 +62,30 @@ Precedence: list
 
 > From: Josef Bacik <josef@toxicpanda.com>
 >=20
-> usb_reset_and_verify_device() sets udev->bos aside, lets hub_port_init()
-> read a new BOS into udev->bos, compares the two, frees the new one and
-> puts the old one back. bos_descriptors_read() takes the device lock
-> against that since commit 4e0197fbb0ee ("usb: core: sysfs: add lock to
-> bos_descriptors_read()").
+> typec_port_register_altmodes() and anx7411_typec_register_altmode() fill a
+> struct typec_altmode_desc on the stack member by member: svid, vdo, mode.
+> typec_register_altmode() reads three more members:
 >=20
-> This does not cover one caller. finish_port_resume() does a reset-resume
-> if the device has the quirk, if its port lost power, or if the device
-> does not answer GET_STATUS after a normal resume. In an autoresume this
-> runs without the device lock, for instance from
-> usb_autopm_get_interface() of an interface driver. The comment above
-> usb_reset_and_verify_device() says that tasks which hold the device lock
-> are expected to resume the device first.
-> [ ... ]
-> Cc: Griffin Kroah-Hartman <griffin@kroah.com>
-> Cc: Oliver Neukum <oneukum@suse.com>
-> Cc: Alan Stern <stern@rowland.harvard.edu>
+>  - inactive: a port alternate mode is registered with active =3D !inactiv=
+e.
+>    If the byte of stack garbage is not 0, the mode starts disabled and
+>    typec_altmode_enter() refuses it with -EPERM until somebody writes to
+>    the "active" attribute of the port;
+>  - mode_selection: the DisplayPort and Thunderbolt drivers enter the mode
+>    on their own only if it is false. For the partner alternate modes of
+>    anx7411, garbage there means that the mode is never entered;
+>  - roles: decides what supported_roles of the port alternate mode shows.
+>=20
+> typec_port_register_altmodes() is what tcpm and anx7411 register the
+> alternate modes of their ports with.
+> CONFIG_INIT_STACK_ALL_ZERO=3Dy hides the problem.
+>=20
+> Fixes: 183b194d8fb6 ("usb: typec: Make active on port altmode writable")
+> Fixes: be727d400066 ("usb: typec: Introduce mode_selection bit")
+> Fixes: 7b458a4c5d73 ("usb: typec: Add typec_port_register_altmodes()")
+> Cc: stable <stable@kernel.org>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Cc: Benson Leung <bleung@chromium.org>
 > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
@@ -86,5 +93,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-llm-usb-v1=
--0-b9751ddb9c7c@linuxfoundation.org?part=3D1
+-0-b9751ddb9c7c@linuxfoundation.org?part=3D13
 
