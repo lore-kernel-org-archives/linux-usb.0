@@ -1,56 +1,77 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793115470;
-	b=IPItYAsSD/x7c5dlBwIHWNgLFLyezlGEAWh8a99f+UbMhwYRFW/sMm036hfZmtIBeyTN
-	 HmtYlzHHP8o/2DEWYhCD52m+3Pjfa12ZE8YVRTz/RnfYlns34MRBTsJ4vkiGaDcWu20RX
-	 qPcnwZnYSZoS2bU5CKry9eNy/4A4FNkeENUJ7K12dOF76m8rNwP+YMZY5fZACPKwFduTs
-	 yZ8l5FE8urdUYHI4yDkC9DAtyEe0qIOZC8P+URYzc2iKuFGhkharcHARn79WppS1bKkZ3
-	 va3lakaiKG/TqwdRikuFl84h9gfvx8E8uPS6JT9g9Hzd98h5BUU81gtOqQvCqSM2mUQ==
+	t=1793120906;
+	b=1PhrgZmM5fnQNOBX7VCuLBn+QPfgoTHw4n6C/Urx+pBjLIev7otarlgShJY+h8+NLkeM
+	 5cnYGM/CY74I+r0jiBxQRQfGHnGBhP7oxOcJyA89VPKudwnQCm+d5sA5VBUXnPvdcrCPS
+	 hMqx29vU10uAMp7r7spz54juQWQfQrbk0I2WIB//yyfTlQytVEs+HiF3DIswkMndEsO9T
+	 J2Bp6G0hfuGTSSPkS9rvpfiGpoAE0AsPce3M/iTtj0R00Yf8wH5sFFj7zVe2c2JFDcYxK
+	 IelsphUI/lOqE0xx1FvKwJypDcgAUEhR6wi6O6P2WuBxP3+clMyX9gEM6IL3kXwpcAw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793115470;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=eZXAYZNfo3bST92SMFh592Lg12aGzXtCz8BgZBTyYis=;
-	b=tqpgxyXF+u8zcDVlbaxMVcNmS05JKzW4U3/B0V7eqme1v+hrqlmD4o2qQnGdc+kvQEsr
-	 d9Ju6Wv5na6aiZwD2VmGf2R63zTCujGTWWAfwMgQ9NypPq0J79OErBGMXI6iV5F5laz7I
-	 CVszWCEIVhtOe1NoEYevKIar8yLDnnEO3aKf9/97NlPw9FAjNOP9zePuTEiKs2hexsyMV
-	 QUDzqo+ZIK6UkV3fvvx30oM5NYjXaR1M9arQmtzpKxVaHPXxaCsRcF4W9/AwcyKMMz+c4
-	 hsjOkbFJTXm22O8mDBUE19VS3VALkHZum+/oEO3UIBWfvGjp1Ll5CGuI9teQPr7TzAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793120906;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:Organization;
+	bh=EqRKj4JjHw6XL8/kSkGRlKo0pVt1CLaSeDtymMxLZjc=;
+	b=UhL2LUa7TSejdMq8SkTGYSTEYwNhgu6UzvLmPRv57VF4Zr5BG3k96ri50syPjpCOMeAT
+	 aTT+XFzY8Y1lDxthZZ464VhgDIYfQBQpwJJiHouXmE7Y4RRGDv1U0j/m9P6wa68zFmHHw
+	 /nhEMRZfjXx7Iua+5A994vjYpuLrxNX/b4wFOSoVMKqcTuVGk7hZ0vYSUNUF4PjyaIo1+
+	 6mayq3JaGHI8mrsRQbHWK44mPZ7RnhY7J0utRxI3d6BUVwIM/j84qU1lMCInVXw+u2W8h
+	 2b1NUhpwB953uWz0ebXOC8pMQQZtdFzZawtvCVUNuExJPXh/SjYtgGreZZUu4wPT9Lw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="MS/9OdNh";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=intel.com;
+	spf=pass smtp.mailfrom=intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YaYcSimt;
+	arc=none smtp.remote-ip=198.175.65.15
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086CE606A326
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:37:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2140606A31A;
+	Tue, 27 Oct 2026 17:08:23 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2140606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=MS/9OdNh
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6378E1F011C2;
-	Tue, 27 Oct 2026 15:37:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793115469;
-	bh=eZXAYZNfo3bST92SMFh592Lg12aGzXtCz8BgZBTyYis=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=MS/9OdNhhghWWKAqaetjJGmHL6vg40WovOCtS4gYFvfgUWNx1NaPyNtQnjl/y7/nt
-	 wij2RgVwU3YRK2+/slUv7ypt2DCtCo3Kdr+9nMBXceUNJM0Zc/GSDfs2C5EQcxusx2
-	 Fz5/OXBr7HrHErYs5RjxObE1nZcU7ttfG3tEzcDFFOXlWGx1kGMrS3zTPwYrnSJtIu
-	 jGq/fRmuoqER/IsTvVorpv28DE7ez0+SOHDnkUpeAHkYjAhjvMz8RTBpXFRZZdqxNI
-	 Lsi/PJOckF3XX9o5p28T8LxaOeUnvkq5aQ9fZsfCoGkoiLwOzpDfd6J5mxBY4OavOM
-	 +oOYMSH4akyOw==
-Message-ID: <sashiko-outbox-186848@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 19/19] usb: dwc2: wait for the TT clear in
- endpoint_disable
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-In-Reply-To: <20261027-llm-usb-v1-19-b9751ddb9c7c@linuxfoundation.org>
-References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
- <20261027-llm-usb-v1-19-b9751ddb9c7c@linuxfoundation.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 15:37:48 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YaYcSimt
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793120904; x=1824656904;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ZY+GVp1iLeMaklemOOZDjWJMytlYyxP/MoY5YjBxoPU=;
+  b=YaYcSimt+oUAtggKTp1zllMcgaUF8nK5n6TdHEi4t6jfpS2PtbgcQP2b
+   TXQWzrH6QPj6F9PReQiNKHAi0JmvTZ8EAtGJVH7e/dbDConq9Qr8T855T
+   sIV4fNY1BiDblz3VtQbrjqsCj/5kH+Jeu3CD/HCo/i0OY7+pGOpdYDEcq
+   Ax+zw79ag1QPJhDv2Gsm5svIdEpSO632vH9lpSpAp58eB2SacY2FVKfvD
+   DcIKrsJVX/ZlymUyG/mvTpWJpQz44vm1sJre1FSpQcGtYTheU4KqUzY/j
+   j1edwDhoj4leULNismOrrjr1qOILD5k8D9fk23zR2OZN44MKHfxVjEcIB
+   g==;
+X-CSE-ConnectionGUID: HDnwve3wQY6F1E8rzOH2KQ==
+X-CSE-MsgGUID: RzKj8TjLTzqxo/TvjmVYnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1828577"
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="1828577"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 10:08:23 -0700
+X-CSE-ConnectionGUID: G/XzPPOkQ/mehdlrVHha1g==
+X-CSE-MsgGUID: UJLaONPAT5SA3mKcICqqjQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="4596521"
+Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.196])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 10:08:21 -0700
+Date: Tue, 27 Oct 2026 19:08:18 +0200
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: liuc63 <liuc63@xiaopeng.com>
+Cc: gregkh@linuxfoundation.org, khtsai@google.com, fangxy@xiaopeng.com,
+	rdunlap@infradead.org, dbrownell@users.sourceforge.net,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: u_ether: fix out-of-bounds read in
+ get_ether_addr
+Message-ID: <auDagk-2QU88ofVC@ashevche-desk.local>
+References: <20261023110113.2969708-1-liuc63@xiaopeng.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,32 +80,63 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261023110113.2969708-1-liuc63@xiaopeng.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-> From: Josef Bacik <josef@toxicpanda.com>
->=20
-> When a split transaction fails, dwc2_hc_handle_tt_clear() sets
-> qh->tt_buffer_dirty and calls usb_hub_clear_tt_buffer(). The hub driver
-> stores urb->ep in its list and hub_tt_work() hands it back to
-> _dwc2_hcd_clear_tt_buffer_complete() after the CLEAR_TT_BUFFER request to
-> the hub, which can take up to a second if the hub does not answer.
->=20
-> Nothing keeps the endpoint until then. dwc2_hcd_endpoint_disable() only
-> waits for the QTD list to drain and frees the QH. If the full or low
-> speed device is unplugged, usb_disconnect() goes on to free the
-> usb_device and its configurations, which hold the struct
-> usb_host_endpoint. The callback then reads ep->hcpriv from freed memory
-> and, if it is not NULL, clears a bit in whatever it points to. A change
-> of the configuration or altsetting only frees the QH, under a callback
-> [ ... ]
-> Fixes: 7359d482eb4d ("staging: HCD files for the DWC2 driver")
-> Cc: stable <stable@kernel.org>
-> Cc: Minas Harutyunyan <hminas@synopsys.com>
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+On Fri, Oct 23, 2026 at 07:00:59PM +0800, liuc63 wrote:
+> get_ether_addr() parses a MAC address string with a fixed six-iteration
+> loop, unconditionally calling hex_to_bin() twice per iteration.  It never
+> checks for the terminating NUL, so a short string supplied through the
+> configfs dev_addr attribute (e.g. "ab") makes the parser read past the
+> end of the buffer, triggering a slab-out-of-bounds read reported by
+> KASAN.  hex_to_bin() also returns -1 for non-hex characters, which is
+> shifted and OR'ed into dev_addr.
+> 
+> Bail out as soon as the string ends or a non-hex digit is found, routing
+> all failure paths through the existing eth_random_addr() fallback so that
+> dev_addr is always fully initialized before the function returns.
 
-Sashiko has reviewed this patch and found no issues.
+Instead, in lib/net_utils.c:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-llm-usb-v1=
--0-b9751ddb9c7c@linuxfoundation.org?part=3D19
+bool parse_mac_pton(const char *s, u8 *mac, const char *delim)
+{
+	...
+		if (i != ETH_ALEN - 1 && !strchr(delim, s[i * 3 + 2]))
+	...
+}
+
+In include/linux/hex.h:
+
+static bool mac_pton(const char *s, u8 *mac)
+{
+	return parse_mac_pton(s, mac, ":");
+}
+
+and here
+
+static int get_ether_addr(const char *str, u8 *dev_addr)
+{
+        if (str) {
+		bool valid;
+
+		valid = parse_mac_pton(str, dev_addr, ".:");
+		if (valid && is_valid_ether_addr(dev_addr))
+			return 0;
+        }
+        eth_random_addr(dev_addr);
+        return 1;
+}
+
+Note, this will require select NET_UTILS in Kconfig to be added.
+
+Make it two patches (first prepares parse_mac_pton() for others to use).
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
