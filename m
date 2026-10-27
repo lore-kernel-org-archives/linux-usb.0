@@ -1,46 +1,45 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112053;
-	b=4JKikf/OGCSyqmU+GqfqWTQqWN1UX6o4Qtydx3i1BXAEL2+8SS0oQDzRESzJJ1ZsnphE
-	 rnGh9XMQlCiz3flF73wHi4V/M4sPl2MaSEyOL5B0nBQYqCwCVRsgf71jvNnU7K8JowNWl
-	 0kd0YDMeVFE5Fg5tFFoEVBnY+YlbU5SKeTZGksyW7RhKjFPxkrZjWdAvzDq7hJWOAzw0T
-	 fjXlWMJXPCmXyvDWAgNKehO6xcUaweJa+HZ+oyS+Knphc7ZL3EoJxrCxLhWTR3set/zAd
-	 V/ni9sLA62BGmIMM3BYE+kXK7cvJu8c+PNyQOmkTtc9HaE/ZfnYjAPNvW6Q7en+8SVQ==
+	t=1793112058;
+	b=LB0DpGwKTNC/FC0KOLKylnRhHpuqqSUCtDFeix8olT71hT8OWVZO9C2CleiTBHCh+cVG
+	 AcHiGGreJOMWjmXwVOcdr+id32I+/i3aYHnoyT3Ag/kzqST9rz1lDMSNj4s4WyNAsCUvA
+	 WVq09vccwN4rwEJqhg35k2Szfpuzz2x+4EUM0h/JprBhh2jEkFEANLoD7oHafUSKgpGZq
+	 A53coacxdPQH2GblPpUaDKC+toNintN4bCiH4Y91+RyjNUknG0bG0CPeeh/h1IZS7+jDC
+	 eCAD5QqUNV8C9QWuL4p7GBsiPzuDAruIR0JeQ5EO7vajCdJ3xv/Ltzm91Ynx738LOag==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112053;
-	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
-	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=eiV4ljQDMo6197ymv3MCP7vCrfTwdpsnBI8nI+LJJvk=;
-	b=05E3I5vHhvu/KsX5LMl0bWGRel9MUcQnqz5cwVVXtXLXksvG1sbWVsUVbHmGEngFirjq
-	 x1twbLrRMu2e8hcTHw7lyPtgbV3BomcPvUeYRE36fGQyubWme2LAbSFm8jDXD+iSbuVlh
-	 nVeerrwy12lp+cVwMYzMnYc872nhMb/qAholYWggkKLkW83yuUJ4oRMjpB8TTAChCpE95
-	 KMHzg0iQiBQl1B0T63NaRgdQAKRdaXqayGcqBZC3sP8gmpaeLXEsP3J7hglAJceSbHkOm
-	 d3EMm9AM4zXyUkG1YdBbpv/LX3g0NdK8EQYyIFZJE/FLy+4MMo4y+yVuW3uJRZJ26rg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112058;
+	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
+	 X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=mdOCBUbvpa7NsphrvVrMSZbrhb7LhfL56fR8sr1ahbg=;
+	b=T0r23QZxgTVjH4+ZM0tSOLgJ5BOaxuBBofThtm+Gczoa+Rb9AG9PBYtAPwA07JjInKQV
+	 yZ+Pinobos6CXq+9LrTmmwbEACcVFJ4EjiXr/A8QO9vSYyijFF1TlKt3VhNJPitkkGXCa
+	 IKujudV74zFkXPe7m5gXYT8iDgzq7hL5rLwMxqeMYwvDYr1OUIngni+dEyv4bOfc4lAOo
+	 9gmy67LBF9mp+XZPc+Eh655f3//kDgiXrZprjRy7wC076w9NNMU/1PP0TMHo+hc7qRvDc
+	 Y41ZmDsrY1LfUxwhXUhgWx8KUEdbSsRc5cnH+F1j8Lag8wOhUdz1y60PsaygtrqRdWw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WOlnuB91;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=fKNscz3Q;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8220606A326;
-	Tue, 27 Oct 2026 14:40:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9526E606A325;
+	Tue, 27 Oct 2026 14:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WOlnuB91
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4EB1F01828;
-	Tue, 27 Oct 2026 14:40:51 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=fKNscz3Q
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 936061F031E0;
+	Tue, 27 Oct 2026 14:40:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793112052;
-	bh=eiV4ljQDMo6197ymv3MCP7vCrfTwdpsnBI8nI+LJJvk=;
-	h=From:Subject:Date:To:Cc;
-	b=WOlnuB91roxsosCuhFOnlObzpcHJ6scBqgUvo+/SWKB05aMODQnsbSW5XH2dURvFn
-	 wv6SwPg8FgfV8yV0zK1D1g0ol/SD45/W4kkufQIFuJJ00RxV98ocwH0yvzisxIA0cy
-	 mvkjjZapIvxJL9cACf5xUwWCB3BRPPm9lrNRGUOk=
+	s=korg; t=1793112058;
+	bh=mdOCBUbvpa7NsphrvVrMSZbrhb7LhfL56fR8sr1ahbg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc;
+	b=fKNscz3Q3d3Gj8iZd0RdOtW/rWF8spQIGem1TAKe4QYkdDP/s3fAELbpnTA+dFyoH
+	 0cMef9G3xtJhbh0bYyEU62atjuhVxJEijdA+qO9jSaUESSyWoKyNwouwxCEHny8Uxe
+	 vIc+qpKKM59NutKqD/q5GxSHHwZCia7CaTbJ8/6w=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH 0/7] usb: storage: some llm-found patches
-Date: Tue, 27 Oct 2026 15:40:43 +0100
-Message-Id: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
+Date: Tue, 27 Oct 2026 15:40:45 +0100
+Subject: [PATCH 2/7] usb: storage: ene_ub6250: report boot block errors
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -52,10 +51,9 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0Q5EMBSE4VeRc71NqhKsV5G90BocsUgPIhHvr
- rj8Mpn/IIFnCBXRQR4bC09jQPyJyHXV2EJxHUxGmzTWJlPD8FerWCXL5Kswp3ViG7j8qwEKr9m
- j4f0plr/XstoebrkzdJ4XO0A6BHMAAAA=
-X-Change-ID: 20261027-llm-usb-storage-6d3bfec890ee
+Message-Id: <20261027-llm-usb-storage-v1-2-d1655e94ed10@linuxfoundation.org>
+References: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
+In-Reply-To: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
 To: Alan Stern <stern@rowland.harvard.edu>, 
  "Cho, Yu-Chen" <acho@novell.com>
 Cc: Josef Bacik <josef@toxicpanda.com>, Greg Kroah-Hartman <gregkh@suse.de>, 
@@ -63,41 +61,59 @@ Cc: Josef Bacik <josef@toxicpanda.com>, Greg Kroah-Hartman <gregkh@suse.de>,
  linux-kernel@vger.kernel.org, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-Mailer: b4 0.17-dev-e5168
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1153;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1634;
  i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=eYqZMNvQnlEDkCGlP+RVzdkliGsHCKrgI0Y1COuLikI=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtn+yv1CbMTW6x1b6Ek/kz4Oms3l+b5u+nmX35lM7n
- T4yfwnJ74hlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJVK5gmB+yXnQ3m2cA8713
- Ij/WP9iRLSNQvJVhnqnDnTwxkzcbjluZujVfOLP/W/TZowA=
+ bh=menQSd3zvOW2/qFhwzcRL+JgrjNulDQGrdsZolXH/DY=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtn+aZdLwjH8pw/X6lZcVtrWF7xbYOLv3LOuSxh05U
+ 4ueiHn2dsSyMAgyMciKKbJ82cZzdH/FIUUvQ9vTMHNYmUCGMHBxCsBEtp5gmF8T2nX8SouvxQvN
+ I2eynRM+31jgY84wz8Zj0sPgMtMi690nzrm11/hF32szBQA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
  fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-Here are some small llm-found patches for the odd usb-storage drivers
-that were sent to me.
+From: Josef Bacik <josef@toxicpanda.com>
 
-None of them have been tested, but they seem semi-sane so I thought I'd
-submit them for others to see and Sashiko to give a second pass at.
+A Memory Stick whose boot block is rejected by the ENE UB6250 driver,
+for instance a hybrid card or a card with an unexpected class, page size
+or IDI configuration, crashes the kernel with a NULL pointer
+write when it is inserted.
 
+ms_lib_process_bootblock() unconditionally sets result to 0 just before
+returning, so every failure is reported as success.  On those failures
+the logical maps were either never allocated, or were freed again by
+ms_lib_free_logicalmap() at its exit label, so ms_card_init() then
+writes through a NULL Phy2LogMap:
+
+    info->MS_Lib.Phy2LogMap[btBlk1st] = MS_LB_BOOT_BLOCK;
+
+It also means the second boot block is never tried when the first one is
+bad.
+
+The bug was found by code inspection and has not been reproduced.
+
+Fix by returning the real result from ms_lib_process_bootblock(), so
+that ms_card_init() falls back to the second boot block and fails when
+neither one is usable.
+
+Fixes: 33842cedfc33 ("Staging: Merge ENE UB6250 MS card codes from keucr to drivers/usb/storage/ene_ub6250.c")
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
-Josef Bacik (7):
-      usb: storage: ene_ub6250: fail MS init on card errors
-      usb: storage: ene_ub6250: report boot block errors
-      usb: storage: ene_ub6250: fix write to unmapped MS block
-      usb: storage: ene_ub6250: bound the disabled block walk
-      usb: storage: sddr09: bound the unused PBA search
-      usb: storage: shuttle_usbat: fix READ CD divide by zero
-      usb: storage: shuttle_usbat: bound the READ chunk size
+ drivers/usb/storage/ene_ub6250.c | 1 -
+ 1 file changed, 1 deletion(-)
 
- drivers/usb/storage/ene_ub6250.c    | 18 +++++++++---------
- drivers/usb/storage/sddr09.c        |  2 +-
- drivers/usb/storage/shuttle_usbat.c |  9 +++++++--
- 3 files changed, 17 insertions(+), 12 deletions(-)
----
-base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
-change-id: 20261027-llm-usb-storage-6d3bfec890ee
+diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
+index 49276ac79402..a5ef1dcf0bc7 100644
+--- a/drivers/usb/storage/ene_ub6250.c
++++ b/drivers/usb/storage/ene_ub6250.c
+@@ -1064,7 +1064,6 @@ static int ms_lib_process_bootblock(struct us_data *us, u16 PhyBlock, u8 *PageDa
+ 
+ 	kfree(PageBuffer);
+ 
+-	result = 0;
+ 	return result;
+ }
+ 
 
-Best regards,
---  
-Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+-- 
+2.56.0
 
