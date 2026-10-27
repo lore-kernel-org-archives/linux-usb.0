@@ -1,46 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112061;
-	b=P/N+mrPmq3ZcfO2W+pxe/J/HXUzVIsVT9MKXgkP/y/dOjjEUvZEpIfnSaEVI+hlYeZ9z
-	 PliQTzRRpCam4wTmQE0ubskXYdJ8oGS95pTKNXUsFtlnmOJ3CO0wWSOOVQ14yoAAz5YC8
-	 wvbNvwnNQAxpMX+9Myz61ymWe5y0S6w2OKqCorLsfUPFPvPwy3YOjUzkC36k/zAWqosNG
-	 VwXJM5Q/tKqkvXZIZ5NI4C6RQtZYyGhFEdabeI1JPS1AfqQKLx2i3k9vagnb69UbM+s43
-	 LRZyAEgrU13cBxe3DMEpYt+2Ym9N2T98abyGrRnhD/L14Ibp/1s7fA9AvwLbIB8teLQ==
+	t=1793112053;
+	b=4JKikf/OGCSyqmU+GqfqWTQqWN1UX6o4Qtydx3i1BXAEL2+8SS0oQDzRESzJJ1ZsnphE
+	 rnGh9XMQlCiz3flF73wHi4V/M4sPl2MaSEyOL5B0nBQYqCwCVRsgf71jvNnU7K8JowNWl
+	 0kd0YDMeVFE5Fg5tFFoEVBnY+YlbU5SKeTZGksyW7RhKjFPxkrZjWdAvzDq7hJWOAzw0T
+	 fjXlWMJXPCmXyvDWAgNKehO6xcUaweJa+HZ+oyS+Knphc7ZL3EoJxrCxLhWTR3set/zAd
+	 V/ni9sLA62BGmIMM3BYE+kXK7cvJu8c+PNyQOmkTtc9HaE/ZfnYjAPNvW6Q7en+8SVQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112061;
-	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
-	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=MYg8DMW212t7KHN89JFfFbMgWrjWDg5NKX324IoPTAA=;
-	b=ZDZPnWMoCKnNmap428dJZ8BPoeIoPweMjosqFeHZnA3gB7ezDhBXNyOopnrtzU/7+HZl
-	 t5ZpZhuzLLgmXkmy8EF6is1oV040tOl0bVGSpnbKJX+i/tbSwHx7gHCc6bM7iXAIGvryZ
-	 9mZOfe4xOqFRRinqxkC8nbUNWFWuamqaafW1u4pwqi/+/sdvsCufh/vjuYCsv2jIxvkRm
-	 2ohz035YtDPv4N5KRLJvdH4Isc4k6Upk6UaPKQzR4NfWYqw5oFRZyLOO1NkRpe4SsJ/Aa
-	 JniQnTZPfTPoTkMa/iuXimzmzzwoFUtx7f+cvDWJiG27Ehu2PW4L4wWjQU75p352xsg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112053;
+	h=Received:DKIM-Signature:From:Subject:Date:Message-Id:MIME-Version:
+	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:To:
+	 Cc:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=eiV4ljQDMo6197ymv3MCP7vCrfTwdpsnBI8nI+LJJvk=;
+	b=05E3I5vHhvu/KsX5LMl0bWGRel9MUcQnqz5cwVVXtXLXksvG1sbWVsUVbHmGEngFirjq
+	 x1twbLrRMu2e8hcTHw7lyPtgbV3BomcPvUeYRE36fGQyubWme2LAbSFm8jDXD+iSbuVlh
+	 nVeerrwy12lp+cVwMYzMnYc872nhMb/qAholYWggkKLkW83yuUJ4oRMjpB8TTAChCpE95
+	 KMHzg0iQiBQl1B0T63NaRgdQAKRdaXqayGcqBZC3sP8gmpaeLXEsP3J7hglAJceSbHkOm
+	 d3EMm9AM4zXyUkG1YdBbpv/LX3g0NdK8EQYyIFZJE/FLy+4MMo4y+yVuW3uJRZJ26rg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=sLxd+3Of;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WOlnuB91;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 504B4606A31E;
-	Tue, 27 Oct 2026 14:41:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8220606A326;
+	Tue, 27 Oct 2026 14:40:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=sLxd+3Of
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89C181F031E0;
-	Tue, 27 Oct 2026 14:41:00 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WOlnuB91
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA4EB1F01828;
+	Tue, 27 Oct 2026 14:40:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793112060;
-	bh=MYg8DMW212t7KHN89JFfFbMgWrjWDg5NKX324IoPTAA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=sLxd+3OfCr24LNH5kT6VR45O8Ulo2Xp+vWlebg2nwqmGnCnj1IjGCAeOI4X5qjPzH
-	 hFcEZ6J9fZY5XzHMFSNmpj1dMa8pYN0lOGOZ7dn8o2eZNE+J9Kwkw/t8xqvMUSHlM1
-	 j4dPxzOHkKy7y7j7lFk8Gb4WUhUyqCzbHf55piYE=
+	s=korg; t=1793112052;
+	bh=eiV4ljQDMo6197ymv3MCP7vCrfTwdpsnBI8nI+LJJvk=;
+	h=From:Subject:Date:To:Cc;
+	b=WOlnuB91roxsosCuhFOnlObzpcHJ6scBqgUvo+/SWKB05aMODQnsbSW5XH2dURvFn
+	 wv6SwPg8FgfV8yV0zK1D1g0ol/SD45/W4kkufQIFuJJ00RxV98ocwH0yvzisxIA0cy
+	 mvkjjZapIvxJL9cACf5xUwWCB3BRPPm9lrNRGUOk=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Tue, 27 Oct 2026 15:40:46 +0100
-Subject: [PATCH 3/7] usb: storage: ene_ub6250: fix write to unmapped MS
- block
+Subject: [PATCH 0/7] usb: storage: some llm-found patches
+Date: Tue, 27 Oct 2026 15:40:43 +0100
+Message-Id: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -52,9 +52,10 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-llm-usb-storage-v1-3-d1655e94ed10@linuxfoundation.org>
-References: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
-In-Reply-To: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXM0Q5EMBSE4VeRc71NqhKsV5G90BocsUgPIhHvr
+ rj8Mpn/IIFnCBXRQR4bC09jQPyJyHXV2EJxHUxGmzTWJlPD8FerWCXL5Kswp3ViG7j8qwEKr9m
+ j4f0plr/XstoebrkzdJ4XO0A6BHMAAAA=
+X-Change-ID: 20261027-llm-usb-storage-6d3bfec890ee
 To: Alan Stern <stern@rowland.harvard.edu>, 
  "Cho, Yu-Chen" <acho@novell.com>
 Cc: Josef Bacik <josef@toxicpanda.com>, Greg Kroah-Hartman <gregkh@suse.de>, 
@@ -62,63 +63,41 @@ Cc: Josef Bacik <josef@toxicpanda.com>, Greg Kroah-Hartman <gregkh@suse.de>,
  linux-kernel@vger.kernel.org, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-Mailer: b4 0.17-dev-e5168
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2042;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1153;
  i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=1uaqey8EFgWrOIzPx4SIIQXgTx3i2neNWdB5NgkCJDo=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtn+adeab39/WvsTnT48VP3275uwyO9Zbl5ZPUch+7
- cjCpNbH0hHLwiDIxCArpsjyZRvP0f0VhxS9DG1Pw8xhZQIZwsDFKQATOVjNME8xw+CvjsGXe//Y
- E/c959Z3Tpv5K4FhwfVLn2v3P2p6LfA88nMhT4P0wo5NHAA=
+ bh=eYqZMNvQnlEDkCGlP+RVzdkliGsHCKrgI0Y1COuLikI=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtn+yv1CbMTW6x1b6Ek/kz4Oms3l+b5u+nmX35lM7n
+ T4yfwnJ74hlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJVK5gmB+yXnQ3m2cA8713
+ Ij/WP9iRLSNQvJVhnqnDnTwxkzcbjluZujVfOLP/W/TZowA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
  fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
-From: Josef Bacik <josef@toxicpanda.com>
+Here are some small llm-found patches for the odd usb-storage drivers
+that were sent to me.
 
-Writing to a logical block of a Memory Stick that has no physical block
-assigned yet makes the ENE UB6250 driver write two bytes far past the
-end of its Phy2LogMap allocation.
+None of them have been tested, but they seem semi-sane so I thought I'd
+submit them for others to see and Sashiko to give a second pass at.
 
-ms_scsi_write() looks up the current physical block of each logical
-block with ms_libconv_to_physical().  For a logical block that no
-physical block claimed during the scan, Log2PhyMap holds MS_LB_NOT_USED
-(0xffff), and for a logical block beyond NumberOfLogBlock the macro
-returns MS_STATUS_ERROR (0xfffe).  After copying the data to the new
-block, the old one is marked as erased without any check:
-
-    info->MS_Lib.Phy2LogMap[oldphy] = MS_LB_NOT_USED_ERASED;
-
-which, for those values, stores 0xfff5 about 128KiB past the start of
-an array that holds only NumberOfPhyBlock entries.  Unassigned logical
-blocks are normal on a card that has not been completely written, and
-the card contents are under the control of whoever supplies the card
-or the reader.
-
-The bug was found by code inspection and has not been reproduced.
-
-Fix by only marking the old physical block as erased when it is a valid
-physical block number.
-
-Fixes: 33842cedfc33 ("Staging: Merge ENE UB6250 MS card codes from keucr to drivers/usb/storage/ene_ub6250.c")
-Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/storage/ene_ub6250.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Josef Bacik (7):
+      usb: storage: ene_ub6250: fail MS init on card errors
+      usb: storage: ene_ub6250: report boot block errors
+      usb: storage: ene_ub6250: fix write to unmapped MS block
+      usb: storage: ene_ub6250: bound the disabled block walk
+      usb: storage: sddr09: bound the unused PBA search
+      usb: storage: shuttle_usbat: fix READ CD divide by zero
+      usb: storage: shuttle_usbat: bound the READ chunk size
 
-diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
-index a5ef1dcf0bc7..bce593730187 100644
---- a/drivers/usb/storage/ene_ub6250.c
-+++ b/drivers/usb/storage/ene_ub6250.c
-@@ -1805,7 +1805,8 @@ static int ms_scsi_write(struct us_data *us, struct scsi_cmnd *srb)
- 				goto exit;
- 			}
- 
--			info->MS_Lib.Phy2LogMap[oldphy] = MS_LB_NOT_USED_ERASED;
-+			if (oldphy < info->MS_Lib.NumberOfPhyBlock)
-+				info->MS_Lib.Phy2LogMap[oldphy] = MS_LB_NOT_USED_ERASED;
- 			ms_lib_force_setlogical_pair(us, PhyBlockAddr, newphy);
- 
- 			blen -= len;
+ drivers/usb/storage/ene_ub6250.c    | 18 +++++++++---------
+ drivers/usb/storage/sddr09.c        |  2 +-
+ drivers/usb/storage/shuttle_usbat.c |  9 +++++++--
+ 3 files changed, 17 insertions(+), 12 deletions(-)
+---
+base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
+change-id: 20261027-llm-usb-storage-6d3bfec890ee
 
--- 
-2.56.0
+Best regards,
+--  
+Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
