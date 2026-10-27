@@ -1,54 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112133;
-	b=bTaEOw6NRpUZa3ob7YXpK86O3LtwNeAu63DESwQ1cRmITIdQFD07GoSnwDKbSRrowhH+
-	 aZkqww+8xl75lW7FPkgtKtwLYsutFt+udhLQyvA3T2u32dmQDOFeeSmKa/Z0sFjWb33+Z
-	 CDstYh8OXmUG5rmD0gc1DfCeH8iQ6dPmdXy6AlFJCQOSlix67nvzgfl0XmdVOsoD5xUs5
-	 9/YFWLbZmg8EFdf9BfPzwf8fF3l3Ebo1hn9vxfDw6TVDPyDLIHPNXGOcMTQoFCnPdFrLO
-	 K9lMqE2ibgobP1O8CO5NjAb+iC4BwrrA79n6hN82xUilc/JR7hCcHa7j2Tfv9Ym8kNw==
+	t=1793112494;
+	b=kn/0lATfoi+AR0bxYLtWJ0sDGfJ8U/D+GRYooaFkWI8bb9FD7guhrI0CIS3yfYFtLTOy
+	 kXblBmu/yx4hcD9xszeSWuTXuWUFf2sVUm51NhV2+TqIun5woe8i4/YriGQKpxog6VLAo
+	 P6sf/QidTY/RhQrqsbS3o/iYyagJhNRsjRvEtbDOgv3SCfm38GAQABeXzHuOUwZwqSB8G
+	 oJlqeoVxwAUlGis5wH86I741oPViLqo+cKXdgDOXiYElLGKwfccRYgvpYg0PxndEAtX5u
+	 bD83XcDJupH/ACtajNfiOkOjEs9MXTgQaEnw7vWT42mvIZ/Fraxb3/hlMComxbBlMRQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112133;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=NFouP8hPUT8POi6fStUsnMh2AznhRZgbLqZ70w2y0D4=;
-	b=NrxIP3H9z+NIQjYKsMdRF+E8rSj3zMUAvufxpgGlaO1dPq74J9H+qNY7vDbImclrJwdw
-	 PfszEZSr+HVm03rshda84cVFvTbwgKaaCiJHO1EwmW0QttvAiiqDjK97depWLN8vwmPaO
-	 ixU99U+6EsDG5dV0qBr8AH5Qfrkn98gOmv7THebXNvR2Cs+Yn4jSwnHf97Tl7s5d864DX
-	 76v7w3c/bS6QjMXPRcEmy/MQ3Q+Ix2pS1v5lc4s/eQUaYErGiX7hqHXvzrE618i36YpcL
-	 X28H5kKAx+eP8MwCDsQU110FAOLgrfz/hYS3w1KiwtMeJqyu0Vz1AIYOlIImbgVFCEg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112494;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=+K2PYs/RmRv1ObdzuXi47ipk86amzHHt6o3xGdZ843E=;
+	b=Lyiefxs4Kudl3b7Hs+eZtzyyjxd8isrywoBx8imPcqiBqukP9ps9j5Y1CROOinhdAeHg
+	 4hg2u2Uyu7EoY/8/MevCecG8iVC9+PWjzSe+cOE4mHAvvhWMYELEo5xMTLisLm+0KpJt1
+	 ZTp4+zPqVaxMdZTZqVyFf3yojVtgfDFVJBUYsccL26THsisLedH3oJM27eDb7sDqTf+wC
+	 MjMSIUxklteFWh2jX6v9pblY9DjIUE+8tGAFOixlgecFosjteAZkju0341N4Lls+oGPcV
+	 dPrqXFc8NwkPfddDoSGOdOHGOncTD28RoVnOFgHpjZm0e/1n6WufoR90RiARTTk29nA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qXWwhii3;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l93j6viD;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C4B606A338;
-	Tue, 27 Oct 2026 14:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292F7606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 14:48:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qXWwhii3
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F39221F031E4;
-	Tue, 27 Oct 2026 14:42:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793112132;
-	bh=NFouP8hPUT8POi6fStUsnMh2AznhRZgbLqZ70w2y0D4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=qXWwhii3/nXzdmldkpbq076PF7Q4ctfx4+zODROoE0h6INMiaYC+ZAbNhT9VZjsbG
-	 OOQqE4Mfu1QrI7EFdpxWfAZniuEeLtCE98NG9MjXm1A86N7ccbeIKpfosmXPI1b/WL
-	 Pkh4jmkkYJrxiJL6h2uOl9glu1GgLvFU09PaapE4=
-Date: Tue, 27 Oct 2026 15:42:11 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Mika Westerberg <mika.westerberg@linux.intel.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Josef Bacik <josef@toxicpanda.com>, stable <stable@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
-Subject: Re: [PATCH] thunderbolt: stream: Undo more if the start fails
-Message-ID: <2026102704-cramp-chip-259e@gregkh>
-References: <2026102751-nibble-synapse-d406@gregkh>
- <20261027143325.GJ158991@black.igk.intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l93j6viD
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 870781F01825;
+	Tue, 27 Oct 2026 14:48:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793112493;
+	bh=+K2PYs/RmRv1ObdzuXi47ipk86amzHHt6o3xGdZ843E=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=l93j6viDRcVrt6sIZj4yMxv+U8xdVcZbSbMmrla8xsu9BsPzAJO3YSxA+vaPYiG8T
+	 6LogbaSQBWsShYhz6wl8V2Hcb0tHh+s+lJNbFQ6T8qz3O6ZzW9QBQBj8ietXwhJikK
+	 M8qvZ1YanBB1S1e34if87YV8ibviYBVLVW1foxawXvEC7EQkuINWy/DxmKpMWCpMm0
+	 JY+c1OZdWf1nqtkhhVuqOxYz/kEMZcHht9KltIcWKnX1F8GOkLU2O/g1gewi3L0nrk
+	 8GQd+HzhyL3Y0KFxkzWt5GFsLNnSu1yXhPWo8rxaSN5OmcAI6o/UKVJjl1IijnlPRa
+	 QzKZ3ndVGVN4A==
+Message-ID: <sashiko-outbox-186760@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] USB: serial: oti6858: fix the teardown order in close
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <2026102725-congenial-profound-99ee@gregkh>
+References: <2026102725-congenial-profound-99ee@gregkh>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Oct 2026 14:48:13 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -57,35 +58,33 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261027143325.GJ158991@black.igk.intel.com>
 
-On Tue, Oct 27, 2026 at 03:33:25PM +0100, Mika Westerberg wrote:
-> Hi,
-> 
-> On Tue, Oct 27, 2026 at 03:24:52PM +0100, Greg Kroah-Hartman wrote:
-> > From: Josef Bacik <josef@toxicpanda.com>
-> > 
-> > If the receive buffers cannot be allocated or mapped,
-> > tbstream_dev_start() stops and frees the rings, but
-> > 
-> >  - leaves the DMA paths through the XDomain connection enabled, with the
-> >    hop IDs of rings which no longer exist;
-> >  - does not release the frame array and the pages which
-> >    tbstream_dev_alloc_rx_buffers() had allocated and mapped before it
-> >    failed.
-> > 
-> > Fixes: 6db21d817b43 ("thunderbolt: Add support for USB4STREAM")
-> > Cc: stable <stable@kernel.org>
-> > Cc: Andreas Noever <andreas.noever@gmail.com>
-> > Cc: Mika Westerberg <westeri@kernel.org>
-> 
-> Do you want to take this directly via USB tree? Then,
-> 
-> Acked-by: Mika Westerberg (Intel) <westeri@kernel.org>
+> From: Josef Bacik <josef@toxicpanda.com>
+>=20
+> The driver passes a baton around: the completion handler of the
+> interrupt urb either resubmits the urb, submits the read urb or
+> schedules one of the two delayed works, and the works and the bulk
+> completion handlers submit the interrupt urb again.
+>=20
+> oti6858_close() cancels the works first and kills the urbs afterwards.
+> An interrupt urb that completes in between schedules a work again:
+>=20
+> 	oti6858_close()
+> 	  cancel_delayed_work_sync(setup)
+> 	  cancel_delayed_work_sync(write)
+> 				oti6858_read_int_callback()
+> 				  schedule_delayed_work(setup)
+> [ ... ]
+> Fixes: 49cdee0ed0fc ("USB: oti6858 usb-serial driver (in Nokia CA-42 cabl=
+e)")
+> Cc: stable <stable@kernel.org>
+> Cc: Johan Hovold <johan@kernel.org>
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
-I can, thanks!
+Sashiko has reviewed this patch and found no issues.
 
-greg k-h
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/2026102725-congenia=
+l-profound-99ee@gregkh?part=3D1
+
