@@ -1,55 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793064366;
-	b=bGRztDKsH3iUsboPYKpEdXsrQhYcdUjaTAVRt0msyicLNrx9HnB7G8G8cztCluYaoY2d
-	 JtY/Kz254FaCDTiWPLJgtEem81jTe5YZd8hi0422wIetnq3hEKWYs7wFoP62uKZGBpdnI
-	 aRRkNosK5QbEGXOJywmj5aSiy1c/ngMGZB2FrC/QJjiy2wAywDc8WUwAgM7d9xIWgEW9w
-	 FTHnBWfcO8WShcof6TH4kHiJ9p7Iolfx4QIyMb8svcjc7HDVdn+yTC5IwOCr+l78t2zLi
-	 c4FOk6Hfmckp19QBxzCSO1tTvEZR2lXe8AcHdIJ/8Rv6S1BAyLCZJS4dyR9SmTflBqA==
+	t=1793065207;
+	b=15yoQP4wbepIgJs26/q3R6MrAUNA5xka2ii4szLdW/+wqZrK9wwhoXsUeXW2czqQV84y
+	 g7HT6iM8wTFsDkI3nQHkTXoJ62Xky5fc51lvuZeUiQVm46ZEe48/J+coe8uoHZqZwJXlA
+	 NCd3WkZHKSamlkdLyl+jhsbzC6KMoY8wVFbhIRdYFLb2/4ZQOvLnx47F4aYJvVxH1XxWD
+	 DgbN4KK0ZKUOMlD5bMxKBUx0bU97IoagvJ7pWN75m5LtAXQc89fpANJCMsAq3IpBhEVAi
+	 VGADaKC7qytUHnIMeLqdmxt2cbYruvrx7ozd3NgtnxrWlSn1uQNRA2sWkZK7A3LXuzA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793064366;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=vzY41+Cp/yjYeEoD+jjYQ0c3s6HdUuoj8US995hKomA=;
-	b=RP467oajlWR2VlNfDXYsxOJ3d1ojwMpp6BrCeOi4GUUyhiZn01e0ZtxJmT+NdmT7FzuW
-	 oQlpqoNZbXZCJh7I4hwmAKQkJ2s5T2J8SMky8/qRPbJO5qLOcA4fX0+ZEZgix/I77QDM3
-	 VvvuBUQOfzgUJ+nCr5NLWvL5dyhU572YCPFw7+r1PDB/e+rUd2xQCDt2bltcARDxKWpdr
-	 SPnd7VwYRkZmp/ONT7y7HGSfW7+4NLdeVyt41f66Y/D8F5HW4J3t9n53QYAlgRClP8HCa
-	 rmc0iLlt4xj1FnkNYAQsB1hO9WCHJ6R0tfMrPspA2gfNJX6vShQd1MO168LwdUL/RJA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793065207;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=oLLGLsviN+AyNUwtthLtGQRS/ZFe1aWIbjzfKtVXnoI=;
+	b=ec+CL2sJuMccwl7xcf74LxlDlM6VLEUEWtLyzcJZj7VhZC1yUj5hrEvkUs5UHv0E6kAK
+	 PBqfQZUMqKaAN2elpvGcErCu3z5+53nVOTWSXteZJGGb8DRuYbKywcgU0fF+VQxnVc0kC
+	 0ytVcv1cRmUB8cM8IdFXJLcpuVJELU3aHO1r0ly1IZJWVvz0oYDoGJlKMp0RCqU/Ravdo
+	 9CEpPLXM7nflz2jtrCuG5URtoMUKZ7ORzaQRoSG+MngRqoUsBL66Bkz+f4ht2r6+oQ2tr
+	 ew1mYlZBU2ujH8zlVJfpF6o2KlpxIx/Ow5y8yTnbwCyAYlS7yKLjxgvR7fvn8Bvq4Zg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cbhkFxcU;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i73fqt55;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36BD8606A329
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 01:26:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33357606A32D;
+	Tue, 27 Oct 2026 01:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cbhkFxcU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA3AD1F031E5;
-	Tue, 27 Oct 2026 01:26:05 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i73fqt55
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7D801F01825;
+	Tue, 27 Oct 2026 01:40:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793064365;
-	bh=vzY41+Cp/yjYeEoD+jjYQ0c3s6HdUuoj8US995hKomA=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cbhkFxcUKH5J2oT4G9Kms16lIkkdMvARqCHl/Qx5xVHCPYDQBfBSRFtMgRHHgqzap
-	 AqBdpCdNyTR+shVz/q4cbD9rAcjwQe7Sf1mvdvmWGVfYEs3AXvamIDNII/ODZl7ji4
-	 qfXsm4ABQ7hmYXgHDxQwc5Z+Go3B680U6h4BSgAbMnoGq7l1cvepHmqhoovoIqUOzS
-	 mlSbBZ58vI8Im8er1ybXuooFtw+fj84B7pdWBOX8A8WVVz3F+E2BJlG48mgW1kzxkx
-	 tMlpIBKr4iJZFGE15/aFy8dhmhdsoLyCCI/bfSDVu4SoGN/hpJ15fuWOd/s5XWclIu
-	 qLVmMQH/SoMfw==
-Message-ID: <sashiko-outbox-185979@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: dwc3: qcom: Restore UTMI PIPE clock on resume
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Filippo Falezza" <effeffe99@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261027-dwc3-utmi-resume-v1-1-ca9f0aa65783@gmail.com>
-References: <20261027-dwc3-utmi-resume-v1-1-ca9f0aa65783@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 01:26:05 +0000
+	s=k20260515; t=1793065206;
+	bh=oLLGLsviN+AyNUwtthLtGQRS/ZFe1aWIbjzfKtVXnoI=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=i73fqt558eAnmGmhGUYMZnaF1B+DYgoGrf0uh6aV2cWpFpgZfCNDmbrIEJyR29c+t
+	 rut+VhYotqssVs85f0xKoDiKUwXFiS17OzVVedCdJG+1hWnPaCj7Vz8hUCdl+Ei7sk
+	 SF2zB9vUZnoWee/Ihzk/a6h/+++0ibndt2kXGFYWbJGsvbDPO0Qz90/Txwhw6XjNEy
+	 BpeHaejIFHpMqWmW9FumIP+nVRHEeAL338G6kz3NsHFiB6afYWI5u2fSnBic+TANVi
+	 DCtBCmgAVF8yneqrQ1V7iQKxus7ALUBRq2HHXOqmWMZu/Rz6n2VqtXiRoLaSuzbGjd
+	 tCeNK0n55iYhQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id BE57A3AA80F1;
+	Tue, 27 Oct 2026 01:40:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,32 +52,49 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v3 0/2] net: usb: cdc_ncm/cdc_mbim: fix netpoll lockup
+ in tx_fixup
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179306520565.3504795.7927315467376347222.git-patchwork-notify@kernel.org>
+Date: Tue, 27 Oct 2026 01:40:05 +0000
+References: <20261024-cdc-ncm-netpoll-v3-0-6284ca03f967@tipi-net.de>
+In-Reply-To: <20261024-cdc-ncm-netpoll-v3-0-6284ca03f967@tipi-net.de>
+To: Nicolai Buchwitz <nb@tipi-net.de>
+Cc: oliver@neukum.org, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@kernel.org, kuba@kernel.org, pabeni@redhat.com,
+ sjur.brandeland@stericsson.com, alexey.orishko@gmail.com, bjorn@mork.no,
+ gsuarez@smithmicro.com, leitao@debian.org, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org, mke@visotia.com
 
-> Boards whose controller has no SuperSpeed PHY set
-> qcom,select-utmi-as-pipe-clk, and the glue then programs QSCRATCH
-> GENERAL_CFG so that the core's PIPE clock domain runs from the UTMI
-> clock. This is only done at probe.
->=20
-> When the SoC reaches its deepest state in suspend-to-idle (CX power
-> collapse), the QSCRATCH registers lose their contents. On resume the
-> core is reinitialised with its PIPE domain unclocked, and the gadget
-> does not come back:
->=20
->   dwc3-qcom a600000.usb: failed to enable ep0out
->=20
-> The link stays down until the driver is unbound and bound again.
->=20
-> Remember the property at probe and select the UTMI clock again in
-> dwc3_qcom_resume(), after the clocks and interconnect paths are enabled
-> and before the core is resumed. Move dwc3_qcom_select_utmi_clk() up so
-> that it is defined before its new caller.
->=20
-> Fixes: a4333c3a6ba9 ("usb: dwc3: Add Qualcomm DWC3 glue driver")
-> Signed-off-by: Filippo Falezza <effeffe99@gmail.com>
+Hello:
 
-Sashiko has reviewed this patch and found no issues.
+This series was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-dwc3-utmi-=
-resume-v1-1-ca9f0aa65783@gmail.com?part=3D1
+On Sat, 24 Oct 2026 15:23:05 +0200 you wrote:
+> Mikkel reported lockups with netconsole on a cdc_ncm device. Further
+> analysis showed that netpoll calls ndo_start_xmit() with IRQs off but
+> BHs on while holding the txq lock, and the spin_unlock_bh() in the
+> tx_fixup paths runs pending softirqs. A transmit from one of them then
+> spins on that txq lock.
+> 
+> Patch 1 fixes cdc_ncm. Mikkel tested the v2 version of it. Patch 2
+> fixes the same code in cdc_mbim and is untested.
+> 
+> [...]
+
+Here is the summary with links:
+  - [net,v3,1/2] net: usb: cdc_ncm: don't enable BHs in tx_fixup under netpoll
+    https://git.kernel.org/netdev/net/c/108ca34cf4b4
+  - [net,v3,2/2] net: usb: cdc_mbim: don't enable BHs in tx_fixup under netpoll
+    https://git.kernel.org/netdev/net/c/bfd7ced012c7
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
