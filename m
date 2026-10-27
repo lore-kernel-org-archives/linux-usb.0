@@ -1,57 +1,60 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793101053;
-	b=KWt8MQhT+nKGgm6vUfYDaTzrHokteXt1AdSlpVUDbYtZfjxpc+SjDrW3hh3HX7v+zD8U
-	 IglyWKpsDGXzjQw57uWs3a/swfWEi9O6ecMSG/K9oSJ7yIdqXGctWnse3iknhUV0Pr+T7
-	 ZRXpfGkqEpTiDRaVXYEieO/KHRfQ0r9CNCYIF3VMFtw0TxLRY1iWMsB2sayS3kwDdNJW0
-	 SWK1mcTN2Gwc9h8VRB1qCVEK7xUI1qgIu7JjOw7lOEfHgweC4uOoq4nnAtls40KoMtYIG
-	 ej72i7SxNCYMp/+3C5+JEUtzHp0AUrhaN8LD1k2MO8Zuon5UvTr5NRHVD5Pom6kRo8Q==
+	t=1793101477;
+	b=SRC3HQY1KkYSUyl2N0tFoTjNeDn4Sk2BLlO0N/wSIoRBa4qzrhXtP40uShAy0k6AZ+W1
+	 3PmrwGYeGQwejSMo5bjF+2V9D0ODlFHrOf88RLtuaXjNWcprhnrvHfr1LPfSSl06waD7W
+	 1nnHiI0SmJ8Q1r3Y/LOA8EXIU4oxTka4yhVkXCqYWsOFuwrEgAml12qlM5n5l3TvV0dO2
+	 aLEVDiIwL1Z3lSVuAwS6lwW1zkF3NuEXcmxh7ILhw2LOikJkd7tGw8FRe8pAsBwh4Mncj
+	 eogoROYHEyRpOEmWoCZA7R00uDLxEFr+KJ9G3HVPAjWzlQFz1c4dF4dq0TI5HLbH0aw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793101053;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=5zJkQo9DZw/r4JUUHM7XRVE8fjTusHDoU1iilE7vlts=;
-	b=KhHh3GB06wJzhB+jORa3wBrXKqeTaHMkVGRfmBnJ64ocqq/BTpZ7L/gweffKrhdPt/fb
-	 Pd189C5+iYs6z+pWjF59qSwq4ZLKOKqTmxPh6uxPUMxaPHevP9eQ3a4uvWZ1IM7ZPtr26
-	 vm7XmeqZ5XVaHHFo9/g2qszKMfyBH+uO2dVbew/pvwPtgtRMkIgYBk6OAAJN6p2AU/vAd
-	 kUpXs5GJjRGQrvBcUWrIgjPCQd0yA64ophW7h83Lc02qihA044ukpmZdtWa+XKCBu4QQq
-	 aKmQs/rTjEwU2hcynAFRH/h0q3PDoqRKGB11Wotd0Y7KHg1nVZ1Gc4dX/IYuo5m5Udw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793101477;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=bhgy9b9iaQksIHXVfJkvHqhyyRhJ2TXmbdJFqO41xng=;
+	b=3Kdl7dprD2qe3Mmvx6ihbskVxsOn5Ympo55jw0pdYBgNqH+NvkHqt+i8iJY/Ah25nDmv
+	 h8mvB/0Fbedw0ZDPVur89IASOSZsMU6lYiJd1G0YySMhkUv3NE6J+u8xNbRsFY6DqUee6
+	 eBJP7CR/kn4o2W25bvs8eqN33u9ijmYFxff2z31lJln94tccSY8zvyn2nB7JAtFxSW0BG
+	 poqg6K5uxu8m60AMw9McH+qgaZNLA/QPHogJOGzLJJsrZCXW1fsyVqSVp/oeHbELvSdMb
+	 tRFQnstfyS9SuzK29bPikGvvVppk8DRd4Qb3zbt6rXftxgPOpbrE9FLxsmjaQscdEhQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=crlwnDkE;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="XU/kFEJ3";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F30606A31E
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 11:37:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F153606A33F;
+	Tue, 27 Oct 2026 11:44:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=crlwnDkE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B47681F01829;
-	Tue, 27 Oct 2026 11:37:32 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XU/kFEJ3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D0A91F01825;
+	Tue, 27 Oct 2026 11:44:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793101052;
-	bh=5zJkQo9DZw/r4JUUHM7XRVE8fjTusHDoU1iilE7vlts=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=crlwnDkE449Iak2XltXlEs7hVu5LKpiURvUMni994mlkWMYW29K0izQMH3nBWvy0C
-	 je8TDoLyFEK7IEhIXui8mqrnDKVVs8J6AwiL4OZCoMH0MNULfFNe4oF3KBe2IzGI0X
-	 mV2krsvsoCA+0Qqh53wmL2AHPT3wb3k8Ll/gcqcCtYzAqMxAjsuNzFAGQQjUeCA6Ei
-	 Ce+2ic+WpMWfQklIaUiJNMxEv7MpP8Y2TdnFaXT6iAbU+5mbqfjLTv+sZwcMw3jyi4
-	 mc8MvPFWDPdAcot0N4YRqwAcEmjLcacyz37QELW/T0toeNtXK+S2oubbxSP6T4a7Ax
-	 Ng1whQGzG1ugg==
-Message-ID: <sashiko-outbox-186463@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v7 8/8] Documentation: sound: add the Babyface Pro
- proprietary-mode design doc
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?SXNtYcOvbCBCYWhsb3Vs?= <i.bahloul01@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261027113140.134257-9-i.bahloul01@gmail.com>
-References: <20261027113140.134257-1-i.bahloul01@gmail.com>
- <20261027113140.134257-9-i.bahloul01@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 11:37:32 +0000
+	s=k20260515; t=1793101476;
+	bh=bhgy9b9iaQksIHXVfJkvHqhyyRhJ2TXmbdJFqO41xng=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=XU/kFEJ342txowxywqlXflWa5Vf6gup36NZpWayGn17JG/31EX/NDYf/7NXiqNrgN
+	 Dh9Y32pX5BXzBnPCUPmIpcCXmegyEYqbUdOREYAo7Imrw9n+6el68m6P2mNypzmOIC
+	 TD2H9uGUolMxozpAgz4zN9oHcCgRWiU0AKrd6je3Kku/jS3meR8WEpQ0QG89kae5uE
+	 K4mS57M2uBNJ7YC5FRCS+ODpSWEFsdhqVsuSWdGLnvrYoieUbUesZdpBESSCZJ0b5r
+	 JYAKR0licLqgyfRpavIayZcl6VYG5k95XxYUrhUiS+ZsEooDgejuW/a8xcG7G8SoEb
+	 ED2fKpo/1uvuw==
+Date: Tue, 27 Oct 2026 06:44:33 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Amit Sunil Dhamne <amitsd@google.com>
+Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+	linux-usb@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	RD Babiera <rdbabiera@google.com>, Kyle Tso <kyletso@google.com>,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Badhri Jagan Sridharan <badhri@google.com>
+Subject: Re: [PATCH v2 1/2] dt-bindings: connector: Add time property for
+ tSenderResponse
+Message-ID: <179310147273.1064174.16346013384937637335.robh@kernel.org>
+References: <20261010-tcpm-sender-response-time-v2-0-67ea364a21d7@google.com>
+ <20261010-tcpm-sender-response-time-v2-1-67ea364a21d7@google.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,22 +63,41 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261010-tcpm-sender-response-time-v2-1-67ea364a21d7@google.com>
 
-> A big-picture companion to the patch series, for human reviewers:
-> why the proprietary mode needs a standalone driver instead of a
-> snd-usb-audio quirk, the vendor protocol's write-only/no-readback
-> shape and what that forces onto the driver, the stream session
-> model, why the mixer state has to be cached and replayed, and why
-> the driver has to emulate TotalMix's own role for the front panel.
->=20
-> Requested by Takashi Iwai's v4 review: documentation for reviewers,
-> not restating what the code comments already say inline.
->=20
-> Signed-off-by: Isma=C3=AFl Bahloul <i.bahloul01@gmail.com>
 
-Sashiko has reviewed this patch and found no issues.
+On Sat, 10 Oct 2026 01:37:37 +0000, Amit Sunil Dhamne wrote:
+> Add the sender-response-time-ms property to allow platforms to specify
+> the tSenderResponse timer value, i.e. the max time a port waits for the
+> port partner to respond to a message that requires a response.
+> 
+> As per the PD specifications, the tSenderResponse values are:
+> 
+> +--------+----------+----------+
+> | Spec   | Min (ms) | Max (ms) |
+> +--------+----------+----------+
+> | PD 2.0 | 24       | 30       |
+> | PD 3.2 | 27       | 33       |
+> +--------+----------+----------+
+> 
+> Set the minimum value to 24 ms (the lowest minimum across the PD
+> specifications). Both the default and maximum values are intentionally
+> relaxed to 60 ms to maintain interoperability with slower port partners,
+> while allowing platforms to configure stricter spec-compliant timeouts.
+> 
+> Also update the max33359 example to showcase the new property.
+> 
+> Assisted-by: LLM
+> Signed-off-by: Amit Sunil Dhamne <amitsd@google.com>
+> Reviewed-by: Badhri Jagan Sridharan <badhri@google.com>
+> ---
+>  .../devicetree/bindings/connector/usb-connector.yaml         | 12 ++++++++++++
+>  Documentation/devicetree/bindings/usb/maxim,max33359.yaml    |  1 +
+>  2 files changed, 13 insertions(+)
+> 
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027113140.1342=
-57-1-i.bahloul01@gmail.com?part=3D8
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
