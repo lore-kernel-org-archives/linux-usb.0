@@ -1,85 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793114496;
-	b=s0BT0L9JmpAZ2bLgm87uUgQbSZqVyft/FnhAoJ/9l6CM6JPkLbVz1RR3cIjb/FAsRUp0
-	 EJYdDabJHZgb89ZfD+/adwGsXdeI2ayeUsg5vaYC/I1yFvUUQ+U1m/X1dU9laI6JJu+3b
-	 0iozlPHoMoCrr0/JnAsDVLFoK9bB0sJNI8Y2NaOaOK1QgfiHNpy6T+oJCy1ZwGxt7APG6
-	 hrtx+wzMNzpu0FciymDoJ1aNtVx2KOmbZOut641mONt5v9ZioF0XAYTVkCsZaSitRTnHK
-	 dvxEZdGtwXY9A4v+E1EutOXkp3zXEYrz9fNTrFekuzaf9UN1of6kD2o130F/A2Vy4AA==
+	t=1793114538;
+	b=PFqDtGgMbqSdjVNfH/BSMb20T6X1bGeer+hQU0mp5Gm3dRPauAg3CtYuGR7BP6qk5eZw
+	 ckQBCJ2nz5QM8OZ45rZOf0pd6Y9lcNTlCZ/sTtiofe0xemhAvkCJ/mD1TBep6deEwphoy
+	 4PS7F9DJbbXLXMg4lyiEqEEdB3lCbjZ/9Vac24az0gYxcJGebw++cFJjAKmmZCtM6dJr9
+	 U8/BZ+M9snSJkCFFAo91O4vY5/0lt82fHOvHlyah4ejnS2iYlju8dFpCxKZH0bK/ep6AP
+	 CKfyta1FFPVX1EICTTgeHkV+Z1X7IVtGGm9H1SxrPjpQ3wOF53kQc3SfAo1nnZBiYyA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793114496;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:X-Google-Original-From:Mime-Version:Content-Transfer-Encoding:
-	 Content-Type:Date:Message-Id:To:Cc:Subject:References:In-Reply-To;
-	bh=A/FO+PXUBDG5O94y5lMD0CzRnK3vjDG2tM9yXo+wpAI=;
-	b=KpTqh62mA5c4+xb5rt4gfQBpPFcLt6t0T9vvtyrBzWCT+Eafmgw3Babfv9bdDPjxsxNI
-	 MSgHOQpi+UzKxSOi72JjtXBiX3MR6jEEjxWelWQ0gKIkG9nV5VVOINwT9wKSw11ev8DT0
-	 upmlw2mruNK6XdYGCnAypyTRDYtmLxl95mk6klIAQqv/8MehfPeC60xS5Pdi6vvopncS3
-	 xPFgw1nJ7cAfGJT7HcXJAzHLYy/1dcv7tYjChN3V34v7cQQ3z+pwRIqJm2lBdLNpHJQy5
-	 CZM0jiUBn2uWjDlUaR+GHUCtcvJDdA4YywaVQLBdHr72i5iFGHJEYRHE6E8ubX2nh4g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793114538;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=KqHmrjDb1P29EDBgr+jWsNegi4uo5r5f+4x0zqmiKgA=;
+	b=vE1tGLaZnOqSmvgOck+nDSkl1XGh9zqz45D08hbyVd/qomtL8S+f+7by9+A7DPj31uJm
+	 s434XuEpZYeb1h9+SEf2+Wpzgtm3ho0b9NA2kAL6gv5gLerywpyNnVL9Juf1R15Jrh+Kx
+	 SUSbNoLGxzi1MwtPJS8Qf2R1OiYdTzeygO8IGgD50aH+qxfBqb4h0KERuIteAbNqn4cXM
+	 wypHtHZczSBf+NZCMLudS4uLiKhqL9o0tnd419F6FQl+5ZC9MX6CZ5j9kqpW82PuMpQsw
+	 JWCCDFuS55ZLd4Cb3WbvOyb9u3wHpB2kVxQhtsXh6Lj//t/gmhOImJxhMPsa9MAleiA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linaro.org;
-	spf=pass smtp.mailfrom=linaro.org;
-	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Mycwa3Lj;
-	arc=none smtp.remote-ip=209.85.218.52
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d6wUUFEl;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9332B606A31B
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:21:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9332B606A31B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14D8C606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:22:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=Mycwa3Lj
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c498fa2f365so317872666b.3
-        for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 08:21:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1793114494; x=1793719294; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=A/FO+PXUBDG5O94y5lMD0CzRnK3vjDG2tM9yXo+wpAI=;
-        b=Mycwa3Ljz3PMgTATSXkD/0igHVvL5QzqIzwVGRON1FfP4vtsAaxBwW4R2GJjRa9PmT
-         p8YpXPLssxVlFE+0z9QXDHSOQGvdYFIZjbDa/ZOKYVpIBNZn5XZGH8Tf4RBXz00iGc5R
-         7B+zvlRG9QZYfPyHkjVJh2tSstM60xE64Ma0I2ftMAlhoZUdw+1119D2OeMjMd5gdFyW
-         CUa660yqsHdT9ZNAcmDi0370RIjt7/+fCy3cJ0muReqWsjOBP21UTbrE1fZBU4/uyPmi
-         EtLWPXgehhd0gYNn+wvuGoA1fUubpLUo7vaUXB8RhQ9HxHVnZUWkRgaX4dmEycR88M3P
-         Aexw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793114494; x=1793719294;
-        h=in-reply-to:references:subject:cc:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=A/FO+PXUBDG5O94y5lMD0CzRnK3vjDG2tM9yXo+wpAI=;
-        b=kUNkEy1J6HbkrdJrPS+eRxDyxIxTuO/FDpb/MJKk+la3s7ZpS0VW69appVjK4p6NNd
-         W1JFgiAc2fXMTpk8cGRrVQukZu4iXDA3pKvqZElk/47gt+EYFsHy9gz2AiI6dDjiu2ul
-         XZg64NQGPFFcZmewhfV/vtZ/vcovhFuZuyyHarqoYgp+Z/xxLyvCWvBe4t8zl66It7Oz
-         LnB7BD0ua78T2mFIaPOm7YUxvd8YmG8TD230rJABtIIHx/Mbn7YIHf197wed1b9fmo0I
-         HSamxeVaXtwaGXXGj3EzrSOonhT2WSdPSR7iaUnvcczTiJEM8pv516UdZIJ7vNjPjU3a
-         Q92A==
-X-Forwarded-Encrypted: i=1; AKwUvBzhrYd1eNbP8kWSrJauQVkivLQ3RXP3p6zd7he3DvRtW2Rkpk1XFUKkbZrR8HnQxpG60i80UweyCME=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJvdG/FOhxYkxEkCPXfq5bMJGy3zSOoyf7R3uMSsJc3oTsdBjbA
-	wt+lodC3QwUst+EAbDXfhCnXtty1Yiz/0fx40ZN4slnXHVPgXQ3TQsV2CrHQVei41fk=
-X-Gm-Gg: AYBFou22WY9CuskGhm4CO9lNXTI1yxeO+AwRlQutiiG4wPbt64ZqOr29nu/IfWM0cEt
-	svrPpORy7lBs81Bmu80dOV0TAu5698ODtjDmVFFc6shOypHT/fVz4WHKdTVUSPBTnHHjU6fTuUN
-	S3BJPP3ovcVALk1CqeIAUes/VSQTzq8hOBday5PGNjIvmGsai/DqFAhfjvu1Ppsm2bmdX5p14EL
-	NN3tA2cEx4NyTQwtzmX3e2QBhs2KB4HyMKjblk3tWrANwo5kqQeubbGO898LZAiuqIaMA3Q+d5Y
-	yElyOyplZ+fYlyt+DjscFwFcTkVUP3q6KJcFR7CNpary4zoWgc6bgjxSMNq3V35UMtJlc1jVB0l
-	Yn045jOxRMCnlpIyiYgNvon9AN8ilYszlbOyUso2YY97csUQyDIEgMoX2VSjSrJt1Xwq+5Mxj5b
-	fhYf2YvyKYPGbxS0wE9GnEcwqndw50uZF3aNiEpJKHXW+8ycKCTOSgte9n4KHi0MVFonfGLw6/6
-	njpS+doxQGWNl7Wqf5BmkFmS1LzXSBhP4UAVI2oxZfTh6Ye45pv0+Be
-X-Received: by 2002:a17:907:97c8:b0:c2a:cf73:63fe with SMTP id a640c23a62f3a-c46bdac62famr1094811566b.6.1793114493665;
-        Tue, 27 Oct 2026 08:21:33 -0700 (PDT)
-Received: from localhost ([2a01:11:8f11:bb70:17d2:d825:e2b8:2e8f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb902sm24538097f8f.24.2026.10.27.08.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2026 08:21:33 -0700 (PDT)
-From: Rui Miguel Silva <rui.silva@linaro.org>
-X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=d6wUUFEl
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 622971F01825;
+	Tue, 27 Oct 2026 15:22:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793114537;
+	bh=KqHmrjDb1P29EDBgr+jWsNegi4uo5r5f+4x0zqmiKgA=;
+	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
+	b=d6wUUFElLEO1LTly4V6u+NdrZyDxHOBEecQe6uHCoZLE5k1lO8fi0BuNtA0iI6hpq
+	 dNc9axwcfw326bbVn7s3PnTwQqEnOFRHiedDh4U+MyGW9F0W2KreoK8dSR9fUgAGgf
+	 ghU77hdG3GBGO/33oNFjFB0j5DtjyREDHSnlZujqAA2J47u0oEPIEe5Rb2jEidqypa
+	 Zmqp5T3uJPLnXZTYs0btyA68U9GHcYkBZNltRNjp03by67y1o29I1NbV5yydtwdmXn
+	 kbENrJlclKHYIq8EoZzt58o0bZ9VAtFi1tXOVXHf/tJ2PJyxENUg5d0WWrfpi6BH+/
+	 GJVLXcixjoBig==
+Message-ID: <sashiko-outbox-186826@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 08/19] usb: gadget: uvc: fix oops on a premature
+ STREAMON
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
+In-Reply-To: <20261027-llm-usb-v1-8-b9751ddb9c7c@linuxfoundation.org>
+References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
+ <20261027-llm-usb-v1-8-b9751ddb9c7c@linuxfoundation.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Oct 2026 15:22:16 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -88,98 +59,118 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 27 Oct 2026 15:21:32 +0000
-Message-Id: <DMFQ1DZZPBFX.1XLHN38PX92AF@linaro.com>
-To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- <linux-usb@vger.kernel.org>
-Cc: "Alan Stern" <stern@rowland.harvard.edu>,
- <linux-kernel@vger.kernel.org>, "Josef Bacik" <josef@toxicpanda.com>,
- "stable" <stable@kernel.org>, "Rui Miguel Silva" <rui.silva@linaro.org>
-Subject: Re: [PATCH 18/19] usb: isp1760: wait for the TT clear in
- endpoint_disable
-References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
- <20261027-llm-usb-v1-18-b9751ddb9c7c@linuxfoundation.org>
-In-Reply-To: <20261027-llm-usb-v1-18-b9751ddb9c7c@linuxfoundation.org>
 
-Hi,,
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: gadget: uvc: racy and incomplete ep->desc check in uvcg_video=
+_enable()
+--
 
-On Tue Oct 27, 2026 at 2:57 PM WET, Greg Kroah-Hartman wrote:
+commit c0162971ecaec9497fd415372ef37c6e328eefc7
+Author: Josef Bacik <josef@toxicpanda.com>
 
-> From: Josef Bacik <josef@toxicpanda.com>
->
-> The driver sets qh->tt_buffer_dirty and calls usb_hub_clear_tt_buffer()
-> when a transfer to a full or low speed device fails or is unlinked while
-> it is running. The hub driver stores urb->ep in its list and
-> hub_tt_work() hands it back to isp1760_clear_tt_buffer_complete() after
-> the CLEAR_TT_BUFFER request to the hub.
->
-> Nothing keeps the endpoint until then. isp1760_endpoint_disable() frees
-> the QH at once. If the device is unplugged, the unlink of a running URB
-> queues such a request, and usb_disconnect() goes on to free the
-> usb_device and its configurations, which hold the struct
-> usb_host_endpoint. The callback then reads ep->hcpriv from freed memory
-> and, if it is not NULL, writes to whatever it points to. A change of the
-> configuration or altsetting only frees the QH, under a callback which
-> has loaded ep->hcpriv without the lock.
->
-> The HCD has to wait, like ehci_endpoint_disable(),
-> xhci_endpoint_disable() and fotg210_endpoint_disable() do. hub_tt_work()
-> calls the callback for every entry, also if the request failed, and
-> hub_quiesce() flushes the work, so the wait ends.
->
-> Fixes: 74ad60292bf0 ("usb/isp1760: Clear TT buffer on interrupted low & f=
-ull speed transfers")
-> Cc: stable <stable@kernel.org>
-> Cc: Rui Miguel Silva <rui.silva@linaro.org>
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+usb: gadget: uvc: fix oops on a premature STREAMON
 
-Yup, LGTM, thanks.
+This commit adds a NULL check on video->ep->desc in uvcg_video_enable() to
+return -ENODEV if userspace issues VIDIOC_STREAMON before the host has
+selected the streaming alternate setting.
 
-Acked-by: Rui Miguel Silva <rui.silva@linaro.org>
-
-Cheers,
-   Rui
-> ---
->  drivers/usb/isp1760/isp1760-hcd.c | 11 +++++++++++
->  1 file changed, 11 insertions(+)
->
-> diff --git a/drivers/usb/isp1760/isp1760-hcd.c b/drivers/usb/isp1760/isp1=
-760-hcd.c
-> index 6c52c6f59d69..3cbf5fe3ed34 100644
-> --- a/drivers/usb/isp1760/isp1760-hcd.c
-> +++ b/drivers/usb/isp1760/isp1760-hcd.c
-> @@ -2071,12 +2071,23 @@ static void isp1760_endpoint_disable(struct usb_h=
-cd *hcd,
->  	struct isp1760_qh *qh, *qh_iter;
->  	int i;
+> diff --git a/drivers/usb/gadget/function/uvc_video.c b/drivers/usb/gadget=
+/function/uvc_video.c
+> index 9ba09118bb74a..2a56536c34817 100644
+> --- a/drivers/usb/gadget/function/uvc_video.c
+> +++ b/drivers/usb/gadget/function/uvc_video.c
+> @@ -770,6 +770,10 @@ int uvcg_video_enable(struct uvc_video *video)
+>  		return -ENODEV;
+>  	}
 > =20
-> +rescan:
->  	spin_lock_irqsave(&priv->lock, spinflags);
-> =20
->  	qh =3D ep->hcpriv;
->  	if (!qh)
->  		goto out;
-> =20
-> +	/*
-> +	 * The hub driver still has a pointer to the endpoint. Wait until it
-> +	 * has called isp1760_clear_tt_buffer_complete().
-> +	 */
-> +	if (qh->tt_buffer_dirty) {
-> +		spin_unlock_irqrestore(&priv->lock, spinflags);
-> +		schedule_timeout_uninterruptible(1);
-> +		goto rescan;
-> +	}
-> +
->  	WARN_ON(!list_empty(&qh->qtd_list));
-> =20
->  	for (i =3D 0; i < QH_END; i++)
->
-> --=20
-> 2.56.0
+> +	/* Set while the host has selected the streaming alternate setting. */
+> +	if (!video->ep->desc)
+> +		return -ENODEV;
 
+[Severity: High]
+Is checking video->ep->desc without synchronization sufficient here to prev=
+ent
+races and ensure the endpoint is ready for streaming?
 
+uvc_v4l2_streamon() -> uvcg_video_enable() runs in process context holding
+only video->mutex, whereas uvc_function_set_alt() and uvc_function_disable()
+in drivers/usb/gadget/function/f_uvc.c run under cdev->lock without
+video->mutex:
 
+drivers/usb/gadget/function/f_uvc.c:uvc_function_disable() {
+	...
+	uvc->state =3D UVC_STATE_DISCONNECTED;
+
+	usb_ep_disable(uvc->video.ep);
+	...
+}
+
+drivers/usb/gadget/function/f_uvc.c:uvc_function_set_alt() {
+	...
+		usb_ep_disable(uvc->video.ep);
+
+		ret =3D config_ep_by_speed(f->config->cdev->gadget,
+				&(uvc->func), uvc->video.ep);
+		if (ret)
+			return ret;
+		usb_ep_enable(uvc->video.ep);
+
+		uvc->video.max_req_size =3D uvc->video.ep->maxpacket
+			* max_t(unsigned int, uvc->video.ep->maxburst, 1)
+			* (uvc->video.ep->mult);
+	...
+}
+
+After uvcg_video_enable() checks video->ep->desc and calls
+uvcg_queue_enable(), uvc_video_alloc_requests() -> uvc_video_prep_requests()
+in drivers/usb/gadget/function/uvc_video.c reloads and dereferences
+video->ep->desc again:
+
+drivers/usb/gadget/function/uvc_video.c:uvc_video_prep_requests() {
+	...
+	max_req_size =3D video->max_req_size;
+
+	if (!usb_endpoint_xfer_isoc(video->ep->desc)) {
+		video->req_size =3D max_req_size;
+		video->reqs_per_frame =3D video->uvc_num_requests =3D
+			DIV_ROUND_UP(video->imagesize, max_req_size);
+
+		return;
+	}
+
+	interval_duration =3D 1 << (video->ep->desc->bInterval - 1);
+	...
+}
+
+Could this leave several issues open:
+
+1. If uvc_function_disable() or uvc_function_set_alt() calls
+   usb_ep_disable(uvc->video.ep) between the check in uvcg_video_enable() a=
+nd
+   uvc_video_prep_requests(), can a UDC driver that clears ep->desc on disa=
+ble
+   (such as dwc3) still trigger a NULL pointer dereference in
+   uvc_video_prep_requests()?
+
+2. In uvc_function_set_alt(), config_ep_by_speed() sets uvc->video.ep->desc
+   before usb_ep_enable() and before uvc->video.max_req_size is calculated
+   (and config_ep_by_speed_and_alt() can also fail after assigning _ep->des=
+c).
+   If a premature streamon runs in that window while video->max_req_size is
+   still 0, can uvc_video_prep_requests() divide by zero on bulk endpoints =
+or
+   leave video->req_size as 0 (underflowing video->req_size -
+   UVCG_REQUEST_HEADER_LEN in uvc_video_alloc_requests()) on isochronous
+   endpoints?
+
+3. Since usb_ep_disable() in drivers/usb/gadget/udc/core.c only clears
+   ep->enabled and several UDC drivers (such as dwc2 and cdnsp) do not clear
+   ep->desc in their disable callback, won't video->ep->desc remain non-NULL
+   after streamoff or disconnect on those controllers, allowing a subsequent
+   premature streamon to bypass this check and set uvc->state to
+   UVC_STATE_STREAMING while the endpoint is disabled?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-llm-usb-v1=
+-0-b9751ddb9c7c@linuxfoundation.org?part=3D8
