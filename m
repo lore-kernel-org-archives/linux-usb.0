@@ -1,45 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112073;
-	b=ZWbGP/nvYFqwGxKerw2fbzuJdx6qBNa8GAiAelMDm237UlpD6xRfSEba5d5sVvporB8W
-	 mWzLZXRkENt7dujQH1cjhE6WTIoZzyPK/Ujicr41P/jQVkDQLx7Ougw6/9sRFd9CjIZz5
-	 jF92h/jKfEE6/abr4hLyqVljvulqywBD14WPGftiF0nDz8AwMyEk535VXTQzR6ox4kCvn
-	 I7XUwdfujhHGifjfitVQ/cj4WTPb1R/i8qdchZVKT4Ln4JecWxmBjG3YuN/+AG3grm/bh
-	 ShL7+rzhO1LDGDYsEV/QZpvmYTReQPb1mQygHzGDDGTA7LLZTvcZfD+EXCrDjXmHZ5g==
+	t=1793112069;
+	b=DgswCvh/9Q5pgjhaY2krVyxadpAUGRLRcAIZmgdx/6Up7tb6iJ5UWTj/dj6PNisg28mH
+	 UZoNQAE2Nm6cVQY96vlLXiX1JS7MhEYws9syZ94yLqZrZgFa+UZJzBBT24HYuxELcdR/Q
+	 ZF8fNjiY1i5pvaZwaFlvCcJ/Lv3fSqZlzUG7S4MlJ67K31JRsE8VQTLPza5aiu1xj/k0Q
+	 dYiJ+u0ILvLWYKLHJ7bpB0T3Aovny2YjnOQWjIwTYZU9QQ8zuNDTXv4plmFSYqYpSBpd2
+	 A84oeWNIJ6S7mBgFUmYLFOAijjiQwSauXkCt1ESrqWi6q4PdN79teJQ0ZRVn3BzUnzw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112073;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112069;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=X+RmFDAROVwZkCrlpwtzrOtzD2qONhEja5LPD9eYkeo=;
-	b=UB+aLoOCWAoXUVQjKPHX9dIIS9lH+mS0epd9yUvQpjIpO6SJImg7C6vqdpFdm8HIM4Ax
-	 0Vd7/uH8et3mTYOegIU5ocvaT8kBevH9I3KheggKl5P2XZNx2Ni48ud6sOvko+UrP1mar
-	 O/petjBSM54xxufPhlmCoOdgBEsvO3BZ3PeJAFbExs9Yjd9KG/qVYyK3Ym3gujCpHmbVb
-	 tTnuLj3rTHp+Sm243HhC2zKYijfhVQ+mq1c+ZxIS7BWot6saG+MOmH+HHnmZTPF595Ou1
-	 T9rZnNF1NdaZmzqgovu+jo461jro/zrBODudrL7Axm+/kHmWumO3zHhT826zE7GZ2Tg==
+	bh=cFM+g1SiyPDumjwZqbBa+enhuUcW8n1bsZiLDhvDE10=;
+	b=JCzCZnVI7hqu85C9ZIaHJknpgXf8pYjhTpvJ6Q/dVoXqlypkpUIzFGhOX0Rm3SxdDIkj
+	 gBGZu3kzLyrh77/Q3J8qfHSJkG0QMAmBsFtekHBg0frl2hW3xjT8nyREKt8pQ9ip5S7Zk
+	 22CeXTvP8GjdpuXRTJOPGg8RTpF3n8ASUKs7RIfdZWgOtPYmNqhq1AtZ/ROZgYbD+rydE
+	 V9S8PBpVGNj7STJIvbpg3x3HNQl599Fa/8iMHjmy1bKHQ9iA3GLA1rmJLLvHXnAvxuU24
+	 bBjOI7YQ+l21RpqySf5cdop0fRU2yzHa2WPXu9UCCW0R0h7H0oHpQYdYS9Ts1YaohwQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ygwiIoaF;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=lPOyHBlK;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC2BD60A3825;
-	Tue, 27 Oct 2026 14:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 993FA60A3807;
+	Tue, 27 Oct 2026 14:41:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=ygwiIoaF
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6E1B1F01825;
-	Tue, 27 Oct 2026 14:41:11 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=lPOyHBlK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB5B11F031E9;
+	Tue, 27 Oct 2026 14:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793112072;
-	bh=X+RmFDAROVwZkCrlpwtzrOtzD2qONhEja5LPD9eYkeo=;
+	s=korg; t=1793112069;
+	bh=cFM+g1SiyPDumjwZqbBa+enhuUcW8n1bsZiLDhvDE10=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=ygwiIoaF0B9BffvezFoEZ0tODZikuJhT38QtFi954SQ71aMSdsSWtl63JStL9hb5J
-	 o0nK/71ZaT6BuLM74zFjQpTJn3Ab5Ahd/wvRBAMA26NXMU3BM4h5rd7H1fvP2AUXfA
-	 bKMzXKTySwk1Rv8nd9SAKzdrlXAu+YP5V6IuJx3M=
+	b=lPOyHBlK98vaZ16+KAWlGToYkVzDHDTe7njGwNW1F7so3RuMuTW7mlEtRuvFqzblz
+	 Z43udJZot2cV9YXBV+A/NzgANH3cMZIm0U+5g+cNwh6yH9wwE+gEpt1tKCqWlBkuwq
+	 ecqavdiEO8Jn4JuybeLFcf2DWluxhyRi8sgYzwUQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Tue, 27 Oct 2026 15:40:50 +0100
-Subject: [PATCH 7/7] usb: storage: shuttle_usbat: bound the READ chunk size
+Date: Tue, 27 Oct 2026 15:40:49 +0100
+Subject: [PATCH 6/7] usb: storage: shuttle_usbat: fix READ CD divide by
+ zero
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,7 +52,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-llm-usb-storage-v1-7-d1655e94ed10@linuxfoundation.org>
+Message-Id: <20261027-llm-usb-storage-v1-6-d1655e94ed10@linuxfoundation.org>
 References: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
 In-Reply-To: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
 To: Alan Stern <stern@rowland.harvard.edu>, 
@@ -61,62 +62,56 @@ Cc: Josef Bacik <josef@toxicpanda.com>, Greg Kroah-Hartman <gregkh@suse.de>,
  linux-kernel@vger.kernel.org, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-Mailer: b4 0.17-dev-e5168
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1967;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1590;
  i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=XM8sIjIJM3MqrlqwHsq68IlQmKmB1uDm0jm58HuLutA=;
- b=kA0DAAIRMUfUDdst+ykByyZiAGrgt/OhYrevAjAj/oSeyPw8HyEcRxkzhrgUf3E34FhiO8+B6
- IhdBAARAgAdFiEE9LYMxb94wiFKMT3LMUfUDdst+ykFAmrgt/MACgkQMUfUDdst+yndbQCeP3Kv
- rHP+FYWGGtBGXc5ULL7rrWAAn32SrbQ9GrltykawEC9wRtnUjBjl
+ bh=6gMRfuTxgw3LkZ5DJDio+vffqefSa7yvQeuF7YQGea8=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtn+e1qOzqqhb/cViva+qhRe+F/RkSbUeZX5YcyDhZ
+ f3vvCPXOmJZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAiWrsZFkziWPxh9bVmub05
+ hbZiT0rbjPT6JjDMFbsq9C/EJvj9E5eiy15Bk6at09TcDAA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
  fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
 From: Josef Bacik <josef@toxicpanda.com>
 
-An SG_IO READ(10) of 64KiB or more to an HP 8200e CD-RW behind a USBAT
-bridge never makes progress: the usb-storage thread keeps issuing
-zero-length reads until the SCSI command times out and is aborted.
+A READ CD command of 64KiB or more with a zero transfer length, which
+any user who can open the CD device node may send with SG_IO, oopses
+the kernel with a divide error on an HP 8200e CD-RW behind a USBAT
+bridge.
 
-usbat_hp8200e_handle_read10() splits reads of 64KiB or more into chunks
-of whole sectors, using srb->transfersize as the sector size:
+usbat_hp8200e_handle_read10() splits large reads into chunks of whole
+sectors and, for READ CD, derives the sector size from the transfer
+length taken from the CDB:
 
-    len = (65535/srb->transfersize) * srb->transfersize;
+    srb->transfersize = scsi_bufflen(srb)/len;
 
-For passthrough requests scsi_setup_scsi_cmnd() sets transfersize to
-the whole request size, and the READ CD path can likewise compute a
-value above 65535, so len becomes 0.  The loop then sends commands with
-a zero length and adds 0 to the transferred count on every pass.
+Nothing guarantees that this length is non-zero.  The code right after
+it already falls back to a 2048-byte guess when transfersize is 0.
 
 The bug was found by code inspection and has not been reproduced.
 
-Fix by falling back to the existing 2048-byte sector size guess when
-transfersize is larger than the maximum read size, so that every chunk
-holds at least one sector.
+Fix by only dividing by a non-zero transfer length and otherwise
+leaving transfersize at 0 so that the existing fallback applies.
 
 Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/storage/shuttle_usbat.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ drivers/usb/storage/shuttle_usbat.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/usb/storage/shuttle_usbat.c b/drivers/usb/storage/shuttle_usbat.c
-index a1b64b10bbe0..080799029643 100644
+index 7e5424268c73..a1b64b10bbe0 100644
 --- a/drivers/usb/storage/shuttle_usbat.c
 +++ b/drivers/usb/storage/shuttle_usbat.c
-@@ -1328,7 +1328,12 @@ static int usbat_hp8200e_handle_read10(struct us_data *us,
- 		srb->transfersize = len ? scsi_bufflen(srb) / len : 0;
+@@ -1325,7 +1325,7 @@ static int usbat_hp8200e_handle_read10(struct us_data *us,
+ 		len <<= 16;
+ 		len |= data[7+7];
+ 		usb_stor_dbg(us, "GPCMD_READ_CD: len %d\n", len);
+-		srb->transfersize = scsi_bufflen(srb)/len;
++		srb->transfersize = len ? scsi_bufflen(srb) / len : 0;
  	}
  
--	if (!srb->transfersize)  {
-+	/*
-+	 * Passthrough requests set transfersize to the whole request size,
-+	 * which can exceed the 64k-1 maximum read and leave no whole sector
-+	 * to read per chunk.
-+	 */
-+	if (!srb->transfersize || srb->transfersize > 65535) {
- 		srb->transfersize = 2048; /* A guess */
- 		usb_stor_dbg(us, "transfersize 0, forcing %d\n",
- 			     srb->transfersize);
+ 	if (!srb->transfersize)  {
 
 -- 
 2.56.0
