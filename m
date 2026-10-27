@@ -1,83 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=84.42.129.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793128924;
-	b=DSSBoQPK9quidO7EejfoDFSWdek07WCx1I4w8tenk5z3VGW4077bIDNcwGwkmje23W0B
-	 leyP+/GEP0YBmmME9w8cozjl9fDEVq4U5HkDMluvIzqR8K60GI5Ke9vBWCnVsBbNf4oHO
-	 AbVzXoIbDZluMcdOA428uh2RNNw5aoMDs+W4GBYxekVI+53hnETPDU75ChRRqP81uEALa
-	 rl1Fmp/iItHcVcz/lwQ0xNCmUuIgnXtWEBF74BYkmwmda9oI7jqo+7YZ9NOmBpLm3RZTe
-	 H9EiWcWzRw1fnhcNyYQevvUAWwEqf8yQTeZ1I2CpujkOkwNW2bH5DkIPdkA50kqh76g==
+	t=1793131830;
+	b=CzZ+JszjrbbSx4XR8oO65XQwTdLC+XixUwXXZQ7hnpHaGR4rgJq5RIEihZ5Olt0HLFpV
+	 RgiZrvQefIlF412M+9ThFLO/zO1DQdZn8Tau3K419vXSdCLEfibaAmvALqQRr1jXcLwI2
+	 f24p4GStdunvRba3c2944nh8zAY6D9hpGvlc1aghF0o4JbseSopQkEXEFrObWgA/Q2m16
+	 3wFNW6GH2f1EFRz28+dE2QntosGHjlveeLJ2ajNX6WzLlR7Omaq3+BjywIURSeIioiVpB
+	 glSyHIGcSArzvyWiwU5Mw3NMx/gVmtvKHmQvm5I1DPZmO5TSKarMza7jxTAwqJLzTHw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793128924;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=AMSWH/NtlB1JV0soze3pL+1vMXta5z3J7fxij/8nbDU=;
-	b=etNvKlMS0V51qq9lroGtzb9TKIUBxHAWkq5iRRkBcLH1kXSbGGSNGqkrp7frh3DPfwia
-	 lox5nPjFkDy06vJgrn3af8hNFS9LlFvzjmrmx4D5BZ/D7vV6cOVo6cpb4K2v6vAUll+Z2
-	 c7oLFGvDV98Nqb+eKrUWqAvikV48ZamWW1yPxcddwjqUY5vef8ayYH0xlTtkN94tS3Wew
-	 D8qoaK6weSmkQJoW7Uh0t7KRWw1QUWwK+r395AXSzpbAOUHQtcrYLfyPa9px0JDYeDlHu
-	 dG8ykpv/+fgbj/SQCPrXyVZdDyofsG3I0R1oJx3zKeNxJhzmPudtpRV4+l8f484ieqg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793131830;
+	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Date:MIME-Version:
+	 User-Agent:Subject:To:Cc:References:Content-Language:From:Autocrypt:
+	 In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=Zs8+7dqFRjW6RKjJ6/I76FxDxXQBC+jlTIwYBbsLR+M=;
+	b=CWzWTrFkSnHkiX3RDOUXN90DI1LvQD1BfvKTQlKcf1M6jfZqFWMfnV4X61ssM3rRPnN4
+	 OuM+b73So6xigCbR5yJdD5YSc3Rhkjnvo6Y4B9DsnDQSv2GWDQbYcdVGg0rL8oaWWv3Is
+	 swJgsCKVk32UziSb2OaNfGHzhiu9fbemZZHx9GISoVxgAdgT7K4bkfBHLbPNOB8E0ZUGB
+	 +oVflVY9gRbGLyFyPMH0QnJxGcI+E+uif/nDUpoWzU79VjAT/MVCq8jax3Iq6oNmnEO90
+	 5fcidXCGQ/UcJMV/jkLi8lGYJEZdg6eDtKp/3PI2v51PuGJDmj+v1Gos2k0dxwDZmIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iuksdKNf;
-	arc=none smtp.remote-ip=198.175.65.19
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=ixit.cz;
+	spf=pass smtp.mailfrom=ixit.cz;
+	dkim=pass header.d=ixit.cz header.i=@ixit.cz header.a=rsa-sha256 header.s=dkim header.b=AMSDWnv+;
+	arc=none smtp.remote-ip=84.42.129.46
+Received: from ixit.cz (ixit.cz [84.42.129.46])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC5EC606A31D
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 19:22:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC5EC606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2066606A31A;
+	Tue, 27 Oct 2026 20:10:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C2066606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iuksdKNf
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793128924; x=1824664924;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=+NYQ+LQbOpmnltFCDNUfHOAtoK8t2uuSLCm4y8YRmow=;
-  b=iuksdKNfAOX9YWNLGXcPxcEJsaQEGwfBZRMo5e2F0aqDlP5KmA9D1U8G
-   pCaKYsW5ttEd2bB5PNye2nZ8oHzAjixwW+xSrpeL47RAwcLh5I1FyFYkH
-   FpRSs8fGDYuCdZ10s+F2YxDwThO6BdhDnW4A4oq96IRdHs8zR1R0QtFb2
-   FUV1g6xIFq4AgnLwRrmvuTCcUel5v2uZpvei1BlhtAJ3EBGveXKtzv4rU
-   zeFxP4a8/su+QoInDiOgaerGaSnReZVO204IpXrbiHYgY+xxwHzMefj4V
-   Cx5aT2Smk/v80uN/+H5M92xUQzJG140S5MfAckfTuPNppyhce5F1jB172
-   w==;
-X-CSE-ConnectionGUID: XvFSEz96SOSpLD77bYYM8Q==
-X-CSE-MsgGUID: ZCnJ/cRQT2mZybAaTXDEKA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1863767"
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="1863767"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 12:22:04 -0700
-X-CSE-ConnectionGUID: S8in08JgTSOwVUzl7kXApQ==
-X-CSE-MsgGUID: fJ6gp9QdTweR1rPEW88BWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="4579915"
-Received: from conormcd-mobl2.ger.corp.intel.com (HELO mnyman-desk.home) ([10.245.245.227])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 12:22:01 -0700
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-To: yiyu@yiyuzhou.io
-Cc: <linux-usb@vger.kernel.org>,
-	regressions@lists.linux.dev,
-	diogochaves@me.com,
-	michal.pecio@gmail.com,
-	raoxu@uniontech.com,
-	dennis@dsine.de,
-	gregkh@linuxfoundation.org,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [RFT PATCH 2/2] xhci: clean up ep0 ring after disconnect instead of leaving stale TRBs
-Date: Tue, 27 Oct 2026 21:21:27 +0200
-Message-ID: <20261027192128.386082-3-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261027192128.386082-1-mathias.nyman@linux.intel.com>
-References: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
- <20261027192128.386082-1-mathias.nyman@linux.intel.com>
+	dkim=pass (1024-bit key, unprotected) header.d=ixit.cz header.i=@ixit.cz header.a=rsa-sha256 header.s=dkim header.b=AMSDWnv+
+Received: from [IPV6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e] (unknown [IPv6:2a02:830a:f787:8f00:d622:eaa3:3dd6:8f5e])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id 0F01A53401D6;
+	Tue, 27 Oct 2026 21:10:27 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1793131827;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=Zs8+7dqFRjW6RKjJ6/I76FxDxXQBC+jlTIwYBbsLR+M=;
+	b=AMSDWnv+eT86kaPcLmdSSrGcPVkvj/ZcO4jb+7yLClOxs7tcuY9TQP2Ip6cowhu5cqsPG+
+	8TcIFM2qm3SNf2+p7C42SuA3rwNNL6QPqP5LqVRlccpUY1LuNGzaj60MvEARGysJbHme0+
+	tEOGW66lGAGo5gU4GW3ZeBn55pZ7rPw=
+Message-ID: <a60e8a48-9a02-404b-b4f4-8b8f0a4fec9b@ixit.cz>
+Date: Tue, 27 Oct 2026 21:10:26 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -87,172 +60,123 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 00/12] Qualcomm Type-C support for 1st generation
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Alexey Minnekhanov <alexeymin@minlexx.ru>,
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Lee Jones <lee@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ linux-arm-msm@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ phone-devel@vger.kernel.org, mfd@lists.linux.dev
+References: <20260926-typec-v1-0-31adc19f32c6@ixit.cz>
+ <voc4ie6fcegr3thk5n6dib4pkdxmracch4hhgjdih6pxrq2bfm@lq7mx4flowqk>
+ <f85cdfb7-b797-4b4b-9937-670c6dfe52c3@ixit.cz>
+ <zb3s4fmwx7vu3kcqigensacbgdqoaqnipfn4ntx4dh7ahrfr42@hvdw36dqb3qn>
+ <5c41ef43-a065-46e3-9522-faaf3884b487@linaro.org>
+ <eodzuccugtdn42basgpczett4yatyirog4nxwe5rhg5xf46ibp@jzcjmje4aqc3>
+Content-Language: en-US, cs-CZ
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <eodzuccugtdn42basgpczett4yatyirog4nxwe5rhg5xf46ibp@jzcjmje4aqc3>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Commit 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub
-disconnect") and commit 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes
-after disconnect or link error.") skip endpoint recovery if the root port
-is disconnected or the link is inactive, and set EP_DROP_PENDING to keep
-the endpoint stopped. TDs are given back without moving the endpoint
-dequeue pointer, or turning the TRBs into no-ops, assuming the endpoint
-will soon be dropped and its ring freed.
+On 19/10/2026 01:53, Dmitry Baryshkov wrote:
+> On Mon, Sep 28, 2026 at 04:54:08PM +0100, Bryan O'Donoghue wrote:
+>> On 27/09/2026 17:33, Dmitry Baryshkov wrote:
+>>>>> One major comment. As we see, on SMB2 PMICs parts of the Type-C
+>>>>> functionality are provided by the charger / FG device. I guess that on
+>>>>> SMB5 PMICs we will get the same problem once somebody tries to implement
+>>>>> additional charger features. Would it make sense to rework the PMIC TCPM
+>>>>> driver to be a composite driver, taking several components via the
+>>>>> existing Linux interface?
+>>>> As this gets decided from the QCOM side, I'm fine with whatever suits the
+>>>> hardware best.
+>>> Bryan, as you are a maintainer of the PMIC-TCPM? Would the use of
+>>> components be fine?
+>>
+>> I mean maybe. Would it not make more sense to land the TCPM functionality
+>> and then look into adding charging moving then ?
+>>
+>> i.e. finish off adding this piece first
+> 
+> The problem is that we already have SMB2 charger, which accesses the
+> same region. In theory it is possible to say that USB-C driver conflicts
+> with the charger "for now". In practice, I think, it might be better to
+> sort that out from the beginning. You didn't have this issue when
+> working on PM8150B support since we never needed charger for that PMIC
+> series.
 
-This assumption doesn't hold for the default control endpoint. If a
-USB 2 device briefly disconnects during a port reset in enumeration, the
-hub driver retries the reset and keeps the same usb_device, and the
-xhci ep0 ring stays in use. The given back TRBs remain on the ring
-between the xHC dequeue pointer and the enqueue pointer.
+I looked into the smbx vs Type-C overlaps.
 
-Reset Device fails with a context state error if the slot is in default
-state, and Address Device with BSR=1 is skipped for a slot already in
-default state. In this case nothing moves the ep0 dequeue pointer before
-the next enumeration attempt. xHC may then process TRBs of already given
-back URBs, writing data into buffers that may already be freed, or ep0
-remains halted and the next control transfer times out.
+I see that charger DCIN (0x1400) is mostly mirrors (both address and values) the 
+register set of USBIN (0x1300), thus I assume charger accessing these registers 
+is correct.
 
-Handle a halted ep0 on a disconnected port by cancelling all its TDs and
-resetting it normally. The Reset Endpoint handler turns the cancelled TDs
-into no-ops and issues a Set TR Dequeue Pointer command to move past
-them, flushing any cached TRBs, before the TDs are given back. ep0 is
-left stopped. It is not restarted while EP_DROP_PENDING is set, so the
-reset, restart and stop sequence that caused the xHC to fail Stop
-Endpoint commands is still avoided.
+Type-C driver accesses 0x1300 but mostly different registers (with some 
+exception of initialization and smbx.c 'FIXME: This will be handled by the 
+type-c driver').
 
-Other endpoints are still given back directly without resetting them,
-but their TRBs are now turned into no-ops first. The halted TD is given
-back with -EPROTO if no error status was set yet, and other TDs with
--ESHUTDOWN.
+So that leads me to the conclusion that smbx should continue to access 0x1300 
+range, while Type-C must access the range. Only things which needs to be moved 
+from smbx to type-c is the type-c initialization.
 
-Commit message written with LLM help, code is still organic
+Do I get it correctly?
 
-Fixes: 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disconnect")
-Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
-Assisted-by: LLM
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
- drivers/usb/host/xhci-ring.c | 77 +++++++++++++++++++++++++++---------
- 1 file changed, 59 insertions(+), 18 deletions(-)
+Thanks
+David
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 8262ed516d37..fdc02e7d937a 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -956,6 +956,24 @@ static void xhci_giveback_invalidated_tds(struct xhci_hcd *xhci, struct xhci_vir
- 	}
- }
- 
-+static void xhci_cancel_ring_tds(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-+				 struct xhci_ring *ring, int td_status)
-+{
-+	struct xhci_td *tmp_td = NULL;
-+	struct xhci_td *td = NULL;
-+
-+	/* Add all TDs on ring to cancelled td list */
-+	list_for_each_entry_safe(td, tmp_td, &ring->td_list, td_list) {
-+		if (list_empty(&td->cancelled_td_list)) {
-+			list_add_tail(&td->cancelled_td_list,
-+				      &ep->cancelled_td_list);
-+			td->cancel_status = TD_DIRTY;
-+			if (!td->status)
-+				td->status = td_status;
-+		}
-+	}
-+}
-+
- static int xhci_reset_halted_ep(struct xhci_hcd *xhci, unsigned int slot_id,
- 				unsigned int ep_index, enum xhci_ep_reset_type reset_type)
- {
-@@ -987,40 +1005,62 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
- {
- 	struct xhci_port *rhub_port = ep->vdev->rhub_port;
- 	unsigned int slot_id = ep->vdev->slot_id;
-+	bool disconnected = false;
-+	struct xhci_ring *ring;
- 	int err;
- 
--	/*
--	 * Avoid resetting endpoint if link is inactive or device disconnected.
--	 * Can cause host hang.
--	 * The endpoint won't restart before the device is reset or the endpoint
--	 * dropped, so give back all its TDs now instead of letting them time out.
--	 */
-+	/* link is inactive or device disconnected */
- 	if (rhub_port->link_inactive || !rhub_port->connected) {
--		xhci_dbg(xhci, "Not resetting ep %u slot %u after disconnect or link error\n",
--			 ep->ep_index, slot_id);
- 		ep->ep_state |= EP_DROP_PENDING;
--		if (td)
--			xhci_td_cleanup(xhci, td, xhci_urb_to_transfer_ring(xhci, td->urb),
--					td->status ?: -EPROTO);
--		xhci_kill_endpoint_urbs(xhci, slot_id, ep->ep_index);
--		return -ENODEV;
-+		disconnected = true;
-+		if (!td) {
-+			xhci_kill_endpoint_urbs(xhci, slot_id, ep->ep_index);
-+			return -ENODEV;
-+		}
- 	}
- 
--	/* add td to cancelled list and let reset ep handler take care of it */
--	if (reset_type == EP_HARD_RESET) {
--		ep->ep_state |= EP_HARD_CLEAR_TOGGLE;
-+	/* Add halted td to cancelled list and let reset ep handler take care of it */
-+	if (reset_type == EP_HARD_RESET || disconnected) {
- 		if (td && list_empty(&td->cancelled_td_list)) {
- 			list_add_tail(&td->cancelled_td_list, &ep->cancelled_td_list);
- 			td->cancel_status = TD_HALTED;
-+			if (disconnected && !td->status)
-+				td->status = -EPROTO;
- 		}
- 	}
- 
-+	/*
-+	 * Avoid resetting non-ep0 endpoints if link is inactive or device
-+	 * disconnected. Can cause host hang.
-+	 * Endpoints other than ep0 won't restart before the device is reset or
-+	 * the endpoint is dropped, so cancel all TDs, and give back non-ep0 TDs
-+	 * now instead of letting them time out. Ep0 can survive a short device
-+	 * disconnect during enumeration so reset ep0 normally and clean it up.
-+	 */
-+	if (disconnected) {
-+		ring = xhci_urb_to_transfer_ring(xhci, td->urb);
-+		xhci_cancel_ring_tds(xhci, ep, ring, -ESHUTDOWN);
-+		if (ep->ep_index != 0) {
-+			xhci_dbg(xhci, "Not resetting ep %u slot %u after disconnect\n",
-+				 ep->ep_index, slot_id);
-+
-+			xhci_process_cancelled_tds(xhci, ep);
-+			xhci_kill_endpoint_urbs(xhci, slot_id, ep->ep_index);
-+			return -ENODEV;
-+		}
-+		/* hard-reset a halted disconnected ep0 */
-+		reset_type = EP_HARD_RESET;
-+	}
-+
- 	if (ep->ep_state & EP_HALTED) {
- 		xhci_dbg(xhci, "Reset ep command for ep_index %d already pending\n",
- 			 ep->ep_index);
- 		return 0;
- 	}
- 
-+	if (reset_type == EP_HARD_RESET)
-+		ep->ep_state |= EP_HARD_CLEAR_TOGGLE;
-+
- 	err = xhci_reset_halted_ep(xhci, slot_id, ep->ep_index, reset_type);
- 	if (err)
- 		return err;
-@@ -1071,8 +1111,9 @@ static int xhci_invalidate_cancelled_tds(struct xhci_hcd *xhci, struct xhci_virt
- 			continue;
- 		}
- 
--		/* device disconnected or link error, ep will be dropped */
--		if (ep->ep_state & EP_DROP_PENDING) {
-+		/* device disconnected or link error, non-ep0 endpoints will be dropped */
-+		if (ep->ep_state & EP_DROP_PENDING && ep->ep_index != 0) {
-+			td_to_noop(xhci, ep, td, false);
- 			td->cancel_status = TD_CLEARED;
- 			continue;
- 		}
--- 
-2.43.0
+> 
+> But, then it's up to you and David.
+> 
 
