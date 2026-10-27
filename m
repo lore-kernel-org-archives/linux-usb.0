@@ -1,73 +1,82 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793126519;
-	b=0qcRpD4CYx6VlSdzPrhs5+qv/bVvVnQYObVzAuDaNK6zgzgHdDJgcrD/AhX6nwLKFl1L
-	 xcSuUL5wxlZ7Nzmfrqy12ckqKYR1OIcjZqTJfgRKSQ8hCkR1IiiNFxZNFfBPuxFg/HmhA
-	 sodYB4mR6rnoZ+w6lMv0c9zI0MvxThvCLobpTT9OTYDD6tmJO2K7hYGToLjzOYV0zGXLl
-	 H7HjD8nLSK4YEXf13a+XYka3y0Svx3asPS/oefsSz/WdrRh0X0Y0FtPMjlTGFZd8yTuBw
-	 EoPVmf6ZnlR0AbGfmkx+aMZ0qcE2hvUli4rZfuwlZ2dFLqoWELqFXYeYUYxHbLRZT1A==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793126519;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-ZohoMailClient;
-	bh=MYyW/xXo/G0tg/sdPEATKJsUvKH9DdQaOm8Y83GXt/4=;
-	b=rTvbl2iWSxcqUK3tnU3dW80kDkh/9HY6jp1mY5S0Hj9cW/PRFZ81alZ0OzWgz7pq9qUV
-	 cYTYZPXCMODwP69H00AQcJzceOv43n7fBG8joeKWV7JJalixnet2m2ele59Rkni5/GtJ0
-	 TURDDrOp8rxGZbcGbdNskGfZdNEROKBY3lZTKx78x3s+JKpIZvdFNp2EAXUC+TKIfRI7v
-	 mI38DDa3V515YKoSQVljuyPDynM9Vr08XvkV+sUliYFq6jw74fg55fwD5BdqKqtBrvDpU
-	 BefwrbxQvkUpxECU1diOWVSBIc0i9oKCy4mONxFwZz65Oe9KEzI6uV1KI7fXIXQ3uMA==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=yiyuzhou.io;
-	spf=pass smtp.mailfrom=yiyuzhou.io;
-	dkim=pass header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=HX36CgBn;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.19
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793128920;
+	b=tVaY5+BjpwCUZSTSPUm4OgYbsHbsvKdRS7U5tJ+a7DW6u9ygHWzT/NHeyZ0cwSOrXaZN
+	 Q80/hAhFn+pQrBooXY6TEorMa/vCm80EM53Zi34Zi1sQSfeJ/d/KH91FX3ax4JFDSci+y
+	 eMYxOE+SfVpm2BZrONe/hv+7Y89IwQieFTL/9kXGS9DoeCVHslBNysOH0lTHxtA8QVoMK
+	 4GC054Dgk941RdQPTfamn5qL0rb9TDGRFIyD6dPNhkaCMDSrriP/5MQ2XoTDWcMaCQnGS
+	 yzExkcjRKiBkOFlZALCPl28VvRGQRpMKwuAlNoapT7hY5peoitAyJMj6pGW3Ifsvv/A==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793128920;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=/gQcf+jw8GIurwSk/Qo8Eoe4Jx6fP0xzW30Vqarn+bQ=;
+	b=wjWDanH4hTR3RGZqWnZoRHdhif67w95yOhsMEJGJt+SALPvAh18i602EptlcWEPtGLm0
+	 7lh2VTQdwE71sfOrfraNFlFQMWIgJjFjRv14Txrv2yxxoI9UNSaUqgbK0ItVOK3pJTIVy
+	 KpLAOmSy5fHDDAJ/a/edRDXd+jeRgrJRH0gB36qMmb7+NlxyyaNnA+8WSsGv2DT6RuWlb
+	 SDxL8q64txn3pkvP9hf/HCXUu8kOBOA2BUONITbPIUnAAJhBwLoeEDsipTv5zcSIpSQ0f
+	 0ddJB2wp6uyVOL0/6ihFZdQXBvxUCaBmfNkhmL9PpSHqvGNTSMfRi5bFaSSw9IdoBvA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XxCYX3Ux;
+	arc=none smtp.remote-ip=198.175.65.19
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8E91606A31A;
-	Tue, 27 Oct 2026 18:41:58 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8E91606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6988A606A31E
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 19:21:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6988A606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=yiyu@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=HX36CgBn
-ARC-Seal: i=1; a=rsa-sha256; t=1793126500; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=dJRfEYwmuIzjO+/Z1667qSn4if+O+nt52WQ6eVkindw07jnWUGvFCYlLCOE8Ao02vwGPbjvDyBI34FSbX9FbXR/3JlUnpzXIljCqEf/li3S+RLj7K+XGV7YlqMC1I8rcaez4ghFeBlXd2kDPHox7PN7EVVp4wGNb/C5lPdTiVyg=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1793126500; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=MYyW/xXo/G0tg/sdPEATKJsUvKH9DdQaOm8Y83GXt/4=; 
-	b=T94YV/chK+Iv5S/geQBaB+YmtLy5lGJyGydmRWmMFwEDRXmIpJ+I14K6rAEwXcd/SJsp0p38OIXvKoZ4LS+JOtbzMJTbaDELeNhLXKQ4wQngI8f7mEUZ0HhwM0W6lqUcYQqNex5s9E7aP7Ab8Is09n9YoATlHclalcEAx7lA9TA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=yiyuzhou.io;
-	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
-	dmarc=pass header.from=<yiyu@yiyuzhou.io>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1793126500;
-	s=zmail; d=yiyuzhou.io; i=yiyu@yiyuzhou.io;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=MYyW/xXo/G0tg/sdPEATKJsUvKH9DdQaOm8Y83GXt/4=;
-	b=HX36CgBntRO83dEzvItCs+Gi3zQZMUi95G3bJKqPPoo1VukVGVWXWkrcAePkBZfJ
-	h0zvArAnlH/mW9Y35UAtAAWfhc4QV9IkV7+9Opmv7fw40Qi66qf6lcED2YydPuruGL3
-	nWgsRuM3SvWigGLDOBQ5j8IK7k3W77o3kezV8Lnc=
-Received: by smtp.zohomail.com with SMTPS id 1793126496897601.2942230974244;
-	Tue, 27 Oct 2026 11:41:36 -0700 (PDT)
-From: Yiyu Zhou <yiyu@yiyuzhou.io>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dennis Wissel <dennis@dsine.de>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [PATCH] xhci: keep ep0 blocked after disconnect until Address Device reloads it
-Date: Tue, 27 Oct 2026 11:40:15 -0700
-Message-ID: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <842f8c77-ad37-4eea-9983-61a4086eaf5e@linux.intel.com>
-References: <20261027084845.1588204-1-yiyu@yiyuzhou.io> <842f8c77-ad37-4eea-9983-61a4086eaf5e@linux.intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=XxCYX3Ux
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793128920; x=1824664920;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=+kQPwHL2nncxW++ZI9loXuFFiUWkxlO2cfQUt8m9DHo=;
+  b=XxCYX3Uxd+slgJauZFtGtICoH8pxosjHVh6YIyAlrCxZdoOYqrN5OBCT
+   bWd4NiglSBbHnEW3OnwiG9c6G8NfSoTTYk/bU8x4aB5hwVw1oN4UQAkh8
+   end+kDeUK6GWwe6kq03+/M4vKlq7ObJN5H52xCKjhRC3XFVO55U9nRIbr
+   xe4KzCLPL2dlF1ct4AMe/uWGQjS9SFdU58xcLgQ/U6VEcm13uX0QSG83k
+   9jCZU+whrrVYY/HSJ1dd/1wHkatO8wbAwKC3lu7yr107fPMKPHCOQmNK0
+   szb3fRlDP2XCuzCMuk594wu5cZd26exWgPd0L6UyuyjxLrh5VprINDUbQ
+   Q==;
+X-CSE-ConnectionGUID: NN5ng8nZT9ehGC+6C/yP7g==
+X-CSE-MsgGUID: N5UZrMfTRImhCziFX0KRiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1863742"
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="1863742"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 12:21:59 -0700
+X-CSE-ConnectionGUID: N0y2KO/mREmx00t8rVjpDA==
+X-CSE-MsgGUID: dydoNJIeS22R71QhBPEedA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
+   d="scan'208";a="4579909"
+Received: from conormcd-mobl2.ger.corp.intel.com (HELO mnyman-desk.home) ([10.245.245.227])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 12:21:56 -0700
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+To: yiyu@yiyuzhou.io
+Cc: <linux-usb@vger.kernel.org>,
+	regressions@lists.linux.dev,
+	diogochaves@me.com,
+	michal.pecio@gmail.com,
+	raoxu@uniontech.com,
+	dennis@dsine.de,
+	gregkh@linuxfoundation.org,
+	Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: [RFT PATCH 0/2] xhci: clean up endpoint rings after disconnect detect
+Date: Tue, 27 Oct 2026 21:21:25 +0200
+Message-ID: <20261027192128.386082-1-mathias.nyman@linux.intel.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
+References: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -77,31 +86,52 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-On Tue, 27 Oct 2026 12:36:26 +0200, Mathias Nyman wrote:=0D
-> There are cases where EP_DROP_PENDING won't be cleared at all in this pat=
-ch.=0D
-=0D
-You are right.  xhci_setup_device() returns early with "Slot already in=0D
-default state" for the SETUP_CONTEXT_ONLY call from hub_enable_device(),=0D
-before my new clear, and Reset Device leaves the slot in that state.  I=0D
-missed that early return.  ep0 then stays blocked, and usbcore only gets=0D
-out of it by re-enumerating the device.=0D
-=0D
-On Tue, 27 Oct 2026 11:58:05 +0100, Michal Pecio wrote:=0D
-> You seem to suggest that xhci-hcd should trick usbcore into abandoning=0D
-> "resuscitation", right?=0D
-=0D
-Yes, that was the effect, and I agree it is the wrong place for it.  It=0D
-would also re-enumerate devices that recover from an in-place reset on=0D
-7.2, which is a bigger change than I weighed.=0D
-=0D
-Please drop this patch.  I can't judge the controller side of the plan=0D
-in your mail, but I am happy to test it.  My HHKB covers the original=0D
-disconnect hang, and Dennis's Keychron covers the reset case.  If it=0D
-helps, I can also turn steps 1 and 2 into an RFC to test with, unless=0D
-you have already started on them.=0D
-=0D
--YZ=0D
+Yiyu Zhou wrote PATCH 1/2, fixing a regression in USB HID device
+enumeration caused by the endpoint recovery prevention code added in
+v7.3-rc1. Some HID devices that used to enumerate after a brief
+disconnect during enumeration now got stuck until URBs timed out.
+
+PATCH 1/2 gives back the pending URBs right away, which solves most of
+the problem, but it leaves the TRBs of the given back URBs on the ep0
+ring. ep0 survives a brief disconnect during a port reset, so the xHC
+may later process those TRBs during an enumeration retry, writing into
+buffers that were already given back, or ep0 stays halted and the next
+control transfer times out.
+
+PATCH 2/2 cleans up the ep0 ring by resetting ep0 and moving its
+dequeue pointer past the cancelled TDs, even if a disconnect or link
+error is detected. Only Reset Endpoint and Set TR Dequeue Pointer
+commands are issued; ep0 is not restarted while the disconnect is
+pending. The rapid endpoint reset, restart and stop sequence that made
+some xHC hosts fail Stop Endpoint commands is still avoided. Other
+endpoints are still given back without resetting them, but their TRBs
+are turned into no-ops first.
+
+If you have seen the HID enumeration issue, or the xHC Stop Endpoint
+failures with rapid endpoint state changes, testing these two patches
+would be greatly appreciated.
+
+If these patches work, they might be squashed into one before going
+upstream.
+
+[This message, and PATCH 2/2 commit message were cleaed up by LLM,
+Code is still 'organic'.]
+
+Thanks
+Mathias
+
+Mathias Nyman (1):
+  xhci: clean up ep0 ring after disconnect instead of leaving stale TRBs
+
+Yiyu Zhou (1):
+  xhci: give back all TDs when skipping endpoint reset after disconnect
+
+ drivers/usb/host/xhci-ring.c | 71 ++++++++++++++++++++++++++++++------
+ drivers/usb/host/xhci.c      | 13 ++++---
+ 2 files changed, 67 insertions(+), 17 deletions(-)
+
+-- 
+2.43.0
+
