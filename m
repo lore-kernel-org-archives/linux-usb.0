@@ -1,68 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=185.125.25.12
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793088856;
-	b=wAi7z/TY70HW6eibvqfFWkZfvG/KvqFSA7yRaZzHHsh+VbfIsBLkqoxBr8TUe913w5p/
-	 vpivaeL3nB6AbyoL1SfAPOQwxx6Cic/wY1tdUF3sqHH4BGtlACavHkMinMKiqXIpL+d9U
-	 k//0l9bdz88jbDgckhZpRUkfo53ikY2HrovGnMJroFpXKkpoAWKCM6HIdlsZVRhP+LHRh
-	 0goxYtNTGKms0Oa0dp6lmOjyoJUBSNn/j+lrKzFbm9YjA7xmj1s6Q2Y18IhndGZU9k0e9
-	 XfLiuQ65Hv8H7oklcH7ECWgWy4J5ZhHdGtcyQq0Yki8Vup8WMKuZVKjc/kVHHx6nSvw==
+	t=1793089072;
+	b=E2KSdXhThTzpujolNz3LlTAHrKO0dBtBem9SvraOiBm5dofOKJjg+yAWrSuF5cXW0Lc4
+	 N0Ebqi/9h7x3gkkBwzsj5PEsHhEqs2lfMEzVrTTcH4Yp63BreivFdtS3xOetT6pWC9oF7
+	 shhFUxVw76FHYQUD7bP1p+Y8PbdW1edhkDXKl8zeL8MSGwfj/1rRhiAXX8O4p1ZGUI/E2
+	 SbPTLMaNEek0rJzL11DT63OanSUlOw5bigwt4j5oYgoEYuEH2NwyF4VNJ8+kYZ4GfpFyQ
+	 hZHUFWw2CUC2gL51n5zOmpb6CTWH3g1ek5kl+rr4qgB3Ul6QfSl3IbPr/u8r8PWXKpg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793088856;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-XMRINFO:X-QQ-XMAILINFO:From:To:Cc:
-	 Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Date:
-	 X-Priority:Message-ID:X-QQ-MIME:X-Mailer:X-QQ-Mailer:References:
-	 In-Reply-To:X-QQ-mid;
-	bh=nGbu4upuJLgm2lXKD/Z91nFxrjKCKZHpwQrOt6s2bDY=;
-	b=bIFHAXQyRJplioul3CCzr57lWxZD5cHM7oF98XIeC1VrQyZXOczgy2jsG01euXBDsXWX
-	 bI/FyMiVGzXDjMXHDGgTxe6TcC/gTEyaXZskUdA/WHAZUTK+Ljm5dRKokBxN9EAS8blmI
-	 lR8HQeo2SZo9Op6+2be40NkDJ+bBs6MB5pDAAvAxBMzLyVi3N+yb+ZDSLNIDnumTOaFd8
-	 kzh6XyUf+rQS0Po1ubKW7cnbJWdAVAJih+wo7xsczYtAPDYeS4OaK7EWkwl7vo8VhQEYE
-	 tAp2HPtuhrbWKi93pctposDMGoIVjYhAmooqJ/efranWLYy9TWF1xMv0d1mJclGAw2g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793089072;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:Feedback-ID:X-Infomaniak-Routing;
+	bh=FvYoCLZcn8V8gwy8R2AOjo/wkyQs+v7pSOhs75pLsAc=;
+	b=p42UsODP8Vq4RVnNu6A7cQCTku3KzXgC5XNsPVUEHPgOvGIrkd6jUP/ec9tRzL+3bAqP
+	 5TzqT3DjiFlR+5r6aZzmbGSfD6bENaSRazySX5G8v8zTe75f/pVM1FmpuVNAoHJhBI3q3
+	 PpeGyS8EHOnFNJ1Q3Lk22CpIaqF0PSB3HofmyEFACieUsv7KZAo08S1Wtkj26N7Jh+K6Y
+	 EUkHg3cMyyDpXzGKhEVC6KoEc+bJpvAsCj7kpsyb97OafPn6Vx9XvxvIWRMa4Sp4PWdZ3
+	 pUceAcCqt10N8KFHJGeKSIhyFcv76r5dAbyrbNEJaKt4/eOHe5f/dy9imcSKVcn/8Bw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=ZRB1vNch;
-	arc=none smtp.remote-ip=162.62.57.137
-Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=etik.com;
+	spf=pass smtp.mailfrom=etik.com;
+	arc=none smtp.remote-ip=185.125.25.12
+Received: from smtp-190c.mail.infomaniak.ch (smtp-190c.mail.infomaniak.ch [185.125.25.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7170B606A336
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 08:14:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7170B606A336
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=ZRB1vNch
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793088845; bh=nGbu4upuJLgm2lXKD/Z91nFxrjKCKZHpwQrOt6s2bDY=;
-	h=From:To:Cc:Subject:Date:References:In-Reply-To;
-	b=ZRB1vNchEBn1xTDidt7KlotYbtlRGWLoegdUkgm34YutKGqGFS1vndGuabXwuQZ90
-	 /f0QxD6nmcPMBlMpQq6BxhjlE6opBg1xCkYHbn2pqTPsi40cCO5nyYQN/e07PWbv1P
-	 526lVXWyA9AKXODNJhPhJr8lZw09DmYOIJjw38go=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-XMAILINFO: M/8oWtQ8RXooJTRnGxFYe36RnPXjfz6V34oARLY5ztdCgTVzwe4zrpt0OZIqiV
-	 6WOy1tfKUMOwIp89CO5v2jtf8fTEeOq5mi2JUzH4Nef7OjAKvx4xPiylH90reQ6IHIXTUg6D63e0T
-	 481ZvsLL6TnnEWH6cGafWPYXdPkOaWIDYmQaR1TyCkbo1JAipqPJjLWdkJ7c5f9Ntm6rE/Vc85MFA
-	 6/0Yv3GuE058KwOnH34QUKfrzxTwP4bBI/d4wotgx7yzEXWjSCUkxlS5SsVZOnxqFUStijqTic+NF
-	 aNvSUUJDUS18HxXkxELs9NR1BNaF9SEdq07pweT3dgStQMYxIOxFwsx6Ap79t3P7Wda50cBNlyUzK
-	 L0nGZYeXMmxra3ro1YB2pEadf81VxEf50WmhVY2f7ZPN8y/UM4PdbyPXVRvhxVv5nxNg2J/hfK3Kw
-	 pSUJyHx1xsdjaUc/Gnio/6cqfs97icdTwq6NCBZO/byU2hnjUaTaSt9AEwM87gAki9zbOe1yZScN+
-	 PYFSmvDn44vv/ex5eNUA78ks2mSVtzQxrO7o6vvSIaJ6tqOmxNsMswoV+th2FwjbUQUCw5dIurGYx
-	 UiC98zYj+8M80tQd0v5a55xNOCWrzJMcpL9u6ctYYBOGjDYnmGgQj5BgHu3DucOOtbhhIP6iVdcse
-	 NZTX916vUU0yg5PAavrQyQmT52VA/r5Xy6Ozbu+A1EzoVqgRPIIiO+pX5cRNy8l9R/uK/vKiFdjfS
-	 Ky3dE5tvMSNS1KhWn0R+OuSWPkiRCjFJy5irVQouqZ4/77IVsPighdskAl4O9q7fgA02C+iRFllws
-	 TrKDgHhDDjWkiTzDvbHNZ+Xui1Lnl5aLZBJ/0ZBY97G6jebO3CJGueOksuo4EaO36eMoHjNsEs7jF
-	 gP2WMOd83oGx+87D1EJrlBu4GKZGwED07/KKJKyeCzvvIAfQ9zrQH9ERkrMRJD8C0oXuiXNt8am21
-	 KQeoVpouoyLgDKb99Ev+/BEPpEcXH07BurkkWIUVwhaRz5pdTGd6RB/IhJuRgQajP6VGsNTm4Hw8p
-	 61dj2p8TsB+wovP+gd5bvf5tjSyip3s4Xa6VnLxgzG1xCV2ekXBbBh4XrhkKmA+tZOsI4QpyF03f0
-	 IPelgJyNvew7LQ==
-From: "=?utf-8?B?Q3VuaGFvIEx1?=" <1579567540@qq.com>
-To: "=?utf-8?B?U2hhd24gTGlu?=" <shawn.lin@rock-chips.com>, "=?utf-8?B?U3RlcGhlbiBCb3lk?=" <sboyd@kernel.org>, "=?utf-8?B?QnJpYW4gTWFzbmV5?=" <bmasney+clk@redhat.com>, "=?utf-8?B?SmVyb21lIEJydW5ldA==?=" <jbrunet+clk@baylibre.com>, "=?utf-8?B?Um9iIEhlcnJpbmc=?=" <robh@kernel.org>, "=?utf-8?B?S3J6eXN6dG9mIEtvemxvd3NraQ==?=" <krzk+dt@kernel.org>, "=?utf-8?B?Q29ub3IgRG9vbGV5?=" <conor+dt@kernel.org>, "=?utf-8?B?SGVpa28gU3R1ZWJuZXI=?=" <heiko@sntech.de>, "=?utf-8?B?UGhpbGlwcCBaYWJlbA==?=" <p.zabel@pengutronix.de>, "=?utf-8?B?RWxhaW5lIFpoYW5n?=" <zhangqing@rock-chips.com>, "=?utf-8?B?TGVlIEpvbmVz?=" <lee@kernel.org>, "=?utf-8?B?TGludXMgV2FsbGVpag==?=" <linusw@kernel.org>, "=?utf-8?B?QmFydG9zeiBHb2xhc3pld3NraQ==?=" <brgl@kernel.org>, "=?utf-8?B?UmljaGFyZCBDb2NocmFu?=" <richardcochran@gmail.com>, 
-	"=?utf-8?B?VWxmIEhhbnNzb24=?=" <ulfh@kernel.org>, "=?utf-8?B?QW5kaSBTaHl0aQ==?=" <andi.shyti@kernel.org>, "=?utf-8?B?R3JlZyBLcm9haC1IYXJ0bWFu?=" <gregkh@linuxfoundation.org>, "=?utf-8?B?SmlyaSBTbGFieQ==?=" <jirislaby@kernel.org>, "=?utf-8?B?SmlzaGVuZyBaaGFuZw==?=" <jszhang@kernel.org>, "=?utf-8?B?QW5kcmV3IEx1bm4=?=" <andrew+netdev@lunn.ch>, "=?utf-8?B?RGF2aWQgUy4gTWlsbGVy?=" <davem@davemloft.net>, "=?utf-8?B?RXJpYyBEdW1hemV0?=" <edumazet@kernel.org>, "=?utf-8?B?SmFrdWIgS2ljaW5za2k=?=" <kuba@kernel.org>, "=?utf-8?B?UGFvbG8gQWJlbmk=?=" <pabeni@redhat.com>, "=?utf-8?B?RGF2aWQgV3U=?=" <david.wu@rock-chips.com>, "=?utf-8?B?UmFmYWVsIEouIFd5c29ja2k=?=" <rafael@kernel.org>, "=?utf-8?B?RGFuaWVsIExlemNhbm8=?=" <daniel.lezcano@kernel.org>, "=?utf-8?B?WmhhbmcgUnVp?=" <rui.zhang@intel.com>, 
-	"=?utf-8?B?THVrYXN6IEx1YmE=?=" <lukasz.luba@arm.com>, "=?utf-8?B?TWF4aW1lIENoZXZhbGxpZXI=?=" <maxime.chevallier@bootlin.com>, "=?utf-8?B?TWF4aW1lIENvcXVlbGlu?=" <mcoquelin.stm32@gmail.com>, "=?utf-8?B?QWxleGFuZHJlIFRvcmd1ZQ==?=" <alexandre.torgue@foss.st.com>, "=?utf-8?B?Vmlub2QgS291bA==?=" <vkoul@kernel.org>, "=?utf-8?B?TmVpbCBBcm1zdHJvbmc=?=" <neil.armstrong@linaro.org>, "=?utf-8?B?TWFuaXZhbm5hbiBTYWRoYXNpdmFt?=" <mani@kernel.org>, "=?utf-8?B?VGhpbmggTmd1eWVu?=" <Thinh.Nguyen@synopsys.com>, "=?utf-8?B?SmFlaG9vbiBDaHVuZw==?=" <jh80.chung@samsung.com>
-Cc: "=?utf-8?B?c2hhd24ubGlu?=" <shawn.lin@rock-chips.com>, "=?utf-8?B?bGludXgtY2xr?=" <linux-clk@vger.kernel.org>, "=?utf-8?B?ZGV2aWNldHJlZQ==?=" <devicetree@vger.kernel.org>, "=?utf-8?B?bGludXgtYXJtLWtlcm5lbA==?=" <linux-arm-kernel@lists.infradead.org>, "=?utf-8?B?bGludXgtcm9ja2NoaXA=?=" <linux-rockchip@lists.infradead.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, "=?utf-8?B?bWZk?=" <mfd@lists.linux.dev>, "=?utf-8?B?bGludXgtZ3Bpbw==?=" <linux-gpio@vger.kernel.org>, "=?utf-8?B?bmV0ZGV2?=" <netdev@vger.kernel.org>, "=?utf-8?B?bGludXgtcG0=?=" <linux-pm@vger.kernel.org>, "=?utf-8?B?bGludXgtaTJj?=" <linux-i2c@vger.kernel.org>, "=?utf-8?B?bGludXgtc2VyaWFs?=" <linux-serial@vger.kernel.org>, "=?utf-8?B?bGludXgtbW1j?=" <linux-mmc@vger.kernel.org>, 
-	"=?utf-8?B?bGludXgtc3RtMzI=?=" <linux-stm32@st-md-mailman.stormreply.com>, "=?utf-8?B?bGludXgtcGh5?=" <linux-phy@lists.infradead.org>, "=?utf-8?B?bGludXgtdXNi?=" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 24/27] mmc: dw_mmc-rockchip: Keep RK3572 NVM domain powered
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92A4C606A31D;
+	Tue, 27 Oct 2026 08:17:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 92A4C606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=etik.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=etik.com
+Received: from smtp-4-0000.mail.infomaniak.ch (smtp-4-0000.mail.infomaniak.ch [10.7.10.107])
+	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4jDNdp64dNz1LvM;
+	Tue, 27 Oct 2026 09:17:34 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=etik.com;
+	s=20210927; t=1793089054;
+	bh=FvYoCLZcn8V8gwy8R2AOjo/wkyQs+v7pSOhs75pLsAc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=VQjIb1uN7B+MBf3mFM3NKkJ4bC4V7Dt0ZLoF3OFneP+QCqXQzFFMHTd0vN8Gm5gI7
+	 65QyOocl5E6oQtT2iy2U1BNziRmM8+h4iXQ2jkGQ3afx1Fqy2NVH93DJ1OX3ksgtGH
+	 JvImcGSiy0SWHUBEyrDt4NBQBP5j0qsUVJE5VOFk=
+Received: from unknown by smtp-4-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4jDNdn5CYpzjTW;
+	Tue, 27 Oct 2026 09:17:33 +0100 (CET)
+From: David Vornholt <dv@etik.com>
+To: Mark Pearson <mpearson-lenovo@squebb.ca>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>
+Cc: gregkh@linuxfoundation.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	David Vornholt <david@vornholt.online>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2] usb: typec: ucsi: Stop a power level change notification storm
+Date: Tue, 27 Oct 2026 09:17:31 +0100
+Message-ID: <20261027081731.122513-1-dv@etik.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <e22cf1da-89f7-4c98-a90d-357b18687df7@app.fastmail.com>
+References: <20261010183917.146821-1-dv@etik.com> <at8kLPzAnJAfZRjF@black.igk.intel.com> <20261026180907.76867-1-dv@etik.com> <e22cf1da-89f7-4c98-a90d-357b18687df7@app.fastmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -71,47 +64,57 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Tue, 27 Oct 2026 16:14:00 +0800
-X-Priority: 3
-Message-ID: <tencent_0431D34CCA9424908F2C068820D6F9C1370A@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
- <20261022-add-board-ok3572-c-v1-24-0b0fd85a31ee@qq.com>
-	<bb38e2c8-1868-4a66-9e0d-78d9f68ab4be@rock-chips.com>
-In-Reply-To: <bb38e2c8-1868-4a66-9e0d-78d9f68ab4be@rock-chips.com>
-X-QQ-mid: xmsezb41-0t1793088840t5jwsbqnj
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Feedback-ID: :cd1c7b8f1df508f:ham:123049f310c9d1d
+X-Infomaniak-Routing: alpha
 
-SGkgU2hhd24sCgo+IEJlZm9yZSB5b3VyIHYyIGFib3V0IHRoaXMgcGF0aCwgSSB3b3VsZCBs
-aWtlIHRvIGFzayB3aHkgeW91IG5lZWQgdGhpcz8KPiBUaGUgZHdfbW1jLXJvY2tjaGlwIGNv
-bnRyb2xsZXIgaXMgYWx3YXlzIHVuZGVyIEEgcG93ZXIgZG9tYWluIG9uIGV2ZXJ5Cj4gU29D
-LCBub25lIG9mIHRoZSBwcmVkZWNlc3NvcnMgbmVlZCB0aGlzIGtpbmQgb2YgY2hhbmdlLiBJ
-ZiB5b3Ugc2VlCj4gc29tZSBlcnJvcnMgZHVyaW5nIFJQTSwgcGVyaGFwcyB5b3Ugc2hvdWxk
-IGhhdmUgYSBsb29rWzFdIGFuZCBjaGVjayB5b3VyCj4gRFRTLgoKVGhhbmsgeW91IHZlcnkg
-bXVjaCBmb3IgcG9pbnRpbmcgb3V0IG15IG1pc3Rha2UuCgpJIHdyb3RlIHRoaXMgcGF0Y2gg
-YWZ0ZXIgb2JzZXJ2aW5nIHJlcGVhdGVkIFNEIGNhcmQgcmVzZXRzIGFuZCByZWNvdmVyeS4K
-QWZ0ZXIgc2V2ZXJhbCB0ZXN0cywgSSBmb3VuZCB0aGF0IGtlZXBpbmcgTlZNMSBwb3dlcmVk
-IHByZXZlbnRlZCB0aGUKcHJvYmxlbS4gSSBjaGVja2VkIHRoZSBTRCBzdXBwbHkgYW5kIHBp
-biBzZXR0aW5ncyBhZ2FpbnN0IEZvcmxpbngncwp2ZW5kb3IgRFRTLiBUaGUgc2V0dGluZ3Mg
-bWF0Y2hlZC4KCkkgdGhlbiBzZWFyY2hlZCB0aGUgbWFpbmxpbmUgaGlzdG9yeSBmb3IgUksz
-NTc2IGFuZCBmb3VuZCBpdHMgU0RIQ0kKd29ya2Fyb3VuZCB0aGF0IGtlZXBzIFBEX05WTSBw
-b3dlcmVkLiBJIHRoZXJlZm9yZSBhc3N1bWVkIHRoaXMgd2FzIGEKc2hhcmVkIGRlc2lnbiBp
-c3N1ZSBpbiB0aGUgUkszNTd4IGZhbWlseS4KCkFmdGVyIHlvdXIgZW1haWwsIEkgY2FyZWZ1
-bGx5IHJldmlld2VkIGFuZCBjb21wYXJlZCB0aGUgRm9ybGlueApPSzM1NzItQyBzY2hlbWF0
-aWMgYW5kIERUUy4KClRoZSBPSzM1NzItQ19MaW51eDYuMTIuNThfQWxwaGExIEJTUCBpbmNv
-cnJlY3RseSByZWZlcmVuY2VzIFJLODA2IFBMRE80CmFzIHRoZSBTRCBjYXJkIHN1cHBseS4g
-VGhlIGNhcmQgYWN0dWFsbHkgdXNlcyBhIHNlcGFyYXRlIDMuMyBWIHN1cHBseQp0aHJvdWdo
-IGEgc3dpdGNoIGNvbnRyb2xsZWQgYnkgR1BJTzBfQjYuIFRoZSBvcmlnaW5hbCBEVFMgdXNl
-cyBuYXRpdmUKUFdSRU4sIHdoaWNoIGxvc2VzIHRoZSBlbmFibGUgc3RhdGUgd2hlbiBOVk0x
-IHBvd2VycyBkb3duLgoKSSBpbmNvcnJlY3RseSBhc3N1bWVkIHRoYXQgRm9ybGlueCBoYWQg
-dmFsaWRhdGVkIGl0cyB2ZW5kb3Iga2VybmVsCmFuZCB0aGUgY29ycmVzcG9uZGluZyBkZXZp
-Y2UgdHJlZS4KSSBhbSB2ZXJ5IHNvcnJ5IGZvciB0aGlzIGluY29ycmVjdCBhc3N1bXB0aW9u
-LgoKSSB3aWxsIHJlcG9ydCB0aGlzIGlzc3VlIHRvIEZvcmxpbnggYW5kIHJlcGxhY2UgdGhp
-cyBwYXRjaCB3aXRoIHRoZSBEVFMKZml4IGluIHRoZSBuZXh0IHJldmlzaW9uLgoKQmVzdCBy
-ZWdhcmRzLApDdW5oYW8K
+Hi Mark,
 
+On Mon, Oct 26, 2026 at 04:01:32PM -0400, Mark Pearson wrote:
+> I need to read through the patch properly - but the X1 Carbon is
+> quite popular and used by lots of people. Have we been able to rule
+> out it being the E273m on another machine?
+
+No, I haven't tried the E273m on another machine.
+
+On this X1, though, I've only seen it with the E273m. The X1 has been
+running v2 since the 10th, and up to the 16th its warning fired 14
+times, every time with the E273m connected, on either port. The
+monitor hasn't been connected since the 16th, and the warning hasn't
+fired since, although the X1 has been charging over USB-C on most
+days.
+
+Right now the same port has a 20 V PD contract (the source offers up
+to 20 V/5 A and PPS) with the notification enabled. The warning
+hasn't fired, and GPE 0x6E stays at a few per second.
+
+So it seems to take this EC and the E273m together. From the UCSI
+side I can't tell what the EC is reacting to.
+
+> I've created internal ticket LO-4728 so we can see if we can
+> reproduce and get input from the FW team on why so many
+> notifications would be generated - generated so many seems quite
+> wrong.
+
+Thank you. If it would help the FW team, I can capture the ucsi trace
+events or an acpidump with the monitor connected.
+
+> I've only skim read the proposed patch, but I'm also hesitant to say
+> this is X1 C13 specific.
+
+Agreed. This X1 is the only machine I've tested. If LO-4728 shows
+that other platforms have the same problem, their board names could
+go into the quirk too.
+
+> As anote, if you do end doing a quirk then that field is bad as
+> there are two different variants of the X1 Carbon 13 - ARL and LNL.
+> Better to use DMI checks on the BOARD_NAME - there are two per
+> platform, and I believe you're on Lunarlake so would be 21NS and
+> 21NT.
+
+Thanks. Yes, the board name here is 21NTS4EE00. If we go with the
+quirk, v3 will match "21NS" and "21NT" on DMI_BOARD_NAME.
+
+Thanks,
+David
