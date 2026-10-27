@@ -1,57 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793092221;
-	b=jiJjwmcRyZrxvDpOxmS9MyicspTDe7DQfAC1RJ8hHOVVcQq3XlzEI13AB92alyiWxgO1
-	 0TZzW5FDT3rVHKnHQ03TtlcYI7uBtRxPU4oA95i9JV48IBaVxT0gkNgt8aDr8gOIHVlyE
-	 jdFelcpwdz0aP1aLRoghWE6NI4AO33VwrjZHNDppxugzK+aqjtuw3KNeMcMwsW5hC+n3b
-	 K0wJnz3c8ZJqQjd0go/LKCjSX7F0KMhXJ9Q5R0EiTe3yHcJrYNAVfJynEa6NeGcj51gLQ
-	 W6q2QfkJQI7p7iXEuKwkz7XR2z2ohRj+Inhe841tgNx8eFIHflHA/mtmgWaLNGhNDZw==
+	t=1793092899;
+	b=iJXKbQn24IzWjeWYEg0V2FFL03nVahUeXfeFSiDgX/92cxgX8Qp3nm/QvC1mzILFdTot
+	 nTWfcmhAmqpuvxwBP9LqCu5qmy44YL9q5wrqa6zNKjI+Cl1nOWxSQcRy5Yx8G7/euKfwB
+	 ux9CY8SdtZPKj1I2CXAtArcKun3W5FHalZOUE8VpjKqhkQArS/q6y3F4VFfErd7XVRJys
+	 agLIgkKKb+lYqfekr4tKH6X8QP8R9Ug+or+6XkXEUsKlsuzRkajyv5LRjA3hFhm2RF+Co
+	 GUSB7zXl96MPv1DGc7YS79J6XTdrgM+AM+wq2wMUl78Z0ynpWN7rCQpCbZh4lhSkFdQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793092221;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=BC9LVfUj2eLHZ+PzWjIV2LBgw63a3Ks2OviJm05GfQ8=;
-	b=lOj5DE15Ls994l2xNWBBlnPKqVu549YQyezJXm0ql28a4/J3VCoin/vSra1etnuyk1Q5
-	 FOdSoceZxZc2IzdkawrzNR59KxvJzVlbHWtCMzQIVcCcCAPH3c2g/5ylsp+77Sac9tFNg
-	 jukve3FF7YQmDFJn2O4tk5NOvoEOcjFUUCdU0uwX5ngQb4sdvJSPuEP6mmT5ZN1tr7q9w
-	 cbKMs2PeDAGMxjk8GmwotL3VStb2PL8oyTC0aZjByWyxfb27Ye9A2bQI7zU9ucyKndStl
-	 GhOS9fKEpuze5VJdqKQcynuACJmEyA5WWsJVTHwIsEf62SPTMkDDkGNtoT0WExOT9nA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793092899;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=7ADcUnp4proYsWbdFg56tAcNwpkklMHnW/J4M42WqqU=;
+	b=CIIGKLQT9lw5awabqKUZxUS3NTrwShQj266Uy9B8aAK4Hc6k/TesXjEhJI7F6Un1RC66
+	 WHAy/wlhFVs5wpAJQAmfZy78M1jo+NXnQ2VGgp2LLYxllqCN271ecVsSVrpsPQblOSvNU
+	 HKGY+o58fj0jLUzbdvfTz4L9RIensLOdfj3IjkrnaCo6C/2mn91benPqSXK4rv5X2W30s
+	 xIZyhsXx1eWQ/m/212skFGb1oDXrx5Fjx5qc1THwWa/Or5rJ4L/SYh66uhYBPz1iCFkHK
+	 6+IQrFbCUgVhorI16rGSlmlKDMk0Ar+jHWzJdWiegX8PgOh/cjsq9u82pcthjkVgvnA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="T/U5g8WJ";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=HKeto6TE;
+	arc=none smtp.remote-ip=209.85.128.53
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB47E606A31A
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 09:10:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20591606A32F
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 09:21:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 20591606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T/U5g8WJ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 196BA1F01825;
-	Tue, 27 Oct 2026 09:10:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793092220;
-	bh=BC9LVfUj2eLHZ+PzWjIV2LBgw63a3Ks2OviJm05GfQ8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=T/U5g8WJt4JOS1KwhkqOBTE+leUHpujyC2EhY6Y/lqBFUb30Q8AaacGmn7fFWyc0D
-	 EYUOU2QDzdQQHVWcaWk4pzbBy3MfBhXdLauTAqpPtBroGix/GPd88OQNlBX9HoXEqy
-	 ZxTJTbHgcMLNb0SUCLODSAdoJQJuRMohra4TmRH+F14zT9D7+8UldF/WL/m2aq+Rds
-	 Cjwg6FVJ9WVZU0VrDq9DzOaSdOsUoYOfXSCjZlbxM897zEkZwZomAkQCj8QPRLfNUl
-	 GggMLmEd+GrIzxEs1ZoW3kMddVzC+Uv1S/HxyCrPTsgYepHFsbnhCG6LqHccmrJ7du
-	 v5G060NyufI9A==
-Message-ID: <sashiko-outbox-186313@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] xhci: keep ep0 blocked after disconnect until Address
- Device reloads it
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yiyu Zhou" <yiyu@yiyuzhou.io>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261027084845.1588204-1-yiyu@yiyuzhou.io>
-References: <qLQr_bD2TzCrwVMFdRe7Wg@dsine.de>
- <20261027084845.1588204-1-yiyu@yiyuzhou.io>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 09:10:19 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=HKeto6TE
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso39626325e9.3
+        for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 02:21:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793092897; x=1793697697; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7ADcUnp4proYsWbdFg56tAcNwpkklMHnW/J4M42WqqU=;
+        b=HKeto6TEqhT/Kmt3LtGRwmpX3Qjn2/N4v80HIvwRBwzBca+QWFl2eRdlqdQRNjceZx
+         Kv0z9sU6QaAlA660MPA2nM0wWxC3ya86QEwfutyzhfw/XYBsfQKwhnAxuSPXDa3Y9ZBS
+         XDf8Xa9xcm6QPOU6gpG65nPRbOXiwImy2PpqulEQAL2gt7eDckC+dhH7yjB2VhwyqPod
+         gcLiKMwaLvuTV9HYAtNMByfHgN+388Athul+NhaKGwgqMdsZ78YRrJr5jlUBFZp2dYzo
+         fyGHHEEXpugjCoRtFOgXZt+J5nr91ZlPsmaxroz6RiDepTn/BNYcVo7ODXAyrrGhx5vl
+         ALkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793092897; x=1793697697;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7ADcUnp4proYsWbdFg56tAcNwpkklMHnW/J4M42WqqU=;
+        b=RFuYdXTSEIyf2VoZmPJGFcc4wJgFe2l47o7tIBn3fUVwAvzHlfcw7/yu5P+NDO3nLR
+         4/I6MWsAGu0b2CEaG5WwOWX4kgNcDRpyQGlgcxLe7W8r9cmnSQnAafyuNP2DEzWDMOPM
+         bbuLd3roevqEC5gDR3+IOyxI5L6WNZ3uI+8H7deYSI38EDjmjr+LYNu/gH/wZ7N3IXZk
+         bR79tdRvSOD7ofBraqLcgPW3Wx+ZqO69s2ZwKBYrkeUj1MUYDZ3sm2S1M+lbn9oZvEzU
+         ewYcMgAGOKTlS5P1IvwMT09ud/QN5JQ42EiE4wg+/ciCInnsC4kmAj7LA/BG88tM71tu
+         ao2A==
+X-Forwarded-Encrypted: i=1; AKwUvBxNrZAJU/l0Pca8ZbxxTQ6pyKmElc42M7HKKBjgvZHwbgZXNmVeVJsINgF7oVoDvnaMBswaIml5LBA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIsPWDPO8YtWnDbzm1yYx+JFXrp5eGXwwIyBU9ZIqwF5vz/3DWV
+	F+Ty/yiqs71x2jDUZlQ0n1pIYVPHu2OmZsjFK+LC4URwXBtdXcQ7TYYsn1eX5XF0ovn5KTgtN1p
+	awLtt
+X-Gm-Gg: AYBFou05pyRe/SGKBLQf+gTmQ8PrVSLf6PUMu9qDdJw56tS2FP5T+ZrwRicQbFqnZLF
+	YE+BSfW+GJYgmcXaadnZex+TFLbkvATQSKAbIvmP4W2hCGKAubmlV/zDRaDty4KSAS63heNlZXM
+	aTXaefdeCqjQuwo+9NO+W/l/f7LfZEPQg4XDXQycibBZGsctLYIwSmOWC2M8RITIJ0GP0YV1KWr
+	n3ekhokwL2rCUJYry9ZAK4Ft1/Dr6iPGwMY2rwF1fCp+lM7kuYOpuWRZ27JlKEvy4Hp6+UBWqFp
+	sFM8raFiaZITjvY0yihqAUIThijrlmKeGHwC4lPKAhkTlpG//4P8mJ3b7ww75z5CdlLopxfZLYn
+	pWPOpJaiEWXq2BhQTuie2nVfIk3DclXwgzt+1RIVrDTwxt/g9iWBybW5bPdr+2MQu1P5dKfueSM
+	FzqiNnxFMQn3H3mSl9dYr70Jkr17N8dbFI38UMRsRF8VtHb+ZwN30sWkJWvdi5NhXawtiyC0w30
+	ZuGJ9o7QGjOk4YJ5tKkVXXZJ8F8a3u+vF3API4ZQLcH5H7am7Dd72A5ApEODf5m3wrfsjJP00hO
+	+QMabgQS294mOdKmVE3RTg==
+X-Received: by 2002:a05:600c:4e87:b0:4a1:f99e:f22d with SMTP id 5b1f17b1804b1-4a35acafe0dmr181678695e9.6.1793092897467;
+        Tue, 27 Oct 2026 02:21:37 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13a7:df01:6e79:f35a:ab88:b157? ([2001:a61:13a7:df01:6e79:f35a:ab88:b157])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3eb8f36asm21839576f8f.1.2026.10.27.02.21.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 27 Oct 2026 02:21:36 -0700 (PDT)
+Message-ID: <caa4542a-f1af-4a24-bc1f-f6c17d6e93ee@suse.com>
+Date: Tue, 27 Oct 2026 10:21:35 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,33 +92,75 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] usb: uas: wait for pending commands before unbinding
+To: Jiayi Li <lijiayi@kylinos.cn>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+ Michal Pecio <michal.pecio@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ linux-kernel@vger.kernel.org
+References: <e6009e1b-2d95-4350-8374-d5930200ed24@suse.com>
+ <20261027073800.648951-1-lijiayi@kylinos.cn>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261027073800.648951-1-lijiayi@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> After a root port disconnect or link error, xhci_handle_halted_endpoint()
-> sets EP_DROP_PENDING instead of resetting the endpoint, and gives back
-> its TDs.  Their TRBs stay on the ring, and the endpoint's dequeue
-> pointer still points at the halted TD.
->=20
-> If the device comes back before hub_wq handles the disconnect, a driver
-> may reset it on the same slot.  usbhid does this after 1 s of
-> interrupt-in errors.  xhci_discover_or_reset_device() then clears
-> EP_DROP_PENDING on every endpoint.  The other endpoints are disabled by
-> Reset Device and get new rings, but ep0 keeps its ring and dequeue
-> pointer.  For USB 2 devices, usbcore by default sends a 64 byte
-> GET_DESCRIPTOR before SET_ADDRESS, and so before Address Device reloads
-> the ep0 context.  That request is queued behind the stale TRBs.  With a
-> Keychron M5 the reset stalled for 11 s, and the xHC then ran the old
-> TDs ("Event dma ... for ep 0 ... not part of TD"), writing into buffers
-> [ ... ]
-> Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect o=
-r link error.")
-> Reported-by: Dennis Wissel <dennis@dsine.de>
-> Closes: https://lore.kernel.org/linux-usb/4MjB9K-2SoiA85WbI9iEig@dsine.de/
-> Tested-by: Dennis Wissel <dennis@dsine.de>
-> Signed-off-by: Yiyu Zhou <yiyu@yiyuzhou.io>
+On 27.10.26 08:38, Jiayi Li wrote:
+> Hi,
+> 
+> Thank you for the review.
+> 
+> On Mon, Oct 26, 2026, Oliver Neukum wrote:
+>> 1. If an error happens while disconnect is running, why do we want to schedule
+>> work?
+>> 2. Why only this and not also scan_work?
+> 
+> devinfo->work retries allocation and URB submission for commands already
+> accepted by UAS. Those commands may need further URBs submitted before
+> they can complete, so I intended to allow that work to continue while
+> new SCSI requests are blocked.
 
-Sashiko has reviewed this patch and found no issues.
+Even if an error occured? Does it make sense to wish to complete
+commands that have failed while the driver is being unloaded. 
+> However, the existing queue_work() calls already schedule these retries;
+> flush_work() is not needed to enable them.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027084845.1588=
-204-1-yiyu@yiyuzhou.io?part=3D1
+Indeed, but shouldn't we cancel scan_work _before_ we even try to complete
+commands?
+
+[..]
+>> Some commands run longer
+> 
+> Yes. This is intended as a best-effort grace period before cancellation.
+> The timeout values were taken from uas_wait_for_pending_cmnds(); they
+> were not selected to cover the maximum duration of every SCSI command.
+> 
+> If a command remains unfinished when preparation times out, the
+> existing cleanup proceeds. An affected bridge may still require a
+> physical disconnect and reconnect in that case.
+
+Understood. We need a genuine cancellation code.
+
+>> Is the resetting flag even needed anymore?
+>> If it is needed, why set it so late?
+> 
+> resetting is still needed before scsi_unblock_requests(), so requests
+> dispatched during the remaining teardown cannot submit new URBs.
+
+Yes, but that doesn't answer you why you are setting resetting
+only _after_ waiting for commands to complete.> 
+> Setting it before preparation also prevents the submission worker from
+> progressing and makes the status and data callbacks skip normal command
+> completion processing. In the hardware comparison with the flag set
+> earlier, the URBs returned, but the command table remained populated
+> until preparation timed out.
+
+This answers it, but why do you unblock the device then at all?
+
+	Regards
+		Oliver
 
