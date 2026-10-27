@@ -1,57 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112767;
-	b=3li6VOAH1HEHwZ4scc54x7JPc91P4HEWfvUJJc+oDpnTYG9WPzJS2azi/Jia9s9gdUDg
-	 vL8SA0o+RCS9aMZZ5V+yrJbc9p30OCK155ntiW2P59K5rqJkxe078MbSiCKwBU6tAy/v6
-	 qVaruVGsKtMVuH3dSPj2LDKp8zfjHnVfkSZcObngSTxeu24oKHyEMEmgDr4hpWxaMub3G
-	 nF9DXfC0I+yosJdD5FuZfPrE2+Oq4FT9tsulOwYU5/+OaQHAAuTnLJgzDABJDAql8m5TU
-	 XC9IkEq6Ivs7MdozQX59V8l1n8r/sdHUR62jzZNqNlrlxjlHsJzx6+wulAiqFuxMTTw==
+	t=1793112782;
+	b=c9TO0u6wEMqTbk0fD51KWIFIGvibD6cRaI4mjE1fBo17pDEEyPbbzWemiw0dtT2XH103
+	 Q2SIZxVrg6eJ9+cr6VrSXliGUrXxDbZuUDmWUg1KlI+404eOvQTDhLuyp+fHpAB9E70ec
+	 u8CrYlA2zPI5ozkRAUJzd2plJiqWJHjZiWhngKIKHydA3ujk2efXT7Mw94MMtxPWy2NHD
+	 KR8XAWXrZD931gepU/5UJ8QYKhz6mCFj9yUh7qthyBBu6Kqj2vKZ229r+LSskpui2hqs6
+	 IkEQEigVLpNe6a2g0PZBH8CjnH46Zley8vUjJr1DqK0PurQU6MEqeDBhIT16IzQH9uQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112767;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112782;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=NpSCP/998y4uJGtA6NHBDOCfh/xt1gkIMGiXgBBmQP4=;
-	b=pJfi/9cTmZBwiX7tVSvcUO0UNNrWpk4M2iDy4RoHg0an1pigGvydKc1vrn7UcnsIyRgR
-	 +gYOfSCW63hvQoG2RKOxa+2JoxZ4U2UWaSBnv9DaUVzpAz6SwFkyNc5tUwMrIekEQiIHj
-	 9tik98lvm/XySaHKQFDnwYm/rI5o7GwKtebAOJumrBsPbAI81KFgZE8AOSOmEKSVdaE1n
-	 AWZVcy9YyMouy0fBbyft9MvH8PWYM2APG1aTgAdgW0OUk5rXjBaavn/hP/tqKiytW99+4
-	 DDgXsOLKCDd40Xj0ftYc8iyT99cHHtmMTF++zYIzMnYv6dyy8FF9VL+2MM6+K2JZs1g==
+	bh=Tm2BNibjHDQ+Bok56qxRmSoJet2b6olPQJA5FCw8q9c=;
+	b=1kdHPQvsF1b4AWgefg/8ObuQNYaLeQOLvlw+uusOhETlsljfIAa9oogiLj/ULGntPl7P
+	 eX0ml82taPFo/4du8/TSEFlrUKHgfS6G5c8XmGLh1jSqMhtfdeaqFR98iWHyO1CjuHKwX
+	 1OJqRWK37DthWM+ijJTkBdsfn7CSyK+IsZOsdLphw3b7DpbMCbvb8HR8HwusMP+bzKTFv
+	 9hsv7l9fxioOkcnPSdK+WtXAJmPZ3J2kS8uz/gDog/qcVC7y4wSDNgBERVqQpkrCturC5
+	 atVwLw9lUi1UvU5LACFxVP5WuLc1GPW0SPyzWJsvjDbt/jvhIRbObwkDtN2/Z1J/oxA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hh55kMDp;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gjvON+vy;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9819606A31A
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 14:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B3F9606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 14:53:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hh55kMDp
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 231A91F01825;
-	Tue, 27 Oct 2026 14:52:46 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=gjvON+vy
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C04281F01825;
+	Tue, 27 Oct 2026 14:53:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793112766;
-	bh=NpSCP/998y4uJGtA6NHBDOCfh/xt1gkIMGiXgBBmQP4=;
+	s=k20260515; t=1793112781;
+	bh=Tm2BNibjHDQ+Bok56qxRmSoJet2b6olPQJA5FCw8q9c=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hh55kMDpq+xq13IFI1mD9bkiXEUKIv3mKOhLNe6z5McGsyphO0Yt3v9BTQeCf1rIY
-	 C4ODRq+sBhDwkt0JJSlKYoA+oWbWuGIEUarj+/nAySA21MfD12d+IuTclDl6sn9atj
-	 WcOhzIRHUZdylG1jCOw0GFzFNlluQkAEG7xXxveak98JEZ7CusV5Fumf+3snx1pVK9
-	 eOxk6lmzF/YnKD2ivxZoOOitd5UMz+FRW3N4YuwiQCdXEY6oVMtRBpDQMME4M7KdMQ
-	 cD/YQj8fmmUislSqSPmJMLMaiVMOjolyA/qsO4PsEZhVyl3OD3hqqmzg/zmFK0sxp+
-	 Izh6me7BCRjfw==
-Message-ID: <sashiko-outbox-186770@kernel.org>
+	b=gjvON+vybyuRTpaLG9pI1aOTVCtqYMB0uYkYRkvYC6wBGg+RVeL40nWLnpZKGrGTF
+	 ddY7UWioXcp+7J39o75KrovSS7ktfoUdbMotGm1wii7JJVC8TzBrtDqj4VIoWt0hQh
+	 4nkpiF1UpUaWMWN+cTKJCXsg48/dCAxpLl//nMnFeH61dD+2aPsJUaaqy5r+AzNK4x
+	 tMGTdp9Y4CJPHvFSwVwyznh9eHGZWFg5JA+fBWagFAZP3UpAfLxJzPKQzbHTgXIR68
+	 e3kekUFgqGDvPIdsolGiaNV2mguYAhEbVL5NrxwfBvrWGgfePF41GZykfc6BGHyrEc
+	 JbMbThS8vuqeg==
+Message-ID: <sashiko-outbox-186771@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/7] usb: storage: ene_ub6250: bound the disabled block
- walk
+Subject: Re: [PATCH 1/7] usb: storage: ene_ub6250: fail MS init on card
+ errors
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261027-llm-usb-storage-v1-4-d1655e94ed10@linuxfoundation.org>
+In-Reply-To: <20261027-llm-usb-storage-v1-1-d1655e94ed10@linuxfoundation.org>
 References: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
- <20261027-llm-usb-storage-v1-4-d1655e94ed10@linuxfoundation.org>
+ <20261027-llm-usb-storage-v1-1-d1655e94ed10@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 14:52:45 +0000
+Date: Tue, 27 Oct 2026 14:53:01 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -63,30 +63,27 @@ Precedence: list
 
 > From: Josef Bacik <josef@toxicpanda.com>
 >=20
-> When two physical blocks of a Memory Stick both claim logical block 0,
-> which happens after an interrupted update of that block or on a crafted
-> card, the ENE UB6250 driver can spin forever in the usb-storage thread
-> while reading through 64KiB past a 512-byte buffer, over and over.
+> Inserting a Memory Stick that has no usable boot block, for example a
+> blank or damaged card, into an ENE UB6250 reader oopses the kernel with
+> a divide error on the first READ(10).
 >=20
-> ms_lib_check_disableblock() reads page 1 of the boot block, which holds
-> the disabled block table: big-endian 16-bit block numbers terminated by
-> 0xffff, the same table ms_lib_process_bootblock() parses with
-> be16_to_cpu() on 16-bit entries.  The walk, however, indexes the buffer
-> as unsigned char and has no upper bound:
+> ene_ms_init() ignores the return value of ms_card_init().  When
+> ms_card_init() finds no boot block it returns MS_STATUS_ERROR after
+> ms_lib_free_allocatedarea() has cleared the card geometry and freed the
+> logical maps, but MS_Status keeps the MS_Ready bit the reader reported,
+> so ene_transport() goes on to dispatch commands to ms_scsi_irp().  The
+> first READ(10) from the partition scan then reaches ms_scsi_read():
 >=20
->     blk =3D be16_to_cpu(PageBuf[index]);
->     if (blk =3D=3D MS_LB_NOT_USED)
->             break;
+>     logblk  =3D (u16)(bn / info->MS_Lib.PagesPerBlock);
 >=20
-> A byte converted this way can never equal 0xffff, so the loop only ends
-> if some byte happens to match Log2PhyMap[0].  Otherwise the u16 index
-> runs through the 64KiB following the kmalloc()ed page and wraps around,
-> forever.
+> with PagesPerBlock =3D=3D 0.  With a non-zero PagesPerBlock the same path
+> would dereference the freed (NULL) Log2PhyMap instead.
 >=20
 > The bug was found by code inspection and has not been reproduced.
 >=20
-> Fix by walking the table as 16-bit big-endian entries and stopping at
-> the end of the page.
+> Fix by clearing MS_Ready and returning USB_STOR_TRANSPORT_ERROR from
+> ene_ms_init() when ms_card_init() fails, as is already done when the
+> reader reports that the card is not ready.
 >=20
 > Fixes: 33842cedfc33 ("Staging: Merge ENE UB6250 MS card codes from keucr =
 to drivers/usb/storage/ene_ub6250.c")
@@ -97,5 +94,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-llm-usb-st=
-orage-v1-0-d1655e94ed10@linuxfoundation.org?part=3D4
+orage-v1-0-d1655e94ed10@linuxfoundation.org?part=3D1
 
