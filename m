@@ -1,55 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793113963;
-	b=XILEGnAq2BKfmVdDihVy817JQKooaMR1tBNLCltibgitKYBX87arTAoDm0E+NrlVTrJl
-	 tBID7Es+jebnNW9LHY7qkXwt22OBlI66mxQMCZr8EYXD0qtBm05hjQjaQiCXiqUP+S6or
-	 BaeIc9YtcmiQ7AYumK86LlRkA6yjM3EW1tiosMuysUC48YzQB275I3GvCxyhmBDCbBQtV
-	 scapVr8zf4IkC94fQ7JRYlXM+QyY38v3RGyONivPhSu3dnawD+WBNLz38VYoPje4kNKhZ
-	 NyWaWaHXUQ2OrX3gVnnSdc1qA+7qpiyzcXewPzH4tPeDD7bwlPKUUCB+yfcfTMTm9zA==
+	t=1793114005;
+	b=XvjBMZ2zwo9R5VY1INaMJHvwiwokDVw24fUVS1H6vdCMpNjC+oDx5a7eL8hdAm7N+BHJ
+	 IxpzZ2deAkp3f+ih+1S/vu2PcVxVEj60DJlM2HK566XvX5tcepuKO3Yk/UJOUqcJ7b+Rb
+	 Yt1gb38UIMIcVTuBa1z+Xcoe5mdOsxjYEHNfkwqv9lHb5sFQAlrXlDc7APx96hZlpwf7x
+	 J+vWbUYslAvVlOmUcmcigXWQCBnxrjX6hJEoX/6mPnXnKV2PtQ7wZAtvhxN0hBINCpGO6
+	 tvKW9tQn4xXommFRboU6/xJRYBI0Fx8jRBPSvVA7Kb2CKhlFxP0CACUDPCx2iBFbpaw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793113963;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793114005;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=xvsvUdxcvd3KUh8NBWHUqQXklCfb+Cn5toW9r0WdeLM=;
-	b=m5jcmXt95HbVTYEtIhHy98mIDoMuPbGOF/3oRxWxeYpLhtP/D2q4N+SdGeAb9E+f83v8
-	 H1+v/dZ4DhYY1XdkFWhgE3sLTO2XMIdbMzCQhSi3fJMudsz5lcY1r5xsFiqqqjeKGAch6
-	 deVfpeBqDlrmLGOQGut8QATlmnv8go5wbOLSRCCqP3CaKDxcF+ajdzDlV487XLTZq+16l
-	 w/Ltr/jMDjsLVUB86WAGHPiuBlKo/lqYpxAGcjysdEog4pfLkvn7gK7lbbgecZAoEZV2O
-	 7678KwboRe5CsugNWcipqdisyC/88OYwsntcFaSnJcJ7EReC5dNfpmscvnvTCtmlVtA==
+	bh=9My+qkxWU689grJN9WqYr/F0kAqK8rpLtunkHxQsbc4=;
+	b=IhCjYKyWNWYmkTmIUI2EY5B7KPtK4P8f1kKJv012GALxRipL23BOzxdWshPJPJmGaoNA
+	 yruXLFeKK8AAtkRZEnpfhyVGWuDrhRuzKNjOt9HqtB7jkuUe4LqkF5TH7GsVbR7Ngzk/l
+	 OVXkzIm6Mdz7pV6Huic0uWpVchvo15+DVpDJ2h231HcxMfHhERNgGK9SvR0eeuQ0KClWi
+	 ulWA1261ZwIcH8qCwVlPNzEg0beMYoSa8iaBwX1cyKxUpe/XUMUN//rT3wJM1/7AkSXEX
+	 OAQ3MlwBsqErN6mOlJzYHDwKlk5w6K/4alLLH5RlBkR1bmG8iNlx6sd+FeVvIevzB7w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P0xXJlC8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="STdlv/Qm";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C61BA606A31A
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:12:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9993606A31B
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 15:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=P0xXJlC8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50FB51F01825;
-	Tue, 27 Oct 2026 15:12:42 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=STdlv/Qm
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 462671F01825;
+	Tue, 27 Oct 2026 15:13:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793113962;
-	bh=xvsvUdxcvd3KUh8NBWHUqQXklCfb+Cn5toW9r0WdeLM=;
+	s=k20260515; t=1793114004;
+	bh=9My+qkxWU689grJN9WqYr/F0kAqK8rpLtunkHxQsbc4=;
 	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=P0xXJlC8Ey2DCOv5BjNaP1dg5ynJIwzjd3GxR0S8dYRkTlJZkd0HGOyUDdlOGNKTj
-	 l9flkp+EL85EzDXRuvlbSWuWoeHQIBAF14ICInOeab0Nix8FgvRicjJAGadXo+zHNB
-	 W5cctfNVOXjcxRcjCRApWNoPm4QrmNTGZp7rXhMOsqlSY6o5xx53crwP4Ds7Hs4k46
-	 2FAdh3JuaTkYBRqlgY3ksYvMkr69M1jvXuzTarEbiOKNECNmuDw0dt72FTlY6HP+C/
-	 tT+YJASKEdbpSClBUYQCzctd53fW2NLjp977/OIO32LCsndMclEmQsLwP0tqqF9lz8
-	 7O+jSufFToJYg==
-Message-ID: <sashiko-outbox-186810@kernel.org>
+	b=STdlv/QmpKCVXZv+XBzigcBKd7muuqwE31oqUaodeuGLBhKlloQttRktLbOAHG4w6
+	 JY4h9Z44yyQEFqSOfSQxKqNobtKDqZ6z+m6C8HCiyr4DJwy35s8vKUrqFEeFxDtpqf
+	 IwRQjY7kDjjKstJfpkkQCbmZibfV5T9yg3Kax18n1sriEdYlqQKOQGsf1ITD/HFt3D
+	 KKTM1tC/FuaPqBf9oAmuszidHAHS/OnTOTTiVbouZOE+/pdTaCklTSvZcPsmhY4nl2
+	 XO1WCAPltsPL5sg4pF+OLK5HhR9zL4VUWnS1S6dXnsNGUc7ymWSY8Ef9sEVH65F1jg
+	 BVG17V6/wk3UQ==
+Message-ID: <sashiko-outbox-186813@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 12/19] usb: typec: tcpci: don't act on unread alerts
+Subject: Re: [PATCH 15/19] usb: typec: mux: tusb1046: fix oops on accessory
+ modes
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org
-In-Reply-To: <20261027-llm-usb-v1-12-b9751ddb9c7c@linuxfoundation.org>
+In-Reply-To: <20261027-llm-usb-v1-15-b9751ddb9c7c@linuxfoundation.org>
 References: <20261027-llm-usb-v1-0-b9751ddb9c7c@linuxfoundation.org>
- <20261027-llm-usb-v1-12-b9751ddb9c7c@linuxfoundation.org>
+ <20261027-llm-usb-v1-15-b9751ddb9c7c@linuxfoundation.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 27 Oct 2026 15:12:41 +0000
+Date: Tue, 27 Oct 2026 15:13:22 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -61,24 +62,22 @@ Precedence: list
 
 > From: Josef Bacik <josef@toxicpanda.com>
 >=20
-> tcpci_irq() ignores the result of nearly all its register reads.
+> typec_set_mode() passes a state without an alternate mode, and the USB
+> and accessory modes (TYPEC_MODE_USB2 ... TYPEC_MODE_DEBUG) start at
+> TYPEC_STATE_MODAL like the states of the alternate modes. TCPM and UCSI
+> set TYPEC_MODE_AUDIO or TYPEC_MODE_DEBUG when such an accessory is
+> attached. tusb1046_mux_set() then reads state->alt->svid: plugging in an
+> analog audio adapter is a NULL pointer dereference.
 >=20
-> If the first read of TCPC_ALERT fails, "status" is an unwritten variable,
-> and its bits decide which events are reported to the port manager: among
-> them a hard reset, which drops VBUS. If the read at the end of the functi=
-on
-> fails, "status" keeps the alerts which have just been handled: they are
-> handled again, for as long as the read fails.
+> The numbers must not reach the switch either: TYPEC_MODE_AUDIO has the
+> value of TYPEC_DP_STATE_D. Without an alternate mode connect the
+> SuperSpeed lanes for TYPEC_MODE_USB3 and disconnect them for the rest.
 >=20
-> In the receive branch the byte count, the header and the payload are not
-> checked: a count made of stack content trips the WARN_ON(), and a message
-> made of stack content is handed to tcpm_pd_receive(). A failed read of the
-> frame type returns a negative errno as irqreturn_t, with RX_STATUS still
-> set.
-> [ ... ]
-> Cc: Badhri Jagan Sridharan <badhri@google.com>
-> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
+> Fixes: 7c561b8c3e83 ("usb: typec: mux: Add support for the TUSB1046 cross=
+point switch")
 > Cc: stable <stable@kernel.org>
+> Cc: Romain Gantois <romain.gantois@bootlin.com>
+> Cc: Heikki Krogerus <heikki.krogerus@linux.intel.com>
 > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
@@ -86,5 +85,5 @@ Sashiko has reviewed this patch and found no issues.
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027-llm-usb-v1=
--0-b9751ddb9c7c@linuxfoundation.org?part=3D12
+-0-b9751ddb9c7c@linuxfoundation.org?part=3D15
 
