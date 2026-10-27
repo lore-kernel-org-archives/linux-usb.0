@@ -1,55 +1,51 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793111096;
-	b=I5zI9L/cl0hHmJgQXFZ8oxK4QZidupPdkS3zNiqpfOO4IOxO3vXFZthpHZtdzwyCQ87t
-	 0rQfsBVrwIgojg5wL0Hr6PsdgzLm4GzJk3dHUYdz/KPWDinstcvkS4/LJ4Io3yCJpfkQT
-	 rLRkh1f3sG6BI1ukVHMGgA2DLvdcSdHM5bF2yYDu61qulOJlZvE7f7urB4/qEXKUZdF1P
-	 zEtrFq8sES5SvKeqe44HnCtLEgLo9KmhSW/ZNP8mUsPfjHSy5/NExVt8I2+HeqVNmKIDQ
-	 CSC2GoITAY8W7PTg8VU41Vh7CCF9de/gPpp2VdPintNfMITE/9MRUSAOIDFAzrWKW2g==
+	t=1793111377;
+	b=IZ+/taTkuOL3GdRuekcpTjsvvZCHvEx4HT4zssRpi5snrDwuOGNFK0XlPRs7M4SJfb71
+	 X1UVr+qYBA43X5DdhbLTREUhfSFqf9KizQbNzk/9Abmaj1lPHjaAH6F6bySGo2qO+r7yf
+	 V723Vi/n0b69NTEk2AdHJksupgKyiG4inBfYzmcJeSm7NNwImuO2nBITvmGfTMQAmGWlz
+	 nUS9ZSMfzj8U+o4b8fGFpT+vqGBX2vTc9/YMr32obyw+zrBhPysUXyemYOqq/ISHlbWBF
+	 wA/Gs1AIOvaeeRwiPWrmQjBCwFlKei9GEyMSkiBnWCmwJyeYL3FL4uZBCQbd3yNlIiQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793111096;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793111377;
 	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
 	 MIME-Version:Lines:X-Developer-Signature:X-Developer-Key:
 	 Content-Transfer-Encoding;
-	bh=PsGmTXa/uJnpfM7r+TZoQHID0Juv7gPJkuS/Z941NB0=;
-	b=McWljdSnGe6mcaOSX2A3iJJijCGsuJ16PJG6V9ku+oHkCxPuwDYJz70Mswl/lCKzVSdL
-	 bHA/NumUgOOx0oiayxaQ1K6KHquTB5gjN/Kct4FRiKx9ATBYdBfvl35EtAG9q+UMu5/je
-	 mVjTZurPIXzkyjcVoYpB1jc6SKy20u6Wgz2TCpgYYDBU0Z5FIjsaNi0JThUzbJG6PHdZs
-	 Kt1be5v1wmL6DlCceHow95h7fVb9MLAQezsDvZtSyWqx+mZQ0KHPfYDz5krbOn6LcgUCZ
-	 7S1s0zuHsoIJiSQVmcxB5VJ+qEQNEFGSy3IRLBh64qRfTEbStLCGmkKZPQFzEOAqCIA==
+	bh=m9amcDJbZ6P1vlU84pbyhb1om6ivbKUqCyCNeun03Zk=;
+	b=t4Iytd73mbR5dHFpScmS/w+BSdqoEhsEWhKAxbxdwDfDZh63G9a+nS2egTg6K63eazWo
+	 SpSLDWO0uSYsNpxGWkR/oZIGvfwj3CBX8KufnTNHMyTzL4XIZ627lmt+e2+FlX6GRTVIM
+	 DhzU1CYW71xylAg9oCZaGGWM+3GBfRSLSMCeGgBL1IHRJRgRuFOxKOL2HUM4c49KMs/Xn
+	 IsSV2YzImTWFKWbUsxM53gfQOrSw8IuMc9JulyG9rkxa7An6Xz3K6IhlDhh1fPKraG1L7
+	 i0DEYk3n9mC7820bPAtxfEf87/e85EQXoJmHyg0TWRsaPj0ChTOnifGc0fyovDo33NA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qZahO0ZU;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=pOFP712L;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF80606A31D;
-	Tue, 27 Oct 2026 14:24:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0CC606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 14:29:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qZahO0ZU
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A04541F01825;
-	Tue, 27 Oct 2026 14:24:55 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=pOFP712L
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1DC51F01825;
+	Tue, 27 Oct 2026 14:29:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793111096;
-	bh=PsGmTXa/uJnpfM7r+TZoQHID0Juv7gPJkuS/Z941NB0=;
+	s=korg; t=1793111376;
+	bh=m9amcDJbZ6P1vlU84pbyhb1om6ivbKUqCyCNeun03Zk=;
 	h=From:To:Cc:Subject:Date;
-	b=qZahO0ZUT5liYhHMYyhjPjxZuK+lFmw3nYRs3KyJIy4FJZP0VMP0qMeasLjc3b0Qn
-	 szNCHQf47vEbxoIIXN2+Lk/1So+8r0nWXnAG4oFGJFaF+Bn7dTE/EZ+lIJRpxMEL5n
-	 siqOUlO84NKEHdHtggQHQ3Cs+U2dg1Nhcovz98Y8=
+	b=pOFP712L+nTAuRKGApJM45brO20O3ZhMC5zrW3tq3IDM+hlA5+ExvetjaUQAks71L
+	 +iEgzaVGSymXuBlIvkKkehpf6hl0tsFUp70mGVms56owTqrvWvEdvX9naj96KJcrzJ
+	 1bd2Xay2TF1zyMrBCiGniSbhjUo4p55d+tlw+yGQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: linux-usb@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
+To: johan@kernel.org
+Cc: linux-usb@vger.kernel.org,
 	Josef Bacik <josef@toxicpanda.com>,
 	stable <stable@kernel.org>,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Mika Westerberg <westeri@kernel.org>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
 	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Subject: [PATCH] thunderbolt: stream: Undo more if the start fails
-Date: Tue, 27 Oct 2026 15:24:52 +0100
-Message-ID: <2026102751-nibble-synapse-d406@gregkh>
+Subject: [PATCH] USB: serial: garmin_gps: queue the device reset
+Date: Tue, 27 Oct 2026 15:29:34 +0100
+Message-ID: <2026102733-prayer-drainer-56f3@gregkh>
 X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -60,50 +56,73 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1506; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=a/jsonkAQH7T+wb0F8TvbceQJ7ejFRmUiulJvqfzabk=; b=owGbwMvMwCRo6H6F97bub03G02pJDFkPthhz6CSm+R1ceism+NTWvd/YKjiO35z/7JFPz9HHK 2wWblVR6ohlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJVM1imKfL9aUxanLDrVk3 GtLCJVdKbnkfwcYw37X+VYf2t5JgtW25+Yt2fvWpUGmpBgA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2686; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=4z8vlvWNs7PG5XpBiNFNhgwPsS8sO6+vZQ9jopDt5Oc=; b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtvpuKc848vjY/HeFZcnHMnIvHYtPWfCT59O5zIrbz bplPfU/O2JZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAi66IZ5hc/0os4ELJqg0Hf osvtju0yvGcE+xkWLH7u9vGwzfPySS53P0SbCnI96rf8DgA=
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
 
 From: Josef Bacik <josef@toxicpanda.com>
 
-If the receive buffers cannot be allocated or mapped,
-tbstream_dev_start() stops and frees the rings, but
+A private packet with the ID PRIV_PKTID_RESET_REQ that is written to the
+port makes garmin_write() call usb_kill_urb() and usb_reset_device().
+Both sleep, but the write operation of a tty driver must not: a line
+discipline may call it in atomic context, synchronous PPP for one under
+a spinlock with bottom halves disabled.  In addition usb_reset_device()
+has to be called with the device locked, which it is not here.
 
- - leaves the DMA paths through the XDomain connection enabled, with the
-   hop IDs of rings which no longer exist;
- - does not release the frame array and the pages which
-   tbstream_dev_alloc_rx_buffers() had allocated and mapped before it
-   failed.
+The reset also unbinds the driver inside the write: the disconnect hangs
+the tty up, ppp_sync_close() calls ppp_unregister_channel(), and that
+spins on pch->downl, which the writer holds.  The CPU is lost.
 
-Fixes: 6db21d817b43 ("thunderbolt: Add support for USB4STREAM")
+Unlink the URB and use usb_queue_reset_device(), which locks the device
+and resets it from a work item.
+
+Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
 Cc: stable <stable@kernel.org>
-Cc: Andreas Noever <andreas.noever@gmail.com>
-Cc: Mika Westerberg <westeri@kernel.org>
-Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
-Cc: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/thunderbolt/stream.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Johan, this was sent to me, but I really don't know if PPP is used for
+this device to talk to the port or not.  If not, this isn't a real
+issue, but if it is, then maybe it is?  I can't tell so I'm tossing it
+to you :)
 
-diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
-index 4f9a57b77bfa..c9e1987a6924 100644
---- a/drivers/thunderbolt/stream.c
-+++ b/drivers/thunderbolt/stream.c
-@@ -683,6 +683,12 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
- err_stop:
- 	tb_ring_stop(sdev->rx_ring.ring);
- 	tb_ring_stop(sdev->tx_ring.ring);
-+	tb_xdomain_disable_paths(xd, sdev->out_hopid,
-+				 sdev->tx_ring.ring->hop,
-+				 sdev->in_hopid,
-+				 sdev->rx_ring.ring->hop);
-+	if (sdev->rx_ring.frames)
-+		tbstream_ring_free(&sdev->rx_ring);
- err_free_rx:
- 	tb_ring_free(sdev->rx_ring.ring);
- err_free_tx_buffers:
+ drivers/usb/serial/garmin_gps.c | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+
+diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
+index 8020149f5658..c2b29a7a6674 100644
+--- a/drivers/usb/serial/garmin_gps.c
++++ b/drivers/usb/serial/garmin_gps.c
+@@ -818,10 +818,9 @@ static void priv_status_resp(struct usb_serial_port *port)
+  * Garmin specific driver functions
+  ******************************************************************************/
+ 
+-static int process_resetdev_request(struct usb_serial_port *port)
++static void process_resetdev_request(struct usb_serial_port *port)
+ {
+ 	unsigned long flags;
+-	int status;
+ 	struct garmin_data *garmin_data_p = usb_get_serial_port_data(port);
+ 
+ 	spin_lock_irqsave(&garmin_data_p->lock, flags);
+@@ -830,13 +829,10 @@ static int process_resetdev_request(struct usb_serial_port *port)
+ 	garmin_data_p->serial_num = 0;
+ 	spin_unlock_irqrestore(&garmin_data_p->lock, flags);
+ 
+-	usb_kill_urb(port->interrupt_in_urb);
+-	dev_dbg(&port->dev, "%s - usb_reset_device\n", __func__);
+-	status = usb_reset_device(port->serial->dev);
+-	if (status)
+-		dev_dbg(&port->dev, "%s - usb_reset_device failed: %d\n",
+-			__func__, status);
+-	return status;
++	/* This is called by the write operation, which must not sleep */
++	usb_unlink_urb(port->interrupt_in_urb);
++	dev_dbg(&port->dev, "%s - usb_queue_reset_device\n", __func__);
++	usb_queue_reset_device(port->serial->interface);
+ }
+ 
+ 
 -- 
 2.56.0
 
