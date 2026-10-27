@@ -1,77 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793120906;
-	b=1PhrgZmM5fnQNOBX7VCuLBn+QPfgoTHw4n6C/Urx+pBjLIev7otarlgShJY+h8+NLkeM
-	 5cnYGM/CY74I+r0jiBxQRQfGHnGBhP7oxOcJyA89VPKudwnQCm+d5sA5VBUXnPvdcrCPS
-	 hMqx29vU10uAMp7r7spz54juQWQfQrbk0I2WIB//yyfTlQytVEs+HiF3DIswkMndEsO9T
-	 J2Bp6G0hfuGTSSPkS9rvpfiGpoAE0AsPce3M/iTtj0R00Yf8wH5sFFj7zVe2c2JFDcYxK
-	 IelsphUI/lOqE0xx1FvKwJypDcgAUEhR6wi6O6P2WuBxP3+clMyX9gEM6IL3kXwpcAw==
+	t=1793121011;
+	b=ugs6D0BXssjUyfAR2TLLlNOQuS7TQtoxFYwq773FX95jgcKTZhRybjogo9XePEt83Su2
+	 UG9SCx4qjx5U5V5OerfDgV6GuPBf7FslZ1uBCJgTEoao4XHFRR1wEOCkZSU0PNNcvc5iU
+	 4SzxhXI1KYcLYGOG7e8IJqLTUG5S8j0bsJwFQ3hK2mJafqNKMPibhdPd8kWEp/t6+hZhI
+	 yUp1afDrE6xOC4yV2wmrFwxsB7kVLLwEU7VNumFHR3R5nf5EYrDXYWhsTCZD1dKM1Hr5K
+	 HCxeHzbBQiIVKkL7Gei31+9JnanlyZsKGOjJI0M24NHKzx6dryVB/2skS6nWpmgazUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793120906;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Date:From:To:Cc:
-	 Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To:Organization;
-	bh=EqRKj4JjHw6XL8/kSkGRlKo0pVt1CLaSeDtymMxLZjc=;
-	b=UhL2LUa7TSejdMq8SkTGYSTEYwNhgu6UzvLmPRv57VF4Zr5BG3k96ri50syPjpCOMeAT
-	 aTT+XFzY8Y1lDxthZZ464VhgDIYfQBQpwJJiHouXmE7Y4RRGDv1U0j/m9P6wa68zFmHHw
-	 /nhEMRZfjXx7Iua+5A994vjYpuLrxNX/b4wFOSoVMKqcTuVGk7hZ0vYSUNUF4PjyaIo1+
-	 6mayq3JaGHI8mrsRQbHWK44mPZ7RnhY7J0utRxI3d6BUVwIM/j84qU1lMCInVXw+u2W8h
-	 2b1NUhpwB953uWz0ebXOC8pMQQZtdFzZawtvCVUNuExJPXh/SjYtgGreZZUu4wPT9Lw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793121011;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-Id:
+	 In-Reply-To:References:X-Mailer:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=6z1Q2FnRPqUpv8sUMbKaLkx2bL6vjkoG2SyuClqSAmw=;
+	b=YBTjL8B+S3oi2b+DCgM2d4t0QU/mPY+7IT4XkiXF0EyybwhI2Qn9X2zMG6ctMpgJIUd3
+	 EFPm1XAYarB3Xe9c5zhdl/GV1Qiduyd9qpXuP90HXI9OVjQF3oqgPd1oq1ladA5J7RaPM
+	 LEHQVZ6N9UizdI4LE4PCzvDcF9uhef2gzntH4NwlfzN4cFJTfkWr45SvbBkSM9HyVph/g
+	 0MuzpdOkVKClmcayPwWmeOchlpLrcuhy93rqoK63iS7o9oDcIY1e1wEqp4co7pQhxpTcC
+	 WKzhZsRITbiocf1FEElkQlp5kjH83zVHNpF9TtWy+CbHNREbjfm7NKpZAKbwOxtDDaQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YaYcSimt;
-	arc=none smtp.remote-ip=198.175.65.15
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=HWK8m1XM;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2140606A31A;
-	Tue, 27 Oct 2026 17:08:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2140606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03FC606A31F;
+	Tue, 27 Oct 2026 17:10:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=YaYcSimt
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793120904; x=1824656904;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZY+GVp1iLeMaklemOOZDjWJMytlYyxP/MoY5YjBxoPU=;
-  b=YaYcSimt+oUAtggKTp1zllMcgaUF8nK5n6TdHEi4t6jfpS2PtbgcQP2b
-   TXQWzrH6QPj6F9PReQiNKHAi0JmvTZ8EAtGJVH7e/dbDConq9Qr8T855T
-   sIV4fNY1BiDblz3VtQbrjqsCj/5kH+Jeu3CD/HCo/i0OY7+pGOpdYDEcq
-   Ax+zw79ag1QPJhDv2Gsm5svIdEpSO632vH9lpSpAp58eB2SacY2FVKfvD
-   DcIKrsJVX/ZlymUyG/mvTpWJpQz44vm1sJre1FSpQcGtYTheU4KqUzY/j
-   j1edwDhoj4leULNismOrrjr1qOILD5k8D9fk23zR2OZN44MKHfxVjEcIB
-   g==;
-X-CSE-ConnectionGUID: HDnwve3wQY6F1E8rzOH2KQ==
-X-CSE-MsgGUID: RzKj8TjLTzqxo/TvjmVYnQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11948"; a="1828577"
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="1828577"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 10:08:23 -0700
-X-CSE-ConnectionGUID: G/XzPPOkQ/mehdlrVHha1g==
-X-CSE-MsgGUID: UJLaONPAT5SA3mKcICqqjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,181,1787036400"; 
-   d="scan'208";a="4596521"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.196])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2026 10:08:21 -0700
-Date: Tue, 27 Oct 2026 19:08:18 +0200
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: liuc63 <liuc63@xiaopeng.com>
-Cc: gregkh@linuxfoundation.org, khtsai@google.com, fangxy@xiaopeng.com,
-	rdunlap@infradead.org, dbrownell@users.sourceforge.net,
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: u_ether: fix out-of-bounds read in
- get_ether_addr
-Message-ID: <auDagk-2QU88ofVC@ashevche-desk.local>
-References: <20261023110113.2969708-1-liuc63@xiaopeng.com>
+	dkim=pass (1024-bit key, unprotected) header.d=linux-foundation.org header.i=@linux-foundation.org header.a=rsa-sha256 header.s=korg header.b=HWK8m1XM
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B89321F01829;
+	Tue, 27 Oct 2026 17:10:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux-foundation.org; s=korg; t=1793121010;
+	bh=6z1Q2FnRPqUpv8sUMbKaLkx2bL6vjkoG2SyuClqSAmw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=HWK8m1XM89Z1t2ZqEzF0wRXMZCN9YZF/stXxZmx4P5l48J3KslfwBTpVL1ZkY5d3L
+	 cFvF95td4+ABHcQ5gNSdxOOvGC2DaMLIdn9qCisjLWSWqYS2Hu0bLOOfjFyE4JONkm
+	 3yjLt1FT3xNx6nJCxFHXlGgb9Rl8NYHV9oLjIDEg=
+Date: Tue, 27 Oct 2026 10:10:09 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: syzbot <syzbot+9fe09db3795456e0b442@syzkaller.appspotmail.com>
+Cc: cl@gentwo.org, hao.li@linux.dev, harry@kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-usb@vger.kernel.org, rientjes@google.com, roman.gushchin@linux.dev,
+ syzkaller-bugs@googlegroups.com, vbabka@kernel.org, mchehab@kernel.org,
+ rohithmatham@gmail.com, hverkuil@kernel.org, duoming@zju.edu.cn,
+ linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [syzbot] [mm?] [usb?] WARNING in corrupted (4)
+Message-Id: <20261027101009.18e9136537144533915008e4@linux-foundation.org>
+In-Reply-To: <6ae09458.f0fe5aea.79aa1.008e.GAE@google.com>
+References: <6ae09458.f0fe5aea.79aa1.008e.GAE@google.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -80,63 +60,59 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261023110113.2969708-1-liuc63@xiaopeng.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Oct 23, 2026 at 07:00:59PM +0800, liuc63 wrote:
-> get_ether_addr() parses a MAC address string with a fixed six-iteration
-> loop, unconditionally calling hex_to_bin() twice per iteration.  It never
-> checks for the terminating NUL, so a short string supplied through the
-> configfs dev_addr attribute (e.g. "ab") makes the parser read past the
-> end of the buffer, triggering a slab-out-of-bounds read reported by
-> KASAN.  hex_to_bin() also returns -1 for non-hex characters, which is
-> shifted and OR'ed into dev_addr.
+On Tue, 27 Oct 2026 05:08:56 -0700 syzbot <syzbot+9fe09db3795456e0b442@syzkaller.appspotmail.com> wrote:
+
+> Hello,
 > 
-> Bail out as soon as the string ends or a non-hex digit is found, routing
-> all failure paths through the existing eth_random_addr() fallback so that
-> dev_addr is always fully initialized before the function returns.
+> syzbot found the following issue on:
+> 
+> HEAD commit:    5b0764a53235 Merge tag 'drm-next-2026-10-21' of https://gi..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=13739fc9580000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=fd1433abd362f255
+> dashboard link: https://syzkaller.appspot.com/bug?extid=9fe09db3795456e0b442
+> compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
+> userspace arch: i386
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11cb9b0d580000
+> 
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/05ac8658d211/disk-5b0764a5.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/9cfb73243216/vmlinux-5b0764a5.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/fc45c7faf785/bzImage-5b0764a5.xz
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+9fe09db3795456e0b442@syzkaller.appspotmail.com
+> 
+> ------------[ cut here ]------------
+> !PageLargeKmalloc(page)
+> WARNING: mm/slub.c:6855 at free_large_kmalloc+0x97/0x110 mm/slub.c:6855, CPU#0: kworker/0:1/10
+> 
 
-Instead, in lib/net_utils.c:
+Thanks.
 
-bool parse_mac_pton(const char *s, u8 *mac, const char *delim)
-{
-	...
-		if (i != ETH_ALEN - 1 && !strchr(delim, s[i * 3 + 2]))
-	...
-}
+> This report is generated by a bot.
 
-In include/linux/hex.h:
+So is this report ;)
 
-static bool mac_pton(const char *s, u8 *mac)
-{
-	return parse_mac_pton(s, mac, ":");
-}
+This looks like a double free in the Siano USB media driver, rather
+than an MM bug.
 
-and here
+The failure occurs during USB probe error recovery. The allocation
+comes from smscore_register_device(), and the page-owner records show
+that smscore_unregister_device() has already freed it. The USB core
+can then attempt to free the same memory because smsusb_submit_urb()
+sets URB_FREE_BUFFER on a buffer owned by the Siano core.
 
-static int get_ether_addr(const char *str, u8 *dev_addr)
-{
-        if (str) {
-		bool valid;
+Rohith Matam posted a patch in June which removes URB_FREE_BUFFER
+and fixes several related URB teardown races:
 
-		valid = parse_mac_pton(str, dev_addr, ".:");
-		if (valid && is_valid_ether_addr(dev_addr))
-			return 0;
-        }
-        eth_random_addr(dev_addr);
-        return 1;
-}
+https://lore.kernel.org/r/20260601201639.63171-1-rohithmatham@gmail.com
 
-Note, this will require select NET_UTILS in Kconfig to be added.
+I don't know why that patch hasn't resolved this problem, but it
+would be worth revisiting before developing another fix.
 
-Make it two patches (first prepares parse_mac_pton() for others to use).
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+This doesn't appear to need any MM changes.
