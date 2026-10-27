@@ -1,64 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793101811;
-	b=gCcaJecHyufMGYb4ajLysXH/U+pfHudbX76vlartqYY0J+p6MyYMTkvk/5Afq+y2hR/v
-	 hCMBs/VJ8NB9P7vSWHhrlxTECwUjpKTAJue2ySJW3etQJ67Nhodt+T1eYjBFI0D2+o4WN
-	 +SFAfzXuYi5wkBUPWNrSaq6Q9PV/3auaoU7McfiLMjYsXUWblYI9goDSe4VxgE6d2arE9
-	 kqxS6QS0p+lxCmB8maFTHlhvK2zfby+1bnOTn2zefjdjM5Ux11WnWxkHWDJC/9dOR+ZMM
-	 YAYx1Jt66b3w/+ndNVVqpH3r3ed4oUDzewQB6RY2lTmimDV1PeStR1OukqEtk4OdNSQ==
+	t=1793102004;
+	b=sYN8L+izPVC+LowqM19hpUxE5SMCr+W4t87x2SIcfJlqsZTn2dVPnmCA3ZXvqFYRHX8F
+	 NXshssWhHqrHSy0Rb4KxzdLzmD+gNUIOiVHcwGcMuR0onwz44dL9RXaKQcCkeQhB2W9MU
+	 1RsmxK9MGipnughYsqg0WwnIoCojJC+njDW7bMDqgrhCbWj4+zFhPtjTB5o/wSbT7J1t5
+	 E9xROX9/ke9Cb/qQm16QQY7ECW93qOOPQYrHjoyrSVG+zxyZgVzSoFS8Bj5PHl5ZiteZN
+	 allyWnaQIHTOs+ODDCYD6EYjXCWnOQGYrIZMm3346ogGhllMF6pQxLrxWkITw3BCSLw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793101811;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=4LS2QAZea28L14x36x4SE8vt4l1NVp0NgIHFN/fX/Z4=;
-	b=ESlN1H0Hd3WYDNAV2VzatAsAL+2HjnjPmOcJfOKUpOrb6YvIz06TvYlzoMct08F05cNE
-	 v3GCMmxXJQafg+Lx4Ipvly0RG+G3Tcy0Nzs+DB+U6jH6Aj9XHo1uwaxxgeSpwFOmVgR5B
-	 jbLLEauPJi1Z5tMKUpIa9v+6gpdEQTp12v/xXFdhCdtvq36tJIhKor0eTQWFWyRc7Tj6r
-	 PfH8Yws+WFieaWS9ZeFzs4D/CMHc7ZhV/FsPcw1KRQbePP8fB1adWT08/sLT5jQAXRk3U
-	 XodXeFgjgy7jr1RXggZhOUsTq3QYHHXsPoq+fWKHAesGBvjD3PXU3B4PP+a4OQWKSPQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793102004;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=sWN1PpSYOz5KEHq+XMlHpxa9XGMfitXYGS0npUSymIw=;
+	b=iHhshS3weuU91zlp6PQ0pdwzkYZ+1QN05MIBCu5ErobEV1K9Bbq5VqXfpYjC6RGNlr33
+	 YbFiIM9ZCr/MA1VN2va6eejAIVDXskCHqQsSeWpwI7rG5kueUPMUq/qx8Tt5VnnZOqSmv
+	 rFUyG7uJqabcG4ZckY75JY2L2pqKpy9mEMY+aaDbptjXVvYh0WxmOP6rrzk1rhun9iiCc
+	 JXw+LW0sI2QJYVsnrZQ1JN3cVtSufZAnvsYWexrjTaHaYDC1o18rNPYsiIrVPKsAt3Mn8
+	 auKbQli/utRW3+H0oa6JuvCnQ5BrqpJjtut0nG9w/o81+sirfMdqDNDPiPx5Ybbw9kQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OEIEL8hK;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LCLTQqKh;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA3C660A2606;
-	Tue, 27 Oct 2026 11:50:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07388606A31B;
+	Tue, 27 Oct 2026 11:53:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=OEIEL8hK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBFCF1F031E9;
-	Tue, 27 Oct 2026 11:50:09 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LCLTQqKh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EAAA1F01828;
+	Tue, 27 Oct 2026 11:53:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793101810;
-	bh=4LS2QAZea28L14x36x4SE8vt4l1NVp0NgIHFN/fX/Z4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=OEIEL8hK7rvYWMnv3aG7L6E4w+3sZiKjXJ4yAloB3MhefqoDcSwnlGvpB7zRqgNcu
-	 NgfPhgV0R37+wc/NRm9VFs7uloK3ui3LOVlohhrtr5pIxojh2LUZTkqLfN/wxuQGvL
-	 9DLx9oHgrHoxeTXqzBxvHAtkkX5gVIjBWH+M+eMK3wxm3nmHYOeJRZN3Y8r1qF7YxH
-	 cQzV+WEvkqKMlQT+NINhkuDvUkzQugCWattd7Z/yPoWj2t9pdW8UOobSWpbLHYz1K8
-	 WxBrEX1Uk6f8QkulZMwYw4GZGU/w38esQDjawqCtnI7wxJVEDLlxhcEZNSS+PnWiTl
-	 ZdRP0ig2uvzAw==
-Date: Tue, 27 Oct 2026 06:50:06 -0500
-From: Rob Herring <robh@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@kernel.org>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jordan Viknar <jordanviknar@gmail.com>, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] dt-bindings: usb: Move Tegra-specific Chipidea
- USB properties into a dedicated schema
-Message-ID: <20261027115006.GC3598537-robh@kernel.org>
-References: <20261004165204.205660-1-clamor95@gmail.com>
- <20261004165204.205660-2-clamor95@gmail.com>
- <20261026222928.GA15139-robh@kernel.org>
- <CAPVz0n2rkWikz1CZhkKiZnX5P+NdDH0RfJi69AyVTEV7qw_VXg@mail.gmail.com>
+	s=k20260515; t=1793102003;
+	bh=sWN1PpSYOz5KEHq+XMlHpxa9XGMfitXYGS0npUSymIw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LCLTQqKhaRbOV6iITpgxtMkAc7q3cxd7S9GsIK4mEFU9EAk0NSiKlI3ebcxdKh1L4
+	 5gryC3tQ33bV+ZPZFBAZ25cnqJggh+KXc2TDcOeSylFQZLivjKnKJZUnrZh96MKQ7A
+	 m1UA/bycwSbMjvTU+scRDGsGM2SD9QP09gdL7jD+k9NVouZWBHFLkIORobSRI8v84F
+	 YBw0LwCj0FvDIosre/bu92nYK5D9bgyaJxD11QaxxH3UCWCvMnh4Z5pH4vQVD+699q
+	 FbNhp+5zPKGcflFuofmftzXUKK4g9IPqqlmL2EY7H8Mhai7gbXyOtgn788l9fV5EoJ
+	 p7dxmM65pU2ow==
+Message-ID: <sashiko-outbox-186482@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v7 5/8] ALSA: usb: babyfacepro: add S3 suspend/resume
+Reply-To: sashiko-reviews@lists.linux.dev
+To: =?utf-8?b?SXNtYcOvbCBCYWhsb3Vs?= <i.bahloul01@gmail.com>, linux-sound@vger.kernel.org
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261027113140.134257-6-i.bahloul01@gmail.com>
+References: <20261027113140.134257-1-i.bahloul01@gmail.com>
+ <20261027113140.134257-6-i.bahloul01@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Oct 2026 11:53:23 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,44 +59,228 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n2rkWikz1CZhkKiZnX5P+NdDH0RfJi69AyVTEV7qw_VXg@mail.gmail.com>
 
-On Tue, Oct 27, 2026 at 10:51:52AM +0200, Svyatoslav Ryhel wrote:
-> вт, 27 жовт. 2026 р. о 00:29 Rob Herring <robh@kernel.org> пише:
-> >
-> > On Sun, Oct 04, 2026 at 07:52:03PM +0300, Svyatoslav Ryhel wrote:
-> > > Move all Tegra-specific Chipidea devices and their properties into a
-> > > dedicated schema file, by analogy with i.MX.
-> >
-> > I don't really see the point given it is only 2 deprecated properties.
-> > Maybe those can be removed? Depends if they are deprecated and still
-> > used or deprecated and removed from .dts files years ago.
-> >
-> 
-> The ci-hdrc-usb2.yaml schema contains properties that are not
-> applicable to Tegra, and conversely, Tegra-specific properties are not
-> applicable to qcom, nxp, nuvoton, etc.
-> 
-> The 'nvidia,needs-double-reset' property is required for Tegra20 and
-> Tegra30, and it is still actively in use, as you can see here [1]. Its
-> marked deprecated state appears to be incorrect, as it should simply
-> be restricted to Tegra20 and Tegra30.
-> 
-> The 'nvidia,phy' property is still used across all ARMv7 Tegra
-> generations + Tegra210, as the Chipidea driver has not yet been
-> converted to use the generic property. Therefore, while it is marked
-> as deprecated, it remains in active use.
-> 
-> The example I added is from Tegra30, which in the real devicetree uses
-> both properties, so I've included them here as well. With your
-> permission, I can remove the Tegra-specific parts from
-> ci-hdrc-usb2.yaml and tailor the proposed schema to better fit the
-> current state.
+Thank you for your contribution! Sashiko AI review found 3 potential issue(=
+s) to consider:
+- [High] ALSA: usb: babyfacepro: bf_state_apply_flags() clobbers AN1/2 cros=
+spoints on resume
+- [Medium] ALSA: usb: babyfacepro: bf_state_apply_flags() unmutes Phones on=
+ resume
+- [Medium] ALSA: usb: babyfacepro: bf_state_apply_flags() resets Boost ref =
+level on resume
+--
 
-Okay, please add these details to the commit msg.
+commit 310405e76a62da749e95a774e21001c8c29e80f6
+Author: Isma=C3=AFl Bahloul <i.bahloul01@gmail.com>
 
-Rob
+ALSA: usb: babyfacepro: add S3 suspend/resume
+
+This commit adds S3 suspend, resume, and reset_resume callbacks for the RME
+Babyface Pro USB audio driver. On suspend, it suspends active PCM substream=
+s,
+kills running URBs, and cancels pending stream work; on resume, it re-runs
+cold initialization and replays the cached mixer state and hardware flags.
+
+> diff --git a/sound/usb/babyfacepro/babyfacepro.c b/sound/usb/babyfacepro/=
+babyfacepro.c
+> index ed4555c711064..e0eb0ce9b92f3 100644
+> --- a/sound/usb/babyfacepro/babyfacepro.c
+> +++ b/sound/usb/babyfacepro/babyfacepro.c
+
+[ ... ]
+
+> @@ -390,10 +400,8 @@ int bf_state_apply_flags(struct snd_usb_babyface *ch=
+ip)
+>  	}
+> =20
+>  	/* Re-apply an engaged DIM (the fixed -20 dB Phones pair + flag).  The
+> -	 * level DIM releases back to is not persisted: it always tracks the
+> -	 * Phones master while DIM is engaged, so rebuild it here - otherwise a
+> -	 * DIM released after a re-probe would drive Phones to
+> -	 * silence (dim_saved still zero on the fresh chip).
+> +	 * level DIM releases back to tracks the Phones master while DIM is
+> +	 * engaged.
+>  	 */
+>  	if (chip->dim) {
+>  		chip->dim_saved[0] =3D chip->master[1][0];
+
+[Severity: Medium]
+What happens on resume when both chip->dim and chip->muted[1] are active?
+
+In babyface_resume(), babyface_restore_state() calls bf_apply_masters(),
+which checks chip->muted[out] and writes the muted level (BF_MASTER_MUTE /
+0x0000) to the hardware master registers:
+
+sound/usb/babyfacepro/babyfacepro-ctl.c:bf_apply_masters() {
+	for (out =3D 0; out < 6; out++) {
+		u16 l =3D chip->muted[out] ? 0 : chip->master[out][0];
+		u16 r =3D chip->muted[out] ? 0 : chip->master[out][1];
+		...
+}
+
+Immediately afterwards, babyface_resume() calls bf_state_apply_flags(), whe=
+re
+the chip->dim block unconditionally writes 0xcb (-20 dB) to
+BF_REG_MASTER_8 + 2 * 1 (and + 1) and 0x0333 to BF_REG_MASTER_16 + 2 * 1
+(and + 1) without checking chip->muted[1]:
+
+sound/usb/babyfacepro/babyfacepro.c:bf_state_apply_flags() {
+	if (chip->dim) {
+		chip->dim_saved[0] =3D chip->master[1][0];
+		chip->dim_saved[1] =3D chip->master[1][1];
+		ret =3D bf_vendor_write(chip, BF_REQ_GAIN, 0xcb,
+				      BF_REG_MASTER_8 + 2 * 1);
+		...
+		ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, 0x0333,
+				      (BF_REG_MASTER_16 + 2 * 1) |
+				      bf_flag_cycle[chip->flag_cnt]);
+		...
+}
+
+Won't this overwrite the muted state on the hardware headphone output (PH3/=
+4)
+with -20 dB across a suspend/resume cycle while chip->muted[1] remains true?
+
+[ ... ]
+
+> @@ -1788,6 +1798,63 @@ static void babyface_disconnect(struct usb_interfa=
+ce *intf)
+>  	snd_card_free_when_closed(chip->card);
+>  }
+> =20
+> +static int babyface_suspend(struct usb_interface *intf, pm_message_t mes=
+sage)
+> +{
+
+[ ... ]
+
+> +static int babyface_resume(struct usb_interface *intf)
+> +{
+> +	struct snd_usb_babyface *chip =3D usb_get_intfdata(intf);
+> +	int err;
+> +
+> +	if (!chip)
+> +		return 0;
+> +
+> +	/* The device lost its state across the suspend; re-run the cold
+> +	 * init and re-apply the cached mixer state.  Suspended PCM
+> +	 * substreams are woken by the core - apps get -ESTRPIPE and
+> +	 * restart (prepare starts a new session).
+> +	 *
+> +	 * This is also the reset_resume handler.  Some hosts reset the
+> +	 * device on resume; that needs nothing more than the cold init
+> +	 * already does here, and without the handler the USB core unbinds
+> +	 * and re-probes the driver instead: the card goes away, open PCMs
+> +	 * fail, and udev's alsactl restore then loads the mixer state
+> +	 * stored at the last shutdown over the current one.
+> +	 */
+> +	mutex_lock(&chip->mutex);
+> +	err =3D usb_set_interface(chip->dev, BF_IFACE, chip->alt);
+> +	if (err < 0)
+> +		goto out;
+> +	err =3D bf_cold_init(chip);
+> +	if (err < 0)
+> +		goto out;
+> +	err =3D babyface_restore_state(chip);
+> +	if (err < 0)
+> +		goto out;
+> +	err =3D bf_state_apply_flags(chip);
+
+[Severity: High]
+Does calling bf_state_apply_flags() right after babyface_restore_state() in
+babyface_resume() clobber the restored AN1 -> AN1/2 and AN2 -> AN1/2
+crosspoint faders?
+
+During babyface_restore_state(), the crosspoint loop writes all cached
+chip->xpoint[out][src] values to the hardware, including out =3D 0 (AN1/2) =
+and
+src =3D 0..1 (AN1 and AN2 at registers 0x0000, 0x001a, 0x0001, and 0x001b):
+
+sound/usb/babyfacepro/babyfacepro.c:babyface_restore_state() {
+	for (out =3D 0; out < 6; out++) {
+		for (src =3D 0; src < 14; src++) {
+			ret =3D bf_xpoint_write(chip, out, src,
+					      chip->xpoint[out][src][0],
+					      chip->xpoint[out][src][1]);
+			...
+}
+
+Then bf_state_apply_flags() runs. Unlike ms_proc, phase, split, and trim
+(which only touch the shared crosspoint registers when their respective sta=
+te
+is non-zero), the chip->width calculation in bf_state_apply_flags() executes
+unconditionally:
+
+sound/usb/babyfacepro/babyfacepro.c:bf_state_apply_flags() {
+	l =3D (u16)(((0x2000 * (100 + chip->width) / 2) + 50) / 100);
+	r =3D 0x2000 - l;
+	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x0000);
+	if (ret < 0)
+		return ret;
+	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x001a);
+	if (ret < 0)
+		return ret;
+	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, r, 0x0001);
+	if (ret < 0)
+		return ret;
+	ret =3D bf_vendor_write(chip, BF_REQ_CROSSPOINT, l, 0x001b);
+	if (ret < 0)
+		return ret;
+}
+
+When chip->width is 0 (the default), this writes 0x1000 to registers 0x0000,
+0x001a, 0x0001, and 0x001b, overwriting whatever chip->xpoint[0][0] and
+chip->xpoint[0][1] values babyface_restore_state() just restored and routing
+live microphone inputs AN1 and AN2 into the main AN1/2 output even when they
+were muted in chip->xpoint[0][0..1]. Because chip->xpoint[0][0..1] in the
+host cache still holds the old values (such as 0), subsequent bf_xpoint_put=
+()
+calls with the same value will also see no change against the cache and ret=
+urn
+early without updating the hardware. (Also, when chip->width is non-zero,
+bf_width_put() writes both 0x0000/0x001a/0x0001/0x001b and
+0x0034/0x004e/0x0035/0x004f, whereas bf_state_apply_flags() only writes the
+first four.)
+
+[Severity: Medium]
+Could bf_state_apply_flags() also reset the Instrument Ref Level from Boost
+back to -10dBV during babyface_resume()?
+
+In babyface_restore_state(), bf_preamp_state_write() restores the preamp
+state and commits BF_REQ_PREAMP_COMMIT with 0x0003 when chip->ref_level is
+BF_REF_LEVEL_BOOST:
+
+sound/usb/babyfacepro/babyfacepro-ctl.c:bf_preamp_state_write() {
+	ret =3D bf_vendor_write(chip, BF_REQ_PREAMP, chip->preamp, BF_REG_PREAMP);
+	if (ret < 0)
+		return ret;
+	return bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT,
+			       chip->ref_level =3D=3D BF_REF_LEVEL_BOOST ?
+			       0x0003 : 0x0000, 0x0000);
+}
+
+However, bf_state_apply_flags() then writes the linked/an12 flags and follo=
+ws
+up with a hardcoded 0x0000 commit to BF_REQ_PREAMP_COMMIT:
+
+sound/usb/babyfacepro/babyfacepro.c:bf_state_apply_flags() {
+	ret =3D bf_vendor_write(chip, BF_REQ_PREAMP,
+			      (chip->linked ? 0x0400 : 0x0000) |
+			      (chip->an12 ? 0x1000 : 0x0000), 0x1000);
+	if (ret < 0)
+		return ret;
+	ret =3D bf_vendor_write(chip, BF_REQ_PREAMP_COMMIT, 0x0000, 0x0000);
+	if (ret < 0)
+		return ret;
+}
+
+As noted in bf_preamp_state_write(), sending 0x0000 in BF_REQ_PREAMP_COMMIT
+causes Boost to degrade to -10dBV while chip->ref_level still reports
+BF_REF_LEVEL_BOOST. Should bf_state_apply_flags() pass
+chip->ref_level =3D=3D BF_REF_LEVEL_BOOST ? 0x0003 : 0x0000 in that commit =
+write
+as well?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027113140.1342=
+57-1-i.bahloul01@gmail.com?part=3D5
