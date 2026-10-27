@@ -1,88 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793094880;
-	b=vpLvon91TTRByWVssnraJoiyDWM21OKEwqGYW2MeATnC5LK/gj4/AHmYBlWcHIphnwXE
-	 4ucIpIWFZtSNXcUC9hUzLD47kn0QLlet0IAOvbJURs+PFmce3zW01zB+VFjalUcw/YFZ5
-	 4mwzw9nZh5528I4Im9Ky8/8ucl74M+tBap89o/7IlavMAwe+kgxgNa6mfTfwCZzN14kHV
-	 yvJtMRWoyVP+Xf/ign+IkqEsNHBllP4Ir/3bRtzQl7LcXcOtGDpKB9Y8bQ1dGDUgCuU0v
-	 ELU0j1JUc9XLSlMcea9bMRRXTLfHGu7Bsz5s2t4GAKgC2BGiQKpBt52UM8KB89jsxig==
+	t=1793095555;
+	b=olGEgi79ShOKb9KgqDjsOXNkeHyWq84FBnLfbyrnrrgUbxv+jj6MRZFpE4jmHbJ/xCU6
+	 6yCfi/6BMivY1E4LsEdSU3Rjt7J88QhCLBxHzVnxPl8F19i91/fs43idWEvc7TJY69ljI
+	 Bt+8G5feUttpG9nI+jlUi307FqMV4i/Wp2/fEOXjoHfzl5sVSNqe1VTo1Bo2S3XYNr7NJ
+	 NK96BugDbl3GYGAlsmLvsEWorB+u58H1/jthRyv0cnUN2PzuqIViO2sajbxwy54OSIxf/
+	 eE1QmTPPXb+NvtZUD8OD4PGhQhD2nRCwR6lb+B9rTKw1bethzdDM6l+m0FrqV2Lr1lw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793094880;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=ipfBmA3cDTk5OYUp61WVnNo/Zii0SGp5r+OHgfJ85R4=;
-	b=2+wAZkrofOB9/v3Ex2acNAOV3kWKhrywC+CIr5kPKwQ4bcZbSA1KwEb55ARmDtuKFszi
-	 cTNUPcFd0zXTBxFuTvq31l8oyiYWFyxGvcI3zQo5bEq0AWJP2tugrG9YkNS63FxnEPVbi
-	 f852x38OmkMcVGkKyiKXd04QwOj5UJ4SvwWqIKUbNfE/1WQyOOipxsD6qhNCU8Ki3BR8f
-	 6rWor1hh0Esf5bwPW1OWFxoM2cF7CcJAlAd+sUBv82eSybh+Cc+Kf/gVkUiVJKoG8rRXL
-	 jVlIk0xC+Dc82TqCehkx42bSjbAp3K6JA0eVppsD3vhNagxU63IGjjJFKRKo3xpOzDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793095555;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=oyUjBB6oJFyp1IO71ofZ8tStrZCd29m9RWKeAe2qToI=;
+	b=BBoi/psGCfOvTTd1ohw0zaIrh69fSAj/TP26aUiubxFvk7GblnhGdopMNPEx/dkK7ugH
+	 6alqh6tmhYwIGVg2utdL8Ju4B4x3Iy7siQoAN8PxN3LPUBfM2NVhGqeqbeUtG1isOMsKj
+	 DgDS6JVb37rjEl35KFYiFSYduf5pYnLS6NOD2bUHedftEdlNOmi9/dRX9A5NmRNMjYSLo
+	 w1R3FlvKcfk5DJVwZLPgEL6GiaJ4i2F4EcD9zcHF/nPmRFHlYdVrhvlEmwvuBJ34QO65f
+	 VLT9IyljfMlGlLqdGkBKmNlEo5zQmXI7W+jc21vQoNy+hyqNWcGzwVkoSw0Noyyy1FQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b="HfSq81k/";
-	arc=none smtp.remote-ip=209.85.128.52
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y5KlNVyN;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32F19606A31F
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 09:54:40 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 32F19606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751AC606A31A;
+	Tue, 27 Oct 2026 10:05:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=HfSq81k/
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso40656175e9.1
-        for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 02:54:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793094878; x=1793699678; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ipfBmA3cDTk5OYUp61WVnNo/Zii0SGp5r+OHgfJ85R4=;
-        b=HfSq81k/8aDixE+6vVGi3kA5WPN380rWEJkKCDy+PEs2XQb49N1jKVB9EJyPMH/XML
-         OxhogzMg6MWsTiHGmywQC5xMxaQBxAJpDzlC9dgEdydaVfpqtk/fp4CK7rObcvx3kxHD
-         7vE89l1OF/l+gWm2aiK1G7xFqgnGx4rDEKMYIORmmKFtKzTMwYPxcqCvmlVbqaoiEYNl
-         Ki47//JpWUYA03oIqbRmvSgX3c20x0q//qTZOmD5KkmmX/0eyVVRJO5wKCQg+vwFO2Jq
-         KuGazVeYsrHkhOSI+05Vc4bG2Z4fsbRl5jVUCpTBtreutarbxH/+z7d/Q2RixeDo5j9b
-         CVyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793094878; x=1793699678;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ipfBmA3cDTk5OYUp61WVnNo/Zii0SGp5r+OHgfJ85R4=;
-        b=qrpts4gXQub+N2xKwSzv9bie/hiA1eKG3GzYkbQpCiMIYH70zFDQ2IuJPpqQldA6br
-         97MOU0YKJMgWLooP4RXw2U/8zKq1bUildaCh9fRQAS19IsedMJdcbpfKuoyjHyNcod6O
-         JbFZhIlquf6BKgzsvn7n5ROcZ4TPoVSBvnawZBk+t1PxoYEGdnNpTDqKV/JgrWniegcU
-         cUB41mqzq5gNQ6xmQtDT/v5Zr2kebF5iDdVLSWNTHsuRjkNcq5KsNfP25InBsxQoylw/
-         /bmyQCT/KX/LCTnG8jr6v0D2q3orOGhRBOF67hmMs+dosTt0/KUsqXrIlZGKOxE9m3IJ
-         jq4A==
-X-Forwarded-Encrypted: i=1; AKwUvBwlRAcpiRCjgdgzErOTp9hPBe0w7YVneXH7SHc2sVUKVsQ6kkJmyRFNimnfQB7XFCbYvyyeeGgCAx8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJHCoyAGAtT0aB7/8q9ERx9Uh0xVYaN0uVUX+WGW1eyZb/ARp85
-	xRtIGaU12ssxZO1ZIVz4ocRfRkk3eKZeaE0vHFfloRCCW7p2sF0Pw5GthQt8W8hmXz8=
-X-Gm-Gg: AYBFou1T2et4TdbXbqaOg2IiLMXVKCVj1nTKX4PmaeScjY04l/CdbD8Kk3IB9NSqE50
-	PRTGHWxpOE9ThahGInp62LnI+NA3Nk0oqXy9PSYPSdMUpNDyN4fo0T7wdr4a3wZzfpvRpd0Mlev
-	W6cKiiUX4FxtQ39v/tKTw4vuFUcJif92M3nAixAIaqBZpmFbf4zxocnHiKPPJgp8IcvvKK3SGTw
-	FK8awXx80B3m9dvtToJ/Y3o+hdcGoLA9jvMohKjctGNBArxmUGnRwucbncYtocJ4c3tyuVFUlSo
-	+Oy5nHlxOpXTQNqs2FJR0x8AsAy84+xg58/i7ubVfpvy0d+wG4WyX8p3UiP70NBc42606yC77T9
-	0Nklowy+idxvuRAtpR5kQSCndSyuEvsACkW1/2UXTKbkfL1mDpus7uUKmvFEwlFxXsUFdeyMvTb
-	CIogJuvEd/y6K13990hJRPhstWh0IpfASd6aZayTO7dHWdCPDrdf70K4FyNzkr2FUu2mq9osNxn
-	kABti96vLN/6651cXCAd2/GaSbMI3tz/3MC2wr9CSiOEi/hkrfY6D4meTPsO6ALqDktU6cUIfD/
-	BYgl/wMwLPgJbZNZK39viA==
-X-Received: by 2002:a05:600c:1987:b0:4a1:6992:f861 with SMTP id 5b1f17b1804b1-4a35ac3a825mr183181415e9.1.1793094878673;
-        Tue, 27 Oct 2026 02:54:38 -0700 (PDT)
-Received: from ?IPV6:2001:a61:13a7:df01:6e79:f35a:ab88:b157? ([2001:a61:13a7:df01:6e79:f35a:ab88:b157])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3bdbsm17868961f8f.19.2026.10.27.02.54.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 27 Oct 2026 02:54:38 -0700 (PDT)
-Message-ID: <09633215-e52b-42be-90d9-12fee5b8728e@suse.com>
-Date: Tue, 27 Oct 2026 10:54:37 +0100
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Y5KlNVyN
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 851671F01825;
+	Tue, 27 Oct 2026 10:05:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793095555;
+	bh=oyUjBB6oJFyp1IO71ofZ8tStrZCd29m9RWKeAe2qToI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Y5KlNVyNVIUIyqglh5jwznCe1GB/mi3Q1fSFhPw1xEfS5ffznBWc6GIX29nJ0zBl7
+	 XX//Nk3878WurTyps5rLbf486eiL+ryBJdtJfuv0dtBhyhoRAt1sYqqjPp+13DNiLA
+	 fPn9kOhaKltxWOJmQgYGMGRUp1f6qxTarhpJVWM5heRTcwHUL+MdZbhIHmueZWSrG0
+	 HRah2A3/1iqCL/Igf2L10Vt+VcbMggXVzYhEk+HQWjM8/lLZx/WsibPZKVdyk4l75r
+	 /ugGkjS81XZ3fekHUmpGCNGKqUorwVLWpUMGCv/zXvOFk7cYw2P29Vrpw21S+hU9+z
+	 pcPPW2dfmzyZw==
+Date: Tue, 27 Oct 2026 11:05:51 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Selvarasu Ganesan <selvarasu.g@samsung.com>
+Cc: gregkh@linuxfoundation.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, peter.griffin@linaro.org, alim.akhtar@samsung.com, 
+	Thinh.Nguyen@synopsys.com, linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-samsung-soc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	jh0801.jung@samsung.com, h10.kim@samsung.com, dh10.jung@samsung.com, akash.m5@samsung.com, 
+	hongpooh.kim@samsung.com, eomji.oh@samsung.com, shijie.cai@samsung.com, 
+	muhammed.ali@samsung.com, thiagu.r@samsung.com
+Subject: Re: [PATCH v4 1/2] dt-bindings: usb: Add Samsung Exynos8855 DWC3
+ controller
+Message-ID: <20261027-puzzling-didactic-polecat-ae02af@quoll>
+References: <20261026135715.33071-1-selvarasu.g@samsung.com>
+ <CGME20261026135751epcas5p42c28c8315cd25554a11032714b85bbed@epcas5p4.samsung.com>
+ <20261026135715.33071-2-selvarasu.g@samsung.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,29 +64,28 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] usb: uas: ignore UAS for ASMT135x bridges (174c:55aa)
-To: Olivier Kaloudoff <olivier.kaloudoff@gmail.com>, linux-usb@vger.kernel.org
-Cc: stern@rowland.harvard.edu, gregkh@linuxfoundation.org,
- usb-storage@lists.one-eyed-alien.net, stable@vger.kernel.org
-References: <20261013221944.41598-1-olivier.kaloudoff@gmail.com>
- <20261014105700.19433-1-olivier.kaloudoff@gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261014105700.19433-1-olivier.kaloudoff@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261026135715.33071-2-selvarasu.g@samsung.com>
 
-Hi,
+On Mon, Oct 26, 2026 at 07:27:14PM +0530, Selvarasu Ganesan wrote:
+> Add the Samsung Exynos8855 DWC3 binding using a flattened node
+> representation, where the DWC3 controller is directly addressable
+> rather than nested as a child node of a glue layer.
+> 
+> This is the first Samsung Exynos binding using the flattened
+> representation.
+> 
+> Co-developed-by: Muhammed Ali <muhammed.ali@samsung.com>
+> Signed-off-by: Muhammed Ali <muhammed.ali@samsung.com>
+> Signed-off-by: Selvarasu Ganesan <selvarasu.g@samsung.com>
+> ---
+>  .../bindings/usb/samsung,exynos8855-dwc3.yaml | 71 +++++++++++++++++++
+>  1 file changed, 71 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/usb/samsung,exynos8855-dwc3.yaml
 
-On 14.10.26 12:57, Olivier Kaloudoff wrote:
-> The ASMedia chip detection in uas_use_uas_driver() assumes that every
-> device with idVendor/idProduct 174c:5106 or 174c:55aa reporting a
-> config.MaxPower of 0 is an ASM1153 with working UAS.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-have you tried the new quirk reducing the number of streams
-being used?
-
-	Regards
-		Oliver
+Best regards,
+Krzysztof
 
