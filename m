@@ -1,51 +1,56 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793110327;
-	b=2AKrOm8MOLjfsAbBnDBpXd/LH1NzHKpLgPE9s/fLdyWvnvtMXx/uOkXJYsxYdUTqkGQz
-	 XIgO1R4Tsrbz3zK0kJoaKmXi2B6ioY0KIp7Mf2yEPHiqZWwvCtzWIhc5Avw0/JqYix/cd
-	 TDLvLO4rR2My2TNdxFrf7zjFYje8rGrpUWc0Bs5tjAcPRz69mysKYS7CQcZc1pD8n/3hP
-	 EbFyRW7cP08zyjNALP2M0CJjFK75vj3kdAds7gZ3faINIvZkhjfT0VTEqxak3fE7ZFChc
-	 zFYo+ajgru3/ZE6zq4E6ZNEVP1qP29MIfLl/DD1uL93uaSEpVUwkioZeMt7jo3Q8QNA==
+	t=1793111096;
+	b=I5zI9L/cl0hHmJgQXFZ8oxK4QZidupPdkS3zNiqpfOO4IOxO3vXFZthpHZtdzwyCQ87t
+	 0rQfsBVrwIgojg5wL0Hr6PsdgzLm4GzJk3dHUYdz/KPWDinstcvkS4/LJ4Io3yCJpfkQT
+	 rLRkh1f3sG6BI1ukVHMGgA2DLvdcSdHM5bF2yYDu61qulOJlZvE7f7urB4/qEXKUZdF1P
+	 zEtrFq8sES5SvKeqe44HnCtLEgLo9KmhSW/ZNP8mUsPfjHSy5/NExVt8I2+HeqVNmKIDQ
+	 CSC2GoITAY8W7PTg8VU41Vh7CCF9de/gPpp2VdPintNfMITE/9MRUSAOIDFAzrWKW2g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793110327;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:
-	 Content-Transfer-Encoding:In-Reply-To;
-	bh=akoXbAN8FKSRzdYW3/gw5wVBq0x50GTrXIIzaJJLulM=;
-	b=gHzgV4GlJSH+ACyG04j+BYWpSnS1awTHHyX4RMptvkUnmcKnDQqBk4qlXb5ihP/ACO7z
-	 pYKQ/5jBpIhrXbDaKEqA4E70W/9fzt12L5/k8vCGvph+XAxFHGHblU3NI6crDSxqhmtRm
-	 JBJCs+gZiBFSpSZFADwmxFGnKU3nvX93FGdjnBXAQuA3x8hVVDDzmcb71VFQKlw7+pYoJ
-	 Z+AXQltVN9TkhHG695aYmRj7wWkn4pV3PzB5ZkbaFqg0PeNGgVvX4GGAxra5bYlkMnI5x
-	 BXWGVhI5bHcJf4Tim2f3vbYq5jM6+yEuzIV/A7yStPEThqH70mlrbfaPZtb3g5LpwIQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793111096;
+	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Lines:X-Developer-Signature:X-Developer-Key:
+	 Content-Transfer-Encoding;
+	bh=PsGmTXa/uJnpfM7r+TZoQHID0Juv7gPJkuS/Z941NB0=;
+	b=McWljdSnGe6mcaOSX2A3iJJijCGsuJ16PJG6V9ku+oHkCxPuwDYJz70Mswl/lCKzVSdL
+	 bHA/NumUgOOx0oiayxaQ1K6KHquTB5gjN/Kct4FRiKx9ATBYdBfvl35EtAG9q+UMu5/je
+	 mVjTZurPIXzkyjcVoYpB1jc6SKy20u6Wgz2TCpgYYDBU0Z5FIjsaNi0JThUzbJG6PHdZs
+	 Kt1be5v1wmL6DlCceHow95h7fVb9MLAQezsDvZtSyWqx+mZQ0KHPfYDz5krbOn6LcgUCZ
+	 7S1s0zuHsoIJiSQVmcxB5VJ+qEQNEFGSy3IRLBh64qRfTEbStLCGmkKZPQFzEOAqCIA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=JTOoDWH6;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qZahO0ZU;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5226606A31A;
-	Tue, 27 Oct 2026 14:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF80606A31D;
+	Tue, 27 Oct 2026 14:24:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=JTOoDWH6
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBAE41F01825;
-	Tue, 27 Oct 2026 14:12:05 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=qZahO0ZU
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A04541F01825;
+	Tue, 27 Oct 2026 14:24:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793110326;
-	bh=akoXbAN8FKSRzdYW3/gw5wVBq0x50GTrXIIzaJJLulM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=JTOoDWH6SzIpvsKIcOdMxJGqFPvbvKZtjVonlzHX3pEjZuku/BIh774YiCFF5+7pG
-	 L2WqAv8WhYcOTCJLhqltH0+bipTKGML2UWWix8MjmZqrOk9bKug7LLbDF8+bAdbMxG
-	 B6PG4iP0RD1rsryMSvhY6/qsQ4Rd5w+hQBy4sM7Y=
-Date: Tue, 27 Oct 2026 15:12:05 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: =?utf-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: usb: devio: usbdev_release() has no barrier against an in-flight
- async_completed() callback (use-after-free window on  struct
- usb_dev_state)gregkh@linuxfoundation.org
-Message-ID: <2026102727-data-sequel-ce41@gregkh>
-References: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
+	s=korg; t=1793111096;
+	bh=PsGmTXa/uJnpfM7r+TZoQHID0Juv7gPJkuS/Z941NB0=;
+	h=From:To:Cc:Subject:Date;
+	b=qZahO0ZUT5liYhHMYyhjPjxZuK+lFmw3nYRs3KyJIy4FJZP0VMP0qMeasLjc3b0Qn
+	 szNCHQf47vEbxoIIXN2+Lk/1So+8r0nWXnAG4oFGJFaF+Bn7dTE/EZ+lIJRpxMEL5n
+	 siqOUlO84NKEHdHtggQHQ3Cs+U2dg1Nhcovz98Y8=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Josef Bacik <josef@toxicpanda.com>,
+	stable <stable@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Subject: [PATCH] thunderbolt: stream: Undo more if the start fails
+Date: Tue, 27 Oct 2026 15:24:52 +0100
+Message-ID: <2026102751-nibble-synapse-d406@gregkh>
+X-Mailer: git-send-email 2.56.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -55,32 +60,50 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1506; i=gregkh@linuxfoundation.org; h=from:subject:message-id; bh=a/jsonkAQH7T+wb0F8TvbceQJ7ejFRmUiulJvqfzabk=; b=owGbwMvMwCRo6H6F97bub03G02pJDFkPthhz6CSm+R1ceism+NTWvd/YKjiO35z/7JFPz9HHK 2wWblVR6ohlYRBkYpAVU2T5so3n6P6KQ4pehranYeawMoEMYeDiFICJVM1imKfL9aUxanLDrVk3 GtLCJVdKbnkfwcYw37X+VYf2t5JgtW25+Yt2fvWpUGmpBgA=
+X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp; fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <4c7f9772.192e1.1a17d5c2ed5.Coremail.xuhx@hust.edu.cn>
 
-On Tue, Oct 27, 2026 at 08:35:55PM +0800, 徐晗翔 wrote:
-> usbdev_release() ends with an unconditional kfree(ps) while an
-> async_completed() callback that has already moved its async request to
-> the completed list can still be running inside the lock-dropped window
-> of cancel_bulk_urbs() -- when the two overlap, the callback re-locks,
-> rescans the pending list and wakes the wait queue of freed memory.
-> The interleaving itself is proven reachable on a pristine Linux 7.3
-> (600/600 controlled window openings, with usbdev_release() entering
-> the window 445 microseconds after it opened); in the HCD shape I
-> tested (xHCI, single MSI, HCD_BH), the kfree() is nevertheless held
-> back by an indirect barrier -- usb_kill_urb() on the sibling URB waits
-> for a giveback that shares the same per-CPU BH worker with the
-> stalled callback -- so I am reporting this as a structurally proven
-> window whose final reachability depends on the HCD's completion
-> topology, with the open shapes listed below, not as an
-> immediately-triggerable crash.
+From: Josef Bacik <josef@toxicpanda.com>
 
-Cool, can you send a patch to resolve this as you obviously have a
-reproducer?  Same tool that made the reproducer can make a working patch
-and test it out.
+If the receive buffers cannot be allocated or mapped,
+tbstream_dev_start() stops and frees the rings, but
 
-thanks,
+ - leaves the DMA paths through the XDomain connection enabled, with the
+   hop IDs of rings which no longer exist;
+ - does not release the frame array and the pages which
+   tbstream_dev_alloc_rx_buffers() had allocated and mapped before it
+   failed.
 
-greg k-h
+Fixes: 6db21d817b43 ("thunderbolt: Add support for USB4STREAM")
+Cc: stable <stable@kernel.org>
+Cc: Andreas Noever <andreas.noever@gmail.com>
+Cc: Mika Westerberg <westeri@kernel.org>
+Cc: Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: Alan Borzeszkowski <alan.borzeszkowski@linux.intel.com>
+Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ drivers/thunderbolt/stream.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/thunderbolt/stream.c b/drivers/thunderbolt/stream.c
+index 4f9a57b77bfa..c9e1987a6924 100644
+--- a/drivers/thunderbolt/stream.c
++++ b/drivers/thunderbolt/stream.c
+@@ -683,6 +683,12 @@ static int tbstream_dev_start(struct tbstream_dev *sdev)
+ err_stop:
+ 	tb_ring_stop(sdev->rx_ring.ring);
+ 	tb_ring_stop(sdev->tx_ring.ring);
++	tb_xdomain_disable_paths(xd, sdev->out_hopid,
++				 sdev->tx_ring.ring->hop,
++				 sdev->in_hopid,
++				 sdev->rx_ring.ring->hop);
++	if (sdev->rx_ring.frames)
++		tbstream_ring_free(&sdev->rx_ring);
+ err_free_rx:
+ 	tb_ring_free(sdev->rx_ring.ring);
+ err_free_tx_buffers:
+-- 
+2.56.0
+
