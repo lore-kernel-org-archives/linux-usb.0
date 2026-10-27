@@ -1,45 +1,46 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793112067;
-	b=ngoXg7wkhS7C5Tigebw1Oog91k+J8jFRy0tKGPGWxbcpGcq2EA0yQ7+AvTZu3rZudG19
-	 pVw4+En3676QGaGRo/Xgmo06MX99s16Ts6+d5dRyi4BF0pHj7c8r0RdRK5sLk/GZ80ZpJ
-	 6X/o9KoMoklJwMk170doXA9BppyZLRBWl0DKYzn9fM8n0+ek9pzIIsD9ZivAEoWL8pIod
-	 ju4FtxVb8XjnR7dZmKeclG9pnj+94/TK+H/Jpou750zj/vQ/KAAOmx2ilXJbM6PefbEa2
-	 axAo9IrkE+NEnai9XDa9EKokSl+e4GNvuuvJhxsv2NSE09l9pEli/F3J+732//H8d2A==
+	t=1793112064;
+	b=T5X5GXnVHDOtgqTl0zj+jby4XBelX6t4SX+OBFhVwnahQjx0OllZq14Z5ZI35hXRWKcj
+	 YWpIwXTBDUe1Ep5TDOfEZdqOKT81TzcYrk1aI/gCEGdOp009sd7z709w6dwTZWOcH/4Ma
+	 u1lgUZCoDv/Q82wzOBARZX9Vp/WZ0DgCfLSHWvCNPHUWzwe+IBJn9TEuZbaDqIXiNhwi0
+	 Swa/58k6snWPKFl7YeFYt8UWXVP5bHv5OllAK/8IhXCes1rv2AmNRVXaWinMp/eJWDJY5
+	 ee9yRTY8/YCLNnErIsikQUFSYZGbef7h5ReJzd8BS5XWc9O7nw+RSLJQlNSegivDetA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793112067;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793112064;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer:X-Developer-Signature:X-Developer-Key;
-	bh=+OG2V33+K2As/QUF4IOJ4RHdPMqstgXLtas2prBDprY=;
-	b=txgQ6SVLBIWjRZLJ370tHRobU5wfpp/7QEGE9JzX7HIWDhSpD9c3AYjG60ZF0rmI1pVx
-	 ksU97g7qgIEDw43k7sfoDtu6HGXQ4tq5kbyHZjcEsyhxZj/0p5EYk3DMTpbUzF4WMTr8C
-	 jYFZvFPcRKLLLEyZMG/3bFii3/GhLbNQ9j8OsybcZcH4IDXWvWR4zFTI0ZkgVGGw4y/Od
-	 L9HQHzownPdzvUhWpoYCC8gFlUYov2TU+z4efcl44+UWaDBPCIMCt74fHGGsSHTOxUrmf
-	 NYVb/y1hY0kM+Fm8gmHDvYV61jW94Arj1wK0W5jNxpja8Qz7yyLI37p5Vc8sJvhPcOw==
+	bh=9u8QcnHucMh4QKEgJye1fTZXayugk1P9hC6VtHiW434=;
+	b=OoIQvNYludaiQCp6v3SfBbilgB08IFXHlOJeOWcFX36tJDR/TY5p6X9ZOiMF3PiyrXoI
+	 /YL+ODqTA/FywsW2W2+Tr29cZC8Cd/g8vz+QG1XUcbvt0u9bMQzb8wVRdlosGQN7wDFnk
+	 VriapQkoKgXsWWUXdSu9Y/3szt3NSM8P6y8ZInyW8ZZCVxDh46XdGMjO7kC8G2CRAE05F
+	 Wx3AJ6djX0gAG1HpOmC0hbvUImF5NnV9+Y3aI6DL6B82QT4J1Iwd4BgImAZTP4wLhWWXl
+	 XgxMIQE6UqpFOGVytORyAETE6sDZCFXTnQu3t01MtoHlw5C+780kCR7z9OSEGmaxK/w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=d5GVLOCZ;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b="o4T6El/N";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C79EB60A2611;
-	Tue, 27 Oct 2026 14:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A52E606A33E;
+	Tue, 27 Oct 2026 14:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=d5GVLOCZ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 184961F01829;
-	Tue, 27 Oct 2026 14:41:05 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=o4T6El/N
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 369031F01828;
+	Tue, 27 Oct 2026 14:41:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793112066;
-	bh=+OG2V33+K2As/QUF4IOJ4RHdPMqstgXLtas2prBDprY=;
+	s=korg; t=1793112063;
+	bh=9u8QcnHucMh4QKEgJye1fTZXayugk1P9hC6VtHiW434=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=d5GVLOCZDlI4kmtsxfroGEvUsDdqc+MsnByJr6zbWT9aAwBQjVzUNJtM/+nIp4WjF
-	 2CuyTc4uC6PMxjrOc+py5rF6Wm3Bmivy+uVqOT9oMnTTFnnIsImpBuM1D7Ly56RHlk
-	 q3/8lBPM8CBwVhYLaIiFlEfIUTctWNRvLU1yVAxw=
+	b=o4T6El/NjzrnWOxPrk+sH/U1h9K6QptJkY5tyZD8r/HLT2oFpCNSeMtm/k8tCquFO
+	 xXsxT6DZbBI0Dd2qkq5LfnYXX1409X34PVrf/mD7nurIPwtBigRpL8cXDzc4LtbUeH
+	 ZgTmNW1G/kedjU3JJBEAINSokla6/c/q/vgpi9L4=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Date: Tue, 27 Oct 2026 15:40:48 +0100
-Subject: [PATCH 5/7] usb: storage: sddr09: bound the unused PBA search
+Date: Tue, 27 Oct 2026 15:40:47 +0100
+Subject: [PATCH 4/7] usb: storage: ene_ub6250: bound the disabled block
+ walk
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,7 +52,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261027-llm-usb-storage-v1-5-d1655e94ed10@linuxfoundation.org>
+Message-Id: <20261027-llm-usb-storage-v1-4-d1655e94ed10@linuxfoundation.org>
 References: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
 In-Reply-To: <20261027-llm-usb-storage-v1-0-d1655e94ed10@linuxfoundation.org>
 To: Alan Stern <stern@rowland.harvard.edu>, 
@@ -61,59 +62,84 @@ Cc: Josef Bacik <josef@toxicpanda.com>, Greg Kroah-Hartman <gregkh@suse.de>,
  linux-kernel@vger.kernel.org, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 X-Mailer: b4 0.17-dev-e5168
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1763;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2614;
  i=gregkh@linuxfoundation.org; h=from:subject:message-id;
- bh=1Ri5PbeF2RNDLde0Q36PUaZMxWDQt1nnMtbvPxJql28=;
- b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtn9uSL+467h+oqXYhMOTpUrO/0q58C+/2u7523Tzt
- pUvo5jkOmJZGASZGGTFFFm+bOM5ur/ikKKXoe1pmDmsTCBDGLg4BWAifXMZ5nArbFD5a74lvmQ6
- 67ySvP9C+lE2dxgWrMt+rZUzT6p67XKBzhnidy7FnFqyBgA=
+ bh=t56kY0GafRf8q60P9/la5NHf8vuxPkqG4zSOsmMc+Hs=;
+ b=owGbwMvMwCRo6H6F97bub03G02pJDFkPtn+q/fe9qr4qbNq7fzy158NWLWrNO/H462aLO5syn
+ e6+Cjj0pyOWhUGQiUFWTJHlyzaeo/srDil6GdqehpnDygQyhIGLUwAmouDPME8t/Mj07q2Tgy+k
+ Ci35e+LgTVGj588YFvRe8tJ8wjzpjWKpw/Jfls+kAloF3wMA
 X-Developer-Key: i=gregkh@linuxfoundation.org; a=openpgp;
  fpr=F4B60CC5BF78C2214A313DCB3147D40DDB2DFB29
 
 From: Josef Bacik <josef@toxicpanda.com>
 
-sddr09_find_unused_pba() can read past the end of pba_to_lba[] and hand
-out a physical block that does not exist on the card, which is then
-recorded in pba_to_lba[] past its end and written to.
+When two physical blocks of a Memory Stick both claim logical block 0,
+which happens after an interrupted update of that block or on a crafted
+card, the ENE UB6250 driver can spin forever in the usb-storage thread
+while reading through 64KiB past a 512-byte buffer, over and over.
 
-The search resumes from lastpba, a function-local static shared by all
-SDDR-09 readers and kept across card changes.  The first loop is bounded
-by end, the number of blocks in the zone, but the wrap-around loop only
-by lastpba:
+ms_lib_check_disableblock() reads page 1 of the boot block, which holds
+the disabled block table: big-endian 16-bit block numbers terminated by
+0xffff, the same table ms_lib_process_bootblock() parses with
+be16_to_cpu() on 16-bit entries.  The walk, however, indexes the buffer
+as unsigned char and has no upper bound:
 
-    for (i = 0; i <= lastpba; i++) {
-            if (info->pba_to_lba[zonestart+i] == UNDEF) {
+    blk = be16_to_cpu(PageBuf[index]);
+    if (blk == MS_LB_NOT_USED)
+            break;
 
-After a write to a card with 1024 blocks per zone has left lastpba at,
-say, 700, writing to a 1MB card (256 blocks) whose blocks are all in use
-walks pba_to_lba[] from index 256 to 700.  If any of those out-of-bounds
-words reads as UNDEF, sddr09_write_lba() stores into pba_to_lba[pba]
-and goes on to program that bogus block.
+A byte converted this way can never equal 0xffff, so the loop only ends
+if some byte happens to match Log2PhyMap[0].  Otherwise the u16 index
+runs through the 64KiB following the kmalloc()ed page and wraps around,
+forever.
 
 The bug was found by code inspection and has not been reproduced.
 
-Fix by also stopping the wrap-around loop at the end of the zone.
+Fix by walking the table as 16-bit big-endian entries and stopping at
+the end of the page.
 
-Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+Fixes: 33842cedfc33 ("Staging: Merge ENE UB6250 MS card codes from keucr to drivers/usb/storage/ene_ub6250.c")
 Signed-off-by: Josef Bacik <josef@toxicpanda.com>
 Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 ---
- drivers/usb/storage/sddr09.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/usb/storage/ene_ub6250.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/usb/storage/sddr09.c b/drivers/usb/storage/sddr09.c
-index 313313508bde..44197a3a545b 100644
---- a/drivers/usb/storage/sddr09.c
-+++ b/drivers/usb/storage/sddr09.c
-@@ -838,7 +838,7 @@ sddr09_find_unused_pba(struct sddr09_card_info *info, unsigned int lba) {
- 			return zonestart+i;
- 		}
+diff --git a/drivers/usb/storage/ene_ub6250.c b/drivers/usb/storage/ene_ub6250.c
+index bce593730187..e282ca9b5e16 100644
+--- a/drivers/usb/storage/ene_ub6250.c
++++ b/drivers/usb/storage/ene_ub6250.c
+@@ -1210,9 +1210,9 @@ static int ms_read_eraseblock(struct us_data *us, u32 PhyBlockAddr)
+ 
+ static int ms_lib_check_disableblock(struct us_data *us, u16 PhyBlock)
+ {
+-	unsigned char *PageBuf = NULL;
++	__be16 *PageBuf = NULL;
+ 	u16 result = MS_STATUS_SUCCESS;
+-	u16 blk, index = 0;
++	u16 blk, index;
+ 	struct ms_lib_type_extdat extdat;
+ 	struct ene_ub6250_info *info = (struct ene_ub6250_info *) us->extra;
+ 
+@@ -1223,7 +1223,7 @@ static int ms_lib_check_disableblock(struct us_data *us, u16 PhyBlock)
  	}
--	for (i = 0; i <= lastpba; i++) {
-+	for (i = 0; i <= lastpba && i < end; i++) {
- 		if (info->pba_to_lba[zonestart+i] == UNDEF) {
- 			lastpba = i;
- 			return zonestart+i;
+ 
+ 	ms_read_readpage(us, PhyBlock, 1, (u32 *)PageBuf, &extdat);
+-	do {
++	for (index = 0; index < MS_BYTES_PER_PAGE / sizeof(*PageBuf); index++) {
+ 		blk = be16_to_cpu(PageBuf[index]);
+ 		if (blk == MS_LB_NOT_USED)
+ 			break;
+@@ -1231,8 +1231,7 @@ static int ms_lib_check_disableblock(struct us_data *us, u16 PhyBlock)
+ 			result = MS_ERROR_FLASH_READ;
+ 			break;
+ 		}
+-		index++;
+-	} while (1);
++	}
+ 
+ exit:
+ 	kfree(PageBuf);
 
 -- 
 2.56.0
