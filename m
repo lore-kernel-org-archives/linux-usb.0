@@ -1,88 +1,51 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=211.75.126.72
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793080214;
-	b=SFOv1rRfL2DgTPozxTtKEhX17/OhkfzPr6kD1HJGQWTur/OGKmYX2JfXq5FIf6pMylxK
-	 3o/QSrK7u1Ag87rZDBFhDl7DQZ1dZPP03ljTTJ86OZTecSIUB2UeoZyUc4apNANp9B/fN
-	 yMh4CRzhN3VTT6PxENINxHBxiPinXF5rt/wSAm0HDv7oODU+DTWMvgdI8V4ST4twCad01
-	 xqbpebBDnjf+bb0wXKJzLl9W5djFTdRzvwSYrkOSwLIeBMmmXEX/edfPDVCKb8WrB0IwS
-	 2O8GWhi3T8y/dv05XuiPYqQPG0M6hGy+Z++bQXuE+u5xhi4X8pbWtl5bcZ4F4slfUlQ==
+	t=1793080726;
+	b=rlTuZRv87HnrjLLif4l5eJIfjdLNCBkLoteEn5VLawj7yxZVZhwpshnwiGDo6WgxDvub
+	 FQ3GRca+VtjfxZos1AKPUQ5JrkCsDc5RS6e6N0bqeHpfm2PeiGj/NeaVXYZrgbqNHT4JW
+	 7VCPoK5bls603Ymw7iqhenOPDH3gFSUvL9QoPtIZ2H/+m0RNyuCcmcJj/9lxRF1JFKx0z
+	 dpzCriVhB05otmNcDWZCenO1psVX6uGniMOcrwA6RwghnfBso0DRzmu4PowXFVLbMt84Z
+	 9BJ9fTR/N1T4wXvhjqP8biAjYSYrAkF1x7AXqn1oJzjEVtVRnwoBuGorG4YFSHrA4tQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793080214;
-	h=DMARC-Filter:X-SpamFilter-By:DKIM-Signature:Received:Received:
-	 Received:Received:From:To:CC:Subject:Thread-Topic:Thread-Index:Date:
-	 Message-ID:References:In-Reply-To:Accept-Language:Content-Language:
-	 x-originating-ip:Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=dH+1qS3r3/qThoPs/bcfpRZ8WDJsMNF5jVHZIGMNezg=;
-	b=c3zqUQRpR0fNFEr8UtAd1TPSNqp2dJ6riv2P1n2Uj8+BikKBfi7WGXy9PnOuQMUnPRZw
-	 aZBmqmPHY4vB9KDc/YWsKm2sgVTs3O8hNNzxaAbtRaiTOV2GQ8CGcfISauP1kuvA7PfDt
-	 cA8chfBdMuwUaNGDsFvaDzMrSo9ttpnRmcUFyqFRNelHh2gN4h2Qe53i522Sq5UT5DFK4
-	 +82esOhryj3t9ap+9Lv8poXGIMcw9KqHC0kUS6PmMtROhmhv0YAJHrLWKeE3/aTlSzKLK
-	 gZQwcbSWbzROteySkj/cmPAyod0DOXd0vKPwpE9NEEL7dEJDaQIEQoFy5sCaOkCkpmQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793080726;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=EhZ8QQRDtpojRf+w+WKdi7PLTN6QFmI45738JzQYc8w=;
+	b=BdIvs6jtvykqb48fjoB9IgSi7sqxb3ZK6XgV7mihlpVau5xdXsZgmk9inh1K4DOY7SNI
+	 4GSQNADVyj54j/xe2llgMp9TKadvv6UjgT7NkSxIrRoHyqiLD4Eln/QQpNSLKyx2eGfLa
+	 3dlzTV0AXqWXKGZ6QmpX1bFNKMcS302soyM8M6flBZIK5uyOJf/p5G0jDyvHfBW3gEvcX
+	 7F070SyMdImhCe5unkasB8HyQhKGhKEomPmxN30S58zGNudvaMDgrR+MA5Ym7quO+yMEh
+	 pLQuunt05jKradIj/fozVBiGAsD+TdWmTK4PvPFplJbgx4I6bSZMQiAuxgs5eo+A/mA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=realtek.com;
-	spf=pass smtp.mailfrom=realtek.com;
-	dkim=pass header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=VN52ouDJ;
-	arc=none smtp.remote-ip=211.75.126.72
-Received: from rtits2.realtek.com.tw (rtits2.realtek.com [211.75.126.72])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WOKHMYK6;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9EA606A327;
-	Tue, 27 Oct 2026 05:50:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8A9EA606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=realtek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=realtek.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92651606A31A;
+	Tue, 27 Oct 2026 05:58:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=realtek.com header.i=@realtek.com header.a=rsa-sha256 header.s=dkim header.b=VN52ouDJ
-X-SpamFilter-By: ArmorX SpamTrap 5.80 with qID 69R5nWhqD701598, This message is accepted by code: ctloc85258
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=realtek.com; s=dkim;
-	t=1793080172; bh=dH+1qS3r3/qThoPs/bcfpRZ8WDJsMNF5jVHZIGMNezg=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	b=VN52ouDJwmzTdlQG+++aCY8axAkumQe6RJ9XGHpLcMPAjjDdLbZiYxgtuctwNTLXx
-	 TAOO+unwUfOeir/gNyfNih1EwJdaubbdduk5atv1ufvygNAvcthcnKdyS7B+l59Qz5
-	 8tNB2ihWBOAUCNkhqbdxxqZ89JF0hrsXm7VQMmlgfDnlWzy0gQ4H6lBTvqygdD9seQ
-	 yCgKK9Nnc6QgnZMji7BMZVe8RtmZEALvoGJgO9PlU0jt1omvh/Jd8NIHTj9vafwMjD
-	 j1hKjWYcjP393Ji+eXKtpOb8RCAJCIP7/AcLYwJR80GbVy3z0In0W7r+ZWqNHjj+uU
-	 tnLZobeY4LRnA==
-Received: from mail.realtek.com (rtkexhmbs02.realtek.com.tw[172.21.6.41])
-	by rtits2.realtek.com.tw (8.15.2/3.29/5.94) with ESMTPS id 69R5nWhqD701598
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 27 Oct 2026 13:49:32 +0800
-Received: from RTKEXHMBS05.realtek.com.tw (10.21.1.55) by
- RTKEXHMBS02.realtek.com.tw (172.21.6.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Tue, 27 Oct 2026 13:49:33 +0800
-Received: from RTKEXHMBS03.realtek.com.tw (10.21.1.53) by
- RTKEXHMBS05.realtek.com.tw (10.21.1.55) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Tue, 27 Oct 2026 13:49:32 +0800
-Received: from RTKEXHMBS03.realtek.com.tw ([::1]) by
- RTKEXHMBS03.realtek.com.tw ([fe80::f36f:a844:4916:93f2%9]) with mapi id
- 15.02.2562.049; Tue, 27 Oct 2026 13:49:32 +0800
-From: Hayes Wang <hayeswang@realtek.com>
-To: Linmao Li <lilinmao@kylinos.cn>, "andrew+netdev@lunn.ch"
-	<andrew+netdev@lunn.ch>, "davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@kernel.org" <edumazet@kernel.org>, "kuba@kernel.org"
-	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>
-CC: nic_swsd <nic_swsd@realtek.com>, Chih Kai Hsu <hsu.chih.kai@realtek.com>,
-	"mail@birger-koblitz.de" <mail@birger-koblitz.de>,
-	"zhangxiangqian@kylinos.cn" <zhangxiangqian@kylinos.cn>,
-	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"stable@vger.kernel.org" <stable@vger.kernel.org>
-Subject: RE: [PATCH net v3] r8152: Use BMSR to detect the link state
-Thread-Topic: [PATCH net v3] r8152: Use BMSR to detect the link state
-Thread-Index: AQHdZOi1SWakue5+fUmL1fScAZd2QbcQ421w
-Date: Tue, 27 Oct 2026 05:49:31 +0000
-Message-ID: <65b2cd5e124a4fee9eb5b013e4069e44@realtek.com>
-References: <20261026012345.1902285-1-lilinmao@kylinos.cn>
-In-Reply-To: <20261026012345.1902285-1-lilinmao@kylinos.cn>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=WOKHMYK6
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83E271F01825;
+	Tue, 27 Oct 2026 05:58:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793080725;
+	bh=EhZ8QQRDtpojRf+w+WKdi7PLTN6QFmI45738JzQYc8w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=WOKHMYK6SK7R3B+Sntmb9766mpP0UzVUVkXUedAUYPPCyop2x4NZwvgCgtuJCWrxO
+	 d/5C9m0rl/zm+RyifN88rLWoE3/RQkQRGXNAjB5ifdtux/CFMfi1yeyTnKfOtxojf8
+	 AJrJeIpltA9ZeoTvIyLE4rUkNItQDcI1E7h+7wUE=
+Date: Tue, 27 Oct 2026 06:58:44 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Liu Chao <liuc63@xiaopeng.com>
+Cc: andreyknvl@gmail.com, krishnagopi487@gmail.com, kees@kernel.org,
+	balbi@kernel.org, zhugl3@xiaopeng.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: raw_gadget: fix dangling ep->desc on enable
+ failure
+Message-ID: <2026102733-cameo-upturned-bf2a@gregkh>
+References: <20261027032332.1945140-1-liuc63@xiaopeng.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -92,53 +55,34 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261027032332.1945140-1-liuc63@xiaopeng.com>
 
-Linmao Li <lilinmao@kylinos.cn>
-> Sent: Monday, October 26, 2026 9:24 AM
-> To: andrew+netdev@lunn.ch; davem@davemloft.net; edumazet@kernel.org;
-> kuba@kernel.org; pabeni@redhat.com
-> Cc: Hayes Wang <hayeswang@realtek.com>; nic_swsd
-> <nic_swsd@realtek.com>; Chih Kai Hsu <hsu.chih.kai@realtek.com>;
-> mail@birger-koblitz.de; zhangxiangqian@kylinos.cn; linux-usb@vger.kernel.=
-org;
-> netdev@vger.kernel.org; linux-kernel@vger.kernel.org; stable@vger.kernel.=
-org;
-> Linmao Li <lilinmao@kylinos.cn>
-> Subject: [PATCH net v3] r8152: Use BMSR to detect the link state
->=20
->=20
-> External mail : This email originated from outside the organization. Do n=
-ot
-> reply, click links, or open attachments unless you recognize the sender a=
-nd
-> know the content is safe.
->=20
->=20
->=20
-> r8152 detects carrier from PLA_PHYSTATUS without reading BMSR, so
-> BMSR_LSTATUS can remain latched low after link up. Since
-> commit f6f2e946aa4d ("net: mii: Fix the Speed display when the network
-> cable is not connected"), the first speed query can then report
-> SPEED_UNKNOWN, which applications such as NetworkManager may cache
-> until the next carrier change.
->=20
-> Use BMSR_LSTATUS in set_carrier() so a latched link down can turn
-> carrier off after the link has recovered. If BMSR reports down but
-> PLA_PHYSTATUS reports up, reschedule the link work to read the current
-> state without waiting for another notification.
->=20
-> Tested on an RTL8153B: NetworkManager reported 1000 Mb/s after 3 of 3
-> rebinds, instead of an unknown speed.
->=20
-> Fixes: f6f2e946aa4d ("net: mii: Fix the Speed display when the network ca=
-ble is
-> not connected")
+On Tue, Oct 27, 2026 at 11:23:23AM +0800, Liu Chao wrote:
+> raw_ioctl_ep_enable() assigns the user-supplied endpoint descriptor
+> to ep->ep->desc before calling usb_ep_enable(). If usb_ep_enable()
+> fails, or if the subsequent usb_ep_alloc_request() fails, the error
+> path frees desc via out_free but leaves ep->ep->desc pointing at the
+> freed memory.
+> 
+> The UDC driver may have captured the stale descriptor pointer during
+> the partial enable sequence and may dereference it in subsequent
+> operations, resulting in a use-after-free.
+> 
+> Clear ep->ep->desc before jumping to out_free on both failure paths
+> so the pointer never outlives the descriptor it references.
+> 
+> Fixes: 97df5e5758f7 ("usb: raw-gadget: fix gadget endpoint selection")
 > Cc: stable@vger.kernel.org
-> Suggested-by: Hayes Wang <hayeswang@realtek.com>
-> Signed-off-by: Linmao Li <lilinmao@kylinos.cn>
+> Reviewed-by: Guanglei Zhu <zhugl3@xiaopeng.com>
+> Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
+> ---
+>  drivers/usb/gadget/legacy/raw_gadget.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Reviewed-by: Hayes Wang <hayeswang@realtek.com>
+How was this found and tested?
 
-Best Regards,
-Hayes
+thanks,
 
+greg k-h
