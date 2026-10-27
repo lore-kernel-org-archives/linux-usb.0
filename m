@@ -1,74 +1,70 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793086211;
-	b=s8vMjRa+HQi69pcVAfPOWbJmxbD1rC2joY16rcFaL/lhr2HFVnti1HtYAVh8wBF1HR7Y
-	 gKG0GewVFw9oT9/AzdQJBJGLJntBKVcu2VKiavj42/7ghaR2NrKJNuIZNPjqvpQjTO5cE
-	 PVs1j3yheZPsviEz/lnWyfYwhfm/xufvPWolh8tK3wvouY1Rof3zT94jwiNpNuTpUABbi
-	 DuRGZwvy2o3y9nzv6yWLTe2bTP4aOGM3gXAb6dliQzf6alDJiOh+cJLfYfEXSf0blYPtj
-	 uS1ict78k2rHlaBvqLqrEXmiYlDHVuQfIpepnoGD0FNqOTin7+uHhTFcuZWScWje5sA==
+	t=1793086712;
+	b=UGqNFKVExC4jcs6vb8264ZzClK8jKbEpK8ocQB5kjg6xRcHRbTSttwD5VXvmxu5mebxc
+	 SNfYUBcuf0F5TMdsEnzUluVLZKvXCL4HpcbyBxIfkvOynQeMTVOmu+R6V6NPz5Z85ObB3
+	 YgOl6xODB9iPdHydr3hdmEkaybchS4Lcx3Kf/fJFUMleORq3LfFv/dgjZd7Ndm9aaVz0/
+	 Xad66n3tBU462vSRH4CEulcqAj4oDyVwjuN4Q8MbRuVkGjVp7Dl9ju3Q0mgfEEZqNttbt
+	 1y2O4QKYcrHiV+MStuBM2WdwUaurRPw5bVZMvQFHdrkRYy9vVNdW7pdP1CBOBfcwJow==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793086211;
-	h=DMARC-Filter:Received:DKIM-Signature:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:Content-Type:X-Rspamd-Queue-Id;
-	bh=kiuE/7A1+vFHVFJcJzUtrXmO3XVuGUnOrbNYqJCwYb8=;
-	b=KezPvcZuTQeRrRFlRhlnMXKr90t/o0KAbGffXu9NU6SKo9v9G2aVYHeSf/9X17gKfLPn
-	 Tj9icztYhmtA1F2/ioB9f/SookTz3mZ7JlYvVdvMZtVbeLPhiLsZ9YIggWSedfH6g0vbv
-	 mA+opB8SJ1nlkwEaLNvk++BRPlBTsGfCansASSq9rivUORarahhxr6/R6JIjVussLsEvV
-	 Ry6JA9x/TYivevRopCLacfrAvQtQxco4Siz37KTwOZOKr1Oi2sl82DjCMouYbEDjOD1sa
-	 ruWZ76+CCyQIQafWvQPa0yXuz2Up/T06IGjU8B9fBoJS0w4cqS6E8kouEyYUDWnRzqQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793086712;
+	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
+	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
+	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=g/cQoyLXBnCxnipooHLbfvDEWmeWX4FnyljXnjfREbk=;
+	b=0I7TXPeLmaHhqUAdabmQfY0XF2TFFtDQ0DWmVFnEp3pfeM+tK15pCGl8mB8BUhSMpTmF
+	 85SEtVjh/aGccs38dmUPus9IWrBhJt7Ikh2npovio9xmO9nMHDCciOxxQrOpiCG0HCGU3
+	 4hTvt+rkR+iFTg4zts3txy5mUsZWbRE+q/Ztsp4YFnx/4bu/WZTxkNCCf5p+zl/OIwRn9
+	 uKDb2eiwE32Z20KRFDA9+omfzSkGCBad+G2o0OisA2eFpRKKacnHpZr7u+Uy22SDYeS7r
+	 ExVcmgzKzemrqe3Vgf3sYcIGmDabe69eF5nY3u8TfNgwmQ5CooEyxgeh1WEtYkjZ/dA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=dsine.de;
-	spf=pass smtp.mailfrom=dsine.de;
-	dkim=pass header.d=dsine.de header.i=@dsine.de header.a=rsa-sha256 header.s=MBO0001 header.b=ALAcWC4+;
-	arc=none smtp.remote-ip=80.241.56.171
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+	dmarc=none header.from=kylinos.cn;
+	spf=pass smtp.mailfrom=kylinos.cn;
+	arc=none smtp.remote-ip=124.126.103.232
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA4B606A31F
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 07:30:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1BA4B606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=dsine.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dsine.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=dsine.de header.i=@dsine.de header.a=rsa-sha256 header.s=MBO0001 header.b=ALAcWC4+
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4jDMb06lZZzMlTJ;
-	Tue, 27 Oct 2026 08:30:04 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dsine.de; s=MBO0001;
-	t=1793086205;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kiuE/7A1+vFHVFJcJzUtrXmO3XVuGUnOrbNYqJCwYb8=;
-	b=ALAcWC4+vRHdEJRiygHqAmuHxKXyop/4mSJ7h9ZLbPTLxEcZsrkpB6OPkjhJA39ex6hOBG
-	VQF2eBU/AD/l3UZpC3Vtiw9cIEsN0fTbQWCLAhK2olFXeGygegGDKkMPbxJ40P6vUOa8vV
-	XSqFdUakC0LX3oieQ8pa95Xnj3LugbvITPjkuiboNXwc23hmVOpoHwv5aA8dr96iwWjMkJ
-	H8+rqYgqFFu0PaJjKoyc0dWypThF21cbMcRLe8AsPPTil/Groos+xlUvliB7uzo881ZygZ
-	esRyvBMm0XcC93xAYUvjWhk0+Oug/sjZgoqxdL19m8OYjYzKATqcCRzjNh4oVg==
-Authentication-Results: outgoing_mbo_mout;
-	dkim=none;
-	spf=pass (outgoing_mbo_mout: domain of dennis@dsine.de designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=dennis@dsine.de
-From: Dennis Wissel <dennis@dsine.de>
-To: Michal Pecio <michal.pecio@gmail.com>, Yiyu Zhou <yiyu@yiyuzhou.io>
-Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
- Alan Stern <stern@rowland.harvard.edu>, linux-usb@vger.kernel.org,
- regressions@lists.linux.dev
-Subject:
- Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
- (3434:d068) at boot since v7.3
-Date: Tue, 27 Oct 2026 08:29:59 +0100
-Message-ID: <qLQr_bD2TzCrwVMFdRe7Wg@dsine.de>
-In-Reply-To: <20261026203944.2235991-1-yiyu@yiyuzhou.io>
-References:
- <4MjB9K-2SoiA85WbI9iEig@dsine.de>
- <20261026121544.41fbb71a.michal.pecio@gmail.com>
- <20261026203944.2235991-1-yiyu@yiyuzhou.io>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDAFF606A326;
+	Tue, 27 Oct 2026 07:38:28 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CDAFF606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 61d60c68d1d911f19a56ed5b684f684d-20261027
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.19,REQID:2bb69ba0-fa30-4a77-89d2-568a5f0e7275,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:7db8b62,CLOUDID:2f9fde66d6e7e7b741c9b643745160e4,BulkI
+	D:nil,BulkQuantity:0,SF:81|82|83|102|865|898,TC:nil,Content:0|15|50|99,EDM
+	:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0
+	,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 61d60c68d1d911f19a56ed5b684f684d-20261027
+X-User: lijiayi@kylinos.cn
+Received: from thinksys.tail1c7620.ts.net [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <lijiayi@kylinos.cn>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 1220175306; Tue, 27 Oct 2026 15:38:20 +0800
+From: Jiayi Li <lijiayi@kylinos.cn>
+To: Oliver Neukum <oneukum@suse.com>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-usb@vger.kernel.org,
+	linux-scsi@vger.kernel.org,
+	usb-storage@lists.one-eyed-alien.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: uas: wait for pending commands before unbinding
+Date: Tue, 27 Oct 2026 15:38:00 +0800
+Message-Id: <20261027073800.648951-1-lijiayi@kylinos.cn>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <e6009e1b-2d95-4350-8374-d5930200ed24@suse.com>
+References: <e6009e1b-2d95-4350-8374-d5930200ed24@suse.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -78,58 +74,57 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
-X-Rspamd-Queue-Id: 4jDMb06lZZzMlTJ
+Content-Transfer-Encoding: 8bit
 
-On Mon, 26 Oct 2026 13:39:42 -0700, Yiyu Zhou wrote:
-> Booting the reverted kernel with usbhid.dyndbg=+p should show
-> "resetting device" from hid_reset() just before "usb 1-1: reset".
+Hi,
 
-Confirmed. With 042aad8d0db6 and 7e0ef4332ed9 reverted and
-usbhid.dyndbg=+p usbcore.dyndbg=+p:
+Thank you for the review.
 
-[    3.488406] usbhid 1-1:1.1: retrying intr urb
-               (repeated every ~110 ms)
-[    4.577507] usbhid 1-1:1.1: resetting device
-[    4.780458] usb usb1-port1: not enabled, trying reset again...
-[    5.035696] usb 1-1: reset full-speed USB device number 2 using xhci_hcd
+On Mon, Oct 26, 2026, Oliver Neukum wrote:
+> 1. If an error happens while disconnect is running, why do we want to schedule
+> work?
+> 2. Why only this and not also scan_work?
 
-> Dennis, if you are willing to try it on top of 1f36cc9fa949, the reset
-> should now fail within a fraction of a second, and the mouse should
-> come back as a new device without the 11 s stall.
+devinfo->work retries allocation and URB submission for commands already
+accepted by UAS. Those commands may need further URBs submitted before
+they can complete, so I intended to allow that work to continue while
+new SCSI requests are blocked.
 
-(A)I tested v7.3 (CachyOS 7.3.0-4) + 1f36cc9fa949 + your RFC patch with the
-same command line and the M5 plugged in at boot, two boots.
+However, the existing queue_work() calls already schedule these retries;
+flush_work() is not needed to enable them.
 
-In the first boot the device dropped off before interface 1 was bound,
-so nothing was polling and there was no reset. hub_wq handled the
-disconnect at 5.07 s and the M5 came back as a new device at 5.47 s.
+I tested removing only this flush_work() call, leaving the worker and
+retry logic unchanged. Normal reads and commands with controlled
+allocation failures that later recovered still completed successfully.
+With controlled persistent allocation or submission failures, preparation
+timed out and the existing cleanup completed. Subsequent rebinds and reads
+also succeeded. I will therefore remove this call in the next revision.
 
-In the second boot interfaces 0 and 1 were bound and the reset path was
-taken:
+> Some commands run longer
 
-[    4.531003] usbhid 1-1:1.1: resetting device
-[    4.753507] usb usb1-port1: not enabled, trying reset again...
-[    5.012720] usb 1-1: reset full-speed USB device number 2 using xhci_hcd
-[    5.441496] usb usb1-port1: logical disconnect
-[    5.441503] drivers/hid/usbhid/hid-core.c: reading report descriptor failed (post_reset)
-[    5.441504] drivers/hid/usbhid/hid-core.c: reading report descriptor failed (post_reset)
-[    5.837110] usb 1-1: USB disconnect, device number 2
-[    6.261660] usb 1-1: new full-speed USB device number 11 using xhci_hcd
-[    6.477540] hid-generic 0003:3434:D068.000E: hiddev101,hidraw11: USB HID v1.11 Device [Keychron Keychron M5 ] on usb-0000:00:14.0-1/input3
+Yes. This is intended as a best-effort grace period before cancellation.
+The timeout values were taken from uas_wait_for_pending_cmnds(); they
+were not selected to cover the maximum duration of every SCSI command.
 
-The reset fails after 0.43 s and the M5 is re-enumerated on a new slot,
-with all four interfaces bound about 2 s after usbhid requested the
-reset. There are no "not part of TD" messages and no stall (with
-1f36cc9fa949 alone, hub_wq stalled from 4.97 s to 16 s). Mouse and
-keyboard work after boot.
+If a command remains unfinished when preparation times out, the
+existing cleanup proceeds. An affected bridge may still require a
+physical disconnect and reconnect in that case.
 
-Tested-by: Dennis Wissel <dennis@dsine.de>
+> Is the resetting flag even needed anymore?
+> If it is needed, why set it so late?
 
-Full logs are available if needed.
+resetting is still needed before scsi_unblock_requests(), so requests
+dispatched during the remaining teardown cannot submit new URBs.
 
-Regards, Dennis
+Setting it before preparation also prevents the submission worker from
+progressing and makes the status and data callbacks skip normal command
+completion processing. In the hardware comparison with the flag set
+earlier, the URBs returned, but the command table remained populated
+until preparation timed out.
 
+The intended order is therefore to block new requests, allow accepted
+commands to finish, then set resetting before unblocking the host and
+performing the final cleanup.
 
-
+Thanks,
+Jiayi
