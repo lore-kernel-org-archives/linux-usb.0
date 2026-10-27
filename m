@@ -1,54 +1,65 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.199
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=109.224.244.106
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793102938;
-	b=f2q5MB1m8he/BKptJ7GtnDXCdEfTI0X0phydgpuBjUvxcrwfw0UfTo6CQ0r2JxKPVqbg
-	 x5Hs5Dcz66mChIpi6d+6R2eAnrir3qvz4mQM7OY5ECyJh99M4tI0hUMT5zCFkhXLZXwCP
-	 WVPRki88SAnFUw8f0OzNSyKowXAdRT68IsmHHbZA70LxtRa6sATIFJ2DgxnFU+Htqk3Mn
-	 At49RBUfjX8VA/ovZxlzuCzAvtefKBLj+FuN0o1ymUtgjxRxbIY65UxBqNXD6xq6AJj/r
-	 AuriM+j9JeG+sJ7SebPhVdU0LMUDOnBuK44Ml5CL/nVMZWTKjPB4k5Y6kx873ghZr5A==
+	t=1793103932;
+	b=uVltyQw/kGoKrv5j3Uw2PPTJB2ZTqhEM7C+golM+tuJii6wsOZG7zl+iu361MkwvrPVJ
+	 f3KQw2lvaKDKb+Sg98LfC40H+QS3EAeqGD0eCSeBiz3AWt1CHEeahPnlX0KnD3wPjKKbY
+	 LZhi4F4y2YULfJoPFbwtIxstXeuPVx46Kww3LPTBjvyilazIV2t8sKu0mBFtyyBjQZC3Z
+	 BOpjR65EAwenill14ewkYDR5Ib4ROAXpooESQk1m5ZpEnf80xOfW43sIliaa+a/5dnEPq
+	 GeB6Ax81pyZ2k631YvVsZKtQ54cu/gL0HWtCAv76OIFNHVMvlOjpHhbj1lyD/20ozng==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793102938;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Content-Type;
-	bh=3x0gcGxLoe8xh9zXM3KZqk8OeXnLeLRjDbX8BPObqNg=;
-	b=JNB/2/i6AGh7LR4WTBxUJ9MKWGvDfxTG2BajPjY8IjopR+OAyXM2MGfnv1ywwR0frVOu
-	 1tImyatdJvqp2mwFDNHTIn0sttdhmCwljogarkUMxPA6jiiDEKHh/IubybSyOzY2dBN1J
-	 wh6c9hfFnSZ8WFjgh7aAytF7UTeqRaZlRDZuucK0POV+g5T2DadCiKyAwryhRkMgHwBLj
-	 0f3baWlj3d2JFV3uR+ZuSk2a8jBtqomudvCzw+SOmymDVzeCnDqZamjmHPiGeUWS+0rs5
-	 biHfhHRvg466r/cM4zv+xVfvBx1HNdWMPjYqatt/d/rfp5H1a3usuZSfjA+0xQP/tqQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793103932;
+	h=DMARC-Filter:DKIM-Signature:X-Pm-Submission-Id:From:To:Cc:Subject:
+	 Date:Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=FAdS4BWmwO3+sFTq7Kut36ppic9RAnx4z1UJ7r8XW44=;
+	b=tWwALPIXMQSuNokSg7zALqv4iP+wiD/gnmwiOyJBp+yw+L4CgJx/YhDYCQEUTJzrDMY8
+	 xpcj1CNuAGPGqg0BVmhmsAL3iFoKOVSDC7KhOCdt0vSMKiBmSeSQ0xOA3QpXrbD954aU5
+	 C6LtR2ODueOhtMbGk6BhH7kSo0h2XmhSud+1rTt4TzNwfYjVx6EOy4zCaNKF8aRPBGijR
+	 GHn7DUPGRMNWgDDrSI43SOCGrn+I7gVPpnanxXfPa4dyEGIH1/oIRJqGF7CkL3OJv75NY
+	 mTaslcakqII0WiMGgzrjDzoe9IKFdXuDc4XaMB4fHbxc1s3+loPygj6lO9QgkoE8E8g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.199
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=interstellar.eu;
+	spf=pass smtp.mailfrom=interstellar.eu;
+	dkim=pass header.d=interstellar.eu header.i=@interstellar.eu header.a=rsa-sha256 header.s=protonmail2 header.b=cjCtaGPM;
+	arc=none smtp.remote-ip=109.224.244.106
+Received: from mail-244106.protonmail.ch (mail-244106.protonmail.ch [109.224.244.106])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DEB9606A31F
-	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 12:08:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9DEB9606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-4ab8b4887d4so3346319b6e.1
-        for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 05:08:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793102937; x=1793707737;
-        h=content-type:to:from:subject:message-id:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3x0gcGxLoe8xh9zXM3KZqk8OeXnLeLRjDbX8BPObqNg=;
-        b=tcZotXJWoSgeD8jfpm6/ozUzlmtX6DjQGrdgZi+QTZ/jeiRxbG2fNHCQxCL5fGv0K0
-         mz7WNQBQo1fr1u2xJ5LoRMdmFi6WybIqz5CT2IY3BpjBx3nrKiemWmvwyqUPRlGa95ZO
-         DBlTyLAt6aZCZNknMYtm37zDL2Vw8VMO5ODF0L3CHG/ou5YX+jXCAG2VxbgyGEibXd/v
-         HBotPZ+lvXdEbL4oujjbxIysMmI1nG+KYBEY6bnLOonrS8JkGuMCtmWw/cgZbk/mGXgf
-         eLF0xZkqSqaE6tqjR8dBoAfV2ezQC6WhhkKyvUglIqD8zz8m2sSVtYBhCbV6uF5Cmvyu
-         +lfQ==
-X-Forwarded-Encrypted: i=1; AKwUvBwr/rCPCfhMmPjCuO470Ollsj7Ee8IEEUN7wuZjvRbSTArdQldfACN3oyeyI1ZME8zNn6ZU03KDJ/I=@vger.kernel.org
-X-Gm-Message-State: AFq9FYI6R69MEUope0RRQBKV6Vy2hqJe1N5t2FV0qmc8uJ+YB5Q4Ns3t
-	hIVENpRkvS2sCvgefztKsrk7yDWhluJVWB8FzRNa+wkN1ONtjqMU66hWkrWrJLBcD0rOXTFy4Ju
-	92RQNZrdxfGwRGHYRy3v/gMDnY09v3ihgvmi65rho6X1s58KK7a8hOMRTfho=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458C7606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 12:25:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 458C7606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=interstellar.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=interstellar.eu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=interstellar.eu header.i=@interstellar.eu header.a=rsa-sha256 header.s=protonmail2 header.b=cjCtaGPM
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=interstellar.eu;
+	s=protonmail2; t=1793103927; x=1793363127;
+	bh=FAdS4BWmwO3+sFTq7Kut36ppic9RAnx4z1UJ7r8XW44=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:From:To:
+	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=cjCtaGPMPwm9N7Oyb20tGkTMetg/5Xrk8B3CDLugkvwU6ZHT2aIgeRDd3yf9i0YVs
+	 TmZMTCc2Xv2lqd9pZlYeC1XFhlBdD4Pc5y1dr3GzhumO1iysIgoJq9x2CGSDFR4+SL
+	 AG6L3kutp2GafFS6eEly4h92dF6+FX2QNK1qkwhpDyRv4ViC9QBRAKJyycuo15oAtx
+	 EwoiU7rDNZBuol2CaXTJUcaMl2sFA4kKZJa9IH2GDloAARlphYsN+oF6vLJlNuF9nO
+	 4+oi9Tg0kUvm96BfuxlMmyUyaAhECgUqNBBPd2wmpWys+LC3b61ulGCy3usAXRqyIy
+	 muOy2e+Ez6xjg==
+X-Pm-Submission-Id: 4jDV7n0pPzz1DFF5
+From: Francesco Orro <ncesco@interstellar.eu>
+To: z0rc3r@gmail.com
+Cc: heikki.krogerus@linux.intel.com,
+	gregkh@linuxfoundation.org,
+	linux@roeck-us.net,
+	huangwei@kylinos.cn,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] usb: typec: ucsi: acpi: Assume UCSI 1.0 on HP ZBook 8 G2i 14
+Date: Tue, 27 Oct 2026 13:25:24 +0100
+Message-ID: <20261027122524.817021-1-ncesco@interstellar.eu>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261026-ucsi-hp-zbook-8-g2i-v1-1-91002e9ef073@gmail.com>
+References: <20261026-ucsi-hp-zbook-8-g2i-v1-1-91002e9ef073@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,68 +69,29 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1822:b0:550:de67:2631 with SMTP id
- 5614622812f47-55c00414357mr5845145b6e.63.1793102936555; Tue, 27 Oct 2026
- 05:08:56 -0700 (PDT)
-Date: Tue, 27 Oct 2026 05:08:56 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ae09458.f0fe5aea.79aa1.008e.GAE@google.com>
-Subject: [syzbot] [mm?] [usb?] WARNING in corrupted (4)
-From: syzbot <syzbot+9fe09db3795456e0b442@syzkaller.appspotmail.com>
-To: akpm@linux-foundation.org, cl@gentwo.org, hao.li@linux.dev, 
-	harry@kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-usb@vger.kernel.org, rientjes@google.com, roman.gushchin@linux.dev, 
-	syzkaller-bugs@googlegroups.com, vbabka@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hello,
+Hi Ihor,
 
-syzbot found the following issue on:
+On Mon, Oct 26, 2026 at 01:47:52AM +0200, Ihor Urazov via B4 Relay wrote:
+> The same firmware defect on the HP ZBook Fury G1i 16 was discussed in
+> "[RFC PATCH] usb: typec: ucsi: acpi: bootstrap PPM on HP systems with
+> empty _DSM func 2" [1]. The defect was reported to HP as case
+> 5166176673.
 
-HEAD commit:    5b0764a53235 Merge tag 'drm-next-2026-10-21' of https://gi..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=13739fc9580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=fd1433abd362f255
-dashboard link: https://syzkaller.appspot.com/bug?extid=9fe09db3795456e0b442
-compiler:       Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-userspace arch: i386
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=11cb9b0d580000
+Thanks for picking this up, and for opening the HP case.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/05ac8658d211/disk-5b0764a5.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/9cfb73243216/vmlinux-5b0764a5.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/fc45c7faf785/bzImage-5b0764a5.xz
+The Fury G1i 16 is DMI board "8DE2". Its "UcsiAcpi" SSDT (BIOS X96
+01.05.01) matches what you describe for 8ED9: the mailbox is
+0x30 bytes with 16-byte MESSAGE_IN/MESSAGE_OUT, _DSM function 0
+returns 0x0f (functions 0-3 only), function 2 is a stub, and VERSION
+is written only on the EC response path (_Q27 -> UQDC -> UETO, copied
+from EC0.UB00/UB01). A PPM_RESET through function 1 completes in
+URST(), which sets RESET_COMPLETE directly without going through UETO,
+so it does not fill in VERSION either.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+9fe09db3795456e0b442@syzkaller.appspotmail.com
+I have not run your patch on the Fury yet, so this is based on the
+tables only. If an 8DE2 entry next to 8ED9 is wanted, I can test it.
 
-------------[ cut here ]------------
-!PageLargeKmalloc(page)
-WARNING: mm/slub.c:6855 at free_large_kmalloc+0x97/0x110 mm/slub.c:6855, CPU#0: kworker/0:1/10
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+Thanks,
+Francesco
