@@ -1,64 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=115.124.28.169
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793068837;
-	b=eYaz6JLIPExdnALQorCEmN1EfwMECeAusRgtIfuQ7F4/nUtLZ0YNhbYQBK89vlDbaB0B
-	 W6Ulu+bjHrpuUrzm6VpOcpWs5hQYtmG+UFLNfdeWGIsVIOpFhHqtjTiUQPcwYIZnR7Lgz
-	 QnMc54AUWpNKB7Q041JUtdXY+RJuV/QYoX0h3IuMpyNfR7nDB6tU2PUpdM/czjOwiWuCH
-	 8lkPqMDzezDdaxwnB1Y8drBehkrAnADoN1l3ZRLeoGq9NcjTqsX3UUdeznUsbh8NaHAc9
-	 8fsGeLl3a82+8HDNDCBJLz9RGbkTN6j8WCHZoZAFYjjpKn5btPkyY2OcAv8oOhvHl+w==
+	t=1793069399;
+	b=XKX23y6jHACsf+tr6nGgB9sgesvOoZBQ6x80JlPhjYZYRjTai9PPqWIrFnrfxB9yrvIS
+	 awkqqkvHTJgm66I1XH4u07mcuCB+TvFbr5B8xxVF5YU0Tzde3Lwq0ws4Z2yihQJ8I1cp5
+	 JgCCrIU+YJrlK9A4BQpE97iqn895DRIH5OOsRmTaHagNdAoImFAEXV4ECypAaXDTu1dNX
+	 CbRuWdjdVmAL2h2wxTg6kTZfimFdR02sIF6gbhQHXq3qkksv/GxFJvTHlbwrkYuNT3LUf
+	 3n3N2biclTvc+N2VlPP4tAi4D0+q4+3qt3z+HkXKwpFyaNtur/mqTRnTtUtwpQ/dteg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793068837;
-	h=DMARC-Filter:DKIM-Signature:X-Alimail-AntiSpam:Received:From:To:Cc:
-	 Subject:Date:Message-ID:X-Mailer:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=/r7sbHgOMl6flEmwGOSI95NWBozhJ6tRqgN4OdIa9Ik=;
-	b=u+GckMv+1NnC/A8fjoOIVas8ATp5pOEWaJvVFBIpEWN3th8BD3FIHnUYctGWZFYtnoKf
-	 ClSosski0U0D7mdPOf16l2i9Nd9OaXOS03zYKF/nIMfjiwkgXHPQpaRI0AdhL+j5UMXpj
-	 rO03Xa7mexdMHLp/UfEJkISNsCNuXjK05SpCxO33nIwSk/MFw9PM27CcOJjaAGeWy08Vq
-	 34bur2DzQ4GCDFIRlzU4iKYq2a5XEC2gQg1XleRZT6eyM++14QQ+4pojNR+qjo1wEddoT
-	 969IAm/gB/q+u+vvUet8C/T2Umdd8TX6qfYA+SuUC2fs5Nd0oJzlPbGv47Gwa4RiXDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793069399;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=rlWgSOis7FZ6niXAP2lIwedo05oBOCimGAsDCatKDJw=;
+	b=mUMLseHW1YXrQPw1je/nmxTNNsTV4JtVLIGJaE/fSU25y3a9JRqCQt6wNtcepviM0IdK
+	 Gq4DyscbOft6eG+t79e81unmPCsHBTKu4elaHOR8MMDeaOp+a2SxbKnKzAfohbuxHOu5y
+	 N70UhII+GJZxLaerJ5K912Wu0EGdWyPioVWo7enWMOCEiZax4959JnZBbt/PGK7GS8qL+
+	 XXn5reSUVBKmWWCeyaSmKn2qUimmfT0PsY3V6uQ24oTWgS4InKs+ALfpX9ExkJ0+0lFZQ
+	 pUMXVeRW1nFpR3blXcO4Len1IP8WexlfgfycdBtuxwpl5+t1U5BrRXjJUINOpSgDKpA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=xiaopeng.com;
-	spf=pass smtp.mailfrom=xiaopeng.com;
-	dkim=pass header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=p3eNu3YW;
-	arc=none smtp.remote-ip=115.124.28.169
-Received: from out28-169.mail.aliyun.com (out28-169.mail.aliyun.com [115.124.28.169])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eIidmHw8;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1617606A31A;
-	Tue, 27 Oct 2026 02:40:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D1617606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xiaopeng.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xiaopeng.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24AA6606A31A
+	for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 02:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=xiaopeng.com header.i=@xiaopeng.com header.a=rsa-sha256 header.s=default header.b=p3eNu3YW
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xiaopeng.com; s=default;
-	t=1793068831; h=From:To:Subject:Date:Message-ID:MIME-Version;
-	bh=/r7sbHgOMl6flEmwGOSI95NWBozhJ6tRqgN4OdIa9Ik=;
-	b=p3eNu3YWtyhRp3dzlzEb17w3kwRlR55eeQsrNWXMaRdHL6WvfUztEbB+JqNTtgPY/FDSxQA66nsQBybm2xzBlZekMF0UV+/DYlWCpitr/hLr+qzs9vA+NcgQZUIv+3KnG0DwaGra7tW79zgcKOXii4+Lc1tl1fNvSinoCVBbP1Q=
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.07439248|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_regular_dialog|0.011536-0.00151875-0.986945;FP=14732518330469582032|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037033194;MF=liuc63@xiaopeng.com;NM=1;PH=DS;RN=12;RT=12;SR=0;TI=SMTPD_---.jqKXZaa_1793068829;
-Received: from localhost(mailfrom:liuc63@xiaopeng.com fp:SMTPD_---.jqKXZaa_1793068829 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Tue, 27 Oct 2026 10:40:30 +0800
-From: Liu Chao <liuc63@xiaopeng.com>
-To: gregkh@linuxfoundation.org
-Cc: neal_liu@aspeedtech.com,
-	joel@jms.id.au,
-	andrew@codeconstruct.com.au,
-	ryan_chen@aspeedtech.com,
-	billy_tsai@aspeedtech.com,
-	zhugl3@xiaopeng.com,
-	linux-aspeed@lists.ozlabs.org,
-	linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] usb: gadget: aspeed_udc: fix u16 truncation of descriptor lengths
-Date: Tue, 27 Oct 2026 10:40:13 +0800
-Message-ID: <20261027024029.1310175-1-liuc63@xiaopeng.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=eIidmHw8
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4F491F01825;
+	Tue, 27 Oct 2026 02:49:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793069398;
+	bh=rlWgSOis7FZ6niXAP2lIwedo05oBOCimGAsDCatKDJw=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=eIidmHw8oKblNgJK5buThymcv1UqzdSLMia5mZUHgsew/KATWyeCPuv/HeIMjnCt/
+	 Rfc47q0W9C4NOjSkh72hg1Vm0WsrEvWmIHob2gZ9A+MUDLrYT1fJ8wEh2qaob2NzpR
+	 oYd2G0CWRiVRJAuWpXmo7rAKU9ML7KcrKLa0nSYdTyvxAXIDx94fFQppx+aE7Vk+U9
+	 RaQyTFiKYvBUu1JIKFsRwryUa4DaJruJxqP5uaDJaXmhVMnyHaNhthjOaxIEfit+kL
+	 csdslqaj7arytjS2UaC3F5KEvKXWaCQDMfp2LFoIrQTidNEkf/a5fVk5LAyX85E4N7
+	 h7x3dg7dUTY9Q==
+Message-ID: <sashiko-outbox-186031@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: gadget: aspeed_udc: fix u16 truncation of
+ descriptor lengths
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Liu Chao" <liuc63@xiaopeng.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261027024029.1310175-1-liuc63@xiaopeng.com>
+References: <20261027024029.1310175-1-liuc63@xiaopeng.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 27 Oct 2026 02:49:58 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,68 +59,116 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-ast_udc_epn_kick_desc() computes tx_len as u32 bounded by
-AST_EP_DMA_DESC_MAX_LEN * AST_UDC_DESCS_COUNT (7680 * 256, roughly
-1.88 MB) and hands it to ast_dma_descriptor_setup(), whose tx_len
-parameter is u16.  The length is truncated to the low 16 bits before
-the descriptor list is built, so a descriptor-mode IN request larger
-than 64 KB is described -- and therefore transferred -- as only
-tx_len % 64 KB bytes.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: gadget: aspeed_udc: DMA ring wrap-around in ast_dma_descripto=
+r_setup()
+--
 
-The caller still accounts the full, untruncated length:
+commit 779c6cb173f5ebef2c19640cedeba9f7a9ebcb90
+Author: Liu Chao <liuc63@xiaopeng.com>
 
-	req->actual_dma_length += tx_len;
+usb: gadget: aspeed_udc: fix u16 truncation of descriptor lengths
 
-so req->actual_dma_length never equals req->req.actual and the "more
-requests" check in ast_udc_epn_handle_desc() never kicks the next
-stage.  The request never completes and the endpoint queue stops
-draining.
+This commit widens the tx_len parameter of ast_dma_descriptor_setup() and
+the total_len accumulator in ast_udc_epn_handle_desc() from u16 to u32 so
+that descriptor-mode transfers larger than 64 KB are not truncated.
 
-The same handler accumulates the per-descriptor transfer lengths of a
-stage into a u16 total_len.  Each descriptor carries up to 8191 bytes
-(EP_DESC1_IN_LEN mask 0x1fff) and up to AST_UDC_DESCS_COUNT (256)
-descriptors are walked, so once the truncation above is fixed the sum
-can exceed the u16 range: a full stage covers 7680 * 256 bytes, which
-wraps modulo 64 KB to a value smaller than ep->ep.maxpacket.  The
-short-packet check then believes the stage was short, completes the
-request before the whole transfer has finished, and adds a length to
-req->req.actual that does not match what was really moved.
+> diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc=
+/aspeed_udc.c
+> index 81fa495bbacd1..b8bb81cbb6a6f 100644
+> --- a/drivers/usb/gadget/udc/aspeed_udc.c
+> +++ b/drivers/usb/gadget/udc/aspeed_udc.c
+> @@ -472,7 +472,7 @@ static void ast_udc_ep_free_request(struct usb_ep *_e=
+p,
+>  }
+> =20
+>  static int ast_dma_descriptor_setup(struct ast_udc_ep *ep, u32 dma_buf,
+> -				    u16 tx_len, struct ast_udc_request *req)
+> +				    u32 tx_len, struct ast_udc_request *req)
 
-Widen both the tx_len parameter and the total_len accumulator to u32.
+[Severity: High]
+With tx_len widened to u32, can a transfer larger than
+AST_EP_DMA_DESC_MAX_LEN * (AST_UDC_DESCS_COUNT - 1) (7680 * 255 bytes) wrap
+ep->descs_wptr all the way back to the hardware read pointer and stall the
+endpoint queue?
 
-Fixes: 055276c13205 ("usb: gadget: add Aspeed ast2600 udc driver")
-Cc: stable@vger.kernel.org
-Reviewed-by: Guanglei Zhu <zhugl3@xiaopeng.com>
-Signed-off-by: Liu Chao <liuc63@xiaopeng.com>
----
- drivers/usb/gadget/udc/aspeed_udc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+In ast_udc_epn_kick_desc(), tx_len is clamped to descs_max_size, which allo=
+ws
+up to all 256 descriptors in a single stage:
 
-diff --git a/drivers/usb/gadget/udc/aspeed_udc.c b/drivers/usb/gadget/udc/aspeed_udc.c
-index 54f81e668009..f8c58158bd51 100644
---- a/drivers/usb/gadget/udc/aspeed_udc.c
-+++ b/drivers/usb/gadget/udc/aspeed_udc.c
-@@ -472,7 +472,7 @@ static void ast_udc_ep_free_request(struct usb_ep *_ep,
- }
- 
- static int ast_dma_descriptor_setup(struct ast_udc_ep *ep, u32 dma_buf,
--				    u16 tx_len, struct ast_udc_request *req)
-+				    u32 tx_len, struct ast_udc_request *req)
- {
- 	struct ast_udc_dev *udc = ep->udc;
- 	struct device *dev = &udc->pdev->dev;
-@@ -899,7 +899,7 @@ static void ast_udc_epn_handle_desc(struct ast_udc_dev *udc, u16 ep_num)
- 	struct ast_udc_request *req;
- 	u32 proc_sts, wr_ptr, rd_ptr;
- 	u32 len_in_desc, ctrl;
--	u16 total_len = 0;
-+	u32 total_len = 0;
- 	int i;
- 
- 	if (list_empty(&ep->queue)) {
--- 
-2.50.1
+drivers/usb/gadget/udc/aspeed_udc.c:ast_udc_epn_kick_desc() {
+	descs_max_size =3D AST_EP_DMA_DESC_MAX_LEN * AST_UDC_DESCS_COUNT;
 
+	last =3D req->req.length - req->req.actual;
+	tx_len =3D last > descs_max_size ? descs_max_size : last;
+	...
+	if (!ast_dma_descriptor_setup(ep, dma_buf, tx_len, req))
+		req->actual_dma_length +=3D tx_len;
+
+	/* make sure CPU done everything before triggering DMA */
+	mb();
+
+	ast_ep_write(ep, ep->descs_wptr, AST_UDC_EP_DMA_STS);
+}
+
+When tx_len > 7680 * 255 (including the full 7680 * 256 byte stage described
+in the commit message), the loop in ast_dma_descriptor_setup() runs all
+AST_UDC_DESCS_COUNT (256) iterations:
+
+drivers/usb/gadget/udc/aspeed_udc.c:ast_dma_descriptor_setup() {
+	while (chunk >=3D 0 && !last && count < AST_UDC_DESCS_COUNT) {
+		...
+		if (count =3D=3D 0)
+			req->saved_dma_wptr =3D ep->descs_wptr;
+
+		ep->descs_wptr++;
+		count++;
+
+		if (ep->descs_wptr >=3D AST_UDC_DESCS_COUNT)
+			ep->descs_wptr =3D 0;
+
+		offset =3D ep->chunk_max * count;
+	}
+}
+
+Because the descriptor ring is idle when ast_udc_epn_kick_desc() is called,
+ep->descs_wptr starts equal to the hardware RPTR. Advancing ep->descs_wptr
+256 times and wrapping at AST_UDC_DESCS_COUNT returns ep->descs_wptr to that
+same initial value (req->saved_dma_wptr =3D=3D RPTR), which is then written=
+ to
+AST_UDC_EP_DMA_STS.
+
+In the Aspeed endpoint DMA hardware, WPTR =3D=3D RPTR in AST_UDC_EP_DMA_STS
+indicates an empty descriptor list, as checked in ast_udc_epn_handle_desc():
+
+	ctrl =3D ast_ep_read(ep, AST_UDC_EP_DMA_STS);
+	rd_ptr =3D EP_DMA_GET_RPTR(ctrl);
+	wr_ptr =3D EP_DMA_GET_WPTR(ctrl);
+
+	if (rd_ptr !=3D wr_ptr) {
+		dev_warn(dev, "desc list is not empty ! %s:%d, %s:%d\n",
+		"rptr", rd_ptr, "wptr", wr_ptr);
+		return;
+	}
+
+and documented in the sibling Aspeed vHub driver:
+
+drivers/usb/gadget/udc/aspeed-vhub/epn.c:ast_vhub_count_free_descs() {
+	/*
+	 * d_next =3D=3D d_last means descriptor list empty to HW,
+	 * thus we can only have AST_VHUB_DESCS_COUNT-1 descriptors
+	 * in the list
+	 */
+	return (ep->epn.d_last + AST_VHUB_DESCS_COUNT - ep->epn.d_next - 1) &
+		(AST_VHUB_DESCS_COUNT - 1);
+}
+
+Should ast_udc_epn_kick_desc() and ast_dma_descriptor_setup() cap each stage
+to AST_UDC_DESCS_COUNT - 1 descriptors so that ep->descs_wptr never wraps
+onto the hardware RPTR?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261027024029.1310=
+175-1-liuc63@xiaopeng.com?part=3D1
