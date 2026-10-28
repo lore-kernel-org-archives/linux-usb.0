@@ -1,69 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793153750;
-	b=URGlwDun1iQtweKOUcyKRt5iEb912sw5tnGvjgpuiFA+o3xi6XrlL0wLpsil/6dc11yz
-	 uVv2V4t6DIpxpzlrecUOXbQIxXx6+fctqIrVShzUJNoc2PYWQghsAfY+S5BtQFGYSuJ3y
-	 ihFFXgGHBI1citjbnfw4JERYqvj0Tau5pszJwLHbi1qZcgi1u5ncjox8710M0aTYdHHwb
-	 SaDcJTngV6PND2yKjnzjtVR+OcvOSKw8ZlEFaIdFqPZnZD0RZphhRB4jpWF1VX67HnjHI
-	 WlIqhiHP33Ep+wrJrQ2+JUBvs9Z8w57eWaoI3OJk5/FVd9EU5MJpTew6PeTqb3FOqXA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793153750;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=VFkGiQSXn99lAyTMYrSvbj/rm7ZqlYj+LcHweNzcxzU=;
-	b=G8mucXYtKurHLcY/syQij56HBwh+xPdGQkdI3BzPoVtlZfQEHC8Iu6w9UDVOh7WCN3eB
-	 ACyoFz6Cg0RkC6F1XkAx6MKd+blKhXWfLOTlBd6pEK+C4c8JKpxwOPcVZr/7yJ6FuB2Oa
-	 Jq8aZDJ1dQcRDckeaBCKsqKkl8jN0Jy5C2kjPRm2YHTNNHILTdL3bAvgFF6Ei7RNNhlB3
-	 CuBaHuMuoooVbIm4s1TJUoRs9ZWQdrC4yS61BnOKkSpU1UryzRNikDbGZ/M4grNfTor6m
-	 UBD7Tz98rpl8kL1Z0CcokTsmYN9QAqXDld+TA4ujfVBrRc9xnBWO1kwUpllRQBi4l9Q==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.180
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793158803;
+	b=SaPndiB63b/X9qZPZJuoJDhBtA9z3jhmxApPmyOrF2i2HZLqAZcmSGkdSaXvxAvuvSpU
+	 jl8ExsV51tkw60t9EsVl2U05yVzdKmHefihlGgyreWuewZGZd9vSrz6HSiRbJrQFxJI/S
+	 6zGtM3f7LBH/18Oa5Th930W90/9M/W4OvtknjJ9LTGKF9KgldJ/qkFiKSVoTj143oVapv
+	 zO3k56DMZiETMUSXbZQMkc7usuqrSznwGePvFIRkhVSZTja4bR1rmkFyFd4J+5XUcs0KF
+	 h3uJsXQbLUpIyYp9YqjTxQWvSPzmHcxZTV6C65F63Gf4awFBRAQyxFa3kYVTyCC768A==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793158803;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
+	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
+	 Content-Type:Content-Transfer-Encoding;
+	bh=nZVUbgtUTPeWWCTCN1m7691GzutA21b70jDB4f7tnpI=;
+	b=kXj2pP9rdHRLBLm5It74mWR1lVMDthCilEK3upw31scfkEODzUv9YZofzeD/xbJWrb6v
+	 cQhngDKd5MOzq0roRPFpkmKYork62TJGnIbMgtz9Qir1p+6qRC1DNeibLSsapeF2A4Dyw
+	 KhmWr7jRrba0RaNrKP5rzeFLXU9bmX41kL9dbLxU73herbcjBbzwvsjuB4dL3VF3mmcMv
+	 wVFTKvBwlfkx51b6bU7+uroX8MLNTiviKqhVE2X4NDMmSC8pYy6udvzqTy+ZkYtBCiBtV
+	 iwu2PZA571F+pAoUMwVqNRq1GGTG+7PWCTVBP4ZyLeA/hZFxerKbL0RQaZJ2dHltmvg==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pbjq3yc3;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.180
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E1C3606A31E;
-	Wed, 28 Oct 2026 02:15:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 0E1C3606A31E
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 7a062132d27511f19a56ed5b684f684d-20261028
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:0def37ea-b7ac-4943-94e9-5902cd1f7323,IP:0,U
-	RL:0,TC:0,Content:-5,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:20
-X-CID-META: VersionHash:7db8b62,CLOUDID:10511418d5a62f49f176b818f3576898,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
-	,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 7a062132d27511f19a56ed5b684f684d-20261028
-X-User: huangwei@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 1306354554; Wed, 28 Oct 2026 10:15:42 +0800
-From: Huang Wei <huangwei@kylinos.cn>
-To: Johan Hovold <johan@kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	leStoppe <lestoppe@gmail.com>,
-	Craig Hesling <craig@hesling.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	huangwei@kylinos.cn
-Subject: Re: [PATCH v2] USB: serial: simple: narrow OWON match to avoid breaking VDS1022
-Date: Wed, 28 Oct 2026 10:15:38 +0800
-Message-Id: <20261028021538.792127-1-huangwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20261015025456.3927808-1-huangwei@kylinos.cn>
-References: <20260810091322.2201740-1-huangwei@kylinos.cn> <20261015025456.3927808-1-huangwei@kylinos.cn>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC00C606A31E
+	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 03:40:02 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EC00C606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=pbjq3yc3
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-35b2c599f43so1153973eec.0
+        for <linux-usb@vger.kernel.org>; Tue, 27 Oct 2026 20:40:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793158802; cv=none;
+        d=google.com; s=arc-20260327;
+        b=MnToPjUcNqeKtuQosetYoJokosiOxVp8OsYXCEshTtWIsnWLY35qdq5sWoRwjPN6P/
+         hIPfOwGUoBlf/MNK/efDEUTCnw5FAVbOCZte65FICqDGmi+AtLdFV9gMvm+iJHaEkoF/
+         nU/6ddn8ZJkdpTP3LOsu6rdYub6urEtQ+LZS8Hw9xMeRw4Hn9LuTrwbe/Y+utOr1b5V6
+         Kh8RbyhpVA3hJGrT4oaXc1YHxmhVFcjrLlpu5r6F5PkzQ5slom4Incy6Ng2eTzTQInOa
+         htPZXlkqCfwVPT5zWg0wBhkltotFUn6+X0m5/GT5w0r36P8VFRrVayw0jPk4NQZ2CXMI
+         CHqw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=nZVUbgtUTPeWWCTCN1m7691GzutA21b70jDB4f7tnpI=;
+        fh=dmPH6IbyglBnUjHkfxoOhsBS8BYaGY653Q8wP3By53Y=;
+        b=SwGuaR/sYzsL2uAai7qYPEtwhWbdJFoV4AMPmdQmH1SsA0N860FBuoTkNScPTy9FLd
+         7u6WeLEH1sxwtCpItJPT946h/ZdzlWkLNUkIb23mdsNraGEZvnrWG0iCUJF9ev3srotT
+         /qz9ewI4jvJNQoHIHYIO6qu6Y64zc5uLp99CAkVXN+aQWb71tbOIL2P0ZxGsToKd/2cY
+         2swHDVajzVPAmxszcwdbgf/fK3UVX30yZwbGgl09R5oiqJhzg906mNXG+PhzcWccTtqA
+         5Mcp8vLjq9f/hrXCOKE2XCDMn+QyWCyCHl+0cbOB33JnqrYSpJBYktXTmr3DL/fBYZlQ
+         f15Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793158802; x=1793763602; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=nZVUbgtUTPeWWCTCN1m7691GzutA21b70jDB4f7tnpI=;
+        b=pbjq3yc3j8wdNHlL4uh0ewxXyz6i4Y3ACydbICYJdBDfD6iHkpTkJW9gZUW8138d7P
+         P0l75SMe61hEBD54J4/G0X1O40+b6g5X3EYu/eVaJdAWIttQNhOc4FdhO2DC/PIBoWdO
+         nEcCswHqJUJyxBjDUlM2NNxLIdVScZRK75SowMwMcuulD98RKD1Vyy0x/e1CnoxGFyB1
+         ZWdK9wt516HZo90j8B8iC5EYae4tt8aWyXKkvyljyj0ZiEwOYlW3OSHPN+a3D529k82p
+         hG+egmpILyJpAZ472F2BZ1zNBTuCT1H15rK8dh5q0qcSdWzUNf/WHVhcf4BEaZLbIiaW
+         3M9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793158802; x=1793763602;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=nZVUbgtUTPeWWCTCN1m7691GzutA21b70jDB4f7tnpI=;
+        b=Po39BatNJCfHyChcA3cN9chBnpwu24MgQhFpLPT9EmHokN6LT6tQII846BMDqrMGVd
+         fqjZICc874fg66EEkfWncoKoxvannnfP7akQCzsrun5JDFek9in/k71DsPRcUpv1vVkI
+         jSl9rXsUKTiN2yNXho8JSRuFEm1kG+x2lio69gT11y69YcGNTiEDUDGRWP5LJNHvap+z
+         kazVq/CGVsQzUgmYTbsx5CfxWBP/03QuVz8DhzenzN3aYHeHWk3PmG7xO6DrvDIGPJT6
+         v1F54ty3sH7O2LZwpQhkY5hk5hepYLT5//+kCUhWgQ2UIBR4FaaNy2R0zh8mRTceqy7K
+         jwyA==
+X-Gm-Message-State: AFq9FYJ8eUGSSycd6EZ0q4D5rDK31Kq6RMUgf6EZq3TkKpQDBO/s6xBS
+	OaWpKBmxPWyf8N4vb7mlqvE43vBgrNRGvb+qth9sABmdhm07bXGHYNUULo0p30OdKWhgABqdO10
+	WSi9joIRmQbhsprOItgNIe5+rzHxjaNI=
+X-Gm-Gg: AYBFou1Qbvhxiwe6YRCX51nbTAVnrq/Q4y7aR7oRdB07RPZNMebAtiGsYHVwySgr4af
+	QMClF3dAkZmfzaAeaVtR/zevVqc2ev/HKE2laQ+1txOcnLPxG8uJ5Mv2gud5jget+k42heP7dbD
+	K2wONVSL5fCZ9OaRv713XetlKjpQyFSqHJX4ufBmUEON9yLL6oWRxUgHTSG4F+B2mw+6oaSpkO5
+	5HvdOCoFD6xxOeh0g/CfC1Mh0+B2UphTv9rU9nsJVorOZlDGZfEde2k+bMUZDz6QUxtpJmYAU1b
+	bPZxvYWbrpSMN5q6bBWKBUow9MkGooBpNg8UWVilqK/HefTvk25jbIy/jlwp0bpLszzifU2zzG0
+	yoXMQ+1ebP2kFaPD1bg9zsV/KsdVE1GqXlULLVorD4bjCFTY8kEIt8N9TITjc+g/5YabaNQ4=
+X-Received: by 2002:a05:7301:640b:b0:36a:30b:5dce with SMTP id
+ 5a478bee46e88-36a2044c340mr1844568eec.19.1793158801947; Tue, 27 Oct 2026
+ 20:40:01 -0700 (PDT)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -73,16 +103,57 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <CAEFUPH3_w2CNccQxr70qi8yv9zbcN9a9FvOt98m9vGvBL2H_pw@mail.gmail.com>
+ <10a1cb15-d3cf-4a87-88db-87177fe60ae0@rowland.harvard.edu>
+In-Reply-To: <10a1cb15-d3cf-4a87-88db-87177fe60ae0@rowland.harvard.edu>
+From: SIMON BABY <simonkbaby@gmail.com>
+Date: Tue, 27 Oct 2026 20:39:48 -0700
+X-Gm-Features: AclHuK_8wiof404OSx7RWSdRr4r4UCuNP_Bn3-eVUpSBG8I5Aev--ImWC4SKUs4
+Message-ID: <CAEFUPH0gM4oKAcRHr+vWO-Tat=BL9Ow4NSrsOeA9UREdCX0bEQ@mail.gmail.com>
+Subject: Re: QUESTION] EHCI async QH/qTD lifetime on old 2.6.32.y, Octeon+
+ with ISP1564
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: USB mailing list <linux-usb@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Johan,
+Hi Alan,
 
-Gentle ping on this one. The v2 keeps the full-tuple match from v1
-(now verified against both device descriptors - the VDS1022 dump
-kindly provided by leStoppe confirmed that a class-only match would
-not discriminate), reworks the commit message per your review, and
-carries leStoppe's Tested-by. Anything else you need before taking
-it?
+Fair point, and apologies for the way I phrased the question. I
+definitely wasn=E2=80=99t expecting anyone to remember the detailed behavio=
+r
+of the 2.6.32 EHCI driver after all these years.
 
-Thanks,
-Huang Wei
+What I was really trying to ask is whether the failure pattern sounds
+like a class of EHCI issue that was fixed in later kernels,
+particularly around qTD/QH handling, unlink/completion races, or
+DMA-related corruption.
+
+We are currently comparing the EHCI changes after 2.6.32 against our
+old tree and trying to determine which fixes may be relevant. Your
+confirmation that current kernels are not known to exhibit these
+symptoms is helpful.
+
+Thanks for responding,
+Simon
+
+On Tue, Oct 27, 2026 at 7:14=E2=80=AFPM Alan Stern <stern@rowland.harvard.e=
+du> wrote:
+>
+> On Tue, Oct 27, 2026 at 07:06:21PM -0700, SIMON BABY wrote:
+> > Hello,
+> >
+> >  We are chasing a memory-corruption and stall problem on an embedded
+> > system and would value your view on whether it matches anything known
+> > in ehci-hcd. We understand 2.6.32 is very old, so we are asking about
+> > known behavior, not asking you to debug our kernel.
+>
+> You're kidding, right?  You don't seriously believe that anybody could
+> remember the detailed behavior of a complicated driver from seventeen
+> years ago, do you?
+>
+> Or did I misunderstand your intention?  If you're asking whether
+> current, up-to-date kernels exhibit any of the symptoms you mentioned,
+> the answer is: No, not as far as I know.
+>
+> Alan Stern
