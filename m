@@ -1,102 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.86
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793191490;
-	b=Zl4WPT4XEWOGNxEOD7z/jLWiCzNi3BMxjns/W5soy4Yykrdj8+3gaiECj6CM0cYKiOqo
-	 AUyba1Fsb/J0x2U4yFCpsbaSrz1x8qHXkTWRfOBY0LHys1dJD1wegIYJ76I/Jetx3YEct
-	 oBKt2ew69rFoaTktrCEXB3sLXy2dbWSl0vfKE00mXNXjgNIqciWk/GkNTulJBm7piLKGG
-	 1Azvw/XppOWVGg0xA2KanGszVmSwIpZpibBUCPc3yGSeG/GjprjjmcmbmZulNtX6AqAI5
-	 tWaPCFhZjO4rQ0S4R0HRwTq4MDJQxvvj3Z97ALEHGUfjMwUWxOD86WSi16IGM9gwW2Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793191490;
-	h=DMARC-Filter:DKIM-Signature:Received:Received:Message-ID:Date:
-	 User-Agent:Subject:To:Cc:References:Content-Language:From:In-Reply-To:
-	 Content-Type:Content-Transfer-Encoding:X-ClientProxiedBy:MIME-Version:
-	 X-MS-PublicTrafficType:X-MS-TrafficTypeDiagnostic:
-	 X-MS-Office365-Filtering-Correlation-Id:X-MS-Exchange-SenderADCheck:
-	 X-MS-Exchange-AntiSpam-Relay:X-Microsoft-Antispam:
-	 X-Microsoft-Antispam-Message-Info:X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-OriginatorOrg:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped;
-	bh=xIMOj3PE+ik6HlsZLnXdORefTEApKPYoc8YZAxtxc7E=;
-	b=2BE/uOGRJQAUgVOKGISW0R7eXsZDkEvObnhuiVVOwK1h+3Ijo6JAzOeb8JuBojsyJDls
-	 kjeN5b38vJrDmn36q5brjcc0St73LnqulqTUP7FxIMpXDRc7O8Hkv8/2KjFupP33aRLSO
-	 qayBwGhFRpozcngjKlOAq4+El7cG4kyK9xSo1L7zZQs03Khgop9yPCAo2hDZun3BZvn9V
-	 +vmdfDq26rWk1hh6N0KXVdHnPTlvgP/8mmW2XrjsdmljQB+nsaQAYsHAVx4h9ouPOYkVl
-	 10aolEWjIXoDi+9NZTI6BFFDTPbQtXV6vA6hcEHMnQEAK/MkLV5K+iL3qqboo0IBVWg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=axiado.com;
-	spf=pass smtp.mailfrom=axiado.com;
-	dkim=pass header.d=axiado.com header.i=@axiado.com header.a=rsa-sha256 header.s=selector1 header.b=u2CmHBRu;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=52.101.46.86
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11020086.outbound.protection.outlook.com [52.101.46.86])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (secp384r1) server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793191800;
+	b=cd573Ged+7Y/WOsglvHybNAcuJyGUakx9uZeyHINafNpjstRNMJf2gT9abLr/ofsXveP
+	 vugLud3QriAyn7wKN1rJdJ7ltUIYbcLbDhdqglYGU79CccmWAXjtlcMGijk+ojVgVjvQl
+	 4P19d9yHAQm1tdX3F+scMHvveDyx6cRQwoV/+cIDib7CLofnmvPZ3zCFq/3xScoF1FcW2
+	 sPZS9aag7BwTv45CIcwsSEDpTFI1jsdv4BIevR8TR9dt24fQFXBd9jvmD3gZ+FYvTwZJh
+	 H51VThys3bM3pIfOvWhStYkF7GXdpq5w5NWTVscUKizwURN/zANn5f9/uFiBirkjV8Q==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793191800;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=blhYmmsPEYfdAi3wMVG4f+bIgUy4vW2WGUgkjgeDvyI=;
+	b=MliwncYHzcPlRyFsewSLHzX4B2j8WdMtSvyq2twqcnqKv/F3IZ9WEOf4b8fxBVAMZGJM
+	 c+YY8RdL5cQ2kU5lXgDlUYuLggw9cbYohmctR+wYaFcPT6H3rqLhS8cCjhxxBjBJDvLki
+	 DnX0WfywlC1lxjrl3kfEKrmTsD5wjTSZdL8MAx/5ev4CRDGCxFVyg7ugBipU9TFsNEwnS
+	 YMM/ynP5hA712wD8Oob9yalOgwCPlAZ2h1r/wWzGAmx2T2OdMZNI8qL0DHKaF3Sharc3S
+	 T3OlegS85Qhl7q+g7jWaVB56MxomeaKBSG09R9pF7XZGfn7Cra8AscxcyCIwvhmxv7A==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=bUoU8QZj;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A69B606A31A;
-	Wed, 28 Oct 2026 12:44:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A69B606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=axiado.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=axiado.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECB5606A31C
+	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 12:50:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4ECB5606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=axiado.com header.i=@axiado.com header.a=rsa-sha256 header.s=selector1 header.b=u2CmHBRu
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TJCcYV5T3ss+K76Lb1JeEvQH+WfTfQj71YiDFUuCR3KZwnLW3skCfIUkay51ebFCzXtIfhI4OiPczC0gHdfsGfH+WKFpyxujJhGLM4h0mOZ2E1GEqwItXwNJUtiiFuKmaeLz9v1rfZCfkLRHqdC0lD3zqt/3eQbpxGIibZlHgkZckjF48bNBSUFp/3LPsDJjTzl8Z/mKYqT7coNxVvJSDqgr3xRlnrmAujTvC0Ljs6/jAvtvnIVaoDjcc/xelfaFlMyYK4ZpjUmwyxAdOfxAG+OPH0N0RIfQaOhxUTVvj+yv2ULtJCJMSEraA1y6sUwlYM5Aw5BldEK2//eX7/ZnXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xIMOj3PE+ik6HlsZLnXdORefTEApKPYoc8YZAxtxc7E=;
- b=L4mYe8C+/RS6p+lreyMzNS7SAkO7uPFJDtZ4VCUFNGUNaqtVwqOg+M9PAkFTR/CXxLtFkGO5usFjOfFGqak8qLAxhlqI1R8q5d7KktSQx8zGIjQB9aMrlfHIC+GiIVJF8bq8/iRRrHw7SarFlN4Caa+zxTZ8CuHRwSU+mJX1DnzjNhVE1vXMOWNL3LKEHTGnOiA9AqeEeiEl0hx0rxffDQ1WCn77VYmlxOZ/ixmAxjmMUfX2Pv/MbPZDe3uY0ElwaDYQVTm19MYG3C6XYuHa7+Vxjbpb3mtbiyw3sIbKuiySJw+3qPlARhH9wurYH1VFgFdbxBC6i88oS+y5T06y8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axiado.com; dmarc=pass action=none header.from=axiado.com;
- dkim=pass header.d=axiado.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axiado.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xIMOj3PE+ik6HlsZLnXdORefTEApKPYoc8YZAxtxc7E=;
- b=u2CmHBRu43l/d5vjRsQlGWQmcAtTNF8J2Kx1Xuqg9OX5xDn/YPC5oKqFKhy4xj6KNAW4bjQn0+ClXtswbSA2Bztpw7rOkgFrSju5wlTvsqWXuKw/O0roUOThHZN17cQRYBdYTjvVWyQkwqH94IWoCuYWOC10j/SjcPWcvOq7RKbLJ+2a3BYzxoVAQJg26KuiA+RMeD+HrDs+rZzZGCzBWhORTPQCXa66M8aLx6mAKHaXvT7XEL7nCRlNlhPl/Q5Giq5rNlQ94iLTlmNi220XzecIaVvlT+yz2JVeQ75vk5/9h+UNvVebZrw0qLJ+dibHPn1yOCUIf3CR66ajho3CJw==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axiado.com;
-Received: from DM4PR18MB4144.namprd18.prod.outlook.com (2603:10b6:5:38b::8) by
- BY1PR18MB5894.namprd18.prod.outlook.com (2603:10b6:a03:4b2::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.569.8; Wed, 28 Oct 2026 12:42:45 +0000
-Received: from DM4PR18MB4144.namprd18.prod.outlook.com
- ([fe80::cb97:ca8a:e55a:b11]) by DM4PR18MB4144.namprd18.prod.outlook.com
- ([fe80::cb97:ca8a:e55a:b11%6]) with mapi id 15.21.0569.007; Wed, 28 Oct 2026
- 12:42:45 +0000
-Message-ID: <964724e6-3284-4179-a525-510fd2106c0a@axiado.com>
-Date: Wed, 28 Oct 2026 13:42:39 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 6/6] usb: gadget: udc: crg: Add core driver and build
- integration
-To: Philipp Zabel <p.zabel@pengutronix.de>,
- Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>,
- Prasad Bolisetty <pbolisetty@axiado.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Tzu-Hao Wei <twei@axiado.com>,
- Karthikeyan Mitran <kmitran@axiado.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- openbmc@lists.ozlabs.org, Krutik Shah <krutikshah@axiado.com>
-References: <20261020-axiado-ax3000-usb-device-controller-v3-0-3012ecfc0a93@axiado.com>
- <20261020-axiado-ax3000-usb-device-controller-v3-6-3012ecfc0a93@axiado.com>
- <bafa6ad636d5e8a681494714adbd66bf8f2f7b19.camel@pengutronix.de>
-Content-Language: en-GB
-From: Petar Stepanovic <pstepanovic@axiado.com>
-In-Reply-To: <bafa6ad636d5e8a681494714adbd66bf8f2f7b19.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: AM9P192CA0019.EURP192.PROD.OUTLOOK.COM
- (2603:10a6:20b:21d::24) To DM4PR18MB4144.namprd18.prod.outlook.com
- (2603:10b6:5:38b::8)
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=bUoU8QZj
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e46e449e8so563815f8f.3
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 05:50:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793191799; x=1793796599; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=blhYmmsPEYfdAi3wMVG4f+bIgUy4vW2WGUgkjgeDvyI=;
+        b=bUoU8QZjFkINbMX4hNXknL+Nw5HooGrWzzTmpcJyHiPEqvGvhAf8hQkq+x4MfEEIvf
+         w5rD/bd1BenwzC1V1JOHy/b9rtTZRvWrooFIPry849SgCKzVPkJJ2WXXLb43RjzN6eql
+         fJLAh9DMaKgetmoMhGGCkxlaanh7GXVwe4XBTYy/5c8ichBbuMy4/OW25KkYKZDASECo
+         widvmsKs6gyy11/9fKWuvzrrbStcQfTNFaTUahcuUuksAXuEmSus1IBSSZYtf6zRBwbR
+         C2y4CvET/CB7lSE/ebRQDB6bOYkzfT44dpLdbx4uelILqAnwp5WLML0dWwsW98bmaxFT
+         v6bw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793191799; x=1793796599;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=blhYmmsPEYfdAi3wMVG4f+bIgUy4vW2WGUgkjgeDvyI=;
+        b=boeNP46OvIp3GSJzOvJAzFdVFSqQokBta/LzzaocJ45/FdmCznmE1TSukwOzMMwkUb
+         Yv04cOfn+7Pxi7WEOQ6eTNCxJqsNKUTzIM3o4pssdFehP5f1+zNTeT1fvnkygphiXVc8
+         IR9rtfIvbJqD+eMU0zYidapoB43MlaGWZNvACYC6HcwK5cDoNttyYoVcB9qvNDJIyYFD
+         rc/vLHWSvfNW/ezlDfeGXE5yhzZ32R1Yai2/lYJUCEBDpzYi2Go3qKZ9j1RLeMrnjTis
+         Dse1cAOjjmUvkv3LuIu8p6c0Xbl7UqvGcm7OIJcLUgKjF+4O7FOf/IpaNKWGMVP5AxBB
+         Skhw==
+X-Forwarded-Encrypted: i=1; AKwUvBzGlNUadqIPdzYvxiQ1Q7QPWyUUDpq3ygAbIKH8sAt6YIajBtNVuSc6Bb6jyrXbrfqMOX/pdYtD+H0=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLINtcBH7Duit2GybH2EoZtqLHkH0//2ekUo7AERV/2rSraoqKg
+	XVMCn0yJMIOP8ZzM2wjUnyNzQzCGQvZaeGBLB77YpfX2dxdGDniOmFnwHxFuEwmV6I7pZ/87/tJ
+	3DiS9
+X-Gm-Gg: AYBFou0Bsie7+VBajxZrSaGiwEr8j4TpVldlC/IpVq4eydx+3lzL5Wv2T2CrW8g/XeD
+	cuFDI1CFvvykEX/i1CtKbIeEc6zNdOgiQ9jSlFzqpaP4aBcFvUkeZ6D4f2EitSLos8BBV1vlPy2
+	duK1oDCAjarVE+q3DCYiJGVIc+3cyLUWCO6LXJzLfQezyGFKsNOqFP7aap+8RBbuF4DCfI1zPx8
+	GmA9go0Ge2Xww3peHh99veu8v7b7YuTJEZb4TrPt7//1Kez92TL0AxqgNNBu7bj8hRFTJm2Agmb
+	y8i4ONq6zQG3CdjBfS8LRD+9SQi1AmYB1wzDVq8ye0rpbF3trdkWTiywFw3fwuyHutzx9AioJu+
+	hLbAw6w6WD9e4byObNRY9R3XncL7U7Uncg8Pu8CHxtHKi6d3gKf7UIlCTdVwrFgvojESfwWBmiL
+	/jM39/9Ky+qirmbCuEv0f/U/lpKTPnHlZchBcfXmVCaSf83UeRzFQAxIrjsFcjGfVVqnYI7yoN8
+	5QkyshAU5dX1mNUE7tgQDN/xQIPJ3KvhJcxzdvOgfIBlvwZlqlM5+eR9pRtdN8tQ9GXVuqHgdb/
+	eAvvWwUu+IjnuQhk2DYXIat6FWijCyZPm05r5rRimo1znLgsnRRQ583+tY4nZohwj8ln
+X-Received: by 2002:a05:6000:4b08:b0:48e:7fb:aed3 with SMTP id ffacd0b85a97d-48e5d2e7354mr5920971f8f.17.1793191798497;
+        Wed, 28 Oct 2026 05:49:58 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13b5:e001:5d05:908:ac82:a3a1? ([2001:a61:13b5:e001:5d05:908:ac82:a3a1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3dcbsm27572060f8f.14.2026.10.28.05.49.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 05:49:58 -0700 (PDT)
+Message-ID: <b151f502-6ba7-404e-b7e9-599f5b62622f@suse.com>
+Date: Wed, 28 Oct 2026 13:49:57 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,127 +93,71 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR18MB4144:EE_|BY1PR18MB5894:EE_
-X-MS-Office365-Filtering-Correlation-Id: 95085675-e0c4-46f9-e62b-08df34f0f6fb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|23010399003|7416014|376014|4143699003|56012099006|261022105027099003|261009223027099003|261022075727099003|261021121427099003|261026121527099003|261026140227099003|10067099003|22082099003|18002099003|6133799003;
-X-Microsoft-Antispam-Message-Info:
-	Xy1V+VrZBWfIBa8KubHsMmRiyXFt5DUIV1O2MbtGWIUWFWzuITqWrpuFATcqGl0sPpgQD6Qvsq8PCgHyZh3IFV5NP62Mud+wGkpdqvqTJsZatb0b2EhJFF9c9ytGerx8Ld8RiAzX+u0m9oioEW+ajdATehaiKQ0ig54K7IV/VcSFrZAlo9BSwJ0jvv+SIzu3ijc+htHdsJihS5b97uCSGzGX8j3Mz1bgcfo2HMCndVEvY2xVY/hpFmlOkP1ROvR+6I4XhLQ2Eu29K/4vfe3edK3g9sYrSjd5CzSr7BX72YGvPy9GvkbjPLvLs88d9Dpwr9Is2iZOjMblZHynvV3r7wgVQ2bTZGrOzjxSXJVoIBSiVL7xsdTZuzavA5U49YdlwsnLNpCsNh2LumXSlwEijsIcM02MXmeP2OaFwsqMd6PE6p/WX8NxHtQPZmK5vOO4ugYblX47uwfzrCqYZ7FmtQDzA+sFOrmmTxf83up7pe0PCLdRLmMJPvQCY0CPJiRilk9qmfC5AyaGEObNpNMDbtPjO9wrXsltE8VGVa098yFn0YYWGMr7Ov0c3Ut4m/+SMELq5VMAmxKdDSCZ6M5vP9gavGSBCKPrzBbw9jaU0kJPdCv84jpSBcnBJj+gREsi6B7piQHw8oOZmmHBOcbK0Fab1wOGjNPpeUEnkNG6HFU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR18MB4144.namprd18.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(7416014)(376014)(4143699003)(56012099006)(261022105027099003)(261009223027099003)(261022075727099003)(261021121427099003)(261026121527099003)(261026140227099003)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UmZSeDhVekdNamNTamtqdWN0dG01Sk9tVW8wUWZUY0pGdEEzSHZSUDREb2p4?=
- =?utf-8?B?dUREc0pqOXZTYnY0VWxiMXhGbk5Rb0lBWk9xa1JBWThJcFR4bC9Wc1F4S2lB?=
- =?utf-8?B?aEJLWmJzRy92Y1lJSVdsSUVHNERaOWFXRHFCcWtqallQaHlxaHRMOHNZZlcz?=
- =?utf-8?B?OGNjOEtkWVRNU3BtS2ZBU1Fad3g0cXhrd2IzbzNrQ0JNZkRIUGtFMFpqR2k5?=
- =?utf-8?B?MDUvR1RZc3hLeEdQUmwzeUhxSzJHMnA4NDBCUXlnMkQ5UTZqYUhva09QQU9Y?=
- =?utf-8?B?ZG9oU1dLc282RXJpY1B5OG5ST1BPTDNLdEs2cmUzZCtocWZzUzEzUXk4YTRo?=
- =?utf-8?B?WVQwNFBkZ0dsSjdORUI0cklpaHNsYWlxU0IydXJWNHZWWWV0Uzk2ME96N2d3?=
- =?utf-8?B?dUpnQXF2L1JkbVZOQjNJUnNvZGIvNFQrTmxpTnU5Z0pFcUpPSitxZm1iNS82?=
- =?utf-8?B?Q0IrOUxOczZYdFY2dWgvOUdCZzR5VVBxaU5PNlhBeEpaTnhDWm1oL0xkcEl2?=
- =?utf-8?B?bHVXdWNtNUIyRkwxVnpWNERYaUpyaHk3aU9sYy9zY1pWU1ZhWXlxaWRnU3RI?=
- =?utf-8?B?Z2doWTBZZ3J0VDZlR09YZEVYNmJtclZhYXlkcjlMWGpGd1Z3ZnUrNzhmUmd5?=
- =?utf-8?B?ZEtQMXpXcmM1ZEJDTmQ2TW1uL1FwRlRJWjhlNTNRVzFjRXkwUHVnclF6MWti?=
- =?utf-8?B?TXJiRUhTajhLV0FXUVlJc0RQNXowQXBieCswTXRyVzEvZXZDUE5hR1MrZEFH?=
- =?utf-8?B?TnNxZVJLN1ZNWEhGd1crUncrNEVmTWdIVTZFeWNYWFdvOVJBM2NydVBIUHMr?=
- =?utf-8?B?SDBKbk1RemRjQXlYSDJEdDMxZk91Rit5THFidllqWDFCOC8wY2h1VUp5VDNL?=
- =?utf-8?B?QVFoSzhVRDI1elltSUhZOUNxOW9zY2tmWlU3SlZtblRHeGVibCtNMGtIeTFO?=
- =?utf-8?B?YXF0bTJTSkNkNzV4OUdhU21acllxV2tHaXZpR3dPUTRSQ3o2ZnNhK3FtVjAz?=
- =?utf-8?B?cUpXbnc4Nmh6NGhUcXkvb2VUVitxTEJmaGhFVnVmNFVGTlBpRjQ0TGx5Tlhx?=
- =?utf-8?B?cWluVDNKMzM2WGxWVnpjMHpXbno5Z3ZObTdMSlROSUN3SE1FMU5pZDE4NnV1?=
- =?utf-8?B?bkxuZk9XOG90TWt1WThUQjJMV0doVklEUk9ua2p1dHR2SHhTZDB0N3lBbEd0?=
- =?utf-8?B?dTg0ZjVSWk1tR2trOXJlSTJqSmtFTFNrRVZKMHQ1ZWtEazIvQlZGQnJtOFN5?=
- =?utf-8?B?ZEZjV09pYy9nZ0xEUG9CSFJoNllBd3JyRWlSaFBsbC9MWUErcHVlRGxiV3Bk?=
- =?utf-8?B?UHp3QUFwNWowNTBYY2tMazNnSEFvcE43T3pXbkpjNGRlZThFd3lqNmtKQy9i?=
- =?utf-8?B?NzRzajZaUkw0N2RGWllqYUlOYzFNZFltRHVFcnpNcklBMFFBUkx6U1ZQSWVT?=
- =?utf-8?B?cWJidDhMUWFMS3lNeWJ1b1dTS0lxQXNRUUJqNjhNdmFrWEZjL0tGYWxPTEdQ?=
- =?utf-8?B?a0p1QThDOFp4TXNBTnNiNkVVQm1uWUUydnpYdzlsQWZ4MHVzKzJ0c2plUi9n?=
- =?utf-8?B?MlpGOHRxbmc0RnIwM1VTS1RLcnNVRXRNZ25Gc0toVEJIaG9tVEQ3dmVZRzhl?=
- =?utf-8?B?YmFDamRVZVcvTHBla3ozZENmQmltRGpDRGw1cHNUNm0rOUNjWFZzMk9uZVNO?=
- =?utf-8?B?aXV5aHppWGdiKzZ2ZGxnZ3hrc2pEYnJrVzJpSW1aZmE0cmIreGVrbTQyNGxs?=
- =?utf-8?B?aUQ1VkYrUFRiNjZQYXFjcFRWTy9UaWU1bnMwVk9kZ0M0b3NCOVJFZm44eXJB?=
- =?utf-8?B?NzBzL09tRXBuNkExOEgydVNSNlRlRzQyUHBEdSs5M1B3ZnAzdThxMVNjYWxK?=
- =?utf-8?B?b1M1ZkFEL2RxdUZVZTFLY1gyVFYwWk1IanFhUzFRSlpaQnhtOFdLZFJpRVpJ?=
- =?utf-8?B?YWhyRjQzbzdrckF3em95aHpZN3pST01VWCtMUk8zenJjSVRsa3BLMmZ6VHg3?=
- =?utf-8?B?L2dQZmwrSkZza2ZUTkZqaGhCVm5TU0M3ZGJhNUdBTVA2bkt3WlRGNG8xZHEr?=
- =?utf-8?B?QWJQaEkyekFJclFueEhaQ1M2dFpSVElNTnRKeWlnb2dLaG44NFI0SkFjU1RX?=
- =?utf-8?B?VlVYSkx3aDFxaVlyRGdGWWl0MUI5NzJKQ1QxUjVTN3doZjlYblJYbkg2dWx1?=
- =?utf-8?B?S0hxUW01K1ltSEl5cllvUjlNaXNFdDhFQ0p4bURjNEhxL0xwWmFmLzVhMk5I?=
- =?utf-8?B?UWdoTTIrQnIzODdvTHJCMm1UaWpOMUZnVE9aZlU4eERXM0RUSjZJNWp2dFlJ?=
- =?utf-8?B?S0dLRzNzMmtFbFc0S3dObXNTcWFhQ0RFWkpRaUhpbE1WY04yTmYzZz09?=
-X-OriginatorOrg: axiado.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95085675-e0c4-46f9-e62b-08df34f0f6fb
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR18MB4144.namprd18.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2026 12:42:45.4817
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: ff2db17c-4338-408e-9036-2dee8e3e17d7
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: c0F6gbR4GKO+TMSuQxgrOpnLtHyQrJVZgd7Ud2BuwNifd3yhM7R4ryoytm9lLuf8bUO6Ul3vk5yZ7FGjYtzLiQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR18MB5894
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] usb: uas: implement .change_queue_depth to allow
+ per-device queue depth override
+To: Luca Cecchi <luca.cecchi.info@gmail.com>, linux-usb@vger.kernel.org
+Cc: linux-scsi@vger.kernel.org, stern@rowland.harvard.edu
+References: <20261009080341.295646-1-luca.cecchi.info@gmail.com>
+ <20261009081225.304319-1-luca.cecchi.info@gmail.com>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261009081225.304319-1-luca.cecchi.info@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-On 10/22/2026 11:36 AM, Philipp Zabel wrote:
-> CAUTION: This email originated from outside of the organization. Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
->
-> On Di, 2026-10-20 at 00:19 -0700, Petar Stepanovic wrote:
->> This patch introduces the core probe/remove functions for the Axiado
->> AX3000/AX3005 UDC driver, and wires up the directory into the build
->> system via Kconfig and Makefile.
->>
->> Co-developed-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
->> Signed-off-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
->> Co-developed-by: Krutik Shah <krutikshah@axiado.com>
->> Signed-off-by: Krutik Shah <krutikshah@axiado.com>
->> Signed-off-by: Petar Stepanovic <pstepanovic@axiado.com>
->> ---
->>  MAINTAINERS                               |   1 +
->>  drivers/usb/gadget/udc/Kconfig            |   2 +
->>  drivers/usb/gadget/udc/Makefile           |   1 +
->>  drivers/usb/gadget/udc/crg/Kconfig        |  16 +
->>  drivers/usb/gadget/udc/crg/Makefile       |   9 +
->>  drivers/usb/gadget/udc/crg/crg-udc-core.c | 706 ++++++++++++++++++++++++++++++
->>  6 files changed, 735 insertions(+)
->>
-> [...]
->> diff --git a/drivers/usb/gadget/udc/crg/crg-udc-core.c b/drivers/usb/gadget/udc/crg/crg-udc-core.c
->> new file mode 100644
->> index 000000000000..80a4fc6a61e8
->> --- /dev/null
->> +++ b/drivers/usb/gadget/udc/crg/crg-udc-core.c
->> @@ -0,0 +1,706 @@
-> [...]
->> +static int crg_udc_init_hw(struct crg_gadget_dev *crg_udc)
->> +{
->> +     struct device *dev = crg_udc->dev;
->> +     int ret;
->> +
->> +     crg_udc->clk = devm_clk_get_optional(dev, NULL);
->> +     if (IS_ERR(crg_udc->clk))
->> +             return dev_err_probe(dev, PTR_ERR(crg_udc->clk),
->> +                                  "failed to get clock\n");
->> +
->> +     ret = clk_prepare_enable(crg_udc->clk);
->> +     if (ret)
->> +             return dev_err_probe(dev, ret, "failed to enable clock\n");
->> +
->> +     ret = devm_add_action_or_reset(dev, crg_udc_clk_disable, crg_udc->clk);
->> +     if (ret)
->> +             return ret;
->> +
->> +     crg_udc->rst =
->> +             devm_reset_control_get_optional_exclusive_deasserted(dev, NULL);
-> Why is this stored in struct crg_gadget_dev? It's not used anywhere
-> that I can see. The struct reset_control could be a local variable.
->
-Agreed. The reset control is not used after initialization, so I'll make it a local variable and remove it from |struct crg_gadget_dev|in the next revision.
 
-Best Regards,
-Petar
-
+On 09.10.26 10:12, Luca Cecchi wrote:
+> uas_host_template does not implement .change_queue_depth. Because of
+> that, the standard sysfs queue_depth attribute stays read-only for
+> every UAS device, not just mine: scsi_sysfs.c:sdev_store_queue_depth()
+> requires sht->change_queue_depth to be non-NULL before it allows a
+> write.
+> 
+> uas_probe() already defaults can_queue to qdepth - 2, with a comment
+> acknowledging that "some bridge firmwares" need extra margin. That
+> margin isn't enough for every bridge. Right now the only way to work
+> around a bridge that needs more headroom is the IGNORE_UAS quirk,
+> which disables UAS entirely and falls back to BOT/usb-storage - a
+> large performance cost for a queue-depth problem.
+> 
+> This patch wires up .change_queue_depth so affected users can lower
+> the depth for just their device (e.g. via a udev rule matching
+> idVendor/idProduct), without disabling UAS altogether. Default
+> behaviour (qdepth - 2) is unchanged unless userspace asks for less.
+> 
+> Tested against a Lexar ES3 external SSD enclosure (VID:PID 21c4:0003)
+> that locks up under sustained heavy concurrent random writes at the
+> default queue depth. Capping the depth to 24 via this interface
+> eliminated the lockup across 6 consecutive test runs, including a
+> continuous 1-hour soak test (1.36TB written, ~822MB/s, no
+> uas_eh_abort_handler events).
+> 
+> v2: guarded against devinfo->qdepth holding a negative error code
+>      left over from a failed uas_configure_endpoints() call in
+>      uas_post_reset()/uas_reset_resume() (found by Sashiko AI review)
+> 
+> v3: dropped that guard per Oliver's direct reply - qdepth going
+>      negative is a general bug independent of this patch, which he is
+>      fixing separately at the source. This patch just happened to hit
+>      the symptom; it carries no workaround for it anymore.
+> 
+>      Trimmed the comment above uas_change_queue_depth() per Alan
+>      Stern's feedback - it described the pre-patch state rather than
+>      the code itself, which won't be true after this is merged.
+> 
+>      Also switched devinfo's lookup to sdev->hostdata (same pattern
+>      already used by uas_sdev_configure() and the other scsi_device-
+>      level callbacks in this file) instead of casting
+>      sdev->host->hostdata, which was pushing the line past 80 columns.
+> 
+>      Re-validated on bare metal with the same Lexar ES3 unit: two
+>      6-minute runs of the original load test (24 sync writers,
+>      randwrite, 64KiB, direct=1) at 840-843MB/s with zero
+>      uas_eh_abort_handler/uas_eh_host_reset_handler events, plus a
+>      mixed 70/30 read/write run (614MB/s read + 263MB/s write, zero
+>      events) and a run concurrent with a second USB flash drive on the
+>      same controller (no effect on throughput or stability).
+> 
+> Signed-off-by: Luca Cecchi <luca.cecchi.info@gmail.com>Signed-off-by: Oliver Neukum <oneukum@suse.com>
