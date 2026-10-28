@@ -1,56 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.44
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793174778;
-	b=qeoWzbGKEk3Q0Yt62gQQh1XEPNB2e+JxjZH6Wkb9Ako4FOOCTSn1vjfiA8j/qf+KNVoQ
-	 E+ntjeojzvBm5/WuE76nzI26gryf5b0mKTFcWWK6AWKlQXNfuzRUVGAmSfYuokNiwzL2q
-	 umI5iGz7C5qTda9snWTaTL1byAwAVnya+l3sNOvlDZzlRivToqGXpjjUM/I5j7qxFhujK
-	 zQiCNALmdMXEtZ8QsNw2t0bM0KCwqA1XZCgUEyDNk1CXnmFtYvSdu3wXDsBY+W1agP0oA
-	 UkYDsE8OTlr9BktfrEGhivh538ZqpqG2L9Yyu2Mzxn23+7SPaflLLWt0Mjenp3ibyDQ==
+	t=1793177298;
+	b=VpXW7YYl7+VdD7GMdtbvLtIy1EIGnZ0Ah58+YGqeAgfpl/7MVry4xwDhtplQLZnuG3TG
+	 E8cKNObXxPUXwb2ioF9rbheIN7DAyFp9877HVOyio0M7uzUuAcM6WFf5UVFq47KGom1lx
+	 0s1uKrJYdnwP6NdUCBC2eoJkKKY4E3Lob5GxQedkdqTZRmMHwJOSmHVuEBcCuXslHCPWQ
+	 vzVsjqhskbiHs7tw4DF+FK+HXitSeaWlC6o6qiCSLJwH/geSB+Q7A94SjWCKSl/jEqH4D
+	 ORCTab6c1raL3fCRGFUZ6s6E08oib4coPQIkz0Q/XOJ/Fdhfkx/SmXm0N5A60t/sj1Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793174778;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=HRkYtGJDLhplAHbNJRTmo2TTcpMgGzVDyfFau52pD6c=;
-	b=V8x3R0iL6taz+vx4uGLBoF29Y+IXjjIdZCkfnlbkgn7YTnVlCY5oVIUTUXbAxIiBTf7F
-	 XnhwNRbttrXw7hDRsxSgBEvgwhm4ENirQ/mG3uQdYQ8ydw1SqjnzDL89rhQutOJWBZw8w
-	 KnZHQ/9bS3nQAwk5cJ5onnASrb6EA72DMToJrxkxrV5643wLWG7+6obU07aWDRu732bk/
-	 UR79W87aYJhaFxMRcJEvClBlt1V7gl4fikzb4RIli6EbvqaAHCQlala3eYIiMz061c+BY
-	 Weye52S1FQmhDOyiQZ5uHlx+TuoHFWctfX5HB7Zd/ajhJayNKLk598IIXjSmF6TvVXQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793177298;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
+	 Content-Language:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding;
+	bh=/P4FiXSfTahRag+IvS76kiNUJNsGZXNeZs1soro+q0U=;
+	b=f1IA3BVtBYnr429e/eP5+rh/Oi73h4Xqy6Fbuj7TRjaBXVuQqjMigKPohC2tuJxr1L8g
+	 i+1RHDGM2OVPl+cwHsl47+oym0S146Xb9UeKUTPxfNo4HjyzahoYze2Dbn/m2VUOhJRT0
+	 SOKYYjL1BY3IBSOYk2L0iI4Hpz1zguuv5H0QykojTw9fOibomP7oIP3MSWLG32Edc6xNn
+	 UpFpjEMKUcjMY8fjK4vNN23gUFASnFgsBcyeDGrqwGQVNq38LLMdQk3WeW/bms12rrG2F
+	 MAba1gt9lUbk0OBQShoT/zT9TZiu55m92PtEyHKUhcKml/+paKHhGANebuXB7ffWkAw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=STjQXe7p;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=suse.com;
+	spf=pass smtp.mailfrom=suse.com;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=D98NASGz;
+	arc=none smtp.remote-ip=209.85.128.44
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10CF9606A31A
-	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 08:06:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128BE606A31E
+	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 08:48:17 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 128BE606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=STjQXe7p
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DD261F01825;
-	Wed, 28 Oct 2026 08:06:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793174777;
-	bh=HRkYtGJDLhplAHbNJRTmo2TTcpMgGzVDyfFau52pD6c=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=STjQXe7pRDwTXd+jbjfYx6/8ld0mDAqiqKnJbkha61g4XEq9se6uhBTOLlAr8IAde
-	 lSAZogz2LlEuGSitkoMEM8SaTmoq3BJIK1ntqMEeDP/CumD2KmTkHpY70p4Lb6CrJP
-	 T7cM4B9x4JhP/sD6cw4cHS/Ljfj+/AMH4ts3w1wwngwTuH5roL9wJZNBL7Jyhoe+bL
-	 O3LtOLjozivaE6a/ZqA8bs+U13ZhkOZBS1iC6XIzQxUHI0ub6pZwBPoIYUPEFUG/Zl
-	 tNGaZGICxftEvycYxaCBQDAJ97FTt18PV+Xvjt8Mrs+5YShlbLLKZLNWfWF6OPj69f
-	 p/xSXE//AjNPA==
-Message-ID: <sashiko-outbox-187608@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: gadget: f_midi: fix UAF race during IN request
- handling
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Sonali Pradhan" <sonalipradhan@google.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261028074821.579450-1-sonalipradhan@google.com>
-References: <20261028074821.579450-1-sonalipradhan@google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 08:06:17 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=D98NASGz
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a5720b0a57so10176085e9.0
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 01:48:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1793177296; x=1793782096; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/P4FiXSfTahRag+IvS76kiNUJNsGZXNeZs1soro+q0U=;
+        b=D98NASGz48p7nzkolCFiBv4ijS+AKWuUcJww6ATbM972WUm4X5vRZV7iNzb9SIxKyx
+         gFC7a4SjHboCVyZlMEQewuvtX9pBbZJ8HQXd/YRps3XtTbGtkp5xlpIMBKURowHrhJsU
+         EhDFxa4FvXAYYT07wlt2TAHY3/eO5IlCs1/zrnH5D+KNjaDT10CkZerq/B085TALGqGQ
+         WfM4VhyXuV4oFa/7BOzbL/T+qAV81zbphPF5Sw14di0J5Qz//ji+Fl3yzluw7lPLV3Fb
+         aOGI4xsBxHqcn7jKTp8hUtcafadwY4BQSUp2z7uZgYIjKohp8dq14HCzQrmSmCH7JchF
+         A4MA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793177296; x=1793782096;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=/P4FiXSfTahRag+IvS76kiNUJNsGZXNeZs1soro+q0U=;
+        b=1K38VK7cvCn7YxS9LwZoE43MfoWuiJ1v1nLUZotm6C2r3UXG9PT16C9dTICjSdD3wE
+         f5d55wfdXNH5YfKAejUawahk6bM6Wswpuw1jYzfle+te9vBGkdwbwlBwOOe9ZFHnNz/c
+         QjElIyY0T6jXHEZD0TELAKrcKhd9fs8RigJrj7IOSmtOMPGyQJRhi8cmBUmh0GRS0ZNe
+         w4JF0+hrTDlpo+Pb00QmkFRM0tZr6C8VhzdWKAJzmNrFb5fituRlDTYjThGHCenAjREo
+         KmdCtGz3aEcoDb2HC9Uy1bwH26UDe+9DDxADHkfY15btxd2nSx/jkK3OlF3NdHZAZSd0
+         l8XA==
+X-Forwarded-Encrypted: i=1; AKwUvBzVKwqvyqQY0/OyEapDA6S8DDlRtqw/ftaKjte4qLSlVY0Lzzkt4K1HTT5ULL2PfYLg3HRjv2zH9tA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIpNY/0qLKRDH8nNBT/l7Pe/VrMClj7CE9nyP5cWPAj9uhYoy+c
+	Ml7C7ER7QDraARoHIsdhctCgFmrZgvCWHlMLMEfKrk/SLIA55aP2mklB7k8xcSmKclA=
+X-Gm-Gg: AYBFou06SGmK7g0KibpIjdRJMxUD7Wah/MwMGV49KLnFiL8WLHUe7B1Z+qNnpeDXX8Z
+	qSXwO8nvZYPzZvqFVBphNdrIMUWmpeBqrCKJ1trWJMiKf7Ka+j3ykb6BeRzWoZfWmxJp10J918o
+	nmQaKHyIrraByoOlVgFssVlEx34LMIbS8ot7u7PEOdUHR2MiTIk730pqTAYwT6NR/iciOa+1X5P
+	P7KvvX17o4fJU+0liYpCtdloEhVE7i8AQJJiLAyftuoaAzU91n8DC/DZV+lD1q5HrmGneaaaxY/
+	eaVXf5yDy61yPdprnV08gkylq7qFennisu8rpMPNL0PptKNh307hJHTD4X+GvD6opJlS1qzoDe/
+	ggbEiO5h4m3sr73e3xhED2P4AvTt8NiweBjfrg16EcXCjDtPwgtdo3plaSVBHxQPu9TAUu/RaVI
+	MmXz/S1uIBy32SNcvOnNybNJhGIw+FWM+fysw89ccpFOsooTIQ5qU8n3upUySeyqP0ntvd9z/xs
+	5g5c2kpnpNQBWS27st1DzIt99kjf3yd1TFVPPPfbu52+/e+BvFehPR45WPoms87J/GnI4owzjo0
+	fyEAmJYeW1CE5Cj8Qsk52vxGxSh8xNHMdQUTZELIn2g6gPipLm9yvwJ8T8IeWmLd7FXW
+X-Received: by 2002:a05:600c:a00f:b0:4a1:9c71:9f17 with SMTP id 5b1f17b1804b1-4a996d873a9mr22922355e9.9.1793177296320;
+        Wed, 28 Oct 2026 01:48:16 -0700 (PDT)
+Received: from ?IPV6:2001:a61:13b5:e001:5d05:908:ac82:a3a1? ([2001:a61:13b5:e001:5d05:908:ac82:a3a1])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a93103e72dsm25003415e9.2.2026.10.28.01.48.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2026 01:48:15 -0700 (PDT)
+Message-ID: <5230664a-9666-4196-a798-260da5aa8e8e@suse.com>
+Date: Wed, 28 Oct 2026 09:48:15 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,31 +91,37 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] usb: uas: wait for pending commands before unbinding
+To: Jiayi Li <lijiayi@kylinos.cn>
+Cc: Alan Stern <stern@rowland.harvard.edu>,
+ Michal Pecio <michal.pecio@gmail.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-scsi@vger.kernel.org, usb-storage@lists.one-eyed-alien.net,
+ linux-kernel@vger.kernel.org
+References: <8469d5fa-2f4e-4565-8d84-43d6b71b4a9c@suse.com>
+ <20261028020958.1141513-1-lijiayi@kylinos.cn>
+Content-Language: en-US
+From: Oliver Neukum <oneukum@suse.com>
+In-Reply-To: <20261028020958.1141513-1-lijiayi@kylinos.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> f_midi_disable() drains and frees pre-allocated IN requests from
-> in_req_fifo without holding midi->transmit_lock. If f_midi_transmit()
-> runs concurrently on the workqueue, f_midi_do_transmit() can peek a
-> request from in_req_fifo and write into its buffer while
-> f_midi_disable() frees it, leading to a use-after-free.
->=20
-> Additionally, when usb_ep_queue() fails in f_midi_do_transmit() (such
-> as with -ESHUTDOWN when the endpoint is disabled concurrently), it
-> resets req->length =3D 0 and returns active instead of the error code,
-> causing the do-while loop in f_midi_transmit() to keep spinning under
-> midi->transmit_lock until the substream is drained.
->=20
-> Fix this by acquiring midi->transmit_lock in f_midi_disable() while
-> releasing IN requests from in_req_fifo, and returning the error code
-> from f_midi_do_transmit() when usb_ep_queue() fails so f_midi_transmit()
-> aborts immediately and drops active substreams.
->=20
-> Fixes: e1e3d7ec5da3 ("usb: gadget: f_midi: pre-allocate IN requests")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Sonali Pradhan <sonalipradhan@google.com>
 
-Sashiko has reviewed this patch and found no issues.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028074821.5794=
-50-1-sonalipradhan@google.com?part=3D1
+On 28.10.26 03:09, Jiayi Li wrote:
+
+Hi,
+
+> USB core has already terminated the interface URBs, but a running
+> synchronous scan may still be waiting for SCSI command completion.
+> Waiting for scan_work at the beginning of uas_disconnect() would
+> therefore delay the command cleanup below.
+
+Why? What is it waiting for? And why do you think we can skip
+that wait safely?
+
+	Regards
+		Oliver
 
