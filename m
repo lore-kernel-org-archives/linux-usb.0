@@ -1,89 +1,89 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793191800;
-	b=cd573Ged+7Y/WOsglvHybNAcuJyGUakx9uZeyHINafNpjstRNMJf2gT9abLr/ofsXveP
-	 vugLud3QriAyn7wKN1rJdJ7ltUIYbcLbDhdqglYGU79CccmWAXjtlcMGijk+ojVgVjvQl
-	 4P19d9yHAQm1tdX3F+scMHvveDyx6cRQwoV/+cIDib7CLofnmvPZ3zCFq/3xScoF1FcW2
-	 sPZS9aag7BwTv45CIcwsSEDpTFI1jsdv4BIevR8TR9dt24fQFXBd9jvmD3gZ+FYvTwZJh
-	 H51VThys3bM3pIfOvWhStYkF7GXdpq5w5NWTVscUKizwURN/zANn5f9/uFiBirkjV8Q==
+	t=1793191846;
+	b=oaLp2Ezj8Zhtg+MLhO+lXlnIJTxcKOgpNdrbU50Fzk+hwYcHN57F8CHWTWcd+pbLAqk6
+	 MLPlE6bCHRYntTQmpLsVmvPVShtXzZe+0E3668LrUGuICELgSy6fGmC6dI0W5maibgzTu
+	 tpkulU9v+pL4Pv9ZL7aLTmaefRwyEFW1bdsBJFfiObbAEuR4EEhsVxfa0rSUtwNhxwS01
+	 edsFI5DmSJoZWnTK1wFLH1zQCf4yeAq9u5Ofxhtto8u6ltSFKMXMUg350Fnz4wZZjEO19
+	 3z87xhst0d1TAsjz6PSthGxFgoD/Gb6/KEW/dRoK31jX2q4AgMdgohEj94D+BZ1ZnQg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793191800;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793191846;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
 	 Content-Language:From:In-Reply-To:Content-Type:
 	 Content-Transfer-Encoding;
-	bh=blhYmmsPEYfdAi3wMVG4f+bIgUy4vW2WGUgkjgeDvyI=;
-	b=MliwncYHzcPlRyFsewSLHzX4B2j8WdMtSvyq2twqcnqKv/F3IZ9WEOf4b8fxBVAMZGJM
-	 c+YY8RdL5cQ2kU5lXgDlUYuLggw9cbYohmctR+wYaFcPT6H3rqLhS8cCjhxxBjBJDvLki
-	 DnX0WfywlC1lxjrl3kfEKrmTsD5wjTSZdL8MAx/5ev4CRDGCxFVyg7ugBipU9TFsNEwnS
-	 YMM/ynP5hA712wD8Oob9yalOgwCPlAZ2h1r/wWzGAmx2T2OdMZNI8qL0DHKaF3Sharc3S
-	 T3OlegS85Qhl7q+g7jWaVB56MxomeaKBSG09R9pF7XZGfn7Cra8AscxcyCIwvhmxv7A==
+	bh=yvPx2xXJewvedlV4WY3CoxZ6zehy3H+Hf+g7jdJP70I=;
+	b=SLfEQG0cdvrPQgxzvlQX+KU8Lw9yRtC1w05MrIb+Ak909LdpJpdViW+mKceOFHJz/0pC
+	 xr3k4my2TMMjOnmlqoKVZy4HhQBZqjrle04tLthttE0l0WkPC7ohAyCNwBeH2hiRYOyHd
+	 Dg5hPZRqQ+p8IF3wm/CrW11287AdeC7pBpDE98SHwrzGUx8hssMbnxOGBB6nQ8Pz0QtIK
+	 MAKDKPcqOOCkNvoWW+99xsyrGM4HK2rxWjEyQZKKjzpgCQfGqH8OAOFFb9nPsjRyY4kLs
+	 oLIk62YKsHND8JnPn42Wzxd1WDlFh5mh9Y9pHTs2TWyXqBaEzLcI4TaRv9ey1Ii9CtA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=suse.com;
 	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=bUoU8QZj;
+	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=ein3cTn+;
 	arc=none smtp.remote-ip=209.85.221.53
 Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4ECB5606A31C
-	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 12:50:00 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4ECB5606A31C
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBE9606A31A
+	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 12:50:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FBE9606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=bUoU8QZj
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e46e449e8so563815f8f.3
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 05:50:00 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=ein3cTn+
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e47347279so696360f8f.1
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 05:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793191799; x=1793796599; darn=vger.kernel.org;
+        d=suse.com; s=google; t=1793191844; x=1793796644; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=blhYmmsPEYfdAi3wMVG4f+bIgUy4vW2WGUgkjgeDvyI=;
-        b=bUoU8QZjFkINbMX4hNXknL+Nw5HooGrWzzTmpcJyHiPEqvGvhAf8hQkq+x4MfEEIvf
-         w5rD/bd1BenwzC1V1JOHy/b9rtTZRvWrooFIPry849SgCKzVPkJJ2WXXLb43RjzN6eql
-         fJLAh9DMaKgetmoMhGGCkxlaanh7GXVwe4XBTYy/5c8ichBbuMy4/OW25KkYKZDASECo
-         widvmsKs6gyy11/9fKWuvzrrbStcQfTNFaTUahcuUuksAXuEmSus1IBSSZYtf6zRBwbR
-         C2y4CvET/CB7lSE/ebRQDB6bOYkzfT44dpLdbx4uelILqAnwp5WLML0dWwsW98bmaxFT
-         v6bw==
+        bh=yvPx2xXJewvedlV4WY3CoxZ6zehy3H+Hf+g7jdJP70I=;
+        b=ein3cTn+yYgiVPAyZxdHK47dDdWylyq7WOPvhnu3T1dfXJ8ttWkb0p10PyZA+Ef1zq
+         KRfFHxywXPaEpSe/0VvepL3WmEH5Y1yw3dTMx70AMah7B5Y7jrlk2X4Ix9owzqrj8TlB
+         ZlCOMm40u4JxTIOdj3sOKMlrbOh+bg5bveTiveEiNcF2XOalDEt5FJ8eEt3osi/55EIN
+         R3Jx8UR2815ifrum8fOeMys9kuNno4Z3eGDeYgRD4UsDK1qlG/1cHo1bHt9dXNhrjIHe
+         zvNwYuIf5FaRIeGwnQN2/qjvDaU0fuVbOgOqP4mQYAipqM6YdWHa45QsTc3pibRgV7e5
+         cZGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793191799; x=1793796599;
+        d=1e100.net; s=20260707; t=1793191844; x=1793796644;
         h=content-transfer-encoding:content-type:in-reply-to:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=blhYmmsPEYfdAi3wMVG4f+bIgUy4vW2WGUgkjgeDvyI=;
-        b=boeNP46OvIp3GSJzOvJAzFdVFSqQokBta/LzzaocJ45/FdmCznmE1TSukwOzMMwkUb
-         Yv04cOfn+7Pxi7WEOQ6eTNCxJqsNKUTzIM3o4pssdFehP5f1+zNTeT1fvnkygphiXVc8
-         IR9rtfIvbJqD+eMU0zYidapoB43MlaGWZNvACYC6HcwK5cDoNttyYoVcB9qvNDJIyYFD
-         rc/vLHWSvfNW/ezlDfeGXE5yhzZ32R1Yai2/lYJUCEBDpzYi2Go3qKZ9j1RLeMrnjTis
-         Dse1cAOjjmUvkv3LuIu8p6c0Xbl7UqvGcm7OIJcLUgKjF+4O7FOf/IpaNKWGMVP5AxBB
-         Skhw==
-X-Forwarded-Encrypted: i=1; AKwUvBzGlNUadqIPdzYvxiQ1Q7QPWyUUDpq3ygAbIKH8sAt6YIajBtNVuSc6Bb6jyrXbrfqMOX/pdYtD+H0=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLINtcBH7Duit2GybH2EoZtqLHkH0//2ekUo7AERV/2rSraoqKg
-	XVMCn0yJMIOP8ZzM2wjUnyNzQzCGQvZaeGBLB77YpfX2dxdGDniOmFnwHxFuEwmV6I7pZ/87/tJ
-	3DiS9
-X-Gm-Gg: AYBFou0Bsie7+VBajxZrSaGiwEr8j4TpVldlC/IpVq4eydx+3lzL5Wv2T2CrW8g/XeD
-	cuFDI1CFvvykEX/i1CtKbIeEc6zNdOgiQ9jSlFzqpaP4aBcFvUkeZ6D4f2EitSLos8BBV1vlPy2
-	duK1oDCAjarVE+q3DCYiJGVIc+3cyLUWCO6LXJzLfQezyGFKsNOqFP7aap+8RBbuF4DCfI1zPx8
-	GmA9go0Ge2Xww3peHh99veu8v7b7YuTJEZb4TrPt7//1Kez92TL0AxqgNNBu7bj8hRFTJm2Agmb
-	y8i4ONq6zQG3CdjBfS8LRD+9SQi1AmYB1wzDVq8ye0rpbF3trdkWTiywFw3fwuyHutzx9AioJu+
-	hLbAw6w6WD9e4byObNRY9R3XncL7U7Uncg8Pu8CHxtHKi6d3gKf7UIlCTdVwrFgvojESfwWBmiL
-	/jM39/9Ky+qirmbCuEv0f/U/lpKTPnHlZchBcfXmVCaSf83UeRzFQAxIrjsFcjGfVVqnYI7yoN8
-	5QkyshAU5dX1mNUE7tgQDN/xQIPJ3KvhJcxzdvOgfIBlvwZlqlM5+eR9pRtdN8tQ9GXVuqHgdb/
-	eAvvWwUu+IjnuQhk2DYXIat6FWijCyZPm05r5rRimo1znLgsnRRQ583+tY4nZohwj8ln
-X-Received: by 2002:a05:6000:4b08:b0:48e:7fb:aed3 with SMTP id ffacd0b85a97d-48e5d2e7354mr5920971f8f.17.1793191798497;
-        Wed, 28 Oct 2026 05:49:58 -0700 (PDT)
+        bh=yvPx2xXJewvedlV4WY3CoxZ6zehy3H+Hf+g7jdJP70I=;
+        b=wJ7kQVFTDwizUdGF7X2anZRsij3y206rOLOkOIeuSK5DkODjm9fkkKLh3J9+3UaFK8
+         OQ9WM0L0zIGRdCgcHmhWlNYq086bB9eEJ6HmkVjVYlySSz02N+Xd33ySxxHSP17DJJAd
+         lD0XqR4eiEqk0Jm9x2H3l1jz7CW8BJXdndLC2foW67jLKHRwM9/K7BhgGkNcNKWNGm/y
+         chDZpl27sxBoVuLQTBQONEP1H7jzvStAP+DIUQvVr/29g9FiYWLeJPol4yTU3wP1WJJf
+         YRPldNnBPZMBWxm1wXHaUZ/3Ihz3Ke+fNkkINmQfrQGUUEFOQU17msnH/hr+aY1qJlAa
+         3oRg==
+X-Forwarded-Encrypted: i=1; AKwUvBx3q+POMN1l8A1KmYlfkPRoAk24gDvYKjwHvfOvepGkRh5DiLwht/gxqkk+Xnd0kXyoN4LhoWxFqs8=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJ5Dkb9qmD1oedmtQVOXKzHjUsBogXwcKAVaHp0zXWIHRJaH5YO
+	jtrt+Z2wfJndWNUKspX+/nwFMHq7357f/4NC85dcAKm/PgsJB5MHBsfxsxaRrB/U12VZFOzOgVG
+	orbSt
+X-Gm-Gg: AYBFou2FGjoWmNbk1NOy47QhwwdBsPR/OYKusiVAlWuuUD79NQ1vx/Y/fgs8wwBBET+
+	IT0EbLRJpVCwRgdfJv9nGAxxiTXgEfVo6j3VC53z9JCRa8AImuKa7DZo2shcMrIoT4Q+LTeslDY
+	wEwI2DDUFPjLD971Kpg2d30e1OVrzk+EJunucrUNZIotumvhbo1Nq5zy1KklWkUCNAsli4aBBkR
+	nexfyabo8MSbzlQSMIsNftOuDNCWu4diTInz1Nu5b7c383vwAzzs6Ne77viYbKaOanxoy/EiCxB
+	rYY786SlawImFAahiJEULXuc4Njmq49luQzp3gGsDeCUuqI7yB2d6I2Rc4JA/08/qbtAQg4rw3d
+	rkBMhOBbk2Zw7q0yGmv5PvJ5G++ft8ZiJa9gZ/xAqrTWnGwzwv7vnNZgyByvOnvONl3ZKTB0qJ+
+	bahMf+Rqq8duomL6Sse5aRoT5TxYtFKD+nG76ReUip+Y02Lp9ASxqtgzEElsvg0Njc99iKN4inu
+	vAWNHdR3BaQ6dvmEiTcAIMrgp4//UkPgXfzt7YOyNom8ubGkRVg+qEL+PzufhpLkq2qTpjtNojl
+	U6x8o+S18yfCo+Ns/WD/EAkLOwTtV6ihlR64mXE2nCvB/oDufHkTiR3EE0ut1MYhko/N
+X-Received: by 2002:a05:6000:1608:b0:48d:f855:d1e0 with SMTP id ffacd0b85a97d-48e5d5eb61fmr3375821f8f.57.1793191844387;
+        Wed, 28 Oct 2026 05:50:44 -0700 (PDT)
 Received: from ?IPV6:2001:a61:13b5:e001:5d05:908:ac82:a3a1? ([2001:a61:13b5:e001:5d05:908:ac82:a3a1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3dcbsm27572060f8f.14.2026.10.28.05.49.57
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3eb8f387sm28249255f8f.4.2026.10.28.05.50.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2026 05:49:58 -0700 (PDT)
-Message-ID: <b151f502-6ba7-404e-b7e9-599f5b62622f@suse.com>
-Date: Wed, 28 Oct 2026 13:49:57 +0100
+        Wed, 28 Oct 2026 05:50:44 -0700 (PDT)
+Message-ID: <8b4be460-0fb5-483d-9e46-f5be0f99c3e5@suse.com>
+Date: Wed, 28 Oct 2026 13:50:43 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,70 +94,84 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] usb: uas: implement .change_queue_depth to allow
- per-device queue depth override
+Subject: Re: [PATCH v3 2/2] usb: uas: add US_FL_QDEPTH_075 quirk to cap queue
+ depth at probe time
 To: Luca Cecchi <luca.cecchi.info@gmail.com>, linux-usb@vger.kernel.org
 Cc: linux-scsi@vger.kernel.org, stern@rowland.harvard.edu
 References: <20261009080341.295646-1-luca.cecchi.info@gmail.com>
  <20261009081225.304319-1-luca.cecchi.info@gmail.com>
+ <20261009081225.304319-2-luca.cecchi.info@gmail.com>
 Content-Language: en-US
 From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261009081225.304319-1-luca.cecchi.info@gmail.com>
+In-Reply-To: <20261009081225.304319-2-luca.cecchi.info@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 09.10.26 10:12, Luca Cecchi wrote:
-> uas_host_template does not implement .change_queue_depth. Because of
-> that, the standard sysfs queue_depth attribute stays read-only for
-> every UAS device, not just mine: scsi_sysfs.c:sdev_store_queue_depth()
-> requires sht->change_queue_depth to be non-NULL before it allows a
-> write.
+> The previous patch in this series ("usb: uas: implement
+> .change_queue_depth to allow per-device queue depth override") lets
+> userspace lower a device's queue depth via the standard sysfs
+> attribute, but only after udev has had a chance to act. That still
+> leaves a window between probe and udev's write where the device runs
+> at the full default depth.
 > 
-> uas_probe() already defaults can_queue to qdepth - 2, with a comment
-> acknowledging that "some bridge firmwares" need extra margin. That
-> margin isn't enough for every bridge. Right now the only way to work
-> around a bridge that needs more headroom is the IGNORE_UAS quirk,
-> which disables UAS entirely and falls back to BOT/usb-storage - a
-> large performance cost for a queue-depth problem.
+> This adds US_FL_QDEPTH_075: it caps can_queue to 3/4 of the device's
+> reported maximum directly in uas_probe(), closing that window for
+> devices that need it. Applied here to the Lexar ES3 enclosure
+> (21c4:0003) from the previous patch.
 > 
-> This patch wires up .change_queue_depth so affected users can lower
-> the depth for just their device (e.g. via a udev rule matching
-> idVendor/idProduct), without disabling UAS altogether. Default
-> behaviour (qdepth - 2) is unchanged unless userspace asks for less.
+> v3: Sashiko AI review found two real issues in v2 (first version of
+>      this patch, sent alongside v2 of patch 1), both fixed:
 > 
-> Tested against a Lexar ES3 external SSD enclosure (VID:PID 21c4:0003)
-> that locks up under sustained heavy concurrent random writes at the
-> default queue depth. Capping the depth to 24 via this interface
-> eliminated the lockup across 6 consecutive test runs, including a
-> continuous 1-hour soak test (1.36TB written, ~822MB/s, no
-> uas_eh_abort_handler events).
+>      - [High] US_FL_QDEPTH_075 is bit 32 (0x100000000ULL - all 32 bits
+>        below it are already allocated upstream). UNUSUAL_DEV()'s
+>        driver_info field is kernel_ulong_t, i.e. a 32-bit unsigned
+>        long on 32-bit arches - storing this flag there would silently
+>        truncate to 0 at compile time, disabling the quirk on 32-bit
+>        kernels with no warning. Confirmed by checking
+>        include/linux/mod_devicetable.h's usb_device_id definition.
 > 
-> v2: guarded against devinfo->qdepth holding a negative error code
->      left over from a failed uas_configure_endpoints() call in
->      uas_post_reset()/uas_reset_resume() (found by Sashiko AI review)
+>        Fix: dropped the UNUSUAL_DEV() table entry for the Lexar device
+>        entirely. uas-detect.h's uas_use_uas_driver() already has
+>        precedent for exactly this situation - the ASMedia/Seagate/
+>        HIKSEMI checks there match idVendor/idProduct directly and OR
+>        the flag into a local u64 variable, never touching driver_info.
+>        Added the Lexar check the same way. devinfo->flags itself is a
+>        plain u64 with no 32-bit-platform narrowing anywhere in that
+>        path, so this sidesteps the truncation entirely.
 > 
-> v3: dropped that guard per Oliver's direct reply - qdepth going
->      negative is a general bug independent of this patch, which he is
->      fixing separately at the source. This patch just happened to hit
->      the symptom; it carries no workaround for it anymore.
+>      - [Medium] the 3/4 cap in uas_probe() unconditionally overwrote
+>        can_queue, which could raise it instead of capping it for
+>        devices with a small qdepth (e.g. qdepth=4: the existing
+>        default is qdepth-2=2, but (4*3)/4=3 is larger, defeating the
+>        point of a cap). Fixed with min_t() against the existing
+>        qdepth-2 value - this quirk may now only lower can_queue, never
+>        raise it.
 > 
->      Trimmed the comment above uas_change_queue_depth() per Alan
->      Stern's feedback - it described the pre-patch state rather than
->      the code itself, which won't be true after this is merged.
+>      Re-validated on bare metal with the same Lexar ES3 unit after the
+>      drive turned out to have been thermally stressed from several
+>      hours of back-to-back testing (confirmed by reproducing the same
+>      command-timeout/reset behaviour on Windows with a completely
+>      different driver stack, UASPStor - ruling out the driver/patch as
+>      the cause). After letting the drive rest:
 > 
->      Also switched devinfo's lookup to sdev->hostdata (same pattern
->      already used by uas_sdev_configure() and the other scsi_device-
->      level callbacks in this file) instead of casting
->      sdev->host->hostdata, which was pushing the line past 80 columns.
-> 
->      Re-validated on bare metal with the same Lexar ES3 unit: two
->      6-minute runs of the original load test (24 sync writers,
->      randwrite, 64KiB, direct=1) at 840-843MB/s with zero
->      uas_eh_abort_handler/uas_eh_host_reset_handler events, plus a
->      mixed 70/30 read/write run (614MB/s read + 263MB/s write, zero
->      events) and a run concurrent with a second USB flash drive on the
->      same controller (no effect on throughput or stability).
+>      - Confirmed the quirk applies on its own at probe time
+>        (queue_depth=24) even with the udev rule from the previous
+>        patch disabled, so it isn't just masking a udev race.
+>      - Two 6-minute runs of the original load test (24 sync writers,
+>        randwrite, 64KiB, direct=1): 840-843MB/s, zero
+>        uas_eh_abort_handler/uas_eh_host_reset_handler events.
+>      - Same test run concurrently with a second USB flash drive under
+>        load on the same controller: no effect on throughput or
+>        stability.
+>      - Unplugged/replugged the drive mid-load: in-flight commands were
+>        cleaned up correctly (uas_zap_pending, no hang), the device
+>        re-enumerated as SuperSpeed, uas re-bound, and the quirk
+>        re-applied queue_depth=24 on the new probe without any help
+>        from udev.
+>      - Mixed 70/30 read/write load: 614MB/s read + 263MB/s write, zero
+>        events.
 > 
 > Signed-off-by: Luca Cecchi <luca.cecchi.info@gmail.com>Signed-off-by: Oliver Neukum <oneukum@suse.com>
