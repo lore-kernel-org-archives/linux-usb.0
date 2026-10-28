@@ -1,55 +1,81 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793194254;
-	b=va3JLbqBSuUlUvy1UTvkFQbcYZLo+/K4nJEEXNdZwhKc/wd2HNVNh5lqU5RJN6zaA8vE
-	 hCw76XWRrGX0jUO6CbxDaHsoENtcT1QUrT80qjHXAdDnHyVTJAsyLZWoFtJ/AbWZMzRwj
-	 Uw1LsJHUPTV8gsUQTN0LbsOxYcEjO18rJlaa2dVj6TJGQmwj7+wtUvBjTB5lTbmg+VNYw
-	 Djgkdk1saiWPP6DAYobutszaJSz5rzu8bFW+u0t1rEU1LKr1XyjdK7Vy2boRPbYpZqHC0
-	 AHWhhIsoxEY4fYQV01+u60BFuMo8wqoNcn60Kxrfifb2yoiuy5etBlO/qupLbeNKmvw==
+	t=1793195121;
+	b=X7xKENtqi91RZbRIGOHxikHOiGP4gyTCo7xYeuT2GwAw+HS3+p4BkeLnGeh0Ft8LIDxo
+	 UnZsnfVrY4MBaEk0zZ6n6D1tFwTgBLDm43/8hNbi7sa11/tksgPQV6orXON5eEVmM/dT9
+	 R/IOlvtpwt8+0lxfkPXgldYh1WRN9F/oHjxX1OgIBH1v+vf7pnWsfPo4jfWLuWZC5APjq
+	 mHxWvzk1NqRcDNcuYjBOPQmlWTB2dBFrSFpVdo3/1cKmOTRx2kbIsrM71lhyX34vij3rc
+	 Cui+Q/97vIT+dAROXeXKH//1JlnpD9vR2t4faJlUB7r+3qZh2WcZj+H4TMon5c9wgWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793194254;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=ZVpkOz/kzw8EH2VxQkMW+p3QlcmfyMtQnfiR6Nh28rU=;
-	b=fr3AImLXFTdvL/0J/bFldYsAy5pFjAjrEowNW/GtzLOJ3MN3q372B5+lWJa2hKylDMlz
-	 fhpKfc6yLR23Kk/+LJnZg+B5nJtpHjf7VzB9W5AYN9Jr30ACGW5lYAN4kgpaJiXtOXkan
-	 VRjfUqNyyGp+zJnSDbRbt6DruKuED5ZeZPaL6b8w8WaSDdHOTItK2mQp5p6Az8pogZ0+m
-	 8hxlWygEWL6WoJchd66CB/PtM75ndwdo+6ONQ43MGNMz5XdhOhLotuGdAuGc5dlVgE7wi
-	 z5LRwq3REd+Olrc++7NEMYFT7BGFDK/UmGW4bwal8er3lF2fMlspMWv+uHmAr/JVbDg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793195121;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:
+	 Content-Transfer-Encoding:In-Reply-To;
+	bh=BPbUskW5GkB+YFFCQWbdUTSwya3BztIU0iDu4a8e0BY=;
+	b=ViOUZOFF9DFQtDF91FIZTd71Z+b3SvswfRN1Zb5t+DNtAvp3/GJGfi2kmFtAVzRwikBq
+	 97+61WT8A3usN/2KhUz+Fwb/8+pBFi2TxsQ6IqhYvFxqB4ekpHgsOzpjzM41XsFIeaOGN
+	 pIpdJ15Vm0cFID9g3aI4A6s5JGIKE5WAgoIxVeztnezmFwlNXzu/D3wS1wFhfMjwds4TN
+	 0+j9HyqWXVcB8+TfMVydMjGnzQkhGCY3jVptv9A41MdW008EUiXDrMvMfr22N/mmBG0ui
+	 ceOv5iEPNJy9gszBDN/WW66ALWaeJFcozMmzs/Vg4XCrT4SuYGiaho5PbdxTR8NIH+Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qw+3nm7L;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=AYNCMfQX;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 391F5606A320
-	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 13:30:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2EEA606A31A;
+	Wed, 28 Oct 2026 13:45:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Qw+3nm7L
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B28B21F01828;
-	Wed, 28 Oct 2026 13:30:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793194253;
-	bh=ZVpkOz/kzw8EH2VxQkMW+p3QlcmfyMtQnfiR6Nh28rU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Qw+3nm7LonQRaNlcJ/AbgI0w1Ux+RsLS89N8m2XDdf+CUF8oiETFqayFMB9D7+GfU
-	 BdSl7f/bRVzrmKz33wavqq5oylC/CjGt3k1fJnUIn/JqOrR4F6BweFo2MPZQdjF9vK
-	 2jVz3aWB2upSnivkqrXoVER5oqjCTdT00haYCPZWJ7ierhHccnMSnetz265+OY4fHq
-	 lTuBctFdEv4TVuN9nCKD2lr+EKflb/3qhdVPM2e2u/GjUJMdNGUn783+S7EcxAve93
-	 S1uqR6qPC0iTQwmGdC1sQXzhCo+9Xd2KTx7E+SaWZsv9rjWokISuxJB9owqWineiiS
-	 iFikD9zXyoVBg==
-Message-ID: <sashiko-outbox-187919@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: musb: musb_dsps: Wait for controller reset
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Ettore Chimenti" <ettore.chimenti@linaro.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261028-patch-ektor5-dm8168-usb-v2-1-c2af306eb228@linaro.org>
-References: <20261028-patch-ektor5-dm8168-usb-v2-1-c2af306eb228@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 13:30:53 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=AYNCMfQX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 051FF1F01829;
+	Wed, 28 Oct 2026 13:45:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793195120;
+	bh=BPbUskW5GkB+YFFCQWbdUTSwya3BztIU0iDu4a8e0BY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=AYNCMfQXpWUvhGZFKn5xU0ZCMGAKmlspmwCeZ9ZCefMqGGnmqpuf5D3P6Td6gZC4E
+	 r1swyl/vJk4OZiLWsitpItds9cilodWxb+BvrkPnf26MXQQPkJoHcPDF2DucZe0UZk
+	 ELKtK3sWlmezqmOnyZd6Edp1j2zDqPRpmw0jt35o=
+Date: Wed, 28 Oct 2026 14:45:18 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	Alex Williamson <alex@shazbot.org>, Armin Wolf <W_Armin@gmx.de>,
+	David Lechner <dlechner@baylibre.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Bradley Morgan <brads@mainlining.org>,
+	Aleksandr Nogikh <nogikh@google.com>, linux-modules@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-usb@vger.kernel.org, driver-core@lists.linux.dev,
+	linux-trace-kernel@vger.kernel.org, Johan Hovold <johan@kernel.org>,
+	Richard Weinberger <richard@nod.at>,
+	Thierry Reding <thierry.reding@kernel.org>
+Subject: Re: [PATCH v4 0/3] driver core: add TAINT_FORCED_BIND for when
+ userspace manually messes with devices and drivers
+Message-ID: <2026102849-turkey-series-ac07@gregkh>
+References: <arIvG0nx4LXG9nlW@monoceros>
+ <defb3953-7516-437e-b70b-d57de55b91bf@baylibre.com>
+ <9bd3a34b-5e98-4038-80d6-da2c3b1948dd@gmx.de>
+ <2026092321-province-yearly-44aa@gregkh>
+ <arOfHEsGGglNse7T@monoceros>
+ <2026092348-victory-erased-0e5a@gregkh>
+ <20261023181326.0dc2f7ed@shazbot.org>
+ <2026102437-vista-unsoiled-b089@gregkh>
+ <at34UOuYv3NtX36R@monoceros>
+ <20261026225950.GD1685504@ziepe.ca>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,24 +84,25 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20261026225950.GD1685504@ziepe.ca>
 
-> From: Andrew Goodbody <andrew.goodbody@linaro.org>
->=20
-> After soft resetting the USB controller wait for it to complete and then
-> set the mode of the controller. This ensures that the controller is in a
-> sane state. The timeout value used is just large as the board is likely
-> broken if it is ever reached so no need to optimise. It was tested with
-> a timeout of 500us which worked so gave it a 10x safety margin and used
-> 5000us as the timeout value. If the reset times out let it cleanup on
-> error path exit to prevent leaks.
->=20
-> Fixes: 9ecb887522a0 ("usb: musb: Add support for ti81xx platform")
-> Signed-off-by: Andrew Goodbody <andrew.goodbody@linaro.org>
-> Signed-off-by: Ettore Chimenti <ettore.chimenti@linaro.org>
+On Mon, Oct 26, 2026 at 07:59:50PM -0300, Jason Gunthorpe wrote:
+> On Sun, Oct 25, 2026 at 01:48:04PM +0100, Uwe Kleine-König wrote:
+> 
+> > The more I think about this taint, the more I believe the commit should
+> > be reverted and replaced by a some stop gaps for driver_override. (Be it
+> > a taint or better yet
+> > https://lore.kernel.org/all/0f7446324f6a0c8f0153d6532d92a6eeecd6a308.1790612298.git.u.kleine-koenig@baylibre.com/
+> > .)
+> 
+> I also think this patch is way too broad and should be reverted until
+> something better is designed.
 
-Sashiko has reviewed this patch and found no issues.
+Fair enough, I've sent a revert for now, will get it merged before -rc1
+is out.  I'll rework this for a later release, thanks.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028-patch-ekto=
-r5-dm8168-usb-v2-1-c2af306eb228@linaro.org?part=3D1
-
+greg k-h
