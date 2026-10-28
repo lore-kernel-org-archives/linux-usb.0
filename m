@@ -1,89 +1,87 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.225.65
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793191846;
-	b=oaLp2Ezj8Zhtg+MLhO+lXlnIJTxcKOgpNdrbU50Fzk+hwYcHN57F8CHWTWcd+pbLAqk6
-	 MLPlE6bCHRYntTQmpLsVmvPVShtXzZe+0E3668LrUGuICELgSy6fGmC6dI0W5maibgzTu
-	 tpkulU9v+pL4Pv9ZL7aLTmaefRwyEFW1bdsBJFfiObbAEuR4EEhsVxfa0rSUtwNhxwS01
-	 edsFI5DmSJoZWnTK1wFLH1zQCf4yeAq9u5Ofxhtto8u6ltSFKMXMUg350Fnz4wZZjEO19
-	 3z87xhst0d1TAsjz6PSthGxFgoD/Gb6/KEW/dRoK31jX2q4AgMdgohEj94D+BZ1ZnQg==
+	t=1793193922;
+	b=rcsCdcc/8VBSlMKyy3qnsaWfT+YbL0tkcYeJYEqEN9IJv3bEaJUGE+GFZ1eo32HDOdtn
+	 7GmQv02jJlbtrEdZbKKqkzcxt54oUUYxJGurnWxHBOsz4EVkF+o/HA/j4sSIbeuUFyh1n
+	 yhLFBYNFnopgIB6FbAhMPWyjJtj+w1BRkaPi5neYuYmkkfic0rH4NJaK0fokq+OpsbJLd
+	 sf/5Adto7NYVin3CMXj9Zfc+Jnah5BeVRuU9p0HYNKozGmy1k5zkgephvzAV9tVuzxVxE
+	 c6IMT+ctjkAsI3wcKYqKtVZQx+rYpTuWOJci7FgF3jB2n9OVesHYwQhzCwsojqxEJmw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793191846;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793193922;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=yvPx2xXJewvedlV4WY3CoxZ6zehy3H+Hf+g7jdJP70I=;
-	b=SLfEQG0cdvrPQgxzvlQX+KU8Lw9yRtC1w05MrIb+Ak909LdpJpdViW+mKceOFHJz/0pC
-	 xr3k4my2TMMjOnmlqoKVZy4HhQBZqjrle04tLthttE0l0WkPC7ohAyCNwBeH2hiRYOyHd
-	 Dg5hPZRqQ+p8IF3wm/CrW11287AdeC7pBpDE98SHwrzGUx8hssMbnxOGBB6nQ8Pz0QtIK
-	 MAKDKPcqOOCkNvoWW+99xsyrGM4HK2rxWjEyQZKKjzpgCQfGqH8OAOFFb9nPsjRyY4kLs
-	 oLIk62YKsHND8JnPn42Wzxd1WDlFh5mh9Y9pHTs2TWyXqBaEzLcI4TaRv9ey1Ii9CtA==
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:Date:Subject:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:
+	 X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:X-Developer-Signature:
+	 X-Developer-Key;
+	bh=hPJrinTuc8YfKSq20Of15bbl8HF3Z/k9fx6Ti8T3C6w=;
+	b=SSjrU5OI1j3q9j79AV+sEH0a5PC3sf4ze7FulJT9xW/TlaiR7/ZczVzPepoX4AqJuJLL
+	 UzfULlhXn2M6/jCKsvXvA1INUWNuuRqsVIoc93Cr6sSTstPSinKqeig75a3ICxAlefa9C
+	 NKvYtUDmm8YZr7/ZX89qqRUQkkDlCs4QAZyLBo7BoYBFwCSrxm/l9tzD7VmFYOKzYib7D
+	 pGSsT3tLFu+FG15L9+GbdSchrhcMwRoEzp1PNqLKbdym7IQ6otuXc2PTjD4lzCIiruPEc
+	 tukpS8MTPTYKkJwkgu825AU2P5CeiJUDMS8slRmjai6r+SD/KmC3kLdn0RXiPQtUR6g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=suse.com;
-	spf=pass smtp.mailfrom=suse.com;
-	dkim=pass header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=ein3cTn+;
-	arc=none smtp.remote-ip=209.85.221.53
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	dmarc=pass header.from=linaro.org;
+	spf=pass smtp.mailfrom=linaro.org;
+	dkim=pass header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=s2pnDRRi;
+	arc=none smtp.remote-ip=74.125.225.65
+Received: from mail-wr2-f1.google.com (mail-wr2-f1.google.com [74.125.225.65])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBE9606A31A
-	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 12:50:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 1FBE9606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84F62606A31C
+	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 13:25:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84F62606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=suse.com header.i=@suse.com header.a=rsa-sha256 header.s=google header.b=ein3cTn+
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e47347279so696360f8f.1
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 05:50:45 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=linaro.org header.i=@linaro.org header.a=rsa-sha256 header.s=google header.b=s2pnDRRi
+Received: by mail-wr2-f1.google.com with SMTP id ffacd0b85a97d-48df388215cso261947f8f.1
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 06:25:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1793191844; x=1793796644; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yvPx2xXJewvedlV4WY3CoxZ6zehy3H+Hf+g7jdJP70I=;
-        b=ein3cTn+yYgiVPAyZxdHK47dDdWylyq7WOPvhnu3T1dfXJ8ttWkb0p10PyZA+Ef1zq
-         KRfFHxywXPaEpSe/0VvepL3WmEH5Y1yw3dTMx70AMah7B5Y7jrlk2X4Ix9owzqrj8TlB
-         ZlCOMm40u4JxTIOdj3sOKMlrbOh+bg5bveTiveEiNcF2XOalDEt5FJ8eEt3osi/55EIN
-         R3Jx8UR2815ifrum8fOeMys9kuNno4Z3eGDeYgRD4UsDK1qlG/1cHo1bHt9dXNhrjIHe
-         zvNwYuIf5FaRIeGwnQN2/qjvDaU0fuVbOgOqP4mQYAipqM6YdWHa45QsTc3pibRgV7e5
-         cZGw==
+        d=linaro.org; s=google; t=1793193920; x=1793798720; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=hPJrinTuc8YfKSq20Of15bbl8HF3Z/k9fx6Ti8T3C6w=;
+        b=s2pnDRRijKvahDaltyMzIJGmlmf4FlUL+iW9a3Vy8+vpywjk/JA2hObKrewypGZs18
+         SUx+4tft6OmkAJXaDnVm5BwHdGeVrYFjyO6EcBf45s5DW9r4HEgUAFk5ZS4lUAS8pJK6
+         URfMoJ68NLPRzG8kQslmrUXF4e81f3sPAZCcEPVE/Ci0Vs0bmFPwqsaBqHLjLZ8X2kAk
+         auDlJGyRsDvFz97WGRfLXFxRMNZrL6TYV0DsIz50SZZi6GxN5Xn6ge/gv+NapFNnDNXp
+         QWjZE7n+HjOFIaUC13jQLjR3/i+3YENbGnt/zGOCNJCAhZ+4o1ydI1yM7EOaLJQt4qhW
+         H6RQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793191844; x=1793796644;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yvPx2xXJewvedlV4WY3CoxZ6zehy3H+Hf+g7jdJP70I=;
-        b=wJ7kQVFTDwizUdGF7X2anZRsij3y206rOLOkOIeuSK5DkODjm9fkkKLh3J9+3UaFK8
-         OQ9WM0L0zIGRdCgcHmhWlNYq086bB9eEJ6HmkVjVYlySSz02N+Xd33ySxxHSP17DJJAd
-         lD0XqR4eiEqk0Jm9x2H3l1jz7CW8BJXdndLC2foW67jLKHRwM9/K7BhgGkNcNKWNGm/y
-         chDZpl27sxBoVuLQTBQONEP1H7jzvStAP+DIUQvVr/29g9FiYWLeJPol4yTU3wP1WJJf
-         YRPldNnBPZMBWxm1wXHaUZ/3Ihz3Ke+fNkkINmQfrQGUUEFOQU17msnH/hr+aY1qJlAa
-         3oRg==
-X-Forwarded-Encrypted: i=1; AKwUvBx3q+POMN1l8A1KmYlfkPRoAk24gDvYKjwHvfOvepGkRh5DiLwht/gxqkk+Xnd0kXyoN4LhoWxFqs8=@vger.kernel.org
-X-Gm-Message-State: AFq9FYJ5Dkb9qmD1oedmtQVOXKzHjUsBogXwcKAVaHp0zXWIHRJaH5YO
-	jtrt+Z2wfJndWNUKspX+/nwFMHq7357f/4NC85dcAKm/PgsJB5MHBsfxsxaRrB/U12VZFOzOgVG
-	orbSt
-X-Gm-Gg: AYBFou2FGjoWmNbk1NOy47QhwwdBsPR/OYKusiVAlWuuUD79NQ1vx/Y/fgs8wwBBET+
-	IT0EbLRJpVCwRgdfJv9nGAxxiTXgEfVo6j3VC53z9JCRa8AImuKa7DZo2shcMrIoT4Q+LTeslDY
-	wEwI2DDUFPjLD971Kpg2d30e1OVrzk+EJunucrUNZIotumvhbo1Nq5zy1KklWkUCNAsli4aBBkR
-	nexfyabo8MSbzlQSMIsNftOuDNCWu4diTInz1Nu5b7c383vwAzzs6Ne77viYbKaOanxoy/EiCxB
-	rYY786SlawImFAahiJEULXuc4Njmq49luQzp3gGsDeCUuqI7yB2d6I2Rc4JA/08/qbtAQg4rw3d
-	rkBMhOBbk2Zw7q0yGmv5PvJ5G++ft8ZiJa9gZ/xAqrTWnGwzwv7vnNZgyByvOnvONl3ZKTB0qJ+
-	bahMf+Rqq8duomL6Sse5aRoT5TxYtFKD+nG76ReUip+Y02Lp9ASxqtgzEElsvg0Njc99iKN4inu
-	vAWNHdR3BaQ6dvmEiTcAIMrgp4//UkPgXfzt7YOyNom8ubGkRVg+qEL+PzufhpLkq2qTpjtNojl
-	U6x8o+S18yfCo+Ns/WD/EAkLOwTtV6ihlR64mXE2nCvB/oDufHkTiR3EE0ut1MYhko/N
-X-Received: by 2002:a05:6000:1608:b0:48d:f855:d1e0 with SMTP id ffacd0b85a97d-48e5d5eb61fmr3375821f8f.57.1793191844387;
-        Wed, 28 Oct 2026 05:50:44 -0700 (PDT)
-Received: from ?IPV6:2001:a61:13b5:e001:5d05:908:ac82:a3a1? ([2001:a61:13b5:e001:5d05:908:ac82:a3a1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3eb8f387sm28249255f8f.4.2026.10.28.05.50.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Oct 2026 05:50:44 -0700 (PDT)
-Message-ID: <8b4be460-0fb5-483d-9e46-f5be0f99c3e5@suse.com>
-Date: Wed, 28 Oct 2026 13:50:43 +0100
+        d=1e100.net; s=20260707; t=1793193920; x=1793798720;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=hPJrinTuc8YfKSq20Of15bbl8HF3Z/k9fx6Ti8T3C6w=;
+        b=KwYqP7RTiHEfNLFtZzn3sNgG5RZHO4mRkW9wCssdVxbdeEMpFDoT/GQM+JJz4GhNSE
+         qGM7gHc1KmJsLS3zZIic+LaCYglMbCxKR7HHkLLHFnCE/eC36RSixMqlI2L4TZkPxO+U
+         VzvzkwaoabO9UYfu8ug3MUfHgsintiaxLZJPXcnfYRf+Jl4rJCvQ6TG81uVzdIYAAvnO
+         BWZZ4sleuKwMZcX/lBjm/6bmw/GXQbm37zQYWgDZD+81z9GU7+/aYXcVfIbzBfxoMEa7
+         qfHX8QN+fBXQH6bRSb7wBAuFKIsiFjGywfhEOQ2WkYpbILecvVCeZC1syBlSswdAAoPh
+         A6WQ==
+X-Gm-Message-State: AFq9FYL3pl46Be8jb/f7IN7eAe6rMt5FR5i1nhOsfEDEMe/Qm9vvhyEV
+	Qj4+s2lqqX6S/6wginkRAiRBNT3vek5I8ytcuzXs6nm/EdZX4URG30mHbmN5jmXYGOM=
+X-Gm-Gg: AYBFou2THmRfaZOtWKvDyaJrtJKeieMx6Qe9Jf1i1Q+43jNBZe9dC1cnxjnw5zuge6e
+	BuC8CADW6oCJabsR6041oEv5b12iqkPJwYIwlWnmBRw+T6REuiwK4cahKRr1Pdc0uVbH5qXQ6b/
+	Vs1TxZv+UEjVJMO5/9UTNGvWadZIW2X4cefvz1EDpzkNqNOqfxiYJUDPCd8oOWF3yKn80IKfUt6
+	MuLiVYdrbLlZvd11P/AhlL/pqPpnUq5+SwWkr8uPE9YDyoxHMFFgP6iuY/EPumopkri3kD2ep30
+	wX2qPctA7peOyANrYvh3fH4ccacA6KdskXa/XPm5Gw1Hh3Yj4xqm//MCy6hv3mtjDQ0PKzIBRPw
+	t4dVgCjw3oXSq0SCRyB9+BQ8n5yNDygRefBOJ4L60umCiyLussnFia3i7XrnHeQknpIlPKGDAyp
+	mDQmk/MvZ8/9OaAMsXjAjYr27NnzQfNjbyhgpvCTuRXo9zpkMty1Z3K4bX7j1o1Rgg60gQ/JPm4
+	R0/464WCfrw4go1fuONX3VWTVcL+77lopkNlDKd0Or84hU2zbFD8kdZzqsoLKwayIfBepnDK/UV
+	jOCBeqQT/95S6hQMziCvsf4Q2mqoTDqHzhUWy91SS3VcN6PtU3qFAvIrhAyvyg81G85yXMV6rfi
+	8Mby/ZwwjlMf3xkQviE/IjyXEtg==
+X-Received: by 2002:a05:6000:454a:b0:48d:f7af:be35 with SMTP id ffacd0b85a97d-48e5d5c8a5bmr4210091f8f.29.1793193919672;
+        Wed, 28 Oct 2026 06:25:19 -0700 (PDT)
+Received: from z13-ek5.local ([151.40.161.170])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ecdfb8esm28391447f8f.54.2026.10.28.06.25.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2026 06:25:19 -0700 (PDT)
+From: Ettore Chimenti <ettore.chimenti@linaro.org>
+Date: Wed, 28 Oct 2026 14:25:15 +0100
+Subject: [PATCH v2] usb: musb: musb_dsps: Wait for controller reset
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,85 +91,103 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] usb: uas: add US_FL_QDEPTH_075 quirk to cap queue
- depth at probe time
-To: Luca Cecchi <luca.cecchi.info@gmail.com>, linux-usb@vger.kernel.org
-Cc: linux-scsi@vger.kernel.org, stern@rowland.harvard.edu
-References: <20261009080341.295646-1-luca.cecchi.info@gmail.com>
- <20261009081225.304319-1-luca.cecchi.info@gmail.com>
- <20261009081225.304319-2-luca.cecchi.info@gmail.com>
-Content-Language: en-US
-From: Oliver Neukum <oneukum@suse.com>
-In-Reply-To: <20261009081225.304319-2-luca.cecchi.info@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20261028-patch-ektor5-dm8168-usb-v2-1-c2af306eb228@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/4WNTQ6CMBBGr0K6dgzTQAFX3sOwKO0A4w8lLRAN4
+ e4WPIDLl7zvfasI5JmCuCSr8LRwYDdEkKdEmF4PHQHbyEKmUmGKGYx6Mj3QY3I+B/sqUZUwhwa
+ sMlrqHMuqVSKuR08tv4/yrf5xmJs7mWnP7UbPIUY+x/WCu/f/ZUFAqFSRZpjJAq26PnnQ3p2d7
+ 0S9bdsXDvpjb9EAAAA=
+X-Change-ID: 20261014-patch-ektor5-dm8168-usb-d6ca2a5189f6
+To: Bin Liu <b-liu@ti.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Felipe Balbi <balbi@ti.com>, Ravi Babu <ravibabu@ti.com>, 
+ Ajay Kumar Gupta <ajay.gupta@ti.com>, 
+ Andrew Goodbody <andrew.goodbody@linaro.org>, 
+ Rouven Czerwinski <rouven.czerwinski@linaro.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ettore Chimenti <ettore.chimenti@linaro.org>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1793193918; l=2516;
+ i=ettore.chimenti@linaro.org; s=20261014; h=from:subject:message-id;
+ bh=+QOONuVXfty/5e7THWehfWD7HTPOkPZMRyLSJHjb+qI=;
+ b=6j0RGVGuI5JAIpiKZI5flRyJ9vD+nUxo7MGjBws7EhCEnmIwtYdIWMINFk9DjPgxeXYCFfceX
+ TzRq9+9o6Q5BEG33IlEdC5HR0LGJfsrVzDNH4OD+Fea5R8Hvst/bgus
+X-Developer-Key: i=ettore.chimenti@linaro.org; a=ed25519;
+ pk=wCaUblFVaqhuBTQt/hAtysafsAaEsqj/yOD9SPlz6NM=
 
+From: Andrew Goodbody <andrew.goodbody@linaro.org>
 
+After soft resetting the USB controller wait for it to complete and then
+set the mode of the controller. This ensures that the controller is in a
+sane state. The timeout value used is just large as the board is likely
+broken if it is ever reached so no need to optimise. It was tested with
+a timeout of 500us which worked so gave it a 10x safety margin and used
+5000us as the timeout value. If the reset times out let it cleanup on
+error path exit to prevent leaks.
 
-On 09.10.26 10:12, Luca Cecchi wrote:
-> The previous patch in this series ("usb: uas: implement
-> .change_queue_depth to allow per-device queue depth override") lets
-> userspace lower a device's queue depth via the standard sysfs
-> attribute, but only after udev has had a chance to act. That still
-> leaves a window between probe and udev's write where the device runs
-> at the full default depth.
-> 
-> This adds US_FL_QDEPTH_075: it caps can_queue to 3/4 of the device's
-> reported maximum directly in uas_probe(), closing that window for
-> devices that need it. Applied here to the Lexar ES3 enclosure
-> (21c4:0003) from the previous patch.
-> 
-> v3: Sashiko AI review found two real issues in v2 (first version of
->      this patch, sent alongside v2 of patch 1), both fixed:
-> 
->      - [High] US_FL_QDEPTH_075 is bit 32 (0x100000000ULL - all 32 bits
->        below it are already allocated upstream). UNUSUAL_DEV()'s
->        driver_info field is kernel_ulong_t, i.e. a 32-bit unsigned
->        long on 32-bit arches - storing this flag there would silently
->        truncate to 0 at compile time, disabling the quirk on 32-bit
->        kernels with no warning. Confirmed by checking
->        include/linux/mod_devicetable.h's usb_device_id definition.
-> 
->        Fix: dropped the UNUSUAL_DEV() table entry for the Lexar device
->        entirely. uas-detect.h's uas_use_uas_driver() already has
->        precedent for exactly this situation - the ASMedia/Seagate/
->        HIKSEMI checks there match idVendor/idProduct directly and OR
->        the flag into a local u64 variable, never touching driver_info.
->        Added the Lexar check the same way. devinfo->flags itself is a
->        plain u64 with no 32-bit-platform narrowing anywhere in that
->        path, so this sidesteps the truncation entirely.
-> 
->      - [Medium] the 3/4 cap in uas_probe() unconditionally overwrote
->        can_queue, which could raise it instead of capping it for
->        devices with a small qdepth (e.g. qdepth=4: the existing
->        default is qdepth-2=2, but (4*3)/4=3 is larger, defeating the
->        point of a cap). Fixed with min_t() against the existing
->        qdepth-2 value - this quirk may now only lower can_queue, never
->        raise it.
-> 
->      Re-validated on bare metal with the same Lexar ES3 unit after the
->      drive turned out to have been thermally stressed from several
->      hours of back-to-back testing (confirmed by reproducing the same
->      command-timeout/reset behaviour on Windows with a completely
->      different driver stack, UASPStor - ruling out the driver/patch as
->      the cause). After letting the drive rest:
-> 
->      - Confirmed the quirk applies on its own at probe time
->        (queue_depth=24) even with the udev rule from the previous
->        patch disabled, so it isn't just masking a udev race.
->      - Two 6-minute runs of the original load test (24 sync writers,
->        randwrite, 64KiB, direct=1): 840-843MB/s, zero
->        uas_eh_abort_handler/uas_eh_host_reset_handler events.
->      - Same test run concurrently with a second USB flash drive under
->        load on the same controller: no effect on throughput or
->        stability.
->      - Unplugged/replugged the drive mid-load: in-flight commands were
->        cleaned up correctly (uas_zap_pending, no hang), the device
->        re-enumerated as SuperSpeed, uas re-bound, and the quirk
->        re-applied queue_depth=24 on the new probe without any help
->        from udev.
->      - Mixed 70/30 read/write load: 614MB/s read + 263MB/s write, zero
->        events.
-> 
-> Signed-off-by: Luca Cecchi <luca.cecchi.info@gmail.com>Signed-off-by: Oliver Neukum <oneukum@suse.com>
+Fixes: 9ecb887522a0 ("usb: musb: Add support for ti81xx platform")
+Signed-off-by: Andrew Goodbody <andrew.goodbody@linaro.org>
+Signed-off-by: Ettore Chimenti <ettore.chimenti@linaro.org>
+---
+Changes in v2:
+- Added cleanup on error path (Sashiko)
+- Link to v1: https://patch.msgid.link/20261014-patch-ektor5-dm8168-usb-v1-1-9670414271d6@linaro.org
+
+To: Bin Liu <b-liu@ti.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Felipe Balbi <balbi@ti.com>
+To: Ajay Kumar Gupta <ajay.gupta@ti.com>
+To: Ravi Babu <ravibabu@ti.com>
+Cc: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+---
+ drivers/usb/musb/musb_dsps.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/usb/musb/musb_dsps.c b/drivers/usb/musb/musb_dsps.c
+index efd1f0dbb926..91958b7000d7 100644
+--- a/drivers/usb/musb/musb_dsps.c
++++ b/drivers/usb/musb/musb_dsps.c
+@@ -15,6 +15,7 @@
+  */
+ 
+ #include <linux/io.h>
++#include <linux/iopoll.h>
+ #include <linux/irq.h>
+ #include <linux/err.h>
+ #include <linux/platform_device.h>
+@@ -35,6 +36,7 @@
+ #include "musb_core.h"
+ 
+ static const struct of_device_id musb_dsps_of_match[];
++static int dsps_musb_set_mode(struct musb *musb, u8 mode);
+ 
+ /*
+  * DSPS musb wrapper register offset.
+@@ -466,7 +468,16 @@ static int dsps_musb_init(struct musb *musb)
+ 	timer_setup(&musb->dev_timer, otg_timer, 0);
+ 
+ 	/* Reset the musb */
+-	musb_writel(reg_base, wrp->control, (1 << wrp->reset));
++	musb_writel(reg_base, wrp->control, BIT(wrp->reset));
++	read_poll_timeout(musb_readl, val, !(val & BIT(wrp->reset)), 2, 5000,
++			  false, reg_base, wrp->control);
++	if (val & BIT(wrp->reset)) {
++		phy_power_off(musb->phy);
++		phy_exit(musb->phy);
++		return -ENODEV;
++	}
++
++	dsps_musb_set_mode(musb, musb->port_mode);
+ 
+ 	musb->isr = dsps_interrupt;
+ 
+
+---
+base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
+change-id: 20261014-patch-ektor5-dm8168-usb-d6ca2a5189f6
+
+Best regards,
+--  
+Ettore Chimenti <ettore.chimenti@linaro.org>
+
