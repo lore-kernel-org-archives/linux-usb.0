@@ -1,66 +1,55 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=71.18.227.5
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793184925;
-	b=zv9Yss3rbK83RmP3bTWe/YAsE6cxHBYWIA1g6+xL2skSHaOy54OyHwPOJgObZ/xXKJFW
-	 jelU+z/PCja326UL4/98boS2Uu/j9n3qlP3hXipECEwSBmp0uq896Od0cEJAs9AJORuG6
-	 9zcq4KUXn8661r+gzRJVqk9c8ZMVEiezyueG8s08nWid5xhRIX536fJMWP1BMhS/IF6nu
-	 B8Kh1sHr8LTJW7axVpGmXNs80QwXGFRRyS3j26NOBhZ9IlvdTQKLiIpSqlMFoqM+KCNgk
-	 YL99waeyUPT+tjk0vDw0rGXq3FhS+6Dh3KzcVkJrQtPDQAjlpY04UK1RrdX3cl/3T1A==
+	t=1793185178;
+	b=Kej7aGDcUG+OFdQT/Nwc5BOAMZfIBR1O8FfRD1Y7skjxbgtAbpbiNtFFBtMvQR658Qj0
+	 OD1K92di8+Xxkk8+bz2ODnBPCwky+3CWODdYc4WIOyYJtxhp39rCIgcNH4X9SSsFrRkgh
+	 l8YMuNnr+DyDxhm/WiqmbC61RbkRrRUqoXN0/6xBcEnHC5B9gky2FGFPRvdSTNW2PLBpP
+	 O4Ve3V3ETgneULAvXssAqbIfaHg80jH3rfIGcBwxmx/jvycIsU6Z9uo7jaPM5GIynwzPd
+	 sGo8Uiu4GQJ6wrgi+9qjgZOXl4M1xSuD5A7XEv64PCTbfwk4/uWQ+UOsFZAop1Uf7AQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793184925;
-	h=DMARC-Filter:DKIM-Signature:Content-Type:Content-Transfer-Encoding:
-	 X-Change-Id:X-Original-From:Received:X-Lms-Return-Path:To:From:
-	 Subject:X-Mailer:X-B4-Tracking:Cc:Date:Message-Id:Mime-Version;
-	bh=xk/LGmqAVOIr9rJ8TkRSY178UNjfbyNnpVZUhnBPxj8=;
-	b=Hl6Cf8OPO7etFKoaAT/Mxu/CC/a5Usrgkmg0kPW/CP7m1hJmaVIlJX60gMsxuqBPGfDV
-	 3R/O8hiW3zGZm62DpqNCo0DQIZ5ADJED5tEZ/fvknUMY3lwNkaqxow82bDPW4BzMeUtvn
-	 TLTbQj8I3Ecfp/w7WGkEbsUCv17OT+SChmV1xFJdieJE+EbIrjBflbxPxmpTeTGzOCO+a
-	 Y+oSGR95n9Az2BnJJIhrYAK4WFeVIToOABUtuKp/BorhE/4meSKI9cI0bHgEWOaS4RXUd
-	 EgnK8yopkbFtyEjk1v/FbJnNsxUrnec2WunPguUqj6nYmXwvA50YCMqpxNHbwKWQ4PA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793185178;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=1UVbXu3bBJrBs3RfsgPZoWIK38hDwSuOuwrJ3dPIGvg=;
+	b=xBEbE47Gc6P/riVv069UKNaMLCQjYfDpEC+Kws6KFeEDuudq2N1N7BYC+l83dt41c5WI
+	 0L5sQbpft33mh7hcpSZ5nZtg/2/Ml5T2wVs/70cjXlFyK8HoEw7kQPFBqkVjRnL/vonsR
+	 cdwwZO+IGcc70JPeRtOuKQbdh4Hz/UpGwQgDfSZmiBJdabINhMKzHduFXyl3Rimk7br4p
+	 QAknjyV0B+Ai3KAaLk4w0Un8WShqRnWakTUqxRerJTxgbC/6hOfaw8aEXuVaCUFG+mGps
+	 WjhhnsyZ2mAM3KRigTdwat9xb9MNuhLXC19ShC7rjJCT+X7x1WbcVhK5pOlPeYfd16w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=cherr.cc;
-	spf=pass smtp.mailfrom=cherr.cc;
-	dkim=pass header.d=cherr.cc header.i=@cherr.cc header.a=rsa-sha256 header.s=feishu2604220257 header.b=y33nZB4j;
-	arc=none smtp.remote-ip=71.18.227.5
-Received: from sg-2-5.ptr.blmpb.com (sg-2-5.ptr.blmpb.com [71.18.227.5])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZtbMK0QX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC2B606A31F
-	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 10:55:23 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EBC2B606A31F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cherr.cc
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cherr.cc
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0FB0606A31D
+	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 10:59:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=cherr.cc header.i=@cherr.cc header.a=rsa-sha256 header.s=feishu2604220257 header.b=y33nZB4j
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- s=feishu2604220257; d=cherr.cc; t=1793184912; h=from:subject:
- mime-version:from:date:message-id:subject:to:cc:reply-to:content-type:
- mime-version:in-reply-to:message-id;
- bh=xk/LGmqAVOIr9rJ8TkRSY178UNjfbyNnpVZUhnBPxj8=;
- b=y33nZB4j75a1Z+47KFsLP3yOAEcqAul7Q7z6QXbzm7npLLDNd0mBzD6cqnoAvECSmCUCh9
- mwkf5j9dBZuX1zbRFGYly/iTvG1uble6BdniNBwM+rYYPzSfU1MYzFeGx6sjtyc7yTJVjc
- pghjk3JsKEI4yrWSEM6RYB1sOANGswe+7kzB+0exhOayc3aPVA5AIF1A4KBnvkPksKDczP
- pCxqgLvGHEdjABp+w62KoZ9HHqjTGpxinOZSY0p6e49bc4qGSRKLlzsJqJnUiOR6DzEdiB
- juMTf49GpXeF3Cf/Vq/K1VdyQAAjcINhjxIMAlb65oZejusKLr/XG9KJ17g7qg==
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Change-Id: 20261028-b4-pidff-duration-shift-8df4f6451448
-X-Original-From: Shengzhuo Wei <me@cherr.cc>
-Received: from [127.0.1.1] ([111.42.148.12]) by smtp.feishu.cn with ESMTPS; Wed, 28 Oct 2026 18:55:09 +0800
-X-Lms-Return-Path: <lba+26ae1d48e+516177+vger.kernel.org+me@cherr.cc>
-To: =?utf-8?q?Tomasz_Paku=C5=82a?= <tomasz.pakula.oficjalny@gmail.com>, 
-	"Oleg Makarenko" <oleg@makarenk.ooo>, "Jiri Kosina" <jikos@kernel.org>, 
-	"Benjamin Tissoires" <bentiss@kernel.org>
-From: "Shengzhuo Wei" <me@cherr.cc>
-Subject: [PATCH] HID: pidff: fix undefined shift for infinite duration
-X-Mailer: b4 0.16.0
-X-B4-Tracking: v=1; b=H4sIAIXU4WoC/yXMQQqDQAyF4atI1g04QyqDVyldqJNoXFiZjKUg3 t2xLj9479/BOCkbtNUOib9q+lkK3KOCYeqWkVFjMfjaN672AXvCVaMIxi11uazRJpWMIQpJQ09 HFKC818Siv3/59b5tWz/zkK8cHMcJBidogHsAAAA=
-Cc: <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>, 
-	<linux-kernel@vger.kernel.org>, <stable@vger.kernel.org>, 
-	"Shengzhuo Wei" <me@cherr.cc>
-Date: Wed, 28 Oct 2026 18:55:02 +0800
-Message-Id: <20261028-b4-pidff-duration-shift-v1-1-65028c6b4a37@cherr.cc>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=ZtbMK0QX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CF031F01825;
+	Wed, 28 Oct 2026 10:59:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793185177;
+	bh=1UVbXu3bBJrBs3RfsgPZoWIK38hDwSuOuwrJ3dPIGvg=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=ZtbMK0QXVwEoiWNOHNOPFCVTXIhM+yjlRrT6w+vfq52M/Elbfqoa2UMHn78mQ8sEi
+	 9rs0gbub/mdT5fLOew3sUsh1kCk057YfpgotqnB9dxXXPQL5R2QxjwtGwumkYZSd2E
+	 F9TaukIyc1xRlR41zAud4cD0CEh884wrYWGeNtQEkOch4G64bX05lNAz6afWu9RL5q
+	 8gPH1l0iFPEWnhIF6W7U8NsJBs+xWRL5bLjmNDN0CKp+NY8X0ZRgVQOekJdF2n/YmS
+	 wPzE1pwLyu/hSnPISFzMWHs911kkkVRfjKjiCwmdpm2Kd53oBLD95RtuZW5tZDYtLh
+	 1GaIwhuTB2gyw==
+Message-ID: <sashiko-outbox-187782@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] HID: pidff: fix undefined shift for infinite duration
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Shengzhuo Wei" <me@cherr.cc>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261028-b4-pidff-duration-shift-v1-1-65028c6b4a37@cherr.cc>
+References: <20261028-b4-pidff-duration-shift-v1-1-65028c6b4a37@cherr.cc>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 28 Oct 2026 10:59:35 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -69,49 +58,25 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
 
-pidff_set_duration() computes the infinite duration as
-(1U << report_size) - 1, but report_size comes from the device's
-report descriptor and can be 32 or greater. This causes an undefined
-shift. A UHID test on x86-64 triggers UBSAN and programs a 32-bit
-duration field as zero instead of 0xffffffff.
+> pidff_set_duration() computes the infinite duration as
+> (1U << report_size) - 1, but report_size comes from the device's
+> report descriptor and can be 32 or greater. This causes an undefined
+> shift. A UHID test on x86-64 triggers UBSAN and programs a 32-bit
+> duration field as zero instead of 0xffffffff.
+>=20
+> For report sizes of 32 or more, store -1 in the s32 field value to
+> set all 32 bits without shifting. Keep the existing calculation for
+> smaller fields.
+>=20
+> Fixes: 1a575044d516 ("HID: pidff: Compute INFINITE value instead of using=
+ hardcoded 0xffff")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Shengzhuo Wei <me@cherr.cc>
 
-For report sizes of 32 or more, store -1 in the s32 field value to
-set all 32 bits without shifting. Keep the existing calculation for
-smaller fields.
+Sashiko has reviewed this patch and found no issues.
 
-Fixes: 1a575044d516 ("HID: pidff: Compute INFINITE value instead of using hardcoded 0xffff")
-Cc: stable@vger.kernel.org
-Signed-off-by: Shengzhuo Wei <me@cherr.cc>
----
-HID: pidff: fix undefined shift for infinite duration
----
- drivers/hid/usbhid/hid-pidff.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028-b4-pidff-d=
+uration-shift-v1-1-65028c6b4a37@cherr.cc?part=3D1
 
-diff --git a/drivers/hid/usbhid/hid-pidff.c b/drivers/hid/usbhid/hid-pidff.c
-index 22951b7ecd17..25b82e7d0b9e 100644
---- a/drivers/hid/usbhid/hid-pidff.c
-+++ b/drivers/hid/usbhid/hid-pidff.c
-@@ -394,7 +394,11 @@ static void pidff_set_duration(struct pidff_usage *usage, u16 duration)
- {
- 	/* PID defines INFINITE as the max possible value for duration field */
- 	if (pidff_is_duration_infinite(duration)) {
--		usage->value[0] = (1U << usage->field->report_size) - 1;
-+		if (usage->field->report_size >= 32)
-+			usage->value[0] = -1;
-+		else
-+			usage->value[0] =
-+				(1U << usage->field->report_size) - 1;
- 		return;
- 	}
- 
-
----
-base-commit: d135ab453a7400a34930bdda1ef4bdc8acfac80e
-change-id: 20261028-b4-pidff-duration-shift-8df4f6451448
-
-Best regards,
---  
-Shengzhuo Wei <me@cherr.cc>
