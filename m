@@ -1,56 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=220.197.31.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793162030;
-	b=ugycKpFxi9dvfN009IsrSx4Xtsqcrg5yLVGlhBDQiBLjkZWhA8xxMQ6/8d0LCK6LfEXF
-	 w4bUCnQ7ZtqAi4owaSnzMk6pY32j1otoaqIuba0Swze4oljuMoViP/JbYZfbjX4sxfiMZ
-	 Q12aLeeGDorOXQaf+3Pc0wROjnxCpu8ltoue+wY2jyTH0BL+mDGH/k2QWLnMVI1nnaxpy
-	 hgMEPOd7dsZ1o0Z2bgH657FIEmdOKmmjzRjkxRM5c0cq+mgZ0Z8FenN9tUUGcMO2a1Q8K
-	 3FSleiwo+S9GHFpvuKKaDT0m1MMD7mfMbn9WbrxXfJw0wjOBSdZ5eHWEwdU8GBkCsOQ==
+	t=1793163457;
+	b=ycaKJDw44SqmkC0wqkIIhdvXZLnXQrCmpe+Kscp1NRP3pW0bbvUZzTIUs4Av3nTvdAIQ
+	 Okegln3A8s5jKTTHUkAmbHBLWS8QfvQDg3NIvMRP5N8nMCZcFpPVpm5qdlnutF5kRvJPM
+	 AGb70w6Qr8DmjrXeMkQsouBqi81ImaFdTgh95Tuik6CYBZ00YbNQGQ9eCZlz/6ZV8k+XI
+	 LIkhI3qjJ0WwbckA1Opo7AqHU6dl/8ub3zLm/cr20IihWuf5bDDah9DgeTiL0v99DQUJt
+	 ngxI1LD/aBV286J4kjIfb9tyIicJU+jXmXFQTOp29khc9FajoxQJEKKj6lJf1l6xPCg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793162030;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=nzsX/irIZtRm7d+8R9X4ir9Wlwvtj7BHG7BG+dJa/QY=;
-	b=r4o+WXkRqgoi4EAbRPtA8mlGsyi7W3f8QqDNwKtGD0EDsQ47QPByGqFszyT5F7NcKZAR
-	 bse4HhD9/sQXScNnpqMBBFfP71t+9RHXuJyOOhjvcvGvLp3ZYHJ2ld3yspYq+QJH+QxYy
-	 ewEW4dAdXzSjOKE45JavZkP1zTtWJNptALIg1WbZy0abm2Mh9pU9RLWWXupJs3mh1oCPU
-	 2Dhpiij9/qMV3+L0WnxeG/P7zmv0dYgTJ3U4BJnH7dvK0kgRQPK4JKCklqZ0WviATnYar
-	 algURkG5+8aXsmRUuWUUiI07z3g/BvioPkMOpqTrFz8QXgjKrspt5j23O2w+Zn92M3g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793163457;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=I5N9RQ/IoP6DtE2/EdfV2nfVO2+Sdw5QmebG6Y33ymk=;
+	b=Zoyd9Gjv+omBP1ND/hvDsVWtdqZDNAIoHe08QorLbkYfy0Ex0bODsP32Cbk935Mg+iXI
+	 7sVqqXZtzfvZXKCotiVErKjOI77AfYwyPxYzQxjkSyJM2SxAAs9LykD/UYHW89iqJOh0v
+	 7cGfwx6NwdM9j4vpz1akdmpbkECECj7uX/OgtLNhlMV/WTTU1/l/9Q05csD5+CtGlQG6j
+	 t9cZNpbC0ffXA508OwEOrAFF9okejNHsRvhXCk+OuPbFy7Llwqc3uF9lhr81Uui8e9DFW
+	 U0Pku7eCvo1MjDIxHa/x8E/IWC9VBuWQGQ4JD4EQDkrWjHyQaarhuVvwtcl7ZZs4CaA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UDtZfOfy;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Cji4uy2O;
+	arc=none smtp.remote-ip=220.197.31.3
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94E23606A31A
-	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 04:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AA1606A31D;
+	Wed, 28 Oct 2026 04:57:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 26AA1606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=UDtZfOfy
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F9A51F01829;
-	Wed, 28 Oct 2026 04:33:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793162030;
-	bh=nzsX/irIZtRm7d+8R9X4ir9Wlwvtj7BHG7BG+dJa/QY=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=UDtZfOfyzjAvPncHKorW+N6wmfGZdy5PyG+KgsdvVHlrO6EKDSDpeegWdG4R/1RYP
-	 fKy1I0naoBD6nJTK+Q1fyBK/kAm00y7WJeEB7dCY0Uq1Zsk9xU1b2RkHNlBQk9qTx7
-	 uxGhXcz1zZ6PAQ76S1oUdqYIILYh7uapS+7fko0MCfsl9u6U/GBo55fU5wYnsZ7EBU
-	 IcD0V1/4q070F4uDkH2N7U199BOyfcRHzVOgJeP/FzpkuDf1My3vq6jM8RWdzRbD7w
-	 UvNuCVJtS5w8jn4J2tKGLL4ThMkkgKWujy7/DMRVrontEC0FkXfJmybCv9IRP/UmB/
-	 n1o9q40tP07wQ==
-Message-ID: <sashiko-outbox-187489@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: core: raise root-hub autosuspend delay to stop a
- busy-loop
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Jianping Liu" <frankljpliu@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261028041859.1061836-1-frankljpliu@gmail.com>
-References: <20261028041859.1061836-1-frankljpliu@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 04:33:49 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=Cji4uy2O
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=I5
+	N9RQ/IoP6DtE2/EdfV2nfVO2+Sdw5QmebG6Y33ymk=; b=Cji4uy2O4D97JMAvWZ
+	bSNGvYWUX4xKZwx7q1khBR9NGdby4NUJtvXJqkaLbbaQkK0tzJS5c66a0ctSHyQP
+	qxqi3sBJ8vlvcyJfIhcmdYxNa6sUuCelrvOhPVpv+Bg9MShO9ATq6dch1TBwuHWw
+	vVl/22/v5rqC6bs7D1DiH01is=
+Received: from pc.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wD3P_qigOFqkRkuDg--.55918S2;
+	Wed, 28 Oct 2026 12:57:07 +0800 (CST)
+From: Jiale Yao <yaojiale02@163.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Anton Vorontsov <avorontsov@ru.mvista.com>,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: stable@vger.kernel.org
+Subject: [PATCH] usb: host: fhci: drain completion tasklet during removal
+Date: Wed, 28 Oct 2026 12:57:05 +0800
+Message-Id: <20261028045705.114039-1-yaojiale02@163.com>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,112 +60,43 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3P_qigOFqkRkuDg--.55918S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Xr43Xw48Gr1rXw47Xw4fZrb_yoWkCrg_Cr
+	WkGrn3XrWDGr95Zry7ta17Zr4xt3ZrWFyIqFZ5taySgay7Xrn5Zr1xuF95CFW5GwsY9Fn3
+	C3s5ZrWFg34UujkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU84a0PUUUUU==
+X-CM-SenderInfo: x1dryxhdohiji6rwjhhfrp/xtbC7wNblWrhgKO4jgAA38
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] usb: core: usb_runtime_suspend() clobbers root-hub autosuspend_d=
-elay
---
+The transfer confirmation path can queue process_done_task immediately
+before the timer IRQ is freed.  free_irq() prevents new hard IRQ
+handlers, but it does not drain a tasklet that was already queued.  The
+tasklet can therefore access the FHCI schedule, timer, and HCD after the
+remove path releases them.
 
-commit 60580cc9fa143b8fbfd60c5978507dea53f76384
-Author: Jianping Liu <frankjpliu@tencent.com>
+Kill the tasklet after freeing the timer IRQ and before releasing the
+resources it accesses.
 
-usb: core: raise root-hub autosuspend delay to stop a busy-loop
+Fixes: 236dd4d18f29 ("USB: Driver for Freescale QUICC Engine USB Host Controller")
+Cc: stable@vger.kernel.org
+Signed-off-by: Jiale Yao <yaojiale02@163.com>
+---
+ drivers/usb/host/fhci-hcd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-This commit updates usb_runtime_suspend() to set the root-hub autosuspend
-delay to 1000 ms when runtime suspend fails while the delay is 0, and
-resets any non-zero delay back to 0 when runtime suspend later succeeds.
+diff --git a/drivers/usb/host/fhci-hcd.c b/drivers/usb/host/fhci-hcd.c
+index d572f0c1dffa..c3fd7f77a71f 100644
+--- a/drivers/usb/host/fhci-hcd.c
++++ b/drivers/usb/host/fhci-hcd.c
+@@ -757,6 +757,7 @@ static void fhci_remove(struct device *dev)
+ 
+ 	usb_remove_hcd(hcd);
+ 	free_irq(fhci->timer->irq, hcd);
++	tasklet_kill(fhci->process_done_task);
+ 	gtm_put_timer16(fhci->timer);
+ 	cpm_muram_free(cpm_muram_offset(fhci->pram));
+ 	for (j = 0; j < NUM_PINS; j++)
+-- 
+2.34.1
 
-> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> index d3a61ebc6afb0..30965d6ffd677 100644
-> --- a/drivers/usb/core/driver.c
-> +++ b/drivers/usb/core/driver.c
-> @@ -2008,6 +2008,20 @@ int usb_runtime_suspend(struct device *dev)
->  	if (status =3D=3D -EAGAIN || status =3D=3D -EBUSY)
->  		usb_mark_last_busy(udev);
-> =20
-> +	/*
-> +	 * Root hubs use 0ms delay, so a persistent -EBUSY retries with no
-> +	 * wait and pins one CPU at 100%. Set autosuspend_delay to 1000ms
-> +	 * on fail, then back to 0 ms on success.
-> +	 */
-> +	if (!udev->parent) {
-> +		int delay =3D READ_ONCE(dev->power.autosuspend_delay);
-> +
-> +		if (unlikely(status !=3D 0 && delay =3D=3D 0))
-> +			pm_runtime_set_autosuspend_delay(dev, 1000);
-> +		if (unlikely(status =3D=3D 0 && delay !=3D 0))
-> +			pm_runtime_set_autosuspend_delay(dev, 0);
-> +	}
-
-[Severity: Medium]
-Can this unconditionally overwrite user-configured or driver-configured
-dev->power.autosuspend_delay values on root hubs and drop the runtime PM
-usage reference when racing with negative delay writes?
-
-First, userspace can configure a custom positive delay on a root hub via
-autosuspend_delay_ms_store() in drivers/base/power/sysfs.c or
-autosuspend_store() in drivers/usb/core/sysfs.c, and child USB device
-drivers may also adjust their parent hub's delay during probe as noted in
-hub_probe() in drivers/usb/core/hub.c. Because usb_runtime_suspend() does
-not track whether the non-zero delay was set by a prior suspend failure,
-won't the first successful root-hub runtime suspend see status =3D=3D 0 and
-delay !=3D 0 and reset the custom delay back to 0?
-
-Conversely, if a transient suspend failure occurs while delay =3D=3D 0 (for
-instance, -EBUSY when a device connects to a port) and the newly connected
-device keeps the root hub active afterward, dev->power.autosuspend_delay
-remains left at 1000 ms in sysfs.
-
-Second, __rpm_callback() in drivers/base/power/runtime.c releases
-dev->power.lock while dev->power.runtime_status is RPM_SUSPENDING before
-invoking usb_runtime_suspend(). If userspace concurrently writes a negative
-delay to disable autosuspend via autosuspend_store() or
-autosuspend_delay_ms_store(), pm_runtime_set_autosuspend_delay() calls
-update_autosuspend() in drivers/base/power/runtime.c:
-
-drivers/base/power/runtime.c:update_autosuspend() {
-	if (dev->power.use_autosuspend && delay < 0) {
-
-		/* If it used to be allowed then prevent it. */
-		if (!old_use || old_delay >=3D 0) {
-			atomic_inc(&dev->power.usage_count);
-			rpm_resume(dev, 0);
-		} else {
-			trace_rpm_usage(dev, 0);
-		}
-	}
-
-	/* Runtime suspend should be allowed now. */
-	else {
-
-		/* If it used to be prevented then allow it. */
-		if (old_use && old_delay < 0)
-			atomic_dec(&dev->power.usage_count);
-
-		/* Maybe we can autosuspend now. */
-		rpm_idle(dev, RPM_AUTO);
-	}
-}
-
-Inside rpm_resume(), because runtime_status is RPM_SUSPENDING, the caller
-releases dev->power.lock and sleeps on dev->power.wait_queue waiting for
-the suspend callback to complete.
-
-When usb_suspend_both() finishes in usb_runtime_suspend():
-
-1. If status =3D=3D 0, READ_ONCE(dev->power.autosuspend_delay) sees the neg=
-ative
-   delay (delay !=3D 0) and calls pm_runtime_set_autosuspend_delay(dev, 0).
-2. If status !=3D 0 and READ_ONCE(dev->power.autosuspend_delay) read 0 just
-   before the concurrent writer set the negative delay, it calls
-   pm_runtime_set_autosuspend_delay(dev, 1000).
-
-In both cases, wouldn't update_autosuspend() see old_use && old_delay < 0,
-overwrite the negative delay with 0 or 1000, and execute
-atomic_dec(&dev->power.usage_count), undoing the usage_count increment and
-re-enabling autosuspend?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028041859.1061=
-836-1-frankljpliu@gmail.com?part=3D1
