@@ -1,56 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793264083;
-	b=cwECXZQiW0ZQubNGCyH1x6YgpN/9ZytrCgPzq+uces+Hb4Nfb0/HQ0DUPrrz2MOah6wV
-	 FFUpUrIG5pFvS0qDNFSpv05hwdegtwNZvcLGxIIEToB3yyfSWrvuZLC9HUvqYrX3hraV2
-	 AuaURL/df571jXjgiZjQxzMbw0g2DCN8xqmSY9a4BB7pHVmP1+FckRFw2gxNRUON8f3aU
-	 oUesslRKe6p4h0EK+/m2QXsi7sm2J03/7xEGbpYzyGyPSHxmtedtgxtpkAfdQQQkpYv9j
-	 GYEwuyW6fDvlM5djI42zQ+xSmZzDmOW7gxfuxYwgOtTm0+hIE2+s3Kvq0L3eEIyk9Iw==
+	t=1793266525;
+	b=DsP+whFW/LhlXYSVDscLM42Lc5iUc08R7OIoHjQbBxry23CCgII8pckauYr1rDtv/roj
+	 nJXqIr03nphKONm9pbGrSz+7lePr6YXTRhAzG4uRnWeE2psnFteByho2wyTwN+Fzu/oG/
+	 0GOgZWv40fMwCsWsYQP5qo4u+yjlNZqJ7JlO7fCXZdkidP0xK8WZSxX2eTQVjfnl47jCA
+	 45PPLpXH22Wd31zsEqFyF5qxYxN20pQcOi3DAoXV4YefHlUAQEHTt4mugMnm5l8P5IL0d
+	 2PrzNshbHWSgV8Ai3tzgp/sCDYqxn9e9hfuNqUVj3/UDwPcfkz+3ffpjUmSktm2+r5Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793264083;
-	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=/ffiIX+W4fGk0mNcGq8BhXcDTDb+ulx9xEQwjfcnQ/g=;
-	b=hdjiuhTJWOBArnz7QXQCP27P9aIacFDOfAp9LadH6umxVpPl2dMgF+Hu6HgcAXrlwiBn
-	 LmnjU5bG3u7Qe2Wd/qUpg/HFBzlGitq8UZU+JBQY4JFaGxX9LU2lKZQ5G80pWYHmcPVQf
-	 W5VlB3GdYFoYqm0b7mshqir0GnD/L7fk45MnjYMIoTC8/3ddP3FaBSmcUrDZQ7BY10vwZ
-	 e+INkOQcL5Nc4y97FTv1Gn/5PH92N0SIElZTSNd7SUGvjDz4ty3tgky1H1MLuE5M3k9Vf
-	 jSLt/+xFOfJud6e+hDrBkagz/nvI2Tt+6TcNMk822X3WWKF0kvBg4F+QuKqMUcLNK+A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793266525;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=gpcEkWZksGGfj9XjEwCf+DBg2I4p4de0sWgxlYdGmn8=;
+	b=DDq9vrgQ9tfbdLnrQiWERsntoSN6unyw8PeXvxpCXI0QjvQgItjxhzahdkgPehGtuXyx
+	 mgLmVu3Rig/Z9LsQHO206TNdXV5lxcqcA/hVJ6D1yKjcehq5aeYO1NUh0x4lFuDB62WNg
+	 Z0nFD4U5yAOoK3SCL+hHP0l1luOfoqPaF1gEBB+DeNrJ2DdcEYvbSIcBEk/I/fd2krPGN
+	 aYrN+bDBQm0VOg15pBmMKIuo0xlmUck1FjMRagD71TbihCelkV6ghTOU/pf82KjDVXDPr
+	 MRuaVZ0o0mb5CAwLAMWfMB/mw87OUFzfz9xN42pHMqVDO5LXnw1zb9+9yXByK8NvdSg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F7y1QUex;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ofOSDIXT;
+	arc=none smtp.remote-ip=117.135.210.4
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53649606A329
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 08:54:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F9D606A31D;
+	Thu, 29 Oct 2026 09:35:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13F9D606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=F7y1QUex
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE6B61F031E2;
-	Thu, 29 Oct 2026 08:54:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793264083;
-	bh=/ffiIX+W4fGk0mNcGq8BhXcDTDb+ulx9xEQwjfcnQ/g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=F7y1QUexid0udmtsuO5F9yD/JfApct2x+EKX+sK+LA2EhTWVB/QPhsIfkpgz1+8kz
-	 3JVcEI4BcGk3pnWz0rLt7XjDalmd+IE+Uo7GQBp1PAMqq5nmVn/1x3E8VOLb6KOOd2
-	 sXsWKOnL5JJeUPG6IzWnZgxfSCXQsFNu6Bzd3C1gWOcYmk+58a+yzW3+bXQNSMgwbD
-	 G4W6OEeOPPYhO3n9tlJq4h7T1SzVuLnz9zZ97+bvvsQU48uC8zM5vrdwTKEIl6tvEe
-	 HJrwRCuH/gLs3o80wSlMARhImZM/fP92EzWNd1m5C0CB4IC18p8xyYAWQgUXZzq6F/
-	 qnTaZqRGrL9/A==
-Received: from johan by xi.lan with local (Exim 4.99.5)
-	(envelope-from <johan@kernel.org>)
-	id 1xMLuC-00000003arq-3KOE;
-	Thu, 29 Oct 2026 09:54:40 +0100
-Date: Thu, 29 Oct 2026 09:54:40 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
-	stable <stable@kernel.org>
-Subject: Re: [PATCH] USB: serial: oti6858: fix the teardown order in close
-Message-ID: <auMJ0J207SUlC6ln@hovoldconsulting.com>
-References: <2026102725-congenial-profound-99ee@gregkh>
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ofOSDIXT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=gp
+	cEkWZksGGfj9XjEwCf+DBg2I4p4de0sWgxlYdGmn8=; b=ofOSDIXTaAH0qD/51k
+	swo5uNoG21obsHqmOqiegtkTwFqIZGddGzQL/3BmzbgT+yCJ/N+QVe+eRKUg4iMS
+	44XQ7tuV3aio47zi6a41JPzgS+J/Oul/pV4afkxfYjPhKeu3VYciHfaPHyD/uVBj
+	E1p5o1r7uBLFjN4mwRLnmobi0=
+Received: from pan-u.. (unknown [])
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3n3ZNE+NqKj5ADQ--.44068S2;
+	Thu, 29 Oct 2026 17:35:10 +0800 (CST)
+From: rppxj178543@163.com
+To: alsa-devel@alsa-project.org
+Cc: tiwai@suse.de,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [DISCUSSION] ALSA: usb-audio: Card naming for composite devices
+Date: Thu, 29 Oct 2026 17:35:07 +0800
+Message-ID: <20261029093507.511002-1-rppxj178543@163.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,51 +60,83 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026102725-congenial-profound-99ee@gregkh>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3n3ZNE+NqKj5ADQ--.44068S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWrWxCFy3Xr48tr43try8uFg_yoW5Wr1rpF
+	9xKa9Fyrs8Gw1xGw1kXw4fGr9xtrZ3A3WUGryDWr18Ka98ur1jya47trZYqa48C3s5uFy2
+	yrWjqry0kws8AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jYApnUUUUU=
+X-CM-SenderInfo: huss5yirxykkqt6rljoofrz/xtbC6g5ramrjE06lmwAA3P
 
-On Tue, Oct 27, 2026 at 03:31:26PM +0100, Greg Kroah-Hartman wrote:
-> From: Josef Bacik <josef@toxicpanda.com>
-> 
-> The driver passes a baton around: the completion handler of the
-> interrupt urb either resubmits the urb, submits the read urb or
-> schedules one of the two delayed works, and the works and the bulk
-> completion handlers submit the interrupt urb again.
-> 
-> oti6858_close() cancels the works first and kills the urbs afterwards.
-> An interrupt urb that completes in between schedules a work again:
-> 
-> 	oti6858_close()
-> 	  cancel_delayed_work_sync(setup)
-> 	  cancel_delayed_work_sync(write)
-> 				oti6858_read_int_callback()
-> 				  schedule_delayed_work(setup)
-> 	  usb_kill_urb(interrupt_in_urb)	/* not in flight */
-> 				setup_line()
-> 				  usb_submit_urb(interrupt_in_urb)
-> 
-> The port is now closed with the baton still going round. The next open
-> fails because the interrupt urb is already submitted, and if the device
-> is unplugged, oti6858_port_remove() frees the private data while a work
-> may be pending or running.
->
-> Poison the interrupt urb first: that waits for the handler and makes all
-> further submissions fail, so nothing schedules the works any more. Then
-> cancel the works, after which only the bulk urbs are left, kill those,
-> and make the interrupt urb usable again for the next open. Don't print
-> an error for the submissions that fail with -EPERM in this window, as
-> oti6858_read_bulk_callback() already does.
-> 
-> Fixes: 49cdee0ed0fc ("USB: oti6858 usb-serial driver (in Nokia CA-42 cable)")
-> Cc: stable <stable@kernel.org>
-> Cc: Johan Hovold <johan@kernel.org>
-> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
-> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> ---
-> Johan, another llm-found patch, seems sane, but it's not exactly obvious
-> to me if this is real or not?
+Hello,
 
-Yes, this all looks good. I'll queue this one for 7.4. Thanks.
+I'd like to discuss an issue with USB audio card naming for composite
+devices and propose a possible improvement.
 
-Johan
+Problem
+-------
+
+For USB composite devices containing both non-audio and UAC audio
+functions, the ALSA card shortname is derived from the device-level
+iProduct string, which describes the entire device rather than the
+audio function.
+
+For example, the CVT Touch Device (1ff7:0f33) is a composite device
+with HID touch interfaces and UAC audio interfaces. Its iProduct is
+"Touch Device", which is the name for the whole device. The UAC
+OUTPUT_TERMINAL descriptor defines the audio function name as
+"MAXHUB Speaker" via the iTerminal string descriptor (index 14).
+
+Currently, the ALSA card name shows "Touch Device", which does not
+identify the audio function. The UAC mixer code already reads
+iTerminal for mixer control names (e.g. "MAXHUB Mic" from the
+Microphone INPUT_TERMINAL's iTerminal=17), but the card naming
+function (usb_audio_make_shortname) does not use iTerminal.
+
+Proposed approach
+-----------------
+
+When the USB device is composite (i.e. it has non-audio interfaces),
+prefer the Speaker OUTPUT_TERMINAL's iTerminal string as the card
+shortname, instead of the device-level iProduct. If iTerminal is not
+set (zero) or not readable via usb_string(), fall back to iProduct
+(existing behavior).
+
+Non-composite (dedicated audio) devices are not affected and continue
+to use iProduct.
+
+The composite device detection checks whether any interface has a
+non-Audio class. The iTerminal reading uses the existing
+snd_usb_find_csint_desc() helper to parse OUTPUT_TERMINAL descriptors
+in the Audio Control interface's extra data. The iTerminal field is
+the last byte of the descriptor, common to both UAC1 (bLength=9) and
+UAC2 (bLength=12).
+
+As an immediate fix, I have also prepared a quirk entry for 1ff7:0f33
+to override the card shortname to "MAXHUB Speaker" directly.
+
+Questions for the community
+----------------------------
+
+1. Is this approach reasonable for composite devices, or should it
+   remain a per-device quirk?
+
+2. Are there concerns about changing card names for existing composite
+   USB audio devices that have iTerminal set? For example, UCM profile
+   matching or PulseAudio device identification.
+
+3. Would it be preferable to also check the IAD's iFunction field
+   before falling back to iTerminal, or is iTerminal sufficient?
+
+4. Are there known composite USB audio devices where the iTerminal
+   string might be empty or contain unexpected content?
+
+I have tested the quirk approach on a MT81C device (Kylin V10-SP1)
+and it works correctly. The iTerminal approach compiles but has not
+been tested on multiple devices yet.
+
+Any feedback would be appreciated.
+
+Best regards,
+RenPanpan
+
