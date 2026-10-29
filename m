@@ -1,94 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793262254;
-	b=KJhO/v9Y7L4K2rDTbNuXOfW9R5OayJu46zzaRDDUa4t/F//9CBmlHw39yyZ5U/byhNZx
-	 4RVcej0A9A/slepf8eVWxz5CgwwlyI/IzKP0HLrs/2gV7/MZarDRUNB7AqHOk+m45GQQt
-	 1qzGgUAarrARKdqBXCcQplrLXqbUeF/5VWSI5jiJfFksMUo7BOkytrEsSfjHkosTQBfBk
-	 eTBGuOZCYXyjTzINmNGCEb/pNZ7GGaYWiG15P2CrTtvnEK1mVDQoBYhidPnqbL3dNdMtH
-	 JoRQED7R1N8icBlPP7xP7VGZbpzIH/X46wwtaww9UkHVI7+2P4+BKyE4aUHGQ8WbBtg==
+	t=1793262661;
+	b=Wz1qBIz2vwPBiojxTl/7ZLyNqjQVcaO4m5yhTlyjUArEvjut8HfAEdqmeRli6JDQRKcD
+	 GHyw/PrY2ubXy38GxSK4OVAj/fk2DGs5g+tx8XN06TSgtmwGyT8cKCyvD4bD34jbZHLDU
+	 SO6hrNStVJmMOtyowxhkWcXJ7pGl6ecDPNzsO/VlGcIyWZhgGbLfggUrNb8DthQSohkUM
+	 P9uOfygolQ5FHHvbdIjCB8FDxYNyKzTEZcjv6CiUL3N28vKEwEhMYShvki2KMZvnC4LTu
+	 wNAu83C70xnHkvq/fVvBuqMt0YLUegBDwOom9HUxvRdZEgCp2KSSW+nZ1UqXonV+Jmg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793262254;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=Jl62TfhWYAfPnyRC2G3aSDjU5xgDd+P3RO6y8pPbcO0=;
-	b=nLSXQn5v3IDj9eTD1A5IGuFpVDZ0jHHqonU6ZZfD9/CIf4+60pmZP1yknEz9GiW2Rauy
-	 Zm5z+8DJIVZDgFp0g+s1UC61aWQqFm6e64KXw8oY8j4PVemPWihImMgOokRINuWIMJ1tJ
-	 tMAbaU7Q+XApH84o2etd/Brsh0w3Yg86AVwJ8mFrZYph6i/gXxJTbxA3FipiRF7vLowrW
-	 EyU275NZkawHNMnbxrVS7tGZygYnmIyKqwhA7D/p5H7G5noVse7fhtqZWJFZ1I3GKkMqL
-	 x4+REr8dRCHFck1CFx2B43qDwzqWhvMvSpJk/zf/4vd1EodAIrYTM6McBvPxEq2CyXg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793262661;
+	h=Received:DKIM-Signature:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=wl6DHmnwo6IY8ATB2PYlDBTy5Kc9zrSFOWV/eT982T0=;
+	b=lXV1MwPxdfccnl2d8Ue2tdpnaPQiZnG11CypjXK+G5hXNGjDAZDL2cZFqZIGiNIj7Tqd
+	 ABfLYckFbFTeyUzdDi3+/4P5eHIcm72oeM94xi4D7ZMTMIDJRG+0BLhJFM1qAU++QN/Ul
+	 PLxDRN+7mFSpBQGpT7Nxl+1/9GWqzDnmVng/olMY+v3dFZRx2OG2Ytonk9UDkj2APeQ+S
+	 9c6JbVoRSBKboY1bF5vTHZBpjANg2Ot84wvnAz6dV0uz5/iG/+OVRtle+S1feSSqfrr6r
+	 3pg20cVT1r3VogsAYMwjIl46fkrdSDl8DW4qaFdEWjPY8tc2xT4b490A5kxDvMHrvdw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=logictree.app;
-	spf=pass smtp.mailfrom=logictree.app;
-	dkim=pass header.d=logictree-app.20260707.gappssmtp.com header.i=@logictree-app.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=aE6JFdCC;
-	arc=none smtp.remote-ip=209.85.216.53
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FGYetnwV;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962D9606A31A
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 08:24:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 962D9606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=logictree.app
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=logictree.app
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED732606A31E
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 08:31:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=logictree-app.20260707.gappssmtp.com header.i=@logictree-app.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=aE6JFdCC
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3ae1d0caaedso901505a91.2
-        for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 01:24:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=logictree-app.20260707.gappssmtp.com; s=20260707; t=1793262253; x=1793867053; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Jl62TfhWYAfPnyRC2G3aSDjU5xgDd+P3RO6y8pPbcO0=;
-        b=aE6JFdCCM7LO9HwJ3nmpqUEZ5Tb1xgSgczp0QUjlpVLgv6TlMsf7w3ivWhK/vnw1TY
-         +N9kasdgbbSCGzA/mfKxrMAhdiEuOwQGGkqAD2PIPoN/rrU1wROWH19hksp/yp6O80nd
-         U2O3Kcxx37NH+woPi2x7cUkUqP3Zv/lp9vjbZ/tpn7ssENonLbqcLASC4spNRBAJd1Xj
-         IDsiTiAeofqeeYS1NzAmrZNvedePS03zVYZRSOSouqNQ8mH85lOOl5sR3H9pSjdRiK7h
-         y8oA1nrLpQlAdTsLnz4VxnsowpJpdzhkPkyXr8Op8OHILm2yhshgYxD88zCaigM47yi/
-         mTIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793262253; x=1793867053;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Jl62TfhWYAfPnyRC2G3aSDjU5xgDd+P3RO6y8pPbcO0=;
-        b=j5fJo7TsAJxPGaQEKN/UWUr+QShdssww1hJMaRY1/8gwmcOaTqtqnwlMs+314U8xhE
-         mT7RQntIM1SLJiSDGPKPkCqvBdvzO4Gv25egQ997t+zlpfyqp/C8A/ZfZDBJ6pSzAp8G
-         0VisXwb8I6Yz9yhvY+yTFAAff5Am9cunsP/wLG/ODBgPYWrAMPXqfwhMWpIADNbkuXVL
-         XJAsCQrL9JHxRYwUepttgn3LFRXCOyyhJ9L2zOGaD6UT0y9ck4nGxKYSIvnk19/Klzrz
-         drfX9Ax5bCB7teHGuT5JXJ+Hnu61Lvfx163h4kGk01XLvWke5smitgI38363Yp3SuIm1
-         hAVw==
-X-Gm-Message-State: AFq9FYJoMg4Kr1eEJBSTkxX8GfNrhN0dwy6e722l8p+e08QGfL/5xZ0E
-	gwmSFvJQylihTVg/KsD8IlUIUCViZSmg3x43MVhyK3OxJFnFBqMEK6l9RaHeR23xsNtcA40euIV
-	tmC2yTw==
-X-Gm-Gg: AYBFou0RpumusvK6tlQB93Sur+OXvJDQ50BcG4ZgWfU9c7aG5pRouixnLuzS+nDw2q8
-	qjo/RcvQ85Kg66xr41z1OLvU9k7LGYTJFP9EHLX6KD+3b2vjZWy7fmZ0bkKlzuatYdyoyk8w73U
-	GwI0kdAG7eHs6wiTNvIWq5DJGCQ2kwa4T25wcJewFhA8tFFNTtwvmjW7sl1BmB49ehCGUwqIGIM
-	EJ+ype7NLutbGm3zhywkZ3Bd+oCPPrPm/kCbUEenp0G49jD6dGMSMnUDeC5fedoOLyttb5uRFkI
-	2oohD0jzLhJksRnJ9nUioaa45sgybjCYBEsG9BV3Wselx2nf+AoaqJhxJ+puhQm+hl6Dc7YUhwx
-	+a5ezNrenUAjJC8CpB3lqMMlIe7p8/D1OqHTEd1HPswk7kFNyiyfQjrN24ocd7UWrKaB7o/kKY8
-	WbQevCKrHaPNF6AjMDWbG2QKTN13oif6/SCu7JJ1zclq2CBGB7Q0HyiXivfNg4MpbE9EZ2i+BHa
-	Tp/AIp2ZKNw1BiDSZRymiXAu8umc0IBmAXRxZNoma0DJW/b3IiJEp47RcBjzFI0mQ3bhjnNPPbq
-	5/oSpTyvjVzTuAv1HOM0EERZPHgUu+4Nj2cGspsszp+u/reD8rIIW/YyloRth6G1ixwYsHUKdQX
-	UtiPPSzlAc01omD8OAkwfV6lpQivt8RRV34Y1aoS8DWPIi9TfrIMSjqA3/aLn0s9DUABKy3Rm5e
-	XeNc15Q0Wfqw==
-X-Received: by 2002:a17:90b:1c8b:b0:3ac:b7b9:6484 with SMTP id 98e67ed59e1d1-3ae5817e0a6mr3383992a91.45.1793262252637;
-        Thu, 29 Oct 2026 01:24:12 -0700 (PDT)
-Received: from localhost.localdomain ([1.251.203.28])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3ae6e7f9cd0sm3150530a91.6.2026.10.29.01.24.10
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Thu, 29 Oct 2026 01:24:12 -0700 (PDT)
-From: JaeGwon Go <ceo@logictree.app>
-To: linux-usb@vger.kernel.org
-Cc: westeri@kernel.org,
-	andreas.noever@gmail.com,
-	YehezkelShB@gmail.com,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: [PATCH] thunderbolt: Send header-only XDomain properties changed response
-Date: Thu, 29 Oct 2026 17:18:34 +0900
-Message-ID: <20261029081834.91559-1-ceo@logictree.app>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FGYetnwV
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BEAB1F01825;
+	Thu, 29 Oct 2026 08:31:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793262660;
+	bh=wl6DHmnwo6IY8ATB2PYlDBTy5Kc9zrSFOWV/eT982T0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=FGYetnwVQhaZgMS/VzlzvzsSPlP9Tb4ijLjj/2xaaLo9RZpRlIEtALMQrjyFgJVNu
+	 AwYV3rKIPerYTJaD73717NL4HTtzHEfJhnFohuaL1dPIukc/uxBLOH0Ig/CKpP+HbT
+	 gN6ngjjh+76LtcdY3T08uTzlyZd/8zOyb+VXYmiqCAgZVfL/Ubf1+BqcsaQ5BWL5sZ
+	 UVNKAjt+ptHgYFyXWrdkne71VQDNZR2XiY6pKN+1cxJoTjij+Swh6BBunUlwZb3Qss
+	 PdbkaZBtlOiXsfOPmLwXulwBV+fzes6su4x7sHSq0OGKXEhUcz4LoRjOy1JUPGmqdG
+	 GPKy49hJaAk2Q==
+Received: from johan by xi.lan with local (Exim 4.99.5)
+	(envelope-from <johan@kernel.org>)
+	id 1xMLXG-00000003aVE-1aJ8;
+	Thu, 29 Oct 2026 09:30:58 +0100
+Date: Thu, 29 Oct 2026 09:30:58 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Josef Bacik <josef@toxicpanda.com>
+Cc: linux-usb@vger.kernel.org, stable <stable@kernel.org>
+Subject: Re: [PATCH] USB: serial: garmin_gps: queue the device reset
+Message-ID: <auMEQr5QphTIqSqj@hovoldconsulting.com>
+References: <2026102733-prayer-drainer-56f3@gregkh>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -98,68 +60,65 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026102733-prayer-drainer-56f3@gregkh>
 
-Commit 19813551701d ("thunderbolt: xdomain: Avoid potential stack OOB
-read") turned struct tb_xdp_properties_changed_response into a union of
-struct tb_xdp_error_response and struct tb_xdp_header, so that
-tb_xdp_handle_error() can safely read the error field of a received
-response. tb_xdp_properties_changed_response() still sends sizeof(res),
-so since that commit the response Linux sends is 36 bytes instead of
-32: it carries the zeroed error field, and its XDomain length field
-says 6 dwords instead of 5. The other responses changed by that commit
-are not affected, because their non-error members are already larger
-than struct tb_xdp_error_response.
+On Tue, Oct 27, 2026 at 03:29:34PM +0100, Greg Kroah-Hartman wrote:
+> From: Josef Bacik <josef@toxicpanda.com>
+> 
+> A private packet with the ID PRIV_PKTID_RESET_REQ that is written to the
+> port makes garmin_write() call usb_kill_urb() and usb_reset_device().
+> Both sleep, but the write operation of a tty driver must not: a line
+> discipline may call it in atomic context, synchronous PPP for one under
+> a spinlock with bottom halves disabled.  In addition usb_reset_device()
+> has to be called with the device locked, which it is not here.
+> 
+> The reset also unbinds the driver inside the write: the disconnect hangs
+> the tty up, ppp_sync_close() calls ppp_unregister_channel(), and that
+> spins on pch->downl, which the writer holds.  The CPU is lost.
+> 
+> Unlink the URB and use usb_queue_reset_device(), which locks the device
+> and resets it from a work item.
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Cc: stable <stable@kernel.org>
+> Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> ---
+> Johan, this was sent to me, but I really don't know if PPP is used for
+> this device to talk to the port or not.  If not, this isn't a real
+> issue, but if it is, then maybe it is?  I can't tell so I'm tossing it
+> to you :)
 
-macOS sends this response as the header only. macOS 27.2 (26B123) keeps
-re-sending PROPERTIES_CHANGED_REQUEST when it gets the longer response:
-after link-up it repeats the request every 1.5 s, ten times, and then
-resets the link, about 15 seconds after it came up. thunderbolt-net
-logs in and passes traffic before the reset. The same host stayed
-connected to the same Mac for about 23 hours while the Mac ran macOS
-27.0.1, so the change in behavior came with macOS 27.2.
+No, you would not use PPP with this device, but if someone tried to I
+don't believe they would be able to trigger the reset due the PPP
+packet framing not matching the garmin_gps header format.
 
-Send only the header again, as before that commit. The union stays, so
-a received response still has room for the error field. Linux
-requesters accept the shorter response: tb_xdomain_match() requires
-only frame.size >= response_size / 4, and tb_xdp_handle_error() reads
-the error field only when the type is ERROR_RESPONSE.
+So basically the patch is fine but the commit message is misleading.
 
-Tested on an ASMedia ASM4242 USB4 host running an Ubuntu 7.0.0-38
-kernel, connected to a Mac17,6 running macOS 27.2. With this change
-macOS stops re-sending after the first answers, and tracing shows an
-8-dword response with length 5, the same as the response macOS sends.
-The link has stayed up for over 1.5 hours, about 80 minutes of which
-carried a multi-gigabyte transfer every few minutes. Not tested: a
-Linux peer, the error response path, and macOS releases other than
-27.2.
+You will still get a deadlock with the default line discipline however
+so that's enough of a motivation to fix this (even if that doesn't wedge
+a CPU).
 
-The analysis, the fix and the tests were done with an AI coding
-assistant.
+> -	usb_kill_urb(port->interrupt_in_urb);
+> -	dev_dbg(&port->dev, "%s - usb_reset_device\n", __func__);
+> -	status = usb_reset_device(port->serial->dev);
+> -	if (status)
+> -		dev_dbg(&port->dev, "%s - usb_reset_device failed: %d\n",
+> -			__func__, status);
+> -	return status;
+> +	/* This is called by the write operation, which must not sleep */
+> +	usb_unlink_urb(port->interrupt_in_urb);
 
-Fixes: 19813551701d ("thunderbolt: xdomain: Avoid potential stack OOB read")
-Cc: stable@vger.kernel.org
-Assisted-by: Claude:claude-opus-5-5
-Signed-off-by: JaeGwon Go <ceo@logictree.app>
----
- drivers/thunderbolt/xdomain.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+USB core will unlink (and the driver will kill) all three URBs as part
+of disconnect so I think we can just drop the interrupt-in unlink here.
 
-diff --git a/drivers/thunderbolt/xdomain.c b/drivers/thunderbolt/xdomain.c
-index b187a60..563a8b6 100644
---- a/drivers/thunderbolt/xdomain.c
-+++ b/drivers/thunderbolt/xdomain.c
-@@ -509,8 +509,8 @@ tb_xdp_properties_changed_response(struct tb_ctl *ctl, u64 route, u8 sequence)
- 
- 	memset(&res, 0, sizeof(res));
- 	tb_xdp_fill_header(&res.hdr, route, sequence,
--			   PROPERTIES_CHANGED_RESPONSE, sizeof(res));
--	return __tb_xdomain_response(ctl, &res, sizeof(res),
-+			   PROPERTIES_CHANGED_RESPONSE, sizeof(res.hdr));
-+	return __tb_xdomain_response(ctl, &res.hdr, sizeof(res.hdr),
- 				     TB_CFG_PKG_XDOMAIN_RESP);
- }
- 
--- 
-2.54.0 (Apple Git-157)
+> +	dev_dbg(&port->dev, "%s - usb_queue_reset_device\n", __func__);
+> +	usb_queue_reset_device(port->serial->interface);
+>  }
 
+Josef, do you want a send a v2 of this or shall I treat this patch as a
+bug report and fix it up myself?
+
+Johan
