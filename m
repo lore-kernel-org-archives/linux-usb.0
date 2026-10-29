@@ -1,109 +1,100 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.218.53
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793235494;
-	b=V4FGRh3GPYm9hSuc4iHgHbo7wiRjomX0MtRusiX7mLCE1DNH1EOgGG/juj5XrtxXtcFv
-	 zZlkdY+6HRdLYxPH/Fr1I5jK8aXdfMNXO7OYAE7pJ2P16valtEGcbr2YU0x8fy7AF69T0
-	 Z/sIK4RyyA8zU78nrk0Xp5xVeMbvO7Ue0fwFPAQw8TiD5jZbj2YiQKjc4hCe8ozjdO/fl
-	 08KK7ksYERCOpljiK1xayD5VUEJTpJI2/FCCkq7cP4gjXSI65vwi2jdFSmu7W+nfx+q/q
-	 FclkvMhaoOxtzntbFPTmMzC6/vlQOQGim7MR+ieKbu/aYOU0G45QutnxNevLobIOVeA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793235494;
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=209.85.210.50
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
+	t=1793240730;
+	b=N1RJWjpscO9/RRf/mHta9uTOqeMabf/3uicB2FwrUTFrfNeqLIcgvKlLIWifx+apyIYh
+	 2VTI0G2wW4SynmcP4gG8A/dbaKKO3sjC8qaZ7NU+y8cXqV8Q3qFoZBdy2Vii81fZSbkWr
+	 xEJYUkoexvlzP5znVEZg1zz6D5BWXejdL708CXI6n+jMrntRH9Zg+UksygvF23EKt5E9j
+	 b5eelk+E7zrJTqQvdq4jUJfQMnpJm0MMEULW+t5nkC7TLFbBduEqzp61jBghoXDOg2Gpy
+	 sV9DzE7qcIB0BJ9AAe89hirQNd2gsmj5mEcvcRP/Lqsw23NtQUA9b69LWJx6tW85hSQ==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793240730;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=MGY0Rqt9U0dIYToocgg3kUF7zpT8f/idrVBwF/VTivU=;
-	b=4lz60L3g3ZFhRCbolL+AcJwUTs19P71avQ1L8gGkiXe0sQpDOYycT/+vfrzK1/uSaU9Z
-	 aWrBnStpwWGkJHyRrEWhV/dqebNu7/NQO8mNsaOvxJydhn0oN+FUfCtx4iLbo3xeD9oq1
-	 hnFR/HK5o2fq7ffZURB4HfbqoOsAos8OsqCpjknpZ6fI63yVxBzOcvV23hC7rkrsealwp
-	 +JqwJbvvsidrWs0rYg1YCydiHWIkNJDFvCmnMFLpkOsmZvtEFB+bIXpxYs+uR1380j554
-	 XQBYtju3ieja97blyCtZSV8AeHYKHNAagxxd367NiDlry5rtBJGZNNJXgfgBOHaCkdA==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:
+	 MIME-Version:References:In-Reply-To:From:Date:X-Gm-Features:
+	 Message-ID:Subject:To:Cc:Content-Type:Content-Transfer-Encoding;
+	bh=ibrE7kLfmhA0/hpTQtmllGHOAtohRxdo6NcA+NdA/cc=;
+	b=Cb+rBPc2H3AAB4z99yUv26csTI5OpLjU77KVJXwFBGZV174H9l/fG947i6LQL+nlT/OI
+	 CUkaTbq1EAs+kziVpm9AgCrg926vbYQttA8M2320zoiSSFemuEPadihEjMMCwaITAZw2N
+	 OjrsTW6VIsNcJUUAaEYViys5Prk6iGSAbzUGsjMUYqYlY/CjARmS1ooDcpxKlJCHmzyXK
+	 Pmr9tYu7eUJQsuaBIHpK5DqQF/aQZd+3j9s3Bd4CFQ7uozrZ2orGPQm55qrfd38PR2xlp
+	 h8eUNURM5qhedA/M+ZThcSzuUt7eXo73hx51huc9xIepRBto1LKj0XHtzcCiIQwVKcQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rs8xIkAo;
-	arc=none smtp.remote-ip=209.85.218.53
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rrLqpNHP;
+	arc=fail smtp.remote-ip=209.85.210.50
+Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17EF606A31E
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 00:58:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C17EF606A31E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9F62606A31D
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 02:25:29 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C9F62606A31D
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rs8xIkAo
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c418e215671so204630566b.0
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 17:58:13 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=rrLqpNHP
+Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-823b938464fso1129978a34.2
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 19:25:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793240728; cv=none;
+        d=google.com; s=arc-20260327;
+        b=qNalVUNOYu3HrMNyZ6/6AZ7OnesE7OeTGSr0eovZymaSNUVL4TSMREHeYoQo4mDkr9
+         U8Niq4xL+P50gJbRizLPoMMzMRahnzxZC5vSlPA5YG/PLIYX/Dx8mTdmEQM1oRL6vqr2
+         bZVRH105iDCkHVnPHc1IOs41vf4rkyVEbjFXFLo4Lv17zyF69eJnBT75twwVzXjKez+m
+         ltJiER3kvVfBVdInP0FqpV1xkP97ge5WR0EzgFJfjhPWHQEIxr3RWips9XgXE92bCZQ0
+         fHtyod4wwmbTk7xlAnwnA+Ga55bF9ftHqkM6MsH4i+3Ehc84aB+gecct+5pgHj7YP32C
+         at1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=ibrE7kLfmhA0/hpTQtmllGHOAtohRxdo6NcA+NdA/cc=;
+        fh=WiLY1PjGVBuTwpRTb+eHBQLBaoU/reSDzk/OECNiti0=;
+        b=aeGy6w/uw3wQ6grkvfh5W7rx6NAcz8ltRCxtm3RGwzEYgfqaq8r5EIQ+/7e1PeSCJR
+         7rbVrGqDOHpIGsXTGAW4u5Z1ooxFsjR5y7up0RRVapvmvnYibIXulHE4OU1Hzxb03Nu+
+         LZ2e6ig3Y0Q70j9OzfeXxc0Pd1rupdMEcSgoAgPhqVD8vCqud9SJZjKrXvvNKyb5freP
+         qYLjhDUkJdtsZVR1DNvDbkjm1Ij3WzC7D87Jw04RL8bdDz3JghDM0vKxMhlR3IJPxqBg
+         qqX+7AAGrQkfjYkqNBBSm9fkIBzXhUgX3TE6g+YUk9rKG7EdIt4yaCx3Eseu4eCWyHH9
+         Zp8Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793235492; x=1793840292; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=MGY0Rqt9U0dIYToocgg3kUF7zpT8f/idrVBwF/VTivU=;
-        b=rs8xIkAouFHDsph5jR746myyk7Bx0+LNv1CR/Wt5X62T+524n9QPun1aakHOpK2TdZ
-         5DmzpUBHkUlXiNI8zoV3Jytk7K2OWDFUQhiOuU78cfX7QMlMKIHxNBXbgZaKhdp49oX8
-         pkp5USBEg0p1Ghwcx97bwqO4oCdxJdXvL3rx+pSMQpObjrsh0L6Lj4/CPHRzcx1k3nxH
-         EbLADyELT7y9w1Bq7jo/QwVDBh6MC4C2l7r18PKZEtpziPOgWjlOc89CK8C/aS85wJWV
-         D4BBWo98f6KzussDciaxsvQAYYxC3a9GZucuChxfUz1pT0Mt6z7rio//7ffN6Li5zHY+
-         WscA==
+        d=gmail.com; s=20260707; t=1793240728; x=1793845528; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ibrE7kLfmhA0/hpTQtmllGHOAtohRxdo6NcA+NdA/cc=;
+        b=rrLqpNHPmoyjvTVXcgriO7Urn3CAdbOtl6SWdtR2Kc+m39GbUjHB0sidRN8ITutXYc
+         KUSLc6jY5wffVfDNJhoFFp7X9FCSQA+33STiVTZ2FjFkYp8TSG60C6r1S+5BRcFKSmei
+         bheGuhffuNW0FZTbGs9Bxn3WpAk5NRs5I7L80b00rCk7gBTXAeKH6fIQkvR4IH5KtdHd
+         /IKH9a5lixQsscIAf/sh1pxqhLTlFPbkYl/4usF3Pv2lCj4kvNANqpOs5wwmsj4HpkkF
+         V9mowesznZzsM6SUMZa3cdijtzeOqgJRB8W11+B7X4pt25XqSPM+diKqkMIYUKYs9Ae9
+         v7oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793235492; x=1793840292;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=MGY0Rqt9U0dIYToocgg3kUF7zpT8f/idrVBwF/VTivU=;
-        b=0LMD10Iym2PDy4cYIGTCEVhN1jI95AOrkRuecsbKN6Yinv+lDh9RuB5YpogB0HpTjg
-         qOohA1XotMDvmEbEjW1HV7ic2qjdnJPtPTFiprxKoHlYPVBvRIWZEHUe2UILlWT+8LPD
-         agVaGb7mzSqQCZlWiGehmMQqUEhvl821OYX6MX2lTE5f0GEUtv+BtYN1AyUq6ECkMPRL
-         Z5Pe3Eyg+mfD5Q1P1mRf7KSWIA+I5UFflLwGtOlIwIJDbCiacdjL/F4cxEKA7ZXSv+Wa
-         xO3TqUeURG24m+UvsWw7TNiCLqlWvv76rithj4TMAqIqBawsosWEoAvJRDNvNTiXoO/C
-         SqZA==
-X-Forwarded-Encrypted: i=1; AKwUvByS65ujBqGlu+CAKeo74wZIAoQpXENZl/AwjC2jdRfK+6zS8DLQS0UbvlyhP+rD4FZ41wg8lGxbqNM=@vger.kernel.org
-X-Gm-Message-State: AFq9FYKkF01aLbWbeQiDlo40fZ4IS4STOvl70UXE2wfE5Xobl23AfWk3
-	Y+XiaYqwbq8ZQufA8UIG5BCtEBzNy+cVuKX4k98LhpJtPVjzWDlt7JU4+kmRc+U4
-X-Gm-Gg: AYBFou2k69MUwRpuxlYu8MALcPNBbEUgtciHhwdEjx/Sv7ZOAg7mYIoZX4K6/DZ9Y/E
-	07JT1wpVFwNK94/TdGJauz1rOXtwo3tO6+GAra52nE0olesB0Jv3WjJcr3FweAvNzsLgWup+XO2
-	THTpsmXPy0icafwe0Q5ZRNRPRH9HMGzqD70+uWGFrA403/s5aHq6PPBJFPawITPq1Zv9BR6dNVD
-	MjrNyzuafD4Rwk5Zpmw8cnmN0oxf2Duq7g2Q7pg1Kcf8Ori9DocxGKXZmkVqZ8y863RKfZqB9yH
-	3yYUi9WBFYGRNoKFNV54OkHLmIDbJcaEkFn7gTTWT17GQtivpvypODlokcpCm9GCTtLWMYB3YIW
-	QPWzvMV7MrJ8NdGRbbn33O0eeaD91OmRnoRLc+U98gRPctXCSGj4VTw1hGWNtNz/H3ZuAmwaZeD
-	Kyax4rI2MU764Y8FbBqlBVdVTULYZhI59N9BpQB38br7oy1WZz4wcxUqpX68DZnmqx8FUk/OYNu
-	FD/JmQHYTGA8Zx2uRD6Si3G6qIzEHhqZff5bIyh9Pdehc5JVyji7HzLptP4j3CbFlByTnNpqh+T
-	8bIvuEEbofDj1W7mEU8QplxBHmJJlnr/XBCpjFWhpRh07oOAFTHkBq2bIuU79Hvc6gbV9VeUriO
-	R2dP+8fwhN2UEamgqSinA4qtFLZgbwJJi8iYnOkGWpcyiOOHnCfh2nevX7PveyXAlCMgulTkhIQ
-	IKFXtfskiHUZe3fZd37Pqup0toITDhPXCpFtHx
-X-Received: by 2002:a17:907:72c3:b0:c49:b90a:988b with SMTP id a640c23a62f3a-c49bdf89bc9mr328062966b.49.1793235491600;
-        Wed, 28 Oct 2026 17:58:11 -0700 (PDT)
-Received: from localhost.localdomain (249-172-21-31.ftth.glasoperator.nl. [31.21.172.249])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c46bd66bd3asm668971966b.56.2026.10.28.17.58.09
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Wed, 28 Oct 2026 17:58:10 -0700 (PDT)
-From: Emir Beganovic <beganovic.emir@gmail.com>
-To: Birger Koblitz <mail@birger-koblitz.de>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Huacai Chen <chenhuacai@kernel.org>,
-	WANG Xuerui <kernel@xen0n.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Jianhui Xu <neuromoments@gmail.com>,
-	Nicolai Buchwitz <nb@tipi-net.de>,
-	linux-usb@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev
-Subject: Re: [PATCH net-next v19 00/13] ax88179_178a: Add support for AX88179A-based chips
-Date: Thu, 29 Oct 2026 01:58:09 +0100
-Message-ID: <20261029005809.19405-1-beganovic.emir@gmail.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
-References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
+        d=1e100.net; s=20260707; t=1793240728; x=1793845528;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=ibrE7kLfmhA0/hpTQtmllGHOAtohRxdo6NcA+NdA/cc=;
+        b=ScyrMO4btCO1Z1H/7PNbZP94X55vzO+J/AiV2H+/BqTAcKW/fdrB7j/u9YjngSsGk/
+         Zhn5ws4hD46XqeQWGGF3BRqXSmIdvmBFvEPuN2ob4Va9dJbG5yMMSriaFADQta5K6L/U
+         tOSuPuURDCstxGptL9MK7CHOpU/1VR3V8G5WUo0ODPNd6co+VURKdRkliDRvEgAHaI0a
+         lDptq9q0VOABMVF581JvtPKyGy4hygoHK2M9EhxSS6LnW+X2ozOyrVzETMc4ShlvDV83
+         c6Fe/1/3LSGE3rnUpC44XvU/abZX5dNLAr/LIoNYxxhx36g8kDWipyBDKj6cQcBtO0Uo
+         Z3Yg==
+X-Forwarded-Encrypted: i=1; AKwUvBxNLtDsQqL0JS4ubXtvvpaCmAA0p0SlELIHDvyZBatQpDCTFkvTH4B9x83qVujww42e/5SG234dd7A=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIU4iiXwnvRkf1jTGQ8JomZB7FIieR8BT/nXMtME83Z0ibyebj4
+	CgCqaY2pmgTgQyc4hQuvx9b86+1ZiVrRJC3VrBtvrG28BY+JsgI1cmCl7euc6PDIc9DvnFRDUMG
+	XnVxyAW1N0JT/VIDFVgpkwhMqBFaomXf5R9Kr
+X-Gm-Gg: AYBFou3tP0KmhdYivSz1Etrlda54t9rXdCP3/e3XGyfBdSDm2L7GjsfkkH3NbyAHXXy
+	fuJYjMlN+pXav9xng9nD/tQ2wZFGPCoGVx6Ede76NOEzuqIiEIOakr+FgInT3bADe1/BpNRhl0T
+	L72q5HXuKogRDZdH4WTcHZbB7/NbNFABAyvclVrbzteaoS/sFfr2qg6QFr5GzEoyw7nDT+trGJq
+	GtYmay+zcw4COv7eK4b4JEcheTlMJiW7z2dKAUVVtjZDPsEHNA37h78Dab3p/rcTYKfi1tOWnDl
+	MX/rLu6Jo5QY038cb2F2UOnC+urna4MWnM24gSybg3PGUagn75gXUwtJsMxZ1H4MuMpbDf0VOvW
+	1JxJpDgszE9JnG2dEUL/LkGJxYlHFxxLLtcZsnrg=
+X-Received: by 2002:a05:6830:2b22:b0:81f:22fd:6ed5 with SMTP id
+ 46e09a7af769-85ab929bea9mr4207273a34.21.1793240728513; Wed, 28 Oct 2026
+ 19:25:28 -0700 (PDT)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -113,48 +104,146 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260914013033.3938-1-ki.chiang65@gmail.com> <20260914130907.749cd8e7.michal.pecio@gmail.com>
+ <CAHN5xi0NSJO=V0=eVd4_MGp2Lg5NrwB3D+hsF87ehTSmaeeSbQ@mail.gmail.com>
+ <0e4c85e8-77e6-4eb9-aca1-048199f2f0e0@linux.intel.com> <CAHN5xi0tN2iWGVfH18SASoP0HVvAaDY4Kgq2U6LCCznGg-1o9w@mail.gmail.com>
+In-Reply-To: <CAHN5xi0tN2iWGVfH18SASoP0HVvAaDY4Kgq2U6LCCznGg-1o9w@mail.gmail.com>
+From: Kuangyi Chiang <ki.chiang65@gmail.com>
+Date: Thu, 29 Oct 2026 10:25:17 +0800
+X-Gm-Features: AclHuK9d_Y4NwcLAID_WoSD1jcWekDk2VdLFqupARR4n9WQETwi-Tu-aoyzptUQ
+Message-ID: <CAHN5xi1M+g3Sy8YkRKpZuU7EtTxiyi0ZD6y5TCcAZTrpxUpHNw@mail.gmail.com>
+Subject: Re: [PATCH] xhci: Fix HIK camera control timeout on Etron hosts
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Michal Pecio <michal.pecio@gmail.com>, mathias.nyman@intel.com, 
+	gregkh@linuxfoundation.org, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Birger,
+Hi,
 
-I tested v19 on a Dell DA305 USB-C adapter. It has an AX88179A
-(0b95:1790, bcdDevice 0x0200, FW 1.0.7.131) behind a VIA VL822 hub,
-plugged into a Dell XPS 16 (Panther Lake). The peer is an Intel I225-V
-behind a switch.
+Sorry for the late reply.
 
-I built ax88179, libphy, phylink and ax88796b as modules for a 7.2.8
-kernel. v19 needed two things on that base: a4e22e9253e7 and a backport
-of genphy_{read,write}_mmd_c45() from the adin1140 series.
+Kuangyi Chiang <ki.chiang65@gmail.com> =E6=96=BC 2026=E5=B9=B49=E6=9C=8818=
+=E6=97=A5=E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=889:58=E5=AF=AB=E9=81=93=EF=BC=
+=9A
+>
+> Hi,
+>
+> Mathias Nyman <mathias.nyman@linux.intel.com> =E6=96=BC 2026=E5=B9=B49=E6=
+=9C=8816=E6=97=A5=E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=888:18=E5=AF=AB=E9=81=
+=93=EF=BC=9A
+> >
+> > On 9/16/26 04:33, Kuangyi Chiang wrote:
+> > > Hi,
+> > >
+> > > Thanks for the review.
+> > >
+> > > Michal Pecio <michal.pecio@gmail.com> =E6=96=BC 2026=E5=B9=B49=E6=9C=
+=8814=E6=97=A5=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=887:09=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+> > >>
+> > >> On Mon, 14 Sep 2026 09:30:33 +0800, Kuangyi Chiang wrote:
+> > >>> Control transfers to the HIK 1080P Camera (2bdf:0280) can time out =
+when
+> > >>> the device is connected through an Etron xHCI host:
+> > >>>
+> > >>> [   48.363671] uvcvideo: Found UVC 1.00 device HIK 1080P Camera (2b=
+df:0280)
+> > >>> [   53.465662] uvcvideo: Failed to set UVC probe control : -110 (ex=
+p. 26).
+> > >>> [   58.585653] uvcvideo: Failed to query (129) UVC probe control : =
+-110 (exp. 26).
+> > >>> [   58.592967] uvcvideo: Failed to initialize the device (-5).
+> > >>>
+> > >>> Testing shows that at least 125 us between control transfers is req=
+uired
+> > >>> to avoid the timeout. Limit the workaround to the affected Etron ho=
+st and
+> > >>> USB device combination to avoid changing control-transfer timing fo=
+r other
+> > >>> devices.
+> > >>
+> > >> Any idea why it happens or why the delay helps?
+> > >
+> > > We don't know the root cause yet, but we did some more testing.
+> > >
+> > > We tested delays of 50us, 125us, and 200us. The issue was still
+> > > reproducible with 50us, while 125us and 200us passed our test.
+> > >
+> > > Our pass criterion is 30 successful plug/unplug cycles on each port.
+> > > So 125us is the minimum delay we tested that consistently works.
+> > >
+> >
+> > Are there issues with the control transfers already during enumeration
+> > of the device, when reading descriptors etc, or are these issues only
+> > visible after uvc driver is controlling the device?
+> >
+> >
+> > > We also tried USB_QUIRK_DELAY_CTRL_MSG, but its 200ms delay is too
+> > > long and causes UVC initialization to fail.
+> > >
+> >
+> > Does it help if you as a hack set udev->quirks |=3D USB_QUIRK_DELAY_CTR=
+L_MSG
+> > _after_ enumeration and uvc initialization?
+> >
+> > >> How many other HCs did you test this camera with?
+> > >
+> > > The camera works with the EHCI host we tested without any delay.
+> > > We can also reproduce a similar issue with an ASMedia ASM1142 xHCI
+> > > host (1b21:1242). This patch, however, is limited to the Etron/HIK
+> > > combination.
+> >
+> > I think we should avoid usb device specific quirks in the xhci driver,
+> > especially now that we know it's not really tied to a specific xHC vend=
+or.
+> >
+> > If this is only an issue with the control transfers sent by uvc driver
+> > then I think this device specific quirk should be in there.
+> >
+>
+> Thanks for the suggestions.
+>
+> We'll do some more testing based on your suggestions, including
+> enabling USB_QUIRK_DELAY_CTRL_MSG after UVC initialization.
+>
+> We'll report back once we have the results.
 
-With the current driver in configuration 1 this adapter never gets a
-link ("Failed to read reg index 0x0040: -32"). With v19:
+We did some more testing.
 
-- 1000/full link with flow control
-- download 940-941 Mbit/s in nine runs. Upload was 937-941 in five of
-  nine and lower in the other four, and I couldn't find why. Eight
-  later runs with tracing on all averaged about 932.
-- 1-byte TCP request/response around 190-200 us, against about 1.46 ms
-  with cdc_ncm on the same port (its default 400 us TX timer)
-- switching itself to configuration 1 when the device comes up in the
-  CDC configuration
-- 100M and 10M links
-- VLAN with rx-vlan-offload on and off, and rx-vlan-filter dropping a
-  VID that isn't configured
-- multicast filtering and allmulti
-- suspend/resume (s2idle) and wake-on-LAN with a magic packet
+We don't see this issue during device enumeration.
 
-Two small things I noticed:
+We also found that the timeout is not limited to UVC control
+transfers. In one failure case, the first timeout was observed in
+a UAC control transfer, followed by UVC control transfer timeouts:
 
-- "Switching to vendor mode" is printed twice, once per CDC interface,
-  and before the netdev is registered, so it shows up as
-  "(unnamed net_device) (uninitialized)".
-- After a WoL wake the link goes down and up twice within about 2.5 s,
-  where a normal resume shows a single link up. It comes back fine
-  either way.
+[  961.127402] usb 2-3: 5:2: failed to get current value for ch 0 (-110)
+[  971.367443] uvcvideo 2-3:1.0: Failed to query (GET_DEF) UVC control
+2 on unit 2: -110 (exp. 2).
+[  976.487473] uvcvideo 2-3:1.0: Failed to query (GET_DEF) UVC control
+3 on unit 2: -110 (exp. 2).
 
-I only have this one adapter, so nothing on the other chips.
+As suggested, we also tried enabling USB_QUIRK_DELAY_CTRL_MSG after
+UVC initialization, but subsequent UVC control transfers still timed
+out. In addition, UAC control transfers may already have timed out
+before the quirk is enabled.
 
-Tested-by: Emir Beganovic <beganovic.emir@gmail.com>
+So far, we have reproduced the issue with these xHCI hosts:
+
+ASMedia ASM1142 (1b21:1242)
+Etron EJ168 (1b6f:7023)
+Etron EJ188 (1b6f:7052)
+Intel xHCI (8086:8d31)
+
+The issue is less frequently reproducible on the ASMedia host.
+
+The camera works with the EHCI host we tested without any additional
+delay.
+
+So we agree that this device-specific workaround should not be in the
+xHCI driver. Since the issue can affect both UAC and UVC control
+transfers, we plan to handle it in the corresponding class drivers.
 
 Thanks,
-Emir
+Kuangyi
