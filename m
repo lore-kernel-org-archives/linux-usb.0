@@ -1,56 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793226709;
-	b=W8iZ9HrkRkwUslxdnuABaUqsNwt7WEOCua+5GPEW/qddyY/oXh5QYAbTizH+bl2wD+m7
-	 1xe5DbRkkZlttE6WYBwq0yxK64MwM69a6jTEyz2lJtcTFFmEnWo03bCOuaRhW1XldBwtl
-	 xV2JpOGAuPRLk2B5v3dwpyBVfGMY2J5jFNfoZLFuAPJEjhTk9SGYZCe1rwK7XyjByJbfS
-	 +UtV8AvY+rfPZWxgk18hoIi1EMjo1mNAnPSZZdtkmCI8La1K6ctkTxP8kHoDd+i64aBiQ
-	 QJM1KAQO+l034x2y2/bnx1BUXVnBBeiMXn81/aOOyHbUZFsQPnU9JoHhl+3Fnyc3Wrw==
+	t=1793234408;
+	b=X2bN6DJIDJVTKiFdMPqOy/ivl04o1QbQTOJ503+Ev5/HtVl2Rgbb88ShyyQOPLGvYVoz
+	 itT/ow84T4jhQIsb8/ObwBOhu7hNo1/1VuRjVLpYn2AHIvwFp3Bc+f7hZyQjdjpC9ByvA
+	 pv+lMSy+Y1ywvbwGu1FtyahnnLyVjCGHpN0mspx/xitb4+el6Ubw04pw65iRSZMvAtEv0
+	 gAUKudzgJt9hjdhF1x55w05oEW+N8RHkZIl31Z+CTEZKEeTx3D/S6+lE/ID3wbq3vSf6L
+	 Sl0Ot3HJ6gBAb/NwFb7O+wOlYefPpckbxIXWnJRm8j9z2jgO/Wum3ibLb8z0cE74Cfg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793226709;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=qqoIFzkIp8BOZdj1kPHatUQgw1kgpjbPVP6ny1CPt2E=;
-	b=AHeNnQigRlFFZmpjEigockJwHG2GPhOjYygeTc0UEbRD38Wl7qhyBzYQj0afj6gXpqYW
-	 se/w4LU8kWo20Lo8aqqekHe3uftUSLKfB8UJwncmN7UIlzAg74X9acUs01hotD2yC+c60
-	 xLWqR5ugyF4KRX+iS/yT/0fyDXqon0fypz5dMkuGudRSaUunxoRh6VEzb0E8rneWoPvB2
-	 7ID8dpQ0/wfJN+Vv0s+LjKgu2gzp2qCPq67tAPVkl7n9HOLxYvkqYgzM4NLXOZzyIsgM8
-	 zKJtP3fNy02nez2+zibHDiKBmv5ZhcvAabfq1E/XVSEPyC7LXyCiD5iPQ/UILaMfaow==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793234408;
+	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc;
+	bh=sIMaCih5WbMjIRBxJkMFuHw8dXwDEekTQy6XcIdsZew=;
+	b=VswXYV9gH6eeDRD+ozjWLi4wQZycyYZRDOllWq+t8mwWugS93Q4ryiWMMJIowCpp5QAy
+	 UvzGkGLhNjbglUjBLnH5nA2l+W9I7QWvr00nIrHeeMaWHaGXaV3D8F+/OcLeRftmCGr/a
+	 PqUjggmXQiwb/gdfuyaSFdsA1lVrbQDxSnP5xQU6Jk2rAOnEpXEYk4bGfA6lYQcD1rO+f
+	 IikjARNQJToTM2DYB4PNr9VdE5ivAIYDOT0K3gxNcTBDkDBDdWlRe4WvYEzktM+A9esg2
+	 QNtATzroPgEbsraV4lsq72AtEQAK2kSe4DRGduhS33NWr+bUeXq0hcNQQoQHp2hFVqA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IcbA63m8;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C5CcoCQE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE583606A31A
-	for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 22:31:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96049606A31A;
+	Thu, 29 Oct 2026 00:40:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IcbA63m8
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A3201F01825;
-	Wed, 28 Oct 2026 22:31:48 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=C5CcoCQE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10C721F01825;
+	Thu, 29 Oct 2026 00:40:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793226708;
-	bh=qqoIFzkIp8BOZdj1kPHatUQgw1kgpjbPVP6ny1CPt2E=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=IcbA63m8feEv4TlnYvVD7YKH39uG0cov1k5lVmBdi9U1RLQslb5K4CMLzUfecLh9g
-	 kcuJ4rtEne6yD5uYFA15DoS92NjnPgm1eixg4awMo1R9A7f8YfHtQC79WHLG8U4ZTk
-	 dxnEH8A0IHfY6NPd1YBq+sXdE9/Tvx+dVePz65wK8BKfUDUQbwAJ/aHf/sGN9GM4Dh
-	 vC96ZTIisebyhyN7u1dIV8wQjwL3vUsrM9ZU7OYA0V7+crFYwSOnfNBaEfijmsnH6Y
-	 XQ97499UIzcY16E5rcArEUcHyDy7jIO3PbJobZXseOgpJZoa93GmCpZrTlFOv2N8pl
-	 Ez4SzE1JR/yhg==
-Message-ID: <sashiko-outbox-188505@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_uac2: prevent invalid bInterval
- auto-selection
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Kyle Farrell" <kaf@nwlink.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261028222800.782988-1-kaf@nwlink.com>
-References: <20261028222800.782988-1-kaf@nwlink.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 28 Oct 2026 22:31:47 +0000
+	s=k20260515; t=1793234408;
+	bh=sIMaCih5WbMjIRBxJkMFuHw8dXwDEekTQy6XcIdsZew=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc;
+	b=C5CcoCQE6aCh9KUijWnl/0t1EDUoArz2O1JCw1RhvspvYJ8VAScyHujyzxEiLtkmh
+	 QWKa4yOhXqfToWUfKEyJpxgFFnZSgQTI2RWSPV5y3Nw6eu/17+9BFP/ahsIhCKZJHa
+	 G3uWnh8r09b1CbyC9hqxxqexKkOFIzk/dexYD7TYrWk6jq0pkCQ7lKje6ZouTUiaOM
+	 eegajWukua36O8UQJVHkfOzNjBT1IqjFK/+SBoPFvhr3GrlT5aDuMQyene4Ojn83kE
+	 U4jXvPLSWCkA+ptKcQM/eXPOh3Gui6gGU23idznYfy4ErqCZnhXILk0R2sHYjS2KYM
+	 LfWjpcFQ3z3zA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 0752D3AAFC4C;
+	Thu, 29 Oct 2026 00:40:08 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,29 +52,46 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net v2] net: usb: cdc_ncm: add Apple Silicon MacBook Air
+ (05ac:1903) device ID
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <179323440682.1500896.2425926317481165612.git-patchwork-notify@kernel.org>
+Date: Thu, 29 Oct 2026 00:40:06 +0000
+References: <20261024122051.14427-1-divyanshuj2006@gmail.com>
+In-Reply-To: <20261024122051.14427-1-divyanshuj2006@gmail.com>
+To: Divyanshu Jha <divyanshuj2006@gmail.com>
+Cc: oliver@neukum.org, netdev@vger.kernel.org, nb@tipi-net.de,
+ andrew+netdev@lunn.ch, davem@davemloft.net, edumazet@kernel.org,
+ kuba@kernel.org, pabeni@redhat.com, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 
-> When p_hs_bint or c_hs_bint is 0, the driver selects the largest
-> bInterval from 4 down to 1 for which the required bandwidth fits the
-> maximum packet size. The original implementation intends to keep
-> bInterval at 1 when required bandwidth exceeds the single-packet maximum,
-> but the search loop instead decrements bInterval to 0 in that case.
->=20
-> A bInterval of 0 is invalid for an isochronous endpoint. A Linux host
-> reports it and substitutes a default:
->=20
->   usb 3-8: ... endpoint 0x1 has an invalid bInterval 0, changing to 7
->=20
-> Stop the search at bInterval=3D1. Maintain existing clamping of
-> wMaxPacketSize and warning about possible data loss when the required
-> bandwidth cannot be accommodated.
->=20
-> Fixes: 355a05dc8367 ("usb: gadget: f_uac2: Optionally determine bInterval=
- for HS and SS")
-> Signed-off-by: Kyle Farrell <kaf@nwlink.com>
+Hello:
 
-Sashiko has reviewed this patch and found no issues.
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261028222800.7829=
-88-1-kaf@nwlink.com?part=3D1
+On Sat, 24 Oct 2026 17:50:51 +0530 you wrote:
+> The Apple Silicon MacBook Air exposes a CDC-NCM interface (05ac:1903)
+> when connected host-to-host over USB-C.
+> 
+> The device tested is an Apple MacBook Air (13-inch, M1, 2020), Model A2337
+> (MacBookAir10,1) with an Apple M1 chip. Unlike
+> commit a5148bc2fa27 ("net: usb: cdc_ncm: add Apple Mac USB-C direct networking quirk")
+> which hypothesized all Apple Silicon Macs share PID 0x1905 ("Mac"), this
+> M1 MacBook Air exposes PID 0x1903 with iProduct string "MacBook Air".
+> 
+> [...]
+
+Here is the summary with links:
+  - [net,v2] net: usb: cdc_ncm: add Apple Silicon MacBook Air (05ac:1903) device ID
+    https://git.kernel.org/netdev/net/c/a8d0451967fc
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
