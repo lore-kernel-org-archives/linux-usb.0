@@ -1,77 +1,57 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793306617;
-	b=gUm3c1p2LmfwtUfwzKquWPI2eRaA19Mz87kLjacc1qa+r4JemI2Du9I2lwPSvD8Uy0ck
-	 ec0cpJyYR9zAxbvWPSlrQ3Djx2oqIjQvu/NVoPhgjXW1d3Dh+bW2oyBPUd71lsKtDhkXy
-	 5UGO81kAqXVXPcX//6NO/cZGnSVxCLzGPQppWD46mrElrhIcGLUI3o6GeLOlXfCI+RVB6
-	 RVwZ7nB2I0bQtNmBG6ks6Kk4UkE/kxrUVuuYzPObRWmKEt4IVXFTtHL4bAdiCpuzcAFGz
-	 VP+iTPHoJ56eCmzpgKA/vgsHmQvPhv1R9/ZO5R2OQ//2OuuulzRmx2I7i9QL62K+lLQ==
+	t=1793311695;
+	b=GwOIJHQen0z/IPN/rxUBjywPWqFhFkvK0KlOs56DAyxp9Sp9yZZyUFzU1N+8DvZW+iqx
+	 SO4s3xohKmSFmbYQAKli6oMtJgB7KX8iuEBYFVx8cAPv5/xSa8NdX6b+5SVq1g3lgPBNK
+	 QRHP4G/5/nAyB3sXB5AztvKLn/SVUfs7lMPc0uZ6GA2FtGeDImXthvlHga641ix79dFOT
+	 MzaetuDoJ7c0SJEAkXcuwE4PUn6TVm6UCF+lrMxXxkJyCsvBOnb4wPSu+J/hWWvQS1UaH
+	 QhYb/SNPQXQbTS1FdyNGyqHS3oMz6MtxpmBcat95J0ZNZ1G+QOITgmp00Pyp2fvfsAg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793306617;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:From:To:Cc:Subject:
-	 Date:Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding;
-	bh=c6b4Qtq+bNR0rF++KTcCnd8ayRIaioB8/rOswk1DNdg=;
-	b=KPlL0bD+rHG55KJtSDFSKhpFv5d2G8zANc8L3d7shhqqCcqPih3TDFccjT0I+q84ySiJ
-	 w5AOWAT+BdVKiiYjm1+0ItQLijCbv4Vi4kV2C/Yb45S+pOB2Fiz37QKbXyRIlIzBKdAi2
-	 IvnRqHSK4j6dpG7UMM8w81AeK1Nkl11iw7cBXlSqpua9vpYxEjxlL6IddSCKKZ2OHuUgw
-	 p/5uJTxryAKGJt1mFuwo+ZdWvNdcgscPmvkHUP31csPr9+V+NHJp+YUPDAXrr2tUJWf8/
-	 3FSdOvjM6EOpvpLrD4yEw6nMqByJq/EYx0tCjRLzfZTjQILNZuWlRBcgl15oo0E0AAg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793311695;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=RcQG9o6Se7vLDgVc2XWQ27vsDQNiAvdTUuyxUHqhQn4=;
+	b=AFRelwOhkI2LpfOyrfStzNKzNN0JZZ5EHnHAtNXv7C6/HaGosdiZSIdIEpnYF22aLO8k
+	 v3IOlKvTF33IdHZ9NF8w4oH6w1m3ZDBnAELaCLmJRazSfz1Xdy4oZHOtfXyS4XbWt/Mb3
+	 SFJhknIc8JSZI4un7JvYARRzDelh7QJxmfMuowCoQZH6y7cY4/aevJ63O0m+cddWQg4YQ
+	 5MrUXs6+5CJycjRhUL9kikswG/WP+VJaLhZZ8FPvgSYUETdASP6IBb43D+4hgxU694mOM
+	 qfSi5aOqE2D9sh5KhMNd0LcNS5oFhnoU1Yq37ULr1/F2xz820t1F2PjhcuPh+sKiinQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T3MRb1CM;
-	arc=none smtp.remote-ip=192.198.163.13
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lzmn6iLK;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16269606A31A
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 20:43:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 16269606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9220606A31A
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 22:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=T3MRb1CM
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793306616; x=1824842616;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4pYAZ2i1g+CguPEstEC+bYebTm5aKWvzJjX844x4ssQ=;
-  b=T3MRb1CM/F3hxD8g+GFOOTl5vyUYmH2VILzHMTtwQlPcxbtTiNMH47oF
-   Hy98wcUxS22DdH67hbPNMtl/vQB9adKOWm2EONKw1X2cvoDUQU/4kEteW
-   CXmJRgixvGP3+6QYENUlAVkbdPQR5OkGeXnIzG9UAe7axMJxjOewh0ZCx
-   79Xn/Z16pJygi77qwU2KfhPwrU3js3U5XFMiALVXQX4md9N5UAYAM6yWb
-   krct9abKOQKR6+A8osUSYyQBq9lPGSIxtgCUpBkRgjV3Y6V73IRYNwOwN
-   wQychS33/Q/VYWCPj7v/5wymrm65GnUV5FViDDaEXY3gNrD0QVh36ZWG0
-   g==;
-X-CSE-ConnectionGUID: bA0ZY9eaTg+bVWyNb+AUsQ==
-X-CSE-MsgGUID: rLMej7ASRgGf4gh1/MdHXA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2053636"
-X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="2053636"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 13:43:35 -0700
-X-CSE-ConnectionGUID: /Y8xDStpRDmj7H6DZHu1Tg==
-X-CSE-MsgGUID: NR0kPU8mQDigvCUyDz618Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,185,1787036400"; 
-   d="scan'208";a="5162382"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO mnyman-desk.home) ([10.245.245.98])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 13:43:33 -0700
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-To: <gregkh@linuxfoundation.org>
-Cc: <linux-usb@vger.kernel.org>,
-	regressions@lists.linux.dev,
-	michal.pecio@gmail.com,
-	Yiyu Zhou <yiyu@yiyuzhou.io>,
-	Dennis Wissel <dennis@dsine.de>,
-	Mathias Nyman <mathias.nyman@linux.intel.com>
-Subject: [PATCH v2] xhci: give back TDs and clean up ep0 after disconnect
-Date: Thu, 29 Oct 2026 22:43:23 +0200
-Message-ID: <20261029204324.658845-1-mathias.nyman@linux.intel.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Lzmn6iLK
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 294C61F01816;
+	Thu, 29 Oct 2026 22:08:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793311694;
+	bh=RcQG9o6Se7vLDgVc2XWQ27vsDQNiAvdTUuyxUHqhQn4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=Lzmn6iLKqblCAa2IgG1jFZNa/lUixwK5AzmUByYWAD3zycOpW2trwEXB9pjIxAoAC
+	 AGYmsm8mKMonr935EI2c+oLYDxi7QQdFGY2gWDNcQXseaT9TMlEAuqrf2ra50x6Npz
+	 8h/ESw4TMj3Q2lNnxEXgMHvthjh5EFv9hpxuSJ48/cXmNcAqRruGSCkK8yNFUcupdF
+	 9v9rBAXzsktrEPVda60y/vA6FDSJw34tyfDCDkPABui8cr7aaPyYQjDhIeWinYFV2w
+	 yQYbw31kTWg9J/UA0L5LAWSC5R4ZzxFNFgClBTjIM/1+rV5dEdlFriQReLiICsgusk
+	 K5VL2I0auA/ZA==
+Message-ID: <sashiko-outbox-190046@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH v2] xhci: give back TDs and clean up ep0 after
+ disconnect
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Mathias Nyman" <mathias.nyman@linux.intel.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261029204324.658845-2-mathias.nyman@linux.intel.com>
+References: <20261029204324.658845-1-mathias.nyman@linux.intel.com>
+ <20261029204324.658845-2-mathias.nyman@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Oct 2026 22:08:13 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -80,221 +60,150 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Yiyu Zhou <yiyu@yiyuzhou.io>
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] xhci: stale rhub_port state after reset sets EP_DROP_PENDING on ep0
+--
 
-Fix a regression in v7.3 introduced by the commits in the Fixes tags.
-Those patches avoid endpoint recovery and rapid state changes after
-the root port link is lost.
+commit 3214a21a67ec03e6fc45b610d6ba5543f36b65ab
+Author: Yiyu Zhou <yiyu@yiyuzhou.io>
 
-This caused a regression in device enumeration.
+xhci: give back TDs and clean up ep0 after disconnect
 
-It turns out that a subset of USB HID devices briefly disconnect during
-enumeration. USB core manages to resuscitate these devices without
-reallocating them, and thus continue using the same udev, xhci vdev and
-default control endpoint (ep0) of the device.
-xhci didn't give back or clean up halted TDs behind disconnected ports
-as it assumed that the disconnect cancels all URBs, and drops and frees
-all endpoints.
+This commit fixes a device enumeration regression where USB devices that
+briefly disconnect during enumeration leave halted TDs on rings or leave ep0
+uncleaned. It cancels and gives back TDs on halted endpoints behind
+disconnected ports, hard-resets ep0 so it can continue working after a short
+disconnect, and blocks new URB submissions via EP_DROP_PENDING until the
+device is reset.
 
-This is not the case, so cancel and give back TDs on halted endpoint
-behind disconnected ports, make sure ep0 is cleared and in a proper state
-to continue working even after a link error or disconnect is detected.
-Also prevent new URBs until device is reset.
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index c23434001e9cb..a1fa188680f58 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+[ ... ]
+> @@ -993,25 +1012,53 @@ static int xhci_handle_halted_endpoint(struct xhci=
+_hcd *xhci,
+>  {
+>  	struct xhci_port *rhub_port =3D ep->vdev->rhub_port;
+>  	unsigned int slot_id =3D ep->vdev->slot_id;
+> +	bool disconnected =3D false;
+> +	struct xhci_ring *ring;
+>  	int err;
+> =20
+> -	/*
+> -	 * Avoid resetting endpoint if link is inactive or device disconnected.
+> -	 * Can cause host hang.
+> -	 * Device will be reset to recover an inactive link, so don't do anythi=
+ng
+> -	 */
+> +	/* link is inactive or device disconnected */
+>  	if (rhub_port->link_inactive || !rhub_port->connected) {
+>  		ep->ep_state |=3D EP_DROP_PENDING;
+> -		return -ENODEV;
+> +		disconnected =3D true;
+[ ... ]
+> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+> index 30ac1bc4559b7..b50a582be1fbf 100644
+> --- a/drivers/usb/host/xhci.c
+> +++ b/drivers/usb/host/xhci.c
+> @@ -1665,12 +1665,6 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, s=
+truct urb *urb, gfp_t mem_flag
+>  		goto free_priv;
+>  	}
+> =20
+> -	if (xhci->devs[slot_id]->rhub_port->link_inactive) {
+> -		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
+> -		ret =3D -ENODEV;
+> -		goto free_priv;
+> -	}
+> -
+>  	if (xhci->xhc_state & XHCI_STATE_DYING) {
+>  		xhci_dbg(xhci, "Ep 0x%x: URB %p submitted for non-responsive xHCI host=
+.\n",
+>  			 urb->ep->desc.bEndpointAddress, urb);
+> @@ -1680,6 +1674,13 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, s=
+truct urb *urb, gfp_t mem_flag
+> =20
+>  	ep_state =3D &xhci->devs[slot_id]->eps[ep_index].ep_state;
+> =20
+> +	if (xhci->devs[slot_id]->rhub_port->link_inactive ||
+> +	    *ep_state & EP_DROP_PENDING) {
+> +		xhci_dbg(xhci, "Can't queue urb, port disconnect or link inactive\n");
+> +		ret =3D -ENODEV;
+> +		goto free_priv;
+> +	}
 
-One issue related to the TDs not being given back was seen on a PFU
-HHKB Professional HYBRID Type-S keyboard (04fe:0021).
-It drops off the bus about 300 ms after its first enumeration, while
-usbhid is still probing its third interface. The probe runs in hub_wq,
-so the disconnect is not handled until the probe returns.
-On a root port the HID descriptor request and its four retries in
-hid_get_class_descriptor() each wait for the full 5 second
-USB_CTRL_GET_TIMEOUT:
+[Severity: High]
+Can rhub_port->connected or rhub_port->link_inactive remain stale after a
+port reset, causing xhci_urb_enqueue() to permanently reject subsequent ep0
+URBs with -ENODEV?
 
-  [57685.006036] usb 3-2: new full-speed USB device number 24 using xhci_hcd
-  ...
-  [57685.291304] hid-generic 0003:04FE:0021.0017: input,hidraw1: USB HID v1.11 Keyboard [PFU Limited HHKB-Hybrid] on usb-0000:00:14.0-2/input1
-  [57711.221083] usbhid 3-2:1.2: can't add hid device: -110
-  [57711.221613] usbhid 3-2:1.2: probe with driver usbhid failed with error -110
-  [57711.221842] usb 3-2: USB disconnect, device number 24
+In drivers/usb/host/xhci-ring.c, handle_port_status() appears to be the only
+place where port->connected and port->link_inactive are updated:
 
-[mn: merge EP_DROP_PENDING and link_inactive checks in xhci_urb_enqueue(),
- return TDs and clean up ep0 on disconnect, rewrite commit message]
+drivers/usb/host/xhci-ring.c:handle_port_status() {
+	...
+	if (!(portsc & PORT_RESET)) {
+		port->link_inactive =3D (pls =3D=3D XDEV_INACTIVE);
+		port->connected =3D !!(portsc & PORT_CONNECT);
+	}
+	...
+}
 
-Fixes: 042aad8d0db6 ("xhci: prevent endpoint recovery after roothub disconnect")
-Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
-Closes: https://lore.kernel.org/all/20261010071811.20483-1-yiyu@yiyuzhou.io/
-Closes: https://lore.kernel.org/linux-usb/4MjB9K-2SoiA85WbI9iEig@dsine.de/
-Tested-by: Yiyu Zhou <yiyu@yiyuzhou.io>
-Tested-by: Dennis Wissel <dennis@dsine.de>
-Signed-off-by: Yiyu Zhou <yiyu@yiyuzhou.io>
-Co-developed-by: Mathias Nyman <mathias.nyman@linux.intel.com>
-Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
----
+When a device briefly disconnects during enumeration in hub_port_init() (or
+enters XDEV_INACTIVE), PORT_CSC (or PORT_PLC) transitions from 0 to 1, the
+xHC generates a Port Status Change Event (TRB_PORT_STATUS), and
+handle_port_status() sets port->connected =3D 0 (or port->link_inactive =3D=
+ 1)
+without clearing the PORTSC change bits.
 
- v2 changes:
- - rebase on usb-linus
- - remove Assisted-by: LLM as suggested by latest checkpatch
+When the device reconnects and hub_port_init() calls hub_port_reset(), a new
+Port Status Change Event is only generated by the xHC when the logical OR of
+all PORTSC status-change bits (CSC | PEC | WRC | OCC | RC | PLC | CEC)
+transitions from 0 to 1. Because PORT_CSC (or PORT_PLC) is already 1 when
+the device reconnects and when the reset completes (setting PORT_RC =3D 1),=
+ no
+TRB_PORT_STATUS event is generated:
 
- drivers/usb/host/xhci-ring.c | 73 ++++++++++++++++++++++++++++++------
- drivers/usb/host/xhci.c      | 13 ++++---
- 2 files changed, 69 insertions(+), 17 deletions(-)
+- On USB2, hub_port_wait_reset() sees USB_PORT_STAT_C_CONNECTION, clears
+  PORT_CSC while PORT_RC is still 1 (keeping the logical OR of change bits
+  at 1), and returns -EAGAIN. hub_port_reset() then issues a second reset
+  while PORT_RC is still 1 and clears PORT_RC upon completion, transitioning
+  the logical OR of change bits from 1 to 0.
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index c23434001e9c..a1fa188680f5 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -65,6 +65,7 @@
- static int queue_command(struct xhci_hcd *xhci, struct xhci_command *cmd,
- 			 u32 field1, u32 field2,
- 			 u32 field3, u32 field4, bool command_must_succeed);
-+static void xhci_kill_endpoint_urbs(struct xhci_hcd *xhci, int slot_id, int ep_index);
- 
- /*
-  * Returns zero if the TRB isn't in this segment, otherwise it returns the DMA
-@@ -962,6 +963,24 @@ static void xhci_giveback_invalidated_tds(struct xhci_hcd *xhci, struct xhci_vir
- 	}
- }
- 
-+static void xhci_cancel_ring_tds(struct xhci_hcd *xhci, struct xhci_virt_ep *ep,
-+				 struct xhci_ring *ring, int td_status)
-+{
-+	struct xhci_td *tmp_td;
-+	struct xhci_td *td;
-+
-+	/* Add all TDs on ring to cancelled td list */
-+	list_for_each_entry_safe(td, tmp_td, &ring->td_list, td_list) {
-+		if (list_empty(&td->cancelled_td_list)) {
-+			list_add_tail(&td->cancelled_td_list,
-+				      &ep->cancelled_td_list);
-+			td->cancel_status = TD_DIRTY;
-+			if (!td->status)
-+				td->status = td_status;
-+		}
-+	}
-+}
-+
- static int xhci_reset_halted_ep(struct xhci_hcd *xhci, unsigned int slot_id,
- 				unsigned int ep_index, enum xhci_ep_reset_type reset_type)
- {
-@@ -993,25 +1012,53 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
- {
- 	struct xhci_port *rhub_port = ep->vdev->rhub_port;
- 	unsigned int slot_id = ep->vdev->slot_id;
-+	bool disconnected = false;
-+	struct xhci_ring *ring;
- 	int err;
- 
--	/*
--	 * Avoid resetting endpoint if link is inactive or device disconnected.
--	 * Can cause host hang.
--	 * Device will be reset to recover an inactive link, so don't do anything
--	 */
-+	/* link is inactive or device disconnected */
- 	if (rhub_port->link_inactive || !rhub_port->connected) {
- 		ep->ep_state |= EP_DROP_PENDING;
--		return -ENODEV;
-+		disconnected = true;
-+		if (!td && ep->ep_index != 0) {
-+			xhci_kill_endpoint_urbs(xhci, slot_id, ep->ep_index);
-+			return -ENODEV;
-+		}
- 	}
- 
--	/* add td to cancelled list and let reset ep handler take care of it */
--	if (reset_type == EP_HARD_RESET) {
--		ep->ep_state |= EP_HARD_CLEAR_TOGGLE;
-+	/* Add halted td to cancelled list and let reset ep handler take care of it */
-+	if (reset_type == EP_HARD_RESET || disconnected) {
- 		if (td && list_empty(&td->cancelled_td_list)) {
- 			list_add_tail(&td->cancelled_td_list, &ep->cancelled_td_list);
- 			td->cancel_status = TD_HALTED;
-+			if (disconnected && !td->status)
-+				td->status = -EPROTO;
-+		}
-+	}
-+
-+	/*
-+	 * Avoid resetting non-ep0 endpoints if link is inactive or device
-+	 * disconnected. Can cause host hang.
-+	 * Endpoints other than ep0 won't restart before the device is reset or
-+	 * the endpoint is dropped, so cancel all TDs, and give back non-ep0 TDs
-+	 * now instead of letting them time out. Ep0 can survive a short device
-+	 * disconnect during enumeration so reset ep0 normally and clean it up.
-+	 */
-+	if (disconnected) {
-+		ring = td ? xhci_urb_to_transfer_ring(xhci, td->urb) : ep->ring;
-+		xhci_cancel_ring_tds(xhci, ep, ring, -ESHUTDOWN);
-+		if (ep->ep_index != 0) {
-+			xhci_dbg(xhci, "Not resetting ep %u slot %u after disconnect\n",
-+				 ep->ep_index, slot_id);
-+
-+			xhci_process_cancelled_tds(xhci, ep);
-+			xhci_kill_endpoint_urbs(xhci, slot_id, ep->ep_index);
-+			return -ENODEV;
- 		}
-+		/* hard-reset a halted disconnected ep0 */
-+		xhci_dbg(xhci, "Reset and clean up ep0 slot %u after disconnect\n",
-+			 slot_id);
-+		reset_type = EP_HARD_RESET;
- 	}
- 
- 	if (ep->ep_state & EP_HALTED) {
-@@ -1020,6 +1067,9 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
- 		return 0;
- 	}
- 
-+	if (reset_type == EP_HARD_RESET)
-+		ep->ep_state |= EP_HARD_CLEAR_TOGGLE;
-+
- 	err = xhci_reset_halted_ep(xhci, slot_id, ep->ep_index, reset_type);
- 	if (err)
- 		return err;
-@@ -1070,8 +1120,9 @@ static int xhci_invalidate_cancelled_tds(struct xhci_hcd *xhci, struct xhci_virt
- 			continue;
- 		}
- 
--		/* device disconnected or link error, ep will be dropped */
--		if (ep->ep_state & EP_DROP_PENDING) {
-+		/* device disconnected or link error, non-ep0 endpoints will be dropped */
-+		if (ep->ep_state & EP_DROP_PENDING && ep->ep_index != 0) {
-+			td_to_noop(xhci, ep, td, false);
- 			td->cancel_status = TD_CLEARED;
- 			continue;
- 		}
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index 30ac1bc4559b..b50a582be1fb 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1665,12 +1665,6 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 		goto free_priv;
- 	}
- 
--	if (xhci->devs[slot_id]->rhub_port->link_inactive) {
--		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
--		ret = -ENODEV;
--		goto free_priv;
--	}
--
- 	if (xhci->xhc_state & XHCI_STATE_DYING) {
- 		xhci_dbg(xhci, "Ep 0x%x: URB %p submitted for non-responsive xHCI host.\n",
- 			 urb->ep->desc.bEndpointAddress, urb);
-@@ -1680,6 +1674,13 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 
- 	ep_state = &xhci->devs[slot_id]->eps[ep_index].ep_state;
- 
-+	if (xhci->devs[slot_id]->rhub_port->link_inactive ||
-+	    *ep_state & EP_DROP_PENDING) {
-+		xhci_dbg(xhci, "Can't queue urb, port disconnect or link inactive\n");
-+		ret = -ENODEV;
-+		goto free_priv;
-+	}
-+
- 	if (*ep_state & (EP_GETTING_STREAMS | EP_GETTING_NO_STREAMS)) {
- 		xhci_warn(xhci, "WARN: Can't enqueue URB, ep in streams transition state %x\n",
- 			  *ep_state);
--- 
-2.43.0
+- On USB3, hub_port_reset() clears C_RESET, C_BH_PORT_RESET,
+  C_PORT_LINK_STATE, and C_CONNECTION together after reset completion, also
+  transitioning the logical OR of change bits from 1 to 0.
 
+Neither xhci_get_port_status(), xhci_clear_port_change_bit(), nor
+xhci_discover_or_reset_device() refreshes port->connected or
+port->link_inactive:
+
+drivers/usb/host/xhci.c:xhci_discover_or_reset_device() {
+	...
+command_cleanup:
+	for (i =3D 0; i < EP_CTX_PER_DEV; i++)
+		virt_dev->eps[i].ep_state &=3D ~EP_DROP_PENDING;
+	...
+}
+
+After xhci_discover_or_reset_device() clears EP_DROP_PENDING, if
+rhub_port->link_inactive remained 1, xhci_urb_enqueue() will immediately
+reject all URBs with -ENODEV. If rhub_port->connected remained 0,
+enumeration continues on the same udev, vdev, and ep0 until any normal
+protocol stall (COMP_STALL_ERROR) occurs on ep0 (for example,
+check_highspeed() requesting USB_DT_DEVICE_QUALIFIER on a full-speed USB 2.0
+device, or hid_set_idle() during usbhid probe) or an URB is unlinked via
+xhci_handle_cmd_stop_ep(). At that point, xhci_handle_halted_endpoint() (or
+xhci_handle_cmd_stop_ep()) sees !rhub_port->connected and sets
+EP_DROP_PENDING on ep0.
+
+Because a protocol stall or URB unlink does not trigger a device reset,
+wouldn't EP_DROP_PENDING remain set on ep0 and cause the new check in
+xhci_urb_enqueue() to reject all subsequent ep0 URBs with -ENODEV?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029204324.6588=
+45-2-mathias.nyman@linux.intel.com?part=3D1
