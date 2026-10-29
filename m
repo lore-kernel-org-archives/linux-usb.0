@@ -1,64 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793278324;
-	b=tLGlAhna0C47i8qtr2foW+H26s9n1nIFEXlh4G8v2XCBttQbU8Vt9jujYzWfZCntyVsO
-	 XfRjQS5l34xeik8VnRpLuDbTckP49t6sxsdb/adrHILQH6A3zMSeGTFp/bH3CJn8JfRSO
-	 CtfMEV4t0QC2fzlZfbS8K9ePFER3YOpFiL7mn8qczHrCLZFzlqYgRaPuE+LrKKAPQhGB8
-	 fbsjfxAwCE82Y8aAD2R5ddhVcI9BOBsfQiMGD3jQKSNVGsH/xlcQdWcSukZqa/8sg2hck
-	 HS+dIsF1XSmpJKyuIhImFuP7CkcMMlBCKe9M0ANb/D6r5AZdNweUS3tQx6+qw3V5Lrw==
+	t=1793278381;
+	b=Vtvdxj05sUHLENIn84k7R+6W/vsI6Y9woi3+4DGpecXa1JByICy7cEZbqKTj+khaqEZ4
+	 kCnUWhBk0KBdx76hv8wcHGim0/5z9sW2z4UWzeF6KMY1Vq6Lp5mRByyVNg01n4HpajTJm
+	 hxr4728K7UaV21WTS5owI1SaB/srUdLxbU+y0ZSTbpGZuqpCYgRMBm5lGwG4aeDTDYfxb
+	 dUP0yDUn1cBKiLYtCgvLGiI/BRcLbE7Yn6whSGF+PtXJULNp2to94bvtktUNXa7j1CX9k
+	 4vvbod1QfDjkyIQ8ppWvYCHj8UNJ631zypXDgn0LKi+YqJZiX8pDYysZhTN0AWMPMUg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793278324;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Transfer-Encoding;
-	bh=Iid3eWpVe8olQMkvpXTW8m9qOGkSJpcW1KaQejtRK1Y=;
-	b=GDCg67qWIT/Z8CAkv9p/8ko4h67v+IB2+s1V4417mydLP7zpq9IfJCiR1s9Z3k0kHljG
-	 ZtkIOPv+4exSGwzLlIIAUhBPQWZ8Hn5BaEw76m+Jxn5Trf23WPo6riOMEchiP+LbbtJWL
-	 Dezn1OBODSk7/6UDNciTPUiVSbfodNFXM11yaLzekcHiAz9zBeZWgZg3x11bdmC/u+0I/
-	 apyiVYzng+/4nOe+348tIdIDxiOylPAoenR/b8k8hQKLGtj/p1urpHjTHsjt0oYzzcUdD
-	 JK0QlAq086KsvO0hmQwiGFRrr0+xsLvtxVTyxCwgzcuLWBVxyII+NJdFBLGR6x8lShA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793278381;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=LtQspEZWVOuLyX7M7T1n6/syrpSHBsg6kZa/NVdSYPU=;
+	b=Jk6Ln29EdbWJ3ef8IycBeAe5I09m/x20oAYmTIxN94gw3JLL7iFwie24XhrSZdpFRl2/
+	 caHtG01mWCT64AwfABG+IJi9AydnyvJraFad7XmoQu5RWPNbcbJf/NNvnlNWhZLv6DZ7y
+	 ztqE+/GvH+eCy5V/JE6lMteK2RttzjMJBxWnNFUqqx8MY4ih+2U2A7QMuvG4rhDWkxNhI
+	 tQTAKw4UTcYXwwrlrl5m2CoeLk3chE487fpev0L+qU8BB9HIXj+hO5ayOTR1S6upK6ggZ
+	 P4HB1/IwlLOYhOKpV4aFzwqGX/tQszKIYL2JNIkwr13zZ6uPqTmWmranneH7Cv3AclA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IS8J38Eu;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LP0bIIXQ;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87ED0606A31A;
-	Thu, 29 Oct 2026 12:52:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75181606A31A
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 12:53:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=IS8J38Eu
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC6A01F01825;
-	Thu, 29 Oct 2026 12:52:00 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LP0bIIXQ
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 181091F01825;
+	Thu, 29 Oct 2026 12:53:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793278324;
-	bh=Iid3eWpVe8olQMkvpXTW8m9qOGkSJpcW1KaQejtRK1Y=;
-	h=From:To:Cc:Subject:Date;
-	b=IS8J38EuHK3inR5WNoXkUqRieBG6uy85jRetqgdMxEnVwBvk8dONXaq2UW5HwB2rI
-	 meRNHV3CmcRbii+uCmvEhqk28UdZs/URUOOf9niOzOrpmoU0OaycS9kFCtw1f11nSX
-	 uT50qCMRLJyfOkjZtxWRDqIXYLjOu0BbKEVOgdL2SxSDmBmHOqJjN/RAg49P0Z1UFu
-	 W8a22kipU+v1QfjsTFTdj/YBvbZk27ESBknMui5dYniY28Krmup6SyPFySTnPhjY8W
-	 rRHJTkztfBKIUstMZqoOsoCDaBeR63CeDb/lOa2r7Je60uY7EFK9R0AT5Xjdt667I3
-	 e5lXTnBQm/Orw==
-From: Philipp Stanner <phasta@kernel.org>
-To: Neill Kapron <nkapron@google.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Philipp Stanner <phasta@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Paul Cercueil <paul@crapouillou.net>,
-	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
-	Sam Day <me@samcday.com>,
-	Michael Bommarito <michael.bommarito@gmail.com>,
-	Gabriel Prostitis <prostitisgabriel@gmail.com>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org
-Subject: [PATCH] usb: gadget: f_fs: Remove deprecated dma_fence->ops
-Date: Thu, 29 Oct 2026 13:51:44 +0100
-Message-ID: <20261029125143.1744481-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.56.0
+	s=k20260515; t=1793278381;
+	bh=LtQspEZWVOuLyX7M7T1n6/syrpSHBsg6kZa/NVdSYPU=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=LP0bIIXQylbLWrNDmLCd1r+NXsSp3II7DYhwibFNUNvTkyARL4I6ikz3mSHe5KTy3
+	 yKs1hgPMxe/u2ya9v8tX07HkW+PCt3BNfSYaUddFcwrEGQ0ToMct5BcJdcwOX2ZFpS
+	 dTib/KlEYQlLFzS2S2m+QJ10mwu5GWTpuTv+2zNbr5WfAOfjuSf6bh7vAhgwNEi9LH
+	 Sw5VmTIrY72GylGNnFuqpBB3TyzlJEfMSMlluVODmaHPx9ggF4DWvsuUD2c8T1T65Y
+	 R5GHWOtHZltJY5OI3Zl1bxHdy4rDoFr0PESQ7Ujepgg26tGshejLHh0cKGkIOQkpOC
+	 V+iuWlKZvjlVA==
+Message-ID: <sashiko-outbox-189323@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] USB: usbsevseg: cleanup sysfs show handlers
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Dmitry Antipov" <dmantipov@yandex.ru>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261029124716.611540-1-dmantipov@yandex.ru>
+References: <20261029124716.611540-1-dmantipov@yandex.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Oct 2026 12:53:00 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,47 +58,81 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The dma_fence_ops function ops->release() has been deprecated because it
-prevents drivers from unloading. f_fs's implementation merely frees the
-fence. The dma_fence backend performs this deallocation automatically in
-the correct manner if ops->release() is not implemented.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [Medium] usb: usbsevseg: off-by-one in textmode_show() emits trailing NUL=
+ byte
+--
 
-The backend simultaneously correctly frees struct ffs_dma_fence since
-struct dma_fence is its base class.
+commit a74c1b2c71cf0a70caf0b902cff95d63b0e182d0
+Author: Dmitry Antipov <dmantipov@yandex.ru>
 
-Remove ops->release().
+USB: usbsevseg: cleanup sysfs show handlers
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
----
- drivers/usb/gadget/function/f_fs.c | 9 ---------
- 1 file changed, 9 deletions(-)
+This commit replaces sprintf() and strcat() calls in usbsevseg sysfs show
+handlers with sysfs_emit() and sysfs_emit_at().
 
-diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-index c64a268e98a4..e8672b37e890 100644
---- a/drivers/usb/gadget/function/f_fs.c
-+++ b/drivers/usb/gadget/function/f_fs.c
-@@ -1479,18 +1479,9 @@ static const char *ffs_dmabuf_get_timeline_name(struct dma_fence *fence)
- 	return "";
- }
- 
--static void ffs_dmabuf_fence_release(struct dma_fence *fence)
--{
--	struct ffs_dma_fence *dma_fence =
--		container_of(fence, struct ffs_dma_fence, base);
--
--	kfree(dma_fence);
--}
--
- static const struct dma_fence_ops ffs_dmabuf_fence_ops = {
- 	.get_driver_name	= ffs_dmabuf_get_driver_name,
- 	.get_timeline_name	= ffs_dmabuf_get_timeline_name,
--	.release		= ffs_dmabuf_fence_release,
- };
- 
- static int ffs_dma_resv_lock(struct dma_buf *dmabuf, bool nonblock)
--- 
-2.56.0
+> diff --git a/drivers/usb/misc/usbsevseg.c b/drivers/usb/misc/usbsevseg.c
+> index 89d25fcef6424..f456a7161a260 100644
+> --- a/drivers/usb/misc/usbsevseg.c
+> +++ b/drivers/usb/misc/usbsevseg.c
 
+[ ... ]
+
+> @@ -246,25 +246,19 @@ static ssize_t textmode_show(struct device *dev,
+>  {
+>  	struct usb_interface *intf =3D to_usb_interface(dev);
+>  	struct usb_sevsegdev *mydev =3D usb_get_intfdata(intf);
+> -	int i;
+> -
+> -	buf[0] =3D 0;
+> +	int i, ret =3D 0;
+> =20
+>  	for (i =3D 0; i < ARRAY_SIZE(display_textmodes); i++) {
+> -		if (mydev->textmode =3D=3D i) {
+> -			strcat(buf, " [");
+> -			strcat(buf, display_textmodes[i]);
+> -			strcat(buf, "] ");
+> -		} else {
+> -			strcat(buf, " ");
+> -			strcat(buf, display_textmodes[i]);
+> -			strcat(buf, " ");
+> -		}
+> +		if (mydev->textmode =3D=3D i)
+> +			ret +=3D sysfs_emit_at(buf, ret, " [%s] ",
+> +					     display_textmodes[i]);
+> +		else
+> +			ret +=3D sysfs_emit_at(buf, ret, " %s ",
+> +					     display_textmodes[i]);
+>  	}
+> -	strcat(buf, "\n");
+> -
+> =20
+> -	return strlen(buf);
+> +	ret +=3D sysfs_emit_at(buf, ret - 1, "\n");
+> +	return ret;
+
+[Severity: Medium]
+Does passing ret - 1 to sysfs_emit_at() while still adding its return value
+to ret cause textmode_show() in drivers/usb/misc/usbsevseg.c to include a
+trailing NUL byte in the output returned to userspace when reading the
+textmode sysfs attribute?
+
+At the end of the loop, buf[0 .. ret - 1] holds the formatted string with a
+trailing space at buf[ret - 1] and a NUL terminator at buf[ret]. Calling
+sysfs_emit_at(buf, ret - 1, "\n") overwrites the space at buf[ret - 1] with
+a newline, writes the NUL terminator at buf[ret], and returns 1.
+
+Adding that return value to ret increments ret to strlen(buf) + 1. When
+sysfs_kf_seq_show() in fs/sysfs/file.c calls seq_commit(sf, count) with that
+returned count, the NUL byte at buf[ret - 1] is committed into the seq_file
+buffer and exposed to userspace.
+
+Should this either pass ret instead of ret - 1 to preserve the original
+trailing space before the newline, or avoid incrementing ret if overwriting
+the trailing space was intentional?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029124716.6115=
+40-1-dmantipov@yandex.ru?part=3D1
