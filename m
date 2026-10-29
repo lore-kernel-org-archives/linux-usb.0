@@ -1,55 +1,55 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793278381;
-	b=Vtvdxj05sUHLENIn84k7R+6W/vsI6Y9woi3+4DGpecXa1JByICy7cEZbqKTj+khaqEZ4
-	 kCnUWhBk0KBdx76hv8wcHGim0/5z9sW2z4UWzeF6KMY1Vq6Lp5mRByyVNg01n4HpajTJm
-	 hxr4728K7UaV21WTS5owI1SaB/srUdLxbU+y0ZSTbpGZuqpCYgRMBm5lGwG4aeDTDYfxb
-	 dUP0yDUn1cBKiLYtCgvLGiI/BRcLbE7Yn6whSGF+PtXJULNp2to94bvtktUNXa7j1CX9k
-	 4vvbod1QfDjkyIQ8ppWvYCHj8UNJ631zypXDgn0LKi+YqJZiX8pDYysZhTN0AWMPMUg==
+	t=1793278962;
+	b=5WvP4LTCH+o5DX4ZeyH+Tb5fDqipX44pjrjbVBHiPg/xrBDUi03PI3G4kcLZeIh9WZMh
+	 VwYPPjTIjnve7nZs7HY3/k1onAthmVR/1PqIsrzbB3iaBWKyTDgnl6SGdP9W+c28MQtr2
+	 lhv9yjXRfmEguuMBldv+LBQ9/v9xuU0bEQTn8FW+v8vTydZDTEOYhu41+EFARkbaoB42H
+	 Fjhbq77HpRFlPemoqlpGWMs0znsa5WdXgt8g6pw+5FM3m0kmSq1AxiwHS5THyieBOXZsO
+	 9G3KCUz9K52kVzLkwHq/KcksBhi6phS5WU0PK3RQzkPhiQWrVOkpZrQLxEuPx3/dg2w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793278381;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793278962;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=LtQspEZWVOuLyX7M7T1n6/syrpSHBsg6kZa/NVdSYPU=;
-	b=Jk6Ln29EdbWJ3ef8IycBeAe5I09m/x20oAYmTIxN94gw3JLL7iFwie24XhrSZdpFRl2/
-	 caHtG01mWCT64AwfABG+IJi9AydnyvJraFad7XmoQu5RWPNbcbJf/NNvnlNWhZLv6DZ7y
-	 ztqE+/GvH+eCy5V/JE6lMteK2RttzjMJBxWnNFUqqx8MY4ih+2U2A7QMuvG4rhDWkxNhI
-	 tQTAKw4UTcYXwwrlrl5m2CoeLk3chE487fpev0L+qU8BB9HIXj+hO5ayOTR1S6upK6ggZ
-	 P4HB1/IwlLOYhOKpV4aFzwqGX/tQszKIYL2JNIkwr13zZ6uPqTmWmranneH7Cv3AclA==
+	bh=8KYV9RpdYKdz2BZA1fr5J+QoKwQZoh9kOmG6aLlnVCM=;
+	b=bD1nMdyVxIKYzGdJfN70b0o8gmJnbV80/MT7DZfoYvqsMxyLI2J3+/xaBk1qmjQ/cZw4
+	 lRbiYGPLSeZDJXRvCzT4ct888lOd4ePg1Lkaj7So+nr1UjhN3jHTlYZ5vlfjMIfr8ihxr
+	 MpEEgGBG9vfLLAYITwTiLpo2VBetAE7y6YEHcbUJP/L8aKks4n53BksobxyYH5fVgVjIr
+	 kIDmuwJMCyLXxNfLGVXsUkwpgJDcMkkdg4tEFM0c5nYiTqXhj7BwHdcH3l+0tbYvwCZ/c
+	 XnfUo1xj6ATZm68y2gcg/HqrSS5KNX0FMY9hgYzKd1LE91ClRBzunDlxZoBmk/qsiCA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LP0bIIXQ;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hPb/7bjX";
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75181606A31A
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 12:53:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B882606A31C
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 13:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=LP0bIIXQ
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 181091F01825;
-	Thu, 29 Oct 2026 12:53:01 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hPb/7bjX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7CA01F01825;
+	Thu, 29 Oct 2026 13:02:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793278381;
-	bh=LtQspEZWVOuLyX7M7T1n6/syrpSHBsg6kZa/NVdSYPU=;
+	s=k20260515; t=1793278962;
+	bh=8KYV9RpdYKdz2BZA1fr5J+QoKwQZoh9kOmG6aLlnVCM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=LP0bIIXQylbLWrNDmLCd1r+NXsSp3II7DYhwibFNUNvTkyARL4I6ikz3mSHe5KTy3
-	 yKs1hgPMxe/u2ya9v8tX07HkW+PCt3BNfSYaUddFcwrEGQ0ToMct5BcJdcwOX2ZFpS
-	 dTib/KlEYQlLFzS2S2m+QJ10mwu5GWTpuTv+2zNbr5WfAOfjuSf6bh7vAhgwNEi9LH
-	 Sw5VmTIrY72GylGNnFuqpBB3TyzlJEfMSMlluVODmaHPx9ggF4DWvsuUD2c8T1T65Y
-	 R5GHWOtHZltJY5OI3Zl1bxHdy4rDoFr0PESQ7Ujepgg26tGshejLHh0cKGkIOQkpOC
-	 V+iuWlKZvjlVA==
-Message-ID: <sashiko-outbox-189323@kernel.org>
+	b=hPb/7bjXkBPxKS/RgS0j3MddCa4I/xN1k1t7L/NYzvcDj5HFmbBzOis7BP99wVA42
+	 kEzdSqjA7ZslCxi8e2jl+X0yC+iguaDzAShZ69CHI8UgY4qWGaPvZyRsfUVPIiCVr3
+	 x6ZGTWyTZK+gS4/e+8xevdSpD5EvWRLhiTE+IUiCx6ntlrFnY/kFpKybB96/yO1bhX
+	 7sgn80M3QSWE63efv+k4VIvnGTu2WpoddzvAetSSNVOkwGF1JYaNpUDjYOTiAVDwns
+	 YDxFFE5Jl16tPOYdxSd5ZK33n9htb9SCkC/zGoPtOu0JIK+wIuU82sZ1ZfLwrJTs2N
+	 NS1yqB49T+6og==
+Message-ID: <sashiko-outbox-189344@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] USB: usbsevseg: cleanup sysfs show handlers
+Subject: Re: [PATCH] usb: gadget: f_fs: Remove deprecated dma_fence->ops
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Dmitry Antipov" <dmantipov@yandex.ru>
+To: "Philipp Stanner" <phasta@kernel.org>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261029124716.611540-1-dmantipov@yandex.ru>
-References: <20261029124716.611540-1-dmantipov@yandex.ru>
+In-Reply-To: <20261029125143.1744481-2-phasta@kernel.org>
+References: <20261029125143.1744481-2-phasta@kernel.org>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Oct 2026 12:53:00 +0000
+Date: Thu, 29 Oct 2026 13:02:41 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,80 +59,21 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] usb: usbsevseg: off-by-one in textmode_show() emits trailing NUL=
- byte
---
+> The dma_fence_ops function ops->release() has been deprecated because it
+> prevents drivers from unloading. f_fs's implementation merely frees the
+> fence. The dma_fence backend performs this deallocation automatically in
+> the correct manner if ops->release() is not implemented.
+>=20
+> The backend simultaneously correctly frees struct ffs_dma_fence since
+> struct dma_fence is its base class.
+>=20
+> Remove ops->release().
+>=20
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-commit a74c1b2c71cf0a70caf0b902cff95d63b0e182d0
-Author: Dmitry Antipov <dmantipov@yandex.ru>
-
-USB: usbsevseg: cleanup sysfs show handlers
-
-This commit replaces sprintf() and strcat() calls in usbsevseg sysfs show
-handlers with sysfs_emit() and sysfs_emit_at().
-
-> diff --git a/drivers/usb/misc/usbsevseg.c b/drivers/usb/misc/usbsevseg.c
-> index 89d25fcef6424..f456a7161a260 100644
-> --- a/drivers/usb/misc/usbsevseg.c
-> +++ b/drivers/usb/misc/usbsevseg.c
-
-[ ... ]
-
-> @@ -246,25 +246,19 @@ static ssize_t textmode_show(struct device *dev,
->  {
->  	struct usb_interface *intf =3D to_usb_interface(dev);
->  	struct usb_sevsegdev *mydev =3D usb_get_intfdata(intf);
-> -	int i;
-> -
-> -	buf[0] =3D 0;
-> +	int i, ret =3D 0;
-> =20
->  	for (i =3D 0; i < ARRAY_SIZE(display_textmodes); i++) {
-> -		if (mydev->textmode =3D=3D i) {
-> -			strcat(buf, " [");
-> -			strcat(buf, display_textmodes[i]);
-> -			strcat(buf, "] ");
-> -		} else {
-> -			strcat(buf, " ");
-> -			strcat(buf, display_textmodes[i]);
-> -			strcat(buf, " ");
-> -		}
-> +		if (mydev->textmode =3D=3D i)
-> +			ret +=3D sysfs_emit_at(buf, ret, " [%s] ",
-> +					     display_textmodes[i]);
-> +		else
-> +			ret +=3D sysfs_emit_at(buf, ret, " %s ",
-> +					     display_textmodes[i]);
->  	}
-> -	strcat(buf, "\n");
-> -
-> =20
-> -	return strlen(buf);
-> +	ret +=3D sysfs_emit_at(buf, ret - 1, "\n");
-> +	return ret;
-
-[Severity: Medium]
-Does passing ret - 1 to sysfs_emit_at() while still adding its return value
-to ret cause textmode_show() in drivers/usb/misc/usbsevseg.c to include a
-trailing NUL byte in the output returned to userspace when reading the
-textmode sysfs attribute?
-
-At the end of the loop, buf[0 .. ret - 1] holds the formatted string with a
-trailing space at buf[ret - 1] and a NUL terminator at buf[ret]. Calling
-sysfs_emit_at(buf, ret - 1, "\n") overwrites the space at buf[ret - 1] with
-a newline, writes the NUL terminator at buf[ret], and returns 1.
-
-Adding that return value to ret increments ret to strlen(buf) + 1. When
-sysfs_kf_seq_show() in fs/sysfs/file.c calls seq_commit(sf, count) with that
-returned count, the NUL byte at buf[ret - 1] is committed into the seq_file
-buffer and exposed to userspace.
-
-Should this either pass ret instead of ret - 1 to preserve the original
-trailing space before the newline, or avoid incrementing ret if overwriting
-the trailing space was intentional?
+Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029124716.6115=
-40-1-dmantipov@yandex.ru?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029125143.1744=
+481-2-phasta@kernel.org?part=3D1
+
