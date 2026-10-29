@@ -1,59 +1,94 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793258686;
-	b=xsZ1MRwNebpo9vilOjONYp00b9x0nis2le1mDf2OeJ3kvRpRjkSipTUjyxAk1/dtYMl8
-	 EUun004zLRakQYJ8gpYeTrxeMPacvEp9UePXzqInNp+t2YKC4C6ycOEK0s8KSL5LtBetk
-	 pem02IwWYy+kIHNFfOYr99SGFmX35J4p0uBS+yXclquGuhx2jxB+fIMj8Gbs91gUxwGk8
-	 cV4L6y4bbCvtah1qTl7uEfMLc0l7FCmeubAb1AlemA/bWDClCi2fA6qPUol63sT4F047B
-	 sKog7XpGwzKk3g/aStJCtx7jonH1jtburjFVyku2ktDvoB5PBc2Dy3S/1mkq3ZUJPeQ==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793258686;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=H66I6gwnknAbyxbJvdR81Z5vw6+RwCoDzGVq9Nn/doM=;
-	b=vSE0mOp2IN1A8kB7TacAE5c7pbHaMOi0YwlhCEnOWnIvQdXUaU/GvrDA6d5G8hxe3sHw
-	 g6fz+Z7PlbsopufwngzxX+MLlu5ONuIP2+4HLWdRDfbjtoAp1GamehkdF0Oi3CAE4Q3Yb
-	 lhEKEZDXLofyHdM+dnmNax5W3ELFL4yPxs1cOKKXnd81UJ+jfcZYGA7Xz6Rmj947+cexN
-	 nhu3wPS/JMGoK/0s2HsMW5JtVuTGPEdmWZf56W0w96bRuW/p5jApCWyuyHHJxAbDn36pq
-	 JJZ41PR516h1Dm5XHv9Hev0ME4ZiM6RFx428TNY9Zq6SekQ2nV6Uy60BHxZsfcd4eyg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XeLtjzmR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.175
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793259165;
+	b=2SspCae2/NDkUup31JxoJ6iVH+/GKOdxtIl2+bQFCk0rw+LiuOsBvFRip3ONRJ+GNWeL
+	 2lVq1M0kjd/n2aVsoxBSRn1NrPFAlKoza+4VhOCRFf9yV9OvrykL4pDkPK90iTicODsk7
+	 aJ3k0vpkUx6kOGzBI6tBdthQfsm7D1QdcgkbHdf1yb23YHkGwop+X+5bygEiTwoo08kBC
+	 lM+N0KBw9KEfsCtHNGys1P5driN319Afw98QUrCa4ssS4Qf3ECJMjW5CkRZlj8/6bhdom
+	 oa7KtmU6W1V/858KUaZnccFJtsSa2cBii90zc/d9b0A/HEvCimfJ6iEcZn3B3H/znuA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793259165;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:From:Date:
+	 X-Gm-Features:Message-ID:Subject:To:Cc:Content-Type;
+	bh=j4Ed4CEOWJoumy28IJz+IqA5FsEQuqQ4XRpEYMNLtlg=;
+	b=dsT9dqcCpnkAvYi5Dj9zvp63QBBGBFBLVbbdPP4UBZWA57DlTTq4/SJAb9SSantTGBuq
+	 ScwaGxpoqI+VrjIYrPyu6WTncOv/r8qY5WzqNBBl85vzIqmrPgXf3iknHHnvqBcsHQbLb
+	 nmlBI1fTrl77jpb4c1mWKB6wsBaSZnLjwlnun4kbxtHn5cemCpygHEFRdY7doJhksK/CP
+	 sXRQGG/RYsowhhnu4K+kTc0GsQEMu1AM4gey/heVgNdZvq+KVVIfMBS3PQMBUkByoCKuh
+	 k+2ZU1AjhmpeZVe6AqLjbdcheQGJbXefvJwqy6f68JvX2DSRcQ9WJNQpoy4sa/vV/0Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=yuzi.co;
+	spf=pass smtp.mailfrom=yuzifovich.name;
+	dkim=pass header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=KHTI00+I;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.175
+Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D72F606A31C
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 07:24:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FA8606A326
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 07:32:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 41FA8606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yuzi.co
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yuzifovich.name
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=XeLtjzmR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7DDE1F01825;
-	Thu, 29 Oct 2026 07:24:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793258686;
-	bh=H66I6gwnknAbyxbJvdR81Z5vw6+RwCoDzGVq9Nn/doM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=XeLtjzmR7bmXa0f1xbk2156qBMMGnCLMIw19qj6snZ0fPn+th8VTusEPdPy7BUaJb
-	 LQDy2UzHSQEqw0HsZXfOJ6q091qJDDuWAm9mmkh8Bq/3UGGRadbWhoYGkgvEf9w7Qh
-	 LzaL9UiepQxi7e6ZSP1ebRd2psHRDASo402FCBIspSOkwRhwPcCbLunvIMeJYuzM6A
-	 c0n1Wz13miJn7OFFUeFPHduMmrYgPkVv4++gJDawIqTr+cw4dnsPLiXdZhmrv7+m0x
-	 r5JOJ57baMytvUHQs2ksDkR5JpM2C16WD7TzPH0YaI8hqjT7aRakYVSeSVF2bVQ5Qu
-	 A8A7vVPYT53gg==
-Message-ID: <sashiko-outbox-188861@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH 4/4] usb: xhci: Reject URBs to disconnected devices
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Michal Pecio" <michal.pecio@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261029075706.69aaa77f.michal.pecio@gmail.com>
-References: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
- <20261027192128.386082-1-mathias.nyman@linux.intel.com>
- <20261028080734.173da0e4.michal.pecio@gmail.com>
- <20261029075409.4b203658.michal.pecio@gmail.com>
- <20261029075706.69aaa77f.michal.pecio@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Oct 2026 07:24:45 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=yuzi.co header.i=@yuzi.co header.a=rsa-sha256 header.s=google header.b=KHTI00+I
+Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-36a1947498bso1087178eec.1
+        for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 00:32:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1793259164; cv=none;
+        d=google.com; s=arc-20260327;
+        b=KfWT6gsw9P7pifwMYcQNcs+gUVJhMBSeB9g8hzIBoHLBuBRwq5IYSw+n6URcxuJa8h
+         ju0/DySC7bGWZnpXrL+DutZaXLbaDA9Qm1yl/aCjnvbYTeeBX8AYgwVME1xqRzVDK9kG
+         gweW6hso7R7v8v19Tu2fTf69BgBOeL0cCrY6VXWpMFXaQ3Mok5WrkX08GPXeSw7YMiqb
+         dvwyicJaXnT6KZLDg7Dsu6Gpscj5jArk9QPK3zCw8DCz2rHLW2RaoQpTxxLj8MH5phYP
+         GqWlhuGf76JkxIP9OsR0R21QFXVAzspXPvuqLMQrPp0hhaYxhRKqiIPyidk0Y7kNJzax
+         m1rg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=j4Ed4CEOWJoumy28IJz+IqA5FsEQuqQ4XRpEYMNLtlg=;
+        fh=CFNk6adGdIQYB2YCOcaSx0fFH8CM3juoA7LW0yV/1mo=;
+        b=OVCieKFa6Ymq7M1ZYIcK/vTq+UezCa5xn5Ests4p87GD1pLGqNBpVWwbnPHqDLzlot
+         UET5h9ejL0PGeIaMcXkV7cSe39ZgHteCwGzpKp2lsPLh8IbwmyZXhlvTDd2Tmw2XXcvy
+         A1Z1kWpwgsMXtowrXl+fuhf5U3+RG2Quh/kxLfwabuabFeZmgDSiH3JW8aIvMzqHolnE
+         Dy/KKYQhjtVrC5EcM//Sp8VU65UZm9+wxe3bP1yrvZ2O5oj/ZiEGzhCwSigmR6rErgz5
+         9RD8Yhc1WCJhsIKg0KFP1rT06sa6NuuV3yYF9qM3L+NKUDw3MUllFTBYn/UQAXHJ3QyC
+         TSNA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=yuzi.co; s=google; t=1793259164; x=1793863964; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=j4Ed4CEOWJoumy28IJz+IqA5FsEQuqQ4XRpEYMNLtlg=;
+        b=KHTI00+I1+8dcBXcZ+DZoOAJPZ1OAC7c05KTPTRFrSk32K4BqX/NxuMewmgRAG04sa
+         gckqJUXiHJM/mG7sOxIhszrkHQpix7n/TQ6xprf9K291yb1M22mloRz4Wtb9FW1kIF0l
+         OICwzXgxqKuRAYpETNyEq8M1ewbXo36yVuzJ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793259164; x=1793863964;
+        h=content-type:cc:to:subject:message-id:date:from:mime-version
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=j4Ed4CEOWJoumy28IJz+IqA5FsEQuqQ4XRpEYMNLtlg=;
+        b=kQt+QBTd0ryrph2umaQYvphyguagK/SwdSXuBSaECLwWLG/EWKCsFKae3vh5B9/lhk
+         kdyvpnc/8WOqF7O2RG/7zVylXdKw2EKH1o9X5WuYcXe+gbukHiBSmI2nYzwO8BAErWLd
+         F9TUof/9xledgyJd8wsFCtBvEIH7AwmptXcRdqKng3ctgZzIyb+uHxmhl7LKQew4CW29
+         YbUO92oALIEatyMu/8k+krTgGYWpoH4CKq+KegBToTKbnSRmztkvwL1OpDYiasp8NLSN
+         soj2C7Z1q0TISrxqE/DCVMWGdcWXqRQw13IfZWV46Z+6qrFwQ3BBzjVnv6ThuvC+EOiW
+         6cyw==
+X-Gm-Message-State: AFq9FYJsWG8HJ8G3onVbPADlSmLXAi7fQzMH3zxfaodtgtgthb5J3c+Y
+	ZP4LA/nxzwgH1CuFlaL1ZrDYO9VCMuqO9JA1BxK/R/Vga0/R2zdiZN2028kijKm02vH8yTPbeaR
+	3le7wfbZC85BL2ytvT9skW5NbL/BMbZT2+a5WLAJS3jPq92DXM4blLhNdeA==
+X-Gm-Gg: AYBFou35nGRgdkLdiqkaUf7FWPvf+qcScY84iLfI/IU64G9w4QXU3Qw3Kzidi+xxqWs
+	rziuTyKHJyNcys3v0AFO13uq+AJeza6zuOy/vMeIzRN+l7pO10IsVC1sFfRkq7RXRDqvwcBwyMr
+	HE8XPL+1lPVDlNDZqvQjVo1UEjUI1b6Yx7gEBabMP18Rg47jUe1ueFNNRu+q109Ws69OJZnrJYs
+	iUEHFLFBPdP0uT/oaGFQA+Qj8+Tm2dY/cwzkfr2bXRRmPRl7cmUpkmx05+KDmlk7ZMPv52FaB3G
+	hslzQJRTcagLlt+MLmj1Y11IzPMG6v6qguypeP2pQ20KWPZKntz6uo/M7RHPIchbByujfWFe7fQ
+	TX/qcQ4PrK/6bzeZgsU6zpB9veSiJkU8zYiv/hKdhWDJ7aQp6hCONunU+YZCbjn9HkEC8pIgemZ
+	YhVw/G/FqR2rmubl4GxLkdIcTy0m8NVYWUfuKKrJVrE9YJpU8VwlJ1Cpa8Wf6y/DoZbjYJAbUIT
+	9AjKWBqFqsiYFDwcpuFbAFCp+cbY9EAHUVxxA==
+X-Received: by 2002:a05:7301:640b:b0:369:f291:49da with SMTP id
+ 5a478bee46e88-36a2044be5dmr6538811eec.40.1793259164162; Thu, 29 Oct 2026
+ 00:32:44 -0700 (PDT)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -62,187 +97,89 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+From: Vadim Yuzifovich <vadim@yuzi.co>
+Date: Thu, 29 Oct 2026 09:32:17 +0200
+X-Gm-Features: AclHuK_gTjrecGKcr20z4umFf70BrnLbeaQXZwtWfSdIOW4KFmRzyuodCJNPJsI
+Message-ID: <CAH_=YdDCDyFBn2k18w8Ck5jrmHHZme7TuAA71hSgcAa9ZPb38Q@mail.gmail.com>
+Subject: Re: [PATCH] usb: dwc2: Disable gadget descriptor DMA for Sophgo CV18XX/SG200X
+To: linux-usb@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] usb: xhci: stale rhub_port state in xhci_urb_enqueue() rejects val=
-id URBs
---
+On Fri, Oct 24, 2026 at 07:52:20PM +0800, Chen-Yu Yeh wrote:
+> dwc2_set_cv1800_params() disables gadget DMA (g_dma) but leaves
+> g_dma_desc at its default, which dwc2_set_default_params() takes from
+> the hardware capability. Descriptor DMA requires g_dma, so
+> dwc2_check_params() rejects the combination at probe time:
 
-commit 3e6930cee6e8275b8d271ab4827ba5004d45037f
-Author: Michal Pecio <michal.pecio@gmail.com>
+With g_dma off this only removes the warning, so no objection to the
+patch itself.
 
-usb: xhci: Reject URBs to disconnected devices
+For the record, in case someone later wants gadget DMA on this SoC:
+we run the SG2002 (NanoKVM, DWC_otg 4.20a) as a peripheral with g_dma
+and g_dma_desc both on (mass storage, HID, ACM, UAC1). Descriptor DMA
+works there, but only with three dwc2 changes. Without them it is not
+usable, which may be why the platform parameters turn DMA off.
 
-This commit extends the port link error check in xhci_urb_enqueue() to also
-reject URBs with -ENODEV when the root hub port is marked disconnected or t=
-he
-endpoint has EP_DROP_PENDING set.
+1. Bulk and interrupt endpoints raise BNA and are never restarted.
 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index a9e47e178c280..4a893a8438c3a 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -1665,12 +1665,6 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, s=
-truct urb *urb, gfp_t mem_flag
->  		goto free_priv;
->  	}
-> =20
-> -	if (xhci->devs[slot_id]->rhub_port->link_inactive) {
-> -		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
-> -		ret =3D -ENODEV;
-> -		goto free_priv;
-> -	}
-> -
->  	if (xhci->xhc_state & XHCI_STATE_DYING) {
->  		xhci_dbg(xhci, "Ep 0x%x: URB %p submitted for non-responsive xHCI host=
-.\n",
->  			 urb->ep->desc.bEndpointAddress, urb);
-> @@ -1680,6 +1674,13 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, s=
-truct urb *urb, gfp_t mem_flag
-> =20
->  	ep_state =3D &xhci->devs[slot_id]->eps[ep_index].ep_state;
-> =20
-> +	if (xhci->devs[slot_id]->rhub_port->link_inactive ||
-> +	    !xhci->devs[slot_id]->rhub_port->connected || *ep_state & EP_DROP_P=
-ENDING) {
-> +		xhci_dbg(xhci, "Can't queue urb, link error or disconnected\n");
-> +		ret =3D -ENODEV;
-> +		goto free_priv;
-> +	}
+With the video pipeline loading DRAM, the mass-storage bulk IN
+endpoint hit BNA every minute or two. dwc2 only logs that at debug
+level. The endpoint stayed disabled with an 18-byte REQUEST SENSE
+reply current and the CSW queued behind it, the host's command timed
+out after 30 s and it reset the port, taking HID and the console
+with it. Once, after a run of resets, the reset itself wedged the
+core. When read in the BNA handler, the descriptor is host ready,
+last, short, IOC, 18 bytes (0x0e000012).
 
-[Severity: High]
-Can rhub_port->connected, rhub_port->link_inactive, or EP_DROP_PENDING rema=
-in
-stale here and cause xhci_urb_enqueue() to reject valid URBs (including EP0
-control transfers) during device reset, resuscitation, resume, or enumerati=
-on?
+2. The cause: the core fetches the descriptor before the CPU's stores
+reach DRAM.
 
-Across the xHCI driver, port->connected and port->link_inactive are only
-updated in drivers/usb/host/xhci-ring.c:handle_port_status() when a hardware
-TRB_PORT_STATUS event is received while PORT_RESET is not set:
+dwc2 writes the chain to coherent memory and then enables the
+endpoint with writel(), whose fence orders the stores before the
+MMIO write. On the C906 that is not enough. A host sent TEST UNIT
+READY (plus REQUEST SENSE) to a CD-ROM LUN as fast as it could,
+about 2600 a second, while a 1080p60 H.264 stream loaded DRAM.
+About 0.8% of transfer starts raised BNA, 99.5% of them within
+20 us of the enable, with DxEPDMA still at the head of the chain.
+Without the stream: none in 254000 commands.
 
-drivers/usb/host/xhci-ring.c:handle_port_status() {
-	...
-	if (!(portsc & PORT_RESET)) {
-		port->link_inactive =3D (pls =3D=3D XDEV_INACTIVE);
-		port->connected =3D !!(portsc & PORT_CONNECT);
-	}
-	...
-	/*
-	 * xHCI port-status-change events occur when the "or" of all the
-	 * status-change bits in the portsc register changes from 0 to 1.
-	 * New status changes won't cause an event if any other change
-	 * bits are still set.  When an event occurs, switch over to
-	 * polling to avoid losing status changes.
-	 */
-}
+BNAs per variant, on one boot (diagnostic build, about 780000
+transfer starts a minute each):
 
-Neither xhci_get_port_status(), xhci_clear_port_change_bit(), nor
-xhci_discover_or_reset_device() updates port->connected or
-port->link_inactive:
+as is 6215, 6510
+mb(), read last descriptor back, mb() 0
+th.sync.s 0
+udelay(2) 2
+descriptor as two word stores, status last,
+dma_wmb() between 3728
 
-drivers/usb/host/xhci-hub.c:xhci_get_port_status() {
-	...
-	/* common wPortStatus bits */
-	if (portsc & PORT_CONNECT) {
-		status |=3D USB_PORT_STAT_CONNECTION;
-		status |=3D xhci_port_speed(portsc);
-	}
-}
+Mapping coherent memory non-bufferable (MAE type SH) did not change
+the rate. Reading the last descriptor of the chain back between two
+full fences before setting EPENA fixed it: none in 6.2 million
+transfer starts under the same flood, and none in a 60 minute run
+at 1080p60.
 
-drivers/usb/host/xhci.c:xhci_discover_or_reset_device() {
-	...
-command_cleanup:
-	for (i =3D 0; i < EP_CTX_PER_DEV; i++)
-		virt_dev->eps[i].ep_state &=3D ~EP_DROP_PENDING;
-}
+3. Isochronous OUT endpoints are not restarted after BNA.
 
-When a disconnect (PORT_CSC =3D 1, PORT_CONNECT =3D 0) or link error (PORT_=
-PLC =3D 1,
-pls =3D XDEV_INACTIVE) occurs, handle_port_status() sets port->connected =
-=3D 0 or
-port->link_inactive =3D 1, leaves the status-change bits set in PORTSC, and
-switches the roothub to polling. Because the xHC only generates a
-TRB_PORT_STATUS event when the logical OR of all PORTSC status-change bits
-transitions from 0 to 1, subsequent transitions back to PORT_CONNECT =3D 1 =
-or
-XDEV_U0 will not generate a new TRB_PORT_STATUS event while any change bit
-remains set in PORTSC.
+After a BNA, dwc2_gadget_handle_ep_disabled() runs its buffer DMA
+frame loop and moves target_frame off TARGET_FRAME_INITIAL, so the
+OUT token handler never restarts the chain. Meanwhile the core
+raises BNA for the disabled endpoint as fast as the handler clears
+it. With a UAC1 capture endpoint and eight requests, one 8 ms
+interrupt latency was enough to take the whole core until the host
+reset the port.
 
-This appears to leave rhub_port state (or EP_DROP_PENDING) stale in several
-paths:
+(1) and (3) look generic to dwc2 descriptor DMA. (2) is specific to
+the C906 or this SoC's interconnect. We have not checked whether other
+drivers that rely on writel() to order coherent-memory stores are
+affected too.
 
-1. Device reset or resuscitation across a disconnect or link error via
-usb_reset_device() -> usb_reset_and_verify_device() -> hub_port_init() ->
-hub_port_reset(), where port_dev->status_lock is held so port_event() cannot
-clear PORT_CSC or PORT_PLC. On USB3 root ports, PORT_CSC or PORT_PLC stays =
-set
-throughout the reset, suppressing TRB_PORT_STATUS when the device reconnects
-and reset completes. On USB2 root ports, if the first reset completes while
-PORT_CSC is set, hub_port_wait_reset() clears only C_CONNECTION and returns
--EAGAIN without clearing C_RESET (PORT_RC), so PORT_RC stays set throughout
-the retry reset and suppresses TRB_PORT_STATUS when the retry completes.
-Although xhci_discover_or_reset_device() clears EP_DROP_PENDING,
-rhub_port->connected remains 0 (or link_inactive remains 1), causing
-get_bMaxPacketSize0() or usb_get_device_descriptor() in hub_port_init() to
-fail with -ENODEV.
+The patches, against 7.3:
 
-2. Delayed connection after reset completion in
-drivers/usb/core/hub.c:hub_port_wait_reset():
+https://www.google.com/url?q=https://github.com/yuzi-co/linux-sg2002/commit/80fca5c88a2c&source=gmail&ust=1793345520406000&sa=E
+https://www.google.com/url?q=https://github.com/yuzi-co/linux-sg2002/commit/ea6319d5d4e1&source=gmail&ust=1793345520406000&sa=E
+https://www.google.com/url?q=https://github.com/yuzi-co/linux-sg2002/commit/1efd0cda1069&source=gmail&ust=1793345520406000&sa=E
 
-drivers/usb/core/hub.c:hub_port_wait_reset() {
-	...
-		if (!(portstatus & USB_PORT_STAT_RESET) &&
-		    (portstatus & USB_PORT_STAT_CONNECTION))
-			break;
-}
-
-If PORT_RESET clears (setting PORT_RC =3D 1) before PORT_CONNECT is asserte=
-d,
-handle_port_status() runs on the PORT_RC event while PORT_CONNECT is 0 and
-sets port->connected =3D 0. When PORT_CONNECT subsequently becomes 1 while
-PORT_RC is still set, no new TRB_PORT_STATUS event fires.
-
-3. Connect bounce during hub_port_debounce(): a bounce disconnect sets
-PORT_CSC =3D 1 (and/or PORT_PLC =3D 1) and port->connected =3D 0. If the po=
-rt
-reconnects during the debounce sleep while PORT_CSC is still 1, no
-TRB_PORT_STATUS event fires on reconnect, and hub_port_debounce() clears
-C_CONNECTION while leaving port->connected =3D=3D 0.
-
-4. Status change during active reset: if PORT_CSC or PORT_PLC becomes 1 whi=
-le
-PORT_RESET is active, TRB_PORT_STATUS fires while (portsc & PORT_RESET) is
-true, so handle_port_status() skips updating port->connected and
-port->link_inactive, and the uncleared change bit suppresses the event when
-PORT_RESET clears.
-
-5. USB3 resuscitation without a port reset in
-drivers/usb/core/hub.c:hub_port_connect_change(), or transient disconnect
-during wait_for_connected() in usb_port_resume():
-
-drivers/usb/core/hub.c:hub_port_connect_change() {
-	...
-		if (portstatus & USB_PORT_STAT_ENABLE) {
-			/*
-			 * USB-3 connections are initialized automatically by
-			 * the hostcontroller hardware. Therefore check for
-			 * changed device descriptors before resuscitating the
-			 * device.
-			 */
-			descr =3D usb_get_device_descriptor(udev);
-}
-
-If a USB3 device briefly disconnects (setting PORT_CSC =3D 1,
-port->connected =3D 0, and EP_DROP_PENDING on halted/stopped endpoints) and
-reconnects to U0 while PORT_CSC is still 1, no second TRB_PORT_STATUS event
-fires. When hub_port_connect_change() or finish_port_resume() then submits =
-EP0
-control URBs without calling xhci_discover_or_reset_device(), won't
-xhci_urb_enqueue() reject them with -ENODEV due to stale
-rhub_port->connected =3D=3D 0 or stale EP_DROP_PENDING on EP0?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029075409.4b20=
-3658.michal.pecio@gmail.com?part=3D4
+If there is interest, I can post them as a series.
