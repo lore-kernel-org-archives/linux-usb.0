@@ -1,187 +1,58 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.remote-ip=192.198.163.7
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=fail;
-	t=1793289636;
-	b=n1AL7hP7F6w2nzq5qfa6OzPKQ0XlxSqdnWCaE8ETZJ7z5ROXHUuD1RGRA9itfH3jRSqT
-	 PUw7xBNzOyBjvyRIbzQlKBK7XZsRcEYpLu94rPxmI5L7VxJBlTIa9eEc1RLt9zzLemIBw
-	 BVlv5H5TJYX500cLsHtPc86dAdNtsByMPwuhPvsuUSDZpJSwUtbXP3PX2fOb6qi7TX+la
-	 3b7e2ckZxzP3y9zZQlQW7qlJtDL8TAwj6QutTIDycr4UtbT+CuV8ZBbUo6JEI1Gmb1xKA
-	 QNCbSXkPx/oejWn8kDZYVJmoThPnL0VjxNjYMmG5k2gaawLkhzMkrpjrKC43FxxoQqw==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793289636;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Received:
-	 Received:Received:Received:Date:From:To:CC:Subject:Message-ID:
-	 References:Content-Type:Content-Disposition:In-Reply-To:
-	 X-ClientProxiedBy:MIME-Version:X-MS-PublicTrafficType:
-	 X-MS-TrafficTypeDiagnostic:X-MS-Office365-Filtering-Correlation-Id:
-	 X-MS-Exchange-SenderADCheck:X-MS-Exchange-AntiSpam-Relay:
-	 X-Microsoft-Antispam:X-Microsoft-Antispam-Message-Info:
-	 X-Forefront-Antispam-Report:
-	 X-MS-Exchange-AntiSpam-MessageData-ChunkCount:
-	 X-MS-Exchange-AntiSpam-MessageData-0:X-Exchange-RoutingPolicyChecked:
-	 X-MS-Exchange-CrossTenant-Network-Message-Id:
-	 X-MS-Exchange-CrossTenant-AuthSource:X-MS-Exchange-CrossTenant-AuthAs:
-	 X-MS-Exchange-CrossTenant-OriginalArrivalTime:
-	 X-MS-Exchange-CrossTenant-FromEntityHeader:
-	 X-MS-Exchange-CrossTenant-Id:X-MS-Exchange-CrossTenant-MailboxType:
-	 X-MS-Exchange-CrossTenant-UserPrincipalName:
-	 X-MS-Exchange-Transport-CrossTenantHeadersStamped:X-OriginatorOrg;
-	bh=++iK9zA7vdSqa2z9khUOayVv3ianUOElr3aNyLxohNs=;
-	b=tl0xwVS/nqwpLwGHUDG3LPuTjoyq6c81QWv4afD/wueeR75UVcSWdY5mY4mnR/bD7dLt
-	 ZmPBMG2tf4ckfXY21UCUXEJuW+grXMk5QvxodLI0edCXRtPA7utSBytEEllDAoyAGifU4
-	 61n8+AVg4CylRVI2pEitG5s2++1HBsAEdHQLldzprFasK0VqqOceaUUU5GKjTsSrfUA+1
-	 fkiXZ7n4ky6SpNzJ9lsYq6bQY8hpYxSMdm9H4+zetxdZJhe7d+INLjnFL9rfOpbFHjUV/
-	 yqSTScpR12jywVADvLUPAKNCDP4MrqcS9Sqp52c/rCh4w8mH5u96iDiQ1ouNSwE9Fsg==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="iw94y/1+";
-	arc=fail smtp.remote-ip=192.198.163.7
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E67606A31C;
-	Thu, 29 Oct 2026 16:00:35 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 99E67606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=iw94y/1+
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793289636; x=1824825636;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=1s7rQPzBWfF3kY4Gi4Gs8o36uSP/gZ92/BBROqe3tUA=;
-  b=iw94y/1+GSa38QiXYO7iHgdQM1H1u+uV/uRXhLZ/qgBiL8xx52iOfeX2
-   irU6D2cIH0UUxN4ma4GWTitjgvCO5trpFP7L+f8wxytj7sRHs2jX6gRKW
-   hWdrHLNXfGLPoxAwZSPPevy4XoIvrYzKOULJoKCKuThb0VRI8kBxXC9D3
-   QuLZovFBYWlb8vf0T8qlxy8rf3c/pAuAF0Q2rSndx1JI4kTCr5FkzBQ6S
-   4c6aC12tXma9PYuugXqgk1vUuPUouXEexyI3aaytW3A6F93wlNNmHP4ht
-   NEpPLs17elRcAOlzZ9lCuU+oSBse57XC/28/4AfK4mPNPjO6w0B2QEkqy
-   w==;
-X-CSE-ConnectionGUID: krCKdNbzTYS2R2dojHxZUg==
-X-CSE-MsgGUID: diDHHwsdSomea1WBSEdbZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="1924353"
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="1924353"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 09:00:34 -0700
-X-CSE-ConnectionGUID: yvTkDk+tT+OTJ+A6TBHHyA==
-X-CSE-MsgGUID: uKa5PQb6QsebgeeX3ej9Ng==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="5275435"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 09:00:32 -0700
-Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 29 Oct 2026 09:00:31 -0700
-Received: from ORSEDG902.ED.cps.intel.com (10.7.248.12) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56 via Frontend Transport; Thu, 29 Oct 2026 09:00:31 -0700
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (52.101.43.69) by
- edgegateway.intel.com (134.134.137.112) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.56; Thu, 29 Oct 2026 09:00:30 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=N7dw55R7QH2y/o1H0Krg6QrDe1sXjJtyKa4F5Vrih1n4MfYxcWou3GRsTxhzRyq1iRE+3U1dit0gBpLt+bjF/XnCDvO54GVFGp/vqODW+nfWhVZAPEN5GEPpLXsKlLnuI955r62lE2WhqTKgZncFwenkqrTUa+P9a/nuxpt9Ny7YL1qJOJ2Hy8q8Hm8KRt8TS8NjVADzaji6eRRrZhVV7ZO2GJBQ5nx2oY73Hgp/t6zi825dhD7jK3PnAiI3XgubsA8pS9M7s/fJGYy7h4Wny4kGjK4FLVJInuP3OtGF77AI8S0Dgo/Rd60l0j/sOqtq5hgEQ7VNkPN4vWxE4sZ1rA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=++iK9zA7vdSqa2z9khUOayVv3ianUOElr3aNyLxohNs=;
- b=w+WtNPFR1X0tRSrixPIJjnQVocHwPpYr+kD1XQQ9C9MSsG4uj5pNQpGLbuCXtLqD6/XoKFkUB/WZLoE8mpzxtymqFObJQDf2Kvp2EwQadVfzSphjiVSKVm+4MY91fnii4zIidg+2hYSBUxzYv8k6iE/z17e0UhbI0knZBKWzbEO9PRBrECndUs/Sowi0aErm+TuaD5u55rdEP8wriUof1yMR1vK/wqz5E3sxQVIL6w6Qde1yfgAKoHfq9G1ptd8/992NrCO/y2yxyZ5YwSmt2crMuHC13fc9sZQKfFcgFeEqzpLuye7VDR7Nlt2EkROPaKY1vIExt4lnJo2B2/VHXg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO1PR11MB4787.namprd11.prod.outlook.com (2603:10b6:303:95::23)
- by DS0PR11MB7999.namprd11.prod.outlook.com (2603:10b6:8:123::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.569.8; Thu, 29 Oct
- 2026 16:00:20 +0000
-Received: from CO1PR11MB4787.namprd11.prod.outlook.com
- ([fe80::e7eb:a872:53d1:21fd]) by CO1PR11MB4787.namprd11.prod.outlook.com
- ([fe80::e7eb:a872:53d1:21fd%4]) with mapi id 15.21.0569.008; Thu, 29 Oct 2026
- 16:00:19 +0000
-Date: Thu, 29 Oct 2026 09:00:15 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Philipp Stanner <phasta@kernel.org>
-CC: Min Ma <mamin506@gmail.com>, Lizhi Hou <lizhi.hou@amd.com>, Oded Gabbay
-	<ogabbay@kernel.org>, "Rob Herring (Arm)" <robh@kernel.org>, Tomeu Vizoso
-	<tomeu@tomeuvizoso.net>, Karol Wachowski <karol.wachowski@linux.intel.com>,
-	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>, Sumit Semwal
-	<sumit.semwal@linaro.org>, Christian =?iso-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>, Felix Kuehling <Felix.Kuehling@amd.com>, "Alex
- Deucher" <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
-	"Simona Vetter" <simona@ffwll.ch>, Maarten Lankhorst
-	<maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>, Lucas Stach
-	<l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
-	Christian Gmeiner <christian.gmeiner@gmail.com>, Jani Nikula
-	<jani.nikula@linux.intel.com>, Joonas Lahtinen
-	<joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>, Alessio Belle
-	<alessio.belle@imgtec.com>, Luigi Santivetti <luigi.santivetti@imgtec.com>,
-	Qiang Yu <yuq825@gmail.com>, Rob Clark <robin.clark@oss.qualcomm.com>,
-	"Dmitry Baryshkov" <lumag@kernel.org>, Abhinav Kumar
-	<abhinav.kumar@linux.dev>, Jessica Zhang <jesszhan0024@gmail.com>, Sean Paul
-	<sean@poorly.run>, "Marijn Suijten" <marijn.suijten@somainline.org>, Lyude
- Paul <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>, Boris Brezillon
-	<boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>,
-	=?iso-8859-1?Q?Adri=E1n?= Larumbe <adrian.larumbe@collabora.com>, Liviu Dudau
-	<liviu.dudau@arm.com>, Dave Airlie <airlied@redhat.com>, Gerd Hoffmann
-	<kraxel@redhat.com>, Natalie Vock <nat@pixelcluster.dev>, Arun Pravin
-	<arunpravin.paneerselvam@amd.com>, Matthew Auld <matthew.auld@intel.com>,
-	Thomas =?iso-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
-	Melissa Wen <mwen@igalia.com>, =?iso-8859-1?Q?Ma=EDra?= Canal
-	<mcanal@igalia.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, "Dmitry
- Osipenko" <dmitry.osipenko@collabora.com>, Gurchetan Singh
-	<gurchetansingh@chromium.org>, Chia-I Wu <olvaffe@gmail.com>, Zack Rusin
-	<zack.rusin@broadcom.com>, Broadcom internal kernel review list
-	<bcm-kernel-feedback-list@broadcom.com>, Thierry Reding
-	<thierry.reding@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Andy Shevchenko
-	<andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, "Sunil
- Khatri" <sunil.khatri@amd.com>, Kees Cook <kees@kernel.org>, Jesse Zhang
-	<jesse.zhang@amd.com>, Timur =?iso-8859-1?Q?Krist=F3f?=
-	<timur.kristof@gmail.com>, Srinivasan Shanmugam
-	<srinivasan.shanmugam@amd.com>, Kexin Sun <kexinsun@smail.nju.edu.cn>, "Prike
- Liang" <Prike.Liang@amd.com>, David Rosca <david.rosca@amd.com>, "Krzysztof
- Karas" <krzysztof.karas@intel.com>, Marco Crivellari
-	<marco.crivellari@suse.com>, Shixiong Ou <oushixiong@kylinos.cn>, Jouni
- =?iso-8859-1?Q?H=F6gander?= <jouni.hogander@intel.com>, "Thadeu Lima de Souza
- Cascardo" <cascardo@igalia.com>, Pierre-Eric Pelloux-Prayer
-	<pierre-eric.pelloux-prayer@amd.com>, Joel Fernandes <joelagnelf@nvidia.com>,
-	Al Viro <viro@zeniv.linux.org.uk>, Neill Kapron <nkapron@google.com>,
-	"Michael Bommarito" <michael.bommarito@gmail.com>, Sam Day <me@samcday.com>,
-	"Gabriel Prostitis" <prostitisgabriel@gmail.com>,
-	<dri-devel@lists.freedesktop.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
-	<etnaviv@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
-	<imagination@lists.freedesktop.org>, <lima@lists.freedesktop.org>,
-	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
-	<nouveau@lists.freedesktop.org>, <virtualization@lists.linux.dev>,
-	<spice-devel@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
-	<linux-tegra@vger.kernel.org>, <linux-iio@vger.kernel.org>,
-	<linux-usb@vger.kernel.org>
-Subject: Re: [RFC PATCH 5/6] dma-buf: dma-fence: Close race in
- dma_fence_is_signaled() by default
-Message-ID: <auNtj8zYrqwtnXdK@gsse-cloud1.jf.intel.com>
-References: <20261029095542.1526750-3-phasta@kernel.org>
- <20261029095542.1526750-8-phasta@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20261029095542.1526750-8-phasta@kernel.org>
-X-ClientProxiedBy: MW4PR04CA0044.namprd04.prod.outlook.com
- (2603:10b6:303:6a::19) To CO1PR11MB4787.namprd11.prod.outlook.com
- (2603:10b6:303:95::23)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793289751;
+	b=FCvHpQIOs/7J+90RHODnM3EMFXqz6mClyauZ3BXqpg6il70n5iFuRgcaE/hWx1nzTAUL
+	 kAMQZ075Iwl+iSUu7Jn4Rch46gAsgVsTEkMwCgWzetzrA/uQRcDEh7r2Q2L+h3Vba8QZp
+	 EhlyfcT/1Crex2Alj5EdqkVZIxl59kpEQkR5K40BvEBP4bkVlSOqMd2rrz5TBnPLztE9x
+	 9TpdQlXm6xu5swJ1ecW96lf7GwSztB/bGo5Sm7dkeOcYGLW9q9lPBMOY17+ks4mngtSM/
+	 DSNRgLo5SAI9dUXMZaKV7JgChQMUz8FWB9e5a/BHuEUCNcR4f1GVRbGuyWPHFR9vINA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793289751;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-Id:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=pI00oraJcj1gbywxrmhhYEBArK86LZYRPpd6Xl7nY4g=;
+	b=ylBiAxe9jLRoc/Hmz5hFglWpMk5xYJOOtHuLsexq2Rg1e663bqXKxaVwgOErx7GCF39e
+	 NdPAW0xP2b5wylojnaG4K+lk3vxy/xMqdyt6Kw8am3HStsx34DrtBBG+Y2q+fR5qxLx0s
+	 2gRjImNi1JNPypH/tUiIX/q9mnCo6IfjN10RR5jjaTisfa8VJN8gGwB6auNOp2f1H71vA
+	 4S7kVgLFxUXNOKzhjTV4Sl7/3uKGUJRHeFX80ecoFhLIE7L0MLHTvXR1IBc7N/deImbZM
+	 dxaRlDWSlpL8uA+NiI0MwqAR2ERrAol/a8PwOMGq37PWT8LFcCzapwiGXLLxqWNq28Q==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B21EC606A335;
+	Thu, 29 Oct 2026 16:02:26 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B21EC606A335
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-Id:MIME-Version:Content-Transfer-Encoding; bh=pI00oraJcj
+	1gbywxrmhhYEBArK86LZYRPpd6Xl7nY4g=; b=ps7AKoiNveu4MzEsQFvViVHnWn
+	JdQiO3yg3+yyHAlqHQVNmLVREJmdfOuvdC7z9GfFUM7Cs09WuPDWZlzcY6/mfqhI
+	eFCy6rhAGN8fkPclZ9Ka20fDLHZBF2sfgRqgl8VgAlAaBuk8R8Mixitfg65rEjD7
+	vBlWADMMzo/zIDsYI=
+Received: from user-virtual-machine.localdomain (unknown [113.200.174.38])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkBWXgH8beNqsp8AAQ--.1728S2;
+	Fri, 30 Oct 2026 00:02:05 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+	UNGLinuxDriver@microchip.com
+Cc: netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Russell King <linux@armlinux.org.uk>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>,
+	Cheng Wen <wencheng@xidian.edu.cn>
+Subject: [PATCH net] net: usb: lan78xx: only stop phylink if the interface is running
+Date: Fri, 30 Oct 2026 00:02:04 +0800
+Message-Id: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
+X-Mailer: git-send-email 2.34.1
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -191,164 +62,63 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB4787:EE_|DS0PR11MB7999:EE_
-X-MS-Office365-Filtering-Correlation-Id: a6a3578e-fddd-4b58-297f-08df35d5babd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|23010399003|18002099003|22082099003|56012099006|11063799006|261026140227099003|4143699003|261021123027099003|261021121427099003|10067099003|261026121527099003|261009223027099003|261022075727099003|261022105027099003|261028144727099003;
-X-Microsoft-Antispam-Message-Info: GcA/mTp3EeoLjKo9kf4JRRrRKZLtSlDNaMmvaSH66FCOzpPQZSRs/U5CmyaOEfe85COboqUvFC/IS2XNvmWk0YNjCp1HRjR7+YfGdy5ApnRrM/c67DJNNNEETe1xJ4eXeyYxwYAyvGUWo49j9UYEXcCDfM7TNvUKl7+1BKpFhcPUIHZ7WvA6SMFestx7luxt2me4h/k0MXsnbwVSD6ymbV7F2E5m+M653Aqp6BGQ/Pmr95HLeX7h0n8ZEE8HYdhSLbfaGl/CwOTcphOULwPXNSdQPy6Q/WXlAzgTmEuGea3akpjRVedIkpewnHHLYyTpkxIO3+AhjibRAVaRUb886ft7MLrmdF7945T+lnLtzd/IG2y6aaE/e4VU3HxpkZiV2nWqgMqNc8VXwNa1uxVuRCJQJXU4Y0UObzf1xQsN7ybsDvu6JeegZWipNKVjD7jLbjKyELE0sA095YtYQoMnTWlbavtkL2ZKpCSJsDWUD0zWrlktPcoD/hPddvLuWDqtDsbPcoRuxqgLAOr3uXEK2eLLRbt/8PwA/bocggz5KnHWwSyGSdhUlnDNYwOuZxjvY75hmGX+BOX/YoS8JWi6Gh0w+1MmkT3mzO9G/Wvr9SaMJoNXrUqFSvfDl42XLZeLh0EqVr6DwAWHqeRFrz9VHEFrclPMlQO9kT1wIOCPWjw=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB4787.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(23010399003)(18002099003)(22082099003)(56012099006)(11063799006)(261026140227099003)(4143699003)(261021123027099003)(261021121427099003)(10067099003)(261026121527099003)(261009223027099003)(261022075727099003)(261022105027099003)(261028144727099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yhF8AzJ4SOQZjKgwpgmtJEsmjJJJQZSmg7/qT2hQva1P3tFx5+K7Yuv0XDxE?=
- =?us-ascii?Q?YGKyP6qm6UBfD/rfkSnzfmOttXOSXlYIgQEY3s/hDdvwREziNUYoATT3VAXg?=
- =?us-ascii?Q?EyV1ZxkVWVmsB4bf2H1WrARuJ1BWkpzWKvU7vBjZxefHYHIKI9fathPH1BMg?=
- =?us-ascii?Q?Mk8AL15M9nbE6rGhw7oNayZTS7ulj9k4xfkaWFXyzMAu4HCKl30YA7trp8qR?=
- =?us-ascii?Q?jE7HPC18lS8DVACLGgnTvAtkJKYeYldgyP7/2baOmlVZJYZD4zmjEQF6QSqd?=
- =?us-ascii?Q?6AG5+bexZyDihivIA/+1sqYcWy2ZsSKrtf2Sxg7ifGXqaLAO+DVmnpQYAY9u?=
- =?us-ascii?Q?/0X5ieF1oXhQ5T46RrBIgTTGTU2/rS8fiDlgydqTCFa7GwWpITBfLq5XVMPO?=
- =?us-ascii?Q?tuGFnYR5vwENoNvaBfimbbK8VFHzDgqWs9jH7vLZIh8JN4RM/3LbhFm0NlsP?=
- =?us-ascii?Q?Bh/Ji3OtkT/HlQt8VnRQCL7Sa1pkviVpdXMyW63P4TLP4dpOJ/e+rIQps3sc?=
- =?us-ascii?Q?gzIwLCo/A70cwZq4za64EOGuJYykb7JOEQev2O53+8iLbL0malpFKMc305wl?=
- =?us-ascii?Q?M6QbbZX91ZcZYPaqYjIQsVkbLkQmuB0oZzvsnJZAUvt26nnRpc1kydEK/slq?=
- =?us-ascii?Q?Og5hD3gWG0tHqDXZiVDtDYJ+A3NLPdDTX07EOWtGbaxmK8Rha/HeNsdRL7/K?=
- =?us-ascii?Q?j2TNPOQP67Ce92OnO7VF+uUTKGnkedGKW/CUoArTGCjWOu75p5XfKj1gEqPl?=
- =?us-ascii?Q?304SJqpFMsjiQkRPrybV2inV6ZIQxkq8thcDad8z+d7JaQw4/HpaiMFW3BPI?=
- =?us-ascii?Q?Neo+pd7oiPbqwUOrRe/4Wj/uqkDldwF8+C4jPpxRHDcDr7SV2OAXR8DPsuaP?=
- =?us-ascii?Q?FGZvPuF7Jf3IM7mBUWCev38v+otOOF6M6YCD3RepkIXNGX+mvvCuknak1PGI?=
- =?us-ascii?Q?6t/URpwMQsZhbz9V5HTyaXIYqz3l4n5ZeaRmyiYnR1h566xM0KnX/+T4tDhC?=
- =?us-ascii?Q?0+swB0C/53Ez5M8lOitNeERlB7rPLdqLpcENIdKp13fgv3W38Z/ee+MJkVlB?=
- =?us-ascii?Q?JKKV15VqmaV3s0bu1aEufn8upTr8JsHkYTn4RjWI30HHUodW7Xj9Y8x5XCcD?=
- =?us-ascii?Q?bScg1/3thW7vKQe5wngY3yBCkNKSJuhyKUoFNQVjFndmpGGpU79MUU56PlOu?=
- =?us-ascii?Q?tNJCk6cpYJQBOuUan7AtIV8Q53o57SPua3K+laf4u6UsRhT5Egx1tCqG0XJk?=
- =?us-ascii?Q?5cBrlRrfu0MM+TnKPzwRm3tbpqz/5hk0IwcyAXxs45t/lmMepkczpAbvEVJP?=
- =?us-ascii?Q?T7Y7tanSinbMf0apgIhDdgGEygGUlX/u0zoCV03VYQFHM9lfHkaLnXNwMC9G?=
- =?us-ascii?Q?rhBu6/NtP6w8OioKuV00NNXE7dKd2kYgjLklYSMSMlJTQ2HB8jUNBWlgyr0m?=
- =?us-ascii?Q?OZ1/+zOUR0JwAlj2dSs4xV6HHZ2gHo+pTCZMQBIQ6z29M9SoIJMa7kC3HEWp?=
- =?us-ascii?Q?ZxsMSwXPnI12wXgMvByM39w2Vafl2SJo3YdZIpnKGzrD7t/PqCyfPWpI+mEk?=
- =?us-ascii?Q?mrYKJrNxoQPDpTvZPlGgmwyNMUUIsXtYRDjIm5XPzaNV0Q4+YEwCwXidBf2D?=
- =?us-ascii?Q?znPX9w0PaoOE4qN7f8MBUF+ikYcHBjzyB18ztj7xUE9Cy7CzfcBNVaaZgdy9?=
- =?us-ascii?Q?cAqGmr6juZ3Fq2qgbs0f0Nt5F1ZQplZE1fN+64VvSX205qGUiLFixjLme0zX?=
- =?us-ascii?Q?T9a/l0vNZw=3D=3D?=
-X-Exchange-RoutingPolicyChecked: dLchvVtnFtecCNNV+v+ZIIG05MtGLBr70qRjTdh1vTzrBkOTUKxwylRlWDjcLKwFLSJ56kKgUfTh2ISt5C7dnlfSI8QUelygsNRnwrA7w5ztxSoLpV4FeJzVnQ/+LKkP1gXlMiwGPYbVa3hM4F4Kndc+8hpYKSVMm/Z7iXQByCiaNgp2ptitmUZ/Sk5vegJH521FjaX6x4BPVfva0LiV79JFOG0bRAD3q36M+lFvhAvG6ctR5jjk8jmBJTFuUYZXGKbao5N3CIb1jMvbQBeuEgNy0nbDnhecn8RRqVD7zO76vaxATu4keJHpxP6tIWa9Xqa+DUGAEnb4BQDgohgw4g==
-X-MS-Exchange-CrossTenant-Network-Message-Id: a6a3578e-fddd-4b58-297f-08df35d5babd
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB4787.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Oct 2026 16:00:19.1318
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +5xI66ER351bw+NXujpvhxkFpRqgB+f3HwPJlr35TdqYCPpvwQDo7vWQUcbhQEiONluhg4IYvB+WQX47sagy2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7999
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:BbQMCkBWXgH8beNqsp8AAQ--.1728S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7tF13Ar1UGr1Duw1DXFy7KFg_yoW8XFyfpa
+	9xZFW7uryUtw1Du343Aw48Z3W5Za1qqryxCryj9wnYqwn8XFy7Zr92kr9xCF15AFW8AFWI
+	yFnrCFW7uFy5Aw7anT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUBmb7Iv0xC_Zr1lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_JFI_Gr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4
+	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x2
+	0xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r106r15Mc
+	Ij6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l
+	FIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_GFv_Wrylc2xSY4AK67AK6r1l42
+	xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWU
+	GwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI4
+	8JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4U
+	MIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I
+	8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUfjg4UUUUU
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUBD2rjY8EGvQABsY
 
-On Thu, Oct 29, 2026 at 10:55:42AM +0100, Philipp Stanner wrote:
-> dma_fence_is_signaled() contains a lockless check of the signaled-bit,
-> which is set under lock protection. This is a race condition which makes
-> the API fragile and has caused at least two bugs already, addressed in:
-> 
-> 	commit c8a5d5ea3ba6 ("nouveau: fix client work fence deletion race")
-> 	commit 7c703a7d3f2b ("drm/amdgpu: Fix one use-after-free of VM")
-> 
-> It has been argued by some that this race cannot be closed for the
-> entire kernel through locking because this would lead to a cache line
-> invalidation for all parties reading that fence. While it remains
-> unclear why these parties don't simply let themselves be notified about
-> the fence being signaled instead of checking this repeatedly manually,
-> there is a way to preserve this behavior in any case:
-> 
-> This patch adds a new flag for dma_fence_init(),
-> DMA_FENCE_INIT_FLAG_RACY_SIGNALED_CHECK. If this flag is not set, the
-> spinlock is taken and dma_fence_is_signaled() becomes perfectly
-> synchronized: it can only return true once signaling of the fence is
-> completed.
-> 
-> Disable the racy check for everyone by default. Should some parties
-> really experience severe performance degredations because of this, they
-> can trivially re-enable the race condition for their driver by setting
-> the flag in dma_fence_init().
-> 
+lan78xx_disconnect() unconditionally calls phylink_stop(), but
+phylink_start() is only called from lan78xx_open(). When the device is
+unplugged before the interface has been brought up, the attached PHY is
+still in PHY_READY and phy_stop() reports:
 
-My 2 cents - anyone arguing about cachelines probably has broken code to
-begin with. I'd say don't give anyone an option to opt into a racey
-check, if this regressing some peoples code the answer is likely
-structurally fix your broken code.
+  called from state READY
+  WARNING: drivers/net/phy/phy.c:1670 at phy_stop+0xad/0x380
 
-Matt
+The same warning is emitted after an ifup/ifdown cycle, where the PHY is
+already in PHY_HALTED. Call phylink_stop() only when the network device is
+running, which is when phylink_start() has been called.
 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
->  drivers/dma-buf/dma-fence.c |  2 ++
->  include/linux/dma-fence.h   | 22 ++++++++++++++++++++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index f7c084926ae6..1ae8c7aade39 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -1119,6 +1119,8 @@ dma_fence_init(struct dma_fence *fence, const struct dma_fence_ops *ops,
->  	/* Mapp the init_flags to the fence-internal flags. */
->  	if (test_bit(DMA_FENCE_INIT_FLAG_SEQNO64, &init_flags))
->  		set_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence_flag_bits);
-> +	if (test_bit(DMA_FENCE_INIT_FLAG_RACY_SIGNALED_CHECK, &init_flags))
-> +		set_bit(DMA_FENCE_FLAG_RACY_SIGNALED_CHECK_BIT, &fence_flag_bits);
->  
->  	__dma_fence_init(fence, ops, lock, context, seqno, fence_flag_bits);
->  }
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 52e7ddfd2d06..ee6e8de3ebc6 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -115,6 +115,7 @@ enum dma_fence_flag_bits {
->  	DMA_FENCE_FLAG_SIGNALED_BIT,
->  	DMA_FENCE_FLAG_TIMESTAMP_BIT,
->  	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-> +	DMA_FENCE_FLAG_RACY_SIGNALED_CHECK_BIT,
->  
->  	DMA_FENCE_FLAG_USER_BITS, /* must always be last member */
->  };
-> @@ -124,9 +125,12 @@ enum dma_fence_flag_bits {
->   * These flags can be passed in dma_fence_init().
->   *
->   * @DMA_FENCE_INIT_FLAG_SEQNO64: Use 64-bit sequence numbers.
-> + * @DMA_FENCE_INIT_FLAG_RACY_SIGNALED_CHECK:
-> + * Legacy flag. Enables a race condition in dma_fence_is_signaled().
->   */
->  enum dma_fence_init_flags {
->  	DMA_FENCE_INIT_FLAG_SEQNO64,
-> +	DMA_FENCE_INIT_FLAG_RACY_SIGNALED_CHECK,
->  
->  	/* Must always be last member. */
->  	DMA_FENCE_INIT_FLAG_NR_OF_FLAGs,
-> @@ -568,9 +572,27 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
->  static inline bool
->  dma_fence_is_signaled(struct dma_fence *fence)
->  {
-> +	const bool racy_check = test_bit(DMA_FENCE_FLAG_RACY_SIGNALED_CHECK_BIT,
-> +					 &fence->flags);
->  	const struct dma_fence_ops *ops;
-> +	bool signaled = false;
-> +	unsigned long flags;
->  
-> +	/*
-> +	 * For legacy reasons, there is a race window here against parties
-> +	 * signaling the fence. They might still be doing that right now.
-> +	 *
-> +	 * For most users, this window shall be closed, but there are parties
-> +	 * for whom the cache-line invalidation by taking the lock might be so
-> +	 * significant that they prefer to accept the race at their own risk.
-> +	 */
-> +	if (!racy_check)
-> +		dma_fence_lock_irqsave(fence, flags);
->  	if (dma_fence_test_signaled_flag(fence))
-> +		signaled = true;
-> +	if (!racy_check)
-> +		dma_fence_unlock_irqrestore(fence, flags);
-> +	if (signaled)
->  		return true;
->  
->  	rcu_read_lock();
-> -- 
-> 2.56.0
-> 
+Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
+Cc: stable@vger.kernel.org
+Co-developed-by: Bin Yu <byu@xidian.edu.cn>
+Signed-off-by: Bin Yu <byu@xidian.edu.cn>
+Co-developed-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: Cheng Wen <wencheng@xidian.edu.cn>
+Signed-off-by: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+---
+ drivers/net/usb/lan78xx.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index 5655941f1478..68e61004b3d7 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -4581,7 +4581,8 @@ static void lan78xx_disconnect(struct usb_interface *intf)
+ 	net = dev->net;
+ 
+ 	rtnl_lock();
+-	phylink_stop(dev->phylink);
++	if (netif_running(net))
++		phylink_stop(dev->phylink);
+ 	phylink_disconnect_phy(dev->phylink);
+ 	rtnl_unlock();
+ 
+-- 
+2.34.1
+
