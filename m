@@ -1,68 +1,93 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.45
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793282882;
-	b=E9orHHYC7QGPyKXs9roXTaAQfw3/f8uVfQfTU20YInGKD6tGNZREDrmZH4IL4v1gIKX1
-	 ZPx3PgU05wbC+bfzjP4kppE37gdyUR1bck1ec7HNymDOjlN6kRkQbI/Prh6kAAxFckcVA
-	 DTeDxx5vel9sQb4G6lcSdLjyeRCZ3MLaD7hyoWOI7etLykSgyp5z/Vcm764k6xd5OBitF
-	 KXPqmmEu/8VIYLVbfiDd+ttq+4yvLwEGvU1T4MbOBwN2ubyqSJIGLlwHjL1WXOcYwXBFG
-	 eH4sfaiJvT2gMWJ0pzgW03Y/Wk5/YzBaYm9ocuhi32ytA+ayh4nT/qfiaxnrVUw6fwg==
+	t=1793283193;
+	b=kJe7cuMSvBPf2WKm4bqWIz42KCyPk/pa8GzHOLUV6Vls2zbkauvsRVNOY6/9gTTP9J0Z
+	 Bp/lIZRAC28yVjUX2CEJQh7U4KhxDwi9NMIttmUPsI+7LygklVQt9e5gY9k8WlaBrBgcf
+	 EV/rPCeQO2yXoB6wNIi0E0jH89DJF04IKWpfDZjOMZ/d3KLanAcb8J0IcghW9321oXf5e
+	 7Nqj4D2+5PDn2lnwPIOtvnW/HujDK4jo6R0SdhmHbQmaqXxsPzYDAiGBIc5XULMtW+VjJ
+	 1bcc2tUliDic6SvgrEXRq9BiO54qBkBQQsuULEZaHVCdhhP7k+vZVA+aRABux4YXFXw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793282882;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=C330faUMVQYWDsmJ7Xs/DHKfTAQZ6LHZarNknK5QYyA=;
-	b=cgzsqKe+XdJi1qtLa6Mox9el7hQf2zVmEmOqVcz8C6ouzjXXViI8GD2qnDYQYi45YSGY
-	 2SU4uh5SNtf+U6S4N3nH50BQrypF7o3hpdEDcEJ/H1nb0SDN8MVjsDVP71xpVXJUhH7QL
-	 FFjtCvTHwslXgrmmrJ9ejbjoLctx+I8rsPNCWXw9j7khUo83cS391gS0i9YFhNoq4ChcX
-	 BljN4ipwDE4smFwYkWfMdE9XW8nwzjznONtcYDQjm04nR10B7PvZD3W2ucgvRPJhs8o5S
-	 2x1MJTnjMXVa2S6GA8qdYRAHmkrwGm+VfHIhm+v7ibGVWllje4XGYPJpAutB9G4fAUQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793283193;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:In-Reply-To:References;
+	bh=/xFKafHDsYELV/yo3mc1RPbd6e33UmkEhLPepVBsz6w=;
+	b=1BV8G1JQsnLHMssRyYRCjPnpya+hsyjGmTAXiOd6o3qeoXx0WDDaoR570cPWIrv0Xz8T
+	 FTog0GcYfZ6ap2n8A4yEAlf8iSkUH7lTbsMJhrM/8lj9z+IscjucqauPmBAXSxOrT8UuO
+	 Z9J4g23fxPEHRPtvSJUxy6zbpE5Fb2wEtHqS9likm4GGq6mRDOiwjNlRo8/5EcdWjhIVv
+	 nPsYf1FGsAZ8hEfut6csl0mPwVl04dXQI/bOa84VUTDZf1oam11u12sK2/C/tQrC6dqj4
+	 RFJ6CZcI9llfj79RQST+R6PaImMdQwzjZ4EZuDTP8E1z+6NuKJy551XwXcKnGgjpD0g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b6eR0MYs;
-	arc=none smtp.remote-ip=198.175.65.17
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XRjBrmZh;
+	arc=none smtp.remote-ip=74.125.82.45
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8323D606A322
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 14:08:01 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8323D606A322
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEF5C606A31A
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 14:13:12 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org AEF5C606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b6eR0MYs
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793282882; x=1824818882;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=/gqe+sm+TBrqyhK9J782q/IEenkXHaGv93TeDfQK5hc=;
-  b=b6eR0MYsBeZTfZK1YMSSilV20LBxXxQ6Ef3DdB2yxdHMBZYNSs7hI3Ne
-   rv2cL7i6HO++kY8AMx6cqVK6hX4kjoGviYSs9cZeTq0x5bc5x+Mxr0gwU
-   6saAPLOSvyoaX4hsGO2C4G/QP18+bUcAQhizhDK0srfsLsTtAr3Fu7cal
-   65VwEfWEPocQ+l2E2/i3m8aN3PKozsV66PGykt6+Lq1ov28IfJverob/7
-   hWctUluR5mnrN/ApqKFwonGKQV45UCVzFfLmruV5GdoiMeu6FJQY3JOSq
-   7vIjDaUUiiArbXaOatxs1j1cJysRywxet8NPxE5Jh+pigyCd7nfQuI8ib
-   g==;
-X-CSE-ConnectionGUID: 4nX1bKzhR1C1y+YUeTR5/w==
-X-CSE-MsgGUID: P1isr2n6TMS8Z1r53u8tkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2043098"
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="2043098"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 07:07:56 -0700
-X-CSE-ConnectionGUID: NdwFWgNqRp+Qbujq2OFopA==
-X-CSE-MsgGUID: 2HTsb7JsTrun9ClvMZzYUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
-   d="scan'208";a="5087999"
-Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.245.98]) ([10.245.245.98])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 07:07:53 -0700
-Message-ID: <93b6fb27-1300-4dcb-971e-0ec33b58539a@linux.intel.com>
-Date: Thu, 29 Oct 2026 16:07:51 +0200
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XRjBrmZh
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-14fc585291cso1955845c88.1
+        for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 07:13:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793283192; x=1793887992; darn=vger.kernel.org;
+        h=references:in-reply-to:content-transfer-encoding:content-type
+         :mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/xFKafHDsYELV/yo3mc1RPbd6e33UmkEhLPepVBsz6w=;
+        b=XRjBrmZh6F1LgOxFM1Mrmf2N4R4LkVMGUxdWWCjXaHlvkDw4dwEJu2VVNpSGx2pjjU
+         7NVnUGooupEqB4vj8DHFDK/B51AvOYcvQCgLyiVrveSXlghSBh/fiMPyzsKN8KL+tC60
+         qhC80/GQ4oZLuPJ47RvXq6dvWd3zndVtlm+TF8N8bz3leKaIBEVJSe5Eem0CwUQ0AUnG
+         xvqf51zQ8wgQ2rRpeMUgYhPyhabA8xwKtpzoIQAQM0A8VYeSAJeE8AFChJYnokZLrmsF
+         66GDIymu4NvNOZDopstIPohNeitWL4Z+/AQmid6bTVYJWKAWB62tc9+D4X51aKnvFTkA
+         K+yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793283192; x=1793887992;
+        h=references:in-reply-to:content-transfer-encoding:content-type
+         :mime-version:message-id:date:subject:cc:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/xFKafHDsYELV/yo3mc1RPbd6e33UmkEhLPepVBsz6w=;
+        b=iNnGbIehnezRV6DMSTw5nVD1QSH+Xy1sJe70JMi0zHegzmV2iIRlq3CO34psH0inE2
+         JWXDqGi8Bs1yniGi5xE8WS51Zc0yXU+cScvbdlPu7XYMnY5QGtvSx6ch2iJUpB37zn9Z
+         JuDH6al7MqIqzlJSxKY/On96/PKo+RcWRqwJ5XAtET4hiJhoIUi6CrppDbaMj+77dnAn
+         9yUh1eqIcA20KUimwXTivpsnp6S239EfFSl2lNyVSfQNW/sst7d1AeUWXRbKBEhllL6x
+         Y+brCLKYQUXBvdAfI1kz8GKeqbJSUyPejDz4Rfwh4N3d7ZrAGc4AQTKL+9Ea9FmBGKoc
+         QpeA==
+X-Forwarded-Encrypted: i=1; AKwUvBzigZJLrGIFuD0PXUnti4I+XUDtbURtN0L3nxysgtYQDweYdbHdmT7U8GOb+HchrjpP4ta0Psc3uYI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJjHRlcw8BZ+6KxHdIazjvY3k2vYSnhxoP44pK/geGuLVI3UiSR
+	ywezWQroN3Hue/dtB/rBYz4MjHH+yobpUQroafJQ98Pkvu+NPp18386Y
+X-Gm-Gg: AYBFou3GWt8/uWiRaUQwSj0puP6uKPV3m+91Y1CgTV+NPQ30K8p58x1M/ddQTvTkExy
+	jHP1K4iefXEzv0s6aESyVJ7/gGdASQDDG0LWmfrckvb+yeA8riIxOd0XSK1yH8WvzbpsbTHbhE8
+	n0WhHUiHwxL47YB4IdZl7ioq36HwDrxK2EJgnuKOw0SrnhCSM0Ob3oBscEhtxXLRUybGw0MUl+i
+	tEhr2JLBsFm7KPqgLV7EjGmH1rwVzdiGtLCGreWv+i4/TsaCuvF35dFhGZ2Hau2bXMLFhhhvCIg
+	H/jFDGhD8DHPh7VunFqaWeAotEwWj+IQA+acEHapX2mYXn7IambgM4LIMkNhZwEFK6Cg6qxi7CQ
+	aLf5WngZ6PXCi7/AHF19tmFbZvjMenq0S3gJjhDZx0ktcbrNU73+4x2eYp4jeOZdb7C7Vbaabaf
+	JT4Urg2lt49QdyGSRR8P5iUKfluWiAEnAfiT31XEyn7EMCXcPFokQWu9bqI8HtIcTdAo8EUjYUX
+	+7SZ3UAcJiB9TSp6/hnCpM8DX3WDXOV2nc01rUlkMtn39jl3XFs8BGTcrNwjUVhvy5ZLe7MYeMM
+	EbHiqLfuEwkG+GMd8a76naMOWxcPVNjCJAWxZN+fecvhrTTvMCuEcg==
+X-Received: by 2002:a05:7022:4390:b0:14d:ef19:246f with SMTP id a92af1059eb24-1a6d00d1754mr9997725c88.45.1793283190582;
+        Thu, 29 Oct 2026 07:13:10 -0700 (PDT)
+Received: from [127.0.1.1] (67.216.200.102.16clouds.com. [67.216.200.102])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1a75d76814bsm15197319c88.10.2026.10.29.07.13.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 07:13:09 -0700 (PDT)
+From: Cheng Yongkang <teel4res@gmail.com>
+To:
+ Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>
+Cc: Hongren Zheng <i@zenithal.me>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] usbip: clear actual_length after a failed receive
+Date: Thu, 29 Oct 2026 07:12:20 -0700
+Message-ID: <179328314074.648427.388274461758949120@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,38 +97,46 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFT PATCH 0/2] xhci: clean up endpoint rings after disconnect
- detect
-To: Dennis Wissel <dennis@dsine.de>, yiyu@yiyuzhou.io
-Cc: linux-usb@vger.kernel.org, regressions@lists.linux.dev,
- diogochaves@me.com, michal.pecio@gmail.com, raoxu@uniontech.com,
- gregkh@linuxfoundation.org
-References: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
- <20261027192128.386082-1-mathias.nyman@linux.intel.com>
- <oKoY8F_0Rv-eBKI0YHyHcQ@dsine.de>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <oKoY8F_0Rv-eBKI0YHyHcQ@dsine.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <179328314073.648427.8311262845412746237@gmail.com>
+References: <179328314073.648427.8311262845412746237@gmail.com>
 
-> 
-> In neither boot are there "not part of TD" messages or any stall (with
-> 1f36cc9fa949 alone, hub_wq stalled from 4.97 s to 16 s). initrd takes
-> 2.9-3.0 s, the same as v7.2.11.
-> 
-> One observation, probably not xhci related: in boot 2, interfaces 2
-> and 3 failed their probe before the reset ("reading report descriptor
-> failed") and stay unbound after the in-place reset, until the mouse is
-> replugged. On v7.2 the device was re-enumerated instead, so all four
-> interfaces ended up bound.
-> 
-> Tested-by: Dennis Wissel <dennis@dsine.de>
-> 
+vhci_recv_ret_submit() receives the transfer buffer for an IN URB.  When
+usbip_recv_xbuff() fails, it sets urb->status to -EPROTO and gives the URB
+back, but leaves urb->actual_length at the value supplied by the usbip
+peer.  A malicious peer can set actual_length larger than
+transfer_buffer_length; usbfs then copies that many bytes from the
+kmalloc(transfer_buffer_length) buffer to userspace:
 
-Thanks for testing.
+  BUG: KASAN: slab-out-of-bounds in _copy_to_user+0x79/0xb0
+  Read of size 88 at addr ...
+  copy_urb_data_to_user+0x36f/0x480
 
--Mathias
+Clear actual_length on the failure path so the failed URB never carries a
+peer-controlled length.  The URB is completed with -EPROTO and userspace
+observes a zero-length, failed transfer.
 
+Fixes: aabb5b833872 ("usbip: Fix error path of vhci_recv_ret_submit()")
+Cc: stable@vger.kernel.org
+Assisted-by: LLM
+Signed-off-by: Cheng Yongkang <teel4res@gmail.com>
+---
+ drivers/usb/usbip/vhci_rx.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/usb/usbip/vhci_rx.c b/drivers/usb/usbip/vhci_rx.c
+index a678e7c..741107a 100644
+--- a/drivers/usb/usbip/vhci_rx.c
++++ b/drivers/usb/usbip/vhci_rx.c
+@@ -79,6 +79,7 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
+ 	/* recv transfer buffer */
+ 	if (usbip_recv_xbuff(ud, urb) < 0) {
+ 		urb->status = -EPROTO;
++		urb->actual_length = 0;
+ 		goto error;
+ 	}
+ 
+-- 
+2.34.1
 
