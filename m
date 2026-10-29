@@ -1,97 +1,60 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793257032;
-	b=NyunW+x+o15DzGgMSQWPJsb/UdyOLf/EAJwYzuHqq8yzClH7sVp632fnj6GJp6HvF+4Z
-	 50fZxm37E7dBksRFY1Vbrnq1r5gECsv3bpgK5L6Xk5mMeG/1GiVzB7Z/sCgJ5QqsG8VAK
-	 xFfKC6pAJLYoNa9ay9NPokckbqTbx3rbHIqEcTyPHbmyxJlLmxpTNxl/m8zxUvJzgZx2F
-	 mlUl77wDmZRMUiuokMvDKhL4aBQpWESBOl37pmK5PeHJWVBySPGjzmFPebu7UQdrNXES3
-	 M3IRB6IkyEyj8Nq/MTH6PZTJhiGSvkS4FPTihpw5A/bYSAFbcPlmqoHAnXOamQ+G9qw==
+	t=1793257922;
+	b=sZrNp7PUfB6656k4mwJ0sqJurqUnx1NQxSAr/IOCrLQ3LVgbV3Kaj2gJgUtU4rTWNYnS
+	 SuWGsZn35hC7vPjJxgJMzAMGaJ6PincThMsX+wHY7q3et4cCbki7qB4stql2OSqM0sfu2
+	 SKKi94oTOusgI0+z2SbhTVDmLzblUYosH+xlXeSH3nFUu/AeMkTXrrwTQBqeUIcRhb4P2
+	 LEYORSFfmN8Rhh4Xfm5OxcE7FzxejPbbxgKuyG0vdTQttmfIicDcVs6GP4ZjraC7FtlID
+	 dsZJXNwBHhzCJhy9gZLEewLhEXrSvkrbHTdiwDuyuZzUIGR1bcjnaTRP3JHzVwp9E6g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793257032;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=A30FZzabbD5cMKb9xpxtiuIiZ1pI6R+Xz37DjCLPTT0=;
-	b=Ana8NmWMsS6albwArM24+4MO5vMbkzqk3T1lGvYktz4nNcPUJKPJOylxekk+dVaYXpn+
-	 Or7gb7/PG8wiCxg+WoDUmUQmhtAouE51Waz7D1vlV+LXFZlm6wnrCfKzl2IXiWLXBm+kx
-	 xfz29dCiKf5POrKDFO2DNAknfBCFXMXsjfI/eXK5vhXI6/qyyQNGvXMl+koSXk5bAd9Ad
-	 3nXbN3wlWkxYoSltlwEUYuaKmWyRyWaMCaQf68hQf7aLzTGv0HY6ib2ElqJBDA47F85CX
-	 MsuggCeZtBECzdnvXvAXT3K7NUtAYyC1q5cYXqriRrdEZYmGMDX8JKJDbjOOlFt237g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793257922;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=3C0BtrWhIZo2r8jUdT+FEZqp2/KKTQcCzk+82vXzTRo=;
+	b=w+Z7zPlUkmEPesooiYGSD7tPgxT3vhAPhdlQu6KAubx4DzMt5jBq9MxhWhsS+Y/XSfNz
+	 K1ih7IaBuuppKO+21HIePHh6z0sYB27adHWvqNUyOYDT3/mUYGTg+t5JIBz5Trljg39Wk
+	 MSRga0pP8stk3pXWqls87Q/Nl3DUtoGuPOWa647A5LoJqxEic3X7wKaL+VNRXWFShgQPP
+	 wjU1Db5aNmjFgvBG7sUSILTAXMoWiTDGS1p2P/hdkPaD2l+7YqMCbZt1BQo4WPSRHOVrl
+	 FIdDoL83kz1e1+rNvfP0+iDM364oZO7XRxOUbfqZ7/3V/N5CTefvH1fUYE4SwViWOCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FS5ACMcj;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BqWtjIvr;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21566606A31A
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 06:57:11 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21566606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3DB9606A31A
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 07:12:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FS5ACMcj
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so14561445e9.2
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 23:57:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793257030; x=1793861830; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=A30FZzabbD5cMKb9xpxtiuIiZ1pI6R+Xz37DjCLPTT0=;
-        b=FS5ACMcjAPN+lEeqcudQIs8KyazPxVtumG5y5HyKCiP9G66nr4ud6JAPG6Qxv8rkpY
-         KQBGFGlvcpEksEhQluKPEVzwFQDVHTkF6Sb+MSqsrPh6Aq8O3D9wdShNI5RbEG9OOF+g
-         UUnMuP7rrNOuG+wIzMVNJTRwKzrnulSMkNey3QeKVuVn/+I1bFSAPisfj6vd9wU0ZWnj
-         HM7Dae394q3nD14ggEWlebIkGtrAzTnrGe1i7r6vYi8mi0mOOFDnQwqZwpid0AoKmix7
-         ZQrDU23yavlVJp6/raBosM3kfpVpyAUZ6bc4U8IufNDmpJudW+pS5hpKJ+ZcehnEAQJ3
-         u4ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793257030; x=1793861830;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=A30FZzabbD5cMKb9xpxtiuIiZ1pI6R+Xz37DjCLPTT0=;
-        b=lrNZRumeEBA9L/mR3/EBIdsY8ulAI12+nDyHB5+K6ZNjGGcgGq/hOUpMzVe6ALi5bD
-         yQ+5/rG6djZ8lA+gyM45TTbI5XNXo50PaoqEOJ2NFQepLLPva4qXHpgTz3FatJnt0iZe
-         E/KHX1Kp8Pr9mgRFO68PU8mx5FRmw5/pQNnFPjv9O2dZDilDDAvqm+pit6Ua4wq0Oh66
-         xNM7xQCE8DB/vFDr9xfX7VzFI97s5Zp4NNcY/ZvEjf3XmLYsg7/KG7Pq+/bVkvQOi0YA
-         9ju1YUkGUokJajZvCOKjg0MuoDKs5waZ3RUD5IGfP/T6Jlv5EICNTpPvKlt7WR4pyDgi
-         OSEQ==
-X-Forwarded-Encrypted: i=1; AKwUvByBNi6mJtph/NMUKU1xiw/SyqT5AvEaT9DgQPvuHGPtK+2Gwli73OeaWD/H0D5KCc4gcM1D1/eQv2k=@vger.kernel.org
-X-Gm-Message-State: AFq9FYII5aBWkt/R0z+TaFFXRS2tYoB+WeppnS0du9nvMYfEyD3ecWdg
-	5andq3KcAk55qh2ZLfN1x2JyqrCgdcucZ1jQTrB08v8YPReQyWNMNewBxJK+o6H1
-X-Gm-Gg: AYBFou1vOffbDIEU2dgWh5AxjDZK6Ey6C+OLCelgjcmIi/ucv/E5qKioDhjonQAcL2Y
-	d1uv8jAst9UqQBOr0yYDNl31QpjL4qe5xbewU+BxMrX8LXFOuqWFz1bD5lux35PUGfbzHPTdUbY
-	NHNolJ8mY3S7qb+P63WQofqPBneA8WRGz+keylkS9R+4l1PeTjc8BrsjpJCTfya32xE/7DF4d7P
-	Kma/blsmPbvRHPL0chc9x+y9/+mAd9NhOyW2mw4E3XXP6vkFLF0Q0fQEQuV+1POmVlMq1gZTjS+
-	ISCKYbC6wpnHMP0dPilfkJppDNpoLBScO7/j4y7Ec11t7yeCsa6Xe/8r86/2agqBehjCvnI2hgN
-	DXzbI9iduZl65gzouK/osqco7O9stVjjfhNKfD79bNxR0iKIgqw5++Y6idfi8Y/I+LNoUam1euc
-	nOPp3DxU8M9xffAOAI47Qw4OdxFcjahw7mnS717hfERiZQqnXc5Ipkd3LUEDyhJ6Vtt2U+dRkJQ
-	r0XK0o+M9vnBcxRvJ9Nhf+b/fJrddR2FMmISslr7tNzqd3PYixfZnyRXBtI1PV2WwJdXfQ8wukD
-	2M7ND3uaV34WMpjQPmWH2ZzDQ2ZTNVrwR/c6SpA=
-X-Received: by 2002:a05:600c:1391:b0:49f:e701:51c8 with SMTP id 5b1f17b1804b1-4a966c41a4emr99419435e9.9.1793257030439;
-        Wed, 28 Oct 2026 23:57:10 -0700 (PDT)
-Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3dd7sm32815744f8f.15.2026.10.28.23.57.08
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 28 Oct 2026 23:57:09 -0700 (PDT)
-Date: Thu, 29 Oct 2026 07:57:06 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: yiyu@yiyuzhou.io, <linux-usb@vger.kernel.org>,
- regressions@lists.linux.dev, diogochaves@me.com, raoxu@uniontech.com,
- dennis@dsine.de, gregkh@linuxfoundation.org
-Subject: [PATCH 4/4] usb: xhci: Reject URBs to disconnected devices
-Message-ID: <20261029075706.69aaa77f.michal.pecio@gmail.com>
-In-Reply-To: <20261029075409.4b203658.michal.pecio@gmail.com>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BqWtjIvr
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 568871F01828;
+	Thu, 29 Oct 2026 07:12:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793257921;
+	bh=3C0BtrWhIZo2r8jUdT+FEZqp2/KKTQcCzk+82vXzTRo=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=BqWtjIvrPsdy9pR9kiYjzvNuCGxX6dkZco9xwqN+FRalgCaKxEs9CkIWqq04UaTHD
+	 OHLZGFupg9QjVxifl+6Os1FAqorLmiHLpGdg69v/oe1Kg2PJvfFI0lrD6IqmLkJ+5L
+	 D8XSk/YqBYElJZD9/UOD2q6kaZHALLM01qTSDrePD2HFs5t9tqCMRZQtLRn/GCEebB
+	 J/1gzpL3JurvIcYJ378Vg+c/F2ryDs+ANZ+OAfW2rW8vnM23caqLMoMt2QezYoCJpO
+	 F/6rVB6qFI8VowXuP+lK1ZJazOC8UmvtwRTSWofubzm2DBU9Of0Ws8s7vA44n1Zb8u
+	 7xwrtzvNB82YQ==
+Message-ID: <sashiko-outbox-188842@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH 1/4] usb: xhci: Fix TD invalidation on disconnected
+ endpoints
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Michal Pecio" <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261029075459.64108477.michal.pecio@gmail.com>
 References: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
-	<20261027192128.386082-1-mathias.nyman@linux.intel.com>
-	<20261028080734.173da0e4.michal.pecio@gmail.com>
-	<20261029075409.4b203658.michal.pecio@gmail.com>
+ <20261027192128.386082-1-mathias.nyman@linux.intel.com>
+ <20261028080734.173da0e4.michal.pecio@gmail.com>
+ <20261029075409.4b203658.michal.pecio@gmail.com>
+ <20261029075459.64108477.michal.pecio@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 29 Oct 2026 07:12:00 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -100,55 +63,119 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-Restarting halted endpoints of disconnected USB3 devices triggers
-some HW bugs and we actually prevent this on all devices now. Keep
-drivers from pointlessly submitting URBs and needing to unlink
-them later, which may involve excessive timeouts.
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: xhci: uncleared deferred stream TDs in xhci_invalidate_cancel=
+led_tds()
+--
 
-This generalizes existing check for USB3 ports in the Error state.
+commit 6bfb98376f7395944affad9a4c188ba84e981149
+Author: Michal Pecio <michal.pecio@gmail.com>
 
-Suggested-by: Yiyu Zhou <yiyu@yiyuzhou.io>
-Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
-Cc: stable@vger.kernel.org
-Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
----
- drivers/usb/host/xhci.c | 13 +++++++------
- 1 file changed, 7 insertions(+), 6 deletions(-)
+usb: xhci: Fix TD invalidation on disconnected endpoints
 
-diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-index e5c8b3a945a6..66b9fed65ac7 100644
---- a/drivers/usb/host/xhci.c
-+++ b/drivers/usb/host/xhci.c
-@@ -1662,12 +1662,6 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 		goto free_priv;
- 	}
- 
--	if (xhci->devs[slot_id]->rhub_port->link_inactive) {
--		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
--		ret = -ENODEV;
--		goto free_priv;
--	}
--
- 	if (xhci->xhc_state & XHCI_STATE_DYING) {
- 		xhci_dbg(xhci, "Ep 0x%x: URB %p submitted for non-responsive xHCI host.\n",
- 			 urb->ep->desc.bEndpointAddress, urb);
-@@ -1677,6 +1671,13 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
- 
- 	ep_state = &xhci->devs[slot_id]->eps[ep_index].ep_state;
- 
-+	if (xhci->devs[slot_id]->rhub_port->link_inactive ||
-+	    !xhci->devs[slot_id]->rhub_port->connected || *ep_state & EP_DROP_PENDING) {
-+		xhci_dbg(xhci, "Can't queue urb, link error or disconnected\n");
-+		ret = -ENODEV;
-+		goto free_priv;
-+	}
-+
- 	if (*ep_state & (EP_GETTING_STREAMS | EP_GETTING_NO_STREAMS)) {
- 		xhci_warn(xhci, "WARN: Can't enqueue URB, ep in streams transition state %x\n",
- 			  *ep_state);
--- 
-2.48.1
+This commit moves the EP_DROP_PENDING check in
+xhci_invalidate_cancelled_tds() after the loop over ep->cancelled_td_list
+and restricts the early return to non-EP0 endpoints so that EP0 TRBs are
+turned into no-ops and the dequeue pointer is moved to enqueue when a
+disconnected device is resuscitated by reset.
+
+Link: https://lore.kernel.org/linux-usb/SrQQcLIwRWyg9PdEIpc0eg@dsine.de/
+
+> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
+> index ec278a9f95404..698f994e43a55 100644
+> --- a/drivers/usb/host/xhci-ring.c
+> +++ b/drivers/usb/host/xhci-ring.c
+> @@ -1063,12 +1063,6 @@ static int xhci_invalidate_cancelled_tds(struct xh=
+ci_hcd *xhci, struct xhci_virt
+>  			continue;
+>  		}
+> =20
+> -		/* device disconnected or link error, ep will be dropped */
+> -		if (ep->ep_state & EP_DROP_PENDING) {
+> -			td->cancel_status =3D TD_CLEARED;
+> -			continue;
+> -		}
+> -
+>  		/*
+>  		 * If a ring stopped on the TD we need to cancel then we have to
+>  		 * move the xHC endpoint ring dequeue pointer past this TD.
+> @@ -1120,6 +1114,12 @@ static int xhci_invalidate_cancelled_tds(struct xh=
+ci_hcd *xhci, struct xhci_virt
+>  	if (!cached_td)
+>  		return 0;
+> =20
+> +	/* Don't bother fixing disconnected endpoints except EP0 */
+> +	if (ep->ep_state & EP_DROP_PENDING && ep->ep_index !=3D 0) {
+> +		cached_td->cancel_status =3D TD_CLEARED;
+> +		return 0;
+> +	}
+
+[Severity: High]
+Can this leave deferred TDs uncleared on multi-stream endpoints?
+
+When a non-EP0 multi-stream endpoint has EP_DROP_PENDING set and multiple
+streams have cancelled TDs at their hardware dequeue pointers
+(trb_in_td(td, hw_deq)), the loop in
+drivers/usb/host/xhci-ring.c:xhci_invalidate_cancelled_tds() unlinks every
+cancelled TD from ring->td_list via list_del_init(&td->td_list), assigns
+the first stopped stream's TD to cached_td with TD_CLEARING_CACHE, and
+marks subsequent stopped TDs on other streams as TD_CLEARING_CACHE_DEFERRED:
+
+	if (cached_td) {
+		if (cached_td->urb->stream_id !=3D td->urb->stream_id) {
+			/* Multiple streams case, defer move dq */
+			xhci_dbg(xhci,
+				 "Move dq deferred: stream %u URB %p\n",
+				 td->urb->stream_id, td->urb);
+			td->cancel_status =3D TD_CLEARING_CACHE_DEFERRED;
+			break;
+		}
+
+When the new EP_DROP_PENDING check after the loop returns early without
+calling xhci_move_deq_to_next_td(), only cached_td->cancel_status is set to
+TD_CLEARED, leaving any TD_CLEARING_CACHE_DEFERRED TDs on
+ep->cancelled_td_list uncleared.
+
+In xhci_giveback_invalidated_tds(), only TDs with cancel_status =3D=3D TD_C=
+LEARED
+are cleaned up and given back:
+
+	if (td->cancel_status =3D=3D TD_CLEARED) {
+		xhci_dbg(xhci, "%s: Giveback cancelled URB %p TD\n",
+			 __func__, td->urb);
+		xhci_td_cleanup(xhci, td, ring, td->status);
+	} else {
+		xhci_dbg(xhci, "%s: Keep cancelled URB %p TD as cancel_status is %d\n",
+			 __func__, td->urb, td->cancel_status);
+	}
+
+Since SET_DEQ_PENDING is never set, nothing re-triggers invalidation,
+stranding those deferred TDs in usb_kill_urb() or usb_hcd_flush_endpoint().
+
+Even with the later patches in this series ("usb: xhci: Give back stranded
+URBs on disconnected endpoints" and "usb: xhci: Give back URBs on halted
+disconnected endpoints") that add a fallback call to
+xhci_kill_endpoint_urbs(), could this still cause problems in two ways?
+
+First, if xhci_giveback_invalidated_tds() runs while EP_STOP_CMD_PENDING or
+EP_HALTED is still set (for example via xhci_handle_cmd_stop_ep() ->
+xhci_handle_halted_endpoint() -> xhci_process_cancelled_tds(), before
+EP_STOP_CMD_PENDING is cleared at reset_done), xhci_kill_endpoint_urbs() is
+skipped and the deferred TDs remain stranded.
+
+Second, when xhci_kill_endpoint_urbs() does run, those deferred TDs were
+already unlinked from ring->td_list by xhci_invalidate_cancelled_tds(), so
+they bypass both xhci_td_cleanup() and xhci_kill_ring_urbs() and fall into
+the ep->cancelled_td_list loop in xhci_kill_endpoint_urbs(), which does not
+call xhci_unmap_td_bounce_buffer() and overwrites td->status with
+-ESHUTDOWN.
+
+Should this path also clear any TD_CLEARING_CACHE_DEFERRED TDs on
+ep->cancelled_td_list, similar to the error handling path when
+xhci_move_deq_to_next_td() fails?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029075409.4b20=
+3658.michal.pecio@gmail.com?part=3D1
