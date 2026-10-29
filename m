@@ -1,55 +1,62 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=51.250.60.161
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793278962;
-	b=5WvP4LTCH+o5DX4ZeyH+Tb5fDqipX44pjrjbVBHiPg/xrBDUi03PI3G4kcLZeIh9WZMh
-	 VwYPPjTIjnve7nZs7HY3/k1onAthmVR/1PqIsrzbB3iaBWKyTDgnl6SGdP9W+c28MQtr2
-	 lhv9yjXRfmEguuMBldv+LBQ9/v9xuU0bEQTn8FW+v8vTydZDTEOYhu41+EFARkbaoB42H
-	 Fjhbq77HpRFlPemoqlpGWMs0znsa5WdXgt8g6pw+5FM3m0kmSq1AxiwHS5THyieBOXZsO
-	 9G3KCUz9K52kVzLkwHq/KcksBhi6phS5WU0PK3RQzkPhiQWrVOkpZrQLxEuPx3/dg2w==
+	t=1793279650;
+	b=fiJvIZ6OGZD9U2GQ7MBXYFRygPbo6YGS5k1+qDpoa/ZeT+KBSC0+6LXk8fO8yIX42cYo
+	 YJ160OO0vODMErHhEWnizSrNHPJQXvrQjvj+7LvobSMi74qhQYeGsaj84cxeMzyB6m5Rs
+	 za1l08ULYLbWFxEKM/YYj3DRD6kowMWBqAZYsWh0mRkXIQFiCbTC/JYhUaYtkqYpPXfY/
+	 uO/MfjVFzLJ7Rqg2IvKbwSKmhPpqzkTBVCU2aaC5AXmPJB0SUzGarCJeeP8PmNON/UBvr
+	 u8VE5B1VEWR2ARgX0G1ThmGgTfe2znOfR6Wss+K8z5wyb4UX2Arm+fIcWKU2XWZCxzg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793278962;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=8KYV9RpdYKdz2BZA1fr5J+QoKwQZoh9kOmG6aLlnVCM=;
-	b=bD1nMdyVxIKYzGdJfN70b0o8gmJnbV80/MT7DZfoYvqsMxyLI2J3+/xaBk1qmjQ/cZw4
-	 lRbiYGPLSeZDJXRvCzT4ct888lOd4ePg1Lkaj7So+nr1UjhN3jHTlYZ5vlfjMIfr8ihxr
-	 MpEEgGBG9vfLLAYITwTiLpo2VBetAE7y6YEHcbUJP/L8aKks4n53BksobxyYH5fVgVjIr
-	 kIDmuwJMCyLXxNfLGVXsUkwpgJDcMkkdg4tEFM0c5nYiTqXhj7BwHdcH3l+0tbYvwCZ/c
-	 XnfUo1xj6ATZm68y2gcg/HqrSS5KNX0FMY9hgYzKd1LE91ClRBzunDlxZoBmk/qsiCA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793279650;
+	h=DMARC-Filter:Received:Received:X-Yandex-Fwd:DKIM-Signature:From:To:
+	 Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=9oI3FznU5PhUF3Ty/8HXE/OKKEmVJonW0MmNVTWJV0I=;
+	b=xUoOwO+xh8TRc6BmCu9up6t0sxCM4UR1lvqdmi7Z2TiBVne9K3wQYn2763aP9XDCqgrU
+	 GQC6UrVH4nF+mcLBs2VtVZJB2yca64/03C1ZBYLe1VYhLfr5q/UcszY/MnXf1a+SmoTul
+	 tJ67HGY5XL06f0tNboi/ypwMNZeAdFwon0Rg45lLBMUBgCt0S0fKUxjxIm4Lw9KIzKlP5
+	 fSSQn1OwVqvJPJVtd8ulpVxP0hJz9uxILKX/7XmE+DBCWwHul/CH5PbkzH7Tt5qxLhLeu
+	 mu1zj7HzfssgclPN+8+XuIeiAn7avedZ5DWm8gtSc5qCfxqzz0vYk8b2sdklEgywOPw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="hPb/7bjX";
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=yandex.ru;
+	spf=pass smtp.mailfrom=yandex.ru;
+	dkim=pass header.d=yandex.ru header.i=@yandex.ru header.a=rsa-sha256 header.s=mail header.b=rgoPstyv;
+	arc=none smtp.remote-ip=51.250.60.161
+Received: from forward101d.mail.yandex.net (forward101d.mail.yandex.net [51.250.60.161])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B882606A31C
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 13:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781B9606A331
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 13:14:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 781B9606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=yandex.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yandex.ru
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hPb/7bjX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C7CA01F01825;
-	Thu, 29 Oct 2026 13:02:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793278962;
-	bh=8KYV9RpdYKdz2BZA1fr5J+QoKwQZoh9kOmG6aLlnVCM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hPb/7bjXkBPxKS/RgS0j3MddCa4I/xN1k1t7L/NYzvcDj5HFmbBzOis7BP99wVA42
-	 kEzdSqjA7ZslCxi8e2jl+X0yC+iguaDzAShZ69CHI8UgY4qWGaPvZyRsfUVPIiCVr3
-	 x6ZGTWyTZK+gS4/e+8xevdSpD5EvWRLhiTE+IUiCx6ntlrFnY/kFpKybB96/yO1bhX
-	 7sgn80M3QSWE63efv+k4VIvnGTu2WpoddzvAetSSNVOkwGF1JYaNpUDjYOTiAVDwns
-	 YDxFFE5Jl16tPOYdxSd5ZK33n9htb9SCkC/zGoPtOu0JIK+wIuU82sZ1ZfLwrJTs2N
-	 NS1yqB49T+6og==
-Message-ID: <sashiko-outbox-189344@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: f_fs: Remove deprecated dma_fence->ops
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Philipp Stanner" <phasta@kernel.org>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261029125143.1744481-2-phasta@kernel.org>
-References: <20261029125143.1744481-2-phasta@kernel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Oct 2026 13:02:41 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=yandex.ru header.i=@yandex.ru header.a=rsa-sha256 header.s=mail header.b=rgoPstyv
+Received: from mail-nwsmtp-smtp-production-main-62 (mail-nwsmtp-smtp-production-main-62.klg.yp-c.yandex.net [IPv6:2a02:6b8:c42:cca7:0:640:7438:0])
+	by forward101d.mail.yandex.net (postfix) with ESMTPS id 2E8A9C008F;
+	Thu, 29 Oct 2026 16:14:04 +0300 (MSK)
+Received: by mail-nwsmtp-smtp-production-main-62 with ESMTPSA id 2EjHSoRjtCg0-yrC2UL15;
+	Thu, 29 Oct 2026 16:14:03 +0300
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.ru; s=mail;
+	t=1793279643; bh=9oI3FznU5PhUF3Ty/8HXE/OKKEmVJonW0MmNVTWJV0I=;
+	h=Message-ID:Date:In-Reply-To:Cc:Subject:References:To:From;
+	b=rgoPstyvENwmM7wJzpSol5y84rILCudel7DSLpzZdMhUBxWtlgfHEN3m+DRxWvDzs
+	 7G6GVBQt52M08sybage8vT66aT4WlXm+ZhNarfXrZMh8daVq2bN3ioYK9rD8Tk9Anh
+	 LrkNTapJ3v3dJ5R18HJkWnVhfynhjAeqAfx8+JjQ=
+Authentication-Results: mail-nwsmtp-smtp-production-main-62; dkim=pass header.i=@yandex.ru
+From: Dmitry Antipov <dmantipov@yandex.ru>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Johan Hovold <johan@kernel.org>,
+	linux-usb@vger.kernel.org,
+	Dmitry Antipov <dmantipov@yandex.ru>
+Subject: [PATCH v2] USB: usbsevseg: cleanup sysfs show handlers
+Date: Thu, 29 Oct 2026 16:14:01 +0300
+Message-ID: <20261029131401.676734-1-dmantipov@yandex.ru>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <sashiko-outbox-189323@kernel.org>
+References: <sashiko-outbox-189323@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,22 +65,67 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-> The dma_fence_ops function ops->release() has been deprecated because it
-> prevents drivers from unloading. f_fs's implementation merely frees the
-> fence. The dma_fence backend performs this deallocation automatically in
-> the correct manner if ops->release() is not implemented.
->=20
-> The backend simultaneously correctly frees struct ffs_dma_fence since
-> struct dma_fence is its base class.
->=20
-> Remove ops->release().
->=20
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Prefer the convenient sysfs_emit() and sysfs_emit_at() over
+sprintf() and strcat()-based quirks in sysfs show handlers.
 
-Sashiko has reviewed this patch and found no issues.
+Signed-off-by: Dmitry Antipov <dmantipov@yandex.ru>
+---
+v2: fix off-by-one error in textmode_show() (Sashiko)
+---
+ drivers/usb/misc/usbsevseg.c | 26 ++++++++++----------------
+ 1 file changed, 10 insertions(+), 16 deletions(-)
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029125143.1744=
-481-2-phasta@kernel.org?part=3D1
+diff --git a/drivers/usb/misc/usbsevseg.c b/drivers/usb/misc/usbsevseg.c
+index 89d25fcef642..1140ca4fbd8d 100644
+--- a/drivers/usb/misc/usbsevseg.c
++++ b/drivers/usb/misc/usbsevseg.c
+@@ -145,7 +145,7 @@ static ssize_t name##_show(struct device *dev,			\
+ 	struct usb_interface *intf = to_usb_interface(dev);	\
+ 	struct usb_sevsegdev *mydev = usb_get_intfdata(intf);	\
+ 								\
+-	return sprintf(buf, "%u\n", mydev->name);		\
++	return sysfs_emit(buf, "%u\n", mydev->name);		\
+ }								\
+ 								\
+ static ssize_t name##_store(struct device *dev,			\
+@@ -246,25 +246,19 @@ static ssize_t textmode_show(struct device *dev,
+ {
+ 	struct usb_interface *intf = to_usb_interface(dev);
+ 	struct usb_sevsegdev *mydev = usb_get_intfdata(intf);
+-	int i;
+-
+-	buf[0] = 0;
++	int i, ret = 0;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(display_textmodes); i++) {
+-		if (mydev->textmode == i) {
+-			strcat(buf, " [");
+-			strcat(buf, display_textmodes[i]);
+-			strcat(buf, "] ");
+-		} else {
+-			strcat(buf, " ");
+-			strcat(buf, display_textmodes[i]);
+-			strcat(buf, " ");
+-		}
++		if (mydev->textmode == i)
++			ret += sysfs_emit_at(buf, ret, " [%s] ",
++					     display_textmodes[i]);
++		else
++			ret += sysfs_emit_at(buf, ret, " %s ",
++					     display_textmodes[i]);
+ 	}
+-	strcat(buf, "\n");
+-
+ 
+-	return strlen(buf);
++	sysfs_emit_at(buf, ret - 1, "\n");
++	return ret;
+ }
+ 
+ static ssize_t textmode_store(struct device *dev,
+-- 
+2.56.0
 
