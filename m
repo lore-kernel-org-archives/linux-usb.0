@@ -1,56 +1,50 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.4
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793266525;
-	b=DsP+whFW/LhlXYSVDscLM42Lc5iUc08R7OIoHjQbBxry23CCgII8pckauYr1rDtv/roj
-	 nJXqIr03nphKONm9pbGrSz+7lePr6YXTRhAzG4uRnWeE2psnFteByho2wyTwN+Fzu/oG/
-	 0GOgZWv40fMwCsWsYQP5qo4u+yjlNZqJ7JlO7fCXZdkidP0xK8WZSxX2eTQVjfnl47jCA
-	 45PPLpXH22Wd31zsEqFyF5qxYxN20pQcOi3DAoXV4YefHlUAQEHTt4mugMnm5l8P5IL0d
-	 2PrzNshbHWSgV8Ai3tzgp/sCDYqxn9e9hfuNqUVj3/UDwPcfkz+3ffpjUmSktm2+r5Q==
+	t=1793266714;
+	b=2ti5RLm6doN3OhzXeln4gdo00VT8n68T1GRrR/4fqf0ejV5ahV3r2yjjmUWBP/XDFZ0/
+	 10G17iv/gD4jh1i3ZOJOomhonNQgk5qs9ozoBt6NPnZZqW+qfwTTYqtKNahon4InBruzX
+	 XXdGRqiI2BfQN9BBbxpbx9eYJTq8D+HIe5wFnMheCa0TGSQGgijOATh99FZysq5iSon+Y
+	 dDUCXJJBcnJM/vL8RDDfB0fNWCy196aidAEhbs/EVabewfy1+3RoxM7JM7HlGXZEO6eJN
+	 arWLm26h08buMrcKJAvmPBpnwpfm2X0z5PELM5+Orxda5KLaqJW/uGDjmFWd4LSx2OQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793266525;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=gpcEkWZksGGfj9XjEwCf+DBg2I4p4de0sWgxlYdGmn8=;
-	b=DDq9vrgQ9tfbdLnrQiWERsntoSN6unyw8PeXvxpCXI0QjvQgItjxhzahdkgPehGtuXyx
-	 mgLmVu3Rig/Z9LsQHO206TNdXV5lxcqcA/hVJ6D1yKjcehq5aeYO1NUh0x4lFuDB62WNg
-	 Z0nFD4U5yAOoK3SCL+hHP0l1luOfoqPaF1gEBB+DeNrJ2DdcEYvbSIcBEk/I/fd2krPGN
-	 aYrN+bDBQm0VOg15pBmMKIuo0xlmUck1FjMRagD71TbihCelkV6ghTOU/pf82KjDVXDPr
-	 MRuaVZ0o0mb5CAwLAMWfMB/mw87OUFzfz9xN42pHMqVDO5LXnw1zb9+9yXByK8NvdSg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793266714;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=7DRiI1vwslwstwKD74TbN8OW/TVKW+sia50+pBf12AU=;
+	b=fnesurmWI/Fa3XegtQ1Zn8YPCpNEBJsOyuEDHBjcx5/VjGvtE94FUCFUZmr7I6diK7Oz
+	 DRLB2H+PR3svURImp5C89QRUmDi6UTJufIcj/VPeQIrZ0rltJmvBOs+FOIpWfEp8RMxje
+	 NdHKq0K94dMKFW1UWd7XKeDRwmbeFK/WcUukhTQKziXjoVjQwCiy7Gwr7rb9b+01TkmaZ
+	 dfne38xwIGs/UmeD5kxf4qpEPAz9fOGZWFCeowZdix483Od4v06xb3YPHh13kajvPmSc8
+	 U85ZadPO2piKSg8IxFdCfLG0MnUx81j370gpsTyMVJ+kX9xc7Atr3fPn6XueWUwPzbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ofOSDIXT;
-	arc=none smtp.remote-ip=117.135.210.4
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Mxv+xLAX;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F9D606A31D;
-	Thu, 29 Oct 2026 09:35:21 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13F9D606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F12606A31A
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 09:38:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=ofOSDIXT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=gp
-	cEkWZksGGfj9XjEwCf+DBg2I4p4de0sWgxlYdGmn8=; b=ofOSDIXTaAH0qD/51k
-	swo5uNoG21obsHqmOqiegtkTwFqIZGddGzQL/3BmzbgT+yCJ/N+QVe+eRKUg4iMS
-	44XQ7tuV3aio47zi6a41JPzgS+J/Oul/pV4afkxfYjPhKeu3VYciHfaPHyD/uVBj
-	E1p5o1r7uBLFjN4mwRLnmobi0=
-Received: from pan-u.. (unknown [])
-	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wD3n3ZNE+NqKj5ADQ--.44068S2;
-	Thu, 29 Oct 2026 17:35:10 +0800 (CST)
-From: rppxj178543@163.com
-To: alsa-devel@alsa-project.org
-Cc: tiwai@suse.de,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [DISCUSSION] ALSA: usb-audio: Card naming for composite devices
-Date: Thu, 29 Oct 2026 17:35:07 +0800
-Message-ID: <20261029093507.511002-1-rppxj178543@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Mxv+xLAX
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 925741F01825;
+	Thu, 29 Oct 2026 09:38:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793266713;
+	bh=7DRiI1vwslwstwKD74TbN8OW/TVKW+sia50+pBf12AU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=Mxv+xLAXz5rxsg5CzQDZcPt5anQcXuv5Ig+KpDVm3CYZF8m8e+xC11fNjLPhtSkV1
+	 CN1ENRairKpo+xT3pALkEwxDt8vsC7getgV4SnrP0nSwh8ogsJ7VHdFGFsnE7QGxrx
+	 6imSd9VvtlKEHeRiGgL5vCbdgA6q6HUJzS9Wr/wM=
+Date: Thu, 29 Oct 2026 10:38:31 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: Josef Bacik <josef@toxicpanda.com>, linux-usb@vger.kernel.org,
+	stable <stable@kernel.org>
+Subject: Re: [PATCH] USB: serial: garmin_gps: queue the device reset
+Message-ID: <2026102910-jawed-sweat-c4fc@gregkh>
+References: <2026102733-prayer-drainer-56f3@gregkh>
+ <auMEQr5QphTIqSqj@hovoldconsulting.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,83 +54,71 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3n3ZNE+NqKj5ADQ--.44068S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWrWxCFy3Xr48tr43try8uFg_yoW5Wr1rpF
-	9xKa9Fyrs8Gw1xGw1kXw4fGr9xtrZ3A3WUGryDWr18Ka98ur1jya47trZYqa48C3s5uFy2
-	yrWjqry0kws8AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jYApnUUUUU=
-X-CM-SenderInfo: huss5yirxykkqt6rljoofrz/xtbC6g5ramrjE06lmwAA3P
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <auMEQr5QphTIqSqj@hovoldconsulting.com>
 
-Hello,
+On Thu, Oct 29, 2026 at 09:30:58AM +0100, Johan Hovold wrote:
+> On Tue, Oct 27, 2026 at 03:29:34PM +0100, Greg Kroah-Hartman wrote:
+> > From: Josef Bacik <josef@toxicpanda.com>
+> > 
+> > A private packet with the ID PRIV_PKTID_RESET_REQ that is written to the
+> > port makes garmin_write() call usb_kill_urb() and usb_reset_device().
+> > Both sleep, but the write operation of a tty driver must not: a line
+> > discipline may call it in atomic context, synchronous PPP for one under
+> > a spinlock with bottom halves disabled.  In addition usb_reset_device()
+> > has to be called with the device locked, which it is not here.
+> > 
+> > The reset also unbinds the driver inside the write: the disconnect hangs
+> > the tty up, ppp_sync_close() calls ppp_unregister_channel(), and that
+> > spins on pch->downl, which the writer holds.  The CPU is lost.
+> > 
+> > Unlink the URB and use usb_queue_reset_device(), which locks the device
+> > and resets it from a work item.
+> > 
+> > Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> > Cc: stable <stable@kernel.org>
+> > Signed-off-by: Josef Bacik <josef@toxicpanda.com>
+> > Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > ---
+> > Johan, this was sent to me, but I really don't know if PPP is used for
+> > this device to talk to the port or not.  If not, this isn't a real
+> > issue, but if it is, then maybe it is?  I can't tell so I'm tossing it
+> > to you :)
+> 
+> No, you would not use PPP with this device, but if someone tried to I
+> don't believe they would be able to trigger the reset due the PPP
+> packet framing not matching the garmin_gps header format.
+> 
+> So basically the patch is fine but the commit message is misleading.
+> 
+> You will still get a deadlock with the default line discipline however
+> so that's enough of a motivation to fix this (even if that doesn't wedge
+> a CPU).
+> 
+> > -	usb_kill_urb(port->interrupt_in_urb);
+> > -	dev_dbg(&port->dev, "%s - usb_reset_device\n", __func__);
+> > -	status = usb_reset_device(port->serial->dev);
+> > -	if (status)
+> > -		dev_dbg(&port->dev, "%s - usb_reset_device failed: %d\n",
+> > -			__func__, status);
+> > -	return status;
+> > +	/* This is called by the write operation, which must not sleep */
+> > +	usb_unlink_urb(port->interrupt_in_urb);
+> 
+> USB core will unlink (and the driver will kill) all three URBs as part
+> of disconnect so I think we can just drop the interrupt-in unlink here.
+> 
+> > +	dev_dbg(&port->dev, "%s - usb_queue_reset_device\n", __func__);
+> > +	usb_queue_reset_device(port->serial->interface);
+> >  }
+> 
+> Josef, do you want a send a v2 of this or shall I treat this patch as a
+> bug report and fix it up myself?
 
-I'd like to discuss an issue with USB audio card naming for composite
-devices and propose a possible improvement.
+I'm guessing at Josef's current load, so it might just be faster for you
+to fix it up yourself :)
 
-Problem
--------
+thanks,
 
-For USB composite devices containing both non-audio and UAC audio
-functions, the ALSA card shortname is derived from the device-level
-iProduct string, which describes the entire device rather than the
-audio function.
-
-For example, the CVT Touch Device (1ff7:0f33) is a composite device
-with HID touch interfaces and UAC audio interfaces. Its iProduct is
-"Touch Device", which is the name for the whole device. The UAC
-OUTPUT_TERMINAL descriptor defines the audio function name as
-"MAXHUB Speaker" via the iTerminal string descriptor (index 14).
-
-Currently, the ALSA card name shows "Touch Device", which does not
-identify the audio function. The UAC mixer code already reads
-iTerminal for mixer control names (e.g. "MAXHUB Mic" from the
-Microphone INPUT_TERMINAL's iTerminal=17), but the card naming
-function (usb_audio_make_shortname) does not use iTerminal.
-
-Proposed approach
------------------
-
-When the USB device is composite (i.e. it has non-audio interfaces),
-prefer the Speaker OUTPUT_TERMINAL's iTerminal string as the card
-shortname, instead of the device-level iProduct. If iTerminal is not
-set (zero) or not readable via usb_string(), fall back to iProduct
-(existing behavior).
-
-Non-composite (dedicated audio) devices are not affected and continue
-to use iProduct.
-
-The composite device detection checks whether any interface has a
-non-Audio class. The iTerminal reading uses the existing
-snd_usb_find_csint_desc() helper to parse OUTPUT_TERMINAL descriptors
-in the Audio Control interface's extra data. The iTerminal field is
-the last byte of the descriptor, common to both UAC1 (bLength=9) and
-UAC2 (bLength=12).
-
-As an immediate fix, I have also prepared a quirk entry for 1ff7:0f33
-to override the card shortname to "MAXHUB Speaker" directly.
-
-Questions for the community
-----------------------------
-
-1. Is this approach reasonable for composite devices, or should it
-   remain a per-device quirk?
-
-2. Are there concerns about changing card names for existing composite
-   USB audio devices that have iTerminal set? For example, UCM profile
-   matching or PulseAudio device identification.
-
-3. Would it be preferable to also check the IAD's iFunction field
-   before falling back to iTerminal, or is iTerminal sufficient?
-
-4. Are there known composite USB audio devices where the iTerminal
-   string might be empty or contain unexpected content?
-
-I have tested the quirk approach on a MT81C device (Kylin V10-SP1)
-and it works correctly. The iTerminal approach compiles but has not
-been tested on multiple devices yet.
-
-Any feedback would be appreciated.
-
-Best regards,
-RenPanpan
-
+greg k-h
