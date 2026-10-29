@@ -1,68 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793247581;
-	b=OEs1LJG14GyxHp32pmTyRzBLr7z2A1HKUXiWBbKx+v4biaody/YNnLr9mfe8Vy7Rny+9
-	 ovZTepJGnkX0mwbjkHTlcCiyyygVi1fU4aSyj1boIklga+57MqwI1RxtR3azs0+N97jPO
-	 8o4k7XzCWpVlteQ2e1WjzwwXIN5DnZSA34vUr09L/c9T7SBL+X8n64aUC7ynscCh8ZYsE
-	 6eRpV1QcHmcKymD8uOJELsTKPLXK5VXeYnwASpRZMQZigdbniupA8F8QigS9zaFbiKAJi
-	 HzYJ1gpBupBaKIYJOvBeaD+krAp8Hds02EfL797GCDnsAXGlUue1f9b5r3lrautzn0w==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793247581;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-ZohoMailClient;
-	bh=S4U7y3JKaQogbd5mPlOpxdl5u2U6YAES36RqoO48nJY=;
-	b=2C4oi1bEHYqP8B2z63NvHgy3QcQoVyjXo5kERGoX00Lh8fyvOFxjju8ztN5K35h1x0xe
-	 A6f86JRnQY7rbGHjicH6SzUxp6VbGktIBQzwlT6crmeoFOhVUGYeckYgvIicoJMXqakTt
-	 YpxtgCXMryXdgpk/GjiRJzeNVVAL4BdONpo5cLbKl8dIBkykYm7pv1MNq8jQiy7j/pAD4
-	 W3x8JpVQfPt7xRb+bwXu2y7uz/RpgGr2MDNx59m/L+3kFLhA9p5kUP7d4w1zLlQUXaqNd
-	 qH2y7S2tacHlZUfbnhk/6xUkG2YacTGTjeGqDRRFE6raDXBnkdcM/xP3yP5Q6QSuR9Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=yiyuzhou.io;
-	spf=pass smtp.mailfrom=yiyuzhou.io;
-	dkim=pass header.d=yiyuzhou.io header.i=@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=UMr8WiJ2;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
-Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.53
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793250225;
+	b=Lpo8bKdpLiiNeGG5bAXhWdSkMd+Q+exsBsx3MAPP/44hGBxeLZhMmIhdT6/fjmF7ZG3l
+	 X74nG/LSCtomJubb6uR6O/zfdzRBBN91XCmbawQ5DdupUoocJcMwtlcsU6VVicXxJeClN
+	 dPEhyFZPf0VOeGPV78BF93LJSK6ByzSxLcPQYTIkSwwrw9ZnCFreKw1P2M2mh2KcAVL7K
+	 roBdIiCxCbI5oeXSTa7ri17trI5KeodcxmgfsRoSGYVThEKO5eV4aFH3JueMn14TxdbhZ
+	 NN4ES+i6jWp6xRIQn1yUYCvjJW+JoQHXfkescDbQwprbcB46jdNmMQF8UqqEXII6dfQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793250225;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=8/fxKRCZaCOeOulCmaTvLZ28A39abdCnwM8N6Db8ONk=;
+	b=1Zmy7xae6oWoAyK7nNzZ8aQ8MN7ZEdtAMpBZkVAexEsX/tn3lIWxkUMbQ6U0H3xKvUdz
+	 iFhbAzfVK7e9CjACc0qikX6ADfGAPgoci634YHznjoi8s/6wuypu7TGRuiKAdMHYnce36
+	 EpFbUYgLH2bBUQfqv6ReS+jQHp1v7qnO0D+zqELlE9tWrDwJJDGAj6FNjohhVB5WohjCb
+	 1zJ/G+kozqUCcj+/URHM84fzsjyf1ofDrlXGunAIB6rlsYNycBwQtrmDlTU5SWmUj8bWi
+	 uHpYGox1f4IvAR1rQmcDd1ucatA1xyhH0DcFXcXR8nRQF0mv3ldyKKSldbjpOemKEwQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PvVXCUZ+;
+	arc=none smtp.remote-ip=209.85.221.53
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAF0606A31A
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 04:19:41 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FAF0606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE06606A31E
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 05:03:44 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org CFE06606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=UMr8WiJ2
-ARC-Seal: i=1; a=rsa-sha256; t=1793247554; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=NL1V4y2Bpbw4D3ykFjsIKv5Rlcyc2z0t2ZF/zv90kY0Z3raKON/AtlHzBU+tpVksPiZzqGwsa0Aqn5IwsRAQP0/pclYk9JOXXcb7C4lIb644+1OcJ204HDB86Euqhrr2GzTJHobjfNs1oeY5f14B45WgY+G4QZKLNHlZMgys1ws=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1793247554; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=S4U7y3JKaQogbd5mPlOpxdl5u2U6YAES36RqoO48nJY=; 
-	b=aKTd21bdfr4KPwjM9kWGAB0rgc78rzOGikIxEenPfmSDL7dOpBTZ2/zZLANUoHNOrIOREk6cgEHu3ChGf+HL8VHRTTVQpReF3f5ru2DKSHALMygvB0HraV50Fx1FiSZfxkJmY0Z1YszlYOyOLz/ujOaIe7DDnJgdvIami0DIZ40=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=yiyuzhou.io;
-	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
-	dmarc=pass header.from=<yiyu@yiyuzhou.io>
-DKIM-Signature: a=rsa-sha256; b=UMr8WiJ24QinuW5+dofrP87bmZnBb2jOFqepKbgklhlMXQ+uAHfsoqNYQkd4mxBfI2jtl5c69bWolxKGUffNzozg7WcsKFVT6eZ7b5Dh6iEAiJ9V939fIM41Oq+GarG7iUQXQMjuug58HzFPoUoQzk5TXSx4IN7c4Lf0waZpTEg=; c=relaxed/relaxed; s=zmail; d=yiyuzhou.io; v=1; bh=S4U7y3JKaQogbd5mPlOpxdl5u2U6YAES36RqoO48nJY=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
-Received: by smtp.zohomail.com with SMTPS id 1793247552047289.2558339205044;
-	Wed, 28 Oct 2026 21:19:12 -0700 (PDT)
-From: Yiyu Zhou <yiyu@yiyuzhou.io>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dennis Wissel <dennis@dsine.de>,
-	diogochaves@me.com,
-	raoxu@uniontech.com,
-	linux-usb@vger.kernel.org,
-	regressions@lists.linux.dev
-Subject: Re: [RFT PATCH 0/2] xhci: clean up endpoint rings after disconnect detect
-Date: Wed, 28 Oct 2026 21:18:53 -0700
-Message-ID: <20261029041854.699752-1-yiyu@yiyuzhou.io>
-X-Mailer: git-send-email 2.56.0
-In-Reply-To: <20261027192128.386082-1-mathias.nyman@linux.intel.com>
-References: <20261027184117.2461065-1-yiyu@yiyuzhou.io> <20261027192128.386082-1-mathias.nyman@linux.intel.com>
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=PvVXCUZ+
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e00eee27dso1228771f8f.0
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 22:03:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793250223; x=1793855023; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8/fxKRCZaCOeOulCmaTvLZ28A39abdCnwM8N6Db8ONk=;
+        b=PvVXCUZ+qRZ1JnX/sjIDzxzn7w71dzK3K+6Tbdx9ESaYuFm5k4phpsM2ZANzO+Q8ny
+         +CVK+w4TiPt9kg3cv2RYfMO3sMPDRqyf5AwOHOGGUIKNcV160OanrReqqANsnfPzv18R
+         6GjYFTT3VhjjjAynAHJjOym1nIku2x+Qr5mB+ZkrZOT6qSl3AG0fn6+kzTc+9uHsojhw
+         KWrwfTVylPLdYVe1Nq/EDCoZNOeqjM2DTIOvd9pwEzMc7b/kp5WXTpee01Kr9tRGr1PQ
+         UU4cpXbWGJXvIpXaMQT9iShKipc19kAFk09A+X1GJd34JwH2b2V6MzOyc3hLkIlk+Wn3
+         30nA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793250223; x=1793855023;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8/fxKRCZaCOeOulCmaTvLZ28A39abdCnwM8N6Db8ONk=;
+        b=ljc6YP5070AN2ndzAozkJikCjNbUQ3UJmASW4fE/K3vJOHtZskIENylnadacSa7ZJe
+         TGFUkT7gTpQFyQOpzMXEdBq/3VI6QGagga5tH8RDbBwcT00E2MqsdktM9Jch8u1pJEnh
+         7EabCM2KK/LEoLRwnaL3PVkfxhPcadm8WrhzjxJ4nAcMWE2XfkyDbzE7heHas9q5tCfB
+         ebpYxoug6/ArPhIF+yijiIUz6kT7MQBrgAhoHpCDU62KaZZok8yTgGLgxFAKM2EAUnCX
+         nPHkjP6iJHySTxoWYraVenoXIlS0j4edETpX6OKZfB3kJAxus3ClArGtjOrOGnI20hRP
+         JCQg==
+X-Forwarded-Encrypted: i=1; AKwUvBySVn5hMarEb2LRDDlKXunmcu71e7Odv1e1Wv+7DUxbYl+qPQTScmI2ZxMFfZmczOkQFdTf2VTzUME=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJXy+k84QHYlIQdyDa3OBYhm5Bjp5lnNM5rcX9w5p+HFw+5Bi+W
+	WA5zaSBwAae7FuHEzwp8pVT5Lujt0PoTi3QF4Gj60SKzw1bOwlNrUUvU
+X-Gm-Gg: AYBFou1J8PTrkRvKr/LI+CT6q9fHTlmZi7hi14kTKcNdAqiOwNwNICLmtoF9QDSSJXF
+	MZf4KaLdvhixfxiAe3spe/mdFzUF9OE/V75PZU6ui1xGYl3yEd0w5FIg09NRJrmfhwl7TqU7eJ9
+	77rrD2bww1m/nRfANG3rJF+mh7yo2Mc5YmKvnVwn4Vk1fbQrn2yBNdFK8WO6s77oh5nEgGovpxU
+	vMhyWWQGJs8NJlOs4fhycADoMOygDpgandAIvOzQBJOk0ewfOC/ezGQl9SOf+ckN3IsLz0KBhS1
+	8pa0FtnJSTYEI6uMJT/Mtf2c3yye9EFVXstqGNiI08JlgsSfb+UlyL2Z6C+oIDWUwA5XHrjd0j7
+	bdOT1bYwq2/U/qMTpRpzZwh74NsqbVnfI46iF5FlqZwGHjr4HQDOXiMbFindTpTc+cgqh8gq06D
+	pdh7wH5Y2TzgfB2iBegw9FVd54BtXYvqgeOICdQ0sMlkch5mJLIPA22Tx7AE6j5q4D23QRO232i
+	q+HzH31xLudXBJowlCz/rxO9fBcZTct20RKxYvuJKiTWSLZxLOnvzDbN7hQsuujKiFNUW6YiZxh
+	Dqwugf7XdwWleckdnjXbXTw53NuGUOk/eb/H5g==
+X-Received: by 2002:a05:6000:4382:b0:48d:ed96:e995 with SMTP id ffacd0b85a97d-48e662e7cbdmr2677377f8f.28.1793250223048;
+        Wed, 28 Oct 2026 22:03:43 -0700 (PDT)
+Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebcb8d5sm33774966f8f.28.2026.10.28.22.03.39
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Wed, 28 Oct 2026 22:03:40 -0700 (PDT)
+Date: Thu, 29 Oct 2026 06:03:35 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Kuangyi Chiang <ki.chiang65@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>, mathias.nyman@intel.com,
+ gregkh@linuxfoundation.org, linux-usb@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] xhci: Fix HIK camera control timeout on Etron hosts
+Message-ID: <20261029060335.3ed1fbcf.michal.pecio@gmail.com>
+In-Reply-To: <CAHN5xi1M+g3Sy8YkRKpZuU7EtTxiyi0ZD6y5TCcAZTrpxUpHNw@mail.gmail.com>
+References: <20260914013033.3938-1-ki.chiang65@gmail.com>
+	<20260914130907.749cd8e7.michal.pecio@gmail.com>
+	<CAHN5xi0NSJO=V0=eVd4_MGp2Lg5NrwB3D+hsF87ehTSmaeeSbQ@mail.gmail.com>
+	<0e4c85e8-77e6-4eb9-aca1-048199f2f0e0@linux.intel.com>
+	<CAHN5xi0tN2iWGVfH18SASoP0HVvAaDY4Kgq2U6LCCznGg-1o9w@mail.gmail.com>
+	<CAHN5xi1M+g3Sy8YkRKpZuU7EtTxiyi0ZD6y5TCcAZTrpxUpHNw@mail.gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,66 +103,58 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, 27 Oct 2026 21:21:25 +0200, Mathias Nyman wrote:
-> If you have seen the HID enumeration issue, or the xHC Stop Endpoint
-> failures with rapid endpoint state changes, testing these two patches
-> would be greatly appreciated.
+On Thu, 29 Oct 2026 10:25:17 +0800, Kuangyi Chiang wrote:
+> We did some more testing.
+> 
+> We don't see this issue during device enumeration.
+> 
+> We also found that the timeout is not limited to UVC control
+> transfers. In one failure case, the first timeout was observed in
+> a UAC control transfer, followed by UVC control transfer timeouts:
+> 
+> [  961.127402] usb 2-3: 5:2: failed to get current value for ch 0 (-110)
+> [  971.367443] uvcvideo 2-3:1.0: Failed to query (GET_DEF) UVC control
+> 2 on unit 2: -110 (exp. 2).
+> [  976.487473] uvcvideo 2-3:1.0: Failed to query (GET_DEF) UVC control
+> 3 on unit 2: -110 (exp. 2).
 
-I have seen the HID enumeration issue, and I tested both patches on the
-laptop that shows it: a System76 Galago Pro (galp7) with an Intel Alder
-Lake PCH xHCI (8086:51ed), running v7.3 plus these two patches, with the
-xhci_hcd dynamic debug messages enabled.  The keyboard is a PFU HHKB
-Professional HYBRID Type-S (04fe:0021) on root port 3-2.  It drops off
-the bus about 0.28 s after its first enumeration, which is what used to
-hang.
+But that's the same device and the same control pipe, right?
 
-I unplugged and replugged it three times, once right after an S3
-resume.  Each time the keyboard was back with all three interfaces
-bound about 0.9 s after the first "new full-speed USB device" line.
-There was no -110 from usbhid, no hung task, no "not part of TD" error
-and no command timeout.  The dynamic debug output was on for the last
-two replugs.  This is the second one (trimmed):
+So it just failed and we don't know why or whether it was the host or
+the device. And this is all during UVC/UAC probe, before any userspace
+begins using the device? Or could userspace be involved?
 
-  [  526.532129] usb 3-2: new full-speed USB device number 7 using xhci_hcd
-  [  526.764553] xhci_hcd 0000:00:14.0: Port change event, 3-2, id 2, portsc: 0x202a0
-  [  526.765548] xhci_hcd 0000:00:14.0: Not resetting ep 2 slot 6 after disconnect
-  [  526.766517] xhci_hcd 0000:00:14.0: Giveback URB 00000000123956d9, len = 0, expected = 8, status = -71
-  [  526.767395] xhci_hcd 0000:00:14.0: Not resetting ep 4 slot 6 after disconnect
-  [  526.768195] xhci_hcd 0000:00:14.0: Giveback URB 00000000fa65d958, len = 0, expected = 31, status = -71
-  [  526.780018] xhci_hcd 0000:00:14.0: Can't queue urb, port disconnect or link inactive
-  [  526.812029] xhci_hcd 0000:00:14.0: TRB error 4, halted endpoint index = 0
-  [  526.812280] xhci_hcd 0000:00:14.0: Hard-reset ep 0, slot 6
-  [  526.812752] xhci_hcd 0000:00:14.0: Ignoring reset ep completion code of 1
-  [  526.813210] xhci_hcd 0000:00:14.0: Set TR Deq ptr 0x112dd12f0, cycle 1
-  [  526.813846] xhci_hcd 0000:00:14.0: Successful Set TR Deq Ptr cmd, deq = @112dd12f0
-  [  526.814254] xhci_hcd 0000:00:14.0: Giveback URB 00000000aa106b15, len = 0, expected = 0, status = -71
-  [  526.814648] xhci_hcd 0000:00:14.0: Can't queue urb, port disconnect or link inactive
-  [  526.815742] usb 3-2: USB disconnect, device number 7
-  [  527.167687] usb 3-2: new full-speed USB device number 8 using xhci_hcd
-  [  527.426094] hid-generic 0003:04FE:0021.000E: hiddev96,hidraw2: ... on usb-0000:00:14.0-2/input2
+The UVC driver has some aggressive PM; for every userspace ioctl, it
+calls usb_autopm_get_interface(), submits an interrupt URB which almost
+never completes and unlinks the URB before usb_autopm_put_interface().
+Repeated periodic unlinks is a known problem case for many xHCI chips.
 
-> Only Reset Endpoint and Set TR Dequeue Pointer commands are issued;
-> ep0 is not restarted while the disconnect is pending.
+FYI, I found that 7c0c31c66a7f9 in v7.3 reduced occurrences of periodic
+unlink failures on other junk HW like ASMedia and VIA. Some of those
+failures, on ASMedia, resulted in control transfer breakage too.
 
-That is what the log shows here.  Reset Endpoint on the disconnected ep0
-completed with success, Set TR Dequeue Pointer succeeded, the control
-URB was given back with -71, and later URBs were refused until hub_wq
-re-enumerated the device.  The other endpoints were given back without a
-reset.  I saw no controller hang or command timeout, so this Intel xHC
-is fine with Reset Endpoint on a disconnected ep0 (it ran twice).
+Have you tried 7.3 yet?
+Do you see any interrupt URBs there, using usbmon for example?
 
-> If these patches work, they might be squashed into one before going
-> upstream.
+> So far, we have reproduced the issue with these xHCI hosts:
+> 
+> ASMedia ASM1142 (1b21:1242)
+> Etron EJ168 (1b6f:7023)
+> Etron EJ188 (1b6f:7052)
+> Intel xHCI (8086:8d31)
 
-Squashing is fine with me.  1/2 alone leaves the stale TRBs on the ep0
-ring, as the cover letter says, so I would not apply it separately.
+I don't know that Intel chip, but the others are quite buggy.
 
-Tested-by: Yiyu Zhou <yiyu@yiyuzhou.io>
+Have you tried other HCs? Any successes?
+IME, chips from NEC, Fresco, Renesas are more reliable.
 
-I have not tried the RFC diff Michal posted in this thread.  I am happy
-to run it on the HHKB once it has a changelog.
+> The camera works with the EHCI host we tested without any additional
+> delay.
 
--YZ
+That's a little suspicious, it may still be an xHCI bug.
+
+Regards,
+Michal
