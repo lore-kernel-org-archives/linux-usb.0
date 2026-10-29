@@ -1,50 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793254762;
-	b=gfov/b0Ago2y6QltlzFGp2PfxQ63/Qgg7ysNT6UdUEGPR24yOo4HX2/LfyY5Tqu2lwuB
-	 9c1u0/7Q9y6Jnh857Rd+BUDXnOGBqXQHyrnnBXMXVwXfzKYKHdkVuSroVVRkj7xgJZp7g
-	 7PU7/6c/zHltJRyNv7wEh7JOR2Rc1SM4DbgNqv39VngX49ybz9KLLkw7sRU3vOFEpTB50
-	 CJWoBqo3t331vbhgPl2G0Top8b2NxrhDyhDjgkOG3qSe5J2uX9mwAj2YwZjsUONg+4IDz
-	 3/oLlhNebvuTiPzU6Gh7ZE+mJWvKT9t36I5GjfAMnw3o+Cf5/2ju7YwJwcuzCcT72Pg==
+	t=1793254835;
+	b=1wIJsh1DQLa+4qOMa07Z2UZlKdyTsm6m6CkQ9ZgztxSmh0QHW3X8bnB2F1TNKLS5EtTb
+	 mfAlpFt8mBB1gOrXFmvRS7wpqCqUf7QSTX8Zy9WrTXRPXNY7+qNGOe/XbD8y/OpijreK1
+	 pogO0EN2g0Kwxdj3IoFcOF/vG9gCeKu0HHpqspEZkmF921OGgy//GN1Z2X1GJ/Faci2hQ
+	 Nn+/TCfBXZLTYcQ8RwPFfKyASBnry4TkmyvssOXfY6y7vpw9WcpoX9wk6NOtTRauS49J5
+	 Fy4DSAHg871jkKh0pKzo3PjHgk/XMU5SMkmxmUD8b74HKZ7GKRtRKhuVAKoqsco26Dg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793254762;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793254835;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=lsnGyKmxljlS9M0P5z8GnqmBBygb/TK5WIWMseE8XdQ=;
-	b=uNtmmY1A7puE2aaDNrNxdBKu863YrOWvrhSkWicXpinxsRWSsefN04W9o1HahVrd4kds
-	 BHDyNLkj/Pstmm68AD+Yfn9lOfeKmumvO+K6rFVvjLCVqxHyiq5K24QGK99/4RJ0Eser6
-	 Gn/ge2rxPEJWbGpNM6GREl4B2+EXEF6uJF5xrg4mEPQqxzKM8HoSf/O0DVdYhYsDEYFj7
-	 L2Osv/pXcpOod0pGotVl2iWRGLNecc88lMnxMARZIEQWRV8ENJYQhfoAYJ0zuZm8Kmdxf
-	 wm8awILuL2ewKysfrDzCckUdAuvh72GgK3QiZ9vQ/7gawIQfN8ls/y1i9XjxC2JwOQw==
+	bh=1DJvgiIz6E4OS/CDgh0DIMI/tXdEJjGu7xdWQ6OMopY=;
+	b=jCeqhaUiZUknqVJLF2C19GA2YvQizdSGDFdD45XujLL7JLD5scSTGDPC36MvV9qXTup5
+	 j8ZaznlJXYNgEY3lWQ+zsNIdbQYtzkvM6ZFnsKr8l0wBEcwd4XPhGt/JiuNrB4qYiT8hT
+	 sHvOwm1CL5sLlBbP8nEyj+CHLhS1C2A0BW8AKiR09V82SEMA0ReAjC3OuozEjtDLPsj8H
+	 ppqHAaw4106JPzxF2rLeNknoqqsQNAuSZRmmFOWepvewb5yWsQqnJCKZADrSVBDqvFFKF
+	 VOLdER5tjZk4OJtNx7T6lqPyaIfziZnTpeeXf+Wa+PGER8ZmhJWd4iy5QWbSHD46bWg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=HVOEAKMj;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=j5gazHQf;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B5E1606A31E
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 06:19:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB22D606A31A;
+	Thu, 29 Oct 2026 06:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=HVOEAKMj
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 170471F01825;
-	Thu, 29 Oct 2026 06:19:20 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=j5gazHQf
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 930AD1F01825;
+	Thu, 29 Oct 2026 06:20:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793254761;
-	bh=lsnGyKmxljlS9M0P5z8GnqmBBygb/TK5WIWMseE8XdQ=;
+	s=korg; t=1793254834;
+	bh=1DJvgiIz6E4OS/CDgh0DIMI/tXdEJjGu7xdWQ6OMopY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=HVOEAKMjRRzIIlnkRzXpXLk3Ah5hBfoIzo5sW59QMktuiWh9OrVNcn17io1RuNMj7
-	 q+HpX9kZYxneel/HEIcBcd5SslXYLJYMbesrm+pG2edcAHlYULkqE8fFZjoQOyqwqu
-	 BXk0ZLoH/Q44mgkx0K0yqkuTf8TKf5y/ZuD2b0/8=
-Date: Thu, 29 Oct 2026 07:19:18 +0100
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Basilisk <basilisk.bat.lol@gmail.com>
-Cc: syzbot+67d9d15423ddc0f15859@syzkaller.appspotmail.com,
-	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
-Subject: Re: [syzbot] [usb?] KASAN: slab-out-of-bounds Read in
- dummy_free_request
-Message-ID: <2026102904-overspend-rubble-4443@gregkh>
-References: <CAA-r21oVYLu6atoQPGdLsucggdQ+oi-HRS1HYeJkThx6WZX1qg@mail.gmail.com>
+	b=j5gazHQfTHIM2FoD0n+ncl2TB3n9lc4acU4JyoOwzF4zrItU7wpsCz2t6Nwc8HCFB
+	 UZeCwdI76vM4PuHzuVyI7Iu1HkdGblZ6VZQi2agJqAOrM9KVEC9Hpa2OVpEYjicOmp
+	 YY5yQH0eGwbBRc4RsK5JoPxSAxymQZZUF7qwHw8I=
+Date: Thu, 29 Oct 2026 07:20:31 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Felipe Balbi <balbi@ti.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: dwc3: gadget: linearize SG requests that exceed
+ the TRB cache
+Message-ID: <2026102952-brussels-amply-5bc7@gregkh>
+References: <20261004031445.1450196-1-faisal.hassan@oss.qualcomm.com>
+ <20261006172254.1058992-1-faisal.hassan@oss.qualcomm.com>
+ <485f76be-cd91-413c-afda-2f7ec37f2d29@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,12 +58,16 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAA-r21oVYLu6atoQPGdLsucggdQ+oi-HRS1HYeJkThx6WZX1qg@mail.gmail.com>
+In-Reply-To: <485f76be-cd91-413c-afda-2f7ec37f2d29@oss.qualcomm.com>
 
-On Wed, Oct 28, 2026 at 10:45:06PM -0700, Basilisk wrote:
-> Hello,
+On Thu, Oct 29, 2026 at 12:40:06AM +0530, Faisal Hassan wrote:
+> Hi all,
 > 
-> I recovered a standalone C reproducer for this syzbot report:
-> https://syzkaller.appspot.com/bug?extid=67d9d15423ddc0f15859
+> A gentle ping on this v2 when you get a chance.
 
-Great!  Now you have the tools needed to make a patch to fix it :)
+What is "this"?
+
+And it's the middle of the roughest merge window we've seen in a long
+time, please be patient and help out with patch reviews.
+
+greg k-h
