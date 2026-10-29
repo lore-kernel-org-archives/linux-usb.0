@@ -1,55 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793243764;
-	b=HgXtWfhUW6mqxTYIh+C+EPXMmKDz6zGjMzKP0pcOct4tYU4MgFQ9vlIpgkhkRCT9LwkI
-	 qkLzyIHZIi5lM+iRTZ2866/jqPaEVaL279/AFUBxulUn7iFn6kPBR7wuoaVJ4zRx1BHWN
-	 Vk+w/2WwDEV9SlqG6eeZ7vGM/PyAGdpO76D2Pzfc3yrHNRlxeM6+ja5bIkNJnqw03fOU5
-	 Jy0gNYI+cnJS9Hcd78gmYz5gWJLA4yJurJr9kGNfr5ZOZtNg29x/8RWPu4Bfmg74b3onj
-	 UX+6WF2VjZjCfiXsbWNA1ZB8T9lFcxYW7UeTRKe8D+4t65Hw+YhME0wYDy0ZteFIC7w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793243764;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=spYc3YNd3DgSnJ42Ij8QFD3bLo8yaJ6qOLdH6DUbTi4=;
-	b=r0SIXNdkEkGQkHH4cFXff9Azl8jHpdxAQihRyHJRLktLnBdoh3ZZ1DlzctDJucndTFtq
-	 OuqAOXLidxZkakwZIim4IJ3J0z6zq++9OtyeAVrH2x8vxj3scEm1jKqNBmoN5Pk981otb
-	 bIjehhUnz7Y/vYG0ZuLIEf4e29mmE5fTgQQ4lKYlTB4EOrc17nSqpWUnSod5nsXB4fQmX
-	 kIQvo1DQriivn6d/LKzaFcT4bAZ3Pxlu8bTjy0+z/D4CV1Mf5CahuCSqOaR7escInmmfz
-	 9ikRawZ7OebIHCHBftns1MtrW8zOM/EXPXiaB+Bm5hS4wr+zpyjxN/2E/iJwPE9z8Ag==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QOaNNiZ0;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793247581;
+	b=OEs1LJG14GyxHp32pmTyRzBLr7z2A1HKUXiWBbKx+v4biaody/YNnLr9mfe8Vy7Rny+9
+	 ovZTepJGnkX0mwbjkHTlcCiyyygVi1fU4aSyj1boIklga+57MqwI1RxtR3azs0+N97jPO
+	 8o4k7XzCWpVlteQ2e1WjzwwXIN5DnZSA34vUr09L/c9T7SBL+X8n64aUC7ynscCh8ZYsE
+	 6eRpV1QcHmcKymD8uOJELsTKPLXK5VXeYnwASpRZMQZigdbniupA8F8QigS9zaFbiKAJi
+	 HzYJ1gpBupBaKIYJOvBeaD+krAp8Hds02EfL797GCDnsAXGlUue1f9b5r3lrautzn0w==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793247581;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding:X-ZohoMailClient;
+	bh=S4U7y3JKaQogbd5mPlOpxdl5u2U6YAES36RqoO48nJY=;
+	b=2C4oi1bEHYqP8B2z63NvHgy3QcQoVyjXo5kERGoX00Lh8fyvOFxjju8ztN5K35h1x0xe
+	 A6f86JRnQY7rbGHjicH6SzUxp6VbGktIBQzwlT6crmeoFOhVUGYeckYgvIicoJMXqakTt
+	 YpxtgCXMryXdgpk/GjiRJzeNVVAL4BdONpo5cLbKl8dIBkykYm7pv1MNq8jQiy7j/pAD4
+	 W3x8JpVQfPt7xRb+bwXu2y7uz/RpgGr2MDNx59m/L+3kFLhA9p5kUP7d4w1zLlQUXaqNd
+	 qH2y7S2tacHlZUfbnhk/6xUkG2YacTGTjeGqDRRFE6raDXBnkdcM/xP3yP5Q6QSuR9Q==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=none header.from=yiyuzhou.io;
+	spf=pass smtp.mailfrom=yiyuzhou.io;
+	dkim=pass header.d=yiyuzhou.io header.i=@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=UMr8WiJ2;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.15
+Received: from sender6-op-o15.zoho.com (sender6-op-o15.zoho.com [165.173.180.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 867C8606A31A
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 03:16:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FAF0606A31A
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 04:19:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5FAF0606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=yiyuzhou.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=yiyuzhou.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=QOaNNiZ0
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC7281F01825;
-	Thu, 29 Oct 2026 03:16:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793243763;
-	bh=spYc3YNd3DgSnJ42Ij8QFD3bLo8yaJ6qOLdH6DUbTi4=;
-	h=From:Subject:Reply-To:To:In-Reply-To:References:Date;
-	b=QOaNNiZ08ac1PU6pPwcRb4W8mFRkdjHIEDicYXJ/u5lqmU7w3T6wrzQSmRVqU+QuL
-	 oRuv7ZAaOn/DNlzl5zAVBXtgTob2yRpl+tdXo9jqj/qxcEgu6Ufecs+7fbpWG7kimI
-	 jq2qKOHDX2SymRScgqIiPfsfozqISGct5cgM2fbF32hr2kqxYobwCxn/1hlSKyj5Tf
-	 gyZqwX0eRZizn/acR9VKKGeEQhWMxzwK/pTDVQcxjgotuY0A6jZNUd50eZIkDWUiLK
-	 WCOmH5roFgk1+aef71nPFuq7QweDiUEIsWwZsSzLcgBqZxKUsPNOKynS7kJclpfr9x
-	 WlCKINU4gyKNQ==
-Message-ID: <sashiko-outbox-188664@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: configfs: NUL-terminate extended property
- data
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Yingjie Wang" <1075151112@qq.com>, linux-usb@vger.kernel.org
-In-Reply-To: <tencent_6FF2EBE4EF5FF4F324C8DC4AD0F39588E505@qq.com>
-References: <tencent_6FF2EBE4EF5FF4F324C8DC4AD0F39588E505@qq.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Oct 2026 03:16:03 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=yiyuzhou.io header.i=@yiyuzhou.io header.a=rsa-sha256 header.s=zmail header.b=UMr8WiJ2
+ARC-Seal: i=1; a=rsa-sha256; t=1793247554; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=NL1V4y2Bpbw4D3ykFjsIKv5Rlcyc2z0t2ZF/zv90kY0Z3raKON/AtlHzBU+tpVksPiZzqGwsa0Aqn5IwsRAQP0/pclYk9JOXXcb7C4lIb644+1OcJ204HDB86Euqhrr2GzTJHobjfNs1oeY5f14B45WgY+G4QZKLNHlZMgys1ws=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1793247554; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=S4U7y3JKaQogbd5mPlOpxdl5u2U6YAES36RqoO48nJY=; 
+	b=aKTd21bdfr4KPwjM9kWGAB0rgc78rzOGikIxEenPfmSDL7dOpBTZ2/zZLANUoHNOrIOREk6cgEHu3ChGf+HL8VHRTTVQpReF3f5ru2DKSHALMygvB0HraV50Fx1FiSZfxkJmY0Z1YszlYOyOLz/ujOaIe7DDnJgdvIami0DIZ40=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=yiyuzhou.io;
+	spf=pass  smtp.mailfrom=yiyu@yiyuzhou.io;
+	dmarc=pass header.from=<yiyu@yiyuzhou.io>
+DKIM-Signature: a=rsa-sha256; b=UMr8WiJ24QinuW5+dofrP87bmZnBb2jOFqepKbgklhlMXQ+uAHfsoqNYQkd4mxBfI2jtl5c69bWolxKGUffNzozg7WcsKFVT6eZ7b5Dh6iEAiJ9V939fIM41Oq+GarG7iUQXQMjuug58HzFPoUoQzk5TXSx4IN7c4Lf0waZpTEg=; c=relaxed/relaxed; s=zmail; d=yiyuzhou.io; v=1; bh=S4U7y3JKaQogbd5mPlOpxdl5u2U6YAES36RqoO48nJY=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1793247552047289.2558339205044;
+	Wed, 28 Oct 2026 21:19:12 -0700 (PDT)
+From: Yiyu Zhou <yiyu@yiyuzhou.io>
+To: Mathias Nyman <mathias.nyman@linux.intel.com>
+Cc: Yiyu Zhou <yiyu@yiyuzhou.io>,
+	Michal Pecio <michal.pecio@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dennis Wissel <dennis@dsine.de>,
+	diogochaves@me.com,
+	raoxu@uniontech.com,
+	linux-usb@vger.kernel.org,
+	regressions@lists.linux.dev
+Subject: Re: [RFT PATCH 0/2] xhci: clean up endpoint rings after disconnect detect
+Date: Wed, 28 Oct 2026 21:18:53 -0700
+Message-ID: <20261029041854.699752-1-yiyu@yiyuzhou.io>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <20261027192128.386082-1-mathias.nyman@linux.intel.com>
+References: <20261027184117.2461065-1-yiyu@yiyuzhou.io> <20261027192128.386082-1-mathias.nyman@linux.intel.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,33 +71,67 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-ZohoMailClient: External
 
-> Unicode extended properties account for a UTF-16 terminator in
-> ext_prop->data_len.  The configfs store path currently allocates only the
-> input bytes, so ext_prop_data_show() copies one byte past the allocation.
->=20
-> Use kmemdup_nul() for the configfs data so the source byte implied by the
-> terminator-inclusive length is present for both the configfs readback and
-> the descriptor conversion.
->=20
-> Fixes: 7419485f197c ("usb: gadget: configfs: OS Extended Properties descr=
-iptors support")
->=20
-> Reported-by: Bingquan Chen <patzilla007@gmail.com>
-> Link: https://lore.kernel.org/all/20260421141010.5607-1-patzilla007@gmail=
-.com/
-> Cc: stable@vger.kernel.org
->=20
-> Tested: x86-64 KASAN configfs readback through a built-in RNDIS function
-> instance.  The baseline reports a slab-out-of-bounds read in
-> ext_prop_data_show(); the patched kernel reads back the expected 0x41 0x00
-> bytes with no KASAN report.
->=20
-> Signed-off-by: Yingjie Wang <1075151112@qq.com>
+On Tue, 27 Oct 2026 21:21:25 +0200, Mathias Nyman wrote:
+> If you have seen the HID enumeration issue, or the xHC Stop Endpoint
+> failures with rapid endpoint state changes, testing these two patches
+> would be greatly appreciated.
 
-Sashiko has reviewed this patch and found no issues.
+I have seen the HID enumeration issue, and I tested both patches on the
+laptop that shows it: a System76 Galago Pro (galp7) with an Intel Alder
+Lake PCH xHCI (8086:51ed), running v7.3 plus these two patches, with the
+xhci_hcd dynamic debug messages enabled.  The keyboard is a PFU HHKB
+Professional HYBRID Type-S (04fe:0021) on root port 3-2.  It drops off
+the bus about 0.28 s after its first enumeration, which is what used to
+hang.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/tencent_6FF2EBE4EF5=
-FF4F324C8DC4AD0F39588E505@qq.com?part=3D1
+I unplugged and replugged it three times, once right after an S3
+resume.  Each time the keyboard was back with all three interfaces
+bound about 0.9 s after the first "new full-speed USB device" line.
+There was no -110 from usbhid, no hung task, no "not part of TD" error
+and no command timeout.  The dynamic debug output was on for the last
+two replugs.  This is the second one (trimmed):
 
+  [  526.532129] usb 3-2: new full-speed USB device number 7 using xhci_hcd
+  [  526.764553] xhci_hcd 0000:00:14.0: Port change event, 3-2, id 2, portsc: 0x202a0
+  [  526.765548] xhci_hcd 0000:00:14.0: Not resetting ep 2 slot 6 after disconnect
+  [  526.766517] xhci_hcd 0000:00:14.0: Giveback URB 00000000123956d9, len = 0, expected = 8, status = -71
+  [  526.767395] xhci_hcd 0000:00:14.0: Not resetting ep 4 slot 6 after disconnect
+  [  526.768195] xhci_hcd 0000:00:14.0: Giveback URB 00000000fa65d958, len = 0, expected = 31, status = -71
+  [  526.780018] xhci_hcd 0000:00:14.0: Can't queue urb, port disconnect or link inactive
+  [  526.812029] xhci_hcd 0000:00:14.0: TRB error 4, halted endpoint index = 0
+  [  526.812280] xhci_hcd 0000:00:14.0: Hard-reset ep 0, slot 6
+  [  526.812752] xhci_hcd 0000:00:14.0: Ignoring reset ep completion code of 1
+  [  526.813210] xhci_hcd 0000:00:14.0: Set TR Deq ptr 0x112dd12f0, cycle 1
+  [  526.813846] xhci_hcd 0000:00:14.0: Successful Set TR Deq Ptr cmd, deq = @112dd12f0
+  [  526.814254] xhci_hcd 0000:00:14.0: Giveback URB 00000000aa106b15, len = 0, expected = 0, status = -71
+  [  526.814648] xhci_hcd 0000:00:14.0: Can't queue urb, port disconnect or link inactive
+  [  526.815742] usb 3-2: USB disconnect, device number 7
+  [  527.167687] usb 3-2: new full-speed USB device number 8 using xhci_hcd
+  [  527.426094] hid-generic 0003:04FE:0021.000E: hiddev96,hidraw2: ... on usb-0000:00:14.0-2/input2
+
+> Only Reset Endpoint and Set TR Dequeue Pointer commands are issued;
+> ep0 is not restarted while the disconnect is pending.
+
+That is what the log shows here.  Reset Endpoint on the disconnected ep0
+completed with success, Set TR Dequeue Pointer succeeded, the control
+URB was given back with -71, and later URBs were refused until hub_wq
+re-enumerated the device.  The other endpoints were given back without a
+reset.  I saw no controller hang or command timeout, so this Intel xHC
+is fine with Reset Endpoint on a disconnected ep0 (it ran twice).
+
+> If these patches work, they might be squashed into one before going
+> upstream.
+
+Squashing is fine with me.  1/2 alone leaves the stale TRBs on the ep0
+ring, as the cover letter says, so I would not apply it separately.
+
+Tested-by: Yiyu Zhou <yiyu@yiyuzhou.io>
+
+I have not tried the RFC diff Michal posted in this thread.  I am happy
+to run it on the HHKB once it has a changelog.
+
+-YZ
