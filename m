@@ -1,85 +1,117 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.210.52
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793299337;
-	b=PmVs2flA3eTDnJ605I8MMJDQPJd6oTa1KUFweSaZ2EQj2Btisr0m3xmGqm3dHB700MoT
-	 5M81pg1P2f55nHg5qjYmz12HiJvZDRkMfn4T0xlrHajp6ZiuNRrRv00PjmWzyMU4XLiuN
-	 KOwDazOnM1s6LwGXo9IHVSQTKKgTsnBXcBDWF2lPfvKZLv3HEbfGSvCkcYm2Ac4QfnM7J
-	 qqg2GaqZOo9d8r2emKIT6ybq+EULS0WA/QJLi/b7/ivWuRC1HXS9txLmQU2JNHHV0w/zO
-	 ognCgy0OQ/xXwnuvkyIKYA7z4jP3IEeGYwkwZ5be+ofxJasLCaTx2UtbEMXGOwL6Z4Q==
+	t=1793300351;
+	b=qXY0/YsoVoa5NSmtUIAySyY7fw9c/fv8uNJQmelb2yebx0IWvK33Yl0rdV2KZdEnCduR
+	 DL+mv6WgAusR1al4PxPhaZBPAULJ8eSUl+eGk4f4B/1Y/A8Zf7OmvUX8AsuYJUgvTvo1x
+	 47gEWLPjrllggF5drAcDd9Utrbu4ZQW3+SFsgXDG7F2cqLD/eXjFesephT7yzQy5etN+h
+	 O0JTT5XW9/EPtjGIMnbI11wRC2X4vxL7H3G+zxDC4j9psOFKEcnh3B/XcpPfQKh5HuVGp
+	 tn2MuY0LscZrML/ber0jyfJbyb5AZWIJATmR+Sd6TqB5y/sqvNzlqv3D9qtSvKK917Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793299337;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793300351;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding;
-	bh=yyKfQb1ExiAMJfqfgRyzEb4vXsSpl0LrfEIT/OP5q7s=;
-	b=5kksM0vDvPw74A0NIKZ/CXLOMNX4F4deUPvG1P9+5uECQW8254hHSn6kIte9Rq+fASD+
-	 uG3itCZAbiW4UIJt3t06eENFf5SP5Bdrw/SLkvb779IMyhahefTuLPLSNoa7jjtbKS3n9
-	 RSAjfnbDyL9xUx/5OgtG/rQznHd38qEzAOcnT427r+3T46UOs3Jp3qcqsVqkIiVvk+Heq
-	 mNGl6NjQWY/D4/ydo00pkhiiCFKwPyyoTe5eT8zipHCI+/3cDzDTQmb0u02gJiMr8pqgw
-	 QBiBtHO7hr4/NsCTgOTr44CniQEbL3AHfiPgAGAUj6HVoWTBX82DEql/E/7lFUQ/lZw==
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=K0Ytmrnk1GXIgM1fqIrHZ5HsCVM2IH42icX0Nl0p4uM=;
+	b=44n6mBD+SONtK96Eqzi03yGsPEL6EjumRKE9TXX4z6ES6kSfsKACZyn8RiA6hfz8cWxn
+	 BVWvqp7zBIZqCg8Hk5WvwBF9tQjAdkL/2PuvePC+k/+lLdcs2v90XHIdIRjXDg9JTSSRx
+	 Tet8rWDkuEoVsDJOqLe9S8I1fLx02VQJu/mG0mM9pjV7aNlDHI1NXLqSOdkZdW+P2THMn
+	 GoRiw+kzFh+GOlYibi5UffgVw+S1GUeRR40qLliIA18D7RH/YNhm4bSvfd9FN1u9pw+AT
+	 WOoDfM4zgvw5pKEq/mX/9Y8Yk0kjDEJZ76X8WmnRbkPytkvFKFSte5Znm9G6yS8tDzw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linuxfoundation.org;
-	spf=pass smtp.mailfrom=linuxfoundation.org;
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=H0eMWThJ;
-	arc=none smtp.remote-ip=209.85.210.52
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	arc=none smtp.remote-ip=209.85.128.41
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4216C606A31A
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 18:42:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4216C606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=google header.b=H0eMWThJ
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-8256106635eso2150a34.0
-        for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 11:42:14 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA06A606A32C
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 18:59:10 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EA06A606A32C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so21099985e9.2
+        for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 11:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1793299334; x=1793904134; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yyKfQb1ExiAMJfqfgRyzEb4vXsSpl0LrfEIT/OP5q7s=;
-        b=H0eMWThJs2MN1qHRZ6n07NBaKzzvrxDguMoSm5+Hfn96u+SGM1HpfnfaA62Qd01lqT
-         tINCl0H0LgBWREnDZBTpiCZTaXcPGr2XkkiMjQs2sVflGQU/C4rrN9D75Hgmj+PrXUNf
-         KHH+Lg8+BZPxcVZbw/8VVA7yLS72ryQdpugfE=
+        d=gmail.com; s=20260707; t=1793300349; x=1793905149; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=K0Ytmrnk1GXIgM1fqIrHZ5HsCVM2IH42icX0Nl0p4uM=;
+        b=wKHfFSVmSHenG0U1iwKgtGSi1UOPPzW6SwGJPjDKQxqwGUCxJEvCn1DjSm7x+7dlBI
+         tUKS5X1HwuZkVolpmPhJFNwbLcWP4O2Ey+tlKOMSKe5uAIMYifWViWBMbQNK0ytgnkU5
+         TxpYpjDnhF0RjngKcgEl1OEsxC/rdKP63x/HzurTG3ZCmbKYurx/pMsgnAebRGdPVULt
+         X6kw74+yrE1gmuUM1siaydpKy5zusToKzYM/zlLOoKSiOrcEwuwMelyy8U+A1MF4630N
+         +VRIg7uYp5Eams5/R4YrzMxIRDiBSFhS3P/ldIwkkN9aFhmNkbr/qpcLWvL6VVYZuboa
+         npsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793299334; x=1793904134;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yyKfQb1ExiAMJfqfgRyzEb4vXsSpl0LrfEIT/OP5q7s=;
-        b=v0H3afVgfbZY37RqbpK1XdRvlmdBRWKLFB+rBA0uGDtBXgw9Zn1S2ftOVlj0bSBx32
-         KETOZpKTdfUziF7d5YspZ45XyOrDfRFmJZAVY2wxoWDp1hUSfAWLKY+zPBF1suzO8pqX
-         H31MJ+PZtaGZQ2t7rMwDVsCGFEbM97FxYjwSMiAiMLOSbY/YopIVpM7cK9F3c8hBxGxW
-         yKSELJQA4sASZFUF1P4QtHTYHYvNUIIR4JRheOIfhNhPq16kx+ygSK6n+GQb4fTM3dzX
-         M7Iwk4KVE4/Xx+5Vh5sMuTWsTAyfhdIJwsIRxAiylhhtsbWs8+Wxjb094dkrqLc9+SM1
-         7VOQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxJ9VNnX93NjhB4dvf51St6FdxqcoCR4UhhWtQ6/NiZce6a7NJX5v5pLPrXm/vry7J0bKDteLXq+5w=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIW5EyX3wrvMC/003Nu5zoxuqjji35QR1gelWOZWd3gFsd4dm5G
-	Ac4jQLYD/cS6XukTz/fOmF34qXFIJw8VK4MS/2wyqwkeI+sVPB5LpJXSjTzpuldw7XI=
-X-Gm-Gg: AYBFou15Bn79BIwY1K14m6913lRak7zGfIrfWx1kgcw0uq9JMu6xXIxpJZbIg+PK/2f
-	KLhkcYL16Xv57Go7wQyuhsTb+lTZb0z74w4NXhymiADDD1eJ1v0iqydQFXxYByJr+7Mot0eyETS
-	6msaAthqz8F6egdwsr7Uvzz6WDWBJVZRYel1chpUNIaW7Ud9FKhvrbzphfl2qK60VtGY3NWTGuF
-	1p3i7gTf2b7M31tsL/3sHPYlAPtOjzbJYbY4HBXajceUz9LdGflXf1iGDTsBUv887G5Z8DofaXY
-	lU8Jy72+Sbz+N6ypnfNaCBlt2SnLMPIR7RstyDycXFlOxfUdKO5ufXYbh5oeiuUWu1oKlt8/WIb
-	eoG+nZ1HKjTxrVgueGKTd+6FEh+8qV8xxhK495FCGt0a6myiATR7OOdKxuNvysXxrso0wgTRIvb
-	sYmaB81Wls9+v8/SaagmCMJCbMXSbbBjJZfK+2wRFX6Ccw5DWSYP+nKTaGk1DWiQ91GeZB4jH4K
-	Ig0FhZr8AoFiTTQ0TV4A2hlAxkCOWVOir1vyqKozmTFDSiJj6TcIo1xYNT/fw+9l4Ucbbayegrw
-	FKQ4uRcp+Mkd2DwR/mvtEga2qLhve2V1dy3Gjb4=
-X-Received: by 2002:a05:6830:2308:b0:81b:864b:7f02 with SMTP id 46e09a7af769-85d362992d1mr53321a34.2.1793299334045;
-        Thu, 29 Oct 2026 11:42:14 -0700 (PDT)
-Received: from [192.168.1.128] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-85d3545bfebsm218042a34.4.2026.10.29.11.42.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2026 11:42:12 -0700 (PDT)
-Message-ID: <a0772d9b-83e8-4502-9e02-f61345e406bb@linuxfoundation.org>
-Date: Thu, 29 Oct 2026 12:42:09 -0600
+        d=1e100.net; s=20260707; t=1793300349; x=1793905149;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=K0Ytmrnk1GXIgM1fqIrHZ5HsCVM2IH42icX0Nl0p4uM=;
+        b=cH4FDz/rWw+n5jTvK8exTV2YcMZudsHLG7350DJIsq2APap1s8IkvHIFkQ4dIQ6uwZ
+         sbh+Q5CN7QeT3fRJdT+lvsUrqQv+3//K5aH15RtJKt8Re0qXdQnMl1eJS8Puuw/ZYleU
+         R7XarLT6W5P6cWPVV3+dvKk2mZIBwnVRDex3OLZgQ1J0zlMjjyE76HF9c44F7RL4Tqqi
+         GqjJJr5HYjy81ceSe0ZCbwCcdZx5CpfoR4H7BcoPSY9f1sYSs3472Ud1auPlYIjew/LQ
+         aJ/pNoGdyw+u4X12PjglAruPMT0xgm/UNOJzBdpYa12i2q5RhkSarwFGWbeSkflNNSEI
+         zYtw==
+X-Forwarded-Encrypted: i=1; AKwUvBxO+uowwbTIojsKQZeadkuZGR6Pvm+tfqRcTSVx3EKsPQ4svAKLtHL25C00tq0/iqhzmlVn8nbGcMI=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLmb6sXQ8bfdwzIEdo6bI2h9DQjbUSC/B+KuMsm3Gs7lOO2Hu/r
+	kwN8gs5ybhCcLQrCKI1eoknz+2FHpSrnKWJ3C1UPhLtqMB/HHhqvlKUu
+X-Gm-Gg: AYBFou0HWv5b3SkZUj3IQhee1LI01cwJ2sTwtSAjcs2QhWoJemFLJw/OLdtLGGg4S8u
+	GN9P/Z7Ti2IgRVMY05YPI2MgdIBWS8MHFm/2x+rfnv6V98YwOEUc4+us8QhY8RmC2InKrqmyVV7
+	4yzmWUl9STSFdNrOTZr9AeabH+3QBucnn/emxngf9CfoQoaNsAk5T2+GmNeNW+bljT6C30fRyYt
+	LRuAr0O51wcq2dA8L6/cLi7cHfqbnSqVSVcBlIuiT8YN4fwjhtoYY5nv7p4/x7rZxmHLglBt3w7
+	ihYZuh8RoKGw4OgWolIxPunSzUtza+m0neY2wuiuGmGywNMaYhqzWmVVT4TuSkJP83wJjF77d+c
+	BDSIX6DC5R45QdeEf1aH1qdkrnWNhgO6vec6+9SEERDsUVgkT1gSKcieh53GnwA4XEFNJk56Emn
+	i1skTxsM/649C8kePLgWUQIDavWcYGKfsZ2vbXLAH8tNBUsr/Yfxugtpatu4xdzXksu4pP7h6EJ
+	4dQvQ8W0OjvXjz8FiNysgKHRV2VYlpJEfwE3ZF0h5LeJDhifY7v1Y4LLoJwAJ1aLlQ0mKTTiTMt
+	yQCa+sOnSwgluUEfU+w97+XeKF2l/NyxJD8NfEfTkmaaIEjHri0P17ln55qQMGReY559ClRk5Nh
+	5NZGDesw+sT8X3A2de9ri0I3qMZXxz7T4FgT3CjsMYTnEH0aL/6UzgfDTMTu0ghPZ00PyC0Az9Q
+	2QnqO1FcXpbb1A
+X-Received: by 2002:a05:600d:4121:b0:4a3:59c9:a758 with SMTP id 5b1f17b1804b1-4a96836988amr152798385e9.32.1793300349381;
+        Thu, 29 Oct 2026 11:59:09 -0700 (PDT)
+Received: from localhost ([2c0f:3d00:6be:8900:ce5e:9212:ea4b:f30])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf6c76507sm4933955e9.10.2026.10.29.11.59.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 11:59:08 -0700 (PDT)
+Date: Thu, 29 Oct 2026 21:59:04 +0300
+From: Dan Carpenter <error27@gmail.com>
+To: Frank.Li@oss.nxp.com
+Cc: Frank Li <Frank.Li@nxp.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrzej Kacprowski <andrzej.kacprowski@linux.intel.com>,
+	Karol Wachowski <karol.wachowski@linux.intel.com>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Alex Elder <elder@kernel.org>, Will Deacon <will@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Rob Clark <robin.clark@oss.qualcomm.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Guan-Yu Lin <guanyulin@google.com>,
+	Mathias Nyman <mathias.nyman@linux.intel.com>,
+	linux-pm@vger.kernel.org, linux-usb@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev,
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev, netdev@vger.kernel.org,
+	imx@lists.linux.dev, Rob Herring <robh@kernel.org>
+Subject: Re: [PATCH 1/1] PM: runtime: change stub pm_runtime_get_if_active()
+ return 1 when !CONFIG_PM
+Message-ID: <auOXeGVQG0UHeoQb@stanley.mountain>
+References: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -89,62 +121,34 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] usbip: clear actual_length after a failed receive
-To: Cheng Yongkang <teel4res@gmail.com>,
- Valentina Manea <valentina.manea.m@gmail.com>, Shuah Khan <shuah@kernel.org>
-Cc: Hongren Zheng <i@zenithal.me>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <179328314073.648427.8311262845412746237@gmail.com>
- <179328314074.648427.388274461758949120@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <179328314074.648427.388274461758949120@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261029163044.3062958-1-Frank.Li@oss.nxp.com>
 
-On 10/29/26 08:12, Cheng Yongkang wrote:
-> vhci_recv_ret_submit() receives the transfer buffer for an IN URB.  When
-> usbip_recv_xbuff() fails, it sets urb->status to -EPROTO and gives the URB
-> back, but leaves urb->actual_length at the value supplied by the usbip
-> peer.  A malicious peer can set actual_length larger than
-> transfer_buffer_length; usbfs then copies that many bytes from the
-> kmalloc(transfer_buffer_length) buffer to userspace:
-> 
->    BUG: KASAN: slab-out-of-bounds in _copy_to_user+0x79/0xb0
->    Read of size 88 at addr ...
->    copy_urb_data_to_user+0x36f/0x480
-> 
-> Clear actual_length on the failure path so the failed URB never carries a
-> peer-controlled length.  The URB is completed with -EPROTO and userspace
-> observes a zero-length, failed transfer.
-> 
-> Fixes: aabb5b833872 ("usbip: Fix error path of vhci_recv_ret_submit()")
-> Cc: stable@vger.kernel.org
-> Assisted-by: LLM
-> Signed-off-by: Cheng Yongkang <teel4res@gmail.com>
-> ---
->   drivers/usb/usbip/vhci_rx.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/usb/usbip/vhci_rx.c b/drivers/usb/usbip/vhci_rx.c
-> index a678e7c..741107a 100644
-> --- a/drivers/usb/usbip/vhci_rx.c
-> +++ b/drivers/usb/usbip/vhci_rx.c
-> @@ -79,6 +79,7 @@ static void vhci_recv_ret_submit(struct vhci_device *vdev,
->   	/* recv transfer buffer */
->   	if (usbip_recv_xbuff(ud, urb) < 0) {
->   		urb->status = -EPROTO;
-> +		urb->actual_length = 0;
->   		goto error;
->   	}
->   
+On Thu, Oct 29, 2026 at 12:30:37PM -0400, Frank.Li@oss.nxp.com wrote:
 
-What happens without this code change? The code path follows the
-error leg because of EPROTO? So how does setting actual_length to
-zero help?
+> Pattern C: ret > 0 / ret <= 0 / ret != 1 checks -- FIXED
+>   drivers/usb/core/offload.c: checks (!= 1), old -EINVAL caused
+>     -EBUSY even with !CONFIG_PM. Fixed: now returns 1, proceeds.
+>   drivers/accel/ivpu/ivpu_job.c: drm_WARN_ON(<= 0), old -EINVAL
+>     spuriously triggered WARN. Fixed: 1 > 0, no warn.
+>   drivers/gpu/drm/i915/intel_runtime_pm.c: checks (<= 0), old
+>     -EINVAL triggered error path. Fixed: 1 > 0, correct path.
+>   drivers/accel/ivpu/ivpu_sysfs.c: (> 0), old skipped freq read.
+>     Fixed: proceeds correctly without CONFIG_PM.
+>   drivers/gpu/drm/xe/xe_pm.c: wraps (> 0), all xe callers
+>     (xe_bo.c, xe_shrinker.c, xe_vsec.c, xe_ggtt.c, xe_guc_ct.c,
+>     xe_pxp.c) now correctly treat !CONFIG_PM as active.
+>   drivers/net/ipa/ipa_smp2p.c: power_on = (> 0), now correctly true.
+>   drivers/iommu/arm/arm-smmu/arm-smmu-qcom.c: (> 0), now correctly
+>     executes stall register update.
+>   drivers/staging/media/ipu7/ipu7-buttress.c: active (<= 0) early
+>     return now skipped, correctly proceeds.
 
-thanks,
--- Shuah
+Pattern C is mostly bugs so this patch should have a Fixes tag since
+it fixes bugs.
+
+regards,
+dan carpenter
+
 
