@@ -1,49 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.17
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793282054;
-	b=GdcHtR4LwdGwu5dJxq69rn/d2qLeC2LCYmWHv/Mrwg1bfwdyiDfIi0OSutkwCZ1fn0PE
-	 x/9jdJs8XEmkFflL/wOPrejQlNkR1evfEYHaJUyDRcxf4CGwGXaohKnW+c74/zAJa+yvB
-	 HpIdTOsqu4cwdelkeW1VcXq7jIzBwBZUgSRtSk3GfqtR8Z4Rsrl1Qhybh3UPLsIeQ8rAm
-	 jsjZu7uN36LHUadDI4M/IjbE92MBzzGdXavU5rK/RkQhUk5IyDgRTlVyvgHVNjhr0ZSY4
-	 0vJX7PmnSfhZnv19/uSFZmkVpnXXDWmsrf7J8SGj8Wk4Jz3TIq5MtPgwDgMzJzcZTsA==
+	t=1793282882;
+	b=E9orHHYC7QGPyKXs9roXTaAQfw3/f8uVfQfTU20YInGKD6tGNZREDrmZH4IL4v1gIKX1
+	 ZPx3PgU05wbC+bfzjP4kppE37gdyUR1bck1ec7HNymDOjlN6kRkQbI/Prh6kAAxFckcVA
+	 DTeDxx5vel9sQb4G6lcSdLjyeRCZ3MLaD7hyoWOI7etLykSgyp5z/Vcm764k6xd5OBitF
+	 KXPqmmEu/8VIYLVbfiDd+ttq+4yvLwEGvU1T4MbOBwN2ubyqSJIGLlwHjL1WXOcYwXBFG
+	 eH4sfaiJvT2gMWJ0pzgW03Y/Wk5/YzBaYm9ocuhi32ytA+ayh4nT/qfiaxnrVUw6fwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793282054;
-	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=3HESh4P6MjW7IDJILbZ6M6f0+i4dLZtBcfUg1p2bZ98=;
-	b=oQaX1NhrHAJSBilIuSFupKNBErbw5+DGfTDyIBhdTpZNpyBMctKcEG1cmTqCcCrAkW4k
-	 c6hfsEUZWxSko+wt8fFr+v5vTmyTss1FZqRMms6OXa2m1R4ZGxUVANndL6hR/ohKt/iqN
-	 af0c5cdmXNt/53b0kck5JXJFEjZqWoijehNTb4amAyUWrhnCExKtYdwwBtcfOelBxpKyT
-	 HuCj5msfYPafZHUIyATSNtTHVTRCcm1Gdn4kcRvAYWr+yxf20gZ+o9mI7n8AZNMLw8COF
-	 FL4opuihNylgBFYM59tr91XqhyPBlItJzeZkL56wGHGeQxMfW2UpXWRNb/OhrHccLdA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793282882;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
+	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=C330faUMVQYWDsmJ7Xs/DHKfTAQZ6LHZarNknK5QYyA=;
+	b=cgzsqKe+XdJi1qtLa6Mox9el7hQf2zVmEmOqVcz8C6ouzjXXViI8GD2qnDYQYi45YSGY
+	 2SU4uh5SNtf+U6S4N3nH50BQrypF7o3hpdEDcEJ/H1nb0SDN8MVjsDVP71xpVXJUhH7QL
+	 FFjtCvTHwslXgrmmrJ9ejbjoLctx+I8rsPNCWXw9j7khUo83cS391gS0i9YFhNoq4ChcX
+	 BljN4ipwDE4smFwYkWfMdE9XW8nwzjznONtcYDQjm04nR10B7PvZD3W2ucgvRPJhs8o5S
+	 2x1MJTnjMXVa2S6GA8qdYRAHmkrwGm+VfHIhm+v7ibGVWllje4XGYPJpAutB9G4fAUQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bDmE6BFe;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b6eR0MYs;
+	arc=none smtp.remote-ip=198.175.65.17
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F999606A31E;
-	Thu, 29 Oct 2026 13:54:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8323D606A322
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 14:08:01 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8323D606A322
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bDmE6BFe
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6213E1F01825;
-	Thu, 29 Oct 2026 13:54:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793282053;
-	bh=3HESh4P6MjW7IDJILbZ6M6f0+i4dLZtBcfUg1p2bZ98=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=bDmE6BFeFvGESFh+ESxTElzSne3tHHWFFnT9epormD37DaLNS23+2fapmIckEXWbc
-	 H+xcehwuyesrq8sSSgIJUP6yeMrhXKb7k/kO8YkczW4IFbYHmLA58R8+3pS5tTtbdE
-	 ESvjHXm8yM7xoHS6WvL67h2pvzKgc4HrZsV84Zq8=
-Date: Thu, 29 Oct 2026 14:54:11 +0100
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Johan Hovold <johan@kernel.org>
-Cc: linux-usb@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] USB: serial: garmin_gps: fix deadlock on reset request
-Message-ID: <2026102958-figurine-unthawed-e1c2@gregkh>
-References: <20261029101828.865915-1-johan@kernel.org>
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=b6eR0MYs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793282882; x=1824818882;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=/gqe+sm+TBrqyhK9J782q/IEenkXHaGv93TeDfQK5hc=;
+  b=b6eR0MYsBeZTfZK1YMSSilV20LBxXxQ6Ef3DdB2yxdHMBZYNSs7hI3Ne
+   rv2cL7i6HO++kY8AMx6cqVK6hX4kjoGviYSs9cZeTq0x5bc5x+Mxr0gwU
+   6saAPLOSvyoaX4hsGO2C4G/QP18+bUcAQhizhDK0srfsLsTtAr3Fu7cal
+   65VwEfWEPocQ+l2E2/i3m8aN3PKozsV66PGykt6+Lq1ov28IfJverob/7
+   hWctUluR5mnrN/ApqKFwonGKQV45UCVzFfLmruV5GdoiMeu6FJQY3JOSq
+   7vIjDaUUiiArbXaOatxs1j1cJysRywxet8NPxE5Jh+pigyCd7nfQuI8ib
+   g==;
+X-CSE-ConnectionGUID: 4nX1bKzhR1C1y+YUeTR5/w==
+X-CSE-MsgGUID: P1isr2n6TMS8Z1r53u8tkw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11949"; a="2043098"
+X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
+   d="scan'208";a="2043098"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 07:07:56 -0700
+X-CSE-ConnectionGUID: NdwFWgNqRp+Qbujq2OFopA==
+X-CSE-MsgGUID: 2HTsb7JsTrun9ClvMZzYUg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,184,1787036400"; 
+   d="scan'208";a="5087999"
+Received: from kniemiec-mobl1.ger.corp.intel.com (HELO [10.245.245.98]) ([10.245.245.98])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2026 07:07:53 -0700
+Message-ID: <93b6fb27-1300-4dcb-971e-0ec33b58539a@linux.intel.com>
+Date: Thu, 29 Oct 2026 16:07:51 +0200
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,65 +72,38 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20261029101828.865915-1-johan@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFT PATCH 0/2] xhci: clean up endpoint rings after disconnect
+ detect
+To: Dennis Wissel <dennis@dsine.de>, yiyu@yiyuzhou.io
+Cc: linux-usb@vger.kernel.org, regressions@lists.linux.dev,
+ diogochaves@me.com, michal.pecio@gmail.com, raoxu@uniontech.com,
+ gregkh@linuxfoundation.org
+References: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
+ <20261027192128.386082-1-mathias.nyman@linux.intel.com>
+ <oKoY8F_0Rv-eBKI0YHyHcQ@dsine.de>
+Content-Language: en-US
+From: Mathias Nyman <mathias.nyman@linux.intel.com>
+In-Reply-To: <oKoY8F_0Rv-eBKI0YHyHcQ@dsine.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 29, 2026 at 11:18:28AM +0100, Johan Hovold wrote:
-> The garmin_gps driver has a reset feature that is supposed to reset the
-> device when writing a private reset request packet. The reset is however
-> done synchronously from the write() callback (and without holding the
-> required device lock) which leads to a deadlock in the line discipline
-> when hanging up the port as part of disconnect.
 > 
-> Switch to using the asynchronous reset interface while dropping the
-> redundant and synchronous stopping of the interrupt urb (write()
-> callbacks are supposed to be atomic and USB core, USB serial core and
-> the driver itself will unlink and kill all URBs during disconnect).
+> In neither boot are there "not part of TD" messages or any stall (with
+> 1f36cc9fa949 alone, hub_wq stalled from 4.97 s to 16 s). initrd takes
+> 2.9-3.0 s, the same as v7.2.11.
 > 
-> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
-> Reported-by: Josef Bacik <josef@toxicpanda.com>
-> Link: https://lore.kernel.org/2026102733-prayer-drainer-56f3@gregkh
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/usb/serial/garmin_gps.c | 12 +++---------
->  1 file changed, 3 insertions(+), 9 deletions(-)
+> One observation, probably not xhci related: in boot 2, interfaces 2
+> and 3 failed their probe before the reset ("reading report descriptor
+> failed") and stay unbound after the in-place reset, until the mouse is
+> replugged. On v7.2 the device was re-enumerated instead, so all four
+> interfaces ended up bound.
 > 
-> diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
-> index abfc03e44ca9..f1e69eca2601 100644
-> --- a/drivers/usb/serial/garmin_gps.c
-> +++ b/drivers/usb/serial/garmin_gps.c
-> @@ -823,10 +823,9 @@ static void priv_status_resp(struct usb_serial_port *port)
->   * Garmin specific driver functions
->   ******************************************************************************/
->  
-> -static int process_resetdev_request(struct usb_serial_port *port)
-> +static void process_resetdev_request(struct usb_serial_port *port)
->  {
->  	unsigned long flags;
-> -	int status;
->  	struct garmin_data *garmin_data_p = usb_get_serial_port_data(port);
->  
->  	spin_lock_irqsave(&garmin_data_p->lock, flags);
-> @@ -835,13 +834,8 @@ static int process_resetdev_request(struct usb_serial_port *port)
->  	garmin_data_p->serial_num = 0;
->  	spin_unlock_irqrestore(&garmin_data_p->lock, flags);
->  
-> -	usb_kill_urb(port->interrupt_in_urb);
-> -	dev_dbg(&port->dev, "%s - usb_reset_device\n", __func__);
-> -	status = usb_reset_device(port->serial->dev);
-> -	if (status)
-> -		dev_dbg(&port->dev, "%s - usb_reset_device failed: %d\n",
-> -			__func__, status);
-> -	return status;
-> +	dev_dbg(&port->dev, "%s - usb_queue_reset_device\n", __func__);
-> +	usb_queue_reset_device(port->serial->interface);
->  }
->  
->  
-> -- 
-> 2.55.0
->
+> Tested-by: Dennis Wissel <dennis@dsine.de>
+> 
 
-Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Thanks for testing.
+
+-Mathias
+
+
