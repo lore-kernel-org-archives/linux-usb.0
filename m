@@ -1,50 +1,52 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793267064;
-	b=vlIoAFlwAazwaZtbI4K6fWLxt3DNe4m/NE0/XOVjpRBBjecg3+W7PeiZ/qCKG4qWUTDd
-	 TqavtRpzaVityVKPQlr7ZUOGJdJ62IcjjoFvCN8Uz6yDEslGpcL7UNGmXROXioLlKY0Oa
-	 G/wwO5ndmdJG+5e86lS+eiQlQULhxoZzkznHgSDsSWckvnS7o4gBKIFAzUhNc/czAYgXC
-	 NuNzFv7552fQRIDG7E7Do1KO+lcVJG7SkgPohe4uCmt3P0rEtmQ1wzEbrx0N8yftjUoRM
-	 Vsa80rDHSy2dTMCkcYhdzt8gTdZI4CBX0GtlO0a3ZvObqBgUOSZ5VyigGrF3qRT1oAQ==
+	t=1793267734;
+	b=fy2g1YoL+tSLsVtA/oV7CS3rhLk3zUuJQImPPeDChwAJ+M8F0vqGNfE54Ew42JU4h01I
+	 rQwd+Hyw9WCoHi43kp195OeyY0s+GwZ9dh3XlHOgyHonzvMB/yTi3/4RRqcieA9oj5sJQ
+	 b9HKprMQvwMps7r67mUz0IhFHqv4pHKv8FUT9fb972X/SctSuM/+35wKmPrtyza8W6kxd
+	 3ppzCeV9oaIaIayEaogXCFyXKiBve1jtdYQvjf66tvRw8qDpGNXomuE4Bca6NLA6fkfye
+	 RGm5jDJBFJ7G9e8CY17YwWnrxXrr+O0l/oaNWlQL+EcGVvDKgfMlvhAcI/W0sQ18uoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793267064;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793267734;
 	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
 	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
-	bh=SAEFpkJDHdcJT6sr2jpBTsI+5gKG0hsleJwMMoaxnFY=;
-	b=1AE0fcRJrdhELXnhMUmf5uYY6KXq1tRQmwJ5KDRS9j6GJkgY1uQMczGqTSfCdhORRiee
-	 Dz88AU8LnDud6rIvqOwPtmtAzSA/341Ota/1UpVfRVGHRWLIJjQEJrJVVQyXREWYkMQrS
-	 faQWjGkJlOdXte1yuXqikDcJllLJ9OaFutqlefniVwQclyokEZ1Dp419JfwOtdx1Z+qe8
-	 +Ty0WvmS0us2EwLpQ2kTkU9RkrLilvSqxSOAbngSMt+C6LEHqX34daz4jITYj1b2dW5DT
-	 9zLrJLfreZSzNPWR/+jP9SmZuq2hJ8/dS7vFq/05inWDkxdxaYEgBBHjnmf5HbHaTDw==
+	bh=AhutDWkOWkSxo4qLK8XDA1UI/079xgog2oc9UuMcw0k=;
+	b=VmkYawXvTnJk+tz0X2FxNiDGopuhfL7txs385p7CAjAdGPmugD83J8asQdR8QVFSBvgI
+	 GJb+LR4jaKc1C7CYuItMUM/8EeldYJfib4JEAWlIMP8cQYJEBjWvC1bJuiF0xWSHR0xis
+	 Nob3ZgmkrmZuuTpXyiSPwoVakLY0dJGLTKlcRsq3kxcxtjsFEU6IP4ZUe39cRxscMvmDc
+	 JkbrDZlNvCxm9qBJ2Ek3UaiP2YxRdowUtAuJTiERNUoj9gtfszasf4f3mwoGdiXlxVEad
+	 wfA+OL7gZV2o3JyAahvGMvN3KbMH0n0oEwADXl6P9J0DpifV+qmMv2+HwtVP2bRGioQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Elpz4Vqa;
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=CcUm9jo7;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 298A3606A31A;
-	Thu, 29 Oct 2026 09:44:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99F5F60A3802;
+	Thu, 29 Oct 2026 09:55:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=Elpz4Vqa
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C26A1F031E0;
-	Thu, 29 Oct 2026 09:44:23 +0000 (UTC)
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=CcUm9jo7
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99E521F031F5;
+	Thu, 29 Oct 2026 09:55:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
-	s=korg; t=1793267063;
-	bh=SAEFpkJDHdcJT6sr2jpBTsI+5gKG0hsleJwMMoaxnFY=;
+	s=korg; t=1793267733;
+	bh=AhutDWkOWkSxo4qLK8XDA1UI/079xgog2oc9UuMcw0k=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To;
-	b=Elpz4VqaElbFZtqE5XGmN/cRhUmmS9Q7O1V5qK6EFJ1Rdbc3u/ekWtIxqfJJv5F9L
-	 93We84UX4IBEvBOPZQZbFhCoEdwSCTl8t8mA2EnzAIRcR1Yud4FZfCe4YMimRMYp5Y
-	 cdqk4NFog4foGcXYxogJ/KfVJQc8kpN+9I4No6G4=
-Date: Thu, 29 Oct 2026 10:44:21 +0100
+	b=CcUm9jo7uNrWMbdj7omatprjnqc7pY7p5BW1zrNFoshqoPk2LRh9+PWFFwlBCiE2d
+	 QJmgGqsB61TdQTHWBfJt1m1jbDyShwjL0w2n5GoPCItkmJHtP1FEnlVejX99eqFdEr
+	 LFyl+YkwlJuABN2vJHQ581aQ1p95Jkcy2cb3DueQ=
+Date: Thu, 29 Oct 2026 10:55:31 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Hyeontae Lee <wonju345@naver.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH] usb: gadget: f_midi: hold transmit_lock while freeing IN
- requests
-Message-ID: <2026102905-manhandle-disparate-1379@gregkh>
-References: <20260815052929.146901-1-wonju345@naver.com>
+To: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, Felipe Balbi <balbi@ti.com>,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] usb: dwc3: gadget: linearize SG requests that exceed
+ the TRB cache
+Message-ID: <2026102912-iguana-purposely-496d@gregkh>
+References: <20261004031445.1450196-1-faisal.hassan@oss.qualcomm.com>
+ <20261006172254.1058992-1-faisal.hassan@oss.qualcomm.com>
+ <485f76be-cd91-413c-afda-2f7ec37f2d29@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -56,39 +58,20 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260815052929.146901-1-wonju345@naver.com>
+In-Reply-To: <485f76be-cd91-413c-afda-2f7ec37f2d29@oss.qualcomm.com>
 
-On Sat, Aug 15, 2026 at 02:29:29PM +0900, Hyeontae Lee wrote:
-> f_midi_disable() drains in_req_fifo and frees the requests without taking
-> transmit_lock.  f_midi_transmit() holds that lock across the whole of
-> f_midi_do_transmit(), which peeks a request off the fifo without removing
-> it and then keeps using it.  kfifo_peek() does not advance the read index,
-> so the drain frees exactly the request the transmit path is still using.
+On Thu, Oct 29, 2026 at 12:40:06AM +0530, Faisal Hassan wrote:
+> Hi all,
 > 
-> No hostile host is needed: __composite_disconnect() calls f->disable() as
-> well, so a bus reset or a cable pull while a MIDI client is writing is
-> enough.
+> A gentle ping on this v2 when you get a chance.
 > 
->   BUG: KASAN: slab-use-after-free in f_midi_in_work+0x126c/0x18c0
->   Read of size 4 at addr ffff888104818e20 by task kworker/2:2H/164
->   Freed by task 158:
->    kfree+0x121/0x380
->    f_midi_disable+0x20e/0x430
->    reset_config+0x9d/0x200
->    __composite_disconnect+0xa7/0x140
+> It addresses the sashiko review comments on v1: a linearized request is
+> now unmapped before its bounce buffer is freed, and an allocation
+> failure or a short SG list is returned from usb_ep_queue() instead of
+> leaving the request stuck on pending_list.
 > 
-> Take the lock around the drain, the way hidg_disable() does.
-> 
-> Fixes: e1e3d7ec5da3 ("usb: gadget: f_midi: pre-allocate IN requests")
-> Cc: stable@vger.kernel.org
-> Assisted-by: Claude:claude-opus-4.8
-> Signed-off-by: Hyeontae Lee <wonju345@naver.com>
-> ---
->  drivers/usb/gadget/function/f_midi.c | 3 +++
->  1 file changed, 3 insertions(+)
+> Please let me know if you have any comments, or if you'd like me to
+> change anything.
 
-This version:
-	https://lore.kernel.org/r/20261028074821.579450-1-sonalipradhan@google.com
-turns out to be a bit better, thanks.
-
-greg k-h
+You seem to have missed the review comments on this patch:
+	https://lore.kernel.org/r/sashiko-outbox-162302@kernel.org
