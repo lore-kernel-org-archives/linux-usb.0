@@ -1,56 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.179
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793311903;
-	b=QUs+USn0QF+4HhFIl5Lt1zQhGw6Z5OaNcHxSngvf7z/Bjv2Wo9y92ELS/yVJyNg88YLc
-	 qiZNzQcqAFvQj9vpKW9McNNYjqsdi0DGSYkFU5/QEQgqbfFshpD/vG1AYDEzTZBqX7Yw9
-	 SnsgZ29rX/5leKChVPTbQhL0qjZ0TAUYoCwE/SAIz4/ByyJJNaOo7oLDrhfRiSmdDuy9j
-	 dJDFELo3Ao6kiJaO1+9D2LRlVnScoE5ivqyMR79oW9TPquCd2ZH6CO7U8JF4984FnrBTc
-	 JjnYPmXspPfLK9GUmKeyNnZSSl3o7HQm4hww8zx+fUiqZDHws7CNCTkEsQElBkWUYmw==
+	t=1793317583;
+	b=gayCp5iwwOl9wOFHehxrCknLbly641XgT9SztnDEgOEjkpHzBEzEjcBQQf4UjegDUW64
+	 RlvInEvdO/zvTIe4jibSBZ8nJf+Ch1pQVCCb741EUxbq+rXXr9pPfsee9Ncu60Q//zi3h
+	 nUD4vSucnbjPx5GSBZLDNo8utdb1R5xeW+4vx032/qAPu2j7hNSZ0Ffuptnag6AQKNePd
+	 iGMOueo7MuPIj1XsTq+bkxnG7poWMbshh5YmAaWlCafKn74ALTXRLrXsC6LH5lj224qG8
+	 rLcYWe+gIobsLXTGqFf/HxUJCPyKFep9Q5WJ19mhQw7ySDY/tdR+cgMDjCWp4v58RTg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793311903;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=+vWisJSvkjIVS8hqgaOKIFJgf1ZxzHMQZ2jRRD6yEDs=;
-	b=bUOM3YwGuOduMzHlaSBl9IXM9k0Yj4DxuAL9FF8q3e+1bYAyJATGmhmwSoc2ZJhtWO1a
-	 57lVbqbPpl6kh0Mnc4PmoIhg1PGG5CrrSABMKuchCf+oMA5Tkg7hp/nFtXdIFBx9dbS/3
-	 uUW/DrKSxcRmauOrYgPIAGmDysvQYcm8AaoYKavfxMqiRtIUHj5BxUnlBIjoB4yEG0q9v
-	 LQA10sqc46wzizcEz0bYXeCNU7F4H1+T85VREy6ZH6qF8edbEQZah+coCh5HzrfEgqWsf
-	 rn3JWQ/vdmQOfiaGHmZGvfrGFlRYFwchkOkIyByKrWDBzHSiMmnhdRCGGJXjStqWg4w==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793317583;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
+	bh=PllxAaGrXJhLNtXCiCWXAHfgTtYT2V3WrE82HbznE6c=;
+	b=OLVkKVqN5nhqVS4ksyBdn1cDopEkhoDqKhW4Nv6wtEcB77LkvvKEO4CQhhl1Dht2QeNl
+	 2HdzFPgOsm2VoADnmRk5pC4fM/grBD3Yje1EpErzUMwbgG6lE5jJMXcu2Kk3/EJwT/2G4
+	 OGjr5fyR/yy8gdoS7ojLX4yL20jzFkzvo+xhP/uQ3+RobXoIuP2GMSe5A7j9di2I38SGe
+	 X/sQdLlNnqtJTKVGjRUH7pQpxWeATZhGjwp4SOfMjIBJ+8xbBn4XVLkXs6IcYW+IifSsc
+	 G5Zh0xosb5+kvEjovSvb6eihvGoBGeM8SUJFh3lJneCe6ykL8UhQjIIX995oDg9Iz+w==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zp+c8SWX;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=hesling.com;
+	spf=pass smtp.mailfrom=hesling.com;
+	dkim=pass header.d=hesling.com header.i=@hesling.com header.a=rsa-sha256 header.s=google header.b=C74lyjM0;
+	arc=none smtp.remote-ip=74.125.82.179
+Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E444606A320
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 22:11:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F67606A31C
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 23:46:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C6F67606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hesling.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hesling.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Zp+c8SWX
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56E371F01829;
-	Thu, 29 Oct 2026 22:11:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793311902;
-	bh=+vWisJSvkjIVS8hqgaOKIFJgf1ZxzHMQZ2jRRD6yEDs=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=Zp+c8SWX55ijnO1s0Z54wWEYDS2ksuBGbXK6/I0unDq9qMOVMq+2h6MkeH9Upe/ZP
-	 Hdy+rCThX0EqVPqQpJVhExOGsYdL5wAY04g4PZrNLQlP/OcGPRSP8QOEPKMgsuYMc+
-	 z2gMvOoxNk2dyT8v4wgab3Mo1z9g8Us7LepgbHxHtCBR5NmDeaYReNwaU74yj3tX3K
-	 yTgJv9t54IhdCyqzHl2BQCsCURFJTELVSiScMU0mOJcVgPgw/X4oTZMJuMPnyjM8iw
-	 eVIJDcRFgddZhg06pRMBwGRNuSNmKxwLddOdPax6efndN5UHmOH7xIhVJqVfi+/dE2
-	 ZyPeSODd14+mw==
-Message-ID: <sashiko-outbox-190053@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] xhci: give back TDs and clean up ep0 after
- disconnect
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Mathias Nyman" <mathias.nyman@linux.intel.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261029204324.658845-1-mathias.nyman@linux.intel.com>
-References: <20261029204324.658845-1-mathias.nyman@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
+	dkim=pass (2048-bit key, unprotected) header.d=hesling.com header.i=@hesling.com header.a=rsa-sha256 header.s=google header.b=C74lyjM0
+Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-36a0f27c9f4so321347eec.1
+        for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 16:46:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hesling.com; s=google; t=1793317582; x=1793922382; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=PllxAaGrXJhLNtXCiCWXAHfgTtYT2V3WrE82HbznE6c=;
+        b=C74lyjM0lbcQc5NBWL2BfcIgE2mAqwsSxl+vCe1ghq5A6GeKC9qyLQiZjTfcdk+LAf
+         HBDO3m6aZ3O/MI4zvT54fAfxef9IjgOVXr13NfqTY0hVrxu4emX8cMnZoiQfxUOYEfHS
+         1jXSabhsc7G6Sah7KKwZGjToEI6VXpJWUVisuRlLSw0K2JEl7qdzYo7hycQYsLog+m/B
+         oORU9bhL5sF+6FtQ5zcbuBhY1c62aqryhm3yZgPO2C15UVkU58B1R8LkcXQdgkd9M5JF
+         lSWwXESDMU6Fij6KHm32K1EiquCRetGyJjy1mlmELgJ0yRvDkNk/EftLgte/Sdy0fWEu
+         4l1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793317582; x=1793922382;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PllxAaGrXJhLNtXCiCWXAHfgTtYT2V3WrE82HbznE6c=;
+        b=FyUa4o71Y8VGy7G1Kkq93AnAnbvwJlkGYsc+BR0adbRSmh1mJul6L9NbUKC3JuZ1is
+         nJrJEAHxEwhb6QD0zzj6GIxfPEBFaZ60R/GzpXRUIV2MVqrl5gcRPjTfbHRLqMZVoDqI
+         ez+5ythIXEuIqPWR9EjIlD/QthpeGqEd6ZYAdYAaCzJKRyS+sb4o792D8Yw81ZLXSPiC
+         glORQpxY9VTWfTJHxwaMNQyULwkVpveQOcbLwtY3qW17EKRZnsZFn1dRQqVcELgjv/+V
+         BQ0rSQP8ZiV0l93SNAvgtToO7IETFGexaCJrHxMzod9oacR9GRRB13xaiHVu1Lr/8we1
+         2QwA==
+X-Forwarded-Encrypted: i=1; AKwUvBwmXK/9s8CMXI1acTNMfAoPKcq+d8KbFgyhaptLIGW2Kpi85e3X2SYrnRFrGFJUKjqdW0umb4dM6Ss=@vger.kernel.org
+X-Gm-Message-State: AFq9FYJNW58eMTOr2VnJC2L6KMGPTr1emCD0vPVn6rV6/n9+Y7amLJOp
+	Xg2fZxsEl2HyOxR+M1QhgKGzLglJZqGN9BgiSD6+gr+3zmrUNQrmmXiLF0aIDtfQUEt5Pv0XuZU
+	TU3V2cJo=
+X-Gm-Gg: AYBFou0/YlVXIY6hiSFsQOsl4hkj7o3JHIvJxuccZpwogRy5tj+/2wOKQSY/m7wjvET
+	Vd/bSR2xA+04y69tsDc2Rvzn62mSRTBSxFyvakF2fEmrMcLqNjPb3YSApiY5e2+quSCr2uHVp8q
+	RgpFtQmu5SjyXe1X/wFoVFtAOhIrkZEg1XKHoHxePMfTFZumqkkCtujSDoGCSACGN6oKUgMVhok
+	XRLa6C9HFJK9UnHPgPe6fnIOTtLGrgV/Yu3fja70/U103ytvsR543tCasxGJzUWGfCnzcC7MARD
+	5aQSpNIAdimUZK/KkflMLgQLQXbF6HGvd+LmLyRW9DV9qTRrXooYreTDpDjLqt1IqR1UioD2TdV
+	fX6TnwJlAL2pBSl9jQMNRh8ly88KFe9SDZbX/mMcUaVez8fAoYOHpIpTBOpI4xjQvtAThLJlBr+
+	tvGSPYYVCfmvfvUH621Ug15EK0n8NuAouzFTCEUby9eNb7P14bdUanK5S9egwcCSAGnfffMJUaQ
+	w2edJ+N1baxxswZMhCAULZ3NsIn1Amor5w60a7yTgObEQ1sSBNBnJWJiSSacMCV66/WuaAZZWY6
+	eWGLXak6+873aC1kcM9a0TeWOUWd3F2RKIvEAp/SpHdI0FRm
+X-Received: by 2002:a05:7301:4e47:b0:36a:1add:64aa with SMTP id 5a478bee46e88-36a42340ab7mr1090651eec.9.1793317581338;
+        Thu, 29 Oct 2026 16:46:21 -0700 (PDT)
+Received: from [10.20.0.147] ([12.244.13.46])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a428fa380sm1676444eec.12.2026.10.29.16.46.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2026 16:46:20 -0700 (PDT)
+Message-ID: <fa1ec0429fe8c1287c126b50989f1cffe2567a86.camel@hesling.com>
+Subject: Re: [PATCH] USB: serial: simple: narrow OWON match to avoid
+ breaking VDS1022
+From: "craig@hesling.com" <craig@hesling.com>
+To: Huang Wei <huangwei@kylinos.cn>, leStoppe <lestoppe@gmail.com>
+Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman
+	 <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Thu, 29 Oct 2026 16:46:19 -0700
+In-Reply-To: <20261015025431.3927020-1-huangwei@kylinos.cn>
+References: <20260810091322.2201740-1-huangwei@kylinos.cn>
+		 <20261014031228.1fadf3d2@delby>
+		 <20261015025431.3927020-1-huangwei@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 29 Oct 2026 22:11:41 +0000
+User-Agent: Evolution 3.56.2-10+b1 
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,144 +104,64 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [High] xhci: stale rhub_port status across reset re-triggers EP_DROP_PEND=
-ING
---
+Hi all,
 
-commit 28b1e3f2ba757ac7bec832f907ed7d9693752c9e
-Author: Yiyu Zhou <yiyu@yiyuzhou.io>
+I apologize for the delay. I am sad to see that this change is causing
+such a headache. Thank you all for handling this.
 
-xhci: give back TDs and clean up ep0 after disconnect
+On Mon, 2026-08-17 at 17:35 +0800, Huang Wei wrote:
+> Craig, was the intent of 4cc01410e1c1 to cover only the HDS200
+> series,
+> or the whole range of OWON scopes sharing this VID:PID?
 
-This commit cancels and gives back TDs on halted endpoints behind
-disconnected or link-inactive ports, hard-resets and cleans up ep0 so it
-can survive brief disconnects during enumeration, and blocks new URB
-submissions in xhci_urb_enqueue() while EP_DROP_PENDING is set.
+The main intent was to cover the HDS200 series, however other OWON
+devices seemed perfectly safe to cover, given most of them use this
+same simple serial style IO. This assessment was just from analyzing
+documentation, source, and bins.
 
-Closes: https://lore.kernel.org/all/20261010071811.20483-1-yiyu@yiyuzhou.io/
-Closes: https://lore.kernel.org/linux-usb/4MjB9K-2SoiA85WbI9iEig@dsine.de/
+This simple serial driver enumeration seemed like the right
+convenience/abstraction, for most people, who don't want to learn how
+USB endpoints, libusb, and explicit permission granting udev rules
+work. Most distros already associate a convenient limited user group
+dialout or uucp to the serial device for easy access and also easy
+unbinding for libusb usage.
 
-> diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-> index c23434001e9cb..a1fa188680f58 100644
-> --- a/drivers/usb/host/xhci-ring.c
-> +++ b/drivers/usb/host/xhci-ring.c
+On Thu, 2026-10-15 at 10:54 +0800, Huang Wei wrote:
+> And the point that the VDS1022 is a headless scope where
+> the PC tool is the primary interface makes it clear it should stay
+> unclaimed.
 
-[ ... ]
+I think I am missing something, but why does being headless mean that a
+serial interface shouldn't be bound? Or, is the primary issue just
+breaking necessary user application? Again, my apologies in advance if
+I am missing something.
 
-> @@ -993,25 +1012,53 @@ static int xhci_handle_halted_endpoint(struct xhci=
-_hcd *xhci,
->  {
->  	struct xhci_port *rhub_port =3D ep->vdev->rhub_port;
->  	unsigned int slot_id =3D ep->vdev->slot_id;
-> +	bool disconnected =3D false;
-> +	struct xhci_ring *ring;
->  	int err;
-> =20
-> -	/*
-> -	 * Avoid resetting endpoint if link is inactive or device disconnected.
-> -	 * Can cause host hang.
-> -	 * Device will be reset to recover an inactive link, so don't do anythi=
-ng
-> -	 */
-> +	/* link is inactive or device disconnected */
->  	if (rhub_port->link_inactive || !rhub_port->connected) {
->  		ep->ep_state |=3D EP_DROP_PENDING;
-> -		return -ENODEV;
-> +		disconnected =3D true;
-> +		if (!td && ep->ep_index !=3D 0) {
-> +			xhci_kill_endpoint_urbs(xhci, slot_id, ep->ep_index);
-> +			return -ENODEV;
-> +		}
->  	}
+To be completely fair, I didn't know the VDS1022 used a pure binary
+over USB interface. However, I'm not sure that would have changed the
+calculus, given it still LOOKS to be a simple two endpoint TX/RX serial
+[raw] data interface. I hate that this change broken this application,
+but wouldn't it reduce the complexity a bit for the Linux use case, by
+removing the necessary udev rule, removing the runtime dep on
+libusb.so, and simplifying libusb control code?
 
-[ ... ]
+https://github.com/florentbr/OWON-VDS1022/blob/1.1.5-cf19/install-linux.sh#=
+L337
 
-> diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
-> index 30ac1bc4559b7..b50a582be1fbf 100644
-> --- a/drivers/usb/host/xhci.c
-> +++ b/drivers/usb/host/xhci.c
-> @@ -1665,12 +1665,6 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, s=
-truct urb *urb, gfp_t mem_flag
+From a maintainability perspective, it would be unfortunate to have one
+arbitrary subset of devices use serial and another use libusb.
 
-[ ... ]
+On Thu, 2026-10-15 at 10:54 +0800, Huang Wei wrote:
+> Craig - if you happen to know whether subclass 0 / protocol 0 holds
+> across the HDS200 series and firmware versions, that would be a
+> useful confirmation; the dump in your commit message is the only
+> HDS200 data point I have.
 
-> @@ -1680,6 +1674,13 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, s=
-truct urb *urb, gfp_t mem_flag
-> =20
->  	ep_state =3D &xhci->devs[slot_id]->eps[ep_index].ep_state;
-> =20
-> +	if (xhci->devs[slot_id]->rhub_port->link_inactive ||
-> +	    *ep_state & EP_DROP_PENDING) {
-> +		xhci_dbg(xhci, "Can't queue urb, port disconnect or link inactive\n");
-> +		ret =3D -ENODEV;
-> +		goto free_priv;
-> +	}
+Unfortunately, I do not know if other devices in the family maintain
+this device 0 subclass and protocol, but I will try an older firmware
+on the HDS272S and double check.
 
-[Severity: High]
-Can a stale rhub_port->connected or rhub_port->link_inactive state across a
-port reset cause xhci_urb_enqueue() to permanently reject ep0 URBs with
--ENODEV after a brief disconnect?
+All the best,
 
-In drivers/usb/host/xhci-ring.c, port->connected and port->link_inactive are
-only updated in handle_port_status() when a Port Status Change Event TRB is
-received:
-
-	if (!(portsc & PORT_RESET)) {
-		port->link_inactive =3D (pls =3D=3D XDEV_INACTIVE);
-		port->connected =3D !!(portsc & PORT_CONNECT);
-	}
-
-Per xHCI specification section 4.19.2, the xHC only generates a Port Status
-Change Event TRB when the logical OR of all PORTSC status-change bits
-(CSC | PEC | OCC | PRC | WRC | PLC | CEC) transitions from 0 to 1.
-
-When a device briefly disconnects during enumeration in hub_port_init() (or
-enters XDEV_INACTIVE), PORT_CSC (or PORT_PLC) transitions from 0 to 1 and
-handle_port_status() sets rhub_port->connected =3D 0 (or
-rhub_port->link_inactive =3D 1). Because hub_wq is busy in hub_port_init(),
-port_event() does not run to clear PORT_CSC.
-
-When the device reconnects and hub_port_reset() resets the port to recover
-it, PORT_CSC (or PORT_PLC) is already 1 when reconnect and PORT_RC occur:
-
-1. On USB 2.0 ports, the first reset attempt sets PORT_RC =3D 1 while PORT_=
-CSC
-   is still 1 (no 0-to-1 transition of the change-bit OR).
-   hub_port_wait_reset() sees USB_PORT_STAT_C_CONNECTION, clears PORT_CSC
-   while PORT_RC remains 1, and returns -EAGAIN before hub_port_reset()
-   clears PORT_RC. The second reset attempt then completes while PORT_RC is
-   already 1 and clears PORT_RC to 0, so no Port Status Change Event TRB is
-   generated after the reconnect.
-
-2. On USB 3.0 ports, hub_port_wait_reset() ignores
-   USB_PORT_STAT_C_CONNECTION, so the reset completes while PORT_CSC or
-   PORT_PLC is still 1 (no 0-to-1 transition) and hub_port_reset() then
-   clears PORT_RC, PORT_WRC, PORT_PLC, and PORT_CSC.
-
-At the end of the reset, xhci_discover_or_reset_device() clears
-EP_DROP_PENDING without refreshing rhub_port->connected or
-rhub_port->link_inactive:
-
-command_cleanup:
-	for (i =3D 0; i < EP_CTX_PER_DEV; i++)
-		virt_dev->eps[i].ep_state &=3D ~EP_DROP_PENDING;
-
-If rhub_port->link_inactive is still 1, xhci_urb_enqueue() will immediately
-reject all URBs with -ENODEV.
-
-If rhub_port->connected is still 0, then as soon as ep0 hits any normal
-protocol stall (COMP_STALL_ERROR, such as fetching USB_DT_DEVICE_QUALIFIER,
-USB_DT_BOS, or HID_REQ_SET_IDLE) or an URB unlink via
-xhci_handle_cmd_stop_ep(), xhci_handle_halted_endpoint() sees
-!rhub_port->connected, overwrites td->status from -EPIPE to -EPROTO, and
-sets ep->ep_state |=3D EP_DROP_PENDING on ep0. Because EP_DROP_PENDING is
-never cleared by xhci_handle_cmd_reset_ep() or xhci_handle_cmd_set_deq(),
-wouldn't xhci_urb_enqueue() then reject all subsequent ep0 control transfers
-with -ENODEV?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261029204324.6588=
-45-1-mathias.nyman@linux.intel.com?part=3D1
+Craig
