@@ -1,78 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793281799;
-	b=5MQFpwRA5cgbCeds4TixfjSmvKiW0oj4LEf/2+dmSF4DzpS2a1JhdgZLH6GVL2e0c7vt
-	 UIO85SoOhyNbeiA90gFsgB3XjEZMqH7HmSB9tnClKMeedRwGiC7BL5ZhLd6XsJ5/pqc/v
-	 pRq/iR5umn1w4uIJ31wQ21RvH/41a++LHBRzBXnyxHjiuk8GYRnyty+i7PEZY/JMJNDjv
-	 PMs1P3ziCK09h0N2kugcdXTVtcKVOVfysm9QX/DdDoMU5TNLY6uFDNwNH4XceSre3u7Hx
-	 1sqa5SqzoIibUtRB0IjKEYhMpAsmmF5Mf7cIkegIJl2wpkG/7aQA7dO9RJfUfAxCdNQ==
+	t=1793282054;
+	b=GdcHtR4LwdGwu5dJxq69rn/d2qLeC2LCYmWHv/Mrwg1bfwdyiDfIi0OSutkwCZ1fn0PE
+	 x/9jdJs8XEmkFflL/wOPrejQlNkR1evfEYHaJUyDRcxf4CGwGXaohKnW+c74/zAJa+yvB
+	 HpIdTOsqu4cwdelkeW1VcXq7jIzBwBZUgSRtSk3GfqtR8Z4Rsrl1Qhybh3UPLsIeQ8rAm
+	 jsjZu7uN36LHUadDI4M/IjbE92MBzzGdXavU5rK/RkQhUk5IyDgRTlVyvgHVNjhr0ZSY4
+	 0vJX7PmnSfhZnv19/uSFZmkVpnXXDWmsrf7J8SGj8Wk4Jz3TIq5MtPgwDgMzJzcZTsA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793281799;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:
-	 Reply-To:To:Cc:Date:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:User-Agent:MIME-Version:X-MBO-RS-META:
-	 X-MBO-RS-ID;
-	bh=axwW0A/5PYCIOuQ7ZqJPwr1VhkoJypT5+8pks0+szpM=;
-	b=Jt4v4XFEQORuHk8amKNZsJeGX049hI3unu4GlD7RxNHHHBnyaoCGJrnI/OPrJUE2B2Ig
-	 Q/8xpTFmXaF+5arzz6BUOWjQI/yyPX09E6/IzFWJh2250SGu3vZ3MEzMaOVM+bpzhahZQ
-	 8Mc56gwcljqxgDWhxhm6dJuX10dkTrFJDHw8NtVIZC4t8D95DDizngDj8lYShpf4Qqm82
-	 iftBdKurcOZ4/1ZQJEAU+lfB7SFS1vyZJ2mLhX5IxtmrT7stjCnDVJQRvDGQWblx0jd58
-	 VLE1iAzczG796FtruDfJXiLE4LwmnXFveq6bhN7b26/RiglzG51yS6Ia5OBZGJLXqSA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793282054;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=3HESh4P6MjW7IDJILbZ6M6f0+i4dLZtBcfUg1p2bZ98=;
+	b=oQaX1NhrHAJSBilIuSFupKNBErbw5+DGfTDyIBhdTpZNpyBMctKcEG1cmTqCcCrAkW4k
+	 c6hfsEUZWxSko+wt8fFr+v5vTmyTss1FZqRMms6OXa2m1R4ZGxUVANndL6hR/ohKt/iqN
+	 af0c5cdmXNt/53b0kck5JXJFEjZqWoijehNTb4amAyUWrhnCExKtYdwwBtcfOelBxpKyT
+	 HuCj5msfYPafZHUIyATSNtTHVTRCcm1Gdn4kcRvAYWr+yxf20gZ+o9mI7n8AZNMLw8COF
+	 FL4opuihNylgBFYM59tr91XqhyPBlItJzeZkL56wGHGeQxMfW2UpXWRNb/OhrHccLdA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mailbox.org;
-	spf=pass smtp.mailfrom=mailbox.org;
-	dkim=pass header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=gmdlD1wN;
-	arc=none smtp.remote-ip=80.241.56.172
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bDmE6BFe;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E4D606A323;
-	Thu, 29 Oct 2026 13:49:57 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E2E4D606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F999606A31E;
+	Thu, 29 Oct 2026 13:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=mailbox.org header.i=@mailbox.org header.a=rsa-sha256 header.s=mail20150812 header.b=gmdlD1wN
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519MLKEM768 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4jFlwL0qV8zMlfS;
-	Thu, 29 Oct 2026 14:49:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1793281794; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=axwW0A/5PYCIOuQ7ZqJPwr1VhkoJypT5+8pks0+szpM=;
-	b=gmdlD1wN7AGG6nQfxtq23dGCuMxmNrkZ+NrXKYNfVEL0xlliMv+IdjSR2N1Cm3L0ebA7Ex
-	a49o2Ord2frm0n5vrPCmgzzrEY6tcsO7HruzWv8gsdxI/I2DLI5s0RRiI6dNaGMCLZNk3g
-	v4BRv4gw0phbhr2SMiHJZbEfB85nvC0imGNuKGAQyU13rVb5Wys8EhLIXm4FMIrKfS9N1D
-	l/HB6KFi4v910J0tjwXRRHiPDCkEjMb4AjI7G9gozZ6rdiTzShW82Notr6YNkkMZgIhFl+
-	1bbQwKh9uDQLkWCu279NGWJikwm8R1A1ENlTml5UpT4wyPy/ekFyOgMKeyUkNw==
-Message-ID: <e30a0a03cb7d393cbd88565bf81e156d2f38b293.camel@mailbox.org>
-Subject: Re: [PATCH] usb: gadget: f_fs: Remove deprecated dma_fence->ops
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Paul Cercueil <paul@crapouillou.net>, Philipp Stanner
- <phasta@kernel.org>,  Neill Kapron <nkapron@google.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>, Sumit Semwal	 <sumit.semwal@linaro.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?=	 <christian.koenig@amd.com>, Al Viro
- <viro@zeniv.linux.org.uk>, Nuno =?ISO-8859-1?Q?S=E1?=	
- <nuno.sa@analog.com>, Sam Day <me@samcday.com>, Michael Bommarito	
- <michael.bommarito@gmail.com>, Gabriel Prostitis
- <prostitisgabriel@gmail.com>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org
-Date: Thu, 29 Oct 2026 14:49:49 +0100
-In-Reply-To: <7fd62daa875e4a3772e980127d368704a849caee.camel@crapouillou.net>
-References: <20261029125143.1744481-2-phasta@kernel.org>
-	 <7fd62daa875e4a3772e980127d368704a849caee.camel@crapouillou.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.2 (3.60.2-2.fc44) 
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=bDmE6BFe
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6213E1F01825;
+	Thu, 29 Oct 2026 13:54:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793282053;
+	bh=3HESh4P6MjW7IDJILbZ6M6f0+i4dLZtBcfUg1p2bZ98=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=bDmE6BFeFvGESFh+ESxTElzSne3tHHWFFnT9epormD37DaLNS23+2fapmIckEXWbc
+	 H+xcehwuyesrq8sSSgIJUP6yeMrhXKb7k/kO8YkczW4IFbYHmLA58R8+3pS5tTtbdE
+	 ESvjHXm8yM7xoHS6WvL67h2pvzKgc4HrZsV84Zq8=
+Date: Thu, 29 Oct 2026 14:54:11 +0100
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Johan Hovold <johan@kernel.org>
+Cc: linux-usb@vger.kernel.org, Josef Bacik <josef@toxicpanda.com>,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] USB: serial: garmin_gps: fix deadlock on reset request
+Message-ID: <2026102958-figurine-unthawed-e1c2@gregkh>
+References: <20261029101828.865915-1-johan@kernel.org>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,42 +53,65 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-MBO-RS-META: fsoima31pgmrfkhcj7aypxgy1bshnaqn
-X-MBO-RS-ID: 80be9851aa58a305405
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261029101828.865915-1-johan@kernel.org>
 
-Hi,
+On Thu, Oct 29, 2026 at 11:18:28AM +0100, Johan Hovold wrote:
+> The garmin_gps driver has a reset feature that is supposed to reset the
+> device when writing a private reset request packet. The reset is however
+> done synchronously from the write() callback (and without holding the
+> required device lock) which leads to a deadlock in the line discipline
+> when hanging up the port as part of disconnect.
+> 
+> Switch to using the asynchronous reset interface while dropping the
+> redundant and synchronous stopping of the interrupt urb (write()
+> callbacks are supposed to be atomic and USB core, USB serial core and
+> the driver itself will unlink and kill all URBs during disconnect).
+> 
+> Fixes: 1da177e4c3f4 ("Linux-2.6.12-rc2")
+> Reported-by: Josef Bacik <josef@toxicpanda.com>
+> Link: https://lore.kernel.org/2026102733-prayer-drainer-56f3@gregkh
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Johan Hovold <johan@kernel.org>
+> ---
+>  drivers/usb/serial/garmin_gps.c | 12 +++---------
+>  1 file changed, 3 insertions(+), 9 deletions(-)
+> 
+> diff --git a/drivers/usb/serial/garmin_gps.c b/drivers/usb/serial/garmin_gps.c
+> index abfc03e44ca9..f1e69eca2601 100644
+> --- a/drivers/usb/serial/garmin_gps.c
+> +++ b/drivers/usb/serial/garmin_gps.c
+> @@ -823,10 +823,9 @@ static void priv_status_resp(struct usb_serial_port *port)
+>   * Garmin specific driver functions
+>   ******************************************************************************/
+>  
+> -static int process_resetdev_request(struct usb_serial_port *port)
+> +static void process_resetdev_request(struct usb_serial_port *port)
+>  {
+>  	unsigned long flags;
+> -	int status;
+>  	struct garmin_data *garmin_data_p = usb_get_serial_port_data(port);
+>  
+>  	spin_lock_irqsave(&garmin_data_p->lock, flags);
+> @@ -835,13 +834,8 @@ static int process_resetdev_request(struct usb_serial_port *port)
+>  	garmin_data_p->serial_num = 0;
+>  	spin_unlock_irqrestore(&garmin_data_p->lock, flags);
+>  
+> -	usb_kill_urb(port->interrupt_in_urb);
+> -	dev_dbg(&port->dev, "%s - usb_reset_device\n", __func__);
+> -	status = usb_reset_device(port->serial->dev);
+> -	if (status)
+> -		dev_dbg(&port->dev, "%s - usb_reset_device failed: %d\n",
+> -			__func__, status);
+> -	return status;
+> +	dev_dbg(&port->dev, "%s - usb_queue_reset_device\n", __func__);
+> +	usb_queue_reset_device(port->serial->interface);
+>  }
+>  
+>  
+> -- 
+> 2.55.0
+>
 
-On Thu, 2026-10-29 at 14:19 +0100, Paul Cercueil wrote:
-> Hi Philipp,
->=20
-> For context, this .release() callback was added to avoid the implicit fre=
-e of
-> the base class, which IIRC was a request I got during the review process =
-of this
-> change set.
-
-Can't say anything about the request you got, but fences are reference-
-counted and the ability to free itself exists since at least
-3c3b177a9369 (2014).
-
-From dma_fence's perspective it's certainly the desired canonical
-pattern since the release() ops prevents fences from the important
-feature of decoupling fence producer and consumer.
-
->=20
-> I'm personally fine with the change, but do we need a "keep this field at=
- the
-> top" comment for the base class in the ffs_dma_fence struct? Or what's th=
-e
-> policy here?
-
-When I got into the kernel I was told that it's common practice to
-always have the base class as the first element. That also allows for
-obtaining the parent class by a mere pointer-cast instead of
-container_of.
-
-But the reality is also that some users are not aware of this rule. I
-can document it in a v2 if you like.
-
-Regards,
-Philipp
+Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
