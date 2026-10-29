@@ -1,93 +1,92 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793256988;
-	b=p1HwhFE6CdU/G5E4pmUdqmBjobXYE6Kx5gnsMI59EFmrV13mIm0gcd/xz2MwPAv4u1ci
-	 sAM7aX83CyvOKVkxyHaRTcjy1dkX+ZmV+Cs0R2xu4Y8Ut8HqZbo1rgx6KyUR62N/BnFHb
-	 zu8rnWwVzz7Th6Onv1otGyzK8zTjiTquhQZKOcsdTO4D4C+ZlMIAWBpBU96l9T+r0beOZ
-	 svdl+zzarU6KmQpaPG8wvgYz3JpPcPO0Xtba+DXe901VSPYznBDfESEuyqswDWzsL/67p
-	 KxalmWRdk05rjQ2AgAaDpz0s+xEs/ug4CdHByUlF5mal77nlVjQrc5Ybbj7SJ2bMpIA==
+	t=1793257032;
+	b=NyunW+x+o15DzGgMSQWPJsb/UdyOLf/EAJwYzuHqq8yzClH7sVp632fnj6GJp6HvF+4Z
+	 50fZxm37E7dBksRFY1Vbrnq1r5gECsv3bpgK5L6Xk5mMeG/1GiVzB7Z/sCgJ5QqsG8VAK
+	 xFfKC6pAJLYoNa9ay9NPokckbqTbx3rbHIqEcTyPHbmyxJlLmxpTNxl/m8zxUvJzgZx2F
+	 mlUl77wDmZRMUiuokMvDKhL4aBQpWESBOl37pmK5PeHJWVBySPGjzmFPebu7UQdrNXES3
+	 M3IRB6IkyEyj8Nq/MTH6PZTJhiGSvkS4FPTihpw5A/bYSAFbcPlmqoHAnXOamQ+G9qw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793256988;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793257032;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
 	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
 	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=0wRVkfz7eaD4cTxlgQJa1LwBrh6cj53D2L99M0hD7VA=;
-	b=GX78I2SEtSE9brmIvHT2KrYjzFnytYZdTHL3nWlForWs5dQfyp9GCGbzZIFugWLxGcf6
-	 gXE/pzAPuYsTIUOAcdtkneYNCuBQztNof2fvBpCO0ajQQKav5DangmEddqXIz/QGyrjp+
-	 Dp7bsiGp8iqQoWgjqhr39aXJzbga1nMwUr5c6X1rIkBXvMskMusxhT+DqihWjMckeaMea
-	 01qxhyJ2e1CQaqnrWHZWOlAltjLOKGmXINRGRPthC0Nb8IrwbPB93UiaPsv0v29zSnmuu
-	 gZlvh1LBtPPRgFjL1vOd2qFXU57kQcyIVU8CCE1h6kPDuMVfEBCw5OUZWbtjSOLSVPA==
+	bh=A30FZzabbD5cMKb9xpxtiuIiZ1pI6R+Xz37DjCLPTT0=;
+	b=Ana8NmWMsS6albwArM24+4MO5vMbkzqk3T1lGvYktz4nNcPUJKPJOylxekk+dVaYXpn+
+	 Or7gb7/PG8wiCxg+WoDUmUQmhtAouE51Waz7D1vlV+LXFZlm6wnrCfKzl2IXiWLXBm+kx
+	 xfz29dCiKf5POrKDFO2DNAknfBCFXMXsjfI/eXK5vhXI6/qyyQNGvXMl+koSXk5bAd9Ad
+	 3nXbN3wlWkxYoSltlwEUYuaKmWyRyWaMCaQf68hQf7aLzTGv0HY6ib2ElqJBDA47F85CX
+	 MsuggCeZtBECzdnvXvAXT3K7NUtAYyC1q5cYXqriRrdEZYmGMDX8JKJDbjOOlFt237g==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
 	dmarc=pass header.from=gmail.com;
 	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xzdqaZx+;
-	arc=none smtp.remote-ip=209.85.128.41
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FS5ACMcj;
+	arc=none smtp.remote-ip=209.85.128.49
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EF8C606A31A
-	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 06:56:28 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2EF8C606A31A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21566606A31A
+	for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 06:57:11 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 21566606A31A
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=xzdqaZx+
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so12538585e9.1
-        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 23:56:27 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=FS5ACMcj
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a5b2be99a8so14561445e9.2
+        for <linux-usb@vger.kernel.org>; Wed, 28 Oct 2026 23:57:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793256986; x=1793861786; darn=vger.kernel.org;
+        d=gmail.com; s=20260707; t=1793257030; x=1793861830; darn=vger.kernel.org;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=0wRVkfz7eaD4cTxlgQJa1LwBrh6cj53D2L99M0hD7VA=;
-        b=xzdqaZx+tbA4+2b/JmxmLSzNfQXORDCU/RfHstk+gjcQXNRLq/XIhvCdbM1Jkf20Y0
-         aGRruwkrsZM7D14C98Zy9TNoExbKfdiDQAjrbR79/xshmhYwUeUoknvlY+wjShmZT9L6
-         vvlFsYjrlebmansZW0XagyExWBRMZQIDd6lFdID3SyyWqE3eOIQ3my25pWRzUkuORzsS
-         epPJ/weI24hn7I4VGBqh2zHFuX8XxcdKxtDUFLER6XiSm4Wn5NEcuZ0Q782BdasHH30P
-         hiuagNVXiUjBSt6qzJe14Rc/v6zJp9u8cCxgSHFEZmDrgz3+8Nxd1eBdJSVjFnRdVGZu
-         9a+g==
+        bh=A30FZzabbD5cMKb9xpxtiuIiZ1pI6R+Xz37DjCLPTT0=;
+        b=FS5ACMcjAPN+lEeqcudQIs8KyazPxVtumG5y5HyKCiP9G66nr4ud6JAPG6Qxv8rkpY
+         KQBGFGlvcpEksEhQluKPEVzwFQDVHTkF6Sb+MSqsrPh6Aq8O3D9wdShNI5RbEG9OOF+g
+         UUnMuP7rrNOuG+wIzMVNJTRwKzrnulSMkNey3QeKVuVn/+I1bFSAPisfj6vd9wU0ZWnj
+         HM7Dae394q3nD14ggEWlebIkGtrAzTnrGe1i7r6vYi8mi0mOOFDnQwqZwpid0AoKmix7
+         ZQrDU23yavlVJp6/raBosM3kfpVpyAUZ6bc4U8IufNDmpJudW+pS5hpKJ+ZcehnEAQJ3
+         u4ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793256986; x=1793861786;
+        d=1e100.net; s=20260707; t=1793257030; x=1793861830;
         h=content-transfer-encoding:content-type:mime-version:references
          :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=0wRVkfz7eaD4cTxlgQJa1LwBrh6cj53D2L99M0hD7VA=;
-        b=cD0SekkhdiRe6LHIAl3rWNSOtCoFDVX1DTev9V4bH+WzAWOK6TBWbmSeNuoHQGMVE/
-         oMUII4kJRFcqFL1v2OU3UZNUJWf7C7YONwe65rIqpK+SJp+73Fx43BbjOtu0jd0YZzxK
-         O54QWVSrocNTL9/F0prKztnhln8mQqd9TTez0UrCQgDdRaiuXkDZxmHPkivildGcRXYf
-         RY/W0rR2Oq/Qq/GVSWWgRwoasx14jnpTHXw14w4p/BW3lML/VTuxTGxXPBQCSh1LEol0
-         CfdVW76UXvbLd7Ow+VVbee6NZGKnlVZWes+/73BdOM+8cQJbGajBAxbUSWhMwT0jPVvu
-         MLVA==
-X-Forwarded-Encrypted: i=1; AKwUvBx0Alz0UNifY1qI5Odz1GYoOyl0ZRj5btVwNZJPmJQkR/UBESDllLiud6QO/irWXe9pCuoN0+HTnig=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIMT59LtLAZhXeseyNdbnNg/rh2t3GrXrMN8knBrSoTa7QPYsVe
-	LIv8CFhwhPxW2y56kGDqZ5xr4W/4ry0A0crP/uDCZHI1QLCnS47wV8Wp
-X-Gm-Gg: AYBFou068e+axhpfIVf/uJMmPPdtd9ZHprNHsvtcN05f9zoLkhgBaTigH8+4IPmn/9e
-	DCXgrcbxh1rcPt19vrzyjTJiqHPiyC5Y4sBJnJP4XvpS23FNVnrNV6mpUCrT6l6ocjbMhU3R9UJ
-	LbNe17Bw1bmqVAjlV0cHnGeVWV5CzkuW4vcMHyp4o1N8aGpqmGEQ1LQNhCx07n2hRmQhHk0Q3PT
-	5qdsUPG3H973ag87BEzpGQDhKkJWQUPXcEcEE4UIrq3mNpPCYEkcmU6S6EHCiCJOH9OjXqkmIIn
-	C9pVpiNM9JJPLc1DD/yCwkdhH3gii6OQHLYig8Ea87HuSg1GlFnpM6cVqQdqTpswK+8x0rYqU/6
-	bmRQsfZeeEaDQhL3OjPbGXMW2b9AVBHfIqFE0CpO8pbD/eyEA8a/9bdNJg8Ih2mhr/JVDaw2Kyi
-	wlnjtVV2zxf90BmsGoVwU3KL1ffaSYXCPNPAaWWkelJXBgGg2bRAYrNI4b1X5shhGFKcr9X2c8U
-	tXQFAzSDhkI43pmhJBDj7rz1p1u9Yao5RtCVimxc7L/W85yOaLWJD48LpEIt4BLVwX3OtcoRagU
-	KRqRDtRBuRLVnkEOHvjFR6no+xqnHVfpvkZmHA==
-X-Received: by 2002:a05:600c:a11:b0:4a1:e11f:b2e1 with SMTP id 5b1f17b1804b1-4a966773233mr106983065e9.15.1793256986486;
-        Wed, 28 Oct 2026 23:56:26 -0700 (PDT)
+        bh=A30FZzabbD5cMKb9xpxtiuIiZ1pI6R+Xz37DjCLPTT0=;
+        b=lrNZRumeEBA9L/mR3/EBIdsY8ulAI12+nDyHB5+K6ZNjGGcgGq/hOUpMzVe6ALi5bD
+         yQ+5/rG6djZ8lA+gyM45TTbI5XNXo50PaoqEOJ2NFQepLLPva4qXHpgTz3FatJnt0iZe
+         E/KHX1Kp8Pr9mgRFO68PU8mx5FRmw5/pQNnFPjv9O2dZDilDDAvqm+pit6Ua4wq0Oh66
+         xNM7xQCE8DB/vFDr9xfX7VzFI97s5Zp4NNcY/ZvEjf3XmLYsg7/KG7Pq+/bVkvQOi0YA
+         9ju1YUkGUokJajZvCOKjg0MuoDKs5waZ3RUD5IGfP/T6Jlv5EICNTpPvKlt7WR4pyDgi
+         OSEQ==
+X-Forwarded-Encrypted: i=1; AKwUvByBNi6mJtph/NMUKU1xiw/SyqT5AvEaT9DgQPvuHGPtK+2Gwli73OeaWD/H0D5KCc4gcM1D1/eQv2k=@vger.kernel.org
+X-Gm-Message-State: AFq9FYII5aBWkt/R0z+TaFFXRS2tYoB+WeppnS0du9nvMYfEyD3ecWdg
+	5andq3KcAk55qh2ZLfN1x2JyqrCgdcucZ1jQTrB08v8YPReQyWNMNewBxJK+o6H1
+X-Gm-Gg: AYBFou1vOffbDIEU2dgWh5AxjDZK6Ey6C+OLCelgjcmIi/ucv/E5qKioDhjonQAcL2Y
+	d1uv8jAst9UqQBOr0yYDNl31QpjL4qe5xbewU+BxMrX8LXFOuqWFz1bD5lux35PUGfbzHPTdUbY
+	NHNolJ8mY3S7qb+P63WQofqPBneA8WRGz+keylkS9R+4l1PeTjc8BrsjpJCTfya32xE/7DF4d7P
+	Kma/blsmPbvRHPL0chc9x+y9/+mAd9NhOyW2mw4E3XXP6vkFLF0Q0fQEQuV+1POmVlMq1gZTjS+
+	ISCKYbC6wpnHMP0dPilfkJppDNpoLBScO7/j4y7Ec11t7yeCsa6Xe/8r86/2agqBehjCvnI2hgN
+	DXzbI9iduZl65gzouK/osqco7O9stVjjfhNKfD79bNxR0iKIgqw5++Y6idfi8Y/I+LNoUam1euc
+	nOPp3DxU8M9xffAOAI47Qw4OdxFcjahw7mnS717hfERiZQqnXc5Ipkd3LUEDyhJ6Vtt2U+dRkJQ
+	r0XK0o+M9vnBcxRvJ9Nhf+b/fJrddR2FMmISslr7tNzqd3PYixfZnyRXBtI1PV2WwJdXfQ8wukD
+	2M7ND3uaV34WMpjQPmWH2ZzDQ2ZTNVrwR/c6SpA=
+X-Received: by 2002:a05:600c:1391:b0:49f:e701:51c8 with SMTP id 5b1f17b1804b1-4a966c41a4emr99419435e9.9.1793257030439;
+        Wed, 28 Oct 2026 23:57:10 -0700 (PDT)
 Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4aa7f7f4cdbsm49489085e9.7.2026.10.28.23.56.25
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e3ebc3dd7sm32815744f8f.15.2026.10.28.23.57.08
         (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 28 Oct 2026 23:56:26 -0700 (PDT)
-Date: Thu, 29 Oct 2026 07:56:22 +0100
+        Wed, 28 Oct 2026 23:57:09 -0700 (PDT)
+Date: Thu, 29 Oct 2026 07:57:06 +0100
 From: Michal Pecio <michal.pecio@gmail.com>
 To: Mathias Nyman <mathias.nyman@linux.intel.com>
 Cc: yiyu@yiyuzhou.io, <linux-usb@vger.kernel.org>,
  regressions@lists.linux.dev, diogochaves@me.com, raoxu@uniontech.com,
  dennis@dsine.de, gregkh@linuxfoundation.org
-Subject: [PATCH 3/4] usb: xhci: Give back URBs on halted disconnected
- endpoints
-Message-ID: <20261029075622.2eacf9be.michal.pecio@gmail.com>
+Subject: [PATCH 4/4] usb: xhci: Reject URBs to disconnected devices
+Message-ID: <20261029075706.69aaa77f.michal.pecio@gmail.com>
 In-Reply-To: <20261029075409.4b203658.michal.pecio@gmail.com>
 References: <20261027184117.2461065-1-yiyu@yiyuzhou.io>
 	<20261027192128.386082-1-mathias.nyman@linux.intel.com>
@@ -105,64 +104,51 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Bailing out of xhci_handle_halted_endpoint() on disconnected devices
-had a side effect of leaving the failed URB and other URBs stranded
-until the driver times out or its disconnect() routine runs and the
-URBs are unlinked. And since disconnect() can't run during probe(),
-only timeouts remained, slowing down error handling and making some
-devices which disconnect during probe fail to probe altogether.
+Restarting halted endpoints of disconnected USB3 devices triggers
+some HW bugs and we actually prevent this on all devices now. Keep
+drivers from pointlessly submitting URBs and needing to unlink
+them later, which may involve excessive timeouts.
 
-Ensure giveback of all URBs when we don't queue Reset Endpoint.
-Set return status to 0, because the only caller that looks at it is
-xhci_handle_cmd_stop_ep(), which would only repeat an equivalent of
-xhci_process_cancelled_tds() if we return -ENODEV.
+This generalizes existing check for USB3 ports in the Error state.
 
-Reported-by: Yiyu Zhou <yiyu@yiyuzhou.io>
-Link: https://lore.kernel.org/linux-usb/20261010064407.11030-1-yiyu@yiyuzhou.io/
-Reported-by: Dennis Wissel <dennis@dsine.de>
-Link: https://lore.kernel.org/linux-usb/SrQQcLIwRWyg9PdEIpc0eg@dsine.de/
+Suggested-by: Yiyu Zhou <yiyu@yiyuzhou.io>
 Fixes: 7e0ef4332ed9 ("xhci: avoid xHC endpoint changes after disconnect or link error.")
 Cc: stable@vger.kernel.org
 Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
 ---
- drivers/usb/host/xhci-ring.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ drivers/usb/host/xhci.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/usb/host/xhci-ring.c b/drivers/usb/host/xhci-ring.c
-index 14cfb025c365..1097600699d4 100644
---- a/drivers/usb/host/xhci-ring.c
-+++ b/drivers/usb/host/xhci-ring.c
-@@ -993,13 +993,14 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
- 	int err;
- 
- 	/*
--	 * Avoid resetting endpoint if link is inactive or device disonnected.
--	 * Can cause host hang.
--	 * Device will be reset to recover an inactive link, so don't do anything
-+	 * Flag endpoints behind disconnected RH ports and override soft retries.
-+	 * Restarting them is futile and known to trigger HC bugs on USB3 buses.
- 	 */
- 	if (rhub_port->link_inactive || !rhub_port->connected) {
-+		xhci_dbg(xhci, "Halted slot %d ep %d is lost\n",
-+				slot_id, ep->ep_index);
- 		ep->ep_state |= EP_DROP_PENDING;
--		return -ENODEV;
-+		reset_type = EP_HARD_RESET;
+diff --git a/drivers/usb/host/xhci.c b/drivers/usb/host/xhci.c
+index e5c8b3a945a6..66b9fed65ac7 100644
+--- a/drivers/usb/host/xhci.c
++++ b/drivers/usb/host/xhci.c
+@@ -1662,12 +1662,6 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
+ 		goto free_priv;
  	}
  
- 	/* add td to cancelled list and let reset ep handler take care of it */
-@@ -1017,6 +1018,12 @@ static int xhci_handle_halted_endpoint(struct xhci_hcd *xhci,
- 		return 0;
- 	}
+-	if (xhci->devs[slot_id]->rhub_port->link_inactive) {
+-		xhci_dbg(xhci, "Can't queue urb, port error, link inactive\n");
+-		ret = -ENODEV;
+-		goto free_priv;
+-	}
+-
+ 	if (xhci->xhc_state & XHCI_STATE_DYING) {
+ 		xhci_dbg(xhci, "Ep 0x%x: URB %p submitted for non-responsive xHCI host.\n",
+ 			 urb->ep->desc.bEndpointAddress, urb);
+@@ -1677,6 +1671,13 @@ static int xhci_urb_enqueue(struct usb_hcd *hcd, struct urb *urb, gfp_t mem_flag
  
-+	/* Don't reset lost endpoints, only EP0 can survive device reset */
-+	if (ep->ep_state & EP_DROP_PENDING && ep->ep_index != 0) {
-+		xhci_process_cancelled_tds(xhci, ep);
-+		return 0;
+ 	ep_state = &xhci->devs[slot_id]->eps[ep_index].ep_state;
+ 
++	if (xhci->devs[slot_id]->rhub_port->link_inactive ||
++	    !xhci->devs[slot_id]->rhub_port->connected || *ep_state & EP_DROP_PENDING) {
++		xhci_dbg(xhci, "Can't queue urb, link error or disconnected\n");
++		ret = -ENODEV;
++		goto free_priv;
 +	}
 +
- 	err = xhci_reset_halted_ep(xhci, slot_id, ep->ep_index, reset_type);
- 	if (err)
- 		return err;
+ 	if (*ep_state & (EP_GETTING_STREAMS | EP_GETTING_NO_STREAMS)) {
+ 		xhci_warn(xhci, "WARN: Can't enqueue URB, ep in streams transition state %x\n",
+ 			  *ep_state);
 -- 
 2.48.1
