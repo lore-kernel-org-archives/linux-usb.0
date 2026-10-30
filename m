@@ -1,56 +1,69 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=23.88.97.239
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793374895;
-	b=Zx64OlHxsJwKXKDq18cIK5KabbKP7vvwzFTICCOBux9T8wbmkGrOr9axNnC3DvdwY6lL
-	 t0V8YL5q47S1+D2h7sp9pW/2kiORgAU//XTlsPGLGoF10XB3fikCMLg4jtOEAQ6P1oI/B
-	 +5NuscuKh0syq6QyPuf4pcCJ15iaZDVR6l0DupnSCDzli7r/psgjL64aKQh3FRjl8yEIh
-	 Nsiuso9YLyJukEmQGHfw6p/36yyPoM3aCNaZKsIuPHv7n8bCzmYw41jG/3kJcd7VKw6AJ
-	 k2/fxfOS/z61Gv2WqjoJGBDJDlK18oiMvTfA8lMbUKX4J2x/rP4Z2hjU1PTdxGRvepA==
+	t=1793374976;
+	b=SoGgTc5LedKHWy91yelKq+yuPlTbjNml4CuMU5/UJDKAherI6eDS5D5rxFDBiX3ubHwV
+	 g+V0vvrj145oFONm8y1oSxI2WOZvluet3pXts3+V+tF2B2HRSAbHyX2wdEYuU+YoOyEmw
+	 RPa3rhqi9BkttW2NmoMr3dxZUNkBWrvSomou8YkjfdyKhsk69kZzY6xEtRcDUMBpnQy5j
+	 fhK/RrQv4YMZ/9vqFuQB3+RsRMmjk3w2UfCNDxwLlx6OhaNnGoB5Z6Ide3Wwk3G48nPgS
+	 XzIRMNFowzRInDlY8gnqEfCAZyKAW39+ndZDTQNn8FGSj5zUTXVayrlHiPKPQGunsHQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793374895;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=LIWNixqv9zrMy8vRtJQSIYMwJdRtiwKtjAJ57lkACKw=;
-	b=OiFtGgSBoiA4SaQCm6bz8hHipwo1JCIQyO2UrFmbCpHcQi+xiOlR6GVP6wPYLtRByVx5
-	 aJSVP9HKEGLSXLer1tUa5Q+yccwMcGXdugwCFiwsl/GqOAfOVH337kKI/a9PNM6nboD0Y
-	 8rYOUfZHXvfVbJ8L+562NRJ8jHTvS/HD5hJljFVUSn7m4qmpf4JFS/axSAbzHK5UL0MPi
-	 Vu/hjkWoukphEl/fQXFVlljI2LcIugr/U2cNOI32kmFOI6JI+Ci7Jvnr4WCgIIOLi0rtj
-	 WgBx2aL22v6H6JpRO5w+4etyud26G+8qsgjI6iLnvBJldcTiemF/Ub9nUvvFh8ialtg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793374976;
+	h=DMARC-Filter:DKIM-Signature:Received:X-Spam-Checker-Version:
+	 X-Spam-Level:X-Spam-Status:DKIM-Signature:Received:Message-ID:Date:
+	 MIME-Version:User-Agent:Subject:To:Cc:References:From:
+	 Content-Language:In-Reply-To:Content-Type:Content-Transfer-Encoding;
+	bh=pwWMYu7cN31DeEVkMWq5JMB825n/IrZotIJKrcqkFoE=;
+	b=Qt3afQyZu80wC0nngvqniElhhKn+eJ0DafgYTgocYYQe9Vj2W9vXWur0+3zlV7VDDzb6
+	 mqyBzdMo5CzDmEXU0+LyfBWJI0mShUOzRx9In9i6jWyzTUauZRe1aRz8aZFwmrS2iRzph
+	 d9axRjB3evLGTGPNKu2nBF3qrdHQCr80D6aekM7Z5i1AUQkw2iufdiYAlBhhTa6qVUAh5
+	 K/S+4zYRMzoArPEwmZIxQoS1aTeJ/xQhFpT6L/UTNePK4DSf5uH75hjkphWibMDCIfdxc
+	 FJeZJyXOMbavNVJAJTYujgxhYFwYU5L09GW2jLcHZJFAjRitsqqCnrE3Z3e0C3pr4Zg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JIq4m5iR;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=none header.from=birger-koblitz.de;
+	spf=pass smtp.mailfrom=birger-koblitz.de;
+	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=aG7je0jC;
+	dkim=pass header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=cAohtmzh;
+	arc=none smtp.remote-ip=23.88.97.239
+Received: from bkemail.birger-koblitz.de (bkemail.birger-koblitz.de [23.88.97.239])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 492E5606A31C;
-	Fri, 30 Oct 2026 15:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CCF4606A31C;
+	Fri, 30 Oct 2026 15:42:55 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 8CCF4606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=birger-koblitz.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=birger-koblitz.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JIq4m5iR
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EBE9C1F000C1;
-	Fri, 30 Oct 2026 15:41:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793374895;
-	bh=LIWNixqv9zrMy8vRtJQSIYMwJdRtiwKtjAJ57lkACKw=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=JIq4m5iRzWHPU+qDK/tfysc/K8E2znxJEoHi4Tcbf7BU6HeQNW9cHj8iwEZ+6VFHK
-	 XZw2iMqgjiOdxJYuohPEwZGYmryQeLdr2EZZE6wEPZTh2RAfoWLWUgC9jD07KA1ewy
-	 uxQ7ohcBeIDIBczoXMMO7TGcCoAgkUMKlmMYyoy6wjgpOUW45JSAnugCnE+mCx4OBz
-	 ZeWT1dfw6ZPhi2vV2s59nrckH+rcJraI09kxjhzwLG4IJVLXq9qGK9maFeykmvg2k2
-	 apdmta0+88tlzJojcysicsnJa+elj9JEXpP2w6Uos2+uI48ul5d7ZMGpex4ZSzfbB0
-	 l59w8qjtLgFdg==
-Message-ID: <sashiko-outbox-191184@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2] usb: core: add a pre_probe callback for device
- drivers that may defer
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "James Clark" <jjc@jclark.com>
-Cc: linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
-In-Reply-To: <20261030151919.3511106-1-jjc@jclark.com>
-References: <20261030151919.3511106-1-jjc@jclark.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 15:41:34 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=aG7je0jC;
+	dkim=pass (2048-bit key) header.d=birger-koblitz.de header.i=@birger-koblitz.de header.a=rsa-sha256 header.s=default header.b=cAohtmzh
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1793374968;
+	bh=vHq78/KCfEVqvcT6Nlgv9+8UL3cGgaMMpXKNxQmnb8A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aG7je0jCoIoE9yoazs0wMFily8LEr0e5k/Kb4U8dLcfZ+H2g/5liM1Zcsq6M42BIk
+	 zJfNRddfaOyAUg0AApOTohKq9yY3mdxIZoxyFbetKkC3aLUvUAjrbaf7dqasPW9i5X
+	 xZk+qkZVmyFMLiSZYmQc31Sbk3KchhkPDLKtjn9Kdtee//KIoUYs59EigOSPYfE6i2
+	 oSmb0E3Cs+m9+aywkz1dtjuddsL493CrDEKsOvz/5o7m9974WRoIU7mE4i8giLp52C
+	 otpMTFR645+XEG3EzZzpRL4ZJ/eCGJgyj3rAB0lq4hjNhm6T6945Z8pdclMMAGuMxl
+	 hRXJf8oO6/omg==
+Received: by bkemail.birger-koblitz.de (Postfix, from userid 109)
+	id 469FB49F41; Fri, 30 Oct 2026 15:42:48 +0000 (UTC)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=birger-koblitz.de;
+	s=default; t=1793374967;
+	bh=vHq78/KCfEVqvcT6Nlgv9+8UL3cGgaMMpXKNxQmnb8A=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=cAohtmzhsDIsOm2y41ZIUM7tt41zPVr/LoR+MZUgkAFN278tMvliSucJaKrXKW0Sh
+	 yAJk5gzsiRzAROlNs0cSlNWCOLnVYwQ1qtE7aQt2urQQoQ+P2S99tvbSEpeiYND5Td
+	 vW/tJduTRveIgsqvOolfjyQEBYJ1PmIMQ/morAdYq6LiLGBxia7ttjGyrUEiOKUWPD
+	 M/aho1LpNAnoALSGcHqU2lfglboGrKirl4uBLRXZU9sAUdIsJ+HHy4LrvFpuQhrpxM
+	 QBV64gjowokmDRNk6N16pbXoCSmbHbMx3mFWdeyaE7aM9JDmKikBAEFQtnF8sB320C
+	 Zxt3p56kSH70g==
+Received: from [IPV6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb] (unknown [IPv6:2a00:6020:47a3:e800:271c:c6c5:9fde:77cb])
+	by bkemail.birger-koblitz.de (Postfix) with ESMTPSA id B75DE49F41;
+	Fri, 30 Oct 2026 15:42:46 +0000 (UTC)
+Message-ID: <2a66e94c-0fd0-4c90-bc1c-9e5699f80737@birger-koblitz.de>
+Date: Fri, 30 Oct 2026 16:42:44 +0100
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,146 +72,94 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v19 00/13] ax88179_178a: Add support for
+ AX88179A-based chips
+To: Emir Beganovic <beganovic.emir@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
+ Huacai Chen <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>,
+ Eric Dumazet <edumazet@kernel.org>, Jianhui Xu <neuromoments@gmail.com>,
+ Nicolai Buchwitz <nb@tipi-net.de>, linux-usb@vger.kernel.org,
+ netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ loongarch@lists.linux.dev
+References: <20261010-ax88179a-v19-0-7475173cfb56@birger-koblitz.de>
+ <20261029005809.19405-1-beganovic.emir@gmail.com>
+From: Birger Koblitz <mail@birger-koblitz.de>
+Content-Language: en-US
+In-Reply-To: <20261029005809.19405-1-beganovic.emir@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] usb: core: missing generic and runtime PM cleanup in usb_probe_d=
-evice()
---
+Thanks so much Emir for testing!
 
-commit c4ba8a98e9f819e5526aef5f1c45cb74910c09c6
-Author: James Clark <jjc@jclark.com>
+On 29/10/2026 1:58 am, Emir Beganovic wrote:
+> Hi Birger,
+> 
+> I tested v19 on a Dell DA305 USB-C adapter. It has an AX88179A
+> (0b95:1790, bcdDevice 0x0200, FW 1.0.7.131) behind a VIA VL822 hub,
+> plugged into a Dell XPS 16 (Panther Lake). The peer is an Intel I225-V
+> behind a switch.
+> 
+> I built ax88179, libphy, phylink and ax88796b as modules for a 7.2.8
+> kernel. v19 needed two things on that base: a4e22e9253e7 and a backport
+> of genphy_{read,write}_mmd_c45() from the adin1140 series.
+> 
+> With the current driver in configuration 1 this adapter never gets a
+> link ("Failed to read reg index 0x0040: -32"). With v19:
+> 
+> - 1000/full link with flow control
+> - download 940-941 Mbit/s in nine runs. Upload was 937-941 in five of
+>    nine and lower in the other four, and I couldn't find why. Eight
+>    later runs with tracing on all averaged about 932.
+I have seen similar behaviour with iperf3 for an AX88279 and a 2.5GBit 
+link: in the first round, some 4-10 packets get dropped by the 
+RTL8372-switch as a link partner and then no further frame drops happen. 
+Looking into the switch's error counts, the drops are due to Flow 
+Control. I was not able to investigate further, but I have seen the same 
+behaviour with RTL8156/7/9-adapters using the r8152 driver and that 
+switch. So that seems to be "normal" and the speed of the adapter in 
+iperf3 is very close (about 2.35Mbit/s) to the theoretical limit.
 
-usb: core: add a pre_probe callback for device drivers that may defer
+> - 1-byte TCP request/response around 190-200 us, against about 1.46 ms
+>    with cdc_ncm on the same port (its default 400 us TX timer)
+> - switching itself to configuration 1 when the device comes up in the
+>    CDC configuration
+> - 100M and 10M links
+> - VLAN with rx-vlan-offload on and off, and rx-vlan-filter dropping a
+>    VID that isn't configured
+> - multicast filtering and allmulti
+> - suspend/resume (s2idle) and wake-on-LAN with a magic packet
+> 
+> Two small things I noticed:
+> 
+> - "Switching to vendor mode" is printed twice, once per CDC interface,
+>    and before the netdev is registered, so it shows up as
+>    "(unnamed net_device) (uninitialized)".
+The device can be registered only once it has been switched from CDC to 
+the vendor mode, that is why you see the message for the unregistered 
+device. That you see it twice can be due to the fact that it has 2 
+active interfaces, see the explanation given in commit c67cc43 for Anker 
+adapters.
+The devices I have print it only once and that also disappears once the 
+device has been switched and stays plugged even if the module is 
+loaded/unloaded.
 
-This commit adds a pre_probe callback to struct usb_device_driver so that
-device drivers with generic_subclass set can defer probing before
-usb_generic_driver_probe() configures the device and binds its interfaces.
-It also converts onboard_usb_dev to use pre_probe to avoid a re-probe loop
-when the companion platform device has not finished probing.
+> - After a WoL wake the link goes down and up twice within about 2.5 s,
+>    where a normal resume shows a single link up. It comes back fine
+>    either way.
+I see this, too. It is not triggered in any way by the host or the link 
+partner, I checked. It appears that this is due to the firmware on the 
+device trying to optimize the link settings further, the out-of tree 
+ASIX driver displays the same behaviour, although it works very differently.
 
-> diff --git a/drivers/usb/core/driver.c b/drivers/usb/core/driver.c
-> index d3a61ebc6afb0..724cfa9da4e01 100644
-> --- a/drivers/usb/core/driver.c
-> +++ b/drivers/usb/core/driver.c
-> @@ -249,24 +249,41 @@ static int usb_probe_device(struct device *dev)
->  {
->  	struct usb_device_driver *udriver =3D to_usb_device_driver(dev->driver);
->  	struct usb_device *udev =3D to_usb_device(dev);
-> -	int error =3D 0;
-> +	int error =3D 0, pre_error =3D 0;
-> =20
->  	dev_dbg(dev, "%s\n", __func__);
-> =20
->  	/* TODO: Add real matching code */
-> =20
-> +	/*
-> +	 * Give the driver a chance to defer before anything is done to the
-> +	 * device. The generic probe below binds the interface drivers, and
-> +	 * each binding triggers deferred probing, so a probe that deferred
-> +	 * after it would be retried straight away and the device re-probed
-> +	 * in a loop.
-> +	 *
-> +	 * Any other error from pre_probe() is not acted on until the generic
-> +	 * probe has run, so that the -ENODEV fallback below works as it does
-> +	 * for probe().
-> +	 */
-> +	if (udriver->pre_probe) {
-> +		pre_error =3D udriver->pre_probe(udev);
-> +		if (pre_error =3D=3D -EPROBE_DEFER)
-> +			return pre_error;
-> +	}
-> +
->  	/* The device should always appear to be in use
->  	 * unless the driver supports autosuspend.
->  	 */
->  	if (!udriver->supports_autosuspend)
->  		error =3D usb_autoresume_device(udev);
->  	if (error)
-> -		return error;
-> +		goto err_pre_probe;
-> =20
->  	if (udriver->generic_subclass)
->  		error =3D usb_generic_driver_probe(udev);
->  	if (error)
-> -		return error;
-> +		goto err_pre_probe;
-> =20
->  	/* Probe the USB device with the driver in hand, but only
->  	 * defer to a generic driver in case the current USB
-> @@ -289,15 +306,26 @@ static int usb_probe_device(struct device *dev)
->  	 * specialised device drivers prior to setting the
->  	 * use_generic_driver bit.
->  	 */
-> -	if (udriver->probe)
-> +	if (pre_error)
-> +		error =3D pre_error;
-> +	else if (udriver->probe)
->  		error =3D udriver->probe(udev);
->  	else if (!udriver->generic_subclass)
->  		error =3D -EINVAL;
->  	if (error =3D=3D -ENODEV && udriver !=3D &usb_generic_driver &&
->  	    (udriver->id_table || udriver->match)) {
->  		udev->use_generic_driver =3D 1;
-> -		return -EPROBE_DEFER;
-> +		error =3D -EPROBE_DEFER;
->  	}
-> +	if (error)
-> +		goto err_pre_probe;
-> +
-> +	return 0;
-> +
-> +err_pre_probe:
-> +	/* The driver core doesn't call disconnect() for a failed probe. */
-> +	if (udriver->pre_probe && !pre_error && udriver->disconnect)
-> +		udriver->disconnect(udev);
->  	return error;
->  }
+> 
+> I only have this one adapter, so nothing on the other chips.
+> 
+> Tested-by: Emir Beganovic <beganovic.emir@gmail.com>
+Will add in upcoming v20.
 
-[Severity: Medium]
-When udriver->pre_probe(udev) returns a non-deferral error (for example,
--EINVAL or -ENOMEM from onboard_dev_usbdev_pre_probe() when
-_find_onboard_dev() or onboard_dev_add_usbdev() fails), or when pre_probe()
-succeeds and udriver->probe(udev) fails, usb_probe_device() runs
-usb_autoresume_device(udev) and usb_generic_driver_probe(udev) before jumpi=
-ng
-to err_pre_probe.
-
-However, err_pre_probe only invokes udriver->disconnect(udev) and does not
-undo usb_generic_driver_probe(udev) or usb_autoresume_device(udev) the way
-usb_unbind_device() does:
-
-drivers/usb/core/driver.c:usb_unbind_device() {
-	if (udriver->disconnect)
-		udriver->disconnect(udev);
-	if (udriver->generic_subclass)
-		usb_generic_driver_disconnect(udev);
-	if (!udriver->supports_autosuspend)
-		usb_autosuspend_device(udev);
-}
-
-Because the driver core does not call usb_unbind_device() when
-usb_probe_device() fails, doesn't a non-deferral failure leave udev unbound
-(udev->dev.driver =3D=3D NULL) while still configured with bound child
-interfaces, an unbalanced runtime PM usage count when !supports_autosuspend,
-and a sent USB_DEVICE_ADD notification that will never be paired with
-USB_DEVICE_REMOVE on unplug (leaking struct usbport_trig_port and sysfs
-attributes in usbport_trig_notify())?
-
-Similarly, on the -ENODEV fallback path where udev->use_generic_driver is s=
-et
-to 1 and usb_probe_device() returns -EPROBE_DEFER, won't leaving
-usb_generic_driver_probe(udev) and usb_autoresume_device(udev) in place cau=
-se
-the subsequent usb_generic_driver probe to call usb_generic_driver_probe() a
-second time and emit a duplicate USB_DEVICE_ADD notification without an
-intervening USB_DEVICE_REMOVE?
-
-Should pre_probe() handle the -ENODEV fallback and return immediately on any
-error before touching the device, and should the error path after
-usb_generic_driver_probe() and usb_autoresume_device() also unwind them via
-usb_generic_driver_disconnect() and usb_autosuspend_device()?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030151919.3511=
-106-1-jjc@jclark.com?part=3D1
+Birger
