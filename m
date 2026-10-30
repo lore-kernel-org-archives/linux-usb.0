@@ -1,98 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793361940;
-	b=tYQqYYypnXlC7u4Ef4+O2XjsUrc5LSgqukWnmeYY0gIJIbABGBIpNYWv3/TIbkPdLpCp
-	 eJGsGMxgIo41lDbJGw6UvFhl/ByNyAQplricYj0cJf9XmmCyO1MIfmsFhmmwaNMjOXiVG
-	 Vx/MD0fiOEld7gUjNQ+0dkgr0TidvSKxeROQN1NJPpPM3mBfbILeUYQvP9x2bl3oKNakG
-	 fiynkv5VXQ4wVkpN/pIGW2BunzPcDNTV4QCNkaEe6gIdns0mA4roZ1SiTVnxes5I4zybm
-	 kuuL5HTwwz32+eWncv5h2YPrg1QJ7aJUPcb3CzJE1ZyzmuZFS+kbNKtCU1OGqozCsEw==
+	t=1793362677;
+	b=QUlnpip/odxYGNPBdzvG4DMKnjtDD7VpVXY+wdPQFhd4HSpg0b/xiJKCEuz936Ro+h7m
+	 kkRB/ck/77o9WXlAEOnWGEXNFlse80LFRe7zoOgRxPPER/rdkQVrWvus6cPY2yIQOwkq4
+	 zxIbnPkXns4nn81cjkVArQyHxU2HeJJ1+4QwRlvZwoQ3gILKmJYtxc1ul3pCv4MSATfry
+	 ON9tYJCA5r0TAFmfAy5xvE6bthjglA/A2iAxR1LVnsGxO5xW1YX28Q88tQ5jQlzXgJcz9
+	 bZGcZ5yU84jMZd61BfvBdfWQU3QvfYVlFpdEFCzrXH55easF05GcrleLJ/kagnxNjiw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793361940;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=jr3UzJy1RXD3EkYxBH1h5gaWx4Lr73w+qKlc2cURMHI=;
-	b=uCadWfuqGrRG+Y8W+B8bQDudzI/0x8rbOGy79OMmWyEWxaOY1NenCfETEQoumoDdM/p7
-	 gcyaCLwWfPu6smfZEnwEyI8Q5vkqvtd7XJDY6gpHAthIhgQPxufAtwcDPzzUHCSKHQsa8
-	 XHwuyklmmgPY2N6CByCDrw6F7mNuzmbJbtpK6E+8LJOke4rbS9cDrEHR6rNoSoe1hxL9p
-	 h3nq2nPY55Q5B5LA/5LwA8HOBOh2zgXjFklH9CUAaIp7RUiPH3vnNdeumrhPBYDuTWIY5
-	 Sjk4fwmLFl/QLTmvCtVn0UX2KNdy5smYj7smIGbq1/Y33bZ2vaD/P+d11IkO1PyiwGA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793362677;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
+	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=gpcEkWZksGGfj9XjEwCf+DBg2I4p4de0sWgxlYdGmn8=;
+	b=h1qlRHy0Y1TGaPRGrrJ9fD7iCjJgSOQFOFIlVVQuyJacD0B8UgBu/Xxi4/8xm0i6A1OV
+	 4B7ZY6WH1QWd0Qg+4mLt8zDSeBSjMKhWJQzcV7RCodM24rs7s13TbZx/8qkC9eJsTo+kx
+	 6oRc1c/tIl9qWAO9QAPqS69XnWI3RUKxQc89FdFTOGG7tLBkrmlrKmfd6gWo9rLbVsmrC
+	 bdsmTQkIwCMf7w6TcKT/+qrl2sEB+lZ8G+LaEKldBI9Sgs/kkx3ZXvUrYiy9UMrIbMnZH
+	 nn6NpskiDaQSRnEPh/ZO17EDqhF9Fs0Ryix/9KojZDtyWXjkoc7yU2bHCP5zCElChHA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ze77JKKE;
-	arc=none smtp.remote-ip=209.85.128.49
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=mr5Tufi3;
+	arc=none smtp.remote-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CC17606A33B
-	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 12:05:39 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9CC17606A33B
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B3A606A323;
+	Fri, 30 Oct 2026 12:17:53 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0B3A606A323
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=ze77JKKE
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a1b07c3c5fso5378495e9.1
-        for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 05:05:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793361938; x=1793966738; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=jr3UzJy1RXD3EkYxBH1h5gaWx4Lr73w+qKlc2cURMHI=;
-        b=ze77JKKEWiHNv/3wUe3+kllH69SXgQ9VNhIUs9AWsGI0GngIkcgYaUugpkQR8x+Noj
-         TI7AR3ke4J9NV0Axe8r2S4Zmp/+ylYYGN7Gq5QY+RTo3u9Swjf2dLBRMtw4xUu92gV/g
-         EyFf9iSDpZZuefcN3RysFE9Rybl+C1JQnal+VgiugGe2v9T1EN0Fydz2z2tmna6n4e8D
-         G+bV9FOgZ+hmsryhcLwrZICYEShhAvBidcqdQbYT9KVoVKPf13a7E9NK/UOl2OrEG9De
-         jEMq5FyJszANwvhUoujwG7Cx1bxJ3PpZwRu/XGKabA2u3/1439gVdbGmq4qfJTmR2WzE
-         9TIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793361938; x=1793966738;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=jr3UzJy1RXD3EkYxBH1h5gaWx4Lr73w+qKlc2cURMHI=;
-        b=md3xAKL5mudm7g8MDt+1sPBQIwj/WZqb3NnzFBFZuPHOEtwRS0urEFV0aUD3sqI5ea
-         9Y82jHNyW6A76Zn+Jj0MdVWNm5TCIULpPJa7FKup4LrnMW79PYPuBCcE6VYLq+cR/DtF
-         8ugOmVIz4Yn3fLCIbn4aHZahCzqH3QZnqRsni54JQGLMrD1BDDOhqSW4xeLK4rRTh/1l
-         Zx4pa5lDA+Roib381cKGygRwgP3Es7joixeu2XTuWgR9oPz12UBvcHSWFkJbFmxu8iUr
-         w7xRnC5WyIZQ+Su3hlspBGD2iFlEPVZJ+FCOlUsHC0/rqS4+SDCTk8vL8Z0f8HSKWo6J
-         Qvlw==
-X-Forwarded-Encrypted: i=1; AKwUvByZqb3tgxuM7zgX6367mx7mplv5e2Gt9QJyi2XVwSbhxBOJmjvqewTtrOE9ewUUM7y9H01Ftui2Po4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIBjolzk18eqqbnpFg7k7uHsTg3Sys8n0Hg4VzPh0DRQFMcNSD/
-	7U4K82r3lLuTk/ABDDTpk6KXgpxfJOkM9+VkKITdATYcCJjm9pyHC0pL
-X-Gm-Gg: AYBFou3hg7kCw4CVE49/eT8Xz4ZNUNxBNKvqiJOkMXS+AyjB0luOijrJYmOiuDpoRPJ
-	kB4zSnPTbPtPGkpX5n+zRLyMZLbwakfWFhVGH9g0fLMBwNuVsZ67yBfAR8VpOCypnxtA2OFdvf/
-	rAvFgECp0JepOK0FVJbuUw6UDEAR+Fyr7RQQ+ilmTCyWOQbeRjIcRjGKyZkBl6sEuqV45PdrWvN
-	APcqxDSoJ66XA+UiWAz/RULVnbZfADK/4xVk7km9C8VfeEyIH5e8kkNiYnx1POvxJiNafXqIrGs
-	LZCTTDe2IN/vn/lsl9O7WSMiyftZL5yZfNKMfvMX+LeCGmsIxOjUKV08vuyQFBeMaS1TXNcMsrn
-	TPBEqQl6DxXjll0QEj3V/ZmJabeOgLGM27m+gYmMhxDk12hPgfG8Ao9jWL4TlCla+aoX+VQ1tDK
-	nitupPa4K+Jnkz3bFY085PcIosuSOW+qUzzn7DEPjA5it2Ss/pvwrb3GKCn/99GzVL0apQjJk0g
-	ZH4I8ESPdqJzuZu0x837sHjhXtN55cvm9Dyzgi01VD/vinPridcopaf0f48SZ5aBnIrFfNQHR74
-	wmAIC4eVgxx0R+k9ripHpXtDaRNsjq9HdUc2YzYYH8GZFmhHMfraaGOqimk=
-X-Received: by 2002:a05:600c:5397:b0:4a3:5991:719 with SMTP id 5b1f17b1804b1-4ac1899353bmr43628725e9.31.1793361937662;
-        Fri, 30 Oct 2026 05:05:37 -0700 (PDT)
-Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71ba24f6sm2853609f8f.51.2026.10.30.05.05.35
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Fri, 30 Oct 2026 05:05:36 -0700 (PDT)
-Date: Fri, 30 Oct 2026 13:05:32 +0100
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Mathias Nyman <mathias.nyman@linux.intel.com>
-Cc: Greg KH <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- regressions@lists.linux.dev, Yiyu Zhou <yiyu@yiyuzhou.io>, Dennis Wissel
- <dennis@dsine.de>
-Subject: Re: [PATCH v2] xhci: give back TDs and clean up ep0 after
- disconnect
-Message-ID: <20261030130532.36a75025.michal.pecio@gmail.com>
-In-Reply-To: <f362a385-e1d6-437c-a31c-fbf4414fa0f5@linux.intel.com>
-References: <20261029204324.658845-1-mathias.nyman@linux.intel.com>
-	<20261029204324.658845-2-mathias.nyman@linux.intel.com>
-	<2026103009-handful-labored-d1ce@gregkh>
-	<f362a385-e1d6-437c-a31c-fbf4414fa0f5@linux.intel.com>
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=mr5Tufi3
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=gp
+	cEkWZksGGfj9XjEwCf+DBg2I4p4de0sWgxlYdGmn8=; b=mr5Tufi3GMgVAuq27S
+	jWAfb4B3uAh5SStm6bix00bOes6SQKzovR2BwsVqzk6bbINbA3UO/xfFpKjWyK0k
+	VVS6pMQKshrfheRowcoQbxJ09yqHkX5NXy5HJ4nanqtXVhOlu1yu/pYGCu4aaLfT
+	evsQmpTGifQsUMNtWwlQrVut8=
+Received: from pan-u.. (unknown [])
+	by gzsmtp2 (Coremail) with SMTP id PSgvCgDXXQ_kiuRqoPk9Cw--.24194S2;
+	Fri, 30 Oct 2026 20:17:40 +0800 (CST)
+From: RenPanpan <rppxj178543@163.com>
+To: alsa-devel@alsa-project.org
+Cc: tiwai@suse.de,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [DISCUSSION] ALSA: usb-audio: Card naming for composite devices
+Date: Fri, 30 Oct 2026 20:17:39 +0800
+Message-ID: <20261030121740.250336-1-rppxj178543@163.com>
+X-Mailer: git-send-email 2.43.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,49 +60,83 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:PSgvCgDXXQ_kiuRqoPk9Cw--.24194S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWrWxCFy3Xr48tr43try8uFg_yoW5Wr1rpF
+	9xKa9Fyrs8Gw1xGw1kXw4fGr9xtrZ3A3WUGryDWr18Ka98ur1jya47trZYqa48C3s5uFy2
+	yrWjqry0kws8AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8AwxUUUUU=
+X-CM-SenderInfo: huss5yirxykkqt6rljoofrz/xtbC6gSvrmrkiuRZuQAA3v
 
-On Fri, 30 Oct 2026 13:05:16 +0200, Mathias Nyman wrote:
-> > And sashiko seems to object to it, is that response correct?
-> >   
-> 
-> It does find one potential case where this patch does not fix the
-> enumeration of devices that disconnect during reset.
+Hello,
 
-Honestly, is this 7.3 code being fixed here reliable at all?
+I'd like to discuss an issue with USB audio card naming for composite
+devices and propose a possible improvement.
 
-As Sashiko points out (and I did before), we are 100% at the mercy of
-hardware and USB core with those "connected" and "link error" flags.
-Sashiko thinks that we may fail to clear these flags in some cases.
-Is it guaranteed that we can't clear them prematurely at other times?
+Problem
+-------
 
-If USB3 link comes back after core has cleared all status change bits
-(brief disconnection), we will get another Port Status Change Event,
-observe the port in "Connected/U0" state and reset these flags.
+For USB composite devices containing both non-audio and UAC audio
+functions, the ALSA card shortname is derived from the device-level
+iProduct string, which describes the entire device rather than the
+audio function.
 
-Is it guaranteed that core won't clear change bits until it finishes
-disconnection of affected devices so that all URBs are unlinked and
-we can no longer run into those HW bugs anymore?
+For example, the CVT Touch Device (1ff7:0f33) is a composite device
+with HID touch interfaces and UAC audio interfaces. Its iProduct is
+"Touch Device", which is the name for the whole device. The UAC
+OUTPUT_TERMINAL descriptor defines the audio function name as
+"MAXHUB Speaker" via the iTerminal string descriptor (index 14).
 
-If this fails to work, it's another regression vs 7.2 and prior. The
-old VDEV_PORT_ERROR flag used to stick for device lifetime. And it
-could have been extended to all disconnected devices, not just the
-one directly attached to the root port, to fix disconnection of whole
-trees with hubs while avoiding the above race condition.
+Currently, the ALSA card name shows "Touch Device", which does not
+identify the audio function. The UAC mixer code already reads
+iTerminal for mixer control names (e.g. "MAXHUB Mic" from the
+Microphone INPUT_TERMINAL's iTerminal=17), but the card naming
+function (usb_audio_make_shortname) does not use iTerminal.
 
-The reported USB2 regressions would have also been avoided, because
-old code only applied to USB3 ports and there is no actual need to
-generalize it to USB2 at this time. The bug still affected USB3, but
-it seems nobody uses USB3 devices that trigger it.
+Proposed approach
+-----------------
 
-I suppose I could fix the Renesas disconnection issue which the 7.3
-rework tried to address with an alternative patch smaller than this
-fixup, provided that the whole series is reverted. The preexisting
-USB3 bug would remain unsolved for now, however.
+When the USB device is composite (i.e. it has non-audio interfaces),
+prefer the Speaker OUTPUT_TERMINAL's iTerminal string as the card
+shortname, instead of the device-level iProduct. If iTerminal is not
+set (zero) or not readable via usb_string(), fall back to iProduct
+(existing behavior).
 
-Regards,
-Michal
+Non-composite (dedicated audio) devices are not affected and continue
+to use iProduct.
 
+The composite device detection checks whether any interface has a
+non-Audio class. The iTerminal reading uses the existing
+snd_usb_find_csint_desc() helper to parse OUTPUT_TERMINAL descriptors
+in the Audio Control interface's extra data. The iTerminal field is
+the last byte of the descriptor, common to both UAC1 (bLength=9) and
+UAC2 (bLength=12).
 
+As an immediate fix, I have also prepared a quirk entry for 1ff7:0f33
+to override the card shortname to "MAXHUB Speaker" directly.
+
+Questions for the community
+----------------------------
+
+1. Is this approach reasonable for composite devices, or should it
+   remain a per-device quirk?
+
+2. Are there concerns about changing card names for existing composite
+   USB audio devices that have iTerminal set? For example, UCM profile
+   matching or PulseAudio device identification.
+
+3. Would it be preferable to also check the IAD's iFunction field
+   before falling back to iTerminal, or is iTerminal sufficient?
+
+4. Are there known composite USB audio devices where the iTerminal
+   string might be empty or contain unexpected content?
+
+I have tested the quirk approach on a MT81C device (Kylin V10-SP1)
+and it works correctly. The iTerminal approach compiles but has not
+been tested on multiple devices yet.
+
+Any feedback would be appreciated.
+
+Best regards,
+RenPanpan
 
