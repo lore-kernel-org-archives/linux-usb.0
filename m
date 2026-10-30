@@ -1,90 +1,75 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793395166;
-	b=j8i0nEn0S+18+evvay5lPjvjISVnxIKUpBlKtxPclwecQE+4BjJdKG3CvDJzRPr3Wf0T
-	 m3sORYR6tFvAcIYURacaW9sUlSFVOnCfkhgHuoW2TtR2Q7zhy/CzueeDT6DgkNO7miqSk
-	 1V7SdRo/a58dBXtA8g0hOhZWwOmDmawGIu3bMSjOFq9bQwxE0SVqdvijQ95D4nOe0v0An
-	 yYDHbD3uhB9ONFq+yUaxseCNwyAO7WCPk52k0s+CBlqKNDb2GCxnpIKIv0d3h1SGrNrJ5
-	 dJp2yoORLqWqLBSAx8wUIh2Ymdo1zA5akw/PEz96nMyGDQHxQnFnWQPANMQS47dz6IQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793395166;
-	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:X-Bugzilla-URL:Auto-Submitted:MIME-Version;
-	bh=+WFOaIyzGitIfLnKXzEtLK1+DTqTufd2oLOdadpTP/k=;
-	b=VvMOMns1HT2kVObP28bQ/nJ9ViKnD36kloe0rqJD7LVNq7bVDK3pv8dsUirN1qq1C9mN
-	 wGuRLi30hK/Zi9hfKV2LTpxSWXg3JR4Haru1icipd9vH8oU4J8HuftTbhi4/BBbLjPCZW
-	 vgHXsWDB0/Mz/SzeIG0y9erDNPyyEF6mLziprEBTboWUVtXNboq99oVMs7P5MLDUVTSz1
-	 k6Fd+TIAvLFOlsrPScr9RCzrh8r1lo+g/IX40jnUwIPhurRmOYTr7wXTNSuPYsNGh2gXi
-	 zm+uan0dqXQCPQuL3fpPjXvBvKEw4tx5vTh8HjSNdxrjHPycA/+Ogo7SPKlRZGz3odQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=c2MqK2tX;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 153CD606A324
-	for <linux-usb.vger.kernel.org@localhost.mlmmj>; Fri, 30 Oct 2026 21:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=c2MqK2tX
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.215.198
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793396075;
+	b=n7BBa58Yd4FWFdIsdwu2kEQUcXLOzJzmzT0X1/aSvFIze1VTA8fQ8q57AUvfXSaQCOs3
+	 3Fzg4K/9k82C1uf+pUI7msjRyj/PM3IWvaPej3y3QdVfzxFOhiBJSy17ZYgU9m5966RJH
+	 JjvX58PlzCKf8ZEn/P6KQ8m4ACNkky52iGBEP1WxNzvuF21CJtWUWlaYkbNiPmrvQ4JLd
+	 MYUivUn+UOTN0TcQP6xi9x2DgTwyxK4m9BYtYmB+NfbwjfKHeIlAZR39UigoDGY5V3B5q
+	 Z09DrsjoFtYsdHWVkzTbRIaUd0xUxexsxT96Vfwsh4F8E/n8brdl5hqyyqHkm+6tGhg==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793396075;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Received:Date:In-Reply-To:
+	 Mime-Version:References:X-Mailer:Message-ID:Subject:From:To:Cc:
+	 Content-Type;
+	bh=pfyuaHVWliYihnuN7VxgyTXmn4J3zXZExhdUzMnnin4=;
+	b=dcyxzs4VQvTGgy4ftMZo+vN8C4etk8fMFIwv/U4D90p8ywJSFxrhhiUsvNRGjtxviGaR
+	 HkmCmqmGFvKfP2NOznfxueZLkZw77ZPzCN0kkgUrA6a/ASZ2DXQ2dm824RRABO05EkoWv
+	 FDUYYb1UpIbbA2hu/qMn+9pcrND1VYxRNntPlGukGwS5VdCRTjm5tub2KRGvAPS6YKcP2
+	 DwN+pNiFqODgpgh23rhEAPHPYxVcn9Ruk/d67SVTZKyxdhfzUsO9ton062feFyjqun1Mu
+	 cqPpL8UTP3o0otqXu1f+P1cL4xChJlzxTz8flTQxPfIifNanf0MouGFnYTRHN7IGybQ==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=google.com;
+	spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com;
+	dkim=pass header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Us1b9MPK;
+	arc=none smtp.remote-ip=209.85.215.198
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF976513C0
-	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 21:19:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1793395166; cv=none; b=JSjz1sKyrZQzhOA4dx5gitByZXR63BT2mNKM8aQR8k0TK00IVdP191SDP7mSOhOUnGDW3eW+YFQaHedDo6g6/Q3/qDmx9ZXxBdUDFZaHYKjeT5tceIcSIhH8/FaezVIJiKwNySoWDV0ZnIRn4SyjbnHgcC7IqcFL6vByzMy4SLI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1793395166; c=relaxed/simple;
-	bh=1uVIim3t2DbywgdyEg/Em0lBFqDvVemP1lKD/l4rvGU=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=IeNBHT9lhEHjucQ4HTrcKTNsykqmcwTuPFp8dn1q1skQB1ujQ8wql43JiHSMrLY6PP5Jq74MYZm+HOUzqKKfn42+SCvDkDDDcLF2UpzWfl+MrZgagk4QC2+clC+ezpBItU0UXNGGiOjEZ4qk3ljryx+YX94GbuZdoSOX0sk5J6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c2MqK2tX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4ADFFC2BCFD
-	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 21:19:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1793395165;
-	bh=1uVIim3t2DbywgdyEg/Em0lBFqDvVemP1lKD/l4rvGU=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=c2MqK2tXN4opFreEWHtiVGw8YeCwNEVW5rXR25gClVAup9gMVJjQ1761y6G1KMuG8
-	 Mm3zRTYKmiPD6pokprwZ2oCOgkPKYIrqgV/c4sYOpD/7m0r1h5wiTphpLrME3OHXPX
-	 omWYzPpYQSQUqRiMdG4DtyC00FWxJUxDbNNokP7LCy68CkEEdt8jjxZHvK0XrrncGz
-	 c6oigUVEOhRY16L5Vf2v03mmZrWFCm3uf5NWkkOa2GqR4iHBWLX1BUBIa7h5TGPrfX
-	 iKdY/uer0H5FMjMkQm/6ilsqvi3DL7OIBhZl6+vnItTmDH9FavQZnIxEOhuhfTyWtc
-	 Kr/N9s0xw1+wA==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 2A1B2C41612; Fri, 30 Oct 2026 21:19:25 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 220193] PATCH 6.1 082/167 which adds support for Owon HDS200
- breaks functionality of Owon VDS1022
-Date: Fri, 30 Oct 2026 21:19:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: changed
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: high
-X-Bugzilla-Who: craig@hesling.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: cc
-Message-ID: <bug-220193-208809-5NV48wmjux@https.bugzilla.kernel.org/>
-In-Reply-To: <bug-220193-208809@https.bugzilla.kernel.org/>
-References: <bug-220193-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36865606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 21:34:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 36865606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--nkapron.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=google.com header.i=@google.com header.a=rsa-sha256 header.s=20260707 header.b=Us1b9MPK
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-cd67d4bbdffso871742a12.3
+        for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 14:34:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20260707; t=1793396073; x=1794000873; darn=vger.kernel.org;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=pfyuaHVWliYihnuN7VxgyTXmn4J3zXZExhdUzMnnin4=;
+        b=Us1b9MPK2UkdFkcu8FM3bwwt0idTT53OhPJL2rsEaQj/4F/vgFNF26WjmBSFnyq4v4
+         MpfN1SoSaQygsuMoDR5WtCIWphUmN86VvhGEQCkY+DFQiKoildphuWY85vKqM0Dh4yqG
+         1DUTmVa2NxREgzm0rXCanf/YexfUlUokBAEyyzLnUmW1NWbgpdFhuRsSkOp98zAu9XT9
+         KXj3Vy0l1Msk7esBJDjWmYWdx239d7IZYG7ds/Pt4hcfhwy91zZCvpryWM1X6kynDvjF
+         jAiJ8j5AJTf17Sa7OntEuJ2E0VXmTzYTru6vIGA8l9h1q755yD+m7vbUtewBmXNo20LM
+         Ay/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793396073; x=1794000873;
+        h=content-type:cc:to:from:subject:message-id:references:mime-version
+         :in-reply-to:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=pfyuaHVWliYihnuN7VxgyTXmn4J3zXZExhdUzMnnin4=;
+        b=0bFR99KOBOSFD7sAFw8fZChFNh/Hxx9Jz+xPAbN4pxbcOb4QhhuBlZxWw8P2kyDPeU
+         i/3G1kKmrcSsFNa/Nsz62eHTsg9FDkp6C61fXg2yceYBepPASGACFpHXVfrlEYdXXbQs
+         KBnmrKYsaBdGtMJJDJvNXET+4v0xFkDUxTkjWtdZwA41np5cEk+FmT6Jo01nWc105HfW
+         z5jjKR1i1qHbZIKG8KOKKAkddD1Ca5asvty47qcWkt8Tl5mvrbhVVVBXon8DyIG1Hcyu
+         7ypX30RHBHX0xl6E/s25noPSgvO0tP/MAJBnwi6cfzE09kNI7whVdkMNFBHW5ERs0Vsf
+         jcWw==
+X-Forwarded-Encrypted: i=1; AKwUvBzrSJIgacTaxWpe2ql0djB20278h1avUYuR2VgfeoOspb2CWeWad1kLBL/ya+VGX9vpWbd4bPK7qlo=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIgy4m5KDKr/BXHZ6ftPyGG47mLgB8k8EYaMhEcRoRGPa7nplVQ
+	ld4xU19Z6vig2CtwVLGnC0yauJzPkzNx2hqo3AShtMCgslr7qkKBFjrvt+ucK4xcd5gnstQRiF+
+	8tNkgVwQ/zQ==
+X-Received: from pfbfo7.prod.google.com ([2002:a05:6a00:6007:b0:89e:861c:6b1f])
+ (user=nkapron job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a20:2583:b0:3e2:86b6:9be1
+ with SMTP id adf61e73a8af0-3e928ac6de9mr3264932637.70.1793396073279; Fri, 30
+ Oct 2026 14:34:33 -0700 (PDT)
+Date: Fri, 30 Oct 2026 21:34:28 +0000
+In-Reply-To: <20261020051446.92179-1-yuz08559@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,50 +78,79 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
+Mime-Version: 1.0
+References: <20261020051446.92179-1-yuz08559@gmail.com>
+X-Mailer: b4 0.17-dev
+Message-ID: <179339606875.2659781.13239690891562364438.b4-review@b4>
+Subject: Re: [PATCH] usb: gadget: f_hid: avoid copy_from_user() under get_report_spinlock
+From: Neill Kapron <nkapron@google.com>
+To: Yu Zhang <yuz08559@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D220193
+> f_hidg_get_report() copies the userspace report into a freshly allocated
+> 'entry' before taking get_report_spinlock.  When the report id is already
+> present in the list it then copies the same userspace buffer a second
+> time into the existing entry, this time while holding get_report_spinlock
+> (acquired with spin_lock_irqsave()):
+> 
+> 	spin_lock_irqsave(&hidg->get_report_spinlock, flags);
+> 	ptr = f_hidg_search_for_report(hidg, report_id);
+> 	if (ptr) {
+> 		if (copy_from_user(&ptr->report_data, buffer,
+> 				sizeof(struct usb_hidg_report))) {
+> 
+> copy_from_user() may fault and sleep, which is not allowed while holding
+> a spinlock with interrupts disabled:
+> 
+> 	BUG: sleeping function called from invalid context at ./include/linux/uaccess.h:169
+> 	in_atomic(): 1, irqs_disabled(): 1, non_block: 0, pid: 3481, name: hidg_getreport
+> 	 __might_fault+0x4d/0x60
+> 	 f_hidg_get_report+0x155/0x310
+> 	 f_hidg_ioctl+0xbd/0xe0
+> 	 __x64_sys_ioctl+0x120/0x170
+> 	 do_syscall_64+0xf9/0x540
+> 
+> This is reached by issuing GADGET_HID_WRITE_GET_REPORT twice for the same
+> report id (the first call inserts the entry, the second takes the update
+> path).  On a non-debug kernel a userspace buffer crafted to fault (e.g.
+> via userfaultfd) would sleep with the spinlock held and interrupts
+> disabled.
+> 
+> The data has already been copied into 'entry' before the lock is taken,
+> so reuse it instead of copying from userspace again under the lock.  This
+> also drops a redundant second read of the user buffer.
+> 
+> Fixes: a139c98f760e ("USB: gadget: f_hid: Add GET_REPORT via userspace IOCTL")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Yu Zhang <yuz08559@gmail.com>
+> ---
+>  drivers/usb/gadget/function/f_hid.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
+>
+> diff --git a/drivers/usb/gadget/function/f_hid.c b/drivers/usb/gadget/function/f_hid.c
+> index 3c6b43d06a6d..520892bbfbef 100644
+> --- a/drivers/usb/gadget/function/f_hid.c
+> +++ b/drivers/usb/gadget/function/f_hid.c
+> @@ -668,13 +668,7 @@ static int f_hidg_get_report(struct file *file, struct usb_hidg_report __user *b
+>  
+>  	if (ptr) {
+>  		/* Report already exists in list - update it */
+> -		if (copy_from_user(&ptr->report_data, buffer,
+> -				sizeof(struct usb_hidg_report))) {
+> -			spin_unlock_irqrestore(&hidg->get_report_spinlock, flags);
+> -			ERROR(cdev, "copy_from_user error\n");
+> -			kfree(entry);
+> -			return -EINVAL;
+> -		}
+> +		ptr->report_data = entry->report_data;
+>  		kfree(entry);
+>  	} else {
+>  		/* Report does not exist in list - add it */
+LGTM, thanks!
 
-Craig H (craig@hesling.com) changed:
+Reviewed-by: Neill Kapron <nkapron@google.com>
 
-           What    |Removed                     |Added
-----------------------------------------------------------------------------
-                 CC|                            |craig@hesling.com
-
---- Comment #8 from Craig H (craig@hesling.com) ---
-I did a bit more digging and found two problematic scenarios.
-
-There seems to be some VDS1022I, that has been supported by the GitHub proj=
-ect,
-that identifies as the following:
-
-
-  bInterfaceClass         5 Physical Interface Device
-  bInterfaceSubClass      0
-  bInterfaceProtocol      0
-
-From:
-https://github.com/florentbr/OWON-VDS1022/issues/54#issuecomment-1120191539
-
-
-I have also found a owon serial driver user whose OWON SDS1102 identifies as
-the following:
-
-  bInterfaceClass         5 Physical Interface Device
-  bInterfaceSubClass      6 [unknown]
-  bInterfaceProtocol     80
-
-From:
-https://github.com/lucky62/OWON_SDS1102_Linux_Capture/issues/1
-
-
-
-All variants:
-https://github.com/linux4life798/owon-hds200-capture/blob/main/driver/USB_D=
-ESCRIPTORS.md
-
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
+-- 
+Neill Kapron <nkapron@google.com>
