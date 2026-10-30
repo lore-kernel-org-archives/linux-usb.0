@@ -1,48 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793360870;
-	b=VupOX8ltJICBamcKKdm9QLPo1F+ASks6QqhIEpkFzDI8Ug+Q5YWF2dz+LSUnlirZAfD2
-	 lrulXqeVRigIpvZOh/hO36eVJlLKbOKsUzln6e161/N8cfVXSmBpxFyjACuBRxn79LVDw
-	 ARuX3YNDUjBmOnMiOOtF8HMvSukeUC6d/PaDZT2MCytFjtqXGl/sg4wOu9YmneCYW2U3j
-	 WM2hc+vr3sQOqWfL3OMogNPiPlQ4qGOvL87Vs8y8KrhSLd3KKSYZJ9f3fVxYsAV3evUcu
-	 srwhPZPRJPpMDn1is8N4zwjENd1HX49VDW3UfRm7HmR8B1zIrPkqpheB6b0LYiSgmpg==
+	t=1793361647;
+	b=NY8vG/QaadPIk2W8Z6qYtHA0yOWFfl0GrsOee3IuL4ha6D201ooc7pfLmfDO7agfZpEp
+	 nVsI5mzoUHFffLYf5cITP2tNG3y4F5OCwlthSyHUuVIGuQ+pBVrd/cUurp7sa0zm8dCwU
+	 vd0JcsglE/8dEcL1datXvLCPbVdtVe7H9/GwCWLs8FWS536PpaQG5jiwrSrOmqBLmsE0D
+	 1SrGe/kNb5g+i3CUQBTaT2qhSPlCXeJNiBHA6t2E6Yz+ov5QHZtK/GP9GvHqLZEsm2AVq
+	 vuG7koHEd5+jz/a7rrYXlKSDwO1tjZZWp+sxqWg+F/D4z2hvRbUSVuPoeTxwjVzFDrQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793360870;
-	h=DMARC-Filter:Received:X-Originating-IP:Date:X-CM-HeaderCharset:From:
-	 To:Cc:Subject:X-Priority:X-Mailer:X-CM-CTRLMSGS:Content-Type:
-	 MIME-Version:Message-ID:X-Coremail-Locale:X-CM-TRANSID:
-	 X-CM-SenderInfo:X-Coremail-Antispam;
-	bh=6VUi2opMTStPbB4YCMM40i93SZT5LSQM5Gwxt2tL9Cs=;
-	b=Cc/pNQV7clzCizBB46jgOvxjsCtrmnJe9vqgwQmst67Nc1cyxX6AotEWf07kx3a2TBwC
-	 uFVwdpHyNcFjNURE8ZVVIT+VA9nXXzsjwOjj1iJD1t6LHYfkQ7QhivSb/QMhSCca6F4er
-	 EAQO74WLkWUhPh1eqE6dIXYIBNLgN9GCXQ3YYcx9kjel5XvmnFS4MRkJweqqlVPlse7O+
-	 vSs+cYFAEGQTj+2LNOWSJAgv7Dj9YUUJRBztMzUYyCM4sTp7o1Hjvthxw0jvggRbqsx2H
-	 CQJAm5H8gGl1x8W5W9pUUcO78/kIOn9mMHtX0UAC4yPPEQYo3EyHZO4yMoSqGiFH1sw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793361647;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=BszrEEP9s9nlso4X79dqLjLwf6EB/85hHleOcw3jzWc=;
+	b=ExEFRvA1LSgZlMeiZyjCzYimzNjspRHd0rGRnQVPSSwTNr+7ZCxaYXct5J8VmoAiTD29
+	 it5WEgZPxbsgzVll2dXtVMBH1BtWZT4uJ+dTHMVrk0QLhqud9eYQBKFE6GNjA10oQexj8
+	 sxmrFVuswUjve8JJw3BqwhrGzrd5GcvYogSaALx335vDvWwbNnn5bJ8Pos6n6w7A0e1je
+	 bQIXS45cxTNTZ9r/8xk6ZSEU2hLqtVcLuWhy2RcB6i0B+1rb4CwFTFvL0nKiKFmmE5zI4
+	 cA4KTSydsFZtC2pnQpDGm9Lx/mifWjx4gX6yzpBLryemK8mj9FA2r1TklwiWcQbTC6Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=hust.edu.cn;
-	spf=pass smtp.mailfrom=hust.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8400606A329;
-	Fri, 30 Oct 2026 11:47:48 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C8400606A329
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from xuhx$hust.edu.cn ( [10.12.190.107] ) by ajax-webmail-app2
- (Coremail) ; Fri, 30 Oct 2026 19:47:46 +0800 (GMT+08:00)
-Date: Fri, 30 Oct 2026 19:47:46 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-From: =?UTF-8?B?5b6Q5pmX57+U?= <xuhx@hust.edu.cn>
-To: akpm@linux-foundation.org
-Cc: linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org
-Subject: lib/genalloc: gen_pool_destroy() frees chunks with no RCU  grace
- period while every library reader is an RCU reader
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version 2025.3-cmXT6 build
- 20260810(6c94e3b5) Copyright (c) 2002-2026 www.mailtech.cn hust
-X-CM-CTRLMSGS: =?B?vm1qkTiH6nJ5xwDR7hwMki1N8jM=
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_367984_1446829336.1793360866674"
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W8GFq9hh;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE8F606A31A;
+	Fri, 30 Oct 2026 12:00:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=W8GFq9hh
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1EEE1F000C1;
+	Fri, 30 Oct 2026 12:00:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793361647;
+	bh=BszrEEP9s9nlso4X79dqLjLwf6EB/85hHleOcw3jzWc=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=W8GFq9hhd77aWHsX6hoYXz1saowy8Ph9ODVHWXji6M5W19iG7INwwjneEWiTGxVzK
+	 +6EnZJD1RT+ifh3mzE+nBlmChdXB1jQqNdT0+hWoECy51RHTPq1Pseif4kd0OmrK6U
+	 dn6aKWUOVwl08mWRxOeK1B9W1Qasdtb8QSAYK6FRb8yqiym7hfAo7E02UzzVBlcTBK
+	 rd9cp7iZegUyCy+mF/lQLqZgLTBrlvrBKPLNuuS1JDHHZ7x+AwlR/VQCUSYc/QrSHl
+	 +Dth5uUMpYlHiqeSj8MxEKNZlmdF9mHkJF7LLRdhkiV/lgxzLy3NeVHYFgFcUr2c1x
+	 mPUMRuTy0V5Kw==
+Message-ID: <sashiko-outbox-190960@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH] usb: misc: onboard_usb_dev: don't defer the USB device
+ probe
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "James Clark" <jjc@jclark.com>
+Cc: linux-usb@vger.kernel.org, linux-gpio@vger.kernel.org
+In-Reply-To: <20261030114705.3159093-1-jjc@jclark.com>
+References: <20261030114705.3159093-1-jjc@jclark.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Oct 2026 12:00:46 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -51,206 +59,132 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-Message-ID: <4aae234b.1ae67.1a18ca32d72.Coremail.xuhx@hust.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID:IQEQrMCWvXbig+RqRItmAA--.5867W
-X-CM-SenderInfo: bgsqjkayqyjmo6kx23oohg3hdfq/1tbiAgIQB2rjce18VgACsq
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWkKw
-	CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
-	daVFxhVjvjDU=
 
-------=_Part_367984_1446829336.1793360866674
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: misc: onboard_usb_dev: UAF race in onboard_dev_attach_usbdev()
+--
 
-VGhlIGdlbl9wb29sIHB1Ymxpc2hpbmcgcHJvdG9jb2wgaXMgYXN5bW1ldHJpYzogY2h1bmtzIGFy
-ZSBwdWJsaXNoZWQKd2l0aCBsaXN0X2FkZF9yY3UoKSBhbmQgZXZlcnkgcmVhZGVyIGluIHRoZSBs
-aWJyYXJ5IHRyYXZlcnNlcyB1bmRlcgpyY3VfcmVhZF9sb2NrKCkgLS0gYnV0IGdlbl9wb29sX2Rl
-c3Ryb3koKSB3YWxrcyB0aGUgY2h1bmsgbGlzdCB3aXRoCmxpc3RfZm9yX2VhY2hfc2FmZSwgbGlz
-dF9kZWwncyBlYWNoIGNodW5rIGFuZCB2ZnJlZXMgaXQgaW1tZWRpYXRlbHksCndpdGggbm8gc3lu
-Y2hyb25pemVfcmN1KCkgYW55d2hlcmU7IGl0cyBvbmx5IGRvY3VtZW50ZWQgcHJlY29uZGl0aW9u
-CmlzICJubyBvdXRzdGFuZGluZyBhbGxvY2F0aW9ucyIuICBBbnkgY2FsbGVyIHRoYXQgaW52b2tl
-cwpnZW5fcG9vbF9kZXN0cm95KCkgd2hpbGUgYSByZWFkZXIgaXMgaW5zaWRlIGl0cyBSQ1UgY3Jp
-dGljYWwgc2VjdGlvbgp0dXJucyB0aGF0IHJlYWRlcidzIHN1YnNlcXVlbnQgY2h1bmstPnN0YXJ0
-X2FkZHIvZW5kX2FkZHIvcGh5c19hZGRyCmFjY2Vzc2VzIGludG8gdXNlLWFmdGVyLWZyZWUgb2Yg
-dmZyZWUnZCBtZW1vcnkgLS0gYW5kIHRoZSBSQ1UgdXNhZ2Ugb24KdGhlIHJlYWRlciBzaWRlIGFj
-dGl2ZWx5IGNyZWF0ZXMgdGhlIGlsbHVzaW9uIHRoYXQgY29uY3VycmVudCByZWFkcwphcmUgc2Fm
-ZSwgc28gY2FsbGVycyBoYXZlIG5vIHNpZ25hbCB0aGF0IHRoZXkgbXVzdCBxdWllc2NlLiAgSQpj
-b25maXJtZWQgdGhlIG1lY2hhbmlzbSBvbiBhIHByaXN0aW5lIExpbnV4IDcuMyBLQVNBTiBrZXJu
-ZWwgYm90aApkZXRlcm1pbmlzdGljYWxseSAoYSByZWFkZXIgcGFya2VkIGluc2lkZSBnZW5fcG9v
-bF92aXJ0X3RvX3BoeXMncyBSQ1UKY3JpdGljYWwgc2VjdGlvbiB3aGlsZSBkZXN0cm95IHJ1bnM6
-IHNsYWItdXNlLWFmdGVyLWZyZWUgaW4KZ2VuX3Bvb2xfdmlydF90b19waHlzKzB4MjEsIHBsdXMg
-YSBzZWNvbmQtb3JkZXIgd2lsZC1tZW1vcnktYWNjZXNzCndoZW4gdGhlIGZyZWVkIG1lbW9yeSBn
-b3QgcmV1c2VkKSBhbmQgbmF0dXJhbGx5LCB3aXRoIG5vCmluc3RydW1lbnRhdGlvbiBhdCBhbGwg
-KGZvdXIgcmVhZGVyIGt0aHJlYWRzIGFnYWluc3QgYQpkZXN0cm95L3JlYnVpbGQgYnVpbGRlciBs
-b29wOiAxNyByZXBvcnRzIG9mIHRoZSBzYW1lIHNoYXBlIGluIDIwCnNlY29uZHMpLiAgSSBhbHNv
-IGF1ZGl0ZWQgdGhlIGluLXRyZWUgVVNCIGhvc3QgY2FsbGVycyBvZiB0aGUKZGV2bV9nZW5fcG9v
-bF9jcmVhdGUgcGF0aCAob2hjaS1zbTUwMSwgb2hjaS1zYTExMTEgdmlhCnVzYl9oY2Rfc2V0dXBf
-bG9jYWxfbWVtKSBhbmQgdGhleSBhcmUgc2FmZSB0b2RheSBiZWNhdXNlIHRoZSBkZXZyZXMKcmVs
-ZWFzZSBoYXBwZW5zIGFmdGVyIHVzYl9yZW1vdmVfaGNkKCkgaGFzIGZ1bGx5IHF1aWVzY2VkIHRo
-ZSBIQ0QgLS0Kc28gdGhpcyBpcyBhbiBBUEkgY29udHJhY3QgZ2FwIHdhaXRpbmcgZm9yIGEgZnV0
-dXJlIGNhbGxlciwgbm90IGEKbGl2ZSBpbi10cmVlIGJ1Zzsgc3RpbGwsIHRoZSBmaXggaXMgb25l
-IGNhbGwgYW5kIG1ha2VzIHRoZSBjb250cmFjdAptYXRjaCB3aGF0IHRoZSBsaWJyYXJ5J3Mgb3du
-IHJlYWRlciBzaWRlIGFkdmVydGlzZXMuCgpUaGUgZGV0YWlsZWQgZGVzY3JpcHRpb246CgoqIFRo
-ZSBhc3ltbWV0cnkgKExpbnV4IDcuMywgbGliL2dlbmFsbG9jLmMpCiAgLSBQdWJsaXNoOiBnZW5f
-cG9vbF9hZGRfb3duZXIoKSAtPiBsaXN0X2FkZF9yY3UoJmNodW5rLT5uZXh0X2NodW5rLAogICAg
-JnBvb2wtPmNodW5rcykgKDoyMDItMjA0KS4KICAtIFJlYWQ6IGV2ZXJ5IGxpYnJhcnkgZW50cnkg
-cG9pbnQgaG9sZHMgcmN1X3JlYWRfbG9jaygpIHdoaWxlCiAgICB3YWxraW5nIHRoZSBjaHVuayBs
-aXN0ICg6MjIyLTIyMywgOjI5Ni0yOTcsIDo1MDItNTAzLCA6NTM3LTUzOCwKICAgIDo1NjAtNTYx
-LCA6NTg1LTU4NiwgOjYwNC02MDUsIC4uLikuCiAgLSBEZXN0cm95OiBnZW5fcG9vbF9kZXN0cm95
-KCkgKDoyNDItMjYyKTogbGlzdF9mb3JfZWFjaF9zYWZlLAogICAgbGlzdF9kZWwoJmNodW5rLT5u
-ZXh0X2NodW5rKSwgdmZyZWUoY2h1bmspIC0tIG5vIGdyYWNlIHBlcmlvZDsKICAgIHRoZSBjb21t
-ZW50IHJlcXVpcmVzIG9ubHkgIm5vIG91dHN0YW5kaW5nIGFsbG9jYXRpb25zIgogICAgKDoyMzkt
-MjQwKS4KICBBbiBSQ1UtcHVibGlzaCArIFJDVS1yZWFkIEFQSSB3aG9zZSBkZXN0cnVjdG9yIHNr
-aXBzIHRoZSBSQ1UKICB3YWl0aW5nIHNpZGUgaXMgaGFsZiBhIHByb3RvY29sOiB0aGUgYnVyZGVu
-IGlzIHNpbGVudGx5IHNoaWZ0ZWQgdG8KICBjYWxsZXJzIHdobyB3ZXJlIGdpdmVuIGV2ZXJ5IGlu
-ZGljYXRpb24gKGJ5IHRoZSByZWFkZXIgc2lkZSkgdGhhdAogIGNvbmN1cnJlbnQgYWNjZXNzIGlz
-IGhhbmRsZWQuICBDb250cmFzdCBkbWFfcG9vbF9kZXN0cm95KCksIHdoaWNoCiAgYXQgbGVhc3Qg
-ZG9jdW1lbnRzIGl0cyBxdWllc2NlbmNlIGFzc3VtcHRpb24uCgoqIEV2aWRlbmNlIChwcmlzdGlu
-ZSA3LjMgS0FTQU47IGluc3RydW1lbnQgYXR0YWNoZWQpCiAgZ2VucmFjZS5jIGhhcyB0d28gbW9k
-ZXM6CiAgLSBDb250cm9sbGVkOiBhIGt0aHJlYWQgY2FsbHMgZ2VuX3Bvb2xfdmlydF90b19waHlz
-KCkgYW5kIGlzCiAgICBwYXJrZWQgKGtwcm9iZSkgSU5TSURFIHRoZSBSQ1UgY3JpdGljYWwgcmVn
-aW9uLCB0aGVuIGFub3RoZXIKICAgIHRocmVhZCBkZXN0cm95cyBhbmQgcmVidWlsZHMgdGhlIHBv
-b2w6CiAgICAgIEJVRzogS0FTQU46IHNsYWItdXNlLWFmdGVyLWZyZWUgaW4gZ2VuX3Bvb2xfdmly
-dF90b19waHlzKzB4MjEKICAgICAgUmVhZCBvZiBzaXplIDggLi4uIGJ5IHRhc2sgZ2VucmQKICAg
-ICAgQWxsb2NhdGVkIGJ5OiBnZW5fcG9vbF9jcmVhdGUKICAgICAgRnJlZWQgYnk6IGtmcmVlIDwt
-IChkZXN0cm95IHBhdGgpCiAgICBmb2xsb3dlZCBieSBhIHdpbGQtbWVtb3J5LWFjY2VzcyAocmV1
-c2VkLWdhcmJhZ2UgZGVyZWZlcmVuY2UpIGluCiAgICB0aGUgc2FtZSByZWFkZXIgLS0gc2hvd2lu
-ZyB3aGF0IGEgcHJvZHVjdGlvbiBzcGxhdCB3b3VsZCBsb29rCiAgICBsaWtlIGFmdGVyIHNsYWIg
-cmV1c2UuCiAgLSBOYXR1cmFsIChubyBrcHJvYmUpOiBmb3VyIHJlYWRlciBrdGhyZWFkcyBsb29w
-IG9uCiAgICBnZW5fcG9vbF92aXJ0X3RvX3BoeXMoKS9nZW5fcG9vbF9hbGxvYygpIHdoaWxlIGEg
-YnVpbGRlciB0aHJlYWQKICAgIGRlc3Ryb3lzIGFuZCByZWNyZWF0ZXMgcG9vbHMgLS0gMTcgaWRl
-bnRpY2FsCiAgICBzbGFiLXVzZS1hZnRlci1mcmVlIHJlcG9ydHMgd2l0aGluIDIwIHMuCiAgVGhl
-IHBvb2wvY2h1bmsgb2JqZWN0cyBhcmUgdGhlIGxpYnJhcnkncyBvd247IG5vdGhpbmcgYWJvdXQg
-dGhlCiAgdGVzdCBmYWJyaWNhdGVzIGtlcm5lbCBzdGF0ZS4KCiogSW4tdHJlZSBleHBvc3VyZSB0
-b2RheSAoYXVkaXRlZCwgZm9yIGhvbmVzdHkpCiAgVGhlIGRldm1fZ2VuX3Bvb2xfY3JlYXRlKCkg
-dXNlcnMgaW4gVVNCIGhvc3QgbGFuZAogICh1c2JfaGNkX3NldHVwX2xvY2FsX21lbSgpLCBjYWxs
-ZWQgb25seSBieSBvaGNpLXNtNTAxIGFuZAogIG9oY2ktc2ExMTExKSByZWxlYXNlIHRoZSBwb29s
-IGZyb20gZGV2cmVzIGFmdGVyIHRoZSBkcml2ZXIncwogIC5yZW1vdmUgcmV0dXJuZWQsIGJ5IHdo
-aWNoIHRpbWUgdXNiX3JlbW92ZV9oY2QoKSBoYXMgZGlzY29ubmVjdGVkCiAgdGhlIHJvb3QgaHVi
-LCBmcmVlZCB0aGUgSVJRIGFuZCBydW4gLnN0b3AgLS0gbm8gcmVhZGVyIGNhbiBiZQogIGluc2lk
-ZSB0aGUgbGlicmFyeS4gIEkgZGlkIG5vdCBhdWRpdCB0aGUgcmVtYWluaW5nIGdlbmFsbG9jIHVz
-ZXJzCiAgb3V0c2lkZSBVU0I7IHRoZSBnYXAgaXMgcmVwb3J0ZWQgYXQgdGhlIEFQSSBsZXZlbC4K
-CgpSZWdhcmRzLApIYW54aWFuZyBYdQp4dWh4QGh1c3QuZWR1LmNuCgoK
-------=_Part_367984_1446829336.1793360866674
-Content-Type: text/plain; name=genrace.c
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="genrace.c"
+commit f6a7eed8d40c04892ba2d262827780a7d1796445
+Author: James Clark <jjc@jclark.com>
 
-Ly8gU1BEWC1MaWNlbnNlLUlkZW50aWZpZXI6IEdQTC0yLjAKLyoKICogZ2VucmFjZS5jIC0gQVBJ
-LTEgKGdlbl9wb29sX2Rlc3Ryb3koKSBsYWNrcyBhbiBSQ1UgZ3JhY2UgcGVyaW9kKSBkcml2ZXIu
-CiAqCiAqIEF1ZGl0IGNhc2U6IGRyaXZlcnMvdXNiL2hvc3QgbWFudWFsIHJldmlldyAyMDI2LTEw
-LTI5LCBBUEktMS4KICoKICogICBnZW5fcG9vbF9hZGRfb3duZXIoKTogIGxpc3RfYWRkX3JjdSgm
-Y2h1bmstPm5leHRfY2h1bmssICZwb29sLT5jaHVua3MpCiAqICAgcmVhZGVyczogICAgICAgICAg
-ICAgICByY3VfcmVhZF9sb2NrKCk7IGxpc3RfZm9yX2VhY2hfZW50cnlfcmN1KC4uLikKICogICBn
-ZW5fcG9vbF9kZXN0cm95KCk6ICAgIGxpc3RfZGVsKCZjaHVuay0+bmV4dF9jaHVuayk7IHZmcmVl
-KGNodW5rKQogKiAgICAgICAgICAgICAgICAgICAgICAgICAgW05PIHN5bmNocm9uaXplX3JjdSgp
-IGFueXdoZXJlXQogKgogKiBBIGRlc3Ryb3kgdGhhdCBvdmVybGFwcyBhbnkgaW4tZmxpZ2h0IFJD
-VSByZWFkZXIgaXMgYSB1c2UtYWZ0ZXItZnJlZSBvbgogKiB0aGUgdmZyZWUoKWQgY2h1bmsuIFRo
-ZSBVU0IgaG9zdCBjYWxsZXJzIChvaGNpLXNtNTAxL3NhMTExMSB2aWEgZGV2bSkgYXJlCiAqIHNl
-cmlhbGl6ZWQgYnkgdGVhcmRvd24gb3JkZXIsIHNvIHRoaXMgdmVyaWZpZXMgdGhlIEFQSS1sZXZl
-bCBtZWNoYW5pc20KICogaXRzZWxmIHdpdGggYSBtaW5pbWFsIGluLXRyZWUtQVBJLW9ubHkgcmVw
-cm9kdWNlcjoKICoKICogICBjdGwgbW9kZTogYSBrcHJvYmUgc3RhbGxzIG9uZSByZWFkZXIgaW5z
-aWRlIGdlbl9wb29sX3ZpcnRfdG9fcGh5cygpCiAqICAgICAgICAgICAgIChpLmUuIGluc2lkZSBp
-dHMgUkNVIGNyaXRpY2FsIHNlY3Rpb24pOyBtYWluIHRocmVhZCBkZXN0cm95cwogKiAgICAgICAg
-ICAgICB0aGUgcG9vbDsgdGhlIHN0YWxsIGV4cGlyZXMgYW5kIHRoZSB0cmF2ZXJzYWwgY29udGlu
-dWVzIG9uCiAqICAgICAgICAgICAgIHRoZSBmcmVlZCBjaHVuayAtPiBkZXRlcm1pbmlzdGljIEtB
-U0FOIHZtYWxsb2MtVUFGLgogKiAgIG5hdCBtb2RlOiByZWFkZXIgdGhyZWFkcyBsb29wIHJjdV9y
-ZWFkX2xvY2srbG9va3VwIHdoaWxlIGEgYnVpbGRlcgogKiAgICAgICAgICAgICB0aHJlYWQgZGVz
-dHJveXMvcmVidWlsZHMgdGhlIHBvb2wsIG5vIGluc3RydW1lbnRhdGlvbi4KICovCiNkZWZpbmUg
-cHJfZm10KGZtdCkgIkdFTlJBQ0U6ICIgZm10CgojaW5jbHVkZSA8bGludXgvbW9kdWxlLmg+CiNp
-bmNsdWRlIDxsaW51eC9pbml0Lmg+CiNpbmNsdWRlIDxsaW51eC9rZXJuZWwuaD4KI2luY2x1ZGUg
-PGxpbnV4L2twcm9iZXMuaD4KI2luY2x1ZGUgPGxpbnV4L2t0aHJlYWQuaD4KI2luY2x1ZGUgPGxp
-bnV4L2RlbGF5Lmg+CiNpbmNsdWRlIDxsaW51eC9zbGFiLmg+CiNpbmNsdWRlIDxsaW51eC9nZW5h
-bGxvYy5oPgojaW5jbHVkZSA8bGludXgvdm1hbGxvYy5oPgojaW5jbHVkZSA8bGludXgvbW0uaD4K
-I2luY2x1ZGUgPGxpbnV4L2F0b21pYy5oPgojaW5jbHVkZSA8bGludXgvY29tcGxldGlvbi5oPgoK
-c3RhdGljIGNoYXIgKm1vZGUgPSAiY3RsIjsKbW9kdWxlX3BhcmFtKG1vZGUsIGNoYXJwLCAwNjAw
-KTsKTU9EVUxFX1BBUk1fREVTQyhtb2RlLCAiY3RsPWNvbnRyb2xsZWQga3Byb2JlIHN0YWxsLCBu
-YXQ9bmF0dXJhbCBoYW1tZXIiKTsKCnN0YXRpYyBpbnQgc3RhbGxfdXMgPSAzMDAwMDA7Cm1vZHVs
-ZV9wYXJhbShzdGFsbF91cywgaW50LCAwNjAwKTsKCnN0YXRpYyBpbnQgbmF0X3NlY3MgPSAyMDsK
-bW9kdWxlX3BhcmFtKG5hdF9zZWNzLCBpbnQsIDA2MDApOwoKc3RhdGljIGludCBuYXRfcmVhZGVy
-cyA9IDQ7Cm1vZHVsZV9wYXJhbShuYXRfcmVhZGVycywgaW50LCAwNjAwKTsKCiNkZWZpbmUgUE9P
-TF9PUkRFUiA0CiNkZWZpbmUgQ0hVTktfUEFHRVMgNApzdGF0aWMgc3RydWN0IGdlbl9wb29sICpn
-X3Bvb2w7CnN0YXRpYyB2b2lkICpnX3ZhOwpzdGF0aWMgcGh5c19hZGRyX3QgZ19wYTsKc3RhdGlj
-IHNpemVfdCBnX3NpemUgPSBDSFVOS19QQUdFUyAqIFBBR0VfU0laRTsKCnN0YXRpYyBhdG9taWNf
-dCBzdGFsbF9oaXRzID0gQVRPTUlDX0lOSVQoMCk7CnN0YXRpYyBhdG9taWNfdCBzdGFsbF9zZWVu
-ID0gQVRPTUlDX0lOSVQoMCk7CnN0YXRpYyBhdG9taWNfdCB1YWZfcmVhZHMgPSBBVE9NSUNfSU5J
-VCgwKTsKCi8qIC0tLS0gY29udHJvbGxlZC1tb2RlIGtwcm9iZTogc3RhbGwgYSByZWFkZXIgbWlk
-LVJDVS1jcml0aWNhbC1zZWN0aW9uIC0tLS0gKi8Kc3RhdGljIGludCB2dHBfcHJlKHN0cnVjdCBr
-cHJvYmUgKnAsIHN0cnVjdCBwdF9yZWdzICpyZWdzKQp7CglpbnQgaDsKCgloID0gYXRvbWljX2lu
-Y19yZXR1cm4oJnN0YWxsX2hpdHMpOwoJaWYgKGggIT0gMSkKCQlyZXR1cm4gMDsKCWF0b21pY19z
-ZXQoJnN0YWxsX3NlZW4sIDEpOwoJcHJfd2Fybigic3RhbGxpbmcgcmVhZGVyIGluc2lkZSBnZW5f
-cG9vbF92aXJ0X3RvX3BoeXMgKFJDVSBzZWN0aW9uKSBmb3IgJWQgdXNcbiIsCgkJc3RhbGxfdXMp
-OwoJewoJCXU2NCB0YXJnZXQgPSBrdGltZV9nZXRfbW9ub19mYXN0X25zKCkgKyAodTY0KXN0YWxs
-X3VzICogMTAwMDsKCgkJd2hpbGUgKGt0aW1lX2dldF9tb25vX2Zhc3RfbnMoKSA8IHRhcmdldCkK
-CQkJY3B1X3JlbGF4KCk7Cgl9CglhdG9taWNfc2V0KCZzdGFsbF9zZWVuLCAyKTsKCXJldHVybiAw
-Owp9CgpzdGF0aWMgc3RydWN0IGtwcm9iZSBrcF92dHAgPSB7Cgkuc3ltYm9sX25hbWUgPSAiZ2Vu
-X3Bvb2xfdmlydF90b19waHlzIiwKCS5wcmVfaGFuZGxlciA9IHZ0cF9wcmUsCn07CgpzdGF0aWMg
-c3RydWN0IGNvbXBsZXRpb24gcmVhZGVyX2RvbmU7CnN0YXRpYyBzdHJ1Y3QgdGFza19zdHJ1Y3Qg
-KnJlYWRlcl90aDsKCnN0YXRpYyBpbnQgcmVhZGVyX29uY2Uodm9pZCAqdW51c2VkKQp7Cgl1bnNp
-Z25lZCBsb25nIGEgPSAodW5zaWduZWQgbG9uZylnX3ZhICsgNjQ7CglpbnQgaTsKCglyY3VfcmVh
-ZF9sb2NrKCk7Cglmb3IgKGkgPSAwOyBpIDwgNjQgJiYgIWt0aHJlYWRfc2hvdWxkX3N0b3AoKTsg
-aSsrKSB7CgkJcGh5c19hZGRyX3QgcGEgPSBnZW5fcG9vbF92aXJ0X3RvX3BoeXMoZ19wb29sLCBh
-ICsgaSAqIDE2KTsKCgkJKHZvaWQpcGE7CgkJaWYgKGkgPT0gOCkKCQkJcHJfaW5mbygicmVhZGVy
-OiBtaWQtbG9vcCAodGhpcyBsb29rdXAgbWF5IGJlIHRoZSBzdGFsbGVkIG9uZSlcbiIpOwoJfQoJ
-YXRvbWljX2luYygmdWFmX3JlYWRzKTsJLyogc3Vydml2ZWQ7IHJlYWRzIG1heSBoYXZlIGJlZW4g
-b24gZnJlZWQgbWVtICovCglyY3VfcmVhZF91bmxvY2soKTsKCWNvbXBsZXRlKCZyZWFkZXJfZG9u
-ZSk7CglyZXR1cm4gMDsKfQoKc3RhdGljIGludCBwb29sX2J1aWxkKHZvaWQpCnsKCWdfcG9vbCA9
-IGdlbl9wb29sX2NyZWF0ZShQT09MX09SREVSLCAtMSk7CglpZiAoIWdfcG9vbCkKCQlyZXR1cm4g
-LUVOT01FTTsKCWdfdmEgPSB2bWFsbG9jKGdfc2l6ZSk7CglpZiAoIWdfdmEpIHsKCQlnZW5fcG9v
-bF9kZXN0cm95KGdfcG9vbCk7CgkJcmV0dXJuIC1FTk9NRU07Cgl9CgkvKiBwaHlzIGFkZHJlc3Mg
-aXMgYm9va2tlZXBpbmcgb25seSBmb3IgdGhpcyB0ZXN0OyBhbnkgdmFsdWUgd29ya3MgKi8KCWdf
-cGEgPSAweDIwMDAwMDAwMFVMTDsKCXJldHVybiBnZW5fcG9vbF9hZGRfdmlydChnX3Bvb2wsICh1
-bnNpZ25lZCBsb25nKWdfdmEsIGdfcGEsIGdfc2l6ZSwgLTEpOwp9CgpzdGF0aWMgdm9pZCBwb29s
-X3RlYXJkb3duKHZvaWQpCnsKCWdlbl9wb29sX2Rlc3Ryb3koZ19wb29sKTsKCWlmIChnX3ZhKQoJ
-CXZmcmVlKGdfdmEpOwoJZ192YSA9IE5VTEw7Cn0KCnN0YXRpYyBpbnQgbmF0X3JlYWRlcih2b2lk
-ICp1bnVzZWQpCnsKCXVuc2lnbmVkIGxvbmcgYTsKCgl3aGlsZSAoIWt0aHJlYWRfc2hvdWxkX3N0
-b3AoKSkgewoJCWEgPSAodW5zaWduZWQgbG9uZylnX3ZhICsgNjQ7CgkJcmN1X3JlYWRfbG9jaygp
-OwoJCS8qIGxvb3AgdG8gc3RyZXRjaCB0aGUgUkNVIGNyaXRpY2FsIHNlY3Rpb24gKi8KCQlmb3Ig
-KGludCBpID0gMDsgaSA8IDMyOyBpKyspCgkJCSh2b2lkKWdlbl9wb29sX3ZpcnRfdG9fcGh5cyhn
-X3Bvb2wsIGEgKyBpICogMTYpOwoJCXJjdV9yZWFkX3VubG9jaygpOwoJfQoJcmV0dXJuIDA7Cn0K
-CnN0YXRpYyBpbnQgbmF0X2J1aWxkZXIodm9pZCAqdW51c2VkKQp7CglpbnQgY3ljbGVzID0gMDsK
-Cgl3aGlsZSAoIWt0aHJlYWRfc2hvdWxkX3N0b3AoKSkgewoJCW1zbGVlcCgyMCk7CgkJaWYgKCFn
-X3Bvb2wpCgkJCWNvbnRpbnVlOwoJCWdlbl9wb29sX2Rlc3Ryb3koZ19wb29sKTsJLyogdmZyZWUg
-Y2h1bmtzLCBubyBncmFjZSBwZXJpb2QgKi8KCQlnX3Bvb2wgPSBnZW5fcG9vbF9jcmVhdGUoUE9P
-TF9PUkRFUiwgLTEpOwoJCWlmICghZ19wb29sKQoJCQlicmVhazsKCQlpZiAoZ2VuX3Bvb2xfYWRk
-X3ZpcnQoZ19wb29sLCAodW5zaWduZWQgbG9uZylnX3ZhLCBnX3BhLAoJCQkJICAgICAgZ19zaXpl
-LCAtMSkpIHsKCQkJZ2VuX3Bvb2xfZGVzdHJveShnX3Bvb2wpOwoJCQlnX3Bvb2wgPSBOVUxMOwoJ
-CQlicmVhazsKCQl9CgkJY3ljbGVzKys7Cgl9Cglwcl9pbmZvKCJuYXQgYnVpbGRlciBjeWNsZXM9
-JWRcbiIsIGN5Y2xlcyk7CglyZXR1cm4gMDsKfQoKc3RhdGljIGludCBfX2luaXQgZ2VucmFjZV9p
-bml0KHZvaWQpCnsKCWludCByZXQ7CgoJcmV0ID0gcG9vbF9idWlsZCgpOwoJaWYgKHJldCkgewoJ
-CXByX2VycigicG9vbCBidWlsZCBmYWlsZWQgJWRcbiIsIHJldCk7CgkJcmV0dXJuIHJldDsKCX0K
-CXByX2luZm8oInBvb2w9JXB4IHZhPSVweCBwYT0lcGEgc2l6ZT0lenVcbiIsCgkJZ19wb29sLCBn
-X3ZhLCAmZ19wYSwgZ19zaXplKTsKCglpZiAoIXN0cmNtcChtb2RlLCAiY3RsIikpIHsKCQlyZXQg
-PSByZWdpc3Rlcl9rcHJvYmUoJmtwX3Z0cCk7CgkJaWYgKHJldCkgewoJCQlwcl9lcnIoInJlZ2lz
-dGVyX2twcm9iZShnZW5fcG9vbF92aXJ0X3RvX3BoeXMpIGZhaWxlZCAlZFxuIiwKCQkJICAgICAg
-IHJldCk7CgkJCXBvb2xfdGVhcmRvd24oKTsKCQkJcmV0dXJuIHJldDsKCQl9CgkJaW5pdF9jb21w
-bGV0aW9uKCZyZWFkZXJfZG9uZSk7CgkJLyogcGluIHRoZSByZWFkZXIgYXdheSBmcm9tIENQVTA6
-IHRoZSBtYWluIHRocmVhZCBidXN5LXdhaXRzICovCgkJcmVhZGVyX3RoID0ga3RocmVhZF9jcmVh
-dGUocmVhZGVyX29uY2UsIE5VTEwsICJnZW5yZCIpOwoJCWlmIChJU19FUlIocmVhZGVyX3RoKSkg
-ewoJCQl1bnJlZ2lzdGVyX2twcm9iZSgma3BfdnRwKTsKCQkJcG9vbF90ZWFyZG93bigpOwoJCQly
-ZXR1cm4gUFRSX0VSUihyZWFkZXJfdGgpOwoJCX0KCQlrdGhyZWFkX2JpbmQocmVhZGVyX3RoLCAx
-KTsKCQl3YWtlX3VwX3Byb2Nlc3MocmVhZGVyX3RoKTsKCQkvKiB3YWl0IHVudGlsIHRoZSByZWFk
-ZXIgaXMgcGFya2VkIGluc2lkZSB0aGUgc3RhbGwgKi8KCQl3aGlsZSAoYXRvbWljX3JlYWQoJnN0
-YWxsX3NlZW4pICE9IDEpCgkJCWNwdV9yZWxheCgpOwoJCXByX3dhcm4oInJlYWRlciBzdGFsbGVk
-OyBkZXN0cm95aW5nIHBvb2wgTk9XIChubyBncmFjZSBwZXJpb2QgZXhwZWN0ZWQpXG4iKTsKCQln
-ZW5fcG9vbF9kZXN0cm95KGdfcG9vbCk7CS8qIGNodW5rcyB2ZnJlZSdkIHVuZGVyIHRoZSByZWFk
-ZXIgKi8KCQlnX3Bvb2wgPSBOVUxMOwoJCS8qIHJlYWRlciByZXN1bWVzIG9uIGZyZWVkIGNodW5r
-cyBoZXJlICovCgkJd2FpdF9mb3JfY29tcGxldGlvbigmcmVhZGVyX2RvbmUpOwoJCWt0aHJlYWRf
-c3RvcChyZWFkZXJfdGgpOwoJCXVucmVnaXN0ZXJfa3Byb2JlKCZrcF92dHApOwoJCXByX2luZm8o
-ImN0bCBkb25lOyB3YXRjaCBmb3IgS0FTQU4gdm1hbGxvYy11c2UtYWZ0ZXItZnJlZSBhYm92ZVxu
-Iik7CgkJaWYgKGdfdmEpCgkJCXZmcmVlKGdfdmEpOwoJfSBlbHNlIHsKCQlzdHJ1Y3QgdGFza19z
-dHJ1Y3QgKmI7CgkJc3RydWN0IHRhc2tfc3RydWN0ICpyWzhdOwoJCWludCBpOwoKCQlmb3IgKGkg
-PSAwOyBpIDwgbmF0X3JlYWRlcnMgJiYgaSA8IDg7IGkrKykKCQkJcltpXSA9IGt0aHJlYWRfcnVu
-KG5hdF9yZWFkZXIsIE5VTEwsICJnZW5yZCVkIiwgaSk7CgkJYiA9IGt0aHJlYWRfcnVuKG5hdF9i
-dWlsZGVyLCBOVUxMLCAiZ2VuYmQiKTsKCQltc2xlZXAobmF0X3NlY3MgKiAxMDAwKTsKCQlmb3Ig
-KGkgPSAwOyBpIDwgbmF0X3JlYWRlcnMgJiYgaSA8IDg7IGkrKykKCQkJa3RocmVhZF9zdG9wKHJb
-aV0pOwoJCWt0aHJlYWRfc3RvcChiKTsKCQlwcl9pbmZvKCJuYXQgZG9uZVxuIik7CgkJcG9vbF90
-ZWFyZG93bigpOwoJfQoJcmV0dXJuIDA7Cn0KCnN0YXRpYyB2b2lkIF9fZXhpdCBnZW5yYWNlX2V4
-aXQodm9pZCkKewoJcHJfaW5mbygicmVtb3ZlZFxuIik7Cn0KCm1vZHVsZV9pbml0KGdlbnJhY2Vf
-aW5pdCk7Cm1vZHVsZV9leGl0KGdlbnJhY2VfZXhpdCk7Ck1PRFVMRV9MSUNFTlNFKCJHUEwiKTsK
-TU9EVUxFX0RFU0NSSVBUSU9OKCJBUEktMSBnZW5fcG9vbF9kZXN0cm95IFJDVS1ncmFjZS1wZXJp
-b2QgZ2FwIHJlcHJvZHVjZXIiKTsK
-------=_Part_367984_1446829336.1793360866674--
+usb: misc: onboard_usb_dev: don't defer the USB device probe
 
+This commit avoids returning -EPROBE_DEFER in onboard_dev_usbdev_probe() wh=
+en
+the corresponding platform device has not finished probing, preventing an
+infinite re-probe loop caused by generic USB interface driver bindings.
+Instead, it binds the USB device with NULL drvdata and extends
+attach_usb_driver_work to attach such USB devices once the platform device
+probes.
+
+> diff --git a/drivers/usb/misc/onboard_usb_dev.c b/drivers/usb/misc/onboar=
+d_usb_dev.c
+> index c604062404162..aac4e29c82335 100644
+> --- a/drivers/usb/misc/onboard_usb_dev.c
+> +++ b/drivers/usb/misc/onboard_usb_dev.c
+[ ... ]
+> @@ -301,6 +302,47 @@ static const struct attribute_group onboard_dev_grou=
+p =3D {
+>  __ATTRIBUTE_GROUPS(onboard_dev);
+> =20
+> =20
+> +/*
+> + * Attach a USB device that was bound by onboard_dev_usbdev_probe() whil=
+e its
+> + * platform device was still unbound. The device lock serialises this wi=
+th
+> + * the probe and with an unbind. This walks the USB bus, not the driver's
+> + * device list: unbinding a device holds its lock while it waits for all
+> + * references to its node on the driver's list to be dropped, so an iter=
+ator
+> + * over that list that takes the device lock would deadlock with it.
+> + */
+> +static int onboard_dev_attach_usbdev(struct usb_device *udev, void *data)
+> +{
+> +	struct device *dev =3D &udev->dev;
+> +	struct onboard_dev *onboard_dev;
+> +	int err;
+> +
+> +	/* Unlocked pre-check, so as not to wait for every USB device's lock. */
+> +	if (READ_ONCE(dev->driver) !=3D &onboard_dev_usbdev_driver.driver)
+> +		return 0;
+> +
+> +	device_lock(dev);
+> +
+> +	if (dev->driver !=3D &onboard_dev_usbdev_driver.driver ||
+> +	    dev_get_drvdata(dev))
+> +		goto out;
+> +
+> +	onboard_dev =3D _find_onboard_dev(dev);
+> +	if (IS_ERR_OR_NULL(onboard_dev))
+> +		goto out;
+> +
+> +	err =3D onboard_dev_add_usbdev(onboard_dev, udev);
+> +	if (err)
+> +		dev_err(dev, "failed to attach to %s: %pe\n",
+> +			dev_name(onboard_dev->dev), ERR_PTR(err));
+> +	else
+> +		dev_set_drvdata(dev, onboard_dev);
+
+[Severity: High]
+Can onboard_dev_attach_usbdev() race with platform device unbind and cause a
+use-after-free of struct onboard_dev (and potentially struct platform_devic=
+e)?
+
+In _find_onboard_dev(), the platform device is looked up, its drvdata is re=
+ad
+without holding device_lock(&pdev->dev), and the reference on &pdev->dev is
+immediately dropped before returning the devm-allocated onboard_dev pointer:
+
+drivers/usb/misc/onboard_usb_dev.c:_find_onboard_dev() {
+	...
+	onboard_dev =3D dev_get_drvdata(&pdev->dev);
+	put_device(&pdev->dev);
+
+	return onboard_dev;
+}
+
+When the platform device is unbound (for example via sysfs unbind, parent h=
+ub
+disconnect calling onboard_dev_destroy_pdevs(), or
+CONFIG_DEBUG_TEST_DRIVER_REMOVE), __device_release_driver(&pdev->dev) calls
+onboard_dev_remove() followed by device_unbind_cleanup():
+
+drivers/usb/misc/onboard_usb_dev.c:onboard_dev_remove() {
+	struct onboard_dev *onboard_dev =3D dev_get_drvdata(&pdev->dev);
+	...
+	onboard_dev->going_away =3D true;
+
+	mutex_lock(&onboard_dev->lock);
+
+	/* unbind the USB devices to avoid dangling references to this device */
+	while (!list_empty(&onboard_dev->udev_list)) {
+		...
+	}
+}
+
+Because a USB device bound with NULL drvdata is not yet in
+onboard_dev->udev_list, onboard_dev_remove() does not unbind it or take
+device_lock(&udev->dev), nor does it cancel attach_usb_driver_work or clear
+the platform device's drvdata. In device_unbind_cleanup(),
+devres_release_all() frees the devm-allocated struct onboard_dev before
+dev_set_drvdata(&pdev->dev, NULL) is called.
+
+If onboard_dev_attach_usbdev() (or onboard_dev_usbdev_probe()) runs
+concurrently with platform device unbind, _find_onboard_dev() can return the
+non-NULL onboard_dev pointer just before devres_release_all() frees it,
+allowing onboard_dev_add_usbdev() to lock and access freed memory.
+
+Furthermore, even if onboard_dev_add_usbdev() sees onboard_dev->going_away =
+set
+under onboard_dev->lock and returns -EINVAL before devres_release_all() run=
+s,
+the error path in onboard_dev_attach_usbdev() then evaluates
+dev_name(onboard_dev->dev) outside onboard_dev->lock, dereferencing
+onboard_dev->dev after onboard_dev (and potentially pdev, since put_device()
+was already called) has been freed.
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030114705.3159=
+093-1-jjc@jclark.com?part=3D1
