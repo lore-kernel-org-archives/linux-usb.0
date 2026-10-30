@@ -1,102 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.53
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793346286;
-	b=yKZ9ApU7Og7mU8bWlF4UlgthT3G6D9jUMQpqJdK0SCywcro6o6plo7QWq++mal7KS4Ma
-	 nd49PdBbwDSioNvXVzO0v5yH/EkVMYBcbyGBEH+YIKKVk5/vaitjDW1BtCbJV/QvO+PIu
-	 etlmCF/09X2cxobSN0KKfgCnCdUkU3taB5W4uEx668yIud4boeRYja9XPdaz04Ts79jUN
-	 irhZKXsW35dqyvMG4aoxHkicTpb/iwUrqcbDfGeX+2A2QhPaJXpQpFpar5tsEOtzKZ1WY
-	 F7oRvIQhWqGvtl9efQAnyFngFSlNDAY8SCsLkTiSbH6wxLxDjmlUlx0BzweGccn8Gjw==
+	t=1793347088;
+	b=4ogzjgFKBul3kyeVnTrLu8aQY/vEFCxq4d4BsD9h6+aHGP0XGjxScvDMGS/J0MdQUc0P
+	 HzjVJlqUjMKB6X1hzvF47xLg8Ov2Uh4m0oitGIwEwf+QbQltzMg9LdxMYq2qfyRyQczX8
+	 0wpGY34AhWg5sm2S1SzzBWx01dvqQzAAgnKNRafMbCc1YqiN2hNjGDrKWflvnyltlcm6S
+	 Q4ylYr6sPI0TaKJFM8KhGiPiQtz36Rfs8uSBxENb5Pbb7+QRKnZ1+ZrIGrfpWCiZscMdC
+	 yyMCe3Bfv9yrQSBCs1nk7F/iO0jFDB5xItH1hWIqm91Un0k+MS75Wf/8Ft4sYlztMeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793346286;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793347088;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:User-Agent:MIME-Version;
-	bh=DZaSJ/DrR2W/omOznYqAJsfL915OOMlybi4GRGT1d6Y=;
-	b=iOyWL3Eekk0ImsdUR1ZOZXS8Ts+W2YS4uk3yhONH2jOt7OVWA+u+coUOdB24pnErZWmS
-	 E/dkqNpqcotsGGFiRLNY3D1AntpJtrLgXAIrUMKiHZvjrKTxa+ybA5RyT9jneC6CRJ3lz
-	 Y6tmhvz7EdAwxL/gO5tDXB9XMGHgDfuwdtv2EHy+9XE/zxkhCqx34hlysEOlktX6vb42m
-	 4NrmQqiX5lQ/t9gNiWYBUKcOn8k67xRBLhQNWeUvOJZi/1RgdXfNPUoiOhrcEB+33Dx2M
-	 Vjax3nWCIkTCW3lVdeXcVBO8w2G09Xd7RT2hFljKXJLizpDLWgNewYdaI60RRQ0PUkQ==
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:References:
+	 MIME-Version:Content-Transfer-Encoding;
+	bh=YZj2Qty9JInb5244dlMUxHY5wM7oXDHaDgfyNj4i0kU=;
+	b=smTo5BUkXQxjtE8EcPEqqPft6SN6K/l+NJpSiL8tdWNLSn4M4eq00D5iEe4aiVc6JaMW
+	 Ua8g3FjL6LQ/RL/wPqiH77cibX7eTh8EstL8pIyulSE/oCZ/t+DUJLU8PCmkrHF7uEVnk
+	 ShzHxQKG/YgA5/N5YyJtBqPhzuz0JL6iaoMDIL9NMjgtTbVatlPnR/Cgy+44rKus3MOtY
+	 2DN7//uooIRi51UVtwRd00Vv3CKMPzLYJ2jhvhQhG213TxJzwwv0B9jpnxuQ3XP/WOGcj
+	 FlYTa5jLhz5c8ARAoWzbK7DUyU6J4+PCJQD2bib+SUGheecEsrDjdvuQkxDol7W72HQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=hesling.com;
-	spf=pass smtp.mailfrom=hesling.com;
-	dkim=pass header.d=hesling.com header.i=@hesling.com header.a=rsa-sha256 header.s=google header.b=jUq9BMXa;
-	arc=none smtp.remote-ip=74.125.82.53
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
+	dmarc=none header.from=fireburn.co.uk;
+	spf=none smtp.mailfrom=fireburn.co.uk;
+	dkim=pass header.d=fireburn-co-uk.20260707.gappssmtp.com header.i=@fireburn-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XFE8VPb6;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F47606A31D
-	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 07:44:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C7F47606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hesling.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hesling.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A98C2606A31A
+	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 07:58:07 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A98C2606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fireburn.co.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=fireburn.co.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=hesling.com header.i=@hesling.com header.a=rsa-sha256 header.s=google header.b=jUq9BMXa
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-14fc585291cso306802c88.1
-        for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 00:44:45 -0700 (PDT)
+	dkim=pass (2048-bit key, unprotected) header.d=fireburn-co-uk.20260707.gappssmtp.com header.i=@fireburn-co-uk.20260707.gappssmtp.com header.a=rsa-sha256 header.s=20260707 header.b=XFE8VPb6
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a2d6cf958bso1298995e9.1
+        for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 00:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=hesling.com; s=google; t=1793346285; x=1793951085; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=DZaSJ/DrR2W/omOznYqAJsfL915OOMlybi4GRGT1d6Y=;
-        b=jUq9BMXaPY85KAuillXqP3Ky2xsgEqkWBAK8BB0yqrWVhs1jH73EBI0oIcquyj2At3
-         r64+0a6cyMyieeoQtWm0c0nNJ0hm8jHVn+8HYiE+gWO88amcIAqF3tASBN8XuVcAoFk6
-         xAWbnSIQsHER9/fZDOjlHquMWEyBg9ozCe2ANvHwM+nbdqPDMtKIa4TRZV3V46GO4BKL
-         sCgzjzBDTJQhFI0vuXp0yoenEB5QWU90GQWYzX08xP2vf7n0sPsiGFPMk7LktMGDvmsl
-         +etG5jkBo4dYd9hT+oqfOJ89VMJMrR8HkvQXWmlrv7XDJhyy9DFXKPk/VWhb0OJJKyzc
-         3Jtg==
+        d=fireburn-co-uk.20260707.gappssmtp.com; s=20260707; t=1793347086; x=1793951886; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YZj2Qty9JInb5244dlMUxHY5wM7oXDHaDgfyNj4i0kU=;
+        b=XFE8VPb6m1GPfBx2CUgfiC5nJbXLI/Nv8RbA4+Ji34UonIDhtgJhIHSc75StLMcva9
+         KOWVbUN5h+ZaflzQySQO6eC5cwkxqqI8zuCDcFe21kSNODnzkzrXYalCsimjIRCEiP8N
+         +Kt0MDJ6+REjoou+T/CgBTbRGvgfrMtu2lEZbe9L8p0TkrjmYDQivqPSAsiTr55xygK4
+         8qY9VU+KadIp8YSwur7BL2MF0b+kcony3MVrFZmgkddU9eJyCzEaWjNMN+oqRx9LOBeA
+         5NHmsY8ReCQ0lqHVfQYG6HR7Odxo+A99SP48IVFY96FkA+y2ENhxGwCKLI9mfrDOia7a
+         SDEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793346285; x=1793951085;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=DZaSJ/DrR2W/omOznYqAJsfL915OOMlybi4GRGT1d6Y=;
-        b=mo6MsLwagzOq0jjrcBA+qRIXJQ8A801unghb8kHLn2S3YoBPlURvGTMCFLlgHQcFjc
-         RUxrtMhwQpCvhL3I1Q+n3zGDoXKfQ5kFhF6y6mTYFyMlb66Lp5Gn4X1QqAqDlQM9Crpo
-         cqq1ZPteYu4i6W6ZIkMjGOrwmc5+5F7yqV+AiyYv8igbyGIPlZo60PtfUzF6TAq2Pght
-         mhbFlPOwLX4kMtX50W3sUIUPE3RRBuznmoNjpreS37cvbaHgusRVIwZV0GCtk4ypgAQB
-         Al2LXwSuIraBIhkbkGM99Yuhp3K0wdxJN9B1UM/UmlCeTTMVl1rDCt4t3DC4BHJfO9hK
-         HLjA==
-X-Forwarded-Encrypted: i=1; AKwUvBwGY1bkycc8sE1Li521DO8PSikSKFQlJ15QaKJHEcY1I0kenDK8fx5jhbGKFI5Uo/BCnUui9UmpxYo=@vger.kernel.org
-X-Gm-Message-State: AFq9FYK4OPHeVoQwoHqY2dFTmhLO54rKkKKsgeECJubtaHMpLVPguxvp
-	p4snTuifIqzvdvLGmuTjgXjZHNHkBsaoRAEF42+OmdYbyXEfvfX9RBVD8zW49Mut+aY0IlBvRhb
-	YZxn1pNM=
-X-Gm-Gg: AYBFou0SMRVu/hd9mg4THx9aVDkhAPWQxYE0rfDfyevYPtADy+gUPKF+39qQpYXmt1a
-	hP6O+aMYLtEF2oTp9ahNlUGDNHGH/6O8sj96Hk6lMXEE7tmtTv7qOJ1v8sNelWF48Lcd5TK8CjT
-	I+JzqZrlCsL3uxBgMvXOxfmamAKjrWl9LCyUw8t79mub2O9Xrr7XxuRqCV/++KhoBMkT05tvaP8
-	cai6giDcy6QpDwciNEFNq48S/pebucZSicBQ13NMyHKQeNWsdABFQgPww1+nGXCVuVOjlHsbxuG
-	wi59A0r4DYhS8uV3aWdezsGcmgw4oZNdcZOVB+7uHwiSix7ux0dZN5lMz9rvNoWxCI/k01aiGgX
-	/SCJNi/jDGvyu8PcuXQ2Ux6JA6xvoRlwYolIG87vDJFLwt7O2z3xjvLDT8s2KAcqtqQ3Z0uOcD/
-	/69MivX4FPmYnT6ViBgqobFrb+0sRYLoIp5f13Ib8+KG1c5aaOXP7Ze/pDMfHGuTnMRr4y4/HY4
-	wEs4cJnnmaPxIDhTvM6XANl+YDWoixskKGNrdsTE94+r3eWkJ/lYGK1JWLPFz0c9Yw5J3Xvy96p
-	M4beyJFQi5KhulRZHNHE4h2Fv8qQ2AqwzdJDTddAf+nEVRC8VlIbTEpq7/hfcF69BPVSJAYGNQF
-	ISzy6vtey/PhzHr8Vzw==
-X-Received: by 2002:a05:7022:2522:b0:185:b157:f271 with SMTP id a92af1059eb24-1ac5d2c58cfmr2971559c88.23.1793346284608;
-        Fri, 30 Oct 2026 00:44:44 -0700 (PDT)
-Received: from ?IPv6:2001:5a8:693:ec00:90a8:f6fd:3390:41e0? ([2001:5a8:693:ec00:90a8:f6fd:3390:41e0])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac192c27cdsm7473973c88.10.2026.10.30.00.44.43
+        d=1e100.net; s=20260707; t=1793347086; x=1793951886;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YZj2Qty9JInb5244dlMUxHY5wM7oXDHaDgfyNj4i0kU=;
+        b=QL/wYAtl+bSMiqkbvEHsYGkzG/TQeok7dESyj42TxgOUGNz61IhTrisPUvgQ/EjqTR
+         S8SgF+Qe4uz3GN76GsdyDQWLct6amCQrRKG9P6KVrx8L16rI7GHzkIFYqQX3mKOUvnbo
+         tXbvNouAlC23xu/+ez/4uSzM3POpkrPahpXfkB9sym2M5Q2NEpQ/yZfH+A6eLHwJAfJh
+         6XKugQ9o9Xf7Tu52FO+UDZijkehr8ZDQVH5Gbzpj+E0iKiLArTZdWoCGh1lL7DeZxo4b
+         mcSGmHzBIeKj0DdnvDNZWZJ1mFKaAT3IvHza2yi7xz3FJWvzlJhgyfYl+DvN+ZJvu7Xl
+         3DFg==
+X-Forwarded-Encrypted: i=1; AKwUvBwIY9shCDBuXqLX8QlZr/fNVlKRpLbQcHEhzyjftzV45bh1Gz0LNaGZbuFXtYKKWWr0Q5SFaNXqCgA=@vger.kernel.org
+X-Gm-Message-State: AFq9FYLv/N5hLoNMEB2brDzjN0PXgXrrxATLdKwpQCC5iE5rsquSyBLn
+	I28ecr3oP4cqM/hVw6sN8BE9QAbk9G9fJ/WbzENmPHv1Orjv4yEGS8hQPggHO260Tw==
+X-Gm-Gg: AYBFou1ypsI17xdiuJGlJ5UFdh3bpL4twwSKIwJF5HAzykVMxvGgJC9wLLNw5FCjUVj
+	Lz2SpFzV/Bt/t+1rNYioPUAaYJm96Z7LDuSTJGPFjvsT8x4Q0/SDioj/J59kVD6H1P/zcEH6SYL
+	RRDKq1uKqF4Ww0qSI9Pg72jSzTV6ePYXUF/RrJFCxpnQ3U5kPaMxKfHr0BDA4W/6u6mxF8OSCyl
+	4HEeVgBeBL7YrT60JcPfPO5D08tTLCzTLxcgBZt8SeDJh8zKUcpkIwt+zMWTSd41Bp6RKfxQf5T
+	VjARXAydXYHHV5G3bVaDv5uw/cmNdAeajkCNguJG8H2gb09Fmb9pgCFsfQmg36Zm1F3ClTUTfgd
+	CewMuIQFwRO4LCuL0MNtnMu+3wrfNrwv2Tqf+ni2lzyqJu+4S/5Zsczdtu5mpus5DQz3giKBzTo
+	craTgMM5rDPxGgOjSc6etYBNsE3Goq+whsMXqmen4cKpv0Vcr5QJ9ug6yJtyzLPKe/wqKkbYIeC
+	S7ukGAQZAOPe7NitOGD1TVZVNHNT4f5hr7g0Y1nGlD6+EqpYsGyLunE0CP5ohLOCu5Mjn5YFUjH
+	KMRCyHHjLiD+YFuTGZehLa/WtKCxCgH0iD/HkVgHDaLW6eL45pXYCInCIF6C6uUSe8lfZy2hTs7
+	f
+X-Received: by 2002:a05:600c:638f:b0:4a3:59c2:b41e with SMTP id 5b1f17b1804b1-4ac150b304cmr29519325e9.4.1793347086099;
+        Fri, 30 Oct 2026 00:58:06 -0700 (PDT)
+Received: from axion.fireburn.co.uk ([2a01:4b00:d309:1c00:caf1:6b20:8531:818c])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf5b289f7sm40818935e9.5.2026.10.30.00.58.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2026 00:44:44 -0700 (PDT)
-Message-ID: <9970fa09ce5e1b468e473bc1e4bbe7d7802808e8.camel@hesling.com>
-Subject: Re: [PATCH] USB: serial: simple: narrow OWON match to avoid
- breaking VDS1022
-From: "craig@hesling.com" <craig@hesling.com>
-To: Huang Wei <huangwei@kylinos.cn>
-Cc: Johan Hovold <johan@kernel.org>, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, leStoppe <lestoppe@gmail.com>, 
-	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 30 Oct 2026 00:44:43 -0700
-In-Reply-To: <20261030012805.4087311-1-huangwei@kylinos.cn>
-References: <20260810091322.2201740-1-huangwei@kylinos.cn>
-	 <fa1ec0429fe8c1287c126b50989f1cffe2567a86.camel@hesling.com>
-	 <20261030012805.4087311-1-huangwei@kylinos.cn>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-10+b1 
+        Fri, 30 Oct 2026 00:58:05 -0700 (PDT)
+From: Mike Lothian <mike@fireburn.co.uk>
+To: Shuai Liu <847807867@qq.com>
+Cc: rust-for-linux@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	dakr@kernel.org,
+	gregkh@linuxfoundation.org,
+	colinbrauncl@gmail.com
+Subject: Re: [PATCH v3 0/5] rust: usb: host-side abstractions for a bulk-endpoint driver
+Date: Fri, 30 Oct 2026 07:57:58 +0000
+Message-ID: <20261030075758.356879-1-mike@fireburn.co.uk>
+X-Mailer: git-send-email 2.56.0
+In-Reply-To: <tencent_A0D3062EB058E244877B87B4324B8DFC4406@qq.com>
+References: 
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -106,35 +102,32 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hi Huang Wei,
+Hi Shuai,
 
-Thank you for the explanation. That is completely fair.
+Thank you for reading it properly, both of those are real
 
-For my HDS272S hardware rev, the oldest fw I could get my hands on is
-V5.6.2. I confirmed that V5.6.2 and the latest fw v5.7.1 both share
-identical USB descriptors, including the interface subclass and
-protocol.
+On Fri, 30 Oct 2026, Shuai Liu wrote:
+> set_alternate_setting() invalidates Endpoint<K> without the type
+> system noticing
 
-idVendor           0x5345
-idProduct          0x1234
-bInterfaceClass    5
-bInterfaceSubClass 0
-bInterfaceProtocol 0
+Right.  Binding the proof to the setting would mean threading a
+generation through every Endpoint and checking it at transfer time, and
+I haven't got a version of that I like yet, so v4 documents it: both
+Endpoint and set_alternate_setting() now say that every Endpoint obtained
+earlier must be looked up again after a switch.  If you have a shape for
+the Altsetting token in mind I'd like to see it
 
-Updated:
-https://usb-ids.gowdy.us/read/UD/5345/1234
+> set_alternate_setting() with transfers in flight is undefined
 
-I don't think this is a blocker, but I am also surveying other
-projects/devices possibly using owon serial, which include an SDS1102,
-HDS25S, Hanmatek HO52S, HDS242, and HDS2202S.
-https://github.com/lucky62/OWON_SDS1102_Linux_Capture/issues/1
-https://github.com/mjkloeckner/TB066/issues/1
-https://github.com/JohnDWilbourn/owon-hds200/issues/1
-https://github.com/einsz/whoop_thrust_stand/issues/1
-https://github.com/mkreutner/hds-mirror/issues/1
-https://github.com/scottsun2020/owon-electronic-load-tests/issues/1
+v4 refuses it.  The window already knows about every queue URB registered
+against it, so set_alternate_setting() returns EBUSY while any queue is
+alive, and the doc says to drop the queues and build them again on the new
+setting.  That puts the cancellation in the queue's Drop, which is where
+you suggested
 
-Thanks again,
+The one in-tree caller selects setting 0 once at bring-up, before any
+queue exists, so it isn't affected
 
-Craig
+Mike
