@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793349631;
-	b=xb9ixrh2bLBBRkvTjsTun1rIrAmbBka7jTENJTK1rO4vRLEZK+OXgkX56pA/ervHSn5Y
-	 ueqbdTuOV++Hp2CMdHIafWABealznjkcNGLAATCG7oJMwU4MU+B5yrfDEQ+Gbb6YysiNf
-	 x6DSEPulX7GT54tmHYcbhQwK9sQY1oJKNq9i4HSOR6lXJP9PfUsySQxUJTCe65pRsqwsD
-	 f1gH5W6aFZ7CKo5KPbdAYjEEJ1iS7ioTDQiwhzWWWGrXt+i/jjqCwy2MP16NTjCUiUqww
-	 XLRWj27wR4z7q+anTZM7PA64/kOGpHy/C3ylbGtPm1vLyWIdraVivaxBroVTR9WEkXQ==
+	t=1793349985;
+	b=P6c83fpb4f+4TQsSRc9cDlczQ5VS9p9kwkA6vk1N8YqyBN9f7Hu/B5K6adflKEsxj7Ul
+	 LuiUHqQNdnND3CiBlpaRArmCtsikpeYzC1cCjW/bdtl92/yhymQ45jfU7yYSgfdHBgQds
+	 avzYnqlGBk5b01H5yVYKrwaSBG9rlyt/YExOgvGW0xX4QYDt59oLX7i8vd6Uc31WO/O8A
+	 XqCDFUIFoppe/kgnyhal3AxBjtuiVrstVLqdiRuvmmXGpdoiSrc7iZxhEKkJAFjKOAEcV
+	 3cDZxb7Jlwn1F5LzQwtdYc4JWzCC4Q/N4yvMMSh11qOdWs2iOZPuFGTnp+zV3KlGsCw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793349631;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793349985;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=2uqNAKlcdFKjSXeWHgHc22aU5tKia+18T2VjKaERmrg=;
-	b=har4cANZDE8jMZor21zif3dYMaZB71xx23mFz2jQtWoJ29/iIGzrn4lKj4VR5C2eCNmc
-	 aHJt4uYhMaBf7X5SuQoyW49WIZeLlFgC1/WivtogaamqZp0O4aw9ZHk8Er0oAvPlb6OeL
-	 P8Yd3bp/F7PeaEhT3sVz5Td19HQUi0BJvlCndXh/KXiXdiZQp33i0wiDFNkSUYLMdpb+z
-	 75CpBVuiZVsmOLMIEz4c5lhR7bC8LqJQJVscQVcbUZt4OSsokKuuDQ54wcDYNiVy7mz6O
-	 kgfAjzf4OOSiSdr1xuKdA49tGtttfjPFAi1UF25mlpIlGFe6ISSBKLkWNgDnExSGsMQ==
+	bh=CqBNKYKKousOeUU2t0yZSSGrlHOlMq8kBHDwamR7Wl8=;
+	b=S6yUcjtKl5JdXPpe0kgW/l5NEbFZM+JN4cyfR/1qOK4K1LnZD/97tJp7498F82oUG4Ro
+	 qhUBAFRcR1YN6yFfEHBmphT3xYXuNl6qUH2ATkrId4fygk2qtJ8xdFTmcEjtl8zMNeyTG
+	 NF1a5VCkYo4Y9BNMAd6iqOY7+wBNyUyT/uu6mDlLgMXDQCFmhPdgW4nRNbQ/dscld6MYL
+	 xK1tSkAFvEMtHshhmc6M4hXj53usLkoUQBp4o/xPY+DLDrohuUGT7qnIHxaEN516ntDOP
+	 kWAlhR3ljAP6m9clEraG/Pc5CdZrQg9RbUkzIloBm5pC+ZBFoJVxEqg9A6LPLSeP+9Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cu4AZnkH;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T65aU4SE;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93766606A323;
-	Fri, 30 Oct 2026 08:40:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E38606A31E;
+	Fri, 30 Oct 2026 08:46:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=cu4AZnkH
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBED11F0093A;
-	Fri, 30 Oct 2026 08:40:30 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T65aU4SE
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC4A1F000C1;
+	Fri, 30 Oct 2026 08:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793349631;
-	bh=2uqNAKlcdFKjSXeWHgHc22aU5tKia+18T2VjKaERmrg=;
+	s=k20260515; t=1793349984;
+	bh=CqBNKYKKousOeUU2t0yZSSGrlHOlMq8kBHDwamR7Wl8=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=cu4AZnkHz7YbtbLKzzosfekouuhRmTnCaniROrVLNRZ1GO8NxpkUSEi31fHZqdo6G
-	 DzpKkA8ls+O7Qc377ZRD6d4iiBOxejjwhDs25aBYxl7QZri96FFp43s78aRqt2gJDP
-	 ovJnkKw/B7veW1iWeuM1BPyNXN2RgvG1uoED6IDts4dNjFGdpNHQPVEjUE59Qbbbpz
-	 92FNwYAe/Q6y9SZ6hOAIfTHKeOBkvZPLWXHo/g88U0MB2KbYzujSm3xmpUBRAt4qRg
-	 4j2ED2YrRq09WhRvrgk4+8C7PlW2HlE3WPACg7/jsgfcfzFYiWdfnaNpKImJunpmAh
-	 8QnJRkOFEQoHA==
-Message-ID: <sashiko-outbox-190707@kernel.org>
+	b=T65aU4SE7RZMTIE7E8NSSnZAVIDpqhzFeuju+C4RTWwcKVTPGYkD4CqeXb/tNLuZS
+	 F0Ai9MdBrfoHjSLB28lnuo4EOgU7YEG6iVJhEqS1775lQO326on7quZCd3l/qzCNC4
+	 49EmjUA2wVJtULrzTUQMpMIXfls+ZWPXLbb9u+TVs0vgbNcOkG8iAl90OHGNAcgouZ
+	 lYQD3FB1BA1rirXBQJvQk/hLfdLCccsLQ0n4I8uoK1qwJovUu0Ph4ZKfdFiaWelVRE
+	 tqa7PmvrWyho973E/a86y+x9XgxsUD2olx4q1pnrVhhyGlo3TvuwSuyz+TyUTzG6k+
+	 YwTywyQ3wu8qQ==
+Message-ID: <sashiko-outbox-190713@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 4/6] usb: gadget: udc: crg: Add endpoint 0 handling
+Subject: Re: [PATCH v4 6/6] usb: gadget: udc: crg: Add core driver and build
+ integration
 Reply-To: sashiko-reviews@lists.linux.dev
 To: "Petar Stepanovic" <pstepanovic@axiado.com>
 Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261030-axiado-ax3000-usb-device-controller-v4-4-c5267b36a777@axiado.com>
+In-Reply-To: <20261030-axiado-ax3000-usb-device-controller-v4-6-c5267b36a777@axiado.com>
 References: <20261030-axiado-ax3000-usb-device-controller-v4-0-c5267b36a777@axiado.com>
- <20261030-axiado-ax3000-usb-device-controller-v4-4-c5267b36a777@axiado.com>
+ <20261030-axiado-ax3000-usb-device-controller-v4-6-c5267b36a777@axiado.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 08:40:30 +0000
+Date: Fri, 30 Oct 2026 08:46:23 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,302 +61,545 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-Thank you for your contribution! Sashiko AI review found 4 potential issue(=
-s) to consider:
-- [High] usb: gadget: udc: crg: stale setup_status on EP0 halt in crg_udc_s=
-et_ep0_halt()
-- [High] usb: gadget: udc: crg: missing state checks after relocking in crg=
-_udc_handle_setup_pkt()
-- [High] usb: gadget: crg: missing reset check after ep0 nuke in setup paths
-- [Medium] usb: gadget: crg: crg_udc_prepare_for_setup() skips stopping hal=
-ted EP0
+Thank you for your contribution! Sashiko AI review found 10 potential issue=
+(s) to consider:
+- [High] usb: udc: crg: dequeue fails in crg_udc_issue_command() when stopp=
+ed
+- [High] usb: gadget: crg: controller left stopped after disconnect reset
+- [High] usb: gadget: crg: deferred crg_udc_prepare_for_setup() races with =
+SETUP
+- [High] usb: gadget: crg: GFP_KERNEL allocation in crg_udc_ep_enable()
+- [High] usb: gadget: crg: race conditions when crg_udc_reset() drops udc_l=
+ock
+- [Medium] usb: udc: crg: stale reconnect and ep0 state across crg_udc_rese=
+t()
+- [Medium] usb: gadget: udc: crg: state inconsistency across crg_udc_suspen=
+d() and resume
+- [Medium] usb: gadget: udc: crg: race in crg_udc_suspend() re-enables pull=
+up
+- [Medium] usb: gadget: crg: race with IRQ thread in crg_udc_shutdown() and=
+ teardown
+- [Low] usb: gadget: crg: uncapped and unvalidated max_speed in crg_udc_pro=
+be()
 --
 
-commit 0dcda6f8ceb35327942fb48b7002136244fccc5c
+commit ff1f5c0791ff275876830e2f2710870a97b34e7c
 Author: Petar Stepanovic <pstepanovic@axiado.com>
 
-usb: gadget: udc: crg: Add endpoint 0 handling
+usb: gadget: udc: crg: Add core driver and build integration
 
-This patch adds endpoint 0 setup packet, status stage, and control transfer
-handling for the Axiado AX3000/AX3005 UDC driver.
+This commit introduces the core probe, remove, power management, interrupt
+handling, and controller reset functions for the Axiado AX3000/AX3005 USB
+Device Controller driver, and integrates it into Kconfig and Makefile.
 
-> diff --git a/drivers/usb/gadget/udc/crg/crg-udc-ep0.c b/drivers/usb/gadge=
-t/udc/crg/crg-udc-ep0.c
+> diff --git a/drivers/usb/gadget/udc/crg/crg-udc-core.c b/drivers/usb/gadg=
+et/udc/crg/crg-udc-core.c
 > new file mode 100644
-> index 0000000000000..073d9090dd07c
+> index 0000000000000..33be5c920ebee
 > --- /dev/null
-> +++ b/drivers/usb/gadget/udc/crg/crg-udc-ep0.c
+> +++ b/drivers/usb/gadget/udc/crg/crg-udc-core.c
+> @@ -0,0 +1,723 @@
 
 [ ... ]
 
-> +int crg_udc_abort_ep0_for_setup(struct crg_gadget_dev *crg_udc)
+> +int crg_udc_issue_command(struct crg_gadget_dev *crg_udc,
+> +			  enum crg_cmd_type type, u32 param0, u32 param1)
 > +{
-> +	struct crg_udc_ep *udc_ep0 =3D &crg_udc->udc_ep[0];
 > +	struct crg_uccr __iomem *uccr =3D crg_udc->uccr;
-> +	dma_addr_t dqptaddr;
-> +	u32 cmd_param0;
-> +	u32 cmd_param1;
+> +	u32 status;
 > +	u32 tmp;
-> +	int ret;
-
-[ ... ]
-
-> +	udc_ep0->ep_state =3D EP_STATE_STOPPED;
-> +	/* Complete requests belonging to the aborted control transfer. */
-> +	crg_udc_ep_nuke(udc_ep0, -ECONNRESET);
+> +	bool running;
 > +
-> +	if (!udc_ep0->first_trb || !udc_ep0->tran_ring_info.cpu_addr) {
-> +		crg_udc->ep0_state =3D EP0_STATE_ERROR;
-> +		return -ENODEV;
-> +	}
+> +	running =3D !!(readl(&uccr->control) & CRG_U3DC_CTRL_RUN);
+> +	/* Only INIT_EP0 may be staged while the controller is stopped. */
+> +	if (!running && type !=3D CRG_CMD_INIT_EP0)
+> +		return -ESHUTDOWN;
 
 [Severity: High]
-When crg_udc_ep_nuke() runs here in crg_udc_abort_ep0_for_setup(), and
-similarly in crg_udc_prepare_for_setup(), crg_udc_req_done() drops
-crg_udc->udc_lock to invoke the request completion callback.
+As reported by Sashiko on v3 [1], rejecting all commands other than
+CRG_CMD_INIT_EP0 when CRG_U3DC_CTRL_RUN is clear causes crg_udc_ep_dequeue()
+to fail with -ESHUTDOWN whenever the pullup has been disabled.
 
-While udc_lock is dropped, another CPU running crg_gadget_stop() or
-crg_udc_shutdown() can acquire udc_lock and call crg_udc_reset(), setting
-crg_udc->resetting =3D true, incrementing udc_ep[0].generation, and dropping
-udc_lock while polling for CRG_U3DC_CTRL_SWRST to clear, followed by
-crg_udc_reset_data_struct() and crg_udc_init_ep0().
+During gadget unbind (gadget_unbind_driver() -> usb_gadget_disconnect_locke=
+d()
+-> crg_gadget_pullup()), soft_connect disable, or crg_udc_suspend(),
+crg_udc_set_pullup(crg_udc, false) clears CRG_U3DC_CTRL_RUN in uccr->control
+while enabled endpoints remain in EP_STATE_RUNNING with active requests on
+udc_ep->queue:
 
-After crg_udc_ep_nuke() returns, neither crg_udc_abort_ep0_for_setup() nor
-crg_udc_prepare_for_setup() checks crg_udc->resetting, udc_ep[0].generation,
-or udc_event[0].generation before touching controller registers and issuing
-CRG_CMD_INIT_EP0. If crg_udc_reset() is still polling SWRST, this issues
-MMIO commands mid-reset; if crg_gadget_stop() has already staged
-CRG_CMD_INIT_EP0 with CRG_U3DC_CMD_CTRL_ACTIVE set while RUN is clear, the
-subsequent CRG_CMD_INIT_EP0 fails with -EBUSY, leaving ep0_state in
-EP0_STATE_ERROR and causing crg_udc_handle_event() to call
-crg_udc_set_ep0_halt() and queue status_req after the gadget has stopped.
+drivers/usb/gadget/udc/crg/crg-udc-gadget.c:crg_udc_ep_dequeue() {
+	...
+	if (old_ep_state =3D=3D EP_STATE_RUNNING) {
+		int ret =3D crg_udc_issue_command(crg_udc, CRG_CMD_STOP_EP,
+						BIT(dci), 0);
 
-Should both functions snapshot the generation counter before
-crg_udc_ep_nuke() and abort if crg_udc->resetting is set or the generation
-changed while udc_lock was dropped?
+		if (ret) {
+			spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
+			return ret;
+		}
+	...
+}
+
+When a function driver's disconnect() or unbind() callback (or a FunctionFS
+endpoint close) calls usb_ep_dequeue() -> crg_udc_ep_dequeue() before
+crg_gadget_stop() runs, crg_udc_issue_command() returns -ESHUTDOWN for
+CRG_CMD_STOP_EP (and would also reject CRG_CMD_SET_TR_DQPTR in
+crg_udc_epcx_update_dqptr()). Because crg_udc_ep_dequeue() aborts without
+unlinking or giving back the request, a subsequent usb_ep_free_request()
+frees the request while it is still linked on udc_ep->queue, leading to a
+use-after-free when crg_gadget_stop() -> crg_udc_reset() -> crg_udc_ep_nuke=
+()
+later traverses udc_ep->queue.
+
+How should crg_udc_ep_dequeue() unlink and give back queued requests when
+CRG_U3DC_CTRL_RUN is already clear?
 
 [ ... ]
 
-> +int crg_udc_prepare_for_setup(struct crg_gadget_dev *crg_udc)
+> +static int crg_udc_probe(struct platform_device *pdev)
 > +{
-> +	struct crg_udc_ep *udc_ep0_ptr;
-> +	dma_addr_t dqptaddr;
-> +	u32 cmd_param0;
-> +	u32 cmd_param1;
-> +	int ret;
-> +
-> +	if (!crg_udc_is_event_rings_empty(crg_udc) ||
-> +	    crg_udc->portsc_on_reconnecting =3D=3D 1)
-> +		return -EBUSY;
-> +
-> +	udc_ep0_ptr =3D &crg_udc->udc_ep[0];
-> +	/* If we reinit ep0 on bus reset, we just make ep0 dequeue pointer
-> +	 * align with enqueue pointer, all remaining xfer trbs became dumb once
-> +	 * which will not produce xfer event anymore.
-> +	 *
-> +	 * If we considering the opposite solution, we should wait all ep0 xfer
-> +	 * trbs be completed(with some err complete code)
+
+[ ... ]
+
+> +	crg_udc->gadget.ops =3D &crg_gadget_ops;
+> +	crg_udc->gadget.ep0 =3D &crg_udc->udc_ep[0].usb_ep;
+> +	INIT_LIST_HEAD(&crg_udc->gadget.ep_list);
+> +	/*
+> +	 * The controller supports up to SuperSpeed. Honour the standard
+> +	 * "maximum-speed" property to cap it; default to the hardware
+> +	 * maximum when the property is absent.
 > +	 */
-> +	if (crg_udc->reinit_ep0_on_bus_reset) {
-> +		struct crg_uccr __iomem *uccr =3D crg_udc->uccr;
-> +		u32 running;
+> +	crg_udc->gadget.max_speed =3D usb_get_maximum_speed(&pdev->dev);
+> +	if (crg_udc->gadget.max_speed =3D=3D USB_SPEED_UNKNOWN)
+> +		crg_udc->gadget.max_speed =3D USB_SPEED_SUPER;
+> +	crg_udc->max_speed =3D crg_udc->gadget.max_speed;
+
+[Severity: Low]
+The comment, Kconfig, and DT binding state that the controller supports
+High-Speed and SuperSpeed and that the maximum-speed property caps the speed
+up to SuperSpeed, but crg_udc_probe() only checks for USB_SPEED_UNKNOWN.
+
+If the DT maximum-speed property is set to super-speed-plus
+(USB_SPEED_SUPER_PLUS), crg_udc->gadget.max_speed is not capped to
+USB_SPEED_SUPER and crg_udc_program_speed() writes CRG_U3DC_CFG0_MAXSPEED_S=
+SP.
+Conversely, if maximum-speed (or a gadget driver's max_speed passed to
+crg_udc_set_speed()) is USB_SPEED_LOW, crg_udc_program_speed() returns
+-EINVAL and aborts crg_udc_reset_data_struct().
+
+Should crg_udc_probe() and crg_udc_set_speed() clamp speeds above
+USB_SPEED_SUPER (or outside the supported range) to USB_SPEED_SUPER?
+
+[ ... ]
+
+> +static void crg_udc_shutdown(struct platform_device *pdev)
+> +{
+> +	struct crg_gadget_dev *crg_udc =3D platform_get_drvdata(pdev);
+> +	unsigned long flags;
 > +
-> +		/* Block requeue from giveback callbacks, then quiesce DMA. */
-> +		crg_udc->ep0_state =3D EP0_STATE_ABORTING;
-> +		if (crg_udc_get_ep_state(crg_udc, 0) =3D=3D EP_STATE_RUNNING) {
-> +			ret =3D crg_udc_issue_command(crg_udc, CRG_CMD_STOP_EP,
-> +						    BIT(0), 0);
-> +			if (ret)
-> +				goto reset_error;
+> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
+> +	crg_udc->pullup_on =3D false;
+> +	crg_udc->resetting =3D true;
+> +	crg_udc->device_state =3D USB_STATE_ATTACHED;
+> +	crg_udc_set_pullup(crg_udc, false);
+> +	crg_udc_set_vbus_detect(crg_udc, false);
+> +	if (crg_udc->uccr) {
+> +		u32 val =3D readl(&crg_udc->uccr->control);
 > +
-> +			ret =3D readl_poll_timeout_atomic(&uccr->ep_running, running,
-> +							!(running & BIT(0)), 10, 10000);
-> +			if (ret)
-> +				goto reset_error;
-> +		}
-> +		udc_ep0_ptr->ep_state =3D EP_STATE_STOPPED;
-> +		crg_udc_ep_nuke(udc_ep0_ptr, -ESHUTDOWN);
+> +		val &=3D ~(CRG_U3DC_CTRL_INT_EN | CRG_U3DC_CTRL_RUN);
+> +		writel(val, &crg_udc->uccr->control);
+> +	}
+> +	spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
+> +	if (crg_udc->irq >=3D 0)
+> +		synchronize_irq(crg_udc->irq);
+> +	cancel_work_sync(&crg_udc->udc_reset_work);
+> +}
 
 [Severity: Medium]
-As reported by Sashiko on v3 [1], what happens if a USB bus reset occurs
-after a control transfer has stalled?
+As reported by Sashiko on v3 [2], what happens if crg_udc_irq_thread() is
+already mid-recovery in crg_gadget_handle_interrupt() (or in the disconnect
+reset path of crg_udc_handle_port_status()) and has dropped udc_lock inside
+crg_udc_notify_disconnect() or crg_udc_reset() when crg_udc_shutdown() runs?
 
-When crg_udc_set_ep0_halt() stalls EP0, it calls crg_udc_build_ep0_status()
-to queue a status-stage stall TRB, rings doorbell 0, places status_req on
-udc_ep[0].queue, and immediately sets udc_ep[0].ep_state =3D EP_STATE_HALTED
-in software while the hardware is still processing the TRB.
+Once crg_udc_shutdown() releases udc_lock and waits in synchronize_irq(), t=
+he
+in-flight IRQ thread reacquires udc_lock, runs crg_udc_reset_data_struct() =
+and
+crg_udc_init_ep0(), and sets crg_udc->resetting =3D false, undoing the shut=
+down
+gate.
 
-If a bus reset then triggers crg_udc_prepare_for_setup() while ep_state is
-EP_STATE_HALTED, checking only for EP_STATE_RUNNING skips issuing
-CRG_CMD_STOP_EP and polling uccr->ep_running before crg_udc_ep_nuke() and
-CRG_CMD_INIT_EP0. Should crg_udc_prepare_for_setup() stop EP0 whenever it
-is not disabled or stopped, matching crg_udc_abort_ep0_for_setup()?
+Similarly, in crg_udc_free_resources(), uccr->control is modified without
+holding udc_lock before devm_free_irq() is called, while crg_udc_irq_thread=
+()
+can still be running after crg_gadget_stop() dropped udc_lock during
+crg_udc_reset(). Couldn't that race on uccr->control or with resource
+teardown?
 
-[ ... ]
-
-> +int crg_udc_set_ep0_halt(struct crg_gadget_dev *crg_udc)
+> +
+> +static int crg_udc_suspend(struct device *dev)
 > +{
-> +	struct crg_udc_ep *udc_ep_ptr =3D &crg_udc->udc_ep[0];
-> +	enum crg_ep_state ep_state;
+> +	struct crg_gadget_dev *crg_udc =3D dev_get_drvdata(dev);
+> +	unsigned long flags;
 > +
-> +	ep_state =3D crg_udc_get_ep_state(crg_udc, udc_ep_ptr->dci);
-> +	if (ep_state =3D=3D EP_STATE_HALTED || ep_state =3D=3D EP_STATE_DISABLE=
-D)
-> +		return 0;
+> +	/* Stop the pullup while the controller is suspended. */
+> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
+> +	if (!crg_udc->resetting)
+> +		crg_udc_set_pullup(crg_udc, false);
+> +	spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
+> +	return 0;
+> +}
+
+[Severity: Medium]
+Can an in-flight CRG_U3DC_STATUS_SYS_ERR recovery in
+crg_gadget_handle_interrupt() re-enable the pullup after crg_udc_suspend()
+returns?
+
+During system suspend, crg_udc_suspend() runs before device IRQs are disabl=
+ed.
+If crg_gadget_handle_interrupt() is handling CRG_U3DC_STATUS_SYS_ERR and has
+dropped udc_lock in crg_udc_notify_disconnect() or crg_udc_reset(),
+crg_udc_suspend() either sees crg_udc->resetting =3D=3D true and skips
+crg_udc_set_pullup(crg_udc, false), or clears CRG_U3DC_CTRL_RUN and returns
+while crg_udc->pullup_on remains true. When the IRQ thread finishes reset
+recovery, it checks:
+
+	if (!ret && crg_udc->pullup_on)
+		crg_udc_set_pullup(crg_udc, true);
+
+which re-asserts CRG_U3DC_CTRL_RUN while the controller is suspended. Should
+crg_udc_suspend() synchronize with the IRQ/reset path and track a suspended
+state so recovery does not re-assert CRG_U3DC_CTRL_RUN?
+
 > +
-> +	crg_udc_build_ep0_status(udc_ep_ptr, true, -EINVAL, NULL, 0, 1);
+> +static int crg_udc_resume(struct device *dev)
+> +{
+> +	struct crg_gadget_dev *crg_udc =3D dev_get_drvdata(dev);
+> +	unsigned long flags;
 > +
-> +	udc_ep_ptr->ep_state =3D EP_STATE_HALTED;
+> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
+> +	if (!crg_udc->resetting && crg_udc->gadget_driver && crg_udc->pullup_on)
+> +		crg_udc_set_pullup(crg_udc, true);
+> +	spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
 > +
 > +	return 0;
 > +}
 
-[Severity: High]
-As reported by Sashiko on v3 [2], does crg_udc_set_ep0_halt() leave
-crg_udc->setup_status in a stale data-stage state when stalling a control
-transfer with wLength > 0?
+[Severity: Medium]
+When crg_udc_suspend() clears CRG_U3DC_CTRL_RUN via
+crg_udc_set_pullup(crg_udc, false) while the gadget is enumerated, the
+controller halts and drops bus terminations so the host sees a disconnect,
+but crg_udc_suspend() does not notify the gadget driver of disconnect or
+reset crg_udc->connected, crg_udc->device_state, crg_udc->dev_addr, or
+enabled endpoints.
 
-In crg_udc_handle_setup_pkt() and getstatusrequest(), crg_udc->setup_status
-is set to DATA_STAGE_XFER or DATA_STAGE_RECV before calling setselrequest(),
-crg_udc_build_td(), or driver->setup():
+When crg_udc_resume() re-asserts CRG_U3DC_CTRL_RUN:
 
-crg_udc_handle_setup_pkt()
-  crg_udc->setup_status =3D DATA_STAGE_XFER / DATA_STAGE_RECV;
-  driver->setup() -> fails
-  crg_udc_set_ep0_halt()
-    crg_udc_build_ep0_status(..., stall =3D 1)
+1. If the cable was unplugged while suspended, CCS is already 0 when
+   CRG_U3DC_CTRL_RUN is set, so no CSC event is generated and the gadget
+   driver remains stuck in a connected/configured state with queued requests
+   never completing.
 
-Because crg_udc_set_ep0_halt() does not update crg_udc->setup_status to
-STATUS_STAGE_XFER (or clear crg_udc->setup_fn_call_back), two problems
-follow:
+2. If the cable remains connected to a SuperSpeed host, link training to U0
+   raises CRG_U3DC_PORTSC_CSC without CRG_U3DC_PORTSC_PRC. In
+   crg_udc_handle_port_status(), the CSC connect branch does not call
+   crg_udc_reinit(), and because crg_udc->device_state is still
+   USB_STATE_CONFIGURED or USB_STATE_ADDRESS (>=3D USB_STATE_RECONNECTING),
+   neither crg_udc_enable_setup() nor crg_udc_prepare_for_setup() runs, the
+   stale dev_addr and endpoints remain active, and setaddressrequest() stal=
+ls
+   SET_ADDRESS in USB_STATE_CONFIGURED.
 
-1. crg_udc_setup_status_trb() computes dir as
-   (crg_udc->setup_status =3D=3D STATUS_STAGE_XFER) ? 0 : 1, which evaluates
-   to 1 (OUT) instead of 0 (IN).
-
-2. When the stall status TRB completes and invokes
-   crg_udc_ep0_req_complete(), switch (crg_udc->setup_status) matches
-   DATA_STAGE_XFER or DATA_STAGE_RECV instead of the default branch:
-
-crg_udc_ep0_req_complete() {
-	switch (crg_udc->setup_status) {
-	case DATA_STAGE_XFER:
-		crg_udc->setup_status =3D STATUS_STAGE_RECV;
-		crg_udc_build_ep0_status(udc_ep_ptr, true, -EINPROGRESS, NULL,
-					 0, 0);
-		break;
-	case DATA_STAGE_RECV:
-		crg_udc->setup_status =3D STATUS_STAGE_XFER;
-		crg_udc_build_ep0_status(udc_ep_ptr, true, -EINPROGRESS, NULL,
-					 0, 0);
-		break;
-
-This queues a second, unrequested, non-stalled status-stage TRB on EP0 and
-rings doorbell 0 on the halted endpoint. Should crg_udc_set_ep0_halt() set
-crg_udc->setup_status =3D STATUS_STAGE_XFER and clear
-crg_udc->setup_fn_call_back before calling crg_udc_build_ep0_status()?
+Should crg_udc_suspend() disconnect the gadget session and reset controller
+state before suspending?
 
 [ ... ]
 
-> +void crg_udc_handle_setup_pkt(struct crg_gadget_dev *crg_udc,
-> +			      struct usb_ctrlrequest *setup_pkt, u8 setup_tag,
-> +			      unsigned long *flags)
+> +static void crg_gadget_handle_interrupt(struct crg_gadget_dev *crg_udc)
 > +{
-> +	u16 w_value =3D le16_to_cpu(setup_pkt->wValue);
-> +	u16 w_index =3D le16_to_cpu(setup_pkt->wIndex);
-> +	u16 w_length =3D le16_to_cpu(setup_pkt->wLength);
-> +	struct usb_gadget_driver *driver;
-> +	u32 tmp;
+> +	struct crg_uccr __iomem *uccr =3D crg_udc->uccr;
+> +	unsigned long flags =3D 0;
+> +	u32 tmp_status;
+> +	int ret;
 > +
-> +	/* No SETUP (including SET_ADDRESS) may overtake a pending reset. */
-> +	spin_unlock_irqrestore(&crg_udc->udc_lock, *flags);
-> +	flush_work(&crg_udc->udc_reset_work);
-> +	spin_lock_irqsave(&crg_udc->udc_lock, *flags);
-> +	if (crg_udc->resetting || !crg_udc->gadget_driver ||
-> +	    crg_udc->ep0_state =3D=3D EP0_STATE_ABORTING)
-> +		return;
+> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
+> +
+> +	tmp_status =3D readl(&uccr->status);
+> +
+> +	if (tmp_status & CRG_U3DC_STATUS_SYS_ERR) {
+> +		bool was_connected =3D crg_udc->connected;
+> +
+> +		dev_err(crg_udc->dev, "controller system error\n");
+> +		writel(CRG_U3DC_STATUS_SYS_ERR, &uccr->status);
+> +		/* Function drivers must see enabled endpoints on disconnect. */
+> +		if (was_connected)
+> +			crg_udc_notify_disconnect(crg_udc, &flags);
+> +		crg_udc->connected =3D 0;
+> +		ret =3D crg_udc_reset(crg_udc, &flags);
+> +		if (!ret)
+> +			ret =3D crg_udc_reset_data_struct(crg_udc);
+> +		if (!ret)
+> +			ret =3D crg_udc_init_ep0(crg_udc);
+> +		if (ret)
+> +			dev_err(crg_udc->dev,
+> +				"failed to recover from controller error: %d\n",
+> +				ret);
+> +		crg_udc->gadget.speed =3D USB_SPEED_UNKNOWN;
+> +		if (!ret)
+> +			crg_udc->resetting =3D false;
+> +		if (!ret && crg_udc->pullup_on)
+> +			crg_udc_set_pullup(crg_udc, true);
+
+[Severity: High]
+Here in the CRG_U3DC_STATUS_SYS_ERR recovery path, after crg_udc_reset(),
+crg_udc_reset_data_struct(), and crg_udc_init_ep0() complete, the driver
+restores the controller's running state via crg_udc_set_pullup(crg_udc, tru=
+e)
+when crg_udc->pullup_on is set.
+
+However, in the cable disconnect (!cable_connected) branch of
+crg_udc_handle_port_status(), the driver runs the same crg_udc_reset(),
+crg_udc_reset_data_struct(), and crg_udc_init_ep0() sequence (which clears
+uccr->config1 as well as CRG_U3DC_CTRL_INT_EN and CRG_U3DC_CTRL_RUN in
+uccr->control, and stages CRG_CMD_INIT_EP0 while stopped) and then returns
+-ECONNRESET without calling crg_udc_set_pullup(crg_udc, true):
+
+drivers/usb/gadget/udc/crg/crg-udc-gadget.c:crg_udc_handle_port_status() {
+	...
+		} else if (!cable_connected) {
+			dev_dbg(crg_udc->dev,
+				"cable disconnected, rst controller\n");
+			if (was_connected)
+				crg_udc_notify_disconnect(crg_udc, flags);
+			ret =3D crg_udc_reset(crg_udc, flags);
+			if (!ret)
+				ret =3D crg_udc_reset_data_struct(crg_udc);
+			if (!ret)
+				ret =3D crg_udc_init_ep0(crg_udc);
+			if (ret)
+				dev_err(crg_udc->dev,
+					"controller reset failed on disconnect: %d\n",
+					ret);
+			else
+				crg_udc->resetting =3D false;
+			crg_udc->connected =3D 0;
+
+			crg_udc->device_state =3D USB_STATE_ATTACHED;
+			return -ECONNRESET;
+		}
+}
+
+Because gadget disconnect callbacks do not re-invoke the pullup callback,
+won't unplugging the USB cable leave CRG_U3DC_CTRL_RUN, CRG_U3DC_CTRL_INT_E=
+N,
+and uccr->config1 cleared so the controller never consumes CRG_CMD_INIT_EP0
+or detects a subsequent cable reconnection?
 
 [ ... ]
 
-> +	if (w_length) {
-> +		/* data phase from gadget like GET_CONFIGURATION
-> +		 * call the setup routine of gadget driver.
-> +		 * remember the request direction.
-> +		 */
-> +		crg_udc->setup_status =3D (setup_pkt->bRequestType & USB_DIR_IN) ?
-> +						DATA_STAGE_XFER :
-> +						DATA_STAGE_RECV;
-> +	}
-> +	driver =3D crg_udc->async_callbacks ? crg_udc->gadget_driver : NULL;
-> +	spin_unlock_irqrestore(&crg_udc->udc_lock, *flags);
+> +	if (tmp_status & CRG_U3DC_STATUS_EINT) {
+> +		int i;
 > +
-> +	/* Recheck callback enablement after the locked snapshot. */
-> +	if (!driver || !READ_ONCE(crg_udc->async_callbacks) ||
-> +	    READ_ONCE(crg_udc->gadget_driver) !=3D driver ||
-> +	    driver->setup(&crg_udc->gadget, setup_pkt) < 0) {
-> +		spin_lock_irqsave(&crg_udc->udc_lock, *flags);
-> +		crg_udc_set_ep0_halt(crg_udc);
-> +		return;
-> +	}
-> +	spin_lock_irqsave(&crg_udc->udc_lock, *flags);
-> +	if (setup_pkt->bRequest =3D=3D USB_REQ_SET_CONFIGURATION &&
-> +	    (setup_pkt->bRequestType & (USB_TYPE_MASK | USB_RECIP_MASK)) =3D=3D
-> +		    (USB_TYPE_STANDARD | USB_RECIP_DEVICE)) {
-> +		if (w_value) {
-> +			crg_udc->device_state =3D USB_STATE_CONFIGURED;
-> +			usb_gadget_set_state(&crg_udc->gadget,
-> +					     USB_STATE_CONFIGURED);
-> +		} else {
-> +			/* Endpoint disable may already have updated device_state. */
-> +			crg_udc->device_state =3D USB_STATE_ADDRESS;
-> +			usb_gadget_set_state(&crg_udc->gadget,
-> +					     USB_STATE_ADDRESS);
+> +		writel(CRG_U3DC_STATUS_EINT, &uccr->status);
+> +
+> +		for (i =3D 0; i < CRG_RING_NUM; i++) {
+> +			ret =3D crg_udc_process_event_ring(crg_udc, i, &flags);
+
+[Severity: High]
+When crg_udc_process_event_ring() dispatches a SET_CONFIGURATION or
+SET_INTERFACE control transfer via crg_udc_handle_event() ->
+crg_udc_handle_setup_pkt(), it drops crg_udc->udc_lock and calls
+driver->setup(&crg_udc->gadget, setup_pkt).
+
+In composite_setup(), set_config() and f->set_alt() run under
+spin_lock(&cdev->lock) and call usb_ep_enable() -> crg_udc_ep_enable().
+However, crg_udc_ep_enable() drops udc_lock and allocates the transfer ring
+with GFP_KERNEL:
+
+drivers/usb/gadget/udc/crg/crg-udc-gadget.c:crg_udc_ep_enable() {
+	...
+		spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
+		new_ring =3D dma_alloc_coherent(crg_udc->dev, len, &new_dma,
+					      GFP_KERNEL);
+		spin_lock_irqsave(&crg_udc->udc_lock, flags);
+	...
+}
+
+Since usb_ep_enable() is called while composite holds cdev->lock (and the
+gadget API requires ep->ops->enable() to be callable in atomic context),
+won't dma_alloc_coherent(..., GFP_KERNEL) sleep in atomic context?
+
+> +			if (ret)
+> +				dev_err(crg_udc->dev,
+> +					"process event ring error: %d\n", ret);
 > +		}
 > +	}
-> +}
+> +
+> +	if (crg_udc->device_state =3D=3D USB_STATE_RECONNECTING &&
+> +	    crg_udc->portsc_on_reconnecting =3D=3D 1 &&
+> +	    crg_udc_is_event_rings_empty(crg_udc)) {
+> +		crg_udc->portsc_on_reconnecting =3D 0;
+> +		crg_udc_handle_port_status(crg_udc, &flags);
+> +	}
+> +
+> +	if (crg_udc->device_state =3D=3D USB_STATE_RECONNECTING &&
+> +	    crg_udc->connected =3D=3D 1)
+> +		crg_udc_prepare_for_setup(crg_udc);
 
 [Severity: High]
-Can dropping crg_udc->udc_lock in crg_udc_handle_setup_pkt() race with a
-concurrent reset, unbind, or new setup packet?
+When a bus reset (CRG_U3DC_PORTSC_PRC) completes while crg_udc->device_state
+is at least USB_STATE_DEFAULT, crg_udc_handle_port_status() calls
+crg_udc_reinit(), which sets crg_udc->device_state =3D USB_STATE_RECONNECTI=
+NG,
+and sets crg_udc->connected =3D 1 while CRG_U3DC_CFG1_SETUP_EVENT_EN remains
+enabled in uccr->config1 from the prior connection.
 
-First, around flush_work(&crg_udc->udc_reset_work), if a new setup packet
-aborted an in-flight control transfer, crg_udc_abort_ep0_for_setup() has
-already set ep0_state =3D EP0_STATE_IDLE before udc_lock is dropped for
-flush_work(), allowing a concurrent usb_ep_queue() on EP0 to bypass the
-EP0_STATE_ABORTING check in crg_udc_queue_ctrl(). In addition, if a
-controller reset (crg_udc_reset() and crg_udc_reset_data_struct())
-completes while udc_lock is dropped, crg_udc->resetting is false again and
-udc_event[0].generation has been incremented, but crg_udc_handle_setup_pkt()
-does not verify udc_event[0].generation and continues processing the stale
-pre-reset setup packet.
+Because crg_udc_prepare_for_setup() is only called here after
+crg_udc_process_event_ring() finishes (and returns -EBUSY if the event ring
+is not empty), what happens if the host's first post-reset SETUP packet is
+already in the event ring behind the port status event, or arrives before
+crg_udc_prepare_for_setup() checks crg_udc_is_event_rings_empty()?
 
-Second, after udc_lock is dropped for driver->setup() and reacquired,
-neither the error branch nor the USB_REQ_SET_CONFIGURATION branch rechecks
-crg_udc->resetting, crg_udc->gadget_driver, crg_udc->async_callbacks,
-crg_udc->ep0_state, crg_udc->setup_tag, or udc_event[0].generation:
+In that case, crg_udc_process_event_ring() processes TRB_TYPE_EVT_SETUP_PKT
+while crg_udc->device_state is still USB_STATE_RECONNECTING:
+setaddressrequest() rejects USB_REQ_SET_ADDRESS and stalls EP0 because
+device_state is neither USB_STATE_DEFAULT nor USB_STATE_ADDRESS, or another
+control request queues a transfer on EP0 only for crg_udc_prepare_for_setup=
+()
+to immediately stop EP0 and nuke the newly queued request with -ESHUTDOWN.
 
-1. If async_callbacks was cleared during gadget stop/unbind, or if
-   crg_udc_reset() is currently polling SWRST with udc_lock dropped (where
-   crg_udc->resetting is true while udc_ep[0].ep_state is still
-   EP_STATE_RUNNING), the error path unconditionally calls
-   crg_udc_set_ep0_halt(crg_udc), queueing a status TRB and ringing
-   doorbell 0 during reset or teardown.
+[ ... ]
 
-2. If driver->setup() succeeded for USB_REQ_SET_CONFIGURATION while a
-   concurrent reset or disconnect occurred, the post-lock block overwrites
-   crg_udc->device_state and the gadget state with USB_STATE_CONFIGURED or
-   USB_STATE_ADDRESS.
+> +int crg_udc_reset(struct crg_gadget_dev *crg_udc, unsigned long *flags)
+> +{
+> +	struct crg_uccr __iomem *uccr =3D crg_udc->uccr;
+> +	u32 i, tmp;
+> +	struct crg_udc_ep *udc_ep_ptr;
+> +	u32 val;
+> +
+> +	/*
+> +	 * Keep all endpoint operations gated until the caller has recreated
+> +	 * the event rings, device context and EP0 after this reset.
+> +	 */
+> +	crg_udc->resetting =3D true;
+> +	val =3D readl(&uccr->control);
+> +	val |=3D CRG_U3DC_CTRL_SWRST;
+> +	writel(val, &uccr->control);
+> +	spin_unlock_irqrestore(&crg_udc->udc_lock, *flags);
+> +	/* Poll until SWRST clears; hardware reset takes up to 10 ms */
+> +	if (readl_poll_timeout_atomic(&uccr->control, tmp,
+> +			       !(tmp & CRG_U3DC_CTRL_SWRST), 10, 10000)) {
+> +		spin_lock_irqsave(&crg_udc->udc_lock, *flags);
+> +		dev_err(crg_udc->dev, "reset error\n");
+> +		return -ETIMEDOUT;
+> +	}
+> +	spin_lock_irqsave(&crg_udc->udc_lock, *flags);
+> +
+> +	crg_udc_clear_portpm(crg_udc);
+> +
+> +	crg_udc->setup_status =3D WAIT_FOR_SETUP;
+> +	/* Base on Figure 9-1, default USB_STATE is attached */
+> +	crg_udc->device_state =3D USB_STATE_ATTACHED;
+> +	crg_udc->dev_addr =3D 0;
 
-Should crg_udc_handle_setup_pkt() keep ep0_state in EP0_STATE_ABORTING
-until flush_work() finishes, and validate the event generation,
-crg_udc->resetting, crg_udc->async_callbacks, and crg_udc->setup_tag after
-reacquiring udc_lock?
+[Severity: Medium]
+When crg_udc_reset() resets crg_udc->device_state to USB_STATE_ATTACHED, it
+does not clear crg_udc->portsc_on_reconnecting, crg_udc->setup_fn_call_back,
+or crg_udc->set_tm (nor does crg_udc_reset_data_struct()).
+
+If a port status event sets crg_udc->portsc_on_reconnecting =3D 1 while
+crg_udc->device_state =3D=3D USB_STATE_RECONNECTING and crg_udc_reset() runs
+before that flag is consumed (for example due to a cable disconnect,
+CRG_U3DC_STATUS_SYS_ERR, or crg_gadget_stop()), won't the stale
+portsc_on_reconnecting =3D=3D 1 persist until the next connection's bus res=
+et
+sets device_state =3D USB_STATE_RECONNECTING, causing crg_udc_prepare_for_s=
+etup()
+to fail with -EBUSY or crg_gadget_handle_interrupt() to call
+crg_udc_handle_port_status() spuriously?
+
+> +
+> +	/*
+> +	 * Mark all endpoints unavailable before request callbacks drop the
+> +	 * lock. A callback must not enqueue on a later, not-yet-nuked EP.
+> +	 */
+> +	for (i =3D 2; i < CRG_NUM_EP_CX; i++) {
+> +		udc_ep_ptr =3D &crg_udc->udc_ep[i];
+> +		udc_ep_ptr->generation++;
+> +		udc_ep_ptr->desc =3D NULL;
+> +		udc_ep_ptr->comp_desc =3D NULL;
+> +		udc_ep_ptr->tran_ring_full =3D false;
+> +		udc_ep_ptr->ep_state =3D EP_STATE_DISABLED;
+> +		/*
+> +		 * This bypasses the generic usb_ep_disable() API, so the
+> +		 * framework's own usb_ep.enabled bookkeeping needs to be
+> +		 * cleared directly here too (crg_udc_reinit() already does
+> +		 * this for the live bus-reset case). Otherwise a later
+> +		 * usb_ep_enable() call for this endpoint short-circuits on
+> +		 * the stale "already enabled" flag without ever calling our
+> +		 * .enable callback, leaving desc/the ring never set up for
+> +		 * the new session.
+> +		 */
+> +		udc_ep_ptr->usb_ep.enabled =3D 0;
+> +	}
+> +	crg_udc->num_enabled_eps =3D 0;
+> +
+> +	udc_ep_ptr =3D &crg_udc->udc_ep[0];
+> +	udc_ep_ptr->generation++;
+> +	udc_ep_ptr->desc =3D NULL;
+> +	udc_ep_ptr->comp_desc =3D NULL;
+> +	udc_ep_ptr->ep_state =3D EP_STATE_DISABLED;
+> +
+> +	for (i =3D 2; i < CRG_NUM_EP_CX; i++)
+> +		crg_udc_ep_nuke(&crg_udc->udc_ep[i], -ESHUTDOWN);
+> +	crg_udc_ep_nuke(udc_ep_ptr, -ESHUTDOWN);
+
+[Severity: High]
+As reported by Sashiko on v3 [3], dropping udc_lock inside crg_udc_reset()
+(both during the 10 ms CRG_U3DC_CTRL_SWRST poll and inside crg_udc_ep_nuke()
+-> crg_udc_req_done()) introduces several races:
+
+1. Neither crg_gadget_handle_interrupt() nor crg_udc_process_event_ring()
+   checks crg_udc->resetting after acquiring or reacquiring udc_lock, and
+   udc_event->generation is not incremented until crg_udc_reset_data_struct=
+()
+   -> crg_udc_init_event_ring() runs after crg_udc_reset() returns. If
+   crg_udc_irq_thread() acquires udc_lock while crg_udc_reset() is polling
+   CRG_U3DC_CTRL_SWRST or giving back requests, it can access controller
+   registers and process stale event ring entries mid-reset.
+
+2. Callers of crg_udc_reset() (crg_gadget_handle_interrupt(),
+   crg_udc_handle_port_status(), and crg_gadget_stop()) do not serialize
+   against an already-running reset. If two reset paths overlap across the
+   udc_lock drops, one can run crg_udc_reset_data_struct() and
+   crg_udc_init_ep0() while the other's CRG_U3DC_CTRL_SWRST is active, or
+   the second crg_udc_init_ep0() can see CRG_U3DC_CMD_CTRL_ACTIVE still set
+   from the first staged CRG_CMD_INIT_EP0 while CRG_U3DC_CTRL_RUN is 0 and
+   fail with -EBUSY.
+
+3. During the 10 ms SWRST poll window, crg_udc->resetting is true while
+   usb_ep.enabled is still 1 and requests remain on udc_ep[i].queue; then
+   crg_udc_reset() clears udc_ep_ptr->usb_ep.enabled =3D 0 for all endpoints
+   before calling crg_udc_ep_nuke() (which drops udc_lock per request). If a
+   function driver concurrently calls usb_ep_disable() on a higher-numbered
+   endpoint while an earlier endpoint is being nuked (or during the SWRST
+   poll), usb_ep_disable() returns immediately without draining that
+   endpoint's queue; when the function driver then calls
+   usb_ep_free_request(), the freed request remains on udc_ep[i].queue and =
+is
+   dereferenced by crg_udc_ep_nuke().
+
+Can reset execution and endpoint teardown be serialized so concurrent calle=
+rs
+wait for the reset and request givebacks to complete?
 
 [1] https://lore.kernel.org/r/20261020-axiado-ax3000-usb-device-controller-=
-v3-4-3012ecfc0a93@axiado.com
+v3-6-3012ecfc0a93@axiado.com
 [2] https://lore.kernel.org/r/20261020-axiado-ax3000-usb-device-controller-=
-v3-4-3012ecfc0a93@axiado.com
+v3-6-3012ecfc0a93@axiado.com
+[3] https://lore.kernel.org/r/20261020-axiado-ax3000-usb-device-controller-=
+v3-6-3012ecfc0a93@axiado.com
 
 --=20
 Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030-axiado-ax3=
-000-usb-device-controller-v4-0-c5267b36a777@axiado.com?part=3D4
+000-usb-device-controller-v4-0-c5267b36a777@axiado.com?part=3D6
