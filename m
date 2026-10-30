@@ -1,55 +1,120 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793352441;
-	b=oEvoW3rS2hxj0EurmD8BpPA7ZUDNBYQWeK5GqpysG3UT01viubqyVrm/uYNfD58H54mt
-	 DH9Ur8vTkTYL0wyDmOwEfxzQDYtiifx8M8teLf+cVP5aw+Wgbe12X8WMr87wm4C1F+xWk
-	 78igprIMkbItSFqGJPvYLvMV0NJ2MF3XDpFi/RRFskUbfSZckeOAN/kDcf3muiE0Ilp3e
-	 iJhi5Nlrr5n+Vf2/zEJjdvojlVMIEz27o94fBNTj0xthwNVFv17zonWtkbtLCEOn7nTwm
-	 XNRzGwpDOi8mocG9p50HIDJjsIupldxhGL+l56FAcy7mXihSclU1V1SrtIKq4oRTfqA==
+	t=1793352554;
+	b=YJF2uJJyRw5d8hivse2T4Mp2FIpqg91j1+eJApgJo78H5MNmfegTPNy7zx8/DF4rxp2I
+	 bJ5ZgigtoXKBPkKYAohWvsa4GBxTHFhJvXXl1ZQsSnk7rbUJf/ObLaXlrJx6GNEq183tX
+	 cVHE3I7w8SHEniALvtIhQqBxZAlEecv8e/mfPX+t9WOrrjU664jnN9r7PKfnz9qGbwUxA
+	 XK8du8vP1egJ95AYbx8Jlt+R+HM5mspi4AuU0T4vPUVPOZ75FAIjJ3LAjAHpJbTQjnWyf
+	 PbvfiZZGJRrj7kDgLtuGmiZQ9POp4imyqzVicFbSbyRPI6Ac7Jnh9sJYe3Q1dgjsp6Q==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793352441;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=0WZanTPiPRWwfwIzshvdx7GqDGCnpzNJ/34RWFVaInM=;
-	b=Jp4vvusCD5ssAwmYysywULp+sG72P+6ayScPs9Thac6ZBKgqmy5XNeAOjx7DCuWNKVrJ
-	 9Ko9KCiQcXrCvbDzHJl4Qt/3T4XjrVReQZg9r83IJHxInIZM2EH0uyhOac2Nn3j6ZBq3p
-	 ifN70L3XtllFqN3xjSlKjmBhXUk9BoywoT08Pxf6O0Oi7urA0+kD4oA+vDO+8GMR0rcTK
-	 TZHR4dJDgzGJWjLYtjQ2kmC3aacmvWBVPB9WHPdVf5SL78PXyIiVJpCt29ckLYk7gOM64
-	 rUux7z4Rf/v5ZyUmYmFX2OVuANdHpTD4pAg4lYERgHKD5ZFTselFI04Fq+lXcuWnglg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793352554;
+	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
+	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
+	 X-Received:X-Received:Received:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
+	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-GUID:X-Authority-Analysis:
+	 X-Proofpoint-ORIG-GUID:X-Proofpoint-Spam-Info:
+	 X-Proofpoint-Virus-Version:X-Proofpoint-Spam-Details;
+	bh=wXZHQUfqjVTSYiMFo0bGuwr+L4meMVtULMlFeF9aVzc=;
+	b=tlDUaWwkjEkcoxLjxAnwFyFRopO0/DZvYZdmIFcBUSr7+M5FGjsYrT+XX8wmo0G8puH4
+	 VtYCuw2/H5BEQjg4rQScXXHWaGocmRDSQeLrLW6jflWwirFvSXVDwSy+ZzSYrkQyzqUEo
+	 5reKm+qNvzWD49PfwY05waiqnWQc2qPquDFS3wTeYvCP3z7aM/XHgCVr5AHVn33rOO02+
+	 rylfGWOcDIUfP5qHZmQJKOfkVDI2I4kyxJdN8h3LWMbDF18ae7RM39FGsd7GDBSUMLUoz
+	 59g2xg+UyI4MPFA56ROFiWzva8sXvrOWecwA3uIqTqqDGmjDpo+hCKR56JVeNRJFeXw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FAnuP54k;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=oss.qualcomm.com;
+	spf=pass smtp.mailfrom=oss.qualcomm.com;
+	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=j6rAJI8M;
+	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NuhFb8Td;
+	arc=none smtp.remote-ip=205.220.168.131
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0252C606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 09:27:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51EA1606A31D
+	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 09:29:14 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 51EA1606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=FAnuP54k
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5E4C1F000C1;
-	Fri, 30 Oct 2026 09:27:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793352440;
-	bh=0WZanTPiPRWwfwIzshvdx7GqDGCnpzNJ/34RWFVaInM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=FAnuP54kL3cdmtgzcxmjRSqblQI3zBkg421i0HUmK6oBGGpJ+Q1d4/8kLbZgdlKAB
-	 Pdh/2PvPpODpT3nAGwrOQDrsuPkYNvYjaRN8ixUX5AcxO/XrgGx1dfPsxLM5avTnO2
-	 IPCqoGMQGzcoQ75u9oV5W9t2DreZYfy5fudehyhp2NJF8wv20ysAfY8rDoAkN63Tyb
-	 TbAUG613o6OGH7mDvDn7SrnnIGGZ+EKCGbXQ0rCdOgfwgrt8TTtqdeTKa67b3IHIB7
-	 tGM1tseY6l/aCf2ixK7eMeyXzNFMTXT8FSChQa+89F3U0dOrNdDiC+g8EJMYuaVxFi
-	 8sm35uP69xv3A==
-Message-ID: <sashiko-outbox-190758@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: gadget: legacy: ether: fix RNDIS for Windows hosts
-Reply-To: sashiko-reviews@lists.linux.dev
-To: amine-ayaou@hotmail.com
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <MRVP191MB2786AD66C3EAB9F32E5B84F9EF6D2@MRVP191MB2786.EURP191.PROD.OUTLOOK.COM>
-References: <MRVP191MB2786AD66C3EAB9F32E5B84F9EF6D2@MRVP191MB2786.EURP191.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 09:27:20 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=j6rAJI8M;
+	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=NuhFb8Td
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 69U8EuiP1761689
+	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 09:29:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=wXZHQUfqjVTSYiMFo0bGuwr+
+	L4meMVtULMlFeF9aVzc=; b=j6rAJI8M/Zb2q2sFnpAsacQx5LVbo5FrtFKZcNLa
+	fcmVOMPkXIJ95L5dua4UstTqzDE8ZHXDCYWFc5dOUIbvTw2dRnCTbiRvZhP+Bsdm
+	jFC0bRu+cTLWEheX7rRHWO2F+eMDBMsTrLL/MpvtRIL7Y6FXxGdDdqB0i8V5Bq4Z
+	u2EWBfEYJ7w883hhqiJXHIH4SCbvoIDmOlTw8Fy00gzSqiPLc8egN3vwvfQDhahs
+	G9R6kAJm2IUdQm79On+nKKO6gkbCTilJlJxq3Q7K2DmzS4lfn/pWfoiQ2ywZKoGO
+	/ylo/dioaTXDpmTxDurB3Sf4AuNHK0uVJ9e/zd1D1aa1jQ==
+Received: from mail-dy1-f199.google.com (mail-dy1-f199.google.com [74.125.82.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hme6pa6p9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 09:29:13 +0000 (GMT)
+Received: by mail-dy1-f199.google.com with SMTP id 5a478bee46e88-33713e5e6daso766661eec.0
+        for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 02:29:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1793352553; x=1793957353; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=wXZHQUfqjVTSYiMFo0bGuwr+L4meMVtULMlFeF9aVzc=;
+        b=NuhFb8TdK2dYYULEnJQpkAohXw45a0hJPRFoStFBpDp1NqrLaE4x+zOk9TrMBnbQC+
+         EdHgr2G4VZG57f3guQERO0JldqdbjWMpEaWc/eTq+tbvnL2t1XhxV6cw0PcStD7c4Ty0
+         i0GiyKx6K2karJF9sxlxWkrfYo/ZQXtlxNt1Gk9S1PY4SRxPf31ZVSdd1B5/QSNCWcPd
+         /PBjoaddUr4vb7jDaOI6nbQ107kTuoepKrzRQgq+9ELmEMUguTYpD8ii80yZr76OrkGV
+         XyHozM8YYqqbWSZQ5g8QC94lE+k5/t8qb3wVqDUK/8bwsujR0E4gke56o2iY5PCsbbB5
+         WWtQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793352553; x=1793957353;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wXZHQUfqjVTSYiMFo0bGuwr+L4meMVtULMlFeF9aVzc=;
+        b=EQmwImDuQJ8aqpe1ZSOs39StGevbn8h4kWhMdlT2uzlqDcKg5GuqloDtukDFnmMdl/
+         o3gl93LMH8SbETsws5nlEufx/K6NegViPXhSCVf46ghd5Z0zmr2rTRnjVgZhJdi/C/Oe
+         xDJB99CQ2f1IR3wjibN9OshKLK9m8/9LXg2s6nJ8J6pkU8j/c63md+LJTH1bDk3EeVxv
+         bwGQ9Obb7R8voc11a5BDPs4fNO5lG/SzJvvO7axkGS2elF818PYV8e9zsqnit69eXpdp
+         eua7vWOtp2FDTIQYMlH7QH4MRwQn4Mr5vqsyw0BNN2+w5/+66H8c97jlLYiNOtuu0iv2
+         fsXw==
+X-Gm-Message-State: AFq9FYI27JyHyuP0tr7meMftivQThOwqF9TJMlFjybDoIu1CBE9ZEyI4
+	auKN3PvP9dyn55xMergQVg4HDxtJs+4FQOCrsf0aThcILWkOOM5B0oJXmXbJAN4KZGOXnz7hA9U
+	9GSVL6CbOSofM0pEzCzdlRA1u0OGQKK8GTSOokY/6YtFbIqp3WG6vlX0Q/qOSaLo=
+X-Gm-Gg: AYBFou0e4n6rzsH5jgO1OfM7nfz2W7UdSAOqdDwqSrpTjt52IDsH1xEvItLd2KXnqcc
+	9T68GUllWNPb4HPHDwe5/NDrK/pvI+CBG4Iv+P2+gUzbJruURMZB4e4SF7wXw8Zzk5M0f3RZ+p2
+	HLSm9Z8onJu1OxarCbQ6Yh670jmLG2rSeWDH77G6CI6J7Mtc6Lft3xwBPdagflOrTG7MLr1XlUQ
+	g4GYb01oEDfdgJTAbM1T8Sk+L28TcgjZWU0QOm8IbEadEbtGqzGSnnvurXBgYYFa+xiQi4tOesN
+	l4l9nib/rT7JCsSHHimDs3FDGHKyN0NEgc7+5nwQYT+IlBK2s2Krsa088CoMEv/vhexjbHstr5Z
+	dCgss0ZOORV5IhSdEmtY9VXnlRZ3aX+EMXw/HKtkeKBps57TwilUtcoL+AhIN8zjegjIWJ5FeUu
+	IKHA9xHr+2H74Xq5tlYVFo6w==
+X-Received: by 2002:a05:7301:e105:b0:36a:15cb:30bf with SMTP id 5a478bee46e88-36a42345851mr2726553eec.13.1793352552524;
+        Fri, 30 Oct 2026 02:29:12 -0700 (PDT)
+X-Received: by 2002:a05:7301:e105:b0:36a:15cb:30bf with SMTP id 5a478bee46e88-36a42345851mr2726526eec.13.1793352551752;
+        Fri, 30 Oct 2026 02:29:11 -0700 (PDT)
+Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42935b4asm7970406eec.16.2026.10.30.02.29.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 30 Oct 2026 02:29:10 -0700 (PDT)
+Date: Fri, 30 Oct 2026 02:29:08 -0700
+From: Peter Chen <peter.chen@oss.qualcomm.com>
+To: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
+Cc: linux-usb@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
+        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
+        Sriram Dash <sriram.dash@oss.qualcomm.com>,
+        Mathias Nyman <mathias.nyman@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 4/7] usb: host: xhci-plat: Support
+ XHCI_RESET_ON_RESUME via device property
+Message-ID: <auRjZCbhL-7aubN6@hu-petche-lv.qualcomm.com>
+References: <cover.1793212717.git.faisal.hassan@oss.qualcomm.com>
+ <6499d6761ba6f338544fc8a90b4a96e55b5b4b12.1793212717.git.faisal.hassan@oss.qualcomm.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,107 +123,80 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6499d6761ba6f338544fc8a90b4a96e55b5b4b12.1793212717.git.faisal.hassan@oss.qualcomm.com>
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMDMwMDAzNyBTYWx0ZWRfX2LpkY2EFiZO1
+ j7TJhvjWUjNf8tRi0aXHBjKJikFF3lo/CCmrX1T3A6LmDIu3+OaRUfC4SJTueDsOiQ1rPvyZkr3
+ 077xhrxFHxQrob3MH3/IypA0Tg3uvvBx01GALjesRHNGjHKREKXks2e0p6PvzD17crY6+3fg6vK
+ scKBoeWgh0YK+MLO9uJx0lDtEEF0M9bAi2QunyGA649BHUsmdEP2axZn2se04hy43OwUpOYVpYK
+ B+RsCLBqOh5MnN/VYjhuyyEDvWye7jKPPrSNaEQPS7zm6XwwQnMxoFMZ71WOFKb7H1kHMtgTqTF
+ 9ckOzHRM32cPiuH/FzYDWoViCljTJqa3cVo+mIvMSWOpDPoASuDDDRNd9qvThs2Eh3kFmBNgDhi
+ UASw5WIDLZPVZHLtQtQe8OejtZzEn7340Hxk/pANRU1IIQc/UZ2HyvmlyZ9yNHoUgJaAmNiJfPX
+ 4n3QJX/Nf4CxFdzM3Lg==
+X-Proofpoint-GUID: YarH0oLTIpwsUfQ-LnS2ANUAIEoucScH
+X-Authority-Analysis: v=2.4 cv=Lp4HWXdc c=1 sm=1 tr=0 ts=6ae46369 cx=c_pps
+ a=cFYjgdjTJScbgFmBucgdfQ==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=kj9zAlcOel0A:10 a=660iZSQnnn4A:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
+ a=EUspDBNiAAAA:8 a=456oqEKErFOAmiHxQ1AA:9 a=CjuIK1q_8ugA:10
+ a=scEy_gLbYbu1JhEsrz4S:22
+X-Proofpoint-ORIG-GUID: YarH0oLTIpwsUfQ-LnS2ANUAIEoucScH
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMDMwMDAzNyBTYWx0ZWRfX8K5wunFofRpn
+ xKwYFTlL/xt/yZUMtjLqVD5AqAsWG25+2OkHB/ecCfiTCgrI77dVQxUNZuIuH7AIfcslwGx1VBE
+ rQFcwlrqiW4AJhjMNXNH/1JHUgSEr9U=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-10-30_03,2026-10-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 malwarescore=0 clxscore=1015 impostorscore=0
+ spamscore=0 lowpriorityscore=0 bulkscore=0 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2610190000 definitions=main-2610300037
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] usb: gadget: resource leak in composite_bind() when OS desc prep=
- fails
---
+On 26-10-29 00:29:34, Faisal Hassan wrote:
+> When the USB controller loses power during PM suspend (as occurs
+> on targets like SA8255P that fully power off the controller),
+> it generates a Host Controller Error (HCE) on resume requiring
+> full reinitialization. This is handled by the XHCI_RESET_ON_RESUME
+> quirk (introduced upstream in 8b328f8002bc).
+> 
+> Read the "xhci-reset-on-resume-quirk" device property to set
+> XHCI_RESET_ON_RESUME. This allows parent drivers (e.g., dwc3)
+> to enable the quirk via software nodes.
+> 
+> Co-developed-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
+> Signed-off-by: Sriram Dash <sriram.dash@oss.qualcomm.com>
+> Signed-off-by: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
 
-commit 9ae1a82cebd8ee193e2a0cd2544effdf04549a00
-Author: Amine Ayaou <amine-ayaou@hotmail.com>
+Reviewed-by: Peter Chen <peter.chen@oss.qualcomm.com>
 
-usb: gadget: legacy: ether: fix RNDIS for Windows hosts
-
-This commit configures Microsoft OS 1.0 descriptors in g_ether when the RND=
-IS
-function is enabled so modern Windows hosts can bind the RNDIS driver to the
-legacy gadget.
-
-> diff --git a/drivers/usb/gadget/legacy/ether.c b/drivers/usb/gadget/legac=
-y/ether.c
-> index 99c7fc0d1d597..70de686fa56b7 100644
-> --- a/drivers/usb/gadget/legacy/ether.c
-> +++ b/drivers/usb/gadget/legacy/ether.c
-[ ... ]
-> @@ -387,6 +390,18 @@ static int eth_bind(struct usb_composite_dev *cdev)
->  		device_desc.idVendor =3D cpu_to_le16(RNDIS_VENDOR_NUM);
->  		device_desc.idProduct =3D cpu_to_le16(RNDIS_PRODUCT_NUM);
->  		device_desc.bNumConfigurations =3D 2;
+Peter
+> ---
+>  drivers/usb/host/xhci-plat.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/usb/host/xhci-plat.c b/drivers/usb/host/xhci-plat.c
+> index 6fd595f81a30..0093ed24ac3f 100644
+> --- a/drivers/usb/host/xhci-plat.c
+> +++ b/drivers/usb/host/xhci-plat.c
+> @@ -277,6 +277,9 @@ int xhci_plat_probe(struct platform_device *pdev, struct device *sysdev, const s
+>  		if (device_property_read_bool(tmpdev, "xhci-skip-phy-init-quirk"))
+>  			xhci->quirks |= XHCI_SKIP_PHY_INIT;
+>  
+> +		if (device_property_read_bool(tmpdev, "xhci-reset-on-resume-quirk"))
+> +			xhci->quirks |= XHCI_RESET_ON_RESUME;
 > +
-> +		/* Configure Microsoft OS 1.0 descriptors for RNDIS. */
-> +		cdev->os_desc_config =3D &rndis_config_driver;
-> +		cdev->use_os_string =3D true;
+>  		device_property_read_u32(tmpdev, "imod-interval-ns",
+>  					 &xhci->imod_interval);
+>  		device_property_read_u16(tmpdev, "num-hc-interrupters",
+> -- 
+> 2.34.1
+> 
+> 
 
-[Severity: Medium]
-Can setting cdev->use_os_string in eth_bind() leave eth_unbind() skipped if
-composite_os_desc_req_prepare() fails in composite_bind()?
+-- 
 
-In drivers/usb/gadget/composite.c:composite_bind(), composite->bind(cdev)
-runs before the cdev->use_os_string check:
-
-	status =3D composite->bind(cdev);
-	if (status < 0)
-		goto fail;
-
-	if (cdev->use_os_string) {
-		status =3D composite_os_desc_req_prepare(cdev, gadget->ep0);
-		if (status)
-			goto fail;
-	}
-	...
-fail:
-	__composite_unbind(gadget, false);
-	return status;
-
-When eth_bind() returns 0, it has already registered net via
-gether_register_netdev(net) with bound set to true, allocated fi_rndis and
-fi_eem/fi_ecm/fi_geth, allocated f_rndis and f_eem/f_ecm/f_geth via
-usb_add_config(), and optionally allocated otg_desc[0].
-
-If composite_os_desc_req_prepare() then fails with -ENOMEM, composite_bind()
-calls __composite_unbind(gadget, false). In __composite_unbind():
-
-	while (!list_empty(&cdev->configs)) {
-		struct usb_configuration	*c;
-		c =3D list_first_entry(&cdev->configs,
-				struct usb_configuration, list);
-		remove_config(cdev, c);
-	}
-	if (cdev->driver->unbind && unbind_driver)
-		cdev->driver->unbind(cdev);
-
-Because unbind_driver is false, eth_unbind() is not called. While
-remove_config() unbinds the functions from each configuration, the function
-unbind callbacks do not unregister or free net when bound and borrowed_net
-are true. Without eth_unbind() running:
-
-static int eth_unbind(struct usb_composite_dev *cdev)
-{
-	if (has_rndis()) {
-		usb_put_function(f_rndis);
-		usb_put_function_instance(fi_rndis);
-	}
-	if (use_eem) {
-		usb_put_function(f_eem);
-		usb_put_function_instance(fi_eem);
-	} else if (can_support_ecm(cdev->gadget)) {
-		usb_put_function(f_ecm);
-		usb_put_function_instance(fi_ecm);
-	} else {
-		usb_put_function(f_geth);
-		usb_put_function_instance(fi_geth);
-	}
-	kfree(otg_desc[0]);
-	otg_desc[0] =3D NULL;
-
-	return 0;
-}
-
-wouldn't this leak f_rndis, fi_rndis, f_eem/f_ecm/f_geth,
-fi_eem/fi_ecm/fi_geth, and otg_desc[0], as well as leave net registered
-after cdev is freed?
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/MRVP191MB2786AD66C3=
-EAB9F32E5B84F9EF6D2@MRVP191MB2786.EURP191.PROD.OUTLOOK.COM?part=3D1
+Thanks,
+Peter Chen
