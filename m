@@ -1,97 +1,80 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793352865;
-	b=jHjkzGgSSkST7BHgc3nuwCO62Uj+1Z1THjEgzCN/jrrMYPhVHdwGu/LsjjzWjJCoVGLL
-	 kCRyayoALkIJajO8RK1E7m3nz2/RXhbX8iOctOkGkuXa/KnEjf+9I7+O82UUsYEudXUJc
-	 k05BfgTt22nhqK2QzhC7RIX/6pXqVKTZCU4ZuC5uM/9jnUAM/Oy+4lGl3CMoZgxeKFxc8
-	 TMkY8dj8DYU1xc4tXg0R+Jn0OOLhLj6CIgOo0aVsRrhJXTvHij/llbKDGptbyt20YV4ZL
-	 6IJSr9cQ9NpaiqaUZYooI3noLK77Z1m7WS5GMC9VQoCXMylrKiOwQ9qtB+ZdjCCO6og==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793352865;
-	h=DMARC-Filter:Received:DKIM-Signature:Message-ID:Subject:From:To:Cc:
-	 Date:In-Reply-To:References:Content-Type:Content-Transfer-Encoding:
-	 User-Agent:MIME-Version;
-	bh=zR4cq1CC/Zi/N7qHUu5+m00lSe1k8x2uAxJhMEWb2Ms=;
-	b=VotK7TqGICXsy+hMkKp9CdCgGy462C5LNOCuJjkuwEj+L8LwrQj0PjTna6Qy2UQsdbPM
-	 RLoq2XjzwXhMwPTD6DHsohyTLhR9pniVk4a4nVK34F/dU5dgTbRUrWJ41w90eb45rwIiF
-	 BNP2slhyaso2YFG49poXXtdzw1PoRSfbAwuhWUllPZc2+ht+vBqE1gLGEJsFZ5eyKoLNM
-	 c+MpAmbiDEnzMnSYsNR9uyL+HRzabTmiMz4w9jv96t4KlTcNMFMc5wq2m9ZQg62WaX77s
-	 Y1bJaB1jkAGUlQkXeWqkf1bq3eMIlHPp57RvmlrA6P+cuzAIl902QeQ1vWGkWTTOp0Q==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=none header.from=pengutronix.de;
-	spf=pass smtp.mailfrom=pengutronix.de;
-	dkim=pass header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=PwjGgKbN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=185.203.200.13
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.57.210
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793353711;
+	b=39XkljJUT2SzVJkjaCzLZNV2C3Oi6Er/F3M22ZuV8KYeyesno3shn10REy/JsDWVknGh
+	 8/P1jqx7fqJD20KGyQmjzTSNldvdypLTNlmCWoism6a89i+z2GmBcAvameddrvzxrhi2r
+	 AAtGq4Xho/zjHJDj4zrZJKGrd/sNglpXJRBagfaDlTRqbs9Y+7T2feHJQtG3yzar4my+t
+	 QDRRILId4SWZvEcWC0GT5sYkNsb8mf0Hqy4pLq8Z5AylDDgaZefjFalZhlmif8g48xJCa
+	 M3ygc5k0+jreBMPuDhuc2aPtkaZMyIvAfcAv/n0B29wgB/PpgyIol3blOdgJjJJi0sA==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793353711;
+	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
+	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
+	 X-Mailer:In-Reply-To:References:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=e53rf/H4WymerCr1S2SACB31JRHUBytOz6/yCvy7EOY=;
+	b=YPjmxUMnupf8/kRUj7tcQ+bFQuLcB8w6GqbkZ/cIMvUmjazu1oknv1nvS9i5LsX3ItkB
+	 uABlWjDYpIU6UAlBoVjgdKLnc2AGZpbXLXMdhi4v3lE+RbfMXa96a19CAlfXyfWXS3w1O
+	 YlAR4C2eOWwsrdC+eZzLiW87bZubBKkDNabj/TjLNh9E9UxDxEbCn1pxJsVpKUsLY1gMd
+	 huy8ocIfkq77uQxbGBQgNDwcEJtvdhkHmJBLudC9tnxFTMCBEB+gahuXt79ZaV5s3uqV0
+	 /zd96HUdSgchuIXjjmdFHd44FE3ZZ3iizAjEhhv3kgmHjpa7V1C1cb1vDCGrVaqCaLg==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=qq.com;
+	spf=pass smtp.mailfrom=qq.com;
+	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=vs6RCKCq;
+	arc=none smtp.remote-ip=162.62.57.210
+Received: from out162-62-57-210.mail.qq.com (out162-62-57-210.mail.qq.com [162.62.57.210])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46540606A31C;
-	Fri, 30 Oct 2026 09:34:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 46540606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A3FC606A31C;
+	Fri, 30 Oct 2026 09:48:16 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2A3FC606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=pengutronix.de header.i=@pengutronix.de header.a=rsa-sha256 header.s=20260414 header.b=PwjGgKbN
-Received: from [IPv6:2a0a:edc0:0:900:1d::4e] (lupine.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::4e])
-	(Authenticated sender: pza@pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 587F5202043;
-	Fri, 30 Oct 2026 10:34:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793352855;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zR4cq1CC/Zi/N7qHUu5+m00lSe1k8x2uAxJhMEWb2Ms=;
-	b=PwjGgKbNJllpARDZ2IJbT3+vuUrcwZbUPPf4QEn6LLmbuLz+vj/6RaOT8REhBFwt08RuN+
-	H5JLDjlEQ/GedyaMgiAKheVPgkCrgpD233H1PY5yj975YXBwY83uEYjC78mzP8y95sO/RT
-	3a/hA6TzCTjXjlwTAnhiNUogV4I3HfQDXCSut4oL0fT/xrsG41evNzwK/yZR/96eOkWTPH
-	w9QIHxy6OTDFRVIqX8VnnCjK3sSe7x8I+F4JEYO5Qr2nIm/fvt6BlaevNgyaD+a1NivaXa
-	E9GCPnE/DNsU6jEahLrKtjoCtmz5Ic1Q7Zp5OpXrXrSmBvCqBHAcZV9iikGugw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1793352855;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zR4cq1CC/Zi/N7qHUu5+m00lSe1k8x2uAxJhMEWb2Ms=;
-	b=KoV7Vy9Aj7idkM6KLiaBaEJ9qzSzpgUR0Tk7u0Bmam5ubd9Vdm5kWjBaM8P88ZeQX9MCsd
-	+azqZ3o2/cI7ElOHqo8xw2XvAUfax3tBo8qrzxnPsm1sTQhYQIPa6siAoXckyLhIr6P0kV
-	1UXggfDQmZ9b0ERetYYtbdukfojr/wlp1/S5r96p2YaWrPyVo68UEiPOAjvZH/RKfBU3Yi
-	LqRmjIyuXbDJITKTD3+REcK0JEPhO9BSW6Zy2dqfB+QCl1XpS6PSUInQAZt6HBDB1Rv722
-	upeYHlBhricZUpWZmp5YZVKf21wAx9HTgYr7alA/nh1zDbYsj4jb5fB9aXO9OA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=pza@pengutronix.de smtp.mailfrom=p.zabel@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1793352855; a=rsa-sha256;
-	cv=none;
-	b=IbwBeD24Ii1O3aW0mCnsGP4cs2D/bG+F3J1+8KFAxd2/rrdd84DvBGn3HZsqT5j1/IMF+D
-	XSvnOPBcZQyDLEJq/tbVtgIhKfSkX7ahAcv4+XdFhNilhcbuLoJDmbKEBIjhwFoSd1+FoV
-	B11zcgUWTP0LmoflLQ0xJnOl/i1wQ6GMVW5dR/FV56oNW1LSNuUl5aWQHgspGxqy8S0UNC
-	cI9vO7R6jutcC5wJgH1sLjJWECR5kmZrrPMYHJYydp927AtMejHjdK1AbAEtglXcegw4SI
-	PuVAgOvxPuo1Bqkt2vCKpgF5IiiWB1TrG7bJudbZajDol8Ltmwbwuje0vnSZDg==
-Message-ID: <0d097a5f7cf0e71245f8e87d5a0ea377af048d0f.camel@pengutronix.de>
-Subject: Re: [PATCH v4 6/6] usb: gadget: udc: crg: Add core driver and build
- integration
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Petar Stepanovic <pstepanovic@axiado.com>, Naveen Kumar Rajgiri Bassappa
-	 <rbnaveenkumar@axiado.com>, Prasad Bolisetty <pbolisetty@axiado.com>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Tzu-Hao Wei	 <twei@axiado.com>, Karthikeyan Mitran
- <kmitran@axiado.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	openbmc@lists.ozlabs.org, Krutik Shah <krutikshah@axiado.com>
-Date: Fri, 30 Oct 2026 10:34:15 +0100
-In-Reply-To: <20261030-axiado-ax3000-usb-device-controller-v4-6-c5267b36a777@axiado.com>
-References: 
-	<20261030-axiado-ax3000-usb-device-controller-v4-0-c5267b36a777@axiado.com>
-	 <20261030-axiado-ax3000-usb-device-controller-v4-6-c5267b36a777@axiado.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-0+deb13u1 
+	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=vs6RCKCq
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1793353692; bh=e53rf/H4WymerCr1S2SACB31JRHUBytOz6/yCvy7EOY=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=vs6RCKCqdjE8RF9jZOWygjnfTNtvcWjwV/ok0oO6TjEXuVkPkXBv7T2X5t1vbtkbZ
+	 3EsQCk/byeQ8ppEAqODRePlvvJa1x9ltD6ht863fpgPQdoRhL97YApT2reysuWGR5X
+	 8FLu+GCLnB2mIkGq4M9+8jUiTPFzPKFkO8tdNZNA=
+Received: from shuai-VMware-Virtual-Platform.. ([171.8.225.58])
+	by newxmesmtplogicsvrszb51-1.qq.com (NewEsmtp) with SMTP
+	id C09892B0; Fri, 30 Oct 2026 17:48:09 +0800
+X-QQ-mid: xmsmtpt1793353689twqw5wxio
+Message-ID: <tencent_87090B7774E9681639F99FA67B5C3A31C007@qq.com>
+X-QQ-XMAILINFO: MeukCuWaRbQlPGhU/iY3QiAeN1c0E42oDo+pM3GduSoMd8lPMBG2yemsBHiuSo
+	 McVMuLxPMyrZ874zvtvLwBywneUxkrlQ+jzcE4U4+XDShLhUhNNklHB4qlAwGN79wdUXurvJq7sk
+	 p31gQHkH7unG8RV4JNXeBxSFHpqAJaumPjNdeFSbONn2jQYz9/EZ1sRK7AvrxOUlmdMRo08GQ+R9
+	 XYniAOQR6OhwoBCb/KhIGSjAmHNxEcJfdUpEU+UmJy0Bba62h9M5f+uSU/7w0pqMxgaSnGe6KcvT
+	 NkB/MW/HTuJsheBvVZkwq+xdZgib//ChQMr4lhIoG2Z1pLud6lx/NS2c1u6Doybmmy0kF5q9kvsr
+	 ZIH3S7RHcrx4OteiKAj+eR1A5zg1HFCB5R6jdsvF9JS1+U0KpzsAaUMk+o6thdilPPoONc6yPwJd
+	 v9180VwpHNYFF/LOJo8hdh1AT89FSF601cDh8rnVxeX213u/uq+AyAccMTNHYVkymlcZGJrHE5/U
+	 yxtSSzqRp0etQUCDCLJ0nhJImnTDCA07G4OBvcn1VbnvO7hj+vBncZGJSNTdTIpza+mmXF1J4gTJ
+	 qra5QCg1Im1/R7jUioaXRt94GRcN3TEwt5VGq0GF7l41O2tPLy6/jySc7zcfprbm9IIsEKHfU7QC
+	 cbEQar17ovvEn1QKWLwGTkWnNX+racGWn19esd6QcE0723UwrbNn59/DLZ1+UUyTGZP/VtWsBgOf
+	 eKX5QqOgc8kZuMJZDAfDrS94ba5KcaftxrWN3c4x4guXZLTQuB7Lh8QXogohVV79qe4e0bX/AeTr
+	 aSvBvy1Apr0sH6rpe0JZj/8OEpGDSAt0KTSmzcjj2z5KpTfpvDivXPNSKJXwkPq2FeK1VSu3trWn
+	 yvYshfh/B1G/BYB+5qwFE+YtKDeamMm++ki/MiI7Vx5t8w88NfCsQU5p0ihg5nWT8y3Azs60qMy7
+	 KqMtL1tLrh3Ep/xhafrI9qeJ02vpNFHohLwmXx7JELft58rN90mkE+NaGqgFfnPH+m0Z7hY3CX1F
+	 Z+IKg76iUGfmhQBzUqSAtTCWquveaUwupQjf6dQ2vqlydxqj4JsT/vFFTrupuoHxfpIxtEuFc4yV
+	 CVFtQkQNI/dbKXFo/aRXz+RL52xZg+qlC2YYda
+X-QQ-XMRINFO: NyFYKkN4Ny6FuXrnB5Ye7Aabb3ujjtK+gg==
+From: Shuai Liu <847807867@qq.com>
+To: Mike Lothian <mike@fireburn.co.uk>
+Cc: dakr@kernel.org,
+	gregkh@linuxfoundation.org,
+	colinbrauncl@gmail.com,
+	rust-for-linux@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/5] rust: usb: host-side abstractions for a bulk-endpoint driver
+Date: Fri, 30 Oct 2026 17:48:08 +0800
+X-OQ-MSGID: <20261030094808.3877985-1-847807867@qq.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261030075758.356879-1-mike@fireburn.co.uk>
+References: <20261030075758.356879-1-mike@fireburn.co.uk>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -101,59 +84,64 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Fr, 2026-10-30 at 01:10 -0700, Petar Stepanovic wrote:
-> This patch introduces the core probe/remove functions for the Axiado
-> AX3000/AX3005 UDC driver, and wires up the directory into the build
-> system via Kconfig and Makefile.
->=20
-> Co-developed-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
-> Signed-off-by: Naveen Kumar Rajgiri Bassappa <rbnaveenkumar@axiado.com>
-> Co-developed-by: Krutik Shah <krutikshah@axiado.com>
-> Signed-off-by: Krutik Shah <krutikshah@axiado.com>
-> Signed-off-by: Petar Stepanovic <pstepanovic@axiado.com>
-> ---
->  drivers/usb/gadget/udc/Kconfig            |   2 +
->  drivers/usb/gadget/udc/Makefile           |   1 +
->  drivers/usb/gadget/udc/crg/Kconfig        |  16 +
->  drivers/usb/gadget/udc/crg/Makefile       |   9 +
->  drivers/usb/gadget/udc/crg/crg-udc-core.c | 723 ++++++++++++++++++++++++=
-++++++
->  5 files changed, 751 insertions(+)
->=20
-[...]
-> diff --git a/drivers/usb/gadget/udc/crg/crg-udc-core.c b/drivers/usb/gadg=
-et/udc/crg/crg-udc-core.c
-> new file mode 100644
-> index 000000000000..33be5c920ebe
-> --- /dev/null
-> +++ b/drivers/usb/gadget/udc/crg/crg-udc-core.c
-> @@ -0,0 +1,723 @@
-[...]
-> +static int crg_udc_init_hw(struct crg_gadget_dev *crg_udc)
-> +{
-> +	struct device *dev =3D crg_udc->dev;
-> +	struct reset_control *rst;
-> +	int ret;
-> +
-> +	crg_udc->clk =3D devm_clk_get_optional(dev, NULL);
-> +	if (IS_ERR(crg_udc->clk))
-> +		return dev_err_probe(dev, PTR_ERR(crg_udc->clk),
-> +				     "failed to get clock\n");
-> +
-> +	ret =3D clk_prepare_enable(crg_udc->clk);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to enable clock\n");
-> +
-> +	ret =3D devm_add_action_or_reset(dev, crg_udc_clk_disable, crg_udc->clk=
-);
-> +	if (ret)
-> +		return ret;
-> +
-> +	rst =3D
-> +		devm_reset_control_get_optional_exclusive_deasserted(dev, NULL);
+Hi Mike,
 
-This can be put on one line.
+Glad both findings were real. Here is a shape for the Altsetting token,
+along with why I think the strict borrow-based draining version cannot
+work in this design.
 
-regards
-Philipp
+Why a &mut-based draining shape cannot work here:
+
+- The window is shared by design. The adapter holds it on one side
+  (close() during suspend/reset/disconnect) and the driver receives an
+  Arc<IoWindow> on the other. There is no &mut IoWindow to take:
+  Arc::get_mut() needs refcount == 1, and Arc::make_mut() would clone
+  the window out from under the draining protocol.
+- The drain itself is a cross-owner runtime protocol: the adapter
+  blocks until every outstanding Io token has been dropped. A
+  compile-time guarantee would require the compiler to see across that
+  ownership boundary, which it cannot.
+
+Since the open/closed state is already checked at runtime, the setting
+validity can ride the same mechanism while keeping the token-shaped
+lookup API you asked about:
+
+    impl IoWindow {
+        /// ENODEV once the window is closed or the device unconfigured.
+        pub fn altsetting(&self) -> Result<Altsetting<'_>>;
+    }
+
+    impl Altsetting<'_> {
+        /// Validates the endpoint's bmAttributes against the active
+        /// alternate setting. The result is a plain value.
+        pub fn endpoint<K: EndpointKind>(&self, addr: u8) -> Option<Endpoint<K>>;
+    }
+
+Endpoint stays Copy so queues can keep storing it, but it carries the
+setting generation it was born in:
+
+    pub struct Endpoint<K: EndpointKind> {
+        addr: u8,
+        born: SettingGen,
+        _kind: PhantomData<K>,
+    }
+
+set_alternate_setting() keeps your v4 behaviour (EBUSY while a queue is
+registered, cancellation in the queue's Drop) and additionally bumps
+the window's generation on success. Every transfer entry point checks
+`ep.born == window.generation` before submitting and returns EINVAL for
+a stale proof. That turns "Endpoints obtained earlier must be looked up
+again after a switch" from a doc line into a rule the transfer path
+actually enforces, at the cost of one integer compare per transfer.
+
+This also mirrors the window's own open/active machinery: revocation is
+runtime, the proof is just cheaper to validate than the window state.
+A debug_assert on the same condition in the unsafe C call sites would
+catch missing checks in development without costing anything in
+production.
+
+Best regards,
+Shuai Liu
+
