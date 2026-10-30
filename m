@@ -1,78 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=203.205.221.231
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.5
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793327651;
-	b=xvwU7sXNZqXaxXzNJPRneVB7Bj4hI3x1B/BJvubteT9KlHif4Hlgf4Og8oFf6FZ5nE7W
-	 jMbUr72bftiy+cx8FFAfmdq6RrI33Fv26cudsZC3lV6RvYWUnoio9JbKHAEBStHoAJCGw
-	 mSTjN8jDmlUgHuocRSE/4vpxt/kHIcn0dDxbuCCVqfIqIO5PMqT51fyb8vG/e2c1I047R
-	 vG1GkQXX6b+qa1SlkCWz1vNK5ExvkYXDy4ehTj8V/oMymuxDtNN6i6RnwNzZLtAjQ4pCC
-	 hcifr+16O+Bj239ourWHHOmKU4jadj4Gs2RX3D7DK58NG8HzzK8P3SknR+nmboN0rZQ==
+	t=1793327675;
+	b=NFP34XprTIEpT6gwAJE2npmrx72n/n3UzfGZsPvDU8bvKtk0uORCJNkNZPwE0Sjw/Dji
+	 C0+xlY6mKk5b9jjJW6jP5kqW+f1++FmTEDYTIrp6pqc05jykkYBjvxilUiYfe3fNvHkdO
+	 d9lTYOUPFCPOtWkf+x++s0t8RZ1UWdsPZBvIDUjQSSEB52yjpibSfDmYu3aVRlDbFsxG6
+	 qGt8mrB2s1T4eAH9Ywi9MMWFNImac6HrQmUMDziiPw4ipIQZ95FSTRm08WYRZjBOk89uf
+	 1MgPQICWg6AGoxuhNdAIB+ExzcChd7N6z22amBQJ0LRh1DzsAhkyj6X29gG9LuvIPtQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793327651;
-	h=DMARC-Filter:DKIM-Signature:Received:X-QQ-mid:Message-ID:
-	 X-QQ-XMAILINFO:X-QQ-XMRINFO:From:To:Cc:Subject:Date:X-OQ-MSGID:
-	 X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=yI38pTAxWIJdHS1u48CX7hR1jFdneroKUtAyhW5uxuM=;
-	b=phnyKoRPtr8FiURfwIwxXdsM1IdVxG2o+2UWq3qppcFydto7da2XNBacBQBWzJSpSfwh
-	 oM4pVBh12IAhX20BUOQXWdQb5g/qVs4RZ30l9GlqAvIhx6YA3wBkLweeH4FIwePD/OUoa
-	 XterSVI5TBMncjtm3hUHJeyfNQ/Av4GusVGPRt7TArNaiztZE7RP7pfIG5PQOnMPP4ryS
-	 lctQ6SGLywjpd4mqbuQwzwjHO8Mn4gRKWvMM7DlXAC+E1gcN37bPHWqsB3x6I8nsgP3q0
-	 Ja4GCNtKo63h+k67G2WYsebW1/7A8ClL2oR8nOugQLsrHfrJJd2d0mWeVZdwzwKBJOg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793327675;
+	h=DMARC-Filter:DKIM-Signature:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:X-CM-TRANSID:Message-Id:
+	 X-Coremail-Antispam:Date:X-CM-SenderInfo;
+	bh=9e4lgZghiS+2oM0i0i15GCTwnUhRyMlYh9IxBOSYsWw=;
+	b=1I8hf0NDfv97eLq0lpSNXghBPaKqbRiqGYeajoD9HkQJQoopFu/eoabjixBWTLdL8v+4
+	 8+2GueJ+rDw81p5WmflmwG5fwcnMCN3Bk6TPnp6Ff1LLuqZWOXrc9YjfjhUAf76X/EeqW
+	 zA+/ugNUxD3OYHF9RAMD2xWGlbYQSQcXheJsinAuF9gpGtYjy/1acc0Mmko2wcLrNBrAL
+	 Qb4OyGL5rNYfWJrUd4/RV7SSxUPBU95Lyw+YunvnVrsxozrpjx2et6DGZyCJmEpRzMf+H
+	 mqovhhrXwfiouxTUKidsgfYW4i/QlX+Ex2vct1TwuwV+krMQmO6BvKM5007MpuYxuCw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=kJfXCyRe;
-	arc=none smtp.remote-ip=203.205.221.231
-Received: from out203-205-221-231.mail.qq.com (out203-205-221-231.mail.qq.com [203.205.221.231])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=dKPixnca;
+	arc=none smtp.remote-ip=117.135.210.5
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C90BA606A31A;
-	Fri, 30 Oct 2026 02:34:09 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C90BA606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFD2B606A31D;
+	Fri, 30 Oct 2026 02:34:31 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org EFD2B606A31D
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=kJfXCyRe
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793327642; bh=yI38pTAxWIJdHS1u48CX7hR1jFdneroKUtAyhW5uxuM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=kJfXCyReReLjxEgcRDtBGz05NGmtT3sNGUINfEZTiLA4Jcs/I9qWQIPDkDYiFlqvX
-	 jN36TG5j72py8+GUziVB/ICQB182RGeXHfDVJcbaDEsBP3sW4NlyKV7r+dqax2+vLk
-	 aeK1Lk4qylPjPVMA8Ztw9CIC1O8aOO+aaDLYWoF8=
-Received: from shuai-VMware-Virtual-Platform.. ([218.206.237.125])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id 8803A8CC; Fri, 30 Oct 2026 10:34:00 +0800
-X-QQ-mid: xmsmtpt1793327640t8grxmk6j
-Message-ID: <tencent_A0D3062EB058E244877B87B4324B8DFC4406@qq.com>
-X-QQ-XMAILINFO: M1ZCvr9KyDXtaCJcnF47S6R5I3mq0IV7kiidH4/XzxN5PLrN7Fu8PsfGr+ka98
-	 ubiqSNUdCT4zCufn3DQKkOjLb7yGNZuLMh1y9ltnrfuWvgMF03A9GbDRY0GzF2969BCWySg4Iz+B
-	 hN9vAQq79uCukI6ETF0ZxT+HZ/mOm2rS8ojT/s//xwJBcIbhDvfFTtsSPvIhD3VYYYq3lmarP1F8
-	 b0ObgRdNiADEeBeHRaRr8vUMli+Kl2xypBPVDBAtD9+uuZzynN6Prz5oN2jWvhTPSJKclDDCNvK0
-	 T5kiPNKZCQ4vHW959PlUvPuWrEvLnmR5reDhWuMqaSTMxmAJbbV1/Q0dMOBr8B156RwUxhMiaxes
-	 BRHOqi88H+cR9GoDNu6MNV3zl9w7R4A4daYmD9qrhffM2EASkDUlaat70g1FWYA+6HrfxRKNOBT2
-	 aRdU3oc/NLZB9mDIrmjJSDOj8sas+cb6AKgH74yPqU1E8u3QHy1SGXEG1lWITj0pykMWikcZ10C3
-	 W/SC29o5sSlbNPDQPrBOmsSHSYHOclHvQyBVpjZnhV/UOJC1jvRKd1m7PKOs6fyPzCbmIZQmz5Ea
-	 4G9sWsnrpMddsVTJDfB4n9y7tiy5Tq288dYnHKcrvuy4560ReiJPFL+wv669Mj/cY+qQ/CCwIIWO
-	 +0BkKh5du0UoXeL/eN7lqkJyFMMZopDKThAgszEtAnPE4skFfM87FsZStIciOD+p4lPKHJCbPUoW
-	 0p3yw9rNL9dYmX0uphH0+Lg0Scxf22pLOtfMParg6+PNnx/ECiw9QsV3wGVLjngnA96AcWOFF4jl
-	 N2GCd3leWt7iH9qjomUcCHKmohOD7fMIcKg/VK1cA8H0lCG0IhAGTZPSyoYLCZEH0sLNu8PVdaIH
-	 SHoiN8hrYWDeaxLz17qN4AiLc/aDKJl2nCSsClrC/F/u5f93mcvrqItEQ/gl9eKhxHpqbqhZSUPS
-	 R0ojgaCVtfoupJvRrqwxE5urXV5QnitZZ6dkldPYJboAyjxIkxxgIOL8GqIEbt7MvaUjcQLubGw1
-	 KEPxfM64Yjv2a+tJ2Way5QjI17QMaF3DgLH0k1ixj/NuAB2B++L4DiF2cAUAU3P8USfneifbFRiU
-	 EeCVmvjnUyCty0//A=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
-From: Shuai Liu <847807867@qq.com>
-To: Mike Lothian <mike@fireburn.co.uk>
-Cc: Oliver Neukum <oneukum@suse.com>,
-	rust-for-linux@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/5] rust: usb: host-side abstractions for a bulk-endpoint driver
-Date: Fri, 30 Oct 2026 10:34:00 +0800
-X-OQ-MSGID: <20261030023400.3849731-1-847807867@qq.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260826163101.4168-1-mike@fireburn.co.uk>
-References: <20260826163101.4168-1-mike@fireburn.co.uk>
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=dKPixnca
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Content-Type:MIME-Version:Subject:From:To:
+	Message-Id:Date; bh=9e4lgZghiS+2oM0i0i15GCTwnUhRyMlYh9IxBOSYsWw=;
+	b=dKPixnca8LNjb4Vs7vjaWPGpI1bjvjMRLPXZg0TXldIoKFNI1dgKc6FoCkhFK3
+	FagZAuQcbq/AF1Qzlf+6s+2mXRClUXOSqhc2rtw7AQeCwQQrRQAd54yGNKk17HhE
+	ywHD4i4i1MaLdgjLk2CGhe6M72RqCwU8EtEPp5HJ27bBM=
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -82,64 +49,67 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
+Subject: [DISCUSSION] ALSA: usb-audio: Card naming for composite devices
+From: RenPanpan <rppxj178543@163.com>
+To: alsa-devel@alsa-project.org
+Cc: tiwai@suse.de, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+X-CM-TRANSID:_____wD3HzEnAuRquhktDg--.23410S2
+Message-Id:<6AE40227.0DF9F9.00008@m16.mail.163.com>
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWrWxCFy3Xr48tr43try8uFg_yoW5Wr1rpF
+	9xKa9Fyrs8Gw1xGw1kXw4fGr9xtrZ3A3WUGryDWr18Ka98ur1jya47trZYqa48C3s5uFy2
+	yrWjqry0kws8AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8yCJUUUUU=
+Date: Fri, 30 Oct 2026 10:34:16 +0800 (CST)
+X-CM-SenderInfo: huss5yirxykkqt6rljoofrz/xtbC6gddXGrkAicergAA33
 
-Hi Mike,
-
-I read through the v3 diff (patches 1 and 2 in detail). I could not
-apply the series locally because the 8-month-old base no longer matches
-current usb.rs, so this review is from the diff, not a build. Two
-findings, both around alternate settings:
-
-1. set_alternate_setting() invalidates Endpoint<K> without the type
-   system noticing
-
-Endpoint<K>'s invariants say the address names an endpoint of the
-interface's *active* alternate setting, with the transfer type and
-direction of K. That proof is only valid for one altsetting: after
-
-    interface.set_alternate_setting(1)?
-
-every previously obtained &Endpoint<BulkOut> is still usable, but the
-same address in the new setting may name an interrupt endpoint or a
-different direction. A transfer method will then happily build a pipe
-for an endpoint that no longer matches the tag. C drivers get this
-right by re-fetching endpoints after usb_set_interface(); the Rust
-abstraction currently lets a driver keep stale proofs across the
-switch.
-
-Something that binds the proof to the setting would close it, e.g. an
-Endpoint borrowed from an Altsetting token (making it unusable after a
-switch), or a generation stamp checked at transfer time. At minimum the
-doc comment on set_alternate_setting() and on Endpoint should state
-that all previously obtained Endpoint values must be discarded across a
-call.
-
-2. set_alternate_setting() with transfers in flight is undefined
-
-usb_set_interface() tears down and reallocates the interface's
-endpoints, which unlinks and kills any URBs submitted on them. A
-persistent BulkInQueue/BulkOutQueue built in patch 2 therefore loses
-its URBs out from under the Rust slot state machine: the queue thinks
-a slot is in flight while the C core has killed the URB, and nothing
-ever wakes the waiter. The documentation of set_alternate_setting()
-does not warn about this.
-
-Either the method should require an empty window (e.g. take &mut self,
-or refuse when the window has registered URBs), or it should document
-that the driver must drain and drop its queues before switching, with
-the queue Drop doing the cancellation.
-
-Two smaller notes:
-
-- queue_reset_device(): I checked hub.c; the "may be called from any
-  context, deferred to the core workqueue" documentation matches
-  usb_queue_reset_device().
-
-- EndpointKind being sealed with BulkIn/BulkOut/InterruptIn is a nice
-  fit; control endpoint 0 going through Pipe instead of Endpoint avoids
-  pretending it takes part in the altsetting lifecycle.
-
-Best regards,
-Shuai Liu
+SGVsbG8sCgpJJ2QgbGlrZSB0byBkaXNjdXNzIGFuIGlzc3VlIHdpdGggVVNCIGF1ZGlvIGNhcmQg
+bmFtaW5nIGZvciBjb21wb3NpdGUKZGV2aWNlcyBhbmQgcHJvcG9zZSBhIHBvc3NpYmxlIGltcHJv
+dmVtZW50LgoKUHJvYmxlbQotLS0tLS0tCgpGb3IgVVNCIGNvbXBvc2l0ZSBkZXZpY2VzIGNvbnRh
+aW5pbmcgYm90aCBub24tYXVkaW8gYW5kIFVBQyBhdWRpbwpmdW5jdGlvbnMsIHRoZSBBTFNBIGNh
+cmQgc2hvcnRuYW1lIGlzIGRlcml2ZWQgZnJvbSB0aGUgZGV2aWNlLWxldmVsCmlQcm9kdWN0IHN0
+cmluZywgd2hpY2ggZGVzY3JpYmVzIHRoZSBlbnRpcmUgZGV2aWNlIHJhdGhlciB0aGFuIHRoZQph
+dWRpbyBmdW5jdGlvbi4KCkZvciBleGFtcGxlLCB0aGUgQ1ZUIFRvdWNoIERldmljZSAoMWZmNzow
+ZjMzKSBpcyBhIGNvbXBvc2l0ZSBkZXZpY2UKd2l0aCBISUQgdG91Y2ggaW50ZXJmYWNlcyBhbmQg
+VUFDIGF1ZGlvIGludGVyZmFjZXMuIEl0cyBpUHJvZHVjdCBpcwoiVG91Y2ggRGV2aWNlIiwgd2hp
+Y2ggaXMgdGhlIG5hbWUgZm9yIHRoZSB3aG9sZSBkZXZpY2UuIFRoZSBVQUMKT1VUUFVUX1RFUk1J
+TkFMIGRlc2NyaXB0b3IgZGVmaW5lcyB0aGUgYXVkaW8gZnVuY3Rpb24gbmFtZSBhcwoiTUFYSFVC
+IFNwZWFrZXIiIHZpYSB0aGUgaVRlcm1pbmFsIHN0cmluZyBkZXNjcmlwdG9yIChpbmRleCAxNCku
+CgpDdXJyZW50bHksIHRoZSBBTFNBIGNhcmQgbmFtZSBzaG93cyAiVG91Y2ggRGV2aWNlIiwgd2hp
+Y2ggZG9lcyBub3QKaWRlbnRpZnkgdGhlIGF1ZGlvIGZ1bmN0aW9uLiBUaGUgVUFDIG1peGVyIGNv
+ZGUgYWxyZWFkeSByZWFkcwppVGVybWluYWwgZm9yIG1peGVyIGNvbnRyb2wgbmFtZXMgKGUuZy4g
+Ik1BWEhVQiBNaWMiIGZyb20gdGhlCk1pY3JvcGhvbmUgSU5QVVRfVEVSTUlOQUwncyBpVGVybWlu
+YWw9MTcpLCBidXQgdGhlIGNhcmQgbmFtaW5nCmZ1bmN0aW9uICh1c2JfYXVkaW9fbWFrZV9zaG9y
+dG5hbWUpIGRvZXMgbm90IHVzZSBpVGVybWluYWwuCgpQcm9wb3NlZCBhcHByb2FjaAotLS0tLS0t
+LS0tLS0tLS0tLQoKV2hlbiB0aGUgVVNCIGRldmljZSBpcyBjb21wb3NpdGUgKGkuZS4gaXQgaGFz
+IG5vbi1hdWRpbyBpbnRlcmZhY2VzKSwKcHJlZmVyIHRoZSBTcGVha2VyIE9VVFBVVF9URVJNSU5B
+TCdzIGlUZXJtaW5hbCBzdHJpbmcgYXMgdGhlIGNhcmQKc2hvcnRuYW1lLCBpbnN0ZWFkIG9mIHRo
+ZSBkZXZpY2UtbGV2ZWwgaVByb2R1Y3QuIElmIGlUZXJtaW5hbCBpcyBub3QKc2V0ICh6ZXJvKSBv
+ciBub3QgcmVhZGFibGUgdmlhIHVzYl9zdHJpbmcoKSwgZmFsbCBiYWNrIHRvIGlQcm9kdWN0Cihl
+eGlzdGluZyBiZWhhdmlvcikuCgpOb24tY29tcG9zaXRlIChkZWRpY2F0ZWQgYXVkaW8pIGRldmlj
+ZXMgYXJlIG5vdCBhZmZlY3RlZCBhbmQgY29udGludWUKdG8gdXNlIGlQcm9kdWN0LgoKVGhlIGNv
+bXBvc2l0ZSBkZXZpY2UgZGV0ZWN0aW9uIGNoZWNrcyB3aGV0aGVyIGFueSBpbnRlcmZhY2UgaGFz
+IGEKbm9uLUF1ZGlvIGNsYXNzLiBUaGUgaVRlcm1pbmFsIHJlYWRpbmcgdXNlcyB0aGUgZXhpc3Rp
+bmcKc25kX3VzYl9maW5kX2NzaW50X2Rlc2MoKSBoZWxwZXIgdG8gcGFyc2UgT1VUUFVUX1RFUk1J
+TkFMIGRlc2NyaXB0b3JzCmluIHRoZSBBdWRpbyBDb250cm9sIGludGVyZmFjZSdzIGV4dHJhIGRh
+dGEuIFRoZSBpVGVybWluYWwgZmllbGQgaXMKdGhlIGxhc3QgYnl0ZSBvZiB0aGUgZGVzY3JpcHRv
+ciwgY29tbW9uIHRvIGJvdGggVUFDMSAoYkxlbmd0aD05KSBhbmQKVUFDMiAoYkxlbmd0aD0xMiku
+CgpBcyBhbiBpbW1lZGlhdGUgZml4LCBJIGhhdmUgYWxzbyBwcmVwYXJlZCBhIHF1aXJrIGVudHJ5
+IGZvciAxZmY3OjBmMzMKdG8gb3ZlcnJpZGUgdGhlIGNhcmQgc2hvcnRuYW1lIHRvICJNQVhIVUIg
+U3BlYWtlciIgZGlyZWN0bHkuCgpRdWVzdGlvbnMgZm9yIHRoZSBjb21tdW5pdHkKLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQoKMS4gSXMgdGhpcyBhcHByb2FjaCByZWFzb25hYmxlIGZvciBj
+b21wb3NpdGUgZGV2aWNlcywgb3Igc2hvdWxkIGl0CiAgIHJlbWFpbiBhIHBlci1kZXZpY2UgcXVp
+cms/CgoyLiBBcmUgdGhlcmUgY29uY2VybnMgYWJvdXQgY2hhbmdpbmcgY2FyZCBuYW1lcyBmb3Ig
+ZXhpc3RpbmcgY29tcG9zaXRlCiAgIFVTQiBhdWRpbyBkZXZpY2VzIHRoYXQgaGF2ZSBpVGVybWlu
+YWwgc2V0PyBGb3IgZXhhbXBsZSwgVUNNIHByb2ZpbGUKICAgbWF0Y2hpbmcgb3IgUHVsc2VBdWRp
+byBkZXZpY2UgaWRlbnRpZmljYXRpb24uCgozLiBXb3VsZCBpdCBiZSBwcmVmZXJhYmxlIHRvIGFs
+c28gY2hlY2sgdGhlIElBRCdzIGlGdW5jdGlvbiBmaWVsZAogICBiZWZvcmUgZmFsbGluZyBiYWNr
+IHRvIGlUZXJtaW5hbCwgb3IgaXMgaVRlcm1pbmFsIHN1ZmZpY2llbnQ/Cgo0LiBBcmUgdGhlcmUg
+a25vd24gY29tcG9zaXRlIFVTQiBhdWRpbyBkZXZpY2VzIHdoZXJlIHRoZSBpVGVybWluYWwKICAg
+c3RyaW5nIG1pZ2h0IGJlIGVtcHR5IG9yIGNvbnRhaW4gdW5leHBlY3RlZCBjb250ZW50PwoKSSBo
+YXZlIHRlc3RlZCB0aGUgcXVpcmsgYXBwcm9hY2ggb24gYSBNVDgxQyBkZXZpY2UgKEt5bGluIFYx
+MC1TUDEpCmFuZCBpdCB3b3JrcyBjb3JyZWN0bHkuIFRoZSBpVGVybWluYWwgYXBwcm9hY2ggY29t
+cGlsZXMgYnV0IGhhcyBub3QKYmVlbiB0ZXN0ZWQgb24gbXVsdGlwbGUgZGV2aWNlcyB5ZXQuCgpB
+bnkgZmVlZGJhY2sgd291bGQgYmUgYXBwcmVjaWF0ZWQuCgpCZXN0IHJlZ2FyZHMsClJlblBhbnBh
+bgo=
 
