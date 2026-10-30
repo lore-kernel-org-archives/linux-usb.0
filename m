@@ -1,64 +1,89 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793381960;
-	b=x6Uk8IHgDN7iYrna3XFP1PpeXoJdj8mGvphgVHZ1lC6/iHaxOpU9r+QSEGzLItSINtyw
-	 QrveMmQCtPJ5ZIsmLchWG7bk0yZGWbAfLpDt7Ev6YERT46To+CviZAbHa3NNHMzgNqJxC
-	 rg8UAv06HgNHmwZDRh1qmlXlaobWwAlezkbqZNYRctNyMlEu5n9xogVsBS8AkAQQ5CdKQ
-	 l16TOvMtxA+482f48hGBNgazfB6MEXaZsVakOhw+1U7TWC7Hn6fXaS7Z+yjivQa4L0N0x
-	 b1lNCy5XvjtAHvL58Mt0yjl43zQtPDbGf/9rPA8iDmBmRw2aPqTAz60bqOqExxNaX5w==
+	t=1793382555;
+	b=knYuQiWgPWIIfj82hvE+milhxdvn0Lo4CubGWDXYOSfiO07jl18nk6uOQj21E3LJROGe
+	 FBQdRyRH/rDUGl5JAxhqx1VgImC3JqrexE3wJEy8a/EhK6Q80vWygus81CWZAYH0KGcrC
+	 9xAcUQcK8FyrE7QQHD9IIkzzpP3B3Ag2bz6AwqnWqZwjHoV2wTEjjPQM4kdE1tiGTy2tM
+	 3eCe0Gyx+wCzq009jkZqsIo4+HXC/q7yJMizWQrHR7HwrGVsIbvnlpsrphFhLpBqoKl0v
+	 qviIYtHTsmPstT1LAXbJ7xM+h/gN/D5q41el4HJnJ5VaHP4qtzA637AXO/3i/mNnBDQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793381960;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=y2lepkzk7vkt3kr4ZkaYhyRBEGVnVhus9V1jSE6WHgc=;
-	b=Ja9fZYtIXMb20PwB2qAdmm3kYrs8zOO5La+YKOMFPJIu/qJKMUF3l+pUyeeL7/60wvul
-	 +rC6W1/v7akLb/1hpgog3/+f+V9p4SKHdkyl88ZfR1hYzv+A7EacV7cUE8hxntgYtrkkV
-	 zN6X8Z1EQRZ/JDpEjqLWXQ3YssT1BxUO1n1VmeYniVVVXvvT/yIUd17vwBxuNvBdQPn2O
-	 Cb4wIbWtH9QxFS8+Tg8GcTMMLSq1gnvZoalS6Igui3Q575I/Dcu3dCeGdWZ8D0fesjqWx
-	 UfFm9K2tKTk2UEh0keumtOjnrLScwGhq14kbTNMeDgqYZ0vLD+2U3qCtlTp2tvvcrFQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793382555;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=ZLx/b2ua4Zd1yUXxRK6Mux+7pE/jsjGxjCPHmBP7rM4=;
+	b=vwmxTwwnjraYMVPRSf67ht1yYQW5CjDpIP8WKfHA+Llnjhvbx85Fkv9RBdaNALzikqbu
+	 Rzru6eYT/ZJAksnWOVO+ZhS41bB9BGAunw+D+lSqlESJX+s3q3IJ1jZE10VrceUs9uNZC
+	 9z3WTFjJWU8k8NraMljYRmSDg/z1e0Y4A0cy7t90zkmf1JsvFBdkLOJEy+51mMQ8AATqx
+	 kt6A0aFyaHRn5p2uoJ5WKJjUcCxhYLGRKL12x4Dyhd0d1WuRBOFwx7LBZV2S1gQz6T5KQ
+	 xWbQjpbE+drV6kWH9zDGG0pzXikgDMdJj8ad0lmB9qNc0k/2pfZ9fIhhvBnLnDAZRRw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFA38606A31D;
-	Fri, 30 Oct 2026 17:39:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BFA38606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:In-Reply-To:References:Content-Type:MIME-Version:
-	Content-Transfer-Encoding; bh=y2lepkzk7vkt3kr4ZkaYhyRBEGVnVhus9V
-	1jSE6WHgc=; b=ana79iSxT6QU9IuBRJniTb/2EPswH4ObsAZBrzosPjKqS3+Nbs
-	OlJwT8UavdasN16tEUcFDV0GSN1cOIzG8q5hOpuCZS+p3f/47lPJssQvTLUiPzDI
-	aaEWnZQV4kfbn59Igyz5igVeqG/Ga4CN3IHd/AIZPU3AVjP6uk7rg59j0=
-Received: from localhost.localdomain (unknown [113.200.174.17])
-	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkBGZPou1uRqeagMAQ--.10457S2;
-	Sat, 31 Oct 2026 01:38:55 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
-	UNGLinuxDriver@microchip.com
-Cc: netdev@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Russell King <linux@armlinux.org.uk>,
-	Oleksij Rempel <o.rempel@pengutronix.de>,
-	stable@vger.kernel.org,
-	Bin Yu <byu@xidian.edu.cn>,
-	Cheng Wen <wencheng@xidian.edu.cn>,
-	Andrew Lunn <andrew@lunn.ch>
-Subject: Re: [PATCH net] net: usb: lan78xx: only stop phylink if the interface
- is running
-Date: Sat, 31 Oct 2026 01:38:41 +0800
-Message-ID: <20261030.pref-13.995287b5f6e44468@stu.xidian.edu.cn>
-X-Mailer: git-send-email 2.45.1.windows.1
-In-Reply-To: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
-References: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JVXKBOye;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39602606A31C;
+	Fri, 30 Oct 2026 17:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=JVXKBOye
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71B951F00A02;
+	Fri, 30 Oct 2026 17:49:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793382554;
+	bh=ZLx/b2ua4Zd1yUXxRK6Mux+7pE/jsjGxjCPHmBP7rM4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=JVXKBOyeacLReNNa2EEW3SAE8Ys5gImVRYowVR1gsFBt+Bu8DUy6D2cLOJw92crbf
+	 Ysrn4MNX4WGx5BqOWOxpn5RwmdiLabSOcqkXbiuvtw+bqLEek0rA6CcEE9WA0j7pr9
+	 cfiCvIP6eAb4H2GQyGhEd+qezjMDOFiUFpZ8cznscnZtVxfDLS+VziBqPeXe4lmq64
+	 S0n62bXlHRiBzJQDIF3dkXiq5EuS7j5k4qrg3XTvKLVl0TvbFf6ucpwBkrcrQdy8+C
+	 eNrGUxkyg+QCaevcoMKLTZ8QEcD8A9lL+yYUSOXKBU81us4OrwtgFUEUi+xD65uY8J
+	 hOTu58dWq2tGg==
+Date: Fri, 30 Oct 2026 12:49:11 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Cunhao Lu <1579567540@qq.com>
+Cc: Ulf Hansson <ulfh@kernel.org>, linux-clk@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-phy@lists.infradead.org,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Elaine Zhang <zhangqing@rock-chips.com>, Lee Jones <lee@kernel.org>,
+	Brian Masney <bmasney+clk@redhat.com>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>, mfd@lists.linux.dev,
+	Jerome Brunet <jbrunet+clk@baylibre.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Paolo Abeni <pabeni@redhat.com>,
+	Lukasz Luba <lukasz.luba@arm.com>,
+	Bartosz Golaszewski <brgl@kernel.org>, linux-pm@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>,
+	David Wu <david.wu@rock-chips.com>,
+	Thinh Nguyen <Thinh.Nguyen@synopsys.com>, linux-i2c@vger.kernel.org,
+	linux-mmc@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Shawn Lin <shawn.lin@rock-chips.com>, linux-gpio@vger.kernel.org,
+	linux-serial@vger.kernel.org, Zhang Rui <rui.zhang@intel.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jaehoon Chung <jh80.chung@samsung.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Linus Walleij <linusw@kernel.org>, Vinod Koul <vkoul@kernel.org>,
+	linux-usb@vger.kernel.org, netdev@vger.kernel.org,
+	Stephen Boyd <sboyd@kernel.org>,
+	Daniel Lezcano <daniel.lezcano@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	linux-rockchip@lists.infradead.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jisheng Zhang <jszhang@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Eric Dumazet <edumazet@kernel.org>
+Subject: Re: [PATCH 03/27] dt-bindings: soc: rockchip: Add RK3572 PMU and GRF
+Message-ID: <179338255087.1001548.4507997389311414177.robh@kernel.org>
+References: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
+ <20261022-add-board-ok3572-c-v1-3-0b0fd85a31ee@qq.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -68,40 +93,21 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:BrQMCkBGZPou1uRqeagMAQ--.10457S2
-X-Coremail-Antispam: 1UD129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
-	VFW2AGmfu7bjvjm3AaLaJ3UjIYCTnIWjp_UUUO17k0a2IF6F4UM7kC6x804xWl14x267AK
-	xVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0rVWrJVCq3wAFIxvE14AKwVWUJVWUGw
-	A2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjxv20xvE14v26r4j
-	6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vEx4A2jsIE14v26r
-	4j6F4UM28EF7xvwVC2z280aVCY1x0267AKxVW8Jr0_Cr1UM2vYz4IE04k24VAvwVAKI4Ir
-	M2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjx
-	v20xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1l
-	F7xvr2IYc2Ij64vIr41lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc2xSY4AK67AK6r4l42xK82
-	IYc2Ij64vIr41l4c8EcI0Ec7CjxVAaw2AFwI0_Jw0_GFyl4I8I3I0E4IkC6x0Yz7v_Jr0_
-	Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17
-	CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0
-	I7IYx2IY6xkF7I0E14v26F4j6r4UJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcV
-	C2z280aVAFwI0_Gr0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2Kfnx
-	nUUI43ZEXa7IU0fOz3UUUUU==
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUCD2rktUIS9gAAsX
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261022-add-board-ok3572-c-v1-3-0b0fd85a31ee@qq.com>
 
-Hi Andrew,
 
-Could you please review this patch?
+On Thu, 22 Oct 2026 00:11:00 +0800, Cunhao Lu wrote:
+> The RK3572 PMU and GRF blocks are system controllers shared with the
+> clock, power-domain, and USB PHY drivers.
+> 
+> Signed-off-by: Cunhao Lu <1579567540@qq.com>
+> ---
+>  Documentation/devicetree/bindings/arm/rockchip/pmu.yaml |  2 ++
+>  Documentation/devicetree/bindings/soc/rockchip/grf.yaml | 12 ++++++++++++
+>  2 files changed, 14 insertions(+)
+> 
 
-  [PATCH net] net: usb: lan78xx: only stop phylink if the interface is
-  running
-
-It calls phylink_stop() during lan78xx disconnect only when the network
-interface is running.
-
-The patch is unchanged. I am copying this address for visibility.
-
-Original submission:
-https://lore.kernel.org/r/20261029160204.2567-1-25031212351@stu.xidian.edu.cn
-
-Thanks,
-YuanZhe
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
