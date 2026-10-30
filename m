@@ -1,69 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.3
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793323699;
-	b=NZkg+cySjt4xMLaoAkOlgkRNb4bxCLEA43nfGzFAbdeXPrhJadsUXI7mGFCOIF/iGQ/z
-	 8/zA6OddlJB1pvt90OtSlBUSBdM5z2reXA7Sxb0phtf/A0+9uMlXGPbbyW47/42bVBG9N
-	 L+mbKVBR3u7/1v1vLxGztKHnf14EHBS5n605PTJNUlgR10n+ILk7rEOl5gLw4VFKNSqcK
-	 a8BQubKD2kyZSUyDUgpQ1QknDFvz+yQcu1LPNtrZojkzcZNaYJzsLd/I2VMs9BXUqmGLl
-	 N69LEQWrSD5wYWmMrfDPP/cKcrvKy/hxpyL7sNpDXTnDuoVJAkbTV/+Fka397gRT4kw==
+	t=1793324104;
+	b=1UKSU99KJtQ4rq/rgfsKk6rcpXMvYMIAvamkofLT6CEH4HHbDGgewdfMQCm6q0frWkfo
+	 Luc62sOYHbaOtjmmVGyOQBCdZXO+azPIKijN671AeuWJ/8gq6m3RjudpMwk82kr4jwyab
+	 xpD2dcusghmuoLS5abnKABO4L4xzWvcecEyKKBi2Z7ExT9aVdpDlwEeOIaRl9gwYFgoqU
+	 ne+pCzfcXOK9ZAQYKf/v7opnytjRb55U7KLp81cAgsAxqayjV2Se3NCKhYSHYD+Q5pgwa
+	 xAJYtVPtWXpQerxMsVmdiWtx+uLy56eQLV4EUcmy8GtctoNYu+k9kqYoCWndu3lJSNg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793323699;
-	h=DMARC-Filter:X-UUID:X-CID-P-RULE:X-CID-O-INFO:X-CID-META:X-CID-BVR:
-	 X-CID-BAS:X-CID-FACTOR:X-CID-RHF:X-UUID:X-User:Received:From:To:Cc:
-	 Subject:Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding;
-	bh=ko4ls3qqVzlXNxfX8a12H6URoQecw8b9jhJGN2hC6OU=;
-	b=cIeBhdZMk5wtgBLZM4HafzVLEgKkqqDouUmBr7r16aw17yjuD71pi064U+SN+24eC1Qx
-	 aS/bavtEANy7odK5FK/InJ7D36zS62KqpahNxnigiuxmUql7ZLNNth70xL5E4uYvIY3S/
-	 6yN2wxQ1KZLdVsyyzMbD5Cu90Fmj8v5aqMF6HTZK0OHQxoj1JIKwctKJIMceKAFbzVuBm
-	 grvvfWRRVDkyvQ1RztLrpxWZ1hKHMvC9EbcKZL61dfWb8anhHaggS/DErSWI4uBHwcsEX
-	 mdzx4UiyfWU2s3i1DzgfeecumlDuLHhu/fvQjKuGgW8i6XUV5NJh2wzNjNEYhz/+Asw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793324104;
+	h=DMARC-Filter:DKIM-Signature:Content-Type:MIME-Version:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:X-CM-TRANSID:Message-Id:
+	 X-Coremail-Antispam:Date:X-CM-SenderInfo;
+	bh=9e4lgZghiS+2oM0i0i15GCTwnUhRyMlYh9IxBOSYsWw=;
+	b=BrO0VOozyls3FgyPTMbCzAwnPF9+TWWgSeA4Obb6HmY+E83DURBWpbgA5f9Na+qZ54YE
+	 WRLIvOyCXGNeXvfaF7ekPP8jD0+PNB7j+Uo5qdm9EMuNH1rIGb88GWtKYJtAJ9JeDso2Z
+	 XBDgaoYo18TckVwYt5ynCXAdIjjTiMopRHrY2el7M1aEv89pTph9xz1A5AtSwjSovQnM8
+	 7Rz0UXnJMtS7Pd0KzCYETFwOvmu0v6tqtcsron9+HtKd5slVgDz7fPBXRtUI5vhWk2XOH
+	 ZXhP5CNOSIIxZ+uct7Q5MLhA4hNJwLNXJEqTWZePrvNhYxw9kwwCoYrkx1B1Rm7aNJg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=none header.from=kylinos.cn;
-	spf=pass smtp.mailfrom=kylinos.cn;
-	arc=none smtp.remote-ip=124.126.103.232
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	dmarc=pass header.from=163.com;
+	spf=pass smtp.mailfrom=163.com;
+	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=PRMKuwCj;
+	arc=none smtp.remote-ip=117.135.210.3
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AF6606A31A;
-	Fri, 30 Oct 2026 01:28:16 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B2AF6606A31A
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: 2ac56d20d40111f19a56ed5b684f684d-20261030
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.19,REQID:d9dd9a9e-0abc-435d-bb0d-7869c202ddda,IP:0,U
-	RL:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:25
-X-CID-META: VersionHash:7db8b62,CLOUDID:754df53d9fe5c0d59af7f0c20fcefc06,BulkI
-	D:nil,BulkQuantity:0,SF:81|82|83|102|850|865|898,TC:nil,Content:0|15|50|99
-	,EDM:5,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 2ac56d20d40111f19a56ed5b684f684d-20261030
-X-User: huangwei@kylinos.cn
-Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <huangwei@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
-	with ESMTP id 519817670; Fri, 30 Oct 2026 09:28:10 +0800
-From: Huang Wei <huangwei@kylinos.cn>
-To: Craig Hesling <craig@hesling.com>
-Cc: Johan Hovold <johan@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	leStoppe <lestoppe@gmail.com>,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	huangwei@kylinos.cn
-Subject: Re: [PATCH] USB: serial: simple: narrow OWON match to avoid breaking VDS1022
-Date: Fri, 30 Oct 2026 09:28:05 +0800
-Message-Id: <20261030012805.4087311-1-huangwei@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <fa1ec0429fe8c1287c126b50989f1cffe2567a86.camel@hesling.com>
-References: <20260810091322.2201740-1-huangwei@kylinos.cn> <fa1ec0429fe8c1287c126b50989f1cffe2567a86.camel@hesling.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E33AB606A31A;
+	Fri, 30 Oct 2026 01:35:00 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E33AB606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=PRMKuwCj
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Content-Type:MIME-Version:Subject:From:To:
+	Message-Id:Date; bh=9e4lgZghiS+2oM0i0i15GCTwnUhRyMlYh9IxBOSYsWw=;
+	b=PRMKuwCj2I1evs50XImV1QVD1+6l+Nv4YhdB0ZFhu7J2YXmTew2yoGfpecqMOr
+	wOrLh/Pa8u2I+4kCq/XkMOem/rDJOD5lwXUxF3Y2hyGHyNQq/DSvmU0WdMbnOYMO
+	p/pak4SZ5n8RoINyGAOE749eLaots/3cs/T8vLUcOaVLU=
+Content-Type: text/plain; charset="utf-8"
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -73,38 +49,67 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: base64
+Subject: [DISCUSSION] ALSA: usb-audio: Card naming for composite devices
+From: RenPanpan <rppxj178543@163.com>
+To: alsa-devel@alsa-project.org
+Cc: tiwai@suse.de, linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org
+X-CM-TRANSID:_____wD3l0U79ONqJX5XEA--.7196S2
+Message-Id:<6AE3F43C.0F8E64.00008@m16.mail.163.com>
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWrWxCFy3Xr48tr43try8uFg_yoW5Wr1rpF
+	9xKa9Fyrs8Gw1xGw1kXw4fGr9xtrZ3A3WUGryDWr18Ka98ur1jya47trZYqa48C3s5uFy2
+	yrWjqry0kws8AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8yCJUUUUU=
+Date: Fri, 30 Oct 2026 09:34:52 +0800 (CST)
+X-CM-SenderInfo: huss5yirxykkqt6rljoofrz/xtbC6Rzf3mrj9DyCRAAA3z
 
-Hi Craig,
+SGVsbG8sCgpJJ2QgbGlrZSB0byBkaXNjdXNzIGFuIGlzc3VlIHdpdGggVVNCIGF1ZGlvIGNhcmQg
+bmFtaW5nIGZvciBjb21wb3NpdGUKZGV2aWNlcyBhbmQgcHJvcG9zZSBhIHBvc3NpYmxlIGltcHJv
+dmVtZW50LgoKUHJvYmxlbQotLS0tLS0tCgpGb3IgVVNCIGNvbXBvc2l0ZSBkZXZpY2VzIGNvbnRh
+aW5pbmcgYm90aCBub24tYXVkaW8gYW5kIFVBQyBhdWRpbwpmdW5jdGlvbnMsIHRoZSBBTFNBIGNh
+cmQgc2hvcnRuYW1lIGlzIGRlcml2ZWQgZnJvbSB0aGUgZGV2aWNlLWxldmVsCmlQcm9kdWN0IHN0
+cmluZywgd2hpY2ggZGVzY3JpYmVzIHRoZSBlbnRpcmUgZGV2aWNlIHJhdGhlciB0aGFuIHRoZQph
+dWRpbyBmdW5jdGlvbi4KCkZvciBleGFtcGxlLCB0aGUgQ1ZUIFRvdWNoIERldmljZSAoMWZmNzow
+ZjMzKSBpcyBhIGNvbXBvc2l0ZSBkZXZpY2UKd2l0aCBISUQgdG91Y2ggaW50ZXJmYWNlcyBhbmQg
+VUFDIGF1ZGlvIGludGVyZmFjZXMuIEl0cyBpUHJvZHVjdCBpcwoiVG91Y2ggRGV2aWNlIiwgd2hp
+Y2ggaXMgdGhlIG5hbWUgZm9yIHRoZSB3aG9sZSBkZXZpY2UuIFRoZSBVQUMKT1VUUFVUX1RFUk1J
+TkFMIGRlc2NyaXB0b3IgZGVmaW5lcyB0aGUgYXVkaW8gZnVuY3Rpb24gbmFtZSBhcwoiTUFYSFVC
+IFNwZWFrZXIiIHZpYSB0aGUgaVRlcm1pbmFsIHN0cmluZyBkZXNjcmlwdG9yIChpbmRleCAxNCku
+CgpDdXJyZW50bHksIHRoZSBBTFNBIGNhcmQgbmFtZSBzaG93cyAiVG91Y2ggRGV2aWNlIiwgd2hp
+Y2ggZG9lcyBub3QKaWRlbnRpZnkgdGhlIGF1ZGlvIGZ1bmN0aW9uLiBUaGUgVUFDIG1peGVyIGNv
+ZGUgYWxyZWFkeSByZWFkcwppVGVybWluYWwgZm9yIG1peGVyIGNvbnRyb2wgbmFtZXMgKGUuZy4g
+Ik1BWEhVQiBNaWMiIGZyb20gdGhlCk1pY3JvcGhvbmUgSU5QVVRfVEVSTUlOQUwncyBpVGVybWlu
+YWw9MTcpLCBidXQgdGhlIGNhcmQgbmFtaW5nCmZ1bmN0aW9uICh1c2JfYXVkaW9fbWFrZV9zaG9y
+dG5hbWUpIGRvZXMgbm90IHVzZSBpVGVybWluYWwuCgpQcm9wb3NlZCBhcHByb2FjaAotLS0tLS0t
+LS0tLS0tLS0tLQoKV2hlbiB0aGUgVVNCIGRldmljZSBpcyBjb21wb3NpdGUgKGkuZS4gaXQgaGFz
+IG5vbi1hdWRpbyBpbnRlcmZhY2VzKSwKcHJlZmVyIHRoZSBTcGVha2VyIE9VVFBVVF9URVJNSU5B
+TCdzIGlUZXJtaW5hbCBzdHJpbmcgYXMgdGhlIGNhcmQKc2hvcnRuYW1lLCBpbnN0ZWFkIG9mIHRo
+ZSBkZXZpY2UtbGV2ZWwgaVByb2R1Y3QuIElmIGlUZXJtaW5hbCBpcyBub3QKc2V0ICh6ZXJvKSBv
+ciBub3QgcmVhZGFibGUgdmlhIHVzYl9zdHJpbmcoKSwgZmFsbCBiYWNrIHRvIGlQcm9kdWN0Cihl
+eGlzdGluZyBiZWhhdmlvcikuCgpOb24tY29tcG9zaXRlIChkZWRpY2F0ZWQgYXVkaW8pIGRldmlj
+ZXMgYXJlIG5vdCBhZmZlY3RlZCBhbmQgY29udGludWUKdG8gdXNlIGlQcm9kdWN0LgoKVGhlIGNv
+bXBvc2l0ZSBkZXZpY2UgZGV0ZWN0aW9uIGNoZWNrcyB3aGV0aGVyIGFueSBpbnRlcmZhY2UgaGFz
+IGEKbm9uLUF1ZGlvIGNsYXNzLiBUaGUgaVRlcm1pbmFsIHJlYWRpbmcgdXNlcyB0aGUgZXhpc3Rp
+bmcKc25kX3VzYl9maW5kX2NzaW50X2Rlc2MoKSBoZWxwZXIgdG8gcGFyc2UgT1VUUFVUX1RFUk1J
+TkFMIGRlc2NyaXB0b3JzCmluIHRoZSBBdWRpbyBDb250cm9sIGludGVyZmFjZSdzIGV4dHJhIGRh
+dGEuIFRoZSBpVGVybWluYWwgZmllbGQgaXMKdGhlIGxhc3QgYnl0ZSBvZiB0aGUgZGVzY3JpcHRv
+ciwgY29tbW9uIHRvIGJvdGggVUFDMSAoYkxlbmd0aD05KSBhbmQKVUFDMiAoYkxlbmd0aD0xMiku
+CgpBcyBhbiBpbW1lZGlhdGUgZml4LCBJIGhhdmUgYWxzbyBwcmVwYXJlZCBhIHF1aXJrIGVudHJ5
+IGZvciAxZmY3OjBmMzMKdG8gb3ZlcnJpZGUgdGhlIGNhcmQgc2hvcnRuYW1lIHRvICJNQVhIVUIg
+U3BlYWtlciIgZGlyZWN0bHkuCgpRdWVzdGlvbnMgZm9yIHRoZSBjb21tdW5pdHkKLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQoKMS4gSXMgdGhpcyBhcHByb2FjaCByZWFzb25hYmxlIGZvciBj
+b21wb3NpdGUgZGV2aWNlcywgb3Igc2hvdWxkIGl0CiAgIHJlbWFpbiBhIHBlci1kZXZpY2UgcXVp
+cms/CgoyLiBBcmUgdGhlcmUgY29uY2VybnMgYWJvdXQgY2hhbmdpbmcgY2FyZCBuYW1lcyBmb3Ig
+ZXhpc3RpbmcgY29tcG9zaXRlCiAgIFVTQiBhdWRpbyBkZXZpY2VzIHRoYXQgaGF2ZSBpVGVybWlu
+YWwgc2V0PyBGb3IgZXhhbXBsZSwgVUNNIHByb2ZpbGUKICAgbWF0Y2hpbmcgb3IgUHVsc2VBdWRp
+byBkZXZpY2UgaWRlbnRpZmljYXRpb24uCgozLiBXb3VsZCBpdCBiZSBwcmVmZXJhYmxlIHRvIGFs
+c28gY2hlY2sgdGhlIElBRCdzIGlGdW5jdGlvbiBmaWVsZAogICBiZWZvcmUgZmFsbGluZyBiYWNr
+IHRvIGlUZXJtaW5hbCwgb3IgaXMgaVRlcm1pbmFsIHN1ZmZpY2llbnQ/Cgo0LiBBcmUgdGhlcmUg
+a25vd24gY29tcG9zaXRlIFVTQiBhdWRpbyBkZXZpY2VzIHdoZXJlIHRoZSBpVGVybWluYWwKICAg
+c3RyaW5nIG1pZ2h0IGJlIGVtcHR5IG9yIGNvbnRhaW4gdW5leHBlY3RlZCBjb250ZW50PwoKSSBo
+YXZlIHRlc3RlZCB0aGUgcXVpcmsgYXBwcm9hY2ggb24gYSBNVDgxQyBkZXZpY2UgKEt5bGluIFYx
+MC1TUDEpCmFuZCBpdCB3b3JrcyBjb3JyZWN0bHkuIFRoZSBpVGVybWluYWwgYXBwcm9hY2ggY29t
+cGlsZXMgYnV0IGhhcyBub3QKYmVlbiB0ZXN0ZWQgb24gbXVsdGlwbGUgZGV2aWNlcyB5ZXQuCgpB
+bnkgZmVlZGJhY2sgd291bGQgYmUgYXBwcmVjaWF0ZWQuCgpCZXN0IHJlZ2FyZHMsClJlblBhbnBh
+bgo=
 
-Thanks for weighing in, and for the background on the original
-intent - that closes the loop on the question from August.
-
-On binding the VDS1022's serial interface: the practical issue is
-that the userspace ecosystem for it already exists and runs on
-libusb - leStoppe's tool is the florentbr/Owon-VDS1022 one, and
-that is exactly what made this a regression: it worked out of the
-box before commit 4cc01410e1c1, and the kernel binding broke it
-immediately. Pre-claiming the interface breaks real users today,
-whatever the merits of a serial-based toolchain would be.
-
-The "looks like serial" point is also subtler than it appears -
-plenty of devices expose two bulk endpoints without being serial,
-and the VDS1022's protocol is binary request/response with the
-framing done in the tool (leStoppe mentioned even the SCPI
-commands need enabling through the tool's socket, so it is not
-plain-text SCPI-over-tty like the HDS200). A generic serial
-binding gets you a tty speaking a private binary protocol, which
-only helps if someone writes matching userspace.
-
-Your end goal is not wrong though - if a serial-based VDS1022 tool
-shows up someday, the tuple match keeps the interface available and
-it can be bound deliberately at that point. What we shouldn't do is
-claim it speculatively and break the existing libusb users.
-
-On the HDS272S older-firmware check - that would be genuinely
-useful whenever you get to it, no urgency. The commit-message dump
-and leStoppe's VDS1022 dump are the only two data points either way.
-
-Thanks,
-Huang Wei
