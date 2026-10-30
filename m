@@ -1,56 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=117.135.210.2
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=103.168.172.152
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793362677;
-	b=QUlnpip/odxYGNPBdzvG4DMKnjtDD7VpVXY+wdPQFhd4HSpg0b/xiJKCEuz936Ro+h7m
-	 kkRB/ck/77o9WXlAEOnWGEXNFlse80LFRe7zoOgRxPPER/rdkQVrWvus6cPY2yIQOwkq4
-	 zxIbnPkXns4nn81cjkVArQyHxU2HeJJ1+4QwRlvZwoQ3gILKmJYtxc1ul3pCv4MSATfry
-	 ON9tYJCA5r0TAFmfAy5xvE6bthjglA/A2iAxR1LVnsGxO5xW1YX28Q88tQ5jQlzXgJcz9
-	 bZGcZ5yU84jMZd61BfvBdfWQU3QvfYVlFpdEFCzrXH55easF05GcrleLJ/kagnxNjiw==
+	t=1793363120;
+	b=kHgtCoEFDBJaQ50Yhkf1K96whFhvB4ftx2YW6ddr6CPDNBN7RJDpHtkVQSA5G0/zKrTZ
+	 FwVpC7bWe684Me9CJHdb9NuU1KCdvDG6p5KqIHhpDgD/+lbxWkfAKnAHBGhLPv/NfwClm
+	 u9PX0MpvEOdjbRMhyR2UcJA5pUaOQVdUwLXh8ahhNGhkeTLjge2P3avGJA17NKrlKVV7I
+	 CS28pejaYVRV/W9Tk5mOtHBI44kj5EoePy8/64QxHU427QbiUTA0DYzfpfml20E4+PmlB
+	 b5iignTT+N9ODwO7JGPqaPI1uXje1NC5gj4UQYxFTN7NHFDqRvBLYbVSPaV6vNoM2tQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793362677;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:MIME-Version:Content-Transfer-Encoding:
-	 X-CM-TRANSID:X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=gpcEkWZksGGfj9XjEwCf+DBg2I4p4de0sWgxlYdGmn8=;
-	b=h1qlRHy0Y1TGaPRGrrJ9fD7iCjJgSOQFOFIlVVQuyJacD0B8UgBu/Xxi4/8xm0i6A1OV
-	 4B7ZY6WH1QWd0Qg+4mLt8zDSeBSjMKhWJQzcV7RCodM24rs7s13TbZx/8qkC9eJsTo+kx
-	 6oRc1c/tIl9qWAO9QAPqS69XnWI3RUKxQc89FdFTOGG7tLBkrmlrKmfd6gWo9rLbVsmrC
-	 bdsmTQkIwCMf7w6TcKT/+qrl2sEB+lZ8G+LaEKldBI9Sgs/kkx3ZXvUrYiy9UMrIbMnZH
-	 nn6NpskiDaQSRnEPh/ZO17EDqhF9Fs0Ryix/9KojZDtyWXjkoc7yU2bHCP5zCElChHA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793363120;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=J8dAsB3ABUd2P8nmGjUreI+WMzKE8n8IiSWGI4JbEHM=;
+	b=wVxR9DTkpjP2jALVPKLLagpYIvJXaeB3L9jQ67QtB4XrCASjqGFtzNuoWbAY9dhHM9HO
+	 rEEySi+jmW37netjKz9vjuS1EeqtfER3c35/VL5LZq9bo4e7UJJlnijs7SyrcXQTKFzK5
+	 fY2aSErd6FuwlYP2YP6odzeV/xHndUGiMxaUnHFlbaXAcOPHV0T6ouPLAnvetVYVjxFix
+	 9/ra/Ty9CeBfNrfpsfPdn+BmBis9J3USdJEixd0PwwxsBcp7hrh6x319UYtGQ99dNbR/g
+	 eYkle042YgRgsuWVw5u/9TiDLohHk9RBgPLWIZTZdhENshfQNDvt4H+ppDY+VOqtbrA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=163.com;
-	spf=pass smtp.mailfrom=163.com;
-	dkim=pass header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=mr5Tufi3;
-	arc=none smtp.remote-ip=117.135.210.2
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
+	dmarc=pass header.from=arndb.de;
+	spf=pass smtp.mailfrom=arndb.de;
+	dkim=pass header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=NnYKhc8O;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ruVTPoyU;
+	arc=none smtp.remote-ip=103.168.172.152
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B3A606A323;
-	Fri, 30 Oct 2026 12:17:53 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0B3A606A323
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F06606A320
+	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 12:25:19 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org A4F06606A320
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=163.com header.i=@163.com header.a=rsa-sha256 header.s=s110527 header.b=mr5Tufi3
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=gp
-	cEkWZksGGfj9XjEwCf+DBg2I4p4de0sWgxlYdGmn8=; b=mr5Tufi3GMgVAuq27S
-	jWAfb4B3uAh5SStm6bix00bOes6SQKzovR2BwsVqzk6bbINbA3UO/xfFpKjWyK0k
-	VVS6pMQKshrfheRowcoQbxJ09yqHkX5NXy5HJ4nanqtXVhOlu1yu/pYGCu4aaLfT
-	evsQmpTGifQsUMNtWwlQrVut8=
-Received: from pan-u.. (unknown [])
-	by gzsmtp2 (Coremail) with SMTP id PSgvCgDXXQ_kiuRqoPk9Cw--.24194S2;
-	Fri, 30 Oct 2026 20:17:40 +0800 (CST)
-From: RenPanpan <rppxj178543@163.com>
-To: alsa-devel@alsa-project.org
-Cc: tiwai@suse.de,
-	linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [DISCUSSION] ALSA: usb-audio: Card naming for composite devices
-Date: Fri, 30 Oct 2026 20:17:39 +0800
-Message-ID: <20261030121740.250336-1-rppxj178543@163.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key, unprotected) header.d=arndb.de header.i=@arndb.de header.a=rsa-sha256 header.s=fm2 header.b=NnYKhc8O;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=ruVTPoyU
+Received: from ams-compute-01.internal (ams-compute-01.internal [10.64.2.61])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id BC9D7140018A
+	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 08:25:18 -0400 (EDT)
+Received: from ams-imap-03 ([10.64.2.23])
+  by ams-compute-01.internal (MEProxy); Fri, 30 Oct 2026 08:25:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1793363114;
+	 x=1793449514; bh=J8dAsB3ABUd2P8nmGjUreI+WMzKE8n8IiSWGI4JbEHM=; b=
+	NnYKhc8OxhnuTLAhJbRHmsyXxr7iSNm0NhcLETnHmLlwdxquROZS10DPKZYNpL4Q
+	2yGHRipLfeq+D+PICH7hFpla9cQKTnLkjDZRQMAhKNmO3YjoDr9cBbh9cUifoZyS
+	Rsuy1vecDxoowQCiiHSAojqtmYSosyG9I1CkvoGUcVXbwPMx+yVxfPq2a2iekEAP
+	6+ObZ7JV//KJgZeKBDgjjdOQd+YWI7UVhk1mOU1LDZMdz8VqWc5PDeQ6+/+WmY7L
+	rn1ebJM3gUW7MQj/nc9g9tZPWv7e2WTiwvXwrH4l+jlkMpp9+UOYZTYUVGxtTTxj
+	zf0eJh5PLI6gWtLhqYnsXA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793363114; x=
+	1793449514; bh=J8dAsB3ABUd2P8nmGjUreI+WMzKE8n8IiSWGI4JbEHM=; b=r
+	uVTPoyUCLgWu8Gm1TzCJzzH+w4hWxGlrNxJSYZ90I5H07rGOApI9czQvQH5G7d6c
+	MMto7icwSOJmceDzxaNL71BpzFOOL7CvgFn22fXnU0oP/oBYTYFX7cjWN7Bvp9LH
+	8ZgR397lCepU2FTQizCBqQ3nHpH3TaX2NbLiIgizJqn/jf9+APztJyz5hyWIRPJG
+	xbnUqF7/FcCWhYIHf3aAQRNZtnBbTE4z4ZkTOmPouSkquRYm9hpzlrLLdOSPNzrL
+	lMDTMCmRfb9kwjhw+zB4YojlCv/t63NPxzgqxONQj90MRnvo2aON8xN693GJL4Aq
+	KmeCf85K70b9f1tXH1xQA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=arndb.de a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793363114; d=arndb.de;
+	mf=PGFybmRAYXJuZGIuZGU+;
+	rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm2:rsa-sha256:OSWuGVhC2+Dgbu2lOFz2wuBHmz0CyqaLBnTisztN24I76Kq
+	eIqQ0zuVYfWF7AurZru6/kh79w6n8Iv0mHfVUx4pcSAQ/oF4nTyMg3TdlIod3/hu
+	PzjwtEEQJ7CE14Xa2O2sWjhB/jhxST124YT4iA5SKuv5U6CXntPCa6SrCBJWTpVw
+	k7DBwtM0QVGZY6G/j7NdGrXaiFGaWhOVaAy3/5bQpI5JR9wZv31qdmdtdcW+dxqn
+	1sSAmiC/n9ZpveGj/iUcBsLbG6WM6u2AMgUPsIfyFrS3bLqjEwkW3q5zbHt7h4Kr
+	vVoYPKuSd/fYwfgzFgWwQtr8P61EYwFR7nxv7uw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:UxV6YTAoizPqtWa2AKjflWrZ77Hac13iK0pOv5rsOTE=:Zb2QRSDduhAAZaKJYul8Fpn1yObyVkEUtJHw3o0ClbQ=;
+X-ME-Sender: <xms:pYzkahReiNadF71TTxmY85O4IfeA8J1dmYOUcAOEZh_x7xClk6S69A>
+    <xme:pYzkakM8R5xQWll_ZILuDt4bMTHxxZ0kFWawAJE2FYahkKoQ24yZdri_oxVUb_cQ8
+    GaeFE1OlwN0RCwuVzw4UjcFPSV5ll9UXmUkwv0G8lWM-Q9yPblQmtTN>
+X-ME-Proxy-Cause: dmFkZTEjdZ0WgKkDeZ8IivnHN+6FPi2JsxEAcdLRcU74d11ptltXsOcEZjcgcfftZR168E
+    EIO6J7QiGPQhuHkRDyG6EOG4oAJQ4UYkVdOUJI20ULjkxm7ziBeG52p28bahXxlpCY3UNE
+    g68WjC/XnD4RBVHNhJPdtq8tXpN0R5KRf1WNe5IaB45Yfj7TJKbZsiduV3NicElToLV7iW
+    qV/o0BNeWEflK2OQESy5mqGWEijeriULooLwws4KKtnIneMx2NbMoOU+UyJr+4zbEXLsuO
+    TNznEF6cHoRSev/AS+8N74XtUlIj0s0NkQfiF3PikAxBSLvgApRMMEmYCgH/vdDcUdeUcU
+    7LFIwMXT3KUo1Kke0WrSjSCAcgJZW5iA6vr7sDlpVB42Rt5s7yDXU0VjvrHBGVkLOgR63h
+    TRua6UzXd/s8L51Jw1YXLOdVQ4WBdeKCkiHwheGudyzR3KI8mNHDZ9zXvr5vLV/rjZnZBf
+    O06vlJ6cocxbVKkqJd276EuuOOUdteQzEi6PbFR1n3zhMQf4yVo+0MNgvzy4iZZRKFf9Iv
+    NXEyzqvwcJPXrWIFJ6HwdLmBH2i/rq6SxRrAOwpa3aIYFzwv5z1zxrijy1dUl35cWxiIne
+    pvjlj+1L9ZShKPsQVLOvF8prqgnjARLBYbezMCKhswtkwubg+4pHt/fILLHw
+X-ME-Proxy: <xmx:qIzkalTJdaYVdlRDHnqAMt1yAN8Zdiu_lyxC9YS9WY-ZrQbrEfYqig>
+    <xmx:qIzkamo7Iz_ZsiYWFDE6AThXyvdqemjpNBvO-1YTVUzvPT_wnbK4bA>
+    <xmx:qIzkaqPnzO5SSUvkUhpu5GFniLnw3mSEiEJWGDwmShbtjxMqsxiGCg>
+    <xmx:qIzkakya8L1StVeIWzkABZsO-WjOwJ0emIqiXVTcA28L_9-Z-MHCuA>
+    <xmx:qozkajw6P7XiW7VrfJnlv8PvD5-6XSb2j8BYbCY7QveDIbQPgymwf90e>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.ams.internal (Postfix, from userid 501)
+	id ED26F32A0097; Fri, 30 Oct 2026 08:25:09 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,83 +115,97 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PSgvCgDXXQ_kiuRqoPk9Cw--.24194S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWrWxCFy3Xr48tr43try8uFg_yoW5Wr1rpF
-	9xKa9Fyrs8Gw1xGw1kXw4fGr9xtrZ3A3WUGryDWr18Ka98ur1jya47trZYqa48C3s5uFy2
-	yrWjqry0kws8AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j8AwxUUUUU=
-X-CM-SenderInfo: huss5yirxykkqt6rljoofrz/xtbC6gSvrmrkiuRZuQAA3v
+X-ThreadId: A9hbWorxIEzB
+Date: Fri, 30 Oct 2026 13:24:49 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "James Clark" <jjc@jclark.com>, "Matthias Kaehlcke" <mka@chromium.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Doug Anderson" <dianders@chromium.org>,
+ "Ravi Chandra Sadineni" <ravisadineni@chromium.org>,
+ "Bartosz Golaszewski" <bartosz.golaszewski@oss.qualcomm.com>,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+ regressions@lists.linux.dev
+Message-Id: <10ad94b3-66db-49b5-95c6-3ce9090f3278@app.fastmail.com>
+In-Reply-To: <20261030114705.3159093-1-jjc@jclark.com>
+References: <20261030114705.3159093-1-jjc@jclark.com>
+Subject: Re: [PATCH] usb: misc: onboard_usb_dev: don't defer the USB device probe
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hello,
+On Fri, Oct 30, 2026, at 12:47, James Clark wrote:
+> On a BeagleY-AI with BeagleBoard's device tree, kernels since commit
+> f918e3804498 ("arm64: enable HAVE_SHARED_GPIOS for all ARM64 platforms")
+> no longer boot to a usable system. The log repeats "hub 1-1:1.0: USB hub
+> found" for the on-board TUSB8041 hub every few milliseconds, with no USB
+> disconnect in between. The flood of uevents stalls udev and the boot ends
+> in emergency mode. Reverting that commit makes the board boot normally
+> again.
+>
+> The underlying problem is in onboard_usb_dev. Both peer hub nodes in this
+> device tree carry the same reset-gpios, so the GPIO is now a shared one,
+> and with CONFIG_GPIO_SHARED_PROXY=m (the default) the hub's platform
+> probe is legitimately deferred until udev has loaded that module. The
+> bootloader leaves the hub running, so the USB core enumerates it long
+> before, and the USB device probe finds the platform device without
+> driver data.
 
-I'd like to discuss an issue with USB audio card naming for composite
-devices and propose a possible improvement.
+> At that point, onboard_dev_usbdev_probe() returns -EPROBE_DEFER. This is
+> what causes the problem. The driver has generic_subclass set, so
+> usb_probe_device() has already run the generic probe, which configured
+> the device and bound the interface drivers. Each binding is a
+> deferred-probe trigger, and the driver core re-triggers when a trigger
+> happened during a probe that then deferred. So the device is re-probed
+> straight away, reconfigured, its interfaces bound again, and so on for
+> as long as the platform device remains unbound. This is not specific to
+> shared GPIOs: it happens whenever the platform probe is deferred, and
+> briefly whenever onboard_usb_dev is a module.
 
-Problem
--------
+It sounds like the underlying problem should be fixed elsewhere,
+possibly by preventing the deferred probe to be retried each time.
+ 
+> +/*
+> + * Attach a USB device that was bound by onboard_dev_usbdev_probe() 
+> while its
+> + * platform device was still unbound. The device lock serialises this 
+> with
+> + * the probe and with an unbind. This walks the USB bus, not the 
+> driver's
+> + * device list: unbinding a device holds its lock while it waits for 
+> all
+> + * references to its node on the driver's list to be dropped, so an 
+> iterator
+> + * over that list that takes the device lock would deadlock with it.
+> + */
+> +static int onboard_dev_attach_usbdev(struct usb_device *udev, void 
+> *data)
+> +{
 
-For USB composite devices containing both non-audio and UAC audio
-functions, the ALSA card shortname is derived from the device-level
-iProduct string, which describes the entire device rather than the
-audio function.
+This conceptually looks like a layering violation: no driver should
+have to look through the list of devices like this.
 
-For example, the CVT Touch Device (1ff7:0f33) is a composite device
-with HID touch interfaces and UAC audio interfaces. Its iProduct is
-"Touch Device", which is the name for the whole device. The UAC
-OUTPUT_TERMINAL descriptor defines the audio function name as
-"MAXHUB Speaker" via the iTerminal string descriptor (index 14).
+> +	struct device *dev = &udev->dev;
+> +	struct onboard_dev *onboard_dev;
+> +	int err;
+> +
+> +	/* Unlocked pre-check, so as not to wait for every USB device's lock. 
+> */
+> +	if (READ_ONCE(dev->driver) != &onboard_dev_usbdev_driver.driver)
+> +		return 0;
+> +
+> +	device_lock(dev);
+> +
+> +	if (dev->driver != &onboard_dev_usbdev_driver.driver ||
+> +	    dev_get_drvdata(dev))
+> +		goto out;
+> +
+> +	onboard_dev = _find_onboard_dev(dev);
+> +	if (IS_ERR_OR_NULL(onboard_dev))
+> +		goto out;
 
-Currently, the ALSA card name shows "Touch Device", which does not
-identify the audio function. The UAC mixer code already reads
-iTerminal for mixer control names (e.g. "MAXHUB Mic" from the
-Microphone INPUT_TERMINAL's iTerminal=17), but the card naming
-function (usb_audio_make_shortname) does not use iTerminal.
+IS_ERR_OR_NULL() is almost always a bug, make sure you understan
+the interface and what this can return. If the function can
+actually return both error codes or NULL pointers, fix that
+first.
 
-Proposed approach
------------------
-
-When the USB device is composite (i.e. it has non-audio interfaces),
-prefer the Speaker OUTPUT_TERMINAL's iTerminal string as the card
-shortname, instead of the device-level iProduct. If iTerminal is not
-set (zero) or not readable via usb_string(), fall back to iProduct
-(existing behavior).
-
-Non-composite (dedicated audio) devices are not affected and continue
-to use iProduct.
-
-The composite device detection checks whether any interface has a
-non-Audio class. The iTerminal reading uses the existing
-snd_usb_find_csint_desc() helper to parse OUTPUT_TERMINAL descriptors
-in the Audio Control interface's extra data. The iTerminal field is
-the last byte of the descriptor, common to both UAC1 (bLength=9) and
-UAC2 (bLength=12).
-
-As an immediate fix, I have also prepared a quirk entry for 1ff7:0f33
-to override the card shortname to "MAXHUB Speaker" directly.
-
-Questions for the community
-----------------------------
-
-1. Is this approach reasonable for composite devices, or should it
-   remain a per-device quirk?
-
-2. Are there concerns about changing card names for existing composite
-   USB audio devices that have iTerminal set? For example, UCM profile
-   matching or PulseAudio device identification.
-
-3. Would it be preferable to also check the IAD's iFunction field
-   before falling back to iTerminal, or is iTerminal sufficient?
-
-4. Are there known composite USB audio devices where the iTerminal
-   string might be empty or contain unexpected content?
-
-I have tested the quirk approach on a MT81C device (Kylin V10-SP1)
-and it works correctly. The iTerminal approach compiles but has not
-been tested on multiple devices yet.
-
-Any feedback would be appreciated.
-
-Best regards,
-RenPanpan
-
+     Arnd
