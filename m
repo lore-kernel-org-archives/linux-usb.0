@@ -1,99 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793333597;
-	b=cZ1mwC2tA5WRzyGyFzAnsNbREhvDHC2l1Oorqt/Ur+3uvRgZbdrOd+AiB6lbgU+Ba6cD
-	 eV1aSvvVQ73FVzZn1vgODvp67A+ZzspMyZeP1PfoN3NLrUENogyAFi4GQ8H5DVWX/NTCK
-	 oFuS+06STKKdNTaWY8bCyt+9v+Hf6TAdHlrEWivWY72XmjEKfj6uLKzReh/EwdxERriSy
-	 tmTB4Ne+8e+k+UEu5t1P829/MxvwbQ0ViwpTdlfsDpIssaq9DuqyVEmI+4xs2LFnGrO1k
-	 pI2sMeswrnxUYQj8IPeJ4oyptQAGAQSBZPFD2YmwZjCLaxgj2DZ3292Re1B3on7skBw==
+	t=1793336018;
+	b=14IxBiMOK0YDINH8KvyMZGrvRC8L1/fwWvPPa7adccgm2fpL7Pa+IMma3xP4tCjvjtOL
+	 VJGAyEYoaTNfj7ixO5RrByq2Rug5YgX8z61VaQ7m644dRWR0SNV0wzGGrG352Pg2+d5/7
+	 j4v8OFaAlp6CcY10xnD3nKfGnANtDy1STvcn2kPvOPf5OSUF24rLGyo06d/iqhCbCbOFs
+	 uqToskmm+Y4Idrfd8WYMCWTdmNDS13I+XacOh0GUw4EF2jjWWbcw2yGLz4O4TXUkBnGFy
+	 jmJxlvYG8jcmhbpl+PPprQWWCNsdjg/LNnh+MBivfiUZENtAeLRgEI6zoJdIPBDhHBg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793333597;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
-	 From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:Content-Transfer-Encoding:MIME-Version;
-	bh=vZIj0qtAo3zOj8y7KXbp/VG5XhsaPL++DTW9L+8H6eQ=;
-	b=qDgLTnpLlHkYeO5fvKYbZNOpRpi9otYZBbmxnr0cQdrSGSBgDXwKyPOad/cYs6TshpXe
-	 Dwixp68L2H2nEM8v9cYAtf5kCgXYYzCEIyF4a1gsDgjveO2HGmJmnwOnyFtzpQ11qHwWE
-	 QfR3BUiURhxkDBBcaipberdAGT/48JVJ9VrvDQ1/1/yebA8VS4Xqe/akCnMPJe0GYGAQo
-	 dGMl2NzvgB5518lAfpNPDWAJryJqhSJbBnwVY/b2YCFFjBPmP/gpKNKRy7UaVcX4El8bd
-	 p7pFcpLNJXGjMuIiRr6NhpbQv/kG13lXh5oEfy0LuWI+jofb8AEm/NDgb7KE7HRrO0A==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793336018;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=WpzQNBkCAVISQlxXiABdwlF8iGp1Tb6aINbTEZ2FiE8=;
+	b=KubQhBhFRSENuHq9yFNEFNDyuhFilunNC027L/HR/YM2jJXOryv8vJ0MRshSEfpV55Rz
+	 xClRnXUq5/z5sIk34neeGqQz/lEfqbFJ6rChU3Xxz9Olu51W29TZD2LSjb2kA3ldTpGtH
+	 TWRNVPaTG5zBH5iZQ5d0tTUCvPBT2/2/5BDOI3c1ccDaLk3UHm42QAY/ejzF4TLUMI/mY
+	 3yOrKgW6trWNOQnUegiqRs0tAeUNjh0Oxg+F7m/WNMDBOQvHZQTdADuwA1cZWOQHnPq/p
+	 SdvZoMnrfF1vo3Slt4EVtLyIgxfTu592eM4CI0xlcNoxwNNvNGy/zFyj8gO+H5aMKuA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XmHh9eFo;
-	arc=none smtp.remote-ip=74.125.82.170
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G4wPBeg1;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FB36606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 04:13:17 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7FB36606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4231606A31C
+	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 04:53:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=XmHh9eFo
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-36a1947498bso724139eec.1
-        for <linux-usb@vger.kernel.org>; Thu, 29 Oct 2026 21:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793333596; x=1793938396; darn=vger.kernel.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=vZIj0qtAo3zOj8y7KXbp/VG5XhsaPL++DTW9L+8H6eQ=;
-        b=XmHh9eFoWPFqTU9vbQvOWVzcpX5iba8DyCTBSR91YajmNq0io085Yjff0op3KyMSMI
-         MLv8Is/WMWaehxO0rIAXSp1tuBUWB6rfuxiGXqfaDrT7mD8D6jKj292iOe/MYLSzMaWo
-         c922BxY6FzLGMX1D91vk68pJzxmsZAPsJw+HTZwha7F2b3vTpqMjjT+Gw8o/oplJLmLG
-         1Zeyq4Aso5992NVL2hYM1pp66gd5fancKUq17us2BhiDO4PP78qr+95O5txPzMeqvml+
-         hbJYi1PFHhAWztGidgYBFQgyD4X16O0abY3TbIAUWdXOXWxlgoKSthJdTSZhtRgh7bgm
-         fmBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793333596; x=1793938396;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vZIj0qtAo3zOj8y7KXbp/VG5XhsaPL++DTW9L+8H6eQ=;
-        b=yUswxYZGTxFZSmgotjdJ4ZvqpsbUb6Pt9xcZ9eteiO6POWDTNpY2Zbdtod0Y2jyjy8
-         rZ3r3N+q8cR8o2gGxLqbuiIDjZ60H5P59TowkQ2Kgm7YWSoR2W3twSVlrxcux0q8bOMf
-         OYJ5p5e537bk/CS0EJSzcVihf1LWKywF530DNX/3LN3b8YbsMDW+znSlvScBq5vSyWET
-         rDLOzcdvkGLg7roBghU2NSIDrf5c68z7xorozLDKCFPjndy2mvWscpqDbVKR8SDq2/Ja
-         cko0vvhM7FCJymBfvLXBnCyTG3vU17iugK4O7p4QpsLhdW+8cJKEUEUMg99jY4FvPFgy
-         KFYw==
-X-Forwarded-Encrypted: i=1; AKwUvBygUzZN+IY68CvWF2omMkf2cQVqjkgviu7dfQYoQQ+gkAqt4dyj8eeX2ql1KylpRIV/49Qx2xVRMr4=@vger.kernel.org
-X-Gm-Message-State: AFq9FYIDiGA/1S1wypLwCtHeVSK9mz3Uo6hsI3MwGMehp9PEpMkSO/pP
-	fI9N2Xr2gQgxzOsKBswELY0e81W8Wc2PEej1JQap1pJPU6paCskPgrDD
-X-Gm-Gg: AYBFou0SPOhhCOP4ZhbdNoea4EcicYC+dspvTeNX1D2QZInm3AgwMfgX/64quvNDbWc
-	+E6myEQhpUoDqckgpAczWmsalIgUOO80nCFXbG1FzJEBVeTm1hKT/iqL1XrG2ouBR9t+bQmkHPm
-	q+b+7sB+Ukn3eF1YbaBKLX+IZSK89jbvchdiA8G9giLqTLLVaGzAI5ZqFv9GlKuL9Hbv4K2WxeO
-	cF78o3lTFF881AuKNW9GrbKqMAaCKHnmwKRRwNZc6PLtCeSBRPLne4fCB0wT8cvCycNxnirE4p7
-	n0ev4OToe/h3Rp7qYbtP5b3/vlQA3/Fr6URsXoKirVqyKnLoWDbq+/2IX6glU8Bub5LyRxnI6Ys
-	eHoEvm6AeE7/osx/vuEj8+BnYjtrj41akX/WYiapo74B7kHOUu3x1BancXsHJbFu+ln6a6m/CSo
-	4808Uq4L3GEHjLJx18yW6CTeI0Bujd89DIcGDWTqWOe5xUtksfy/W7yn6udlW04EOcMGfu4Fn2U
-	Qoyena/d5PX75x+04yEgJM+NfNmWTtN16EDSKEAFUm9VNsaUAbtqESTovRGR5jUp5ONeVfWOBR/
-	xD7SGQs/TXJmEgX7h4RnQ/9r+ZZ89PsvBGzhC2x9tb/T3174SQDp/w==
-X-Received: by 2002:a05:701b:454f:20b0:152:3812:496a with SMTP id a92af1059eb24-1ac5eea0720mr1479963c88.43.1793333596187;
-        Thu, 29 Oct 2026 21:13:16 -0700 (PDT)
-Received: from [127.0.1.1] (67.216.200.102.16clouds.com. [67.216.200.102])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1ac1abcf67csm3248156c88.21.2026.10.29.21.13.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 29 Oct 2026 21:13:15 -0700 (PDT)
-From: Cheng Yongkang <teel4res@gmail.com>
-To: Shuah Khan <skhan@linuxfoundation.org>
-Cc: Valentina Manea <valentina.manea.m@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Hongren Zheng <i@zenithal.me>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-usb@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/2] usbip: clear actual_length after a failed receive
-Date: Thu, 29 Oct 2026 21:13:06 -0700
-Message-ID: <179333358668.2111112.12827497703998022783@gmail.com>
-In-Reply-To: <a0772d9b-83e8-4502-9e02-f61345e406bb@linuxfoundation.org>
-References: <179328314073.648427.8311262845412746237@gmail.com>
- <179328314074.648427.388274461758949120@gmail.com>
- <a0772d9b-83e8-4502-9e02-f61345e406bb@linuxfoundation.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=G4wPBeg1
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70BF11F000C1;
+	Fri, 30 Oct 2026 04:53:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793336017;
+	bh=WpzQNBkCAVISQlxXiABdwlF8iGp1Tb6aINbTEZ2FiE8=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=G4wPBeg1umilWgLza0cd/y7E3mXa5hKcM/J6ZWzmSoh7N6tV911m77FMIOZyuqarp
+	 B4pU4k+DB+zNhSPqX1wgwFwPFK/Mf3q8P0MFqAt/Fxm8CDQbbKWJFGiBpeQm63lWJ1
+	 C5PxBMX58WN8Y+NPF8FCs3x6GiCGV+j8xhYnWDJfZW/jNB6vAhFtGZU/z2MkihPJii
+	 uH2axqoV8mtvYDV/HK53KpnNTG6hpjDZNrKR16grlDefdeB13tjr8GhOs4TYSDG3Rd
+	 A2vXl0bfIOgrNKLPrn2DGqrdmQxWKG26BA/B3GVR2FC7vBPYzLfJi1YXYvPu40qt+A
+	 pQ4A4BFMk0hkw==
+Message-ID: <sashiko-outbox-190327@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH net-next 1/4] r8152: Add support for 10Gbit Link Speeds
+ and EEE
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Birger Koblitz" <mail@birger-koblitz.de>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20260428-rtl8159_net_next-v1-1-52d03927b46f@birger-koblitz.de>
+References: <20260428-rtl8159_net_next-v1-1-52d03927b46f@birger-koblitz.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 30 Oct 2026 04:53:37 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,43 +59,73 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
 
-Hi Shuah,
+Thank you for your contribution! Sashiko AI review found 2 potential issue(=
+s) to consider:
+- [High] 10G EEE advertisement incorrectly clears bit 3 in ADV2 register in=
+stead of configuring ADV1.
+- [High] Missing `NWAY_10000M_FULL` switch case in `r8156_ups_flags()` caus=
+es incorrect firmware speed configuration.
+--
 
-Without this change the URB is still completed to usbfs, with status
--EPROTO but with the peer-supplied actual_length intact:
+commit 888cb24a1bd62bd09199a0e72a5e959941c2af81
+Author: Birger Koblitz <mail@birger-koblitz.de>
 
-  vhci_recv_ret_submit()
-    usbip_pack_pdu() -> usbip_pack_ret_submit():
-        urb->actual_length = rpdu->actual_length;   (usbip_common.c:471)
-    usbip_recv_xbuff():
-        size = urb->actual_length;                  (usbip_common.c:849)
-        if (size > urb->transfer_buffer_length)     (usbip_common.c:856)
-                goto error;  /* rejects the packet, returns < 0 */
-    urb->status = -EPROTO; goto error;
-  error:
-    usb_hcd_giveback_urb(hcd, urb, urb->status);    (vhci_rx.c:107)
-      -> urb->complete(urb)                         (hcd.c:1657)
-      -> usbfs async_completed()                    (devio.c:1911)
+r8152: Add support for 10Gbit Link Speeds and EEE
 
-usbfs copies data on reap whenever actual_length is non-zero, and does
-not look at the URB status:
+This commit adds support for 10Gbit Link speeds and 10Gbit EEE for the
+RTL8159. It updates the setup routines and ethtool getters/setters.
 
-  processcompl():
-    if (as->userbuffer && urb->actual_length)       (devio.c:2050)
-        copy_urb_data_to_user(as->userbuffer, urb);
-  copy_urb_data_to_user():
-    len = urb->actual_length;  /* non-isochronous */ (devio.c:563)
+> diff --git a/drivers/net/usb/r8152.c b/drivers/net/usb/r8152.c
+> index 7337bf1b7d6a..01e65d845f87 100644
+> --- a/drivers/net/usb/r8152.c
+> +++ b/drivers/net/usb/r8152.c
+> @@ -621,6 +621,7 @@ enum spd_duplex {
+>  	FORCE_1000M_FULL,
+>  	NWAY_2500M_FULL,
+>  	NWAY_5000M_FULL,
+> +	NWAY_10000M_FULL,
+>  };
 
-That is deliberate: a legitimate HCD can complete with a short read and
-a non-zero status, and userspace still gets the partial data.  But here
-the length came from the peer and was already rejected as invalid, so it
-must not reach usbfs.  -EPROTO alone does not stop the copy; zeroing
-actual_length makes the copy condition false and userspace observes a
-failed, zero-length transfer.
+When updating link power states, r8156_ups_flags() maps the speed to USB UPS
+flags using a switch statement on tp->ups_info.speed_duplex.
 
-I'll fold this into the commit message for the next version.
+Since this patch introduces NWAY_10000M_FULL but does not add a correspondi=
+ng
+case in r8156_ups_flags(), will the 10G speed fall through to the default
+case?
 
-Thanks,
-Cheng Yongkang
+If it falls through, it appears the speed bits in ups_flags remain 0, which
+corresponds to FORCE_10M_HALF. Could this configure the firmware and power
+state for 10Mbps Half Duplex while the link is actually operating at 10Gbps?
+
+[ ... ]
+
+> @@ -5773,6 +5779,11 @@ static void r8156_eee_en(struct r8152 *tp, bool en=
+able)
+>  	else
+>  		config &=3D ~MDIO_EEE_5GT;
+> =20
+> +	if (enable && (tp->eee_adv2 & MDIO_EEE_10GT))
+> +		config |=3D MDIO_EEE_10GT;
+> +	else
+> +		config &=3D ~MDIO_EEE_10GT;
+> +
+>  	ocp_reg_write(tp, OCP_EEE_ADV2, config);
+>  }
+
+Is MDIO_EEE_10GT correctly placed in OCP_EEE_ADV2? The 10GBASE-T EEE
+capability is normally defined in EEE Advertisement 1 (Register 7.60),
+rather than Advertisement 2 (Register 7.62).
+
+Also, since tp->eee_adv2 is populated using linkmode_to_mii_eee_cap2_t(),
+which ignores the 10G bit, tp->eee_adv2 & MDIO_EEE_10GT might always
+evaluate to false.
+
+Does this cause the else branch to execute unconditionally and unintentiona=
+lly
+clear bit 3 of OCP_EEE_ADV2?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20260428-rtl8159_ne=
+t_next-v1-0-52d03927b46f@birger-koblitz.de?part=3D1
