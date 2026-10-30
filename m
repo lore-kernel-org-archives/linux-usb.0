@@ -1,68 +1,49 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793358343;
-	b=J41MhuLaVPPuF8clFGsyzsLMIrisKVa/D+fqpSkR9fo8IbIUNh1twz4nl9yFTJpy5gYo
-	 xeh1Stg9/Di3YlZt4DptQUqS0D/IN7JRitlViXFIyJEUjpJ6avskbKgxV3xkNLAmEmfsM
-	 oZs9wP30LDqrKZl5znP84OXwiBly4CWtdzNdLyMiSccY5nOg1nVL+Jofk15+DlXqKndse
-	 QwqkFK4oMgYZF1/+EszkrefkDoQuU8+pWBIKHlO3rKeV+T7zgRKmb/wEhtd8KzLJxhTgZ
-	 Pks7zFiud3RLvL94WAfKHca1hGTHPpZOyx4IbGk5pSEpt7c1dEGucM4HsYqkJPR04sg==
+	t=1793358843;
+	b=zBRzmAkLlf8mXOqWf/tt+gpHBc2aQRLDXdZfLXiA4sCCs+fj6qVGKCWfsZ6RnBjibLQn
+	 28fL+TAzt/Gb7+bBEqdeGYMRzl5BvdknzQfsXKZ3HHS1Yjetgfc6/9MZY1OuX1GUZ6hvU
+	 g9y85Fo5J8P+AXbPqPcGqqxshE6dhB2eDtemznp6AgVXmEoMtYbGX92dCHYYgxLvJnwaQ
+	 cjVGvgAGUYm3tZuRB0xLYqNlnEkyx/4Xa/JUNMnNwsfymxZsNG0MHtlN+1H1+qeDdBuGq
+	 4zZ+jthmWONDYEsSpgGsI2tCdY3Ru77lZKfK8SgPxRbasJl68zhXyz9xw5Lc87/KwOQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793358343;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Message-ID:Date:
-	 MIME-Version:User-Agent:Subject:To:Cc:References:Content-Language:
-	 From:In-Reply-To:Content-Type:Content-Transfer-Encoding;
-	bh=agPdL3qf24JsUrVZj63GCPygkTFupZp996BGcl/rBUE=;
-	b=gGGt9mIAqPUBn2Q4YbOL13TZu4H6q1p4WTZM0FSES+zJpyt+t+fWdhsox4O1GG/N1RRh
-	 b+cWMuLD6qKmCf5TH5G1wePLbRDJGopXaR1QFyHwJycFnY4wqK0vMTCIr33xFzMhDxrmg
-	 iR7HQceW3MWrXzq5f5Ky8PcZvA5mnRgmxZ2ymEGAAEfOVlnT8nLUowGL+LcUrL7MjTAIk
-	 dbqXReCTE5rt7jlARineMzE6RUxAYJxG1YDMglF+zvfRrEVgJ2/mFRwojba6N9tWFqwls
-	 4GIb+PuafAB3U9mB1+INV1Nz4nSS5LTMLbWkzQpkkh2qUkVf6ZjRpJelg+X5Tb/CbuQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793358843;
+	h=Received:DKIM-Signature:Date:From:To:Cc:Subject:Message-ID:
+	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To;
+	bh=0dxLnqnKHk7JrwJj1lgccrPmrlsj56UqJLmrfHHcnT0=;
+	b=ViAWBjQ6cYVHlQTSV0LDRqE2tnbJQ5Kh9Yzuz7x+E//i5Ev5OxKfwOKv663LFsEnZYqw
+	 yQyUsXc9RI6o6ot+FoTRhOubzbMevV0D6zVkT3ngZRjADVt8Lrz7QmbTef+p5siteFtvf
+	 7COhgeq1o3vofS23vBK+QDdvTAuhPXv1/YzRvqXaEUOdDP24po/6rQJn585OSwWt8O/Ni
+	 XGlVNcFfCAFbgRD80uQ9im7E2hSlBpKKVwyIDxcACwjk7Mjd/JTpjX3LHd0idqmRblNVq
+	 n9q++GrdSnqO3nFyk9kFjXtCAhiOB0jeb/GP/JtRfWCwCjyc1bXDM+MfrkkyDpCqptg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=linux.intel.com;
-	spf=pass smtp.mailfrom=linux.intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R9tiDqIo;
-	arc=none smtp.remote-ip=198.175.65.20
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dkim=pass header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=z6nUozFi;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA00606A31C
-	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 11:05:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9FA00606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74A26606A31A;
+	Fri, 30 Oct 2026 11:14:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=R9tiDqIo
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793358343; x=1824894343;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=RPmCyYVF42T+rjNF3nsLyULwsX3PjwgLJgwv02au+5M=;
-  b=R9tiDqIowmnvNWWzoBPu5FuX6m8MZspVUUYgpk/VpCN++TQL4YwoVuwQ
-   pOfcmAOXKqGcvpwlbu6nJBYukeVd5LxDAcD4CpHqXwtKQMqBAmESu0txC
-   hWi1J3XKXF+6balRveMyFHKfV2uT47FIdK0I/opxFWy5qJvNwRIbU0ktJ
-   0TvKbqKZBiA75zoy+EgV4HGRpHqqi0no+RoexfuDdfKF5+0A13vJVn+i9
-   qKF3HS699s9q+kRpyk8quLv2L3kiEtIaYWCvoZ+VNKGGLEprbf6qI2KyF
-   ovB+M54hbCr0gBaaX3b3lWWuf46hZmX1rygiz7VcbDYnL9HWDg6SBvOZw
-   Q==;
-X-CSE-ConnectionGUID: wEfh0ytISfW47cn4UhHUpg==
-X-CSE-MsgGUID: qf2HQ0fjQNGmNDN55fEbpw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2144575"
-X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="2144575"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 04:05:42 -0700
-X-CSE-ConnectionGUID: SpbQ9/50R7SLZRuaaqf1Ng==
-X-CSE-MsgGUID: NfFiClmeQAmaeA9d/TJJ3g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
-   d="scan'208";a="5300912"
-Received: from slindbla-desk.ger.corp.intel.com (HELO [10.245.244.25]) ([10.245.244.25])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 04:05:41 -0700
-Message-ID: <f362a385-e1d6-437c-a31c-fbf4414fa0f5@linux.intel.com>
-Date: Fri, 30 Oct 2026 13:05:16 +0200
+	dkim=pass (1024-bit key, unprotected) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.a=rsa-sha256 header.s=korg header.b=z6nUozFi
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97F3D1F000C1;
+	Fri, 30 Oct 2026 11:14:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linuxfoundation.org;
+	s=korg; t=1793358842;
+	bh=0dxLnqnKHk7JrwJj1lgccrPmrlsj56UqJLmrfHHcnT0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To;
+	b=z6nUozFi30L3ho7OJ1Zk0ppl37/A2DCvJ9ZRsLf3nc6kO9PJnKFydNTwGlrYyPO3V
+	 XOWrbUxUzSfe4RQRgrWkYwrYGf+stBciqpIN/fvleM9Lm7Ntd8MTglMoNeK5jIu6S3
+	 4zOxUJwR9W8+u9tfVjCaDVzLKmsug6fwwrifFIis=
+Date: Fri, 30 Oct 2026 12:13:58 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: amine-ayaou@hotmail.com
+Cc: nkapron@google.com, linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] usb: gadget: legacy: ether: fix RNDIS for Windows hosts
+Message-ID: <2026103022-skeptic-deskbound-3471@gregkh>
+References: <MRVP191MB2786AD66C3EAB9F32E5B84F9EF6D2@MRVP191MB2786.EURP191.PROD.OUTLOOK.COM>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -72,47 +53,78 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] xhci: give back TDs and clean up ep0 after disconnect
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org, regressions@lists.linux.dev,
- michal.pecio@gmail.com, Yiyu Zhou <yiyu@yiyuzhou.io>,
- Dennis Wissel <dennis@dsine.de>
-References: <20261029204324.658845-1-mathias.nyman@linux.intel.com>
- <20261029204324.658845-2-mathias.nyman@linux.intel.com>
- <2026103009-handful-labored-d1ce@gregkh>
-Content-Language: en-US
-From: Mathias Nyman <mathias.nyman@linux.intel.com>
-In-Reply-To: <2026103009-handful-labored-d1ce@gregkh>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <MRVP191MB2786AD66C3EAB9F32E5B84F9EF6D2@MRVP191MB2786.EURP191.PROD.OUTLOOK.COM>
 
-On 10/30/26 07:22, Greg KH wrote:
-> On Thu, Oct 29, 2026 at 10:43:24PM +0200, Mathias Nyman wrote:
->> From: Yiyu Zhou <yiyu@yiyuzhou.io>
->>
->> Fix a regression in v7.3 introduced by the commits in the Fixes tags.
->> Those patches avoid endpoint recovery and rapid state changes after
->> the root port link is lost.
->>
->> This caused a regression in device enumeration.
+On Fri, Oct 30, 2026 at 10:17:06AM +0100, amine-ayaou@hotmail.com wrote:
+> From: Amine Ayaou <amine-ayaou@hotmail.com>
 > 
-> I see this patch twice?
+> Fix RNDIS for Windows hosts by adding Microsoft OS 1.0
+> descriptor that allows Windows to identify the RNDIS function.
+
+No, please no.
+
+RNDIS should NEVER be used, it's not required by any shipping OS that I
+know of these days, do you?
+
+Why do you want this?  And are you really still using the "legacy" USB
+gadget drivers?  If so, why?  What is preventing you from using the
+"new" ones?
+
+I ask as we are about to delete these legacy drivers and I don't want to
+have anyone add new features to them.
+
+> g_ether currently advertises its RNDIS configuration using
+> the legacy NetChip VID/PID and the RNDIS control interface
+> class, subclass and protocol values provided by f_rndis
+> (02/02/FF).
 > 
+> While the Linux rndis_host driver still recognizes the legacy
+> 02/02/FF RNDIS interface descriptors, modern Windows hosts
+> do not bind the RNDIS driver to g_ether.
 
-My mistake, bash history shows I added the same file twice after git send-email
+modern Windows hosts know that rndis is a lame protocol and should never
+be used :)
 
-> And sashiko seems to object to it, is that response correct?
-> 
+Seriously, it's a broken one, there is no security for it and it's only
+good for very very old desktop systems that never were updated to a
+modern operating system.  And even then I would argue it shouldn't be
+used.
 
-It does find one potential case where this patch does not fix the enumeration
-of devices that disconnect during reset.
+> Notes:
+>     g_ether's RNDIS is useful when a network interface via USB
+>     is needed early during boot, before a filesystem is available
+>     (e.g., nfsroot).
 
-This patch however is tested and does resolve the two real life regressions
-where devices briefly disconnect during enumeration.
+useful for which side?  What can you do with this "during boot"?  And
+you are connecting to a nfs windows server with it?
 
-There's a risk for more real life regression if I too hastily fix this patch
-to cover that sashiko case.
+>     Alternatives for having a network interface via USB during
+>     boot are configfs and g_ncm.
 
-Thanks
-Mathias
+YEs.
+
+>     Configuring the gadget through configfs requires userspace,
+>     which is unavailable before mounting the NFS root when
+>     no initramfs is used.
+
+Then use an initramfs :)
+
+>     NCM (g_ncm) is not an option on hosts that only provide
+>     RNDIS support.
+
+What hosts exactly are that?  And why would you connect to them?
+
+>     Tested on BeagleBone Black with a Windows 11 host
+>     (Version 10.0.26200, Build 26200)
+>     RNDIS automatically bound with the patch.
+
+And did your nfs server on that host work properly?
+
+Sorry for the rant, but I really want to delete this stuff as it should
+never be used anymore...
+
+thanks,
+
+greg k-h
