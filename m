@@ -1,55 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793389486;
-	b=cbbLTi9PDIQk/r7G/n4uxkBGszGgcc50/dhGqAzTWCbJCCcCvcitJxdulna8MtHl9CyI
-	 rVzs9j+AtloF9la6ueFale9ViMOe1hl1Y8FL/FX0ZOIqlxGkm4O4tylFaQLAhCec/ehhn
-	 2MFoy7KC3D2Nul0oErwOEHbbEdrXHIDTTHjJT65zRIdttCU3bfDmrp35B5tiePkihNkMg
-	 g0ZSRhq0aVxYqyL/Vuo/fWUUOqTLx9pGaGw51bflJYqbV1y9DhFBEamL32cMtG4UFTxW5
-	 Qth5bXYG5gWIb7BunAi8gzcDTZBXjLIzgblC1SE4a2MSt1sIGZhVF9Uy07wATp27RLA==
+	t=1793390562;
+	b=Ym/tE2tCCxUN2G150stNBfz96/rbOULWROjZ3jetVGSVlOr6U+EocDKhipCJOGGwWOYu
+	 xQXI5xcNAh77XMAzw4XyEHyCOYQAL8Ujxgo4NstNGhip/gtj/Tl7fj3dsesh2Xxt3iZ6U
+	 ECPpswGKUldJT3ZdyIOCS+bqsS7isalvDfaeIg7jxfTKlZ3PR51uQD/rAFl4h/NLCQfR2
+	 1cvHhFVOOVGExm19UfuPw/ArhZQfHSyyCxfmDgjIA/kfwBsD57kgZMVdFgezOuXag0Pa8
+	 fChjaaBu+nv6rgoc9HIuAXEjfwhLseMDxBMzUyTVv+bVYFjag8VhwS67aHEl55hk1Gw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793389486;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=tQgv/WTthfNG4SfkLzAOqvvm2CN3IFP+fH32n1aLyK8=;
-	b=qXonr6v/Bf6beN9rDraCtmoxOwey/GjiA8YG7OXGuOWqDx0TMI4t4i+4VM4HbO1Ztuvh
-	 gd4n0CA7vWYHljBrtKCsv6p44GlDrGcAhAZT9lKmK9PWh02bOH9QWrCdh5T+iLCoFHxYD
-	 6040jOCEbOSYi4yHMpzFeffi5GAQMrgtaYnMFJhMIYJAESq0HAQclzepBxSvFzzEjIIqC
-	 8j9zTCt8eP5LbaKqvjhWfMR5w7GEOm8pcDAFUFdFos2Q5inVVZI8iT4hLKRHezeMq19Tu
-	 8/oKOmq8+TEt7LC3VP5KNe1fL5Izv43f7SLYn+sTwjg1oNxfUgb7kRBWTjD4lIeK4cw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793390562;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=CdgjB3iMB/xpCXm7PRSva07wAj5gmWKOsYwxpue/r48=;
+	b=mNSlN8ldhvDlnyfZcAlFV7ANByTdeST9rYDgwfnVQrK2qaLlIEhbyT144bFF0Fdfg/ww
+	 9b/CSw2xY7WLUVpoOyynWLjo7ZYu15djQXwL/KhgrFikhPF1wA8+NWzBFrJZy5LWMneRS
+	 m9AnY0UquX2maLGWf+ftlDXlyLUxAWxmLWJffGsRhP9sdaWr883NLemfOWCldXivsOfRs
+	 e+XbDZ1Lbz553p3cGzUva9phrIJinMUs0utN0zOjsgJJu2yyIA1c+raE6offHquNh8YW1
+	 DGhH1ZOnC7azR2PtTUSMv45E18oHHERv1vJ+mIh9ZMRb/F3saczw2R/1mfwTEcXfZYg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hX78AFM5;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=nnvYecgQ;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95C2606A31A
-	for <linux-usb@vger.kernel.org>; Fri, 30 Oct 2026 19:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D891A606A31A;
+	Fri, 30 Oct 2026 20:02:41 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D891A606A31A
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hX78AFM5
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 772181F000C1;
-	Fri, 30 Oct 2026 19:44:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793389485;
-	bh=tQgv/WTthfNG4SfkLzAOqvvm2CN3IFP+fH32n1aLyK8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hX78AFM5LD3ngLPIUstRSdysMTEuwcmTQgAjYaPEbtj7oPtUDOPdoNq9qNONyC+zV
-	 8qZoFF9FgU4OHx99ij4HlD7Hmn0+wFB90LF0vHsSCcYdP7FQwzEbjy10a7UPRlzsJi
-	 VquSzpKcTVISLD08lI+yiVEZ5XeJZ6r9DD/d14elkmV1d4mukQMtZf62Npoqlko8mV
-	 6mIdOwRiYZfDVYfiK0J9O0aivvW/kYQXnCnGmgskVI7P1IHWqHQtWK68OuuLsADnfP
-	 r+Y5alrJQNtIiRqv9s44+7YSqbl/RmQEJ+gqeP3vWR5kyOUitfR14WD90XM2mdb8Wd
-	 +cgifex4n5b+g==
-Message-ID: <sashiko-outbox-191452@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v6] usb: pci-quirks: always assert xHCI OS ownership
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Rishabh Jain" <rishabh.jain1198@gmail.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <179338900780.73175.16604680938007633313@gmail.com>
-References: <179338900780.73175.16604680938007633313@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 19:44:45 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=nnvYecgQ
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=CdgjB3iMB/xpCXm7PRSva07wAj5gmWKOsYwxpue/r48=; b=nnvYecgQBjPgn7ZIxAbvE6MhR8
+	jaKDY1bguj0p8uWbaxpsbCCUBMj0m5XFVq5bkZ8CmnhNN8WsKg1XXK5cQRTx/3r1ae3dNSqRCTNtc
+	3qcYP2vfr6YmksJg689a7UiNps8aeXsiEhfngI+9gDKJoA2gjhpxx2DBqQljUNfNp2xY=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xMso4-00DQaS-L0; Fri, 30 Oct 2026 21:02:32 +0100
+Date: Fri, 30 Oct 2026 21:02:32 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+	UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Russell King <linux@armlinux.org.uk>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [PATCH net] net: usb: lan78xx: only stop phylink if the
+ interface is running
+Message-ID: <8bc84f9d-4c9a-41db-af34-28377cfb2b1b@lunn.ch>
+References: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,32 +66,26 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
 
-> The xHCI ownership protocol requires the OS driver to assert the HC OS
-> Owned semaphore before using the host controller, then wait for HC BIOS
-> Owned to clear if firmware owns it.
->=20
-> quirk_usb_handoff_xhci() currently asserts OS Owned only when BIOS Owned
-> is already set. If firmware leaves BIOS Owned clear, Linux uses the xHC
-> while both ownership semaphores remain clear.
->=20
-> The timeout fallback also clears BIOS Owned using the original register
-> value, which can clear OS Owned at the same time.
->=20
-> On an AMD PROM21 xHCI controller (1022:43fc), this caused every S3
-> resume to terminate Controller Restore State with USBSTS 0x401. Linux
-> then reset the host controller, both root hubs and the USB Bluetooth
-> adapter.
-> [ ... ]
-> Tested-by: McKenna Fan <blue_sun@tuta.io>
-> Tested-by: Quinn Schive <quinnschive@hotmail.com>
-> Tested-by: Bruno Filipe <bmilreu@gmail.com>
-> Tested-by: Maciej Zonski <me@zonni.pl>
-> Signed-off-by: Rishabh Jain <rishabh.jain1198@gmail.com>
+On Fri, Oct 30, 2026 at 12:02:04AM +0800, YuanZhe Liu wrote:
+> lan78xx_disconnect() unconditionally calls phylink_stop(), but
+> phylink_start() is only called from lan78xx_open(). When the device is
+> unplugged before the interface has been brought up, the attached PHY is
+> still in PHY_READY and phy_stop() reports:
+> 
+>   called from state READY
+>   WARNING: drivers/net/phy/phy.c:1670 at phy_stop+0xad/0x380
+> 
+> The same warning is emitted after an ifup/ifdown cycle, where the PHY is
+> already in PHY_HALTED. Call phylink_stop() only when the network device is
+> running, which is when phylink_start() has been called.
+> 
+> Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
 
-Sashiko has reviewed this patch and found no issues.
+Why did you pick this commit?
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/179338900780.73175.=
-16604680938007633313@gmail.com?part=3D1
-
+    Andrew
