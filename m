@@ -1,57 +1,86 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=192.198.163.13
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793349985;
-	b=P6c83fpb4f+4TQsSRc9cDlczQ5VS9p9kwkA6vk1N8YqyBN9f7Hu/B5K6adflKEsxj7Ul
-	 LuiUHqQNdnND3CiBlpaRArmCtsikpeYzC1cCjW/bdtl92/yhymQ45jfU7yYSgfdHBgQds
-	 avzYnqlGBk5b01H5yVYKrwaSBG9rlyt/YExOgvGW0xX4QYDt59oLX7i8vd6Uc31WO/O8A
-	 XqCDFUIFoppe/kgnyhal3AxBjtuiVrstVLqdiRuvmmXGpdoiSrc7iZxhEKkJAFjKOAEcV
-	 3cDZxb7Jlwn1F5LzQwtdYc4JWzCC4Q/N4yvMMSh11qOdWs2iOZPuFGTnp+zV3KlGsCw==
+	t=1793350076;
+	b=w2M9sUXR+05xdNiGiD/XJR8jowjmNE6m4cNau1/Vm5fzxvmLYHsVnvGD8+OO/7QraJC7
+	 thnrwdacJKL/kRXO/UdQZDV6gQBN/plzsp2vQmpF48uqwYc0QT+CtBSdR5VsFLI8v+DlH
+	 LS2qkPht8W5e2vZnbSdPFbN2nRPu68qds3sqFg+yMTLl01eAlz4tzKyGSj/cMpdJ7bT5y
+	 K+YgV8+I+46CWIOGvyJrCvK+1wRbH8GMNC4BGMINL0E7Pah+BmnZbvhH8hrdkzsehT3yd
+	 VJi7L1NOh9wKP04FhXJONq437DmlvYfsUHbe2LihNfad2KSbECqUGBfIGCVZad7+CEw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793349985;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=CqBNKYKKousOeUU2t0yZSSGrlHOlMq8kBHDwamR7Wl8=;
-	b=S6yUcjtKl5JdXPpe0kgW/l5NEbFZM+JN4cyfR/1qOK4K1LnZD/97tJp7498F82oUG4Ro
-	 qhUBAFRcR1YN6yFfEHBmphT3xYXuNl6qUH2ATkrId4fygk2qtJ8xdFTmcEjtl8zMNeyTG
-	 NF1a5VCkYo4Y9BNMAd6iqOY7+wBNyUyT/uu6mDlLgMXDQCFmhPdgW4nRNbQ/dscld6MYL
-	 xK1tSkAFvEMtHshhmc6M4hXj53usLkoUQBp4o/xPY+DLDrohuUGT7qnIHxaEN516ntDOP
-	 kWAlhR3ljAP6m9clEraG/Pc5CdZrQg9RbUkzIloBm5pC+ZBFoJVxEqg9A6LPLSeP+9Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793350076;
+	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
+	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
+	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
+	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To;
+	bh=focRYHe+lLJ7WgjazgIVN+EOiAAyKkLKpH1zWpglXSg=;
+	b=ha3bgl6sxVLTgGsI1/CpCoErLjangO/13X+T69t57chRg68KiI8f2qbYTCTaumIQp10c
+	 NsMEgu5htDU2CZkueeHn2dla6c2ovV3/6XAo+Ia8MQSkrKvWizpDj+rNXtTEV0cNwHCXD
+	 VXdLynzPTdBVulwb0UaKvC7KgnkZPXKcYvBqt58Bo4n2Bd7oFvbvyx7o9sIBH3TYD6Rza
+	 l7DBRkiBlbC8AaC63zzvzFYaO+dsa0AJEnvVuHwuMIzz+WyLA41IorSGoyGkJ0fXCD/JZ
+	 p5yspjJ64QhXU9uJX0zw4GYHYknBTV8M4jY3faNtowoFHjjgVxe3zvfKNys/9jdQM1Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T65aU4SE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=linux.intel.com;
+	spf=pass smtp.mailfrom=linux.intel.com;
+	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b="a3g8cK/1";
+	arc=none smtp.remote-ip=192.198.163.13
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71E38606A31E;
-	Fri, 30 Oct 2026 08:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23ED606A31E;
+	Fri, 30 Oct 2026 08:47:54 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org D23ED606A31E
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=T65aU4SE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC4A1F000C1;
-	Fri, 30 Oct 2026 08:46:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793349984;
-	bh=CqBNKYKKousOeUU2t0yZSSGrlHOlMq8kBHDwamR7Wl8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=T65aU4SE7RZMTIE7E8NSSnZAVIDpqhzFeuju+C4RTWwcKVTPGYkD4CqeXb/tNLuZS
-	 F0Ai9MdBrfoHjSLB28lnuo4EOgU7YEG6iVJhEqS1775lQO326on7quZCd3l/qzCNC4
-	 49EmjUA2wVJtULrzTUQMpMIXfls+ZWPXLbb9u+TVs0vgbNcOkG8iAl90OHGNAcgouZ
-	 lYQD3FB1BA1rirXBQJvQk/hLfdLCccsLQ0n4I8uoK1qwJovUu0Ph4ZKfdFiaWelVRE
-	 tqa7PmvrWyho973E/a86y+x9XgxsUD2olx4q1pnrVhhyGlo3TvuwSuyz+TyUTzG6k+
-	 YwTywyQ3wu8qQ==
-Message-ID: <sashiko-outbox-190713@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 6/6] usb: gadget: udc: crg: Add core driver and build
- integration
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Petar Stepanovic" <pstepanovic@axiado.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261030-axiado-ax3000-usb-device-controller-v4-6-c5267b36a777@axiado.com>
-References: <20261030-axiado-ax3000-usb-device-controller-v4-0-c5267b36a777@axiado.com>
- <20261030-axiado-ax3000-usb-device-controller-v4-6-c5267b36a777@axiado.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 30 Oct 2026 08:46:23 +0000
+	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=a3g8cK/1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1793350075; x=1824886075;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JfiM+BJFzo6/ofk3Y9BcFh3FD/ABNUljlg2cidkKFDI=;
+  b=a3g8cK/15kHodICUHeMW7wI/ZexRX/JOwhDD1T5PwkHnl1psP9dGG1Fq
+   5CdgDzx0nyO/fv5aCDwaDQu7RdN4e3Af97kB92in3Jl87hBiydwNdjWK1
+   cmDlyHhehPkpVze9jyNzP9ZuViNFloiaRlSpSbced4Zhh3pY3sGTwAUCF
+   c7TP9HyJQt1ON1Kbp6756C6YIP599qlrmXLrxH19hlRxA5Go63iOJlwjs
+   9cZyXJTeh+nWH9aEOkl0fbzcUPENdJFhLzRzIGTXiUxCZb1i9HehllB2J
+   reFtyuHxe2YWtpAc/xEpXN81VFAeNdFUNe4Cy359309zcYDqop5oVwCBJ
+   A==;
+X-CSE-ConnectionGUID: QZGK6tQyQ0K/0kfPylOnKg==
+X-CSE-MsgGUID: Q3PQ8871Rv6HX1TKEIFXug==
+X-IronPort-AV: E=McAfee;i="6800,10657,11950"; a="2102486"
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="2102486"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2026 01:47:54 -0700
+X-CSE-ConnectionGUID: xp/+FRjtRBK1m+vPmx/iGg==
+X-CSE-MsgGUID: TfjHYg9uSj2UnXdMgjiUGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.27,186,1787036400"; 
+   d="scan'208";a="5277303"
+Received: from black.igk.intel.com ([10.91.253.5])
+  by orviesa005.jf.intel.com with ESMTP; 30 Oct 2026 01:47:51 -0700
+Received: by black.igk.intel.com (Postfix, from userid 1001)
+	id 170A899; Fri, 30 Oct 2026 09:47:50 +0100 (CET)
+Date: Fri, 30 Oct 2026 09:47:50 +0100
+From: Mika Westerberg <mika.westerberg@linux.intel.com>
+To: Chunfeng Yun <chunfeng.yun@mediatek.com>
+Cc: Mika Westerberg <westeri@kernel.org>,
+	Andreas Noever <andreas.noever@gmail.com>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Sven Peter <sven@kernel.org>
+Subject: Re: [PATCH 1/4] thunderbolt: add platform nhi driver
+Message-ID: <20261030084750.GP158991@black.igk.intel.com>
+References: <20261030082539.1208733-1-chunfeng.yun@mediatek.com>
+ <20261030082539.1208733-2-chunfeng.yun@mediatek.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,546 +89,361 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20261030082539.1208733-2-chunfeng.yun@mediatek.com>
 
-Thank you for your contribution! Sashiko AI review found 10 potential issue=
-(s) to consider:
-- [High] usb: udc: crg: dequeue fails in crg_udc_issue_command() when stopp=
-ed
-- [High] usb: gadget: crg: controller left stopped after disconnect reset
-- [High] usb: gadget: crg: deferred crg_udc_prepare_for_setup() races with =
-SETUP
-- [High] usb: gadget: crg: GFP_KERNEL allocation in crg_udc_ep_enable()
-- [High] usb: gadget: crg: race conditions when crg_udc_reset() drops udc_l=
-ock
-- [Medium] usb: udc: crg: stale reconnect and ep0 state across crg_udc_rese=
-t()
-- [Medium] usb: gadget: udc: crg: state inconsistency across crg_udc_suspen=
-d() and resume
-- [Medium] usb: gadget: udc: crg: race in crg_udc_suspend() re-enables pull=
-up
-- [Medium] usb: gadget: crg: race with IRQ thread in crg_udc_shutdown() and=
- teardown
-- [Low] usb: gadget: crg: uncapped and unvalidated max_speed in crg_udc_pro=
-be()
---
+Hi,
 
-commit ff1f5c0791ff275876830e2f2710870a97b34e7c
-Author: Petar Stepanovic <pstepanovic@axiado.com>
+Adding Konrad and Sven because they are also working towards the same goal
+to get non-PCIe "platform" hosts supported.
 
-usb: gadget: udc: crg: Add core driver and build integration
+On Fri, Oct 30, 2026 at 04:25:36PM +0800, Chunfeng Yun wrote:
+> Add a new file plat.c to register platform NHI driver for MediaTek
+> mt8901/mt8992 SoCs.
+> 
+> Signed-off-by: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> ---
+>  drivers/thunderbolt/Makefile |   2 +-
+>  drivers/thunderbolt/domain.c |  10 ++-
+>  drivers/thunderbolt/nhi.c    |   2 +
+>  drivers/thunderbolt/nhi.h    |   1 -
+>  drivers/thunderbolt/pci.c    |  26 +-----
+>  drivers/thunderbolt/plat.c   | 155 +++++++++++++++++++++++++++++++++++
 
-This commit introduces the core probe, remove, power management, interrupt
-handling, and controller reset functions for the Axiado AX3000/AX3005 USB
-Device Controller driver, and integrates it into Kconfig and Makefile.
+Call it platform.c
 
-> diff --git a/drivers/usb/gadget/udc/crg/crg-udc-core.c b/drivers/usb/gadg=
-et/udc/crg/crg-udc-core.c
+>  drivers/thunderbolt/tb.h     |   2 -
+>  include/linux/thunderbolt.h  |   1 +
+>  8 files changed, 169 insertions(+), 30 deletions(-)
+>  create mode 100644 drivers/thunderbolt/plat.c
+> 
+> diff --git a/drivers/thunderbolt/Makefile b/drivers/thunderbolt/Makefile
+> index beb054c3126b..9c941682f3d6 100644
+> --- a/drivers/thunderbolt/Makefile
+> +++ b/drivers/thunderbolt/Makefile
+> @@ -3,7 +3,7 @@ ccflags-y := -I$(src)
+>  obj-${CONFIG_USB4} := thunderbolt.o
+>  thunderbolt-objs := nhi.o ctl.o tb.o switch.o cap.o pci.o path.o tunnel.o eeprom.o
+>  thunderbolt-objs += domain.o dma_port.o icm.o property.o xdomain.o lc.o tmu.o usb4.o
+> -thunderbolt-objs += usb4_port.o nvm.o retimer.o quirks.o clx.o
+> +thunderbolt-objs += usb4_port.o nvm.o retimer.o quirks.o clx.o plat.o
+>  
+>  thunderbolt-${CONFIG_ACPI} += acpi.o
+>  thunderbolt-$(CONFIG_DEBUG_FS) += debugfs.o
+> diff --git a/drivers/thunderbolt/domain.c b/drivers/thunderbolt/domain.c
+> index 24611f05b3cd..bec7e6ebc4a8 100644
+> --- a/drivers/thunderbolt/domain.c
+> +++ b/drivers/thunderbolt/domain.c
+> @@ -881,7 +881,7 @@ int tb_domain_unregister_unplugged_xdomains(struct tb *tb)
+>  	return ctx.n;
+>  }
+>  
+> -int tb_domain_init(void)
+> +static int __init tb_domain_init(void)
+>  {
+>  	int ret;
+>  
+> @@ -907,7 +907,7 @@ int tb_domain_init(void)
+>  	return ret;
+>  }
+>  
+> -void tb_domain_exit(void)
+> +static void __exit tb_domain_exit(void)
+>  {
+>  	bus_unregister(&tb_bus_type);
+>  	ida_destroy(&tb_domain_ida);
+> @@ -917,3 +917,9 @@ void tb_domain_exit(void)
+>  	tb_debugfs_exit();
+>  	tb_configfs_exit();
+>  }
+> +
+> +subsys_initcall(tb_domain_init);
+> +module_exit(tb_domain_exit);
+> +
+> +MODULE_DESCRIPTION("Thunderbolt/USB4 domain driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/thunderbolt/nhi.c b/drivers/thunderbolt/nhi.c
+> index e99a3fcc4a29..c0f9f1855e8f 100644
+> --- a/drivers/thunderbolt/nhi.c
+> +++ b/drivers/thunderbolt/nhi.c
+> @@ -1379,8 +1379,10 @@ int nhi_probe(struct tb_nhi *nhi)
+>  	device_wakeup_enable(dev);
+>  
+>  	pm_runtime_allow(dev);
+> +	device_enable_async_suspend(dev);
+
+Why you add this?
+
+>  	pm_runtime_set_autosuspend_delay(dev, TB_AUTOSUSPEND_DELAY);
+>  	pm_runtime_use_autosuspend(dev);
+> +	pm_runtime_mark_last_busy(dev);
+
+and this
+
+>  	pm_runtime_put_autosuspend(dev);
+>  
+>  	return 0;
+> diff --git a/drivers/thunderbolt/nhi.h b/drivers/thunderbolt/nhi.h
+> index 88af9ab9fde7..37c11de167ad 100644
+> --- a/drivers/thunderbolt/nhi.h
+> +++ b/drivers/thunderbolt/nhi.h
+> @@ -29,7 +29,6 @@ enum nhi_mailbox_cmd {
+>  
+>  int nhi_mailbox_cmd(struct tb_nhi *nhi, enum nhi_mailbox_cmd cmd, u32 data);
+>  enum nhi_fw_mode nhi_mailbox_mode(struct tb_nhi *nhi);
+> -void nhi_enable_int_throttling(struct tb_nhi *nhi);
+>  void nhi_disable_interrupts(struct tb_nhi *nhi);
+>  void nhi_interrupt_work(struct work_struct *work);
+>  irqreturn_t nhi_msi(int irq, void *data);
+> diff --git a/drivers/thunderbolt/pci.c b/drivers/thunderbolt/pci.c
+> index 4408229d8ac7..91d236300703 100644
+> --- a/drivers/thunderbolt/pci.c
+> +++ b/drivers/thunderbolt/pci.c
+> @@ -715,7 +715,7 @@ static struct pci_device_id nhi_ids[] = {
+>  };
+>  
+>  MODULE_DEVICE_TABLE(pci, nhi_ids);
+> -MODULE_DESCRIPTION("Thunderbolt/USB4 core driver");
+> +MODULE_DESCRIPTION("Thunderbolt/USB4 PCI host interface driver");
+>  MODULE_LICENSE("GPL");
+>  
+>  static struct pci_driver nhi_driver = {
+> @@ -727,26 +727,4 @@ static struct pci_driver nhi_driver = {
+>  	.driver.pm = &nhi_pm_ops,
+>  };
+>  
+> -static int __init nhi_init(void)
+> -{
+> -	int ret;
+> -
+> -	ret = tb_domain_init();
+> -	if (ret)
+> -		return ret;
+> -
+> -	ret = pci_register_driver(&nhi_driver);
+> -	if (ret)
+> -		tb_domain_exit();
+> -
+> -	return ret;
+> -}
+> -
+> -static void __exit nhi_unload(void)
+> -{
+> -	pci_unregister_driver(&nhi_driver);
+> -	tb_domain_exit();
+> -}
+> -
+> -rootfs_initcall(nhi_init);
+> -module_exit(nhi_unload);
+> +module_pci_driver(nhi_driver);
+> diff --git a/drivers/thunderbolt/plat.c b/drivers/thunderbolt/plat.c
 > new file mode 100644
-> index 0000000000000..33be5c920ebee
+> index 000000000000..85a00cd391d4
 > --- /dev/null
-> +++ b/drivers/usb/gadget/udc/crg/crg-udc-core.c
-> @@ -0,0 +1,723 @@
-
-[ ... ]
-
-> +int crg_udc_issue_command(struct crg_gadget_dev *crg_udc,
-> +			  enum crg_cmd_type type, u32 param0, u32 param1)
-> +{
-> +	struct crg_uccr __iomem *uccr =3D crg_udc->uccr;
-> +	u32 status;
-> +	u32 tmp;
-> +	bool running;
+> +++ b/drivers/thunderbolt/plat.c
+> @@ -0,0 +1,155 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Thunderbolt driver - NHI driver (Platform bus specific implementation)
+> + *
+> + * Author: Chunfeng Yun <chunfeng.yun@mediatek.com>
+> + */
 > +
-> +	running =3D !!(readl(&uccr->control) & CRG_U3DC_CTRL_RUN);
-> +	/* Only INIT_EP0 may be staged while the controller is stopped. */
-> +	if (!running && type !=3D CRG_CMD_INIT_EP0)
-> +		return -ESHUTDOWN;
+> +#include <linux/acpi.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/errno.h>
+> +#include <linux/of.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/slab.h>
+> +
+> +#include "nhi.h"
+> +#include "tb.h"
+> +
+> +static int nhi_plat_init(struct tb_nhi *nhi)
 
-[Severity: High]
-As reported by Sashiko on v3 [1], rejecting all commands other than
-CRG_CMD_INIT_EP0 when CRG_U3DC_CTRL_RUN is clear causes crg_udc_ep_dequeue()
-to fail with -ESHUTDOWN whenever the pullup has been disabled.
+nhi_platform_
 
-During gadget unbind (gadget_unbind_driver() -> usb_gadget_disconnect_locke=
-d()
--> crg_gadget_pullup()), soft_connect disable, or crg_udc_suspend(),
-crg_udc_set_pullup(crg_udc, false) clears CRG_U3DC_CTRL_RUN in uccr->control
-while enabled endpoints remain in EP_STATE_RUNNING with active requests on
-udc_ep->queue:
-
-drivers/usb/gadget/udc/crg/crg-udc-gadget.c:crg_udc_ep_dequeue() {
-	...
-	if (old_ep_state =3D=3D EP_STATE_RUNNING) {
-		int ret =3D crg_udc_issue_command(crg_udc, CRG_CMD_STOP_EP,
-						BIT(dci), 0);
-
-		if (ret) {
-			spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
-			return ret;
-		}
-	...
-}
-
-When a function driver's disconnect() or unbind() callback (or a FunctionFS
-endpoint close) calls usb_ep_dequeue() -> crg_udc_ep_dequeue() before
-crg_gadget_stop() runs, crg_udc_issue_command() returns -ESHUTDOWN for
-CRG_CMD_STOP_EP (and would also reject CRG_CMD_SET_TR_DQPTR in
-crg_udc_epcx_update_dqptr()). Because crg_udc_ep_dequeue() aborts without
-unlinking or giving back the request, a subsequent usb_ep_free_request()
-frees the request while it is still linked on udc_ep->queue, leading to a
-use-after-free when crg_gadget_stop() -> crg_udc_reset() -> crg_udc_ep_nuke=
-()
-later traverses udc_ep->queue.
-
-How should crg_udc_ep_dequeue() unlink and give back queued requests when
-CRG_U3DC_CTRL_RUN is already clear?
-
-[ ... ]
-
-> +static int crg_udc_probe(struct platform_device *pdev)
 > +{
-
-[ ... ]
-
-> +	crg_udc->gadget.ops =3D &crg_gadget_ops;
-> +	crg_udc->gadget.ep0 =3D &crg_udc->udc_ep[0].usb_ep;
-> +	INIT_LIST_HEAD(&crg_udc->gadget.ep_list);
 > +	/*
-> +	 * The controller supports up to SuperSpeed. Honour the standard
-> +	 * "maximum-speed" property to cap it; default to the hardware
-> +	 * maximum when the property is absent.
+> +	 * avoid device link fail for pcie tunnel
 > +	 */
-> +	crg_udc->gadget.max_speed =3D usb_get_maximum_speed(&pdev->dev);
-> +	if (crg_udc->gadget.max_speed =3D=3D USB_SPEED_UNKNOWN)
-> +		crg_udc->gadget.max_speed =3D USB_SPEED_SUPER;
-> +	crg_udc->max_speed =3D crg_udc->gadget.max_speed;
 
-[Severity: Low]
-The comment, Kconfig, and DT binding state that the controller supports
-High-Speed and SuperSpeed and that the maximum-speed property caps the speed
-up to SuperSpeed, but crg_udc_probe() only checks for USB_SPEED_UNKNOWN.
+What's this? And the comment style is not the expected.
 
-If the DT maximum-speed property is set to super-speed-plus
-(USB_SPEED_SUPER_PLUS), crg_udc->gadget.max_speed is not capped to
-USB_SPEED_SUPER and crg_udc_program_speed() writes CRG_U3DC_CFG0_MAXSPEED_S=
-SP.
-Conversely, if maximum-speed (or a gadget driver's max_speed passed to
-crg_udc_set_speed()) is USB_SPEED_LOW, crg_udc_program_speed() returns
--EINVAL and aborts crg_udc_reset_data_struct().
+> +	pm_runtime_set_active(nhi->dev);
+> +	pm_runtime_get_noresume(nhi->dev);
+> +	devm_pm_runtime_enable(nhi->dev);
 
-Should crg_udc_probe() and crg_udc_set_speed() clamp speeds above
-USB_SPEED_SUPER (or outside the supported range) to USB_SPEED_SUPER?
+This means we never runtime suspend? Then this is not good.
 
-[ ... ]
-
-> +static void crg_udc_shutdown(struct platform_device *pdev)
-> +{
-> +	struct crg_gadget_dev *crg_udc =3D platform_get_drvdata(pdev);
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
-> +	crg_udc->pullup_on =3D false;
-> +	crg_udc->resetting =3D true;
-> +	crg_udc->device_state =3D USB_STATE_ATTACHED;
-> +	crg_udc_set_pullup(crg_udc, false);
-> +	crg_udc_set_vbus_detect(crg_udc, false);
-> +	if (crg_udc->uccr) {
-> +		u32 val =3D readl(&crg_udc->uccr->control);
-> +
-> +		val &=3D ~(CRG_U3DC_CTRL_INT_EN | CRG_U3DC_CTRL_RUN);
-> +		writel(val, &crg_udc->uccr->control);
-> +	}
-> +	spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
-> +	if (crg_udc->irq >=3D 0)
-> +		synchronize_irq(crg_udc->irq);
-> +	cancel_work_sync(&crg_udc->udc_reset_work);
-> +}
-
-[Severity: Medium]
-As reported by Sashiko on v3 [2], what happens if crg_udc_irq_thread() is
-already mid-recovery in crg_gadget_handle_interrupt() (or in the disconnect
-reset path of crg_udc_handle_port_status()) and has dropped udc_lock inside
-crg_udc_notify_disconnect() or crg_udc_reset() when crg_udc_shutdown() runs?
-
-Once crg_udc_shutdown() releases udc_lock and waits in synchronize_irq(), t=
-he
-in-flight IRQ thread reacquires udc_lock, runs crg_udc_reset_data_struct() =
-and
-crg_udc_init_ep0(), and sets crg_udc->resetting =3D false, undoing the shut=
-down
-gate.
-
-Similarly, in crg_udc_free_resources(), uccr->control is modified without
-holding udc_lock before devm_free_irq() is called, while crg_udc_irq_thread=
-()
-can still be running after crg_gadget_stop() dropped udc_lock during
-crg_udc_reset(). Couldn't that race on uccr->control or with resource
-teardown?
-
-> +
-> +static int crg_udc_suspend(struct device *dev)
-> +{
-> +	struct crg_gadget_dev *crg_udc =3D dev_get_drvdata(dev);
-> +	unsigned long flags;
-> +
-> +	/* Stop the pullup while the controller is suspended. */
-> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
-> +	if (!crg_udc->resetting)
-> +		crg_udc_set_pullup(crg_udc, false);
-> +	spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
-> +	return 0;
-> +}
-
-[Severity: Medium]
-Can an in-flight CRG_U3DC_STATUS_SYS_ERR recovery in
-crg_gadget_handle_interrupt() re-enable the pullup after crg_udc_suspend()
-returns?
-
-During system suspend, crg_udc_suspend() runs before device IRQs are disabl=
-ed.
-If crg_gadget_handle_interrupt() is handling CRG_U3DC_STATUS_SYS_ERR and has
-dropped udc_lock in crg_udc_notify_disconnect() or crg_udc_reset(),
-crg_udc_suspend() either sees crg_udc->resetting =3D=3D true and skips
-crg_udc_set_pullup(crg_udc, false), or clears CRG_U3DC_CTRL_RUN and returns
-while crg_udc->pullup_on remains true. When the IRQ thread finishes reset
-recovery, it checks:
-
-	if (!ret && crg_udc->pullup_on)
-		crg_udc_set_pullup(crg_udc, true);
-
-which re-asserts CRG_U3DC_CTRL_RUN while the controller is suspended. Should
-crg_udc_suspend() synchronize with the IRQ/reset path and track a suspended
-state so recovery does not re-assert CRG_U3DC_CTRL_RUN?
-
-> +
-> +static int crg_udc_resume(struct device *dev)
-> +{
-> +	struct crg_gadget_dev *crg_udc =3D dev_get_drvdata(dev);
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
-> +	if (!crg_udc->resetting && crg_udc->gadget_driver && crg_udc->pullup_on)
-> +		crg_udc_set_pullup(crg_udc, true);
-> +	spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
 > +
 > +	return 0;
 > +}
-
-[Severity: Medium]
-When crg_udc_suspend() clears CRG_U3DC_CTRL_RUN via
-crg_udc_set_pullup(crg_udc, false) while the gadget is enumerated, the
-controller halts and drops bus terminations so the host sees a disconnect,
-but crg_udc_suspend() does not notify the gadget driver of disconnect or
-reset crg_udc->connected, crg_udc->device_state, crg_udc->dev_addr, or
-enabled endpoints.
-
-When crg_udc_resume() re-asserts CRG_U3DC_CTRL_RUN:
-
-1. If the cable was unplugged while suspended, CCS is already 0 when
-   CRG_U3DC_CTRL_RUN is set, so no CSC event is generated and the gadget
-   driver remains stuck in a connected/configured state with queued requests
-   never completing.
-
-2. If the cable remains connected to a SuperSpeed host, link training to U0
-   raises CRG_U3DC_PORTSC_CSC without CRG_U3DC_PORTSC_PRC. In
-   crg_udc_handle_port_status(), the CSC connect branch does not call
-   crg_udc_reinit(), and because crg_udc->device_state is still
-   USB_STATE_CONFIGURED or USB_STATE_ADDRESS (>=3D USB_STATE_RECONNECTING),
-   neither crg_udc_enable_setup() nor crg_udc_prepare_for_setup() runs, the
-   stale dev_addr and endpoints remain active, and setaddressrequest() stal=
-ls
-   SET_ADDRESS in USB_STATE_CONFIGURED.
-
-Should crg_udc_suspend() disconnect the gadget session and reset controller
-state before suspending?
-
-[ ... ]
-
-> +static void crg_gadget_handle_interrupt(struct crg_gadget_dev *crg_udc)
+> +
+> +static irqreturn_t nhi_plat_isr(int irq, void *data)
 > +{
-> +	struct crg_uccr __iomem *uccr =3D crg_udc->uccr;
-> +	unsigned long flags =3D 0;
-> +	u32 tmp_status;
+> +	struct tb_nhi *nhi = data;
+
+Did you run checkpatch.pl against this? If not please do.
+
+> +	schedule_work(&nhi->interrupt_work);
+> +	return IRQ_HANDLED;
+> +}
+> +
+> +static int nhi_plat_init_irq(struct tb_nhi *nhi)
+> +{
 > +	int ret;
 > +
-> +	spin_lock_irqsave(&crg_udc->udc_lock, flags);
+> +	INIT_WORK(&nhi->interrupt_work, nhi_interrupt_work);
 > +
-> +	tmp_status =3D readl(&uccr->status);
+> +	ret = devm_request_irq(nhi->dev, nhi->irq, nhi_plat_isr, IRQF_NO_SUSPEND,
+> +			       dev_name(nhi->dev), nhi);
+> +	if (ret)
+> +		return dev_err_probe(nhi->dev, ret, "request irq failed\n");
 > +
-> +	if (tmp_status & CRG_U3DC_STATUS_SYS_ERR) {
-> +		bool was_connected =3D crg_udc->connected;
+> +	return 0;
+> +}
 > +
-> +		dev_err(crg_udc->dev, "controller system error\n");
-> +		writel(CRG_U3DC_STATUS_SYS_ERR, &uccr->status);
-> +		/* Function drivers must see enabled endpoints on disconnect. */
-> +		if (was_connected)
-> +			crg_udc_notify_disconnect(crg_udc, &flags);
-> +		crg_udc->connected =3D 0;
-> +		ret =3D crg_udc_reset(crg_udc, &flags);
-> +		if (!ret)
-> +			ret =3D crg_udc_reset_data_struct(crg_udc);
-> +		if (!ret)
-> +			ret =3D crg_udc_init_ep0(crg_udc);
-> +		if (ret)
-> +			dev_err(crg_udc->dev,
-> +				"failed to recover from controller error: %d\n",
-> +				ret);
-> +		crg_udc->gadget.speed =3D USB_SPEED_UNKNOWN;
-> +		if (!ret)
-> +			crg_udc->resetting =3D false;
-> +		if (!ret && crg_udc->pullup_on)
-> +			crg_udc_set_pullup(crg_udc, true);
-
-[Severity: High]
-Here in the CRG_U3DC_STATUS_SYS_ERR recovery path, after crg_udc_reset(),
-crg_udc_reset_data_struct(), and crg_udc_init_ep0() complete, the driver
-restores the controller's running state via crg_udc_set_pullup(crg_udc, tru=
-e)
-when crg_udc->pullup_on is set.
-
-However, in the cable disconnect (!cable_connected) branch of
-crg_udc_handle_port_status(), the driver runs the same crg_udc_reset(),
-crg_udc_reset_data_struct(), and crg_udc_init_ep0() sequence (which clears
-uccr->config1 as well as CRG_U3DC_CTRL_INT_EN and CRG_U3DC_CTRL_RUN in
-uccr->control, and stages CRG_CMD_INIT_EP0 while stopped) and then returns
--ECONNRESET without calling crg_udc_set_pullup(crg_udc, true):
-
-drivers/usb/gadget/udc/crg/crg-udc-gadget.c:crg_udc_handle_port_status() {
-	...
-		} else if (!cable_connected) {
-			dev_dbg(crg_udc->dev,
-				"cable disconnected, rst controller\n");
-			if (was_connected)
-				crg_udc_notify_disconnect(crg_udc, flags);
-			ret =3D crg_udc_reset(crg_udc, flags);
-			if (!ret)
-				ret =3D crg_udc_reset_data_struct(crg_udc);
-			if (!ret)
-				ret =3D crg_udc_init_ep0(crg_udc);
-			if (ret)
-				dev_err(crg_udc->dev,
-					"controller reset failed on disconnect: %d\n",
-					ret);
-			else
-				crg_udc->resetting =3D false;
-			crg_udc->connected =3D 0;
-
-			crg_udc->device_state =3D USB_STATE_ATTACHED;
-			return -ECONNRESET;
-		}
-}
-
-Because gadget disconnect callbacks do not re-invoke the pullup callback,
-won't unplugging the USB cable leave CRG_U3DC_CTRL_RUN, CRG_U3DC_CTRL_INT_E=
-N,
-and uccr->config1 cleared so the controller never consumes CRG_CMD_INIT_EP0
-or detects a subsequent cable reconnection?
-
-[ ... ]
-
-> +	if (tmp_status & CRG_U3DC_STATUS_EINT) {
-> +		int i;
-> +
-> +		writel(CRG_U3DC_STATUS_EINT, &uccr->status);
-> +
-> +		for (i =3D 0; i < CRG_RING_NUM; i++) {
-> +			ret =3D crg_udc_process_event_ring(crg_udc, i, &flags);
-
-[Severity: High]
-When crg_udc_process_event_ring() dispatches a SET_CONFIGURATION or
-SET_INTERFACE control transfer via crg_udc_handle_event() ->
-crg_udc_handle_setup_pkt(), it drops crg_udc->udc_lock and calls
-driver->setup(&crg_udc->gadget, setup_pkt).
-
-In composite_setup(), set_config() and f->set_alt() run under
-spin_lock(&cdev->lock) and call usb_ep_enable() -> crg_udc_ep_enable().
-However, crg_udc_ep_enable() drops udc_lock and allocates the transfer ring
-with GFP_KERNEL:
-
-drivers/usb/gadget/udc/crg/crg-udc-gadget.c:crg_udc_ep_enable() {
-	...
-		spin_unlock_irqrestore(&crg_udc->udc_lock, flags);
-		new_ring =3D dma_alloc_coherent(crg_udc->dev, len, &new_dma,
-					      GFP_KERNEL);
-		spin_lock_irqsave(&crg_udc->udc_lock, flags);
-	...
-}
-
-Since usb_ep_enable() is called while composite holds cdev->lock (and the
-gadget API requires ep->ops->enable() to be callable in atomic context),
-won't dma_alloc_coherent(..., GFP_KERNEL) sleep in atomic context?
-
-> +			if (ret)
-> +				dev_err(crg_udc->dev,
-> +					"process event ring error: %d\n", ret);
-> +		}
-> +	}
-> +
-> +	if (crg_udc->device_state =3D=3D USB_STATE_RECONNECTING &&
-> +	    crg_udc->portsc_on_reconnecting =3D=3D 1 &&
-> +	    crg_udc_is_event_rings_empty(crg_udc)) {
-> +		crg_udc->portsc_on_reconnecting =3D 0;
-> +		crg_udc_handle_port_status(crg_udc, &flags);
-> +	}
-> +
-> +	if (crg_udc->device_state =3D=3D USB_STATE_RECONNECTING &&
-> +	    crg_udc->connected =3D=3D 1)
-> +		crg_udc_prepare_for_setup(crg_udc);
-
-[Severity: High]
-When a bus reset (CRG_U3DC_PORTSC_PRC) completes while crg_udc->device_state
-is at least USB_STATE_DEFAULT, crg_udc_handle_port_status() calls
-crg_udc_reinit(), which sets crg_udc->device_state =3D USB_STATE_RECONNECTI=
-NG,
-and sets crg_udc->connected =3D 1 while CRG_U3DC_CFG1_SETUP_EVENT_EN remains
-enabled in uccr->config1 from the prior connection.
-
-Because crg_udc_prepare_for_setup() is only called here after
-crg_udc_process_event_ring() finishes (and returns -EBUSY if the event ring
-is not empty), what happens if the host's first post-reset SETUP packet is
-already in the event ring behind the port status event, or arrives before
-crg_udc_prepare_for_setup() checks crg_udc_is_event_rings_empty()?
-
-In that case, crg_udc_process_event_ring() processes TRB_TYPE_EVT_SETUP_PKT
-while crg_udc->device_state is still USB_STATE_RECONNECTING:
-setaddressrequest() rejects USB_REQ_SET_ADDRESS and stalls EP0 because
-device_state is neither USB_STATE_DEFAULT nor USB_STATE_ADDRESS, or another
-control request queues a transfer on EP0 only for crg_udc_prepare_for_setup=
-()
-to immediately stop EP0 and nuke the newly queued request with -ESHUTDOWN.
-
-[ ... ]
-
-> +int crg_udc_reset(struct crg_gadget_dev *crg_udc, unsigned long *flags)
+> +static void nhi_plat_exit(struct tb_nhi *nhi)
 > +{
-> +	struct crg_uccr __iomem *uccr =3D crg_udc->uccr;
-> +	u32 i, tmp;
-> +	struct crg_udc_ep *udc_ep_ptr;
-> +	u32 val;
+> +	devm_free_irq(nhi->dev, nhi->irq, nhi);
+> +	flush_work(&nhi->interrupt_work);
+> +
+> +	pm_runtime_put_noidle(nhi->dev);
+> +	pm_runtime_disable(nhi->dev);
+> +	pm_runtime_set_suspended(nhi->dev);
+> +}
+> +
+> +static const struct tb_nhi_ops nhi_plat_default_ops = {
+> +	.init = nhi_plat_init,
+> +	.shutdown = nhi_plat_exit,
+> +	.init_interrupts = nhi_plat_init_irq,
+> +};
+> +
+> +static int nhi_plat_probe(struct platform_device *pdev)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct tb_nhi *nhi;
+> +
+> +	nhi = devm_kzalloc(dev, sizeof(*nhi), GFP_KERNEL);
+> +	if (!nhi)
+> +		return -ENOMEM;
+> +
+> +	nhi->dev = dev;
+> +	nhi->ops = &nhi_plat_default_ops;
+> +
+> +	nhi->iobase = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(nhi->iobase))
+> +		return PTR_ERR(nhi->iobase);
+> +
+> +	nhi->irq = platform_get_irq(pdev, 0);
+> +	if (nhi->irq < 0)
+> +		return dev_err_probe(dev, nhi->irq, "get irq failed\n");
+> +
+> +	return nhi_probe(nhi);
+> +}
+> +
+> +static void nhi_plat_do_remove(struct platform_device *pdev, bool reset)
+> +{
+> +	struct device *dev = &pdev->dev;
+> +	struct tb *tb = platform_get_drvdata(pdev);
+> +	struct tb_nhi *nhi = tb->nhi;
 > +
 > +	/*
-> +	 * Keep all endpoint operations gated until the caller has recreated
-> +	 * the event rings, device context and EP0 after this reset.
+> +	 * On system shutdown/reboot force a host router reset so the
+> +	 * CM asserts DPR on connected tbt3 devices before the router tree
+> +	 * is removed (see tb_stop()).
 > +	 */
-> +	crg_udc->resetting =3D true;
-> +	val =3D readl(&uccr->control);
-> +	val |=3D CRG_U3DC_CTRL_SWRST;
-> +	writel(val, &uccr->control);
-> +	spin_unlock_irqrestore(&crg_udc->udc_lock, *flags);
-> +	/* Poll until SWRST clears; hardware reset takes up to 10 ms */
-> +	if (readl_poll_timeout_atomic(&uccr->control, tmp,
-> +			       !(tmp & CRG_U3DC_CTRL_SWRST), 10, 10000)) {
-> +		spin_lock_irqsave(&crg_udc->udc_lock, *flags);
-> +		dev_err(crg_udc->dev, "reset error\n");
-> +		return -ETIMEDOUT;
-> +	}
-> +	spin_lock_irqsave(&crg_udc->udc_lock, *flags);
+> +	if (reset)
+> +		nhi->host_reset = true;
 > +
-> +	crg_udc_clear_portpm(crg_udc);
+> +	pm_runtime_get_sync(dev);
+> +	pm_runtime_dont_use_autosuspend(dev);
 > +
-> +	crg_udc->setup_status =3D WAIT_FOR_SETUP;
-> +	/* Base on Figure 9-1, default USB_STATE is attached */
-> +	crg_udc->device_state =3D USB_STATE_ATTACHED;
-> +	crg_udc->dev_addr =3D 0;
-
-[Severity: Medium]
-When crg_udc_reset() resets crg_udc->device_state to USB_STATE_ATTACHED, it
-does not clear crg_udc->portsc_on_reconnecting, crg_udc->setup_fn_call_back,
-or crg_udc->set_tm (nor does crg_udc_reset_data_struct()).
-
-If a port status event sets crg_udc->portsc_on_reconnecting =3D 1 while
-crg_udc->device_state =3D=3D USB_STATE_RECONNECTING and crg_udc_reset() runs
-before that flag is consumed (for example due to a cable disconnect,
-CRG_U3DC_STATUS_SYS_ERR, or crg_gadget_stop()), won't the stale
-portsc_on_reconnecting =3D=3D 1 persist until the next connection's bus res=
-et
-sets device_state =3D USB_STATE_RECONNECTING, causing crg_udc_prepare_for_s=
-etup()
-to fail with -EBUSY or crg_gadget_handle_interrupt() to call
-crg_udc_handle_port_status() spuriously?
-
+> +	tb_domain_remove(tb);
+> +	wait_for_completion(&nhi->domain_released);
+> +	nhi_shutdown(nhi);
+> +}
 > +
-> +	/*
-> +	 * Mark all endpoints unavailable before request callbacks drop the
-> +	 * lock. A callback must not enqueue on a later, not-yet-nuked EP.
-> +	 */
-> +	for (i =3D 2; i < CRG_NUM_EP_CX; i++) {
-> +		udc_ep_ptr =3D &crg_udc->udc_ep[i];
-> +		udc_ep_ptr->generation++;
-> +		udc_ep_ptr->desc =3D NULL;
-> +		udc_ep_ptr->comp_desc =3D NULL;
-> +		udc_ep_ptr->tran_ring_full =3D false;
-> +		udc_ep_ptr->ep_state =3D EP_STATE_DISABLED;
-> +		/*
-> +		 * This bypasses the generic usb_ep_disable() API, so the
-> +		 * framework's own usb_ep.enabled bookkeeping needs to be
-> +		 * cleared directly here too (crg_udc_reinit() already does
-> +		 * this for the live bus-reset case). Otherwise a later
-> +		 * usb_ep_enable() call for this endpoint short-circuits on
-> +		 * the stale "already enabled" flag without ever calling our
-> +		 * .enable callback, leaving desc/the ring never set up for
-> +		 * the new session.
-> +		 */
-> +		udc_ep_ptr->usb_ep.enabled =3D 0;
-> +	}
-> +	crg_udc->num_enabled_eps =3D 0;
+> +static void nhi_plat_remove(struct platform_device *pdev)
+> +{
+> +	nhi_plat_do_remove(pdev, false);
+> +}
 > +
-> +	udc_ep_ptr =3D &crg_udc->udc_ep[0];
-> +	udc_ep_ptr->generation++;
-> +	udc_ep_ptr->desc =3D NULL;
-> +	udc_ep_ptr->comp_desc =3D NULL;
-> +	udc_ep_ptr->ep_state =3D EP_STATE_DISABLED;
+> +static void nhi_plat_shutdown(struct platform_device *pdev)
+> +{
+> +	nhi_plat_do_remove(pdev, true);
+> +}
 > +
-> +	for (i =3D 2; i < CRG_NUM_EP_CX; i++)
-> +		crg_udc_ep_nuke(&crg_udc->udc_ep[i], -ESHUTDOWN);
-> +	crg_udc_ep_nuke(udc_ep_ptr, -ESHUTDOWN);
+> +
+> +#ifdef CONFIG_OF
+> +static const struct of_device_id nhi_plat_of_match[] = {
+> +	{ .compatible = "thunderbolt-platform" },
 
-[Severity: High]
-As reported by Sashiko on v3 [3], dropping udc_lock inside crg_udc_reset()
-(both during the 10 ms CRG_U3DC_CTRL_SWRST poll and inside crg_udc_ep_nuke()
--> crg_udc_req_done()) introduces several races:
+Not sure if this is correct? Should this have mediatek,... ?
 
-1. Neither crg_gadget_handle_interrupt() nor crg_udc_process_event_ring()
-   checks crg_udc->resetting after acquiring or reacquiring udc_lock, and
-   udc_event->generation is not incremented until crg_udc_reset_data_struct=
-()
-   -> crg_udc_init_event_ring() runs after crg_udc_reset() returns. If
-   crg_udc_irq_thread() acquires udc_lock while crg_udc_reset() is polling
-   CRG_U3DC_CTRL_SWRST or giving back requests, it can access controller
-   registers and process stale event ring entries mid-reset.
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(of, nhi_plat_of_match);
+> +#endif
+> +
+> +#ifdef CONFIG_ACPI
+> +static const struct acpi_device_id nhi_plat_acpi_match[] = {
+> +	{ "ACPI0015", 0 },
 
-2. Callers of crg_udc_reset() (crg_gadget_handle_interrupt(),
-   crg_udc_handle_port_status(), and crg_gadget_stop()) do not serialize
-   against an already-running reset. If two reset paths overlap across the
-   udc_lock drops, one can run crg_udc_reset_data_struct() and
-   crg_udc_init_ep0() while the other's CRG_U3DC_CTRL_SWRST is active, or
-   the second crg_udc_init_ep0() can see CRG_U3DC_CMD_CTRL_ACTIVE still set
-   from the first staged CRG_CMD_INIT_EP0 while CRG_U3DC_CTRL_RUN is 0 and
-   fail with -EBUSY.
+Same here, where is this ID defined in the ACPI spec?
 
-3. During the 10 ms SWRST poll window, crg_udc->resetting is true while
-   usb_ep.enabled is still 1 and requests remain on udc_ep[i].queue; then
-   crg_udc_reset() clears udc_ep_ptr->usb_ep.enabled =3D 0 for all endpoints
-   before calling crg_udc_ep_nuke() (which drops udc_lock per request). If a
-   function driver concurrently calls usb_ep_disable() on a higher-numbered
-   endpoint while an earlier endpoint is being nuked (or during the SWRST
-   poll), usb_ep_disable() returns immediately without draining that
-   endpoint's queue; when the function driver then calls
-   usb_ep_free_request(), the freed request remains on udc_ep[i].queue and =
-is
-   dereferenced by crg_udc_ep_nuke().
+> +	{ }
+> +};
+> +MODULE_DEVICE_TABLE(acpi, nhi_plat_acpi_match);
+> +#endif
+> +
+> +static struct platform_driver nhi_plat_driver = {
+> +	.probe = nhi_plat_probe,
+> +	.remove = nhi_plat_remove,
+> +	.shutdown = nhi_plat_shutdown,
+> +	.driver = {
+> +		.name = "thunderbolt",
+> +		.of_match_table = of_match_ptr(nhi_plat_of_match),
+> +		.acpi_match_table = ACPI_PTR(nhi_plat_acpi_match),
+> +		.pm = &nhi_pm_ops,
+> +	},
+> +};
+> +
+> +module_platform_driver(nhi_plat_driver);
+> +MODULE_ALIAS("platform:thunderbolt");
+> +MODULE_DESCRIPTION("Thunderbolt/USB4 platform host interface driver");
+> +MODULE_LICENSE("GPL v2");
+> diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+> index e86845762e22..6dfdc47e05d2 100644
+> --- a/drivers/thunderbolt/tb.h
+> +++ b/drivers/thunderbolt/tb.h
+> @@ -768,8 +768,6 @@ extern const struct device_type tb_retimer_type;
+>  extern const struct device_type tb_switch_type;
+>  extern const struct device_type usb4_port_device_type;
+>  
+> -int tb_domain_init(void);
+> -void tb_domain_exit(void);
+>  int tb_xdomain_init(void);
+>  void tb_xdomain_exit(void);
+>  
+> diff --git a/include/linux/thunderbolt.h b/include/linux/thunderbolt.h
+> index 57502da29080..212c8fea6571 100644
+> --- a/include/linux/thunderbolt.h
+> +++ b/include/linux/thunderbolt.h
+> @@ -532,6 +532,7 @@ struct tb_nhi {
+>  	u32 *interrupt_mask;
+>  	bool going_away;
+>  	bool iommu_dma_protection;
+> +	int irq;
 
-Can reset execution and endpoint teardown be serialized so concurrent calle=
-rs
-wait for the reset and request givebacks to complete?
+You are missing kernel-doc.
 
-[1] https://lore.kernel.org/r/20261020-axiado-ax3000-usb-device-controller-=
-v3-6-3012ecfc0a93@axiado.com
-[2] https://lore.kernel.org/r/20261020-axiado-ax3000-usb-device-controller-=
-v3-6-3012ecfc0a93@axiado.com
-[3] https://lore.kernel.org/r/20261020-axiado-ax3000-usb-device-controller-=
-v3-6-3012ecfc0a93@axiado.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261030-axiado-ax3=
-000-usb-device-controller-v4-0-c5267b36a777@axiado.com?part=3D6
+>  	struct work_struct interrupt_work;
+>  	u32 hop_count;
+>  	unsigned long quirks;
+> -- 
+> 2.43.0
