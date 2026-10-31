@@ -1,87 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=156.67.10.101
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793477055;
-	b=HYzGvQIsYl+otFK+doaD5y0WxhuBdYFFyb0xsT53T8ysczC+ge0oYu/ClpMeeSOvQP4/
-	 hAT/jkVSd84I9Aj0xBq18ESV3eWWvjeJ7CG2RHcIgQ+GUOnJhrkL2Y2FRAmhyJWQDy0Ge
-	 tkDN0/LGX3IvuPZsNyx/y3DJSjWtbylY9mFWqllWnyCTce10i5BNH9al0dip+FHXUtdKC
-	 iXr5tw81c+aR/O2UK+GjaY3CLqZwmHcWRNIYCGM9fnFVMbAfMNsbO4dQ/ghUoyfmLClwk
-	 3VU4YaS6HAOBdv9ljN5j6ckFEKBASl1A/I3uC5AIbk8cCn3gYt24e4tJPqsT4NsDKyw==
+	t=1793478819;
+	b=gq64/tNCBZd05IzsIx5gsw3Y2RQnpqzBNhLV899UV8//+xV5H87flbuipIPoBQ7n2gSd
+	 0JfqJMURVJpcLn9IfK7tbt6/jaNecpWv8Sq/8jNj7Bz/yg1zXCi/JhfMnoiEZAhYIHRMZ
+	 ugfSYV9cmpuK18D+XXsvJi+BQ1KRFTz0QEDOZAseC+tEx+cxtMdQNpYCBwvLxfs5JCm4p
+	 h32ydLvhxq/hFRqKZ6H0kgIrkGM5FZmH37XT3YmBPQUGxLf/SVUkfvcOFPfFbgAiCBDZJ
+	 +BQNshHQTZcwR8e1zbLvKTCXhs+EpORxzxcN+Rc8Ipl12v7iTDp/cSW39RyyS3xQ9SA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793477055;
-	h=DMARC-Filter:DKIM-Signature:X-CSE-ConnectionGUID:X-CSE-MsgGUID:
-	 X-IronPort-AV:X-IronPort-AV:Received:X-CSE-ConnectionGUID:
-	 X-CSE-MsgGUID:X-ExtLoop1:X-IronPort-AV:Received:Received:Date:From:To:
-	 Cc:Subject:Message-ID:References:MIME-Version:Content-Type:
-	 Content-Disposition:In-Reply-To;
-	bh=XubOAWkhExxo+qfeaROgeq3zjEYzyFqzOx50lSyRWZ8=;
-	b=At+ORsxHMoLfU6m/+dN2yOOuhwmXOQKGu1IR7bTb+BmyK+DmRhg3NVEJ7Dlg0DiK8zdR
-	 JKbu/A1D2JxRRUOfmn92kLGyTObpjEXHPPIXue+3giwofmCZs46mmcNTC/HGWK1FjQsXA
-	 dE2WANYaZYQYZpXZUOFlV5tSqqS1AgxiYcQXz+cgAHjUlOfIcaT9AenFblFVl/UPBcMW7
-	 345mG2tVRsiesbdDP54U6V/AxvYHslICJGR9KFbbAbFz3rl+lp5R2hR+yO2j55yygxDf6
-	 5gYWZoDE7jkNNJidgITGhV/hj2vS7D21IcKTMj/C45YUKwyBSsOrnm6fHmK5iDtauZQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793478819;
+	h=DMARC-Filter:DKIM-Signature:Received:Date:From:To:Cc:Subject:
+	 Message-ID:References:MIME-Version:Content-Type:Content-Disposition:
+	 In-Reply-To;
+	bh=RIWag5OiJhTtLBTo3JY/WRR8ZO4h9xWnLfyk2+s6cm8=;
+	b=LwOQqceiOaENvuRooLfFcU344TjTqD3J/3acB1DX0wum+WO71MMhOeeo0Ppo8NNyEIzk
+	 JyXZyO+KqpIzW8GBYMvHYWlqY95zD7EMD4JlpnWDDI0qUQFk3Tg6NZI01WdvTq6hFD/HS
+	 15FXZdoj8z5sJdW+6M8XlH9OBkw8CKl29xzZ7iUF9Fgo9nGVM2W8eoBQ3TRnUccIafyFj
+	 Tz3xFHobNR79KIiExTYm81677H/m8TmiFVYcZxDjIVtzzLRsoGzq6MubwPaYfGc9+yHqL
+	 elYkhJ06qd1tWv4WkV+yMWJb3JyFV5aqcRiN2xym/rOMETAcUnVj6rWhU+4JTAZG4rA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=intel.com;
-	spf=pass smtp.mailfrom=intel.com;
-	dkim=pass header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=btKY7yjz;
-	arc=none smtp.remote-ip=198.175.65.10
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
+	dmarc=pass header.from=lunn.ch;
+	spf=pass smtp.mailfrom=lunn.ch;
+	dkim=pass header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=Lm6QF7Sm;
+	arc=none smtp.remote-ip=156.67.10.101
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0DE2606A31C;
-	Sat, 31 Oct 2026 20:04:12 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C0DE2606A31C
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D26E606A326;
+	Sat, 31 Oct 2026 20:33:38 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2D26E606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=btKY7yjz
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1793477053; x=1825013053;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mzUMYd+APfGaeHuT1aeH6UCv83u73Qae+OUu837zd2Y=;
-  b=btKY7yjzt1rGGZ/O++4wivvkhAZAdSsw/vLbN+mPEAhzi/iFBESoQJl3
-   gvDN/bcXVoKyUBiFxg+dbxk3uFbNsycwLYV5N1ep3BfpJl+QvPNdLAJf4
-   2CmmoTLQRahcdaOutke9563r+UuybBBVnWR8N6T2SCvg+VhClfKejENVX
-   mzYCyC232FNR6pjPsyfoxnIV1aDQMSgcU7Bbfy6/Bd+Tw6htLKBb5/8A5
-   PjBuVE0DKn/+D9RoIRKtdzaUaDbKsyoCjUPeU1vSoE502/YKsew30Tp3r
-   lvIK6LcBDSWogohuI/xpMybBKwpu7GeeFs8LVRb9D6/CSEokBR2ToqQmD
-   Q==;
-X-CSE-ConnectionGUID: BvZewG/7S3CUsY7T0CBznA==
-X-CSE-MsgGUID: 0uktU87wT1a4lpfjPxE/rA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11952"; a="2111274"
-X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="2111274"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2026 13:04:13 -0700
-X-CSE-ConnectionGUID: wqV4wtYUTm+3PBSF9WNvNw==
-X-CSE-MsgGUID: tmPcoAeNRvmA/qsY12kUGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,188,1787036400"; 
-   d="scan'208";a="5610746"
-Received: from lkp-server01.sh.intel.com (HELO 0caa9d2d175c) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 31 Oct 2026 13:04:10 -0700
-Received: from kbuild by 0caa9d2d175c with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1xNFJ9-00000000d8S-1vTm;
-	Sat, 31 Oct 2026 20:04:07 +0000
-Date: Sun, 1 Nov 2026 04:03:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chunfeng Yun <chunfeng.yun@mediatek.com>,
-	Mika Westerberg <westeri@kernel.org>
-Cc: oe-kbuild-all@lists.linux.dev,
-	Andreas Noever <andreas.noever@gmail.com>,
-	Yehezkel Bernat <YehezkelShB@gmail.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Chunfeng Yun <chunfeng.yun@mediatek.com>
-Subject: Re: [PATCH 1/4] thunderbolt: add platform nhi driver
-Message-ID: <202611010318.CB1ceS4i-lkp@intel.com>
-References: <20261030082539.1208733-2-chunfeng.yun@mediatek.com>
+	dkim=pass (1024-bit key, unprotected) header.d=lunn.ch header.i=@lunn.ch header.a=rsa-sha256 header.s=20171124 header.b=Lm6QF7Sm
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=RIWag5OiJhTtLBTo3JY/WRR8ZO4h9xWnLfyk2+s6cm8=; b=Lm6QF7Sm2VEHfKCsNAMMRykqZu
+	eC/OsvSibVHYKRKxkZ2nS6uynT7gjgIUtU497uLg5qIsTV3BHQ4j/w0/A4Luoxd5cY0qRnpBUAk9o
+	phMntR9M7m2CGFBMSylgyDEImmtqHhZEp2uTHs1hs9eRyX5N2CXLpA3fJXdZP2dB4md0=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1xNFlW-00DZL9-C2; Sat, 31 Oct 2026 21:33:26 +0100
+Date: Sat, 31 Oct 2026 21:33:26 +0100
+From: Andrew Lunn <andrew@lunn.ch>
+To: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+	UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Russell King <linux@armlinux.org.uk>,
+	Oleksij Rempel <o.rempel@pengutronix.de>, stable@vger.kernel.org,
+	Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [PATCH net v2] net: usb: lan78xx: let unregister_netdev() stop
+ phylink
+Message-ID: <e71cccdf-59e5-407c-b536-9dd47a49b0a7@lunn.ch>
+References: <20261031165213.2738-1-25031212351@stu.xidian.edu.cn>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -93,42 +69,10 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20261030082539.1208733-2-chunfeng.yun@mediatek.com>
+In-Reply-To: <20261031165213.2738-1-25031212351@stu.xidian.edu.cn>
 
-Hi Chunfeng,
+> Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
 
-kernel test robot noticed the following build errors:
+I asked why you picked this Fixes: tag. Did you reply?
 
-[auto build test ERROR on westeri-thunderbolt/next]
-[also build test ERROR on linus/master v7.3 next-20261030]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chunfeng-Yun/thunderbolt-add-platform-nhi-driver/20261030-162536
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/westeri/thunderbolt.git next
-patch link:    https://lore.kernel.org/r/20261030082539.1208733-2-chunfeng.yun%40mediatek.com
-patch subject: [PATCH 1/4] thunderbolt: add platform nhi driver
-config: parisc-allmodconfig (https://download.01.org/0day-ci/archive/20261101/202611010318.CB1ceS4i-lkp@intel.com/config)
-compiler: hppa-linux-gcc (GCC) 16.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20261101/202611010318.CB1ceS4i-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202611010318.CB1ceS4i-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   hppa-linux-ld: drivers/thunderbolt/domain.o: in function `tb_domain_init':
->> (.init.text+0x10): multiple definition of `init_module'; drivers/thunderbolt/pci.o:(.init.text+0x10): first defined here
-   hppa-linux-ld: drivers/thunderbolt/domain.o: in function `tb_domain_exit':
->> (.exit.text+0x0): multiple definition of `cleanup_module'; drivers/thunderbolt/pci.o:(.exit.text+0x0): first defined here
-   hppa-linux-ld: drivers/thunderbolt/plat.o: in function `nhi_plat_driver_init':
->> (.init.text+0x10): multiple definition of `init_module'; drivers/thunderbolt/pci.o:(.init.text+0x10): first defined here
-   hppa-linux-ld: drivers/thunderbolt/plat.o: in function `nhi_plat_driver_exit':
->> (.exit.text+0x0): multiple definition of `cleanup_module'; drivers/thunderbolt/pci.o:(.exit.text+0x0): first defined here
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+  Andrew
