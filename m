@@ -1,62 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.38.64.46
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.222.175
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793458934;
-	b=x2/VLqtvpjYyDUQ/USR8fCeIimhDdbNNTRwKdV6Yv637vNrrdb+CeS3vINkm6w+Z5VvQ
-	 mFZGIA1L8QhgoFVI9tXTuwc5UwdhC4SlFZDa4EmFucIBv4mALF9OuQNokk7q/vpoCSlha
-	 AbC7s+mFKU05k9xSpgxC/fBh4wcEuGHTI8TAoHpxskBuolaT4R6vEAzoZwOIMtWfD47cz
-	 XxzGlo6mytYXCww2QG17gF5GCIgC60nrGpu25OXX87Jio5NRUeMec1D4a74mFLgvyKNmm
-	 ZvrjD5w2BF3E+sNx9o/JIHaLT6Ir4qcbzJ2RDA4+DVQNj8FwqgCfgh/5Z9lmMHfcetQ==
+	t=1793464363;
+	b=m200pHroj0SPqqPqSFJT5AbCP0W47Hxi0kqmsUlP2IUUClWhnt2IRoPzKyWTxSj5OSEZ
+	 jjqPP0/XXLGmJh11d+KFH9ULrYDxEwGSwiZe9+GPI0s3GzU2o8ajxfOBhNJomYYUQXOze
+	 raw0Vs07cRVwXVMYzrjdibO9MMzcIAqTm7m79tTT3v8q1QIFcyVw3zFMInslqItIu51nA
+	 loCPz9ZWmu/ioNzro4IDf6JHP9+nRD4rkPwgoyLW1Hh0zIz2ENv4BgOC26JcbgY4l8uS3
+	 oz/lZTrUExxeirEQZKOJW6A8aQpAv4L3qNlWrBIKDGokx7i4aW8EP+i1+y4neWxnvDw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793458934;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Transfer-Encoding:X-CM-TRANSID:X-Coremail-Antispam:
-	 X-CM-SenderInfo;
-	bh=JUxJjhEtvP7WeJ6Jsj90/IFWoULfK5gQeeG2k1Wfx34=;
-	b=1jyz4MtmSsOeYCL6DnYg8+HY+kGrVzEntJgpKFf8a+bh3dWxJ9yqWZYaoVaoR8TMwz6e
-	 dzzfdQqN2VZVIOZpg05q5dIffYT4eLfgeOo8zPw68noedcQfhG3xjpQRwZ9Imv9SrLAv1
-	 t/7O9H2QGWwUiunIh1jpz7cMfNQq9sxTD4jp7rY1ZHq6NHRjwnlzaR0uNgwSMKPz2Jq9s
-	 Kk892H4/yZ7AvTSfrh2XKAVmQK5gVikspW+jvjUvXulMtWY2CjnxkvujvsgRbwb8cPp+9
-	 j2H+j1kCNkOdrE1/RUP6lnHOgmDGbX6dqr2sT6LMczhAW5t1lfFzYuKRDqP4pAw8fpw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793464363;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=mp4gO+fjAtIo2pyXMs3mDPHOrNMwKVTtKclVo7+AAps=;
+	b=OGkbhdGs8RxYPZSNtqavGS5FJhHt0Y+rXRhMk1AuJJCCXSWE9dxHodhDXdYBspeWofBi
+	 hkZWtBJymq5dpaBhdN7EACnu/Md4Mg5R6SOMKfDsVkh0XhJEdFIYZn1mFF8cA0vvhFc/3
+	 ZR0oGPH2BEegHgEG8BNHWqtM70tehiBJLg3dgezOpyksYqMO4vTI2zjPc8LH4w+wSErGK
+	 wwjzzrMagkO4LXngMnWSrjZ9Bz38oFmjxcKSqAHVOTlsJ/msZKHzX4BOcRUNhxrtRsOwL
+	 Ypo0xurZ4UvxzKV6zHP0wkb8gN5NMDWMutx8DkrZ+Tr8y37Ei2SOoDYF83Ui/vODrEg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=mail.ustc.edu.cn;
-	spf=pass smtp.mailfrom=mail.ustc.edu.cn;
-	dkim=pass header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=EglOeDb9;
-	arc=none smtp.remote-ip=202.38.64.46
-Received: from ustc.edu.cn (smtp.ustc.edu.cn [202.38.64.46])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 389CB606A31D;
-	Sat, 31 Oct 2026 15:02:03 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 389CB606A31D
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mail.ustc.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.ustc.edu.cn
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=m38cpto6;
+	arc=none smtp.remote-ip=209.85.222.175
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B66606A31C
+	for <linux-usb@vger.kernel.org>; Sat, 31 Oct 2026 16:32:42 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org C3B66606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=mail.ustc.edu.cn header.i=@mail.ustc.edu.cn header.a=rsa-sha256 header.s=dkim header.b=EglOeDb9
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=m38cpto6
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-93f3c895a0eso157465185a.2
+        for <linux-usb@vger.kernel.org>; Sat, 31 Oct 2026 09:32:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=mail.ustc.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:In-Reply-To:References:MIME-Version:
-	Content-Transfer-Encoding; bh=JUxJjhEtvP7WeJ6Jsj90/IFWoULfK5gQee
-	G2k1Wfx34=; b=EglOeDb9IiGdW1/3qWOdt4P9Lu6YiQuv6eYjOvd5N07tfj24tp
-	8HGIVpZG5AJC9Sr+5XoqTjOmwoJYraLEK5MtFIlOtnm6IOvatNXd+Db23/8c2eUt
-	HK5rMo6M8gCJ7h/lPxqcpC1wosYC0x87PIFK40yxejhHWT93D88WVJh44=
-Received: from xuqianhui.ustc.edu.cn (unknown [114.214.177.113])
-	by mailimap2024 (Coremail) with SMTP id 3pYKCgA3uDziAuZqpyJvAA--.1475S4;
-	Sat, 31 Oct 2026 23:01:58 +0800 (CST)
-From: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Thinh Nguyen <Thinh.Nguyen@synopsys.com>
-Cc: Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-usb@vger.kernel.org,
-	linux-devicetree@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v5 2/2] usb: dwc3: fix the two-connector shared HS bus role handling
-Date: Sat, 31 Oct 2026 23:01:54 +0800
-Message-ID: <20261031150154.1106455-3-xiaqinghuan@mail.ustc.edu.cn>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20261031150154.1106455-1-xiaqinghuan@mail.ustc.edu.cn>
-References: <20261031150154.1106455-1-xiaqinghuan@mail.ustc.edu.cn>
+        d=rowland.harvard.edu; s=google; t=1793464361; x=1794069161; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=mp4gO+fjAtIo2pyXMs3mDPHOrNMwKVTtKclVo7+AAps=;
+        b=m38cpto6UIu7qcSujmHNPBCl2UUXHMtudwMTRvi9QCZtFNgFz44LR1fmqdkrS9O4Rd
+         Or7yamr/G1xb/I1i95pjHpqRRx0GQblIDkuk1SoL+VFElbozzdUAwFd5pH+lkPVB5YEL
+         JEJZPKyRXBN8MOYYWafnxskukiv241GXBhfvaDxKKEKPz8S6oZ4TpHBjXiQrjEy/xVMP
+         SIckYFI+iaxvcvO4HENdqwNC7lUwLFAofGApU8399192kTDLLGIWSr6xM2tK0upzwWdr
+         r0O9DJB72yrcOywOO6gNSvfAc3iDa+5IBXV6IVqSzZ86vV5UVfF21/OYVs25UWtpiWcd
+         WQdg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793464361; x=1794069161;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=mp4gO+fjAtIo2pyXMs3mDPHOrNMwKVTtKclVo7+AAps=;
+        b=dvrkMfF4illQEVcFDtpVpowAJ9FReBvyBrtPsMwnlePLfEiDVlSp1+zW0IuakjGz+R
+         avRaiv+UWqL40ANckReBlz7ulic19UDJodAG/TaEIcL5OO4X7rIWINgfthrwSkdED0Zs
+         M44/03k2VRrnbHKiXQKVrA1ub/hYyctRuTaUwc7MzoHDLyTeqPYSMppCDyjROiHTXX+/
+         sQRld6GU4i0YgAK+coaxkSv87Aulwu/F4p2mWKnAHm1DlvwGl8CsPSOKaQMC76lWq/Fn
+         2kLJbR7rHBkcBq0OeBbtUzxgIDRUxDpwDoPttqFKKRJ8CCOTZscilPYaVShyRzMjAV2E
+         VPVQ==
+X-Forwarded-Encrypted: i=1; AKwUvByvl/glRf8rTd3CvcwNYB/2IX4rv6gnNCKGILGbpowqyHu4dyb7OEmIzSKxz6+CLMu9CCgjnb8BSBg=@vger.kernel.org
+X-Gm-Message-State: AFq9FYKDraxnbNK5MPu86NJ2/hdaqCnD4qPKWjQdF57H5RN2uKZ2wAeF
+	ZBYqGVWo5jQaWEx8pzzX7Xi2RZNGWyRDFLSIxc9q/jeI2TrZBHw21JZakj+K4L/0MA==
+X-Gm-Gg: AYBFou1bSkce/Qd5VHjsG66noSR8PcdecIm6tWpHj0vvaBIgRRN8MbwajDm08InQXBi
+	u4WdEyejpMPqpQimiPLeQjrv+j0PVyRQiELT7j/OuUdouF6JlU2knkOT+e3nVxIrO/OOuxJIMBT
+	ASxivVau2xFHh5xXX/vRztwwSVY8oGfXQrOJaph8OaDXJcgpTm+/6r7fNR86/B6Hqsd2LsR1uXe
+	o6fNwE4bVxwix+yR8Pvj/OoKHy/9z6xqY0U7AQ7/35pb3xnwk9Q4jZTlPvP12eAi3/UKhiq3uKX
+	WEh7IwhwyFjHuo1tWYTzxqwfdNiNNh8icWTmwnAckWoWrer5GNkuGwLBuou/3Cltwr5MlDx6PCx
+	3aEynxc6WR2oYx0/DkaEn7NR09RqYcsO0qNPUaZ72gF93IJPs5n1hxNFQo4eBiuAAAchacLPpQo
+	q+e+9U78+XY1H3HWjfPwf4p6qjAU/4j24+Ad3POb5YGJ6UduM6Yvpzb33RDj4Cxlmhc8lZ1jbQ/
+	ng7dknm+3t1yoM6qITngPCAfaQwUJLel9q9wjRuJGVkfq6oTRkVB+6823KVwxSqn1vOI4fyJWq7
+	CUQ3u4PaGDpZHRzSyWwoNrAyWSJXzhyt5QIsZqxGKPNXNVu+QK0=
+X-Received: by 2002:a05:620a:6844:b0:93e:c12c:4400 with SMTP id af79cd13be357-9442172bcecmr893711385a.77.1793464361471;
+        Sat, 31 Oct 2026 09:32:41 -0700 (PDT)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-94425ac6bddsm417925285a.37.2026.10.31.09.32.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 31 Oct 2026 09:32:40 -0700 (PDT)
+Date: Sat, 31 Oct 2026 12:32:38 -0400
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Dennis Wissel <dennis@dsine.de>, Yiyu Zhou <yiyu@yiyuzhou.io>,
+	linux-usb@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
+ (3434:d068) at boot since v7.3
+Message-ID: <387e9e3b-683e-474c-ba00-4b12c7c77b7c@rowland.harvard.edu>
+References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+ <20261024203558.3181711-1-yiyu@yiyuzhou.io>
+ <SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
+ <20261025111410.2c14fcef.michal.pecio@gmail.com>
+ <7082e2e7-8d05-46b8-a26b-5b888a7a0545@linux.intel.com>
+ <20261026105139.6b86cb3c.michal.pecio@gmail.com>
+ <3ddd9334-6dee-48cf-8a62-82cebbe51d7f@rowland.harvard.edu>
+ <20261030174718.1f28218a.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -66,329 +105,108 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:3pYKCgA3uDziAuZqpyJvAA--.1475S4
-X-Coremail-Antispam: 1UD129KBjvJXoW3Zr48JF18JryrJFW3uF13XFb_yoWkAF4UpF
-	WjgrsxK3ykXrZagws7Aa1UX3yFkan7Jry7JrW3Gw1xCr45WrWktFy8Gr9xuFyjkFn3JryY
-	9r47GrWkCFsrW3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUPIb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28IrcIa0xkI8VA2jI
-	8067AKxVWUXwA2048vs2IY020Ec7CjxVAFwI0_Gr0_Xr1l8cAvFVAK0II2c7xJM28CjxkF
-	64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcV
-	CY1x0267AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv
-	6xkF7I0E14v26rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c
-	02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE
-	4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4
-	AK67AK6ryrMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8C
-	rVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUtVW8Zw
-	CIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x02
-	67AKxVW8JVWxJwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Gr
-	0_Cr1lIxAIcVC2z280aVCY1x0267AKxVW8Jr0_Cr1UYxBIdaVFxhVjvjDU0xZFpf9x07b4
-	VysUUUUU=
-X-CM-SenderInfo: 50ld1x5qjk3t3q6ptxnoox23vfohv3gofq/1tbiARERB2rk8FYreQA0sI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261030174718.1f28218a.michal.pecio@gmail.com>
 
-A controller whose High Speed data lines are shared by two connectors
-selects one of them with port-select-gpios and gives each connector its
-own role switch.  The first version of that code deadlocks on the first
-role change and mislays several pieces of state; fix it in place.
+On Fri, Oct 30, 2026 at 05:47:18PM +0100, Michal Pecio wrote:
+> On Mon, 26 Oct 2026 14:56:49 -0400, Alan Stern wrote:
+> > You can read the login in hub.c:hub_port_connect_change().
+> > 
+> > Broadly speaking, if the port is enabled after a connect-change
+> > event, the core tries to resuscitate the child device (and checks
+> > whether the descriptors have changed).  Also, if the child device was
+> > suspended when the connect change occurred, the core will try to
+> > resuscitate it by treating the change as a wakeup event.
+> 
+> Thanks.
+> 
+> For USB2, this seems to happen if a reset was queued before a brief
+> disconnection and executed after it.
+> 
+> We believe the issues reported here happen when a device disappears,
+> usbhid sees -EPROTO and tries to reset it, then the device comes back.
+> But what happens to a device that reconnects during probe doesn't seem
+> to matter, as long as it ultimately gets probed (reasonably fast).
+> 
+> So I wonder how important is this feature and what motivated it? Are
+> there known use cases that depend on it? Like devices disappearing
+> mid-operation for a few ms which need to have their state preserved?
+> Should we worry about things breaking if xhci-hcd begins to act like
+> the device is gone: ESHUTDOWN completions, ENODEV on submit?
 
-  - dwc3_mux_role_set() called dwc3_set_mode() while holding dwc->lock,
-    and dwc3_set_mode() takes dwc->lock itself.  Deciding the request and
-    issuing it are now paired by mux->lock, and dwc->lock is only held
-    while the individual fields are updated.
+The USB-Persist stuff in the hub driver was originally motivated by the 
+desire to recover from disconnections during system suspend.  For 
+example, disconnections caused by host controllers that don't provide 
+Vbus power while they are suspended, or users unplugging a device while 
+the system is suspended and then plugging it back in before the system 
+resumes.  A more detailed description, somewhat out of date by now, is 
+given in the changelog for 8808f00c7adf ("USB: try to salvage lost power 
+sessions").
 
-  - the same function never notified the glue layer.  Call
-    dwc3_pre_set_role() with the effective role, outside spinlocks,
-    before dwc3_set_mode(), like the single-connector path does.
+Yes, this feature is very important.  Mostly it was meant for USB 
+mass-storage devices going away and then reappearing following a system 
+resume.  Before the USB-Persist facility was added, if the device held a 
+mounted filesystem the result would _not_ be what users desired, to put 
+it mildly.  The ability to handle transient disconnections was just an 
+unintended side benefit, although there did seem to be some real cases 
+where it helped -- USB mice or something like that.
 
-  - dwc3_mux_role_get() returned USB_ROLE_NONE for a connector that did
-    not own the data path, hiding its pending request.  Connector drivers
-    therefore never sent the set_role(USB_ROLE_NONE) that clears it, and
-    the stale request kept winning dwc3_role_mux_pick() after the
-    connector was unplugged.  Report the role the connector requested.
+To the device and driver, what happens looks like a reset, or rather, a 
+reset-resume because the former configuration and altsettings are 
+restored.  Naturally any ongoing operations would be expected to be cut 
+short, but while the device is suspended this isn't an issue.
 
-  - a same-role request that moves the data path to the other connector
-    reinitialises the controller, but dwc3_set_prtcap() only clears
-    SUSPHY when PRTCAP changes.  Clear it explicitly for that case.
+It seems that you're concerned about two slightly different types of 
+thing.  In one, the disconnection happens while the device is suspended 
+and it is discovered when we want to resume the device.  Presumably 
+that's not a problem for you (?), because in this case we really do go 
+through the whole reset-resume procedure.
 
-  - the endpoint fwnode references were taken before dwc->role_mux was
-    assigned, so the error paths leaked them: dwc3_role_mux_exit() is a
-    no-op while dwc->role_mux is NULL.  Publish the mux first.
+The other type of thing is when we see a port-connect-change or 
+port-enable-change, but the port is again connected and enabled by the 
+time we see it.  In theory this shouldn't happen for USB-2 devices; as 
+best I can recall the code was written that way to cover a theoretical 
+possibility (hardware not behaving according to the spec).  But with 
+USB-3, of course, the possibility is quite real.  The commit meant to 
+take care of this is a4f55d8b8c14 ("usb: hub: Check device descriptor 
+before resusciation").  If you need to modify the code added by that 
+commit, go ahead.
 
-  - the role switches were registered before the initial mode request was
-    issued, so a connector driver probing in that window could have its
-    request silently overwritten.  Register and request the initial mode
-    under mux->lock, and tear down in the reverse order on failure.
+> And if this happens to a hub, can we rely that its children will be
+> freed and reenumerated, or may they also get reused somehow? If they
+> can't, are they guaranteed to go away before the hub is reset?
+> (Because that would be convenient...)
 
-  - the sticky mux->error value was reported to whichever connector called
-    set() next, after that call had already committed its own request.
-    Drop it; a data-path switch failure is logged and counted per
-    connector instead.
+When a hub is reset, the logic for what happens to its children is a 
+little tricky to follow. I think that each port with a connected child 
+ends up being handled by hub_port_connect_change(), which treats it as a 
+new connection _unless_ the child was suspended beforehand, in which 
+case we follow the reset-resume path.  So yes, it is possible for the 
+child will be reused in this way.
 
-While at it, usb_role_switch_at_endpoint() swallowed the -EPROBE_DEFER
-returned for a graph endpoint whose switch is not registered yet, turning
-it into "this connector has no role switch".  Pass it up.
+Why not try to make the child persist even if it wasn't suspended?  
+Largely because there's no general way for class drivers to recover 
+from such events.  However, it's possible that I'm misremembering the 
+behavior here, so if this is important to you then you should check that 
+my description above agrees with reality.
 
-Signed-off-by: Qianhui Xu <xiaqinghuan@mail.ustc.edu.cn>
----
- drivers/usb/dwc3/core.c   | 36 ++++++++++++++++------
- drivers/usb/dwc3/core.h   |  4 +--
- drivers/usb/dwc3/drd.c    | 65 ++++++++++++++++++++++++++++++---------
- drivers/usb/roles/class.c |  7 ++++-
- 4 files changed, 85 insertions(+), 27 deletions(-)
+But even when the children aren't reused, unless their 
+udev->persist_enabled flag is clear, they don't go away until well after 
+the hub has been reset.  The reason is that the hub driver has to look 
+at each one, after the hub is running again, and evaluate whether the 
+connection can be recovered.  Maybe this can be improved.
 
-diff --git a/drivers/usb/dwc3/core.c b/drivers/usb/dwc3/core.c
-index 6607e65e84..da609a011d 100644
---- a/drivers/usb/dwc3/core.c
-+++ b/drivers/usb/dwc3/core.c
-@@ -168,6 +168,7 @@ static void __dwc3_set_mode(struct work_struct *work)
- 	struct dwc3 *dwc = work_to_dwc(work);
- 	struct dwc3_role_mux *mux = dwc->role_mux;
- 	unsigned long flags;
-+	bool port_switch;
- 	int mux_port = 0;
- 	int ret;
- 	u32 reg;
-@@ -189,8 +190,14 @@ static void __dwc3_set_mode(struct work_struct *work)
- 	if (!desired_dr_role)
- 		goto out;
- 
--	if (desired_dr_role == dwc->current_dr_role &&
--	    (!mux || mux_port == mux->active_port))
-+	/*
-+	 * Moving the shared data path to the other connector is a mode switch even
-+	 * when the role does not change: the running host or gadget instance has to
-+	 * be torn down while its own data lines are still selected.
-+	 */
-+	port_switch = mux && mux_port != mux->active_port;
-+
-+	if (desired_dr_role == dwc->current_dr_role && !port_switch)
- 		goto out;
- 
- 	if (desired_dr_role == DWC3_GCTL_PRTCAP_OTG && dwc->edev)
-@@ -246,22 +253,33 @@ static void __dwc3_set_mode(struct work_struct *work)
- 	 * the controller would be left with a torn-down role and a stale
- 	 * current_dr_role, which the next request would tear down a second time.
- 	 */
--	if (mux && mux_port != mux->active_port) {
-+	if (port_switch) {
- 		ret = gpiod_direction_output(mux->select, mux_port);
--		if (ret) {
--			WRITE_ONCE(mux->error, ret);
-+		if (ret)
- 			dev_err_ratelimited(dwc->dev,
- 					    "failed to select USB port %d: %d\n",
- 					    mux_port, ret);
--		} else {
--			spin_lock_irqsave(&dwc->lock, flags);
-+
-+		spin_lock_irqsave(&dwc->lock, flags);
-+		if (ret)
-+			mux->ports[mux_port].errors++;
-+		else
- 			mux->active_port = mux_port;
--			spin_unlock_irqrestore(&dwc->lock, flags);
--		}
-+		spin_unlock_irqrestore(&dwc->lock, flags);
- 	}
- 
- 	spin_lock_irqsave(&dwc->lock, flags);
- 
-+	/*
-+	 * dwc3_set_prtcap() only clears GUSB3PIPECTL.SUSPENDENABLE and
-+	 * GUSB2PHYCFG.SUSPHY when PRTCAP actually changes, but a same-role port
-+	 * switch reinitialises the controller too and must start from the same
-+	 * state: the instance created below would otherwise inherit the SUSPHY
-+	 * setting of the one torn down above.
-+	 */
-+	if (port_switch)
-+		dwc3_enable_susphy(dwc, false);
-+
- 	dwc3_set_prtcap(dwc, desired_dr_role, false);
- 
- 	spin_unlock_irqrestore(&dwc->lock, flags);
-diff --git a/drivers/usb/dwc3/core.h b/drivers/usb/dwc3/core.h
-index 1238376749..eae321e2d7 100644
---- a/drivers/usb/dwc3/core.h
-+++ b/drivers/usb/dwc3/core.h
-@@ -1017,6 +1017,8 @@ struct dwc3_role_port {
- 	unsigned int		state;
- 	/* request order, see dwc3_role_mux.seq */
- 	u64			seq;
-+	/* data-path switch failures, for diagnostics only */
-+	unsigned int		errors;
- };
- 
- /**
-@@ -1027,7 +1029,6 @@ struct dwc3_role_port {
-  * @desired_port: index of the connector that currently wins
-  * @active_port: index of the connector currently driving the data lines
-  * @seq: monotonic request counter used to order pending requests
-- * @error: sticky data-path switch error, reported to the role-switch users
-  *
-  * Two connectors can share the High Speed data lines of one controller while
-  * keeping their Super Speed lanes separate.  Each connector then needs its own
-@@ -1042,7 +1043,6 @@ struct dwc3_role_mux {
- 	int			desired_port;
- 	int			active_port;
- 	u64			seq;
--	int			error;
- };
- 
- /**
-diff --git a/drivers/usb/dwc3/drd.c b/drivers/usb/dwc3/drd.c
-index 20821d6505..53106bed3e 100644
---- a/drivers/usb/dwc3/drd.c
-+++ b/drivers/usb/dwc3/drd.c
-@@ -543,7 +543,7 @@ static int dwc3_mux_role_set(struct usb_role_switch *sw, enum usb_role role)
- 	struct dwc3_role_mux *mux = dwc->role_mux;
- 	unsigned long flags;
- 	enum usb_role selected_role;
--	int selected, ret;
-+	int selected;
- 
- 	if (role > USB_ROLE_DEVICE)
- 		return -EINVAL;
-@@ -566,35 +566,52 @@ static int dwc3_mux_role_set(struct usb_role_switch *sw, enum usb_role role)
- 	selected = dwc3_role_mux_pick(mux);
- 	mux->desired_port = selected;
- 	selected_role = mux->ports[selected].role;
-+	spin_unlock_irqrestore(&dwc->lock, flags);
-+
- 	/*
-+	 * Notify the glue layer before touching the controller, in the same order
-+	 * as the single-connector path.  It may sleep (the Qualcomm glue calls
-+	 * pm_runtime_resume_and_get()), so it runs outside of dwc->lock -
-+	 * dwc3_set_mode() takes that lock itself and a recursive take deadlocks
-+	 * the controller on the very first role change.
-+	 *
-+	 * Pairing with the selection above is provided by mux->lock: a second
-+	 * connector blocks in mutex_lock() until this request has been issued.
-+	 *
- 	 * Same asynchronous semantics as the single-connector role switch: the
- 	 * data path and the controller are reprogrammed from __dwc3_set_mode().
--	 * dwc3_set_mode() only queues that work, so the mux lock may be held.
- 	 */
-+	dwc3_pre_set_role(dwc, selected_role);
- 	dwc3_set_mode(dwc, dwc3_role_mux_mode(dwc, selected_role));
--	ret = mux->error;
--	mux->error = 0;
--	spin_unlock_irqrestore(&dwc->lock, flags);
-+
- 	mutex_unlock(&mux->lock);
- 
--	return ret;
-+	/*
-+	 * A data-path switch failure is reported through the console and counted
-+	 * per connector; it is not returned here.  This call has already updated
-+	 * the request state, so a stale error from another connector must not be
-+	 * reported as the result of this (successful) request.
-+	 */
-+	return 0;
- }
- 
- static enum usb_role dwc3_mux_role_get(struct usb_role_switch *sw)
- {
- 	struct dwc3_role_port *port = usb_role_switch_get_drvdata(sw);
- 	struct dwc3 *dwc = port->dwc;
--	struct dwc3_role_mux *mux = dwc->role_mux;
- 	unsigned long flags;
--	enum usb_role role = USB_ROLE_NONE;
-+	enum usb_role role;
- 
- 	/*
--	 * A connector only reports its own role while it owns the shared data
--	 * path, so the connector drivers never fight over the controller.
-+	 * Report the role this connector itself requested, whether or not it owns
-+	 * the shared data path right now.  Hiding a pending request behind
-+	 * active_port makes connector drivers read back USB_ROLE_NONE, so they
-+	 * never send the set_role(USB_ROLE_NONE) that would release it; the stale
-+	 * request then keeps winning dwc3_role_mux_pick() after the connector has
-+	 * been unplugged and starves the other one.
- 	 */
- 	spin_lock_irqsave(&dwc->lock, flags);
--	if (mux->active_port == port->state)
--		role = port->role;
-+	role = port->role;
- 	spin_unlock_irqrestore(&dwc->lock, flags);
- 
- 	return role;
-@@ -647,6 +664,14 @@ static int dwc3_role_mux_init(struct dwc3 *dwc, u32 mode)
- 	mux->active_port = -1;
- 	mutex_init(&mux->lock);
- 
-+	/*
-+	 * Publish the mux before the first endpoint reference is taken:
-+	 * dwc3_role_mux_exit() is a no-op while dwc->role_mux is NULL, so every
-+	 * error path below would otherwise leak the fwnode references already
-+	 * acquired.
-+	 */
-+	dwc->role_mux = mux;
-+
- 	fwnode_graph_for_each_endpoint(dev_fwnode(dwc->dev), ep) {
- 		if (!fwnode_property_present(ep, "usb-role-switch"))
- 			continue;
-@@ -673,7 +698,14 @@ static int dwc3_role_mux_init(struct dwc3 *dwc, u32 mode)
- 		}
- 	}
- 
--	dwc->role_mux = mux;
-+	/*
-+	 * Registering the switches makes them reachable from the connector
-+	 * drivers, so the initial mode request has to be issued inside the same
-+	 * critical section: a set() arriving in between would be silently
-+	 * overwritten by it while port->role keeps the requested value.
-+	 * dwc3_mux_role_set() serialises on the same lock.
-+	 */
-+	mutex_lock(&mux->lock);
- 
- 	for (i = 0; i < ARRAY_SIZE(mux->ports); i++) {
- 		snprintf(name, sizeof(name), "%s-port%u", dev_name(dwc->dev), i);
-@@ -686,6 +718,7 @@ static int dwc3_role_mux_init(struct dwc3 *dwc, u32 mode)
- 		if (IS_ERR(mux->ports[i].sw)) {
- 			ret = PTR_ERR(mux->ports[i].sw);
- 			mux->ports[i].sw = NULL;
-+			mutex_unlock(&mux->lock);
- 			goto err;
- 		}
- 	}
-@@ -697,13 +730,15 @@ static int dwc3_role_mux_init(struct dwc3 *dwc, u32 mode)
- 	 */
- 	dwc3_set_mode(dwc, mode);
- 
-+	mutex_unlock(&mux->lock);
-+
- 	return 1;
- 
- err:
--	dwc3_role_mux_exit(dwc);
--	dwc->role_mux = NULL;
- 	/* A mode request queued before the failure must not run on freed state. */
- 	cancel_work_sync(&dwc->drd_work);
-+	dwc3_role_mux_exit(dwc);
-+	dwc->role_mux = NULL;
- 	return ret;
- err_put_ep:
- 	fwnode_handle_put(ep);
-diff --git a/drivers/usb/roles/class.c b/drivers/usb/roles/class.c
-index fc739fd61f..ee186d542a 100644
---- a/drivers/usb/roles/class.c
-+++ b/drivers/usb/roles/class.c
-@@ -184,7 +184,12 @@ usb_role_switch_at_endpoint(struct fwnode_handle *fwnode)
- 			continue;
- 		sw = usb_role_switch_match(remote, "usb-role-switch", NULL);
- 		fwnode_handle_put(remote);
--		if (!IS_ERR_OR_NULL(sw)) {
-+		/*
-+		 * ERR_PTR(-EPROBE_DEFER) means the switch is described by the graph
-+		 * but not registered yet: pass it up so the caller defers instead of
-+		 * concluding that this connector has no role switch at all.
-+		 */
-+		if (sw) {
- 			fwnode_handle_put(ep);
- 			return sw;
- 		}
-base-commit: fd69bd54e328c407b1853378b25d15803d3453fa
--- 
-2.53.0
+The case you mentioned, about a reset being queued but not occurring 
+until after a transient disconnection, is a little different from the 
+other cases.  The core basically ignores disconnections while a reset is 
+in progress (in USB-2, the electrical signalling used during a reset 
+actually makes it impossible for the upstream port to tell whether the 
+device remains connected or not).  Disconnections before a reset starts 
+end up getting handled much the same way; the most that happens is that 
+the connect-change status is cleared and the reset is retried.
 
+This was all implemented before USB-3 appeared.  If we were to do it 
+again now, we might do it differently.
+
+Alan Stern
