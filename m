@@ -1,61 +1,106 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.131
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793465563;
-	b=dRJ2oeUfJC8MzBqnG5dC4KZjBzaGEOmuRjVUJTnO5ci5B3jOjBe33BJIuNyLd1To3pmc
-	 X+a11X8xHgIvA+Muv61WYHZI8WyZDBp4Y+QwIPxT5LR3HwhpPuwODtR32E1QdjdFupwiX
-	 MTVIze1Ra24XnZKKMekcGvwZkUKt+1q6Bul7e/9T6TFbE/jw2vd6Lxvs7Jqr3bRlm8BA0
-	 IOL0sULvmHan+N01aDzsNQJ8Slig4HODb1f/HIy5U5EbmQFvVwy9bBgiPCGzyWY/LjBx+
-	 AdjnHBNelyIDkhumsw5AzWzaZuhL3Ya5hAc8y/FIZmxKSVmlmc3EiCLV8798hs0fHew==
+	t=1793465851;
+	b=AhAvmYqhgVO8m/BJsE+2MlAgaWIDSEdsEFcmS4p3zzeqWpSMvOQxFyJ9867qj14L8ler
+	 gkQvm5gbU2Mui3OJ8Kyf2eabeCpgCd3E3kAXzM0eW5EVnd/1ZwtgLpHYNJdagg9yVCZ8t
+	 s3QCAbiRNDkwGs/iXqrQpLWNiD1Pkx9q8bNwJ+rulzVVIKva0YLYGZyrCYicaAIUK/O4j
+	 MpFKVzNxU2TQfTxoGVliKksuyEo0vL5Q+7CWjh8urtoUEc03Rg6nGhooQREbD+baGv/O1
+	 4HfV4+sbQ5/tXNyK3VUb6vmNwEMMn4EUHALY4e5Pl23lbyU+snIUui2l+9oX0ZgNcoA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793465563;
-	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
-	 Message-ID:In-Reply-To:References:Content-Type:
-	 Content-Transfer-Encoding:MIME-Version:X-CM-TRANSID:
-	 X-Coremail-Antispam:X-CM-SenderInfo;
-	bh=CpDc0Fd22BqQEPmxXBfznc+cqZ7jBDRaBjmgcOMLibc=;
-	b=V4jsouKPRahguKKlW1Bg+u2cp5gXBjm31xvG8pudDbgOmSCz3yrfm+fbaAuIqqfOnAjo
-	 LSSrr/ctM2E7rStZP6ht6givT4r4ot61qIG1uBuQjUqvb/gwsP38G9A9uxUIjVeZ/5tAS
-	 4rFfIhxtJzNPw1G1SCduJiZuuqifJXXbijVCgep/2Hk94NmXccgyS81IbIZLRwHbaK7B/
-	 hTXzPjszW7Xif+2OmLSZRHIqZoO/uXS/d5yt73ocPdmpx3Rb/50slbheTJ5rtL9uwDR04
-	 0zgO9svoPHxTeZ2S7JZIBLDunR7njbMGo3rSZ/vnAuZ+hj8FEZOSnyOeRqj5G09OZ0Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793465851;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 X-Spamd-Result:X-Spam-Score:X-Spam-Level:X-Spam-Flag;
+	bh=YBhiIwvADJajh3RbHDwL/JDcA8HU7Bu/kdL+MLxWhn4=;
+	b=vl+OIglsGMwln1v1cACtP8v9wRJM1ppNrSXNaG82kFkwIxtYfjzta57fxuXPA+lWxajM
+	 9UC5zSFGGoVr7pyLn6MFzhPv4GEFgEDwAxIO7/Z69DYdqdn1KjRIQHH9Dzy+7JMgx6LI+
+	 4zFrY6EFDXtfZC5r+odJixwRh1pBPez2zhOQVw4FD5/056JejkijIadnL77S7DVFmvIj2
+	 RikhBUg1J9AHskERqgrvJ802rpsE46RZ+GmDURVwuJRHmc9fzJnJeaOEjE8jUotb0Nahl
+	 2u1ZEQnyNhwY9De+zqxMCcMLsoAcgowlrPyOT8SqQJ91ci30bf5ukvD1JxFJbaCJ7iA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=stu.xidian.edu.cn;
-	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
-	arc=none smtp.remote-ip=162.243.164.118
-Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80E1B606A324;
-	Sat, 31 Oct 2026 16:52:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 80E1B606A324
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
-	Message-ID:In-Reply-To:References:Content-Type:
-	Content-Transfer-Encoding:MIME-Version; bh=CpDc0Fd22BqQEPmxXBfzn
-	c+cqZ7jBDRaBjmgcOMLibc=; b=T5sYcNR/jMy6+H3qUN4QOSbcQviy5xXnhGwma
-	K5HOYY0iTLbjy8/eVzpXbFOEZuzJOYbB65Q8xEIYCL9QCsCNtsMRA0itah07j2O/
-	OBoT+MhTnMKlhhCZ1KnCOS0ijDU18klAIC13kY72Xi1GmVq10GZLjXawT29/yVBN
-	hA52mk=
-Received: from [127.0.1.1] (unknown [113.200.174.19])
-	by hzbj-edu-front-2.icoremail.net (Coremail) with UTF8SMTPA id BLQMCkCm7gPSHOZqMBoSAQ--.18634S2;
-	Sun, 01 Nov 2026 00:52:35 +0800 (CST)
-From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
-To: sashiko-bot@kernel.org
-Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
- UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- Andrew Lunn <andrew+netdev@lunn.ch>, Russell King <linux@armlinux.org.uk>,
- Oleksij Rempel <o.rempel@pengutronix.de>, stable@vger.kernel.org,
- Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
-Subject: Re: [PATCH net] net: usb: lan78xx: only stop phylink if the interface
- is running
-Date: Sun, 01 Nov 2026 00:52:34 +0800
-Message-ID: <179346555447.2831.9240931140716315096@stu.xidian.edu.cn>
-In-Reply-To: <sashiko-outbox-191206@kernel.org>
-References: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
- <sashiko-outbox-191206@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AQim8VLD;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+B+Rr1Nb;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SShI2Dm8;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8xljWlZX;
+	arc=none smtp.remote-ip=195.135.223.131
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B27A606A31C;
+	Sat, 31 Oct 2026 16:57:30 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9B27A606A31C
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=AQim8VLD;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=+B+Rr1Nb;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=SShI2Dm8;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=8xljWlZX
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 96BB31F38F;
+	Sat, 31 Oct 2026 16:57:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793465848; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YBhiIwvADJajh3RbHDwL/JDcA8HU7Bu/kdL+MLxWhn4=;
+	b=AQim8VLDAfZ2B0MG15a44DFFH3lTH9uxZ0FEkdCt+KKY9mHHnKz+udEE6ieQiE7ES1xryN
+	Dt8yHRz3lyKW/kOvuacPoK7UZBmT3rGAnpuHyZ89aFDRvbOy3QiDTzpH3GNDsPI7ZHxRZ1
+	kSzIY9CUiRYehWeKim59z7Sb9zl33tk=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793465848;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YBhiIwvADJajh3RbHDwL/JDcA8HU7Bu/kdL+MLxWhn4=;
+	b=+B+Rr1NbzzLi+IbWn4BrqWkUTRQakoYBuBHt9TY3gbgrT15ST2fyBPBA7djfkeGvNx3iPd
+	gWTF0nLUIyC8raAA==
+Authentication-Results: smtp-out2.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793465847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YBhiIwvADJajh3RbHDwL/JDcA8HU7Bu/kdL+MLxWhn4=;
+	b=SShI2Dm8GHXidWTZIQ/+2pbnZSiXK/4tgljKcyAQtEAu76jKd12xUjUmIxE8egJKN2r9oh
+	os8Z+nwFrJKmEu8DsmVXBkRo88ETIQ1muOclUW9p/IY+mYPtwXa4t6LiCf+CK4/aV52QYi
+	scetrf4VO3IYvctRrnqSN7TGdpI6HY4=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793465847;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=YBhiIwvADJajh3RbHDwL/JDcA8HU7Bu/kdL+MLxWhn4=;
+	b=8xljWlZXMHnEby8ymRgHWTDKAicRPYtqXs0Bg6ywWfglWBrjWqyTzUGYApBQppbsdkt2xE
+	OMImbAmZl+XK2ZDA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 28B04132D3;
+	Sat, 31 Oct 2026 16:57:27 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id AWBwO/Yd5mp8ZQAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Sat, 31 Oct 2026 16:57:27 +0000
+Date: Sat, 31 Oct 2026 17:57:26 +0100
+Message-ID: <87bj89reo9.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: RenPanpan <rppxj178543@163.com>
+Cc: alsa-devel@alsa-project.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [DISCUSSION] ALSA: usb-audio: Card naming for composite devices
+In-Reply-To: <20261030121740.250336-1-rppxj178543@163.com>
+References: <20261030121740.250336-1-rppxj178543@163.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -64,73 +109,112 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-X-CM-TRANSID:BLQMCkCm7gPSHOZqMBoSAQ--.18634S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7KF1xWry8Ary3XrW8Jw1UKFg_yoW8ury7pa
-	y7KFsrWwn7Ar4rury3uw1UuryUZF1DJa4xAryYgrySvw45WF929r4xtryxA3W3CFsrJa12
-	yw1fWayvvFW8A3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUBSb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
-	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
-	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
-	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWUJVW8JwA2z4x0Y4vEx4
-	A2jsIEc7CjxVAFwI0_Gr0_Gr1UM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x2
-	0xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1Y6r17Mc
-	Ij6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lFIxG
-	xcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFylc2xSY4AK67AK6r1l42xK82
-	IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC2
-	0s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMI
-	IF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF
-	0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87
-	Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUkFApDUUUU
-X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAgUDD2rmBsIMBQAAsK
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-Spamd-Result: default: False [-12.30 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	FREEMAIL_TO(0.00)[163.com];
+	MIME_TRACE(0.00)[0:+];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[163.com];
+	RCPT_COUNT_THREE(0.00)[4];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -12.30
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-On Fri, Oct 30, 2026 at 04:02:36PM +0000, sashiko-bot@kernel.org wrote:
-> Does calling phylink_stop() and phylink_disconnect_phy() before
-> unregister_netdev(net) in drivers/net/usb/lan78xx.c:lan78xx_disconnect()
-> cause out-of-order teardown, a duplicate phylink_stop() call, and a race
-> window when rtnl_lock() is dropped?
+On Fri, 30 Oct 2026 13:17:39 +0100,
+RenPanpan wrote:
+> 
+> Hello,
+> 
+> I'd like to discuss an issue with USB audio card naming for composite
+> devices and propose a possible improvement.
+> 
+> Problem
+> -------
+> 
+> For USB composite devices containing both non-audio and UAC audio
+> functions, the ALSA card shortname is derived from the device-level
+> iProduct string, which describes the entire device rather than the
+> audio function.
+> 
+> For example, the CVT Touch Device (1ff7:0f33) is a composite device
+> with HID touch interfaces and UAC audio interfaces. Its iProduct is
+> "Touch Device", which is the name for the whole device. The UAC
+> OUTPUT_TERMINAL descriptor defines the audio function name as
+> "MAXHUB Speaker" via the iTerminal string descriptor (index 14).
+> 
+> Currently, the ALSA card name shows "Touch Device", which does not
+> identify the audio function. The UAC mixer code already reads
+> iTerminal for mixer control names (e.g. "MAXHUB Mic" from the
+> Microphone INPUT_TERMINAL's iTerminal=17), but the card naming
+> function (usb_audio_make_shortname) does not use iTerminal.
+> 
+> Proposed approach
+> -----------------
+> 
+> When the USB device is composite (i.e. it has non-audio interfaces),
+> prefer the Speaker OUTPUT_TERMINAL's iTerminal string as the card
+> shortname, instead of the device-level iProduct. If iTerminal is not
+> set (zero) or not readable via usb_string(), fall back to iProduct
+> (existing behavior).
+> 
+> Non-composite (dedicated audio) devices are not affected and continue
+> to use iProduct.
+> 
+> The composite device detection checks whether any interface has a
+> non-Audio class. The iTerminal reading uses the existing
+> snd_usb_find_csint_desc() helper to parse OUTPUT_TERMINAL descriptors
+> in the Audio Control interface's extra data. The iTerminal field is
+> the last byte of the descriptor, common to both UAC1 (bLength=9) and
+> UAC2 (bLength=12).
+> 
+> As an immediate fix, I have also prepared a quirk entry for 1ff7:0f33
+> to override the card shortname to "MAXHUB Speaker" directly.
+> 
+> Questions for the community
+> ----------------------------
+> 
+> 1. Is this approach reasonable for composite devices, or should it
+>    remain a per-device quirk?
+> 
+> 2. Are there concerns about changing card names for existing composite
+>    USB audio devices that have iTerminal set? For example, UCM profile
+>    matching or PulseAudio device identification.
+> 
+> 3. Would it be preferable to also check the IAD's iFunction field
+>    before falling back to iTerminal, or is iTerminal sufficient?
+> 
+> 4. Are there known composite USB audio devices where the iTerminal
+>    string might be empty or contain unexpected content?
+> 
+> I have tested the quirk approach on a MT81C device (Kylin V10-SP1)
+> and it works correctly. The iTerminal approach compiles but has not
+> been tested on multiple devices yet.
+> 
+> Any feedback would be appreciated.
+> 
+> Best regards,
+> RenPanpan
 
-Yes, the ordering is wrong. v2 drops the explicit phylink_stop() from the
-disconnect path and unregisters the net device first:
+I took your first fix patch as it was simple enough.
+(It took time just because I was traveling in the last week.)
 
-	unregister_netdev(net);
+If it still doesn't suffice, let us know.  Thanks.
 
-	rtnl_lock();
-	phylink_disconnect_phy(dev->phylink);
-	rtnl_unlock();
 
-unregister_netdev() closes a running device, so phylink_stop() is done by
-lan78xx_stop() with dev->dev_mutex held and after the TX/RX URBs have been
-terminated, which is the same sequence as a normal ifdown. When the
-interface was never started no phylink_stop() happens at all, and that is
-exactly the case phy_stop() complains about with "called from state READY".
-
-This also removes the second phylink_stop() invocation and the window in
-which the net device was still registered with no PHY attached.
-
-On the remaining points:
-
-- The duplicate phylink_stop() was harmless in practice, because after
-  phylink_disconnect_phy() pl->phydev is NULL and PHYLINK_DISABLE_STOPPED
-  is already set. It is gone now anyway.
-
-- The PHY interrupt is not released by phylink_disconnect_phy(). The virq
-  created by irq_create_mapping() is disposed in lan78xx_remove_irq_domain(),
-  called from lan78xx_unbind(), which also clears dev->domain_data.phyirq;
-  lan78xx_status() tests that field before generic_handle_irq_safe(). The
-  intr URB is killed later in lan78xx_disconnect(), and that ordering is
-  unchanged by this patch.
-
-- Andrew also asked why the Fixes tag points at e110bc825897: that commit
-  added both the phylink instance and the unconditional phylink_stop() call
-  in lan78xx_disconnect(), and
-
-    git log -S'phylink_stop(dev->phylink)' -- drivers/net/usb/lan78xx.c
-
-  shows that the line has not been touched since.
-
-v2 is sent as a separate thread.
-
-Thanks,
-YuanZhe
-
+Takashi
