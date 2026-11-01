@@ -1,64 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.62.58.211
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793533157;
-	b=g4danMqqTNkKBY7dH2P80ykjH370zlSmRB3p2JUqQtlqgBEahMEHV8XTVqkDps6RDG5q
-	 ui5wVju8/Y66Xt6cI4EiBjLRco8534ewssZE8Z6FMTX5Ovgd4iAtg5RnL6yWpo41XrD1b
-	 4Z3kZMIDpyWHXldrB9FqnM6okT5c/Z7fxclprzPvmbtzuvIfrfV9LlGWOGOBhSThZ7VhG
-	 BrE48SWhEMIPWADFUM57cMyjUJke3wbUlYkbYEy3ui8NuzEOMfIdBVxmcTQZn9mcf4/+2
-	 pqAXN5iDSbFAwBRWXr2J275eWmeELQC3u0Zw/GFfT1XTDDXsxwSfdetXPxiWVjGc60w==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793533157;
-	h=DMARC-Filter:DKIM-Signature:X-QQ-XMRINFO:X-QQ-XMAILINFO:From:To:Cc:
-	 Subject:Mime-Version:Content-Type:Content-Transfer-Encoding:Date:
-	 X-Priority:Message-ID:X-QQ-MIME:X-Mailer:X-QQ-Mailer:References:
-	 In-Reply-To:X-QQ-mid;
-	bh=5uHMqeGCi5xEjxp7eaOraEh1Wivt/hows3ISRJRA5sc=;
-	b=zJ/gXNA2bpusW2+Xg66kfsI5BKMO1uD01/yhRT9LpN9Z4cJ1pd4J4x86YZfJtWOfsu6V
-	 dX5wNcjcOxpV37zy1in1Nt1jeMjWiCEQCCb9aiN7RMOiSluKQoSbuOBJ6UPQrrYL3vDVJ
-	 eCNLAyAEmTajsvWAineBwMOCVGvsuz9SbfVmXIBlxdtD1vTwid7+1p7G/WoVhFDwEQtXj
-	 8Qr4Es2pfff2wDzZ+MCFkwCeaf/6u6tRAhlwoxdNvF2pR4sDzBXLn98V9DLRcfgkU653r
-	 3oMLKaOjaYdWNCuLguRNYwhg+F6oUAM7MpEIhQiCstHNxuCYp0xkb2DQlVU364BfUCg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=qq.com;
-	spf=pass smtp.mailfrom=qq.com;
-	dkim=pass header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=XbiFhlDv;
-	arc=none smtp.remote-ip=162.62.58.211
-Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84C58606A325;
-	Sun,  1 Nov 2026 11:39:13 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 84C58606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793536216;
+	b=0jtj7W0qXeooEJalVPLaps5yoZtrCjPPeBmneTA4MKe5WI7moLrzQaxCYichPPRvZFsO
+	 TWUiVM2easQ5GYhukq9tf9fggOal6CrM/5ArJ5RfNANcfsPGenoueSBnmraKevROzKzW/
+	 IGGgmoY+5pKlHB3zZUnoLbGqKRC6JMosFDhWAGf4K51WncVC6mgaUUTcABs+NIGa/ey/T
+	 yYuotHrir/LrhiO/x4LUuesdKFZFOIw+aMcamRCxMYN+WcJVZAP923qOMbH60m2rWMcrY
+	 LUvQyjCMaIeaysFTnO3R/6YqYy2cuWzpvhHrMR2a2Kb75kaTjZFIR2yyQ0NmG8IjZcA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793536216;
+	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
+	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
+	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
+	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
+	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
+	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
+	 Message-ID:Content-Type:Content-Transfer-Encoding:X-Bugzilla-URL:
+	 Auto-Submitted:MIME-Version;
+	bh=1wg6liWZAt3DahnPgsMtTgx/pfzVEsI148X91/GM5IQ=;
+	b=vUaxbLYfruaVMZr6rFEE+CyBpCgwcCeWqU00grN1lqiyOpal8VvT1LIaF+JLfAgm3kl3
+	 xxMInrnmZWbD6EKonBbX3x/Ke3col9LHiu91y7xm64u5T1MTuFYSN83o9eOsqaHha/489
+	 0T5ZhfHnq090eXpF3tE9L8i/CQY01RlOCZtRtmZnaQf8lH+PuTL5u5dz8Dyevni/F8ltX
+	 G5QGaPphMC0qPjEeYze8pq7aYGl1EZ5o97xtzj1KoS82NeKWpgNU6pOZsMXNTGPRKikdp
+	 S/Yr1fInBpRqq8/xIij07A2gQMQXY1Sem4eUXhIgk7vvW0EAlHmLTmIaanExQOcyRYQ==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HnAQyqjZ;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
+Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D9C0606A326
+	for <linux-usb.vger.kernel.org@localhost.mlmmj>; Sun,  1 Nov 2026 12:30:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key, unprotected) header.d=qq.com header.i=@qq.com header.a=rsa-sha256 header.s=s201512 header.b=XbiFhlDv
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1793533145; bh=5uHMqeGCi5xEjxp7eaOraEh1Wivt/hows3ISRJRA5sc=;
-	h=From:To:Cc:Subject:Date:References:In-Reply-To;
-	b=XbiFhlDvI6WGK8Bsvq8LH7n0vu1J/qtX7NScBAtj1EFYUeJUcTbZLekmvevT4pDJi
-	 L8u+hNlUKJHvEKRoq6/56YUkF+SlBI972ERJOauNdaKGMX/9/22qjutC2Pm6sbAO2q
-	 NsM/l0TijMC1xEp+42hCMB2mLk/6qIvFEfR/1PJA=
-X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
-X-QQ-XMAILINFO: NkQGnmzToUyF0HQ0dYoXDCd8WAlZNEOU7fHjxUZdzBCyuy7mN4509D4z/oFOLF
-	 mp8O3+8yYpU9EBj+4Wa1B83pgvDaatwTABEjm54x+Tj652l17NWrmh8FnTeBZ8iisLukH531dkto3
-	 1epOliaRAypX17H3VMsY07+Wvgqk9e5GsxJ4YxIqwiAtoCfpizYbPcirRK8jekIKSsGuE+TM+9YLr
-	 AU2XW7tYus4vIUesvhJ346t5rtR4aUwsMdXBsoOa2HZapPMreMozjuMFK5bwW/iIjH6dIxifSuROa
-	 +qzyzbrr2KyhW9UgAZib5YZeiP8HHHXR0+g2tyFZ6e7kSjHC4GSi8qadlRcxWfoIR5YbpJi+I43fA
-	 OD2k4aB2C2XdGdWmoTpgLRQsVfJiG8NntDpUwa4rOenYOo/WQzDKvvkNHWxamomjilq3bZLADTeXm
-	 8UT/Y6ZANI7fF96dpgTxR2wGcbnrUJDKNfx9J3r/1MdwjKDY3cXo1BfesRbo0WvJI66tWuYxVYT97
-	 hQypgWt0hBqWYcOMA672gQq2wzqQ/kq6hNVb5OrxmZ+cxcA0UrSzel4V+8Xqs6/i5LlttU7HCmeut
-	 ebxATsgi8CqSuAmOXtopJ34fW38TwplM9fGbTsA5a9Of2Bv1srR0O9+f5EaRTIv//zZLppQMuVNW6
-	 vVH1s2yzLyUrEKVp40L4CIUPPFcH/7XQaMu3Ex5YDVDryrVJJJKNvuvwCTN3ynaeI0Drar8n0vbAT
-	 LhJek8pdik/8YpUYCFZkMwzPv3IlRP70FA42CdsVe2rb+LQsnLyw5wmYdFPVsEnmprnWWtwtexqlu
-	 UT2TSA96rGmBUqgqHO3XCw7Py88VgePSu0+HZXrVQSgQLQM5N9HD7BwemBa8dcccqND2hCHjmd37A
-	 dccK23A7bq37MpdZT1/dOdzhlFZNLWXRiORJiyZw/QMfJxce/w6qwZF3vnH92m84vgdj+w5oRVwHe
-	 8LaTrvTY26iR0TVigTrR/KMO5P3nrpa8BfiZUAUPYScNOl0stTaTm0q9Z2KOE9Um9F2uhZDng9585
-	 ksoGddMClOCvlkKFDu8STVWDH5fhueHuRwyvinVRN8h9L506imQ8DvXDZ698ulVpfx43u
-From: "=?utf-8?B?Q3VuaGFvIEx1?=" <1579567540@qq.com>
-To: "=?utf-8?B?TWFuaXZhbm5hbiBTYWRoYXNpdmFt?=" <mani@kernel.org>
-Cc: "=?utf-8?B?bGludXgtYXJtLWtlcm5lbA==?=" <linux-arm-kernel@lists.infradead.org>, "=?utf-8?B?bGludXgtcm9ja2NoaXA=?=" <linux-rockchip@lists.infradead.org>, "=?utf-8?B?bGludXgta2VybmVs?=" <linux-kernel@vger.kernel.org>, "=?utf-8?B?bGludXgtZ3Bpbw==?=" <linux-gpio@vger.kernel.org>, "=?utf-8?B?bGludXgtcGh5?=" <linux-phy@lists.infradead.org>, "=?utf-8?B?bGludXgtdXNi?=" <linux-usb@vger.kernel.org>
-Subject: Re: [PATCH 21/27] phy: rockchip-inno-usb2: Add RK3572 support
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=HnAQyqjZ
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237306513C0
+	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 12:30:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1793536216; cv=none; b=ox8b8ZLpVnUAWVZ3FMA5nbHWwiVzr9vnH72eNRbsgKPphFSVHFEFCaUSeQQStfgm1Or3Eop/dNqiDmGJHPCbp8oDTtQaw+kLzyYMCMbfzlXDlZ3GdNLRlsyndPkWgY4LBg7g2U2vv6wVJouC1BURIKRTD5vYWsPxydenkxQJr44=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1793536216; c=relaxed/simple;
+	bh=RJOhffl5FkISQps107hL9nQcNGM1t0VwypoOhTf6JDs=;
+	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=oELc2oFzxEWkmx60qgSXiOWqAZ66T4s0sXM9thBJZucdKrMyX8HMIK+y18ISxpl70XFrVdAbA+wStltdy9Ptshct5wIVeyrP/2W37NMt/eVlt/9KHf53ziVtVpZq6bwfEjUN6rovbDve1LTTJ+GijaXbD+yE/G2PsLGpw7eoeJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HnAQyqjZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 7056BC2BCFC
+	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 12:30:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1793536215;
+	bh=RJOhffl5FkISQps107hL9nQcNGM1t0VwypoOhTf6JDs=;
+	h=From:To:Subject:Date:From;
+	b=HnAQyqjZKwSv2AndIhbEdvyrT03lNp4q7Y6VqZEl2CsJZJntOISncnGJd4KmGcFAA
+	 1bXJEWyP0paQcd3MCABg8pZYiwyNMYII2/8xnvsfXv4kvuBxuH/krvKCc6KnbqX7Sc
+	 lpp0dqi8Szsjg4kT1KOB6rcyPb0Np8k+5+AUWw2OKGoPgAbQjhh57WZDR1vrmIMiFg
+	 8mG/qAd1h8E/HUF/jig/CpE+HClwRV8NvL3L7YxcdOIC6LZyzCuWf93iWWQ9e56qLS
+	 +exA+Va3eRfiamka8gtXtrNg5L2WXr18dzH6eVV4gXJCtHoomOrPQBgoSvR+vUUsft
+	 /tLwA+iH5gx/A==
+Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
+	id 45D51C4160E; Sun,  1 Nov 2026 12:30:15 +0000 (UTC)
+From: bugzilla-daemon@kernel.org
+To: linux-usb@vger.kernel.org
+Subject: [Bug 222222] New: Kingston USB flash drive repeatedly disconnected
+Date: Sun, 01 Nov 2026 12:30:15 +0000
+X-Bugzilla-Reason: None
+X-Bugzilla-Type: new
+X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Product: Drivers
+X-Bugzilla-Component: USB
+X-Bugzilla-Version: 2.5
+X-Bugzilla-Keywords: 
+X-Bugzilla-Severity: normal
+X-Bugzilla-Who: bram@vandenheuvel.online
+X-Bugzilla-Status: NEW
+X-Bugzilla-Resolution: 
+X-Bugzilla-Priority: P3
+X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
+X-Bugzilla-Flags: 
+X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
+ op_sys bug_status bug_severity priority component assigned_to reporter
+ cf_regression attachments.created
+Message-ID: <bug-222222-208809@https.bugzilla.kernel.org/>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Bugzilla-URL: https://bugzilla.kernel.org/
+Auto-Submitted: auto-generated
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -67,38 +91,46 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-Mime-Version: 1.0
-Content-Type: text/plain;
-	charset="utf-8"
-Content-Transfer-Encoding: base64
-Date: Sun, 1 Nov 2026 19:39:03 +0800
-X-Priority: 3
-Message-ID: <tencent_650649C624E17C043BA00BB1D4CFB8498105@qq.com>
-X-QQ-MIME: TCMime 1.0 by Tencent
-X-Mailer: QQMail 2.x
-X-QQ-Mailer: QQMail 2.x
-References: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
- <20261022-add-board-ok3572-c-v1-21-0b0fd85a31ee@qq.com>
-	<179353031285.2955.4272173079718014092.b4-reply@b4>
-In-Reply-To: <179353031285.2955.4272173079718014092.b4-reply@b4>
-X-QQ-mid: xmsezb41-0t1793533143tqyga0g4o
+MIME-Version: 1.0
 
-SGksCgo+PiArIHJlZmNsayA9IGRldm1fY2xrX2dldChycGh5LT5kZXYsICJwaHljbGsiKTsK
-Pj4gKyBpZiAoSVNfRVJSKHJlZmNsaykpCj4+ICsgcmV0dXJuIFBUUl9FUlIocmVmY2xrKTsK
-Pgo+IFBsZWFzZSBpbnNlcnQgYSBuZXdsaW5lIGJldHdlZW4gZWFjaCBvcGVyYXRpb24gdG8g
-aW1wcm92ZSByZWFkYWJpbGl0eS4KPgo+PiArIHJhdGUgPSBjbGtfZ2V0X3JhdGUocmVmY2xr
-KTsKPj4gKyBpZiAocmF0ZSAhPSAyNDAwMDAwMCAmJiByYXRlICE9IDI2MDAwMDAwKQo+PiAr
-IHJldHVybiAtRUlOVkFMOwoKSSB3aWxsIGFkZCBhIGJsYW5rIGxpbmUgaGVyZSBhbmQgYmV0
-d2VlbiB0aGUgb3RoZXIgb3BlcmF0aW9ucyB0byBpbXByb3ZlCnJlYWRhYmlsaXR5LgoKPj4g
-KyAvKiBTZXQgdGhlIG5vcm1hbCBsaW5lLXN0YXRlIGZpbHRlciBpbnRlcnZhbC4gKi8KPj4g
-KyByZXQgPSByZWdtYXBfd3JpdGUocnBoeS0+Z3JmLCByZWcgKyAweDAwMjAsIDB4MzAxMDAp
-Owo+PiArIGlmIChyZXQpCj4+ICsgcmV0dXJuIHJldDsKPgo+IEhlcmUuCj4KPj4gKyAvKiBJ
-bmNyZWFzZSBIUyB2b2x0YWdlIGJ5IDUuODklIGFuZCBkb3VibGUgcHJlLWVtcGhhc2lzIGN1
-cnJlbnQuICovCj4+ICsgcmV0ID0gcmVnbWFwX3dyaXRlKHJwaHktPmdyZiwgcmVnICsgMHgw
-MDBjLCBHRU5NQVNLKDI3LCAyNCkgfCAweDA5MDApOwo+PiArIGlmIChyZXQpCj4+ICsgcmV0
-dXJuIHJldDsKPgo+IEFuZCBoZXJlLgoKSSB3aWxsIGFkZCBibGFuayBsaW5lcyBhdCB0aGVz
-ZSBwbGFjZXMgdG9vLgoKSSBhbSB3b3JraW5nIG9uIHNwbGl0dGluZyB0aGUgcGF0Y2hlcyBi
-eSBzdWJzeXN0ZW0sIGFuZCBJIHdpbGwKcmVzdWJtaXQgdGhpcyBwYXRjaCBhcyBwYXJ0IG9m
-IHYyIGFmdGVyIGFkZHJlc3NpbmcgdGhlc2UgY29tbWVudHMuCgpUaGFuayB5b3UgZm9yIHlv
-dXIgcmV2aWV3IQoKQmVzdCByZWdhcmRzLApDdW5oYW8gTHUK
+https://bugzilla.kernel.org/show_bug.cgi?id=3D222222
 
+            Bug ID: 222222
+           Summary: Kingston USB flash drive repeatedly disconnected
+           Product: Drivers
+           Version: 2.5
+          Hardware: All
+                OS: Linux
+            Status: NEW
+          Severity: normal
+          Priority: P3
+         Component: USB
+          Assignee: drivers_usb@kernel-bugs.kernel.org
+          Reporter: bram@vandenheuvel.online
+        Regression: No
+
+Created attachment 311354
+  --> https://bugzilla.kernel.org/attachment.cgi?id=3D311354&action=3Dedit
+Untested (but trivial) patch
+
+This bug is highly similar to
+https://bugzilla.kernel.org/show_bug.cgi?id=3D208257.
+
+My Kingston Technology DataTraveler Duo 64G disconnects repeatedly, both on
+
+- Framework 13, 11th gen, also with kernel 7.2.11 (see
+https://community.frame.work/t/device-incompatibility-kingston-datatraveler=
+-duo/11477)
+- Some ~2016 Dell XPS model, older kernel versions
+
+Adding the kernel parameter usbcore.quirks=3D0951:173c:k fixed this. Should=
+ it
+also be added to the list?
+
+I created an UNTESTED patch file that mirrors the one from the similar bug.
+
+--=20
+You may reply to this email to add a comment.
+
+You are receiving this mail because:
+You are watching the assignee of the bug.=
