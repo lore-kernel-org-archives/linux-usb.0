@@ -1,111 +1,68 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.159
-ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793573450;
-	b=qqWOAIgpV4aEfUR+XJyG2cIsEKdnkatYDr7Fcz/Wd/mHashftzOgzgzEC9Mq+pnljIWT
-	 5OnMpQL8LLHuK26MPWuUpTMWL0/TN0id9Hx0g9bFnwxvZUzyUcZelGFwD0V0Ytks40gFQ
-	 6YR22wIBtk8IPo+3BVqgoSVC5OqN5GcMeOozOGmA0I5/IY8ij5ww9ruU+aaxyiS7EhTZr
-	 DH76llvSetiTKF+ZJK5aEkC/39DWx+mapTBvQvJTonjHFzI2OUKFYDFulYWATPv8shi9/
-	 W1RyLL0z3gG7UhP3dbNrGC6FayCXNi66FIfRWlZ/vqG2yv6HWfisOZIgSltm3PuqIMA==
-ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793573450;
-	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
-	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
-	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
-	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
-	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=Y0qvq6mmMLgTfpxELoghMFTbhqnb2nmeoC+hPsWafsY=;
-	b=EiKt2YJRjRyUeFjz4/5I8eZ9Sh/2TarnwoGfhnBktHS6oWKzzNd6jDAFQYhxMHD3gnG9
-	 n7YHUUdNGUHu36tuBS8b6gG0C2+pMjBcePai4sAgySmq0LlRP2lbvDKVIGtpvi0X5Bdrx
-	 FWzAWuDd769IY31y942WOnS4rWsNCX2pjksD81UHwBV+Gvh27KfxcJwo9M6oJEjZbSgfp
-	 iHO2lDiJxe68OlVZlJBznfuoQ48s6JqLyvz+sHJWemWNgkiK9idJNDyn9Q3KzogGDYMBy
-	 sNglEXkQfVA29soxx6iukYkyzspzydHVUkYQ3NvCuikk3UAHBD5EXt/Cc0SwqWKoVGg==
-ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=squebb.ca;
-	spf=pass smtp.mailfrom=squebb.ca;
-	dkim=pass header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm3 header.b=lTkm1dFE;
-	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=O3G8MzPt;
-	arc=none smtp.remote-ip=202.12.124.159
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
+ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
+	t=1793576788;
+	b=UtX1xPonlHGyxafUy9x7/pb1qunkq6YIosrmSRn0iCeLfbfgnpOmMyxtOwjJ2OHx/5IS
+	 jqmyonQqRs8Cq7cUwVnpfIoBwozlIentfPi5T4Mcljc6ZSIagutyc9/ScWPdvODS1fFug
+	 EvIGLQkPAwmPFO1VHQtt0qQtiibT3mixySKcCT8dH1IluxvgbXAmyEChd4FkULdtQH3rt
+	 OCTgJM+uDUxWrua1WieuTziaWIoapILgg4axYVWdrRwvuf0TfU7czDIWPOt6vKbvuKekp
+	 ajbR2VKu/7US9+IyT4nebpn3kfIL7gda6lbdLq+CQzbJtc+KrcQwWRsORJ/qloZ5ZyA==
+ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793576788;
+	h=DMARC-Filter:DKIM-Signature:Received:Received:Date:From:To:Cc:
+	 Subject:Message-ID:References:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To:X-Zoho-Virus-Status:X-Zoho-AV-Stamp:
+	 X-ZohoMailClient;
+	bh=Dr7HLHhmpNPRnakRx/XUhqvaTum3bMcddo5f/qe4qo8=;
+	b=yQ0BjwZgSjwcOHFEM0enf+pFTISz0FugEJl6wn0C8PeYb2yRhnZ6UBPCPIFQ6T15hgKU
+	 jRZWSzJRv4fVx2nolmfLmx+jBqDdoX1s1kLxhidM/FvBSt9MTxHREws+vYfocgl68l8vE
+	 zTN7+cq9Oo9U3jRM6lDxBeTIQ8w6TbHyjS2ivCjZQCKjyGGZuqp/RhfHILf4wwPpzIsZk
+	 y0WHGD2N/Ndyg+1y8m1518DwEDM+K1w7f2od2gw1a0UbY8QGduliJDn7Is6fCRThaWiKa
+	 QnDs7piECFMmPwyzFc7zsAeYCfDaZER+DTFVadouc78wOOiQ6/BI7GNzq+LzamX6SWA==
+ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=collabora.com;
+	spf=pass smtp.mailfrom=collabora.com;
+	dkim=pass header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=OF35KZXi;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=165.173.180.11
+Received: from sender6-op-o11.zoho.com (sender6-op-o11.zoho.com [165.173.180.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D713606A326
-	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 22:50:49 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D713606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13BB3606A324;
+	Sun,  1 Nov 2026 23:46:27 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 13BB3606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm3 header.b=lTkm1dFE;
-	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=O3G8MzPt
-Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 139797A01C3
-	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 17:50:49 -0500 (EST)
-Received: from stl-imap-02 ([10.204.2.93])
-  by stl-compute-04.internal (MEProxy); Sun, 01 Nov 2026 17:50:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1793573448;
-	 x=1793659848; bh=Y0qvq6mmMLgTfpxELoghMFTbhqnb2nmeoC+hPsWafsY=; b=
-	lTkm1dFEizaTZ/AGpa6zxjy6SPQmIMWJj6mzMbOYl6EWjCSSbHytQZed7uVxK7kJ
-	nr/clt36gCe2DWVu/Id0ZmLTjTafZikPuTDe/57uDKjvJxUTmlKr4TvTa3By4iro
-	4BPeVKvkS/6MGmwbsW84zEfKwATJMQjlVEDLtz11GVTEn4E6vmxpNiCfCzR8Oukl
-	ikR9dLxrQcHLQyrn4KuyiO920/5UpxxPugi6YjMXmBHG1RL4Nn1RSSDua/TzTsCl
-	DxX/kdzzg9/eiyt4i0c+iq0VIj1srhPTyLPDU8F59Y+9e1jl00FKWG25zWZus1Xs
-	EZkxAFdde1J2XAk1XwFU1Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793573448; x=
-	1793659848; bh=Y0qvq6mmMLgTfpxELoghMFTbhqnb2nmeoC+hPsWafsY=; b=O
-	3G8MzPtlWB6Luxqh7Y/OlUo/HeBlLkyrvwBLGICreCc8iF/mj9mcXoRPI4/kyBFC
-	vISiqkERWV7W89Ga2MSRaOdaEs70QDiCVVHvA8H5HLovQZEH/SuJ/rrbpmLKkcQG
-	xNyLIKSUjq+BDaAckaPw6n4uu5srd//UVYsndgXgLbKHe7ySxMVZ4eBSyYUTQzev
-	ZhDJT1pu1MXdV1hD9iPIHBU4Q9h1R0tX+r0ro/rKyJGDy5evIG253fN+9YG1pXNw
-	THA/H1RfGhpkrBfnS5J8m5BhDQCYQvEao4AAMuxNp02sya66gho2SuRtskUzcLux
-	4K7+X4VFcTBnkl6UdYKIg==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=sign d=squebb.ca a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1793573448; d=squebb.ca;
-	mf=PG1wZWFyc29uLWxlbm92b0BzcXVlYmIuY2E+;
-	rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
-	s=fm3:rsa-sha256:PGczL201FoWU7vwtx+lxzuw+L9U2/vAp+oPlNWNnymz0+g5
-	XvIejW9ZNTCjUNoqOdzFwWdcI2X3kFFro9isaOw3YVn9t8bwMUaE1gb1+sL5PAcK
-	tAJi4HffD5Grd1+7W44WFzziXpPxOGDCbA9ePWcL8lSWFgPWQ/wX4pGUMlssjs0u
-	V6lgqSDN1TT98+/JA3I1iEss7KSPWwBgXDpGwz/L+qHjAYiPcsdd/bCgKFB48pTF
-	Y2z16+lUBBhPLu46WaaR9PKmVNYpFu5lW+auxIP0MiR59TwJf/RaY1Mfyum+3jt4
-	/bRgNZL5sY0/K65LZ/W0ggYDPeXl7PhLUiXLzow==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
-	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:h1r7H1JmIfKs7ynKY6TwBeMNMKAvDQv09HIHvnvOfX0=:XruLzfUNKPyOXJRr85//uKUxn9BcK/EXau0HHFWfJxo=;
-X-ME-Sender: <xms:R8Lnakzn82T8yz7mB-5eDN02nrgUjlImqj0EDaHSuLpiXCwksgNo3Q>
-    <xme:R8LnajGXRhuAH6XOZMwFvaScZdFQkk_-KUSEH3kVwC1hKDzTyE2bOU14vj_U9Ltct
-    Y2X2MqHCwCYc2tiu-axhrrGZh3_GEifjUgHI7siMAJ4AfzADzilSTDI>
-X-ME-Proxy-Cause: dmFkZTFhUdMH7Nnrx9Bw1Nr4mn/JQ1i/DNqh8HAW2MnBgUaKdagA+LJo+7SK1W3NY8aKJ/
-    2BiXK4wA186bBde+9EXRCVCdxaBMobjctDZ5ibYacY7jGUko/ulxToRAH7UJNKzWw0TO2M
-    qz6RHR2ZtLDoMzKKun+jEP7M8bbMV7upnPMU8iHqcfdl0S2jERJ1crS57OKVya+OQkywHC
-    Cxp0TskD+1mqkTHm27iebRu4QTiLbPKp7IXi4aQlfe/nTXNW5iY0ZUxMvbdN3yVu8hAYH3
-    iusBLKW7iPRMjxL5BK+iirsDnWbADeGQ55OQf/drmXTIigpZUriEEhEGl3NnFIKOBuDDXG
-    B8AzAlGxxUDLOmMy6unXETyYJjLhQVei56+6w1jkYYfL6za5ntBUHvL9slAV1REnyEnVBc
-    nZfKu+GRIgWHeU7yw/10dZCCT2tZ787ITQBEl9+XA7khTXv1+IK8b2GcB52qGPwlI0qxos
-    PYdFFZueH83NLSbeVK7Sn2SP+lp7H+0ZSWA1yTAIOo2JHTmtqADaaYG32x4CJqPGqcwe+5
-    Jj3c5VoPbPQ1NCLXoc1yWP+apNTDgNAlsZVRchwm/mcnrWsehoYWybA0Ad2Shlef6Y8JEv
-    vozuE6IeXKTJ2/4JysXtmO/AWux4GkVnKNuSkUfWSNaNr1V1IwUoqUAsFhNw
-X-ME-Proxy: <xmx:R8LnaqvsSn-60AWTcfEja23CPkP1VL6IEZLeoFX86-SU9G8oLqiIYw>
-    <xmx:R8LnakYcuQhyuT_YSH1h_uzmb7yLKlEqBbpC4SQ1APjryYQjMaO9Lw>
-    <xmx:R8LnaqAdQEySL8B24lQkRrMurqf6WjwS8K4zliaEDiru34ls41z8QA>
-    <xmx:R8Lnak8TDDPDOMdROg9mjtdEuEXrwWy5Qn9Y73TAJGUEO4A0hYor2Q>
-    <xmx:SMLnatc0APAyOsELPl4NTI7a0HcNPawCrmoU-mMQQWTimCRnEcocIHwc>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.stl.internal (Postfix, from userid 501)
-	id 6F6372C00082; Sun,  1 Nov 2026 17:50:47 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (1024-bit key, unprotected) header.d=collabora.com header.i=@collabora.com header.a=rsa-sha256 header.s=zohomail header.b=OF35KZXi
+ARC-Seal: i=1; a=rsa-sha256; t=1793576767; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=nFF1HpSoEVKhGCa2OjQyYkqXJZOKSIszAnZw1s8222Xrd2kMjrb/JcjP3+xgAd+EF7NfYB4nI2t+0PS1ovEAqX4peypVDFBqTzX/0AWf47TWUVceAD+RGpLxXtlY9xOlLrkcoFg6rr9+F5deTI01HGYkyA3aAge++eGOasLzxdE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1793576767; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Dr7HLHhmpNPRnakRx/XUhqvaTum3bMcddo5f/qe4qo8=; 
+	b=fDZ8nHTaKuu9Udy2AaJvmQ8QdcNnymHS9p3SPvy7VJHRGxuwc3tLHvh9xsL4zQ3lbHV+R/D79My3/rJtwro5JPPqGjldw0Z8l31fEk6rRBq1qtMaUAdBA7hxFD94jVJjm5yrfwjBgNI+d8fz6vTxJ8KxXjbSac9lI3XvD6Qz2T4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
+	dmarc=pass header.from=<sebastian.reichel@collabora.com>
+DKIM-Signature: a=rsa-sha256; b=OF35KZXix3qxySfPAxVSiT1w0GHR1ywyUWFKqT6KVakay3bNiAr3UYgre4i65utKFaTYjgZN7BbziQ2+msK0hMPQoM354DuzAXpPzGiYkYW3t0iUN+xy1BJA/KoQ4yBEq01U8ZqH3K2H4bPQfO8HcTIibsUmZqCQq1YkbVTYEM0=; c=relaxed/relaxed; s=zohomail; d=collabora.com; v=1; bh=Dr7HLHhmpNPRnakRx/XUhqvaTum3bMcddo5f/qe4qo8=; h=Content-Description:Content-ID:Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:List-Subscribe:List-Post:List-Owner:List-Id:List-Archive:List-Help:List-Unsubscribe:MIME-Version:Message-ID:Resent-Sender:Resent-Cc:Resent-Date:Resent-To:Reply-To:Resent-Message-ID:Resent-From:Sender:Subject:To:Date:From:Message-Id:Reply-To:Subject:To:Cc;
+Received: by smtp.zohomail.com with SMTPS id 1793576765533498.29275941676076;
+	Sun, 1 Nov 2026 15:46:05 -0800 (PST)
+Received: by venus (Postfix, from userid 1000)
+	id 53936180371; Mon, 02 Nov 2026 00:46:01 +0100 (CET)
+Date: Mon, 2 Nov 2026 00:46:01 +0100
+From: Sebastian Reichel <sebastian.reichel@collabora.com>
+To: Manivannan Sadhasivam <mani@kernel.org>
+Cc: Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Heiko Stuebner <heiko@sntech.de>, Vinod Koul <vkoul@kernel.org>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Igor Paunovic <royalnet026@gmail.com>, 
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-phy@lists.infradead.org, kernel@collabora.com, 
+	Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+Subject: Re: [PATCH v18 0/7] usb: dwc3: introduce Rockchip glue driver
+Message-ID: <aufM3PCuU9CM8zFo@venus>
+References: <20261021-b4-rockchip-dwc3-rockchip-glue-v18-0-60000d03fca2@collabora.com>
+ <179353091270.2955.16595397888583885694.b4-reply@b4>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -115,132 +72,81 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: Aq9FyiwXssPF
-Date: Sun, 01 Nov 2026 17:50:27 -0500
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: kernel@resetko.pl, "Heikki Krogerus" <heikki.krogerus@linux.intel.com>,
- "Greg KH" <gregkh@linuxfoundation.org>, "Guenter Roeck" <linux@roeck-us.net>
-Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
- "Daniel Dev" <daniel.dev@noex.uk>, stable@vger.kernel.org
-Message-Id: <8d0c94b6-8fd0-4fde-8af5-ade15e142a0e@app.fastmail.com>
-In-Reply-To: <20261031-ucsi-lenovo-t14g2a-v1-1-183751e63c02@resetko.pl>
-References: <20261031-ucsi-lenovo-t14g2a-v1-1-183751e63c02@resetko.pl>
-Subject: Re: [PATCH] usb: typec: ucsi: acpi: Assume UCSI 1.0 on Lenovo ThinkPad T14 Gen
- 2a
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="z4xoeqz7d7xqkqyp"
+Content-Disposition: inline
+In-Reply-To: <179353091270.2955.16595397888583885694.b4-reply@b4>
+X-Zoho-Virus-Status: 1
+X-Zoho-AV-Stamp: zmail-av-0.2.13.1.5.4/293.557.36
+X-ZohoMailClient: External
+
+
+--z4xoeqz7d7xqkqyp
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v18 0/7] usb: dwc3: introduce Rockchip glue driver
+MIME-Version: 1.0
 
-Hi Stanislaw,
+Hi,
 
-On Sat, Oct 31, 2026, at 5:40 PM, Stanis=C5=82aw Titenko via B4 Relay wr=
-ote:
-> From: Stanis=C5=82aw Titenko <kernel@resetko.pl>
->
-> The Lenovo ThinkPad T14 Gen 2a exposes a functional UCSI ACPI PPM but
-> the firmware leaves the VERSION field of the UCSI mailbox at zero.
->
-> ucsi_register() rejects a zero version with -ENODEV, leaving the
-> system without registered USB Type-C connectors. Without an OPM, the
-> embedded controller does not complete DisplayPort Alternate Mode setup
-> when a USB-C dock or monitor that supplies power is connected after
-> boot, so the display stays dark while USB and charging work.
->
-> The mailbox uses the 48-byte UCSI 1.x layout, and the PPM works
-> correctly when UCSI 1.0 is assumed.
->
-> Add a DMI-specific UCSI operation for the ThinkPad T14 Gen 2a that
-> substitutes UCSI 1.0 only when firmware reports a zero version.
-> Preserve any valid non-zero firmware version.
->
-> Tested on a ThinkPad T14 Gen 2a with BIOS 1.33 (R1MET63W): both
-> Type-C connectors register, and plugging and replugging a USB-C
-> monitor with an integrated hub and power delivery brings up
-> DisplayPort Alternate Mode each time.
->
-> Reported-by: Daniel Dev <daniel.dev@noex.uk>
-> Closes:=20
-> https://lore.kernel.org/linux-usb/b1Wn_eFvTFShGbd970WWl4CWhge_6P2x7Wb6=
-rab3QHNlE4OJ4p__O-QN3B6I-308ftr5oV5Zr7vywA0vdvmtNw6E0YJnVM2ek_5DcFnkXB0=3D=
-@noex.uk/
-> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
-> Cc: stable@vger.kernel.org
-> Assisted-by: pi:claude-opus-5-5
-> Signed-off-by: Stanis=C5=82aw Titenko <kernel@resetko.pl>
-
-This platform was Linux certified so let me see if I can get the FW team=
- to look at it (it is an older platform, but it looks like it's still un=
-der support)
-I don't have this HW myself, so I'll need to ask the team in Japan to re=
-produce the issue. My personal preference would be to try and get the FW=
- fixed first and do the quirk if for some reason that isn't possible.
-
-> ---
->  drivers/usb/typec/ucsi/ucsi_acpi.c | 34=20
-> ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
->
-> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c=20
-> b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> index 5697ccc24ec3..33747e24353f 100644
-> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
-> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
-> @@ -148,6 +148,33 @@ static const struct ucsi_operations ucsi_acer_ops=20
-> =3D {
->  	.async_control =3D ucsi_acpi_async_control
->  };
+On Sun, Nov 01, 2026 at 04:31:52PM +0530, Manivannan Sadhasivam wrote:
+> On 2026-10-21 20:05 +0200, Sebastian Reichel wrote:
+> > The recent Rockchip platform have a combined PHY, which does USB3 and
+> > DisplayPort as well as muxing the lines in arbitrary order. Changing its
+> > enabled functionality requires a PHY reset and as the PHY provides a
+> > clock to the DWC3 controller, this can result in an SError. Apart from
+> > that the PHY might not start up correctly when the DWC3 PIPE interface
+> > is running. This series prepares a Rockchip specific DWC3 glue driver to
+> > help out with these problems. To become useful more patches are needed
+> > on the Rockchip USBDP PHY side, which are send separately.
+> >=20
+> > This was split from the USBDP cleanup series. v17 has a dependency on
+> > the patches that have been merged to phy's for-next branch. There are
+> > some additional Rockchip USBDP phy fixes, which depend on this series
+> > (which is effectively also a fix).
 >=20
-> +static int ucsi_lenovo_read_version(struct ucsi *ucsi, u16 *version)
-> +{
-> +	struct ucsi_acpi *ua =3D ucsi_get_drvdata(ucsi);
-> +	int ret;
-> +
-> +	ret =3D ucsi_acpi_read_version(ucsi, version);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (!*version) {
-> +		dev_warn(ua->dev, "UCSI version is zero, assuming 1.0\n");
-> +		*version =3D UCSI_VERSION_1_0;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct ucsi_operations ucsi_lenovo_ops =3D {
-> +	.read_version =3D ucsi_lenovo_read_version,
-> +	.read_cci =3D ucsi_acpi_read_cci,
-> +	.poll_cci =3D ucsi_acpi_poll_cci,
-> +	.read_message_in =3D ucsi_acpi_read_message_in,
-> +	.write_message_out =3D ucsi_acpi_write_message_out,
-> +	.sync_control =3D ucsi_sync_control_common,
-> +	.async_control =3D ucsi_acpi_async_control
-> +};
-> +
->  static int ucsi_gram_sync_control(struct ucsi *ucsi, u64 command, u32=
- *cci,
->  				  void *val, size_t len, void *msg_out,
->  				  size_t msg_out_size)
-> @@ -196,6 +223,13 @@ static const struct dmi_system_id ucsi_acpi_quirk=
-s[] =3D {
->  		},
->  		.driver_data =3D (void *)&ucsi_acer_ops,
->  	},
-> +	{
-> +		.matches =3D {
-> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
-> +			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad T14 Gen 2a"),
-> +		},
-> +		.driver_data =3D (void *)&ucsi_lenovo_ops,
-> +	},
->  	{
->  		.matches =3D {
->  			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
->
+> What is the merge strategy for this series?
 
-1) Couldn't you just reuse the ucsi_acer_ops quirk?
+I see these options (ordered by my preference):
 
-2) Better to use DMI_BOARD_NAME for the DMI match. For the T14 G2 AMD th=
-ere are two possible matches - "20XK" and "20XL".
+1: Vinod merges everything; the USB side is mostly a new driver
+   and thus there is not much conflict potential
 
-Thanks
-Mark
+2: Vinod provides an immutable branch with the first two patches,
+   USB tree merges the immutable branch and the remaining series.
+
+3: Everything is merged through USB; this would block the final
+   cleanup for USBDP from being applied for yet another cycle.
+
+4: Vinod merges patches 1+2, USB patches are merged one cycle
+   later and final USBDP patches are merged two cycles later.
+
+P.S.: I will have to send another version for the correct Sashiko
+feedback on the DWC3 side.
+
+Greetings,
+
+-- Sebastian
+
+--z4xoeqz7d7xqkqyp
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmrnzy4ACgkQ2O7X88g7
++ppUMw/+IZmalDNrDC3LSfbW/ZyIIGDr+YwPL3ZA9dTFpWBwbX77QSqT3hBTXKiO
+Co5D4QcxugfNSIeeoPFM45BpoZ0sNpLWwxiz9d3UdxHXwNMQBLusq0tsDJ8QzCkV
+TlrI7ej1U2bZcAq4DyXyqyRpWO/cWjf/JBAucghQFCWzqSW5YsAljsbYQnF/QLHI
+y49jW6ltllGr/yC9/+wNba6lZc39SkSgq5lC3mctoUXQGZ2e6zUQbTWKAYr+TLC+
+cvFWUQlmymyhELsdGPjhgpPjQndKetVvQVNuZsJ60hqHSNU0ZTSRxaYgl6IM5UPY
+dTXsOEQENYlYwetq0ZcOfwHVzM+kybIKqyS5Nm2OKUU0588croKVWhtlq/RHKUlq
+72jLZIao0J9KBl8NcAlyehL+taFTmFv3X73W3i5VRaU/A8joulsx0q7Vs8d0qzKa
+yizsxRS1gmVCNjR4dSGMmsSy1B+ZReFnZdc6XHLWeNvoWqX+nxeKD6J6frLrfmlq
+RoCIH72XqYaxT6jTBMek6Sv/FVlmfJvPGhj66ijzMQbYFrI2ABPdV2ZMtb5KdRdB
+/2JFhTzgIUXCP3rcKu9DdUzlmgo2zKEJ4FsZXZnuxp3wjWIcLVSmCcsx7+07uW46
+wDT6LWqChtRB8D54e52esmJc/OPnPa28m8RQqUHJFHE2IZ0iMn0=
+=Kcbn
+-----END PGP SIGNATURE-----
+
+--z4xoeqz7d7xqkqyp--
