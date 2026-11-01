@@ -1,56 +1,61 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793483020;
-	b=lMwpoz/2wtr3Rao9ftas6QH9T1Xf05gphYG2t7SKFMVXzclblSSIPhdjRK2jgwKcBnWd
-	 9RguqX1bt3ShNSBCjjmCVzr2a6nBmgbUXKCw5LUyVoKgPqLL2V66l9Rgn9g5DiNJhgM1N
-	 XcuiLCgsDleRDYIq+S6ntbg3g2Eq+iYyMZethF9SdPaZo+m3C4aunZSDDxOPAqkOicuXc
-	 jE9KgLGrot9P6yVRzm0U1PjGgXJNFagWnv3bU4yVSyHYPRiJ5dmwrPRGIsoBPqi9pWD2J
-	 JslPIKrNJbUcEwyo5miAlLSdUET4SVIFk9D45yg5ONW6uOQgCGg6nedeqh1HRRFHzUQ==
+	t=1793510811;
+	b=A6GbFFzt0iASjrmfLihhZ4ss3hfnNqWU0V0YvYDl0AwceGnboS9WJoLPhdvIzZgtunTe
+	 CU91k8xdpqd6pwTgiShm7AsIN8UgTbHqLyFmJrnHFI6ADBJJD9/ZMPo9p1+LYS5zf/fey
+	 lfsXCT5jfBj5Pdmpo4VU6yAupMqz3BHZ5cSW+emsgE20hBr2p5pSvxOWYNqxnhduxYpxn
+	 VXPPB/STHKsBp2Wwl+uPAC2XjqxgtCypQWC6aDyXHBi2oMZ+HzZwP3bZsLcGI5Bcbka6g
+	 /1LOvwQTpja9hqHWlpmocJXJmfUlRjpPFYfF2XiJ1qrncZQVhsYlRCYy/7w2L/ya1hQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793483020;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=IX+tK6TnvEFSZxT/chpScXK9DCCJeD/Zs96hYvJyHVU=;
-	b=mZJTlBTfNUEu2HvLymJTYUF+67lOltEJwy7yb34e68x8740dUYKXFhv8Wjx3hsxxu/qY
-	 sERgLnu0drvVto4JFqMcTuOPWtexW00DMhRGsdAqU6SouKgSBU9qRI9zL+vwdg69QpK8w
-	 wHYu0Je+SH0AJXQ7JTYrhzFmrloVHAbQFpgp6mvIWx2OP19W2dZYol9ArwYKwTHoqpJoR
-	 yVBxjusLZH4Rc/D5BEb3q/U2VeVQgU9WHvHRmIG6YSkroKi/FPP7NhicYOuUS926i6h7R
-	 34NN0E0MR5u15GOfVaW7tB6fuXkE1XKW4MmNRzeKL71/MUzosilMG2USekWV7N/GipA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793510811;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=gM3q15/BMiP6EHVsNFcvdv86I1H+gIVZ8AKY9O890iw=;
+	b=tXNEh88p+GWeX3CCex0d5lr7KsLEDfa86YibOQSZKz3OzWdho0OvslidN0iVdxXCeuyK
+	 EwCxWAsbpKaDNiX035Zh0eHeAnUXcSKUsbZquslIr3/cMH/kXdcek1yerl+zt7qluoQah
+	 cWyFJ3RKwYyrLQweRuoBAB1/FcQdTEBer7Y5zCD9ezDmFIXkTpHvmb2rk29vbhM3z6Pit
+	 Jr0pR6JH61q8TZ9r2G0oOOZMCTS1j8JYmsDfpmgJ3BXWL0u8vL9hNV/FI+52ndow9maNa
+	 YPR3cKWgcgHHwECxMXyydVJ+YR7b74KhW3wX8A6NVUPDo7hpbTIjAlLAqe2A9+sAOQA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CBjwRTu+;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9951606A31A
-	for <linux-usb@vger.kernel.org>; Sat, 31 Oct 2026 21:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=CBjwRTu+
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CE421F000C1;
-	Sat, 31 Oct 2026 21:43:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793483019;
-	bh=IX+tK6TnvEFSZxT/chpScXK9DCCJeD/Zs96hYvJyHVU=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=CBjwRTu+LpEtO108Cki0/vQFit3bUYjtVDnm3kw0XaRGcdyBBz7vFtB3MHwMq9U07
-	 vyJc0XPnb+1yzF+CH/PtNJqnmPFYbpwt9lP08jp/VGz6YUbwAwJF84V/LCCEbzSk4f
-	 nDHbaskMJlzKZuU0tOQnN/eY/BZnvPqDnoSgApKa76TvwAN6LcdlucwfWGVnxt18wS
-	 Kfiy3Lzb+o2hFnUcTHuPswPDuGwfWDB30h8MCJqjDl9+oYtoyzPys89ltqOo5IWPY+
-	 AhWqOXD6jFLIx3wbDsogAUTYhaa8s+kh4mSUmVcdy78QBgNRCu2pbjbLtR+weJUrBh
-	 R+W6oIY+3akSg==
-Message-ID: <sashiko-outbox-192184@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: typec: ucsi: acpi: Assume UCSI 1.0 on Lenovo
- ThinkPad T14 Gen 2a
-Reply-To: sashiko-reviews@lists.linux.dev
-To: =?utf-8?b?U3RhbmlzxYJhdyBUaXRlbmtv?= <kernel@resetko.pl>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261031-ucsi-lenovo-t14g2a-v1-1-183751e63c02@resetko.pl>
-References: <20261031-ucsi-lenovo-t14g2a-v1-1-183751e63c02@resetko.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 31 Oct 2026 21:43:39 +0000
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D590606A324;
+	Sun,  1 Nov 2026 05:26:45 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6D590606A324
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:In-Reply-To:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version; bh=gM3q15/BMiP6EHVsNFcvd
+	v86I1H+gIVZ8AKY9O890iw=; b=DcTmpEt6tu5MPIYYUmzCQvTDZfthEoxo2ZpI8
+	5oir9rrGWoNToWurvWVNwEHj68b2fO49plEFm06tsK1eBQSEp8w5vbFJAzpvvYq5
+	GO03IoZaqsQMupFzAc05qgb3jOj/TFbGiOSvCnEOS2+l7XVIFEU0l+SIczKEfSPx
+	zWHv6E=
+Received: from [127.0.1.1] (unknown [113.200.174.23])
+	by hzbj-edu-front-4.icoremail.net (Coremail) with UTF8SMTPA id BrQMCkD2FPuEzeZq_Z0UAQ--.15833S2;
+	Sun, 01 Nov 2026 13:26:30 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Andrew Lunn <andrew+netdev@lunn.ch>
+Cc: Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+ UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Russell King <linux@armlinux.org.uk>,
+ Oleksij Rempel <o.rempel@pengutronix.de>, stable@vger.kernel.org,
+ Bin Yu <byu@xidian.edu.cn>, Cheng Wen <wencheng@xidian.edu.cn>
+Subject:
+ Re: [PATCH net v2] net: usb: lan78xx: let unregister_netdev() stop phylink
+Date: Sun, 01 Nov 2026 13:26:28 +0800
+Message-ID: <179351078879.2591.15287457752530436149@stu.xidian.edu.cn>
+In-Reply-To: <e71cccdf-59e5-407c-b536-9dd47a49b0a7@lunn.ch>
+References: <20261031165213.2738-1-25031212351@stu.xidian.edu.cn>
+ <e71cccdf-59e5-407c-b536-9dd47a49b0a7@lunn.ch>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,42 +64,59 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-CM-TRANSID:BrQMCkD2FPuEzeZq_Z0UAQ--.15833S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7uw4UCFWktr1UGF4xGr4UArb_yoW8Jw45pa
+	s8ta97Wr4vyw1S93s5ZF1UZw15AFnrZrW3Cr90grWrX345try7Jw40qFykZF1akrsxA342
+	vr13CayUuFZ5J3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9Cb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVWxJVW8Jr1l84ACjcxK6I
+	8E87Iv6xkF7I0E14v26r4UJVWxJr1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8I
+	j28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr
+	4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwAC
+	I402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrw
+	CFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE
+	14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2
+	IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxK
+	x2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI
+	0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07b5sj8UUUUU=
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUED2rmBFRXBAAAsA
 
-> From: Stanis=C5=82aw Titenko <kernel@resetko.pl>
->=20
-> The Lenovo ThinkPad T14 Gen 2a exposes a functional UCSI ACPI PPM but
-> the firmware leaves the VERSION field of the UCSI mailbox at zero.
->=20
-> ucsi_register() rejects a zero version with -ENODEV, leaving the
-> system without registered USB Type-C connectors. Without an OPM, the
-> embedded controller does not complete DisplayPort Alternate Mode setup
-> when a USB-C dock or monitor that supplies power is connected after
-> boot, so the display stays dark while USB and charging work.
->=20
-> The mailbox uses the 48-byte UCSI 1.x layout, and the PPM works
-> correctly when UCSI 1.0 is assumed.
->=20
-> Add a DMI-specific UCSI operation for the ThinkPad T14 Gen 2a that
-> substitutes UCSI 1.0 only when firmware reports a zero version.
-> Preserve any valid non-zero firmware version.
->=20
-> Tested on a ThinkPad T14 Gen 2a with BIOS 1.33 (R1MET63W): both
-> Type-C connectors register, and plugging and replugging a USB-C
-> monitor with an integrated hub and power delivery brings up
-> DisplayPort Alternate Mode each time.
->=20
-> Reported-by: Daniel Dev <daniel.dev@noex.uk>
-> Closes: https://lore.kernel.org/linux-usb/b1Wn_eFvTFShGbd970WWl4CWhge_6P2=
-x7Wb6rab3QHNlE4OJ4p__O-QN3B6I-308ftr5oV5Zr7vywA0vdvmtNw6E0YJnVM2ek_5DcFnkXB=
-0=3D@noex.uk/
-> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
-> Cc: stable@vger.kernel.org
-> Assisted-by: pi:claude-opus-5-5
-> Signed-off-by: Stanis=C5=82aw Titenko <kernel@resetko.pl>
+Hi Andrew,
 
-Sashiko has reviewed this patch and found no issues.
+Yes, I did, but it ended up at the bottom of my reply to the sashiko-bot
+review, which was not the right place for it. Here it is directly.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261031-ucsi-lenov=
-o-t14g2a-v1-1-183751e63c02@resetko.pl?part=3D1
+e110bc825897 is the commit that introduced the call which warns. Before
+it, lan78xx_disconnect() did:
+
+	unregister_netdev(net);
+	...
+	phydev = net->phydev;
+	phy_disconnect(net->phydev);
+
+and phy_stop() only existed in lan78xx_stop(), guarded by
+"if (net->phydev)". So disconnect never called phy_stop() on a PHY that
+had not been started, and the warning was not reachable from this path.
+
+e110bc825897 converted the driver to phylink: it moved
+unregister_netdev() after the phylink teardown and added an
+unconditional phylink_stop() before phylink_disconnect_phy(). Since
+phylink_stop() reaches phy_stop(), which warns unless the PHY is at
+least PHY_UP, unplugging before ifup started producing "called from
+state READY".
+
+	git log -S'phylink_stop(dev->phylink)' -- drivers/net/usb/lan78xx.c
+
+returns e110bc825897 and nothing else apart from my own change, so that
+line has not been touched since it was added.
+
+This is also why v2 puts unregister_netdev() back in front: it restores
+the pre-conversion ordering, so an interface that was never started is
+not stopped at all, and a running one is stopped by lan78xx_stop().
+
+Thanks,
+YuanZhe
 
