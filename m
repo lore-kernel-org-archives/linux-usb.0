@@ -1,98 +1,45 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793524348;
-	b=WIdjFFhegHl+aPLdoOe6sYGW21q+RZypbCf35rW30Un96X8+xSZgEmhLaBWMjOUQJYrh
-	 SCWWSeD7NbigppEZpY9EzmM0w+Udbhc02pW4Z+e1lNVIONF1eiYIHz8Ysmu7eYyLl8pfu
-	 PMXvxPaeoS4EgNABwL2DRWaKMs6RMmOOky3E6B4Ueu3OBSecHTHwOmAGaC09iS6WYU4mA
-	 YgdcUZj+2+qNdA0tAp5ri+SJQ4sYWkjJp2z189b2DtpD/mDMC5jPt3fF/A+YUuECFuCAk
-	 VcgE16jRLJOXU+sXIB+pqE+eFwYYh/+nqMI7f/gFWttVSXEkJ7OCkFZUFJFoX6/v5jg==
+	t=1793530328;
+	b=Rar9Gf1jMANl7HOyZI5hpRer8xCgpb5ftEmK5H40k7sgIA8J8jT8YcqV5WQa3hUmfx2H
+	 WJxzgxPvcL68wbQlbIt9aPPzyQ+5+PkfCZnECG2hgnMsJFl3X0bCbLVQR5a2JKtWP8c/U
+	 Ittda2XXcEubmV0du+uvI6Vrd0qdz7ORcoPetT+oGjDHUoMGsFz/qkFC3td2FhikKGepN
+	 KlNtQp9lcdH/4hTJT16FmJ495612Leavj8pu+LBoX/EseOc3xN0/DoCmY5GfQ+6FFkAJq
+	 sdDMilhKLmxFhzmf3OiQGFVhie7PnbHhd3pWMEc2vWHIj1yK91+ZEw92vXhpWGjeHWQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793524348;
-	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:Received:From:To:Cc:Subject:
-	 Date:Message-Id:X-Mailer:In-Reply-To:References:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=3ysPIyTHoA/9Jg4MEjHSr/SQZx/nE08X6Q8EzC88lqo=;
-	b=zGoHSKmqYyO8fyDr6PTwfa/Gf63O2fuspj8jgr3RKMl/jhs9TKfproezPI2JijYv/1UZ
-	 9hqTVQ0d40/oCBycZCTIx4BoZWRYBoXtVDGuvswPopUM33IlYpbDhJUB3vC9ggSsLoOY9
-	 HG2BMeG/eog63no+XcnTkCXm80zXZ6RH4WZ543Gt4byPxEljtx9NK+ar3SEESVUTopXIn
-	 +Ib0KOppISmOrl0qMNKqlj+31oGsQAMlbwP+4g4BEmGR5rJp0rAZvPUTbw8XlrAPi6cGH
-	 aK+fprwcfMRnG24IhLfQr9EYHliASw04npCeyF5aFiupQkWE/S2dsdvYf8g2QrYUDoA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793530328;
+	h=Received:DKIM-Signature:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:Subject:From:To:Cc:In-Reply-To:References:
+	 Date:Message-Id:X-Mailer:X-Developer-Signature:X-Developer-Key;
+	bh=pJVVKwHbhmfTEf9BsmBhWwB3UfIBhltnU3zTc/bmdjo=;
+	b=kHjfFcSIkYIZDlZecGeDHWVs4emKYwEiBKB2xZGaGKQwVQempPQPCyeJX9j2KO1Pyzev
+	 C3NVpbRNMD45aDRcK+9I/mg/L650Hy/ur6KknQQYRQI7/DtbTc2vZ6BuAwkt4iBhH4Kox
+	 l+I/rSb4rGtB9ya4furnbNQKsAx6kcVa5T6UErAvuZpx2LW+CFw1QA6Xgqc0t3ecjpnW6
+	 sGqX2KZTnu6XeZKXJOiZoATYBQaYnZnwgsEbmBtKG8wf1ZFdQap3h36r9/wJuJ/fdqGGu
+	 gCuVD8dX2gxoZTTCe+NDs6c4HGx6LRHJBpdNIaS6+cI3G/VzO7CZ3VrwsQlefjDs9KA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=gmail.com;
-	spf=pass smtp.mailfrom=gmail.com;
-	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=puwyvf3q;
-	arc=none smtp.remote-ip=74.125.82.171
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="l0c/lPT/";
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C54D606A325
-	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 09:12:27 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 4C54D606A325
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B6E6606A324;
+	Sun,  1 Nov 2026 10:52:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=puwyvf3q
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-35c76e9614aso2941712eec.0
-        for <linux-usb@vger.kernel.org>; Sun, 01 Nov 2026 01:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1793524347; x=1794129147; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=3ysPIyTHoA/9Jg4MEjHSr/SQZx/nE08X6Q8EzC88lqo=;
-        b=puwyvf3qlFZ5aOotS6Fv74jcQIT5BCHjlUVjgKKARno+rxWB9U4MIbPywKVmbOy5ib
-         MPcMbRF2foR/UqCcX3VN+CIR4q6fCNXEx8Qu7LCPu864hBm2fT7JlZWFBKLUjn9VW3p9
-         OEfKu78cHecd6Fbo9xvEgqmsasteThfGAI9TwqVfmMTlw8cExiD5RCU8jNlIcEvmhZ/C
-         qn+9Dk4+70eNz1u2x5qZ26FcTd1OKNWXDK7QV23p00ZwkCB2NewG+vxVTFLU0TNSw8Ai
-         zGMFPKZ7ndIknLst9kZ1Ojy8c6pt/SypNNb5C8at0XmDKtG5jd9j2FWWc0zsIZw1IxeT
-         vILg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793524347; x=1794129147;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3ysPIyTHoA/9Jg4MEjHSr/SQZx/nE08X6Q8EzC88lqo=;
-        b=Zb+TTbUBAsyrbEw5sjGliRY5WEaxKmSquUs5Lao9QpUNyidlTI6RQU2uvUGJCt01SD
-         GRTz8CDiyb7LCpA5wbghGHvtQa0P4mUbNzpZ4SGr7nnNK/Q3Udp+z7OvaLqMvfUTqgxF
-         rtcMo6/8GWpeK+qYOl7T6MvCyMguy2zuyQcNELpphr4gKunkLLY/SbkC+Rs3a7HWVcCt
-         09y0Ef+OZhKjPfME9KXV412nkYUVPpnuXNApig305Yrl2lTy4ee3DrnAg1dsYzMBzoAl
-         6pnCKCQms/FYNHNk2RTJ4UwLggnkcCNOHq+MOD2o/jZyv2qltUWYvMdWDDI/4+t9UvtC
-         V+EQ==
-X-Gm-Message-State: APuU4Z+v0zW5lBkC6/bIhyjp98sGL+I+scvNTpAAuJQo3824ZC9LD8++
-	J10BbGAdj4eW6spWUFFYvYvmKbffyz0URijw4tU+FxumkyISTRu8RWNZ
-X-Gm-Gg: AYBFou0+kF43Df6jMiGQaDuU7X4Cgt95G58aCbV4oy1Fi8ZR+VLESPMVmkBFFMkY+E7
-	/0IU4MIrDK4BygX1VL4M2diCw0ZDPD1RCE/Bodpe/HO6ejGDXdkgfznX8OTMHe/cCvts5CMkpL8
-	C4ETBK5YqI2ZZq06d/bOxYh8XcygDBH13rahW90yxBxNRgV8dLtA8XNg02fArxqDV8DJTooLGNJ
-	+xqkXYucQ9rEn+VbTWTLCMc/fV/Hf1B6+HrzgZlCtbMDKQrTv5OC1q4KJ1tZMj9TPpw6QSrCdTJ
-	V0V9MxFLbN1ZGpm/YCdwwUMlmOa5mPc2wNsph9Wi7JPcZwtfapB5XTh1WwNACl/W+T2n7oGPn6Q
-	OwpqlVBSijaF0Vn4dnDWmjf6Rc+zn4cKOUxBPKs8tJ/rbVUsiErpcmkjKqmsBZxEyMKDxUxSJmE
-	YcrhrTgGX8SAMdGkJ8WwWtMvB1HBbWxU6vRkoMXNHOnDtqkCl8X2CNC1wl2v1wQ47aNWoYTPmRs
-	H/6XY0jYxXlVvn48box18oAjkn8VNU+lj3ZR5kCYYZ8Bcp4E7BTIjdNdJ/Rq278FFUA+8A68IZc
-	bqBVIiwncuuZfb3rOO9qVgbfBFtbMkOHiK1mI8ie1a4SpOcG9gtjGaqrzw9vjqVjLekh
-X-Received: by 2002:a05:7300:cb0b:b0:354:1db3:674e with SMTP id 5a478bee46e88-36a42330b9fmr13797488eec.6.1793524346880;
-        Sun, 01 Nov 2026 01:12:26 -0800 (PST)
-Received: from youngkk-vm.localdomain (67.216.200.102.16clouds.com. [67.216.200.102])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42669128sm27037797eec.3.2026.11.01.01.12.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 01:12:26 -0800 (PST)
-From: Cheng Yongkang <teel4res@gmail.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-usb@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Valentina Manea <valentina.manea.m@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Hongren Zheng <i@zenithal.me>,
-	Sung Byeongchan <tjdqudcks0424@naver.com>
-Subject: Re: [PATCH v2] usb: usbfs: clamp actual_length to transfer_buffer_length
-Date: Sun,  1 Nov 2026 01:09:46 -0800
-Message-Id: <20261101090946.1963739-1-teel4res@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <2026110138-kettle-daredevil-ceb5@gregkh>
-References: <20261101070651.1846947-1-teel4res@gmail.com> <2026110138-kettle-daredevil-ceb5@gregkh>
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=l0c/lPT/
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DC941F000C1;
+	Sun,  1 Nov 2026 10:51:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793530327;
+	bh=pJVVKwHbhmfTEf9BsmBhWwB3UfIBhltnU3zTc/bmdjo=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date;
+	b=l0c/lPT/eHsnt1tu0zHEi2fcjmyhFiZ/YhFGHrjw3FbL3pYqJvbloIdadawwaB612
+	 FBUXj/oiY0K3qDL8wX/neSpZzhEHZkMFvAKvNkqQTnumEInIkI6/gCd7lKUmkFdqHz
+	 PxfZ7v4jGDpZvZdkWaoBpXrQErbRQXKlIjTIeRWOR5hVqs/5jLB0rcT1poWWRrLIEx
+	 keRC/Y8Be+MNkn9QSHiLWHWKDEisoJA/OWDywAbucKI3nYaJJ9dQt8eIPH0grbMLPQ
+	 t9IDpoyBs4x4Ix9A6NGoqNrAX/wPqbatMCkyFH7cI18gzxBx4BVvfCmGl/YnX8O4C0
+	 1UBl0NAQojcig==
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -102,34 +49,131 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 21/27] phy: rockchip-inno-usb2: Add RK3572 support
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Cunhao Lu <1579567540@qq.com>
+Cc: Stephen Boyd <sboyd@kernel.org>, Brian Masney <bmasney+clk@redhat.com>, 
+ Jerome Brunet <jbrunet+clk@baylibre.com>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Elaine Zhang <zhangqing@rock-chips.com>, Lee Jones <lee@kernel.org>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Richard Cochran <richardcochran@gmail.com>, Ulf Hansson <ulfh@kernel.org>, 
+ Andi Shyti <andi.shyti@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>, Jisheng Zhang <jszhang@kernel.org>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@kernel.org>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ David Wu <david.wu@rock-chips.com>, "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Daniel Lezcano <daniel.lezcano@kernel.org>, Zhang Rui <rui.zhang@intel.com>, 
+ Lukasz Luba <lukasz.luba@arm.com>, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Vinod Koul <vkoul@kernel.org>, Neil Armstrong <neil.armstrong@linaro.org>, 
+ Manivannan Sadhasivam <mani@kernel.org>, 
+ Thinh Nguyen <Thinh.Nguyen@synopsys.com>, 
+ Jaehoon Chung <jh80.chung@samsung.com>, 
+ Shawn Lin <shawn.lin@rock-chips.com>, linux-clk@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ mfd@lists.linux.dev, linux-gpio@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-pm@vger.kernel.org, linux-i2c@vger.kernel.org, 
+ linux-serial@vger.kernel.org, linux-mmc@vger.kernel.org, 
+ linux-stm32@st-md-mailman.stormreply.com, linux-phy@lists.infradead.org, 
+ linux-usb@vger.kernel.org
+In-Reply-To: <20261022-add-board-ok3572-c-v1-21-0b0fd85a31ee@qq.com>
+References: <20261022-add-board-ok3572-c-v1-0-0b0fd85a31ee@qq.com>
+ <20261022-add-board-ok3572-c-v1-21-0b0fd85a31ee@qq.com>
+Date: Sun, 01 Nov 2026 16:21:52 +0530
+Message-Id: <179353031285.2955.4272173079718014092.b4-reply@b4>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2049; i=mani@kernel.org;
+ h=from:subject:message-id; bh=31exuPQfsAOhnwIjmXEjjvAlTRXnnjz1PKLb/yyFj6k=;
+ b=owEBbQGS/pANAwAKAVWfEeb+kc71AcsmYgBq5xnKP2pbzdBpJAuX9SwupspI7yJNwomVsnJuz
+ aOJqq74qKuJATMEAAEKAB0WIQRnpUMqgUjL2KRYJ5dVnxHm/pHO9QUCaucZygAKCRBVnxHm/pHO
+ 9WQAB/96KIbnRgeB00Ab1FYAF1roqbKbj5c0aeRO93f5urNJ5r4URepXfyJP8dOuE9JZMVZcr5b
+ GALeNpvXnpsL49mzVQohe0Sp2GxQbbkDvy3WNXMFLbrkiwoNUew3PXjGrpC+WP0iMwunoMh40sM
+ +FfXLZ/BJbcm4CwP6xP2rbTgKlRX+YBDZ+5anFKAflhI8lyjzOroc6CaQKJWA1uoNR/cCsO3b/7
+ PbLuWLleLh5V6qLB832ZwG0rMmEZomEhcXEuXh11t9ERKG4ysL4hKV6TinMlLU2Ruhu+iLPuGXa
+ eWPJiKBNr/cTl6yoqPDo7ctlFKJ8f+OZjojQUZ/2GmF6FG2F
+X-Developer-Key: i=mani@kernel.org; a=openpgp;
+ fpr=C668AEC3C3188E4C611465E7488550E901166008
 
-Hi Greg,
+On 2026-10-22 00:11 +0800, Cunhao Lu wrote:
+> Support both RK3572 USB2 PHY instances.
+> 
+> Signed-off-by: Cunhao Lu <1579567540@qq.com>
 
-Agreed, that is where the bug is, so please drop this patch.
+Nitpicks below. With those fixed,
 
-That was in fact the first fix: patch 1/2 of my original series cleared
-actual_length in vhci when usbip_recv_xbuff() fails:
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
 
-https://lore.kernel.org/linux-usb/179328314074.648427.388274461758949120@gmail.com/
+> ---
+>  drivers/phy/rockchip/phy-rockchip-inno-usb2.c | 136 ++++++++++++++++++++++++++
+>  1 file changed, 136 insertions(+)
+> 
+> diff --git a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
+> index 7d8a533f24aea..16a36e68cb6d3 100644
+> --- a/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
+> +++ b/drivers/phy/rockchip/phy-rockchip-inno-usb2.c
+> @@ -1544,6 +1544,49 @@ static int rk3528_usb2phy_tuning(struct rockchip_usb2phy *rphy)
+>  	return 0;
+>  }
+>  
+> +static int rk3572_usb2phy_tuning(struct rockchip_usb2phy *rphy)
+> +{
+> +	u32 reg = rphy->phy_cfg->reg;
+> +	struct clk *refclk;
+> +	unsigned long rate;
+> +	u32 val;
+> +	int ret;
+> +
+> +	refclk = devm_clk_get(rphy->dev, "phyclk");
+> +	if (IS_ERR(refclk))
+> +		return PTR_ERR(refclk);
 
-I withdrew it only because Sung Byeongchan had posted the same one-liner
-three weeks earlier:
+Please insert a newline between each operation to improve readability.
 
-https://lore.kernel.org/linux-usb/20261009122636.642575-1-tjdqudcks0424@naver.com/
+> +	rate = clk_get_rate(refclk);
+> +	if (rate != 24000000 && rate != 26000000)
+> +		return -EINVAL;
+> +
+> +	ret = regmap_write(rphy->grf, reg + 0x0004,
+> +			   GENMASK(18, 16) | (rate == 24000000 ? 2 : 6));
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_read(rphy->grf, reg + 0x0010, &val);
+> +	if (ret)
+> +		return ret;
+> +	if (val & BIT(13)) {
+> +		ret = regmap_write(rphy->grf, reg + 0x0010, BIT(29));
+> +		if (ret)
+> +			return ret;
+> +		ret = rockchip_usb2phy_reset(rphy);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	/* Set the normal line-state filter interval. */
+> +	ret = regmap_write(rphy->grf, reg + 0x0020, 0x30100);
+> +	if (ret)
+> +		return ret;
 
-That patch has been waiting since, with an open question from Shuah.
-Its review had also already pointed out the case it misses: a returned
-length with the top bit set is read into an int in usbip_recv_xbuff(),
-takes the size <= 0 early return, and the URB is given back with that
-length anyway:
+Here.
 
-https://lore.kernel.org/linux-usb/sashiko-outbox-165560@kernel.org/
+> +	/* Increase HS voltage by 5.89% and double pre-emphasis current. */
+> +	ret = regmap_write(rphy->grf, reg + 0x000c, GENMASK(27, 24) | 0x0900);
+> +	if (ret)
+> +		return ret;
 
-Rejecting any actual_length larger than transfer_buffer_length in
-vhci_recv_ret_submit() covers both. I can send that, or Sung can fold
-it into his patch, whichever you and Shuah prefer.
+And here.
 
-Thanks,
-Cheng Yongkang
+- Mani
+
+
