@@ -1,54 +1,48 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.167.198
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=144.6.180.193
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793567687;
-	b=Xb2bihFE5zV0zjssGPdS8PUYIAjtVHOa8UawMrqtIw5lNjGnVABsSeubDj/ksZ/MiFU7
-	 999+ozUYLyTHLJ1pKJ7YheBKaK7iouG2078KaHk9db1v41smPL8kJmHPG/aS69ebkC9Iy
-	 021SFisw3VTQk24w7jRZSCbNrXuSWCKFRSudmgxko+b/VjrkHO+21rb/2gp98pipBSEVz
-	 3xoxp6uA0s43hddHYhn4r2QJtGpirMCNj2IaqG5bFl6NS6Q8MgXyAWtUWWgqU2qhAImsW
-	 GK7/okWYXqMURcBeaSJJYeQaFWx8UMvhnqjogFj2mtIp9byDbKAssyBIwF6G8D+MaFA==
+	t=1793568206;
+	b=nnCRuu0JXm9BUQrqkf77mgGC8uCGvn++MjPFl+4Jw25tuUF5sypWQg6UX5YOUJ2WXE1P
+	 hqkgoGKQTdfy9e8yFyP5+0ymZ4mx73511C6tM4UUV+krnLUnomYm8IufkgIsxppqXK2gu
+	 OoBast9ai48WWRPRy/aKyz8W7tcN3tQOBCUHg1OKc5GFiXi56MoChINXrxGIekTp570U4
+	 8clErlUhpli1T5RzKSxWT56t+YNJdRo8WXIvCE4Gb9hiEtpXFerGc7NUmjXiDtHr3NsnZ
+	 TdC+Rf/bdH26x3jGnouLl8V0BWoDX6/8/crxkc+wd2WPLpkglJamG3xRPKHgQbBJaZA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793567687;
-	h=DMARC-Filter:Received:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:MIME-Version:X-Received:Date:In-Reply-To:
-	 X-Google-Appengine-App-Id:X-Google-Appengine-App-Id-Alias:Message-ID:
-	 Subject:From:To:Cc:Content-Type;
-	bh=AvHAhlRhkPgLrmgjNSyRuNLh9GxQ9LIIjKdvXbwFnMA=;
-	b=t56IkCd8CI21GJaBF0rvjn1NMDnE08TOsIFmx9eFgxAUPhTG1squLLNciTm/IWsW9LKa
-	 fGuKT2NF7UPqVvQEvuC2kpDs5YGuiw9Wy1257VuiKH/ZwjqHibXgW2befCQjOzwYEekOp
-	 VawsQv3q/+XwbaXhcphbu4zJ2/F7deLf/mUB4dnGkT+qQXYa+7hPiu2QRuJ2HNdfDxnob
-	 rcb+M2AHEp6os/AqWbefhkQGgyzkLmM1C2eIZNjb+5LtTIqJRLk9VbJu3Tll4OlaE7ycI
-	 oSez1cMq+zwH8rVitIWXZ6Q2NGj9TTRFVNPTFYUe3NSL5m2YCs0kitM5UAEp4VXF94g==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793568206;
+	h=DMARC-Filter:Received:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
+	 MIME-Version:Content-Transfer-Encoding:X-Spam-Status:
+	 X-Spam-Checker-Version;
+	bh=7R5l8aqNCSpYa5irhiVl5c4c5Lydz7WveCOd2MtAt4Y=;
+	b=kQppIq2I1G6bOO7WNO0CsBNbIQfl83/6Ji05h3WCMuyUf6FYWt5avVGRXGf9jPUXmZqd
+	 t8eA+3geapTv3G374Q9ReW8Fi3OZGS0j3GYvavIZ8ernCBZZbJUD3fVhB8/glDkHd01W+
+	 HMljDjO/bfJTASwVOJCu6lJe5HVO1p9r0G00skxCfdN50szjS9W9+JqFFvCXlWBGfkjiF
+	 tpQQXIcNXEHnXO8MQzmd6n/c0CwnTvZmoo7ByE3ygY/lwI+xp/wK81SOjVUCoMRbLmsS/
+	 xHUcYs1hEB8x7UIZ+t0haAZ5rBd+9gBD/diVI100mfhv6o6tjeYS08uOMxVKq2+fdMA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=fail header.from=syzkaller.appspotmail.com;
-	spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com;
-	arc=none smtp.remote-ip=209.85.167.198
-Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	dmarc=pass header.from=gmorph.com;
+	spf=pass smtp.mailfrom=gmorph.com;
+	arc=none smtp.remote-ip=144.6.180.193
+Received: from mail.gmorph.com (mail.gmorph.com [144.6.180.193])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E823A606A327
-	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 21:14:46 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org E823A606A327
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-5640a2d9708so3388693b6e.1
-        for <linux-usb@vger.kernel.org>; Sun, 01 Nov 2026 13:14:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793567686; x=1794172486;
-        h=content-type:cc:to:from:subject:message-id:in-reply-to:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=AvHAhlRhkPgLrmgjNSyRuNLh9GxQ9LIIjKdvXbwFnMA=;
-        b=UeL1zMrCV5zUZWKolb2b6panFV2WNLhIgjuMLs4cB1W/E4q8bXySpo4olS5HitDVBa
-         bh56RmoJxVtGSBX7y+4RCrkvd9MaJV4eVoageuMjp309uyqiuDJ9+BLNFGojCBIXqK/h
-         nR7g497zYUlgAdilDTKZ4ZAE7zQlOygo7QV4f/XwmbX8Ftqx/oV6CZa8R+qj8Fwkz/iX
-         7V7xt1RO3KDfiiGqyc/sYlyWi7wEQAeVdrZS+ZLpgqumQymyc0Ac0qLXXot14jqCahTu
-         OrN/2S0vK/9EveXh9/FDpDk7v4Cus8Hr5hc04edznsHeIyCYgooqQ0vueBM7UJfCDVhV
-         g97w==
-X-Forwarded-Encrypted: i=1; AKwUvBxfkJL7ocTOxV2WL74c7RvyKKoUNOtBDt95y0R6m6gbUQsr1isDmY/rJRk+hYt2HbwJsTR2aokUa3A=@vger.kernel.org
-X-Gm-Message-State: AFq9FYLNi2CcHCrQ4lOT9hwBGTqK7RhD8sntsdvmc67+r10Ze5MByZay
-	4aOpm3FK3YbzqDRV4AGlH8pc5iYg0lZ6up7T/aDXoEzroI7T/2KuoVUmTL+D63idPyIfZDOLes1
-	qOFodCA+t1IIO3YdiMlowe54qW0bQYMyhRXOwbtzJw19bIt7lHz77iiqjIMA=
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9613B606A325
+	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 21:23:25 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9613B606A325
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmorph.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmorph.com
+Received: from koala.local (_gateway [10.1.1.1])
+	by mail.gmorph.com (Postfix) with ESMTPS id 5B5011C022D;
+	Mon,  2 Nov 2026 08:23:17 +1100 (AEDT)
+From: Grant Morphett <grant@gmorph.com>
+To: Andreas Noever <andreas.noever@gmail.com>,
+	Mika Westerberg <westeri@kernel.org>,
+	Yehezkel Bernat <YehezkelShB@gmail.com>
+Cc: linux-usb@vger.kernel.org,
+	Grant Morphett <grant@gmorph.com>
+Subject: [PATCH] thunderbolt: Enable hidden DP OUT adapter on Dell TB16 dock
+Date: Mon,  2 Nov 2026 08:23:11 +1100
+Message-ID: <20261101212311.10946-1-grant@gmorph.com>
+X-Mailer: git-send-email 2.53.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -58,142 +52,149 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:11cb:b0:55b:f88d:6ebb with SMTP id
- 5614622812f47-5640df0a2eemr5490383b6e.54.1793567685852; Sun, 01 Nov 2026
- 13:14:45 -0800 (PST)
-Date: Sun, 01 Nov 2026 13:14:45 -0800
-In-Reply-To: <20261031204723.1415-1-drifabdelmalekmohamedsaid@gmail.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <6ae7abc5.64e51036.15cf6a.001d.GAE@google.com>
-Subject: [syzbot ci] Re: media: em28xx: fix v4l2 use-after-free after failed init
-From: syzbot ci <syzbot+ci612f2c3be50482a3@syzkaller.appspotmail.com>
-To: drifabdelmalekmohamedsaid@gmail.com, hverkuil@kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-usb@vger.kernel.org, mchehab@kernel.org, stable@vger.kernel.org, 
-	syzbot@syzkaller.appspotmail.com
-Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-syzbot ci has tested the following series
+The Dell TB16 Thunderbolt 3 dock consists of two Alpine Ridge 4C routers
+in a chain: one in the captive cable module (DROM 00d4:b051 "Dell
+Thunderbolt Cable") and one in the dock itself (DROM 00d4:b054 "Dell
+Thunderbolt Dock"). The dock has four video connectors: mini DisplayPort,
+HDMI, full size DisplayPort and VGA.
 
-[v1] media: em28xx: fix v4l2 use-after-free after failed init
-https://lore.kernel.org/all/20261031204723.1415-1-drifabdelmalekmohamedsaid@gmail.com
-* [PATCH] media: em28xx: fix v4l2 use-after-free after failed init
+Mini DisplayPort and HDMI sit behind an MST hub on DP OUT adapter 8 of
+the dock router and work fine. Full size DisplayPort and VGA are wired
+to DP OUT adapter 8 of the cable router, but the cable router's DROM
+marks that adapter as disabled. The software connection manager
+therefore never initializes it, never tunnels DisplayPort to it, and a
+monitor on the full size DisplayPort or VGA connector stays dark. Only
+two external displays can be used with the dock, while all of them work
+with the firmware connection manager (and under Windows).
 
-and found the following issue:
-possible deadlock in em28xx_release_resources
+The adapter is real: its adapter config space reports type DP/HDMI OUT
+(0xe0102), it raises hot plug events when a monitor is attached to the
+DisplayPort or VGA connector, and once it is enabled the DP tunnel to it
+is established and the display comes up. The same DROM also fails its
+CRC32 check (expected 0xaf438340, got 0xaf4383c0), so the port
+disabled bit is likely just wrong rather than intentional:
 
-Full report is available here:
-https://ci.syzbot.org/series/92e27f7a-9ca9-4693-ad76-730262f6efd0
+  1: DROM data CRC32 mismatch (expected: 0xaf438340, got: 0xaf4383c0), continuing
+  1:8: disabled by eeprom
+  acking hot plug event on 1:8
 
-***
+Add a quirk for the cable router that re-enables adapter 8 if its
+config space confirms it is a DP OUT adapter, and initializes it the
+same way tb_switch_add() does for the other ports. tb_init_port() is
+made non-static for this.
 
-possible deadlock in em28xx_release_resources
+With the quirk applied, both DP tunnels come up at boot and all three
+external monitors work:
 
-tree:      torvalds
-URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux
-base:      cbbddb6b08cc9900a87cccaa9b22bbe06aa4f50a
-arch:      amd64
-compiler:  Debian clang version 22.1.8 (1~deb13u4), Debian LLD 22.1.8
-config:    https://ci.syzbot.org/builds/5e867cfe-3c44-46f3-be9a-3394e10312c7/config
-syz repro: https://ci.syzbot.org/findings/de514af7-755a-455f-9075-91732cf09a76/syz_repro
+  1:8: enabling DP OUT adapter disabled in DROM
+  1:8: DP OUT available
+  0:5 <-> 1:8 (DP): activating
+  301:8: DP OUT available
+  0:6 <-> 301:8 (DP): activating
 
-em28xx 1-1:1.0: Closing video extension
-em28xx 1-1:1.0: Closing input extension
-============================================
-WARNING: possible recursive locking detected
-syzkaller #0 Not tainted
---------------------------------------------
-kworker/0:3/5059 is trying to acquire lock:
-ffff88801cd25cf0 (&dev->lock#3){+.+.}-{4:4}, at: em28xx_release_resources+0x75/0x240 drivers/media/usb/em28xx/em28xx-cards.c:3796
+Tested on a Lenovo ThinkPad X1 Yoga Gen 8 (Raptor Lake, USB4 host
+8087:a76d) with a TB16 at dock NVM 27.0 / cable NVM 16.0, driving three
+1920x1080 monitors on mini DisplayPort, HDMI and full size DisplayPort.
 
-but task is already holding lock:
-ffff88801cd25cf0 (&dev->lock#3){+.+.}-{4:4}, at: em28xx_v4l2_fini+0xb7/0x3f0 drivers/media/usb/em28xx/em28xx-video.c:2431
-
-other info that might help us debug this:
- Possible unsafe locking scenario:
-
-       CPU0
-       ----
-  lock(&dev->lock#3);
-  lock(&dev->lock#3);
-
- *** DEADLOCK ***
-
- May be due to missing lock nesting notation
-
-locks held by kworker/0:3/5059: 6, last CPU#0:
- #0: ffff8881032cb948 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #0: ffff8881032cb948 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #0: ffff8881032cb948 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3460 [inline]
- #0: ffff8881032cb948 ((wq_completion)usb_hub_wq){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3578
- #1: ffffc900036cfc40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: rcu_lock_acquire include/linux/rcupdate.h:309 [inline]
- #1: ffffc900036cfc40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: rcu_read_lock include/linux/rcupdate.h:849 [inline]
- #1: ffffc900036cfc40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_one_work kernel/workqueue.c:3460 [inline]
- #1: ffffc900036cfc40 ((work_completion)(&hub->events)){+.+.}-{0:0}, at: process_scheduled_works+0x97a/0x1630 kernel/workqueue.c:3578
- #2: ffff88816eeb71d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1109 [inline]
- #2: ffff88816eeb71d8 (&dev->mutex){....}-{4:4}, at: hub_event+0x184/0x4d30 drivers/usb/core/hub.c:5917
- #3: ffff88801cdfc1d8 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1109 [inline]
- #3: ffff88801cdfc1d8 (&dev->mutex){....}-{4:4}, at: usb_disconnect+0xfc/0x9a0 drivers/usb/core/hub.c:2346
- #4: ffff88801ce5a1a0 (&dev->mutex){....}-{4:4}, at: device_lock include/linux/device.h:1109 [inline]
- #4: ffff88801ce5a1a0 (&dev->mutex){....}-{4:4}, at: __device_driver_lock drivers/base/dd.c:1046 [inline]
- #4: ffff88801ce5a1a0 (&dev->mutex){....}-{4:4}, at: device_release_driver_internal+0xa9/0x7d0 drivers/base/dd.c:1377
- #5: ffff88801cd25cf0 (&dev->lock#3){+.+.}-{4:4}, at: em28xx_v4l2_fini+0xb7/0x3f0 drivers/media/usb/em28xx/em28xx-video.c:2431
-
-stack backtrace:
-CPU: 0 UID: 0 PID: 5059 Comm: kworker/0:3 Not tainted syzkaller #0 PREEMPT(full) 
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- <TASK>
- dump_stack_lvl+0xe8/0x150 lib/dump_stack.c:120
- print_deadlock_bug+0x27a/0x290 kernel/locking/lockdep.c:3085
- check_deadlock kernel/locking/lockdep.c:3137 [inline]
- validate_chain kernel/locking/lockdep.c:3939 [inline]
- __lock_acquire+0x25db/0x2de0 kernel/locking/lockdep.c:5288
- lock_acquire+0x115/0x350 kernel/locking/lockdep.c:5942
- __mutex_lock_common kernel/locking/mutex.c:646 [inline]
- __mutex_lock+0x197/0x15a0 kernel/locking/mutex.c:821
- em28xx_release_resources+0x75/0x240 drivers/media/usb/em28xx/em28xx-cards.c:3796
- em28xx_usb_disconnect+0x19f/0x2f0 drivers/media/usb/em28xx/em28xx-cards.c:4493
- usb_unbind_interface+0x295/0x9c0 drivers/usb/core/driver.c:460
- device_remove drivers/base/dd.c:619 [inline]
- __device_release_driver drivers/base/dd.c:1357 [inline]
- device_release_driver_internal+0x48d/0x7d0 drivers/base/dd.c:1380
- bus_remove_device+0x444/0x560 drivers/base/bus.c:678
- device_del+0x524/0x8f0 drivers/base/core.c:3967
- usb_disable_device+0x3d4/0x8d0 drivers/usb/core/message.c:1484
- usb_disconnect+0x346/0x9a0 drivers/usb/core/hub.c:2355
- hub_port_connect drivers/usb/core/hub.c:5425 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5725 [inline]
- port_event drivers/usb/core/hub.c:5889 [inline]
- hub_event+0x1bbb/0x4d30 drivers/usb/core/hub.c:5971
- process_one_work kernel/workqueue.c:3495 [inline]
- process_scheduled_works+0xc3d/0x1630 kernel/workqueue.c:3578
- worker_thread+0xa47/0xfb0 kernel/workqueue.c:3659
- kthread+0x38b/0x480 kernel/kthread.c:436
- ret_from_fork+0x514/0xb70 arch/x86/kernel/process.c:158
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:245
- </TASK>
-
-
-***
-
-If these findings have caused you to resend the series or submit a
-separate fix, please add the following tag to your commit message:
-  Tested-by: syzbot@syzkaller.appspotmail.com
-
+Assisted-by: LLM
+Signed-off-by: Grant Morphett <grant@gmorph.com>
 ---
-This report is generated by a bot. It may contain errors.
-syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+ drivers/thunderbolt/quirks.c | 35 +++++++++++++++++++++++++++++++++++
+ drivers/thunderbolt/switch.c |  7 ++++---
+ drivers/thunderbolt/tb.h     |  1 +
+ 3 files changed, 40 insertions(+), 3 deletions(-)
 
-To test a fix for this bug, please reply with `#syz test`
-(on a separate line) and attach the patch to the email.
+diff --git a/drivers/thunderbolt/quirks.c b/drivers/thunderbolt/quirks.c
+index 2722918..4529fa4 100644
+--- a/drivers/thunderbolt/quirks.c
++++ b/drivers/thunderbolt/quirks.c
+@@ -65,6 +65,38 @@ static void quirk_stuck_pending(struct tb_switch *sw)
+ 	}
+ }
+ 
++/*
++ * The DROM of the Dell TB16 cable module marks adapter 8 as disabled
++ * even though it is the DP OUT adapter wired to the dock's full size
++ * DisplayPort and VGA connectors. Enable it so that the software
++ * connection manager can tunnel DisplayPort to it.
++ */
++static void quirk_dell_tb16_dp_out(struct tb_switch *sw)
++{
++	struct tb_port *port;
++	u32 type;
++
++	if (sw->config.max_port_number < 8)
++		return;
++
++	port = &sw->ports[8];
++	if (!port->disabled)
++		return;
++
++	if (tb_port_read(port, &type, TB_CFG_PORT, 2, 1))
++		return;
++	if ((type & 0xffffff) != TB_TYPE_DP_HDMI_OUT)
++		return;
++
++	port->disabled = false;
++	if (tb_init_port(port)) {
++		port->disabled = true;
++		return;
++	}
++
++	tb_port_info(port, "enabling DP OUT adapter disabled in DROM\n");
++}
++
+ struct tb_quirk {
+ 	u16 hw_vendor_id;
+ 	u16 hw_device_id;
+@@ -77,6 +109,9 @@ static const struct tb_quirk tb_quirks[] = {
+ 	/* Dell WD19TB supports self-authentication on unplug */
+ 	{ 0x0000, 0x0000, 0x00d4, 0xb070, quirk_force_power_link },
+ 	{ 0x0000, 0x0000, 0x00d4, 0xb071, quirk_force_power_link },
++	/* Dell TB16 cable module DROM hides the second DP OUT adapter */
++	{ 0x8086, PCI_DEVICE_ID_INTEL_ALPINE_RIDGE_4C_BRIDGE, 0x00d4, 0xb051,
++		  quirk_dell_tb16_dp_out },
+ 
+ 	/* Intel Titan Ridge CLx is unstable on early firmware versions */
+ 	{ 0x8086, PCI_DEVICE_ID_INTEL_TITAN_RIDGE_DD_BRIDGE, 0x0000, 0x0000,
+diff --git a/drivers/thunderbolt/switch.c b/drivers/thunderbolt/switch.c
+index d22d8db..e4629ed 100644
+--- a/drivers/thunderbolt/switch.c
++++ b/drivers/thunderbolt/switch.c
+@@ -701,15 +701,16 @@ int tb_port_reset(struct tb_port *port)
+ 	return tb_lc_reset_port(port);
+ }
+ 
+-/*
++/**
+  * tb_init_port() - initialize a port
++ * @port: Port to initialize
+  *
+- * This is a helper method for tb_switch_alloc. Does not check or initialize
++ * This is a helper method for tb_switch_add(). Does not check or initialize
+  * any downstream switches.
+  *
+  * Return: %0 on success, negative errno otherwise.
+  */
+-static int tb_init_port(struct tb_port *port)
++int tb_init_port(struct tb_port *port)
+ {
+ 	int res;
+ 	int cap;
+diff --git a/drivers/thunderbolt/tb.h b/drivers/thunderbolt/tb.h
+index e868457..cb84182 100644
+--- a/drivers/thunderbolt/tb.h
++++ b/drivers/thunderbolt/tb.h
+@@ -1099,6 +1099,7 @@ int tb_switch_pcie_l1_enable(struct tb_switch *sw);
+ int tb_switch_xhci_connect(struct tb_switch *sw);
+ void tb_switch_xhci_disconnect(struct tb_switch *sw);
+ 
++int tb_init_port(struct tb_port *port);
+ int tb_port_state(struct tb_port *port);
+ int tb_wait_for_port(struct tb_port *port, bool wait_if_unplugged);
+ int tb_port_add_nfc_credits(struct tb_port *port, int credits);
+-- 
+2.53.0
 
-Notes:
-- The patch will be applied on top of the tested series (as an
-  incremental fix).
-- To test a new version of the whole series, please send it directly
-  to syzbot@lists.linux.dev.
-- Arguments like custom git repos and branches are not supported.
