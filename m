@@ -1,49 +1,111 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=202.12.124.159
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793571358;
-	b=WRYXjjqcdiymMtLEDeK4EJy4oXhfR3SovdrmA1GLFQOmfNzWwBt4WpuGr7vYd5qznl7B
-	 tw3HpHJB/w5TjnMS1bZQjJ6TeiUhZGEKcQZeU/gYj2E27gClQas20c2X2P8dPfozszdS9
-	 Kor4lxKNJrrUpAHIBVqgecKnqgEnwwr5xTsHpKKxAvdR9xC1fp0ReZZ0OUDT9TfXHsPN/
-	 SnZ9M0nNSPH7RQ4oolC7q9oW8SuP/bDDtavfwEJINKNAGNqbG17QWpZ6WJ6Y33P3rKQWQ
-	 mUqLi2ovjm3FdZt513vPID4dlSWahY2H0YWYo9W1gbhOpkwH7VkXo9yKdJvIjvCnTXA==
+	t=1793573450;
+	b=qqWOAIgpV4aEfUR+XJyG2cIsEKdnkatYDr7Fcz/Wd/mHashftzOgzgzEC9Mq+pnljIWT
+	 5OnMpQL8LLHuK26MPWuUpTMWL0/TN0id9Hx0g9bFnwxvZUzyUcZelGFwD0V0Ytks40gFQ
+	 6YR22wIBtk8IPo+3BVqgoSVC5OqN5GcMeOozOGmA0I5/IY8ij5ww9ruU+aaxyiS7EhTZr
+	 DH76llvSetiTKF+ZJK5aEkC/39DWx+mapTBvQvJTonjHFzI2OUKFYDFulYWATPv8shi9/
+	 W1RyLL0z3gG7UhP3dbNrGC6FayCXNi66FIfRWlZ/vqG2yv6HWfisOZIgSltm3PuqIMA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793571358;
-	h=Received:DKIM-Signature:Received:Content-Type:MIME-Version:
-	 Content-Transfer-Encoding:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc;
-	bh=FTHI4iJKGW8nTdZJYWi2ZEsJRVp05NwkVgRYnkQTnQI=;
-	b=1QHtu6rNVURm7eD0rqTrDslkatx7XA0p/kvhzHe/A3lWszK0pPcVd4b6Yj0NUWYhq7bO
-	 dYTFONS1nTgl3HIy6MaT2k+lWdzFfp28U6CLkCrfemkqR02GGE/QI8ktiTsjX5dAicfD5
-	 mTiCP2dmdXI+LJfYkXxdQhphEYRWZvtZQlMkz2p+nTEoYtsm++RRFMPeR9RF4D7+WI7nX
-	 BPfxmKmPZL1wFmoE+JZdRUTW5MYN/e2sDKTcR+shOEGorjHfH6Z3y4Rbc3EYKDi0nA00D
-	 wjoCzNMpYhOETbbxvNiIMX0fVVT6ZBRl/V+UIu50+SKBIc6Gbf7DVzuR6M8GLMYXH4Q==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793573450;
+	h=DMARC-Filter:Received:Received:DKIM-Signature:DKIM-Signature:
+	 X-DKIM2-Info:DKIM2-Signature:X-DKIM2-Info:Message-Instance:
+	 X-ME-Sender:X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
+	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
+	 References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=Y0qvq6mmMLgTfpxELoghMFTbhqnb2nmeoC+hPsWafsY=;
+	b=EiKt2YJRjRyUeFjz4/5I8eZ9Sh/2TarnwoGfhnBktHS6oWKzzNd6jDAFQYhxMHD3gnG9
+	 n7YHUUdNGUHu36tuBS8b6gG0C2+pMjBcePai4sAgySmq0LlRP2lbvDKVIGtpvi0X5Bdrx
+	 FWzAWuDd769IY31y942WOnS4rWsNCX2pjksD81UHwBV+Gvh27KfxcJwo9M6oJEjZbSgfp
+	 iHO2lDiJxe68OlVZlJBznfuoQ48s6JqLyvz+sHJWemWNgkiK9idJNDyn9Q3KzogGDYMBy
+	 sNglEXkQfVA29soxx6iukYkyzspzydHVUkYQ3NvCuikk3UAHBD5EXt/Cc0SwqWKoVGg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kSuQm1gi;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=squebb.ca;
+	spf=pass smtp.mailfrom=squebb.ca;
+	dkim=pass header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm3 header.b=lTkm1dFE;
+	dkim=pass header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=O3G8MzPt;
+	arc=none smtp.remote-ip=202.12.124.159
+Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C24F60A2602;
-	Sun,  1 Nov 2026 22:15:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D713606A326
+	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 22:50:49 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 9D713606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=kSuQm1gi
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 225BF1F00A1B;
-	Sun,  1 Nov 2026 22:15:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793571353;
-	bh=FTHI4iJKGW8nTdZJYWi2ZEsJRVp05NwkVgRYnkQTnQI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc;
-	b=kSuQm1gig26F3a5hbFrlCEgTV6KZdAUm8pVgji64pGU9IHFtmj1+0lqa6FjFwtpwY
-	 RQDDMAWpx0nuTd442k2/dkXZmO3ak6/b0bODbLMMOiXHR7sqan7+OYTSomVvsVhatc
-	 5sO4YlxH84ZbDrCWiv6NIlf3enn6ckTlaSH0A2hbLwanZ7TAw2vRzqI9LjdgxD9mYw
-	 rVyzHjy74WbfzuCKilIc61p8YM/etpQQgk31aiPP5AoELP2cxYQDze2rDXYJz/8udp
-	 9mbnMTtDK0Vamho7QvOMgWKAobDTF7XMy60kwODafcPU8OakiOi1fCrlQV4kt03Hd9
-	 bPj8B6YTEsy3w==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 032DA38003B8;
-	Sun,  1 Nov 2026 22:15:53 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	dkim=pass (2048-bit key, unprotected) header.d=squebb.ca header.i=@squebb.ca header.a=rsa-sha256 header.s=fm3 header.b=lTkm1dFE;
+	dkim=pass (2048-bit key, unprotected) header.d=messagingengine.com header.i=@messagingengine.com header.a=rsa-sha256 header.s=fm2 header.b=O3G8MzPt
+Received: from stl-compute-04.internal (stl-compute-04.internal [10.204.2.64])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 139797A01C3
+	for <linux-usb@vger.kernel.org>; Sun,  1 Nov 2026 17:50:49 -0500 (EST)
+Received: from stl-imap-02 ([10.204.2.93])
+  by stl-compute-04.internal (MEProxy); Sun, 01 Nov 2026 17:50:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1793573448;
+	 x=1793659848; bh=Y0qvq6mmMLgTfpxELoghMFTbhqnb2nmeoC+hPsWafsY=; b=
+	lTkm1dFEizaTZ/AGpa6zxjy6SPQmIMWJj6mzMbOYl6EWjCSSbHytQZed7uVxK7kJ
+	nr/clt36gCe2DWVu/Id0ZmLTjTafZikPuTDe/57uDKjvJxUTmlKr4TvTa3By4iro
+	4BPeVKvkS/6MGmwbsW84zEfKwATJMQjlVEDLtz11GVTEn4E6vmxpNiCfCzR8Oukl
+	ikR9dLxrQcHLQyrn4KuyiO920/5UpxxPugi6YjMXmBHG1RL4Nn1RSSDua/TzTsCl
+	DxX/kdzzg9/eiyt4i0c+iq0VIj1srhPTyLPDU8F59Y+9e1jl00FKWG25zWZus1Xs
+	EZkxAFdde1J2XAk1XwFU1Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1793573448; x=
+	1793659848; bh=Y0qvq6mmMLgTfpxELoghMFTbhqnb2nmeoC+hPsWafsY=; b=O
+	3G8MzPtlWB6Luxqh7Y/OlUo/HeBlLkyrvwBLGICreCc8iF/mj9mcXoRPI4/kyBFC
+	vISiqkERWV7W89Ga2MSRaOdaEs70QDiCVVHvA8H5HLovQZEH/SuJ/rrbpmLKkcQG
+	xNyLIKSUjq+BDaAckaPw6n4uu5srd//UVYsndgXgLbKHe7ySxMVZ4eBSyYUTQzev
+	ZhDJT1pu1MXdV1hD9iPIHBU4Q9h1R0tX+r0ro/rKyJGDy5evIG253fN+9YG1pXNw
+	THA/H1RfGhpkrBfnS5J8m5BhDQCYQvEao4AAMuxNp02sya66gho2SuRtskUzcLux
+	4K7+X4VFcTBnkl6UdYKIg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=sign d=squebb.ca a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1793573448; d=squebb.ca;
+	mf=PG1wZWFyc29uLWxlbm92b0BzcXVlYmIuY2E+;
+	rt=PGxpbnV4LXVzYkB2Z2VyLmtlcm5lbC5vcmc+;
+	s=fm3:rsa-sha256:PGczL201FoWU7vwtx+lxzuw+L9U2/vAp+oPlNWNnymz0+g5
+	XvIejW9ZNTCjUNoqOdzFwWdcI2X3kFFro9isaOw3YVn9t8bwMUaE1gb1+sL5PAcK
+	tAJi4HffD5Grd1+7W44WFzziXpPxOGDCbA9ePWcL8lSWFgPWQ/wX4pGUMlssjs0u
+	V6lgqSDN1TT98+/JA3I1iEss7KSPWwBgXDpGwz/L+qHjAYiPcsdd/bCgKFB48pTF
+	Y2z16+lUBBhPLu46WaaR9PKmVNYpFu5lW+auxIP0MiR59TwJf/RaY1Mfyum+3jt4
+	/bRgNZL5sY0/K65LZ/W0ggYDPeXl7PhLUiXLzow==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-08;
+	repo=github.com/dkim2wg/interop; date=2026-10-28; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:h1r7H1JmIfKs7ynKY6TwBeMNMKAvDQv09HIHvnvOfX0=:XruLzfUNKPyOXJRr85//uKUxn9BcK/EXau0HHFWfJxo=;
+X-ME-Sender: <xms:R8Lnakzn82T8yz7mB-5eDN02nrgUjlImqj0EDaHSuLpiXCwksgNo3Q>
+    <xme:R8LnajGXRhuAH6XOZMwFvaScZdFQkk_-KUSEH3kVwC1hKDzTyE2bOU14vj_U9Ltct
+    Y2X2MqHCwCYc2tiu-axhrrGZh3_GEifjUgHI7siMAJ4AfzADzilSTDI>
+X-ME-Proxy-Cause: dmFkZTFhUdMH7Nnrx9Bw1Nr4mn/JQ1i/DNqh8HAW2MnBgUaKdagA+LJo+7SK1W3NY8aKJ/
+    2BiXK4wA186bBde+9EXRCVCdxaBMobjctDZ5ibYacY7jGUko/ulxToRAH7UJNKzWw0TO2M
+    qz6RHR2ZtLDoMzKKun+jEP7M8bbMV7upnPMU8iHqcfdl0S2jERJ1crS57OKVya+OQkywHC
+    Cxp0TskD+1mqkTHm27iebRu4QTiLbPKp7IXi4aQlfe/nTXNW5iY0ZUxMvbdN3yVu8hAYH3
+    iusBLKW7iPRMjxL5BK+iirsDnWbADeGQ55OQf/drmXTIigpZUriEEhEGl3NnFIKOBuDDXG
+    B8AzAlGxxUDLOmMy6unXETyYJjLhQVei56+6w1jkYYfL6za5ntBUHvL9slAV1REnyEnVBc
+    nZfKu+GRIgWHeU7yw/10dZCCT2tZ787ITQBEl9+XA7khTXv1+IK8b2GcB52qGPwlI0qxos
+    PYdFFZueH83NLSbeVK7Sn2SP+lp7H+0ZSWA1yTAIOo2JHTmtqADaaYG32x4CJqPGqcwe+5
+    Jj3c5VoPbPQ1NCLXoc1yWP+apNTDgNAlsZVRchwm/mcnrWsehoYWybA0Ad2Shlef6Y8JEv
+    vozuE6IeXKTJ2/4JysXtmO/AWux4GkVnKNuSkUfWSNaNr1V1IwUoqUAsFhNw
+X-ME-Proxy: <xmx:R8LnaqvsSn-60AWTcfEja23CPkP1VL6IEZLeoFX86-SU9G8oLqiIYw>
+    <xmx:R8LnakYcuQhyuT_YSH1h_uzmb7yLKlEqBbpC4SQ1APjryYQjMaO9Lw>
+    <xmx:R8LnaqAdQEySL8B24lQkRrMurqf6WjwS8K4zliaEDiru34ls41z8QA>
+    <xmx:R8Lnak8TDDPDOMdROg9mjtdEuEXrwWy5Qn9Y73TAJGUEO4A0hYor2Q>
+    <xmx:SMLnatc0APAyOsELPl4NTI7a0HcNPawCrmoU-mMQQWTimCRnEcocIHwc>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.stl.internal (Postfix, from userid 501)
+	id 6F6372C00082; Sun,  1 Nov 2026 17:50:47 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -53,168 +115,132 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v6 00/39] mm: make VMA flag semantics explicit, eliminate
- VM_SPECIAL
-From: patchwork-bot+linux-riscv@kernel.org
-Message-Id: 
- <179357135155.2624073.13862678489444424470.git-patchwork-notify@kernel.org>
-Date: Sun, 01 Nov 2026 22:15:51 +0000
-References: 
- <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
-In-Reply-To: 
- <20261013-b4-mmap-prepare-vma-flag-sanify-v6-0-1aa3c9b139f9@kernel.org>
-To: Lorenzo Stoakes (ARM) <ljs@kernel.org>
-Cc: linux-riscv@lists.infradead.org, akpm@linux-foundation.org,
- liam@infradead.org, vbabka@kernel.org, jannh@google.com, pfalcato@suse.de,
- david@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- corbet@lwn.net, gregkh@linuxfoundation.org,
- dennis.dalessandro@cornelisnetworks.com, jgg@ziepe.ca, leon@kernel.org,
- paul@paul-moore.com, stephen.smalley.work@gmail.com, perex@perex.cz,
- tiwai@suse.com, ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
- eddyz87@gmail.com, memxor@gmail.com, ziy@nvidia.com,
- baolin.wang@linux.alibaba.com, nico.pache@linux.dev, ryan.roberts@arm.com,
- dev.jain@arm.com, baohua@kernel.org, lance.yang@linux.dev,
- usama.arif@linux.dev, kas@kernel.org, dgilbert@interlog.com,
- James.Bottomley@HansenPartnership.com, mkp@kernel.org, simona@ffwll.ch,
- deller@gmx.de, sre@kernel.org, jhubbard@nvidia.com, peterx@redhat.com,
- mhiramat@kernel.org, oleg@redhat.com, peterz@infradead.org, tglx@kernel.org,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- acme@kernel.org, namhyung@kernel.org, mark.rutland@arm.com, riel@surriel.com,
- harry@kernel.org, juri.lelli@redhat.com, vincent.guittot@linaro.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, will@kernel.org, aneesh.kumar@kernel.org,
- npiggin@gmail.com, arnd@arndb.de, muchun.song@linux.dev, osalvador@suse.de,
- willy@infradead.org, jack@suse.cz, maz@kernel.org, oupton@kernel.org,
- catalin.marinas@arm.com, maddy@linux.ibm.com, anup@brainfault.org,
- pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- borntraeger@linux.ibm.com, frankja@linux.ibm.com, imbrenda@linux.ibm.com,
- agordeev@linux.ibm.com, gerald.schaefer@linux.ibm.com, hca@linux.ibm.com,
- gor@linux.ibm.com, davem@davemloft.net, andreas@gaisler.com,
- viro@zeniv.linux.org.uk, brauner@kernel.org, matthew.brost@intel.com,
- joshua.hahnjy@gmail.com, rakie.kim@sk.com, byungchul@sk.com,
- gourry@gourry.net, ying.huang@linux.alibaba.com, apopple@nvidia.com,
- chrisl@kernel.org, kasong@tencent.com, shikemeng@huaweicloud.com,
- nphamcs@gmail.com, baoquan.he@linux.dev, youngjun.park@lge.com,
- hannes@cmpxchg.org, qi.zheng@linux.dev, shakeel.butt@linux.dev,
- axelrasmussen@google.com, yuanchu@google.com, weixugc@google.com,
- chengming.zhou@linux.dev, mhocko@kernel.org, miklos@szeredi.hu,
- xu.xin@linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-usb@vger.kernel.org,
- linux-rdma@vger.kernel.org, selinux@vger.kernel.org,
- linux-sound@vger.kernel.org, bpf@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-trace-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
- sparclinux@vger.kernel.org, fuse-devel@lists.linux.dev,
- ihor.solodrai@linux.dev, spasswolf@web.de, tiwai@suse.de,
- emil@etsalapatis.com
+X-ThreadId: Aq9FyiwXssPF
+Date: Sun, 01 Nov 2026 17:50:27 -0500
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: kernel@resetko.pl, "Heikki Krogerus" <heikki.krogerus@linux.intel.com>,
+ "Greg KH" <gregkh@linuxfoundation.org>, "Guenter Roeck" <linux@roeck-us.net>
+Cc: linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ "Daniel Dev" <daniel.dev@noex.uk>, stable@vger.kernel.org
+Message-Id: <8d0c94b6-8fd0-4fde-8af5-ade15e142a0e@app.fastmail.com>
+In-Reply-To: <20261031-ucsi-lenovo-t14g2a-v1-1-183751e63c02@resetko.pl>
+References: <20261031-ucsi-lenovo-t14g2a-v1-1-183751e63c02@resetko.pl>
+Subject: Re: [PATCH] usb: typec: ucsi: acpi: Assume UCSI 1.0 on Lenovo ThinkPad T14 Gen
+ 2a
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hello:
+Hi Stanislaw,
 
-This series was applied to riscv/linux.git (fixes)
-by Andrew Morton <akpm@linux-foundation.org>:
+On Sat, Oct 31, 2026, at 5:40 PM, Stanis=C5=82aw Titenko via B4 Relay wr=
+ote:
+> From: Stanis=C5=82aw Titenko <kernel@resetko.pl>
+>
+> The Lenovo ThinkPad T14 Gen 2a exposes a functional UCSI ACPI PPM but
+> the firmware leaves the VERSION field of the UCSI mailbox at zero.
+>
+> ucsi_register() rejects a zero version with -ENODEV, leaving the
+> system without registered USB Type-C connectors. Without an OPM, the
+> embedded controller does not complete DisplayPort Alternate Mode setup
+> when a USB-C dock or monitor that supplies power is connected after
+> boot, so the display stays dark while USB and charging work.
+>
+> The mailbox uses the 48-byte UCSI 1.x layout, and the PPM works
+> correctly when UCSI 1.0 is assumed.
+>
+> Add a DMI-specific UCSI operation for the ThinkPad T14 Gen 2a that
+> substitutes UCSI 1.0 only when firmware reports a zero version.
+> Preserve any valid non-zero firmware version.
+>
+> Tested on a ThinkPad T14 Gen 2a with BIOS 1.33 (R1MET63W): both
+> Type-C connectors register, and plugging and replugging a USB-C
+> monitor with an integrated hub and power delivery brings up
+> DisplayPort Alternate Mode each time.
+>
+> Reported-by: Daniel Dev <daniel.dev@noex.uk>
+> Closes:=20
+> https://lore.kernel.org/linux-usb/b1Wn_eFvTFShGbd970WWl4CWhge_6P2x7Wb6=
+rab3QHNlE4OJ4p__O-QN3B6I-308ftr5oV5Zr7vywA0vdvmtNw6E0YJnVM2ek_5DcFnkXB0=3D=
+@noex.uk/
+> Fixes: c1b0bc2dabfa ("usb: typec: Add support for UCSI interface")
+> Cc: stable@vger.kernel.org
+> Assisted-by: pi:claude-opus-5-5
+> Signed-off-by: Stanis=C5=82aw Titenko <kernel@resetko.pl>
 
-On Tue, 13 Oct 2026 16:04:40 +0100 you wrote:
-> The VM_SPECIAL / VMA_SPECIAL_FLAGS mask conflates several unrelated
-> properties:
-> 
-> * Is this managed by core mm, or by a driver mapping MMIO, kernel-allocated
->   pages, or even ordinary pages itself?
-> * Can it be expanded or merged?
-> * Is this a 'weird' case like mlock where migration might race and we
->   'have' to set invalid flags to notify?
-> * Is it another 'weird' case where we just want to stop GUP from touching
->   it?
-> 
-> [...]
+This platform was Linux certified so let me see if I can get the FW team=
+ to look at it (it is an older platform, but it looks like it's still un=
+der support)
+I don't have this HW myself, so I'll need to ask the team in Japan to re=
+produce the issue. My personal preference would be to try and get the FW=
+ fixed first and do the quirk if for some reason that isn't possible.
 
-Here is the summary with links:
-  - [v6,01/39] mm/vma: fix mmap_prepare file handling, remove file_doesnt_need_get
-    (no matching commit)
-  - [v6,02/39] mm/vma: introduce and use vma_[flags_]can_merge()
-    https://git.kernel.org/riscv/c/86a779c53204
-  - [v6,03/39] mm: consistently validate VMA state after mmap[_prepare] hooks
-    https://git.kernel.org/riscv/c/9cae38dc11da
-  - [v6,04/39] mm/vma: ensure mmap_prepare doesn't set actions on a mergeable vma
-    https://git.kernel.org/riscv/c/6335c786299f
-  - [v6,05/39] mm: make map_kernel_pages_[prepare,complete] internal and unexported
-    https://git.kernel.org/riscv/c/2a234f79d416
-  - [v6,06/39] mm/vma: tidy up map kernel pages enum values
-    https://git.kernel.org/riscv/c/4852f3421456
-  - [v6,07/39] mm: assert mmap lock held, use new flags API in vm_insert_page[s]
-    https://git.kernel.org/riscv/c/dad8e88fcfce
-  - [v6,08/39] mm: add mmap action for discontiguous kernel page mapping
-    https://git.kernel.org/riscv/c/b7b4d8f37a4f
-  - [v6,09/39] docs: filesystems: update mmap_prepare docs for discontig kernel pgs
-    https://git.kernel.org/riscv/c/ae60723abb65
-  - [v6,10/39] drivers/usb/mon: update to use mmap_prepare + map kernel pages
-    https://git.kernel.org/riscv/c/5323bb5f6ef3
-  - [v6,11/39] infiniband: update hfi1 to use remap_vmalloc_range()
-    (no matching commit)
-  - [v6,12/39] selinux: reject writable opens of policy file, drop mmap shared/write check
-    https://git.kernel.org/riscv/c/c6ce4378f20a
-  - [v6,13/39] ALSA: pcm: use vm_insert_page() to map PCM status page
-    https://git.kernel.org/riscv/c/ceb0de27371f
-  - [v6,14/39] bpf: arena: mark arena_map_mmap() mappings VM_MIXEDMAP
-    https://git.kernel.org/riscv/c/0c2c9885c5e9
-  - [v6,15/39] mm/vma: add vma[_flags]_is_mm_managed() predicates
-    https://git.kernel.org/riscv/c/7fdbc26b69c0
-  - [v6,16/39] mm/vma: only allow mmap to clear VMA_MAYWRITE_BIT if not mm-managed
-    https://git.kernel.org/riscv/c/d99c4a302c5a
-  - [v6,17/39] mm/vma: add and use vma_[flags]_is_fixed_mapping
-    https://git.kernel.org/riscv/c/9201d0f5b9d5
-  - [v6,18/39] scsi: sg: convert mmap hook to mmap_prepare and rework
-    https://git.kernel.org/riscv/c/abdd54cef5fc
-  - [v6,19/39] fbdev: defio: assert FBINFO_VIRTFB, drop VM_IO, add VM_MIXEDMAP
-    https://git.kernel.org/riscv/c/19458d015fcc
-  - [v6,20/39] HSI: cmt_speech: convert mmap hook to mmap_prepare, refactor
-    https://git.kernel.org/riscv/c/5605c40895fc
-  - [v6,21/39] mm/gup: error out early on !VMA_MAYREAD_BIT VMAs
-    https://git.kernel.org/riscv/c/2d2b1c508f21
-  - [v6,22/39] uprobes: remove VM_IO, set VM_MIXEDMAP for mapped kernel pages
-    https://git.kernel.org/riscv/c/0d219bc3cb88
-  - [v6,23/39] mm/mlock: clear VMA_LOCKED_MASK over mmap callback
-    https://git.kernel.org/riscv/c/61e012ab9a1c
-  - [v6,24/39] mm/mlock: eliminate weird VMA_IO_BIT abuse and simplify
-    https://git.kernel.org/riscv/c/aea83f2694ed
-  - [v6,25/39] mm/vma: enforce that mm-managed mappings may not set VMA_IO_BIT
-    https://git.kernel.org/riscv/c/99fd6bf43d5d
-  - [v6,26/39] mm: remove VMA_IO_BIT check in vma[_flags]_is_mm_managed()
-    https://git.kernel.org/riscv/c/88d77002e1a1
-  - [v6,27/39] mm: remove hugetlb_inline.h
-    https://git.kernel.org/riscv/c/94c86564538e
-  - [v6,28/39] mm: rename is_vm_hugetlb_page() to vma_is_hugetlb()
-    (no matching commit)
-  - [v6,29/39] mm: drop some redundant checks around hugetlb VMAs
-    (no matching commit)
-  - [v6,30/39] mm/vma: introduce vma[_flags]_is_mm_backed()
-    https://git.kernel.org/riscv/c/44debd840ec9
-  - [v6,31/39] mm/madvise: update is_valid_guard_vma() to use vma_is_mm_backed()
-    https://git.kernel.org/riscv/c/fc95d1cf4a13
-  - [v6,32/39] mm/uffd: use predicates for userfaultfd checks
-    https://git.kernel.org/riscv/c/fb700342f506
-  - [v6,33/39] mm/madvise: use predicates for madvise(..., MADV_DOFORK)
-    https://git.kernel.org/riscv/c/1d1104fe6dc6
-  - [v6,34/39] mm: eliminate VMA_SPECIAL_FLAGS usage when hugetlb explicitly tested
-    https://git.kernel.org/riscv/c/531e56359ffb
-  - [v6,35/39] mm: eliminate VMA_SPECIAL_FLAGS check in lru_gen_look_around()
-    https://git.kernel.org/riscv/c/5997da57a09b
-  - [v6,36/39] mm: avoid use of VMA_SPECIAL_FLAGS in migrate_vma_setup()
-    https://git.kernel.org/riscv/c/8bf792b7afcb
-  - [v6,37/39] mm: eliminate VM_SPECIAL, VMA_SPECIAL_FLAGS
-    https://git.kernel.org/riscv/c/72a993449cb0
-  - [v6,38/39] fuse: dax: do not set VM_MIXEDMAP
-    https://git.kernel.org/riscv/c/b0d88bfa7515
-  - [v6,39/39] mm/huge_memory: remove vma_is_special_huge()
-    https://git.kernel.org/riscv/c/e2a1d080f510
+> ---
+>  drivers/usb/typec/ucsi/ucsi_acpi.c | 34=20
+> ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>
+> diff --git a/drivers/usb/typec/ucsi/ucsi_acpi.c=20
+> b/drivers/usb/typec/ucsi/ucsi_acpi.c
+> index 5697ccc24ec3..33747e24353f 100644
+> --- a/drivers/usb/typec/ucsi/ucsi_acpi.c
+> +++ b/drivers/usb/typec/ucsi/ucsi_acpi.c
+> @@ -148,6 +148,33 @@ static const struct ucsi_operations ucsi_acer_ops=20
+> =3D {
+>  	.async_control =3D ucsi_acpi_async_control
+>  };
+>=20
+> +static int ucsi_lenovo_read_version(struct ucsi *ucsi, u16 *version)
+> +{
+> +	struct ucsi_acpi *ua =3D ucsi_get_drvdata(ucsi);
+> +	int ret;
+> +
+> +	ret =3D ucsi_acpi_read_version(ucsi, version);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!*version) {
+> +		dev_warn(ua->dev, "UCSI version is zero, assuming 1.0\n");
+> +		*version =3D UCSI_VERSION_1_0;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct ucsi_operations ucsi_lenovo_ops =3D {
+> +	.read_version =3D ucsi_lenovo_read_version,
+> +	.read_cci =3D ucsi_acpi_read_cci,
+> +	.poll_cci =3D ucsi_acpi_poll_cci,
+> +	.read_message_in =3D ucsi_acpi_read_message_in,
+> +	.write_message_out =3D ucsi_acpi_write_message_out,
+> +	.sync_control =3D ucsi_sync_control_common,
+> +	.async_control =3D ucsi_acpi_async_control
+> +};
+> +
+>  static int ucsi_gram_sync_control(struct ucsi *ucsi, u64 command, u32=
+ *cci,
+>  				  void *val, size_t len, void *msg_out,
+>  				  size_t msg_out_size)
+> @@ -196,6 +223,13 @@ static const struct dmi_system_id ucsi_acpi_quirk=
+s[] =3D {
+>  		},
+>  		.driver_data =3D (void *)&ucsi_acer_ops,
+>  	},
+> +	{
+> +		.matches =3D {
+> +			DMI_MATCH(DMI_SYS_VENDOR, "LENOVO"),
+> +			DMI_MATCH(DMI_PRODUCT_VERSION, "ThinkPad T14 Gen 2a"),
+> +		},
+> +		.driver_data =3D (void *)&ucsi_lenovo_ops,
+> +	},
+>  	{
+>  		.matches =3D {
+>  			DMI_MATCH(DMI_SYS_VENDOR, "LG Electronics"),
+>
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+1) Couldn't you just reuse the ucsi_acer_ops quirk?
 
+2) Better to use DMI_BOARD_NAME for the DMI match. For the T14 G2 AMD th=
+ere are two possible matches - "20XK" and "20XL".
 
+Thanks
+Mark
