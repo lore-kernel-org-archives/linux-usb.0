@@ -1,57 +1,118 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=195.135.223.130
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793627369;
-	b=vFMz1oeizmGIak0mVJprKSqCELdng5q72GLugCuw4kk+IiIlRUoXSCTVKmy3UjpAJf+n
-	 kWQWSBhF4ExovldJd+4h9PLZqMq0Hrs/64YZhhmlbMVD3ek9TZ6vzychbOknsB0G5VLOk
-	 5BUicaMR1GlbsT1TACdmhn5/dm2NO8UaO8FQQzqA1uDL3Q49M5XQwrHwkDVEew4dGhI8o
-	 mgK70NnbCcMVpOWOWuUJvx1aYkQoELh5HeHzm8lm1WK2dZYDT4g1vuUCPoryp2UOyyl0b
-	 JqAoKeAhG4y5TZvZWT656xq58QzMfdeeDcBVkOS2cnsV9KmHKleWZysnnJwT9OjxH5w==
+	t=1793628244;
+	b=mW4kxQfw3rAcTAEkbFuoxFtfvtCnVwmROX/jTmjs1Om3Dd4fXcyuArIcw8ypnnJHpWFW
+	 y7X5w8yPIbTdSvOdPt1yEzBGsgb4TYQpaYR6VJo8BDBlPjLoaTARBhmhQPVBt7bX3rRqf
+	 9kU7H84xtu+cqeTOkZK2UWTs8KQ7dpNqkjDILdKgbQbZvEBI9J3YktOP6+/ryCym/W0tn
+	 SyXNH+Edly5WOMpz7RI9bqZv1lVo9c9FBR1v7kRRLtP2U2aKkuv9IUA/ezd0OTb+aqcfl
+	 Dm2/+vgZLyPpu8YRmphNYscW7NdmaxW50rrnAL8dPhsDN/zqZ3j9R4gebjNRli6dOcw==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793627369;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Juvk7JTQIBaJlZAnH0fY7SbImjG+HQJtkvHnT1ZLyi8=;
-	b=cbEbOBMaU8wTGZoMNo5RMRpnHiaz/mLzVvfHlv3JAhg5VWkIx+mZdwednaeQJRHkE+Sm
-	 YVfNQRw2stPAQfb7tVuy6wCOo2PNPJsEX6Acd5HBIEVA+Taliq7lnpPE3OBjc/x7ConK4
-	 j8Rt5EyXqFsjcoOZhPL1DrfJU0jj/Ft/edIU5fDBw3Bn5BpQ/uBGJiN6g+xHpayVRG3O+
-	 dnUwiyG2s7SmWS+QFAh+h2U/ggySPKLG4byLcQnaTy4XeUW2n+5DaME/1rw9fIqnOJmWe
-	 xrLIeAhqGX6LhmfoH9Hqy3rwuhJqDDD5MEZwX0S6+bnpE30hxVeXGRU+TSewhQqlqvA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793628244;
+	h=DMARC-Filter:Received:DKIM-Signature:DKIM-Signature:DKIM-Signature:
+	 DKIM-Signature:Received:Received:Date:Message-ID:From:To:Cc:Subject:
+	 In-Reply-To:References:User-Agent:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:X-Spamd-Result:X-Spam-Score:X-Spam-Level:
+	 X-Spam-Flag;
+	bh=2exfNJAjFIm+V8iRAws74yjXejKyxK8RNSuUp596ULY=;
+	b=RnEv+rtTps4k4/4przGyY0YNnXJymp0NY+1jpanusrRpYCcgtY0OUTqu1HpA+dGzx+2Y
+	 R+eXq60LpUTVY+Jt97R4/eUWB07cA9BTwB7VXikpSlnZ3gEELsasBspRMi/vRKpBQ1DYm
+	 t9Ar1NrUymnkNhxt57EgQ6kVlHxyREh9x1tyanU0HFqCdzJW4bZJHvIUtIzUaIxPs1RCU
+	 sXOox5brkSUviLNkW4Z4mydpTXG9OY1Vb1lxLTIlWAvl+tMK0T925TBnz8Q2l/BuSo49e
+	 xzgccstNGWvQRkV2UrFilIgQBPLnymVuDuDdC9a0holSQOMOX9NL6CZP3Urrmlpe9sA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hAeYR7dl;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	dmarc=pass header.from=suse.de;
+	spf=pass smtp.mailfrom=suse.de;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=kQvVNbnL;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Wm3IyQs+;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=kQvVNbnL;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Wm3IyQs+;
+	arc=none smtp.remote-ip=195.135.223.130
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639C0606A333
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6248660A2609;
+	Mon,  2 Nov 2026 14:04:03 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6248660A2609
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=hAeYR7dl
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D53101F00A1B;
-	Mon,  2 Nov 2026 13:49:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793627369;
-	bh=Juvk7JTQIBaJlZAnH0fY7SbImjG+HQJtkvHnT1ZLyi8=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=hAeYR7dlNOzLPrryA8gYxlWFt8Ifem8hhgF6rp6FhJyHHyjAAidibPHXw7DHLtxUo
-	 0+7AD+JMW4Rz8OH+omaHkwHUefDxurSKYxDEYu5hCVyOAqigNrWH0FsAYOCI5yQYpQ
-	 fTijooC31e7tTNKxfBCB0Eruel03noV/FikjNVzKuhyqLq7a4+lyY5q4R49rDQAJ7z
-	 GL0POuGVji+Jg6qqk4KC4OsY+tXC1Rlsg/7HGYH7p7v1czgh4nN2yGNNNbh6cCTAwz
-	 ZS6hqaU4DSeiVWWe4Aqx00BZOHSwg12zhxjp5qf3h/mfIeGT80SZJvMAtCa3KMv6ci
-	 Iw95QlD2uIqog==
-Message-ID: <sashiko-outbox-193506@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v2 2/2] usb: xhci: fix 'num_active_eps' accounting on
- allocation failure
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Niklas Neronin" <niklas.neronin@linux.intel.com>
-Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261102134228.584032-3-niklas.neronin@linux.intel.com>
-References: <20261102134228.584032-1-niklas.neronin@linux.intel.com>
- <20261102134228.584032-3-niklas.neronin@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 13:49:28 +0000
+	dkim=pass (1024-bit key, unprotected) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=kQvVNbnL;
+	dkim=pass header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Wm3IyQs+;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.a=rsa-sha256 header.s=susede2_rsa header.b=kQvVNbnL;
+	dkim=neutral header.d=suse.de header.i=@suse.de header.a=ed25519-sha256 header.s=susede2_ed25519 header.b=Wm3IyQs+
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 3702C2209D;
+	Mon,  2 Nov 2026 14:03:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793628233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2exfNJAjFIm+V8iRAws74yjXejKyxK8RNSuUp596ULY=;
+	b=kQvVNbnLQ5Bk+mSa61Cq4rr2uDKGhWSU+UBsTaMt0Lxur/LtoAmMtPnvdNFCkiyQuJUPL1
+	1WtjzPzA5zZeGLuanhknuaGwyQ1IFEeD4Dh9M4LKRs6C/SD/4nK+CQz3jhE1CMtRD164QA
+	WwzTR5KtBDvx9mQXsPwEChokn0hvwik=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793628233;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2exfNJAjFIm+V8iRAws74yjXejKyxK8RNSuUp596ULY=;
+	b=Wm3IyQs+YnEqBfOq4HtkoispvZvaCD/itopMe/qeXoTIKcwoEQdq+p/ZXsYibGcmOvAaW3
+	SLCMI/tGlTTwk9Bw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1793628233; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2exfNJAjFIm+V8iRAws74yjXejKyxK8RNSuUp596ULY=;
+	b=kQvVNbnLQ5Bk+mSa61Cq4rr2uDKGhWSU+UBsTaMt0Lxur/LtoAmMtPnvdNFCkiyQuJUPL1
+	1WtjzPzA5zZeGLuanhknuaGwyQ1IFEeD4Dh9M4LKRs6C/SD/4nK+CQz3jhE1CMtRD164QA
+	WwzTR5KtBDvx9mQXsPwEChokn0hvwik=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1793628233;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2exfNJAjFIm+V8iRAws74yjXejKyxK8RNSuUp596ULY=;
+	b=Wm3IyQs+YnEqBfOq4HtkoispvZvaCD/itopMe/qeXoTIKcwoEQdq+p/ZXsYibGcmOvAaW3
+	SLCMI/tGlTTwk9Bw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id C2C4F134B3;
+	Mon,  2 Nov 2026 14:03:52 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id xgXtJUiY6GreHwAAD6G6ig
+	(envelope-from <tiwai@suse.de>); Mon, 02 Nov 2026 14:03:52 +0000
+Date: Mon, 02 Nov 2026 15:03:52 +0100
+Message-ID: <87zevr8h4n.wl-tiwai@suse.de>
+From: Takashi Iwai <tiwai@suse.de>
+To: =?ISO-8859-1?Q?Isma=EFl?= Bahloul <i.bahloul01@gmail.com>
+Cc: linux-sound@vger.kernel.org,
+	tiwai@suse.com,
+	perex@perex.cz,
+	linux-usb@vger.kernel.org,
+	alsa-devel@alsa-project.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	rdunlap@infradead.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 0/8] ALSA: usb: add RME Babyface Pro driver (proprietary mode)
+In-Reply-To: <20261027113140.134257-1-i.bahloul01@gmail.com>
+References: <20261027113140.134257-1-i.bahloul01@gmail.com>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) Emacs/30.2 Mule/6.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,27 +121,76 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-10.80 / 50.00];
+	SUSE_INTERNAL_BYPASS(-9.00)[];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[gmail.com];
+	ARC_NA(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TAGGED_RCPT(0.00)[];
+	RCPT_COUNT_SEVEN(0.00)[11];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo]
+X-Spam-Score: -10.80
+X-Spam-Level: 
+X-Spam-Flag: NO
 
-> For controllers affected by XHCI_EP_LIMIT_QUIRK, endpoint resources for
-> the default control endpoint are accounted before the virtual device is
-> allocated.
->=20
-> If xhci_alloc_virt_device() fails, the slot is disabled and cleanup is
-> handled through the Disable Slot completion path. However, because no
-> virtual device is installed in 'xhci->devs', the endpoint accounting
-> is never released and 'num_active_eps' remains incremented.
->=20
-> As a result, each allocation failure leaks one endpoint from the
-> driver's accounting.
->=20
-> Fix this by undoing the endpoint reservation when virtual device
-> allocation fails.
->=20
-> Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
+On Tue, 27 Oct 2026 12:31:31 +0100,
+Ismaïl Bahloul wrote:
+> 
+> Hi Takashi,
+> 
+> This is v7 of the RME Babyface Pro proprietary-mode driver.  The split
+> is the one you asked for in the v4 review and that v5 introduced: a
+> minimal core first, the mixer added piece by piece, suspend/resume near
+> the end, the front panel and the DSP EQ last, and a design document.
+> v7 keeps that split and folds in the fixes made since v6, and is
+> rebased onto next-20261026, the most recent snapshot at the time of
+> writing.
+> 
+> This is not an RFC.  The split you asked for in the v4 review has been
+> in place since v5, the open points at the end are documented and none
+> of them blocks a merge, so the series is submitted for merge rather
+> than for another design round.
 
-Sashiko has reviewed this patch and found no issues.
+Thanks for the updates.  The split patches look much better than
+before, which made easier to review.
 
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102134228.5840=
-32-1-niklas.neronin@linux.intel.com?part=3D2
+I haven't fully reviewed in details, but I see you've received quite a
+few complaints from Sashiko, so please check them again, and fix if
+they are valid.  If they are to be ignored, just explain.
 
+In general, a few things I noticed:
+
+- Please try to use the new guard & co macros for spin/mutex locks and
+  RCU.  They are much safer than manual lock/unlock.  (A caveat is
+  that you need to be careful not to mix up with guard() and goto,
+  though.)
+
+- The inner loop of babyface_playback_copy() and *_capture_copy() can
+  be simple memcpy().  You basically copy each 4 bytes as-is and they
+  are continuous for channels, after all.
+
+- The bf_seen_before() may lead to unlimited amount of list contents,
+  which isn't really good.
+
+
+thanks,
+
+Takashi
