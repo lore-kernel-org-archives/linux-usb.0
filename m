@@ -1,112 +1,56 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793639359;
-	b=1XSosGtIWLSoVjy8CR9s12MyOjhIS3jfW1j2C/b1xaqAf8DUoSN5qjnBRwhLURW6JU01
-	 GLnp+EN791SJNwed//qaJUVhFIfDphpLSQVgUpStrGLFATIvBx/UqrX0HzHB4r/nIbzEw
-	 A8xCr4omAdkVHAQ8HuFtbc3R4lwTqsMWiULy7EjwpMYFiN/UrD8adBLJOxoCVmmsfdblA
-	 dbmQJiaL+x+9GUi59oIJ/OeyvnzSccVvzgth+LnRW5HLoMBGlic4NlibQZwlX5RzPqi3v
-	 VlS4WugdI/tNEHSrRAN8fdR+Hatg9UI6UavWluGz09hPCi6vJtr9DrZDrmLQWB0X9nw==
+	t=1793639446;
+	b=Lax0+l2wmtmH8EI6stGcU9k54SvX1UanyVfplljhSR25JnH22Y8XbhpaVTNW0sLnDh0a
+	 f59cO1gbKYTeNEoGOOraVYUV2b5164y0ZpW1MD0IBHF3n617cQgtrAqn5GkUrZ+MuVAy8
+	 zOMpxNAhYbRjgre/hogII23RIgXQ5ajveBZTxdIm0VNqYLaGv1rXw1i49xenIdus5dkvE
+	 cxPUFCk/NB89SHabaEfHLreoOiHKrx2TAgx7MrFXQK2uisF/fYpqsk0h1+MJy5E/w+0Ix
+	 SwW8XqTbIOWwZasshhoYwU5rbIMW9c3MxSKUsFPQDODMFCizI3u3p/z7m5kEwzo/tFQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793639359;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Forwarded-Encrypted:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:X-Received:Received:Message-ID:
-	 Date:MIME-Version:User-Agent:Subject:To:Cc:References:
-	 Content-Language:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:X-Proofpoint-Spam-Details-Enc:
-	 X-Proofpoint-GUID:X-Proofpoint-Spam-Info:X-Proofpoint-ORIG-GUID:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=WW9GTkHRZwsz400fm+diDjo7fUTHQ83uQseXVYo8FMo=;
-	b=uFh0jE0iubquI4i8dFdOYIdPlpUZ9/49qNvwfSsSGVk6TKaMGZUp07YVg3cD909Ge6sQ
-	 JXxInjo84yUD0wHW/cHTiEuqaC55qjkoHQU6UNZQTAJU7pPNR+IfgKz0B3dtYPyyLyjrN
-	 GXS6i9oKokgyyxRS1cJa8YrArTpwMlSi8bmiSCoAH3+/lgkvaXZcaDJf+nqHvGvXSRPk7
-	 KMyZ91X8bcHNn9/h5Vl9Vc9tm2zyEbgbcn8A5ePoviBq/y2txt5s/tcw3PwB/9MSlKZDD
-	 gFSuG7v4zM5cRPhFkgziz+sMdzQyELcts6yigIo3hhwQVEibpZMfoOHAhifkGzIhVTw==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793639446;
+	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
+	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
+	bh=d+zkDWun6gXDs5xJcPR1zTjqdbrRYOmb1bF8apsaEi4=;
+	b=a2yN434j2qDO2EKsmMpDgQflrO1IqAxEshKKDF45nbF5X4C/FIMyLec40U8sB+3cSZxU
+	 2W6o0hNPtgZ/+VWtTRc7Ufay/vkHtoWRckfdEuUTt09+1GOa1xvA28iRPgMjYCdKo9nC1
+	 ksrwXdwcF4ExKaoKUjMqMtQerolR7p4egYfs+7iNZbDTm5EybMhCMz1Rdt6Bb57C0JMDz
+	 M0Y+a6MW51P2ikexc8Z65s7M8r3gxRX91/rNaJWtVoqKqVmB9dyj2fdVKV7ja/RswQQYT
+	 5OQRZDvfBhcnxvDqnEXkQhfbnybDYFaC9SCSeh7N5j6rtPLr/6Qc/ulLh6E+9ujKkjQ==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ClalfCpV;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XkeyjU8z;
-	arc=none smtp.remote-ip=205.220.180.131
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VwPSoml3;
+	arc=none smtp.remote-ip=100.103.45.18
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED12260716DF
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 17:09:18 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org ED12260716DF
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0966C606A919
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 17:10:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=ClalfCpV;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=XkeyjU8z
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A2GZEmw829750
-	for <linux-usb@vger.kernel.org>; Mon, 2 Nov 2026 17:09:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	WW9GTkHRZwsz400fm+diDjo7fUTHQ83uQseXVYo8FMo=; b=ClalfCpVKYgZwLpG
-	o4M35d5UPvOB5NX3PCW+UtWCe/zCbiDgH2TXEs454m/ZgbYkfA2wN5QKBrMmwhwp
-	mW+8EFAvJ1QYqYQPZux5vIuc721PJFh5wWqUOAGFhiqI/T8N4LFG3MKtT7LFjFCd
-	3EDEi0Hn8mVC9sZ+OnlZj4GD/eJGFenVIGeomtnUNt8G/dKREKU3nEVoAcS1NUS3
-	U8PMouMLQlhGA9FU8XdmrIju7alWNd1a7Y/ZQcVXQd11BTcuff0EN8SgCDh55Rbu
-	8z4Rkjyx7U7UMEpUYKcwf2UDODeyyzSpiZNxEhXj4yFunj29HlC5NDz2SxcLrNMk
-	jrlTVQ==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hpsa6sgn4-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 17:09:17 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3aed37745bcso472410a91.1
-        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 09:09:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793639356; x=1794244156; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=WW9GTkHRZwsz400fm+diDjo7fUTHQ83uQseXVYo8FMo=;
-        b=XkeyjU8zw5vb3LRIH5CoQoTEUZwAtCQE23Ian2FZjZf3jIIZF6TkUg5bG3NZ4OOVYX
-         U5UbmuzwBz+jYj9NKGt0WN+uCgjsYLl6X6vbpfNi5b0oNR54ziPnegaNGTmbPX76sOAh
-         Ook5snab4oqXo2nuwayn/ht4HAbJ7+GaCWAVCBYEkn2gL60msMd5ld4ePGLq0fQwR9AZ
-         o1DcF2mDc6zQs+tSzfl3m5Iph8MTxHfEOCjv88nJXzxkEjKciD8/m96/O9z8mVItC/xI
-         Z5mSs6ctD7HinJ6iVSWXmHfGba+tHb6TVmGuS/KpIPAg1NgdQ8vGbGwUUcWKjGzAqg0d
-         MOGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793639356; x=1794244156;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WW9GTkHRZwsz400fm+diDjo7fUTHQ83uQseXVYo8FMo=;
-        b=HTrlPABmrZnah54eJxA2cQstlaaPyNGLlLCH8yjkN6LHunXT5C76wSP2q/qRIBrWJW
-         RWmxekutRUz7X/eWr0vBwxmCg7K6pM8L6uElf31Kf1xy6A+1e+xjNXrAC5Ywf2X+lLIs
-         eqeEBY2FWMTNMgfekIvkgUXKhSKrf3nHYZiYBU6gig8qj6iYUyGd/KqJ0Rq6YKR2s0HN
-         e8bvdF1Jg7DvedcAr5h6tmQWGUi74dBe9dgtwRQhiTsZRstbWHn/+Urlc7rlDaW64YIC
-         a4scAeG4YmDEqVS5uWMB0ufyJI2pRGvUT7tTCCXqaEPYivDG6JvW2Zoy+HcV3txrbrDl
-         tH6A==
-X-Forwarded-Encrypted: i=1; AKwUvBzvZ0UMFgTIthAqOQtfKaStV2vI/vZeqNkhbgJXm5dDhG2FSVggQrOWL8ml4L/gS2XDSh7EkwF6ERc=@vger.kernel.org
-X-Gm-Message-State: APuU4Z/RaMYS9G0yie4OHBYjHp+wAaIJvCV8L8ySEIl8ieMEsRN7egM/
-	x7lIx4kLzoTkhyvvU7a3HMdxoG7s89oxE5ta7YpBLyoA7ciubj/KooBQEK0xkiwKczihUXQbEpf
-	SzhinqwgQ0RPZ2yucEbBSUMgF+85Ts7wThTtBf2b/uit1oHZ8pnP4lWK/wf63Yss=
-X-Gm-Gg: AYBFou2etdhmX3bvKb+2mNk8BsnYj5rPbHSjkTcYF+Gkwil3DsdBBfV++/DEOBZu++R
-	NN/JWnotT83sX+PQS0EBFoYbCdgSs4Rt+Zynx8unCtdDShNKssS0kyUMdsFc+52R8KJqi/N+KOT
-	KBw73pDTUEk0TOOuhxJlV95WwpN7v20lbLO/mgnFFI9Kt3xy3exWT/HYg+6DoFx+T8jc7inY21I
-	oePMCBgEauhCZIqpCRdRWC0HPE2WIwK7tc4x5Iqbqhv+zVvXMhGkVK+t4bkolKShzJRqhVN2kXT
-	OwejRjbqCyhjT5YVpdy0m2YAB4LYfE4Gr52Rtv/OUE+qRW8hwdsU9hRieqUma6DjnfKyVL6z1Xc
-	QvzdEyi40g6dNmrpdp0sWf4BDBXEbauptUqYHd69qkgQUL1AzUYMEKXHI+5vvVUcFt9g+nlmupf
-	dK9Q6xqyrtS9KOT8R9zlcMnmTFNFNLE3Ig/Zl/jwI=
-X-Received: by 2002:a17:90a:ea0c:b0:3ae:8983:4ef8 with SMTP id 98e67ed59e1d1-3ae89834f45mr4756788a91.9.1793639356396;
-        Mon, 02 Nov 2026 09:09:16 -0800 (PST)
-X-Received: by 2002:a17:90a:ea0c:b0:3ae:8983:4ef8 with SMTP id 98e67ed59e1d1-3ae89834f45mr4756766a91.9.1793639355846;
-        Mon, 02 Nov 2026 09:09:15 -0800 (PST)
-Received: from [192.168.1.6] ([122.177.242.199])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b07c6c4259sm35635a91.14.2026.11.02.09.09.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2026 09:09:15 -0800 (PST)
-Message-ID: <3da347c7-6c7d-477b-afe6-9dbb37208438@oss.qualcomm.com>
-Date: Mon, 2 Nov 2026 22:39:07 +0530
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=VwPSoml3
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7EBD31F00A18;
+	Mon,  2 Nov 2026 17:10:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1793639445;
+	bh=d+zkDWun6gXDs5xJcPR1zTjqdbrRYOmb1bF8apsaEi4=;
+	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
+	b=VwPSoml3QD6gaTHYlqeLQFc34cqbqqyEJfWjs6CT0yoUVMbDEILeNq+kjfElaXNtI
+	 Gfl4Fmu3wlYCFqcWLeVRS9v+plaL2jbrE+w9CMrz1wq80XNigdPI2jMZ3gn+DlwoR4
+	 U1ziiIPo68IbyeiJvhJBdstOIrhP6PjwYA1QSLNYTCc6zJK+fabtVgzBRToFX+uv2t
+	 9icmo8m4qzQHyVmmCdsY918I3Q9lPv1WTqwHhYfJAo/jAFfSnayBYMAuH9QxZNi55m
+	 kYCbzx9GNB1I+O8oax2P2XsBqYcwAvc9///ZBgYJoiuS1hfsufFwbTsKka2GRZfKUG
+	 BiyPbkvgYWI1A==
+Message-ID: <sashiko-outbox-193807@kernel.org>
+From: sashiko-bot@kernel.org
+Subject: Re: [PATCH RESEND] usb: mtu3: don't run gadget completion callbacks
+ with interrupts disabled
+Reply-To: sashiko-reviews@lists.linux.dev
+To: "Ryan Brue" <ryanbrue.dev@gmail.com>
+Cc: linux-usb@vger.kernel.org
+In-Reply-To: <20261102-usb-mtu3-gadget-completion-callback-fix-v1-1-93c3a6dda31f@gmail.com>
+References: <20261102-usb-mtu3-gadget-completion-callback-fix-v1-1-93c3a6dda31f@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 02 Nov 2026 17:10:45 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -115,137 +59,149 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] arm64: dts: qcom: glymur: Set
- snps,resume-hs-terminations for USB controllers
-To: Peter Chen <peter.chen@oss.qualcomm.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Abel Vesa <abel.vesa@oss.qualcomm.com>,
-        Wesley Cheng <wesley.cheng@oss.qualcomm.com>,
-        Udipto Goswami <udipto.goswami@oss.qualcomm.com>,
-        Jack Pham <jack.pham@oss.qualcomm.com>,
-        Pratham Pratap <pratham.pratap@oss.qualcomm.com>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20261019021547.1694088-1-peter.chen@oss.qualcomm.com>
- <20261019021547.1694088-2-peter.chen@oss.qualcomm.com>
-Content-Language: en-US
-From: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
-In-Reply-To: <20261019021547.1694088-2-peter.chen@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDA2OCBTYWx0ZWRfX2xXgOSkl3eq2
- 5IpEAXuYY+UdkEeO6/ULWJZgY1iI3jqAo1rEXZSd5PMHnQRiGR09MihD61gKDI4PadriGuVFKpr
- eZUB1tGMZtMOMSLbFzqvdYy/sCVnmub0T9aPJwHZg7XtGQPxOzlb5U/aotK1Ggy1UfyFKtBXR3K
- xl+C+jg56D6bdM9kbpVMJHPnL5fA4Q4zy4kn94v8bV3gCTQn3s9GQfLaMSUJd7HtLpA/fu3g6bV
- X8aDxultrFheENBvjQGpHqwQzQLCPCM0xWLppGVK5O5U0AR9Mwe2Bvew+rQGUWCzd7AqJGgZoR3
- R8ZDcWIEr/93zIcDpx1m5tRyx6My1WbcVEucJFkpDdyXLP/ef/QRupNDvdKvm1D6C6sfeh9xDXr
- x+baDtM6qsYnBPoF0PXoZ+qnCIliFeOrrXVPdVxT9Ig/22alx/EXGdLEuGI5SJAHfZGr68Xym3x
- RKlDe6+fgkmylnv3DRw==
-X-Proofpoint-GUID: _a_Y_g5o8T2e_cWe1kMwkips-7ZIbWNl
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDA2OCBTYWx0ZWRfX07n5K493wfLF
- lA9stHM/mxc6RHAUnOSB1lTsAxW8vfMhGB8y7a2IY2TrQk8CYq6sVLjwHR2wMVTMzsEy4WdWJAI
- gVa2sIh/Gu40n3W2PXgxr08m84BYVX4=
-X-Proofpoint-ORIG-GUID: _a_Y_g5o8T2e_cWe1kMwkips-7ZIbWNl
-X-Authority-Analysis: v=2.4 cv=I9fw19gg c=1 sm=1 tr=0 ts=6ae8c3bd cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=4cW2FY/XLap1olThQF9nEw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_glEPmIy2e8OvE2BGh3C:22
- a=EUspDBNiAAAA:8 a=ptdc_f1R2aCmbPsLd1wA:9 a=QEXdDO2ut3YA:10
- a=uKXjsCUrEbL0IQVhDsJ9:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-02_04,2026-11-02_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 clxscore=1015 phishscore=0 priorityscore=1501
- bulkscore=0 lowpriorityscore=0 suspectscore=0 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020068
 
+Thank you for your contribution! Sashiko AI review found 1 potential issue(=
+s) to consider:
+- [High] usb: mtu3: spin_lock_bh() in mtu3_irq() leaves hardirqs enabled in=
+ callbacks
+--
 
+commit 153a59750e6c0f99e7e0b96dbcf13012e52f3fc8
+Author: Ryan Brue <ryanbrue.dev@gmail.com>
 
-On 10/19/2026 7:45 AM, Peter Chen wrote:
-> The DWC3 controllers on Glymur are paired with the M31 eUSB2 PHY.
-> According to HPG, host-mode USB2 L2/L1 resume with this PHY, GUCTL1[10]
-> (RESUME_OPMODE_HS_HOST) must be set.
-> 
-> Without this bit setting, USB2 HS device cannot be reset after it is
-> runtime resumed. For example, after:
-> 
->    echo on > /sys/bus/usb/devices/1-1/power/control
-> 
-> PORTSC.PR never clears (PORTSC = 0xe11) and the hub driver fails with
-> "port_wait_reset: err = -16".
-> 
-> Set snps,resume-hs-terminations on all Glymur USB controllers. This
-> makes dwc3 core set GUCTL1[10] and fixes the issue, tested on Glymur CRD.
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-> Fixes: 4eee57dd4df9 ("arm64: dts: qcom: glymur: Add USB related nodes")
-> Assisted-by: Claude:claude-opus-5-5
-> Signed-off-by: Peter Chen <peter.chen@oss.qualcomm.com>
+usb: mtu3: don't run gadget completion callbacks with interrupts disabled
 
-This also fixes one more issue in Glymur wherein the HS Pendrive 
-disconnects after exiting pm suspend.
+This commit changes mtu3_irq() in drivers/usb/mtu3/mtu3_core.c to acquire
+and release mtu->lock using spin_lock_bh() and spin_unlock_bh() instead of
+spin_lock_irqsave() and spin_unlock_irqrestore() so that softirqs are
+disabled when gadget completion callbacks invoke netif_rx().
 
-Tested-by: Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>
+> diff --git a/drivers/usb/mtu3/mtu3_core.c b/drivers/usb/mtu3/mtu3_core.c
+> index a40bf5bad2d5d..ed0e426645fd6 100644
+> --- a/drivers/usb/mtu3/mtu3_core.c
+> +++ b/drivers/usb/mtu3/mtu3_core.c
+> @@ -790,10 +790,9 @@ static irqreturn_t mtu3_u2_common_isr(struct mtu3 *m=
+tu)
+>  static irqreturn_t mtu3_irq(int irq, void *data)
+>  {
+>  	struct mtu3 *mtu =3D (struct mtu3 *)data;
+> -	unsigned long flags;
+>  	u32 level1;
+> =20
+> -	spin_lock_irqsave(&mtu->lock, flags);
+> +	spin_lock_bh(&mtu->lock);
+> =20
+>  	/* U3D_LV1ISR is RU */
+>  	level1 =3D mtu3_readl(mtu->mac_base, U3D_LV1ISR);
+> @@ -814,7 +813,7 @@ static irqreturn_t mtu3_irq(int irq, void *data)
+>  	if (level1 & QMU_INTR)
+>  		mtu3_qmu_isr(mtu);
+> =20
+> -	spin_unlock_irqrestore(&mtu->lock, flags);
+> +	spin_unlock_bh(&mtu->lock);
 
-Regards,
-Krishna,
+[Severity: High]
+Does replacing spin_lock_irqsave() with spin_lock_bh() in mtu3_irq() break
+the USB gadget completion contract and risk a hardirq deadlock?
 
-> ---
->   arch/arm64/boot/dts/qcom/glymur.dtsi | 5 +++++
->   1 file changed, 5 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/glymur.dtsi b/arch/arm64/boot/dts/qcom/glymur.dtsi
-> index e269ae6e10ea..023a8448449c 100644
-> --- a/arch/arm64/boot/dts/qcom/glymur.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/glymur.dtsi
-> @@ -5544,6 +5544,7 @@ usb_0: usb@a600000 {
->   			tx-fifo-resize;
->   			snps,dis_u2_susphy_quirk;
->   			snps,dis_enblslpm_quirk;
-> +			snps,resume-hs-terminations;
->   
->   			usb-role-switch;
->   			wakeup-source;
-> @@ -5620,6 +5621,7 @@ usb_1: usb@a800000 {
->   			tx-fifo-resize;
->   			snps,dis_u2_susphy_quirk;
->   			snps,dis_enblslpm_quirk;
-> +			snps,resume-hs-terminations;
->   
->   			usb-role-switch;
->   			wakeup-source;
-> @@ -5696,6 +5698,7 @@ usb_2: usb@a000000 {
->   			tx-fifo-resize;
->   			snps,dis_u2_susphy_quirk;
->   			snps,dis_enblslpm_quirk;
-> +			snps,resume-hs-terminations;
->   
->   			usb-role-switch;
->   			wakeup-source;
-> @@ -5783,6 +5786,7 @@ &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
->   			tx-fifo-resize;
->   			snps,dis_u2_susphy_quirk;
->   			snps,dis_enblslpm_quirk;
-> +			snps,resume-hs-terminations;
->   
->   			maximum-speed = "high-speed";
->   
-> @@ -5858,6 +5862,7 @@ usb_mp: usb@a400000 {
->   			tx-fifo-resize;
->   			snps,dis_u2_susphy_quirk;
->   			snps,dis_enblslpm_quirk;
-> +			snps,resume-hs-terminations;
->   
->   			dr_mode = "host";
->   			wakeup-source;
+When mtu3_irq() invokes mtu3_qmu_isr() or mtu3_ep0_isr() ->
+mtu3_req_complete() (as well as forward_to_driver(),
+mtu3_gadget_disconnect(), mtu3_gadget_suspend(), or mtu3_gadget_resume() in
+drivers/usb/mtu3/mtu3_gadget.c), those helpers release mtu->lock with a
+plain spin_unlock():
 
+drivers/usb/mtu3/mtu3_gadget.c:mtu3_req_complete() {
+	...
+	spin_unlock(&mtu->lock);
+	usb_gadget_giveback_request(&mep->ep, req);
+	spin_lock(&mtu->lock);
+	...
+}
+
+Because mtu3_irq() now only holds spin_lock_bh(&mtu->lock), dropping
+mtu->lock with spin_unlock() leaves hardware interrupts enabled across
+usb_gadget_giveback_request() and the gadget driver callbacks.
+
+However, the struct usb_request kerneldoc in include/linux/usb/gadget.h
+requires completion callbacks to be called with hardware interrupts
+disabled:
+
+include/linux/usb/gadget.h:
+ * @complete: Function called when request completes, so this request and
+ *	its buffer may be re-used.  The function will always be called with
+ *	interrupts disabled, and it must not sleep.
+
+Gadget function drivers rely on this guarantee and take hardirq-unsafe
+locks with plain spin_lock() inside their callbacks. For example, in
+drivers/usb/gadget/function/u_serial.c, gs_console_complete_out(),
+gs_console_connect(), and gs_console_disconnect() acquire cons->lock with a
+plain spin_lock():
+
+drivers/usb/gadget/function/u_serial.c:gs_console_complete_out() {
+	...
+	default:
+		spin_lock(&cons->lock);
+		req->length =3D 0;
+		schedule_work(&cons->work);
+		spin_unlock(&cons->lock);
+		break;
+	}
+}
+
+Meanwhile, gs_console_write() is a console write callback that can be
+invoked from any hardirq via printk() and acquires cons->lock with
+spin_lock_irqsave(). Running completion or setup callbacks with hardware
+interrupts enabled causes a lockdep inconsistent lock state splat and
+deadlocks if a hardware interrupt on the same CPU calls printk() while
+cons->lock is held. Similarly, u_audio_iso_complete() in
+drivers/usb/gadget/function/u_audio.c calls snd_pcm_stream_lock() assuming
+hardware interrupts are disabled.
+
+In addition, mtu->lock itself can be acquired from hardirq context via
+usb_ep_queue() -> mtu3_gadget_queue() when f_midi2 is driven by the ALSA
+sequencer hrtimer backend (snd_hrtimer_callback() -> snd_timer_interrupt()
+-> snd_seq_timer_interrupt() -> snd_seq_check_queue() ->
+seq_ump_process_event() -> snd_rawmidi_kernel_write() ->
+f_midi2_ump_trigger() -> process_ump_transmit() -> usb_ep_queue()), and
+other callers of mtu3_req_complete() such as mtu3_gadget_ep_disable(),
+mtu3_gadget_dequeue(), and mtu3_gadget_stop() still hold
+spin_lock_irqsave(&mtu->lock, flags).
+
+The commit message notes that dwc3 fixed the same issue in commit
+84918a89d6ef ("usb: dwc3: gadget: Let the interrupt handler disable bottom
+halves."), but dwc3 kept spin_lock_irqsave() and wrapped it with
+local_bh_disable() and local_bh_enable():
+
+drivers/usb/dwc3/gadget.c:dwc3_thread_interrupt() {
+	unsigned long flags;
+	irqreturn_t ret =3D IRQ_NONE;
+	int i;
+
+	local_bh_disable();
+	spin_lock_irqsave(&dwc->lock, flags);
+	ret =3D dwc3_process_event_buf(evt);
+	spin_unlock_irqrestore(&dwc->lock, flags);
+	local_bh_enable();
+
+	return ret;
+}
+
+In net/core/dev.c, netif_rx() checks:
+
+	need_bh_off =3D !(hardirq_count() | softirq_count());
+
+When local_bh_disable() is held around spin_lock_irqsave() and
+spin_unlock_irqrestore() (as done in dwc3, cdns3, and cdnsp),
+softirq_count() is non-zero so netif_rx() does not call
+local_bh_disable()/local_bh_enable() while hardware interrupts remain
+disabled across usb_gadget_giveback_request(), and local_bh_enable() runs
+pending softirqs after spin_unlock_irqrestore() re-enables hardware
+interrupts.
+
+Should mtu3_irq() wrap spin_lock_irqsave() and spin_unlock_irqrestore()
+with local_bh_disable() and local_bh_enable() instead of using
+spin_lock_bh()?
+
+--=20
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-usb-mtu3-g=
+adget-completion-callback-fix-v1-1-93c3a6dda31f@gmail.com?part=3D1
