@@ -1,99 +1,98 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793625735;
-	b=matpL+G3fn3UIDG8AMobFqNf78ehZy05YFHsLC4UgXZNbwr3/1bC+si6wup03dm7bKcG
-	 +x1GCy56wKT01N+dM4jpEfuk6RNJXKE/94eleedIYESoQai/HcOWgAQwbvvgei4O7m6/c
-	 7hDyuw/VCFVLdXj3krdp2uYLveJ2/47ZNN6UGnErDc46ESYw9RYpwfQO+R6zxckBAbKEO
-	 hBhN+Ps1b2nanr4buuu7HL7EKtZVvmZpY9z/5brkI1bKlJXQi/51rBWfCL6yj31DyYuMt
-	 kmn1sgTP8o5cuyq+4YkaVy1SwS+MpULMbhyWITGbOhTMv75i3VnCqL8qam9tpeu9UVQ==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793625735;
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.51
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793626481;
+	b=3jMYvmWEr689DMuNrw7cpESFD6a4TgApDLzKiGkjTq5tXxneqKT2WRuHgNNwmmJCCCLs
+	 rBimp2SyWbbvfS6hxwfNq2kSOU7++1/UUO1LXSyvTRH+J40r01CTwgvWYoyrn0tlWrFcy
+	 /HpA4zipG1hqgy4CWt0iiArRMPTqhE4lJ8RRm6BtzH6Tnq2vqhB63e5wnAYTLW08HF74H
+	 oPZST4wlrZM9gpEQAKKcvHD6v7n1wEuFXX94Dr+7bW6pSSzew+v3VQNkgVTAEkxcoTwm0
+	 Y2wpw71BT/LDi5HMQOmNPhaEIHJYIDEDlS2JkRxPVL5eVRafenyGOh0dDkxbyueJaag==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793626481;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
-	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
-	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=DzSgnhqleAog67Yb0q0Y1c/eDIvyxmt+o8COHhZeRGE=;
-	b=iGkuT5xj21n+cboNOzuDETEsA4NeIBHvWzuhsYm9+YlZHmqNmerNcXNre0gkKjStIil3
-	 BQLiicto25pQlXk50l/oFch4seiC/dfSlM0YLZr/B4++tVPVjruTDiZ0d6zmVoXaREwu5
-	 ba8JP0jbsN7Zs4Ou6zRqWgGScCWhAC1Bbl6UtVocSB5JhpBVwXeaBp1PWqhvpDKk4knU+
-	 2x9k5iJ+O+vOkqLm1At5IGPJrT7Y6zg/vQmHqLM0gEUI27qh6h8IAr1PgK8ntFdGwGRGS
-	 1SKH/0WSkMRtgmUNzDiwx3lgh2y2+VxD4ecbyBNqP71zQ4ozgJ3yxgj8LvGzxpd8rgw==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=flipper.net;
-	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=VXKT5bST;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=209.85.218.46
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=6R/u431umGtSkGq0ekXuHtMmDyjJRoaSYLM3qGkDCO4=;
+	b=B4Fcv71owfkd8iMa+27VE4UIA2q4w+mR8JVP4aW4537oPeAf3oRDEKJWqT9FftMnXL1w
+	 4V1wqAuNqJ+bGBOxlQYgFWd//FY4aijsZI/UgGkEIasg+sABYMjMwHkrCZqU/0m0QSj9U
+	 JY/a05P184dcnpJr+cYKlegBckOLNwR5q1Opy0scS16ke+3IAePaK9XXFqj1gda8Rruci
+	 RQSSvlBB7vMN4tNycqPjpUwoMB0PkcO5Use46DAjmq7gY6WjbaVcK3udVK+frWMWU3etG
+	 i3eyFTXQDjdl/3L39XeRTASfMHGQ5TzWnQelG1wQp8YZMxVs3nKullgYlmTIQkgXQwA==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vxkCrL7D;
+	arc=none smtp.remote-ip=209.85.128.51
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174CC606A32F
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:22:14 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 174CC606A32F
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8C2C606A331
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:34:40 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org B8C2C606A331
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=VXKT5bST
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c40e02b2ebaso519297166b.1
-        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 05:22:14 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793625733; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Fy+KFV+piIDXxYO8GJHwCvluxA6UmcwolKd7nfQTia9/9ax/lHfolfWbJ6QPtoK1zo
-         HnUDO3Rwt+pxw9dLSH3lQuB/9KBdh0elrK63o6XpLuQyujdRSg6ul2L55xmE26EbWdG5
-         4pAKQuUYSI5WUva8BNtuKu+/pazEAksU6gUz4oVyz7YbMYQJcEwhwL66973yZ0CFXEe/
-         C97Ks5w3PAiWaJyEjTblH/3tN+vWmneXuFOSNvXvGdHU4IHrb4ikx9blSsZqaJnyCF2Y
-         bbQoEYGPd2iMlLPHAQMTi9jGT/r0hEMpaMl2trISz8E2fpgTvogACavit/DVWOf2MwLr
-         V+BA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DzSgnhqleAog67Yb0q0Y1c/eDIvyxmt+o8COHhZeRGE=;
-        fh=/XafWwXInU6xSAMitUKTVJtcnn7zkW/jx5Qszu7SSug=;
-        b=GhzRol5LrIsGELk7WCHTypyD3Y8rzf8IKNJeFJIuCDUda4sozOLDJ4HM3dylZxIwTx
-         CpLrmyAlLY0zTJtZ/fGv558lTaN1FRQYKoPJrtxLTrPLQEAqO0FlMAg0+e2OYNcJVhRc
-         WOEgzdaRSh6rCg6gLDDnHfNVRT9ZqTCFkJ3NDQpRhz9IJtM64qpT77umUm0wzRBmYeal
-         azK+TTrzJ67fhFQlgY+mQdRdwkOjO+GsSSK3S5KPzYS6cQZ88rWQkFoyY/o3TB4YErjU
-         Ie8+1PoMpPGVDHxPog0sArOh+718WAcEEHOXH1Mfx2E/tER/wks8aCO3huBpdGK9OHLI
-         L1nw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=vxkCrL7D
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a20bdaf39cso34932025e9.1
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 05:34:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1793625733; x=1794230533; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+        d=gmail.com; s=20260707; t=1793626479; x=1794231279; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=DzSgnhqleAog67Yb0q0Y1c/eDIvyxmt+o8COHhZeRGE=;
-        b=VXKT5bST/E9OpmbvL9/+RqgEn+OMDY2kLbLLLrBouV6ffiuNoeYSrHNYNaKYH5JCIF
-         aI7SPfnUZpzvLZoZfKFsdUmKEJeYUI5sE/OwqeligXJpcNuKTfSKmYCxtp8fxnMquSye
-         JWQvWDSJfFMCsyfXpnd9mDPFaQIo0mOA/H8s17QcA+yb2tFr4LAvFY2zrvoJ1DZG3SBp
-         uSPq8YUTrSUcW8StMXJmzK8vdA+Ag7nDEIuK13gK7uKG0ReK8RPeaxQvpSaDgWbo7h8+
-         JF4uaaYa5CsN2v205OZfgo0LsL12CWgaLLDXgeLUMDMAK8f92oYk1nQReq7N2NJEYldF
-         NX5A==
+        bh=6R/u431umGtSkGq0ekXuHtMmDyjJRoaSYLM3qGkDCO4=;
+        b=vxkCrL7DvCsMFVKdBCQhqjoeH7mIRO46s2nHFM91xUvxoS67ayd64OS225aEifEjTG
+         bh8Mvh5N+eeUsjMlf9qorQkDt3mSdacKQfcwrRZf46m40gx7iz0kWYv4I/SEFV4T/kyN
+         yavJkGnQ9hwYQXohz7ijamiFdGtmWSA8D+w3pVd3l01M6+3pZEI6PH8KrrWgCCJvc4Ip
+         YtvrJ42dOYoBenv1dgf2fEdS+Zqw0BCDOfPa31q6ouwp2yHu25lYCgkesXPJLew6R+TN
+         WR0N2QrvfP817RY6/3cDexrO5+7KRVpBemi8NMsJ1TAZFVM6cXybZ/YkIscEk6kKU454
+         4cfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793625733; x=1794230533;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1793626479; x=1794231279;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=DzSgnhqleAog67Yb0q0Y1c/eDIvyxmt+o8COHhZeRGE=;
-        b=A2ZUJSvi0wI0OFSxQZ5ecenNN+ooHt1Jf3IYQjoBPPOc4jmhPWc1f4FvErPs21fnwY
-         kGtGRCBLkLqMyO/NHYRLCCbU8XKlyGalEQHJeUZ3ApF3YVSz9xWarunqt4dqpuEov7rq
-         bw5srjGdeOAyiLpz6XRAiPLN7sHIBJJ346NHKUzyyoDn1r03MaVT5akO+yKjDwHda3LG
-         /5jsYUyjbr/pxYJmBz7cbqT403tOYRwRl9gOneeuOF/ijctR8HVf/8oL+ImB7w1iLX06
-         YxFXFFE8Tr6v6+8dmsGF/H/O+xZot3D8fZQnnORZIZzShuWBRO866w7yx3t2HJq1W2Ko
-         CUyA==
-X-Gm-Message-State: APuU4Z+TuQoHDTeYl1nNtNp2oeQ8XHwHnrzRbbXu3IDQmpM0jVzbfneK
-	yU3ZXNAmMuXYnQsVahaoZWbqwJ8dPDTBdhwZ6g2LtPCOqVLBqOjjg+OHWZLbO1/I5IBzMOw6GyB
-	Idmnt+/sWlTF/0jeNK5HX0vHjOPtUj2GTx9grX7JRPw==
-X-Gm-Gg: AYBFou0tKEhPu7GPgTtxxZjUVneCxkpz1p3JgxDiBIQYNkX/tETIMNPoIr4A0TGZs5x
-	h2wShBDw4aLXPyX0CafjgJ4w/1jyhp2vf4rE6SESFbuhTHchxmvRMWpWUCZGwnM+GZT3NFI0zcw
-	YKqhvtS5uUEH52Wn5yrIcCoLlPAkcX1/QqYZjna0i3A9qzwmkWqzIUCvCL3wg6appP5NnzN2XGs
-	Whr3hOaEVELJ9xyOqsWkk7ScypOcqURGdZIMkMctWDW1GMPS6LqoDNFMoxIkVq1w8GMK4413WEF
-	g+ZFeqPh+dJ2oOs9Wd3RuRUMyggT61bGfYPX9wr4/xiWn+FNmAgbINNLD3V1r9qL5peTfQdBmxy
-	0q65AomRmJbiJYseVatnuUPh1JybxVPuKUv9XzE5nb2g22YbMfP+9B9H7SkeLEURtyz0iMQ==
-X-Received: by 2002:a17:907:1b29:b0:c41:26b8:c49d with SMTP id
- a640c23a62f3a-c4ca7ab18d6mr821555366b.38.1793625733404; Mon, 02 Nov 2026
- 05:22:13 -0800 (PST)
+        bh=6R/u431umGtSkGq0ekXuHtMmDyjJRoaSYLM3qGkDCO4=;
+        b=fTTBdVNCgE2ESqL604MrJrZf4MQ5gzEWDkxgwVE31yLU942L5XIOD67OqDxYb9AEBR
+         NyiV12rT/l4I+Wu2rwMfys+ZzNDQPqzh+ykHUcw+VqS4BmmVfi80OFWrHMHYT0iTqBRZ
+         H3/XaOHWSQordeIGmQJRRmnVXDp4YnweOq3HfFsvdQQwpiH9uBUTB+WQfq2EeWnRl4i6
+         mL3Sn1FLyrD6R5zAaw4HgrMJgqveb6JVxmkCu8FPviW0cH1BrXHHNXox60iKcRKV9N2M
+         t/W39oWxZvQ3j4qNyHrQtajGduDLC/73e8ljrNypOgC7wmueqggvRUFDPvXo+72oizqU
+         y2ng==
+X-Forwarded-Encrypted: i=1; AKwUvBxqPgnOqdkwtRGBlGy4AWbc73G5IcTmA88KDveRsyCsIiy5SrqpVWDtMzwGOInNWAm712cYZ5A5s1k=@vger.kernel.org
+X-Gm-Message-State: AFq9FYK0i74hHC/DayFLk/1FJSBzMWjs7+wdrqP/e+t5zKf+2hutGmBp
+	tTFkw8Q82RHzMJogjAOeiSutAfrmOlMmCK+u955aTT3EDJgVndGuCixO
+X-Gm-Gg: AYBFou1PSqhbLbhItGYjvkyOXDhvuC+cGEqKnDOSiDUB5cT61fhJXv05c9f9VjaeAPW
+	2SjTqN1T/Z8QK3n0fc0D4nIyufdCvKF5jP4ADiC5XAb18+WZPsjQK6O2BRkBoiFove0c2DxnXbY
+	16sjHWBtUSr708O+MvnEB4LVDn6O+R0GF02vHh3HksUqWH5xPCN9laHXRivfFgl7V5ViG4SpOWk
+	OuUegCK96WkiOM2naadCtAUFdK8fpbT+8IvIa9e7LQWor1LGLj5Z9OQLVxDMAsGNjROk+pOG1l0
+	S5AHSdiKNRrAG0/Z3AQkuKDC9vyUVTWiM+PYaEY4KN4oh6ML+S30H2e/nA49q5In9T/4pjv+ao8
+	Yj9HNZOVXGNiojecooSGYQb3Ytn5msoOWCtNPsugkMjSlTGiimNgQJag9TW9Hyv7hnu9MGuy5md
+	KCJkQ8jeVl18Tr/xRKeU4DwyWRuxtSA9RGKk2qR2/G764XIRxfmejkQBiLZNXQtbIdFdHLUjDFK
+	hZfA+O9HgBeWm3ffB88Ks82/wNchcHe1pV7kItbOdUojGphMjPaIePZYziBClJ3HDePDiZV2EXz
+	zN2joKKKhJ10RL6PBsV3Y9k8yRkF889pPxrcPNtObjN9SPYP+2n1MjhREA==
+X-Received: by 2002:a05:600c:4f55:b0:4a3:d327:6ed with SMTP id 5b1f17b1804b1-4ac182dcba3mr253672315e9.17.1793626479081;
+        Mon, 02 Nov 2026 05:34:39 -0800 (PST)
+Received: from foxbook (bgu81.neoplus.adsl.tpnet.pl. [83.28.84.81])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4abf396dfdbsm274233715e9.1.2026.11.02.05.34.37
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 02 Nov 2026 05:34:38 -0800 (PST)
+Date: Mon, 2 Nov 2026 14:34:35 +0100
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Alan Stern <stern@rowland.harvard.edu>
+Cc: Jianping Liu <frankljpliu@gmail.com>, gregkh@linuxfoundation.org,
+ dakr@kernel.org, shashank.mahadasyam@sony.com, johan@kernel.org,
+ hadess@hadess.net, frankjpliu@tencent.com, guanyulin@google.com,
+ gary@garyguo.net, rafael.j.wysocki@intel.com, linux-kernel@vger.kernel.org,
+ linux-usb@vger.kernel.org, Mathias Nyman <mathias.nyman@linux.intel.com>
+Subject: Re: [PATCH] usb: core: raise root-hub autosuspend delay to stop a
+ busy-loop
+Message-ID: <20261102143435.044064df.michal.pecio@gmail.com>
+In-Reply-To: <a35865b5-3779-40a4-9a83-8edd797e56b5@rowland.harvard.edu>
+References: <20261028041859.1061836-1-frankljpliu@gmail.com>
+	<a35865b5-3779-40a4-9a83-8edd797e56b5@rowland.harvard.edu>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,110 +102,45 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102-fusb302-getsourcecap-v1-1-26b5bfea4b2b@flipper.net> <sashiko-outbox-193478@kernel.org>
-In-Reply-To: <sashiko-outbox-193478@kernel.org>
-From: Alexey Charkov <alchark@flipper.net>
-Date: Mon, 2 Nov 2026 17:21:57 +0400
-X-Gm-Features: AclHuK-lcmki2jLa3eVCETCCdd8_r5dRb0CE_o5lxTpfWFSk-b6dl3cOH_O5FPM
-Message-ID: <CAKTNdwFvL9+GT1xBG8LNFpHYYn5Un4HSLCfCzx3DKgvBNPfO+w@mail.gmail.com>
-Subject: Re: [PATCH] usb: typec: fusb302: Drop unacknowledged Get_Source_Cap_Extended
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-usb@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 2, 2026 at 5:20=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [High] usb: typec: fusb302: incomplete RX FIFO drain in fusb302_pd_read=
-_message()
-> --
->
-> commit 2a38943c4db3b547e9d3ad8f9cba90c33a8b3dfa
-> Author: Alexey Charkov <alchark@flipper.net>
->
-> usb: typec: fusb302: Drop unacknowledged Get_Source_Cap_Extended
->
-> This commit drops Get_Source_Cap_Extended messages read from the FUSB302 =
-RX
-> FIFO in fusb302_pd_read_message() because the hardware mistakes them for
-> GoodCRC messages and queues them in the FIFO without sending a GoodCRC or
-> raising an interrupt.
->
-> > diff --git a/drivers/usb/typec/tcpm/fusb302.c b/drivers/usb/typec/tcpm/=
-fusb302.c
-> > index 3319f6a2b0c9b..96dc48250d6a6 100644
-> > --- a/drivers/usb/typec/tcpm/fusb302.c
-> > +++ b/drivers/usb/typec/tcpm/fusb302.c
-> > @@ -1463,6 +1463,19 @@ static int fusb302_pd_read_message(struct fusb30=
-2_chip *chip,
-> >       fusb302_log(chip, "PD message header: %x", msg->header);
-> >       fusb302_log(chip, "PD message len: %d", len);
-> >
-> > +     /*
-> > +      * The chip only decodes the low four bits of the message type, s=
-o it
-> > +      * mistakes Get_Source_Cap_Extended (17) for a GoodCRC (1): it ne=
-ither
-> > +      * acknowledges it nor raises GCRCSENT, yet still queues it in th=
-e RX
-> > +      * FIFO. Without a GoodCRC the partner never considers it deliver=
-ed and
-> > +      * will retry and then soft reset, so it must not be answered.
-> > +      */
-> > +     if ((!len) &&
-> > +         (pd_header_type_le(msg->header) =3D=3D PD_CTRL_GET_SOURCE_CAP=
-_EXT)) {
-> > +             fusb302_log(chip, "dropping unacknowledged PD message");
-> > +             return ret;
-> > +     }
->
-> [Severity: High]
-> When fusb302_pd_read_message() drops a PD_CTRL_GET_SOURCE_CAP_EXT message=
- and
-> returns early here, doesn't that leave any retried copies and the actual
-> interrupt-triggering PD message unread in FUSB_REG_FIFOS?
->
-> Because the FUSB302 does not raise an interrupt when it queues
-> PD_CTRL_GET_SOURCE_CAP_EXT, the partner will retry it (queueing up to 3 c=
-opies
-> in FUSB_REG_FIFOS in PD 3.0) before sending a follow-up message such as
-> Soft_Reset that finally raises FUSB_REG_INTERRUPTB_GCRCSENT (or a GoodCRC=
- for
-> a local transmission that raises FUSB_REG_INTERRUPTA_TX_SUCCESS).
->
-> In drivers/usb/typec/tcpm/fusb302.c, fusb302_irq_work() clears the interr=
-upt
-> status registers on read and only calls fusb302_pd_read_message() once fo=
-r
-> that event:
->
->         if (interrupta & FUSB_REG_INTERRUPTA_TX_SUCCESS) {
->                 fusb302_log(chip, "IRQ: PD tx success");
->                 ret =3D fusb302_pd_read_message(chip, &pd_msg);
->                 ...
->         }
->         ...
->         if (interruptb & FUSB_REG_INTERRUPTB_GCRCSENT) {
->                 fusb302_log(chip, "IRQ: PD sent good CRC");
->                 ret =3D fusb302_pd_read_message(chip, &pd_msg);
->                 ...
->         }
->
-> If fusb302_pd_read_message() returns after popping only the first
-> PD_CTRL_GET_SOURCE_CAP_EXT frame, the remaining retries and the message t=
-hat
-> actually triggered GCRCSENT or TX_SUCCESS stay behind in the RX FIFO and =
-are
-> not delivered to TCPM on this interrupt.
->
-> Should fusb302_pd_read_message() loop back to read the next message from
-> FUSB_REG_FIFOS whenever it drops an unacknowledged PD_CTRL_GET_SOURCE_CAP=
-_EXT
-> message?
+On Thu, 29 Oct 2026 22:23:02 -0400, Alan Stern wrote:
+> On Wed, Oct 28, 2026 at 12:18:59PM +0800, Jianping Liu wrote:
+> > From: Jianping Liu <frankjpliu@tencent.com>
+> > 
+> > hub_probe() sets the hub autosuspend delay to 0. An idle hub is
+> > therefore suspended at once, with no waiting time.
+> > 
+> > Suspending the root hub can fail. While a port reports over-current
+> > or a connect change, xHCI refuses the bus suspend and returns
+> > -EBUSY. usb_runtime_suspend() returns that error. The hub is
+> > resumed, and when its status URB completes the same suspend runs
+> > again.
 
-Addressed separately in [1]
+Yes, I have seen this ping-ponging before.
 
-[1] https://lore.kernel.org/linux-usb/20261102-fusb302-drain-rxfifo-v1-1-bd=
-9b232ab345@flipper.net/
+> 
+> Why should root hubs be special?  An ordinary hub doesn't refuse to 
+> suspend because of an over-current or connect change.  xhci-hcd ought
+> to behave the same way.
+
+IDK what happened there, but we have this:
+
+commit e9fb08d617bfae5471d902112667d0eeb9dee3c4
+Author: Mathias Nyman <mathias.nyman@linux.intel.com>
+Date:   Tue Apr 21 17:08:21 2020 +0300
+
+    xhci: prevent bus suspend if a roothub port detected a over-current condition
+    
+    Suspending the bus and host controller while a port is in a over-current
+    condition may halt the host.
+    Also keep the roothub running if over-current is active.
+    
+    Cc: <stable@vger.kernel.org>
+    Signed-off-by: Mathias Nyman <mathias.nyman@linux.intel.com>
+    Link: https://lore.kernel.org/r/20200421140822.28233-3-mathias.nyman@linux.intel.com
+    Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+
+Regards,
+Michal
