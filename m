@@ -1,90 +1,101 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793663484;
-	b=tKWCHLIo9+jgR3eAs4vgmpx9EBhDxDdWOFOcipdu+gd4SiGM8kj9KOiSrDjBG1IL8LXT
-	 u9UgSbBdqAJwDSDAcJ4I6iO8ysSX+wRIYs/TcmjTQuzXA98o60S66gjW/PHNFZiRh5DV3
-	 IF77KOevS8vxmkwou3yF53Pm50q9rFfjPoBR2Jf2YHRfiYYKpAeRcoQNFDUJV43KXAJB1
-	 ESX2CnV1SnP21RNQYxG0sNcGs/E5phoSSbfzKAfdI+UyNcJ970Nwdjm+SdL8+ya6EYLDy
-	 +/lW4HdOvaSllFsjxdI1hq1HTKbghhEfG6oUI792rSi95keV0rfky5DxmHbf/mEkk4Q==
-ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793663484;
-	h=Received:Received:DKIM-Signature:Received:From:To:Subject:Date:
-	 X-Bugzilla-Reason:X-Bugzilla-Type:X-Bugzilla-Watch-Reason:
-	 X-Bugzilla-Product:X-Bugzilla-Component:X-Bugzilla-Version:
-	 X-Bugzilla-Keywords:X-Bugzilla-Severity:X-Bugzilla-Who:
-	 X-Bugzilla-Status:X-Bugzilla-Resolution:X-Bugzilla-Priority:
-	 X-Bugzilla-Assigned-To:X-Bugzilla-Flags:X-Bugzilla-Changed-Fields:
-	 Message-ID:Content-Type:Content-Transfer-Encoding:X-Bugzilla-URL:
-	 Auto-Submitted:MIME-Version;
-	bh=YldMXS8fGb7ieLAb12ssBdoE35uoZ6hhXozshHB/TYI=;
-	b=TREh8XG2cNMOEcD0+JgbMhSf51qfuk8fsetVx9DsvqPLVqtmEQyphPz7KS1cqXzWmjVn
-	 HRXiHnHv2jSIllPQSKdKxZvgq7eFmaDYY/ac1jUSVhRZ8fRe0bdeGwjN3TL0efHraTEeU
-	 +WUn7wb9YUd7wK58KbAOIH3oCqXHM/tkOm9QF4XLv5PA0HNEZ63yw1jSPsNp3vymh0WKy
-	 /htL1YZY9oUmEjTmMrYhp/H0lKuYMmYWs+ddK1Z3YP/KxyFMiFUz4Grb1rtQFOFaM8xly
-	 /0NunUWUQi1HzLSXl5V+AREH6nKEMXM1/JFbROQmB+2twI0tKGziUIQO4NJxC6wdJPQ==
-ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iP9brDZN;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=10.30.226.211
-Received: from aws-us-west-2-korg-listserv-1.web.codeaurora.org (ip-10-30-226-211.us-west-2.compute.internal [10.30.226.211])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CC03606A324
-	for <linux-usb.vger.kernel.org@localhost.mlmmj>; Mon,  2 Nov 2026 23:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=iP9brDZN
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.128.48
+ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
+	t=1793663519;
+	b=bGT4X3t/VR49pROg7C9l51uirw2tp024kQR16kyNGsn75VzRD5FQ+QhW/AIWy4CzvPCY
+	 IA+2FN0lIlAbNLwgPfTa7e24pf8fcfhywlxt8Gx4DniEfP+ImJotJ8PTQDjZ8TvC8sM7Z
+	 YOY//66hmyk5qzsToqMkRrGZjK3XCuQg4EzUVQdizZpZHyjM7u0PR5FG4yupHtm06l96K
+	 /7Ml9/zMf5he4e89wKP/HYidzSgTjkLxMdaQ02XzOnQ1wTDFZAQdQzZ2Vz6l94MeaoSyj
+	 qRffyRHmS4KTe3S7FwzKKBPr/bbJC6zYZI6JDxcEyRBF+6g+P9LKklUSw1J870YDCGQ==
+ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793663519;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:To:Cc:Subject:Date:Message-ID:X-Mailer:MIME-Version:
+	 Content-Transfer-Encoding;
+	bh=0b6CWUpDDg7nvX4yAW5I5URG5gPxBouEYD/8SJ9ABv0=;
+	b=3r5OpV1scjXgXaBr9i1c0s4icnyc9Qv/Hij1IEKiYS5G7A32Rekktm6+F7305DqjpOhS
+	 +VoRXVWifTfSFzC0cn1TfSVGYn4IuDgNPWHaJQH5TBJa43ccevNaqOhoxzlqVFJyA0yZ4
+	 N//Ud6Nl0s5Pk4sfoqNf0RIgcxZfFUggV+WV2+rTLuOJq9swycKZdCDjawnCUcPRPE8dG
+	 qWFja2W2HEglPBInRQgw5xRIYK52xeVRQSJ8qQw79tK3Zj873cHKjmH+jEPdN0lJdN/bH
+	 omIj+O9l8dU42XTxKJE9cNTuoDPnvN/aJcWcpdiX2GJ6Zy9Mh5pJvja/5aRs5QRJn7g==
+ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HzRtkl5q;
+	arc=none smtp.remote-ip=209.85.128.48
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5207B6513C0
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 23:51:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1793663484; cv=none; b=NAanunSlNy5i1r1oKnL14fH0BqgvfIXkpLEizkVeMFmhGq7Ab8Kme9ifHCA0DsRmykYnjdAB/lI1jnZuvCkHPv4ENLt5Gdlr5NGXdplB6XV1KTDu4XV3shbxxVgzvI3DdLq3AqSIN8uoylU3W9Ek/hA0DMmCZ2ZctUB0LLi8wpo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1793663484; c=relaxed/simple;
-	bh=FFNX9GWm+dDcuLpN35SKCXWeUUSk4Otgksh/GFTDjiA=;
-	h=From:To:Subject:Date:Message-ID:Content-Type:MIME-Version; b=fwq5kJ3pSaDw3r4vhNrxceEqv5ikP0C84I9kSNcVw8RBFI9NZEhsGZ3lEqbDnNw4Bko8kW7uGeMpB1JhoIz1W1c2LLjQnHqz4B/wG9hgYhbGFcmyYcIAnBIVFlQNyd5tQOvzn2drS7E3j1rS7qUAkKFkoeDaEcgOvvfiEm7GVQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iP9brDZN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 662D3C2BCFB
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 23:51:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1793663483;
-	bh=FFNX9GWm+dDcuLpN35SKCXWeUUSk4Otgksh/GFTDjiA=;
-	h=From:To:Subject:Date:From;
-	b=iP9brDZNuxCtRTciO4IRafaTjH3qPDoXT8a/8vEOQSC0Io69Zwlzi0nJlIjjExKJi
-	 KMPyms0FmGZD4TaCj3FPL4V3FbJC45/GJd/eV2FFApZ8bl7CQU0OUiFi8MUEIDtSB7
-	 zccSK/w/069eaPoU34peZ3T1FHiPsXASnXXnMoOzyH41QM37poLDPyMZpi9qKYjQkb
-	 dM9AyQ5u2RSIb6q/16BMT3z71zaIHU3RvnTMO9sQr0G+Y09mgSHEYcLx3K+ZgxL55Q
-	 tqaKjdP96OowgleMHvQFO8tZP5mDwy95HMUd0QAaiyu6B2Q3x4NNi9VS9htj0cBlWF
-	 3vsYqnWbFt9Qw==
-Received: by aws-us-west-2-korg-bugzilla-1.web.codeaurora.org (Postfix, from userid 48)
-	id 3AE7BC41612; Mon,  2 Nov 2026 23:51:23 +0000 (UTC)
-From: bugzilla-daemon@kernel.org
-To: linux-usb@vger.kernel.org
-Subject: [Bug 222229] New: HID: usbhid: Razer DeathStalker Essential 2014
- (1532:011f) 51.2s EP0 initialization timeout (-110), dead LEDs, and hotplug
- failure
-Date: Mon, 02 Nov 2026 23:51:23 +0000
-X-Bugzilla-Reason: None
-X-Bugzilla-Type: new
-X-Bugzilla-Watch-Reason: AssignedTo drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Product: Drivers
-X-Bugzilla-Component: USB
-X-Bugzilla-Version: 2.5
-X-Bugzilla-Keywords: 
-X-Bugzilla-Severity: normal
-X-Bugzilla-Who: pierre.jap@gmail.com
-X-Bugzilla-Status: NEW
-X-Bugzilla-Resolution: 
-X-Bugzilla-Priority: P3
-X-Bugzilla-Assigned-To: drivers_usb@kernel-bugs.kernel.org
-X-Bugzilla-Flags: 
-X-Bugzilla-Changed-Fields: bug_id short_desc product version rep_platform
- op_sys bug_status bug_severity priority component assigned_to reporter
- cf_regression
-Message-ID: <bug-222229-208809@https.bugzilla.kernel.org/>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Bugzilla-URL: https://bugzilla.kernel.org/
-Auto-Submitted: auto-generated
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BDFF606A326
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 23:51:59 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2BDFF606A326
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=HzRtkl5q
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49d05d51553so22950775e9.2
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 15:51:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1793663517; x=1794268317; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=0b6CWUpDDg7nvX4yAW5I5URG5gPxBouEYD/8SJ9ABv0=;
+        b=HzRtkl5q72gjo44f57XNzxpUe0stksYOSmwi631m7w0A8oDDscBabfvEAVxKzqIDEj
+         QI5zK4sFB+7uFhrWo4rL6qlJX7xIYm1To89/52v3nvOKu003plA0iINlSx/InF5eezIC
+         +uVa4bbzk9pV5TzrpolsJSyE5gj0b0DeE2C0SgjrVuthVjK/CaNfRCzhiJSg4FXwgKL7
+         fBnV5YSFiQDlmHBpZwvXgt4WSqKzlhSVwQMMAWa5suh8p/9kjxDit9oTOVmiziCM8HBK
+         IhwJpst+KDKtFvk5ZuFucALXyqqRiIwC1CwyIq4IXzpHcgs4i1HaHpF3rEar8E3yRGBG
+         WyAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793663517; x=1794268317;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=0b6CWUpDDg7nvX4yAW5I5URG5gPxBouEYD/8SJ9ABv0=;
+        b=HqiVzkQW6P9R10WiS29g4meAQ2nAjbNKDfZnpUQGpGAv76dlcPtEIyjHukPnbdDXTG
+         cgtl+hXrvkrbeZ0GcNPWG1YLPC5bJl4WkSqrdCarlivTBypF/Le30a+liazhgcGLpzLv
+         Vb7keOvHNwEJcJhk5lT3kiUwDWu+lKQYO6BA9YumMRQfgRyrjg0gXTuLLL6cssiNjmNP
+         cekK95PGKvRo550fnOKIr+tJXT+C02NyIxXQwWvvzvkpBfcFDvjVRRJ93H4De3LaP3uN
+         oYFSJVL+zINmUw9I/M+a1p2AFUlo6f4afFNrRi3yScOlrH0CegUdDLjfbcqsrgKAEeCy
+         1XNA==
+X-Forwarded-Encrypted: i=1; AKwUvBwKx6yDjeJGRPqdAWiUMvuvXfB9Ljdcv6PymbnJVvI0e58VVOOiowy7iJHKifiWNjDTi1NMKATTP1I=@vger.kernel.org
+X-Gm-Message-State: AFq9FYIsRstMl7H6gbVRtoaPgFhoR46ErKnzL9e089uVrDA4iQM28QB7
+	PubtjlTSQW/kAKYeqTQfDoZMIN6wzEiKRvW62g64neMKT7hneX4MKkgR
+X-Gm-Gg: AYBFou0+RxQ8k4Qym5OREeAdntarETn5beLzW80c0sL4i5q04xADO39TdVqQR99JMqY
+	r5sA+wDi0kK+Dln7rDEPMumkjzcZhosXoHrACfLDQOoE6ZO87AvsIidiqMFcDZZuPd13Bw9Ucy5
+	p+7NyeZkRkkpkg0TBqgoMFWtCIECUWhd3tlmbmna5Ewd/ILp5l2NiWHkGzZ0MadNQrJ+M12fNIz
+	XDe1FY/Sk/HpMKpI+tIUlAkODJAcWyaQeT3HMnQg4sOSXWToXrLSw/dVXwVhF625gYB22ZFsRSH
+	ACsfcZhqqgn/X+zRtFe4ITcp2lc4W9xZuPWiUs2/L1juDdP9/kSlBjHTgMXDVZe5Y316UdZ54tF
+	iTE9AOPRV7uNr2/k0NBps/0JoXFc5PiysCB95FJCoRQe68NSLscsEnyJFqJbyExqHwtD/sDRU55
+	BbFea+i9tvHzdMtqMxNmZdl8cHobXcK7NpVpJXlVhiOFn4V55BTde6lylgwazmzUX0NPxTtb/wm
+	kaEo2tMhFDY+W66RmRulXpDJCeLXuR4FmhoDjvYFAdv+ecLP0n5dEGYBNH5ZYPc88/7I8NgdOsG
+	hhGKQdLXtQAiat5EoK5S9s+VBWOiwW1hR86MAf6rwlHfN9AR1lmHXONZoRi762ZVrX7VjRqxsw=
+	=
+X-Received: by 2002:a05:600c:6212:b0:4a4:de70:2ad4 with SMTP id 5b1f17b1804b1-4ac17ffa395mr248989255e9.22.1793663517545;
+        Mon, 02 Nov 2026 15:51:57 -0800 (PST)
+Received: from fedora.fritz.box ([93.93.22.191])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4ac09ad5ff8sm210203745e9.4.2026.11.02.15.51.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 15:51:57 -0800 (PST)
+From: Stefano Munari <stefanomunari.sm@gmail.com>
+To: Thangaraj Samynathan <Thangaraj.S@microchip.com>
+Cc: UNGLinuxDriver@microchip.com,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@kernel.org>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Oleksij Rempel <o.rempel@pengutronix.de>,
+	"Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>,
+	netdev@vger.kernel.org,
+	linux-usb@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net] net: usb: lan78xx: resume phylink on non-reset USB resume
+Date: Tue,  3 Nov 2026 00:51:33 +0100
+Message-ID: <20261102235133.23011-1-stefanomunari.sm@gmail.com>
+X-Mailer: git-send-email 2.55.0
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -94,124 +105,87 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-https://bugzilla.kernel.org/show_bug.cgi?id=3D222229
+lan78xx_suspend() calls phylink_suspend(dev->phylink, false) on an open
+interface, which always stops phylink and halts the PHY. The matching
+phylink_resume() is only called from lan78xx_reset_resume().
+When the USB device stays powered across system sleep (e.g. s2idle) and
+the USB core calls .resume instead, the link stays down until the interface
+is brought down and up by hand. The ifdown triggers:
 
-            Bug ID: 222229
-           Summary: HID: usbhid: Razer DeathStalker Essential 2014
-                    (1532:011f) 51.2s EP0 initialization timeout (-110),
-                    dead LEDs, and hotplug failure
-           Product: Drivers
-           Version: 2.5
-          Hardware: All
-                OS: Linux
-            Status: NEW
-          Severity: normal
-          Priority: P3
-         Component: USB
-          Assignee: drivers_usb@kernel-bugs.kernel.org
-          Reporter: pierre.jap@gmail.com
-        Regression: No
+  WARNING: drivers/net/phy/phy.c:1670 at phy_stop+0x44/0xc8
+  called from state HALTED
 
-Overview
-=3D=3D=3D=3D=3D=3D=3D=3D
-When booting with or hot-plugging a Razer DeathStalker Essential 2014 keybo=
-ard
-(USB ID 1532:011f), USB HID enumeration hangs for 51.2 seconds (`usbhid: ca=
-n't
-add hid device: -110` on interfaces 1.1 and 1.2), status LEDs (NumLock /
-CapsLock / ScrollLock) fail to light (`usb_submit_urb(ctrl) failed: -1`), a=
-nd
-unplugging/replugging leaves the keyboard completely unresponsive on ~75% of
-attempts.
+Move phylink_resume() to the end of lan78xx_resume(), which both resume
+paths go through, and call it only if the resume succeeded and the
+interface was open, mirroring lan78xx_suspend(). As a side effect,
+lan78xx_reset_resume() no longer starts phylink on a closed interface.
 
-dmesg Output (Unpatched)
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-usb 3-6.2: new full-speed USB device number 5 using xhci_hcd
-usb 3-6.2: New USB device found, idVendor=3D1532, idProduct=3D011f, bcdDevi=
-ce=3D 2.00
-usb 3-6.2: Product: Razer DeathStalker Essential 2014
-usb 3-6.2: Manufacturer: Razer
-input: Razer Razer DeathStalker Essential 2014 as /devices/.../input/input5
-hid-generic 0003:1532:011F.0001: input,hidraw0: USB HID v1.11 Keyboard [Raz=
-er
-Razer DeathStalker Essential 2014] on usb-.../input0
-usbhid 3-6.2:1.0: usb_submit_urb(ctrl) failed: -1
-usbhid 3-6.2:1.1: can't add hid device: -110
-usbhid 3-6.2:1.1: probe with driver usbhid failed with error -110
-usbhid 3-6.2:1.2: can't add hid device: -110
-usbhid 3-6.2:1.2: probe with driver usbhid failed with error -110
+Tested on a Raspberry Pi 3B+ (LAN7515) with s2idle: the link now comes
+back up on its own after resume and ifdown no longer warns.
 
-Root Cause Analysis (Verified via usbmon & EP0 probing)
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D
-The Razer DeathStalker Essential 2014 exposes 3 USB HID interfaces sharing
-Control Endpoint 0 (EP0, bMaxPacketSize0 =3D 64):
-- Interface 0 (1.0): Boot Keyboard + LEDs (61-byte report descriptor, ep_81=
- IN)
-- Interface 1 (1.1): NKRO Keyboard + Consumer/System Control (179-byte repo=
-rt
-descriptor, ep_82 IN)
-- Interface 2 (1.2): Virtual Mouse + 90-byte Vendor Feature Report (94-byte
-report descriptor, ep_83 IN)
+Fixes: e110bc825897 ("net: usb: lan78xx: Convert to PHYLINK for improved PHY and MAC management")
+Signed-off-by: Stefano Munari <stefanomunari.sm@gmail.com>
+---
+ftrace on unpatched kernel (s2idle, woken from PL011 UART IRQ):
 
-Three interacting firmware/kernel behaviors wedge the keyboard
-microcontroller's EP0 state machine on Linux:
+  lan78xx_suspend <- usb_suspend_both
+  phylink_suspend <- lan78xx_suspend
+  phylink_stop    <- phylink_suspend
+  phy_stop        <- phylink_stop
+  lan78xx_resume  <- usb_resume_interface
 
-1. `usbhid_init_reports()` (`HID_REQ_GET_REPORT`) on Interface 0:
-   Sending `HID_REQ_GET_REPORT` (0x01) over EP0 during `usbhid_start()`
-destabilizes the MCU. Applying `HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_NOGET`
-prevents `usbhid_init_reports()` from probing reports on EP0.
+No lan78xx_reset_resume() or phylink_resume() on the resume path.
 
-2. Dirty EP0 state after class `GET_DESCRIPTOR(HID_DT_REPORT)` (`bmRequestT=
-ype
-=3D 0x81`):
-   After `usbhid_parse()` reads the 61-byte `HID_DT_REPORT` descriptor on
-Interface 0 (`bmRequestType =3D 0x81`), the MCU leaves its EP0 parser in a =
-state
-where an immediate class-specific `HID_REQ_SET_REPORT` (`bmRequestType =3D =
-0x21`,
-bRequest =3D 0x09 =E2=80=94 used to set the NumLock LED) or `HID_REQ_SET_ID=
-LE` either
-fails or locks up EP0.
-   Issuing a standard 18-byte `GET_DESCRIPTOR(USB_DT_DEVICE)` (`bmRequestTy=
-pe =3D
-0x80`, bRequest =3D 0x06, wValue =3D 0x0100) on EP0 immediately before and
-immediately after `usbhid_parse()` resets the MCU's EP0 state machine clean=
-ly.
+ftrace on patched kernel:
 
-3. Asynchronous `hdev->led_work` (`SET_REPORT`) race vs. Interface 1.1
-enumeration:
-   At the end of Interface 0's input registration (`hidinput_connect()` ->
-`input_register_device()` -> `input_leds_connect()`), the kernel schedules
-`hdev->led_work` (`hidinput_led_worker`) asynchronously on `system_wq` to s=
-end
-`HID_REQ_SET_REPORT` over EP0 at the exact same moment
-`usb_set_configuration()` moves on to probe Interface 1 (1.1) on EP0.
-   Additionally, on Interface 1's first 179-byte (`0xb3`)
-`GET_DESCRIPTOR(HID_DT_REPORT)` request, the MCU occasionally drops one 64-=
-byte
-packet and returns 115 bytes (`179 - 64`). When `usbhid_parse()` immediately
-retries without an intervening `USB_DT_DEVICE` descriptor read, EP0 stops
-responding for 2 x 25.6s =3D 51.2s (`-ETIMEDOUT`).
+  lan78xx_resume <- usb_resume_interface
+  phylink_resume <- lan78xx_resume
+  phylink_start <- lan78xx_resume
+  phy_start <- lan78xx_resume
 
-Verified Fix / Proof of Concept
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D
-Flushing `hdev->led_work` before probing secondary interfaces, applying
-`HID_QUIRK_NO_INIT_REPORTS | HID_QUIRK_NOGET`, and issuing an 18-byte
-`GET_DESCRIPTOR(USB_DT_DEVICE)` on EP0 between HID descriptor reads reduces
-initialization time from 51.2s to < 0.2s, makes hotplugging 100% reliable, =
-and
-restores NumLock/CapsLock LEDs across all 3 interfaces (`1.0`, `1.1`, `1.2`=
-).
+phylink_start + phy_start report lan78xx_resume as parent
+since both are tail calls. On tested kernel phylink_start is tail call
+optimized since with CONFIG_SFP=n sfp_upstream_start() is an empty stub.
+---
+ drivers/net/usb/lan78xx.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-Full working out-of-tree DKMS module demonstrating the fix:
-https://github.com/Djkawada/razer-deathstalker-linux-fix
+diff --git a/drivers/net/usb/lan78xx.c b/drivers/net/usb/lan78xx.c
+index 181e8c087655..0136818e8cb0 100644
+--- a/drivers/net/usb/lan78xx.c
++++ b/drivers/net/usb/lan78xx.c
+@@ -5371,6 +5371,12 @@ static int lan78xx_resume(struct usb_interface *intf)
+ out:
+ 	mutex_unlock(&dev->dev_mutex);
+ 
++	if (!ret && dev_open) {
++		rtnl_lock();
++		phylink_resume(dev->phylink);
++		rtnl_unlock();
++	}
++
+ 	return ret;
+ }
+ 
+@@ -5385,15 +5391,7 @@ static int lan78xx_reset_resume(struct usb_interface *intf)
+ 	if (ret < 0)
+ 		return ret;
+ 
+-	ret = lan78xx_resume(intf);
+-	if (ret < 0)
+-		return ret;
+-
+-	rtnl_lock();
+-	phylink_resume(dev->phylink);
+-	rtnl_unlock();
+-
+-	return 0;
++	return lan78xx_resume(intf);
+ }
+ 
+ static const struct usb_device_id products[] = {
+-- 
+2.55.0
 
---=20
-You may reply to this email to add a comment.
-
-You are receiving this mail because:
-You are watching the assignee of the bug.=
