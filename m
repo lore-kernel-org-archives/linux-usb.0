@@ -1,99 +1,99 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.174
 ARC-Seal: i=2; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=pass;
-	t=1793634814;
-	b=Ml2N67soDhFYhyW/B4zubyLMmcweK+5RLA1mUlLnNsAMYQcVJmG0ejjBH+nIX33jH2/P
-	 3qrkzxtndsV05RLxY1q0NLWo0Imrg8NVNnoti2VTrcbfYbMG4RJ8Mfa61ccmbY3qwwWs1
-	 2YQJEDJcAp5H5i6hJlbUY4cKaiV+LxkG51iXmCwmOsB+2U5twHNMKsB76afW2CluqBWZ1
-	 4ah2KUqc5kjSnZiuypi/5lkkYfbqyHD4aWe/dretX5cO3CLVvfd7qnUGtwUp5qzNXQ09J
-	 RArzJZTxBx+UQ4NUsajAfEQF4f1RD+kjvwIEkL/JAP9eHBQjsDzVn+02/tJ6GGUwLjQ==
+	t=1793636303;
+	b=U+DDGaCpKC6z9Fvh0YjexrYaejBxesGsBR1Nq75Z2CzNZ86oGSlRZGT0o4/R5svUNw9Q
+	 p13nxeIixJciIZlldIdBi6K7qoe1Ive/ymzD//26dCcAezoGQU6ol7EcUa+SGqiTRTNv0
+	 1ipdX76eepAzRmVfPt75A45S2ew54S5wdupz3f8ZrZJ2tqn6uP8HE+5tjMG78nBhHqzlu
+	 ard7uuYHYxJx9IZbwadB0Hpjhc9StFu2xO9ZUDX51T7H6lBMYPicozl8oDFQDg9W6LkLy
+	 Qk4OrpXsLg1bXdI1jQ52kCez9j+7LEH+N0LbLzrIKuRPu13RpmuHDQbxSiV5F7TdTGQ==
 ARC-Message-Signature: i=2; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793634814;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793636303;
 	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
 	 X-Gm-Message-State:X-Gm-Gg:X-Received:MIME-Version:References:
 	 In-Reply-To:From:Date:X-Gm-Features:Message-ID:Subject:To:Cc:
-	 Content-Type:Content-Transfer-Encoding;
-	bh=U3DAtsOfZSODQOuifu4egJRfeUsKk5mf6if28oMdyiM=;
-	b=Y6IhMnlIxnZfPDf0NU1I1CwqhpSZ52/GYxls4jFjpXJlu5Z/AL4R6jY0cNSVhzKdmC6u
-	 fobIiORUSOi0V9A0UArcim6dHNfeLt1ZaEayjUtr8eIwQE/5sVq6XbekaPdzYOa46vXF+
-	 tLeQqldpa44jlab0SRUM1b2MKxvfM1/o1pt/j43efXpdCvWBKFIXfOZgxj4RHvfWway37
-	 5/zglxMP06/pSEG073UfhdRwSU0EoIGDqZlEGSRuks+YemOxlZBLtPh0a11JGaqN/J8JX
-	 sq5sWjPk3Uxcaw5S068TqYhgNE/DQaLSPpl1HsBZa4HLyejSy888v36GuC4q3QlnmzQ==
+	 Content-Type;
+	bh=CcXba6+QSvZDXF/uqMoMEPJwhAO9oMl+Ldeh0etrrCk=;
+	b=rrqamopJvpF20yMY9yk6KZEPVxWFJ9zG2COTer+LBj8dKn4gY3MOsdhaHdCKiHPC8fvh
+	 Bqng7tmLL+AVo3bDqH0h0CKtcmPtepMJDJbBjdH36QzCFEQVSU8uSZDSFsmFdR+g1S4LW
+	 cwH7WVK6YNhkkTrGNlxxjMxGJpvbVyxSLONdntNPrI9NaKZVCN/8oOas5KmFUXzA0WCos
+	 8H8NAZ7g41PQr8zd+skoGzeAgCnHEDzskcitV85xQO+2I12zvO9YKmOQk1Z0Y27eQkFY0
+	 jCb18WCGY4WURtZOdVadSqgzOhY7xvlkQ3EViNPDQ5G/87Z1/wwzPOuqg/NDWHrtkFw==
 ARC-Authentication-Results: i=2; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=flipper.net;
-	spf=pass smtp.mailfrom=flipper.net;
-	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=ZOhuAzqM;
-	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.177
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	dmarc=pass header.from=gmail.com;
+	spf=pass smtp.mailfrom=gmail.com;
+	dkim=pass header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oiPmSiKG;
+	arc=pass header.oldest-pass=0 smtp.remote-ip=74.125.82.174
+Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B1D160B4254
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 15:53:34 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 6B1D160B4254
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB0706083617
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 16:18:22 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org BB0706083617
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=ZOhuAzqM
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-33bf40b0c8bso1753034eec.0
-        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 07:53:34 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1793634813; cv=none;
+	dkim=pass (2048-bit key, unprotected) header.d=gmail.com header.i=@gmail.com header.a=rsa-sha256 header.s=20260707 header.b=oiPmSiKG
+Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-3282db206d3so5197821eec.0
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 08:18:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1793636302; cv=none;
         d=google.com; s=arc-20260327;
-        b=H/D+7dp9hmRG1C/na5zr3dvabUDdB9R7aoolDZiSBlGCLwPcLTRk0hIJBCoaKPgJcl
-         +ojQGOR3y9ECpaxbqfdPlkRJ0AB9c7yY/DFGCzjyrv8pDdTWL63MJO7lbgn77eeHkyjP
-         nxjpsJd1tNuIcHt46u45fKeaIEUw0OOR/aF8TrWgvkJMwW7bV0bMSFfM2n/6UTbxgw1i
-         YZUWIBUQFx2bbPcWHF+i/CLoDLrLERvqBdkR4bF1KEQjjDbzj4HbyAH/Cn052v+rjM3i
-         9xzY++bOcGdq1N0g9cviGSzUOcltUw6EsnxcVP7g8CLtF4fNarQvnJrDuYEzgaf4D/lb
-         ncqw==
+        b=MnOD/DZFiDh/l34vs+Xeepo0mN3/2zyLarRxWJ0JEcImYRU94vefibOmRLmgALDO0d
+         m+XJpJibLikjgpM8+CeFfSd+yLgvxmW+i3RqMhIYGmAEcRysdDEYq1OE4rBkpWPKc3Pr
+         4tI1UaxGo/yd8YZ+ldwl5y6ywcWRUjni0qFzfn047YtnU54fh2B4DUZVEkQUTiiEtiWi
+         49trYQeofmnMNeXvbDWn8GyquhebJBhyJnqFdFsZos6kR3efCvlSZbresatzVs8xwHMX
+         ARU16g2LqsHJGOLsoRk89jnt78tHEFPDpOv8lttDkyqQlDB6uQ86QcQcbpFHKMeb3I2S
+         CBWQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=U3DAtsOfZSODQOuifu4egJRfeUsKk5mf6if28oMdyiM=;
-        fh=/XafWwXInU6xSAMitUKTVJtcnn7zkW/jx5Qszu7SSug=;
-        b=c5NtMKznGhR2iNVV3vCnq06uOdXE4JNPbeSdg2f8KP04A+B/9eH8r989eHzZbUjP5P
-         Ywq0ze6/FoB0yIXxClGHdZS9XFJAwoYY+pJj9gxuKIWtLwgTYxRFBYcO/1yFLZcpiqHm
-         j+EHqiC00NKL59l0f39F89oN0h/3QWMZ1Jfh4Jzf6VpunFVQ8NuekBaAbgPa/jwTacO7
-         vdKGdorLKc6D3WnAszhStOU6S4WF4zmYLDAXfo5zDUkenEQKPCifnbqHtVwVp7ypx0ll
-         riYASFRXasvJAbWJsg47ByW5uarLDbCzg+2u9B977VB5MBrJix4yslkFG4QY77efpSOB
-         tBvw==;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=CcXba6+QSvZDXF/uqMoMEPJwhAO9oMl+Ldeh0etrrCk=;
+        fh=8vVkivZRuhdEvoK3rggyNUH2e+WpgfYScoR9/k97KNo=;
+        b=Deh1GFJhevgGrUGsRszgqLdEgj0+Q8igE0hFHlV9+L1Zc1IvgTmqt0HzjLLDVYDAA9
+         3095gYMyghqBFqhdWM7wwnE1SAUjgMI4joTT9yXamT4DeUOy/fmsO6SAiHymbXCEPkQY
+         OdyEtQadtHwWoIU8ewzOt08say+Bfc4720mlYyKNh4h6zZYC+NC3NDw+0VYEs69xn1/F
+         tsxiLmmArfFz8prfccTvX0XB99BFYIEFc72H6ybdYhvCjLfgUVC+ouHTcWv7mpQI6+MK
+         U7Wj/T1/n5CLHD5sl+647rrCRpahuvekg8DK0nDCcdf/5a1EU29CuGpPaKMGlRKsiyS8
+         xv/A==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=flipper.net; s=google; t=1793634813; x=1794239613; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=U3DAtsOfZSODQOuifu4egJRfeUsKk5mf6if28oMdyiM=;
-        b=ZOhuAzqMvCSWJpRlbPQOCOFHeXKb4s39LRWL9L1a+546FK2DxXeReO8/FNayv7PGq8
-         z2nyPSVyBjU4h8f6kUj4FqEQexlHAVaW8gguyGHHIvr9EYV+CJQp4lAAyAYdYiNdeFsS
-         wgfg03ZtORGbsdW6eBzedkPJh92eptSzUzg3moqpRAULzxyfXttPwmHVQ1hCiNSKTT5P
-         fZL8frxSdJroU08h2GP8GooCmRYykA/3IChrtpyyNc8j9XYMhcYw0y78WVr6I9GzjtBk
-         YThHWBXfi4+fCeFUTP0uRtpyxKdSTH93ZmtxN6mEShurLoRvKHStgHQBV/++a3evRSg6
-         9zlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793634813; x=1794239613;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20260707; t=1793636302; x=1794241102; darn=vger.kernel.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=U3DAtsOfZSODQOuifu4egJRfeUsKk5mf6if28oMdyiM=;
-        b=vJp07cp70M/Ko+e8V3kicA7ggXbj29gtktAYTgQpCmqEznDF6gceQgE0fyZjwcirjZ
-         0gs8qhk+VGW9n7XvfR8R2cEX9ymVav6rGzw1BWlucnjEKh/I6puL2nGwccnY77nHqHmQ
-         ZR5bzo8OQQpy7S5/15XQjpbHAl9h2jiIYAsXQbYe1c8iukWHbMjZrBEF+lF3Zapq/dWb
-         RDl5jOYaVHoLJvHZZilJHMQ7eF24g89KqYmgd1Q1Gx+eYdET2fLQBg6H0j2jxQMCUWKp
-         VJChW13+DW20geMSJiRzwo9lin/ZvHYBo8L9pPbiZ1jQ93Wqywcf0TtFKXx39aWQL3BK
-         O46w==
-X-Gm-Message-State: APuU4Z99be+tj1NFKRj6v+d2afPgQHodxK2LRI/MiRVuyHRw4VuQxWGV
-	iQfdCJmNzIzBt6kceUKNskvemRGXRPU5FGZjKjVV7x4XPpuRocBil60zvB5uhuyXuMRzJ7BmNfu
-	FCngbBbV/3p1Pm/5Ld8mQoztoGUvn700VU4eyGKsYR0PJblqC0eAz6NmYKQ==
-X-Gm-Gg: AYBFou2PiPOiajaOzwGzcyWQ/5R6ps6gXdN/oLED1kvJJG9go0NPjsI1XzMLr7Lyu8Q
-	4k2NMx7uFxn/8uEWjMhgZwSGyA+BxfcesKBYnGdquXKXpbBc4YmHOz52jSiQ4XcEgfnsxeK5YwE
-	ZNIWTOzA9Pp4yhK5noJdMnrmySUklcd4eou0yiZGf2fHHA3ShSr0iUT651XWkl+hbfmdqyx/Das
-	XmnD+rplz7c1rw7C0kGYLoYSb+6ZlA8etdB4QAKWxcwGQZ5v1WFOXUtbP+iMMKEYSFel89WTa8/
-	2UjaXkdL7CHfupqEY+xIIvBFXSgSMU+K74BbeE+ukdwt3TrfF992fB9zBOO/bCQONtQIRRr7WgM
-	Ylb5CcWsrnAhlaVYIf59GoBzdMVZHHxUTn+NUa62r2p0ZuM8rJsGMUP/I3Lkw6ZtDASutxQ==
-X-Received: by 2002:a05:7300:7a8d:b0:369:fe4c:b48f with SMTP id
- 5a478bee46e88-36a420583a6mr13496102eec.0.1793634813255; Mon, 02 Nov 2026
- 07:53:33 -0800 (PST)
+        bh=CcXba6+QSvZDXF/uqMoMEPJwhAO9oMl+Ldeh0etrrCk=;
+        b=oiPmSiKGc/9iR+p8CGhW031Q6pD44el9sD5FeY84Wj5De2OZRNH5+yEF+BjF3trLUy
+         3n90pJtd+8i7QflHvhbZR3TL6YRdBcLpzS7TMgnd5QPSbPzP/mTxqUQ7W1OfX3ZjS85R
+         lyG3G1R1FzRJEKMKnLZ4c4X3dOZ15PcZou5xmxcALNaTwT8bgY6bKOvERVde6VIs3kMf
+         R1LORE/nSdoKQYtObvSjP6EdrUDwcg9ERikwNXCXGLkUehj9fCQozAxqk3lammBcRMYM
+         7Sym/p7vzJIBrGAM02OZbuh4ZZ/9Msf1jyrMvwqsqDay1oByONDJKXNj/QPQPC0aTh/U
+         QOLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793636302; x=1794241102;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=CcXba6+QSvZDXF/uqMoMEPJwhAO9oMl+Ldeh0etrrCk=;
+        b=dwydzIMYSQmv/NisNgQaPAcPqOByAdJDIQP9jwzGXO3DW/GNbCXzdgYSy8He8YZHEZ
+         HSTa5yznVd9X0aZKPeYLHFtzNAJfLgJiHNf+LXVO584kJqo78XnqQ7sqeUKALt/1eIWe
+         lRT2QnfGV2efh9XPampz6geQIjUQ42S6T0+fyjcbzHAI78llf8OuegknBvWxu4QMzwDX
+         0jU5/7plGUgfqlgetXP6ykpgxNjJBb+mMu2v/BG2wbo7hQB69KzU/TsVKGiXcgU6E9zm
+         CBQ/LAs0fvIHMZzEaBadEVr1dozYVHr/CAvPH5U5qtQeheJNzoz8EexzPb1PU2696rL0
+         NIZA==
+X-Gm-Message-State: APuU4Z+c70s3YUZ/C4CNtOMt4KLqmJgYa4zNo8TZm6wRGf47kvlbSZlH
+	dDUTxd5QG1iPaSfRIvfK6MWaZTXChMpepMVq2FmiP/mAA9GgSng8fZ6oCUco2QeihrTYqCJv34Q
+	aJuoFFQ5oPKs4rOUVUKPU64isYMRp+w==
+X-Gm-Gg: AYBFou3fBs/mvfBWzTt2TMlECsS83nGLX6sVnNkbh33ELv7wX4EpIZi7iOY3P1EUsbq
+	D7RZFnd+LodwfuG+GSW6+POyTCABw1+rcCDRuFmE390o5lLaZomhMLoHFkIrMfC4cUKsJFqXbIW
+	qweJsFg2u0e3RwRxqCz7iblmwh1RjPGqwnzDZuw6eeBUuHs7oq4VP67+PNAPCWpDLJ6SySH+CoF
+	4GZTB72leVXEFY0Oyx4RhZsQtq1buy1Iv2bB46kLfyw+jv1PQlNbn3GVcTpGnKBrTKHCud07oya
+	hjIC3c3YiffXiZ5dhCNGZDFV57adZy6OOfjaVmexfJrJRfSGZB6Ith5tGXFNF4UVKp1WwBsU8fn
+	+9qQMmvxM4zv7yEZuyPSbo5pQYMuiJRoXq3JpyvZtJIPjd/7WFivOMBg/IlSU623EoQa0ISBoTp
+	RquB+iIY+/z4GSjly0mPc=
+X-Received: by 2002:a05:693c:864d:10b0:369:9062:c392 with SMTP id
+ 5a478bee46e88-36a424261c5mr18440928eec.37.1793636301684; Mon, 02 Nov 2026
+ 08:18:21 -0800 (PST)
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -103,157 +103,61 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-References: <20261102-tcpm-discovery-no-svdm-v1-1-54bb9b613065@flipper.net> <sashiko-outbox-193554@kernel.org>
-In-Reply-To: <sashiko-outbox-193554@kernel.org>
-From: Alexey Charkov <alchark@flipper.net>
-Date: Mon, 2 Nov 2026 19:53:15 +0400
-X-Gm-Features: AclHuK98Hd8EV1zzuP9BPO6AEe0T1OXHvThx527c48i3Mv-cHoWW_7qC6eEuJW8
-Message-ID: <CAKTNdwGTEA0_MKsXNpqYqsZneSuVmt6uJhV0mjwS8=gdobaEsA@mail.gmail.com>
-Subject: Re: [PATCH] usb: typec: tcpm: Complete discovery when the partner
- lacks SVDM support
-To: sashiko-reviews@lists.linux.dev
-Cc: linux-usb@vger.kernel.org
+References: <CAM6_QD_PoTdwdM7DvzzgHRs-G5EvQu-c5oNGve=GuKV4wFYAvQ@mail.gmail.com>
+ <CAM6_QD_xAyTFVvYKvCrrZmS+fV5DBBje9V=VdkDMMSpt2ussRg@mail.gmail.com>
+ <20260928120343.49e02c07.michal.pecio@gmail.com> <CAM6_QD-CbYSsmic5LhpMi-aMXuC_VaniELBzaBeWO8SWm4UONA@mail.gmail.com>
+ <20261002104355.698eaf00.michal.pecio@gmail.com> <CAM6_QD_z7eT+N6HieHyZhPmXqPxKqeSYKX8OK--M+rN2VAsO_Q@mail.gmail.com>
+ <20261013232506.1b4dc340.michal.pecio@gmail.com> <CAM6_QD9NDbVESP5peiNhfU5B_7UmvKVLqNz_85A_GABwDhabiw@mail.gmail.com>
+ <20261102135125.121f8de9.michal.pecio@gmail.com>
+In-Reply-To: <20261102135125.121f8de9.michal.pecio@gmail.com>
+From: Dane Linssen <linssendane@gmail.com>
+Date: Mon, 2 Nov 2026 17:18:10 +0100
+X-Gm-Features: AclHuK--jr7yX0N51mMeigjqHQa3DhOtTsDC_f0Xm_ujdo1a4DNU9CY359A64s0
+Message-ID: <CAM6_QD_ceOeoiv8HC5aH5nMHoisnAXGxMz6tRAbgmp3RD_4cdA@mail.gmail.com>
+Subject: Re: r8152: RX stops until rebind after -EPROTO on the bulk-in endpoint
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: linux-usb@vger.kernel.org, netdev@vger.kernel.org, 
+	Mathias Nyman <mathias.nyman@intel.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, linux-kernel@vger.kernel.org, 
+	Hayes Wang <hayeswang@realtek.com>, Chih Kai Hsu <hsu.chih.kai@realtek.com>, nic_swsd@realtek.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Nov 2, 2026 at 6:18=E2=80=AFPM <sashiko-bot@kernel.org> wrote:
->
-> Thank you for your contribution! Sashiko AI review found 1 potential issu=
-e(s) to consider:
-> - [Medium] usb: typec: tcpm: SOP' Not_Supported in tcpm_pd_ctrl_request()=
- halts discovery
-> --
->
-> commit f5763c417e2367d11a45635b9af7ac9ca073d24a
-> Author: Alexey Charkov <alchark@flipper.net>
->
-> usb: typec: tcpm: Complete discovery when the partner lacks SVDM support
->
-> This commit marks VDM discovery complete when a port partner responds to
-> Discover Identity or Discover SVIDs over SOP with PD_CTRL_NOT_SUPP,
-> avoiding an infinite loop of discovery requests.
->
-> > diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcp=
-m.c
-> > index d721baef52104..e21fe544b2d4b 100644
-> > --- a/drivers/usb/typec/tcpm/tcpm.c
-> > +++ b/drivers/usb/typec/tcpm/tcpm.c
-> > @@ -3908,6 +3908,17 @@ static void tcpm_pd_ctrl_request(struct tcpm_por=
-t *port,
-> >               case SNK_READY:
-> >                       if (port->vdm_state > VDM_STATE_READY) {
-> >                               port->vdm_state =3D VDM_STATE_DONE;
-> > +                             /*
-> > +                              * A partner without Structured VDM suppo=
-rt answers
-> > +                              * discovery with Not_Supported: there is=
- nothing left
-> > +                              * to discover, just as after a NAK.
-> > +                              */
-> > +                             if (type =3D=3D PD_CTRL_NOT_SUPP &&
-> > +                                 rx_sop_type =3D=3D TCPC_TX_SOP &&
-> > +                                 (port->ams =3D=3D DISCOVER_IDENTITY |=
-|
-> > +                                  port->ams =3D=3D DISCOVER_SVIDS))
-> > +                                     tcpm_update_vdm_discovery_state(p=
-ort,
-> > +                                                                     V=
-DM_DISCOVERY_COMPLETE);
->
-> [Severity: Medium]
-> The commit message notes that a Not_Supported reply from the cable plug i=
-s
-> left alone so that it cannot cut short discovery of the partner. However,=
- if a
-> cable plug replies with PD_CTRL_NOT_SUPP (rx_sop_type =3D=3D TCPC_TX_SOP_=
-PRIME) in
-> tcpm_pd_ctrl_request(), doesn't leaving port->vdm_discovery_state unchang=
-ed
-> still stall partner discovery and repeatedly re-send the SOP' request?
->
-> Specifically, after the partner ACKs SOP CMD_DISCOVER_IDENT, tcpm_pd_svdm=
-()
-> sets port->vdm_discovery_state to VDM_DISCOVERY_PARTNER_IDENT and probes =
-SOP'
-> before discovering the partner's SVIDs:
->
-> drivers/usb/typec/tcpm/tcpm.c:tcpm_pd_svdm() {
->     ...
->         tcpm_update_vdm_discovery_state(port, VDM_DISCOVERY_PARTNER_IDENT=
-);
->     ...
->         if (IS_ERR_OR_NULL(port->cable) &&
->             tcpm_can_communicate_sop_prime(port)) {
->                 *response_tx_sop_type =3D TCPC_TX_SOP_PRIME;
->                 response[0] =3D VDO(USB_SID_PD, 1,
->                                   typec_get_negotiated_svdm_version(typec=
-),
->                                   CMD_DISCOVER_IDENT);
->                 rlen =3D 1;
->         } else {
->                 *response_tx_sop_type =3D TCPC_TX_SOP;
->                 response[0] =3D VDO(USB_SID_PD, 1,
->                                   typec_get_negotiated_svdm_version(typec=
-),
->                                   CMD_DISCOVER_SVID);
->                 rlen =3D 1;
->         }
-> }
->
-> If the cable plug replies to SOP' CMD_DISCOVER_IDENT with PD_CTRL_NOT_SUP=
-P,
-> tcpm_pd_ctrl_request() finishes the AMS without advancing
-> port->vdm_discovery_state or queueing SOP CMD_DISCOVER_SVID. Because
-> port->cable is still NULL, every subsequent run of tcpm_vdm_discovery_wor=
-k()
-> will re-send SOP' CMD_DISCOVER_IDENT instead of moving on to partner SVID
-> discovery:
->
-> drivers/usb/typec/tcpm/tcpm.c:tcpm_vdm_discovery_work() {
->     ...
->         case VDM_DISCOVERY_PARTNER_IDENT:
->                 if (tcpm_can_communicate_sop_prime(port) && !port->cable)=
- {
->                         tx_sop_type =3D TCPC_TX_SOP_PRIME;
->                         msg[0] =3D VDO(USB_SID_PD, 1, svdm_version, CMD_D=
-ISCOVER_IDENT);
->                 } else {
->                         if (tcpm_can_communicate_sop_prime(port))
->                                 tcpm_update_vdm_discovery_state(port, VDM=
-_DISCOVERY_CABLE_IDENT);
->                         msg[0] =3D VDO(USB_SID_PD, 1, svdm_version, CMD_D=
-ISCOVER_SVID);
->                 }
->                 break;
-> }
->
-> Similarly, when tcpm_handle_discover_mode() finishes discovering partner =
-modes
-> and sends SOP' CMD_DISCOVER_SVID in VDM_DISCOVERY_PARTNER_MODES, a
-> PD_CTRL_NOT_SUPP on SOP' leaves port->vdm_discovery_state in
-> VDM_DISCOVERY_PARTNER_MODES without calling tcpm_register_partner_altmode=
-s(),
-> causing tcpm_vdm_discovery_work() to repeatedly re-send SOP'
-> CMD_DISCOVER_SVID.
->
-> Should a PD_CTRL_NOT_SUPP on TCPC_TX_SOP_PRIME fall back to SOP discovery=
- in
-> the same way vdm_run_state_machine() handles SOP' transmission failures i=
-n
-> VDM_STATE_ERR_SEND (advancing to VDM_DISCOVERY_CABLE_IDENT and queueing S=
-OP
-> CMD_DISCOVER_SVID on DISCOVER_IDENTITY, or calling
-> tcpm_register_partner_altmodes() and marking VDM_DISCOVERY_COMPLETE on
-> DISCOVER_SVIDS and DISCOVER_MODES)?
+Hi Michal,
 
-True. I've simulated that with two TCPM-managed devices on two ends of
-a dumb Type-C cable, with one pretending to be an e-marker in addition
-to a partner, and this patch does indeed put them in a SOP'
-CMD_DISCOVER_SVID loop. This takes a non-compliant e-marker though.
+Your patch works here for the simplified case. I applied it to
+openSUSE's 7.3.0 (offsets only) and tested on a second host with the
+same RTL8156B (bcdDevice 31.04) and an Intel xHCI (8086:02ed), 5 Gbps.
 
-I'll add a precursor patch to address that at the class level, and
-send it as a mini-series after waiting for any other feedback on this
-patch.
+Without the fix (stock xhci, r8152 with only your trigger), down /
+ethtool / up gave exactly the stall I see on the other host: four
+soft resets about 3.5 ms apart, the hard reset at +14 ms, then
+Transfer error + Hard-reset at ~270/s, and virt_state 0x40. So the
+onset of my real stalls can't be told apart from a desync that starts
+at the first error.
 
-Best regards,
-Alexey
+With the patch, three rounds of down / ethtool / up all recovered.
+Round 1:
+
+  15:56:52.892  Transfer error for slot 1 ep 2 on endpoint
+                (3 more Transfer error + Soft-reset, ~3.5 ms apart)
+  15:56:52.907  Transfer error for slot 1 ep 2 on endpoint
+  15:56:52.907  waiting for ep 0x81 clear halt
+  15:56:52.908  Hard-reset ep 2, slot 1
+  15:56:52.908  usb_clear_halt(pipe_in): 0
+
+No errors after that, and RX worked: the gateway answered pings and
+rx_packets kept rising. usb_clear_halt() returned 0 every time.
+
+The host that stalls on its own hasn't stalled since 10-28. Three
+things changed around then: the adapter moved to another USB port,
+the kernel went from 7.2.11 to 7.3.0 the day before, and the host now
+carries much less traffic. However, a 74 GB copy at ~15 MB/s over the
+new port on 10-28 didn't stall it.
+
+Testing your patch on that host needs signed modules, and I can't get
+to it for a while.
+
+Thanks,
+Dane
