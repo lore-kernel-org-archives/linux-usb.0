@@ -1,109 +1,88 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.221.48
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793629260;
-	b=pCpHSVZDMMdk6s2/SWjI0YYQxt3cLXCpszddhZgCLrD+zL+P1nSYoDjGmWwEsPGQRuoS
-	 cAF+bgvb4//kt5Wwy5h30dajrh4j4Oyu4lOfrLg9hYjc+HhlN9WcTQLOx97AxD9fJDKmY
-	 GImIjoJ0o5r6bMWBreBX3aZy2fGlhnYDKn1wJzqL6Wxaav6MS4KzJC9Z5/1wzOzE8CLt9
-	 t9NIHnDkbziEWw6zFMPilZPTpBAKhNswWQpO6JtBnrRLy7fpM3gm/E/DWhUO8j+IB6HnY
-	 wm503hZLiIrM4tF2OY8MYwnk+JmVUbqFEciduIYQE6lhvx0uU1BUyMmhHg3uQqZ/32g==
+	t=1793629306;
+	b=YbUWN3GJNOp2KmUdWWeX3ibpifzHIfXOiy5kc3flRKW127zfLOU+zOZTQJNBNvXzgpIU
+	 leSt5R5DpOXq9CNMpV4SInjTSSqeyE4ToHJL/tJYOnaztAxL+22aT2noqxvPW0lTw4k1U
+	 WqDrbMBp7bh0PdumVUnwFwfDPk9pM3Qjp0Cn7jFB7oSXm9Sf7OZva8qVi9rp27ZSXXib4
+	 PeKKNU5ATRdTq5XpjgeGfhzRIar5FuHKIGxpyGR4SYp4bAAOD5E3PpgsAeQSTODjAkHCo
+	 lp/vR6lVcS+tZztpknpAAGFk3J45GKl/LS486wfYOao+P9+QDKqzMoncowXfVwE3Y7g==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793629260;
-	h=Received:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:X-Mailer:
-	 MIME-Version:Content-Type:X-Developer-Signature:X-Developer-Key:
-	 Content-Transfer-Encoding;
-	bh=AMQhAUoLjC1OsRhPIF0X/aZZvhoGLtnfpHmE2nV4Wn8=;
-	b=w0iUuu25LcgkA3xGhaCiKMEKC4+WEmJvuCSsM7a4JcQzbZkbzH95lmjyghuNDSZ636lM
-	 zDqlTkdA53RBUQ/pfPUtP35lwyf23hoIVTza23nSQ/mxH15ctyh9mOtI68HNAhD4vZQq2
-	 H1pAwc8FT0JABLkWPADeSKIfS3K0Si2FdjU7nGK5JKm78OPZr0ETnE6cVeYr9JSM8ejlT
-	 qSV26qfr4m9ADzs0JeKUvRhT3WqpTt1yNreGV/9s3Zy1LwstRqheSzSloj1kmuJYwmew3
-	 hQf23VzxVy8e0WCjv8ctXarDx8UwmqgUEp8H2W9zOkRKd4ZYX1BHGBPLKByfm8j/6Qg==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793629306;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 From:Date:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key;
+	bh=FHhllGVlQ6IWzlGqKe6QU/LwE1EYZYemcw/zZm160z4=;
+	b=vAVUoSBY/w5TNBuzxni7uuTfwSjwdJGcIOfAdZcC53fYD0X0sZP1arSAqYZdbEnqgvYH
+	 kwH4WJuddQiF4t5OGK4diDpRjdm7E48Z+nWcwzKsp4849BiR2cLymGcBuhlg6suxS9ece
+	 21bP854RBIKe+k1m5lXXZRoA5Yw6pnvQo5ypxc61HaxhDc5AMK38pwrbkfWVrVVhnqdUD
+	 e4XtdznPhRtezcFbVVyvwcgthfaSak9wR2Unc8w3ApU6EkFKTFg4Bn1lVgVsGFSz+4VB9
+	 KvCzsRb8sGV6sXGOouzpuxWRimy316xN4895gmWD1+x+I2ZbOnQxHE+oc2he5+yTknw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0H9lG0B;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
+	dmarc=pass header.from=flipper.net;
+	spf=pass smtp.mailfrom=flipper.net;
+	dkim=pass header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=XuN2QCnq;
+	arc=none smtp.remote-ip=209.85.221.48
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821D9606A327;
-	Mon,  2 Nov 2026 14:21:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2768B606A327
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 14:21:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 2768B606A327
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=flipper.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flipper.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=i0H9lG0B
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EED4A1F00A24;
-	Mon,  2 Nov 2026 14:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793629260;
-	bh=AMQhAUoLjC1OsRhPIF0X/aZZvhoGLtnfpHmE2nV4Wn8=;
-	h=From:To:Cc:Subject:Date;
-	b=i0H9lG0Be05TEfu/3sSSx1mNu2tXsbt81HU4VhWr1YaNjWqP1nbmV2PU6N9fCZNuw
-	 nivi01r4yhBVK5q6ZZ/2sNWNfeS1/SVvtod3GB/cMk9XHlaJxrROzU9uNyaCbwueWN
-	 AE/rw/aIukHRd/bUpfVF3u6Oo+d1/1nWu8xicACG8hfScuBzUWJR1oSKGUI3TT1yza
-	 I6qw7gNhliBS+HPnhAgAxa3M/VUpvB8uzbr6ovyo5O6M56NbveIxMw0j6pJhZqxruk
-	 pALxbTScur8TNXplk3A0Y4Q0gW4y8sE5l288k+10HrKs8+OO7WmnOZctFatwni3om7
-	 HzOPbsKYJ2AYQ==
-From: Christian Brauner <brauner@kernel.org>
-To: linux-fsdevel@vger.kernel.org
-Cc: Christian Brauner <brauner@kernel.org>,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Jann Horn <jannh@google.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Chris Mason <mason@kernel.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	NeilBrown <neil@brown.name>,
-	Eric Dumazet <edumazet@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Al Viro <viro@zeniv.linux.org.uk>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Christoph Hellwig <hch@lst.de>,
-	Greg Kroah-Hartman <gregkh@suse.de>,
-	Joel Granados <joel.granados@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	Jan Kara <jack@suse.cz>,
-	Jan Kara <jack@suse.com>,
-	linux-kernel@vger.kernel.org,
-	linux-nfs@vger.kernel.org,
-	linux-acpi@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org,
-	linux-um@lists.infradead.org,
-	linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org,
-	netdev@vger.kernel.org,
-	ntfs3@lists.linux.dev,
-	platform-driver-x86@vger.kernel.org,
-	coreteam@netfilter.org,
-	kexec@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	netfilter-devel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	ibm-acpi-devel@lists.sourceforge.net,
-	jfs-discussion@lists.sourceforge.net,
-	linux-alpha@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-cifs@vger.kernel.org,
-	linux-fbdev@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-sh@vger.kernel.org,
-	linux-usb@vger.kernel.org,
-	samba-technical@lists.samba.org,
-	sparclinux@vger.kernel.org,
-	linux-m68k@lists.linux-m68k.org,
-	linux-doc@vger.kernel.org,
-	linux-serial@vger.kernel.org,
-	linux-atm-general@lists.sourceforge.net,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Takashi Iwai <tiwai@suse.de>,
-	linux-input@vger.kernel.org,
-	linux-raid@vger.kernel.org,
-	linux-ext4@vger.kernel.org,
-	linux-modules@vger.kernel.org,
-	linux-debuggers@vger.kernel.org
-Subject: [PATCH RFC 0/7] proc: move procfs to what kernfs does
-Date: Mon,  2 Nov 2026 15:19:15 +0100
-Message-ID: <20261102-defizit-jobaussicht-kurios-7016c6e67442@brauner>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key, unprotected) header.d=flipper.net header.i=@flipper.net header.a=rsa-sha256 header.s=google header.b=XuN2QCnq
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48af4d4e61fso1861062f8f.2
+        for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 06:21:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=flipper.net; s=google; t=1793629304; x=1794234104; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=FHhllGVlQ6IWzlGqKe6QU/LwE1EYZYemcw/zZm160z4=;
+        b=XuN2QCnq4efgv/cKPsDrD5WsLl5Cjqq7ltPIjHkgnuOFj8ZCP2rtFR0xNvnsnPCNch
+         R/4HxGkh+C/valt9lMrIUwwXGf6nnn8Ncpf2t/0JWcJdj6D1R9d6HaRSJdQdeXzkBPMw
+         9HZWohVYsUoQnk0d+HmrW2uHz/mt4CNDmMkeO2ViWb6DiUMko4+y6ynADkfp+t3ZI1UF
+         mmI3bb/NWZmbBRaWTZ3laXJYeefGV2WeCLmQRdZwYyVWUf23bFQufUA1aRT3K0f3UuCk
+         /msssIhQ/VCpZwIdm2dXhQTqeWezUfIfB9Nuc6pcT8s7fGTKRWe2s+UiK5SvemXnTQd+
+         7OLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1793629304; x=1794234104;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=FHhllGVlQ6IWzlGqKe6QU/LwE1EYZYemcw/zZm160z4=;
+        b=WdoyNkw1WTxLp5TlaYzb81dvPU5GGXePcMzP1pQTux2yExrC8PP/A2vXkIpFxoIIhl
+         FN078S4XzyUsTHCOfSCB+8i0Pv4IPI7akFpVvlD8+KCSwZctl+6q1DrX2lvFh6xEc0xA
+         yQD0KHxAb3gfKMq4JQRu/jo1mB8nnpKIIvrE+fFUHHnOSf5H5y/WTjS8DOFe0TKdtUGT
+         XSWl6bvItgKLmbb1ccJuoSLXWjdZKGv6Vj0rc/eNQXwgLng5ACytkdz6O6ab5YoxPjuq
+         As8dAF0TUhGJcwEhN8rkjgSaecHmIWiNJfdXVnNRiyZYHxPTo/x1YD8d3v6uHNEMCEOp
+         rLPQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwWxStBu9X2kYzwnwkZmdCf1Nrqi3ibdanh30ZmsGhn6rD9lQ8wwpuj1s//9Dk7/PHxKpZ3x7G/3tU=@vger.kernel.org
+X-Gm-Message-State: APuU4Z866EZeqAhKtEuVW5VcMXJJqA/mjAW3ugv8V8JaMRxFC4+J3z/z
+	5XcpmcEWsBLsNO+zUxYcdorWECrxOipbqUXhwS0DFJ6HnWFT8QXtm3yT/5/sh0Plbp0=
+X-Gm-Gg: AYBFou3jBTnaMUDMqztyBFRgQhTYM2F4E98xHFZ6qTPLO6iH1sd9YXegQGKIcvuEDJm
+	IJ5T8zSB4u4lfBOCkK4mifaFiLGvN1yqsbA8jBCHfG60jNheSnPUvGtsLBWcxPVSzhQFET4ifkQ
+	IWjCZNIRljgNNk2qKlZuiXeX/0746hps+vC1E/pvdFTTYuNrDf+c5qeaIvMfnsBv0nYF0H/tXgQ
+	n7zwsDK6ew2IPgPy7KI1BQJrInt1WtvyttKrbYmUBqQyBfScxEPeG8KkcG4+3j/zN9WypYZywB8
+	4hA85KylSCnpNErehHIgIGNKibvekkSaWKWtaOWCtIC2lyAd9ZqLz80kaUTOqlLi/jj0pkO+QRA
+	kWwAgB/55v/3MrBo8j94VL1RUfizKDANiCIOTc460jbg+JPM9ULR5FCe0Xomm3HfP/zeghxmQKH
+	OyLTV5SwuNqzhUCrD8M5rOsc7umY0jucVhmqHxNg2eRpYwObPhQmQp9d7Pj8u1MHajEXJqs9EKP
+	Syya9bX3Ue/uoaO/4IyPCxwdUbEq15MqgXPyAFKGElwxR+Yx/SQu3oDuvj2MFb5lvKpxo683Bre
+	x5xNsK00fGIHt5e++pSPf1VgltFnmCiuBSKZMtnMqFOslevxT7S5d5bOaibeLpH/G84TT2Jiehp
+	0gDT6slf4h5zdTniAmUjYccHCmS4gKK4=
+X-Received: by 2002:a05:6000:430d:b0:48e:25d7:d276 with SMTP id ffacd0b85a97d-48e6e2c3527mr24817977f8f.2.1793629304361;
+        Mon, 02 Nov 2026 06:21:44 -0800 (PST)
+Received: from alchark-surface.localdomain (bba-86-98-194-229.alshamil.net.ae. [86.98.194.229])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48e71baa1b3sm19476811f8f.56.2026.11.02.06.21.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2026 06:21:42 -0800 (PST)
+From: Alexey Charkov <alchark@flipper.net>
+Date: Mon, 02 Nov 2026 18:21:24 +0400
+Subject: [PATCH] usb: typec: tcpm: Record the partner's Product Type VDOs
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -114,128 +93,72 @@ List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6321; i=brauner@kernel.org; h=from:subject:message-id; bh=DeFgfcqlv/TY20j7H/EH1gPUF0B7m3TaniK1kcChAz8=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMWS9mGNqL7pz+vPzk4KWfT6wfNmBh/f/+az2dnquniC7r OfbdVtpkY5SFgYxLgZZMUUWh3aTcLnlPBWbjTI1YOawMoEMYeDiFICJLNFkZJi9z+Wc51MV9sWG KyZ0i3EcLl3135Rh1V/p2TenWEnnPCln+F99gMWOyX62xk4Du399RQ9XTQsXMmEy4ArfuSn16RK 3R1wA
-X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+Message-Id: <20261102-tcpm-product-type-vdo-v1-1-02e90dadbc2d@flipper.net>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrB0waVHpVcSFTWZ0hJqQRGkR7
+ 96oy7f4f4dIQSjCq9gh0CZR3JKhygLMNCwjodhs0JWulao0JuM/6IOzq0mYfp5wsw4HbpsHsWL
+ LT8itD8Tyvb5dfzuu75lMOmdwHH/ciYKQeQAAAA==
+X-Change-ID: 20261102-tcpm-product-type-vdo-af873ef1fdf4
+To: Badhri Jagan Sridharan <badhri@google.com>, 
+ Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Alexey Charkov <alchark@flipper.net>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1832; i=alchark@flipper.net;
+ h=from:subject:message-id; bh=NVkFNDZ72XAHJLMT4AFXB0xMljodzwzt9GA/Cq3evbs=;
+ b=owGbwMvMwCW2adGNfoHIK0sZT6slMWS9mJPBkhOgwbPhEkPh8dy/99SefH7t8TUjXSKza4nmJ
+ PXQ2RF3OiayMIhxMViKKbLM/bbEdqoR36xdHh5fYeawMoEMkRZpYAACFga+3MS8UiMdIz1TbUM9
+ QyMdYx0jBi5OAZhqLy1Ghk9ynIdy1c/mHbtu5bt1m9mbjvr+a7smRE+T/zrp3acf2yoYGX7JN70
+ 36d5wuePQsVWLsv79sfjwRIjFc+WVq8lT61beusMDAA==
+X-Developer-Key: i=alchark@flipper.net; a=openpgp;
+ fpr=9DF6A43D95320E9ABA4848F5B2A2D88F1059D4A5
 
-Ok, as mentioned off-list I have an RFC version of getting rid of page
-fault induced stalls in procfs when removing entry which plagues
-networking devices among others.
+A Discover Identity response can carry up to three Product Type VDOs
+after the Product VDO, describing what the partner is as a UFP, DFP or
+alternate mode adapter. The Type-C class keeps them in the identity and
+shows them as product_type_vdo1-3, but TCPM stores only the ID header,
+Cert Stat and Product VDOs of a partner, so those always read 0. Cable
+identities already get their VDOs.
 
-There was a hackish very narrow AI solution to a part of this bug class
-that was floated off-list. It used a second buffering mechanism on top
-of seqfiles which was really nasty. Plus, it didn't fix the whole bug
-class, it only eliminated a small portion. If we want to get rid of the
-whole page fault issue we need a bigger hammer. So I tried to work
-through that over the last couple of weeks. The series in a shape where
-it's not totally insane to have someone else look at it. So here it is.
+Store the Product Type VDOs as received and zero the ones the partner
+does not send, leaving their PD revision specific layout to the reader.
 
-I understand it's big but I thought it's probably nicer to look at the
-end result than just making a promise of what it might end up looking
-like.
+Signed-off-by: Alexey Charkov <alchark@flipper.net>
+---
+ drivers/usb/typec/tcpm/tcpm.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-It's not super polished yet and I haven't gotten into sorting out all
-the warts as there were some really gnarly bugs in there like the whole
-readdir mess that repeated entries or terminated early. I think we could
-go a lot further there if we wanted to but I think that blows this out
-of proportion and at some point it becomes difficult to grasp the scope.
-So I'd rather delay that until I have a sense of how acceptable this all
-is.
+diff --git a/drivers/usb/typec/tcpm/tcpm.c b/drivers/usb/typec/tcpm/tcpm.c
+index d721baef5210..8fd6b1f842b3 100644
+--- a/drivers/usb/typec/tcpm/tcpm.c
++++ b/drivers/usb/typec/tcpm/tcpm.c
+@@ -2064,6 +2064,7 @@ static void svdm_consume_identity(struct tcpm_port *port, const u32 *p, int cnt)
+ {
+ 	u32 vdo = p[VDO_INDEX_IDH];
+ 	u32 product = p[VDO_INDEX_PRODUCT];
++	int i;
+ 
+ 	if (cnt <= VDO_INDEX_PRODUCT)
+ 		return;
+@@ -2073,6 +2074,10 @@ static void svdm_consume_identity(struct tcpm_port *port, const u32 *p, int cnt)
+ 	port->partner_ident.id_header = vdo;
+ 	port->partner_ident.cert_stat = p[VDO_INDEX_CSTAT];
+ 	port->partner_ident.product = product;
++	/* Product Type VDOs, if any, follow the Product VDO */
++	for (i = 0; i < ARRAY_SIZE(port->partner_ident.vdo); i++)
++		port->partner_ident.vdo[i] = VDO_INDEX_PRODUCT + 1 + i < cnt ?
++					     p[VDO_INDEX_PRODUCT + 1 + i] : 0;
+ 
+ 	if (port->partner)
+ 		typec_partner_set_identity(port->partner);
 
-remove_proc_entry() waits until every call into the entry has returned,
-and most of those calls copy to or from userspace with the entry pinned.
+---
+base-commit: 7649ba73f9e7e1e04d0b46213e39c79ae09dd55c
+change-id: 20261102-tcpm-product-type-vdo-af873ef1fdf4
 
-A reader or writer can make a page fault in that copy take as long as
-it wants, with userfaultfd or by punching holes into a memfd over and
-over. And the callers of remove_proc_entry() like to hold locks while
-they wait. addrconf holds RTNL when it removes /proc/net/dev_snmp6/<dev>
-and xt_hashlimit holds a mutex that all network namespaces share.
+Best regards,
+--  
+Alexey Charkov <alchark@flipper.net>
 
-Every network device with IPv6 gets a /proc/net/dev_snmp6/<dev> that
-everyone can read, and addrconf_ifdown() removes it with RTNL held. So
-any local user can keep RTNL for as long as their read stays stalled.
-Until then no device can be registered, removed or renamed and no
-network namespace can be created or torn down.
-
-Without privileges a FUSE mount in a user namespace whose daemon never
-answers is enough to stall the copy. Killing the reader ends it, but
-until then whoever removes the file sits in D state.
-
-xt_hashlimit removes the proc file of a table with hashlimit_mutex
-held. Every rule insert in every network namespace takes that mutex and
-so does network namespace cleanup. cleanup_net() runs on a single
-workqueue with pernet_ops_rwsem held, so a stalled reader also stops
-every later network namespace teardown and every module load that
-registers pernet operations. xt_recent does the same with recent_mutex.
-
-And it's not specific to networking. remove_proc_entry(), proc_remove()
-and remove_proc_subtree() have over 200 callers and plenty of them hold
-locks. A stalled reader of /proc/fs/ext4/<dev>/options holds up the
-unmount of that filesystem with s_umount held, and every sync(2) with
-it. The same goes for PCI hot-removal, for freeing IRQ descriptors,
-which CPU bring-up waits on, and for unplugging a USB sound card.
-syzbot has hit removal under locks before (cf. [1]), and the xt_recent
-deadlock fixed in (1) below is another one.
-
-Stalling the kernel in a copy to or from userspace is a well-known
-exploitation primitive. It's why unprivileged userfaultfd can't do it
-by default anymore since v5.11 (d0d4730ac2e4), and FUSE has been used
-the same way.
-
-kernfs doesn't have that problem. The code of a kernfs file only ever
-runs with the node pinned and never touches userspace memory, kernfs
-copies in and out itself. This moves procfs over to the same scheme.
-
-sysfs has only held its active reference around ->show() and ->store()
-since v2.6.23, the same release that made remove_proc_entry() wait for
-the entry's callers. A copy to userspace couldn't be stalled for long
-back then. userfaultfd only came in v4.3 and FUSE in user namespaces in
-v4.18. configfs moved its copies out of its active reference in v5.3
-and DRM copies ioctl arguments in and out around the driver's handler
-the same way. debugfs still holds its reference across the copies,
-ran into a deadlock with wifi drivers because of it and grew an API to
-cancel operations instead (cf. [2]).
-
-That touches just about every ->proc_read(), ->proc_write() and
-->proc_ioctl() in the tree, so I've split it up into seven series. They
-go out as replies to this mail:
-
-(1) proc: fix a few old bugs in /proc handlers (38 patches)
-
-    Bugs in the handlers and in procfs itself that are a lot older than
-    the conversion and that reviewing it turned up. Most of them are for
-    stable. They come first so they can go there on their own and the
-    conversion doesn't have to bother with that crap.
-
-(2) proc: let procfs own the data path (16 patches)
-
-    The procfs side. procfs owns the seq_file of an entry, copies in
-    writes, copies out reads and copies ioctl arguments in and out, and
-    only calls into an entry with it pinned. proc_create_seq() and
-    friends and the plain seq_file users are switched over here too.
-
-(3) proc: convert the arch and platform entries (22 patches)
-(4) proc: convert the driver entries (23 patches)
-(5) proc: convert the fs, kernel and mm entries (27 patches)
-(6) proc: convert the net entries and the kfifo samples (11 patches)
-
-(7) proc: drop the __user methods (5 patches)
-
-    Drops the old methods for every entry that can be removed and gives
-    the new ones the names kernfs uses, ->proc_read(), ->proc_write()
-    and ->proc_ioctl(). This needs all four conversion series.
-
-The series should all indicate cleanly what dependencies they have so b4
-should be able to pull it for review. But I could be wrong.
-
-With all of it on a KASAN and lockdep kernel the removal selftests of
-every part pass, the proc, pktgen and allocinfo selftests behave like
-without it and the bugs from (1) that reproduce in a VM are gone. Every
-patch builds on its own on x86_64 and i386, and with W=1 on the
-architectures it touches.
-
-[1]: https://lore.kernel.org/r/000000000000f24f4705b6988f3e@google.com
-[2]: https://lore.kernel.org/r/20231109212251.213873-7-johannes@sipsolutions.net
-
--- 
-Christian Brauner <brauner@kernel.org>
