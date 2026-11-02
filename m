@@ -1,56 +1,57 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
 	t=1793627262;
-	b=wxjysTNSB4M/JGD1OZg76E24cRbldl2C5eOBZLxn59nJ1rm5Inl0QnAIHG7Fts2yTLos
-	 DlOQypRG+2b+GF3Rt6Rrxoy6orFToFmVbowwz/sZFvg1RS+8G+xS1tdGj15Xp/XcFDa2F
-	 A6V/SO+OwL1lxMwzfw6OcCdHk2EwjY9rqdmmmXp0G3Bn3u2aoyYpDKhHXPQ0UplVSr0ag
-	 ux8xZR1nVlrpj+UlzCVkXnhmricqYr0KoW8yvlLLo0uM8IUmZXSZmVc0ZmvrbbS5itmUf
-	 55cdjD8wH89hTALtJlmT6lcsZ5nc6zcdXDDLFd3LYk22kaAeJKAY64dstgeytD9z9CQ==
+	b=PjlBvhLSigsd8GsPzi6DfGp8wuYGUSHpKAtPyyn7IGsKnO639vPqFHr6hS0oKp1TPHob
+	 S8x6WTEdjUsy6lc1MOPmVt9BPj7WMqX3m3ar4Ff/1uTCbjgmUmLMKP7JNXQkSmpvBCC7n
+	 RPm7gV5LDcjcSe75N5NvQzBvhYefjJQ+LO8MeOfFUf4DOQK6gRHqs3yK47hMwjvDhTz9C
+	 lhxCyN/608hteWdUMdf/Ss3dGTX8wq7JwzZofIGKqibO12LXQhqaxZXiJp4N89+BSpYfI
+	 nL+RV6oa9sDW49q93VYzaOOhAwqDMdu8nvO715SzgvTwePq1kU0OciOwUGsU9P6Tx+w==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
 	a=rsa-sha256; c=relaxed/relaxed; t=1793627262;
 	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
 	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=dKnMPTxu6C3c9imeKsgoo/aeMUZcg0YAXsEX71shqBk=;
-	b=j0yV3cb7TbRc97o2zNftVRBVqG4oauFMtkSvY5P3Lk2Aal6IxisJlzgnjzT4zVjnLVzF
-	 fPspSj+Nwb7bZpChVC0RfTk7S0uvpY8HD4e1zj9Z6PB0f8OVOLsEtoYmqdn1XCeAib41k
-	 m7Ngo6jZLl8LcklzrTsirCg2fCwxDCYwFNN8iw9tp/NLH6g2Kd2iX4Zi0929uSJ9Y50ds
-	 CwyzojND9WoMXTkdxfE9J2dmx6+N858P2+MW2lTBG2YvavH6mXYvrkwY00Il9V2IvWvt2
-	 0SSUSW5jaOwwdhfADoGEstOk6Z1oETwpeUzxOt2Jsc/cz/JP6sPtiZmMfQ4qcA2yDDg==
+	bh=9Gd8OrFDaYbXH9peZY4igke1JnP4zFt0pkqwpjNcVeM=;
+	b=OkfmM2gX7ktLUNAtJRhsqq3SvJwN8zIRWGZveak99me/WT79DuzCtnmBLYlVyekXBmYM
+	 fqiYK7c9aQ7Kr72PYqki7IVciQtar/Rsr7aDgOpozMVchl0oBgHVvSRV/Sk6+AdzYB4md
+	 i3gCQPuzByjn40FKOm1RV/JOIWudiBMm6bRKi2hGE0GXWAskGOZ7JSDzux0NlmKjHBaEq
+	 raojsDRsYsDqkexOiw5tTy3W5ckULX/IUN8gCcuhGVm22RnlUvAl4cBNKU7TjWnKgujuz
+	 4P9DK7+i2j4WJ6LmWnYqviDA/LChIFv/yRilUmZ6TZwbp944N293w1Cf+8o1O4lXhbg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b="BS3nx/aK";
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mnd7VRlt;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79BF606A333
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:47:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46549606A33F
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 13:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=BS3nx/aK
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47F7A1F00A1A;
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Mnd7VRlt
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8CD31F00A1E;
 	Mon,  2 Nov 2026 13:47:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793627261;
-	bh=dKnMPTxu6C3c9imeKsgoo/aeMUZcg0YAXsEX71shqBk=;
+	s=k20260515; t=1793627262;
+	bh=9Gd8OrFDaYbXH9peZY4igke1JnP4zFt0pkqwpjNcVeM=;
 	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=BS3nx/aKj8P+zdBXL9uWidZe5p7vM1z4vi2g5/etxL5N/8Tpl327yfUQPAJEeJx6V
-	 xHVGxHORgkVtk2DRTskie9n1SDgdgAygX+HbvKA3kErNcw4T41ByXppypbHs1w/fNq
-	 TflXsjTqqVlnn8tf0qd9OCunKT/j8UZv4oosMmaWxfea/6Yd9hFu/+quvQfWwgKbz3
-	 OhbHwASkxMPZsJKafsEiS2GnDk5d9rdz27toIDzTORlEGbggyyyoQzo+aZjQAhS2n8
-	 JY3dovZtyXxkLVsKdJraJFVrz0ma4djpMBaH2teKOwj7qEQuNGWx7mjihkxDgBiQDN
-	 gmLdCMfAbsrGg==
-Message-ID: <sashiko-outbox-193503@kernel.org>
+	b=Mnd7VRlta6jK5fCWg6kUDFkZuj75bdLrOi8Vbb7htQ8EW20zOpzmaM+gV+ALSSAQZ
+	 wkRbBcSyQGku6D9OkDII0SE3D1FPQV8Y06dp5qnQsX1LA7ADVReY2jhFlWwL6hFdlR
+	 wxdoVLWuzAWJGrGopQSJ78FS1jtcc2fZ7a2r2wWMsLNXs1mAdmK1YOkZtCadWY52mq
+	 mKPheIaJfbgMa5WtYvt0ngaj6QNzRvVS2aTuRXb2BzNzpVVXvRKH3VKXVt0Wliramk
+	 iH9E7+5bvD0FY9hXOWYaOQ8vfi+eYxwXx+zqCgMSdPtalEoKjOOGVbZXwkvyBJuFOH
+	 7Md2phlC+iWFg==
+Message-ID: <sashiko-outbox-193504@kernel.org>
 From: sashiko-bot@kernel.org
-Subject: Re: [PATCH] usb: typec: fusb302: Send PD messages longer than one
- SMBus block
+Subject: Re: [PATCH v2 1/2] usb: xhci: clear stale bandwidth data after
+ hibernation
 Reply-To: sashiko-reviews@lists.linux.dev
-To: "Alexey Charkov" <alchark@flipper.net>
+To: "Niklas Neronin" <niklas.neronin@linux.intel.com>
 Cc: linux-usb@vger.kernel.org
-In-Reply-To: <20261102-fusb302-long-tx-v1-1-0d2719488c3b@flipper.net>
-References: <20261102-fusb302-long-tx-v1-1-0d2719488c3b@flipper.net>
+In-Reply-To: <20261102134228.584032-2-niklas.neronin@linux.intel.com>
+References: <20261102134228.584032-1-niklas.neronin@linux.intel.com>
+ <20261102134228.584032-2-niklas.neronin@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 13:47:40 +0000
+Date: Mon, 02 Nov 2026 13:47:41 +0000
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -60,29 +61,42 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 
-> The whole message, tokens included, goes to the FIFO in a single SMBus
-> block write, which carries at most 32 bytes and silently drops the rest.
-> A message with six or seven data objects needs up to 39, so it loses its
-> closing tokens including TXON: the chip never sends it, the transmission
-> times out, and the truncated bytes stay in the TX FIFO ahead of the next
-> message. A Discover Identity ACK carrying a full set of sink-vdos is one
-> such message, as is a Source_Capabilities with six or seven PDOs.
+> Controllers using software managed bandwidth accounting maintain
+> periodic endpoint bandwidth information in struct 'xhci_interval_bw_table=
+'.
 >=20
-> Write the message in chunks of at most one SMBus block. The FIFOS
-> register has no address auto-increment and queues every byte written to
-> it, so consecutive writes append to the 48-byte TX FIFO. TXON is the
-> one token that is not queued but starts the transmitter as soon as it is
-> written. It still comes last, so transmission begins only once the whole
-> message is in the FIFO, as the datasheet recommends.
+> Each root hub port owns a bandwidth table and a list of TT bandwidth
+> domains, where each TT has its own bandwidth table. Virtual devices
+> reference the bandwidth table of their current bandwidth domain through
+> 'bw_table' or 'tt_info'.
 >=20
-> Flush the TX FIFO if a write fails, so that a partial message cannot
-> stay queued and go out together with the next one as a garbled frame.
+> Historically, resume from S4 reinitialized the entire xHCI driver state,
+> which implicitly cleared all bandwidth accounting data. After the
+> hibernation resume path was optimized to preserve parts of the driver
+> state, virtual devices and TT bandwidth information were freed and
+> recreated, but the root hub bandwidth tables were left intact.
 >=20
-> Signed-off-by: Alexey Charkov <alchark@flipper.net>
+> As a result, stale bandwidth accounting data could remain in the root
+> hub bandwidth tables across hibernation resume, leading to incorrect
+> bandwidth calculations after devices were rediscovered.
+>=20
+> Fix this by resetting all bandwidth accounting data in xhci_rh_bw_cleanup=
+()
+> so that resume starts with a clean bandwidth state, and resetting the tot=
+al
+> active endpoints count.
+>=20
+> Fixes: 2a70e5dc0301 ("usb: xhci: optimize resuming from S4 (suspend-to-di=
+sk)")
+> Reported-by: Harald Judt <h.judt@gmx.at>
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D222071
+> Suggested-by: Lovekesh Solanki <lovekeshsolanki00@gmail.com>
+> Tested-by: Harald Judt <h.judt@gmx.at>
+> Signed-off-by: Niklas Neronin <niklas.neronin@linux.intel.com>
 
 Sashiko has reviewed this patch and found no issues.
 
 --=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102-fusb302-lo=
-ng-tx-v1-1-0d2719488c3b@flipper.net?part=3D1
+Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102134228.5840=
+32-1-niklas.neronin@linux.intel.com?part=3D1
 
