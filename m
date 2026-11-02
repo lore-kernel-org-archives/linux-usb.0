@@ -1,48 +1,49 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793631730;
-	b=LkBaxhXRbO39H4zxvOqZskBLxqwkhxmAzze3J9UCPg7ZLZR6VXczf6c42FmgB3NNkPU+
-	 MixOGFAHs5PnNonrUG5CqZ5BQLXV6QT72uEgAi41TSWYi3qQyvGQbGHEWIk+I0u5/e564
-	 PzPskIHstXbvQ4l+R1xOo2+pGQBwzzpQsJuL4HIKVtzz4Rzd5hTG3u8f4rM83NyGOEHhK
-	 VPUbKj1HJFBQsnJ5sc2mqggTLQkd8UC+2bhhmW9TWyosZa82OuhUcZu74J5Vw/CsnG8Lg
-	 zM/fdrgxgTwSGNwfTeZf4d6laS71kcTVWHNqe3zOxtjmgsNcoN2VFo/jrS0DSsBM1Vg==
+	t=1793631763;
+	b=cNxzQvkJILgKIQIlBjCqF4pVA3XB0s7gLi6Oq9K0tBisxsEOS28etb162ydhlP+NvK8E
+	 4oHjFNBN+r+szI/mLQEkjnIK4mMYX2RhqN1XQlBY0TFy0Jz/gqOXGl3wcBDrUy0icYsUv
+	 3xFEH3wTEV/oTQcVICjiezdL5TI+BCoo7mYXwXyG3NsXqMS+1N3agJ2R61r89cTW981Jm
+	 QKQV/qakQnL6LUif7wAAsOd/kYUZQ1Y4bXeCrtN/lY3r38Lqc6gqyMjmrR5w1lXKS2CGi
+	 hIOBi7w/crZNlHrKOj84rBE0xyIKb01I+F6YP0Jicnr9C+DC9JbxFZ7fbzpeD//WQeQ==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793631730;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793631763;
 	h=Received:DKIM-Signature:From:Date:Subject:MIME-Version:Content-Type:
 	 Content-Transfer-Encoding:Message-Id:References:In-Reply-To:To:Cc:
 	 X-Mailer;
-	bh=RCWYzTdROaZ//Ublq96X/PsjFPNs26aKqDomYMjplOg=;
-	b=lckN9cAUGC5kZRx4Y8UZdC9MgNauYSjrVpnZQ214OkOdltOBR0sQ93bWwZjCRYhOeIol
-	 x5jWAu12B+WngZ80MI0SDaSuNlVFXnVjC2+wmkeHq4+czuxskLZ45FY4PAxqw3leKeuyp
-	 7byY3TTth0uiO8LavAxdOtd1trUDwdUeHpK4mA+4kdJlsT1JvUtBLssptuSqECgDnmahL
-	 qhJXYTcxwS2eW5Y71yI7Ok2pMtUAKND96IPJzjcxVXP2zWqwQjUI4XrKZEUbYqjSju3z6
-	 I3wFZNaYH8L5iG0ExSGVfrWjs47xrxo0AyvHcwEDVLHCKc17s0AMntSer8YMSPHrezw==
+	bh=pQQ1Vs9Ggdq4tGJpsZZ2KAKh5WKICEOKhSgV+25xKrE=;
+	b=vD8xvkN7YrnViVkdH/DPmX8puXjfkFs6W9q25t+3YN2V2gkIZZWf+GsR3BFQlDZ/BKhg
+	 zd/p5W6lAp+MrfbCCtTM7oHXo4CBSDVALpO7R5wkYXmgsk0Vu1KBbf0UXkiXXeSI/Yy87
+	 xvEyHiVKfH7iZPliVKhtec/XbvJwf3Rkj4tls8F8VBmgqzUB6CrS0vzEYKIn8DZbV4LPj
+	 EpycEghglyhIQglND/s55xdHosx8w4i/tFuB3/vA+xoxcpo5ZRv0MFa+fSVRh/dX+5JOR
+	 vZdSLntCO5bzCTEzRBPtFXv7djj4LhcxpE+4HmQiw6ZDbBQQbpqUvecw6ALPecHsxZA==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g7GASIyP;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RNnLcX8e;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E95966080585;
-	Mon,  2 Nov 2026 15:02:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 781726097070;
+	Mon,  2 Nov 2026 15:02:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=g7GASIyP
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAB381F00A1C;
-	Mon,  2 Nov 2026 15:01:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=RNnLcX8e
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 822B61F00A16;
+	Mon,  2 Nov 2026 15:02:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793631729;
-	bh=RCWYzTdROaZ//Ublq96X/PsjFPNs26aKqDomYMjplOg=;
+	s=k20260515; t=1793631763;
+	bh=pQQ1Vs9Ggdq4tGJpsZZ2KAKh5WKICEOKhSgV+25xKrE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=g7GASIyP66iaHneT0IXLyxGE3Gv8uk+u36p3s2m270MYuKSf/lxqLAMSRJOW/mN5b
-	 cqw43daYhwXjGaH+bT+uzWlv1RtJgVmK1pKNWgKadSoQ4YP7xysJZZNazw538Ya2w8
-	 aQyWb7PBw6LuxEkCbQCuHEsb1KvYSgmQDTGlChVmndzt2sLknpmWaqisu0NyUvlM/y
-	 hG208gvk6GSsXAzvoi3yhFcxnrvr/4f9iVDAGppDZvhr/8T+2kNPcVMo4GJLXJAgLG
-	 J6pV+INZeS4SdtLtP2ZjONMRNNmVsgjQI6Fx9jjazJ3kAgIbreGUlE2x6BQYTDKlDz
-	 uF54rLOl1jq1A==
+	b=RNnLcX8egvEl5rPbLFMIscYDo1QnoOrpG6e02ikgGgR/Z2oamdimB42SLpFro378t
+	 USbuYkcNHDjjzryLCSmr+2mmsvc3Atos4MVc28LQXLDJayaUp2uu3SYOz50KP5/BKt
+	 3u8kERoVbEfv90E7PC1AQzopGHBD/M7WfJWVvb4TNCYwjGxWo6SsNG7sq/Lq8yJIja
+	 zntE5mo3Bhg9BDYczlvI4bibAH3u2IIBa/7c1DzqGQ/HgRro22a3o66odi6Je5Ttco
+	 L0BW9ZHBEZJkGL3uRb7ev3sdiVhk7xK/B7muXSKuAHvnwQSKK0opx2IHD1lw9HfJa5
+	 LqGcvESsuLu/A==
 From: Christian Brauner <brauner@kernel.org>
-Date: Mon, 02 Nov 2026 16:01:28 +0100
-Subject: [PATCH RFC 01/22] alpha: srm_env: let procfs copy in writes
+Date: Mon, 02 Nov 2026 16:01:30 +0100
+Subject: [PATCH RFC 03/22] ARM: atags: let procfs copy out reads of
+ /proc/atags
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -54,7 +55,7 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261102-work-procfs-arch-v1-1-c9492ab08480@kernel.org>
+Message-Id: <20261102-work-procfs-arch-v1-3-c9492ab08480@kernel.org>
 References: <20261102-work-procfs-arch-v1-0-c9492ab08480@kernel.org>
 In-Reply-To: <20261102-work-procfs-arch-v1-0-c9492ab08480@kernel.org>
 To: linux-fsdevel@vger.kernel.org
@@ -91,59 +92,37 @@ Cc: Linus Torvalds <torvalds@linux-foundation.org>,
  Chuck Lever <cel@kernel.org>
 X-Mailer: b4 0.17-dev
 
-Implement ->proc_write_buf() so procfs copies in what is written to
-/proc/srm_environment/* before it pins the entry, and hand that copy to
-the console callback through the page it used before.
+Implement ->proc_read_buf() so procfs copies what is read to userspace
+after it unpinned the entry.
 
 Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 ---
- arch/alpha/kernel/srm_env.c | 12 +++---------
- 1 file changed, 3 insertions(+), 9 deletions(-)
+ arch/arm/kernel/atags_proc.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/arch/alpha/kernel/srm_env.c b/arch/alpha/kernel/srm_env.c
-index faafc2df7886..6a1742b09a82 100644
---- a/arch/alpha/kernel/srm_env.c
-+++ b/arch/alpha/kernel/srm_env.c
-@@ -81,7 +81,7 @@ static int srm_env_proc_show(struct seq_file *m, void *v)
- 	return ret;
- }
- 
--static ssize_t srm_env_proc_write(struct file *file, const char __user *buffer,
-+static ssize_t srm_env_proc_write(struct file *file, char *buffer,
- 				  size_t count, loff_t *pos)
- {
- 	int res;
-@@ -92,13 +92,8 @@ static ssize_t srm_env_proc_write(struct file *file, const char __user *buffer,
- 	if (!buf)
- 		return -ENOMEM;
- 
--	res = -EINVAL;
--	if (count >= PAGE_SIZE)
--		goto out;
--
- 	res = -EFAULT;
--	if (copy_from_user(buf, buffer, count))
--		goto out;
-+	memcpy(buf, buffer, count);
- 	buf[count] = '\0';
- 
- 	ret1 = callback_setenv(id, buf, count);
-@@ -109,14 +104,13 @@ static ssize_t srm_env_proc_write(struct file *file, const char __user *buffer,
- 		res = (int) ret1;
- 	}
- 
-- out:
- 	free_page((unsigned long)buf);
- 	return res;
- }
- 
- static const struct proc_ops srm_env_proc_ops = {
- 	.proc_show	= srm_env_proc_show,
--	.proc_write	= srm_env_proc_write,
-+	.proc_write_buf	= srm_env_proc_write,
+diff --git a/arch/arm/kernel/atags_proc.c b/arch/arm/kernel/atags_proc.c
+index 8411fbfbcb8b..ff28bf24dd30 100644
+--- a/arch/arm/kernel/atags_proc.c
++++ b/arch/arm/kernel/atags_proc.c
+@@ -10,15 +10,15 @@ struct buffer {
+ 	char data[] __counted_by(size);
  };
  
- static int __init
+-static ssize_t atags_read(struct file *file, char __user *buf,
++static ssize_t atags_read(struct file *file, char *buf,
+ 			  size_t count, loff_t *ppos)
+ {
+ 	struct buffer *b = pde_data(file_inode(file));
+-	return simple_read_from_buffer(buf, count, ppos, b->data, b->size);
++	return memory_read_from_buffer(buf, count, ppos, b->data, b->size);
+ }
+ 
+ static const struct proc_ops atags_proc_ops = {
+-	.proc_read	= atags_read,
++	.proc_read_buf	= atags_read,
+ 	.proc_lseek	= default_llseek,
+ };
+ 
 
 -- 
 2.53.0
