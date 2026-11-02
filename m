@@ -1,72 +1,72 @@
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793633036;
-	b=4RA5l4sxbpKO6NTN/YeFynGR/3dbW2sexhzCTpJXe6L/QLCVv1Ua7RRxXq+Lo0BQvyuD
-	 rB5f0xxC0B0m8OXpgVoqpXGeFl3MFN0d/wL8ctnGdUwOd6wwBMzIpHOVoHR8nu3Kw8Tqf
-	 EOD+/DCVpV5PlIBZh2gnpLmsxQUHNOyXH6wuNOjvRnE/S1WaVo2xn9JFrYqU99SxP8pip
-	 Gb7vvZQm1iZth5wXjMsvsG4xZwrxItk+vp9fI29JbFpwVRHb0dkiiW67Xg6FJcgUzz6Nk
-	 JP9wwErOHfMc+asAWh4CUjR/vgC7YButCIeEgQGWchOIraoj+A4dNsDVhHbQOdFiKpw==
+	t=1793633074;
+	b=PGKMPcFjMDA3gDTp7bb6iMCmJN6jeBQE1+jOTliO0N/07dRUL2DgfY8NySIvEHbfs4j9
+	 EKVPgvmXYrcZXi2ZlHpiBKSDOmr7ModGSGYIeHY5/iCAPjl8WxisYOzQZw/noADihoewr
+	 fERynT0FC3TNNhrnUPwMUs/JGZlKsTSzAyAqXmBKVWC+tqVRIMVtJ+E0oCwkeRLX3xLI+
+	 h8IPMdPbku2aBOLCv5oN0m+HfaatJbpRrKDu9Ari6gmKYUqmAZ6zTgvn6wkBEmUhjwn2p
+	 J8HuB2b4sOCeXd1J445vAvFQAi5flMPCfP6dtGoWHqBmeJ1UHyejVzQg1NHH/+dvrwg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793633036;
+	a=rsa-sha256; c=relaxed/relaxed; t=1793633074;
 	h=Received:DKIM-Signature:Received:Received:X-ME-Sender:
 	 X-ME-Proxy-Cause:X-ME-Proxy:Feedback-ID:Received:X-Mailer:
 	 MIME-Version:X-ThreadId:Date:From:To:Cc:Message-Id:In-Reply-To:
 	 References:Subject:Content-Type:Content-Transfer-Encoding;
-	bh=uEqaClazRJnTsShq1vBrZThkV8Ug5LupXRrZvH3pubU=;
-	b=zWhPyqyASttdLxOntEae+M/qPNNTAsJPVQaN5PDMACXfedGRqIYLTY55K34GSoXazqt9
-	 gw9Qv+YXy53kgAr3qtpZDdpvBbMbkwPNqq6nAv48nPXbB5CBDzjtsxzVW40XzPPiyUcbP
-	 aM8H9pDBiSyQeOg6pkc51p+Lf7lLZ45paA31+Jxb4skiC6cnSJX6dkWmPfkE/Fflg9jpb
-	 0BN9FBeAigutxymshRXGaofjA3t/JTBWPM5RcrJD6C0Mcp9ZlJi4k6vfPORl2kCcTBIdz
-	 jTfRUBMxK78Zsd7K9Mu7pdLtCvYVzk6DOCMpv2cED7cPvi2KV4ougzxN7U73L3DgFAw==
+	bh=hWdxbpN4QmmVdM7UmPZX8KG1qjYZ0FQqqjiDA/VJnOE=;
+	b=o25ESD8zgM6f2angQIPFlhcgdPhQLkqMfFjZTUVRYGAkLLzsaGuRPx+WkJLIwQ82K4uI
+	 eVWfMBJPrK8FdUOwmsZH9PNIxE7GQ6B+PHrphtdRd1+Ftgi2pXUdoTOhHsQiHJCMlf6Ss
+	 NGbxrpGq1XNVj7yrSoNw/nxhiLyaHgAJEu0CewJdqTuTDDCVaDLCoT7bDPNbqzIPZb/Ua
+	 f3VLrGXsv9cWjUaJX9fjLpdukNbttiL1JXSD0JjjzMHKjI7e51ZyD/h/3x3wbCW3xTm41
+	 hDhg2HZwnMagFCPedPQpfqtXLu0N9fDFj5NVPrZ/w6LGSOk5ndRfUUz45/m0M3M2iMg==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mIuFSq1P;
+	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ar1yBvIC;
 	arc=none smtp.remote-ip=100.103.45.18
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95AD36085548;
-	Mon,  2 Nov 2026 15:23:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBF56082622;
+	Mon,  2 Nov 2026 15:24:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=mIuFSq1P
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E743E1F00A18;
-	Mon,  2 Nov 2026 15:23:55 +0000 (UTC)
+	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=Ar1yBvIC
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 701C51F00A17;
+	Mon,  2 Nov 2026 15:24:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793633036;
-	bh=uEqaClazRJnTsShq1vBrZThkV8Ug5LupXRrZvH3pubU=;
+	s=k20260515; t=1793633073;
+	bh=hWdxbpN4QmmVdM7UmPZX8KG1qjYZ0FQqqjiDA/VJnOE=;
 	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=mIuFSq1PlqlmdXFERDfJN7xR4u5IteXp36sTNLjKWlJ3PZnCQ7SxQ9Z8UCzZ7AanN
-	 iTmqIsunzoLf+JESfRKnC6la/SKJxEuECOpRC4m1mxKYtEENio0cNrBZUlwv3Cn1Ju
-	 L2XFtAU7btTAXTmXfpiP5OkuJisO8o5FmbxPihb3qHbPYYt4d453+VAim5KWoAkSC1
-	 2Fd2p2kx4civ6GaWE+BpkvgbroPeNB4ah0yvOL6NMa8rqhP8u7cH4Eg9ASUb8RI7kj
-	 qI+8C0unnQ6K3AeeETs1U50pgWSgQSyPvNAk7jX6tB3K2RdFAf3cHrAEBzOw47122Q
-	 VJsWYwf7xqfVw==
+	b=Ar1yBvIC81AlkQxN0d8lM4DpCwZj6UD5Vo49RyJQFjBo+C5808Pq8HrM+wAoBQjA3
+	 To2qlDBeXG+6aWhFfzFxckZhBp4wkxGPed1kzaSFy7pAwQvGhVqrlWcgSO83vhFh2X
+	 VguJsl3FOT6CuxR1TaO4VAkb6e8ruEaXIJCPuttwfEFk4Yh74hFOxeUwEBHI2DG65H
+	 wXC3Lg/pvX9tz3gCYyulsI43Qty1XcefEQ5+MfZo2VyAYcESwo98NdtxOXW47SccWo
+	 0pNgSCt6egv+4aFZrmrWwjyAqZR0twQlxJCFZhysOjpyNrHyg6qoh3yphtMMZmOs2i
+	 8eby7zmG1MLKw==
 Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 382B4F4006C;
-	Mon,  2 Nov 2026 10:23:55 -0500 (EST)
+	by mailfauth.phl.internal (Postfix) with ESMTP id D2705F4006C;
+	Mon,  2 Nov 2026 10:24:32 -0500 (EST)
 Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Mon, 02 Nov 2026 10:23:55 -0500
-X-ME-Sender: <xms:C6voarBG_46XohCXRntvrxLbooo2QsSdsnLFLdxSrHV4W9Jb2ut0Ag>
-    <xme:C6voasUMAuId_-ti7Q8S8IF3BK3PvETtGHUiz2GmeX_VR2_ioD8Q6fx_GbSfksvIr
-    qG4dMA_l9cKm_ncenleFZKDIuWdoyF99hMQQDP57vDZlDT7EPia0kk>
-X-ME-Proxy-Cause: dmFkZTEuDKpUtgQyi2eOiDg2o6TUoTp2bk7lhmwIPo3Kl4qs+offfHvEJk9aR2DF91KXsE
-    Jxidsa0Y3Asgn0aI5aOrM2Max7nkEDOzg4YXDG4G6tfBqS9nJmQJLt2f9/W5jedW2Vqyrj
-    vWHoA3rhMdqZxwN2oaC/EtCoAdPIv77w4Tq354CApiiB5VaFPsD3X3KLXByZkxu/RJiM4y
-    FnF5cunvfo1SRG3wbosdIg/eculXH61Ef0aQTnpoZMqrZpo1TmCYaW2E3zfp6ZHOWWRhNl
-    sSH0iQPYh6Dq40Tk6wheD3GNPHTWWdqaAKBANmOB2Enmckt3/kZ+HMlA3CIqeCJ797tSAC
-    jAzzukG1rQZK6BqPQvJ72fqAFjBqNPdDa1VjBSesM8MZdxT6ZX+/XYeFSible6dm/uDGuH
-    hOjkvlOJMsXjBRKb/5uxacYLSimlY+2LlXnywzd4/nICRoDdJCwSCQ9jV4fJpec9dsnExs
-    MyRDfwan+mAx6RuiehQKCHL5UdeluCv0jlYidViIVf0MsLi6dFHffPfd603NFQOFJI4AAh
-    Qgzdc53z4AHK0m2BgFJhY/Qeag3jbDkkn/+luM73w4teeGrhCRLr93RIQ/VfnthZ/b088S
-    /XvTSHYqxiXCzggzR02dTJHyNdXuEnyC1Amk34GMDL4U4u7zk2bKqX83/RmA
-X-ME-Proxy: <xmx:C6voaunxJFKq8UoErlxZKFXyzuu9b8iSXHFLsTXrqRTTepkTydh7dw>
-    <xmx:C6voauBmUP5nBlBxmlCRHgPmBPFmK_EA6sB3y6XPb8q3EOCa-i0CtQ>
-    <xmx:C6voaoPPoyRKLKeYFrAjOz84wGTys2RJMDRlVIVsyk3c9ItGRe5EKQ>
-    <xmx:C6voatOSaw-2SBJKZRQ1ReC7HUnfj0Jszj08rAjFrI3xsKZEArL1tQ>
-    <xmx:C6voaolZiYJP2EGJHvyOTu5KDle09EOyVGOLTHSxtJmyBMZQLyTKW890>
+  by phl-compute-10.internal (MEProxy); Mon, 02 Nov 2026 10:24:32 -0500
+X-ME-Sender: <xms:MKvoavSKUiqXlpmsbk4x_EzLxRROHSR_9BdLdFDueZ3aJRiH03Kj7g>
+    <xme:MKvoark1e7oBzVB6EazGgyrtPDptmOfDem8ClEXKKWNQExwA2Ij7Xe2VN3GxRNGuJ
+    6Nb0Vjmr7Yi9pyc_zj52BUYSYBkOd4VYwbZets8y3ullc4HaW72Vhk>
+X-ME-Proxy-Cause: dmFkZTGtfrsnUprxkF5qguts9aGoe/r+VjuJA4ciTNBlyoDayaXNLufHqXhA6kBrvL/iAr
+    3wgAuuQGiHEv3hnNXqMyWwUdK8YFm1/1GrsjxqWJn5YPeS+c8oPtRrq1CDaj1biBFdNRN1
+    4UDFT90xsu5mLrQncUNY4oGNWjrFklK2K5oJ2MwxzwjSIyUfh0eQ+uCGR4Ad/x9dt2ub0M
+    BWqUWU6DkiQJpaWppyDq8vWSYeYF8lsBRui74VDWdPCyh7aOwC/vKR8gbfdjBuW2LNuh38
+    pOYiauMZHD5NvCm9QOJGIhVVM7YyPBnQCZeRPCgGSrnOrifD8zqjkAoefxHqYsUlz3W/c8
+    2gfOCAstyw+OFvae7dc5IVKqvvkOF9OK013F5PDLVpnUdMTyNDeSDKTO+Q9NHexjpfHsZF
+    tbKZF9Rf7RIf1whsHXLWLjMq+b4ZyeDSBs37NkdVKK+HwZOoTwdKbzTWAvsGbubVSxyBjR
+    9mIJqTAVebgWOhe2j1nb/URiMOWpqrzT0jIir8ZzZC89tAvIKTZPESaSS4Twsu+AVwQCAC
+    uJSAyz5JSjxyY4Er8OphrQKWXZ01QU0bT9PA6zml2ntbWClyL02iwuKavM8o4FRKL/uVIz
+    BvdNGuuY82Haqtc0Sse5GZBDGcsxwzOmYAwZ9InALDI5bzNks9gPWh04Lhsg
+X-ME-Proxy: <xmx:MKvoahT_D8YEi8z1Kc6jMTmDVT8yaom17pznx8st6etKxvmXLo0tNg>
+    <xmx:MKvoaqdV5ruPp9h-q8Pz4Hcw8MEfRPRbjyB0g9BJmWVZgqN_7ZRgXA>
+    <xmx:MKvoaicIcxzbsGdb9rhBgLYqyai_zpFk4G7MzepbewkbW5yImYgZGw>
+    <xmx:MKvoak3Gj8PwbUG94UEsXjpXzmTdvm836urUlCGQLL8cRHx2S6OG6g>
+    <xmx:MKvoaq9vQfzYe9eVwTQevoT8-FLqc80cjNDV0v5kJcoDlScaHfwgX72y>
 Feedback-ID: ifa6e4810:Fastmail
 Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 15863782738; Mon,  2 Nov 2026 10:23:55 -0500 (EST)
+	id AE2CD782738; Mon,  2 Nov 2026 10:24:32 -0500 (EST)
 X-Mailer: MessagingEngine.com Webmail Interface
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
@@ -77,8 +77,8 @@ List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
 MIME-Version: 1.0
-X-ThreadId: ArOOpyqnvtx-
-Date: Mon, 02 Nov 2026 10:23:34 -0500
+X-ThreadId: AG7Lg66T4xgg
+Date: Mon, 02 Nov 2026 10:24:12 -0500
 From: "Chuck Lever" <cel@kernel.org>
 To: "Christian Brauner" <brauner@kernel.org>, linux-fsdevel@vger.kernel.org
 Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
@@ -111,24 +111,19 @@ Cc: "Linus Torvalds" <torvalds@linux-foundation.org>,
  "Takashi Iwai" <tiwai@suse.de>, linux-input@vger.kernel.org,
  linux-raid@vger.kernel.org, linux-ext4@vger.kernel.org,
  linux-modules@vger.kernel.org, linux-debuggers@vger.kernel.org
-Message-Id: <58f6bc57-d6e2-446f-932a-8104b73cb654@app.fastmail.com>
-In-Reply-To: <20261102-work-procfs-fs-v1-3-d09a996317b3@kernel.org>
+Message-Id: <097f592a-d943-4740-b99b-8983527095eb@app.fastmail.com>
+In-Reply-To: <20261102-work-procfs-fs-v1-4-d09a996317b3@kernel.org>
 References: <20261102-work-procfs-fs-v1-0-d09a996317b3@kernel.org>
- <20261102-work-procfs-fs-v1-3-d09a996317b3@kernel.org>
-Subject: Re: [PATCH RFC 03/27] lockd: let procfs copy in writes to nlm_end_grace
+ <20261102-work-procfs-fs-v1-4-d09a996317b3@kernel.org>
+Subject: Re: [PATCH RFC 04/27] lockd: let procfs copy out reads of nlm_end_grace
 Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
 
 
 On Mon, Nov 2, 2026, at 10:07 AM, Christian Brauner wrote:
-> Implement ->proc_write_buf() so procfs copies in what is written before
-> it pins the entry. simple_transaction_get() was only used to get a copy
-> of what was written, so look at procfs' copy instead and drop the
-> transaction. A second write to the same file doesn't fail with -EBUSY
-> anymore. Writes larger than PAGE_SIZE - 1 bytes fail with -EINVAL from
-> procfs instead of -EFBIG from simple_transaction_get(), which refused a
-> few bytes less.
+> Implement ->proc_read_buf() so procfs copies what is read to userspace
+> after it unpinned the entry.
 >
 > Signed-off-by: Christian Brauner (Amutable) <brauner@kernel.org>
 
