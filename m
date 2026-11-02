@@ -1,121 +1,104 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=209.85.219.46
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793586103;
-	b=ezFnC05MFx2Gch06vYK9bxjiUu0FDd8BfdUGVSMQk4JjS52gcdduKsnLAFGnzPzF9pAj
-	 70+CFZncvS5RYh7laaHD2sbq9Q9YZdzQMkxbQ2lQ8qwg78c78u/n/1h4SragaCrf/NOlP
-	 HGgrTaQOZ571l2heVyLsH4aISRrELoV+L0Oyr9CuSWy4wnEugmBaMzzz5RzolB0WlsTO1
-	 +BGw8Q7q0+O160llI70KfpRpzUkcLalHLE12Pxm/H+hrupDQfhLBgSbqli+HYDh0VlZFO
-	 f2HSKJ3P/75WMfosvPwCiVvkthwbjCDqz171dEIL7tJ9/DItfFJhmsiTrb4I1SZc8pQ==
+	t=1793586351;
+	b=FyJ6+KYh3qnG0214IcR5zlMQOgLT4kLLHASrwANoIl/dkSYEAUN+DVVbAGy7DNk2GL9m
+	 2TlESdQ822F2ThLm76rfHnALlGVjXFgz5UYob5u+xnAXMwemeDXZ3POo2f9WqjUBNE1zk
+	 HC6XDyZtd80mJgpNLuwDyHCddJACoBzUvYddiP81B0vNcqIMLkCL4QfFzKVbkyoeKxHEG
+	 l+YAQpzrNdDjd0ppGAFQT3DbOIaGEzJvLMB+919n6ObZx2pNhHmetjflrn3Q4GpI35ExP
+	 NTjrHZrZsP/YME6/zlNO2YIyRa08JHqtOebAIBW2TLLs6QQwwQGjd2Wo/2sYe/JoQwA==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793586103;
-	h=DMARC-Filter:Received:DKIM-Signature:Received:Received:
-	 DKIM-Signature:X-Google-DKIM-Signature:X-Gm-Message-State:X-Gm-Gg:
-	 X-Received:X-Received:Received:Date:From:To:Cc:Subject:Message-ID:
-	 References:MIME-Version:Content-Type:Content-Disposition:In-Reply-To:
-	 X-Proofpoint-ORIG-GUID:X-Proofpoint-GUID:
-	 X-Proofpoint-Spam-Details-Enc:X-Proofpoint-Spam-Info:
-	 X-Authority-Analysis:X-Proofpoint-Virus-Version:
-	 X-Proofpoint-Spam-Details;
-	bh=y+rsuhJqtWNNFanhIkLAf7k45qEZkJKqZ1V0TJOALXQ=;
-	b=Mm6ZoVBi1BF0MGEPi4QM6jUFGHduiCxMgJlw1nbt0e0L3I0ckMadrefWxXyh83w0cyDe
-	 /9iJaQOJYjR1Josq2wUJwOWPYQokSU/6cLf8N+S/ScNyYk9JrmaUYvhjNcoHtW/5F5q+s
-	 IxFsYXeI1elJAragvXokrljzmdCWxKEc3oxaWHLWsVP/Wp3VnGdvh3itkNFiRwMoe8Tuo
-	 I0iNA/gDgZpGKX5ypOuCeUnYPLPKqyqUJUfrWHCsyyt4mEFR+zGqx6Y3Gt+xf1xn6b+Gz
-	 V0Mlor/CGuWtUYUoHoFnlLFpLN6Ch08m8HrhINweb8Gb+70ePHEAtnLlAvtCDHQLiwQ==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793586351;
+	h=DMARC-Filter:Received:DKIM-Signature:X-Google-DKIM-Signature:
+	 X-Forwarded-Encrypted:X-Gm-Message-State:X-Gm-Gg:X-Received:Received:
+	 Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To;
+	bh=n3mx44U9YkJwgZeg389YBYRZqdY33U7LYb9Ka4ftvIQ=;
+	b=QHxEdCIqCfWeqtFBeMBvF8RsQgFcxsOP6dk8ZHJBVrmKt0VcQFIx+S76UhBDSfv3DJs6
+	 QDwbQFYngjUNrwYa3dBPCSoxuUlasgXMnDXpsDg3eb05/GNI9cWlCARpS8dZIRW2LeayC
+	 LHOSdiO4wjz+dZvYwAmykqiJAqyQ1tTJ6TYAdC340PM6ywdpT7nAh5Qv+9rVmTvhliNSa
+	 5LJILaYDdYfpi4JwLzmWGtvy3w2z8oaz0ID7PoTZ98n7gaKjzVm46bsAhPowIouO/dRn/
+	 2r85WKmvIwt884v1gymvg3xMgy5cky0wEaTEdcM9AdB4NnecGuRXZPMRla6GZyAs18Q==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dmarc=pass header.from=oss.qualcomm.com;
-	spf=pass smtp.mailfrom=oss.qualcomm.com;
-	dkim=pass header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FMPrW8RW;
-	dkim=pass header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=LbdN4Nyy;
-	arc=none smtp.remote-ip=205.220.168.131
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	dmarc=pass header.from=rowland.harvard.edu;
+	spf=fail smtp.mailfrom=g.harvard.edu;
+	dkim=pass header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=XHlpSCBG;
+	arc=none smtp.remote-ip=209.85.219.46
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279A4606A326
-	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 02:21:43 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 279A4606A326
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A005606A32F
+	for <linux-usb@vger.kernel.org>; Mon,  2 Nov 2026 02:25:51 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 7A005606A32F
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rowland.harvard.edu
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=g.harvard.edu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=qualcomm.com header.i=@qualcomm.com header.a=rsa-sha256 header.s=qcppdkim1 header.b=FMPrW8RW;
-	dkim=pass (2048-bit key, unprotected) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.a=rsa-sha256 header.s=google header.b=LbdN4Nyy
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6A20K3pd1321299
-	for <linux-usb@vger.kernel.org>; Mon, 2 Nov 2026 02:21:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=y+rsuhJqtWNNFanhIkLAf7k4
-	5qEZkJKqZ1V0TJOALXQ=; b=FMPrW8RWELU0HFKXBk2353xfIqmZ/ZI9edbKVvRO
-	MrteUR5KPMlKBgAnVWj1gGyXgFubJDfsoNkaXFV69AxHRAnCpsWeJzEmBun9s0gw
-	mULiMBBCZ1D4j0zdtHzHP6I7iubBWGBsZheJm7h73zIqShXQykbOH1w0D2rBs0Yp
-	wPbCWP6k+b06/6pOahUllCVSXhdNoL+D6eph+J31xp9E04tiZMt7am0SbiCJDmJG
-	DQv3z5wb0a6gWecv7q6CkRVajLgzRUUUWqsSDSVE9/08nqerzF9WcEDytItGXW+O
-	PfSbfA9J74TZADvM7zAjbrw53Ezuw+F7BeiNr9Yl+sflnw==
-Received: from mail-dy1-f198.google.com (mail-dy1-f198.google.com [74.125.82.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4hn9m9cktm-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-usb@vger.kernel.org>; Mon, 02 Nov 2026 02:21:42 +0000 (GMT)
-Received: by mail-dy1-f198.google.com with SMTP id 5a478bee46e88-33c35f5ca6cso6064060eec.1
-        for <linux-usb@vger.kernel.org>; Sun, 01 Nov 2026 18:21:42 -0800 (PST)
+	dkim=pass (2048-bit key, unprotected) header.d=rowland.harvard.edu header.i=@rowland.harvard.edu header.a=rsa-sha256 header.s=google header.b=XHlpSCBG
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-91c79a9a739so41022056d6.1
+        for <linux-usb@vger.kernel.org>; Sun, 01 Nov 2026 18:25:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1793586102; x=1794190902; darn=vger.kernel.org;
+        d=rowland.harvard.edu; s=google; t=1793586350; x=1794191150; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=y+rsuhJqtWNNFanhIkLAf7k45qEZkJKqZ1V0TJOALXQ=;
-        b=LbdN4NyyNe4XrcBBK9+ljE38H3cPlXk76WZAYX64i/X06PNIRZgwip9A9LkRajVATU
-         Qo2DOZ3EDKdCYJu4UpQhRcinvNj6qMR3Gs4YdeJmH5cDQYrkoSuC+TGbvhqT9o03qyn5
-         KeJeKKtQ4aOP4wjLUiD4bJeNgBrrNy2s85DfRXKV3biZlqDnWSKzSLAg47IqJx21ma8g
-         oFjoNQY5exaOxX1EnzMe66q/HP5/I23Jt7+bnv/YTlVV9VsgQEu8C5v9dT5+0t9Typr4
-         +rvfHcdE2uk8k0zFsAFFYL0aHTVkUmJ9l3F2l0JL2h1PJnJZGErfqCCl1jenPtPEEbRM
-         yo2A==
+        bh=n3mx44U9YkJwgZeg389YBYRZqdY33U7LYb9Ka4ftvIQ=;
+        b=XHlpSCBGmZaskhqJOuA4xN2OFc9ajIrxB92Pb2t1bkUjydmgMWzWNaGCfjimNlG4qD
+         k1tkEsh9WONCyaLHpl/Pc/+MZTV5VWwD2nE53dGSSQhQzkyy+0tx/sYEXGpbDoHYA2rR
+         RjLv7g01RobEkEYe96hSYknFdpuqXZpMbPcEm0ME7ndltp1HiKwrB8ZwFCBGEqs30ZBt
+         HPDFMKecpaneIqziUl4aK0vkrt9L7Hlg+xkm+gg/yWKO3Tthi1o9owjDJRKAegJQqiOj
+         x0GuirsMJ8EdhNF32IuIidWVlM6tdhc3wytCRUSo+AQ01WM7fQH5hNU9pbRdTVtHDEiK
+         c7Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1793586102; x=1794190902;
+        d=1e100.net; s=20260707; t=1793586350; x=1794191150;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=y+rsuhJqtWNNFanhIkLAf7k45qEZkJKqZ1V0TJOALXQ=;
-        b=lu6ljfWx4ZezJAkZBBmV9fjji52R96Btg0mjHk+Yk00edW91X8hLwgXoa/JPcVPRLl
-         9NhC4nZY5i7V0JwpoEEeOXxguAqwcLuSTiI+FUUes58kKTWvr9bte5HPAeo6tYZf7dyw
-         pbfJQH7Fw475fwQMETdtxMaa78qhctAaDZU6YHDRl5cYBw74pPEdjImofOwa0wDUqIgx
-         /Lp1ze9Lo8Ifj/W02r47l3laboMh2oQRfz7FiqBr/OrXN1uezyV69XNESqETx9CMhd7g
-         3JY/QvXtEMNS0Jz3eiJKooLjadM6bwZkxI7EP/Eb/TM4xuNgHxjFoIp6SfAku3z5YRNr
-         LnDg==
-X-Gm-Message-State: AFq9FYKs7Ku+4Mn9nmlVmL6gKNM2STm/o009T85Z7j/JBUDwl42bFJuA
-	f5rbsFWmEuERq9SmKC1P2i3soDi9oh33GOPQdYZbLPZMkDuqu6OuSeAdtPVg03YyaGf8YzhlmCv
-	SsJBC80uvIhUoETPjvk/UgewvghEAVcYIubfa8fhrNNCJtTrXuYDDMVIDq2YzrZ0=
-X-Gm-Gg: AYBFou0nDmKuesw0pPBRyvhSnoC8+sGGDia2X1OsS73CNEoXpRPFsf7gt0tsG+2Yf9l
-	7Je03E7PrsnioFCgEIQWRrTeoFWARO08pazYUCBe+s7rCrJpIrRAtqIMKxuzbBJkB82OkWw5f9b
-	1Dpy6279PGKbxKFhQUEMqrlwg30enB+diI5rHP2NbUJdc0nflQn1DqC6DU1jUtFPFPFUKCfvjSU
-	Y2G0Lo0lQA78c6pPeWcnwTInuofgJuzW5W1+cUojAnJVSqTRsihec2vhNVMvJCUg6UAmfXikI/i
-	JKYZLU0yOJFNjLUrG/1sCN4ITRJA10/A0NlU/GXWaQvlZuefj2lPUvggrpiF5uWbpIlVnNdR7SO
-	Ro6OmP7waFOfgFt1Ce0cSBYsREY/Q6WoaArJuawJK6hgf1zkXCe04Kejs0sXrdmIJTOJ4jAYRXe
-	7BwqAjlAlypHDlL9JEcP0/
-X-Received: by 2002:a05:693c:87cd:20b0:36a:32de:a239 with SMTP id 5a478bee46e88-36a420643f1mr13530069eec.0.1793586101455;
-        Sun, 01 Nov 2026 18:21:41 -0800 (PST)
-X-Received: by 2002:a05:693c:87cd:20b0:36a:32de:a239 with SMTP id 5a478bee46e88-36a420643f1mr13530038eec.0.1793586100838;
-        Sun, 01 Nov 2026 18:21:40 -0800 (PST)
-Received: from hu-petche-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-36a42aa8999sm35620903eec.29.2026.11.01.18.21.40
+        bh=n3mx44U9YkJwgZeg389YBYRZqdY33U7LYb9Ka4ftvIQ=;
+        b=fFaUovbbVVw3tVtbeLtVMaccMnelAGKZX8z79WSw94oEdowTDKhywhTCAfWugMkdpr
+         V/9kxX/zP4fcwGM7fSysOLyGw7PImMWVgpspFAbgDtJX1PaO47lDMqlCEN5//46TCPsH
+         vhEDjzwqAcz1ep7InOq/HiMpZbOrLQ9f5cfGU6PR90gh5yC5BApHFAeiJ8sZ8rqS93CJ
+         qB5LYjKgTzviG8AKKpOwE/DvNCsAU5pM5DykksfGXdzODEPMiFODAk5QS99pJezSsBdn
+         JhTjsBs4R1NkqukCb9jHaVY7Yq7p/TuMjohwQgOsyRR51hjkSmgum7BR99Ir7uykmmXT
+         7ZKw==
+X-Forwarded-Encrypted: i=1; AKwUvBzSJ5ReeP+ovz79clALhaJzygEfEBY5ehR+SEJ7TeGY0o2FifKRL/aLQDKIOF4C/4FWPyODlIvEPv8=@vger.kernel.org
+X-Gm-Message-State: APuU4Z+G37ouA1z5owOwoNP5jgUi+WZElGA04vHyGRMPN6A2TLzh7+h6
+	yfc0xiKu4EtmO0cM8aUx/+j+tIT7sK+q+zpargX5jgm937e6gRqIl0vVIW2HIdSJTt6gK0VUKGA
+	LkSiT+Q==
+X-Gm-Gg: AYBFou1geD4MNC6smWbRZLMPoM5j4OnC2A0D7p/1CyY4USGUIs1/L9qzRYMC3Q1VKO5
+	RkRM5kmT1HSVMFiyFJL2Pz7kHrpIwr2/GolQRI2go7lPm8i419iF7sym8rHfhkldWAcdS5J4IRH
+	PAIOgG6dkK644k3Hti4/2+sgjuYThe/gNNim5b4i1OGkwbSUm7BO+zqHbhFUZwkSNghsRvjxSnT
+	s5OoU7RJ4VoeL07ytBFa6eT8iHIZYL341Oean3xclfx4HPnVV2/znRWzSu7PyoYBwjIgIAhoX7U
+	ACUOlQInbL8mvr2UnM+kWcjzJ9az/3agPEAc6yd/nbXo3dcg0s5bYYVFDh/lI7P/ji4cODULTEy
+	PLI+0gmConPjcBQTnUgl31a1C1SYfAqEpvWXpq/woFh4QvHMtnYLjpK7OdkjMokvPNrqlH08uqv
+	xqQ6k8FLREvHFqEIrvg+Wqa2gNMcghoLwU90X1JKrG515BVBh0mKeDPuwi3ZIc3aL046/MoCGhS
+	cs5DhMSI7N7vSMLGnFju/YvQnhSkUhitcthMYU12Pv0u2UOIEHnjQuVDxTdUGOvGjw1Y/sPB/xR
+	AB52koPyNwip9m1cA4KUsW2cd+xs
+X-Received: by 2002:a05:6214:5907:b0:91c:6ce0:a2a with SMTP id 6a1803df08f44-91ca4b24720mr149807036d6.31.1793586349963;
+        Sun, 01 Nov 2026 18:25:49 -0800 (PST)
+Received: from rowland.harvard.edu ([2601:19b:d01:d210::66b0])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91ca7e24001sm79452676d6.3.2026.11.01.18.25.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 01 Nov 2026 18:21:40 -0800 (PST)
-Date: Sun, 1 Nov 2026 18:21:38 -0800
-From: Peter Chen <peter.chen@oss.qualcomm.com>
-To: Faisal Hassan <faisal.hassan@oss.qualcomm.com>
-Cc: linux-usb@vger.kernel.org, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Thinh Nguyen <Thinh.Nguyen@synopsys.com>,
-        Krishna Kurapati <krishna.kurapati@oss.qualcomm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 1/7] usb: dwc3: qcom: Keep wakeup IRQ enable/disable
- balanced on failed resume
-Message-ID: <aufzsuS-hX5HTgLQ@hu-petche-lv.qualcomm.com>
-References: <cover.1793212717.git.faisal.hassan@oss.qualcomm.com>
- <a7e3c1e094be9cb4a282925a6c09e11bf746234f.1793212717.git.faisal.hassan@oss.qualcomm.com>
- <auRiR2synrBgWFhI@hu-petche-lv.qualcomm.com>
- <c261c442-6623-4087-bc3d-c90afabad9d2@oss.qualcomm.com>
+        Sun, 01 Nov 2026 18:25:49 -0800 (PST)
+Date: Sun, 1 Nov 2026 21:25:46 -0500
+From: Alan Stern <stern@rowland.harvard.edu>
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Mathias Nyman <mathias.nyman@linux.intel.com>,
+	Dennis Wissel <dennis@dsine.de>, Yiyu Zhou <yiyu@yiyuzhou.io>,
+	linux-usb@vger.kernel.org, regressions@lists.linux.dev
+Subject: Re: [REGRESSION] usbhid -110 timeouts and reset loop for Keychron M5
+ (3434:d068) at boot since v7.3
+Message-ID: <7d0a8d8e-0b90-42be-9ee6-45288ddb27ca@rowland.harvard.edu>
+References: <4MjB9K-2SoiA85WbI9iEig@dsine.de>
+ <20261024203558.3181711-1-yiyu@yiyuzhou.io>
+ <SrQQcLIwRWyg9PdEIpc0eg@dsine.de>
+ <20261025111410.2c14fcef.michal.pecio@gmail.com>
+ <7082e2e7-8d05-46b8-a26b-5b888a7a0545@linux.intel.com>
+ <20261026105139.6b86cb3c.michal.pecio@gmail.com>
+ <3ddd9334-6dee-48cf-8a62-82cebbe51d7f@rowland.harvard.edu>
+ <20261030174718.1f28218a.michal.pecio@gmail.com>
+ <387e9e3b-683e-474c-ba00-4b12c7c77b7c@rowland.harvard.edu>
+ <20261101092930.114ca454.michal.pecio@gmail.com>
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -127,101 +110,135 @@ Precedence: list
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c261c442-6623-4087-bc3d-c90afabad9d2@oss.qualcomm.com>
-X-Proofpoint-ORIG-GUID: 7AlBdsisKby6lGeW-Ov9K-6qNnXed_2l
-X-Proofpoint-GUID: 7AlBdsisKby6lGeW-Ov9K-6qNnXed_2l
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTAyMDAwOSBTYWx0ZWRfXxZg7Q/iM+G1U
- yc6fNP94pTdLbzs4RrbhqeY7l0aSO7hgA8v+BCrJEXZMCcxozKWY59OhJU4qqVgNvdRuqUkYavV
- o0mY7jy0f55JFq8ujGpWXNRjXegSifv7GxCcaLlqTh3vPsi9542RxYIez4e8WetQD/jXi6YyoWs
- ofmZjz6ypKNmp7CbWdFOMZYsoumexwOx1RKuRMFS1Vq23whNPkXYXeE2qiTb1C2VTxlymj/xzCr
- doM4v2EtBxqz6K2DxJM5StYgzlafXC93xlB29pfVZrjqmk6PoJ7ZTEHGmK6uduoK24pKf2vaAIE
- uJj0mTyh8ffHqB5hRguwBGKxWt6o8gP5Dn16BMwfpOik/pfc7TMStwwW7MEg9r+hV+G9GeG41xZ
- Gzv3mIkmX01kjR7dRcuLSkoFIu+xUpWR4ACcxZ73VjiODCi6q8/202G0vgwfxy3xfkNMkiZDoE7
- 7z7FIBCp2TCV7TUdgcg==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTAyMDAwOSBTYWx0ZWRfX6pKyYQMmse6s
- 46IB8NgnPG0eHxd78ug0a3xKm28cMkdo3EmIFW9fwMIZ3CkzfJDxg4gZa3lyewLqYNQlKFAhHmY
- ExXxYXAfY6ivnjEnyTbapdYs6uiNk7A=
-X-Authority-Analysis: v=2.4 cv=cfVHPXDM c=1 sm=1 tr=0 ts=6ae7f3b6 cx=c_pps
- a=wEP8DlPgTf/vqF+yE6f9lg==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=kj9zAlcOel0A:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=YMgV9FUhrdKAYTUUvYB2:22
- a=6HtGa1ZIcL902LZL58sA:9 a=CjuIK1q_8ugA:10 a=bBxd6f-gb0O0v-kibOvt:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-02_01,2026-10-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 clxscore=1015 adultscore=0
- priorityscore=1501 spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2610300000 definitions=main-2611020009
+In-Reply-To: <20261101092930.114ca454.michal.pecio@gmail.com>
 
-On 26-10-30 16:54:55, Faisal Hassan wrote:
-> On 30-10-2026 02:54 pm, Peter Chen wrote:
-> > On 26-10-29 00:29:31, Faisal Hassan wrote:
-> > > dwc3_qcom_resume() disables the wakeup interrupts before enabling the
-> > > clocks. If clk_bulk_prepare_enable() fails, it returns with them
-> > > disabled.
+On Sun, Nov 01, 2026 at 09:29:30AM +0100, Michal Pecio wrote:
+> On Sat, 31 Oct 2026 12:32:38 -0400, Alan Stern wrote:
+> > The USB-Persist stuff in the hub driver was originally motivated by the 
+> > desire to recover from disconnections during system suspend.  For 
+> > example, disconnections caused by host controllers that don't provide 
+> > Vbus power while they are suspended, or users unplugging a device while 
+> > the system is suspended and then plugging it back in before the system 
+> > resumes.  A more detailed description, somewhat out of date by now, is 
+> > given in the changelog for 8808f00c7adf ("USB: try to salvage lost power 
+> > sessions").
 > > 
-> > What's the relationship between clk_bulk_prepare_enable() fails and this patch?
+> > Yes, this feature is very important.  Mostly it was meant for USB 
+> > mass-storage devices going away and then reappearing following a system 
+> > resume.  Before the USB-Persist facility was added, if the device held a 
+> > mounted filesystem the result would _not_ be what users desired, to put 
+> > it mildly.  The ability to handle transient disconnections was just an 
+> > unintended side benefit, although there did seem to be some real cases 
+> > where it helped -- USB mice or something like that.
 > > 
-> Hi Peter,
-> 
-> The wakeup interrupts were disarmed before the clock enable. If that
-> failed, is_suspended stayed set, the next suspend returned early, and
-> the next resume disarmed them again. disable_irq_nosync() and
-> disable_irq_wake() nest, so each failed resume left the disable depth
-> one level deeper. This is the rarer case, so I will reword the commit
-> message to lead with the runtime suspend case below.
-> 
-
-Okay, so here you may need another patch for error handling improvement.
-
-> > >   }
-> > >   static int dwc3_qcom_suspend(struct dwc3_qcom *qcom, bool wakeup)
-> > > @@ -377,8 +388,13 @@ static int dwc3_qcom_resume(struct dwc3_qcom *qcom, bool wakeup)
-> > >   	if (!qcom->is_suspended)
-> > >   		return 0;
-> > > -	if (dwc3_qcom_is_host(qcom) && wakeup)
-> > > -		dwc3_qcom_disable_interrupts(qcom);
-> > > +	/*
-> > > +	 * Wakeup interrupts may have been armed by an earlier runtime suspend
-> > > +	 * even if wakeup is now disabled,
+> > To the device and driver, what happens looks like a reset, or rather, a 
+> > reset-resume because the former configuration and altsettings are 
+> > restored.  Naturally any ongoing operations would be expected to be cut 
+> > short, but while the device is suspended this isn't an issue.
 > > 
-> > How wakeup interrupt is triggered even the wake interrupt is disabled? Is the
-> > hardware default value makes it enabled? If it is, we need to disable all
-> > wakeup interrupt at probe, otherwise, there are un-expected wakeup interrupts.
-> > 
-> > Peter
-> > 
+> > It seems that you're concerned about two slightly different types of 
+> > thing.  In one, the disconnection happens while the device is suspended 
+> > and it is discovered when we want to resume the device.  Presumably 
+> > that's not a problem for you (?), because in this case we really do go 
+> > through the whole reset-resume procedure.
 > 
-> They are not. They are requested with IRQF_NO_AUTOEN, so they stay
-> disabled until the first suspend and nothing needs disabling at probe.
-> The issue is that runtime suspend always calls
-> dwc3_qcom_suspend(qcom, true), which arms them in host mode regardless
-> of device_may_wakeup(). The old resume only disarmed them when wakeup
-> was enabled, so a system resume with device wakeup disabled left them
-> armed.
-
-Get it.
-
-At your second patch, it already knows the context between runtime
-and system suspend, you could disable wakeup enable if the device_may_wakeup
-return false, that could avoid introducing more judgements, and have this
-patch after your 2nd patch.
-
-> The comment read as if the interrupts trigger while disabled,
-> so I will reword it as:
+> Suspend and USB-Persist is a thing to keep in mind to avoid breaking,
+> but intended behavior change is only to drivers with URBs pending or
+> submitted on a disconnected device. We would like to reject such URBs
+> on devices behind disconnected root hub ports.
 > 
->     /*
->      * Runtime suspend arms the wakeup interrupts regardless of the
->      * device wakeup setting, so always disarm them here. On failure
->      * they stay disarmed, as a level-triggered wakeup line could
->      * otherwise keep firing while the controller can't be resumed.
->      */
+> Maybe I will just say what I'm looking for to avoid XY problems: we
+> need a "barrier" which separates URBs (and ideally state changes like
+> deconfiguration) related to the pre-disconnection state from those
+> related to the post-reconnection state, when a udev is "rescued" and
+> the HCD must accept URBs to it again.
 > 
-> I will update the subject and commit message for v5 to cover this case.
+> A suspended device has no URBs, so the barrier only needs to be one-
+> sided. I guess root hub port reset or hcd->driver->reset_device() on
+> the device or any of its upstream hubs is good enough
 
--- 
+Okay, that ought to work.  The only case to watch out for, aside from 
+disconnect while the device is suspended, is when a reset fails because 
+of a disconnection and gets retried.  Which was what started this email 
+thread in the first place, right?
 
-Thanks,
-Peter Chen
+> (Current logic in 7.3 watches for individual reset_device() calls
+> or RH port reconnection; the latter is clearly less than ideal for
+> USB3, and Sashiko thinks there are other issues.)
+> 
+> > When a hub is reset, the logic for what happens to its children is a 
+> > little tricky to follow. I think that each port with a connected
+> > child ends up being handled by hub_port_connect_change(), which
+> > treats it as a new connection _unless_ the child was suspended
+> > beforehand, in which case we follow the reset-resume path. So yes,
+> > it is possible for the child will be reused in this way.
+> 
+> Hmm, what about hub_pre_reset()? It seems to usb_disconnect() all
+> children when it runs. I would expect even a suspended child to be
+> permanently forgotten before the hub is reset.
+
+Yes, all the children are definitely gone before hub_pre_reset() 
+returns.
+
+> Unless the hub itself was suspended and gets reset-resumed instead,
+> I suppose. But then everything is quiescent so no problem.
+> 
+> If core can promise that children are suspended or already deleted
+> when a hub gets reset, we could use hub reset as one barrier for the
+> hub and all children, without tracking this per-device.
+
+That guarantee is valid.  If a non-suspended hub gets reset then 
+hub_pre_reset() will run, disconnecting all the children.  (I may have 
+at one time considered trying to preserve them and decided it would be 
+too difficult.)  And if a hub gets reset while it is suspended then of 
+course all the children have to be suspended too.
+
+> I implemented this barrier logic and it seems to work as expected,
+> and ftrace shows that hub_pre_reset() runs and drops children. But
+> it works != it always works != it will stay working...
+
+If you would like to add a comment stating this guarantee explicitly 
+somewhere in the hub driver, I won't object.
+
+> > But even when the children aren't reused, unless their 
+> > udev->persist_enabled flag is clear, they don't go away until well
+> > after the hub has been reset.  The reason is that the hub driver has
+> > to look at each one, after the hub is running again, and evaluate
+> > whether the connection can be recovered.  Maybe this can be improved.
+> 
+> That sounds like suspend and reset-resume of the hub. Considering
+> hub_pre_reset(), it hopefully doesn't happen on awake hubs.
+
+That's right.
+
+> > The case you mentioned, about a reset being queued but not occurring 
+> > until after a transient disconnection, is a little different from the 
+> > other cases.  The core basically ignores disconnections while a reset
+> > is in progress (in USB-2, the electrical signalling used during a
+> > reset actually makes it impossible for the upstream port to tell
+> > whether the device remains connected or not). Disconnections before
+> > a reset starts end up getting handled much the same way; the most
+> > that happens is that the connect-change status is cleared and the
+> > reset is retried.
+> >
+> > This was all implemented before USB-3 appeared.  If we were to do it 
+> > again now, we might do it differently.
+> 
+> Thanks, good to know. It is maybe not a big deal to maintain this
+> "resuscitation" of awake devices. It seems similar to recovery from
+> USB3 SS.Inactive state - logical link error without disconnection,
+> software may try to Warm Reset the device. (I don't have any repro
+> and don't know if it's handled here).
+
+To tell the truth, I don't know how we could go about it.  There would 
+have to be some way to inform all the drivers bound to the children's 
+interfaces, and they would have to cope with a bunch of failed URBs 
+together with putting the device back into the proper state afterward.  
+At least with the ->pre_reset() and ->post_reset() callbacks they get 
+some warning beforehand so they can prepare.
+
+Also, there's the issue of telling the difference between a momentary 
+disconnection and a real disconnection.  How long would you wait before 
+deciding that the device really is gone and not coming back?
+
+Alan Stern
