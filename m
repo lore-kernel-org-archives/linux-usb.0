@@ -1,56 +1,63 @@
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=100.103.45.18
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.remote-ip=162.243.164.118
 ARC-Seal: i=1; d=subspace.kernel.org; s=arc20261015; a=rsa-sha256; cv=none;
-	t=1793618948;
-	b=JUbbMTfderZoJkDkwqBJULSe8tqSNwiHGOEW7PRZ4D2SV9pJQYYd9Yo6wrzSMQQWHl1o
-	 tQi/ExIzeG6LtGZiBLmSztODDsm6XqjnydVZCFovslVBSLn1MWUOJafLwJQIZgzrlKn5G
-	 7lfkfcPo9ac+lyX4Fi13Dxn/84EXsalrlQ7yxddBTB6yszifyX2F3eHwkfgN/GVUnQJHb
-	 OFp7xe/Vf/P7lQw7iq76VoVHJzq4ZHGA1aXCl4CBder+E1iH9zDA67vLZEFh8HgrtDpMc
-	 t9S2IVvoyDp6m1D/Y/NhO3QL3rq2/gu5z4Sz0Vb+o/B+lXYOuU54DlD+TcUjnxSXH0A==
+	t=1793619027;
+	b=iAG0HfgBAik/b6iSsj0waQeSKg52BbPT2Yf69Sl4y/GANQ9IKaNEzh5f2enbniksvCVB
+	 7yuAVDshHsHWDgmcgFlcC9I7EaHq7Q/VkbQRDG21HapblqrN2H8nu7jQ9gMO/NQO54bXB
+	 Oo3k5vJaa7Vrj6kq5fixVYnG7/4xfvpJRxYBQFqtuNxjJQdqcOiXDqH6b8oFdOmidXkdm
+	 IrvSECfHvC1q7Ggsn05iPRNL9zSrCusQjBkXYyjPfacgqS6qqczgVkB7MEJUkxxrSvQJx
+	 V8LUNEaF9Go3gGJfX4AgEs/yBux957tPVIKVn6aknUCdIqPpa2kdnJMM6Bdw4snf4Vg==
 ARC-Message-Signature: i=1; d=subspace.kernel.org; s=arc20261015;
-	a=rsa-sha256; c=relaxed/relaxed; t=1793618948;
-	h=Received:DKIM-Signature:Message-ID:From:Subject:Reply-To:To:Cc:
-	 In-Reply-To:References:Content-Type:Content-Transfer-Encoding:Date;
-	bh=Xoi8v+Xc9cA8qx5SOrqe1zbfwS9P5Ez+SSAowsXLCtM=;
-	b=ZLxy5xahD3d7hI92l9YO0vJllUvgKjRrp3TL6koHtAhQMiKNmDIJpJ9UeAWvhGZqVmOv
-	 uo+e476rouoB7OyKgHdO3hZk11zOHxmfpo5C1yaVKJqABnbXRPPRLyQyEy9Ch2Z6tTq0H
-	 x1XU8sDjgEy/snJ0zTvl9TJvknMoZhogyeU7lKS7Cl6e0y+2HyQMgOrHzqoCJ9CsbD1/g
-	 Mg5qlUJhMfqrQYugRICojY5OxgCYb4XbzIrSfvqS5H1jo497+e7iGvJSDs84effCSrIwY
-	 ejey9sU+hyuTKYM6LTruKwRlvzLts24v1s8xddboBmJT+NCN7UiTvPpb/DnkK23biDA==
+	a=rsa-sha256; c=relaxed/relaxed; t=1793619027;
+	h=DMARC-Filter:DKIM-Signature:Received:From:To:Cc:Subject:Date:
+	 Message-ID:In-Reply-To:References:Content-Type:
+	 Content-Transfer-Encoding:MIME-Version:X-CM-TRANSID:
+	 X-Coremail-Antispam:X-CM-SenderInfo;
+	bh=Vl3NSKsKg/CSQtal7pauAg6RMNsPj+Y+d5jOU6wQ3IQ=;
+	b=BWClisRx7J9IKv+Es+oBnR3Q+MzaMzn68XGdfPGPXu3nCbxTSwAaGYIJjh0UGQ9ajHMV
+	 lHM0BvxZyS1Elr/gOZIIU68wV1dj8tL/+POJ6Vki+Y3sXOU/pMO/WyiZsM5HKyc+GzqsH
+	 1Vc+zAm2a7YdFlSVybN6yulHuCduDKcTFmm4wmBSMg0kxY4U/o2MngjYbwzLW/luCk3gE
+	 MVR355W0bPbx0M/B6wuOpk5WbvaKkrwBfoP63m5HCeBi9id6rVhvZ883sGzyPqdRLFMMk
+	 LCoWBVtCkSaQlWJ48HvnG9BOnFlrulypI9kvGac7s1CFAOkvwqCkdEx4lpncP04iWpw==
 ARC-Authentication-Results: i=1; smtp.subspace.kernel.org; 
-	dkim=pass header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dPFlWTiE;
-	arc=none smtp.remote-ip=100.103.45.18
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E191606A331;
-	Mon,  2 Nov 2026 11:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20260515 header.b=dPFlWTiE
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA81B1F00A16;
-	Mon,  2 Nov 2026 11:29:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1793618948;
-	bh=Xoi8v+Xc9cA8qx5SOrqe1zbfwS9P5Ez+SSAowsXLCtM=;
-	h=From:Subject:Reply-To:To:Cc:In-Reply-To:References:Date;
-	b=dPFlWTiEIXk5ooleOAYw+E7Vxp1uN7EQt4RpgGgkE9ndIvbQfpskpRHyWwlQBatZP
-	 63jKaP+32uZc9hKZXIaJfFaQaQpSSg+C5A5q2BclSIWGnIv/3OssX0y2T6RENAm/Br
-	 i0VzNIF2d4vXTCK1JVGBc/ewYaBqMuf28LtNScxR74ns2/Wr2z8lbJ/R2di4neLkH7
-	 s8oD93TzLOdOASiKTORyrRhoq3MMIgi41zH7HdFlct+dMgTX5DJ0M2qhijVsucTQ05
-	 5t8YlrX38jnO3G5dQ7MSxSobXBAw9/33X8txmAE3yVG9t8dc7HjIS0AkpnP2axw2aj
-	 UJmjbDA5tng/Q==
-Message-ID: <sashiko-outbox-193332@kernel.org>
-From: sashiko-bot@kernel.org
-Subject: Re: [PATCH v4 2/2] usb: typec: Add onsemi FUSB15201 driver
-Reply-To: sashiko-reviews@lists.linux.dev
-To: "Shawn Guo" <shengchao.guo@oss.qualcomm.com>
-Cc: linux-usb@vger.kernel.org, devicetree@vger.kernel.org, robh@kernel.org, conor+dt@kernel.org
-In-Reply-To: <20261102111732.1678646-3-shengchao.guo@oss.qualcomm.com>
-References: <20261102111732.1678646-1-shengchao.guo@oss.qualcomm.com>
- <20261102111732.1678646-3-shengchao.guo@oss.qualcomm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 02 Nov 2026 11:29:07 +0000
+	dmarc=pass header.from=stu.xidian.edu.cn;
+	spf=pass smtp.mailfrom=stu.xidian.edu.cn;
+	arc=none smtp.remote-ip=162.243.164.118
+Received: from zg8tmtyylji0my4xnjqumte4.icoremail.net (zg8tmtyylji0my4xnjqumte4.icoremail.net [162.243.164.118])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5645E60A2604;
+	Mon,  2 Nov 2026 11:30:21 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.4.2 smtp.subspace.kernel.org 5645E60A2604
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=stu.xidian.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=stu.xidian.edu.cn
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=stu.xidian.edu.cn; s=dkim; h=Received:From:To:Cc:Subject:Date:
+	Message-ID:In-Reply-To:References:Content-Type:
+	Content-Transfer-Encoding:MIME-Version; bh=Vl3NSKsKg/CSQtal7pauA
+	g6RMNsPj+Y+d5jOU6wQ3IQ=; b=L01u+KKXYyEQku6VGiV2GuBf3REy297ILf5NU
+	bLzTolHMDe3mS/DBPWaRL5Mpmo3prSwgR2khUX8AK+tSr9ZUp9OSr+a+7d/25kCN
+	cqJbgpKSIfI06L0pUD1RzsApSAnlP2c9pvUW3LbMWymTmYYpJBQCm1Tp/tZ9eL1N
+	R4H3Zo=
+Received: from [127.0.1.1] (unknown [113.200.174.101])
+	by hzbj-edu-front-3.icoremail.net (Coremail) with UTF8SMTPA id BbQMCkDW2fw3dOhq_AMZAQ--.23074S2;
+	Mon, 02 Nov 2026 19:30:01 +0800 (CST)
+From: YuanZhe Liu <25031212351@stu.xidian.edu.cn>
+To: Oleksij Rempel <o.rempel@pengutronix.de>
+Cc: sashiko-bot@kernel.org, Thangaraj Samynathan <Thangaraj.S@microchip.com>,
+ UNGLinuxDriver@microchip.com, netdev@vger.kernel.org,
+ linux-usb@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Russell King <linux@armlinux.org.uk>,
+ stable@vger.kernel.org, Bin Yu <byu@xidian.edu.cn>,
+ Cheng Wen <wencheng@xidian.edu.cn>
+Subject: Re: [PATCH net] net: usb: lan78xx: only stop phylink if the interface
+ is running
+Date: Mon, 02 Nov 2026 19:29:59 +0800
+Message-ID: <179361899931.4450.17435057020255203640@stu.xidian.edu.cn>
+In-Reply-To: <auhgcS6p-HDFYd7x@pengutronix.de>
+References: <20261029160204.2567-1-25031212351@stu.xidian.edu.cn>
+ <sashiko-outbox-191206@kernel.org>
+ <179346555447.2831.9240931140716315096@stu.xidian.edu.cn>
+ <auhgcS6p-HDFYd7x@pengutronix.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 X-Mailing-List: linux-usb@vger.kernel.org
 List-Id: <linux-usb.vger.kernel.org>
 List-Post: <mailto:linux-usb@vger.kernel.org>
@@ -59,155 +66,77 @@ List-Subscribe: <mailto:linux-usb+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-usb+unsubscribe@vger.kernel.org>
 List-Owner: <mailto:linux-usb+owner@vger.kernel.org>
 Precedence: list
+MIME-Version: 1.0
+X-CM-TRANSID:BbQMCkDW2fw3dOhq_AMZAQ--.23074S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxWw48Gw1rAF1kWFWfJr4ruFg_yoW5Xr4xpr
+	W5G3Z8Cr4DJryaga17Xa1UAFy5uwsFk3y5Cwn8G3yYqw4YgFyaqr9Fva4DA3Z8CrZ5Xa4I
+	qr1FvFWrCayUGF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUU9mb7Iv0xC_Kw4lb4IE77IF4wAFF20E14v26r4j6ryUM7CY07I2
+	0VC2zVCF04k26cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rw
+	A2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xII
+	jxv20xvEc7CjxVAFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4
+	A2jsIEc7CjxVAFwI0_GcCE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28I
+	cVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx
+	0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwACI402
+	YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCFx2
+	IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v2
+	6r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67
+	AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IY
+	s7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr
+	0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07b5sj8UUUUU=
+X-CM-SenderInfo: ysvqjiysrsjkur6v33wo0lvxldqovvfxof0/1tbiAQUFD2rnVdSm9wAAsT
 
-Thank you for your contribution! Sashiko AI review found 1 potential issue(=
-s) to consider:
-- [Medium] usb: typec: fusb15201: data race in probe allows spurious -ENOTC=
-ONN
---
+Hi Oleksij,
 
-commit 71bdb63ff1903983ccbc2372b88898668f8d86c0
-Author: Shawn Guo <shengchao.guo@oss.qualcomm.com>
+Thanks for testing this on real hardware - that is worth much more than
+what I can do here.
 
-usb: typec: Add onsemi FUSB15201 driver
+To answer your question first: I have no LAN7800/LAN7850/LAN7801 board.
+I test on a virtual device that closely matches this driver, generated by
+an automated virtual-device generation tool we are developing for this
+purpose; our plan is to run targeted tests against all USB drivers in the
+Linux kernel with it. The WARN reproduces reliably there, but I cannot
+tell you how the patch behaves with a real PHY.
 
-This commit adds a Type-C class driver for the onsemi FUSB15201 dual-port
-USB Type-C and Power Delivery controller. It registers each connector
-described in firmware, updates partner and role states via regmap and
-threaded interrupts, and forwards role swap requests to the controller.
+You are right about the interrupt path, and it is a better explanation
+than the one I gave. 30a41ed32d30 removed config_intr() and
+handle_interrupt() from the internal LAN88xx driver, so
+phy_drv_supports_irq() is false and phy_attach_direct() overwrites the
+irq that lan78xx_phy_init() has just set:
 
-> diff --git a/drivers/usb/typec/fusb15201.c b/drivers/usb/typec/fusb15201.c
-> new file mode 100644
-> index 0000000000000..ab3b07368bdf1
-> --- /dev/null
-> +++ b/drivers/usb/typec/fusb15201.c
+  drivers/net/usb/lan78xx.c:2896	phydev->irq = dev->domain_data.phyirq;
+  drivers/net/phy/phy_device.c:1854	if (!phy_drv_supports_irq(phydev->drv) &&
+  drivers/net/phy/phy_device.c:1855	    phy_interrupt_is_valid(phydev))
+  drivers/net/phy/phy_device.c:1855		phydev->irq = PHY_POLL;
 
-[ ... ]
+phylink_bringup_phy() then skips phy_request_interrupt() because
+phy_interrupt_is_valid() is false (phylink.c:2213), so nobody calls
+request_threaded_irq() for the mapping, lan78xx_irq_unmask() never runs
+for it and the PHY bit is never programmed into INT_EP_CTL through the
+irqchip. So for the internal PHY the PHY interrupt path is dead, and my
+remark about lan78xx_remove_irq_domain() was describing a path that does
+not execute in this configuration. Thank you for pointing it out.
 
-> +static void fusb15201_hw_update(struct fusb15201_port *port)
-> +{
-> +	struct fusb15201 *chip =3D port->chip;
-> +	enum typec_data_role data_role =3D TYPEC_DEVICE;
-> +	enum typec_role pwr_role;
-> +	unsigned int status;
-> +	int ret;
-> +
-> +	ret =3D regmap_read(chip->regmap, FUSB15201_REG_STATUS(port->index), &s=
-tatus);
-> +	if (ret) {
-> +		dev_warn(chip->dev, "port%u: failed to read status: %d\n",
-> +			 port->index, ret);
-> +		return;
-> +	}
+That does not affect this patch. The warning comes from phy_stop()
+reaching a PHY that was never started, which has nothing to do with how
+the PHY interrupt is delivered, and the patch touches no interrupt
+handling at all. It only moves unregister_netdev() ahead of the phylink
+teardown, so that the interface is stopped by lan78xx_stop() when it was
+running and not stopped when it was not. The dead interrupt path behaves
+exactly as before with the patch applied.
 
-[ ... ]
+It is also only dead for the internal PHY. For LAN7801 with an external
+RGMII PHY (lan78xx_get_phy(), is_internal = false) the PHY driver can
+provide config_intr and handle_interrupt, and then phyirq is really
+requested.
 
-> +	if (!(port->status & FUSB15201_STATUS_ATTACHED)) {
-> +		struct typec_partner_desc desc =3D {
-> +			.usb_pd =3D !!(status & FUSB15201_STATUS_USBPD),
-> +		};
-> +
-> +		port->partner =3D typec_register_partner(port->port, &desc);
-> +		if (IS_ERR(port->partner)) {
-> +			dev_err(chip->dev,
-> +				"port%u: failed to register partner: %pe\n",
-> +				port->index, port->partner);
-> +			port->partner =3D NULL;
-> +		}
-> +	}
-> +
-> +	typec_set_orientation(port->port, status & FUSB15201_STATUS_CC2 ?
-> +			      TYPEC_ORIENTATION_REVERSE :
-> +			      TYPEC_ORIENTATION_NORMAL);
-> +
-> +	/*
-> +	 * The controller only tells us whether the partner is PD capable. The
-> +	 * Type-C current advertisement is not reported, so 1.5A and 3.0A
-> +	 * operation cannot be distinguished from the default.
-> +	 */
-> +	typec_set_pwr_opmode(port->port, status & FUSB15201_STATUS_USBPD ?
-> +			     TYPEC_PWR_MODE_PD : TYPEC_PWR_MODE_USB);
-> +
-> +	pwr_role =3D status & FUSB15201_STATUS_SINK ? TYPEC_SINK : TYPEC_SOURCE;
-> +	data_role =3D status & FUSB15201_STATUS_DFP ? TYPEC_HOST : TYPEC_DEVICE;
-> +	fusb15201_set_roles(port, pwr_role, data_role, true);
-> +
-> +	port->status =3D status;
-> +}
+I kept the change small on purpose so it can go to stable. I would
+rather remove the dead PHY interrupt plumbing for the internal PHY in a
+separate net-next patch than mix it into this fix.
 
-[ ... ]
+If your test still produces the warning with the patch applied, could you
+send me the trace? Then I can see which path it takes on your board.
 
-> +static int fusb15201_command(struct fusb15201_port *port, unsigned int c=
-md)
-> +{
-> +	struct fusb15201 *chip =3D port->chip;
-> +
-> +	guard(mutex)(&chip->lock);
-> +
-> +	if (!(port->status & FUSB15201_STATUS_ATTACHED))
-> +		return -ENOTCONN;
-> +
-> +	return regmap_write(chip->regmap, FUSB15201_REG_COMMANDS(port->index), =
-cmd);
-> +}
+Thanks,
+YuanZhe
 
-[ ... ]
-
-> +static int fusb15201_hw_init(struct fusb15201 *chip)
-> +{
-
-[ ... ]
-
-> +	/* Seed the Type-C class with the current state before arming the IRQ */
-> +	for (i =3D 0; i < FUSB15201_NUM_PORTS; i++) {
-> +		if (chip->ports[i].port)
-> +			fusb15201_hw_update(&chip->ports[i]);
-> +	}
-
-[Severity: Medium]
-As reported by Sashiko on v3 [1], could calling fusb15201_hw_update() in
-fusb15201_hw_init() without holding chip->lock cause concurrent sysfs role
-swap requests to fail spuriously with -ENOTCONN?
-
-In fusb15201_probe(), fusb15201_register_port() calls typec_register_port(),
-which exposes the port sysfs attributes (data_role and power_role) before
-fusb15201_hw_init() runs.
-
-When a port is already attached at probe time, fusb15201_hw_update() regist=
-ers
-the partner and updates the port orientation, power operation mode, and rol=
-es
-(emitting uevents) before finally setting port->status =3D status at the en=
-d of
-the function:
-
-fusb15201_probe()
-  fusb15201_register_port()
-    typec_register_port() -> exposes data_role and power_role in sysfs
-  fusb15201_hw_init()
-    fusb15201_hw_update() -> called without chip->lock
-      typec_register_partner() -> emits partner KOBJ_ADD
-      fusb15201_set_roles()    -> emits port KOBJ_CHANGE
-      port->status =3D status;
-
-If userspace reacts to the port or partner uevents by writing to data_role =
-or
-power_role before fusb15201_hw_update() finishes, fusb15201_dr_set() or
-fusb15201_pr_set() will call fusb15201_command(). Because fusb15201_hw_init=
-()
-does not hold chip->lock, fusb15201_command() can acquire chip->lock while
-port->status is still 0 and return -ENOTCONN even though the partner and ro=
-les
-have already been published.
-
-Should fusb15201_hw_init() hold chip->lock around the fusb15201_hw_update()
-calls (or update port->status under chip->lock before publishing the state =
-to
-the Type-C class)?
-
-[1] https://lore.kernel.org/r/20260916135918.1017527-3-shengchao.guo@oss.qu=
-alcomm.com
-
---=20
-Sashiko AI review =C2=B7 https://sashiko.dev/#/patchset/20261102111732.1678=
-646-1-shengchao.guo@oss.qualcomm.com?part=3D2
